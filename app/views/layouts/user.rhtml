@@ -4,19 +4,88 @@
     <!--[if IE]><%= javascript_include_tag 'pngfix.js' %><![endif]--> <!-- thanks, microsoft! -->
     <%= javascript_include_tag 'tile.js' %>
     <%= javascript_include_tag 'site.js' %>
-    
-    <script type="text/javascript">
-      lon = <% if cgi['lon'].length > 0 then print cgi['lon'].to_f else print '0' end %>;
-      lat = <% if cgi['lat'].length > 0 then print cgi['lat'].to_f else print '0' end %>;
-      zoom = <% if cgi['zoom'].length > 0 then print cgi['zoom'].to_f else print '0' end %>;
-      <% if cgi['scale'].length > 0 then %>
-      zoom = Math.log(360.0/(( <% print cgi['scale'].to_f() %> ) * 512.0)) / Math.log(2.0);
-      <% end %>
-      </script>
-      <link rel="stylesheet" type="text/css" href="/css/style.css" />
-      <title>OpenStreetMap</title>
-    </head>
-    <body>
-      <%= @content_for_layout %>
+
+    <link rel="stylesheet" type="text/css" href="/stylesheets/site.css" />
+    <title>OpenStreetMap</title>
+  </head>
+  <body>
+
+    <div id="content">
+    <%= @content_for_layout %>
+
+  </div>
+
+
+
+  <span id="greeting">
+    <%= link_to 'Login', :controller => 'user', :action => 'login' %> /
+    <%= link_to 'Sign up', :controller => 'user', :action => 'new' %>
+  </span>
+  
+  <div>
+    <ul id="tabnav">
+      <li><a  id="viewanchor" href="/index.html" title="view maps">View</a></li>
+      <li><a  style="font-style:italic" href="/login.html" title="edit maps">Edit</a></li>
+      <li><a  href="/traces" title="manage traces">GPS traces</a></li>
+    </ul>
+  </div>
+
+
+
+  <div id="left">
+
+    <div id="logo">
+      <center>
+        <h1>OpenStreetMap</h1>
+
+        <img src="/images/osm_logo.png" width="120" height="120"/><br/>
+        <nobr><h2>The Free Wiki World Map</h2></nobr>
+      </center>
+    </div>
+
+    <div id="intro">
+      OpenStreetMap is a free editable map of the whole world. It is made by people like you.
+      <p/>
+      OpenStreetMap allows you to view, edit and use geographical data in a collaborative way from anywhere on Earth.
+      <p/>
+      OpenStreetMap's hosting is kindly supported by the <a href="http://www.vr.ucl.ac.uk">UCL VR Centre</a> and <a href="http://www.bytemark.co.uk">bytemark</a>.
+
+    </div>
+
+    <div id="left_menu">
+      <a href="http://wiki.openstreetmap.org">Help & Wiki</a><br />
+      <a href="http://www.opengeodata.org/">News blog</a><br />
+      <a href="http://wiki.openstreetmap.org/index.php/Merchandise">Shop</a><br />
+      <center>
+
+        <script type="text/javascript"><!--
+          var detect = navigator.userAgent.toLowerCase();
+          if (detect.indexOf('msie') >= 0) {
+            document.write('<script type=\"text/javascript\"> google_ad_client = \"pub-7727744269903103\";  google_ad_width = 125;  google_ad_height = 125;  google_ad_format = \"125x125_as_rimg\";  google_cpa_choice = \"CAAQveHnzwEaCEiH5iXPqf1SKJe193M\";  </script>  <script type=\"text/javascript\" src=\"http://pagead2.googlesyndication.com/pagead/show_ads.js\">  </script>');
+            }
+//--></script>
+
+
+          </center>
+
+        </div>
+
+
+        <div id="cclogo">
+          <center>
+            <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+              <input type="hidden" name="cmd" value="_s-xclick">
+              <input type="image" src="https://www.paypal.com/en_US/i/btn/x-click-but21.gif" border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!">
+              <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----MIIHFgYJKoZIhvcNAQcEoIIHBzCCBwMCAQExggEwMIIBLAIBADCBlDCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20CAQAwDQYJKoZIhvcNAQEBBQAEgYBJr8BolWgGYvrtd1+IKusKyffII5UlFikz+JVREVGdN8UIRnZcopnl2qIjAEMukhq0/mh/8A5kuG85ndYP5gC6UN1xLdoIl55HEJtNEdos5en/9eetTxlf7KHa1+uiKeVM6McH17fNgZRmj+tgZh81AHalJMYBjAx2Sy29z1fLMzELMAkGBSsOAwIaBQAwgZMGCSqGSIb3DQEHATAUBggqhkiG9w0DBwQIAXcoowpH8G+AcPyGKCBIytNcnb6LCXcVaz4I7iBzpvIupnS77yMcasyhcsrsr6ffiyouDwrpPylfmVDm9bEiNmhT3Ccug5z0778vXDxV5PtGR0N+dv1sp3+IgzSQXEIm+6ay3+vGc/uvtdgqb6CZLRZwULyNjddhMbWgggOHMIIDgzCCAuygAwIBAgIBADANBgkqhkiG9w0BAQUFADCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20wHhcNMDQwMjEzMTAxMzE1WhcNMzUwMjEzMTAxMzE1WjCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20wgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAMFHTt38RMxLXJyO2SmS+Ndl72T7oKJ4u4uw+6awntALWh03PewmIJuzbALScsTS4sZoS1fKciBGoh11gIfHzylvkdNe/hJl66/RGqrj5rFb08sAABNTzDTiqqNpJeBsYs/c2aiGozptX2RlnBktH+SUNpAajW724Nv2Wvhif6sFAgMBAAGjge4wgeswHQYDVR0OBBYEFJaffLvGbxe9WT9S1wob7BDWZJRrMIG7BgNVHSMEgbMwgbCAFJaffLvGbxe9WT9S1wob7BDWZJRroYGUpIGRMIGOMQswCQYDVQQGEwJVUzELMAkGA1UECBMCQ0ExFjAUBgNVBAcTDU1vdW50YWluIFZpZXcxFDASBgNVBAoTC1BheVBhbCBJbmMuMRMwEQYDVQQLFApsaXZlX2NlcnRzMREwDwYDVQQDFAhsaXZlX2FwaTEcMBoGCSqGSIb3DQEJARYNcmVAcGF5cGFsLmNvbYIBADAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBBQUAA4GBAIFfOlaagFrl71+jq6OKidbWFSE+Q4FqROvdgIONth+8kSK//Y/4ihuE4Ymvzn5ceE3S/iBSQQMjyvb+s2TWbQYDwcp129OPIbD9epdr4tJOUNiSojw7BHwYRiPh58S1xGlFgHFXwrEBb3dgNbMUa+u4qectsMAXpVHnD9wIyfmHMYIBmjCCAZYCAQEwgZQwgY4xCzAJBgNVBAYTAlVTMQswCQYDVQQIEwJDQTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEUMBIGA1UEChMLUGF5UGFsIEluYy4xEzARBgNVBAsUCmxpdmVfY2VydHMxETAPBgNVBAMUCGxpdmVfYXBpMRwwGgYJKoZIhvcNAQkBFg1yZUBwYXlwYWwuY29tAgEAMAkGBSsOAwIaBQCgXTAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJBTEPFw0wNjAyMDgxMTQxMjhaMCMGCSqGSIb3DQEJBDEWBBShwtAQjoDmloA+pQJMoRTY/hFOLjANBgkqhkiG9w0BAQEFAASBgK2XalT/ShlrD0owoDt3at4NTz8hrNnrEnLUmGJWlOdhqviP6mH1FiHqYjNNck8Br0fW2J05tIE1IdGShjxDqWLgJTXBhGDwG7bW9r8lMcCsi6Z4pI3jkFa9JXw8ZyNZ4qZO3x5vRRPWaD/jQTjsz9/I2jwahkUZ/hsJqxJyhrpI-----END PKCS7-----">
+            </form>
+
+            <a href="http://creativecommons.org/licenses/by-sa/2.0/"><img src="/images/cc_button.png" border="0"></a>
+
+          </center>
+        </div>
+
+      </div>
+
+
     </body>
   </html>
