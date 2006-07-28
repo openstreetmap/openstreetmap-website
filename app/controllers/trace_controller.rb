@@ -1,0 +1,2 @@
+class TraceController < ApplicationController
+end

@@ -1,0 +1,22 @@
+<html>
+  <head>
+    <%= javascript_include_tag 'main.js' %>
+    <!--[if IE]><%= javascript_include_tag 'pngfix.js' %><![endif]--> <!-- thanks, microsoft! -->
+    <%= javascript_include_tag 'tile.js' %>
+    <%= javascript_include_tag 'site.js' %>
+    
+    <script type="text/javascript">
+      lon = <% if cgi['lon'].length > 0 then print cgi['lon'].to_f else print '0' end %>;
+      lat = <% if cgi['lat'].length > 0 then print cgi['lat'].to_f else print '0' end %>;
+      zoom = <% if cgi['zoom'].length > 0 then print cgi['zoom'].to_f else print '0' end %>;
+      <% if cgi['scale'].length > 0 then %>
+      zoom = Math.log(360.0/(( <% print cgi['scale'].to_f() %> ) * 512.0)) / Math.log(2.0);
+      <% end %>
+      </script>
+      <link rel="stylesheet" type="text/css" href="/css/style.css" />
+      <title>OpenStreetMap</title>
+    </head>
+    <body>
+      <%= @content_for_layout %>
+    </body>
+  </html>
