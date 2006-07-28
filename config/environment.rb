@@ -51,3 +51,10 @@ end
 # end
 
 # Include your application configuration below
+
+
+ActionMailer::Base.server_settings = {
+  :address  => "localhost",
+  :port  => 25, 
+  :domain  => 'localhost',
+} 
