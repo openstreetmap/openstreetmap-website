@@ -3,17 +3,20 @@ require 'digest/md5'
 class User < ActiveRecord::Base
   has_many :traces
 
-  def passwd=(str) 
-    write_attribute("pass_crypt", Digest::MD5.hexdigest(str)) 
-  end 
+  validates_confirmation_of :pass_crypt
 
-  def passwd
-    return self.pass_crypt
-  end 
+#  def password=(str) 
+#    write_attribute("pass_crypt", Digest::MD5.hexdigest(str)) 
+#  end 
 
-  def self.authenticate(username, passwd) 
-    find_first([ "display_name = ? AND pass_crypt =?", 
-               username, 
-               Digest::MD5.hexdigest(passwd) ]) 
-  end 
+
+#  def password
+#    return self.pass_crypt
+#  end 
+
+#  def self.authenticate(username, passwd) 
+#    find_first([ "display_name = ? AND pass_crypt =?", 
+#               username, 
+#               Digest::MD5.hexdigest(passwd) ]) 
+#  end 
 end
