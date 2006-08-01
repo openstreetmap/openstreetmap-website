@@ -4,6 +4,13 @@ class NodeController < ApplicationController
   before_filter :authorize
 
   def create
+    @node = Node.new
+    @node.id = 1
+    @node.latitude = 1
+    @node.save
+  end
+
+  def dummy
     if request.post?
       userid = dao.useridfromcreds(r.user, r.get_basic_auth_pw)
       doc = Document.new $stdin.read
