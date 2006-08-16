@@ -4,10 +4,14 @@ class NodeController < ApplicationController
   before_filter :authorize
 
   def create
-    @node = Node.new
-    @node.id = 1
-    @node.latitude = 1
-    @node.save
+#    @node = Node.new
+#    @node.id = 1
+#    @node.latitude = 1
+#    @node.save
+
+    if request.putt?
+      @txt = resp.body
+    end
   end
 
   def dummy
