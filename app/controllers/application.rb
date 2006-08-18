@@ -10,20 +10,20 @@ class ApplicationController < ActionController::Base
     username, passwd = get_auth_data 
     # check if authorized 
     # try to get user 
-    if user = User.authenticate(username, passwd) 
+    if @user = User.authenticate(username, passwd) 
       # user exists and password is correct ... horray! 
-      if user.methods.include? 'lastlogin' 
+      if @user.methods.include? 'lastlogin' 
         # note last login 
         @session['lastlogin'] = user.lastlogin 
-        user.last.login = Time.now 
-        user.save() 
-        @session["User.id"] = user.id 
+        @user.last.login = Time.now 
+        @user.save() 
+        @session["User.id"] = @user.id 
       end             
     else 
       # the user does not exist or the password was wrong 
       @response.headers["Status"] = "Unauthorized" 
       @response.headers["WWW-Authenticate"] = "Basic realm=\"#{realm}\"" 
-      render_text(errormessage, 401)       
+      render_text(errormessage, 401)
     end 
   end 
 

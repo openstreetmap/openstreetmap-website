@@ -11,7 +11,6 @@ class UserController < ApplicationController
     else
       render :action => 'new'
     end
-
   end
 
   def new

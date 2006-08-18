@@ -4,15 +4,140 @@ class NodeController < ApplicationController
   before_filter :authorize
 
   def create
-#    @node = Node.new
-#    @node.id = 1
-#    @node.latitude = 1
-#    @node.save
+    if request.put?
+      doc = XML::Document.new(request.raw_post) #THIS IS BROKEN, libxml docus dont talk about creating a doc from a string
+      doc.find('//osm/node').each do |pt|
+        render :text => 'arghsd.rkugt;dsrt'
+        return
+        lat = pt.attributes['lat'].to_f
+        lon = pt.attributes['lon'].to_f
+        node_id = pt.attributes['id'].to_i
 
-    if request.putt?
-      @txt = resp.body
+        if lat > 90 or lat < -90 or lon > 180 or lon < -180  or node_id != 0
+          render :nothing => true, :status => 400 # BAD REQUEST
+          return
+        end
+
+        tags = []
+
+        pt.elements.each('tag') do |tag|
+          tags << [tag.attributes['k'],tag.attributes['v']]
+        end
+        tags = tags.collect { |k,v| "#{k}=#{v}" }.join(';')
+        tags = '' if tags.nil?
+
+        now = Time.now
+
+        node = Node.new
+        node.latitude = lat
+        node.longitude = lon
+        node.visible = 1
+        node.tags = tags
+        node.timestamp = now
+        node.user_id = @user.id
+
+        #FIXME add a node to the old nodes table too
+
+        if node.save
+          render :text => node.id
+        else
+          render :nothing => true, :status => 500
+        end
+      end
+    end
+
+        render :text => 'WRONG!           '
+        return
+
+  end
+
+  def rest
+    unless Node.exists?(params[:id])
+      render :nothing => true, :status => 400
+      return
+    end
+
+    node = Node.find(params[:id])
+
+
+    case request.method
+    when :get
+      doc = XML::Document.new
+
+      # this needs a new libxml:
+      # doc.encoding = "UTF-8"  
+
+      root = XML::Node.new 'osm'
+      root['version'] = '0.4'
+      root['generator'] = 'OpenStreetMap server'
+      doc.root = root
+      el1 = XML::Node.new 'node'
+      el1['id'] = node.id.to_s
+      el1['lat'] = node.latitude.to_s
+      el1['lon'] = node.longitude.to_s
+      split_tags(el1, node.tags)
+      el1['visible'] = node.visible.to_s
+      el1['timestamp'] = node.timestamp.xmlschema
+      root << el1
+
+      render :text => doc.to_s
+
+      #
+      # DELETE
+      #
+    when :delete
+
+      if node.visible
+        node.visible = 0
+        node.save
+      else
+        render :nothing => true, :status => 410
+      end
+
+      #
+      # PUT
+      #
+    when :put
+
+      doc = XML::Document.new(request.raw_post)
+      doc.elements.each('osm/node') do |pt|
+        lat = pt.attributes['lat'].to_f
+        lon = pt.attributes['lon'].to_f
+        node_id = pt.attributes['id'].to_i
+
+        if lat > 90 or lat < -90 or lon > 180 or lon < -180  or node_id != params[:id]
+          render :nothing => true, :status => 400 # BAD REQUEST
+          return
+        end
+
+        tags = []
+
+        pt.elements.each('tag') do |tag|
+          tags << [tag.attributes['k'],tag.attributes['v']]
+        end
+        tags = tags.collect { |k,v| "#{k}=#{v}" }.join(';')
+        tags = '' if tags.nil?
+
+        now = Time.now
+
+        node.latitude = lat
+        node.longitude = lon
+        node.visible = 1
+        node.tags = tags
+        node.timestamp = now
+        node.user_id = @user.id
+
+        #FIXME add a node to the old nodes table too
+
+        if node.save
+          render :text => node.id
+        else
+          render :nothing => true, :status => 500
+        end
+      end
     end
   end
+
 
   def dummy
     if request.post?
@@ -66,7 +191,7 @@ class NodeController < ApplicationController
   end
 
 
-  def rest
+  def dummydummy
 
     #
     # POST ???
@@ -127,13 +252,13 @@ class NodeController < ApplicationController
 
     if request.get?
       node = node.find(params[:id])
-      doc = Document.new
-      doc.encoding = "UTF-8"
-      root = Node.new 'osm'
+      doc = document.new
+      doc.encoding = "utf-8"
+      root = node.new 'osm'
       root['version'] = '0.4'
-      root['generator'] = 'OpenStreetMap server'
+      root['generator'] = 'openstreetmap server'
       doc.root = root
-      el1 = Node.new 'node'
+      el1 = node.new 'node'
       el1['id'] = node.id.to_s
       el1['lat'] = node.latitude.to_s
       el1['lon'] = node.longitude.to_s

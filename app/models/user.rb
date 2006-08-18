@@ -25,9 +25,7 @@ class User < ActiveRecord::Base
   end 
 
   def self.authenticate(email, passwd) 
-    find_first([ "email = ? AND pass_crypt =?", 
-               email, 
-               Digest::MD5.hexdigest(passwd) ]) 
+    find_first([ "email = ? AND pass_crypt =?", email, Digest::MD5.hexdigest(passwd) ])
   end 
   
   private
