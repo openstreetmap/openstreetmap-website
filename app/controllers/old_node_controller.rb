@@ -1,0 +1,2 @@
+class OldNodeController < ApplicationController
+end
