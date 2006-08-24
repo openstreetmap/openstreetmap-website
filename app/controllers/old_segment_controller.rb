@@ -1,0 +1,2 @@
+class OldSegmentController < ApplicationController
+end
