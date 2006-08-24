@@ -13,8 +13,7 @@ class NodeController < ApplicationController
 
           render :text => node.id
         else
-          render :text => 'truesrgtsrtfgsar', :status => 500
-#          render :nothing => true, :status => 500
+          render :nothing => true, :status => 500
         end
         return
 
@@ -24,8 +23,7 @@ class NodeController < ApplicationController
       end
     end
 
-          render :text => 'FFFFFFFFFF ', :status => 500
-#    render :nothing => true, :status => 500 # something went very wrong
+    render :nothing => true, :status => 500 # something went very wrong
   end
 
   def rest
@@ -43,26 +41,26 @@ class NodeController < ApplicationController
       return
 
     when :delete
-
       if node.visible
         node.visible = 0
-
         node.save_with_history
-
         render :nothing => true
       else
         render :nothing => true, :status => 410
       end
 
     when :put
-
       new_node = Node.from_xml(request.raw_post)
 
-      new_node.timestamp = Time.now
-      new_node.user_id = @user.id
+      node.timestamp = Time.now
+      node.user_id = @user.id
 
-      if node.id == new_node.id and new_node.save_with_history
-        render :text => node.id
+      node.latitude = new_node.latitude 
+      node.longitude = new_node.longitude
+      node.tags = new_node.tags
+
+      if node.id == new_node.id and node.save_with_history
+        render :nothing => true, :status => 200
       else
         render :nothing => true, :status => 500
       end
@@ -70,6 +68,4 @@ class NodeController < ApplicationController
     end
 
   end
-
-
 end

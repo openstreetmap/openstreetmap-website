@@ -2,9 +2,12 @@ class Node < ActiveRecord::Base
   require 'xml/libxml'
   set_table_name 'current_nodes'
 
+  validates_numericality_of :latitude
+  validates_numericality_of :longitude
+  # FIXME validate lat and lon within the world
+
   has_many :old_nodes, :foreign_key => :id
   belongs_to :user
-
 
 
   def self.from_xml(xml, create=false)
@@ -33,7 +36,9 @@ class Node < ActiveRecord::Base
       if create
         node.timestamp = Time.now
       else
-        node.timestamp = Time.parse(pt['timestamp'])
+        if pt['timestamp']
+          node.timestamp = Time.parse(pt['timestamp'])
+        end
       end
 
       tags = []
@@ -54,38 +59,33 @@ class Node < ActiveRecord::Base
   def save_with_history
     begin
       Node.transaction do
-        old_node = OldNode.from_node(this)
-        this.save
+        old_node = OldNode.from_node(self)
+        self.save
         old_node.save
       end
       return true
     rescue Exception => ex
       return nil
-
     end
   end
 
-  def self.to_xml
+  def to_xml
     doc = XML::Document.new
-
-    doc.encoding = "UTF-8"  
+    doc.encoding = 'UTF-8' 
     root = XML::Node.new 'osm'
     root['version'] = '0.4'
     root['generator'] = 'OpenStreetMap server'
     doc.root = root
     el1 = XML::Node.new 'node'
-    el1['id'] = this.id.to_s
-    el1['lat'] = this.latitude.to_s
-    el1['lon'] = this.longitude.to_s
-    split_tags(el1, this.tags)
-    el1['visible'] = thiss.visible.to_s
-    el1['timestamp'] = this.timestamp.xmlschema
+    el1['id'] = self.id.to_s
+    el1['lat'] = self.latitude.to_s
+    el1['lon'] = self.longitude.to_s
+    split_tags(el1, self.tags)
+    el1['visible'] = self.visible.to_s
+    el1['timestamp'] = self.timestamp.xmlschema
     root << el1
-
-    return root
-
+    return doc
   end
-
 
   private
   def split_tags(el, tags)
@@ -103,7 +103,4 @@ class Node < ActiveRecord::Base
       end
     end
   end
-
-
-
 end
