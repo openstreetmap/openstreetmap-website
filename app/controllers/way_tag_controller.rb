@@ -1,0 +1,2 @@
+class WayTagController < ApplicationController
+end

@@ -9,6 +9,11 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'api/0.4/segment/:id/history', :controller => 'segment', :action => 'history'
   map.connect 'api/0.4/segment/:id', :controller => 'segment', :action => 'rest'
 
+  map.connect 'api/0.4/way/create', :controller => 'way', :action => 'create'
+  
+  
+  # misc site stuff
+
   map.connect '/', :controller => 'site', :action => 'index'
   map.connect '/index.html', :controller => 'site', :action => 'index'
   map.connect '/edit.html', :controller => 'site', :action => 'edit'

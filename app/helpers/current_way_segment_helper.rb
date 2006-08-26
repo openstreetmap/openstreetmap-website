@@ -1,0 +1,2 @@
+module CurrentWaySegmentHelper
+end
