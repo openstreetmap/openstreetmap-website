@@ -1,2 +1,0 @@
-class CurrentWaySegmentController < ApplicationController
-end
