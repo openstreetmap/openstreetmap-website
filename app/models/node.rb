@@ -31,7 +31,7 @@ class Node < ActiveRecord::Base
         node.id = pt['id'].to_i
       end
 
-      node.visible = pt['visible'] == '1'
+      node.visible = pt['visible'] and pt['visible'] == 'true'
 
       if create
         node.timestamp = Time.now
@@ -59,8 +59,8 @@ class Node < ActiveRecord::Base
   def save_with_history
     begin
       Node.transaction do
-        old_node = OldNode.from_node(self)
         self.save
+        old_node = OldNode.from_node(self)
         old_node.save
       end
       return true
@@ -80,15 +80,14 @@ class Node < ActiveRecord::Base
     el1['id'] = self.id.to_s
     el1['lat'] = self.latitude.to_s
     el1['lon'] = self.longitude.to_s
-    split_tags(el1, self.tags)
+    Node.split_tags(el1, self.tags)
     el1['visible'] = self.visible.to_s
     el1['timestamp'] = self.timestamp.xmlschema
     root << el1
     return doc
   end
 
-  private
-  def split_tags(el, tags)
+  def self.split_tags(el, tags)
     tags.split(';').each do |tag|
       parts = tag.split('=')
       key = ''
@@ -103,4 +102,5 @@ class Node < ActiveRecord::Base
       end
     end
   end
+
 end

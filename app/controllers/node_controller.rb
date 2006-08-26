@@ -37,6 +37,16 @@ class NodeController < ApplicationController
     case request.method
 
     when :get
+      unless node
+        render :nothing => true, :status => 500
+        return
+      end
+
+      unless node.visible
+        render :nothing => true, :status => 410
+        return
+      end
+
       render :text => node.to_xml.to_s
       return
 
@@ -67,5 +77,34 @@ class NodeController < ApplicationController
       return
     end
 
+  end
+
+  def history
+    node = Node.find(params[:id])
+
+    unless node
+      render :nothing => true, :staus => 404
+      return
+    end
+
+    doc = XML::Document.new
+    doc.encoding = 'UTF-8' 
+    root = XML::Node.new 'osm'
+    root['version'] = '0.4'
+    root['generator'] = 'OpenStreetMap server'
+    doc.root = root
+
+    node.old_nodes.each do |old_node|
+      el1 = XML::Node.new 'node'
+      el1['id'] = old_node.id.to_s
+      el1['lat'] = old_node.latitude.to_s
+      el1['lon'] = old_node.longitude.to_s
+      Node.split_tags(el1, old_node.tags)
+      el1['visible'] = old_node.visible.to_s
+      el1['timestamp'] = old_node.timestamp.xmlschema
+      root << el1
+    end
+
+    render :text => doc.to_s
   end
 end
