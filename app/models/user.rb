@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
   def set_defaults
     self.creation_time = Time.now
     self.timeout = Time.now
-    self.token = make_token()
+    self.token = User.make_token()
   end
   
   def pass_crypt=(str) 
@@ -27,9 +27,12 @@ class User < ActiveRecord::Base
   def self.authenticate(email, passwd) 
     find_first([ "email = ? AND pass_crypt =?", email, Digest::MD5.hexdigest(passwd) ])
   end 
+
+  def self.authenticate_token(token) 
+    find_first([ "token = ? ", token])
+  end 
   
-  private
-  def make_token
+  def self.make_token
     chars = 'abcdefghijklmnopqrtuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
     confirmstring = ''
 

@@ -2,10 +2,10 @@
 # Likewise, all the methods added will be available for all controllers.
 class ApplicationController < ActionController::Base
 
+  def authorize_web
+    @user = User.find_by_token(session[:token])
+  end
 
-
-  # HTTP AUTH stuff for the API
-  
   def authorize(realm='Web Password', errormessage="Could't authenticate you") 
     username, passwd = get_auth_data 
     # check if authorized 
