@@ -36,7 +36,7 @@ class SegmentController < ApplicationController
 
   def rest
     unless Segment.exists?(params[:id])
-      render :nothing => true, :status => 400
+      render :nothing => true, :status => 404
       return
     end
 

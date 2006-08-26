@@ -10,7 +10,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'api/0.4/segment/:id', :controller => 'segment', :action => 'rest'
 
   map.connect 'api/0.4/way/create', :controller => 'way', :action => 'create'
-  
+  map.connect 'api/0.4/way/:id', :controller => 'way', :action => 'rest'
   
   # misc site stuff
 
