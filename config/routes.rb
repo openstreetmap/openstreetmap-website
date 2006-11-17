@@ -1,5 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
-#  map.connect ':controller/service.wsdl', :action => 'wsdl'
+
+  # API
 
   map.connect 'api/0.4/node/create', :controller => 'node', :action => 'create'
   map.connect 'api/0.4/node/:id/history', :controller => 'node', :action => 'history', :id => nil
@@ -10,9 +11,12 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'api/0.4/segment/:id', :controller => 'segment', :action => 'rest'
 
   map.connect 'api/0.4/way/create', :controller => 'way', :action => 'create'
+  map.connect 'api/0.4/way/:id/history', :controller => 'way', :action => 'history'
   map.connect 'api/0.4/way/:id', :controller => 'way', :action => 'rest'
+
+  map.connect 'api/0.4/map', :controller => 'api', :action => 'map'
   
-  # misc site stuff
+  # web site
 
   map.connect '/', :controller => 'site', :action => 'index'
   map.connect '/index.html', :controller => 'site', :action => 'index'

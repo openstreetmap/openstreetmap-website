@@ -27,8 +27,10 @@ class Node < ActiveRecord::Base
         return nil
       end
 
-      if pt['id'] != '0'
-        node.id = pt['id'].to_i
+      unless create
+        if pt['id'] != '0'
+          node.id = pt['id'].to_i
+        end
       end
 
       node.visible = pt['visible'] and pt['visible'] == 'true'
@@ -102,5 +104,4 @@ class Node < ActiveRecord::Base
       end
     end
   end
-
 end

@@ -5,12 +5,17 @@ class NodeController < ApplicationController
 
   def create
     if request.put?
-      node = Node.from_xml(request.raw_post, true)
+      node = nil
+      begin
+        node = Node.from_xml(request.raw_post, true)
+      rescue
+        render :text => "XML didn't parse", :status => 400 # if we got here the doc didnt parse
+        return
+      end
 
       if node
         node.user_id = @user.id
         if node.save_with_history
-
           render :text => node.id
         else
           render :nothing => true, :status => 500
