@@ -32,11 +32,11 @@ class User < ActiveRecord::Base
     find_first([ "token = ? ", token])
   end 
   
-  def self.make_token
+  def self.make_token(length=30)
     chars = 'abcdefghijklmnopqrtuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
     confirmstring = ''
 
-    30.times do
+    length.times do
       confirmstring += chars[(rand * chars.length).to_i].chr
     end
 

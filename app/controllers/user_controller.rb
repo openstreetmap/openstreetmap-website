@@ -1,11 +1,12 @@
 class UserController < ApplicationController
-
+  layout 'site'
+  
   def save
     @user = User.new(params[:user])
     @user.set_defaults
 
     if @user.save
-      flash[:notice] = 'Users was successfully created.'
+      flash[:notice] = 'User was successfully created. Check your email for a confirmation note, and you\'ll be mapping in no time :-)'
       Notifier::deliver_signup_confirm(@user)
       redirect_to :action => 'login'
     else
@@ -13,8 +14,21 @@ class UserController < ApplicationController
     end
   end
 
+  def lost_password
+    if params['user']['email']
+      user = User.find_by_email(params['user']['email'])
+      if user
+        user.token = User.make_token
+        user.save
+        Notifier::deliver_lost_password(user)
+        flash[:notice] = "Sorry you lost it :-( but an email is on it's way so you can reset it soon."
+      else
+        flash[:notice] = "Couldn't find that email address, sorry."
+      end
+    end
+  end
+
   def new
-    render :layout => 'site'
   end
 
   def login
@@ -29,10 +43,10 @@ class UserController < ApplicationController
         session[:token] = u.token
         redirect_to :controller => 'site', :action => 'index'
         return
+      else
+        flash[:notice] = "Couldn't log in with those details"
       end
     end
-
-    render :layout => 'site'
   end
 
   def logout
@@ -53,7 +67,7 @@ class UserController < ApplicationController
     if @user && @user.active == 0
       @user.active = true
       @user.save
-      flash[:notice] = 'Confirmed your account'
+      flash[:notice] = 'Confirmed your account, thanks for signing up!'
 
       #FIXME: login the person magically
 

@@ -21,11 +21,11 @@
 
   <span id="greeting">
     <% if @user %>
-      Welcome, <%= @user.email %> |
-      <%= link_to 'Logout', {:controller => 'user', :action => 'logout'}, {:id => 'loginanchor'}%>
+      Welcome, <%= @user.display_name %> |
+      <%= link_to 'logout', {:controller => 'user', :action => 'logout'}, {:id => 'loginanchor'}%>
     <% else %>
-      <%= link_to 'Login', {:controller => 'user', :action => 'login'}, {:id => 'loginanchor'}%> |
-      <%= link_to 'Sign up', {:controller => 'user', :action => 'new'}, {:id => 'registeranchor'} %>
+      <%= link_to 'log in', {:controller => 'user', :action => 'login'}, {:id => 'loginanchor'}%> |
+      <%= link_to 'sign up', {:controller => 'user', :action => 'new'}, {:id => 'registeranchor'} %>
     <% end %>
   </span>
   
