@@ -15,6 +15,7 @@ class NodeController < ApplicationController
 
       if node
         node.user_id = @user.id
+        node.visible = 1
         if node.save_with_history
           render :text => node.id
         else
