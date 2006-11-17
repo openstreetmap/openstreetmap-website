@@ -7,45 +7,68 @@
 
 <div id="map" style="WIDTH: 700px; HEIGHT: 500px;"></div>
 
-<script src="lib/OpenLayers.js"></script>
+<% lon =  params['lon'] || '-0.1' %>
+<% lat =  params['lat'] || '51.5' %>
+<% zoom =  params['zoom'] || '11' %>
+
 <script type="text/javascript">
-  <!--
-  function init(){
-    var map = new OpenLayers.Map('map');
+  var lon = <%= lon %>;
+  var lat = <%= lat %>;
+  var zoom = <%= zoom %>;
+  var PI = 3.14159265358979323846;
 
-    var osm_wms = new OpenLayers.Layer.WMS( "OpenStreetMap Streets",
-        "http://tile.openstreetmap.org/cgi-bin/mapserv?map=/usr/lib/cgi-bin/steve/osm.map",
-        {layers: "default_segment,segments,class_segment",
-transparent: "true", format: "image/png" });
+  <% if params['scale'] and params['scale'].length > 0 then %>
+  zoom = Math.log(360.0/(( <% print params['scale'].to_f() %> ) * 512.0)) / Math.log(2.0);
+  <% end %>
+  zoom = zoom -3;
+  lon = lon * 20037508.34 / 180;
+  lat = Math.log(Math.tan( (90 + lat) * PI / 360)) / (PI / 180);
+  lat = lat * 20037508.34 / 180;
 
-    // FIXME this should be landsat.openstreetmap.org
-
-    var jpl_wms = new OpenLayers.Layer.WMS( "NASA Global Mosaic",
-        "http://wms.jpl.nasa.gov/wms.cgi",
-        {layers: "modis,global_mosaic"});
-
-
-    map.addLayers([jpl_wms, osm_wms]);
-    map.zoomToFullExtent();
-  }
-
-init();
-// -->
 </script>
+<script type="text/javascript" src="/javascripts/OpenLayers.js"></script>
+
+    <script type="text/javascript">
+        <!--
+        var map, layer;
 
 
-<!--
-<div id="drag" style="WIDTH: 700px; HEIGHT: 500px;">
-  <div id='controls'>
-    <a id="zoomout" class="mapcontrol"><img src="/images/map_zoomout.png" alt="zoom out"></a>
-    <a id="zoomin" class="mapcontrol"> <img src="/images/map_zoomin.png" alt="zoom in">  </a>
-  </div>
-</div>
+        function init(){
 
-<div id="debuginfo"></div>
--->
-<% unless @user %>
-<div id="gads">
+			OpenLayers.Util.onImageLoadError = function() {
+				this.src = "http://www.openstreetmap.org/javascript/img/404.png";
+			}
+            map = new OpenLayers.Map( "map", 
+				{maxExtent: new OpenLayers.Bounds(-20037508.34,-20037508.34,20037508.34,20037508.34), maxResolution:156543, units:'meters', projection: "EPSG:41001"} );
+            layer = new OpenLayers.Layer.LikeGoogle( "OSM", "http://artem.dev.openstreetmap.org/osm_tiles/", {type:'png'} );
+            map.addLayer(layer);
+            map.addControl(new OpenLayers.Control.LayerSwitcher());
+            map.setCenter(new OpenLayers.LonLat(lon, lat), zoom);
+
+          map.events.register("moveend", map, function() { 
+           var lonlat = map.getCenter();
+    
+           var lon_deg = (lonlat.lon / 20037508.34) * 180;
+           var lat_deg = (lonlat.lat / 20037508.34) * 180;
+           var PI = 3.14159265358979323846;
+           lat_deg = 180/PI * (2 * Math.atan(Math.exp(lat_deg * PI / 180)) - PI / 2);
+           var zoom = map.getZoom() + 3;
+           updatelinks(lon_deg,lat_deg,zoom);
+          });
+        }        
+
+
+        init();
+        // -->
+    </script>
+      
+      </head>
+ 
+
+
+
+  <% unless @user %>
+  <div id="gads">
   <script type="text/javascript"><!--
     google_ad_client = "pub-7727744269903103";
     google_ad_width = 728;
@@ -71,6 +94,6 @@ init();
     zoom = 0;
 
     init();
-  </script>
+    </script>
 
-  -->
+    -->
