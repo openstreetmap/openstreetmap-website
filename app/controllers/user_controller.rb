@@ -28,6 +28,22 @@ class UserController < ApplicationController
     end
   end
 
+  def reset_password
+    if params['token']
+      user = User.find_by_token(params['token'])
+      if user
+        pass = User.make_token(8)
+        user.pass_crypt = pass
+        user.save
+        Notifier::deliver_reset_password(user, pass)
+        flash[:notice] = "You're password has been changed and is on the way to your mailbox :-)"
+      else
+        flash[:notice] = "Didn't find that token, check the URL maybe?"
+      end
+    end
+    redirect_to :action => 'login'
+  end
+
   def new
   end
 
