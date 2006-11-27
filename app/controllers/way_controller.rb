@@ -10,8 +10,6 @@ class WayController < ApplicationController
       if way
         way.user_id = @user.id
         if way.save_with_history
-
-
           render :text => way.id
         else
           render :nothing => true, :status => 500
@@ -52,7 +50,5 @@ class WayController < ApplicationController
       way.save_with_history
 
     end
- 
   end
-
 end

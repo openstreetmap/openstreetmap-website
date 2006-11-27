@@ -1,0 +1,2 @@
+class OldWaySegmentController < ApplicationController
+end
