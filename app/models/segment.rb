@@ -71,6 +71,11 @@ class Segment < ActiveRecord::Base
     root['version'] = '0.4'
     root['generator'] = 'OpenStreetMap server'
     doc.root = root
+    root << to_xml_node()
+    return doc
+  end
+
+  def to_xml_node
     el1 = XML::Node.new 'segment'
     el1['id'] = self.id.to_s
     el1['from'] = self.node_a.to_s
@@ -78,8 +83,7 @@ class Segment < ActiveRecord::Base
     Segment.split_tags(el1, self.tags)
     el1['visible'] = self.visible.to_s
     el1['timestamp'] = self.timestamp.xmlschema
-    root << el1
-    return doc
+    return el1
   end
 
   def self.split_tags(el, tags)
