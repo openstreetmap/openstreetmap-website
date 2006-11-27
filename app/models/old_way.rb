@@ -13,26 +13,22 @@ class OldWay < ActiveRecord::Base
     return old_way
   end
 
-  def save
+  def save_with_dependencies
     t = Time.now
     self.timestamp = t
     self.save
     
-    WayTag.delete_all(['id = ?', self.id])
-
     self.tags.each do |k,v|
-      tag = WayTag.new
+      tag = OldWayTag.new
       tag.k = k
       tag.v = v
       tag.id = self.id
       tag.save
     end
 
-    WaySegment.delete_all(['id = ?', self.id])
-    
     i = 0
     self.segs.each do |n|
-      seg = WaySegment.new
+      seg = OldWaySegment.new
       seg.id = self.id
       seg.segment_id = n
       seg.sequence_id = i

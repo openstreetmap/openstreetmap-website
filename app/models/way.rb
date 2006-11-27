@@ -121,7 +121,7 @@ class Way < ActiveRecord::Base
     end
 
     old_way = OldWay.from_way(self)
-    old_way.save
+    old_way.save_with_dependencies
   end
 
 end
