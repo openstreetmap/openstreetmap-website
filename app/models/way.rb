@@ -16,7 +16,7 @@ class Way < ActiveRecord::Base
     way = Way.new
 
     doc.find('//osm/way').each do |pt|
-      if !create and pt['id'] != '0'
+      unless create and pt['id'] == '0'
         way.id = pt['id'].to_i
       end
 
@@ -81,6 +81,14 @@ class Way < ActiveRecord::Base
   def tags
     @tags = Hash.new unless @tags
     @tags
+  end
+
+  def segs=(s)
+    @segs = s
+  end
+
+  def tags=(t)
+    @tags = t
   end
 
   def add_seg_num(n)

@@ -48,7 +48,32 @@ class WayController < ApplicationController
 
       way.visible = false
       way.save_with_history
+      render :nothing => true
+      return
+    when :put
+      way = Way.from_xml(request.raw_post, true)
 
+      if way
+        way_in_db = Way.find(way.id)
+        if way_in_db
+          way_in_db.user_id = @user.id
+          way_in_db.tags = way.tags
+          way_in_db.segs = way.segs
+          way_in_db.timestamp = way.timestamp
+          way_in_db.visible = true
+          if way_in_db.save_with_history
+            render :text => way.id
+          else
+            render :nothing => true, :status => 500
+          end
+          return
+        else
+          render :nothing => true, :status => 404 # way doesn't exist yet
+        end
+      else
+        render :nothing => true, :status => 400 # if we got here the doc didnt parse
+        return
+      end
     end
   end
 end
