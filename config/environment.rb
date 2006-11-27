@@ -52,6 +52,7 @@ end
 
 # Include your application configuration below
 
+API_VERSION = '0.4'
 
 ActionMailer::Base.server_settings = {
   :address  => "localhost",

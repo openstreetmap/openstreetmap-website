@@ -50,7 +50,12 @@ class Way < ActiveRecord::Base
     root['generator'] = 'OpenStreetMap server'
 
     doc.root = root
-    
+
+    root << to_xml_node()
+    return doc
+  end
+
+  def to_xml_node
     el1 = XML::Node.new 'way'
     el1['id'] = self.id.to_s
     el1['visible'] = self.visible.to_s
@@ -68,10 +73,9 @@ class Way < ActiveRecord::Base
       e['v'] = tag.v
       el1 << e
     end
-  
-    root << el1
-    return doc
-  end
+    return el1
+  end 
+
 
   def segs
     @segs = Array.new unless @segs

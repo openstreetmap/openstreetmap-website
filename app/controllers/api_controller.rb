@@ -1,6 +1,7 @@
 class ApiController < ApplicationController
 
   def map
+    response.headers["Content-Type"] = 'application/xml'
     # Figure out the bbox
     bbox = params['bbox']
     unless bbox and bbox.count(',') == 3
@@ -19,11 +20,12 @@ class ApiController < ApplicationController
     nodes = Node.find(:all, :conditions => ['latitude > ? AND longitude > ? AND latitude < ? AND longitude < ? AND visible = 1', min_lat, min_lon, max_lat, max_lon])
 
     node_ids = nodes.collect {|node| node.id }
-    node_ids_sql = "(#{node_ids.join(',')})"
-
-    # get the referenced segments
-    segments = Segment.find_by_sql "select * from segments where node_a in #{node_ids_sql} or node_b in #{node_ids_sql}"
-
+    segments = Array.new
+    if node_ids.length > 0
+      node_ids_sql = "(#{node_ids.join(',')})"
+      # get the referenced segments
+      segments = Segment.find_by_sql "select * from segments where node_a in #{node_ids_sql} or node_b in #{node_ids_sql}"
+    end
     # see if we have nay missing nodes
     segments_nodes = segments.collect {|segment| segment.node_a }
     segments_nodes += segments.collect {|segment| segment.node_b }
@@ -38,16 +40,31 @@ class ApiController < ApplicationController
     doc = XML::Document.new
     doc.encoding = 'UTF-8' 
     root = XML::Node.new 'osm'
-    root['version'] = '0.4'
+    root['version'] = API_VERSION
     root['generator'] = 'OpenStreetMap server'
     doc.root = root
- 
+
+    # get ways
+    # find which ways are needed
+    segment_ids = segments.collect {|segment| segment.id }
+    ways = Array.new
+    if segment_ids.length > 0
+      way_segments = WaySegment.find_by_segment_id(segment_ids)
+      way_ids = way_segments.collect {|way_segment| way_segment.id }
+
+      ways = Way.find(segment_ids)
+    end
+
     nodes.each do |node|
       root << node.to_xml_node()
     end
 
     segments.each do |segment|
       root << segment.to_xml_node()
+    end 
+
+    ways.each do |way|
+      root << way.to_xml_node()
     end 
 
     render :text => doc.to_s

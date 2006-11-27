@@ -68,7 +68,7 @@ class Segment < ActiveRecord::Base
     doc = XML::Document.new
     doc.encoding = 'UTF-8' 
     root = XML::Node.new 'osm'
-    root['version'] = '0.4'
+    root['version'] = API_VERSION
     root['generator'] = 'OpenStreetMap server'
     doc.root = root
     root << to_xml_node()

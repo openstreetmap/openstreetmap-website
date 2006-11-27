@@ -4,6 +4,7 @@ class SegmentController < ApplicationController
   before_filter :authorize
 
   def create
+    response.headers["Content-Type"] = 'application/xml'
     if request.put?
       segment = Segment.from_xml(request.raw_post, true)
 
@@ -35,6 +36,7 @@ class SegmentController < ApplicationController
   end
 
   def rest
+    response.headers["Content-Type"] = 'application/xml'
     unless Segment.exists?(params[:id])
       render :nothing => true, :status => 404
       return
@@ -79,6 +81,7 @@ class SegmentController < ApplicationController
   end
 
   def history
+    response.headers["Content-Type"] = 'application/xml'
     segment = Segment.find(params[:id])
 
     unless segment

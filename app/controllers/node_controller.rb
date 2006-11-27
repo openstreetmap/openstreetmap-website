@@ -4,6 +4,7 @@ class NodeController < ApplicationController
   before_filter :authorize
 
   def create
+    response.headers["Content-Type"] = 'application/xml'
     if request.put?
       node = nil
       begin
@@ -33,6 +34,7 @@ class NodeController < ApplicationController
   end
 
   def rest
+    response.headers["Content-Type"] = 'application/xml'
     unless Node.exists?(params[:id])
       render :nothing => true, :status => 404
       return
@@ -86,6 +88,7 @@ class NodeController < ApplicationController
   end
 
   def history
+    response.headers["Content-Type"] = 'application/xml'
     node = Node.find(params[:id])
 
     unless node
