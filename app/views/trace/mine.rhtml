@@ -1,0 +1,22 @@
+<h1>Your GPS Traces</h1>
+
+<%= link_to 'see all traces', {:controller => 'trace', :action => 'list'} %><br /><br />
+
+<% if @user %>
+<%= start_form_tag({:action => 'create'}, :multipart => true) %>
+<table>
+<table>
+<tr><td align="right">upload GPX file:</td><td><%= file_field('trace', 'gpx_file', {:size => 50, :maxlength => 255}) %></td></tr>
+<tr><td align="right">description:</td><td><%= text_field('trace', 'description', {:size => 50, :maxlength => 255}) %></td></tr>
+<tr><td align="right">tags:</td><td><%= text_field('trace', 'tags', {:size => 50, :maxlength => 255}) %></td></tr>
+<tr><td align="right">public?</td><td><%= check_box('trace', 'public', {:checked => 'checked'}) %></td></tr>
+<tr><td></td><td>
+<%= submit_tag 'Upload' %> | <a href="http://wiki.openstreetmap.org/index.php/Upload">help</a>
+</td></tr>
+</table>
+
+<br>
+
+<%= end_form_tag %> 
+<% end %>
+

@@ -35,11 +35,11 @@
       <% if @user %>
         <li><%= link_to 'View', {:controller => 'site', :action => 'index'}, {:id => 'viewanchor', :title => 'view maps' } %></li>
         <li><%= link_to 'Edit', {:controller => 'site', :action => 'edit'}, {:id => 'editanchor', :title => 'edit maps' } %></li>
-        <li><%= link_to 'GPS traces', {:controller => 'trace', :action => 'index'}, {:id => 'traceanchor', :title => 'manage traces' } %></li>
+        <li><%= link_to 'GPS traces', {:controller => 'trace', :action => 'list'}, {:id => 'traceanchor', :title => 'manage traces' } %></li>
       <% else %>
         <li><a id="viewanchor" href="/index.html" title="view maps">View</a></li>
         <li><a style="font-style:italic" href="/login.html" title="edit maps">Edit</a></li>
-        <li><a href="/traces" title="manage traces">GPS traces</a></li>
+        <li><%= link_to 'GPS traces', {:controller => 'trace', :action => 'list'}, {:id => 'traceanchor', :title => 'manage traces'} %></li>
       <% end %>
     </ul>
   </div>

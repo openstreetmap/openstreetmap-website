@@ -25,6 +25,10 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/logout.html', :controller => 'user', :action => 'logout'
   map.connect '/create-account.html', :controller => 'user', :action => 'new'
   map.connect '/forgot-password.html', :controller => 'user', :action => 'lost_password'
+  
+  map.connect '/traces', :controller => 'trace', :action => 'list'
+  map.connect '/traces/mine', :controller => 'trace', :action => 'users'
+  map.connect '/traces/user/:user_login/:id', :controller => 'trace', :action => 'user'
 
   map.connect ':controller/:action/:id'
 end
