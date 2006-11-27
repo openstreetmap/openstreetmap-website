@@ -28,7 +28,7 @@ ActionController::Routing::Routes.draw do |map|
   
   map.connect '/traces', :controller => 'trace', :action => 'list'
   map.connect '/traces/mine', :controller => 'trace', :action => 'users'
-  map.connect '/traces/user/:user_login/:id', :controller => 'trace', :action => 'user'
+  map.connect '/traces/user/:user/:id', :controller => 'trace', :action => 'list', :id => nil
 
   map.connect ':controller/:action/:id'
 end

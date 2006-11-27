@@ -1,1 +1,16 @@
-bleh
+<tr>
+  <% cl = cycle('table0', 'table1') %>
+  <td class="<%= cl %>">image here</td>
+  <td class="<%= cl %>"><%= link_to trace.name, {:controller => 'trace', :action => 'onetrace', :id => trace.id} %>
+    <span class="gpxsummary" title="<%= trace.timestamp %>"> ... 
+      <% if trace.inserted %> 
+      (<%= trace.size %> points)
+      <% end %> 
+      ... <%= time_ago_in_words( trace.timestamp ) %>  ago</span>
+    <a href="/traces/user/blars/12701" title="more detail..." >more</a> /
+    <a href="/edit.html?lat=34.1032333&lon=-118.2272333&zoom=14" title="create maps">map</a><br />
+      <%= trace.description %>
+    <br />
+    by <%= link_to trace.user.display_name, {:controller => 'trace', :action => 'list', :user => trace.user.display_name} %>
+  </td>
+</tr>
