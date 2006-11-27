@@ -14,15 +14,15 @@ class OldWay < ActiveRecord::Base
   end
 
   def save_with_dependencies
-    t = Time.now
-    self.timestamp = t
-    self.save
-    
+    save()
+    self.reload()
+
     self.tags.each do |k,v|
       tag = OldWayTag.new
       tag.k = k
       tag.v = v
       tag.id = self.id
+      tag.version = self.version
       tag.save
     end
 
@@ -31,13 +31,9 @@ class OldWay < ActiveRecord::Base
       seg = OldWaySegment.new
       seg.id = self.id
       seg.segment_id = n
-      seg.sequence_id = i
+      seg.version = self.version
       seg.save
-      i += 1
     end
-
-    old_way = OldWay.from_way(self)
-    old_way.save
   end
 
   def segs
