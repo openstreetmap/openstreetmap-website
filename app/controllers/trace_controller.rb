@@ -6,6 +6,10 @@ class TraceController < ApplicationController
     @traces = Trace.find(:all)
   end
 
+  def mine
+    @traces = Trace.find(:all, :conditions => ['user_id = ?', @user.id])
+  end
+
   def create
     @params['trace']['name'] = @params['trace']['gpx_file'].original_filename.gsub(/[^a-zA-Z0-9.]/, '_') # This makes sure filenames are sane
     @params['trace']['data'] = @params['trace']['gpx_file'].read

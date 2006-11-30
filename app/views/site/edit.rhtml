@@ -7,13 +7,12 @@
     archive="OSMApplet.jar, commons-codec-1.3.jar, core.jar, commons-logging.jar, commons-httpclient-3.0-rc3.jar, MinML2.jar, plugin.jar, thinlet.jar"
     width="700"
     height="500"
-    MAYSCRIPT="true"
-    >
-    <param name="clat" value="51.2571016392693">
-    <param name="clon" value="-0.219934772136611">
-    <param name="zoom" value="15">
+    MAYSCRIPT="true" >
+    <param name="clat" value="<%= params['lat'] %>">
+    <param name="clon" value="<%= params['lon'] %>">
+    <param name="zoom" value="<%= params['zoom'] %>">
     <param name="user" value="token">
-    <param name="pass" value="TntWIq03F8lqCF9JhOrTyZ0Y0lrQ9r">
+    <param name="pass" value="<%= @user.token %>">
     <param name="wmsurl" value="http://www.openstreetmap.org/tile/0.2/gpx?;http://www.openstreetmap.org/api/wms/0.2/landsat/?request=GetMap&layers=modis,global_mosaic&styles=&srs=EPSG:4326&FORMAT=image/jpeg">
     <param name="apiurl" value="http://www.openstreetmap.org/api/0.3/">
     Your browser needs to support Java to edit maps.<br>

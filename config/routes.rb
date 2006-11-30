@@ -27,7 +27,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/forgot-password.html', :controller => 'user', :action => 'lost_password'
   
   map.connect '/traces', :controller => 'trace', :action => 'list'
-  map.connect '/traces/mine', :controller => 'trace', :action => 'users'
+  map.connect '/traces/mine', :controller => 'trace', :action => 'mine'
   map.connect '/traces/user/:user/:id', :controller => 'trace', :action => 'list', :id => nil
 
   map.connect ':controller/:action/:id'
