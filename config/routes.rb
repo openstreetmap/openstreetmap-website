@@ -3,16 +3,16 @@ ActionController::Routing::Routes.draw do |map|
   # API
   API_VERSION = '0.4' # change this in envronment.rb too
   map.connect "api/#{API_VERSION}/node/create", :controller => 'node', :action => 'create'
-  map.connect "api/#{API_VERSION}/node/:id/history", :controller => 'node', :action => 'history', :id => nil
+  map.connect "api/#{API_VERSION}/node/:id/history", :controller => 'old_node', :action => 'history', :id => nil
   map.connect "api/#{API_VERSION}/node/:id", :controller => 'node', :action => 'rest', :id => nil
 
   map.connect "api/#{API_VERSION}/segment/create", :controller => 'segment', :action => 'create'
-  map.connect "api/#{API_VERSION}/segment/:id/history", :controller => 'segment', :action => 'history'
+  map.connect "api/#{API_VERSION}/segment/:id/history", :controller => 'old_segment', :action => 'history'
   map.connect "api/#{API_VERSION}/segment/:id", :controller => 'segment', :action => 'rest'
 
   map.connect "api/#{API_VERSION}/way/create", :controller => 'way', :action => 'create'
-  map.connect "api/#{API_VERSION}/way/:id/history", :controller => 'way', :action => 'history'
-  map.connect "api/#{API_VERSION}/way/:id", :controller => 'way', :action => 'rest'
+  map.connect "api/#{API_VERSION}/way/:id/history", :controller => 'old_way', :action => 'history', :id => nil
+  map.connect "api/#{API_VERSION}/way/:id", :controller => 'way', :action => 'rest', :id => nil
 
   map.connect "api/#{API_VERSION}/map", :controller => 'api', :action => 'map'
   

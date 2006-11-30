@@ -6,6 +6,8 @@ class Way < ActiveRecord::Base
   has_many :way_segments, :foreign_key => 'id'
   has_many :way_tags, :foreign_key => 'id'
 
+  has_many :old_ways, :foreign_key => :id
+
   set_table_name 'current_ways'
 
   def self.from_xml(xml, create=false)
@@ -16,7 +18,7 @@ class Way < ActiveRecord::Base
     way = Way.new
 
     doc.find('//osm/way').each do |pt|
-      unless create and pt['id'] == '0'
+      if !create and pt['id'] != '0'
         way.id = pt['id'].to_i
       end
 

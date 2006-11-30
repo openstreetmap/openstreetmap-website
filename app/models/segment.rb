@@ -26,7 +26,7 @@ class Segment < ActiveRecord::Base
         segment.id = pt['id'].to_i
       end
 
-      segment.visible = pt['visible'] and pt['visible'] == 'true'
+      segment.visible = true
 
       if create
         segment.timestamp = Time.now
@@ -94,7 +94,7 @@ class Segment < ActiveRecord::Base
       key = parts[0].strip unless parts[0].nil?
       val = parts[1].strip unless parts[1].nil?
       if key != '' && val != ''
-        el2 = Segment.new('tag')
+        el2 = XML::Node.new('tag')
         el2['k'] = key.to_s
         el2['v'] = val.to_s
         el << el2

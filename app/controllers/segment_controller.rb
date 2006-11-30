@@ -80,35 +80,4 @@ class SegmentController < ApplicationController
 
   end
 
-  def history
-    response.headers["Content-Type"] = 'application/xml'
-    segment = Segment.find(params[:id])
-
-    unless segment
-      render :nothing => true, :staus => 404
-      return
-    end
-
-    doc = XML::Document.new
-    doc.encoding = 'UTF-8' 
-    root = XML::Node.new 'osm'
-    root['version'] = '0.4'
-    root['generator'] = 'OpenStreetMap server'
-    doc.root = root
-
-    segment.old_segments.each do |old_segment|
-      el1 = XML::Node.new 'segment'
-      el1['id'] = old_segment.id.to_s
-      el1['from'] = old_segment.node_a.to_s
-      el1['to'] = old_segment.node_b.to_s
-      Segment.split_tags(el1, old_segment.tags)
-      el1['visible'] = old_segment.visible.to_s
-      el1['timestamp'] = old_segment.timestamp.xmlschema
-      root << el1
-    end
-
-    render :text => doc.to_s
-  end
-
-
 end

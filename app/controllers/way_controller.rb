@@ -51,7 +51,7 @@ class WayController < ApplicationController
       render :nothing => true
       return
     when :put
-      way = Way.from_xml(request.raw_post, true)
+      way = Way.from_xml(request.raw_post)
 
       if way
         way_in_db = Way.find(way.id)
@@ -76,4 +76,5 @@ class WayController < ApplicationController
       end
     end
   end
+
 end

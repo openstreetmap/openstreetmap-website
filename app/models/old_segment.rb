@@ -15,4 +15,14 @@ class OldSegment < ActiveRecord::Base
     return old_segment
   end
 
+  def to_xml_node
+    el1 = XML::Node.new 'segment'
+    el1['id'] = self.id.to_s
+    el1['from'] = self.node_a.to_s
+    el1['to'] = self.node_b.to_s
+    Segment.split_tags(el1, self.tags)
+    el1['visible'] = self.visible.to_s
+    el1['timestamp'] = self.timestamp.xmlschema
+    return el1
+  end
 end

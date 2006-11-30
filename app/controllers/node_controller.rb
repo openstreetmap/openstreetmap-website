@@ -87,33 +87,4 @@ class NodeController < ApplicationController
 
   end
 
-  def history
-    response.headers["Content-Type"] = 'application/xml'
-    node = Node.find(params[:id])
-
-    unless node
-      render :nothing => true, :staus => 404
-      return
-    end
-
-    doc = XML::Document.new
-    doc.encoding = 'UTF-8' 
-    root = XML::Node.new 'osm'
-    root['version'] = '0.4'
-    root['generator'] = 'OpenStreetMap server'
-    doc.root = root
-
-    node.old_nodes.each do |old_node|
-      el1 = XML::Node.new 'node'
-      el1['id'] = old_node.id.to_s
-      el1['lat'] = old_node.latitude.to_s
-      el1['lon'] = old_node.longitude.to_s
-      Node.split_tags(el1, old_node.tags)
-      el1['visible'] = old_node.visible.to_s
-      el1['timestamp'] = old_node.timestamp.xmlschema
-      root << el1
-    end
-
-    render :text => doc.to_s
-  end
 end
