@@ -31,16 +31,16 @@
   
   <div>
     <ul id="tabnav">
-      <!-- FIXME, these links need help -->
-      <% if @user %>
-        <li><%= link_to 'View', {:controller => 'site', :action => 'index'}, {:id => 'viewanchor', :title => 'view maps' } %></li>
-        <li><%= link_to 'Edit', {:controller => 'site', :action => 'edit'}, {:id => 'editanchor', :title => 'edit maps' } %></li>
-        <li><%= link_to 'GPS traces', {:controller => 'trace', :action => 'list'}, {:id => 'traceanchor', :title => 'manage traces' } %></li>
-      <% else %>
-        <li><a id="viewanchor" href="/index.html" title="view maps">View</a></li>
-        <li><a style="font-style:italic" href="/login.html" title="edit maps">Edit</a></li>
-        <li><%= link_to 'GPS traces', {:controller => 'trace', :action => 'list'}, {:id => 'traceanchor', :title => 'manage traces'} %></li>
-      <% end %>
+        <% viewclass = ''
+           editclass = ''
+           traceclass = ''
+           viewclass = 'active' if params['controller'] == 'site' and params['action'] == 'index' 
+           editclass = 'active' if params['controller'] == 'site' and params['action'] == 'edit' 
+           traceclass = 'active' if params['controller'] == 'trace'
+           %>
+         <li><%= link_to 'View', {:controller => 'site', :action => 'index'}, {:id => 'viewanchor', :title => 'view maps', :class => viewclass  } %></li>
+         <li><%= link_to 'Edit', {:controller => 'site', :action => 'edit'}, {:id => 'editanchor', :title => 'edit maps', :class => editclass } %></li>
+         <li><%= link_to 'GPS traces', {:controller => 'trace', :action => 'list'}, {:id => 'traceanchor', :title => 'manage traces', :class => traceclass } %></li>
     </ul>
   </div>
 
