@@ -77,4 +77,19 @@ class WayController < ApplicationController
     end
   end
 
+  def ways
+    response.headers["Content-Type"] = 'application/xml'
+    ids = params['ways'].split(',').collect {|w| w.to_i }
+    if ids.length > 0
+      waylist = Way.find(ids)
+      doc = get_xml_doc
+      waylist.each do |way|
+        doc.root << way.to_xml_node
+      end 
+      render :text => doc.to_s
+    else
+      render :nothing => true, :status => 400
+    end
+  end
+
 end

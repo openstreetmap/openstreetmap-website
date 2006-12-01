@@ -15,6 +15,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect "api/#{API_VERSION}/way/create", :controller => 'way', :action => 'create'
   map.connect "api/#{API_VERSION}/way/:id/history", :controller => 'old_way', :action => 'history', :id => nil
   map.connect "api/#{API_VERSION}/way/:id", :controller => 'way', :action => 'rest', :id => nil
+  map.connect "api/#{API_VERSION}/ways", :controller => 'way', :action => 'ways', :id => nil
 
   map.connect "api/#{API_VERSION}/map", :controller => 'api', :action => 'map'
   
