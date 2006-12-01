@@ -10,6 +10,11 @@ class TraceController < ApplicationController
     @traces = Trace.find(:all, :conditions => ['user_id = ?', @user.id])
   end
 
+  def view
+    @trace = Trace.find(params[:id])
+    render :nothing, :status => 401 if @trace.user.id != @user.id
+  end
+
   def create
     filename = "/tmp/#{rand}"
 
@@ -28,4 +33,15 @@ class TraceController < ApplicationController
 
     redirect_to :action => 'mine'
   end
+
+  def picture
+    trace = Trace.find(params[:id])
+    send_data(trace.large_picture, :filename => "#{trace.id}.gif", :type => 'image/png', :disposition => 'inline') if trace.public
+  end
+
+  def icon
+    trace = Trace.find(params[:id])
+    send_data(trace.icon_picture, :filename => "#{trace.id}.gif", :type => 'image/gif', :disposition => 'inline') if trace.public
+  end
+
 end

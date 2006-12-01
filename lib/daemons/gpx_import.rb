@@ -36,19 +36,34 @@ while($running) do
         gpx.points do |point|
           tp = Tracepoint.new
           tp.latitude = point['latitude']
-          tp.latitude = point['longitude']
+          tp.longitude = point['longitude']
           tp.altitude = point['altitude']
           tp.user_id = trace.user.id
           tp.gpx_id = trace.id
           tp.trackid = point['segment']
-        end 
-        trace.size = gpx.actual_points
-        trace.inserted = true
-        trace.save
-        Notifier::deliver_gpx_success(trace, gpx.possible_points)
+          tp.save!
+        end
+
+        if gpx.actual_points > 0
+          max_lat = Tracepoint.maximum('latitude', :conditions => ['gpx_id = ?', trace.id])
+          min_lat = Tracepoint.minimum('latitude', :conditions => ['gpx_id = ?', trace.id])
+          max_lon = Tracepoint.maximum('longitude', :conditions => ['gpx_id = ?', trace.id])
+          min_lon = Tracepoint.minimum('longitude', :conditions => ['gpx_id = ?', trace.id])
+          #logger.info("bbox: #{min_lat} #{max_lat} #{min_lon} #{max_lon}")
+          trace.large_picture = gpx.get_picture(min_lat, min_lon, max_lat, max_lon, gpx.actual_points)
+          trace.icon_picture = gpx.get_icon(min_lat, min_lon, max_lat, max_lon)
+          trace.size = gpx.actual_points
+          trace.inserted = true
+          trace.save
+          Notifier::deliver_gpx_success(trace, gpx.possible_points)
+        else
+          #trace.destroy
+          Notifier::deliver_gpx_failure(trace, '0 points parsed ok. Do they all have lat,lng,alt,timestamp?')
+        end
+
       rescue Exception => ex
-        trace.destroy
-        Notifier::deliver_gpx_failure(trace, ex.to_s)
+        #trace.destroy
+        Notifier::deliver_gpx_failure(trace, ex.to_s + ex.backtrace.join("\n") )
       end
     end
   end

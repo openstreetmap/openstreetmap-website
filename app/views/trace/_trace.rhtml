@@ -1,6 +1,12 @@
 <tr>
   <% cl = cycle('table0', 'table1') %>
-  <td class="<%= cl %>">image here</td>
+  <td class="<%= cl %>">
+    <% if trace.inserted %>
+    <a href="<%= url_for :controller => 'trace', :action => 'view', :id => trace.id, :user_login => trace.user.display_name %>">
+      <img src="<%= url_for :controller => 'trace', :action => 'icon', :id => trace.id, :user_login => trace.user.display_name %>" border="0">
+    </a>
+    <% end %>
+  </td>
   <td class="<%= cl %>"><%= link_to trace.name, {:controller => 'trace', :action => 'onetrace', :id => trace.id} %>
     <span class="gpxsummary" title="<%= trace.timestamp %>"> ... 
       <% if trace.inserted %> 

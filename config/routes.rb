@@ -28,10 +28,14 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/logout.html', :controller => 'user', :action => 'logout'
   map.connect '/create-account.html', :controller => 'user', :action => 'new'
   map.connect '/forgot-password.html', :controller => 'user', :action => 'lost_password'
-  
+
+  # traces  
   map.connect '/traces', :controller => 'trace', :action => 'list'
   map.connect '/traces/mine', :controller => 'trace', :action => 'mine'
-  map.connect '/traces/user/:user/:id', :controller => 'trace', :action => 'list', :id => nil
+  map.connect '/traces/user/:user_login/:id', :controller => 'trace', :action => 'view', :id => nil
+  map.connect '/traces/user/:user_login/:id/picture', :controller => 'trace', :action => 'picture', :id => nil
+  map.connect '/traces/user/:user_login/:id/icon', :controller => 'trace', :action => 'icon', :id => nil
 
+  # fall through
   map.connect ':controller/:action/:id'
 end

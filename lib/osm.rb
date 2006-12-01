@@ -7,10 +7,58 @@ module OSM
   #
   # gpx = OSM:GPXImporter.new('somefile.gpx')
   # gpx.points {|p| puts p['latitude']}
-  
+
   require 'time'
   require 'rexml/parsers/sax2parser'
   require 'rexml/text'
+  require 'RMagick'
+
+  class Mercator
+    include Math
+
+    def initialize(lat, lon, degrees_per_pixel, width, height)
+      #init me with your centre lat/lon, the number of degrees per pixel and the size of your image
+      @clat = lat
+      @clon = lon
+      @degrees_per_pixel = degrees_per_pixel
+      @width = width
+      @height = height
+      @dlon = width / 2 * degrees_per_pixel
+      @dlat = height / 2 * degrees_per_pixel  * cos(@clat * PI / 180)
+
+      @tx = xsheet(@clon - @dlon)
+      @ty = ysheet(@clat - @dlat)
+
+      @bx = xsheet(@clon + @dlon)
+      @by = ysheet(@clat + @dlat)
+
+    end
+
+    #the following two functions will give you the x/y on the entire sheet
+
+    def kilometerinpixels
+      return 40008.0  / 360.0 * @degrees_per_pixel
+    end
+
+    def ysheet(lat)
+      log(tan(PI / 4 +  (lat  * PI / 180 / 2)))
+    end
+
+    def xsheet(lon)
+      lon
+    end
+
+    #and these two will give you the right points on your image. all the constants can be reduced to speed things up. FIXME
+
+    def y(lat)
+      return @height - ((ysheet(lat) - @ty) / (@by - @ty) * @height)
+    end
+
+    def x(lon)
+      return  ((xsheet(lon) - @tx) / (@bx - @tx) * @width)
+    end
+  end
+
 
   class GPXImporter
     attr_reader :possible_points
@@ -73,5 +121,114 @@ module OSM
       end
       parser.parse
     end
+
+    def get_picture(min_lat, min_lon, max_lat, max_lon, num_points)
+      frames = 10
+      width = 250
+      height = 250
+      rat= Math.cos( ((max_lat + min_lat)/2.0) /  180.0 * 3.141592)
+      proj = OSM::Mercator.new((min_lat + max_lat) / 2, (max_lon + min_lon) / 2, (max_lat - min_lat) / width / rat, width, height)
+
+      images = []
+
+      frames.times do
+        gc =  Magick::Draw.new
+        gc.stroke_linejoin('miter')
+        gc.stroke('#FFFFFF')
+        gc.fill('#FFFFFF')
+        gc.rectangle(0,0,width,height)
+        gc.stroke_width(1)
+        images << gc
+      end
+
+      oldpx = 0.0
+      oldpy = 0.0
+
+      first = true
+
+      m = 0
+      mm = 0
+      points do |p|
+        px = proj.x(p['longitude'])
+        py = proj.y(p['latitude'])
+        frames.times do |n|
+          images[n].stroke_width(1)
+          images[n].stroke('#BBBBBB')
+          images[n].fill('#BBBBBB')
+          images[n].line(px, py, oldpx, oldpy ) unless first
+        end
+        images[mm].stroke_width(3)
+        images[mm].stroke('#000000')
+        images[mm].fill('#000000')
+        images[mm].line(px, py, oldpx, oldpy ) unless first
+
+        m +=1
+        if m > num_points.to_f / frames.to_f * (mm+1)
+          mm += 1
+        end
+        first = false
+        oldpy = py
+        oldpx = px
+      end
+
+      il = Magick::ImageList.new
+
+      frames.times do |n|
+        canvas = Magick::Image.new(width, height) {
+          self.background_color = 'white'
+        }
+        begin
+          images[n].draw(canvas)
+        rescue ArgumentError
+        end
+        canvas.format = 'GIF'
+        il << canvas
+      end
+
+      il.delay = 50
+      il.format = 'GIF'
+      return il.to_blob
+    end
+
+    def get_icon(min_lat, min_lon, max_lat, max_lon)
+      width = 50
+      height = 50
+      rat= Math.cos( ((max_lat + min_lat)/2.0) /  180.0 * 3.141592)
+      proj = OSM::Mercator.new((min_lat + max_lat) / 2, (max_lon + min_lon) / 2, (max_lat - min_lat) / width / rat, width, height)
+
+      images = []
+
+      gc =  Magick::Draw.new
+      gc.stroke_linejoin('miter')
+
+      oldpx = 0.0
+      oldpy = 0.0
+
+      first = true
+
+      gc.stroke_width(1)
+      gc.stroke('#000000')
+      gc.fill('#000000')
+
+      points do |p|
+        px = proj.x(p['longitude'])
+        py = proj.y(p['latitude'])
+        gc.line(px, py, oldpx, oldpy ) unless first
+        first = false
+        oldpy = py
+        oldpx = px
+      end
+
+      canvas = Magick::Image.new(width, height) {
+        self.background_color = 'white'
+      }
+      begin
+        gc.draw(canvas)
+      rescue ArgumentError
+      end
+      canvas.format = 'GIF'
+      return canvas.to_blob
+    end
+
   end
 end
