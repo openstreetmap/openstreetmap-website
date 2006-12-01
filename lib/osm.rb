@@ -14,11 +14,13 @@ module OSM
 
   class GPXImporter
     attr_reader :possible_points
+    attr_reader :actual_points
     attr_reader :tracksegs
 
     def initialize(filename)
       @filename = filename
       @possible_points = 0
+      @actual_points = 0
       @tracksegs = 0
     end
 
@@ -61,6 +63,7 @@ module OSM
         if gotlatlon && gotdate
           ele = '0' unless gotele
           if lat < 90 && lat > -90 && lon > -180 && lon < 180
+            @actual_points += 1
             yield Hash['latitude' => lat,'longitude' => lon,'timestamp' => date,'altitude' => ele,'segment' => @tracksegs]
           end
         end

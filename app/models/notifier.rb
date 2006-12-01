@@ -21,18 +21,20 @@ class Notifier < ActionMailer::Base
     @body['pass'] = pass
   end
 
-  def gpx_success(trace)
-    @recipients = user.email
+  def gpx_success(trace, possible_points)
+    @recipients = trace.user.email
     @from = 'abuse@openstreetmap.org'
     @subject = '[OpenStreetMap] GPX Import success'
     @body['trace_name'] = trace.name
     @body['trace_points'] = trace.size
+    @body['possible_points'] = possible_points
   end
 
-  def gpx_failure(trace)
-    @recipients = user.email
+  def gpx_failure(trace, error)
+    @recipients = trace.user.email
     @from = 'abuse@openstreetmap.org'
     @subject = '[OpenStreetMap] GPX Import failure'
     @body['trace_name'] = trace.name
+    @body['error'] = error
   end
 end
