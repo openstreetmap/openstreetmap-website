@@ -4,6 +4,8 @@ class Trace < ActiveRecord::Base
   belongs_to :user
 
   def tags=(bleh)
+  end
 
+  def mime_type=(bleh)
   end
 end

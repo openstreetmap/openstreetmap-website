@@ -15,9 +15,6 @@ alter table current_ways modify id bigint(64) not null auto_increment, add prima
 alter table current_way_tags change k k varchar(255) not null default '';
 alter table current_way_tags change v v varchar(255) not null default '';
 
-alter table gpx_files add column data longblob;
-alter table gpx_files add column mime_type varchar(255);
 alter table gpx_files change private public boolean default 1 not null;
 update gpx_files set public = !public;
-
 
