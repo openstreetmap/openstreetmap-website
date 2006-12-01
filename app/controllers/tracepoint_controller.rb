@@ -1,0 +1,2 @@
+class TracepointController < ApplicationController
+end

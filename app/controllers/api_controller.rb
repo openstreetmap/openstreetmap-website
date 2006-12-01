@@ -40,12 +40,7 @@ class ApiController < ApplicationController
     # get missing nodes if there are any
     nodes += Node.find(missing_nodes) if missing_nodes.length > 0
 
-    doc = XML::Document.new
-    doc.encoding = 'UTF-8' 
-    root = XML::Node.new 'osm'
-    root['version'] = API_VERSION
-    root['generator'] = 'OpenStreetMap server'
-    doc.root = root
+    doc = get_xml_doc
 
     # get ways
     # find which ways are needed
@@ -59,15 +54,15 @@ class ApiController < ApplicationController
     end
 
     nodes.each do |node|
-      root << node.to_xml_node()
+      doc.root << node.to_xml_node()
     end
 
     segments.each do |segment|
-      root << segment.to_xml_node()
+      doc.root << segment.to_xml_node()
     end 
 
     ways.each do |way|
-      root << way.to_xml_node()
+      doc.root << way.to_xml_node()
     end 
 
     render :text => doc.to_s

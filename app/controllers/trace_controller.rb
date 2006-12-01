@@ -15,8 +15,6 @@ class TraceController < ApplicationController
 
     File.open(filename, "w") { |f| f.write(@params['trace']['gpx_file'].read) }
     @params['trace']['name'] = @params['trace']['gpx_file'].original_filename.gsub(/[^a-zA-Z0-9.]/, '_') # This makes sure filenames are sane
-    #@params['trace']['data'] = @params['trace']['gpx_file'].read
-#    @params['trace']['mime_type'] = @params['trace']['gpx_file'].content_type.chomp
     @params['trace'].delete('gpx_file') # let's remove the field from the hash, because there's no such field in the DB anyway.
     @trace = Trace.new(@params['trace'])
     @trace.inserted = false
