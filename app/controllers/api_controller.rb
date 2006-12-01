@@ -1,5 +1,8 @@
 class ApiController < ApplicationController
 
+  before_filter :authorize
+  after_filter :compress_output
+
   def map
     response.headers["Content-Type"] = 'application/xml'
     # Figure out the bbox

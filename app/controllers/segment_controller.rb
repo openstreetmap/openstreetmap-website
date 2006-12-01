@@ -2,6 +2,7 @@ class SegmentController < ApplicationController
   require 'xml/libxml'
 
   before_filter :authorize
+  after_filter :compress_output
 
   def create
     response.headers["Content-Type"] = 'application/xml'
