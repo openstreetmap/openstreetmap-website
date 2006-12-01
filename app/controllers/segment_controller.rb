@@ -80,4 +80,19 @@ class SegmentController < ApplicationController
 
   end
 
+  def segments
+    response.headers["Content-Type"] = 'application/xml'
+    ids = params['segments'].split(',').collect {|s| s.to_i }
+    if ids.length > 0
+      segmentlist = Segment.find(ids)
+      doc = get_xml_doc
+      segmentlist.each do |segment|
+        doc.root << segment.to_xml_node
+      end 
+      render :text => doc.to_s
+    else
+      render :nothing => true, :status => 400
+    end
+  end
+
 end

@@ -87,4 +87,18 @@ class NodeController < ApplicationController
 
   end
 
+  def nodes
+    response.headers["Content-Type"] = 'application/xml'
+    ids = params['nodes'].split(',').collect {|n| n.to_i }
+    if ids.length > 0
+      nodelist = Node.find(ids)
+      doc = get_xml_doc
+      nodelist.each do |node|
+        doc.root << node.to_xml_node
+      end 
+      render :text => doc.to_s
+    else
+      render :nothing => true, :status => 400
+    end
+  end
 end
