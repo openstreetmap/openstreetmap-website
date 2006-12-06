@@ -33,7 +33,16 @@ while($running) do
         end
         gpx = OSM::GPXImporter.new("/tmp/#{trace.id}.gpx")
 
+        f_lat = 0
+        l_lon = 0
+        first = true
+
         gpx.points do |point|
+          if first
+            f_lat = point['latitude']
+            f_lon = point['longitude']
+          end
+
           tp = Tracepoint.new
           tp.latitude = point['latitude']
           tp.longitude = point['longitude']
@@ -49,7 +58,9 @@ while($running) do
           min_lat = Tracepoint.minimum('latitude', :conditions => ['gpx_id = ?', trace.id])
           max_lon = Tracepoint.maximum('longitude', :conditions => ['gpx_id = ?', trace.id])
           min_lon = Tracepoint.minimum('longitude', :conditions => ['gpx_id = ?', trace.id])
-          #logger.info("bbox: #{min_lat} #{max_lat} #{min_lon} #{max_lon}")
+
+          trace.latitude = f_lat
+          trace.longitude = f_lat
           trace.large_picture = gpx.get_picture(min_lat, min_lon, max_lat, max_lon, gpx.actual_points)
           trace.icon_picture = gpx.get_icon(min_lat, min_lon, max_lat, max_lon)
           trace.size = gpx.actual_points

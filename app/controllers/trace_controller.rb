@@ -47,5 +47,4 @@ class TraceController < ApplicationController
     trace = Trace.find(params[:id])
     send_data(trace.icon_picture, :filename => "#{trace.id}.gif", :type => 'image/gif', :disposition => 'inline') if trace.public
   end
-
 end

@@ -1,15 +1,13 @@
-trace <%= @trace.name %>
-<br>
-icon <img src="<%= url_for :controller => 'trace', :action => 'icon', :id => @trace.id, :user_login => @trace.user.display_name %>" border="0">
-<br>
+<h2>Viewing trace <%= @trace.name %></h2>
 
-picture <img src="<%= url_for :controller => 'trace', :action => 'picture', :id => @trace.id, :user_login => @trace.user.display_name %>" border="0">
+<img src="<%= url_for :controller => 'trace', :action => 'picture', :id => @trace.id, :user_login => @trace.user.display_name %>">
 
-<br>
-time <%= @trace.timestamp %>
-<br>
-dec <%= @trace.description %>
-
-
-
-
+<table border="0">
+  <tr><td>filename:</td><td><%= @trace.name %></td></tr>
+  <tr><td>uploaded at:</td><td><%= @trace.timestamp %></td></tr>
+  <tr><td>points:</td><td><%= @trace.size %></td></tr>
+  <tr><td>start coordinate:</td><td><%= @trace.latitude %>, <%= @trace.longitude %></td></tr>
+  <tr><td>owner:</td><td><%= link_to @trace.user.display_name, {:controller => 'trace', :action => 'by_user'} %></td></tr>
+  <tr><td>description:</td><td><%= @trace.description %></td></tr>
+  <tr><td>tags:</td><td><%= @trace.tags.collect {|tag| tag.tag} %></td></tr>
+</table>
