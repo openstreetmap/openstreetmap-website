@@ -3,7 +3,7 @@ class TraceController < ApplicationController
   layout 'site'
 
   def list
-    @traces = Trace.find(:all)
+    @traces = Trace.find(:all, :conditions => ['public = true'])
   end
 
   def mine
@@ -12,7 +12,11 @@ class TraceController < ApplicationController
 
   def view
     @trace = Trace.find(params[:id])
-    render :nothing, :status => 401 if @trace.user.id != @user.id
+    unless @trace.public
+      if @user
+        render :nothing, :status => 401 if @trace.user.id != @user.id
+      end
+    end
   end
 
   def create

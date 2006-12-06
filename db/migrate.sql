@@ -18,3 +18,9 @@ alter table current_way_tags change v v varchar(255) not null default '';
 alter table gpx_files change private public boolean default 1 not null;
 update gpx_files set public = !public;
 
+alter table gpx_file_tags change sequence_id sequence_id int(11);
+alter table gpx_file_tags drop primary key;
+alter table gpx_file_tags drop column sequence_id;
+create index gpx_file_tags_gpxid_idx on gpx_file_tags(gpx_id);
+alter table gpx_file_tags add id int(20) auto_increment not null, add primary key(id);
+
