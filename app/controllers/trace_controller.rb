@@ -4,11 +4,21 @@ class TraceController < ApplicationController
 
   def list
     @page = params[:page].to_i
+
+    opt = Hash.new
+    opt[:conditions] = ['public = true']
+    opt[:order] = 'timestamp DESC'
+    opt[:limit] = 20
+
     if @page > 0
-      @traces = Trace.find(:all , :conditions => ['public = true'], :order => 'timestamp DESC', :offset => 20*@page, :limit => 20)
-    else
-      @traces = Trace.find(:all , :conditions => ['public = true'], :order => 'timestamp DESC', :limit => 20)
+      opt[:offset => 20*@page]
     end
+
+    if params[:tag]
+      
+    end
+
+    @traces = Trace.find(:all , opt)
   end
 
   def view
