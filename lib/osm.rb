@@ -11,6 +11,7 @@ module OSM
   require 'time'
   require 'rexml/parsers/sax2parser'
   require 'rexml/text'
+  require 'xml/libxml'
   require 'RMagick'
 
   class Mercator
@@ -61,6 +62,7 @@ module OSM
 
 
   class GPXImporter
+    # FIXME swap REXML for libXML
     attr_reader :possible_points
     attr_reader :actual_points
     attr_reader :tracksegs
@@ -230,5 +232,79 @@ module OSM
       return canvas.to_blob
     end
 
+  end
+
+  class GeoRSS
+    def initialize(description='OpenStreetMap GPS Traces')
+      @doc = XML::Document.new
+      @doc.encoding = 'UTF-8' 
+      
+      rss = XML::Node.new 'rss'
+      @doc.root = rss
+      rss['version'] = "2.0"
+      rss['xmlns:geo'] = "http://www.w3.org/2003/01/geo/wgs84_pos#"
+      @channel = XML::Node.new 'channel'
+      rss << @channel
+      title = XML::Node.new 'title'
+      title <<  'OpenStreetMap GPS Traces'
+      @channel << title
+      description_el = XML::Node.new 'description'
+      @channel << description_el
+
+      description_el << description
+      link = XML::Node.new 'link'
+      link << 'http://www.openstreetmap.org/traces/'
+      @channel << link
+      image = XML::Node.new 'image'
+      @channel << image
+      url = XML::Node.new 'url'
+      url << 'http://www.openstreetmap.org/feeds/mag_map-rss2.0.png'
+      image << url
+      title = XML::Node.new 'title'
+      title << "OpenStreetMap"
+      image << title
+      width = XML::Node.new 'width'
+      width << '100'
+      image << width
+      height = XML::Node.new 'height'
+      height << '100'
+      image << height
+      link = XML::Node.new 'link'
+      link << 'http://www.openstreetmap.org/traces/'
+      image << link
+    end
+
+    def add(latitude=0, longitude=0, title_text='dummy title', url='http://www.example.com/', description_text='dummy description', timestamp=Time.now)
+      item = XML::Node.new 'item'
+
+      title = XML::Node.new 'title'
+      item << title
+      title << title_text
+      link = XML::Node.new 'link'
+      link << url
+      item << link
+
+      description = XML::Node.new 'description'
+      description << description_text
+      item << description
+
+      pubDate = XML::Node.new 'pubDate'
+      pubDate << timestamp.xmlschema
+      item << pubDate
+
+      lat_el = XML::Node.new 'geo:lat'
+      lat_el << latitude.to_s
+      item << lat_el
+
+      lon_el = XML::Node.new 'geo:lon'
+      lon_el << longitude.to_s
+      item << lat_el
+
+      @channel << item
+    end
+
+    def to_s
+      return @doc.to_s
+    end
   end
 end

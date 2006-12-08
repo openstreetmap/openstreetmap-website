@@ -38,6 +38,12 @@ class TraceController < ApplicationController
     redirect_to :action => 'mine'
   end
 
+  def georss
+    traces = Trace.find(:all, :conditions => ['public = true'], :order => 'timestamp DESC', :limit => 20)
+
+
+  end
+
   def picture
     trace = Trace.find(params[:id])
     send_data(trace.large_picture, :filename => "#{trace.id}.gif", :type => 'image/png', :disposition => 'inline') if trace.public

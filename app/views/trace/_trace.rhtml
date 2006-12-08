@@ -7,7 +7,7 @@
     </a>
     <% end %>
   </td>
-  <td class="<%= cl %>"><%= link_to trace.name, {:controller => 'trace', :action => 'onetrace', :id => trace.id} %>
+  <td class="<%= cl %>"><%= link_to trace.name, {:controller => 'trace', :action => 'view', :id => trace.id} %>
     <span class="gpxsummary" title="<%= trace.timestamp %>"> ... 
       <% if trace.inserted %> 
       (<%= trace.size %> points)
@@ -18,5 +18,11 @@
       <%= trace.description %>
     <br />
     by <%= link_to trace.user.display_name, {:controller => 'trace', :action => 'list', :user => trace.user.display_name} %>
+    in 
+    <% if trace.tags %>
+    <% trace.tags.each do |tag| %>
+      <%= link_to tag.tag, :controller => 'trace', :action => 'bytag', :tag => tag.tag %>
+    <% end %>
+    <% end %>
   </td>
 </tr>
