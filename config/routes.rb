@@ -31,10 +31,12 @@ ActionController::Routing::Routes.draw do |map|
 
   # traces  
   map.connect '/traces', :controller => 'trace', :action => 'list'
+  map.connect '/traces/page/:page', :controller => 'trace', :action => 'list'
   map.connect '/traces/mine', :controller => 'trace', :action => 'mine'
-  map.connect '/traces/user/:user_login/:id', :controller => 'trace', :action => 'view', :id => nil
-  map.connect '/traces/user/:user_login/:id/picture', :controller => 'trace', :action => 'picture', :id => nil
-  map.connect '/traces/user/:user_login/:id/icon', :controller => 'trace', :action => 'icon', :id => nil
+  map.connect '/traces/rss', :controller => 'trace', :action => 'georss'
+  map.connect '/traces/user/:display_name/:id', :controller => 'trace', :action => 'view', :id => nil
+  map.connect '/traces/user/:display_name/:id/picture', :controller => 'trace', :action => 'picture', :id => nil
+  map.connect '/traces/user/:display_name/:id/icon', :controller => 'trace', :action => 'icon', :id => nil
 
   # fall through
   map.connect ':controller/:action/:id'

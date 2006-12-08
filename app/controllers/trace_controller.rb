@@ -3,11 +3,12 @@ class TraceController < ApplicationController
   layout 'site'
 
   def list
-    @traces = Trace.find(:all, :conditions => ['public = true'])
-  end
-
-  def mine
-    @traces = Trace.find(:all, :conditions => ['user_id = ?', @user.id])
+    @page = params[:page].to_i
+    if @page > 0
+      @traces = Trace.find(:all , :conditions => ['public = true'], :order => 'timestamp DESC', :offset => 20*@page, :limit => 20)
+    else
+      @traces = Trace.find(:all , :conditions => ['public = true'], :order => 'timestamp DESC', :limit => 20)
+    end
   end
 
   def view
@@ -41,7 +42,16 @@ class TraceController < ApplicationController
   def georss
     traces = Trace.find(:all, :conditions => ['public = true'], :order => 'timestamp DESC', :limit => 20)
 
+    rss = OSM::GeoRSS.new
 
+    #def add(latitude=0, longitude=0, title_text='dummy title', url='http://www.example.com/', description_text='dummy description', timestamp=Time.now)
+    traces.each do |trace|
+      rss.add(trace.latitude, trace.longitude, trace.name, url_for({:controller => 'trace', :action => 'view', :id => trace.id, :display_name => trace.user.display_name}), "<img src='#{url_for({:controller => 'trace', :action => 'icon', :id => trace.id, :user_login => trace.user.display_name})}'> GPX file with #{trace.size} points from #{trace.user.display_name}", trace.timestamp)
+    end
+
+    response.headers["Content-Type"] = 'application/xml+rss'
+
+    render :text => rss.to_s
   end
 
   def picture

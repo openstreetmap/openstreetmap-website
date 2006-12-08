@@ -298,7 +298,7 @@ module OSM
 
       lon_el = XML::Node.new 'geo:lon'
       lon_el << longitude.to_s
-      item << lat_el
+      item << lon_el
 
       @channel << item
     end

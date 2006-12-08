@@ -1,7 +1,26 @@
 <h1>Public GPS Traces</h1>
+
+<br /><br />
+
+<span class="rsssmall"><a href="<%= url_for :controller => 'trace', :action => 'georss' %>"><img src="http://www.openstreetmap.org/images/RSS.gif" border="0"></a></span> | 
 <% if @user %>
   <%= link_to 'See just your traces', {:controller => 'trace', :action => 'mine'} %>
+<% else %>
+  <%= link_to 'login', {:controller => 'user', :action => 'login'} %> to see just your traces
 <% end %>
+
+
+<br /><br />
+Showing page 
+<% if @page > 0 %>
+  <%= link_to '<<<', {:controller => 'trace', :action => 'list', :page => @page-1}, {:title => 'previous page'} %>
+<% end %>
+
+<%= @page %> 
+
+<%= link_to '>>>', {:controller => 'trace', :action => 'list', :page => @page+1}, {:title => 'next page'} %>
+
+(<%= 1+(@page * 20)%>-<%= (1+@page) * 20 %>)
 
 <table id="keyvalue" cellpadding="3">
   <tr>
