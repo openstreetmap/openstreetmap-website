@@ -4,11 +4,12 @@ class Segment < ActiveRecord::Base
 
   validates_numericality_of :node_a
   validates_numericality_of :node_b
-  # FIXME validate a nd b exist and are visible
 
   has_many :old_segments, :foreign_key => :id
   belongs_to :user
 
+  has_one :from_node, :class => 'Node', :foreign_key => 'node_a'
+  has_one :to_node, :class => 'Node', :foreign_key => 'node_b'
 
   def self.from_xml(xml, create=false)
     p = XML::Parser.new
@@ -102,5 +103,8 @@ class Segment < ActiveRecord::Base
     end
   end
 
+  def precondtions_ok?
+    return from_node and from_node.visible and to_node and to_node.visible
+  end
 
 end

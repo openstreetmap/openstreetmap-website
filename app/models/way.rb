@@ -139,4 +139,14 @@ class Way < ActiveRecord::Base
     old_way.save_with_dependencies
   end
 
+  def preconditions_ok?
+    self.segs.each do |n|
+      segment = Segment.find(n)
+      unless segment and segment.visible and segment.preconditions_ok?
+        return false
+      end
+    end
+    return true
+  end
+
 end

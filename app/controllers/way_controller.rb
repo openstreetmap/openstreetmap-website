@@ -10,10 +10,17 @@ class WayController < ApplicationController
 
       if way
         way.user_id = @user.id
+        unless way.precondtions_ok? # are the segments (and their nodes) visible?
+          render :nothing => true, :status => 412
+          return
+        end
+
         if way.save_with_history
           render :text => way.id
+          return
         else
           render :nothing => true, :status => 500
+          return
         end
         return
       else
@@ -33,7 +40,7 @@ class WayController < ApplicationController
 
     way = Way.find(params[:id])
     case request.method
-   
+
     when :get
       unless way.visible
         render :nothing => true, :status => 410

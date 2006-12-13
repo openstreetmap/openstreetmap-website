@@ -13,11 +13,11 @@ class SegmentController < ApplicationController
         
         segment.user_id = @user.id
 
-        a = Node.find(segment.node_a.to_i)
-        b = Node.find(segment.node_b.to_i)
+        segment.from_node = Node.find(segment.node_a.to_i)
+        segment.to_node = Node.find(segment.node_b.to_i)
         
-        unless a and a.visible and b and b.visible  
-          render :nothing => true, :status => 400
+        unless segment.precondtions_ok? # are the nodes visible?
+          render :nothing => true, :status => 412
         end
 
         if segment.save_with_history
