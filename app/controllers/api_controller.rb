@@ -27,7 +27,7 @@ class ApiController < ApplicationController
     if node_ids.length > 0
       node_ids_sql = "(#{node_ids.join(',')})"
       # get the referenced segments
-      segments = Segment.find_by_sql "select * from segments where node_a in #{node_ids_sql} or node_b in #{node_ids_sql}"
+      segments = Segment.find_by_sql "select * from current_segments where node_a in #{node_ids_sql} or node_b in #{node_ids_sql}"
     end
     # see if we have nay missing nodes
     segments_nodes = segments.collect {|segment| segment.node_a }
@@ -47,10 +47,10 @@ class ApiController < ApplicationController
     segment_ids = segments.collect {|segment| segment.id }
     ways = Array.new
     if segment_ids.length > 0
-      way_segments = WaySegment.find_by_segment_id(segment_ids)
+      way_segments = WaySegment.find_all_by_segment_id(segment_ids)
       way_ids = way_segments.collect {|way_segment| way_segment.id }
 
-      ways = Way.find(segment_ids)
+      ways = Way.find(way_ids)
     end
 
     nodes.each do |node|
