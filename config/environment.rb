@@ -52,7 +52,8 @@ end
 
 # Include your application configuration below
 
-API_VERSION = '0.4'
+API_VERSION = ENV['OSM_API_VERSION'] || '0.4'
+SERVER_URL = ENV['OSM_SERVER_URL'] || 'www.openstreetmap.org'
 
 ActionMailer::Base.server_settings = {
   :address  => "localhost",

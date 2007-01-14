@@ -24,3 +24,4 @@ alter table gpx_file_tags drop column sequence_id;
 create index gpx_file_tags_gpxid_idx on gpx_file_tags(gpx_id);
 alter table gpx_file_tags add id int(20) auto_increment not null, add primary key(id);
 
+alter table users add preferences text;

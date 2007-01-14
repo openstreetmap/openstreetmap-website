@@ -1,5 +1,7 @@
 class UserController < ApplicationController
   layout 'site'
+
+  before_filter :authorize, :only => :preferences
   
   def save
     @user = User.new(params[:user])
@@ -93,4 +95,16 @@ class UserController < ApplicationController
     end
   end
 
+  def preferences
+    if request.get?
+      render_text @user.preferences
+    elsif request.post? or request.put?
+      @user.preferences = request.raw_post
+      @user.save!
+      render :nothing => true
+    else
+      render :status => 400, :nothing => true
+    end
+  end
 end
+
