@@ -9,7 +9,7 @@
 
 <% lon =  params['lon'] || '-0.1' %>
 <% lat =  params['lat'] || '51.5' %>
-<% zoom =  params['zoom'] || '11' %>
+<% zoom =  params['zoom'] || '5' %>
 
 <script type="text/javascript">
   var lon = <%= lon %>;
@@ -20,7 +20,7 @@
   <% if params['scale'] and params['scale'].length > 0 then %>
   zoom = Math.log(360.0/(( <% print params['scale'].to_f() %> ) * 512.0)) / Math.log(2.0);
   <% end %>
-  zoom = zoom -3;
+  zoom = zoom;
   lon = lon * 20037508.34 / 180;
   lat = Math.log(Math.tan( (90 + lat) * PI / 360)) / (PI / 180);
   lat = lat * 20037508.34 / 180;
@@ -39,12 +39,10 @@
 				this.src = "http://<%= SERVER_URL %>/javascript/img/404.png";
 			}
             map = new OpenLayers.Map( "map", 
-				{maxExtent: new OpenLayers.Bounds(-20037508.34,-20037508.34,20037508.34,20037508.34), maxResolution:156543, units:'meters', projection: "EPSG:41001"} );
-            layer = new OpenLayers.Layer.LikeGoogle( "Mapnik", "http://artem.dev.openstreetmap.org/osm_tiles/", {type:'png'} );
+				{maxExtent: new OpenLayers.Bounds(-20037508.34,-20037508.34,20037508.34,20037508.34), maxZoomLevel:18, maxResolution:156543, units:'meters', projection: "EPSG:41001"} );
+            layer = new OpenLayers.Layer.LikeGoogle( "Mapnik", "http://tile.openstreetmap.org/", {type:'png'} );
             map.addLayer(layer);
-            layer = new OpenLayers.Layer.LikeGoogle( "Osmarender", "http://osmathome.bandnet.org/Tiles/", {type:'png'} );
-            map.addLayer(layer);
-            layer = new OpenLayers.Layer.WMS( "Mapnik WMS-C", "http://labs.metacarta.com/wms-c/Basic.py?", {layers:'osm-merc'});
+            layer = new OpenLayers.Layer.LikeGoogle( "Osmarender", "http://dev.openstreetmap.org/~ojw/Tiles/tile.php/", {type:'png'} );
             map.addLayer(layer);
 
             map.addControl(new OpenLayers.Control.LayerSwitcher());
@@ -57,7 +55,7 @@
            var lat_deg = (lonlat.lat / 20037508.34) * 180;
            var PI = 3.14159265358979323846;
            lat_deg = 180/PI * (2 * Math.atan(Math.exp(lat_deg * PI / 180)) - PI / 2);
-           var zoom = map.getZoom() + 3;
+           var zoom = map.getZoom();
            updatelinks(lon_deg,lat_deg,zoom);
           });
         }        
@@ -71,6 +69,7 @@
 
   <% unless @user %>
   <div id="gads">
+    <br>We're trialing the adverts below to support the project. Login and they go away.
   <script type="text/javascript"><!--
     google_ad_client = "pub-7727744269903103";
     google_ad_width = 728;
@@ -85,17 +84,6 @@
     google_color_text = "000000";
     //--></script><script type="text/javascript"
     src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-    </script>We're trialing adverts to support the project. Login and they go away.
-  </div>
+    </script>  </div>
   <% end %>
 
-  <!--
-  <script type="text/javascript">
-    lat = 0;
-    lon = 0;
-    zoom = 0;
-
-    init();
-    </script>
-
-    -->
