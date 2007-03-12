@@ -16,7 +16,7 @@ class SegmentController < ApplicationController
         segment.from_node = Node.find(segment.node_a.to_i)
         segment.to_node = Node.find(segment.node_b.to_i)
         
-        unless segment.precondtions_ok? # are the nodes visible?
+        unless segment.preconditions_ok? # are the nodes visible?
           render :nothing => true, :status => 412
         end
 

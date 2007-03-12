@@ -8,8 +8,8 @@ class Segment < ActiveRecord::Base
   has_many :old_segments, :foreign_key => :id
   belongs_to :user
 
-  has_one :from_node, :class_name => 'Node', :foreign_key => 'node_a'
-  has_one :to_node, :class_name => 'Node', :foreign_key => 'node_b'
+  has_one :from_node, :class_name => 'Node', :foreign_key => 'id'
+  has_one :to_node, :class_name => 'Node', :foreign_key => 'id'
 
   def self.from_xml(xml, create=false)
     p = XML::Parser.new
@@ -103,7 +103,7 @@ class Segment < ActiveRecord::Base
     end
   end
 
-  def precondtions_ok?
+  def preconditions_ok?
     from_node and from_node.visible and to_node and to_node.visible
   end
 

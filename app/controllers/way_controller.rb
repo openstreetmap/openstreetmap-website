@@ -10,7 +10,7 @@ class WayController < ApplicationController
 
       if way
         way.user_id = @user.id
-        unless way.precondtions_ok? # are the segments (and their nodes) visible?
+        unless way.preconditions_ok? # are the segments (and their nodes) visible?
           render :nothing => true, :status => 412
           return
         end
