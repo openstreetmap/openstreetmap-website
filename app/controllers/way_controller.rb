@@ -16,7 +16,7 @@ class WayController < ApplicationController
         end
 
         if way.save_with_history
-          render :text => way.id
+          render :text => way.id.to_s
           return
         else
           render :nothing => true, :status => 500
