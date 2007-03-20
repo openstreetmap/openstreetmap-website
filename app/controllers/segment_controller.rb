@@ -21,7 +21,7 @@ class SegmentController < ApplicationController
         end
 
         if segment.save_with_history
-          render :text => segment.id
+          render :text => segment.id.to_s
         else
           render :nothing => true, :status => 500
         end
