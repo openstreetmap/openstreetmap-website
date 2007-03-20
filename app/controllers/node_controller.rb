@@ -19,7 +19,7 @@ class NodeController < ApplicationController
         node.user_id = @user.id
         node.visible = 1
         if node.save_with_history
-          render :text => node.id
+          render :text => node.id.to_s
         else
           render :nothing => true, :status => 500
         end
