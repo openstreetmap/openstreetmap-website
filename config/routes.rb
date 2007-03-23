@@ -1,10 +1,9 @@
 ActionController::Routing::Routes.draw do |map|
 
   # API
-  API_VERSION = '0.4' # change this in envronment.rb too
   map.connect "api/#{API_VERSION}/node/create", :controller => 'node', :action => 'create'
-  map.connect "api/#{API_VERSION}/node/:id/history", :controller => 'old_node', :action => 'history', :id => nil
-  map.connect "api/#{API_VERSION}/node/:id", :controller => 'node', :action => 'rest', :id => nil
+  map.connect "api/#{API_VERSION}/node/:id/history", :controller => 'old_node', :action => 'history', :id => nil # TODO is this :id => nil correct? looks like it would throw away essential info - if it does check all these id => nils
+  map.connect "api/#{API_VERSION}/node/:id", :controller => 'node', :action => 'rest', :id => nil 
   map.connect "api/#{API_VERSION}/nodes", :controller => 'node', :action => 'nodes', :id => nil
   
   map.connect "api/#{API_VERSION}/segment/create", :controller => 'segment', :action => 'create'
@@ -33,12 +32,17 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/traces', :controller => 'trace', :action => 'list'
   map.connect '/traces/page/:page', :controller => 'trace', :action => 'list'
   map.connect '/traces/mine', :controller => 'trace', :action => 'mine'
+  map.connect '/traces/mine/page/:page', :controller => 'trace', :action => 'mine'
+  map.connect '/traces/mine/tag/:tag', :controller => 'trace', :action => 'mine'
+  map.connect '/traces/mine/tag/:tag/page/:page', :controller => 'trace', :action => 'mine'
   map.connect '/traces/rss', :controller => 'trace', :action => 'georss'
   map.connect '/traces/user/:display_name/', :controller => 'trace', :action => 'list', :id => nil
+  map.connect '/traces/user/:display_name/page/:page', :controller => 'trace', :action => 'list', :id => nil
   map.connect '/traces/user/:display_name/:id', :controller => 'trace', :action => 'view', :id => nil
   map.connect '/traces/user/:display_name/:id/picture', :controller => 'trace', :action => 'picture', :id => nil
   map.connect '/traces/user/:display_name/:id/icon', :controller => 'trace', :action => 'icon', :id => nil
-  map.connect '/traces/tag/:tag/', :controller => 'trace', :action => 'list', :id => nil
+  map.connect '/traces/tag/:tag', :controller => 'trace', :action => 'list', :id => nil
+  map.connect '/traces/tag/:tag/page/:page', :controller => 'trace', :action => 'list', :id => nil
 
   # fall through
   map.connect ':controller/:action/:id'

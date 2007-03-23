@@ -11,11 +11,11 @@
   <body>
 
     <div id="content">
-<% if @flash[:notice] %>
-  <div id="notice"><%= @flash[:notice] %></div>
+<% if flash[:notice] %>
+  <div id="notice"><%= flash[:notice] %></div>
 <% end %>
 
-    <%= @content_for_layout %>
+    <%= yield %>
 
   </div>
 
@@ -80,6 +80,8 @@
           </center>
 
         </div>
+
+        <%= yield :optionals %>
 
         <div id="cclogo">
           <center>

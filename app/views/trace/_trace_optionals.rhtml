@@ -1,0 +1,17 @@
+<% content_for "optionals" do %>
+  <div class="optionalbox">
+    <h2>Tags</h2>
+    <% if @all_tags %>
+      <% @all_tags.each do |tag| %>
+        <%= link_to tag, :controller => 'trace', :action => @paging_action, :tag => tag %><br />
+      <% end %>
+    <% end %>
+  </div>
+  <div class="optionalbox" >
+    <h2>User</h2>
+    <p>It's an optional box!!</p>
+<% if @user %>
+  <%= "<p><b>...and you're logged in!</b></p>" %>
+<% end %>
+  </div>
+<% end %>

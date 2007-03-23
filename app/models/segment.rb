@@ -8,8 +8,9 @@ class Segment < ActiveRecord::Base
   has_many :old_segments, :foreign_key => :id
   belongs_to :user
 
-  has_one :from_node, :class_name => 'Node', :foreign_key => 'id'
-  has_one :to_node, :class_name => 'Node', :foreign_key => 'id'
+  # using belongs_to :foreign_key = 'node_*', since if use has_one :foreign_key = 'id', segment preconditions? fails checking for segment id in node table
+  belongs_to :from_node, :class_name => 'Node', :foreign_key => 'node_a'
+  belongs_to :to_node, :class_name => 'Node', :foreign_key => 'node_b'
 
   def self.from_xml(xml, create=false)
     p = XML::Parser.new

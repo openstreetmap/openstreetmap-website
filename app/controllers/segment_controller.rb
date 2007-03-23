@@ -10,7 +10,6 @@ class SegmentController < ApplicationController
       segment = Segment.from_xml(request.raw_post, true)
 
       if segment
-        
         segment.user_id = @user.id
 
         segment.from_node = Node.find(segment.node_a.to_i)

@@ -25,11 +25,11 @@ class User < ActiveRecord::Base
   end 
 
   def self.authenticate(email, passwd) 
-    find_first([ "email = ? AND pass_crypt =?", email, Digest::MD5.hexdigest(passwd) ])
+    find(:first, :conditions => [ "email = ? AND pass_crypt = ?", email, Digest::MD5.hexdigest(passwd)])
   end 
 
   def self.authenticate_token(token) 
-    find_first([ "token = ? ", token])
+    find(:first, :conditions => [ "token = ? ", token])
   end 
   
   def self.make_token(length=30)

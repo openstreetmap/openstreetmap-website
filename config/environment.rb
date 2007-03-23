@@ -5,10 +5,13 @@
 # ENV['RAILS_ENV'] ||= 'production'
 
 # Specifies gem version of Rails to use when vendor/rails is not present
-RAILS_GEM_VERSION = '1.1.6'
+RAILS_GEM_VERSION = '1.2.3'
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
+
+# Application constants needed for routes.rb - must go before Initializer call
+API_VERSION = ENV['OSM_API_VERSION'] || '0.4'
 
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence those specified here
@@ -51,8 +54,6 @@ end
 # end
 
 # Include your application configuration below
-
-API_VERSION = ENV['OSM_API_VERSION'] || '0.4'
 SERVER_URL = ENV['OSM_SERVER_URL'] || 'www.openstreetmap.org'
 
 ActionMailer::Base.server_settings = {

@@ -1,6 +1,7 @@
 class Node < ActiveRecord::Base
   require 'xml/libxml'
   set_table_name 'current_nodes'
+  
 
   validates_numericality_of :latitude
   validates_numericality_of :longitude

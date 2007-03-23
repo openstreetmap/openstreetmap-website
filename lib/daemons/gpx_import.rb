@@ -24,6 +24,7 @@ while($running) do
 
         logger.info("GPX Import importing #{trace.name} from #{trace.user.email}")
 
+        # TODO *nix specific, could do to work on windows... would be functionally inferior though - check for '.gz'
         gzipped = `file -b /tmp/#{trace.id}.gpx`.chomp =~/^gzip/
 
         if gzipped

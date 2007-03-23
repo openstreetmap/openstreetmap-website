@@ -1,6 +1,8 @@
 <h1>Your GPS Traces</h1>
 
-<%= link_to 'see all traces', {:controller => 'trace', :action => 'list'} %><br /><br />
+<br />
+
+<%= link_to 'See all traces', {:controller => 'trace', :action => 'list'} %><br /><br />
 
 <% if @user %>
 <%= start_form_tag({:action => 'create'}, :multipart => true) %>
@@ -19,16 +21,16 @@
 
 <%= end_form_tag %> 
 
+<%= render (:partial => 'trace_paging_nav') %>
 <table id="keyvalue" cellpadding="3">
   <tr>
     <th></th>
     <th></th>
   </tr>
-  <%= render :partial => 'trace', :collection => @traces %>
+  <%= render (:partial => 'trace', :collection => @traces) unless @traces.nil? %>
 </table>
+<%= render (:partial => 'trace_paging_nav') %>
 
 <% end %>
 
-
-
-
+<%= render (:partial => 'trace_optionals') %>

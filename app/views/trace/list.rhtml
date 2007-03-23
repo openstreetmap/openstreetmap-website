@@ -1,8 +1,8 @@
 <h1>Public GPS Traces</h1>
 
-<br /><br />
+<br />
 
-<span class="rsssmall"><a href="<%= url_for :controller => 'trace', :action => 'georss' %>"><img src="http://<%= SERVER_URL %>/images/RSS.gif" border="0"></a></span> | 
+<span class="rsssmall"><a href="<%= url_for :controller => 'trace', :action => 'georss' %>"><img src="/images/RSS.gif" border="0"></a></span> | 
 <% if @user %>
   <%= link_to 'See just your traces', {:controller => 'trace', :action => 'mine'} %>
 <% else %>
@@ -11,16 +11,7 @@
 
 
 <br /><br />
-Showing page 
-<% if @page > 0 %>
-  <%= link_to '<<<', {:controller => 'trace', :action => 'list', :page => @page-1}, {:title => 'previous page'} %>
-<% end %>
-
-<%= @page %> 
-
-<%= link_to '>>>', {:controller => 'trace', :action => 'list', :page => @page+1}, {:title => 'next page'} %>
-
-(<%= 1+(@page * 20)%>-<%= (1+@page) * 20 %>)
+<%= render (:partial => 'trace_paging_nav') %>
 
 <table id="keyvalue" cellpadding="3">
   <tr>
@@ -29,3 +20,6 @@ Showing page
   </tr>
   <%= render :partial => 'trace', :collection => @traces %>
 </table>
+<%= render (:partial => 'trace_paging_nav') %>
+
+<%= render (:partial => 'trace_optionals') %>

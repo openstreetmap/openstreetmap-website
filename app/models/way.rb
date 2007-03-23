@@ -63,9 +63,14 @@ class Way < ActiveRecord::Base
     el1['visible'] = self.visible.to_s
     el1['timestamp'] = self.timestamp.xmlschema
     
-    self.way_segments.each do |seg| # FIXME need to make sure they come back in the right order
+    # make sure segments are output in sequence_id order
+    ordered_segments = []
+    self.way_segments.each do |seg| 
+      ordered_segments[seg.sequence_id] = seg.segment_id.to_s
+    end
+    ordered_segments.each do |seg_id|
       e = XML::Node.new 'seg'
-      e['id'] = seg.segment_id.to_s
+      e['id'] = seg_id
       el1 << e
     end
  
