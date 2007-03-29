@@ -6,7 +6,7 @@ class TraceController < ApplicationController
   #  target_user - if set, specifies the user to fetch traces for.  if not set will fetch all traces
   #  paging_action - the action that will be linked back to from view
   def list (target_user = nil, paging_action = 'list')
-    @traces_per_page = 4
+    @traces_per_page = 20
     page_index = params[:page] ? params[:page].to_i - 1 : 0 # nice 1-based page -> 0-based page index
 
     # from display name, pick up user id if one user's traces only
@@ -40,8 +40,9 @@ class TraceController < ApplicationController
     
     opt[:order] = 'timestamp DESC'
     if params[:tag]
+      @tag = params[:tag]
       conditions[0] += " AND gpx_file_tags.tag = ?"
-      conditions << params[:tag];
+      conditions << @tag;
     end
     
     opt[:conditions] = conditions
@@ -103,11 +104,15 @@ class TraceController < ApplicationController
     @trace.inserted = false
     @trace.user_id = @user.id
     @trace.timestamp = Time.now
+    saved_filename = "/tmp/#{@trace.id}.gpx"
+    # *nix - specific `mv #{filename} /tmp/#{@trace.id}.gpx`
+    File.rename(filename, saved_filename)
+    @trace.tmpname = saved_filename
     if @trace.save
       logger.info("id is #{@trace.id}")
-      File.rename(filename, "/tmp/#{@trace.id}.gpx")
-      # *nix - specific `mv #{filename} /tmp/#{@trace.id}.gpx`
       flash[:notice] = "Your GPX file has been uploaded and is awaiting insertion in to the database. This will usually happen within half an hour, and an email will be sent to you on completion."
+    else
+      #TODO upload failure
     end
 
     redirect_to :action => 'mine'

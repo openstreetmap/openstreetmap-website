@@ -2,7 +2,7 @@ ActionController::Routing::Routes.draw do |map|
 
   # API
   map.connect "api/#{API_VERSION}/node/create", :controller => 'node', :action => 'create'
-  map.connect "api/#{API_VERSION}/node/:id/history", :controller => 'old_node', :action => 'history', :id => nil # TODO is this :id => nil correct? looks like it would throw away essential info - if it does check all these id => nils
+  map.connect "api/#{API_VERSION}/node/:id/history", :controller => 'old_node', :action => 'history', :id => nil
   map.connect "api/#{API_VERSION}/node/:id", :controller => 'node', :action => 'rest', :id => nil 
   map.connect "api/#{API_VERSION}/nodes", :controller => 'node', :action => 'nodes', :id => nil
   
@@ -43,6 +43,10 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/traces/user/:display_name/:id/icon', :controller => 'trace', :action => 'icon', :id => nil
   map.connect '/traces/tag/:tag', :controller => 'trace', :action => 'list', :id => nil
   map.connect '/traces/tag/:tag/page/:page', :controller => 'trace', :action => 'list', :id => nil
+
+  # test pages
+  map.connect '/test/populate/:table/:from/:count', :controller => 'test', :action => 'populate'
+  map.connect '/test/populate/:table/:count', :controller => 'test', :action => 'populate', :from => 1
 
   # fall through
   map.connect ':controller/:action/:id'

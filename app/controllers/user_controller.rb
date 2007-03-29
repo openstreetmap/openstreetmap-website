@@ -2,6 +2,8 @@ class UserController < ApplicationController
   layout 'site'
 
   before_filter :authorize, :only => :preferences
+  before_filter :authorize_web, :only => :rename
+
   
   def save
     @user = User.new(params[:user])
@@ -14,6 +16,21 @@ class UserController < ApplicationController
     else
       render :action => 'new'
     end
+  end
+  
+  def rename
+    new_name = params['display_name']
+    if @user
+      @user.display_name = new_name
+      if @user.save
+        flash[:notice] = "User display name updated OK."
+      else
+        flash[:notice] = "Rename failed: #{ @user.errors.full_messages.join('; ') }."
+      end
+    else
+      flash[:notice] = 'not logged in'
+    end
+    redirect_to :back
   end
 
   def lost_password

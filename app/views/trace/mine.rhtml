@@ -1,8 +1,16 @@
 <h1>Your GPS Traces</h1>
 
-<br />
+<% if @tag %>
+ Traces filtered by tag <b><%= @tag %></b>
+ <br/><br/>
+<% end %>
+<%= link_to 'See all traces', {:controller => 'trace', :action => 'list'} %>
+<% if @tag %>
+  | <%= link_to 'See all your traces', {:controller => 'trace', :action => 'mine'} %>
+<% end %>
 
-<%= link_to 'See all traces', {:controller => 'trace', :action => 'list'} %><br /><br />
+<br />
+<br />
 
 <% if @user %>
 <%= start_form_tag({:action => 'create'}, :multipart => true) %>
@@ -16,8 +24,6 @@
 <%= submit_tag 'Upload' %> | <a href="http://wiki.openstreetmap.org/index.php/Upload">help</a>
 </td></tr>
 </table>
-
-<br>
 
 <%= end_form_tag %> 
 

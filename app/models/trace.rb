@@ -1,6 +1,10 @@
 class Trace < ActiveRecord::Base
   set_table_name 'gpx_files'
 
+  validates_presence_of :user_id, :name, :public, :description, :tmpname, :timestamp
+  validates_numericality_of :latitude, :longitude
+  validates_inclusion_of :inserted, :in => [ true, false]
+  
   belongs_to :user
   has_many :tags, :class_name => 'Tracetag', :foreign_key => 'gpx_id', :dependent => :destroy
 

@@ -3,11 +3,17 @@
 <img src="<%= url_for :controller => 'trace', :action => 'picture', :id => @trace.id, :user_login => @trace.user.display_name %>">
 
 <table border="0">
-  <tr><td>filename:</td><td><%= @trace.name %></td></tr>
+  <tr><td>filename:</td><td><%= @trace.name %></td></tr> <!-- TODO link to download -->
   <tr><td>uploaded at:</td><td><%= @trace.timestamp %></td></tr>
   <tr><td>points:</td><td><%= @trace.size %></td></tr>
-  <tr><td>start coordinate:</td><td><%= @trace.latitude %>, <%= @trace.longitude %></td></tr>
-  <tr><td>owner:</td><td><%= link_to @trace.user.display_name, {:controller => 'trace', :action => 'by_user'} %></td></tr>
+  <tr><td>start coordinate:</td><td><%= @trace.latitude %>, <%= @trace.longitude %></td></tr> <!-- TODO link to map -->
+  <tr><td>owner:</td><td><%= link_to @trace.user.display_name, {:controller => 'trace', :action => 'view', :display_name => @trace.user.display_name, :id => nil} %></td></tr>
   <tr><td>description:</td><td><%= @trace.description %></td></tr>
-  <tr><td>tags:</td><td><%= @trace.tags.collect {|tag| tag.tag} %></td></tr>
+  <tr><td>tags:</td><td>
+    <% if @trace.tags %>
+      <% @trace.tags.each do |tag| %>
+        <%= link_to tag.tag, { :controller => 'trace', :action => 'list', :tag => tag.tag, :id => nil } %>
+      <% end %>
+    <% end %>
+  </td></tr>
 </table>

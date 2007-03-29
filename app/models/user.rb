@@ -4,10 +4,10 @@ class User < ActiveRecord::Base
   has_many :traces
 
   validates_confirmation_of :pass_crypt, :message => 'Password must match the confirmation password'
-  validates_uniqueness_of :display_name
+  validates_uniqueness_of :display_name, :allow_nil => true
   validates_uniqueness_of :email
   validates_length_of :pass_crypt, :minimum => 8
-  validates_length_of :display_name, :minimum => 3
+  validates_length_of :display_name, :minimum => 3, :allow_nil => true
   validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
 
   def set_defaults
@@ -18,12 +18,12 @@ class User < ActiveRecord::Base
   
   def pass_crypt=(str) 
     write_attribute("pass_crypt", Digest::MD5.hexdigest(str)) 
-  end 
+  end
 
   def pass_crypt_confirmation=(str) 
     write_attribute("pass_crypt_confirm", Digest::MD5.hexdigest(str)) 
-  end 
-
+  end
+  
   def self.authenticate(email, passwd) 
     find(:first, :conditions => [ "email = ? AND pass_crypt = ?", email, Digest::MD5.hexdigest(passwd)])
   end 
