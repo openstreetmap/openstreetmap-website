@@ -61,7 +61,7 @@ while($running) do
           min_lon = Tracepoint.minimum('longitude', :conditions => ['gpx_id = ?', trace.id])
 
           trace.latitude = f_lat
-          trace.longitude = f_lat
+          trace.longitude = f_lon
           trace.large_picture = gpx.get_picture(min_lat, min_lon, max_lat, max_lon, gpx.actual_points)
           trace.icon_picture = gpx.get_icon(min_lat, min_lon, max_lat, max_lon)
           trace.size = gpx.actual_points
