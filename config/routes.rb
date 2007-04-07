@@ -28,6 +28,7 @@ ActionController::Routing::Routes.draw do |map|
   # web site
 
   map.connect '/', :controller => 'site', :action => 'index'
+  map.connect '/user/save', :controller => 'user', :action => 'save'
   map.connect '/index.html', :controller => 'site', :action => 'index'
   map.connect '/edit.html', :controller => 'site', :action => 'edit'
   map.connect '/search.html', :controller => 'way_tag', :action => 'search'
@@ -53,7 +54,6 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/traces/tag/:tag/page/:page', :controller => 'trace', :action => 'list', :id => nil
 
   # user pages
-  
   map.connect '/user/:display_name', :controller => 'user', :action => 'view'
   map.connect '/user/:display_name/diary', :controller => 'user', :action => 'diary'
   map.connect '/user/:display_name/diary/newpost', :controller => 'diary_entry', :action => 'new'
