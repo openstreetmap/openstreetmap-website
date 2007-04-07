@@ -10,7 +10,7 @@
   <td class="<%= cl %>"><%= link_to trace.name, {:controller => 'trace', :action => 'view', :display_name => trace.user.display_name, :id => trace.id} %>
     <span class="gpxsummary" title="<%= trace.timestamp %>"> ... 
       <% if trace.inserted %> 
-      (<%= trace.size %> points)
+      (<%= trace.size.to_s.gsub(/(\d)(?=(\d{3})+$)/,'\1,') %> points)
       <% end %> 
       ... <%= time_ago_in_words( trace.timestamp ) %>  ago</span>
      <%= link_to 'more', {:controller => 'trace', :action => 'view', :display_name => trace.user.display_name, :id => trace.id} %> /

@@ -99,23 +99,22 @@ class TraceController < ApplicationController
 
     File.open(filename, "w") { |f| f.write(@params['trace']['gpx_file'].read) }
     @params['trace']['name'] = @params['trace']['gpx_file'].original_filename.gsub(/[^a-zA-Z0-9.]/, '_') # This makes sure filenames are sane
-    @params['trace'].delete('gpx_file') # let's remove the field from the hash, because there's no such field in the DB anyway.
+    @params['trace'].delete('gpx_file') # remove the field from the hash, because there's no such field in the DB
     @trace = Trace.new(@params['trace'])
     @trace.inserted = false
-    @trace.user_id = @user.id
+    @trace.user = @user
     @trace.timestamp = Time.now
-    saved_filename = "/tmp/#{@trace.id}.gpx"
-    # *nix - specific `mv #{filename} /tmp/#{@trace.id}.gpx`
-    File.rename(filename, saved_filename)
-    @trace.tmpname = saved_filename
+
     if @trace.save
+      saved_filename = "/tmp/#{@trace.id}.gpx"
+      File.rename(filename, saved_filename)
+
       logger.info("id is #{@trace.id}")
       flash[:notice] = "Your GPX file has been uploaded and is awaiting insertion in to the database. This will usually happen within half an hour, and an email will be sent to you on completion."
+      redirect_to :action => 'mine'
     else
-      #TODO upload failure
+#      render :action => 'mine'
     end
-
-    redirect_to :action => 'mine'
   end
 
   def georss

@@ -32,3 +32,4 @@ create index users_display_name_idx on users(display_name);
 
 alter table users add data_public boolean default false;
 
+alter table gpx_files drop column tmpname;
