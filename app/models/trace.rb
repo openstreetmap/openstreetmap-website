@@ -62,7 +62,8 @@ class Trace < ActiveRecord::Base
     el1['lat'] = self.latitude.to_s
     el1['lon'] = self.longitude.to_s
     el1['user'] = self.user.display_name
-    el1['public'] = self.user.public
+    el1['public'] = self.public.to_s
+    el1['pending'] = (!self.inserted).to_s
     el1['timestamp'] = self.timestamp.xmlschema
     return el1
   end
