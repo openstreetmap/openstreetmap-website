@@ -4,7 +4,18 @@ class SiteController < ApplicationController
 
 
   def search
-    @tags = WayTag.find(:all, :conditions => ["match(v) against (?)", params[:query][:query].to_s] )
+    @tags = WayTag.find(:all, :limit => 11, :conditions => ["match(v) against (?)", params[:query][:query].to_s] )
+  end
+
+  def goto_way
+    way = Way.find(params[:id])
+
+    begin
+      node = way.way_segments.first.segment.from_node
+      redirect_to :controller => 'site', :action => 'index', :lat => node.latitude, :lon => node.longitude, :zoom => 6
+    rescue
+      redirect_to :back
+    end
   end
 
 end
