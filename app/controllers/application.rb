@@ -6,6 +6,10 @@ class ApplicationController < ActionController::Base
     @user = User.find_by_token(session[:token])
   end
 
+  def require_user
+    redirect_to :controller => 'user', :action => 'login' unless @user
+  end
+
   def authorize(realm='Web Password', errormessage="Could't authenticate you") 
     username, passwd = get_auth_data # parse from headers
     # authenticate per-scheme
