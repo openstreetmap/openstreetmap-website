@@ -15,7 +15,7 @@
     <% end %>
     <div id="content">
       <% if flash[:notice] %>
-      <div id="notice"><%= flash[:notice] %></div>
+        <div id="notice"><%= flash[:notice] %></div>
       <% end %>
 
       <%= yield %>
@@ -23,12 +23,13 @@
     </div>
 
     <span id="greeting">
-      <% if @user %>
-      Welcome, <%= @user.display_name %> |
-      <%= link_to 'logout', {:controller => 'user', :action => 'logout'}, {:id => 'loginanchor'}%>
+        <% if @user %>
+        Welcome, <%= @user.display_name %> |
+        <%= link_to 'account', {:controller => 'user', :action => 'account'}, {:id => 'loginanchor'}%> |
+        <%= link_to 'logout', {:controller => 'user', :action => 'logout'}, {:id => 'loginanchor'}%>
       <% else %>
-      <%= link_to 'log in', {:controller => 'user', :action => 'login'}, {:id => 'loginanchor'}%> |
-      <%= link_to 'sign up', {:controller => 'user', :action => 'new'}, {:id => 'registeranchor'} %>
+        <%= link_to 'log in', {:controller => 'user', :action => 'login'}, {:id => 'loginanchor'}%> |
+        <%= link_to 'sign up', {:controller => 'user', :action => 'new'}, {:id => 'registeranchor'} %>
       <% end %>
     </span>
 

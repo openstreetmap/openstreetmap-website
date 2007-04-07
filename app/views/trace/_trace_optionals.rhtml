@@ -9,17 +9,4 @@
       <% end %>
     <% end %>
   </div>
-  <% if @user %>
-    <div class="optionalbox">
-      <span class="oboxheader">User</span>
-      <br />
-      <br />
-      <form action="/user/rename" method="get" style="margin: 0px">
-        <span>Display name:</span><br />
-        <input type="text" value="<%= @user.display_name %>" maxlength="255" size="8" name="display_name"/>
-        <input type="submit" value="Save"/>
-        <input type="hidden" value="<%= request.request_uri %>" name="redirect_url"/>
-      </form>
-    </div>
-  <% end %>
 <% end %>

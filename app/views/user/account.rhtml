@@ -1,0 +1,14 @@
+<h2>User details</h2>
+<table>
+  <tr><td>id</td><td><%= @user.id %></td></tr>
+  <tr><td>email</td><td><%= @user.email %></td></tr>
+  <tr><td>display name</td><td><%= @user.display_name %> (<%= link_to 'change...', :controller => 'user', :action => 'rename' %>)</td></tr>
+  <tr><td>account created</td><td><%= @user.creation_time %></td></tr>
+</table>
+
+<h2>Privacy</h2>
+
+<%= start_form_tag :controller => 'user', :action => 'public'%>
+<%= submit_tag 'Make all my edits public, forever' %>
+<%= end_form_tag %>
+

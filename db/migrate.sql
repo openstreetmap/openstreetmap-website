@@ -1,3 +1,5 @@
+/* this script when run on the current db migrates it to rails */
+
 drop table meta_nodes;
 alter table current_nodes modify tags text not null;
 alter table current_nodes modify id bigint(64) not null auto_increment;
@@ -27,3 +29,6 @@ alter table gpx_file_tags add id int(20) auto_increment not null, add primary ke
 
 alter table users add preferences text;
 create index users_display_name_idx on users(display_name);
+
+alter table users add public boolean default false;
+
