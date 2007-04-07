@@ -56,6 +56,7 @@ class Segment < ActiveRecord::Base
   def save_with_history
     begin
       Segment.transaction do
+        self.timestamp = Time.now
         self.save
         old_segment = OldSegment.from_segment(self)
         old_segment.save

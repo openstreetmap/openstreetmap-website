@@ -61,6 +61,7 @@ class Node < ActiveRecord::Base
   def save_with_history
     begin
       Node.transaction do
+        self.timestamp = Time.now
         self.save
         old_node = OldNode.from_node(self)
         old_node.save
