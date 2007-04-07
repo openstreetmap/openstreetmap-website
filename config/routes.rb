@@ -29,6 +29,8 @@ ActionController::Routing::Routes.draw do |map|
 
   map.connect '/', :controller => 'site', :action => 'index'
   map.connect '/user/save', :controller => 'user', :action => 'save'
+  map.connect '/user/confirm', :controller => 'user', :action => 'confirm'
+  map.connect '/user/go_public', :controller => 'user', :action => 'go_public'
   map.connect '/index.html', :controller => 'site', :action => 'index'
   map.connect '/edit.html', :controller => 'site', :action => 'edit'
   map.connect '/search.html', :controller => 'way_tag', :action => 'search'
@@ -41,6 +43,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/traces', :controller => 'trace', :action => 'list'
   map.connect '/traces/page/:page', :controller => 'trace', :action => 'list'
   map.connect '/traces/mine', :controller => 'trace', :action => 'mine'
+  map.connect '/trace/create', :controller => 'trace', :action => 'create'
   map.connect '/traces/mine/page/:page', :controller => 'trace', :action => 'mine'
   map.connect '/traces/mine/tag/:tag', :controller => 'trace', :action => 'mine'
   map.connect '/traces/mine/tag/:tag/page/:page', :controller => 'trace', :action => 'mine'
