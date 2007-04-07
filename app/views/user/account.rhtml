@@ -7,8 +7,12 @@
 </table>
 
 <h2>Privacy</h2>
-
-<%= start_form_tag :controller => 'user', :action => 'public'%>
-<%= submit_tag 'Make all my edits public, forever' %>
-<%= end_form_tag %>
-
+<% if @user.data_public? %>
+  All your edits are public.
+<% else %>
+  Currently your edits are ananymous and people can't find out where you are located. To show what you edited and allow people to contact you through the website, click the button below. This action cannot be reversed.
+  <br /><br />
+  <%= start_form_tag :controller => 'user', :action => 'go_public'%>
+  <%= submit_tag 'Make all my edits public, forever' %>
+  <%= end_form_tag %>
+<% end %>

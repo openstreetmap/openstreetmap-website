@@ -30,5 +30,5 @@ alter table gpx_file_tags add id int(20) auto_increment not null, add primary ke
 alter table users add preferences text;
 create index users_display_name_idx on users(display_name);
 
-alter table users add public boolean default false;
+alter table users add data_public boolean default false;
 

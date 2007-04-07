@@ -2,8 +2,8 @@ class UserController < ApplicationController
   layout 'site'
 
   before_filter :authorize, :only => :preferences
-  before_filter :authorize_web, :only => [:rename, :account]
-  before_filter :require_user, :only => [:account, :display_name_edit]
+  before_filter :authorize_web, :only => [:rename, :account, :go_public]
+  before_filter :require_user, :only => [:rename, :account, :go_public]
  
   def save
     @user = User.new(params[:user])
@@ -26,6 +26,13 @@ class UserController < ApplicationController
         redirect_to :controller => 'user', :action => 'account'
       end
     end
+  end
+
+  def go_public
+    @user.data_public = true
+    @user.save
+    flash[:notice] = 'All your edits are now public'
+    redirect_to :controller => 'user', :action => 'account'
   end
 
   def lost_password
