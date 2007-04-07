@@ -6,7 +6,7 @@
   <tr><td>filename:</td><td><%= @trace.name %></td></tr> <!-- TODO link to download -->
   <tr><td>uploaded at:</td><td><%= @trace.timestamp %></td></tr>
   <tr><td>points:</td><td><%= @trace.size.to_s.gsub(/(\d)(?=(\d{3})+$)/,'\1,') %></td></tr>
-  <tr><td>start coordinate:</td><td><%= @trace.latitude %>, <%= @trace.longitude %></td></tr> <!-- FIXME link to map -->
+  <tr><td>start coordinate:</td><td><%= @trace.latitude %>, <%= @trace.longitude %> (<%=link_to 'map', :controller => 'site', :action => 'index', :lat => @trace.latitude, :lon => @trace.longitude, :zooom => 6 %>)</td></tr>
   <tr><td>owner:</td><td><%= link_to @trace.user.display_name, {:controller => 'trace', :action => 'view', :display_name => @trace.user.display_name, :id => nil} %></td></tr>
   <tr><td>description:</td><td><%= @trace.description %></td></tr>
   <tr><td>tags:</td><td>
