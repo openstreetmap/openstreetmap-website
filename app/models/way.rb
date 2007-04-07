@@ -62,7 +62,7 @@ class Way < ActiveRecord::Base
     el1['id'] = self.id.to_s
     el1['visible'] = self.visible.to_s
     el1['timestamp'] = self.timestamp.xmlschema
-    
+    el1['user'] = self.user.display_name if self.user.data_public?
     # make sure segments are output in sequence_id order
     ordered_segments = []
     self.way_segments.each do |seg| 

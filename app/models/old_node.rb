@@ -20,6 +20,7 @@ class OldNode < ActiveRecord::Base
     el1['id'] = self.id.to_s
     el1['lat'] = self.latitude.to_s
     el1['lon'] = self.longitude.to_s
+    el1['user'] = self.user.display_name if self.user.data_public?
     Node.split_tags(el1, self.tags)
     el1['visible'] = self.visible.to_s
     el1['timestamp'] = self.timestamp.xmlschema

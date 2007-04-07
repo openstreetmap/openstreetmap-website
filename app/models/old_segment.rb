@@ -20,6 +20,7 @@ class OldSegment < ActiveRecord::Base
     el1['id'] = self.id.to_s
     el1['from'] = self.node_a.to_s
     el1['to'] = self.node_b.to_s
+    el1['user'] = self.user.display_name if self.user.data_public?
     Segment.split_tags(el1, self.tags)
     el1['visible'] = self.visible.to_s
     el1['timestamp'] = self.timestamp.xmlschema

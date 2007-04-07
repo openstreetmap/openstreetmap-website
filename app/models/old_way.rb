@@ -81,6 +81,7 @@ class OldWay < ActiveRecord::Base
     el1['id'] = self.id.to_s
     el1['visible'] = self.visible.to_s
     el1['timestamp'] = self.timestamp.xmlschema
+    el1['user'] = self.user.display_name if self.user.data_public?
     
     self.old_segments.each do |seg| # FIXME need to make sure they come back in the right order
       e = XML::Node.new 'seg'
