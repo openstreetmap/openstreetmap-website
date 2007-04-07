@@ -113,7 +113,15 @@ class TraceController < ApplicationController
       flash[:notice] = "Your GPX file has been uploaded and is awaiting insertion in to the database. This will usually happen within half an hour, and an email will be sent to you on completion."
       redirect_to :action => 'mine'
     else
-#      render :action => 'mine'
+      # fixme throw an error here
+      # render :action => 'mine'
+    end
+  end
+
+  def data
+    trace = Trace.find(params[:id])
+    if trace.public? or (@user and @user == trace.user)
+      send_data(File.open("/tmp/#{trace.id}.gpx",'r').read , :filename => "#{trace.id}.gpx", :type => 'text/plain', :disposition => 'inline')
     end
   end
 
@@ -134,11 +142,11 @@ class TraceController < ApplicationController
 
   def picture
     trace = Trace.find(params[:id])
-    send_data(trace.large_picture, :filename => "#{trace.id}.gif", :type => 'image/gif', :disposition => 'inline') if trace.public
+    send_data(trace.large_picture, :filename => "#{trace.id}.gif", :type => 'image/gif', :disposition => 'inline') if trace.public?
   end
 
   def icon
     trace = Trace.find(params[:id])
-    send_data(trace.icon_picture, :filename => "#{trace.id}_icon.gif", :type => 'image/gif', :disposition => 'inline') if trace.public
+    send_data(trace.icon_picture, :filename => "#{trace.id}_icon.gif", :type => 'image/gif', :disposition => 'inline') if trace.public?
   end
 end

@@ -3,7 +3,7 @@
 <img src="<%= url_for :controller => 'trace', :action => 'picture', :id => @trace.id, :user_login => @trace.user.display_name %>">
 
 <table border="0">
-  <tr><td>filename:</td><td><%= @trace.name %></td></tr> <!-- TODO link to download -->
+  <tr><td>filename:</td><td><%= @trace.name %> (<%= link_to 'download', :controller => 'trace', :action => 'data', :id => @trace.id %>)</td></tr> <!-- TODO link to download -->
   <tr><td>uploaded at:</td><td><%= @trace.timestamp %></td></tr>
   <tr><td>points:</td><td><%= @trace.size.to_s.gsub(/(\d)(?=(\d{3})+$)/,'\1,') %></td></tr>
   <tr><td>start coordinate:</td><td><%= @trace.latitude %>, <%= @trace.longitude %> (<%=link_to 'map', :controller => 'site', :action => 'index', :lat => @trace.latitude, :lon => @trace.longitude, :zooom => 6 %>)</td></tr>
