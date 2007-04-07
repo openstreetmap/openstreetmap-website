@@ -307,4 +307,16 @@ module OSM
       return @doc.to_s
     end
   end
+
+  class API
+    def get_xml_doc
+      doc = XML::Document.new
+      doc.encoding = 'UTF-8' 
+      root = XML::Node.new 'osm'
+      root['version'] = API_VERSION
+      root['generator'] = 'OpenStreetMap server'
+      doc.root = root
+      return doc
+    end
+  end
 end

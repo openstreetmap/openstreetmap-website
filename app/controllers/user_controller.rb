@@ -1,7 +1,7 @@
 class UserController < ApplicationController
   layout 'site'
 
-  before_filter :authorize, :only => :preferences
+  before_filter :authorize, :only => [:preferences, :api_details]
   before_filter :authorize_web, :only => [:rename, :account, :go_public]
   before_filter :require_user, :only => [:rename, :account, :go_public]
  
@@ -124,6 +124,10 @@ class UserController < ApplicationController
     else
       render :status => 400, :nothing => true
     end
+  end
+
+  def api_details
+    render :text => @user.to_xml.to_s
   end
 end
 

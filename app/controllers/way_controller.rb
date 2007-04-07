@@ -90,7 +90,7 @@ class WayController < ApplicationController
     ids = params['ways'].split(',').collect {|w| w.to_i }
     if ids.length > 0
       waylist = Way.find(ids)
-      doc = get_xml_doc
+      doc = OSM::API.new.get_xml_doc
       waylist.each do |way|
         doc.root << way.to_xml_node
       end 

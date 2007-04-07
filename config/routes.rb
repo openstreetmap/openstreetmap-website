@@ -18,6 +18,8 @@ ActionController::Routing::Routes.draw do |map|
 
   map.connect "api/#{API_VERSION}/map", :controller => 'api', :action => 'map'
   
+  map.connect "api/#{API_VERSION}/user/details", :controller => 'user', :action => 'api_details'
+  
   # web site
 
   map.connect '/', :controller => 'site', :action => 'index'

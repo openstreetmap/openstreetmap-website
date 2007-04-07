@@ -40,7 +40,7 @@ class ApiController < ApplicationController
     # get missing nodes if there are any
     nodes += Node.find(missing_nodes) if missing_nodes.length > 0
 
-    doc = get_xml_doc
+    doc = OSM::API.get_xml_doc
 
     # get ways
     # find which ways are needed

@@ -9,7 +9,7 @@ class OldSegmentController < ApplicationController
       return
     end
 
-    doc = get_xml_doc
+    doc = OSM::API.new.get_xml_doc
 
     segment.old_segments.each do |old_segment|
       doc.root << old_segment.to_xml_node
@@ -17,9 +17,4 @@ class OldSegmentController < ApplicationController
 
     render :text => doc.to_s
   end
-
-
-
-
-
 end

@@ -38,16 +38,6 @@ class ApplicationController < ActionController::Base
     end 
   end 
 
-  def get_xml_doc
-    doc = XML::Document.new
-    doc.encoding = 'UTF-8' 
-    root = XML::Node.new 'osm'
-    root['version'] = API_VERSION
-    root['generator'] = 'OpenStreetMap server'
-    doc.root = root
-    return doc
-  end
-
   # extract authorisation credentials from headers, returns user = nil if none
   private 
   def get_auth_data 

@@ -9,7 +9,7 @@ class OldNodeController < ApplicationController
       return
     end
 
-    doc = get_xml_doc
+    doc = OSM::API.new.get_xml_doc
 
     node.old_nodes.each do |old_node|
       doc.root << old_node.to_xml_node

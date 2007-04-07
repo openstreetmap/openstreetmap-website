@@ -1,6 +1,7 @@
-require 'digest/md5'
-
 class User < ActiveRecord::Base
+  require 'xml/libxml'
+  require 'digest/md5'
+
   has_many :traces
 
   validates_confirmation_of :pass_crypt, :message => 'Password must match the confirmation password'
@@ -43,4 +44,16 @@ class User < ActiveRecord::Base
     return confirmstring
   end
 
+  def to_xml
+    doc = OSM::API.new.get_xml_doc
+    doc.root << to_xml_node()
+    return doc
+  end
+
+  def to_xml_node
+    el1 = XML::Node.new 'user'
+    el1['display_name'] = self.display_name.to_s
+    el1['account_created'] = self.creation_time.xmlschema
+    return el1
+  end
 end

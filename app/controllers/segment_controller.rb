@@ -85,7 +85,7 @@ class SegmentController < ApplicationController
     ids = params['segments'].split(',').collect {|s| s.to_i }
     if ids.length > 0
       segmentlist = Segment.find(ids)
-      doc = get_xml_doc
+      doc = OSM::API.get_xml_doc
       segmentlist.each do |segment|
         doc.root << segment.to_xml_node
       end 
