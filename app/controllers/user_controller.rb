@@ -1,7 +1,7 @@
 class UserController < ApplicationController
   layout 'site'
 
-  before_filter :authorize, :only => [:preferences, :api_details]
+  before_filter :authorize, :only => [:preferences, :api_details, :api_gpx_files]
   before_filter :authorize_web, :only => [:rename, :account, :go_public]
   before_filter :require_user, :only => [:rename, :account, :go_public]
  
@@ -128,6 +128,14 @@ class UserController < ApplicationController
 
   def api_details
     render :text => @user.to_xml.to_s
+  end
+
+  def api_gpx_files
+    doc = OSM::API.new.get_xml_doc
+    @user.traces.each do |trace|
+      doc.root << trace.to_xml_node() if trace.public? or trace.user == @user
+    end
+    render :text => doc.to_s
   end
 end
 

@@ -1,5 +1,6 @@
 class TraceController < ApplicationController
   before_filter :authorize_web  
+  before_filter :authorize, :only => [:api_details, :api_data, :api_create]
   layout 'site'
   
   # Counts and selects pages of GPX traces for various criteria (by user, tags, public etc.).
@@ -158,5 +159,42 @@ class TraceController < ApplicationController
   def icon
     trace = Trace.find(params[:id])
     send_data(trace.icon_picture, :filename => "#{trace.id}_icon.gif", :type => 'image/gif', :disposition => 'inline') if trace.public? or (@user and @user == trace.user)
+  end
+
+  def api_details
+    trace = Trace.find(params[:id])
+    doc = OSM::API.new.get_xml_doc
+    doc.root << trace.to_xml_node() if trace.public? or trace.user == @user
+    render :text => doc.to_s
+  end
+
+  def api_data
+    render :action => 'data'
+  end
+
+  def api_create
+    #FIXME merge this code with create as they're pretty similar?
+    
+    filename = "/tmp/#{rand}"
+    File.open(filename, "w") { |f| f.write(request.raw_post) }
+    @params['trace'] = {}
+    @params['trace']['name'] = params[:filename]
+    @params['trace']['tagstring'] = params[:tags]
+    @params['trace']['description'] = params[:description]
+    @trace = Trace.new(@params['trace'])
+    @trace.inserted = false
+    @trace.user = @user
+    @trace.timestamp = Time.now
+
+    if @trace.save
+      saved_filename = "/tmp/#{@trace.id}.gpx"
+      File.rename(filename, saved_filename)
+      logger.info("id is #{@trace.id}")
+      flash[:notice] = "Your GPX file has been uploaded and is awaiting insertion in to the database. This will usually happen within half an hour, and an email will be sent to you on completion."
+      render :nothing => true
+    else
+      render :nothing => true, :status => 400 # er FIXME what fricking code to return?
+    end
+
   end
 end
