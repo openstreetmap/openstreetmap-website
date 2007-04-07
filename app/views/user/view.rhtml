@@ -1,0 +1,13 @@
+<h2><%= @this_user.display_name %></h2>
+<% if @this_user.id == @user.id %>
+  <%= link_to 'go to your account page', :controller => 'user', :action => 'account', :display_name => @user.display_name %><br /><br />
+<% else %>
+  <%= link_to 'send message', :controller => 'user', :action => 'message', :display_name => @user.display_name %><br /><br /> |
+  <%= link_to 'Add as friend', :controller => 'user', :action => 'make_friend', :display_name => @user.display_name %><br /><br />
+<% end %>
+
+<%= link_to 'diary', :controller => 'user', :action => 'diary', :display_name => @user.display_name %><br /><br />
+
+<%= simple_format(@this_user.description) %>
+
+

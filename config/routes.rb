@@ -55,7 +55,8 @@ ActionController::Routing::Routes.draw do |map|
   # user pages
   
   map.connect '/user/:display_name', :controller => 'user', :action => 'view'
-  map.connect '/user/:display_name/diary', :controller => 'diary', :action => 'view'
+  map.connect '/user/:display_name/diary', :controller => 'user', :action => 'diary'
+  map.connect '/user/:display_name/diary/newpost', :controller => 'diary_entry', :action => 'new'
   map.connect '/user/:display_name/edit', :controller => 'user', :action => 'edit'
   map.connect '/user/:display_name/account', :controller => 'user', :action => 'account'
 

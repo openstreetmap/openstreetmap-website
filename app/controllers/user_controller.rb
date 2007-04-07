@@ -2,7 +2,7 @@ class UserController < ApplicationController
   layout 'site'
 
   before_filter :authorize, :only => [:preferences, :api_details, :api_gpx_files]
-  before_filter :authorize_web, :only => [:edit, :account, :go_public, :view]
+  before_filter :authorize_web, :only => [:edit, :account, :go_public, :view, :diary]
   before_filter :require_user, :only => [:edit, :account, :go_public]
  
   def save
@@ -139,8 +139,11 @@ class UserController < ApplicationController
     render :text => doc.to_s
   end
 
-
   def view
+    @this_user = User.find_by_display_name(params[:display_name])
+  end
+
+  def diary
     @this_user = User.find_by_display_name(params[:display_name])
   end
 

@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   require 'digest/md5'
 
   has_many :traces
+  has_many :diary_entries
 
   validates_confirmation_of :pass_crypt, :message => 'Password must match the confirmation password'
   validates_uniqueness_of :display_name, :allow_nil => true
