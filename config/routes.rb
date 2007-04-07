@@ -30,6 +30,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/', :controller => 'site', :action => 'index'
   map.connect '/index.html', :controller => 'site', :action => 'index'
   map.connect '/edit.html', :controller => 'site', :action => 'edit'
+  map.connect '/search.html', :controller => 'site', :action => 'search'
   map.connect '/login.html', :controller => 'user', :action => 'login'
   map.connect '/logout.html', :controller => 'user', :action => 'logout'
   map.connect '/create-account.html', :controller => 'user', :action => 'new'
