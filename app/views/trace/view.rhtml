@@ -17,3 +17,10 @@
     <% end %>
   </td></tr>
 </table>
+
+<% unless @trace.public? %>
+  <br /><br />
+  <%= start_form_tag :controller => 'trace', :action => 'make_public', :id => @trace.id%>
+  <%= submit_tag 'Make this track public permanently' %>
+  <%= end_form_tag %>
+<% end %>

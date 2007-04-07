@@ -125,6 +125,16 @@ class TraceController < ApplicationController
     end
   end
 
+  def make_public
+    trace = Trace.find(params[:id])
+    if @user and trace.user == @user and !trace.public
+      trace.public = true
+      trace.save
+      flash[:notice] = 'Track made public'
+      redirect_to :controller => 'trace', :action => 'view', :id => params[:id]
+    end
+  end
+
   def georss
     traces = Trace.find(:all, :conditions => ['public = true'], :order => 'timestamp DESC', :limit => 20)
 
@@ -142,11 +152,11 @@ class TraceController < ApplicationController
 
   def picture
     trace = Trace.find(params[:id])
-    send_data(trace.large_picture, :filename => "#{trace.id}.gif", :type => 'image/gif', :disposition => 'inline') if trace.public?
+    send_data(trace.large_picture, :filename => "#{trace.id}.gif", :type => 'image/gif', :disposition => 'inline') if trace.public? or (@user and @user == trace.user)
   end
 
   def icon
     trace = Trace.find(params[:id])
-    send_data(trace.icon_picture, :filename => "#{trace.id}_icon.gif", :type => 'image/gif', :disposition => 'inline') if trace.public?
+    send_data(trace.icon_picture, :filename => "#{trace.id}_icon.gif", :type => 'image/gif', :disposition => 'inline') if trace.public? or (@user and @user == trace.user)
   end
 end
