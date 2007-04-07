@@ -35,3 +35,4 @@ alter table users add data_public boolean default false;
 alter table gpx_files drop column tmpname;
 
 alter table users add column description text not null;
+create table diary_entries(id bigint not null auto_increment, user_id bigint not null, title varchar(255), body text, primary key(id));

@@ -24,8 +24,7 @@
 
     <span id="greeting">
       <% if @user %>
-        Welcome, <%= @user.display_name %> |
-        <%= link_to 'account', {:controller => 'user', :action => 'account'}, {:id => 'loginanchor'}%> |
+        Welcome, <%= link_to @user.display_name, {:controller => 'user', :action => 'view', :display_name => @user.display_name}, {:id => 'loginanchor'}%> |
         <%= link_to 'logout', {:controller => 'user', :action => 'logout'}, {:id => 'loginanchor'}%>
       <% else %>
         <%= link_to 'log in', {:controller => 'user', :action => 'login'}, {:id => 'loginanchor'}%> |

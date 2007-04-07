@@ -2,7 +2,7 @@ class UserController < ApplicationController
   layout 'site'
 
   before_filter :authorize, :only => [:preferences, :api_details, :api_gpx_files]
-  before_filter :authorize_web, :only => [:edit, :account, :go_public]
+  before_filter :authorize_web, :only => [:edit, :account, :go_public, :view]
   before_filter :require_user, :only => [:edit, :account, :go_public]
  
   def save

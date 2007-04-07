@@ -33,7 +33,6 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/search.html', :controller => 'way_tag', :action => 'search'
   map.connect '/login.html', :controller => 'user', :action => 'login'
   map.connect '/logout.html', :controller => 'user', :action => 'logout'
-  map.connect '/account', :controller => 'user', :action => 'account'
   map.connect '/create-account.html', :controller => 'user', :action => 'new'
   map.connect '/forgot-password.html', :controller => 'user', :action => 'lost_password'
 
@@ -57,6 +56,8 @@ ActionController::Routing::Routes.draw do |map|
   
   map.connect '/user/:display_name', :controller => 'user', :action => 'view'
   map.connect '/user/:display_name/diary', :controller => 'diary', :action => 'view'
+  map.connect '/user/:display_name/edit', :controller => 'user', :action => 'edit'
+  map.connect '/user/:display_name/account', :controller => 'user', :action => 'account'
 
   # test pages
   map.connect '/test/populate/:table/:from/:count', :controller => 'test', :action => 'populate'
