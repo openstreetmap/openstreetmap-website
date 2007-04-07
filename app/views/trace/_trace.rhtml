@@ -2,7 +2,7 @@
   <% cl = cycle('table0', 'table1') %>
   <td class="<%= cl %>">
     <% if trace.inserted %>
-    <a href="<%= url_for :controller => 'trace', :action => 'view', :id => trace.id, :user_login => trace.user.display_name %>"><img src="<%= url_for :controller => 'trace', :action => 'icon', :id => trace.id, :user_login => trace.user.display_name %>" border="0"></a>
+    <a href="<%= url_for :controller => 'trace', :action => 'view', :id => trace.id, :display_name => trace.user.display_name %>"><img src="<%= url_for :controller => 'trace', :action => 'icon', :id => trace.id, :display_name => trace.user.display_name %>" border="0"></a>
     <% else %>
     <span style="color:red">PENDING</span>
     <% end %>
@@ -17,7 +17,7 @@
     <a href="/edit.html?lat=<%= trace.latitude %>&lon=<%= trace.longitude %>&zoom=14" title="create maps">map</a><br />
       <%= trace.description %>
     <br />
-    by <%= link_to trace.user.display_name, {:controller => 'trace', :action => 'list', :display_name => trace.user.display_name} %>
+    by <%= link_to trace.user.display_name, {:controller => 'user', :action => 'view', :display_name => trace.user.display_name} %>
     in 
     <% if trace.tags %>
       <% trace.tags.each do |tag| %>

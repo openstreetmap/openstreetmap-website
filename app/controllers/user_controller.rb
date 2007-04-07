@@ -2,8 +2,8 @@ class UserController < ApplicationController
   layout 'site'
 
   before_filter :authorize, :only => [:preferences, :api_details, :api_gpx_files]
-  before_filter :authorize_web, :only => [:rename, :account, :go_public]
-  before_filter :require_user, :only => [:rename, :account, :go_public]
+  before_filter :authorize_web, :only => [:edit, :account, :go_public]
+  before_filter :require_user, :only => [:edit, :account, :go_public]
  
   def save
     @user = User.new(params[:user])
@@ -18,11 +18,12 @@ class UserController < ApplicationController
     end
   end
 
-  def rename
-    if params[:user] and params[:user][:display_name]
+  def edit
+    if params[:user] and params[:user][:display_name] and params[:user][:description]
       @user.display_name = params[:user][:display_name]
+      @user.description = params[:user][:description]
       if @user.save
-        flash[:notice] = "User display name updated OK."
+        flash[:notice] = "User edited OK."
         redirect_to :controller => 'user', :action => 'account'
       end
     end
@@ -137,5 +138,12 @@ class UserController < ApplicationController
     end
     render :text => doc.to_s
   end
+
+
+  def view
+    @this_user = User.find_by_display_name(params[:display_name])
+  end
+
+
 end
 

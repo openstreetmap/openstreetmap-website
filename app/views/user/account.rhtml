@@ -2,8 +2,9 @@
 <table>
   <tr><td>id</td><td><%= @user.id %></td></tr>
   <tr><td>email</td><td><%= @user.email %></td></tr>
-  <tr><td>display name</td><td><%= @user.display_name %> (<%= link_to 'change...', :controller => 'user', :action => 'rename' %>)</td></tr>
-  <tr><td>account created</td><td><%= @user.creation_time %></td></tr>
+  <tr><td>display name</td><td><%= @user.display_name %> (<%= link_to 'change...', :controller => 'user', :action => 'edit' %>)</td></tr>
+  <tr><td>account created</td><td><%= @user.creation_time %> (<%= time_ago_in_words(@user.creation_time) %> ago)</td></tr>
+  <tr><td>description</td><td><%= @user.description %>  (<%= link_to 'change...', :controller => 'user', :action => 'edit' %>)</td></tr>
 </table>
 
 <h2>Privacy</h2>
