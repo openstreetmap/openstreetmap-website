@@ -18,6 +18,11 @@ ActionController::Routing::Routes.draw do |map|
 
   map.connect "api/#{API_VERSION}/map", :controller => 'api', :action => 'map'
   
+  map.connect "api/#{API_VERSION}/search", :controller => 'search', :action => 'search_all'
+  map.connect "api/#{API_VERSION}/way/search", :controller => 'search', :action => 'search_ways'
+  map.connect "api/#{API_VERSION}/segment/search", :controller => 'search', :action => 'search_segments'
+  map.connect "api/#{API_VERSION}/nodes/search", :controller => 'search', :action => 'search_nodes'
+  
   map.connect "api/#{API_VERSION}/user/details", :controller => 'user', :action => 'api_details'
   map.connect "api/#{API_VERSION}/user/gpx_files", :controller => 'user', :action => 'api_gpx_files'
  
