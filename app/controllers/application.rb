@@ -38,6 +38,17 @@ class ApplicationController < ActionController::Base
     end 
   end 
 
+  # Report and error to the user
+  # (If anyone ever fixes Rails so it can set a http status "reason phrase",
+  #  rather than only a status code and having the web engine make up a 
+  #  phrase from that, we can also put the error message into the status
+  #  message. For now, rails won't let us)
+  def report_error(message)
+    render :nothing => true, :status => 400
+    # Todo: some sort of escaping of problem characters in the message
+    response.headers['Error'] = message
+  end
+
   # extract authorisation credentials from headers, returns user = nil if none
   private 
   def get_auth_data 
