@@ -1,22 +1,22 @@
 Creating database
-=====================
+===================
 
-OSM server use databse with follow name :
+OSM server uses a database with the following name:
 
 openstreetmap
 
-You may create it with your prefrable client or run next (linux) command :
+You may create it with your preferable client or run next (linux) command:
 
 $ mysqladmin -u <uid> -p create openstreetmap
 
-(change <uid> with appropriate username of administrativ user eg. root )
+(change <uid> with appropriate username of administrative user eg. root )
 
-Creating user, password, and access rightts
-=============================================
+Creating user, password, and access rights
+============================================
 
 $ mysql -u <uid> -p
 
-(change <uid> with appropriate username of administrativ user eg. root )
+(change <uid> with appropriate username of administrative user eg. root )
 
 > grant all privileges on openstreetmap.* to 'openstreetmap'@'localhost' identified by 'openstreetmap';
 > flush privileges;
@@ -30,7 +30,7 @@ $ mysql openstreetmap -u openstreetmap -p < db/create_database.sql
 New server patch (RAILS)
 ==========================
 
-Run follow command to prepare tables to be OSM REILS distribution compatible :
+Run following command to prepare tables to be OSM RAILS distribution compatible:
 
 $ mysql openstreetmap -u openstreetmap -p < db/migrate.sql
 
