@@ -73,6 +73,6 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/test/populate/:table/:count', :controller => 'test', :action => 'populate', :from => 1
 
   # fall through
-  map.connect ':controller/:id/:action'
+  #  map.connect ':controller/:id/:action'
   map.connect ':controller/:action'
 end
