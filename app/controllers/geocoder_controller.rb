@@ -6,11 +6,12 @@ class GeocoderController < ApplicationController
   def search
     @res_hash = {}
     @postcode_arr = []
-    
-=begin    if params[:geocode][:place]
-      postcode = params[:geocode][:place]
+
+
+    if params[:query][:place_name] != nil or "" 
+      place_name = params[:query][:place_name]
       Net::HTTP.start('ws.geonames.org') do |http|
-        res = http.get("/search?q=#{query}&maxRows=10")
+        res = http.get("/search?q=#{place_name}&maxRows=10")
         xml = REXML::Document.new(res.body)
         xml.elements.each("/geonames/geoname") do |ele|
           ele.elements.each("name"){ |n| @res_hash['name'] = n.text }
@@ -20,17 +21,18 @@ class GeocoderController < ApplicationController
         end
       end
     end
-=end
-
-        if params[:query][:postcode]
+    
+    if params[:query][:postcode]
       postcode = params[:query][:postcode]
       Net::HTTP.start('www.freethepostcode.org') do |http|
+        unless resp.code ~ /^2*/
         resp = http.get("/geocode?postcode=#{postcode}")
         lat = resp.body.scan(/[4-6][0-9]\.?[0-9]+/)
         lon = resp.body.scan(/[-+][0-9]\.?[0-9]+/)
         @postcode_array = [lat, lon]
+      else
       end
       redirect_to "/index.html?lat=#{@postcode_array[0]}&lon=#{@postcode_array[1]}&zoom=14"
-          end
+    end
   end
 end
