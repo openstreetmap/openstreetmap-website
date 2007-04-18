@@ -7,7 +7,7 @@ class ApiController < ApplicationController
   MAX_REQUEST_AREA = 0.25
 
   def map
-    response.headers["Content-Type"] = 'application/xml'
+    response.headers["Content-Type"] = 'text/xml'
     # Figure out the bbox
     bbox = params['bbox']
     unless bbox and bbox.count(',') == 3

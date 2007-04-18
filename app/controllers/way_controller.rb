@@ -86,7 +86,7 @@ class WayController < ApplicationController
   end
 
   def ways
-    response.headers["Content-Type"] = 'application/xml'
+    response.headers["Content-Type"] = 'text/xml'
     ids = params['ways'].split(',').collect {|w| w.to_i }
     if ids.length > 0
       waylist = Way.find(ids)

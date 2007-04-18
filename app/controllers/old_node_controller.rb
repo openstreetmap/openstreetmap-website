@@ -1,7 +1,7 @@
 class OldNodeController < ApplicationController
 
   def history
-    response.headers["Content-Type"] = 'application/xml'
+    response.headers["Content-Type"] = 'text/xml'
     node = Node.find(params[:id])
 
     unless node

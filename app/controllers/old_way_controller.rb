@@ -1,6 +1,6 @@
 class OldWayController < ApplicationController
   def history
-    response.headers["Content-Type"] = 'application/xml'
+    response.headers["Content-Type"] = 'text/xml'
     way = Way.find(params[:id])
 
     unless way

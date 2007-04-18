@@ -5,7 +5,7 @@ class SegmentController < ApplicationController
   after_filter :compress_output
 
   def create
-    response.headers["Content-Type"] = 'application/xml'
+    response.headers["Content-Type"] = 'text/xml'
     if request.put?
       segment = Segment.from_xml(request.raw_post, true)
 
@@ -36,7 +36,7 @@ class SegmentController < ApplicationController
   end
 
   def rest
-    response.headers["Content-Type"] = 'application/xml'
+    response.headers["Content-Type"] = 'text/xml'
     unless Segment.exists?(params[:id])
       render :nothing => true, :status => 404
       return
@@ -81,7 +81,7 @@ class SegmentController < ApplicationController
   end
 
   def segments
-    response.headers["Content-Type"] = 'application/xml'
+    response.headers["Content-Type"] = 'text/xml'
     ids = params['segments'].split(',').collect {|s| s.to_i }
     if ids.length > 0
       segmentlist = Segment.find(ids)

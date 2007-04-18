@@ -5,7 +5,7 @@ class NodeController < ApplicationController
   after_filter :compress_output
 
   def create
-    response.headers["Content-Type"] = 'application/xml'
+    response.headers["Content-Type"] = 'text/xml'
     if request.put?
       node = nil
       begin
@@ -35,7 +35,7 @@ class NodeController < ApplicationController
   end
 
   def rest
-    response.headers["Content-Type"] = 'application/xml'
+    response.headers["Content-Type"] = 'text/xml'
     unless Node.exists?(params[:id])
       render :nothing => true, :status => 404
       return
@@ -89,7 +89,7 @@ class NodeController < ApplicationController
   end
 
   def nodes
-    response.headers["Content-Type"] = 'application/xml'
+    response.headers["Content-Type"] = 'text/xml'
     ids = params['nodes'].split(',').collect {|n| n.to_i }
     if ids.length > 0
       nodelist = Node.find(ids)

@@ -1,7 +1,7 @@
 class OldSegmentController < ApplicationController
 
   def history
-    response.headers["Content-Type"] = 'application/xml'
+    response.headers["Content-Type"] = 'text/xml'
     segment = Segment.find(params[:id])
 
     unless segment
