@@ -61,3 +61,18 @@ ActionMailer::Base.server_settings = {
   :port  => 25, 
   :domain  => 'localhost',
 } 
+
+
+# HTTP CODES
+
+# 200's
+
+HTTP_OK = 200
+
+# 400's
+
+HTTP_PRECONDITION_FAILED = 412
+HTTP_EXPECTATION_FAILED = 417
+
+
+
