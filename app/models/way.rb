@@ -78,12 +78,22 @@ class Way < ActiveRecord::Base
 
 
   def segs
-    @segs = Array.new unless @segs
+    unless @segs
+        @segs = Array.new
+        self.way_segments.each do |seg|
+            @segs += [seg.segment_id]
+        end
+    end
     @segs
   end
 
   def tags
-    @tags = Hash.new unless @tags
+    unless @tags
+        @tags = Hash.new
+        self.way_tags.each do |tag|
+            @tags[tag.k] = tag.v
+        end
+    end
     @tags
   end
 
