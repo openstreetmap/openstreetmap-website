@@ -4,15 +4,12 @@ class GeocoderController < ApplicationController
   require 'net/http'
   require 'rexml/document'
 
-  before_filter :authorize_web
-  before_filter :require_user
-
   def search
     res_hash = {}
     @postcode_arr = []
     @res_ary = []
 
-    if params[:query][:postcode] != "" 
+    if params[:query][:postcode] 
       postcode = params[:query][:postcode]
       if postcode.match(/(^\d{5}$)|(^\d{5}-\d{4}$)/)
         #its a zip code - do something
@@ -42,11 +39,11 @@ class GeocoderController < ApplicationController
           end 
         end
       end
-      redirect_to :controller => 'geocoder', :action => 'results'
+      redirect_to :controller => 'geocoder', :action => 'results', :params => @res_ary
     end
   end
 
   def result
-
+    @res = :params[@res_ary]
   end
 end

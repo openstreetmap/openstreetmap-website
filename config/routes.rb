@@ -75,8 +75,9 @@ ActionController::Routing::Routes.draw do |map|
 
   # geocoder
   map.connect 'geocoder/search/', :controller => 'geocoder', :action => 'search'
+  map.connect 'geocoder/results/', :controller => 'geocoder', :action => 'results'
   
   # fall through
-   map.connect ':controller/:id/:action'
+     map.connect ':controller/:id/:action'
   map.connect ':controller/:action'
 end
