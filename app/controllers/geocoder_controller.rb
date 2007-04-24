@@ -10,7 +10,7 @@ class GeocoderController < ApplicationController
     @res_ary = []
 
     if params[:query][:postcode] 
-      postcode = params[:query][:postcode]
+      postcode = params[:query][:postcode].upcase
       escaped_postcode = postcode.sub(/\s/,'%20')
 
       if postcode.match(/(^\d{5}$)|(^\d{5}-\d{4}$)/)
@@ -18,12 +18,16 @@ class GeocoderController < ApplicationController
         # (They have a non commerical use api)
         Net::HTTP.start('rpc.geocoder.us') do |http|
           resp = http.get("/service/csv?zip=#{postcode}")
+          if resp.body.match(/couldn't find this zip/)
+              redirect_to "/index.html?error=invalid_zip_code"
+              return
+          end
           data = resp.body.split(/, /) # lat,long,town,state,zip
           lat = data[0] 
           lon = data[1]
           redirect_to "/index.html?lat=#{lat}&lon=#{lon}&zoom=14"
         end
-      elsif postcode.match(/^(\w{1,2}\d+\w?\s*\d\w\w)/)
+      elsif postcode.match(/^([A-Z]{1,2}\d+[A-Z]?\s*\d[A-Z]{2})/)
         # It matched our naive UK postcode regexp
         # Ask npemap to do a combined npemap + freethepostcode search
         Net::HTTP.start('www.npemap.org.uk') do |http|
@@ -32,6 +36,20 @@ class GeocoderController < ApplicationController
           data = dataline.split(/,/) # easting,northing,postcode,lat,long
           lat = data[3] 
           lon = data[4]
+          redirect_to "/index.html?lat=#{lat}&lon=#{lon}&zoom=14"
+        end
+      elsif postcode.match(/^[A-Z]\d[A-Z]\s*\d[A-Z]\d/)
+        # It's a canadian postcode
+        # Ask geocoder.ca (note - they have a per-day limit)
+        postcode = postcode.sub(/\s/,'')
+        Net::HTTP.start('geocoder.ca') do |http|
+          resp = http.get("?geoit=XML&postal=#{postcode}")
+          $stderr.print resp.body
+          $stderr.print resp.body.slice(/latt>.*?</)
+          data_lat = resp.body.slice(/latt>.*?</)
+          data_lon = resp.body.slice(/longt>.*?</)
+          lat = data_lat.split(/[<>]/)[1]
+          lon = data_lon.split(/[<>]/)[1]
           redirect_to "/index.html?lat=#{lat}&lon=#{lon}&zoom=14"
         end
       else
