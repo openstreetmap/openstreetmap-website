@@ -12,12 +12,19 @@ class GeocoderController < ApplicationController
     if params[:query][:postcode] 
       postcode = params[:query][:postcode]
       escaped_postcode = postcode.sub(/\s/,'%20')
+
       if postcode.match(/(^\d{5}$)|(^\d{5}-\d{4}$)/)
-        #its a zip code - do something
-      else
-        # Assume it's a UK postcode. 
-        # Fairly naive regexp is: \w{1,2}\d+\w?\s?\d\w\w
-       
+        # Its a zip code - ask geocoder.us
+        # (They have a non commerical use api)
+        Net::HTTP.start('rpc.geocoder.us') do |http|
+          resp = http.get("/service/csv?zip=#{postcode}")
+          data = resp.body.split(/, /) # lat,long,town,state,zip
+          lat = data[0] 
+          lon = data[1]
+          redirect_to "/index.html?lat=#{lat}&lon=#{lon}&zoom=14"
+        end
+      elsif postcode.match(/^(\w{1,2}\d+\w?\s*\d\w\w)/)
+        # It matched our naive UK postcode regexp
         # Ask npemap to do a combined npemap + freethepostcode search
         Net::HTTP.start('www.npemap.org.uk') do |http|
           resp = http.get("/cgi/geocoder.fcgi?format=text&postcode=#{escaped_postcode}")
@@ -25,10 +32,11 @@ class GeocoderController < ApplicationController
           data = dataline.split(/,/) # easting,northing,postcode,lat,long
           lat = data[3] 
           lon = data[4]
-          $stderr.print postcode
-          $stderr.print dataline
           redirect_to "/index.html?lat=#{lat}&lon=#{lon}&zoom=14"
         end
+      else
+        # Some other postcode / zip file
+        redirect_to "/index.html?error=unknown_postcode_or_zip"
       end
     else
       if params[:query][:place_name] != nil or "" 
