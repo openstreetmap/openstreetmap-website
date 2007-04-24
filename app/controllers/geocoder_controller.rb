@@ -44,8 +44,6 @@ class GeocoderController < ApplicationController
         postcode = postcode.sub(/\s/,'')
         Net::HTTP.start('geocoder.ca') do |http|
           resp = http.get("?geoit=XML&postal=#{postcode}")
-          $stderr.print resp.body
-          $stderr.print resp.body.slice(/latt>.*?</)
           data_lat = resp.body.slice(/latt>.*?</)
           data_lon = resp.body.slice(/longt>.*?</)
           lat = data_lat.split(/[<>]/)[1]
@@ -53,8 +51,22 @@ class GeocoderController < ApplicationController
           redirect_to "/index.html?lat=#{lat}&lon=#{lon}&zoom=14"
         end
       else
-        # Some other postcode / zip file
-        redirect_to "/index.html?error=unknown_postcode_or_zip"
+        # Some other postcode / zip code
+        # Throw it at geonames, and see if they have any luck with it
+        Net::HTTP.start('ws.geonames.org') do |http|
+          resp = http.get("/postalCodeSearch?postalcode=#{escaped_postcode}&maxRows=1")
+          hits = resp.body.slice(/totalResultsCount>.*?</).split(/[<>]/)[1]
+          if hits == "0"
+             # Geonames doesn't know, it's probably wrong
+             redirect_to "/index.html?error=unknown_postcode_or_zip"
+             return
+          end
+          data_lat = resp.body.slice(/lat>.*?</)
+          data_lon = resp.body.slice(/lng>.*?</)
+          lat = data_lat.split(/[<>]/)[1]
+          lon = data_lon.split(/[<>]/)[1]
+          redirect_to "/index.html?lat=#{lat}&lon=#{lon}&zoom=14"
+        end
       end
     else
       if params[:query][:place_name] != nil or "" 
