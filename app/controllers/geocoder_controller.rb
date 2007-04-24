@@ -11,15 +11,23 @@ class GeocoderController < ApplicationController
 
     if params[:query][:postcode] 
       postcode = params[:query][:postcode]
+      escaped_postcode = postcode.sub(/\s/,'%20')
       if postcode.match(/(^\d{5}$)|(^\d{5}-\d{4}$)/)
         #its a zip code - do something
       else
-        Net::HTTP.start('www.freethepostcode.org') do |http|
-          resp = http.get("/geocode?postcode=#{postcode}")
-          lat = resp.body.scan(/[4-6][0-9]\.?[0-9]+/)
-          lon = resp.body.scan(/[-+][0-9]\.?[0-9]+/)
-          @postcode_array = [lat, lon]
-          redirect_to "/index.html?lat=#{@postcode_array[0]}&lon=#{@postcode_array[1]}&zoom=14"
+        # Assume it's a UK postcode. 
+        # Fairly naive regexp is: \w{1,2}\d+\w?\s?\d\w\w
+       
+        # Ask npemap to do a combined npemap + freethepostcode search
+        Net::HTTP.start('www.npemap.org.uk') do |http|
+          resp = http.get("/cgi/geocoder.fcgi?format=text&postcode=#{escaped_postcode}")
+          dataline = resp.body.split(/\n/)[1]
+          data = dataline.split(/,/) # easting,northing,postcode,lat,long
+          lat = data[3] 
+          lon = data[4]
+          $stderr.print postcode
+          $stderr.print dataline
+          redirect_to "/index.html?lat=#{lat}&lon=#{lon}&zoom=14"
         end
       end
     else
