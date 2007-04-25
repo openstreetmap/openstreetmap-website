@@ -7,7 +7,7 @@ class GeocoderController < ApplicationController
   def search
     @postcode_arr = []
 
-    if params[:query][:postcode] 
+    unless params[:query][:postcode].empty? 
       postcode = params[:query][:postcode].upcase
       escaped_postcode = postcode.sub(/\s/,'%20')
 
@@ -68,7 +68,7 @@ class GeocoderController < ApplicationController
         end
         redirect_to "/index.html?lat=#{lat}&lon=#{lon}&zoom=14"
         #redirect_to "/index.html?error=unknown_postcode_or_zip"
-      else
+      elsif
         # Some other postcode / zip code
         # Throw it at geonames, and see if they have any luck with it
         Net::HTTP.start('ws.geonames.org') do |http|
@@ -85,11 +85,11 @@ class GeocoderController < ApplicationController
           lon = data_lon.split(/[<>]/)[1]
           redirect_to "/index.html?lat=#{lat}&lon=#{lon}&zoom=14"
         end
+      else
+        # Some other postcode / zip file
+        redirect_to "/index.html?error=unknown_postcode_or_zip"
+        return
       end
-    else
-      # Some other postcode / zip file
-      redirect_to "/index.html?error=unknown_postcode_or_zip"
-      return
     end
 
     if params[:query][:place_name]  

@@ -29,6 +29,18 @@ class UserController < ApplicationController
     end
   end
 
+  def set_home
+    if params[:user][:home_lat] and params[:user][:home_lon]
+    lat = params[:user][:home_lat]
+    lon = params[:user][:home_lon]
+    unless 
+      #check the lat and lon
+    end
+    #make an api request to insert a new node
+    #get the onde id
+    end
+    end
+
   def go_public
     @user.data_public = true
     @user.save
