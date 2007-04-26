@@ -39,5 +39,6 @@ create table diary_entries(id bigint not null auto_increment, user_id bigint not
 alter table diary_entries add created_at datetime;
 alter table diary_entries add updated_at datetime;
 
-alter table users add column (home_node_id bigint(64) default NULL);
+alter table users add column (home_lat double default NULL);
+alter table users add column (home_lon double default NULL);
 

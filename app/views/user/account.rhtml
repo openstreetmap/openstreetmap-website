@@ -4,9 +4,15 @@
   <tr><td>email</td><td><%= @user.email %></td></tr>
   <tr><td>display name</td><td><%= @user.display_name %> (<%= link_to 'change...', :controller => 'user', :action => 'edit' %>)</td></tr>
   <tr><td>account created</td><td><%= @user.creation_time %> (<%= time_ago_in_words(@user.creation_time) %> ago)</td></tr>
-  <tr><td>user home</td><td><%= @user.home_node_id %>  (<%= link_to 'change...', :controller => 'user', :action => 'edit' %>) </td></tr>
+  <tr><td>user home</td><td>Latitude: <%=@user.home_lat%> Longitude <%=@user.home_lon%>  (<%= link_to 'change...', :controller => 'user', :action => 'edit' %>) </td></tr>
   <tr><td valign="top">description</td><td><%= simple_format(@user.description) %>  (<%= link_to 'change...', :controller => 'user', :action => 'edit' %>)</td></tr>
 </table>
+
+<h2>Users in your area</h2>
+
+These users are mapping in your area:
+
+
 
 <h2>Privacy</h2>
 <% if @user.data_public? %>

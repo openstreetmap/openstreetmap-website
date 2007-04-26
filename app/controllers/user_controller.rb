@@ -3,8 +3,8 @@ class UserController < ApplicationController
 
   before_filter :authorize, :only => [:preferences, :api_details, :api_gpx_files]
   before_filter :authorize_web, :only => [:edit, :account, :go_public, :view, :diary]
-  before_filter :require_user, :only => [:edit, :account, :go_public]
- 
+  before_filter :require_user, :only => [:edit, :set_home, :account, :go_public]
+
   def save
     @user = User.new(params[:user])
     @user.set_defaults
@@ -20,8 +20,13 @@ class UserController < ApplicationController
 
   def edit
     if params[:user] and params[:user][:display_name] and params[:user][:description]
+      home_lat =  params[:user][:home_lat]
+      home_lon =  params[:user][:home_lon]
+
       @user.display_name = params[:user][:display_name]
       @user.description = params[:user][:description]
+      @user.home_lat = home_lat.to_f
+      @user.home_lon = home_lon.to_f
       if @user.save
         flash[:notice] = "User edited OK."
         redirect_to :controller => 'user', :action => 'account'
@@ -31,15 +36,14 @@ class UserController < ApplicationController
 
   def set_home
     if params[:user][:home_lat] and params[:user][:home_lon]
-    lat = params[:user][:home_lat]
-    lon = params[:user][:home_lon]
-    unless 
-      #check the lat and lon
+      @user.home_lat = params[:user][:home_lat].to_f
+      @user.home_lon = params[:user][:home_lon].to_f
+      if @user.save
+        flash[:notice] = "User home saved."
+        redirect_to :controller => 'user', :action => 'account'
+      end
     end
-    #make an api request to insert a new node
-    #get the onde id
-    end
-    end
+  end
 
   def go_public
     @user.data_public = true

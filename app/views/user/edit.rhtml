@@ -4,11 +4,10 @@
 <table>
   <tr><td>display name</td><td><%= text_field :user, :display_name, :value => @user.display_name %></td></tr>
   <tr><td valign="top">description</td><td><%= text_area :user, :description, :value => @user.description %></td></tr>
+  <tr><td>home latitude</td><td><%= text_field :user, :home_lat, :value => @user.home_lat %></td>
+  <tr><td>home longitude</td><td><%= text_field :user, :home_lon, :value => @user.home_lon %></td>
+ 
 </table>
 <%= submit_tag 'Change' %>
 <%= end_form_tag %>
 
-<%= start_form_tag :controller => 'user', :action => 'set_home' %>
-  <tr><td>home location</td><td><%= text_field :user, :home  %></td></tr>
-<%= submit_tag 'Change Home' %>
-<%= end_form_tag %>

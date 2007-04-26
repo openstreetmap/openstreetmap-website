@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
 
   has_many :traces
   has_many :diary_entries
-
+ 
   validates_confirmation_of :pass_crypt, :message => 'Password must match the confirmation password'
   validates_uniqueness_of :display_name, :allow_nil => true
   validates_uniqueness_of :email
@@ -57,4 +57,10 @@ class User < ActiveRecord::Base
     el1['account_created'] = self.creation_time.xmlschema
     return el1
   end
+  
+  def get_nearby_users
+  end
+
+
+  
 end
