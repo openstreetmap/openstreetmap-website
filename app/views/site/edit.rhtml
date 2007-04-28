@@ -1,14 +1,11 @@
-note that this copy of potlatch is coming off of richards dev account and isn't speaking to your local API as it hasn't been integrated yet.<br>
-FIXME integrate potlatch properly.
-
 <div id="mapcontent">Sorry, you need a Flash player to use Potlatch, the
     OpenStreetMap Flash editor. You can <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">download Flash Player from Adobe.com</a>.
 
     <a href="http://wiki.openstreetmap.org/index.php/Editing">Several other options</a> are also available 
     for editing OpenStreetMap.</div>
-  <script type="text/javascript" src="http://richard.dev.openstreetmap.org/potlatch/swfobject.js"></script>
+  <script type="text/javascript" src="/javascripts/swfobject.js"></script>
   <script type="text/javascript">
-    var fo = new SWFObject("http://richard.dev.openstreetmap.org/potlatch/potlatch.swf", "potlatch", "700", "600", "6", "#FFFFFF");
+    var fo = new SWFObject("/potlatch/potlatch.swf", "potlatch", "700", "600", "6", "#FFFFFF");
     function doSWF(lat,lon,sc) {
       fo.addVariable('lat',lat);
       fo.addVariable('long',lon);
@@ -16,6 +13,10 @@ FIXME integrate potlatch properly.
       fo.addVariable('token','tokenstring');
       fo.write("mapcontent");
     }
-    doSWF(52.2,-2.2,12);
+<% lon =  params['lon'] || '-0.1' %>
+<% lat =  params['lat'] || '51.5' %>
+<% zoom =  params['zoom'] || '12' %>
+
+    doSWF(<%= lat %>,<%= lon %>,12);
 
 </script>
