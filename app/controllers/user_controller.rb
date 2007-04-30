@@ -162,7 +162,16 @@ class UserController < ApplicationController
   def diary
     @this_user = User.find_by_display_name(params[:display_name])
   end
-
+  
+  def contact_others(user_id, message_body)
+    @to = User.find_by_id(user_id)
+    @to.messages.new = body
+    if @to.save
+      flash[:notice] = Message sent
+    end
+    
+    #Send a message to other users - maybe there's a rails messaging plugin
+  end
 
 end
 

@@ -3,6 +3,13 @@ class ApiController < ApplicationController
   before_filter :authorize
   after_filter :compress_output
 
+  helper :user
+  model :user
+
+  def authorize_web
+    @current_user = User.find_by_token(session[:token])
+  end
+  
   # The maximum area you're allowed to request, in square degrees
   MAX_REQUEST_AREA = 0.25
 

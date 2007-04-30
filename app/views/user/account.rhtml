@@ -10,9 +10,30 @@
 
 <h2>Users in your area</h2>
 
-These users are mapping in your area:
+<% if @user.nearby.empty? %>
+There are no users mapping in your area.  Better go out and spread the word about OSM!
+<% else %>
 
+<p>These users are mapping in your area:</p>
+<table>
+<tr>
+<th>Email</th>
+<th>Name</th>
+<th>Contact</th>
+</tr>
+<% @user.nearby(1,1).each do |nearby| %>
 
+<tr>
+<td><%= nearby.email %></td>
+<td><%= nearby.display_name %></td>
+<td>FIXME: send user an email</td>
+</tr>
+<%end%>
+</table>
+
+<%end%>
+<br />
+FIXME: OL Map showing the users on
 
 <h2>Privacy</h2>
 <% if @user.data_public? %>

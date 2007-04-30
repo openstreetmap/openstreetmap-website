@@ -58,7 +58,10 @@ class User < ActiveRecord::Base
     return el1
   end
   
-  def get_nearby_users
+  def nearby(lat_range=1, lon_range=1)
+     
+      nearby = User.find(:all,  :conditions => "#{self.home_lon} > home_lon - #{lon_range} and #{self.home_lon} < home_lon + #{lon_range} and  #{self.home_lon} > home_lon - #{lon_range} and #{self.home_lon} < home_lon + #{lon_range} and data_public = 1") 
+      return nearby
   end
 
 

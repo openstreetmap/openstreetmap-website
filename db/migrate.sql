@@ -41,4 +41,7 @@ alter table diary_entries add updated_at datetime;
 
 alter table users add column (home_lat double default NULL);
 alter table users add column (home_lon double default NULL);
+alter table users add column within_lon double default null;
+alter table users add column within_lat double default null;
 
+create table messages (id bigint not null auto_increment, user_id bigint(20) not null, title varchar(255), body text, sent_on datetime, message_read boolean default 0, primary key(id));
