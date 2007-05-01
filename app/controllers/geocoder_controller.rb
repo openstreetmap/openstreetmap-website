@@ -5,12 +5,34 @@ class GeocoderController < ApplicationController
   require 'rexml/document'
 
   def search
+
+    if params[:postcode]
+      unless params[:postcode].empty?
+        postcode = params[:postcode]
+        check_postcode(postcode)
+        return
+      end
+    end
+    if params[:query][:postcode]
+      unless params[:query][:postcode].empty?
+        postcode =params[:query][:postcode]
+        check_postcode(postcode)
+        return
+      end
+    end
+    if params[:query][:place_name]  
+      @place_name = params[:query][:place_name]
+      redirect_to :controller => 'geocoder', :action => 'results', :params => {:place_name => @place_name}
+    end 
+  end
+
+  def check_postcode(p)
+
     @postcode_arr = []
+    postcode = p.upcase
+    escaped_postcode = postcode.sub(/\s/,'%20')
 
-    unless params[:query][:postcode].empty? 
-      postcode = params[:query][:postcode].upcase
-      escaped_postcode = postcode.sub(/\s/,'%20')
-
+    begin
       if postcode.match(/(^\d{5}$)|(^\d{5}-\d{4}$)/)
         # Its a zip code - ask geocoder.us
         # (They have a non commerical use api)
@@ -90,12 +112,10 @@ class GeocoderController < ApplicationController
         redirect_to "/index.html?error=unknown_postcode_or_zip"
         return
       end
+    rescue
+      #Its likely that an api is down
+      redirect_to "/index.html?error=api_dpwn"
     end
-
-    if params[:query][:place_name]  
-      @place_name = params[:query][:place_name]
-      redirect_to :controller => 'geocoder', :action => 'results', :params => {:place_name => @place_name}
-    end 
   end
 
   def results
