@@ -1,0 +1,29 @@
+<h2>Your Search Results for <%= @place_name.capitalize %></h2>
+
+<table>
+<tr>
+<th>Name</th>
+<th>Country</th>
+<th><Go to the Map </th>
+<th><Get from the API </th>
+</tr>
+
+<% @res_ary.each do |hsh| %>
+
+<tr>
+<td>
+<%=  hsh['name'] %>
+</td>
+<td>
+<%= hsh['countryname'] %>
+</td>
+<td>
+<%= link_to('Map', url="/index.html?lat=#{hsh['lat']}&lon=#{hsh['lon']}&zoom=12") %>  
+</td>
+<td>
+<%= link_to('API', url="/#FIXME") %>  
+</td>
+</tr>
+<% end %>
+
+</table>
