@@ -23,7 +23,7 @@ class GeocoderController < ApplicationController
           data = resp.body.split(/, /) # lat,long,town,state,zip
           lat = data[0] 
           lon = data[1]
-          redirect_to "/index.html?lat=#{lat}&lon=#{lon}&zoom=14"
+          redirect_to "/index.html?mlat=#{lat}&mlon=#{lon}&zoom=14"
           return
         end
       elsif postcode.match(/^([A-Z]{1,2}\d+[A-Z]?\s*\d[A-Z]{2})/)
@@ -35,7 +35,7 @@ class GeocoderController < ApplicationController
           data = dataline.split(/,/) # easting,northing,postcode,lat,long
           lat = data[3] 
           lon = data[4]
-          redirect_to "/index.html?lat=#{lat}&lon=#{lon}&zoom=14"
+          redirect_to "/index.html?mlat=#{lat}&mlon=#{lon}&zoom=14"
           return
         end
       elsif postcode.match(/^[A-Z]\d[A-Z]\s*\d[A-Z]\d/)
@@ -48,7 +48,7 @@ class GeocoderController < ApplicationController
           data_lon = resp.body.slice(/longt>.*?</)
           lat = data_lat.split(/[<>]/)[1]
           lon = data_lon.split(/[<>]/)[1]
-          redirect_to "/index.html?lat=#{lat}&lon=#{lon}&zoom=14"
+          redirect_to "/index.html?mlat=#{lat}&mlon=#{lon}&zoom=14"
           return
         end
       elsif postcode.match(/(GIR 0AA|[A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]|[A-HK-Y][0-9]([0-9]|[ABEHMNPRV-Y]))|[0-9][A-HJKS-UW]) [0-9][ABD-HJLNP-UW-Z]{2})
@@ -59,14 +59,14 @@ class GeocoderController < ApplicationController
             resp = http.get("/geocode?postcode=#{postcode}")
             lat = resp.body.scan(/[4-6][0-9]\.?[0-9]+/)
             lon = resp.body.scan(/[-+][0-9]\.?[0-9]+/)
-            redirect_to "/index.html?lat=#{lat}&lon=#{lon}&zoom=14"
+            redirect_to "/index.html?mlat=#{lat}&mlon=#{lon}&zoom=14"
             return
           end
         rescue
           redirect_to "/index.html"
           #redirect to somewhere else
         end
-        redirect_to "/index.html?lat=#{lat}&lon=#{lon}&zoom=14"
+        redirect_to "/index.html?mlat=#{lat}&mlon=#{lon}&zoom=14"
         #redirect_to "/index.html?error=unknown_postcode_or_zip"
       elsif
         # Some other postcode / zip code
@@ -83,7 +83,7 @@ class GeocoderController < ApplicationController
           data_lon = resp.body.slice(/lng>.*?</)
           lat = data_lat.split(/[<>]/)[1]
           lon = data_lon.split(/[<>]/)[1]
-          redirect_to "/index.html?lat=#{lat}&lon=#{lon}&zoom=14"
+          redirect_to "/index.html?mlat=#{lat}&mlon=#{lon}&zoom=14"
         end
       else
         # Some other postcode / zip file

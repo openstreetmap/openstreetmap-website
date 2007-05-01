@@ -7,20 +7,31 @@
   <%= submit_tag 'Search' %>
   <%= end_form_tag %>
 
-<div id="geocoder-attribution">
-  Geolocation provided by <a href="http://npemap.org.uk/">npemap.org.uk</a>,
-  <a href="http://geocoder.us/">geocoder.us</a>, <a href="http://geocoder.ca/">geocoder.ca</a>
-  and <a href="http://www.geonames.org/">geonames.org</a>
-</div>
-<div id="postcode-helper">
-eg: SW15 6JH, 95472 or H2L4C1
-</div>
-<div id="placename-helper">
-eg:Essen
-</div>
+  <div id="geocoder-attribution">
+    Geolocation provided by <a href="http://npemap.org.uk/">npemap.org.uk</a>,
+    <a href="http://geocoder.us/">geocoder.us</a>, <a href="http://geocoder.ca/">geocoder.ca</a>
+    and <a href="http://www.geonames.org/">geonames.org</a>
+  </div>
+  <div id="postcode-helper">
+    eg: SW15 6JH, 95472 or H2L4C1
+  </div>
+  <div id="placename-helper">
+    eg:Essen
+  </div>
 </div>
 
-<% if @user and params['lon'].nil? and params['lat'].nil? %> 
+<% if params['mlon'] and params['mlat'] %>
+<% marker = true %>
+<% mlon = params['mlon'] %> 
+<% mlat = params['mlat'] %>
+<% lon =  params['mlon'] %>
+<% lat =  params['mlat']  %>
+<% zoom =  params['zoom'] || '12' %>
+<script type="text/javascript">
+  var mlat = <%= lat %>;
+  var mlon = <%= lon %>;
+</script>
+<% elsif @user and params['lon'].nil? and params['lat'].nil? %> 
 <% lon =  @user.home_lon %>
 <% lat =  @user.home_lat %>
 <% zoom = '10' %>
@@ -30,11 +41,15 @@ eg:Essen
 <% zoom =  params['zoom'] || '4' %>
 <% end %>
 
+
+
 <script type="text/javascript">
-  var lon = <%= lon %>;
   var lat = <%= lat %>;
+  var lon = <%= lon %>;
   var zoom = <%= zoom %>;
   var PI = 3.14159265358979323846;
+
+
 
   <% if params['scale'] and params['scale'].length > 0 then %>
   zoom = Math.log(360.0/(( <% print params['scale'].to_f() %> ) * 512.0)) / Math.log(2.0);
@@ -43,13 +58,18 @@ eg:Essen
   lon = lon * 20037508.34 / 180;
   lat = Math.log(Math.tan( (90 + lat) * PI / 360)) / (PI / 180);
   lat = lat * 20037508.34 / 180;
+  <% if marker %>
+  mlon = mlon * 20037508.34 / 180;
+  mlat = Math.log(Math.tan( (90 + mlat) * PI / 360)) / (PI / 180);
+  mlat = mlat * 20037508.34 / 180;
+  <%end%>
 
 </script>
 <script type="text/javascript" src="/javascripts/OpenLayers.js"></script>
 
 <script type="text/javascript">
   <!--
-  var map, layer;
+  var map, layer, markers;
 
 
   function init(){
@@ -64,7 +84,17 @@ eg:Essen
     layer = new OpenLayers.Layer.LikeGoogle( "Osmarender", "http://dev.openstreetmap.org/~ojw/Tiles/tile.php/", {type:'png'} );
     map.addLayer(layer);
 
-    map.addControl(new OpenLayers.Control.LayerSwitcher());
+    //Marker stuff
+
+    <% if marker %>
+    markers = new OpenLayers.Layer.Markers("markers");
+    map.addLayer(markers); 
+
+    marker = new OpenLayers.Marker(new OpenLayers.LonLat(mlon,mlat));
+    markers.addMarker(marker);
+    <%end%>
+
+      map.addControl(new OpenLayers.Control.LayerSwitcher());
     map.setCenter(new OpenLayers.LonLat(lon, lat), zoom);
 
     map.events.register("moveend", map, function() { 
