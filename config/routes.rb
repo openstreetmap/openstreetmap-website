@@ -69,6 +69,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/user/:display_name/edit', :controller => 'user', :action => 'edit'
   map.connect '/user/:display_name/account', :controller => 'user', :action => 'account'
   map.connect '/user/:display_name/set_home', :controller => 'user', :action => 'set_home'
+  map.connect '/diary', :controller => 'diary_entry', :action => 'list'
 
   # test pages
   map.connect '/test/populate/:table/:from/:count', :controller => 'test', :action => 'populate'

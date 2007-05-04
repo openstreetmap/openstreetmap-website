@@ -13,4 +13,8 @@ class DiaryEntryController < ApplicationController
       end
     end
   end
+  
+  def list
+    @entries=DiaryEntry.find(:all, :order => 'created_at DESC', :limit=>20)
+  end
 end
