@@ -1,8 +1,8 @@
 class DiaryEntryController < ApplicationController
   layout 'site'
   
-  before_filter :authorize_web
-  before_filter :require_user
+  before_filter :authorize_web, :only => [:new]
+  before_filter :require_user, :only => [:new]
 
   def new
     if params[:diary_entry]     
