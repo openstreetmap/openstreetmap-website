@@ -1,45 +1,182 @@
 <h2>User details</h2>
+<%= error_messages_for 'user' %>
+<%= start_form_tag :controller => 'user', :action => 'edit', :display_name => @user.display_name %>
 <table>
-  <tr><td>id</td><td><%= @user.id %></td></tr>
-  <tr><td>email</td><td><%= @user.email %></td></tr>
-  <tr><td>display name</td><td><%= @user.display_name %> (<%= link_to 'change...', :controller => 'user', :action => 'edit' %>)</td></tr>
-  <tr><td>account created</td><td><%= @user.creation_time %> (<%= time_ago_in_words(@user.creation_time) %> ago)</td></tr>
-  <tr><td>user home</td><td>Latitude: <%=@user.home_lat%> Longitude <%=@user.home_lon%>  (<%= link_to 'change...', :controller => 'user', :action => 'edit' %>) </td></tr>
-  <tr><td valign="top">description</td><td><%= simple_format(@user.description) %>  (<%= link_to 'change...', :controller => 'user', :action => 'edit' %>)</td></tr>
+  <tr><td>Email</td><td><%= @user.email %></td></tr>
+  <tr><td>Mapper since</td><td><%= @user.creation_time %> (<%= time_ago_in_words(@user.creation_time) %> ago)</td></tr>
+  <tr><td>Display Name</td><td><%= text_field :user, :display_name, :value => @user.display_name %></td></tr>
+  <tr id="homerow" <% unless @user.home_lat and @user.home_lon %> class="nohome" <%end%> ><td>Your home</td><td><em class="message">You have not entered your home location.</em><span class="location">Latitude: <%= text_field :user, :home_lat, :value => @user.home_lat, :size => 20, :id => "home_lat" %> Longitude <%= text_field :user, :home_lon, :value => @user.home_lon, :size => 20, :id => "home_lon" %></span>  </td></tr>
+  <tr><td valign="top">Description</td><td><%= text_area :user, :description, :value => @user.description, :class => "editDescription" %></td></tr>
 </table>
+<%= submit_tag 'Save Changes' %>
+<%= end_form_tag %>
 
-<h2>Users in your area</h2>
+<% nearest_str = "" %>
+<% if @user.home_lat and @user.home_lon %>
+    <h2>Users in your area</h2>
 
-<% if @user.nearby.empty? %>
-There are no users mapping in your area.  Better go out and spread the word about OSM!
+    <% if @user.nearby.empty? %>
+    There are no users who admit to mapping in your area.  Better go out and spread the word about OSM!
+    <% else %>
+
+    <p>These users are mapping in your area:</p>
+    <table>
+    <tr>
+    <th>Email</th>
+    <th>Name</th>
+    <th>Contact</th>
+    </tr>
+    <% @user.nearby(1,1).each do |nearby| %>
+    <% nearest_str = "nearest.push( { 'display_name' : '#{nearby.display_name}', 'home_lat' : #{nearby.home_lat}, 'home_lon' : #{nearby.home_lon} } )" %>
+
+    <tr>
+    <td><%= nearby.email %></td>
+    <td><%= nearby.display_name %></td>
+    <td><%= link_to 'send message', :controller => 'message', :action => 'new', :display_name => nearby.display_name %></td>
+    </tr>
+    <%end%>
+    </table>
+
+    <%end%>
+    <br />
+<% end %>
+<script type="text/javascript">
+    var nearest = [], friends = [];
+    <%= nearest_str %>
+</script>
+
+
+
+<div id="map" style="border: 1px solid black; position: relative; width : 90%; height : 300px;">
+    <h3>Click on the map to (re)set your location</h3>
+</div>
+
+<% if @user.home_lat and @user.home_lon %>
+    <% marker = true %>
+    <% mlon = @user.home_lon %> 
+    <% mlat = @user.home_lat %>
+    <% lon =  @user.home_lon %>
+    <% lat =  @user.home_lat  %>
+    <% zoom =  '14' %>
+<script type="text/javascript">
+  var mlat = <%= mlat %>;
+  var mlon = <%= mlon %>;
+</script>
 <% else %>
+    <% lon =  params['lon'] || '-0.1' %>
+    <% lat =  params['lat'] || '51.5' %>
+    <% zoom =  params['zoom'] || '4' %> 
+<% end %>
 
-<p>These users are mapping in your area:</p>
-<table>
-<tr>
-<th>Email</th>
-<th>Name</th>
-<th>Contact</th>
-</tr>
-<% @user.nearby(1,1).each do |nearby| %>
 
-<tr>
-<td><%= nearby.email %></td>
-<td><%= nearby.display_name %></td>
-<td>FIXME: send user an email</td>
-</tr>
-<%end%>
-</table>
 
-<%end%>
-<br />
-FIXME: OL Map showing the users on
+<script type="text/javascript">
+  var lat = <%= lat %>;
+  var lon = <%= lon %>;
+  var zoom = <%= zoom %>;
+  var PI = 3.14159265358979323846;
+
+
+
+  <% if params['scale'] and params['scale'].length > 0 then %>
+  zoom = Math.log(360.0/(( <% print params['scale'].to_f() %> ) * 512.0)) / Math.log(2.0);
+  <% end %>
+  zoom = zoom;
+  lon = lon * 20037508.34 / 180;
+  lat = Math.log(Math.tan( (90 + lat) * PI / 360)) / (PI / 180);
+  lat = lat * 20037508.34 / 180;
+  <% if marker %>
+  mlon = mlon * 20037508.34 / 180;
+  mlat = Math.log(Math.tan( (90 + mlat) * PI / 360)) / (PI / 180);
+  mlat = mlat * 20037508.34 / 180;
+  <%end%>
+
+</script>
+<script type="text/javascript" src="/javascripts/OpenLayers.js"></script>
+
+<script type="text/javascript">
+  <!--
+  var map, layer, markers, marker;
+
+
+  function mercator2lonlat( merc ) {
+    var lon_deg = (merc.lon / 20037508.34) * 180;
+    var lat_deg = (merc.lat / 20037508.34) * 180;
+    var PI = 3.14159265358979323846;
+    lat_deg = 180/PI * (2 * Math.atan(Math.exp(lat_deg * PI / 180)) - PI / 2);
+    return new OpenLayers.LonLat(lon_deg,lat_deg);
+  }
+
+  function lonlat2mercator( ll ) {
+      var lon = ll.lon * 20037508.34 / 180;
+      var lat = Math.log(Math.tan( (90 + ll.lat) * PI / 360)) / (PI / 180);
+      lat = lat * 20037508.34 / 180;
+      return new OpenLayers.LonLat(lon,lat);
+  }
+
+  function init(){
+
+    OpenLayers.Util.onImageLoadError = function() {
+      this.src = "http://www.openstreetmap.org/javascript/img/404.png";
+    }
+    map = new OpenLayers.Map( "map", 
+        {maxExtent: new OpenLayers.Bounds(-20037508.34,-20037508.34,20037508.34,20037508.34), maxZoomLevel:18, maxResolution:156543, units:'meters', projection: "EPSG:41001"} );
+    layer = new OpenLayers.Layer.LikeGoogle( "Mapnik", "http://tile.openstreetmap.org/", {type:'png'} );
+    map.addLayer(layer);
+    layer = new OpenLayers.Layer.LikeGoogle( "Osmarender", "http://dev.openstreetmap.org/~ojw/Tiles/tile.php/", {type:'png'} );
+    map.addLayer(layer);
+
+    //Marker stuff
+
+    markers = new OpenLayers.Layer.Markers("markers");
+    map.addLayer(markers); 
+
+    <% if marker %>
+    marker = new OpenLayers.Marker(new OpenLayers.LonLat(mlon,mlat));
+    markers.addMarker(marker);
+    <%end%>
+
+    var near_icon = OpenLayers.Marker.defaultIcon();
+    near_icon.url = OpenLayers.Util.getImagesLocation() + "marker-green.png";;
+    var i = nearest.length;
+    while( i-- ) {
+        markers.addMarker( new OpenLayers.Marker( lonlat2mercator( new OpenLayers.LonLat( nearest[i].home_lon, nearest[i].home_lat ) ), near_icon ) );
+    }
+
+      map.addControl(new OpenLayers.Control.LayerSwitcher());
+    map.setCenter(new OpenLayers.LonLat(lon, lat), zoom);
+
+    map.events.register("click", map, setHome);
+  }        
+
+    function setHome( e ) { 
+        var lonlat = map.getLonLatFromViewPortPx(e.xy)
+
+        var lon_deg = (lonlat.lon / 20037508.34) * 180;
+        var lat_deg = (lonlat.lat / 20037508.34) * 180;
+        var PI = 3.14159265358979323846;
+        lat_deg = 180/PI * (2 * Math.atan(Math.exp(lat_deg * PI / 180)) - PI / 2);
+        var homerow = document.getElementById( 'homerow' );
+        var home_lat = document.getElementById( 'home_lat' );
+        var home_lon = document.getElementById( 'home_lon' );
+        homerow.className = '';
+        home_lat.value = lat_deg;
+        home_lon.value = lon_deg;
+        if( marker ) {
+            markers.removeMarker(marker);
+        }
+        marker = new OpenLayers.Marker(lonlat);
+        markers.addMarker(marker);
+    }
+window.onload = init;
+// -->
+</script>
 
 <h2>Privacy</h2>
 <% if @user.data_public? %>
   All your edits are public.
 <% else %>
-  Currently your edits are ananymous and people can't find out where you are located. To show what you edited and allow people to contact you through the website, click the button below. This action cannot be reversed.
+  Currently your edits are anonymous and people can't find out where you are located. To show what you edited and allow people to contact you through the website, click the button below. This action cannot be reversed.
   <br /><br />
   <%= start_form_tag :controller => 'user', :action => 'go_public'%>
   <%= submit_tag 'Make all my edits public, forever' %>
