@@ -49,7 +49,7 @@ class UserController < ApplicationController
     @user.data_public = true
     @user.save
     flash[:notice] = 'All your edits are now public'
-    redirect_to :controller => 'user', :action => 'account'
+    redirect_to :controller => 'user', :action => 'account', :display_name => @user.display_name
   end
 
   def lost_password
