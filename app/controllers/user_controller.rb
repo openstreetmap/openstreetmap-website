@@ -53,7 +53,7 @@ class UserController < ApplicationController
   end
 
   def lost_password
-    if params['user']['email']
+    if params[:user][:email]
       user = User.find_by_email(params['user']['email'])
       if user
         user.token = User.make_token
@@ -162,15 +162,10 @@ class UserController < ApplicationController
   def diary
     @this_user = User.find_by_display_name(params[:display_name])
   end
-  
-  def contact_others(user_id, message_body)
-    @to = User.find_by_id(user_id)
-    @to.messages.new = body
-    if @to.save
-      flash[:notice] = Message sent
+
+  def make_friend
+    if params[:display_name]      
     end
-    
-    #Send a message to other users - maybe there's a rails messaging plugin
   end
 
 end

@@ -1,8 +1,28 @@
 <h2><%= @this_user.display_name %></h2>
 <% if @user and @this_user.id == @user.id %>
+<% if @user.has_messages? %>
+<p>You have <%=@user.get_new_messages.length %> new messages and <%=@user.get_all_messages.length -  @user.get_new_messages.length %> old messages.</p> 
+<table class="messages">
+<th>from<th>
+<th>title<th>
+<th>received on<th>
+<th><th>
+
+<% @user.get_new_messages.each do |message| %>
+<tr><td><%= link_to User.find(message.from_user_id).display_name , :controller => 'user', :action => User.find(message.from_user_id).display_name %></td>
+<td><%= link_to  message.title , :controller => 'message', :action => 'read', :message_id => message.id  %></td>
+<td><%= message.sent_on %></td>
+<td><%= link_to 'reply', :controller => 'message', :action => 'new', :display_name => User.find(message.from_user_id).display_name %></td>
+
+</tr>
+<%end%>
+</table>
+<%end%>
+<br />
+
   <%= link_to 'go to your account page', :controller => 'user', :action => 'account', :display_name => @user.display_name %><br /><br />
 <% else %>
-  <%= link_to 'send message', :controller => 'user', :action => 'message', :display_name => @this_user.display_name %><br /><br /> |
+  <%= link_to 'send message', :controller => 'message', :action => 'new', :display_name => @this_user.display_name %><br /><br /> 
   <%= link_to 'Add as friend', :controller => 'user', :action => 'make_friend', :display_name => @this_user.display_name %><br /><br />
 <% end %>
 
