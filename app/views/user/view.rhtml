@@ -50,18 +50,18 @@
 <%end%>
 
 <br />
+<%= link_to 'show all messages', :controller => 'user', :action => 'view', :display_name => @user.display_name, :unread => true %>
 <br />
-<%= link_to 'show unread messages', :controller => 'user', :action => 'view', :display_name => @user.display_name, :unread => true %>
 <br />
-<br />
+Go to <%= link_to 'your account page', :controller => 'user', :action => 'account', :display_name => @user.display_name %> to see who's mapping in your area.
 
-<%= link_to 'go to your account page', :controller => 'user', :action => 'account', :display_name => @user.display_name %><br /><br />
 
 <% else %>
-<%= link_to 'send message', :controller => 'message', :action => 'new', :display_name => @this_user.display_name %><br /><br /> 
+<%= link_to 'send message', :controller => 'message', :action => 'new', :user_id => @this_user.id %><br /><br /> 
 <%= link_to 'Add as friend', :controller => 'user', :action => 'make_friend', :display_name => @this_user.display_name %><br /><br />
 <% end %>
-
+<br />
+<br />
 <%= link_to 'diary', :controller => 'user', :action => 'diary', :display_name => @this_user.display_name %><br /><br />
 
 
