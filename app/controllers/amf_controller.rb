@@ -6,6 +6,10 @@ class AmfController < ApplicationController
   # - user authentication
   # - (also pass lat/lon through from view tab to edit tab)
 
+# to log:
+# RAILS_DEFAULT_LOGGER.error("Args: #{args[0]}, #{args[1]}, #{args[2]}, #{args[3]}")
+
+
   # ====================================================================
   # Main AMF handler
   
@@ -89,11 +93,56 @@ class AmfController < ApplicationController
 	end
 
 	def whichways(args)
-		# to do
+		waylist=WaySegment.find_by_sql("SELECT DISTINCT current_way_segments.id AS wayid"+
+			 "  FROM current_way_segments,current_segments,current_nodes "+
+			 " WHERE segment_id=current_segments.id "+
+			 "   AND node_a=current_nodes.id "+
+			 "   AND (latitude  BETWEEN "+(args[1].to_f-0.01).to_s+" AND "+(args[3].to_f+0.01).to_s+") "+
+			 "   AND (longitude BETWEEN "+(args[0].to_f-0.01).to_s+" AND "+(args[2].to_f+0.01).to_s+")")
+		ways=[]
+		waylist.each {|a|
+			ways<<a.wayid.to_i
+RAILS_DEFAULT_LOGGER.error("Found #{a.wayid.to_i}")
+		}
+		ways
 	end
 	
 	def getway(args)
-		# to do
+		objname,wayid,$baselong,$basey,$masterscale=args
+		wayid=wayid.to_i
+		points=[]
+		lastid=-1
+		xmin=999999; xmax=-999999
+		ymin=999999; ymax=-999999
+
+RAILS_DEFAULT_LOGGER.error("Looking for way #{wayid}")
+		nodelist=ActiveRecord::Base.connection.select_all "SELECT n1.latitude AS lat1,n1.longitude AS long1,n1.id AS id1,n1.tags as tags1, "+
+			"		  n2.latitude AS lat2,n2.longitude AS long2,n2.id AS id2,n2.tags as tags2,segment_id "+
+			"    FROM current_way_segments,current_segments,current_nodes AS n1,current_nodes AS n2 "+
+			"   WHERE current_way_segments.id=#{wayid} "+
+			"     AND segment_id=current_segments.id "+
+			"     AND n1.id=node_a and n2.id=node_b "+
+			"   ORDER BY sequence_id"
+		nodelist.each {|row|
+			xs1=long2coord(row['long1'].to_f); ys1=lat2coord(row['lat1'].to_f)
+			xs2=long2coord(row['long2'].to_f); ys2=lat2coord(row['lat2'].to_f)
+			if (row['id1'].to_i!=lastid)
+				points<<[xs1,ys1,row['id1'].to_i,0,tag2array(row['tags1']),0]
+			end
+			lastid=row['id2'].to_i
+			points<<[xs2,ys2,row['id2'].to_i,1,tag2array(row['tags2']),row['segment_id'].to_i]
+			xmin=[xmin,row['long1'].to_f,row['long2'].to_f].min
+			xmax=[xmax,row['long1'].to_f,row['long2'].to_f].max
+			ymin=[ymin,row['lat1'].to_f,row['lat2'].to_f].min
+			ymax=[ymax,row['lat1'].to_f,row['lat2'].to_f].max
+		}
+			
+		attributes={}
+		attrlist=ActiveRecord::Base.connection.select_all "SELECT k,v FROM current_way_tags WHERE id=#{wayid}"
+		attrlist.each {|a| attributes[a['k']]=a['v'] }
+
+RAILS_DEFAULT_LOGGER.error("Way #{wayid} #{xmin},#{xmax},#{ymin},#{ymax}")
+		[objname,points,attributes,xmin,xmax,ymin,ymax]
 	end
 	
 	def putway(args)
@@ -108,6 +157,17 @@ class AmfController < ApplicationController
 	#	database support functions (readwayquery, createuniquesegments)
 	#	tag2array, array2tag
 	#	getuserid
+
+	def tag2array(a)
+		tags={}
+		a.gsub('\;','#%').split(';').each do |b|
+			b.gsub!('#%',';')
+			k,v=b.split('=')
+			tags[k]=v
+		end
+		tags
+	end
+	
 
 	# ====================================================================
 	# AMF read subroutines
@@ -206,6 +266,8 @@ class AmfController < ApplicationController
 				0.chr+encodedouble(n)
 			when 'NilClass'
 				5.chr
+			else
+				RAILS_DEFAULT_LOGGER.error("Unexpected Ruby type for AMF conversion: "+n.class.to_s)
 		end
 	end
 	
