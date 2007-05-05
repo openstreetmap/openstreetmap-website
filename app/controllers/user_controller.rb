@@ -2,8 +2,8 @@ class UserController < ApplicationController
   layout 'site'
 
   before_filter :authorize, :only => [:preferences, :api_details, :api_gpx_files]
-  before_filter :authorize_web, :only => [:edit, :account, :go_public, :view, :diary]
-  before_filter :require_user, :only => [:edit, :set_home, :account, :go_public]
+  before_filter :authorize_web, :only => [:edit, :account, :go_public, :view, :diary, :make_friend]
+  before_filter :require_user, :only => [:edit, :set_home, :account, :go_public, :make_friend]
 
   def save
     @user = User.new(params[:user])
@@ -164,7 +164,22 @@ class UserController < ApplicationController
   end
 
   def make_friend
-    if params[:display_name]      
+
+    if params[:display_name]     
+      name = params[:display_name]
+      friend = Friend.new
+      friend.user_id = @user.id
+      friend.friend_user_id = User.find_by_display_name(name).id 
+      unless @user.is_friends_with?(friend)
+        if friend.save
+          flash[:notice] = "#{name} is now your friend"
+        else
+          friend.add_error("adding a friend failed")
+        end
+      else
+        flash[:notice] = "Your are already friends"  
+      end
+        redirect_to :controller => 'user', :action => 'view'
     end
   end
 

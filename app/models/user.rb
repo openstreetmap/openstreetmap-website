@@ -5,7 +5,8 @@ class User < ActiveRecord::Base
   has_many :traces
   has_many :diary_entries
   has_many :messages, :foreign_key => :to_user_id
- 
+  has_many :friends
+
   validates_confirmation_of :pass_crypt, :message => 'Password must match the confirmation password'
   validates_uniqueness_of :display_name, :allow_nil => true
   validates_uniqueness_of :email
@@ -18,7 +19,7 @@ class User < ActiveRecord::Base
     self.timeout = Time.now
     self.token = User.make_token()
   end
-  
+
   def pass_crypt=(str) 
     write_attribute("pass_crypt", Digest::MD5.hexdigest(str)) 
   end
@@ -26,7 +27,7 @@ class User < ActiveRecord::Base
   def pass_crypt_confirmation=(str) 
     write_attribute("pass_crypt_confirm", Digest::MD5.hexdigest(str)) 
   end
-  
+
   def self.authenticate(email, passwd) 
     find(:first, :conditions => [ "email = ? AND pass_crypt = ?", email, Digest::MD5.hexdigest(passwd)])
   end 
@@ -34,7 +35,7 @@ class User < ActiveRecord::Base
   def self.authenticate_token(token) 
     find(:first, :conditions => [ "token = ? ", token])
   end 
-  
+
   def self.make_token(length=30)
     chars = 'abcdefghijklmnopqrtuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
     confirmstring = ''
@@ -58,9 +59,8 @@ class User < ActiveRecord::Base
     el1['account_created'] = self.creation_time.xmlschema
     return el1
   end
-  
+
   def nearby(lat_range=1, lon_range=1)
-     
       if self.home_lon and self.home_lat 
           nearby = User.find(:all,  :conditions => "#{self.home_lon} > home_lon - #{lon_range} and #{self.home_lon} < home_lon + #{lon_range} and  #{self.home_lon} > home_lon - #{lon_range} and #{self.home_lon} < home_lon + #{lon_range} and data_public = 1") 
       else
@@ -81,11 +81,21 @@ class User < ActiveRecord::Base
     messages = Message.find(:all, :conditions => "message_read = 0")
     return messages
   end
-  
+
   def get_all_messages
     messages = Message.find(:all, :conditions => "message_read = 0")
     return messages
   end
 
-  
+  def is_friends_with?(new_friend)
+    res = false
+    @new_friend = new_friend
+    self.friends.each do |friend|
+      if friend.user_id == @new_friend.user_id
+        return true
+      end
+    end
+    return false
+  end
+
 end

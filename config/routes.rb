@@ -63,6 +63,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/traces/tag/:tag/page/:page', :controller => 'trace', :action => 'list', :id => nil
 
   # user pages
+  map.connect '/user/:display_name/make_friend', :controller => 'user', :action => 'make_friend'
   map.connect '/user/:display_name', :controller => 'user', :action => 'view'
   map.connect '/user/:display_name/diary', :controller => 'user', :action => 'diary'
   map.connect '/user/:display_name/diary/newpost', :controller => 'diary_entry', :action => 'new'
