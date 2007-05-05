@@ -6,12 +6,14 @@ class MessageController < ApplicationController
 
   def new
     if params[:message]
+      to_user = User.find_by_display_name(params[:display_name])
       body = params[:message][:body]
       title = params[:message][:title]
       message = Message.new
       message.body = body
       message.title = title
-      message.to_user_id = User.find_by_display_name(params[:display_name]).id
+      message.to_user_id = to_user.id
+      message.from_display_name = to_user.display_name
       message.from_user_id = @user.id
       message.sent_on = Time.now
       if message.save
@@ -19,7 +21,26 @@ class MessageController < ApplicationController
       else
         @message.errors.add("Sending message failed")
       end
-      
-   end
+
+    end
+  end
+
+  def read
+    if params[:message_id]
+      id = params[:message_id]
+      @message = Message.find_by_id(id)
+    end
+  end
+
+  def mark
+    if params[:message_id]
+      id = params[:message_id]
+      message = Message.find_by_id(id)
+      message.message_read = 1
+      if message.save
+        flash[:notice] = 'Message Marked as read'
+        redirect_to :controller => 'user', :action => 'view', :display_name => @user.display_name
+      end
+    end
   end
 end

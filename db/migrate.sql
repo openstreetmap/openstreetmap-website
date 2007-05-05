@@ -45,7 +45,8 @@ alter table users add column home_zoom int(2) default 3);
 alter table users add column within_lon double default 2;
 alter table users add column within_lat double default 2;
 
-create table messages (id bigint not null auto_increment, user_id bigint(20) not null,  from_user_id bigint(20) not null, title varchar(255), body text, sent_on datetime, message_read boolean default 0, primary key(id));
+create table messages (id bigint not null auto_increment, user_id bigint(20) not null,  from_user_id bigint(20) not null, from_display_name varchar(255) default "", title varchar(255), body text, sent_on datetime, message_read boolean default 0, primary key(id));
+create index from_name_idx on messages(from_display_name);
 
 create table friends (id bigint not null auto_increment, user_id bigint(20) not null, friend_user_id(20) not null, primary key(id));
 create index user_id_idx on friends(friend_user_id);

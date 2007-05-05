@@ -83,7 +83,9 @@ ActionController::Routing::Routes.draw do |map|
 
   # messages
 
-  map.connect '/message/new/:display_name', :controller => 'message', :action => 'new'
+  map.connect '/message/new/:user_id', :controller => 'message', :action => 'new'
+  map.connect '/message/read/:message_id', :controller => 'message', :action => 'read'
+  map.connect '/message/mark/:message_id', :controller => 'message', :action => 'mark'
   
   # fall through
      map.connect ':controller/:id/:action'

@@ -78,12 +78,12 @@ class User < ActiveRecord::Base
   end
 
   def get_new_messages
-    messages = Message.find(:all, :conditions => "message_read = 0")
+    messages = Message.find(:all, :conditions => "message_read = 0 and to_user_id = #{self.id}")
     return messages
   end
 
   def get_all_messages
-    messages = Message.find(:all, :conditions => "message_read = 0")
+    messages = Message.find(:all, :conditions => "to_user_id = #{self.id}")
     return messages
   end
 
