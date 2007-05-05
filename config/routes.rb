@@ -31,6 +31,10 @@ ActionController::Routing::Routes.draw do |map|
   map.connect "api/#{API_VERSION}/gpx/:id/details", :controller => 'trace', :action => 'api_details'
   map.connect "api/#{API_VERSION}/gpx/:id/data", :controller => 'trace', :action => 'api_data'
   
+  # Potlatch API
+  
+  map.connect "api/#{API_VERSION}/amf", :controller =>'amf', :action =>'talk'
+  
   # web site
 
   map.connect '/', :controller => 'site', :action => 'index'
