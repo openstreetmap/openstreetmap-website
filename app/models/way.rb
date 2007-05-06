@@ -50,21 +50,43 @@ class Way < ActiveRecord::Base
     return doc
   end
 
-  def to_xml_node
+  def to_xml_node(visible_segments = nil, user_display_name_cache = nil)
     el1 = XML::Node.new 'way'
     el1['id'] = self.id.to_s
     el1['visible'] = self.visible.to_s
     el1['timestamp'] = self.timestamp.xmlschema
-    el1['user'] = self.user.display_name if self.user.data_public?
+
+    if user_display_name_cache and user_display_name_cache[self.user_id]
+      # use the cache if available
+    else
+      user_display_name_cache[self.user_id] = self.user.display_name
+    end
+    
+    #el1['user'] = self.user.display_name if self.user.data_public?
+    el1['user'] = user_display_name_cache[self.user_id]
+
     # make sure segments are output in sequence_id order
     ordered_segments = []
-    self.way_segments.each do |seg| 
-      ordered_segments[seg.sequence_id] = seg.segment_id.to_s
+    self.way_segments.each do |seg|
+      if visible_segments
+        # if there is a list of visible segments then use that to weed out deleted segments
+        if visible_segments[seg.segment_id]
+          ordered_segments[seg.sequence_id] = seg.segment_id.to_s
+        end
+      else
+        # otherwise, manually go to the db to check things
+        if seg.segment.visible? and seg.segment.from_node.visible? and seg.segment.to_node.visible?
+          ordered_segments[seg.sequence_id] = seg.segment_id.to_s
+        end
+      end
     end
+
     ordered_segments.each do |seg_id|
-      e = XML::Node.new 'seg'
-      e['id'] = seg_id
-      el1 << e
+      if seg_id
+        e = XML::Node.new 'seg'
+        e['id'] = seg_id
+        el1 << e
+      end
     end
  
     self.way_tags.each do |tag|
@@ -75,7 +97,6 @@ class Way < ActiveRecord::Base
     end
     return el1
   end 
-
 
   def segs
     unless @segs

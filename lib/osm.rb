@@ -125,6 +125,7 @@ module OSM
     end
 
     def get_picture(min_lat, min_lon, max_lat, max_lon, num_points)
+      #puts "getting picfor bbox #{min_lat},#{min_lon} - #{max_lat},#{max_lon}"
       frames = 10
       width = 250
       height = 250
@@ -157,13 +158,14 @@ module OSM
           images[n].stroke_width(1)
           images[n].stroke('#BBBBBB')
           images[n].fill('#BBBBBB')
+        #  puts "A #{px},#{py} - #{oldpx},#{oldpy}"
           images[n].line(px, py, oldpx, oldpy ) unless first
         end
         images[mm].stroke_width(3)
         images[mm].stroke('#000000')
         images[mm].fill('#000000')
         images[mm].line(px, py, oldpx, oldpy ) unless first
-
+      #  puts "B #{px},#{py} - #{oldpx},#{oldpy}"
         m +=1
         if m > num_points.to_f / frames.to_f * (mm+1)
           mm += 1
@@ -193,6 +195,7 @@ module OSM
     end
 
     def get_icon(min_lat, min_lon, max_lat, max_lon)
+      puts "getting icon for bbox #{min_lat},#{min_lon} - #{max_lat},#{max_lon}"
       width = 50
       height = 50
       rat= Math.cos( ((max_lat + min_lat)/2.0) /  180.0 * 3.141592)
@@ -216,6 +219,7 @@ module OSM
         px = proj.x(p['longitude'])
         py = proj.y(p['latitude'])
         gc.line(px, py, oldpx, oldpy ) unless first
+       # puts "C #{px},#{py} - #{oldpx},#{oldpy}"
         first = false
         oldpy = py
         oldpx = px

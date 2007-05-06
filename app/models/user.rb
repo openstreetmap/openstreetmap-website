@@ -28,8 +28,8 @@ class User < ActiveRecord::Base
     write_attribute("pass_crypt_confirm", Digest::MD5.hexdigest(str)) 
   end
 
-  def self.authenticate(email, passwd) 
-    find(:first, :conditions => [ "email = ? AND pass_crypt = ?", email, Digest::MD5.hexdigest(passwd)])
+  def self.authenticate(email, passwd)
+    find(:first, :conditions => [ "email = ? AND pass_crypt = ? AND active = true", email, Digest::MD5.hexdigest(passwd)])
   end 
 
   def self.authenticate_token(token) 

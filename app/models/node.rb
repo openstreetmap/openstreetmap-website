@@ -78,12 +78,22 @@ class Node < ActiveRecord::Base
     return doc
   end
 
-  def to_xml_node
+  def to_xml_node(user_display_name_cache = nil)
     el1 = XML::Node.new 'node'
     el1['id'] = self.id.to_s
     el1['lat'] = self.latitude.to_s
     el1['lon'] = self.longitude.to_s
-    el1['user'] = self.user.display_name if self.user.data_public?
+
+    # el['user'] = self.user.display_name if self.user.data_public?
+
+    if user_display_name_cache and user_display_name_cache[self.user_id]
+      # use the cache if available
+    else
+      user_display_name_cache[self.user_id] = self.user.display_name
+    end
+
+    el1['user'] = user_display_name_cache[self.user_id]
+
     Node.split_tags(el1, self.tags)
     el1['visible'] = self.visible.to_s
     el1['timestamp'] = self.timestamp.xmlschema
