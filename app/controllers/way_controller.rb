@@ -3,7 +3,7 @@ class WayController < ApplicationController
 
   before_filter :authorize
   after_filter :compress_output
-
+  
   def create
     if request.put?
       way = Way.from_xml(request.raw_post, true)
@@ -41,28 +41,28 @@ class WayController < ApplicationController
     way = Way.find(params[:id])
 
     unless way.visible
-        render :nothing => true, :status => 410
-        return
+      render :nothing => true, :status => 410
+      return
     end
 
-	# In future, we might want to do all the data fetch in one step
-	seg_ids = way.segs + [-1]
-	segments = Segment.find_by_sql "select * from current_segments where visible = 1 and id IN (#{seg_ids.join(',')})"
+    # In future, we might want to do all the data fetch in one step
+    seg_ids = way.segs + [-1]
+    segments = Segment.find_by_sql "select * from current_segments where visible = 1 and id IN (#{seg_ids.join(',')})"
 
-	node_ids = segments.collect {|segment| segment.node_a }
-	node_ids += segments.collect {|segment| segment.node_b }
-	node_ids += [-1]
-	nodes = Node.find(:all, :conditions => "visible = 1 AND id IN (#{node_ids.join(',')})")
-	
-	# Render
-	doc = OSM::API.new.get_xml_doc
-	nodes.each do |node|
-		doc.root << node.to_xml_node()
-	end
-	segments.each do |segment|
-		doc.root << segment.to_xml_node()
-	end
-	doc.root << way.to_xml_node()
+    node_ids = segments.collect {|segment| segment.node_a }
+    node_ids += segments.collect {|segment| segment.node_b }
+    node_ids += [-1]
+    nodes = Node.find(:all, :conditions => "visible = 1 AND id IN (#{node_ids.join(',')})")
+
+    # Render
+    doc = OSM::API.new.get_xml_doc
+    nodes.each do |node|
+      doc.root << node.to_xml_node()
+    end
+    segments.each do |segment|
+      doc.root << segment.to_xml_node()
+    end
+    doc.root << way.to_xml_node()
 
     render :text => doc.to_s
   end
