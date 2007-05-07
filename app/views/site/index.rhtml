@@ -70,7 +70,7 @@
 <script type="text/javascript">
   <!--
   var map, layer, markers;
-
+  var ie6 = ! ( window.addEventListener || window.XMLHttpRequest );
 
   function init(){
 
@@ -107,8 +107,76 @@
         var zoom = map.getZoom();
         updatelinks(lon_deg,lat_deg,zoom);
         });
+    document.getElementById( 'map_OpenLayers_ViewPort' ).style.position = 'absolute';
+    if( ie6 ) {
+      handleResize();
+    }
   }        
 
-init();
+  function getStyle( el, property ) {
+    var style;
+    if( el.currentStyle ) {
+        style = el.currentStyle[property];
+    } else if( window.getComputedStyle ) {
+        style = document.defaultView.getComputedStyle(el,null).getPropertyValue(property);
+    } else {
+        style = el.style[property];
+    }
+    return style;
+  }
+  
+  function handleResize() {
+    var el = document.getElementById( 'map' );
+    var left = getStyle( el, 'left' );
+    var top = getStyle( el, 'top' );
+    var bottom = el.old_bottom;
+    if( ! bottom ) {
+      bottom = getStyle( el, 'bottom' );
+    }
+    var right = el.old_right;
+    if( ! right ) {
+        right = getStyle( el, 'right' );
+    }
+    var width = el.old_width;
+    if( ! width ) {
+        width = getStyle( el, 'width' );
+    }
+    var height = el.old_height;
+    if( ! height ) {
+        height = getStyle( el, 'height' );
+    }
+    var pwidth, pheight;
+    if( el.offsetParent.nodeName == 'BODY' || el.offsetParent.nodeName == 'HTML' ) {
+      if( typeof( window.innerWidth ) == 'number' ) {
+          pwidth = window.innerWidth;
+          height = window.innerHeight;
+      } else if( document.documentElement &&
+          ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+          pwidth = document.documentElement.clientWidth;
+          pheight = document.documentElement.clientHeight;
+      } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+          pwidth = document.body.clientWidth;
+          pheight = document.body.clientHeight;
+      }
+    } else {
+      pwidth = el.offsetParent.offsetWidth;
+      pheight = el.offsetParent.offsetHeight;
+    }
+    if( left != 'auto' && right != 'auto' && width == 'auto' ) {
+      el.old_width = width;
+      var new_width = (pwidth - el.offsetLeft - parseInt( right ) );
+      el.style.width = new_width + 'px';
+    }
+    if( top != 'auto' && bottom != 'auto' && height == 'auto' ) {
+      el.old_height = height;
+      var new_height = (pheight - el.offsetHeight - parseInt( bottom ) );
+      el.style.height = new_height + 'px';
+    }
+  }
+
+if( ie6 ) {
+  window.onresize = handleResize;
+}
+window.onload = init;
 // -->
 </script>
