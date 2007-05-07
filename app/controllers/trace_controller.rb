@@ -115,7 +115,8 @@ class TraceController < ApplicationController
       redirect_to :action => 'mine'
     else
       # fixme throw an error here
-      # render :action => 'mine'
+       redirect_to :action => 'mine'
+       flash[:notice] = "You haven't entered a tag or a description for yoru traces."
     end
   end
 
