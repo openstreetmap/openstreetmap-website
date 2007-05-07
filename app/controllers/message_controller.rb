@@ -6,16 +6,17 @@ class MessageController < ApplicationController
 
   def new
     if params[:message]
-      to_user = User.find_by_display_name(params[:display_name])
+      to_user = User.find(params[:user_id])
       body = params[:message][:body]
       title = params[:message][:title]
       message = Message.new
       message.body = body
       message.title = title
-      message.to_user_id = to_user.id
+      message.to_user_id = params[:user_id]
       message.from_display_name = to_user.display_name
       message.from_user_id = @user.id
       message.sent_on = Time.now
+   
       if message.save
         flash[:notice] = 'Message sent'
       else
