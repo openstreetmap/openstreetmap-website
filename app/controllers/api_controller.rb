@@ -9,16 +9,17 @@ class ApiController < ApplicationController
   def authorize_web
     @current_user = User.find_by_token(session[:token])
   end
-  
+
   # The maximum area you're allowed to request, in square degrees
   MAX_REQUEST_AREA = 0.25
 
   def map
+    GC.start
     response.headers["Content-Type"] = 'text/xml'
     # Figure out the bbox
     bbox = params['bbox']
     unless bbox and bbox.count(',') == 3
-       report_error("The parameter bbox is required, and must be of the form min_lon,min_lat,max_lon,max_lat")
+      report_error("The parameter bbox is required, and must be of the form min_lon,min_lat,max_lon,max_lat")
       return
     end
 
@@ -31,22 +32,22 @@ class ApiController < ApplicationController
 
     # check the bbox is sane
     unless min_lon <= max_lon
-       report_error("The minimum longitude must be less than the maximum longitude, but it wasn't")
+      report_error("The minimum longitude must be less than the maximum longitude, but it wasn't")
       return
     end
     unless min_lat <= max_lat
-       report_error("The minimum latitude must be less than the maximum latitude, but it wasn't")
+      report_error("The minimum latitude must be less than the maximum latitude, but it wasn't")
       return
     end
-	unless min_lon >= -180 && min_lat >= -90 && max_lon <= 180 && max_lat <= 90
-       report_error("The latitudes must be between -90 and 90, and longitudes between -180 and 180")
+    unless min_lon >= -180 && min_lat >= -90 && max_lon <= 180 && max_lat <= 90
+      report_error("The latitudes must be between -90 and 90, and longitudes between -180 and 180")
       return
-	end
+    end
 
     # check the bbox isn't too large
     requested_area = (max_lat-min_lat)*(max_lon-min_lon)
     if requested_area > MAX_REQUEST_AREA
-       report_error("The maximum bbox size is " + MAX_REQUEST_AREA.to_s + ", and your request was too large. Either request a smaller area, or use planet.osm")
+      report_error("The maximum bbox size is " + MAX_REQUEST_AREA.to_s + ", and your request was too large. Either request a smaller area, or use planet.osm")
       return
     end
 
@@ -56,7 +57,7 @@ class ApiController < ApplicationController
     node_ids = nodes.collect {|node| node.id }
 
     if node_ids.length > 50_000
-       report_error("You requested too many nodes (limit is 50,000). Either request a smaller area, or use planet.osm")
+      report_error("You requested too many nodes (limit is 50,000). Either request a smaller area, or use planet.osm")
     end
 
     # grab the segments
@@ -88,8 +89,8 @@ class ApiController < ApplicationController
       way_ids = way_segments.collect {|way_segment| way_segment.id }
       ways = Way.find(way_ids) # NB: doesn't pick up segments, tags from db until accessed via way.way_segments etc.
 
-     # seg_ids = way_segments.collect {|way_segment| way_segment.segment_id }
-      
+      # seg_ids = way_segments.collect {|way_segment| way_segment.segment_id }
+
       list_of_way_segs = ways.collect {|way| way.way_segments}
       list_of_way_segs.flatten!
 
@@ -102,7 +103,7 @@ class ApiController < ApplicationController
     if segments_to_fetch.length > 0
       segments += Segment.find(segments_to_fetch)
     end
-    
+
     # get more nodes
     #
 
