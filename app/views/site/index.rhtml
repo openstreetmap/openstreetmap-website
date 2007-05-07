@@ -128,14 +128,8 @@
     var el = document.getElementById( 'map' );
     var left = getStyle( el, 'left' );
     var top = getStyle( el, 'top' );
-    var bottom = el.old_bottom;
-    if( ! bottom ) {
-      bottom = getStyle( el, 'bottom' );
-    }
-    var right = el.old_right;
-    if( ! right ) {
-        right = getStyle( el, 'right' );
-    }
+    var bottom = getStyle( el, 'bottom' );
+    var right = getStyle( el, 'right' );
     var width = el.old_width;
     if( ! width ) {
         width = getStyle( el, 'width' );
@@ -168,9 +162,10 @@
     }
     if( top != 'auto' && bottom != 'auto' && height == 'auto' ) {
       el.old_height = height;
-      var new_height = (pheight - el.offsetHeight - parseInt( bottom ) );
+      var new_height = (pheight - el.offsetTop - parseInt( bottom ) );
       el.style.height = new_height + 'px';
     }
+    map.updateSize();
   }
 
 if( ie6 ) {
