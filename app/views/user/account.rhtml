@@ -35,7 +35,7 @@
     <th>Contact</th>
     </tr>
     <% @user.nearby(1,1).each do |nearby| %>
-    <% nearest_str = "nearest.push( { 'display_name' : '#{nearby.display_name}', 'home_lat' : #{nearby.home_lat}, 'home_lon' : #{nearby.home_lon} } )" %>
+    <% nearest_str += "nearest.push( { 'display_name' : '#{nearby.display_name}', 'home_lat' : #{nearby.home_lat}, 'home_lon' : #{nearby.home_lon} } );\n" %>
 
     <tr>
     <td><%= link_to nearby.display_name, :controller => 'user', :action => 'view',  :display_name => nearby.display_name %></td>
@@ -142,7 +142,7 @@
     near_icon.url = OpenLayers.Util.getImagesLocation() + "marker-green.png";;
     var i = nearest.length;
     while( i-- ) {
-        var nearmarker = new OpenLayers.Marker( lonlat2mercator( new OpenLayers.LonLat( nearest[i].home_lon, nearest[i].home_lat ) ), near_icon );
+        var nearmarker = new OpenLayers.Marker( lonlat2mercator( new OpenLayers.LonLat( nearest[i].home_lon, nearest[i].home_lat ) ), near_icon.clone() );
         markers.addMarker( nearmarker );
         nearmarker.events.register("click", "nearmarker", makeMarkerFunction( i ) );
     }
