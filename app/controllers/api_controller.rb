@@ -6,6 +6,9 @@ class ApiController < ApplicationController
   helper :user
   model :user
 
+  #COUNT is the number of map requests to allow before exiting and stating a new process
+  @@count = COUNT
+
   def authorize_web
     @current_user = User.find_by_token(session[:token])
   end
@@ -14,7 +17,7 @@ class ApiController < ApplicationController
   MAX_REQUEST_AREA = 0.25
 
   def map
-    GC.start
+    @@count+=1
     response.headers["Content-Type"] = 'text/xml'
     # Figure out the bbox
     bbox = params['bbox']
@@ -56,14 +59,7 @@ class ApiController < ApplicationController
 
     node_ids = nodes.collect {|node| node.id }
 
-    if node_ids.length > 50_000
-      report_error("You requested too many nodes (limit is 50,000). Either request a smaller area, or use planet.osm")
-    end
-
-    if node_ids.length == 0
-      render :text => '<osm></osm>'
-      return
-    end
+    # (in the future, we may wish to abort here if we found too many nodes)
 
     # grab the segments
     segments = Array.new
@@ -93,55 +89,26 @@ class ApiController < ApplicationController
       way_segments = WaySegment.find_all_by_segment_id(segment_ids)
       way_ids = way_segments.collect {|way_segment| way_segment.id }
       ways = Way.find(way_ids) # NB: doesn't pick up segments, tags from db until accessed via way.way_segments etc.
-
-      # seg_ids = way_segments.collect {|way_segment| way_segment.segment_id }
-
-      list_of_way_segs = ways.collect {|way| way.way_segments}
-      list_of_way_segs.flatten!
-
-      list_of_way_segments = list_of_way_segs.collect { |way_seg| way_seg.segment_id }
-
     end
-
-    segments_to_fetch = list_of_way_segments.uniq - segment_ids
-
-    if segments_to_fetch.length > 0
-      segments += Segment.find(segments_to_fetch)
-    end
-
-    # get more nodes
-    #
-
-    segments_nodes = segments.collect {|segment| segment.node_a }
-    segments_nodes += segments.collect {|segment| segment.node_b }
-
-    node_ids_a = nodes.collect {|node| node.id }
-
-    nodes_to_get = segments_nodes - node_ids_a
-    nodes += Node.find(nodes_to_get) if nodes_to_get.length > 0
-
-    visible_nodes = {}
-    user_display_name_cache = {}
 
     nodes.each do |node|
-      if node.visible?
-        doc.root << node.to_xml_node(user_display_name_cache)
-        visible_nodes[node.id] = node
-      end
+      doc.root << node.to_xml_node()
     end
-
-    visible_segments = {}
 
     segments.each do |segment|
-      if visible_nodes[segment.node_a] and visible_nodes[segment.node_b] and segment.visible?
-        doc.root << segment.to_xml_node(user_display_name_cache) 
-        visible_segments[segment.id] = segment
-      end
-    end
+      doc.root << segment.to_xml_node()
+    end 
 
     ways.each do |way|
-      doc.root << way.to_xml_node(visible_segments, user_display_name_cache) if way.visible?
+      doc.root << way.to_xml_node()
     end 
+
+    #exit when we have too many requests
+    if @@count > MAX_COUNT
+      render :text => doc.to_s
+      @@count = COUNT
+      exit 
+    end
 
     render :text => doc.to_s
 
