@@ -1,4 +1,4 @@
-<div id="mapcontent">Sorry, you need a Flash player to use Potlatch, the
+<div id="mapcontent">You need a Flash player to use Potlatch, the
     OpenStreetMap Flash editor. You can <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">download Flash Player from Adobe.com</a>.
 
     <a href="http://wiki.openstreetmap.org/index.php/Editing">Several other options</a> are also available 
@@ -10,12 +10,11 @@
       fo.addVariable('lat',lat);
       fo.addVariable('long',lon);
       fo.addVariable('scale',sc);
-      fo.addVariable('token','tokenstring');
+      fo.addVariable('token','<%= @user.token %>');
       fo.write("mapcontent");
     }
 <% lon =  params['lon'] || '-0.1' %>
 <% lat =  params['lat'] || '51.5' %>
-<% zoom =  params['zoom'] || '12' %>
 
     doSWF(<%= lat %>,<%= lon %>,12);
 
