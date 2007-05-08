@@ -60,6 +60,11 @@ class ApiController < ApplicationController
       report_error("You requested too many nodes (limit is 50,000). Either request a smaller area, or use planet.osm")
     end
 
+    if node_ids.length == 0
+      render :text => '<osm></osm>'
+      return
+    end
+
     # grab the segments
     segments = Array.new
     if node_ids.length > 0
