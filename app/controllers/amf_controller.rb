@@ -4,10 +4,6 @@ class AmfController < ApplicationController
 # to log:
 # RAILS_DEFAULT_LOGGER.error("Args: #{args[0]}, #{args[1]}, #{args[2]}, #{args[3]}")
 
-	# doesn't appear to set old versions of ways to invisible
-	# not sure about segments, either...
-
-
   # ====================================================================
   # Main AMF handler
   
@@ -102,6 +98,7 @@ class AmfController < ApplicationController
 		waylist=WaySegment.find_by_sql("SELECT DISTINCT current_way_segments.id AS wayid"+
 			 "  FROM current_way_segments,current_segments,current_nodes "+
 			 " WHERE segment_id=current_segments.id "+
+			 "   AND current_segments.visible=1 "+
 			 "   AND node_a=current_nodes.id "+
 			 "   AND (latitude  BETWEEN "+(args[1].to_f-0.01).to_s+" AND "+(args[3].to_f+0.01).to_s+") "+
 			 "   AND (longitude BETWEEN "+(args[0].to_f-0.01).to_s+" AND "+(args[2].to_f+0.01).to_s+")")
@@ -153,8 +150,8 @@ class AmfController < ApplicationController
 	def putway(args)
 		usertoken,originalway,points,attributes,baselong,basey,masterscale=args
 		uid=getuserid(usertoken); if !uid then return end
-		db_uqs='uniq'+usertoken+originalway.to_i.abs.to_s+Time.new.to_i.to_s	# temp uniquesegments table name, typically 51 chars
-		db_now='@now'+usertoken+originalway.to_i.abs.to_s+Time.new.to_i.to_s	# 'now' variable name, typically 51 chars
+		db_uqs='uniq'+uid.to_s+originalway.to_i.abs.to_s+Time.new.to_i.to_s	# temp uniquesegments table name, typically 51 chars
+		db_now='@now'+uid.to_s+originalway.to_i.abs.to_s+Time.new.to_i.to_s	# 'now' variable name, typically 51 chars
 		ActiveRecord::Base.connection.execute("SET #{db_now}=NOW()")
 		originalway=originalway.to_i
 		
@@ -349,8 +346,8 @@ class AmfController < ApplicationController
 		uid=getuserid(usertoken); if !uid then return end
 		way=way.to_i
 
-		db_uqs='uniq'+usertoken+way.to_i.abs.to_s+Time.new.to_i.to_s	# temp uniquesegments table name, typically 51 chars
-		db_now='@now'+usertoken+way.to_i.abs.to_s+Time.new.to_i.to_s	# 'now' variable name, typically 51 chars
+		db_uqs='uniq'+uid.to_s+way.to_i.abs.to_s+Time.new.to_i.to_s	# temp uniquesegments table name, typically 51 chars
+		db_now='@now'+uid.to_s+way.to_i.abs.to_s+Time.new.to_i.to_s	# 'now' variable name, typically 51 chars
 		ActiveRecord::Base.connection.execute("SET #{db_now}=NOW()")
 		createuniquesegments(way,db_uqs)
 	
@@ -458,7 +455,11 @@ class AmfController < ApplicationController
 	
 	def getuserid(token)
 		token=sqlescape(token)
-		ActiveRecord::Base.connection.select_value("SELECT id FROM users WHERE token='#{token}' AND active=1 AND timeout>NOW()")
+		if (token=~/^(.+)\+(.+)$/) then
+			return ActiveRecord::Base.connection.select_value("SELECT id FROM users WHERE active=1 AND timeout>NOW() AND email='#{$1}' AND pass_crypt=MD5('#{$2}')")
+		else
+			return ActiveRecord::Base.connection.select_value("SELECT id FROM users WHERE active=1 AND timeout>NOW() AND token='#{token}'")
+		end
 	end
 	
 
