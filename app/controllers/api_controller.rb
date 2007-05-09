@@ -18,6 +18,7 @@ class ApiController < ApplicationController
 
   def map
     @@count+=1
+
     response.headers["Content-Type"] = 'text/xml'
     # Figure out the bbox
     bbox = params['bbox']
@@ -103,14 +104,14 @@ class ApiController < ApplicationController
       doc.root << way.to_xml_node()
     end 
 
+    render :text => doc.to_s
+    
     #exit when we have too many requests
     if @@count > MAX_COUNT
       render :text => doc.to_s
       @@count = COUNT
-      exit 
+      exit!
     end
-
-    render :text => doc.to_s
 
   end
 end

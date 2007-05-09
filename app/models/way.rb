@@ -56,6 +56,8 @@ class Way < ActiveRecord::Base
     el1['visible'] = self.visible.to_s
     el1['timestamp'] = self.timestamp.xmlschema
 
+    user_display_name_cache = {} if user_display_name_cache.nil?
+    
     if user_display_name_cache and user_display_name_cache[self.user_id]
       # use the cache if available
     else

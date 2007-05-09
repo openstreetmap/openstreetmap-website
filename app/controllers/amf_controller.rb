@@ -1,4 +1,5 @@
 class AmfController < ApplicationController
+=begin
   require 'stringio'
 
 # to log:
@@ -610,5 +611,5 @@ class AmfController < ApplicationController
 		180/Math::PI * (2*Math.atan(Math.exp(a*Math::PI/180))-Math::PI/2)
 	end
 
-
+=end
 end

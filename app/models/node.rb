@@ -85,7 +85,7 @@ class Node < ActiveRecord::Base
     el1['lon'] = self.longitude.to_s
 
     # el['user'] = self.user.display_name if self.user.data_public?
-
+    user_display_name_cache = {} if user_display_name_cache.nil?
     if user_display_name_cache and user_display_name_cache[self.user_id]
       # use the cache if available
     else

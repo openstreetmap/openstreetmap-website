@@ -78,6 +78,8 @@ class Segment < ActiveRecord::Base
     el1['id'] = self.id.to_s
     el1['from'] = self.node_a.to_s
     el1['to'] = self.node_b.to_s
+
+    user_display_name_cache = {} if user_display_name_cache.nil?
     if user_display_name_cache and user_display_name_cache[self.user_id]
       # use the cache if available
     else

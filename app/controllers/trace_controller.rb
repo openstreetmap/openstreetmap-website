@@ -107,7 +107,7 @@ class TraceController < ApplicationController
     @trace.timestamp = Time.now
 
     if @trace.save
-      saved_filename = "/tmp/#{@trace.id}.gpx"
+      saved_filename = "/home/osm/gpx/#{@trace.id}.gpx"
       File.rename(filename, saved_filename)
 
       logger.info("id is #{@trace.id}")
