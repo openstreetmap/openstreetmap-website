@@ -197,7 +197,8 @@ class ApiController < ApplicationController
 
     end
 
-    segments_to_fetch = list_of_way_segments.uniq - segment_ids
+    # - [0] in case some thing links to segment 0 which doesn't exist. Shouldn't actually ever happen but it does. FIXME: file a ticket for this
+    segments_to_fetch = (list_of_way_segments.uniq - segment_ids) - [0]
 
     if segments_to_fetch.length > 0
       segments += Segment.find(segments_to_fetch)
