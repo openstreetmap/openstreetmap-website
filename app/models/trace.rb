@@ -7,6 +7,7 @@ class Trace < ActiveRecord::Base
   
   belongs_to :user
   has_many :tags, :class_name => 'Tracetag', :foreign_key => 'gpx_id', :dependent => :destroy
+  has_many :points, :class_name => 'Tracepoint', :foreign_key => 'gpx_id', :dependent => :destroy
 
   def tagstring=(s)
     self.tags = s.split().collect {|tag|
@@ -47,12 +48,12 @@ class Trace < ActiveRecord::Base
   
   # FIXME change to permanent filestore area
   def large_picture_name
-    "/tmp/#{id}.gif"
+    "/home/osm/icons/#{id}.gif"
   end
 
   # FIXME change to permanent filestore area
   def icon_picture_name
-    "/tmp/#{id}_icon.gif"
+    "/home/osm/icons/#{id}_icon.gif"
   end
 
   def to_xml_node

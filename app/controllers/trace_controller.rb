@@ -123,7 +123,7 @@ class TraceController < ApplicationController
   def data
     trace = Trace.find(params[:id])
     if trace.public? or (@user and @user == trace.user)
-      send_data(File.open("/tmp/#{trace.id}.gpx",'r').read , :filename => "#{trace.id}.gpx", :type => 'text/plain', :disposition => 'inline')
+      send_data(File.open("/home/osm/gpx/#{trace.id}.gpx",'r').read , :filename => "#{trace.id}.gpx", :type => 'text/plain', :disposition => 'inline')
     end
   end
 
@@ -188,7 +188,7 @@ class TraceController < ApplicationController
     @trace.timestamp = Time.now
 
     if @trace.save
-      saved_filename = "/tmp/#{@trace.id}.gpx"
+      saved_filename = "/home/osm/gpx/#{@trace.id}.gpx"
       File.rename(filename, saved_filename)
       logger.info("id is #{@trace.id}")
       flash[:notice] = "Your GPX file has been uploaded and is awaiting insertion in to the database. This will usually happen within half an hour, and an email will be sent to you on completion."

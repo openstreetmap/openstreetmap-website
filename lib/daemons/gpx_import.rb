@@ -13,19 +13,19 @@ end
 logger = ActiveRecord::Base.logger
 
 while($running) do
-  
+
   ActiveRecord::Base.logger.info("GPX Import daemon wake @ #{Time.now}.")
 
-  traces = Trace.find(:all) #, :conditions => ['inserted = ?', false])
+  traces = Trace.find(:all, :conditions => ['inserted = ?', false])
 
   if traces and traces.length > 0
     traces.each do |trace|
       begin
 
         logger.info("GPX Import importing #{trace.name} (#{trace.id}) from #{trace.user.email}")
-
+        
         # TODO *nix specific, could do to work on windows... would be functionally inferior though - check for '.gz'
-        gzipped = `file -b /tmp/#{trace.id}.gpx`.chomp =~/^gzip/
+        gzipped = `file -b /home/osm/gpx/#{trace.id}.gpx`.chomp =~/^gzip/
 
         if gzipped
           logger.info("gzipped")
@@ -60,12 +60,12 @@ while($running) do
           min_lat = Tracepoint.minimum('latitude', :conditions => ['gpx_id = ?', trace.id])
           max_lon = Tracepoint.maximum('longitude', :conditions => ['gpx_id = ?', trace.id])
           min_lon = Tracepoint.minimum('longitude', :conditions => ['gpx_id = ?', trace.id])
-          
+
           max_lat = max_lat.to_f / 1000000
           min_lat = min_lat.to_f / 1000000
           max_lon = max_lon.to_f / 1000000
           min_lon = min_lon.to_f / 1000000
- 
+
           trace.latitude = f_lat
           trace.longitude = f_lon
           trace.large_picture = gpx.get_picture(min_lat, min_lon, max_lat, max_lon, gpx.actual_points)
@@ -74,20 +74,28 @@ while($running) do
           trace.inserted = true
           trace.save
 
-          logger.info "done trace #{trace.id} -------------------------------------------------------------------------------"
-    #      Notifier::deliver_gpx_success(trace, gpx.possible_points)
+          logger.info "done trace #{trace.id}"
+          Notifier::deliver_gpx_success(trace, gpx.possible_points)
         else
-          #trace.destroy
-#          Notifier::deliver_gpx_failure(trace, '0 points parsed ok. Do they all have lat,lng,alt,timestamp?')
+          `rm /home/osm/gpx/#{trace.id}.gpx`
+          trace.destroy
+          Notifier::deliver_gpx_failure(trace, '0 points parsed ok. Do they all have lat,lng,alt,timestamp?')
         end
 
       rescue Exception => ex
         logger.info ex
         ex.backtrace.each {|l| logger.info l }
-        #trace.destroy
- #       Notifier::deliver_gpx_failure(trace, ex.to_s + ex.backtrace.join("\n") )
+          `rm /home/osm/gpx/#{trace.id}.gpx`
+          trace.destroy
+          Notifier::deliver_gpx_failure(trace, ex.to_s + ex.backtrace.join("\n") )
       end
     end
   end
+
+  Trace.find(:all, :conditions => ['inserted = ?', false]).each do |trace|
+     `rm /home/osm/gpx/#{trace.id}.gpx`
+     trace.destroy
+  end
+  exit
   sleep 15.minutes
 end
