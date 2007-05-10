@@ -9,10 +9,6 @@ class ApiController < ApplicationController
   #COUNT is the number of map requests to allow before exiting and starting a new process
   @@count = COUNT
 
-  def authorize_web
-    @current_user = User.find_by_token(session[:token])
-  end
-
   # The maximum area you're allowed to request, in square degrees
   MAX_REQUEST_AREA = 0.25
 

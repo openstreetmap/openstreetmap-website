@@ -84,7 +84,7 @@ class Way < ActiveRecord::Base
     end
 
     ordered_segments.each do |seg_id|
-      if seg_id
+      if seg_id and seg_id != '0'
         e = XML::Node.new 'seg'
         e['id'] = seg_id
         el1 << e

@@ -22,6 +22,7 @@ class SegmentController < ApplicationController
         
         unless segment.preconditions_ok? # are the nodes visible?
           render :nothing => true, :status => HTTP_PRECONDITION_FAILED
+          return
         end
 
         if segment.save_with_history
