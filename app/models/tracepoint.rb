@@ -22,4 +22,12 @@ set_table_name 'gps_points'
   def lon
     return self.longitude.to_f / 1000000
   end
+
+  def to_xml_node
+    el1 = XML::Node.new 'trkpt'
+    el1['lat'] = self.lat.to_s
+    el1['lon'] = self.lon.to_s
+    return el1
+  end
+
 end

@@ -6,7 +6,7 @@ class ApiController < ApplicationController
   helper :user
   model :user
 
-  #COUNT is the number of map requests to allow before exiting and stating a new process
+  #COUNT is the number of map requests to allow before exiting and starting a new process
   @@count = COUNT
 
   def authorize_web
@@ -15,6 +15,99 @@ class ApiController < ApplicationController
 
   # The maximum area you're allowed to request, in square degrees
   MAX_REQUEST_AREA = 0.25
+
+
+  # Number of GPS trace/trackpoints returned per-page
+  TRACEPOINTS_PER_PAGE = 5000
+  
+  def trackpoints
+    @@count+=1
+    response.headers["Content-Type"] = 'text/xml'
+    #retrieve the page number
+    page = params['page'].to_i
+    unless page
+        page = 0;
+    end
+
+    unless page >= 0
+        report_error("Page number must be greater than or equal to 0")
+        return
+    end
+
+    offset = page * TRACEPOINTS_PER_PAGE
+
+    # Figure out the bbox
+    bbox = params['bbox']
+    unless bbox and bbox.count(',') == 3
+      report_error("The parameter bbox is required, and must be of the form min_lon,min_lat,max_lon,max_lat")
+      return
+    end
+
+    bbox = bbox.split(',')
+
+    min_lon = bbox[0].to_f
+    min_lat = bbox[1].to_f
+    max_lon = bbox[2].to_f
+    max_lat = bbox[3].to_f
+
+    # check the bbox is sane
+    unless min_lon <= max_lon
+      report_error("The minimum longitude must be less than the maximum longitude, but it wasn't")
+      return
+    end
+    unless min_lat <= max_lat
+      report_error("The minimum latitude must be less than the maximum latitude, but it wasn't")
+      return
+    end
+    unless min_lon >= -180 && min_lat >= -90 && max_lon <= 180 && max_lat <= 90
+      report_error("The latitudes must be between -90 and 90, and longitudes between -180 and 180")
+      return
+    end
+
+    # check the bbox isn't too large
+    requested_area = (max_lat-min_lat)*(max_lon-min_lon)
+    if requested_area > MAX_REQUEST_AREA
+      report_error("The maximum bbox size is " + MAX_REQUEST_AREA.to_s + ", and your request was too large. Either request a smaller area, or use planet.osm")
+      return
+    end
+
+    # integerise
+    min_lat = min_lat * 1000000
+    max_lat = max_lat * 1000000
+    min_lon = min_lon * 1000000
+    max_lon = max_lon * 1000000
+    # get all the points
+    points = Tracepoint.find(:all, :conditions => ['gps_points.latitude > ? AND gps_points.longitude > ? AND gps_points.latitude < ? AND gps_points.longitude < ? AND ( public = 1 OR gpx_files.user_id = ? ) AND visible = 1', min_lat.to_i, min_lon.to_i, max_lat.to_i, max_lon.to_i, @user.id ], :select => "gps_points.*", :joins => "INNER JOIN gpx_files ON gpx_files.id = gpx_id", :offset => offset, :limit => TRACEPOINTS_PER_PAGE, :order => "timestamp DESC" )
+
+    doc = XML::Document.new
+    doc.encoding = 'UTF-8'
+    root = XML::Node.new 'gpx'
+    root['version'] = '1.0'
+    root['creator'] = 'OpenStreetMap.org'
+    root['xmlns'] = "http://www.topografix.com/GPX/1/0/"
+    
+    doc.root = root
+
+    track = XML::Node.new 'trk'
+    doc.root << track
+
+    trkseg = XML::Node.new 'trkseg'
+    track << trkseg
+
+    points.each do |point|
+      trkseg << point.to_xml_node()
+    end
+
+    #exit when we have too many requests
+    if @@count > MAX_COUNT
+      render :text => doc.to_s
+      @@count = COUNT
+      exit!
+    end
+
+    render :text => doc.to_s
+
+  end
 
   def map
     @@count+=1
