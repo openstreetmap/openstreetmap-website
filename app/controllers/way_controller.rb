@@ -3,8 +3,9 @@ class WayController < ApplicationController
 
   before_filter :authorize
   after_filter :compress_output
-  
+
   def create
+    response.headers["Content-Type"] = 'text/xml'
     if request.put?
       way = Way.from_xml(request.raw_post, true)
 
@@ -68,12 +69,14 @@ class WayController < ApplicationController
   end
 
   def rest
+    response.headers["Content-Type"] = 'text/xml'
     unless Way.exists?(params[:id])
       render :nothing => true, :status => 404
       return
     end
 
     way = Way.find(params[:id])
+
     case request.method
 
     when :get
@@ -128,7 +131,7 @@ class WayController < ApplicationController
       doc = OSM::API.new.get_xml_doc
       waylist.each do |way|
         doc.root << way.to_xml_node
-      end 
+      end
       render :text => doc.to_s
     else
       render :nothing => true, :status => 400
