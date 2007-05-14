@@ -186,7 +186,7 @@ class ApiController < ApplicationController
     if segment_ids.length > 0
       way_segments = WaySegment.find_all_by_segment_id(segment_ids)
       way_ids = way_segments.collect {|way_segment| way_segment.id }
-      ways = Way.find(way_ids) # NB: doesn't pick up segments, tags from db until accessed via way.way_segments etc.
+      ways = Way.find(way_ids, :include => [:way_tags]) # NB: doesn't pick up segments, tags from db until accessed via way.way_segments etc.
 
       # seg_ids = way_segments.collect {|way_segment| way_segment.segment_id }
 
