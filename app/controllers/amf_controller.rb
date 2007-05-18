@@ -1,9 +1,9 @@
 class AmfController < ApplicationController
-=begin
+#=begin
   require 'stringio'
 
-# to log:
-# RAILS_DEFAULT_LOGGER.error("Args: #{args[0]}, #{args[1]}, #{args[2]}, #{args[3]}")
+  # to log:
+  # RAILS_DEFAULT_LOGGER.error("Args: #{args[0]}, #{args[1]}, #{args[2]}, #{args[3]}")
 
   # ====================================================================
   # Main AMF handler
@@ -55,6 +55,7 @@ class AmfController < ApplicationController
 
   end
 
+	private
 
 	# ====================================================================
 	# Remote calls
@@ -107,7 +108,20 @@ class AmfController < ApplicationController
 		waylist.each {|a|
 			ways<<a.wayid.to_i
 		}
-		ways
+
+		pointlist=ActiveRecord::Base.connection.select_all("SELECT current_nodes.id,current_nodes.tags "+
+			 "  FROM current_nodes "+
+			 "  LEFT OUTER JOIN current_segments cs1 ON cs1.node_a=current_nodes.id "+
+			 "  LEFT OUTER JOIN current_segments cs2 ON cs2.node_b=current_nodes.id "+
+			 " WHERE (latitude  BETWEEN "+(args[1].to_f-0.01).to_s+" AND "+(args[3].to_f+0.01).to_s+") "+
+			 "   AND (longitude BETWEEN "+(args[0].to_f-0.01).to_s+" AND "+(args[2].to_f-0.01).to_s+") "+
+			 "   AND cs1.id IS NULL AND cs2.id IS NULL "+
+			 "   AND current_nodes.visible=1")
+		points=[]
+		pointlist.each {|a|
+			points<<[a['id'],tag2array(a['tags'])]
+		}
+		[ways,points]
 	end
 
 	# -----	getway (objectname, way, baselong, basey, masterscale)
@@ -417,12 +431,13 @@ class AmfController < ApplicationController
 	def createuniquesegments(way,uqs_name)
 		sql=<<-EOF
 			CREATE TEMPORARY TABLE #{uqs_name}
-							SELECT a.segment_id,COUNT(a.segment_id) AS ct
-							  FROM current_way_segments AS a, current_way_segments AS b
-							 WHERE a.segment_id=b.segment_id 
-							   AND a.id=#{way} 
-						  GROUP BY a.segment_id
-							HAVING ct=1
+							SELECT a.segment_id
+							  FROM (SELECT DISTINCT segment_id FROM current_way_segments 
+									WHERE id = #{way}) a
+						 LEFT JOIN current_way_segments b 
+								ON b.segment_id = a.segment_id
+							   AND b.id != #{way}
+							 WHERE b.segment_id IS NULL
 		EOF
 		ActiveRecord::Base.connection.execute(sql)
 	end
@@ -438,6 +453,8 @@ class AmfController < ApplicationController
 			b.gsub!('#%',';;;')
 			b.gsub!('===','#%')
 			k,v=b.split('=')
+			if k.nil? then k='' end
+			if v.nil? then v='' end
 			tags[k.gsub('#%','=')]=v.gsub('#%','=')
 		end
 		tags
@@ -611,5 +628,5 @@ class AmfController < ApplicationController
 		180/Math::PI * (2*Math.atan(Math.exp(a*Math::PI/180))-Math::PI/2)
 	end
 
-=end
+#=end
 end
