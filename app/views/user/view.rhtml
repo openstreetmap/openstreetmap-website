@@ -1,5 +1,6 @@
 <h2><%= @this_user.display_name %></h2>
 <% if @user and @this_user.id == @user.id %>
+<h3>Messages</h3>
 <% if @user.has_messages? %>
 <p>You have <%=@user.get_new_messages.length %> new messages and <%=@user.get_all_messages.length -  @user.get_new_messages.length %> old messages:</p> 
 
@@ -52,13 +53,16 @@
 <br />
 <%= link_to 'show all messages', :controller => 'user', :action => 'view', :display_name => @user.display_name, :unread => true %>
 <br />
-<br />
+<h3>Your account</h3>
 Go to <%= link_to 'your account page', :controller => 'user', :action => 'account', :display_name => @user.display_name %> to see who's mapping in your area.
-
+<br />
+<br />
+<%= link_to 'View your diary', :controller => 'user', :action=>'diary', :display_name => @user.display_name %>
 
 <% else %>
 <%= link_to 'send message', :controller => 'message', :action => 'new', :user_id => @this_user.id %><br /><br /> 
 <%= link_to 'Add as friend', :controller => 'user', :action => 'make_friend', :display_name => @this_user.display_name %><br /><br />
+<%= link_to 'Diary', :controller => 'user', :action=>'diary', :display_name => @this_user.display_name %>
 <% end %>
 <br />
 <br />

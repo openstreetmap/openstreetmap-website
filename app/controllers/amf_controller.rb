@@ -70,7 +70,78 @@ class AmfController < ApplicationController
 		presettype=''
 		presetcategory=''
 		
-		File.open("config/potlatch/presets.txt") do |file|
+#		File.open("config/potlatch/presets.txt") do |file|
+
+		# Temporary patch to get around filepath problem
+		# To remove this patch and make the code nice again:
+		# 1. uncomment above line
+		# 2. fix the path in the above line
+		# 3. delete this here document, and the following line (StringIO....)
+		
+txt=<<-EOF
+way/road
+motorway: highway=motorway,ref=(type road number)
+trunk road: highway=trunk,ref=(type road number),name=(type road name)
+primary road: highway=primary,ref=(type road number),name=(type road name)
+secondary road: highway=secondary,ref=(type road number),name=(type road name)
+residential road: highway=residential,name=(type road name)
+unclassified road: highway=unclassified,name=(type road name)
+
+way/footway
+footpath: highway=footway,foot=yes
+bridleway: highway=bridleway,foot=yes
+byway: highway=unsurfaced,foot=yes
+permissive path: highway=footway,foot=permissive
+
+way/cycleway
+cycle lane: highway=cycleway,cycleway=lane,ncn_ref=
+cycle track: highway=cycleway,cycleway=track,ncn_ref=
+cycle lane (NCN): highway=cycleway,cycleway=lane,name=(type name here),ncn_ref=(type route number)
+cycle track (NCN): highway=cycleway,cycleway=track,name=(type name here),ncn_ref=(type route number)
+
+way/waterway
+canal: waterway=canal,name=(type name here)
+navigable river: waterway=river,boat=yes,name=(type name here)
+navigable drain: waterway=drain,boat=yes,name=(type name here)
+derelict canal: waterway=derelict_canal,name=(type name here)
+unnavigable river: waterway=river,boat=no,name=(type name here)
+unnavigable drain: waterway=drain,boat=no,name=(type name here)
+
+way/railway
+railway: railway=rail
+tramway: railway=tram
+light railway: railway=light_rail
+preserved railway: railway=preserved
+disused railway tracks: railway=disused
+course of old railway: railway=abandoned
+
+point/road
+mini roundabout: highway=mini_roundabout
+traffic lights: highway=traffic_signals
+
+point/footway
+bridge: highway=bridge
+gate: highway=gate
+stile: highway=stile
+cattle grid: highway=cattle_grid
+
+point/cycleway
+gate: highway=gate
+
+point/waterway
+lock gate: waterway=lock_gate
+weir: waterway=weir
+aqueduct: waterway=aqueduct
+winding hole: waterway=turning_point
+mooring: waterway=mooring
+
+point/railway
+station: railway=station
+viaduct: railway=viaduct
+level crossing: railway=crossing
+EOF
+
+StringIO.open(txt) do |file|
 			file.each_line {|line|
 				t=line.chomp
 				if (t=~/(\w+)\/(\w+)/) then
