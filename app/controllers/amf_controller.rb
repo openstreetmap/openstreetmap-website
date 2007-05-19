@@ -89,8 +89,8 @@ unclassified road: highway=unclassified,name=(type road name)
 
 way/footway
 footpath: highway=footway,foot=yes
-bridleway: highway=bridleway,foot=yes
-byway: highway=unsurfaced,foot=yes
+bridleway: highway=bridleway,foot=yes,horse=yes,bicycle=yes
+byway: highway=byway,foot=yes,horse=yes,bicycle=yes,motorcar=yes
 permissive path: highway=footway,foot=permissive
 
 way/cycleway
