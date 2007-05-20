@@ -21,15 +21,15 @@ class AmfController < ApplicationController
 
     headers.times do				    # Read each header
       name=getstring(req)				#  |
-      req.getc                  #  | skip boolean
+      req.getc                 			#  | skip boolean
       value=getvalue(req)				#  |
-      header["name"]=value			#  |
+      header["name"]=value				#  |
     end
 
     bodies=getint(req)					# Read number of bodies
     bodies.times do     				# Read each body
-      message=getstring(req)		#  | get message name
-      index=getstring(req)			#  | get index in response sequence
+      message=getstring(req)			#  | get message name
+      index=getstring(req)				#  | get index in response sequence
       bytes=getlong(req)				#  | get total size in bytes
       args=getvalue(req)				#  | get response (probably an array)
 
@@ -169,10 +169,12 @@ EOF
 
   def whichways(args)
     waylist=WaySegment.find_by_sql("SELECT DISTINCT current_way_segments.id AS wayid"+
-       "  FROM current_way_segments,current_segments,current_nodes "+
+       "  FROM current_way_segments,current_segments,current_nodes,current_ways "+
        " WHERE segment_id=current_segments.id "+
        "   AND current_segments.visible=1 "+
        "   AND node_a=current_nodes.id "+
+	   "   AND current_ways.id=current_way_segments.id "+
+	   "   AND current_ways.visible=1 "+
        "   AND (latitude  BETWEEN "+(args[1].to_f-0.01).to_s+" AND "+(args[3].to_f+0.01).to_s+") "+
        "   AND (longitude BETWEEN "+(args[0].to_f-0.01).to_s+" AND "+(args[2].to_f+0.01).to_s+")")
 
@@ -187,7 +189,7 @@ EOF
        "   AND cs1.id IS NULL AND cs2.id IS NULL "+
        "   AND current_nodes.visible=1")
 
-    points = pointlist.collect {|a| [a['id'],tag2array(a['tags'])]	} # get a list of node ids and their tags
+	    points = pointlist.collect {|a| [a['id'],tag2array(a['tags'])]	} # get a list of node ids and their tags
 
     return [ways,points]
   end
