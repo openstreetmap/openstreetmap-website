@@ -35,10 +35,10 @@ class AmfController < ApplicationController
 
       case message
       when 'getpresets';	results[index]=putdata(index,getpresets)
-      when 'whichways';	results[index]=putdata(index,whichways(args))
+      when 'whichways';		results[index]=putdata(index,whichways(args))
       when 'getway';		results[index]=putdata(index,getway(args))
       when 'putway';		results[index]=putdata(index,putway(args))
-      when 'deleteway';	results[index]=putdata(index,deleteway(args))
+      when 'deleteway';		results[index]=putdata(index,deleteway(args))
       end
     end
 
@@ -226,9 +226,9 @@ EOF
   end
 
   # -----	putway (user token, way, array of co-ordinates, array of attributes,
-  #				baselong, basey, masterscale)
-  #		returns current way ID, new way ID, hash of renumbered nodes,
-  #				xmin,xmax,ymin,ymax
+  #					baselong, basey, masterscale)
+  #			returns current way ID, new way ID, hash of renumbered nodes,
+  #					xmin,xmax,ymin,ymax
 
   def putway(args)
     usertoken,originalway,points,attributes,baselong,basey,masterscale=args
@@ -249,6 +249,7 @@ EOF
         id2=row['id2'].to_i; xc[id2]=row['long2'].to_f; yc[id2]=row['lat2'].to_f; tagc[id2]=row['tags2']
         seg[row['segment_id'].to_i]=id1.to_s+'-'+id2.to_s
       }
+	  ActiveRecord::Base.connection.update("UPDATE current_ways SET timestamp=#{db_now},user_id=#{uid},visible=1 WHERE id=#{way}")
     else
       way=ActiveRecord::Base.connection.insert("INSERT INTO current_ways (user_id,timestamp,visible) VALUES (#{uid},#{db_now},1)")
     end
@@ -422,7 +423,7 @@ EOF
   end
 
   # -----	deleteway (user token, way)
-  #		returns way ID only
+  #			returns way ID only
 
   def deleteway(args)
     usertoken,way=args
