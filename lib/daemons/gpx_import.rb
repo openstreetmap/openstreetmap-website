@@ -23,17 +23,26 @@ while($running) do
       begin
 
         logger.info("GPX Import importing #{trace.name} (#{trace.id}) from #{trace.user.email}")
-        
+
         # TODO *nix specific, could do to work on windows... would be functionally inferior though - check for '.gz'
-        gzipped = `file -b /home/osm/gpx/#{trace.id}.gpx`.chomp =~/^gzip/
+        filetype = `file -b /home/osm/gpx/#{trace.id}.gpx`.chomp
+        gzipped = filetype =~ /^gzip/
+        zipped = filetype =~ /^Zip/
 
         if gzipped
           logger.info("gzipped")
+          filename = "/tmp/#{rand}"
+          system("gunzip -c /home/osm/gpx/#{trace.id}.gpx > #{filename}")
+        elsif zipped
+          logger.info("zipped")
+          filename = "/tmp/#{rand}"
+          system("unzip -p /home/osm/gpx/#{trace.id}.gpx > #{filename}")
         else
           logger.info("not gzipped")
+          filename = "/home/osm/gpx/#{trace.id}.gpx"
         end
 
-        gpx = OSM::GPXImporter.new("/home/osm/gpx/#{trace.id}.gpx")
+        gpx = OSM::GPXImporter.new(filename)
 
         f_lat = 0
         f_lon = 0
@@ -74,10 +83,14 @@ while($running) do
           trace.inserted = true
           trace.save
 
+          if gzipped || zipped
+            FileUtils.rm_f(filename)
+          end
+
           logger.info "done trace #{trace.id}"
           Notifier::deliver_gpx_success(trace, gpx.possible_points)
         else
-          `rm /home/osm/gpx/#{trace.id}.gpx`
+          FileUtils.rm_f("/home/osm/gpx/#{trace.id}.gpx", filename)
           trace.destroy
           Notifier::deliver_gpx_failure(trace, '0 points parsed ok. Do they all have lat,lng,alt,timestamp?')
         end
@@ -85,7 +98,7 @@ while($running) do
       rescue Exception => ex
         logger.info ex
         ex.backtrace.each {|l| logger.info l }
-          `rm /home/osm/gpx/#{trace.id}.gpx`
+          FileUtils.rm_f("/home/osm/gpx/#{trace.id}.gpx", filename)
           trace.destroy
           Notifier::deliver_gpx_failure(trace, ex.to_s + ex.backtrace.join("\n") )
       end
@@ -93,7 +106,7 @@ while($running) do
   end
 
   Trace.find(:all, :conditions => ['inserted = ?', false]).each do |trace|
-     `rm /home/osm/gpx/#{trace.id}.gpx`
+     FileUtils.rm_f("/home/osm/gpx/#{trace.id}.gpx")
      trace.destroy
   end
   exit
