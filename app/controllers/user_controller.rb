@@ -53,7 +53,7 @@ class UserController < ApplicationController
   end
 
   def lost_password
-    if params[:user][:email]
+    if params[:user] and params[:user][:email]
       user = User.find_by_email(params['user']['email'])
       if user
         user.token = User.make_token
@@ -63,6 +63,8 @@ class UserController < ApplicationController
       else
         flash[:notice] = "Couldn't find that email address, sorry."
       end
+    else
+      render :action => 'lost_password'
     end
   end
 
