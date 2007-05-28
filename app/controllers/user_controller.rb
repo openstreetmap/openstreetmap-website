@@ -97,7 +97,11 @@ class UserController < ApplicationController
         u.timeout = 1.day.from_now
         u.save
         session[:token] = u.token
-        redirect_to :controller => 'site', :action => 'index'
+        if params[:next_controller] and params[:next_action]
+          redirect_to :controller => params[:next_controller], :action => params[:next_action]
+        else
+          redirect_to :controller => 'site', :action => 'index'
+        end
         return
       else
         flash[:notice] = "Couldn't log in with those details"
@@ -115,7 +119,11 @@ class UserController < ApplicationController
       end
     end
     session[:token] = nil
-    redirect_to :controller => 'site', :action => 'index'
+    if params[:next_controller] and params[:next_action]
+      redirect_to :controller => params[:next_controller], :action => params[:next_action]
+    else
+      redirect_to :controller => 'site', :action => 'index'
+    end
   end
 
   def confirm

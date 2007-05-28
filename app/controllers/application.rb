@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   end
 
   def require_user
-    redirect_to :controller => 'user', :action => 'login' unless @user
+    redirect_to :controller => 'user', :action => 'login', :next_controller => controller_name, :next_action => action_name unless @user
   end
 
   def authorize(realm='Web Password', errormessage="Couldn't authenticate you") 

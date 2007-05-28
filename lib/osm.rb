@@ -68,14 +68,12 @@ module OSM
     attr_reader :tracksegs
 
     def initialize(filename)
-      @filename = filename
       @possible_points = 0
       @actual_points = 0
       @tracksegs = 0
-    end
+      @points = []
 
-    def points
-      file = File.new(@filename)
+      file = File.new(filename)
       parser = REXML::Parsers::SAX2Parser.new( file )
 
       lat = -1
@@ -114,7 +112,7 @@ module OSM
           ele = '0' unless gotele
           if lat < 90 && lat > -90 && lon > -180 && lon < 180
             @actual_points += 1
-            yield Hash['latitude' => lat,'longitude' => lon,'timestamp' => date,'altitude' => ele,'segment' => @tracksegs]
+            @points.push(Hash['latitude' => lat,'longitude' => lon,'timestamp' => date,'altitude' => ele,'segment' => @tracksegs])
           end
         end
         gotlatlon = false
@@ -122,6 +120,10 @@ module OSM
         gotdate = false
       end
       parser.parse
+    end
+
+    def points
+      @points.each { |p| yield p }
     end
 
     def get_picture(min_lat, min_lon, max_lat, max_lon, num_points)
