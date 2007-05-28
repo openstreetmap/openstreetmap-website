@@ -195,8 +195,8 @@ EOF
   end
 
   # -----	getway (objectname, way, baselong, basey, masterscale)
-  #		returns objectname, array of co-ordinates, attributes,
-  #				xmin,xmax,ymin,ymax
+  #			returns objectname, array of co-ordinates, attributes,
+  #					xmin,xmax,ymin,ymax
 
   def getway(args)
     objname,wayid,baselong,basey,masterscale=args
@@ -235,6 +235,7 @@ EOF
     uid=getuserid(usertoken)
     return if !uid
     db_uqs='uniq'+uid.to_s+originalway.to_i.abs.to_s+Time.new.to_i.to_s	# temp uniquesegments table name, typically 51 chars
+    db_uqn='unin'+uid.to_s+originalway.to_i.abs.to_s+Time.new.to_i.to_s	# temp uniquenodes table name, typically 51 chars
     db_now='@now'+uid.to_s+originalway.to_i.abs.to_s+Time.new.to_i.to_s	# 'now' variable name, typically 51 chars
     ActiveRecord::Base.connection.execute("SET #{db_now}=NOW()")
     originalway=originalway.to_i
@@ -278,7 +279,7 @@ EOF
       if node<0
         # new node - create
         newnode=ActiveRecord::Base.connection.insert("INSERT INTO current_nodes (   latitude,longitude,timestamp,user_id,visible,tags) VALUES (           #{ys},#{xs},#{db_now},#{uid},1,#{tagsql})")
-        ActiveRecord::Base.connection.insert("INSERT INTO nodes         (id,latitude,longitude,timestamp,user_id,visible,tags) VALUES (#{newnode},#{ys},#{xs},#{db_now},#{uid},1,#{tagsql})")
+        		ActiveRecord::Base.connection.insert("INSERT INTO nodes         (id,latitude,longitude,timestamp,user_id,visible,tags) VALUES (#{newnode},#{ys},#{xs},#{db_now},#{uid},1,#{tagsql})")
         points[i][2]=newnode
         renumberednodes[node.to_s]=newnode.to_s
 
@@ -317,7 +318,7 @@ EOF
         end
       end
       segid=ActiveRecord::Base.connection.insert("INSERT INTO current_segments (   node_a,node_b,timestamp,user_id,visible,tags) VALUES (         #{from},#{to},#{db_now},#{uid},1,'')")
-      ActiveRecord::Base.connection.insert("INSERT INTO segments         (id,node_a,node_b,timestamp,user_id,visible,tags) VALUES (#{segid},#{from},#{to},#{db_now},#{uid},1,'')")
+      		ActiveRecord::Base.connection.insert("INSERT INTO segments         (id,node_a,node_b,timestamp,user_id,visible,tags) VALUES (#{segid},#{from},#{to},#{db_now},#{uid},1,'')")
       points[i+1][5]=segid
       numberedsegments[(i+1).to_s]=segid.to_s
     end
@@ -331,38 +332,6 @@ EOF
     # -- 6.ii insert new way segments
 
     createuniquesegments(way,db_uqs)
-
-    # a=''
-    # ActiveRecord::Base.connection.select_values("SELECT segment_id FROM #{db_uqs}").each {|b| a+=b+',' }
-    # RAILS_DEFAULT_LOGGER.error("Unique segments are #{a}")
-    # a=ActiveRecord::Base.connection.select_value("SELECT #{db_now}")
-    # RAILS_DEFAULT_LOGGER.error("Timestamp of this edit is #{a}")
-    # RAILS_DEFAULT_LOGGER.error("Userid of this edit is #{uid}")
-
-    #		delete nodes from uniquesegments (and not in modified way)
-
-    sql=<<-EOF
-      INSERT INTO nodes (id,latitude,longitude,timestamp,user_id,visible)  
-      SELECT DISTINCT cn.id,cn.latitude,cn.longitude,#{db_now},#{uid},0 
-        FROM current_nodes AS cn, 
-           current_segments AS cs,
-           #{db_uqs} AS us 
-       WHERE(cn.id=cs.node_a OR cn.id=cs.node_b) 
-         AND cs.id=us.segment_id AND cs.visible=1 
-         AND (cn.timestamp!=#{db_now} OR cn.user_id!=#{uid})
-    EOF
-    ActiveRecord::Base.connection.insert(sql)
-
-    sql=<<-EOF
-      UPDATE current_nodes AS cn, 
-           current_segments AS cs, 
-           #{db_uqs} AS us 
-         SET cn.timestamp=#{db_now},cn.visible=0,cn.user_id=#{uid} 
-       WHERE (cn.id=cs.node_a OR cn.id=cs.node_b) 
-         AND cs.id=us.segment_id AND cs.visible=1 
-         AND (cn.timestamp!=#{db_now} OR cn.user_id!=#{uid})
-    EOF
-    ActiveRecord::Base.connection.update(sql)
 
     #		delete segments from uniquesegments (and not in modified way)
 
@@ -382,7 +351,28 @@ EOF
           AND (cs.timestamp!=#{db_now} OR cs.user_id!=#{uid})
     EOF
     ActiveRecord::Base.connection.update(sql)
+
+    #		delete nodes not in modified way or any other segments
+
+    createuniquenodes(db_uqs,db_uqn)
+
+    sql=<<-EOF
+		INSERT INTO nodes (id,latitude,longitude,timestamp,user_id,visible)  
+		SELECT DISTINCT cn.id,cn.latitude,cn.longitude,#{db_now},#{uid},0 
+		  FROM current_nodes AS cn,#{db_uqn}
+		 WHERE cn.id=node_id
+    EOF
+    ActiveRecord::Base.connection.insert(sql)
+
+    sql=<<-EOF
+      UPDATE current_nodes AS cn, #{db_uqn}
+         SET cn.timestamp=#{db_now},cn.visible=0,cn.user_id=#{uid} 
+       WHERE cn.id=node_id
+    EOF
+    ActiveRecord::Base.connection.update(sql)
+
     ActiveRecord::Base.connection.execute("DROP TABLE #{db_uqs}")
+    ActiveRecord::Base.connection.execute("DROP TABLE #{db_uqn}")
 
     #		insert new version of route into way_segments
 
@@ -428,60 +418,61 @@ EOF
   def deleteway(args)
     usertoken,way=args
     uid=getuserid(usertoken); if !uid then return end
-  way=way.to_i
+	way=way.to_i
 
-  db_uqs='uniq'+uid.to_s+way.to_i.abs.to_s+Time.new.to_i.to_s	# temp uniquesegments table name, typically 51 chars
-  db_now='@now'+uid.to_s+way.to_i.abs.to_s+Time.new.to_i.to_s	# 'now' variable name, typically 51 chars
-  ActiveRecord::Base.connection.execute("SET #{db_now}=NOW()")
-  createuniquesegments(way,db_uqs)
+	db_uqs='uniq'+uid.to_s+way.to_i.abs.to_s+Time.new.to_i.to_s	# temp uniquesegments table name, typically 51 chars
+	db_uqn='unin'+uid.to_s+way.to_i.abs.to_s+Time.new.to_i.to_s	# temp uniquenodes table name, typically 51 chars
+	db_now='@now'+uid.to_s+way.to_i.abs.to_s+Time.new.to_i.to_s	# 'now' variable name, typically 51 chars
+	ActiveRecord::Base.connection.execute("SET #{db_now}=NOW()")
+	createuniquesegments(way,db_uqs)
 
-  sql=<<-EOF
-      INSERT INTO nodes (id,latitude,longitude,timestamp,user_id,visible) 
-      SELECT DISTINCT cn.id,cn.latitude,cn.longitude,#{db_now},#{uid},0 
-        FROM current_nodes AS cn, 
-           current_segments AS cs, 
-           #{db_uqs} AS us
-       WHERE (cn.id=cs.node_a OR cn.id=cs.node_b) 
-         AND cs.id=us.segment_id
-    EOF
-  ActiveRecord::Base.connection.insert(sql)
+	# -	delete any otherwise unused segments
 
-  sql=<<-EOF
-      UPDATE current_nodes AS cn, 
-           current_segments AS cs, 
-           #{db_uqs} AS us
-         SET cn.timestamp=#{db_now},cn.visible=0,cn.user_id=#{uid} 
-       WHERE (cn.id=cs.node_a OR cn.id=cs.node_b) 
-         AND cs.id=us.segment_id
-    EOF
-  ActiveRecord::Base.connection.update(sql)
-
-  # -	delete any otherwise unused segments
-
-  sql=<<-EOF
+	sql=<<-EOF
       INSERT INTO segments (id,node_a,node_b,timestamp,user_id,visible) 
       SELECT DISTINCT segment_id,node_a,node_b,#{db_now},#{uid},0 
         FROM current_segments AS cs, #{db_uqs} AS us
        WHERE cs.id=us.segment_id
     EOF
-  ActiveRecord::Base.connection.insert(sql)
+	ActiveRecord::Base.connection.insert(sql)
 
-  sql=<<-EOF
+	sql=<<-EOF
       UPDATE current_segments AS cs, #{db_uqs} AS us
          SET cs.timestamp=#{db_now},cs.visible=0,cs.user_id=#{uid} 
        WHERE cs.id=us.segment_id
     EOF
-  ActiveRecord::Base.connection.update(sql)
-  ActiveRecord::Base.connection.execute("DROP TABLE #{db_uqs}")
+	ActiveRecord::Base.connection.update(sql)
 
-  # - delete way
+	# - delete any unused nodes
+  
+    createuniquenodes(db_uqs,db_uqn)
 
-  ActiveRecord::Base.connection.insert("INSERT INTO ways (id,user_id,timestamp,visible) VALUES (#{way},#{uid},#{db_now},0)")
-  ActiveRecord::Base.connection.update("UPDATE current_ways SET user_id=#{uid},timestamp=#{db_now},visible=0 WHERE id=#{way}")
-  ActiveRecord::Base.connection.execute("DELETE FROM current_way_segments WHERE id=#{way}")
-  ActiveRecord::Base.connection.execute("DELETE FROM current_way_tags WHERE id=#{way}")
+	sql=<<-EOF
+		INSERT INTO nodes (id,latitude,longitude,timestamp,user_id,visible)  
+		SELECT DISTINCT cn.id,cn.latitude,cn.longitude,#{db_now},#{uid},0 
+		  FROM current_nodes AS cn,#{db_uqn}
+		 WHERE cn.id=node_id
+    EOF
+	ActiveRecord::Base.connection.insert(sql)
 
-  way
+	sql=<<-EOF
+      UPDATE current_nodes AS cn, #{db_uqn}
+         SET cn.timestamp=#{db_now},cn.visible=0,cn.user_id=#{uid} 
+       WHERE cn.id=node_id
+    EOF
+	ActiveRecord::Base.connection.update(sql)
+	
+	ActiveRecord::Base.connection.execute("DROP TABLE #{db_uqs}")
+	ActiveRecord::Base.connection.execute("DROP TABLE #{db_uqn}")
+
+	# - delete way
+	
+	ActiveRecord::Base.connection.insert("INSERT INTO ways (id,user_id,timestamp,visible) VALUES (#{way},#{uid},#{db_now},0)")
+	ActiveRecord::Base.connection.update("UPDATE current_ways SET user_id=#{uid},timestamp=#{db_now},visible=0 WHERE id=#{way}")
+	ActiveRecord::Base.connection.execute("DELETE FROM current_way_segments WHERE id=#{way}")
+	ActiveRecord::Base.connection.execute("DELETE FROM current_way_tags WHERE id=#{way}")
+	
+	way
 end
 
 # ====================================================================
@@ -498,6 +489,7 @@ def readwayquery(id)
 end
 
 def createuniquesegments(way,uqs_name)
+  # Finds segments which appear in this way and no other
   sql=<<-EOF
       CREATE TEMPORARY TABLE #{uqs_name}
               SELECT a.segment_id
@@ -511,6 +503,24 @@ def createuniquesegments(way,uqs_name)
   ActiveRecord::Base.connection.execute(sql)
 end
 
+def createuniquenodes(uqs_name,uqn_name)
+	# Finds nodes which appear in uniquesegments but no other segments
+	sql=<<-EOF
+		CREATE TEMPORARY TABLE #{uqn_name}
+			   SELECT DISTINCT node_id
+			      FROM (SELECT cn.id AS node_id
+						  FROM current_nodes AS cn,
+						       current_segments AS cs,
+						       #{uqs_name} AS us
+						 WHERE cs.id=us.segment_id
+						   AND (cn.id=cs.node_a OR cn.id=cs.node_b)) AS n
+					 LEFT JOIN current_segments AS cs2 ON node_id=cs2.node_a AND cs2.visible=1
+					 LEFT JOIN current_segments AS cs3 ON node_id=cs3.node_b AND cs3.visible=1
+					     WHERE cs2.node_a IS NULL
+					       AND cs3.node_b IS NULL
+	EOF
+	ActiveRecord::Base.connection.execute(sql)
+end
 
 def sqlescape(a)
   a.gsub("'","''").gsub(92.chr,92.chr+92.chr)
