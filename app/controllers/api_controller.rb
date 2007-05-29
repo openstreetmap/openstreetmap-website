@@ -243,6 +243,7 @@ class ApiController < ApplicationController
     #exit when we have too many requests
     if @@count > MAX_COUNT
       @@count = COUNT
+      
       exit!
     end
 

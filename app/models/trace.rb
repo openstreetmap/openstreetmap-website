@@ -56,6 +56,10 @@ class Trace < ActiveRecord::Base
     "/home/osm/icons/#{id}_icon.gif"
   end
 
+  def trace_name
+    "/home/osm/gpx/#{id}.gpx"
+  end
+
   def to_xml_node
     el1 = XML::Node.new 'gpx_file'
     el1['id'] = self.id.to_s
@@ -67,5 +71,86 @@ class Trace < ActiveRecord::Base
     el1['pending'] = (!self.inserted).to_s
     el1['timestamp'] = self.timestamp.xmlschema
     return el1
+  end
+
+  def import
+    begin
+      logger.info("GPX Import importing #{name} (#{id}) from #{user.email}")
+
+      # TODO *nix specific, could do to work on windows... would be functionally inferior though - check for '.gz'
+      filetype = `file -b #{trace_name}`.chomp
+      gzipped = filetype =~ /^gzip/
+      zipped = filetype =~ /^Zip/
+
+      if gzipped
+        filename = tempfile = "/tmp/#{rand}"
+        system("gunzip -c #{trace_name} > #{filename}")
+      elsif zipped
+        filename = tempfile = "/tmp/#{rand}"
+        system("unzip -p #{trace_name} > #{filename}")
+      else
+        filename = trace_name
+      end
+
+      gpx = OSM::GPXImporter.new(filename)
+
+      f_lat = 0
+      f_lon = 0
+      first = true
+
+      Tracepoint.delete_all(['gpx_id = ?', self.id])
+
+      gpx.points do |point|
+        if first
+          f_lat = point['latitude']
+          f_lon = point['longitude']
+        end
+
+        tp = Tracepoint.new
+        tp.lat = point['latitude'].to_f
+        tp.lng = point['longitude'].to_f
+        tp.altitude = point['altitude'].to_f
+        tp.user_id = user.id
+        tp.gpx_id = id
+        tp.trackid = point['segment'].to_i
+        tp.save!
+      end
+
+      if gpx.actual_points > 0
+        max_lat = Tracepoint.maximum('latitude', :conditions => ['gpx_id = ?', id])
+        min_lat = Tracepoint.minimum('latitude', :conditions => ['gpx_id = ?', id])
+        max_lon = Tracepoint.maximum('longitude', :conditions => ['gpx_id = ?', id])
+        min_lon = Tracepoint.minimum('longitude', :conditions => ['gpx_id = ?', id])
+
+        max_lat = max_lat.to_f / 1000000
+        min_lat = min_lat.to_f / 1000000
+        max_lon = max_lon.to_f / 1000000
+        min_lon = min_lon.to_f / 1000000
+
+        self.latitude = f_lat
+        self.longitude = f_lon
+        self.large_picture = gpx.get_picture(min_lat, min_lon, max_lat, max_lon, gpx.actual_points)
+        self.icon_picture = gpx.get_icon(min_lat, min_lon, max_lat, max_lon)
+        self.size = gpx.actual_points
+        self.inserted = true
+        self.save
+
+        Notifier::deliver_gpx_success(self, gpx.possible_points)
+      else
+        FileUtils.rm_f("/home/osm/gpx/#{id}.gpx")
+        self.destroy
+        Notifier::deliver_gpx_failure(self, '0 points parsed ok. Do they all have lat,lng,alt,timestamp?')
+      end
+
+      logger.info "done trace #{id}"
+    rescue Exception => ex
+      logger.info ex
+      ex.backtrace.each {|l| logger.info l }
+      FileUtils.rm_f("/home/osm/gpx/#{id}.gpx")
+      self.destroy
+      Notifier::deliver_gpx_failure(self, ex.to_s + ex.backtrace.join("\n") )
+    ensure
+      FileUtils.rm_f(tempfile) if tempfile
+    end
   end
 end
