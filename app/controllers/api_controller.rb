@@ -195,6 +195,8 @@ class ApiController < ApplicationController
 
       list_of_way_segments = list_of_way_segs.collect { |way_seg| way_seg.segment_id }
 
+	else
+	  list_of_way_segments = Array.new
     end
 
     # - [0] in case some thing links to segment 0 which doesn't exist. Shouldn't actually ever happen but it does. FIXME: file a ticket for this
