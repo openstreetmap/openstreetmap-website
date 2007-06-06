@@ -18,10 +18,10 @@ class SwfController < ApplicationController
 		basey		=params['basey'].to_f
 		masterscale	=params['masterscale'].to_f
 	
-		xmin=params['xmin'].to_f/0.0000001
-		xmax=params['xmax'].to_f/0.0000001
-		ymin=params['ymin'].to_f/0.0000001
-		ymax=params['ymax'].to_f/0.0000001
+		xmin=params['xmin'].to_f/0.000001
+		xmax=params['xmax'].to_f/0.000001
+		ymin=params['ymin'].to_f/0.000001
+		ymax=params['ymax'].to_f/0.000001
 	
 		# -	Begin movie
 	
@@ -45,20 +45,22 @@ class SwfController < ApplicationController
 	
 		if params['token']
 			token=sqlescape(params['token'])
-			sql="SELECT gps_points.latitude*0.0000001 AS lat,gps_points.longitude*0.0000001 AS lon,gpx_files.id AS fileid,UNIX_TIMESTAMP(gps_points.timestamp) AS ts "+
+			sql="SELECT gps_points.latitude*0.000001 AS lat,gps_points.longitude*0.000001 AS lon,gpx_files.id AS fileid,UNIX_TIMESTAMP(gps_points.timestamp) AS ts "+
 				 " FROM gpx_files,gps_points,users "+
 				 "WHERE gpx_files.id=gpx_id "+
 				 "  AND gpx_files.user_id=users.id "+
 				 "  AND token='#{token}' "+
 				 "  AND (gps_points.longitude BETWEEN #{xmin} AND #{xmax}) "+
 				 "  AND (gps_points.latitude BETWEEN #{ymin} AND #{ymax}) "+
+				 "  AND (gps_points.timestamp IS NOT NULL) "+
 				 "ORDER BY fileid DESC,ts "+
 				 "LIMIT 10000"
 		else
-			sql="SELECT latitude*0.0000001 AS lat,longitude*0.0000001 AS lon,gpx_id AS fileid,UNIX_TIMESTAMP(timestamp) AS ts "+
+			sql="SELECT latitude*0.000001 AS lat,longitude*0.000001 AS lon,gpx_id AS fileid,UNIX_TIMESTAMP(timestamp) AS ts "+
 				 " FROM gps_points "+
 				 "WHERE (longitude BETWEEN #{xmin} AND #{xmax}) "+
 				 "  AND (latitude  BETWEEN #{ymin} AND #{ymax}) "+
+				 "  AND (gps_points.timestamp IS NOT NULL) "+
 				 "ORDER BY fileid DESC,ts "+
 				 "LIMIT 10000"
 		end
