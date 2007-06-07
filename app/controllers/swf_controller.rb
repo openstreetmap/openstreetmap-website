@@ -18,10 +18,10 @@ class SwfController < ApplicationController
 		basey		=params['basey'].to_f
 		masterscale	=params['masterscale'].to_f
 	
-		xmin=params['xmin'].to_f/0.000001
-		xmax=params['xmax'].to_f/0.000001
-		ymin=params['ymin'].to_f/0.000001
-		ymax=params['ymax'].to_f/0.000001
+		xmin=params['xmin'].to_f; xminr=xmin/0.000001
+		xmax=params['xmax'].to_f; xmaxr=xmax/0.000001
+		ymin=params['ymin'].to_f; yminr=ymin/0.000001
+		ymax=params['ymax'].to_f; ymaxr=ymax/0.000001
 	
 		# -	Begin movie
 	
@@ -37,7 +37,7 @@ class SwfController < ApplicationController
 		xl=yb= 9999999
 		xr=yt=-9999999
 	
-		# -	Send SQL and draw line
+		# -	Send SQL for GPS tracks
 	
 		b=''
 		lasttime=0
@@ -50,23 +50,23 @@ class SwfController < ApplicationController
 				 "WHERE gpx_files.id=gpx_id "+
 				 "  AND gpx_files.user_id=users.id "+
 				 "  AND token='#{token}' "+
-				 "  AND (gps_points.longitude BETWEEN #{xmin} AND #{xmax}) "+
-				 "  AND (gps_points.latitude BETWEEN #{ymin} AND #{ymax}) "+
+				 "  AND (gps_points.longitude BETWEEN #{xminr} AND #{xmaxr}) "+
+				 "  AND (gps_points.latitude BETWEEN #{yminr} AND #{ymaxr}) "+
 				 "  AND (gps_points.timestamp IS NOT NULL) "+
 				 "ORDER BY fileid DESC,ts "+
 				 "LIMIT 10000"
 		else
 			sql="SELECT latitude*0.000001 AS lat,longitude*0.000001 AS lon,gpx_id AS fileid,UNIX_TIMESTAMP(timestamp) AS ts "+
 				 " FROM gps_points "+
-				 "WHERE (longitude BETWEEN #{xmin} AND #{xmax}) "+
-				 "  AND (latitude  BETWEEN #{ymin} AND #{ymax}) "+
+				 "WHERE (longitude BETWEEN #{xminr} AND #{xmaxr}) "+
+				 "  AND (latitude  BETWEEN #{yminr} AND #{ymaxr}) "+
 				 "  AND (gps_points.timestamp IS NOT NULL) "+
 				 "ORDER BY fileid DESC,ts "+
 				 "LIMIT 10000"
 		end
 		gpslist=ActiveRecord::Base.connection.select_all sql
 	
-		# - Draw lines
+		# - Draw GPS trace lines
 	
 		r=startShape()
 		gpslist.each do |row|
@@ -77,13 +77,52 @@ class SwfController < ApplicationController
 			if (row['ts'].to_i-lasttime<180 and row['fileid']==lastfile)
 				b+=drawTo(absx,absy,xs,ys)
 			else
-				b+=startAndMove(xs,ys)
+				b+=startAndMove(xs,ys,'01')
 			end
 			absx=xs.floor; absy=ys.floor
 			lasttime=row['ts'].to_i
 			lastfile=row['fileid']
 			while b.length>80 do
 				r+=[b.slice!(0...80)].pack("B*")
+			end
+		end
+		
+		# - Draw unwayed segments
+		
+		if params['unwayed']=='true'
+			lastx=lasty=-999999
+	
+			sql="SELECT cn1.latitude AS lat1,cn1.longitude AS lon1,"+
+				"		cn2.latitude AS lat2,cn2.longitude AS lon2 "+
+				"  FROM current_segments "+
+				"       LEFT OUTER JOIN current_way_segments"+
+				"       ON segment_id=current_segments.id,"+
+				"       current_nodes AS cn1,current_nodes AS cn2"+
+				" WHERE (cn1.longitude BETWEEN #{xmin} AND #{xmax})"+
+				"   AND (cn1.latitude  BETWEEN #{ymin} AND #{ymax})"+
+				"   AND segment_id IS NULL"+
+				"   AND cn1.id=node_a AND cn1.visible=1"+
+				"   AND cn2.id=node_b AND cn2.visible=1"
+			seglist=ActiveRecord::Base.connection.select_all sql
+			
+			seglist.each do |row|
+				xs1=long2coord(row['lon1'].to_f); ys1=lat2coord(row['lat1'].to_f)
+				xs2=long2coord(row['lon2'].to_f); ys2=lat2coord(row['lat2'].to_f)
+				if (xs1==lastx and ys1==lasty)
+					b+=drawTo(xs2*20, ys2*20)
+					lastx=xs2; lasty=ys2
+				elsif (xs2==lastx and ys2==lasty)
+					b+=drawTo(xs1*20, ys1*20)
+					lastx=xs1; lasty=ys1
+				else
+					b+=startAndMove(xs1*20,ys1*20,'10')
+					b+=drawTo(xs2*20, ys2*20)
+					lastx=xs2; lasty=ys2
+				end
+				absx=lastx.floor; absy=lasty.floor
+				while b.length>80 do
+					r+=[b.slice!(0...80)].pack("B*")
+				end
 			end
 		end
 	
@@ -116,9 +155,10 @@ class SwfController < ApplicationController
 
 	def startShape
 		s =0.chr										# No fill styles
-		s+=1.chr										# One line style
+		s+=2.chr										# Two line styles
 		s+=packUI16(5) + 0.chr + 255.chr + 255.chr		# Width 5, RGB #00FFFF
-		s+=17.chr										# 1 fill, 1 line index bit
+		s+=packUI16(5) + 255.chr + 0.chr + 255.chr		# Width 5, RGB #FF00FF
+		s+=34.chr										# 2 fill, 2 line index bits
 		s
 	end
 	
@@ -126,11 +166,11 @@ class SwfController < ApplicationController
 		'000000'
 	end
 	
-	def startAndMove(x,y)
+	def startAndMove(x,y,col)
 		d='001001'										# Line style change, moveTo
 		l =[lengthSB(x),lengthSB(y)].max
 		d+=sprintf("%05b%0#{l}b%0#{l}b",l,x,y)
-		d+='1'											# Select line style 1
+		d+=col											# Select line style
 	end
 	
 	def drawTo(absx,absy,x,y)
