@@ -28,7 +28,7 @@ class UserController < ApplicationController
       @user.home_lat = home_lat.to_f
       @user.home_lon = home_lon.to_f
       if @user.save
-        flash[:notice] = "User edited OK."
+        flash[:notice] = "User information updated successfully."
         redirect_to :controller => 'user', :action => 'account'
       end
     end
@@ -39,7 +39,7 @@ class UserController < ApplicationController
       @user.home_lat = params[:user][:home_lat].to_f
       @user.home_lon = params[:user][:home_lon].to_f
       if @user.save
-        flash[:notice] = "User home saved."
+        flash[:notice] = "Home location saved successfully."
         redirect_to :controller => 'user', :action => 'account'
       end
     end
@@ -48,7 +48,7 @@ class UserController < ApplicationController
   def go_public
     @user.data_public = true
     @user.save
-    flash[:notice] = 'All your edits are now public'
+    flash[:notice] = 'All your edits are now public.'
     redirect_to :controller => 'user', :action => 'account', :display_name => @user.display_name
   end
 
@@ -59,7 +59,7 @@ class UserController < ApplicationController
         user.token = User.make_token
         user.save
         Notifier::deliver_lost_password(user)
-        flash[:notice] = "Sorry you lost it :-( but an email is on it's way so you can reset it soon."
+        flash[:notice] = "Sorry you lost it :-( but an email is on its way so you can reset it soon."
       else
         flash[:notice] = "Couldn't find that email address, sorry."
       end
@@ -76,7 +76,7 @@ class UserController < ApplicationController
         user.pass_crypt = pass
         user.save
         Notifier::deliver_reset_password(user, pass)
-        flash[:notice] = "You're password has been changed and is on the way to your mailbox :-)"
+        flash[:notice] = "Your password has been changed and is on its way to your mailbox :-)"
       else
         flash[:notice] = "Didn't find that token, check the URL maybe?"
       end
@@ -104,7 +104,7 @@ class UserController < ApplicationController
         end
         return
       else
-        flash[:notice] = "Couldn't log in with those details"
+        flash[:notice] = "Sorry, couldn't log in with those details."
       end
     end
   end
@@ -137,7 +137,7 @@ class UserController < ApplicationController
 
       redirect_to :action => 'login'
     else
-      flash[:notice] = 'Something went wrong confirming that user'
+      flash[:notice] = 'Something went wrong confirming that user.'
     end
   end
 
@@ -182,12 +182,12 @@ class UserController < ApplicationController
       friend.friend_user_id = User.find_by_display_name(name).id 
       unless @user.is_friends_with?(friend)
         if friend.save
-          flash[:notice] = "#{name} is now your friend"
+          flash[:notice] = "#{name} is now your friend."
         else
-          friend.add_error("adding a friend failed")
+          friend.add_error("Sorry, failed to add #{name} as a friend.")
         end
       else
-        flash[:notice] = "Your are already friends"  
+        flash[:notice] = "You are already friends with #{name}."  
       end
         redirect_to :controller => 'user', :action => 'view'
     end
