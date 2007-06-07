@@ -6,8 +6,8 @@ class Trace < ActiveRecord::Base
   validates_inclusion_of :inserted, :in => [ true, false]
   
   belongs_to :user
-  has_many :tags, :class_name => 'Tracetag', :foreign_key => 'gpx_id', :dependent => :destroy
-  has_many :points, :class_name => 'Tracepoint', :foreign_key => 'gpx_id', :dependent => :destroy
+  has_many :tags, :class_name => 'Tracetag', :foreign_key => 'gpx_id', :dependent => :delete_all
+  has_many :points, :class_name => 'Tracepoint', :foreign_key => 'gpx_id', :dependent => :delete_all
 
   def tagstring=(s)
     self.tags = s.split().collect {|tag|
