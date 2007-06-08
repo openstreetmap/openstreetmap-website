@@ -8,7 +8,7 @@ class OldWayController < ApplicationController
       return
     end
     
-    doc = get_xml_doc
+    doc = OSM::API.new.get_xml_doc
 
     way.old_ways.each do |old_way|
       doc.root << old_way.to_xml_node
