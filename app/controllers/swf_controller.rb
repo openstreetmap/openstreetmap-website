@@ -90,8 +90,6 @@ class SwfController < ApplicationController
 		# - Draw unwayed segments
 		
 		if params['unwayed']=='true'
-			lastx=lasty=-999999
-	
 			sql="SELECT cn1.latitude AS lat1,cn1.longitude AS lon1,"+
 				"		cn2.latitude AS lat2,cn2.longitude AS lon2 "+
 				"  FROM current_segments "+
@@ -106,20 +104,19 @@ class SwfController < ApplicationController
 			seglist=ActiveRecord::Base.connection.select_all sql
 			
 			seglist.each do |row|
-				xs1=long2coord(row['lon1'].to_f); ys1=lat2coord(row['lat1'].to_f)
-				xs2=long2coord(row['lon2'].to_f); ys2=lat2coord(row['lat2'].to_f)
-				if (xs1==lastx and ys1==lasty)
-					b+=drawTo(xs2*20, ys2*20)
-					lastx=xs2; lasty=ys2
-				elsif (xs2==lastx and ys2==lasty)
-					b+=drawTo(xs1*20, ys1*20)
-					lastx=xs1; lasty=ys1
+				xs1=(long2coord(row['lon1'].to_f,baselong,masterscale)*20).floor; ys1=(lat2coord(row['lat1'].to_f,basey,masterscale)*20).floor
+				xs2=(long2coord(row['lon2'].to_f,baselong,masterscale)*20).floor; ys2=(lat2coord(row['lat2'].to_f,basey,masterscale)*20).floor
+				if (xs1==absx and ys1==absy)
+					b+=drawTo(absx,absy,xs2,ys2)
+					absx=xs2; absy=ys2
+				elsif (xs2==absx and ys2==absy)
+					b+=drawTo(absx,absy,xs1,ys1)
+					absx=xs1; absy=ys1
 				else
-					b+=startAndMove(xs1*20,ys1*20,'10')
-					b+=drawTo(xs2*20, ys2*20)
-					lastx=xs2; lasty=ys2
+					b+=startAndMove(xs1,ys1,'10')
+					b+=drawTo(xs1,ys1,xs2,ys2)
+					absx=xs2; absy=ys2
 				end
-				absx=lastx.floor; absy=lasty.floor
 				while b.length>80 do
 					r+=[b.slice!(0...80)].pack("B*")
 				end
