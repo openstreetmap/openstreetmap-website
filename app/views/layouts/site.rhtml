@@ -40,6 +40,7 @@
         traceclass = ''
         viewclass = 'active' if params['controller'] == 'site' and params['action'] == 'index' 
         editclass = 'active' if params['controller'] == 'site' and params['action'] == 'edit' 
+        editcalss = 'active' if params['controller'] == 'campaign'
         traceclass = 'active' if params['controller'] == 'trace'
         %>
         <li><%= link_to 'View', {:controller => 'site', :action => 'index'}, {:id => 'viewanchor', :title => 'view maps', :class => viewclass  } %></li>
@@ -72,7 +73,16 @@
 		<%= link_to "Users' diaries", {:controller => 'diary_entry', :action => 'list'} %><br />
         <a href="http://www.opengeodata.org/">News blog</a><br />
         <a href="http://wiki.openstreetmap.org/index.php/Merchandise">Shop</a><br />
+</div>
+
+
+      <div id="left_menu">
+    <div id="sotminfo">
+Come the the first OpenStreetMap Conference - <a href="http://www.stateofthemap.org">The State of the Map</a> 14th-15th July, 2007, Manchester, UK.
+</div>
       </div>
+
+
       <%= yield :optionals %>
       <div id="cclogo">
         <center>
