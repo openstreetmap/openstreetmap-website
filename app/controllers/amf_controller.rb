@@ -484,7 +484,9 @@ def readwayquery(id)
       "    FROM current_way_segments,current_segments,current_nodes AS n1,current_nodes AS n2 "+
       "   WHERE current_way_segments.id=#{id} "+
       "     AND segment_id=current_segments.id "+
+	  "     AND current_segments.visible=1 "+
       "     AND n1.id=node_a and n2.id=node_b "+
+      "     AND n1.visible=1 AND n2.visible=1 "+
       "   ORDER BY sequence_id"
 end
 
