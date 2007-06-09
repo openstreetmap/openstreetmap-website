@@ -14,18 +14,16 @@ class User < ActiveRecord::Base
   validates_length_of :display_name, :minimum => 3, :allow_nil => true
   validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
 
+  before_save :encrypt_password
+
   def set_defaults
     self.creation_time = Time.now
     self.timeout = Time.now
     self.token = User.make_token()
   end
 
-  def pass_crypt=(str) 
-    write_attribute("pass_crypt", Digest::MD5.hexdigest(str)) 
-  end
-
-  def pass_crypt_confirmation=(str) 
-    write_attribute("pass_crypt_confirm", Digest::MD5.hexdigest(str)) 
+  def encrypt_password
+    self.pass_crypt = Digest::MD5.hexdigest(pass_crypt) if pass_crypt_confirmation
   end
 
   def self.authenticate(email, passwd)

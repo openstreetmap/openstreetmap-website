@@ -74,6 +74,7 @@ class UserController < ApplicationController
       if user
         pass = User.make_token(8)
         user.pass_crypt = pass
+        user.pass_crypt_confirmation = pass
         user.save
         Notifier::deliver_reset_password(user, pass)
         flash[:notice] = "Your password has been changed and is on its way to your mailbox :-)"
