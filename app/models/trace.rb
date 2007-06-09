@@ -9,6 +9,11 @@ class Trace < ActiveRecord::Base
   has_many :tags, :class_name => 'Tracetag', :foreign_key => 'gpx_id', :dependent => :delete_all
   has_many :points, :class_name => 'Tracepoint', :foreign_key => 'gpx_id', :dependent => :delete_all
 
+  def destroy
+    super
+    FileUtils.rm_f(trace_name, icon_picture_name, large_picture_name)
+  end
+
   def tagstring=(s)
     self.tags = s.split().collect {|tag|
       tt = Tracetag.new
@@ -135,21 +140,11 @@ class Trace < ActiveRecord::Base
         self.size = gpx.actual_points
         self.inserted = true
         self.save
-
-        Notifier::deliver_gpx_success(self, gpx.possible_points)
-      else
-        FileUtils.rm_f("/home/osm/gpx/#{id}.gpx")
-        self.destroy
-        Notifier::deliver_gpx_failure(self, '0 points parsed ok. Do they all have lat,lng,alt,timestamp?')
       end
 
       logger.info "done trace #{id}"
-    rescue Exception => ex
-      logger.info ex
-      ex.backtrace.each {|l| logger.info l }
-      FileUtils.rm_f("/home/osm/gpx/#{id}.gpx")
-      self.destroy
-      Notifier::deliver_gpx_failure(self, ex.to_s + ex.backtrace.join("\n") )
+
+      return gpx
     ensure
       FileUtils.rm_f(tempfile) if tempfile
     end
