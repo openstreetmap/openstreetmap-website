@@ -302,7 +302,7 @@ module OSM
       lat_el << latitude.to_s
       item << lat_el
 
-      lon_el = XML::Node.new 'geo:lon'
+      lon_el = XML::Node.new 'geo:long'
       lon_el << longitude.to_s
       item << lon_el
 
