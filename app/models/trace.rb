@@ -1,7 +1,8 @@
 class Trace < ActiveRecord::Base
   set_table_name 'gpx_files'
 
-  validates_presence_of :user_id, :name, :public, :description, :timestamp
+  validates_presence_of :user_id, :name, :public, :timestamp
+  validates_presence_of :description, :on => :create
 #  validates_numericality_of :latitude, :longitude
   validates_inclusion_of :inserted, :in => [ true, false]
   
