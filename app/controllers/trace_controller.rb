@@ -98,10 +98,10 @@ class TraceController < ApplicationController
   def create
     filename = "/tmp/#{rand}"
 
-    File.open(filename, "w") { |f| f.write(@params['trace']['gpx_file'].read) }
-    @params['trace']['name'] = @params['trace']['gpx_file'].original_filename.gsub(/[^a-zA-Z0-9.]/, '_') # This makes sure filenames are sane
-    @params['trace'].delete('gpx_file') # remove the field from the hash, because there's no such field in the DB
-    @trace = Trace.new(@params['trace'])
+    File.open(filename, "w") { |f| f.write(params[:trace][:gpx_file].read) }
+    params[:trace][:name] = params[:trace][:gpx_file].original_filename.gsub(/[^a-zA-Z0-9.]/, '_') # This makes sure filenames are sane
+    params[:trace].delete('gpx_file') # remove the field from the hash, because there's no such field in the DB
+    @trace = Trace.new(params[:trace])
     @trace.inserted = false
     @trace.user = @user
     @trace.timestamp = Time.now
@@ -178,11 +178,11 @@ class TraceController < ApplicationController
     
     filename = "/tmp/#{rand}"
     File.open(filename, "w") { |f| f.write(request.raw_post) }
-    @params['trace'] = {}
-    @params['trace']['name'] = params[:filename]
-    @params['trace']['tagstring'] = params[:tags]
-    @params['trace']['description'] = params[:description]
-    @trace = Trace.new(@params['trace'])
+    params[:trace] = {}
+    params[:trace][:name] = params[:filename]
+    params[:trace][:tagstring] = params[:tags]
+    params[:trace][:description] = params[:description]
+    @trace = Trace.new(params[:trace])
     @trace.inserted = false
     @trace.user = @user
     @trace.timestamp = Time.now
