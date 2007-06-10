@@ -13,6 +13,8 @@ class TraceController < ApplicationController
     # from display name, pick up user id if one user's traces only
     display_name = params[:display_name]
     if target_user.nil? and display_name and display_name != ''
+      @paging_action = 'view'
+      @display_name = display_name
       target_user = User.find(:first, :conditions => [ "display_name = ?", display_name])
     end
 
