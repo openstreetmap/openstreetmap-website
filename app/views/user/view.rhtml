@@ -1,7 +1,7 @@
 <h2><%= @this_user.display_name %></h2>
 <% if @user and @this_user.id == @user.id %>
 <h3>Messages</h3>
-<% if @user.has_messages? %>
+<% if !@user.messages.empty? %>
 <p>You have <%=@user.get_new_messages.length %> new messages and <%=@user.get_all_messages.length -  @user.get_new_messages.length %> old messages:</p> 
 
 <div id = "messages">
