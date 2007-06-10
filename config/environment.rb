@@ -56,7 +56,7 @@ end
 # Include your application configuration below
 SERVER_URL = ENV['OSM_SERVER_URL'] || 'www.openstreetmap.org'
 
-ActionMailer::Base.server_settings = {
+ActionMailer::Base.smtp_settings = {
   :address  => "localhost",
   :port  => 25, 
   :domain  => 'localhost',
