@@ -1,6 +1,6 @@
 <h2>User details</h2>
 <%= error_messages_for 'user' %>
-<%= start_form_tag :controller => 'user', :action => 'edit', :display_name => @user.display_name %>
+<% form_tag :controller => 'user', :action => 'edit', :display_name => @user.display_name do %>
 <table style="width : 100%">
   <tr><td>Name</td><td><%= @user.email %></td></tr>
   <tr><td>Mapper since</td><td><%= @user.creation_time %> (<%= time_ago_in_words(@user.creation_time) %> ago)</td></tr>
@@ -18,7 +18,7 @@
   <tr><td valign="top">Description</td><td><%= text_area :user, :description, :value => @user.description, :class => "editDescription" %></td></tr>
 </table>
 <%= submit_tag 'Save Changes' %>
-<%= end_form_tag %>
+<% end %>
 
 <% nearest_str = "" %>
 <% if @user.home_lat and @user.home_lon %>
@@ -213,7 +213,7 @@ window.onload = init;
 <% else %>
   Currently your edits are anonymous and people can't find out where you are located. To show what you edited and allow people to contact you through the website, click the button below. This action cannot be reversed.
   <br /><br />
-  <%= start_form_tag :controller => 'user', :action => 'go_public'%>
+  <% form_tag :controller => 'user', :action => 'go_public' do %>
   <%= submit_tag 'Make all my edits public, forever' %>
-  <%= end_form_tag %>
+  <% end %>
 <% end %>

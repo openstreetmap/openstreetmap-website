@@ -1,6 +1,6 @@
 <h2>Edit details:</h2>
 <%= error_messages_for 'user' %>
-<%= start_form_tag :controller => 'user', :action => 'edit', :display_name => @user.display_name %>
+<% form_tag :controller => 'user', :action => 'edit', :display_name => @user.display_name do %>
 <table>
   <tr><td>display name</td><td><%= text_field :user, :display_name, :value => @user.display_name %></td></tr>
   <tr><td valign="top">description</td><td><%= text_area :user, :description, :value => @user.description %></td></tr>
@@ -9,5 +9,4 @@
  
 </table>
 <%= submit_tag 'Change' %>
-<%= end_form_tag %>
-
+<% end %>
