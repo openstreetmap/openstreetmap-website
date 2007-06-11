@@ -99,8 +99,8 @@ class UserController < ApplicationController
         u.timeout = 1.day.from_now
         u.save
         session[:token] = u.token
-        if params[:next_controller] and params[:next_action]
-          redirect_to :controller => params[:next_controller], :action => params[:next_action]
+        if params[:referer]
+          redirect_to params[:referer]
         else
           redirect_to :controller => 'site', :action => 'index'
         end
@@ -121,8 +121,8 @@ class UserController < ApplicationController
       end
     end
     session[:token] = nil
-    if params[:next_controller] and params[:next_action]
-      redirect_to :controller => params[:next_controller], :action => params[:next_action]
+    if params[:referer]
+      redirect_to params[:referer]
     else
       redirect_to :controller => 'site', :action => 'index'
     end

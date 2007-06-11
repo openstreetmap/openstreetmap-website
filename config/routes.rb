@@ -45,8 +45,6 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/user/confirm', :controller => 'user', :action => 'confirm'
   map.connect '/user/go_public', :controller => 'user', :action => 'go_public'
   map.connect '/user/reset_password', :controller => 'user', :action => 'reset_password'
-  map.connect '/user/login/:next_controller/:next_action', :controller => 'user', :action => 'login'
-  map.connect '/user/logout/:next_controller/:next_action', :controller => 'user', :action => 'logout'
   map.connect '/index.html', :controller => 'site', :action => 'index'
   map.connect '/edit.html', :controller => 'site', :action => 'edit'
   map.connect '/search.html', :controller => 'way_tag', :action => 'search'

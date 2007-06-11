@@ -84,7 +84,7 @@ class TraceController < ApplicationController
     if @user
       list(@user, 'mine') unless @user.nil?
     else
-      redirect_to :controller => 'user', :action => 'login'
+      redirect_to :controller => 'user', :action => 'login', :referer => request.request_uri
     end
   end
 
