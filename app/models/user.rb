@@ -13,6 +13,7 @@ class User < ActiveRecord::Base
   validates_length_of :pass_crypt, :minimum => 8
   validates_length_of :display_name, :minimum => 3, :allow_nil => true
   validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
+  validates_format_of :display_name, :with => /^[^\/;.,?]*$/
 
   before_save :encrypt_password
 
