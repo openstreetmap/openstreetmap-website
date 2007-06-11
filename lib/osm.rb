@@ -241,7 +241,7 @@ module OSM
   end
 
   class GeoRSS
-    def initialize(description='OpenStreetMap GPS Traces')
+    def initialize(feed_title='OpenStreetMap GPS Traces', feed_description='OpenStreetMap GPS Traces', feed_url='http://www.openstreetmap.org/traces/')
       @doc = XML::Document.new
       @doc.encoding = 'UTF-8' 
       
@@ -252,14 +252,14 @@ module OSM
       @channel = XML::Node.new 'channel'
       rss << @channel
       title = XML::Node.new 'title'
-      title <<  'OpenStreetMap GPS Traces'
+      title <<  feed_title
       @channel << title
       description_el = XML::Node.new 'description'
       @channel << description_el
 
-      description_el << description
+      description_el << feed_description
       link = XML::Node.new 'link'
-      link << 'http://www.openstreetmap.org/traces/'
+      link << feed_url
       @channel << link
       image = XML::Node.new 'image'
       @channel << image
@@ -276,7 +276,7 @@ module OSM
       height << '100'
       image << height
       link = XML::Node.new 'link'
-      link << 'http://www.openstreetmap.org/traces/'
+      link << feed_url
       image << link
     end
 
@@ -298,13 +298,17 @@ module OSM
       pubDate << timestamp.xmlschema
       item << pubDate
 
-      lat_el = XML::Node.new 'geo:lat'
-      lat_el << latitude.to_s
-      item << lat_el
+      if latitude
+        lat_el = XML::Node.new 'geo:lat'
+        lat_el << latitude.to_s
+        item << lat_el if lat_el
+      end
 
-      lon_el = XML::Node.new 'geo:long'
-      lon_el << longitude.to_s
-      item << lon_el
+      if longitude
+        lon_el = XML::Node.new 'geo:long'
+        lon_el << longitude.to_s
+        item << lon_el
+      end
 
       @channel << item
     end
