@@ -76,11 +76,15 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/user/:display_name/make_friend', :controller => 'user', :action => 'make_friend'
   map.connect '/user/:display_name', :controller => 'user', :action => 'view'
   map.connect '/user/:display_name/diary', :controller => 'user', :action => 'diary'
+  map.connect '/user/:display_name/diary/rss', :controller => 'user', :action => 'rss'
   map.connect '/user/:display_name/diary/newpost', :controller => 'diary_entry', :action => 'new'
   map.connect '/user/:display_name/edit', :controller => 'user', :action => 'edit'
   map.connect '/user/:display_name/account', :controller => 'user', :action => 'account'
   map.connect '/user/:display_name/set_home', :controller => 'user', :action => 'set_home'
   map.connect '/diary', :controller => 'diary_entry', :action => 'list'
+  map.connect '/diary/rss', :controller => 'diary_entry', :action => 'rss'
+  map.connect '/diary/:language', :controller => 'diary_entry', :action => 'list'
+  map.connect '/diary/:language/rss', :controller => 'diary_entry', :action => 'rss'
 
   # test pages
   map.connect '/test/populate/:table/:from/:count', :controller => 'test', :action => 'populate'
@@ -93,6 +97,7 @@ ActionController::Routing::Routes.draw do |map|
 
   # messages
 
+  map.connect '/user/:display_name/inbox', :controller => 'message', :action => 'inbox'
   map.connect '/message/new/:user_id', :controller => 'message', :action => 'new'
   map.connect '/message/read/:message_id', :controller => 'message', :action => 'read'
   map.connect '/message/mark/:message_id', :controller => 'message', :action => 'mark'
