@@ -1,3 +1,6 @@
-<h3>most recent posts:</h3>
+<h3>Recent diary entries:</h3>
 <br />
 <%= render :partial => 'diary_entry/diary_entry', :collection => @entries %>
+
+<%= link_to(image_tag("RSS.gif", :size => "16x16", :border => 0), :action => 'rss') %>
+<%= auto_discovery_link_tag(:atom, :action => 'rss') %>
