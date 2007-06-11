@@ -301,7 +301,7 @@ module OSM
       if latitude
         lat_el = XML::Node.new 'geo:lat'
         lat_el << latitude.to_s
-        item << lat_el if lat_el
+        item << lat_el
       end
 
       if longitude
