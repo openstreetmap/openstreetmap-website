@@ -1,0 +1,15 @@
+<h1>Upload GPS Trace</h1>
+
+<%= error_messages_for 'trace' %>
+
+<% form_tag({:action => 'create'}, :multipart => true) do %>
+<table>
+<tr><td align="right">Upload GPX File</td><td><%= file_field('trace', 'gpx_file', {:size => 50, :maxlength => 255}) %></td></tr>
+<tr><td align="right">Description</td><td><%= text_field('trace', 'description', {:size => 50, :maxlength => 255}) %></td></tr>
+<tr><td align="right">Tags</td><td><%= text_field('trace', 'tagstring', {:size => 50, :maxlength => 255}) %></td></tr>
+<tr><td align="right">Public?</td><td><%= check_box('trace', 'public') %></td></tr>
+<tr><td></td><td>
+<%= submit_tag 'Upload' %> | <a href="http://wiki.openstreetmap.org/index.php/Upload">help</a>
+</td></tr>
+</table>
+<% end %>

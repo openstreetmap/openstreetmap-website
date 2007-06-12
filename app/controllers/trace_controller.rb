@@ -2,7 +2,7 @@ class TraceController < ApplicationController
   before_filter :authorize_web  
   before_filter :authorize, :only => [:api_details, :api_data, :api_create]
   layout 'site'
-  
+ 
   # Counts and selects pages of GPX traces for various criteria (by user, tags, public etc.).
   #  target_user - if set, specifies the user to fetch traces for.  if not set will fetch all traces
   #  paging_action - the action that will be linked back to from view
@@ -115,10 +115,6 @@ class TraceController < ApplicationController
       logger.info("id is #{@trace.id}")
       flash[:notice] = "Your GPX file has been uploaded and is awaiting insertion in to the database. This will usually happen within half an hour, and an email will be sent to you on completion."
       redirect_to :action => 'mine'
-    else
-      # fixme throw an error here
-       redirect_to :action => 'mine'
-       flash[:notice] = "You haven't entered a tag or a description for yoru traces."
     end
   end
 

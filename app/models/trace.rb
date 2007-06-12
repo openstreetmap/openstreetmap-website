@@ -1,10 +1,10 @@
 class Trace < ActiveRecord::Base
   set_table_name 'gpx_files'
 
-  validates_presence_of :user_id, :name, :public, :timestamp
+  validates_presence_of :user_id, :name, :timestamp
   validates_presence_of :description, :on => :create
 #  validates_numericality_of :latitude, :longitude
-  validates_inclusion_of :inserted, :in => [ true, false]
+  validates_inclusion_of :public, :inserted, :in => [ true, false]
   
   belongs_to :user
   has_many :tags, :class_name => 'Tracetag', :foreign_key => 'gpx_id', :dependent => :delete_all
@@ -13,6 +13,10 @@ class Trace < ActiveRecord::Base
   def destroy
     super
     FileUtils.rm_f(trace_name, icon_picture_name, large_picture_name)
+  end
+
+  def tagstring
+    return tags.collect {|tt| tt.tag}.join(" ")
   end
 
   def tagstring=(s)
