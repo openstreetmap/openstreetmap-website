@@ -24,7 +24,7 @@ class User < ActiveRecord::Base
   end
 
   def encrypt_password
-    self.pass_crypt = Digest::MD5.hexdigest(pass_crypt) if pass_crypt_confirmation
+    self.pass_crypt = Digest::MD5.hexdigest(pass_crypt) unless pass_crypt_confirmation.nil?
   end
 
   def self.authenticate(email, passwd)

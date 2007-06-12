@@ -2,8 +2,8 @@ class UserController < ApplicationController
   layout 'site'
 
   before_filter :authorize, :only => [:preferences, :api_details, :api_gpx_files]
-  before_filter :authorize_web, :only => [:edit, :account, :go_public, :view, :diary, :make_friend]
-  before_filter :require_user, :only => [:edit, :set_home, :account, :go_public, :make_friend]
+  before_filter :authorize_web, :only => [:account, :go_public, :view, :diary, :make_friend]
+  before_filter :require_user, :only => [:set_home, :account, :go_public, :make_friend]
 
   def save
     @user = User.new(params[:user])
@@ -18,18 +18,23 @@ class UserController < ApplicationController
     end
   end
 
-  def edit
+  def account
     if params[:user] and params[:user][:display_name] and params[:user][:description]
       home_lat =  params[:user][:home_lat]
       home_lon =  params[:user][:home_lon]
 
       @user.display_name = params[:user][:display_name]
+      if params[:user][:pass_crypt].length > 0 or params[:user][:pass_crypt_confirmation].length > 0
+        @user.pass_crypt = params[:user][:pass_crypt]
+        @user.pass_crypt_confirmation = params[:user][:pass_crypt_confirmation]
+      end
       @user.description = params[:user][:description]
       @user.home_lat = home_lat.to_f
       @user.home_lon = home_lon.to_f
       if @user.save
         flash[:notice] = "User information updated successfully."
-        redirect_to :controller => 'user', :action => 'account'
+      else
+        flash.delete(:notice)
       end
     end
   end
