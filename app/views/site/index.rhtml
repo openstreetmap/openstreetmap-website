@@ -93,24 +93,28 @@
     markers.addMarker(marker);
     <%end%>
 
-      map.addControl(new OpenLayers.Control.LayerSwitcher());
+    map.addControl(new OpenLayers.Control.LayerSwitcher());
     map.setCenter(new OpenLayers.LonLat(lon, lat), zoom);
 
-    map.events.register("moveend", map, function() { 
-        var lonlat = map.getCenter();
-
-        var lon_deg = (lonlat.lon / 20037508.34) * 180;
-        var lat_deg = (lonlat.lat / 20037508.34) * 180;
-        var PI = 3.14159265358979323846;
-        lat_deg = 180/PI * (2 * Math.atan(Math.exp(lat_deg * PI / 180)) - PI / 2);
-        var zoom = map.getZoom();
-        updatelinks(lon_deg,lat_deg,zoom);
-        });
+    map.events.register("moveend", map, updateLocation);
     document.getElementById( 'map_OpenLayers_ViewPort' ).style.position = 'absolute';
     if( ie6 ) {
       handleResize();
     }
+    updateLocation();
   }        
+
+  function updateLocation() {
+    var lonlat = map.getCenter();
+
+    var lon_deg = (lonlat.lon / 20037508.34) * 180;
+    var lat_deg = (lonlat.lat / 20037508.34) * 180;
+    var PI = 3.14159265358979323846;
+    lat_deg = 180/PI * (2 * Math.atan(Math.exp(lat_deg * PI / 180)) - PI / 2);
+    var zoom = map.getZoom();
+
+    updatelinks(lon_deg,lat_deg,zoom);
+  }
 
   function getStyle( el, property ) {
     var style;
