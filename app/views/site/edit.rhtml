@@ -1,3 +1,19 @@
+<%= render :partial => 'search' %>
+
+<% if params['mlon'] and params['mlat'] %>
+<% lon =  params['mlon'] %>
+<% lat =  params['mlat']  %>
+<% zoom =  params['zoom'] || '12' %>
+<% elsif @user and params['lon'].nil? and params['lat'].nil? %> 
+<% lon =  @user.home_lon %>
+<% lat =  @user.home_lat %>
+<% zoom = '10' %>
+<%else%>
+<% lon =  params['lon'] || '-0.1' %>
+<% lat =  params['lat'] || '51.5' %>
+<% zoom =  params['zoom'] || '4' %>
+<% end %>
+
 <div id="mapcontent">You need a Flash player to use Potlatch, the
     OpenStreetMap Flash editor. You can <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">download Flash Player from Adobe.com</a>.
 
@@ -13,9 +29,6 @@
       fo.addVariable('token','<%= @user.token %>');
       fo.write("mapcontent");
     }
-<% lon =  params['lon'] || @user.home_lon || '-0.1' %>
-<% lat =  params['lat'] || @user.home_lat || '51.5' %>
-<% zoom =  params['zoom'] || 12 %>
 
     doSWF(<%= lat %>,<%= lon %>,<%= zoom %>);
 
