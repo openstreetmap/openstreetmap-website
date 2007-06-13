@@ -21,12 +21,12 @@ function updatelinks(lon,lat,zoom) {
 
   node = document.getElementById("editanchor");
   if (node) {
-    if ( zoom >= 14) {
-      var args = getArgs(node.href);
+    if (zoom >= 11) {
+      var args = new Object();
       args.lat = lat;
       args.lon = lon;
       args.zoom = zoom;
-      node.href = setArgs(node.href, args);
+      node.href = setArgs("/edit.html", args);
       node.style.fontStyle = 'normal';
     } else {
       node.href = 'javascript:alert("zoom in to edit map");';
