@@ -1,5 +1,5 @@
 function updatelinks(lon,lat,zoom) {
-  var links = new Array();
+  var links = new Object();
   links['viewanchor'] = '/index.html';
   //links['editanchor'] = 'edit.html';
   links['uploadanchor'] = '/traces';
