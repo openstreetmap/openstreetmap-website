@@ -38,5 +38,5 @@ while(true) do
     exit if terminated
   end
 
-  sleep 15.minutes
+  sleep 5.minutes
 end
