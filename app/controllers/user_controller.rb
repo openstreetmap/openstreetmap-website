@@ -137,12 +137,12 @@ class UserController < ApplicationController
     @user = User.find_by_token(params[:confirm_string])
     if @user && @user.active == 0
       @user.active = true
+      @user.token = User.make_token
+      @user.timeout = 1.day.from_now
       @user.save
       flash[:notice] = 'Confirmed your account, thanks for signing up!'
-
-      #FIXME: login the person magically
-
-      redirect_to :action => 'login'
+      session[:token] = @user.token
+      redirect_to :action => 'account', :display_name => @user.display_name
     else
       flash[:notice] = 'Something went wrong confirming that user.'
     end
