@@ -4,7 +4,7 @@ function correctPNG() // correctly handle PNG transparency in Win IE 5.5 or high
   {
     var img = document.images[i]
       var imgName = img.src.toUpperCase()
-      if (imgName.indexOf('.PNG') > 0)
+      if (imgName.indexOf('.PNG') > 0 && !img.id.match(/^OpenLayers/))
       {
         var imgID = (img.id) ? "id='" + img.id + "' " : ""
           var imgClass = (img.className) ? "class='" + img.className + "' " : ""
