@@ -12,7 +12,9 @@ class Trace < ActiveRecord::Base
 
   def destroy
     super
-    FileUtils.rm_f(trace_name, icon_picture_name, large_picture_name)
+    FileUtils.rm_f(trace_name)
+    FileUtils.rm_f(icon_picture_name)
+    FileUtils.rm_f(large_picture_name)
   end
 
   def tagstring
