@@ -5,6 +5,7 @@ class MessageController < ApplicationController
   before_filter :require_user
 
   def new
+    @title = 'send message'
     if params[:message]
       to_user = User.find(params[:user_id])
       body = params[:message][:body]
@@ -19,6 +20,7 @@ class MessageController < ApplicationController
    
       if message.save
         flash[:notice] = 'Message sent'
+        redirect_to :controller => 'user', :action => 'view', :display_name => @user.display_name
       else
         @message.errors.add("Sending message failed")
       end
@@ -27,10 +29,14 @@ class MessageController < ApplicationController
   end
 
   def read
+    @title = 'read message'
     if params[:message_id]
       id = params[:message_id]
       @message = Message.find_by_id(id)
     end
+  end
+
+  def inbox
   end
 
   def mark

@@ -6,6 +6,7 @@ class UserController < ApplicationController
   before_filter :require_user, :only => [:set_home, :account, :go_public, :make_friend]
 
   def save
+    @title = 'create account'
     @user = User.new(params[:user])
     @user.set_defaults
 
@@ -19,6 +20,7 @@ class UserController < ApplicationController
   end
 
   def account
+    @title = 'edit account'
     if params[:user] and params[:user][:display_name] and params[:user][:description]
       home_lat =  params[:user][:home_lat]
       home_lon =  params[:user][:home_lon]
@@ -58,6 +60,7 @@ class UserController < ApplicationController
   end
 
   def lost_password
+    @title = 'lost password'
     if params[:user] and params[:user][:email]
       user = User.find_by_email(params['user']['email'])
       if user
@@ -74,6 +77,7 @@ class UserController < ApplicationController
   end
 
   def reset_password
+    @title = 'reset password'
     if params['token']
       user = User.find_by_token(params['token'])
       if user
@@ -92,9 +96,11 @@ class UserController < ApplicationController
   end
 
   def new
+    @title = 'create account'
   end
 
   def login
+    @title = 'login'
     if params[:user]
       email = params[:user][:email]
       pass = params[:user][:password]
@@ -149,6 +155,7 @@ class UserController < ApplicationController
   end
 
   def preferences
+    @title = 'preferences'
     if request.get?
       render_text @user.preferences
     elsif request.post? or request.put?
@@ -174,10 +181,12 @@ class UserController < ApplicationController
 
   def view
     @this_user = User.find_by_display_name(params[:display_name])
+    @title = @this_user.display_name
   end
 
   def diary
     @this_user = User.find_by_display_name(params[:display_name])
+    @title = @this_user.display_name + "'s diary"
   end
 
   def make_friend
@@ -196,7 +205,7 @@ class UserController < ApplicationController
       else
         flash[:notice] = "You are already friends with #{name}."  
       end
-        redirect_to :controller => 'user', :action => 'view'
+      redirect_to :controller => 'user', :action => 'view'
     end
   end
 

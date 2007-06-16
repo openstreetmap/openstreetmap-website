@@ -32,7 +32,7 @@ class DiaryEntryController < ApplicationController
       rss.add(latitude, longitude, entry.title, url_for({:controller => 'user', :action => 'diary', :id => entry.id, :display_name => entry.user.display_name}), entry.body, entry.created_at)
     end
 
-    response.headers["Content-Type"] = 'application/xml+rss'
+    response.headers["Content-Type"] = 'application/rss+xml'
 
     render :text => rss.to_s
   end
