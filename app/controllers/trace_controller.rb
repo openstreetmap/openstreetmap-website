@@ -145,7 +145,7 @@ class TraceController < ApplicationController
       rss.add(trace.latitude, trace.longitude, trace.name, url_for({:controller => 'trace', :action => 'view', :id => trace.id, :display_name => trace.user.display_name}), "<img src='#{url_for({:controller => 'trace', :action => 'icon', :id => trace.id, :user_login => trace.user.display_name})}'> GPX file with #{trace.size} points from #{trace.user.display_name}", trace.timestamp)
     end
 
-    response.headers["Content-Type"] = 'application/xml+rss'
+    response.headers["Content-Type"] = 'application/rss+xml'
 
     render :text => rss.to_s
   end
