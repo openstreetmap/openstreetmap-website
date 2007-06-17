@@ -295,7 +295,7 @@ module OSM
       item << description
 
       pubDate = XML::Node.new 'pubDate'
-      pubDate << timestamp.xmlschema
+      pubDate << timestamp.to_s(:rfc822)
       item << pubDate
 
       if latitude
