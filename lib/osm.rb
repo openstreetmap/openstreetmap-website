@@ -290,6 +290,10 @@ module OSM
       link << url
       item << link
 
+      guid = XML::Node.new 'guid'
+      guid << url
+      item << guid
+
       description = XML::Node.new 'description'
       description << description_text
       item << description
