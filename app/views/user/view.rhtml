@@ -1,17 +1,18 @@
 <h2><%= @this_user.display_name %></h2>
+<div id="description"><%= simple_format(@this_user.description) %></div>
+
 <% if @user and @this_user.id == @user.id %>
 <h3>Messages</h3>
 <% if !@user.messages.empty? %>
 <p>You have <%=@user.get_new_messages.length %> new messages and <%=@user.get_all_messages.length -  @user.get_new_messages.length %> old messages:</p> 
 
-<div id = "messages">
+<div id="messages">
 <table class="messages">
-<th>from<th>
-<th>title<th>
-<th>received on<th>
-<th>mark as read<th>
-<th>reply<th>
-<th><th>
+<tr><th>from</th>
+<th>title</th>
+<th>received on</th>
+<th></th>
+<th></th></tr>
 
 <% if params[:unread] %>
 <% @user.get_all_messages.each do |message| %>
@@ -20,10 +21,10 @@
 <td><%= message.sent_on %></td>
 <% if message.message_read = 0 %>
 <td><%= link_to 'mark as read', :controller => 'message', :action => 'mark', :message_id => message.id %> </td>
-<td><%= link_to 'reply', :controller => 'message', :action => 'new', :user_id => message.from_user_id %> </td>
 <%else%>
 <td>message read</td>
 <%end%>
+<td><%= link_to 'reply', :controller => 'message', :action => 'new', :user_id => message.from_user_id %> </td>
 <%end%>
 </tr>
 
@@ -52,22 +53,37 @@
 
 <br />
 <%= link_to 'show all messages', :controller => 'user', :action => 'view', :display_name => @user.display_name, :unread => true %>
-<br />
+
+
+<h3>Your diary</h3>
+<%= link_to 'View your diary', :controller => 'user', :action=>'diary', :display_name => @user.display_name %><br/>
+<%= link_to 'New diary post', :controller => 'diary_entry', :action=>'new', :display_name => @user.display_name %>
+
 <h3>Your account</h3>
-Go to <%= link_to 'your account page', :controller => 'user', :action => 'account', :display_name => @user.display_name %> to see who's mapping in your area.
-<br />
-<br />
-<%= link_to 'View your diary', :controller => 'user', :action=>'diary', :display_name => @user.display_name %>
+<%= link_to 'Edit your settings', :controller => 'user', :action => 'account', :display_name => @user.display_name %>
+
 
 <% else %>
-<%= link_to 'send message', :controller => 'message', :action => 'new', :user_id => @this_user.id %><br /><br /> 
-<%= link_to 'Add as friend', :controller => 'user', :action => 'make_friend', :display_name => @this_user.display_name %><br /><br />
-<%= link_to 'Diary', :controller => 'user', :action=>'diary', :display_name => @this_user.display_name %>
+<%= link_to 'Send message', :controller => 'message', :action => 'new', :user_id => @this_user.id %><br /> 
+<%= link_to 'Add as friend', :controller => 'user', :action => 'make_friend', :display_name => @this_user.display_name %><br />
+<%= link_to 'View diary', :controller => 'user', :action=>'diary', :display_name => @this_user.display_name %>
 <% end %>
-<br />
-<br />
 
-<p><%= params[:display_name] %> says:  </p>
-<%= simple_format(@this_user.description) %>
+<h3>Nearby users</h3>
+<% if @this_user.home_lat and @this_user.home_lon %>
+  <% if @this_user.nearby.empty? %>
+    There are no users who admit to mapping nearby.
+  <% else %>
+    <table id="nearbyusers">
+    <% @this_user.nearby(1,1).each do |nearby| %>
+    <tr>
+    <td class="username"><%= link_to nearby.display_name, :controller => 'user', :action => 'view',  :display_name => nearby.display_name %></td>
+    <td class="message">(<%= link_to 'send message', :controller => 'message', :action => 'new', :user_id => nearby.id %>)</td>
+    </tr>
+    <%end%>
+    </table>
 
-
+  <%end%>
+<% else %>
+  No home location has been set.
+<% end %>
