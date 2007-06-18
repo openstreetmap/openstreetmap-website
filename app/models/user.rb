@@ -27,8 +27,8 @@ class User < ActiveRecord::Base
     self.pass_crypt = Digest::MD5.hexdigest(pass_crypt) unless pass_crypt_confirmation.nil?
   end
 
-  def self.authenticate(email, passwd)
-    find(:first, :conditions => [ "email = ? AND pass_crypt = ? AND active = true", email, Digest::MD5.hexdigest(passwd)])
+  def self.authenticate(email, passwd, active = true)
+    find(:first, :conditions => [ "email = ? AND pass_crypt = ? AND active = ?", email, Digest::MD5.hexdigest(passwd), active])
   end 
 
   def self.authenticate_token(token) 
