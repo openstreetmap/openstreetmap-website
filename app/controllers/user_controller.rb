@@ -11,7 +11,7 @@ class UserController < ApplicationController
     @user.set_defaults
 
     if @user.save
-      flash[:notice] = 'User was successfully created. Check your email for a confirmation note, and you\'ll be mapping in no time :-)'
+      flash[:notice] = "User was successfully created. Check your email for a confirmation note, and you\'ll be mapping in no time :-)<br>Please note that you won't be able to login until you've received and confirmed your email address."
       Notifier::deliver_signup_confirm(@user)
       redirect_to :action => 'login'
     else
