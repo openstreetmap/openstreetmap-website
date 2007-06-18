@@ -79,7 +79,7 @@ module OSM
       lat = -1
       lon = -1
       ele = -1
-      date = Time.now();
+      date = DateTime.now();
       gotlatlon = false
       gotele = false
       gotdate = false
@@ -98,7 +98,7 @@ module OSM
 
       parser.listen( :characters, %w{ time } ) do |text|
         if text && text != ''
-          date = Time.parse(text)
+          date = DateTime.parse(text)
           gotdate = true
         end
       end
@@ -280,7 +280,7 @@ module OSM
       image << link
     end
 
-    def add(latitude=0, longitude=0, title_text='dummy title', url='http://www.example.com/', description_text='dummy description', timestamp=Time.now)
+    def add(latitude=0, longitude=0, title_text='dummy title', url='http://www.example.com/', description_text='dummy description', timestamp=DateTime.now)
       item = XML::Node.new 'item'
 
       title = XML::Node.new 'title'
