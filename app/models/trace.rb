@@ -92,11 +92,15 @@ class Trace < ActiveRecord::Base
       # TODO *nix specific, could do to work on windows... would be functionally inferior though - check for '.gz'
       filetype = `file -b #{trace_name}`.chomp
       gzipped = filetype =~ /^gzip/
+      bzipped = filetype =~ /^bzip2/
       zipped = filetype =~ /^Zip/
 
       if gzipped
         filename = tempfile = "/tmp/#{rand}"
         system("gunzip -c #{trace_name} > #{filename}")
+      elsif bzipped
+        filename = tempfile = "/tmp/#{rand}"
+        system("bunzip2 -c #{trace_name} > #{filename}")
       elsif zipped
         filename = tempfile = "/tmp/#{rand}"
         system("unzip -p #{trace_name} > #{filename}")
