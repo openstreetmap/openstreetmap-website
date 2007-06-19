@@ -60,12 +60,13 @@ class Way < ActiveRecord::Base
     
     if user_display_name_cache and user_display_name_cache[self.user_id]
       # use the cache if available
-    else
+    elsif self.user.data_public?
       user_display_name_cache[self.user_id] = self.user.display_name
+    else
+      user_display_name_cache[self.user_id] = nil
     end
-    
-    #el1['user'] = self.user.display_name if self.user.data_public?
-    el1['user'] = user_display_name_cache[self.user_id]
+
+    el1['user'] = user_display_name_cache[self.user_id] unless user_display_name_cache[self.user_id].nil?
 
     # make sure segments are output in sequence_id order
     ordered_segments = []

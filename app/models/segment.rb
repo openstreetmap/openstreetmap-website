@@ -80,14 +80,16 @@ class Segment < ActiveRecord::Base
     el1['to'] = self.node_b.to_s
 
     user_display_name_cache = {} if user_display_name_cache.nil?
+
     if user_display_name_cache and user_display_name_cache[self.user_id]
       # use the cache if available
-    else
+    elsif self.user.data_public?
       user_display_name_cache[self.user_id] = self.user.display_name
+    else
+      user_display_name_cache[self.user_id] = nil
     end
-    
-    #el1['user'] = self.user.display_name if self.user.data_public?
-    el1['user'] = user_display_name_cache[self.user_id]
+
+    el1['user'] = user_display_name_cache[self.user_id] unless user_display_name_cache[self.user_id].nil?
 
     Segment.split_tags(el1, self.tags)
     el1['visible'] = self.visible.to_s
