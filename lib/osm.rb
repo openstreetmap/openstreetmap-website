@@ -22,10 +22,11 @@ module OSM
       @clat = lat
       @clon = lon
       @degrees_per_pixel = degrees_per_pixel
+      @degrees_per_pixel = 0.0000000001 if @degrees_per_pixel < 0.0000000001
       @width = width
       @height = height
-      @dlon = width / 2 * degrees_per_pixel
-      @dlat = height / 2 * degrees_per_pixel  * cos(@clat * PI / 180)
+      @dlon = width / 2 * @degrees_per_pixel
+      @dlat = height / 2 * @degrees_per_pixel  * cos(@clat * PI / 180)
 
       @tx = xsheet(@clon - @dlon)
       @ty = ysheet(@clat - @dlat)
@@ -197,7 +198,7 @@ module OSM
     end
 
     def get_icon(min_lat, min_lon, max_lat, max_lon)
-      puts "getting icon for bbox #{min_lat},#{min_lon} - #{max_lat},#{max_lon}"
+      #puts "getting icon for bbox #{min_lat},#{min_lon} - #{max_lat},#{max_lon}"
       width = 50
       height = 50
       rat= Math.cos( ((max_lat + min_lat)/2.0) /  180.0 * 3.141592)
