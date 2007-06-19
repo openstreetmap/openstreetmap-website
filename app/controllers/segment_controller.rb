@@ -31,7 +31,6 @@ class SegmentController < ApplicationController
           render :nothing => true, :status => 500
         end
         return
-
       else
         render :nothing => true, :status => 400 # if we got here the doc didnt parse
         return
@@ -58,9 +57,13 @@ class SegmentController < ApplicationController
 
     when :delete
       if segment.visible
-        segment.visible = 0
-        segment.save_with_history
-        render :nothing => true
+        if WaySegment.find(:first, :joins => "INNER JOIN current_ways ON current_ways.id = current_way_segments.id", :conditions => [ "current_ways.visible = 1 AND current_way_segments.segment_id = ?", segment.id ])
+          render :nothing => true, :status => HTTP_PRECONDITION_FAILED
+        else
+          segment.visible = 0
+          segment.save_with_history
+          render :nothing => true
+        end
       else
         render :nothing => true, :status => 410
       end
@@ -68,26 +71,32 @@ class SegmentController < ApplicationController
     when :put
       new_segment = Segment.from_xml(request.raw_post)
 
-      segment.timestamp = Time.now
-      segment.user_id = @user.id
+      if new_segment
+        if new_segment.node_a == new_segment.node_b
+          render :nothing => true, :status => HTTP_EXPECTATION_FAILED
+          return
+        end
+        
+        unless new_segment.preconditions_ok? # are the nodes visible?
+          render :nothing => true, :status => HTTP_PRECONDITION_FAILED
+          return
+        end
 
-      if new_segment.node_a == new_segment.node_b
-        render :nothing => true, :status => HTTP_EXPECTATION_FAILED
-        return
-      end
+        segment.timestamp = Time.now
+        segment.user_id = @user.id
+        segment.node_a = new_segment.node_a
+        segment.node_b = new_segment.node_b
+        segment.tags = new_segment.tags
+        segment.visible = new_segment.visible
 
-      segment.node_a = new_segment.node_a
-      segment.node_b = new_segment.node_b
-      
-      segment.tags = new_segment.tags
-      segment.visible = new_segment.visible
-
-      if segment.id == new_segment.id and segment.save_with_history
-        render :nothing => true, :status => HTTP_OK
+        if segment.id == new_segment.id and segment.save_with_history
+          render :nothing => true
+        else
+          render :nothing => true, :status => 500
+        end
       else
-        render :nothing => true, :status => 500
+        render :nothing => true, :status => 400 # if we got here the doc didnt parse
       end
-      return
     end
 
   end

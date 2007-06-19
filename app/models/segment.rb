@@ -2,8 +2,9 @@ class Segment < ActiveRecord::Base
   require 'xml/libxml'
   set_table_name 'current_segments'
 
-  validates_numericality_of :node_a
-  validates_numericality_of :node_b
+  validates_presence_of :user_id, :timestamp
+  validates_inclusion_of :visible, :in => [ true, false ]
+  validates_numericality_of :node_a, :node_b
 
   has_many :old_segments, :foreign_key => :id
   belongs_to :user
@@ -13,43 +14,48 @@ class Segment < ActiveRecord::Base
   belongs_to :to_node, :class_name => 'Node', :foreign_key => 'node_b'
 
   def self.from_xml(xml, create=false)
-    p = XML::Parser.new
-    p.string = xml
-    doc = p.parse
+    begin
+      p = XML::Parser.new
+      p.string = xml
+      doc = p.parse
 
-    segment = Segment.new
+      segment = Segment.new
 
-    doc.find('//osm/segment').each do |pt|
+      doc.find('//osm/segment').each do |pt|
+        segment.node_a = pt['from'].to_i
+        segment.node_b = pt['to'].to_i
 
-      segment.node_a = pt['from'].to_i
-      segment.node_b = pt['to'].to_i
-
-      if pt['id'] != '0'
-        segment.id = pt['id'].to_i
-      end
-
-      segment.visible = true
-
-      if create
-        segment.timestamp = Time.now
-      else
-        if pt['timestamp']
-          segment.timestamp = Time.parse(pt['timestamp'])
+        unless create
+          if pt['id'] != '0'
+            segment.id = pt['id'].to_i
+          end
         end
+
+        segment.visible = true
+
+        if create
+          segment.timestamp = Time.now
+        else
+          if pt['timestamp']
+            segment.timestamp = Time.parse(pt['timestamp'])
+          end
+        end
+
+        tags = []
+
+        pt.find('tag').each do |tag|
+          tags << [tag['k'],tag['v']]
+        end
+
+        tags = tags.collect { |k,v| "#{k}=#{v}" }.join(';')
+        tags = '' if tags.nil?
+
+        segment.tags = tags
       end
-
-      tags = []
-
-      pt.find('tag').each do |tag|
-        tags << [tag['k'],tag['v']]
-      end
-
-      tags = tags.collect { |k,v| "#{k}=#{v}" }.join(';')
-      tags = '' if tags.nil?
-
-      segment.tags = tags
-
+    rescue
+      segment = nil
     end
+
     return segment
   end
 
@@ -57,12 +63,13 @@ class Segment < ActiveRecord::Base
     begin
       Segment.transaction do
         self.timestamp = Time.now
-        self.save
+        self.save!
         old_segment = OldSegment.from_segment(self)
-        old_segment.save
+        old_segment.save!
       end
+
       return true
-    rescue Exception => ex
+    rescue
       return nil
     end
   end

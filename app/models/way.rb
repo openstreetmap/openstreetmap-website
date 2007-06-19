@@ -11,34 +11,37 @@ class Way < ActiveRecord::Base
   set_table_name 'current_ways'
 
   def self.from_xml(xml, create=false)
-    p = XML::Parser.new
-    p.string = xml
-    doc = p.parse
+    begin
+      p = XML::Parser.new
+      p.string = xml
+      doc = p.parse
 
-    way = Way.new
+      way = Way.new
 
-    doc.find('//osm/way').each do |pt|
-      if !create and pt['id'] != '0'
-        way.id = pt['id'].to_i
-      end
+      doc.find('//osm/way').each do |pt|
+        if !create and pt['id'] != '0'
+          way.id = pt['id'].to_i
+        end
 
-      if create
-        way.timestamp = Time.now
-        way.visible = true
-      else
-        if pt['timestamp']
-          way.timestamp = Time.parse(pt['timestamp'])
+        if create
+          way.timestamp = Time.now
+          way.visible = true
+        else
+          if pt['timestamp']
+            way.timestamp = Time.parse(pt['timestamp'])
+          end
+        end
+
+        pt.find('tag').each do |tag|
+          way.add_tag_keyval(tag['k'], tag['v'])
+        end
+
+        pt.find('seg').each do |seg|
+          way.add_seg_num(seg['id'])
         end
       end
-
-      pt.find('tag').each do |tag|
-        way.add_tag_keyval(tag['k'], tag['v'])
-      end
-
-      pt.find('seg').each do |seg|
-        way.add_seg_num(seg['id'])
-      end
-
+    rescue
+      way = nil
     end
 
     return way
@@ -140,38 +143,47 @@ class Way < ActiveRecord::Base
   end
 
   def save_with_history
-    t = Time.now
-    self.timestamp = t
-    self.save
+    begin
+      Way.transaction do
+        t = Time.now
+        self.timestamp = t
+        self.save!
     
-    WayTag.delete_all(['id = ?', self.id])
+        WayTag.delete_all(['id = ?', self.id])
 
-    self.tags.each do |k,v|
-      tag = WayTag.new
-      tag.k = k
-      tag.v = v
-      tag.id = self.id
-      tag.save
-    end
+        self.tags.each do |k,v|
+          tag = WayTag.new
+          tag.k = k
+          tag.v = v
+          tag.id = self.id
+          tag.save!
+        end
 
-    WaySegment.delete_all(['id = ?', self.id])
+        WaySegment.delete_all(['id = ?', self.id])
     
-    i = 0
-    self.segs.each do |n|
-      seg = WaySegment.new
-      seg.id = self.id
-      seg.segment_id = n
-      seg.sequence_id = i
-      seg.save
-      i += 1
-    end
+        i = 0
+        self.segs.each do |n|
+          seg = WaySegment.new
+          seg.id = self.id
+          seg.segment_id = n
+          seg.sequence_id = i
+          seg.save!
+          i += 1
+        end
 
-    old_way = OldWay.from_way(self)
-    old_way.timestamp = t
-    old_way.save_with_dependencies
+        old_way = OldWay.from_way(self)
+        old_way.timestamp = t
+        old_way.save_with_dependencies!
+      end
+
+      return true
+    rescue
+      return nil
+    end
   end
 
   def preconditions_ok?
+    return false if self.segs.empty?
     self.segs.each do |n|
       segment = Segment.find(n)
       unless segment and segment.visible and segment.preconditions_ok?

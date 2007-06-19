@@ -11,17 +11,16 @@ class WayController < ApplicationController
 
       if way
         way.user_id = @user.id
+
         unless way.preconditions_ok? # are the segments (and their nodes) visible?
-          render :nothing => true, :status => 412
+          render :nothing => true, :status => HTTP_PRECONDITION_FAILED
           return
         end
 
         if way.save_with_history
           render :text => way.id.to_s
-          return
         else
           render :nothing => true, :status => 500
-          return
         end
         return
       else
@@ -87,38 +86,36 @@ class WayController < ApplicationController
       render :text => way.to_xml.to_s
 
     when :delete
-      unless way.visible
+      if way.visible
+        way.visible = false
+        way.save_with_history
+        render :nothing => true
+      else
         render :nothing => true, :status => 410
-        return
       end
 
-      way.visible = false
-      way.save_with_history
-      render :nothing => true
-      return
     when :put
-      way = Way.from_xml(request.raw_post)
+      new_way = Way.from_xml(request.raw_post)
 
-      if way
-        way_in_db = Way.find(way.id)
-        if way_in_db
-          way_in_db.user_id = @user.id
-          way_in_db.tags = way.tags
-          way_in_db.segs = way.segs
-          way_in_db.timestamp = way.timestamp
-          way_in_db.visible = true
-          if way_in_db.save_with_history
-            render :text => way.id
-          else
-            render :nothing => true, :status => 500
-          end
+      if new_way
+        unless new_way.preconditions_ok? # are the segments (and their nodes) visible?
+          render :nothing => true, :status => HTTP_PRECONDITION_FAILED
           return
+        end
+
+        way.user_id = @user.id
+        way.tags = new_way.tags
+        way.segs = new_way.segs
+        way.timestamp = new_way.timestamp
+        way.visible = true
+
+        if way.id == new_way.id and way.save_with_history
+          render :nothing => true
         else
-          render :nothing => true, :status => 404 # way doesn't exist yet
+          render :nothing => true, :status => 500
         end
       else
         render :nothing => true, :status => 400 # if we got here the doc didnt parse
-        return
       end
     end
   end

@@ -13,7 +13,7 @@ class OldWay < ActiveRecord::Base
     return old_way
   end
 
-  def save_with_dependencies
+  def save_with_dependencies!
 
     # dont touch this unless you really have figured out why it's called
     # (Rails doesn't deal well with the old ways table (called 'ways') because
@@ -21,7 +21,7 @@ class OldWay < ActiveRecord::Base
     # id and get it back but we have that and we want to get the 'version' back
     # we could add another column but thats a lot of data. No, set_primary_key
     # doesn't work either.
-    save()
+    save!
     clear_aggregation_cache
     clear_association_cache
     @attributes.update(OldWay.find(:first, :conditions => ['id = ? AND timestamp = ?', self.id, self.timestamp]).instance_variable_get('@attributes'))
@@ -34,7 +34,7 @@ class OldWay < ActiveRecord::Base
       tag.v = v
       tag.id = self.id
       tag.version = self.version
-      tag.save
+      tag.save!
     end
 
     i = 0
@@ -43,7 +43,7 @@ class OldWay < ActiveRecord::Base
       seg.id = self.id
       seg.segment_id = n
       seg.version = self.version
-      seg.save
+      seg.save!
     end
   end
 

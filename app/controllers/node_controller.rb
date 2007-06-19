@@ -7,13 +7,7 @@ class NodeController < ApplicationController
   def create
     response.headers["Content-Type"] = 'text/xml'
     if request.put?
-      node = nil
-      begin
-        node = Node.from_xml(request.raw_post, true)
-      rescue
-        render :text => "XML didn't parse", :status => 400 # if we got here the doc didnt parse
-        return
-      end
+      node = Node.from_xml(request.raw_post, true)
 
       if node
         node.user_id = @user.id
@@ -61,9 +55,13 @@ class NodeController < ApplicationController
 
     when :delete
       if node.visible
-        node.visible = 0
-        node.save_with_history
-        render :nothing => true
+        if Segment.find(:first, :conditions => [ "visible = 1 and (node_a = ? or node_b = ?)", node.id, node.id])
+          render :nothing => true, :status => HTTP_PRECONDITION_FAILED
+        else
+          node.visible = 0
+          node.save_with_history
+          render :nothing => true
+        end
       else
         render :nothing => true, :status => 410
       end
@@ -71,17 +69,21 @@ class NodeController < ApplicationController
     when :put
       new_node = Node.from_xml(request.raw_post)
 
-      node.timestamp = Time.now
-      node.user_id = @user.id
+      if new_node
+        node.timestamp = Time.now
+        node.user_id = @user.id
 
-      node.latitude = new_node.latitude 
-      node.longitude = new_node.longitude
-      node.tags = new_node.tags
+        node.latitude = new_node.latitude 
+        node.longitude = new_node.longitude
+        node.tags = new_node.tags
 
-      if node.id == new_node.id and node.save_with_history
-        render :nothing => true, :status => 200
+        if node.id == new_node.id and node.save_with_history
+          render :nothing => true
+        else
+          render :nothing => true, :status => 500
+        end
       else
-        render :nothing => true, :status => 500
+        render :nothing => true, :status => 400 # if we got here the doc didnt parse
       end
       return
     end

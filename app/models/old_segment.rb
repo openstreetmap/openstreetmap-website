@@ -1,6 +1,10 @@
 class OldSegment < ActiveRecord::Base
   set_table_name 'segments'
 
+  validates_presence_of :user_id, :timestamp
+  validates_inclusion_of :visible, :in => [ true, false ]
+  validates_numericality_of :node_a, :node_b
+
   belongs_to :user
 
   def self.from_segment(segment)

@@ -1,7 +1,22 @@
 class OldNode < ActiveRecord::Base
   set_table_name 'nodes'
+  
+  validates_presence_of :user_id, :timestamp
+  validates_inclusion_of :visible, :in => [ true, false ]
+  validates_numericality_of :latitude, :longitude
+  validate :validate_position
 
   belongs_to :user
+
+  def validate_position
+    errors.add_to_base("Node is not in the world") unless in_world?
+  end
+
+  def in_world?
+    return false if self.latitude < -90 or self.latitude > 90
+    return false if self.longitude < -180 or self.longitude > 180
+    return true
+  end
 
   def self.from_node(node)
     old_node = OldNode.new
@@ -26,5 +41,4 @@ class OldNode < ActiveRecord::Base
     el1['timestamp'] = self.timestamp.xmlschema
     return el1
   end
-
 end

@@ -2,59 +2,69 @@ class Node < ActiveRecord::Base
   require 'xml/libxml'
   set_table_name 'current_nodes'
   
-
-  validates_numericality_of :latitude
-  validates_numericality_of :longitude
-  # FIXME validate lat and lon within the world
+  validates_presence_of :user_id, :timestamp
+  validates_inclusion_of :visible, :in => [ true, false ]
+  validates_numericality_of :latitude, :longitude
+  validate :validate_position
 
   has_many :old_nodes, :foreign_key => :id
   belongs_to :user
 
+  def validate_position
+    errors.add_to_base("Node is not in the world") unless in_world?
+  end
+
+  def in_world?
+    return false if self.latitude < -90 or self.latitude > 90
+    return false if self.longitude < -180 or self.longitude > 180
+    return true
+  end
+
   def self.from_xml(xml, create=false)
-    p = XML::Parser.new
-    p.string = xml
-    doc = p.parse
+    begin
+      p = XML::Parser.new
+      p.string = xml
+      doc = p.parse
+  
+      node = Node.new
 
-    node = Node.new
+      doc.find('//osm/node').each do |pt|
+        node.latitude = pt['lat'].to_f
+        node.longitude = pt['lon'].to_f
 
-    doc.find('//osm/node').each do |pt|
+        return nil unless node.in_world?
 
-
-      node.latitude = pt['lat'].to_f
-      node.longitude = pt['lon'].to_f
-
-      if node.latitude > 90 or node.latitude < -90 or node.longitude > 180 or node.longitude < -180
-        return nil
-      end
-
-      unless create
-        if pt['id'] != '0'
-          node.id = pt['id'].to_i
+        unless create
+          if pt['id'] != '0'
+            node.id = pt['id'].to_i
+          end
         end
-      end
 
-      node.visible = pt['visible'] and pt['visible'] == 'true'
+        node.visible = pt['visible'] and pt['visible'] == 'true'
 
-      if create
-        node.timestamp = Time.now
-      else
-        if pt['timestamp']
-          node.timestamp = Time.parse(pt['timestamp'])
+        if create
+          node.timestamp = Time.now
+        else
+          if pt['timestamp']
+            node.timestamp = Time.parse(pt['timestamp'])
+          end
         end
+
+        tags = []
+
+        pt.find('tag').each do |tag|
+          tags << [tag['k'],tag['v']]
+        end
+
+        tags = tags.collect { |k,v| "#{k}=#{v}" }.join(';')
+        tags = '' if tags.nil?
+
+        node.tags = tags
       end
-
-      tags = []
-
-      pt.find('tag').each do |tag|
-        tags << [tag['k'],tag['v']]
-      end
-
-      tags = tags.collect { |k,v| "#{k}=#{v}" }.join(';')
-      tags = '' if tags.nil?
-
-      node.tags = tags
-
+    rescue
+      node = nil
     end
+
     return node
   end
 
@@ -62,12 +72,13 @@ class Node < ActiveRecord::Base
     begin
       Node.transaction do
         self.timestamp = Time.now
-        self.save
+        self.save!
         old_node = OldNode.from_node(self)
-        old_node.save
+        old_node.save!
       end
+
       return true
-    rescue Exception => ex
+    rescue
       return nil
     end
   end
