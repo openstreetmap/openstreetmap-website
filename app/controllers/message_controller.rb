@@ -20,7 +20,7 @@ class MessageController < ApplicationController
    
       if message.save
         flash[:notice] = 'Message sent'
-        redirect_to :controller => 'user', :action => 'view', :display_name => @user.display_name
+        redirect_to :controller => 'message', :action => 'inbox', :display_name => @user.display_name
       else
         @message.errors.add("Sending message failed")
       end
@@ -37,6 +37,11 @@ class MessageController < ApplicationController
   end
 
   def inbox
+    @title = 'inbox'
+    if @user and params[:display_name] == @user.display_name
+    else
+      redirect_to :controller => 'message', :action => 'inbox', :display_name => @user.display_name
+    end
   end
 
   def mark
@@ -45,8 +50,8 @@ class MessageController < ApplicationController
       message = Message.find_by_id(id)
       message.message_read = 1
       if message.save
-        flash[:notice] = 'Message Marked as read'
-        redirect_to :controller => 'user', :action => 'view', :display_name => @user.display_name
+        flash[:notice] = 'Message marked as read'
+        redirect_to :controller => 'message', :action => 'inbox', :display_name => @user.display_name
       end
     end
   end

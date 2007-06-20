@@ -1,0 +1,51 @@
+<h2>My inbox</h2>
+
+<p>You have <%=@user.get_new_messages.length %> new messages and <%=@user.get_all_messages.length -  @user.get_new_messages.length %> old messages</p> 
+
+<% if (params[:all] and @user.get_all_messages.length > 0) or (@user.get_new_messages.length > 0) %>
+  <div id="messages">
+  <table class="messages">
+  <tr><th>from</th>
+  <th>title</th>
+  <th>received on</th>
+  <th></th>
+  <th></th></tr>
+
+  <% if params[:all] %>
+    <% @user.get_all_messages.each do |message| %>
+  <tr><td><%= link_to User.find(message.from_user_id).display_name , :controller => 'user', :action => User.find(message.from_user_id).display_name %></td>
+  <td><%= link_to  message.title , :controller => 'message', :action => 'read', :message_id => message.id  %></td>
+  <td><%= message.sent_on %></td>
+  <% if message.message_read = 0 %>
+  <td><%= link_to 'mark as read', :controller => 'message', :action => 'mark', :message_id => message.id %> </td>
+  <%else%>
+  <td>message read</td>
+  <%end%>
+  <td><%= link_to 'reply', :controller => 'message', :action => 'new', :user_id => message.from_user_id %> </td>
+  </tr>
+    <%end%>
+
+  <%else%>
+
+    <% @user.get_new_messages.each do |message| %>
+  <tr><td><%= link_to User.find(message.from_user_id).display_name , :controller => 'user', :action => User.find(message.from_user_id).display_name %></td>
+  <td><%= link_to  message.title , :controller => 'message', :action => 'read', :message_id => message.id  %></td>
+  <td><%= message.sent_on %></td>
+  <% if message.message_read = 0 %>
+  <td><%= link_to 'mark as read', :controller => 'message', :action => 'mark', :message_id => message.id %> </td>
+  <%else%>
+  <td>message read</td>
+  <%end%>
+  </tr>
+    <%end%>
+  <%end%>
+
+</table>
+</div>
+<%end%>
+
+<% if params[:all] %>
+  <%= link_to 'show new messages', :controller => 'message', :action => 'inbox', :display_name => @user.display_name %>
+<% else %>
+  <%= link_to 'show all messages', :controller => 'message', :action => 'inbox', :display_name => @user.display_name, :all => true %>
+<% end %>

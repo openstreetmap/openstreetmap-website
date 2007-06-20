@@ -25,7 +25,9 @@
 
     <span id="greeting">
       <% if @user %>
-        Welcome, <%= link_to @user.display_name, {:controller => 'user', :action => 'view', :display_name => @user.display_name}%> |
+        Welcome, <%= link_to @user.display_name, {:controller => 'user', :action => 'view', :display_name => @user.display_name}%> | 
+        <% @inbox_weight = 'bold' if @user.get_new_messages.length > 0 %>
+        <%= link_to "inbox (#{@user.get_new_messages.length})", {:controller => 'message', :action => 'inbox', :display_name => @user.display_name}, {:style => "font-weight: #{@inbox_weight};" } %> |
         <%= link_to 'logout', {:controller => 'user', :action => 'logout', :referer => request.request_uri}, {:id => 'logoutanchor'}%>
       <% else %>
         <%= link_to 'log in', {:controller => 'user', :action => 'login', :referer => request.request_uri}, {:id => 'loginanchor'}%> |
