@@ -59,13 +59,21 @@ class User < ActiveRecord::Base
     return el1
   end
 
-  def nearby(lat_range=1, lon_range=1)
-      if self.home_lon and self.home_lat 
-          nearby = User.find(:all,  :conditions => "#{self.home_lon} > home_lon - #{lon_range} and #{self.home_lon} < home_lon + #{lon_range} and  #{self.home_lat} > home_lat - #{lat_range} and #{self.home_lat} < home_lat + #{lat_range} and data_public = 1 and id != #{self.id}") 
-      else
-          nearby = []
-      end
-      return nearby
+  def nearby(radius = 50)
+    if self.home_lon and self.home_lat 
+      gc = OSM::GreatCircle.new(self.home_lat, self.home_lon)
+      bounds = gc.bounds(radius)
+      nearby = User.find(:all, :conditions => "home_lat between #{bounds[:minlat]} and #{bounds[:maxlat]} and home_lon between #{bounds[:minlon]} and #{bounds[:maxlon]} and data_public = 1 and id != #{self.id}")
+      nearby.delete_if { |u| gc.distance(u.home_lat, u.home_lon) > radius }
+      nearby.sort! { |u1,u2| gc.distance(u1.home_lat, u1.home_lon) <=> gc.distance(u2.home_lat, u2.home_lon) }
+    else
+      nearby = []
+    end
+    return nearby
+  end
+
+  def distance(nearby_user)
+    return OSM::GreatCircle.new(self.home_lat, self.home_lon).distance(nearby_user.home_lat, nearby_user.home_lon)
   end
 
   def self.has_messages?

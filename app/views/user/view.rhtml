@@ -75,9 +75,10 @@
     There are no users who admit to mapping nearby.
   <% else %>
     <table id="nearbyusers">
-    <% @this_user.nearby(1,1).each do |nearby| %>
+    <% @this_user.nearby.each do |nearby| %>
     <tr>
     <td class="username"><%= link_to nearby.display_name, :controller => 'user', :action => 'view',  :display_name => nearby.display_name %></td>
+    <td><%= @this_user.distance(nearby).round %>km away</td>
     <td class="message">(<%= link_to 'send message', :controller => 'message', :action => 'new', :user_id => nearby.id %>)</td>
     </tr>
     <%end%>

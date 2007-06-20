@@ -34,13 +34,15 @@
     <table>
     <tr>
     <th>Name</th>
+    <th>Distance</th>
     <th>Contact</th>
     </tr>
-    <% @user.nearby(1,1).each do |nearby| %>
+    <% @user.nearby.each do |nearby| %>
     <% nearest_str += "nearest.push( { 'display_name' : '#{nearby.display_name}', 'home_lat' : #{nearby.home_lat}, 'home_lon' : #{nearby.home_lon} } );\n" %>
 
     <tr>
     <td><%= link_to nearby.display_name, :controller => 'user', :action => 'view',  :display_name => nearby.display_name %></td>
+    <td><%= @user.distance(nearby).round %>km away</td>
     <td><%= link_to 'send message', :controller => 'message', :action => 'new', :user_id => nearby.id %></td>
     </tr>
     <%end%>

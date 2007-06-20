@@ -241,6 +241,34 @@ module OSM
 
   end
 
+  class GreatCircle
+    include Math
+
+    # initialise with a base position
+    def initialize(lat, lon)
+      @lat = lat * PI / 180
+      @lon = lon * PI / 180
+    end
+
+    # get the distance from the base position to a given position
+    def distance(lat, lon)
+      lat = lat * PI / 180
+      lon = lon * PI / 180
+      return 6372.795 * 2 * asin(sqrt(sin((lat - @lat) / 2) ** 2 + cos(@lat) * cos(lat) * sin((lon - @lon)/2) ** 2))
+    end
+
+    # get the worst case bounds for a given radius from the base position
+    def bounds(radius)
+      latradius = 2 * asin(sqrt(sin(radius / 6372.795 / 2) ** 2))
+      lonradius = 2 * asin(sqrt(sin(radius / 6372.795 / 2) ** 2 / cos(@lat) ** 2))
+      minlat = (@lat - latradius) * 180 / PI
+      maxlat = (@lat + latradius) * 180 / PI
+      minlon = (@lon - lonradius) * 180 / PI
+      maxlon = (@lon + lonradius) * 180 / PI
+      return { :minlat => minlat, :maxlat => maxlat, :minlon => minlon, :maxlon => maxlon }
+    end
+  end
+
   class GeoRSS
     def initialize(feed_title='OpenStreetMap GPS Traces', feed_description='OpenStreetMap GPS Traces', feed_url='http://www.openstreetmap.org/traces/')
       @doc = XML::Document.new
