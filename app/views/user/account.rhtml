@@ -95,7 +95,7 @@
   <%end%>
 
 </script>
-<script type="text/javascript" src="/javascripts/OpenLayers.js"></script>
+<script type="text/javascript" src="/openlayers/OpenLayers.js"></script>
 
 <script type="text/javascript">
   <!--
@@ -119,13 +119,13 @@
   function init(){
 
     OpenLayers.Util.onImageLoadError = function() {
-      this.src = "http://www.openstreetmap.org/javascripts/img/404.png";
+      this.src = OpenLayers.Util.getImagesLocation() + "404.png";
     }
     map = new OpenLayers.Map( "map", 
         {maxExtent: new OpenLayers.Bounds(-20037508.34,-20037508.34,20037508.34,20037508.34), maxZoomLevel:18, maxResolution:156543, units:'meters', projection: "EPSG:41001"} );
-    layer = new OpenLayers.Layer.LikeGoogle( "Mapnik", "http://tile.openstreetmap.org/", {type:'png'} );
+    layer = new OpenLayers.Layer.TMS( "Mapnik", "http://tile.openstreetmap.org/", {type:'png', getURL:getTileURL} );
     map.addLayer(layer);
-    layer = new OpenLayers.Layer.LikeGoogle( "Osmarender", "http://dev.openstreetmap.org/~ojw/Tiles/tile.php/", {type:'png'} );
+    layer = new OpenLayers.Layer.TMS( "Osmarender", "http://dev.openstreetmap.org/~ojw/Tiles/tile.php/", {type:'png', getURL:getTileURL} );
     map.addLayer(layer);
 
     //Marker stuff
@@ -148,11 +148,19 @@
         nearmarker.events.register("click", "nearmarker", makeMarkerFunction( i ) );
     }
 
-      map.addControl(new OpenLayers.Control.LayerSwitcher());
+    map.addControl(new OpenLayers.Control.LayerSwitcher());
     map.setCenter(new OpenLayers.LonLat(lon, lat), zoom);
 
     map.events.register("click", map, setHome);
   }        
+
+  function getTileURL( bounds ) {
+    var res = this.map.getResolution();
+    var x = Math.round ((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));
+    var y = Math.round ((this.maxExtent.top - bounds.top) / (res * this.tileSize.h));
+    var z = this.map.getZoom();
+    return this.url + z + "/" + x + "/" + y + "." + this.type; 
+  }
 
   function makeMarkerFunction( i ) {
     return function() { markerOnClick( i ); };
