@@ -24,7 +24,7 @@
     </div>
 
     <span id="greeting">
-      <% if @user %>
+      <% if @user and @user.id %>
         Welcome, <%= link_to @user.display_name, {:controller => 'user', :action => 'view', :display_name => @user.display_name}%> | 
         <% @inbox_weight = 'bold' if @user.get_new_messages.length > 0 %>
         <%= link_to "inbox (#{@user.get_new_messages.length})", {:controller => 'message', :action => 'inbox', :display_name => @user.display_name}, {:style => "font-weight: #{@inbox_weight};" } %> |
