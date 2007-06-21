@@ -2,11 +2,13 @@ ActionController::Routing::Routes.draw do |map|
 
   # API
   map.connect "api/#{API_VERSION}/node/create", :controller => 'node', :action => 'create'
+  map.connect "api/#{API_VERSION}/node/:id/segments", :controller => 'segment', :action => 'segments_for_node'
   map.connect "api/#{API_VERSION}/node/:id/history", :controller => 'old_node', :action => 'history', :id => nil
   map.connect "api/#{API_VERSION}/node/:id", :controller => 'node', :action => 'rest', :id => nil 
   map.connect "api/#{API_VERSION}/nodes", :controller => 'node', :action => 'nodes', :id => nil
   
   map.connect "api/#{API_VERSION}/segment/create", :controller => 'segment', :action => 'create'
+  map.connect "api/#{API_VERSION}/segment/:id/ways", :controller => 'way', :action => 'ways_for_segment'
   map.connect "api/#{API_VERSION}/segment/:id/history", :controller => 'old_segment', :action => 'history'
   map.connect "api/#{API_VERSION}/segment/:id", :controller => 'segment', :action => 'rest'
   map.connect "api/#{API_VERSION}/segments", :controller => 'segment', :action => 'segments', :id => nil

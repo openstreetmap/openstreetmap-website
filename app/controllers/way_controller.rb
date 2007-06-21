@@ -135,4 +135,19 @@ class WayController < ApplicationController
     end
   end
 
+  def ways_for_segment
+    response.headers["Content-Type"] = 'text/xml'
+    wayids = WaySegment.find(:all, :conditions => ['segment_id = ?', params[:id]]).collect { |ws| ws.id }.uniq
+    if wayids.length > 0
+      waylist = Way.find(wayids)
+      doc = OSM::API.new.get_xml_doc
+      waylist.each do |way|
+        doc.root << way.to_xml_node
+      end
+      render :text => doc.to_s
+    else
+      render :nothing => true, :status => 400
+    end
+  end
+
 end

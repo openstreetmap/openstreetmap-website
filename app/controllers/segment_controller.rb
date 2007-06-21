@@ -106,7 +106,22 @@ class SegmentController < ApplicationController
     ids = params['segments'].split(',').collect {|s| s.to_i }
     if ids.length > 0
       segmentlist = Segment.find(ids)
-      doc = OSM::API.get_xml_doc
+      doc = OSM::API.new.get_xml_doc
+      segmentlist.each do |segment|
+        doc.root << segment.to_xml_node
+      end 
+      render :text => doc.to_s
+    else
+      render :nothing => true, :status => 400
+    end
+  end
+
+  def segments_for_node
+    response.headers["Content-Type"] = 'text/xml'
+    segmentids = Segment.find(:all, :conditions => ['node_a = ? OR node_b = ?', params[:id], params[:id]]).collect { |s| s.id }.uniq
+    if segmentids.length > 0
+      segmentlist = Segment.find(segmentids)
+      doc = OSM::API.new.get_xml_doc
       segmentlist.each do |segment|
         doc.root << segment.to_xml_node
       end 
