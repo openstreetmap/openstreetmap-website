@@ -72,6 +72,10 @@ class Trace < ActiveRecord::Base
     "/home/osm/gpx/#{id}.gpx"
   end
 
+  def mime_type
+    return `file -bi #{trace_name}`.chomp
+  end
+
   def to_xml_node
     el1 = XML::Node.new 'gpx_file'
     el1['id'] = self.id.to_s

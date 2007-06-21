@@ -120,8 +120,10 @@ class TraceController < ApplicationController
 
   def data
     trace = Trace.find(params[:id])
-    if trace.public? or (@user and @user == trace.user)
-      send_data(File.open("/home/osm/gpx/#{trace.id}.gpx",'r').read , :filename => "#{trace.id}.gpx", :type => 'text/plain', :disposition => 'inline')
+    if trace and (trace.public? or (@user and @user == trace.user))
+      send_file(trace.trace_name, :filename => "#{trace.id}.gpx", :type => trace.mime_type, :disposition => 'attachment')
+    else
+      render :nothing, :status => 404
     end
   end
 
@@ -152,12 +154,20 @@ class TraceController < ApplicationController
 
   def picture
     trace = Trace.find(params[:id])
-    send_data(trace.large_picture, :filename => "#{trace.id}.gif", :type => 'image/gif', :disposition => 'inline') if trace.public? or (@user and @user == trace.user)
+    if trace and (trace.public? or (@user and @user == trace.user))
+      send_file(trace.large_picture_name, :filename => "#{trace.id}.gif", :type => 'image/gif', :disposition => 'inline')
+    else
+      render :nothing, :status => 404
+    end
   end
 
   def icon
     trace = Trace.find(params[:id])
-    send_data(trace.icon_picture, :filename => "#{trace.id}_icon.gif", :type => 'image/gif', :disposition => 'inline') if trace.public? or (@user and @user == trace.user)
+    if trace and (trace.public? or (@user and @user == trace.user))
+      send_file(trace.icon_picture_name, :filename => "#{trace.id}_icon.gif", :type => 'image/gif', :disposition => 'inline')
+    else
+      render :nothing, :status => 404
+    end
   end
 
   def api_details
