@@ -90,12 +90,22 @@ class Trace < ActiveRecord::Base
       logger.info("GPX Import importing #{name} (#{id}) from #{user.email}")
 
       # TODO *nix specific, could do to work on windows... would be functionally inferior though - check for '.gz'
-      filetype = `file -b #{trace_name}`.chomp
-      gzipped = filetype =~ /^gzip/
-      bzipped = filetype =~ /^bzip2/
-      zipped = filetype =~ /^Zip/
+      filetype = `file -bz #{trace_name}`.chomp
+      gzipped = filetype =~ /gzip compressed/
+      bzipped = filetype =~ /bzip2 compressed/
+      zipped = filetype =~ /Zip archive/
+      tarred = filetype =~ /tar archive/
 
-      if gzipped
+      if tarred and gzipped then
+        filename = tempfile = "/tmp/#{rand}"
+        system("tar -zxOf #{trace_name} > #{filename}")
+      elsif tarred and bzipped then
+        filename = tempfile = "/tmp/#{rand}"
+        system("tar -jxOf #{trace_name} > #{filename}")
+      elsif tarred
+        filename = tempfile = "/tmp/#{rand}"
+        system("tar -xOf #{trace_name} > #{filename}")
+      elsif gzipped
         filename = tempfile = "/tmp/#{rand}"
         system("gunzip -c #{trace_name} > #{filename}")
       elsif bzipped
