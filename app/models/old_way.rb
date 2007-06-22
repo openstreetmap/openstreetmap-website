@@ -5,6 +5,7 @@ class OldWay < ActiveRecord::Base
 
   def self.from_way(way)
     old_way = OldWay.new
+    old_way.visible = way.visible
     old_way.user_id = way.user_id
     old_way.timestamp = way.timestamp
     old_way.id = way.id
