@@ -60,6 +60,7 @@ class SegmentController < ApplicationController
         if WaySegment.find(:first, :joins => "INNER JOIN current_ways ON current_ways.id = current_way_segments.id", :conditions => [ "current_ways.visible = 1 AND current_way_segments.segment_id = ?", segment.id ])
           render :nothing => true, :status => HTTP_PRECONDITION_FAILED
         else
+          segment.user_id = @user.id
           segment.visible = 0
           segment.save_with_history
           render :nothing => true

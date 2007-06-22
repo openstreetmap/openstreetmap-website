@@ -87,6 +87,7 @@ class WayController < ApplicationController
 
     when :delete
       if way.visible
+        way.user_id = @user.id
         way.visible = false
         way.save_with_history
         render :nothing => true

@@ -58,6 +58,7 @@ class NodeController < ApplicationController
         if Segment.find(:first, :conditions => [ "visible = 1 and (node_a = ? or node_b = ?)", node.id, node.id])
           render :nothing => true, :status => HTTP_PRECONDITION_FAILED
         else
+          node.user_id = @user.id
           node.visible = 0
           node.save_with_history
           render :nothing => true
