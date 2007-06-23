@@ -49,11 +49,22 @@ class OldWay < ActiveRecord::Base
   end
 
   def segs
-    @segs = Array.new unless @segs
+    unless @segs
+        @segs = Array.new
+        OldWaySegment.find(:all, :conditions => ["id = ? AND version = ?", self.id, self.version], :order => "sequence_id").each do |seg|
+            @segs += [seg.segment_id]
+        end
+    end
     @segs
   end
 
   def tags
+    unless @tags
+        @tags = Hash.new
+        OldWayTag.find(:all, :conditions => ["id = ? AND version = ?", self.id, self.version]).each do |tag|
+            @tags[tag.k] = tag.v
+        end
+    end
     @tags = Hash.new unless @tags
     @tags
   end
