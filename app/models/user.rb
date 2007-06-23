@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   require 'digest/md5'
 
   has_many :traces
-  has_many :diary_entries
+  has_many :diary_entries, :order => 'created_at DESC'
   has_many :messages, :foreign_key => :to_user_id
   has_many :friends
 
