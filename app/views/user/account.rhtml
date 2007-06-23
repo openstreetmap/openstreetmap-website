@@ -37,165 +37,70 @@
 </script>
 
 <% if @user.home_lat and @user.home_lon %>
-    <% marker = true %>
-    <% mlon = @user.home_lon %> 
-    <% mlat = @user.home_lat %>
-    <% lon =  @user.home_lon %>
-    <% lat =  @user.home_lat  %>
-    <% zoom =  '12' %>
-<script type="text/javascript">
-  var mlat = <%= mlat %>;
-  var mlon = <%= mlon %>;
-</script>
+  <% marker = true %>
+  <% mlon = @user.home_lon %> 
+  <% mlat = @user.home_lat %>
+  <% lon =  @user.home_lon %>
+  <% lat =  @user.home_lat  %>
+  <% zoom =  '12' %>
 <% else %>
-    <% lon =  params['lon'] || '-0.1' %>
-    <% lat =  params['lat'] || '51.5' %>
-    <% zoom =  params['zoom'] || '4' %> 
+  <% lon =  params['lon'] || '-0.1' %>
+  <% lat =  params['lat'] || '51.5' %>
+  <% zoom =  params['zoom'] || '4' %> 
 <% end %>
 
-
-
-<script type="text/javascript">
-  var lat = <%= lat %>;
-  var lon = <%= lon %>;
-  var zoom = <%= zoom %>;
-  var PI = 3.14159265358979323846;
-
-
-
-  <% if params['scale'] and params['scale'].length > 0 then %>
-  zoom = Math.log(360.0/(( <% print params['scale'].to_f() %> ) * 512.0)) / Math.log(2.0);
-  <% end %>
-  zoom = zoom;
-  lon = lon * 20037508.34 / 180;
-  lat = Math.log(Math.tan( (90 + lat) * PI / 360)) / (PI / 180);
-  lat = lat * 20037508.34 / 180;
-  <% if marker %>
-  mlon = mlon * 20037508.34 / 180;
-  mlat = Math.log(Math.tan( (90 + mlat) * PI / 360)) / (PI / 180);
-  mlat = mlat * 20037508.34 / 180;
-  <%end%>
-
-</script>
-<script type="text/javascript" src="/openlayers/OpenLayers.js"></script>
+<%= javascript_include_tag '/openlayers/OpenLayers.js' %>
+<%= javascript_include_tag 'map.js' %>
 
 <script type="text/javascript">
   <!--
-  var map, layer, markers, marker, popup;
-
-  function mercator2lonlat( merc ) {
-    var lon_deg = (merc.lon / 20037508.34) * 180;
-    var lat_deg = (merc.lat / 20037508.34) * 180;
-    var PI = 3.14159265358979323846;
-    lat_deg = 180/PI * (2 * Math.atan(Math.exp(lat_deg * PI / 180)) - PI / 2);
-    return new OpenLayers.LonLat(lon_deg,lat_deg);
-  }
-
-  function lonlat2mercator( ll ) {
-      var lon = ll.lon * 20037508.34 / 180;
-      var lat = Math.log(Math.tan( (90 + ll.lat) * PI / 360)) / (PI / 180);
-      lat = lat * 20037508.34 / 180;
-      return new OpenLayers.LonLat(lon,lat);
-  }
+  var marker;
 
   function init(){
+    var centre = lonLatToMercator(new OpenLayers.LonLat(<%= lon %>, <%= lat %>));
+    var zoom = <%= zoom %>;
 
-    OpenLayers.Util.onImageLoadError = function() {
-      this.src = OpenLayers.Util.getImagesLocation() + "404.png";
-    }
-    map = new OpenLayers.Map( "map", 
-        {maxExtent: new OpenLayers.Bounds(-20037508.34,-20037508.34,20037508.34,20037508.34), maxZoomLevel:18, maxResolution:156543, units:'m', projection: "EPSG:41001"} );
-    layer = new OpenLayers.Layer.TMS( "Mapnik", "http://tile.openstreetmap.org/", {type:'png', getURL:getTileURL} );
-    map.addLayer(layer);
-    layer = new OpenLayers.Layer.TMS( "Osmarender", "http://dev.openstreetmap.org/~ojw/Tiles/tile.php/", {type:'png', getURL:getTileURL} );
-    map.addLayer(layer);
+    <% if params['scale'] and params['scale'].length > 0 then %>
+    zoom = scaleToZoom(<%= params['scale'].to_f() %>);
+    <% end %>
 
-    //Marker stuff
-
-    markers = new OpenLayers.Layer.Markers("markers");
-    map.addLayer(markers); 
+    var map = createMap("map", centre, zoom);
 
     <% if marker %>
-    marker = new OpenLayers.Marker(new OpenLayers.LonLat(mlon,mlat));
-    marker.events.register("click", "marker", markerOnClick );
-    markers.addMarker(marker);
-    <%end%>
+    marker = addMarkerToMap(lonLatToMercator(new OpenLayers.LonLat(<%= mlon %>, <%= mlat %>)), null, "Your location");
+    <% end %>
 
     var near_icon = OpenLayers.Marker.defaultIcon();
     near_icon.url = OpenLayers.Util.getImagesLocation() + "marker-green.png";;
     var i = nearest.length;
     while( i-- ) {
-        var nearmarker = new OpenLayers.Marker( lonlat2mercator( new OpenLayers.LonLat( nearest[i].home_lon, nearest[i].home_lat ) ), near_icon.clone() );
-        markers.addMarker( nearmarker );
-        nearmarker.events.register("click", "nearmarker", makeMarkerFunction( i ) );
+      var description = 'Nearby mapper: <a href="/user/'+nearest[i].display_name+'">'+nearest[i].display_name+'</a>'
+      var nearmarker = addMarkerToMap(lonLatToMercator(new OpenLayers.LonLat(nearest[i].home_lon, nearest[i].home_lat)), near_icon.clone(), description);
     }
-
-    map.addControl(new OpenLayers.Control.LayerSwitcher());
-    map.setCenter(new OpenLayers.LonLat(lon, lat), zoom);
 
     map.events.register("click", map, setHome);
   }        
 
-  function getTileURL( bounds ) {
-    var res = this.map.getResolution();
-    var x = Math.round ((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));
-    var y = Math.round ((this.maxExtent.top - bounds.top) / (res * this.tileSize.h));
-    var z = this.map.getZoom();
-    return this.url + z + "/" + x + "/" + y + "." + this.type; 
+  function setHome( e ) { 
+    closeMapPopup();
+
+    if (document.getElementById('updatehome').checked) {
+      var merc = map.getLonLatFromViewPortPx(e.xy);
+      var lonlat = mercatorToLonLat(merc);
+
+      document.getElementById('homerow').className = '';
+      document.getElementById('home_lat').value = lonlat.lat;
+      document.getElementById('home_lon').value = lonlat.lon;
+
+      if (marker) {
+        removeMarkerFromMap(marker);
+      }
+
+      marker = addMarkerToMap(merc, null, "Your location");
+    }
   }
 
-  function makeMarkerFunction( i ) {
-    return function() { markerOnClick( i ); };
-  }
-
-  function markerOnClick( i ) {
-    var html, position;
-    if( typeof( i ) == 'number'  ) {
-        html = '<p>Nearby mapper: <a href="/user/'+nearest[i].display_name+'">'+nearest[i].display_name+'</a></p>';
-        html += '<p style="text-align:right">(<a href="#" onclick="return closePopup();">close</a>)</p>';
-        position = lonlat2mercator( new OpenLayers.LonLat( nearest[i].home_lon, nearest[i].home_lat ) );
-    } else {
-        html = '<p>Your location (<a href="#" onclick="return closePopup()">close</a>)</p>';
-        position = new OpenLayers.LonLat(mlon,mlat);
-    }
-    var box = document.getElementById( 'highlightinfo' );
-    box.innerHTML = html;
-    closePopup();
-    popup = new OpenLayers.Popup.AnchoredBubble( 'popup', position, new OpenLayers.Size( box.offsetWidth, box.offsetHeight ), html, OpenLayers.Marker.defaultIcon(), true );
-    map.addPopup( popup );
-  }
-  
-    function closePopup() {
-        if( popup ) {
-            map.removePopup( popup );
-            delete popup;
-        }
-        return false;
-    }
-
-    function setHome( e ) { 
-        closePopup();
-        if( ! document.getElementById( 'updatehome' ).checked )
-            return;
-        var lonlat = map.getLonLatFromViewPortPx(e.xy)
-
-        var lon_deg = (lonlat.lon / 20037508.34) * 180;
-        var lat_deg = (lonlat.lat / 20037508.34) * 180;
-        var PI = 3.14159265358979323846;
-        lat_deg = 180/PI * (2 * Math.atan(Math.exp(lat_deg * PI / 180)) - PI / 2);
-        var homerow = document.getElementById( 'homerow' );
-        var home_lat = document.getElementById( 'home_lat' );
-        var home_lon = document.getElementById( 'home_lon' );
-        homerow.className = '';
-        home_lat.value = lat_deg;
-        home_lon.value = lon_deg;
-        if( marker ) {
-            markers.removeMarker(marker);
-        }
-        marker = new OpenLayers.Marker(lonlat);
-        markers.addMarker(marker);
-    }
-window.onload = init;
+  window.onload = init;
 // -->
 </script>
 

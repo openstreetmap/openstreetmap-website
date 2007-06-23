@@ -7,10 +7,6 @@
 <% lon =  params['mlon'] %>
 <% lat =  params['mlat']  %>
 <% zoom =  params['zoom'] || '12' %>
-<script type="text/javascript">
-  var mlat = <%= lat %>;
-  var mlon = <%= lon %>;
-</script>
 <% elsif @user and params['lon'].nil? and params['lat'].nil? %> 
 <% lon =  @user.home_lon %>
 <% lat =  @user.home_lat %>
@@ -21,89 +17,42 @@
 <% zoom =  params['zoom'] || '4' %>
 <% end %>
 
-
-
-<script type="text/javascript">
-  var lat = <%= lat %>;
-  var lon = <%= lon %>;
-  var zoom = <%= zoom %>;
-  var PI = 3.14159265358979323846;
-
-
-
-  <% if params['scale'] and params['scale'].length > 0 then %>
-  zoom = Math.log(360.0/(( <% print params['scale'].to_f() %> ) * 512.0)) / Math.log(2.0);
-  <% end %>
-  zoom = zoom;
-  lon = lon * 20037508.34 / 180;
-  lat = Math.log(Math.tan( (90 + lat) * PI / 360)) / (PI / 180);
-  lat = lat * 20037508.34 / 180;
-  <% if marker %>
-  mlon = mlon * 20037508.34 / 180;
-  mlat = Math.log(Math.tan( (90 + mlat) * PI / 360)) / (PI / 180);
-  mlat = mlat * 20037508.34 / 180;
-  <%end%>
-
-</script>
-<script type="text/javascript" src="/openlayers/OpenLayers.js"></script>
+<%= javascript_include_tag '/openlayers/OpenLayers.js' %>
+<%= javascript_include_tag 'map.js' %>
 
 <script type="text/javascript">
   <!--
-  var map, layer, markers;
   var ie6 = ! ( window.addEventListener || window.XMLHttpRequest );
+  var map;
 
   function init(){
+    var centre = lonLatToMercator(new OpenLayers.LonLat(<%= lon %>, <%= lat %>));
+    var zoom = <%= zoom %>;
 
-    OpenLayers.Util.onImageLoadError = function() {
-      this.src = OpenLayers.Util.getImagesLocation() + "404.png";
-    }
-    map = new OpenLayers.Map( "map", 
-        {maxExtent: new OpenLayers.Bounds(-20037508.34,-20037508.34,20037508.34,20037508.34), numZoomLevels:19, maxResolution:156543, units:'m', projection: "EPSG:41001"} );
-    layer = new OpenLayers.Layer.TMS( "Mapnik", "http://tile.openstreetmap.org/", {type:'png', getURL:getTileURL} );
-    map.addLayer(layer);
-    layer = new OpenLayers.Layer.TMS( "Osmarender", "http://dev.openstreetmap.org/~ojw/Tiles/tile.php/", {type:'png', getURL:getTileURL} );
-    map.addLayer(layer);
+    <% if params['scale'] and params['scale'].length > 0 then %>
+    zoom = scaleToZoom(<%= params['scale'].to_f() %>);
+    <% end %>
 
-    //Marker stuff
+    var map = createMap("map", centre, zoom);
 
     <% if marker %>
-    markers = new OpenLayers.Layer.Markers("markers");
-    map.addLayer(markers); 
-
-    marker = new OpenLayers.Marker(new OpenLayers.LonLat(mlon,mlat));
-    markers.addMarker(marker);
-    <%end%>
-
-    map.setOptions({theme:''});
-    map.addControl(new OpenLayers.Control.LayerSwitcher());
-    map.setCenter(new OpenLayers.LonLat(lon, lat), zoom);
+    addMarkerToMap(lonLatToMercator(new OpenLayers.LonLat(<%= mlon %>, <%= mlat %>)));
+    <% end %>
 
     map.events.register("moveend", map, updateLocation);
-    document.getElementById( 'map_OpenLayers_ViewPort' ).style.position = 'absolute';
-    if( ie6 ) {
+    updateLocation();
+
+    document.getElementById('map_OpenLayers_ViewPort').style.position = 'absolute';
+    if ( ie6 ) {
       handleResize();
     }
-    updateLocation();
   }        
 
-  function getTileURL( bounds ) {
-    var res = this.map.getResolution();
-    var x = Math.round ((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));
-    var y = Math.round ((this.maxExtent.top - bounds.top) / (res * this.tileSize.h));
-    var z = this.map.getZoom();
-    return this.url + z + "/" + x + "/" + y + "." + this.type; 
-  }
-
   function updateLocation() {
-    var lonlat = map.getCenter();
-
-    var lon_deg = (lonlat.lon / 20037508.34) * 180;
-    var lat_deg = (lonlat.lat / 20037508.34) * 180;
-    var PI = 3.14159265358979323846;
-    lat_deg = 180/PI * (2 * Math.atan(Math.exp(lat_deg * PI / 180)) - PI / 2);
+    var lonlat = mercatorToLonLat(map.getCenter());
     var zoom = map.getZoom();
 
-    updatelinks(lon_deg,lat_deg,zoom);
+    updatelinks(lonlat.lon, lonlat.lat, zoom);
   }
 
   function getStyle( el, property ) {
@@ -166,9 +115,10 @@
         }, 200 );
   }
 
-if( ie6 ) {
-  window.onresize = handleResize;
-}
-window.onload = init;
+  if ( ie6 ) {
+    window.onresize = handleResize;
+  }
+
+  window.onload = init;
 // -->
 </script>
