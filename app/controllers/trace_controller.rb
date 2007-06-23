@@ -7,6 +7,7 @@ class TraceController < ApplicationController
   #  target_user - if set, specifies the user to fetch traces for.  if not set will fetch all traces
   #  paging_action - the action that will be linked back to from view
   def list (target_user = nil, paging_action = 'list')
+    @title = 'public GPS traces'
     @traces_per_page = 20
     page_index = params[:page] ? params[:page].to_i - 1 : 0 # nice 1-based page -> 0-based page index
 
@@ -15,6 +16,7 @@ class TraceController < ApplicationController
     if target_user.nil? and display_name and display_name != ''
       @paging_action = 'view'
       @display_name = display_name
+      @title += " from #{@display_name}"
       target_user = User.find(:first, :conditions => [ "display_name = ?", display_name])
     end
 
