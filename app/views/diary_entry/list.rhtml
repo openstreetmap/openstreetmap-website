@@ -1,5 +1,13 @@
+<% if @this_user %>
+  <h2><%= @this_user.display_name %>'s diary</h2>
+
+  <% if @user and @this_user.id == @user.id %>
+    <%= link_to 'new post', :controller => 'diary_entry', :action => 'new', :display_name => @user.display_name %>
+  <% end %>
+<% end %>
+
 <h3>Recent diary entries:</h3>
-<br />
+
 <%= render :partial => 'diary_entry/diary_entry', :collection => @entries %>
 
 <%= link_to(image_tag("RSS.gif", :size => "16x16", :border => 0), :action => 'rss') %>

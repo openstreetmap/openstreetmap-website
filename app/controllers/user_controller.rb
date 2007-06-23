@@ -186,11 +186,6 @@ class UserController < ApplicationController
     @title = @this_user.display_name
   end
 
-  def diary
-    @this_user = User.find_by_display_name(params[:display_name])
-    @title = @this_user.display_name + "'s diary"
-  end
-
   def make_friend
 
     if params[:display_name]     
