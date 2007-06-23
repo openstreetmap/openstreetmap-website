@@ -3,10 +3,10 @@ class Way < ActiveRecord::Base
   
   belongs_to :user
 
-  has_many :way_segments, :foreign_key => 'id'
+  has_many :way_segments, :foreign_key => 'id', :order => 'sequence_id'
   has_many :way_tags, :foreign_key => 'id'
 
-  has_many :old_ways, :foreign_key => :id
+  has_many :old_ways, :foreign_key => 'id', :order => 'version'
 
   set_table_name 'current_ways'
 
