@@ -8,6 +8,7 @@ class TraceController < ApplicationController
   #  paging_action - the action that will be linked back to from view
   def list (target_user = nil, paging_action = 'list')
     @title = 'public GPS traces'
+    @title += " tagged with #{params[:tag]}" if params[:tag]
     @traces_per_page = 20
     page_index = params[:page] ? params[:page].to_i - 1 : 0 # nice 1-based page -> 0-based page index
 
