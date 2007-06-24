@@ -99,6 +99,7 @@ class SwfController < ApplicationController
 				" WHERE (cn1.longitude BETWEEN #{xmin} AND #{xmax})"+
 				"   AND (cn1.latitude  BETWEEN #{ymin} AND #{ymax})"+
 				"   AND segment_id IS NULL"+
+				"   AND current_segments.visible=1"+
 				"   AND cn1.id=node_a AND cn1.visible=1"+
 				"   AND cn2.id=node_b AND cn2.visible=1"
 			seglist=ActiveRecord::Base.connection.select_all sql
