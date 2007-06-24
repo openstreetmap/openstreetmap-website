@@ -73,7 +73,7 @@ class ApiController < ApplicationController
     min_lon = min_lon * 1000000
     max_lon = max_lon * 1000000
     # get all the points
-    points = Tracepoint.find(:all, :conditions => ['gps_points.latitude > ? AND gps_points.longitude > ? AND gps_points.latitude < ? AND gps_points.longitude < ? AND ( public = 1 OR gpx_files.user_id = ? ) AND visible = 1', min_lat.to_i, min_lon.to_i, max_lat.to_i, max_lon.to_i, @user.id ], :select => "gps_points.*", :joins => "INNER JOIN gpx_files ON gpx_files.id = gpx_id", :offset => offset, :limit => TRACEPOINTS_PER_PAGE, :order => "timestamp DESC" )
+    points = Tracepoint.find(:all, :conditions => ['latitude BETWEEN ? AND ? AND longitude BETWEEN ? AND ?', min_lat.to_i, max_lat.to_i, min_lon.to_i, max_lon.to_i], :select => "SELECT DISTINCT *", :offset => offset, :limit => TRACEPOINTS_PER_PAGE, :order => "timestamp DESC" )
 
     doc = XML::Document.new
     doc.encoding = 'UTF-8'
