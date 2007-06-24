@@ -2,9 +2,6 @@ require 'lib/migrate'
 
 class CreateOsmDb < ActiveRecord::Migration
   def self.up
-    myisam_table = { :id => false, :force => true, :options => "ENGINE=MyIsam DEFAULT CHARSET=utf8" }
-    innodb_table = { :id => false, :force => true, :options => "ENGINE=InnoDB DEFAULT CHARSET=utf8" }
-
     create_table "current_nodes", innodb_table do |t|
       t.column "id",        :bigint,   :limit => 64,                 :null => false
       t.column "latitude",  :double
