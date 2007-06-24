@@ -263,7 +263,7 @@ EOF
 
     xmin = ymin = 999999
     xmax = ymax = -999999
-    insertsql = nodelist =  ''
+    insertsql = ''
     renumberednodes={}
 
     points.each_index do |i|
@@ -288,24 +288,18 @@ EOF
         if (xs!=xc[node] or (ys/0.0000001).round!=(yc[node]/0.0000001).round or tagstr!=tagc[node])
           ActiveRecord::Base.connection.insert("INSERT INTO nodes (id,latitude,longitude,timestamp,user_id,visible,tags) VALUES (#{node},#{ys},#{xs},#{db_now},#{uid},1,#{tagsql})")
           ActiveRecord::Base.connection.update("UPDATE current_nodes SET latitude=#{ys},longitude=#{xs},timestamp=#{db_now},user_id=#{uid},tags=#{tagsql},visible=1 WHERE id=#{node}")
-        else
-          if (nodelist!='') then nodelist+=',' end; nodelist+=node.to_s
         end
       else
         # old node, created in another way and now added to this way
-        if (nodelist!='') then nodelist+=',' end; nodelist+=node.to_s
       end
 
     end
 
-    if nodelist!='' then
-      ActiveRecord::Base.connection.update("UPDATE current_nodes SET timestamp=#{db_now},user_id=#{uid},visible=1 WHERE id IN (#{nodelist})")
-    end
 
     # -- 6.i compare segments
 
     numberedsegments={}
-    seglist=''
+    seglist=''				# list of existing segments that we want to keep
     for i in (0..(points.length-2))
       if (points[i+1][3].to_i==0) then next end
       segid=points[i+1][5].to_i
@@ -324,14 +318,10 @@ EOF
     end
     # numberedsegments.each{|a,b| RAILS_DEFAULT_LOGGER.error("Sending back: seg no. #{a} -> id #{b}") }
 
-    if seglist!='' then
-      ActiveRecord::Base.connection.update("UPDATE current_segments SET timestamp=#{db_now},user_id=#{uid},visible=1 WHERE id IN (#{seglist})")
-    end
-
 
     # -- 6.ii insert new way segments
 
-    createuniquesegments(way,db_uqs)
+    createuniquesegments(way,db_uqs,seglist)	# segments which appear in this way but no other
 
     #		delete segments from uniquesegments (and not in modified way)
 
@@ -340,7 +330,6 @@ EOF
       SELECT DISTINCT segment_id,node_a,node_b,#{db_now},#{uid},0
         FROM current_segments AS cs, #{db_uqs} AS us
        WHERE cs.id=us.segment_id AND cs.visible=1 
-         AND (cs.timestamp!=#{db_now} OR cs.user_id!=#{uid})
     EOF
     ActiveRecord::Base.connection.insert(sql)
 
@@ -348,13 +337,12 @@ EOF
          UPDATE current_segments AS cs, #{db_uqs} AS us
           SET cs.timestamp=#{db_now},cs.visible=0,cs.user_id=#{uid} 
         WHERE cs.id=us.segment_id AND cs.visible=1 
-          AND (cs.timestamp!=#{db_now} OR cs.user_id!=#{uid})
     EOF
     ActiveRecord::Base.connection.update(sql)
 
     #		delete nodes not in modified way or any other segments
 
-    createuniquenodes(db_uqs,db_uqn)
+    createuniquenodes(db_uqs,db_uqn)	# nodes which appear in this way but no other
 
     sql=<<-EOF
 		INSERT INTO nodes (id,latitude,longitude,timestamp,user_id,visible)  
@@ -424,7 +412,7 @@ EOF
 	db_uqn='unin'+uid.to_s+way.to_i.abs.to_s+Time.new.to_i.to_s	# temp uniquenodes table name, typically 51 chars
 	db_now='@now'+uid.to_s+way.to_i.abs.to_s+Time.new.to_i.to_s	# 'now' variable name, typically 51 chars
 	ActiveRecord::Base.connection.execute("SET #{db_now}=NOW()")
-	createuniquesegments(way,db_uqs)
+	createuniquesegments(way,db_uqs,'')
 
 	# -	delete any otherwise unused segments
 
@@ -490,8 +478,8 @@ def readwayquery(id)
       "   ORDER BY sequence_id"
 end
 
-def createuniquesegments(way,uqs_name)
-  # Finds segments which appear in this way and no other
+def createuniquesegments(way,uqs_name,seglist)
+  # Finds segments which appear in (previous version of) this way and no other
   sql=<<-EOF
       CREATE TEMPORARY TABLE #{uqs_name}
               SELECT a.segment_id
@@ -502,6 +490,7 @@ def createuniquesegments(way,uqs_name)
                  AND b.id != #{way}
                WHERE b.segment_id IS NULL
     EOF
+  if (seglist!='') then sql+=" AND a.segment_id NOT IN (#{seglist})" end
   ActiveRecord::Base.connection.execute(sql)
 end
 
