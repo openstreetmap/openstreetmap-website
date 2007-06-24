@@ -148,10 +148,12 @@ class Way < ActiveRecord::Base
         t = Time.now
         self.timestamp = t
         self.save!
-    
+
+        tags = self.tags
+
         WayTag.delete_all(['id = ?', self.id])
 
-        self.tags.each do |k,v|
+        tags.each do |k,v|
           tag = WayTag.new
           tag.k = k
           tag.v = v
@@ -159,10 +161,12 @@ class Way < ActiveRecord::Base
           tag.save!
         end
 
+        segs = self.segs
+
         WaySegment.delete_all(['id = ?', self.id])
-    
+
         i = 0
-        self.segs.each do |n|
+        segs.each do |n|
           seg = WaySegment.new
           seg.id = self.id
           seg.segment_id = n
