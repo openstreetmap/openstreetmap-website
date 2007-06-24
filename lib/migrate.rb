@@ -2,10 +2,9 @@ module ActiveRecord
   module ConnectionAdapters
     module SchemaStatements
       def add_primary_key(table_name, column_name, options = {})
-        index_name = options[:name]
         column_names = Array(column_name)
         quoted_column_names = column_names.map { |e| quote_column_name(e) }.join(", ")
-        execute "ALTER TABLE #{table_name} ADD PRIMARY KEY #{quote_column_name(index_name)} (#{quoted_column_names})"
+        execute "ALTER TABLE #{table_name} ADD PRIMARY KEY (#{quoted_column_names})"
       end
 
       alias_method :old_add_column_options!, :add_column_options!

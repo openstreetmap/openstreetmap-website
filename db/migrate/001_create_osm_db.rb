@@ -62,7 +62,7 @@ class CreateOsmDb < ActiveRecord::Migration
       t.column "visible",   :boolean
     end
 
-    add_primary_key "current_ways", ["id"], :name => "current_ways_id_idx", :unique => true
+    add_primary_key "current_ways", ["id"]
 
     change_column "current_ways", "id", :bigint, :limit => 64, :null => false, :options => "AUTO_INCREMENT"
 
@@ -75,7 +75,7 @@ class CreateOsmDb < ActiveRecord::Migration
       t.column "updated_at", :datetime
     end
 
-    add_primary_key "diary_entries", ["id"], :name => "diary_entries_id_idx", :unique => true
+    add_primary_key "diary_entries", ["id"]
 
     change_column "diary_entries", "id", :bigint, :limit => 20, :null => false, :options => "AUTO_INCREMENT"
 
@@ -85,7 +85,7 @@ class CreateOsmDb < ActiveRecord::Migration
       t.column "friend_user_id", :bigint,  :limit => 20, :null => false
     end
 
-    add_primary_key "friends", ["id"], :name => "friends_id_idx", :unique => true
+    add_primary_key "friends", ["id"]
     add_index "friends", ["friend_user_id"], :name => "user_id_idx"
 
     change_column "friends", "id", :bigint, :limit => 20, :null => false, :options => "AUTO_INCREMENT"
@@ -110,7 +110,7 @@ class CreateOsmDb < ActiveRecord::Migration
       t.column "id",     :integer, :limit => 20, :null => false
     end
 
-    add_primary_key "gpx_file_tags", ["id"], :name => "gpx_file_tags_id_idx", :unique => true
+    add_primary_key "gpx_file_tags", ["id"]
     add_index "gpx_file_tags", ["gpx_id"], :name => "gpx_file_tags_gpxid_idx"
 
     change_column "gpx_file_tags", "id", :integer, :limit => 20, :null => false, :options => "AUTO_INCREMENT"
@@ -129,7 +129,7 @@ class CreateOsmDb < ActiveRecord::Migration
       t.column "inserted",    :boolean
     end
 
-    add_primary_key "gpx_files", ["id"], :name => "gpx_files_id_idx", :unique => true
+    add_primary_key "gpx_files", ["id"]
     add_index "gpx_files", ["timestamp"], :name => "gpx_files_timestamp_idx"
     add_index "gpx_files", ["visible", "public"], :name => "gpx_files_visible_public_idx"
 
@@ -153,7 +153,7 @@ class CreateOsmDb < ActiveRecord::Migration
       t.column "to_user_id",        :bigint,   :limit => 20,                    :null => false
     end
 
-    add_primary_key "messages", ["id"], :name => "messages_id_idx", :unique => true
+    add_primary_key "messages", ["id"]
     add_index "messages", ["from_display_name"], :name => "from_name_idx"
 
     change_column "messages", "id", :bigint, :limit => 20, :null => false, :options => "AUTO_INCREMENT"
@@ -164,7 +164,7 @@ class CreateOsmDb < ActiveRecord::Migration
       t.column "timestamp", :datetime
     end
 
-    add_primary_key "meta_areas", ["id"], :name => "meta_areas_id_idx", :unique => true
+    add_primary_key "meta_areas", ["id"]
 
     change_column "meta_areas", "id", :bigint, :limit => 64, :null => false, :options => "AUTO_INCREMENT"
 
@@ -214,7 +214,7 @@ class CreateOsmDb < ActiveRecord::Migration
       t.column "home_zoom",     :integer,  :limit => 2,  :default => 3
     end
 
-    add_primary_key "users", ["id"], :name => "users_id_idx", :unique => true
+    add_primary_key "users", ["id"]
     add_index "users", ["email"], :name => "users_email_idx"
     add_index "users", ["display_name"], :name => "users_display_name_idx"
 
@@ -227,7 +227,7 @@ class CreateOsmDb < ActiveRecord::Migration
       t.column "sequence_id", :bigint,  :limit => 11,                :null => false
     end
 
-    add_primary_key "way_segments", ["id", "version", "sequence_id"], :name => "way_segments_id_version_sequence_idx", :unique => true
+    add_primary_key "way_segments", ["id", "version", "sequence_id"]
 
     change_column "way_segments", "sequence_id", :bigint, :limit => 11, :null => false, :options => "AUTO_INCREMENT"
 
@@ -248,7 +248,7 @@ class CreateOsmDb < ActiveRecord::Migration
       t.column "visible",   :boolean,                :default => true
     end
 
-    add_primary_key "ways", ["id", "version"], :name => "ways_primary_idx", :unique => true
+    add_primary_key "ways", ["id", "version"]
     add_index "ways", ["id"], :name => "ways_id_version_idx"
 
     change_column "ways", "version", :bigint, :limit => 20, :null => false, :options => "AUTO_INCREMENT"
