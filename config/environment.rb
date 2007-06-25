@@ -13,6 +13,13 @@ require File.join(File.dirname(__FILE__), 'boot')
 # Application constants needed for routes.rb - must go before Initializer call
 API_VERSION = ENV['OSM_API_VERSION'] || '0.4'
 
+# Custom logger class to format messages sensibly
+class OSMLogger < Logger
+  def format_message(severity, time, progname, msg)
+    "[%s.%06d #%d] %s\n" % [time.strftime("%Y-%m-%d %H:%M:%S"), time.usec, $$, msg.sub(/^\n+/, "")]
+  end
+end
+
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence those specified here
   
@@ -25,6 +32,9 @@ Rails::Initializer.run do |config|
   # Force all environments to use the same logger level 
   # (by default production uses :info, the others :debug)
   # config.log_level = :debug
+
+  # Use our custom logger
+  config.logger = OSMLogger.new(config.log_path)
 
   # Use the database for sessions instead of the file system
   # (create the session table with 'rake db:sessions:create')
