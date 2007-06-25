@@ -35,6 +35,7 @@ Rails::Initializer.run do |config|
 
   # Use our custom logger
   config.logger = OSMLogger.new(config.log_path)
+  config.logger.level = Logger.const_get(config.log_level.to_s.upcase)
 
   # Use the database for sessions instead of the file system
   # (create the session table with 'rake db:sessions:create')
