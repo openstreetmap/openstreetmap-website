@@ -3,7 +3,6 @@ class SearchController < ApplicationController
   # Can search by tag k, v, or both (type->k,value->v)
   # Can search by name (k=name,v=....)
 
-  before_filter :authorize
   after_filter :compress_output
 
   def search_all
@@ -109,7 +108,7 @@ class SearchController < ApplicationController
 
 
     # Print
-    doc = OSM::API.get_xml_doc
+    doc = OSM::API.new.get_xml_doc
     nodes.each do |node|
       doc.root << node.to_xml_node()
     end
