@@ -389,7 +389,7 @@ EOF
       if v[0,6]=='(type ' then next end
       if insertsql !='' then insertsql +=',' end
       if currentsql!='' then currentsql+=',' end
-      insertsql +="(#{way},'"+sqlescape(k)+"','"+sqlescape(v)+"',version)"
+      insertsql +="(#{way},'"+sqlescape(k)+"','"+sqlescape(v)+"',#{version})"
       currentsql+="(#{way},'"+sqlescape(k)+"','"+sqlescape(v)+"')"
     end
 
