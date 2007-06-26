@@ -33,6 +33,8 @@ class AmfController < ApplicationController
       bytes=getlong(req)				#  | get total size in bytes
       args=getvalue(req)				#  | get response (probably an array)
 
+      ActiveRecord::Base.logger.info("  Message: #{message}")
+
       case message
       when 'getpresets';	results[index]=putdata(index,getpresets)
       when 'whichways';		results[index]=putdata(index,whichways(args))
@@ -168,6 +170,13 @@ EOF
   #		corner-crossing ways, it simply enlarges the bounding box by +/- 0.01
 
   def whichways(args)
+    xmin = args[0].to_f-0.01
+    ymin = args[1].to_f-0.01
+    xmax = args[2].to+f-0.01
+    ymax = args[3].to+f-0.01
+
+    ActiveRecord::Base.logger.info("  Bounding Box: #{xmin},#{ymin},#{xmax},#{ymax}")
+
     waylist=WaySegment.find_by_sql("SELECT DISTINCT current_way_segments.id AS wayid"+
        "  FROM current_way_segments,current_segments,current_nodes,current_ways "+
        " WHERE segment_id=current_segments.id "+
@@ -175,8 +184,8 @@ EOF
        "   AND node_a=current_nodes.id "+
 	   "   AND current_ways.id=current_way_segments.id "+
 	   "   AND current_ways.visible=1 "+
-       "   AND (latitude  BETWEEN "+(args[1].to_f-0.01).to_s+" AND "+(args[3].to_f+0.01).to_s+") "+
-       "   AND (longitude BETWEEN "+(args[0].to_f-0.01).to_s+" AND "+(args[2].to_f+0.01).to_s+")")
+       "   AND (latitude  BETWEEN "+ymin.to_s+" AND "+ymax.to_s+") "+
+       "   AND (longitude BETWEEN "+xmin.to_s+" AND "+xmax.to_s+")")
 
        ways = waylist.collect {|a| a.wayid.to_i } # get an array of way id's
 
@@ -184,8 +193,8 @@ EOF
        "  FROM current_nodes "+
        "  LEFT OUTER JOIN current_segments cs1 ON cs1.node_a=current_nodes.id "+
        "  LEFT OUTER JOIN current_segments cs2 ON cs2.node_b=current_nodes.id "+
-       " WHERE (latitude  BETWEEN "+(args[1].to_f-0.01).to_s+" AND "+(args[3].to_f+0.01).to_s+") "+
-       "   AND (longitude BETWEEN "+(args[0].to_f-0.01).to_s+" AND "+(args[2].to_f-0.01).to_s+") "+
+       " WHERE (latitude  BETWEEN "+ymin.to_s+" AND "+ymax.to_s+") "+
+       "   AND (longitude BETWEEN "+xmin.to_s+" AND "+xmax.to_s+") "+
        "   AND cs1.id IS NULL AND cs2.id IS NULL "+
        "   AND current_nodes.visible=1")
 
