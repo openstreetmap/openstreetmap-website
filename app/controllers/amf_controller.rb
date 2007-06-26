@@ -172,8 +172,8 @@ EOF
   def whichways(args)
     xmin = args[0].to_f-0.01
     ymin = args[1].to_f-0.01
-    xmax = args[2].to+f-0.01
-    ymax = args[3].to+f-0.01
+    xmax = args[2].to_f+0.01
+    ymax = args[3].to_f+0.01
 
     ActiveRecord::Base.logger.info("  Bounding Box: #{xmin},#{ymin},#{xmax},#{ymax}")
 
