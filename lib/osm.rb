@@ -101,8 +101,11 @@ module OSM
 
       parser.listen( :characters, %w{ time } ) do |text|
         if text && text != ''
-          date = DateTime.parse(text)
-          gotdate = true
+          begin
+            date = DateTime.parse(text)
+            gotdate = true
+          rescue
+          end
         end
       end
 
