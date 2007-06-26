@@ -33,8 +33,6 @@ class AmfController < ApplicationController
       bytes=getlong(req)				#  | get total size in bytes
       args=getvalue(req)				#  | get response (probably an array)
 
-      ActiveRecord::Base.logger.info("  Message: #{message}")
-
       case message
       when 'getpresets';	results[index]=putdata(index,getpresets)
       when 'whichways';		results[index]=putdata(index,whichways(args))
@@ -71,6 +69,8 @@ class AmfController < ApplicationController
     presetnames={}; presetnames['point']={}; presetnames['way']={}
     presettype=''
     presetcategory=''
+
+    ActiveRecord::Base.logger.info("  Message: getpresets")
 
     #		File.open("config/potlatch/presets.txt") do |file|
 
@@ -175,7 +175,7 @@ EOF
     xmax = args[2].to_f+0.01
     ymax = args[3].to_f+0.01
 
-    ActiveRecord::Base.logger.info("  Bounding Box: #{xmin},#{ymin},#{xmax},#{ymax}")
+    ActiveRecord::Base.logger.info("  Message: whichways, bbox=#{xmin},#{ymin},#{xmax},#{ymax}")
 
     waylist=WaySegment.find_by_sql("SELECT DISTINCT current_way_segments.id AS wayid"+
        "  FROM current_way_segments,current_segments,current_nodes,current_ways "+
@@ -215,6 +215,8 @@ EOF
     xmin = ymin = 999999
     xmax = ymax = -999999
 
+    ActiveRecord::Base.logger.info("  Message: getway, id=#{wayid}")
+
     readwayquery(wayid).each {|row|
       xs1=long2coord(row['long1'].to_f,baselong,masterscale); ys1=lat2coord(row['lat1'].to_f,basey,masterscale)
       xs2=long2coord(row['long2'].to_f,baselong,masterscale); ys2=lat2coord(row['lat2'].to_f,basey,masterscale)
@@ -248,6 +250,8 @@ EOF
     db_now='@now'+uid.to_s+originalway.to_i.abs.to_s+Time.new.to_i.to_s	# 'now' variable name, typically 51 chars
     ActiveRecord::Base.connection.execute("SET #{db_now}=NOW()")
     originalway=originalway.to_i
+
+    ActiveRecord::Base.logger.info("  Message: putway, id=#{way}")
 
     # -- 3.	read original way into memory
 
@@ -414,6 +418,9 @@ EOF
 
   def deleteway(args)
     usertoken,way=args
+
+    ActiveRecord::Base.logger.info("  Message: deleteway, id=#{way}")
+
     uid=getuserid(usertoken); if !uid then return end
 	way=way.to_i
 
