@@ -2,9 +2,6 @@ class ApiController < ApplicationController
 
   after_filter :compress_output
 
-  helper :user
-  model :user
-
   #COUNT is the number of map requests to allow before exiting and starting a new process
   @@count = COUNT
 
