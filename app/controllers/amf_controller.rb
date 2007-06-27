@@ -33,12 +33,14 @@ class AmfController < ApplicationController
       bytes=getlong(req)				#  | get total size in bytes
       args=getvalue(req)				#  | get response (probably an array)
 
+      RAILS_DEFAULT_LOGGER.info("  Message: #{message}")
+
       case message
-      when 'getpresets';	results[index]=putdata(index,getpresets)
-      when 'whichways';		results[index]=putdata(index,whichways(args))
-      when 'getway';		results[index]=putdata(index,getway(args))
-      when 'putway';		results[index]=putdata(index,putway(args))
-      when 'deleteway';		results[index]=putdata(index,deleteway(args))
+		  when 'getpresets';	results[index]=putdata(index,getpresets)
+		  when 'whichways';		results[index]=putdata(index,whichways(args))
+		  when 'getway';		results[index]=putdata(index,getway(args))
+		  when 'putway';		results[index]=putdata(index,putway(args))
+		  when 'deleteway';		results[index]=putdata(index,deleteway(args))
       end
     end
 
@@ -48,13 +50,14 @@ class AmfController < ApplicationController
     RAILS_DEFAULT_LOGGER.info("  Response: start")
     response.headers["Content-Type"]="application/x-amf"
     a,b=results.length.divmod(256)
-    ans=0.chr+0.chr+0.chr+0.chr+a.chr+b.chr
-    results.each do |k,v|
-      RAILS_DEFAULT_LOGGER.info("  Response: encode #{k}")
-      ans+=v
-    end
+	render :text => proc { |response, output| 
+        output.write 0.chr+0.chr+0.chr+0.chr+a.chr+b.chr
+		results.each do |k,v|
+		  RAILS_DEFAULT_LOGGER.info("  Response: encode #{k}")
+		  output.write(v)
+		end
+	}
     RAILS_DEFAULT_LOGGER.info("  Response: end")
-    render :text => ans
 
   end
 
