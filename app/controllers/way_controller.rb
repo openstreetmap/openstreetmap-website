@@ -1,7 +1,7 @@
 class WayController < ApplicationController
   require 'xml/libxml'
 
-  before_filter :authorize, :only => [:create, :update, :destroy]
+  before_filter :authorize, :only => [:create, :update, :delete]
   after_filter :compress_output
 
   def create
@@ -58,7 +58,6 @@ class WayController < ApplicationController
             way.user_id = @user.id
             way.tags = new_way.tags
             way.segs = new_way.segs
-            way.timestamp = new_way.timestamp
             way.visible = true
 
             if way.save_with_history
@@ -86,6 +85,8 @@ class WayController < ApplicationController
 
       if way.visible
         way.user_id = @user.id
+        way.tags = []
+        way.segs = []
         way.visible = false
 
         if way.save_with_history

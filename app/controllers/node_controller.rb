@@ -1,7 +1,7 @@
 class NodeController < ApplicationController
   require 'xml/libxml'
 
-  before_filter :authorize, :only => [:create, :update, :destroy]
+  before_filter :authorize, :only => [:create, :update, :delete]
   after_filter :compress_output
 
   def create
@@ -49,9 +49,7 @@ class NodeController < ApplicationController
         new_node = Node.from_xml(request.raw_post)
 
         if new_node and new_node.id == node.id
-          node.timestamp = Time.now
           node.user_id = @user.id
-
           node.latitude = new_node.latitude 
           node.longitude = new_node.longitude
           node.tags = new_node.tags

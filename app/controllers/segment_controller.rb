@@ -1,7 +1,7 @@
 class SegmentController < ApplicationController
   require 'xml/libxml'
 
-  before_filter :authorize, :only => [:create, :update, :destroy]
+  before_filter :authorize, :only => [:create, :update, :delete]
   after_filter :compress_output
 
   def create
@@ -61,7 +61,6 @@ class SegmentController < ApplicationController
           elsif !new_segment.preconditions_ok?
             render :nothing => true, :status => :precondition_failed
           else
-            segment.timestamp = Time.now
             segment.user_id = @user.id
             segment.node_a = new_segment.node_a
             segment.node_b = new_segment.node_b
