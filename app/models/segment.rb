@@ -88,7 +88,7 @@ class Segment < ActiveRecord::Base
 
     user_display_name_cache = {} if user_display_name_cache.nil?
 
-    if user_display_name_cache and user_display_name_cache[self.user_id]
+    if user_display_name_cache and user_display_name_cache.key?(self.user_id)
       # use the cache if available
     elsif self.user.data_public?
       user_display_name_cache[self.user_id] = self.user.display_name
