@@ -254,7 +254,7 @@ EOF
     ActiveRecord::Base.connection.execute("SET #{db_now}=NOW()")
     originalway=originalway.to_i
 
-    RAILS_DEFAULT_LOGGER.info("  Message: putway, id=#{way}")
+    RAILS_DEFAULT_LOGGER.info("  Message: putway, id=#{originalway}")
 
     # -- 3.	read original way into memory
 
