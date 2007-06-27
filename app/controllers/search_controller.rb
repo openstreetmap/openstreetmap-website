@@ -92,7 +92,7 @@ class SearchController < ApplicationController
     # Fetch any segments needed for our ways (only have matching segments so far)
     seg_ids = Array.new
     ways.each do |way|
-      seg_ids += way.segments
+      seg_ids += way.segs
     end
     segments += Segment.find(seg_ids)
 
