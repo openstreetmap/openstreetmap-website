@@ -76,6 +76,12 @@ class Trace < ActiveRecord::Base
     return `file -bi #{trace_name}`.chomp
   end
 
+  def to_xml
+    doc = OSM::API.new.get_xml_doc
+    doc.root << to_xml_node()
+    return doc
+  end
+
   def to_xml_node
     el1 = XML::Node.new 'gpx_file'
     el1['id'] = self.id.to_s

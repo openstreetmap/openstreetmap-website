@@ -1,6 +1,5 @@
 class ApiController < ApplicationController
 
-  before_filter :authorize
   after_filter :compress_output
 
   helper :user
@@ -18,7 +17,6 @@ class ApiController < ApplicationController
   
   def trackpoints
     @@count+=1
-    response.headers["Content-Type"] = 'text/xml'
     #retrieve the page number
     page = params['page'].to_i
     unless page
@@ -96,12 +94,12 @@ class ApiController < ApplicationController
 
     #exit when we have too many requests
     if @@count > MAX_COUNT
-      render :text => doc.to_s
+      render :text => doc.to_s, :content_type => "text/xml"
       @@count = COUNT
       exit!
     end
 
-    render :text => doc.to_s
+    render :text => doc.to_s, :content_type => "text/xml"
 
   end
 
@@ -109,7 +107,6 @@ class ApiController < ApplicationController
     GC.start
     @@count+=1
 
-    response.headers["Content-Type"] = 'text/xml'
     # Figure out the bbox
     bbox = params['bbox']
     unless bbox and bbox.count(',') == 3
@@ -155,7 +152,7 @@ class ApiController < ApplicationController
     end
 
     if node_ids.length == 0
-      render :text => "<osm version='0.4'></osm>"
+      render :text => "<osm version='0.4'></osm>", :content_type => "text/xml"
       return
     end
 
@@ -240,7 +237,7 @@ class ApiController < ApplicationController
       doc.root << way.to_xml_node(visible_segments, user_display_name_cache) if way.visible?
     end 
 
-    render :text => doc.to_s
+    render :text => doc.to_s, :content_type => "text/xml"
     
     #exit when we have too many requests
     if @@count > MAX_COUNT

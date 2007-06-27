@@ -33,8 +33,6 @@ class AmfController < ApplicationController
       bytes=getlong(req)				#  | get total size in bytes
       args=getvalue(req)				#  | get response (probably an array)
 
-      RAILS_DEFAULT_LOGGER.info("  Message: #{message}")
-
       case message
 		  when 'getpresets';	results[index]=putdata(index,getpresets)
 		  when 'whichways';		results[index]=putdata(index,whichways(args))
@@ -48,12 +46,10 @@ class AmfController < ApplicationController
     # Write out response
 
     RAILS_DEFAULT_LOGGER.info("  Response: start")
-    response.headers["Content-Type"]="application/x-amf"
     a,b=results.length.divmod(256)
-	render :text => proc { |response, output| 
+	render :content_type => "application/x-amf", :text => proc { |response, output| 
         output.write 0.chr+0.chr+0.chr+0.chr+a.chr+b.chr
 		results.each do |k,v|
-		  RAILS_DEFAULT_LOGGER.info("  Response: encode #{k}")
 		  output.write(v)
 		end
 	}

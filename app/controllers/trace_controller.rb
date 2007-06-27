@@ -95,7 +95,7 @@ class TraceController < ApplicationController
     @trace = Trace.find(params[:id])
     unless @trace.public
       if @user
-        render :nothing, :status => 401 if @trace.user.id != @user.id
+        render :nothing, :status => :forbidden if @trace.user.id != @user.id
       end
     end
   end
@@ -126,7 +126,7 @@ class TraceController < ApplicationController
     if trace and (trace.public? or (@user and @user == trace.user))
       send_file(trace.trace_name, :filename => "#{trace.id}.gpx", :type => trace.mime_type, :disposition => 'attachment')
     else
-      render :nothing, :status => 404
+      render :nothing, :status => :not_found
     end
   end
 
@@ -150,34 +150,55 @@ class TraceController < ApplicationController
       rss.add(trace.latitude, trace.longitude, trace.name, url_for({:controller => 'trace', :action => 'view', :id => trace.id, :display_name => trace.user.display_name}), "<img src='#{url_for({:controller => 'trace', :action => 'icon', :id => trace.id, :user_login => trace.user.display_name})}'> GPX file with #{trace.size} points from #{trace.user.display_name}", trace.timestamp)
     end
 
-    response.headers["Content-Type"] = 'application/rss+xml'
-
-    render :text => rss.to_s
+    render :text => rss.to_s, :content_type => "application/rss+xml"
   end
 
   def picture
-    trace = Trace.find(params[:id])
-    if trace and (trace.public? or (@user and @user == trace.user))
-      send_file(trace.large_picture_name, :filename => "#{trace.id}.gif", :type => 'image/gif', :disposition => 'inline')
-    else
-      render :nothing, :status => 404
+    begin
+      trace = Trace.find(params[:id])
+
+      if trace.public? or (@user and @user == trace.user)
+        send_file(trace.large_picture_name, :filename => "#{trace.id}.gif", :type => 'image/gif', :disposition => 'inline')
+      else
+        render :nothing, :status => :forbidden
+      end
+    rescue ActiveRecord::RecordNotFound
+      render :nothing => true, :status => :not_found
+    rescue
+      render :nothing => true, :status => :internal_server_error
     end
   end
 
   def icon
-    trace = Trace.find(params[:id])
-    if trace and (trace.public? or (@user and @user == trace.user))
-      send_file(trace.icon_picture_name, :filename => "#{trace.id}_icon.gif", :type => 'image/gif', :disposition => 'inline')
-    else
-      render :nothing, :status => 404
+    begin
+      trace = Trace.find(params[:id])
+
+      if trace.public? or (@user and @user == trace.user)
+        send_file(trace.icon_picture_name, :filename => "#{trace.id}_icon.gif", :type => 'image/gif', :disposition => 'inline')
+      else
+        render :nothing, :status => :forbidden
+      end
+    rescue ActiveRecord::RecordNotFound
+      render :nothing => true, :status => :not_found
+    rescue
+      render :nothing => true, :status => :internal_server_error
     end
   end
 
   def api_details
-    trace = Trace.find(params[:id])
-    doc = OSM::API.new.get_xml_doc
-    doc.root << trace.to_xml_node() if trace.public? or trace.user == @user
-    render :text => doc.to_s
+    begin
+      trace = Trace.find(params[:id])
+
+      if trace.public? or trace.user == @user
+        render :text => trace.to_xml.to_s, :content_type => "text/xml"
+      else
+        render :nothing => true, :status => :forbidden
+      end
+    rescue ActiveRecord::RecordNotFound
+      render :nothing => true, :status => :not_found
+    rescue
+      render :nothing => true, :status => :internal_server_error
+    end
   end
 
   def api_data
@@ -205,8 +226,7 @@ class TraceController < ApplicationController
       flash[:notice] = "Your GPX file has been uploaded and is awaiting insertion in to the database. This will usually happen within half an hour, and an email will be sent to you on completion."
       render :nothing => true
     else
-      render :nothing => true, :status => 400 # er FIXME what fricking code to return?
+      render :nothing => true, :status => :internal_server_error
     end
-
   end
 end

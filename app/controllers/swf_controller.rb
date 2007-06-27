@@ -139,8 +139,7 @@ class SwfController < ApplicationController
 		m=packRect(bounds_left,bounds_right,bounds_bottom,bounds_top) + 0.chr + 12.chr + packUI16(1) + m
 		m='FWS' + 6.chr + packUI32(m.length+8) + m
 	
-		response.headers["Content-Type"]="application/x-shockwave-flash"
-		render :text=>m
+		render :text => m, :content_type => "application/x-shockwave-flash"
 	end
 
 	private

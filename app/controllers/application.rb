@@ -11,33 +11,31 @@ class ApplicationController < ActionController::Base
   end
 
   def authorize(realm='Web Password', errormessage="Couldn't authenticate you") 
-    unless request.get?
-      username, passwd = get_auth_data # parse from headers
-      # authenticate per-scheme
-      if username.nil?
-        @user = nil # no authentication provided - perhaps first connect (client should retry after 401)
-      elsif username == 'token' 
-        @user = User.authenticate_token(passwd) # preferred - random token for user from db, passed in basic auth
-      else
-        @user = User.authenticate(username, passwd) # basic auth
-      end
-
-      # handle authenticate pass/fail
-      if @user
-        # user exists and password is correct ... horray! 
-        if @user.methods.include? 'lastlogin'         # note last login 
-          @session['lastlogin'] = user.lastlogin 
-          @user.last.login = Time.now 
-          @user.save() 
-          @session["User.id"] = @user.id 
-        end             
-      else 
-        # no auth, the user does not exist or the password was wrong
-        response.headers["Status"] = "Unauthorized" 
-        response.headers["WWW-Authenticate"] = "Basic realm=\"#{realm}\"" 
-        render_text(errormessage, 401) # :unauthorized
-      end 
+    username, passwd = get_auth_data # parse from headers
+    # authenticate per-scheme
+    if username.nil?
+      @user = nil # no authentication provided - perhaps first connect (client should retry after 401)
+    elsif username == 'token' 
+      @user = User.authenticate_token(passwd) # preferred - random token for user from db, passed in basic auth
+    else
+      @user = User.authenticate(username, passwd) # basic auth
     end
+
+    # handle authenticate pass/fail
+    if @user
+      # user exists and password is correct ... horray! 
+      if @user.methods.include? 'lastlogin'         # note last login 
+        @session['lastlogin'] = user.lastlogin 
+        @user.last.login = Time.now 
+        @user.save() 
+        @session["User.id"] = @user.id 
+      end             
+    else 
+      # no auth, the user does not exist or the password was wrong
+      response.headers["Status"] = "Unauthorized" 
+      response.headers["WWW-Authenticate"] = "Basic realm=\"#{realm}\"" 
+      render_text(errormessage, 401) # :unauthorized
+    end 
   end 
 
   # Report and error to the user
@@ -46,7 +44,7 @@ class ApplicationController < ActionController::Base
   #  phrase from that, we can also put the error message into the status
   #  message. For now, rails won't let us)
   def report_error(message)
-    render :nothing => true, :status => 400
+    render :nothing => true, :status => :bad_request
     # Todo: some sort of escaping of problem characters in the message
     response.headers['Error'] = message
   end

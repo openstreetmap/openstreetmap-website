@@ -21,8 +21,6 @@ class SearchController < ApplicationController
 
 
   def do_search(do_ways,do_segments,do_nodes)
-    response.headers["Content-Type"] = 'text/xml'
-
     type = params['type']
     value = params['value']
     unless type or value
@@ -121,6 +119,6 @@ class SearchController < ApplicationController
       doc.root << way.to_xml_node()
     end 
 
-    render :text => doc.to_s
+    render :text => doc.to_s, :content_type => "text/xml"
   end
 end

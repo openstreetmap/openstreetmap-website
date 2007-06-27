@@ -1,6 +1,6 @@
 class MessageController < ApplicationController
   layout 'site'
-  #  before_filter :authorize
+
   before_filter :authorize_web
   before_filter :require_user
 

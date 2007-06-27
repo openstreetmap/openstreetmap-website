@@ -165,7 +165,7 @@ class UserController < ApplicationController
       @user.save!
       render :nothing => true
     else
-      render :status => 400, :nothing => true
+      render :nothing => true, :status => :method_not_allowed
     end
   end
 

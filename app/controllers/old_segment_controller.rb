@@ -1,20 +1,21 @@
 class OldSegmentController < ApplicationController
+  require 'xml/libxml'
 
   def history
-    response.headers["Content-Type"] = 'text/xml'
-    segment = Segment.find(params[:id])
+    begin
+      segment = Segment.find(params[:id])
 
-    unless segment
-      render :nothing => true, :staus => 404
-      return
+      doc = OSM::API.new.get_xml_doc
+
+      segment.old_segments.each do |old_segment|
+        doc.root << old_segment.to_xml_node
+      end
+
+     render :text => doc.to_s, :content_type => "text/xml"
+    rescue ActiveRecord::RecordNotFound
+      render :nothing => true, :status => :not_found
+    rescue
+      render :nothing => true, :status => :internal_server_error
     end
-
-    doc = OSM::API.new.get_xml_doc
-
-    segment.old_segments.each do |old_segment|
-      doc.root << old_segment.to_xml_node
-    end
-
-    render :text => doc.to_s
   end
 end
