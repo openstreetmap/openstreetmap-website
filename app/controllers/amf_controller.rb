@@ -45,12 +45,15 @@ class AmfController < ApplicationController
     # ------------------
     # Write out response
 
+    RAILS_DEFAULT_LOGGER.info("  Response: start")
     response.headers["Content-Type"]="application/x-amf"
     a,b=results.length.divmod(256)
     ans=0.chr+0.chr+0.chr+0.chr+a.chr+b.chr
     results.each do |k,v|
+      RAILS_DEFAULT_LOGGER.info("  Response: encode #{k}")
       ans+=v
     end
+    RAILS_DEFAULT_LOGGER.info("  Response: end")
     render :text => ans
 
   end
@@ -70,7 +73,7 @@ class AmfController < ApplicationController
     presettype=''
     presetcategory=''
 
-    ActiveRecord::Base.logger.info("  Message: getpresets")
+    RAILS_DEFAULT_LOGGER.info("  Message: getpresets")
 
     #		File.open("config/potlatch/presets.txt") do |file|
 
@@ -175,7 +178,7 @@ EOF
     xmax = args[2].to_f+0.01
     ymax = args[3].to_f+0.01
 
-    ActiveRecord::Base.logger.info("  Message: whichways, bbox=#{xmin},#{ymin},#{xmax},#{ymax}")
+    RAILS_DEFAULT_LOGGER.info("  Message: whichways, bbox=#{xmin},#{ymin},#{xmax},#{ymax}")
 
     waylist=WaySegment.find_by_sql("SELECT DISTINCT current_way_segments.id AS wayid"+
        "  FROM current_way_segments,current_segments,current_nodes,current_ways "+
@@ -215,7 +218,7 @@ EOF
     xmin = ymin = 999999
     xmax = ymax = -999999
 
-    ActiveRecord::Base.logger.info("  Message: getway, id=#{wayid}")
+    RAILS_DEFAULT_LOGGER.info("  Message: getway, id=#{wayid}")
 
     readwayquery(wayid).each {|row|
       xs1=long2coord(row['long1'].to_f,baselong,masterscale); ys1=lat2coord(row['lat1'].to_f,basey,masterscale)
@@ -251,7 +254,7 @@ EOF
     ActiveRecord::Base.connection.execute("SET #{db_now}=NOW()")
     originalway=originalway.to_i
 
-    ActiveRecord::Base.logger.info("  Message: putway, id=#{way}")
+    RAILS_DEFAULT_LOGGER.info("  Message: putway, id=#{way}")
 
     # -- 3.	read original way into memory
 
@@ -419,7 +422,7 @@ EOF
   def deleteway(args)
     usertoken,way=args
 
-    ActiveRecord::Base.logger.info("  Message: deleteway, id=#{way}")
+    RAILS_DEFAULT_LOGGER.info("  Message: deleteway, id=#{way}")
 
     uid=getuserid(usertoken); if !uid then return end
 	way=way.to_i
