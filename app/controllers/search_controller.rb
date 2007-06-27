@@ -99,8 +99,7 @@ class SearchController < ApplicationController
     # Fetch any nodes needed for our segments (only have matching nodes so far)
     node_ids = Array.new
     segments.each do |seg|
-      node_ids += seg.node_a
-      node_ids += seg.node_b
+      node_ids += [seg.node_a, seg.node_b]
     end
     nodes += Node.find(node_ids)
 
