@@ -3,7 +3,7 @@ class UserController < ApplicationController
 
   before_filter :authorize, :only => [:preferences, :api_details, :api_gpx_files]
   before_filter :authorize_web, :only => [:account, :go_public, :view, :diary, :make_friend]
-  before_filter :require_user, :only => [:set_home, :account, :go_public, :make_friend]
+  before_filter :require_user, :only => [:set_home, :account, :go_public, :make_friend, :api_details]
 
   def save
     @title = 'create account'
