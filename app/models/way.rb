@@ -165,7 +165,7 @@ class Way < ActiveRecord::Base
 
         WaySegment.delete_all(['id = ?', self.id])
 
-        i = 0
+        i = 1
         segs.each do |n|
           seg = WaySegment.new
           seg.id = self.id

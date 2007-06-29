@@ -38,7 +38,7 @@ class OldWay < ActiveRecord::Base
       tag.save!
     end
 
-    i = 0
+    i = 1
     self.segs.each do |n|
       seg = OldWaySegment.new
       seg.id = self.id
