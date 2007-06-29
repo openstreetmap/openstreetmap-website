@@ -3,7 +3,7 @@ class UserController < ApplicationController
 
   before_filter :authorize, :only => [:preferences, :api_details, :api_gpx_files]
   before_filter :authorize_web, :only => [:account, :go_public, :view, :diary, :make_friend]
-  before_filter :require_user, :only => [:set_home, :account, :go_public, :make_friend, :api_details]
+  before_filter :require_user, :only => [:set_home, :account, :go_public, :make_friend]
 
   def save
     @title = 'create account'
@@ -170,7 +170,7 @@ class UserController < ApplicationController
   end
 
   def api_details
-    render :text => @user.to_xml.to_s
+    render :text => @user.to_xml.to_s, :content_type => "text/xml"
   end
 
   def api_gpx_files
@@ -178,7 +178,7 @@ class UserController < ApplicationController
     @user.traces.each do |trace|
       doc.root << trace.to_xml_node() if trace.public? or trace.user == @user
     end
-    render :text => doc.to_s
+    render :text => doc.to_s, :content_type => "text/xml"
   end
 
   def view
