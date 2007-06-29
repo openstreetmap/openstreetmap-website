@@ -8,7 +8,7 @@ function createMap(divName, centre, zoom) {
    }
 
    map = new OpenLayers.Map(divName,
-                            { maxExtent: new OpenLayers.Bounds(-20037508.34,-20037508.34,20037508.34,20037508.34),
+                            { maxExtent: new OpenLayers.Bounds(-20037508,-20037508,20037508,20037508),
                               numZoomLevels: 19,
                               maxResolution: 156543,
                               units: 'm',
@@ -16,12 +16,12 @@ function createMap(divName, centre, zoom) {
 
    var mapnik = new OpenLayers.Layer.TMS("Mapnik",
                                          "http://tile.openstreetmap.org/",
-                                         { type: 'png', getURL: getTileURL });
+                                         { type: 'png', getURL: getTileURL, displayOutsideMaxExtent: true });
    map.addLayer(mapnik);
 
    var osmarender = new OpenLayers.Layer.TMS("Osmarender",
                                              "http://dev.openstreetmap.org/~ojw/Tiles/tile.php/",
-                                             { type: 'png', getURL: getTileURL });
+                                             { type: 'png', getURL: getTileURL, displayOutsideMaxExtent: true });
    map.addLayer(osmarender);
 
    map.addControl(new OpenLayers.Control.LayerSwitcher());
@@ -35,8 +35,18 @@ function getTileURL(bounds) {
    var x = Math.round((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));
    var y = Math.round((this.maxExtent.top - bounds.top) / (res * this.tileSize.h));
    var z = this.map.getZoom();
+   var limit = Math.pow(2, z);
 
-   return this.url + z + "/" + x + "/" + y + "." + this.type;
+   if (y < 0 || y >= limit)
+   {
+     return null;
+   }
+   else
+   {
+     x = ((x % limit) + limit) % limit;
+
+     return this.url + z + "/" + x + "/" + y + "." + this.type;
+   }
 }
 
 function addMarkerToMap(position, icon, description) {
