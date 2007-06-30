@@ -99,16 +99,15 @@ function removeMarkerFromMap(marker){
 function mercatorToLonLat(merc) {
    var lon = (merc.lon / 20037508.34) * 180;
    var lat = (merc.lat / 20037508.34) * 180;
-   var PI = 3.14159265358979323846;
 
-   lat = 180/PI * (2 * Math.atan(Math.exp(lat * PI / 180)) - PI / 2);
+   lat = 180/Math.PI * (2 * Math.atan(Math.exp(lat * Math.PI / 180)) - Math.PI / 2);
 
    return new OpenLayers.LonLat(lon, lat);
 }
 
 function lonLatToMercator(ll) {
    var lon = ll.lon * 20037508.34 / 180;
-   var lat = Math.log(Math.tan((90 + ll.lat) * PI / 360)) / (PI / 180);
+   var lat = Math.log(Math.tan((90 + ll.lat) * Math.PI / 360)) / (Math.PI / 180);
 
    lat = lat * 20037508.34 / 180;
 
