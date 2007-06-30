@@ -27,7 +27,7 @@
 
 <script type="text/javascript">
   <!--
-  var ie6 = ! ( window.addEventListener || window.XMLHttpRequest );
+  var ie = navigator.appName.indexOf("Microsoft Internet Explorer") != -1;
   var map;
 
   function init(){
@@ -56,7 +56,7 @@
     <% end %>
 
     document.getElementById('map_OpenLayers_ViewPort').style.position = 'absolute';
-    if ( ie6 ) {
+    if ( ie ) {
       handleResize();
     }
   }        
@@ -124,12 +124,10 @@
     }
     map.updateSize();
     el.style.display = 'none';
-    setTimeout( function() {
-        el.style.display = '';
-        }, 200 );
+    setTimeout( function() { el.style.display = ''; }, 200 );
   }
 
-  if ( ie6 ) {
+  if ( ie ) {
     window.onresize = handleResize;
   }
 
