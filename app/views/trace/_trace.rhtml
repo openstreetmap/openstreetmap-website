@@ -2,7 +2,7 @@
   <% cl = cycle('table0', 'table1') %>
   <td class="<%= cl %>">
     <% if trace.inserted %>
-    <a href="<%= url_for :controller => 'trace', :action => 'view', :id => trace.id, :display_name => trace.user.display_name %>"><img src="<%= url_for :controller => 'trace', :action => 'icon', :id => trace.id, :display_name => trace.user.display_name %>" border="0"></a>
+    <a href="<%= url_for :controller => 'trace', :action => 'view', :id => trace.id, :display_name => trace.user.display_name %>"><img src="<%= url_for :controller => 'trace', :action => 'icon', :id => trace.id, :display_name => trace.user.display_name %>" border="0" alt="" /></a>
     <% else %>
     <span style="color:red">PENDING</span>
     <% end %>
@@ -13,9 +13,10 @@
       (<%= trace.size.to_s.gsub(/(\d)(?=(\d{3})+$)/,'\1,') %> points)
       <% end %> 
       ... <%= time_ago_in_words( trace.timestamp ) %>  ago</span>
-     <%= link_to 'more', {:controller => 'trace', :action => 'view', :display_name => trace.user.display_name, :id => trace.id} %> /
-    <a href="/edit.html?lat=<%= trace.latitude %>&lon=<%= trace.longitude %>&zoom=14" title="create maps">map</a><br />
-      <%= trace.description %>
+      <%= link_to 'more', {:controller => 'trace', :action => 'view', :display_name => trace.user.display_name, :id => trace.id} %> /
+      <%= link_to 'map', {:controller => 'site', :action => 'edit', :lat => trace.latitude, :lon => trace.longitude, :zoom => 14}, {:title => 'create maps'} %>
+      <br />
+      <%= escape_once(trace.description) %>
     <br />
     by <%= link_to trace.user.display_name, {:controller => 'user', :action => 'view', :display_name => trace.user.display_name} %>
     in 

@@ -87,6 +87,7 @@
     var bottom = getStyle( el, 'bottom' );
     var right = getStyle( el, 'right' );
     var width = el.old_width;
+    var height;
     if( ! width ) {
         width = getStyle( el, 'width' );
     }
@@ -98,7 +99,7 @@
     if( el.offsetParent.nodeName == 'BODY' || el.offsetParent.nodeName == 'HTML' ) {
       if( typeof( window.innerWidth ) == 'number' ) {
           pwidth = window.innerWidth;
-          height = window.innerHeight;
+          pheight = window.innerHeight;
       } else if( document.documentElement &&
           ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
           pwidth = document.documentElement.clientWidth;

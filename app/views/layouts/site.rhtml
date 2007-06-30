@@ -1,12 +1,9 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN""http://www.w3.org/TR/REC-html40/loose.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
   <head>
-    <%= javascript_include_tag 'main.js' %>
-    <!--[if lt IE 7]><%= javascript_include_tag 'pngfix.js' %><![endif]--> <!-- thanks, microsoft! -->
-    <%= javascript_include_tag 'tile.js' %>
     <%= javascript_include_tag 'site.js' %>
-
-    <link rel="stylesheet" type="text/css" href="/stylesheets/site.css" />
+    <!--[if lt IE 7]><%= javascript_include_tag 'pngfix.js' %><![endif]--> <!-- thanks, microsoft! -->
+    <%= stylesheet_link_tag 'site.css' %>
     <title>OpenStreetMap<%= ' | '+@title if @title %></title>
   </head>
   <body>
@@ -14,13 +11,13 @@
     <% if params[:controller] == 'site' and params[:action] == 'index' %>
     <div id="map" style="border: 1px solid black; position: absolute; right: 5px; bottom: 5px; left: 200px; top: 70px;"></div> 
     <% end %>
+
     <div id="content">
       <% if flash[:notice] %>
         <div id="notice"><%= flash[:notice] %></div>
       <% end %>
 
       <%= yield %>
-
     </div>
 
     <span id="greeting">
@@ -37,12 +34,13 @@
 
     <div>
       <ul id="tabnav">
-        <% viewclass = ''
+        <%
+        viewclass = ''
         editclass = ''
         traceclass = ''
         viewclass = 'active' if params['controller'] == 'site' and params['action'] == 'index' 
         editclass = 'active' if params['controller'] == 'site' and params['action'] == 'edit' 
-        editcalss = 'active' if params['controller'] == 'campaign'
+        editclass = 'active' if params['controller'] == 'campaign'
         traceclass = 'active' if params['controller'] == 'trace'
         %>
         <li><%= link_to 'View', {:controller => 'site', :action => 'index'}, {:id => 'viewanchor', :title => 'view maps', :class => viewclass  } %></li>
@@ -57,9 +55,10 @@
         <center>
           <h1>OpenStreetMap</h1>
           <%= link_to(image_tag("osm_logo.png", :size => "120x120", :border => 0), :controller => 'site', :action => 'index') %><br/>
-          <nobr><h2>The Free Wiki World Map</h2></nobr>
+          <h2 class="nowrap">The Free Wiki World Map</h2>
         </center>
       </div>
+
       <% unless @user %>
       <div id="intro">
         OpenStreetMap is a free editable map of the whole world. It is made by people like you.
@@ -70,18 +69,18 @@
       </div>
       <% end %>
 
-      <div id="left_menu">
-        <a href="http://wiki.openstreetmap.org">Help & Wiki</a><br />
+      <div id="left_menu" class="left_menu">
+        <a href="http://wiki.openstreetmap.org">Help &amp; Wiki</a><br />
 	<%= link_to "Users' diaries", {:controller => 'diary_entry', :action => 'list', :display_name => nil} %><br />
         <a href="http://www.opengeodata.org/">News blog</a><br />
         <a href="http://wiki.openstreetmap.org/index.php/Merchandise">Shop</a><br />
-</div>
+      </div>
 
 
-      <div id="left_menu">
-    <div id="sotminfo">
-Come to the first OpenStreetMap Conference, <a href="http://www.stateofthemap.org">The State of the Map</a>: 14th-15th July 2007, Manchester, UK.
-</div>
+      <div id="sotm" class="left_menu">
+        <div id="sotminfo">
+        Come to the first OpenStreetMap Conference, <a href="http://www.stateofthemap.org">The State of the Map</a>: 14th-15th July 2007, Manchester, UK.
+        </div>
       </div>
 
 
@@ -90,13 +89,13 @@ Come to the first OpenStreetMap Conference, <a href="http://www.stateofthemap.or
         <center>
 
           <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-            <input type="hidden" name="cmd" value="_s-xclick">
-            <input type="image" src="https://www.paypal.com/en_US/i/btn/x-click-but21.gif" border="0" style="border: none;" name="submit" alt="Make payments with PayPal - it's fast, free and secure!">
-            <img alt="" border="0" src="https://www.paypal.com/en_GB/i/scr/pixel.gif" width="1" height="1">
-            <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----">
+            <input type="hidden" name="cmd" value="_s-xclick" />
+            <input type="image" src="https://www.paypal.com/en_US/i/btn/x-click-but21.gif" style="border: none;" name="submit" alt="Make payments with PayPal - it's fast, free and secure!" />
+            <img alt="" border="0" src="https://www.paypal.com/en_GB/i/scr/pixel.gif" width="1" height="1" />
+            <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----MIIHTwYJKoZIhvcNAQcEoIIHQDCCBzwCAQExggEwMIIBLAIBADCBlDCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20CAQAwDQYJKoZIhvcNAQEBBQAEgYCsNDDDDa7OZFojBzDvG4HSPXOiJSO3VNuLoc8HGwsds3LsZYYtv4cPGw7Z/SoVVda+RELM+5FQn0D3Kv7hjA2Z6QdwEkFH2kDDlXCvyPt53ENHkQrzC1KOueRpimsQMH5hl03nvuVXij0hEYlMFqTH0UZr80vyczB+lJU6ZKYtrDELMAkGBSsOAwIaBQAwgcwGCSqGSIb3DQEHATAUBggqhkiG9w0DBwQIZa12CIRB0geAgahqF6Otz0oY0+Wg56fSuEpZvbUmNGEQznjWqBXkJqTkZT0jOwekOrlEi7bNEU8yVIie2u5L1gOhBDSl6rmgpxxVURSa4Jig5qiSioyK5baH6HjXVPQ+MDEWg1gZ4LtjYYtroZ8SBE/1eikQWmG7EOEgU62Vn/jqJJ77/mgS7mdEQhlEWYMiyJBZs35yCB/pK5FUxhZnrquL4sS+2QKHPPOGPDfRc/dnhMKgggOHMIIDgzCCAuygAwIBAgIBADANBgkqhkiG9w0BAQUFADCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20wHhcNMDQwMjEzMTAxMzE1WhcNMzUwMjEzMTAxMzE1WjCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20wgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAMFHTt38RMxLXJyO2SmS+Ndl72T7oKJ4u4uw+6awntALWh03PewmIJuzbALScsTS4sZoS1fKciBGoh11gIfHzylvkdNe/hJl66/RGqrj5rFb08sAABNTzDTiqqNpJeBsYs/c2aiGozptX2RlnBktH+SUNpAajW724Nv2Wvhif6sFAgMBAAGjge4wgeswHQYDVR0OBBYEFJaffLvGbxe9WT9S1wob7BDWZJRrMIG7BgNVHSMEgbMwgbCAFJaffLvGbxe9WT9S1wob7BDWZJRroYGUpIGRMIGOMQswCQYDVQQGEwJVUzELMAkGA1UECBMCQ0ExFjAUBgNVBAcTDU1vdW50YWluIFZpZXcxFDASBgNVBAoTC1BheVBhbCBJbmMuMRMwEQYDVQQLFApsaXZlX2NlcnRzMREwDwYDVQQDFAhsaXZlX2FwaTEcMBoGCSqGSIb3DQEJARYNcmVAcGF5cGFsLmNvbYIBADAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBBQUAA4GBAIFfOlaagFrl71+jq6OKidbWFSE+Q4FqROvdgIONth+8kSK//Y/4ihuE4Ymvzn5ceE3S/iBSQQMjyvb+s2TWbQYDwcp129OPIbD9epdr4tJOUNiSojw7BHwYRiPh58S1xGlFgHFXwrEBb3dgNbMUa+u4qectsMAXpVHnD9wIyfmHMYIBmjCCAZYCAQEwgZQwgY4xCzAJBgNVBAYTAlVTMQswCQYDVQQIEwJDQTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEUMBIGA1UEChMLUGF5UGFsIEluYy4xEzARBgNVBAsUCmxpdmVfY2VydHMxETAPBgNVBAMUCGxpdmVfYXBpMRwwGgYJKoZIhvcNAQkBFg1yZUBwYXlwYWwuY29tAgEAMAkGBSsOAwIaBQCgXTAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJBTEPFw0wNjA4MjYwODQ2NDdaMCMGCSqGSIb3DQEJBDEWBBTyC1ZchvuTMtcYeudPPSP/w8HiEDANBgkqhkiG9w0BAQEFAASBgJPpBf69pRAJfhzv/MfPiMncuq3TSlvpX7VtG9p4dXzSko4i2lWUDD72r5zdF2NwDgZ6avf630PutgpOzYJQ525If1xU2olc9DWI43UZTqY+FArgFuCJ8VnkPsy9mcbXPoSjLRqNwrsA2yoETxMISO3ASELzELJTJgpPk4bU57eZ-----END PKCS7-----" />
           </form>
 
-          <a href="http://creativecommons.org/licenses/by-sa/2.0/"><img src="/images/cc_button.png" border="0"></a>
+          <a href="http://creativecommons.org/licenses/by-sa/2.0/"><img src="/images/cc_button.png" border="0" alt="" /></a>
 
         </center>
       </div>
