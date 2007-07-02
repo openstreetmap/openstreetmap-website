@@ -101,22 +101,16 @@ class TraceController < ApplicationController
   end
 
   def create
-    filename = "/tmp/#{rand}"
+    name = params[:trace][:gpx_file].original_filename.gsub(/[^a-zA-Z0-9.]/, '_') # This makes sure filenames are sane
 
-    File.open(filename, "w") { |f| f.write(params[:trace][:gpx_file].read) }
-    params[:trace][:name] = params[:trace][:gpx_file].original_filename.gsub(/[^a-zA-Z0-9.]/, '_') # This makes sure filenames are sane
-    params[:trace].delete('gpx_file') # remove the field from the hash, because there's no such field in the DB
-    @trace = Trace.new(params[:trace])
-    @trace.inserted = false
-    @trace.user = @user
-    @trace.timestamp = Time.now
+    do_create(name, params[:trace][:tagstring], params[:trace][:description]) do |f|
+      f.write(params[:trace][:gpx_file].read)
+    end
 
-    if @trace.save
-      saved_filename = "/home/osm/gpx/#{@trace.id}.gpx"
-      File.rename(filename, saved_filename)
-
+    if @trace.id
       logger.info("id is #{@trace.id}")
       flash[:notice] = "Your GPX file has been uploaded and is awaiting insertion in to the database. This will usually happen within half an hour, and an email will be sent to you on completion."
+
       redirect_to :action => 'mine'
     end
   end
@@ -206,27 +200,34 @@ class TraceController < ApplicationController
   end
 
   def api_create
-    #FIXME merge this code with create as they're pretty similar?
-    
-    filename = "/tmp/#{rand}"
-    File.open(filename, "w") { |f| f.write(request.raw_post) }
-    params[:trace] = {}
-    params[:trace][:name] = params[:filename]
-    params[:trace][:tagstring] = params[:tags]
-    params[:trace][:description] = params[:description]
-    @trace = Trace.new(params[:trace])
-    @trace.inserted = false
-    @trace.user = @user
-    @trace.timestamp = Time.now
+    do_create(params[:filename], params[:tags], params[:description]) do |f|
+      f.write(request.raw_post)
+    end
 
-    if @trace.save
-      saved_filename = "/home/osm/gpx/#{@trace.id}.gpx"
-      File.rename(filename, saved_filename)
-      logger.info("id is #{@trace.id}")
-      flash[:notice] = "Your GPX file has been uploaded and is awaiting insertion in to the database. This will usually happen within half an hour, and an email will be sent to you on completion."
+    if @trace.id
       render :nothing => true
     else
       render :nothing => true, :status => :internal_server_error
     end
   end
+
+private
+
+  def do_create(name, tags, description)
+    filename = "/tmp/#{rand}"
+
+    File.open(filename, "w") { |f| yield f }
+
+    @trace = Trace.new({:name => name, :tagstring => tags, :description => description})
+    @trace.inserted = false
+    @trace.user = @user
+    @trace.timestamp = Time.now
+
+    if @trace.save
+      File.rename(filename, @trace.trace_name)
+    else
+      FileUtils.rm_f(filename)
+    end
+  end
+
 end
