@@ -103,7 +103,7 @@ class TraceController < ApplicationController
   def create
     name = params[:trace][:gpx_file].original_filename.gsub(/[^a-zA-Z0-9.]/, '_') # This makes sure filenames are sane
 
-    do_create(name, params[:trace][:tagstring], params[:trace][:description]) do |f|
+    do_create(name, params[:trace][:tagstring], params[:trace][:description], params[:trace][:public]) do |f|
       f.write(params[:trace][:gpx_file].read)
     end
 
@@ -200,7 +200,7 @@ class TraceController < ApplicationController
   end
 
   def api_create
-    do_create(params[:filename], params[:tags], params[:description]) do |f|
+    do_create(params[:filename], params[:tags], params[:description], true) do |f|
       f.write(request.raw_post)
     end
 
@@ -213,12 +213,13 @@ class TraceController < ApplicationController
 
 private
 
-  def do_create(name, tags, description)
+  def do_create(name, tags, description, public)
     filename = "/tmp/#{rand}"
 
     File.open(filename, "w") { |f| yield f }
 
-    @trace = Trace.new({:name => name, :tagstring => tags, :description => description})
+    @trace = Trace.new({:name => name, :tagstring => tags,
+                        :description => description, :public => public})
     @trace.inserted = false
     @trace.user = @user
     @trace.timestamp = Time.now
