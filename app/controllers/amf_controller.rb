@@ -400,7 +400,7 @@ EOF
     insertsql =''
     currentsql=''
     attributes.each do |k,v|
-      if v=='' then next end
+      if v=='' or v.nil? then next end
       if v[0,6]=='(type ' then next end
       if insertsql !='' then insertsql +=',' end
       if currentsql!='' then currentsql+=',' end
