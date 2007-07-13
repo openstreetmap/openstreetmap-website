@@ -288,6 +288,7 @@ EOF
       ymin=[ys,ymin].min; ymax=[ys,ymax].max
       node=points[i][2].to_i
       tagstr=array2tag(points[i][4])
+	  tagstr=tagstr.gsub(/[\000-\037]/,"")
       tagsql="'"+sqlescape(tagstr)+"'"
 
       # compare node
@@ -404,6 +405,8 @@ EOF
       if v[0,6]=='(type ' then next end
       if insertsql !='' then insertsql +=',' end
       if currentsql!='' then currentsql+=',' end
+	  k=k.gsub(/[\000-\037]/,"")
+	  v=v.gsub(/[\000-\037]/,"")
       insertsql +="(#{way},'"+sqlescape(k)+"','"+sqlescape(v)+"',#{version})"
       currentsql+="(#{way},'"+sqlescape(k)+"','"+sqlescape(v)+"')"
     end
