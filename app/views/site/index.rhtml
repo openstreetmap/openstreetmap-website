@@ -4,16 +4,23 @@
 <% marker = true %>
 <% mlon = params['mlon'] %> 
 <% mlat = params['mlat'] %>
-<% lon =  params['mlon'] %>
-<% lat =  params['mlat']  %>
+<% end %>
+
+<% if params['lon'] and params['lat'] %>
+<% lon =  params['lon'] %>
+<% lat =  params['lat'] %>
+<% zoom =  params['zoom'] || '4' %>
+<% elsif params['mlon'] and params['mlat'] %>
+<% lon = params['mlon'] %> 
+<% lat = params['mlat'] %>
 <% zoom =  params['zoom'] || '12' %>
-<% elsif @user and params['lon'].nil? and params['lat'].nil? %> 
+<% elsif @user %> 
 <% lon =  @user.home_lon %>
 <% lat =  @user.home_lat %>
 <% zoom = '10' %>
-<%else%>
-<% lon =  params['lon'] || '-0.1' %>
-<% lat =  params['lat'] || '51.5' %>
+<% else %>
+<% lon =  '-0.1' %>
+<% lat =  '51.5' %>
 <% zoom =  params['zoom'] || '4' %>
 <% end %>
 
