@@ -73,7 +73,22 @@ class Trace < ActiveRecord::Base
   end
 
   def mime_type
-    return `file -bi #{trace_name}`.chomp
+    filetype = `file -bz #{trace_name}`.chomp
+    gzipped = filetype =~ /gzip compressed/
+    bzipped = filetype =~ /bzip2 compressed/
+    zipped = filetype =~ /Zip archive/
+
+    if gzipped then
+      mimetype = "application/x-gzip"
+    elsif bzipped then
+      mimetype = "application/x-bzip2"
+    elsif zipped
+      mimetype = "application/x-zip"
+    else
+      mimetype = "text/xml"
+    end
+
+    return mimetype
   end
 
   def extension_name
