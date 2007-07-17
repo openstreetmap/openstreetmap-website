@@ -76,6 +76,32 @@ class Trace < ActiveRecord::Base
     return `file -bi #{trace_name}`.chomp
   end
 
+  def extension_name
+    filetype = `file -bz #{trace_name}`.chomp
+    gzipped = filetype =~ /gzip compressed/
+    bzipped = filetype =~ /bzip2 compressed/
+    zipped = filetype =~ /Zip archive/
+    tarred = filetype =~ /tar archive/
+
+    if tarred and gzipped then
+      extension = ".tar.gz"
+    elsif tarred and bzipped then
+      extension = ".tar.bz2"
+    elsif tarred
+      extension = ".tar"
+    elsif gzipped
+      extension = ".gpx.gz"
+    elsif bzipped
+      extension = ".gpx.bz2"
+    elsif zipped
+      extension = ".zip"
+    else
+      extension = ".gpx"
+    end
+
+    return extension
+  end
+
   def to_xml
     doc = OSM::API.new.get_xml_doc
     doc.root << to_xml_node()

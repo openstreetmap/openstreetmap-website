@@ -118,7 +118,7 @@ class TraceController < ApplicationController
   def data
     trace = Trace.find(params[:id])
     if trace and (trace.public? or (@user and @user == trace.user))
-      send_file(trace.trace_name, :filename => "#{trace.id}.gpx", :type => trace.mime_type, :disposition => 'attachment')
+      send_file(trace.trace_name, :filename => "#{trace.id}#{trace.extension_name}", :type => trace.mime_type, :disposition => 'attachment')
     else
       render :nothing, :status => :not_found
     end
