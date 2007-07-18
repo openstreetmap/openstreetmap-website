@@ -73,7 +73,7 @@ class Trace < ActiveRecord::Base
   end
 
   def mime_type
-    filetype = `file -bz #{trace_name}`.chomp
+    filetype = `/usr/bin/file -bz #{trace_name}`.chomp
     gzipped = filetype =~ /gzip compressed/
     bzipped = filetype =~ /bzip2 compressed/
     zipped = filetype =~ /Zip archive/
@@ -92,7 +92,7 @@ class Trace < ActiveRecord::Base
   end
 
   def extension_name
-    filetype = `file -bz #{trace_name}`.chomp
+    filetype = `/usr/bin/file -bz #{trace_name}`.chomp
     gzipped = filetype =~ /gzip compressed/
     bzipped = filetype =~ /bzip2 compressed/
     zipped = filetype =~ /Zip archive/
@@ -141,7 +141,7 @@ class Trace < ActiveRecord::Base
       logger.info("GPX Import importing #{name} (#{id}) from #{user.email}")
 
       # TODO *nix specific, could do to work on windows... would be functionally inferior though - check for '.gz'
-      filetype = `file -bz #{trace_name}`.chomp
+      filetype = `/usr/bin/file -bz #{trace_name}`.chomp
       gzipped = filetype =~ /gzip compressed/
       bzipped = filetype =~ /bzip2 compressed/
       zipped = filetype =~ /Zip archive/
