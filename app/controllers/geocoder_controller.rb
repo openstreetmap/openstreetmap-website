@@ -1,6 +1,7 @@
 class GeocoderController < ApplicationController
   layout 'site'
 
+  require 'uri'
   require 'net/http'
   require 'rexml/document'
 
@@ -110,7 +111,7 @@ class GeocoderController < ApplicationController
     @res_ary = []
     begin
       Net::HTTP.start('ws.geonames.org') do |http|
-        res = http.get("/search?q=#{@place_name}&maxRows=10")
+        res = http.get("/search?q=#{URI.escape(@place_name)}&maxRows=10")
         xml = REXML::Document.new(res.body)
         xml.elements.each("geonames/geoname") do |ele|
           res_hash = {}
