@@ -5,6 +5,8 @@ class UserController < ApplicationController
   before_filter :authorize_web, :only => [:account, :go_public, :view, :diary, :make_friend]
   before_filter :require_user, :only => [:set_home, :account, :go_public, :make_friend]
 
+  filter_parameter_logging :password, :pass_crypt, :pass_crypt_confirmation
+
   def save
     @title = 'create account'
     @user = User.new(params[:user])
