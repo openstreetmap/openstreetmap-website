@@ -5,24 +5,12 @@ class GeocoderController < ApplicationController
   require 'rexml/document'
 
   def search
-
-    if params[:postcode]
-      unless params[:postcode].empty?
-        postcode = params[:postcode]
-        check_postcode(postcode)
-        return
-      end
-    end
-    if params[:query][:postcode]
-      unless params[:query][:postcode].empty?
-        postcode =params[:query][:postcode]
-        check_postcode(postcode)
-        return
-      end
-    end
-    if params[:query][:place_name]  
-      @place_name = params[:query][:place_name]
-      redirect_to :controller => 'geocoder', :action => 'results', :params => {:place_name => @place_name}
+    if params[:postcode] and not params[:postcode].empty?
+      check_postcode(params[:postcode])
+    elsif params[:query][:postcode] and not params[:query][:postcode].empty?
+      check_postcode(params[:query][:postcode])
+    elsif params[:query][:place_name]  
+      redirect_to :controller => 'geocoder', :action => 'results', :params => {:place_name => params[:query][:place_name]}
     end 
   end
 
@@ -134,9 +122,12 @@ class GeocoderController < ApplicationController
           @res_ary << res_hash
         end 
       end
-    rescue
-      #Flash a notice to say that geonames is broken
-      redirect_to "/index.html"
+
+      flash.delete(:notice)
+    rescue Timeout::Error
+      flash[:notice] = "Timed out waiting for results from ws.geonames.org"
+    rescue Exception => ex
+      flash[:notice] = "Error contacting ws.geonames.org: #{ex.to_s}"
     end
   end
 end
