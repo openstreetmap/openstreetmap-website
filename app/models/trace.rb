@@ -188,7 +188,6 @@ class Trace < ActiveRecord::Base
         tp.lng = point['longitude'].to_f
         tp.altitude = point['altitude'].to_f
         tp.timestamp = point['timestamp']
-        tp.user_id = user.id
         tp.gpx_id = id
         tp.trackid = point['segment'].to_i
         tp.save!
