@@ -14,7 +14,6 @@ class MessageController < ApplicationController
       message.body = body
       message.title = title
       message.to_user_id = params[:user_id]
-      message.from_display_name = to_user.display_name
       message.from_user_id = @user.id
       message.sent_on = Time.now
    
