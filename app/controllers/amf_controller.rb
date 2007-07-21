@@ -39,6 +39,7 @@ class AmfController < ApplicationController
 		  when 'getway';		results[index]=putdata(index,getway(args))
 		  when 'putway';		results[index]=putdata(index,putway(args))
 		  when 'deleteway';		results[index]=putdata(index,deleteway(args))
+		  when 'makeway';		results[index]=putdata(index,makeway(args))
       end
     end
 
@@ -62,8 +63,8 @@ class AmfController < ApplicationController
   # ====================================================================
   # Remote calls
 
-  # -----	getpresets
-  #		return presets,presetmenus and presetnames arrays
+  # ----- getpresets
+  #	      return presets,presetmenus and presetnames arrays
 
   def getpresets
     presets={}
@@ -166,10 +167,10 @@ EOF
     return [presets,presetmenus,presetnames]
   end
 
-  # -----	whichways(left,bottom,right,top)
-  #		return array of ways in current bounding box
-  #		at present, instead of using correct (=more complex) SQL to find
-  #		corner-crossing ways, it simply enlarges the bounding box by +/- 0.01
+  # ----- whichways(left,bottom,right,top)
+  #		  return array of ways in current bounding box
+  #		  at present, instead of using correct (=more complex) SQL to find
+  #		  corner-crossing ways, it simply enlarges the bounding box by +/- 0.01
 
   def whichways(args)
     xmin = args[0].to_f-0.01
@@ -205,9 +206,9 @@ EOF
     return [ways,points]
   end
 
-  # -----	getway (objectname, way, baselong, basey, masterscale)
-  #			returns objectname, array of co-ordinates, attributes,
-  #					xmin,xmax,ymin,ymax
+  # ----- getway (objectname, way, baselong, basey, masterscale)
+  #		  returns objectname, array of co-ordinates, attributes,
+  #				  xmin,xmax,ymin,ymax
 
   def getway(args)
     objname,wayid,baselong,basey,masterscale=args
@@ -322,17 +323,22 @@ EOF
       from =points[i  ][2].to_i
       to   =points[i+1][2].to_i
       if seg.has_key?(segid)
+		# if segment exists, check it still refers to the same nodes
         if seg[segid]=="#{from}-#{to}" then 
           if (seglist!='') then seglist+=',' end; seglist+=segid.to_s
           next
         end
+	  elsif segid>0
+		# not in previous version of way, but supplied, so assume
+		# that it's come from makeway (i.e. unwayed segments)
+		if (seglist!='') then seglist+=',' end; seglist+=segid.to_s
+		next
       end
       segid=ActiveRecord::Base.connection.insert("INSERT INTO current_segments (   node_a,node_b,timestamp,user_id,visible,tags) VALUES (         #{from},#{to},#{db_now},#{uid},1,'')")
       		ActiveRecord::Base.connection.insert("INSERT INTO segments         (id,node_a,node_b,timestamp,user_id,visible,tags) VALUES (#{segid},#{from},#{to},#{db_now},#{uid},1,'')")
       points[i+1][5]=segid
       numberedsegments[(i+1).to_s]=segid.to_s
     end
-    # numberedsegments.each{|a,b| RAILS_DEFAULT_LOGGER.error("Sending back: seg no. #{a} -> id #{b}") }
 
 
     # -- 6.ii insert new way segments
@@ -484,6 +490,122 @@ EOF
 	way
 end
 
+# ----- makeway(x,y,baselong,basey,masterscale)
+#		returns way made from unwayed segments
+
+def makeway(args)
+	x,y,baselong,basey,masterscale=args
+	points=[]
+	nodesused={}				# so we don't go over the same node twice
+
+	# - find start point near x
+	
+	xc=coord2long(x,masterscale,baselong)
+	yc=coord2lat(y,masterscale,basey)
+	xs1=xc-0.001; xs2=xc+0.001
+	ys1=yc-0.001; ys2=yc+0.001
+	
+	sql=<<-EOF
+		SELECT cn1.latitude AS lat1,cn1.longitude AS lon1,cn1.id AS id1,
+		       cn2.latitude AS lat2,cn2.longitude AS lon2,cn2.id AS id2, cs.id AS segid
+		  FROM current_nodes AS cn1,
+		       current_nodes AS cn2,
+		       current_segments AS cs 
+		       LEFT OUTER JOIN current_way_segments ON segment_id=cs.id 
+		 WHERE (cn1.longitude BETWEEN #{xs1} AND #{xs2}) 
+		   AND (cn1.latitude  BETWEEN #{ys1} AND #{ys2}) 
+		   AND segment_id IS NULL 
+		   AND cn1.id=node_a AND cn1.visible=1 
+		   AND cn2.id=node_b AND cn2.visible=1 
+      ORDER BY SQRT(POW(cn1.longitude-#{xc},2)+
+      				POW(cn1.latitude -#{yc},2)) 
+      	 LIMIT 1
+	EOF
+	row=ActiveRecord::Base.connection.select_one sql
+	if row.nil? then return [0,0,0,0,0] end
+	xs1=long2coord(row['lon1'].to_f,baselong,masterscale); ys1=lat2coord(row['lat1'].to_f,basey,masterscale)
+	xs2=long2coord(row['lon2'].to_f,baselong,masterscale); ys2=lat2coord(row['lat2'].to_f,basey,masterscale)
+	xmin=[xs1,xs2].min; xmax=[xs1,xs2].max
+	ymin=[ys1,ys2].min; ymax=[ys1,ys2].max
+	nodesused[row['id1'].to_i]=true
+	nodesused[row['id2'].to_i]=true
+	points<<[xs1,ys1,row['id1'].to_i,1,{},0]
+	points<<[xs2,ys2,row['id2'].to_i,1,{},row['segid'].to_i]
+	
+	# - extend at start, then end
+	while (a,point,nodesused=findconnect(points[0][2],nodesused,'b',baselong,basey,masterscale))[0]
+		points[0][5]=point[5]; point[5]=0	# segment leads to next node
+		points.unshift(point)
+		xmin=[point[0],xmin].min; xmax=[point[0],xmax].max
+		ymin=[point[1],ymin].min; ymax=[point[1],ymax].max
+	end
+	while (a,point,nodesused=findconnect(points[-1][2],nodesused,'a',baselong,basey,masterscale))[0]
+		points.push(point)
+		xmin=[point[0],xmin].min; xmax=[point[0],xmax].max
+		ymin=[point[1],ymin].min; ymax=[point[1],ymax].max
+	end
+	points[0][3]=0	# start with a move
+
+	[points,xmin,xmax,ymin,ymax]
+end
+
+def findconnect(id,nodesused,lookfor,baselong,basey,masterscale)
+	# get all segments with 'id' as a point
+	# (to look for both node_a and node_b, UNION is faster than node_a=id OR node_b=id)!
+	sql=<<-EOF
+		SELECT cn1.latitude AS lat1,cn1.longitude AS lon1,cn1.id AS id1,
+		       cn2.latitude AS lat2,cn2.longitude AS lon2,cn2.id AS id2, cs.id AS segid
+		  FROM current_nodes AS cn1,
+		       current_nodes AS cn2,
+		       current_segments AS cs 
+		       LEFT OUTER JOIN current_way_segments ON segment_id=cs.id 
+		 WHERE segment_id IS NULL 
+		   AND cn1.id=node_a AND cn1.visible=1 
+		   AND cn2.id=node_b AND cn2.visible=1 
+		   AND node_a=#{id}
+	UNION
+		SELECT cn1.latitude AS lat1,cn1.longitude AS lon1,cn1.id AS id1,
+		       cn2.latitude AS lat2,cn2.longitude AS lon2,cn2.id AS id2, cs.id AS segid
+		  FROM current_nodes AS cn1,
+		       current_nodes AS cn2,
+		       current_segments AS cs 
+		       LEFT OUTER JOIN current_way_segments ON segment_id=cs.id 
+		 WHERE segment_id IS NULL 
+		   AND cn1.id=node_a AND cn1.visible=1 
+		   AND cn2.id=node_b AND cn2.visible=1 
+		   AND node_b=#{id}
+	EOF
+	connectlist=ActiveRecord::Base.connection.select_all sql
+	
+	if lookfor=='b' then tocol='id1'; tolat='lat1'; tolon='lon1'; fromcol='id2'
+					else tocol='id2'; tolat='lat2'; tolon='lon2'; fromcol='id1'
+	end
+	
+	# eliminate those already in the hash
+	connex=0
+	point=nil
+	connectlist.each { |row|
+		tonode=row[tocol].to_i
+		fromnode=row[fromcol].to_i
+		if id==tonode and !nodesused.has_key?(fromnode)
+			connex+=1
+			nodesused[fromnode]=true
+		elsif id==fromnode and !nodesused.has_key?(tonode)
+			connex+=1
+			point=[long2coord(row[tolon].to_f,baselong,masterscale),lat2coord(row[tolat].to_f,basey,masterscale),tonode,1,{},row['segid'].to_i]
+			nodesused[tonode]=true
+		end
+	}
+	
+	# if only one left, then add it; otherwise return false
+	if connex!=1 or point.nil? then
+		return [false,[],nodesused]
+	else
+		return [true,point,nodesused]
+	end
+end
+
+
 # ====================================================================
 # Support functions for remote calls
 
@@ -631,9 +753,9 @@ def getvalue(s)
   when 5;	return nil					# null
   when 6;	return nil					# undefined
   when 8;	s.read(4)					# mixedArray
-    return getobject(s)			#  |
-  when 10;return getarray(s)			# array
-  else;	return nil					# error
+		    return getobject(s)			#  |
+  when 10;	return getarray(s)			# array
+  else;		return nil					# error
   end
 end
 
