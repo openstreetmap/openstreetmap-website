@@ -502,6 +502,9 @@ def makeway(args)
 	
 	xc=coord2long(x,masterscale,baselong)
 	yc=coord2lat(y,masterscale,basey)
+
+        RAILS_DEFAULT_LOGGER.info("  Message: makeway, xc=#{xc}, y=#{yc}")
+
 	xs1=xc-0.001; xs2=xc+0.001
 	ys1=yc-0.001; ys2=yc+0.001
 	
