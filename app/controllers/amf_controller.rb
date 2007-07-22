@@ -518,9 +518,10 @@ def makeway(args)
 		 WHERE (cn1.longitude BETWEEN #{xs1} AND #{xs2}) 
 		   AND (cn1.latitude  BETWEEN #{ys1} AND #{ys2}) 
 		   AND segment_id IS NULL 
+                   AND cs.visible=1
 		   AND cn1.id=node_a AND cn1.visible=1 
 		   AND cn2.id=node_b AND cn2.visible=1 
-      ORDER BY SQRT(POW(cn1.longitude-#{xc},2)+
+	      ORDER BY SQRT(POW(cn1.longitude-#{xc},2)+
       				POW(cn1.latitude -#{yc},2)) 
       	 LIMIT 1
 	EOF
@@ -563,6 +564,7 @@ def findconnect(id,nodesused,lookfor,baselong,basey,masterscale)
 		       current_segments AS cs 
 		       LEFT OUTER JOIN current_way_segments ON segment_id=cs.id 
 		 WHERE segment_id IS NULL 
+                   AND cs.visible=1
 		   AND cn1.id=node_a AND cn1.visible=1 
 		   AND cn2.id=node_b AND cn2.visible=1 
 		   AND node_a=#{id}
@@ -574,6 +576,7 @@ def findconnect(id,nodesused,lookfor,baselong,basey,masterscale)
 		       current_segments AS cs 
 		       LEFT OUTER JOIN current_way_segments ON segment_id=cs.id 
 		 WHERE segment_id IS NULL 
+                   AND cs.visible=1
 		   AND cn1.id=node_a AND cn1.visible=1 
 		   AND cn2.id=node_b AND cn2.visible=1 
 		   AND node_b=#{id}
