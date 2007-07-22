@@ -494,8 +494,12 @@ end
 #		returns way made from unwayed segments
 
 def makeway(args)
-	x,y,baselong,basey,masterscale=args
+	usertoken,x,y,baselong,basey,masterscale=args
+    uid=getuserid(usertoken)
+    return if !uid
+
 	points=[]
+	toreverse=[]				# segments to reverse
 	nodesused={}				# so we don't go over the same node twice
 
 	# - find start point near x
@@ -537,23 +541,41 @@ def makeway(args)
 	points<<[xs2,ys2,row['id2'].to_i,1,{},row['segid'].to_i]
 	
 	# - extend at start, then end
-	while (a,point,nodesused=findconnect(points[0][2],nodesused,'b',baselong,basey,masterscale))[0]
+	while (a,point,nodesused,toreverse=findconnect(points[0][2],nodesused,'b',toreverse,baselong,basey,masterscale))[0]
 		points[0][5]=point[5]; point[5]=0	# segment leads to next node
 		points.unshift(point)
 		xmin=[point[0],xmin].min; xmax=[point[0],xmax].max
 		ymin=[point[1],ymin].min; ymax=[point[1],ymax].max
 	end
-	while (a,point,nodesused=findconnect(points[-1][2],nodesused,'a',baselong,basey,masterscale))[0]
+	while (a,point,nodesused,toreverse=findconnect(points[-1][2],nodesused,'a',toreverse,baselong,basey,masterscale))[0]
 		points.push(point)
 		xmin=[point[0],xmin].min; xmax=[point[0],xmax].max
 		ymin=[point[1],ymin].min; ymax=[point[1],ymax].max
 	end
 	points[0][3]=0	# start with a move
 
+	# reverse segments in toreverse
+	if toreverse.length>0
+		sql=<<-EOF
+			UPDATE current_segments c1, current_segments c2 
+			   SET c1.node_a=c2.node_b,c1.node_b=c2.node_a,
+			       c1.timestamp=NOW(),c1.user_id=#{uid} 
+			 WHERE c1.id=c2.id 
+			   AND c1.id IN (#{toreverse.join(',')})
+		EOF
+		ActiveRecord::Base.connection.update sql
+		sql=<<-EOF
+			INSERT INTO segments 
+		   (SELECT * FROM current_segments 
+		     WHERE id IN (#{toreverse.join(',')}))
+		EOF
+		ActiveRecord::Base.connection.insert sql
+	end
+
 	[points,xmin,xmax,ymin,ymax]
 end
 
-def findconnect(id,nodesused,lookfor,baselong,basey,masterscale)
+def findconnect(id,nodesused,lookfor,toreverse,baselong,basey,masterscale)
 	# get all segments with 'id' as a point
 	# (to look for both node_a and node_b, UNION is faster than node_a=id OR node_b=id)!
 	sql=<<-EOF
@@ -583,8 +605,8 @@ def findconnect(id,nodesused,lookfor,baselong,basey,masterscale)
 	EOF
 	connectlist=ActiveRecord::Base.connection.select_all sql
 	
-	if lookfor=='b' then tocol='id1'; tolat='lat1'; tolon='lon1'; fromcol='id2'
-					else tocol='id2'; tolat='lat2'; tolon='lon2'; fromcol='id1'
+	if lookfor=='b' then tocol='id1'; tolat='lat1'; tolon='lon1'; fromcol='id2'; fromlat='lat2'; fromlon='lon2'
+					else tocol='id2'; tolat='lat2'; tolon='lon2'; fromcol='id1'; fromlat='lat1'; fromlon='lon1'
 	end
 	
 	# eliminate those already in the hash
@@ -594,9 +616,13 @@ def findconnect(id,nodesused,lookfor,baselong,basey,masterscale)
 		tonode=row[tocol].to_i
 		fromnode=row[fromcol].to_i
 		if id==tonode and !nodesused.has_key?(fromnode)
+			# wrong way round; add, then add to 'segments to reverse' list
 			connex+=1
 			nodesused[fromnode]=true
+			point=[long2coord(row[fromlon].to_f,baselong,masterscale),lat2coord(row[fromlat].to_f,basey,masterscale),fromnode,1,{},row['segid'].to_i]
+			toreverse.push(row['segid'].to_i)
 		elsif id==fromnode and !nodesused.has_key?(tonode)
+			# right way round; just add
 			connex+=1
 			point=[long2coord(row[tolon].to_f,baselong,masterscale),lat2coord(row[tolat].to_f,basey,masterscale),tonode,1,{},row['segid'].to_i]
 			nodesused[tonode]=true
@@ -605,9 +631,9 @@ def findconnect(id,nodesused,lookfor,baselong,basey,masterscale)
 	
 	# if only one left, then add it; otherwise return false
 	if connex!=1 or point.nil? then
-		return [false,[],nodesused]
+		return [false,[],nodesused,toreverse]
 	else
-		return [true,point,nodesused]
+		return [true,point,nodesused,toreverse]
 	end
 end
 
