@@ -34,9 +34,18 @@ class ApplicationController < ActionController::Base
       # no auth, the user does not exist or the password was wrong
       response.headers["Status"] = "Unauthorized" 
       response.headers["WWW-Authenticate"] = "Basic realm=\"#{realm}\"" 
-      render_text(errormessage, 401) # :unauthorized
+      render :text => errormessage, :status => :unauthorized
+      return false
     end 
   end 
+
+  def check_availability
+    if API_READONLY
+      response.headers['Error'] = "Database offline for maintenance"
+      render :nothing => true, :status => :service_unavailable
+      return false
+    end
+  end
 
   # Report and error to the user
   # (If anyone ever fixes Rails so it can set a http status "reason phrase",

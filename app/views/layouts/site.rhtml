@@ -71,13 +71,19 @@
       </div>
       <% end %>
 
+      <% if API_READONLY %>
+      <div id="alert">
+        The OpenStreetMap database is currently in read-only mode while
+        essential database maintenance work is carried out.
+      </div>
+      <% end %>
+
       <div id="left_menu" class="left_menu">
         <a href="http://wiki.openstreetmap.org">Help &amp; Wiki</a><br />
 	<%= link_to "Users' diaries", {:controller => 'diary_entry', :action => 'list', :display_name => nil} %><br />
         <a href="http://www.opengeodata.org/">News blog</a><br />
         <a href="http://wiki.openstreetmap.org/index.php/Merchandise">Shop</a><br />
       </div>
-
 
       <%= yield :optionals %>
       <div id="cclogo">

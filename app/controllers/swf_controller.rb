@@ -1,4 +1,5 @@
 class SwfController < ApplicationController
+  before_filter :check_availability
 
 # to log:
 # RAILS_DEFAULT_LOGGER.error("Args: #{args[0]}, #{args[1]}, #{args[2]}, #{args[3]}")

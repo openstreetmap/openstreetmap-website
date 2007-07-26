@@ -67,6 +67,9 @@ end
 #   inflect.uncountable %w( fish sheep )
 # end
 
+# Set to true to put the API in read-only mode
+API_READONLY = false
+
 # Include your application configuration below
 SERVER_URL = ENV['OSM_SERVER_URL'] || 'www.openstreetmap.org'
 
