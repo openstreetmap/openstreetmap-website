@@ -38,7 +38,7 @@ class SearchController < ApplicationController
 
     # Matching for tags table
     cond_tbl = Array.new
-    sql = '1=1'
+    sql = 'id IN (SELECT id FROM current_way_tags WHERE 1=1'
     if type
       sql += ' AND k=?'
       cond_tbl += [type]
@@ -47,6 +47,7 @@ class SearchController < ApplicationController
       sql += ' AND v=?'
       cond_tbl += [value]
     end
+    sql += ')'
     cond_tbl = [sql] + cond_tbl
 
     # Matching for tags column
@@ -69,53 +70,40 @@ class SearchController < ApplicationController
     end
 
 
-    # First up, look for the ids of the ways we want
+    # First up, look for the ways we want
     if do_ways
-      ways_tmp = WayTag.find(:all, :conditions => cond_tbl)
-      way_ids = ways_tmp.collect {|way| way.id }
+      ways = Way.find(:all, :conditions => cond_tbl, :limit => 100)
     end
 
     # Now, segments matching
     if do_segments
-      segs = Segment.find(:all, :conditions => cond_tags)
+      segments = Segment.find(:all, :conditions => cond_tags, :limit => 500)
     end
 
     # Now, nodes
     if do_nodes
-      nodes = Node.find(:all, :conditions => cond_tags)
+      nodes = Node.find(:all, :conditions => cond_tags, :limit => 2000)
     end
-
-    # Get the remaining objects:
-    # Fetch the ways (until now only had their ids)
-    ways = Way.find(way_ids)
 
     # Fetch any segments needed for our ways (only have matching segments so far)
-    seg_ids = Array.new
-    ways.each do |way|
-      seg_ids += way.segs
-    end
-    segments += Segment.find(seg_ids)
+    segments += Segment.find(ways.collect { |w| w.segs }.uniq)
 
     # Fetch any nodes needed for our segments (only have matching nodes so far)
-    node_ids = Array.new
-    segments.each do |seg|
-      node_ids += [seg.node_a, seg.node_b]
-    end
-    nodes += Node.find(node_ids)
-
+    nodes += Node.find(segments.collect { |s| [s.node_a, s.node_b] }.flatten.uniq)
 
     # Print
+    user_display_name_cache = {}
     doc = OSM::API.new.get_xml_doc
     nodes.each do |node|
-      doc.root << node.to_xml_node()
+      doc.root << node.to_xml_node(user_display_name_cache)
     end
 
     segments.each do |segment|
-      doc.root << segment.to_xml_node()
+      doc.root << segment.to_xml_node(user_display_name_cache)
     end 
 
     ways.each do |way|
-      doc.root << way.to_xml_node()
+      doc.root << way.to_xml_node(user_display_name_cache)
     end 
 
     render :text => doc.to_s, :content_type => "text/xml"
