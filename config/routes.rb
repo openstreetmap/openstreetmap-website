@@ -30,8 +30,8 @@ ActionController::Routing::Routes.draw do |map|
   map.connect "api/#{API_VERSION}/trackpoints", :controller => 'api', :action => 'trackpoints'
   
   map.connect "api/#{API_VERSION}/search", :controller => 'search', :action => 'search_all'
-  map.connect "api/#{API_VERSION}/way/search", :controller => 'search', :action => 'search_ways'
-  map.connect "api/#{API_VERSION}/segment/search", :controller => 'search', :action => 'search_segments'
+  map.connect "api/#{API_VERSION}/ways/search", :controller => 'search', :action => 'search_ways'
+  map.connect "api/#{API_VERSION}/segments/search", :controller => 'search', :action => 'search_segments'
   map.connect "api/#{API_VERSION}/nodes/search", :controller => 'search', :action => 'search_nodes'
   
   map.connect "api/#{API_VERSION}/user/details", :controller => 'user', :action => 'api_details'
