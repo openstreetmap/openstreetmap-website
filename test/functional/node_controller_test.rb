@@ -5,9 +5,11 @@ require 'node_controller'
 class NodeController; def rescue_action(e) raise e end; end
 
 class NodeControllerTest < Test::Unit::TestCase
-  fixtures :current_nodes, :nodes, :users
+  fixtures :current_nodes, :nodes, :users, :current_segments, :segments
   set_fixture_class :current_nodes => :Node
   set_fixture_class :nodes => :OldNode
+  set_fixture_class :current_segments => :Segment
+  set_fixture_class :segments => :OldSegment
 
   def setup
     @controller = NodeController.new
@@ -49,6 +51,35 @@ class NodeControllerTest < Test::Unit::TestCase
     get :read, :id => 0
     assert_response :not_found
   end
+
+  # this tests deletion restrictions - basic deletion is tested in the unit
+  # tests for node!
+  def test_delete
+
+    # first try to delete node without auth
+    delete :delete, :id => current_nodes(:visible_node).id
+    assert_response :unauthorized
+
+    # now set auth
+    basic_authorization("test@openstreetmap.org", "test");  
+
+    # this should work
+    delete :delete, :id => current_nodes(:visible_node).id
+    assert_response :success
+
+    # this won't work since the node is already deleted
+    delete :delete, :id => current_nodes(:invisible_node).id
+    assert_response :gone
+
+    # this won't work since the node never existed
+    delete :delete, :id => 0
+    assert_response :not_found
+
+    # this won't work since the node is in use
+    delete :delete, :id => current_nodes(:used_node_1).id
+    assert_response :precondition_failed
+  end
+
 
   def basic_authorization(user, pass)
     @request.env["HTTP_AUTHORIZATION"] = "Basic %s" % Base64.encode64("#{user}:#{pass}")
