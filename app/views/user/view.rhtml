@@ -22,7 +22,12 @@
 <% end %>
 
 <h3>Nearby users</h3>
-<% if @this_user.home_lat and @this_user.home_lon %>
+<% if @this_user.home_lat.nil? or @this_user.home_lon.nil? %>
+  No home location has been set.
+  <% if @user and @this_user.id == @user.id %>
+  You can set your home location on your <%= link_to 'settings', :controller => 'user', :action => 'account', :display_name => @user.display_name %> page.
+  <% end %>
+<% else %>
   <% if @this_user.nearby.empty? %>
     There are no users who admit to mapping nearby.
   <% else %>
@@ -35,11 +40,5 @@
     </tr>
     <%end%>
     </table>
-
   <%end%>
-<% else %>
-  No home location has been set.
-  <% if @user and @this_user.id == @user.id %>
-  You can set your home location on your <%= link_to 'settings', :controller => 'user', :action => 'account', :display_name => @user.display_name %> page.
-  <% end %>
 <% end %>

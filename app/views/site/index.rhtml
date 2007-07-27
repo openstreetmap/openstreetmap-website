@@ -14,7 +14,7 @@
 <% lon = params['mlon'] %> 
 <% lat = params['mlat'] %>
 <% zoom =  params['zoom'] || '12' %>
-<% elsif @user %> 
+<% elsif @user and !@user.home_lon.nil? and !@user.home_lat.nil? %> 
 <% lon =  @user.home_lon %>
 <% lat =  @user.home_lat %>
 <% zoom = '10' %>
