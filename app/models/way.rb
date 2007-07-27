@@ -189,7 +189,7 @@ class Way < ActiveRecord::Base
   def preconditions_ok?
     return false if self.segs.empty?
     self.segs.each do |n|
-      segment = Segment.find(n)
+      segment = Segment.find(:first, :conditions => ["id = ?", n])
       unless segment and segment.visible and segment.preconditions_ok?
         return false
       end
