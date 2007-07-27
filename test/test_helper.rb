@@ -24,5 +24,28 @@ class Test::Unit::TestCase
   # then set this back to true.
   self.use_instantiated_fixtures  = false
 
+  # Load standard fixtures needed to test API methods
+  def self.api_fixtures
+    fixtures :users
+
+    fixtures :current_nodes, :nodes
+    set_fixture_class :current_nodes => :Node
+    set_fixture_class :nodes => :OldNode
+
+    fixtures :current_segments, :segments
+    set_fixture_class :current_segments => :Segment
+    set_fixture_class :segments => :OldSegment
+
+    fixtures :current_ways, :current_way_segments, :current_way_tags
+    set_fixture_class :current_ways => :Way
+    set_fixture_class :current_way_segments => :WaySegment
+    set_fixture_class :current_way_tags => :WayTag
+
+    fixtures :ways, :way_segments, :way_tags
+    set_fixture_class :ways => :OldWay
+    set_fixture_class :way_segments => :OldWaySegment
+    set_fixture_class :way_tags => :OldWayTag
+  end
+
   # Add more helper methods to be used by all tests here...
 end

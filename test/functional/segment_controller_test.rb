@@ -5,15 +5,7 @@ require 'segment_controller'
 class SegmentController; def rescue_action(e) raise e end; end
 
 class SegmentControllerTest < Test::Unit::TestCase
-  fixtures :current_nodes, :nodes, :users, :current_segments, :segments, :current_ways, :ways, :current_way_segments, :way_segments
-  set_fixture_class :current_nodes => :Node
-  set_fixture_class :nodes => :OldNode
-  set_fixture_class :current_segments => :Segment
-  set_fixture_class :segments => :OldSegment
-  set_fixture_class :current_ways => :Way
-  set_fixture_class :ways => :OldWay
-  set_fixture_class :current_way_segments => :WaySegment
-  set_fixture_class :way_segments => :OldWaySegment
+  api_fixtures
 
   def setup
     @controller = SegmentController.new

@@ -5,11 +5,7 @@ require 'node_controller'
 class NodeController; def rescue_action(e) raise e end; end
 
 class NodeControllerTest < Test::Unit::TestCase
-  fixtures :current_nodes, :nodes, :users, :current_segments, :segments
-  set_fixture_class :current_nodes => :Node
-  set_fixture_class :nodes => :OldNode
-  set_fixture_class :current_segments => :Segment
-  set_fixture_class :segments => :OldSegment
+  api_fixtures
 
   def setup
     @controller = NodeController.new
