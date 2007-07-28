@@ -5,20 +5,15 @@
 <h3>Your diary</h3>
 <%= link_to 'View your diary', :controller => 'diary_entry', :action => 'list', :display_name => @user.display_name %><br/>
 <%= link_to 'New diary post', :controller => 'diary_entry', :action => 'new', :display_name => @user.display_name %>
-
 <h3>Your traces</h3>
 <%= link_to 'View your traces', :controller => 'trace', :action=>'mine' %>
-
 <h3>Your account</h3>
 <%= link_to 'Edit your settings', :controller => 'user', :action => 'account', :display_name => @user.display_name %>
-
-
 <% else %>
 <%= link_to 'Send message', :controller => 'message', :action => 'new', :user_id => @this_user.id %><br /> 
 <%= link_to 'Add as friend', :controller => 'user', :action => 'make_friend', :display_name => @this_user.display_name %><br />
-<%= link_to 'View diary', :controller => 'diary_entry', :action => 'user', :display_name => @this_user.display_name %><br />
+<%= link_to 'View diary', :controller => 'diary_entry', :action => 'list', :display_name => @this_user.display_name %><br />
 <%= link_to 'View traces', :controller => 'trace', :action => 'view', :display_name => @this_user.display_name %>
-
 <% end %>
 
 <h3>Nearby users</h3>
