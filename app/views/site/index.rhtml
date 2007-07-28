@@ -14,6 +14,8 @@
 <% lon = params['mlon'] %> 
 <% lat = params['mlat'] %>
 <% zoom =  params['zoom'] || '12' %>
+<% elsif cookies.key?("location") %>
+<% lon,lat,zoom = cookies["location"].value.first.split(",") %>
 <% elsif @user and !@user.home_lon.nil? and !@user.home_lat.nil? %> 
 <% lon =  @user.home_lon %>
 <% lat =  @user.home_lat %>
@@ -73,6 +75,8 @@
     var zoom = map.getZoom();
 
     updatelinks(lonlat.lon, lonlat.lat, zoom);
+
+    document.cookie = "location=" + lonlat.lon + "," + lonlat.lat + "," + zoom;
   }
 
   function getStyle( el, property ) {
