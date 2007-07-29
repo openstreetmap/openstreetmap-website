@@ -2,7 +2,7 @@ var map;
 var markers;
 var popup;
 
-function createMap(divName, centre, zoom) {
+function createMap(divName) {
    OpenLayers.Util.onImageLoadError = function() {
       this.src = OpenLayers.Util.getImagesLocation() + "404.png";
    }
@@ -28,7 +28,6 @@ function createMap(divName, centre, zoom) {
    map.addLayer(markers);
 
    map.addControl(new OpenLayers.Control.LayerSwitcher());
-   map.setCenter(centre, zoom);
 
    return map;
 }

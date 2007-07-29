@@ -64,7 +64,9 @@
     zoom = scaleToZoom(<%= params['scale'].to_f() %>);
     <% end %>
 
-    var map = createMap("map", centre, zoom);
+    var map = createMap("map");
+
+    map.setCentre(centre, zoom);
 
     <% if marker %>
     marker = addMarkerToMap(lonLatToMercator(new OpenLayers.LonLat(<%= mlon %>, <%= mlat %>)), null, "Your location");

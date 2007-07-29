@@ -6,6 +6,14 @@
 <% mlat = params['mlat'] %>
 <% end %>
 
+<% if params['minlon'] and params['minlat'] and params['maxlon'] and params['maxlat'] %>
+<% bbox = true %>
+<% minlon = params['minlon'] %>
+<% minlat = params['minlat'] %>
+<% maxlon = params['maxlon'] %>
+<% maxlat = params['maxlat'] %>
+<% end %>
+
 <% if params['lon'] and params['lat'] %>
 <% lon =  params['lon'] %>
 <% lat =  params['lat'] %>
@@ -43,22 +51,31 @@
   var map;
 
   function init(){
+    var map = createMap("map");
+
+    <% if bbox %>
+    var min = lonLatToMercator(new OpenLayers.LonLat(<%= minlon %>, <%= minlat %>));
+    var max = lonLatToMercator(new OpenLayers.LonLat(<%= maxlon %>, <%= maxlat %>));
+    var bbox = new OpenLayers.Bounds(min.lon, min.lat, max.lon, max.lat);
+
+    map.zoomToExtent(bbox);
+    <% else %>
     var centre = lonLatToMercator(new OpenLayers.LonLat(<%= lon %>, <%= lat %>));
     var zoom = <%= zoom %>;
-    var layers = "<%= layers %>";
 
     <% if params['scale'] and params['scale'].length > 0 then %>
     zoom = scaleToZoom(<%= params['scale'].to_f() %>);
     <% end %>
 
-    var map = createMap("map", centre, zoom);
+    map.setCentre(center, zoom);
+    <% end %>
 
     <% if marker %>
     addMarkerToMap(lonLatToMercator(new OpenLayers.LonLat(<%= mlon %>, <%= mlat %>)));
     <% end %>
 
     <% if layers %>
-    setMapLayers(layers);
+    setMapLayers("<%= layers %>");
     <% end %>
 
     map.events.register("moveend", map, updateLocation);
