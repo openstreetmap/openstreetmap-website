@@ -24,6 +24,9 @@ function createMap(divName, centre, zoom) {
                                              { type: 'png', getURL: getTileURL, displayOutsideMaxExtent: true });
    map.addLayer(osmarender);
 
+   markers = new OpenLayers.Layer.Markers("markers", { visibility: false });
+   map.addLayer(markers);
+
    map.addControl(new OpenLayers.Control.LayerSwitcher());
    map.setCenter(centre, zoom);
 
@@ -50,14 +53,10 @@ function getTileURL(bounds) {
 }
 
 function addMarkerToMap(position, icon, description) {
-   if (markers == null) {
-      markers = new OpenLayers.Layer.Markers("markers");
-      map.addLayer(markers);
-   }
-
    var marker = new OpenLayers.Marker(position, icon);
 
    markers.addMarker(marker);
+   markers.setVisibility(true);
 
    if (description) {
       marker.events.register("click", marker, function() { openMapPopup(marker, description) });
@@ -94,6 +93,35 @@ function closeMapPopup() {
 
 function removeMarkerFromMap(marker){
    markers.removeMarker(marker);
+}
+
+function getMapLayers() {
+   var layers = "";
+
+   for (var i=0; i< this.map.layers.length; i++) {
+      var layer = this.map.layers[i];
+
+      if (layer.isBaseLayer) {
+         layers += (layer == this.map.baseLayer) ? "B" : "0";
+      } else {
+         layers += (layer.getVisibility()) ? "T" : "F";
+      }
+   }
+
+   return layers;
+}
+
+function setMapLayers(layers) {
+   for (var i=0; i < layers.length; i++) {
+      var layer = map.layers[i];
+      var c = layers.charAt(i);
+
+      if (c == "B") {
+         map.setBaseLayer(layer);
+      } else if ( (c == "T") || (c == "F") ) {
+         layer.setVisibility(c == "T");
+      }
+   }
 }
 
 function mercatorToLonLat(merc) {

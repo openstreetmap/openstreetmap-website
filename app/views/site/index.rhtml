@@ -10,12 +10,14 @@
 <% lon =  params['lon'] %>
 <% lat =  params['lat'] %>
 <% zoom =  params['zoom'] || '5' %>
+<% layers = params['layers'] %>
 <% elsif params['mlon'] and params['mlat'] %>
 <% lon = params['mlon'] %> 
 <% lat = params['mlat'] %>
 <% zoom =  params['zoom'] || '12' %>
+<% layers = params['layers'] %>
 <% elsif cookies.key?("location") %>
-<% lon,lat,zoom = cookies["location"].value.first.split(",") %>
+<% lon,lat,zoom,layers = cookies["location"].value.first.split(",") %>
 <% elsif @user and !@user.home_lon.nil? and !@user.home_lat.nil? %> 
 <% lon =  @user.home_lon %>
 <% lat =  @user.home_lat %>
@@ -24,6 +26,7 @@
 <% lon =  '-0.1' %>
 <% lat =  '51.5' %>
 <% zoom =  params['zoom'] || '5' %>
+<% layers = params['layers'] %>
 <% end %>
 
 <script type="text/javascript" src="/openlayers/OpenLayers.js"></script>
@@ -42,6 +45,7 @@
   function init(){
     var centre = lonLatToMercator(new OpenLayers.LonLat(<%= lon %>, <%= lat %>));
     var zoom = <%= zoom %>;
+    var layers = "<%= layers %>";
 
     <% if params['scale'] and params['scale'].length > 0 then %>
     zoom = scaleToZoom(<%= params['scale'].to_f() %>);
@@ -51,6 +55,10 @@
 
     <% if marker %>
     addMarkerToMap(lonLatToMercator(new OpenLayers.LonLat(<%= mlon %>, <%= mlat %>)));
+    <% end %>
+
+    <% if layers %>
+    setMapLayers(layers);
     <% end %>
 
     map.events.register("moveend", map, updateLocation);
@@ -73,10 +81,11 @@
   function updateLocation() {
     var lonlat = mercatorToLonLat(map.getCenter());
     var zoom = map.getZoom();
+    var layers = getMapLayers();
 
-    updatelinks(lonlat.lon, lonlat.lat, zoom);
+    updatelinks(lonlat.lon, lonlat.lat, zoom, layers);
 
-    document.cookie = "location=" + lonlat.lon + "," + lonlat.lat + "," + zoom;
+    document.cookie = "location=" + lonlat.lon + "," + lonlat.lat + "," + zoom + "," + layers;
   }
 
   function getStyle( el, property ) {

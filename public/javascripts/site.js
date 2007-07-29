@@ -1,4 +1,4 @@
-function updatelinks(lon,lat,zoom) {
+function updatelinks(lon,lat,zoom,layers) {
   var links = new Object();
   links['viewanchor'] = '/index.html';
   //links['editanchor'] = 'edit.html';
@@ -16,6 +16,7 @@ function updatelinks(lon,lat,zoom) {
     args["lat"] = lat;
     args["lon"] = lon;
     args["zoom"] = zoom;
+    args["layers"] = layers;
     node.href = setArgs(node.href, args);
   }
 
