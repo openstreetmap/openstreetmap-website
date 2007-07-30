@@ -42,7 +42,14 @@ Rails::Initializer.run do |config|
 
   # Use the database for sessions instead of the file system
   # (create the session table with 'rake db:sessions:create')
-  # config.action_controller.session_store = :active_record_store
+  # config.action_controller.session_store = :sql_session_store
+
+  # Unfortunately SqlSessionStore is a plugin which has not been
+  # loaded yet, so we have to do things the hard way...
+  config.after_initialize do
+    ActionController::Base.session_store = :sql_session_store
+    SqlSessionStore.session_class = MysqlSession
+  end
 
   # Use SQL instead of Active Record's schema dumper when creating the test database.
   # This is necessary if your schema can't be completely dumped by the schema dumper, 
