@@ -146,6 +146,7 @@ class ApiController < ApplicationController
 
     if node_ids.length > 50_000
       report_error("You requested too many nodes (limit is 50,000). Either request a smaller area, or use planet.osm")
+      return
     end
 
     if node_ids.length == 0
