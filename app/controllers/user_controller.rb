@@ -1,7 +1,7 @@
 class UserController < ApplicationController
   layout 'site'
 
-  before_filter :authorize, :only => [:preferences, :api_details, :api_gpx_files]
+  before_filter :authorize, :only => [:api_details, :api_gpx_files]
   before_filter :authorize_web, :only => [:account, :go_public, :view, :diary, :make_friend]
   before_filter :require_user, :only => [:set_home, :account, :go_public, :make_friend]
 
@@ -155,19 +155,6 @@ class UserController < ApplicationController
       redirect_to :action => 'account', :display_name => @user.display_name
     else
       flash[:notice] = 'Something went wrong confirming that user.'
-    end
-  end
-
-  def preferences
-    @title = 'preferences'
-    if request.get?
-      render_text @user.preferences
-    elsif request.post? or request.put?
-      @user.preferences = request.raw_post
-      @user.save!
-      render :nothing => true
-    else
-      render :nothing => true, :status => :method_not_allowed
     end
   end
 
