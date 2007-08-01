@@ -17,9 +17,9 @@ puts "<h2>OpenStreetMap stats report run at #{start_time.to_s}</h2>"
 begin
   user_count = User.count(:conditions => "active = true")
   tracepoint_count = Tracepoint.count()
-  node_count = Node.count() # :conditions => "visible = true")
-  segment_count = Segment.count() # :conditions => "visible = true")
-  way_count = Way.count() # :conditions => "visible = true")
+  node_count = Node.count(:conditions => "visible = true")
+  segment_count = Segment.count(:conditions => "visible = true")
+  way_count = Way.count(:conditions => "visible = true")
   tagged_way_count = Way.count(:conditions => "current_ways.visible = true AND current_way_tags.k <> 'created_by'",
                                :joins => "INNER JOIN current_way_tags ON current_way_tags.id = current_ways.id")
 
