@@ -1,0 +1,100 @@
+#!/usr/bin/env ruby
+
+require File.dirname(__FILE__) + '/../config/environment'
+require 'generator'
+
+start_time = Time.now
+
+puts "<html>"
+puts "<head>"
+puts "<meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+puts "<title>OpenStreetMap Statistics</title>"
+puts "<style>th { text-align: left }</style>"
+puts "</head>"
+puts "<body>"
+puts "<h2>OpenStreetMap stats report run at #{start_time.to_s}</h2>"
+
+begin
+  user_count = User.count(:conditions => "active = true")
+  tracepoint_count = Tracepoint.count()
+  node_count = Node.count() # :conditions => "visible = true")
+  segment_count = Segment.count() # :conditions => "visible = true")
+  way_count = Way.count() # :conditions => "visible = true")
+  tagged_way_count = Way.count(:conditions => "current_ways.visible = true AND current_way_tags.k <> 'created_by'",
+                               :joins => "INNER JOIN current_way_tags ON current_way_tags.id = current_ways.id")
+
+  puts "<table>"
+  puts "<tr><td>Number of users</td><td>#{user_count}</td></tr>"
+  puts "<tr><td>Number of uploaded GPS points</td><td>#{tracepoint_count}</td></tr>"
+  puts "<tr><td>Number of nodes</td><td>#{node_count}</td></tr>"
+  puts "<tr><td>Number of segments</td><td>#{segment_count}</td></tr>"
+  puts "<tr><td>Number of ways</td><td>#{way_count}</td></tr>"
+  puts "<tr><td>Number of ways with tags</td><td>#{tagged_way_count}</td></tr>"
+  puts "</table>"
+
+  puts "<h2>Top 10 users for uploads of GPS data</h2>"
+  puts "<table>"
+  puts "<tr><th>User</th><th>Number of Points</th></tr>"
+
+  Trace.sum(:size, :group => :user_id, :order => "sum_size DESC", :limit => 10).each do |user, count|
+    display_name = User.find(user).display_name.gsub('@', ' at ').gsub('.', ' dot ')
+    puts "<tr><td>#{display_name}</td><td>#{count}</td></tr>"
+  end
+
+  puts "</table>"
+
+  puts "<h2>Number of users editing over the past...</h2>"
+  puts "<table>"
+  puts "<tr><th>Data Type</th><th>Day</th><th>Week</th><th>Month</th></tr>"
+
+  day_count = Trace.count(:user_id, :distinct => true, 
+                          :conditions => "timestamp > NOW() - INTERVAL 1 DAY")
+  week_count = Trace.count(:user_id, :distinct => true, 
+                           :conditions => "timestamp > NOW() - INTERVAL 7 DAY")
+  month_count = Trace.count(:user_id, :distinct => true, 
+                            :conditions => "timestamp > NOW() - INTERVAL 28 DAY")
+
+  puts "<tr><th>GPX Files</th><td>Day</td><td>#{day_count}</td></tr>"
+  puts "<tr><th>GPX Files</th><td>Week</td><td>#{week_count}</td></tr>"
+  puts "<tr><th>GPX Files</th><td>Month</td><td>#{month_count}</td></tr>"
+
+  day_count = OldNode.count(:user_id, :distinct => true, 
+                            :conditions => "timestamp > NOW() - INTERVAL 1 DAY")
+  week_count = OldNode.count(:user_id, :distinct => true, 
+                             :conditions => "timestamp > NOW() - INTERVAL 7 DAY")
+  month_count = OldNode.count(:user_id, :distinct => true, 
+                              :conditions => "timestamp > NOW() - INTERVAL 28 DAY")
+
+  puts "<tr><th>Nodes</th><td>Day</td><td>#{day_count}</td></tr>"
+  puts "<tr><th>Nodes</th><td>Week</td><td>#{week_count}</td></tr>"
+  puts "<tr><th>Nodes</th><td>Month</td><td>#{month_count}</td></tr>"
+
+  puts "</table>"
+  
+  puts "<h2>Top users editing over the past...</h2>"
+  puts "<table>"
+  puts "<tr><th>Day</th><th>Week</th><th>Month</th></tr>"
+
+  day_users = OldNode.count(:conditions => "timestamp > NOW() - INTERVAL 1 DAY",
+                            :group => :user_id, :order => "count_all DESC", :limit => 60)
+  week_users = OldNode.count(:conditions => "timestamp > NOW() - INTERVAL 7 DAY",
+                             :group => :user_id, :order => "count_all DESC", :limit => 60)
+  month_users = OldNode.count(:conditions => "timestamp > NOW() - INTERVAL 28 DAY",
+                              :group => :user_id, :order => "count_all DESC", :limit => 60)
+
+  day_users = day_users.keys.map { |u| User.find(u).display_name.gsub('@', ' at ').gsub('.', ' dot ') }
+  week_users = week_users.keys.map { |u| User.find(u).display_name.gsub('@', ' at ').gsub('.', ' dot ') }
+  month_users = month_users.keys.map { |u| User.find(u).display_name.gsub('@', ' at ').gsub('.', ' dot ') }
+
+  SyncEnumerator.new(day_users, week_users, month_users).each do |day,week,month|
+    puts "<tr><td>#{day}</td><td>#{week}</td><td>#{month}</td></tr>"
+  end
+
+  puts "</table>"
+rescue Exception => e
+  puts "<p><em>Exception: #{e.to_s}</em><br />#{e.backtrace.join('<br />')}</p>"
+end
+
+puts "<p>Report took #{(Time.new - start_time).to_s} seconds to run</p>"
+puts "</body>"
+puts "</html>"
