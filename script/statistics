@@ -54,9 +54,7 @@ begin
   month_count = Trace.count(:user_id, :distinct => true, 
                             :conditions => "timestamp > NOW() - INTERVAL 28 DAY")
 
-  puts "<tr><th>GPX Files</th><td>Day</td><td>#{day_count}</td></tr>"
-  puts "<tr><th>GPX Files</th><td>Week</td><td>#{week_count}</td></tr>"
-  puts "<tr><th>GPX Files</th><td>Month</td><td>#{month_count}</td></tr>"
+  puts "<tr><th>GPX Files</th><td>#{day_count}</td><td>#{week_count}</td><td>#{month_count}</td></tr>"
 
   day_count = OldNode.count(:user_id, :distinct => true, 
                             :conditions => "timestamp > NOW() - INTERVAL 1 DAY")
@@ -65,9 +63,7 @@ begin
   month_count = OldNode.count(:user_id, :distinct => true, 
                               :conditions => "timestamp > NOW() - INTERVAL 28 DAY")
 
-  puts "<tr><th>Nodes</th><td>Day</td><td>#{day_count}</td></tr>"
-  puts "<tr><th>Nodes</th><td>Week</td><td>#{week_count}</td></tr>"
-  puts "<tr><th>Nodes</th><td>Month</td><td>#{month_count}</td></tr>"
+  puts "<tr><th>Nodes</th><td>#{day_count}</td><td>#{week_count}</td><td>#{month_count}</td></tr>"
 
   puts "</table>"
   
