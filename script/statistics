@@ -32,11 +32,11 @@ begin
   puts "<tr><td>Number of ways with tags</td><td>#{tagged_way_count}</td></tr>"
   puts "</table>"
 
-  puts "<h2>Top 10 users for uploads of GPS data</h2>"
+  puts "<h2>Top 50 users for uploads of GPS data</h2>"
   puts "<table>"
   puts "<tr><th>User</th><th>Number of Points</th></tr>"
 
-  Trace.sum(:size, :group => :user_id, :order => "sum_size DESC", :limit => 10).each do |user, count|
+  Trace.sum(:size, :group => :user_id, :order => "sum_size DESC", :limit => 50).each do |user, count|
     display_name = User.find(user).display_name.gsub('@', ' at ').gsub('.', ' dot ')
     puts "<tr><td>#{display_name}</td><td>#{count}</td></tr>"
   end
@@ -76,18 +76,20 @@ begin
   puts "<tr><th>Day</th><th>Week</th><th>Month</th></tr>"
 
   day_users = OldNode.count(:conditions => "timestamp > NOW() - INTERVAL 1 DAY",
-                            :group => :user_id, :order => "count_all DESC", :limit => 60)
+                            :group => :user_id, :order => "count_all DESC")
   week_users = OldNode.count(:conditions => "timestamp > NOW() - INTERVAL 7 DAY",
                              :group => :user_id, :order => "count_all DESC", :limit => 60)
   month_users = OldNode.count(:conditions => "timestamp > NOW() - INTERVAL 28 DAY",
                               :group => :user_id, :order => "count_all DESC", :limit => 60)
 
-  day_users = day_users.keys.map { |u| User.find(u).display_name.gsub('@', ' at ').gsub('.', ' dot ') }
-  week_users = week_users.keys.map { |u| User.find(u).display_name.gsub('@', ' at ').gsub('.', ' dot ') }
-  month_users = month_users.keys.map { |u| User.find(u).display_name.gsub('@', ' at ').gsub('.', ' dot ') }
-
-  SyncEnumerator.new(day_users, week_users, month_users).each do |day,week,month|
-    puts "<tr><td>#{day}</td><td>#{week}</td><td>#{month}</td></tr>"
+  SyncEnumerator.new(day_users, week_users, month_users).each do |row|
+    puts "<tr>"
+    row.each do |column|
+      display_name = User.find(column[0]).display_name.gsub('@', ' at ').gsub('.', ' dot ')
+      count = column[1]
+      puts "<td>#{count} #{display_name}</td>"
+    end
+    puts "</tr>"
   end
 
   puts "</table>"
