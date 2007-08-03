@@ -122,6 +122,15 @@ preserved railway: railway=preserved
 disused railway tracks: railway=disused
 course of old railway: railway=abandoned
 
+way/natural
+forest: natural=wood,landuse=forest
+woodland: natural=wood,landuse=
+reservoir: natural=water,landuse=reservoir
+lake: natural=water,landuse=
+marsh: natural=marsh
+beach: natural=beach
+coastline: natural=coastline
+
 point/road
 mini roundabout: highway=mini_roundabout
 traffic lights: highway=traffic_signals
@@ -146,6 +155,9 @@ point/railway
 station: railway=station
 viaduct: railway=viaduct
 level crossing: railway=crossing
+
+point/natural
+peak: natural=peak
 EOF
 
     StringIO.open(txt) do |file|
@@ -297,10 +309,14 @@ EOF
       # compare node
       if node<0
         # new node - create
-        newnode=ActiveRecord::Base.connection.insert("INSERT INTO current_nodes (   latitude,longitude,timestamp,user_id,visible,tags) VALUES (           #{ys},#{xs},#{db_now},#{uid},1,#{tagsql})")
-        		ActiveRecord::Base.connection.insert("INSERT INTO nodes         (id,latitude,longitude,timestamp,user_id,visible,tags) VALUES (#{newnode},#{ys},#{xs},#{db_now},#{uid},1,#{tagsql})")
-        points[i][2]=newnode
-        renumberednodes[node.to_s]=newnode.to_s
+		if renumberednodes[node.to_s].nil?
+			newnode=ActiveRecord::Base.connection.insert("INSERT INTO current_nodes (   latitude,longitude,timestamp,user_id,visible,tags) VALUES (           #{ys},#{xs},#{db_now},#{uid},1,#{tagsql})")
+					ActiveRecord::Base.connection.insert("INSERT INTO nodes         (id,latitude,longitude,timestamp,user_id,visible,tags) VALUES (#{newnode},#{ys},#{xs},#{db_now},#{uid},1,#{tagsql})")
+			points[i][2]=newnode
+			renumberednodes[node.to_s]=newnode.to_s
+		else
+			points[i][2]=renumberednodes[node.to_s].to_i
+		end
 
       elsif xc.has_key?(node)
         # old node from original way - update
