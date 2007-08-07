@@ -31,7 +31,8 @@ private
     unless response.match(/couldn't find this zip/)
       data = response.split(/\s*,\s+/) # lat,long,town,state,zip
       results.push({:lat => data[0], :lon => data[1], :zoom => 12,
-                    :description => "#{data[2]}, #{data[3]}, #{data[4]}"})
+                    :prefix => "#{data[2]}, #{data[3]}, ",
+                    :name => data[4]})
     end
 
     return { :source => "Geocoder.us", :url => "http://geocoder.us/", :results => results }
@@ -50,7 +51,7 @@ private
       dataline = response.split(/\n/)[1]
       data = dataline.split(/,/) # easting,northing,postcode,lat,long
       results.push({:lat => data[3], :lon => data[4], :zoom => 12,
-                    :description => data[2].gsub(/'/, "")})
+                    :name => data[2].gsub(/'/, "")})
     end
 
     return { :source => "NPEMap / FreeThePostcode", :url => "http://www.npemap.org.uk/", :results => results }
@@ -69,7 +70,7 @@ private
       results.push({:lat => response.get_text("geodata/latt").to_s,
                     :lon => response.get_text("geodata/longt").to_s,
                     :zoom => 12,
-                    :description => query.upcase})
+                    :name => query.upcase})
     end
 
     return { :source => "Geocoder.CA", :url => "http://geocoder.ca/", :results => results }
@@ -91,15 +92,19 @@ private
       place = named.elements["place/named"] || named.elements["nearestplaces/named"]
       type = named.attributes["info"].to_s.capitalize
       name = named.attributes["name"].to_s
+      description = named.elements["description"].to_s
       if place
         distance = format_distance(place.attributes["approxdistance"].to_i)
         direction = format_direction(place.attributes["direction"].to_i)
         placename = place.attributes["name"].to_s
         results.push({:lat => lat, :lon => lon, :zoom => zoom,
-                      :description => "#{type} #{name}, #{distance} #{direction} of #{placename}"})
+                      :prefix => "#{type} ", :name => name,
+                      :suffix => ", #{distance} #{direction} of #{placename}",
+                      :description => description})
       else
         results.push({:lat => lat, :lon => lon, :zoom => zoom,
-                      :description => "#{type} #{name}"})
+                      :prefix => "#{type} ", :name => name,
+                      :description => description})
       end
     end
 
@@ -121,7 +126,8 @@ private
       name = geoname.get_text("name").to_s
       country = geoname.get_text("countryName").to_s
       results.push({:lat => lat, :lon => lon, :zoom => 12,
-                    :description => "#{name}, #{country}"})
+                    :name => name,
+                    :suffix => ", #{country}"})
     end
 
     return { :source => "GeoNames", :url => "http://www.geonames.org/", :results => results }

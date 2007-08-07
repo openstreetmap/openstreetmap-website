@@ -1,0 +1,11 @@
+module GeocoderHelper
+  def result_to_html(result)
+    html_options = {}
+    #html_options[:title] = strip_tags(result[:description]) if result[:description]
+    html = ""
+    html << result[:prefix] if result[:prefix]
+    html << link_to_function(result[:name], "setPosition(#{result[:lat]}, #{result[:lon]}, #{result[:zoom]})", html_options) 
+    html << result[:suffix] if result[:suffix]
+    return html
+  end
+end

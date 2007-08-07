@@ -5,7 +5,7 @@
 <p class="search_results_entry">No results found</p>
 <% else %>
 <% source[:results].each do |result| %>
-<p class="search_results_entry"><%= link_to_function result[:description], "setPosition(#{result[:lat]}, #{result[:lon]}, #{result[:zoom]})" %></p>
+<p class="search_results_entry"><%= result_to_html(result) %></p>
 <% end %>
 <% end %>
 <% else %>
