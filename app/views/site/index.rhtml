@@ -46,6 +46,7 @@
 <script type="text/javascript">
   <!--
   var brokenContentSize = $("content").offsetWidth == 0;
+  var marker;
   var map;
 
   function init(){
@@ -69,7 +70,7 @@
     <% end %>
 
     <% if marker %>
-    addMarkerToMap(lonLatToMercator(new OpenLayers.LonLat(<%= mlon %>, <%= mlat %>)));
+    marker = addMarkerToMap(lonLatToMercator(new OpenLayers.LonLat(<%= mlon %>, <%= mlat %>)));
     <% end %>
 
     <% if layers %>
@@ -86,6 +87,11 @@
     var centre = lonLatToMercator(new OpenLayers.LonLat(lon, lat));
 
     map.setCenter(centre, zoom);
+
+    if (marker)
+      removeMarkerFromMap(marker);
+
+    marker = addMarkerToMap(centre);
   }
 
   function updateLocation() {
