@@ -91,11 +91,16 @@ private
       place = named.elements["place/named"] || named.elements["nearestplaces/named"]
       type = named.attributes["info"].to_s.capitalize
       name = named.attributes["name"].to_s
-      distance = format_distance(place.attributes["approxdistance"].to_i)
-      direction = format_direction(place.attributes["direction"].to_i)
-      placename = place.attributes["name"].to_s
-      results.push({:lat => lat, :lon => lon, :zoom => zoom,
-                    :description => "#{type} #{name}, #{distance} #{direction} of #{placename}"})
+      if place
+        distance = format_distance(place.attributes["approxdistance"].to_i)
+        direction = format_direction(place.attributes["direction"].to_i)
+        placename = place.attributes["name"].to_s
+        results.push({:lat => lat, :lon => lon, :zoom => zoom,
+                      :description => "#{type} #{name}, #{distance} #{direction} of #{placename}"})
+      else
+        results.push({:lat => lat, :lon => lon, :zoom => zoom,
+                      :description => "#{type} #{name}"})
+      end
     end
 
     return { :source => "OpenStreetMap Namefinder", :url => "http://www.frankieandshadow.com/osm/", :results => results }
