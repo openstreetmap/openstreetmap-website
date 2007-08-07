@@ -42,9 +42,6 @@
 <script type="text/javascript" src="/openlayers/OpenLayers.js"></script>
 <%= javascript_include_tag 'map.js' %>
 
-<% unless @user %>
-<script src="http://www.mappam.com/javascripts/mappam.js" type="text/javascript"></script>
-<% end %>
 
 <script type="text/javascript">
   <!--
@@ -81,14 +78,6 @@
 
     map.events.register("moveend", map, updateLocation);
     updateLocation();
-
-    <% unless @user %>
-    if ( window.location.hostname == "www.openstreetmap.org" ) { 
-      mappam.register( map, '10011756636067178496', '1');
-    } else if( window.location.hostname == "openstreetmap.org" ) {
-      mappam.register( map, '6738410720121976832', '1');
-    }
-    <% end %>
 
     handleResize();
   }
