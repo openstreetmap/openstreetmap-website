@@ -3,7 +3,7 @@
    essential database maintenance work is carried out.
 </p>
 <% else %>
-<%= render :partial => 'search' %>
+<%= render :partial => 'search', :locals => { :onopen => "resizeMap();", :onclose => "resizeMap();" } %>
 
 <% if params['mlon'] and params['mlat'] %>
 <% lon =  params['mlon'] %>
@@ -19,7 +19,7 @@
 <% zoom =  params['zoom'] || '12' %>
 <% end %>
 
-<div id="mapcontent">You need a Flash player to use Potlatch, the
+<div id="map">You need a Flash player to use Potlatch, the
     OpenStreetMap Flash editor. You can <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">download Flash Player from Adobe.com</a>.
 
     <a href="http://wiki.openstreetmap.org/index.php/Editing">Several other options</a> are also available
@@ -27,6 +27,7 @@
 </div>
 <script type="text/javascript" src="/javascripts/swfobject.js"></script>
 <script type="text/javascript">
+  var brokenContentSize = $("content").offsetWidth == 0;
   var fo = new SWFObject("/potlatch/potlatch.swf?d="+Math.round(Math.random()*1000), "potlatch", "700", "600", "6", "#FFFFFF");
 
   function doSWF(lat,lon,sc) {
@@ -34,9 +35,45 @@
     fo.addVariable('long',lon);
     fo.addVariable('scale',sc);
     fo.addVariable('token','<%= @user.token %>');
-    fo.write("mapcontent");
+    fo.write("map");
   }
 
   doSWF(<%= lat %>,<%= lon %>,<%= zoom %>);
+
+  function setPosition(lat, lon, zoom) {
+    doSWF(lat, lon, zoom);
+  }
+
+  function resizeContent() {
+    var content = $("content");
+    var rightMargin = parseInt(getStyle(content, "right"));
+    var bottomMargin = parseInt(getStyle(content, "bottom"));
+
+    content.style.width = document.documentElement.clientWidth - content.offsetLeft - rightMargin;
+    content.style.height = document.documentElement.clientHeight - content.offsetTop - bottomMargin;
+  }
+  
+  function resizeMap() {
+    var search_results_width = $("search_results").offsetWidth;
+
+    if (search_results_width > 0) {
+      search_results_width = search_results_width + 5
+    }
+
+    $("map").style.left = (search_results_width) + "px";
+    $("map").style.width = ($("content").offsetWidth - search_results_width) + "px";
+    $("map").style.height = ($("content").offsetHeight - 2) + "px";
+  }
+
+  function handleResize() {
+    if (brokenContentSize) {
+      resizeContent();
+    }
+
+    resizeMap();
+  }
+
+  window.onresize = handleResize;
+  window.onload = handleResize;
 </script>
 <% end %>

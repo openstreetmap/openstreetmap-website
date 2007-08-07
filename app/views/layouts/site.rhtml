@@ -1,19 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
   <head>
-    <%= javascript_include_tag 'site.js' %>
-    <!--[if lt IE 7]><%= javascript_include_tag 'pngfix.js' %><![endif]--> <!-- thanks, microsoft! -->
-    <%= stylesheet_link_tag 'site.css' %>
+    <%= javascript_include_tag 'prototype' %>
+    <%= javascript_include_tag 'site' %>
+    <!--[if lt IE 7]><%= javascript_include_tag 'pngfix' %><![endif]--> <!-- thanks, microsoft! -->
+    <%= stylesheet_link_tag 'site' %>
     <%= tag("link", { :rel => "search", :type => "application/opensearchdescription+xml", :title => "OpenStreetMap Placename Search", :href => "/opensearch/osm.xml" }) %>
     <%= tag("link", { :rel => "search", :type => "application/opensearchdescription+xml", :title => "OpenStreetMap Postcode Search", :href => "/opensearch/osm-postcode.xml" }) %>
     <title>OpenStreetMap<%= ' | '+@title if @title %></title>
   </head>
   <body>
-
-    <% if params[:controller] == 'site' and params[:action] == 'index' %>
-    <div id="map" style="border: 1px solid black; position: absolute; right: 5px; bottom: 5px; left: 200px; top: 70px;"></div> 
-    <% end %>
-
     <div id="content">
       <% if flash[:notice] %>
         <div id="notice"><%= flash[:notice] %></div>

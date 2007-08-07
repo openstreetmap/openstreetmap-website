@@ -1,4 +1,6 @@
-<%= render :partial => 'search' %>
+<%= render :partial => 'search', :locals => { :onopen => "resizeMap();", :onclose => "resizeMap();" } %>
+
+<div id="map"></div> 
 
 <% if params['mlon'] and params['mlat'] %>
 <% marker = true %>
@@ -44,14 +46,13 @@
 <script src="http://www.mappam.com/javascripts/mappam.js" type="text/javascript"></script>
 <% end %>
 
-
 <script type="text/javascript">
   <!--
-  var ie = navigator.appName.indexOf("Microsoft Internet Explorer") != -1;
+  var brokenContentSize = $("content").offsetWidth == 0;
   var map;
 
   function init(){
-    var map = createMap("map");
+    map = createMap("map");
 
     <% if bbox %>
     var min = lonLatToMercator(new OpenLayers.LonLat(<%= minlon %>, <%= minlat %>));
@@ -89,11 +90,14 @@
     }
     <% end %>
 
-    document.getElementById('map_OpenLayers_ViewPort').style.position = 'absolute';
-    if ( ie ) {
-      handleResize();
-    }
-  }        
+    handleResize();
+  }
+
+  function setPosition(lat, lon, zoom) {
+    var centre = lonLatToMercator(new OpenLayers.LonLat(lon, lat));
+
+    map.setCenter(centre, zoom);
+  }
 
   function updateLocation() {
     var lonlat = mercatorToLonLat(map.getCenter());
@@ -105,69 +109,40 @@
     document.cookie = "location=" + lonlat.lon + "," + lonlat.lat + "," + zoom + "," + layers;
   }
 
-  function getStyle( el, property ) {
-    var style;
-    if( el.currentStyle ) {
-        style = el.currentStyle[property];
-    } else if( window.getComputedStyle ) {
-        style = document.defaultView.getComputedStyle(el,null).getPropertyValue(property);
-    } else {
-        style = el.style[property];
-    }
-    return style;
+  function resizeContent() {
+    var content = $("content");
+    var rightMargin = parseInt(getStyle(content, "right"));
+    var bottomMargin = parseInt(getStyle(content, "bottom"));
+
+    content.style.width = document.documentElement.clientWidth - content.offsetLeft - rightMargin;
+    content.style.height = document.documentElement.clientHeight - content.offsetTop - bottomMargin;
   }
   
+  function resizeMap() {
+    var centre = map.getCenter();
+    var zoom = map.getZoom();
+    var search_results_width = $("search_results").offsetWidth;
+
+    if (search_results_width > 0) {
+      search_results_width = search_results_width + 5
+    }
+
+    $("map").style.left = (search_results_width) + "px";
+    $("map").style.width = ($("content").offsetWidth - search_results_width) + "px";
+    $("map").style.height = ($("content").offsetHeight - 2) + "px";
+
+    map.setCenter(centre, zoom);
+  }
+
   function handleResize() {
-    var el = document.getElementById( 'map' );
-    var left = getStyle( el, 'left' );
-    var top = getStyle( el, 'top' );
-    var bottom = getStyle( el, 'bottom' );
-    var right = getStyle( el, 'right' );
-    var width = el.old_width;
-    var height;
-    if( ! width ) {
-        width = getStyle( el, 'width' );
+    if (brokenContentSize) {
+      resizeContent();
     }
-    var height = el.old_height;
-    if( ! height ) {
-        height = getStyle( el, 'height' );
-    }
-    var pwidth, pheight;
-    if( el.offsetParent.nodeName == 'BODY' || el.offsetParent.nodeName == 'HTML' ) {
-      if( typeof( window.innerWidth ) == 'number' ) {
-          pwidth = window.innerWidth;
-          pheight = window.innerHeight;
-      } else if( document.documentElement &&
-          ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
-          pwidth = document.documentElement.clientWidth;
-          pheight = document.documentElement.clientHeight;
-      } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
-          pwidth = document.body.clientWidth;
-          pheight = document.body.clientHeight;
-      }
-    } else {
-      pwidth = el.offsetParent.offsetWidth;
-      pheight = el.offsetParent.offsetHeight;
-    }
-    if( left != 'auto' && right != 'auto' && width == 'auto' ) {
-      el.old_width = width;
-      var new_width = (pwidth - el.offsetLeft - parseInt( right ) );
-      el.style.width = new_width + 'px';
-    }
-    if( top != 'auto' && bottom != 'auto' && height == 'auto' ) {
-      el.old_height = height;
-      var new_height = (pheight - el.offsetTop - parseInt( bottom ) );
-      el.style.height = new_height + 'px';
-    }
-    map.updateSize();
-    el.style.display = 'none';
-    setTimeout( function() { el.style.display = ''; }, 200 );
+
+    resizeMap();
   }
 
-  if ( ie ) {
-    window.onresize = handleResize;
-  }
-
+  window.onresize = handleResize;
   window.onload = init;
 // -->
 </script>

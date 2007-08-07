@@ -1,20 +1,35 @@
-<div id="geocoder">
-  <% form_tag :controller => 'geocoder', :action => 'search' do %>
-  <%= hidden_field_tag 'next_controller', @controller.controller_name %>
-  <%= hidden_field_tag 'next_action', @controller.action_name %>
-  <%= text_field 'query', 'postcode' %>
-  <%= text_field 'query', 'place_name'%>
-  <%= submit_tag 'Search' %>
-  <% end %>
+<% content_for "optionals" do %>
+  <div class="optionalbox">
+    <span class="oboxheader">Search</span>
+    <% form_remote_tag(:update => :search_results_content, 
+                       :loading => "openSearchResults()",
+                       :url => { :controller => :geocoder, :action => :search } ) do %>
+      <%= text_field_tag :query, nil, :size => 16 %>
+    <% end %>
+  </div>
+  <script type="text/javascript">
+  <!--
+    function openSearchResults() {
+      $("search_results").style.display = "block";
+      $("search_results_content").innerHTML = "<p class='search_results_entry'>Searching...</p>";
+      <%= onopen %>
+    }
 
-  <div id="geocoder-attribution">
-    Geolocation provided by <a href="http://npemap.org.uk/">npemap.org.uk</a>,
-    <a href="http://geocoder.us/">geocoder.us</a>, <a href="http://geocoder.ca/">geocoder.ca</a> and <a href="http://www.geonames.org/">geonames.org</a>
-  </div>
-  <div id="postcode-helper">
-    Enter a postcode or zip code, eg: SW15 6JH, 95472 
-  </div>
-  <div id="placename-helper">
-    Enter a place-name, eg:Essen
+    function closeSearchResults() {
+      $("search_results").style.display = "none";
+      <%= onclose %>
+    }
+  // -->
+  </script>
+<% end %>
+
+<div id="search_results">
+  <table class="search_results_title" width="100%">
+    <tr>
+      <td align="left">Search Results</td>
+      <td align="right"><a href="javascript:closeSearchResults()">Close</a></td>
+    </tr>
+  </table>
+  <div id="search_results_content">
   </div>
 </div>

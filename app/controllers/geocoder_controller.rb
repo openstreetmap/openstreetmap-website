@@ -1,134 +1,150 @@
 class GeocoderController < ApplicationController
-  layout 'site'
-
   require 'uri'
   require 'net/http'
   require 'rexml/document'
 
   def search
-    if params[:postcode] and not params[:postcode].empty?
-      check_postcode(params[:postcode])
-    elsif params[:query][:postcode] and not params[:query][:postcode].empty?
-      check_postcode(params[:query][:postcode])
-    elsif params[:query][:place_name]  
-      redirect_to :controller => 'geocoder', :action => 'results', :params => {:place_name => params[:query][:place_name]}
-    end 
-  end
+    @query = params[:query]
+    @results = Array.new
 
-  def check_postcode(p)
-
-    @postcode_arr = []
-    postcode = p.upcase
-    escaped_postcode = postcode.sub(/\s/,'%20')
-
-    begin
-      if postcode.match(/(^\d{5}$)|(^\d{5}-\d{4}$)/)
-        # Its a zip code - ask geocoder.us
-        # (They have a non commerical use api)
-        Net::HTTP.start('rpc.geocoder.us') do |http|
-          resp = http.get("/service/csv?zip=#{postcode}")
-          if resp.body.match(/couldn't find this zip/)
-            redirect_to :controller => params[:next_controller], :action => params[:next_action], :error => "invalid_zip_code"
-            return
-          end
-          data = resp.body.split(/, /) # lat,long,town,state,zip
-          lat = data[0] 
-          lon = data[1]
-          redirect_to :controller => params[:next_controller], :action => params[:next_action], :mlat => lat, :mlon => lon, :zoom => 14
-          return
-        end
-      elsif postcode.match(/^([A-Z]{1,2}\d+[A-Z]?\s*\d[A-Z]{2})/)
-        # It matched our naive UK postcode regexp
-        # Ask npemap to do a combined npemap + freethepostcode search
-        Net::HTTP.start('www.npemap.org.uk') do |http|
-          resp = http.get("/cgi/geocoder.fcgi?format=text&postcode=#{escaped_postcode}")
-          dataline = resp.body.split(/\n/)[1]
-          data = dataline.split(/,/) # easting,northing,postcode,lat,long
-          lat = data[3] 
-          lon = data[4]
-          redirect_to :controller => params[:next_controller], :action => params[:next_action], :mlat => lat, :mlon => lon, :zoom => 14
-          return
-        end
-      elsif postcode.match(/^[A-Z]\d[A-Z]\s*\d[A-Z]\d/)
-        # It's a canadian postcode
-        # Ask geocoder.ca (note - they have a per-day limit)
-        postcode = postcode.sub(/\s/,'')
-        Net::HTTP.start('geocoder.ca') do |http|
-          resp = http.get("?geoit=XML&postal=#{postcode}")
-          data_lat = resp.body.slice(/latt>.*?</)
-          data_lon = resp.body.slice(/longt>.*?</)
-          lat = data_lat.split(/[<>]/)[1]
-          lon = data_lon.split(/[<>]/)[1]
-          redirect_to :controller => params[:next_controller], :action => params[:next_action], :mlat => lat, :mlon => lon, :zoom => 14
-          return
-        end
-      elsif postcode.match(/(GIR 0AA|[A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]|[A-HK-Y][0-9]([0-9]|[ABEHMNPRV-Y]))|[0-9][A-HJKS-UW]) [0-9][ABD-HJLNP-UW-Z]{2})
-        /)
-        #its a UK postcode
-        begin
-          Net::HTTP.start('www.freethepostcode.org') do |http|
-            resp = http.get("/geocode?postcode=#{postcode}")
-            lat = resp.body.scan(/[4-6][0-9]\.?[0-9]+/)
-            lon = resp.body.scan(/[-+][0-9]\.?[0-9]+/)
-            redirect_to :controller => params[:next_controller], :action => params[:next_action], :mlat => lat, :mlon => lon, :zoom => 14
-            return
-          end
-        rescue
-          redirect_to :controller => params[:next_controller], :action => params[:next_action], :error => "invalid_postcode"
-          #redirect to somewhere else
-        end
-      elsif
-        # Some other postcode / zip code
-        # Throw it at geonames, and see if they have any luck with it
-        Net::HTTP.start('ws.geonames.org') do |http|
-          resp = http.get("/postalCodeSearch?postalcode=#{escaped_postcode}&maxRows=1")
-          hits = resp.body.slice(/totalResultsCount>.*?</).split(/[<>]/)[1]
-          if hits == "0"
-            # Geonames doesn't know, it's probably wrong
-            redirect_to :controller => params[:next_controller], :action => params[:next_action], :error => "invalid_postcode_or_zip"
-            return
-          end
-          data_lat = resp.body.slice(/lat>.*?</)
-          data_lon = resp.body.slice(/lng>.*?</)
-          lat = data_lat.split(/[<>]/)[1]
-          lon = data_lon.split(/[<>]/)[1]
-          redirect_to :controller => params[:next_controller], :action => params[:next_action], :mlat => lat, :mlon => lon, :zoom => 14
-        end
-      else
-        # Some other postcode / zip file
-        redirect_to :controller => params[:next_controller], :action => params[:next_action], :error => "invalid_postcode_or_zip"
-        return
-      end
-    rescue
-      #Its likely that an api is down
-      redirect_to :controller => params[:next_controller], :action => params[:next_action], :error => "api_down"
+    if @query.match(/^\d{5}(-\d{4})?$/)
+      @results.push search_us_postcode(@query)
+    elsif @query.match(/(GIR 0AA|[A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]|[A-HK-Y][0-9]([0-9]|[ABEHMNPRV-Y]))|[0-9][A-HJKS-UW]) [0-9][ABD-HJLNP-UW-Z]{2})/i)
+      @results.push search_uk_postcode(@query)
+    elsif @query.match(/[A-Z]\d[A-Z]\s*\d[A-Z]\d/i)
+      @results.push search_ca_postcode(@query)
+    else
+      @results.push search_osm_namefinder(@query)
+      @results.push search_geonames(@query)
     end
   end
 
-  def results
-    @place_name = params[:place_name]
-    res_hash = {}
-    @res_ary = []
-    begin
-      Net::HTTP.start('ws.geonames.org') do |http|
-        res = http.get("/search?q=#{URI.escape(@place_name)}&maxRows=10")
-        xml = REXML::Document.new(res.body)
-        xml.elements.each("geonames/geoname") do |ele|
-          res_hash = {}
-          ele.elements.each("name"){ |n| res_hash['name'] = n.text }
-          ele.elements.each("countryCode"){ |n| res_hash['countrycode'] = n.text }
-          ele.elements.each("countryName"){ |n| res_hash['countryname'] = n.text }
-          ele.elements.each("lat"){ |n| res_hash['lat'] = n.text }
-          ele.elements.each("lng"){ |n| res_hash['lon']= n.text }
-          @res_ary << res_hash
-        end 
-      end
+private
 
-      flash.delete(:notice)
-    rescue Timeout::Error
-      flash[:notice] = "Timed out waiting for results from ws.geonames.org"
-    rescue Exception => ex
-      flash[:notice] = "Error contacting ws.geonames.org: #{ex.to_s}"
+  def search_us_postcode(query)
+    results = Array.new
+
+    # ask geocoder.us (they have a non-commercial use api)
+    response = fetch_text("http://rpc.geocoder.us/service/csv?zip=#{URI.escape(query)}")
+
+    # parse the response
+    unless response.match(/couldn't find this zip/)
+      data = response.split(/\s*,\s+/) # lat,long,town,state,zip
+      results.push({:lat => data[0], :lon => data[1], :zoom => 12,
+                    :description => "#{data[2]}, #{data[3]}, #{data[4]}"})
     end
+
+    return { :source => "Geocoder.us", :url => "http://geocoder.us/", :results => results }
+  rescue Exception => ex
+    return { :source => "Geocoder.us", :url => "http://geocoder.us/", :error => "Error contacting rpc.geocoder.us: #{ex.to_s}" }
+  end
+
+  def search_uk_postcode(query)
+    results = Array.new
+
+    # ask npemap.org.uk to do a combined npemap + freethepostcode search
+    response = fetch_text("http://www.npemap.org.uk/cgi/geocoder.fcgi?format=text&postcode=#{URI.escape(query)}")
+
+    # parse the response
+    unless response.match(/Error/)
+      dataline = response.split(/\n/)[1]
+      data = dataline.split(/,/) # easting,northing,postcode,lat,long
+      results.push({:lat => data[3], :lon => data[4], :zoom => 12,
+                    :description => data[2].gsub(/'/, "")})
+    end
+
+    return { :source => "NPEMap / FreeThePostcode", :url => "http://www.npemap.org.uk/", :results => results }
+  rescue Exception => ex
+    return { :source => "NPEMap / FreeThePostcode", :url => "http://www.npemap.org.uk/", :error => "Error contacting www.npemap.org.uk: #{ex.to_s}" }
+  end
+
+  def search_ca_postcode(query)
+    results = Array.new
+
+    # ask geocoder.ca (note - they have a per-day limit)
+    response = fetch_xml("http://geocoder.ca/?geoit=XML&postal=#{URI.escape(query)}")
+
+    # parse the response
+    unless response.get_elements("geodata/error")
+      results.push({:lat => response.get_text("geodata/latt").to_s,
+                    :lon => response.get_text("geodata/longt").to_s,
+                    :zoom => 12,
+                    :description => query.upcase})
+    end
+
+    return { :source => "Geocoder.CA", :url => "http://geocoder.ca/", :results => results }
+  rescue Exception => ex
+    return { :source => "Geocoder.CA", :url => "http://geocoder.ca/", :error => "Error contacting geocoder.ca: #{ex.to_s}" }
+  end
+
+  def search_osm_namefinder(query)
+    results = Array.new
+
+    # ask OSM namefinder
+    response = fetch_xml("http://www.frankieandshadow.com/osm/search.xml?find=#{URI.escape(query)}")
+
+    # parse the response
+    response.elements.each("searchresults/named") do |named|
+      lat = named.attributes["lat"].to_s
+      lon = named.attributes["lon"].to_s
+      zoom = named.attributes["zoom"].to_s
+      place = named.elements["place/named"] || named.elements["nearestplaces/named"]
+      type = named.attributes["info"].to_s.capitalize
+      name = named.attributes["name"].to_s
+      distance = format_distance(place.attributes["approxdistance"].to_i)
+      direction = format_direction(place.attributes["direction"].to_i)
+      placename = place.attributes["name"].to_s
+      results.push({:lat => lat, :lon => lon, :zoom => zoom,
+                    :description => "#{type} #{name}, #{distance} #{direction} of #{placename}"})
+    end
+
+    return { :source => "OpenStreetMap Namefinder", :url => "http://www.frankieandshadow.com/osm/", :results => results }
+  rescue Exception => ex
+    return { :source => "OpenStreetMap Namefinder", :url => "http://www.frankieandshadow.com/osm/", :error => "Error contacting www.frankieandshadow.com: #{ex.to_s}" }
+  end
+
+  def search_geonames(query)
+    results = Array.new
+
+    # ask geonames.org
+    response = fetch_xml("http://ws.geonames.org/search?q=#{URI.escape(query)}&maxRows=20")
+
+    # parse the response
+    response.elements.each("geonames/geoname") do |geoname|
+      lat = geoname.get_text("lat").to_s
+      lon = geoname.get_text("lng").to_s
+      name = geoname.get_text("name").to_s
+      country = geoname.get_text("countryName").to_s
+      results.push({:lat => lat, :lon => lon, :zoom => 12,
+                    :description => "#{name}, #{country}"})
+    end
+
+    return { :source => "GeoNames", :url => "http://www.geonames.org/", :results => results }
+  rescue Exception => ex
+    return { :source => "GeoNames", :url => "http://www.geonames.org/", :error => "Error contacting ws.geonames.org: #{ex.to_s}" }
+  end
+
+  def fetch_text(url)
+    return Net::HTTP.get(URI.parse(url))
+  end
+
+  def fetch_xml(url)
+    return REXML::Document.new(fetch_text(url))
+  end
+
+  def format_distance(distance)
+    return "less than 1km" if distance == 0
+    return "about #{distance}km"
+  end
+
+  def format_direction(bearing)
+    return "south-west" if bearing >= 22.5 and bearing < 67.5
+    return "south" if bearing >= 67.5 and bearing < 112.5
+    return "south-east" if bearing >= 112.5 and bearing < 157.5
+    return "east" if bearing >= 157.5 and bearing < 202.5
+    return "north-east" if bearing >= 202.5 and bearing < 247.5
+    return "north" if bearing >= 247.5 and bearing < 292.5
+    return "north-west" if bearing >= 292.5 and bearing < 337.5
+    return "west"
   end
 end

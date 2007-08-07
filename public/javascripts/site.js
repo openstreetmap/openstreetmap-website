@@ -70,3 +70,17 @@ function setArgs(url, args) {
 
    return url.replace(/\?.*$/, "") + "?" + queryitems.join("&");
 }
+
+function getStyle(el, property) {
+  var style;
+
+  if (el.currentStyle) {
+    style = el.currentStyle[property];
+  } else if( window.getComputedStyle ) {
+    style = document.defaultView.getComputedStyle(el,null).getPropertyValue(property);
+  } else {
+    style = el.style[property];
+  }
+
+  return style;
+}

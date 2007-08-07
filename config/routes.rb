@@ -97,9 +97,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/test/populate/:table/:count', :controller => 'test', :action => 'populate', :from => 1
 
   # geocoder
-  map.connect '/geocoder/search/', :controller => 'geocoder', :action => 'search'
-  map.connect '/geocoder/results/', :controller => 'geocoder', :action => 'results'
-  map.connect '/postcode/:postcode/', :controller => 'geocoder', :action => 'search'
+  map.connect '/geocoder/search', :controller => 'geocoder', :action => 'search'
 
   # messages
 
