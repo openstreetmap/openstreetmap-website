@@ -9,7 +9,7 @@ class GeocoderController < ApplicationController
 
     if @query.match(/^\d{5}(-\d{4})?$/)
       @results.push search_us_postcode(@query)
-    elsif @query.match(/(GIR 0AA|[A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]|[A-HK-Y][0-9]([0-9]|[ABEHMNPRV-Y]))|[0-9][A-HJKS-UW]) [0-9][ABD-HJLNP-UW-Z]{2})/i)
+    elsif @query.match(/(GIR 0AA|[A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]|[A-HK-Y][0-9]([0-9]|[ABEHMNPRV-Y]))|[0-9][A-HJKS-UW])\s*[0-9][ABD-HJLNP-UW-Z]{2})/i)
       @results.push search_uk_postcode(@query)
     elsif @query.match(/[A-Z]\d[A-Z]\s*\d[A-Z]\d/i)
       @results.push search_ca_postcode(@query)
