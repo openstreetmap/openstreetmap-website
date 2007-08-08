@@ -384,7 +384,7 @@ module OSM
     end
 
     return nil
-  rescue
+  rescue Exception
     return nil
   end
 end
