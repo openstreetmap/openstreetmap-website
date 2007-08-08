@@ -51,6 +51,14 @@ function getTileURL(bounds) {
    }
 }
 
+function getArrowIcon() {
+   var size = new OpenLayers.Size(25, 22);
+   var offset = new OpenLayers.Pixel(-30, -27);
+   var icon = new OpenLayers.Icon("/images/arrow.png", size, offset);
+
+   return icon;
+}
+
 function addMarkerToMap(position, icon, description) {
    var marker = new OpenLayers.Marker(position, icon);
 
