@@ -9,7 +9,6 @@ class TraceController < ApplicationController
   def list (target_user = nil, paging_action = 'list')
     @title = 'public GPS traces'
     @title += " tagged with #{params[:tag]}" if params[:tag]
-    @traces_per_page = 20
     page_index = params[:page] ? params[:page].to_i - 1 : 0 # nice 1-based page -> 0-based page index
 
     # from display name, pick up user id if one user's traces only
@@ -52,18 +51,9 @@ class TraceController < ApplicationController
     end
     
     opt[:conditions] = conditions
+    opt[:per_page] = 20
 
-    # count traces using all options except limit
-    @max_trace = Trace.count(opt)
-    @max_page = Integer((@max_trace + 1) / @traces_per_page) 
-    
-    # last step before fetch - add paging options
-    opt[:limit] = @traces_per_page
-    if page_index > 0
-      opt[:offset] = @traces_per_page * page_index
-    end
-
-    @traces = Trace.find(:all , opt)
+    @trace_pages, @traces = paginate(:traces, opt)
     
     # put together SET of tags across traces, for related links
     tagset = Hash.new
@@ -79,8 +69,8 @@ class TraceController < ApplicationController
     # final helper vars for view
     @display_name = display_name
     @all_tags = tagset.values
-    @paging_action = paging_action # the action that paging requests should route back to, e.g. 'list' or 'mine'
-    @page = page_index + 1 # nice 1-based external page numbers
+##    @paging_action = paging_action # the action that paging requests should route back to, e.g. 'list' or 'mine'
+##    @page = page_index + 1 # nice 1-based external page numbers
   end
 
   def mine

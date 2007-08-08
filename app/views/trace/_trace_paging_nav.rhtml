@@ -1,19 +1,12 @@
-<%
-  range_start = ((@page - 1) * @traces_per_page) + 1
-  range_end = (@page==@max_page ? @max_trace : (@page * @traces_per_page))
-%>
+<% current_page = @trace_pages.current_page %>
 
 Showing page 
-<%= @page %> (<%= range_start %><% 
-if (@max_trace != range_start) # if more than 1 trace on page 
-  %>-<%= range_end %><% 
+<%= current_page.number %> (<%= current_page.first_item %><% 
+if (current_page.first_item < current_page.last_item) # if more than 1 trace on page 
+  %>-<%= current_page.last_item %><% 
 end %>
-of <%= @max_trace %>)
+of <%= @trace_pages.item_count %>)
 
-<% if @page > 1 %>
-  | <%= link_to 'previous page', {:controller => 'trace', :display_name => @display_name, :action => @paging_action, :page => @page-1}, {:title => 'previous page'} %>
-<% end %>
-
-<% if @page < @max_page %>
-  | <%= link_to 'next page', {:controller => 'trace', :display_name => @display_name, :action => @paging_action, :page => @page+1}, {:title => 'next page'} %>
+<% if @trace_pages.page_count > 1 %>
+ | <%= pagination_links(@trace_pages) %>
 <% end %>
