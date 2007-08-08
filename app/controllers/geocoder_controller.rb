@@ -93,19 +93,23 @@ private
       type = named.attributes["info"].to_s.capitalize
       name = named.attributes["name"].to_s
       description = named.elements["description"].to_s
+      if name.empty?
+        prefix = ""
+        name = type
+      else
+        prefix = "#{type} "
+      end
       if place
         distance = format_distance(place.attributes["approxdistance"].to_i)
         direction = format_direction(place.attributes["direction"].to_i)
         placename = place.attributes["name"].to_s
-        results.push({:lat => lat, :lon => lon, :zoom => zoom,
-                      :prefix => "#{type} ", :name => name,
-                      :suffix => ", #{distance} #{direction} of #{placename}",
-                      :description => description})
+        suffix = ", #{distance} #{direction} of #{placename}"
       else
-        results.push({:lat => lat, :lon => lon, :zoom => zoom,
-                      :prefix => "#{type} ", :name => name,
-                      :description => description})
+        suffix = ""
       end
+      results.push({:lat => lat, :lon => lon, :zoom => zoom,
+                    :prefix => prefix, :name => name, :suffix => suffix,
+                    :description => description})
     end
 
     return { :source => "OpenStreetMap Namefinder", :url => "http://www.frankieandshadow.com/osm/", :results => results }
