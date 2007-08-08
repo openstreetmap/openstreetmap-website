@@ -33,10 +33,19 @@
 <% lat =  @user.home_lat %>
 <% zoom = '10' %>
 <% else %>
+<% session[:location] = OSM::IPLocation(request.env['REMOTE_ADDR']) unless session[:location] %>
+<% if session[:location] %>
+<% bbox = true %>
+<% minlon = session[:location][:minlon] %>
+<% minlat = session[:location][:minlat] %>
+<% maxlon = session[:location][:maxlon] %>
+<% maxlat = session[:location][:maxlat] %>
+<% else %>
 <% lon =  '-0.1' %>
 <% lat =  '51.5' %>
 <% zoom =  params['zoom'] || '5' %>
 <% layers = params['layers'] %>
+<% end %>
 <% end %>
 
 <script type="text/javascript" src="/openlayers/OpenLayers.js"></script>

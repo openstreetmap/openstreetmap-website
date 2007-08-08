@@ -5,7 +5,7 @@ module OSM
   #
   # This would print every latitude value:
   #
-  # gpx = OSM:GPXImporter.new('somefile.gpx')
+  # gpx = OSM::GPXImporter.new('somefile.gpx')
   # gpx.points {|p| puts p['latitude']}
 
   require 'time'
@@ -363,5 +363,28 @@ module OSM
       doc.root = root
       return doc
     end
+  end
+
+  def self.IPLocation(ip_address)
+    Timeout::timeout(4) do
+      Net::HTTP.start('api.hostip.info') do |http|
+        country = http.get("/country.php?ip=#{ip_address}").body
+        country = "GB" if country = "UK"
+        Net::HTTP.start('ws.geonames.org') do |http|
+          xml = REXML::Document.new(http.get("/countryInfo?country=#{country}").body)
+          xml.elements.each("geonames/country") do |ele|
+            minlon = ele.get_text("bBoxWest").to_s
+            minlat = ele.get_text("bBoxSouth").to_s
+            maxlon = ele.get_text("bBoxEast").to_s
+            maxlat = ele.get_text("bBoxNorth").to_s
+            return { :minlon => minlon, :minlat => minlat, :maxlon => maxlon, :maxlat => maxlat }
+          end
+        end
+      end
+    end
+
+    return nil
+  rescue
+    return nil
   end
 end
