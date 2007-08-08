@@ -1,33 +1,3 @@
-<% content_for "optionals" do %>
-  <div class="optionalbox">
-    <span class="oboxheader">Search</span>
-    <% form_remote_tag(:update => :search_results_content, 
-                       :loading => "openSearchResults()",
-                       :url => { :controller => :geocoder, :action => :search } ) do %>
-      <%= text_field_tag :query, nil, :size => 16 %>
-    <% end %>
-    <p class="search_help">
-      examples: 'Alkmaar', 'Regent Street, Cambridge', 'CB2 5AQ',
-      or 'post offices near Lünen'
-      <a href="http://wiki.openstreetmap.org/index.php/Name_finder#Searching_for_things">more examples...</a>
-    </p>
-  </div>
-  <script type="text/javascript">
-  <!--
-    function openSearchResults() {
-      $("search_results").style.display = "block";
-      $("search_results_content").innerHTML = "<p class='search_results_entry'>Searching...</p>";
-      <%= onopen %>
-    }
-
-    function closeSearchResults() {
-      $("search_results").style.display = "none";
-      <%= onclose %>
-    }
-  // -->
-  </script>
-<% end %>
-
 <div id="search_results">
   <table class="search_results_title" width="100%">
     <tr>
@@ -38,3 +8,40 @@
   <div id="search_results_content">
   </div>
 </div>
+
+<script type="text/javascript">
+<!--
+  function openSearchResults() {
+    $("search_results").style.display = "block";
+    $("search_results_content").innerHTML = "<p class='search_results_entry'>Searching...</p>";
+    <%= onopen %>
+  }
+
+  function closeSearchResults() {
+    $("search_results").style.display = "none";
+    <%= onclose %>
+  }
+
+  <% if params[:query] %>
+  <%= remote_function(:update => :search_results_content, 
+                      :loading => "openSearchResults()",
+                      :url => { :controller => :geocoder, :action => :search, :query => params[:query] }) %>
+  <% end %>
+// -->
+</script>
+
+<% content_for "optionals" do %>
+  <div class="optionalbox">
+    <span class="oboxheader">Search</span>
+    <% form_remote_tag(:update => :search_results_content, 
+                       :loading => "openSearchResults()",
+                       :url => { :controller => :geocoder, :action => :search }) do %>
+      <%= text_field_tag :query, params[:query] %>
+    <% end %>
+    <p class="search_help">
+      examples: 'Alkmaar', 'Regent Street, Cambridge', 'CB2 5AQ',
+      or 'post offices near Lünen'
+      <a href="http://wiki.openstreetmap.org/index.php/Name_finder#Searching_for_things">more examples...</a>
+    </p>
+  </div>
+<% end %>
