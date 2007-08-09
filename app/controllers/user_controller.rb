@@ -172,7 +172,12 @@ class UserController < ApplicationController
 
   def view
     @this_user = User.find_by_display_name(params[:display_name])
-    @title = @this_user.display_name
+
+    if @this_user
+      @title = @this_user.display_name
+    else
+      render :nothing => true, :status => :not_found
+    end
   end
 
   def make_friend

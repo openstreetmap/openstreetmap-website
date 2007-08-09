@@ -88,6 +88,8 @@ class TraceController < ApplicationController
         render :nothing, :status => :forbidden if @trace.user.id != @user.id
       end
     end
+  rescue ActiveRecord::RecordNotFound
+    render :nothing => true, :status => :not_found
   end
 
   def create
