@@ -1,6 +1,8 @@
 class OldNodeController < ApplicationController
   require 'xml/libxml'
 
+  after_filter :compress_output
+
   def history
     begin
       node = Node.find(params[:id])

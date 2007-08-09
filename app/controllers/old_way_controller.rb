@@ -1,6 +1,8 @@
 class OldWayController < ApplicationController
   require 'xml/libxml'
 
+  after_filter :compress_output
+
   def history
     begin
       way = Way.find(params[:id])

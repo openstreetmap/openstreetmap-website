@@ -1,6 +1,8 @@
 class OldSegmentController < ApplicationController
   require 'xml/libxml'
 
+  after_filter :compress_output
+
   def history
     begin
       segment = Segment.find(params[:id])
