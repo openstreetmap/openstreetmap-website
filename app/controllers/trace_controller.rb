@@ -5,20 +5,25 @@ class TraceController < ApplicationController
  
   # Counts and selects pages of GPX traces for various criteria (by user, tags, public etc.).
   #  target_user - if set, specifies the user to fetch traces for.  if not set will fetch all traces
-  #  paging_action - the action that will be linked back to from view
-  def list (target_user = nil, paging_action = 'list')
-    @title = 'public GPS traces'
-    @title += " tagged with #{params[:tag]}" if params[:tag]
-    page_index = params[:page] ? params[:page].to_i - 1 : 0 # nice 1-based page -> 0-based page index
-
+  def list (target_user = nil)
     # from display name, pick up user id if one user's traces only
     display_name = params[:display_name]
-    if target_user.nil? and display_name and display_name != ''
-      @paging_action = 'view'
+    if target_user.nil? and !display_name.blank?
       @display_name = display_name
       @title += " from #{@display_name}"
       target_user = User.find(:first, :conditions => [ "display_name = ?", display_name])
     end
+
+    # set title
+    if target_user.nil?
+      @title = "public GPS traces"
+    elsif target_user.id == @user.id
+      @title = "your GPS traces"
+    else
+      @title = "public GPS traces from #{target_user.display_name}"
+    end
+
+    @title += " tagged with #{params[:tag]}" if params[:tag]
 
     opt = Hash.new
     opt[:include] = [:user, :tags] # load users and tags from db at same time as traces
@@ -69,13 +74,11 @@ class TraceController < ApplicationController
     # final helper vars for view
     @display_name = display_name
     @all_tags = tagset.values
-##    @paging_action = paging_action # the action that paging requests should route back to, e.g. 'list' or 'mine'
-##    @page = page_index + 1 # nice 1-based external page numbers
   end
 
   def mine
     if @user
-      list(@user, 'mine') unless @user.nil?
+      list(@user) unless @user.nil?
     else
       redirect_to :controller => 'user', :action => 'login', :referer => request.request_uri
     end
