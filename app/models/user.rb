@@ -1,6 +1,5 @@
 class User < ActiveRecord::Base
   require 'xml/libxml'
-  require 'digest/md5'
 
   has_many :traces
   has_many :diary_entries, :order => 'created_at DESC'
@@ -25,13 +24,16 @@ class User < ActiveRecord::Base
   end
 
   def encrypt_password
-    self.pass_crypt = Digest::MD5.hexdigest(pass_crypt) unless pass_crypt_confirmation.nil?
+    if pass_crypt_confirmation
+      self.pass_salt = OSM::make_token(8)
+      self.pass_crypt = OSM::encrypt_password(pass_crypt, pass_salt)
+    end
   end
 
   def self.authenticate(options)
     if options[:username] and options[:password]
       user = find(:first, :conditions => ["email = ? OR display_name = ?", options[:username], options[:username]])
-      user = nil unless user.pass_crypt == Digest::MD5.hexdigest(options[:password])
+      user = nil unless user.pass_crypt == OSM::encrypt_password(options[:password], user.pass_salt)
     elsif options[:token]
       token = UserToken.find(:first, :include => :user, :conditions => ["user_tokens.token = ?", options[:token]])
       user = token.user if token

@@ -12,6 +12,7 @@ module OSM
   require 'rexml/parsers/sax2parser'
   require 'rexml/text'
   require 'xml/libxml'
+  require 'digest/md5'
   require 'RMagick'
 
   class Mercator
@@ -402,5 +403,11 @@ module OSM
     end
 
     return token
+  end
+
+  # Return an encrypted version of a password
+  def self.encrypt_password(password, salt)
+    return Digest::MD5.hexdigest(password) if salt.nil?
+    return Digest::MD5.hexdigest(salt + password)
   end
 end
