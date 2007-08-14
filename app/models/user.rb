@@ -33,7 +33,7 @@ class User < ActiveRecord::Base
   def self.authenticate(options)
     if options[:username] and options[:password]
       user = find(:first, :conditions => ["email = ? OR display_name = ?", options[:username], options[:username]])
-      user = nil unless user.pass_crypt == OSM::encrypt_password(options[:password], user.pass_salt)
+      user = nil if user and user.pass_crypt != OSM::encrypt_password(options[:password], user.pass_salt)
     elsif options[:token]
       token = UserToken.find(:first, :include => :user, :conditions => ["user_tokens.token = ?", options[:token]])
       user = token.user if token
