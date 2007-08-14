@@ -41,7 +41,7 @@ function getTileURL(bounds) {
 
    if (y < 0 || y >= limit)
    {
-     return null;
+     return OpenLayers.Util.getImagesLocation() + "404.png";
    }
    else
    {
