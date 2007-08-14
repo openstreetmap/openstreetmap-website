@@ -311,7 +311,7 @@ module OSM
       image << link
     end
 
-    def add(latitude=0, longitude=0, title_text='dummy title', url='http://www.example.com/', description_text='dummy description', timestamp=DateTime.now)
+    def add(latitude=0, longitude=0, title_text='dummy title', author_text='anonymous', url='http://www.example.com/', description_text='dummy description', timestamp=DateTime.now)
       item = XML::Node.new 'item'
 
       title = XML::Node.new 'title'
@@ -328,6 +328,10 @@ module OSM
       description = XML::Node.new 'description'
       description << description_text
       item << description
+
+      author = XML::Node.new 'author'
+      author << author_text
+      item << author
 
       pubDate = XML::Node.new 'pubDate'
       pubDate << timestamp.to_s(:rfc822)
