@@ -20,11 +20,11 @@
     <span id="greeting">
       <% if @user and @user.id %>
         Welcome, <%= link_to @user.display_name, {:controller => 'user', :action => 'view', :display_name => @user.display_name}%> | 
-        <% @inbox_weight = 'bold' if @user.get_new_messages.length > 0 %>
+        <% @inbox_weight = 'bold' if @user.new_messages.size > 0 %>
         <% if !@user.home_lon.nil? and !@user.home_lat.nil? %>
         <%= link_to 'home', {:controller => 'site', :action => 'index', :lon => @user.home_lon, :lat => @user.home_lat, :zoom => '10'} %> |
         <% end %>
-        <%= link_to "inbox (#{@user.get_new_messages.length})", {:controller => 'message', :action => 'inbox', :display_name => @user.display_name}, {:style => "font-weight: #{@inbox_weight};" } %> |
+        <%= link_to "inbox (#{@user.new_messages.size})", {:controller => 'message', :action => 'inbox', :display_name => @user.display_name}, {:style => "font-weight: #{@inbox_weight};" } %> |
         <%= link_to 'logout', {:controller => 'user', :action => 'logout', :referer => request.request_uri}, {:id => 'logoutanchor'}%>
       <% else %>
         <%= link_to 'log in', {:controller => 'user', :action => 'login', :referer => request.request_uri}, {:id => 'loginanchor'}%> |

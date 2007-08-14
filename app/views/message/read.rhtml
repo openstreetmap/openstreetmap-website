@@ -1,16 +1,29 @@
 <h2>Reading your messages</h2>
 
 <table>
-<th>from</th>
-<th>message</th>
-<th>date</th>
-<th>reply</th>
-<tr><td><%= (User.find_by_id(@message.from_user_id)).display_name %></td>
-<td><%= @message.body %></td>
-<td><%= @message.sent_on %></td>
-<td><%= link_to 'reply', :controller => 'message', :action => 'new', :user_id => @message.from_user_id %></td>
+  <tr>
+    <th>From</th>
+    <td><%= link_to @message.sender.display_name, :controller => 'user', :action => 'view', :display_name => @message.sender.display_name %></td>
+  </tr>
+  <tr>
+    <th>Subject</th>
+    <td><%= @message.title %></td>
+  </tr>
+  <tr>
+    <th>Date</th>
+    <td><%= @message.sent_on %></td>
+  </tr>
+  <tr>
+    <th>Message</th>
+    <td><%= @message.body %></td>
+  </tr>
 </table>
 
-<% form_tag :controller => 'message', :action => 'mark', :message_id => @message.id do %>
-<%= submit_tag 'Mark as read' %>
-<% end %>
+<br />
+
+<table>
+  <tr>
+    <td><%= button_to 'Reply', :controller => 'message', :action => 'new', :user_id => @message.from_user_id %></td>
+    <td><%= button_to 'Mark as read', :controller => 'message', :action => 'mark', :message_id => @message.id %></td>
+  </tr>
+</table>

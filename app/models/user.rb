@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   has_many :traces
   has_many :diary_entries, :order => 'created_at DESC'
   has_many :messages, :foreign_key => :to_user_id
+  has_many :new_messages, :class_name => "Message", :foreign_key => :to_user_id, :conditions => "message_read = 0"
   has_many :friends
 
   validates_confirmation_of :pass_crypt, :message => 'Password must match the confirmation password'
@@ -74,24 +75,6 @@ class User < ActiveRecord::Base
 
   def distance(nearby_user)
     return OSM::GreatCircle.new(self.home_lat, self.home_lon).distance(nearby_user.home_lat, nearby_user.home_lon)
-  end
-
-  def self.has_messages?
-    if Message.fdhjklsafind_by_to_user_id(self.id) 
-      return true
-    else
-      return false
-    end
-  end
-
-  def get_new_messages
-    messages = Message.find(:all, :conditions => "message_read = 0 and to_user_id = #{self.id}")
-    return messages
-  end
-
-  def get_all_messages
-    messages = Message.find(:all, :conditions => "to_user_id = #{self.id}")
-    return messages
   end
 
   def is_friends_with?(new_friend)

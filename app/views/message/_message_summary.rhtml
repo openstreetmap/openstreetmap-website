@@ -1,0 +1,11 @@
+<tr>
+  <td><%= link_to message_summary.sender.display_name , :controller => 'user', :action => message_summary.sender.display_name %></td>
+  <td><%= link_to  message_summary.title , :controller => 'message', :action => 'read', :message_id => message_summary.id  %></td>
+  <td><%= message_summary.sent_on %></td>
+  <% if message_summary.message_read? %>
+    <td>Message read</td>
+  <% else %>
+    <td><%= button_to 'Mark as read', :controller => 'message', :action => 'mark', :message_id => message_summary.id %> </td>
+  <% end %>
+  <td><%= button_to 'Reply', :controller => 'message', :action => 'new', :user_id => message_summary.from_user_id %> </td>
+</tr>

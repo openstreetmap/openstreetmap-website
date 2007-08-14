@@ -1,51 +1,30 @@
 <h2>My inbox</h2>
 
-<p>You have <%=@user.get_new_messages.length %> new messages and <%=@user.get_all_messages.length -  @user.get_new_messages.length %> old messages</p> 
+<p>You have <%= @user.new_messages.size %> new messages and <%= @user.messages.size -  @user.new_messages.size %> old messages</p> 
 
-<% if (params[:all] and @user.get_all_messages.length > 0) or (@user.get_new_messages.length > 0) %>
+<% if (params[:all] and @user.messages.size > 0) or (@user.new_messages.size > 0) %>
   <div id="messages">
-  <table class="messages">
-  <tr><th>from</th>
-  <th>title</th>
-  <th>received on</th>
-  <th></th>
-  <th></th></tr>
+    <table class="messages">
+      <tr>
+        <th>From</th>
+        <th>Subject</th>
+        <th>Date</th>
+        <th></th>
+        <th></th>
+      </tr>
+      <% if params[:all] %>
+        <%= render :partial => "message_summary", :collection => @user.messages %>
+      <% else %>
+        <%= render :partial => "message_summary", :collection => @user.new_messages %>
+      <% end %>
+    </table>
+  </div>
+<% end %>
 
-  <% if params[:all] %>
-    <% @user.get_all_messages.each do |message| %>
-  <tr><td><%= link_to User.find(message.from_user_id).display_name , :controller => 'user', :action => User.find(message.from_user_id).display_name %></td>
-  <td><%= link_to  message.title , :controller => 'message', :action => 'read', :message_id => message.id  %></td>
-  <td><%= message.sent_on %></td>
-  <% if message.message_read = 0 %>
-  <td><%= link_to 'mark as read', :controller => 'message', :action => 'mark', :message_id => message.id %> </td>
-  <%else%>
-  <td>message read</td>
-  <%end%>
-  <td><%= link_to 'reply', :controller => 'message', :action => 'new', :user_id => message.from_user_id %> </td>
-  </tr>
-    <%end%>
-
-  <%else%>
-
-    <% @user.get_new_messages.each do |message| %>
-  <tr><td><%= link_to User.find(message.from_user_id).display_name , :controller => 'user', :action => User.find(message.from_user_id).display_name %></td>
-  <td><%= link_to  message.title , :controller => 'message', :action => 'read', :message_id => message.id  %></td>
-  <td><%= message.sent_on %></td>
-  <% if message.message_read = 0 %>
-  <td><%= link_to 'mark as read', :controller => 'message', :action => 'mark', :message_id => message.id %> </td>
-  <%else%>
-  <td>message read</td>
-  <%end%>
-  </tr>
-    <%end%>
-  <%end%>
-
-</table>
-</div>
-<%end%>
+<br />
 
 <% if params[:all] %>
-  <%= link_to 'show new messages', :controller => 'message', :action => 'inbox', :display_name => @user.display_name %>
+  <%= link_to 'Show new messages', :controller => 'message', :action => 'inbox', :display_name => @user.display_name %>
 <% else %>
-  <%= link_to 'show all messages', :controller => 'message', :action => 'inbox', :display_name => @user.display_name, :all => true %>
+  <%= link_to 'Show all messages', :controller => 'message', :action => 'inbox', :display_name => @user.display_name, :all => true %>
 <% end %>
