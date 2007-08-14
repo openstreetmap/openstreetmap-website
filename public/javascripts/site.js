@@ -1,17 +1,8 @@
 function updatelinks(lon,lat,zoom,layers) {
-  var links = new Object();
-  links['viewanchor'] = '/index.html';
-  //links['editanchor'] = 'edit.html';
-  links['uploadanchor'] = '/traces';
-  links['loginanchor'] = '/login.html';
-  links['logoutanchor'] = '/logout.html';
-  links['registeranchor'] = '/create-account.html';
-
   var node;
-  var anchor;
-  for (anchor in links) {
-    node = document.getElementById(anchor);
-    if (! node) { continue; }
+
+  node = document.getElementById("viewanchor");
+  if (node) {
     var args = getArgs(node.href);
     args["lat"] = lat;
     args["lon"] = lon;
