@@ -391,4 +391,16 @@ module OSM
   rescue Exception
     return nil
   end
+
+  # Construct a random token of a given length
+  def self.make_token(length = 30)
+    chars = 'abcdefghijklmnopqrtuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+    token = ''
+
+    length.times do
+      token += chars[(rand * chars.length).to_i].chr
+    end
+
+    return token
+  end
 end

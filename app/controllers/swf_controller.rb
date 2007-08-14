@@ -46,12 +46,11 @@ class SwfController < ApplicationController
 		lastfile='-1'
 	
 		if params['token']
-			token=sqlescape(params['token'])
+                        user=User.authenticate(:token => params[:token])
 			sql="SELECT gps_points.latitude*0.000001 AS lat,gps_points.longitude*0.000001 AS lon,gpx_files.id AS fileid,UNIX_TIMESTAMP(gps_points.timestamp) AS ts "+
-				 " FROM gpx_files,gps_points,users "+
+				 " FROM gpx_files,gps_points "+
 				 "WHERE gpx_files.id=gpx_id "+
-				 "  AND gpx_files.user_id=users.id "+
-				 "  AND token='#{token}' "+
+				 "  AND gpx_files.user_id=#{user.id} "+
 				 "  AND (gps_points.longitude BETWEEN #{xminr} AND #{xmaxr}) "+
 				 "  AND (gps_points.latitude BETWEEN #{yminr} AND #{ymaxr}) "+
 				 "  AND (gps_points.timestamp IS NOT NULL) "+

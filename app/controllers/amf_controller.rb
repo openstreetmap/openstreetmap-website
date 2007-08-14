@@ -736,12 +736,13 @@ def array2tag(a)
 end
 
 def getuserid(token)
-  token=sqlescape(token)
-  if (token=~/^(.+)\+(.+)$/) then
-    return ActiveRecord::Base.connection.select_value("SELECT id FROM users WHERE active=1 AND email='#{$1}' AND pass_crypt=MD5('#{$2}')")
+  if (token =~ /^(.+)\+(.+)$/) then
+    user = User.authenticate(:username => $1, :password => $2)
   else
-    return ActiveRecord::Base.connection.select_value("SELECT id FROM users WHERE active=1 AND token='#{token}'")
+    user = User.authenticate(:token => token)
   end
+
+  return user ? user.id : nil;
 end
 
 

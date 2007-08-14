@@ -3,7 +3,12 @@
 class ApplicationController < ActionController::Base
 
   def authorize_web
-    @user = User.find_by_token(session[:token])
+    if session[:user]
+      @user = User.find(session[:user])
+    elsif session[:token]
+      @user = User.authenticate(:token => session[:token])
+      session[:user] = @user.id
+    end
   end
 
   def require_user
@@ -16,21 +21,13 @@ class ApplicationController < ActionController::Base
     if username.nil?
       @user = nil # no authentication provided - perhaps first connect (client should retry after 401)
     elsif username == 'token' 
-      @user = User.authenticate_token(passwd) # preferred - random token for user from db, passed in basic auth
+      @user = User.authenticate(:token => passwd) # preferred - random token for user from db, passed in basic auth
     else
-      @user = User.authenticate(username, passwd) # basic auth
+      @user = User.authenticate(:username => username, :password => passwd) # basic auth
     end
 
     # handle authenticate pass/fail
-    if @user
-      # user exists and password is correct ... horray! 
-      if @user.methods.include? 'lastlogin'         # note last login 
-        @session['lastlogin'] = user.lastlogin 
-        @user.last.login = Time.now 
-        @user.save() 
-        @session["User.id"] = @user.id 
-      end             
-    else 
+    unless @user
       # no auth, the user does not exist or the password was wrong
       response.headers["Status"] = "Unauthorized" 
       response.headers["WWW-Authenticate"] = "Basic realm=\"#{realm}\"" 
@@ -58,8 +55,9 @@ class ApplicationController < ActionController::Base
     response.headers['Error'] = message
   end
 
+private 
+
   # extract authorisation credentials from headers, returns user = nil if none
-  private 
   def get_auth_data 
     if request.env.has_key? 'X-HTTP_AUTHORIZATION'          # where mod_rewrite might have put it 
       authdata = request.env['X-HTTP_AUTHORIZATION'].to_s.split 

@@ -5,6 +5,8 @@
 <% else %>
 <%= render :partial => 'search', :locals => { :onopen => "resizeMap();", :onclose => "resizeMap();" } %>
 
+<% session[:token] = @user.tokens.create.token unless session[:token] %>
+
 <% if params['mlon'] and params['mlat'] %>
 <% lon =  params['mlon'] %>
 <% lat =  params['mlat']  %>
@@ -34,7 +36,7 @@
     fo.addVariable('lat',lat);
     fo.addVariable('long',lon);
     fo.addVariable('scale',sc);
-    fo.addVariable('token','<%= @user.token %>');
+    fo.addVariable('token','<%= session[:token] %>');
     fo.write("map");
   }
 

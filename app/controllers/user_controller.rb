@@ -10,11 +10,11 @@ class UserController < ApplicationController
   def save
     @title = 'create account'
     @user = User.new(params[:user])
-    @user.set_defaults
 
     if @user.save
+      token = @user.tokens.create
       flash[:notice] = "User was successfully created. Check your email for a confirmation note, and you\'ll be mapping in no time :-)<br>Please note that you won't be able to login until you've received and confirmed your email address."
-      Notifier::deliver_signup_confirm(@user)
+      Notifier::deliver_signup_confirm(@user, token)
       redirect_to :action => 'login'
     else
       render :action => 'new'
@@ -64,11 +64,10 @@ class UserController < ApplicationController
   def lost_password
     @title = 'lost password'
     if params[:user] and params[:user][:email]
-      user = User.find_by_email(params['user']['email'])
+      user = User.find_by_email(params[:user][:email])
       if user
-        user.token = User.make_token
-        user.save
-        Notifier::deliver_lost_password(user)
+        token = user.tokens.create
+        Notifier::deliver_lost_password(user, token)
         flash[:notice] = "Sorry you lost it :-( but an email is on its way so you can reset it soon."
       else
         flash[:notice] = "Couldn't find that email address, sorry."
@@ -81,13 +80,15 @@ class UserController < ApplicationController
   def reset_password
     @title = 'reset password'
     if params['token']
-      user = User.find_by_token(params['token'])
-      if user
-        pass = User.make_token(8)
+      token = UserToken.find_by_token(params[:token])
+      if token
+        pass = OSM::make_token(8)
+        user = token.user
         user.pass_crypt = pass
         user.pass_crypt_confirmation = pass
         user.active = true
-        user.save
+        user.save!
+        token.destroy
         Notifier::deliver_reset_password(user, pass)
         flash[:notice] = "Your password has been changed and is on its way to your mailbox :-)"
       else
@@ -106,19 +107,16 @@ class UserController < ApplicationController
     if params[:user]
       email = params[:user][:email]
       pass = params[:user][:password]
-      u = User.authenticate(email, pass)
-      if u
-        u.token = User.make_token
-        u.timeout = 1.day.from_now
-        u.save
-        session[:token] = u.token
+      user = User.authenticate(:username => email, :password => pass)
+      if user
+        session[:user] = user.id
         if params[:referer]
           redirect_to params[:referer]
         else
           redirect_to :controller => 'site', :action => 'index'
         end
         return
-      elsif User.authenticate(email, pass, false)
+      elsif User.authenticate(:username => email, :password => pass, :invalid => true)
         flash[:notice] = "Sorry, your account is not active yet.<br>Please click on the link in the account confirmation email to activate your account."
       else
         flash[:notice] = "Sorry, couldn't log in with those details."
@@ -128,14 +126,13 @@ class UserController < ApplicationController
 
   def logout
     if session[:token]
-      u = User.find_by_token(session[:token])
-      if u
-        u.token = User.make_token
-        u.timeout = Time.now
-        u.save
+      token = UserToken.find_by_token(session[:token])
+      if token
+        token.destroy
       end
+      session[:token] = nil
     end
-    session[:token] = nil
+    session[:user] = nil
     if params[:referer]
       redirect_to params[:referer]
     else
@@ -144,14 +141,14 @@ class UserController < ApplicationController
   end
 
   def confirm
-    @user = User.find_by_token(params[:confirm_string])
-    if @user && @user.active == 0
+    token = UserToken.find_by_token(params[:confirm_string])
+    if token and !token.user.active?
+      @user = token.user
       @user.active = true
-      @user.token = User.make_token
-      @user.timeout = 1.day.from_now
-      @user.save
+      @user.save!
+      token.destroy
       flash[:notice] = 'Confirmed your account, thanks for signing up!'
-      session[:token] = @user.token
+      session[:user] = @user.id
       redirect_to :action => 'account', :display_name => @user.display_name
     else
       flash[:notice] = 'Something went wrong confirming that user.'

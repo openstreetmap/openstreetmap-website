@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
   has_many :messages, :foreign_key => :to_user_id
   has_many :new_messages, :class_name => "Message", :foreign_key => :to_user_id, :conditions => "message_read = 0"
   has_many :friends
+  has_many :tokens, :class_name => "UserToken"
+  has_many :preferences, :class_name => "UserPreference"
 
   validates_confirmation_of :pass_crypt, :message => 'Password must match the confirmation password'
   validates_uniqueness_of :display_name, :allow_nil => true
@@ -18,34 +20,31 @@ class User < ActiveRecord::Base
 
   before_save :encrypt_password
 
-  def set_defaults
+  def after_initialize
     self.creation_time = Time.now
-    self.timeout = Time.now
-    self.token = User.make_token()
   end
 
   def encrypt_password
     self.pass_crypt = Digest::MD5.hexdigest(pass_crypt) unless pass_crypt_confirmation.nil?
   end
 
-  def self.authenticate(email, passwd, active = true)
-    find(:first, :conditions => [ "email = ? AND pass_crypt = ? AND active = ?", email, Digest::MD5.hexdigest(passwd), active])
-  end 
-
-  def self.authenticate_token(token) 
-    find(:first, :conditions => [ "token = ? ", token])
-  end 
-
-  def self.make_token(length=30)
-    chars = 'abcdefghijklmnopqrtuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
-    confirmstring = ''
-
-    length.times do
-      confirmstring += chars[(rand * chars.length).to_i].chr
+  def self.authenticate(options)
+    if options[:username] and options[:password]
+      user = find(:first, :conditions => ["email = ? OR display_name = ?", options[:username], options[:username]])
+      user = nil unless user.pass_crypt == Digest::MD5.hexdigest(options[:password])
+    elsif options[:token]
+      token = UserToken.find(:first, :include => :user, :conditions => ["user_tokens.token = ?", options[:token]])
+      user = token.user if token
     end
 
-    return confirmstring
-  end
+    if user
+      user = nil unless user.active? or options[:inactive]
+    end
+
+    token.update_attribute(:expiry, 1.week.from_now) if token and user
+
+    return user
+  end 
 
   def to_xml
     doc = OSM::API.new.get_xml_doc
