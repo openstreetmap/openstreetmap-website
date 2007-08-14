@@ -1,6 +1,7 @@
 class OldNodeController < ApplicationController
   require 'xml/libxml'
 
+  session :off
   after_filter :compress_output
 
   def history

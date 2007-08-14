@@ -1,6 +1,7 @@
 class AmfController < ApplicationController
   require 'stringio'
 
+  session :off
   before_filter :check_availability
 
   # to log:

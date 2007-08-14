@@ -1,6 +1,7 @@
 class NodeController < ApplicationController
   require 'xml/libxml'
 
+  session :off
   before_filter :authorize, :only => [:create, :update, :delete]
   before_filter :check_availability, :only => [:create, :update, :delete]
   after_filter :compress_output

@@ -1,5 +1,6 @@
 class ApiController < ApplicationController
 
+  session :off
   after_filter :compress_output
 
   #COUNT is the number of map requests to allow before exiting and starting a new process
