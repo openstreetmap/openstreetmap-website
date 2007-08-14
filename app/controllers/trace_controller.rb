@@ -10,7 +10,6 @@ class TraceController < ApplicationController
     display_name = params[:display_name]
     if target_user.nil? and !display_name.blank?
       @display_name = display_name
-      @title += " from #{@display_name}"
       target_user = User.find(:first, :conditions => [ "display_name = ?", display_name])
     end
 
