@@ -20,7 +20,7 @@ class User < ActiveRecord::Base
   before_save :encrypt_password
 
   def after_initialize
-    self.creation_time = Time.now
+    self.creation_time = Time.now if self.creation_time.nil?
   end
 
   def encrypt_password
