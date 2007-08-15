@@ -14,8 +14,8 @@
       <% end %> 
       ... <%= time_ago_in_words( trace.timestamp ) %>  ago</span>
       <%= link_to 'more', {:controller => 'trace', :action => 'view', :display_name => trace.user.display_name, :id => trace.id}, {:title => 'View Trace Details'} %> /
-      <%= link_to 'map', {:controller => 'site', :action => 'index', :lat => trace.latitude, :lon => trace.longitude, :zoom => 14}, {:title => 'View Map'} %> /
-      <%= link_to 'edit', {:controller => 'site', :action => 'edit', :lat => trace.latitude, :lon => trace.longitude, :zoom => 14}, {:title => 'Edit Map'} %>
+      <%= link_to_if trace.inserted?, 'map', {:controller => 'site', :action => 'index', :lat => trace.latitude, :lon => trace.longitude, :zoom => 14}, {:title => 'View Map'} %> /
+      <%= link_to_if trace.inserted?, 'edit', {:controller => 'site', :action => 'edit', :lat => trace.latitude, :lon => trace.longitude, :zoom => 14}, {:title => 'Edit Map'} %>
       <br />
       <%= escape_once(trace.description) %>
     <br />
@@ -23,7 +23,7 @@
     in 
     <% if trace.tags %>
       <% trace.tags.each do |tag| %>
-        <%= link_to tag.tag, :tag => tag.tag %>
+        <%= link_to_tag tag.tag %>
       <% end %>
     <% end %>
   </td>

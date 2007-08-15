@@ -1,12 +1,14 @@
-<h2>Viewing trace <%= @trace.name %></h2>
+<h2><%= @title %></h2>
 
 <img src="<%= url_for :controller => 'trace', :action => 'picture', :id => @trace.id, :user_login => @trace.user.display_name %>">
 
 <table border="0">
   <tr><td>filename:</td><td><%= @trace.name %> (<%= link_to 'download', :controller => 'trace', :action => 'data', :id => @trace.id %>)</td></tr> <!-- TODO link to download -->
   <tr><td>uploaded at:</td><td><%= @trace.timestamp %></td></tr>
-  <tr><td>points:</td><td><%= @trace.size.to_s.gsub(/(\d)(?=(\d{3})+$)/,'\1,') %></td></tr>
-  <tr><td>start coordinate:</td><td><%= @trace.latitude %>, <%= @trace.longitude %> (<%=link_to 'map', :controller => 'site', :action => 'index', :lat => @trace.latitude, :lon => @trace.longitude, :zoom => 14 %> / <%=link_to 'edit', :controller => 'site', :action => 'edit', :lat => @trace.latitude, :lon => @trace.longitude, :zoom => 14 %>)</td></tr>
+  <% if @trace.inserted? %>
+    <tr><td>points:</td><td><%= @trace.size.to_s.gsub(/(\d)(?=(\d{3})+$)/,'\1,') %></td></tr>
+    <tr><td>start coordinate:</td><td><%= @trace.latitude %>, <%= @trace.longitude %> (<%=link_to 'map', :controller => 'site', :action => 'index', :lat => @trace.latitude, :lon => @trace.longitude, :zoom => 14 %> / <%=link_to 'edit', :controller => 'site', :action => 'edit', :lat => @trace.latitude, :lon => @trace.longitude, :zoom => 14 %>)</td></tr>
+  <% end %>
   <tr><td>owner:</td><td><%= link_to @trace.user.display_name, {:controller => 'trace', :action => 'view', :display_name => @trace.user.display_name, :id => nil} %></td></tr>
   <tr><td>description:</td><td><%= @trace.description %></td></tr>
   <tr><td>tags:</td><td>

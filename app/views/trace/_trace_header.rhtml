@@ -1,0 +1,15 @@
+<h1><%= @title %></h1>
+
+<span class="rsssmall"><a href="<%= url_for :action => 'georss', :display_name => @display_name, :tag => @tag %>"><img src="/images/RSS.gif" border="0" alt="RSS" /></a></span>
+<% if @user.nil? or @display_name.nil? or @user.display_name != @display_name %>
+ | <%= link_to 'See just your traces, or upload a trace', :action => 'mine' %>
+<% end %>
+<% if @tag or @display_name %>
+ | <%= link_to 'See all traces', :controller => 'trace', :action => 'list' %>
+<% end %>
+<% if @tag and @user and @user.display_name == @display_name %>
+ | <%= link_to 'See all your traces', :controller => 'trace', :action => 'mine' %>
+<% end %>
+
+<br />
+<br />

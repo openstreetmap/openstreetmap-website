@@ -5,27 +5,23 @@ class TraceController < ApplicationController
  
   # Counts and selects pages of GPX traces for various criteria (by user, tags, public etc.).
   #  target_user - if set, specifies the user to fetch traces for.  if not set will fetch all traces
-  def list (target_user = nil)
+  def list(target_user = nil, action = "list")
     # from display name, pick up user id if one user's traces only
     display_name = params[:display_name]
     if target_user.nil? and !display_name.blank?
-      @display_name = display_name
       target_user = User.find(:first, :conditions => [ "display_name = ?", display_name])
     end
 
     # set title
     if target_user.nil?
-      @title = "public GPS traces"
-    elsif target_user.id == @user.id
-      @title = "your GPS traces"
+      @title = "Public GPS traces"
+    elsif @user and @user.id == target_user.id
+      @title = "Your GPS traces"
     else
-      @title = "public GPS traces from #{target_user.display_name}"
+      @title = "Public GPS traces from #{target_user.display_name}"
     end
 
     @title += " tagged with #{params[:tag]}" if params[:tag]
-
-    opt = Hash.new
-    opt[:include] = [:user, :tags] # load users and tags from db at same time as traces
 
     # four main cases:
     # 1 - all traces, logged in = all public traces + all user's (i.e + all mine)
@@ -34,31 +30,30 @@ class TraceController < ApplicationController
     # 4 - user's traces, not logged in as that user = all user's public traces
     if target_user.nil? # all traces
       if @user
-        conditions = ["(public = 1 OR user_id = ?)", @user.id] #1
+        conditions = ["(gpx_files.public = 1 OR gpx_files.user_id = ?)", @user.id] #1
       else
-        conditions  = ["public = 1"] #2
+        conditions  = ["gpx_files.public = 1"] #2
       end
     else
       if @user and @user.id == target_user.id
-        conditions = ["user_id = ?", @user.id] #3 (check vs user id, so no join + can't pick up non-public traces by changing name)
+        conditions = ["gpx_files.user_id = ?", @user.id] #3 (check vs user id, so no join + can't pick up non-public traces by changing name)
       else
-        conditions = ["public = 1 AND user_id = ?", target_user.id] #4
+        conditions = ["gpx_files.public = 1 AND gpx_files.user_id = ?", target_user.id] #4
       end
     end
-    conditions[0] += " AND users.display_name != ''" # users need to set display name before traces will be exposed
     
-    opt[:order] = 'timestamp DESC'
     if params[:tag]
       @tag = params[:tag]
-      conditions[0] += " AND gpx_file_tags.tag = ?"
-      conditions << @tag;
+      conditions[0] += " AND EXISTS (SELECT * FROM gpx_file_tags AS gft WHERE gft.gpx_id = gpx_files.id AND gft.tag = ?)"
+      conditions << @tag
     end
     
-    opt[:conditions] = conditions
-    opt[:per_page] = 20
+    @trace_pages, @traces = paginate(:traces,
+                                     :include => [:user, :tags],
+                                     :conditions => conditions,
+                                     :order => "gpx_files.timestamp DESC",
+                                     :per_page => 20)
 
-    @trace_pages, @traces = paginate(:traces, opt)
-    
     # put together SET of tags across traces, for related links
     tagset = Hash.new
     if @traces
@@ -71,13 +66,14 @@ class TraceController < ApplicationController
     end
     
     # final helper vars for view
-    @display_name = display_name
+    @action = action
+    @display_name = target_user.display_name if target_user
     @all_tags = tagset.values
   end
 
   def mine
     if @user
-      list(@user) unless @user.nil?
+      list(@user, "mine") unless @user.nil?
     else
       redirect_to :controller => 'user', :action => 'login', :referer => request.request_uri
     end
@@ -85,6 +81,7 @@ class TraceController < ApplicationController
 
   def view
     @trace = Trace.find(params[:id])
+    @title = "Viewing trace #{@trace.name}"
     unless @trace.public
       if @user
         render :nothing, :status => :forbidden if @trace.user.id != @user.id
@@ -129,11 +126,23 @@ class TraceController < ApplicationController
   end
 
   def georss
-    traces = Trace.find(:all, :conditions => ['public = true'], :order => 'timestamp DESC', :limit => 20)
+    conditions = ["gpx_files.public = 1"]
+
+    if params[:display_name]
+      conditions[0] += " AND users.display_name = ?"
+      conditions << params[:display_name]
+    end
+    
+    if params[:tag]
+      conditions[0] += " AND EXISTS (SELECT * FROM gpx_file_tags AS gft WHERE gft.gpx_id = gpx_files.id AND gft.tag = ?)"
+      conditions << params[:tag]
+    end
+
+    traces = Trace.find(:all, :include => :user, :conditions => conditions, 
+                        :order => "timestamp DESC", :limit => 20)
 
     rss = OSM::GeoRSS.new
 
-    #def add(latitude=0, longitude=0, title_text='dummy title', url='http://www.example.com/', description_text='dummy description', timestamp=Time.now)
     traces.each do |trace|
       rss.add(trace.latitude, trace.longitude, trace.name, trace.user.display_name, url_for({:controller => 'trace', :action => 'view', :id => trace.id, :display_name => trace.user.display_name}), "<img src='#{url_for({:controller => 'trace', :action => 'icon', :id => trace.id, :user_login => trace.user.display_name})}'> GPX file with #{trace.size} points from #{trace.user.display_name}", trace.timestamp)
     end

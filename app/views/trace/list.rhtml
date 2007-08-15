@@ -1,16 +1,3 @@
-<h1>Public GPS Traces</h1>
-
-<% if @tag %>
- Traces filtered by tag <b><%= @tag %></b>
- <br/><br/>
-<% end %>
-<span class="rsssmall"><a href="<%= url_for :controller => 'trace', :action => 'georss' %>"><img src="/images/RSS.gif" border="0" alt="RSS" /></a></span> | 
-<%= link_to 'See just your traces, or upload a trace', {:controller => 'trace', :action => 'mine'} %>
-<% if @tag %>
- | <%= link_to 'See all traces', {:controller => 'trace', :action => 'list'} %>
-<% end %>
-
-<br />
-<br />
+<%= render :partial => 'trace_header' %>
 
 <%= render :partial => 'trace_list' %>

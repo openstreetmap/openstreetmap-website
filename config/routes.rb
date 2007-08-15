@@ -64,19 +64,24 @@ ActionController::Routing::Routes.draw do |map|
   # traces  
   map.connect '/traces', :controller => 'trace', :action => 'list'
   map.connect '/traces/page/:page', :controller => 'trace', :action => 'list'
+  map.connect '/traces/rss', :controller => 'trace', :action => 'georss'
+  map.connect '/traces/tag/:tag', :controller => 'trace', :action => 'list'
+  map.connect '/traces/tag/:tag/page/:page', :controller => 'trace', :action => 'list'
+  map.connect '/traces/tag/:tag/rss', :controller => 'trace', :action => 'georss'
   map.connect '/traces/mine', :controller => 'trace', :action => 'mine'
-  map.connect '/trace/create', :controller => 'trace', :action => 'create'
   map.connect '/traces/mine/page/:page', :controller => 'trace', :action => 'mine'
   map.connect '/traces/mine/tag/:tag', :controller => 'trace', :action => 'mine'
   map.connect '/traces/mine/tag/:tag/page/:page', :controller => 'trace', :action => 'mine'
-  map.connect '/traces/rss', :controller => 'trace', :action => 'georss'
-  map.connect '/user/:display_name/traces', :controller => 'trace', :action => 'list', :id => nil
-  map.connect '/user/:display_name/traces/page/:page', :controller => 'trace', :action => 'list', :id => nil
-  map.connect '/user/:display_name/traces/:id', :controller => 'trace', :action => 'view', :id => nil
-  map.connect '/user/:display_name/traces/:id/picture', :controller => 'trace', :action => 'picture', :id => nil
-  map.connect '/user/:display_name/traces/:id/icon', :controller => 'trace', :action => 'icon', :id => nil
-  map.connect '/traces/tag/:tag', :controller => 'trace', :action => 'list', :id => nil
-  map.connect '/traces/tag/:tag/page/:page', :controller => 'trace', :action => 'list', :id => nil
+  map.connect '/trace/create', :controller => 'trace', :action => 'create'
+  map.connect '/user/:display_name/traces', :controller => 'trace', :action => 'list'
+  map.connect '/user/:display_name/traces/page/:page', :controller => 'trace', :action => 'list'
+  map.connect '/user/:display_name/traces/rss', :controller => 'trace', :action => 'georss'
+  map.connect '/user/:display_name/traces/tag/:tag', :controller => 'trace', :action => 'list'
+  map.connect '/user/:display_name/traces/tag/:tag/page/:page', :controller => 'trace', :action => 'list'
+  map.connect '/user/:display_name/traces/tag/:tag/rss', :controller => 'trace', :action => 'georss'
+  map.connect '/user/:display_name/traces/:id', :controller => 'trace', :action => 'view'
+  map.connect '/user/:display_name/traces/:id/picture', :controller => 'trace', :action => 'picture'
+  map.connect '/user/:display_name/traces/:id/icon', :controller => 'trace', :action => 'icon'
 
   # user pages
   map.connect '/user/:display_name/make_friend', :controller => 'user', :action => 'make_friend'

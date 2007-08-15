@@ -1,18 +1,4 @@
-<h1>Your GPS Traces</h1>
-
-<% if @tag %>
- Traces filtered by tag <b><%= @tag %></b>
- <br/><br/>
-<% end %>
-<%= link_to 'See all traces', {:controller => 'trace', :action => 'list'} %>
-<% if @tag %>
-  | <%= link_to 'See all your traces', {:controller => 'trace', :action => 'mine'} %>
-<% end %>
-
-<br />
-<br />
-
-<% if @user %>
+<%= render :partial => 'trace_header' %>
 
 <% form_tag({:action => 'create'}, :multipart => true) do %>
 <table>
@@ -28,5 +14,3 @@
 <% end %>
 
 <%= render :partial => 'trace_list' %>
-
-<% end %>
