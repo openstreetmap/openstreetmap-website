@@ -296,7 +296,7 @@ module OSM
       image = XML::Node.new 'image'
       @channel << image
       url = XML::Node.new 'url'
-      url << 'http://www.openstreetmap.org/feeds/mag_map-rss2.0.png'
+      url << 'http://www.openstreetmap.org/images/mag_map-rss2.0.png'
       image << url
       title = XML::Node.new 'title'
       title << "OpenStreetMap"
