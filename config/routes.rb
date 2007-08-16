@@ -37,7 +37,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect "api/#{API_VERSION}/user/details", :controller => 'user', :action => 'api_details'
   map.connect "api/#{API_VERSION}/user/gpx_files", :controller => 'user', :action => 'api_gpx_files'
  
-  map.connect "api/#{API_VERSION}/gpx/create/:filename/:description/:tags", :controller => 'trace', :action => 'api_create'
+  map.connect "api/#{API_VERSION}/gpx/create", :controller => 'trace', :action => 'api_create'
   map.connect "api/#{API_VERSION}/gpx/:id/details", :controller => 'trace', :action => 'api_details'
   map.connect "api/#{API_VERSION}/gpx/:id/data", :controller => 'trace', :action => 'api_data'
   

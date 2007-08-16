@@ -3,6 +3,7 @@ class Trace < ActiveRecord::Base
 
   validates_presence_of :user_id, :name, :timestamp
   validates_presence_of :description, :on => :create
+  validates_format_of :tagstring, :with => /^[^\/;.,?]*$/
 #  validates_numericality_of :latitude, :longitude
   validates_inclusion_of :public, :inserted, :in => [ true, false]
   

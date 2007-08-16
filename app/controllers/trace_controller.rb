@@ -151,66 +151,70 @@ class TraceController < ApplicationController
   end
 
   def picture
-    begin
-      trace = Trace.find(params[:id])
+    trace = Trace.find(params[:id])
 
-      if trace.public? or (@user and @user == trace.user)
-        send_file(trace.large_picture_name, :filename => "#{trace.id}.gif", :type => 'image/gif', :disposition => 'inline')
-      else
-        render :nothing, :status => :forbidden
-      end
-    rescue ActiveRecord::RecordNotFound
-      render :nothing => true, :status => :not_found
-    rescue
-      render :nothing => true, :status => :internal_server_error
+    if trace.public? or (@user and @user == trace.user)
+      send_file(trace.large_picture_name, :filename => "#{trace.id}.gif", :type => 'image/gif', :disposition => 'inline')
+    else
+      render :nothing, :status => :forbidden
     end
+  rescue ActiveRecord::RecordNotFound
+    render :nothing => true, :status => :not_found
   end
 
   def icon
-    begin
-      trace = Trace.find(params[:id])
+    trace = Trace.find(params[:id])
 
-      if trace.public? or (@user and @user == trace.user)
-        send_file(trace.icon_picture_name, :filename => "#{trace.id}_icon.gif", :type => 'image/gif', :disposition => 'inline')
-      else
-        render :nothing, :status => :forbidden
-      end
-    rescue ActiveRecord::RecordNotFound
-      render :nothing => true, :status => :not_found
-    rescue
-      render :nothing => true, :status => :internal_server_error
+    if trace.public? or (@user and @user == trace.user)
+      send_file(trace.icon_picture_name, :filename => "#{trace.id}_icon.gif", :type => 'image/gif', :disposition => 'inline')
+    else
+      render :nothing, :status => :forbidden
     end
+  rescue ActiveRecord::RecordNotFound
+    render :nothing => true, :status => :not_found
   end
 
   def api_details
-    begin
-      trace = Trace.find(params[:id])
+    trace = Trace.find(params[:id])
 
-      if trace.public? or trace.user == @user
-        render :text => trace.to_xml.to_s, :content_type => "text/xml"
-      else
-        render :nothing => true, :status => :forbidden
-      end
-    rescue ActiveRecord::RecordNotFound
-      render :nothing => true, :status => :not_found
-    rescue
-      render :nothing => true, :status => :internal_server_error
+    if trace.public? or trace.user == @user
+      render :text => trace.to_xml.to_s, :content_type => "text/xml"
+    else
+      render :nothing => true, :status => :forbidden
     end
+  rescue ActiveRecord::RecordNotFound
+    render :nothing => true, :status => :not_found
   end
 
   def api_data
-    render :action => 'data'
+    trace = Trace.find(params[:id])
+
+    if trace.public? or trace.user == @user
+      send_file(trace.trace_name, :filename => "#{trace.id}#{trace.extension_name}", :type => trace.mime_type, :disposition => 'attachment')
+    else
+      render :nothing => true, :status => :forbidden
+    end
+  rescue ActiveRecord::RecordNotFound
+    render :nothing => true, :status => :not_found
   end
 
   def api_create
-    do_create(params[:filename], params[:tags], params[:description], true) do |f|
-      f.write(request.raw_post)
-    end
+    if request.post?
+      name = params[:file].original_filename.gsub(/[^a-zA-Z0-9.]/, '_') # This makes sure filenames are sane
 
-    if @trace.id
-      render :nothing => true
+      do_create(name, params[:tags], params[:description], params[:public]) do |f|
+        f.write(request[:file].read)
+      end
+
+      if @trace.id
+        render :text => @trace.id.to_s, :content_type => "text/plain"
+      elsif @trace.valid?
+        render :nothing => true, :status => :internal_server_error
+      else
+        render :nothing => true, :status => :bad_request
+      end
     else
-      render :nothing => true, :status => :internal_server_error
+      render :nothing => true, :status => :method_not_allowed
     end
   end
 
