@@ -9,6 +9,9 @@ class ApplicationController < ActionController::Base
       @user = User.authenticate(:token => session[:token])
       session[:user] = @user.id
     end
+  rescue Exception => ex
+    logger.info("Exception authorizing user: #{ex.to_s}")
+    @user = nil
   end
 
   def require_user
