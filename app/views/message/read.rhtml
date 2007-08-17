@@ -24,6 +24,7 @@
 <table>
   <tr>
     <td><%= button_to 'Reply', :controller => 'message', :action => 'new', :user_id => @message.from_user_id %></td>
-    <td><%= button_to 'Mark as read', :controller => 'message', :action => 'mark', :message_id => @message.id %></td>
+    <td><%= button_to 'Mark as unread', :controller => 'message', :action => 'mark', :message_id => @message.id, :mark => 'unread' %></td>
+    <td><%= link_to 'Back to inbox', :controller => 'message', :action => 'inbox', :display_name => @user.display_name %></td>
   </tr>
 </table>

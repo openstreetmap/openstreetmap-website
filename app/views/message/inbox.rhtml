@@ -2,7 +2,7 @@
 
 <p>You have <%= @user.new_messages.size %> new messages and <%= @user.messages.size -  @user.new_messages.size %> old messages</p> 
 
-<% if (params[:all] and @user.messages.size > 0) or (@user.new_messages.size > 0) %>
+<% if @user.messages.size > 0 %>
   <div id="messages">
     <table class="messages">
       <tr>
@@ -12,19 +12,9 @@
         <th></th>
         <th></th>
       </tr>
-      <% if params[:all] %>
-        <%= render :partial => "message_summary", :collection => @user.messages %>
-      <% else %>
-        <%= render :partial => "message_summary", :collection => @user.new_messages %>
-      <% end %>
+      <%= render :partial => "message_summary", :collection => @user.messages %>
     </table>
   </div>
-<% end %>
-
-<br />
-
-<% if params[:all] %>
-  <%= link_to 'Show new messages', :controller => 'message', :action => 'inbox', :display_name => @user.display_name %>
 <% else %>
-  <%= link_to 'Show all messages', :controller => 'message', :action => 'inbox', :display_name => @user.display_name, :all => true %>
+	  <div id="messages">You have no messages yet. Why not get in touch with some of the <%= link_to 'people mapping nearby', :controller => 'user', :action => 'view', :display_name => @user.display_name %>?</div>
 <% end %>

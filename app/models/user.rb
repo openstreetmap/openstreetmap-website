@@ -3,8 +3,8 @@ class User < ActiveRecord::Base
 
   has_many :traces
   has_many :diary_entries, :order => 'created_at DESC'
-  has_many :messages, :foreign_key => :to_user_id
-  has_many :new_messages, :class_name => "Message", :foreign_key => :to_user_id, :conditions => "message_read = 0"
+  has_many :messages, :foreign_key => :to_user_id, :order => 'sent_on DESC'
+  has_many :new_messages, :class_name => "Message", :foreign_key => :to_user_id, :conditions => "message_read = 0", :order => 'sent_on DESC'
   has_many :friends
   has_many :tokens, :class_name => "UserToken"
   has_many :preferences, :class_name => "UserPreference"

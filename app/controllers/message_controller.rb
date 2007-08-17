@@ -32,6 +32,8 @@ class MessageController < ApplicationController
     if params[:message_id]
       id = params[:message_id]
       @message = Message.find_by_id(id)
+      @message.message_read = 1
+      @message.save
     end
   end
 
@@ -47,9 +49,16 @@ class MessageController < ApplicationController
     if params[:message_id]
       id = params[:message_id]
       message = Message.find_by_id(id)
-      message.message_read = 1
+      if params[:mark] == 'unread'
+        message_read = 0 
+        mark_type = 'unread'
+      else
+        message_read = 1
+        mark_type = 'read'
+      end
+      message.message_read = message_read
       if message.save
-        flash[:notice] = 'Message marked as read'
+        flash[:notice] = "Message marked as #{mark_type}"
         redirect_to :controller => 'message', :action => 'inbox', :display_name => @user.display_name
       end
     end

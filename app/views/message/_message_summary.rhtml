@@ -1,11 +1,13 @@
 <tr>
   <td><%= link_to message_summary.sender.display_name , :controller => 'user', :action => message_summary.sender.display_name %></td>
-  <td><%= link_to  message_summary.title , :controller => 'message', :action => 'read', :message_id => message_summary.id  %></td>
+  <td><%= "<b>" if not message_summary.message_read? %>
+      <%= link_to  message_summary.title , :controller => 'message', :action => 'read', :message_id => message_summary.id  %>
+      <%= "</b>" if not message_summary.message_read? %></td>
   <td><%= message_summary.sent_on %></td>
   <% if message_summary.message_read? %>
-    <td>Message read</td>
+    <td><%= button_to 'Mark as unread', :controller => 'message', :action => 'mark', :message_id => message_summary.id, :mark => 'unread' %></td>
   <% else %>
-    <td><%= button_to 'Mark as read', :controller => 'message', :action => 'mark', :message_id => message_summary.id %> </td>
+    <td><%= button_to 'Mark as read', :controller => 'message', :action => 'mark', :message_id => message_summary.id, :mark => 'read' %></td>
   <% end %>
-  <td><%= button_to 'Reply', :controller => 'message', :action => 'new', :user_id => message_summary.from_user_id %> </td>
+  <td><%= button_to 'Reply', :controller => 'message', :action => 'new', :user_id => message_summary.from_user_id %></td>
 </tr>
