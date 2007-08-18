@@ -203,7 +203,7 @@ class TraceController < ApplicationController
       name = params[:file].original_filename.gsub(/[^a-zA-Z0-9.]/, '_') # This makes sure filenames are sane
 
       do_create(name, params[:tags], params[:description], params[:public]) do |f|
-        f.write(request[:file].read)
+        f.write(params[:file].read)
       end
 
       if @trace.id
