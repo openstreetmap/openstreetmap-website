@@ -211,7 +211,7 @@ class Trace < ActiveRecord::Base
         self.icon_picture = gpx.get_icon(min_lat, min_lon, max_lat, max_lon)
         self.size = gpx.actual_points
         self.inserted = true
-        self.save
+        self.save!
       end
 
       logger.info "done trace #{id}"
