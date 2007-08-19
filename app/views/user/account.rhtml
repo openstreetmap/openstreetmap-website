@@ -1,16 +1,16 @@
 <h2>User details</h2>
 <%= error_messages_for 'user' %>
-<% form_tag :controller => 'user', :action => 'account', :display_name => @user.display_name do %>
+<% form_for :user, @user do |f| %>
 <table style="width : 100%">
   <tr><td>Email</td><td><%= @user.email %></td></tr>
   <tr><td>Mapper since</td><td><%= @user.creation_time %> (<%= time_ago_in_words(@user.creation_time) %> ago)</td></tr>
-  <tr><td>Display Name</td><td><%= text_field :user, :display_name, :value => @user.display_name %></td></tr>
-  <tr><td>Password</td><td><%= password_field('user', 'pass_crypt',{:value => '', :size => 50, :maxlength => 255}) %></td></tr>
-  <tr><td>Confirm Password</td><td><%= password_field('user', 'pass_crypt_confirmation',{:value => '', :size => 50, :maxlength => 255}) %></td></tr>
+  <tr><td>Display Name</td><td><%= f.text_field :display_name %></td></tr>
+  <tr><td>Password</td><td><%= f.password_field :pass_crypt, {:value => '', :size => 50, :maxlength => 255} %></td></tr>
+  <tr><td>Confirm Password</td><td><%= f.password_field :pass_crypt_confirmation, {:value => '', :size => 50, :maxlength => 255} %></td></tr>
 
-  <tr><td valign="top">Description</td><td><%= text_area :user, :description, :value => @user.description, :class => "editDescription" %></td></tr>
+  <tr><td valign="top">Description</td><td><%= f.text_area :description, :class => "editDescription" %></td></tr>
 
-  <tr id="homerow" <% unless @user.home_lat and @user.home_lon %> class="nohome" <%end%> ><td>Your home</td><td><em class="message">You have not entered your home location.</em><span class="location">Latitude: <%= text_field :user, :home_lat, :value => @user.home_lat, :size => 20, :id => "home_lat" %> Longitude <%= text_field :user, :home_lon, :value => @user.home_lon, :size => 20, :id => "home_lon" %></span>  </td></tr>
+  <tr id="homerow" <% unless @user.home_lat and @user.home_lon %> class="nohome" <%end%> ><td>Your home</td><td><em class="message">You have not entered your home location.</em><span class="location">Latitude: <%= f.text_field :home_lat, :size => 20, :id => "home_lat" %> Longitude <%= f.text_field :home_lon, :size => 20, :id => "home_lon" %></span></td></tr>
 
   <tr><td></td><td>
   <p>Update home location when I click on the map? <input type="checkbox" value="1" <% unless @user.home_lat and @user.home_lon %> checked="checked" <% end %> id="updatehome" /> </p>
@@ -112,7 +112,5 @@
 <% else %>
   Currently your edits are anonymous and people can't find out where you are located. To show what you edited and allow people to contact you through the website, click the button below. This action cannot be reversed.
   <br /><br />
-  <% form_tag :controller => 'user', :action => 'go_public' do %>
-  <%= submit_tag 'Make all my edits public, forever' %>
-  <% end %>
+  <%= button_to "Make all my edits public, forever", :action => :go_public %>
 <% end %>

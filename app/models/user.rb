@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
   has_many :tokens, :class_name => "UserToken"
   has_many :preferences, :class_name => "UserPreference"
 
+  validates_presence_of :email, :display_name
   validates_confirmation_of :pass_crypt, :message => 'Password must match the confirmation password'
   validates_uniqueness_of :display_name, :allow_nil => true
   validates_uniqueness_of :email
@@ -16,6 +17,9 @@ class User < ActiveRecord::Base
   validates_length_of :display_name, :minimum => 3, :allow_nil => true
   validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
   validates_format_of :display_name, :with => /^[^\/;.,?]*$/
+  validates_numericality_of :home_lat, :allow_nil => true
+  validates_numericality_of :home_lon, :allow_nil => true
+  validates_numericality_of :home_zoom, :only_integer => true, :allow_nil => true
 
   before_save :encrypt_password
 
