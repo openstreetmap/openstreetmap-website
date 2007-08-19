@@ -58,6 +58,13 @@ class User < ActiveRecord::Base
     el1 = XML::Node.new 'user'
     el1['display_name'] = self.display_name.to_s
     el1['account_created'] = self.creation_time.xmlschema
+    if self.home_lat and self.home_lon
+      home = XML::Node.new 'home'
+      home['lat'] = self.home_lat.to_s
+      home['lon'] = self.home_lon.to_s
+      home['zoom'] = self.home_zoom.to_s
+      el1 << home
+    end
     return el1
   end
 
