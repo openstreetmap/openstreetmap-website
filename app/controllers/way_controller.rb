@@ -142,7 +142,11 @@ class WayController < ApplicationController
   end
 
   def ways
-    ids = params['ways'].split(',').collect { |w| w.to_i }
+    begin
+      ids = params['ways'].split(',').collect { |w| w.to_i }
+    rescue
+      ids = []
+    end
 
     if ids.length > 0
       doc = OSM::API.new.get_xml_doc

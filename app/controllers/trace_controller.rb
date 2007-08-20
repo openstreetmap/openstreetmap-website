@@ -108,11 +108,14 @@ class TraceController < ApplicationController
 
   def data
     trace = Trace.find(params[:id])
-    if trace and (trace.public? or (@user and @user == trace.user))
+
+    if trace.public? or (@user and @user == trace.user)
       send_file(trace.trace_name, :filename => "#{trace.id}#{trace.extension_name}", :type => trace.mime_type, :disposition => 'attachment')
     else
       render :nothing, :status => :not_found
     end
+  rescue ActiveRecord::RecordNotFound
+    render :nothing => true, :status => :not_found
   end
 
   def make_public
@@ -153,10 +156,14 @@ class TraceController < ApplicationController
   def picture
     trace = Trace.find(params[:id])
 
-    if trace.public? or (@user and @user == trace.user)
-      send_file(trace.large_picture_name, :filename => "#{trace.id}.gif", :type => 'image/gif', :disposition => 'inline')
+    if trace.inserted?
+      if trace.public? or (@user and @user == trace.user)
+        send_file(trace.large_picture_name, :filename => "#{trace.id}.gif", :type => 'image/gif', :disposition => 'inline')
+      else
+        render :nothing, :status => :forbidden
+      end
     else
-      render :nothing, :status => :forbidden
+      render :nothing => true, :status => :not_found
     end
   rescue ActiveRecord::RecordNotFound
     render :nothing => true, :status => :not_found
@@ -165,10 +172,14 @@ class TraceController < ApplicationController
   def icon
     trace = Trace.find(params[:id])
 
-    if trace.public? or (@user and @user == trace.user)
-      send_file(trace.icon_picture_name, :filename => "#{trace.id}_icon.gif", :type => 'image/gif', :disposition => 'inline')
+    if trace.inserted?
+      if trace.public? or (@user and @user == trace.user)
+        send_file(trace.icon_picture_name, :filename => "#{trace.id}_icon.gif", :type => 'image/gif', :disposition => 'inline')
+      else
+        render :nothing, :status => :forbidden
+      end
     else
-      render :nothing, :status => :forbidden
+      render :nothing => true, :status => :not_found
     end
   rescue ActiveRecord::RecordNotFound
     render :nothing => true, :status => :not_found
