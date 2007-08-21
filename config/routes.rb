@@ -25,6 +25,8 @@ ActionController::Routing::Routes.draw do |map|
   map.connect "api/#{API_VERSION}/way/:id", :controller => 'way', :action => 'delete', :id => /\d+/, :conditions => { :method => :delete }
   map.connect "api/#{API_VERSION}/ways", :controller => 'way', :action => 'ways', :id => nil
 
+  map.connect "api/#{API_VERSION}/capabilities", :controller => 'api', :action => 'capabilities'
+
   map.connect "api/#{API_VERSION}/map", :controller => 'api', :action => 'map'
   
   map.connect "api/#{API_VERSION}/trackpoints", :controller => 'api', :action => 'trackpoints'

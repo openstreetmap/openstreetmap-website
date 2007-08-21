@@ -244,6 +244,22 @@ class ApiController < ApplicationController
       
       exit!
     end
+  end
 
+  def capabilities
+    doc = OSM::API.new.get_xml_doc
+
+    api = XML::Node.new 'api'
+    version = XML::Node.new 'version'
+    version['minimum'] = '0.4';
+    version['maximum'] = '0.4';
+    api << version
+    area = XML::Node.new 'area'
+    area['maximum'] = MAX_REQUEST_AREA.to_s;
+    api << area
+    
+    doc.root << api
+
+    render :text => doc.to_s, :content_type => "text/xml"
   end
 end
