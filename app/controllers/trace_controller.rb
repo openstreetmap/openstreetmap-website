@@ -48,6 +48,8 @@ class TraceController < ApplicationController
       conditions << @tag
     end
     
+    conditions[0] += " AND gpx_files.visible = 1"
+
     @trace_pages, @traces = paginate(:traces,
                                      :include => [:user, :tags],
                                      :conditions => conditions,
@@ -82,10 +84,10 @@ class TraceController < ApplicationController
   def view
     @trace = Trace.find(params[:id])
     @title = "Viewing trace #{@trace.name}"
-    unless @trace.public
-      if @user
-        render :nothing, :status => :forbidden if @trace.user.id != @user.id
-      end
+    if !@trace.visible?
+      render :nothing => true, :status => :not_found
+    elsif !@trace.public? and @trace.user.id != @user.id
+      render :nothing => true, :status => :forbidden
     end
   rescue ActiveRecord::RecordNotFound
     render :nothing => true, :status => :not_found
@@ -109,7 +111,7 @@ class TraceController < ApplicationController
   def data
     trace = Trace.find(params[:id])
 
-    if trace.public? or (@user and @user == trace.user)
+    if trace.visible? and (trace.public? or (@user and @user == trace.user))
       send_file(trace.trace_name, :filename => "#{trace.id}#{trace.extension_name}", :type => trace.mime_type, :disposition => 'attachment')
     else
       render :nothing, :status => :not_found
@@ -118,14 +120,42 @@ class TraceController < ApplicationController
     render :nothing => true, :status => :not_found
   end
 
+  def delete
+    trace = Trace.find(params[:id])
+
+    if @user and trace.user == @user
+      if request.post? and trace.visible?
+        trace.visible = false
+        trace.save
+        flash[:notice] = 'Track scheduled for deletion'
+        redirect_to :controller => 'traces', :action => 'mine'
+      else
+        render :nothing, :status => :bad_request
+      end
+    else
+      render :nothing, :status => :forbidden
+    end
+  rescue ActiveRecord::RecordNotFound
+    render :nothing => true, :status => :not_found
+  end
+
   def make_public
     trace = Trace.find(params[:id])
-    if @user and trace.user == @user and !trace.public
-      trace.public = true
-      trace.save
-      flash[:notice] = 'Track made public'
-      redirect_to :controller => 'trace', :action => 'view', :id => params[:id]
+
+    if @user and trace.user == @user
+      if request.post? and !trace.public?
+        trace.public = true
+        trace.save
+        flash[:notice] = 'Track made public'
+        redirect_to :controller => 'trace', :action => 'view', :id => params[:id]
+      else
+        render :nothing, :status => :bad_request
+      end
+    else
+      render :nothing, :status => :forbidden
     end
+  rescue ActiveRecord::RecordNotFound
+    render :nothing => true, :status => :not_found
   end
 
   def georss

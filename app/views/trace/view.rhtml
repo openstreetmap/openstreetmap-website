@@ -3,26 +3,54 @@
 <img src="<%= url_for :controller => 'trace', :action => 'picture', :id => @trace.id, :display_name => @trace.user.display_name %>">
 
 <table border="0">
-  <tr><td>filename:</td><td><%= @trace.name %> (<%= link_to 'download', :controller => 'trace', :action => 'data', :id => @trace.id %>)</td></tr> <!-- TODO link to download -->
-  <tr><td>uploaded at:</td><td><%= @trace.timestamp %></td></tr>
+  <tr>
+    <td>Filename:</td>
+    <td><%= @trace.name %> (<%= link_to 'download', :controller => 'trace', :action => 'data', :id => @trace.id %>)</td>
+  </tr> 
+  <tr>
+    <td>Uploaded at:</td>
+    <td><%= @trace.timestamp %></td>
+  </tr>
   <% if @trace.inserted? %>
-    <tr><td>points:</td><td><%= @trace.size.to_s.gsub(/(\d)(?=(\d{3})+$)/,'\1,') %></td></tr>
-    <tr><td>start coordinate:</td><td><%= @trace.latitude %>, <%= @trace.longitude %> (<%=link_to 'map', :controller => 'site', :action => 'index', :lat => @trace.latitude, :lon => @trace.longitude, :zoom => 14 %> / <%=link_to 'edit', :controller => 'site', :action => 'edit', :lat => @trace.latitude, :lon => @trace.longitude, :zoom => 14 %>)</td></tr>
+  <tr>
+    <td>Points:</td>
+    <td><%= @trace.size.to_s.gsub(/(\d)(?=(\d{3})+$)/,'\1,') %></td></tr>
+  <tr>
+    <td>Start coordinate:</td>
+    <td><%= @trace.latitude %>, <%= @trace.longitude %> (<%=link_to 'map', :controller => 'site', :action => 'index', :lat => @trace.latitude, :lon => @trace.longitude, :zoom => 14 %> / <%=link_to 'edit', :controller => 'site', :action => 'edit', :lat => @trace.latitude, :lon => @trace.longitude, :zoom => 14 %>)</td>
+  </tr>
   <% end %>
-  <tr><td>owner:</td><td><%= link_to @trace.user.display_name, {:controller => 'trace', :action => 'view', :display_name => @trace.user.display_name, :id => nil} %></td></tr>
-  <tr><td>description:</td><td><%= @trace.description %></td></tr>
-  <tr><td>tags:</td><td>
+  <tr>
+    <td>Owner:</td>
+    <td><%= link_to @trace.user.display_name, {:controller => 'trace', :action => 'view', :display_name => @trace.user.display_name} %></td>
+  </tr>
+  <tr>
+    <td>Description:</td>
+    <td><%= @trace.description %></td>
+  </tr>
+  <tr>
+    <td>Tags:</td>
+    <td>
     <% if @trace.tags %>
       <% @trace.tags.each do |tag| %>
         <%= link_to tag.tag, { :controller => 'trace', :action => 'list', :tag => tag.tag, :id => nil } %>
       <% end %>
+    <% else %>
+      None
     <% end %>
-  </td></tr>
+    </td>
+  </tr>
 </table>
 
-<% unless @trace.public? %>
-  <br /><br />
-  <%= start_form_tag :controller => 'trace', :action => 'make_public', :id => @trace.id%>
-  <%= submit_tag 'Make this track public permanently' %>
-  <%= end_form_tag %>
-<% end %>
+<br /><br />
+
+<table>
+  <tr>
+    <% unless @trace.public? %>
+    <td><%= button_to 'Make this track public permanently', :controller => 'trace', :action => 'make_public', :id => @trace.id %></td>
+    <% end %>
+    <% if @trace.user.id == @user.id %>
+    <td><%= button_to 'Delete this track', :controller => 'trace', :action => 'delete', :id => @trace.id %></td>
+    <% end %>
+  </tr>
+</table>

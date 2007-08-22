@@ -12,7 +12,7 @@ logger = ActiveRecord::Base.logger
 while(true) do
   ActiveRecord::Base.logger.info("GPX Import daemon wake @ #{Time.now}.")
 
-  Trace.find(:all, :conditions => ['inserted = ?', false]).each do |trace|
+  Trace.find(:all, :conditions => 'inserted = 0').each do |trace|
     Signal.trap("TERM") do 
       terminated = true
     end
@@ -31,6 +31,23 @@ while(true) do
       ex.backtrace.each {|l| logger.info l }
       trace.destroy
       Notifier::deliver_gpx_failure(trace, ex.to_s + "\n" + ex.backtrace.join("\n"))
+    end
+
+    Signal.trap("TERM", "DEFAULT")
+
+    exit if terminated
+  end
+
+  Trace.find(:all, :conditions => 'visible = 0').each do |trace|
+    Signal.trap("TERM") do 
+      terminated = true
+    end
+
+    begin
+      trace.destroy
+    rescue Exception => ex
+      logger.info ex.to_s
+      ex.backtrace.each {|l| logger.info l }
     end
 
     Signal.trap("TERM", "DEFAULT")
