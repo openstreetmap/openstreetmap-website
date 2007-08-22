@@ -29,12 +29,11 @@ class MessageController < ApplicationController
 
   def read
     @title = 'read message'
-    if params[:message_id]
-      id = params[:message_id]
-      @message = Message.find_by_id(id)
-      @message.message_read = 1
-      @message.save
-    end
+    @message = Message.find(params[:message_id], :conditions => ["to_user_id = ?", @user.id])
+    @message.message_read = 1
+    @message.save
+  rescue ActiveRecord::RecordNotFound
+    render :none, :status => :not_found
   end
 
   def inbox
