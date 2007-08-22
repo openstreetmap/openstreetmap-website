@@ -33,7 +33,7 @@ class MessageController < ApplicationController
     @message.message_read = 1
     @message.save
   rescue ActiveRecord::RecordNotFound
-    render :none, :status => :not_found
+    render :nothing => true, :status => :not_found
   end
 
   def inbox
