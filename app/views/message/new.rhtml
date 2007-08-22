@@ -9,10 +9,21 @@
 
 <%= error_messages_for 'message' %>
 
-<% form_tag :controller => 'message', :action => 'new' do %>
-subject: <%= text_field 'message', 'title' %><br>
-body: <%= text_area 'message', 'body' %><br>
-  <%= submit_tag 'Send' %>
+<% form_for :message do |f| %>
+  <table>
+    <tr valign="top">
+      <th>Subject</th>
+      <td><%= f.text_field :title, :size => 60 %></td>
+    </tr>
+    <tr valign="top">
+      <th>Body</th>
+      <td><%= f.text_area :body, :cols => 80 %></td>
+    </tr>
+    <tr>
+      <th></th>
+      <td><%= f.submit_tag 'Send' %></td>
+    </tr>
+  </table>
 <% end %>
 
 <br />
