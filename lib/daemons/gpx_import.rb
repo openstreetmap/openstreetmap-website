@@ -12,7 +12,7 @@ logger = ActiveRecord::Base.logger
 while(true) do
   ActiveRecord::Base.logger.info("GPX Import daemon wake @ #{Time.now}.")
 
-  Trace.find(:all, :conditions => 'inserted = 0').each do |trace|
+  Trace.find(:all, :conditions => 'inserted = 0 and visible = 1').each do |trace|
     Signal.trap("TERM") do 
       terminated = true
     end
