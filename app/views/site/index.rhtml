@@ -1,5 +1,5 @@
 <% content_for :greeting do %>
-<% if !@user.home_lon.nil? and !@user.home_lat.nil? %>
+<% if @user and !@user.home_lon.nil? and !@user.home_lat.nil? %>
 <%= link_to_function 'home', "setPosition(#{@user.home_lat}, #{@user.home_lon}, 10)" %> |
 <% end %>
 <% end %>
