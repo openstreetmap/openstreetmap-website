@@ -4,18 +4,30 @@ class GeocoderController < ApplicationController
   require 'rexml/document'
 
   def search
-    @query = params[:query]
-    @results = Array.new
+    query = params[:query]
+    results = Array.new
 
-    if @query.match(/^\d{5}(-\d{4})?$/)
-      @results.push search_us_postcode(@query)
-    elsif @query.match(/(GIR 0AA|[A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]|[A-HK-Y][0-9]([0-9]|[ABEHMNPRV-Y]))|[0-9][A-HJKS-UW])\s*[0-9][ABD-HJLNP-UW-Z]{2})/i)
-      @results.push search_uk_postcode(@query)
-    elsif @query.match(/[A-Z]\d[A-Z]\s*\d[A-Z]\d/i)
-      @results.push search_ca_postcode(@query)
+    if query.match(/^\d{5}(-\d{4})?$/)
+      results.push search_us_postcode(query)
+    elsif query.match(/(GIR 0AA|[A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]|[A-HK-Y][0-9]([0-9]|[ABEHMNPRV-Y]))|[0-9][A-HJKS-UW])\s*[0-9][ABD-HJLNP-UW-Z]{2})/i)
+      results.push search_uk_postcode(query)
+    elsif query.match(/[A-Z]\d[A-Z]\s*\d[A-Z]\d/i)
+      results.push search_ca_postcode(query)
     else
-      @results.push search_osm_namefinder(@query)
-      @results.push search_geonames(@query)
+      results.push search_osm_namefinder(query)
+      results.push search_geonames(query)
+    end
+
+    results_count = count_results(results)
+
+    render :update do |page|
+      if results_count == 1
+        position = results.collect { |s| s[:results] }.compact.flatten[0]
+        page.call "setPosition", position[:lat], position[:lon], position[:zoom]
+      else
+        page.replace_html :search_results_content, :partial => 'results', :object => results
+        page.call "openSearchResults"
+      end
     end
   end
 
@@ -161,5 +173,15 @@ private
     return "north" if bearing >= 247.5 and bearing < 292.5
     return "north-west" if bearing >= 292.5 and bearing < 337.5
     return "west"
+  end
+
+  def count_results(results)
+    count = 0
+
+    results.each do |source|
+      count += source[:results].length if source[:results]
+    end
+
+    return count
   end
 end

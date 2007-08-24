@@ -11,9 +11,18 @@
 
 <script type="text/javascript">
 <!--
+  function startSearch() {
+    $("search_field").style.display = "none";
+    $("search_active").style.display = "inline";
+  }
+
+  function endSearch() {
+    $("search_field").style.display = "inline";
+    $("search_active").style.display = "none";
+  }
+
   function openSearchResults() {
     $("search_results").style.display = "block";
-    $("search_results_content").innerHTML = "<p class='search_results_entry'>Searching...</p>";
     <%= onopen %>
   }
 
@@ -23,8 +32,8 @@
   }
 
   <% if params[:query] %>
-  <%= remote_function(:update => :search_results_content, 
-                      :loading => "openSearchResults()",
+  <%= remote_function(:loading => "startSearch()",
+                      :complete => "endSearch()",
                       :url => { :controller => :geocoder, :action => :search, :query => params[:query] }) %>
   <% end %>
 // -->
@@ -33,11 +42,16 @@
 <% content_for "optionals" do %>
   <div class="optionalbox">
     <span class="oboxheader">Search</span>
-    <% form_remote_tag(:update => :search_results_content, 
-                       :loading => "openSearchResults()",
+    <div class="search_form">
+    <span id="search_field">
+    <% form_remote_tag(:loading => "startSearch()",
+                       :complete => "endSearch()",
                        :url => { :controller => :geocoder, :action => :search }) do %>
       <%= text_field_tag :query, params[:query] %>
     <% end %>
+    </span>
+    <p id="search_active">Searching...</p>
+    </div>
     <p class="search_help">
       examples: 'Alkmaar', 'Regent Street, Cambridge', 'CB2 5AQ',
       or 'post offices near Lünen'
