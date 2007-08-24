@@ -41,6 +41,7 @@ class GeocoderController < ApplicationController
     results.push description_osm_namefinder("cities", lat, lon, 2)
     results.push description_osm_namefinder("towns", lat, lon, 4)
     results.push description_osm_namefinder("places", lat, lon, 10)
+    results.push description_geonames(lat, lon)
 
     render :update do |page|
       page.replace_html :search_results_content, :partial => 'results', :object => results
@@ -192,6 +193,24 @@ private
     end
 
     return { :type => types.capitalize, :source => "OpenStreetMap Namefinder", :url => "http://www.frankieandshadow.com/osm/", :results => results }
+  rescue Exception => ex
+    return { :type => types.capitalize, :source => "OpenStreetMap Namefinder", :url => "http://www.frankieandshadow.com/osm/", :error => "Error contacting www.frankieandshadow.com: #{ex.to_s}" }
+  end
+
+  def description_geonames(lat, lon)
+    results = Array.new
+
+    # ask geonames.org
+    response = fetch_xml("http://ws.geonames.org/countrySubdivision?lat=#{lat}&lng=#{lon}")
+
+    # parse the response
+    response.elements.each("geonames/countrySubdivision") do |geoname|
+      name = geoname.get_text("adminName1").to_s
+      country = geoname.get_text("countryName").to_s
+      results.push({:prefix => "#{name}, #{country}"})
+    end
+
+    return { :type => "Location", :source => "GeoNames", :url => "http://www.geonames.org/", :results => results }
   rescue Exception => ex
     return { :type => types.capitalize, :source => "OpenStreetMap Namefinder", :url => "http://www.frankieandshadow.com/osm/", :error => "Error contacting www.frankieandshadow.com: #{ex.to_s}" }
   end
