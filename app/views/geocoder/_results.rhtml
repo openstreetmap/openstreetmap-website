@@ -1,5 +1,6 @@
 <% results.each do |source| %>
-<p class="search_results_heading">Results from <%= link_to source[:source], source[:url] %></p>
+<% type = source[:type] || "Results" %>
+<p class="search_results_heading"><%= type %> from <%= link_to source[:source], source[:url] %></p>
 <% if source[:results] %>
 <% if source[:results].empty? %>
 <p class="search_results_entry">No results found</p>

@@ -107,6 +107,7 @@ ActionController::Routing::Routes.draw do |map|
 
   # geocoder
   map.connect '/geocoder/search', :controller => 'geocoder', :action => 'search'
+  map.connect '/geocoder/description', :controller => 'geocoder', :action => 'description'
 
   # messages
 

@@ -12,6 +12,7 @@
 <script type="text/javascript">
 <!--
   function startSearch() {
+    $("search_results_content").innerHTML = "<p class='search_results_entry'>Searching...</p>";
     $("search_field").style.display = "none";
     $("search_active").style.display = "inline";
   }
@@ -31,6 +32,15 @@
     <%= onclose %>
   }
 
+  function describeLocation() {
+    var position = getPosition();
+
+    <%= remote_function(:loading => "startSearch()",
+                        :complete => "endSearch()",
+                        :url => { :controller => :geocoder, :action => :description },
+                        :with => "'lat=' + position.lat + '&lon=' + position.lon") %>
+  }
+
   <% if params[:query] %>
   <%= remote_function(:loading => "startSearch()",
                       :complete => "endSearch()",
@@ -42,6 +52,7 @@
 <% content_for "optionals" do %>
   <div class="optionalbox">
     <span class="oboxheader">Search</span>
+    <span class="whereami"><a href="javascript:describeLocation()">Where am I?</a></span>
     <div class="search_form">
     <span id="search_field">
     <% form_remote_tag(:loading => "startSearch()",

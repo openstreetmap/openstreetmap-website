@@ -21,13 +21,30 @@ class GeocoderController < ApplicationController
     results_count = count_results(results)
 
     render :update do |page|
+      page.replace_html :search_results_content, :partial => 'results', :object => results
+
       if results_count == 1
         position = results.collect { |s| s[:results] }.compact.flatten[0]
         page.call "setPosition", position[:lat], position[:lon], position[:zoom]
       else
-        page.replace_html :search_results_content, :partial => 'results', :object => results
         page.call "openSearchResults"
       end
+    end
+  end
+  
+  def description
+    results = Array.new
+
+    lat = params[:lat]
+    lon = params[:lon]
+
+    results.push description_osm_namefinder("cities", lat, lon, 2)
+    results.push description_osm_namefinder("towns", lat, lon, 4)
+    results.push description_osm_namefinder("places", lat, lon, 10)
+
+    render :update do |page|
+      page.replace_html :search_results_content, :partial => 'results', :object => results
+      page.call "openSearchResults"
     end
   end
 
@@ -149,6 +166,34 @@ private
     return { :source => "GeoNames", :url => "http://www.geonames.org/", :results => results }
   rescue Exception => ex
     return { :source => "GeoNames", :url => "http://www.geonames.org/", :error => "Error contacting ws.geonames.org: #{ex.to_s}" }
+  end
+
+  def description_osm_namefinder(types, lat, lon, max)
+    results = Array.new
+
+    # ask OSM namefinder
+    response = fetch_xml("http://www.frankieandshadow.com/osm/search.xml?find=#{types}+near+#{lat},#{lon}&max=#{max}")
+
+    # parse the response
+    response.elements.each("searchresults/named") do |named|
+      lat = named.attributes["lat"].to_s
+      lon = named.attributes["lon"].to_s
+      zoom = named.attributes["zoom"].to_s
+      place = named.elements["place/named"] || named.elements["nearestplaces/named"]
+      type = named.attributes["info"].to_s
+      name = named.attributes["name"].to_s
+      description = named.elements["description"].to_s
+      distance = format_distance(place.attributes["approxdistance"].to_i)
+      direction = format_direction(360 - place.attributes["direction"].to_i)
+      prefix = "#{distance} #{direction} of #{type} "
+      results.push({:lat => lat, :lon => lon, :zoom => zoom,
+                    :prefix => prefix.capitalize, :name => name,
+                    :description => description})
+    end
+
+    return { :type => types.capitalize, :source => "OpenStreetMap Namefinder", :url => "http://www.frankieandshadow.com/osm/", :results => results }
+  rescue Exception => ex
+    return { :type => types.capitalize, :source => "OpenStreetMap Namefinder", :url => "http://www.frankieandshadow.com/osm/", :error => "Error contacting www.frankieandshadow.com: #{ex.to_s}" }
   end
 
   def fetch_text(url)
