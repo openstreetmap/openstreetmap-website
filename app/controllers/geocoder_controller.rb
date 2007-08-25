@@ -185,7 +185,7 @@ private
       name = named.attributes["name"].to_s
       description = named.elements["description"].to_s
       distance = format_distance(place.attributes["approxdistance"].to_i)
-      direction = format_direction(360 - place.attributes["direction"].to_i)
+      direction = format_direction((place.attributes["direction"].to_i - 180) % 360)
       prefix = "#{distance} #{direction} of #{type} "
       results.push({:lat => lat, :lon => lon, :zoom => zoom,
                     :prefix => prefix.capitalize, :name => name,
