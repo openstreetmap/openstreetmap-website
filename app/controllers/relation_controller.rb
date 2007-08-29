@@ -19,8 +19,7 @@ class RelationController < ApplicationController
           if relation.save_with_history
             render :text => relation.id.to_s, :content_type => "text/plain"
           else
-            print "save error\n";
-            render :nothing => true, :status => :internal_server_error
+            render :text => "save error", :status => :internal_server_error
           end
         end
       else
@@ -124,7 +123,7 @@ class RelationController < ApplicationController
         node_ids = segments.collect {|segment| segment.node_a }
         node_ids += segments.collect {|segment| segment.node_b }
         node_ids += [-1]
-        nodes = Node.find(:all, :conditions => "visible = 1 AND id IN (#{node_ids.join(',')})")
+        nodes = Node.find(node_ids, :conditions => "visible = TRUE")
 
         # Render
         doc = OSM::API.new.get_xml_doc
