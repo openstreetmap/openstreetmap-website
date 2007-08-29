@@ -14,7 +14,7 @@ RAILS_GEM_VERSION = '1.2.3'
 require File.join(File.dirname(__FILE__), 'boot')
 
 # Application constants needed for routes.rb - must go before Initializer call
-API_VERSION = ENV['OSM_API_VERSION'] || '0.4'
+API_VERSION = ENV['OSM_API_VERSION'] || '0.5'
 
 # Custom logger class to format messages sensibly
 class OSMLogger < Logger

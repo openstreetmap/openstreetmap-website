@@ -18,7 +18,6 @@ begin
   user_count = User.count(:conditions => "active = true")
   tracepoint_count = Tracepoint.count()
   node_count = Node.count(:conditions => "visible = true")
-  segment_count = Segment.count(:conditions => "visible = true")
   way_count = Way.count(:conditions => "visible = true")
   tagged_way_count = Way.count(:conditions => "visible = true AND EXISTS (SELECT * FROM current_way_tags WHERE id = current_ways.id AND k <> 'created_by')")
 
@@ -26,7 +25,6 @@ begin
   puts "<tr><td>Number of users</td><td>#{user_count}</td></tr>"
   puts "<tr><td>Number of uploaded GPS points</td><td>#{tracepoint_count}</td></tr>"
   puts "<tr><td>Number of nodes</td><td>#{node_count}</td></tr>"
-  puts "<tr><td>Number of segments</td><td>#{segment_count}</td></tr>"
   puts "<tr><td>Number of ways</td><td>#{way_count}</td></tr>"
   puts "<tr><td>Number of ways with tags</td><td>#{tagged_way_count}</td></tr>"
   puts "</table>"

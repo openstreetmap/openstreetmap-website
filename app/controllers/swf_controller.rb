@@ -94,7 +94,7 @@ class SwfController < ApplicationController
 			sql="SELECT cn1.latitude AS lat1,cn1.longitude AS lon1,"+
 				"		cn2.latitude AS lat2,cn2.longitude AS lon2 "+
 				"  FROM current_segments "+
-				"       LEFT OUTER JOIN current_way_segments"+
+				"       LEFT OUTER JOIN current_way_nodes"+
 				"       ON segment_id=current_segments.id,"+
 				"       current_nodes AS cn1,current_nodes AS cn2"+
 				" WHERE (cn1.longitude BETWEEN #{xmin} AND #{xmax})"+

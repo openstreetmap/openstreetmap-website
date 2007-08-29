@@ -5,11 +5,7 @@ require 'way_controller'
 class WayController; def rescue_action(e) raise e end; end
 
 class WayControllerTest < Test::Unit::TestCase
-  fixtures :current_nodes, :nodes, :users, :current_segments, :segments, :ways, :current_ways, :way_tags, :current_way_tags, :way_segments, :current_way_segments
-  set_fixture_class :current_ways => :Way
-  set_fixture_class :ways => :OldWay
-  set_fixture_class :current_segments => :Segment
-  set_fixture_class :segments => :OldSegment
+  api_fixtures
 
   def setup
     @controller = WayController.new
@@ -48,11 +44,12 @@ class WayControllerTest < Test::Unit::TestCase
   # -------------------------------------
 
   def test_create
-    sid = current_segments(:used_segment).id
+    nid1 = current_nodes(:used_node_1).id
+    nid2 = current_nodes(:used_node_2).id
     basic_authorization "test@openstreetmap.org", "test"
 
-    # create a way with pre-existing segment
-    content "<osm><way><seg id='#{sid}'/><tag k='test' v='yes' /></way></osm>"
+    # create a way with pre-existing nodes
+    content "<osm><way><nd id='#{nid1}'/><nd id='#{nid2}'/><tag k='test' v='yes' /></way></osm>"
     put :create
     # hope for success
     assert_response :success, 
@@ -63,10 +60,12 @@ class WayControllerTest < Test::Unit::TestCase
     assert_not_nil checkway, 
         "uploaded way not found in data base after upload"
     # compare values
-    assert_equal checkway.segs.length, 1, 
-        "saved way does not contain exactly one segment"
-    assert_equal checkway.segs[0], sid, 
-        "saved way does not contain the right segment"
+    assert_equal checkway.nds.length, 2, 
+        "saved way does not contain exactly one node"
+    assert_equal checkway.nds[0], nid1, 
+        "saved way does not contain the right node on pos 0"
+    assert_equal checkway.nds[1], nid2, 
+        "saved way does not contain the right node on pos 1"
     assert_equal users(:normal_user).id, checkway.user_id, 
         "saved way does not belong to user that created it"
     assert_equal true, checkway.visible, 
@@ -80,27 +79,19 @@ class WayControllerTest < Test::Unit::TestCase
   def test_create_invalid
     basic_authorization "test@openstreetmap.org", "test"
 
-    # create a way with non-existing segment
-    content "<osm><way><seg id='0'/><tag k='test' v='yes' /></way></osm>"
+    # create a way with non-existing node
+    content "<osm><way><nd id='0'/><tag k='test' v='yes' /></way></osm>"
     put :create
     # expect failure
     assert_response :precondition_failed, 
-        "way upload with invalid segment did not return 'precondition failed'"
+        "way upload with invalid node did not return 'precondition failed'"
 
-    # create a way with no segments
+    # create a way with no nodes
     content "<osm><way><tag k='test' v='yes' /></way></osm>"
     put :create
     # expect failure
     assert_response :precondition_failed, 
-        "way upload with no segments did not return 'precondition failed'"
-
-    # create a way that has the same segment, twice
-    # (commented out - this is currently allowed!)
-    #sid = current_segments(:used_segment).id
-    #content "<osm><way><seg id='#{sid}'/><seg id='#{sid}'/><tag k='test' v='yes' /></way></osm>"
-    #put :create
-    #assert_response :internal_server_error,
-    #    "way upload with double segment did not return 'internal server error'"
+        "way upload with no node did not return 'precondition failed'"
   end
 
   # -------------------------------------

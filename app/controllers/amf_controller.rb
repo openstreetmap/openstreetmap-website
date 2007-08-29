@@ -195,12 +195,12 @@ EOF
 
     RAILS_DEFAULT_LOGGER.info("  Message: whichways, bbox=#{xmin},#{ymin},#{xmax},#{ymax}")
 
-    waylist=WaySegment.find_by_sql("SELECT DISTINCT current_way_segments.id AS wayid"+
-       "  FROM current_way_segments,current_segments,current_nodes,current_ways "+
+    waylist=WayNode.find_by_sql("SELECT DISTINCT current_way_nodes.id AS wayid"+
+       "  FROM current_way_nodes,current_segments,current_nodes,current_ways "+
        " WHERE segment_id=current_segments.id "+
        "   AND current_segments.visible=1 "+
        "   AND node_a=current_nodes.id "+
-	   "   AND current_ways.id=current_way_segments.id "+
+	   "   AND current_ways.id=current_way_nodes.id "+
 	   "   AND current_ways.visible=1 "+
        "   AND (latitude  BETWEEN "+ymin.to_s+" AND "+ymax.to_s+") "+
        "   AND (longitude BETWEEN "+xmin.to_s+" AND "+xmax.to_s+")")
@@ -403,7 +403,7 @@ EOF
     ActiveRecord::Base.connection.execute("DROP TABLE #{db_uqs}")
     ActiveRecord::Base.connection.execute("DROP TABLE #{db_uqn}")
 
-    #		insert new version of route into way_segments
+    #		insert new version of route into way_nodes
 
     insertsql =''
     currentsql=''
@@ -417,9 +417,9 @@ EOF
       sequence  +=1
     end
 
-    ActiveRecord::Base.connection.execute("DELETE FROM current_way_segments WHERE id=#{way}");
-    ActiveRecord::Base.connection.insert("INSERT INTO         way_segments (id,segment_id,version    ) VALUES #{insertsql}");
-    ActiveRecord::Base.connection.insert("INSERT INTO current_way_segments (id,segment_id,sequence_id) VALUES #{currentsql}");
+    ActiveRecord::Base.connection.execute("DELETE FROM current_way_nodes WHERE id=#{way}");
+    ActiveRecord::Base.connection.insert("INSERT INTO         way_nodes (id,segment_id,version    ) VALUES #{insertsql}");
+    ActiveRecord::Base.connection.insert("INSERT INTO current_way_nodes (id,segment_id,sequence_id) VALUES #{currentsql}");
 
     # -- 7. insert new way tags
 
@@ -503,7 +503,7 @@ EOF
 	
 	ActiveRecord::Base.connection.insert("INSERT INTO ways (id,user_id,timestamp,visible) VALUES (#{way},#{uid},#{db_now},0)")
 	ActiveRecord::Base.connection.update("UPDATE current_ways SET user_id=#{uid},timestamp=#{db_now},visible=0 WHERE id=#{way}")
-	ActiveRecord::Base.connection.execute("DELETE FROM current_way_segments WHERE id=#{way}")
+	ActiveRecord::Base.connection.execute("DELETE FROM current_way_nodes WHERE id=#{way}")
 	ActiveRecord::Base.connection.execute("DELETE FROM current_way_tags WHERE id=#{way}")
 	
 	way
@@ -537,7 +537,7 @@ def makeway(args)
 		  FROM current_nodes AS cn1,
 		       current_nodes AS cn2,
 		       current_segments AS cs 
-		       LEFT OUTER JOIN current_way_segments ON segment_id=cs.id 
+		       LEFT OUTER JOIN current_way_nodes ON segment_id=cs.id 
 		 WHERE (cn1.longitude BETWEEN #{xs1} AND #{xs2}) 
 		   AND (cn1.latitude  BETWEEN #{ys1} AND #{ys2}) 
 		   AND segment_id IS NULL 
@@ -603,7 +603,7 @@ def findconnect(id,nodesused,lookfor,toreverse,baselong,basey,masterscale)
 		  FROM current_nodes AS cn1,
 		       current_nodes AS cn2,
 		       current_segments AS cs 
-		       LEFT OUTER JOIN current_way_segments ON segment_id=cs.id 
+		       LEFT OUTER JOIN current_way_nodes ON segment_id=cs.id 
 		 WHERE segment_id IS NULL 
                    AND cs.visible=1
 		   AND cn1.id=node_a AND cn1.visible=1 
@@ -615,7 +615,7 @@ def findconnect(id,nodesused,lookfor,toreverse,baselong,basey,masterscale)
 		  FROM current_nodes AS cn1,
 		       current_nodes AS cn2,
 		       current_segments AS cs 
-		       LEFT OUTER JOIN current_way_segments ON segment_id=cs.id 
+		       LEFT OUTER JOIN current_way_nodes ON segment_id=cs.id 
 		 WHERE segment_id IS NULL 
                    AND cs.visible=1
 		   AND cn1.id=node_a AND cn1.visible=1 
@@ -663,8 +663,8 @@ end
 def readwayquery(id)
   ActiveRecord::Base.connection.select_all "SELECT n1.latitude AS lat1,n1.longitude AS long1,n1.id AS id1,n1.tags as tags1, "+
       "		  n2.latitude AS lat2,n2.longitude AS long2,n2.id AS id2,n2.tags as tags2,segment_id "+
-      "    FROM current_way_segments,current_segments,current_nodes AS n1,current_nodes AS n2 "+
-      "   WHERE current_way_segments.id=#{id} "+
+      "    FROM current_way_nodes,current_segments,current_nodes AS n1,current_nodes AS n2 "+
+      "   WHERE current_way_nodes.id=#{id} "+
       "     AND segment_id=current_segments.id "+
 	  "     AND current_segments.visible=1 "+
       "     AND n1.id=node_a and n2.id=node_b "+
@@ -677,9 +677,9 @@ def createuniquesegments(way,uqs_name,seglist)
   sql=<<-EOF
       CREATE TEMPORARY TABLE #{uqs_name}
               SELECT a.segment_id
-                FROM (SELECT DISTINCT segment_id FROM current_way_segments 
+                FROM (SELECT DISTINCT segment_id FROM current_way_nodes 
                   WHERE id = #{way}) a
-             LEFT JOIN current_way_segments b 
+             LEFT JOIN current_way_nodes b 
                 ON b.segment_id = a.segment_id
                  AND b.id != #{way}
                WHERE b.segment_id IS NULL

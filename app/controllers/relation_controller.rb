@@ -1,24 +1,25 @@
-class WayController < ApplicationController
+class RelationController < ApplicationController
   require 'xml/libxml'
 
-  session :off
   before_filter :authorize, :only => [:create, :update, :delete]
   before_filter :check_availability, :only => [:create, :update, :delete]
+
   after_filter :compress_output
 
   def create
     if request.put?
-      way = Way.from_xml(request.raw_post, true)
+      relation = Relation.from_xml(request.raw_post, true)
 
-      if way
-        if !way.preconditions_ok?
+      if relation
+        if !relation.preconditions_ok?
           render :nothing => true, :status => :precondition_failed
         else
-          way.user_id = @user.id
+          relation.user_id = @user.id
 
-          if way.save_with_history
-            render :text => way.id.to_s, :content_type => "text/plain"
+          if relation.save_with_history
+            render :text => relation.id.to_s, :content_type => "text/plain"
           else
+            print "save error\n";
             render :nothing => true, :status => :internal_server_error
           end
         end
@@ -32,10 +33,10 @@ class WayController < ApplicationController
 
   def read
     begin
-      way = Way.find(params[:id])
+      relation = Relation.find(params[:id])
 
-      if way.visible
-        render :text => way.to_xml.to_s, :content_type => "text/xml"
+      if relation.visible
+        render :text => relation.to_xml.to_s, :content_type => "text/xml"
       else
         render :nothing => true, :status => :gone
       end
@@ -48,21 +49,21 @@ class WayController < ApplicationController
 
   def update
     begin
-      way = Way.find(params[:id])
+      relation = Relation.find(params[:id])
 
-      if way.visible
-        new_way = Way.from_xml(request.raw_post)
+      if relation.visible
+        new_relation = Relation.from_xml(request.raw_post)
 
-        if new_way and new_way.id == way.id
-          if !new_way.preconditions_ok?
+        if new_relation and new_relation.id == relation.id
+          if !new_relation.preconditions_ok?
             render :nothing => true, :status => :precondition_failed
           else
-            way.user_id = @user.id
-            way.tags = new_way.tags
-            way.nds = new_way.nds
-            way.visible = true
+            relation.user_id = @user.id
+            relation.tags = new_relation.tags
+            relation.members = new_relation.members
+            relation.visible = true
 
-            if way.save_with_history
+            if relation.save_with_history
               render :nothing => true
             else
               render :nothing => true, :status => :internal_server_error
@@ -82,19 +83,20 @@ class WayController < ApplicationController
   end
 
   def delete
+#XXX check if member somewhere!
     begin
-      way = Way.find(params[:id])
+      relation = Relation.find(params[:id])
 
-      if way.visible
-        if RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", :conditions => [ "visible = 1 AND member_type='way' and member_id=?", params[:id]])
+      if relation.visible
+        if RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", :conditions => [ "visible = 1 AND member_type='relation' and member_id=?", params[:id]])
           render :nothing => true, :status => :precondition_failed
         else
-          way.user_id = @user.id
-          way.tags = []
-          way.nds = []
-          way.visible = false
+          relation.user_id = @user.id
+          relation.tags = []
+          relation.members = []
+          relation.visible = false
 
-          if way.save_with_history
+          if relation.save_with_history
             render :nothing => true
           else
             render :nothing => true, :status => :internal_server_error
@@ -112,18 +114,27 @@ class WayController < ApplicationController
 
   def full
     begin
-      way = Way.find(params[:id])
+      relation = Relation.find(params[:id])
 
-      if way.visible
-        nd_ids = way.nds + [-1]
-        nodes = Node.find(:all, :conditions => "visible = 1 AND id IN (#{nd_ids.join(',')})")
+      if relation.visible
+        # In future, we might want to do all the data fetch in one step
+        seg_ids = relation.segs + [-1]
+        segments = Segment.find_by_sql "select * from current_segments where visible = 1 and id IN (#{seg_ids.join(',')})"
+
+        node_ids = segments.collect {|segment| segment.node_a }
+        node_ids += segments.collect {|segment| segment.node_b }
+        node_ids += [-1]
+        nodes = Node.find(:all, :conditions => "visible = 1 AND id IN (#{node_ids.join(',')})")
 
         # Render
         doc = OSM::API.new.get_xml_doc
         nodes.each do |node|
           doc.root << node.to_xml_node()
         end
-        doc.root << way.to_xml_node()
+        segments.each do |segment|
+          doc.root << segment.to_xml_node()
+        end
+        doc.root << relation.to_xml_node()
 
         render :text => doc.to_s, :content_type => "text/xml"
       else
@@ -136,18 +147,14 @@ class WayController < ApplicationController
     end
   end
 
-  def ways
-    begin
-      ids = params['ways'].split(',').collect { |w| w.to_i }
-    rescue
-      ids = []
-    end
+  def relations
+    ids = params['relations'].split(',').collect { |w| w.to_i }
 
     if ids.length > 0
       doc = OSM::API.new.get_xml_doc
 
-      Way.find(ids).each do |way|
-        doc.root << way.to_xml_node
+      Relation.find(ids).each do |relation|
+        doc.root << relation.to_xml_node
       end
 
       render :text => doc.to_s, :content_type => "text/xml"
@@ -156,14 +163,14 @@ class WayController < ApplicationController
     end
   end
 
-  def ways_for_node
-    wayids = WayNode.find(:all, :conditions => ['node_id = ?', params[:id]]).collect { |ws| ws.id }.uniq
+  def relations_for_object(objtype)
+    relationids = RelationMember.find(:all, :conditions => ['member_type=? and member_id=?', objtype, params[:id]]).collect { |ws| ws.id }.uniq
 
-    if wayids.length > 0
+    if relationids.length > 0
       doc = OSM::API.new.get_xml_doc
 
-      Way.find(wayids).each do |way|
-        doc.root << way.to_xml_node
+      Relation.find(relationids).each do |relation|
+        doc.root << relation.to_xml_node
       end
 
       render :text => doc.to_s, :content_type => "text/xml"
