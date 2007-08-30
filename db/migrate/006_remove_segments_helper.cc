@@ -7,6 +7,18 @@
 #include <list>
 #include <sstream>
 
+#ifdef __amd64__
+
+#define F_U64 "%lu"
+#define F_U32 "%u"
+
+#else
+
+#define F_U64 "%Lu"
+#define F_U32 "%u"
+
+#endif
+
 using namespace std;
 
 template <typename T>
@@ -109,7 +121,7 @@ static void populate_segs(struct data *d) {
   res = mysql_use_result(d->mysql);
   if (!res) exit_mysql_err(d->mysql);
 
-  while (row = mysql_fetch_row(res)) {
+  while ((row = mysql_fetch_row(res))) {
     id = parse<size_t>(row[0]);
     if (id >= d->segs_len) continue;
     d->segs[id].from = parse<uint32_t>(row[1]);
@@ -230,7 +242,7 @@ static void convert_ways(struct data *d) {
   res = mysql_use_result(d->mysql);
   if (!res) exit_mysql_err(d->mysql);
 
-  while (row = mysql_fetch_row(res)) {
+  while ((row = mysql_fetch_row(res))) {
     uint64_t id;
     const char *user_id, *timestamp;
 
@@ -248,7 +260,7 @@ static void convert_ways(struct data *d) {
 
     list<segment> segs;
     while (!mysql_stmt_fetch(load_segs)) {
-      if (mysql_seg_id >= d->segs_len) continue;
+      if (((uint64_t) mysql_seg_id) >= d->segs_len) continue;
       segs.push_back(d->segs[mysql_seg_id]);
       d->rem_segs[mysql_seg_id] = 0;
     }
@@ -294,14 +306,14 @@ static void convert_ways(struct data *d) {
       }
       ids.push_back(way_id);
 
-      fprintf(d->ways, "\"%Lu\",", way_id);
+      fprintf(d->ways, "\"" F_U64 "\",", way_id);
       write_csv_col(d->ways, user_id, ',');
       write_csv_col(d->ways, timestamp, '\n');
 
       sid = 1;
       for (list<uint32_t>::iterator nit = it->begin();
 	  nit != it->end(); ++nit) {
-	fprintf(d->way_nodes, "\"%Lu\",\"%lu\",\"%i\"\n", way_id, *nit, sid++);
+	fprintf(d->way_nodes, "\"" F_U64 "\",\"" F_U32 "\",\"%i\"\n", way_id, *nit, sid++);
       }
     }
 
@@ -333,7 +345,7 @@ static void convert_ways(struct data *d) {
 
       for (vector<uint64_t>::iterator it = ids.begin();
 	  it != ids.end(); ++it) {
-	fprintf(d->way_tags, "\"%Lu\",", *it);
+	fprintf(d->way_tags, "\"" F_U64 "\",", *it);
 	write_csv_col(d->way_tags, k, ',');
 	write_csv_col(d->way_tags, v, '\n');
       }
@@ -342,17 +354,17 @@ static void convert_ways(struct data *d) {
     if (multiple_parts && create_multipolygon) {
       uint64_t ent_id = d->new_relation_id++;
 
-      fprintf(d->relations, "\"%Lu\",", ent_id);
+      fprintf(d->relations, "\"" F_U64 "\",", ent_id);
       write_csv_col(d->relations, user_id, ',');
       write_csv_col(d->relations, timestamp, '\n');
 
       fprintf(d->relation_tags,
-	"\"%Lu\",\"type\",\"multipolygon\"\n", ent_id);
+	"\"" F_U64 "\",\"type\",\"multipolygon\"\n", ent_id);
 
       for (vector<uint64_t>::iterator it = ids.begin();
 	  it != ids.end(); ++it) {
 	fprintf(d->relation_members,
-	  "\"%Lu\",\"way\",\"%Lu\",\"\"\n", ent_id, *it);
+	  "\"" F_U64 "\",\"way\",\"" F_U64 "\",\"\"\n", ent_id, *it);
       }
     }
   }
@@ -394,7 +406,7 @@ static void mark_tagged_segs(struct data *d) {
   res = mysql_use_result(d->mysql);
   if (!res) exit_mysql_err(d->mysql);
 
-  while (row = mysql_fetch_row(res)) {
+  while ((row = mysql_fetch_row(res))) {
     size_t id = parse<size_t>(row[0]);
     if (d->rem_segs[id]) continue;
     char *tags_it = row[1], *k, *v;
@@ -470,15 +482,15 @@ static void convert_remaining_segs(struct data *d) {
     while (!mysql_stmt_fetch(load_seg)) {
       uint64_t way_id = d->new_way_id++;
 
-      fprintf(d->ways, "\"%Lu\",\"%i\",", way_id, user_id);
+      fprintf(d->ways, "\"" F_U64 "\",\"%i\",", way_id, user_id);
       write_csv_col(d->ways, timestamp, '\n');
 
-      fprintf(d->way_nodes, "\"%Lu\",\"%lu\",\"%i\"\n", way_id, seg.from, 1);
-      fprintf(d->way_nodes, "\"%Lu\",\"%lu\",\"%i\"\n", way_id, seg.to, 2);
+      fprintf(d->way_nodes, "\"" F_U64 "\",\"" F_U32 "\",\"%i\"\n", way_id, seg.from, 1);
+      fprintf(d->way_nodes, "\"" F_U64 "\",\"" F_U32 "\",\"%i\"\n", way_id, seg.to, 2);
 
       char *tags_it = tags;
       while (read_seg_tags(&tags_it, &k, &v)) {
-	fprintf(d->way_tags, "\"%Lu\",", way_id);
+	fprintf(d->way_tags, "\"" F_U64 "\",", way_id);
 	write_csv_col(d->way_tags, k, ',');
 	write_csv_col(d->way_tags, v, '\n');
       }
