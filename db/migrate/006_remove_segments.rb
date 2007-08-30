@@ -2,25 +2,29 @@ require 'lib/migrate'
 
 class RemoveSegments < ActiveRecord::Migration
   def self.up
-    prefix = File.join Dir.tmpdir, "006_remove_segments.#{$$}."
+    have_segs = select_value("SELECT count(*) FROM current_segments").to_i != 0
 
-    cmd = "db/migrate/006_remove_segments_helper"
-    src = "#{cmd}.cc"
-    if not File.exists? cmd or File.mtime(cmd) < File.mtime(src) then 
-      system 'c++ -O3 -Wall `mysql_config --cflags --libs` ' +
-	"#{src} -o #{cmd}" or fail
+    if have_segs
+      prefix = File.join Dir.tmpdir, "006_remove_segments.#{$$}."
+
+      cmd = "db/migrate/006_remove_segments_helper"
+      src = "#{cmd}.cc"
+      if not File.exists? cmd or File.mtime(cmd) < File.mtime(src) then 
+	system 'c++ -O3 -Wall `mysql_config --cflags --libs` ' +
+	  "#{src} -o #{cmd}" or fail
+      end
+
+      conn_opts = ActiveRecord::Base.connection.
+	instance_eval { @connection_options }
+      args = conn_opts.map { |arg| arg.to_s } + [prefix]
+      fail "#{cmd} failed" unless system cmd, *args
+
+      tempfiles = ['ways', 'way_nodes', 'way_tags',
+	'relations', 'relation_members', 'relation_tags'].
+	map { |base| prefix + base }
+      ways, way_nodes, way_tags,
+	relations, relation_members, relation_tags = tempfiles
     end
-
-    conn_opts = ActiveRecord::Base.connection.
-      instance_eval { @connection_options }
-    args = conn_opts.map { |arg| arg.to_s } + [prefix]
-    fail "#{cmd} failed" unless system cmd, *args
-
-    tempfiles = ['ways', 'way_nodes', 'way_tags',
-      'relations', 'relation_members', 'relation_tags'].
-      map { |base| prefix + base }
-    ways, way_nodes, way_tags,
-      relations, relation_members, relation_tags = tempfiles
 
     drop_table :segments
     drop_table :way_segments
@@ -41,38 +45,42 @@ class RemoveSegments < ActiveRecord::Migration
     end
     add_primary_key :current_way_nodes, [:id, :sequence_id]
 
-    execute "DELETE FROM way_tags"
-    execute "DELETE FROM ways"
-    execute "DELETE FROM current_way_tags"
-    execute "DELETE FROM current_ways"
+    execute "TRUNCATE way_tags"
+    execute "TRUNCATE ways"
+    execute "TRUNCATE current_way_tags"
+    execute "TRUNCATE current_ways"
 
     # now get the data back
     csvopts = "FIELDS TERMINATED BY ',' ENCLOSED BY '\"' ESCAPED BY '\"' LINES TERMINATED BY '\\n'"
 
-    tempfiles.each { |fn| File.chmod 0644, fn }
+    tempfiles.each { |fn| File.chmod 0644, fn } if have_segs
 
-    execute "LOAD DATA LOCAL INFILE '#{ways}' INTO TABLE ways #{csvopts} (id, user_id, timestamp) SET visible = 1, version = 1"
-    execute "LOAD DATA LOCAL INFILE '#{way_nodes}' INTO TABLE way_nodes #{csvopts} (id, node_id, sequence_id) SET version = 1"
-    execute "LOAD DATA LOCAL INFILE '#{way_tags}' INTO TABLE way_tags #{csvopts} (id, k, v) SET version = 1"
+    if have_segs
+      execute "LOAD DATA LOCAL INFILE '#{ways}' INTO TABLE ways #{csvopts} (id, user_id, timestamp) SET visible = 1, version = 1"
+      execute "LOAD DATA LOCAL INFILE '#{way_nodes}' INTO TABLE way_nodes #{csvopts} (id, node_id, sequence_id) SET version = 1"
+      execute "LOAD DATA LOCAL INFILE '#{way_tags}' INTO TABLE way_tags #{csvopts} (id, k, v) SET version = 1"
 
-    execute "INSERT INTO current_ways SELECT id, user_id, timestamp, visible FROM ways"
-    execute "INSERT INTO current_way_nodes SELECT id, node_id, sequence_id FROM way_nodes"
-    execute "INSERT INTO current_way_tags SELECT id, k, v FROM way_tags"
+      execute "INSERT INTO current_ways SELECT id, user_id, timestamp, visible FROM ways"
+      execute "INSERT INTO current_way_nodes SELECT id, node_id, sequence_id FROM way_nodes"
+      execute "INSERT INTO current_way_tags SELECT id, k, v FROM way_tags"
+    end
 
     # and then readd the index
     add_index :current_way_nodes, [:node_id], :name => "current_way_nodes_node_idx"
 
-    execute "LOAD DATA LOCAL INFILE '#{relations}' INTO TABLE relations #{csvopts} (id, user_id, timestamp) SET visible = 1, version = 1"
-    execute "LOAD DATA LOCAL INFILE '#{relation_members}' INTO TABLE relation_members #{csvopts} (id, member_type, member_id, member_role) SET version = 1"
-    execute "LOAD DATA LOCAL INFILE '#{relation_tags}' INTO TABLE relation_tags #{csvopts} (id, k, v) SET version = 1"
+    if have_segs
+      execute "LOAD DATA LOCAL INFILE '#{relations}' INTO TABLE relations #{csvopts} (id, user_id, timestamp) SET visible = 1, version = 1"
+      execute "LOAD DATA LOCAL INFILE '#{relation_members}' INTO TABLE relation_members #{csvopts} (id, member_type, member_id, member_role) SET version = 1"
+      execute "LOAD DATA LOCAL INFILE '#{relation_tags}' INTO TABLE relation_tags #{csvopts} (id, k, v) SET version = 1"
 
-    # FIXME: This will only work if there were no relations before the
-    # migration!
-    execute "INSERT INTO current_relations SELECT id, user_id, timestamp, visible FROM relations"
-    execute "INSERT INTO current_relation_members SELECT id, member_type, member_id, member_role FROM relation_members"
-    execute "INSERT INTO current_relation_tags SELECT id, k, v FROM relation_tags"
+      # FIXME: This will only work if there were no relations before the
+      # migration!
+      execute "INSERT INTO current_relations SELECT id, user_id, timestamp, visible FROM relations"
+      execute "INSERT INTO current_relation_members SELECT id, member_type, member_id, member_role FROM relation_members"
+      execute "INSERT INTO current_relation_tags SELECT id, k, v FROM relation_tags"
+    end
 
-    tempfiles.each { |fn| File.unlink fn }
+    tempfiles.each { |fn| File.unlink fn } if have_segs
   end
 
   def self.down
