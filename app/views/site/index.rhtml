@@ -88,12 +88,12 @@
     map.setCenter(centre, zoom);
     <% end %>
 
-    <% if marker %>
-    marker = addMarkerToMap(lonLatToMercator(new OpenLayers.LonLat(<%= mlon %>, <%= mlat %>)));
-    <% end %>
-
     <% if layers %>
     setMapLayers("<%= layers %>");
+    <% end %>
+
+    <% if marker %>
+    marker = addMarkerToMap(lonLatToMercator(new OpenLayers.LonLat(<%= mlon %>, <%= mlat %>)));
     <% end %>
 
     map.events.register("moveend", map, updateLocation);
