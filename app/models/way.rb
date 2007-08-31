@@ -37,7 +37,7 @@ class Way < ActiveRecord::Base
         end
 
         pt.find('nd').each do |nd|
-          way.add_nd_num(nd['id'])
+          way.add_nd_num(nd['ref'])
         end
       end
     rescue
@@ -90,7 +90,7 @@ class Way < ActiveRecord::Base
     ordered_nodes.each do |nd_id|
       if nd_id and nd_id != '0'
         e = XML::Node.new 'nd'
-        e['id'] = nd_id
+        e['ref'] = nd_id
         el1 << e
       end
     end

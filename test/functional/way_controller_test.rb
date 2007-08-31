@@ -49,7 +49,7 @@ class WayControllerTest < Test::Unit::TestCase
     basic_authorization "test@openstreetmap.org", "test"
 
     # create a way with pre-existing nodes
-    content "<osm><way><nd id='#{nid1}'/><nd id='#{nid2}'/><tag k='test' v='yes' /></way></osm>"
+    content "<osm><way><nd ref='#{nid1}'/><nd ref='#{nid2}'/><tag k='test' v='yes' /></way></osm>"
     put :create
     # hope for success
     assert_response :success, 
@@ -80,7 +80,7 @@ class WayControllerTest < Test::Unit::TestCase
     basic_authorization "test@openstreetmap.org", "test"
 
     # create a way with non-existing node
-    content "<osm><way><nd id='0'/><tag k='test' v='yes' /></way></osm>"
+    content "<osm><way><nd ref='0'/><tag k='test' v='yes' /></way></osm>"
     put :create
     # expect failure
     assert_response :precondition_failed, 
