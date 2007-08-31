@@ -691,18 +691,33 @@ end
 def createuniquenodes(uqs_name,uqn_name)
 	# Finds nodes which appear in uniquesegments but no other segments
 	sql=<<-EOF
-		CREATE TEMPORARY TABLE #{uqn_name}
-			   SELECT DISTINCT node_id
-			      FROM (SELECT cn.id AS node_id
-						  FROM current_nodes AS cn,
-						       current_segments AS cs,
-						       #{uqs_name} AS us
-						 WHERE cs.id=us.segment_id
-						   AND (cn.id=cs.node_a OR cn.id=cs.node_b)) AS n
-					 LEFT JOIN current_segments AS cs2 ON node_id=cs2.node_a AND cs2.visible=1
-					 LEFT JOIN current_segments AS cs3 ON node_id=cs3.node_b AND cs3.visible=1
-					     WHERE cs2.node_a IS NULL
-					       AND cs3.node_b IS NULL
+	CREATE TEMPORARY TABLE #{uqn_name}
+	   SELECT DISTINCT node_id
+	   FROM (SELECT cn.id AS node_id
+	         FROM current_nodes AS cn,
+  	              current_segments AS cs,
+	              #{uqs_name} AS us
+	         WHERE cs.id=us.segment_id
+	           AND cn.id=cs.node_a) AS n
+	   LEFT JOIN current_segments AS cs2 ON node_id=cs2.node_a AND cs2.visible=1
+	   LEFT JOIN current_segments AS cs3 ON node_id=cs3.node_b AND cs3.visible=1
+	   WHERE cs2.node_a IS NULL
+	     AND cs3.node_b IS NULL
+	EOF
+	ActiveRecord::Base.connection.execute(sql)
+	sql=<<-EOF
+	INSERT INTO #{uqn_name}
+	   SELECT DISTINCT node_id
+	   FROM (SELECT cn.id AS node_id
+	         FROM current_nodes AS cn,
+  	              current_segments AS cs,
+	              #{uqs_name} AS us
+	         WHERE cs.id=us.segment_id
+	           AND cn.id=cs.node_b) AS n
+	   LEFT JOIN current_segments AS cs2 ON node_id=cs2.node_a AND cs2.visible=1
+	   LEFT JOIN current_segments AS cs3 ON node_id=cs3.node_b AND cs3.visible=1
+	   WHERE cs2.node_a IS NULL
+	     AND cs3.node_b IS NULL
 	EOF
 	ActiveRecord::Base.connection.execute(sql)
 end
