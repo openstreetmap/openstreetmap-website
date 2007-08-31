@@ -13,12 +13,9 @@ class NodeController < ApplicationController
       if node
         node.user_id = @user.id
         node.visible = true
+        node.save_with_history!
 
-        if node.save_with_history
-          render :text => node.id.to_s, :content_type => "text/plain"
-        else
-          render :nothing => true, :status => :internal_server_error
-        end
+        render :text => node.id.to_s, :content_type => "text/plain"
       else
         render :nothing => true, :status => :bad_request
       end
@@ -38,8 +35,6 @@ class NodeController < ApplicationController
       end
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
-    rescue
-      render :nothing => true, :status => :internal_server_error
     end
   end
 
@@ -55,12 +50,9 @@ class NodeController < ApplicationController
           node.latitude = new_node.latitude 
           node.longitude = new_node.longitude
           node.tags = new_node.tags
+          node.save_with_history!
 
-          if node.save_with_history
-            render :nothing => true
-          else
-            render :nothing => true, :status => :internal_server_error
-          end
+          render :nothing => true
         else
           render :nothing => true, :status => :bad_request
         end
@@ -69,8 +61,6 @@ class NodeController < ApplicationController
       end
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
-    rescue
-      render :nothing => true, :status => :internal_server_error
     end
   end
 
@@ -84,7 +74,8 @@ class NodeController < ApplicationController
         else
           node.user_id = @user.id
           node.visible = 0
-          node.save_with_history
+          node.save_with_history!
+
           render :nothing => true
         end
       else
@@ -92,8 +83,6 @@ class NodeController < ApplicationController
       end
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
-    rescue
-      render :nothing => true, :status => :internal_server_error
     end
   end
 

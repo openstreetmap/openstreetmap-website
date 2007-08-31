@@ -68,18 +68,12 @@ class Node < ActiveRecord::Base
     return node
   end
 
-  def save_with_history
-    begin
-      Node.transaction do
-        self.timestamp = Time.now
-        self.save!
-        old_node = OldNode.from_node(self)
-        old_node.save!
-      end
-
-      return true
-    rescue
-      return nil
+  def save_with_history!
+    Node.transaction do
+      self.timestamp = Time.now
+      self.save!
+      old_node = OldNode.from_node(self)
+      old_node.save!
     end
   end
 

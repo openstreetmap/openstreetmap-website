@@ -59,18 +59,12 @@ class Segment < ActiveRecord::Base
     return segment
   end
 
-  def save_with_history
-    begin
-      Segment.transaction do
-        self.timestamp = Time.now
-        self.save!
-        old_segment = OldSegment.from_segment(self)
-        old_segment.save!
-      end
-
-      return true
-    rescue
-      return nil
+  def save_with_history!
+    Segment.transaction do
+      self.timestamp = Time.now
+      self.save!
+      old_segment = OldSegment.from_segment(self)
+      old_segment.save!
     end
   end
 

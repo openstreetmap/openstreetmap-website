@@ -19,12 +19,9 @@ class SegmentController < ApplicationController
           segment.user_id = @user.id
           segment.from_node = Node.find(segment.node_a.to_i)
           segment.to_node = Node.find(segment.node_b.to_i)
+          segment.save_with_history!
 
-          if segment.save_with_history
-            render :text => segment.id.to_s, :content_type => "text/plain"
-          else
-            render :nothing => true, :status => :internal_server_error
-          end
+          render :text => segment.id.to_s, :content_type => "text/plain"
         end
       else
         render :nothing => true, :status => :bad_request
@@ -45,8 +42,6 @@ class SegmentController < ApplicationController
       end
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
-    rescue
-      render :nothing => true, :status => :internal_server_error
     end
   end
 
@@ -68,12 +63,9 @@ class SegmentController < ApplicationController
             segment.node_b = new_segment.node_b
             segment.tags = new_segment.tags
             segment.visible = new_segment.visible
+            segment.save_with_history!
 
-            if segment.save_with_history
-              render :nothing => true
-            else
-              render :nothing => true, :status => :internal_server_error
-            end
+            render :nothing => true
           end
         else
           render :nothing => true, :status => :bad_request
@@ -83,8 +75,6 @@ class SegmentController < ApplicationController
       end
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
-    rescue
-      render :nothing => true, :status => :internal_server_error
     end
   end
 
@@ -98,20 +88,15 @@ class SegmentController < ApplicationController
         else
           segment.user_id = @user.id
           segment.visible = 0
+          segment.save_with_history!
 
-          if segment.save_with_history
-            render :nothing => true
-          else
-            render :nothing => true, :status => :internal_server_error
-          end
+          render :nothing => true
         end
       else
         render :nothing => true, :status => :gone
       end
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
-    rescue
-      render :nothing => true, :status => :internal_server_error
     end
   end
 
