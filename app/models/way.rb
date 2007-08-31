@@ -142,47 +142,41 @@ class Way < ActiveRecord::Base
     @tags[k] = v
   end
 
-  def save_with_history
-    begin
-      Way.transaction do
-        t = Time.now
-        self.timestamp = t
-        self.save!
+  def save_with_history!
+    Way.transaction do
+      t = Time.now
+      self.timestamp = t
+      self.save!
 
-        tags = self.tags
+      tags = self.tags
 
-        WayTag.delete_all(['id = ?', self.id])
+      WayTag.delete_all(['id = ?', self.id])
 
-        tags.each do |k,v|
-          tag = WayTag.new
-          tag.k = k
-          tag.v = v
-          tag.id = self.id
-          tag.save!
-        end
-
-        segs = self.segs
-
-        WaySegment.delete_all(['id = ?', self.id])
-
-        i = 1
-        segs.each do |n|
-          seg = WaySegment.new
-          seg.id = self.id
-          seg.segment_id = n
-          seg.sequence_id = i
-          seg.save!
-          i += 1
-        end
-
-        old_way = OldWay.from_way(self)
-        old_way.timestamp = t
-        old_way.save_with_dependencies!
+      tags.each do |k,v|
+        tag = WayTag.new
+        tag.k = k
+        tag.v = v
+        tag.id = self.id
+        tag.save!
       end
 
-      return true
-    rescue
-      return nil
+      segs = self.segs
+
+      WaySegment.delete_all(['id = ?', self.id])
+
+      i = 1
+      segs.each do |n|
+        seg = WaySegment.new
+        seg.id = self.id
+        seg.segment_id = n
+        seg.sequence_id = i
+        seg.save!
+        i += 1
+      end
+
+      old_way = OldWay.from_way(self)
+      old_way.timestamp = t
+      old_way.save_with_dependencies!
     end
   end
 
