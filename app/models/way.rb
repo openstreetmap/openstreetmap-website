@@ -147,7 +147,9 @@ class Way < ActiveRecord::Base
       t = Time.now
       self.timestamp = t
       self.save!
+    end
 
+    WayTag.transaction do
       tags = self.tags
 
       WayTag.delete_all(['id = ?', self.id])
@@ -159,7 +161,9 @@ class Way < ActiveRecord::Base
         tag.id = self.id
         tag.save!
       end
+    done
 
+    WaySegment.transaction do
       segs = self.segs
 
       WaySegment.delete_all(['id = ?', self.id])
@@ -173,11 +177,11 @@ class Way < ActiveRecord::Base
         seg.save!
         i += 1
       end
-
-      old_way = OldWay.from_way(self)
-      old_way.timestamp = t
-      old_way.save_with_dependencies!
     end
+
+    old_way = OldWay.from_way(self)
+    old_way.timestamp = t
+    old_way.save_with_dependencies!
   end
 
   def preconditions_ok?
