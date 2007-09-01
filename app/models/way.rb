@@ -143,8 +143,9 @@ class Way < ActiveRecord::Base
   end
 
   def save_with_history!
+    t = Time.now
+
     Way.transaction do
-      t = Time.now
       self.timestamp = t
       self.save!
     end
