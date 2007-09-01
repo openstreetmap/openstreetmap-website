@@ -161,7 +161,7 @@ class Way < ActiveRecord::Base
         tag.id = self.id
         tag.save!
       end
-    done
+    end
 
     WaySegment.transaction do
       segs = self.segs
