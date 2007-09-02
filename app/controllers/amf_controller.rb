@@ -175,7 +175,7 @@ POI/tourism
 attraction: tourism=attraction,amenity=,religion=,denomination=
 church: tourism=,amenity=place_of_worship,name=(type name here),religion=christian,denomination=(type denomination here)
 hotel: tourism=hotel,amenity=,religion=,denomination=
-other religious: tourism=,amenity=place_of_worship,name=(type name here),religion=(type religion),denomation=
+other religious: tourism=,amenity=place_of_worship,name=(type name here),religion=(type religion),denomination=
 post box: amenity=post_box,tourism=,name=,religion=,denomination=
 post office: amenity=post_office,tourism=,name=,religion=,denomination=
 pub: tourism=,amenity=pub,name=(type name here),religion=,denomination=
