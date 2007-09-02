@@ -43,6 +43,8 @@ class AmfController < ApplicationController
 		  when 'putway';		results[index]=putdata(index,putway(args))
 		  when 'deleteway';		results[index]=putdata(index,deleteway(args))
 		  when 'makeway';		results[index]=putdata(index,makeway(args))
+		  when 'putpoi';		results[index]=putdata(index,putpoi(args))
+		  when 'getpoi';		results[index]=putdata(index,getpoi(args))
       end
     end
 
@@ -71,8 +73,8 @@ class AmfController < ApplicationController
 
   def getpresets
     presets={}
-    presetmenus={}; presetmenus['point']=[]; presetmenus['way']=[]
-    presetnames={}; presetnames['point']={}; presetnames['way']={}
+    presetmenus={}; presetmenus['point']=[]; presetmenus['way']=[]; presetmenus['POI']=[]
+    presetnames={}; presetnames['point']={}; presetnames['way']={}; presetnames['POI']={}
     presettype=''
     presetcategory=''
 
@@ -97,8 +99,8 @@ unclassified road: highway=unclassified,name=(type road name)
 
 way/footway
 footpath: highway=footway,foot=yes
-bridleway: highway=bridleway,foot=yes,horse=yes,bicycle=yes
-byway: highway=byway,foot=yes,horse=yes,bicycle=yes,motorcar=yes
+bridleway: highway=bridleway,foot=yes
+byway: highway=unsurfaced,foot=yes
 permissive path: highway=footway,foot=permissive
 
 way/cycleway
@@ -124,13 +126,8 @@ disused railway tracks: railway=disused
 course of old railway: railway=abandoned
 
 way/natural
-forest: natural=wood,landuse=forest
-woodland: natural=wood,landuse=
-reservoir: natural=water,landuse=reservoir
-lake: natural=water,landuse=
-marsh: natural=marsh
-beach: natural=beach
-coastline: natural=coastline
+lake: landuse=water
+forest: landuse=forest
 
 point/road
 mini roundabout: highway=mini_roundabout
@@ -158,7 +155,28 @@ viaduct: railway=viaduct
 level crossing: railway=crossing
 
 point/natural
-peak: natural=peak
+peak: point=peak
+
+POI/road
+car park: amenity=parking
+petrol station: amenity=fuel
+
+POI/place
+city: place=city,name=(type name here),is_in=(type region or county)
+town: place=town,name=(type name here),is_in=(type region or county)
+suburb: place=suburb,name=(type name here),is_in=(type region or county)
+village: place=village,name=(type name here),is_in=(type region or county)
+hamlet: place=hamlet,name=(type name here),is_in=(type region or county)
+
+POI/tourism
+attraction: tourism=attraction,amenity=,religion=,denomination=
+church: tourism=,amenity=place_of_worship,name=(type name here),religion=Christian,denomination=(type denomination here)
+hotel: tourism=hotel,amenity=,religion=,denomination=
+other religious: tourism=,amenity=place_of_worship,name=(type name here),religion=(type religion),denomation=
+pub: tourism=,amenity=pub,name=(type name here),religion=,denomination=
+
+POI/natural
+peak: point=peak
 EOF
 
     StringIO.open(txt) do |file|
@@ -192,6 +210,9 @@ EOF
     ymin = args[1].to_f-0.01
     xmax = args[2].to_f+0.01
     ymax = args[3].to_f+0.01
+	baselong    = args[4]
+	basey       = args[5]
+	masterscale = args[6]
 
     RAILS_DEFAULT_LOGGER.info("  Message: whichways, bbox=#{xmin},#{ymin},#{xmax},#{ymax}")
 
@@ -207,7 +228,7 @@ EOF
 
        ways = waylist.collect {|a| a.wayid.to_i } # get an array of way id's
 
-       pointlist =ActiveRecord::Base.connection.select_all("SELECT current_nodes.id,current_nodes.tags "+
+       pointlist =ActiveRecord::Base.connection.select_all("SELECT current_nodes.id,latitude,longitude,current_nodes.tags "+
        "  FROM current_nodes "+
        "  LEFT OUTER JOIN current_segments cs1 ON cs1.node_a=current_nodes.id "+
        "  LEFT OUTER JOIN current_segments cs2 ON cs2.node_b=current_nodes.id "+
@@ -216,7 +237,7 @@ EOF
        "   AND cs1.id IS NULL AND cs2.id IS NULL "+
        "   AND current_nodes.visible=1")
 
-	    points = pointlist.collect {|a| [a['id'],tag2array(a['tags'])]	} # get a list of node ids and their tags
+	    points = pointlist.collect {|a| [a['id'],long2coord(a['longitude'].to_f,baselong,masterscale),lat2coord(a['latitude'].to_f,basey,masterscale),tag2array(a['tags'])]	} # get a list of node ids and their tags
 
     return [ways,points]
   end
@@ -441,6 +462,49 @@ EOF
     if (currentsql!='') then ActiveRecord::Base.connection.insert("INSERT INTO current_way_tags (id,k,v) VALUES #{currentsql}") end
 
     [originalway,way,renumberednodes,numberedsegments,xmin,xmax,ymin,ymax]
+  end
+
+  # -----	putpoi (user token, id, x,y,tag array,visible,baselong,basey,masterscale)
+  #			returns current id, new id
+  #			if new: add new row to current_nodes and nodes
+  #			if old: add new row to nodes, update current_nodes
+
+  def putpoi(args)
+	usertoken,id,x,y,tags,visible,baselong,basey,masterscale=args
+	uid=getuserid(usertoken)
+	return if !uid
+    db_now='@now'+uid.to_s+id.to_i.abs.to_s+Time.new.to_i.to_s	# 'now' variable name, typically 51 chars
+    ActiveRecord::Base.connection.execute("SET #{db_now}=NOW()")
+
+	id=id.to_i
+	visible=visible.to_i
+	x=coord2long(x.to_f,masterscale,baselong)
+	y=coord2lat(y.to_f,masterscale,basey)
+	tagsql="'"+sqlescape(array2tag(tags))+"'"
+	
+	if (id>0) then
+		ActiveRecord::Base.connection.insert("INSERT INTO nodes (id,latitude,longitude,timestamp,user_id,visible,tags) VALUES (#{id},#{y},#{x},#{db_now},#{uid},#{visible},#{tagsql})");
+		ActiveRecord::Base.connection.update("UPDATE current_nodes SET latitude=#{y},longitude=#{x},timestamp=#{db_now},user_id=#{uid},visible=#{visible},tags=#{tagsql} WHERE id=#{id}");
+		newid=id
+	else
+		newid=ActiveRecord::Base.connection.insert("INSERT INTO current_nodes (latitude,longitude,timestamp,user_id,visible,tags) VALUES (#{y},#{x},#{db_now},#{uid},#{visible},#{tagsql})");
+			  ActiveRecord::Base.connection.update("INSERT INTO nodes (id,latitude,longitude,timestamp,user_id,visible,tags) VALUES (#{newid},#{y},#{x},#{db_now},#{uid},#{visible},#{tagsql})");
+	end
+	[id,newid]
+  end
+
+  # -----	getpoi (id,baselong,basey,masterscale)
+  #			returns id,x,y,tag array
+  
+  def getpoi(args)
+	id,baselong,basey,masterscale=args; id=id.to_i
+	poi=ActiveRecord::Base.connection.select_one("SELECT latitude,longitude,tags "+
+		"FROM current_nodes WHERE visible=1 AND id=#{id}")
+	if poi.nil? then return [nil,nil,nil,''] end
+	[id,
+	 long2coord(poi['longitude'].to_f,baselong,masterscale),
+	 lat2coord(poi['latitude'].to_f,basey,masterscale),
+	 tag2array(poi['tags'])]
   end
 
   # -----	deleteway (user token, way)
