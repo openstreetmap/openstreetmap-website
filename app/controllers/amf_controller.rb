@@ -161,6 +161,9 @@ POI/road
 car park: amenity=parking
 petrol station: amenity=fuel
 
+POI/cycleway
+bike park: amenity=bicycle_parking
+
 POI/place
 city: place=city,name=(type name here),is_in=(type region or county)
 town: place=town,name=(type name here),is_in=(type region or county)
@@ -170,9 +173,11 @@ hamlet: place=hamlet,name=(type name here),is_in=(type region or county)
 
 POI/tourism
 attraction: tourism=attraction,amenity=,religion=,denomination=
-church: tourism=,amenity=place_of_worship,name=(type name here),religion=Christian,denomination=(type denomination here)
+church: tourism=,amenity=place_of_worship,name=(type name here),religion=christian,denomination=(type denomination here)
 hotel: tourism=hotel,amenity=,religion=,denomination=
 other religious: tourism=,amenity=place_of_worship,name=(type name here),religion=(type religion),denomation=
+post box: amenity=post_box,tourism=,name=,religion=,denomination=
+post office: amenity=post_office,tourism=,name=,religion=,denomination=
 pub: tourism=,amenity=pub,name=(type name here),religion=,denomination=
 
 POI/natural
