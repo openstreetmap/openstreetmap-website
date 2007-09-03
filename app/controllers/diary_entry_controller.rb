@@ -41,10 +41,7 @@ class DiaryEntryController < ApplicationController
     end
 
     @entries.each do |entry|
-      # add geodata here
-      latitude = nil
-      longitude = nil
-      rss.add(latitude, longitude, entry.title, entry.user.display_name, url_for({:controller => 'diary_entry', :action => 'list', :id => entry.id, :display_name => entry.user.display_name}), entry.body, entry.created_at)
+      rss.add(entry.latitude, entry.longitude, entry.title, entry.user.display_name, url_for({:controller => 'diary_entry', :action => 'list', :id => entry.id, :display_name => entry.user.display_name}), entry.body, entry.created_at)
     end
 
     render :text => rss.to_s, :content_type => "application/rss+xml"

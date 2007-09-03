@@ -8,11 +8,64 @@
     </tr>
     <tr valign="top">
       <th>Body</th>
-      <td><%= f.text_area :body, :cols => 80 %></td>
+      <td><%= f.text_area :body, :cols => 80, :rows => 10 %></td>
     </tr>
+    <tr valign="top">
+	    <th>Location</th>
+	    <td><div id="map" style="border: 1px solid black; position: relative; width : 90%; height : 250px;"></div><br/>
+		  <span class="location">Latitude: <%= f.text_field :latitude, :size => 20, :id => "latitude" %> Longitude <%= f.text_field :longitude, :size => 20, :id => "longitude" %></span></td>
+	  </tr>
     <tr>
       <th></th>
       <td><%= submit_tag 'Save' %></td>
     </tr>
   </table>
 <% end %>
+
+<% if @user.home_lat.nil? or @user.home_lon.nil? %>
+  <% lon =  params['lon'] || '-0.1' %>
+  <% lat =  params['lat'] || '51.5' %>
+  <% zoom =  params['zoom'] || '4' %> 
+<% else %>
+  <% lon =  @user.home_lon %>
+  <% lat =  @user.home_lat %>
+  <% zoom =  '12' %>
+<% end %>
+
+<script type="text/javascript" src="/openlayers/OpenLayers.js"></script>
+<%= javascript_include_tag 'map.js' %>
+
+<script type="text/javascript">
+  <!--
+  var marker;
+
+  function init(){
+    var centre = lonLatToMercator(new OpenLayers.LonLat(<%= lon %>, <%= lat %>));
+    var zoom = <%= zoom %>;
+
+    var map = createMap("map");
+
+    map.setCenter(centre, zoom);
+
+    map.events.register("click", map, setLocation);
+  }        
+
+  function setLocation( e ) { 
+    closeMapPopup();
+
+    var merc = map.getLonLatFromViewPortPx(e.xy);
+    var lonlat = mercatorToLonLat(merc);
+
+    document.getElementById('latitude').value = lonlat.lat;
+    document.getElementById('longitude').value = lonlat.lon;
+
+    if (marker) {
+      removeMarkerFromMap(marker);
+    }
+
+    marker = addMarkerToMap(merc, null, "Diary entry location");
+  }
+
+  window.onload = init;
+// -->
+</script>
