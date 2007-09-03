@@ -17,7 +17,7 @@
     <td><%= @trace.size.to_s.gsub(/(\d)(?=(\d{3})+$)/,'\1,') %></td></tr>
   <tr>
     <td>Start coordinate:</td>
-    <td><%= @trace.latitude %>, <%= @trace.longitude %> (<%=link_to 'map', :controller => 'site', :action => 'index', :lat => @trace.latitude, :lon => @trace.longitude, :zoom => 14 %> / <%=link_to 'edit', :controller => 'site', :action => 'edit', :lat => @trace.latitude, :lon => @trace.longitude, :zoom => 14 %>)</td>
+    <td><div class="geo" style="display: inline"><span class="latitude"><%= @trace.latitude %></span>; <span class="longitude"><%= @trace.longitude %></span></div> (<%=link_to 'map', :controller => 'site', :action => 'index', :lat => @trace.latitude, :lon => @trace.longitude, :zoom => 14 %> / <%=link_to 'edit', :controller => 'site', :action => 'edit', :lat => @trace.latitude, :lon => @trace.longitude, :zoom => 14 %>)</td>
   </tr>
   <% end %>
   <tr>
