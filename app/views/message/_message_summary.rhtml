@@ -1,12 +1,6 @@
 <tr class="inbox-row<%= "-unread" if not message_summary.message_read? %>">
   <td class="inbox-sender"><%= link_to message_summary.sender.display_name , :controller => 'user', :action => message_summary.sender.display_name %></td>
-  <td class="inbox-subject">
-    <% if message_summary.title.nil? or message_summary.title == '' %>
-      <%= link_to '(no subject)' , :controller => 'message', :action => 'read', :message_id => message_summary.id  %>
-    <% else %>
-      <%= link_to  message_summary.title , :controller => 'message', :action => 'read', :message_id => message_summary.id  %>
-    <% end %>
-  </td>
+  <td class="inbox-subject"><%= link_to  message_summary.title , :controller => 'message', :action => 'read', :message_id => message_summary.id  %></td>
   <td class="inbox-sent"><%= message_summary.sent_on %></td>
   <% if message_summary.message_read? %>
     <td><%= button_to 'Mark as unread', :controller => 'message', :action => 'mark', :message_id => message_summary.id, :mark => 'unread' %></td>
