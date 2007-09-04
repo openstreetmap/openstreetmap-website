@@ -7,9 +7,9 @@ class DiaryEntryController < ApplicationController
   def new
     @title = 'new diary entry'
     if params[:diary_entry]     
-      @entry = DiaryEntry.new(params[:diary_entry])
-      @entry.user = @user
-      if @entry.save 
+      @diary_entry = DiaryEntry.new(params[:diary_entry])
+      @diary_entry.user = @user
+      if @diary_entry.save 
         redirect_to :controller => 'diary_entry', :action => 'list', :display_name => @user.display_name 
       end
     end
