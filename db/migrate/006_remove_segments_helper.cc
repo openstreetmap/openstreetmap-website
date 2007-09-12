@@ -411,7 +411,12 @@ static void mark_tagged_segs(struct data *d) {
     if (d->rem_segs[id]) continue;
     char *tags_it = row[1], *k, *v;
     while (read_seg_tags(&tags_it, &k, &v)) {
-      if (!strcmp(k, "created_by")) {
+      if (strcmp(k, "created_by") &&
+	  strcmp(k, "tiger:county") &&
+	  strcmp(k, "tiger:upload_uuid") &&
+	  strcmp(k, "converted_by") &&
+	  (strcmp(k, "natural") || strcmp(v, "coastline")) &&
+	  (strcmp(k, "source") || strcmp(v, "PGS"))) {
 	d->rem_segs[id] = 1;
 	break;
       }
