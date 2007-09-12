@@ -24,8 +24,8 @@ void tile_for_point_deinit(UDF_INIT *initid)
 
 long long tile_for_point(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *error)
 {
-   long long lon = *(long long *)args->args[0];
-   long long lat = *(long long *)args->args[1];
+   long long lat = *(long long *)args->args[0];
+   long long lon = *(long long *)args->args[1];
 
    return xy2tile(lon2x(lon / 1000000.0), lat2y(lat / 1000000.0));
 }
