@@ -22,10 +22,33 @@ $ mysql -u <uid> -p
 > flush privileges;
 > exit
 
+Creating functions
+====================
+
+Run this command in the db/functions directory:
+
+$ make
+
+Make sure the db/functions directory is on the MySQL server's library
+path and restart the MySQL server. On linux the easiest way to do this
+is to create /etc/ld.so.conf.d/osm.conf and place the path to the
+db/functions directory in it and then run the following command as root:
+
+$ ldconfig
+
+Now create the functions as follows:
+
+$ mysql -u <uid> -p openstreetmap
+
+(change <uid> with appropriate username of administrative user eg. root )
+
+> create function tile_for_point returns integer soname 'libquadtile.so';
+> exit
+
 Creating database skeleton tables
 ===================================
 
-Run this command from the root of your rails direcotry:
+Run this command from the root of your rails directory:
 
 $ rake db:migrate
 
