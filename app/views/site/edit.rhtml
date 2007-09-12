@@ -44,6 +44,7 @@
     fo.addVariable('long',lon);
     fo.addVariable('scale',sc);
     fo.addVariable('token','<%= session[:token] %>');
+<% if params['gpx'] %>    fo.addVariable('gpx','<%= params['gpx']+"/data" %>'); <% end %>
     fo.write("map");
   }
 
