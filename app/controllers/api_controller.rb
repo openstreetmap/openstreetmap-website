@@ -64,7 +64,7 @@ class ApiController < ApplicationController
     end
 
     # get all the points
-    points = Tracepoint.find_by_area(min_lat, min_lon, max_lat, max_lon, :select => "DISTINCT *", :offset => offset, :limit => TRACEPOINTS_PER_PAGE, :order => "timestamp DESC" )
+    points = Tracepoint.find_by_area(min_lat, min_lon, max_lat, max_lon, :offset => offset, :limit => TRACEPOINTS_PER_PAGE, :order => "timestamp DESC" )
 
     doc = XML::Document.new
     doc.encoding = 'UTF-8'
