@@ -2,7 +2,7 @@ ActionController::Routing::Routes.draw do |map|
 
   # API
   map.connect "api/#{API_VERSION}/node/create", :controller => 'node', :action => 'create'
-  map.connect "api/#{API_VERSION}/node/:id/nodes", :controller => 'way', :action => 'ways_for_node', :id => /\d+/
+  map.connect "api/#{API_VERSION}/node/:id/ways", :controller => 'way', :action => 'ways_for_node', :id => /\d+/
   map.connect "api/#{API_VERSION}/node/:id/history", :controller => 'old_node', :action => 'history', :id => /\d+/
   map.connect "api/#{API_VERSION}/node/:id", :controller => 'node', :action => 'read', :id => /\d+/, :conditions => { :method => :get }
   map.connect "api/#{API_VERSION}/node/:id", :controller => 'node', :action => 'update', :id => /\d+/, :conditions => { :method => :put }
