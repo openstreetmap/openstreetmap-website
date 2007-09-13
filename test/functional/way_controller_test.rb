@@ -37,6 +37,18 @@ class WayControllerTest < Test::Unit::TestCase
     # check chat a non-existent way is not returned
     get :read, :id => 0
     assert_response :not_found
+
+    # check the "ways for node" mode
+    get :ways_for_node, :id => current_nodes(:used_node_1).id
+    assert_response :success
+    # FIXME check whether this contains the stuff we want!
+    print @response.body
+
+    # check the "full" mode
+    get :full, :id => current_ways(:visible_way).id
+    assert_response :success
+    # FIXME check whether this contains the stuff we want!
+    print @response.body
   end
 
   # -------------------------------------

@@ -40,6 +40,39 @@ class RelationControllerTest < Test::Unit::TestCase
     # check chat a non-existent relation is not returned
     get :read, :id => 0
     assert_response :not_found
+
+    # check the "relations for node" mode
+    get :relations_for_node, :id => current_nodes(:used_node_1).id
+    assert_response :success
+    # FIXME check whether this contains the stuff we want!
+    if $VERBOSE
+        print @response.body
+    end
+
+    # check the "relations for way" mode
+    get :relations_for_way, :id => current_ways(:used_way).id
+    assert_response :success
+    # FIXME check whether this contains the stuff we want!
+    if $VERBOSE
+        print @response.body
+    end
+
+
+    # check the "relations for relation" mode
+    get :relations_for_node, :id => current_relations(:used_relation).id
+    assert_response :success
+    # FIXME check whether this contains the stuff we want!
+    if $VERBOSE
+        print @response.body
+    end
+
+    # check the "full" mode
+    get :full, :id => current_relations(:relation_using_all).id
+    assert_response :success
+    # FIXME check whether this contains the stuff we want!
+    if $VERBOSE
+        print @response.body
+    end
   end
 
   # -------------------------------------
