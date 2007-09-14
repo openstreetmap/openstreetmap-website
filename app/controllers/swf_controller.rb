@@ -51,14 +51,14 @@ class SwfController < ApplicationController
 				 " FROM gpx_files,gps_points "+
 				 "WHERE gpx_files.id=gpx_id "+
 				 "  AND gpx_files.user_id=#{user.id} "+
-				 "  AND "+OSM.sql_for_area(ymin,xmin,ymax,xmax)+
+				 "  AND "+OSM.sql_for_area(ymin,xmin,ymax,xmax,"gps_points.")+
 				 "  AND (gps_points.timestamp IS NOT NULL) "+
 				 "ORDER BY fileid DESC,ts "+
 				 "LIMIT 10000"
 		else
 			sql="SELECT latitude*0.000001 AS lat,longitude*0.000001 AS lon,gpx_id AS fileid,UNIX_TIMESTAMP(timestamp) AS ts "+
 				 " FROM gps_points "+
-				 "WHERE "+OSM.sql_for_area(ymin,xmin,ymax,xmax)+
+				 "WHERE "+OSM.sql_for_area(ymin,xmin,ymax,xmax,"gps_points.")+
 				 "  AND (gps_points.timestamp IS NOT NULL) "+
 				 "ORDER BY fileid DESC,ts "+
 				 "LIMIT 10000"

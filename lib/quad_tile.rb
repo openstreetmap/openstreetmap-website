@@ -41,7 +41,7 @@ module QuadTile
     end
   end
 
-  def self.sql_for_area(minlat, minlon, maxlat, maxlon)
+  def self.sql_for_area(minlat, minlon, maxlat, maxlon, prefix)
     sql = Array.new
     single = Array.new
 
@@ -49,11 +49,11 @@ module QuadTile
       if first == last
         single.push(first)
       else
-        sql.push("tile BETWEEN #{first} AND #{last}")
+        sql.push("#{prefix}tile BETWEEN #{first} AND #{last}")
       end
     end
 
-    sql.push("tile IN (#{single.join(',')})") if single.size > 0
+    sql.push("#{prefix}tile IN (#{single.join(',')})") if single.size > 0
 
     return "( " + sql.join(" OR ") + " )"
   end
