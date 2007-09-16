@@ -46,6 +46,7 @@ class Notifier < ActionMailer::Base
     @subject = "[OpenStreetMap] #{@from_user.display_name} sent you a new message"
     @body['to_user'] = @to_user.display_name
     @body['from_user'] = @from_user.display_name
+    @body['body'] = message.body
     @body['subject'] = message.title
     @body['url'] = "http://#{SERVER_URL}/message/read/#{message.id}"
   end
