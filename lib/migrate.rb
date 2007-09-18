@@ -17,6 +17,14 @@ module ActiveRecord
         return false if options[:options] =~ /AUTO_INCREMENT/i
         return old_options_include_default?(options)
       end
+
+      alias_method :old_add_column_options!, :add_column_options!
+
+      def add_column_options!(sql, options)
+        sql << " UNSIGNED" if options[:unsigned]
+        old_add_column_options!(sql, options)
+        sql << " #{options[:options]}"
+      end
     end
 
     class MysqlAdapter
@@ -40,7 +48,6 @@ module ActiveRecord
 
         change_column_sql = "ALTER TABLE #{table_name} CHANGE #{column_name} #{column_name} #{type_to_sql(type, options[:limit], options[:precision], options[:scale])}"
         add_column_options!(change_column_sql, options)
-        change_column_sql << " #{options[:options]}"
         execute(change_column_sql) 
       end
 
