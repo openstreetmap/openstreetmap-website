@@ -4,7 +4,7 @@ class TileTracepoints < ActiveRecord::Migration
     add_index "gps_points", ["tile"], :name => "points_tile_idx"
     remove_index "gps_points", :name => "points_idx"
 
-    Tracepoint.update_all("tile = tile_for_point(latitude, longitude)")
+    Tracepoint.update_all("latitude = latitude * 10, longitude = longitude * 10, tile = tile_for_point(latitude * 10, longitude * 10)")
   end
 
   def self.down

@@ -22,19 +22,19 @@ class Tracepoint < ActiveRecord::Base
   end
 
   def lat=(l)
-    self.latitude = (l * 1000000).round
+    self.latitude = (l * 10000000).round
   end
 
   def lng=(l)
-    self.longitude = (l * 1000000).round
+    self.longitude = (l * 10000000).round
   end
 
   def lat
-    return self.latitude.to_f / 1000000
+    return self.latitude.to_f / 10000000
   end
 
   def lon
-    return self.longitude.to_f / 1000000
+    return self.longitude.to_f / 10000000
   end
 
   def to_xml_node

@@ -204,10 +204,10 @@ class Trace < ActiveRecord::Base
         max_lon = Tracepoint.maximum('longitude', :conditions => ['gpx_id = ?', id])
         min_lon = Tracepoint.minimum('longitude', :conditions => ['gpx_id = ?', id])
 
-        max_lat = max_lat.to_f / 1000000
-        min_lat = min_lat.to_f / 1000000
-        max_lon = max_lon.to_f / 1000000
-        min_lon = min_lon.to_f / 1000000
+        max_lat = max_lat.to_f / 10000000
+        min_lat = min_lat.to_f / 10000000
+        max_lon = max_lon.to_f / 10000000
+        min_lon = min_lon.to_f / 10000000
 
         self.latitude = f_lat
         self.longitude = f_lon

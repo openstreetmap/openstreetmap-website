@@ -27,5 +27,5 @@ long long tile_for_point(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *
    long long lat = *(long long *)args->args[0];
    long long lon = *(long long *)args->args[1];
 
-   return xy2tile(lon2x(lon / 1000000.0), lat2y(lat / 1000000.0));
+   return xy2tile(lon2x(lon / 10000000.0), lat2y(lat / 10000000.0));
 }
