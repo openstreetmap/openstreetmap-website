@@ -39,15 +39,14 @@ class Notifier < ActionMailer::Base
   end
   
   def message_notification(message)
-    @from_user = User.find(message.from_user_id)
-    @to_user = User.find(message.to_user_id)
-    @recipients = @to_user.email
+    @recipients = message.recipient.email
     @from = 'abuse@openstreetmap.org'
-    @subject = "[OpenStreetMap] #{@from_user.display_name} sent you a new message"
-    @body['to_user'] = @to_user.display_name
-    @body['from_user'] = @from_user.display_name
+    @subject = "[OpenStreetMap] #{message.sender.display_name} sent you a new message"
+    @body['to_user'] = message.recipient.display_name
+    @body['from_user'] = message.sender.display_name
     @body['body'] = message.body
     @body['subject'] = message.title
-    @body['url'] = "http://#{SERVER_URL}/message/read/#{message.id}"
+    @body['readurl'] = "http://#{SERVER_URL}/message/read/#{message.id}"
+    @body['replyurl'] = "http://#{SERVER_URL}/message/new/#{message.from_user_id}"
   end
 end
