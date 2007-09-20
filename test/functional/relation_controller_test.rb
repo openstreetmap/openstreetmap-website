@@ -42,7 +42,7 @@ class RelationControllerTest < Test::Unit::TestCase
     assert_response :not_found
 
     # check the "relations for node" mode
-    get :relations_for_node, :id => current_nodes(:used_node_1).id
+    get :relations_for_node, :id => current_nodes(:node_used_by_relationship).id
     assert_response :success
     # FIXME check whether this contains the stuff we want!
     if $VERBOSE
@@ -59,7 +59,7 @@ class RelationControllerTest < Test::Unit::TestCase
 
 
     # check the "relations for relation" mode
-    get :relations_for_node, :id => current_relations(:used_relation).id
+    get :relations_for_relation, :id => current_relations(:used_relation).id
     assert_response :success
     # FIXME check whether this contains the stuff we want!
     if $VERBOSE
@@ -67,7 +67,7 @@ class RelationControllerTest < Test::Unit::TestCase
     end
 
     # check the "full" mode
-    get :full, :id => current_relations(:relation_using_all).id
+    get :full, :id => current_relations(:visible_relation).id
     assert_response :success
     # FIXME check whether this contains the stuff we want!
     if $VERBOSE

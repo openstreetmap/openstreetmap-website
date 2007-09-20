@@ -15,12 +15,9 @@ class WayController < ApplicationController
           render :nothing => true, :status => :precondition_failed
         else
           way.user_id = @user.id
+          way.save_with_history!
 
-          if way.save_with_history
-            render :text => way.id.to_s, :content_type => "text/plain"
-          else
-            render :nothing => true, :status => :internal_server_error
-          end
+          render :text => way.id.to_s, :content_type => "text/plain"
         end
       else
         render :nothing => true, :status => :bad_request
@@ -41,8 +38,6 @@ class WayController < ApplicationController
       end
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
-    rescue
-      render :nothing => true, :status => :internal_server_error
     end
   end
 
@@ -61,12 +56,9 @@ class WayController < ApplicationController
             way.tags = new_way.tags
             way.nds = new_way.nds
             way.visible = true
+            way.save_with_history!
 
-            if way.save_with_history
-              render :nothing => true
-            else
-              render :nothing => true, :status => :internal_server_error
-            end
+            render :nothing => true
           end
         else
           render :nothing => true, :status => :bad_request
@@ -76,8 +68,6 @@ class WayController < ApplicationController
       end
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
-    rescue
-      render :nothing => true, :status => :internal_server_error
     end
   end
 
@@ -93,20 +83,17 @@ class WayController < ApplicationController
           way.tags = []
           way.nds = []
           way.visible = false
+	  way.save_with_history!
 
-          if way.save_with_history
-            render :nothing => true
-          else
-            render :nothing => true, :status => :internal_server_error
-          end
+	  render :nothing => true
         end
       else
         render :nothing => true, :status => :gone
       end
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
-    rescue
-      render :nothing => true, :status => :internal_server_error
+    rescue => ex
+      puts ex
     end
   end
 
@@ -131,8 +118,6 @@ class WayController < ApplicationController
       end
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
-    rescue
-      render :nothing => true, :status => :internal_server_error
     end
   end
 

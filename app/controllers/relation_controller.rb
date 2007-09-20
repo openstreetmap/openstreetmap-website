@@ -15,12 +15,9 @@ class RelationController < ApplicationController
           render :nothing => true, :status => :precondition_failed
         else
           relation.user_id = @user.id
+          relation.save_with_history!
 
-          if relation.save_with_history
-            render :text => relation.id.to_s, :content_type => "text/plain"
-          else
-            render :text => "save error", :status => :internal_server_error
-          end
+	  render :text => relation.id.to_s, :content_type => "text/plain"
         end
       else
         render :nothing => true, :status => :bad_request
@@ -61,12 +58,9 @@ class RelationController < ApplicationController
             relation.tags = new_relation.tags
             relation.members = new_relation.members
             relation.visible = true
+            relation.save_with_history!
 
-            if relation.save_with_history
-              render :nothing => true
-            else
-              render :nothing => true, :status => :internal_server_error
-            end
+            render :nothing => true
           end
         else
           render :nothing => true, :status => :bad_request
@@ -94,12 +88,9 @@ class RelationController < ApplicationController
           relation.tags = []
           relation.members = []
           relation.visible = false
+          relation.save_with_history!
 
-          if relation.save_with_history
-            render :nothing => true
-          else
-            render :nothing => true, :status => :internal_server_error
-          end
+          render :nothing => true
         end
       else
         render :nothing => true, :status => :gone

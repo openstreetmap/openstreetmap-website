@@ -1,7 +1,11 @@
 <% if @this_user %>
   <h2><%= @this_user.display_name %>'s diary</h2>
-
-  <% if @user and @this_user.id == @user.id %>
+  <% if @user == @this_user %>
+    <%= link_to 'New diary post', :controller => 'diary_entry', :action => 'new', :display_name => @user.display_name %>
+  <% end %>
+<% else %>
+  <h2>Users' diaries</h2>
+  <% if @user %>
     <%= link_to 'New diary post', :controller => 'diary_entry', :action => 'new', :display_name => @user.display_name %>
   <% end %>
 <% end %>

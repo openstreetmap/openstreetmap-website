@@ -39,10 +39,12 @@
   var fo = new SWFObject("/potlatch/potlatch.swf?d="+Math.round(Math.random()*1000), "potlatch", "700", "600", "6", "#FFFFFF");
 
   function doSWF(lat,lon,sc) {
+    if (sc < 11) sc = 11;
     fo.addVariable('lat',lat);
     fo.addVariable('long',lon);
     fo.addVariable('scale',sc);
     fo.addVariable('token','<%= session[:token] %>');
+<% if params['gpx'] %>    fo.addVariable('gpx','<%= params['gpx']+"/data" %>'); <% end %>
     fo.write("map");
   }
 

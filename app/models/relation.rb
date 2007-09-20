@@ -141,46 +141,40 @@ class Relation < ActiveRecord::Base
     @tags[k] = v
   end
 
-  def save_with_history
-    begin
-      Relation.transaction do
-        t = Time.now
-        self.timestamp = t
-        self.save!
+  def save_with_history!
+    Relation.transaction do
+      t = Time.now
+      self.timestamp = t
+      self.save!
 
-        tags = self.tags
+      tags = self.tags
 
-        RelationTag.delete_all(['id = ?', self.id])
+      RelationTag.delete_all(['id = ?', self.id])
 
-        tags.each do |k,v|
-          tag = RelationTag.new
-          tag.k = k
-          tag.v = v
-          tag.id = self.id
-          tag.save!
-        end
-
-        members = self.members
-
-        RelationMember.delete_all(['id = ?', self.id])
-
-        members.each do |n|
-          mem = RelationMember.new
-          mem.id = self.id
-          mem.member_type = n[0];
-          mem.member_id = n[1];
-          mem.member_role = n[2];
-          mem.save!
-        end
-
-        old_relation = OldRelation.from_relation(self)
-        old_relation.timestamp = t
-        old_relation.save_with_dependencies!
+      tags.each do |k,v|
+	tag = RelationTag.new
+	tag.k = k
+	tag.v = v
+	tag.id = self.id
+	tag.save!
       end
 
-      return true
-    rescue Exception => ex
-      return nil
+      members = self.members
+
+      RelationMember.delete_all(['id = ?', self.id])
+
+      members.each do |n|
+	mem = RelationMember.new
+	mem.id = self.id
+	mem.member_type = n[0];
+	mem.member_id = n[1];
+	mem.member_role = n[2];
+	mem.save!
+      end
+
+      old_relation = OldRelation.from_relation(self)
+      old_relation.timestamp = t
+      old_relation.save_with_dependencies!
     end
   end
 

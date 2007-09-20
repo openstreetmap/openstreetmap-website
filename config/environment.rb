@@ -1,5 +1,8 @@
 # Be sure to restart your web server when you modify this file.
 
+# Limit each rails process to a 512Mb resident set size
+Process.setrlimit Process::RLIMIT_AS, 640*1024*1024, Process::RLIM_INFINITY
+
 # Uncomment below to force Rails into production mode when 
 # you don't control web/app server and can't set it the proper way
 ENV['RAILS_ENV'] ||= 'production'

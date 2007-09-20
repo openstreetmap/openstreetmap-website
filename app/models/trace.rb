@@ -175,7 +175,12 @@ class Trace < ActiveRecord::Base
       f_lon = 0
       first = true
 
-      Tracepoint.delete_all(['gpx_id = ?', self.id])
+      # If there are any existing points for this trace then delete
+      # them - we check for existing points first to avoid locking
+      # the table in the common case where there aren't any.
+      if Tracepoint.exists?(['gpx_id = ?', self.id])
+        Tracepoint.delete_all(['gpx_id = ?', self.id])
+      end
 
       gpx.points do |point|
         if first
@@ -199,10 +204,10 @@ class Trace < ActiveRecord::Base
         max_lon = Tracepoint.maximum('longitude', :conditions => ['gpx_id = ?', id])
         min_lon = Tracepoint.minimum('longitude', :conditions => ['gpx_id = ?', id])
 
-        max_lat = max_lat.to_f / 1000000
-        min_lat = min_lat.to_f / 1000000
-        max_lon = max_lon.to_f / 1000000
-        min_lon = min_lon.to_f / 1000000
+        max_lat = max_lat.to_f / 10000000
+        min_lat = min_lat.to_f / 10000000
+        max_lon = max_lon.to_f / 10000000
+        min_lon = min_lon.to_f / 10000000
 
         self.latitude = f_lat
         self.longitude = f_lon

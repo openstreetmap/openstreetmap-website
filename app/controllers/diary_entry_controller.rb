@@ -7,9 +7,9 @@ class DiaryEntryController < ApplicationController
   def new
     @title = 'new diary entry'
     if params[:diary_entry]     
-      @entry = DiaryEntry.new(params[:diary_entry])
-      @entry.user = @user
-      if @entry.save 
+      @diary_entry = DiaryEntry.new(params[:diary_entry])
+      @diary_entry.user = @user
+      if @diary_entry.save 
         redirect_to :controller => 'diary_entry', :action => 'list', :display_name => @user.display_name 
       end
     end
@@ -41,10 +41,7 @@ class DiaryEntryController < ApplicationController
     end
 
     @entries.each do |entry|
-      # add geodata here
-      latitude = nil
-      longitude = nil
-      rss.add(latitude, longitude, entry.title, entry.user.display_name, url_for({:controller => 'diary_entry', :action => 'list', :id => entry.id, :display_name => entry.user.display_name}), entry.body, entry.created_at)
+      rss.add(entry.latitude, entry.longitude, entry.title, entry.user.display_name, url_for({:controller => 'diary_entry', :action => 'list', :id => entry.id, :display_name => entry.user.display_name}), entry.body, entry.created_at)
     end
 
     render :text => rss.to_s, :content_type => "application/rss+xml"

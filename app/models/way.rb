@@ -142,49 +142,47 @@ class Way < ActiveRecord::Base
     @tags[k] = v
   end
 
-  def save_with_history
-    begin
-      Way.transaction do
-        t = Time.now
-        self.timestamp = t
-        self.save!
+  def save_with_history!
+    t = Time.now
 
-        tags = self.tags
-
-        WayTag.delete_all(['id = ?', self.id])
-
-        tags.each do |k,v|
-          tag = WayTag.new
-          tag.k = k
-          tag.v = v
-          tag.id = self.id
-          tag.save!
-        end
-
-        nds = self.nds
-
-        WayNode.delete_all(['id = ?', self.id])
-
-        i = 1
-        nds.each do |n|
-          nd = WayNode.new
-          nd.id = self.id
-          nd.node_id = n
-          nd.sequence_id = i
-          nd.save!
-          i += 1
-        end
-
-        old_way = OldWay.from_way(self)
-        old_way.timestamp = t
-        old_way.save_with_dependencies!
-      end
-
-      return true
-    rescue => ex
-      puts ex
-      return nil
+    Way.transaction do
+      self.timestamp = t
+      self.save!
     end
+
+    WayTag.transaction do
+      tags = self.tags
+
+      WayTag.delete_all(['id = ?', self.id])
+
+      tags.each do |k,v|
+        tag = WayTag.new
+        tag.k = k
+        tag.v = v
+        tag.id = self.id
+        tag.save!
+      end
+    end
+
+    WayNode.transaction do
+      nds = self.nds
+
+      WayNode.delete_all(['id = ?', self.id])
+
+      i = 1
+      nds.each do |n|
+        nd = WayNode.new
+        nd.id = self.id
+        nd.node_id = n
+        nd.sequence_id = i
+        nd.save!
+        i += 1
+      end
+    end
+
+    old_way = OldWay.from_way(self)
+    old_way.timestamp = t
+    old_way.save_with_dependencies!
   end
 
   def preconditions_ok?
