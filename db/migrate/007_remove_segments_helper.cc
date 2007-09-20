@@ -6,6 +6,8 @@
 #include <vector>
 #include <list>
 #include <sstream>
+#include <map>
+#include <string>
 
 #ifdef __amd64__
 
@@ -196,7 +198,7 @@ static void convert_ways(struct data *d) {
   if (mysql_stmt_bind_param(load_segs, bind))
     exit_stmt_err(load_segs);
 
-  memset(bind, 0, sizeof(seg_bind));
+  memset(seg_bind, 0, sizeof(seg_bind));
   seg_bind[0].buffer_type = MYSQL_TYPE_LONGLONG;
   seg_bind[0].buffer = (char *) &mysql_seg_id;
   seg_bind[0].is_null = 0;
@@ -219,7 +221,7 @@ static void convert_ways(struct data *d) {
   if (mysql_stmt_bind_param(load_tags, bind))
     exit_stmt_err(load_tags);
 
-  memset(bind, 0, sizeof(tag_bind));
+  memset(tag_bind, 0, sizeof(tag_bind));
   tag_bind[0].buffer_type = MYSQL_TYPE_STRING;
   tag_bind[0].buffer = k;
   tag_bind[0].is_null = 0;
@@ -398,6 +400,53 @@ static int read_seg_tags(char **tags, char **k, char **v) {
 static void mark_tagged_segs(struct data *d) {
   MYSQL_RES *res;
   MYSQL_ROW row;
+  MYSQL_STMT *way_tags;
+  const char
+    way_tags_stmt[] = "SELECT k, v FROM current_way_segments INNER JOIN "
+      "current_way_tags ON current_way_segments.id = "
+      "current_way_tags.id WHERE segment_id = ?";
+  char *wk, *wv;
+  const size_t max_tag_len = 1 << 16;
+  long long mysql_seg_id;
+  unsigned long res_len;
+  my_bool res_error;
+  MYSQL_BIND in_bind[1], out_bind[1];
+
+  /* F***ing libmysql only support fixed size buffers for string results of
+   * prepared statements.  So allocate 65k for the tag key and the tag value
+   * and hope it'll suffice. */
+  wk = (char *) malloc(max_tag_len);
+  wv = (char *) malloc(max_tag_len);
+
+  way_tags = mysql_stmt_init(d->mysql2);
+  if (!way_tags) exit_mysql_err(d->mysql2);
+  if (mysql_stmt_prepare(way_tags, way_tags_stmt, sizeof(way_tags_stmt)))
+    exit_stmt_err(way_tags);
+
+  memset(in_bind, 0, sizeof(in_bind));
+  in_bind[0].buffer_type = MYSQL_TYPE_LONGLONG;
+  in_bind[0].buffer = (char *) &mysql_seg_id;
+  in_bind[0].is_null = 0;
+  in_bind[0].length = 0;
+
+  if (mysql_stmt_bind_param(way_tags, in_bind))
+    exit_stmt_err(way_tags);
+
+  memset(out_bind, 0, sizeof(out_bind));
+  out_bind[0].buffer_type = MYSQL_TYPE_STRING;
+  out_bind[0].buffer = wk;
+  out_bind[0].is_null = 0;
+  out_bind[0].length = &res_len;
+  out_bind[0].error = &res_error;
+  out_bind[0].buffer_length = max_tag_len;
+  out_bind[1].buffer_type = MYSQL_TYPE_STRING;
+  out_bind[1].buffer = wv;
+  out_bind[1].is_null = 0;
+  out_bind[1].length = &res_len;
+  out_bind[1].error = &res_error;
+  out_bind[1].buffer_length = max_tag_len;
+  if (mysql_stmt_bind_result(way_tags, out_bind))
+    exit_stmt_err(way_tags);
 
   if (mysql_query(d->mysql, "SELECT id, tags FROM current_segments "
       "WHERE visible && tags != '' && tags != 'created_by=JOSM'"))
@@ -409,6 +458,9 @@ static void mark_tagged_segs(struct data *d) {
   while ((row = mysql_fetch_row(res))) {
     size_t id = parse<size_t>(row[0]);
     if (d->rem_segs[id]) continue;
+
+    map<string, string> interesting_tags;
+
     char *tags_it = row[1], *k, *v;
     while (read_seg_tags(&tags_it, &k, &v)) {
       if (strcmp(k, "created_by") &&
@@ -417,13 +469,40 @@ static void mark_tagged_segs(struct data *d) {
 	  strcmp(k, "converted_by") &&
 	  (strcmp(k, "natural") || strcmp(v, "coastline")) &&
 	  (strcmp(k, "source") || strcmp(v, "PGS"))) {
-	d->rem_segs[id] = 1;
-	break;
+	interesting_tags.insert(make_pair(string(k), string(v)));
       }
+    }
+
+    if (interesting_tags.size() == 0) continue;
+
+    mysql_seg_id = id;
+
+    if (mysql_stmt_execute(way_tags))
+      exit_stmt_err(way_tags);
+
+    if (mysql_stmt_store_result(way_tags))
+      exit_stmt_err(way_tags);
+
+    while (!mysql_stmt_fetch(way_tags)) {
+      for (map<string, string>::iterator it = interesting_tags.find(wk);
+	  it != interesting_tags.end() && it->first == wk; ++it) {
+	if (it->second == wv) {
+	  interesting_tags.erase(it);
+	  break;
+	}
+      }
+    }
+
+    if (interesting_tags.size() > 0) {
+      d->rem_segs[id] = 1;
     }
   }
 
   mysql_free_result(res);
+
+  mysql_stmt_close(way_tags);
+  free(wk);
+  free(wv);
 }
 
 static void convert_remaining_segs(struct data *d) {
