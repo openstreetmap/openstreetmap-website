@@ -95,8 +95,7 @@ class SwfController < ApplicationController
 				"       LEFT OUTER JOIN current_way_segments"+
 				"       ON segment_id=current_segments.id,"+
 				"       current_nodes AS cn1,current_nodes AS cn2"+
-				" WHERE (cn1.longitude BETWEEN #{xmin} AND #{xmax})"+
-				"   AND (cn1.latitude  BETWEEN #{ymin} AND #{ymax})"+
+				" WHERE	"+OSM.sql_for_area(ymin,xmin,ymax,xmax,"cn1.")+
 				"   AND segment_id IS NULL"+
 				"   AND current_segments.visible=1"+
 				"   AND cn1.id=node_a AND cn1.visible=1"+
