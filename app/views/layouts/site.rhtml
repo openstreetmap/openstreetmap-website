@@ -67,7 +67,12 @@
       </div>
       <% end %>
 
-      <% if API_STATUS != :online %>
+      <% if API_STATUS == :offline %>
+      <div id="alert">
+        The OpenStreetMap database is currently offline while
+        essential database maintenance work is carried out.
+      </div>
+      <% elsif API_STATUS == :readonly %>
       <div id="alert">
         The OpenStreetMap database is currently in read-only mode while
         essential database maintenance work is carried out.
