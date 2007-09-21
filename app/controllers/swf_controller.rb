@@ -89,8 +89,8 @@ class SwfController < ApplicationController
 		# - Draw unwayed segments
 		
 		if params['unwayed']=='true'
-			sql="SELECT cn1.latitude AS lat1,cn1.longitude AS lon1,"+
-				"		cn2.latitude AS lat2,cn2.longitude AS lon2 "+
+			sql="SELECT cn1.latitude*0.0000001 AS lat1,cn1.longitude*0.0000001 AS lon1,"+
+				"		cn2.latitude*0.0000001 AS lat2,cn2.longitude*0.0000001 AS lon2 "+
 				"  FROM current_segments "+
 				"       LEFT OUTER JOIN current_way_segments"+
 				"       ON segment_id=current_segments.id,"+
