@@ -610,8 +610,7 @@ def makeway(args)
 		       current_nodes AS cn2,
 		       current_segments AS cs 
 		       LEFT OUTER JOIN current_way_segments ON segment_id=cs.id 
-		 WHERE (cn1.longitude BETWEEN #{xs1} AND #{xs2}) 
-		   AND (cn1.latitude  BETWEEN #{ys1} AND #{ys2}) 
+		 WHERE #{OSM.sql_for_area(ys1,xs1,ys2,xs2,"cn1.")}
 		   AND segment_id IS NULL 
                    AND cs.visible=1
 		   AND cn1.id=node_a AND cn1.visible=1 
