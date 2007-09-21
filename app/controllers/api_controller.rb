@@ -137,7 +137,7 @@ class ApiController < ApplicationController
     end
 
     # get all the nodes
-    nodes = Node.find(:all, :conditions => ['latitude BETWEEN ? AND ? AND longitude BETWEEN ? AND ? AND visible = 1', min_lat, max_lat, min_lon, max_lon])
+    nodes = Node.find_by_area(min_lat, min_lon, max_lat, max_lon, :conditions => "visible = 1")
 
     node_ids = nodes.collect {|node| node.id }
 
