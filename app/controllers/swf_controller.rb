@@ -1,6 +1,6 @@
 class SwfController < ApplicationController
 	session :off
-	before_filter :check_availability
+	before_filter :check_read_availability
 
 # to log:
 # RAILS_DEFAULT_LOGGER.error("Args: #{args[0]}, #{args[1]}, #{args[2]}, #{args[3]}")
@@ -89,14 +89,13 @@ class SwfController < ApplicationController
 		# - Draw unwayed segments
 		
 		if params['unwayed']=='true'
-			sql="SELECT cn1.latitude AS lat1,cn1.longitude AS lon1,"+
-				"		cn2.latitude AS lat2,cn2.longitude AS lon2 "+
+			sql="SELECT cn1.latitude*0.0000001 AS lat1,cn1.longitude*0.0000001 AS lon1,"+
+				"		cn2.latitude*0.0000001 AS lat2,cn2.longitude*0.0000001 AS lon2 "+
 				"  FROM current_segments "+
 				"       LEFT OUTER JOIN current_way_nodes"+
 				"       ON segment_id=current_segments.id,"+
 				"       current_nodes AS cn1,current_nodes AS cn2"+
-				" WHERE (cn1.longitude BETWEEN #{xmin} AND #{xmax})"+
-				"   AND (cn1.latitude  BETWEEN #{ymin} AND #{ymax})"+
+				" WHERE	"+OSM.sql_for_area(ymin,xmin,ymax,xmax,"cn1.")+
 				"   AND segment_id IS NULL"+
 				"   AND current_segments.visible=1"+
 				"   AND cn1.id=node_a AND cn1.visible=1"+

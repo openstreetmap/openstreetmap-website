@@ -9,14 +9,42 @@ class Node < ActiveRecord::Base
 
   has_many :old_nodes, :foreign_key => :id
   belongs_to :user
+ 
+  before_save :update_tile
+
+  def self.find_by_area(minlat, minlon, maxlat, maxlon, options)
+    self.with_scope(:find => {:conditions => OSM.sql_for_area(minlat, minlon, maxlat, maxlon)}) do
+      return self.find(:all, options)
+    end
+  end
+
+  def update_tile
+    self.tile = QuadTile.tile_for_point(lat, lon)
+  end
+
+  def lat=(l)
+    self.latitude = (l * 10000000).round
+  end
+
+  def lon=(l)
+    self.longitude = (l * 10000000).round
+  end
+
+  def lat
+    return self.latitude.to_f / 10000000
+  end
+
+  def lon
+    return self.longitude.to_f / 10000000
+  end
 
   def validate_position
     errors.add_to_base("Node is not in the world") unless in_world?
   end
 
   def in_world?
-    return false if self.latitude < -90 or self.latitude > 90
-    return false if self.longitude < -180 or self.longitude > 180
+    return false if self.lat < -90 or self.lat > 90
+    return false if self.lon < -180 or self.lon > 180
     return true
   end
 
@@ -29,8 +57,8 @@ class Node < ActiveRecord::Base
       node = Node.new
 
       doc.find('//osm/node').each do |pt|
-        node.latitude = pt['lat'].to_f
-        node.longitude = pt['lon'].to_f
+        node.lat = pt['lat'].to_f
+        node.lon = pt['lon'].to_f
 
         return nil unless node.in_world?
 
@@ -86,8 +114,8 @@ class Node < ActiveRecord::Base
   def to_xml_node(user_display_name_cache = nil)
     el1 = XML::Node.new 'node'
     el1['id'] = self.id.to_s
-    el1['lat'] = self.latitude.to_s
-    el1['lon'] = self.longitude.to_s
+    el1['lat'] = self.lat.to_s
+    el1['lon'] = self.lon.to_s
 
     user_display_name_cache = {} if user_display_name_cache.nil?
 

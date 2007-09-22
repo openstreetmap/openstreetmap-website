@@ -77,8 +77,9 @@ end
 #   inflect.uncountable %w( fish sheep )
 # end
 
-# Set to true to put the API in read-only mode
-API_READONLY = false
+# Set to :readonly to put the API in read-only mode or :offline to
+# take it completely offline
+API_STATUS = :online
 
 # Include your application configuration below
 SERVER_URL = ENV['OSM_SERVER_URL'] || 'www.openstreetmap.org'

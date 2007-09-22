@@ -2,7 +2,7 @@ class AmfController < ApplicationController
   require 'stringio'
 
   session :off
-  before_filter :check_availability
+  before_filter :check_write_availability
 
   # to log:
   # RAILS_DEFAULT_LOGGER.error("Args: #{args[0]}, #{args[1]}, #{args[2]}, #{args[3]}")
@@ -215,34 +215,32 @@ EOF
     ymin = args[1].to_f-0.01
     xmax = args[2].to_f+0.01
     ymax = args[3].to_f+0.01
-	baselong    = args[4]
-	basey       = args[5]
-	masterscale = args[6]
+    baselong    = args[4]
+    basey       = args[5]
+    masterscale = args[6]
 
     RAILS_DEFAULT_LOGGER.info("  Message: whichways, bbox=#{xmin},#{ymin},#{xmax},#{ymax}")
 
-    waylist=WayNode.find_by_sql("SELECT DISTINCT current_way_nodes.id AS wayid"+
-       "  FROM current_way_nodes,current_segments,current_nodes,current_ways "+
+    waylist = WaySegment.find_by_sql("SELECT DISTINCT current_way_segments.id AS wayid"+
+       "  FROM current_way_segments,current_segments,current_nodes,current_ways "+
        " WHERE segment_id=current_segments.id "+
        "   AND current_segments.visible=1 "+
        "   AND node_a=current_nodes.id "+
-	   "   AND current_ways.id=current_way_nodes.id "+
-	   "   AND current_ways.visible=1 "+
-       "   AND (latitude  BETWEEN "+ymin.to_s+" AND "+ymax.to_s+") "+
-       "   AND (longitude BETWEEN "+xmin.to_s+" AND "+xmax.to_s+")")
+       "   AND current_ways.id=current_way_segments.id "+
+       "   AND current_ways.visible=1 "+
+       "   AND "+OSM.sql_for_area(ymin, xmin, ymax, xmax, "current_nodes."))
 
-       ways = waylist.collect {|a| a.wayid.to_i } # get an array of way id's
+    ways = waylist.collect {|a| a.wayid.to_i } # get an array of way id's
 
-       pointlist =ActiveRecord::Base.connection.select_all("SELECT current_nodes.id,latitude,longitude,current_nodes.tags "+
+    pointlist = ActiveRecord::Base.connection.select_all("SELECT current_nodes.id,current_nodes.latitude*0.0000001 AS lat,current_nodes.longitude*0.0000001 AS lng,current_nodes.tags "+
        "  FROM current_nodes "+
        "  LEFT OUTER JOIN current_segments cs1 ON cs1.node_a=current_nodes.id "+
        "  LEFT OUTER JOIN current_segments cs2 ON cs2.node_b=current_nodes.id "+
-       " WHERE (latitude  BETWEEN "+ymin.to_s+" AND "+ymax.to_s+") "+
-       "   AND (longitude BETWEEN "+xmin.to_s+" AND "+xmax.to_s+") "+
+       " WHERE "+OSM.sql_for_area(ymin, xmin, ymax, xmax, "current_nodes.")+
        "   AND cs1.id IS NULL AND cs2.id IS NULL "+
        "   AND current_nodes.visible=1")
 
-	    points = pointlist.collect {|a| [a['id'],long2coord(a['longitude'].to_f,baselong,masterscale),lat2coord(a['latitude'].to_f,basey,masterscale),tag2array(a['tags'])]	} # get a list of node ids and their tags
+    points = pointlist.collect {|a| [a['id'],long2coord(a['lng'].to_f,baselong,masterscale),lat2coord(a['lat'].to_f,basey,masterscale),tag2array(a['tags'])]	} # get a list of node ids and their tags
 
     return [ways,points]
   end
@@ -307,7 +305,7 @@ EOF
         id2=row['id2'].to_i; xc[id2]=row['long2'].to_f; yc[id2]=row['lat2'].to_f; tagc[id2]=row['tags2']
         seg[row['segment_id'].to_i]=id1.to_s+'-'+id2.to_s
       }
-	  ActiveRecord::Base.connection.update("UPDATE current_ways SET timestamp=#{db_now},user_id=#{uid},visible=1 WHERE id=#{way}")
+      ActiveRecord::Base.connection.update("UPDATE current_ways SET timestamp=#{db_now},user_id=#{uid},visible=1 WHERE id=#{way}")
     else
       way=ActiveRecord::Base.connection.insert("INSERT INTO current_ways (user_id,timestamp,visible) VALUES (#{uid},#{db_now},1)")
     end
@@ -330,31 +328,33 @@ EOF
       ymin=[ys,ymin].min; ymax=[ys,ymax].max
       node=points[i][2].to_i
       tagstr=array2tag(points[i][4])
-	  tagstr=tagstr.gsub(/[\000-\037]/,"")
+      tagstr=tagstr.gsub(/[\000-\037]/,"")
       tagsql="'"+sqlescape(tagstr)+"'"
+      lat=(ys * 10000000).round
+      long=(xs * 10000000).round
+      tile=QuadTile.tile_for_point(ys, xs)
 
       # compare node
       if node<0
         # new node - create
-		if renumberednodes[node.to_s].nil?
-			newnode=ActiveRecord::Base.connection.insert("INSERT INTO current_nodes (   latitude,longitude,timestamp,user_id,visible,tags) VALUES (           #{ys},#{xs},#{db_now},#{uid},1,#{tagsql})")
-					ActiveRecord::Base.connection.insert("INSERT INTO nodes         (id,latitude,longitude,timestamp,user_id,visible,tags) VALUES (#{newnode},#{ys},#{xs},#{db_now},#{uid},1,#{tagsql})")
-			points[i][2]=newnode
-			renumberednodes[node.to_s]=newnode.to_s
-		else
-			points[i][2]=renumberednodes[node.to_s].to_i
-		end
+	if renumberednodes[node.to_s].nil?
+          newnode=ActiveRecord::Base.connection.insert("INSERT INTO current_nodes (   latitude,longitude,timestamp,user_id,visible,tags,tile) VALUES (           #{lat},#{long},#{db_now},#{uid},1,#{tagsql},#{tile})")
+                  ActiveRecord::Base.connection.insert("INSERT INTO nodes         (id,latitude,longitude,timestamp,user_id,visible,tags,tile) VALUES (#{newnode},#{lat},#{long},#{db_now},#{uid},1,#{tagsql},#{tile})")
+          points[i][2]=newnode
+          renumberednodes[node.to_s]=newnode.to_s
+	else
+          points[i][2]=renumberednodes[node.to_s].to_i
+	end
 
       elsif xc.has_key?(node)
         # old node from original way - update
-        if (xs!=xc[node] or (ys/0.0000001).round!=(yc[node]/0.0000001).round or tagstr!=tagc[node])
-          ActiveRecord::Base.connection.insert("INSERT INTO nodes (id,latitude,longitude,timestamp,user_id,visible,tags) VALUES (#{node},#{ys},#{xs},#{db_now},#{uid},1,#{tagsql})")
-          ActiveRecord::Base.connection.update("UPDATE current_nodes SET latitude=#{ys},longitude=#{xs},timestamp=#{db_now},user_id=#{uid},tags=#{tagsql},visible=1 WHERE id=#{node}")
+        if (xs!=xc[node] or ys!=yc[node] or tagstr!=tagc[node])
+          ActiveRecord::Base.connection.insert("INSERT INTO nodes (id,latitude,longitude,timestamp,user_id,visible,tags,tile) VALUES (#{node},#{lat},#{long},#{db_now},#{uid},1,#{tagsql},#{tile})")
+          ActiveRecord::Base.connection.update("UPDATE current_nodes SET latitude=#{lat},longitude=#{long},timestamp=#{db_now},user_id=#{uid},tags=#{tagsql},visible=1,tile=#{tile} WHERE id=#{node}")
         end
       else
         # old node, created in another way and now added to this way
       end
-
     end
 
 
@@ -368,19 +368,19 @@ EOF
       from =points[i  ][2].to_i
       to   =points[i+1][2].to_i
       if seg.has_key?(segid)
-		# if segment exists, check it still refers to the same nodes
+	# if segment exists, check it still refers to the same nodes
         if seg[segid]=="#{from}-#{to}" then 
           if (seglist!='') then seglist+=',' end; seglist+=segid.to_s
           next
         end
-	  elsif segid>0
-		# not in previous version of way, but supplied, so assume
-		# that it's come from makeway (i.e. unwayed segments)
-		if (seglist!='') then seglist+=',' end; seglist+=segid.to_s
-		next
+      elsif segid>0
+        # not in previous version of way, but supplied, so assume
+        # that it's come from makeway (i.e. unwayed segments)
+        if (seglist!='') then seglist+=',' end; seglist+=segid.to_s
+        next
       end
       segid=ActiveRecord::Base.connection.insert("INSERT INTO current_segments (   node_a,node_b,timestamp,user_id,visible,tags) VALUES (         #{from},#{to},#{db_now},#{uid},1,'')")
-      		ActiveRecord::Base.connection.insert("INSERT INTO segments         (id,node_a,node_b,timestamp,user_id,visible,tags) VALUES (#{segid},#{from},#{to},#{db_now},#{uid},1,'')")
+            ActiveRecord::Base.connection.insert("INSERT INTO segments         (id,node_a,node_b,timestamp,user_id,visible,tags) VALUES (#{segid},#{from},#{to},#{db_now},#{uid},1,'')")
       points[i+1][5]=segid
       numberedsegments[(i+1).to_s]=segid.to_s
     end
@@ -412,10 +412,10 @@ EOF
     createuniquenodes(db_uqs,db_uqn)	# nodes which appear in this way but no other
 
     sql=<<-EOF
-		INSERT INTO nodes (id,latitude,longitude,timestamp,user_id,visible)  
-		SELECT DISTINCT cn.id,cn.latitude,cn.longitude,#{db_now},#{uid},0 
-		  FROM current_nodes AS cn,#{db_uqn}
-		 WHERE cn.id=node_id
+	INSERT INTO nodes (id,latitude,longitude,timestamp,user_id,visible,tile)  
+	SELECT DISTINCT cn.id,cn.latitude,cn.longitude,#{db_now},#{uid},0,cn.tile
+	  FROM current_nodes AS cn,#{db_uqn}
+	 WHERE cn.id=node_id
     EOF
     ActiveRecord::Base.connection.insert(sql)
 
@@ -429,7 +429,7 @@ EOF
     ActiveRecord::Base.connection.execute("DROP TABLE #{db_uqs}")
     ActiveRecord::Base.connection.execute("DROP TABLE #{db_uqn}")
 
-    #		insert new version of route into way_nodes
+    #		insert new version of route into way_segments
 
     insertsql =''
     currentsql=''
@@ -443,9 +443,9 @@ EOF
       sequence  +=1
     end
 
-    ActiveRecord::Base.connection.execute("DELETE FROM current_way_nodes WHERE id=#{way}");
-    ActiveRecord::Base.connection.insert("INSERT INTO         way_nodes (id,segment_id,version    ) VALUES #{insertsql}");
-    ActiveRecord::Base.connection.insert("INSERT INTO current_way_nodes (id,segment_id,sequence_id) VALUES #{currentsql}");
+    ActiveRecord::Base.connection.execute("DELETE FROM current_way_segments WHERE id=#{way}");
+    ActiveRecord::Base.connection.insert("INSERT INTO         way_segments (id,segment_id,version    ) VALUES #{insertsql}");
+    ActiveRecord::Base.connection.insert("INSERT INTO current_way_segments (id,segment_id,sequence_id) VALUES #{currentsql}");
 
     # -- 7. insert new way tags
 
@@ -475,27 +475,30 @@ EOF
   #			if old: add new row to nodes, update current_nodes
 
   def putpoi(args)
-	usertoken,id,x,y,tags,visible,baselong,basey,masterscale=args
-	uid=getuserid(usertoken)
-	return if !uid
+    usertoken,id,x,y,tags,visible,baselong,basey,masterscale=args
+    uid=getuserid(usertoken)
+    return if !uid
     db_now='@now'+uid.to_s+id.to_i.abs.to_s+Time.new.to_i.to_s	# 'now' variable name, typically 51 chars
     ActiveRecord::Base.connection.execute("SET #{db_now}=NOW()")
 
-	id=id.to_i
-	visible=visible.to_i
-	x=coord2long(x.to_f,masterscale,baselong)
-	y=coord2lat(y.to_f,masterscale,basey)
-	tagsql="'"+sqlescape(array2tag(tags))+"'"
+    id=id.to_i
+    visible=visible.to_i
+    x=coord2long(x.to_f,masterscale,baselong)
+    y=coord2lat(y.to_f,masterscale,basey)
+    tagsql="'"+sqlescape(array2tag(tags))+"'"
+    lat=(y * 10000000).round
+    long=(x * 10000000).round
+    tile=QuadTile.tile_for_point(y, x)
 	
-	if (id>0) then
-		ActiveRecord::Base.connection.insert("INSERT INTO nodes (id,latitude,longitude,timestamp,user_id,visible,tags) VALUES (#{id},#{y},#{x},#{db_now},#{uid},#{visible},#{tagsql})");
-		ActiveRecord::Base.connection.update("UPDATE current_nodes SET latitude=#{y},longitude=#{x},timestamp=#{db_now},user_id=#{uid},visible=#{visible},tags=#{tagsql} WHERE id=#{id}");
-		newid=id
-	else
-		newid=ActiveRecord::Base.connection.insert("INSERT INTO current_nodes (latitude,longitude,timestamp,user_id,visible,tags) VALUES (#{y},#{x},#{db_now},#{uid},#{visible},#{tagsql})");
-			  ActiveRecord::Base.connection.update("INSERT INTO nodes (id,latitude,longitude,timestamp,user_id,visible,tags) VALUES (#{newid},#{y},#{x},#{db_now},#{uid},#{visible},#{tagsql})");
-	end
-	[id,newid]
+    if (id>0) then
+        ActiveRecord::Base.connection.insert("INSERT INTO nodes (id,latitude,longitude,timestamp,user_id,visible,tags,tile) VALUES (#{id},#{lat},#{long},#{db_now},#{uid},#{visible},#{tagsql},#{tile})");
+        ActiveRecord::Base.connection.update("UPDATE current_nodes SET latitude=#{lat},longitude=#{long},timestamp=#{db_now},user_id=#{uid},visible=#{visible},tags=#{tagsql},tile=#{tile} WHERE id=#{id}");
+        newid=id
+    else
+        newid=ActiveRecord::Base.connection.insert("INSERT INTO current_nodes (latitude,longitude,timestamp,user_id,visible,tags,tile) VALUES (#{lat},#{long},#{db_now},#{uid},#{visible},#{tagsql},#{tile})");
+              ActiveRecord::Base.connection.update("INSERT INTO nodes (id,latitude,longitude,timestamp,user_id,visible,tags,tile) VALUES (#{newid},#{lat},#{long},#{db_now},#{uid},#{visible},#{tagsql},#{tile})");
+    end
+    [id,newid]
   end
 
   # -----	getpoi (id,baselong,basey,masterscale)
@@ -503,12 +506,12 @@ EOF
   
   def getpoi(args)
 	id,baselong,basey,masterscale=args; id=id.to_i
-	poi=ActiveRecord::Base.connection.select_one("SELECT latitude,longitude,tags "+
+	poi=ActiveRecord::Base.connection.select_one("SELECT latitude*0.0000001 AS lat,longitude*0.0000001 AS lng,tags "+
 		"FROM current_nodes WHERE visible=1 AND id=#{id}")
 	if poi.nil? then return [nil,nil,nil,''] end
 	[id,
-	 long2coord(poi['longitude'].to_f,baselong,masterscale),
-	 lat2coord(poi['latitude'].to_f,basey,masterscale),
+	 long2coord(poi['lng'].to_f,baselong,masterscale),
+	 lat2coord(poi['lat'].to_f,basey,masterscale),
 	 tag2array(poi['tags'])]
   end
 
@@ -521,61 +524,61 @@ EOF
     RAILS_DEFAULT_LOGGER.info("  Message: deleteway, id=#{way}")
 
     uid=getuserid(usertoken); if !uid then return end
-	way=way.to_i
+    way=way.to_i
 
-	db_uqs='uniq'+uid.to_s+way.to_i.abs.to_s+Time.new.to_i.to_s	# temp uniquesegments table name, typically 51 chars
-	db_uqn='unin'+uid.to_s+way.to_i.abs.to_s+Time.new.to_i.to_s	# temp uniquenodes table name, typically 51 chars
-	db_now='@now'+uid.to_s+way.to_i.abs.to_s+Time.new.to_i.to_s	# 'now' variable name, typically 51 chars
-	ActiveRecord::Base.connection.execute("SET #{db_now}=NOW()")
-	createuniquesegments(way,db_uqs,'')
+    db_uqs='uniq'+uid.to_s+way.to_i.abs.to_s+Time.new.to_i.to_s	# temp uniquesegments table name, typically 51 chars
+    db_uqn='unin'+uid.to_s+way.to_i.abs.to_s+Time.new.to_i.to_s	# temp uniquenodes table name, typically 51 chars
+    db_now='@now'+uid.to_s+way.to_i.abs.to_s+Time.new.to_i.to_s	# 'now' variable name, typically 51 chars
+    ActiveRecord::Base.connection.execute("SET #{db_now}=NOW()")
+    createuniquesegments(way,db_uqs,'')
 
-	# -	delete any otherwise unused segments
+    # -	delete any otherwise unused segments
 
-	sql=<<-EOF
+    sql=<<-EOF
       INSERT INTO segments (id,node_a,node_b,timestamp,user_id,visible) 
       SELECT DISTINCT segment_id,node_a,node_b,#{db_now},#{uid},0 
         FROM current_segments AS cs, #{db_uqs} AS us
        WHERE cs.id=us.segment_id
     EOF
-	ActiveRecord::Base.connection.insert(sql)
+    ActiveRecord::Base.connection.insert(sql)
 
-	sql=<<-EOF
+    sql=<<-EOF
       UPDATE current_segments AS cs, #{db_uqs} AS us
          SET cs.timestamp=#{db_now},cs.visible=0,cs.user_id=#{uid} 
        WHERE cs.id=us.segment_id
     EOF
-	ActiveRecord::Base.connection.update(sql)
+    ActiveRecord::Base.connection.update(sql)
 
-	# - delete any unused nodes
+    # - delete any unused nodes
   
     createuniquenodes(db_uqs,db_uqn)
 
-	sql=<<-EOF
-		INSERT INTO nodes (id,latitude,longitude,timestamp,user_id,visible)  
-		SELECT DISTINCT cn.id,cn.latitude,cn.longitude,#{db_now},#{uid},0 
-		  FROM current_nodes AS cn,#{db_uqn}
-		 WHERE cn.id=node_id
+    sql=<<-EOF
+	INSERT INTO nodes (id,latitude,longitude,timestamp,user_id,visible,tile)
+	SELECT DISTINCT cn.id,cn.latitude,cn.longitude,#{db_now},#{uid},0,cn.tile
+	  FROM current_nodes AS cn,#{db_uqn}
+	 WHERE cn.id=node_id
     EOF
-	ActiveRecord::Base.connection.insert(sql)
+    ActiveRecord::Base.connection.insert(sql)
 
-	sql=<<-EOF
+    sql=<<-EOF
       UPDATE current_nodes AS cn, #{db_uqn}
          SET cn.timestamp=#{db_now},cn.visible=0,cn.user_id=#{uid} 
        WHERE cn.id=node_id
     EOF
-	ActiveRecord::Base.connection.update(sql)
+    ActiveRecord::Base.connection.update(sql)
 	
-	ActiveRecord::Base.connection.execute("DROP TABLE #{db_uqs}")
-	ActiveRecord::Base.connection.execute("DROP TABLE #{db_uqn}")
+    ActiveRecord::Base.connection.execute("DROP TABLE #{db_uqs}")
+    ActiveRecord::Base.connection.execute("DROP TABLE #{db_uqn}")
 
-	# - delete way
+    # - delete way
 	
-	ActiveRecord::Base.connection.insert("INSERT INTO ways (id,user_id,timestamp,visible) VALUES (#{way},#{uid},#{db_now},0)")
-	ActiveRecord::Base.connection.update("UPDATE current_ways SET user_id=#{uid},timestamp=#{db_now},visible=0 WHERE id=#{way}")
-	ActiveRecord::Base.connection.execute("DELETE FROM current_way_nodes WHERE id=#{way}")
-	ActiveRecord::Base.connection.execute("DELETE FROM current_way_tags WHERE id=#{way}")
+    ActiveRecord::Base.connection.insert("INSERT INTO ways (id,user_id,timestamp,visible) VALUES (#{way},#{uid},#{db_now},0)")
+    ActiveRecord::Base.connection.update("UPDATE current_ways SET user_id=#{uid},timestamp=#{db_now},visible=0 WHERE id=#{way}")
+    ActiveRecord::Base.connection.execute("DELETE FROM current_way_segments WHERE id=#{way}")
+    ActiveRecord::Base.connection.execute("DELETE FROM current_way_tags WHERE id=#{way}")
 	
-	way
+    way
 end
 
 # ----- makeway(x,y,baselong,basey,masterscale)
@@ -601,14 +604,13 @@ def makeway(args)
 	ys1=yc-0.001; ys2=yc+0.001
 	
 	sql=<<-EOF
-		SELECT cn1.latitude AS lat1,cn1.longitude AS lon1,cn1.id AS id1,
-		       cn2.latitude AS lat2,cn2.longitude AS lon2,cn2.id AS id2, cs.id AS segid
+		SELECT cn1.latitude*0.0000001 AS lat1,cn1.longitude*0.0000001 AS lon1,cn1.id AS id1,
+		       cn2.latitude*0.0000001 AS lat2,cn2.longitude*0.0000001 AS lon2,cn2.id AS id2, cs.id AS segid
 		  FROM current_nodes AS cn1,
 		       current_nodes AS cn2,
 		       current_segments AS cs 
-		       LEFT OUTER JOIN current_way_nodes ON segment_id=cs.id 
-		 WHERE (cn1.longitude BETWEEN #{xs1} AND #{xs2}) 
-		   AND (cn1.latitude  BETWEEN #{ys1} AND #{ys2}) 
+		       LEFT OUTER JOIN current_way_segments ON segment_id=cs.id 
+		 WHERE #{OSM.sql_for_area(ys1,xs1,ys2,xs2,"cn1.")}
 		   AND segment_id IS NULL 
                    AND cs.visible=1
 		   AND cn1.id=node_a AND cn1.visible=1 
@@ -667,24 +669,24 @@ def findconnect(id,nodesused,lookfor,toreverse,baselong,basey,masterscale)
 	# get all segments with 'id' as a point
 	# (to look for both node_a and node_b, UNION is faster than node_a=id OR node_b=id)!
 	sql=<<-EOF
-		SELECT cn1.latitude AS lat1,cn1.longitude AS lon1,cn1.id AS id1,
-		       cn2.latitude AS lat2,cn2.longitude AS lon2,cn2.id AS id2, cs.id AS segid
+		SELECT cn1.latitude*0.0000001 AS lat1,cn1.longitude*0.0000001 AS lon1,cn1.id AS id1,
+		       cn2.latitude*0.0000001 AS lat2,cn2.longitude*0.0000001 AS lon2,cn2.id AS id2, cs.id AS segid
 		  FROM current_nodes AS cn1,
 		       current_nodes AS cn2,
 		       current_segments AS cs 
-		       LEFT OUTER JOIN current_way_nodes ON segment_id=cs.id 
+		       LEFT OUTER JOIN current_way_segments ON segment_id=cs.id 
 		 WHERE segment_id IS NULL 
                    AND cs.visible=1
 		   AND cn1.id=node_a AND cn1.visible=1 
 		   AND cn2.id=node_b AND cn2.visible=1 
 		   AND node_a=#{id}
 	UNION
-		SELECT cn1.latitude AS lat1,cn1.longitude AS lon1,cn1.id AS id1,
-		       cn2.latitude AS lat2,cn2.longitude AS lon2,cn2.id AS id2, cs.id AS segid
+		SELECT cn1.latitude*0.0000001 AS lat1,cn1.longitude*0.0000001 AS lon1,cn1.id AS id1,
+		       cn2.latitude*0.0000001 AS lat2,cn2.longitude*0.0000001 AS lon2,cn2.id AS id2, cs.id AS segid
 		  FROM current_nodes AS cn1,
 		       current_nodes AS cn2,
 		       current_segments AS cs 
-		       LEFT OUTER JOIN current_way_nodes ON segment_id=cs.id 
+		       LEFT OUTER JOIN current_way_segments ON segment_id=cs.id 
 		 WHERE segment_id IS NULL 
                    AND cs.visible=1
 		   AND cn1.id=node_a AND cn1.visible=1 
@@ -730,13 +732,13 @@ end
 # Support functions for remote calls
 
 def readwayquery(id)
-  ActiveRecord::Base.connection.select_all "SELECT n1.latitude AS lat1,n1.longitude AS long1,n1.id AS id1,n1.tags as tags1, "+
-      "		  n2.latitude AS lat2,n2.longitude AS long2,n2.id AS id2,n2.tags as tags2,segment_id "+
-      "    FROM current_way_nodes,current_segments,current_nodes AS n1,current_nodes AS n2 "+
-      "   WHERE current_way_nodes.id=#{id} "+
+  ActiveRecord::Base.connection.select_all "SELECT n1.latitude*0.0000001 AS lat1,n1.longitude*0.0000001 AS long1,n1.id AS id1,n1.tags as tags1, "+
+      "		  n2.latitude*0.0000001 AS lat2,n2.longitude*0.0000001 AS long2,n2.id AS id2,n2.tags as tags2,segment_id "+
+      "    FROM current_way_segments,current_segments,current_nodes AS n1,current_nodes AS n2 "+
+      "   WHERE current_way_segments.id=#{id} "+
       "     AND segment_id=current_segments.id "+
-	  "     AND current_segments.visible=1 "+
-      "     AND n1.id=node_a and n2.id=node_b "+
+      "     AND current_segments.visible=1 "+
+      "     AND n1.id=node_a AND n2.id=node_b "+
       "     AND n1.visible=1 AND n2.visible=1 "+
       "   ORDER BY sequence_id"
 end
@@ -746,9 +748,9 @@ def createuniquesegments(way,uqs_name,seglist)
   sql=<<-EOF
       CREATE TEMPORARY TABLE #{uqs_name}
               SELECT a.segment_id
-                FROM (SELECT DISTINCT segment_id FROM current_way_nodes 
+                FROM (SELECT DISTINCT segment_id FROM current_way_segments 
                   WHERE id = #{way}) a
-             LEFT JOIN current_way_nodes b 
+             LEFT JOIN current_way_segments b 
                 ON b.segment_id = a.segment_id
                  AND b.id != #{way}
                WHERE b.segment_id IS NULL

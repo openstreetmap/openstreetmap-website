@@ -39,8 +39,16 @@ class ApplicationController < ActionController::Base
     end 
   end 
 
-  def check_availability
-    if API_READONLY
+  def check_read_availability
+    if API_STATUS == :offline
+      response.headers['Error'] = "Database offline for maintenance"
+      render :nothing => true, :status => :service_unavailable
+      return false
+    end
+  end
+
+  def check_write_availability
+    if API_STATUS == :offline or API_STATUS == :readonly
       response.headers['Error'] = "Database offline for maintenance"
       render :nothing => true, :status => :service_unavailable
       return false
