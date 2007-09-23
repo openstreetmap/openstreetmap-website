@@ -2,6 +2,8 @@
 
 <img src="<%= url_for :controller => 'trace', :action => 'picture', :id => @trace.id, :display_name => @trace.user.display_name %>">
 
+<% form_for :trace, @trace do |f| %>
+
 <table border="0">
   <tr>
     <td>Filename:</td>
@@ -26,34 +28,16 @@
   </tr>
   <tr>
     <td>Description:</td>
-    <td><%= @trace.description %></td>
+    <td><%= f.text_field :description %></td>
   </tr>
   <tr>
     <td>Tags:</td>
-    <td>
-    <% if @trace.tags %>
-      <% @trace.tags.each do |tag| %>
-        <%= link_to tag.tag, { :controller => 'trace', :action => 'list', :tag => tag.tag, :id => nil } %>
-      <% end %>
-    <% else %>
-      None
-    <% end %>
-    </td>
+    <td><%= f.text_field :tagstring %></td>
   </tr>
 </table>
 
 <br /><br />
 
-<table>
-  <tr>
-    <% unless @trace.public? %>
-    <td><%= button_to 'Make this track public permanently', :controller => 'trace', :action => 'make_public', :id => @trace.id %></td>
-    <% end %>
-    <% if @trace.user.id == @user.id %>
-    <td><%= button_to 'Edit this track', :controller => 'trace', :action => 'edit', :id => @trace.id %></td>
-    <% end %>
-    <% if @trace.user.id == @user.id %>
-    <td><%= button_to 'Delete this track', :controller => 'trace', :action => 'delete', :id => @trace.id %></td>
-    <% end %>
-  </tr>
-</table>
+<%= submit_tag 'Save Changes' %>
+
+<% end %>

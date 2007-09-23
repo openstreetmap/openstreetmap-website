@@ -73,6 +73,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/traces/mine/tag/:tag', :controller => 'trace', :action => 'mine'
   map.connect '/traces/mine/tag/:tag/page/:page', :controller => 'trace', :action => 'mine'
   map.connect '/trace/create', :controller => 'trace', :action => 'create'
+  map.connect '/trace/:id/edit', :controller => 'trace', :action => 'edit'
   map.connect '/trace/:id/delete', :controller => 'trace', :action => 'delete'
   map.connect '/trace/:id/make_public', :controller => 'trace', :action => 'make_public'
   map.connect '/user/:display_name/traces', :controller => 'trace', :action => 'list'

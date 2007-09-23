@@ -5,9 +5,9 @@ class RemoveSegments < ActiveRecord::Migration
     have_segs = select_value("SELECT count(*) FROM current_segments").to_i != 0
 
     if have_segs
-      prefix = File.join Dir.tmpdir, "007_remove_segments.#{$$}."
+      prefix = File.join Dir.tmpdir, "008_remove_segments.#{$$}."
 
-      cmd = "db/migrate/007_remove_segments_helper"
+      cmd = "db/migrate/008_remove_segments_helper"
       src = "#{cmd}.cc"
       if not File.exists? cmd or File.mtime(cmd) < File.mtime(src) then 
 	system 'c++ -O3 -Wall `mysql_config --cflags --libs` ' +

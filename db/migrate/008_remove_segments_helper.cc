@@ -34,9 +34,9 @@ static T parse(const char *str) {
 static void exit_mysql_err(MYSQL *mysql) {
   const char *err = mysql_error(mysql);
   if (err) {
-    fprintf(stderr, "007_remove_segments_helper: MySQL error: %s\n", err);
+    fprintf(stderr, "008_remove_segments_helper: MySQL error: %s\n", err);
   } else {
-    fprintf(stderr, "007_remove_segments_helper: MySQL error\n");
+    fprintf(stderr, "008_remove_segments_helper: MySQL error\n");
   }
   abort();
   exit(EXIT_FAILURE);
@@ -45,9 +45,9 @@ static void exit_mysql_err(MYSQL *mysql) {
 static void exit_stmt_err(MYSQL_STMT *stmt) {
   const char *err = mysql_stmt_error(stmt);
   if (err) {
-    fprintf(stderr, "007_remove_segments_helper: MySQL stmt error: %s\n", err);
+    fprintf(stderr, "008_remove_segments_helper: MySQL stmt error: %s\n", err);
   } else {
-    fprintf(stderr, "007_remove_segments_helper: MySQL stmt error\n");
+    fprintf(stderr, "008_remove_segments_helper: MySQL stmt error\n");
   }
   abort();
   exit(EXIT_FAILURE);
@@ -615,7 +615,7 @@ int main(int argc, char **argv) {
   char *tempfn;
 
   if (argc != 8) {
-    printf("Usage: 007_remove_segments_helper host user passwd database port socket prefix\n");
+    printf("Usage: 008_remove_segments_helper host user passwd database port socket prefix\n");
     exit(EXIT_FAILURE);
   }
 
