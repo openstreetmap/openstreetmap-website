@@ -120,6 +120,24 @@ class TraceController < ApplicationController
     render :nothing => true, :status => :not_found
   end
 
+  def edit
+    @trace = Trace.find(params[:id])
+
+    if @user and @trace.user == @user
+      if params[:trace]
+        @trace.description = params[:trace][:description]
+        @trace.tagstring = params[:trace][:tagstring]
+        if @trace.save
+          redirect_to :action => 'view'
+        end        
+      end
+    else
+      render :nothing, :status => :forbidden
+    end
+  rescue ActiveRecord::RecordNotFound
+    render :nothing => true, :status => :not_found
+  end
+
   def delete
     trace = Trace.find(params[:id])
 
