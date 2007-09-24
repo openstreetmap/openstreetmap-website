@@ -56,9 +56,9 @@ class RemoveSegments < ActiveRecord::Migration
     tempfiles.each { |fn| File.chmod 0644, fn } if have_segs
 
     if have_segs
-      execute "LOAD DATA LOCAL INFILE '#{ways}' INTO TABLE ways #{csvopts} (id, user_id, timestamp) SET visible = 1, version = 1"
-      execute "LOAD DATA LOCAL INFILE '#{way_nodes}' INTO TABLE way_nodes #{csvopts} (id, node_id, sequence_id) SET version = 1"
-      execute "LOAD DATA LOCAL INFILE '#{way_tags}' INTO TABLE way_tags #{csvopts} (id, k, v) SET version = 1"
+      execute "LOAD DATA INFILE '#{ways}' INTO TABLE ways #{csvopts} (id, user_id, timestamp) SET visible = 1, version = 1"
+      execute "LOAD DATA INFILE '#{way_nodes}' INTO TABLE way_nodes #{csvopts} (id, node_id, sequence_id) SET version = 1"
+      execute "LOAD DATA INFILE '#{way_tags}' INTO TABLE way_tags #{csvopts} (id, k, v) SET version = 1"
 
       execute "INSERT INTO current_ways SELECT id, user_id, timestamp, visible FROM ways"
       execute "INSERT INTO current_way_nodes SELECT id, node_id, sequence_id FROM way_nodes"
@@ -69,9 +69,9 @@ class RemoveSegments < ActiveRecord::Migration
     add_index :current_way_nodes, [:node_id], :name => "current_way_nodes_node_idx"
 
     if have_segs
-      execute "LOAD DATA LOCAL INFILE '#{relations}' INTO TABLE relations #{csvopts} (id, user_id, timestamp) SET visible = 1, version = 1"
-      execute "LOAD DATA LOCAL INFILE '#{relation_members}' INTO TABLE relation_members #{csvopts} (id, member_type, member_id, member_role) SET version = 1"
-      execute "LOAD DATA LOCAL INFILE '#{relation_tags}' INTO TABLE relation_tags #{csvopts} (id, k, v) SET version = 1"
+      execute "LOAD DATA INFILE '#{relations}' INTO TABLE relations #{csvopts} (id, user_id, timestamp) SET visible = 1, version = 1"
+      execute "LOAD DATA INFILE '#{relation_members}' INTO TABLE relation_members #{csvopts} (id, member_type, member_id, member_role) SET version = 1"
+      execute "LOAD DATA INFILE '#{relation_tags}' INTO TABLE relation_tags #{csvopts} (id, k, v) SET version = 1"
 
       # FIXME: This will only work if there were no relations before the
       # migration!
