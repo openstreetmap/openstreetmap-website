@@ -44,6 +44,7 @@ class RemoveSegments < ActiveRecord::Migration
       t.column :sequence_id, :bigint, :limit => 11, :null => false
     end
     add_primary_key :current_way_nodes, [:id, :sequence_id]
+    add_index :current_way_nodes, [:node_id], :name => "current_way_nodes_node_idx"
 
     execute "TRUNCATE way_tags"
     execute "TRUNCATE ways"
@@ -64,9 +65,6 @@ class RemoveSegments < ActiveRecord::Migration
       execute "INSERT INTO current_way_nodes SELECT id, node_id, sequence_id FROM way_nodes"
       execute "INSERT INTO current_way_tags SELECT id, k, v FROM way_tags"
     end
-
-    # and then readd the index
-    add_index :current_way_nodes, [:node_id], :name => "current_way_nodes_node_idx"
 
     if have_segs
       execute "LOAD DATA INFILE '#{relations}' INTO TABLE relations #{csvopts} (id, user_id, timestamp) SET visible = 1, version = 1"
