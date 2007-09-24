@@ -467,8 +467,9 @@ static void mark_tagged_segs(struct data *d) {
 	  strcmp(k, "tiger:county") &&
 	  strcmp(k, "tiger:upload_uuid") &&
 	  strcmp(k, "converted_by") &&
+	  (strcmp(k, "width") || strcmp(v, "4")) &&
 	  (strcmp(k, "natural") || strcmp(v, "coastline")) &&
-	  (strcmp(k, "source") || strcmp(v, "PGS"))) {
+	  (strcmp(k, "source") || strncmp(v, "PGS", 3))) {
 	interesting_tags.insert(make_pair(string(k), string(v)));
       }
     }
