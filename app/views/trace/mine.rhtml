@@ -1,16 +1,3 @@
 <%= render :partial => 'trace_header' %>
-
-<% form_tag({:action => 'create'}, :multipart => true) do %>
-<table>
-<table>
-<tr><td align="right">upload GPX file:</td><td><%= file_field('trace', 'gpx_file', {:size => 50, :maxlength => 255}) %></td></tr>
-<tr><td align="right">description:</td><td><%= text_field('trace', 'description', {:size => 50, :maxlength => 255}) %></td></tr>
-<tr><td align="right">tags:</td><td><%= text_field('trace', 'tagstring', {:size => 50, :maxlength => 255}) %></td></tr>
-<tr><td align="right">public?</td><td><%= check_box('trace', 'public', {:checked => 'checked'}) %></td></tr>
-<tr><td></td><td>
-<%= submit_tag 'Upload' %> | <a href="http://wiki.openstreetmap.org/index.php/Upload">help</a>
-</td></tr>
-</table>
-<% end %>
-
+<%= render :partial => 'trace_form' %>
 <%= render :partial => 'trace_list' %>
