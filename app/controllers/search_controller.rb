@@ -6,18 +6,20 @@ class SearchController < ApplicationController
   after_filter :compress_output
 
   def search_all
-    do_search(true,true)
+    do_search(true,true,true)
   end
 
   def search_ways
-    do_search(true,false)
+    do_search(true,false,false)
   end
   def search_nodes
-    do_search(false,true)
+    do_search(false,true,false)
+  end
+  def search_relations
+    do_search(false,false,true)
   end
 
-
-  def do_search(do_ways,do_nodes)
+  def do_search(do_ways,do_nodes,do_relations)
     type = params['type']
     value = params['value']
     unless type or value
@@ -31,6 +33,7 @@ class SearchController < ApplicationController
     way_ids = Array.new
     ways = Array.new
     nodes = Array.new
+    relations = Array.new
 
     # Matching for tags table
     cond_tbl = Array.new
@@ -65,8 +68,12 @@ class SearchController < ApplicationController
       cond_tags = ['1=1']
     end
 
+    # First up, look for the relations we want
+    if do_relations
+      relations = Relation.find(:all, :conditions => cond_tbl, :limit => 100)
+    end
 
-    # First up, look for the ways we want
+    # then ways
     if do_ways
       ways = Way.find(:all, :conditions => cond_tbl, :limit => 100)
     end
@@ -90,6 +97,9 @@ class SearchController < ApplicationController
       doc.root << way.to_xml_node(user_display_name_cache)
     end 
 
+    relations.each do |rel|
+      doc.root << rel.to_xml_node(user_display_name_cache)
+    end 
     render :text => doc.to_s, :content_type => "text/xml"
   end
 end
