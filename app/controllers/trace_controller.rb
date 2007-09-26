@@ -94,17 +94,26 @@ class TraceController < ApplicationController
   end
 
   def create
-    name = params[:trace][:gpx_file].original_filename.gsub(/[^a-zA-Z0-9.]/, '_') # This makes sure filenames are sane
+    logger.info(params[:trace][:gpx_file].class.name)
+    if params[:trace][:gpx_file].respond_to?(:read)
+      do_create(params[:trace][:gpx_file], params[:trace][:tagstring],
+                params[:trace][:description], params[:trace][:public])
 
-    do_create(name, params[:trace][:tagstring], params[:trace][:description], params[:trace][:public]) do |f|
-      f.write(params[:trace][:gpx_file].read)
-    end
+      if @trace.id
+        logger.info("id is #{@trace.id}")
+        flash[:notice] = "Your GPX file has been uploaded and is awaiting insertion in to the database. This will usually happen within half an hour, and an email will be sent to you on completion."
 
-    if @trace.id
-      logger.info("id is #{@trace.id}")
-      flash[:notice] = "Your GPX file has been uploaded and is awaiting insertion in to the database. This will usually happen within half an hour, and an email will be sent to you on completion."
-
-      redirect_to :action => 'mine'
+        redirect_to :action => 'mine'
+      end
+    else
+      @trace = Trace.new({:name => "Dummy",
+                          :tagstring => params[:trace][:tagstring],
+                          :description => params[:trace][:description],
+                          :public => params[:trace][:public],
+                          :inserted => false, :user => @user,
+                          :timestamp => Time.now})
+      @trace.valid?
+      @trace.errors.add(:gpx_file, "can't be blank")
     end
   end
 
@@ -259,11 +268,7 @@ class TraceController < ApplicationController
 
   def api_create
     if request.post?
-      name = params[:file].original_filename.gsub(/[^a-zA-Z0-9.]/, '_') # This makes sure filenames are sane
-
-      do_create(name, params[:tags], params[:description], params[:public]) do |f|
-        f.write(params[:file].read)
-      end
+      do_create(params[:file], params[:tags], params[:description], params[:public])
 
       if @trace.id
         render :text => @trace.id.to_s, :content_type => "text/plain"
@@ -279,10 +284,11 @@ class TraceController < ApplicationController
 
 private
 
-  def do_create(name, tags, description, public)
+  def do_create(file, tags, description, public)
+    name = file.original_filename.gsub(/[^a-zA-Z0-9.]/, '_')
     filename = "/tmp/#{rand}"
 
-    File.open(filename, "w") { |f| yield f }
+    File.open(filename, "w") { |f| f.write(file.read) }
 
     @trace = Trace.new({:name => name, :tagstring => tags,
                         :description => description, :public => public})

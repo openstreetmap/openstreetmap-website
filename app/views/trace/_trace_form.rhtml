@@ -1,0 +1,9 @@
+<% form_for :trace, @trace, :url => { :action => "create" }, :html => { :multipart => true } do |f| %>
+<table>
+  <tr><td align="right">Upload GPX File</td><td><%= f.file_field :gpx_file, :size => 50, :maxlength => 255 %></td></tr>
+  <tr><td align="right">Description</td><td><%= f.text_field :description, :size => 50, :maxlength => 255 %></td></tr>
+  <tr><td align="right">Tags</td><td><%= f.text_field :tagstring, :size => 50, :maxlength => 255 %></td></tr>
+  <tr><td align="right">Public?</td><td><%= f.check_box :public %></td></tr>
+  <tr><td></td><td><%= submit_tag 'Upload' %> | <a href="http://wiki.openstreetmap.org/index.php/Upload">Help</a></td></tr>
+</table>
+<% end %>
