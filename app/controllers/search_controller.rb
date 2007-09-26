@@ -36,18 +36,32 @@ class SearchController < ApplicationController
     relations = Array.new
 
     # Matching for tags table
-    cond_tbl = Array.new
+    cond_way = Array.new
     sql = 'id IN (SELECT id FROM current_way_tags WHERE 1=1'
     if type
       sql += ' AND k=?'
-      cond_tbl += [type]
+      cond_way += [type]
     end
     if value
       sql += ' AND v=?'
-      cond_tbl += [value]
+      cond_way += [value]
     end
     sql += ')'
-    cond_tbl = [sql] + cond_tbl
+    cond_way = [sql] + cond_way
+
+    # Matching for tags table
+    cond_rel = Array.new
+    sql = 'id IN (SELECT id FROM current_relation_tags WHERE 1=1'
+    if type
+      sql += ' AND k=?'
+      cond_rel += [type]
+    end
+    if value
+      sql += ' AND v=?'
+      cond_rel += [value]
+    end
+    sql += ')'
+    cond_rel = [sql] + cond_rel
 
     # Matching for tags column
     if type and value
@@ -70,12 +84,12 @@ class SearchController < ApplicationController
 
     # First up, look for the relations we want
     if do_relations
-      relations = Relation.find(:all, :conditions => cond_tbl, :limit => 100)
+      relations = Relation.find(:all, :conditions => cond_rel, :limit => 100)
     end
 
     # then ways
     if do_ways
-      ways = Way.find(:all, :conditions => cond_tbl, :limit => 100)
+      ways = Way.find(:all, :conditions => cond_way, :limit => 100)
     end
 
     # Now, nodes
