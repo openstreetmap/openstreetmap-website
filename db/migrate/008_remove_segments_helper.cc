@@ -67,6 +67,7 @@ struct data {
   size_t segs_len;
   struct segment *segs;
   unsigned char *rem_segs;
+  unsigned char *tgd_segs;
 
   FILE *ways, *way_nodes, *way_tags,
     *relations, *relation_members, *relation_tags;
@@ -114,7 +115,9 @@ static void populate_segs(struct data *d) {
   memset(d->segs, 0, sizeof(struct segment) * d->segs_len);
 
   d->rem_segs = (unsigned char *) malloc(d->segs_len);
+  d->tgd_segs = (unsigned char *) malloc(d->segs_len);
   memset(d->rem_segs, 0, d->segs_len);
+  memset(d->tgd_segs, 0, d->segs_len);
 
   if (mysql_query(d->mysql, "SELECT id, node_a, node_b "
       "FROM current_segments WHERE visible"))
@@ -274,22 +277,22 @@ static void convert_ways(struct data *d) {
       node_list.push_back(segs.front().to);
       segs.pop_front();
       while (true) {
-	bool found = false;
-	for (list<segment>::iterator it = segs.begin();
-	    it != segs.end(); ) {
-	  if (it->from == node_list.back()) {
-	    node_list.push_back(it->to);
-	    segs.erase(it++);
-	    found = true;
-	  } else if (it->to == node_list.front()) {
-	    node_list.insert(node_list.begin(), it->from);
-	    segs.erase(it++);
-	    found = true;
-	  } else {
-	    ++it;
-	  }
-	}
-	if (!found) break;
+        bool found = false;
+        for (list<segment>::iterator it = segs.begin();
+            it != segs.end(); ) {
+          if (it->from == node_list.back()) {
+            node_list.push_back(it->to);
+            segs.erase(it++);
+            found = true;
+          } else if (it->to == node_list.front()) {
+            node_list.insert(node_list.begin(), it->from);
+            segs.erase(it++);
+            found = true;
+          } else {
+            ++it;
+          }
+        }
+        if (!found) break;
       }
       node_lists.push_back(node_list);
     }
@@ -297,14 +300,14 @@ static void convert_ways(struct data *d) {
     vector<uint64_t> ids; ids.reserve(node_lists.size());
     bool orig_id_used = false;
     for (list<list<uint32_t> >::iterator it = node_lists.begin();
-	it != node_lists.end(); ++it) {
+        it != node_lists.end(); ++it) {
       uint64_t way_id;
       int sid;
       if (orig_id_used) {
-	way_id = d->new_way_id++;
+        way_id = d->new_way_id++;
       } else {
-	way_id = id;
-	orig_id_used = true;
+        way_id = id;
+        orig_id_used = true;
       }
       ids.push_back(way_id);
 
@@ -314,8 +317,8 @@ static void convert_ways(struct data *d) {
 
       sid = 1;
       for (list<uint32_t>::iterator nit = it->begin();
-	  nit != it->end(); ++nit) {
-	fprintf(d->way_nodes, "\"" F_U64 "\",\"" F_U32 "\",\"%i\"\n", way_id, *nit, sid++);
+          nit != it->end(); ++nit) {
+        fprintf(d->way_nodes, "\"" F_U64 "\",\"" F_U32 "\",\"%i\"\n", way_id, *nit, sid++);
       }
     }
 
@@ -330,26 +333,26 @@ static void convert_ways(struct data *d) {
 
     while (!mysql_stmt_fetch(load_tags)) {
       if (multiple_parts && !create_multipolygon) {
-	if (!strcmp(k, "natural")) {
-	  if (strcmp(v, "coastline")) {
-	    create_multipolygon = true;
-	  }
-	} else if (!strcmp(k, "waterway")) {
-	  if (!strcmp(v, "riverbank")) {
-	    create_multipolygon = true;
-	  }
-	} else if (!strcmp(k, "leisure") || !strcmp(k, "landuse")
-	    || !strcmp(k, "sport") || !strcmp(k, "amenity")
-	    || !strcmp(k, "tourism") || !strcmp(k, "building")) {
-	  create_multipolygon = true;
-	}
+        if (!strcmp(k, "natural")) {
+          if (strcmp(v, "coastline")) {
+            create_multipolygon = true;
+          }
+        } else if (!strcmp(k, "waterway")) {
+          if (!strcmp(v, "riverbank")) {
+            create_multipolygon = true;
+          }
+        } else if (!strcmp(k, "leisure") || !strcmp(k, "landuse")
+            || !strcmp(k, "sport") || !strcmp(k, "amenity")
+            || !strcmp(k, "tourism") || !strcmp(k, "building")) {
+          create_multipolygon = true;
+        }
       }
 
       for (vector<uint64_t>::iterator it = ids.begin();
-	  it != ids.end(); ++it) {
-	fprintf(d->way_tags, "\"" F_U64 "\",", *it);
-	write_csv_col(d->way_tags, k, ',');
-	write_csv_col(d->way_tags, v, '\n');
+          it != ids.end(); ++it) {
+        fprintf(d->way_tags, "\"" F_U64 "\",", *it);
+        write_csv_col(d->way_tags, k, ',');
+        write_csv_col(d->way_tags, v, '\n');
       }
     }
 
@@ -361,12 +364,12 @@ static void convert_ways(struct data *d) {
       write_csv_col(d->relations, timestamp, '\n');
 
       fprintf(d->relation_tags,
-	"\"" F_U64 "\",\"type\",\"multipolygon\"\n", ent_id);
+        "\"" F_U64 "\",\"type\",\"multipolygon\"\n", ent_id);
 
       for (vector<uint64_t>::iterator it = ids.begin();
-	  it != ids.end(); ++it) {
-	fprintf(d->relation_members,
-	  "\"" F_U64 "\",\"way\",\"" F_U64 "\",\"\"\n", ent_id, *it);
+          it != ids.end(); ++it) {
+        fprintf(d->relation_members,
+          "\"" F_U64 "\",\"way\",\"" F_U64 "\",\"\"\n", ent_id, *it);
       }
     }
   }
@@ -464,13 +467,13 @@ static void mark_tagged_segs(struct data *d) {
     char *tags_it = row[1], *k, *v;
     while (read_seg_tags(&tags_it, &k, &v)) {
       if (strcmp(k, "created_by") &&
-	  strcmp(k, "tiger:county") &&
-	  strcmp(k, "tiger:upload_uuid") &&
-	  strcmp(k, "converted_by") &&
-	  (strcmp(k, "width") || strcmp(v, "4")) &&
-	  (strcmp(k, "natural") || strcmp(v, "coastline")) &&
-	  (strcmp(k, "source") || strncmp(v, "PGS", 3))) {
-	interesting_tags.insert(make_pair(string(k), string(v)));
+          strcmp(k, "tiger:county") &&
+          strcmp(k, "tiger:upload_uuid") &&
+          strcmp(k, "converted_by") &&
+          (strcmp(k, "width") || strcmp(v, "4")) &&
+          (strcmp(k, "natural") || strcmp(v, "coastline")) &&
+          (strcmp(k, "source") || strncmp(v, "PGS", 3))) {
+        interesting_tags.insert(make_pair(string(k), string(v)));
       }
     }
 
@@ -486,16 +489,17 @@ static void mark_tagged_segs(struct data *d) {
 
     while (!mysql_stmt_fetch(way_tags)) {
       for (map<string, string>::iterator it = interesting_tags.find(wk);
-	  it != interesting_tags.end() && it->first == wk; ++it) {
-	if (it->second == wv) {
-	  interesting_tags.erase(it);
-	  break;
-	}
+          it != interesting_tags.end() && it->first == wk; ++it) {
+        if (it->second == wv) {
+          interesting_tags.erase(it);
+          break;
+        }
       }
     }
 
     if (interesting_tags.size() > 0) {
       d->rem_segs[id] = 1;
+      d->tgd_segs[id] = 1;
     }
   }
 
@@ -512,6 +516,7 @@ static void convert_remaining_segs(struct data *d) {
   const size_t max_tag_len = 1 << 16;
   char *tags, timestamp[100];
   char *k, *v;
+  char notetmp[1024];
   int user_id;
   long long mysql_id;
   unsigned long res_len;
@@ -558,6 +563,7 @@ static void convert_remaining_segs(struct data *d) {
 
   for (size_t seg_id = 0; seg_id < d->segs_len; seg_id++) {
     if (!d->rem_segs[seg_id]) continue;
+    const char *what = d->tgd_segs[seg_id] ? "tagged" : "unwayed";
     segment seg = d->segs[seg_id];
 
     mysql_id = seg_id;
@@ -574,10 +580,23 @@ static void convert_remaining_segs(struct data *d) {
       fprintf(d->way_nodes, "\"" F_U64 "\",\"" F_U32 "\",\"%i\"\n", way_id, seg.to, 2);
 
       char *tags_it = tags;
+      bool note = false;
       while (read_seg_tags(&tags_it, &k, &v)) {
-	fprintf(d->way_tags, "\"" F_U64 "\",", way_id);
-	write_csv_col(d->way_tags, k, ',');
-	write_csv_col(d->way_tags, v, '\n');
+        fprintf(d->way_tags, "\"" F_U64 "\",", way_id);
+        write_csv_col(d->way_tags, k, ',');
+        if(!strcmp(k,"note")) {
+          snprintf(notetmp, sizeof(notetmp), "%s; FIXME previously %s segment", v, what);
+          note = true;
+          write_csv_col(d->way_tags, notetmp, '\n');
+        } else {
+          write_csv_col(d->way_tags, v, '\n');
+        }
+      }
+      if (!note) {
+        sprintf(notetmp, "FIXME previously %s segment", what);
+        fprintf(d->way_tags, "\"" F_U64 "\",", way_id);
+        write_csv_col(d->way_tags, "note", ',');
+        write_csv_col(d->way_tags, notetmp, '\n');
       }
     }
   }
@@ -666,6 +685,7 @@ int main(int argc, char **argv) {
 
   free(d->segs);
   free(d->rem_segs);
+  free(d->tgd_segs);
 
   exit(EXIT_SUCCESS);
 }
