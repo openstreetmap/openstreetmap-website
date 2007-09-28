@@ -25,7 +25,7 @@ class Tracepoint < ActiveRecord::Base
     self.latitude = (l * 10000000).round
   end
 
-  def lng=(l)
+  def lon=(l)
     self.longitude = (l * 10000000).round
   end
 

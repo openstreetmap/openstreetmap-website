@@ -190,7 +190,7 @@ class Trace < ActiveRecord::Base
 
         tp = Tracepoint.new
         tp.lat = point['latitude'].to_f
-        tp.lng = point['longitude'].to_f
+        tp.lon = point['longitude'].to_f
         tp.altitude = point['altitude'].to_f
         tp.timestamp = point['timestamp']
         tp.gpx_id = id
