@@ -1,13 +1,26 @@
 class TileNodes < ActiveRecord::Migration
-  def self.upgrade_table(from_table, to_table)
-    execute <<-END_SQL
-    INSERT INTO #{to_table} (id, latitude, longitude, user_id, visible, tags, timestamp, tile)
-    SELECT id, ROUND(latitude * 10000000), ROUND(longitude * 10000000),
-           user_id, visible, tags, timestamp,
-           tile_for_point(CAST(ROUND(latitude * 10000000) AS UNSIGNED),
-                          CAST(ROUND(longitude * 10000000) AS UNSIGNED))
-    FROM #{from_table}
-    END_SQL
+  def self.upgrade_table(from_table, to_table, model)
+    begin
+      execute <<-END_SQL
+      INSERT INTO #{to_table} (id, latitude, longitude, user_id, visible, tags, timestamp, tile)
+      SELECT id, ROUND(latitude * 10000000), ROUND(longitude * 10000000),
+             user_id, visible, tags, timestamp,
+             tile_for_point(CAST(ROUND(latitude * 10000000) AS UNSIGNED),
+                            CAST(ROUND(longitude * 10000000) AS UNSIGNED))
+      FROM #{from_table}
+      END_SQL
+    rescue ActiveRecord::StatementInvalid => ex
+      execute <<-END_SQL
+      INSERT INTO #{to_table} (id, latitude, longitude, user_id, visible, tags, timestamp, tile)
+      SELECT id, ROUND(latitude * 10000000), ROUND(longitude * 10000000),
+             user_id, visible, tags, timestamp, 0
+      FROM #{from_table}
+      END_SQL
+
+      model.find(:all).each do |n|
+        n.save!
+      end
+    end
   end
 
   def self.downgrade_table(from_table, to_table)
@@ -40,8 +53,8 @@ class TileNodes < ActiveRecord::Migration
     change_column "current_nodes", "id", :bigint, :limit => 64, :null => false, :options => "AUTO_INCREMENT"
     change_column "current_nodes", "tile", :integer, :null => false, :unsigned => true
 
-    upgrade_table "current_nodes_v5", "current_nodes"
-
+    upgrade_table "current_nodes_v5", "current_nodes", Node
+    
     drop_table "current_nodes_v5"
 
     rename_table "nodes", "nodes_v5"
@@ -63,7 +76,7 @@ class TileNodes < ActiveRecord::Migration
 
     change_column "nodes", "tile", :integer, :null => false, :unsigned => true
 
-    upgrade_table "nodes_v5", "nodes"
+    upgrade_table "nodes_v5", "nodes", OldNode
 
     drop_table "nodes_v5"
   end

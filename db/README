@@ -29,6 +29,11 @@ Run this command in the db/functions directory:
 
 $ make
 
+The above command should work for linux and most other Unix systems
+that use ELF shared objects. For MacOS X you will need to do:
+
+$ make libquadtile.dylib
+
 Make sure the db/functions directory is on the MySQL server's library
 path and restart the MySQL server. On linux the easiest way to do this
 is to create /etc/ld.so.conf.d/osm.conf and place the path to the
@@ -43,6 +48,11 @@ $ mysql -u <uid> -p openstreetmap
 (change <uid> with appropriate username of administrative user eg. root )
 
 > create function tile_for_point returns integer soname 'libquadtile.so';
+> exit
+
+or, for MacOS X:
+
+> create function tile_for_point returns integer soname 'libquadtile.dylib';
 > exit
 
 Creating database skeleton tables
