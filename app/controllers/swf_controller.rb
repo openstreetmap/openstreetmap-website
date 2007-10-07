@@ -86,41 +86,7 @@ class SwfController < ApplicationController
 			end
 		end
 		
-		# - Draw unwayed segments
-		
-		if params['unwayed']=='true'
-			sql="SELECT cn1.latitude*0.0000001 AS lat1,cn1.longitude*0.0000001 AS lon1,"+
-				"		cn2.latitude*0.0000001 AS lat2,cn2.longitude*0.0000001 AS lon2 "+
-				"  FROM current_segments "+
-				"       LEFT OUTER JOIN current_way_nodes"+
-				"       ON segment_id=current_segments.id,"+
-				"       current_nodes AS cn1,current_nodes AS cn2"+
-				" WHERE	"+OSM.sql_for_area(ymin,xmin,ymax,xmax,"cn1.")+
-				"   AND segment_id IS NULL"+
-				"   AND current_segments.visible=1"+
-				"   AND cn1.id=node_a AND cn1.visible=1"+
-				"   AND cn2.id=node_b AND cn2.visible=1"
-			seglist=ActiveRecord::Base.connection.select_all sql
-			
-			seglist.each do |row|
-				xs1=(long2coord(row['lon1'].to_f,baselong,masterscale)*20).floor; ys1=(lat2coord(row['lat1'].to_f,basey,masterscale)*20).floor
-				xs2=(long2coord(row['lon2'].to_f,baselong,masterscale)*20).floor; ys2=(lat2coord(row['lat2'].to_f,basey,masterscale)*20).floor
-				if (xs1==absx and ys1==absy)
-					b+=drawTo(absx,absy,xs2,ys2)
-					absx=xs2; absy=ys2
-				elsif (xs2==absx and ys2==absy)
-					b+=drawTo(absx,absy,xs1,ys1)
-					absx=xs1; absy=ys1
-				else
-					b+=startAndMove(xs1,ys1,'10')
-					b+=drawTo(xs1,ys1,xs2,ys2)
-					absx=xs2; absy=ys2
-				end
-				while b.length>80 do
-					r+=[b.slice!(0...80)].pack("B*")
-				end
-			end
-		end
+		#   (Unwayed segments removed)
 	
 		# - Write shape
 	
