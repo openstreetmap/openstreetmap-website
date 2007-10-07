@@ -92,7 +92,7 @@ class SwfController < ApplicationController
 			sql="SELECT cn1.latitude*0.0000001 AS lat1,cn1.longitude*0.0000001 AS lon1,"+
 				"		cn2.latitude*0.0000001 AS lat2,cn2.longitude*0.0000001 AS lon2 "+
 				"  FROM current_segments "+
-				"       LEFT OUTER JOIN current_way_segments"+
+				"       LEFT OUTER JOIN current_way_nodes"+
 				"       ON segment_id=current_segments.id,"+
 				"       current_nodes AS cn1,current_nodes AS cn2"+
 				" WHERE	"+OSM.sql_for_area(ymin,xmin,ymax,xmax,"cn1.")+

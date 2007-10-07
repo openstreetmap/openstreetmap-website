@@ -70,7 +70,9 @@ class NodeController < ApplicationController
       node = Node.find(params[:id])
 
       if node.visible
-        if Segment.find(:first, :conditions => [ "visible = 1 and (node_a = ? or node_b = ?)", node.id, node.id])
+        if WayNode.find(:first, :joins => "INNER JOIN current_ways ON current_ways.id = current_way_nodes.id", :conditions => [ "current_ways.visible = 1 AND current_way_nodes.node_id = ?", node.id ])
+          render :nothing => true, :status => :precondition_failed
+        elsif RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", :conditions => [ "visible = 1 AND member_type='node' and member_id=?", params[:id]])
           render :nothing => true, :status => :precondition_failed
         else
           node.user_id = @user.id

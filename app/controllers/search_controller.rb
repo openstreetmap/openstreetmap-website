@@ -1,5 +1,5 @@
 class SearchController < ApplicationController
-  # Support searching for nodes, segments, ways, or all
+  # Support searching for nodes, ways, or all
   # Can search by tag k, v, or both (type->k,value->v)
   # Can search by name (k=name,v=....)
 
@@ -12,15 +12,14 @@ class SearchController < ApplicationController
   def search_ways
     do_search(true,false,false)
   end
-  def search_segments
+  def search_nodes
     do_search(false,true,false)
   end
-  def search_nodes
+  def search_relations
     do_search(false,false,true)
   end
 
-
-  def do_search(do_ways,do_segments,do_nodes)
+  def do_search(do_ways,do_nodes,do_relations)
     type = params['type']
     value = params['value']
     unless type or value
@@ -33,22 +32,36 @@ class SearchController < ApplicationController
 
     way_ids = Array.new
     ways = Array.new
-    segments = Array.new
     nodes = Array.new
+    relations = Array.new
 
     # Matching for tags table
-    cond_tbl = Array.new
+    cond_way = Array.new
     sql = 'id IN (SELECT id FROM current_way_tags WHERE 1=1'
     if type
       sql += ' AND k=?'
-      cond_tbl += [type]
+      cond_way += [type]
     end
     if value
       sql += ' AND v=?'
-      cond_tbl += [value]
+      cond_way += [value]
     end
     sql += ')'
-    cond_tbl = [sql] + cond_tbl
+    cond_way = [sql] + cond_way
+
+    # Matching for tags table
+    cond_rel = Array.new
+    sql = 'id IN (SELECT id FROM current_relation_tags WHERE 1=1'
+    if type
+      sql += ' AND k=?'
+      cond_rel += [type]
+    end
+    if value
+      sql += ' AND v=?'
+      cond_rel += [value]
+    end
+    sql += ')'
+    cond_rel = [sql] + cond_rel
 
     # Matching for tags column
     if type and value
@@ -69,15 +82,14 @@ class SearchController < ApplicationController
       cond_tags = ['1=1']
     end
 
-
-    # First up, look for the ways we want
-    if do_ways
-      ways = Way.find(:all, :conditions => cond_tbl, :limit => 100)
+    # First up, look for the relations we want
+    if do_relations
+      relations = Relation.find(:all, :conditions => cond_rel, :limit => 100)
     end
 
-    # Now, segments matching
-    if do_segments
-      segments = Segment.find(:all, :conditions => cond_tags, :limit => 500)
+    # then ways
+    if do_ways
+      ways = Way.find(:all, :conditions => cond_way, :limit => 100)
     end
 
     # Now, nodes
@@ -85,11 +97,8 @@ class SearchController < ApplicationController
       nodes = Node.find(:all, :conditions => cond_tags, :limit => 2000)
     end
 
-    # Fetch any segments needed for our ways (only have matching segments so far)
-    segments += Segment.find(ways.collect { |w| w.segs }.uniq)
-
-    # Fetch any nodes needed for our segments (only have matching nodes so far)
-    nodes += Node.find(segments.collect { |s| [s.node_a, s.node_b] }.flatten.uniq)
+    # Fetch any node needed for our ways (only have matching nodes so far)
+    nodes += Node.find(ways.collect { |w| w.nds }.uniq)
 
     # Print
     user_display_name_cache = {}
@@ -98,14 +107,13 @@ class SearchController < ApplicationController
       doc.root << node.to_xml_node(user_display_name_cache)
     end
 
-    segments.each do |segment|
-      doc.root << segment.to_xml_node(user_display_name_cache)
-    end 
-
     ways.each do |way|
       doc.root << way.to_xml_node(user_display_name_cache)
     end 
 
+    relations.each do |rel|
+      doc.root << rel.to_xml_node(user_display_name_cache)
+    end 
     render :text => doc.to_s, :content_type => "text/xml"
   end
 end

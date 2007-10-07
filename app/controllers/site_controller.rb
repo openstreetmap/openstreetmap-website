@@ -6,7 +6,7 @@ class SiteController < ApplicationController
     way = Way.find(params[:id])
 
     begin
-      node = way.way_segments.first.segment.from_node
+      node = way.way_nodes.first.node
       redirect_to :controller => 'site', :action => 'index', :lat => node.latitude, :lon => node.longitude, :zoom => 6
     rescue
       redirect_to :back

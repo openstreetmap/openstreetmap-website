@@ -132,7 +132,8 @@ class ApiController < ApplicationController
     # check the bbox isn't too large
     requested_area = (max_lat-min_lat)*(max_lon-min_lon)
     if requested_area > MAX_REQUEST_AREA
-      report_error("The maximum bbox size is " + MAX_REQUEST_AREA.to_s + ", and your request was too large. Either request a smaller area, or use planet.osm")
+      report_error("The maximum bbox size is " + MAX_REQUEST_AREA.to_s + 
+        ", and your request was too large. Either request a smaller area, or use planet.osm")
       return
     end
 
@@ -147,67 +148,37 @@ class ApiController < ApplicationController
     end
 
     if node_ids.length == 0
-      render :text => "<osm version='0.4'></osm>", :content_type => "text/xml"
+      render :text => "<osm version='0.5'></osm>", :content_type => "text/xml"
       return
     end
 
-    # grab the segments
-    segments = Array.new
-    if node_ids.length > 0
-      node_ids_sql = "(#{node_ids.join(',')})"
-      # get the referenced segments
-      segments = Segment.find_by_sql "select * from current_segments where visible = 1 and (node_a in #{node_ids_sql} or node_b in #{node_ids_sql})"
-    end
-    # see if we have any missing nodes
-    segments_nodes = segments.collect {|segment| segment.node_a }
-    segments_nodes += segments.collect {|segment| segment.node_b }
-
-    segments_nodes.uniq!
-
-    missing_nodes = segments_nodes - node_ids
-
-    # get missing nodes if there are any
-    nodes += Node.find(missing_nodes) if missing_nodes.length > 0
+    relations = Array.new
 
     doc = OSM::API.new.get_xml_doc
 
     # get ways
     # find which ways are needed
-    segment_ids = segments.collect {|segment| segment.id }
     ways = Array.new
-    if segment_ids.length > 0
-      way_segments = WaySegment.find_all_by_segment_id(segment_ids)
-      way_ids = way_segments.collect {|way_segment| way_segment.id }
-      ways = Way.find(way_ids) # NB: doesn't pick up segments, tags from db until accessed via way.way_segments etc.
+    if node_ids.length > 0
+      way_nodes = WayNode.find_all_by_node_id(node_ids)
+      way_ids = way_nodes.collect {|way_node| way_node.id }
+      ways = Way.find(way_ids)
 
-      # seg_ids = way_segments.collect {|way_segment| way_segment.segment_id }
+      list_of_way_nodes = ways.collect { |way|
+	way.way_nodes.collect { |way_node| way_node.node_id }
+      }
+      list_of_way_nodes.flatten!
 
-      list_of_way_segs = ways.collect {|way| way.way_segments}
-      list_of_way_segs.flatten!
-
-      list_of_way_segments = list_of_way_segs.collect { |way_seg| way_seg.segment_id }
-
-	else
-	  list_of_way_segments = Array.new
+    else
+      list_of_way_nodes = Array.new
     end
 
-    # - [0] in case some thing links to segment 0 which doesn't exist. Shouldn't actually ever happen but it does. FIXME: file a ticket for this
-    segments_to_fetch = (list_of_way_segments.uniq - segment_ids) - [0]
+    # - [0] in case some thing links to node 0 which doesn't exist. Shouldn't actually ever happen but it does. FIXME: file a ticket for this
+    nodes_to_fetch = (list_of_way_nodes.uniq - node_ids) - [0]
 
-    if segments_to_fetch.length > 0
-      segments += Segment.find(segments_to_fetch)
+    if nodes_to_fetch.length > 0
+      nodes += Node.find(nodes_to_fetch)
     end
-
-    # get more nodes
-    #
-
-    segments_nodes = segments.collect {|segment| segment.node_a }
-    segments_nodes += segments.collect {|segment| segment.node_b }
-
-    node_ids_a = nodes.collect {|node| node.id }
-
-    nodes_to_get = segments_nodes - node_ids_a
-    nodes += Node.find(nodes_to_get) if nodes_to_get.length > 0
 
     visible_nodes = {}
     user_display_name_cache = {}
@@ -219,18 +190,40 @@ class ApiController < ApplicationController
       end
     end
 
-    visible_segments = {}
-
-    segments.each do |segment|
-      if visible_nodes[segment.node_a] and visible_nodes[segment.node_b] and segment.visible?
-        doc.root << segment.to_xml_node(user_display_name_cache) 
-        visible_segments[segment.id] = segment
+    way_ids = Array.new
+    ways.each do |way|
+      if way.visible?
+        doc.root << way.to_xml_node(visible_nodes, user_display_name_cache)
+        way_ids << way.id
       end
+    end 
+
+    # collect relationships. currently done in one big block at the end;
+    # may need to move this upwards if people want automatic completion of
+    # relationships, i.e. deliver referenced objects like we do with ways...
+    relations = Relation.find_by_sql("select e.* from current_relations e,current_relation_members em where " +
+        "e.visible=1 and " +
+        "em.id = e.id and em.member_type='node' and em.member_id in (#{visible_nodes.keys.join(',')})")
+    relations += Relation.find_by_sql("select e.* from current_relations e,current_relation_members em where " +
+        "e.visible=1 and " +
+        "em.id = e.id and em.member_type='way' and em.member_id in (#{way_ids.join(',')})")
+    # we do not normally return the "other" partners referenced by an relation, 
+    # e.g. if we return a way A that is referenced by relation X, and there's 
+    # another way B also referenced, that is not returned. But we do make 
+    # an exception for cases where an relation references another *relation*; 
+    # in that case we return that as well (but we don't go recursive here)
+    relation_ids = relations.collect { |relation| relation.id }
+    if relation_ids.length > 0
+        relations += Relation.find_by_sql("select e.* from current_relations e,current_relation_members em where " +
+            "e.visible=1 and " +
+            "em.id = e.id and em.member_type='relation' and em.member_id in (#{relation_ids.join(',')})")
     end
 
-    ways.each do |way|
-      doc.root << way.to_xml_node(visible_segments, user_display_name_cache) if way.visible?
-    end 
+    # this "uniq" may be slightly inefficient; it may be better to first collect and output
+    # all node-related relations, then find the *not yet covered* way-related ones etc.
+    relations.uniq.each do |relation|
+      doc.root << relation.to_xml_node(user_display_name_cache)
+    end
 
     render :text => doc.to_s, :content_type => "text/xml"
     
@@ -247,8 +240,8 @@ class ApiController < ApplicationController
 
     api = XML::Node.new 'api'
     version = XML::Node.new 'version'
-    version['minimum'] = '0.4';
-    version['maximum'] = '0.4';
+    version['minimum'] = '0.5';
+    version['maximum'] = '0.5';
     api << version
     area = XML::Node.new 'area'
     area['maximum'] = MAX_REQUEST_AREA.to_s;

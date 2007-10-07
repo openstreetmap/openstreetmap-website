@@ -55,7 +55,7 @@ class WayController < ApplicationController
           else
             way.user_id = @user.id
             way.tags = new_way.tags
-            way.segs = new_way.segs
+            way.nds = new_way.nds
             way.visible = true
             way.save_with_history!
 
@@ -77,18 +77,24 @@ class WayController < ApplicationController
       way = Way.find(params[:id])
 
       if way.visible
-        way.user_id = @user.id
-        way.tags = []
-        way.segs = []
-        way.visible = false
-        way.save_with_history!
+        if RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", :conditions => [ "visible = 1 AND member_type='way' and member_id=?", params[:id]])
+          render :nothing => true, :status => :precondition_failed
+        else
+          way.user_id = @user.id
+          way.tags = []
+          way.nds = []
+          way.visible = false
+	  way.save_with_history!
 
-        render :nothing => true
+	  render :nothing => true
+        end
       else
         render :nothing => true, :status => :gone
       end
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
+    rescue => ex
+      puts ex
     end
   end
 
@@ -97,22 +103,13 @@ class WayController < ApplicationController
       way = Way.find(params[:id])
 
       if way.visible
-        # In future, we might want to do all the data fetch in one step
-        seg_ids = way.segs + [-1]
-        segments = Segment.find_by_sql "select * from current_segments where visible = 1 and id IN (#{seg_ids.join(',')})"
-
-        node_ids = segments.collect {|segment| segment.node_a }
-        node_ids += segments.collect {|segment| segment.node_b }
-        node_ids += [-1]
-        nodes = Node.find(:all, :conditions => "visible = 1 AND id IN (#{node_ids.join(',')})")
+        nd_ids = way.nds + [-1]
+        nodes = Node.find(:all, :conditions => "visible = 1 AND id IN (#{nd_ids.join(',')})")
 
         # Render
         doc = OSM::API.new.get_xml_doc
         nodes.each do |node|
           doc.root << node.to_xml_node()
-        end
-        segments.each do |segment|
-          doc.root << segment.to_xml_node()
         end
         doc.root << way.to_xml_node()
 
@@ -145,8 +142,8 @@ class WayController < ApplicationController
     end
   end
 
-  def ways_for_segment
-    wayids = WaySegment.find(:all, :conditions => ['segment_id = ?', params[:id]]).collect { |ws| ws.id }.uniq
+  def ways_for_node
+    wayids = WayNode.find(:all, :conditions => ['node_id = ?', params[:id]]).collect { |ws| ws.id }.uniq
 
     if wayids.length > 0
       doc = OSM::API.new.get_xml_doc

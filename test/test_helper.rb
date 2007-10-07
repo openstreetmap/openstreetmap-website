@@ -32,18 +32,14 @@ class Test::Unit::TestCase
     set_fixture_class :current_nodes => :Node
     set_fixture_class :nodes => :OldNode
 
-    fixtures :current_segments, :segments
-    set_fixture_class :current_segments => :Segment
-    set_fixture_class :segments => :OldSegment
-
-    fixtures :current_ways, :current_way_segments, :current_way_tags
+    fixtures :current_ways, :current_way_nodes, :current_way_tags
     set_fixture_class :current_ways => :Way
-    set_fixture_class :current_way_segments => :WaySegment
+    set_fixture_class :current_way_nodes => :WayNode
     set_fixture_class :current_way_tags => :WayTag
 
-    fixtures :ways, :way_segments, :way_tags
+    fixtures :ways, :way_nodes, :way_tags
     set_fixture_class :ways => :OldWay
-    set_fixture_class :way_segments => :OldWaySegment
+    set_fixture_class :way_nodes => :OldWayNode
     set_fixture_class :way_tags => :OldWayTag
   end
 
