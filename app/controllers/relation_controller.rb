@@ -141,16 +141,18 @@ class RelationController < ApplicationController
     
         # create XML.
         doc = OSM::API.new.get_xml_doc
+        visible_nodes = {}
         user_display_name_cache = {}
 
         nodes.each do |node|
           if node.visible? # should be unnecessary if data is consistent.
             doc.root << node.to_xml_node(user_display_name_cache)
+            visible_nodes[node.id] = node
           end
         end
         ways.each do |way|
           if way.visible? # should be unnecessary if data is consistent.
-            doc.root << way.to_xml_node(user_display_name_cache)
+            doc.root << way.to_xml_node(visible_nodes, user_display_name_cache)
           end
         end
         relations.each do |rel|
