@@ -1,7 +1,7 @@
 <div id="search_results">
   <table class="search_results_title" width="100%">
     <tr>
-      <td align="left">Search Results</td>
+      <td align="left" id="search_title">Search Results</td>
       <td align="right"><a href="javascript:closeSearchResults()">Close</a></td>
     </tr>
   </table>
@@ -11,8 +11,16 @@
 
 <script type="text/javascript">
 <!--
+  function showKey() {
+    $("search_results").style.display = "block";
+    $("search_results_content").innerHTML = "<p><img src='images/keymapnik11.png' /></p>";
+    $("search_title").innerHTML = "Map key";
+	resizeMap();
+  }
+
   function startSearch() {
     $("search_results_content").innerHTML = "<p class='search_results_entry'>Searching...</p>";
+    $("search_title").innerHTML = "Search Results";
     $("search_field").style.display = "none";
     $("search_active").style.display = "inline";
   }
