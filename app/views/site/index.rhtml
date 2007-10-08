@@ -4,11 +4,9 @@
 <% end %>
 <% end %>
 
-<% content_for :left_menu do %>
-<%= link_to_function "Map key", "showKey();" %>
-<% end %>
-
-<%= render :partial => 'search', :locals => { :onopen => "resizeMap();", :onclose => "resizeMap();" } %>
+<%= render :partial => 'sidebar', :locals => { :onopen => "resizeMap();", :onclose => "resizeMap();" } %>
+<%= render :partial => 'key' %>
+<%= render :partial => 'search' %>
 
 <div id="map"></div> 
 
@@ -139,14 +137,14 @@
   function resizeMap() {
     var centre = map.getCenter();
     var zoom = map.getZoom();
-    var search_results_width = $("search_results").offsetWidth;
+    var sidebar_width = $("sidebar").offsetWidth;
 
-    if (search_results_width > 0) {
-      search_results_width = search_results_width + 5
+    if (sidebar_width > 0) {
+      sidebar_width = sidebar_width + 5
     }
 
-    $("map").style.left = (search_results_width) + "px";
-    $("map").style.width = ($("content").offsetWidth - search_results_width) + "px";
+    $("map").style.left = (sidebar_width) + "px";
+    $("map").style.width = ($("content").offsetWidth - sidebar_width) + "px";
     $("map").style.height = ($("content").offsetHeight - 2) + "px";
 
     map.setCenter(centre, zoom);

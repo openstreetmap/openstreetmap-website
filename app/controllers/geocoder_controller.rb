@@ -21,13 +21,13 @@ class GeocoderController < ApplicationController
     results_count = count_results(results)
 
     render :update do |page|
-      page.replace_html :search_results_content, :partial => 'results', :object => results
+      page.replace_html :sidebar_content, :partial => 'results', :object => results
 
       if results_count == 1
         position = results.collect { |s| s[:results] }.compact.flatten[0]
         page.call "setPosition", position[:lat], position[:lon], position[:zoom]
       else
-        page.call "openSearchResults"
+        page.call "openSidebar"
       end
     end
   end
@@ -44,8 +44,8 @@ class GeocoderController < ApplicationController
     results.push description_geonames(lat, lon)
 
     render :update do |page|
-      page.replace_html :search_results_content, :partial => 'results', :object => results
-      page.call "openSearchResults"
+      page.replace_html :sidebar_content, :partial => 'results', :object => results
+      page.call "openSidebar"
     end
   end
 
