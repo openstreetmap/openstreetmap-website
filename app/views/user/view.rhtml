@@ -1,30 +1,35 @@
+<% @this_user = User.find_by_display_name(@this_user.display_name) %>
 <h2><%= @this_user.display_name %></h2>
+<div id="userinformation">
+<% if @user and @this_user.id == @user.id %>
+<%= link_to 'my diary', :controller => 'diary_entry', :action => 'list', :display_name => @user.display_name %>
+| <%= link_to 'new diary post', :controller => 'diary_entry', :action => 'new', :display_name => @user.display_name %>
+| <%= link_to 'my traces', :controller => 'trace', :action=>'mine' %>
+| <%= link_to 'my settings', :controller => 'user', :action => 'account', :display_name => @user.display_name %>
+<% else %>
+<%= link_to 'send message', :controller => 'message', :action => 'new', :user_id => @this_user.id %>
+| <%= link_to 'diary', :controller => 'diary_entry', :action => 'list', :display_name => @this_user.display_name %>
+| <%= link_to 'traces', :controller => 'trace', :action => 'view', :display_name => @this_user.display_name %>
+| <% if @user and @user.is_friends_with?(@this_user) %>
+  <%= link_to 'remove as friend', :controller => 'user', :action => 'remove_friend', :display_name => @this_user.display_name %>
+<% else %>
+  <%= link_to 'add as friend', :controller => 'user', :action => 'make_friend', :display_name => @this_user.display_name %>
+<% end %>
+<% end %>
+</div>
+
 <div id="description"><%= simple_format(@this_user.description) %></div>
 
-<% if @user and @this_user.id == @user.id %>
-<h3>Your diary</h3>
-<%= link_to 'View your diary', :controller => 'diary_entry', :action => 'list', :display_name => @user.display_name %><br/>
-<%= link_to 'New diary post', :controller => 'diary_entry', :action => 'new', :display_name => @user.display_name %>
-<h3>Your traces</h3>
-<%= link_to 'View your traces', :controller => 'trace', :action=>'mine' %>
-<h3>Your account</h3>
-<%= link_to 'Edit your settings', :controller => 'user', :action => 'account', :display_name => @user.display_name %>
-<% else %>
-<%= link_to 'Send message', :controller => 'message', :action => 'new', :user_id => @this_user.id %><br /> 
-<%= link_to 'Add as friend', :controller => 'user', :action => 'make_friend', :display_name => @this_user.display_name %><br />
-<%= link_to 'View diary', :controller => 'diary_entry', :action => 'list', :display_name => @this_user.display_name %><br />
-<%= link_to 'View traces', :controller => 'trace', :action => 'view', :display_name => @this_user.display_name %>
-<% end %>
-
-<h3>Nearby users</h3>
+<h3>User location</h3>
 <% if @this_user.home_lat.nil? or @this_user.home_lon.nil? %>
   No home location has been set.
   <% if @user and @this_user.id == @user.id %>
   You can set your home location on your <%= link_to 'settings', :controller => 'user', :action => 'account', :display_name => @user.display_name %> page.
   <% end %>
 <% else %>
+  Nearby users:<br/>
   <% if @this_user.nearby.empty? %>
-    There are no users who admit to mapping nearby.
+    There are no users who admit to mapping nearby yet.
   <% else %>
     <table id="nearbyusers">
     <% @this_user.nearby.each do |nearby| %>
@@ -35,5 +40,24 @@
     </tr>
     <%end%>
     </table>
+  <%end%>
+
+  <% if @user and @this_user.id == @user.id %>
+    <br/>
+    Your friends:<br/>
+    <% if @this_user.friends.empty? %>
+      You have not added any friends yet.
+    <% else %>
+      <table id="friends">
+      <% @this_user.friends.each do |friend| %>
+      <% @friend = User.find_by_id(friend.friend_user_id) %>
+      <tr>
+      <td class="username"><%= link_to @friend.display_name, :controller => 'user', :action => 'view',  :display_name => @friend.display_name %></td>
+      <td><%= @this_user.distance(@friend).round %>km away</td>
+      <td class="message">(<%= link_to 'send message', :controller => 'message', :action => 'new', :user_id => @friend.id %>)</td>
+      </tr>
+      <%end%>
+      </table>
+    <%end%>
   <%end%>
 <% end %>

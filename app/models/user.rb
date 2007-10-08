@@ -93,7 +93,7 @@ class User < ActiveRecord::Base
     res = false
     @new_friend = new_friend
     self.friends.each do |friend|
-      if friend.user_id == @new_friend.user_id
+      if friend.friend_user_id == @new_friend.id
         return true
       end
     end

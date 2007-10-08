@@ -49,4 +49,14 @@ class Notifier < ActionMailer::Base
     @body['readurl'] = "http://#{SERVER_URL}/message/read/#{message.id}"
     @body['replyurl'] = "http://#{SERVER_URL}/message/new/#{message.from_user_id}"
   end
+
+  def friend_notification(friend)
+    @friend = User.find_by_id(friend.user_id)
+    @new_friend = User.find_by_id(friend.friend_user_id)
+    @recipients = @new_friend.email
+    @from = 'abuse@openstreetmap.org'
+    @subject = "[OpenStreetMap] #{@friend.display_name} added you as a friend"
+    @body['user'] = @friend.display_name
+    @body['userurl'] = "http://#{SERVER_URL}/user/#{@friend.display_name}"
+  end
 end

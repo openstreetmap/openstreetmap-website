@@ -2,8 +2,8 @@ class UserController < ApplicationController
   layout 'site'
 
   before_filter :authorize, :only => [:api_details, :api_gpx_files]
-  before_filter :authorize_web, :only => [:account, :go_public, :view, :diary, :make_friend]
-  before_filter :require_user, :only => [:set_home, :account, :go_public, :make_friend]
+  before_filter :authorize_web, :only => [:account, :go_public, :view, :diary, :make_friend, :remove_friend]
+  before_filter :require_user, :only => [:set_home, :account, :go_public, :make_friend, :remove_friend]
 
   filter_parameter_logging :password, :pass_crypt, :pass_crypt_confirmation
 
@@ -178,20 +178,35 @@ class UserController < ApplicationController
   end
 
   def make_friend
-
     if params[:display_name]     
       name = params[:display_name]
+      new_friend = User.find_by_display_name(name)
       friend = Friend.new
       friend.user_id = @user.id
-      friend.friend_user_id = User.find_by_display_name(name).id 
-      unless @user.is_friends_with?(friend)
+      friend.friend_user_id = new_friend.id
+      unless @user.is_friends_with?(new_friend)
         if friend.save
           flash[:notice] = "#{name} is now your friend."
+          Notifier::deliver_friend_notification(friend)
         else
           friend.add_error("Sorry, failed to add #{name} as a friend.")
         end
       else
         flash[:notice] = "You are already friends with #{name}."  
+      end
+      redirect_to :controller => 'user', :action => 'view'
+    end
+  end
+
+  def remove_friend
+    if params[:display_name]     
+      name = params[:display_name]
+      friend = User.find_by_display_name(name)
+      if @user.is_friends_with?(friend)
+        Friend.delete_all "user_id = #{@user.id} AND friend_user_id = #{friend.id}"
+        flash[:notice] = "#{friend.display_name} was removed from your friends."
+      else
+        flash[:notice] = "#{friend.display_name} was not already one of your friends."
       end
       redirect_to :controller => 'user', :action => 'view'
     end
