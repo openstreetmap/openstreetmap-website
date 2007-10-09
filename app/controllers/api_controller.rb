@@ -240,6 +240,51 @@ class ApiController < ApplicationController
     end
   end
 
+  def changes
+    zoom = (params[:zoom] || '12').to_i
+
+    if params.include?(:start) and params.include?(:end)
+      starttime = Time.parse(params[:start])
+      endtime = Time.parse(params[:end])
+    else
+      hours = (params[:hours] || '1').to_i.hours
+      endtime = Time.now
+      starttime = endtime - hours
+    end
+
+    if zoom >= 1 and zoom <= 16 and
+       endtime >= starttime and endtime - starttime <= 24.hours
+      mask = (1 << zoom) - 1
+
+      tiles = Node.count(:conditions => ["timestamp BETWEEN ? AND ?", starttime, endtime],
+                         :group => "maptile_for_point(latitude, longitude, #{zoom})")
+
+      doc = OSM::API.new.get_xml_doc
+      changes = XML::Node.new 'changes'
+      changes["starttime"] = starttime.xmlschema
+      changes["endtime"] = endtime.xmlschema
+
+      tiles.each do |tile, count|
+        x = (tile.to_i >> zoom) & mask
+        y = tile.to_i & mask
+
+        t = XML::Node.new 'tile'
+        t["x"] = x.to_s
+        t["y"] = y.to_s
+        t["z"] = zoom.to_s
+        t["changes"] = count.to_s
+
+        changes << t
+      end
+
+      doc.root << changes
+
+      render :text => doc.to_s, :content_type => "text/xml"
+    else
+      render :nothing => true, :status => :bad_request
+    end
+  end
+
   def capabilities
     doc = OSM::API.new.get_xml_doc
 
