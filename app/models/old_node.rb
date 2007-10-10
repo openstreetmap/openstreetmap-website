@@ -1,4 +1,4 @@
-class OldNode < ActiveRecord::Base
+class OldNode < GeoRecord
   set_table_name 'nodes'
   
   validates_presence_of :user_id, :timestamp
@@ -8,34 +8,6 @@ class OldNode < ActiveRecord::Base
 
   belongs_to :user
  
-  before_save :update_tile
-
-  def self.find_by_area(minlat, minlon, maxlat, maxlon, options)
-    self.with_scope(:find => {:conditions => OSM.sql_for_area(minlat, minlon, maxlat, maxlon)}) do
-      return self.find(:all, options)
-    end
-  end
-
-  def update_tile
-    self.tile = QuadTile.tile_for_point(lat, lon)
-  end
-
-  def lat=(l)
-    self.latitude = (l * 10000000).round
-  end
-
-  def lon=(l)
-    self.longitude = (l * 10000000).round
-  end
-
-  def lat
-    return self.latitude.to_f / 10000000
-  end
-
-  def lon
-    return self.longitude.to_f / 10000000
-  end
-
   def validate_position
     errors.add_to_base("Node is not in the world") unless in_world?
   end
