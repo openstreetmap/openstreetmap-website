@@ -47,7 +47,15 @@ function getTileURL(bounds) {
    {
      x = ((x % limit) + limit) % limit;
 
-     return this.url + z + "/" + x + "/" + y + "." + this.type;
+     var url = this.url;
+     var path = z + "/" + x + "/" + y + "." + this.type;
+
+     if (url instanceof Array)
+     {
+        url = this.selectUrl(path, url);
+     }
+
+     return url + path;
    }
 }
 
