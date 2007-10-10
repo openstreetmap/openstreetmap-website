@@ -27,23 +27,8 @@
   You can set your home location on your <%= link_to 'settings', :controller => 'user', :action => 'account', :display_name => @user.display_name %> page.
   <% end %>
 <% else %>
-  Nearby users:<br/>
-  <% if @this_user.nearby.empty? %>
-    There are no users who admit to mapping nearby yet.
-  <% else %>
-    <table id="nearbyusers">
-    <% @this_user.nearby.each do |nearby| %>
-    <tr>
-    <td class="username"><%= link_to nearby.display_name, :controller => 'user', :action => 'view',  :display_name => nearby.display_name %></td>
-    <td><%= @this_user.distance(nearby).round %>km away</td>
-    <td class="message">(<%= link_to 'send message', :controller => 'message', :action => 'new', :user_id => nearby.id %>)</td>
-    </tr>
-    <%end%>
-    </table>
-  <%end%>
 
   <% if @user and @this_user.id == @user.id %>
-    <br/>
     Your friends:<br/>
     <% if @this_user.friends.empty? %>
       You have not added any friends yet.
@@ -59,5 +44,22 @@
       <%end%>
       </table>
     <%end%>
+    <br/>
   <%end%>
+
+  Nearby users:<br/>
+  <% if @this_user.nearby.empty? %>
+    There are no users who admit to mapping nearby yet.
+  <% else %>
+    <table id="nearbyusers">
+    <% @this_user.nearby.each do |nearby| %>
+    <tr>
+    <td class="username"><%= link_to nearby.display_name, :controller => 'user', :action => 'view',  :display_name => nearby.display_name %></td>
+    <td><%= @this_user.distance(nearby).round %>km away</td>
+    <td class="message">(<%= link_to 'send message', :controller => 'message', :action => 'new', :user_id => nearby.id %>)</td>
+    </tr>
+    <%end%>
+    </table>
+  <%end%>
+
 <% end %>
