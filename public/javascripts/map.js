@@ -15,7 +15,7 @@ function createMap(divName) {
                               projection: "EPSG:41001" });
 
    var mapnik = new OpenLayers.Layer.TMS("Mapnik",
-                                         "http://tile.openstreetmap.org/",
+                                         ["http://a.tile.openstreetmap.org/","http://b.tile.openstreetmap.org/","http://c.tile.openstreetmap.org/"],
                                          { type: 'png', getURL: getTileURL, displayOutsideMaxExtent: true });
    map.addLayer(mapnik);
 
