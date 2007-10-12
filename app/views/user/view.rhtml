@@ -38,7 +38,7 @@
       <% @friend = User.find_by_id(friend.friend_user_id) %>
       <tr>
       <td class="username"><%= link_to @friend.display_name, :controller => 'user', :action => 'view',  :display_name => @friend.display_name %></td>
-      <td><%= @this_user.distance(@friend).round %>km away</td>
+      <td><% if @friend.home_lon and @friend.home_lat %><%= @this_user.distance(@friend).round %>km away<% end %></td>
       <td class="message">(<%= link_to 'send message', :controller => 'message', :action => 'new', :user_id => @friend.id %>)</td>
       </tr>
       <%end%>
