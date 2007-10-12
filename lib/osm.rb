@@ -374,7 +374,7 @@ module OSM
     Timeout::timeout(4) do
       Net::HTTP.start('api.hostip.info') do |http|
         country = http.get("/country.php?ip=#{ip_address}").body
-        country = "GB" if country = "UK"
+        country = "GB" if country == "UK"
         Net::HTTP.start('ws.geonames.org') do |http|
           xml = REXML::Document.new(http.get("/countryInfo?country=#{country}").body)
           xml.elements.each("geonames/country") do |ele|
