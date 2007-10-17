@@ -13,7 +13,7 @@ class WayController < ApplicationController
 
       if way
         if !way.preconditions_ok?
-          render :nothing => true, :status => :precondition_failed
+          render :text => "", :status => :precondition_failed
         else
           way.user_id = @user.id
           way.save_with_history!
@@ -35,7 +35,7 @@ class WayController < ApplicationController
       if way.visible
         render :text => way.to_xml.to_s, :content_type => "text/xml"
       else
-        render :nothing => true, :status => :gone
+        render :text => "", :status => :gone
       end
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
@@ -51,7 +51,7 @@ class WayController < ApplicationController
 
         if new_way and new_way.id == way.id
           if !new_way.preconditions_ok?
-            render :nothing => true, :status => :precondition_failed
+            render :text => "", :status => :precondition_failed
           else
             way.user_id = @user.id
             way.tags = new_way.tags
@@ -65,7 +65,7 @@ class WayController < ApplicationController
           render :nothing => true, :status => :bad_request
         end
       else
-        render :nothing => true, :status => :gone
+        render :text => "", :status => :gone
       end
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
@@ -78,7 +78,7 @@ class WayController < ApplicationController
 
       if way.visible
         if RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", :conditions => [ "visible = 1 AND member_type='way' and member_id=?", params[:id]])
-          render :nothing => true, :status => :precondition_failed
+          render :text => "", :status => :precondition_failed
         else
           way.user_id = @user.id
           way.tags = []
@@ -89,7 +89,7 @@ class WayController < ApplicationController
 	  render :nothing => true
         end
       else
-        render :nothing => true, :status => :gone
+        render :text => "", :status => :gone
       end
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
@@ -115,7 +115,7 @@ class WayController < ApplicationController
 
         render :text => doc.to_s, :content_type => "text/xml"
       else
-        render :nothing => true, :status => :gone
+        render :text => "", :status => :gone
       end
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found

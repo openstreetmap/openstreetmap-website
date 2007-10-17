@@ -32,7 +32,7 @@ class NodeController < ApplicationController
       if node.visible
         render :text => node.to_xml.to_s, :content_type => "text/xml"
        else
-        render :nothing => true, :status => :gone
+        render :text => "", :status => :gone
       end
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
@@ -58,7 +58,7 @@ class NodeController < ApplicationController
           render :nothing => true, :status => :bad_request
         end
       else
-        render :nothing => true, :status => :gone
+        render :text => "", :status => :gone
       end
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
@@ -71,9 +71,9 @@ class NodeController < ApplicationController
 
       if node.visible
         if WayNode.find(:first, :joins => "INNER JOIN current_ways ON current_ways.id = current_way_nodes.id", :conditions => [ "current_ways.visible = 1 AND current_way_nodes.node_id = ?", node.id ])
-          render :nothing => true, :status => :precondition_failed
+          render :text => "", :status => :precondition_failed
         elsif RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", :conditions => [ "visible = 1 AND member_type='node' and member_id=?", params[:id]])
-          render :nothing => true, :status => :precondition_failed
+          render :text => "", :status => :precondition_failed
         else
           node.user_id = @user.id
           node.visible = 0
@@ -82,7 +82,7 @@ class NodeController < ApplicationController
           render :nothing => true
         end
       else
-        render :nothing => true, :status => :gone
+        render :text => "", :status => :gone
       end
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found

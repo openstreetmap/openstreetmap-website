@@ -13,7 +13,7 @@ class RelationController < ApplicationController
 
       if relation
         if !relation.preconditions_ok?
-          render :nothing => true, :status => :precondition_failed
+          render :text => "", :status => :precondition_failed
         else
           relation.user_id = @user.id
           relation.save_with_history!
@@ -35,7 +35,7 @@ class RelationController < ApplicationController
       if relation.visible
         render :text => relation.to_xml.to_s, :content_type => "text/xml"
       else
-        render :nothing => true, :status => :gone
+        render :text => "", :status => :gone
       end
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
@@ -53,7 +53,7 @@ class RelationController < ApplicationController
 
         if new_relation and new_relation.id == relation.id
           if !new_relation.preconditions_ok?
-            render :nothing => true, :status => :precondition_failed
+            render :text => "", :status => :precondition_failed
           else
             relation.user_id = @user.id
             relation.tags = new_relation.tags
@@ -67,7 +67,7 @@ class RelationController < ApplicationController
           render :nothing => true, :status => :bad_request
         end
       else
-        render :nothing => true, :status => :gone
+        render :text => "", :status => :gone
       end
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
@@ -83,7 +83,7 @@ class RelationController < ApplicationController
 
       if relation.visible
         if RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", :conditions => [ "visible = 1 AND member_type='relation' and member_id=?", params[:id]])
-          render :nothing => true, :status => :precondition_failed
+          render :text => "", :status => :precondition_failed
         else
           relation.user_id = @user.id
           relation.tags = []
@@ -94,7 +94,7 @@ class RelationController < ApplicationController
           render :nothing => true
         end
       else
-        render :nothing => true, :status => :gone
+        render :text => "", :status => :gone
       end
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
@@ -166,7 +166,7 @@ class RelationController < ApplicationController
 
       else
 
-        render :nothing => true, :status => :gone
+        render :text => "", :status => :gone
       end
 
     rescue ActiveRecord::RecordNotFound
