@@ -1,5 +1,19 @@
 function updatelinks(lon,lat,zoom,layers) {
+  var decimals = Math.pow(10, Math.floor(zoom/3));
   var node;
+
+  lat = Math.round(lat * decimals) / decimals;
+  lon = Math.round(lon * decimals) / decimals;
+
+  node = document.getElementById("permalinkanchor");
+  if (node) {
+    var args = getArgs(node.href);
+    args["lat"] = lat;
+    args["lon"] = lon;
+    args["zoom"] = zoom;
+    args["layers"] = layers;
+    node.href = setArgs(node.href, args);
+  }
 
   node = document.getElementById("viewanchor");
   if (node) {
