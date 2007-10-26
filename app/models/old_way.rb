@@ -99,7 +99,7 @@ class OldWay < ActiveRecord::Base
     
     self.old_nodes.each do |nd| # FIXME need to make sure they come back in the right order
       e = XML::Node.new 'nd'
-      e['id'] = nd.node_id.to_s
+      e['ref'] = nd.node_id.to_s
       el1 << e
     end
  
