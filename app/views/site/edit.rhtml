@@ -90,5 +90,16 @@
 
   window.onresize = handleResize;
   window.onload = handleResize;
+
+
+<% unless @user.data_public? %>
+    var warningtext ="<div style='padding-left:8px;padding-right:8px;'><p>You haven't set your edits to be public.</p><p><b>From mid-November, you will no longer be able to use the online editor unless you do so.</b> You can set your edits as public from your ";
+	var warningtext=warningtext+'<%= link_to 'user page', {:controller => 'user', :action => 'account', :display_name => @user.display_name}%>.</p>';
+	var warningtext=warningtext+'<p>(<a href="http://wiki.openstreetmap.org/index.php/Disabling_anonymous_edits">Find out why this is changing.</a>)</p></div>';
+	updateSidebar("Warning",warningtext);
+	openSidebar();
+<% end %>
+
+
 </script>
 <% end %>
