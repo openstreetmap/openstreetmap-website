@@ -73,7 +73,7 @@ class SwfController < ApplicationController
 			ys=(lat2coord(row['lat'].to_f ,basey   ,masterscale)*20).floor
 			xl=[xs,xl].min; xr=[xs,xr].max
 			yb=[ys,yb].min; yt=[ys,yt].max
-			if (row['ts'].to_i-lasttime<180 and row['fileid']==lastfile)
+			if (row['ts'].to_i-lasttime<180 and row['fileid']==lastfile and row['ts'].to_i!=lasttime)
 				b+=drawTo(absx,absy,xs,ys)
 			else
 				b+=startAndMove(xs,ys,'01')
