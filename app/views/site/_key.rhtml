@@ -5,8 +5,12 @@
 <script type="text/javascript">
 <!--
   function showKey() {
-    updateSidebar("Map key", "<p><img src='images/keymapnik11.png' /></p>");
-    openSidebar();
+	var zoomlevel=map.getZoom();
+	if      (zoomlevel<7 ) { var imgname='keymapnik6.png'; }
+	else if (zoomlevel<12) { var imgname='keymapnik'+zoomlevel+'.png'; }
+	else                   { var imgname='keymapnik12.png'; }
+    updateSidebar("Map key", "<p><img src='images/"+imgname+"' /></p>");
+    openSidebar("210px");
   }
 // -->
 </script>
