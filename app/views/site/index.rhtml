@@ -96,6 +96,8 @@
     marker = addMarkerToMap(lonLatToMercator(new OpenLayers.LonLat(<%= mlon %>, <%= mlat %>)));
     <% end %>
 
+    map.events.register("zoomend", map, updateKey);
+
     map.events.register("moveend", map, updateLocation);
     updateLocation();
 

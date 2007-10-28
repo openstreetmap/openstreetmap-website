@@ -12,20 +12,28 @@
 <script type="text/javascript">
 <!--
   function openSidebar() {
-	if (arguments.length) { $("sidebar").style.width = arguments[0]; }
-	                 else { $("sidebar").style.width = "30%"; }
+    if (arguments.length) { $("sidebar").style.width = arguments[0]; }
+    else { $("sidebar").style.width = "30%"; }
+
     $("sidebar").style.display = "block";
+
     <%= onopen %>
   }
 
   function closeSidebar() {
     $("sidebar").style.display = "none";
+
     <%= onclose %>
   }
 
   function updateSidebar(title, content) {
     $("sidebar_title").innerHTML = title;
     $("sidebar_content").innerHTML = content;
+  }
+
+  function sidebarOpen(title) {
+    return $("sidebar").style.display == "block" &&
+           $("sidebar_title").innerHTML == title;
   }
 // -->
 </script>
