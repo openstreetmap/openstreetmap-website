@@ -42,23 +42,19 @@ class NodeController < ApplicationController
   def update
     begin
       node = Node.find(params[:id])
+      new_node = Node.from_xml(request.raw_post)
 
-      if node.visible
-        new_node = Node.from_xml(request.raw_post)
+      if new_node and new_node.id == node.id
+        node.user_id = @user.id
+        node.latitude = new_node.latitude 
+        node.longitude = new_node.longitude
+        node.tags = new_node.tags
+        node.visible = true
+        node.save_with_history!
 
-        if new_node and new_node.id == node.id
-          node.user_id = @user.id
-          node.latitude = new_node.latitude 
-          node.longitude = new_node.longitude
-          node.tags = new_node.tags
-          node.save_with_history!
-
-          render :nothing => true
-        else
-          render :nothing => true, :status => :bad_request
-        end
+        render :nothing => true
       else
-        render :text => "", :status => :gone
+        render :nothing => true, :status => :bad_request
       end
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found

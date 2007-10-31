@@ -47,27 +47,22 @@ class RelationController < ApplicationController
   def update
     begin
       relation = Relation.find(params[:id])
+      new_relation = Relation.from_xml(request.raw_post)
 
-      if relation.visible
-        new_relation = Relation.from_xml(request.raw_post)
-
-        if new_relation and new_relation.id == relation.id
-          if !new_relation.preconditions_ok?
-            render :text => "", :status => :precondition_failed
-          else
-            relation.user_id = @user.id
-            relation.tags = new_relation.tags
-            relation.members = new_relation.members
-            relation.visible = true
-            relation.save_with_history!
-
-            render :nothing => true
-          end
+      if new_relation and new_relation.id == relation.id
+        if !new_relation.preconditions_ok?
+          render :text => "", :status => :precondition_failed
         else
-          render :nothing => true, :status => :bad_request
+          relation.user_id = @user.id
+          relation.tags = new_relation.tags
+          relation.members = new_relation.members
+          relation.visible = true
+          relation.save_with_history!
+
+          render :nothing => true
         end
       else
-        render :text => "", :status => :gone
+        render :nothing => true, :status => :bad_request
       end
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found

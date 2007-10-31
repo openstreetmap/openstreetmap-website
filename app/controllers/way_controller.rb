@@ -45,27 +45,22 @@ class WayController < ApplicationController
   def update
     begin
       way = Way.find(params[:id])
+      new_way = Way.from_xml(request.raw_post)
 
-      if way.visible
-        new_way = Way.from_xml(request.raw_post)
-
-        if new_way and new_way.id == way.id
-          if !new_way.preconditions_ok?
-            render :text => "", :status => :precondition_failed
-          else
-            way.user_id = @user.id
-            way.tags = new_way.tags
-            way.nds = new_way.nds
-            way.visible = true
-            way.save_with_history!
-
-            render :nothing => true
-          end
+      if new_way and new_way.id == way.id
+        if !new_way.preconditions_ok?
+          render :text => "", :status => :precondition_failed
         else
-          render :nothing => true, :status => :bad_request
+          way.user_id = @user.id
+          way.tags = new_way.tags
+          way.nds = new_way.nds
+          way.visible = true
+          way.save_with_history!
+
+          render :nothing => true
         end
       else
-        render :text => "", :status => :gone
+        render :nothing => true, :status => :bad_request
       end
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
