@@ -138,16 +138,27 @@ module OSM
       rat= Math.cos( ((max_lat + min_lat)/2.0) /  180.0 * 3.141592)
       proj = OSM::Mercator.new((min_lat + max_lat) / 2, (max_lon + min_lon) / 2, (max_lat - min_lat) / width / rat, width, height)
 
+      linegc = Magick::Draw.new
+      linegc.stroke_linejoin('miter')
+      linegc.stroke_width(1)
+      linegc.stroke('#BBBBBB')
+      linegc.fill('#BBBBBB')
+
+      highlightgc = Magick::Draw.new
+      highlightgc.stroke_linejoin('miter')
+      highlightgc.stroke_width(3)
+      highlightgc.stroke('#000000')
+      highlightgc.fill('#000000')
+
       images = []
 
       frames.times do
-        gc =  Magick::Draw.new
-        gc.stroke_linejoin('miter')
-        gc.stroke('#FFFFFF')
-        gc.fill('#FFFFFF')
-        gc.rectangle(0,0,width,height)
-        gc.stroke_width(1)
-        images << gc
+        image = Magick::Image.new(width, height) do |image|
+          image.background_color = 'white'
+          image.format = 'GIF'
+        end
+
+        images << image
       end
 
       oldpx = 0.0
@@ -160,43 +171,39 @@ module OSM
       points do |p|
         px = proj.x(p['longitude'])
         py = proj.y(p['latitude'])
-        frames.times do |n|
-          images[n].stroke_width(1)
-          images[n].stroke('#BBBBBB')
-          images[n].fill('#BBBBBB')
-        #  puts "A #{px},#{py} - #{oldpx},#{oldpy}"
-          images[n].line(px, py, oldpx, oldpy ) unless first
+
+        if m > 0
+          frames.times do |n|
+            if n == mm
+              gc = highlightgc.dup
+            else
+              gc = linegc.dup
+            end
+
+            gc.line(px, py, oldpx, oldpy)
+
+            gc.draw(images[n])
+          end
         end
-        images[mm].stroke_width(3)
-        images[mm].stroke('#000000')
-        images[mm].fill('#000000')
-        images[mm].line(px, py, oldpx, oldpy ) unless first
-      #  puts "B #{px},#{py} - #{oldpx},#{oldpy}"
-        m +=1
+
+        m += 1
         if m > num_points.to_f / frames.to_f * (mm+1)
           mm += 1
         end
-        first = false
+
         oldpy = py
         oldpx = px
       end
 
       il = Magick::ImageList.new
 
-      frames.times do |n|
-        canvas = Magick::Image.new(width, height) {
-          self.background_color = 'white'
-        }
-        begin
-          images[n].draw(canvas)
-        rescue ArgumentError
-        end
-        canvas.format = 'GIF'
-        il << canvas
+      images.each do |f|
+        il << f
       end
 
       il.delay = 50
       il.format = 'GIF'
+
       return il.to_blob
     end
 
@@ -207,39 +214,34 @@ module OSM
       rat= Math.cos( ((max_lat + min_lat)/2.0) /  180.0 * 3.141592)
       proj = OSM::Mercator.new((min_lat + max_lat) / 2, (max_lon + min_lon) / 2, (max_lat - min_lat) / width / rat, width, height)
 
-      images = []
-
-      gc =  Magick::Draw.new
+      gc = Magick::Draw.new
       gc.stroke_linejoin('miter')
+      gc.stroke_width(1)
+      gc.stroke('#000000')
+      gc.fill('#000000')
+
+      image = Magick::Image.new(width, height) do |image|
+        image.background_color = 'white'
+        image.format = 'GIF'
+      end
 
       oldpx = 0.0
       oldpy = 0.0
 
       first = true
 
-      gc.stroke_width(1)
-      gc.stroke('#000000')
-      gc.fill('#000000')
-
       points do |p|
         px = proj.x(p['longitude'])
         py = proj.y(p['latitude'])
-        gc.line(px, py, oldpx, oldpy ) unless first
-       # puts "C #{px},#{py} - #{oldpx},#{oldpy}"
+
+        gc.dup.line(px, py, oldpx, oldpy).draw(image) unless first
+
         first = false
         oldpy = py
         oldpx = px
       end
 
-      canvas = Magick::Image.new(width, height) {
-        self.background_color = 'white'
-      }
-      begin
-        gc.draw(canvas)
-      rescue ArgumentError
-      end
-      canvas.format = 'GIF'
-      return canvas.to_blob
+      return image.to_blob
     end
 
   end
