@@ -38,13 +38,16 @@ class AmfController < ApplicationController
       args=getvalue(req)				#  | get response (probably an array)
 
       case message
-		  when 'getpresets';	results[index]=putdata(index,getpresets)
-		  when 'whichways';		results[index]=putdata(index,whichways(args))
-		  when 'getway';		results[index]=putdata(index,getway(args))
-		  when 'putway';		results[index]=putdata(index,putway(args))
-		  when 'deleteway';		results[index]=putdata(index,deleteway(args))
-		  when 'putpoi';		results[index]=putdata(index,putpoi(args))
-		  when 'getpoi';		results[index]=putdata(index,getpoi(args))
+		  when 'getpresets';		results[index]=putdata(index,getpresets)
+		  when 'whichways';			results[index]=putdata(index,whichways(args))
+		  when 'whichways_deleted';	results[index]=putdata(index,whichways_deleted(args))
+		  when 'getway';			results[index]=putdata(index,getway(args))
+		  when 'getway_old';		results[index]=putdata(index,getway_old(args))
+		  when 'getway_history';	results[index]=putdata(index,getway_history(args))
+		  when 'putway';			results[index]=putdata(index,putway(args))
+		  when 'deleteway';			results[index]=putdata(index,deleteway(args))
+		  when 'putpoi';			results[index]=putdata(index,putpoi(args))
+		  when 'getpoi';			results[index]=putdata(index,getpoi(args))
       end
     end
 
@@ -230,7 +233,7 @@ EOF
        "   AND current_ways.visible=1 "+
        "   AND "+OSM.sql_for_area(ymin, xmin, ymax, xmax, "current_nodes."))
 
-    ways = waylist.collect {|a| a['wayid'].to_i } # get an array of way id's
+    ways = waylist.collect {|a| a['wayid'].to_i } # get an array of way IDs
 
     pointlist = ActiveRecord::Base.connection.select_all("SELECT current_nodes.id,current_nodes.latitude*0.0000001 AS lat,current_nodes.longitude*0.0000001 AS lng,current_nodes.tags "+
        "  FROM current_nodes "+
@@ -244,6 +247,29 @@ EOF
     return [ways,points]
   end
 
+  # ----- whichways_deleted(left,bottom,right,top)
+  #		  return array of deleted ways in current bounding box
+  
+  def whichways_deleted(args)
+    xmin = args[0].to_f-0.01
+    ymin = args[1].to_f-0.01
+    xmax = args[2].to_f+0.01
+    ymax = args[3].to_f+0.01
+    baselong    = args[4]
+    basey       = args[5]
+    masterscale = args[6]
+
+    waylist = ActiveRecord::Base.connection.select_all("SELECT DISTINCT current_way_nodes.id AS wayid"+
+       "  FROM current_way_nodes,current_nodes,current_ways "+
+       " WHERE current_nodes.id=current_way_nodes.node_id "+
+       "   AND current_ways.id=current_way_nodes.id "+
+       "   AND current_ways.visible=0 "+
+       "   AND "+OSM.sql_for_area(ymin, xmin, ymax, xmax, "current_nodes."))
+
+    ways = waylist.collect {|a| a['wayid'].to_i } # get an array of way IDs
+	[ways]
+  end
+  
   # ----- getway (objectname, way, baselong, basey, masterscale)
   #		  returns objectname, array of co-ordinates, attributes,
   #				  xmin,xmax,ymin,ymax
@@ -252,8 +278,7 @@ EOF
     objname,wayid,baselong,basey,masterscale=args
     wayid = wayid.to_i
     points = []
-    lastid = -1
-    xmin = ymin = 999999
+    xmin = ymin =  999999
     xmax = ymax = -999999
 
     RAILS_DEFAULT_LOGGER.info("  Message: getway, id=#{wayid}")
@@ -271,6 +296,102 @@ EOF
     attrlist.each {|a| attributes[a['k'].gsub(':','|')]=a['v'] }
 
     [objname,points,attributes,xmin,xmax,ymin,ymax]
+  end
+  
+  # -----	getway_old (objectname, way, version, baselong, basey, masterscale)
+  #			returns old version of way
+
+  # Node handling on undelete (historic=false):
+  # - always use the node specified, even if it's moved
+  
+  # Node handling on revert (historic=true):
+  # - if it's a visible node, use a new node id (i.e. not mucking up the old one)
+  #   which means the SWF needs to allocate new ids
+  # - if it's an invisible node, we can reuse the old node id
+
+  def getway_old(args)
+    objname,wayid,version,baselong,basey,masterscale=args
+    wayid = wayid.to_i
+    xmin = ymin =  999999
+    xmax = ymax = -999999
+	dellist=[]
+
+	# get version (if -1) and timestamp
+	if version<0
+	  historic=false
+	  row=ActiveRecord::Base.connection.select_one("SELECT version FROM ways WHERE way=#{wayid} ORDER BY version DESC LIMIT 1")
+	  version=row['version']
+	else
+	  historic=true
+	end
+	row=ActiveRecord::Base.connection.select_one("SELECT timestamp FROM ways WHERE version=#{version} AND way=#{wayid}")
+	timestamp=row['timestamp']
+
+	# get node list from this version
+	sql=<<-EOF
+	SELECT cn.id,visible,latitude*0.0000001 AS latitude,longitude*0.0000001 AS longitude,tags 
+	  FROM way_nodes wn,current_nodes cn 
+	 WHERE wn.version=#{version} 
+	   AND wn.id=#{wayid} 
+	   AND wn.node_id=cn.id 
+	 ORDER BY sequence_id
+	EOF
+	ActiveRecord::Base.connection.select_all(sql).each {|row|
+      points<<[long2coord(row['longitude'].to_f,baselong,masterscale),lat2coord(row['latitude'].to_f,basey,masterscale),row['id'].to_i,row['visible'].to_i,tag2array(row['tags'])]
+      xmin=[xmin,row['longitude'].to_f].min
+      xmax=[xmax,row['longitude'].to_f].max
+      ymin=[ymin,row['latitude'].to_f].min
+      ymax=[ymax,row['latitude'].to_f].max
+	}
+
+	# if historic (full revert), get the old version of each node
+	if historic then
+	  for i in (0..points.length-1)
+		sql=<<-EOF
+		SELECT latitude*0.0000001 AS latitude,longitude*0.0000001 AS longitude,tags 
+		  FROM nodes 
+		 WHERE id=#{points[i][2]} 
+		   AND timestamp<=#{waytime} 
+		 ORDER BY timestamp DESC 
+		 LIMIT 1
+		EOF
+		row=ActiveRecord::Base.connection.select_one(sql)
+		unless row.empty? then
+		  points[i][0]=long2coord(row['longitude'].to_f,baselong,masterscale)
+		  points[i][1]=lat2coord(row['latitude'].to_f,baselong,masterscale)
+		  points[i][4]=tag2array(row['tags'])
+		end
+	  end
+	end
+
+	# get tags from this version
+    attributes={}
+    attrlist=ActiveRecord::Base.connection.select_all "SELECT k,v FROM current_way_tags WHERE id=#{wayid} AND version=#{version}"
+    attrlist.each {|a| attributes[a['k'].gsub(':','|')]=a['v'] }
+
+    [objname,points,attributes,xmin,xmax,ymin,ymax]
+  end
+
+  # -----	getway_history (way)
+  #			returns array of previous versions (version,timestamp,visible,user)
+  #			should also show 'created_by'
+
+  def getway_history(wayid)
+    RAILS_DEFAULT_LOGGER.info("  Received history request for #{wayid}")
+	history=[]
+	sql=<<-EOF
+	SELECT version,timestamp,visible,display_name,data_public
+	  FROM ways,users
+	 WHERE ways.id=#{wayid}
+	   AND ways.user_id=users.id
+	 ORDER BY version DESC
+	EOF
+	histlist=ActiveRecord::Base.connection.select_all(sql)
+	histlist.each { |row|
+		if row['data_public'] then user=row['display_name'] else user='anonymous' end
+		history<<[row['version'],row['timestamp'],row['visible'],user]
+	}
+	[history]
   end
 
   # -----	putway (user token, way, array of co-ordinates, array of attributes,
