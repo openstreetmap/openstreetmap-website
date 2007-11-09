@@ -20,7 +20,7 @@ function createMap(divName) {
    map.addLayer(mapnik);
 
    var osmarender = new OpenLayers.Layer.TMS("Osmarender",
-                                             "http://tah.openstreetmap.org/Tiles/tile.php/",
+                                             ["http://a.tah.openstreetmap.org/Tiles/tile.php/","http://b.tah.openstreetmap.org/Tiles/tile.php/","http://c.tah.openstreetmap.org/Tiles/tile.php/"],
                                              { type: 'png', getURL: getTileURL, displayOutsideMaxExtent: true });
    map.addLayer(osmarender);
 
