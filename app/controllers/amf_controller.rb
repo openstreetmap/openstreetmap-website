@@ -4,6 +4,15 @@ class AmfController < ApplicationController
   session :off
   before_filter :check_write_availability
 
+  # AMF controller for Potlatch
+  # ---------------------------
+  # All interaction between Potlatch (as a .SWF application) and the 
+  # OSM database takes place using this controller. Messages are 
+  # encoded in the Actionscript Message Format (AMF).
+  #
+  # Public domain. Set your tab width to 4 to read this document. :)
+  # editions Systeme D / Richard Fairhurst 2004-2007
+
   # to log:
   # RAILS_DEFAULT_LOGGER.error("Args: #{args[0]}, #{args[1]}, #{args[2]}, #{args[3]}")
 
@@ -259,14 +268,17 @@ EOF
     basey       = args[5]
     masterscale = args[6]
 
-    waylist = ActiveRecord::Base.connection.select_all("SELECT DISTINCT current_way_nodes.id AS wayid"+
-       "  FROM current_way_nodes,current_nodes,current_ways "+
-       " WHERE current_nodes.id=current_way_nodes.node_id "+
-       "   AND current_ways.id=current_way_nodes.id "+
-       "   AND current_ways.visible=0 "+
-       "   AND "+OSM.sql_for_area(ymin, xmin, ymax, xmax, "current_nodes."))
-
-    ways = waylist.collect {|a| a['wayid'].to_i } # get an array of way IDs
+	sql=<<-EOF
+		 SELECT DISTINCT current_ways.id 
+		   FROM current_nodes,way_nodes,current_ways 
+		  WHERE #{OSM.sql_for_area(ymin, xmin, ymax, xmax, "current_nodes.")} 
+			AND way_nodes.node_id=current_nodes.id 
+			AND way_nodes.id=current_ways.id 
+			AND current_nodes.visible=0 
+			AND current_ways.visible=0 
+	EOF
+    waylist = ActiveRecord::Base.connection.select_all(sql)
+    ways = waylist.collect {|a| a['id'].to_i }
 	[ways]
   end
   
@@ -301,75 +313,37 @@ EOF
   # -----	getway_old (objectname, way, version, baselong, basey, masterscale)
   #			returns old version of way
 
-  # Node handling on undelete (historic=false):
-  # - always use the node specified, even if it's moved
-  
-  # Node handling on revert (historic=true):
-  # - if it's a visible node, use a new node id (i.e. not mucking up the old one)
-  #   which means the SWF needs to allocate new ids
-  # - if it's an invisible node, we can reuse the old node id
-
   def getway_old(args)
+    RAILS_DEFAULT_LOGGER.info("  Message: getway_old (server is #{SERVER_URL})")
+	return if SERVER_URL=='www.openstreetmap.org'
+	
     objname,wayid,version,baselong,basey,masterscale=args
     wayid = wayid.to_i
+    version = version.to_i
     xmin = ymin =  999999
     xmax = ymax = -999999
-	dellist=[]
-
-	# get version (if -1) and timestamp
+	points=[]
 	if version<0
 	  historic=false
-	  row=ActiveRecord::Base.connection.select_one("SELECT version FROM ways WHERE way=#{wayid} ORDER BY version DESC LIMIT 1")
-	  version=row['version']
+	  version=getlastversion(wayid,version)
 	else
 	  historic=true
 	end
-	row=ActiveRecord::Base.connection.select_one("SELECT timestamp FROM ways WHERE version=#{version} AND way=#{wayid}")
-	timestamp=row['timestamp']
-
-	# get node list from this version
-	sql=<<-EOF
-	SELECT cn.id,visible,latitude*0.0000001 AS latitude,longitude*0.0000001 AS longitude,tags 
-	  FROM way_nodes wn,current_nodes cn 
-	 WHERE wn.version=#{version} 
-	   AND wn.id=#{wayid} 
-	   AND wn.node_id=cn.id 
-	 ORDER BY sequence_id
-	EOF
-	ActiveRecord::Base.connection.select_all(sql).each {|row|
-      points<<[long2coord(row['longitude'].to_f,baselong,masterscale),lat2coord(row['latitude'].to_f,basey,masterscale),row['id'].to_i,row['visible'].to_i,tag2array(row['tags'])]
+	readwayquery_old(wayid,version,historic).each { |row|
+      points<<[long2coord(row['longitude'].to_f,baselong,masterscale),lat2coord(row['latitude'].to_f,basey,masterscale),row['id'].to_i,row['visible'].to_i,tag2array(row['tags'].to_s)]
       xmin=[xmin,row['longitude'].to_f].min
       xmax=[xmax,row['longitude'].to_f].max
-      ymin=[ymin,row['latitude'].to_f].min
-      ymax=[ymax,row['latitude'].to_f].max
+      ymin=[ymin,row['latitude' ].to_f].min
+      ymax=[ymax,row['latitude' ].to_f].max
 	}
-
-	# if historic (full revert), get the old version of each node
-	if historic then
-	  for i in (0..points.length-1)
-		sql=<<-EOF
-		SELECT latitude*0.0000001 AS latitude,longitude*0.0000001 AS longitude,tags 
-		  FROM nodes 
-		 WHERE id=#{points[i][2]} 
-		   AND timestamp<=#{waytime} 
-		 ORDER BY timestamp DESC 
-		 LIMIT 1
-		EOF
-		row=ActiveRecord::Base.connection.select_one(sql)
-		unless row.empty? then
-		  points[i][0]=long2coord(row['longitude'].to_f,baselong,masterscale)
-		  points[i][1]=lat2coord(row['latitude'].to_f,baselong,masterscale)
-		  points[i][4]=tag2array(row['tags'])
-		end
-	  end
-	end
 
 	# get tags from this version
     attributes={}
-    attrlist=ActiveRecord::Base.connection.select_all "SELECT k,v FROM current_way_tags WHERE id=#{wayid} AND version=#{version}"
+    attrlist=ActiveRecord::Base.connection.select_all "SELECT k,v FROM way_tags WHERE id=#{wayid} AND version=#{version}"
     attrlist.each {|a| attributes[a['k'].gsub(':','|')]=a['v'] }
+	attributes['history']="Retrieved from v"+version.to_s
 
-    [objname,points,attributes,xmin,xmax,ymin,ymax]
+    [objname,points,attributes,xmin,xmax,ymin,ymax,version]
   end
 
   # -----	getway_history (way)
@@ -377,7 +351,6 @@ EOF
   #			should also show 'created_by'
 
   def getway_history(wayid)
-    RAILS_DEFAULT_LOGGER.info("  Received history request for #{wayid}")
 	history=[]
 	sql=<<-EOF
 	SELECT version,timestamp,visible,display_name,data_public
@@ -399,9 +372,17 @@ EOF
   #			returns current way ID, new way ID, hash of renumbered nodes,
   #					xmin,xmax,ymin,ymax
 
+  # ** needs to be updated so that nodes with visible=0 (i.e. undeleted)
+  #     no longer cause a problem
+  #    best way to do this would be to know which version it was recovered from;
+  #		then replace readwayquery with historic query. Line 506 would also need
+  #		to check if visible had changed, and update if so
+  #	   (a side-effect is that merging/splitting ways will need to be forbidden 
+  #		for undeleted ways, I think)
+
   def putway(args)
     RAILS_DEFAULT_LOGGER.info("  putway started")
-    usertoken,originalway,points,attributes,baselong,basey,masterscale=args
+    usertoken,originalway,points,attributes,oldversion,baselong,basey,masterscale=args
     uid=getuserid(usertoken)
     return if !uid
     RAILS_DEFAULT_LOGGER.info("  putway authenticated happily")
@@ -409,20 +390,34 @@ EOF
     db_now='@now'+uid.to_s+originalway.to_i.abs.to_s+Time.new.to_i.to_s	# 'now' variable name, typically 51 chars
     ActiveRecord::Base.connection.execute("SET #{db_now}=NOW()")
     originalway=originalway.to_i
-
+	oldversion=oldversion.to_i
+	
     RAILS_DEFAULT_LOGGER.info("  Message: putway, id=#{originalway}")
 
     # -- 3.	read original way into memory
 
-    xc={}; yc={}; tagc={}
+    xc={}; yc={}; tagc={}; vc={}
     if originalway>0
       way=originalway
-      readwayquery(way).each { |row|
-        id=row['id'].to_i
-        xc[id]=row['longitude'].to_f
-        yc[id]=row['latitude' ].to_f
-        tagc[id]=row['tags']
-      }
+	  if oldversion==0
+	    readwayquery(way).each { |row|
+		  id=row['id'].to_i
+		  xc[id]=row['longitude'].to_f
+		  yc[id]=row['latitude' ].to_f
+		  tagc[id]=row['tags']
+		  vc[id]=1
+		}
+	  else
+	    readwayquery_old(way,oldversion,true).each { |row|
+		  id=row['id'].to_i
+		  if (id>0) then
+			xc[id]=row['longitude'].to_f
+			yc[id]=row['latitude' ].to_f
+			tagc[id]=row['tags']
+			vc[id]=row['visible'].to_i
+		  end
+		}
+	  end
       ActiveRecord::Base.connection.update("UPDATE current_ways SET timestamp=#{db_now},user_id=#{uid},visible=1 WHERE id=#{way}")
     else
       way=ActiveRecord::Base.connection.insert("INSERT INTO current_ways (user_id,timestamp,visible) VALUES (#{uid},#{db_now},1)")
@@ -468,7 +463,7 @@ EOF
       elsif xc.has_key?(node)
 		nodelist.push(node)
         # old node from original way - update
-        if (xs!=xc[node] or (ys/0.0000001).round!=(yc[node]/0.0000001).round or tagstr!=tagc[node])
+        if (xs!=xc[node] or (ys/0.0000001).round!=(yc[node]/0.0000001).round or tagstr!=tagc[node] or vc[node]==0)
           ActiveRecord::Base.connection.insert("INSERT INTO nodes (id,latitude,longitude,timestamp,user_id,visible,tags,tile) VALUES (#{node},#{lat},#{long},#{db_now},#{uid},1,#{tagsql},#{tile})")
           ActiveRecord::Base.connection.update("UPDATE current_nodes SET latitude=#{lat},longitude=#{long},timestamp=#{db_now},user_id=#{uid},tags=#{tagsql},visible=1,tile=#{tile} WHERE id=#{node}")
         end
@@ -653,6 +648,67 @@ def readwayquery(id)
       "     AND current_way_nodes.node_id=current_nodes.id "+
       "     AND current_nodes.visible=1 "+
       "   ORDER BY sequence_id"
+end
+
+def getlastversion(id,version)
+  row=ActiveRecord::Base.connection.select_one("SELECT version FROM ways WHERE id=#{id} AND visible=1 ORDER BY version DESC LIMIT 1")
+  row['version']
+end
+
+def readwayquery_old(id,version,historic)
+  # Node handling on undelete (historic=false):
+  # - always use the node specified, even if it's moved
+  
+  # Node handling on revert (historic=true):
+  # - if it's a visible node, use a new node id (i.e. not mucking up the old one)
+  #   which means the SWF needs to allocate new ids
+  # - if it's an invisible node, we can reuse the old node id
+
+  # get node list from specified version of way,
+  # and the _current_ lat/long/tags of each node
+
+  row=ActiveRecord::Base.connection.select_one("SELECT timestamp FROM ways WHERE version=#{version} AND id=#{id}")
+  waytime=row['timestamp']
+
+  sql=<<-EOF
+	SELECT cn.id,visible,latitude*0.0000001 AS latitude,longitude*0.0000001 AS longitude,tags 
+	  FROM way_nodes wn,current_nodes cn 
+	 WHERE wn.version=#{version} 
+	   AND wn.id=#{id} 
+	   AND wn.node_id=cn.id 
+	 ORDER BY sequence_id
+  EOF
+  rows=ActiveRecord::Base.connection.select_all(sql)
+
+  # if historic (full revert), get the old version of each node,
+  # and use this (though with a new id) if it differs from the current one
+  if historic then
+	rows.each_index do |i|
+	  sql=<<-EOF
+	  SELECT latitude*0.0000001 AS latitude,longitude*0.0000001 AS longitude,tags 
+	    FROM nodes 
+	   WHERE id=#{rows[i]['id']} 
+	     AND timestamp<="#{waytime}" 
+	   ORDER BY timestamp DESC 
+	   LIMIT 1
+	  EOF
+	  row=ActiveRecord::Base.connection.select_one(sql)
+	  unless row.nil? then
+	    nx=row['longitude'].to_f
+	    ny=row['latitude'].to_f
+	    if (nx!=rows[i]['longitude'].to_f or ny!=rows[i]['latitude'].to_f or row['tags']!=rows[i]['tags']) then
+		  rows[i]['id']=-1
+		  # This generates a new node id if x/y/tags differ from current node.
+		  # Strictly speaking, it need only do this for uniquenodes, but we're
+		  # not generating uniquenodes for historic ways (yet!).
+	    end
+		rows[i]['longitude']=nx
+		rows[i]['latitude' ]=ny
+		rows[i]['tags'     ]=row['tags']
+	  end
+    end
+  end
+  rows
 end
 
 def createuniquenodes(way,uqn_name,nodelist)
