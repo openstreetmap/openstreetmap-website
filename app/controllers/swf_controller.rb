@@ -46,16 +46,16 @@ class SwfController < ApplicationController
 		lastfile='-1'
 	
 		if params['token']
-                        user=User.authenticate(:token => params[:token])
-			sql="SELECT gps_points.latitude*0.0000001 AS lat,gps_points.longitude*0.0000001 AS lon,gpx_files.id AS fileid,UNIX_TIMESTAMP(gps_points.timestamp) AS ts "+
-				 " FROM gpx_files,gps_points "+
-				 "WHERE gpx_files.id=gpx_id "+
-				 "  AND gpx_files.user_id=#{user.id} "+
-				 "  AND "+OSM.sql_for_area(ymin,xmin,ymax,xmax,"gps_points.")+
-				 "  AND (gps_points.timestamp IS NOT NULL) "+
-				 "ORDER BY fileid DESC,ts "+
-				 "LIMIT 10000"
-		else
+		  user=User.authenticate(:token => params[:token])
+		  sql="SELECT gps_points.latitude*0.0000001 AS lat,gps_points.longitude*0.0000001 AS lon,gpx_files.id AS fileid,UNIX_TIMESTAMP(gps_points.timestamp) AS ts "+
+			   " FROM gpx_files,gps_points "+
+			   "WHERE gpx_files.id=gpx_id "+
+			   "  AND gpx_files.user_id=#{user.id} "+
+			   "  AND "+OSM.sql_for_area(ymin,xmin,ymax,xmax,"gps_points.")+
+			   "  AND (gps_points.timestamp IS NOT NULL) "+
+			   "ORDER BY fileid DESC,ts "+
+			   "LIMIT 10000"
+		  else
 			sql="SELECT latitude*0.0000001 AS lat,longitude*0.0000001 AS lon,gpx_id AS fileid,UNIX_TIMESTAMP(timestamp) AS ts "+
 				 " FROM gps_points "+
 				 "WHERE "+OSM.sql_for_area(ymin,xmin,ymax,xmax,"gps_points.")+

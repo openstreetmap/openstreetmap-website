@@ -12,9 +12,12 @@ class AmfController < ApplicationController
   #
   # Public domain. Set your tab width to 4 to read this document. :)
   # editions Systeme D / Richard Fairhurst 2004-2007
-
+  
+  # to trap errors (getway_old,putway,putpoi,deleteway only):
+  #   return(-1,"message")		<-- just puts up a dialogue
+  #   return(-2,"message")		<-- also asks the user to e-mail me
   # to log:
-  # RAILS_DEFAULT_LOGGER.error("Args: #{args[0]}, #{args[1]}, #{args[2]}, #{args[3]}")
+  #   RAILS_DEFAULT_LOGGER.error("Args: #{args[0]}, #{args[1]}, #{args[2]}, #{args[3]}")
 
   # ====================================================================
   # Main AMF handler
@@ -215,7 +218,7 @@ EOF
         end
       }
     end
-    return [presets,presetmenus,presetnames]
+    [presets,presetmenus,presetnames]
   end
 
   # ----- whichways(left,bottom,right,top)
@@ -253,7 +256,7 @@ EOF
 
     points = pointlist.collect {|a| [a['id'],long2coord(a['lng'].to_f,baselong,masterscale),lat2coord(a['lat'].to_f,basey,masterscale),tag2array(a['tags'])]	} # get a list of node ids and their tags
 
-    return [ways,points]
+    [ways,points]
   end
 
   # ----- whichways_deleted(left,bottom,right,top)
@@ -315,7 +318,7 @@ EOF
 
   def getway_old(args)
     RAILS_DEFAULT_LOGGER.info("  Message: getway_old (server is #{SERVER_URL})")
-	return if SERVER_URL=='www.openstreetmap.org'
+	if SERVER_URL=="www.openstreetmap.org" then return -1,"Revert is not currently enabled on the OpenStreetMap server." end
 	
     objname,wayid,version,baselong,basey,masterscale=args
     wayid = wayid.to_i
@@ -343,7 +346,7 @@ EOF
     attrlist.each {|a| attributes[a['k'].gsub(':','|')]=a['v'] }
 	attributes['history']="Retrieved from v"+version.to_s
 
-    [objname,points,attributes,xmin,xmax,ymin,ymax,version]
+    [0,objname,points,attributes,xmin,xmax,ymin,ymax,version]
   end
 
   # -----	getway_history (way)
@@ -372,27 +375,26 @@ EOF
   #			returns current way ID, new way ID, hash of renumbered nodes,
   #					xmin,xmax,ymin,ymax
 
-  # ** needs to be updated so that nodes with visible=0 (i.e. undeleted)
-  #     no longer cause a problem
-  #    best way to do this would be to know which version it was recovered from;
-  #		then replace readwayquery with historic query. Line 506 would also need
-  #		to check if visible had changed, and update if so
-  #	   (a side-effect is that merging/splitting ways will need to be forbidden 
-  #		for undeleted ways, I think)
-
   def putway(args)
     RAILS_DEFAULT_LOGGER.info("  putway started")
     usertoken,originalway,points,attributes,oldversion,baselong,basey,masterscale=args
     uid=getuserid(usertoken)
-    return if !uid
+    if !uid then return -1,"You are not logged in, so the way could not be saved." end
+
     RAILS_DEFAULT_LOGGER.info("  putway authenticated happily")
-    db_uqn='unin'+uid.to_s+originalway.to_i.abs.to_s+Time.new.to_i.to_s	# temp uniquenodes table name, typically 51 chars
-    db_now='@now'+uid.to_s+originalway.to_i.abs.to_s+Time.new.to_i.to_s	# 'now' variable name, typically 51 chars
+    db_uqn='unin'+(rand*100).to_i.to_s+uid.to_s+originalway.to_i.abs.to_s+Time.new.to_i.to_s	# temp uniquenodes table name, typically 51 chars
+    db_now='@now'+(rand*100).to_i.to_s+uid.to_s+originalway.to_i.abs.to_s+Time.new.to_i.to_s	# 'now' variable name, typically 51 chars
     ActiveRecord::Base.connection.execute("SET #{db_now}=NOW()")
     originalway=originalway.to_i
 	oldversion=oldversion.to_i
 	
     RAILS_DEFAULT_LOGGER.info("  Message: putway, id=#{originalway}")
+
+	# -- Temporary check for null IDs
+	
+	points.each do |a|
+	  if a[2]==0 or a[2].nil? then return -2,"Server error - node with id 0 found in way #{originalway}." end
+	end
 
     # -- 3.	read original way into memory
 
@@ -529,7 +531,7 @@ EOF
     if (insertsql !='') then ActiveRecord::Base.connection.insert("INSERT INTO way_tags (id,k,v,version) VALUES #{insertsql}" ) end
     if (currentsql!='') then ActiveRecord::Base.connection.insert("INSERT INTO current_way_tags (id,k,v) VALUES #{currentsql}") end
 
-    [originalway,way,renumberednodes,xmin,xmax,ymin,ymax]
+    [0,originalway,way,renumberednodes,xmin,xmax,ymin,ymax]
   end
 
   # -----	putpoi (user token, id, x,y,tag array,visible,baselong,basey,masterscale)
@@ -540,8 +542,9 @@ EOF
   def putpoi(args)
     usertoken,id,x,y,tags,visible,baselong,basey,masterscale=args
     uid=getuserid(usertoken)
-    return if !uid
-    db_now='@now'+uid.to_s+id.to_i.abs.to_s+Time.new.to_i.to_s	# 'now' variable name, typically 51 chars
+    if !uid then return -1,"You are not logged in, so the point could not be saved." end
+
+    db_now='@now'+(rand*100).to_i.to_s+uid.to_s+id.to_i.abs.to_s+Time.new.to_i.to_s	# 'now' variable name, typically 51 chars
     ActiveRecord::Base.connection.execute("SET #{db_now}=NOW()")
 
     id=id.to_i
@@ -549,7 +552,7 @@ EOF
 	if visible==0 then
 		# if deleting, check node hasn't become part of a way 
 		inway=ActiveRecord::Base.connection.select_one("SELECT cw.id FROM current_ways cw,current_way_nodes cwn WHERE cw.id=cwn.id AND cw.visible=1 AND cwn.node_id=#{id} LIMIT 1")
-		unless inway.nil? then return [id,id] end	# should really return an error
+		unless inway.nil? then return -1,"The point has since become part of a way, so you cannot save it as a POI." end
 		deleteitemrelations(id,'node',uid,db_now)
 	end
 
@@ -568,7 +571,7 @@ EOF
         newid=ActiveRecord::Base.connection.insert("INSERT INTO current_nodes (latitude,longitude,timestamp,user_id,visible,tags,tile) VALUES (#{lat},#{long},#{db_now},#{uid},#{visible},#{tagsql},#{tile})");
               ActiveRecord::Base.connection.update("INSERT INTO nodes (id,latitude,longitude,timestamp,user_id,visible,tags,tile) VALUES (#{newid},#{lat},#{long},#{db_now},#{uid},#{visible},#{tagsql},#{tile})");
     end
-    [id,newid]
+    [0,id,newid]
   end
 
   # -----	getpoi (id,baselong,basey,masterscale)
@@ -589,24 +592,24 @@ EOF
   #			returns way ID only
 
   def deleteway(args)
-    usertoken,way,preserve=args
+    usertoken,way=args
 
     RAILS_DEFAULT_LOGGER.info("  Message: deleteway, id=#{way}")
+    uid=getuserid(usertoken)
+    if !uid then return -1,"You are not logged in, so the way could not be deleted." end
 
-    uid=getuserid(usertoken); if !uid then return end
     way=way.to_i
-
-    db_uqn='unin'+uid.to_s+way.to_i.abs.to_s+Time.new.to_i.to_s	# temp uniquenodes table name, typically 51 chars
-    db_now='@now'+uid.to_s+way.to_i.abs.to_s+Time.new.to_i.to_s	# 'now' variable name, typically 51 chars
+    db_uqn='unin'+(rand*100).to_i.to_s+uid.to_s+way.to_i.abs.to_s+Time.new.to_i.to_s	# temp uniquenodes table name, typically 51 chars
+    db_now='@now'+(rand*100).to_i.to_s+uid.to_s+way.to_i.abs.to_s+Time.new.to_i.to_s	# 'now' variable name, typically 51 chars
     ActiveRecord::Base.connection.execute("SET #{db_now}=NOW()")
 
     # - delete any otherwise unused nodes
   
     createuniquenodes(way,db_uqn,[])
 
-	unless (preserve.empty?) then
-		ActiveRecord::Base.connection.execute("DELETE FROM #{db_uqn} WHERE node_id IN ("+preserve.join(',')+")")
-	end
+#	unless (preserve.empty?) then
+#		ActiveRecord::Base.connection.execute("DELETE FROM #{db_uqn} WHERE node_id IN ("+preserve.join(',')+")")
+#	end
 
     sql=<<-EOF
 	INSERT INTO nodes (id,latitude,longitude,timestamp,user_id,visible,tile)
@@ -633,7 +636,7 @@ EOF
     ActiveRecord::Base.connection.execute("DELETE FROM current_way_nodes WHERE id=#{way}")
     ActiveRecord::Base.connection.execute("DELETE FROM current_way_tags WHERE id=#{way}")
 	deleteitemrelations(way,'way',uid,db_now)
-    way
+    [0,way]
 end
 
 
