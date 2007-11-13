@@ -132,6 +132,7 @@ navigable drain: waterway=drain,boat=yes,name=(type name here)
 derelict canal: waterway=derelict_canal,name=(type name here)
 unnavigable river: waterway=river,boat=no,name=(type name here)
 unnavigable drain: waterway=drain,boat=no,name=(type name here)
+stream: waterway=stream,boat=no,name=(type name here)
 
 way/railway
 railway: railway=rail
@@ -197,7 +198,7 @@ post office: amenity=post_office,tourism=,name=,religion=,denomination=
 pub: tourism=,amenity=pub,name=(type name here),religion=,denomination=
 
 POI/natural
-peak: point=peak
+peak: natural=peak
 EOF
 
     StringIO.open(txt) do |file|
