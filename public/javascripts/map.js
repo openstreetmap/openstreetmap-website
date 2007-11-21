@@ -28,6 +28,7 @@ function createMap(divName) {
    map.addLayer(markers);
 
    map.addControl(new OpenLayers.Control.LayerSwitcher());
+   map.addControl(new OpenLayers.Control.KeyboardDefaults());
 
    return map;
 }
