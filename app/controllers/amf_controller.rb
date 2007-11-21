@@ -794,31 +794,25 @@ end
 
 
 def sqlescape(a)
-  a.gsub(/[\000-\037]/,"").gsub("'","''").gsub(92.chr,92.chr+92.chr)
+  a.gsub(/[\000-\037]/,"").gsub("'","''").gsub(92.chr) {92.chr+92.chr}
 end
 
 def tag2array(a)
   tags={}
-  a.gsub(';;;','#%').split(';').each do |b|
-    b.gsub!('#%',';;;')
-    b.gsub!('===','#%')
-    k,v=b.split('=')
-    if k.nil? then k='' end
-    if v.nil? then v='' end
-    tags[k.gsub('#%','=').gsub(':','|')]=v.gsub('#%','=')
+  Tags.split(a) do |k, v|
+    tags[k.gsub(':','|')]=v
   end
   tags
 end
 
 def array2tag(a)
-  str=''
+  tags = []
   a.each do |k,v|
     if v=='' then next end
     if v[0,6]=='(type ' then next end
-    if str!='' then str+=';' end
-    str+=k.gsub(';',';;;').gsub('=','===').gsub('|',':')+'='+v.gsub(';',';;;').gsub('=','===')
+    tags << [k.gsub('|',':'), v]
   end
-  str
+  return Tags.join(tags)
 end
 
 def getuserid(token)

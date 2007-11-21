@@ -57,10 +57,7 @@ class Node < GeoRecord
           tags << [tag['k'],tag['v']]
         end
 
-        tags = tags.collect { |k,v| "#{k}=#{v}" }.join(';')
-        tags = '' if tags.nil?
-
-        node.tags = tags
+        node.tags = Tags.join(tags)
       end
     rescue
       node = nil
@@ -102,25 +99,15 @@ class Node < GeoRecord
 
     el1['user'] = user_display_name_cache[self.user_id] unless user_display_name_cache[self.user_id].nil?
 
-    Node.split_tags(el1, self.tags)
+    Tags.split(self.tags) do |k,v|
+      el2 = XML::Node.new('tag')
+      el2['k'] = k.to_s
+      el2['v'] = v.to_s
+      el1 << el2
+    end
+
     el1['visible'] = self.visible.to_s
     el1['timestamp'] = self.timestamp.xmlschema
     return el1
-  end
-
-  def self.split_tags(el, tags)
-    tags.split(';').each do |tag|
-      parts = tag.split('=')
-      key = ''
-      val = ''
-      key = parts[0].strip unless parts[0].nil?
-      val = parts[1].strip unless parts[1].nil?
-      if key != '' && val != ''
-        el2 = XML::Node.new('tag')
-        el2['k'] = key.to_s
-        el2['v'] = val.to_s
-        el << el2
-      end
-    end
   end
 end
