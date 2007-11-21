@@ -22,8 +22,8 @@ class MessageController < ApplicationController
 
   def read
     @title = 'read message'
-    @message = Message.find(params[:message_id], :conditions => ["to_user_id = ?", @user.id])
-    @message.message_read = 1
+    @message = Message.find(params[:message_id], :conditions => ["to_user_id = ? or from_user_id = ?", @user.id, @user.id ])
+    @message.message_read = 1 if @message.to_user_id == @user.id
     @message.save
   rescue ActiveRecord::RecordNotFound
     render :nothing => true, :status => :not_found
@@ -34,6 +34,14 @@ class MessageController < ApplicationController
     if @user and params[:display_name] == @user.display_name
     else
       redirect_to :controller => 'message', :action => 'inbox', :display_name => @user.display_name
+    end
+  end
+
+  def outbox
+    @title = 'outbox'
+    if @user and params[:display_name] == @user.display_name
+    else
+      redirect_to :controller => 'message', :action => 'outbox', :display_name => @user.display_name
     end
   end
 

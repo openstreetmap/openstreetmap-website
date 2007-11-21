@@ -118,6 +118,7 @@ ActionController::Routing::Routes.draw do |map|
   # messages
 
   map.connect '/user/:display_name/inbox', :controller => 'message', :action => 'inbox'
+  map.connect '/user/:display_name/outbox', :controller => 'message', :action => 'outbox'
   map.connect '/message/new/:user_id', :controller => 'message', :action => 'new'
   map.connect '/message/read/:message_id', :controller => 'message', :action => 'read'
   map.connect '/message/mark/:message_id', :controller => 'message', :action => 'mark'

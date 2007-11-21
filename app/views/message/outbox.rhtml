@@ -1,0 +1,18 @@
+<h2>My <%= link_to "inbox", url_for(:controller => "user", :action => "inbox", :id => @user.display_name) %>/outbox</h2>
+
+<p>You have <%= @user.sent_messages.size %> sent messages
+
+<% if @user.sent_messages.size > 0 %>
+  <div id="messages">
+    <table class="messages">
+      <tr>
+        <th>To</th>
+        <th>Subject</th>
+        <th>Date</th>
+      </tr>
+      <%= render :partial => "sent_message_summary", :collection => @user.sent_messages %>
+    </table>
+  </div>
+<% else %>
+	  <div id="messages">You have no sent messages yet. Why not get in touch with some of the <%= link_to 'people mapping nearby', :controller => 'user', :action => 'view', :display_name => @user.display_name %>?</div>
+<% end %>

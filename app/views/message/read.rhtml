@@ -1,3 +1,5 @@
+<% if @user == @message.recipient %>
+
 <h2>Reading your messages</h2>
 
 <table>
@@ -28,3 +30,36 @@
     <td><%= link_to 'Back to inbox', :controller => 'message', :action => 'inbox', :display_name => @user.display_name %></td>
   </tr>
 </table>
+
+<% else %>
+
+<h2>Reading your sent messages</h2>
+
+<table>
+  <tr>
+    <th align="right">To</th>
+    <td><%= link_to @message.recipient.display_name, :controller => 'user', :action => 'view', :display_name => @message.recipient.display_name %></td>
+  </tr>
+  <tr>
+    <th align="right">Subject</th>
+    <td><%= @message.title %></td>
+  </tr>
+  <tr>
+    <th align="right">Date</th>
+    <td><%= @message.sent_on %></td>
+  </tr>
+  <tr>
+    <th></th>
+    <td><%= @message.body %></td>
+  </tr>
+</table>
+
+<br />
+
+<table>
+  <tr>
+    <td><%= link_to 'Back to outbox', :controller => 'message', :action => 'outbox', :display_name => @user.display_name %></td>
+  </tr>
+</table>
+
+<% end %>

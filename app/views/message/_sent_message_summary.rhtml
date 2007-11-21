@@ -1,0 +1,7 @@
+<% this_colour = cycle('lightgrey', 'white') # can only call once for some dumb reason %>
+
+<tr class="inbox-row<%= "-unread" if not sent_message_summary.message_read? %>">
+  <td class="inbox-sender" bgcolor='<%= this_colour %>'><%= link_to sent_message_summary.recipient.display_name , :controller => 'user', :action => sent_message_summary.recipient.display_name %></td>
+  <td class="inbox-subject" bgcolor='<%= this_colour %>'><%= link_to  sent_message_summary.title , :controller => 'message', :action => 'read', :message_id => sent_message_summary.id  %></td>
+ <td class="inbox-sent" bgcolor='<%= this_colour %>'><%= sent_message_summary.sent_on %></td>
+</tr>
