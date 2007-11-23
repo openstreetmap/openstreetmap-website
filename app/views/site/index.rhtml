@@ -28,28 +28,28 @@ by the OpenStreetMap project and it's contributors.
 
 <% if params['mlon'] and params['mlat'] %>
 <% marker = true %>
-<% mlon = params['mlon'] %> 
-<% mlat = params['mlat'] %>
+<% mlon = h(params['mlon']) %> 
+<% mlat = h(params['mlat']) %>
 <% end %>
 
 <% if params['minlon'] and params['minlat'] and params['maxlon'] and params['maxlat'] %>
 <% bbox = true %>
-<% minlon = params['minlon'] %>
-<% minlat = params['minlat'] %>
-<% maxlon = params['maxlon'] %>
-<% maxlat = params['maxlat'] %>
+<% minlon = h(params['minlon']) %>
+<% minlat = h(params['minlat']) %>
+<% maxlon = h(params['maxlon']) %>
+<% maxlat = h(params['maxlat']) %>
 <% end %>
 
 <% if params['lon'] and params['lat'] %>
-<% lon =  params['lon'] %>
-<% lat =  params['lat'] %>
-<% zoom =  params['zoom'] || '5' %>
-<% layers = params['layers'] %>
+<% lon =  h(params['lon']) %>
+<% lat =  h(params['lat']) %>
+<% zoom =  h(params['zoom']) || '5' %>
+<% layers = h(params['layers']) %>
 <% elsif params['mlon'] and params['mlat'] %>
-<% lon = params['mlon'] %> 
-<% lat = params['mlat'] %>
-<% zoom =  params['zoom'] || '12' %>
-<% layers = params['layers'] %>
+<% lon = h(params['mlon']) %> 
+<% lat = h(params['mlat']) %>
+<% zoom =  h(params['zoom']) || '12' %>
+<% layers = h(params['layers']) %>
 <% elsif cookies.key?("location") %>
 <% lon,lat,zoom,layers = cookies["location"].value.first.split(",") %>
 <% elsif @user and !@user.home_lon.nil? and !@user.home_lat.nil? %> 
@@ -67,8 +67,8 @@ by the OpenStreetMap project and it's contributors.
 <% else %>
 <% lon =  '-0.1' %>
 <% lat =  '51.5' %>
-<% zoom =  params['zoom'] || '5' %>
-<% layers = params['layers'] %>
+<% zoom =  h(params['zoom']) || '5' %>
+<% layers = h(params['layers']) %>
 <% end %>
 <% end %>
 

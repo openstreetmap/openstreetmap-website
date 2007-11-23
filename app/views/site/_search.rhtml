@@ -24,7 +24,7 @@
   <% if params[:query] %>
   <%= remote_function(:loading => "startSearch()",
                       :complete => "endSearch()",
-                      :url => { :controller => :geocoder, :action => :search, :query => params[:query] }) %>
+                      :url => { :controller => :geocoder, :action => :search, :query => h(params[:query]) }) %>
   <% end %>
 // -->
 </script>
@@ -38,7 +38,7 @@
     <% form_remote_tag(:loading => "startSearch()",
                        :complete => "endSearch()",
                        :url => { :controller => :geocoder, :action => :search }) do %>
-      <%= text_field_tag :query, params[:query] %>
+      <%= text_field_tag :query, h(params[:query]) %>
     <% end %>
     </span>
     <p id="search_active">Searching...</p>

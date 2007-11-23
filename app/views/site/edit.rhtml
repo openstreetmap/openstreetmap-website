@@ -24,17 +24,17 @@
 <% session[:token] = @user.tokens.create.token unless session[:token] %>
 
 <% if params['mlon'] and params['mlat'] %>
-<% lon =  params['mlon'] %>
-<% lat =  params['mlat']  %>
-<% zoom =  params['zoom'] || '12' %>
+<% lon =  h(params['mlon']) %>
+<% lat =  h(params['mlat'])  %>
+<% zoom =  h(params['zoom']) || '12' %>
 <% elsif @user and params['lon'].nil? and params['lat'].nil? %> 
 <% lon =  @user.home_lon %>
 <% lat =  @user.home_lat %>
 <% zoom = '12' %>
 <%else%>
-<% lon =  params['lon'] || '-0.1' %>
-<% lat =  params['lat'] || '51.5' %>
-<% zoom =  params['zoom'] || '12' %>
+<% lon =  h(params['lon']) || '-0.1' %>
+<% lat =  h(params['lat']) || '51.5' %>
+<% zoom =  h(params['zoom']) || '12' %>
 <% end %>
 
 <div id="map">You need a Flash player to use Potlatch, the
@@ -54,7 +54,9 @@
     fo.addVariable('long',lon);
     fo.addVariable('scale',sc);
     fo.addVariable('token','<%= session[:token] %>');
-<% if params['gpx'] %>    fo.addVariable('gpx','<%= params['gpx']+"/data" %>'); <% end %>
+    <% if params['gpx'] %>
+    fo.addVariable('gpx','<%= h(params['gpx']) + "/data" %>');
+    <% end %>
     fo.write("map");
   }
 
