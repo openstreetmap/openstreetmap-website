@@ -201,16 +201,12 @@ class RelationController < ApplicationController
   def relations_for_object(objtype)
     relationids = RelationMember.find(:all, :conditions => ['member_type=? and member_id=?', objtype, params[:id]]).collect { |ws| ws.id }.uniq
 
-    if relationids.length > 0
-      doc = OSM::API.new.get_xml_doc
+    doc = OSM::API.new.get_xml_doc
 
-      Relation.find(relationids).each do |relation|
-        doc.root << relation.to_xml_node
-      end
-
-      render :text => doc.to_s, :content_type => "text/xml"
-    else
-      render :nothing => true, :status => :not_found
+    Relation.find(relationids).each do |relation|
+      doc.root << relation.to_xml_node
     end
+
+    render :text => doc.to_s, :content_type => "text/xml"
   end
 end

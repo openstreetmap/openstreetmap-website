@@ -140,16 +140,12 @@ class WayController < ApplicationController
   def ways_for_node
     wayids = WayNode.find(:all, :conditions => ['node_id = ?', params[:id]]).collect { |ws| ws.id }.uniq
 
-    if wayids.length > 0
-      doc = OSM::API.new.get_xml_doc
+    doc = OSM::API.new.get_xml_doc
 
-      Way.find(wayids).each do |way|
-        doc.root << way.to_xml_node
-      end
-
-      render :text => doc.to_s, :content_type => "text/xml"
-    else
-      render :nothing => true, :status => :bad_request
+    Way.find(wayids).each do |way|
+      doc.root << way.to_xml_node
     end
+
+    render :text => doc.to_s, :content_type => "text/xml"
   end
 end
