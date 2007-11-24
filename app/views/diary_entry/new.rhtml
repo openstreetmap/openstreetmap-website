@@ -23,9 +23,9 @@
 <% end %>
 
 <% if @user.home_lat.nil? or @user.home_lon.nil? %>
-  <% lon = h(params['lon']) || '-0.1' %>
-  <% lat = h(params['lat']) || '51.5' %>
-  <% zoom = h(params['zoom']) || '4' %> 
+  <% lon = h(params['lon'] || '-0.1') %>
+  <% lat = h(params['lat'] || '51.5') %>
+  <% zoom = h(params['zoom'] || '4') %> 
 <% else %>
   <% lon = @user.home_lon %>
   <% lat = @user.home_lat %>

@@ -43,12 +43,12 @@ by the OpenStreetMap project and it's contributors.
 <% if params['lon'] and params['lat'] %>
 <% lon =  h(params['lon']) %>
 <% lat =  h(params['lat']) %>
-<% zoom =  h(params['zoom']) || '5' %>
+<% zoom =  h(params['zoom'] || '5') %>
 <% layers = h(params['layers']) %>
 <% elsif params['mlon'] and params['mlat'] %>
 <% lon = h(params['mlon']) %> 
 <% lat = h(params['mlat']) %>
-<% zoom =  h(params['zoom']) || '12' %>
+<% zoom =  h(params['zoom'] || '12') %>
 <% layers = h(params['layers']) %>
 <% elsif cookies.key?("location") %>
 <% lon,lat,zoom,layers = cookies["location"].value.first.split(",") %>
@@ -67,7 +67,7 @@ by the OpenStreetMap project and it's contributors.
 <% else %>
 <% lon =  '-0.1' %>
 <% lat =  '51.5' %>
-<% zoom =  h(params['zoom']) || '5' %>
+<% zoom =  h(params['zoom'] || '5') %>
 <% layers = h(params['layers']) %>
 <% end %>
 <% end %>

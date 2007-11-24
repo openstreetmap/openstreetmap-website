@@ -26,15 +26,15 @@
 <% if params['mlon'] and params['mlat'] %>
 <% lon =  h(params['mlon']) %>
 <% lat =  h(params['mlat'])  %>
-<% zoom =  h(params['zoom']) || '12' %>
+<% zoom =  h(params['zoom'] || '12') %>
 <% elsif @user and params['lon'].nil? and params['lat'].nil? %> 
 <% lon =  @user.home_lon %>
 <% lat =  @user.home_lat %>
 <% zoom = '12' %>
 <%else%>
-<% lon =  h(params['lon']) || '-0.1' %>
-<% lat =  h(params['lat']) || '51.5' %>
-<% zoom =  h(params['zoom']) || '12' %>
+<% lon =  h(params['lon'] || '-0.1') %>
+<% lat =  h(params['lat'] || '51.5') %>
+<% zoom =  h(params['zoom'] || '12') %>
 <% end %>
 
 <div id="map">You need a Flash player to use Potlatch, the
