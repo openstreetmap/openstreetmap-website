@@ -36,7 +36,14 @@ class OldNode < GeoRecord
     el1['lat'] = self.lat.to_s
     el1['lon'] = self.lon.to_s
     el1['user'] = self.user.display_name if self.user.data_public?
-    Node.split_tags(el1, self.tags)
+
+    Tags.split(self.tags) do |k,v|
+      el2 = XML::Node.new('tag')
+      el2['k'] = k.to_s
+      el2['v'] = v.to_s
+      el1 << el2
+    end
+
     el1['visible'] = self.visible.to_s
     el1['timestamp'] = self.timestamp.xmlschema
     return el1
