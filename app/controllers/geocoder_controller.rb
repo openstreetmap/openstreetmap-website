@@ -55,7 +55,7 @@ private
     results = Array.new
 
     # ask geocoder.us (they have a non-commercial use api)
-    response = fetch_text("http://rpc.geocoder.us/service/csv?zip=#{URI.escape(query)}")
+    response = fetch_text("http://rpc.geocoder.us/service/csv?zip=#{escape_query(query)}")
 
     # parse the response
     unless response.match(/couldn't find this zip/)
@@ -74,7 +74,7 @@ private
     results = Array.new
 
     # ask npemap.org.uk to do a combined npemap + freethepostcode search
-    response = fetch_text("http://www.npemap.org.uk/cgi/geocoder.fcgi?format=text&postcode=#{URI.escape(query)}")
+    response = fetch_text("http://www.npemap.org.uk/cgi/geocoder.fcgi?format=text&postcode=#{escape_query(query)}")
 
     # parse the response
     unless response.match(/Error/)
@@ -93,7 +93,7 @@ private
     results = Array.new
 
     # ask geocoder.ca (note - they have a per-day limit)
-    response = fetch_xml("http://geocoder.ca/?geoit=XML&postal=#{URI.escape(query)}")
+    response = fetch_xml("http://geocoder.ca/?geoit=XML&postal=#{escape_query(query)}")
 
     # parse the response
     unless response.get_elements("geodata/error")
@@ -112,7 +112,7 @@ private
     results = Array.new
 
     # ask OSM namefinder
-    response = fetch_xml("http://www.frankieandshadow.com/osm/search.xml?find=#{URI.escape(query)}")
+    response = fetch_xml("http://www.frankieandshadow.com/osm/search.xml?find=#{escape_query(query)}")
 
     # parse the response
     response.elements.each("searchresults/named") do |named|
@@ -151,7 +151,7 @@ private
     results = Array.new
 
     # ask geonames.org
-    response = fetch_xml("http://ws.geonames.org/search?q=#{URI.escape(query)}&maxRows=20")
+    response = fetch_xml("http://ws.geonames.org/search?q=#{escape_query(query)}&maxRows=20")
 
     # parse the response
     response.elements.each("geonames/geoname") do |geoname|
@@ -247,5 +247,9 @@ private
     end
 
     return count
+  end
+
+  def escape_query(query)
+    return URI.escape(query, Regexp.new("[^#{URI::PATTERN::UNRESERVED}]", false, 'N'))
   end
 end
