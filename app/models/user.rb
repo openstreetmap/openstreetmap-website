@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
   has_many :preferences, :class_name => "UserPreference"
 
   validates_presence_of :email, :display_name
+  validates_confirmation_of :email, :message => 'Email addresses must match'
   validates_confirmation_of :pass_crypt, :message => 'Password must match the confirmation password'
   validates_uniqueness_of :display_name, :allow_nil => true
   validates_uniqueness_of :email
