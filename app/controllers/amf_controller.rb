@@ -29,6 +29,7 @@ class AmfController < ApplicationController
     											# (cf http://www.ruby-forum.com/topic/122163)
     req.read(2)									# Skip version indicator and client ID
     results={}									# Results of each body
+    renumberednodes={}							# Shared across repeated putways
 
     # -------------
     # Parse request
@@ -56,7 +57,9 @@ class AmfController < ApplicationController
 		  when 'getway';			results[index]=putdata(index,getway(args))
 		  when 'getway_old';		results[index]=putdata(index,getway_old(args))
 		  when 'getway_history';	results[index]=putdata(index,getway_history(args))
-		  when 'putway';			results[index]=putdata(index,putway(args))
+		  when 'putway';			r=putway(args,renumberednodes)
+		  							renumberednodes=r[3]
+		  							results[index]=putdata(index,r)
 		  when 'deleteway';			results[index]=putdata(index,deleteway(args))
 		  when 'putpoi';			results[index]=putdata(index,putpoi(args))
 		  when 'getpoi';			results[index]=putdata(index,getpoi(args))
@@ -376,7 +379,7 @@ EOF
   #			returns current way ID, new way ID, hash of renumbered nodes,
   #					xmin,xmax,ymin,ymax
 
-  def putway(args)
+  def putway(args,renumberednodes)
     RAILS_DEFAULT_LOGGER.info("  putway started")
     usertoken,originalway,points,attributes,oldversion,baselong,basey,masterscale=args
     uid=getuserid(usertoken)
@@ -435,7 +438,6 @@ EOF
     xmin=ymin= 999999
     xmax=ymax=-999999
     insertsql=''
-    renumberednodes={}
 	nodelist=[]
 
     points.each_index do |i|
