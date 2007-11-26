@@ -92,6 +92,8 @@ module OSM
         lat = attributes['lat'].to_f
         lon = attributes['lon'].to_f
         gotlatlon = true
+        gotele = false
+        gotdate = false
         @possible_points += 1
       end
 
