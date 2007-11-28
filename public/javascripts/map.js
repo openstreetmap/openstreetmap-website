@@ -3,10 +3,6 @@ var markers;
 var popup;
 
 function createMap(divName) {
-   OpenLayers.Util.onImageLoadError = function() {
-      this.src = OpenLayers.Util.getImagesLocation() + "404.png";
-   }
-
    map = new OpenLayers.Map(divName,
                             { maxExtent: new OpenLayers.Bounds(-20037508,-20037508,20037508,20037508),
                               numZoomLevels: 19,
@@ -14,14 +10,10 @@ function createMap(divName) {
                               units: 'm',
                               projection: "EPSG:41001" });
 
-   var mapnik = new OpenLayers.Layer.TMS("Mapnik",
-                                         ["http://a.tile.openstreetmap.org/","http://b.tile.openstreetmap.org/","http://c.tile.openstreetmap.org/"],
-                                         { type: 'png', getURL: getTileURL, displayOutsideMaxExtent: true });
+   var mapnik = new OpenLayers.Layer.OSM.Mapnik("Mapnik", { displayOutsideMaxExtent: true });
    map.addLayer(mapnik);
 
-   var osmarender = new OpenLayers.Layer.TMS("Osmarender",
-                                             ["http://a.tah.openstreetmap.org/Tiles/tile.php/","http://b.tah.openstreetmap.org/Tiles/tile.php/","http://c.tah.openstreetmap.org/Tiles/tile.php/"],
-                                             { type: 'png', getURL: getTileURL, displayOutsideMaxExtent: true });
+   var osmarender = new OpenLayers.Layer.OSM.Osmarender("Osmarender", { displayOutsideMaxExtent: true });
    map.addLayer(osmarender);
 
    markers = new OpenLayers.Layer.Markers("markers", { visibility: false });
@@ -31,33 +23,6 @@ function createMap(divName) {
    map.addControl(new OpenLayers.Control.KeyboardDefaults());
 
    return map;
-}
-
-function getTileURL(bounds) {
-   var res = this.map.getResolution();
-   var x = Math.round((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));
-   var y = Math.round((this.maxExtent.top - bounds.top) / (res * this.tileSize.h));
-   var z = this.map.getZoom();
-   var limit = Math.pow(2, z);
-
-   if (y < 0 || y >= limit)
-   {
-     return OpenLayers.Util.getImagesLocation() + "404.png";
-   }
-   else
-   {
-     x = ((x % limit) + limit) % limit;
-
-     var url = this.url;
-     var path = z + "/" + x + "/" + y + "." + this.type;
-
-     if (url instanceof Array)
-     {
-        url = this.selectUrl(path, url);
-     }
-
-     return url + path;
-   }
 }
 
 function getArrowIcon() {
