@@ -44,7 +44,7 @@ OpenLayers.Layer.OSM = OpenLayers.Class(OpenLayers.Layer.TMS, {
      * options - {Object} Hashtable of extra options to tag onto the layer
      */
     initialize: function(name, url, options) {
-        options = OpenLayers.Util.extend(options, { attribution: "Powered by <a href='http://openstreetmap.org/'>OpenStreetMap</a>" });
+        options = OpenLayers.Util.extend(options, { attribution: "Data by <a href='http://openstreetmap.org/'>OpenStreetMap</a>" });
         OpenLayers.Layer.TMS.prototype.initialize.apply(this, arguments);
     },    
     
