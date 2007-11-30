@@ -707,7 +707,7 @@ def readwayquery_old(id,version,historic)
 	  unless row.nil? then
 	    nx=row['longitude'].to_f
 	    ny=row['latitude'].to_f
-	    if (row['currentway']) then rows[i]['id']=-1 end
+	    if (row['currentway'] && (nx!=rows[i]['longitude'].to_f or ny!=rows[i]['latitude'].to_f or row['tags']!=rows[i]['tags'])) then rows[i]['id']=-1 end
 		rows[i]['longitude']=nx
 		rows[i]['latitude' ]=ny
 		rows[i]['tags'     ]=row['tags']
