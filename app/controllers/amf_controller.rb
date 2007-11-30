@@ -364,6 +364,7 @@ EOF
 	  FROM ways,users
 	 WHERE ways.id=#{wayid}
 	   AND ways.user_id=users.id
+	   AND ways.visible=1
 	 ORDER BY version DESC
 	EOF
 	histlist=ActiveRecord::Base.connection.select_all(sql)
@@ -686,28 +687,27 @@ def readwayquery_old(id,version,historic)
   EOF
   rows=ActiveRecord::Base.connection.select_all(sql)
 
-  # if historic (full revert), get the old version of each node,
-  # and use this (though with a new id) if it differs from the current one
+  # if historic (full revert), get the old version of each node
+  # - if it's in another way now, generate a new id
+  # - if it's not in another way, use the old ID
   if historic then
 	rows.each_index do |i|
 	  sql=<<-EOF
-	  SELECT latitude*0.0000001 AS latitude,longitude*0.0000001 AS longitude,tags 
-	    FROM nodes 
-	   WHERE id=#{rows[i]['id']} 
-	     AND timestamp<="#{waytime}" 
-	   ORDER BY timestamp DESC 
+	  SELECT latitude*0.0000001 AS latitude,longitude*0.0000001 AS longitude,tags,cwn.id AS currentway 
+	    FROM nodes n
+   LEFT JOIN current_way_nodes cwn
+		  ON cwn.node_id=n.id
+	   WHERE n.id=#{rows[i]['id']} 
+	     AND n.timestamp<="#{waytime}" 
+		 AND cwn.id!=#{id} 
+	   ORDER BY n.timestamp DESC 
 	   LIMIT 1
 	  EOF
 	  row=ActiveRecord::Base.connection.select_one(sql)
 	  unless row.nil? then
 	    nx=row['longitude'].to_f
 	    ny=row['latitude'].to_f
-	    if (nx!=rows[i]['longitude'].to_f or ny!=rows[i]['latitude'].to_f or row['tags']!=rows[i]['tags']) then
-		  rows[i]['id']=-1
-		  # This generates a new node id if x/y/tags differ from current node.
-		  # Strictly speaking, it need only do this for uniquenodes, but we're
-		  # not generating uniquenodes for historic ways (yet!).
-	    end
+	    if (row['currentway']) then rows[i]['id']=-1 end
 		rows[i]['longitude']=nx
 		rows[i]['latitude' ]=ny
 		rows[i]['tags'     ]=row['tags']
