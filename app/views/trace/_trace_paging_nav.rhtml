@@ -8,5 +8,5 @@ end %>
 of <%= @trace_pages.item_count %>)
 
 <% if @trace_pages.page_count > 1 %>
- | <%= pagination_links(@trace_pages) %>
+ | <%= pagination_links_each(@trace_pages, {}) { |n| link_to_page(n) } %>
 <% end %>
