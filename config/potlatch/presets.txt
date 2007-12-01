@@ -3,13 +3,14 @@ motorway: highway=motorway,ref=(type road number)
 trunk road: highway=trunk,ref=(type road number),name=(type road name)
 primary road: highway=primary,ref=(type road number),name=(type road name)
 secondary road: highway=secondary,ref=(type road number),name=(type road name)
-residential road: highway=residential,name=(type road name)
-unclassified road: highway=unclassified,name=(type road name)
+tertiary road: highway=tertiary,ref=,name=(type road name)
+residential road: highway=residential,ref=,name=(type road name)
+unclassified road: highway=unclassified,ref=,name=(type road name)
 
 way/footway
 footpath: highway=footway,foot=yes
-bridleway: highway=bridleway,foot=yes,horse=yes,bicycle=yes
-byway: highway=byway,foot=yes,horse=yes,bicycle=yes,motorcar=yes
+bridleway: highway=bridleway,foot=yes
+byway: highway=unsurfaced,foot=yes
 permissive path: highway=footway,foot=permissive
 
 way/cycleway
@@ -25,6 +26,7 @@ navigable drain: waterway=drain,boat=yes,name=(type name here)
 derelict canal: waterway=derelict_canal,name=(type name here)
 unnavigable river: waterway=river,boat=no,name=(type name here)
 unnavigable drain: waterway=drain,boat=no,name=(type name here)
+stream: waterway=stream,boat=no,name=(type name here)
 
 way/railway
 railway: railway=rail
@@ -33,6 +35,10 @@ light railway: railway=light_rail
 preserved railway: railway=preserved
 disused railway tracks: railway=disused
 course of old railway: railway=abandoned
+
+way/natural
+lake: natural=water,landuse=
+forest: landuse=forest,natural=
 
 point/road
 mini roundabout: highway=mini_roundabout
@@ -58,3 +64,32 @@ point/railway
 station: railway=station
 viaduct: railway=viaduct
 level crossing: railway=crossing
+
+point/natural
+peak: natural=peak
+
+POI/road
+car park: amenity=parking
+petrol station: amenity=fuel
+
+POI/cycleway
+bike park: amenity=bicycle_parking
+
+POI/place
+city: place=city,name=(type name here),is_in=(type region or county)
+town: place=town,name=(type name here),is_in=(type region or county)
+suburb: place=suburb,name=(type name here),is_in=(type region or county)
+village: place=village,name=(type name here),is_in=(type region or county)
+hamlet: place=hamlet,name=(type name here),is_in=(type region or county)
+
+POI/tourism
+attraction: tourism=attraction,amenity=,religion=,denomination=
+church: tourism=,amenity=place_of_worship,name=(type name here),religion=christian,denomination=(type denomination here)
+hotel: tourism=hotel,amenity=,religion=,denomination=
+other religious: tourism=,amenity=place_of_worship,name=(type name here),religion=(type religion),denomination=
+post box: amenity=post_box,tourism=,name=,religion=,denomination=
+post office: amenity=post_office,tourism=,name=,religion=,denomination=
+pub: tourism=,amenity=pub,name=(type name here),religion=,denomination=
+
+POI/natural
+peak: natural=peak

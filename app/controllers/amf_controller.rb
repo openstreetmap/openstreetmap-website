@@ -90,121 +90,17 @@ class AmfController < ApplicationController
   #	      return presets,presetmenus and presetnames arrays
 
   def getpresets
+    RAILS_DEFAULT_LOGGER.info("  Message: getpresets")
+
+	# Read preset menus
     presets={}
     presetmenus={}; presetmenus['point']=[]; presetmenus['way']=[]; presetmenus['POI']=[]
     presetnames={}; presetnames['point']={}; presetnames['way']={}; presetnames['POI']={}
     presettype=''
     presetcategory=''
 
-    RAILS_DEFAULT_LOGGER.info("  Message: getpresets")
-
-    #		File.open("config/potlatch/presets.txt") do |file|
-
-    # Temporary patch to get around filepath problem
-    # To remove this patch and make the code nice again:
-    # 1. uncomment above line
-    # 2. fix the path in the above line
-    # 3. delete this here document, and the following line (StringIO....)
-
-    txt=<<-EOF
-way/road
-motorway: highway=motorway,ref=(type road number)
-trunk road: highway=trunk,ref=(type road number),name=(type road name)
-primary road: highway=primary,ref=(type road number),name=(type road name)
-secondary road: highway=secondary,ref=(type road number),name=(type road name)
-tertiary road: highway=tertiary,ref=,name=(type road name)
-residential road: highway=residential,ref=,name=(type road name)
-unclassified road: highway=unclassified,ref=,name=(type road name)
-
-way/footway
-footpath: highway=footway,foot=yes
-bridleway: highway=bridleway,foot=yes
-byway: highway=unsurfaced,foot=yes
-permissive path: highway=footway,foot=permissive
-
-way/cycleway
-cycle lane: highway=cycleway,cycleway=lane,ncn_ref=
-cycle track: highway=cycleway,cycleway=track,ncn_ref=
-cycle lane (NCN): highway=cycleway,cycleway=lane,name=(type name here),ncn_ref=(type route number)
-cycle track (NCN): highway=cycleway,cycleway=track,name=(type name here),ncn_ref=(type route number)
-
-way/waterway
-canal: waterway=canal,name=(type name here)
-navigable river: waterway=river,boat=yes,name=(type name here)
-navigable drain: waterway=drain,boat=yes,name=(type name here)
-derelict canal: waterway=derelict_canal,name=(type name here)
-unnavigable river: waterway=river,boat=no,name=(type name here)
-unnavigable drain: waterway=drain,boat=no,name=(type name here)
-stream: waterway=stream,boat=no,name=(type name here)
-
-way/railway
-railway: railway=rail
-tramway: railway=tram
-light railway: railway=light_rail
-preserved railway: railway=preserved
-disused railway tracks: railway=disused
-course of old railway: railway=abandoned
-
-way/natural
-lake: natural=water,landuse=
-forest: landuse=forest,natural=
-
-point/road
-mini roundabout: highway=mini_roundabout
-traffic lights: highway=traffic_signals
-
-point/footway
-bridge: highway=bridge
-gate: highway=gate
-stile: highway=stile
-cattle grid: highway=cattle_grid
-
-point/cycleway
-gate: highway=gate
-
-point/waterway
-lock gate: waterway=lock_gate
-weir: waterway=weir
-aqueduct: waterway=aqueduct
-winding hole: waterway=turning_point
-mooring: waterway=mooring
-
-point/railway
-station: railway=station
-viaduct: railway=viaduct
-level crossing: railway=crossing
-
-point/natural
-peak: natural=peak
-
-POI/road
-car park: amenity=parking
-petrol station: amenity=fuel
-
-POI/cycleway
-bike park: amenity=bicycle_parking
-
-POI/place
-city: place=city,name=(type name here),is_in=(type region or county)
-town: place=town,name=(type name here),is_in=(type region or county)
-suburb: place=suburb,name=(type name here),is_in=(type region or county)
-village: place=village,name=(type name here),is_in=(type region or county)
-hamlet: place=hamlet,name=(type name here),is_in=(type region or county)
-
-POI/tourism
-attraction: tourism=attraction,amenity=,religion=,denomination=
-church: tourism=,amenity=place_of_worship,name=(type name here),religion=christian,denomination=(type denomination here)
-hotel: tourism=hotel,amenity=,religion=,denomination=
-other religious: tourism=,amenity=place_of_worship,name=(type name here),religion=(type religion),denomination=
-post box: amenity=post_box,tourism=,name=,religion=,denomination=
-post office: amenity=post_office,tourism=,name=,religion=,denomination=
-pub: tourism=,amenity=pub,name=(type name here),religion=,denomination=
-
-POI/natural
-peak: natural=peak
-EOF
-
-    StringIO.open(txt) do |file|
+#	StringIO.open(txt) do |file|
+	File.open("#{RAILS_ROOT}/config/potlatch/presets.txt") do |file|
       file.each_line {|line|
         t=line.chomp
         if (t=~/(\w+)\/(\w+)/) then
@@ -222,7 +118,21 @@ EOF
         end
       }
     end
-    [presets,presetmenus,presetnames]
+    
+    # Read colours/styling
+	colours={}; casing={}; areas={}
+	File.open("#{RAILS_ROOT}/config/potlatch/colours.txt") do |file|
+	  file.each_line {|line|
+		t=line.chomp
+		if (t=~/(\w+)\t+([^\t]+)\t+([^\t]+)\t+([^\t]+)/) then
+		  tag=$1
+		  if ($2!='-') then colours[tag]=$2.hex end
+		  if ($3!='-') then casing[tag]=$3.hex end
+		  if ($4!='-') then areas[tag]=$4.hex end
+		end
+	  }
+	end
+    [presets,presetmenus,presetnames,colours,casing,areas]
   end
 
   # ----- whichways(left,bottom,right,top)
