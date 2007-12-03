@@ -409,7 +409,7 @@ class AmfController < ApplicationController
     ActiveRecord::Base.connection.update(sql)
 
 	deleteuniquenoderelations(db_uqn,uid,db_now)
-    ActiveRecord::Base.connection.execute("DROP TABLE #{db_uqn}")
+    ActiveRecord::Base.connection.execute("DROP TEMPORARY TABLE #{db_uqn}")
 
 	#	6b. insert new version of route into way_nodes
 
@@ -541,7 +541,7 @@ class AmfController < ApplicationController
     ActiveRecord::Base.connection.update(sql)
 
 	deleteuniquenoderelations(db_uqn,uid,db_now)
-    ActiveRecord::Base.connection.execute("DROP TABLE #{db_uqn}")
+    ActiveRecord::Base.connection.execute("DROP TEMPORARY TABLE #{db_uqn}")
 
     # - delete way
 	
