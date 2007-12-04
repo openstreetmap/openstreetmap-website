@@ -109,6 +109,7 @@ OpenLayers.Layer.OSM.Mapnik = OpenLayers.Class(OpenLayers.Layer.OSM, {
             "http://b.tile.openstreetmap.org/",
             "http://c.tile.openstreetmap.org/"
         ];
+        options = OpenLayers.Util.extend(options, { numZoomLevels: 19 });
         var newArguments = [name, url, options];
         OpenLayers.Layer.OSM.prototype.initialize.apply(this, newArguments);
     },    
@@ -136,6 +137,7 @@ OpenLayers.Layer.OSM.Osmarender = OpenLayers.Class(OpenLayers.Layer.OSM, {
             "http://b.tah.openstreetmap.org/Tiles/tile.php/",
             "http://c.tah.openstreetmap.org/Tiles/tile.php/"
         ];
+        options = OpenLayers.Util.extend(options, { numZoomLevels: 18 });
         var newArguments = [name, url, options];
         OpenLayers.Layer.OSM.prototype.initialize.apply(this, newArguments);
     },    

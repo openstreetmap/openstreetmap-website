@@ -5,7 +5,6 @@ var popup;
 function createMap(divName) {
    map = new OpenLayers.Map(divName,
                             { maxExtent: new OpenLayers.Bounds(-20037508,-20037508,20037508,20037508),
-                              numZoomLevels: 19,
                               maxResolution: 156543,
                               units: 'm',
                               projection: "EPSG:41001" });
