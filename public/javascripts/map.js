@@ -2,6 +2,10 @@ var map;
 var markers;
 var popup;
 
+OpenLayers._getScriptLocation = function () {
+   return "/openlayers/";
+}
+   
 function createMap(divName) {
    map = new OpenLayers.Map(divName);
 
