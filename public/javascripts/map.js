@@ -15,7 +15,8 @@ function createMap(divName) {
    var osmarender = new OpenLayers.Layer.OSM.Osmarender("Osmarender", { displayOutsideMaxExtent: true });
    map.addLayer(osmarender);
 
-   markers = new OpenLayers.Layer.Markers("markers", { visibility: false });
+   var numZoomLevels = Math.max(mapnik.numZoomLevels, osmarender.numZoomLevels);
+   markers = new OpenLayers.Layer.Markers("Markers", { visibility: false, numZoomLevels: numZoomLevels });
    map.addLayer(markers);
 
    map.addControl(new OpenLayers.Control.LayerSwitcher());
