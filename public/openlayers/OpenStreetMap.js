@@ -16,7 +16,7 @@ OpenLayers.Util.OSM.MISSING_TILE_URL = "http://openstreetmap.org/openlayers/img/
 OpenLayers.Util.OSM.originalOnImageLoadError = OpenLayers.Util.onImageLoadError;
 
 /**
- * Function: onImageLoadError 
+ * Function: onImageLoadError
  */
 OpenLayers.Util.onImageLoadError = function() {
     if (this.src.match(/^http:\/\/[abc]\.[a-z]+\.openstreetmap\.org/)) {
@@ -28,35 +28,41 @@ OpenLayers.Util.onImageLoadError = function() {
 
 /**
  * @requires OpenLayers/Layer/TMS.js
- * 
+ *
  * Class: OpenLayers.Layer.OSM
- * 
+ *
  * Inherits from:
  *  - <OpenLayers.Layer.TMS>
  */
 OpenLayers.Layer.OSM = OpenLayers.Class(OpenLayers.Layer.TMS, {
     /**
      * Constructor: OpenLayers.Layer.OSM
-     * 
+     *
      * Parameters:
      * name - {String}
      * url - {String}
      * options - {Object} Hashtable of extra options to tag onto the layer
      */
     initialize: function(name, url, options) {
-        options = OpenLayers.Util.extend(options, { attribution: "Data by <a href='http://openstreetmap.org/'>OpenStreetMap</a>" });
+        options = OpenLayers.Util.extend(options, {
+            attribution: "Data by <a href='http://openstreetmap.org/'>OpenStreetMap</a>",
+            maxExtent: new OpenLayers.Bounds(-20037508,-20037508,20037508,20037508),
+            maxResolution: 156543,
+            units: "m",
+            projection: "EPSG:41001"
+        });
         OpenLayers.Layer.TMS.prototype.initialize.apply(this, arguments);
-    },    
-    
+    },
+
     /**
      * Method: getUrl
-     * 
+     *
      * Parameters:
      * bounds - {<OpenLayers.Bounds>}
-     * 
+     *
      * Returns:
-     * {String} A string with the layer's url and parameters and also the 
-     *          passed-in bounds and appropriate tile size specified as 
+     * {String} A string with the layer's url and parameters and also the
+     *          passed-in bounds and appropriate tile size specified as
      *          parameters
      */
     getURL: function (bounds) {
@@ -91,14 +97,14 @@ OpenLayers.Layer.OSM = OpenLayers.Class(OpenLayers.Layer.TMS, {
 
 /**
  * Class: OpenLayers.Layer.OSM.Mapnik
- * 
+ *
  * Inherits from:
  *  - <OpenLayers.Layer.OSM>
  */
 OpenLayers.Layer.OSM.Mapnik = OpenLayers.Class(OpenLayers.Layer.OSM, {
     /**
      * Constructor: OpenLayers.Layer.OSM.Mapnik
-     * 
+     *
      * Parameters:
      * name - {String}
      * options - {Object} Hashtable of extra options to tag onto the layer
@@ -112,21 +118,21 @@ OpenLayers.Layer.OSM.Mapnik = OpenLayers.Class(OpenLayers.Layer.OSM, {
         options = OpenLayers.Util.extend(options, { numZoomLevels: 19 });
         var newArguments = [name, url, options];
         OpenLayers.Layer.OSM.prototype.initialize.apply(this, newArguments);
-    },    
+    },
 
     CLASS_NAME: "OpenLayers.Layer.OSM.Mapnik"
 });
 
 /**
  * Class: OpenLayers.Layer.OSM.Osmarender
- * 
+ *
  * Inherits from:
  *  - <OpenLayers.Layer.OSM>
  */
 OpenLayers.Layer.OSM.Osmarender = OpenLayers.Class(OpenLayers.Layer.OSM, {
     /**
      * Constructor: OpenLayers.Layer.OSM.Osmarender
-     * 
+     *
      * Parameters:
      * name - {String}
      * options - {Object} Hashtable of extra options to tag onto the layer
@@ -140,7 +146,7 @@ OpenLayers.Layer.OSM.Osmarender = OpenLayers.Class(OpenLayers.Layer.OSM, {
         options = OpenLayers.Util.extend(options, { numZoomLevels: 18 });
         var newArguments = [name, url, options];
         OpenLayers.Layer.OSM.prototype.initialize.apply(this, newArguments);
-    },    
+    },
 
     CLASS_NAME: "OpenLayers.Layer.OSM.Osmarender"
 });
