@@ -7,9 +7,6 @@ Process.setrlimit Process::RLIMIT_AS, 640*1024*1024, Process::RLIM_INFINITY
 # you don't control web/app server and can't set it the proper way
 ENV['RAILS_ENV'] ||= 'production'
 
-# Don't add asset tags
-ENV["RAILS_ASSET_ID"] = ''
-
 # Specifies gem version of Rails to use when vendor/rails is not present
 RAILS_GEM_VERSION = '1.2.3'
 
@@ -76,6 +73,24 @@ end
 #   inflect.irregular 'person', 'people'
 #   inflect.uncountable %w( fish sheep )
 # end
+
+# Hack the AssetTagHelper to make asset tagging work better
+module ActionView
+  module Helpers
+    module AssetTagHelper
+      private
+        alias :old_compute_public_path :compute_public_path
+
+        def compute_public_path(source, dir, ext)
+          path = old_compute_public_path(source, dir, ext)
+          if path =~ /(.+)\?(\d+)\??$/
+            path = "#{$1}/#{$2}"
+          end
+          path
+        end
+    end
+  end
+end
 
 # Set to :readonly to put the API in read-only mode or :offline to
 # take it completely offline
