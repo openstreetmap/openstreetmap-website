@@ -3,6 +3,9 @@ class GeocoderController < ApplicationController
   require 'net/http'
   require 'rexml/document'
 
+  POSTCODE_ZOOM = 15
+  GEONAMES_ZOOM = 12
+
   def search
     query = params[:query]
     results = Array.new
@@ -60,7 +63,7 @@ private
     # parse the response
     unless response.match(/couldn't find this zip/)
       data = response.split(/\s*,\s+/) # lat,long,town,state,zip
-      results.push({:lat => data[0], :lon => data[1], :zoom => 12,
+      results.push({:lat => data[0], :lon => data[1], :zoom => POSTCODE_ZOOM,
                     :prefix => "#{data[2]}, #{data[3]}, ",
                     :name => data[4]})
     end
@@ -80,7 +83,7 @@ private
     unless response.match(/Error/)
       dataline = response.split(/\n/)[1]
       data = dataline.split(/,/) # easting,northing,postcode,lat,long
-      results.push({:lat => data[3], :lon => data[4], :zoom => 12,
+      results.push({:lat => data[3], :lon => data[4], :zoom => POSTCODE_ZOOM,
                     :name => data[2].gsub(/'/, "")})
     end
 
@@ -99,7 +102,7 @@ private
     unless response.get_elements("geodata/error")
       results.push({:lat => response.get_text("geodata/latt").to_s,
                     :lon => response.get_text("geodata/longt").to_s,
-                    :zoom => 12,
+                    :zoom => POSTCODE_ZOOM,
                     :name => query.upcase})
     end
 
@@ -159,7 +162,7 @@ private
       lon = geoname.get_text("lng").to_s
       name = geoname.get_text("name").to_s
       country = geoname.get_text("countryName").to_s
-      results.push({:lat => lat, :lon => lon, :zoom => 12,
+      results.push({:lat => lat, :lon => lon, :zoom => GEONAMES_ZOOM,
                     :name => name,
                     :suffix => ", #{country}"})
     end
