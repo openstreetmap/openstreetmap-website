@@ -16,7 +16,13 @@ function createMap(divName) {
    map.addLayer(osmarender);
 
    var numZoomLevels = Math.max(mapnik.numZoomLevels, osmarender.numZoomLevels);
-   markers = new OpenLayers.Layer.Markers("Markers", { visibility: false, numZoomLevels: numZoomLevels });
+   markers = new OpenLayers.Layer.Markers("Markers", { 
+      visibility: false, numZoomLevels: numZoomLevels,
+      maxExtent: new OpenLayers.Bounds(-20037508,-20037508,20037508,20037508),
+      maxResolution: 156543,
+      units: "m",
+      projection: "EPSG:41001"
+   });
    map.addLayer(markers);
 
    map.addControl(new OpenLayers.Control.LayerSwitcher());
