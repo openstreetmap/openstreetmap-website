@@ -232,7 +232,7 @@ class AmfController < ApplicationController
 
   def getway_old(args)
     RAILS_DEFAULT_LOGGER.info("  Message: getway_old (server is #{SERVER_URL})")
-	if SERVER_URL=="www.openstreetmap.org" then return -1,"Revert is not currently enabled on the OpenStreetMap server." end
+#	if SERVER_URL=="www.openstreetmap.org" then return -1,"Revert is not currently enabled on the OpenStreetMap server." end
 	
     objname,wayid,version,baselong,basey,masterscale=args
     wayid = wayid.to_i
