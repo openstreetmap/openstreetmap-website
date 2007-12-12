@@ -279,7 +279,7 @@ class AmfController < ApplicationController
 	EOF
 	histlist=ActiveRecord::Base.connection.select_all(sql)
 	histlist.each { |row|
-		if row['data_public'] then user=row['display_name'] else user='anonymous' end
+		if row['data_public'].to_i==1 then user=row['display_name'] else user='anonymous' end
 		history<<[row['version'],row['timestamp'],row['visible'],user]
 	}
 	[history]
