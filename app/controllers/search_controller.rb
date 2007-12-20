@@ -110,7 +110,7 @@ class SearchController < ApplicationController
     end
 
     ways.each do |way|
-      doc.root << way.to_xml_node(nodes, user_display_name_cache)
+      doc.root << way.to_xml_node(nodes.collect { |n| n.id }, user_display_name_cache)
     end 
 
     relations.each do |rel|
