@@ -37,30 +37,28 @@ class SearchController < ApplicationController
 
     # Matching for tags table
     cond_way = Array.new
-    sql = 'id IN (SELECT id FROM current_way_tags WHERE 1=1'
+    sql = '1=1'
     if type
-      sql += ' AND k=?'
+      sql += ' AND current_way_tags.k=?'
       cond_way += [type]
     end
     if value
-      sql += ' AND v=?'
-      cond_way += [value]
+      sql += ' AND current_way_tags.v=? AND MATCH (current_way_tags.v) AGAINST (?)'
+      cond_way += [value,value]
     end
-    sql += ')'
     cond_way = [sql] + cond_way
 
     # Matching for tags table
     cond_rel = Array.new
-    sql = 'id IN (SELECT id FROM current_relation_tags WHERE 1=1'
+    sql = '1=1'
     if type
-      sql += ' AND k=?'
+      sql += ' AND current_relation_tags.k=?'
       cond_rel += [type]
     end
     if value
-      sql += ' AND v=?'
-      cond_rel += [value]
+      sql += ' AND current_relation_tags.v=? AND MATCH (current_relation_tags.v) AGAINST (?)'
+      cond_rel += [value,value]
     end
-    sql += ')'
     cond_rel = [sql] + cond_rel
 
     # Matching for tags column
@@ -84,12 +82,16 @@ class SearchController < ApplicationController
 
     # First up, look for the relations we want
     if do_relations
-      relations = Relation.find(:all, :conditions => cond_rel, :limit => 100)
+      relations = Relation.find(:all,
+                                :joins => "INNER JOIN current_relation_tags ON current_relation_tags.id = current_relations.id",
+                                :conditions => cond_rel, :limit => 100)
     end
 
     # then ways
     if do_ways
-      ways = Way.find(:all, :conditions => cond_way, :limit => 100)
+      ways = Way.find(:all,
+                      :joins => "INNER JOIN current_way_tags ON current_way_tags.id = current_ways.id",
+                      :conditions => cond_way, :limit => 100)
     end
 
     # Now, nodes
