@@ -43,8 +43,8 @@ class SearchController < ApplicationController
       cond_way += [type]
     end
     if value
-      sql += ' AND current_way_tags.v=? AND MATCH (current_way_tags.v) AGAINST (?)'
-      cond_way += [value,value]
+      sql += ' AND current_way_tags.v=? AND MATCH (current_way_tags.v) AGAINST (? IN BOOLEAN MODE)'
+      cond_way += [value,'"' + value.sub(/[-+*<>"~()]/, ' ') + '"']
     end
     cond_way = [sql] + cond_way
 
@@ -56,8 +56,8 @@ class SearchController < ApplicationController
       cond_rel += [type]
     end
     if value
-      sql += ' AND current_relation_tags.v=? AND MATCH (current_relation_tags.v) AGAINST (?)'
-      cond_rel += [value,value]
+      sql += ' AND current_relation_tags.v=? AND MATCH (current_relation_tags.v) AGAINST (? IN BOOLEAN MODE)'
+      cond_rel += [value,'"' + value.sub(/[-+*<>"~()]/, ' ') + '"']
     end
     cond_rel = [sql] + cond_rel
 
