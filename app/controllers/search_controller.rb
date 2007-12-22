@@ -30,6 +30,18 @@ class SearchController < ApplicationController
       end
     end
 
+    if do_nodes
+      response.headers['Error'] = "Searching of nodes is currently unavailable"
+      render :nothing => true, :status => :service_unavailable
+      return false
+    end
+
+    unless value
+      response.headers['Error'] = "Searching for a key without value is currently unavailable"
+      render :nothing => true, :status => :service_unavailable
+      return false
+    end
+
     way_ids = Array.new
     ways = Array.new
     nodes = Array.new
