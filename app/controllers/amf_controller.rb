@@ -98,7 +98,6 @@ class AmfController < ApplicationController
     presetnames={}; presetnames['point']={}; presetnames['way']={}; presetnames['POI']={}
     presettype=''
     presetcategory=''
-
 #	StringIO.open(txt) do |file|
 	File.open("#{RAILS_ROOT}/config/potlatch/presets.txt") do |file|
       file.each_line {|line|
@@ -124,7 +123,7 @@ class AmfController < ApplicationController
 	File.open("#{RAILS_ROOT}/config/potlatch/colours.txt") do |file|
 	  file.each_line {|line|
 		t=line.chomp
-		if (t=~/(\w+)\t+([^\t]+)\t+([^\t]+)\t+([^\t]+)/) then
+		if (t=~/(\w+)\s+([^\s]+)\s+([^\s]+)\s+([^\s]+)/) then
 		  tag=$1
 		  if ($2!='-') then colours[tag]=$2.hex end
 		  if ($3!='-') then casing[tag]=$3.hex end
@@ -132,7 +131,21 @@ class AmfController < ApplicationController
 		end
 	  }
 	end
-    [presets,presetmenus,presetnames,colours,casing,areas]
+	
+	# Read auto-complete
+	autotags={}; autotags['point']={}; autotags['way']={}; autotags['POI']={};
+	File.open("#{RAILS_ROOT}/config/potlatch/autocomplete.txt") do |file|
+		file.each_line {|line|
+			t=line.chomp
+			if (t=~/^(\w+)\/(\w+)\s+(.+)$/) then
+				tag=$1; type=$2; values=$3
+				if values=='-' then autotags[type][tag]=[]
+							   else autotags[type][tag]=values.split(',').sort.reverse end
+			end
+		}
+	end
+	
+    [presets,presetmenus,presetnames,colours,casing,areas,autotags]
   end
 
   # ----- whichways(left,bottom,right,top)
