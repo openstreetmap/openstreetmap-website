@@ -17,7 +17,7 @@ function createMap(divName) {
 
    var numZoomLevels = Math.max(mapnik.numZoomLevels, osmarender.numZoomLevels);
    markers = new OpenLayers.Layer.Markers("Markers", { 
-      visibility: false, numZoomLevels: numZoomLevels,
+      displayInLayerSwitcher: false, numZoomLevels: numZoomLevels,
       maxExtent: new OpenLayers.Bounds(-20037508,-20037508,20037508,20037508),
       maxResolution: 156543,
       units: "m",
@@ -43,7 +43,6 @@ function addMarkerToMap(position, icon, description) {
    var marker = new OpenLayers.Marker(position, icon);
 
    markers.addMarker(marker);
-   markers.setVisibility(true);
 
    if (description) {
       marker.events.register("click", marker, function() { openMapPopup(marker, description) });
