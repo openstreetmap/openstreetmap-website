@@ -173,7 +173,7 @@ OpenLayers.Layer.OSM.Maplint = OpenLayers.Class(OpenLayers.Layer.OSM, {
             "http://e.tah.openstreetmap.org/Tiles/maplint.php/",
             "http://f.tah.openstreetmap.org/Tiles/maplint.php/"
         ];
-        options = OpenLayers.Util.extend(options, { numZoomLevels: 18, isBaseLayer: false });
+        options = OpenLayers.Util.extend(options, { numZoomLevels: 18, isBaseLayer: false, visibility: false });
         var newArguments = [name, url, options];
         OpenLayers.Layer.OSM.prototype.initialize.apply(this, newArguments);
     },
