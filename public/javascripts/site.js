@@ -11,7 +11,9 @@ function updatelinks(lon,lat,zoom,layers) {
     args["lat"] = lat;
     args["lon"] = lon;
     args["zoom"] = zoom;
-    args["layers"] = layers;
+    if (layers) {
+      args["layers"] = layers;
+    }
     node.href = setArgs(node.href, args);
   }
 
@@ -21,7 +23,9 @@ function updatelinks(lon,lat,zoom,layers) {
     args["lat"] = lat;
     args["lon"] = lon;
     args["zoom"] = zoom;
-    args["layers"] = layers;
+    if (layers) {
+      args["layers"] = layers;
+    }
     node.href = setArgs(node.href, args);
   }
 
