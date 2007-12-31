@@ -19,8 +19,10 @@ OpenLayers.Util.OSM.originalOnImageLoadError = OpenLayers.Util.onImageLoadError;
  * Function: onImageLoadError
  */
 OpenLayers.Util.onImageLoadError = function() {
-    if (this.src.match(/^http:\/\/[abc]\.[a-z]+\.openstreetmap\.org/)) {
+    if (this.src.match(/^http:\/\/[abc]\.[a-z]+\.openstreetmap\.org\//)) {
         this.src = OpenLayers.Util.OSM.MISSING_TILE_URL;
+    } else if (this.src.match(/^http:\/\/[def]\.tah\.openstreetmap\.org\//)) {
+        // do nothing - this layer is transparent
     } else {
         OpenLayers.Util.OSM.originalOnImageLoadError;
     }
@@ -149,4 +151,32 @@ OpenLayers.Layer.OSM.Osmarender = OpenLayers.Class(OpenLayers.Layer.OSM, {
     },
 
     CLASS_NAME: "OpenLayers.Layer.OSM.Osmarender"
+});
+
+/**
+ * Class: OpenLayers.Layer.OSM.Maplint
+ *
+ * Inherits from:
+ *  - <OpenLayers.Layer.OSM>
+ */
+OpenLayers.Layer.OSM.Maplint = OpenLayers.Class(OpenLayers.Layer.OSM, {
+    /**
+     * Constructor: OpenLayers.Layer.OSM.Maplint
+     *
+     * Parameters:
+     * name - {String}
+     * options - {Object} Hashtable of extra options to tag onto the layer
+     */
+    initialize: function(name, options) {
+        var url = [
+            "http://d.tah.openstreetmap.org/Tiles/maplint.php/",
+            "http://e.tah.openstreetmap.org/Tiles/maplint.php/",
+            "http://f.tah.openstreetmap.org/Tiles/maplint.php/"
+        ];
+        options = OpenLayers.Util.extend(options, { numZoomLevels: 18, isBaseLayer: false });
+        var newArguments = [name, url, options];
+        OpenLayers.Layer.OSM.prototype.initialize.apply(this, newArguments);
+    },
+
+    CLASS_NAME: "OpenLayers.Layer.OSM.Maplint"
 });
