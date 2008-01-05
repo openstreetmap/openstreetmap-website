@@ -18,33 +18,32 @@ module OSM
   class Mercator
     include Math
 
-    def initialize(lat, lon, degrees_per_pixel, width, height)
-      #init me with your centre lat/lon, the number of degrees per pixel and the size of your image
-      @clat = lat
-      @clon = lon
-      @degrees_per_pixel = degrees_per_pixel
-      @degrees_per_pixel = 0.0000000001 if @degrees_per_pixel < 0.0000000001
+    #init me with your bounding box and the size of your image
+
+    def initialize(min_lat, min_lon, max_lat, max_lon, width, height)
+      xsize = xsheet(max_lon) - xsheet(min_lon)
+      ysize = ysheet(max_lat) - ysheet(min_lat)
+      xscale = xsize / width
+      yscale = ysize / height
+      scale = [xscale, yscale].max
+
+      xpad = width * scale - xsize
+      ypad = height * scale - ysize
+
       @width = width
       @height = height
-      @dlon = width / 2 * @degrees_per_pixel
-      @dlat = height / 2 * @degrees_per_pixel  * cos(@clat * PI / 180)
 
-      @tx = xsheet(@clon - @dlon)
-      @ty = ysheet(@clat - @dlat)
+      @tx = xsheet(min_lon) - xpad / 2
+      @ty = ysheet(min_lat) - ypad / 2
 
-      @bx = xsheet(@clon + @dlon)
-      @by = ysheet(@clat + @dlat)
-
+      @bx = xsheet(max_lon) + xpad / 2
+      @by = ysheet(max_lat) + ypad / 2
     end
 
     #the following two functions will give you the x/y on the entire sheet
 
-    def kilometerinpixels
-      return 40008.0  / 360.0 * @degrees_per_pixel
-    end
-
     def ysheet(lat)
-      log(tan(PI / 4 +  (lat  * PI / 180 / 2)))
+      log(tan(PI / 4 + (lat * PI / 180 / 2))) / (PI / 180)
     end
 
     def xsheet(lon)
@@ -137,8 +136,7 @@ module OSM
       frames = 10
       width = 250
       height = 250
-      rat= Math.cos( ((max_lat + min_lat)/2.0) /  180.0 * 3.141592)
-      proj = OSM::Mercator.new((min_lat + max_lat) / 2, (max_lon + min_lon) / 2, (max_lat - min_lat) / width / rat, width, height)
+      proj = OSM::Mercator.new(min_lat, min_lon, max_lat, max_lon, width, height)
 
       linegc = Magick::Draw.new
       linegc.stroke_linejoin('miter')
@@ -213,8 +211,7 @@ module OSM
       #puts "getting icon for bbox #{min_lat},#{min_lon} - #{max_lat},#{max_lon}"
       width = 50
       height = 50
-      rat= Math.cos( ((max_lat + min_lat)/2.0) /  180.0 * 3.141592)
-      proj = OSM::Mercator.new((min_lat + max_lat) / 2, (max_lon + min_lon) / 2, (max_lat - min_lat) / width / rat, width, height)
+      proj = OSM::Mercator.new(min_lat, min_lon, max_lat, max_lon, width, height)
 
       gc = Magick::Draw.new
       gc.stroke_linejoin('miter')
