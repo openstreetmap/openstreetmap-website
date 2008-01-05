@@ -3,13 +3,18 @@ require 'rubygems'
 require "daemons"
 require 'yaml'
 require 'erb'
-require 'active_support'
+
+class Hash
+  def with_symbols!
+    self.keys.each{|key| self[key.to_s.to_sym] = self[key] }; self
+  end
+end
 
 options = YAML.load(
   ERB.new(
   IO.read(
   File.dirname(__FILE__) + "/../../config/daemons.yml"
-  )).result).with_indifferent_access
+  )).result).with_symbols!
 options[:dir_mode] = options[:dir_mode].to_sym
 
 Daemons.run File.dirname(__FILE__) + '/gpx_import.rb', options
