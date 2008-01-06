@@ -55,5 +55,5 @@ while(true) do
     exit if terminated
   end
 
-  sleep 5.minutes
+  sleep 5.minutes.value
 end

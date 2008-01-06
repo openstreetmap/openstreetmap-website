@@ -1,58 +1,63 @@
-# Be sure to restart your web server when you modify this file.
+# Be sure to restart your server when you modify this file
 
-# Limit each rails process to a 512Mb resident set size
-Process.setrlimit Process::RLIMIT_AS, 640*1024*1024, Process::RLIM_INFINITY
-
-# Uncomment below to force Rails into production mode when 
+# Uncomment below to force Rails into production mode when
 # you don't control web/app server and can't set it the proper way
 ENV['RAILS_ENV'] ||= 'production'
 
 # Specifies gem version of Rails to use when vendor/rails is not present
-RAILS_GEM_VERSION = '1.2.3'
+RAILS_GEM_VERSION = '2.0.1' unless defined? RAILS_GEM_VERSION
 
-# Bootstrap the Rails environment, frameworks, and default configuration
-require File.join(File.dirname(__FILE__), 'boot')
+# Set the server URL
+SERVER_URL = ENV['OSM_SERVER_URL'] || 'www.openstreetmap.org'
 
 # Application constants needed for routes.rb - must go before Initializer call
 API_VERSION = ENV['OSM_API_VERSION'] || '0.5'
 
-# Custom logger class to format messages sensibly
-class OSMLogger < Logger
-  def format_message(severity, time, progname, msg)
-    "[%s.%06d #%d] %s\n" % [time.strftime("%Y-%m-%d %H:%M:%S"), time.usec, $$, msg.sub(/^\n+/, "")]
-  end
-end
+# Set to :readonly to put the API in read-only mode or :offline to
+# take it completely offline
+API_STATUS = :online
+
+# Bootstrap the Rails environment, frameworks, and default configuration
+require File.join(File.dirname(__FILE__), 'boot')
 
 Rails::Initializer.run do |config|
-  # Settings in config/environments/* take precedence those specified here
-  
-  # Skip frameworks you're not going to use
-  # config.frameworks -= [ :action_web_service, :action_mailer ]
+  # Settings in config/environments/* take precedence over those specified here.
+  # Application configuration should go into files in config/initializers
+  # -- all .rb files in that directory are automatically loaded.
+  # See Rails::Configuration for more options.
+
+  # Skip frameworks you're not going to use (only works if using vendor/rails).
+  # To use Rails without a database, you must remove the Active Record framework
+  # config.frameworks -= [ :active_record, :active_resource, :action_mailer ]
+
+  # Only load the plugins named here, in the order given. By default, all plugins 
+  # in vendor/plugins are loaded in alphabetical order.
+  # :all can be used as a placeholder for all plugins not explicitly named
+  # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
 
   # Add additional load paths for your own custom dirs
   # config.load_paths += %W( #{RAILS_ROOT}/extras )
 
-  # Force all environments to use the same logger level 
+  # Force all environments to use the same logger level
   # (by default production uses :info, the others :debug)
   # config.log_level = :debug
 
-  # Use our custom logger
-  config.logger = OSMLogger.new(config.log_path)
-  config.logger.level = Logger.const_get(config.log_level.to_s.upcase)
+  # Your secret key for verifying cookie session data integrity.
+  # If you change this key, all old sessions will become invalid!
+  # Make sure the secret is at least 30 characters and all random, 
+  # no regular words or you'll be exposed to dictionary attacks.
+  config.action_controller.session = {
+    :session_key => '_osm_session',
+    :secret      => 'd886369b1e709c61d1f9fcb07384a2b96373c83c01bfc98c6611a9fe2b6d0b14215bb360a0154265cccadde5489513f2f9b8d9e7b384a11924f772d2872c2a1f'
+  }
 
-  # Use the database for sessions instead of the file system
+  # Use the database for sessions instead of the cookie-based default,
+  # which shouldn't be used to store highly confidential information
   # (create the session table with 'rake db:sessions:create')
-  # config.action_controller.session_store = :sql_session_store
-
-  # Unfortunately SqlSessionStore is a plugin which has not been
-  # loaded yet, so we have to do things the hard way...
-  config.after_initialize do
-    ActionController::Base.session_store = :sql_session_store
-    SqlSessionStore.session_class = MysqlSession
-  end
+  config.action_controller.session_store = :sql_session_store
 
   # Use SQL instead of Active Record's schema dumper when creating the test database.
-  # This is necessary if your schema can't be completely dumped by the schema dumper, 
+  # This is necessary if your schema can't be completely dumped by the schema dumper,
   # like if you have constraints or database-specific column types
   config.active_record.schema_format = :sql
 
@@ -61,55 +66,4 @@ Rails::Initializer.run do |config|
 
   # Make Active Record use UTC-base instead of local time
   # config.active_record.default_timezone = :utc
-  
-  # See Rails::Configuration for more options
 end
-
-# Add new inflection rules using the following format 
-# (all these examples are active by default):
-# Inflector.inflections do |inflect|
-#   inflect.plural /^(ox)$/i, '\1en'
-#   inflect.singular /^(ox)en/i, '\1'
-#   inflect.irregular 'person', 'people'
-#   inflect.uncountable %w( fish sheep )
-# end
-
-# Hack the AssetTagHelper to make asset tagging work better
-module ActionView
-  module Helpers
-    module AssetTagHelper
-      private
-        alias :old_compute_public_path :compute_public_path
-
-        def compute_public_path(source, dir, ext)
-          path = old_compute_public_path(source, dir, ext)
-          if path =~ /(.+)\?(\d+)\??$/
-            path = "#{$1}/#{$2}"
-          end
-          path
-        end
-    end
-  end
-end
-
-# Set to :readonly to put the API in read-only mode or :offline to
-# take it completely offline
-API_STATUS = :online
-
-# Include your application configuration below
-SERVER_URL = ENV['OSM_SERVER_URL'] || 'www.openstreetmap.org'
-
-ActionMailer::Base.smtp_settings = {
-  :address  => "localhost",
-  :port  => 25, 
-  :domain  => 'localhost',
-} 
-
-#Taming FCGI
-#
-COUNT = 0
-MAX_COUNT = 10000
-
-
-
-
