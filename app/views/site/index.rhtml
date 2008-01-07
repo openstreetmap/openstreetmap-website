@@ -127,7 +127,52 @@ by the OpenStreetMap project and it's contributors.
                 (mercatorToLonLat
                     (map.getLonLatFromViewPortPx 
                         ( map.events.getMousePosition(e))));
+
+    // put in the freemap url for the moment. this will be replaced
+    // by a ruby equivalent.
+	/*
+    url= 'http://www.free-map.org.uk/freemap/common/osmlookup.php?'+ 
+            'action=get&x='+pos.lon+'&y='+pos.lat;
+
+    OpenLayers.loadURL(url,/null, null,osmLookupCallback); 
+	*/
   }
+
+  // the feature lookup finds the nearest POI node, or, if no node could
+  // be found, the nearest way
+  /*
+  function osmLookupCallback (xmlHTTP) {
+    var nodes = xmlHTTP.responseXML.getElementsByTagName('node');
+    var ways = xmlHTTP.responseXML.getElementsByTagName('way');
+    var features = (ways.length==1) ? ways:nodes;
+
+    if(features.length==1) {
+      var osm_id = features[0].getElementsByTagName('osm_id')[0].
+                        firstChild.nodeValue;
+      var name = 
+                (xmlHTTP.responseXML.getElementsByTagName('name').length>0) ?
+                    xmlHTTP.responseXML.getElementsByTagName('name')[0].
+                        firstChild.nodeValue: "";
+
+
+      if(this.osm_type=='way' && ways.length==1) {
+                // use openlayers vector layer to highlight way for editing?
+      }
+
+      var description="";
+      var wikipedia="";
+      var ad=false;
+
+      if(xmlHTTP.responseXML.getElementsByTagName('description').length){
+          osmdesc=
+              xmlHTTP.responseXML.getElementsByTagName('description')[0].
+              firstChild.nodeValue;
+
+          description += "<p>"+osmdesc+"</p>";
+       } 
+     }
+  }
+  */
 
   function getPosition() {
     return mercatorToLonLat(map.getCenter());
