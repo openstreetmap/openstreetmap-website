@@ -115,9 +115,18 @@ by the OpenStreetMap project and it's contributors.
 
     map.events.register("moveend", map, updateLocation);
     map.events.register("changelayer", map, updateLocation);
+    map.events.register("click", map, mapClick);
     updateLocation();
 
     handleResize();
+  }
+
+  // Map click results in feature lookup
+  function mapClick(e) {
+      var pos = lonLatToNonSphericalMercator
+                (mercatorToLonLat
+                    (map.getLonLatFromViewPortPx 
+                        ( map.events.getMousePosition(e))));
   }
 
   function getPosition() {

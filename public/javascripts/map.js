@@ -146,6 +146,56 @@ function lonLatToMercator(ll) {
    return new OpenLayers.LonLat(lon, lat);
 }
 
+// for interacting with the PostGIS database which uses non spherical
+// Mercator. Taken from Freemap which in turn was taken from a standard
+// algorithm off the net.
+
+function lonLatToNonSphericalMercator(ll) {
+    var custLat  = ll.lat * (Math.PI/180);
+    var a = 6378137;
+    var b = 6356752.3142;
+    var f = (a-b)/a;
+    var e = Math.sqrt(2*f-Math.pow(f,2));
+    custLat=a*Math.log(Math.tan(Math.PI/4+custLat/2)*
+        Math.pow(( (1-e*Math.sin(custLat)) / (1+e*Math.sin(custLat))),e/2));
+    custLon = ll.lon * (Math.PI/180) * 6378137;
+    return new OpenLayers.LonLat (custLon,custLat);
+}
+
+function nonSphericalMercatorToLonLat(merc) {
+    var lon_deg, lat_deg;
+    var a = 6378137.0;
+    var b = 6356752.3142;
+    var k0 = 1.0;
+    var t = 1.0 - b/a;
+    var es = 2*t - t*t;
+    var e = Math.sqrt(es);
+    lon_deg = merc.lon;
+    lat_deg = merc.lat;
+    lon_deg /= a;
+    lat_deg /= a;
+    lon_deg /= k0;
+    lat_deg = phi2(Math.exp(-lat_deg/k0), e);
+    lon_deg *= (180/M_PI);
+    lat_deg *= (180/M_PI);
+    return new OpenLayers.LonLat(lon_deg,lat_deg);
+}
+
+function phi2 (ts,e) {
+    var eccnth = 0.5*e;
+    var Phi = (PI/2) - 2.0*Math.atan(ts);
+    var dphi;
+    var i=15;
+    do {
+        var con = e*Math.sin(Phi);
+        dphi = (PI/2) - 2.0*Math.atan(ts*Math.pow((1.0-con)/(1.0+con),eccnth))
+            - Phi;
+        Phi += dphi;
+    }
+    while(Math.abs(dphi) > 0.0000000001 && --i);
+    return Phi;
+}
+
 function scaleToZoom(scale) {
    return Math.log(360.0/(scale * 512.0)) / Math.log(2.0);
 }
