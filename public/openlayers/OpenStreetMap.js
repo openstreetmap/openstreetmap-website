@@ -46,14 +46,15 @@ OpenLayers.Layer.OSM = OpenLayers.Class(OpenLayers.Layer.TMS, {
      * options - {Object} Hashtable of extra options to tag onto the layer
      */
     initialize: function(name, url, options) {
-        options = OpenLayers.Util.extend(options, {
+        options = OpenLayers.Util.extend({
             attribution: "Data by <a href='http://openstreetmap.org/'>OpenStreetMap</a>",
             maxExtent: new OpenLayers.Bounds(-20037508,-20037508,20037508,20037508),
             maxResolution: 156543,
             units: "m",
             projection: "EPSG:41001"
-        });
-        OpenLayers.Layer.TMS.prototype.initialize.apply(this, arguments);
+        }, options);
+        var newArguments = [name, url, options];
+        OpenLayers.Layer.TMS.prototype.initialize.apply(this, newArguments);
     },
 
     /**
@@ -117,7 +118,7 @@ OpenLayers.Layer.OSM.Mapnik = OpenLayers.Class(OpenLayers.Layer.OSM, {
             "http://b.tile.openstreetmap.org/",
             "http://c.tile.openstreetmap.org/"
         ];
-        options = OpenLayers.Util.extend(options, { numZoomLevels: 19 });
+        options = OpenLayers.Util.extend({ numZoomLevels: 19 }, options);
         var newArguments = [name, url, options];
         OpenLayers.Layer.OSM.prototype.initialize.apply(this, newArguments);
     },
@@ -145,7 +146,7 @@ OpenLayers.Layer.OSM.Osmarender = OpenLayers.Class(OpenLayers.Layer.OSM, {
             "http://b.tah.openstreetmap.org/Tiles/tile.php/",
             "http://c.tah.openstreetmap.org/Tiles/tile.php/"
         ];
-        options = OpenLayers.Util.extend(options, { numZoomLevels: 18 });
+        options = OpenLayers.Util.extend({ numZoomLevels: 18 }, options);
         var newArguments = [name, url, options];
         OpenLayers.Layer.OSM.prototype.initialize.apply(this, newArguments);
     },
@@ -173,7 +174,7 @@ OpenLayers.Layer.OSM.Maplint = OpenLayers.Class(OpenLayers.Layer.OSM, {
             "http://e.tah.openstreetmap.org/Tiles/maplint.php/",
             "http://f.tah.openstreetmap.org/Tiles/maplint.php/"
         ];
-        options = OpenLayers.Util.extend(options, { numZoomLevels: 18, isBaseLayer: false, visibility: false });
+        options = OpenLayers.Util.extend({ numZoomLevels: 18, isBaseLayer: false, visibility: false }, options);
         var newArguments = [name, url, options];
         OpenLayers.Layer.OSM.prototype.initialize.apply(this, newArguments);
     },
