@@ -20,6 +20,14 @@ class MessageController < ApplicationController
     end
   end
 
+  def reply
+    message = Message.find(params[:message_id], :conditions => ["to_user_id = ? or from_user_id = ?", @user.id, @user.id ])
+    title = message.title.sub(/^Re:\s*/, "Re: ")
+    redirect_to :action => 'new', :user_id => message.from_user_id, :title => title
+  rescue ActiveRecord::RecordNotFound
+    render :nothing => true, :status => :not_found
+  end
+
   def read
     @title = 'read message'
     @message = Message.find(params[:message_id], :conditions => ["to_user_id = ? or from_user_id = ?", @user.id, @user.id ])

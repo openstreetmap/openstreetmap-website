@@ -1,4 +1,5 @@
-<% display_name = (User.find_by_id(params[:user_id])).display_name %>
+<% display_name = User.find_by_id(params[:user_id]).display_name %>
+<% title = params[:message] ? params[:message][:title] : params[:title] %>
 
 <h2>Send a new message to <%= display_name %></h2>
 
@@ -13,7 +14,7 @@
   <table>
     <tr valign="top">
       <th>Subject</th>
-      <td><%= f.text_field :title, :size => 60 %></td>
+      <td><%= text_field_tag 'message[title]', title, :size => 60 %></td>
     </tr>
     <tr valign="top">
       <th>Body</th>

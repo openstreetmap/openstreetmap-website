@@ -59,8 +59,8 @@ class Notifier < ActionMailer::Base
                              :controller => "message", :action => "read",
                              :message_id => message.id),
          :replyurl => url_for(:host => SERVER_URL,
-                              :controller => "message", :action => "new",
-                              :user_id => message.from_user_id)
+                              :controller => "message", :action => "reply",
+                              :message_id => message.id)
   end
 
   def friend_notification(friend)
