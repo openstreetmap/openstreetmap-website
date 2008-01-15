@@ -2,7 +2,7 @@
 
 <tr class="inbox-row<%= "-unread" if not message_summary.message_read? %>">
   <td class="inbox-sender" bgcolor='<%= this_colour %>'><%= link_to message_summary.sender.display_name , :controller => 'user', :action => message_summary.sender.display_name %></td>
-  <td class="inbox-subject" bgcolor='<%= this_colour %>'><%= link_to  message_summary.title , :controller => 'message', :action => 'read', :message_id => message_summary.id  %></td>
+  <td class="inbox-subject" bgcolor='<%= this_colour %>'><%= link_to  h(message_summary.title) , :controller => 'message', :action => 'read', :message_id => message_summary.id  %></td>
   <td class="inbox-sent" bgcolor='<%= this_colour %>'><%= message_summary.sent_on %></td>
   <% if message_summary.message_read? %>
     <td><%= button_to 'Mark as unread', :controller => 'message', :action => 'mark', :message_id => message_summary.id, :mark => 'unread' %></td>
