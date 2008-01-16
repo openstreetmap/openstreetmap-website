@@ -1,5 +1,5 @@
 <b><%= h(diary_entry.title) %></b><br />
-<%= sanitize(auto_link(simple_format(diary_entry.body), :urls)) %>
+<%= htmlize(diary_entry.body) %>
 <% if diary_entry.latitude and diary_entry.longitude %>
 Coordinates: <div class="geo" style="display: inline"><span class="latitude"><%= diary_entry.latitude %></span>; <span class="longitude"><%= diary_entry.longitude %></span></div> (<%=link_to 'map', :controller => 'site', :action => 'index', :lat => diary_entry.latitude, :lon => diary_entry.longitude, :zoom => 14 %> / <%=link_to 'edit', :controller => 'site', :action => 'edit', :lat => diary_entry.latitude, :lon => diary_entry.longitude, :zoom => 14 %>)<br/>
 <% end %>

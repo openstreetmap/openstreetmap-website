@@ -1,5 +1,5 @@
 class DiaryEntryController < ApplicationController
-  layout 'site'
+  layout 'site', :except => :rss
   
   before_filter :authorize_web
   before_filter :require_user, :only => [:new]
@@ -32,19 +32,16 @@ class DiaryEntryController < ApplicationController
 
   def rss
     if params[:display_name]
-      @this_user = User.find_by_display_name(params[:display_name])
-      @entries=DiaryEntry.find(:all, :conditions => ['user_id = ?', @this_user.id], :order => 'created_at DESC', :limit => 20)
-      rss = OSM::GeoRSS.new("OpenStreetMap diary entries for #{@this_user.display_name}", "Recent OpenStreetmap diary entries from #{@this_user.display_name}", "http://www.openstreetmap.org/user/#{@this_user.display_name}/diary") 
+      user = User.find_by_display_name(params[:display_name])
+      @entries = DiaryEntry.find(:all, :conditions => ['user_id = ?', user.id], :order => 'created_at DESC', :limit => 20)
+      @title = "OpenStreetMap diary entries for #{user.display_name}"
+      @description = "Recent OpenStreetmap diary entries from #{user.display_name}"
+      @link = "http://www.openstreetmap.org/user/#{user.display_name}/diary"
     else
-      @entries=DiaryEntry.find(:all, :order => 'created_at DESC', :limit => 20)
-      rss = OSM::GeoRSS.new('OpenStreetMap diary entries', 'Recent diary entries from users of OpenStreetMap', 'http://www.openstreetmap.org/diary') 
+      @entries = DiaryEntry.find(:all, :order => 'created_at DESC', :limit => 20)
+      @title = "OpenStreetMap diary entries"
+      @description = "Recent diary entries from users of OpenStreetMap"
+      @link = "http://www.openstreetmap.org/diary"
     end
-
-    @entries.each do |entry|
-      rss.add(entry.latitude, entry.longitude, entry.title, entry.user.display_name, url_for({:controller => 'diary_entry', :action => 'list', :id => entry.id, :display_name => entry.user.display_name}), entry.body, entry.created_at)
-    end
-
-    render :text => rss.to_s, :content_type => "application/rss+xml"
   end
-
 end
