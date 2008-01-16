@@ -1,6 +1,6 @@
 class DiaryEntryController < ApplicationController
   layout 'site', :except => :rss
-  
+
   before_filter :authorize_web
   before_filter :require_user, :only => [:new]
 
@@ -43,5 +43,7 @@ class DiaryEntryController < ApplicationController
       @description = "Recent diary entries from users of OpenStreetMap"
       @link = "http://www.openstreetmap.org/diary"
     end
+
+    render :content_type => Mime::RSS
   end
 end
