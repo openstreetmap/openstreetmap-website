@@ -97,7 +97,8 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/user/:display_name/make_friend', :controller => 'user', :action => 'make_friend'
   map.connect '/user/:display_name/remove_friend', :controller => 'user', :action => 'remove_friend'
   map.connect '/user/:display_name/diary', :controller => 'diary_entry', :action => 'list'
-  map.connect '/user/:display_name/diary/:id', :controller => 'diary_entry', :action => 'list', :id => /\d+/
+  map.connect '/user/:display_name/diary/:id', :controller => 'diary_entry', :action => 'view', :id => /\d+/
+  map.connect '/user/:display_name/diary/:id/newcomment', :controller => 'diary_entry', :action => 'comment', :id => /\d+/
   map.connect '/user/:display_name/diary/rss', :controller => 'diary_entry', :action => 'rss'
   map.connect '/user/:display_name/diary/newpost', :controller => 'diary_entry', :action => 'new'
   map.connect '/user/:display_name/account', :controller => 'user', :action => 'account'

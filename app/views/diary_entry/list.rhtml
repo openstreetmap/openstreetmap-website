@@ -1,10 +1,9 @@
+<h2><%= @title %></h2>
 <% if @this_user %>
-  <h2><%= @this_user.display_name %>'s diary</h2>
   <% if @user == @this_user %>
     <%= link_to 'New diary post', :controller => 'diary_entry', :action => 'new', :display_name => @user.display_name %>
   <% end %>
 <% else %>
-  <h2>Users' diaries</h2>
   <% if @user %>
     <%= link_to 'New diary post', :controller => 'diary_entry', :action => 'new', :display_name => @user.display_name %>
   <% end %>
@@ -12,7 +11,7 @@
 
 <h3>Recent diary entries:</h3>
 
-<%= render :partial => 'diary_entry/diary_entry', :collection => @entries %>
+<%= render :partial => 'diary_entry', :collection => @entries %>
 
 <%= link_to(image_tag("RSS.gif", :size => "16x16", :border => 0), :action => 'rss') %>
 <%= auto_discovery_link_tag(:atom, :action => 'rss') %>

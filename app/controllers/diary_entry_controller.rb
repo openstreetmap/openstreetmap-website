@@ -14,19 +14,26 @@ class DiaryEntryController < ApplicationController
       end
     end
   end
+
+  def comment
+    @entry = DiaryEntry.find(params[:id])
+    @diary_comment = @entry.diary_comments.build(params[:diary_comment])
+    @diary_comment.user = @user
+    if @diary_comment.save
+      redirect_to :controller => 'diary_entry', :action => 'view', :display_name => @entry.user.display_name, :id => @entry.id
+    else
+      render :action => 'view'
+    end
+  end
   
   def list
     if params[:display_name]
       @this_user = User.find_by_display_name(params[:display_name])
       @title = @this_user.display_name + "'s diary"
-      if params[:id]
-        @entries=DiaryEntry.find(:all, :conditions => ['user_id = ? AND id = ?', @this_user.id, params[:id]])
-      else
-        @entries=DiaryEntry.find(:all, :conditions => ['user_id = ?', @this_user.id], :order => 'created_at DESC')
-      end
+      @entries = DiaryEntry.find(:all, :conditions => ['user_id = ?', @this_user.id], :order => 'created_at DESC')
     else
-      @title = 'recent diary entries'
-      @entries=DiaryEntry.find(:all, :order => 'created_at DESC', :limit => 20)
+      @title = "Users' diaries"
+      @entries = DiaryEntry.find(:all, :order => 'created_at DESC', :limit => 20)
     end
   end
 
@@ -45,5 +52,10 @@ class DiaryEntryController < ApplicationController
     end
 
     render :content_type => Mime::RSS
+  end
+
+  def view
+    user = User.find_by_display_name(params[:display_name])
+    @entry = DiaryEntry.find(:first, :conditions => ['user_id = ? AND id = ?', user.id, params[:id]])
   end
 end

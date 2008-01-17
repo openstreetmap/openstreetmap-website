@@ -1,8 +1,13 @@
-<b><%= h(diary_entry.title) %></b><br />
+<b><%= link_to h(diary_entry.title), :action => 'view', :display_name => diary_entry.user.display_name, :id => diary_entry.id %></b><br />
 <%= htmlize(diary_entry.body) %>
 <% if diary_entry.latitude and diary_entry.longitude %>
 Coordinates: <div class="geo" style="display: inline"><span class="latitude"><%= diary_entry.latitude %></span>; <span class="longitude"><%= diary_entry.longitude %></span></div> (<%=link_to 'map', :controller => 'site', :action => 'index', :lat => diary_entry.latitude, :lon => diary_entry.longitude, :zoom => 14 %> / <%=link_to 'edit', :controller => 'site', :action => 'edit', :lat => diary_entry.latitude, :lon => diary_entry.longitude, :zoom => 14 %>)<br/>
 <% end %>
 Posted by <b><%= link_to diary_entry.user.display_name, :controller => 'user', :action => 'view', :display_name => diary_entry.user.display_name %></b> at <%= diary_entry.created_at %><br />
+<% if params[:action] == 'list' %>
+<%= link_to 'Comment on this entry', :action => 'view', :display_name => diary_entry.user.display_name, :id => diary_entry.id, :anchor => 'comment' %>
+|
+<%= link_to 'Reply to this entry', :controller => 'message', :action => 'new', :user_id => diary_entry.user.id, :title => "Re: #{diary_entry.title}" %>
+<% end %>
 <br />
 <hr />

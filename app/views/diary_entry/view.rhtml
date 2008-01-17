@@ -1,0 +1,22 @@
+<h2><%= @entry.user.display_name %>'s diary</h2>
+
+<%= render :partial => 'diary_entry', :object => @entry %>
+
+<%= render :partial => 'diary_comment', :collection => @entry.diary_comments %>
+
+<% if @user %>
+
+<h4 id="comment">Leave a comment</h4>
+<%= error_messages_for 'diary_comment' %>
+<% form_for :diary_comment, @diary_comment, :url => { :action => 'comment' } do |f| %>
+<%= f.text_area :body, :cols => 80, :rows => 5 %>
+<br />
+<br />
+<%= submit_tag 'Save' %>
+<% end %>
+
+<% else %>
+
+<h4 id="comment"><%= link_to "Login", :controller => 'user', :action => 'login', :referer => request.request_uri %> to leave a comment</h4>
+
+<% end %>
