@@ -11,7 +11,7 @@ class AmfController < ApplicationController
   # encoded in the Actionscript Message Format (AMF).
   #
   # Public domain. Set your tab width to 4 to read this document. :)
-  # editions Systeme D / Richard Fairhurst 2004-2007
+  # editions Systeme D / Richard Fairhurst 2004-2008
   
   # to trap errors (getway_old,putway,putpoi,deleteway only):
   #   return(-1,"message")		<-- just puts up a dialogue
@@ -225,7 +225,7 @@ class AmfController < ApplicationController
 
     RAILS_DEFAULT_LOGGER.info("  Message: getway, id=#{wayid}")
 
-    readwayquery(wayid).each {|row|
+    readwayquery(wayid,true).each {|row|
       points<<[long2coord(row['longitude'].to_f,baselong,masterscale),lat2coord(row['latitude'].to_f,basey,masterscale),row['id'].to_i,nil,tag2array(row['tags'])]
       xmin = [xmin,row['longitude'].to_f].min
       xmax = [xmax,row['longitude'].to_f].max
@@ -329,25 +329,17 @@ class AmfController < ApplicationController
     xc={}; yc={}; tagc={}; vc={}
     if originalway>0
       way=originalway
-	  if oldversion==0
-	    readwayquery(way).each { |row|
-		  id=row['id'].to_i
+	  if oldversion==0 then r=readwayquery(way,false)
+	  				   else r=readwayquery_old(way,oldversion,true) end
+	  r.each { |row|
+		id=row['id'].to_i
+		if (id>0) then
 		  xc[id]=row['longitude'].to_f
 		  yc[id]=row['latitude' ].to_f
 		  tagc[id]=row['tags']
-		  vc[id]=1
-		}
-	  else
-	    readwayquery_old(way,oldversion,true).each { |row|
-		  id=row['id'].to_i
-		  if (id>0) then
-			xc[id]=row['longitude'].to_f
-			yc[id]=row['latitude' ].to_f
-			tagc[id]=row['tags']
-			vc[id]=row['visible'].to_i
-		  end
-		}
-	  end
+		  vc[id]=row['visible'].to_i
+	    end
+	  }
       ActiveRecord::Base.connection.update("UPDATE current_ways SET timestamp=#{db_now},user_id=#{uid},visible=1 WHERE id=#{way}")
     else
       way=ActiveRecord::Base.connection.insert("INSERT INTO current_ways (user_id,timestamp,visible) VALUES (#{uid},#{db_now},1)")
@@ -392,7 +384,7 @@ class AmfController < ApplicationController
       elsif xc.has_key?(node)
 		nodelist.push(node)
         # old node from original way - update
-        if (xs!=xc[node] or (ys/0.0000001).round!=(yc[node]/0.0000001).round or tagstr!=tagc[node] or vc[node]==0)
+        if ((xs/0.0000001).round!=(xc[node]/0.0000001).round or (ys/0.0000001).round!=(yc[node]/0.0000001).round or tagstr!=tagc[node] or vc[node]==0)
           ActiveRecord::Base.connection.insert("INSERT INTO nodes (id,latitude,longitude,timestamp,user_id,visible,tags,tile) VALUES (#{node},#{lat},#{long},#{db_now},#{uid},1,#{tagsql},#{tile})")
           ActiveRecord::Base.connection.update("UPDATE current_nodes SET latitude=#{lat},longitude=#{long},timestamp=#{db_now},user_id=#{uid},tags=#{tagsql},visible=1,tile=#{tile} WHERE id=#{node}")
         end
@@ -571,13 +563,16 @@ end
 # ====================================================================
 # Support functions for remote calls
 
-def readwayquery(id)
-  ActiveRecord::Base.connection.select_all "SELECT latitude*0.0000001 AS latitude,longitude*0.0000001 AS longitude,current_nodes.id,tags "+
-      "    FROM current_way_nodes,current_nodes "+
-      "   WHERE current_way_nodes.id=#{id} "+
-      "     AND current_way_nodes.node_id=current_nodes.id "+
-      "     AND current_nodes.visible=1 "+
-      "   ORDER BY sequence_id"
+def readwayquery(id,insistonvisible)
+  sql=<<-EOF
+    SELECT latitude*0.0000001 AS latitude,longitude*0.0000001 AS longitude,current_nodes.id,tags,visible 
+      FROM current_way_nodes,current_nodes 
+     WHERE current_way_nodes.id=#{id} 
+       AND current_way_nodes.node_id=current_nodes.id 
+  EOF
+  if insistonvisible then sql+=" AND current_nodes.visible=1 " end
+  sql+=" ORDER BY sequence_id"
+  ActiveRecord::Base.connection.select_all(sql)
 end
 
 def getlastversion(id,version)

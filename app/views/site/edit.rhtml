@@ -47,6 +47,13 @@
 <script type="text/javascript">
   var brokenContentSize = $("content").offsetWidth == 0;
   var fo = new SWFObject("/potlatch/potlatch.swf?d="+Math.round(Math.random()*1000), "potlatch", "700", "600", "6", "#FFFFFF");
+  var changesaved = true;
+
+  window.onbeforeunload=function() {
+	if (!changesaved) {
+	  return "You have unsaved changes. (To save in Potlatch, you should deselect the current way or point.)";
+	}
+  }
 
   function doSWF(lat,lon,sc) {
     if (sc < 11) sc = 11;
