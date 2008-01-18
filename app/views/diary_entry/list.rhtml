@@ -13,9 +13,11 @@
 
 <%= render :partial => 'diary_entry', :collection => @entries %>
 
-<%= link_to "Older Entries", { :page => @entry_pages.current.previous } if @entry_pages.current.previous %>
+<%= link_to "Older Entries", { :page => @entry_pages.current.next } if @entry_pages.current.next %>
+<% if @entry_pages.current.next and @entry_pages.current.previous %>
 |
-<%= link_to "Newer Entries", { :page => @entry_pages.current.next } if @entry_pages.current.next %>
+<% end %>
+<%= link_to "Newer Entries", { :page => @entry_pages.current.previous } if @entry_pages.current.previous %>
 
 <br />
 
