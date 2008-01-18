@@ -5,7 +5,7 @@ Coordinates: <div class="geo" style="display: inline"><span class="latitude"><%=
 <% end %>
 Posted by <b><%= link_to diary_entry.user.display_name, :controller => 'user', :action => 'view', :display_name => diary_entry.user.display_name %></b> at <%= diary_entry.created_at %><br />
 <% if params[:action] == 'list' %>
-<%= link_to 'Comment on this entry', :action => 'view', :display_name => diary_entry.user.display_name, :id => diary_entry.id, :anchor => 'comment' %>
+<%= link_to 'Comment on this entry', :action => 'view', :display_name => diary_entry.user.display_name, :id => diary_entry.id, :anchor => 'newcomment' %>
 |
 <%= link_to 'Reply to this entry', :controller => 'message', :action => 'new', :user_id => diary_entry.user.id, :title => "Re: #{diary_entry.title}" %>
 <% end %>
