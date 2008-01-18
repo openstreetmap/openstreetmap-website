@@ -18,8 +18,8 @@ xml.rss("version" => "2.0",
     for entry in @entries
       xml.item do
         xml.title h(entry.title)
-        xml.link url_for(:action => "list", :id => entry.id, :display_name => entry.user.display_name, :only_path => false)
-        xml.guid url_for(:action => "list", :id => entry.id, :display_name => entry.user.display_name, :only_path => false)
+        xml.link url_for(:action => "view", :id => entry.id, :display_name => entry.user.display_name, :only_path => false)
+        xml.guid url_for(:action => "view", :id => entry.id, :display_name => entry.user.display_name, :only_path => false)
         xml.description htmlize(entry.body)
         xml.author entry.user.display_name
         xml.pubDate entry.created_at.to_s(:rfc822)
