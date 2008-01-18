@@ -8,6 +8,8 @@ Posted by <b><%= link_to diary_entry.user.display_name, :controller => 'user', :
 <%= link_to 'Comment on this entry', :action => 'view', :display_name => diary_entry.user.display_name, :id => diary_entry.id, :anchor => 'newcomment' %>
 |
 <%= link_to 'Reply to this entry', :controller => 'message', :action => 'new', :user_id => diary_entry.user.id, :title => "Re: #{diary_entry.title}" %>
+|
+<%= link_to pluralize(diary_entry.diary_comments.count, "comment"), :action => 'view', :display_name => diary_entry.user.display_name, :id => diary_entry.id, :anchor => 'comments' %>
 <% end %>
 <br />
 <hr />
