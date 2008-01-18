@@ -48,10 +48,11 @@
   var brokenContentSize = $("content").offsetWidth == 0;
   var fo = new SWFObject("/potlatch/potlatch.swf?d="+Math.round(Math.random()*1000), "potlatch", "700", "600", "6", "#FFFFFF");
   var changesaved = true;
-
+  var winie=false; if (document.all && window.print) { winie=true; }
+  
   window.onbeforeunload=function() {
-	if (!changesaved) {
-	  return "You have unsaved changes. (To save in Potlatch, you should deselect the current way or point.)";
+	if (!changesaved && !winie) {
+	    return "You have unsaved changes. (To save in Potlatch, you should deselect the current way or point.)";
 	}
   }
 
