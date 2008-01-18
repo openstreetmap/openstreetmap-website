@@ -13,5 +13,11 @@
 
 <%= render :partial => 'diary_entry', :collection => @entries %>
 
+<%= link_to "Older Entries", { :page => @entry_pages.current.previous } if @entry_pages.current.previous %>
+|
+<%= link_to "Newer Entries", { :page => @entry_pages.current.next } if @entry_pages.current.next %>
+
+<br />
+
 <%= link_to(image_tag("RSS.gif", :size => "16x16", :border => 0), :action => 'rss') %>
 <%= auto_discovery_link_tag(:atom, :action => 'rss') %>

@@ -30,10 +30,15 @@ class DiaryEntryController < ApplicationController
     if params[:display_name]
       @this_user = User.find_by_display_name(params[:display_name])
       @title = @this_user.display_name + "'s diary"
-      @entries = DiaryEntry.find(:all, :conditions => ['user_id = ?', @this_user.id], :order => 'created_at DESC')
+      @entry_pages, @entries = paginate(:diary_entries,
+                                        :conditions => ['user_id = ?', @this_user.id],
+                                        :order => 'created_at DESC',
+                                        :per_page => 20)
     else
       @title = "Users' diaries"
-      @entries = DiaryEntry.find(:all, :order => 'created_at DESC', :limit => 20)
+      @entry_pages, @entries = paginate(:diary_entries,
+                                        :order => 'created_at DESC',
+                                        :per_page => 20)
     end
   end
 
