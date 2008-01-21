@@ -83,11 +83,15 @@ class AmfController < ApplicationController
 
   private
 
+
   # ====================================================================
   # Remote calls
 
   # ----- getpresets
-  #	      return presets,presetmenus and presetnames arrays
+  #		  in:   none
+  #		  does: reads tag preset menus, colours, and autocomplete config files
+  #	      out:  [0] presets, [1] presetmenus, [2] presetnames,
+  #				[3] colours, [4] casing, [5] areas, [6] autotags (all hashes)
 
   def getpresets
     RAILS_DEFAULT_LOGGER.info("  Message: getpresets")
@@ -148,10 +152,20 @@ class AmfController < ApplicationController
     [presets,presetmenus,presetnames,colours,casing,areas,autotags]
   end
 
-  # ----- whichways(left,bottom,right,top)
+  # ----- whichways
   #		  return array of ways in current bounding box
-  #		  at present, instead of using correct (=more complex) SQL to find
-  #		  corner-crossing ways, it simply enlarges the bounding box by +/- 0.01
+
+  #		  in:   [0] xmin, [1] ymin, [2] xmax, [3] ymax (bbox in degrees)
+  #				[4] baselong (longitude of SWF map origin),
+  #				[5] basey (projected latitude of SWF map origin),
+  #				[6] masterscale (SWF map scale)
+  #		  does: finds all ways and POI nodes in bounding box
+  #		  		at present, instead of using correct (=more complex) SQL to find
+  #		  		corner-crossing ways, it simply enlarges the bounding box
+  #		  out:  [0] array of way ids,
+  #				[1] array of POIs
+  #				(where each POI is an array containing:
+  #				 [0] id, [1] projected long, [2] projected lat, [3] hash of tags)
 
   def whichways(args)
     xmin = args[0].to_f-0.01
@@ -186,8 +200,12 @@ class AmfController < ApplicationController
     [ways,points]
   end
 
-  # ----- whichways_deleted(left,bottom,right,top)
+  # ----- whichways_deleted
   #		  return array of deleted ways in current bounding box
+
+  #		  in:	as whichways
+  #		  does: finds all deleted ways with a deleted node in bounding box
+  #		  out:	[0] array of way ids
   
   def whichways_deleted(args)
     xmin = args[0].to_f-0.01
@@ -212,9 +230,16 @@ class AmfController < ApplicationController
 	[ways]
   end
   
-  # ----- getway (objectname, way, baselong, basey, masterscale)
-  #		  returns objectname, array of co-ordinates, attributes,
-  #				  xmin,xmax,ymin,ymax
+  # ----- getway
+  #		  in:	[0] SWF object name, [1] way id, [2] baselong, [3] basey,
+  #				[4] masterscale
+  #		  does:	gets way and all nodes
+  #		  out:	[0] SWF object name (unchanged),
+  #				[1] array of points
+  #					(where each point is an array containing
+  #					 [0] projected long, [1] projected lat, [2] node id,
+  #					 [3] null, [4] hash of node tags),
+  #				[2] xmin, [3] xmax, [4] ymin, [5] ymax (unprojected bbox)
 
   def getway(args)
     objname,wayid,baselong,basey,masterscale=args
@@ -240,8 +265,21 @@ class AmfController < ApplicationController
     [objname,points,attributes,xmin,xmax,ymin,ymax]
   end
   
-  # -----	getway_old (objectname, way, version, baselong, basey, masterscale)
-  #			returns old version of way
+  # ----- getway_old
+  #		  returns old version of way
+
+  #		  in:	[0] SWF object name, [1] way id,
+  #				[2] way version to get (or -1 for "last deleted version")
+  #				[3] baselong, [4] basey, [5] masterscale
+  #		  does:	gets old version of way and all constituent nodes
+  #				for undelete, always uses the most recent version of each node
+  #				  (even if it's moved)
+  #				for revert, uses the historic version of each node, but if that node is
+  #				  still visible and has been changed since, generates a new node id
+  #		  out:	[0] 0 (code for success), [1] SWF object name,
+  #				[2] array of points (as getway _except_ [3] is node.visible?, 0 or 1),
+  #				[4] xmin, [5] xmax, [6] ymin, [7] ymax (unprojected bbox),
+  #				[8] way version
 
   def getway_old(args)
     RAILS_DEFAULT_LOGGER.info("  Message: getway_old (server is #{SERVER_URL})")
@@ -276,9 +314,14 @@ class AmfController < ApplicationController
     [0,objname,points,attributes,xmin,xmax,ymin,ymax,version]
   end
 
-  # -----	getway_history (way)
-  #			returns array of previous versions (version,timestamp,visible,user)
-  #			should also show 'created_by'
+  # ----- getway_history
+  #		  find history of a way
+
+  #		  in:	[0] way id
+  #		  does:	finds history of a way
+  #		  out:	[0] array of previous versions (where each is
+  #					[0] version, [1] db timestamp, [2] visible 0 or 1,
+  #					[3] username or 'anonymous')
 
   def getway_history(wayid)
 	history=[]
@@ -298,10 +341,19 @@ class AmfController < ApplicationController
 	[history]
   end
 
-  # -----	putway (user token, way, array of co-ordinates, array of attributes,
-  #					baselong, basey, masterscale)
-  #			returns current way ID, new way ID, hash of renumbered nodes,
-  #					xmin,xmax,ymin,ymax
+  # ----- putway
+  #		  saves a way to the database
+  
+  #		  in:	[0] user token, [1] original way id (may be negative), 
+  #				[2] array of points (as getway/getway_old), [3] hash of way tags,
+  #				[4] original way version (0 if not a reverted/undeleted way),
+  #				[5] baselong, [6] basey, [7] masterscale
+  #		  does: saves way to the database
+  #				all constituent nodes are created/updated as necessary
+  #				(or deleted if they were in the old version and are otherwise unused)
+  #		  out:	[0] 0 (code for success), [1] original way id (unchanged),
+  #				[2] new way id, [3] hash of renumbered nodes (old id=>new id),
+  #				[4] xmin, [5] xmax, [6] ymin, [7] ymax (unprojected bbox)
 
   def putway(args,renumberednodes)
     RAILS_DEFAULT_LOGGER.info("  putway started")
@@ -453,10 +505,16 @@ class AmfController < ApplicationController
     [0,originalway,way,renumberednodes,xmin,xmax,ymin,ymax]
   end
 
-  # -----	putpoi (user token, id, x,y,tag array,visible,baselong,basey,masterscale)
-  #			returns current id, new id
-  #			if new: add new row to current_nodes and nodes
-  #			if old: add new row to nodes, update current_nodes
+  # ----- putpoi
+  #		  save POI to the database
+  
+  #		  in:	[0] user token, [1] original node id (may be negative),
+  #			  	[2] projected longitude, [3] projected latitude, [4] hash of tags,
+  #			 	[5] visible (0 to delete, 1 otherwise), 
+  #				[6] baselong, [7] basey, [8] masterscale
+  #		  does:	saves POI node to the database
+  #				refuses save if the node has since become part of a way
+  #		  out:	[0] 0 (success), [1] original node id (unchanged), [2] new node id
 
   def putpoi(args)
     usertoken,id,x,y,tags,visible,baselong,basey,masterscale=args
@@ -493,8 +551,13 @@ class AmfController < ApplicationController
     [0,id,newid]
   end
 
-  # -----	getpoi (id,baselong,basey,masterscale)
-  #			returns id,x,y,tag array
+  # ----- getpoi
+  #		  read POI from database
+  #		  (only called on revert: POIs are usually read by whichways)
+  
+  #		  in:	[0] node id, [1] baselong, [2] basey, [3] masterscale
+  #		  does: reads POI
+  #		  out:	[0] id (unchanged), [1] projected long, [2] projected lat, [3] hash of tags
   
   def getpoi(args)
 	id,baselong,basey,masterscale=args; id=id.to_i
@@ -507,8 +570,13 @@ class AmfController < ApplicationController
 	 tag2array(poi['tags'])]
   end
 
-  # -----	deleteway (user token, way, nodes to keep)
-  #			returns way ID only
+  # ----- deleteway
+  #		  delete way and constituent nodes from database
+  
+  #		  in:	[0] user token, [1] way id
+  #		  does: deletes way from db and any constituent nodes not used elsewhere
+  #				also removes ways/nodes from any relations they're in
+  #		  out:	[0] 0 (success), [1] way id (unchanged)
 
   def deleteway(args)
     usertoken,way=args
