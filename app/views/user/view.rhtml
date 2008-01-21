@@ -29,7 +29,7 @@
 <% else %>
 
   <% if @user and @this_user.id == @user.id %>
-    Your friends:<br/>
+    <h3>Your friends</h3>
     <% if @this_user.friends.empty? %>
       You have not added any friends yet.
     <% else %>
@@ -47,10 +47,14 @@
     <br/>
   <%end%>
 
-  Nearby users:<br/>
+  <h3>Nearby users:</h3>
   <% if @this_user.nearby.empty? %>
     There are no users who admit to mapping nearby yet.
   <% else %>
+
+
+  <div id="map" style="border: 1px solid black; position: relative; width : 90%; height : 300px;"></div>
+  <%= render :partial => 'friend_map' %>
     <table id="nearbyusers">
     <% @this_user.nearby.each do |nearby| %>
     <tr>

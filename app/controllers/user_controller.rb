@@ -105,9 +105,9 @@ class UserController < ApplicationController
   def login
     @title = 'login'
     if params[:user]
-      email = params[:user][:email]
+      email_or_display_name = params[:user][:email]
       pass = params[:user][:password]
-      user = User.authenticate(:username => email, :password => pass)
+      user = User.authenticate(:username => email_or_display_name, :password => pass)
       if user
         session[:user] = user.id
         if params[:referer]
@@ -116,7 +116,7 @@ class UserController < ApplicationController
           redirect_to :controller => 'site', :action => 'index'
         end
         return
-      elsif User.authenticate(:username => email, :password => pass, :invalid => true)
+      elsif User.authenticate(:username => email_or_display_name, :password => pass, :invalid => true)
         flash[:notice] = "Sorry, your account is not active yet.<br>Please click on the link in the account confirmation email to activate your account."
       else
         flash[:notice] = "Sorry, couldn't log in with those details."
