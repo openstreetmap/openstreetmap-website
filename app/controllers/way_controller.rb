@@ -32,6 +32,8 @@ class WayController < ApplicationController
     begin
       way = Way.find(params[:id])
 
+      response.headers['Last-Modified'] = way.timestamp.rfc822
+
       if way.visible
         render :text => way.to_xml.to_s, :content_type => "text/xml"
       else
