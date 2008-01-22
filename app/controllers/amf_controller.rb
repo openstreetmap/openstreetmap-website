@@ -157,21 +157,16 @@ class AmfController < ApplicationController
     [presets,presetmenus,presetnames,colours,casing,areas,autotags]
   end
 
-  # ----- whichways
-  #		  return array of ways in current bounding box
-
-  #		  in:   [0] xmin, [1] ymin, [2] xmax, [3] ymax (bbox in degrees)
-  #				[4] baselong (longitude of SWF map origin),
-  #				[5] basey (projected latitude of SWF map origin),
-  #				[6] masterscale (SWF map scale)
-  #		  does: finds all ways and POI nodes in bounding box
-  #		  		at present, instead of using correct (=more complex) SQL to find
-  #		  		corner-crossing ways, it simply enlarges the bounding box
-  #		  out:  [0] array of way ids,
-  #				[1] array of POIs
-  #				(where each POI is an array containing:
-  #				 [0] id, [1] projected long, [2] projected lat, [3] hash of tags)
-
+  # Find all the way ids and nodes (including tags and projected lat/lng) which aren't part of those ways in an are
+  # 
+  # The argument is an array containing the following, in order:
+  # 0. minimun longitude
+  # 1. minimum latitude
+  # 2. maximum longitude
+  # 3. maximum latitude
+  # 4. baselong ??
+  # 5. basey ??
+  # 6. masterscale ??
   def whichways(args)
     xmin = args[0].to_f-0.01
     ymin = args[1].to_f-0.01
@@ -183,35 +178,26 @@ class AmfController < ApplicationController
 
     RAILS_DEFAULT_LOGGER.info("  Message: whichways, bbox=#{xmin},#{ymin},#{xmax},#{ymax}")
 
-    waylist = ActiveRecord::Base.connection.select_all("SELECT DISTINCT current_way_nodes.id AS wayid"+
-       "  FROM current_way_nodes,current_nodes,current_ways "+
-       " WHERE current_nodes.id=current_way_nodes.node_id "+
-       "   AND current_nodes.visible=1 "+
-       "   AND current_ways.id=current_way_nodes.id "+
-       "   AND current_ways.visible=1 "+
-       "   AND "+OSM.sql_for_area(ymin, xmin, ymax, xmax, "current_nodes."))
+    # find the way id's in an area
+    nodes_in_area = Node.find_by_area(ymin, xmin, ymax, xmax,:conditions => "visible = 1", :include => :way_nodes)
+    waynodes_in_area = nodes_in_area.collect {|node| node.way_nodes }.flatten
+    ways = waynodes_in_area.collect {|way_node| way_node.id[0]}.uniq
 
-    ways = waylist.collect {|a| a['wayid'].to_i } # get an array of way IDs
-
-    pointlist = ActiveRecord::Base.connection.select_all("SELECT current_nodes.id,current_nodes.latitude*0.0000001 AS lat,current_nodes.longitude*0.0000001 AS lng,current_nodes.tags "+
-       "  FROM current_nodes "+
-       "  LEFT OUTER JOIN current_way_nodes cwn ON cwn.node_id=current_nodes.id "+
-       " WHERE "+OSM.sql_for_area(ymin, xmin, ymax, xmax, "current_nodes.")+
-       "   AND cwn.id IS NULL "+
-       "   AND current_nodes.visible=1")
-
-    points = pointlist.collect {|a| [a['id'],long2coord(a['lng'].to_f,baselong,masterscale),lat2coord(a['lat'].to_f,basey,masterscale),tag2array(a['tags'])]	} # get a list of node ids and their tags
+    # find the node ids in an area that aren't part of ways
+    node_ids_in_area = nodes_in_area.collect {|node| node.id}.uniq
+    node_ids_used_in_ways = waynodes_in_area.collect {|way_node| way_node.node_id}.uniq
+    node_ids_not_used_in_area = node_ids_in_area - node_ids_used_in_ways
+    nodes_not_used_in_area = Node.find(node_ids_not_used_in_area)
+    points = nodes_not_used_in_area.collect {|n| [n.id, n.lon_potlatch(baselong,masterscale), n.lat_potlatch(basey,masterscale), n.tags_as_hash] }
 
     [ways,points]
   end
 
   # ----- whichways_deleted
   #		  return array of deleted ways in current bounding box
-
   #		  in:	as whichways
   #		  does: finds all deleted ways with a deleted node in bounding box
   #		  out:	[0] array of way ids
-
   def whichways_deleted(args)
     xmin = args[0].to_f-0.01
     ymin = args[1].to_f-0.01
@@ -263,8 +249,8 @@ class AmfController < ApplicationController
       node = way_node.node # get the node record
       projected_longitude = node.lon_potlatch(baselong,masterscale) # do projection for potlatch
       projected_latitude = node.lat_potlatch(basey,masterscale)
-      id = node.id # node ide
-      tags_hash = node.tags_as_hash # hash of tags
+      id = node.id
+      tags_hash = node.tags_as_hash
       
       points << [projected_longitude, projected_latitude, id, nil, tags_hash] # FIXME remove the nil in potlatch. performance matters y'know!
       long_array << projected_longitude

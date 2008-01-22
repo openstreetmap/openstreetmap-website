@@ -9,6 +9,7 @@ class Node < GeoRecord
   validate :validate_position
 
   has_many :old_nodes, :foreign_key => :id
+  has_many :way_nodes
   belongs_to :user
  
   def validate_position
