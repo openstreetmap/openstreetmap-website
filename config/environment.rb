@@ -5,7 +5,8 @@
 ENV['RAILS_ENV'] ||= 'production'
 
 # Specifies gem version of Rails to use when vendor/rails is not present
-RAILS_GEM_VERSION = '2.0.2' unless defined? RAILS_GEM_VERSION
+# DO NOT BUMP THIS TO 2.0.2 AS THE LIVE SERVERS CAN'T RUN THAT
+RAILS_GEM_VERSION = '2.0.1' unless defined? RAILS_GEM_VERSION
 
 # Set the server URL
 SERVER_URL = ENV['OSM_SERVER_URL'] || 'www.openstreetmap.org'
