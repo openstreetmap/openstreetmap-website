@@ -19,11 +19,30 @@ class GeoRecord < ActiveRecord::Base
     self.longitude = (l * 10000000).round
   end
 
+  # Return WGS84 latitude
   def lat
     return self.latitude.to_f / 10000000
   end
 
+  # Return WGS84 longitude
   def lon
     return self.longitude.to_f / 10000000
   end
+
+  # fuck knows
+  def lon_potlatch(baselong,masterscale)
+    (self.lon-baselong)*masterscale+350
+  end
+
+  def lat_potlatch(basey,masterscale)
+    -(lat2y(self.lat)-basey)*masterscale+250
+  end
+  
+  private
+  
+  def lat2y(a)
+    180/Math::PI * Math.log(Math.tan(Math::PI/4+a*(Math::PI/180)/2))
+  end
+
 end
+

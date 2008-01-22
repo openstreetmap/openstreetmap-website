@@ -1,6 +1,6 @@
 class Way < ActiveRecord::Base
   require 'xml/libxml'
-  
+
   belongs_to :user
 
   has_many :way_nodes, :foreign_key => 'id', :order => 'sequence_id'
@@ -47,6 +47,14 @@ class Way < ActiveRecord::Base
     return way
   end
 
+  # Find a way given it's ID, and in a single SQL call also grab its nodes
+  #
+  # You can't pull in all the tags too unless we put a sequence_id on the way_tags table and have a multipart key
+  def self.find_eager(id)
+    way = Way.find(id, :include => {:way_nodes => :node})
+  end
+
+  # Find a way given it's ID, and in a single SQL call also grab its nodes and tags
   def to_xml
     doc = OSM::API.new.get_xml_doc
     doc.root << to_xml_node()
@@ -60,7 +68,7 @@ class Way < ActiveRecord::Base
     el1['timestamp'] = self.timestamp.xmlschema
 
     user_display_name_cache = {} if user_display_name_cache.nil?
-    
+
     if user_display_name_cache and user_display_name_cache.key?(self.user_id)
       # use the cache if available
     elsif self.user.data_public?
@@ -94,7 +102,7 @@ class Way < ActiveRecord::Base
         el1 << e
       end
     end
- 
+
     self.way_tags.each do |tag|
       e = XML::Node.new 'tag'
       e['k'] = tag.k
@@ -106,20 +114,20 @@ class Way < ActiveRecord::Base
 
   def nds
     unless @nds
-        @nds = Array.new
-        self.way_nodes.each do |nd|
-            @nds += [nd.node_id]
-        end
+      @nds = Array.new
+      self.way_nodes.each do |nd|
+        @nds += [nd.node_id]
+      end
     end
     @nds
   end
 
   def tags
     unless @tags
-        @tags = Hash.new
-        self.way_tags.each do |tag|
-            @tags[tag.k] = tag.v
-        end
+      @tags = {}
+      self.way_tags.each do |tag|
+        @tags[tag.k] = tag.v
+      end
     end
     @tags
   end

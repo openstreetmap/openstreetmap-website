@@ -235,39 +235,43 @@ class AmfController < ApplicationController
     [ways]
   end
 
-  # ----- getway
-  #		  in:	[0] SWF object name, 
-  #				[1] way id, [2] baselong, [3] basey, [4] masterscale
-  #		  does:	gets way and all nodes
-  #		  out:	[0] SWF object name (unchanged),
-  #				[1] array of points
-  #					(where each point is an array containing
-  #					 [0] projected long, [1] projected lat, [2] node id,
-  #					 [3] null, [4] hash of node tags),
-  #				[2] xmin, [3] xmax, [4] ymin, [5] ymax (unprojected bbox)
-
+  # Get a way with all of it's nodes and tags
+  # The input is an array with the following components, in order:
+  # 0. SWF object name (String?) - fuck knows
+  # 1. wayid (String?) - the ID of the way to get
+  # 2. baselong - fuck knows
+  # 3. basey - fuck knows
+  # 4. masterscale - fuck knows
+  #
+  # The output is an array which contains all the nodes (with projected latitude and longitude) and tags for a way (and all the nodes tags). It also has the way's unprojected (WGS84) bbox.
+  #
+  # FIXME: The server really shouldn't be figuring out a ways bounding box and doing projection for potlatch
+  # FIXME: the argument splitting should be done in the 'talk' method, not here
+  #
   def getway(args)
-    objname,wayid,baselong,basey,masterscale=args
+    objname,wayid,baselong,basey,masterscale = args
     wayid = wayid.to_i
-    points = []
-    xmin = ymin =  999999
-    xmax = ymax = -999999
 
     RAILS_DEFAULT_LOGGER.info("  Message: getway, id=#{wayid}")
 
-    readwayquery(wayid,true).each {|row|
-      points<<[long2coord(row['longitude'].to_f,baselong,masterscale),lat2coord(row['latitude'].to_f,basey,masterscale),row['id'].to_i,nil,tag2array(row['tags'])]
-      xmin = [xmin,row['longitude'].to_f].min
-      xmax = [xmax,row['longitude'].to_f].max
-      ymin = [ymin,row['latitude'].to_f].min
-      ymax = [ymax,row['latitude'].to_f].max
-    }
+    way = Way.find_eager(wayid)
+    long_array = []
+    lat_array = []
+    points = []
 
-    attributes={}
-    attrlist=ActiveRecord::Base.connection.select_all "SELECT k,v FROM current_way_tags WHERE id=#{wayid}"
-    attrlist.each {|a| attributes[a['k'].gsub(':','|')]=a['v'] }
+    way.way_nodes.each do |way_node|
+      node = way_node.node # get the node record
+      projected_longitude = node.lon_potlatch(baselong,masterscale) # do projection for potlatch
+      projected_latitude = node.lat_potlatch(basey,masterscale)
+      id = node.id # node ide
+      tags_hash = node.tags_as_hash # hash of tags
+      
+      points << [projected_longitude, projected_latitude, id, nil, tags_hash] # FIXME remove the nil in potlatch. performance matters y'know!
+      long_array << projected_longitude
+      lat_array << projected_latitude
+    end
 
-    [objname,points,attributes,xmin,xmax,ymin,ymax]
+    [objname,points,way.tags,long_array.min,long_array.max,lat_array.min,lat_array.max]
   end
 
   # ----- getway_old
@@ -791,7 +795,6 @@ class AmfController < ApplicationController
     ActiveRecord::Base.connection.update("UPDATE current_relations SET user_id=#{uid},timestamp=#{db_now} WHERE id=#{relation}")
     ActiveRecord::Base.connection.execute("DELETE FROM current_relation_members WHERE id=#{relation} AND member_type='#{type}' AND member_id=#{objid}")
   end
-
 
   def sqlescape(a)
     a.gsub(/[\000-\037]/,"").gsub("'","''").gsub(92.chr) {92.chr+92.chr}

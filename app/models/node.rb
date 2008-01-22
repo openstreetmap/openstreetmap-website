@@ -110,4 +110,13 @@ class Node < GeoRecord
     el1['timestamp'] = self.timestamp.xmlschema
     return el1
   end
+
+  def tags_as_hash
+    hash = {}
+    Tags.split(self.tags) do |k,v|
+      hash[k] = v
+    end
+    hash
+  end
+
 end
