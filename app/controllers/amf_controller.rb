@@ -12,7 +12,11 @@ class AmfController < ApplicationController
   #
   # Public domain. Set your tab width to 4 to read this document. :)
   # editions Systeme D / Richard Fairhurst 2004-2008
-  
+  #
+  # All in/out parameters are floats unless explicitly stated.
+  # Note that in getway/getway_old, SWF object name and way id are
+  #Êidentical and one could probably be eliminated.
+  # 
   # to trap errors (getway_old,putway,putpoi,deleteway only):
   #   return(-1,"message")		<-- just puts up a dialogue
   #   return(-2,"message")		<-- also asks the user to e-mail me
@@ -91,7 +95,8 @@ class AmfController < ApplicationController
   #		  in:   none
   #		  does: reads tag preset menus, colours, and autocomplete config files
   #	      out:  [0] presets, [1] presetmenus, [2] presetnames,
-  #				[3] colours, [4] casing, [5] areas, [6] autotags (all hashes)
+  #				[3] colours, [4] casing, [5] areas, [6] autotags
+  #				(all hashes)
 
   def getpresets
     RAILS_DEFAULT_LOGGER.info("  Message: getpresets")
@@ -231,8 +236,8 @@ class AmfController < ApplicationController
   end
   
   # ----- getway
-  #		  in:	[0] SWF object name, [1] way id, [2] baselong, [3] basey,
-  #				[4] masterscale
+  #		  in:	[0] SWF object name, 
+  #				[1] way id, [2] baselong, [3] basey, [4] masterscale
   #		  does:	gets way and all nodes
   #		  out:	[0] SWF object name (unchanged),
   #				[1] array of points
@@ -320,10 +325,12 @@ class AmfController < ApplicationController
   #		  in:	[0] way id
   #		  does:	finds history of a way
   #		  out:	[0] array of previous versions (where each is
-  #					[0] version, [1] db timestamp, [2] visible 0 or 1,
-  #					[3] username or 'anonymous')
+  #					[0] version, [1] db timestamp (string),
+  #					[2] visible 0 or 1,
+  #					[3] username or 'anonymous' (string))
 
-  def getway_history(wayid)
+  def getway_history(args)
+  	wayid=args[0]
 	history=[]
 	sql=<<-EOF
 	SELECT version,timestamp,visible,display_name,data_public
@@ -344,8 +351,10 @@ class AmfController < ApplicationController
   # ----- putway
   #		  saves a way to the database
   
-  #		  in:	[0] user token, [1] original way id (may be negative), 
-  #				[2] array of points (as getway/getway_old), [3] hash of way tags,
+  #		  in:	[0] user token (string),
+  #				[1] original way id (may be negative), 
+  #				[2] array of points (as getway/getway_old),
+  #				[3] hash of way tags,
   #				[4] original way version (0 if not a reverted/undeleted way),
   #				[5] baselong, [6] basey, [7] masterscale
   #		  does: saves way to the database
@@ -508,13 +517,15 @@ class AmfController < ApplicationController
   # ----- putpoi
   #		  save POI to the database
   
-  #		  in:	[0] user token, [1] original node id (may be negative),
-  #			  	[2] projected longitude, [3] projected latitude, [4] hash of tags,
-  #			 	[5] visible (0 to delete, 1 otherwise), 
+  #		  in:	[0] user token (string),
+  #				[1] original node id (may be negative),
+  #			  	[2] projected longitude, [3] projected latitude,
+  #				[4] hash of tags, [5] visible (0 to delete, 1 otherwise), 
   #				[6] baselong, [7] basey, [8] masterscale
   #		  does:	saves POI node to the database
   #				refuses save if the node has since become part of a way
-  #		  out:	[0] 0 (success), [1] original node id (unchanged), [2] new node id
+  #		  out:	[0] 0 (success), [1] original node id (unchanged),
+  #				[2] new node id
 
   def putpoi(args)
     usertoken,id,x,y,tags,visible,baselong,basey,masterscale=args
@@ -557,7 +568,8 @@ class AmfController < ApplicationController
   
   #		  in:	[0] node id, [1] baselong, [2] basey, [3] masterscale
   #		  does: reads POI
-  #		  out:	[0] id (unchanged), [1] projected long, [2] projected lat, [3] hash of tags
+  #		  out:	[0] id (unchanged), [1] projected long, [2] projected lat,
+  #				[3] hash of tags
   
   def getpoi(args)
 	id,baselong,basey,masterscale=args; id=id.to_i
@@ -573,7 +585,7 @@ class AmfController < ApplicationController
   # ----- deleteway
   #		  delete way and constituent nodes from database
   
-  #		  in:	[0] user token, [1] way id
+  #		  in:	[0] user token (string), [1] way id
   #		  does: deletes way from db and any constituent nodes not used elsewhere
   #				also removes ways/nodes from any relations they're in
   #		  out:	[0] 0 (success), [1] way id (unchanged)
