@@ -2,7 +2,6 @@ class SearchController < ApplicationController
   # Support searching for nodes, ways, or all
   # Can search by tag k, v, or both (type->k,value->v)
   # Can search by name (k=name,v=....)
-  require 'ruby-debug'
   after_filter :compress_output
 
   def search_all
