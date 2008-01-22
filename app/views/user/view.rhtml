@@ -20,8 +20,9 @@
 
 <div id="description"><%= simple_format(@this_user.description) %></div>
 
-<h3>User location</h3>
 <% if @this_user.home_lat.nil? or @this_user.home_lon.nil? %>
+<h3>User location</h3>
+
   No home location has been set.
   <% if @user and @this_user.id == @user.id %>
   You can set your home location on your <%= link_to 'settings', :controller => 'user', :action => 'account', :display_name => @user.display_name %> page.
@@ -47,23 +48,24 @@
     <br/>
   <%end%>
 
-  <h3>Nearby users:</h3>
-  <% if @this_user.nearby.empty? %>
-    There are no users who admit to mapping nearby yet.
-  <% else %>
 
+  <% if @user and @this_user.id == @user.id %>
+    <h3>Nearby users:</h3>
+    <% if @this_user.nearby.empty? %>
+      There are no users who admit to mapping nearby yet.
+    <% else %>
 
-  <div id="map" style="border: 1px solid black; position: relative; width : 90%; height : 300px;"></div>
-  <%= render :partial => 'friend_map' %>
-    <table id="nearbyusers">
-    <% @this_user.nearby.each do |nearby| %>
-    <tr>
-    <td class="username"><%= link_to nearby.display_name, :controller => 'user', :action => 'view',  :display_name => nearby.display_name %></td>
-    <td><%= @this_user.distance(nearby).round %>km away</td>
-    <td class="message">(<%= link_to 'send message', :controller => 'message', :action => 'new', :user_id => nearby.id %>)</td>
-    </tr>
-    <%end%>
-    </table>
-  <%end%>
-
+    <div id="map" style="border: 1px solid black; position: relative; width : 90%; height : 300px;"></div>
+    <%= render :partial => 'friend_map' %>
+      <table id="nearbyusers">
+      <% @this_user.nearby.each do |nearby| %>
+      <tr>
+      <td class="username"><%= link_to nearby.display_name, :controller => 'user', :action => 'view',  :display_name => nearby.display_name %></td>
+      <td><%= @this_user.distance(nearby).round %>km away</td>
+      <td class="message">(<%= link_to 'send message', :controller => 'message', :action => 'new', :user_id => nearby.id %>)</td>
+      </tr>
+      <% end %>
+      </table>
+    <% end %>
+  <% end %>
 <% end %>
