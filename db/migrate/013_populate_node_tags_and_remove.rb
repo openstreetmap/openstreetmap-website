@@ -1,6 +1,5 @@
 class PopulateNodeTagsAndRemove < ActiveRecord::Migration
   def self.up
-
     #rake import 
     remove_column :nodes, :tags
     remove_column :current_nodes, :tags
