@@ -14,8 +14,6 @@ class AmfController < ApplicationController
   # editions Systeme D / Richard Fairhurst 2004-2008
   #
   # All in/out parameters are floats unless explicitly stated.
-  # Note that in getway/getway_old, SWF object name and way id are
-  #Êidentical and one could probably be eliminated.
   # 
   # to trap errors (getway_old,putway,putpoi,deleteway only):
   #   return(-1,"message")		<-- just puts up a dialogue
@@ -62,8 +60,8 @@ class AmfController < ApplicationController
       when 'getway_old';		results[index]=putdata(index,getway_old(args))
       when 'getway_history';	results[index]=putdata(index,getway_history(args))
       when 'putway';			r=putway(args,renumberednodes)
-        renumberednodes=r[3]
-        results[index]=putdata(index,r)
+								renumberednodes=r[3]
+								results[index]=putdata(index,r)
       when 'deleteway';			results[index]=putdata(index,deleteway(args))
       when 'putpoi';			results[index]=putdata(index,putpoi(args))
       when 'getpoi';			results[index]=putdata(index,getpoi(args))
@@ -157,16 +155,18 @@ class AmfController < ApplicationController
     [presets,presetmenus,presetnames,colours,casing,areas,autotags]
   end
 
+
+  # ----- whichways
+  
   # Find all the way ids and nodes (including tags and projected lat/lng) which aren't part of those ways in an are
   # 
   # The argument is an array containing the following, in order:
-  # 0. minimun longitude
+  # 0. minimum longitude
   # 1. minimum latitude
   # 2. maximum longitude
   # 3. maximum latitude
-  # 4. baselong ??
-  # 5. basey ??
-  # 6. masterscale ??
+  # 4. baselong, 5. basey, 6. masterscale as above
+
   def whichways(args)
     xmin = args[0].to_f-0.01
     ymin = args[1].to_f-0.01
@@ -178,7 +178,7 @@ class AmfController < ApplicationController
 
     RAILS_DEFAULT_LOGGER.info("  Message: whichways, bbox=#{xmin},#{ymin},#{xmax},#{ymax}")
 
-    # find the way id's in an area
+    # find the way ids in an area
     nodes_in_area = Node.find_by_area(ymin, xmin, ymax, xmax,:conditions => "visible = 1", :include => :way_nodes)
     waynodes_in_area = nodes_in_area.collect {|node| node.way_nodes }.flatten
     ways = waynodes_in_area.collect {|way_node| way_node.id[0]}.uniq
@@ -198,6 +198,7 @@ class AmfController < ApplicationController
   #		  in:	as whichways
   #		  does: finds all deleted ways with a deleted node in bounding box
   #		  out:	[0] array of way ids
+  
   def whichways_deleted(args)
     xmin = args[0].to_f-0.01
     ymin = args[1].to_f-0.01
@@ -221,21 +222,25 @@ class AmfController < ApplicationController
     [ways]
   end
 
+
+  # ----- getway
+
   # Get a way with all of it's nodes and tags
   # The input is an array with the following components, in order:
-  # 0. SWF object name (String?) - fuck knows
-  # 1. wayid (String?) - the ID of the way to get
-  # 2. baselong - fuck knows
-  # 3. basey - fuck knows
-  # 4. masterscale - fuck knows
+  # 0. wayid - the ID of the way to get
+  # 1. baselong - origin of SWF map (longitude)
+  # 2. basey - origin of SWF map (latitude)
+  # 3. masterscale - SWF map scale
   #
-  # The output is an array which contains all the nodes (with projected latitude and longitude) and tags for a way (and all the nodes tags). It also has the way's unprojected (WGS84) bbox.
+  # The output is an array which contains all the nodes (with projected 
+  # latitude and longitude) and tags for a way (and all the nodes tags). 
+  # It also has the way's unprojected (WGS84) bbox.
   #
   # FIXME: The server really shouldn't be figuring out a ways bounding box and doing projection for potlatch
   # FIXME: the argument splitting should be done in the 'talk' method, not here
-  #
+
   def getway(args)
-    objname,wayid,baselong,basey,masterscale = args
+    wayid,baselong,basey,masterscale = args
     wayid = wayid.to_i
 
     RAILS_DEFAULT_LOGGER.info("  Message: getway, id=#{wayid}")
@@ -252,20 +257,20 @@ class AmfController < ApplicationController
       id = node.id
       tags_hash = node.tags_as_hash
       
-      points << [projected_longitude, projected_latitude, id, nil, tags_hash] # FIXME remove the nil in potlatch. performance matters y'know!
+      points << [projected_longitude, projected_latitude, id, nil, tags_hash]
       long_array << projected_longitude
       lat_array << projected_latitude
     end
 
-    [objname,points,way.tags,long_array.min,long_array.max,lat_array.min,lat_array.max]
+    [wayid,points,way.tags,long_array.min,long_array.max,lat_array.min,lat_array.max]
   end
 
   # ----- getway_old
   #		  returns old version of way
 
-  #		  in:	[0] SWF object name, [1] way id,
-  #				[2] way version to get (or -1 for "last deleted version")
-  #				[3] baselong, [4] basey, [5] masterscale
+  #		  in:	[0] way id,
+  #				[1] way version to get (or -1 for "last deleted version")
+  #				[2] baselong, [3] basey, [4] masterscale
   #		  does:	gets old version of way and all constituent nodes
   #				for undelete, always uses the most recent version of each node
   #				  (even if it's moved)
@@ -280,7 +285,7 @@ class AmfController < ApplicationController
     RAILS_DEFAULT_LOGGER.info("  Message: getway_old (server is #{SERVER_URL})")
     #	if SERVER_URL=="www.openstreetmap.org" then return -1,"Revert is not currently enabled on the OpenStreetMap server." end
 
-    objname,wayid,version,baselong,basey,masterscale=args
+    wayid,version,baselong,basey,masterscale=args
     wayid = wayid.to_i
     version = version.to_i
     xmin = ymin =  999999
@@ -306,7 +311,7 @@ class AmfController < ApplicationController
     attrlist.each {|a| attributes[a['k'].gsub(':','|')]=a['v'] }
     attributes['history']="Retrieved from v"+version.to_s
 
-    [0,objname,points,attributes,xmin,xmax,ymin,ymax,version]
+    [0,wayid,points,attributes,xmin,xmax,ymin,ymax,version]
   end
 
   # ----- getway_history
