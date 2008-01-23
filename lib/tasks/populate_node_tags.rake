@@ -3,11 +3,12 @@ namespace 'db' do
   task :node_tags  do
     require File.dirname(__FILE__) + '/../../config/environment'
 
-    #"created_by=YahooApplet 1.0;highway=traffic_signals"
     node_count = Node.count
+    limit = 1000 #the number of nodes to grab in one go
+    offset = 0   
  
-    for n in (0..node_count)
-      Node.find(:all, :limit => 1, :offset => n).each do |node|
+    while offset < node_count
+        Node.find(:all, :limit => limit, :offset => offset).each do |node|
         seq_id = 1
         node.tags.split(';').each do |tag|
           nt = NodeTag.new
@@ -35,6 +36,7 @@ namespace 'db' do
         version += 1
         end
       end
+    offset += limit
     end
   end
 end
