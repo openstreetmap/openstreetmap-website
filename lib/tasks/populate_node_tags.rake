@@ -6,7 +6,7 @@ namespace 'db' do
     node_count = Node.count
     limit = 1000 #the number of nodes to grab in one go
     offset = 0   
- 
+
     while offset < node_count
         Node.find(:all, :limit => limit, :offset => offset).each do |node|
         seq_id = 1
