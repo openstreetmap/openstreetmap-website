@@ -121,7 +121,11 @@ class TraceController < ApplicationController
     trace = Trace.find(params[:id])
 
     if trace.visible? and (trace.public? or (@user and @user == trace.user))
-      send_file(trace.trace_name, :filename => "#{trace.id}#{trace.extension_name}", :type => trace.mime_type, :disposition => 'attachment')
+      if request.format == Mime::XML
+        send_file(trace.xml_file, :filename => "#{trace.id}.xml", :type => Mime::XML.to_s, :disposition => 'attachment')
+      else
+        send_file(trace.trace_name, :filename => "#{trace.id}#{trace.extension_name}", :type => trace.mime_type, :disposition => 'attachment')
+      end
     else
       render :nothing, :status => :not_found
     end

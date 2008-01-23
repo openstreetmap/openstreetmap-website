@@ -136,93 +136,93 @@ class Trace < ActiveRecord::Base
     return el1
   end
 
-  def import
-    begin
-      logger.info("GPX Import importing #{name} (#{id}) from #{user.email}")
+  def xml_file
+    # TODO *nix specific, could do to work on windows... would be functionally inferior though - check for '.gz'
+    filetype = `/usr/bin/file -bz #{trace_name}`.chomp
+    gzipped = filetype =~ /gzip compressed/
+    bzipped = filetype =~ /bzip2 compressed/
+    zipped = filetype =~ /Zip archive/
+    tarred = filetype =~ /tar archive/
 
-      # TODO *nix specific, could do to work on windows... would be functionally inferior though - check for '.gz'
-      filetype = `/usr/bin/file -bz #{trace_name}`.chomp
-      gzipped = filetype =~ /gzip compressed/
-      bzipped = filetype =~ /bzip2 compressed/
-      zipped = filetype =~ /Zip archive/
-      tarred = filetype =~ /tar archive/
+    if gzipped or bzipped or zipped or tarred then
+      file = Tempfile.new("trace.#{id}");
 
       if tarred and gzipped then
-        filename = tempfile = "/tmp/#{rand}"
-        system("tar -zxOf #{trace_name} > #{filename}")
+        system("tar -zxOf #{trace_name} > #{file.path}")
       elsif tarred and bzipped then
-        filename = tempfile = "/tmp/#{rand}"
-        system("tar -jxOf #{trace_name} > #{filename}")
+        system("tar -jxOf #{trace_name} > #{file.path}")
       elsif tarred
-        filename = tempfile = "/tmp/#{rand}"
-        system("tar -xOf #{trace_name} > #{filename}")
+        system("tar -xOf #{trace_name} > #{file.path}")
       elsif gzipped
-        filename = tempfile = "/tmp/#{rand}"
-        system("gunzip -c #{trace_name} > #{filename}")
+        system("gunzip -c #{trace_name} > #{file.path}")
       elsif bzipped
-        filename = tempfile = "/tmp/#{rand}"
-        system("bunzip2 -c #{trace_name} > #{filename}")
+        system("bunzip2 -c #{trace_name} > #{file.path}")
       elsif zipped
-        filename = tempfile = "/tmp/#{rand}"
-        system("unzip -p #{trace_name} > #{filename}")
-      else
-        filename = trace_name
+        system("unzip -p #{trace_name} > #{file.path}")
       end
 
-      gpx = OSM::GPXImporter.new(filename)
-
-      f_lat = 0
-      f_lon = 0
-      first = true
-
-      # If there are any existing points for this trace then delete
-      # them - we check for existing points first to avoid locking
-      # the table in the common case where there aren't any.
-      if Tracepoint.exists?(['gpx_id = ?', self.id])
-        Tracepoint.delete_all(['gpx_id = ?', self.id])
-      end
-
-      gpx.points do |point|
-        if first
-          f_lat = point['latitude']
-          f_lon = point['longitude']
-        end
-
-        tp = Tracepoint.new
-        tp.lat = point['latitude'].to_f
-        tp.lon = point['longitude'].to_f
-        tp.altitude = point['altitude'].to_f
-        tp.timestamp = point['timestamp']
-        tp.gpx_id = id
-        tp.trackid = point['segment'].to_i
-        tp.save!
-      end
-
-      if gpx.actual_points > 0
-        max_lat = Tracepoint.maximum('latitude', :conditions => ['gpx_id = ?', id])
-        min_lat = Tracepoint.minimum('latitude', :conditions => ['gpx_id = ?', id])
-        max_lon = Tracepoint.maximum('longitude', :conditions => ['gpx_id = ?', id])
-        min_lon = Tracepoint.minimum('longitude', :conditions => ['gpx_id = ?', id])
-
-        max_lat = max_lat.to_f / 10000000
-        min_lat = min_lat.to_f / 10000000
-        max_lon = max_lon.to_f / 10000000
-        min_lon = min_lon.to_f / 10000000
-
-        self.latitude = f_lat
-        self.longitude = f_lon
-        self.large_picture = gpx.get_picture(min_lat, min_lon, max_lat, max_lon, gpx.actual_points)
-        self.icon_picture = gpx.get_icon(min_lat, min_lon, max_lat, max_lon)
-        self.size = gpx.actual_points
-        self.inserted = true
-        self.save!
-      end
-
-      logger.info "done trace #{id}"
-
-      return gpx
-    ensure
-      FileUtils.rm_f(tempfile) if tempfile
+      file.unlink
+    else
+      file = File.open(trace_name)
     end
+
+    return file
+  end
+
+  def import
+    logger.info("GPX Import importing #{name} (#{id}) from #{user.email}")
+
+    gpx = OSM::GPXImporter.new(self.xml_file)
+
+    f_lat = 0
+    f_lon = 0
+    first = true
+
+    # If there are any existing points for this trace then delete
+    # them - we check for existing points first to avoid locking
+    # the table in the common case where there aren't any.
+    if Tracepoint.exists?(['gpx_id = ?', self.id])
+      Tracepoint.delete_all(['gpx_id = ?', self.id])
+    end
+
+    gpx.points do |point|
+      if first
+        f_lat = point['latitude']
+        f_lon = point['longitude']
+      end
+
+      tp = Tracepoint.new
+      tp.lat = point['latitude'].to_f
+      tp.lon = point['longitude'].to_f
+      tp.altitude = point['altitude'].to_f
+      tp.timestamp = point['timestamp']
+      tp.gpx_id = id
+      tp.trackid = point['segment'].to_i
+      tp.save!
+    end
+
+    if gpx.actual_points > 0
+      max_lat = Tracepoint.maximum('latitude', :conditions => ['gpx_id = ?', id])
+      min_lat = Tracepoint.minimum('latitude', :conditions => ['gpx_id = ?', id])
+      max_lon = Tracepoint.maximum('longitude', :conditions => ['gpx_id = ?', id])
+      min_lon = Tracepoint.minimum('longitude', :conditions => ['gpx_id = ?', id])
+
+      max_lat = max_lat.to_f / 10000000
+      min_lat = min_lat.to_f / 10000000
+      max_lon = max_lon.to_f / 10000000
+      min_lon = min_lon.to_f / 10000000
+
+      self.latitude = f_lat
+      self.longitude = f_lon
+      self.large_picture = gpx.get_picture(min_lat, min_lon, max_lat, max_lon, gpx.actual_points)
+      self.icon_picture = gpx.get_icon(min_lat, min_lon, max_lat, max_lon)
+      self.size = gpx.actual_points
+      self.inserted = true
+      self.save!
+    end
+
+    logger.info "done trace #{id}"
+
+    return gpx
   end
 end

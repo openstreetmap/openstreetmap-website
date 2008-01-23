@@ -68,8 +68,8 @@ module OSM
     attr_reader :actual_points
     attr_reader :tracksegs
 
-    def initialize(filename)
-      @filename = filename
+    def initialize(file)
+      @file = file
     end
 
     def points
@@ -85,7 +85,9 @@ module OSM
       gotele = false
       gotdate = false
 
-      parser = REXML::Parsers::SAX2Parser.new(File.new(@filename))
+      @file.rewind
+
+      parser = REXML::Parsers::SAX2Parser.new(@file)
 
       parser.listen( :start_element,  %w{ trkpt }) do |uri,localname,qname,attributes| 
         lat = attributes['lat'].to_f
