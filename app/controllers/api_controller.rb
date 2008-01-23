@@ -4,15 +4,18 @@ class ApiController < ApplicationController
   before_filter :check_read_availability, :except => [:capabilities]
   after_filter :compress_output
 
+  # Help methods for checking boundary sanity and area size
+  include MapBoundary
+
   #COUNT is the number of map requests to allow before exiting and starting a new process
   @@count = COUNT
 
   # The maximum area you're allowed to request, in square degrees
   MAX_REQUEST_AREA = 0.25
 
-
   # Number of GPS trace/trackpoints returned per-page
   TRACEPOINTS_PER_PAGE = 5000
+
   
   def trackpoints
     @@count+=1
@@ -103,46 +106,31 @@ class ApiController < ApplicationController
 
     # Figure out the bbox
     bbox = params['bbox']
+
     unless bbox and bbox.count(',') == 3
+      # alternatively: report_error(TEXT['boundary_parameter_required']
       report_error("The parameter bbox is required, and must be of the form min_lon,min_lat,max_lon,max_lat")
       return
     end
 
     bbox = bbox.split(',')
 
-    min_lon = bbox[0].to_f
-    min_lat = bbox[1].to_f
-    max_lon = bbox[2].to_f
-    max_lat = bbox[3].to_f
+    min_lon, min_lat, max_lon, max_lat = *bbox.map{|b| b.to_f }
 
-    # check the bbox is sane
-    unless min_lon <= max_lon
-      report_error("The minimum longitude must be less than the maximum longitude, but it wasn't")
-      return
-    end
-    unless min_lat <= max_lat
-      report_error("The minimum latitude must be less than the maximum latitude, but it wasn't")
-      return
-    end
-    unless min_lon >= -180 && min_lat >= -90 && max_lon <= 180 && max_lat <= 90
-      report_error("The latitudes must be between -90 and 90, and longitudes between -180 and 180")
-      return
-    end
-
-    # check the bbox isn't too large
-    requested_area = (max_lat-min_lat)*(max_lon-min_lon)
-    if requested_area > MAX_REQUEST_AREA
-      report_error("The maximum bbox size is " + MAX_REQUEST_AREA.to_s + 
-        ", and your request was too large. Either request a smaller area, or use planet.osm")
+    # check boundary is sane and area within defined
+    # see /config/application.yml
+    begin
+      check_boundaries(min_lon, min_lat, max_lon, max_lat)
+    rescue Exception => err
+      report_error(err.message)
       return
     end
 
     # get all the nodes
-    nodes = Node.find_by_area(min_lat, min_lon, max_lat, max_lon, :conditions => "visible = 1")
+    nodes = Node.find_by_area(min_lat, min_lon, max_lat, max_lon, :conditions => "visible = 1", :limit => APP_CONFIG['max_number_of_nodes']+1)
 
     node_ids = nodes.collect {|node| node.id }
-
-    if node_ids.length > 50_000
+    if node_ids.length > APP_CONFIG['max_number_of_nodes']
       report_error("You requested too many nodes (limit is 50,000). Either request a smaller area, or use planet.osm")
       return
     end

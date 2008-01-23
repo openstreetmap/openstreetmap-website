@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+require "yaml"
+
+buffer = []
+STDIN.each_line { |l| buffer << l }
+
+contexts = YAML::load(buffer.join("\n"))
+
+contexts.each do |context,specifications|
+  puts ""
+  puts "context \"#{context}\" do"
+  puts ""
+  specifications.each do |specification|
+    puts "  specify \"#{specification}\" do"
+    puts "    violated \"no assertions performed\""
+    puts "  end"
+    puts ""
+  end
+  puts "end"
+end
+
