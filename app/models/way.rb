@@ -177,14 +177,13 @@ class Way < ActiveRecord::Base
 
       WayNode.delete_all(['id = ?', self.id])
 
-      i = 1
+      sequence = 1
       nds.each do |n|
         nd = WayNode.new
-        nd.id = self.id
+        nd.id = [self.id, sequence]
         nd.node_id = n
-        nd.sequence_id = i
         nd.save!
-        i += 1
+        sequence += 1
       end
     end
 

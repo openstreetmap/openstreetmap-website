@@ -1,6 +1,5 @@
 class OldWayNode < ActiveRecord::Base
-  belongs_to :user
-
   set_table_name 'way_nodes'
 
+  set_primary_keys :id, :version, :sequence_id
 end

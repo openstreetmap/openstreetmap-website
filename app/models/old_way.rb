@@ -38,15 +38,13 @@ class OldWay < ActiveRecord::Base
       tag.save!
     end
 
-    i = 1
+    sequence = 1
     self.nds.each do |n|
       nd = OldWayNode.new
-      nd.id = self.id
+      nd.id = [self.id, self.version, sequence]
       nd.node_id = n
-      nd.sequence_id = i
-      nd.version = self.version
       nd.save!
-      i += 1
+      sequence += 1
     end
   end
 

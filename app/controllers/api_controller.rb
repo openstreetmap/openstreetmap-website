@@ -161,7 +161,7 @@ class ApiController < ApplicationController
     ways = Array.new
     if node_ids.length > 0
       way_nodes = WayNode.find_all_by_node_id(node_ids)
-      way_ids = way_nodes.collect {|way_node| way_node.id }
+      way_ids = way_nodes.collect {|way_node| way_node.id[0] }
       ways = Way.find(way_ids)
 
       list_of_way_nodes = ways.collect { |way|
