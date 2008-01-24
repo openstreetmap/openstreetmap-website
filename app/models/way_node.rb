@@ -3,4 +3,6 @@ class WayNode < ActiveRecord::Base
 
   set_primary_keys :id, :sequence_id
   belongs_to :node
+
+  belongs_to :way, :foreign_key => :id
 end

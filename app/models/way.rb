@@ -49,9 +49,10 @@ class Way < ActiveRecord::Base
 
   # Find a way given it's ID, and in a single SQL call also grab its nodes
   #
+  
   # You can't pull in all the tags too unless we put a sequence_id on the way_tags table and have a multipart key
   def self.find_eager(id)
-    way = Way.find(id, :include => {:way_nodes => :node})
+    way = Way.find(id, :include => [:way_tags, {:way_nodes => :node}])
   end
 
   # Find a way given it's ID, and in a single SQL call also grab its nodes and tags

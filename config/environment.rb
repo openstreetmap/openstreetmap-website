@@ -68,3 +68,8 @@ Rails::Initializer.run do |config|
   # Make Active Record use UTC-base instead of local time
   # config.active_record.default_timezone = :utc
 end
+
+# This has to be after the above block for some reason (doesnt pull in /lib/osm.rb?)
+POTLATCH_PRESETS = OSM::Potlatch.get_presets()
+
+

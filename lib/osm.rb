@@ -424,4 +424,73 @@ module OSM
 
     return "#{tilesql} AND #{prefix}latitude BETWEEN #{minlat} AND #{maxlat} AND #{prefix}longitude BETWEEN #{minlon} AND #{maxlon}"
   end
+
+  class Potlatch # crazy shit
+
+    # ----- getpresets
+    #		  in:   none
+    #		  does: reads tag preset menus, colours, and autocomplete config files
+    #	      out:  [0] presets, [1] presetmenus, [2] presetnames,
+    #				[3] colours, [4] casing, [5] areas, [6] autotags
+    #				(all hashes)
+    def self.get_presets
+      RAILS_DEFAULT_LOGGER.info("  Message: getpresets")
+
+      # Read preset menus
+      presets={}
+      presetmenus={}; presetmenus['point']=[]; presetmenus['way']=[]; presetmenus['POI']=[]
+      presetnames={}; presetnames['point']={}; presetnames['way']={}; presetnames['POI']={}
+      presettype=''
+      presetcategory=''
+      #	StringIO.open(txt) do |file|
+      File.open("#{RAILS_ROOT}/config/potlatch/presets.txt") do |file|
+        file.each_line {|line|
+          t=line.chomp
+          if (t=~/(\w+)\/(\w+)/) then
+            presettype=$1
+            presetcategory=$2
+            presetmenus[presettype].push(presetcategory)
+            presetnames[presettype][presetcategory]=["(no preset)"]
+          elsif (t=~/^(.+):\s?(.+)$/) then
+            pre=$1; kv=$2
+            presetnames[presettype][presetcategory].push(pre)
+            presets[pre]={}
+            kv.split(',').each {|a|
+              if (a=~/^(.+)=(.*)$/) then presets[pre][$1]=$2 end
+            }
+          end
+        }
+      end
+
+      # Read colours/styling
+      colours={}; casing={}; areas={}
+      File.open("#{RAILS_ROOT}/config/potlatch/colours.txt") do |file|
+        file.each_line {|line|
+          t=line.chomp
+          if (t=~/(\w+)\s+([^\s]+)\s+([^\s]+)\s+([^\s]+)/) then
+            tag=$1
+            if ($2!='-') then colours[tag]=$2.hex end
+            if ($3!='-') then casing[tag]=$3.hex end
+            if ($4!='-') then areas[tag]=$4.hex end
+          end
+        }
+      end
+
+      # Read auto-complete
+      autotags={}; autotags['point']={}; autotags['way']={}; autotags['POI']={};
+      File.open("#{RAILS_ROOT}/config/potlatch/autocomplete.txt") do |file|
+        file.each_line {|line|
+          t=line.chomp
+          if (t=~/^(\w+)\/(\w+)\s+(.+)$/) then
+            tag=$1; type=$2; values=$3
+            if values=='-' then autotags[type][tag]=[]
+            else autotags[type][tag]=values.split(',').sort.reverse end
+          end
+        }
+      end
+
+      [presets,presetmenus,presetnames,colours,casing,areas,autotags]
+    end
+  end
+
 end
