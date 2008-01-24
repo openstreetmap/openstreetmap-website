@@ -1,3 +1,5 @@
+# The node model represents a current existing node, that is, the latest version. Use OldNode for historical nodes.
+
 class Node < GeoRecord
   require 'xml/libxml'
 
@@ -12,16 +14,20 @@ class Node < GeoRecord
   has_many :way_nodes
   belongs_to :user
  
+  # Sanity check the latitude and longitude and add an error if it's broken
   def validate_position
     errors.add_to_base("Node is not in the world") unless in_world?
   end
 
+  # Is this node withing -90 > latitude > 90 and -180 > longitude > 180>
+  # * returns true/false
   def in_world?
     return false if self.lat < -90 or self.lat > 90
     return false if self.lon < -180 or self.lon > 180
     return true
   end
 
+  # Read in xml as text and return it's Node object representation
   def self.from_xml(xml, create=false)
     begin
       p = XML::Parser.new
@@ -67,6 +73,7 @@ class Node < GeoRecord
     return node
   end
 
+  # Save this node with the appropriate OldNode object to represent it's history.
   def save_with_history!
     Node.transaction do
       self.timestamp = Time.now
@@ -76,12 +83,14 @@ class Node < GeoRecord
     end
   end
 
+  # Turn this Node in to a complete OSM XML object with <osm> wrapper
   def to_xml
     doc = OSM::API.new.get_xml_doc
     doc.root << to_xml_node()
     return doc
   end
 
+  # Turn this Node in to an XML Node without the <osm> wrapper.
   def to_xml_node(user_display_name_cache = nil)
     el1 = XML::Node.new 'node'
     el1['id'] = self.id.to_s
@@ -112,6 +121,7 @@ class Node < GeoRecord
     return el1
   end
 
+  # Return the node's tags as a Hash of keys and their values
   def tags_as_hash
     hash = {}
     Tags.split(self.tags) do |k,v|
@@ -119,5 +129,4 @@ class Node < GeoRecord
     end
     hash
   end
-
 end

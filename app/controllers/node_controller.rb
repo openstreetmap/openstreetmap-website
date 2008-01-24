@@ -1,3 +1,5 @@
+# The NodeController is the RESTful interface to Node objects
+
 class NodeController < ApplicationController
   require 'xml/libxml'
 
@@ -7,6 +9,7 @@ class NodeController < ApplicationController
   before_filter :check_read_availability, :except => [:create, :update, :delete]
   after_filter :compress_output
 
+  # Create a node from XML.
   def create
     if request.put?
       node = Node.from_xml(request.raw_post, true)
@@ -25,6 +28,7 @@ class NodeController < ApplicationController
     end
   end
 
+  # Dump the details on a node given in params[:id]
   def read
     begin
       node = Node.find(params[:id])
@@ -39,6 +43,7 @@ class NodeController < ApplicationController
     end
   end
 
+  # Update a node from given XML
   def update
     begin
       node = Node.find(params[:id])
@@ -61,6 +66,8 @@ class NodeController < ApplicationController
     end
   end
 
+  # Delete a node. Doesn't actually delete it, but retains its history in a wiki-like way.
+  # FIXME remove all the fricking SQL
   def delete
     begin
       node = Node.find(params[:id])
@@ -85,6 +92,7 @@ class NodeController < ApplicationController
     end
   end
 
+  # WTF does this do?
   def nodes
     ids = params['nodes'].split(',').collect { |n| n.to_i }
 
