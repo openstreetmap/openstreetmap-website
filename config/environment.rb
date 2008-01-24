@@ -70,6 +70,6 @@ Rails::Initializer.run do |config|
 end
 
 # This has to be after the above block for some reason (doesnt pull in /lib/osm.rb?)
-POTLATCH_PRESETS = OSM::Potlatch.get_presets()
+POTLATCH_PRESETS = Potlatch::Potlatch.get_presets()
 
 

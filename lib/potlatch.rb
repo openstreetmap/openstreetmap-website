@@ -1,0 +1,189 @@
+# The Potlatch module provides helper functions for potlatch and its communication with the server
+module Potlatch
+
+  # The AMF class is a set of helper functions for encoding and decoding AMF.
+  class AMF
+    
+    # Return two-byte integer
+    def self.getint(s) 
+      s.getc*256+s.getc
+    end
+
+    # Return four-byte long
+    def self.getlong(s) 
+      ((s.getc*256+s.getc)*256+s.getc)*256+s.getc
+    end
+
+    # Return string with two-byte length 
+    def self.getstring(s) 
+      len=s.getc*256+s.getc
+      s.read(len)
+    end
+
+    # Return eight-byte double-precision float 
+    def self.getdouble(s) 
+      a=s.read(8).unpack('G')			# G big-endian, E little-endian
+      a[0]
+    end
+
+    # Return numeric array
+    def self.getarray(s) 
+      len=getlong(s)
+      arr=[]
+      for i in (0..len-1)
+        arr[i]=getvalue(s)
+      end
+      arr
+    end
+
+    # Return object/hash 
+    def self.getobject(s) 
+      arr={}
+      while (key=getstring(s))
+        if (key=='') then break end
+        arr[key]=getvalue(s)
+      end
+      s.getc		# skip the 9 'end of object' value
+      arr
+    end
+
+    # Parse and get value
+    def self.getvalue(s) 
+      case s.getc
+      when 0;	return getdouble(s)			# number
+      when 1;	return s.getc				# boolean
+      when 2;	return getstring(s)			# string
+      when 3;	return getobject(s)			# object/hash
+      when 5;	return nil					# null
+      when 6;	return nil					# undefined
+      when 8;	s.read(4)					# mixedArray
+        return getobject(s)			#  |
+      when 10;return getarray(s)			# array
+      else;	return nil					# error
+      end
+    end
+
+    # Envelope data into AMF writeable form
+    def self.putdata(index,n) 
+      d =encodestring(index+"/onResult")
+      d+=encodestring("null")
+      d+=[-1].pack("N")
+      d+=encodevalue(n)
+    end
+
+    # Pack variables as AMF
+    def self.encodevalue(n) 
+      case n.class.to_s
+      when 'Array'
+        a=10.chr+encodelong(n.length)
+        n.each do |b|
+          a+=encodevalue(b)
+        end
+        a
+      when 'Hash'
+        a=3.chr
+        n.each do |k,v|
+          a+=encodestring(k)+encodevalue(v)
+        end
+        a+0.chr+0.chr+9.chr
+      when 'String'
+        2.chr+encodestring(n)
+      when 'Bignum','Fixnum','Float'
+        0.chr+encodedouble(n)
+      when 'NilClass'
+        5.chr
+      else
+        RAILS_DEFAULT_LOGGER.error("Unexpected Ruby type for AMF conversion: "+n.class.to_s)
+      end
+    end
+
+    # Encode string with two-byte length
+    def self.encodestring(n) 
+      a,b=n.size.divmod(256)
+      a.chr+b.chr+n
+    end
+
+    # Encode number as eight-byte double precision float 
+    def self.encodedouble(n) 
+      [n].pack('G')
+    end
+
+    # Encode number as four-byte long
+    def self.encodelong(n) 
+      [n].pack('N')
+    end
+
+  end
+
+
+  # The Potlatch class is a helper for Potlatch
+  class Potlatch
+
+    # ----- getpresets
+    #		  in:   none
+    #		  does: reads tag preset menus, colours, and autocomplete config files
+    #	      out:  [0] presets, [1] presetmenus, [2] presetnames,
+    #				[3] colours, [4] casing, [5] areas, [6] autotags
+    #				(all hashes)
+    def self.get_presets
+      RAILS_DEFAULT_LOGGER.info("  Message: getpresets")
+
+      # Read preset menus
+      presets={}
+      presetmenus={}; presetmenus['point']=[]; presetmenus['way']=[]; presetmenus['POI']=[]
+      presetnames={}; presetnames['point']={}; presetnames['way']={}; presetnames['POI']={}
+      presettype=''
+      presetcategory=''
+      #	StringIO.open(txt) do |file|
+      File.open("#{RAILS_ROOT}/config/potlatch/presets.txt") do |file|
+        file.each_line {|line|
+          t=line.chomp
+          if (t=~/(\w+)\/(\w+)/) then
+            presettype=$1
+            presetcategory=$2
+            presetmenus[presettype].push(presetcategory)
+            presetnames[presettype][presetcategory]=["(no preset)"]
+          elsif (t=~/^(.+):\s?(.+)$/) then
+            pre=$1; kv=$2
+            presetnames[presettype][presetcategory].push(pre)
+            presets[pre]={}
+            kv.split(',').each {|a|
+              if (a=~/^(.+)=(.*)$/) then presets[pre][$1]=$2 end
+            }
+          end
+        }
+      end
+
+      # Read colours/styling
+      colours={}; casing={}; areas={}
+      File.open("#{RAILS_ROOT}/config/potlatch/colours.txt") do |file|
+        file.each_line {|line|
+          t=line.chomp
+          if (t=~/(\w+)\s+([^\s]+)\s+([^\s]+)\s+([^\s]+)/) then
+            tag=$1
+            if ($2!='-') then colours[tag]=$2.hex end
+            if ($3!='-') then casing[tag]=$3.hex end
+            if ($4!='-') then areas[tag]=$4.hex end
+          end
+        }
+      end
+
+      # Read auto-complete
+      autotags={}; autotags['point']={}; autotags['way']={}; autotags['POI']={};
+      File.open("#{RAILS_ROOT}/config/potlatch/autocomplete.txt") do |file|
+        file.each_line {|line|
+          t=line.chomp
+          if (t=~/^(\w+)\/(\w+)\s+(.+)$/) then
+            tag=$1; type=$2; values=$3
+            if values=='-' then autotags[type][tag]=[]
+            else autotags[type][tag]=values.split(',').sort.reverse end
+          end
+        }
+      end
+
+      [presets,presetmenus,presetnames,colours,casing,areas,autotags]
+    end
+  end
+
+end
+

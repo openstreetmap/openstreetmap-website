@@ -1,7 +1,9 @@
-# AMF Controller is a semi-standalone API for Flash clients, particularly Potlatch
+# AMF Controller is a semi-standalone API for Flash clients, particularly Potlatch.
 # All interaction between Potlatch (as a .SWF application) and the 
 # OSM database takes place using this controller. Messages are 
 # encoded in the Actionscript Message Format (AMF).
+#
+# See Also Potlatch::Potlatch and Potlatch::AMF
 #
 # Public domain.
 # editions Systeme D / Richard Fairhurst 2004-2008
@@ -13,9 +15,10 @@
 #   return(-2,"message")		<-- also asks the user to e-mail me
 # to log:
 #   RAILS_DEFAULT_LOGGER.error("Args: #{args[0]}, #{args[1]}, #{args[2]}, #{args[3]}")
-
 class AmfController < ApplicationController
   require 'stringio'
+
+  include Potlatch
 
   session :off
   before_filter :check_write_availability
@@ -31,35 +34,35 @@ class AmfController < ApplicationController
     # -------------
     # Parse request
 
-    headers=getint(req)					# Read number of headers
+    headers=AMF.getint(req)					# Read number of headers
 
     headers.times do				    # Read each header
-      name=getstring(req)				#  |
+      name=AMF.getstring(req)				#  |
       req.getc                 			#  | skip boolean
-      value=getvalue(req)				#  |
+      value=AMF.getvalue(req)				#  |
       header["name"]=value				#  |
     end
 
-    bodies=getint(req)					# Read number of bodies
+    bodies=AMF.getint(req)					# Read number of bodies
     bodies.times do     				# Read each body
-      message=getstring(req)			#  | get message name
-      index=getstring(req)				#  | get index in response sequence
-      bytes=getlong(req)				#  | get total size in bytes
-      args=getvalue(req)				#  | get response (probably an array)
+      message=AMF.getstring(req)			#  | get message name
+      index=AMF.getstring(req)				#  | get index in response sequence
+      bytes=AMF.getlong(req)				#  | get total size in bytes
+      args=AMF.getvalue(req)				#  | get response (probably an array)
 
       case message
-      when 'getpresets';		results[index]=putdata(index,getpresets)
-      when 'whichways';			results[index]=putdata(index,whichways(args))
-      when 'whichways_deleted';	results[index]=putdata(index,whichways_deleted(args))
-      when 'getway';			results[index]=putdata(index,getway(args))
-      when 'getway_old';		results[index]=putdata(index,getway_old(args))
-      when 'getway_history';	results[index]=putdata(index,getway_history(args))
+      when 'getpresets';		results[index]=AMF.putdata(index,getpresets)
+      when 'whichways';			results[index]=AMF.putdata(index,whichways(args))
+      when 'whichways_deleted';	results[index]=AMF.putdata(index,whichways_deleted(args))
+      when 'getway';			results[index]=AMF.putdata(index,getway(args))
+      when 'getway_old';		results[index]=AMF.putdata(index,getway_old(args))
+      when 'getway_history';	results[index]=AMF.putdata(index,getway_history(args))
       when 'putway';			r=putway(args,renumberednodes)
         renumberednodes=r[3]
-        results[index]=putdata(index,r)
-      when 'deleteway';			results[index]=putdata(index,deleteway(args))
-      when 'putpoi';			results[index]=putdata(index,putpoi(args))
-      when 'getpoi';			results[index]=putdata(index,getpoi(args))
+        results[index]=AMF.putdata(index,r)
+      when 'deleteway';			results[index]=AMF.putdata(index,deleteway(args))
+      when 'putpoi';			results[index]=AMF.putdata(index,putpoi(args))
+      when 'getpoi';			results[index]=AMF.putdata(index,getpoi(args))
       end
     end
 
@@ -75,19 +78,15 @@ class AmfController < ApplicationController
       end
     }
     RAILS_DEFAULT_LOGGER.info("  Response: end")
-
   end
 
   private
 
-  # Return presets (default tags and crap) to potlatch
-  # Global is set up in config/environment.rb on startup, code is in lib/osm.rb
-  def getpresets
+  # Return presets (default tags and crap) to potlatch.
+  # Uses POTLATCH_PRESETS global, set up in OSM::Potlatch
+  def getpresets #:doc:
     return POTLATCH_PRESETS
   end
-
-  # ====================================================================
-  # Remote calls
 
   # ----- whichways
   # Find all the way ids and nodes (including tags and projected lat/lng) which aren't part of those ways in an are
@@ -98,7 +97,7 @@ class AmfController < ApplicationController
   # 2. maximum longitude
   # 3. maximum latitude
   # 4. baselong, 5. basey, 6. masterscale as above
-  def whichways(args)
+  def whichways(args) #:doc:
     xmin = args[0].to_f-0.01
     ymin = args[1].to_f-0.01
     xmax = args[2].to_f+0.01
@@ -129,7 +128,7 @@ class AmfController < ApplicationController
   #		  in:	as whichways
   #		  does: finds all deleted ways with a deleted node in bounding box
   #		  out:	[0] array of way ids
-  def whichways_deleted(args)
+  def whichways_deleted(args) #:doc:
     xmin = args[0].to_f-0.01
     ymin = args[1].to_f-0.01
     xmax = args[2].to_f+0.01
@@ -166,8 +165,7 @@ class AmfController < ApplicationController
   #
   # FIXME: The server really shouldn't be figuring out a ways bounding box and doing projection for potlatch
   # FIXME: the argument splitting should be done in the 'talk' method, not here
-
-  def getway(args)
+  def getway(args) #:doc:
     wayid,baselong,basey,masterscale = args
     wayid = wayid.to_i
 
@@ -207,7 +205,7 @@ class AmfController < ApplicationController
   #				[2] array of points (as getway _except_ [3] is node.visible?, 0 or 1),
   #				[4] xmin, [5] xmax, [6] ymin, [7] ymax (unprojected bbox),
   #				[8] way version
-  def getway_old(args)
+  def getway_old(args) #:doc:
     RAILS_DEFAULT_LOGGER.info("  Message: getway_old (server is #{SERVER_URL})")
     #	if SERVER_URL=="www.openstreetmap.org" then return -1,"Revert is not currently enabled on the OpenStreetMap server." end
 
@@ -248,7 +246,7 @@ class AmfController < ApplicationController
   #					[0] version, [1] db timestamp (string),
   #					[2] visible 0 or 1,
   #					[3] username or 'anonymous' (string))
-  def getway_history(args)
+  def getway_history(args) #:doc:
     wayid=args[0]
     history=[]
     sql=<<-EOF
@@ -281,7 +279,7 @@ class AmfController < ApplicationController
   #		  out:	[0] 0 (code for success), [1] original way id (unchanged),
   #				[2] new way id, [3] hash of renumbered nodes (old id=>new id),
   #				[4] xmin, [5] xmax, [6] ymin, [7] ymax (unprojected bbox)
-  def putway(args,renumberednodes)
+  def putway(args,renumberednodes) #:doc:
     RAILS_DEFAULT_LOGGER.info("  putway started")
     usertoken,originalway,points,attributes,oldversion,baselong,basey,masterscale=args
     uid=getuserid(usertoken)
@@ -441,7 +439,7 @@ class AmfController < ApplicationController
   #				refuses save if the node has since become part of a way
   #		  out:	[0] 0 (success), [1] original node id (unchanged),
   #				[2] new node id
-  def putpoi(args)
+  def putpoi(args) #:doc:
     usertoken,id,x,y,tags,visible,baselong,basey,masterscale=args
     uid=getuserid(usertoken)
     if !uid then return -1,"You are not logged in, so the point could not be saved." end
@@ -479,13 +477,11 @@ class AmfController < ApplicationController
   # ----- getpoi
   #		  read POI from database
   #		  (only called on revert: POIs are usually read by whichways)
-
   #		  in:	[0] node id, [1] baselong, [2] basey, [3] masterscale
   #		  does: reads POI
   #		  out:	[0] id (unchanged), [1] projected long, [2] projected lat,
   #				[3] hash of tags
-
-  def getpoi(args)
+  def getpoi(args) #:doc:
     id,baselong,basey,masterscale=args; id=id.to_i
     poi=ActiveRecord::Base.connection.select_one("SELECT latitude*0.0000001 AS lat,longitude*0.0000001 AS lng,tags "+
     "FROM current_nodes WHERE visible=1 AND id=#{id}")
@@ -498,13 +494,12 @@ class AmfController < ApplicationController
 
   # ----- deleteway
   #		  delete way and constituent nodes from database
-
   #		  in:	[0] user token (string), [1] way id
   #		  does: deletes way from db and any constituent nodes not used elsewhere
   #				also removes ways/nodes from any relations they're in
   #		  out:	[0] 0 (success), [1] way id (unchanged)
+  def deleteway(args) #:doc:
 
-  def deleteway(args)
     usertoken,way=args
 
     RAILS_DEFAULT_LOGGER.info("  Message: deleteway, id=#{way}")
@@ -552,12 +547,7 @@ class AmfController < ApplicationController
     [0,way]
   end
 
-
-
-  # ====================================================================
-  # Support functions for remote calls
-
-  def readwayquery(id,insistonvisible)
+  def readwayquery(id,insistonvisible) #:doc:
     sql=<<-EOF
     SELECT latitude*0.0000001 AS latitude,longitude*0.0000001 AS longitude,current_nodes.id,tags,visible 
       FROM current_way_nodes,current_nodes 
@@ -569,12 +559,12 @@ class AmfController < ApplicationController
     ActiveRecord::Base.connection.select_all(sql)
   end
 
-  def getlastversion(id,version)
+  def getlastversion(id,version) #:doc:
     row=ActiveRecord::Base.connection.select_one("SELECT version FROM ways WHERE id=#{id} AND visible=1 ORDER BY version DESC LIMIT 1")
     row['version']
   end
 
-  def readwayquery_old(id,version,historic)
+  def readwayquery_old(id,version,historic) #:doc:
     # Node handling on undelete (historic=false):
     # - always use the node specified, even if it's moved
 
@@ -629,7 +619,7 @@ class AmfController < ApplicationController
     rows
   end
 
-  def createuniquenodes(way,uqn_name,nodelist)
+  def createuniquenodes(way,uqn_name,nodelist) #:doc:
     # Find nodes which appear in this way but no others
     sql=<<-EOF
   CREATE TEMPORARY TABLE #{uqn_name}
@@ -654,7 +644,7 @@ class AmfController < ApplicationController
   # deleteuniquenoderelations(uqn_name,uid,db_now)
   # deleteitemrelations(way|node,'way'|'node',uid,db_now)
 
-  def deleteuniquenoderelations(uqn_name,uid,db_now)
+  def deleteuniquenoderelations(uqn_name,uid,db_now) #:doc:
     sql=<<-EOF
   SELECT node_id,cr.id FROM #{uqn_name},current_relation_members crm,current_relations cr 
    WHERE crm.member_id=node_id 
@@ -669,7 +659,7 @@ class AmfController < ApplicationController
     end
   end
 
-  def deleteitemrelations(objid,type,uid,db_now)
+  def deleteitemrelations(objid,type,uid,db_now) #:doc:
     sql=<<-EOF
   SELECT cr.id FROM current_relation_members crm,current_relations cr 
    WHERE crm.member_id=#{objid} 
@@ -684,7 +674,7 @@ class AmfController < ApplicationController
     end
   end
 
-  def removefromrelation(objid,type,relation,uid,db_now)
+  def removefromrelation(objid,type,relation,uid,db_now) #:doc:
     rver=ActiveRecord::Base.connection.insert("INSERT INTO relations (id,user_id,timestamp,visible) VALUES (#{relation},#{uid},#{db_now},1)")
 
     tagsql=<<-EOF
@@ -706,11 +696,11 @@ class AmfController < ApplicationController
     ActiveRecord::Base.connection.execute("DELETE FROM current_relation_members WHERE id=#{relation} AND member_type='#{type}' AND member_id=#{objid}")
   end
 
-  def sqlescape(a)
+  def sqlescape(a) #:doc:
     a.gsub(/[\000-\037]/,"").gsub("'","''").gsub(92.chr) {92.chr+92.chr}
   end
 
-  def tag2array(a)
+  def tag2array(a) #:doc:
     tags={}
     Tags.split(a) do |k, v|
       tags[k.gsub(':','|')]=v
@@ -718,7 +708,7 @@ class AmfController < ApplicationController
     tags
   end
 
-  def array2tag(a)
+  def array2tag(a) #:doc:
     tags = []
     a.each do |k,v|
       if v=='' then next end
@@ -728,7 +718,7 @@ class AmfController < ApplicationController
     return Tags.join(tags)
   end
 
-  def getuserid(token)
+  def getuserid(token) #:doc:
     if (token =~ /^(.+)\+(.+)$/) then
       user = User.authenticate(:username => $1, :password => $2)
     else
@@ -738,147 +728,26 @@ class AmfController < ApplicationController
     return user ? user.id : nil;
   end
 
-
-
-  # ====================================================================
-  # AMF read subroutines
-
-  # -----	getint		return two-byte integer
-  # -----	getlong		return four-byte long
-  # -----	getstring	return string with two-byte length
-  # ----- getdouble	return eight-byte double-precision float
-  # ----- getobject	return object/hash
-  # ----- getarray	return numeric array
-
-  def getint(s)
-    s.getc*256+s.getc
-  end
-
-  def getlong(s)
-    ((s.getc*256+s.getc)*256+s.getc)*256+s.getc
-  end
-
-  def getstring(s)
-    len=s.getc*256+s.getc
-    s.read(len)
-  end
-
-  def getdouble(s)
-    a=s.read(8).unpack('G')			# G big-endian, E little-endian
-    a[0]
-  end
-
-  def getarray(s)
-    len=getlong(s)
-    arr=[]
-    for i in (0..len-1)
-      arr[i]=getvalue(s)
-    end
-    arr
-  end
-
-  def getobject(s)
-    arr={}
-    while (key=getstring(s))
-      if (key=='') then break end
-      arr[key]=getvalue(s)
-    end
-    s.getc		# skip the 9 'end of object' value
-    arr
-  end
-
-  # -----	getvalue	parse and get value
-
-  def getvalue(s)
-    case s.getc
-    when 0;	return getdouble(s)			# number
-    when 1;	return s.getc				# boolean
-    when 2;	return getstring(s)			# string
-    when 3;	return getobject(s)			# object/hash
-    when 5;	return nil					# null
-    when 6;	return nil					# undefined
-    when 8;	s.read(4)					# mixedArray
-      return getobject(s)			#  |
-    when 10;return getarray(s)			# array
-    else;	return nil					# error
-    end
-  end
-
-  # ====================================================================
-  # AMF write subroutines
-
-  # -----	putdata		envelope data into AMF writeable form
-  # -----	encodevalue	pack variables as AMF
-
-  def putdata(index,n)
-    d =encodestring(index+"/onResult")
-    d+=encodestring("null")
-    d+=[-1].pack("N")
-    d+=encodevalue(n)
-  end
-
-  def encodevalue(n)
-    case n.class.to_s
-    when 'Array'
-      a=10.chr+encodelong(n.length)
-      n.each do |b|
-        a+=encodevalue(b)
-      end
-      a
-    when 'Hash'
-      a=3.chr
-      n.each do |k,v|
-        a+=encodestring(k)+encodevalue(v)
-      end
-      a+0.chr+0.chr+9.chr
-    when 'String'
-      2.chr+encodestring(n)
-    when 'Bignum','Fixnum','Float'
-      0.chr+encodedouble(n)
-    when 'NilClass'
-      5.chr
-    else
-      RAILS_DEFAULT_LOGGER.error("Unexpected Ruby type for AMF conversion: "+n.class.to_s)
-    end
-  end
-
-  # -----	encodestring	encode string with two-byte length
-  # -----	encodedouble	encode number as eight-byte double precision float
-  # -----	encodelong		encode number as four-byte long
-
-  def encodestring(n)
-    a,b=n.size.divmod(256)
-    a.chr+b.chr+n
-  end
-
-  def encodedouble(n)
-    [n].pack('G')
-  end
-
-  def encodelong(n)
-    [n].pack('N')
-  end
-
   # ====================================================================
   # Co-ordinate conversion
 
-  def lat2coord(a,basey,masterscale)
+  def lat2coord(a,basey,masterscale) #:doc:
     -(lat2y(a)-basey)*masterscale+250
   end
 
-  def long2coord(a,baselong,masterscale)
+  def long2coord(a,baselong,masterscale) #:doc:
     (a-baselong)*masterscale+350
   end
 
-  def lat2y(a)
+  def lat2y(a) #:doc:
     180/Math::PI * Math.log(Math.tan(Math::PI/4+a*(Math::PI/180)/2))
   end
 
-  def coord2lat(a,masterscale,basey)
+  def coord2lat(a,masterscale,basey) #:doc:
     y2lat((a-250)/-masterscale+basey)
   end
 
-  def coord2long(a,masterscale,baselong)
+  def coord2long(a,masterscale,baselong) #:doc:
     (a-350)/masterscale+baselong
   end
 

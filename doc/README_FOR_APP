@@ -1,1 +1,34 @@
 This is the OpenStreetMap rails server codebase. Documentation is currently extremely incomplete. Please help by writing docs and moving any SQL you see to use models etc.
+
+=INSTALL
+
+* Get rails working (http://www.rubyonrails.org/)
+* Make your db (see db/README)
+* Install ruby libxml bindings:
+    sudo apt-get install libxml-ruby1.8 libxml-parser-ruby1.8
+* Install primary keys plugin for active record (minimum version 0.9.1)
+    sudo gem install composite_primary_keys
+* Make sure you have a MTA listening on localhost:25 if you want mail
+    sudo apt-get install exim4
+* Start the server
+    script/server
+* Thats it
+
+=API CHANGES FOR EDITOR AUTHORS
+
+See
+
+http://wiki.openstreetmap.org/index.php/REST#Changes_in_the_upcoming_0.4_API
+
+=HACKING
+
+* Log in to your site (proably localhost:3000)
+* Create a user and confirm it
+* You want to play with the API (probably at http://localhost:3000/api/0.5/node/create etc)
+* Lots of tests are needed to test the API.
+* Lots of little things to make the site work like the old one.
+
+=Bugs
+
+See the 'rails_port' component for bugs:
+http://trac.openstreetmap.org/query?status=new&status=assigned&status=reopened&component=rails_port&order=priority
