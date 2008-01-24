@@ -1,31 +1,26 @@
+# AMF Controller is a semi-standalone API for Flash clients, particularly Potlatch
+# All interaction between Potlatch (as a .SWF application) and the 
+# OSM database takes place using this controller. Messages are 
+# encoded in the Actionscript Message Format (AMF).
+#
+# Public domain.
+# editions Systeme D / Richard Fairhurst 2004-2008
+#
+# All in/out parameters are floats unless explicitly stated.
+# 
+# to trap errors (getway_old,putway,putpoi,deleteway only):
+#   return(-1,"message")		<-- just puts up a dialogue
+#   return(-2,"message")		<-- also asks the user to e-mail me
+# to log:
+#   RAILS_DEFAULT_LOGGER.error("Args: #{args[0]}, #{args[1]}, #{args[2]}, #{args[3]}")
+
 class AmfController < ApplicationController
   require 'stringio'
 
   session :off
   before_filter :check_write_availability
 
-  # AMF controller for Potlatch
-  # ---------------------------
-  # All interaction between Potlatch (as a .SWF application) and the 
-  # OSM database takes place using this controller. Messages are 
-  # encoded in the Actionscript Message Format (AMF).
-  #
-  # Public domain. Set your tab width to 4 to read this document. :)
-  # editions Systeme D / Richard Fairhurst 2004-2008
-  #
-  # All in/out parameters are floats unless explicitly stated.
-  # 
-  # to trap errors (getway_old,putway,putpoi,deleteway only):
-  #   return(-1,"message")		<-- just puts up a dialogue
-  #   return(-2,"message")		<-- also asks the user to e-mail me
-  # to log:
-  #   RAILS_DEFAULT_LOGGER.error("Args: #{args[0]}, #{args[1]}, #{args[2]}, #{args[3]}")
-
-  # ====================================================================
-  # Main AMF handler
-
-  # ---- talk	process AMF request
-
+  # Main AMF handler. Tha talk method takes in AMF, figures out what to do and dispatched to the appropriate private method
   def talk
     req=StringIO.new(request.raw_post+0.chr)	# Get POST data as request
     # (cf http://www.ruby-forum.com/topic/122163)
@@ -60,8 +55,8 @@ class AmfController < ApplicationController
       when 'getway_old';		results[index]=putdata(index,getway_old(args))
       when 'getway_history';	results[index]=putdata(index,getway_history(args))
       when 'putway';			r=putway(args,renumberednodes)
-								renumberednodes=r[3]
-								results[index]=putdata(index,r)
+        renumberednodes=r[3]
+        results[index]=putdata(index,r)
       when 'deleteway';			results[index]=putdata(index,deleteway(args))
       when 'putpoi';			results[index]=putdata(index,putpoi(args))
       when 'getpoi';			results[index]=putdata(index,getpoi(args))
@@ -94,10 +89,7 @@ class AmfController < ApplicationController
   # ====================================================================
   # Remote calls
 
-
-
   # ----- whichways
-  
   # Find all the way ids and nodes (including tags and projected lat/lng) which aren't part of those ways in an are
   # 
   # The argument is an array containing the following, in order:
@@ -106,7 +98,6 @@ class AmfController < ApplicationController
   # 2. maximum longitude
   # 3. maximum latitude
   # 4. baselong, 5. basey, 6. masterscale as above
-
   def whichways(args)
     xmin = args[0].to_f-0.01
     ymin = args[1].to_f-0.01
@@ -138,7 +129,6 @@ class AmfController < ApplicationController
   #		  in:	as whichways
   #		  does: finds all deleted ways with a deleted node in bounding box
   #		  out:	[0] array of way ids
-  
   def whichways_deleted(args)
     xmin = args[0].to_f-0.01
     ymin = args[1].to_f-0.01
@@ -147,8 +137,6 @@ class AmfController < ApplicationController
     baselong    = args[4]
     basey       = args[5]
     masterscale = args[6]
-
-
 
     sql=<<-EOF
      SELECT DISTINCT current_ways.id 
@@ -164,9 +152,7 @@ class AmfController < ApplicationController
     [ways]
   end
 
-
   # ----- getway
-
   # Get a way with all of it's nodes and tags
   # The input is an array with the following components, in order:
   # 0. wayid - the ID of the way to get
@@ -198,7 +184,7 @@ class AmfController < ApplicationController
       projected_latitude = node.lat_potlatch(basey,masterscale)
       id = node.id
       tags_hash = node.tags_as_hash
-      
+
       points << [projected_longitude, projected_latitude, id, nil, tags_hash]
       long_array << projected_longitude
       lat_array << projected_latitude
@@ -209,7 +195,6 @@ class AmfController < ApplicationController
 
   # ----- getway_old
   #		  returns old version of way
-
   #		  in:	[0] way id,
   #				[1] way version to get (or -1 for "last deleted version")
   #				[2] baselong, [3] basey, [4] masterscale
@@ -222,7 +207,6 @@ class AmfController < ApplicationController
   #				[2] array of points (as getway _except_ [3] is node.visible?, 0 or 1),
   #				[4] xmin, [5] xmax, [6] ymin, [7] ymax (unprojected bbox),
   #				[8] way version
-
   def getway_old(args)
     RAILS_DEFAULT_LOGGER.info("  Message: getway_old (server is #{SERVER_URL})")
     #	if SERVER_URL=="www.openstreetmap.org" then return -1,"Revert is not currently enabled on the OpenStreetMap server." end
@@ -258,14 +242,12 @@ class AmfController < ApplicationController
 
   # ----- getway_history
   #		  find history of a way
-
   #		  in:	[0] way id
   #		  does:	finds history of a way
   #		  out:	[0] array of previous versions (where each is
   #					[0] version, [1] db timestamp (string),
   #					[2] visible 0 or 1,
   #					[3] username or 'anonymous' (string))
-
   def getway_history(args)
     wayid=args[0]
     history=[]
@@ -287,7 +269,6 @@ class AmfController < ApplicationController
 
   # ----- putway
   #		  saves a way to the database
-
   #		  in:	[0] user token (string),
   #				[1] original way id (may be negative), 
   #				[2] array of points (as getway/getway_old),
@@ -300,7 +281,6 @@ class AmfController < ApplicationController
   #		  out:	[0] 0 (code for success), [1] original way id (unchanged),
   #				[2] new way id, [3] hash of renumbered nodes (old id=>new id),
   #				[4] xmin, [5] xmax, [6] ymin, [7] ymax (unprojected bbox)
-
   def putway(args,renumberednodes)
     RAILS_DEFAULT_LOGGER.info("  putway started")
     usertoken,originalway,points,attributes,oldversion,baselong,basey,masterscale=args
@@ -391,7 +371,6 @@ class AmfController < ApplicationController
       end
     end
 
-
     # -- 6a. delete any nodes not in modified way
 
     createuniquenodes(way,db_uqn,nodelist)	# nodes which appear in this way but no other
@@ -453,7 +432,6 @@ class AmfController < ApplicationController
 
   # ----- putpoi
   #		  save POI to the database
-
   #		  in:	[0] user token (string),
   #				[1] original node id (may be negative),
   #			  	[2] projected longitude, [3] projected latitude,
@@ -463,7 +441,6 @@ class AmfController < ApplicationController
   #				refuses save if the node has since become part of a way
   #		  out:	[0] 0 (success), [1] original node id (unchanged),
   #				[2] new node id
-
   def putpoi(args)
     usertoken,id,x,y,tags,visible,baselong,basey,masterscale=args
     uid=getuserid(usertoken)

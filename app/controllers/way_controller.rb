@@ -74,6 +74,7 @@ class WayController < ApplicationController
       way = Way.find(params[:id])
 
       if way.visible
+        # omg FIXME
         if RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", :conditions => [ "visible = 1 AND member_type='way' and member_id=?", params[:id]])
           render :text => "", :status => :precondition_failed
         else
