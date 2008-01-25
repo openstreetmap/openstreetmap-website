@@ -69,30 +69,21 @@ class WayController < ApplicationController
     end
   end
 
+  # This is the API call to delete a way
   def delete
     begin
       way = Way.find(params[:id])
+      way.delete_with_relations_and_history(@user)
 
-      if way.visible
-        # omg FIXME
-        if RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", :conditions => [ "visible = 1 AND member_type='way' and member_id=?", params[:id]])
-          render :text => "", :status => :precondition_failed
-        else
-          way.user_id = @user.id
-          way.tags = []
-          way.nds = []
-          way.visible = false
-	  way.save_with_history!
-
-	  render :nothing => true
-        end
-      else
-        render :text => "", :status => :gone
-      end
+      # if we get here, all is fine, otherwise something will catch below.  
+      render :nothing => true
+      return
+    rescue OSM::APIAlreadyDeletedError
+      render :text => "", :status => :gone
+    rescue OSM::APIPreconditionFailedError
+      render :text => "", :status => :precondition_failed
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
-    rescue => ex
-      puts ex
     end
   end
 

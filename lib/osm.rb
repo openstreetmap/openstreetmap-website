@@ -1,12 +1,5 @@
+# The OSM module provides support functions for OSM.
 module OSM
-
-  # This piece of magic reads a GPX with SAX and spits out
-  # lat/lng and stuff
-  #
-  # This would print every latitude value:
-  #
-  # gpx = OSM::GPXImporter.new('somefile.gpx')
-  # gpx.points {|p| puts p['latitude']}
 
   require 'time'
   require 'rexml/parsers/sax2parser'
@@ -15,11 +8,27 @@ module OSM
   require 'digest/md5'
   require 'RMagick'
 
+  # The base class for API Errors.
+  class APIError < RuntimeError
+  end
+
+  # Raised when an API object is not found.
+  class APINotFoundError < APIError
+  end
+
+  # Raised when a precondition to an API action fails sanity check.
+  class APIPreconditionFailedError < APIError
+  end
+
+  # Raised when to delete an already-deleted object.
+  class APIAlreadyDeletedError < APIError
+  end
+
+  # Helper methods for going to/from mercator and lat/lng.
   class Mercator
     include Math
 
     #init me with your bounding box and the size of your image
-
     def initialize(min_lat, min_lon, max_lat, max_lon, width, height)
       xsize = xsheet(max_lon) - xsheet(min_lon)
       ysize = ysheet(max_lat) - ysheet(min_lat)
@@ -62,6 +71,13 @@ module OSM
   end
 
 
+  # This piece of magic reads a GPX with SAX and spits out
+  # lat/lng and stuff
+  #
+  # This would print every latitude value:
+  #
+  # gpx = OSM::GPXImporter.new('somefile.gpx')
+  # gpx.points {|p| puts p['latitude']}
   class GPXImporter
     # FIXME swap REXML for libXML
     attr_reader :possible_points

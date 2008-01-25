@@ -475,21 +475,21 @@ class AmfController < ApplicationController
   end
 
   # ----- getpoi
-  #		  read POI from database
+  # read POI from database
   #		  (only called on revert: POIs are usually read by whichways)
   #		  in:	[0] node id, [1] baselong, [2] basey, [3] masterscale
   #		  does: reads POI
   #		  out:	[0] id (unchanged), [1] projected long, [2] projected lat,
   #				[3] hash of tags
   def getpoi(args) #:doc:
-    id,baselong,basey,masterscale=args; id=id.to_i
-    poi=ActiveRecord::Base.connection.select_one("SELECT latitude*0.0000001 AS lat,longitude*0.0000001 AS lng,tags "+
-    "FROM current_nodes WHERE visible=1 AND id=#{id}")
-    if poi.nil? then return [nil,nil,nil,''] end
-    [id,
-      long2coord(poi['lng'].to_f,baselong,masterscale),
-      lat2coord(poi['lat'].to_f,basey,masterscale),
-      tag2array(poi['tags'])]
+    id,baselong,basey,masterscale = args
+    
+    n = Node.find(id.to_i)
+    if n
+      return [n.id, n.long_potlatch(baselong,masterscale), n.lat_potlatch(basey,masterscale), n.tags_as_hash]
+    else
+      return [nil,nil,nil,'']
+    end
   end
 
   # ----- deleteway

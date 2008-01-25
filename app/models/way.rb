@@ -52,7 +52,9 @@ class Way < ActiveRecord::Base
   
   # You can't pull in all the tags too unless we put a sequence_id on the way_tags table and have a multipart key
   def self.find_eager(id)
-    way = Way.find(id, :include => [:way_tags, {:way_nodes => :node}])
+    way = Way.find(id, :include => {:way_nodes => :node})
+    #If waytag had a multipart key that was real, you could do this:
+    #way = Way.find(id, :include => [:way_tags, {:way_nodes => :node}])
   end
 
   # Find a way given it's ID, and in a single SQL call also grab its nodes and tags
@@ -204,4 +206,22 @@ class Way < ActiveRecord::Base
     return true
   end
 
+  # Delete the way and it's relations, but don't really delete it - set its visibility to false and update the history etc to maintain wiki-like functionality.
+  def delete_with_relations_and_history(user)
+    if self.visible
+      # omg FIXME
+      if RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id",
+                             :conditions => [ "visible = 1 AND member_type='way' and member_id=?", self.id])
+        raise OSM::APIPreconditionFailedError
+      else
+        self.user_id = user.id
+        self.tags = []
+        self.nds = []
+        self.visible = false
+        self.save_with_history!
+      end
+    else
+      raise OSM::APIAlreadyDeletedError
+    end
+  end
 end
