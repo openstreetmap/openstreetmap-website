@@ -1,5 +1,5 @@
 namespace 'db' do
-  desc 'Populate the node_tags table'
+  desc 'Adds a version number to the noes table'
   task :node_version  do
     require File.dirname(__FILE__) + '/../../config/environment'
 
@@ -28,7 +28,7 @@ namespace 'db' do
           temp_old_node.visible = node.visible
           temp_old_node.timestamp = node.timestamp
           temp_old_node.tile = node.tile
-          temp_old_node.version = node.version
+          temp_old_node.version = n
           temp_old_node.save! || raise
           n +=1 
         end

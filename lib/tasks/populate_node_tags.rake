@@ -13,8 +13,8 @@ namespace 'db' do
         node.tags.split(';').each do |tag|
           nt = NodeTag.new
           nt.id = node.id
-          nt.k = tag.split('=')[0]
-          nt.v = tag.split('=')[1]
+          nt.k = tag.split('=')[0] || ''
+          nt.v = tag.split('=')[1] || ''
           nt.sequence_id = seq_id 
           nt.save! || raise
           seq_id += 1
@@ -26,8 +26,8 @@ namespace 'db' do
         old_node.tags.split(';').each do |tag|
           ont = OldNodeTag.new
           ont.id = node.id #the id of the node tag
-          ont.k = tag.split('=')[0]
-          ont.v = tag.split('=')[1]
+          ont.k = tag.split('=')[0] || ''
+          ont.v = tag.split('=')[1] || ''
           ont.version = version
           ont.sequence_id = sequence_id
           ont.save! || raise
