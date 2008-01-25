@@ -1,19 +1,20 @@
 namespace 'db' do
-  desc 'Adds a version number to the noes table'
+  desc 'Adds a version number to the nodes table'
   task :node_version  do
     require File.dirname(__FILE__) + '/../../config/environment'
 
-    lower_bound = 0
-    increment = 100
-    node_count = OldNode.count
-    puts node_count
+    increment = 1000
+    offset = 0
+    id_max = OldNode.find(:first, :order => 'id desc').id
     
-    while lower_bound < node_count
-    upper_bound = lower_bound + increment
-    hash = {}
+    while offset < (id_max + increment)
+      hash = {}
 
-      OldNode.find(:all, :conditions => ['id >= ? AND id < ?',lower_bound, upper_bound], :order => 'timestamp').each do |node|
-         hash[node.id] = [] if hash[node.id].nil?
+     #should be offsetting not selecting
+      OldNode.find(:all, :limit => increment, :offset => offset, :order => 'timestamp').each do |node|
+         if hash[node.id].nil?
+           hash[node.id] = [] 
+         end
          hash[node.id] << node
       end
 
@@ -33,7 +34,7 @@ namespace 'db' do
           n +=1 
         end
       end
-      lower_bound += increment
+      offset += increment
     end
   end
 end
