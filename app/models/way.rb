@@ -224,4 +224,40 @@ class Way < ActiveRecord::Base
       raise OSM::APIAlreadyDeletedError
     end
   end
+
+  # delete a way and it's nodes that aren't part of other ways, with history
+  # WARNING, INCOMPLETE - Read the code
+  def delete_with_relations_and_nodes_and_history(user)
+    return false # until complete, just return false
+    
+    node_ids = self.nodes.collect {|node| node.id }
+    node_ids_not_to_delete = []
+    way_nodes = WayNode.find(:all, :conditions => "node_id in [#{node_ids.join(',')}] and id not #{self.id}")
+    
+    node_ids_not_to_delete = way_nodes.collect {|way_node| way_node.node_id}
+
+    nodes_to_delete = node_ids - node_ids_not_to_delete
+
+    # update the visibility etc on the current nodes
+    update_time = Time.now()
+    
+    Node.update(node_ids_to_delete, {:user_id = user.id, :timestamp => update_time, :visibility => false})
+
+    # create old nodes
+
+    old_nodes_to_create = []
+    OldNode.find(node_ids_to_delete).each do |old_node|
+      old_nodes_to_create << {:id => old_node.id, :timestamp => update_time, :latitude => old_node.latitude, :longitude => old_node.longitude, :visible => false}
+    end
+
+    OldNode.create(old_nodes_to_create)
+
+    # FIXME - the old nodes need to have their tile updated and I have no idea how that works
+    # they also need their tags copied over, and that depends on normalising the tags out to their own table that nicks working on
+
+    # finally, delete the way
+    
+    self.delete_with_relations_and_history
+
+  end
 end

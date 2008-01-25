@@ -559,9 +559,10 @@ class AmfController < ApplicationController
     ActiveRecord::Base.connection.select_all(sql)
   end
 
+  # Get the latest version id of a way
   def getlastversion(id,version) #:doc:
-    row=ActiveRecord::Base.connection.select_one("SELECT version FROM ways WHERE id=#{id} AND visible=1 ORDER BY version DESC LIMIT 1")
-    row['version']
+    old_way = OldWay.find(:first, :conditions => ['id = ?' , id], :order => 'version DESC')
+    old_way.version
   end
 
   def readwayquery_old(id,version,historic) #:doc:
