@@ -40,30 +40,13 @@ class ApiController < ApplicationController
     end
 
     bbox = bbox.split(',')
-
-    min_lon = bbox[0].to_f
-    min_lat = bbox[1].to_f
-    max_lon = bbox[2].to_f
-    max_lat = bbox[3].to_f
-
-    # check the bbox is sane
-    unless min_lon <= max_lon
-      report_error("The minimum longitude must be less than the maximum longitude, but it wasn't")
-      return
-    end
-    unless min_lat <= max_lat
-      report_error("The minimum latitude must be less than the maximum latitude, but it wasn't")
-      return
-    end
-    unless min_lon >= -180 && min_lat >= -90 && max_lon <= 180 && max_lat <= 90
-      report_error("The latitudes must be between -90 and 90, and longitudes between -180 and 180")
-      return
-    end
-
-    # check the bbox isn't too large
-    requested_area = (max_lat-min_lat)*(max_lon-min_lon)
-    if requested_area > MAX_REQUEST_AREA
-      report_error("The maximum bbox size is " + MAX_REQUEST_AREA.to_s + ", and your request was too large. Either request a smaller area, or use planet.osm")
+    min_lon, min_lat, max_lon, max_lat = sanitise_boundaries(bbox)
+    # check boundary is sane and area within defined
+    # see /config/application.yml
+    begin
+      check_boundaries(min_lon, min_lat, max_lon, max_lat)
+    rescue Exception => err
+      report_error(err.message)
       return
     end
 
@@ -103,7 +86,6 @@ class ApiController < ApplicationController
   def map
     GC.start
     @@count+=1
-
     # Figure out the bbox
     bbox = params['bbox']
 
@@ -115,7 +97,7 @@ class ApiController < ApplicationController
 
     bbox = bbox.split(',')
 
-    min_lon, min_lat, max_lon, max_lat = *bbox.map{|b| b.to_f }
+    min_lon, min_lat, max_lon, max_lat = sanitise_boundaries(bbox)
 
     # check boundary is sane and area within defined
     # see /config/application.yml
@@ -126,15 +108,16 @@ class ApiController < ApplicationController
       return
     end
 
-    # get all the nodes
-    nodes = Node.find_by_area(min_lat, min_lon, max_lat, max_lon, :conditions => "visible = 1", :limit => APP_CONFIG['max_number_of_nodes']+1)
+    @nodes = Node.find_by_area(min_lat, min_lon, max_lat, max_lon, :conditions => "visible = 1", :limit => APP_CONFIG['max_number_of_nodes']+1)
+    # get all the nodes, by tag not yet working, waiting for change from NickB
+    # need to be @nodes (instance var) so tests in /spec can be performed
+    #@nodes = Node.search(bbox, params[:tag])
 
-    node_ids = nodes.collect {|node| node.id }
+    node_ids = @nodes.collect(&:id)
     if node_ids.length > APP_CONFIG['max_number_of_nodes']
       report_error("You requested too many nodes (limit is 50,000). Either request a smaller area, or use planet.osm")
       return
     end
-
     if node_ids.length == 0
       render :text => "<osm version='0.5'></osm>", :content_type => "text/xml"
       return
@@ -153,7 +136,7 @@ class ApiController < ApplicationController
       ways = Way.find(way_ids)
 
       list_of_way_nodes = ways.collect { |way|
-	way.way_nodes.collect { |way_node| way_node.node_id }
+	      way.way_nodes.collect { |way_node| way_node.node_id }
       }
       list_of_way_nodes.flatten!
 
@@ -165,13 +148,13 @@ class ApiController < ApplicationController
     nodes_to_fetch = (list_of_way_nodes.uniq - node_ids) - [0]
 
     if nodes_to_fetch.length > 0
-      nodes += Node.find(nodes_to_fetch)
+      @nodes += Node.find(nodes_to_fetch)
     end
 
     visible_nodes = {}
     user_display_name_cache = {}
 
-    nodes.each do |node|
+    @nodes.each do |node|
       if node.visible?
         doc.root << node.to_xml_node(user_display_name_cache)
         visible_nodes[node.id] = node
