@@ -241,7 +241,7 @@ class Way < ActiveRecord::Base
     # update the visibility etc on the current nodes
     update_time = Time.now()
     
-    Node.update(node_ids_to_delete, {:user_id = user.id, :timestamp => update_time, :visibility => false})
+    Node.update(node_ids_to_delete, {:user_id => user.id, :timestamp => update_time, :visibility => false})
 
     # create old nodes
 
