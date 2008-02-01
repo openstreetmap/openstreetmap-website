@@ -733,11 +733,11 @@ class AmfController < ApplicationController
   # Co-ordinate conversion
 
   def lat2coord(a,basey,masterscale) #:doc:
-    -(lat2y(a)-basey)*masterscale+250
+    -(lat2y(a)-basey)*masterscale
   end
 
   def long2coord(a,baselong,masterscale) #:doc:
-    (a-baselong)*masterscale+350
+    (a-baselong)*masterscale
   end
 
   def lat2y(a) #:doc:
@@ -745,11 +745,11 @@ class AmfController < ApplicationController
   end
 
   def coord2lat(a,masterscale,basey) #:doc:
-    y2lat((a-250)/-masterscale+basey)
+    y2lat(a/-masterscale+basey)
   end
 
   def coord2long(a,masterscale,baselong) #:doc:
-    (a-350)/masterscale+baselong
+    a/masterscale+baselong
   end
 
   def y2lat(a)
