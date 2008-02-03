@@ -1,6 +1,14 @@
 class GeoRecord < ActiveRecord::Base
   before_save :update_tile
 
+  # Is this node within -90 >= latitude >= 90 and -180 >= longitude >= 180
+  # * returns true/false
+  def in_world?
+    return false if self.lat < -90 or self.lat > 90
+    return false if self.lon < -180 or self.lon > 180
+    return true
+  end
+
   def self.find_by_area(minlat, minlon, maxlat, maxlon, options)
     self.with_scope(:find => {:conditions => OSM.sql_for_area(minlat, minlon, maxlat, maxlon)}) do
       return self.find(:all, options)

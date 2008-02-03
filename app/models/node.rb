@@ -20,14 +20,6 @@ class Node < GeoRecord
     errors.add_to_base("Node is not in the world") unless in_world?
   end
 
-  # Is this node withing -90 > latitude > 90 and -180 > longitude > 180>
-  # * returns true/false
-  def in_world?
-    return false if self.lat < -90 or self.lat > 90
-    return false if self.lon < -180 or self.lon > 180
-    return true
-  end
-
   #
   # Search for nodes matching tags within bounding_box
   #
