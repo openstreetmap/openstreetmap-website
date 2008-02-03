@@ -187,11 +187,11 @@ class SwfController < ApplicationController
 	# (this is duplicated from amf_controller, should probably share)
 	
 	def lat2coord(a,basey,masterscale)
-		-(lat2y(a)-basey)*masterscale+250
+		-(lat2y(a)-basey)*masterscale
 	end
 	
 	def long2coord(a,baselong,masterscale)
-		(a-baselong)*masterscale+350
+		(a-baselong)*masterscale
 	end
 	
 	def lat2y(a)
