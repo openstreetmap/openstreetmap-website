@@ -3,6 +3,7 @@ class Way < ActiveRecord::Base
 
   belongs_to :user
 
+  has_many :nodes, :through => :way_nodes, :order => 'sequence_id'
   has_many :way_nodes, :foreign_key => 'id', :order => 'sequence_id'
   has_many :way_tags, :foreign_key => 'id'
 

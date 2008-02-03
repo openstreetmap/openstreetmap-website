@@ -109,18 +109,14 @@ class AmfController < ApplicationController
     RAILS_DEFAULT_LOGGER.info("  Message: whichways, bbox=#{xmin},#{ymin},#{xmax},#{ymax}")
 
     # find the way ids in an area
-    nodes_in_area = Node.find_by_area(ymin, xmin, ymax, xmax,:conditions => "visible = 1", :include => :way_nodes)
-    waynodes_in_area = nodes_in_area.collect {|node| node.way_nodes }.flatten
-    ways = waynodes_in_area.collect {|way_node| way_node.id[0]}.uniq
+    nodes_in_area = Node.find_by_area(ymin, xmin, ymax, xmax, :conditions => "current_nodes.visible = 1", :include => :ways)
+    way_ids = nodes_in_area.collect { |node| node.way_ids }.flatten.uniq
 
     # find the node ids in an area that aren't part of ways
-    node_ids_in_area = nodes_in_area.collect {|node| node.id}.uniq
-    node_ids_used_in_ways = waynodes_in_area.collect {|way_node| way_node.node_id}.uniq
-    node_ids_not_used_in_area = node_ids_in_area - node_ids_used_in_ways
-    nodes_not_used_in_area = Node.find(node_ids_not_used_in_area)
-    points = nodes_not_used_in_area.collect {|n| [n.id, n.lon_potlatch(baselong,masterscale), n.lat_potlatch(basey,masterscale), n.tags_as_hash] }
+    nodes_not_used_in_area = nodes_in_area.select { |node| node.ways.empty? }
+    points = nodes_not_used_in_area.collect { |n| [n.id, n.lon_potlatch(baselong,masterscale), n.lat_potlatch(basey,masterscale), n.tags_as_hash] }
 
-    [ways,points]
+    [way_ids,points]
   end
 
   # ----- whichways_deleted
@@ -171,13 +167,12 @@ class AmfController < ApplicationController
 
     RAILS_DEFAULT_LOGGER.info("  Message: getway, id=#{wayid}")
 
-    way = Way.find_eager(wayid)
+    way = Way.find(wayid, :include => :nodes)
     long_array = []
     lat_array = []
     points = []
 
-    way.way_nodes.each do |way_node|
-      node = way_node.node # get the node record
+    way.nodes.each do |node|
       projected_longitude = node.lon_potlatch(baselong,masterscale) # do projection for potlatch
       projected_latitude = node.lat_potlatch(basey,masterscale)
       id = node.id

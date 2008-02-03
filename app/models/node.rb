@@ -10,6 +10,7 @@ class Node < GeoRecord
   validates_numericality_of :latitude, :longitude
   validate :validate_position
 
+  has_many :ways, :through => :way_nodes
   has_many :old_nodes, :foreign_key => :id
   has_many :way_nodes
   belongs_to :user
