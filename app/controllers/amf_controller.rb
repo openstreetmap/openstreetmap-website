@@ -167,7 +167,7 @@ class AmfController < ApplicationController
 
     RAILS_DEFAULT_LOGGER.info("  Message: getway, id=#{wayid}")
 
-    way = Way.find(wayid, :include => :nodes)
+    way = Way.find(wayid)
     long_array = []
     lat_array = []
     points = []
