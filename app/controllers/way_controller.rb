@@ -77,7 +77,6 @@ class WayController < ApplicationController
 
       # if we get here, all is fine, otherwise something will catch below.  
       render :nothing => true
-      return
     rescue OSM::APIAlreadyDeletedError
       render :text => "", :status => :gone
     rescue OSM::APIPreconditionFailedError
