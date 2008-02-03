@@ -167,7 +167,11 @@ class AmfController < ApplicationController
 
     RAILS_DEFAULT_LOGGER.info("  Message: getway, id=#{wayid}")
 
+    # Ideally we would do ":include => :nodes" here but if we do that
+    # then rails only seems to return the first copy of a node when a
+    # way includes a node more than once
     way = Way.find(wayid)
+
     long_array = []
     lat_array = []
     points = []
