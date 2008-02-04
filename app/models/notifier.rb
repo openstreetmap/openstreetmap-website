@@ -63,6 +63,34 @@ class Notifier < ActionMailer::Base
                               :message_id => message.id)
   end
 
+  def diary_comment_notification(comment)
+    recipients comment.diary_entry.user.email
+    from "webmaster@openstreetmap.org"
+    subject "[OpenStreetMap] #{comment.user.display_name} commented on your diary entry"
+    headers "Auto-Submitted" => "auto-generated"
+    body :to_user => comment.diary_entry.user.display_name,
+         :from_user => comment.user.display_name,
+         :body => comment.body,
+         :subject => comment.diary_entry.title,
+         :readurl => url_for(:host => SERVER_URL,
+                             :controller => "diary_entry",
+                             :action => "view",
+                             :display_name => comment.diary_entry.user.display_name,
+                             :id => comment.diary_entry.id,
+                             :anchor => "comment#{comment.id}"),
+         :commenturl => url_for(:host => SERVER_URL,
+                                :controller => "diary_entry",
+                                :action => "view",
+                                :display_name => comment.diary_entry.user.display_name,
+                                :id => comment.diary_entry.id,
+                                :anchor => "newcomment"),
+         :replyurl => url_for(:host => SERVER_URL,
+                              :controller => "message",
+                              :action => "new",
+                              :user_id => comment.user.id,
+                              :title => "Re: #{comment.diary_entry.title}")
+  end
+
   def friend_notification(friend)
     befriender = User.find_by_id(friend.user_id)
     befriendee = User.find_by_id(friend.friend_user_id)
