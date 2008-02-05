@@ -84,8 +84,10 @@ private
     unless response.match(/Error/)
       dataline = response.split(/\n/)[1]
       data = dataline.split(/,/) # easting,northing,postcode,lat,long
-      results.push({:lat => data[3], :lon => data[4], :zoom => POSTCODE_ZOOM,
-                    :name => data[2].gsub(/'/, "")})
+      postcode = data[2].gsub(/'/, "")
+      zoom = POSTCODE_ZOOM - postcode.count("#")
+      results.push({:lat => data[3], :lon => data[4], :zoom => zoom,
+                    :name => postcode})
     end
 
     return { :source => "NPEMap / FreeThePostcode", :url => "http://www.npemap.org.uk/", :results => results }
