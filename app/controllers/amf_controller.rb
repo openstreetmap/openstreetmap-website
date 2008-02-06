@@ -560,7 +560,7 @@ class AmfController < ApplicationController
 
   # Get the latest version id of a way
   def getlastversion(id,version) #:doc:
-    old_way = OldWay.find(:first, :conditions => ['id = ?' , id], :order => 'version DESC')
+    old_way = OldWay.find(:first, :conditions => ['visible=1 AND id=?' , id], :order => 'version DESC')
     old_way.version
   end
 
