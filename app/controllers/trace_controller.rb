@@ -301,7 +301,7 @@ private
     @trace.timestamp = Time.now
 
     if @trace.save
-      File.rename(filename, @trace.trace_name)
+      FileUtils.mv(filename, @trace.trace_name)
     else
       FileUtils.rm_f(filename)
     end
