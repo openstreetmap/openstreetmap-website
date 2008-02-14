@@ -7,7 +7,15 @@ OpenLayers._getScriptLocation = function () {
 }
    
 function createMap(divName) {
-   map = new OpenLayers.Map(divName);
+   map = new OpenLayers.Map(divName, {
+      controls: [
+         new OpenLayers.Control.ArgParser(), 
+         new OpenLayers.Control.Attribution(),
+         new OpenLayers.Control.LayerSwitcher(),
+         new OpenLayers.Control.Navigation(), 
+         new OpenLayers.Control.PanZoomBar()
+      ]
+   });
 
    var mapnik = new OpenLayers.Layer.OSM.Mapnik("Mapnik", { displayOutsideMaxExtent: true });
    map.addLayer(mapnik);
@@ -27,9 +35,6 @@ function createMap(divName) {
       projection: "EPSG:41001"
    });
    map.addLayer(markers);
-
-   map.addControl(new OpenLayers.Control.LayerSwitcher());
-   // map.addControl(new OpenLayers.Control.KeyboardDefaults());
 
    return map;
 }
