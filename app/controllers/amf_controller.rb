@@ -58,8 +58,8 @@ class AmfController < ApplicationController
       when 'getway_old';		results[index]=AMF.putdata(index,getway_old(args))
       when 'getway_history';	results[index]=AMF.putdata(index,getway_history(args))
       when 'putway';			r=putway(args,renumberednodes)
-        renumberednodes=r[3]
-        results[index]=AMF.putdata(index,r)
+								renumberednodes=r[3]
+								results[index]=AMF.putdata(index,r)
       when 'deleteway';			results[index]=AMF.putdata(index,deleteway(args))
       when 'putpoi';			results[index]=AMF.putdata(index,putpoi(args))
       when 'getpoi';			results[index]=AMF.putdata(index,getpoi(args))
@@ -293,11 +293,13 @@ class AmfController < ApplicationController
 
     RAILS_DEFAULT_LOGGER.info("  Message: putway, id=#{originalway}")
 
-    # -- Temporary check for null IDs
+    # -- Check for null IDs or short ways
 
     points.each do |a|
       if a[2]==0 or a[2].nil? then return -2,"Server error - node with id 0 found in way #{originalway}." end
     end
+    
+    if points.length<2 then return -2,"Server error - way is only #{points.length} points long." end
 
     # -- 3.	read original way into memory
 
