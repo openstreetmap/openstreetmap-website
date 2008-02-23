@@ -32,7 +32,7 @@ class UserPreferenceController < ApplicationController
         pref = UserPreference.new
         
         unless keyhash[pt['k']].nil? # already have that key
-          render :text => 'OH NOES! CAN HAS UNIQUE KEYS?', :status => 406
+          render :text => 'OH NOES! CAN HAS UNIQUE KEYS?', :status => :not_acceptable
           return
         end
         
@@ -45,7 +45,7 @@ class UserPreferenceController < ApplicationController
       end
 
       if prefs.size > 150
-        render :text => 'Too many preferences', :status => 413
+        render :text => 'Too many preferences', :status => :request_entity_too_large
         return
       end
 
@@ -58,7 +58,7 @@ class UserPreferenceController < ApplicationController
       end
 
     rescue Exception => ex
-      render :text => 'OH NOES! FAIL!: ' + ex.to_s, :status => 500
+      render :text => 'OH NOES! FAIL!: ' + ex.to_s, :status => :internal_server_error
       return
     end
 
