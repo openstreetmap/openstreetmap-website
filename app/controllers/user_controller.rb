@@ -2,8 +2,8 @@ class UserController < ApplicationController
   layout 'site'
 
   before_filter :authorize, :only => [:api_details, :api_gpx_files]
-  before_filter :authorize_web, :only => [:account, :go_public, :view, :diary, :make_friend, :remove_friend]
-  before_filter :require_user, :only => [:set_home, :account, :go_public, :make_friend, :remove_friend]
+  before_filter :authorize_web, :only => [:account, :go_public, :view, :diary, :make_friend, :remove_friend, :upload_image]
+  before_filter :require_user, :only => [:set_home, :account, :go_public, :make_friend, :remove_friend, :upload_image]
 
   filter_parameter_logging :password, :pass_crypt, :pass_crypt_confirmation
 
@@ -153,6 +153,12 @@ class UserController < ApplicationController
     else
       flash[:notice] = 'Something went wrong confirming that user.'
     end
+  end
+
+  def upload_image
+    @user.image = params[:user][:image]
+    @user.save!
+    redirect_to :controller => 'user', :action => 'view', :display_name => @user.display_name
   end
 
   def api_details

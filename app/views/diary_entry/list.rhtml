@@ -1,4 +1,10 @@
 <h2><%= @title %></h2>
+
+<% if @this_user.image %>
+ <%= image_tag url_for_file_column(@this_user, "image") %>
+<% end %>
+<br />
+
 <% if @this_user %>
   <% if @user == @this_user %>
     <%= link_to 'New diary post', :controller => 'diary_entry', :action => 'new', :display_name => @user.display_name %>

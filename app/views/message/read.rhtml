@@ -5,7 +5,12 @@
 <table>
   <tr>
     <th align="right">From</th>
-    <td><%= link_to @message.sender.display_name, :controller => 'user', :action => 'view', :display_name => @message.sender.display_name %></td>
+    <td>
+     <% if @message.sender.image %>
+        <%= image_tag url_for_file_column(@message.sender, "image") %>
+      <% end %>
+  
+<%= link_to @message.sender.display_name, :controller => 'user', :action => 'view', :display_name => @message.sender.display_name %></td>
   </tr>
   <tr>
     <th align="right">Subject</th>

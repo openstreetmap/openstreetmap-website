@@ -18,6 +18,21 @@
 <% end %>
 </div>
 
+<h3>User image</h3>
+<% if @this_user.image %>
+ <%= image_tag url_for_file_column(@this_user, "image") %>
+<% end %>
+<br />
+
+<% if @user and @this_user.id == @user.id %>
+  Upload an image<br />
+  <%= form_tag({:action=>'upload_image'}, :multipart => true)%>
+    <%= file_column_field 'user', 'image' %>
+    <input type="submit" name="Upload" />
+  </form>
+<% end %>
+
+<h3>Description</h3?
 <div id="description"><%= simple_format(@this_user.description) %></div>
 
 <% if @this_user.home_lat.nil? or @this_user.home_lon.nil? %>
@@ -38,6 +53,11 @@
       <% @this_user.friends.each do |friend| %>
       <% @friend = User.find_by_id(friend.friend_user_id) %>
       <tr>
+      <td class="image">
+      <% if @friend.image %>
+        <%= image_tag url_for_file_column(@friend, "image") %>
+      <% end %>
+      </td>
       <td class="username"><%= link_to @friend.display_name, :controller => 'user', :action => 'view',  :display_name => @friend.display_name %></td>
       <td><% if @friend.home_lon and @friend.home_lat %><%= @this_user.distance(@friend).round %>km away<% end %></td>
       <td class="message">(<%= link_to 'send message', :controller => 'message', :action => 'new', :user_id => @friend.id %>)</td>
