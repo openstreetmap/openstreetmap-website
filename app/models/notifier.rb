@@ -1,3 +1,4 @@
+
 class Notifier < ActionMailer::Base
   def signup_confirm(user, token)
     recipients user.email
