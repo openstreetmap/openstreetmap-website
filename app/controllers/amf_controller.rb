@@ -500,52 +500,18 @@ class AmfController < ApplicationController
   #				also removes ways/nodes from any relations they're in
   #		  out:	[0] 0 (success), [1] way id (unchanged)
   def deleteway(args) #:doc:
-
-    usertoken,way=args
-
-    RAILS_DEFAULT_LOGGER.info("  Message: deleteway, id=#{way}")
+    usertoken,way_id=args
+    RAILS_DEFAULT_LOGGER.info("  Message: deleteway, id=#{way_id}")
     uid=getuserid(usertoken)
     if !uid then return -1,"You are not logged in, so the way could not be deleted." end
 
-    way=way.to_i
-    db_uqn='unin'+(rand*100).to_i.to_s+uid.to_s+way.to_i.abs.to_s+Time.new.to_i.to_s	# temp uniquenodes table name, typically 51 chars
-    db_now='@now'+(rand*100).to_i.to_s+uid.to_s+way.to_i.abs.to_s+Time.new.to_i.to_s	# 'now' variable name, typically 51 chars
-    ActiveRecord::Base.connection.execute("SET #{db_now}=NOW()")
+    user = User.find(uid)
 
-    # - delete any otherwise unused nodes
+    way = Way.find(way_id)
 
-    createuniquenodes(way,db_uqn,[])
+    way.delete_with_relations_and_nodes_and_history(user)  
 
-    #	unless (preserve.empty?) then
-    #		ActiveRecord::Base.connection.execute("DELETE FROM #{db_uqn} WHERE node_id IN ("+preserve.join(',')+")")
-    #	end
-
-    sql=<<-EOF
-  INSERT INTO nodes (id,latitude,longitude,timestamp,user_id,visible,tile)
-  SELECT DISTINCT cn.id,cn.latitude,cn.longitude,#{db_now},#{uid},0,cn.tile
-    FROM current_nodes AS cn,#{db_uqn}
-   WHERE cn.id=node_id
-    EOF
-    ActiveRecord::Base.connection.insert(sql)
-
-    sql=<<-EOF
-      UPDATE current_nodes AS cn, #{db_uqn}
-         SET cn.timestamp=#{db_now},cn.visible=0,cn.user_id=#{uid} 
-       WHERE cn.id=node_id
-    EOF
-    ActiveRecord::Base.connection.update(sql)
-
-    deleteuniquenoderelations(db_uqn,uid,db_now)
-    ActiveRecord::Base.connection.execute("DROP TEMPORARY TABLE #{db_uqn}")
-
-    # - delete way
-
-    ActiveRecord::Base.connection.insert("INSERT INTO ways (id,user_id,timestamp,visible) VALUES (#{way},#{uid},#{db_now},0)")
-    ActiveRecord::Base.connection.update("UPDATE current_ways SET user_id=#{uid},timestamp=#{db_now},visible=0 WHERE id=#{way}")
-    ActiveRecord::Base.connection.execute("DELETE FROM current_way_nodes WHERE id=#{way}")
-    ActiveRecord::Base.connection.execute("DELETE FROM current_way_tags WHERE id=#{way}")
-    deleteitemrelations(way,'way',uid,db_now)
-    [0,way]
+    return [0,way_id]
   end
 
   def readwayquery(id,insistonvisible) #:doc:
