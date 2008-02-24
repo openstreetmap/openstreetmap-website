@@ -116,7 +116,7 @@ class UserController < ApplicationController
           redirect_to :controller => 'site', :action => 'index'
         end
         return
-      elsif User.authenticate(:username => email_or_display_name, :password => pass, :invalid => true)
+      elsif User.authenticate(:username => email_or_display_name, :password => pass, :inactive => true)
         flash[:notice] = "Sorry, your account is not active yet.<br>Please click on the link in the account confirmation email to activate your account."
       else
         flash[:notice] = "Sorry, couldn't log in with those details."
