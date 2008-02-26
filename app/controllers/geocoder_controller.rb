@@ -14,11 +14,11 @@ class GeocoderController < ApplicationController
       results.push search_us_postcode(query)
     elsif query.match(/(GIR 0AA|[A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]|[A-HK-Y][0-9]([0-9]|[ABEHMNPRV-Y]))|[0-9][A-HJKS-UW])\s*[0-9][ABD-HJLNP-UW-Z]{2})/i)
       results.push search_uk_postcode(query)
-      results.push search_osm_namefinder(query)
+#      results.push search_osm_namefinder(query)
     elsif query.match(/[A-Z]\d[A-Z]\s*\d[A-Z]\d/i)
       results.push search_ca_postcode(query)
     else
-      results.push search_osm_namefinder(query)
+#      results.push search_osm_namefinder(query)
       results.push search_geonames(query)
     end
 
@@ -42,9 +42,9 @@ class GeocoderController < ApplicationController
     lat = params[:lat]
     lon = params[:lon]
 
-    results.push description_osm_namefinder("cities", lat, lon, 2)
-    results.push description_osm_namefinder("towns", lat, lon, 4)
-    results.push description_osm_namefinder("places", lat, lon, 10)
+#    results.push description_osm_namefinder("cities", lat, lon, 2)
+#    results.push description_osm_namefinder("towns", lat, lon, 4)
+#    results.push description_osm_namefinder("places", lat, lon, 10)
     results.push description_geonames(lat, lon)
 
     render :update do |page|
@@ -218,7 +218,7 @@ private
 
     return { :type => "Location", :source => "GeoNames", :url => "http://www.geonames.org/", :results => results }
   rescue Exception => ex
-    return { :type => types.capitalize, :source => "OpenStreetMap Namefinder", :url => "http://www.frankieandshadow.com/osm/", :error => "Error contacting www.frankieandshadow.com: #{ex.to_s}" }
+    return { :type => "Location", :source => "GeoNames", :url => "http://www.geonames.org/", :error => "Error contacting ws.geonames.org: #{ex.to_s}" }
   end
 
   def fetch_text(url)
