@@ -1,5 +1,5 @@
 <% @this_user = User.find_by_display_name(@this_user.display_name) %>
-<h2><%= @this_user.display_name %></h2>
+<h2><%= h(@this_user.display_name) %></h2>
 <div id="userinformation">
 <% if @user and @this_user.id == @user.id %>
 <%= link_to 'my diary', :controller => 'diary_entry', :action => 'list', :display_name => @user.display_name %>
@@ -58,7 +58,7 @@
         <%= image_tag url_for_file_column(@friend, "image") %>
       <% end %>
       </td>
-      <td class="username"><%= link_to @friend.display_name, :controller => 'user', :action => 'view',  :display_name => @friend.display_name %></td>
+      <td class="username"><%= link_to h(@friend.display_name), :controller => 'user', :action => 'view',  :display_name => @friend.display_name %></td>
       <td><% if @friend.home_lon and @friend.home_lat %><%= @this_user.distance(@friend).round %>km away<% end %></td>
       <td class="message">(<%= link_to 'send message', :controller => 'message', :action => 'new', :user_id => @friend.id %>)</td>
       </tr>
@@ -80,7 +80,7 @@
       <table id="nearbyusers">
       <% @this_user.nearby.each do |nearby| %>
       <tr>
-      <td class="username"><%= link_to nearby.display_name, :controller => 'user', :action => 'view',  :display_name => nearby.display_name %></td>
+      <td class="username"><%= link_to h(nearby.display_name), :controller => 'user', :action => 'view',  :display_name => nearby.display_name %></td>
       <td><%= @this_user.distance(nearby).round %>km away</td>
       <td class="message">(<%= link_to 'send message', :controller => 'message', :action => 'new', :user_id => nearby.id %>)</td>
       </tr>
