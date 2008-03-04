@@ -77,13 +77,13 @@ by the OpenStreetMap project and it's contributors.
 <%= javascript_include_tag 'map.js' %>
 
 
-<script type="text/javascript">
+<script type="text/javascript" defer="defer">
   <!--
   var brokenContentSize = $("content").offsetWidth == 0;
   var marker;
   var map;
 
-  function init(){
+  function mapInit(){
     map = createMap("map");
 
     <% if bbox %>
@@ -179,6 +179,7 @@ by the OpenStreetMap project and it's contributors.
   }
 
   window.onresize = handleResize;
-  window.onload = init;
+  
+  mapInit();
 // -->
 </script>
