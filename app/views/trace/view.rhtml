@@ -1,4 +1,4 @@
-<h2><%= @title %></h2>
+<h2><%= h(@title) %></h2>
 
 <img src="<%= url_for :controller => 'trace', :action => 'picture', :id => @trace.id, :display_name => @trace.user.display_name %>">
 
@@ -22,11 +22,11 @@
   <% end %>
   <tr>
     <td>Owner:</td>
-    <td><%= link_to @trace.user.display_name, {:controller => 'user', :action => 'view', :display_name => @trace.user.display_name} %></td>
+    <td><%= link_to g(@trace.user.display_name), {:controller => 'user', :action => 'view', :display_name => @trace.user.display_name} %></td>
   </tr>
   <tr>
     <td>Description:</td>
-    <td><%= @trace.description %></td>
+    <td><%= h(@trace.description) %></td>
   </tr>
   <tr>
     <td>Tags:</td>
