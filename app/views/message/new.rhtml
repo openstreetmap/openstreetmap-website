@@ -1,7 +1,7 @@
 <% display_name = User.find_by_id(params[:user_id]).display_name %>
 <% title = params[:message] ? params[:message][:title] : params[:title] %>
 
-<h2>Send a new message to <%= display_name %></h2>
+<h2>Send a new message to <%= h(display_name) %></h2>
 
 <% if params[:display_name] %>
 <p>Writing a new message to <%= h(params[:display_name]) %></p>  

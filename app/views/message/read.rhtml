@@ -10,7 +10,7 @@
         <%= image_tag url_for_file_column(@message.sender, "image") %>
       <% end %>
   
-<%= link_to @message.sender.display_name, :controller => 'user', :action => 'view', :display_name => @message.sender.display_name %></td>
+<%= link_to h(@message.sender.display_name), :controller => 'user', :action => 'view', :display_name => @message.sender.display_name %></td>
   </tr>
   <tr>
     <th align="right">Subject</th>
@@ -43,7 +43,7 @@
 <table>
   <tr>
     <th align="right">To</th>
-    <td><%= link_to @message.recipient.display_name, :controller => 'user', :action => 'view', :display_name => @message.recipient.display_name %></td>
+    <td><%= link_to h(@message.recipient.display_name), :controller => 'user', :action => 'view', :display_name => @message.recipient.display_name %></td>
   </tr>
   <tr>
     <th align="right">Subject</th>
