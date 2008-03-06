@@ -145,23 +145,25 @@ class Trace < ActiveRecord::Base
     tarred = filetype =~ /tar archive/
 
     if gzipped or bzipped or zipped or tarred then
-      file = Tempfile.new("trace.#{id}");
+      tmpfile = Tempfile.new("trace.#{id}");
 
       if tarred and gzipped then
-        system("tar -zxOf #{trace_name} > #{file.path}")
+        system("tar -zxOf #{trace_name} > #{tmpfile.path}")
       elsif tarred and bzipped then
-        system("tar -jxOf #{trace_name} > #{file.path}")
+        system("tar -jxOf #{trace_name} > #{tmpfile.path}")
       elsif tarred
-        system("tar -xOf #{trace_name} > #{file.path}")
+        system("tar -xOf #{trace_name} > #{tmpfile.path}")
       elsif gzipped
-        system("gunzip -c #{trace_name} > #{file.path}")
+        system("gunzip -c #{trace_name} > #{tmpfile.path}")
       elsif bzipped
-        system("bunzip2 -c #{trace_name} > #{file.path}")
+        system("bunzip2 -c #{trace_name} > #{tmpfile.path}")
       elsif zipped
-        system("unzip -p #{trace_name} > #{file.path}")
+        system("unzip -p #{trace_name} > #{tmpfile.path}")
       end
 
-      file.unlink
+      tmpfile.unlink
+
+      file = tmpfile.file
     else
       file = File.open(trace_name)
     end
