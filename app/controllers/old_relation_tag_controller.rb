@@ -1,0 +1,3 @@
+class OldRelationTagController < ApplicationController
+
+end

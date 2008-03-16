@@ -28,8 +28,8 @@ class NodeControllerTest < Test::Unit::TestCase
     checknode = Node.find(nodeid)
     assert_not_nil checknode, "uploaded node not found in data base after upload"
     # compare values
-    assert_in_delta lat, checknode.latitude, 1E-8, "saved node does not match requested latitude"
-    assert_in_delta lon, checknode.longitude, 1E-8, "saved node does not match requested longitude"
+    assert_in_delta lat * 10000000, checknode.latitude, 1, "saved node does not match requested latitude"
+    assert_in_delta lon * 10000000, checknode.longitude, 1, "saved node does not match requested longitude"
     assert_equal users(:normal_user).id, checknode.user_id, "saved node does not belong to user that created it"
     assert_equal true, checknode.visible, "saved node is not visible"
   end

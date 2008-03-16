@@ -57,7 +57,6 @@ class RelationControllerTest < Test::Unit::TestCase
         print @response.body
     end
 
-
     # check the "relations for relation" mode
     get :relations_for_relation, :id => current_relations(:used_relation).id
     assert_response :success
