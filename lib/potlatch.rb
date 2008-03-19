@@ -168,6 +168,20 @@ module Potlatch
         }
       end
 
+      # Read relations colours/styling
+      relcolours={}; relalphas={}; relwidths={}
+      File.open("#{RAILS_ROOT}/config/potlatch/relation_colours.txt") do |file|
+        file.each_line {|line|
+          t=line.chomp
+          if (t=~/(\w+)\s+([^\s]+)\s+([^\s]+)\s+([^\s]+)/) then
+            tag=$1
+            if ($2!='-') then relcolours[tag]=$2.hex end
+            if ($3!='-') then relalphas[tag]=$3.to_i end
+            if ($4!='-') then relwidths[tag]=$4.to_i end
+          end
+        }
+      end
+
       # Read auto-complete
       autotags={}; autotags['point']={}; autotags['way']={}; autotags['POI']={};
       File.open("#{RAILS_ROOT}/config/potlatch/autocomplete.txt") do |file|
@@ -181,7 +195,7 @@ module Potlatch
         }
       end
 
-      [presets,presetmenus,presetnames,colours,casing,areas,autotags]
+      [presets,presetmenus,presetnames,colours,casing,areas,autotags,relcolours,relalphas,relwidths]
     end
   end
 

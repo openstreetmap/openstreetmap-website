@@ -30,6 +30,7 @@ class AmfController < ApplicationController
     req.read(2)									# Skip version indicator and client ID
     results={}									# Results of each body
     renumberednodes={}							# Shared across repeated putways
+    renumberedways={}							# Shared across repeated putways
 
     # -------------
     # Parse request
@@ -55,11 +56,16 @@ class AmfController < ApplicationController
       when 'whichways';			results[index]=AMF.putdata(index,whichways(args))
       when 'whichways_deleted';	results[index]=AMF.putdata(index,whichways_deleted(args))
       when 'getway';			results[index]=AMF.putdata(index,getway(args))
+      when 'getrelation';		results[index]=AMF.putdata(index,getrelation(args))
       when 'getway_old';		results[index]=AMF.putdata(index,getway_old(args))
       when 'getway_history';	results[index]=AMF.putdata(index,getway_history(args))
       when 'putway';			r=putway(args,renumberednodes)
 								renumberednodes=r[3]
+								if r[1] != r[2]
+									renumberedways[r[1]] = r[2]
+								end
 								results[index]=AMF.putdata(index,r)
+      when 'putrelation';		results[index]=AMF.putdata(index,putrelation(args, renumberednodes, renumberedways))
       when 'deleteway';			results[index]=AMF.putdata(index,deleteway(args))
       when 'putpoi';			results[index]=AMF.putdata(index,putpoi(args))
       when 'getpoi';			results[index]=AMF.putdata(index,getpoi(args))
@@ -116,7 +122,10 @@ class AmfController < ApplicationController
     nodes_not_used_in_area = nodes_in_area.select { |node| node.ways.empty? }
     points = nodes_not_used_in_area.collect { |n| [n.id, n.lon_potlatch(baselong,masterscale), n.lat_potlatch(basey,masterscale), n.tags_as_hash] }
 
-    [way_ids,points]
+    # find the relations used by those nodes and ways
+    relation_ids = Relation.find_for_nodes_and_ways(nodes_in_area.collect {|n| n.id}, way_ids).collect {|n| n.id}.uniq
+
+    [way_ids,points,relation_ids]
   end
 
   # ----- whichways_deleted
@@ -262,6 +271,80 @@ class AmfController < ApplicationController
       history<<[row['version'],row['timestamp'],row['visible'],user]
     }
     [history]
+  end
+
+  # ----- getrelation
+  # Get a relation with all of it's tags, and member IDs
+  # The input is an array with the following components, in order:
+  # 0. relid - the ID of the relation to get
+  #
+  # The output is an array which contains:
+  # [0] relation id, [1] hash of tags, [2] list of members
+  def getrelation(args) #:doc:
+    relid = args[0]
+    relid = relid.to_i
+
+    RAILS_DEFAULT_LOGGER.info("  Message: getrel, id=#{relid}")
+
+    rel = Relation.find(relid)
+
+    [relid,rel.tags,rel.members]#nodes,ways]
+  end
+
+  # ----- getrelation
+  #		  save relation to the database
+  #		  in:	[0] user token (string),
+  #				[1] original relation id (may be negative),
+  #			  	[2] hash of tags, [3] list of members,
+  #				[4] visible
+  #		  out:	[0] 0 (success), [1] original relation id (unchanged),
+  #				[2] new relation id
+  def putrelation(args, renumberednodes, renumberedways) #:doc:
+    usertoken,relid,tags,members,visible=args
+    uid=getuserid(usertoken)
+    if !uid then return -1,"You are not logged in, so the point could not be saved." end
+
+    relid = relid.to_i
+	visible = visible.to_i
+
+	# create a new relation, or find the existing one
+    if relid <= 0
+      rel = Relation.new
+    else
+      rel = Relation.find(relid)
+    end
+
+    # check the members are all positive, and correctly type
+    typedmembers = []
+    members.each do |m|
+      mid = m[1].to_i
+      if mid < 0
+        mid = renumberednodes[mid] if m[0] == 'node'
+        mid = renumberedways[mid] if m[0] == 'way'
+        if mid < 0
+          return -2, "Negative ID unresolved"
+        end
+      end
+      typedmembers << [m[0], mid, m[2]]
+    end
+
+	# assign new contents
+	rel.members = typedmembers
+	rel.tags = tags
+	rel.visible = visible
+	rel.user_id = uid
+
+    # check it then save it
+    # BUG: the following is commented out because it always fails on my
+    #  install. I think it's a Rails bug.
+
+    #if !rel.preconditions_ok?
+    #  return -2, "Relation preconditions failed"
+    #else
+      rel.save_with_history!
+    #end
+
+    [0,relid,rel.id]
   end
 
   # ----- putway
@@ -487,7 +570,7 @@ class AmfController < ApplicationController
     
     n = Node.find(id.to_i)
     if n
-      return [n.id, n.long_potlatch(baselong,masterscale), n.lat_potlatch(basey,masterscale), n.tags_as_hash]
+      return [n.id, n.lon_potlatch(baselong,masterscale), n.lat_potlatch(basey,masterscale), n.tags_as_hash]
     else
       return [nil,nil,nil,'']
     end
@@ -500,18 +583,52 @@ class AmfController < ApplicationController
   #				also removes ways/nodes from any relations they're in
   #		  out:	[0] 0 (success), [1] way id (unchanged)
   def deleteway(args) #:doc:
-    usertoken,way_id=args
-    RAILS_DEFAULT_LOGGER.info("  Message: deleteway, id=#{way_id}")
+
+    usertoken,way=args
+
+    RAILS_DEFAULT_LOGGER.info("  Message: deleteway, id=#{way}")
     uid=getuserid(usertoken)
     if !uid then return -1,"You are not logged in, so the way could not be deleted." end
 
-    user = User.find(uid)
+    way=way.to_i
+    db_uqn='unin'+(rand*100).to_i.to_s+uid.to_s+way.to_i.abs.to_s+Time.new.to_i.to_s	# temp uniquenodes table name, typically 51 chars
+    db_now='@now'+(rand*100).to_i.to_s+uid.to_s+way.to_i.abs.to_s+Time.new.to_i.to_s	# 'now' variable name, typically 51 chars
+    ActiveRecord::Base.connection.execute("SET #{db_now}=NOW()")
 
-    way = Way.find(way_id)
+    # - delete any otherwise unused nodes
 
-    way.delete_with_relations_and_nodes_and_history(user)  
+    createuniquenodes(way,db_uqn,[])
 
-    return [0,way_id]
+    #	unless (preserve.empty?) then
+    #		ActiveRecord::Base.connection.execute("DELETE FROM #{db_uqn} WHERE node_id IN ("+preserve.join(',')+")")
+    #	end
+
+    sql=<<-EOF
+  INSERT INTO nodes (id,latitude,longitude,timestamp,user_id,visible,tile)
+  SELECT DISTINCT cn.id,cn.latitude,cn.longitude,#{db_now},#{uid},0,cn.tile
+    FROM current_nodes AS cn,#{db_uqn}
+   WHERE cn.id=node_id
+    EOF
+    ActiveRecord::Base.connection.insert(sql)
+
+    sql=<<-EOF
+      UPDATE current_nodes AS cn, #{db_uqn}
+         SET cn.timestamp=#{db_now},cn.visible=0,cn.user_id=#{uid} 
+       WHERE cn.id=node_id
+    EOF
+    ActiveRecord::Base.connection.update(sql)
+
+    deleteuniquenoderelations(db_uqn,uid,db_now)
+    ActiveRecord::Base.connection.execute("DROP TEMPORARY TABLE #{db_uqn}")
+
+    # - delete way
+
+    ActiveRecord::Base.connection.insert("INSERT INTO ways (id,user_id,timestamp,visible) VALUES (#{way},#{uid},#{db_now},0)")
+    ActiveRecord::Base.connection.update("UPDATE current_ways SET user_id=#{uid},timestamp=#{db_now},visible=0 WHERE id=#{way}")
+    ActiveRecord::Base.connection.execute("DELETE FROM current_way_nodes WHERE id=#{way}")
+    ActiveRecord::Base.connection.execute("DELETE FROM current_way_tags WHERE id=#{way}")
+    deleteitemrelations(way,'way',uid,db_now)
+    [0,way]
   end
 
   def readwayquery(id,insistonvisible) #:doc:

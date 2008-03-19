@@ -169,20 +169,8 @@ class ApiController < ApplicationController
       end
     end 
 
-    # collect relationships. currently done in one big block at the end;
-    # may need to move this upwards if people want automatic completion of
-    # relationships, i.e. deliver referenced objects like we do with ways...
-    relations = Array.new
-    if visible_nodes.length > 0
-        relations += Relation.find_by_sql("select e.* from current_relations e,current_relation_members em where " +
-            "e.visible=1 and " +
-            "em.id = e.id and em.member_type='node' and em.member_id in (#{visible_nodes.keys.join(',')})")
-    end
-    if way_ids.length > 0
-        relations += Relation.find_by_sql("select e.* from current_relations e,current_relation_members em where " +
-            "e.visible=1 and " +
-            "em.id = e.id and em.member_type='way' and em.member_id in (#{way_ids.join(',')})")
-    end
+    relations = Relation.find_for_nodes_and_ways(visible_nodes.keys, way_ids)
+
     # we do not normally return the "other" partners referenced by an relation, 
     # e.g. if we return a way A that is referenced by relation X, and there's 
     # another way B also referenced, that is not returned. But we do make 

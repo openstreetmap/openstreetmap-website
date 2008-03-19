@@ -102,6 +102,24 @@ class Relation < ActiveRecord::Base
     return el1
   end 
 
+  def self.find_for_nodes_and_ways(node_ids, way_ids)
+    # collect relationships. currently done in one big block at the end;
+    # may need to move this upwards if people want automatic completion of
+    # relationships, i.e. deliver referenced objects like we do with ways...
+    relations = Array.new
+    if node_ids.length > 0
+        relations += Relation.find_by_sql("select e.* from current_relations e,current_relation_members em where " +
+            "e.visible=1 and " +
+            "em.id = e.id and em.member_type='node' and em.member_id in (#{node_ids.join(',')})")
+    end
+    if way_ids.length > 0
+        relations += Relation.find_by_sql("select e.* from current_relations e,current_relation_members em where " +
+            "e.visible=1 and " +
+            "em.id = e.id and em.member_type='way' and em.member_id in (#{way_ids.join(',')})")
+    end
+  end
+
+
   # FIXME is this really needed?
   def members
     unless @members
