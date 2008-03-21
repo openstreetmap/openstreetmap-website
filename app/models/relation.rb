@@ -102,19 +102,21 @@ class Relation < ActiveRecord::Base
     return el1
   end 
 
+    
+  # collect relationships. currently done in one big block at the end;
+  # may need to move this upwards if people want automatic completion of
+  # relationships, i.e. deliver referenced objects like we do with ways... 
+  # FIXME: rip out the fucking SQL
   def self.find_for_nodes_and_ways(node_ids, way_ids)
-    # collect relationships. currently done in one big block at the end;
-    # may need to move this upwards if people want automatic completion of
-    # relationships, i.e. deliver referenced objects like we do with ways...
-	return [] if node_ids.empty? and node_ids.empty?
+    return [] if node_ids.empty? and node_ids.empty?
     relations = Array.new
     if node_ids.length > 0
-        relations += Relation.find_by_sql("select e.* from current_relations e,current_relation_members em where " +
+      relations += Relation.find_by_sql("select e.* from current_relations e,current_relation_members em where " +
             "e.visible=1 and " +
             "em.id = e.id and em.member_type='node' and em.member_id in (#{node_ids.join(',')})")
     end
     if way_ids.length > 0
-        relations += Relation.find_by_sql("select e.* from current_relations e,current_relation_members em where " +
+      relations += Relation.find_by_sql("select e.* from current_relations e,current_relation_members em where " +
             "e.visible=1 and " +
             "em.id = e.id and em.member_type='way' and em.member_id in (#{way_ids.join(',')})")
     end
@@ -124,20 +126,20 @@ class Relation < ActiveRecord::Base
   # FIXME is this really needed?
   def members
     unless @members
-        @members = Array.new
-        self.relation_members.each do |member|
-            @members += [[member.member_type,member.member_id,member.member_role]]
-        end
+      @members = Array.new
+      self.relation_members.each do |member|
+        @members += [[member.member_type,member.member_id,member.member_role]]
+      end
     end
     @members
   end
 
   def tags
     unless @tags
-        @tags = Hash.new
-        self.relation_tags.each do |tag|
-            @tags[tag.k] = tag.v
-        end
+      @tags = Hash.new
+      self.relation_tags.each do |tag|
+        @tags[tag.k] = tag.v
+      end
     end
     @tags
   end
@@ -171,11 +173,11 @@ class Relation < ActiveRecord::Base
       RelationTag.delete_all(['id = ?', self.id])
 
       tags.each do |k,v|
-	tag = RelationTag.new
-	tag.k = k
-	tag.v = v
-	tag.id = self.id
-	tag.save!
+        tag = RelationTag.new
+        tag.k = k
+        tag.v = v
+        tag.id = self.id
+        tag.save!
       end
 
       members = self.members
@@ -183,12 +185,12 @@ class Relation < ActiveRecord::Base
       RelationMember.delete_all(['id = ?', self.id])
 
       members.each do |n|
-	mem = RelationMember.new
-	mem.id = self.id
-	mem.member_type = n[0];
-	mem.member_id = n[1];
-	mem.member_role = n[2];
-	mem.save!
+        mem = RelationMember.new
+        mem.id = self.id
+        mem.member_type = n[0];
+        mem.member_id = n[1];
+        mem.member_role = n[2];
+        mem.save!
       end
 
       old_relation = OldRelation.from_relation(self)
