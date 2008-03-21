@@ -210,10 +210,13 @@ class Way < ActiveRecord::Base
   # Delete the way and it's relations, but don't really delete it - set its visibility to false and update the history etc to maintain wiki-like functionality.
   def delete_with_relations_and_history(user)
     if self.visible
-      # omg FIXME
+	  # FIXME
+	  # this should actually delete the relations,
+	  # not just throw a PreconditionFailed if it's a member of a relation!!
       if RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id",
                              :conditions => [ "visible = 1 AND member_type='way' and member_id=?", self.id])
         raise OSM::APIPreconditionFailedError
+      # end FIXME
       else
         self.user_id = user.id
         self.tags = []

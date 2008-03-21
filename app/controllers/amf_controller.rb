@@ -589,6 +589,21 @@ class AmfController < ApplicationController
     uid=getuserid(usertoken)
     if !uid then return -1,"You are not logged in, so the way could not be deleted." end
 
+	# FIXME
+	# the next bit removes the way from any relations
+	# the delete_with_relations_and_nodes_and_history method should do this,
+	#   but at present it just throws a 'precondition failed'
+    way=way.to_i 
+    db_now='@now'+(rand*100).to_i.to_s+uid.to_s+id.to_i.abs.to_s+Time.new.to_i.to_s
+	db_uqn='unin'+(rand*100).to_i.to_s+uid.to_s+way.to_i.abs.to_s+Time.new.to_i.to_s
+    ActiveRecord::Base.connection.execute("SET #{db_now}=NOW()")
+	createuniquenodes(way,db_uqn,[])
+	deleteuniquenoderelations(db_uqn,uid,db_now)
+    deleteitemrelations(way_id,'way',uid,db_now)
+    ActiveRecord::Base.connection.execute("DROP TEMPORARY TABLE #{db_uqn}")
+	# end of FIXME
+
+	# now delete the way
     user = User.find(uid)
     way = Way.find(way_id)
     way.delete_with_relations_and_nodes_and_history(user)  
