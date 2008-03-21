@@ -106,6 +106,7 @@ class Relation < ActiveRecord::Base
     # collect relationships. currently done in one big block at the end;
     # may need to move this upwards if people want automatic completion of
     # relationships, i.e. deliver referenced objects like we do with ways...
+	return [] if node_ids.empty? and node_ids.empty?
     relations = Array.new
     if node_ids.length > 0
         relations += Relation.find_by_sql("select e.* from current_relations e,current_relation_members em where " +
