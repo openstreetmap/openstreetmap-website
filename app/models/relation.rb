@@ -108,8 +108,8 @@ class Relation < ActiveRecord::Base
   # relationships, i.e. deliver referenced objects like we do with ways... 
   # FIXME: rip out the fucking SQL
   def self.find_for_nodes_and_ways(node_ids, way_ids)
-    return [] if node_ids.empty? and node_ids.empty?
-    relations = Array.new
+    relations = []
+
     if node_ids.length > 0
       relations += Relation.find_by_sql("select e.* from current_relations e,current_relation_members em where " +
             "e.visible=1 and " +
@@ -120,6 +120,8 @@ class Relation < ActiveRecord::Base
             "e.visible=1 and " +
             "em.id = e.id and em.member_type='way' and em.member_id in (#{way_ids.join(',')})")
     end
+
+    relations # if you don't do this then it returns nil and not []
   end
 
 
