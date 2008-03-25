@@ -14,11 +14,11 @@ class GeocoderController < ApplicationController
       results.push search_us_postcode(query)
     elsif query.match(/(GIR 0AA|[A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]|[A-HK-Y][0-9]([0-9]|[ABEHMNPRV-Y]))|[0-9][A-HJKS-UW])\s*[0-9][ABD-HJLNP-UW-Z]{2})/i)
       results.push search_uk_postcode(query)
-#      results.push search_osm_namefinder(query)
+      results.push search_osm_namefinder(query)
     elsif query.match(/[A-Z]\d[A-Z]\s*\d[A-Z]\d/i)
       results.push search_ca_postcode(query)
     else
-#      results.push search_osm_namefinder(query)
+      results.push search_osm_namefinder(query)
       results.push search_geonames(query)
     end
 
@@ -42,9 +42,9 @@ class GeocoderController < ApplicationController
     lat = params[:lat]
     lon = params[:lon]
 
-#    results.push description_osm_namefinder("cities", lat, lon, 2)
-#    results.push description_osm_namefinder("towns", lat, lon, 4)
-#    results.push description_osm_namefinder("places", lat, lon, 10)
+    results.push description_osm_namefinder("cities", lat, lon, 2)
+    results.push description_osm_namefinder("towns", lat, lon, 4)
+    results.push description_osm_namefinder("places", lat, lon, 10)
     results.push description_geonames(lat, lon)
 
     render :update do |page|
@@ -118,7 +118,7 @@ private
     results = Array.new
 
     # ask OSM namefinder
-    response = fetch_xml("http://www.frankieandshadow.com/osm/search.xml?find=#{escape_query(query)}")
+    response = fetch_xml("http://gazetteer.openstreetmap.org/namefinder/search.xml?find=#{escape_query(query)}")
 
     # parse the response
     response.elements.each("searchresults/named") do |named|
@@ -148,9 +148,9 @@ private
                     :description => description})
     end
 
-    return { :source => "OpenStreetMap Namefinder", :url => "http://www.frankieandshadow.com/osm/", :results => results }
+    return { :source => "OpenStreetMap Namefinder", :url => "http://gazetteer.openstreetmap.org/namefinder/", :results => results }
   rescue Exception => ex
-    return { :source => "OpenStreetMap Namefinder", :url => "http://www.frankieandshadow.com/osm/", :error => "Error contacting www.frankieandshadow.com: #{ex.to_s}" }
+    return { :source => "OpenStreetMap Namefinder", :url => "http://gazetteer.openstreetmap.org/namefinder/", :error => "Error contacting gazetteer.openstreetmap.org: #{ex.to_s}" }
   end
 
   def search_geonames(query)
@@ -179,7 +179,7 @@ private
     results = Array.new
 
     # ask OSM namefinder
-    response = fetch_xml("http://www.frankieandshadow.com/osm/search.xml?find=#{types}+near+#{lat},#{lon}&max=#{max}")
+    response = fetch_xml("http://gazetteer.openstreetmap.org/namefinder/search.xml?find=#{types}+near+#{lat},#{lon}&max=#{max}")
 
     # parse the response
     response.elements.each("searchresults/named") do |named|
@@ -198,9 +198,9 @@ private
                     :description => description})
     end
 
-    return { :type => types.capitalize, :source => "OpenStreetMap Namefinder", :url => "http://www.frankieandshadow.com/osm/", :results => results }
+    return { :type => types.capitalize, :source => "OpenStreetMap Namefinder", :url => "http://gazetteer.openstreetmap.org/namefinder/", :results => results }
   rescue Exception => ex
-    return { :type => types.capitalize, :source => "OpenStreetMap Namefinder", :url => "http://www.frankieandshadow.com/osm/", :error => "Error contacting www.frankieandshadow.com: #{ex.to_s}" }
+    return { :type => types.capitalize, :source => "OpenStreetMap Namefinder", :url => "http://gazetteer.openstreetmap.org/namefinder/", :error => "Error contacting gazetteer.openstreetmap.org: #{ex.to_s}" }
   end
 
   def description_geonames(lat, lon)
