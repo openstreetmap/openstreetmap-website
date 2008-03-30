@@ -26,15 +26,19 @@
 <% if params['mlon'] and params['mlat'] %>
 <% lon =  h(params['mlon']) %>
 <% lat =  h(params['mlat'])  %>
-<% zoom =  h(params['zoom'] || '12') %>
-<% elsif @user and params['lon'].nil? and params['lat'].nil? %> 
+<% zoom =  h(params['zoom'] || '14') %>
+<% elsif @user and params['lon'].nil? and params['lat'].nil? and params['gpx'].nil? %> 
 <% lon =  @user.home_lon %>
 <% lat =  @user.home_lat %>
-<% zoom = '12' %>
-<%else%>
+<% zoom = '14' %>
+<% elsif params['gpx'].nil? %>
 <% lon =  h(params['lon'] || '-0.1') %>
 <% lat =  h(params['lat'] || '51.5') %>
-<% zoom =  h(params['zoom'] || '12') %>
+<% zoom =  h(params['zoom'] || '14') %>
+<% else %>
+<% lon = nil %>
+<% lat = nil %>
+<% zoom = '14' %>
 <% end %>
 
 <div id="map">You need a Flash player to use Potlatch, the
@@ -59,17 +63,17 @@
 
   function doSWF(lat,lon,sc) {
     if (sc < 11) sc = 11;
-    fo.addVariable('lat',lat);
-    fo.addVariable('long',lon);
     fo.addVariable('scale',sc);
     fo.addVariable('token','<%= session[:token] %>');
+    if (lat) { fo.addVariable('lat',lat); }
+    if (lon) { fo.addVariable('long',lon); }
     <% if params['gpx'] %>
     fo.addVariable('gpx','<%= h(params['gpx']) + "/data.xml" %>');
     <% end %>
     fo.write("map");
   }
 
-  doSWF(<%= lat %>,<%= lon %>,<%= zoom %>);
+  doSWF(<%= lat || 'null' %>,<%= lon || 'null' %>,<%= zoom %>);
 
   function setPosition(lat, lon, zoom) {
     doSWF(lat, lon, zoom);
