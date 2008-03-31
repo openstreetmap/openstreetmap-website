@@ -51,7 +51,8 @@ OpenLayers.Layer.OSM = OpenLayers.Class(OpenLayers.Layer.TMS, {
             maxExtent: new OpenLayers.Bounds(-20037508,-20037508,20037508,20037508),
             maxResolution: 156543,
             units: "m",
-            projection: "EPSG:900913"
+            projection: "EPSG:900913",
+            transitionEffect: "resize"
         }, options);
         var newArguments = [name, url, options];
         OpenLayers.Layer.TMS.prototype.initialize.apply(this, newArguments);
