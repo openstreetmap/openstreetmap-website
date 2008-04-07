@@ -1,0 +1,103 @@
+<% form_tag :action => 'next' do %>
+
+  <p class="export_heading">Area to Export</p>
+
+  <div class="export_bounds">
+    <%= text_field('export', 'maxlat', { :size => 10, :class => "export_bound" }) %>
+    <br/>
+    <%= text_field('export', 'minlon', { :size => 10, :class => "export_bound" }) %>
+    <%= text_field('export', 'maxlon', { :size => 10, :class => "export_bound" }) %>
+    <br/>
+    <%= text_field('export', 'minlat', { :size => 10, :class => "export_bound" }) %>
+  </div>
+
+  <p class="export_heading">Format to Export</p>
+
+  <div class="export_details">
+    <%= radio_button('export', 'format', 'osm' ) %>OpenStreetMap XML Data
+    <br/>
+    <%= radio_button('export', 'format', 'png' ) %>PNG Image
+    <br/>
+    <%= radio_button('export', 'format', 'pdf' ) %>PDF Document
+    <br/>
+    <%= radio_button('export', 'format', 'svg' ) %>SVG Document
+  </div>
+
+  <div id="export_osm">
+    <p class="export_heading">Licence</p>
+
+    <div class="export_details">
+      <p>OSM license agreement blah blah blah...</p>
+    </div
+  </div>
+
+  <div id="export_mapnik">
+    <p class="export_heading">Options</p>
+
+    <div class="export_details">
+      <p>Scale 1 : <%= text_field('export', 'mapnik_scale', { :size => 10 }) %></p>
+    </div>
+  </div>
+
+<% end %>
+
+<script type="text/javascript">
+  <!--
+  function startExport() {
+    var vectors = new OpenLayers.Layer.Vector("Vector Layer", {
+      displayInLayerSwitcher: false,
+    });
+    map.addLayer(vectors);
+
+    var box = new OpenLayers.Control.DrawFeature(vectors, OpenLayers.Handler.RegularPolygon, { 
+      handlerOptions: {
+        keyMask: OpenLayers.Handler.MOD_CTRL,
+        sides: 4,
+        snapAngle: 90,
+        irregular: true,
+        persist: true,
+        callbacks: { done: boxComplete }
+      }
+    });
+    map.addControl(box);
+
+    box.activate();
+
+    map.events.register("moveend", map, mapMoved);
+    updateRegion(map.getExtent());
+  }
+
+  function setFormat(format) {
+    $("export_osm").style.display = "none";
+    $("export_mapnik").style.display = "none";
+    $("export_" + format).style.display = "inline";
+  }
+
+  $("export_format_osm").onclick = function() { setFormat("osm") };
+  $("export_format_png").onclick = function() { setFormat("mapnik") };
+  $("export_format_pdf").onclick = function() { setFormat("mapnik") };
+  $("export_format_svg").onclick = function() { setFormat("mapnik") };
+
+  function mapMoved() {
+    updateRegion(map.getExtent());
+  }
+
+  function boxComplete(box) {
+    map.events.unregister("moveend", map, mapMoved);
+    updateRegion(box.getBounds());
+  }
+
+  function updateRegion(bounds) {
+    var decimals = Math.pow(10, Math.floor(map.getZoom() / 3));
+    var bl = mercatorToLonLat(new OpenLayers.LonLat(bounds.left, bounds.bottom));
+    var tr = mercatorToLonLat(new OpenLayers.LonLat(bounds.right, bounds.top));
+
+    $("export_maxlat").value = Math.round(tr.lat * decimals) / decimals;
+    $("export_minlon").value = Math.round(bl.lon * decimals) / decimals;
+    $("export_maxlon").value = Math.round(tr.lon * decimals) / decimals;
+    $("export_minlat").value = Math.round(bl.lat * decimals) / decimals;
+  }
+
+  startExport();
+  // -->
+</script>

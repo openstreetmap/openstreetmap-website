@@ -64,6 +64,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/user/upload_image', :controller => 'user', :action => 'upload_image'
   map.connect '/index.html', :controller => 'site', :action => 'index'
   map.connect '/edit.html', :controller => 'site', :action => 'edit'
+  map.connect '/export.html', :controller => 'site', :action => 'export'
   map.connect '/search.html', :controller => 'way_tag', :action => 'search'
   map.connect '/login.html', :controller => 'user', :action => 'login'
   map.connect '/logout.html', :controller => 'user', :action => 'logout'
@@ -120,6 +121,9 @@ ActionController::Routing::Routes.draw do |map|
   # geocoder
   map.connect '/geocoder/search', :controller => 'geocoder', :action => 'search'
   map.connect '/geocoder/description', :controller => 'geocoder', :action => 'description'
+
+  # export
+  map.connect '/export/start', :controller => 'export', :action => 'start'
 
   # messages
 

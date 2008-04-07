@@ -8,6 +8,10 @@ OpenLayers._getScriptLocation = function () {
    
 function createMap(divName) {
    map = new OpenLayers.Map(divName, {
+      maxExtent: new OpenLayers.Bounds(-20037508,-20037508,20037508,20037508),
+      maxResolution: 156543,
+      units: "m",
+      projection: "EPSG:900913",
       controls: [
          new OpenLayers.Control.ArgParser(), 
          new OpenLayers.Control.Attribution(),
@@ -28,11 +32,8 @@ function createMap(divName) {
 
    var numZoomLevels = Math.max(mapnik.numZoomLevels, osmarender.numZoomLevels);
    markers = new OpenLayers.Layer.Markers("Markers", { 
-      displayInLayerSwitcher: false, numZoomLevels: numZoomLevels,
-      maxExtent: new OpenLayers.Bounds(-20037508,-20037508,20037508,20037508),
-      maxResolution: 156543,
-      units: "m",
-      projection: "EPSG:41001"
+      displayInLayerSwitcher: false,
+      numZoomLevels: numZoomLevels
    });
    map.addLayer(markers);
 
