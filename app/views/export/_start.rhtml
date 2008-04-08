@@ -67,16 +67,26 @@
     updateRegion(map.getExtent());
   }
 
-  function setFormat(format) {
-    $("export_osm").style.display = "none";
-    $("export_mapnik").style.display = "none";
-    $("export_" + format).style.display = "inline";
+  function formatChanged() {
+    if ($("export_format_osm").checked) {
+      $("export_osm").style.display = "inline";
+    } else {
+      $("export_osm").style.display = "none";
+    }
+
+    if ($("export_format_png").checked ||
+        $("export_format_pdf").checked ||
+        $("export_format_svg").checked) {
+      $("export_mapnik").style.display = "inline";
+    } else {
+      $("export_mapnik").style.display = "none";
+    }
   }
 
-  $("export_format_osm").onclick = function() { setFormat("osm") };
-  $("export_format_png").onclick = function() { setFormat("mapnik") };
-  $("export_format_pdf").onclick = function() { setFormat("mapnik") };
-  $("export_format_svg").onclick = function() { setFormat("mapnik") };
+  $("export_format_osm").onclick = function() { formatChanged() };
+  $("export_format_png").onclick = function() { formatChanged() };
+  $("export_format_pdf").onclick = function() { formatChanged() };
+  $("export_format_svg").onclick = function() { formatChanged() };
 
   function mapMoved() {
     updateRegion(map.getExtent());
@@ -88,14 +98,24 @@
   }
 
   function updateRegion(bounds) {
+    var epsg4326 = new OpenLayers.Projection("EPSG:4326");
     var decimals = Math.pow(10, Math.floor(map.getZoom() / 3));
-    var bl = mercatorToLonLat(new OpenLayers.LonLat(bounds.left, bounds.bottom));
-    var tr = mercatorToLonLat(new OpenLayers.LonLat(bounds.right, bounds.top));
 
-    $("export_maxlat").value = Math.round(tr.lat * decimals) / decimals;
-    $("export_minlon").value = Math.round(bl.lon * decimals) / decimals;
-    $("export_maxlon").value = Math.round(tr.lon * decimals) / decimals;
-    $("export_minlat").value = Math.round(bl.lat * decimals) / decimals;
+    bounds.transform(map.getProjectionObject(), epsg4326);
+
+    $("export_maxlat").value = Math.round(bounds.top * decimals) / decimals;
+    $("export_minlon").value = Math.round(bounds.left * decimals) / decimals;
+    $("export_maxlon").value = Math.round(bounds.right * decimals) / decimals;
+    $("export_minlat").value = Math.round(bounds.bottom * decimals) / decimals;
+
+    if (bounds.getWidth() * bounds.getHeight() > 0.25) {
+      $("export_format_osm").disabled = true;
+      $("export_format_osm").checked = false;
+
+      formatChanged();
+    } else {
+      $("export_format_osm").disabled = false;
+    }
   }
 
   startExport();
