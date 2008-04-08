@@ -1,4 +1,4 @@
-div.olMapViewport {
+div.olLayerDiv {
    -moz-user-select: none 
 }
 
@@ -22,12 +22,31 @@ div.olMapViewport {
     bottom: 3em;
     display: block;
     position: absolute;
+    font-size: smaller;
 }
+.olControlScaleLine {
+   left: 10px;
+   bottom: 15px;
+   font-size: xx-small;
+}
+.olControlScaleLineBottom {
+   border: solid 2px black;
+   border-bottom: none;
+   margin-top:-2px;
+   text-align: center;
+}
+.olControlScaleLineTop {
+   border: solid 2px black;
+   border-top: none;
+   text-align: center;
+}
+
 .olControlPermalink {
     right: 3px;
     bottom: 1.5em;
     display: block;
     position: absolute;
+    font-size: smaller;
 } 
 
 div.olControlMousePosition {
@@ -62,9 +81,19 @@ div.olControlMousePosition {
 }
 
 .olControlOverviewMapExtentRectangle {
-   cursor: move;
+    overflow: hidden;
+    background-image: url("img/blank.gif");
+    cursor: move;
     border: 2px dotted red;
 }
+.olControlOverviewMapRectReplacement {
+    overflow: hidden;
+    cursor: move;
+    background-image: url("img/overview_replacement.gif");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
 .olLayerGeoRSSDescription {
     float:left;
     width:100%;
@@ -75,7 +104,7 @@ div.olControlMousePosition {
     float:right;
     color:gray;
     font-size:1.2em;
-	margin-right:6px;
+    margin-right:6px;
     font-family:sans-serif;
 }
 .olLayerGeoRSSTitle {
@@ -84,6 +113,7 @@ div.olControlMousePosition {
 
 .olPopupContent {
     padding:5px;
+    overflow: auto;
 }    
 .olControlNavToolbar { 
     width:0px;
@@ -96,6 +126,31 @@ div.olControlMousePosition {
   top: 300px;
   left: 6px;
   position: relative;
+}
+
+.olControlNavigationHistoryPreviousItemActive { 
+   background-image: url("img/view_previous_on.png");
+   background-repeat: no-repeat;
+   width:  24px;
+   height: 24px;
+}
+.olControlNavigationHistoryPreviousItemInactive { 
+   background-image: url("img/view_previous_off.png");
+   background-repeat: no-repeat;
+   width:  24px;
+   height: 24px;
+}
+.olControlNavigationHistoryNextItemActive { 
+   background-image: url("img/view_next_on.png");
+   background-repeat: no-repeat;
+   width:  24px;
+   height: 24px;
+}
+.olControlNavigationHistoryNextItemInactive { 
+   background-image: url("img/view_next_off.png");
+   background-repeat: no-repeat;
+   width:  24px;
+   height: 24px;
 }
 
 .olControlNavToolbar .olControlNavigationItemActive { 
@@ -128,34 +183,64 @@ div.olControlMousePosition {
   margin: 5px;
 }
 .olControlEditingToolbar .olControlNavigationItemActive { 
-  background-image: url("img/pan_on.png");
+  background-image: url("img/editing_tool_bar.png");
   background-repeat: no-repeat;
+  background-position: -103px -23px; 
 }
 .olControlEditingToolbar .olControlNavigationItemInactive { 
-  background-image: url("img/pan_off.png");
+  background-image: url("img/editing_tool_bar.png");
   background-repeat: no-repeat;
+  background-position: -103px -0px; 
 }
 .olControlEditingToolbar .olControlDrawFeaturePointItemActive { 
-  background-image: url("img/draw_point_on.png");
+  background-image: url("img/editing_tool_bar.png");
   background-repeat: no-repeat;
+  background-position: -77px -23px; 
 }
 .olControlEditingToolbar .olControlDrawFeaturePointItemInactive { 
-  background-image: url("img/draw_point_off.png");
+  background-image: url("img/editing_tool_bar.png");
   background-repeat: no-repeat;
+  background-position: -77px -0px; 
 }
 .olControlEditingToolbar .olControlDrawFeaturePathItemInactive { 
-  background-image: url("img/draw_line_off.png");
+  background-image: url("img/editing_tool_bar.png");
   background-repeat: no-repeat;
+  background-position: -51px 0px; 
 }
 .olControlEditingToolbar .olControlDrawFeaturePathItemActive { 
-  background-image: url("img/draw_line_on.png");
+  background-image: url("img/editing_tool_bar.png");
   background-repeat: no-repeat;
+  background-position: -51px -23px; 
 }
 .olControlEditingToolbar .olControlDrawFeaturePolygonItemInactive { 
-  background-image: url("img/draw_polygon_off.png");
+  background-image: url("img/editing_tool_bar.png");
   background-repeat: no-repeat;
+  background-position: -26px 0px; 
 }
 .olControlEditingToolbar .olControlDrawFeaturePolygonItemActive { 
-  background-image: url("img/draw_polygon_on.png");
+  background-image: url("img/editing_tool_bar.png");
   background-repeat: no-repeat;
+  background-position: -26px -23px ;                                                                   
+}
+
+.olHandlerBoxZoomBox {
+    border: 2px solid red;
+    position: absolute;
+    background-color: white;
+    opacity: 0.50;
+    font-size: 1px;
+    filter: alpha(opacity=50);
+}   
+
+/* 
+ * Due to current limitations in the OpenLayers code, you can only
+ * replace this image with another image which is 17px x 17px. 
+ */   
+.olPopupCloseBox {
+  background: url("img/close.gif") no-repeat;
+  cursor: pointer;
+}
+
+.olControlNoSelect {
+ -moz-user-select: none;
 }
