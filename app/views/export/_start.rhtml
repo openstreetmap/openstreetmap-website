@@ -43,13 +43,15 @@
 
 <script type="text/javascript">
   <!--
+  var box;
+
   function startExport() {
     var vectors = new OpenLayers.Layer.Vector("Vector Layer", {
       displayInLayerSwitcher: false,
     });
     map.addLayer(vectors);
 
-    var box = new OpenLayers.Control.DrawFeature(vectors, OpenLayers.Handler.RegularPolygon, { 
+    box = new OpenLayers.Control.DrawFeature(vectors, OpenLayers.Handler.RegularPolygon, { 
       handlerOptions: {
         keyMask: OpenLayers.Handler.MOD_CTRL,
         sides: 4,
@@ -87,6 +89,29 @@
   $("export_format_png").onclick = function() { formatChanged() };
   $("export_format_pdf").onclick = function() { formatChanged() };
   $("export_format_svg").onclick = function() { formatChanged() };
+
+  function boundsChanged() {
+    var epsg4326 = new OpenLayers.Projection("EPSG:4326");
+    var bounds = new OpenLayers.Bounds($("export_minlon").value,
+                                       $("export_minlat").value,
+                                       $("export_maxlon").value,
+                                       $("export_maxlat").value);
+ 
+    bounds.transform(epsg4326, map.getProjectionObject());
+
+    map.events.unregister("moveend", map, mapMoved);
+    map.zoomToExtent(bounds);
+
+    box.handler.clear();
+    box.handler.feature = new OpenLayers.Feature.Vector(bounds.toGeometry());
+    box.handler.layer.addFeatures([box.handler.feature], [box.handler.style]);
+    box.handler.layer.drawFeature(box.handler.feature, box.handler.style);
+  }
+
+  $("export_maxlat").onchange = function() { boundsChanged() };
+  $("export_minlon").onchange = function() { boundsChanged() };
+  $("export_maxlon").onchange = function() { boundsChanged() };
+  $("export_minlat").onchange = function() { boundsChanged() };
 
   function mapMoved() {
     updateRegion(map.getExtent());
