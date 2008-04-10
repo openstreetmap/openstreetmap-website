@@ -146,17 +146,18 @@ private
         if place.attributes["rank"].to_i <= 30
           parent = nil
           parentrank = 0
-          parentdistance = 0
+          parentscore = 0
 
           place.elements.each("nearestplaces/named") do |nearest|
             nearestrank = nearest.attributes["rank"].to_i
-            nearestdistance = nearest.attributes["distance"].to_f
+            nearestscore = nearestrank / nearest.attributes["distance"].to_f
 
-            if nearestrank > parentrank or
-               ( nearestrank == parentrank and nearestdistance < parentdistance )
+            if nearestrank > 30 and
+               ( nearestscore > parentscore or
+                 ( nearestscore == parentscore and nearestrank > parentrank ) )
               parent = nearest
               parentrank = nearestrank
-              parentdistance = nearestdistance
+              parentscore = nearestscore
             end
           end
 
@@ -166,7 +167,9 @@ private
             if  place.attributes["info"].to_s == "suburb"
               suffix = "#{suffix}, #{parentname}"
             else
-              suffix = "#{suffix} (near #{parentname})"
+              parentdistance = format_distance(parent.attributes["approxdistance"].to_i)
+              parentdirection = format_direction(parent.attributes["direction"].to_i)
+              suffix = "#{suffix} (#{parentdistance} #{parentdirection} of #{parentname})"
             end
           end
         end
