@@ -17,22 +17,32 @@ function createMap(divName) {
       ]
    });
 
-   var mapnik = new OpenLayers.Layer.OSM.Mapnik("Mapnik", { displayOutsideMaxExtent: true });
+   var mapnik = new OpenLayers.Layer.OSM.Mapnik("Mapnik", { 
+      displayOutsideMaxExtent: true,
+      wrapDateLine: true
+   });
    map.addLayer(mapnik);
 
-   var osmarender = new OpenLayers.Layer.OSM.Osmarender("Osmarender", { displayOutsideMaxExtent: true });
+   var osmarender = new OpenLayers.Layer.OSM.Osmarender("Osmarender", {
+      displayOutsideMaxExtent: true,
+      wrapDateLine: true
+   });
    map.addLayer(osmarender);
 
-   var maplint = new OpenLayers.Layer.OSM.Maplint("Maplint", { displayOutsideMaxExtent: true });
+   var maplint = new OpenLayers.Layer.OSM.Maplint("Maplint", { 
+      displayOutsideMaxExtent: true,
+      wrapDateLine: true
+   });
    map.addLayer(maplint);
 
    var numZoomLevels = Math.max(mapnik.numZoomLevels, osmarender.numZoomLevels);
    markers = new OpenLayers.Layer.Markers("Markers", { 
-      displayInLayerSwitcher: false, numZoomLevels: numZoomLevels,
+      displayInLayerSwitcher: false,
+      numZoomLevels: numZoomLevels,
       maxExtent: new OpenLayers.Bounds(-20037508,-20037508,20037508,20037508),
       maxResolution: 156543,
       units: "m",
-      projection: "EPSG:41001"
+      projection: "EPSG:900913",
    });
    map.addLayer(markers);
 
