@@ -29,11 +29,11 @@ function createMap(divName) {
    });
    map.addLayer(osmarender);
 
-   var mapnik_local = new OpenLayers.Layer.OSM("Mapnik (Local)", "http://bericote.uk.cyberscience.com/tiles/", { 
+   var maplint = new OpenLayers.Layer.OSM.Maplint("Maplint", { 
       displayOutsideMaxExtent: true,
       wrapDateLine: true
    });
-   map.addLayer(mapnik_local);
+   map.addLayer(maplint);
 
    var numZoomLevels = Math.max(mapnik.numZoomLevels, osmarender.numZoomLevels);
    markers = new OpenLayers.Layer.Markers("Markers", { 
