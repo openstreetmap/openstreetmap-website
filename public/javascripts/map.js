@@ -35,12 +35,6 @@ function createMap(divName) {
    });
    map.addLayer(mapnik_local);
 
-   var maplint = new OpenLayers.Layer.OSM.Maplint("Maplint", { 
-      displayOutsideMaxExtent: true,
-      wrapDateLine: true
-   });
-   map.addLayer(maplint);
-
    var numZoomLevels = Math.max(mapnik.numZoomLevels, osmarender.numZoomLevels);
    markers = new OpenLayers.Layer.Markers("Markers", { 
       displayInLayerSwitcher: false,
