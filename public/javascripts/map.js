@@ -29,6 +29,12 @@ function createMap(divName) {
    });
    map.addLayer(osmarender);
 
+   var mapnik_local = new OpenLayers.Layer.OSM("Mapnik (Local)", "http://bericote.uk.cyberscience.com/tiles/", { 
+      displayOutsideMaxExtent: true,
+      wrapDateLine: true
+   });
+   map.addLayer(mapnik_local);
+
    var maplint = new OpenLayers.Layer.OSM.Maplint("Maplint", { 
       displayOutsideMaxExtent: true,
       wrapDateLine: true
@@ -42,7 +48,7 @@ function createMap(divName) {
       maxExtent: new OpenLayers.Bounds(-20037508,-20037508,20037508,20037508),
       maxResolution: 156543,
       units: "m",
-      projection: "EPSG:900913",
+      projection: "EPSG:900913"
    });
    map.addLayer(markers);
 
