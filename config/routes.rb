@@ -124,6 +124,7 @@ ActionController::Routing::Routes.draw do |map|
 
   # export
   map.connect '/export/start', :controller => 'export', :action => 'start'
+  map.connect '/export/finish', :controller => 'export', :action => 'finish'
 
   # messages
 
@@ -135,6 +136,6 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/message/reply/:message_id', :controller => 'message', :action => 'reply'
 
   # fall through
-     map.connect ':controller/:id/:action'
+  map.connect ':controller/:id/:action'
   map.connect ':controller/:action'
 end

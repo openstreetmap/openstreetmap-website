@@ -1,26 +1,29 @@
-<% form_tag :action => 'next' do %>
+<% form_tag :action => "finish" do %>
 
   <p class="export_heading">Area to Export</p>
 
   <div class="export_bounds">
-    <%= text_field('export', 'maxlat', { :size => 10, :class => "export_bound" }) %>
+    <%= text_field_tag('maxlat', nil, :size => 10, :class => "export_bound") %>
     <br/>
-    <%= text_field('export', 'minlon', { :size => 10, :class => "export_bound" }) %>
-    <%= text_field('export', 'maxlon', { :size => 10, :class => "export_bound" }) %>
+    <%= text_field_tag('minlon', nil, :size => 10, :class => "export_bound") %>
+    <%= text_field_tag('maxlon', nil, :size => 10, :class => "export_bound") %>
     <br/>
-    <%= text_field('export', 'minlat', { :size => 10, :class => "export_bound" }) %>
+    <%= text_field_tag('minlat', nil, :size => 10, :class => "export_bound") %>
+    <p class="export_hint">
+      Drag a box with control held down to select an area to export
+    </p>
   </div>
 
   <p class="export_heading">Format to Export</p>
 
   <div class="export_details">
-    <%= radio_button('export', 'format', 'osm' ) %>OpenStreetMap XML Data
-    <br/>
-    <%= radio_button('export', 'format', 'png' ) %>PNG Image
-    <br/>
-    <%= radio_button('export', 'format', 'pdf' ) %>PDF Document
-    <br/>
-    <%= radio_button('export', 'format', 'svg' ) %>SVG Document
+    <p>
+      <%= radio_button_tag("format", "osm") %>OpenStreetMap XML Data
+      <br/>
+      <%= radio_button_tag("format", "mapnik") %>Mapnik Image
+      <br/>
+      <%= radio_button_tag("format", "osmarender") %>Osmarender Image
+    </p>
   </div>
 
   <div id="export_osm">
@@ -35,8 +38,22 @@
     <p class="export_heading">Options</p>
 
     <div class="export_details">
-      <p>Scale 1 : <%= text_field('export', 'mapnik_scale', { :size => 10 }) %></p>
+      <p>Format <%= select_tag("mapnik_format", options_for_select([["PNG", "png"], ["JPEG", "jpeg"], ["SVG", "svg"], ["PDF", "pdf"], ["Postscript", "ps"]], "png")) %></p>
+      <p>Scale 1 : <%= text_field_tag("mapnik_scale", nil, :size => 8) %> <span class="export_hint">(max 1 : <span id="max_scale"></span>)</span></p>
     </div>
+  </div>
+
+  <div id="export_osmarender">
+    <p class="export_heading">Options</p>
+
+    <div class="export_details">
+      <p>Format <%= select_tag("osmarender_format", options_for_select([["PNG", "png"], ["JPEG", "jpeg"]], "png")) %></p>
+      <p>Zoom <%= select_tag("osmarender_zoom", options_for_select([4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17])) %></p>
+    </div>
+  </div>
+
+  <div class="export_buttons">
+    <p><%= submit_tag "Export", :id => "export_commit" %></p>
   </div>
 
 <% end %>
@@ -70,32 +87,39 @@
   }
 
   function formatChanged() {
-    if ($("export_format_osm").checked) {
+    if ($("format_osm").checked) {
       $("export_osm").style.display = "inline";
     } else {
       $("export_osm").style.display = "none";
     }
 
-    if ($("export_format_png").checked ||
-        $("export_format_pdf").checked ||
-        $("export_format_svg").checked) {
+    if ($("format_mapnik").checked) {
+      $("mapnik_scale").value = roundScale(map.getScale());
       $("export_mapnik").style.display = "inline";
     } else {
       $("export_mapnik").style.display = "none";
     }
+
+    if ($("format_osmarender").checked) {
+      var zoom = Math.min(map.getZoom(), maxOsmarenderZoom());
+
+      $("osmarender_zoom").options.selectedIndex = zoom - 4;
+      $("export_osmarender").style.display = "inline";
+    } else {
+      $("export_osmarender").style.display = "none";
+    }
   }
 
-  $("export_format_osm").onclick = function() { formatChanged() };
-  $("export_format_png").onclick = function() { formatChanged() };
-  $("export_format_pdf").onclick = function() { formatChanged() };
-  $("export_format_svg").onclick = function() { formatChanged() };
+  $("format_osm").onclick = function() { formatChanged() };
+  $("format_mapnik").onclick = function() { formatChanged() };
+  $("format_osmarender").onclick = function() { formatChanged() };
 
   function boundsChanged() {
     var epsg4326 = new OpenLayers.Projection("EPSG:4326");
-    var bounds = new OpenLayers.Bounds($("export_minlon").value,
-                                       $("export_minlat").value,
-                                       $("export_maxlon").value,
-                                       $("export_maxlat").value);
+    var bounds = new OpenLayers.Bounds($("minlon").value,
+                                       $("minlat").value,
+                                       $("maxlon").value,
+                                       $("maxlat").value);
  
     bounds.transform(epsg4326, map.getProjectionObject());
 
@@ -108,10 +132,10 @@
     box.handler.layer.drawFeature(box.handler.feature, box.handler.style);
   }
 
-  $("export_maxlat").onchange = function() { boundsChanged() };
-  $("export_minlon").onchange = function() { boundsChanged() };
-  $("export_maxlon").onchange = function() { boundsChanged() };
-  $("export_minlat").onchange = function() { boundsChanged() };
+  $("maxlat").onchange = function() { boundsChanged() };
+  $("minlon").onchange = function() { boundsChanged() };
+  $("maxlon").onchange = function() { boundsChanged() };
+  $("minlat").onchange = function() { boundsChanged() };
 
   function mapMoved() {
     updateRegion(map.getExtent());
@@ -128,20 +152,75 @@
 
     bounds.transform(map.getProjectionObject(), epsg4326);
 
-    $("export_maxlat").value = Math.round(bounds.top * decimals) / decimals;
-    $("export_minlon").value = Math.round(bounds.left * decimals) / decimals;
-    $("export_maxlon").value = Math.round(bounds.right * decimals) / decimals;
-    $("export_minlat").value = Math.round(bounds.bottom * decimals) / decimals;
+    $("minlon").value = Math.round(bounds.left * decimals) / decimals;
+    $("minlat").value = Math.round(bounds.bottom * decimals) / decimals;
+    $("maxlon").value = Math.round(bounds.right * decimals) / decimals;
+    $("maxlat").value = Math.round(bounds.top * decimals) / decimals;
 
     if (bounds.getWidth() * bounds.getHeight() > 0.25) {
-      $("export_format_osm").disabled = true;
-      $("export_format_osm").checked = false;
+      $("format_osm").disabled = true;
+      $("format_osm").checked = false;
 
       formatChanged();
     } else {
-      $("export_format_osm").disabled = false;
+      $("format_osm").disabled = false;
+    }
+    
+    var max_zoom = maxOsmarenderZoom();
+    var max_scale = maxMapnikScale();
+
+    $("max_scale").innerHTML = roundScale(max_scale);
+
+    for (var o = 0; o < $("osmarender_zoom").options.length; o++) {
+      var option = $("osmarender_zoom").options[o];
+
+      if (option.value > max_zoom) {
+        option.disabled = true;
+      } else {
+        option.disabled = false;
+      }
+    }
+
+    if ($("osmarender_zoom").options.selectedIndex + 4 > max_zoom) {
+      $("osmarender_zoom").options.selectedIndex = max_zoom - 4;
     }
   }
+
+  function maxMapnikScale() {
+    var bounds = new OpenLayers.Bounds($("minlon").value, $("minlat").value, $("maxlon").value, $("maxlat").value);
+    var epsg4326 = new OpenLayers.Projection("EPSG:4326");
+    var epsg900913 = new OpenLayers.Projection("EPSG:900913");
+
+    bounds.transform(epsg4326, epsg900913);
+
+    return Math.floor(Math.sqrt(bounds.getWidth() * bounds.getHeight() / 0.3136));
+  }
+
+  function maxOsmarenderZoom() {
+    var bounds = new OpenLayers.Bounds($("minlon").value, $("minlat").value, $("maxlon").value, $("maxlat").value);
+    var xzoom = Math.LOG2E * Math.log(2000 * 1.40625 / bounds.getWidth());
+    var ymin = bounds.bottom * Math.PI / 180;
+    var ymax = bounds.top * Math.PI / 180;
+    var yzoom = Math.LOG2E * (Math.log(2000 * 2 * Math.PI) - Math.log(Math.log((Math.tan(ymax) + 1 / Math.cos(ymax)) / (Math.tan(ymin) + 1 / Math.cos(ymin)))))
+
+    return Math.floor(Math.min(xzoom, yzoom));
+  }
+
+  function roundScale(scale) {
+    var precision = 5 * Math.pow(10, Math.floor(Math.LOG10E * Math.log(scale)) - 2);
+
+    return precision * Math.ceil(scale / precision);
+  }
+
+  function validateScale() {
+    if ($("mapnik_scale").value < maxMapnikScale()) {
+      $("export_commit").disabled = true;
+    } else {
+      $("export_commit").disabled = false;
+    }
+  }
+
+  $("mapnik_scale").onchange = function() { validateScale() };
 
   startExport();
   // -->
