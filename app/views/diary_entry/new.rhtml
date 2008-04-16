@@ -41,12 +41,12 @@
   var marker;
 
   function init(){
-    var centre = lonLatToMercator(new OpenLayers.LonLat(<%= lon %>, <%= lat %>));
+    var centre = new OpenLayers.LonLat(<%= lon %>, <%= lat %>);
     var zoom = <%= zoom %>;
 
     var map = createMap("map");
 
-    map.setCenter(centre, zoom);
+    setMapCenter(centre, zoom);
 
     map.events.register("click", map, setLocation);
   }        
@@ -54,8 +54,7 @@
   function setLocation( e ) { 
     closeMapPopup();
 
-    var merc = map.getLonLatFromViewPortPx(e.xy);
-    var lonlat = mercatorToLonLat(merc);
+    var lonlat = getEventPosition(e);
 
     document.getElementById('latitude').value = lonlat.lat;
     document.getElementById('longitude').value = lonlat.lon;

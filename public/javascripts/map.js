@@ -1,3 +1,4 @@
+var epsg4326 = new OpenLayers.Projection("EPSG:4326");
 var map;
 var markers;
 var popup;
@@ -60,7 +61,7 @@ function getArrowIcon() {
 }
 
 function addMarkerToMap(position, icon, description) {
-   var marker = new OpenLayers.Marker(position, icon);
+   var marker = new OpenLayers.Marker(position.clone().transform(epsg4326, map.getProjectionObject()), icon);
 
    markers.addMarker(marker);
 
@@ -94,6 +95,22 @@ function removeMarkerFromMap(marker){
    markers.removeMarker(marker);
 }
 
+function getMapCenter(center, zoom) {
+   return map.getCenter().clone().transform(map.getProjectionObject(), epsg4326);
+}
+
+function setMapCenter(center, zoom) {
+   map.setCenter(center.clone().transform(epsg4326, map.getProjectionObject()), zoom);
+}
+
+function setMapExtent(extent) {
+   map.zoomToExtent(extent.clone().transform(epsg4326, map.getProjectionObject()));
+}
+
+function getEventPosition(event) {
+   return map.getLonLatFromViewPortPx(e.xy).clone().transform(epsg4326, map.getProjectionObject());
+}
+
 function getMapLayers() {
    var layers = "";
 
@@ -121,24 +138,6 @@ function setMapLayers(layers) {
          layer.setVisibility(c == "T");
       }
    }
-}
-
-function mercatorToLonLat(merc) {
-   var lon = (merc.lon / 20037508.34) * 180;
-   var lat = (merc.lat / 20037508.34) * 180;
-
-   lat = 180/Math.PI * (2 * Math.atan(Math.exp(lat * Math.PI / 180)) - Math.PI / 2);
-
-   return new OpenLayers.LonLat(lon, lat);
-}
-
-function lonLatToMercator(ll) {
-   var lon = ll.lon * 20037508.34 / 180;
-   var lat = Math.log(Math.tan((90 + ll.lat) * Math.PI / 360)) / (Math.PI / 180);
-
-   lat = lat * 20037508.34 / 180;
-
-   return new OpenLayers.LonLat(lon, lat);
 }
 
 function scaleToZoom(scale) {
