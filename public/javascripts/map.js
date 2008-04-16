@@ -1,3 +1,4 @@
+var epsg4326 = new OpenLayers.Projection("EPSG:4326");
 var map;
 var markers;
 var popup;
@@ -5,35 +6,47 @@ var popup;
 OpenLayers._getScriptLocation = function () {
    return "/openlayers/";
 }
-   
+
 function createMap(divName) {
    map = new OpenLayers.Map(divName, {
-      maxExtent: new OpenLayers.Bounds(-20037508,-20037508,20037508,20037508),
-      maxResolution: 156543,
-      units: "m",
-      projection: "EPSG:900913",
       controls: [
-         new OpenLayers.Control.ArgParser(), 
+         new OpenLayers.Control.ArgParser(),
          new OpenLayers.Control.Attribution(),
          new OpenLayers.Control.LayerSwitcher(),
-         new OpenLayers.Control.Navigation(), 
-         new OpenLayers.Control.PanZoomBar()
-      ]
+         new OpenLayers.Control.Navigation(),
+         new OpenLayers.Control.PanZoomBar(),
+         new OpenLayers.Control.ScaleLine()
+      ],
+      maxResolution: 156543,
+      units: "m"
    });
 
-   var mapnik = new OpenLayers.Layer.OSM.Mapnik("Mapnik", { displayOutsideMaxExtent: true });
+   var mapnik = new OpenLayers.Layer.OSM.Mapnik("Mapnik", {
+      displayOutsideMaxExtent: true,
+      wrapDateLine: true
+   });
    map.addLayer(mapnik);
 
-   var osmarender = new OpenLayers.Layer.OSM.Osmarender("Osmarender", { displayOutsideMaxExtent: true });
+   var osmarender = new OpenLayers.Layer.OSM.Osmarender("Osmarender", {
+      displayOutsideMaxExtent: true,
+      wrapDateLine: true
+   });
    map.addLayer(osmarender);
 
-   var maplint = new OpenLayers.Layer.OSM.Maplint("Maplint", { displayOutsideMaxExtent: true });
+   var maplint = new OpenLayers.Layer.OSM.Maplint("Maplint", {
+      displayOutsideMaxExtent: true,
+      wrapDateLine: true
+   });
    map.addLayer(maplint);
 
    var numZoomLevels = Math.max(mapnik.numZoomLevels, osmarender.numZoomLevels);
-   markers = new OpenLayers.Layer.Markers("Markers", { 
+   markers = new OpenLayers.Layer.Markers("Markers", {
       displayInLayerSwitcher: false,
-      numZoomLevels: numZoomLevels
+      numZoomLevels: numZoomLevels,
+      maxExtent: new OpenLayers.Bounds(-20037508,-20037508,20037508,20037508),
+      maxResolution: 156543,
+      units: "m",
+      projection: "EPSG:900913"
    });
    map.addLayer(markers);
 
@@ -49,7 +62,7 @@ function getArrowIcon() {
 }
 
 function addMarkerToMap(position, icon, description) {
-   var marker = new OpenLayers.Marker(position, icon);
+   var marker = new OpenLayers.Marker(position.clone().transform(epsg4326, map.getProjectionObject()), icon);
 
    markers.addMarker(marker);
 
@@ -63,11 +76,10 @@ function addMarkerToMap(position, icon, description) {
 function openMapPopup(marker, description) {
    closeMapPopup();
 
-   popup = new OpenLayers.Popup.AnchoredBubble("popup", marker.lonlat,
-                                               sizeMapPopup(description),
-                                               "<p style='padding-right: 28px'>" + description + "</p>",
-                                               marker.icon, true);
+   popup = new OpenLayers.Popup.AnchoredBubble("popup", marker.lonlat, null,
+                                               description, marker.icon, true);
    popup.setBackgroundColor("#E3FFC5");
+   popup.autoSize = true;
    map.addPopup(popup);
 
    return popup;
@@ -80,29 +92,24 @@ function closeMapPopup() {
    }
 }
 
-function sizeMapPopup(text) {
-   var box = document.createElement("div");
-
-   box.innerHTML = text;
-   box.style.visibility = "hidden";
-   box.style.position = "absolute";
-   box.style.top = "0px";
-   box.style.left = "0px";
-   box.style.width = "200px";
-   box.style.height = "auto";
-
-   document.body.appendChild(box);
-
-   var width = box.offsetWidth;
-   var height = box.offsetHeight;
-
-   document.body.removeChild(box);
-
-   return new OpenLayers.Size(width + 30, height + 24);
-}
-
 function removeMarkerFromMap(marker){
    markers.removeMarker(marker);
+}
+
+function getMapCenter(center, zoom) {
+   return map.getCenter().clone().transform(map.getProjectionObject(), epsg4326);
+}
+
+function setMapCenter(center, zoom) {
+   map.setCenter(center.clone().transform(epsg4326, map.getProjectionObject()), zoom);
+}
+
+function setMapExtent(extent) {
+   map.zoomToExtent(extent.clone().transform(epsg4326, map.getProjectionObject()));
+}
+
+function getEventPosition(event) {
+   return map.getLonLatFromViewPortPx(e.xy).clone().transform(epsg4326, map.getProjectionObject());
 }
 
 function getMapLayers() {
@@ -135,24 +142,6 @@ function setMapLayers(layers) {
          }
       }
    }
-}
-
-function mercatorToLonLat(merc) {
-   var lon = (merc.lon / 20037508.34) * 180;
-   var lat = (merc.lat / 20037508.34) * 180;
-
-   lat = 180/Math.PI * (2 * Math.atan(Math.exp(lat * Math.PI / 180)) - Math.PI / 2);
-
-   return new OpenLayers.LonLat(lon, lat);
-}
-
-function lonLatToMercator(ll) {
-   var lon = ll.lon * 20037508.34 / 180;
-   var lat = Math.log(Math.tan((90 + ll.lat) * Math.PI / 360)) / (Math.PI / 180);
-
-   lat = lat * 20037508.34 / 180;
-
-   return new OpenLayers.LonLat(lon, lat);
 }
 
 function scaleToZoom(scale) {

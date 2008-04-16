@@ -129,20 +129,54 @@ private
       type = named.attributes["info"].to_s.capitalize
       name = named.attributes["name"].to_s
       description = named.elements["description"].to_s
+
       if name.empty?
         prefix = ""
         name = type
       else
         prefix = "#{type} "
       end
+
       if place
         distance = format_distance(place.attributes["approxdistance"].to_i)
         direction = format_direction(place.attributes["direction"].to_i)
-        placename = place.attributes["name"].to_s
+        placename = format_name(place.attributes["name"].to_s)
         suffix = ", #{distance} #{direction} of #{placename}"
+
+        if place.attributes["rank"].to_i <= 30
+          parent = nil
+          parentrank = 0
+          parentscore = 0
+
+          place.elements.each("nearestplaces/named") do |nearest|
+            nearestrank = nearest.attributes["rank"].to_i
+            nearestscore = nearestrank / nearest.attributes["distance"].to_f
+
+            if nearestrank > 30 and
+               ( nearestscore > parentscore or
+                 ( nearestscore == parentscore and nearestrank > parentrank ) )
+              parent = nearest
+              parentrank = nearestrank
+              parentscore = nearestscore
+            end
+          end
+
+          if parent
+            parentname = format_name(parent.attributes["name"].to_s)
+
+            if  place.attributes["info"].to_s == "suburb"
+              suffix = "#{suffix}, #{parentname}"
+            else
+              parentdistance = format_distance(parent.attributes["approxdistance"].to_i)
+              parentdirection = format_direction(parent.attributes["direction"].to_i)
+              suffix = "#{suffix} (#{parentdistance} #{parentdirection} of #{parentname})"
+            end
+          end
+        end
       else
         suffix = ""
       end
+
       results.push({:lat => lat, :lon => lon, :zoom => zoom,
                     :prefix => prefix, :name => name, :suffix => suffix,
                     :description => description})
@@ -243,6 +277,10 @@ private
     return "north" if bearing >= 247.5 and bearing < 292.5
     return "north-west" if bearing >= 292.5 and bearing < 337.5
     return "west"
+  end
+
+  def format_name(name)
+    return name.gsub(/( *\[[^\]]*\])*$/, "")
   end
 
   def count_results(results)
