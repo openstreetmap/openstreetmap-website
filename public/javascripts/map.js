@@ -74,11 +74,10 @@ function addMarkerToMap(position, icon, description) {
 function openMapPopup(marker, description) {
    closeMapPopup();
 
-   popup = new OpenLayers.Popup.AnchoredBubble("popup", marker.lonlat,
-                                               sizeMapPopup(description),
-                                               "<p style='padding-right: 28px'>" + description + "</p>",
-                                               marker.icon, true);
+   popup = new OpenLayers.Popup.AnchoredBubble("popup", marker.lonlat, null,
+                                               description, marker.icon, true);
    popup.setBackgroundColor("#E3FFC5");
+   popup.autoSize = true;
    map.addPopup(popup);
 
    return popup;
@@ -89,27 +88,6 @@ function closeMapPopup() {
       map.removePopup(popup);
       delete popup;
    }
-}
-
-function sizeMapPopup(text) {
-   var box = document.createElement("div");
-
-   box.innerHTML = text;
-   box.style.visibility = "hidden";
-   box.style.position = "absolute";
-   box.style.top = "0px";
-   box.style.left = "0px";
-   box.style.width = "200px";
-   box.style.height = "auto";
-
-   document.body.appendChild(box);
-
-   var width = box.offsetWidth;
-   var height = box.offsetHeight;
-
-   document.body.removeChild(box);
-
-   return new OpenLayers.Size(width + 30, height + 24);
 }
 
 function removeMarkerFromMap(marker){
