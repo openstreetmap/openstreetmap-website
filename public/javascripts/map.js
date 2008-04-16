@@ -5,19 +5,21 @@ var popup;
 OpenLayers._getScriptLocation = function () {
    return "/openlayers/";
 }
-   
+
 function createMap(divName) {
    map = new OpenLayers.Map(divName, {
       controls: [
-         new OpenLayers.Control.ArgParser(), 
+         new OpenLayers.Control.ArgParser(),
          new OpenLayers.Control.Attribution(),
          new OpenLayers.Control.LayerSwitcher(),
-         new OpenLayers.Control.Navigation(), 
-         new OpenLayers.Control.PanZoomBar()
-      ]
+         new OpenLayers.Control.Navigation(),
+         new OpenLayers.Control.PanZoomBar(),
+         new OpenLayers.Control.ScaleLine()
+      ],
+      units: "m"
    });
 
-   var mapnik = new OpenLayers.Layer.OSM.Mapnik("Mapnik", { 
+   var mapnik = new OpenLayers.Layer.OSM.Mapnik("Mapnik", {
       displayOutsideMaxExtent: true,
       wrapDateLine: true
    });
@@ -29,14 +31,14 @@ function createMap(divName) {
    });
    map.addLayer(osmarender);
 
-   var maplint = new OpenLayers.Layer.OSM.Maplint("Maplint", { 
+   var maplint = new OpenLayers.Layer.OSM.Maplint("Maplint", {
       displayOutsideMaxExtent: true,
       wrapDateLine: true
    });
    map.addLayer(maplint);
 
    var numZoomLevels = Math.max(mapnik.numZoomLevels, osmarender.numZoomLevels);
-   markers = new OpenLayers.Layer.Markers("Markers", { 
+   markers = new OpenLayers.Layer.Markers("Markers", {
       displayInLayerSwitcher: false,
       numZoomLevels: numZoomLevels,
       maxExtent: new OpenLayers.Bounds(-20037508,-20037508,20037508,20037508),
