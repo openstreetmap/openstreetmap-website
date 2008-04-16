@@ -29,6 +29,18 @@ function updatelinks(lon,lat,zoom,layers) {
     node.href = setArgs(node.href, args);
   }
 
+  node = document.getElementById("exportanchor");
+  if (node) {
+    var args = getArgs(node.href);
+    args["lat"] = lat;
+    args["lon"] = lon;
+    args["zoom"] = zoom;
+    if (layers) {
+      args["layers"] = layers;
+    }
+    node.href = setArgs(node.href, args);
+  }
+
   node = document.getElementById("editanchor");
   if (node) {
     if (zoom >= 11) {

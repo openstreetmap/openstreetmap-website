@@ -124,12 +124,15 @@ function getMapLayers() {
 function setMapLayers(layers) {
    for (var i=0; i < layers.length; i++) {
       var layer = map.layers[i];
-      var c = layers.charAt(i);
 
-      if (c == "B") {
-         map.setBaseLayer(layer);
-      } else if ( (c == "T") || (c == "F") ) {
-         layer.setVisibility(c == "T");
+      if (layer) {
+         var c = layers.charAt(i);
+
+         if (c == "B") {
+            map.setBaseLayer(layer);
+         } else if ( (c == "T") || (c == "F") ) {
+            layer.setVisibility(c == "T");
+         }
       }
    }
 }

@@ -60,10 +60,11 @@
 
 <script type="text/javascript">
   <!--
+  var vectors;
   var box;
 
   function startExport() {
-    var vectors = new OpenLayers.Layer.Vector("Vector Layer", {
+    vectors = new OpenLayers.Layer.Vector("Vector Layer", {
       displayInLayerSwitcher: false,
     });
     map.addLayer(vectors);
@@ -83,7 +84,22 @@
     box.activate();
 
     map.events.register("moveend", map, mapMoved);
+
+    $("viewanchor").className = "";
+    $("exportanchor").className = "active";
+
+    openSidebar({ onclose: stopExport });
+
     updateRegion(map.getExtent());
+  }
+
+  function stopExport() {
+    $("viewanchor").className = "active";
+    $("exportanchor").className = "";
+
+    map.events.unregister("moveend", map, mapMoved);
+    box.handler.clear();
+    map.removeLayer(vectors);
   }
 
   function formatChanged() {
