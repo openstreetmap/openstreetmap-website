@@ -48,7 +48,7 @@ function updatelinks(lon,lat,zoom,layers) {
       args.lat = lat;
       args.lon = lon;
       args.zoom = zoom;
-      node.href = setArgs("/edit.html", args);
+      node.href = setArgs("/edit", args);
       node.style.fontStyle = 'normal';
     } else {
       node.href = 'javascript:alert("zoom in to edit map");';

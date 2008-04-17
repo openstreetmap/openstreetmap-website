@@ -57,11 +57,18 @@ ActionController::Routing::Routes.draw do |map|
   # web site
 
   map.connect '/', :controller => 'site', :action => 'index'
+  map.connect '/edit', :controller => 'site', :action => 'edit'
+  map.connect '/export', :controller => 'site', :action => 'export'
+  map.connect '/login', :controller => 'user', :action => 'login'
+  map.connect '/logout', :controller => 'user', :action => 'logout'
+  map.connect '/user/new', :controller => 'user', :action => 'new'
   map.connect '/user/save', :controller => 'user', :action => 'save'
   map.connect '/user/confirm', :controller => 'user', :action => 'confirm'
   map.connect '/user/go_public', :controller => 'user', :action => 'go_public'
-  map.connect '/user/reset_password', :controller => 'user', :action => 'reset_password'
-  map.connect '/user/upload_image', :controller => 'user', :action => 'upload_image'
+  map.connect '/user/reset-password', :controller => 'user', :action => 'reset_password'
+  map.connect '/user/upload-image', :controller => 'user', :action => 'upload_image'
+  map.connect '/user/forgot-password', :controller => 'user', :action => 'lost_password'
+
   map.connect '/index.html', :controller => 'site', :action => 'index'
   map.connect '/edit.html', :controller => 'site', :action => 'edit'
   map.connect '/export.html', :controller => 'site', :action => 'export'
