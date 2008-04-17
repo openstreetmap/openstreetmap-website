@@ -42,11 +42,13 @@
         editclass = 'active' if params['controller'] == 'site' and params['action'] == 'edit' 
         exportclass = 'active' if params['controller'] == 'site' and params['action'] == 'export'
         traceclass = 'active' if params['controller'] == 'trace'
+        diaryclass = 'active' if params['controller'] == 'diary_entry'
         %>
         <li><%= link_to 'View', {:controller => 'site', :action => 'index'}, {:id => 'viewanchor', :title => 'view maps', :class => viewclass} %></li>
         <li><%= link_to 'Edit', {:controller => 'site', :action => 'edit'}, {:id => 'editanchor', :title => 'edit maps', :class => editclass} %></li>
         <li><%= link_to_remote 'Export', {:url => {:controller => 'export', :action => 'start'}}, {:id => 'exportanchor', :title => 'export map data', :class => exportclass, :href => url_for(:controller => 'site', :action => 'export')} %></li>
-        <li><%= link_to 'GPS traces', {:controller => 'trace', :action => 'list'}, {:id => 'traceanchor', :title => 'manage traces', :class => traceclass} %></li>
+        <li><%= link_to 'GPS Traces', {:controller => 'trace', :action => 'list'}, {:id => 'traceanchor', :title => 'manage traces', :class => traceclass} %></li>
+        <li><%= link_to 'User Diaries', {:controller => 'diary_entry', :action => 'list'}, {:id => 'diaryanchor', :title => 'view user diaries', :class => diaryclass} %></li>
       </ul>
     </div>
 
@@ -84,7 +86,6 @@
 
       <div id="left_menu" class="left_menu">
         <a href="http://wiki.openstreetmap.org">Help &amp; Wiki</a><br />
-	<%= link_to "Users' diaries", {:controller => 'diary_entry', :action => 'list', :display_name => nil} %><br />
         <a href="http://www.opengeodata.org/">News blog</a><br />
         <a href="http://wiki.openstreetmap.org/index.php/Merchandise">Shop</a><br />
         <%= yield :left_menu %>
