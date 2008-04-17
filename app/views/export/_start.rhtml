@@ -85,12 +85,20 @@
 
     map.events.register("moveend", map, mapMoved);
 
-    $("viewanchor").className = "";
-    $("exportanchor").className = "active";
-
     openSidebar({ onclose: stopExport });
 
     updateRegion(map.getExtent());
+
+    if (map.baseLayer.name == "Mapnik") {
+      $("format_mapnik").checked = true;
+    } else if (map.baseLayer.name == "Osmarender") {
+      $("format_osmarender").checked = true;
+    }
+
+    formatChanged();
+
+    $("viewanchor").className = "";
+    $("exportanchor").className = "active";
   }
 
   function stopExport() {
