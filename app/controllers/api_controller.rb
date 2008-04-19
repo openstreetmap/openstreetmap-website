@@ -79,7 +79,7 @@ class ApiController < ApplicationController
       exit!
     end
 
-    response.headers("Content-Disposition") = "attachment; filename=\"map.osm\""
+    response.headers["Content-Disposition"] = "attachment; filename=\"map.osm\""
 
     render :text => doc.to_s, :content_type => "text/xml"
   end
