@@ -190,6 +190,8 @@ class ApiController < ApplicationController
       doc.root << relation.to_xml_node(user_display_name_cache)
     end
 
+    response.headers["Content-Disposition"] = "attachment; filename=\"map.osm\""
+
     render :text => doc.to_s, :content_type => "text/xml"
     
     #exit when we have too many requests
