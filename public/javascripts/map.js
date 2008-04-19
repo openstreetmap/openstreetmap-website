@@ -110,7 +110,7 @@ function setMapExtent(extent) {
 }
 
 function getEventPosition(event) {
-   return map.getLonLatFromViewPortPx(e.xy).clone().transform(epsg4326, map.getProjectionObject());
+   return map.getLonLatFromViewPortPx(event.xy).clone().transform(epsg4326, map.getProjectionObject());
 }
 
 function getMapLayers() {
