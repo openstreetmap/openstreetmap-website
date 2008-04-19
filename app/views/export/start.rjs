@@ -1,0 +1,216 @@
+page.replace_html :sidebar_title, 'Export'
+page.replace_html :sidebar_content, :partial => 'start'
+page << <<EOJ
+  var vectors;
+  var box;
+
+  function startExport() {
+    vectors = new OpenLayers.Layer.Vector("Vector Layer", {
+      displayInLayerSwitcher: false
+    });
+    map.addLayer(vectors);
+
+    box = new OpenLayers.Control.DrawFeature(vectors, OpenLayers.Handler.RegularPolygon, { 
+      handlerOptions: {
+        keyMask: OpenLayers.Handler.MOD_CTRL,
+        sides: 4,
+        snapAngle: 90,
+        irregular: true,
+        persist: true,
+        callbacks: { done: boxComplete }
+      }
+    });
+    map.addControl(box);
+
+    box.activate();
+
+    map.events.register("moveend", map, mapMoved);
+
+    openSidebar({ onclose: stopExport });
+
+    updateRegion(map.getExtent());
+
+    if (map.baseLayer.name == "Mapnik") {
+      $("format_mapnik").checked = true;
+    } else if (map.baseLayer.name == "Osmarender") {
+      $("format_osmarender").checked = true;
+    }
+
+    formatChanged();
+
+    $("viewanchor").className = "";
+    $("exportanchor").className = "active";
+  }
+
+  function stopExport() {
+    $("viewanchor").className = "active";
+    $("exportanchor").className = "";
+
+    map.events.unregister("moveend", map, mapMoved);
+    box.handler.clear();
+    map.removeLayer(vectors);
+  }
+
+  function formatChanged() {
+    if ($("format_osm").checked) {
+      $("export_osm").style.display = "inline";
+    } else {
+      $("export_osm").style.display = "none";
+    }
+
+    if ($("format_mapnik").checked) {
+      $("mapnik_scale").value = roundScale(map.getScale());
+      $("export_mapnik").style.display = "inline";
+
+      mapnikScaleChanged();
+    } else {
+      $("export_mapnik").style.display = "none";
+    }
+
+    if ($("format_osmarender").checked) {
+      var zoom = Math.min(map.getZoom(), maxOsmarenderZoom());
+
+      $("osmarender_zoom").options.selectedIndex = zoom - 4;
+      $("export_osmarender").style.display = "inline";
+    } else {
+      $("export_osmarender").style.display = "none";
+    }
+  }
+
+  $("format_osm").onclick = formatChanged;
+  $("format_mapnik").onclick = formatChanged;
+  $("format_osmarender").onclick = formatChanged;
+
+  function boundsChanged() {
+    var epsg4326 = new OpenLayers.Projection("EPSG:4326");
+    var bounds = new OpenLayers.Bounds($("minlon").value,
+                                       $("minlat").value,
+                                       $("maxlon").value,
+                                       $("maxlat").value);
+ 
+    bounds.transform(epsg4326, map.getProjectionObject());
+
+    map.events.unregister("moveend", map, mapMoved);
+    map.zoomToExtent(bounds);
+
+    box.handler.clear();
+    box.handler.feature = new OpenLayers.Feature.Vector(bounds.toGeometry());
+    box.handler.layer.addFeatures([box.handler.feature], [box.handler.style]);
+    box.handler.layer.drawFeature(box.handler.feature, box.handler.style);
+
+    mapnikSizeChanged();
+  }
+
+  $("maxlat").onchange = boundsChanged;
+  $("minlon").onchange = boundsChanged;
+  $("maxlon").onchange = boundsChanged;
+  $("minlat").onchange = boundsChanged;
+
+  function mapMoved() {
+    updateRegion(map.getExtent());
+  }
+
+  function boxComplete(box) {
+    map.events.unregister("moveend", map, mapMoved);
+    updateRegion(box.getBounds());
+  }
+
+  function updateRegion(bounds) {
+    var epsg4326 = new OpenLayers.Projection("EPSG:4326");
+    var decimals = Math.pow(10, Math.floor(map.getZoom() / 3));
+
+    bounds.transform(map.getProjectionObject(), epsg4326);
+
+    $("minlon").value = Math.round(bounds.left * decimals) / decimals;
+    $("minlat").value = Math.round(bounds.bottom * decimals) / decimals;
+    $("maxlon").value = Math.round(bounds.right * decimals) / decimals;
+    $("maxlat").value = Math.round(bounds.top * decimals) / decimals;
+
+    if (bounds.getWidth() * bounds.getHeight() > 0.25) {
+      $("format_osm").disabled = true;
+      $("format_osm").checked = false;
+      $("export_osm").style.display = "none";
+    } else {
+      $("format_osm").disabled = false;
+    }
+    
+    var max_zoom = maxOsmarenderZoom();
+    var max_scale = maxMapnikScale();
+
+    $("mapnik_max_scale").innerHTML = roundScale(max_scale);
+
+    mapnikScaleChanged();
+
+    for (var o = 0; o < $("osmarender_zoom").options.length; o++) {
+      var option = $("osmarender_zoom").options[o];
+
+      if (option.value > max_zoom) {
+        option.disabled = true;
+      } else {
+        option.disabled = false;
+      }
+    }
+
+    if ($("osmarender_zoom").options.selectedIndex + 4 > max_zoom) {
+      $("osmarender_zoom").options.selectedIndex = max_zoom - 4;
+    }
+  }
+
+  function maxMapnikScale() {
+    var bounds = new OpenLayers.Bounds($("minlon").value, $("minlat").value, $("maxlon").value, $("maxlat").value);
+    var epsg4326 = new OpenLayers.Projection("EPSG:4326");
+    var epsg900913 = new OpenLayers.Projection("EPSG:900913");
+
+    bounds.transform(epsg4326, epsg900913);
+
+    return Math.floor(Math.sqrt(bounds.getWidth() * bounds.getHeight() / 0.3136));
+  }
+
+  function mapnikImageSize(scale) {
+    var bounds = new OpenLayers.Bounds($("minlon").value, $("minlat").value, $("maxlon").value, $("maxlat").value);
+    var epsg4326 = new OpenLayers.Projection("EPSG:4326");
+    var epsg900913 = new OpenLayers.Projection("EPSG:900913");
+
+    bounds.transform(epsg4326, epsg900913);
+
+    return new OpenLayers.Size(Math.round(bounds.getWidth() / scale / 0.00028),
+                               Math.round(bounds.getHeight() / scale / 0.00028));
+  }
+
+  function maxOsmarenderZoom() {
+    var bounds = new OpenLayers.Bounds($("minlon").value, $("minlat").value, $("maxlon").value, $("maxlat").value);
+    var xzoom = Math.LOG2E * Math.log(2000 * 1.40625 / bounds.getWidth());
+    var ymin = bounds.bottom * Math.PI / 180;
+    var ymax = bounds.top * Math.PI / 180;
+    var yzoom = Math.LOG2E * (Math.log(2000 * 2 * Math.PI) - Math.log(Math.log((Math.tan(ymax) + 1 / Math.cos(ymax)) / (Math.tan(ymin) + 1 / Math.cos(ymin)))))
+
+    return Math.floor(Math.min(xzoom, yzoom));
+  }
+
+  function roundScale(scale) {
+    var precision = 5 * Math.pow(10, Math.floor(Math.LOG10E * Math.log(scale)) - 2);
+
+    return precision * Math.ceil(scale / precision);
+  }
+
+  function mapnikSizeChanged() {
+    var size = mapnikImageSize($("mapnik_scale").value);
+
+    $("mapnik_image_width").innerHTML = size.w;
+    $("mapnik_image_height").innerHTML = size.h;
+  }
+
+  function mapnikScaleChanged() {
+    mapnikSizeChanged();
+
+    if ($("mapnik_scale").value < maxMapnikScale()) {
+      $("export_commit").disabled = true;
+    } else {
+      $("export_commit").disabled = false;
+    }
+  }
+
+  $("mapnik_scale").onchange = mapnikScaleChanged;
+
+  startExport();
+EOJ

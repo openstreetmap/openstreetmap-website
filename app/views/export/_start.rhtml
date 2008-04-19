@@ -1,0 +1,60 @@
+<% form_tag :action => "finish" do %>
+
+  <p class="export_heading">Area to Export</p>
+
+  <div class="export_bounds">
+    <%= text_field_tag('maxlat', nil, :size => 10, :class => "export_bound") %>
+    <br/>
+    <%= text_field_tag('minlon', nil, :size => 10, :class => "export_bound") %>
+    <%= text_field_tag('maxlon', nil, :size => 10, :class => "export_bound") %>
+    <br/>
+    <%= text_field_tag('minlat', nil, :size => 10, :class => "export_bound") %>
+    <p class="export_hint">
+      Drag a box with control held down to select an area to export
+    </p>
+  </div>
+
+  <p class="export_heading">Format to Export</p>
+
+  <div class="export_details">
+    <p>
+      <%= radio_button_tag("format", "osm") %>OpenStreetMap XML Data
+      <br/>
+      <%= radio_button_tag("format", "mapnik") %>Mapnik Image
+      <br/>
+      <%= radio_button_tag("format", "osmarender") %>Osmarender Image
+    </p>
+  </div>
+
+  <div id="export_osm">
+    <p class="export_heading">Licence</p>
+
+    <div class="export_details">
+      <p>OpenStreetMap data is licensed under the <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative Commons Attribution-ShareAlike 2.0 license</a>.</p>
+    </div>
+  </div>
+
+  <div id="export_mapnik">
+    <p class="export_heading">Options</p>
+
+    <div class="export_details">
+      <p>Format <%= select_tag("mapnik_format", options_for_select([["PNG", "png"], ["JPEG", "jpeg"], ["SVG", "svg"], ["PDF", "pdf"], ["Postscript", "ps"]], "png")) %></p>
+      <p>Scale 1 : <%= text_field_tag("mapnik_scale", nil, :size => 8) %> <span class="export_hint">(max 1 : <span id="mapnik_max_scale"></span>)</span></p>
+      <p>Image Size <span id="mapnik_image_width"></span> x <span id="mapnik_image_height"></span></p>
+    </div>
+  </div>
+
+  <div id="export_osmarender">
+    <p class="export_heading">Options</p>
+
+    <div class="export_details">
+      <p>Format <%= select_tag("osmarender_format", options_for_select([["PNG", "png"], ["JPEG", "jpeg"]], "png")) %></p>
+      <p>Zoom <%= select_tag("osmarender_zoom", options_for_select([4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17])) %></p>
+    </div>
+  </div>
+
+  <div class="export_buttons">
+    <p><%= submit_tag "Export", :id => "export_commit" %></p>
+  </div>
+
+<% end %>

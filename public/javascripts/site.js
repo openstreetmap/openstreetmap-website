@@ -29,6 +29,18 @@ function updatelinks(lon,lat,zoom,layers) {
     node.href = setArgs(node.href, args);
   }
 
+  node = document.getElementById("exportanchor");
+  if (node) {
+    var args = getArgs(node.href);
+    args["lat"] = lat;
+    args["lon"] = lon;
+    args["zoom"] = zoom;
+    if (layers) {
+      args["layers"] = layers;
+    }
+    node.href = setArgs(node.href, args);
+  }
+
   node = document.getElementById("editanchor");
   if (node) {
     if (zoom >= 11) {
@@ -36,7 +48,7 @@ function updatelinks(lon,lat,zoom,layers) {
       args.lat = lat;
       args.lon = lon;
       args.zoom = zoom;
-      node.href = setArgs("/edit.html", args);
+      node.href = setArgs("/edit", args);
       node.style.fontStyle = 'normal';
     } else {
       node.href = 'javascript:alert("zoom in to edit map");';
