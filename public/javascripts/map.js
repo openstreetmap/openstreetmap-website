@@ -17,8 +17,9 @@ function createMap(divName) {
          new OpenLayers.Control.PanZoomBar(),
          new OpenLayers.Control.ScaleLine()
       ],
+      units: "m",
       maxResolution: 156543,
-      units: "m"
+      numZoomLevels: 20
    });
 
    var mapnik = new OpenLayers.Layer.OSM.Mapnik("Mapnik", {
