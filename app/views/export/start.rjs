@@ -61,6 +61,8 @@ page << <<EOJ
     if ($("format_mapnik").checked) {
       $("mapnik_scale").value = roundScale(map.getScale());
       $("export_mapnik").style.display = "inline";
+
+      mapnikScaleChanged();
     } else {
       $("export_mapnik").style.display = "none";
     }
@@ -95,6 +97,8 @@ page << <<EOJ
     box.handler.feature = new OpenLayers.Feature.Vector(bounds.toGeometry());
     box.handler.layer.addFeatures([box.handler.feature], [box.handler.style]);
     box.handler.layer.drawFeature(box.handler.feature, box.handler.style);
+
+    mapnikSizeChanged();
   }
 
   $("maxlat").onchange = boundsChanged;
@@ -134,7 +138,9 @@ page << <<EOJ
     var max_zoom = maxOsmarenderZoom();
     var max_scale = maxMapnikScale();
 
-    $("max_scale").innerHTML = roundScale(max_scale);
+    $("mapnik_max_scale").innerHTML = roundScale(max_scale);
+
+    mapnikSizeChanged();
 
     for (var o = 0; o < $("osmarender_zoom").options.length; o++) {
       var option = $("osmarender_zoom").options[o];
@@ -161,6 +167,17 @@ page << <<EOJ
     return Math.floor(Math.sqrt(bounds.getWidth() * bounds.getHeight() / 0.3136));
   }
 
+  function mapnikImageSize(scale) {
+    var bounds = new OpenLayers.Bounds($("minlon").value, $("minlat").value, $("maxlon").value, $("maxlat").value);
+    var epsg4326 = new OpenLayers.Projection("EPSG:4326");
+    var epsg900913 = new OpenLayers.Projection("EPSG:900913");
+
+    bounds.transform(epsg4326, epsg900913);
+
+    return new OpenLayers.Size(Math.round(bounds.getWidth() / scale / 0.00028),
+                               Math.round(bounds.getHeight() / scale / 0.00028));
+  }
+
   function maxOsmarenderZoom() {
     var bounds = new OpenLayers.Bounds($("minlon").value, $("minlat").value, $("maxlon").value, $("maxlat").value);
     var xzoom = Math.LOG2E * Math.log(2000 * 1.40625 / bounds.getWidth());
@@ -177,7 +194,16 @@ page << <<EOJ
     return precision * Math.ceil(scale / precision);
   }
 
-  function validateScale() {
+  function mapnikSizeChanged() {
+    var size = mapnikImageSize($("mapnik_scale").value);
+
+    $("mapnik_image_width").innerHTML = size.w;
+    $("mapnik_image_height").innerHTML = size.h;
+  }
+
+  function mapnikScaleChanged() {
+    mapnikSizeChanged();
+
     if ($("mapnik_scale").value < maxMapnikScale()) {
       $("export_commit").disabled = true;
     } else {
@@ -185,7 +211,7 @@ page << <<EOJ
     }
   }
 
-  $("mapnik_scale").onchange = validateScale;
+  $("mapnik_scale").onchange = mapnikScaleChanged;
 
   startExport();
 EOJ
