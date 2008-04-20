@@ -60,6 +60,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/node/:id', :controller => 'browse', :action => 'node_view', :id => /\d+/
   map.connect '/node/:id/history', :controller => 'browse', :action => 'node_history', :id => /\d+/
   map.connect '/relation/:id', :controller => 'browse', :action => 'relation_view', :id => /\d+/
+  map.connect '/relation/:id/history', :controller => 'browse', :action => 'relation_history', :id => /\d+/
   
   # web site
 

@@ -17,6 +17,21 @@ class BrowseController < ApplicationController
     end
   end
   
+  def relation_history
+    begin
+      @relation = Relation.find(params[:id])
+     
+      @name = @relation.tags['name'].to_s 
+      if @name.length == 0:
+	@name = "#" + @relation.id.to_s
+      end
+	
+      @title = 'Relation History | ' + (@name)
+    rescue ActiveRecord::RecordNotFound
+      render :nothing => true, :status => :not_found
+    end
+  end
+  
   def way_view 
     begin
       @way = Way.find(params[:id])
@@ -61,6 +76,7 @@ class BrowseController < ApplicationController
       render :nothing => true, :status => :not_found
     end
   end
+  
   def node_history 
     begin
       @node = Node.find(params[:id])
