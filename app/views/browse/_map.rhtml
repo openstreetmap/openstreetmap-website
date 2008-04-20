@@ -1,0 +1,32 @@
+<%= javascript_include_tag '/openlayers/OpenLayers.js' %>
+<%= javascript_include_tag '/openlayers/OpenStreetMap.js' %>
+<%= javascript_include_tag 'map.js' %>
+<div style="float:right">
+<div id="small_map" style="width:250px; height: 300px; border: solid 1px black">
+</div>
+<script type="text/javascript">
+  function init() {
+  var obj_type = '<%= type %>';
+  var obj_id = <%= id %>;
+  var url = "/api/<%= "#{API_VERSION}" %>/<%= type %>/<%= id %>";
+  if (obj_type == "way") {
+    url += "/full";
+  }
+  var map = createMap('small_map', {controls: [new OpenLayers.Control.Navigation()]});
+  var osm_layer = new OpenLayers.Layer.GML("OSM", url, {format: OpenLayers.Format.OSM, projection: new OpenLayers.Projection("EPSG:4326")});
+  osm_layer.events.register("loadend", osm_layer, function() {
+    $("loading").innerHTML = ""; 
+    this.map.zoomToExtent( this.features[0].geometry.getBounds());
+    var center = map.getCenter().clone().transform(this.map.getProjectionObject(), new OpenLayers.Projection("EPSG:4326"));
+    $("larger_map").href = '/?lat='+center.lat+'&lon='+center.lon+'&zoom='+this.map.getZoom();
+    $("larger_map").innerHTML = "View Larger Map";
+  })   
+  map.addLayer(osm_layer);
+  osm_layer.loadGML();
+  osm_layer.loaded = true;
+}
+window.onload = init;
+</script>
+<span id="loading">Loading...</span>
+<a id="larger_map" href=""></a>
+</div>

@@ -54,6 +54,10 @@ ActionController::Routing::Routes.draw do |map|
   map.connect "api/#{API_VERSION}/amf", :controller =>'amf', :action =>'talk'
   map.connect "api/#{API_VERSION}/swf/trackpoints", :controller =>'swf', :action =>'trackpoints'
   
+  # Data browsing
+  map.connect '/way/:id', :controller => 'browse', :action => 'way_view', :id => /\d+/
+  map.connect '/node/:id', :controller => 'browse', :action => 'node_view', :id => /\d+/
+  
   # web site
 
   map.connect '/', :controller => 'site', :action => 'index'

@@ -1,0 +1,9 @@
+<%= render :partial => 'map', :locals => { :type => type, :id => obj.id } %>
+<ul>
+<li><%= link_to h("API"), :controller => "api/#{API_VERSION}/"+type, :id => obj.id %></li>
+<li><%= link_to h("History"), :controller => "api/#{API_VERSION}/"+type, :id => obj.id, :action => "history" %></li>
+</ul>
+Last edited: <%= h(obj.timestamp) %><% if obj.user.data_public %>,
+  by <%= link_to h(obj.user.display_name), :controller => 'user', :action => 'view' , :display_name => obj.user.display_name %>
+<% end %>
+

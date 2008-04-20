@@ -7,9 +7,10 @@ OpenLayers._getScriptLocation = function () {
    return "/openlayers/";
 }
 
-function createMap(divName) {
+function createMap(divName, options) {
+   if (!options) { options = {} }
    map = new OpenLayers.Map(divName, {
-      controls: [
+      controls: options.controls || [
          new OpenLayers.Control.ArgParser(),
          new OpenLayers.Control.Attribution(),
          new OpenLayers.Control.LayerSwitcher(),
