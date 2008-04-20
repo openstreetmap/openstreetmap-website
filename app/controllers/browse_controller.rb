@@ -16,6 +16,8 @@ class BrowseController < ApplicationController
       end
 	
       @title = 'Relation | ' + (@name)
+      @next = Relation.find(:first, :order => "id ASC", :conditions => [ "visible = true AND id > :id", { :id => @relation.id }] ) 
+      @prev = Relation.find(:first, :order => "id DESC", :conditions => [ "visible = true AND id < :id", { :id => @relation.id }] ) 
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
     end
@@ -46,6 +48,8 @@ class BrowseController < ApplicationController
       end
 	
       @title = 'Way | ' + (@name)
+      @next = Way.find(:first, :order => "id ASC", :conditions => [ "visible = true AND id > :id", { :id => @way.id }] ) 
+      @prev = Way.find(:first, :order => "id DESC", :conditions => [ "visible = true AND id < :id", { :id => @way.id }] ) 
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
     end
@@ -76,6 +80,8 @@ class BrowseController < ApplicationController
       end
 	
       @title = 'Node | ' + (@name)
+      @next = Node.find(:first, :order => "id ASC", :conditions => [ "visible = true AND id > :id", { :id => @node.id }] ) 
+      @prev = Node.find(:first, :order => "id DESC", :conditions => [ "visible = true AND id < :id", { :id => @node.id }] ) 
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
     end
