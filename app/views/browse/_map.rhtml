@@ -21,8 +21,12 @@
         for (var i = 1; i < this.features.length; i++) {
             extent.extend(this.features[i].geometry.getBounds());
         }
-        this.map.zoomToExtent(extent);
-        var center = getMapCenter();
+        if (extent) {
+        	this.map.zoomToExtent(extent);
+        } else {
+		this.map.zoomToMaxExtent();
+	}
+	var center = getMapCenter();
         $("larger_map").href = '/?lat='+center.lat+'&lon='+center.lon+'&zoom='+this.map.getZoom();
         $("larger_map").innerHTML = "View Larger Map";
     } else {
