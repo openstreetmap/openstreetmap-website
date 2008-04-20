@@ -2,7 +2,7 @@ class BrowseController < ApplicationController
   before_filter :authorize_web  
   layout 'site'
 
-  def relation_view 
+  def relation 
     begin
       @relation = Relation.find(params[:id])
      
@@ -32,7 +32,7 @@ class BrowseController < ApplicationController
     end
   end
   
-  def way_view 
+  def way 
     begin
       @way = Way.find(params[:id])
      
@@ -62,7 +62,7 @@ class BrowseController < ApplicationController
     end
   end
 
-  def node_view 
+  def node 
     begin
       @node = Node.find(params[:id])
      
@@ -86,7 +86,7 @@ class BrowseController < ApplicationController
 	@name = "#" + @node.id.to_s
       end
 	
-      @title = 'Node | ' + (@name)
+      @title = 'Node History | ' + (@name)
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
     end

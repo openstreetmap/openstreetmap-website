@@ -55,11 +55,11 @@ ActionController::Routing::Routes.draw do |map|
   map.connect "api/#{API_VERSION}/swf/trackpoints", :controller =>'swf', :action =>'trackpoints'
   
   # Data browsing
-  map.connect '/browse/way/:id', :controller => 'browse', :action => 'way_view', :id => /\d+/
+  map.connect '/browse/way/:id', :controller => 'browse', :action => 'way', :id => /\d+/
   map.connect '/browse/way/:id/history', :controller => 'browse', :action => 'way_history', :id => /\d+/
-  map.connect '/browse/node/:id', :controller => 'browse', :action => 'node_view', :id => /\d+/
+  map.connect '/browse/node/:id', :controller => 'browse', :action => 'node', :id => /\d+/
   map.connect '/browse/node/:id/history', :controller => 'browse', :action => 'node_history', :id => /\d+/
-  map.connect '/browse/relation/:id', :controller => 'browse', :action => 'relation_view', :id => /\d+/
+  map.connect '/browse/relation/:id', :controller => 'browse', :action => 'relation', :id => /\d+/
   map.connect '/browse/relation/:id/history', :controller => 'browse', :action => 'relation_history', :id => /\d+/
   
   # web site
