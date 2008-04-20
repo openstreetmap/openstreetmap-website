@@ -7,6 +7,7 @@ Deleted
 <% if obj.visible %>
 <li><%= link_to h("API"), :controller => type, :action => "read", :id => obj.id %></li>
 <% end %>
-<li><%= link_to h("History"), :controller => "old_" + type, :action => "history", :id => obj.id %></li>
+<li><%= link_to h("History"), :controller => "old_" + type, :action => "history", :id => obj.id %> 
+    (<%= link_to h("HTML"), :action => type+"_history", :id => obj.id %>)</li>
 </ul>
 <%= render :partial => 'common_editedby', :locals => { :obj => obj } %>
