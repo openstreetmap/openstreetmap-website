@@ -1,0 +1,2 @@
+module BrowseHelper
+end
