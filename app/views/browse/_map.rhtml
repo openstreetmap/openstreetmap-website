@@ -16,8 +16,8 @@
   var osm_layer = new OpenLayers.Layer.GML("OSM", url, {format: OpenLayers.Format.OSM, projection: new OpenLayers.Projection("EPSG:4326")});
   osm_layer.events.register("loadend", osm_layer, function() {
     $("loading").innerHTML = ""; 
-    this.map.zoomToExtent( this.features[0].geometry.getBounds());
-    var center = map.getCenter().clone().transform(this.map.getProjectionObject(), new OpenLayers.Projection("EPSG:4326"));
+    this.map.zoomToExtent(this.features[0].geometry.getBounds());
+    var center = getMapCenter();
     $("larger_map").href = '/?lat='+center.lat+'&lon='+center.lon+'&zoom='+this.map.getZoom();
     $("larger_map").innerHTML = "View Larger Map";
   })   
