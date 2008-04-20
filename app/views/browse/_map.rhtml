@@ -9,17 +9,25 @@
   var obj_type = '<%= type %>';
   var obj_id = <%= id %>;
   var url = "/api/<%= "#{API_VERSION}" %>/<%= type %>/<%= id %>";
-  if (obj_type == "way") {
+  if (obj_type != "node") {
     url += "/full";
   }
   var map = createMap('small_map', {controls: [new OpenLayers.Control.Navigation()]});
   var osm_layer = new OpenLayers.Layer.GML("OSM", url, {format: OpenLayers.Format.OSM, projection: new OpenLayers.Projection("EPSG:4326")});
   osm_layer.events.register("loadend", osm_layer, function() {
-    $("loading").innerHTML = ""; 
-    this.map.zoomToExtent(this.features[0].geometry.getBounds());
-    var center = getMapCenter();
-    $("larger_map").href = '/?lat='+center.lat+'&lon='+center.lon+'&zoom='+this.map.getZoom();
-    $("larger_map").innerHTML = "View Larger Map";
+    $("loading").innerHTML = "";
+    if (this.features.length) { 
+        var extent =  this.features[0].geometry.getBounds();
+        for (var i = 1; i < this.features.length; i++) {
+            extent.extend(this.features[i].geometry.getBounds());
+        }
+        this.map.zoomToExtent(extent);
+        var center = getMapCenter();
+        $("larger_map").href = '/?lat='+center.lat+'&lon='+center.lon+'&zoom='+this.map.getZoom();
+        $("larger_map").innerHTML = "View Larger Map";
+    } else {
+        $("small_map").style.display = "none";
+    }
   })   
   map.addLayer(osm_layer);
   osm_layer.loadGML();

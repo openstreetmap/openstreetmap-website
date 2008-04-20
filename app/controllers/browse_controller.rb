@@ -2,6 +2,21 @@ class BrowseController < ApplicationController
   before_filter :authorize_web  
   layout 'site'
 
+  def relation_view 
+    begin
+      @relation = Relation.find(params[:id])
+     
+      @name = @relation.tags['name'].to_s 
+      if @name.length == 0:
+	@name = "#" + @relation.id.to_s
+      end
+	
+      @title = 'Relation | ' + (@name)
+    rescue ActiveRecord::RecordNotFound
+      render :nothing => true, :status => :not_found
+    end
+  end
+  
   def way_view 
     begin
       @way = Way.find(params[:id])
