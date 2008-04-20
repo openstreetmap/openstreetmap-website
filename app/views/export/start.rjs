@@ -64,6 +64,7 @@ page << <<EOJ
     drawBox(bounds);
 
     validateControls();
+    mapnikSizeChanged();
   }
 
   $("maxlat").onchange = boundsChanged;
@@ -107,6 +108,8 @@ page << <<EOJ
     $("minlat").value = Math.round(bounds.bottom * decimals) / decimals;
     $("maxlon").value = Math.round(bounds.right * decimals) / decimals;
     $("maxlat").value = Math.round(bounds.top * decimals) / decimals;
+
+    mapnikSizeChanged();
   }
 
   function clearBox() {
@@ -129,13 +132,18 @@ page << <<EOJ
     } else {
       $("format_osm").disabled = false;
     }
-    
-    var max_zoom = maxOsmarenderZoom();
+
     var max_scale = maxMapnikScale();
 
-    $("mapnik_max_scale").innerHTML = roundScale(max_scale);
+    if ($("format_mapnik").checked && $("mapnik_scale").value < max_scale) {
+      $("export_commit").disabled = true;
+    } else {
+      $("export_commit").disabled = false;
+    }
 
-    mapnikScaleChanged();
+    $("mapnik_max_scale").innerHTML = roundScale(max_scale);
+  
+    var max_zoom = maxOsmarenderZoom();
 
     for (var o = 0; o < $("osmarender_zoom").options.length; o++) {
       var option = $("osmarender_zoom").options[o];
@@ -162,8 +170,6 @@ page << <<EOJ
     if ($("format_mapnik").checked) {
       $("mapnik_scale").value = roundScale(map.getScale());
       $("export_mapnik").style.display = "inline";
-
-      mapnikScaleChanged();
     } else {
       $("export_mapnik").style.display = "none";
     }
@@ -176,6 +182,8 @@ page << <<EOJ
     } else {
       $("export_osmarender").style.display = "none";
     }
+
+    validateControls();
   }
 
   $("format_osm").onclick = formatChanged;
@@ -228,12 +236,7 @@ page << <<EOJ
 
   function mapnikScaleChanged() {
     mapnikSizeChanged();
-
-    if ($("mapnik_scale").value < maxMapnikScale()) {
-      $("export_commit").disabled = true;
-    } else {
-      $("export_commit").disabled = false;
-    }
+    validateControls();
   }
 
   $("mapnik_scale").onchange = mapnikScaleChanged;
