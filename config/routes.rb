@@ -56,7 +56,10 @@ ActionController::Routing::Routes.draw do |map|
   
   # Data browsing
   map.connect '/way/:id', :controller => 'browse', :action => 'way_view', :id => /\d+/
+  map.connect '/way/:id/history', :controller => 'browse', :action => 'way_history', :id => /\d+/
   map.connect '/node/:id', :controller => 'browse', :action => 'node_view', :id => /\d+/
+  map.connect '/node/:id/history', :controller => 'browse', :action => 'node_history', :id => /\d+/
+  map.connect '/relation/:id', :controller => 'browse', :action => 'relation_view', :id => /\d+/
   
   # web site
 

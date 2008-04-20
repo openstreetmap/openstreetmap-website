@@ -1,0 +1,8 @@
+<h2>Way History: <%= h(@name) %></h2>
+<%= render :partial => 'common', :locals => { :obj => @way, :type => "way" } %>
+<h2>Hisorical Versions</h2> 
+<% @way.old_ways.reverse.each do |way| %>
+<%= render :partial => 'common_editedby', :locals => { :obj => way } %>
+<%= render :partial => 'tag_table', :locals => { :tags => way.tags } %>
+<hr />
+<% end %>
