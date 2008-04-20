@@ -2,6 +2,9 @@ class BrowseController < ApplicationController
   before_filter :authorize_web  
   layout 'site'
 
+  def index
+  end
+  
   def relation 
     begin
       @relation = Relation.find(params[:id])
