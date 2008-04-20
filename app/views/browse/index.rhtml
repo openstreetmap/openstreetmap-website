@@ -1,1 +1,12 @@
-Welcome to the browse subpages!
+<h2><%= @nodes.length %> Recently Changed Nodes</h2> 
+<ul>
+<% @nodes.each do |node| 
+   name = node.tags_as_hash['name'].to_s 
+   if name.length == 0:
+     name = "(No name)"
+   end
+   name = name + " - " + node.id.to_s 
+%>
+   <li><%= link_to h(name), :action => "node", :id => node.id %></li>
+<% end %>
+</ul>

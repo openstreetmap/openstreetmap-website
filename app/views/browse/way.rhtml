@@ -1,3 +1,15 @@
 <h2>Way Browser: <%= h(@name) %></h2>
 <%= render :partial => 'common', :locals => { :obj => @way, :type => "way" } %>
 <%= render :partial => 'tag_table', :locals => { :tags => @way.tags } %>
+
+<% if @way.nodes.length != 0 %> 
+  <br style="clear:both" />
+  <div style="float:right; width: 250px;">
+  <h2>Parts:</h2>
+  <ul>
+    <% @way.nodes.each do |node| %>
+    <li> <%= link_to "Node " + node.id.to_s, :action => "node", :id => node.id.to_s %> </li>
+    <% end %>
+  </ul>
+  </div>
+<% end %>

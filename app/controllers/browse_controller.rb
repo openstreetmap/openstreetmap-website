@@ -3,6 +3,7 @@ class BrowseController < ApplicationController
   layout 'site'
 
   def index
+    @nodes = Node.find(:all, :order => "timestamp DESC", :limit=> 20)  
   end
   
   def relation 
