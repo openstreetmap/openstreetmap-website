@@ -48,8 +48,8 @@ OpenLayers.Layer.OSM = OpenLayers.Class(OpenLayers.Layer.TMS, {
     initialize: function(name, url, options) {
         options = OpenLayers.Util.extend({
             attribution: "Data by <a href='http://openstreetmap.org/'>OpenStreetMap</a>",
-            maxExtent: new OpenLayers.Bounds(-20037508,-20037508,20037508,20037508),
-            maxResolution: 156543,
+            maxExtent: new OpenLayers.Bounds(-20037508.34,-20037508.34,20037508.34,20037508.34),
+            maxResolution: 156543.0339,
             units: "m",
             projection: "EPSG:900913",
             transitionEffect: "resize"

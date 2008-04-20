@@ -19,7 +19,7 @@ function createMap(divName, options) {
          new OpenLayers.Control.ScaleLine()
       ],
       units: "m",
-      maxResolution: 156543,
+      maxResolution: 156543.0339,
       numZoomLevels: 20
    });
 
