@@ -2,6 +2,8 @@ class BrowseController < ApplicationController
   before_filter :authorize_web  
   layout 'site'
 
+  def start
+  end
   def index
     @nodes = Node.find(:all, :order => "timestamp DESC", :limit=> 20)  
   end
