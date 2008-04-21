@@ -43,6 +43,7 @@
         exportclass = 'active' if params['controller'] == 'site' and params['action'] == 'export'
         traceclass = 'active' if params['controller'] == 'trace'
         diaryclass = 'active' if params['controller'] == 'diary_entry'
+        browseclass = 'active' if params['controller'] == 'browse'
         %>
         <li><%= link_to 'View', {:controller => 'site', :action => 'index'}, {:id => 'viewanchor', :title => 'view maps', :class => viewclass} %></li>
         <li><%= link_to 'Edit', {:controller => 'site', :action => 'edit'}, {:id => 'editanchor', :title => 'edit maps', :class => editclass} %></li>
@@ -53,6 +54,7 @@
         <% end %>
         <li><%= link_to 'GPS Traces', {:controller => 'trace', :action => 'list'}, {:id => 'traceanchor', :title => 'manage traces', :class => traceclass} %></li>
         <li><%= link_to 'User Diaries', {:controller => 'diary_entry', :action => 'list'}, {:id => 'diaryanchor', :title => 'view user diaries', :class => diaryclass} %></li>
+        <li><%= link_to 'Browse', {:controller => 'browse', :action => 'index'}, {:id => 'browseanchor', :title => 'browse data', :class => browseclass} %></li>
       </ul>
     </div>
 
