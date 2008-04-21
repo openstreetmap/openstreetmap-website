@@ -29,7 +29,11 @@ page << <<EOJ
      if (sf) {   
          sf.destroy();  
          sf = null;
-     }  
+     } 
+     if (currentFeature) {
+         currentFeature.destroy(); 
+         currentFeature = null; 
+     } 
  }
  function startDrag() {
    $("drag_box").innerHTML='Drag a box on the map to select an area';
