@@ -131,8 +131,11 @@ page << <<EOJ
             map.addLayer(gml);
             
             sf = new OpenLayers.Control.SelectFeature(gml, {'onSelect': onFeatureSelect});
+            sf.handler.stopDown = false;
+            sf.handler.stopUp = false;
             map.addControl(sf);
             sf.activate();
+             
         } else {
             gml.setUrl(url);
         }
