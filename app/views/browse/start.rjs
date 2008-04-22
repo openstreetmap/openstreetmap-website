@@ -2,7 +2,7 @@ page.replace_html :sidebar_title, 'Browse'
 page.replace_html :sidebar_content, :partial => 'start'
 page << <<EOJ
     
-    var gml, sf, objList, currentFeature;
+    var gml, sf, objList, currentFeature, featureList;
     OpenLayers.Feature.Vector.style['default'].strokeWidth = 3;
     OpenLayers.Feature.Vector.style['default'].cursor = "pointer";
     
@@ -59,7 +59,52 @@ page << <<EOJ
         getData(bounds);
         $("drag_box").innerHTML = "Manually select a different area";
     }
+    function displayFeatureWarning() {
+        var div = document.createElement("div");
+        var p = document.createElement("p");
+        p.appendChild(document.createTextNode("You have loaded an area which contains " + featureList.length + " features. In general, some browsers may not cope well with displaying this quantity of data. Generally, browsers work best at displaying less than 100 features at a time: doing anything else may make your browser slow/unresponsive. If you are sure you want to display this data, you may do so by clicking the button below.")); 
+        div.appendChild(p);
+        var input = document.createElement("input");
+        input.type = "submit";
+        input.value = "Load Data";
+        input.onclick = loadFeatureList;
+        div.appendChild(input); 
+        $("object").innerHTML="";
+        $("object").appendChild(div);
+    }
     
+    function loadFeatureList() {
+        gml.addFeatures(featureList);
+        gml.events.triggerEvent("loadend");
+    }    
+
+    function customDataLoader(request) { 
+        var doc = request.responseXML;
+        
+        if (!doc || !doc.documentElement) {
+            doc = request.responseText;
+        }
+        
+        var options = {};
+        
+        OpenLayers.Util.extend(options, this.formatOptions);
+        if (this.map && !this.projection.equals(this.map.getProjectionObject())) {
+            options.externalProjection = this.projection;
+            options.internalProjection = this.map.getProjectionObject();
+        }    
+        
+        var gml = this.format ? new this.format(options) : new OpenLayers.Format.GML(options);
+        var features = gml.read(doc);
+        if (!this.maxFeatures || features.length <= this.maxFeatures) {
+            this.addFeatures(features);
+            this.events.triggerEvent("loadend");
+            featureList = []; 
+        } else {
+            featureList = features;
+            displayFeatureWarning();
+        }
+    }
+
     function getData(bounds) {
         $("status").innerHTML = "Loading...";
         
@@ -78,6 +123,7 @@ page << <<EOJ
             )]);
             gml = new OpenLayers.Layer.GML("Data",url, 
                     {format: OpenLayers.Format.OSM, formatOptions: {checkTags: true},
+                     maxFeatures: 100, requestSuccess: customDataLoader,
                      styleMap: new OpenLayers.StyleMap({'default': style, 'select': {'strokeColor': '#0000ff'}})
                     }
             );
@@ -90,6 +136,8 @@ page << <<EOJ
         } else {
             gml.setUrl(url);
         }
+
+        currentFeature = null;
     }
     
     function dataLoaded() { 
