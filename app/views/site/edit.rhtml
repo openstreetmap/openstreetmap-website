@@ -24,29 +24,27 @@
 <% session[:token] = @user.tokens.create.token unless session[:token] %>
 
 <% if params['mlon'] and params['mlat'] %>
-<% lon =  h(params['mlon']) %>
-<% lat =  h(params['mlat'])  %>
-<% zoom =  h(params['zoom'] || '14') %>
+	<% lon =  h(params['mlon']) %>
+	<% lat =  h(params['mlat'])  %>
+	<% zoom =  h(params['zoom'] || '14') %>
 <% elsif @user and params['lon'].nil? and params['lat'].nil? and params['gpx'].nil? %> 
-<% lon =  @user.home_lon %>
-<% lat =  @user.home_lat %>
-<% zoom = '14' %>
-<% elsif params['gpx'].nil? %>
-<% lon =  h(params['lon'] || '-0.1') %>
-<% lat =  h(params['lat'] || '51.5') %>
-<% zoom =  h(params['zoom'] || '14') %>
+	<% lon =  @user.home_lon %>
+	<% lat =  @user.home_lat %>
+	<% zoom = '14' %>
 <% else %>
-<% lon = nil %>
-<% lat = nil %>
-<% zoom = '14' %>
+	<% lon =  h(params['lon'] || 'null') %>
+	<% lat =  h(params['lat'] || 'null') %>
+	<% zoom =  h(params['zoom'] || '14') %>
 <% end %>
 
-<div id="map">You need a Flash player to use Potlatch, the
+<div id="map">
+	You need a Flash player to use Potlatch, the
     OpenStreetMap Flash editor. You can <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">download Flash Player from Adobe.com</a>.
 
     <a href="http://wiki.openstreetmap.org/index.php/Editing">Several other options</a> are also available
     for editing OpenStreetMap.
 </div>
+
 <%= javascript_include_tag 'swfobject.js' %>
 <script type="text/javascript" defer="defer">
   var brokenContentSize = $("content").offsetWidth == 0;
@@ -68,7 +66,7 @@
     if (lat) { fo.addVariable('lat',lat); }
     if (lon) { fo.addVariable('long',lon); }
     <% if params['gpx'] %>
-    fo.addVariable('gpx','<%= h(params['gpx']) + "/data.xml" %>');
+		fo.addVariable('gpx','<%= h(params['gpx']) %>');
     <% end %>
     fo.write("map");
   }
