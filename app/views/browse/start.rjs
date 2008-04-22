@@ -22,6 +22,11 @@ page << <<EOJ
         map.addControl(box);
         map.events.register("moveend", map, validateLinks);
         map.events.triggerEvent("moveend");
+        if (map.getZoom() >= 16) {
+            useMap();
+        } else {
+            $("status").innerHTML = "Zoom in or Select an area of the map to view.";
+        }    
     }
     
     function stopBrowse() {
@@ -49,7 +54,6 @@ page << <<EOJ
     
     function useMap() {
         var bounds = map.getExtent();
-        setBounds(bounds);
         getData(bounds);
         return false;
     }
@@ -57,13 +61,13 @@ page << <<EOJ
     
     function endDrag(bbox) {
         var bounds = bbox.getBounds();
-        setBounds(bounds);
         box.deactivate();
         getData(bounds);
         $("drag_box").innerHTML = "Manually select a different area";
     }
     
     function displayFeatureWarning() {
+        $("status").innerHTML = "";
         var div = document.createElement("div");
         var p = document.createElement("p");
         p.appendChild(document.createTextNode("You have loaded an area which contains " + featureList.length + " features. In general, some browsers may not cope well with displaying this quantity of data. Generally, browsers work best at displaying less than 100 features at a time: doing anything else may make your browser slow/unresponsive. If you are sure you want to display this data, you may do so by clicking the button below.")); 
@@ -121,9 +125,11 @@ page << <<EOJ
 
         var url = "/api/0.5/map?bbox="+bounds.toBBOX();
         
+        loadGML(url);
+    }
+    function loadGML(url) {
         $("status").innerHTML = "Loading...";
         if (!gml) {
-            var def = OpenLayers.Feature.Vector.style['default'];
             var style = new OpenLayers.Style();
             style.addRules([new OpenLayers.Rule( 
               {'symbolizer': 
@@ -135,7 +141,7 @@ page << <<EOJ
             gml = new OpenLayers.Layer.GML("Data",url, 
                     {format: OpenLayers.Format.OSM, formatOptions: {checkTags: true},
                      maxFeatures: 100, requestSuccess: customDataLoader,
-                     styleMap: new OpenLayers.StyleMap({'default': style, 'select': {'strokeColor': '#0000ff'}})
+                     styleMap: new OpenLayers.StyleMap({'default': style, 'select': {'strokeColor': '#0000ff', strokeWidth: 8}})
                     }
             );
             gml.events.register("loadend", gml, dataLoaded );
@@ -153,7 +159,6 @@ page << <<EOJ
 
         currentFeature = null;
     }
-    
     function dataLoaded() { 
         $("status").innerHTML = "Loaded " + this.features.length + " features. (<a href='"+ this.url+"'>API</a>)";
         
@@ -257,17 +262,6 @@ page << <<EOJ
         currentFeature = feature; 
     }   
     
-    function setBounds(bounds) {
-      var epsg4326 = new OpenLayers.Projection("EPSG:4326");
-      var decimals = Math.pow(10, Math.floor(map.getZoom() / 3));
-
-      bounds = bounds.clone().transform(map.getProjectionObject(), epsg4326);
-
-      $("minlon").innerHTML = Math.round(bounds.left * decimals) / decimals;
-      $("minlat").innerHTML = Math.round(bounds.bottom * decimals) / decimals;
-      $("maxlon").innerHTML = Math.round(bounds.right * decimals) / decimals;
-      $("maxlat").innerHTML = Math.round(bounds.top * decimals) / decimals;
-    }
     function validateLinks() {
         var bounds = this.getExtent();
         bounds = bounds.clone().transform(map.getProjectionObject(), epsg4326);
