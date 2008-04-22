@@ -80,6 +80,7 @@ page << <<EOJ
     function loadFeatureList() {
         gml.addFeatures(featureList);
         gml.events.triggerEvent("loadend");
+        return false;
     }    
 
     function customDataLoader(request) { 
@@ -114,7 +115,7 @@ page << <<EOJ
         bounds.transform(new OpenLayers.Projection("EPSG:900913"), new OpenLayers.Projection("EPSG:4326"));
         var size = bounds.getWidth() * bounds.getHeight(); 
         if (size > 0.25) {
-            $("status").innerHTML = "Unable to load: Bounding box size of " + size + " is too large. (Must be smaller than 0.25)"; 
+            $("status").innerHTML = "Unable to load: Bounding box size of " + size + " is too large. (Must be smaller than 0.25)<br />"; 
             return;
         }
 
