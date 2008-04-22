@@ -14,5 +14,12 @@
   </div>
 
 <div id="status"></div>
-<div id="object"></div>
+<div id="object">
+<h3>Recent Changes</h3>
+<ul>
+<% @nodes.each do |node| %>
+<li><%= node.id %> @ <a href="#" onclick="setMapCenter(new OpenLayers.LonLat(<%= node.lon.to_s %>, <%= node.lat.to_s %>), 16); return false;"><%= node.lat.to_s %>,<%= node.lon.to_s %></a></li>
+<% end %>
+</ul>
+</div>
 </div>

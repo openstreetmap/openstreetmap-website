@@ -47,7 +47,8 @@ page << <<EOJ
     function useMap() {
         var bounds = map.getExtent();
         setBounds(bounds);
-        getData(bounds); 
+        getData(bounds);
+        return false;
     }
     $("use_map").onclick = useMap;
     
@@ -136,6 +137,7 @@ page << <<EOJ
     function loadObjList() {
         $("object").innerHTML="";
         $("object").appendChild(objList);
+        return false;
     }
       
     function onFeatureSelect(feature) {
