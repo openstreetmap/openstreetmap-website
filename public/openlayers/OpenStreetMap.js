@@ -182,3 +182,18 @@ OpenLayers.Layer.OSM.Maplint = OpenLayers.Class(OpenLayers.Layer.OSM, {
 
     CLASS_NAME: "OpenLayers.Layer.OSM.Maplint"
 });
+
+OpenLayers.Layer.Data = OpenLayers.Class(OpenLayers.Layer, { 
+    setVisibility: function(vis) {
+        OpenLayers.Layer.prototype.setVisibility.apply(this, arguments);
+        if (!this.map) { return; }
+        if (vis) {
+            new Ajax.Request('/browse/start', {asynchronous:true, evalScripts:true}); 
+        } else {
+            if (this.stopBrowse) {
+                this.stopBrowse();
+                closeSidebar(); 
+            }    
+        }    
+    }
+});    

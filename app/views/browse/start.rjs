@@ -22,6 +22,7 @@ page << <<EOJ
         map.addControl(box);
         map.events.register("moveend", map, showData);
         map.events.triggerEvent("moveend");
+        map.dataLayer.stopBrowse = stopBrowse;
         browsing = true;
     }
 
@@ -35,20 +36,24 @@ page << <<EOJ
     }
     
     function stopBrowse() {
-        if (gml) {
-            gml.destroy();
-            gml = null; 
-        } 
-        if (sf) {   
-            sf.destroy();  
-            sf = null;
-        } 
-        if (currentFeature) {
-            currentFeature.destroy(); 
-            currentFeature = null; 
-        } 
-        map.events.unregister("moveend", map, showData);
-        browsing = false; 
+        if (browsing) {
+            browsing = false; 
+            map.dataLayer.stopBrowse = null;
+            if (gml) {
+                gml.destroy();
+                gml = null; 
+            } 
+            if (sf) {   
+                sf.destroy();  
+                sf = null;
+            } 
+            if (currentFeature) {
+                currentFeature.destroy(); 
+                currentFeature = null; 
+            }
+            map.dataLayer.setVisibility(false);
+            map.events.unregister("moveend", map, showData);
+        }    
     }
     
     function startDrag() {
@@ -83,6 +88,7 @@ page << <<EOJ
     function endDrag(bbox) {
         var bounds = bbox.getBounds();
         box.deactivate();
+        currentBounds = bounds;
         getData(bounds);
         $("drag_box").innerHTML = "Manually select a different area";
         mode = "manual";  
@@ -166,6 +172,7 @@ page << <<EOJ
             gml = new OpenLayers.Layer.GML("Data",url, 
                     {format: OpenLayers.Format.OSM, formatOptions: {checkTags: true},
                      maxFeatures: 100, requestSuccess: customDataLoader,
+                     displayInLayerSwitcher: false,
                      styleMap: new OpenLayers.StyleMap({'default': style, 'select': {'strokeColor': '#0000ff', strokeWidth: 8}})
                     }
             );
