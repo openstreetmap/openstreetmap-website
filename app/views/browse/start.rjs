@@ -279,6 +279,11 @@ page << <<EOJ
         div.appendChild(link)
         $("object").appendChild(div);    
         
+        var type = "way";
+        if (feature.geometry.CLASS_NAME == "OpenLayers.Geometry.Point") {
+            type = "node";
+        }    
+        
         var link = document.createElement("a");   
         link.href =  "/browse/"+type+"/"+feature.osm_id;
         link.appendChild(document.createTextNode("Database entry for " + feature.osm_id));
@@ -291,10 +296,6 @@ page << <<EOJ
 
         // Now the list of attributes
         var ul = document.createElement("ul");
-        var type = "way";
-        if (feature.geometry.CLASS_NAME == "OpenLayers.Geometry.Point") {
-            type = "node";
-        }    
         for (var key in feature.attributes) {
             var li = document.createElement("li");
             var b = document.createElement("b");
