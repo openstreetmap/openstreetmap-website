@@ -193,9 +193,11 @@ page << <<EOJ
     }
     function dataLoaded() {
         if (!browsing) { return; } 
-        $("status").innerHTML = "Loaded " + this.features.length + " features. (<a href='"+ this.url+"'>API</a>)";
+        $("status").innerHTML = "Loaded."
         
-        objList = document.createElement("ul");
+        objList = document.createElement("div")
+
+        list = document.createElement("ul");
         for (var i = 0; i < this.features.length; i++) {
             var feature = this.features[i]; 
             
@@ -217,10 +219,16 @@ page << <<EOJ
             link.onclick = OpenLayers.Function.bind(viewFeatureLink, link);   
             li.appendChild(link);
 
-            objList.appendChild(li);
+            list.appendChild(li);
         }
+        objList.appendChild(list)
+        var link = document.createElement("a");
+        link.href = this.url;
+        link.appendChild(document.createTextNode("API"));
+        objList.appendChild(link)
         $("object").innerHTML = "";
         $("object").appendChild(objList); 
+
     }
     
     function viewFeatureLink() {
@@ -271,18 +279,22 @@ page << <<EOJ
         div.appendChild(link)
         $("object").appendChild(div);    
         
+        var link = document.createElement("a");   
+        link.href =  "/browse/"+type+"/"+feature.osm_id;
+        link.appendChild(document.createTextNode("Database entry for " + feature.osm_id));
+        
+        var div = document.createElement("div");
+        div.style.marginTop = "20px"
+        div.appendChild(link);
+
+        $("object").appendChild(div);
+
         // Now the list of attributes
         var ul = document.createElement("ul");
         var type = "way";
         if (feature.geometry.CLASS_NAME == "OpenLayers.Geometry.Point") {
             type = "node";
         }    
-        var li = document.createElement("li");
-        var link = document.createElement("a");   
-        link.href =  "/browse/"+type+"/"+feature.osm_id;
-        link.appendChild(document.createTextNode(feature.osm_id));
-        li.appendChild(link);
-        ul.appendChild(li);
         for (var key in feature.attributes) {
             var li = document.createElement("li");
             var b = document.createElement("b");
@@ -292,16 +304,16 @@ page << <<EOJ
             ul.appendChild(li);
         }
         
-        var li = document.createElement("li");
+        $("object").appendChild(ul);
+        
         var link = document.createElement("a");   
         link.href =  "/browse/"+type+"/"+feature.osm_id+"/history";
         link.appendChild(document.createTextNode("History"));
-        li.appendChild(link);
         ul.appendChild(li);
         link.onclick = OpenLayers.Function.bind(loadHistory, {type: type, feature: feature, link: link});
-        $("object").appendChild(ul);
         
-        
+        $("object").appendChild(link);
+
         // Stash the currently drawn feature
         currentFeature = feature; 
     }   
@@ -315,7 +327,7 @@ page << <<EOJ
         if (currentFeature.osm_id != this.feature.osm_id || $("object").firstChild == objList)  { 
             return false;
         } 
-        this.link.parentNode.parentNode.removeChild(this.link.parentNode);
+        this.link.parentNode.removeChild(this.link);
         var doc = request.responseXML;
         var div = document.createElement("div");
         var h3 = document.createElement("h3"); 
@@ -332,7 +344,7 @@ page << <<EOJ
         }
         div.appendChild(history);
         var link = document.createElement("a");
-        link.appendChild(document.createTextNode("History"));
+        link.appendChild(document.createTextNode("History entry for " + this.feature.osm_id));
         link.href = "/browse/"+this.type+"/"+this.feature.osm_id+"/history";
         div.appendChild(link);
         $("object").appendChild(div); 
