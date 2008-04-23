@@ -10,6 +10,14 @@
 <% if @tag and @user and @user.display_name == @display_name %>
  | <%= link_to 'See all your traces', :controller => 'trace', :action => 'mine' %>
 <% end %>
+<% if @display_name %>
+<% if @user.traces.count(:conditions => "inserted=0")>4 %>
+<br /><br />
+You have <%= @user.traces.count(:conditions => "inserted=0") %> traces 
+waiting for upload. Please consider waiting for these to finish before 
+uploading any more, so as not to block the queue for other users.
+<% end %>
+<% end %>
 
 <br />
 <br />
