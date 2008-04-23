@@ -2,7 +2,7 @@ page.replace_html :sidebar_title, 'Data'
 page.replace_html :sidebar_content, :partial => 'start'
 page << <<EOJ
     
-    var gml, sf, objList, currentFeature, featureList, mode = "auto", currentBounds;
+    var gml, sf, objList, currentFeature, featureList, mode = "auto", currentBounds, browsing;
     OpenLayers.Feature.Vector.style['default'].strokeWidth = 3;
     OpenLayers.Feature.Vector.style['default'].cursor = "pointer";
     
@@ -22,6 +22,7 @@ page << <<EOJ
         map.addControl(box);
         map.events.register("moveend", map, showData);
         map.events.triggerEvent("moveend");
+        browsing = true;
     }
 
     function showData() {
@@ -47,6 +48,7 @@ page << <<EOJ
             currentFeature = null; 
         } 
         map.events.unregister("moveend", map, showData);
+        browsing = false; 
     }
     
     function startDrag() {
@@ -111,6 +113,7 @@ page << <<EOJ
     }    
 
     function customDataLoader(request) { 
+        if (!browsing) { return; } 
         var doc = request.responseXML;
         
         if (!doc || !doc.documentElement) {
@@ -183,7 +186,8 @@ page << <<EOJ
 
         currentFeature = null;
     }
-    function dataLoaded() { 
+    function dataLoaded() {
+        if (!browsing) { return; } 
         $("status").innerHTML = "Loaded " + this.features.length + " features. (<a href='"+ this.url+"'>API</a>)";
         
         objList = document.createElement("ul");
@@ -314,7 +318,7 @@ page << <<EOJ
         div.appendChild(h3);
         var nodes = doc.getElementsByTagName(this.type);
         var history = document.createElement("ul");  
-        for (var i = 0; i < nodes.length; i++) {
+        for (var i = nodes.length - 1; i >= 0; i--) {
             var user = nodes[i].getAttribute("user") || "private user";
             var timestamp = nodes[i].getAttribute("timestamp");
             var item = document.createElement("li");
