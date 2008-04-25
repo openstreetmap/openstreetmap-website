@@ -15,12 +15,10 @@
   <% end %>
 </p>
 
-<% if @display_name %>
-  <% if @user.traces.count(:conditions => "inserted=0") > 4 %>
-    <p>
-      You have <%= @user.traces.count(:conditions => "inserted=0") %> traces 
-      waiting for upload. Please consider waiting for these to finish before 
-      uploading any more, so as not to block the queue for other users.
-    </p>
-  <% end %>
+<% if @user and @user.traces.count(:conditions => "inserted=0") > 4 %>
+  <p>
+    You have <%= @user.traces.count(:conditions => "inserted=0") %> traces 
+    waiting for upload. Please consider waiting for these to finish before 
+    uploading any more, so as not to block the queue for other users.
+  </p>
 <% end %>
