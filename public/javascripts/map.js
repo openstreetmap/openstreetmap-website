@@ -109,6 +109,10 @@ function setMapExtent(extent) {
    map.zoomToExtent(extent.clone().transform(epsg4326, map.getProjectionObject()));
 }
 
+function getMapExtent(extent) {
+   return map.getExtent().clone().transform(map.getProjectionObject(), epsg4326);
+}
+
 function getEventPosition(event) {
    return map.getLonLatFromViewPortPx(event.xy).clone().transform(map.getProjectionObject(), epsg4326);
 }
