@@ -191,6 +191,7 @@ class Trace < ActiveRecord::Base
       if first
         f_lat = point['latitude']
         f_lon = point['longitude']
+        first = false
       end
 
       tp = Tracepoint.new
