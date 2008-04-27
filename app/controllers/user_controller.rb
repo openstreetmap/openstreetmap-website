@@ -179,7 +179,8 @@ class UserController < ApplicationController
     if @this_user
       @title = @this_user.display_name
     else
-      render :nothing => true, :status => :not_found
+      @not_found_user = params[:display_name]
+      render :action => 'no_such_user', :status => :not_found
     end
   end
 
