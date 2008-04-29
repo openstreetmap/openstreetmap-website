@@ -23,6 +23,8 @@
       <%= radio_button_tag("format", "mapnik") %>Mapnik Image
       <br/>
       <%= radio_button_tag("format", "osmarender") %>Osmarender Image
+      <br/>
+      <%= radio_button_tag("format", "html") %>Embeddable HTML
     </p>
   </div>
 
@@ -50,6 +52,13 @@
     <div class="export_details">
       <p>Format <%= select_tag("osmarender_format", options_for_select([["PNG", "png"], ["JPEG", "jpeg"]], "png")) %></p>
       <p>Zoom <%= select_tag("osmarender_zoom", options_for_select([4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17])) %></p>
+    </div>
+  </div>
+  
+  <div id="export_html">
+
+    <div class="export_details">
+    <textarea id="export_html_text"></textarea>
     </div>
   </div>
 
