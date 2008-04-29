@@ -109,7 +109,7 @@ page << <<EOJ
     $("maxlat").value = Math.round(bounds.top * decimals) / decimals;
 
     mapnikSizeChanged();
-    htmlBoundsChanged(bounds);
+    htmlBoundsChanged();
   }
 
   function clearBox() {
@@ -161,25 +161,29 @@ page << <<EOJ
   }
 
   function htmlBoundsChanged() {
-        var bounds = new OpenLayers.Bounds($("minlon").value, $("minlat").value, $("maxlon").value, $("maxlat").value);
-  	var projBounds = bounds.clone().transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
-	var zoom = map.getZoomForExtent(projBounds);
-	var center = bounds.getCenterLonLat();
-	var marker = $("html_marker").checked;
-	var url = 'http://crschmidt2.dev.openstreetmap.org/export/embed.html?lat='+center.lat.toFixed(5)+'&lon='+center.lon.toFixed(5)+'&zoom='+zoom;
-	if (marker) {
-	    url += "&marker=true";
-	}    
-	var html = '<iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+url+'"></iframe>';
-	$("export_html_text").value = html;
-	if ($("format_html").checked) {
-	    $("export_html_text").select();
-	}
+    var bounds = new OpenLayers.Bounds($("minlon").value, $("minlat").value, $("maxlon").value, $("maxlat").value);
+    var projBounds = bounds.clone().transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
+    var zoom = map.getZoomForExtent(projBounds);
+    var center = bounds.getCenterLonLat();
+    var url = "http://#{SERVER_URL}/export/embed.html?lat=" + center.lat.toFixed(5) + "&lon=" + center.lon.toFixed(5) + "&zoom=" + zoom;
+
+    if ($("html_marker").checked) {
+      url += "&marker=true";
+    }
+
+    var html = '<iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+url+'"></iframe>';
+    $("export_html_text").value = html;
+
+    if ($("format_html").checked) {
+      $("export_html_text").select();
+    }
   }
+
   $("html_marker").onclick = htmlBoundsChanged;
 
   function formatChanged() {
     $("export_commit").style.display = "inline";
+
     if ($("format_osm").checked) {
       $("export_osm").style.display = "inline";
     } else {
@@ -201,6 +205,7 @@ page << <<EOJ
     } else {
       $("export_osmarender").style.display = "none";
     }
+
     if ($("format_html").checked) { 
       $("export_html").style.display = "inline";
       $("export_commit").style.display = "none";

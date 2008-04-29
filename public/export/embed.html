@@ -6,8 +6,8 @@
             height: 100%;
         }
         .olControlAttribution {
-            bottom: 3px!important; 
-        }    
+            bottom: 3px!important;
+        }
     </style>
     <script src="http://openstreetmap.org/openlayers/OpenLayers.js"></script>
     <script src="http://openstreetmap.org/openlayers/OpenStreetMap.js"></script>
@@ -15,27 +15,27 @@
         var map, layer;
         function localUpdateLink() {
             var center = this.map.getCenter();
-            
+
             // Map not initialized yet. Break out of this function.
-            if (!center) { 
-                return; 
+            if (!center) {
+                return;
             }
 
             var params = OpenLayers.Util.getParameters(this.base);
-            
-            params.zoom = this.map.getZoom(); 
+
+            params.zoom = this.map.getZoom();
             var lat = center.lat;
             var lon = center.lon;
-            
+
             if (this.displayProjection) {
                 var mapPosition = OpenLayers.Projection.transform(
-                  { x: lon, y: lat }, 
-                  this.map.getProjectionObject(), 
+                  { x: lon, y: lat },
+                  this.map.getProjectionObject(),
                   this.displayProjection );
-                lon = mapPosition.x;  
-                lat = mapPosition.y;  
+                lon = mapPosition.x;
+                lat = mapPosition.y;
             }
-            
+
             if (this.map.marker) {
                 params.lat = Math.round(lat*100000)/100000;
                 params.lon = Math.round(lon*100000)/100000;
@@ -45,7 +45,7 @@
             }
 
             var href = this.base;
-            if( href.indexOf('?') != -1 ){
+            if(href.indexOf('?') != -1) {
                 href = href.substring( 0, href.indexOf('?') );
             }
 
@@ -56,19 +56,21 @@
         function init(){
             OpenLayers.Lang.en.permalink = "Larger Map";
             map = new OpenLayers.Map ("map", {
-              controls:[
+              controls: [
                   new OpenLayers.Control.Attribution(),
                   new OpenLayers.Control.ArgParser(),
-                  new OpenLayers.Control.Navigation(), 
-                  new OpenLayers.Control.Permalink(null, "http://openstreetmap.org/", {updateLink:localUpdateLink})],
+                  new OpenLayers.Control.Navigation(),
+                  new OpenLayers.Control.Permalink(null, "http://openstreetmap.org/", { updateLink: localUpdateLink })
+              ],
               maxExtent: new OpenLayers.Bounds(-20037508.34,-20037508.34,
                                                20037508.34,20037508.34),
-              numZoomLevels:20, 
-              maxResolution:156543.0339,
+              numZoomLevels: 20,
+              maxResolution: 156543.0339,
               displayProjection: new OpenLayers.Projection("EPSG:4326"),
-              units:'m', 
+              units: 'm',
               projection: new OpenLayers.Projection("EPSG:900913")
-            } );          
+            });
+
             var mapnik = new OpenLayers.Layer.OSM.Mapnik("Mapnik", {
                displayOutsideMaxExtent: true,
                wrapDateLine: true,
@@ -81,21 +83,26 @@
                wrapDateLine: true,
                attribution: '<a target="_parent" href="http://www.openstreetmap.org">OpenStreetMap</a>'
             });
-            map.addLayer(osmarender); 
+            map.addLayer(osmarender);
+
             var args = OpenLayers.Util.getParameters();
             if (args.marker && map.getCenter()) {
                 var markers = new OpenLayers.Layer.Markers();
                 map.addLayer(markers);
                 markers.addMarker( new OpenLayers.Marker(map.getCenter()));
                 map.marker = true;
-            }    
-            if (!map.getCenter()) { map.zoomToMaxExtent(); }
+            }
+
+            if (!map.getCenter()) { 
+                map.zoomToMaxExtent();
+            }
+
             var size = map.getSize();
-            if (size.h > 320) { 
+            if (size.h > 320) {
                 map.addControl(new OpenLayers.Control.PanZoomBar());
             } else {
                 map.addControl(new OpenLayers.Control.PanZoom());
-            }   
+            }
         }
     </script>
   </head>
