@@ -85,14 +85,12 @@
             if (args.marker) {
                 var markers = new OpenLayers.Layer.Markers();
                 map.addLayer(markers);
-                var center = args.marker.split(","); 
-                markers.addMarker( new OpenLayers.Marker(new OpenLayers.LonLat(center[1], center[0]).transform(map.displayProjection, map.getProjectionObject())));
+                markers.addMarker( new OpenLayers.Marker(new OpenLayers.LonLat(args.marker[1], args.marker[0]).transform(map.displayProjection, map.getProjectionObject())));
                 map.marker = true;
             }    
-            if (args.bbox) {  
-                var bounds = OpenLayers.Bounds.fromString(args.bbox).transform(map.displayProjection, map.getProjectionObject());
-                var center = bounds.getCenterLonLat();
-                map.setCenter(center, map.getZoomForExtent(bounds, true);
+            if (args.bbox) { 
+                var bounds = OpenLayers.Bounds.fromArray(args.bbox).transform(map.displayProjection, map.getProjectionObject());
+                map.zoomToExtent(bounds)
             } else {
                 map.zoomToMaxExtent(); 
             }
