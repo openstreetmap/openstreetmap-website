@@ -24,6 +24,7 @@ page << <<EOJ
     map.addControl(box);
 
     map.events.register("moveend", map, mapMoved);
+    map.events.register("changebaselayer", map, htmlUrlChanged);
 
     openSidebar({ onclose: stopExport });
 
@@ -47,6 +48,7 @@ page << <<EOJ
     clearBox();
     clearMarker();
     map.events.unregister("moveend", map, mapMoved);
+    map.events.unregister("changebaselayer", map, htmlUrlChanged);
     map.removeLayer(vectors);
   }
 
@@ -98,7 +100,10 @@ page << <<EOJ
   function startMarker() {
     $("add_marker").innerHTML='Click on the map to add a marker';
     if (!markerLayer) {
-        markerLayer = new OpenLayers.Layer.Vector("",{displayInLayerSwitcher: false});
+        markerLayer = new OpenLayers.Layer.Vector("",{
+          displayInLayerSwitcher: false,
+          style: { externalGraphic: OpenLayers.Util.getImagesLocation()+"marker.png", graphicXOffset:-10.5, graphicYOffset:-25, graphicWidth: 21, graphicHeight: 25} 
+        });
         markerControl = new OpenLayers.Control.DrawFeature(markerLayer, OpenLayers.Handler.Point);
         map.addLayer(markerLayer);
         map.addControl(markerControl);
@@ -211,7 +216,12 @@ page << <<EOJ
     var url = "http://#{SERVER_URL}/export/embed.html?bbox=" + bounds.toBBOX();
     if ($("marker_lat").value && $("marker_lon").value) {
         url += "&marker=" + $("marker_lat").value + "," + $("marker_lon").value;
-    }    
+    } 
+
+    var layerName = map.baseLayer.name.toLowerCase();
+    if (layerName != "mapnik") {
+        url += "&layer="+layerName;
+    }   
     var html = '<iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+url+'" style="border: 1px solid black"></iframe>';
     $("export_html_text").value = html;
 
@@ -253,7 +263,7 @@ page << <<EOJ
       $("export_html").style.display = "none";
       clearMarker();
     }
-    	
+        
     validateControls();
   }
 
