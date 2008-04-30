@@ -3,6 +3,8 @@ page.replace_html :sidebar_content, :partial => 'start'
 page << <<EOJ
   var vectors;
   var box;
+  var markerLayer;
+  var markerControl;
 
   function startExport() {
     vectors = new OpenLayers.Layer.Vector("Vector Layer", {
@@ -43,6 +45,7 @@ page << <<EOJ
     $("exportanchor").className = "";
 
     clearBox();
+    clearMarker();
     map.events.unregister("moveend", map, mapMoved);
     map.removeLayer(vectors);
   }
@@ -92,6 +95,49 @@ page << <<EOJ
     $("drag_box").innerHTML = "Manually select a different area";
   }
 
+  function startMarker() {
+    $("add_marker").innerHTML='Click on the map to add a marker';
+    if (!markerLayer) {
+        markerLayer = new OpenLayers.Layer.Vector("",{displayInLayerSwitcher: false});
+        markerControl = new OpenLayers.Control.DrawFeature(markerLayer, OpenLayers.Handler.Point);
+        map.addLayer(markerLayer);
+        map.addControl(markerControl);
+        markerLayer.events.on({"featureadded": endMarker});
+    }
+    markerLayer.destroyFeatures();
+    markerControl.activate();
+    return false;
+  }   
+
+  $("add_marker").onclick = startMarker;
+
+  function endMarker(event) {
+    
+    markerControl.deactivate();
+    $("add_marker").innerHTML='Change marker position';
+    $("marker_inputs").style.display="block";
+    
+    var epsg4326 = new OpenLayers.Projection("EPSG:4326");
+    var epsg900913 = new OpenLayers.Projection("EPSG:900913");
+    var geom = event.feature.geometry.clone().transform( epsg900913, epsg4326 );
+    $("marker_lon").value = geom.x.toFixed(5);
+    $("marker_lat").value = geom.y.toFixed(5);
+    htmlUrlChanged(); 
+  }
+
+  function clearMarker() {
+    $("marker_lon").value = "";
+    $("marker_lat").value = "";
+    $("marker_inputs").style.display = "none";
+    $("add_marker").innerHTML='Add a marker to the map';
+    if (markerLayer) { 
+        markerControl.destroy();
+        markerLayer.destroy();
+        markerLayer = null;
+        markerControl = null;
+    }
+  }  
+
   function mapMoved() {
     setBounds(map.getExtent());
     validateControls();
@@ -109,7 +155,7 @@ page << <<EOJ
     $("maxlat").value = Math.round(bounds.top * decimals) / decimals;
 
     mapnikSizeChanged();
-    htmlBoundsChanged();
+    htmlUrlChanged();
   }
 
   function clearBox() {
@@ -160,26 +206,19 @@ page << <<EOJ
     }
   }
 
-  function htmlBoundsChanged() {
+  function htmlUrlChanged() {
     var bounds = new OpenLayers.Bounds($("minlon").value, $("minlat").value, $("maxlon").value, $("maxlat").value);
-    var projBounds = bounds.clone().transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
-    var zoom = map.getZoomForExtent(projBounds);
-    var center = bounds.getCenterLonLat();
-    var url = "http://#{SERVER_URL}/export/embed.html?lat=" + center.lat.toFixed(5) + "&lon=" + center.lon.toFixed(5) + "&zoom=" + zoom;
-
-    if ($("html_marker").checked) {
-      url += "&marker=true";
-    }
-
-    var html = '<iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+url+'"></iframe>';
+    var url = "http://#{SERVER_URL}/export/embed.html?bbox=" + bounds.toBBOX();
+    if ($("marker_lat").value && $("marker_lon").value) {
+        url += "&marker=" + $("marker_lat").value + "," + $("marker_lon").value;
+    }    
+    var html = '<iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+url+'" style="border: 1px solid black"></iframe>';
     $("export_html_text").value = html;
 
     if ($("format_html").checked) {
       $("export_html_text").select();
     }
   }
-
-  $("html_marker").onclick = htmlBoundsChanged;
 
   function formatChanged() {
     $("export_commit").style.display = "inline";
@@ -212,6 +251,7 @@ page << <<EOJ
       $("export_html_text").select();
     } else {
       $("export_html").style.display = "none";
+      clearMarker();
     }
     	
     validateControls();
