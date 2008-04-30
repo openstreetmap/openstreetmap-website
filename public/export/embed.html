@@ -36,13 +36,8 @@
                 lat = mapPosition.y;
             }
 
-            if (this.map.marker) {
-                params.lat = Math.round(lat*100000)/100000;
-                params.lon = Math.round(lon*100000)/100000;
-            } else {
-                params.mlat = Math.round(lat*100000)/100000;
-                params.mlon = Math.round(lon*100000)/100000;
-            }
+            params.lat = Math.round(lat*100000)/100000;
+            params.lon = Math.round(lon*100000)/100000;
 
             var href = this.base;
             if(href.indexOf('?') != -1) {
@@ -58,7 +53,6 @@
             map = new OpenLayers.Map ("map", {
               controls: [
                   new OpenLayers.Control.Attribution(),
-                  new OpenLayers.Control.ArgParser(),
                   new OpenLayers.Control.Navigation(),
                   new OpenLayers.Control.Permalink(null, "http://openstreetmap.org/", { updateLink: localUpdateLink })
               ],
@@ -71,32 +65,37 @@
               projection: new OpenLayers.Projection("EPSG:900913")
             });
 
-            var mapnik = new OpenLayers.Layer.OSM.Mapnik("Mapnik", {
-               displayOutsideMaxExtent: true,
-               wrapDateLine: true,
-               attribution: 'Data by <a target="_parent" href="http://www.openstreetmap.org">OpenStreetMap</a>'
-            });
-            map.addLayer(mapnik);
-
-            var osmarender = new OpenLayers.Layer.OSM.Osmarender("Osmarender", {
-               displayOutsideMaxExtent: true,
-               wrapDateLine: true,
-               attribution: 'Data by <a target="_parent" href="http://www.openstreetmap.org">OpenStreetMap</a>'
-            });
-            map.addLayer(osmarender);
-
+            var attribution = 'Data by <a target="_parent" href="http://www.openstreetmap.org">OpenStreetMap</a>';
             var args = OpenLayers.Util.getParameters();
-            if (args.marker && map.getCenter()) {
+            if (!args.layer || args.layer == "mapnik") {
+                var mapnik = new OpenLayers.Layer.OSM.Mapnik("Mapnik", {
+                   displayOutsideMaxExtent: true,
+                   wrapDateLine: true,
+                   attribution: attribution 
+                });
+                map.addLayer(mapnik);
+            } else {        
+                var osmarender = new OpenLayers.Layer.OSM.Osmarender("Osmarender", {
+                   displayOutsideMaxExtent: true,
+                   wrapDateLine: true,
+                   attribution: attribution 
+                });
+                map.addLayer(osmarender); 
+            } 
+            if (args.marker) {
                 var markers = new OpenLayers.Layer.Markers();
                 map.addLayer(markers);
-                markers.addMarker( new OpenLayers.Marker(map.getCenter()));
+                var center = args.marker.split(","); 
+                markers.addMarker( new OpenLayers.Marker(new OpenLayers.LonLat(center[1], center[0]).transform(map.displayProjection, map.getProjectionObject())));
                 map.marker = true;
+            }    
+            if (args.bbox) {  
+                var bounds = OpenLayers.Bounds.fromString(args.bbox).transform(map.displayProjection, map.getProjectionObject());
+                var center = bounds.getCenterLonLat();
+                map.setCenter(center, map.getZoomForExtent(bounds, true);
+            } else {
+                map.zoomToMaxExtent(); 
             }
-
-            if (!map.getCenter()) { 
-                map.zoomToMaxExtent();
-            }
-
             var size = map.getSize();
             if (size.h > 320) {
                 map.addControl(new OpenLayers.Control.PanZoomBar());
