@@ -99,34 +99,47 @@ page << <<EOJ
 
   function startMarker() {
     $("add_marker").innerHTML='Click on the map to add a marker';
+
     if (!markerLayer) {
-        markerLayer = new OpenLayers.Layer.Vector("",{
-          displayInLayerSwitcher: false,
-          style: { externalGraphic: OpenLayers.Util.getImagesLocation()+"marker.png", graphicXOffset:-10.5, graphicYOffset:-25, graphicWidth: 21, graphicHeight: 25} 
-        });
-        markerControl = new OpenLayers.Control.DrawFeature(markerLayer, OpenLayers.Handler.Point);
-        map.addLayer(markerLayer);
-        map.addControl(markerControl);
-        markerLayer.events.on({"featureadded": endMarker});
+      markerLayer = new OpenLayers.Layer.Vector("",{
+        displayInLayerSwitcher: false,
+        style: { 
+          externalGraphic: OpenLayers.Util.getImagesLocation() + "marker.png",
+          graphicXOffset: -10.5,
+          graphicYOffset: -25, 
+          graphicWidth: 21,
+          graphicHeight: 25
+        } 
+      });
+      map.addLayer(markerLayer);
+
+      markerControl = new OpenLayers.Control.DrawFeature(markerLayer, OpenLayers.Handler.Point);
+      map.addControl(markerControl);
+
+      markerLayer.events.on({ "featureadded": endMarker });
     }
+
     markerLayer.destroyFeatures();
     markerControl.activate();
+
     return false;
-  }   
+  }
 
   $("add_marker").onclick = startMarker;
 
   function endMarker(event) {
-    
     markerControl.deactivate();
-    $("add_marker").innerHTML='Change marker position';
-    $("marker_inputs").style.display="block";
+
+    $("add_marker").innerHTML = "Change marker position";
+    $("marker_inputs").style.display = "block";
     
     var epsg4326 = new OpenLayers.Projection("EPSG:4326");
     var epsg900913 = new OpenLayers.Projection("EPSG:900913");
-    var geom = event.feature.geometry.clone().transform( epsg900913, epsg4326 );
+    var geom = event.feature.geometry.clone().transform(epsg900913, epsg4326);
+
     $("marker_lon").value = geom.x.toFixed(5);
     $("marker_lat").value = geom.y.toFixed(5);
+
     htmlUrlChanged(); 
   }
 
@@ -134,12 +147,13 @@ page << <<EOJ
     $("marker_lon").value = "";
     $("marker_lat").value = "";
     $("marker_inputs").style.display = "none";
-    $("add_marker").innerHTML='Add a marker to the map';
+    $("add_marker").innerHTML = "Add a marker to the map";
+
     if (markerLayer) { 
-        markerControl.destroy();
-        markerLayer.destroy();
-        markerLayer = null;
-        markerControl = null;
+      markerControl.destroy();
+      markerLayer.destroy();
+      markerLayer = null;
+      markerControl = null;
     }
   }  
 
@@ -213,15 +227,13 @@ page << <<EOJ
 
   function htmlUrlChanged() {
     var bounds = new OpenLayers.Bounds($("minlon").value, $("minlat").value, $("maxlon").value, $("maxlat").value);
-    var url = "http://#{SERVER_URL}/export/embed.html?bbox=" + bounds.toBBOX();
+    var layerName = map.baseLayer.name.toLowerCase();
+    var url = "http://#{SERVER_URL}/export/embed.html?bbox=" + bounds.toBBOX() + "&layer=" + layerName;
+
     if ($("marker_lat").value && $("marker_lon").value) {
-        url += "&marker=" + $("marker_lat").value + "," + $("marker_lon").value;
+      url += "&marker=" + $("marker_lat").value + "," + $("marker_lon").value;
     } 
 
-    var layerName = map.baseLayer.name.toLowerCase();
-    if (layerName != "mapnik") {
-        url += "&layer="+layerName;
-    }   
     var html = '<iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+url+'" style="border: 1px solid black"></iframe>';
     $("export_html_text").value = html;
 
