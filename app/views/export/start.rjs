@@ -229,12 +229,23 @@ page << <<EOJ
     var bounds = new OpenLayers.Bounds($("minlon").value, $("minlat").value, $("maxlon").value, $("maxlat").value);
     var layerName = map.baseLayer.name.toLowerCase();
     var url = "http://#{SERVER_URL}/export/embed.html?bbox=" + bounds.toBBOX() + "&layer=" + layerName;
-
+    
     if ($("marker_lat").value && $("marker_lon").value) {
       url += "&marker=" + $("marker_lat").value + "," + $("marker_lon").value;
     } 
-
+    
     var html = '<iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+url+'" style="border: 1px solid black"></iframe>';
+   
+    // Create "larger map" link
+    var center = bounds.getCenterLonLat();
+    var epsg4326 = new OpenLayers.Projection("EPSG:4326");
+    var epsg900913 = new OpenLayers.Projection("EPSG:900913");
+
+    bounds.transform(epsg4326, epsg900913);
+    var zoom = map.getZoomForExtent(bounds);
+    
+    html += '<br /><small><a href="http://#{SERVER_URL}/?lat='+center.lat+'&lon='+center.lon+'&zoom='+zoom+'">View Larger Map</a></small>';
+
     $("export_html_text").value = html;
 
     if ($("format_html").checked) {
