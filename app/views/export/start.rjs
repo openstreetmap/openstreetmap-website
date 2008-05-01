@@ -229,8 +229,10 @@ page << <<EOJ
     var bounds = new OpenLayers.Bounds($("minlon").value, $("minlat").value, $("maxlon").value, $("maxlat").value);
     var layerName = map.baseLayer.name.toLowerCase();
     var url = "http://#{SERVER_URL}/export/embed.html?bbox=" + bounds.toBBOX() + "&layer=" + layerName;
-    
+    var markerUrl = "";
+
     if ($("marker_lat").value && $("marker_lon").value) {
+      markerUrl = "&mlat=" + $("marker_lat").value + "&mlon=" + $("marker_lon").value;
       url += "&marker=" + $("marker_lat").value + "," + $("marker_lon").value;
     } 
     
@@ -244,7 +246,7 @@ page << <<EOJ
     bounds.transform(epsg4326, epsg900913);
     var zoom = map.getZoomForExtent(bounds);
     
-    html += '<br /><small><a href="http://#{SERVER_URL}/?lat='+center.lat+'&lon='+center.lon+'&zoom='+zoom+'">View Larger Map</a></small>';
+    html += '<br /><small><a href="http://#{SERVER_URL}/?lat='+center.lat+'&lon='+center.lon+'&zoom='+zoom+markerUrl+'">View Larger Map</a></small>';
 
     $("export_html_text").value = html;
 
