@@ -11,6 +11,8 @@ class UserController < ApplicationController
     @title = 'create account'
     @user = User.new(params[:user])
 
+    @user.data_public = true
+      
     if @user.save
       token = @user.tokens.create
       flash[:notice] = "User was successfully created. Check your email for a confirmation note, and you\'ll be mapping in no time :-)<br>Please note that you won't be able to login until you've received and confirmed your email address."

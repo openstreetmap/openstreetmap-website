@@ -42,7 +42,9 @@ ActionController::Routing::Routes.draw do |map|
   
   map.connect "api/#{API_VERSION}/user/details", :controller => 'user', :action => 'api_details'
   map.connect "api/#{API_VERSION}/user/preferences", :controller => 'user_preference', :action => 'read', :conditions => { :method => :get }
+  map.connect "api/#{API_VERSION}/user/preferences/:preference_key", :controller => 'user_preference', :action => 'read_one', :conditions => { :method => :get }
   map.connect "api/#{API_VERSION}/user/preferences", :controller => 'user_preference', :action => 'update', :conditions => { :method => :put }
+  map.connect "api/#{API_VERSION}/user/preferences/:preference_key", :controller => 'user_preference', :action => 'update_one', :conditions => { :method => :put }
   map.connect "api/#{API_VERSION}/user/gpx_files", :controller => 'user', :action => 'api_gpx_files'
  
   map.connect "api/#{API_VERSION}/gpx/create", :controller => 'trace', :action => 'api_create'
