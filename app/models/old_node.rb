@@ -37,7 +37,7 @@ class OldNode < GeoRecord
     el1['lon'] = self.lon.to_s
     el1['user'] = self.user.display_name if self.user.data_public?
 
-    Tags.split(self.tags) do |k,v|
+    self.tags.each do |k,v|
       el2 = XML::Node.new('tag')
       el2['k'] = k.to_s
       el2['v'] = v.to_s
@@ -48,4 +48,41 @@ class OldNode < GeoRecord
     el1['timestamp'] = self.timestamp.xmlschema
     return el1
   end
+
+  def save_with_dependencies!
+    save!
+    #not sure whats going on here
+    clear_aggregation_cache
+    clear_association_cache
+    #ok from here
+    @attributes.update(OldNode.find(:first, :conditions => ['id = ? AND timestamp = ?', self.id, self.timestamp]).instance_variable_get('@attributes'))
+   
+    sequence_id = 1
+    self.tags.each do |k,v|
+      tag = OldNodeTag.new
+      tag.k = k
+      tag.v = v
+      tag.id = self.id
+      tag.version = self.version
+      tag.sequence_id = sequence_id
+      tag.save!
+      sequence_id += 1
+    end
+  end
+
+  def tags
+    unless @tags
+        @tags = Hash.new
+        OldNodeTag.find(:all, :conditions => ["id = ? AND version = ?", self.id, self.version]).each do |tag|
+            @tags[tag.k] = tag.v
+        end
+    end
+    @tags = Hash.new unless @tags
+    @tags
+  end
+
+  def tags=(t)
+    @tags = t 
+  end 
+
 end

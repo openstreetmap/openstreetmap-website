@@ -1,5 +1,3 @@
-# The node model represents a current existing node, that is, the latest version. Use OldNode for historical nodes.
-
 class Node < GeoRecord
   require 'xml/libxml'
 
@@ -10,14 +8,19 @@ class Node < GeoRecord
   validates_numericality_of :latitude, :longitude
   validate :validate_position
 
-  has_many :ways, :through => :way_nodes
   has_many :old_nodes, :foreign_key => :id
   has_many :way_nodes
+  has_many :node_tags, :foreign_key => :id
   belongs_to :user
  
-  # Sanity check the latitude and longitude and add an error if it's broken
   def validate_position
     errors.add_to_base("Node is not in the world") unless in_world?
+  end
+
+  def in_world?
+    return false if self.lat < -90 or self.lat > 90
+    return false if self.lon < -180 or self.lon > 180
+    return true
   end
 
   #
@@ -80,10 +83,9 @@ class Node < GeoRecord
         tags = []
 
         pt.find('tag').each do |tag|
-          tags << [tag['k'],tag['v']]
+          node.add_tag_key_val(tag['k'],tag['v'])
         end
 
-        node.tags = Tags.join(tags)
       end
     rescue
       node = nil
@@ -92,24 +94,45 @@ class Node < GeoRecord
     return node
   end
 
-  # Save this node with the appropriate OldNode object to represent it's history.
   def save_with_history!
-    Node.transaction do
-      self.timestamp = Time.now
+    t = Time.now
+
+    Node.transaction do 
+      # apply timestamp to the new node
+      self.timestamp = t
       self.save!
-      old_node = OldNode.from_node(self)
-      old_node.save!
     end
+
+    # Create a NodeTag
+    NodeTag.transaction do 
+      tags = self.tags
+
+      NodeTag.delete_all(['id = ?', self.id])
+
+      sequence_id = 1
+      tags.each do |k,v|
+        tag = NodeTag.new
+        tag.k = k 
+        tag.v = v 
+        tag.id = self.id
+        tag.sequence_id = sequence_id
+        tag.save!
+        sequence_id += 1
+      end 
+    end 
+    # Create an OldNode
+    old_node = OldNode.from_node(self)
+    old_node.timestamp = t
+    old_node.save_with_dependencies!
+
   end
 
-  # Turn this Node in to a complete OSM XML object with <osm> wrapper
   def to_xml
     doc = OSM::API.new.get_xml_doc
     doc.root << to_xml_node()
     return doc
   end
 
-  # Turn this Node in to an XML Node without the <osm> wrapper.
   def to_xml_node(user_display_name_cache = nil)
     el1 = XML::Node.new 'node'
     el1['id'] = self.id.to_s
@@ -128,7 +151,7 @@ class Node < GeoRecord
 
     el1['user'] = user_display_name_cache[self.user_id] unless user_display_name_cache[self.user_id].nil?
 
-    Tags.split(self.tags) do |k,v|
+    self.tags.each do |k,v|
       el2 = XML::Node.new('tag')
       el2['k'] = k.to_s
       el2['v'] = v.to_s
@@ -140,7 +163,6 @@ class Node < GeoRecord
     return el1
   end
 
-  # Return the node's tags as a Hash of keys and their values
   def tags_as_hash
     hash = {}
     Tags.split(self.tags) do |k,v|
@@ -148,4 +170,26 @@ class Node < GeoRecord
     end
     hash
   end
+
+  def tags
+    unless @tags
+      @tags = {}
+      self.node_tags.each do |tag|
+        @tags[tag.k] = tag.v
+      end
+    end
+    @tags
+  end
+
+  def tags=(t)
+    @tags = t 
+  end 
+
+  def add_tag_key_val(k,v)
+    @tags = Hash.new unless @tags
+    @tags[k] = v
+  end
+
+
+
 end
