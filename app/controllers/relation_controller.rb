@@ -15,6 +15,7 @@ class RelationController < ApplicationController
         if !relation.preconditions_ok?
           render :text => "", :status => :precondition_failed
         else
+	  relation.version = 0
           relation.user_id = @user.id
           relation.save_with_history!
 

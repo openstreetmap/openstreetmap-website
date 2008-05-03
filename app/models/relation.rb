@@ -167,13 +167,12 @@ class Relation < ActiveRecord::Base
   def save_with_history!
     Relation.transaction do
       t = Time.now
+      self.version += 1
       self.timestamp = t
       self.save!
 
       tags = self.tags
-
       RelationTag.delete_all(['id = ?', self.id])
-
       tags.each do |k,v|
         tag = RelationTag.new
         tag.k = k
@@ -183,9 +182,7 @@ class Relation < ActiveRecord::Base
       end
 
       members = self.members
-
       RelationMember.delete_all(['id = ?', self.id])
-
       members.each do |n|
         mem = RelationMember.new
         mem.id = self.id

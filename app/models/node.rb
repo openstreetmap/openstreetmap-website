@@ -96,35 +96,27 @@ class Node < GeoRecord
 
   def save_with_history!
     t = Time.now
-
-    Node.transaction do 
-      # apply timestamp to the new node
+    Node.transaction do
+      self.version += 1
       self.timestamp = t
       self.save!
-    end
 
-    # Create a NodeTag
-    NodeTag.transaction do 
+      # Create a NodeTag
       tags = self.tags
-
       NodeTag.delete_all(['id = ?', self.id])
-
-      sequence_id = 1
       tags.each do |k,v|
-        tag = NodeTag.new
-        tag.k = k 
-        tag.v = v 
-        tag.id = self.id
-        tag.sequence_id = sequence_id
-        tag.save!
-        sequence_id += 1
+	tag = NodeTag.new
+	tag.k = k 
+	tag.v = v 
+	tag.id = self.id
+	tag.save!
       end 
-    end 
-    # Create an OldNode
-    old_node = OldNode.from_node(self)
-    old_node.timestamp = t
-    old_node.save_with_dependencies!
 
+      # Create an OldNode
+      old_node = OldNode.from_node(self)
+      old_node.timestamp = t
+      old_node.save_with_dependencies!
+    end
   end
 
   def to_xml

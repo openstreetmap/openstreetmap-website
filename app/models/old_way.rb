@@ -9,6 +9,7 @@ class OldWay < ActiveRecord::Base
     old_way.user_id = way.user_id
     old_way.timestamp = way.timestamp
     old_way.id = way.id
+    old_way.version = way.version
     old_way.nds = way.nds
     old_way.tags = way.tags
     return old_way

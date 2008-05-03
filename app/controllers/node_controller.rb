@@ -15,6 +15,7 @@ class NodeController < ApplicationController
       node = Node.from_xml(request.raw_post, true)
 
       if node
+	node.version = 0
         node.user_id = @user.id
         node.visible = true
         node.save_with_history!

@@ -9,6 +9,7 @@ class OldRelation < ActiveRecord::Base
     old_relation.user_id = relation.user_id
     old_relation.timestamp = relation.timestamp
     old_relation.id = relation.id
+    old_relation.version = relation.version
     old_relation.members = relation.members
     old_relation.tags = relation.tags
     return old_relation

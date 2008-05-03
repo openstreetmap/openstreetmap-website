@@ -27,6 +27,7 @@ class OldNode < GeoRecord
     old_node.timestamp = node.timestamp
     old_node.user_id = node.user_id
     old_node.id = node.id
+    old_node.version = node.version
     return old_node
   end
 
@@ -57,16 +58,13 @@ class OldNode < GeoRecord
     #ok from here
     @attributes.update(OldNode.find(:first, :conditions => ['id = ? AND timestamp = ?', self.id, self.timestamp]).instance_variable_get('@attributes'))
    
-    sequence_id = 1
     self.tags.each do |k,v|
       tag = OldNodeTag.new
       tag.k = k
       tag.v = v
       tag.id = self.id
       tag.version = self.version
-      tag.sequence_id = sequence_id
       tag.save!
-      sequence_id += 1
     end
   end
 
