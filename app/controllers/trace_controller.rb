@@ -83,6 +83,13 @@ class TraceController < ApplicationController
 
   def view
     @trace = Trace.find(params[:id])
+
+    unless @trace
+      flash[:notice] = "OH NOES! Trace not found!"
+      redirect_to :controller => 'trace', :action => 'list'
+      return
+    end
+
     @title = "Viewing trace #{@trace.name}"
     if !@trace.visible?
       render :nothing => true, :status => :not_found
@@ -90,7 +97,8 @@ class TraceController < ApplicationController
       render :nothing => true, :status => :forbidden
     end
   rescue ActiveRecord::RecordNotFound
-    render :nothing => true, :status => :not_found
+    flash[:notice] = "GPX file not found"
+    redirect_to :controller => 'trace', :action => 'list'
   end
 
   def create
@@ -107,11 +115,11 @@ class TraceController < ApplicationController
       end
     else
       @trace = Trace.new({:name => "Dummy",
-                          :tagstring => params[:trace][:tagstring],
-                          :description => params[:trace][:description],
-                          :public => params[:trace][:public],
-                          :inserted => false, :user => @user,
-                          :timestamp => Time.now})
+                         :tagstring => params[:trace][:tagstring],
+                         :description => params[:trace][:description],
+                         :public => params[:trace][:public],
+                         :inserted => false, :user => @user,
+                         :timestamp => Time.now})
       @trace.valid?
       @trace.errors.add(:gpx_file, "can't be blank")
     end
@@ -196,7 +204,7 @@ class TraceController < ApplicationController
       conditions[0] += " AND users.display_name = ?"
       conditions << params[:display_name]
     end
-    
+
     if params[:tag]
       conditions[0] += " AND EXISTS (SELECT * FROM gpx_file_tags AS gft WHERE gft.gpx_id = gpx_files.id AND gft.tag = ?)"
       conditions << params[:tag]
@@ -286,7 +294,7 @@ class TraceController < ApplicationController
     end
   end
 
-private
+  private
 
   def do_create(file, tags, description, public)
     name = file.original_filename.gsub(/[^a-zA-Z0-9.]/, '_')
@@ -295,7 +303,7 @@ private
     File.open(filename, "w") { |f| f.write(file.read) }
 
     @trace = Trace.new({:name => name, :tagstring => tags,
-                        :description => description, :public => public})
+                       :description => description, :public => public})
     @trace.inserted = false
     @trace.user = @user
     @trace.timestamp = Time.now
