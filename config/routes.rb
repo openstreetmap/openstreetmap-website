@@ -42,7 +42,9 @@ ActionController::Routing::Routes.draw do |map|
   
   map.connect "api/#{API_VERSION}/user/details", :controller => 'user', :action => 'api_details'
   map.connect "api/#{API_VERSION}/user/preferences", :controller => 'user_preference', :action => 'read', :conditions => { :method => :get }
+  map.connect "api/#{API_VERSION}/user/preferences/:preference_key", :controller => 'user_preference', :action => 'read_one', :conditions => { :method => :get }
   map.connect "api/#{API_VERSION}/user/preferences", :controller => 'user_preference', :action => 'update', :conditions => { :method => :put }
+  map.connect "api/#{API_VERSION}/user/preferences/:preference_key", :controller => 'user_preference', :action => 'update_one', :conditions => { :method => :put }
   map.connect "api/#{API_VERSION}/user/gpx_files", :controller => 'user', :action => 'api_gpx_files'
  
   map.connect "api/#{API_VERSION}/gpx/create", :controller => 'trace', :action => 'api_create'
@@ -57,13 +59,21 @@ ActionController::Routing::Routes.draw do |map|
   # web site
 
   map.connect '/', :controller => 'site', :action => 'index'
+  map.connect '/edit', :controller => 'site', :action => 'edit'
+  map.connect '/export', :controller => 'site', :action => 'export'
+  map.connect '/login', :controller => 'user', :action => 'login'
+  map.connect '/logout', :controller => 'user', :action => 'logout'
+  map.connect '/user/new', :controller => 'user', :action => 'new'
   map.connect '/user/save', :controller => 'user', :action => 'save'
   map.connect '/user/confirm', :controller => 'user', :action => 'confirm'
   map.connect '/user/go_public', :controller => 'user', :action => 'go_public'
-  map.connect '/user/reset_password', :controller => 'user', :action => 'reset_password'
-  map.connect '/user/upload_image', :controller => 'user', :action => 'upload_image'
+  map.connect '/user/reset-password', :controller => 'user', :action => 'reset_password'
+  map.connect '/user/upload-image', :controller => 'user', :action => 'upload_image'
+  map.connect '/user/forgot-password', :controller => 'user', :action => 'lost_password'
+
   map.connect '/index.html', :controller => 'site', :action => 'index'
   map.connect '/edit.html', :controller => 'site', :action => 'edit'
+  map.connect '/export.html', :controller => 'site', :action => 'export'
   map.connect '/search.html', :controller => 'way_tag', :action => 'search'
   map.connect '/login.html', :controller => 'user', :action => 'login'
   map.connect '/logout.html', :controller => 'user', :action => 'logout'
@@ -121,6 +131,10 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/geocoder/search', :controller => 'geocoder', :action => 'search'
   map.connect '/geocoder/description', :controller => 'geocoder', :action => 'description'
 
+  # export
+  map.connect '/export/start', :controller => 'export', :action => 'start'
+  map.connect '/export/finish', :controller => 'export', :action => 'finish'
+
   # messages
 
   map.connect '/user/:display_name/inbox', :controller => 'message', :action => 'inbox'
@@ -129,8 +143,9 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/message/read/:message_id', :controller => 'message', :action => 'read'
   map.connect '/message/mark/:message_id', :controller => 'message', :action => 'mark'
   map.connect '/message/reply/:message_id', :controller => 'message', :action => 'reply'
+  map.connect '/message/delete/:message_id', :controller => 'message', :action => 'destroy'
 
   # fall through
-     map.connect ':controller/:id/:action'
+  map.connect ':controller/:id/:action'
   map.connect ':controller/:action'
 end

@@ -79,8 +79,9 @@ class ApiController < ApplicationController
       exit!
     end
 
-    render :text => doc.to_s, :content_type => "text/xml"
+    response.headers["Content-Disposition"] = "attachment; filename=\"map.osm\""
 
+    render :text => doc.to_s, :content_type => "text/xml"
   end
 
   def map
@@ -188,6 +189,8 @@ class ApiController < ApplicationController
     relations.uniq.each do |relation|
       doc.root << relation.to_xml_node(user_display_name_cache)
     end
+
+    response.headers["Content-Disposition"] = "attachment; filename=\"map.osm\""
 
     render :text => doc.to_s, :content_type => "text/xml"
     

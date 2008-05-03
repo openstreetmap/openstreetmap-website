@@ -30,11 +30,16 @@ class DiaryEntryController < ApplicationController
   def list
     if params[:display_name]
       @this_user = User.find_by_display_name(params[:display_name])
-      @title = @this_user.display_name + "'s diary"
-      @entry_pages, @entries = paginate(:diary_entries,
-                                        :conditions => ['user_id = ?', @this_user.id],
-                                        :order => 'created_at DESC',
-                                        :per_page => 20)
+      if @this_user
+        @title = @this_user.display_name + "'s diary"
+        @entry_pages, @entries = paginate(:diary_entries,
+                                          :conditions => ['user_id = ?', @this_user.id],
+                                          :order => 'created_at DESC',
+                                          :per_page => 20)
+      else
+        @not_found_user = params[:display_name]
+        render :action => 'no_such_user', :status => :not_found
+      end
     else
       @title = "Users' diaries"
       @entry_pages, @entries = paginate(:diary_entries,

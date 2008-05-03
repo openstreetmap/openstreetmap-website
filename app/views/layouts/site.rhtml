@@ -36,15 +36,23 @@
         <%
         viewclass = ''
         editclass = ''
+        exportclass = ''
         traceclass = ''
         viewclass = 'active' if params['controller'] == 'site' and params['action'] == 'index' 
         editclass = 'active' if params['controller'] == 'site' and params['action'] == 'edit' 
-        editclass = 'active' if params['controller'] == 'campaign'
+        exportclass = 'active' if params['controller'] == 'site' and params['action'] == 'export'
         traceclass = 'active' if params['controller'] == 'trace'
+        diaryclass = 'active' if params['controller'] == 'diary_entry'
         %>
-        <li><%= link_to 'View', {:controller => 'site', :action => 'index'}, {:id => 'viewanchor', :title => 'view maps', :class => viewclass  } %></li>
-        <li><%= link_to 'Edit', {:controller => 'site', :action => 'edit'}, {:id => 'editanchor', :title => 'edit maps', :class => editclass } %></li>
-        <li><%= link_to 'GPS traces', {:controller => 'trace', :action => 'list'}, {:id => 'traceanchor', :title => 'manage traces', :class => traceclass } %></li>
+        <li><%= link_to 'View', {:controller => 'site', :action => 'index'}, {:id => 'viewanchor', :title => 'view maps', :class => viewclass} %></li>
+        <li><%= link_to 'Edit', {:controller => 'site', :action => 'edit'}, {:id => 'editanchor', :title => 'edit maps', :class => editclass} %></li>
+        <% if params['controller'] == 'site' and (params['action'] == 'index' or params['action'] == 'export') %>
+        <li><%= link_to_remote 'Export', {:url => {:controller => 'export', :action => 'start'}}, {:id => 'exportanchor', :title => 'export map data', :class => exportclass, :href => url_for(:controller => 'site', :action => 'export')} %></li>
+        <% else %>
+        <li><%= link_to 'Export', {:controller => 'site', :action => 'export'}, {:id => 'exportanchor', :title => 'export map data', :class => exportclass} %></li>
+        <% end %>
+        <li><%= link_to 'GPS Traces', {:controller => 'trace', :action => 'list'}, {:id => 'traceanchor', :title => 'manage traces', :class => traceclass} %></li>
+        <li><%= link_to 'User Diaries', {:controller => 'diary_entry', :action => 'list'}, {:id => 'diaryanchor', :title => 'view user diaries', :class => diaryclass} %></li>
       </ul>
     </div>
 
@@ -82,10 +90,15 @@
 
       <div id="left_menu" class="left_menu">
         <a href="http://wiki.openstreetmap.org">Help &amp; Wiki</a><br />
-	<%= link_to "Users' diaries", {:controller => 'diary_entry', :action => 'list', :display_name => nil} %><br />
         <a href="http://www.opengeodata.org/">News blog</a><br />
         <a href="http://wiki.openstreetmap.org/index.php/Merchandise">Shop</a><br />
         <%= yield :left_menu %>
+      </div>
+
+      <div id="sotm" class="left_menu">
+        <div id="sotminfo">
+        Come to the second OpenStreetMap Conference, <a href="http://www.stateofthemap.org">The State of the Map</a>: 12th-13th July 2008, Limerick, Ireland.
+        </div>
       </div>
 
       <%= yield :optionals %>

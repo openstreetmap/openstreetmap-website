@@ -33,7 +33,7 @@
   var marker;
 
   function init(){
-    var centre = lonLatToMercator(new OpenLayers.LonLat(<%= lon %>, <%= lat %>));
+    var centre = new OpenLayers.LonLat(<%= lon %>, <%= lat %>);
     var zoom = <%= zoom %>;
 
     <% if params['scale'] and params['scale'].length > 0 then %>
@@ -42,10 +42,10 @@
 
     var map = createMap("map");
 
-    map.setCenter(centre, zoom);
+    setMapCenter(centre, zoom);
 
     <% if marker %>
-    marker = addMarkerToMap(lonLatToMercator(new OpenLayers.LonLat(<%= mlon %>, <%= mlat %>)), null, "Your location");
+    marker = addMarkerToMap(new OpenLayers.LonLat(<%= mlon %>, <%= mlat %>), null, "Your location");
     <% end %>
 
     var near_icon = OpenLayers.Marker.defaultIcon();
@@ -53,7 +53,7 @@
     var i = nearest.length;
     while( i-- ) {
       var description = 'Nearby mapper: <a href="/user/'+nearest[i].display_name+'">'+nearest[i].display_name+'</a>'
-      var nearmarker = addMarkerToMap(lonLatToMercator(new OpenLayers.LonLat(nearest[i].home_lon, nearest[i].home_lat)), near_icon.clone(), description);
+      var nearmarker = addMarkerToMap(new OpenLayers.LonLat(nearest[i].home_lon, nearest[i].home_lat), near_icon.clone(), description);
     }
 
     map.events.register("click", map, setHome);
@@ -63,8 +63,7 @@
     closeMapPopup();
 
     if (document.getElementById('updatehome').checked) {
-      var merc = map.getLonLatFromViewPortPx(e.xy);
-      var lonlat = mercatorToLonLat(merc);
+      var lonlat = getEventPosition(e);
 
       document.getElementById('homerow').className = '';
       document.getElementById('home_lat').value = lonlat.lat;
@@ -74,7 +73,7 @@
         removeMarkerFromMap(marker);
       }
 
-      marker = addMarkerToMap(merc, null, "Your location");
+      marker = addMarkerToMap(lonlat, null, "Your location");
     }
   }
 

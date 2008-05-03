@@ -87,20 +87,18 @@ by the OpenStreetMap project and it's contributors.
     map = createMap("map");
 
     <% if bbox %>
-    var min = lonLatToMercator(new OpenLayers.LonLat(<%= minlon %>, <%= minlat %>));
-    var max = lonLatToMercator(new OpenLayers.LonLat(<%= maxlon %>, <%= maxlat %>));
-    var bbox = new OpenLayers.Bounds(min.lon, min.lat, max.lon, max.lat);
+    var bbox = new OpenLayers.Bounds(<%= minlon %>, <%= minlat %>, <%= maxlon %>, <%= maxlat %>);
 
-    map.zoomToExtent(bbox);
+    setMapExtent(bbox);
     <% else %>
-    var centre = lonLatToMercator(new OpenLayers.LonLat(<%= lon %>, <%= lat %>));
+    var centre = new OpenLayers.LonLat(<%= lon %>, <%= lat %>);
     var zoom = <%= zoom %>;
 
     <% if params['scale'] and params['scale'].length > 0 then %>
     zoom = scaleToZoom(<%= params['scale'].to_f() %>);
     <% end %>
 
-    map.setCenter(centre, zoom);
+    setMapCenter(centre, zoom);
     <% end %>
 
     <% if layers %>
@@ -108,7 +106,7 @@ by the OpenStreetMap project and it's contributors.
     <% end %>
 
     <% if marker %>
-    marker = addMarkerToMap(lonLatToMercator(new OpenLayers.LonLat(<%= mlon %>, <%= mlat %>)));
+    marker = addMarkerToMap(new OpenLayers.LonLat(<%= mlon %>, <%= mlat %>));
     <% end %>
 
     map.events.register("zoomend", map, updateKey);
@@ -121,13 +119,13 @@ by the OpenStreetMap project and it's contributors.
   }
 
   function getPosition() {
-    return mercatorToLonLat(map.getCenter());
+    return getMapCenter();
   }
 
   function setPosition(lat, lon, zoom) {
-    var centre = lonLatToMercator(new OpenLayers.LonLat(lon, lat));
+    var centre = new OpenLayers.LonLat(lon, lat);
 
-    map.setCenter(centre, zoom);
+    setMapCenter(centre, zoom);
 
     if (marker)
       removeMarkerFromMap(marker);
@@ -136,7 +134,7 @@ by the OpenStreetMap project and it's contributors.
   }
 
   function updateLocation() {
-    var lonlat = mercatorToLonLat(map.getCenter());
+    var lonlat = getMapCenter();
     var zoom = map.getZoom();
     var layers = getMapLayers();
 
@@ -182,5 +180,9 @@ by the OpenStreetMap project and it's contributors.
 
   window.onload = handleResize;
   window.onresize = handleResize;
+
+  <% if params['action'] == 'export' %>
+  <%= remote_function :url => { :controller => 'export', :action => 'start' } %>
+  <% end %>
 // -->
 </script>

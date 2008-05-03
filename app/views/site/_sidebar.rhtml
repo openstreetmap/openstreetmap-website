@@ -11,19 +11,35 @@
 
 <script type="text/javascript">
 <!--
-  function openSidebar() {
-    if (arguments.length) { $("sidebar").style.width = arguments[0]; }
+  var onclose;
+
+  function openSidebar(options) {
+    options = options || {};
+
+    if (onclose) {
+       onclose();
+       onclose = null;
+    }
+
+    if (options.width) { $("sidebar").style.width = options.width; }
     else { $("sidebar").style.width = "30%"; }
 
     $("sidebar").style.display = "block";
 
     <%= onopen %>
+
+    onclose = options.onclose;
   }
 
   function closeSidebar() {
     $("sidebar").style.display = "none";
 
     <%= onclose %>
+
+    if (onclose) {
+       onclose();
+       onclose = null;
+    }
   }
 
   function updateSidebar(title, content) {
