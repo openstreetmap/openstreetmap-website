@@ -105,7 +105,7 @@ static void proc_nodes(struct data *d, const char *tbl, FILE *out, FILE *out_tag
     unsigned long id = strtoul(row[0], NULL, 10);
     uint32_t version;
 
-    if (id > d->version_size) {
+    if (id >= d->version_size) {
       fprintf(stderr, "preallocated nodes size exceeded");
       abort();
     }
