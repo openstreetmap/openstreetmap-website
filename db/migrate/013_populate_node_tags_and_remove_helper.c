@@ -199,6 +199,7 @@ int main(int argc, char **argv) {
 
   d->version_size = 1 + select_size(d->mysql, "SELECT max(id) FROM current_nodes");
   d->version = malloc(sizeof(uint32_t) * d->version_size);
+  memset(d->version, 0, sizeof(uint32_t) * d->version_size);
 
   prefix_len = strlen(argv[7]);
   tempfn = (char *) malloc(prefix_len + 32);
