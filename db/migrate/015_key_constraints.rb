@@ -11,6 +11,15 @@ class KeyConstraints < ActiveRecord::Migration
 
     add_primary_key :nodes, [:id, :version]
 
+    # Remove indexes superseded by primary keys
+    remove_index :current_way_tags, :name => :current_way_tags_id_idx
+    remove_index :current_relation_tags, :name => :current_relation_tags_id_idx
+
+    remove_index :way_tags, :name => :way_tags_id_version_idx
+    remove_index :relation_tags, :name => :relation_tags_id_version_idx
+
+    remove_index :nodes, :name => :nodes_uid_idx
+
     # Foreign keys (between ways, way_tags, way_nodes, etc.)
     add_foreign_key :current_node_tags, [:id], :current_nodes
     add_foreign_key :node_tags, [:id, :version], :nodes
