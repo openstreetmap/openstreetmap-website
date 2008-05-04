@@ -61,47 +61,104 @@ class ChangesetController < ApplicationController
     node_ids, way_ids, rel_ids = {}, {}, {}
     ids = {"node"=>node_ids, "way"=>way_ids, "relation"=>rel_ids}
 
+    res = XML::Document.new
+    res.encoding = 'UTF-8'
+    root = XML::Node.new 'osm'
+    root['version'] = '0.6'
+    root['creator'] = 'OpenStreetMap.org'
+    res.root = root
+
+    root << XML::Node.new_comment(" Warning: this is a 0.6 result document, " +
+      "not a normal OSM file. ")
+
     Changeset.transaction do
       doc.find('//osm/create/node').each do |nd|
-	create_prim node_ids, Node.from_xml_node(nd, true), nd
+	elem = XML::Node.new 'node'
+	node = Node.from_xml_node(nd, true)
+	elem['old_id'] = nd['id']
+	create_prim node_ids, node, nd
+	elem['new_id'] = node.id.to_s
+	elem['new_version'] = node.version.to_s
+	root << elem
       end
       doc.find('//osm/create/way').each do |nd|
+	elem = XML::Node.new 'way'
 	way = Way.from_xml_node(nd, true)
+	elem['old_id'] = nd['id']
 	fix_way(way, node_ids)
 	raise OSM::APIPreconditionFailedError.new if !way.preconditions_ok?
 	create_prim way_ids, way, nd
+	elem['new_id'] = way.id.to_s
+	elem['new_version'] = way.version.to_s
+	root << elem
       end
       doc.find('//osm/create/relation').each do |nd|
+	elem = XML::Node.new 'relation'
 	relation = Relation.from_xml_node(nd, true)
+	elem['old_id'] = nd['id']
 	fix_rel(relation, ids)
 	raise OSM::APIPreconditionFailedError.new if !relation.preconditions_ok?
 	create_prim rel_ids, relation, nd
+	elem['new_id'] = relation.id.to_s
+	elem['new_version'] = relation.version.to_s
+	root << elem
       end
 
       doc.find('//osm/modify/relation').each do |nd|
+	elem = XML::Node.new 'relation'
 	new_relation = Relation.from_xml_node(nd)
-	Relation.find(new_relation.id).update_from new_relation, @user
+	relation = Relation.find(new_relation.id)
+	relation.update_from new_relation, @user
+	elem['old_id'] = elem['new_id'] = relation.id.to_s
+	elem['new_version'] = relation.version.to_s
+	root << elem
       end
       doc.find('//osm/modify/way').each do |nd|
+	elem = XML::Node.new 'way'
 	new_way = Way.from_xml_node(nd)
-	Way.find(new_way.id).update_from new_way, @user
+	way = Way.find(new_way.id)
+	way.update_from new_way, @user
+	elem['old_id'] = elem['new_id'] = way.id.to_s
+	elem['new_version'] = way.version.to_s
+	root << elem
       end
       doc.find('//osm/modify/node').each do |nd|
+	elem = XML::Node.new 'node'
 	new_node = Node.from_xml_node(nd)
-	Node.find(new_node.id).update_from new_node, @user
+	node = Node.find(new_node.id)
+	node.update_from new_node, @user
+	elem['old_id'] = elem['new_id'] = node.id.to_s
+	elem['new_version'] = node.version.to_s
+	root << elem
       end
 
       doc.find('//osm/delete/relation').each do |nd|
-	Relation.find(nd['id']).delete_with_history(@user)
+	elem = XML::Node.new 'relation'
+	relation = Relation.find(nd['id'])
+	relation.delete_with_history(@user)
+	elem['old_id'] = elem['new_id'] = relation.id.to_s
+	elem['new_version'] = relation.version.to_s
+	root << elem
       end
       doc.find('//osm/delete/way').each do |nd|
-	Way.find(nd['id']).delete_with_relations_and_history(@user)
+	elem = XML::Node.new 'way'
+	way = Way.find(nd['id'])
+	way.delete_with_relations_and_history(@user)
+	elem['old_id'] = elem['new_id'] = way.id.to_s
+	elem['new_version'] = way.version.to_s
+	root << elem
       end
       doc.find('//osm/delete/node').each do |nd|
-	Node.find(nd['id']).delete_with_history(@user)
+	elem = XML::Node.new 'node'
+	new_node = Node.from_xml_node(nd)
+	node = Node.find(nd['id'])
+	node.delete_with_history(@user)
+	elem['old_id'] = elem['new_id'] = node.id.to_s
+	elem['new_version'] = node.version.to_s
+	root << elem
       end
     end
 
-    render :text => "Ok, Fine. Upload worked without errors.\n", :status => 200
+    render :text => res.to_s, :content_type => "text/xml"
   end
 end
