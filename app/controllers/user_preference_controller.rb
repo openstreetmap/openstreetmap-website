@@ -3,7 +3,7 @@ class UserPreferenceController < ApplicationController
   before_filter :authorize
 
   def read_one
-    pref = UserPreference.find(:first, :conditions => ['user_id = ? AND k = ?', @user.id, params[:preference_key]])
+    pref = UserPreference.find(@user.id, params[:preference_key])
 
     if pref
       render :text => pref.v.to_s
@@ -13,20 +13,26 @@ class UserPreferenceController < ApplicationController
   end
 
   def update_one
-    pref = UserPreference.find(:first, :conditions => ['user_id = ? AND k = ?', @user.id, params[:preference_key]])
-  
-    if pref
+    begin
+      pref = UserPreference.find(@user.id, params[:preference_key])
       pref.v = request.raw_post.chomp
       pref.save
-    else
+    rescue ActiveRecord::RecordNotFound 
       pref = UserPreference.new
       pref.user = @user
       pref.k = params[:preference_key]
       pref.v = request.raw_post.chomp
       pref.save
     end
+
+    render :nothing => true
   end
 
+  def delete_one
+    UserPreference.delete(@user.id, params[:preference_key])
+
+    render :nothing => true
+  end
 
   # print out all the preferences as a big xml block
   def read
@@ -91,5 +97,4 @@ class UserPreferenceController < ApplicationController
 
     render :nothing => true
   end
-
 end
