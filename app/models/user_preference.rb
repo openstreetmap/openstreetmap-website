@@ -1,4 +1,5 @@
 class UserPreference < ActiveRecord::Base
+  set_primary_keys :user_id, :k
   belongs_to :user
 
   # Turn this Node in to an XML Node without the <osm> wrapper.
