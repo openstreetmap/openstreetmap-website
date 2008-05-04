@@ -85,7 +85,7 @@ static int read_node_tags(char **tags, char **k, char **v) {
 struct data {
   MYSQL *mysql;
   size_t version_size;
-  uint32_t *version;
+  uint16_t *version;
 };
 
 static void proc_nodes(struct data *d, const char *tbl, FILE *out, FILE *out_tags, int hist) {
@@ -198,8 +198,13 @@ int main(int argc, char **argv) {
   d->mysql = connect_to_mysql(argv);
 
   d->version_size = 1 + select_size(d->mysql, "SELECT max(id) FROM current_nodes");
-  d->version = malloc(sizeof(uint32_t) * d->version_size);
-  memset(d->version, 0, sizeof(uint32_t) * d->version_size);
+  d->version = (uint16_t *) malloc(sizeof(uint16_t) * d->version_size);
+  if (!d->version) {
+    perror("malloc");
+    abort();
+    exit(EXIT_FAILURE);
+  }
+  memset(d->version, 0, sizeof(uint16_t) * d->version_size);
 
   prefix_len = strlen(argv[7]);
   tempfn = (char *) malloc(prefix_len + 32);
