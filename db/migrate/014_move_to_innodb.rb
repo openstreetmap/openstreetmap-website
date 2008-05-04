@@ -1,6 +1,6 @@
 class MoveToInnodb < ActiveRecord::Migration
   @@conv_tables = ['nodes', 'ways', 'way_tags', 'way_nodes',
-    'current_way_nodes', 'current_way_tags', 'relation_members',
+    'current_way_tags', 'relation_members',
     'relations', 'relation_tags', 'current_relation_tags']
 
   @@ver_tbl = ['nodes', 'ways', 'relations']
