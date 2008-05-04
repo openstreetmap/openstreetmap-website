@@ -201,7 +201,7 @@ int main(int argc, char **argv) {
   d->version = malloc(sizeof(uint32_t) * d->version_size);
 
   prefix_len = strlen(argv[7]);
-  tempfn = (char *) malloc(prefix_len + 16);
+  tempfn = (char *) malloc(prefix_len + 32);
   strcpy(tempfn, argv[7]);
 
   strcpy(tempfn + prefix_len, "current_nodes");
