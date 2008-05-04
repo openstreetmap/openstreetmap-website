@@ -58,6 +58,7 @@ class Relation < ActiveRecord::Base
     el1['id'] = self.id.to_s
     el1['visible'] = self.visible.to_s
     el1['timestamp'] = self.timestamp.xmlschema
+    el1['version'] = self.version.to_s
 
     user_display_name_cache = {} if user_display_name_cache.nil?
     

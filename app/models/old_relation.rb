@@ -92,6 +92,7 @@ class OldRelation < ActiveRecord::Base
     el1['visible'] = self.visible.to_s
     el1['timestamp'] = self.timestamp.xmlschema
     el1['user'] = self.user.display_name if self.user.data_public?
+    el1['version'] = self.version.to_s
     
     self.old_members.each do |member|
       e = XML::Node.new 'member'

@@ -152,6 +152,7 @@ class Node < GeoRecord
 
     el1['visible'] = self.visible.to_s
     el1['timestamp'] = self.timestamp.xmlschema
+    el1['version'] = self.version.to_s
     return el1
   end
 
