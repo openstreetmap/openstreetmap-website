@@ -35,17 +35,15 @@ class ChangesetController < ApplicationController
   end
 
   def fix_way(w, node_ids)
-    w.nds.each { |nd|
-      new_id = node_ids[nd.node_id]
-      nd.node_id = new_id unless new_id.nil?
-    }
+    w.nds = w.instance_eval { @nds }.
+      map { |nd| node_ids[nd] || nd }
+    return w
   end
 
   def fix_rel(r, ids)
-    r.members.each { |memb|
-      new_id = ids[memb.member_type][memb.member_id]
-      nd.member_id = new_id unless new_id.nil?
-    }
+    r.members = r.instance_eval { @members }.
+      map { |memb| [memb[0], ids[memb[0]][memb[1].to_i] || memb[1], memb[2]] }
+    return r
   end
 
   def upload
@@ -69,17 +67,19 @@ class ChangesetController < ApplicationController
       end
       doc.find('//osm/create/way').each do |nd|
 	way = Way.from_xml_node(nd, true)
+	fix_way(way, node_ids)
 	raise OSM::APIPreconditionFailedError.new if !way.preconditions_ok?
-	create_prim way_ids, fix_way(way, node_ids), nd
+	create_prim way_ids, way, nd
       end
       doc.find('//osm/create/relation').each do |nd|
 	relation = Relation.from_xml_node(nd, true)
-	raise OSM::APIPreconditionFailedError.new if !way.preconditions_ok?
-	create_prim relation_ids, fix_rel(relation, ids), nd
+	fix_rel(relation, ids)
+	raise OSM::APIPreconditionFailedError.new if !relation.preconditions_ok?
+	create_prim rel_ids, relation, nd
       end
 
       doc.find('//osm/modify/node').each do |nd|
-	unless NodeController.update_internal nil, Node.from_xml_node(nd)
+	unless NodeController.new.update_internal nil, Node.from_xml_node(nd)
 	  raise OSM::APIPreconditionFailedError.new
 	end
       end
