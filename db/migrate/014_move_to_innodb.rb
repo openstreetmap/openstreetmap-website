@@ -20,7 +20,7 @@ class MoveToInnodb < ActiveRecord::Migration
     @@ver_tbl.each { |tbl|
       add_column "current_#{tbl}", "version", :bigint, :limit => 20, :null => false
       execute "UPDATE current_#{tbl} SET version = " +
-	"(SELECT max(version)+1 FROM #{tbl} WHERE #{tbl}.id = current_#{tbl}.id)"
+	"(SELECT max(version) FROM #{tbl} WHERE #{tbl}.id = current_#{tbl}.id)"
     }
   end
 
