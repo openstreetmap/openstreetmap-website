@@ -1,6 +1,10 @@
 module ActiveRecord
   module ConnectionAdapters
     module SchemaStatements
+      def quote_column_names(column_name)
+        Array(column_name).map { |e| quote_column_name(e) }.join(", ")
+      end
+
       def add_primary_key(table_name, column_name, options = {})
         column_names = Array(column_name)
         quoted_column_names = column_names.map { |e| quote_column_name(e) }.join(", ")
@@ -9,6 +13,12 @@ module ActiveRecord
 
       def remove_primary_key(table_name)
         execute "ALTER TABLE #{table_name} DROP PRIMARY KEY"
+      end
+
+      def add_foreign_key(table_name, column_name, reftbl, refcol = nil)
+        execute "ALTER TABLE #{table_name} ADD " +
+	  "FOREIGN KEY (#{quote_column_names(column_name)}) " +
+	  "REFERENCES #{reftbl} (#{quote_column_names(refcol || column_name)})"
       end
 
       alias_method :old_options_include_default?, :options_include_default?
