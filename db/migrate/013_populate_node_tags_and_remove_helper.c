@@ -45,15 +45,16 @@ static void write_csv_col(FILE *f, const char *str, char end) {
 }
 
 static void unescape(char *str) {
-  char *i = str, *o = str;
+  char *i = str, *o = str, tmp;
 
   while (*i) {
     if (*i == '\\') {
       i++;
-      switch (*i++) {
+      switch (tmp = *i++) {
 	case 's': *o++ = ';'; break;
 	case 'e': *o++ = '='; break;
 	case '\\': *o++ = '\\'; break;
+	default: *o++ = tmp; break;
       }
     } else {
       *o++ = *i++;
