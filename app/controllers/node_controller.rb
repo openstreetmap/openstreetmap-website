@@ -51,13 +51,7 @@ class NodeController < ApplicationController
       new_node = Node.from_xml(request.raw_post)
 
       if new_node and new_node.id == node.id
-        node.user_id = @user.id
-        node.latitude = new_node.latitude 
-        node.longitude = new_node.longitude
-        node.tags = new_node.tags
-        node.visible = true
-        node.save_with_history!
-
+	update_internal node, new_node
         render :nothing => true
       else
         render :nothing => true, :status => :bad_request
@@ -67,29 +61,51 @@ class NodeController < ApplicationController
     end
   end
 
+  def update_internal(node, new_node)
+    node = Node.find(new_node.id) if node.nil?
+
+    node.user_id = @user.id
+    node.latitude = new_node.latitude 
+    node.longitude = new_node.longitude
+    node.tags = new_node.tags
+    node.visible = true
+    node.save_with_history!
+
+    return true
+  end
+
   # Delete a node. Doesn't actually delete it, but retains its history in a wiki-like way.
   # FIXME remove all the fricking SQL
   def delete
     begin
       node = Node.find(params[:id])
 
-      if node.visible
-        if WayNode.find(:first, :joins => "INNER JOIN current_ways ON current_ways.id = current_way_nodes.id", :conditions => [ "current_ways.visible = 1 AND current_way_nodes.node_id = ?", node.id ])
-          render :text => "", :status => :precondition_failed
-        elsif RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", :conditions => [ "visible = 1 AND member_type='node' and member_id=?", params[:id]])
-          render :text => "", :status => :precondition_failed
-        else
-          node.user_id = @user.id
-          node.visible = 0
-          node.save_with_history!
-
-          render :nothing => true
-        end
+      res = delete_internal(node)
+      unless res
+	render :text => "", :status => :precondition_failed
       else
-        render :text => "", :status => :gone
+	render :text => "", :status => res
       end
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
+    end
+  end
+
+  def delete_internal(node)
+    if node.visible
+      if WayNode.find(:first, :joins => "INNER JOIN current_ways ON current_ways.id = current_way_nodes.id", :conditions => [ "current_ways.visible = 1 AND current_way_nodes.node_id = ?", node.id ])
+	return false
+      elsif RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", :conditions => [ "visible = 1 AND member_type='node' and member_id=?", params[:id]])
+	return false
+      else
+	node.user_id = @user.id
+	node.visible = 0
+	node.save_with_history!
+
+	return :ok
+      end
+    else
+      return :gone
     end
   end
 

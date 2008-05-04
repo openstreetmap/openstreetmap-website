@@ -17,32 +17,38 @@ class Way < ActiveRecord::Base
       p.string = xml
       doc = p.parse
 
-      way = Way.new
-
       doc.find('//osm/way').each do |pt|
-        if !create and pt['id'] != '0'
-          way.id = pt['id'].to_i
-        end
-
-        if create
-          way.timestamp = Time.now
-          way.visible = true
-        else
-          if pt['timestamp']
-            way.timestamp = Time.parse(pt['timestamp'])
-          end
-        end
-
-        pt.find('tag').each do |tag|
-          way.add_tag_keyval(tag['k'], tag['v'])
-        end
-
-        pt.find('nd').each do |nd|
-          way.add_nd_num(nd['ref'])
-        end
+	way = Way.from_xml_node pt, create
       end
     rescue
       way = nil
+    end
+
+    return way
+  end
+
+  def self.from_xml_node(pt, create=false)
+    way = Way.new
+
+    if !create and pt['id'] != '0'
+      way.id = pt['id'].to_i
+    end
+
+    if create
+      way.timestamp = Time.now
+      way.visible = true
+    else
+      if pt['timestamp']
+	way.timestamp = Time.parse(pt['timestamp'])
+      end
+    end
+
+    pt.find('tag').each do |tag|
+      way.add_tag_keyval(tag['k'], tag['v'])
+    end
+
+    pt.find('nd').each do |nd|
+      way.add_nd_num(nd['ref'])
     end
 
     return way

@@ -51,15 +51,9 @@ class WayController < ApplicationController
       new_way = Way.from_xml(request.raw_post)
 
       if new_way and new_way.id == way.id
-        if !new_way.preconditions_ok?
+        unless update_internal(way, new_way)
           render :text => "", :status => :precondition_failed
         else
-          way.user_id = @user.id
-          way.tags = new_way.tags
-          way.nds = new_way.nds
-          way.visible = true
-          way.save_with_history!
-
           render :nothing => true
         end
       else
@@ -67,6 +61,22 @@ class WayController < ApplicationController
       end
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
+    end
+  end
+
+  def update_internal way, new_way
+    way = Way.find(new_way.id) if way.nil?
+
+    if !new_way.preconditions_ok?
+      return false
+    else
+      way.user_id = @user.id
+      way.tags = new_way.tags
+      way.nds = new_way.nds
+      way.visible = true
+      way.save_with_history!
+
+      return true
     end
   end
 

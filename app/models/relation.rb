@@ -16,32 +16,38 @@ class Relation < ActiveRecord::Base
       p.string = xml
       doc = p.parse
 
-      relation = Relation.new
-
       doc.find('//osm/relation').each do |pt|
-        if !create and pt['id'] != '0'
-          relation.id = pt['id'].to_i
-        end
-
-        if create
-          relation.timestamp = Time.now
-          relation.visible = true
-        else
-          if pt['timestamp']
-            relation.timestamp = Time.parse(pt['timestamp'])
-          end
-        end
-
-        pt.find('tag').each do |tag|
-          relation.add_tag_keyval(tag['k'], tag['v'])
-        end
-
-        pt.find('member').each do |member|
-          relation.add_member(member['type'], member['ref'], member['role'])
-        end
+	relation = Relation.from_xml_node pt, create
       end
     rescue
       relation = nil
+    end
+
+    return relation
+  end
+
+  def self.from_xml_node(pt, create=false)
+    relation = Relation.new
+
+    if !create and pt['id'] != '0'
+      relation.id = pt['id'].to_i
+    end
+
+    if create
+      relation.timestamp = Time.now
+      relation.visible = true
+    else
+      if pt['timestamp']
+	relation.timestamp = Time.parse(pt['timestamp'])
+      end
+    end
+
+    pt.find('tag').each do |tag|
+      relation.add_tag_keyval(tag['k'], tag['v'])
+    end
+
+    pt.find('member').each do |member|
+      relation.add_member(member['type'], member['ref'], member['role'])
     end
 
     return relation

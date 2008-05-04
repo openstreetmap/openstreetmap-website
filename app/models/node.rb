@@ -55,40 +55,43 @@ class Node < GeoRecord
       p = XML::Parser.new
       p.string = xml
       doc = p.parse
-  
-      node = Node.new
 
       doc.find('//osm/node').each do |pt|
-        node.lat = pt['lat'].to_f
-        node.lon = pt['lon'].to_f
-
-        return nil unless node.in_world?
-
-        unless create
-          if pt['id'] != '0'
-            node.id = pt['id'].to_i
-          end
-        end
-
-        node.visible = pt['visible'] and pt['visible'] == 'true'
-
-        if create
-          node.timestamp = Time.now
-        else
-          if pt['timestamp']
-            node.timestamp = Time.parse(pt['timestamp'])
-          end
-        end
-
-        tags = []
-
-        pt.find('tag').each do |tag|
-          node.add_tag_key_val(tag['k'],tag['v'])
-        end
-
+	return Node.from_xml_node(pt, create)
       end
     rescue
-      node = nil
+      return nil
+    end
+  end
+
+  def self.from_xml_node(pt, create=false)
+    node = Node.new
+
+    node.lat = pt['lat'].to_f
+    node.lon = pt['lon'].to_f
+
+    return nil unless node.in_world?
+
+    unless create
+      if pt['id'] != '0'
+	node.id = pt['id'].to_i
+      end
+    end
+
+    node.visible = pt['visible'] and pt['visible'] == 'true'
+
+    if create
+      node.timestamp = Time.now
+    else
+      if pt['timestamp']
+	node.timestamp = Time.parse(pt['timestamp'])
+      end
+    end
+
+    tags = []
+
+    pt.find('tag').each do |tag|
+      node.add_tag_key_val(tag['k'],tag['v'])
     end
 
     return node

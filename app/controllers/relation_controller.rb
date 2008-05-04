@@ -77,25 +77,34 @@ class RelationController < ApplicationController
     begin
       relation = Relation.find(params[:id])
 
-      if relation.visible
-        if RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", :conditions => [ "visible = 1 AND member_type='relation' and member_id=?", params[:id]])
-          render :text => "", :status => :precondition_failed
-        else
-          relation.user_id = @user.id
-          relation.tags = []
-          relation.members = []
-          relation.visible = false
-          relation.save_with_history!
-
-          render :nothing => true
-        end
+      res = delete_internal(node)
+      unless res
+	render :text => "", :status => :precondition_failed
       else
-        render :text => "", :status => :gone
+	render :text => "", :status => res
       end
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
     rescue
       render :nothing => true, :status => :internal_server_error
+    end
+  end
+
+  def delete_internal(relation)
+    if relation.visible
+      if RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", :conditions => [ "visible = 1 AND member_type='relation' and member_id=?", params[:id]])
+	return false
+      else
+	relation.user_id = @user.id
+	relation.tags = []
+	relation.members = []
+	relation.visible = false
+	relation.save_with_history!
+
+	return :ok
+      end
+    else
+      return :gone
     end
   end
 
