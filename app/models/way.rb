@@ -196,6 +196,18 @@ class Way < ActiveRecord::Base
     end
   end
 
+  def update_from(new_way, user)
+    if !new_way.preconditions_ok?
+      raise OSM::APIPreconditionFailedError.new
+    else
+      self.user_id = user.id
+      self.tags = new_way.tags
+      self.nds = new_way.nds
+      self.visible = true
+      save_with_history!
+    end
+  end
+
   def preconditions_ok?
     return false if self.nds.empty?
     self.nds.each do |n|
@@ -213,6 +225,8 @@ class Way < ActiveRecord::Base
 	  # FIXME
 	  # this should actually delete the relations,
 	  # not just throw a PreconditionFailed if it's a member of a relation!!
+
+      # FIXME: this should probably renamed to delete_with_history
       if RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id",
                              :conditions => [ "visible = 1 AND member_type='way' and member_id=?", self.id])
         raise OSM::APIPreconditionFailedError

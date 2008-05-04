@@ -51,22 +51,14 @@ class RelationController < ApplicationController
       new_relation = Relation.from_xml(request.raw_post)
 
       if new_relation and new_relation.id == relation.id
-        if !new_relation.preconditions_ok?
-          render :text => "", :status => :precondition_failed
-        else
-          relation.user_id = @user.id
-          relation.tags = new_relation.tags
-          relation.members = new_relation.members
-          relation.visible = true
-          relation.save_with_history!
-
-          render :nothing => true
-        end
+	relation.update_from new_relation, user
       else
         render :nothing => true, :status => :bad_request
       end
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
+    rescue OSM::APIPreconditionFailedError
+      render :text => "", :status => :precondition_failed
     rescue
       render :nothing => true, :status => :internal_server_error
     end
@@ -76,35 +68,15 @@ class RelationController < ApplicationController
 #XXX check if member somewhere!
     begin
       relation = Relation.find(params[:id])
-
-      res = delete_internal(node)
-      unless res
-	render :text => "", :status => :precondition_failed
-      else
-	render :text => "", :status => res
-      end
+      relation.delete_with_history(@user)
+    rescue OSM::APIAlreadyDeletedError
+      render :text => "", :status => :gone
+    rescue OSM::APIPreconditionFailedError
+      render :text => "", :status => :precondition_failed
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
     rescue
       render :nothing => true, :status => :internal_server_error
-    end
-  end
-
-  def delete_internal(relation)
-    if relation.visible
-      if RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", :conditions => [ "visible = 1 AND member_type='relation' and member_id=?", params[:id]])
-	return false
-      else
-	relation.user_id = @user.id
-	relation.tags = []
-	relation.members = []
-	relation.visible = false
-	relation.save_with_history!
-
-	return :ok
-      end
-    else
-      return :gone
     end
   end
 

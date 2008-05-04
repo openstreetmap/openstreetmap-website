@@ -78,34 +78,27 @@ class ChangesetController < ApplicationController
 	create_prim rel_ids, relation, nd
       end
 
-      doc.find('//osm/modify/node').each do |nd|
-	unless NodeController.new.update_internal nil, Node.from_xml_node(nd)
-	  raise OSM::APIPreconditionFailedError.new
-	end
+      doc.find('//osm/modify/relation').each do |nd|
+	new_relation = Relation.from_xml_node(nd)
+	Relation.find(new_relation.id).update_from new_relation, @user
       end
       doc.find('//osm/modify/way').each do |nd|
-	unless WayController.update_internal nil, fix_way(Way.from_xml_node(nd), node_ids)
-	  raise OSM::APIPreconditionFailedError.new
-	end
+	new_way = Way.from_xml_node(nd)
+	Way.find(new_way.id).update_from new_way, @user
       end
-      doc.find('//osm/modify/relation').each do |nd|
-	unless RelationController.update_internal nil, fix_rel(Relation.from_xml_node(nd), ids)
-	  raise OSM::APIPreconditionFailedError.new
-	end
+      doc.find('//osm/modify/node').each do |nd|
+	new_node = Node.from_xml_node(nd)
+	Node.find(new_node.id).update_from new_node, @user
       end
 
-      doc.find('//osm/delete/node').each do |nd|
-	unless NodeController.delete_internal nil, Node.from_xml_node(n)
-	  raise OSM::APIPreconditionFailedError.new
-	end
+      doc.find('//osm/delete/relation').each do |nd|
+	Relation.find(nd['id']).delete_with_history(@user)
       end
       doc.find('//osm/delete/way').each do |nd|
-	Way.from_xml_node(nd).delete_with_relations_and_history(@user)
+	Way.find(nd['id']).delete_with_relations_and_history(@user)
       end
-      doc.find('//osm/delete/relation').each do |nd|
-	unless RelationController.delete_internal nil, fix_rel(Relation.from_xml_node(nd), ids)
-	  raise OSM::APIPreconditionFailedError.new
-	end
+      doc.find('//osm/delete/node').each do |nd|
+	Node.find(nd['id']).delete_with_history(@user)
       end
     end
 

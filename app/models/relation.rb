@@ -205,6 +205,34 @@ class Relation < ActiveRecord::Base
     end
   end
 
+  def delete_with_history(user)
+    if self.visible
+      if RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", :conditions => [ "visible = 1 AND member_type='relation' and member_id=?", self.id ])
+	raise OSM::APIPreconditionFailedError.new
+      else
+	self.user_id = user.id
+	self.tags = []
+	self.members = []
+	self.visible = false
+	save_with_history!
+      end
+    else
+      raise OSM::APIAlreadyDeletedError.new
+    end
+  end
+
+  def update_from(new_relation, user)
+    if !new_relation.preconditions_ok?
+      raise OSM::APIPreconditionFailedError.new
+    else
+      self.user_id = user.id
+      self.tags = new_relation.tags
+      self.members = new_relation.members
+      self.visible = true
+      save_with_history!
+    end
+  end
+
   def preconditions_ok?
     self.members.each do |m|
       if (m[0] == "node")

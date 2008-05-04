@@ -122,6 +122,31 @@ class Node < GeoRecord
     end
   end
 
+  def delete_with_history(user)
+    if self.visible
+      if WayNode.find(:first, :joins => "INNER JOIN current_ways ON current_ways.id = current_way_nodes.id", :conditions => [ "current_ways.visible = 1 AND current_way_nodes.node_id = ?", self.id ])
+	raise OSM::APIPreconditionFailedError.new
+      elsif RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", :conditions => [ "visible = 1 AND member_type='node' and member_id=?", self.id])
+	raise OSM::APIPreconditionFailedError.new
+      else
+	self.user_id = user.id
+	self.visible = 0
+	save_with_history!
+      end
+    else
+      raise OSM::APIAlreadyDeletedError.new
+    end
+  end
+
+  def update_from(new_node, user)
+    self.user_id = user.id
+    self.latitude = new_node.latitude 
+    self.longitude = new_node.longitude
+    self.tags = new_node.tags
+    self.visible = true
+    save_with_history!
+  end
+
   def to_xml
     doc = OSM::API.new.get_xml_doc
     doc.root << to_xml_node()
