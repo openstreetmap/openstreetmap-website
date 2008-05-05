@@ -17,13 +17,11 @@ class Relation < ActiveRecord::Base
       doc = p.parse
 
       doc.find('//osm/relation').each do |pt|
-	relation = Relation.from_xml_node pt, create
+	return Relation.from_xml_node(pt, create)
       end
     rescue
-      relation = nil
+      return nil
     end
-
-    return relation
   end
 
   def self.from_xml_node(pt, create=false)

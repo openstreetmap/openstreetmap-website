@@ -18,13 +18,11 @@ class Way < ActiveRecord::Base
       doc = p.parse
 
       doc.find('//osm/way').each do |pt|
-	way = Way.from_xml_node pt, create
+	return Way.from_xml_node(pt, create)
       end
     rescue
-      way = nil
+      return nil
     end
-
-    return way
   end
 
   def self.from_xml_node(pt, create=false)
