@@ -17,6 +17,8 @@ class MessageController < ApplicationController
         Notifier::deliver_message_notification(@message)
         redirect_to :controller => 'message', :action => 'inbox', :display_name => @user.display_name
       end
+    else
+      @title = params[:title]
     end
   end
 

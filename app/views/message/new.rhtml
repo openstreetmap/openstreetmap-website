@@ -1,5 +1,5 @@
-<% display_name = User.find_by_id(params[:user_id] || @user_id).display_name %>
-<% title = params[:message] ? params[:message][:title] : params[:title] %>
+<% user_id = params[:user_id] || @user_id %>
+<% display_name = User.find_by_id(user_id).display_name %>
 
 <h2>Send a new message to <%= h(display_name) %></h2>
 
@@ -10,11 +10,11 @@
 
 <%= error_messages_for 'message' %>
 
-<% form_for :message, :url => {:user_id => params[:user_id] || @user_id,  :action => "new" } do |f| %>
+<% form_for :message, :url => { :action => "new", :user_id => user_id } do |f| %>
   <table>
     <tr valign="top">
       <th>Subject</th>
-      <td><%= text_field_tag 'message[title]', title, :size => 60, :value => @title %></td>
+      <td><%= f.text_field :title, :size => 60, :value => @title %></td>
     </tr>
     <tr valign="top">
       <th>Body</th>
