@@ -34,7 +34,7 @@ class MessageController < ApplicationController
 
   def reply
     message = Message.find(params[:message_id], :conditions => ["to_user_id = ? or from_user_id = ?", @user.id, @user.id ])
-    @body = "\n\nOn #{message.sent_on} #{message.sender.display_name} wrote:\n #{message.body}" 
+    @body = "On #{message.sent_on} #{message.sender.display_name} wrote:\n\n#{message.body.gsub(/^/, '> ')}" 
     @title = "Re: #{message.title.sub(/^Re:\s*/, '')}"
     @user_id = message.from_user_id
     render :action => 'new'
