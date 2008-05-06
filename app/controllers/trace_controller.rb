@@ -84,20 +84,15 @@ class TraceController < ApplicationController
   def view
     @trace = Trace.find(params[:id])
 
-    unless @trace
-      flash[:notice] = "OH NOES! Trace not found!"
+    if @trace and @trace.visible? and
+       (@trace.public? or @trace.user.id == @user.id)
+      @title = "Viewing trace #{@trace.name}"
+    else
+      flash[:notice] = "Trace not found!"
       redirect_to :controller => 'trace', :action => 'list'
-      return
-    end
-
-    @title = "Viewing trace #{@trace.name}"
-    if !@trace.visible?
-      render :nothing => true, :status => :not_found
-    elsif !@trace.public? and @trace.user.id != @user.id
-      render :nothing => true, :status => :forbidden
     end
   rescue ActiveRecord::RecordNotFound
-    flash[:notice] = "GPX file not found"
+    flash[:notice] = "Trace not found!"
     redirect_to :controller => 'trace', :action => 'list'
   end
 
@@ -115,11 +110,11 @@ class TraceController < ApplicationController
       end
     else
       @trace = Trace.new({:name => "Dummy",
-                         :tagstring => params[:trace][:tagstring],
-                         :description => params[:trace][:description],
-                         :public => params[:trace][:public],
-                         :inserted => false, :user => @user,
-                         :timestamp => Time.now})
+                          :tagstring => params[:trace][:tagstring],
+                          :description => params[:trace][:description],
+                          :public => params[:trace][:public],
+                          :inserted => false, :user => @user,
+                          :timestamp => Time.now})
       @trace.valid?
       @trace.errors.add(:gpx_file, "can't be blank")
     end
@@ -294,7 +289,7 @@ class TraceController < ApplicationController
     end
   end
 
-  private
+private
 
   def do_create(file, tags, description, public)
     name = file.original_filename.gsub(/[^a-zA-Z0-9.]/, '_')
@@ -303,7 +298,7 @@ class TraceController < ApplicationController
     File.open(filename, "w") { |f| f.write(file.read) }
 
     @trace = Trace.new({:name => name, :tagstring => tags,
-                       :description => description, :public => public})
+                        :description => description, :public => public})
     @trace.inserted = false
     @trace.user = @user
     @trace.timestamp = Time.now
