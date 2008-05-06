@@ -22,18 +22,6 @@ class MessageController < ApplicationController
     end
   end
 
-  def destroy
-    @message = Message.find(params[:message_id], :conditions => ["to_user_id = ? or from_user_id = ?", @user.id, @user.id ])
-    if !@message.message_read
-      flash[:notice] = 'Message not read and so not deleted'
-      redirect_to :controller => 'message', :action => 'inbox', :display_name => @user.display_name
-    else
-      flash[:notice] = "Message '#{@message.title}' deleted"
-      @message.destroy
-      redirect_to :controller => 'message', :action => 'inbox', :display_name => @user.display_name
-    end
-  end
-
   def reply
     message = Message.find(params[:message_id], :conditions => ["to_user_id = ? or from_user_id = ?", @user.id, @user.id ])
     @body = "On #{message.sent_on} #{message.sender.display_name} wrote:\n\n#{message.body.gsub(/^/, '> ')}" 
