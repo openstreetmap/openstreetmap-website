@@ -1,8 +1,41 @@
+# Update and read user preferences, which are arbitrayr key/val pairs
 class UserPreferenceController < ApplicationController
   before_filter :authorize
 
-  def read
+  def read_one
+    pref = UserPreference.find(@user.id, params[:preference_key])
 
+    if pref
+      render :text => pref.v.to_s
+    else
+      render :text => 'OH NOES! PREF NOT FOUND!', :status => 404
+    end
+  end
+
+  def update_one
+    begin
+      pref = UserPreference.find(@user.id, params[:preference_key])
+      pref.v = request.raw_post.chomp
+      pref.save
+    rescue ActiveRecord::RecordNotFound 
+      pref = UserPreference.new
+      pref.user = @user
+      pref.k = params[:preference_key]
+      pref.v = request.raw_post.chomp
+      pref.save
+    end
+
+    render :nothing => true
+  end
+
+  def delete_one
+    UserPreference.delete(@user.id, params[:preference_key])
+
+    render :nothing => true
+  end
+
+  # print out all the preferences as a big xml block
+  def read
     doc = OSM::API.new.get_xml_doc
 
     prefs = @user.preferences
@@ -15,9 +48,9 @@ class UserPreferenceController < ApplicationController
 
     doc.root << el1
     render :text => doc.to_s, :content_type => "text/xml"
-
   end
 
+  # update the entire set of preferences
   def update
     begin
       p = XML::Parser.new
@@ -30,12 +63,12 @@ class UserPreferenceController < ApplicationController
 
       doc.find('//preferences/preference').each do |pt|
         pref = UserPreference.new
-        
+
         unless keyhash[pt['k']].nil? # already have that key
           render :text => 'OH NOES! CAN HAS UNIQUE KEYS?', :status => :not_acceptable
           return
         end
-        
+
         keyhash[pt['k']] = 1
 
         pref.k = pt['k']
@@ -64,5 +97,4 @@ class UserPreferenceController < ApplicationController
 
     render :nothing => true
   end
-
 end

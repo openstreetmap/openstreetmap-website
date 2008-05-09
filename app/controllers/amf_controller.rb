@@ -594,8 +594,8 @@ class AmfController < ApplicationController
 	# the delete_with_relations_and_nodes_and_history method should do this,
 	#   but at present it just throws a 'precondition failed'
     way=way.to_i 
-    db_now='@now'+(rand*100).to_i.to_s+uid.to_s+id.to_i.abs.to_s+Time.new.to_i.to_s
-	db_uqn='unin'+(rand*100).to_i.to_s+uid.to_s+way.to_i.abs.to_s+Time.new.to_i.to_s
+    db_now='@now'+(rand*100).to_i.to_s+uid.to_s+way.abs.to_s+Time.new.to_i.to_s
+	db_uqn='unin'+(rand*100).to_i.to_s+uid.to_s+way.abs.to_s+Time.new.to_i.to_s
     ActiveRecord::Base.connection.execute("SET #{db_now}=NOW()")
 	createuniquenodes(way,db_uqn,[])
 	deleteuniquenoderelations(db_uqn,uid,db_now)

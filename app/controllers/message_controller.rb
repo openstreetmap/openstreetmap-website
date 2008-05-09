@@ -17,13 +17,17 @@ class MessageController < ApplicationController
         Notifier::deliver_message_notification(@message)
         redirect_to :controller => 'message', :action => 'inbox', :display_name => @user.display_name
       end
+    else
+      @title = params[:title]
     end
   end
 
   def reply
     message = Message.find(params[:message_id], :conditions => ["to_user_id = ? or from_user_id = ?", @user.id, @user.id ])
-    title = message.title.sub(/^Re:\s*/, "Re: ")
-    redirect_to :action => 'new', :user_id => message.from_user_id, :title => title
+    @body = "On #{message.sent_on} #{message.sender.display_name} wrote:\n\n#{message.body.gsub(/^/, '> ')}" 
+    @title = "Re: #{message.title.sub(/^Re:\s*/, '')}"
+    @user_id = message.from_user_id
+    render :action => 'new'
   rescue ActiveRecord::RecordNotFound
     render :nothing => true, :status => :not_found
   end

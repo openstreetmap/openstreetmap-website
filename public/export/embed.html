@@ -1,0 +1,75 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <style type="text/css">
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+        .olControlAttribution {
+            bottom: 3px!important;
+        }
+    </style>
+    <script src="http://openstreetmap.org/openlayers/OpenLayers.js"></script>
+    <script src="http://openstreetmap.org/openlayers/OpenStreetMap.js"></script>
+    <script type="text/javascript">
+        var map, layer;
+        function init(){
+            map = new OpenLayers.Map ("map", {
+              controls: [
+                  new OpenLayers.Control.Attribution(),
+                  new OpenLayers.Control.Navigation()
+              ],
+              maxExtent: new OpenLayers.Bounds(-20037508.34,-20037508.34,
+                                               20037508.34,20037508.34),
+              numZoomLevels: 20,
+              maxResolution: 156543.0339,
+              displayProjection: new OpenLayers.Projection("EPSG:4326"),
+              units: 'm',
+              projection: new OpenLayers.Projection("EPSG:900913")
+            });
+
+            var attribution = 'Data by <a target="_parent" href="http://www.openstreetmap.org">OpenStreetMap</a>';
+            var args = OpenLayers.Util.getParameters();
+            if (!args.layer || args.layer == "mapnik") {
+                var mapnik = new OpenLayers.Layer.OSM.Mapnik("Mapnik", {
+                   displayOutsideMaxExtent: true,
+                   wrapDateLine: true,
+                   attribution: attribution
+                });
+                map.addLayer(mapnik);
+            } else {
+                var osmarender = new OpenLayers.Layer.OSM.Osmarender("Osmarender", {
+                   displayOutsideMaxExtent: true,
+                   wrapDateLine: true,
+                   attribution: attribution
+                });
+                map.addLayer(osmarender);
+            }
+
+            if (args.marker) {
+                var markers = new OpenLayers.Layer.Markers();
+                map.addLayer(markers);
+                markers.addMarker(new OpenLayers.Marker(new OpenLayers.LonLat(args.marker[1], args.marker[0]).transform(map.displayProjection, map.getProjectionObject())));
+                map.marker = true;
+            }
+
+            if (args.bbox) {
+                var bounds = OpenLayers.Bounds.fromArray(args.bbox).transform(map.displayProjection, map.getProjectionObject());
+                map.zoomToExtent(bounds)
+            } else {
+                map.zoomToMaxExtent();
+            }
+
+            var size = map.getSize();
+            if (size.h > 320) {
+                map.addControl(new OpenLayers.Control.PanZoomBar());
+            } else {
+                map.addControl(new OpenLayers.Control.PanZoom());
+            }
+        }
+    </script>
+  </head>
+  <body onload="init()">
+    <div id="map"></div>
+  </body>
+</html>

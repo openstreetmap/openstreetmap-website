@@ -38,7 +38,13 @@
     <% form_remote_tag(:loading => "startSearch()",
                        :complete => "endSearch()",
                        :url => { :controller => :geocoder, :action => :search }) do %>
-      <%= text_field_tag :query, h(params[:query]) %>
+      <table>
+        <tr>
+          <td><%= text_field_tag :query, h(params[:query]) %></td>
+          <td></td>
+          <td><%= submit_tag 'Go' %></td>
+        </tr>
+      </table>
     <% end %>
     </span>
     <p id="search_active">Searching...</p>

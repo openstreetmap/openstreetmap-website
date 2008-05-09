@@ -83,14 +83,17 @@ class TraceController < ApplicationController
 
   def view
     @trace = Trace.find(params[:id])
-    @title = "Viewing trace #{@trace.name}"
-    if !@trace.visible?
-      render :nothing => true, :status => :not_found
-    elsif !@trace.public? and @trace.user.id != @user.id
-      render :nothing => true, :status => :forbidden
+
+    if @trace and @trace.visible? and
+       (@trace.public? or @trace.user.id == @user.id)
+      @title = "Viewing trace #{@trace.name}"
+    else
+      flash[:notice] = "Trace not found!"
+      redirect_to :controller => 'trace', :action => 'list'
     end
   rescue ActiveRecord::RecordNotFound
-    render :nothing => true, :status => :not_found
+    flash[:notice] = "Trace not found!"
+    redirect_to :controller => 'trace', :action => 'list'
   end
 
   def create
@@ -196,7 +199,7 @@ class TraceController < ApplicationController
       conditions[0] += " AND users.display_name = ?"
       conditions << params[:display_name]
     end
-    
+
     if params[:tag]
       conditions[0] += " AND EXISTS (SELECT * FROM gpx_file_tags AS gft WHERE gft.gpx_id = gpx_files.id AND gft.tag = ?)"
       conditions << params[:tag]

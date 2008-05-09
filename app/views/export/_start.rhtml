@@ -18,11 +18,13 @@
 
   <div class="export_details">
     <p>
-      <%= radio_button_tag("format", "osm") %>OpenStreetMap XML Data
+      <%= radio_button_tag("format", "osm") %> OpenStreetMap XML Data
       <br/>
-      <%= radio_button_tag("format", "mapnik") %>Mapnik Image
+      <%= radio_button_tag("format", "mapnik") %> Mapnik Image
       <br/>
-      <%= radio_button_tag("format", "osmarender") %>Osmarender Image
+      <%= radio_button_tag("format", "osmarender") %> Osmarender Image
+      <br/>
+      <%= radio_button_tag("format", "html") %> Embeddable HTML
     </p>
   </div>
 
@@ -50,6 +52,23 @@
     <div class="export_details">
       <p>Format <%= select_tag("osmarender_format", options_for_select([["PNG", "png"], ["JPEG", "jpeg"]], "png")) %></p>
       <p>Zoom <%= select_tag("osmarender_zoom", options_for_select([4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17])) %></p>
+    </div>
+  </div>
+  
+  <div id="export_html">
+    <p class="export_heading">Options</p>
+    <div class="export_details">
+      <p><a id="add_marker" href="#">Add a marker to the map</a></p>
+      <p id="marker_inputs" style="display:none">
+        Lat: <input type="text" id="marker_lat" size="9" />
+        Lon: <input type="text" id="marker_lon" size="9" />
+      </p>
+    </div>
+
+    <p class="export_heading">Output</p>
+    <div class="export_details">
+      <p><input type="text" id="export_html_text" style="width:95%" /></p>
+      <p>Paste HTML to embed in website</p>
     </div>
   </div>
 

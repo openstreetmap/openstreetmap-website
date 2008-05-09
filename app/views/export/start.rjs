@@ -3,6 +3,8 @@ page.replace_html :sidebar_content, :partial => 'start'
 page << <<EOJ
   var vectors;
   var box;
+  var markerLayer;
+  var markerControl;
 
   function startExport() {
     vectors = new OpenLayers.Layer.Vector("Vector Layer", {
@@ -22,10 +24,9 @@ page << <<EOJ
     map.addControl(box);
 
     map.events.register("moveend", map, mapMoved);
+    map.events.register("changebaselayer", map, htmlUrlChanged);
 
     openSidebar({ onclose: stopExport });
-
-    setBounds(map.getExtent());
 
     if (map.baseLayer.name == "Mapnik") {
       $("format_mapnik").checked = true;
@@ -34,6 +35,7 @@ page << <<EOJ
     }
 
     formatChanged();
+    setBounds(map.getExtent());
 
     $("viewanchor").className = "";
     $("exportanchor").className = "active";
@@ -44,7 +46,9 @@ page << <<EOJ
     $("exportanchor").className = "";
 
     clearBox();
+    clearMarker();
     map.events.unregister("moveend", map, mapMoved);
+    map.events.unregister("changebaselayer", map, htmlUrlChanged);
     map.removeLayer(vectors);
   }
 
@@ -93,6 +97,66 @@ page << <<EOJ
     $("drag_box").innerHTML = "Manually select a different area";
   }
 
+  function startMarker() {
+    $("add_marker").innerHTML='Click on the map to add a marker';
+
+    if (!markerLayer) {
+      markerLayer = new OpenLayers.Layer.Vector("",{
+        displayInLayerSwitcher: false,
+        style: { 
+          externalGraphic: OpenLayers.Util.getImagesLocation() + "marker.png",
+          graphicXOffset: -10.5,
+          graphicYOffset: -25, 
+          graphicWidth: 21,
+          graphicHeight: 25
+        } 
+      });
+      map.addLayer(markerLayer);
+
+      markerControl = new OpenLayers.Control.DrawFeature(markerLayer, OpenLayers.Handler.Point);
+      map.addControl(markerControl);
+
+      markerLayer.events.on({ "featureadded": endMarker });
+    }
+
+    markerLayer.destroyFeatures();
+    markerControl.activate();
+
+    return false;
+  }
+
+  $("add_marker").onclick = startMarker;
+
+  function endMarker(event) {
+    markerControl.deactivate();
+
+    $("add_marker").innerHTML = "Change marker position";
+    $("marker_inputs").style.display = "block";
+    
+    var epsg4326 = new OpenLayers.Projection("EPSG:4326");
+    var epsg900913 = new OpenLayers.Projection("EPSG:900913");
+    var geom = event.feature.geometry.clone().transform(epsg900913, epsg4326);
+
+    $("marker_lon").value = geom.x.toFixed(5);
+    $("marker_lat").value = geom.y.toFixed(5);
+
+    htmlUrlChanged(); 
+  }
+
+  function clearMarker() {
+    $("marker_lon").value = "";
+    $("marker_lat").value = "";
+    $("marker_inputs").style.display = "none";
+    $("add_marker").innerHTML = "Add a marker to the map";
+
+    if (markerLayer) { 
+      markerControl.destroy();
+      markerLayer.destroy();
+      markerLayer = null;
+      markerControl = null;
+    }
+  }  
+
   function mapMoved() {
     setBounds(map.getExtent());
     validateControls();
@@ -110,6 +174,7 @@ page << <<EOJ
     $("maxlat").value = Math.round(bounds.top * decimals) / decimals;
 
     mapnikSizeChanged();
+    htmlUrlChanged();
   }
 
   function clearBox() {
@@ -160,7 +225,39 @@ page << <<EOJ
     }
   }
 
+  function htmlUrlChanged() {
+    var bounds = new OpenLayers.Bounds($("minlon").value, $("minlat").value, $("maxlon").value, $("maxlat").value);
+    var layerName = map.baseLayer.name.toLowerCase();
+    var url = "http://#{SERVER_URL}/export/embed.html?bbox=" + bounds.toBBOX() + "&layer=" + layerName;
+    var markerUrl = "";
+
+    if ($("marker_lat").value && $("marker_lon").value) {
+      markerUrl = "&mlat=" + $("marker_lat").value + "&mlon=" + $("marker_lon").value;
+      url += "&marker=" + $("marker_lat").value + "," + $("marker_lon").value;
+    } 
+    
+    var html = '<iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+url+'" style="border: 1px solid black"></iframe>';
+   
+    // Create "larger map" link
+    var center = bounds.getCenterLonLat();
+    var epsg4326 = new OpenLayers.Projection("EPSG:4326");
+    var epsg900913 = new OpenLayers.Projection("EPSG:900913");
+
+    bounds.transform(epsg4326, epsg900913);
+    var zoom = map.getZoomForExtent(bounds);
+    
+    html += '<br /><small><a href="http://#{SERVER_URL}/?lat='+center.lat+'&lon='+center.lon+'&zoom='+zoom+markerUrl+'">View Larger Map</a></small>';
+
+    $("export_html_text").value = html;
+
+    if ($("format_html").checked) {
+      $("export_html_text").select();
+    }
+  }
+
   function formatChanged() {
+    $("export_commit").style.display = "inline";
+
     if ($("format_osm").checked) {
       $("export_osm").style.display = "inline";
     } else {
@@ -183,12 +280,22 @@ page << <<EOJ
       $("export_osmarender").style.display = "none";
     }
 
+    if ($("format_html").checked) { 
+      $("export_html").style.display = "inline";
+      $("export_commit").style.display = "none";
+      $("export_html_text").select();
+    } else {
+      $("export_html").style.display = "none";
+      clearMarker();
+    }
+        
     validateControls();
   }
 
   $("format_osm").onclick = formatChanged;
   $("format_mapnik").onclick = formatChanged;
   $("format_osmarender").onclick = formatChanged;
+  $("format_html").onclick = formatChanged;
 
   function maxMapnikScale() {
     var bounds = new OpenLayers.Bounds($("minlon").value, $("minlat").value, $("maxlon").value, $("maxlat").value);
