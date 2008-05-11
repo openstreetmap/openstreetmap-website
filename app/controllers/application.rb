@@ -61,7 +61,7 @@ class ApplicationController < ActionController::Base
   #  phrase from that, we can also put the error message into the status
   #  message. For now, rails won't let us)
   def report_error(message)
-    render :nothing => true, :status => :bad_request
+    render :text => message, :status => :bad_request
     # Todo: some sort of escaping of problem characters in the message
     response.headers['Error'] = message
   end
@@ -72,6 +72,8 @@ private
   def get_auth_data 
     if request.env.has_key? 'X-HTTP_AUTHORIZATION'          # where mod_rewrite might have put it 
       authdata = request.env['X-HTTP_AUTHORIZATION'].to_s.split 
+    elsif request.env.has_key? 'REDIRECT_X_HTTP_AUTHORIZATION'          # mod_fcgi 
+      authdata = request.env['REDIRECT_X_HTTP_AUTHORIZATION'].to_s.split 
     elsif request.env.has_key? 'HTTP_AUTHORIZATION'         # regular location
       authdata = request.env['HTTP_AUTHORIZATION'].to_s.split
     end 
