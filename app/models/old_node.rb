@@ -1,5 +1,4 @@
 class OldNode < GeoRecord
-  set_primary_keys :id, :version
   set_table_name 'nodes'
   
   validates_presence_of :user_id, :timestamp
