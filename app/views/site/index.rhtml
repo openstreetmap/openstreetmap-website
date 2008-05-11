@@ -86,6 +86,10 @@ by the OpenStreetMap project and its contributors.
   function mapInit(){
     map = createMap("map");
 
+    map.dataLayer = new OpenLayers.Layer("Data", { "visibility": false });
+    map.dataLayer.events.register("visibilitychanged", map.dataLayer, toggleData);
+    map.addLayer(map.dataLayer);
+
     <% if bbox %>
     var bbox = new OpenLayers.Bounds(<%= minlon %>, <%= minlat %>, <%= maxlon %>, <%= maxlat %>);
 
@@ -116,6 +120,14 @@ by the OpenStreetMap project and its contributors.
     updateLocation();
 
     handleResize();
+  }
+
+  function toggleData() {
+    if (map.dataLayer.visibility) {
+      <%= remote_function :url => { :controller => 'browse', :action => 'start' } %>
+    } else {
+      closeSidebar();
+    }
   }
 
   function getPosition() {

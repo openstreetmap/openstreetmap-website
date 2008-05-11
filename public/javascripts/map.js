@@ -8,7 +8,8 @@ OpenLayers._getScriptLocation = function () {
 }
 
 function createMap(divName, options) {
-   if (!options) { options = {} }
+   options = options || {};
+
    map = new OpenLayers.Map(divName, {
       controls: options.controls || [
          new OpenLayers.Control.ArgParser(),
@@ -40,9 +41,6 @@ function createMap(divName, options) {
       wrapDateLine: true
    });
    map.addLayer(maplint);
-   var data = new OpenLayers.Layer.Data("Data", {'visibility': false});
-   map.addLayer(data); 
-   map.dataLayer = data;
 
    var numZoomLevels = Math.max(mapnik.numZoomLevels, osmarender.numZoomLevels);
    markers = new OpenLayers.Layer.Markers("Markers", {
