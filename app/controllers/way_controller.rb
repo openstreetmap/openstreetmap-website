@@ -49,6 +49,11 @@ class WayController < ApplicationController
     begin
       way = Way.find(params[:id])
       new_way = Way.from_xml(request.raw_post)
+      if new_way.version != way.version
+        render :text => "Version mismatch: Provided " + new_way.version.to_s + ", server had: " + way.version.to_s, :status => :bad_request
+        return
+      end  
+        
 
       if new_way and new_way.id == way.id
         way.update_from(new_way, @user)

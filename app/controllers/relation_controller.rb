@@ -49,6 +49,10 @@ class RelationController < ApplicationController
     begin
       relation = Relation.find(params[:id])
       new_relation = Relation.from_xml(request.raw_post)
+      if new_relation.version != relation.version
+        render :text => "Version mismatch: Provided " + new_relation.version.to_s + ", server had: " + relation.version.to_s, :status => :bad_request
+        return
+      end  
 
       if new_relation and new_relation.id == relation.id
 	relation.update_from new_relation, user

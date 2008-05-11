@@ -49,6 +49,10 @@ class NodeController < ApplicationController
     begin
       node = Node.find(params[:id])
       new_node = Node.from_xml(request.raw_post)
+      if new_node.version != node.version
+        render :text => "Version mismatch: Provided " + new_node.version.to_s + ", server had: " + node.version.to_s, :status => :bad_request
+        return
+      end  
 
       if new_node and new_node.id == node.id
         node.update_from(new_node, @user)
