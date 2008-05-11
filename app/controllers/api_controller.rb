@@ -120,7 +120,7 @@ class ApiController < ApplicationController
       return
     end
     if node_ids.length == 0
-      render :text => "<osm version='0.5'></osm>", :content_type => "text/xml"
+      render :text => "<osm version='#{API_VERSION}'></osm>", :content_type => "text/xml"
       return
     end
 
