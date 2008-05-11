@@ -45,6 +45,15 @@ class ChangesetController < ApplicationController
       map { |memb| [memb[0], ids[memb[0]][memb[1].to_i] || memb[1], memb[2]] }
     return r
   end
+  
+  def read
+    begin
+      changeset = Changeset.find(params[:id])
+      render :text => changeset.to_xml.to_s, :content_type => "text/xml"
+    rescue ActiveRecord::RecordNotFound
+      render :nothing => true, :status => :not_found
+    end
+  end
 
   def upload
     if not request.put?

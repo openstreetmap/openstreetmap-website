@@ -70,4 +70,37 @@ class Changeset < ActiveRecord::Base
       end
     end
   end
+  
+  def to_xml
+    doc = OSM::API.new.get_xml_doc
+    doc.root << to_xml_node()
+    return doc
+  end
+  def to_xml_node(user_display_name_cache = nil)
+    el1 = XML::Node.new 'changeset'
+    el1['id'] = self.id.to_s
+
+    user_display_name_cache = {} if user_display_name_cache.nil?
+
+    if user_display_name_cache and user_display_name_cache.key?(self.user_id)
+      # use the cache if available
+    elsif self.user.data_public?
+      user_display_name_cache[self.user_id] = self.user.display_name
+    else
+      user_display_name_cache[self.user_id] = nil
+    end
+
+    el1['user'] = user_display_name_cache[self.user_id] unless user_display_name_cache[self.user_id].nil?
+
+    self.tags.each do |k,v|
+      el2 = XML::Node.new('tag')
+      el2['k'] = k.to_s
+      el2['v'] = v.to_s
+      el1 << el2
+    end
+    
+    el1['created_at'] = self.created_at.xmlschema
+
+    return el1
+  end
 end
