@@ -1,4 +1,5 @@
 class OldNode < GeoRecord
+  set_primary_keys :id, :version
   set_table_name 'nodes'
   
   validates_presence_of :user_id, :timestamp
@@ -29,6 +30,12 @@ class OldNode < GeoRecord
     old_node.id = node.id
     old_node.version = node.version
     return old_node
+  end
+  
+  def to_xml
+    doc = OSM::API.new.get_xml_doc
+    doc.root << to_xml_node()
+    return doc
   end
 
   def to_xml_node
