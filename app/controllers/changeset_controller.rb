@@ -54,6 +54,21 @@ class ChangesetController < ApplicationController
       render :nothing => true, :status => :not_found
     end
   end
+  
+  def close 
+    begin
+      if not request.put?
+        render :nothing => true, :status => :method_not_allowed
+        return
+      end
+      changeset = Changeset.find(params[:id])
+      changeset.open = false
+      changeset.save
+      render :nothing => true
+    rescue ActiveRecord::RecordNotFound
+      render :nothing => true, :status => :not_found
+    end
+  end
 
   def upload
     if not request.put?
