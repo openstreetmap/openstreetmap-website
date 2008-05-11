@@ -101,6 +101,10 @@ class Changeset < ActiveRecord::Base
     
     el1['created_at'] = self.created_at.xmlschema
 
+    # FIXME FIXME FIXME: This does not include changes yet! There is 
+    # currently no changeset_id column in the tables as far as I can tell,
+    # so this is just a scaffold to build on, not a complete to_xml
+
     return el1
   end
 end
