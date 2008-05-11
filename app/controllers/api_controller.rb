@@ -252,8 +252,8 @@ class ApiController < ApplicationController
 
     api = XML::Node.new 'api'
     version = XML::Node.new 'version'
-    version['minimum'] = '0.5';
-    version['maximum'] = '0.5';
+    version['minimum'] = "#{API_VERSION}";
+    version['maximum'] = "#{API_VERSION}";
     api << version
     area = XML::Node.new 'area'
     area['maximum'] = MAX_REQUEST_AREA.to_s;
