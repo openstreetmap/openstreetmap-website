@@ -100,6 +100,7 @@ class Changeset < ActiveRecord::Base
     end
     
     el1['created_at'] = self.created_at.xmlschema
+    el1['open'] = self.open.to_s
 
     # FIXME FIXME FIXME: This does not include changes yet! There is 
     # currently no changeset_id column in the tables as far as I can tell,
