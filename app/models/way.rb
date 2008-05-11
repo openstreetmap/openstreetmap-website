@@ -31,6 +31,8 @@ class Way < ActiveRecord::Base
     if !create and pt['id'] != '0'
       way.id = pt['id'].to_i
     end
+    
+    way.version = pt['version']
 
     if create
       way.timestamp = Time.now

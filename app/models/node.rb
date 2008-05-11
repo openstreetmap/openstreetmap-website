@@ -66,7 +66,8 @@ class Node < GeoRecord
 
   def self.from_xml_node(pt, create=false)
     node = Node.new
-
+    
+    node.version = pt['version']
     node.lat = pt['lat'].to_f
     node.lon = pt['lon'].to_f
 

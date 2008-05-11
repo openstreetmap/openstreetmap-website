@@ -31,6 +31,8 @@ class Relation < ActiveRecord::Base
       relation.id = pt['id'].to_i
     end
 
+    relation.version = pt['version']
+
     if create
       relation.timestamp = Time.now
       relation.visible = true
