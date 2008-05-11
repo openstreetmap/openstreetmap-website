@@ -15,7 +15,7 @@ class NodeController < ApplicationController
       node = Node.from_xml(request.raw_post, true)
 
       if node
-	node.version = 0
+        node.version = 0
         node.user_id = @user.id
         node.visible = true
         node.save_with_history!
@@ -51,8 +51,8 @@ class NodeController < ApplicationController
       new_node = Node.from_xml(request.raw_post)
 
       if new_node and new_node.id == node.id
-	node.update_from(new_node, @user)
-        render :nothing => true
+        node.update_from(new_node, @user)
+        render :text => node.version.to_s, :content_type => "text/plain"
       else
         render :nothing => true, :status => :bad_request
       end

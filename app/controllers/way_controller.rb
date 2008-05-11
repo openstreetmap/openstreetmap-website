@@ -15,7 +15,7 @@ class WayController < ApplicationController
         if !way.preconditions_ok?
           render :text => "", :status => :precondition_failed
         else
-	  way.version = 0
+          way.version = 0
           way.user_id = @user.id
           way.save_with_history!
 
@@ -51,8 +51,8 @@ class WayController < ApplicationController
       new_way = Way.from_xml(request.raw_post)
 
       if new_way and new_way.id == way.id
-	way.update_from(new_way, @user)
-	render :nothing => true
+        way.update_from(new_way, @user)
+        render :text => way.version.to_s, :content_type => "text/plain"
       else
         render :nothing => true, :status => :bad_request
       end

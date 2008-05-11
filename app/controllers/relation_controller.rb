@@ -52,6 +52,7 @@ class RelationController < ApplicationController
 
       if new_relation and new_relation.id == relation.id
 	relation.update_from new_relation, user
+        render :text => relation.version.to_s, :content_type => "text/plain"
       else
         render :nothing => true, :status => :bad_request
       end
