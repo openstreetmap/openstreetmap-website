@@ -3,8 +3,8 @@ ActionController::Routing::Routes.draw do |map|
   # API
   map.connect "api/#{API_VERSION}/changeset/create", :controller => 'changeset', :action => 'create'
   map.connect "api/#{API_VERSION}/changeset/upload", :controller => 'changeset', :action => 'upload'
-  map.connect "api/#{API_VERSION}/changeset/:id", :controller => 'changeset', :action => 'read'
-  map.connect "api/#{API_VERSION}/changeset/:id/close", :controller => 'changeset', :action => 'close'
+  map.connect "api/#{API_VERSION}/changeset/:id", :controller => 'changeset', :action => 'read', :id => /\d+/
+  map.connect "api/#{API_VERSION}/changeset/:id/close", :controller => 'changeset', :action => 'close', :id =>/\d+/
   
   map.connect "api/#{API_VERSION}/node/create", :controller => 'node', :action => 'create'
   map.connect "api/#{API_VERSION}/node/:id/ways", :controller => 'way', :action => 'ways_for_node', :id => /\d+/
@@ -59,6 +59,7 @@ ActionController::Routing::Routes.draw do |map|
   
   # Potlatch API
   
+  map.connect "api/0.5/amf", :controller =>'amf', :action =>'talk'
   map.connect "api/#{API_VERSION}/amf", :controller =>'amf', :action =>'talk'
   map.connect "api/#{API_VERSION}/swf/trackpoints", :controller =>'swf', :action =>'trackpoints'
   
