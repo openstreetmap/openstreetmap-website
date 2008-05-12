@@ -186,11 +186,7 @@ class Node < GeoRecord
   end
 
   def tags_as_hash
-    hash = {}
-    Tags.split(self.tags) do |k,v|
-      hash[k] = v
-    end
-    hash
+    return tags
   end
 
   def tags
