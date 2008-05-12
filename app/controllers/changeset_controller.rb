@@ -167,7 +167,7 @@ class ChangesetController < ApplicationController
       doc.find('//osm/delete/way').each do |nd|
 	elem = XML::Node.new 'way'
 	way = Way.find(nd['id'])
-	way.delete_with_relations_and_history(@user)
+	way.delete_with_history(@user)
 	elem['old_id'] = elem['new_id'] = way.id.to_s
 	elem['new_version'] = way.version.to_s
 	root << elem

@@ -221,8 +221,7 @@ class Way < ActiveRecord::Base
     return true
   end
 
-  # Delete the way and it's relations, but don't really delete it - set its visibility to false and update the history etc to maintain wiki-like functionality.
-  def delete_with_relations_and_history(user)
+  def delete_with_history(user)
     if self.visible
 	  # FIXME
 	  # this should actually delete the relations,
@@ -246,6 +245,8 @@ class Way < ActiveRecord::Base
   end
 
   # delete a way and it's nodes that aren't part of other ways, with history
+
+  # FIXME: merge the potlatch code to delete the relations
   def delete_with_relations_and_nodes_and_history(user)
     
     node_ids = self.nodes.collect {|node| node.id }
@@ -266,7 +267,7 @@ class Way < ActiveRecord::Base
     
     self.user_id = user.id
 
-    self.delete_with_relations_and_history(user)
+    self.delete_with_history(user)
 
   end
 end

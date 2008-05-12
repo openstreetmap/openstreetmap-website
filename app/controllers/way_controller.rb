@@ -70,7 +70,7 @@ class WayController < ApplicationController
   def delete
     begin
       way = Way.find(params[:id])
-      way.delete_with_relations_and_history(@user)
+      way.delete_with_history(@user)
 
       # if we get here, all is fine, otherwise something will catch below.  
       render :nothing => true
