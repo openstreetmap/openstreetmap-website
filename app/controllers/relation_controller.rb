@@ -64,6 +64,9 @@ class RelationController < ApplicationController
       render :nothing => true, :status => :not_found
     rescue OSM::APIPreconditionFailedError
       render :text => "", :status => :precondition_failed
+    rescue OSM::APIVersionMismatchError => ex
+      render :text => "Version mismatch: Provided " + ex.provided.to_s +
+	", server had: " + ex.latest.to_s, :status => :bad_request
     rescue
       render :nothing => true, :status => :internal_server_error
     end

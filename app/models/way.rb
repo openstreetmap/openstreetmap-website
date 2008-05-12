@@ -199,6 +199,8 @@ class Way < ActiveRecord::Base
   def update_from(new_way, user)
     if !new_way.preconditions_ok?
       raise OSM::APIPreconditionFailedError.new
+    elsif new_way.version != version
+      raise OSM::APIVersionMismatchError.new(new_way.version, version)
     else
       self.user_id = user.id
       self.tags = new_way.tags

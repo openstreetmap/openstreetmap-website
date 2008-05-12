@@ -140,6 +140,10 @@ class Node < GeoRecord
   end
 
   def update_from(new_node, user)
+    if new_node.version != version
+      raise OSM::APIVersionMismatchError.new(new_node.version, version)
+    end
+
     self.user_id = user.id
     self.latitude = new_node.latitude 
     self.longitude = new_node.longitude

@@ -49,10 +49,6 @@ class NodeController < ApplicationController
     begin
       node = Node.find(params[:id])
       new_node = Node.from_xml(request.raw_post)
-      if new_node.version != node.version
-        render :text => "Version mismatch: Provided " + new_node.version.to_s + ", server had: " + node.version.to_s, :status => :bad_request
-        return
-      end  
 
       if new_node and new_node.id == node.id
         node.update_from(new_node, @user)
@@ -60,6 +56,9 @@ class NodeController < ApplicationController
       else
         render :nothing => true, :status => :bad_request
       end
+    rescue OSM::APIVersionMismatchError ex
+      render :text => "Version mismatch: Provided " + ex.provided.to_s +
+	", server had: " + ex.latest.to_s, :status => :bad_request
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
     end

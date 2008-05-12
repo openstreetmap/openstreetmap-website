@@ -24,6 +24,15 @@ module OSM
   class APIAlreadyDeletedError < APIError
   end
 
+  # Raised when the provided version is not equal to the latest in the db.
+  class APIVersionMismatchError < APIError
+    def initialize(provided, latest)
+      @provided, @latest = provided, latest
+    end
+
+    attr_reader :provided, :latest
+  end
+
   # Helper methods for going to/from mercator and lat/lng.
   class Mercator
     include Math

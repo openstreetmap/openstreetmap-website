@@ -224,6 +224,8 @@ class Relation < ActiveRecord::Base
   def update_from(new_relation, user)
     if !new_relation.preconditions_ok?
       raise OSM::APIPreconditionFailedError.new
+    elsif new_relation.version != version
+      raise OSM::APIVersionMismatchError.new(new_relation.version, version)
     else
       self.user_id = user.id
       self.tags = new_relation.tags
