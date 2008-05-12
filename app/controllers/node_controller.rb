@@ -56,7 +56,7 @@ class NodeController < ApplicationController
       else
         render :nothing => true, :status => :bad_request
       end
-    rescue OSM::APIVersionMismatchError ex
+    rescue OSM::APIVersionMismatchError => ex
       render :text => "Version mismatch: Provided " + ex.provided.to_s +
 	", server had: " + ex.latest.to_s, :status => :bad_request
     rescue ActiveRecord::RecordNotFound
