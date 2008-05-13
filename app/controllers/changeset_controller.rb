@@ -95,14 +95,12 @@ class ChangesetController < ApplicationController
 
     Changeset.transaction do
       while p.read == 1
-	puts p.name
 	break if p.node_type == 15 # end element
 	next unless p.node_type == 1 # element
 
 	case p.name
 	when 'create':
 	  while p.read == 1
-	    puts "#{p.name} #{p.node_type}"
 	    break if p.node_type == 15 # end element
 	    next unless p.node_type == 1 # element
 
