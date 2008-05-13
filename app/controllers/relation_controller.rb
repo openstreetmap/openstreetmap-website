@@ -49,10 +49,6 @@ class RelationController < ApplicationController
     begin
       relation = Relation.find(params[:id])
       new_relation = Relation.from_xml(request.raw_post)
-      if new_relation.version != relation.version
-        render :text => "Version mismatch: Provided " + new_relation.version.to_s + ", server had: " + relation.version.to_s, :status => :bad_request
-        return
-      end  
 
       if new_relation and new_relation.id == relation.id
 	relation.update_from new_relation, user
@@ -62,13 +58,8 @@ class RelationController < ApplicationController
       end
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
-    rescue OSM::APIPreconditionFailedError
-      render :text => "", :status => :precondition_failed
-    rescue OSM::APIVersionMismatchError => ex
-      render :text => "Version mismatch: Provided " + ex.provided.to_s +
-	", server had: " + ex.latest.to_s, :status => :bad_request
-    rescue
-      render :nothing => true, :status => :internal_server_error
+    rescue OSM::APIError => ex
+      render ex.render_opts
     end
   end
 
@@ -77,14 +68,10 @@ class RelationController < ApplicationController
     begin
       relation = Relation.find(params[:id])
       relation.delete_with_history(@user)
-    rescue OSM::APIAlreadyDeletedError
-      render :text => "", :status => :gone
-    rescue OSM::APIPreconditionFailedError
-      render :text => "", :status => :precondition_failed
+    rescue OSM::APIError => ex
+      render ex.render_opts
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
-    rescue
-      render :nothing => true, :status => :internal_server_error
     end
   end
 

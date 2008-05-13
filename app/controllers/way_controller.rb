@@ -40,6 +40,8 @@ class WayController < ApplicationController
       else
         render :text => "", :status => :gone
       end
+    rescue OSM::APIError => ex
+      render ex.render_opts
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
     end
@@ -56,11 +58,8 @@ class WayController < ApplicationController
       else
         render :nothing => true, :status => :bad_request
       end
-    rescue OSM::APIPreconditionFailedError
-      render :text => "", :status => :precondition_failed
-    rescue OSM::APIVersionMismatchError => ex
-      render :text => "Version mismatch: Provided " + ex.provided.to_s +
-	", server had: " + ex.latest.to_s, :status => :bad_request
+    rescue OSM::APIError => ex
+      render ex.render_opts
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
     end
@@ -74,10 +73,8 @@ class WayController < ApplicationController
 
       # if we get here, all is fine, otherwise something will catch below.  
       render :nothing => true
-    rescue OSM::APIAlreadyDeletedError
-      render :text => "", :status => :gone
-    rescue OSM::APIPreconditionFailedError
-      render :text => "", :status => :precondition_failed
+    rescue OSM::APIError => ex
+      render ex.render_opts
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
     end

@@ -72,10 +72,8 @@ class NodeController < ApplicationController
       node.delete_with_history(@user)
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
-    rescue OSM::APIAlreadyDeletedError
-      render :text => "", :status => :gone
-    rescue OSM::APIPreconditionFailedError
-      render :text => "", :status => :precondition_failed
+    rescue OSM::APIError => ex
+      render ex.render_opts
     end
   end
 

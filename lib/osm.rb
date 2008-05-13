@@ -10,6 +10,7 @@ module OSM
 
   # The base class for API Errors.
   class APIError < RuntimeError
+    def render_opts { :text => "", :status => :internal_server_error } end
   end
 
   # Raised when an API object is not found.
@@ -18,10 +19,12 @@ module OSM
 
   # Raised when a precondition to an API action fails sanity check.
   class APIPreconditionFailedError < APIError
+    def render_opts { :text => "", :status => :precondition_failed } end
   end
 
   # Raised when to delete an already-deleted object.
   class APIAlreadyDeletedError < APIError
+    def render_opts { :text => "", :status => :gone } end
   end
 
   # Raised when the provided version is not equal to the latest in the db.
@@ -31,6 +34,11 @@ module OSM
     end
 
     attr_reader :provided, :latest
+
+    def render_opts
+      { :text => "Version mismatch: Provided " + ex.provided.to_s +
+	", server had: " + ex.latest.to_s, :status => :bad_request }
+    end
   end
 
   # Helper methods for going to/from mercator and lat/lng.

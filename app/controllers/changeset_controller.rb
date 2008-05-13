@@ -184,5 +184,8 @@ class ChangesetController < ApplicationController
     end
 
     render :text => res.to_s, :content_type => "text/xml"
+
+  rescue OSM::APIError => ex
+    render ex.render_opts
   end
 end
