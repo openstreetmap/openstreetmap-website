@@ -42,8 +42,8 @@ module OSM
     attr_reader :provided, :latest
 
     def render_opts
-      { :text => "Version mismatch: Provided " + ex.provided.to_s +
-	", server had: " + ex.latest.to_s, :status => :bad_request }
+      { :text => "Version mismatch: Provided " + provided.to_s +
+	", server had: " + latest.to_s, :status => :bad_request }
     end
   end
 
