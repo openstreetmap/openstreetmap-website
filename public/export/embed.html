@@ -37,13 +37,20 @@
                    attribution: attribution
                 });
                 map.addLayer(mapnik);
-            } else {
+            } else if (args.layer == "osmarender") {
                 var osmarender = new OpenLayers.Layer.OSM.Osmarender("Osmarender", {
                    displayOutsideMaxExtent: true,
                    wrapDateLine: true,
                    attribution: attribution
                 });
                 map.addLayer(osmarender);
+            } else if (args.layer == "cycle map") {
+                var cyclemap = new OpenLayers.Layer.OSM.CycleMap("Cycle Map", {
+                   displayOutsideMaxExtent: true,
+                   wrapDateLine: true,
+                   attribution: attribution
+                });
+                map.addLayer(cyclemap);
             }
 
             if (args.marker) {

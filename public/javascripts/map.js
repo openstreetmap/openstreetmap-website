@@ -34,6 +34,12 @@ function createMap(divName) {
    });
    map.addLayer(osmarender);
 
+   var cyclemap = new OpenLayers.Layer.OSM.CycleMap("Cycle Map", {
+      displayOutsideMaxExtent: true,
+      wrapDateLine: true
+   });
+   map.addLayer(cyclemap);
+
    var maplint = new OpenLayers.Layer.OSM.Maplint("Maplint", {
       displayOutsideMaxExtent: true,
       wrapDateLine: true
