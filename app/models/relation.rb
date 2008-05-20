@@ -202,21 +202,48 @@ class Relation < ActiveRecord::Base
   end
 
   def preconditions_ok?
+    # These are hastables that store an id in the index of all 
+    # the nodes/way/relations that have already been added.
+    # Once we know the id of the node/way/relation exists
+    # we check to see if it is already existing in the hashtable
+    # if it does, then we return false. Otherwise
+    # we add it to the relevant hash table, with the value true..
+    # Thus if you have nodes with the ids of 50 and 1 already in the
+    # relation, then the hash table nodes would contain:
+    # => {50=>true, 1=>true}
+    nodes = Hash.new
+    ways = Hash.new
+    relations = Hash.new
     self.members.each do |m|
       if (m[0] == "node")
         n = Node.find(:first, :conditions => ["id = ?", m[1]])
         unless n and n.visible 
           return false
         end
+        if nodes[m[1]]
+          return false
+        else
+          nodes[m[1]] = true
+        end
       elsif (m[0] == "way")
         w = Way.find(:first, :conditions => ["id = ?", m[1]])
         unless w and w.visible and w.preconditions_ok?
           return false
         end
+        if ways[m[1]]
+          return false
+        else
+          ways[m[1]] = true
+        end
       elsif (m[0] == "relation")
         e = Relation.find(:first, :conditions => ["id = ?", m[1]])
         unless e and e.visible and e.preconditions_ok?
           return false
+        end
+        if relations[m[1]]
+          return false
+        else
+          relations[m[1]] = true
         end
       else
         return false
