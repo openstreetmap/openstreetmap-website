@@ -124,34 +124,38 @@ function getEventPosition(event) {
 }
 
 function getMapLayers() {
-   var layers = "";
+   var layerConfig = "";
 
-   for (var i=0; i< this.map.layers.length; i++) {
-      var layer = this.map.layers[i];
+   for (var layers = map.getLayersBy("isBaseLayer", true), i = 0; i < layers.length; i++) {
+      layerConfig += layers[i] == map.baseLayer ? "B" : "0";
+   }
 
-      if (layer.isBaseLayer) {
-         layers += (layer == this.map.baseLayer) ? "B" : "0";
-      } else {
-         layers += (layer.getVisibility()) ? "T" : "F";
+   for (var layers = map.getLayersBy("isBaseLayer", false), i = 0; i < layers.length; i++) {
+      layerConfig += layers[i].getVisibility() ? "T" : "F";
+   }
+
+   return layerConfig;
+}
+
+function setMapLayers(layerConfig) {
+   var l = 0;
+
+   for (var layers = map.getLayersBy("isBaseLayer", true), i = 0; i < layers.length; i++) {
+      var c = layerConfig.charAt(l++);
+
+      if (c == "B") {
+         map.setBaseLayer(layers[i]);
       }
    }
 
-   return layers;
-}
+   while (layerConfig.charAt(l) == "B" || layerConfig.charAt(l) == "0") {
+      l++;
+   }
 
-function setMapLayers(layers) {
-   for (var i=0; i < layers.length; i++) {
-      var layer = map.layers[i];
+   for (var layers = map.getLayersBy("isBaseLayer", false), i = 0; i < layers.length; i++) {
+      var c = layerConfig.charAt(l++);
 
-      if (layer) {
-         var c = layers.charAt(i);
-
-         if (c == "B") {
-            map.setBaseLayer(layer);
-         } else if ( (c == "T") || (c == "F") ) {
-            layer.setVisibility(c == "T");
-         }
-      }
+      layers[i].setVisibility(c == "T");
    }
 }
 
