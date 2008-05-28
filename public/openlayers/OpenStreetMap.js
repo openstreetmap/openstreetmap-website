@@ -156,6 +156,34 @@ OpenLayers.Layer.OSM.Osmarender = OpenLayers.Class(OpenLayers.Layer.OSM, {
 });
 
 /**
+ * Class: OpenLayers.Layer.OSM.CycleMap
+ *
+ * Inherits from:
+ *  - <OpenLayers.Layer.OSM>
+ */
+OpenLayers.Layer.OSM.CycleMap = OpenLayers.Class(OpenLayers.Layer.OSM, {
+    /**
+     * Constructor: OpenLayers.Layer.OSM.CycleMap
+     *
+     * Parameters:
+     * name - {String}
+     * options - {Object} Hashtable of extra options to tag onto the layer
+     */
+    initialize: function(name, options) {
+        var url = [
+            "http://a.thunderflames.org/tiles/cycle/",
+            "http://b.thunderflames.org/tiles/cycle/",
+            "http://c.thunderflames.org/tiles/cycle/"
+        ];
+        options = OpenLayers.Util.extend({ numZoomLevels: 17 }, options);
+        var newArguments = [name, url, options];
+        OpenLayers.Layer.OSM.prototype.initialize.apply(this, newArguments);
+    },
+
+    CLASS_NAME: "OpenLayers.Layer.OSM.CycleMap"
+});
+
+/**
  * Class: OpenLayers.Layer.OSM.Maplint
  *
  * Inherits from:

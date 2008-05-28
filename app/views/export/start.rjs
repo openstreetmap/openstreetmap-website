@@ -246,7 +246,9 @@ page << <<EOJ
     bounds.transform(epsg4326, epsg900913);
     var zoom = map.getZoomForExtent(bounds);
     
-    html += '<br /><small><a href="http://#{SERVER_URL}/?lat='+center.lat+'&lon='+center.lon+'&zoom='+zoom+markerUrl+'">View Larger Map</a></small>';
+    var layers = getMapLayers();
+
+    html += '<br /><small><a href="http://#{SERVER_URL}/?lat='+center.lat+'&lon='+center.lon+'&zoom='+zoom+'&layers='+layers+markerUrl+'">View Larger Map</a></small>';
 
     $("export_html_text").value = html;
 
