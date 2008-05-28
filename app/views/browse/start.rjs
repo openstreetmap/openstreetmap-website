@@ -41,7 +41,7 @@ page << <<EOJ
       if (map.getZoom() >= 15) {
           useMap();
       } else {
-          $("browse_status").innerHTML = "Zoom in or Select an area of the map to view.";
+          setStatus("Zoom in or select an area of the map to view");
       }    
     }
   }
@@ -126,7 +126,7 @@ page << <<EOJ
   }
     
   function displayFeatureWarning() {
-    $("browse_status").innerHTML = "";
+    clearStatus();
 
     var div = document.createElement("div");
 
@@ -140,8 +140,8 @@ page << <<EOJ
     input.onclick = loadFeatureList;
     div.appendChild(input); 
 
-    $("browse_object_list").innerHTML = "";
-    $("browse_object_list").appendChild(div);
+    $("browse_content").innerHTML = "";
+    $("browse_content").appendChild(div);
   }
     
   function loadFeatureList() {
@@ -187,15 +187,15 @@ page << <<EOJ
     var size = projected.getWidth() * projected.getHeight();
 
     if (size > 0.25) {
-      $("browse_status").innerHTML = "Unable to load: Bounding box size of " + size + " is too large. (Must be smaller than 0.25)<br />";
+      setStatus("Unable to load: Bounding box size of " + size + " is too large (must be smaller than 0.25)");
     } else {
       loadGML("/api/0.5/map?bbox=" + projected.toBBOX());
     }
   }
 
   function loadGML(url) {
-    $("browse_status").innerHTML = "Loading...";
-    $("browse_object_list").innerHTML = "";
+    setStatus("Loading...");
+    $("browse_content").innerHTML = "";
 
     if (!browseDataLayer) {
       var style = new OpenLayers.Style();
@@ -236,19 +236,23 @@ page << <<EOJ
 
   function dataLoaded() {
     if (browseActive) {
-      $("browse_status").innerHTML = "Loaded."
+      clearStatus();
         
+      browseObjectList = document.createElement("div")
+
+      var heading = document.createElement("p");
+      heading.className = "browse_heading";
+      heading.appendChild(document.createTextNode("Object list"));
+      browseObjectList.appendChild(heading);
+
       var list = document.createElement("ul");
 
       for (var i = 0; i < this.features.length; i++) {
         var feature = this.features[i]; 
             
         // Type, for linking
-        var type = "way";
-        if (feature.geometry.CLASS_NAME == "OpenLayers.Geometry.Point") {
-          type = "node";
-        } 
-        var typeName = type.substr(0,1).toUpperCase() + type.substr(1,type.length); 
+        var type = featureType(feature);
+        var typeName = ucFirst(type);
         var li = document.createElement("li");
         li.appendChild(document.createTextNode(typeName + " "));
             
@@ -264,7 +268,6 @@ page << <<EOJ
         list.appendChild(li);
       }
 
-      browseObjectList = document.createElement("div")
       browseObjectList.appendChild(list)
 
       var link = document.createElement("a");
@@ -272,8 +275,8 @@ page << <<EOJ
       link.appendChild(document.createTextNode("API"));
       browseObjectList.appendChild(link);
 
-      $("browse_object_list").innerHTML = "";
-      $("browse_object_list").appendChild(browseObjectList); 
+      $("browse_content").innerHTML = "";
+      $("browse_content").appendChild(browseObjectList); 
     }
   }
     
@@ -295,8 +298,8 @@ page << <<EOJ
   }
     
   function loadObjectList() {
-    $("browse_object_list").innerHTML="";
-    $("browse_object_list").appendChild(browseObjectList);
+    $("browse_content").innerHTML="";
+    $("browse_content").appendChild(browseObjectList);
 
     return false;
   }
@@ -316,37 +319,49 @@ page << <<EOJ
     );
 
     // If the current object is the list, don't innerHTML="", since that could clear it.
-    if ($("browse_object_list").firstChild == browseObjectList) { 
-      $("browse_object_list").removeChild(browseObjectList);
+    if ($("browse_content").firstChild == browseObjectList) { 
+      $("browse_content").removeChild(browseObjectList);
     } else { 
-      $("browse_object_list").innerHTML = "";
+      $("browse_content").innerHTML = "";
     }   
         
     // Create a link back to the object list
+    var div = document.createElement("div");
+    div.style.textAlign = "center";
+    div.style.marginBottom = "20px";
+    $("browse_content").appendChild(div);
     var link = document.createElement("a");
     link.href = "#";
     link.onclick = loadObjectList;
-    link.appendChild(document.createTextNode("Back to Object List"));
-
-    var div = document.createElement("div");
-    div.appendChild(link)
-
-    $("browse_object_list").appendChild(div);    
-        
-    var type = "way";
-    if (feature.geometry.CLASS_NAME == "OpenLayers.Geometry.Point") {
-        type = "node";
-    }    
-        
-    var link = document.createElement("a");   
-    link.href = "/browse/" + type + "/" + feature.osm_id;
-    link.appendChild(document.createTextNode("Database entry for " + feature.osm_id));
-        
-    var div = document.createElement("div");
-    div.style.marginTop = "20px"
+    link.appendChild(document.createTextNode("Display object list"));
     div.appendChild(link);
 
-    $("browse_object_list").appendChild(div);
+    var table = document.createElement("table");
+    table.width = "100%";
+    table.className = "browse_heading";
+    $("browse_content").appendChild(table);
+
+    var tr = document.createElement("tr");
+    table.appendChild(tr);
+
+    var heading = document.createElement("td");
+    heading.appendChild(document.createTextNode(featureName(feature)));
+    tr.appendChild(heading);
+
+    var td = document.createElement("td");
+    td.align = "right";
+    tr.appendChild(td);
+
+    var type = featureType(feature);
+    var link = document.createElement("a");   
+    link.href = "/browse/" + type + "/" + feature.osm_id;
+    link.appendChild(document.createTextNode("Details"));
+    td.appendChild(link);
+
+    var div = document.createElement("div");
+    div.className = "browse_details";
+
+    $("browse_content").appendChild(div);
 
     // Now the list of attributes
     var ul = document.createElement("ul");
@@ -359,16 +374,16 @@ page << <<EOJ
       ul.appendChild(li);
     }
         
-    $("browse_object_list").appendChild(ul);
+    div.appendChild(ul);
         
     var link = document.createElement("a");   
-    link.href =  "/browse/"+type+"/"+feature.osm_id+"/history";
-    link.appendChild(document.createTextNode("History"));
+    link.href =  "/browse/" + type + "/" + feature.osm_id + "/history";
+    link.appendChild(document.createTextNode("Show history"));
     link.onclick = OpenLayers.Function.bind(loadHistory, {
       type: type, feature: feature, link: link
     });
         
-    $("browse_object_list").appendChild(link);
+    div.appendChild(link);
 
     // Stash the currently drawn feature
     browseActiveFeature = feature; 
@@ -386,17 +401,37 @@ page << <<EOJ
   }
 
   function displayHistory(request) {
-    if (browseActiveFeature.osm_id != this.feature.osm_id || $("browse_object_list").firstChild == browseObjectList)  { 
+    if (browseActiveFeature.osm_id != this.feature.osm_id || $("browse_content").firstChild == browseObjectList)  { 
         return false;
     } 
 
     this.link.parentNode.removeChild(this.link);
 
     var doc = request.responseXML;
+
+    var table = document.createElement("table");
+    table.width = "100%";
+    table.className = "browse_heading";
+    $("browse_content").appendChild(table);
+
+    var tr = document.createElement("tr");
+    table.appendChild(tr);
+
+    var heading = document.createElement("td");
+    heading.appendChild(document.createTextNode("History for " + featureName(this.feature)));
+    tr.appendChild(heading);
+
+    var td = document.createElement("td");
+    td.align = "right";
+    tr.appendChild(td);
+
+    var link = document.createElement("a");   
+    link.href = "/browse/" + this.type + "/" + this.feature.osm_id + "/history";
+    link.appendChild(document.createTextNode("Details"));
+    td.appendChild(link);
+
     var div = document.createElement("div");
-    var h3 = document.createElement("h3"); 
-    h3.appendChild(document.createTextNode("History"));
-    div.appendChild(h3);
+    div.className = "browse_details";
 
     var nodes = doc.getElementsByTagName(this.type);
     var history = document.createElement("ul");  
@@ -409,13 +444,38 @@ page << <<EOJ
     }
     div.appendChild(history);
 
-    var link = document.createElement("a");
-    link.appendChild(document.createTextNode("History entry for " + this.feature.osm_id));
-    link.href = "/browse/"+this.type+"/"+this.feature.osm_id+"/history";
-    div.appendChild(link);
-
-    $("browse_object_list").appendChild(div); 
+    $("browse_content").appendChild(div); 
   }
-    
+
+  function featureType(feature) {
+    if (feature.geometry.CLASS_NAME == "OpenLayers.Geometry.Point") {
+      return "node";
+    } else {
+      return "way";
+    }
+  }
+  
+  function featureName(feature) {
+    if (feature.attributes.name) {
+      return feature.attributes.name;
+    } else {
+      return ucFirst(featureType(feature)) + " " + feature.osm_id;
+    }
+  }
+
+  function setStatus(status) {
+    $("browse_status").innerHTML = status;
+    $("browse_status").style.display = "block";
+  }
+  
+  function clearStatus() {
+    $("browse_status").innerHTML = "";
+    $("browse_status").style.display = "none";
+  }
+
+  function ucFirst(str) {
+    return str.substr(0,1).toUpperCase() + str.substr(1,str.length);
+  }
+
   startBrowse();
 EOJ
