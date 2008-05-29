@@ -143,17 +143,19 @@ class UserController < ApplicationController
   end
 
   def confirm
-    token = UserToken.find_by_token(params[:confirm_string])
-    if token and !token.user.active?
-      @user = token.user
-      @user.active = true
-      @user.save!
-      token.destroy
-      flash[:notice] = 'Confirmed your account, thanks for signing up!'
-      session[:user] = @user.id
-      redirect_to :action => 'account', :display_name => @user.display_name
-    else
-      flash[:notice] = 'Something went wrong confirming that user.'
+    if params[:confirm_action]
+      token = UserToken.find_by_token(params[:confirm_string])
+      if token and !token.user.active?
+        @user = token.user
+        @user.active = true
+        @user.save!
+        token.destroy
+        flash[:notice] = 'Confirmed your account, thanks for signing up!'
+        session[:user] = @user.id
+        redirect_to :action => 'account', :display_name => @user.display_name
+      else
+        flash[:notice] = 'Something went wrong confirming that user.'
+      end
     end
   end
 
