@@ -109,11 +109,11 @@ class Node < GeoRecord
       tags = self.tags
       NodeTag.delete_all(['id = ?', self.id])
       tags.each do |k,v|
-	tag = NodeTag.new
-	tag.k = k 
-	tag.v = v 
-	tag.id = self.id
-	tag.save!
+        tag = NodeTag.new
+        tag.k = k 
+        tag.v = v 
+        tag.id = self.id
+        tag.save!
       end 
 
       # Create an OldNode
