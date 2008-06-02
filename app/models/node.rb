@@ -57,7 +57,7 @@ class Node < GeoRecord
       doc = p.parse
 
       doc.find('//osm/node').each do |pt|
-	return Node.from_xml_node(pt, create)
+        return Node.from_xml_node(pt, create)
       end
     rescue
       return nil
@@ -75,7 +75,7 @@ class Node < GeoRecord
 
     unless create
       if pt['id'] != '0'
-	node.id = pt['id'].to_i
+        node.id = pt['id'].to_i
       end
     end
 
@@ -85,7 +85,7 @@ class Node < GeoRecord
       node.timestamp = Time.now
     else
       if pt['timestamp']
-	node.timestamp = Time.parse(pt['timestamp'])
+        node.timestamp = Time.parse(pt['timestamp'])
       end
     end
 
