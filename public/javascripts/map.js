@@ -155,7 +155,11 @@ function setMapLayers(layerConfig) {
    for (var layers = map.getLayersBy("isBaseLayer", false), i = 0; i < layers.length; i++) {
       var c = layerConfig.charAt(l++);
 
-      layers[i].setVisibility(c == "T");
+      if (c == "T") {
+         layers[i].setVisibility(true);
+      } else if(c == "F") {
+         layers[i].setVisibility(false);
+      }
    }
 }
 
