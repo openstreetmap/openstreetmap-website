@@ -76,8 +76,8 @@ by the OpenStreetMap project and its contributors.
 <% lon =  '-0.1' %>
 <% lat =  '51.5' %>
 <% zoom =  h(params['zoom'] || '5') %>
-<% layers = h(params['layers']) %>
 <% end %>
+<% layers = h(params['layers']) %>
 <% end %>
 
 <%= javascript_include_tag '/openlayers/OpenLayers.js' %>
@@ -109,7 +109,7 @@ by the OpenStreetMap project and its contributors.
     setMapCenter(centre, zoom);
     <% end %>
 
-    <% if !layers.empty? %>
+    <% if !layers.nil? and !layers.empty? %>
     setMapLayers("<%= layers %>");
     <% end %>
 
