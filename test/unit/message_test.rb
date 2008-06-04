@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class MessageTest < Test::Unit::TestCase
-  fixtures :messages
+  fixtures :messages, :users
 
   def test_check_empty_message_fails
     message = Message.new
