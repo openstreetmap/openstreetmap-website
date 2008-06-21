@@ -1,14 +1,17 @@
 class Relation < ActiveRecord::Base
   require 'xml/libxml'
   
+  set_table_name 'current_relations'
+
   belongs_to :user
+
+  has_many :old_relations, :foreign_key => 'id', :order => 'version'
 
   has_many :relation_members, :foreign_key => 'id'
   has_many :relation_tags, :foreign_key => 'id'
 
-  has_many :old_relations, :foreign_key => 'id', :order => 'version'
-
-  set_table_name 'current_relations'
+  has_many :containing_relation_members, :as => :member
+  has_many :containing_relations, :through => :containing_relation_members
 
   def self.from_xml(xml, create=false)
     begin

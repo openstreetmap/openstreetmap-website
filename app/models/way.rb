@@ -1,15 +1,19 @@
 class Way < ActiveRecord::Base
   require 'xml/libxml'
 
-  belongs_to :user
+  set_table_name 'current_ways'
 
-  has_many :nodes, :through => :way_nodes, :order => 'sequence_id'
-  has_many :way_nodes, :foreign_key => 'id', :order => 'sequence_id'
-  has_many :way_tags, :foreign_key => 'id'
+  belongs_to :user
 
   has_many :old_ways, :foreign_key => 'id', :order => 'version'
 
-  set_table_name 'current_ways'
+  has_many :way_nodes, :foreign_key => 'id', :order => 'sequence_id'
+  has_many :nodes, :through => :way_nodes, :order => 'sequence_id'
+
+  has_many :way_tags, :foreign_key => 'id'
+
+  has_many :containing_relation_members, :class_name => "RelationMember", :as => :member
+  has_many :containing_relations, :class_name => "Relation", :through => :containing_relation_members, :source => :relation
 
   def self.from_xml(xml, create=false)
     begin
