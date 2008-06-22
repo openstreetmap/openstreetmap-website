@@ -1,6 +1,10 @@
 <h2><%= h(@title) %></h2>
 
-<img src="<%= url_for :controller => 'trace', :action => 'picture', :id => @trace.id, :display_name => @trace.user.display_name %>">
+  <% if @trace.inserted %>
+    <img src="<%= url_for :controller => 'trace', :action => 'picture', :id => @trace.id, :display_name => @trace.user.display_name %>">
+  <% else %>
+    <span style="color:red">PENDING</span>
+  <% end %>
 
 <table border="0">
   <tr>

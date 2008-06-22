@@ -10,11 +10,16 @@ class Node < GeoRecord
   validates_numericality_of :latitude, :longitude
   validate :validate_position
 
-  has_many :ways, :through => :way_nodes
-  has_many :old_nodes, :foreign_key => :id
-  has_many :way_nodes
   belongs_to :user
- 
+
+  has_many :old_nodes, :foreign_key => :id
+
+  has_many :way_nodes
+  has_many :ways, :through => :way_nodes
+
+  has_many :containing_relation_members, :as => :member
+  has_many :containing_relations, :through => :containing_relation_members
+
   # Sanity check the latitude and longitude and add an error if it's broken
   def validate_position
     errors.add_to_base("Node is not in the world") unless in_world?

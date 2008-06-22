@@ -376,10 +376,11 @@ class AmfController < ApplicationController
 
     RAILS_DEFAULT_LOGGER.info("  Message: putway, id=#{originalway}")
 
-    # -- Check for null IDs or short ways
+    # -- Check for null IDs, short ways or lats=90
 
     points.each do |a|
       if a[2]==0 or a[2].nil? then return -2,"Server error - node with id 0 found in way #{originalway}." end
+      if coord2lat(a[1],masterscale,basey)==90 then return -2,"Server error - node with lat -90 found in way #{originalway}." end
     end
     
     if points.length<2 then return -2,"Server error - way is only #{points.length} points long." end

@@ -183,7 +183,7 @@ class Trace < ActiveRecord::Base
     # If there are any existing points for this trace then delete
     # them - we check for existing points first to avoid locking
     # the table in the common case where there aren't any.
-    if Tracepoint.exists?(['gpx_id = ?', self.id])
+    if Tracepoint.find(:first, :conditions => ['gpx_id = ?', self.id])
       Tracepoint.delete_all(['gpx_id = ?', self.id])
     end
 

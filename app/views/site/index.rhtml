@@ -58,8 +58,8 @@ by the OpenStreetMap project and its contributors.
 <% lat = h(params['mlat']) %>
 <% zoom =  h(params['zoom'] || '12') %>
 <% layers = h(params['layers']) %>
-<% elsif cookies.key?("location") %>
-<% lon,lat,zoom,layers = cookies["location"].split(",") %>
+<% elsif cookies.key?("_osm_location") %>
+<% lon,lat,zoom,layers = cookies["_osm_location"].split("|") %>
 <% elsif @user and !@user.home_lon.nil? and !@user.home_lat.nil? %> 
 <% lon =  @user.home_lon %>
 <% lat =  @user.home_lat %>
@@ -76,8 +76,8 @@ by the OpenStreetMap project and its contributors.
 <% lon =  '-0.1' %>
 <% lat =  '51.5' %>
 <% zoom =  h(params['zoom'] || '5') %>
-<% layers = h(params['layers']) %>
 <% end %>
+<% layers = h(params['layers']) %>
 <% end %>
 
 <%= javascript_include_tag '/openlayers/OpenLayers.js' %>
@@ -113,7 +113,7 @@ by the OpenStreetMap project and its contributors.
     setMapCenter(centre, zoom);
     <% end %>
 
-    <% if layers %>
+    <% if !layers.nil? and !layers.empty? %>
     setMapLayers("<%= layers %>");
     <% end %>
 
@@ -160,7 +160,7 @@ by the OpenStreetMap project and its contributors.
 
     updatelinks(lonlat.lon, lonlat.lat, zoom, layers);
 
-    document.cookie = "location=" + lonlat.lon + "," + lonlat.lat + "," + zoom + "," + layers;
+    document.cookie = "_osm_location=" + lonlat.lon + "|" + lonlat.lat + "|" + zoom + "|" + layers;
   }
 
   function resizeContent() {
