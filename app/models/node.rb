@@ -1,7 +1,7 @@
-# The node model represents a current existing node, that is, the latest version. Use OldNode for historical nodes.
-
-class Node < GeoRecord
+class Node < ActiveRecord::Base
   require 'xml/libxml'
+
+  include GeoRecord
 
   set_table_name 'current_nodes'
   
@@ -17,8 +17,8 @@ class Node < GeoRecord
   has_many :way_nodes
   has_many :ways, :through => :way_nodes
 
-  has_many :containing_relation_members, :as => :member
-  has_many :containing_relations, :through => :containing_relation_members
+  has_many :containing_relation_members, :class_name => "RelationMember", :as => :member
+  has_many :containing_relations, :class_name => "Relation", :through => :containing_relation_members, :source => :relation
 
   # Sanity check the latitude and longitude and add an error if it's broken
   def validate_position

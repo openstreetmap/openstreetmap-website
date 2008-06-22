@@ -10,8 +10,8 @@ class Relation < ActiveRecord::Base
   has_many :relation_members, :foreign_key => 'id'
   has_many :relation_tags, :foreign_key => 'id'
 
-  has_many :containing_relation_members, :as => :member
-  has_many :containing_relations, :through => :containing_relation_members
+  has_many :containing_relation_members, :class_name => "RelationMember", :as => :member
+  has_many :containing_relations, :class_name => "Relation", :through => :containing_relation_members, :source => :relation
 
   def self.from_xml(xml, create=false)
     begin
