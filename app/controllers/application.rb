@@ -2,6 +2,10 @@
 # Likewise, all the methods added will be available for all controllers.
 class ApplicationController < ActionController::Base
 
+  if OSM_STATUS == :database_offline
+    session :off
+  end
+
   def authorize_web
     if session[:user]
       @user = User.find(session[:user])
@@ -39,8 +43,14 @@ class ApplicationController < ActionController::Base
     end 
   end 
 
+  def check_database_availability
+    if OSM_STATUS == :database_offline
+      redirect_to :controller => 'site', :action => 'offline'
+    end
+  end
+
   def check_read_availability
-    if API_STATUS == :offline
+    if OSM_STATUS == :database_offline or OSM_STATUS == :api_offline
       response.headers['Error'] = "Database offline for maintenance"
       render :nothing => true, :status => :service_unavailable
       return false
@@ -48,7 +58,7 @@ class ApplicationController < ActionController::Base
   end
 
   def check_write_availability
-    if API_STATUS == :offline or API_STATUS == :readonly
+    if OSM_STATUS == :database_offline or OSM_STATUS == :api_offline or OSM_STATUS == :api_readonly
       response.headers['Error'] = "Database offline for maintenance"
       render :nothing => true, :status => :service_unavailable
       return false
