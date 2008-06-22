@@ -1,5 +1,7 @@
-class GeoRecord < ActiveRecord::Base
-  before_save :update_tile
+module GeoRecord
+  def before_save
+    self.update_tile
+  end
 
   # Is this node within -90 >= latitude >= 90 and -180 >= longitude >= 180
   # * returns true/false

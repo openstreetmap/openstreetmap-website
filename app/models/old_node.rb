@@ -1,4 +1,6 @@
-class OldNode < GeoRecord
+class OldNode < ActiveRecord::Base
+  include GeoRecord
+
   set_table_name 'nodes'
   
   validates_presence_of :user_id, :timestamp
