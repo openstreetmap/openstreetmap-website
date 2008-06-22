@@ -1,4 +1,8 @@
 module GeoRecord
+  def self.included(base)
+    base.extend(ClassMethods)
+  end
+
   def before_save
     self.update_tile
   end
@@ -9,12 +13,6 @@ module GeoRecord
     return false if self.lat < -90 or self.lat > 90
     return false if self.lon < -180 or self.lon > 180
     return true
-  end
-
-  def self.find_by_area(minlat, minlon, maxlat, maxlon, options)
-    self.with_scope(:find => {:conditions => OSM.sql_for_area(minlat, minlon, maxlat, maxlon)}) do
-      return self.find(:all, options)
-    end
   end
 
   def update_tile
@@ -48,11 +46,18 @@ module GeoRecord
     -(lat2y(self.lat)-basey)*masterscale
   end
   
-  private
+private
   
   def lat2y(a)
     180/Math::PI * Math.log(Math.tan(Math::PI/4+a*(Math::PI/180)/2))
   end
 
+  module ClassMethods
+    def find_by_area(minlat, minlon, maxlat, maxlon, options)
+      self.with_scope(:find => {:conditions => OSM.sql_for_area(minlat, minlon, maxlat, maxlon)}) do
+        return self.find(:all, options)
+      end
+    end
+  end
 end
 
