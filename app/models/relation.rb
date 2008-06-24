@@ -257,4 +257,8 @@ class Relation < ActiveRecord::Base
     return false
   end
 
+  # Temporary method to match interface to nodes
+  def tags_as_hash
+    return self.tags
+  end
 end

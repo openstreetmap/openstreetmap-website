@@ -1,16 +1,26 @@
-<%= render :partial => 'navigation', :locals => { :type => "way" } %>
-<h2>Way Browser: <%= h(@name) %></h2>
-<%= render :partial => 'common', :locals => { :obj => @way, :type => "way" } %>
-<%= render :partial => 'tag_table', :locals => { :tags => @way.tags } %>
-
-<% if @way.nodes.length != 0 %> 
-  <br style="clear:both" />
-  <div style="float:right; width: 250px;">
-  <h2>Parts:</h2>
-  <ul>
-    <% @way.nodes.each do |node| %>
-    <li> <%= link_to "Node " + node.id.to_s, :action => "node", :id => node.id.to_s %> </li>
-    <% end %>
-  </ul>
-  </div>
-<% end %>
+<table width="100%">
+  <tr>
+    <td>
+      <h2>Way: <%= h(@name) %></h2>
+    </td>
+    <td>
+      <%= render :partial => "navigation" %>
+    </td>
+  </tr>
+  <tr valign="top">
+    <td>
+      <%= render :partial => "way_details", :object => @way %>
+      <hr />
+      <%= link_to "Download XML", :controller => "way", :action => "read" %>
+      or
+      <%= link_to "view history", :action => "way_history" %>
+    </td>
+    <td align="right">
+      <% if @way.visible %>
+        <%= render :partial => "map", :locals => { :type => "way", :id => @way.id } %>
+      <% else %>
+        Deleted
+      <% end %>
+    </td>
+  </tr>
+</table>

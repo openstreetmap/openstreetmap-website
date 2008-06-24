@@ -1,8 +1,22 @@
 <h2>Node History: <%= h(@name) %></h2>
-<%= render :partial => 'common', :locals => { :obj => @node, :type => "node" } %>
-<h2>Hisorical Versions</h2> 
-<% @node.old_nodes.reverse.each do |node| %>
-<%= render :partial => 'common_editedby', :locals => { :obj => node } %>
-<%= render :partial => 'tag_table', :locals => { :tags => node.tags_as_hash } %>
-<hr />
-<% end %>
+
+<table width="100%">
+  <tr valign="top">
+    <td>
+      <% @node.old_nodes.reverse.each do |node| %>
+        <%= render :partial => "node_details", :object => node %>
+        <hr />
+      <% end %>
+      <%= link_to "Download XML", :controller => "old_node", :action => "history" %>
+      or
+      <%= link_to "view details", :action => "node" %>
+    </td>
+    <td align="right">
+      <% if @node.visible %>
+        <%= render :partial => "map", :locals => { :type => "node", :id => @node.id } %>
+      <% else %>
+        Deleted
+      <% end %>
+    </td>
+  </tr>
+</table>

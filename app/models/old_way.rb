@@ -108,5 +108,20 @@ class OldWay < ActiveRecord::Base
       el1 << e
     end
     return el1
-  end 
+  end
+
+  # Temporary method to match interface to nodes
+  def tags_as_hash
+    return self.tags
+  end
+
+  # Temporary method to match interface to ways
+  def way_nodes
+    return self.old_nodes
+  end
+
+  # Pretend we're not in any relations
+  def containing_relation_members
+    return []
+  end
 end

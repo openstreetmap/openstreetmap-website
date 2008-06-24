@@ -58,4 +58,14 @@ class OldNode < ActiveRecord::Base
     end
     hash
   end
+
+  # Pretend we're not in any ways
+  def ways
+    return []
+  end
+
+  # Pretend we're not in any relations
+  def containing_relation_members
+    return []
+  end
 end

@@ -1,8 +1,22 @@
 <h2>Way History: <%= h(@name) %></h2>
-<%= render :partial => 'common', :locals => { :obj => @way, :type => "way" } %>
-<h2>Hisorical Versions</h2> 
-<% @way.old_ways.reverse.each do |way| %>
-<%= render :partial => 'common_editedby', :locals => { :obj => way } %>
-<%= render :partial => 'tag_table', :locals => { :tags => way.tags } %>
-<hr />
-<% end %>
+
+<table width="100%">
+  <tr valign="top">
+    <td>
+      <% @way.old_ways.reverse.each do |way| %>
+        <%= render :partial => "way_details", :object => way %>
+        <hr />
+      <% end %>
+      <%= link_to "Download XML", :controller => "old_way", :action => "history" %>
+      or
+      <%= link_to "view details", :action => "way" %>
+    </td>
+    <td align="right">
+      <% if @way.visible %>
+        <%= render :partial => "map", :locals => { :type => "way", :id => @way.id } %>
+      <% else %>
+        Deleted
+      <% end %>
+    </td>
+  </tr>
+</table>

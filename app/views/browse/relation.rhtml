@@ -1,5 +1,26 @@
-<%= render :partial => 'navigation', :locals => { :type => "relation" } %>
-<h2>Relation Browser: <%= h(@name) %></h2>
-<%= render :partial => 'common', :locals => { :obj => @relation, :type => "relation" } %>
-<%= render :partial => 'tag_table', :locals => { :tags => @relation.tags } %>
-<%= render :partial => 'relation_members', :locals => { :members => @relation.relation_members } %>
+<table width="100%">
+  <tr>
+    <td>
+      <h2>Relation: <%= h(@name) %></h2>
+    </td>
+    <td>
+      <%= render :partial => "navigation" %>
+    </td>
+  </tr>
+  <tr valign="top">
+    <td>
+      <%= render :partial => "relation_details", :object => @relation %>
+      <hr />
+      <%= link_to "Download XML", :controller => "relation", :action => "read" %>
+      or
+      <%= link_to "view history", :action => "relation_history" %>
+    </td>
+    <td align="right">
+      <% if @relation.visible %>
+        <%= render :partial => "map", :locals => { :type => "relation", :id => @relation.id } %>
+      <% else %>
+        Deleted
+      <% end %>
+    </td>
+  </tr>
+</table>

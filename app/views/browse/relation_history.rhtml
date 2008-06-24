@@ -1,9 +1,22 @@
 <h2>Relation History: <%= h(@name) %></h2>
-<%= render :partial => 'common', :locals => { :obj => @relation, :type => "relation" } %>
-<h2>Hisorical Versions</h2> 
-<% @relation.old_relations.reverse.each do |relation| %>
-<%= render :partial => 'common_editedby', :locals => { :obj => relation } %>
-<%= render :partial => 'tag_table', :locals => { :tags => relation.tags } %>
-<%= render :partial => 'relation_members', :locals => { :members => relation.old_members } %>
-<hr />
-<% end %>
+
+<table width="100%">
+  <tr valign="top">
+    <td>
+      <% @relation.old_relations.reverse.each do |relation| %>
+        <%= render :partial => "relation_details", :object => relation %>
+        <hr />
+      <% end %>
+      <%= link_to "Download XML", :controller => "old_relation", :action => "history" %>
+      or
+      <%= link_to "view details", :action => "relation" %>
+    </td>
+    <td align="right">
+      <% if @relation.visible %>
+        <%= render :partial => "map", :locals => { :type => "relation", :id => @relation.id } %>
+      <% else %>
+        Deleted
+      <% end %>
+    </td>
+  </tr>
+</table>

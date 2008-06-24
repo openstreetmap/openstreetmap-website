@@ -257,4 +257,9 @@ class Way < ActiveRecord::Base
     self.delete_with_relations_and_history(user)
 
   end
+
+  # Temporary method to match interface to nodes
+  def tags_as_hash
+    return self.tags
+  end
 end
