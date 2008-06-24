@@ -124,8 +124,6 @@ class ApiController < ApplicationController
       return
     end
 
-    relations = Array.new
-
     doc = OSM::API.new.get_xml_doc
 
     # get ways
@@ -170,19 +168,15 @@ class ApiController < ApplicationController
       end
     end 
 
-    relations = Relation.find_for_nodes_and_ways(visible_nodes.keys, way_ids)
+    relations = visible_nodes.values.collect { |node| node.containing_relations.visible }.flatten +
+                way_ids.collect { |id| Way.find(id).containing_relations.visible }.flatten
 
     # we do not normally return the "other" partners referenced by an relation, 
     # e.g. if we return a way A that is referenced by relation X, and there's 
     # another way B also referenced, that is not returned. But we do make 
     # an exception for cases where an relation references another *relation*; 
     # in that case we return that as well (but we don't go recursive here)
-    relation_ids = relations.collect { |relation| relation.id }
-    if relation_ids.length > 0
-        relations += Relation.find_by_sql("select e.* from current_relations e,current_relation_members em where " +
-            "e.visible=1 and " +
-            "em.id = e.id and em.member_type='relation' and em.member_id in (#{relation_ids.join(',')})")
-    end
+    relations += relations.collect { |relation| relation.containing_relations.visible }.flatten
 
     # this "uniq" may be slightly inefficient; it may be better to first collect and output
     # all node-related relations, then find the *not yet covered* way-related ones etc.

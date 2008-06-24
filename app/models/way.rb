@@ -13,7 +13,7 @@ class Way < ActiveRecord::Base
   has_many :way_tags, :foreign_key => 'id'
 
   has_many :containing_relation_members, :class_name => "RelationMember", :as => :member
-  has_many :containing_relations, :class_name => "Relation", :through => :containing_relation_members, :source => :relation
+  has_many :containing_relations, :class_name => "Relation", :through => :containing_relation_members, :source => :relation, :extend => ObjectFinder
 
   def self.from_xml(xml, create=false)
     begin

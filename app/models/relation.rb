@@ -11,7 +11,7 @@ class Relation < ActiveRecord::Base
   has_many :relation_tags, :foreign_key => 'id'
 
   has_many :containing_relation_members, :class_name => "RelationMember", :as => :member
-  has_many :containing_relations, :class_name => "Relation", :through => :containing_relation_members, :source => :relation
+  has_many :containing_relations, :class_name => "Relation", :through => :containing_relation_members, :source => :relation, :extend => ObjectFinder
 
   def self.from_xml(xml, create=false)
     begin
@@ -104,29 +104,6 @@ class Relation < ActiveRecord::Base
     end
     return el1
   end 
-
-    
-  # collect relationships. currently done in one big block at the end;
-  # may need to move this upwards if people want automatic completion of
-  # relationships, i.e. deliver referenced objects like we do with ways... 
-  # FIXME: rip out the fucking SQL
-  def self.find_for_nodes_and_ways(node_ids, way_ids)
-    relations = []
-
-    if node_ids.length > 0
-      relations += Relation.find_by_sql("select e.* from current_relations e,current_relation_members em where " +
-            "e.visible=1 and " +
-            "em.id = e.id and em.member_type='node' and em.member_id in (#{node_ids.join(',')})")
-    end
-    if way_ids.length > 0
-      relations += Relation.find_by_sql("select e.* from current_relations e,current_relation_members em where " +
-            "e.visible=1 and " +
-            "em.id = e.id and em.member_type='way' and em.member_id in (#{way_ids.join(',')})")
-    end
-
-    relations # if you don't do this then it returns nil and not []
-  end
-
 
   # FIXME is this really needed?
   def members
