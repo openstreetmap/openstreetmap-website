@@ -1,15 +1,21 @@
 <%= javascript_include_tag '/openlayers/OpenLayers.js' %>
 <%= javascript_include_tag '/openlayers/OpenStreetMap.js' %>
 <%= javascript_include_tag 'map.js' %>
-<div id="small_map" style="width:250px; height: 300px; border: solid 1px black">
-</div>
-<span id="loading">Loading...</span>
-<a id="larger_map" href=""></a>
+<td align="right">
+  <% if map.visible %>
+    <div id="small_map" style="width:250px; height: 300px; border: solid 1px black">
+    </div>
+    <span id="loading">Loading...</span>
+    <a id="larger_map" href=""></a>
+  <% else %>
+    Deleted
+  <% end %>
+</td>
 <script type="text/javascript">
   function init() {
-    var obj_type = "<%= type %>";
-    var obj_id = <%= id %>;
-    var url = "/api/<%= "#{API_VERSION}" %>/<%= type %>/<%= id %>";
+    var obj_type = "<%= map.class.name.downcase %>";
+    var obj_id = <%= map.id %>;
+    var url = "/api/<%= "#{API_VERSION}" %>/<%= map.class.name.downcase %>/<%= map.id %>";
 
     if (obj_type != "node") {
       url += "/full";

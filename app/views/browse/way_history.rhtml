@@ -11,12 +11,6 @@
       or
       <%= link_to "view details", :action => "way" %>
     </td>
-    <td align="right">
-      <% if @way.visible %>
-        <%= render :partial => "map", :locals => { :type => "way", :id => @way.id } %>
-      <% else %>
-        Deleted
-      <% end %>
-    </td>
+    <%= render :partial => "map", :object => @way %>
   </tr>
 </table>

@@ -15,12 +15,6 @@
       or
       <%= link_to "view history", :action => "relation_history" %>
     </td>
-    <td align="right">
-      <% if @relation.visible %>
-        <%= render :partial => "map", :locals => { :type => "relation", :id => @relation.id } %>
-      <% else %>
-        Deleted
-      <% end %>
-    </td>
+    <%= render :partial => "map", :object => @relation %>
   </tr>
 </table>
