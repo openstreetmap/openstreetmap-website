@@ -43,8 +43,8 @@ class ApplicationController < ActionController::Base
     end 
   end 
 
-  def check_database_availability
-    if OSM_STATUS == :database_offline
+  def check_database_availability(need_api = false)
+    if OSM_STATUS == :database_offline or (need_api and OSM_STATUS == :api_offline)
       redirect_to :controller => 'site', :action => 'offline'
     end
   end

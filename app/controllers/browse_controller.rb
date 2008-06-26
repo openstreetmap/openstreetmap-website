@@ -1,6 +1,8 @@
 class BrowseController < ApplicationController
-  before_filter :authorize_web  
   layout 'site'
+
+  before_filter :authorize_web  
+  before_filter { |c| c.check_database_availability(true) }
 
   def start 
   end
