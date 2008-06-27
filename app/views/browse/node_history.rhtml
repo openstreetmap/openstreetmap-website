@@ -1,0 +1,16 @@
+<h2>Node History: <%= h(@name) %></h2>
+
+<table width="100%">
+  <tr valign="top">
+    <td>
+      <% @node.old_nodes.reverse.each do |node| %>
+        <%= render :partial => "node_details", :object => node %>
+        <hr />
+      <% end %>
+      <%= link_to "Download XML", :controller => "old_node", :action => "history" %>
+      or
+      <%= link_to "view details", :action => "node" %>
+    </td>
+    <%= render :partial => "map", :object => @node %>
+  </tr>
+</table>

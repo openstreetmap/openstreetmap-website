@@ -1,0 +1,20 @@
+<table width="100%">
+  <tr>
+    <td>
+      <h2>Node: <%= h(@name) %></h2>
+    </td>
+    <td>
+      <%= render :partial => "navigation" %>
+    </td>
+  </tr>
+  <tr valign="top">
+    <td>
+      <%= render :partial => "node_details", :object => @node %>
+      <hr />
+      <%= link_to "Download XML", :controller => "node", :action => "read" %>
+      or
+      <%= link_to "view history", :action => "node_history" %>
+    </td>
+    <%= render :partial => "map", :object => @node %>
+  </tr>
+</table>

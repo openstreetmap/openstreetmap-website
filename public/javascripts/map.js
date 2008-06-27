@@ -7,9 +7,11 @@ OpenLayers._getScriptLocation = function () {
    return "/openlayers/";
 }
 
-function createMap(divName) {
+function createMap(divName, options) {
+   options = options || {};
+
    map = new OpenLayers.Map(divName, {
-      controls: [
+      controls: options.controls || [
          new OpenLayers.Control.ArgParser(),
          new OpenLayers.Control.Attribution(),
          new OpenLayers.Control.LayerSwitcher(),
@@ -18,7 +20,7 @@ function createMap(divName) {
          new OpenLayers.Control.ScaleLine()
       ],
       units: "m",
-      maxResolution: 156543,
+      maxResolution: 156543.0339,
       numZoomLevels: 20
    });
 

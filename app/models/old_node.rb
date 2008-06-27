@@ -50,4 +50,22 @@ class OldNode < ActiveRecord::Base
     el1['timestamp'] = self.timestamp.xmlschema
     return el1
   end
+  
+  def tags_as_hash
+    hash = {}
+    Tags.split(self.tags) do |k,v|
+      hash[k] = v
+    end
+    hash
+  end
+
+  # Pretend we're not in any ways
+  def ways
+    return []
+  end
+
+  # Pretend we're not in any relations
+  def containing_relation_members
+    return []
+  end
 end
