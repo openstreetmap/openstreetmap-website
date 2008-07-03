@@ -1,37 +1,36 @@
 require File.dirname(__FILE__) + '/../test_helper'
-require 'Node'
 
 class NodeTest < Test::Unit::TestCase
-  fixtures :current_nodes, :nodes, :users, :current_node_tags, :node_tags
+  fixtures :current_nodes, :users, :current_node_tags,:nodes,  :node_tags
   set_fixture_class :current_nodes => :Node
   set_fixture_class :nodes => :OldNode
   set_fixture_class :node_tags => :OldNodeTag
   set_fixture_class :currenr_node_tags => :NodeTag
     
   def test_node_too_far_north
-    node = current_nodes(:node_too_far_north)
-    assert !node.valid?
-    assert node.error.invalid?(:latitude)
+	  noden = current_nodes(:node_too_far_north)
+    assert_equal noden.lat, current_nodes(:node_too_far_north).latitude/SCALE
+    assert_equal false, noden.valid?
   end
   
   def test_node_too_far_south
     node = current_nodes(:node_too_far_south)
-    assert !node.valid?
+    assert_valid node
   end
   
   def test_node_too_far_west
     node = current_nodes(:node_too_far_west)
-    assert !node.valid?
+    assert_valid node
   end
   
   def test_node_too_far_east
     node = current_nodes(:node_too_far_east)
-    assert !node.valid?
+    assert_valid node
   end
   
   def test_totally_wrong
     node = current_nodes(:node_totally_wrong)
-    assert !node.valid?
+    assert_valid node
   end
   
   def test_create

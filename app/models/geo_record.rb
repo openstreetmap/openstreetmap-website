@@ -1,7 +1,11 @@
 class GeoRecord < ActiveRecord::Base
   before_save :update_tile
 
-  # Is this node within -90 >= latitude >= 90 and -180 >= longitude >= 180
+  # This is a scaling factor for going between the lat and lon via the API
+  # and the longitude and latitude that is stored in the database
+  SCALE = 10000000
+
+  # Is this node within -90 <= latitude <= 90 and -180 <= longitude <= 180
   # * returns true/false
   def in_world?
     return false if self.lat < -90 or self.lat > 90
@@ -20,21 +24,21 @@ class GeoRecord < ActiveRecord::Base
   end
 
   def lat=(l)
-    self.latitude = (l * 10000000).round
+    self.latitude = (l * SCALE).round
   end
 
   def lon=(l)
-    self.longitude = (l * 10000000).round
+    self.longitude = (l * SCALE).round
   end
 
   # Return WGS84 latitude
   def lat
-    return self.latitude.to_f / 10000000
+    return self.latitude.to_f / SCALE
   end
 
   # Return WGS84 longitude
   def lon
-    return self.longitude.to_f / 10000000
+    return self.longitude.to_f / SCALE
   end
 
   # Potlatch projections

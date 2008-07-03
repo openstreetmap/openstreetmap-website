@@ -1,8 +1,9 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+<% SCALE = 10000000 unless defined?(SCALE) %>
 visible_node:
   id: 1
-  latitude: 1
-  longitude: 1
+  latitude: <%= 1*SCALE %>
+  longitude: <%= 1*SCALE %>
   user_id: 1
   visible: 1
   timestamp: 2007-01-01 00:00:00
@@ -41,33 +42,36 @@ node_used_by_relationship:
   
 node_too_far_north:
   id: 6
-  latitude: 92
-  longitude: 6
+  latitude: <%= 91*SCALE %>
+  longitude: <%= 6*SCALE %>
   user_id: 1
-  timestamp: 2008-05-02 00:00:00
+  timestamp: 2007-01-01 00:00:00
   
 node_too_far_south:
   id: 7
-  latitude: -92
+  latitude: -90
   longitude: 7
   user_id: 1
-  timestamp: 2008-05-02 00:00:00
+  timestamp: 2007-01-01 00:00:00
   
 node_too_far_west:
   id: 8
   latitude: 8
-  longitude: -180
+  longitude: -181
   user_id: 1
+  timestamp: 2007-01-01 00:00:00
   
 node_too_far_east:
   id: 9
   latitude: 9
   longitude: 180
   user_id: 1
+  timestamp: 2007-01-01 00:00:00
   
 node_totally_wrong:
   id: 10
   latitude: 1000
   longitude: 1000
   user_id: 1
+  timestamp: 2007-01-01 00:00:00
   
