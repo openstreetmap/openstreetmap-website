@@ -123,7 +123,9 @@ class AmfController < ApplicationController
     points = nodes_not_used_in_area.collect { |n| [n.id, n.lon_potlatch(baselong,masterscale), n.lat_potlatch(basey,masterscale), n.tags_as_hash] }
 
     # find the relations used by those nodes and ways
-    relation_ids = (Relation.find_for_nodes_and_ways(nodes_in_area.collect {|n| n.id}, way_ids)).collect {|n| n.id}.uniq
+    relations = nodes_in_area.collect { |node| node.containing_relations.visible }.flatten +
+                way_ids.collect { |id| Way.find(id).containing_relations.visible }.flatten
+    relation_ids = relations.collect { |relation| relation.id }.uniq
 
     [way_ids,points,relation_ids]
   end
@@ -376,10 +378,11 @@ class AmfController < ApplicationController
 
     RAILS_DEFAULT_LOGGER.info("  Message: putway, id=#{originalway}")
 
-    # -- Check for null IDs or short ways
+    # -- Check for null IDs, short ways or lats=90
 
     points.each do |a|
       if a[2]==0 or a[2].nil? then return -2,"Server error - node with id 0 found in way #{originalway}." end
+      if coord2lat(a[1],masterscale,basey)==90 then return -2,"Server error - node with lat -90 found in way #{originalway}." end
     end
     
     if points.length<2 then return -2,"Server error - way is only #{points.length} points long." end
@@ -638,8 +641,8 @@ class AmfController < ApplicationController
     #   which means the SWF needs to allocate new ids
     # - if it's an invisible node, we can reuse the old node id
 
-    # get node list from specified version of way,
-    # and the _current_ lat/long/tags of each node
+    # -----	get node list from specified version of way,
+    #		and the _current_ lat/long/tags of each node
 
     row=ActiveRecord::Base.connection.select_one("SELECT timestamp FROM ways WHERE version=#{version} AND id=#{id}")
     waytime=row['timestamp']
@@ -654,31 +657,31 @@ class AmfController < ApplicationController
   EOF
     rows=ActiveRecord::Base.connection.select_all(sql)
 
-    # if historic (full revert), get the old version of each node
-    # - if it's in another way now, generate a new id
-    # - if it's not in another way, use the old ID
+    # -----	if historic (full revert), get the old version of each node
+    # 		- if it's in another way now, generate a new id
+    # 		- if it's not in another way, use the old ID
+
     if historic then
       rows.each_index do |i|
         sql=<<-EOF
     SELECT latitude*0.0000001 AS latitude,longitude*0.0000001 AS longitude,tags,cwn.id AS currentway 
       FROM nodes n
-   LEFT JOIN current_way_nodes cwn
-      ON cwn.node_id=n.id
+ LEFT JOIN current_way_nodes cwn
+        ON cwn.node_id=n.id AND cwn.id!=#{id} 
      WHERE n.id=#{rows[i]['id']} 
        AND n.timestamp<="#{waytime}" 
-     AND cwn.id!=#{id} 
-     ORDER BY n.timestamp DESC 
+  ORDER BY n.timestamp DESC 
      LIMIT 1
     EOF
         row=ActiveRecord::Base.connection.select_one(sql)
-        unless row.nil? then
-          nx=row['longitude'].to_f
-          ny=row['latitude'].to_f
+        nx=row['longitude'].to_f
+        ny=row['latitude'].to_f
+        if (!row.nil?)
           if (row['currentway'] && (nx!=rows[i]['longitude'].to_f or ny!=rows[i]['latitude'].to_f or row['tags']!=rows[i]['tags'])) then rows[i]['id']=-1 end
-          rows[i]['longitude']=nx
-          rows[i]['latitude' ]=ny
-          rows[i]['tags'     ]=row['tags']
-        end
+		end
+        rows[i]['longitude']=nx
+        rows[i]['latitude' ]=ny
+        rows[i]['tags'     ]=row['tags']
       end
     end
     rows

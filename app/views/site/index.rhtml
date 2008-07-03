@@ -8,6 +8,14 @@
 <%= render :partial => 'key' %>
 <%= render :partial => 'search' %>
 
+<noscript>
+  <div id="noscript">
+    <p>You are either using a browser that doesn't support javascript, or you have disabled javascript.</p>
+    <p>OpenStreetMap uses javascript for its slippy map.</p>
+    <p>You may want to try the <a href="http://tah.openstreetmap.org/Browse/">Tiles@Home static tile browser</a> if you are unable to enable javascript.</p>
+  </div>
+</noscript>
+
 <div id="map">
 <div id="permalink"><a href="/" id="permalinkanchor">Permalink</a></div>
 </div> 
@@ -21,7 +29,7 @@
 <tr>
 <td colspan="2" align="center">
 Licensed under the Creative Commons Attribution-Share Alike 2.0 license
-by the OpenStreetMap project and it's contributors.
+by the OpenStreetMap project and its contributors.
 </td>
 </table>
 </div>
@@ -50,8 +58,8 @@ by the OpenStreetMap project and it's contributors.
 <% lat = h(params['mlat']) %>
 <% zoom =  h(params['zoom'] || '12') %>
 <% layers = h(params['layers']) %>
-<% elsif cookies.key?("location") %>
-<% lon,lat,zoom,layers = cookies["location"].split(",") %>
+<% elsif cookies.key?("_osm_location") %>
+<% lon,lat,zoom,layers = cookies["_osm_location"].split("|") %>
 <% elsif @user and !@user.home_lon.nil? and !@user.home_lat.nil? %> 
 <% lon =  @user.home_lon %>
 <% lat =  @user.home_lat %>
@@ -68,8 +76,8 @@ by the OpenStreetMap project and it's contributors.
 <% lon =  '-0.1' %>
 <% lat =  '51.5' %>
 <% zoom =  h(params['zoom'] || '5') %>
-<% layers = h(params['layers']) %>
 <% end %>
+<% layers = h(params['layers']) %>
 <% end %>
 
 <%= javascript_include_tag '/openlayers/OpenLayers.js' %>
@@ -86,6 +94,12 @@ by the OpenStreetMap project and it's contributors.
   function mapInit(){
     map = createMap("map");
 
+    <% unless OSM_STATUS == :api_offline or OSM_STATUS == :database_offline %>
+    map.dataLayer = new OpenLayers.Layer("Data", { "visibility": false });
+    map.dataLayer.events.register("visibilitychanged", map.dataLayer, toggleData);
+    map.addLayer(map.dataLayer);
+    <% end %>
+
     <% if bbox %>
     var bbox = new OpenLayers.Bounds(<%= minlon %>, <%= minlat %>, <%= maxlon %>, <%= maxlat %>);
 
@@ -101,7 +115,7 @@ by the OpenStreetMap project and it's contributors.
     setMapCenter(centre, zoom);
     <% end %>
 
-    <% if layers %>
+    <% if !layers.nil? and !layers.empty? %>
     setMapLayers("<%= layers %>");
     <% end %>
 
@@ -116,6 +130,14 @@ by the OpenStreetMap project and it's contributors.
     updateLocation();
 
     handleResize();
+  }
+
+  function toggleData() {
+    if (map.dataLayer.visibility) {
+      <%= remote_function :url => { :controller => 'browse', :action => 'start' } %>
+    } else {
+      closeSidebar();
+    }
   }
 
   function getPosition() {
@@ -140,7 +162,7 @@ by the OpenStreetMap project and it's contributors.
 
     updatelinks(lonlat.lon, lonlat.lat, zoom, layers);
 
-    document.cookie = "location=" + lonlat.lon + "," + lonlat.lat + "," + zoom + "," + layers;
+    document.cookie = "_osm_location=" + lonlat.lon + "|" + lonlat.lat + "|" + zoom + "|" + layers;
   }
 
   function resizeContent() {

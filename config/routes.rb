@@ -63,6 +63,16 @@ ActionController::Routing::Routes.draw do |map|
   map.connect "api/#{API_VERSION}/amf", :controller =>'amf', :action =>'talk'
   map.connect "api/#{API_VERSION}/swf/trackpoints", :controller =>'swf', :action =>'trackpoints'
   
+  # Data browsing
+  map.connect '/browse', :controller => 'browse', :action => 'index'
+  map.connect '/browse/start', :controller => 'browse', :action => 'start'
+  map.connect '/browse/way/:id', :controller => 'browse', :action => 'way', :id => /\d+/
+  map.connect '/browse/way/:id/history', :controller => 'browse', :action => 'way_history', :id => /\d+/
+  map.connect '/browse/node/:id', :controller => 'browse', :action => 'node', :id => /\d+/
+  map.connect '/browse/node/:id/history', :controller => 'browse', :action => 'node_history', :id => /\d+/
+  map.connect '/browse/relation/:id', :controller => 'browse', :action => 'relation', :id => /\d+/
+  map.connect '/browse/relation/:id/history', :controller => 'browse', :action => 'relation_history', :id => /\d+/
+  
   # web site
 
   map.connect '/', :controller => 'site', :action => 'index'
@@ -70,6 +80,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/export', :controller => 'site', :action => 'export'
   map.connect '/login', :controller => 'user', :action => 'login'
   map.connect '/logout', :controller => 'user', :action => 'logout'
+  map.connect '/offline', :controller => 'site', :action => 'offline'
   map.connect '/user/new', :controller => 'user', :action => 'new'
   map.connect '/user/save', :controller => 'user', :action => 'save'
   map.connect '/user/confirm', :controller => 'user', :action => 'confirm'
@@ -150,7 +161,6 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/message/read/:message_id', :controller => 'message', :action => 'read'
   map.connect '/message/mark/:message_id', :controller => 'message', :action => 'mark'
   map.connect '/message/reply/:message_id', :controller => 'message', :action => 'reply'
-  map.connect '/message/delete/:message_id', :controller => 'message', :action => 'destroy'
 
   # fall through
   map.connect ':controller/:id/:action'

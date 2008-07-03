@@ -1,0 +1,22 @@
+<tr>
+  <th>Edited at:</th>
+  <td><%= h(common_details.timestamp) %></td>
+</tr>
+
+<% if common_details.user.data_public %>
+  <tr>
+    <th>Edited by:</th>
+    <td><%= link_to h(common_details.user.display_name), :controller => "user", :action => "view", :display_name => common_details.user.display_name %></td>
+  </tr>
+<% end %>
+
+<% unless common_details.tags_as_hash.empty? %>
+  <tr valign="top">
+    <th>Tags:</th>
+    <td>
+      <table padding="0">
+        <%= render :partial => "tag", :collection => common_details.tags_as_hash %>
+      </table>
+    </td>
+  </tr>      
+<% end %>

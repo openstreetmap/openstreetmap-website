@@ -52,7 +52,7 @@
         <li><%= link_to 'Export', {:controller => 'site', :action => 'export'}, {:id => 'exportanchor', :title => 'export map data', :class => exportclass} %></li>
         <% end %>
         <li><%= link_to 'GPS Traces', {:controller => 'trace', :action => 'list'}, {:id => 'traceanchor', :title => 'manage traces', :class => traceclass} %></li>
-        <li><%= link_to 'User Diaries', {:controller => 'diary_entry', :action => 'list'}, {:id => 'diaryanchor', :title => 'view user diaries', :class => diaryclass} %></li>
+        <li><%= link_to 'User Diaries', {:controller => 'diary_entry', :action => 'list', :display_name => nil}, {:id => 'diaryanchor', :title => 'view user diaries', :class => diaryclass} %></li>
       </ul>
     </div>
 
@@ -76,12 +76,12 @@
       </div>
       <% end %>
 
-      <% if API_STATUS == :offline %>
+      <% if OSM_STATUS == :database_offline or OSM_STATUS == :api_offline %>
       <div id="alert">
         The OpenStreetMap database is currently offline while
         essential database maintenance work is carried out.
       </div>
-      <% elsif API_STATUS == :readonly %>
+      <% elsif OSM_STATUS == :api_readonly %>
       <div id="alert">
         The OpenStreetMap database is currently in read-only mode while
         essential database maintenance work is carried out.

@@ -1,0 +1,16 @@
+<h2>Way History: <%= h(@name) %></h2>
+
+<table width="100%">
+  <tr valign="top">
+    <td>
+      <% @way.old_ways.reverse.each do |way| %>
+        <%= render :partial => "way_details", :object => way %>
+        <hr />
+      <% end %>
+      <%= link_to "Download XML", :controller => "old_way", :action => "history" %>
+      or
+      <%= link_to "view details", :action => "way" %>
+    </td>
+    <%= render :partial => "map", :object => @way %>
+  </tr>
+</table>

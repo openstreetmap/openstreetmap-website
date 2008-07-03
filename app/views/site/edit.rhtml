@@ -1,8 +1,8 @@
-<% if API_STATUS == :offline %>
+<% if OSM_STATUS == :database_offline or OSM_STATUS == :api_offline %>
 <p>The OpenStreetMap database is currently offline while
    essential database maintenance work is carried out.
 </p>
-<% elsif API_STATUS == :readonly %>
+<% elsif OSM_STATUS == :api_readonly %>
 <p>The OpenStreetMap database is currently in read-only mode while
    essential database maintenance work is carried out.
 </p>
@@ -105,7 +105,29 @@
 
     resizeMap();
   }
+
+  function maximiseMap() {
+    $("left").style.display = "none";
+    $("greeting").style.display = "none";
+    $("tabnav").style.display = "none";
+
+    $("content").style.top = "10px";
+    $("content").style.left = "10px";
+
+    handleResize();
+  }
   
+  function minimiseMap() {
+    $("left").style.display = "";
+    $("greeting").style.display = "";
+    $("tabnav").style.display = "";
+
+    $("content").style.top = "35px";
+    $("content").style.left = "192px";
+
+    handleResize();
+  }
+
   handleResize();
 
   window.onload = handleResize;

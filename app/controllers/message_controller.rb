@@ -17,25 +17,15 @@ class MessageController < ApplicationController
         Notifier::deliver_message_notification(@message)
         redirect_to :controller => 'message', :action => 'inbox', :display_name => @user.display_name
       end
-    end
-  end
-
-  def destroy
-    @message = Message.find(params[:message_id], :conditions => ["to_user_id = ? or from_user_id = ?", @user.id, @user.id ])
-    if !@message.message_read
-      flash[:notice] = 'Message not read and so not deleted'
-      redirect_to :controller => 'message', :action => 'inbox', :display_name => @user.display_name
     else
-      flash[:notice] = "Message '#{@message.title}' deleted"
-      @message.destroy
-      redirect_to :controller => 'message', :action => 'inbox', :display_name => @user.display_name
+      @title = params[:title]
     end
   end
 
   def reply
     message = Message.find(params[:message_id], :conditions => ["to_user_id = ? or from_user_id = ?", @user.id, @user.id ])
-    @body = "\n\nOn #{message.sent_on} #{message.sender.display_name} wrote:\n #{message.body}" 
-    @title = "Re: #{message.title}"
+    @body = "On #{message.sent_on} #{message.sender.display_name} wrote:\n\n#{message.body.gsub(/^/, '> ')}" 
+    @title = "Re: #{message.title.sub(/^Re:\s*/, '')}"
     @user_id = message.from_user_id
     render :action => 'new'
   rescue ActiveRecord::RecordNotFound

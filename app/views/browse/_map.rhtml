@@ -1,0 +1,64 @@
+<%= javascript_include_tag '/openlayers/OpenLayers.js' %>
+<%= javascript_include_tag '/openlayers/OpenStreetMap.js' %>
+<%= javascript_include_tag 'map.js' %>
+<td align="right">
+  <% if map.visible %>
+    <div id="small_map" style="width:250px; height: 300px; border: solid 1px black">
+    </div>
+    <span id="loading">Loading...</span>
+    <a id="larger_map" href=""></a>
+  <% else %>
+    Deleted
+  <% end %>
+</td>
+<script type="text/javascript">
+  function init() {
+    var obj_type = "<%= map.class.name.downcase %>";
+    var obj_id = <%= map.id %>;
+    var url = "/api/<%= "#{API_VERSION}" %>/<%= map.class.name.downcase %>/<%= map.id %>";
+
+    if (obj_type != "node") {
+      url += "/full";
+    }
+
+    var map = createMap("small_map", {
+      controls: [ new OpenLayers.Control.Navigation() ]
+    });
+
+    var osm_layer = new OpenLayers.Layer.GML("OSM", url, {
+      format: OpenLayers.Format.OSM,
+      projection: new OpenLayers.Projection("EPSG:4326")
+    });
+
+    osm_layer.events.register("loadend", osm_layer, function() {
+      $("loading").innerHTML = "";
+
+      if (this.features.length) { 
+        var extent =  this.features[0].geometry.getBounds();
+
+        for (var i = 1; i < this.features.length; i++) {
+          extent.extend(this.features[i].geometry.getBounds());
+        }
+
+        if (extent) {
+          this.map.zoomToExtent(extent);
+        } else {
+          this.map.zoomToMaxExtent();
+	}
+
+	var center = getMapCenter();
+        $("larger_map").href = '/?lat='+center.lat+'&lon='+center.lon+'&zoom='+this.map.getZoom();
+        $("larger_map").innerHTML = "View Larger Map";
+      } else {
+        $("small_map").style.display = "none";
+      }
+    });
+
+    map.addLayer(osm_layer);
+
+    osm_layer.loadGML();
+    osm_layer.loaded = true;
+  }
+
+  window.onload = init;
+</script>

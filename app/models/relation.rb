@@ -1,14 +1,17 @@
 class Relation < ActiveRecord::Base
   require 'xml/libxml'
   
+  set_table_name 'current_relations'
+
   belongs_to :user
+
+  has_many :old_relations, :foreign_key => 'id', :order => 'version'
 
   has_many :relation_members, :foreign_key => 'id'
   has_many :relation_tags, :foreign_key => 'id'
 
-  has_many :old_relations, :foreign_key => 'id', :order => 'version'
-
-  set_table_name 'current_relations'
+  has_many :containing_relation_members, :class_name => "RelationMember", :as => :member
+  has_many :containing_relations, :class_name => "Relation", :through => :containing_relation_members, :source => :relation, :extend => ObjectFinder
 
   def self.from_xml(xml, create=false)
     begin
@@ -108,29 +111,6 @@ class Relation < ActiveRecord::Base
     end
     return el1
   end 
-
-    
-  # collect relationships. currently done in one big block at the end;
-  # may need to move this upwards if people want automatic completion of
-  # relationships, i.e. deliver referenced objects like we do with ways... 
-  # FIXME: rip out the fucking SQL
-  def self.find_for_nodes_and_ways(node_ids, way_ids)
-    relations = []
-
-    if node_ids.length > 0
-      relations += Relation.find_by_sql("select e.* from current_relations e,current_relation_members em where " +
-            "e.visible=1 and " +
-            "em.id = e.id and em.member_type='node' and em.member_id in (#{node_ids.join(',')})")
-    end
-    if way_ids.length > 0
-      relations += Relation.find_by_sql("select e.* from current_relations e,current_relation_members em where " +
-            "e.visible=1 and " +
-            "em.id = e.id and em.member_type='way' and em.member_id in (#{way_ids.join(',')})")
-    end
-
-    relations # if you don't do this then it returns nil and not []
-  end
-
 
   # FIXME is this really needed?
   def members
@@ -236,21 +216,48 @@ class Relation < ActiveRecord::Base
   end
 
   def preconditions_ok?
+    # These are hastables that store an id in the index of all 
+    # the nodes/way/relations that have already been added.
+    # Once we know the id of the node/way/relation exists
+    # we check to see if it is already existing in the hashtable
+    # if it does, then we return false. Otherwise
+    # we add it to the relevant hash table, with the value true..
+    # Thus if you have nodes with the ids of 50 and 1 already in the
+    # relation, then the hash table nodes would contain:
+    # => {50=>true, 1=>true}
+    nodes = Hash.new
+    ways = Hash.new
+    relations = Hash.new
     self.members.each do |m|
       if (m[0] == "node")
         n = Node.find(:first, :conditions => ["id = ?", m[1]])
         unless n and n.visible 
           return false
         end
+        if nodes[m[1]]
+          return false
+        else
+          nodes[m[1]] = true
+        end
       elsif (m[0] == "way")
         w = Way.find(:first, :conditions => ["id = ?", m[1]])
         unless w and w.visible and w.preconditions_ok?
           return false
         end
+        if ways[m[1]]
+          return false
+        else
+          ways[m[1]] = true
+        end
       elsif (m[0] == "relation")
         e = Relation.find(:first, :conditions => ["id = ?", m[1]])
         unless e and e.visible and e.preconditions_ok?
           return false
+        end
+        if relations[m[1]]
+          return false
+        else
+          relations[m[1]] = true
         end
       else
         return false
@@ -261,4 +268,8 @@ class Relation < ActiveRecord::Base
     return false
   end
 
+  # Temporary method to match interface to nodes
+  def tags_as_hash
+    return self.tags
+  end
 end
