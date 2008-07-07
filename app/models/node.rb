@@ -1,6 +1,5 @@
 class Node < ActiveRecord::Base
   require 'xml/libxml'
-
   include GeoRecord
 
   set_table_name 'current_nodes'
@@ -10,17 +9,14 @@ class Node < ActiveRecord::Base
   validates_numericality_of :latitude, :longitude
   validate :validate_position
 
-  belongs_to :user
-
   has_many :old_nodes, :foreign_key => :id
-
   has_many :way_nodes
-  has_many :ways, :through => :way_nodes
-
+  has_many :node_tags, :foreign_key => :id
+  belongs_to :user
+  
   has_many :containing_relation_members, :class_name => "RelationMember", :as => :member
   has_many :containing_relations, :class_name => "Relation", :through => :containing_relation_members, :source => :relation, :extend => ObjectFinder
-
-  # Sanity check the latitude and longitude and add an error if it's broken
+ 
   def validate_position
     errors.add_to_base("Node is not in the world") unless in_world?
   end
@@ -57,64 +53,109 @@ class Node < ActiveRecord::Base
       p = XML::Parser.new
       p.string = xml
       doc = p.parse
-  
-      node = Node.new
 
       doc.find('//osm/node').each do |pt|
-        node.lat = pt['lat'].to_f
-        node.lon = pt['lon'].to_f
-
-        return nil unless node.in_world?
-
-        unless create
-          if pt['id'] != '0'
-            node.id = pt['id'].to_i
-          end
-        end
-
-        node.visible = pt['visible'] and pt['visible'] == 'true'
-
-        if create
-          node.timestamp = Time.now
-        else
-          if pt['timestamp']
-            node.timestamp = Time.parse(pt['timestamp'])
-          end
-        end
-
-        tags = []
-
-        pt.find('tag').each do |tag|
-          tags << [tag['k'],tag['v']]
-        end
-
-        node.tags = Tags.join(tags)
+        return Node.from_xml_node(pt, create)
       end
     rescue
-      node = nil
+      return nil
+    end
+  end
+
+  def self.from_xml_node(pt, create=false)
+    node = Node.new
+    
+    node.version = pt['version']
+    node.lat = pt['lat'].to_f
+    node.lon = pt['lon'].to_f
+
+    return nil unless node.in_world?
+
+    unless create
+      if pt['id'] != '0'
+        node.id = pt['id'].to_i
+      end
+    end
+
+    node.visible = pt['visible'] and pt['visible'] == 'true'
+
+    if create
+      node.timestamp = Time.now
+    else
+      if pt['timestamp']
+        node.timestamp = Time.parse(pt['timestamp'])
+      end
+    end
+
+    tags = []
+
+    pt.find('tag').each do |tag|
+      node.add_tag_key_val(tag['k'],tag['v'])
     end
 
     return node
   end
 
-  # Save this node with the appropriate OldNode object to represent it's history.
   def save_with_history!
+    t = Time.now
     Node.transaction do
-      self.timestamp = Time.now
+      self.version += 1
+      self.timestamp = t
       self.save!
+
+      # Create a NodeTag
+      tags = self.tags
+      NodeTag.delete_all(['id = ?', self.id])
+      tags.each do |k,v|
+        tag = NodeTag.new
+        tag.k = k 
+        tag.v = v 
+        tag.id = self.id
+        tag.save!
+      end 
+
+      # Create an OldNode
       old_node = OldNode.from_node(self)
-      old_node.save!
+      old_node.timestamp = t
+      old_node.save_with_dependencies!
     end
   end
 
-  # Turn this Node in to a complete OSM XML object with <osm> wrapper
+  def delete_with_history(user)
+    if self.visible
+      if WayNode.find(:first, :joins => "INNER JOIN current_ways ON current_ways.id = current_way_nodes.id", :conditions => [ "current_ways.visible = 1 AND current_way_nodes.node_id = ?", self.id ])
+	raise OSM::APIPreconditionFailedError.new
+      elsif RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", :conditions => [ "visible = 1 AND member_type='node' and member_id=?", self.id])
+	raise OSM::APIPreconditionFailedError.new
+      else
+	self.user_id = user.id
+	self.visible = 0
+	save_with_history!
+      end
+    else
+      raise OSM::APIAlreadyDeletedError.new
+    end
+  end
+
+  def update_from(new_node, user)
+    if new_node.version != version
+      raise OSM::APIVersionMismatchError.new(new_node.version, version)
+    end
+
+    self.user_id = user.id
+    self.latitude = new_node.latitude 
+    self.longitude = new_node.longitude
+    self.tags = new_node.tags
+    self.visible = true
+    save_with_history!
+  end
+
   def to_xml
     doc = OSM::API.new.get_xml_doc
     doc.root << to_xml_node()
     return doc
   end
 
-  # Turn this Node in to an XML Node without the <osm> wrapper.
   def to_xml_node(user_display_name_cache = nil)
     el1 = XML::Node.new 'node'
     el1['id'] = self.id.to_s
@@ -133,7 +174,7 @@ class Node < ActiveRecord::Base
 
     el1['user'] = user_display_name_cache[self.user_id] unless user_display_name_cache[self.user_id].nil?
 
-    Tags.split(self.tags) do |k,v|
+    self.tags.each do |k,v|
       el2 = XML::Node.new('tag')
       el2['k'] = k.to_s
       el2['v'] = v.to_s
@@ -142,15 +183,33 @@ class Node < ActiveRecord::Base
 
     el1['visible'] = self.visible.to_s
     el1['timestamp'] = self.timestamp.xmlschema
+    el1['version'] = self.version.to_s
     return el1
   end
 
-  # Return the node's tags as a Hash of keys and their values
   def tags_as_hash
-    hash = {}
-    Tags.split(self.tags) do |k,v|
-      hash[k] = v
-    end
-    hash
+    return tags
   end
+
+  def tags
+    unless @tags
+      @tags = {}
+      self.node_tags.each do |tag|
+        @tags[tag.k] = tag.v
+      end
+    end
+    @tags
+  end
+
+  def tags=(t)
+    @tags = t 
+  end 
+
+  def add_tag_key_val(k,v)
+    @tags = Hash.new unless @tags
+    @tags[k] = v
+  end
+
+
+
 end

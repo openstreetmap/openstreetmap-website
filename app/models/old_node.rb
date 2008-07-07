@@ -1,6 +1,5 @@
-class OldNode < ActiveRecord::Base
-  include GeoRecord
-
+class OldNode < ActiveRecord::Base 
+ 	include GeoRecord
   set_table_name 'nodes'
   
   validates_presence_of :user_id, :timestamp
@@ -29,7 +28,14 @@ class OldNode < ActiveRecord::Base
     old_node.timestamp = node.timestamp
     old_node.user_id = node.user_id
     old_node.id = node.id
+    old_node.version = node.version
     return old_node
+  end
+  
+  def to_xml
+    doc = OSM::API.new.get_xml_doc
+    doc.root << to_xml_node()
+    return doc
   end
 
   def to_xml_node
@@ -39,7 +45,7 @@ class OldNode < ActiveRecord::Base
     el1['lon'] = self.lon.to_s
     el1['user'] = self.user.display_name if self.user.data_public?
 
-    Tags.split(self.tags) do |k,v|
+    self.tags.each do |k,v|
       el2 = XML::Node.new('tag')
       el2['k'] = k.to_s
       el2['v'] = v.to_s
@@ -48,24 +54,57 @@ class OldNode < ActiveRecord::Base
 
     el1['visible'] = self.visible.to_s
     el1['timestamp'] = self.timestamp.xmlschema
+    el1['version'] = self.version.to_s
     return el1
   end
-  
-  def tags_as_hash
-    hash = {}
-    Tags.split(self.tags) do |k,v|
-      hash[k] = v
+
+  def save_with_dependencies!
+    save!
+    #not sure whats going on here
+    clear_aggregation_cache
+    clear_association_cache
+    #ok from here
+    @attributes.update(OldNode.find(:first, :conditions => ['id = ? AND timestamp = ?', self.id, self.timestamp]).instance_variable_get('@attributes'))
+   
+    self.tags.each do |k,v|
+      tag = OldNodeTag.new
+      tag.k = k
+      tag.v = v
+      tag.id = self.id
+      tag.version = self.version
+      tag.save!
     end
-    hash
   end
 
-  # Pretend we're not in any ways
-  def ways
-    return []
+  def tags
+    unless @tags
+        @tags = Hash.new
+        OldNodeTag.find(:all, :conditions => ["id = ? AND version = ?", self.id, self.version]).each do |tag|
+            @tags[tag.k] = tag.v
+        end
+    end
+    @tags = Hash.new unless @tags
+    @tags
   end
 
-  # Pretend we're not in any relations
-  def containing_relation_members
-    return []
-  end
+  def tags=(t)
+    @tags = t 
+  end 
+  def tags_as_hash 
+    hash = {} 
+    Tags.split(self.tags) do |k,v| 
+      hash[k] = v 
+    end 
+    hash 
+  end 
+ 
+  # Pretend we're not in any ways 
+  def ways 
+    return [] 
+  end 
+ 
+  # Pretend we're not in any relations 
+  def containing_relation_members 
+    return [] 
+  end 
 end

@@ -8,29 +8,38 @@ class NodeTest < Test::Unit::TestCase
   set_fixture_class :currenr_node_tags => :NodeTag
     
   def test_node_too_far_north
-	  noden = current_nodes(:node_too_far_north)
-    assert_equal noden.lat, current_nodes(:node_too_far_north).latitude/SCALE
-    assert_equal false, noden.valid?
+	  node = current_nodes(:node_too_far_north)
+    assert_equal node.lat, current_nodes(:node_too_far_north).latitude/SCALE
+    assert_equal node.lon, current_nodes(:node_too_far_north).longitude/SCALE
+    assert_equal false, node.valid?
   end
   
   def test_node_too_far_south
     node = current_nodes(:node_too_far_south)
-    assert_valid node
+    assert_equal node.lat, current_nodes(:node_too_far_south).latitude/SCALE
+    assert_equal node.lon, current_nodes(:node_too_far_south).longitude/SCALE
+    assert_equal false, node.valid?
   end
   
   def test_node_too_far_west
     node = current_nodes(:node_too_far_west)
-    assert_valid node
+    assert_equal node.lat, current_nodes(:node_too_far_west).latitude/SCALE
+    assert_equal node.lon, current_nodes(:node_too_far_west).longitude/SCALE
+    assert_equal false, node.valid?
   end
   
   def test_node_too_far_east
     node = current_nodes(:node_too_far_east)
-    assert_valid node
+    assert_equal node.lat, current_nodes(:node_too_far_east).latitude/SCALE
+    assert_equal node.lon, current_nodes(:node_too_far_east).longitude/SCALE
+    assert_equal false, node.valid?
   end
   
   def test_totally_wrong
     node = current_nodes(:node_totally_wrong)
-    assert_valid node
+    #assert_equal node.lat, current_nodes(:node_totally_wrong).latitude/SCALE
+    #assert_equal node.lon, current_nodes(:node_totally_wrong).longitude/SCALE
+    assert_equal false, node.valid?
   end
   
   def test_create
