@@ -2,8 +2,8 @@ class UserController < ApplicationController
   layout 'site'
 
   before_filter :authorize, :only => [:api_details, :api_gpx_files]
-  before_filter :authorize_web, :only => [:account, :go_public, :view, :diary, :make_friend, :remove_friend, :upload_image]
-  before_filter :require_user, :only => [:set_home, :account, :go_public, :make_friend, :remove_friend, :upload_image]
+  before_filter :authorize_web, :only => [:account, :go_public, :view, :diary, :make_friend, :remove_friend, :upload_image, :delete_image]
+  before_filter :require_user, :only => [:set_home, :account, :go_public, :make_friend, :remove_friend, :upload_image, :delete_image]
   before_filter :check_database_availability, :except => [:api_details, :api_gpx_files]
   before_filter :check_read_availability, :only => [:api_details, :api_gpx_files]
 
@@ -163,6 +163,12 @@ class UserController < ApplicationController
 
   def upload_image
     @user.image = params[:user][:image]
+    @user.save!
+    redirect_to :controller => 'user', :action => 'view', :display_name => @user.display_name
+  end
+
+  def delete_image
+    @user.image = nil
     @user.save!
     redirect_to :controller => 'user', :action => 'view', :display_name => @user.display_name
   end

@@ -81,6 +81,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/user/go_public', :controller => 'user', :action => 'go_public'
   map.connect '/user/reset-password', :controller => 'user', :action => 'reset_password'
   map.connect '/user/upload-image', :controller => 'user', :action => 'upload_image'
+  map.connect '/user/delete-image', :controller => 'user', :action => 'delete_image'
   map.connect '/user/forgot-password', :controller => 'user', :action => 'lost_password'
 
   map.connect '/index.html', :controller => 'site', :action => 'index'

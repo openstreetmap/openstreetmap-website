@@ -20,7 +20,10 @@
 
 <h3>User image</h3>
 <% if @this_user.image %>
- <%= image_tag url_for_file_column(@this_user, "image") %>
+  <%= image_tag url_for_file_column(@this_user, "image") %>
+  <% if @user and @this_user.id == @user.id %>
+    <%= button_to 'Delete Image', :action => 'delete_image' %>
+  <% end %>
 <% end %>
 <br />
 
@@ -28,7 +31,7 @@
   Upload an image<br />
   <%= form_tag({:action=>'upload_image'}, :multipart => true)%>
     <%= file_column_field 'user', 'image' %>
-    <input type="submit" name="Upload" />
+    <%= submit_tag 'Add Image' %>
   </form>
 <% end %>
 
