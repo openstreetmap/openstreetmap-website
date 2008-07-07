@@ -1,5 +1,6 @@
 class Node < ActiveRecord::Base
   require 'xml/libxml'
+
   include GeoRecord
 
   set_table_name 'current_nodes'
@@ -9,14 +10,19 @@ class Node < ActiveRecord::Base
   validates_numericality_of :latitude, :longitude
   validate :validate_position
 
-  has_many :old_nodes, :foreign_key => :id
-  has_many :way_nodes
-  has_many :node_tags, :foreign_key => :id
   belongs_to :user
+
+  has_many :old_nodes, :foreign_key => :id
+
+  has_many :way_nodes
+  has_many :ways, :through => :way_nodes
+
+  has_many :node_tags, :foreign_key => :id
   
   has_many :containing_relation_members, :class_name => "RelationMember", :as => :member
   has_many :containing_relations, :class_name => "Relation", :through => :containing_relation_members, :source => :relation, :extend => ObjectFinder
- 
+
+  # Sanity check the latitude and longitude and add an error if it's broken
   def validate_position
     errors.add_to_base("Node is not in the world") unless in_world?
   end
