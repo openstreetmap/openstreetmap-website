@@ -8,40 +8,64 @@ class NodeTest < Test::Unit::TestCase
   set_fixture_class :currenr_node_tags => :NodeTag
     
   def test_node_too_far_north
-	  node = current_nodes(:node_too_far_north)
-    assert_equal node.lat, current_nodes(:node_too_far_north).latitude/SCALE
-    assert_equal node.lon, current_nodes(:node_too_far_north).longitude/SCALE
-    assert_equal false, node.valid?
+	  invalid_node_test(:node_too_far_north)
+  end
+  
+  def test_node_north_limit
+    valid_node_test(:node_north_limit)
   end
   
   def test_node_too_far_south
-    node = current_nodes(:node_too_far_south)
-    assert_equal node.lat, current_nodes(:node_too_far_south).latitude/SCALE
-    assert_equal node.lon, current_nodes(:node_too_far_south).longitude/SCALE
-    assert_equal false, node.valid?
+    invalid_node_test(:node_too_far_south)
+  end
+  
+  def test_node_south_limit
+    valid_node_test(:node_south_limit)
   end
   
   def test_node_too_far_west
-    node = current_nodes(:node_too_far_west)
-    assert_equal node.lat, current_nodes(:node_too_far_west).latitude/SCALE
-    assert_equal node.lon, current_nodes(:node_too_far_west).longitude/SCALE
-    assert_equal false, node.valid?
+    invalid_node_test(:node_too_far_west)
+  end
+  
+  def test_node_west_limit
+    valid_node_test(:node_west_limit)
   end
   
   def test_node_too_far_east
-    node = current_nodes(:node_too_far_east)
-    assert_equal node.lat, current_nodes(:node_too_far_east).latitude/SCALE
-    assert_equal node.lon, current_nodes(:node_too_far_east).longitude/SCALE
-    assert_equal false, node.valid?
+    invalid_node_test(:node_too_far_east)
+  end
+  
+  def test_node_east_limit
+    valid_node_test(:node_east_limit)
   end
   
   def test_totally_wrong
-    node = current_nodes(:node_totally_wrong)
-    #assert_equal node.lat, current_nodes(:node_totally_wrong).latitude/SCALE
-    #assert_equal node.lon, current_nodes(:node_totally_wrong).longitude/SCALE
+    invalid_node_test(:node_totally_wrong)
+  end
+  
+  # This helper method will check to make sure that a node is within the world, and
+  # has the the same lat, lon and timestamp than what was put into the db by 
+  # the fixture
+  def valid_node_test(nod)
+    node = current_nodes(nod)
+    assert_equal node.lat, current_nodes(nod).latitude.to_f/SCALE
+    assert_equal node.lon, current_nodes(nod).longitude.to_f/SCALE
+    assert_equal node.timestamp, current_nodes(nod).timestamp
+    assert_valid node
+  end
+  
+  # This helpermethod will check to make sure that a node is outwith the world, 
+  # and has the same lat, lon and timesamp than what was put into the db by the
+  # fixture
+  def invalid_node_test(nod)
+    node = current_nodes(nod)
+    assert_equal node.lat, current_nodes(nod).latitude.to_f/SCALE
+    assert_equal node.lon, current_nodes(nod).longitude.to_f/SCALE
+    assert_equal node.timestamp, current_nodes(nod).timestamp
     assert_equal false, node.valid?
   end
   
+  # Check that you can create a node and store it
   def test_create
     node_template = Node.new(:latitude => 12.3456,
                              :longitude => 65.4321,
