@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class NodeTest < Test::Unit::TestCase
-  fixtures :current_nodes, :users, :current_node_tags,:nodes,  :node_tags
+  fixtures :current_nodes, :users, :current_node_tags, :nodes, :node_tags
   set_fixture_class :current_nodes => :Node
   set_fixture_class :nodes => :OldNode
   set_fixture_class :node_tags => :OldNodeTag
@@ -48,21 +48,31 @@ class NodeTest < Test::Unit::TestCase
   # the fixture
   def valid_node_test(nod)
     node = current_nodes(nod)
-    assert_equal node.lat, current_nodes(nod).latitude.to_f/SCALE
-    assert_equal node.lon, current_nodes(nod).longitude.to_f/SCALE
-    assert_equal node.timestamp, current_nodes(nod).timestamp
+    dbnode = Node.find(node.id)
+    assert_equal dbnode.lat, node.latitude.to_f/SCALE
+    assert_equal dbnode.lon, node.longitude.to_f/SCALE
+    assert_equal dbnode.user_id, node.user_id
+    assert_equal dbnode.timestamp, node.timestamp
+    assert_equal dbnode.version, node.version
+    assert_equal dbnode.visible, node.visible
+    #assert_equal node.tile, QuadTile.tile_for_point(node.lat, node.lon)
     assert_valid node
   end
   
-  # This helpermethod will check to make sure that a node is outwith the world, 
+  # This helper method will check to make sure that a node is outwith the world, 
   # and has the same lat, lon and timesamp than what was put into the db by the
   # fixture
   def invalid_node_test(nod)
     node = current_nodes(nod)
-    assert_equal node.lat, current_nodes(nod).latitude.to_f/SCALE
-    assert_equal node.lon, current_nodes(nod).longitude.to_f/SCALE
-    assert_equal node.timestamp, current_nodes(nod).timestamp
-    assert_equal false, node.valid?
+    dbnode = Node.find(node.id)
+    assert_equal dbnode.lat, node.latitude.to_f/SCALE
+    assert_equal dbnode.lon, node.longitude.to_f/SCALE
+    assert_equal dbnode.user_id, node.user_id
+    assert_equal dbnode.timestamp, node.timestamp
+    assert_equal dbnode.version, node.version
+    assert_equal dbnode.visible, node.visible
+    #assert_equal node.tile, QuadTile.tile_for_point(node.lat, node.lon)
+    assert_equal false, dbnode.valid?
   end
   
   # Check that you can create a node and store it

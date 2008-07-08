@@ -14,12 +14,6 @@ class OldNode < ActiveRecord::Base
     errors.add_to_base("Node is not in the world") unless in_world?
   end
 
-  def in_world?
-    return false if self.lat < -90 or self.lat > 90
-    return false if self.lon < -180 or self.lon > 180
-    return true
-  end
-
   def self.from_node(node)
     old_node = OldNode.new
     old_node.latitude = node.latitude
@@ -90,7 +84,8 @@ class OldNode < ActiveRecord::Base
 
   def tags=(t)
     @tags = t 
-  end 
+  end
+
   def tags_as_hash 
     hash = {} 
     Tags.split(self.tags) do |k,v| 
