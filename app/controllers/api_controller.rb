@@ -126,6 +126,14 @@ class ApiController < ApplicationController
 
     doc = OSM::API.new.get_xml_doc
 
+    # add bounds
+    bounds = XML::Node.new 'bounds'
+    bounds['minlat'] = min_lat.to_s
+    bounds['minlon'] = min_lon.to_s
+    bounds['maxlat'] = max_lat.to_s
+    bounds['maxlon'] = max_lon.to_s
+    doc.root << bounds
+
     # get ways
     # find which ways are needed
     ways = Array.new
