@@ -83,7 +83,7 @@ module Potlatch
       when 'Hash'
         a=3.chr
         n.each do |k,v|
-          a+=encodestring(k.to_s)+encodevalue(v)
+          a+=encodestring(k)+encodevalue(v)
         end
         a+0.chr+0.chr+9.chr
       when 'String'
@@ -195,10 +195,7 @@ module Potlatch
         }
       end
 
-	  # Read internationalisation
-	  localised = YAML::load(File.open("#{RAILS_ROOT}/config/potlatch/localised.yaml"))
-
-      [presets,presetmenus,presetnames,colours,casing,areas,autotags,relcolours,relalphas,relwidths,localised]
+      [presets,presetmenus,presetnames,colours,casing,areas,autotags,relcolours,relalphas,relwidths]
     end
   end
 
