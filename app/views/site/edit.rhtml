@@ -65,9 +65,9 @@
     fo.addVariable('token','<%= session[:token] %>');
     if (lat) { fo.addVariable('lat',lat); }
     if (lon) { fo.addVariable('long',lon); }
-    <% if params['gpx'] %>
-		fo.addVariable('gpx','<%= h(params['gpx']) %>');
-    <% end %>
+    <% if params['gpx']  %>fo.addVariable('gpx' ,'<%= h(params['gpx'] ) %>');<% end %>
+    <% if params['way']  %>fo.addVariable('way' ,'<%= h(params['way'] ) %>');<% end %>
+    <% if params['node'] %>fo.addVariable('node','<%= h(params['node']) %>');<% end %>
     fo.write("map");
   }
 
