@@ -36,4 +36,21 @@ class UserTest < Test::Unit::TestCase
     assert !new_user.save
     assert_equal ActiveRecord::Errors.default_error_messages[:taken], new_user.errors.on(:display_name)
   end
+  
+  def test_email_valid
+    ok = %w{ a@s.com test@shaunmcdonald.me.uk hello_local@ping-d.ng test_local@openstreetmap.org test-local@example.com }
+    bad = %w{ hi ht@ n@ @.com help@.me.uk help"hi.me.uk }
+    
+    ok.each do |name|
+      user = users(:normal_user)
+      user.email = name
+      assert user.valid?, user.errors.full_messages
+    end
+    
+    bad.each do |name|
+      user = users(:normal_user)
+      user.email = name
+      assert !user.valid?, "#{name} is valid when it shouldn't be" 
+    end
+  end
 end
