@@ -56,7 +56,13 @@ class UserTest < Test::Unit::TestCase
   
   def test_display_name_length
     user = users(:normal_user)
+    user.display_name = "123"
+    assert user.valid?, " should allow nil display name"
+    user.display_name = "12"
+    assert !user.valid?, "should not allow 2 char name"
+    user.display_name = ""
+    assert !user.valid?
     user.display_name = nil
-    asser user.valid, " should allow nil display name"
+    assert !user.valid?
   end
 end
