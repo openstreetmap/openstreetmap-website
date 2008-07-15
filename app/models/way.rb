@@ -235,11 +235,8 @@ class Way < ActiveRecord::Base
 
   # delete a way and it's nodes that aren't part of other ways, with history
   def delete_with_relations_and_nodes_and_history(user)
-    
-    node_ids_to_delete = self.unique_nodes
-
     # delete the nodes not used by other ways
-    node_ids_to_delete.each do |node_id|
+    self.unshared_node_ids.each do |node_id|
       n = Node.find(node_id)
       n.user_id = user.id
       n.visible = false
@@ -249,17 +246,18 @@ class Way < ActiveRecord::Base
     self.user_id = user.id
 
     self.delete_with_relations_and_history(user)
-
   end
 
   # Find nodes that belong to this way only
-  def unique_nodes
-    node_ids = self.nodes.collect {|node| node.id }
-    if node_ids.length==0 then return [] end
-    node_ids_in_other_ways = []
-    way_nodes = WayNode.find(:all, :conditions => "node_id in (#{node_ids.join(',')}) and id != #{self.id}")
-    node_ids_in_other_ways = way_nodes.collect {|way_node| way_node.node_id}
-    return node_ids - node_ids_in_other_ways
+  def unshared_node_ids
+    node_ids = self.nodes.collect { |node| node.id }
+
+    unless node_ids.empty?
+      way_nodes = WayNode.find(:all, :conditions => "node_id in (#{node_ids.join(',')}) and id != #{self.id}")
+      node_ids = node_ids - way_nodes.collect { |way_node| way_node.node_id }
+    end
+
+    return node_ids
   end
 
   # Temporary method to match interface to nodes

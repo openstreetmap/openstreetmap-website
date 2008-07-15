@@ -295,7 +295,7 @@ class AmfController < ApplicationController
 	  uniques=[]
 	else
 	  way=Way.find(originalway)
-	  uniques=way.unique_nodes
+	  uniques=way.unshared_node_ids
 	end
 
 	# -- Compare nodes and save changes to any that have changed
@@ -415,7 +415,7 @@ class AmfController < ApplicationController
 	#		 two nodes from the same relation
 	user = User.find(uid)
 	way = Way.find(way_id)
-	way.unique_nodes.each do |n|
+	way.unshared_node_ids.each do |n|
 	  deleteitemrelations(n,'node')
 	end
 
