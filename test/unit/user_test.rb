@@ -53,4 +53,10 @@ class UserTest < Test::Unit::TestCase
       assert !user.valid?, "#{name} is valid when it shouldn't be" 
     end
   end
+  
+  def test_display_name_length
+    user = users(:normal_user)
+    user.display_name = nil
+    asser user.valid, " should allow nil display name"
+  end
 end
