@@ -3,6 +3,5 @@ class OldWayNode < ActiveRecord::Base
 
   set_primary_keys :id, :version, :sequence_id
 
-   # Atomic undelete support
-   belongs_to :way, :foreign_key=> :id
+  belongs_to :way, :foreign_key=> :id
 end
