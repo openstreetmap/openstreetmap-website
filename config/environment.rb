@@ -74,10 +74,3 @@ Rails::Initializer.run do |config|
   # Make Active Record use UTC-base instead of local time
   # config.active_record.default_timezone = :utc
 end
-
-# This has to be after the above block for some reason (doesnt pull in /lib/osm.rb?)
-POTLATCH_PRESETS = Potlatch::Potlatch.get_presets()
-
-# Use SQL (faster) or Rails (more elegant) for common Potlatch reads
-# getway speedup is approximately x2, whichways approximately x7
-POTLATCH_USE_SQL = true
