@@ -25,4 +25,15 @@ class UserTest < Test::Unit::TestCase
     assert !new_user.save
     assert_equal ActiveRecord::Errors.default_error_messages[:taken], new_user.errors.on(:email)
   end
+  
+  def test_unique_display_name
+    new_user = User.new(:email => "tester@openstreetmap.org",
+      :active => 0,
+      :pass_crypt => Digest::MD5.hexdigest('test'),
+      :display_name => users(:normal_user).display_name, 
+      :data_public => 1,
+      :description => "desc")
+    assert !new_user.save
+    assert_equal ActiveRecord::Errors.default_error_messages[:taken], new_user.errors.on(:display_name)
+  end
 end
