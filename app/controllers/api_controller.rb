@@ -176,15 +176,15 @@ class ApiController < ApplicationController
       end
     end 
 
-    relations = visible_nodes.values.collect { |node| node.containing_relations.visible }.flatten +
-                way_ids.collect { |id| Way.find(id).containing_relations.visible }.flatten
+    relations = Relation.find_for_nodes(visible_nodes.keys, :conditions => "visible = 1") +
+                Relation.find_for_ways(way_ids, :conditions => "visible = 1")
 
     # we do not normally return the "other" partners referenced by an relation, 
     # e.g. if we return a way A that is referenced by relation X, and there's 
     # another way B also referenced, that is not returned. But we do make 
     # an exception for cases where an relation references another *relation*; 
     # in that case we return that as well (but we don't go recursive here)
-    relations += relations.collect { |relation| relation.containing_relations.visible }.flatten
+    relations += Relation.find_for_relations(relations.collect { |r| r.id }, :conditions => "visible = 1")
 
     # this "uniq" may be slightly inefficient; it may be better to first collect and output
     # all node-related relations, then find the *not yet covered* way-related ones etc.

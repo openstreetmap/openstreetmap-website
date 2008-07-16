@@ -128,8 +128,8 @@ class AmfController < ApplicationController
 	  points = nodes_not_used_in_area.collect { |n| [n.id, n.lon, n.lat, n.tags_as_hash] }
 
 	  # find the relations used by those nodes and ways
-	  relations = nodes_in_area.collect { |node| node.containing_relations.visible }.flatten +
-				  way_ids.collect { |id| Way.find(id).containing_relations.visible }.flatten
+	  relations = Relation.find_for_nodes(nodes_in_area.collect { |n| n.id }, :conditions => "visible = 1") +
+                  Relation.find_for_ways(way_ids, :conditions => "visible = 1")
 	  relation_ids = relations.collect { |relation| relation.id }.uniq
 	end
 
