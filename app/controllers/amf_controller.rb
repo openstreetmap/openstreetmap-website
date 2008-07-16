@@ -110,14 +110,14 @@ class AmfController < ApplicationController
   # in a given bounding box. Nodes are returned in full; ways and relations 
   # are IDs only. 
 
-  def whichways(xmin,ymin,xmax,ymax) #:doc:
-	xmin-=0.01; ymin-=0.01
-	xmax+=0.01; ymax+=0.01
+  def whichways(xmin, ymin, xmax, ymax) #:doc:
+	xmin -= 0.01; ymin -= 0.01
+	xmax += 0.01; ymax += 0.01
 
 	if POTLATCH_USE_SQL then
-	  way_ids=sql_find_way_ids_in_area(xmin,ymin,xmax,ymax)
-	  points=sql_find_pois_in_area(xmin,ymin,xmax,ymax)
-	  relation_ids=sql_find_relations_in_area_and_ways(xmin,ymin,xmax,ymax,way_ids)
+	  way_ids = sql_find_way_ids_in_area(xmin, ymin, xmax, ymax)
+	  points = sql_find_pois_in_area(xmin, ymin, xmax, ymax)
+	  relation_ids = sql_find_relations_in_area_and_ways(xmin, ymin, xmax, ymax, way_ids)
 	else
 	  # find the way ids in an area
 	  nodes_in_area = Node.find_by_area(ymin, xmin, ymax, xmax, :conditions => "current_nodes.visible = 1", :include => :ways)
@@ -129,22 +129,23 @@ class AmfController < ApplicationController
 
 	  # find the relations used by those nodes and ways
 	  relations = nodes_in_area.collect { |node| node.containing_relations.visible }.flatten +
-	              way_ids.collect { |id| Way.find(id).containing_relations.visible }.flatten
+				  way_ids.collect { |id| Way.find(id).containing_relations.visible }.flatten
 	  relation_ids = relations.collect { |relation| relation.id }.uniq
 	end
 
-	[way_ids,points,relation_ids]
+	[way_ids, points, relation_ids]
   end
 
   # Find deleted ways in current bounding box (similar to whichways, but ways
   # with a deleted node only - not POIs or relations).
 
-  def whichways_deleted(xmin,ymin,xmax,ymax) #:doc:
-	xmin-=0.01; ymin-=0.01
-	xmax+=0.01; ymax+=0.01
+  def whichways_deleted(xmin, ymin, xmax, ymax) #:doc:
+	xmin -= 0.01; ymin -= 0.01
+	xmax += 0.01; ymax += 0.01
 
-	nodes_in_area = Node.find_by_area(ymin, xmin, ymax,xmax, :conditions => "current_nodes.visible=0 AND current_ways.visible=0", :include => :ways_via_history )
+	nodes_in_area = Node.find_by_area(ymin, xmin, ymax, xmax, :conditions => "current_nodes.visible = 0 AND current_ways.visible = 0", :include => :ways_via_history)
 	way_ids = nodes_in_area.collect { |node| node.ways_via_history_ids }.flatten.uniq
+
 	[way_ids]
   end
 
@@ -153,20 +154,20 @@ class AmfController < ApplicationController
 
   def getway(wayid) #:doc:
 	if POTLATCH_USE_SQL then
-	  points=sql_get_nodes_in_way(wayid)
-	  tags=sql_get_tags_in_way(wayid)
+	  points = sql_get_nodes_in_way(wayid)
+	  tags = sql_get_tags_in_way(wayid)
 	else
 	  # Ideally we would do ":include => :nodes" here but if we do that
 	  # then rails only seems to return the first copy of a node when a
 	  # way includes a node more than once
-	  points = []
 	  way = Way.find(wayid)
-	  way.nodes.each do |node|
-	    points << [node.lon, node.lat, node.id, nil, node.tags_as_hash]
+	  points = way.nodes.collect do |node|
+		[node.lon, node.lat, node.id, nil, node.tags_as_hash]
 	  end
-	  tags=way.tags
+	  tags = way.tags
 	end
-	[wayid,points,tags]
+
+	[wayid, points, tags]
   end
 
   # Get an old version of a way, and all constituent nodes.
@@ -176,27 +177,28 @@ class AmfController < ApplicationController
   # at the time, generating a new id if it's still visible and has been moved/
   # retagged.
 
-  def getway_old(id,version) #:doc:
-	if version<0
-	  old_way = OldWay.find(:first, :conditions => ['visible=1 AND id=?', id], :order => 'version DESC')
+  def getway_old(id, version) #:doc:
+	if version < 0
+	  old_way = OldWay.find(:first, :conditions => ['visible = 1 AND id = ?', id], :order => 'version DESC')
 	  points = old_way.get_nodes_undelete
 	else
-	  old_way = OldWay.find(:first, :conditions => ['id=? AND version=?', id, version])
+	  old_way = OldWay.find(:first, :conditions => ['id = ? AND version = ?', id, version])
 	  points = old_way.get_nodes_revert
 	end
-	old_way.tags['history']="Retrieved from v#{old_way.version}"
-	[0,id,points,old_way.tags,old_way.version]
+
+	old_way.tags['history'] = "Retrieved from v#{old_way.version}"
+
+	[0, id, points, old_way.tags, old_way.version]
   end
   
   # Find history of a way. Returns an array of previous versions.
 
   def getway_history(wayid) #:doc:
-	history=[]
-	way=Way.find(wayid)
-	way.old_ways.each do |old_way|
-	  if old_way.user.data_public then user=old_way.user.display_name else user='anonymous' end
-	  history<<[old_way.version,old_way.timestamp.strftime("%d %b %Y, %H:%M"),old_way.visible ? 1 : 0,user]
+	history = Way.find(wayid).old_ways.collect do |old_way|
+	  user = old_way.user.data_public? ? old_way.user.display_name : 'anonymous'
+	  [old_way.version, old_way.timestamp.strftime("%d %b %Y, %H:%M"), old_way.visible ? 1 : 0, user]
 	end
+
 	[history]
   end
 
@@ -208,7 +210,8 @@ class AmfController < ApplicationController
   
   def getrelation(relid) #:doc:
 	rel = Relation.find(relid)
-	[relid,rel.tags,rel.members]
+
+	[relid, rel.tags, rel.members]
   end
 
   # Save a relation.
@@ -217,9 +220,9 @@ class AmfController < ApplicationController
   # 1. original relation id (unchanged),
   # 2. new relation id.
 
-  def putrelation(renumberednodes, renumberedways, usertoken,relid,tags,members,visible) #:doc:
-	uid=getuserid(usertoken)
-	if !uid then return -1,"You are not logged in, so the point could not be saved." end
+  def putrelation(renumberednodes, renumberedways, usertoken, relid, tags, members, visible) #:doc:
+	uid = getuserid(usertoken)
+	if !uid then return -1,"You are not logged in, so the relation could not be saved." end
 
 	relid = relid.to_i
 	visible = visible.to_i
@@ -261,7 +264,7 @@ class AmfController < ApplicationController
 	  rel.save_with_history!
 	#end
 
-	[0,relid,rel.id]
+	[0, relid, rel.id]
   end
 
   # Save a way to the database, including all nodes. Any nodes in the previous
@@ -273,87 +276,94 @@ class AmfController < ApplicationController
   # 2. new way id,
   # 3. hash of renumbered nodes (old id=>new id)
 
-  def putway(renumberednodes,usertoken,originalway,points,attributes) #:doc:
+  def putway(renumberednodes, usertoken, originalway, points, attributes) #:doc:
 
 	# -- Initialise and carry out checks
 	
-	uid=getuserid(usertoken)
+	uid = getuserid(usertoken)
 	if !uid then return -1,"You are not logged in, so the way could not be saved." end
-	originalway=originalway.to_i
+
+	originalway = originalway.to_i
 
 	points.each do |a|
-	  if a[2]==0 or a[2].nil? then return -2,"Server error - node with id 0 found in way #{originalway}." end
-	  if a[1]==90 then return -2,"Server error - node with lat -90 found in way #{originalway}." end
+	  if a[2] == 0 or a[2].nil? then return -2,"Server error - node with id 0 found in way #{originalway}." end
+	  if a[1] == 90 then return -2,"Server error - node with lat -90 found in way #{originalway}." end
 	end
 
-	if points.length<2 then return -2,"Server error - way is only #{points.length} points long." end
+	if points.length < 2 then return -2,"Server error - way is only #{points.length} points long." end
 
 	# -- Get unique nodes
 
-	if originalway<0
-	  way=Way.new
-	  uniques=[]
+	if originalway < 0
+	  way = Way.new
+	  uniques = []
 	else
-	  way=Way.find(originalway)
-	  uniques=way.unshared_node_ids
+	  way = Way.find(originalway)
+	  uniques = way.unshared_node_ids
 	end
 
 	# -- Compare nodes and save changes to any that have changed
 
-	nodes=[]
+	nodes = []
 
 	points.each do |n|
-	  lon=n[0].to_f
-	  lat=n[1].to_f
-	  id =n[2].to_i
-	  savenode=false
+	  lon = n[0].to_f
+	  lat = n[1].to_f
+	  id = n[2].to_i
+	  savenode = false
+
 	  if renumberednodes[id]
-	    id=renumberednodes[id]
-	  elsif id<0
+	    id = renumberednodes[id]
+	  elsif id < 0
 		# Create new node
-		node=Node.new
-		savenode=true
+		node = Node.new
+		savenode = true
 	  else
-		node=Node.find(id)
-		if (!fpcomp(lat,node.lat) or !fpcomp(lon,node.lon) or \
-			Tags.join(n[4])!=node.tags or node.visible==0)
-		  savenode=true
+		node = Node.find(id)
+		if !fpcomp(lat, node.lat) or !fpcomp(lon, node.lon) or
+		   Tags.join(n[4]) != node.tags or !node.visible?
+		  savenode = true
 		end
 	  end
+
 	  if savenode
-		node.user_id=uid
-	    node.lat=lat; node.lon=lon
-	    node.tags=Tags.join(n[4])
-	    node.visible=true
+		node.user_id = uid
+	    node.lat = lat
+        node.lon = lon
+	    node.tags = Tags.join(n[4])
+	    node.visible = true
 	    node.save_with_history!
-		if id!=node.id
-		  renumberednodes[id]=node.id
-		  id=node.id
+
+		if id != node.id
+		  renumberednodes[id] = node.id
+		  id = node.id
 	    end
 	  end
-	  uniques=uniques-[id]
+
+	  uniques = uniques - [id]
 	  nodes.push(id)
 	end
 
 	# -- Delete any unique nodes
 	
 	uniques.each do |n|
-	  deleteitemrelations(n,'node')
-	  node=Node.find(n)
-	  node.user_id=uid
-	  node.visible=false
+	  deleteitemrelations(n, 'node')
+
+	  node = Node.find(n)
+	  node.user_id = uid
+	  node.visible = false
 	  node.save_with_history!
 	end
 
 	# -- Save revised way
 
-	way.tags=attributes
-	way.nds=nodes
-	way.user_id=uid
-	way.visible=true
+	way.tags = attributes
+	way.nds = nodes
+	way.user_id = uid
+	way.visible = true
 	way.save_with_history!
 
-	[0,originalway,way.id,renumberednodes]
+	[0, originalway, way.id, renumberednodes]
   end
 
   # Save POI to the database.
@@ -363,31 +373,32 @@ class AmfController < ApplicationController
   # 1. original node id (unchanged),
   # 2. new node id.
 
-  def putpoi(usertoken,id,lon,lat,tags,visible) #:doc:
-	uid=getuserid(usertoken)
+  def putpoi(usertoken, id, lon, lat, tags, visible) #:doc:
+	uid = getuserid(usertoken)
 	if !uid then return -1,"You are not logged in, so the point could not be saved." end
 
-	id=id.to_i
-	visible=(visible.to_i==1)
+	id = id.to_i
+	visible = (visible.to_i == 1)
 
-	if (id>0) then
-	  node=Node.find(id)
+	if id > 0 then
+	  node = Node.find(id)
+
 	  if !visible then
 	    unless node.ways.empty? then return -1,"The point has since become part of a way, so you cannot save it as a POI." end
-	    deleteitemrelations(id,'node')
+	    deleteitemrelations(id, 'node')
 	  end
 	else
-	  node=Node.new
+	  node = Node.new
 	end
 
 	node.user_id = uid
-	node.latitude = (lat*10000000).round
-	node.longitude = (lon*10000000).round
+	node.lat = lat
+	node.lon = lon
 	node.tags = Tags.join(tags)
-	node.visible=visible
+	node.visible = visible
 	node.save_with_history!
-	newid=node.id
-	[0,id,newid]
+
+	[0, id, node.id]
   end
 
   # Read POI from database
@@ -397,18 +408,19 @@ class AmfController < ApplicationController
 
   def getpoi(id) #:doc:
 	n = Node.find(id)
+
 	if n
 	  return [n.id, n.lon, n.lat, n.tags_as_hash]
 	else
-	  return [nil,nil,nil,'']
+	  return [nil, nil, nil, '']
 	end
   end
 
   # Delete way and all constituent nodes. Also removes from any relations.
   # Returns 0 (success), unchanged way id.
 
-  def deleteway(usertoken,way_id) #:doc:
-	uid=getuserid(usertoken)
+  def deleteway(usertoken, way_id) #:doc:
+	uid = getuserid(usertoken)
 	if !uid then return -1,"You are not logged in, so the way could not be deleted." end
 
 	# FIXME: would be good not to make two history entries when removing
@@ -416,11 +428,12 @@ class AmfController < ApplicationController
 	user = User.find(uid)
 	way = Way.find(way_id)
 	way.unshared_node_ids.each do |n|
-	  deleteitemrelations(n,'node')
+	  deleteitemrelations(n, 'node')
 	end
 
 	way.delete_with_relations_and_nodes_and_history(user)  
-	return [0,way_id]
+
+	[0, way_id]
   end
 
 
@@ -429,11 +442,13 @@ class AmfController < ApplicationController
 
   # Remove a node or way from all relations
 
-  def deleteitemrelations(objid,type) #:doc:
-	relationids = RelationMember.find(:all, :conditions => ['member_type=? and member_id=?', type, objid]).collect { |ws| ws.id }.uniq
-	relationids.each do |relid|
-	  rel=Relation.find(relid)
-	  rel.members.delete_if {|x| x[0]==type and x[1]==objid}
+  def deleteitemrelations(objid, type) #:doc:
+	relations = RelationMember.find(:all, 
+									:conditions => ['member_type = ? and member_id = ?', type, objid], 
+									:include => :relation).collect { |rm| rm.relation }.uniq
+
+	relations.each do |rel|
+	  rel.members.delete_if { |x| x[0] == type and x[1] == objid }
 	  rel.save_with_history!
 	end
   end
@@ -545,3 +560,8 @@ class AmfController < ApplicationController
   end
 
 end
+
+# Local Variables:
+# indent-tabs-mode: t
+# tab-width: 4
+# End:
