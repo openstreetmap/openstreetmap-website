@@ -99,4 +99,41 @@ class UserTest < Test::Unit::TestCase
     assert_equal false, users(:inactive_user).is_friends_with?(users(:normal_user))
     assert_equal false, users(:inactive_user).is_friends_with?(users(:second_user))
   end
+  
+  def test_users_nearby
+    # second user has their data public and is close by normal user
+    assert_equal [users(:second_user)], users(:normal_user).nearby
+    # second_user has normal user nearby, but normal user has their data private
+    assert_equal [], users(:second_user).nearby
+    # inactive_user has no user nearby
+    assert_equal [], users(:inactive_user).nearby
+  end
+  
+  def test_friends_with
+    # make normal user a friend of second user
+    # it should be a one way friend accossitation
+    assert_equal 0, Friend.count
+    norm = users(:normal_user)
+    sec = users(:second_user)
+    friend = Friend.new
+    friend.user = norm
+    friend.friend_user_id = sec.id
+    friend.save
+    norm.clear_aggregation_cache
+    norm.clear_association_cache
+    sec.clear_aggregation_cache
+    sec.clear_association_cache
+    assert_equal [sec], norm.nearby
+    assert_equal 1, norm.nearby.size
+    assert_equal 1, Friend.count
+    assert_equal true, norm.is_friends_with?(sec)
+    assert_equal false, sec.is_friends_with?(norm)
+    assert_equal false, users(:normal_user).is_friends_with?(users(:inactive_user))
+    assert_equal false, users(:second_user).is_friends_with?(users(:normal_user))
+    assert_equal false, users(:second_user).is_friends_with?(users(:inactive_user))
+    assert_equal false, users(:inactive_user).is_friends_with?(users(:normal_user))
+    assert_equal false, users(:inactive_user).is_friends_with?(users(:second_user))
+    Friend.delete_all
+    assert_equal 0, Friend.count
+  end
 end
