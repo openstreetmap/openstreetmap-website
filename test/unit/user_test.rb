@@ -70,8 +70,13 @@ class UserTest < Test::Unit::TestCase
   end
   
   def test_display_name_valid
+    # Due to sanitisation in the view some of these that you might not 
+    # expact are allowed
+    # However, would they affect the xml planet dumps?
     ok = [ "Name", "'me", "he\"", "#ping", "<hr>"]
-    bad = [ "<hr/>", "test@example.com", "s/f", "/", ";", ".", ",", "?", "/;.,?" ]
+    # These need to be 3 chars in length, otherwise the length test above
+    # should be used.
+    bad = [ "<hr/>", "test@example.com", "s/f", "aa/", "aa;", "aa.", "aa,", "aa?", "/;.,?" ]
     ok.each do |display_name|
       user = users(:normal_user)
       user.display_name = display_name
@@ -82,6 +87,16 @@ class UserTest < Test::Unit::TestCase
       user = users(:normal_user)
       user.display_name = display_name
       assert !user.valid?, "#{display_name} is valid when it shouldn't be"
+      assert_equal "is invalid", user.errors.on(:display_name)
     end
+  end
+  
+  def test_friend_with
+    assert_equal false, users(:normal_user).is_friends_with?(users(:second_user))
+    assert_equal false, users(:normal_user).is_friends_with?(users(:inactive_user))
+    assert_equal false, users(:second_user).is_friends_with?(users(:normal_user))
+    assert_equal false, users(:second_user).is_friends_with?(users(:inactive_user))
+    assert_equal false, users(:inactive_user).is_friends_with?(users(:normal_user))
+    assert_equal false, users(:inactive_user).is_friends_with?(users(:second_user))
   end
 end
