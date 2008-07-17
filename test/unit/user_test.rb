@@ -63,6 +63,25 @@ class UserTest < Test::Unit::TestCase
     user.display_name = ""
     assert !user.valid?
     user.display_name = nil
+    # Don't understand why it isn't allowing a nil value, 
+    # when the validates statements specifically allow it
+    # It appears the database does not allow null values
     assert !user.valid?
+  end
+  
+  def test_display_name_valid
+    ok = [ "Name", "'me", "he\"", "#ping", "<hr>"]
+    bad = [ "<hr/>", "test@example.com", "s/f", "/", ";", ".", ",", "?", "/;.,?" ]
+    ok.each do |display_name|
+      user = users(:normal_user)
+      user.display_name = display_name
+      assert user.valid?, "#{display_name} is invalid, when it should be"
+    end
+    
+    bad.each do |display_name|
+      user = users(:normal_user)
+      user.display_name = display_name
+      assert !user.valid?, "#{display_name} is valid when it shouldn't be"
+    end
   end
 end
