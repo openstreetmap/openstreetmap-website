@@ -20,9 +20,15 @@ class MessageTest < Test::Unit::TestCase
   
   def test_validating_msgs
     message = messages(:one)
-    assert_equal true, message.valid?
+    assert message.valid?
     massage = messages(:two)
-    assert_equal true, message.valid?
+    assert message.valid?
   end
   
+  def test_invalid_send_recipient
+    message = messages(:one)
+    message.sender = nil
+    message.recipient = nil
+    assert !message.valid?
+  end
 end
