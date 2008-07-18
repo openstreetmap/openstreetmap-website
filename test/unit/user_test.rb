@@ -38,8 +38,10 @@ class UserTest < Test::Unit::TestCase
   end
   
   def test_email_valid
-    ok = %w{ a@s.com test@shaunmcdonald.me.uk hello_local@ping-d.ng test_local@openstreetmap.org test-local@example.com }
-    bad = %w{ hi ht@ n@ @.com help@.me.uk help"hi.me.uk }
+    ok = %w{ a@s.com test@shaunmcdonald.me.uk hello_local@ping-d.ng 
+    test_local@openstreetmap.org test-local@example.com
+    輕觸搖晃的遊戲@ah.com も対応します@s.name }
+    bad = %w{ hi ht@ n@ @.com help@.me.uk help"hi.me.uk も対@応します }
     
     ok.each do |name|
       user = users(:normal_user)
@@ -73,10 +75,12 @@ class UserTest < Test::Unit::TestCase
     # Due to sanitisation in the view some of these that you might not 
     # expact are allowed
     # However, would they affect the xml planet dumps?
-    ok = [ "Name", "'me", "he\"", "#ping", "<hr>"]
+    ok = [ "Name", "'me", "he\"", "#ping", "<hr>", "*ho", "\"help\"@", 
+           "vergrößern", "ルシステムにも対応します", "輕觸搖晃的遊戲" ]
     # These need to be 3 chars in length, otherwise the length test above
     # should be used.
-    bad = [ "<hr/>", "test@example.com", "s/f", "aa/", "aa;", "aa.", "aa,", "aa?", "/;.,?" ]
+    bad = [ "<hr/>", "test@example.com", "s/f", "aa/", "aa;", "aa.",
+            "aa,", "aa?", "/;.,?", "も対応します/" ]
     ok.each do |display_name|
       user = users(:normal_user)
       user.display_name = display_name
@@ -119,10 +123,6 @@ class UserTest < Test::Unit::TestCase
     friend.user = norm
     friend.friend_user_id = sec.id
     friend.save
-    norm.clear_aggregation_cache
-    norm.clear_association_cache
-    sec.clear_aggregation_cache
-    sec.clear_association_cache
     assert_equal [sec], norm.nearby
     assert_equal 1, norm.nearby.size
     assert_equal 1, Friend.count
@@ -133,7 +133,7 @@ class UserTest < Test::Unit::TestCase
     assert_equal false, users(:second_user).is_friends_with?(users(:inactive_user))
     assert_equal false, users(:inactive_user).is_friends_with?(users(:normal_user))
     assert_equal false, users(:inactive_user).is_friends_with?(users(:second_user))
-    Friend.delete_all
+    Friend.delete(friend)
     assert_equal 0, Friend.count
   end
 end
