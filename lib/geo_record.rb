@@ -37,15 +37,6 @@ module GeoRecord
     return self.longitude.to_f / 10000000
   end
 
-  # Potlatch projections
-  def lon_potlatch(baselong,masterscale)
-    (self.lon-baselong)*masterscale
-  end
-
-  def lat_potlatch(basey,masterscale)
-    -(lat2y(self.lat)-basey)*masterscale
-  end
-  
 private
   
   def lat2y(a)

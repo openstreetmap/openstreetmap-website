@@ -17,6 +17,9 @@ class Node < ActiveRecord::Base
   has_many :way_nodes
   has_many :ways, :through => :way_nodes
 
+  has_many :old_way_nodes
+  has_many :ways_via_history, :class_name=> "Way", :through => :old_way_nodes, :source => :way
+
   has_many :containing_relation_members, :class_name => "RelationMember", :as => :member
   has_many :containing_relations, :class_name => "Relation", :through => :containing_relation_members, :source => :relation, :extend => ObjectFinder
 
