@@ -112,22 +112,30 @@ class AmfController < ApplicationController
     basey       = args[5]
     masterscale = args[6]
 
-    RAILS_DEFAULT_LOGGER.info("  Message: whichways, bbox=#{xmin},#{ymin},#{xmax},#{ymax}")
+  def whichways(xmin, ymin, xmax, ymax) #:doc:
+	xmin -= 0.01; ymin -= 0.01
+	xmax += 0.01; ymax += 0.01
 
-    # find the way ids in an area
-    nodes_in_area = Node.find_by_area(ymin, xmin, ymax, xmax, :conditions => "current_nodes.visible = 1", :include => :ways)
-    way_ids = nodes_in_area.collect { |node| node.way_ids }.flatten.uniq
+	if POTLATCH_USE_SQL then
+	  way_ids = sql_find_way_ids_in_area(xmin, ymin, xmax, ymax)
+	  points = sql_find_pois_in_area(xmin, ymin, xmax, ymax)
+	  relation_ids = sql_find_relations_in_area_and_ways(xmin, ymin, xmax, ymax, way_ids)
+	else
+	  # find the way ids in an area
+	  nodes_in_area = Node.find_by_area(ymin, xmin, ymax, xmax, :conditions => "current_nodes.visible = 1", :include => :ways)
+	  way_ids = nodes_in_area.collect { |node| node.way_ids }.flatten.uniq
 
     # find the node ids in an area that aren't part of ways
     nodes_not_used_in_area = nodes_in_area.select { |node| node.ways.empty? }
     points = nodes_not_used_in_area.collect { |n| [n.id, n.lon_potlatch(baselong,masterscale), n.lat_potlatch(basey,masterscale), n.tags_as_hash] }
 
-    # find the relations used by those nodes and ways
-    relations = nodes_in_area.collect { |node| node.containing_relations.visible }.flatten +
-                way_ids.collect { |id| Way.find(id).containing_relations.visible }.flatten
-    relation_ids = relations.collect { |relation| relation.id }.uniq
+	  # find the relations used by those nodes and ways
+	  relations = Relation.find_for_nodes(nodes_in_area.collect { |n| n.id }, :conditions => "visible = 1") +
+                  Relation.find_for_ways(way_ids, :conditions => "visible = 1")
+	  relation_ids = relations.collect { |relation| relation.id }.uniq
+	end
 
-    [way_ids,points,relation_ids]
+	[way_ids, points, relation_ids]
   end
 
   # ----- whichways_deleted
@@ -144,18 +152,14 @@ class AmfController < ApplicationController
     basey       = args[5]
     masterscale = args[6]
 
-    sql=<<-EOF
-     SELECT DISTINCT current_ways.id 
-       FROM current_nodes,way_nodes,current_ways 
-      WHERE #{OSM.sql_for_area(ymin, xmin, ymax, xmax, "current_nodes.")} 
-      AND way_nodes.node_id=current_nodes.id 
-      AND way_nodes.id=current_ways.id 
-      AND current_nodes.visible=0 
-      AND current_ways.visible=0 
-  EOF
-    waylist = ActiveRecord::Base.connection.select_all(sql)
-    ways = waylist.collect {|a| a['id'].to_i }
-    [ways]
+  def whichways_deleted(xmin, ymin, xmax, ymax) #:doc:
+	xmin -= 0.01; ymin -= 0.01
+	xmax += 0.01; ymax += 0.01
+
+	nodes_in_area = Node.find_by_area(ymin, xmin, ymax, xmax, :conditions => "current_nodes.visible = 0 AND current_ways.visible = 0", :include => :ways_via_history)
+	way_ids = nodes_in_area.collect { |node| node.ways_via_history_ids }.flatten.uniq
+
+	[way_ids]
   end
 
   # ----- getway
@@ -176,29 +180,22 @@ class AmfController < ApplicationController
     wayid,baselong,basey,masterscale = args
     wayid = wayid.to_i
 
-    RAILS_DEFAULT_LOGGER.info("  Message: getway, id=#{wayid}")
+  def getway(wayid) #:doc:
+	if POTLATCH_USE_SQL then
+	  points = sql_get_nodes_in_way(wayid)
+	  tags = sql_get_tags_in_way(wayid)
+	else
+	  # Ideally we would do ":include => :nodes" here but if we do that
+	  # then rails only seems to return the first copy of a node when a
+	  # way includes a node more than once
+	  way = Way.find(wayid)
+	  points = way.nodes.collect do |node|
+		[node.lon, node.lat, node.id, nil, node.tags_as_hash]
+	  end
+	  tags = way.tags
+	end
 
-    # Ideally we would do ":include => :nodes" here but if we do that
-    # then rails only seems to return the first copy of a node when a
-    # way includes a node more than once
-    way = Way.find(wayid)
-
-    long_array = []
-    lat_array = []
-    points = []
-
-    way.nodes.each do |node|
-      projected_longitude = node.lon_potlatch(baselong,masterscale) # do projection for potlatch
-      projected_latitude = node.lat_potlatch(basey,masterscale)
-      id = node.id
-      tags_hash = node.tags_as_hash
-
-      points << [projected_longitude, projected_latitude, id, nil, tags_hash]
-      long_array << projected_longitude
-      lat_array << projected_latitude
-    end
-
-    [wayid,points,way.tags,long_array.min,long_array.max,lat_array.min,lat_array.max]
+	[wayid, points, tags]
   end
 
   # ----- getway_old
@@ -219,78 +216,39 @@ class AmfController < ApplicationController
     RAILS_DEFAULT_LOGGER.info("  Message: getway_old (server is #{SERVER_URL})")
     #	if SERVER_URL=="www.openstreetmap.org" then return -1,"Revert is not currently enabled on the OpenStreetMap server." end
 
-    wayid,version,baselong,basey,masterscale=args
-    wayid = wayid.to_i
-    version = version.to_i
-    xmin = ymin =  999999
-    xmax = ymax = -999999
-    points=[]
-    if version<0
-      historic=false
-      version=getlastversion(wayid,version)
-    else
-      historic=true
-    end
-    readwayquery_old(wayid,version,historic).each { |row|
-      points<<[long2coord(row['longitude'].to_f,baselong,masterscale),lat2coord(row['latitude'].to_f,basey,masterscale),row['id'].to_i,row['visible'].to_i,tag2array(row['tags'].to_s)]
-      xmin=[xmin,row['longitude'].to_f].min
-      xmax=[xmax,row['longitude'].to_f].max
-      ymin=[ymin,row['latitude' ].to_f].min
-      ymax=[ymax,row['latitude' ].to_f].max
-    }
+  def getway_old(id, version) #:doc:
+	if version < 0
+	  old_way = OldWay.find(:first, :conditions => ['visible = 1 AND id = ?', id], :order => 'version DESC')
+	  points = old_way.get_nodes_undelete
+	else
+	  old_way = OldWay.find(:first, :conditions => ['id = ? AND version = ?', id, version])
+	  points = old_way.get_nodes_revert
+	end
 
-    # get tags from this version
-    attributes={}
-    attrlist=ActiveRecord::Base.connection.select_all "SELECT k,v FROM way_tags WHERE id=#{wayid} AND version=#{version}"
-    attrlist.each {|a| attributes[a['k'].gsub(':','|')]=a['v'] }
-    attributes['history']="Retrieved from v"+version.to_s
+	old_way.tags['history'] = "Retrieved from v#{old_way.version}"
 
-    [0,wayid,points,attributes,xmin,xmax,ymin,ymax,version]
+	[0, id, points, old_way.tags, old_way.version]
   end
 
-  # ----- getway_history
-  #		  find history of a way
-  #		  in:	[0] way id
-  #		  does:	finds history of a way
-  #		  out:	[0] array of previous versions (where each is
-  #					[0] version, [1] db timestamp (string),
-  #					[2] visible 0 or 1,
-  #					[3] username or 'anonymous' (string))
-  def getway_history(args) #:doc:
-    wayid=args[0]
-    history=[]
-    sql=<<-EOF
-  SELECT version,timestamp,visible,display_name,data_public
-    FROM ways,users
-   WHERE ways.id=#{wayid}
-     AND ways.user_id=users.id
-     AND ways.visible=1
-   ORDER BY version DESC
-  EOF
-    histlist=ActiveRecord::Base.connection.select_all(sql)
-    histlist.each { |row|
-      if row['data_public'].to_i==1 then user=row['display_name'] else user='anonymous' end
-      history<<[row['version'],row['timestamp'],row['visible'],user]
-    }
-    [history]
+  def getway_history(wayid) #:doc:
+	history = Way.find(wayid).old_ways.collect do |old_way|
+	  user = old_way.user.data_public? ? old_way.user.display_name : 'anonymous'
+	  [old_way.version, old_way.timestamp.strftime("%d %b %Y, %H:%M"), old_way.visible ? 1 : 0, user]
+	end
+
+	[history]
   end
 
-  # ----- getrelation
-  # Get a relation with all of it's tags, and member IDs
-  # The input is an array with the following components, in order:
-  # 0. relid - the ID of the relation to get
-  #
-  # The output is an array which contains:
-  # [0] relation id, [1] hash of tags, [2] list of members
-  def getrelation(args) #:doc:
-    relid = args[0]
-    relid = relid.to_i
+  # Get a relation with all tags and members.
+  # Returns:
+  # 0. relation id,
+  # 1. hash of tags,
+  # 2. list of members.
+  
+  def getrelation(relid) #:doc:
+	rel = Relation.find(relid)
 
-    RAILS_DEFAULT_LOGGER.info("  Message: getrel, id=#{relid}")
-
-    rel = Relation.find(relid)
-
-    [relid,rel.tags,rel.members]#nodes,ways]
+	[relid, rel.tags, rel.members]
   end
 
   # ----- getrelation
@@ -306,7 +264,11 @@ class AmfController < ApplicationController
     uid=getuserid(usertoken)
     if !uid then return -1,"You are not logged in, so the point could not be saved." end
 
-    relid = relid.to_i
+  def putrelation(renumberednodes, renumberedways, usertoken, relid, tags, members, visible) #:doc:
+	uid = getuserid(usertoken)
+	if !uid then return -1,"You are not logged in, so the relation could not be saved." end
+
+	relid = relid.to_i
 	visible = visible.to_i
 
 	# create a new relation, or find the existing one
@@ -346,7 +308,7 @@ class AmfController < ApplicationController
       rel.save_with_history!
     #end
 
-    [0,relid,rel.id]
+	[0, relid, rel.id]
   end
 
   # ----- putway
@@ -369,55 +331,84 @@ class AmfController < ApplicationController
     uid=getuserid(usertoken)
     if !uid then return -1,"You are not logged in, so the way could not be saved." end
 
-    RAILS_DEFAULT_LOGGER.info("  putway authenticated happily")
-    db_uqn='unin'+(rand*100).to_i.to_s+uid.to_s+originalway.to_i.abs.to_s+Time.new.to_i.to_s	# temp uniquenodes table name, typically 51 chars
-    db_now='@now'+(rand*100).to_i.to_s+uid.to_s+originalway.to_i.abs.to_s+Time.new.to_i.to_s	# 'now' variable name, typically 51 chars
-    ActiveRecord::Base.connection.execute("SET #{db_now}=NOW()")
-    originalway=originalway.to_i
-    oldversion=oldversion.to_i
+  def putway(renumberednodes, usertoken, originalway, points, attributes) #:doc:
 
-    RAILS_DEFAULT_LOGGER.info("  Message: putway, id=#{originalway}")
+	# -- Initialise and carry out checks
+	
+	uid = getuserid(usertoken)
+	if !uid then return -1,"You are not logged in, so the way could not be saved." end
 
-    # -- Check for null IDs, short ways or lats=90
+	originalway = originalway.to_i
 
-    points.each do |a|
-      if a[2]==0 or a[2].nil? then return -2,"Server error - node with id 0 found in way #{originalway}." end
-      if coord2lat(a[1],masterscale,basey)==90 then return -2,"Server error - node with lat -90 found in way #{originalway}." end
-    end
-    
-    if points.length<2 then return -2,"Server error - way is only #{points.length} points long." end
+	points.each do |a|
+	  if a[2] == 0 or a[2].nil? then return -2,"Server error - node with id 0 found in way #{originalway}." end
+	  if a[1] == 90 then return -2,"Server error - node with lat -90 found in way #{originalway}." end
+	end
+
+	if points.length < 2 then return -2,"Server error - way is only #{points.length} points long." end
 
     # -- 3.	read original way into memory
 
-    xc={}; yc={}; tagc={}; vc={}
-    if originalway>0
-      way=originalway
-      if oldversion==0 then r=readwayquery(way,false)
-      else r=readwayquery_old(way,oldversion,true) end
-      r.each { |row|
-        id=row['id'].to_i
-        if (id>0) then
-          xc[id]=row['longitude'].to_f
-          yc[id]=row['latitude' ].to_f
-          tagc[id]=row['tags']
-          vc[id]=row['visible'].to_i
-        end
-      }
-      ActiveRecord::Base.connection.update("UPDATE current_ways SET timestamp=#{db_now},user_id=#{uid},visible=1 WHERE id=#{way}")
-    else
-      way=ActiveRecord::Base.connection.insert("INSERT INTO current_ways (user_id,timestamp,visible) VALUES (#{uid},#{db_now},1)")
-    end
+	if originalway < 0
+	  way = Way.new
+	  uniques = []
+	else
+	  way = Way.find(originalway)
+	  uniques = way.unshared_node_ids
+	end
 
     # -- 4.	get version by inserting new row into ways
 
-    version=ActiveRecord::Base.connection.insert("INSERT INTO ways (id,user_id,timestamp,visible) VALUES (#{way},#{uid},#{db_now},1)")
+	nodes = []
 
-    # -- 5. compare nodes and update xmin,xmax,ymin,ymax
+	points.each do |n|
+	  lon = n[0].to_f
+	  lat = n[1].to_f
+	  id = n[2].to_i
+	  savenode = false
 
-    xmin=ymin= 999999
-    xmax=ymax=-999999
-    insertsql=''
-    nodelist=[]
+	  if renumberednodes[id]
+	    id = renumberednodes[id]
+	  elsif id < 0
+		# Create new node
+		node = Node.new
+		savenode = true
+	  else
+		node = Node.find(id)
+		if !fpcomp(lat, node.lat) or !fpcomp(lon, node.lon) or
+		   Tags.join(n[4]) != node.tags or !node.visible?
+		  savenode = true
+		end
+	  end
+
+	  if savenode
+		node.user_id = uid
+	    node.lat = lat
+        node.lon = lon
+	    node.tags = Tags.join(n[4])
+	    node.visible = true
+	    node.save_with_history!
+
+		if id != node.id
+		  renumberednodes[id] = node.id
+		  id = node.id
+	    end
+	  end
+
+	  uniques = uniques - [id]
+	  nodes.push(id)
+	end
+
+	# -- Delete any unique nodes
+	
+	uniques.each do |n|
+	  deleteitemrelations(n, 'node')
+
+	  node = Node.find(n)
+	  node.user_id = uid
+	  node.visible = false
+	  node.save_with_history!
+	end
 
     points.each_index do |i|
       xs=coord2long(points[i][0],masterscale,baselong)
@@ -431,88 +422,13 @@ class AmfController < ApplicationController
       long=(xs * 10000000).round
       tile=QuadTile.tile_for_point(ys, xs)
 
-      # compare node
-      if node<0
-        # new node - create
-        if renumberednodes[node.to_s].nil?
-          newnode=ActiveRecord::Base.connection.insert("INSERT INTO current_nodes (   latitude,longitude,timestamp,user_id,visible,tags,tile) VALUES (           #{lat},#{long},#{db_now},#{uid},1,#{tagsql},#{tile})")
-          ActiveRecord::Base.connection.insert("INSERT INTO nodes         (id,latitude,longitude,timestamp,user_id,visible,tags,tile) VALUES (#{newnode},#{lat},#{long},#{db_now},#{uid},1,#{tagsql},#{tile})")
-          points[i][2]=newnode
-          nodelist.push(newnode)
-          renumberednodes[node.to_s]=newnode.to_s
-        else
-          points[i][2]=renumberednodes[node.to_s].to_i
-        end
+	way.tags = attributes
+	way.nds = nodes
+	way.user_id = uid
+	way.visible = true
+	way.save_with_history!
 
-      elsif xc.has_key?(node)
-        nodelist.push(node)
-        # old node from original way - update
-        if ((xs/0.0000001).round!=(xc[node]/0.0000001).round or (ys/0.0000001).round!=(yc[node]/0.0000001).round or tagstr!=tagc[node] or vc[node]==0)
-          ActiveRecord::Base.connection.insert("INSERT INTO nodes (id,latitude,longitude,timestamp,user_id,visible,tags,tile) VALUES (#{node},#{lat},#{long},#{db_now},#{uid},1,#{tagsql},#{tile})")
-          ActiveRecord::Base.connection.update("UPDATE current_nodes SET latitude=#{lat},longitude=#{long},timestamp=#{db_now},user_id=#{uid},tags=#{tagsql},visible=1,tile=#{tile} WHERE id=#{node}")
-        end
-      else
-        # old node, created in another way and now added to this way
-      end
-    end
-
-    # -- 6a. delete any nodes not in modified way
-
-    createuniquenodes(way,db_uqn,nodelist)	# nodes which appear in this way but no other
-
-    sql=<<-EOF
-  INSERT INTO nodes (id,latitude,longitude,timestamp,user_id,visible,tile)  
-  SELECT DISTINCT cn.id,cn.latitude,cn.longitude,#{db_now},#{uid},0,cn.tile
-    FROM current_nodes AS cn,#{db_uqn}
-   WHERE cn.id=node_id
-    EOF
-    ActiveRecord::Base.connection.insert(sql)
-
-    sql=<<-EOF
-      UPDATE current_nodes AS cn, #{db_uqn}
-         SET cn.timestamp=#{db_now},cn.visible=0,cn.user_id=#{uid} 
-       WHERE cn.id=node_id
-    EOF
-    ActiveRecord::Base.connection.update(sql)
-
-    deleteuniquenoderelations(db_uqn,uid,db_now)
-    ActiveRecord::Base.connection.execute("DROP TEMPORARY TABLE #{db_uqn}")
-
-    #	6b. insert new version of route into way_nodes
-
-    insertsql =''
-    currentsql=''
-    sequence  =1
-    points.each do |p|
-      if insertsql !='' then insertsql +=',' end
-      if currentsql!='' then currentsql+=',' end
-      insertsql +="(#{way},#{p[2]},#{sequence},#{version})"
-      currentsql+="(#{way},#{p[2]},#{sequence})"
-      sequence  +=1
-    end
-
-    ActiveRecord::Base.connection.execute("DELETE FROM current_way_nodes WHERE id=#{way}");
-    ActiveRecord::Base.connection.insert( "INSERT INTO         way_nodes (id,node_id,sequence_id,version) VALUES #{insertsql}");
-    ActiveRecord::Base.connection.insert( "INSERT INTO current_way_nodes (id,node_id,sequence_id        ) VALUES #{currentsql}");
-
-    # -- 7. insert new way tags
-
-    insertsql =''
-    currentsql=''
-    attributes.each do |k,v|
-      if v=='' or v.nil? then next end
-      if v[0,6]=='(type ' then next end
-      if insertsql !='' then insertsql +=',' end
-      if currentsql!='' then currentsql+=',' end
-      insertsql +="(#{way},'"+sqlescape(k.gsub('|',':'))+"','"+sqlescape(v)+"',#{version})"
-      currentsql+="(#{way},'"+sqlescape(k.gsub('|',':'))+"','"+sqlescape(v)+"')"
-    end
-
-    ActiveRecord::Base.connection.execute("DELETE FROM current_way_tags WHERE id=#{way}")
-    if (insertsql !='') then ActiveRecord::Base.connection.insert("INSERT INTO way_tags (id,k,v,version) VALUES #{insertsql}" ) end
-    if (currentsql!='') then ActiveRecord::Base.connection.insert("INSERT INTO current_way_tags (id,k,v) VALUES #{currentsql}") end
-
-    [0,originalway,way,renumberednodes,xmin,xmax,ymin,ymax]
+	[0, originalway, way.id, renumberednodes]
   end
 
   # ----- putpoi
@@ -531,34 +447,32 @@ class AmfController < ApplicationController
     uid=getuserid(usertoken)
     if !uid then return -1,"You are not logged in, so the point could not be saved." end
 
-    db_now='@now'+(rand*100).to_i.to_s+uid.to_s+id.to_i.abs.to_s+Time.new.to_i.to_s	# 'now' variable name, typically 51 chars
-    ActiveRecord::Base.connection.execute("SET #{db_now}=NOW()")
+  def putpoi(usertoken, id, lon, lat, tags, visible) #:doc:
+	uid = getuserid(usertoken)
+	if !uid then return -1,"You are not logged in, so the point could not be saved." end
 
-    id=id.to_i
-    visible=visible.to_i
-    if visible==0 then
-      # if deleting, check node hasn't become part of a way 
-      inway=ActiveRecord::Base.connection.select_one("SELECT cw.id FROM current_ways cw,current_way_nodes cwn WHERE cw.id=cwn.id AND cw.visible=1 AND cwn.node_id=#{id} LIMIT 1")
-      unless inway.nil? then return -1,"The point has since become part of a way, so you cannot save it as a POI." end
-      deleteitemrelations(id,'node',uid,db_now)
-    end
+	id = id.to_i
+	visible = (visible.to_i == 1)
 
-    x=coord2long(x.to_f,masterscale,baselong)
-    y=coord2lat(y.to_f,masterscale,basey)
-    tagsql="'"+sqlescape(array2tag(tags))+"'"
-    lat=(y * 10000000).round
-    long=(x * 10000000).round
-    tile=QuadTile.tile_for_point(y, x)
+	if id > 0 then
+	  node = Node.find(id)
 
-    if (id>0) then
-      ActiveRecord::Base.connection.insert("INSERT INTO nodes (id,latitude,longitude,timestamp,user_id,visible,tags,tile) VALUES (#{id},#{lat},#{long},#{db_now},#{uid},#{visible},#{tagsql},#{tile})");
-      ActiveRecord::Base.connection.update("UPDATE current_nodes SET latitude=#{lat},longitude=#{long},timestamp=#{db_now},user_id=#{uid},visible=#{visible},tags=#{tagsql},tile=#{tile} WHERE id=#{id}");
-      newid=id
-    else
-      newid=ActiveRecord::Base.connection.insert("INSERT INTO current_nodes (latitude,longitude,timestamp,user_id,visible,tags,tile) VALUES (#{lat},#{long},#{db_now},#{uid},#{visible},#{tagsql},#{tile})");
-      ActiveRecord::Base.connection.update("INSERT INTO nodes (id,latitude,longitude,timestamp,user_id,visible,tags,tile) VALUES (#{newid},#{lat},#{long},#{db_now},#{uid},#{visible},#{tagsql},#{tile})");
-    end
-    [0,id,newid]
+	  if !visible then
+	    unless node.ways.empty? then return -1,"The point has since become part of a way, so you cannot save it as a POI." end
+	    deleteitemrelations(id, 'node')
+	  end
+	else
+	  node = Node.new
+	end
+
+	node.user_id = uid
+	node.lat = lat
+	node.lon = lon
+	node.tags = Tags.join(tags)
+	node.visible = visible
+	node.save_with_history!
+
+	[0, id, node.id]
   end
 
   # ----- getpoi
@@ -579,112 +493,32 @@ class AmfController < ApplicationController
     end
   end
 
-  # ----- deleteway
-  #		  delete way and constituent nodes from database
-  #		  in:	[0] user token (string), [1] way id
-  #		  does: deletes way from db and any constituent nodes not used elsewhere
-  #				also removes ways/nodes from any relations they're in
-  #		  out:	[0] 0 (success), [1] way id (unchanged)
+  def getpoi(id) #:doc:
+	n = Node.find(id)
 
-  def deleteway(args) #:doc:
-    usertoken,way_id=args
-    RAILS_DEFAULT_LOGGER.info("  Message: deleteway, id=#{way_id}")
-    uid=getuserid(usertoken)
-    if !uid then return -1,"You are not logged in, so the way could not be deleted." end
-
-	# FIXME
-	# the next bit removes the way from any relations
-	# the delete_with_relations_and_nodes_and_history method should do this,
-	#   but at present it just throws a 'precondition failed'
-    way=way.to_i 
-    db_now='@now'+(rand*100).to_i.to_s+uid.to_s+way.abs.to_s+Time.new.to_i.to_s
-	db_uqn='unin'+(rand*100).to_i.to_s+uid.to_s+way.abs.to_s+Time.new.to_i.to_s
-    ActiveRecord::Base.connection.execute("SET #{db_now}=NOW()")
-	createuniquenodes(way,db_uqn,[])
-	deleteuniquenoderelations(db_uqn,uid,db_now)
-    deleteitemrelations(way_id,'way',uid,db_now)
-    ActiveRecord::Base.connection.execute("DROP TEMPORARY TABLE #{db_uqn}")
-	# end of FIXME
-
-	# now delete the way
-    user = User.find(uid)
-    way = Way.find(way_id)
-    way.delete_with_relations_and_nodes_and_history(user)  
-    return [0,way_id]
+	if n
+	  return [n.id, n.lon, n.lat, n.tags_as_hash]
+	else
+	  return [nil, nil, nil, '']
+	end
   end
 
 
-  def readwayquery(id,insistonvisible) #:doc:
-    sql=<<-EOF
-    SELECT latitude*0.0000001 AS latitude,longitude*0.0000001 AS longitude,current_nodes.id,tags,visible 
-      FROM current_way_nodes,current_nodes 
-     WHERE current_way_nodes.id=#{id} 
-       AND current_way_nodes.node_id=current_nodes.id 
-  EOF
-    if insistonvisible then sql+=" AND current_nodes.visible=1 " end
-    sql+=" ORDER BY sequence_id"
-    ActiveRecord::Base.connection.select_all(sql)
-  end
+  def deleteway(usertoken, way_id) #:doc:
+	uid = getuserid(usertoken)
+	if !uid then return -1,"You are not logged in, so the way could not be deleted." end
 
-  # Get the latest version id of a way
-  def getlastversion(id,version) #:doc:
-    old_way = OldWay.find(:first, :conditions => ['visible=1 AND id=?' , id], :order => 'version DESC')
-    old_way.version
-  end
+	# FIXME: would be good not to make two history entries when removing
+	#		 two nodes from the same relation
+	user = User.find(uid)
+	way = Way.find(way_id)
+	way.unshared_node_ids.each do |n|
+	  deleteitemrelations(n, 'node')
+	end
 
-  def readwayquery_old(id,version,historic) #:doc:
-    # Node handling on undelete (historic=false):
-    # - always use the node specified, even if it's moved
+	way.delete_with_relations_and_nodes_and_history(user)  
 
-    # Node handling on revert (historic=true):
-    # - if it's a visible node, use a new node id (i.e. not mucking up the old one)
-    #   which means the SWF needs to allocate new ids
-    # - if it's an invisible node, we can reuse the old node id
-
-    # -----	get node list from specified version of way,
-    #		and the _current_ lat/long/tags of each node
-
-    row=ActiveRecord::Base.connection.select_one("SELECT timestamp FROM ways WHERE version=#{version} AND id=#{id}")
-    waytime=row['timestamp']
-
-    sql=<<-EOF
-  SELECT cn.id,visible,latitude*0.0000001 AS latitude,longitude*0.0000001 AS longitude,tags 
-    FROM way_nodes wn,current_nodes cn 
-   WHERE wn.version=#{version} 
-     AND wn.id=#{id} 
-     AND wn.node_id=cn.id 
-   ORDER BY sequence_id
-  EOF
-    rows=ActiveRecord::Base.connection.select_all(sql)
-
-    # -----	if historic (full revert), get the old version of each node
-    # 		- if it's in another way now, generate a new id
-    # 		- if it's not in another way, use the old ID
-
-    if historic then
-      rows.each_index do |i|
-        sql=<<-EOF
-    SELECT latitude*0.0000001 AS latitude,longitude*0.0000001 AS longitude,tags,cwn.id AS currentway 
-      FROM nodes n
- LEFT JOIN current_way_nodes cwn
-        ON cwn.node_id=n.id AND cwn.id!=#{id} 
-     WHERE n.id=#{rows[i]['id']} 
-       AND n.timestamp<="#{waytime}" 
-  ORDER BY n.timestamp DESC 
-     LIMIT 1
-    EOF
-        row=ActiveRecord::Base.connection.select_one(sql)
-        nx=row['longitude'].to_f
-        ny=row['latitude'].to_f
-        if (!row.nil?)
-          if (row['currentway'] && (nx!=rows[i]['longitude'].to_f or ny!=rows[i]['latitude'].to_f or row['tags']!=rows[i]['tags'])) then rows[i]['id']=-1 end
-		end
-        rows[i]['longitude']=nx
-        rows[i]['latitude' ]=ny
-        rows[i]['tags'     ]=row['tags']
-      end
-    end
-    rows
+	[0, way_id]
   end
 
   def createuniquenodes(way,uqn_name,nodelist) #:doc:
@@ -721,10 +555,15 @@ class AmfController < ApplicationController
      AND cr.visible=1
   EOF
 
-    relnodes=ActiveRecord::Base.connection.select_all(sql)
-    relnodes.each do |a|
-      removefromrelation(a['node_id'],'node',a['id'],uid,db_now)
-    end
+  def deleteitemrelations(objid, type) #:doc:
+	relations = RelationMember.find(:all, 
+									:conditions => ['member_type = ? and member_id = ?', type, objid], 
+									:include => :relation).collect { |rm| rm.relation }.uniq
+
+	relations.each do |rel|
+	  rel.members.delete_if { |x| x[0] == type and x[1] == objid }
+	  rel.save_with_history!
+	end
   end
 
   def deleteitemrelations(objid,type,uid,db_now) #:doc:
@@ -824,3 +663,8 @@ class AmfController < ApplicationController
   end
 
 end
+
+# Local Variables:
+# indent-tabs-mode: t
+# tab-width: 4
+# End:
