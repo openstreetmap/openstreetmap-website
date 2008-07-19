@@ -63,7 +63,7 @@ class DiaryEntryController < ApplicationController
         render :content_type => Mime::RSS
       else
         render :nothing => true, :status => :not_found
-      endif
+      end
     else
       @entries = DiaryEntry.find(:all, :order => 'created_at DESC', :limit => 20)
       @title = "OpenStreetMap diary entries"
