@@ -39,6 +39,7 @@ class DiaryEntryController < ApplicationController
                                           :per_page => 20)
       else
         @not_found_user = params[:display_name]
+
         render :action => 'no_such_user', :status => :not_found
       end
     else
@@ -52,22 +53,36 @@ class DiaryEntryController < ApplicationController
   def rss
     if params[:display_name]
       user = User.find_by_display_name(params[:display_name])
-      @entries = DiaryEntry.find(:all, :conditions => ['user_id = ?', user.id], :order => 'created_at DESC', :limit => 20)
-      @title = "OpenStreetMap diary entries for #{user.display_name}"
-      @description = "Recent OpenStreetmap diary entries from #{user.display_name}"
-      @link = "http://www.openstreetmap.org/user/#{user.display_name}/diary"
+
+      if user
+        @entries = DiaryEntry.find(:all, :conditions => ['user_id = ?', user.id], :order => 'created_at DESC', :limit => 20)
+        @title = "OpenStreetMap diary entries for #{user.display_name}"
+        @description = "Recent OpenStreetmap diary entries from #{user.display_name}"
+        @link = "http://www.openstreetmap.org/user/#{user.display_name}/diary"
+
+        render :content_type => Mime::RSS
+      else
+        render :nothing => true, :status => :not_found
+      endif
     else
       @entries = DiaryEntry.find(:all, :order => 'created_at DESC', :limit => 20)
       @title = "OpenStreetMap diary entries"
       @description = "Recent diary entries from users of OpenStreetMap"
       @link = "http://www.openstreetmap.org/diary"
-    end
 
-    render :content_type => Mime::RSS
+      render :content_type => Mime::RSS
+    end
   end
 
   def view
     user = User.find_by_display_name(params[:display_name])
-    @entry = DiaryEntry.find(:first, :conditions => ['user_id = ? AND id = ?', user.id, params[:id]])
+
+    if user
+      @entry = DiaryEntry.find(:first, :conditions => ['user_id = ? AND id = ?', user.id, params[:id]])
+    else
+      @not_found_user = params[:display_name]
+
+      render :action => 'no_such_user', :status => :not_found
+    end
   end
 end
