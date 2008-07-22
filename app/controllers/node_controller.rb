@@ -70,6 +70,8 @@ class NodeController < ApplicationController
     begin
       node = Node.find(params[:id])
       node.delete_with_history(@user)
+
+      render :nothing => true
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
     rescue OSM::APIError => ex
