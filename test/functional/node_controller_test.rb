@@ -57,7 +57,7 @@ class NodeControllerTest < Test::Unit::TestCase
     assert_response :unauthorized
 
     # now set auth
-    basic_authorization("test@openstreetmap.org", "test");  
+    basic_authorization(users(:normal_user).email, "test");  
 
     # this should work
     delete :delete, :id => current_nodes(:visible_node).id

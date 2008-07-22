@@ -23,7 +23,7 @@ class ApiControllerTest < Test::Unit::TestCase
 
   def test_map
     node = current_nodes(:used_node_1)
-    bbox = "#{node.latitude-0.1},#{node.longitude-0.1},#{node.latitude+0.1},#{node.longitude+0.1}"
+    bbox = "#{node.lat-0.1},#{node.lon-0.1},#{node.lat+0.1},#{node.lon+0.1}"
     get :map, :bbox => bbox
     if $VERBOSE
         print @response.body

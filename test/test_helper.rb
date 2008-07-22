@@ -29,9 +29,10 @@ class Test::Unit::TestCase
   def self.api_fixtures
     fixtures :users
 
-    fixtures :current_nodes, :nodes
+    fixtures :current_nodes, :nodes, :current_node_tags
     set_fixture_class :current_nodes => :Node
     set_fixture_class :nodes => :OldNode
+    set_fixture_class :current_node_tags => :NodeTag
 
     fixtures :current_ways, :current_way_nodes, :current_way_tags
     set_fixture_class :current_ways => :Way

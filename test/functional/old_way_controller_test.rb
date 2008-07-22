@@ -17,11 +17,13 @@ class OldWayControllerTest < Test::Unit::TestCase
   # Test reading old ways.
   # -------------------------------------
 
-  def test_history
+  def test_history_visible
     # check that a visible way is returned properly
     get :history, :id => ways(:visible_way).id
     assert_response :success
-
+  end
+  
+  def test_history_invisible
     # check chat a non-existent way is not returned
     get :history, :id => 0
     assert_response :not_found
