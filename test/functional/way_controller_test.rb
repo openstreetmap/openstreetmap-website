@@ -42,13 +42,29 @@ class WayControllerTest < Test::Unit::TestCase
     get :ways_for_node, :id => current_nodes(:used_node_1).id
     assert_response :success
     # FIXME check whether this contains the stuff we want!
-    print @response.body
+    #print @response.body
+    # Needs to be updated when changing fixtures
+    # The generator should probably be defined in the environment.rb file
+    # in the same place as the api version
+    assert_select "osm[version=#{API_VERSION}][generator=\"OpenStreetMap server\"]", 1
+    assert_select "osm way", 3
+    assert_select "osm way nd", 3
+    assert_select "osm way tag", 3
 
     # check the "full" mode
     get :full, :id => current_ways(:visible_way).id
     assert_response :success
     # FIXME check whether this contains the stuff we want!
-    print @response.body
+    #print @response.body
+    # Check the way is correctly returned
+    way = current_ways(:visible_way)
+    assert_select "osm way[id=#{way.id}][version=#{way.version}][visible=#{way.visible}]", 1
+    assert_select "osm way nd[ref=#{way.way_nodes[0].node_id}]", 1
+    # Check that the node is correctly returned
+    nd = current_ways(:visible_way).nodes
+    assert_equal 1, nd.count
+    nda = nd[0]
+    assert_select "osm node[id=#{nda.id}][version=#{nda.version}][lat=#{nda.lat}][lon=#{nda.lon}]", 1 
   end
 
   # -------------------------------------
