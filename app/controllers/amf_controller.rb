@@ -80,6 +80,7 @@ class AmfController < ApplicationController
 									end
 									results[index]=AMF.putdata(index,r)
 		when 'putrelation';			results[index]=AMF.putdata(index,putrelation(renumberednodes, renumberedways, *args))
+		when 'findrelations';		results[index]=AMF.putdata(index,findrelations(*args))
 		when 'deleteway';			results[index]=AMF.putdata(index,deleteway(args[0],args[1].to_i))
 		when 'putpoi';				results[index]=AMF.putdata(index,putpoi(*args))
 		when 'getpoi';				results[index]=AMF.putdata(index,getpoi(args[0].to_i))
@@ -212,6 +213,26 @@ class AmfController < ApplicationController
 	rel = Relation.find(relid)
 
 	[relid, rel.tags, rel.members]
+  end
+
+  # Find relations with specified name/id.
+  # Returns array of relations, each in same form as getrelation.
+  
+  def findrelations(searchterm)
+	rels = []
+	if searchterm.to_i>0 then
+	  rel = Relation.find(searchterm.to_i)
+	  if rel and rel.visible then
+	    rels.push([rel.id, rel.tags, rel.members])
+	  end
+	else
+	  RelationTag.find(:all, :limit => 11, :conditions => ["match(v) against (?)", searchterm] ).each do |t|
+		if t.relation.visible then
+	      rels.push([t.relation.id, t.relation.tags, t.relation.members])
+	    end
+	  end
+	end
+	rels
   end
 
   # Save a relation.
