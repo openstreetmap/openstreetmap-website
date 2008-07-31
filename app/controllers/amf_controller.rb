@@ -22,11 +22,6 @@
 #	return(-2,"message")		<-- also asks the user to e-mail me
 # 
 # To write to the Rails log, use RAILS_DEFAULT_LOGGER.info("message").
-#
-# == To do
-# 
-# - Check authentication
-# - Check the right things are being written to the database!
 
 class AmfController < ApplicationController
   require 'stringio'
@@ -73,6 +68,7 @@ class AmfController < ApplicationController
 		when 'getrelation';			results[index]=AMF.putdata(index,getrelation(args[0].to_i))
 		when 'getway_old';			results[index]=AMF.putdata(index,getway_old(args[0].to_i,args[1].to_i))
 		when 'getway_history';		results[index]=AMF.putdata(index,getway_history(args[0].to_i))
+		when 'getnode_history';		results[index]=AMF.putdata(index,getnode_history(args[0].to_i))
 		when 'putway';				r=putway(renumberednodes,*args)
 									renumberednodes=r[3]
 									if r[1] != r[2]
@@ -83,7 +79,7 @@ class AmfController < ApplicationController
 		when 'findrelations';		results[index]=AMF.putdata(index,findrelations(*args))
 		when 'deleteway';			results[index]=AMF.putdata(index,deleteway(args[0],args[1].to_i))
 		when 'putpoi';				results[index]=AMF.putdata(index,putpoi(*args))
-		when 'getpoi';				results[index]=AMF.putdata(index,getpoi(args[0].to_i))
+		when 'getpoi';				results[index]=AMF.putdata(index,getpoi(*args))
 	  end
 	end
 
@@ -192,15 +188,30 @@ class AmfController < ApplicationController
 	[0, id, points, old_way.tags, old_way.version]
   end
   
-  # Find history of a way. Returns an array of previous versions.
+  # Find history of a way. Returns 'way', id, and 
+  # an array of previous versions.
 
   def getway_history(wayid) #:doc:
-	history = Way.find(wayid).old_ways.collect do |old_way|
+	history = Way.find(wayid).old_ways.reverse.collect do |old_way|
 	  user = old_way.user.data_public? ? old_way.user.display_name : 'anonymous'
-	  [old_way.version, old_way.timestamp.strftime("%d %b %Y, %H:%M"), old_way.visible ? 1 : 0, user]
+	  uid  = old_way.user.data_public? ? old_way.user.id : 0
+	  [old_way.version, old_way.timestamp.strftime("%d %b %Y, %H:%M"), old_way.visible ? 1 : 0, user, uid]
 	end
 
-	[history]
+	['way',wayid,history]
+  end
+
+  # Find history of a node. Returns 'node', id, and 
+  # an array of previous versions.
+
+  def getnode_history(nodeid) #:doc:
+	history = Node.find(nodeid).old_nodes.reverse.collect do |old_node|
+	  user = old_node.user.data_public? ? old_node.user.display_name : 'anonymous'
+	  uid  = old_node.user.data_public? ? old_node.user.id : 0
+	  [old_node.timestamp.to_i, old_node.timestamp.strftime("%d %b %Y, %H:%M"), old_node.visible ? 1 : 0, user, uid]
+	end
+
+	['node',nodeid,history]
   end
 
   # Get a relation with all tags and members.
@@ -427,8 +438,12 @@ class AmfController < ApplicationController
   #
   # Returns array of id, long, lat, hash of tags.
 
-  def getpoi(id) #:doc:
-	n = Node.find(id)
+  def getpoi(id,timestamp) #:doc:
+	if timestamp>0 then
+	  n = OldNode.find(id, :conditions=>['UNIX_TIMESTAMP(timestamp)=?',timestamp])
+	else
+	  n = Node.find(id)
+	end
 
 	if n
 	  return [n.id, n.lon, n.lat, n.tags_as_hash]
