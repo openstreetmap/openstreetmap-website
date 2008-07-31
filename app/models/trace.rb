@@ -158,7 +158,7 @@ class Trace < ActiveRecord::Base
       elsif bzipped
         system("bunzip2 -c #{trace_name} > #{tmpfile.path}")
       elsif zipped
-        system("unzip -p #{trace_name} > #{tmpfile.path}")
+        system("unzip -p #{trace_name} -x '__MACOSX/*' > #{tmpfile.path}")
       end
 
       tmpfile.unlink
