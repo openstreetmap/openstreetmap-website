@@ -58,18 +58,16 @@ class Trace < ActiveRecord::Base
     data
   end
   
-  # FIXME change to permanent filestore area
   def large_picture_name
-    "/home/osm/icons/#{id}.gif"
+    "#{GPX_IMAGE_DIR}/#{id}.gif"
   end
 
-  # FIXME change to permanent filestore area
   def icon_picture_name
-    "/home/osm/icons/#{id}_icon.gif"
+    "#{GPX_IMAGE_DIR}/#{id}_icon.gif"
   end
 
   def trace_name
-    "/home/osm/gpx/#{id}.gpx"
+    "#{GPX_TRACE_DIR}/#{id}.gpx"
   end
 
   def mime_type
