@@ -1,4 +1,3 @@
-
 class Notifier < ActionMailer::Base
   def signup_confirm(user, token)
     recipients user.email
@@ -29,7 +28,7 @@ class Notifier < ActionMailer::Base
   end
 
   def gpx_success(trace, possible_points)
-    recipients trace.user.email
+    recipients trace.user.email if trace.user.email_valid
     from "webmaster@openstreetmap.org"
     subject "[OpenStreetMap] GPX Import success"
     headers "Auto-Submitted" => "auto-generated"
@@ -41,7 +40,7 @@ class Notifier < ActionMailer::Base
   end
 
   def gpx_failure(trace, error)
-    recipients trace.user.email
+    recipients trace.user.email if trace.user.email_valid
     from "webmaster@openstreetmap.org"
     subject "[OpenStreetMap] GPX Import failure"
     headers "Auto-Submitted" => "auto-generated"
@@ -52,7 +51,7 @@ class Notifier < ActionMailer::Base
   end
   
   def message_notification(message)
-    recipients message.recipient.email
+    recipients message.recipient.email if message.recipient.email_valid
     from "webmaster@openstreetmap.org"
     subject "[OpenStreetMap] #{message.sender.display_name} sent you a new message"
     headers "Auto-Submitted" => "auto-generated"
@@ -69,7 +68,7 @@ class Notifier < ActionMailer::Base
   end
 
   def diary_comment_notification(comment)
-    recipients comment.diary_entry.user.email
+    recipients comment.diary_entry.user.email if comment.diary_entry.user.email_valid
     from "webmaster@openstreetmap.org"
     subject "[OpenStreetMap] #{comment.user.display_name} commented on your diary entry"
     headers "Auto-Submitted" => "auto-generated"
@@ -100,7 +99,7 @@ class Notifier < ActionMailer::Base
     befriender = User.find_by_id(friend.user_id)
     befriendee = User.find_by_id(friend.friend_user_id)
 
-    recipients befriendee.email
+    recipients befriendee.email if  befriendee.email_valid
     from "webmaster@openstreetmap.org"
     subject "[OpenStreetMap] #{befriender.display_name} added you as a friend"
     headers "Auto-Submitted" => "auto-generated"

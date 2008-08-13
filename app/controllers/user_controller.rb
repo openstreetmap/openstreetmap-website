@@ -92,6 +92,7 @@ class UserController < ApplicationController
         user.pass_crypt = pass
         user.pass_crypt_confirmation = pass
         user.active = true
+        user.email_valid = true
         user.save!
         token.destroy
         Notifier::deliver_reset_password(user, pass)
@@ -151,6 +152,7 @@ class UserController < ApplicationController
       if token and !token.user.active?
         @user = token.user
         @user.active = true
+        @user.email_valid = true
         @user.save!
         token.destroy
         flash[:notice] = 'Confirmed your account, thanks for signing up!'
