@@ -2,7 +2,7 @@
 <%= error_messages_for 'user' %>
 <% form_for :user, @user do |f| %>
 <table style="width : 100%">
-  <tr><td>Email</td><td><%= @user.email %></td></tr>
+  <tr><td>Email</td><td><%= f.text_field :email %></td></tr>
   <tr><td>Mapper since</td><td><%= @user.creation_time %> (<%= time_ago_in_words(@user.creation_time) %> ago)</td></tr>
   <tr><td>Display Name</td><td><%= f.text_field :display_name %></td></tr>
   <tr><td>Password</td><td><%= f.password_field :pass_crypt, {:value => '', :size => 50, :maxlength => 255} %></td></tr>

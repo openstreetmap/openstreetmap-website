@@ -17,9 +17,8 @@ class UserController < ApplicationController
     @user.description = "" if @user.description.nil?
 
     if @user.save
-      token = @user.tokens.create
       flash[:notice] = "User was successfully created. Check your email for a confirmation note, and you\'ll be mapping in no time :-)<br>Please note that you won't be able to login until you've received and confirmed your email address."
-      Notifier::deliver_signup_confirm(@user, token)
+      Notifier.deliver_signup_confirm(@user, @user.tokens.create)
       redirect_to :action => 'login'
     else
       render :action => 'new'
@@ -29,19 +28,28 @@ class UserController < ApplicationController
   def account
     @title = 'edit account'
     if params[:user] and params[:user][:display_name] and params[:user][:description]
-      home_lat =  params[:user][:home_lat]
-      home_lon =  params[:user][:home_lon]
+      if params[:user][:email] != @user.email
+        @user.new_email = params[:user][:email]
+      end
 
       @user.display_name = params[:user][:display_name]
+
       if params[:user][:pass_crypt].length > 0 or params[:user][:pass_crypt_confirmation].length > 0
         @user.pass_crypt = params[:user][:pass_crypt]
         @user.pass_crypt_confirmation = params[:user][:pass_crypt_confirmation]
       end
+
       @user.description = params[:user][:description]
-      @user.home_lat = home_lat
-      @user.home_lon = home_lon
+      @user.home_lat = params[:user][:home_lat]
+      @user.home_lon = params[:user][:home_lon]
+
       if @user.save
-        flash[:notice] = "User information updated successfully."
+        if params[:user][:email] == @user.new_email
+          flash[:notice] = "User information updated successfully. Check your email for a note to confirm your new email address."
+          Notifier.deliver_email_confirm(@user, @user.tokens.create)
+        else
+          flash[:notice] = "User information updated successfully."
+        end
       else
         flash.delete(:notice)
       end
@@ -72,7 +80,7 @@ class UserController < ApplicationController
       user = User.find_by_email(params[:user][:email])
       if user
         token = user.tokens.create
-        Notifier::deliver_lost_password(user, token)
+        Notifier.deliver_lost_password(user, token)
         flash[:notice] = "Sorry you lost it :-( but an email is on its way so you can reset it soon."
       else
         flash[:notice] = "Couldn't find that email address, sorry."
@@ -95,7 +103,7 @@ class UserController < ApplicationController
         user.email_valid = true
         user.save!
         token.destroy
-        Notifier::deliver_reset_password(user, pass)
+        Notifier.deliver_reset_password(user, pass)
         flash[:notice] = "Your password has been changed and is on its way to your mailbox :-)"
       else
         flash[:notice] = "Didn't find that token, check the URL maybe?"
@@ -164,6 +172,26 @@ class UserController < ApplicationController
     end
   end
 
+  def confirm_email
+    if params[:confirm_action]
+      token = UserToken.find_by_token(params[:confirm_string])
+      if token and token.user.new_email?
+        @user = token.user
+        @user.email = @user.new_email
+        @user.new_email = nil
+        @user.active = true
+        @user.email_valid = true
+        @user.save!
+        token.destroy
+        flash[:notice] = 'Confirmed your email address, thanks for signing up!'
+        session[:user] = @user.id
+        redirect_to :action => 'account', :display_name => @user.display_name
+      else
+        flash[:notice] = 'Something went wrong confirming that email address.'
+      end
+    end
+  end
+
   def upload_image
     @user.image = params[:user][:image]
     @user.save!
@@ -209,7 +237,7 @@ class UserController < ApplicationController
       unless @user.is_friends_with?(new_friend)
         if friend.save
           flash[:notice] = "#{name} is now your friend."
-          Notifier::deliver_friend_notification(friend)
+          Notifier.deliver_friend_notification(friend)
         else
           friend.add_error("Sorry, failed to add #{name} as a friend.")
         end

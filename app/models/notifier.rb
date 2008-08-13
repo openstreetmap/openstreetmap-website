@@ -9,6 +9,17 @@ class Notifier < ActionMailer::Base
                          :confirm_string => token.token)
   end
 
+  def email_confirm(user, token)
+    recipients user.new_email
+    from "webmaster@openstreetmap.org"
+    subject "[OpenStreetMap] Confirm your email address"
+    headers "Auto-Submitted" => "auto-generated"
+    body :address => user.new_email,
+         :url => url_for(:host => SERVER_URL,
+                         :controller => "user", :action => "confirm_email",
+                         :confirm_string => token.token)
+  end
+
   def lost_password(user, token)
     recipients user.email
     from "webmaster@openstreetmap.org"
