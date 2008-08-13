@@ -45,13 +45,11 @@ class UserController < ApplicationController
 
       if @user.save
         if params[:user][:email] == @user.new_email
-          flash[:notice] = "User information updated successfully. Check your email for a note to confirm your new email address."
+          @notice = "User information updated successfully. Check your email for a note to confirm your new email address."
           Notifier.deliver_email_confirm(@user, @user.tokens.create)
         else
-          flash[:notice] = "User information updated successfully."
+          @notice = "User information updated successfully."
         end
-      else
-        flash.delete(:notice)
       end
     end
   end
@@ -81,12 +79,10 @@ class UserController < ApplicationController
       if user
         token = user.tokens.create
         Notifier.deliver_lost_password(user, token)
-        flash[:notice] = "Sorry you lost it :-( but an email is on its way so you can reset it soon."
+        @notice = "Sorry you lost it :-( but an email is on its way so you can reset it soon."
       else
-        flash[:notice] = "Couldn't find that email address, sorry."
+        @notice = "Couldn't find that email address, sorry."
       end
-    else
-      render :action => 'lost_password'
     end
   end
 
@@ -109,6 +105,7 @@ class UserController < ApplicationController
         flash[:notice] = "Didn't find that token, check the URL maybe?"
       end
     end
+
     redirect_to :action => 'login'
   end
 
@@ -131,9 +128,9 @@ class UserController < ApplicationController
         end
         return
       elsif User.authenticate(:username => email_or_display_name, :password => pass, :inactive => true)
-        flash[:notice] = "Sorry, your account is not active yet.<br>Please click on the link in the account confirmation email to activate your account."
+        @notice = "Sorry, your account is not active yet.<br>Please click on the link in the account confirmation email to activate your account."
       else
-        flash[:notice] = "Sorry, couldn't log in with those details."
+        @notice = "Sorry, couldn't log in with those details."
       end
     end
   end
@@ -167,7 +164,7 @@ class UserController < ApplicationController
         session[:user] = @user.id
         redirect_to :action => 'account', :display_name => @user.display_name
       else
-        flash[:notice] = 'Something went wrong confirming that user.'
+        @notice = 'Something went wrong confirming that user.'
       end
     end
   end
@@ -187,7 +184,7 @@ class UserController < ApplicationController
         session[:user] = @user.id
         redirect_to :action => 'account', :display_name => @user.display_name
       else
-        flash[:notice] = 'Something went wrong confirming that email address.'
+        @notice = 'Something went wrong confirming that email address.'
       end
     end
   end
@@ -244,6 +241,7 @@ class UserController < ApplicationController
       else
         flash[:notice] = "You are already friends with #{name}."  
       end
+
       redirect_to :controller => 'user', :action => 'view'
     end
   end
@@ -258,9 +256,8 @@ class UserController < ApplicationController
       else
         flash[:notice] = "#{friend.display_name} was not already one of your friends."
       end
+
       redirect_to :controller => 'user', :action => 'view'
     end
   end
-
 end
-

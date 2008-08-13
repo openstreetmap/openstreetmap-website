@@ -11,8 +11,8 @@
   </head>
   <body>
     <div id="content">
-      <% if flash[:notice] %>
-        <div id="notice"><%= flash[:notice] %></div>
+      <% if @notice || flash[:notice] %>
+        <div id="notice"><%= @notice || flash[:notice] %></div>
       <% end %>
 
       <%= yield %>
