@@ -78,6 +78,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/user/new', :controller => 'user', :action => 'new'
   map.connect '/user/save', :controller => 'user', :action => 'save'
   map.connect '/user/confirm', :controller => 'user', :action => 'confirm'
+  map.connect '/user/confirm-email', :controller => 'user', :action => 'confirm_email'
   map.connect '/user/go_public', :controller => 'user', :action => 'go_public'
   map.connect '/user/reset-password', :controller => 'user', :action => 'reset_password'
   map.connect '/user/upload-image', :controller => 'user', :action => 'upload_image'
