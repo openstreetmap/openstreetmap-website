@@ -2,7 +2,7 @@ class DiaryEntryController < ApplicationController
   layout 'site', :except => :rss
 
   before_filter :authorize_web
-  before_filter :require_user, :only => [:new]
+  before_filter :require_user, :only => [:new, :edit]
   before_filter :check_database_availability
 
   def new
@@ -13,6 +13,23 @@ class DiaryEntryController < ApplicationController
       if @diary_entry.save 
         redirect_to :controller => 'diary_entry', :action => 'list', :display_name => @user.display_name 
       end
+    end
+  end
+
+  def edit
+    @title= 'edit diary entry'
+    @diary_entry = DiaryEntry.find(params[:id])
+    if @user != @diary_entry.user
+	  redirect_to :controller => 'diary_entry', :action => 'view', :id => params[:id]
+    end
+    if params[:diary_entry]
+      @diary_entry.title = params[:diary_entry][:title]
+      @diary_entry.body = params[:diary_entry][:body]
+      @diary_entry.latitude = params[:diary_entry][:latitude]
+      @diary_entry.longitude = params[:diary_entry][:longitude]
+      if @diary_entry.save
+        redirect_to :controller => 'diary_entry', :action => 'view', :id => params[:id]
+	  end
     end
   end
 
