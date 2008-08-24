@@ -6,30 +6,37 @@ class DiaryEntryController < ApplicationController
   before_filter :check_database_availability
 
   def new
-    @title = 'new diary entry'
+    @title = 'New diary entry'
+
     if params[:diary_entry]     
       @diary_entry = DiaryEntry.new(params[:diary_entry])
       @diary_entry.user = @user
+
       if @diary_entry.save 
         redirect_to :controller => 'diary_entry', :action => 'list', :display_name => @user.display_name 
+      else
+        render :action => 'edit'
       end
+    else
+      render :action => 'edit'
     end
   end
 
   def edit
-    @title= 'edit diary entry'
+    @title= 'Edit diary entry'
     @diary_entry = DiaryEntry.find(params[:id])
+
     if @user != @diary_entry.user
-	  redirect_to :controller => 'diary_entry', :action => 'view', :id => params[:id]
-    end
-    if params[:diary_entry]
+      redirect_to :controller => 'diary_entry', :action => 'view', :id => params[:id]
+    elsif params[:diary_entry]
       @diary_entry.title = params[:diary_entry][:title]
       @diary_entry.body = params[:diary_entry][:body]
       @diary_entry.latitude = params[:diary_entry][:latitude]
       @diary_entry.longitude = params[:diary_entry][:longitude]
+
       if @diary_entry.save
         redirect_to :controller => 'diary_entry', :action => 'view', :id => params[:id]
-	  end
+      end
     end
   end
 
@@ -44,7 +51,7 @@ class DiaryEntryController < ApplicationController
       render :action => 'view'
     end
   end
-  
+
   def list
     if params[:display_name]
       @this_user = User.find_by_display_name(params[:display_name])

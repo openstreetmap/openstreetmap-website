@@ -129,7 +129,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/user/:display_name/diary/:id', :controller => 'diary_entry', :action => 'view', :id => /\d+/
   map.connect '/user/:display_name/diary/:id/newcomment', :controller => 'diary_entry', :action => 'comment', :id => /\d+/
   map.connect '/user/:display_name/diary/rss', :controller => 'diary_entry', :action => 'rss'
-  map.connect '/user/:display_name/diary/newpost', :controller => 'diary_entry', :action => 'new'
+  map.connect '/user/:display_name/diary/new', :controller => 'diary_entry', :action => 'new'
   map.connect '/user/:display_name/diary/:id/edit', :controller => 'diary_entry', :action => 'edit', :id => /\d+/
   map.connect '/user/:display_name/account', :controller => 'user', :action => 'account'
   map.connect '/user/:display_name/set_home', :controller => 'user', :action => 'set_home'
