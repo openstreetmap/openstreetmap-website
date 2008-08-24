@@ -54,7 +54,8 @@ class DiaryEntryController < ApplicationController
 
   def list
     if params[:display_name]
-      @this_user = User.find_by_display_name(params[:display_name])
+      @this_user = User.find_by_display_name(params[:display_name], :conditions => "visible = 1")
+
       if @this_user
         @title = @this_user.display_name + "'s diary"
         @entry_pages, @entries = paginate(:diary_entries,
@@ -76,7 +77,7 @@ class DiaryEntryController < ApplicationController
 
   def rss
     if params[:display_name]
-      user = User.find_by_display_name(params[:display_name])
+      user = User.find_by_display_name(params[:display_name], :conditions => "visible = 1")
 
       if user
         @entries = DiaryEntry.find(:all, :conditions => ['user_id = ?', user.id], :order => 'created_at DESC', :limit => 20)
@@ -99,7 +100,7 @@ class DiaryEntryController < ApplicationController
   end
 
   def view
-    user = User.find_by_display_name(params[:display_name])
+    user = User.find_by_display_name(params[:display_name], :conditions => "visible = 1")
 
     if user
       @entry = DiaryEntry.find(:first, :conditions => ['user_id = ? AND id = ?', user.id, params[:id]])

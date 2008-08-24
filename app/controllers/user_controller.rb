@@ -13,6 +13,7 @@ class UserController < ApplicationController
     @title = 'create account'
     @user = User.new(params[:user])
 
+    @user.visible = true
     @user.data_public = true
     @user.description = "" if @user.description.nil?
 
@@ -75,7 +76,8 @@ class UserController < ApplicationController
   def lost_password
     @title = 'lost password'
     if params[:user] and params[:user][:email]
-      user = User.find_by_email(params[:user][:email])
+      user = User.find_by_email(params[:user][:email], :conditions => "visible = 1")
+
       if user
         token = user.tokens.create
         Notifier.deliver_lost_password(user, token)
@@ -214,7 +216,7 @@ class UserController < ApplicationController
   end
 
   def view
-    @this_user = User.find_by_display_name(params[:display_name])
+    @this_user = User.find_by_display_name(params[:display_name], :conditions => "visible = 1")
 
     if @this_user
       @title = @this_user.display_name
@@ -227,7 +229,7 @@ class UserController < ApplicationController
   def make_friend
     if params[:display_name]     
       name = params[:display_name]
-      new_friend = User.find_by_display_name(name)
+      new_friend = User.find_by_display_name(name, :conditions => "visible = 1")
       friend = Friend.new
       friend.user_id = @user.id
       friend.friend_user_id = new_friend.id
@@ -249,12 +251,12 @@ class UserController < ApplicationController
   def remove_friend
     if params[:display_name]     
       name = params[:display_name]
-      friend = User.find_by_display_name(name)
+      friend = User.find_by_display_name(name, :conditions => "visible = 1")
       if @user.is_friends_with?(friend)
         Friend.delete_all "user_id = #{@user.id} AND friend_user_id = #{friend.id}"
         flash[:notice] = "#{friend.display_name} was removed from your friends."
       else
-        flash[:notice] = "#{friend.display_name} was not already one of your friends."
+        flash[:notice] = "#{friend.display_name} is not one of your friends."
       end
 
       redirect_to :controller => 'user', :action => 'view'
