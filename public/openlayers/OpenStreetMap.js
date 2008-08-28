@@ -171,11 +171,11 @@ OpenLayers.Layer.OSM.CycleMap = OpenLayers.Class(OpenLayers.Layer.OSM, {
      */
     initialize: function(name, options) {
         var url = [
-            "http://a.thunderflames.org/tiles/cycle/",
-            "http://b.thunderflames.org/tiles/cycle/",
-            "http://c.thunderflames.org/tiles/cycle/"
+            "http://a.andy.sandbox.cloudmade.com/tiles/cycle/",
+            "http://b.andy.sandbox.cloudmade.com/tiles/cycle/",
+            "http://c.andy.sandbox.cloudmade.com/tiles/cycle/"
         ];
-        options = OpenLayers.Util.extend({ numZoomLevels: 17 }, options);
+        options = OpenLayers.Util.extend({ numZoomLevels: 18 }, options);
         var newArguments = [name, url, options];
         OpenLayers.Layer.OSM.prototype.initialize.apply(this, newArguments);
     },
