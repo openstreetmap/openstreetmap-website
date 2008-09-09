@@ -3,6 +3,15 @@ var map;
 var markers;
 var popup;
 
+var nonamekeys = {
+   'openstreetmap.org': '2f59745a6b525b4ebdb100891d5b6711',
+   'www.openstreetmap.org': 'fd093e52f0965d46bb1c6c6281022199',
+   'openstreetmap.com': '4c60e7f5f31c576a9bb8da71c8d61152',
+   'www.openstreetmap.com': '142f25a0770a51a9a400b3513834a199',
+   'openstreetmap.net': '687c58fd1d715596bfc94abe653d8ac0',
+   'www.openstreetmap.net': '0bd1654141c85d30b9c2ccdb5302f2e4'
+};
+
 OpenLayers._getScriptLocation = function () {
    return "/openlayers/";
 }
@@ -41,6 +50,18 @@ function createMap(divName, options) {
       wrapDateLine: true
    });
    map.addLayer(cyclemap);
+
+   var nonamekey = nonamekeys[document.domain];
+   var noname = new OpenLayers.Layer.OSM("NoName", [
+      "http://a.tile.cloudmade.com/" + nonamekey + "/3/256/",
+      "http://b.tile.cloudmade.com/" + nonamekey + "/3/256/",
+      "http://c.tile.cloudmade.com/" + nonamekey + "/3/256/"
+   ], {
+      displayOutsideMaxExtent: true,
+      wrapDateLine: true,
+      numZoomLevels: 19
+   });
+   map.addLayer(noname);
 
    var maplint = new OpenLayers.Layer.OSM.Maplint("Maplint", {
       displayOutsideMaxExtent: true,
