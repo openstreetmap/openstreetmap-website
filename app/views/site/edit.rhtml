@@ -48,7 +48,7 @@
 <%= javascript_include_tag 'swfobject.js' %>
 <script type="text/javascript" defer="defer">
   var brokenContentSize = $("content").offsetWidth == 0;
-  var fo = new SWFObject("/potlatch/potlatch.swf?d="+Math.round(Math.random()*1000), "potlatch", "100%", "100%", "6", "#FFFFFF");
+  var fo = new SWFObject("<%= compute_public_path("potlatch.swf", "potlatch") %>", "potlatch", "100%", "100%", "6", "#FFFFFF");
   // 700,600 for fixed size, 100%,100% for resizable
   var changesaved=true;
   var winie=false; if (document.all && window.print) { winie=true; }
