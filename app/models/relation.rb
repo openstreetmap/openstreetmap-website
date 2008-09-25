@@ -112,6 +112,36 @@ class Relation < ActiveRecord::Base
     return el1
   end 
 
+  def self.find_for_nodes(ids, options = {})
+    if ids.empty?
+      return []
+    else
+      self.with_scope(:find => { :joins => "INNER JOIN current_relation_members ON current_relation_members.id = current_relations.id", :conditions => "current_relation_members.member_type = 'node' AND current_relation_members.member_id IN (#{ids.join(',')})" }) do
+        return self.find(:all, options)
+      end
+    end
+  end
+
+  def self.find_for_ways(ids, options = {})
+    if ids.empty?
+      return []
+    else
+      self.with_scope(:find => { :joins => "INNER JOIN current_relation_members ON current_relation_members.id = current_relations.id", :conditions => "current_relation_members.member_type = 'way' AND current_relation_members.member_id IN (#{ids.join(',')})" }) do
+        return self.find(:all, options)
+      end
+    end
+  end
+
+  def self.find_for_relations(ids, options = {})
+    if ids.empty?
+      return []
+    else
+      self.with_scope(:find => { :joins => "INNER JOIN current_relation_members ON current_relation_members.id = current_relations.id", :conditions => "current_relation_members.member_type = 'relation' AND current_relation_members.member_id IN (#{ids.join(',')})" }) do
+        return self.find(:all, options)
+      end
+    end
+  end
+
   # FIXME is this really needed?
   def members
     unless @members

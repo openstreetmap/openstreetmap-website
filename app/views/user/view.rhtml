@@ -3,7 +3,7 @@
 <div id="userinformation">
 <% if @user and @this_user.id == @user.id %>
 <%= link_to 'my diary', :controller => 'diary_entry', :action => 'list', :display_name => @user.display_name %>
-| <%= link_to 'new diary post', :controller => 'diary_entry', :action => 'new', :display_name => @user.display_name %>
+| <%= link_to 'new diary entry', :controller => 'diary_entry', :action => 'new', :display_name => @user.display_name %>
 | <%= link_to 'my traces', :controller => 'trace', :action=>'mine' %>
 | <%= link_to 'my settings', :controller => 'user', :action => 'account', :display_name => @user.display_name %>
 <% else %>
@@ -20,7 +20,10 @@
 
 <h3>User image</h3>
 <% if @this_user.image %>
- <%= image_tag url_for_file_column(@this_user, "image") %>
+  <%= image_tag url_for_file_column(@this_user, "image") %>
+  <% if @user and @this_user.id == @user.id %>
+    <%= button_to 'Delete Image', :action => 'delete_image' %>
+  <% end %>
 <% end %>
 <br />
 
@@ -28,12 +31,12 @@
   Upload an image<br />
   <%= form_tag({:action=>'upload_image'}, :multipart => true)%>
     <%= file_column_field 'user', 'image' %>
-    <input type="submit" name="Upload" />
+    <%= submit_tag 'Add Image' %>
   </form>
 <% end %>
 
 <h3>Description</h3>
-<div id="description"><%= simple_format(@this_user.description) %></div>
+<div id="description"><%= htmlize(@this_user.description) %></div>
 
 <% if @this_user.home_lat.nil? or @this_user.home_lon.nil? %>
 <h3>User location</h3>

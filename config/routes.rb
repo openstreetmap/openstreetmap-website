@@ -84,9 +84,11 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/user/new', :controller => 'user', :action => 'new'
   map.connect '/user/save', :controller => 'user', :action => 'save'
   map.connect '/user/confirm', :controller => 'user', :action => 'confirm'
+  map.connect '/user/confirm-email', :controller => 'user', :action => 'confirm_email'
   map.connect '/user/go_public', :controller => 'user', :action => 'go_public'
   map.connect '/user/reset-password', :controller => 'user', :action => 'reset_password'
   map.connect '/user/upload-image', :controller => 'user', :action => 'upload_image'
+  map.connect '/user/delete-image', :controller => 'user', :action => 'delete_image'
   map.connect '/user/forgot-password', :controller => 'user', :action => 'lost_password'
 
   map.connect '/index.html', :controller => 'site', :action => 'index'
@@ -133,7 +135,8 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/user/:display_name/diary/:id', :controller => 'diary_entry', :action => 'view', :id => /\d+/
   map.connect '/user/:display_name/diary/:id/newcomment', :controller => 'diary_entry', :action => 'comment', :id => /\d+/
   map.connect '/user/:display_name/diary/rss', :controller => 'diary_entry', :action => 'rss'
-  map.connect '/user/:display_name/diary/newpost', :controller => 'diary_entry', :action => 'new'
+  map.connect '/user/:display_name/diary/new', :controller => 'diary_entry', :action => 'new'
+  map.connect '/user/:display_name/diary/:id/edit', :controller => 'diary_entry', :action => 'edit', :id => /\d+/
   map.connect '/user/:display_name/account', :controller => 'user', :action => 'account'
   map.connect '/user/:display_name/set_home', :controller => 'user', :action => 'set_home'
   map.connect '/diary', :controller => 'diary_entry', :action => 'list'

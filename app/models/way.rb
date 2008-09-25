@@ -252,17 +252,8 @@ class Way < ActiveRecord::Base
 
   # FIXME: merge the potlatch code to delete the relations
   def delete_with_relations_and_nodes_and_history(user)
-    
-    node_ids = self.nodes.collect {|node| node.id }
-    node_ids_not_to_delete = []
-    way_nodes = WayNode.find(:all, :conditions => "node_id in (#{node_ids.join(',')}) and id != #{self.id}")
-    
-    node_ids_not_to_delete = way_nodes.collect {|way_node| way_node.node_id}
-
-    node_ids_to_delete = node_ids - node_ids_not_to_delete
-
     # delete the nodes not used by other ways
-    node_ids_to_delete.each do |node_id|
+    self.unshared_node_ids.each do |node_id|
       n = Node.find(node_id)
       n.user_id = user.id
       n.visible = false
@@ -272,7 +263,18 @@ class Way < ActiveRecord::Base
     self.user_id = user.id
 
     self.delete_with_history(user)
+  end
 
+  # Find nodes that belong to this way only
+  def unshared_node_ids
+    node_ids = self.nodes.collect { |node| node.id }
+
+    unless node_ids.empty?
+      way_nodes = WayNode.find(:all, :conditions => "node_id in (#{node_ids.join(',')}) and id != #{self.id}")
+      node_ids = node_ids - way_nodes.collect { |way_node| way_node.node_id }
+    end
+
+    return node_ids
   end
 
   # Temporary method to match interface to nodes

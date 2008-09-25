@@ -117,8 +117,8 @@ class SwfController < ApplicationController
 	def startShape
 		s =0.chr										# No fill styles
 		s+=2.chr										# Two line styles
-		s+=packUI16(5) + 0.chr + 255.chr + 255.chr		# Width 5, RGB #00FFFF
-		s+=packUI16(5) + 255.chr + 0.chr + 255.chr		# Width 5, RGB #FF00FF
+		s+=packUI16(0) + 0.chr + 255.chr + 255.chr		# Width 5, RGB #00FFFF
+		s+=packUI16(0) + 255.chr + 0.chr + 255.chr		# Width 5, RGB #FF00FF
 		s+=34.chr										# 2 fill, 2 line index bits
 		s
 	end

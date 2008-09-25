@@ -11,8 +11,8 @@
   </head>
   <body>
     <div id="content">
-      <% if flash[:notice] %>
-        <div id="notice"><%= flash[:notice] %></div>
+      <% if @notice || flash[:notice] %>
+        <div id="notice"><%= @notice || flash[:notice] %></div>
       <% end %>
 
       <%= yield %>
@@ -93,12 +93,6 @@
         <a href="http://www.opengeodata.org/">News blog</a><br />
         <a href="http://wiki.openstreetmap.org/index.php/Merchandise">Shop</a><br />
         <%= yield :left_menu %>
-      </div>
-
-      <div id="sotm" class="left_menu">
-        <div id="sotminfo">
-        Come to the second OpenStreetMap Conference, <a href="http://www.stateofthemap.org">The State of the Map</a>: 12th-13th July 2008, Limerick, Ireland.
-        </div>
       </div>
 
       <%= yield :optionals %>

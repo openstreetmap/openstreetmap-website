@@ -1,0 +1,81 @@
+<h1><%= @title %></h1>
+
+<%= error_messages_for 'diary_entry' %>
+
+<% form_for :diary_entry do |f| %>
+  <table>
+    <tr valign="top">
+      <th>Subject</th>
+      <td><%= f.text_field :title, :size => 60 %></td>
+    </tr>
+    <tr valign="top">
+      <th>Body</th>
+      <td><%= f.text_area :body, :cols => 80 %></td>
+    </tr>
+    <tr valign="top">
+      <th>Location</th>
+      <td>
+        <div id="map" style="border: 1px solid black; position: relative; width : 90%; height : 400px; display: none;"></div>
+        <span class="location">Latitude: <%= f.text_field :latitude, :size => 20, :id => "latitude" %> Longitude: <%= f.text_field :longitude, :size => 20, :id => "longitude" %></span>
+        <a href="javascript:openMap()" id="usemap">use map</a>
+      </td>
+    </tr>
+    <tr>
+      <th></th>
+      <td><%= submit_tag 'Save' %></td>
+    </tr>
+  </table>
+<% end %>
+
+<% if @user.home_lat.nil? or @user.home_lon.nil? %>
+  <% lon = h(params['lon'] || '-0.1') %>
+  <% lat = h(params['lat'] || '51.5') %>
+  <% zoom = h(params['zoom'] || '4') %> 
+<% else %>
+  <% lon = @user.home_lon %>
+  <% lat = @user.home_lat %>
+  <% zoom = '12' %>
+<% end %>
+
+<%= javascript_include_tag '/openlayers/OpenLayers.js' %>
+<%= javascript_include_tag '/openlayers/OpenStreetMap.js' %>
+<%= javascript_include_tag 'map.js' %>
+
+<script type="text/javascript">
+  <!--
+  var marker;
+
+  function init() {
+    var centre = new OpenLayers.LonLat(<%= lon %>, <%= lat %>);
+    var zoom = <%= zoom %>;
+
+    var map = createMap("map");
+
+    setMapCenter(centre, zoom);
+
+    map.events.register("click", map, setLocation);
+  }        
+
+  function setLocation( e ) { 
+    closeMapPopup();
+
+    var lonlat = getEventPosition(e);
+
+    document.getElementById('latitude').value = lonlat.lat;
+    document.getElementById('longitude').value = lonlat.lon;
+
+    if (marker) {
+      removeMarkerFromMap(marker);
+    }
+
+    marker = addMarkerToMap(lonlat, null, "Diary entry location");
+  }
+
+  function openMap() {
+    $("map").style.display = "block";
+    $("usemap").style.display = "none";
+  }
+
+  window.onload = init;
+// -->
+</script>

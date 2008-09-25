@@ -12,13 +12,13 @@ class TraceController < ApplicationController
     # from display name, pick up user id if one user's traces only
     display_name = params[:display_name]
     if target_user.nil? and !display_name.blank?
-      target_user = User.find(:first, :conditions => [ "display_name = ?", display_name])
+      target_user = User.find(:first, :conditions => [ "visible = 1 and display_name = ?", display_name])
     end
 
     # set title
     if target_user.nil?
       @title = "Public GPS traces"
-    elsif @user and @user.id == target_user.id
+    elsif @user and @user == target_user
       @title = "Your GPS traces"
     else
       @title = "Public GPS traces from #{target_user.display_name}"
@@ -38,7 +38,7 @@ class TraceController < ApplicationController
         conditions  = ["gpx_files.public = 1"] #2
       end
     else
-      if @user and @user.id == target_user.id
+      if @user and @user == target_user
         conditions = ["gpx_files.user_id = ?", @user.id] #3 (check vs user id, so no join + can't pick up non-public traces by changing name)
       else
         conditions = ["gpx_files.public = 1 AND gpx_files.user_id = ?", target_user.id] #4
@@ -88,7 +88,7 @@ class TraceController < ApplicationController
     @trace = Trace.find(params[:id])
 
     if @trace and @trace.visible? and
-       (@trace.public? or @trace.user.id == @user.id)
+       (@trace.public? or @trace.user == @user)
       @title = "Viewing trace #{@trace.name}"
     else
       flash[:notice] = "Trace not found!"

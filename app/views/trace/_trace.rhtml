@@ -2,26 +2,31 @@
   <% cl = cycle('table0', 'table1') %>
   <td class="<%= cl %>">
     <% if trace.inserted %>
-    <a href="<%= url_for :controller => 'trace', :action => 'view', :id => trace.id, :display_name => trace.user.display_name %>"><img src="<%= url_for :controller => 'trace', :action => 'icon', :id => trace.id, :display_name => trace.user.display_name %>" border="0" alt="" /></a>
+      <a href="<%= url_for :controller => 'trace', :action => 'view', :id => trace.id, :display_name => trace.user.display_name %>"><img src="<%= url_for :controller => 'trace', :action => 'icon', :id => trace.id, :display_name => trace.user.display_name %>" border="0" alt="" /></a>
     <% else %>
-    <span style="color:red">PENDING</span>
+      <span style="color:red">PENDING</span>
     <% end %>
   </td>
   <td class="<%= cl %>"><%= link_to trace.name, {:controller => 'trace', :action => 'view', :display_name => trace.user.display_name, :id => trace.id} %>
     <span class="gpxsummary" title="<%= trace.timestamp %>"> ... 
       <% if trace.inserted %> 
-      (<%= trace.size.to_s.gsub(/(\d)(?=(\d{3})+$)/,'\1,') %> points)
+        (<%= trace.size.to_s.gsub(/(\d)(?=(\d{3})+$)/,'\1,') %> points)
       <% end %> 
       ... <%= time_ago_in_words( trace.timestamp ) %>  ago</span>
       <%= link_to 'more', {:controller => 'trace', :action => 'view', :display_name => trace.user.display_name, :id => trace.id}, {:title => 'View Trace Details'} %> /
       <%= link_to_if trace.inserted?, 'map', {:controller => 'site', :action => 'index', :lat => trace.latitude, :lon => trace.longitude, :zoom => 14}, {:title => 'View Map'} %> /
       <%= link_to 'edit', {:controller => 'site', :action => 'edit', :gpx => trace.id }, {:title => 'Edit Map'} %>
+      <% if trace.public? %>
+        <span style="color:green">PUBLIC</span>
+      <% else %>
+        <span style="color:red">PRIVATE</span>
+      <% end %>
       <br />
       <%= h(trace.description) %>
     <br />
     by <%= link_to h(trace.user.display_name), {:controller => 'user', :action => 'view', :display_name => trace.user.display_name} %>
-    in 
-    <% if trace.tags %>
+    <% if !trace.tags.empty? %>
+      in 
       <% trace.tags.each do |tag| %>
         <%= link_to_tag tag.tag %>
       <% end %>

@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   has_many :messages, :foreign_key => :to_user_id, :order => 'sent_on DESC'
   has_many :new_messages, :class_name => "Message", :foreign_key => :to_user_id, :conditions => "message_read = 0", :order => 'sent_on DESC'
   has_many :sent_messages, :class_name => "Message", :foreign_key => :from_user_id, :order => 'sent_on DESC'
-  has_many :friends
+  has_many :friends, :include => :befriendee, :conditions => "users.visible = 1"
   has_many :tokens, :class_name => "UserToken"
   has_many :preferences, :class_name => "UserPreference"
 
@@ -48,7 +48,7 @@ class User < ActiveRecord::Base
     end
 
     if user
-      user = nil unless user.active? or options[:inactive]
+      user = nil unless user.visible? and (user.active? or options[:inactive])
     end
 
     token.update_attribute(:expiry, 1.week.from_now) if token and user
@@ -80,7 +80,7 @@ class User < ActiveRecord::Base
     if self.home_lon and self.home_lat 
       gc = OSM::GreatCircle.new(self.home_lat, self.home_lon)
       bounds = gc.bounds(radius)
-      nearby = User.find(:all, :conditions => "home_lat between #{bounds[:minlat]} and #{bounds[:maxlat]} and home_lon between #{bounds[:minlon]} and #{bounds[:maxlon]} and data_public = 1 and id != #{self.id}")
+      nearby = User.find(:all, :conditions => "visible = 1 and home_lat between #{bounds[:minlat]} and #{bounds[:maxlat]} and home_lon between #{bounds[:minlon]} and #{bounds[:maxlon]} and data_public = 1 and id != #{self.id}")
       nearby.delete_if { |u| gc.distance(u.home_lat, u.home_lon) > radius }
       nearby.sort! { |u1,u2| gc.distance(u1.home_lat, u1.home_lon) <=> gc.distance(u2.home_lat, u2.home_lon) }
     else

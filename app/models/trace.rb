@@ -58,18 +58,16 @@ class Trace < ActiveRecord::Base
     data
   end
   
-  # FIXME change to permanent filestore area
   def large_picture_name
-    "/home/osm/icons/#{id}.gif"
+    "#{GPX_IMAGE_DIR}/#{id}.gif"
   end
 
-  # FIXME change to permanent filestore area
   def icon_picture_name
-    "/home/osm/icons/#{id}_icon.gif"
+    "#{GPX_IMAGE_DIR}/#{id}_icon.gif"
   end
 
   def trace_name
-    "/home/osm/gpx/#{id}.gpx"
+    "#{GPX_TRACE_DIR}/#{id}.gpx"
   end
 
   def mime_type
@@ -158,7 +156,7 @@ class Trace < ActiveRecord::Base
       elsif bzipped
         system("bunzip2 -c #{trace_name} > #{tmpfile.path}")
       elsif zipped
-        system("unzip -p #{trace_name} > #{tmpfile.path}")
+        system("unzip -p #{trace_name} -x '__MACOSX/*' > #{tmpfile.path}")
       end
 
       tmpfile.unlink
@@ -174,7 +172,7 @@ class Trace < ActiveRecord::Base
   def import
     logger.info("GPX Import importing #{name} (#{id}) from #{user.email}")
 
-    gpx = OSM::GPXImporter.new(self.xml_file)
+    gpx = GPX::File.new(self.xml_file)
 
     f_lat = 0
     f_lon = 0
@@ -189,18 +187,18 @@ class Trace < ActiveRecord::Base
 
     gpx.points do |point|
       if first
-        f_lat = point['latitude']
-        f_lon = point['longitude']
+        f_lat = point.latitude
+        f_lon = point.longitude
         first = false
       end
 
       tp = Tracepoint.new
-      tp.lat = point['latitude'].to_f
-      tp.lon = point['longitude'].to_f
-      tp.altitude = point['altitude'].to_f
-      tp.timestamp = point['timestamp']
+      tp.lat = point.latitude
+      tp.lon = point.longitude
+      tp.altitude = point.altitude
+      tp.timestamp = point.timestamp
       tp.gpx_id = id
-      tp.trackid = point['segment'].to_i
+      tp.trackid = point.segment
       tp.save!
     end
 
@@ -217,8 +215,8 @@ class Trace < ActiveRecord::Base
 
       self.latitude = f_lat
       self.longitude = f_lon
-      self.large_picture = gpx.get_picture(min_lat, min_lon, max_lat, max_lon, gpx.actual_points)
-      self.icon_picture = gpx.get_icon(min_lat, min_lon, max_lat, max_lon)
+      self.large_picture = gpx.picture(min_lat, min_lon, max_lat, max_lon, gpx.actual_points)
+      self.icon_picture = gpx.icon(min_lat, min_lon, max_lat, max_lon)
       self.size = gpx.actual_points
       self.inserted = true
       self.save!

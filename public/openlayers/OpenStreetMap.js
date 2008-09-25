@@ -143,9 +143,9 @@ OpenLayers.Layer.OSM.Osmarender = OpenLayers.Class(OpenLayers.Layer.OSM, {
      */
     initialize: function(name, options) {
         var url = [
-            "http://a.tah.openstreetmap.org/Tiles/tile.php/",
-            "http://b.tah.openstreetmap.org/Tiles/tile.php/",
-            "http://c.tah.openstreetmap.org/Tiles/tile.php/"
+            "http://a.tah.openstreetmap.org/Tiles/tile/",
+            "http://b.tah.openstreetmap.org/Tiles/tile/",
+            "http://c.tah.openstreetmap.org/Tiles/tile/"
         ];
         options = OpenLayers.Util.extend({ numZoomLevels: 18 }, options);
         var newArguments = [name, url, options];
@@ -171,11 +171,11 @@ OpenLayers.Layer.OSM.CycleMap = OpenLayers.Class(OpenLayers.Layer.OSM, {
      */
     initialize: function(name, options) {
         var url = [
-            "http://a.thunderflames.org/tiles/cycle/",
-            "http://b.thunderflames.org/tiles/cycle/",
-            "http://c.thunderflames.org/tiles/cycle/"
+            "http://a.andy.sandbox.cloudmade.com/tiles/cycle/",
+            "http://b.andy.sandbox.cloudmade.com/tiles/cycle/",
+            "http://c.andy.sandbox.cloudmade.com/tiles/cycle/"
         ];
-        options = OpenLayers.Util.extend({ numZoomLevels: 17 }, options);
+        options = OpenLayers.Util.extend({ numZoomLevels: 18 }, options);
         var newArguments = [name, url, options];
         OpenLayers.Layer.OSM.prototype.initialize.apply(this, newArguments);
     },
@@ -199,9 +199,9 @@ OpenLayers.Layer.OSM.Maplint = OpenLayers.Class(OpenLayers.Layer.OSM, {
      */
     initialize: function(name, options) {
         var url = [
-            "http://d.tah.openstreetmap.org/Tiles/maplint.php/",
-            "http://e.tah.openstreetmap.org/Tiles/maplint.php/",
-            "http://f.tah.openstreetmap.org/Tiles/maplint.php/"
+            "http://d.tah.openstreetmap.org/Tiles/maplint/",
+            "http://e.tah.openstreetmap.org/Tiles/maplint/",
+            "http://f.tah.openstreetmap.org/Tiles/maplint/"
         ];
         options = OpenLayers.Util.extend({ numZoomLevels: 18, isBaseLayer: false, visibility: false }, options);
         var newArguments = [name, url, options];

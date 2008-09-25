@@ -2,8 +2,8 @@ class UserController < ApplicationController
   layout 'site'
 
   before_filter :authorize, :only => [:api_details, :api_gpx_files]
-  before_filter :authorize_web, :only => [:account, :go_public, :view, :diary, :make_friend, :remove_friend, :upload_image]
-  before_filter :require_user, :only => [:set_home, :account, :go_public, :make_friend, :remove_friend, :upload_image]
+  before_filter :authorize_web, :except => [:api_details, :api_gpx_files]
+  before_filter :require_user, :only => [:set_home, :account, :go_public, :make_friend, :remove_friend, :upload_image, :delete_image]
   before_filter :check_database_availability, :except => [:api_details, :api_gpx_files]
   before_filter :check_read_availability, :only => [:api_details, :api_gpx_files]
 
@@ -13,12 +13,13 @@ class UserController < ApplicationController
     @title = 'create account'
     @user = User.new(params[:user])
 
+    @user.visible = true
     @user.data_public = true
-      
+    @user.description = "" if @user.description.nil?
+
     if @user.save
-      token = @user.tokens.create
       flash[:notice] = "User was successfully created. Check your email for a confirmation note, and you\'ll be mapping in no time :-)<br>Please note that you won't be able to login until you've received and confirmed your email address."
-      Notifier::deliver_signup_confirm(@user, token)
+      Notifier.deliver_signup_confirm(@user, @user.tokens.create)
       redirect_to :action => 'login'
     else
       render :action => 'new'
@@ -28,21 +29,28 @@ class UserController < ApplicationController
   def account
     @title = 'edit account'
     if params[:user] and params[:user][:display_name] and params[:user][:description]
-      home_lat =  params[:user][:home_lat]
-      home_lon =  params[:user][:home_lon]
+      if params[:user][:email] != @user.email
+        @user.new_email = params[:user][:email]
+      end
 
       @user.display_name = params[:user][:display_name]
+
       if params[:user][:pass_crypt].length > 0 or params[:user][:pass_crypt_confirmation].length > 0
         @user.pass_crypt = params[:user][:pass_crypt]
         @user.pass_crypt_confirmation = params[:user][:pass_crypt_confirmation]
       end
+
       @user.description = params[:user][:description]
-      @user.home_lat = home_lat
-      @user.home_lon = home_lon
+      @user.home_lat = params[:user][:home_lat]
+      @user.home_lon = params[:user][:home_lon]
+
       if @user.save
-        flash[:notice] = "User information updated successfully."
-      else
-        flash.delete(:notice)
+        if params[:user][:email] == @user.new_email
+          @notice = "User information updated successfully. Check your email for a note to confirm your new email address."
+          Notifier.deliver_email_confirm(@user, @user.tokens.create)
+        else
+          @notice = "User information updated successfully."
+        end
       end
     end
   end
@@ -68,16 +76,15 @@ class UserController < ApplicationController
   def lost_password
     @title = 'lost password'
     if params[:user] and params[:user][:email]
-      user = User.find_by_email(params[:user][:email])
+      user = User.find_by_email(params[:user][:email], :conditions => "visible = 1")
+
       if user
         token = user.tokens.create
-        Notifier::deliver_lost_password(user, token)
-        flash[:notice] = "Sorry you lost it :-( but an email is on its way so you can reset it soon."
+        Notifier.deliver_lost_password(user, token)
+        @notice = "Sorry you lost it :-( but an email is on its way so you can reset it soon."
       else
-        flash[:notice] = "Couldn't find that email address, sorry."
+        @notice = "Couldn't find that email address, sorry."
       end
-    else
-      render :action => 'lost_password'
     end
   end
 
@@ -91,14 +98,16 @@ class UserController < ApplicationController
         user.pass_crypt = pass
         user.pass_crypt_confirmation = pass
         user.active = true
+        user.email_valid = true
         user.save!
         token.destroy
-        Notifier::deliver_reset_password(user, pass)
+        Notifier.deliver_reset_password(user, pass)
         flash[:notice] = "Your password has been changed and is on its way to your mailbox :-)"
       else
         flash[:notice] = "Didn't find that token, check the URL maybe?"
       end
     end
+
     redirect_to :action => 'login'
   end
 
@@ -121,9 +130,9 @@ class UserController < ApplicationController
         end
         return
       elsif User.authenticate(:username => email_or_display_name, :password => pass, :inactive => true)
-        flash[:notice] = "Sorry, your account is not active yet.<br>Please click on the link in the account confirmation email to activate your account."
+        @notice = "Sorry, your account is not active yet.<br>Please click on the link in the account confirmation email to activate your account."
       else
-        flash[:notice] = "Sorry, couldn't log in with those details."
+        @notice = "Sorry, couldn't log in with those details."
       end
     end
   end
@@ -150,19 +159,46 @@ class UserController < ApplicationController
       if token and !token.user.active?
         @user = token.user
         @user.active = true
+        @user.email_valid = true
         @user.save!
         token.destroy
         flash[:notice] = 'Confirmed your account, thanks for signing up!'
         session[:user] = @user.id
         redirect_to :action => 'account', :display_name => @user.display_name
       else
-        flash[:notice] = 'Something went wrong confirming that user.'
+        @notice = 'Something went wrong confirming that user.'
+      end
+    end
+  end
+
+  def confirm_email
+    if params[:confirm_action]
+      token = UserToken.find_by_token(params[:confirm_string])
+      if token and token.user.new_email?
+        @user = token.user
+        @user.email = @user.new_email
+        @user.new_email = nil
+        @user.active = true
+        @user.email_valid = true
+        @user.save!
+        token.destroy
+        flash[:notice] = 'Confirmed your email address, thanks for signing up!'
+        session[:user] = @user.id
+        redirect_to :action => 'account', :display_name => @user.display_name
+      else
+        @notice = 'Something went wrong confirming that email address.'
       end
     end
   end
 
   def upload_image
     @user.image = params[:user][:image]
+    @user.save!
+    redirect_to :controller => 'user', :action => 'view', :display_name => @user.display_name
+  end
+
+  def delete_image
+    @user.image = nil
     @user.save!
     redirect_to :controller => 'user', :action => 'view', :display_name => @user.display_name
   end
@@ -180,7 +216,7 @@ class UserController < ApplicationController
   end
 
   def view
-    @this_user = User.find_by_display_name(params[:display_name])
+    @this_user = User.find_by_display_name(params[:display_name], :conditions => "visible = 1")
 
     if @this_user
       @title = @this_user.display_name
@@ -193,20 +229,21 @@ class UserController < ApplicationController
   def make_friend
     if params[:display_name]     
       name = params[:display_name]
-      new_friend = User.find_by_display_name(name)
+      new_friend = User.find_by_display_name(name, :conditions => "visible = 1")
       friend = Friend.new
       friend.user_id = @user.id
       friend.friend_user_id = new_friend.id
       unless @user.is_friends_with?(new_friend)
         if friend.save
           flash[:notice] = "#{name} is now your friend."
-          Notifier::deliver_friend_notification(friend)
+          Notifier.deliver_friend_notification(friend)
         else
           friend.add_error("Sorry, failed to add #{name} as a friend.")
         end
       else
         flash[:notice] = "You are already friends with #{name}."  
       end
+
       redirect_to :controller => 'user', :action => 'view'
     end
   end
@@ -214,16 +251,15 @@ class UserController < ApplicationController
   def remove_friend
     if params[:display_name]     
       name = params[:display_name]
-      friend = User.find_by_display_name(name)
+      friend = User.find_by_display_name(name, :conditions => "visible = 1")
       if @user.is_friends_with?(friend)
         Friend.delete_all "user_id = #{@user.id} AND friend_user_id = #{friend.id}"
         flash[:notice] = "#{friend.display_name} was removed from your friends."
       else
-        flash[:notice] = "#{friend.display_name} was not already one of your friends."
+        flash[:notice] = "#{friend.display_name} is not one of your friends."
       end
+
       redirect_to :controller => 'user', :action => 'view'
     end
   end
-
 end
-

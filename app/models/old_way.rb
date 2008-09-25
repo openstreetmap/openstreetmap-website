@@ -112,6 +112,35 @@ class OldWay < ActiveRecord::Base
     return el1
   end
 
+  # Read full version of old way
+  # For get_nodes_undelete, uses same nodes, even if they've moved since
+  # For get_nodes_revert,   allocates new ids 
+  # Currently returns Potlatch-style array
+  
+  def get_nodes_undelete
+	points = []
+	self.nds.each do |n|
+	  node=Node.find(n)
+	  points << [node.lon, node.lat, n, node.visible ? 1 : 0, node.tags_as_hash]
+    end
+	points
+  end
+  
+  def get_nodes_revert
+    points=[]
+    self.nds.each do |n|
+      oldnode=OldNode.find(:first, :conditions=>['id=? AND timestamp<=?',n,self.timestamp], :order=>"timestamp DESC")
+      curnode=Node.find(n)
+      id=n; v=curnode.visible ? 1 : 0
+      if oldnode.lat!=curnode.lat or oldnode.lon!=curnode.lon or oldnode.tags!=curnode.tags then
+        # node has changed: if it's in other ways, give it a new id
+        if curnode.ways-[self.id] then id=-1; v=nil end
+      end
+      points << [oldnode.lon, oldnode.lat, id, v, oldnode.tags_as_hash]
+    end
+    points
+  end
+
   # Temporary method to match interface to nodes
   def tags_as_hash
     return self.tags

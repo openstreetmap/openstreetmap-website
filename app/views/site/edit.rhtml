@@ -48,7 +48,7 @@
 <%= javascript_include_tag 'swfobject.js' %>
 <script type="text/javascript" defer="defer">
   var brokenContentSize = $("content").offsetWidth == 0;
-  var fo = new SWFObject("/potlatch/potlatch.swf?d="+Math.round(Math.random()*1000), "potlatch", "100%", "100%", "6", "#FFFFFF");
+  var fo = new SWFObject("<%= compute_public_path("potlatch.swf", "potlatch") %>", "potlatch", "100%", "100%", "6", "#FFFFFF");
   // 700,600 for fixed size, 100%,100% for resizable
   var changesaved=true;
   var winie=false; if (document.all && window.print) { winie=true; }
@@ -65,9 +65,9 @@
     fo.addVariable('token','<%= session[:token] %>');
     if (lat) { fo.addVariable('lat',lat); }
     if (lon) { fo.addVariable('long',lon); }
-    <% if params['gpx'] %>
-		fo.addVariable('gpx','<%= h(params['gpx']) %>');
-    <% end %>
+    <% if params['gpx']  %>fo.addVariable('gpx' ,'<%= h(params['gpx'] ) %>');<% end %>
+    <% if params['way']  %>fo.addVariable('way' ,'<%= h(params['way'] ) %>');<% end %>
+    <% if params['node'] %>fo.addVariable('node','<%= h(params['node']) %>');<% end %>
     fo.write("map");
   }
 
