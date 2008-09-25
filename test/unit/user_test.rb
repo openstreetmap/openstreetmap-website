@@ -120,8 +120,8 @@ class UserTest < Test::Unit::TestCase
     norm = users(:normal_user)
     sec = users(:second_user)
     friend = Friend.new
-    friend.user = norm
-    friend.friend_user_id = sec.id
+    friend.befriender = norm
+    friend.befriendee = sec
     friend.save
     assert_equal [sec], norm.nearby
     assert_equal 1, norm.nearby.size
