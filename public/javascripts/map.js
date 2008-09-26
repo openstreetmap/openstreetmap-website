@@ -13,7 +13,7 @@ var nonamekeys = {
 };
 
 OpenLayers._getScriptLocation = function () {
-   return "/openlayers/";
+   return "openlayers/";
 }
 
 function createMap(divName, options) {
