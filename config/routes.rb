@@ -10,6 +10,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect "api/#{API_VERSION}/node/:id/ways", :controller => 'way', :action => 'ways_for_node', :id => /\d+/
   map.connect "api/#{API_VERSION}/node/:id/relations", :controller => 'relation', :action => 'relations_for_node', :id => /\d+/
   map.connect "api/#{API_VERSION}/node/:id/history", :controller => 'old_node', :action => 'history', :id => /\d+/
+  map.connect "api/#{API_VERSION}/node/:id/:version", :controller => 'old_node', :action => 'version', :id => /\d+/, :version => /\d+/
   map.connect "api/#{API_VERSION}/node/:id", :controller => 'node', :action => 'read', :id => /\d+/, :conditions => { :method => :get }
   map.connect "api/#{API_VERSION}/node/:id", :controller => 'node', :action => 'update', :id => /\d+/, :conditions => { :method => :put }
   map.connect "api/#{API_VERSION}/node/:id", :controller => 'node', :action => 'delete', :id => /\d+/, :conditions => { :method => :delete }
@@ -59,7 +60,7 @@ ActionController::Routing::Routes.draw do |map|
   
   # Potlatch API
   
-  map.connect "api/0.5/amf", :controller =>'amf', :action =>'talk'
+  map.connect "api/#{API_VERSION}/amf", :controller =>'amf', :action =>'talk'
   map.connect "api/#{API_VERSION}/amf", :controller =>'amf', :action =>'talk'
   map.connect "api/#{API_VERSION}/swf/trackpoints", :controller =>'swf', :action =>'trackpoints'
   

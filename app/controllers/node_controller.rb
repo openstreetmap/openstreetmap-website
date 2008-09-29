@@ -43,6 +43,21 @@ class NodeController < ApplicationController
       render :nothing => true, :status => :not_found
     end
   end
+  
+  # Dump a specific version of the node based on the given params[:id] and params[:version]
+  def version
+    begin
+      node = Node.find(:first, :conditions => { :id => params[:id], :version => params[:version] } )
+      if node.visible
+        response.headers['Last-Modified'] = node.timestamp.rfc822
+        render :text => node.to_xml.to_s, :content_type => "text/xml"
+      else
+        render :nothing => true, :status => :gone
+      end
+    rescue ActiveRecord::RecordNotFound
+      render :nothing => true, :status => :not_found
+    end
+  end
 
   # Update a node from given XML
   def update
