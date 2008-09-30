@@ -1,7 +1,7 @@
 class OldWay < ActiveRecord::Base
   set_table_name 'ways'
 
-  belongs_to :user
+  belongs_to :changeset
 
   def self.from_way(way)
     old_way = OldWay.new

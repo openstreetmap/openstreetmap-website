@@ -4,6 +4,13 @@ class Changeset < ActiveRecord::Base
   belongs_to :user
 
   has_many :changeset_tags, :foreign_key => 'id'
+  
+  has_many :nodes
+  has_many :ways
+  has_many :relations
+  has_many :old_nodes
+  has_many :old_ways
+  has_many :old_relations
 
   def self.from_xml(xml, create=false)
     begin

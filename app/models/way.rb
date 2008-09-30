@@ -3,7 +3,7 @@ class Way < ActiveRecord::Base
 
   set_table_name 'current_ways'
 
-  belongs_to :user
+  belongs_to :changeset
 
   has_many :old_ways, :foreign_key => 'id', :order => 'version'
 

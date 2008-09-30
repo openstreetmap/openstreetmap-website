@@ -3,7 +3,7 @@ class Relation < ActiveRecord::Base
   
   set_table_name 'current_relations'
 
-  belongs_to :user
+  belongs_to :changeset
 
   has_many :old_relations, :foreign_key => 'id', :order => 'version'
 

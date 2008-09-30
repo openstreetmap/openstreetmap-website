@@ -8,7 +8,7 @@ class OldNode < ActiveRecord::Base
   validates_numericality_of :latitude, :longitude
   validate :validate_position
 
-  belongs_to :user
+  belongs_to :changeset
  
   def validate_position
     errors.add_to_base("Node is not in the world") unless in_world?

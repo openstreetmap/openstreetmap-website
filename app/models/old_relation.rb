@@ -1,7 +1,7 @@
 class OldRelation < ActiveRecord::Base
   set_table_name 'relations'
 
-  belongs_to :user
+  belongs_to :changeset
 
   def self.from_relation(relation)
     old_relation = OldRelation.new

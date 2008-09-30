@@ -10,7 +10,7 @@ class Node < ActiveRecord::Base
   validates_numericality_of :latitude, :longitude
   validate :validate_position
 
-  belongs_to :user
+  belongs_to :changeset
 
   has_many :old_nodes, :foreign_key => :id
 
