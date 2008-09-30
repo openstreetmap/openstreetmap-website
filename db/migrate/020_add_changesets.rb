@@ -38,7 +38,7 @@ class AddChangesets < ActiveRecord::Migration
     @@conv_user_tables.each { |tbl|
       rename_column tbl, :user_id, :changeset_id
       #foreign keys too
-      add_foreign_key tbl, :changeset_id, [:id], :users
+      add_foreign_key tbl, [:changeset_id], :users
     }
   end
 
