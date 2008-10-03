@@ -3,7 +3,7 @@ class OldNode < ActiveRecord::Base
 
   set_table_name 'nodes'
   
-  validates_presence_of :user_id, :timestamp
+  validates_presence_of :changeset_id, :timestamp
   validates_inclusion_of :visible, :in => [ true, false ]
   validates_numericality_of :latitude, :longitude
   validate :validate_position
@@ -21,7 +21,7 @@ class OldNode < ActiveRecord::Base
     old_node.visible = node.visible
     old_node.tags = node.tags
     old_node.timestamp = node.timestamp
-    old_node.user_id = node.user_id
+    old_node.changeset_id = node.changeset_id
     old_node.id = node.id
     old_node.version = node.version
     return old_node
@@ -38,7 +38,7 @@ class OldNode < ActiveRecord::Base
     el1['id'] = self.id.to_s
     el1['lat'] = self.lat.to_s
     el1['lon'] = self.lon.to_s
-    el1['user'] = self.user.display_name if self.user.data_public?
+    el1['user'] = self.changeset.user.display_name if self.changeset.user.data_public?
 
     self.tags.each do |k,v|
       el2 = XML::Node.new('tag')

@@ -12,11 +12,10 @@ class WayController < ApplicationController
       way = Way.from_xml(request.raw_post, true)
 
       if way
-        if !way.preconditions_ok?
+        unless way.preconditions_ok?
           render :text => "", :status => :precondition_failed
         else
           way.version = 0
-          way.user_id = @user.id
           way.save_with_history!
 
           render :text => way.id.to_s, :content_type => "text/plain"

@@ -5,7 +5,7 @@ class Node < ActiveRecord::Base
 
   set_table_name 'current_nodes'
   
-  validates_presence_of :user_id, :timestamp
+  validates_presence_of :changeset_id, :timestamp
   validates_inclusion_of :visible, :in => [ true, false ]
   validates_numericality_of :latitude, :longitude
   validate :validate_position
@@ -77,6 +77,7 @@ class Node < ActiveRecord::Base
     node.version = pt['version']
     node.lat = pt['lat'].to_f
     node.lon = pt['lon'].to_f
+    node.changeset_id = pt['changeset'].to_i
 
     return nil unless node.in_world?
 
@@ -151,7 +152,8 @@ class Node < ActiveRecord::Base
       raise OSM::APIVersionMismatchError.new(new_node.version, version)
     end
 
-    self.user_id = user.id
+    # FIXME logic need looked at
+    self.changeset_id = user.id
     self.latitude = new_node.latitude 
     self.longitude = new_node.longitude
     self.tags = new_node.tags
@@ -173,15 +175,15 @@ class Node < ActiveRecord::Base
 
     user_display_name_cache = {} if user_display_name_cache.nil?
 
-    if user_display_name_cache and user_display_name_cache.key?(self.user_id)
+    if user_display_name_cache and user_display_name_cache.key?(self.changeset.user_id)
       # use the cache if available
-    elsif self.user.data_public?
-      user_display_name_cache[self.user_id] = self.user.display_name
+    elsif self.changeset.user.data_public?
+      user_display_name_cache[self.changeset.user_id] = self.changeset.user.display_name
     else
-      user_display_name_cache[self.user_id] = nil
+      user_display_name_cache[self.changeset.user_id] = nil
     end
 
-    el1['user'] = user_display_name_cache[self.user_id] unless user_display_name_cache[self.user_id].nil?
+    el1['user'] = user_display_name_cache[self.changeset.user_id] unless user_display_name_cache[self.changeset.user_id].nil?
 
     self.tags.each do |k,v|
       el2 = XML::Node.new('tag')
@@ -218,7 +220,5 @@ class Node < ActiveRecord::Base
     @tags = Hash.new unless @tags
     @tags[k] = v
   end
-
-
 
 end

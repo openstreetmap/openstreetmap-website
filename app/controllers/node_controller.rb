@@ -13,10 +13,13 @@ class NodeController < ApplicationController
   def create
     if request.put?
       node = Node.from_xml(request.raw_post, true)
+      # FIXME remove debug
+      logger.debug request.raw_post
+      logger.debug node
 
       if node
         node.version = 0
-        node.user_id = @user.id
+        #node.changeset_id = node.changeset
         node.visible = true
         node.save_with_history!
 

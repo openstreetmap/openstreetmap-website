@@ -3,6 +3,9 @@ class Way < ActiveRecord::Base
 
   set_table_name 'current_ways'
 
+  validates_presence_of :changeset_id, :timestamp
+  validates_inclusion_of :visible, :in => [ true, false ]
+  
   belongs_to :changeset
 
   has_many :old_ways, :foreign_key => 'id', :order => 'version'
@@ -37,13 +40,14 @@ class Way < ActiveRecord::Base
     end
     
     way.version = pt['version']
+    way.changeset_id = pt['changeset']
 
     if create
       way.timestamp = Time.now
       way.visible = true
     else
       if pt['timestamp']
-	way.timestamp = Time.parse(pt['timestamp'])
+        way.timestamp = Time.parse(pt['timestamp'])
       end
     end
 
@@ -84,15 +88,15 @@ class Way < ActiveRecord::Base
 
     user_display_name_cache = {} if user_display_name_cache.nil?
 
-    if user_display_name_cache and user_display_name_cache.key?(self.user_id)
+    if user_display_name_cache and user_display_name_cache.key?(self.changeset.user_id)
       # use the cache if available
-    elsif self.user.data_public?
-      user_display_name_cache[self.user_id] = self.user.display_name
+    elsif self.changeset.user.data_public?
+      user_display_name_cache[self.changeset.user_id] = self.changeset.user.display_name
     else
-      user_display_name_cache[self.user_id] = nil
+      user_display_name_cache[self.changeset.user_id] = nil
     end
 
-    el1['user'] = user_display_name_cache[self.user_id] unless user_display_name_cache[self.user_id].nil?
+    el1['user'] = user_display_name_cache[self.changeset.user_id] unless user_display_name_cache[self.changeset.user_id].nil?
 
     # make sure nodes are output in sequence_id order
     ordered_nodes = []
