@@ -57,7 +57,7 @@ class ChangesetController < ApplicationController
   
   def close 
     begin
-      if not request.put?
+      unless request.put?
         render :nothing => true, :status => :method_not_allowed
         return
       end
@@ -71,7 +71,7 @@ class ChangesetController < ApplicationController
   end
 
   def upload
-    if not request.put?
+    unless request.put?
       render :nothing => true, :status => :method_not_allowed
       return
     end
