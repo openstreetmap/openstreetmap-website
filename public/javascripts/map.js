@@ -131,6 +131,8 @@ function getMapCenter(center, zoom) {
 }
 
 function setMapCenter(center, zoom) {
+   var numzoom = map.getNumZoomLevels();
+   if (zoom >= numzoom) zoom = numzoom - 1;
    map.setCenter(center.clone().transform(epsg4326, map.getProjectionObject()), zoom);
 }
 
