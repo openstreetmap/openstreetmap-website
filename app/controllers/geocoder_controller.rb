@@ -102,7 +102,7 @@ private
     response = fetch_xml("http://geocoder.ca/?geoit=XML&postal=#{escape_query(query)}")
 
     # parse the response
-    unless response.get_elements("geodata/error")
+    if response.get_elements("geodata/error").empty?
       results.push({:lat => response.get_text("geodata/latt").to_s,
                     :lon => response.get_text("geodata/longt").to_s,
                     :zoom => POSTCODE_ZOOM,
