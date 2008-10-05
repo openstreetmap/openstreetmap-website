@@ -159,7 +159,9 @@ class AmfController < ApplicationController
 	  # way includes a node more than once
 	  way = Way.find(wayid)
 	  points = way.nodes.collect do |node|
-		[node.lon, node.lat, node.id, nil, node.tags_as_hash]
+		nodetags=node.tags_as_hash
+		nodetags.delete('created_by')
+		[node.lon, node.lat, node.id, nodetags]
 	  end
 	  tags = way.tags
 	end
@@ -352,8 +354,10 @@ class AmfController < ApplicationController
 		savenode = true
 	  else
 		node = Node.find(id)
+		nodetags=node.tags_as_hash
+		nodetags.delete('created_by')
 		if !fpcomp(lat, node.lat) or !fpcomp(lon, node.lon) or
-		   Tags.join(n[4]) != node.tags or !node.visible?
+		   n[4] != nodetags or !node.visible?
 		  savenode = true
 		end
 	  end
@@ -582,7 +586,9 @@ class AmfController < ApplicationController
 	  ORDER BY sequence_id
 	  EOF
 	ActiveRecord::Base.connection.select_all(sql).each do |row|
-	  points << [row['lon'].to_f,row['lat'].to_f,row['id'].to_i,nil,tagstring_to_hash(row['tags'])]
+	  nodetags=tagstring_to_hash(row['tags'])
+	  nodetags.delete('created_by')
+	  points << [row['lon'].to_f,row['lat'].to_f,row['id'].to_i,nodetags]
 	end
 	points
   end
