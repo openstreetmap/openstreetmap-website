@@ -87,6 +87,11 @@ class NodeController < ApplicationController
   def delete
     begin
       node = Node.find(params[:id])
+      # FIXME we no longer care about the user, (or maybe we want to check
+      # that the user of the changeset is the same user as is making this
+      # little change?) we really care about the 
+      # changeset which must be open, and that the version that we have been
+      # given is the one that is currently stored in the database
       node.delete_with_history(@user)
 
       render :nothing => true

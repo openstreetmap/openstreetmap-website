@@ -11,6 +11,15 @@ class Changeset < ActiveRecord::Base
   has_many :old_nodes
   has_many :old_ways
   has_many :old_relations
+  
+  validates_presence_of :user_id, :created_at, :open
+  
+  # Use a method like this, so that we can easily change how we
+  # determine whether a changeset is open, without breaking code in at 
+  # least 6 controllers
+  def is_open?
+    return open
+  end
 
   def self.from_xml(xml, create=false)
     begin
@@ -83,6 +92,7 @@ class Changeset < ActiveRecord::Base
     doc.root << to_xml_node()
     return doc
   end
+  
   def to_xml_node(user_display_name_cache = nil)
     el1 = XML::Node.new 'changeset'
     el1['id'] = self.id.to_s

@@ -15,7 +15,9 @@ class NodeControllerTest < Test::Unit::TestCase
 
   def test_create
     # cannot read password from fixture as it is stored as MD5 digest
-    basic_authorization("test@openstreetmap.org", "test");  
+    basic_authorization(users(:normal_user).email, "test");
+    # FIXME we need to create a changeset first argh
+    
     # create a node with random lat/lon
     lat = rand(100)-50 + rand
     lon = rand(100)-50 + rand
