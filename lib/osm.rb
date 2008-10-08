@@ -33,6 +33,20 @@ module OSM
     end
   end
 
+  # Raised when the user logged in isn't the same as the changeset
+  class APIUserChangesetMismatchError < APIError
+    def render_opts
+      { :text => "The user doesn't own that changeset", :status => :conflict }
+    end
+  end
+
+  # Raised when the changeset provided is already closed
+  class APIChangesetAlreadyClosedError < APIError
+    def render_opts
+      { :text => "The supplied changeset has already been closed", :status => :conflict }
+    end
+  end
+
   # Raised when the provided version is not equal to the latest in the db.
   class APIVersionMismatchError < APIError
     def initialize(provided, latest)

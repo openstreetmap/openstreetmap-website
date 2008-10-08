@@ -15,11 +15,11 @@ class RelationController < ApplicationController
         if !relation.preconditions_ok?
           render :text => "", :status => :precondition_failed
         else
-	  relation.version = 0
-          relation.user_id = @user.id
+          relation.version = 0
+          #relation.user_id = @user.id
           relation.save_with_history!
 
-	  render :text => relation.id.to_s, :content_type => "text/plain"
+          render :text => relation.id.to_s, :content_type => "text/plain"
         end
       else
         render :nothing => true, :status => :bad_request
@@ -51,7 +51,7 @@ class RelationController < ApplicationController
       new_relation = Relation.from_xml(request.raw_post)
 
       if new_relation and new_relation.id == relation.id
-	relation.update_from new_relation, user
+        relation.update_from new_relation, @user
         render :text => relation.version.to_s, :content_type => "text/plain"
       else
         render :nothing => true, :status => :bad_request

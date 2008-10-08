@@ -35,13 +35,14 @@ class Relation < ActiveRecord::Base
     end
 
     relation.version = pt['version']
+    relation.changeset_id = pt['changeset']
 
     if create
       relation.timestamp = Time.now
       relation.visible = true
     else
       if pt['timestamp']
-	relation.timestamp = Time.parse(pt['timestamp'])
+        relation.timestamp = Time.parse(pt['timestamp'])
       end
     end
 
@@ -68,18 +69,19 @@ class Relation < ActiveRecord::Base
     el1['visible'] = self.visible.to_s
     el1['timestamp'] = self.timestamp.xmlschema
     el1['version'] = self.version.to_s
+    el1['changeset'] = self.changeset_id.to_s
 
     user_display_name_cache = {} if user_display_name_cache.nil?
     
-    if user_display_name_cache and user_display_name_cache.key?(self.user_id)
+    if user_display_name_cache and user_display_name_cache.key?(self.changeset.user_id)
       # use the cache if available
     elsif self.user.data_public?
-      user_display_name_cache[self.user_id] = self.user.display_name
+      user_display_name_cache[self.changeset.user_id] = self.changeset.user.display_name
     else
-      user_display_name_cache[self.user_id] = nil
+      user_display_name_cache[self.changeset.user_id] = nil
     end
 
-    el1['user'] = user_display_name_cache[self.user_id] unless user_display_name_cache[self.user_id].nil?
+    el1['user'] = user_display_name_cache[self.changeset.user_id] unless user_display_name_cache[self.changeset.user_id].nil?
 
     self.relation_members.each do |member|
       p=0
@@ -218,13 +220,14 @@ class Relation < ActiveRecord::Base
   def delete_with_history(user)
     if self.visible
       if RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", :conditions => [ "visible = 1 AND member_type='relation' and member_id=?", self.id ])
-	raise OSM::APIPreconditionFailedError.new
+        raise OSM::APIPreconditionFailedError.new
       else
-	self.user_id = user.id
-	self.tags = []
-	self.members = []
-	self.visible = false
-	save_with_history!
+        #self.user_id = user.id
+        # FIXME we need to deal with changeset here, which is probably already dealt with
+        self.tags = []
+        self.members = []
+        self.visible = false
+        save_with_history!
       end
     else
       raise OSM::APIAlreadyDeletedError.new
@@ -236,8 +239,14 @@ class Relation < ActiveRecord::Base
       raise OSM::APIPreconditionFailedError.new
     elsif new_relation.version != version
       raise OSM::APIVersionMismatchError.new(new_relation.version, version)
+    elsif new_relation.changeset.user_id != user.id
+      raise OSM::APIUserChangesetMismatchError.new
+    elsif not new_relation.changeset.open?
+      raise OSM::APIChangesetAlreadyClosedError.new
     else
-      self.user_id = user.id
+      # FIXME need to deal with changeset etc
+      #self.user_id = user.id
+      self.changeset = new_relation.changeset
       self.tags = new_relation.tags
       self.members = new_relation.members
       self.visible = true

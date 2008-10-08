@@ -6,7 +6,7 @@ class OldRelation < ActiveRecord::Base
   def self.from_relation(relation)
     old_relation = OldRelation.new
     old_relation.visible = relation.visible
-    old_relation.user_id = relation.user_id
+    old_relation.changeset_id = relation.changeset_id
     old_relation.timestamp = relation.timestamp
     old_relation.id = relation.id
     old_relation.version = relation.version
@@ -93,6 +93,7 @@ class OldRelation < ActiveRecord::Base
     el1['timestamp'] = self.timestamp.xmlschema
     el1['user'] = self.user.display_name if self.user.data_public?
     el1['version'] = self.version.to_s
+    el1['changeset'] = self.changeset_id.to_s
     
     self.old_members.each do |member|
       e = XML::Node.new 'member'

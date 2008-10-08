@@ -4,7 +4,7 @@ class Node < ActiveRecord::Base
   include GeoRecord
 
   set_table_name 'current_nodes'
-  
+
   validates_presence_of :changeset_id, :timestamp
   validates_inclusion_of :visible, :in => [ true, false ]
   validates_numericality_of :latitude, :longitude
@@ -172,7 +172,9 @@ class Node < ActiveRecord::Base
     el1['id'] = self.id.to_s
     el1['lat'] = self.lat.to_s
     el1['lon'] = self.lon.to_s
-
+    el1['version'] = self.version.to_s
+    el1['changeset'] = self.changeset_id.to_s
+    
     user_display_name_cache = {} if user_display_name_cache.nil?
 
     if user_display_name_cache and user_display_name_cache.key?(self.changeset.user_id)

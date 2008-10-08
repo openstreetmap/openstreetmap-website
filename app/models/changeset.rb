@@ -13,6 +13,7 @@ class Changeset < ActiveRecord::Base
   has_many :old_relations
   
   validates_presence_of :user_id, :created_at, :open
+  validates_inclusion_of :open, :in => [ true, false ]
   
   # Use a method like this, so that we can easily change how we
   # determine whether a changeset is open, without breaking code in at 
