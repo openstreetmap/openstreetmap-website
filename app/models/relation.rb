@@ -246,7 +246,7 @@ class Relation < ActiveRecord::Base
     else
       # FIXME need to deal with changeset etc
       #self.user_id = user.id
-      self.changeset = new_relation.changeset
+      self.changeset_id = new_relation.changeset_id
       self.tags = new_relation.tags
       self.members = new_relation.members
       self.visible = true

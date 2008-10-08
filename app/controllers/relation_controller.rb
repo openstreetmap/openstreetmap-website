@@ -46,6 +46,7 @@ class RelationController < ApplicationController
   end
 
   def update
+    logger.debug request.raw_post
     begin
       relation = Relation.find(params[:id])
       new_relation = Relation.from_xml(request.raw_post)

@@ -57,7 +57,7 @@ module OSM
 
     def render_opts
       { :text => "Version mismatch: Provided " + provided.to_s +
-	", server had: " + latest.to_s, :status => :bad_request }
+      ", server had: " + latest.to_s, :status => :conflict }
     end
   end
 
