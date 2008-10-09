@@ -131,14 +131,16 @@ class Node < ActiveRecord::Base
     end
   end
 
-  def delete_with_history(user)
+  # Should probably be renamed delete_from to come in line with update
+  def delete_with_history(new_node, user)
     if self.visible
+      check_consistency(self, new_node, user)
       if WayNode.find(:first, :joins => "INNER JOIN current_ways ON current_ways.id = current_way_nodes.id", :conditions => [ "current_ways.visible = 1 AND current_way_nodes.node_id = ?", self.id ])
         raise OSM::APIPreconditionFailedError.new
       elsif RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", :conditions => [ "visible = 1 AND member_type='node' and member_id=?", self.id])
         raise OSM::APIPreconditionFailedError.new
       else
-        self.user_id = user.id
+        self.changeset_id = new_node.changeset_id
         self.visible = 0
         save_with_history!
       end
@@ -148,15 +150,9 @@ class Node < ActiveRecord::Base
   end
 
   def update_from(new_node, user)
-    if new_node.version != version
-      raise OSM::APIVersionMismatchError.new(new_node.version, version)
-    elsif new_node.changeset.user_id != user.id
-      raise OSM::APIUserChangesetMismatchError.new
-    elsif not new_node.changeset.open?
-      raise OSM::APIChangesetAlreadyClosedError.new
-    end
+    check_consistency(self, new_node, user)
 
-    # FIXME logic need looked at
+    # FIXME logic needs to be double checked
     self.changeset_id = new_node.changeset_id
     self.latitude = new_node.latitude 
     self.longitude = new_node.longitude

@@ -68,7 +68,13 @@ class RelationController < ApplicationController
 #XXX check if member somewhere!
     begin
       relation = Relation.find(params[:id])
-      relation.delete_with_history(@user)
+      new_relation = Relation.from_xml(request.raw_post)
+      if new_relation and new_relation.id == relation.id
+        relation.delete_with_history(new_relation, @user)
+        render :nothing => true, :status => :success
+      else
+        render :nothing => true, :status => :bad_request
+      end
     rescue OSM::APIError => ex
       render ex.render_opts
     rescue ActiveRecord::RecordNotFound

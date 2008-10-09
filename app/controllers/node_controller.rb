@@ -76,7 +76,7 @@ class NodeController < ApplicationController
       end
     rescue OSM::APIVersionMismatchError => ex
       render :text => "Version mismatch: Provided " + ex.provided.to_s +
-	", server had: " + ex.latest.to_s, :status => :bad_request
+        ", server had: " + ex.latest.to_s, :status => :bad_request
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
     end
@@ -87,14 +87,19 @@ class NodeController < ApplicationController
   def delete
     begin
       node = Node.find(params[:id])
+      new_node = Node.from_xml(request.raw_post)
       # FIXME we no longer care about the user, (or maybe we want to check
       # that the user of the changeset is the same user as is making this
       # little change?) we really care about the 
       # changeset which must be open, and that the version that we have been
       # given is the one that is currently stored in the database
-      node.delete_with_history(@user)
-
-      render :nothing => true
+      
+      if new_node and new_node.id == node.id
+        node.delete_with_history(new_node, @user)
+        render :nothing => true, :status => :success
+      else
+        render :nothing => true, :status => :bad_request
+      end
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
     rescue OSM::APIError => ex

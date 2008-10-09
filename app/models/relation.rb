@@ -217,13 +217,15 @@ class Relation < ActiveRecord::Base
     end
   end
 
-  def delete_with_history(user)
+  def delete_with_history(new_relation, user)
     if self.visible
+      check_consistency(self, new_relation, user)
       if RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", :conditions => [ "visible = 1 AND member_type='relation' and member_id=?", self.id ])
         raise OSM::APIPreconditionFailedError.new
       else
         #self.user_id = user.id
         # FIXME we need to deal with changeset here, which is probably already dealt with
+        self.changeset_id = new_relation.changeset_id
         self.tags = []
         self.members = []
         self.visible = false
@@ -235,23 +237,17 @@ class Relation < ActiveRecord::Base
   end
 
   def update_from(new_relation, user)
+    check_consistency(self, new_relation, user)
     if !new_relation.preconditions_ok?
       raise OSM::APIPreconditionFailedError.new
-    elsif new_relation.version != version
-      raise OSM::APIVersionMismatchError.new(new_relation.version, version)
-    elsif new_relation.changeset.user_id != user.id
-      raise OSM::APIUserChangesetMismatchError.new
-    elsif not new_relation.changeset.open?
-      raise OSM::APIChangesetAlreadyClosedError.new
-    else
-      # FIXME need to deal with changeset etc
-      #self.user_id = user.id
-      self.changeset_id = new_relation.changeset_id
-      self.tags = new_relation.tags
-      self.members = new_relation.members
-      self.visible = true
-      save_with_history!
     end
+    # FIXME need to deal with changeset etc
+    #self.user_id = user.id
+    self.changeset_id = new_relation.changeset_id
+    self.tags = new_relation.tags
+    self.members = new_relation.members
+    self.visible = true
+    save_with_history!
   end
 
   def preconditions_ok?

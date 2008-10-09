@@ -68,10 +68,15 @@ class WayController < ApplicationController
   def delete
     begin
       way = Way.find(params[:id])
-      way.delete_with_history(@user)
+      new_way = Way.from_xml(request.raw_post)
+      if new_way and new_way.id == way.id
+        way.delete_with_history(@user)
 
-      # if we get here, all is fine, otherwise something will catch below.  
-      render :nothing => true
+        # if we get here, all is fine, otherwise something will catch below.  
+        render :nothing => true
+      else
+        render :nothing => true, :status => :bad_request
+      end
     rescue OSM::APIError => ex
       render ex.render_opts
     rescue ActiveRecord::RecordNotFound

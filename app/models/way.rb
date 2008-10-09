@@ -206,17 +206,15 @@ class Way < ActiveRecord::Base
   end
 
   def update_from(new_way, user)
+    check_consistency(self, new_way, user)
     if !new_way.preconditions_ok?
       raise OSM::APIPreconditionFailedError.new
-    elsif new_way.version != version
-      raise OSM::APIVersionMismatchError.new(new_way.version, version)
-    else
-      self.user_id = user.id
-      self.tags = new_way.tags
-      self.nds = new_way.nds
-      self.visible = true
-      save_with_history!
     end
+    self.changeset_id = changeset_id
+    self.tags = new_way.tags
+    self.nds = new_way.nds
+    self.visible = true
+    save_with_history!
   end
 
   def preconditions_ok?
@@ -230,11 +228,13 @@ class Way < ActiveRecord::Base
     return true
   end
 
-  def delete_with_history(user)
+  def delete_with_history(new_way, user)
+    check_consistency(self, new_way, user)
     if self.visible
-	  # FIXME
-	  # this should actually delete the relations,
-	  # not just throw a PreconditionFailed if it's a member of a relation!!
+      # FIXME
+      # this should actually delete the relations,
+      # not just throw a PreconditionFailed if it's a member of a relation!!
+      # WHY?? The editor should decide whether the node is in the relation or not!
 
       # FIXME: this should probably renamed to delete_with_history
       if RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id",
@@ -242,7 +242,7 @@ class Way < ActiveRecord::Base
         raise OSM::APIPreconditionFailedError
       # end FIXME
       else
-        self.user_id = user.id
+        self.changeset_id = new_way.changeset_id
         self.tags = []
         self.nds = []
         self.visible = false
@@ -265,6 +265,7 @@ class Way < ActiveRecord::Base
       n.save_with_history!
     end
     
+    # FIXME needs more information passed in so that the changeset can be updated
     self.user_id = user.id
 
     self.delete_with_history(user)
