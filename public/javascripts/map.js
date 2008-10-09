@@ -30,7 +30,8 @@ function createMap(divName, options) {
       ],
       units: "m",
       maxResolution: 156543.0339,
-      numZoomLevels: 20
+      numZoomLevels: 20,
+      displayProjection: new OpenLayers.Projection("EPSG:4326")
    });
 
    var mapnik = new OpenLayers.Layer.OSM.Mapnik("Mapnik", {
