@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class NodeTest < Test::Unit::TestCase
-  fixtures :current_nodes, :users, :current_node_tags, :nodes, :node_tags
+  fixtures :changesets, :current_nodes, :users, :current_node_tags, :nodes, :node_tags
   set_fixture_class :current_nodes => :Node
   set_fixture_class :nodes => :OldNode
   set_fixture_class :node_tags => :OldNodeTag
@@ -51,7 +51,7 @@ class NodeTest < Test::Unit::TestCase
     dbnode = Node.find(node.id)
     assert_equal dbnode.lat, node.latitude.to_f/SCALE
     assert_equal dbnode.lon, node.longitude.to_f/SCALE
-    assert_equal dbnode.user_id, node.user_id
+    assert_equal dbnode.changeset_id, node.changeset_id
     assert_equal dbnode.timestamp, node.timestamp
     assert_equal dbnode.version, node.version
     assert_equal dbnode.visible, node.visible
@@ -67,7 +67,7 @@ class NodeTest < Test::Unit::TestCase
     dbnode = Node.find(node.id)
     assert_equal dbnode.lat, node.latitude.to_f/SCALE
     assert_equal dbnode.lon, node.longitude.to_f/SCALE
-    assert_equal dbnode.user_id, node.user_id
+    assert_equal dbnode.changeset_id, node.changeset_id
     assert_equal dbnode.timestamp, node.timestamp
     assert_equal dbnode.version, node.version
     assert_equal dbnode.visible, node.visible
@@ -79,7 +79,7 @@ class NodeTest < Test::Unit::TestCase
   def test_create
     node_template = Node.new(:latitude => 12.3456,
                              :longitude => 65.4321,
-                             :user_id => users(:normal_user),
+                             :changeset_id => changesets(:normal_user_first_change),
                              :visible => 1, 
                              :version => 1)
     assert node_template.save_with_history!
@@ -88,7 +88,7 @@ class NodeTest < Test::Unit::TestCase
     assert_not_nil node
     assert_equal node_template.latitude, node.latitude
     assert_equal node_template.longitude, node.longitude
-    assert_equal node_template.user_id, node.user_id
+    assert_equal node_template.changeset_id, node.changeset_id
     assert_equal node_template.visible, node.visible
     assert_equal node_template.timestamp.to_i, node.timestamp.to_i
 
@@ -97,7 +97,7 @@ class NodeTest < Test::Unit::TestCase
     assert_not_nil old_node
     assert_equal node_template.latitude, old_node.latitude
     assert_equal node_template.longitude, old_node.longitude
-    assert_equal node_template.user_id, old_node.user_id
+    assert_equal node_template.changeset_id, old_node.changeset_id
     assert_equal node_template.visible, old_node.visible
     assert_equal node_template.tags, old_node.tags
     assert_equal node_template.timestamp.to_i, old_node.timestamp.to_i
@@ -120,7 +120,7 @@ class NodeTest < Test::Unit::TestCase
     assert_not_nil node
     assert_equal node_template.latitude, node.latitude
     assert_equal node_template.longitude, node.longitude
-    assert_equal node_template.user_id, node.user_id
+    assert_equal node_template.changeset_id, node.changeset_id
     assert_equal node_template.visible, node.visible
     #assert_equal node_template.tags, node.tags
     assert_equal node_template.timestamp.to_i, node.timestamp.to_i
@@ -131,7 +131,7 @@ class NodeTest < Test::Unit::TestCase
     assert_not_nil old_node
     assert_equal node_template.latitude, old_node.latitude
     assert_equal node_template.longitude, old_node.longitude
-    assert_equal node_template.user_id, old_node.user_id
+    assert_equal node_template.changeset_id, old_node.changeset_id
     assert_equal node_template.visible, old_node.visible
     #assert_equal node_template.tags, old_node.tags
     assert_equal node_template.timestamp.to_i, old_node.timestamp.to_i
@@ -152,7 +152,7 @@ class NodeTest < Test::Unit::TestCase
     assert_not_nil node
     assert_equal node_template.latitude, node.latitude
     assert_equal node_template.longitude, node.longitude
-    assert_equal node_template.user_id, node.user_id
+    assert_equal node_template.changeset_id, node.changeset_id
     assert_equal node_template.visible, node.visible
     #assert_equal node_template.tags, node.tags
     assert_equal node_template.timestamp.to_i, node.timestamp.to_i
@@ -163,7 +163,7 @@ class NodeTest < Test::Unit::TestCase
     assert_not_nil old_node
     assert_equal node_template.latitude, old_node.latitude
     assert_equal node_template.longitude, old_node.longitude
-    assert_equal node_template.user_id, old_node.user_id
+    assert_equal node_template.changeset_id, old_node.changeset_id
     assert_equal node_template.visible, old_node.visible
     #assert_equal node_template.tags, old_node.tags
     assert_equal node_template.timestamp.to_i, old_node.timestamp.to_i

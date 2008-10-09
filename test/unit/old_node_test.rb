@@ -51,7 +51,7 @@ class OldNodeTest < Test::Unit::TestCase
     dbnode = Node.find(node.id)
     assert_equal dbnode.lat, node.latitude.to_f/SCALE
     assert_equal dbnode.lon, node.longitude.to_f/SCALE
-    assert_equal dbnode.user_id, node.user_id
+    assert_equal dbnode.changeset_id, node.changeset_id
     assert_equal dbnode.version, node.version
     assert_equal dbnode.visible, node.visible
     assert_equal dbnode.timestamp, node.timestamp
@@ -67,7 +67,7 @@ class OldNodeTest < Test::Unit::TestCase
     dbnode = Node.find(node.id)
     assert_equal dbnode.lat, node.latitude.to_f/SCALE
     assert_equal dbnode.lon, node.longitude.to_f/SCALE
-    assert_equal dbnode.user_id, node.user_id
+    assert_equal dbnode.changeset_id, node.changeset_id
     assert_equal dbnode.version, node.version
     assert_equal dbnode.visible, node.visible
     assert_equal dbnode.timestamp, node.timestamp
