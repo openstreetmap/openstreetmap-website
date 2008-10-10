@@ -76,6 +76,8 @@ class WayControllerTest < Test::Unit::TestCase
     nid2 = current_nodes(:used_node_2).id
     basic_authorization "test@openstreetmap.org", "test"
 
+    # FIXME create a new changeset and use the id that is returned for the next step
+    
     # create a way with pre-existing nodes
     content "<osm><way><nd ref='#{nid1}'/><nd ref='#{nid2}'/><tag k='test' v='yes' /></way></osm>"
     put :create

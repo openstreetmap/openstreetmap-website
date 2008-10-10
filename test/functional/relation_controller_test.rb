@@ -45,6 +45,9 @@ class RelationControllerTest < Test::Unit::TestCase
     get :relations_for_node, :id => current_nodes(:node_used_by_relationship).id
     assert_response :success
     # FIXME check whether this contains the stuff we want!
+    # see the test_read in way_controller_test.rb for the assert_select
+    assert_select "osm[version=#{API_VERSION}][generator=\"OpenStreetMap server\"]", 1
+    assert_select "osm relation"
     if $VERBOSE
         print @response.body
     end
@@ -80,6 +83,8 @@ class RelationControllerTest < Test::Unit::TestCase
 
   def test_create
     basic_authorization "test@openstreetmap.org", "test"
+    
+    # FIXME create a new changeset and use the id that is returned for the next step
 
     # create an relation without members
     content "<osm><relation><tag k='test' v='yes' /></relation></osm>"
@@ -97,7 +102,7 @@ class RelationControllerTest < Test::Unit::TestCase
         "saved relation contains members but should not"
     assert_equal checkrelation.tags.length, 1, 
         "saved relation does not contain exactly one tag"
-    assert_equal users(:normal_user).id, checkrelation.user_id, 
+    assert_equal users(:normal_user).id, checkrelation.changeset.user_id, 
         "saved relation does not belong to user that created it"
     assert_equal true, checkrelation.visible, 
         "saved relation is not visible"
