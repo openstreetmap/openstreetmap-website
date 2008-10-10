@@ -63,7 +63,7 @@ class ChangesetController < ApplicationController
       end
       changeset = Changeset.find(params[:id])
       changeset.open = false
-      changeset.save
+      changeset.save!
       render :nothing => true
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
@@ -83,10 +83,13 @@ class ChangesetController < ApplicationController
 
     models = {"node"=>Node, "way"=>Way, "relation"=>Relation}
 
+    # FIXME shouldn't this be done through the 
+    # res = OSM::API.new.get_xml_doc
+    # as everything else is?
     res = XML::Document.new
     res.encoding = 'UTF-8'
     root = XML::Node.new 'osm'
-    root['version'] = '0.6'
+    root['version'] = API_VERSION
     root['creator'] = 'OpenStreetMap.org'
     res.root = root
 
@@ -95,69 +98,69 @@ class ChangesetController < ApplicationController
 
     Changeset.transaction do
       while p.read == 1
-	break if p.node_type == 15 # end element
-	next unless p.node_type == 1 # element
+        break if p.node_type == 15 # end element
+        next unless p.node_type == 1 # element
 
-	case p.name
-	when 'create':
-	  while p.read == 1
-	    break if p.node_type == 15 # end element
-	    next unless p.node_type == 1 # element
+        case p.name
+        when 'create':
+            while p.read == 1
+            break if p.node_type == 15 # end element
+            next unless p.node_type == 1 # element
 
-	    model = models[p.name]
-	    next if model.nil?
+            model = models[p.name]
+            next if model.nil?
 
-	    elem = XML::Node.new p.name
-	    nd = p.expand; p.next
-	    osm = model.from_xml_node(nd, true)
-	    elem['old_id'] = nd['id']
+            elem = XML::Node.new p.name
+            nd = p.expand; p.next
+            osm = model.from_xml_node(nd, true)
+            elem['old_id'] = nd['id']
 
-	    case nd.name
-	    when 'way':
-	      fix_way(osm, node_ids)
-	      raise OSM::APIPreconditionFailedError.new if !osm.preconditions_ok?
-	    when 'relation':
-	      fix_rel(osm, ids)
-	      raise OSM::APIPreconditionFailedError.new if !osm.preconditions_ok?
-	    end
+            case nd.name
+            when 'way':
+                fix_way(osm, node_ids)
+              raise OSM::APIPreconditionFailedError.new if !osm.preconditions_ok?
+            when 'relation':
+                fix_rel(osm, ids)
+              raise OSM::APIPreconditionFailedError.new if !osm.preconditions_ok?
+            end
 
-	    create_prim ids[nd.name], osm, nd
-	    elem['new_id'] = osm.id.to_s
-	    elem['new_version'] = osm.version.to_s
-	    root << elem
-	  end
-	when 'modify':
-	  while p.read == 1
-	    break if p.node_type == 15 # end element
-	    next unless p.node_type == 1 # element
+            create_prim ids[nd.name], osm, nd
+            elem['new_id'] = osm.id.to_s
+            elem['new_version'] = osm.version.to_s
+            root << elem
+          end
+        when 'modify':
+            while p.read == 1
+            break if p.node_type == 15 # end element
+            next unless p.node_type == 1 # element
 
-	    model = models[p.name]
-	    next if model.nil?
+            model = models[p.name]
+            next if model.nil?
 
-	    elem = XML::Node.new p.name
-	    new_osm = model.from_xml_node(p.expand); p.next
-	    osm = model.find(new_osm.id)
-	    osm.update_from new_osm, @user
-	    elem['old_id'] = elem['new_id'] = osm.id.to_s
-	    elem['new_version'] = osm.version.to_s
-	    root << elem
-	  end
-	when 'delete':
-	  while p.read == 1
-	    break if p.node_type == 15 # end element
-	    next unless p.node_type == 1 # element
+            elem = XML::Node.new p.name
+            new_osm = model.from_xml_node(p.expand); p.next
+            osm = model.find(new_osm.id)
+            osm.update_from new_osm, @user
+            elem['old_id'] = elem['new_id'] = osm.id.to_s
+            elem['new_version'] = osm.version.to_s
+            root << elem
+          end
+        when 'delete':
+            while p.read == 1
+            break if p.node_type == 15 # end element
+            next unless p.node_type == 1 # element
 
-	    model = models[p.name]
-	    next if model.nil?
+            model = models[p.name]
+            next if model.nil?
 
-	    elem = XML::Node.new p.name
-	    osm = model.find(p.expand['id']); p.next
-	    osm.delete_with_history(@user)
-	    elem['old_id'] = elem['new_id'] = osm.id.to_s
-	    elem['new_version'] = osm.version.to_s
-	    root << elem
-	  end
-	end
+            elem = XML::Node.new p.name
+            osm = model.find(p.expand['id']); p.next
+            osm.delete_with_history(@user)
+            elem['old_id'] = elem['new_id'] = osm.id.to_s
+            elem['new_version'] = osm.version.to_s
+            root << elem
+          end
+        end
       end
     end
 

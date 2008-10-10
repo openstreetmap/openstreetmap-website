@@ -71,6 +71,7 @@ class Changeset < ActiveRecord::Base
 
     Changeset.transaction do
       # fixme update modified_at time?
+      # FIXME there is no modified_at time, should it be added
       self.save!
     end
 
