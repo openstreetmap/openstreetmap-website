@@ -13,7 +13,9 @@ var nonamekeys = {
 };
 
 OpenLayers._getScriptLocation = function () {
-   return "openlayers/";
+  // Should really have this file as an erb, so that this can return 
+  // the real rails root
+   return "/openlayers/";
 }
 
 function createMap(divName, options) {
