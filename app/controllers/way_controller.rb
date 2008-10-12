@@ -12,6 +12,10 @@ class WayController < ApplicationController
       way = Way.from_xml(request.raw_post, true)
 
       if way
+        # FIXME move some of this to the model. The controller shouldn't need to
+        # know about the fact that the first version number is 0 on creation
+        # it will also allow use to run a variation on the check_consistency
+        # so that we don't get exceptions thrown when the changesets are not right
         unless way.preconditions_ok?
           render :text => "", :status => :precondition_failed
         else

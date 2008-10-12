@@ -109,6 +109,7 @@ class WayControllerTest < Test::Unit::TestCase
   def test_create_invalid
     basic_authorization "test@openstreetmap.org", "test"
 
+    # FIXME All of these will fail because they don't have a valid changeset 
     # create a way with non-existing node
     content "<osm><way><nd ref='0'/><tag k='test' v='yes' /></way></osm>"
     put :create
@@ -137,9 +138,16 @@ class WayControllerTest < Test::Unit::TestCase
     # now set auth
     basic_authorization("test@openstreetmap.org", "test");  
 
-    # this should work
+    # this shouldn't work as with the 0.6 api we need pay load to delete
     delete :delete, :id => current_ways(:visible_way).id
-    assert_response :success
+    assert_response :bad_request
+    
+    # Now try without having a changeset
+    content "<osm><way id='#{current_ways(:visible_way).id}'</osm>"
+    delete :delete, :id => current_ways(:visible_way).id
+    assert_response :bad_request
+    
+    # Now try and get a changeset
 
     # this won't work since the way is already deleted
     delete :delete, :id => current_ways(:invisible_way).id

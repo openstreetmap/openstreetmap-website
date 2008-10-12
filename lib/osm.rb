@@ -46,6 +46,13 @@ module OSM
       { :text => "The supplied changeset has already been closed", :status => :conflict }
     end
   end
+  
+  # Raised when a change is expecting a changeset, but the changeset doesn't exist
+  class APIChangesetMissingError < APIError
+    def render_opts
+      { :text => "You need to supply a changeset to be able to make a change", :status => :conflict }
+    end
+  end
 
   # Raised when the provided version is not equal to the latest in the db.
   class APIVersionMismatchError < APIError

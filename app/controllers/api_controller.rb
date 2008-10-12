@@ -116,7 +116,7 @@ class ApiController < ApplicationController
 
     node_ids = @nodes.collect(&:id)
     if node_ids.length > APP_CONFIG['max_number_of_nodes']
-      report_error("You requested too many nodes (limit is 50,000). Either request a smaller area, or use planet.osm")
+      report_error("You requested too many nodes (limit is #{APP_CONFIG['max_number_of_nodes']}). Either request a smaller area, or use planet.osm")
       return
     end
     if node_ids.length == 0
