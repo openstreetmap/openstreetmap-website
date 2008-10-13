@@ -18,7 +18,7 @@ class WayControllerTest < Test::Unit::TestCase
   end
 
   def content(c)
-    @request.env["RAW_POST_DATA"] = c
+    @request.env["RAW_POST_DATA"] = c.to_s
   end
 
   # -------------------------------------
@@ -76,10 +76,13 @@ class WayControllerTest < Test::Unit::TestCase
     nid2 = current_nodes(:used_node_2).id
     basic_authorization "test@openstreetmap.org", "test"
 
-    # FIXME create a new changeset and use the id that is returned for the next step
+    # use the first user's open changeset
+    changeset_id = changesets(:normal_user_first_change).id
     
     # create a way with pre-existing nodes
-    content "<osm><way><nd ref='#{nid1}'/><nd ref='#{nid2}'/><tag k='test' v='yes' /></way></osm>"
+    content "<osm><way changeset='#{changeset_id}'>" +
+      "<nd ref='#{nid1}'/><nd ref='#{nid2}'/>" + 
+      "<tag k='test' v='yes' /></way></osm>"
     put :create
     # hope for success
     assert_response :success, 
@@ -96,7 +99,9 @@ class WayControllerTest < Test::Unit::TestCase
         "saved way does not contain the right node on pos 0"
     assert_equal checkway.nds[1], nid2, 
         "saved way does not contain the right node on pos 1"
-    assert_equal users(:normal_user).id, checkway.user_id, 
+    assert_equal checkway.changeset_id, changeset_id,
+        "saved way does not belong to the correct changeset"
+    assert_equal users(:normal_user).id, checkway.changeset.user_id, 
         "saved way does not belong to user that created it"
     assert_equal true, checkway.visible, 
         "saved way is not visible"
@@ -109,20 +114,34 @@ class WayControllerTest < Test::Unit::TestCase
   def test_create_invalid
     basic_authorization "test@openstreetmap.org", "test"
 
-    # FIXME All of these will fail because they don't have a valid changeset 
+    # use the first user's open changeset
+    open_changeset_id = changesets(:normal_user_first_change).id
+    closed_changeset_id = changesets(:normal_user_closed_change).id
+    nid1 = current_nodes(:used_node_1).id
+
     # create a way with non-existing node
-    content "<osm><way><nd ref='0'/><tag k='test' v='yes' /></way></osm>"
+    content "<osm><way changeset='#{open_changeset_id}'>" + 
+      "<nd ref='0'/><tag k='test' v='yes' /></way></osm>"
     put :create
     # expect failure
     assert_response :precondition_failed, 
         "way upload with invalid node did not return 'precondition failed'"
 
     # create a way with no nodes
-    content "<osm><way><tag k='test' v='yes' /></way></osm>"
+    content "<osm><way changeset='#{open_changeset_id}'>" +
+      "<tag k='test' v='yes' /></way></osm>"
     put :create
     # expect failure
     assert_response :precondition_failed, 
         "way upload with no node did not return 'precondition failed'"
+
+    # create a way inside a closed changeset
+    content "<osm><way changeset='#{closed_changeset_id}'>" +
+      "<nd ref='#{nid1}'/></way></osm>"
+    put :create
+    # expect failure
+    assert_response :precondition_failed, 
+        "way upload to closed changeset did not return 'precondition failed'"    
   end
 
   # -------------------------------------
@@ -130,7 +149,6 @@ class WayControllerTest < Test::Unit::TestCase
   # -------------------------------------
   
   def test_delete
-
     # first try to delete way without auth
     delete :delete, :id => current_ways(:visible_way).id
     assert_response :unauthorized
@@ -143,13 +161,18 @@ class WayControllerTest < Test::Unit::TestCase
     assert_response :bad_request
     
     # Now try without having a changeset
-    content "<osm><way id='#{current_ways(:visible_way).id}'</osm>"
+    content "<osm><way id='#{current_ways(:visible_way).id}'></osm>"
     delete :delete, :id => current_ways(:visible_way).id
     assert_response :bad_request
     
     # Now try and get a changeset
+    changeset_id = changesets(:normal_user_first_change).id
+    content current_ways(:visible_way).to_xml
+    delete :delete, :id => current_ways(:visible_way).id
+    assert_response :success
 
     # this won't work since the way is already deleted
+    content current_ways(:invisible_way).to_xml
     delete :delete, :id => current_ways(:invisible_way).id
     assert_response :gone
 
