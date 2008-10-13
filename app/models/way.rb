@@ -222,7 +222,7 @@ class Way < ActiveRecord::Base
   def create_with_history(user)
     check_create_consistency(self, user)
     if !self.preconditions_ok?
-      raise OSM::APIPreconditionsFailedError.new
+      raise OSM::APIPreconditionFailedError.new
     end
     self.version = 0
     self.visible = true

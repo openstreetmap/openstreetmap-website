@@ -140,8 +140,8 @@ class WayControllerTest < Test::Unit::TestCase
       "<nd ref='#{nid1}'/></way></osm>"
     put :create
     # expect failure
-    assert_response :precondition_failed, 
-        "way upload to closed changeset did not return 'precondition failed'"    
+    assert_response :conflict, 
+        "way upload to closed changeset did not return 'conflict'"    
   end
 
   # -------------------------------------
