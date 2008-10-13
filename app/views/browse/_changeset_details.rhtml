@@ -1,0 +1,19 @@
+<table>
+
+  <%= render :partial => "common_details", :object => changeset_details %>
+
+  <% unless node_details.ways.empty? and node_details.containing_relation_members.empty? %>
+    <tr valign="top">
+      <th>Part of:</th>
+      <td>
+        <table padding="0">
+          <% node_details.ways.each do |way| %>
+            <tr><td><%= link_to "Way " + way.id.to_s, :action => "way", :id => way.id.to_s %></td></tr>
+          <% end %>
+          <%= render :partial => "containing_relation", :collection => node_details.containing_relation_members %>
+        </table>
+      </td>
+    </tr>      
+  <% end %>
+
+</table>

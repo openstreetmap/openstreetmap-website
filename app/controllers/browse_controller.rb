@@ -112,4 +112,15 @@ class BrowseController < ApplicationController
       render :action => "not_found", :status => :not_found
     end
   end
+  
+  def changeset
+    begin
+      @changeset = Changeset.find(params[:id])
+      
+      @title = "Changeset | #{@changeset.id}"
+    rescue ActiveRecord::RecordNotFound
+      @type = "changeset"
+      render :action => "not_found", :status => :not_found
+    end
+  end
 end

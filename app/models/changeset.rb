@@ -47,6 +47,10 @@ class Changeset < ActiveRecord::Base
     return cs
   end
 
+  def tags_as_hash
+    return tags
+  end
+
   def tags
     unless @tags
       @tags = {}

@@ -1,0 +1,38 @@
+<table width="100%">
+  <tr>
+    <td>
+      <h2>Changeset: <%= h(@changeset.id) %></h2>
+    </td>
+    <td>
+      <%= render :partial => "navigation" %>
+    </td>
+  </tr>
+  <tr valign="top">
+    <td>
+      <tr>
+        <th>Created at:</th>
+        <td><%= h(@changeset.created_at) %></td>
+      </tr>
+      
+      <% if @changeset.user.data_public? %>
+        <tr>
+          <th>Belongs to:</th>
+          <td><%= link_to h(@changeset.user.display_name), :controller => "user", :action => "view", :display_name => @changeset.user.display_name %></td>
+        </tr>
+      <% end %>
+      <% unless @changeset.tags_as_hash.empty? %>
+        <tr valign="top">
+          <th>Tags:</th>
+          <td>
+            <table padding="0">
+              <%= render :partial => "tag", :collection => @changeset.tags_as_hash %>
+            </table>
+          </td>
+        </tr>      
+      <% end %>
+    <hr />
+      <%= link_to "Download XML", :controller => "changeset", :action => "read" %>
+    </td>
+    <% # render :partial => "map", :object => @node %>
+  </tr>
+</table>

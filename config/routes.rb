@@ -73,6 +73,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/browse/node/:id/history', :controller => 'browse', :action => 'node_history', :id => /\d+/
   map.connect '/browse/relation/:id', :controller => 'browse', :action => 'relation', :id => /\d+/
   map.connect '/browse/relation/:id/history', :controller => 'browse', :action => 'relation_history', :id => /\d+/
+  map.connect '/browse/changeset/:id', :controller => 'browse', :action => 'changeset', :id => /\d+/
   
   # web site
 
