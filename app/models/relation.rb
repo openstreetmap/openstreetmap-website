@@ -77,7 +77,7 @@ class Relation < ActiveRecord::Base
     
     if user_display_name_cache and user_display_name_cache.key?(self.changeset.user_id)
       # use the cache if available
-    elsif self.user.data_public?
+    elsif self.changeset.user.data_public?
       user_display_name_cache[self.changeset.user_id] = self.changeset.user.display_name
     else
       user_display_name_cache[self.changeset.user_id] = nil

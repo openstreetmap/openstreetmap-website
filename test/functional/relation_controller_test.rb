@@ -6,9 +6,6 @@ class RelationController; def rescue_action(e) raise e end; end
 
 class RelationControllerTest < Test::Unit::TestCase
   api_fixtures
-  fixtures :relations, :current_relations, :relation_members, :current_relation_members, :relation_tags, :current_relation_tags
-  set_fixture_class :current_relations => :Relation
-  set_fixture_class :relations => :OldRelation
 
   def setup
     @controller = RelationController.new
@@ -21,7 +18,7 @@ class RelationControllerTest < Test::Unit::TestCase
   end
 
   def content(c)
-    @request.env["RAW_POST_DATA"] = c
+    @request.env["RAW_POST_DATA"] = c.to_s
   end
 
   # -------------------------------------
@@ -84,10 +81,11 @@ class RelationControllerTest < Test::Unit::TestCase
   def test_create
     basic_authorization "test@openstreetmap.org", "test"
     
-    # FIXME create a new changeset and use the id that is returned for the next step
+    # put the relation in a dummy fixture changset
+    changeset_id = changesets(:normal_user_first_change).id
 
     # create an relation without members
-    content "<osm><relation><tag k='test' v='yes' /></relation></osm>"
+    content "<osm><relation changeset='#{changeset_id}'><tag k='test' v='yes' /></relation></osm>"
     put :create
     # hope for success
     assert_response :success, 
@@ -102,6 +100,8 @@ class RelationControllerTest < Test::Unit::TestCase
         "saved relation contains members but should not"
     assert_equal checkrelation.tags.length, 1, 
         "saved relation does not contain exactly one tag"
+    assert_equal changeset_id, checkrelation.changeset.id,
+        "saved relation does not belong in the changeset it was assigned to"
     assert_equal users(:normal_user).id, checkrelation.changeset.user_id, 
         "saved relation does not belong to user that created it"
     assert_equal true, checkrelation.visible, 
@@ -113,8 +113,9 @@ class RelationControllerTest < Test::Unit::TestCase
 
     # create an relation with a node as member
     nid = current_nodes(:used_node_1).id
-    content "<osm><relation><member type='node' ref='#{nid}' role='some'/>" +
-        "<tag k='test' v='yes' /></relation></osm>"
+    content "<osm><relation changeset='#{changeset_id}'>" +
+      "<member type='node' ref='#{nid}' role='some'/>" +
+      "<tag k='test' v='yes' /></relation></osm>"
     put :create
     # hope for success
     assert_response :success, 
@@ -129,7 +130,9 @@ class RelationControllerTest < Test::Unit::TestCase
         "saved relation does not contain exactly one member"
     assert_equal checkrelation.tags.length, 1, 
         "saved relation does not contain exactly one tag"
-    assert_equal users(:normal_user).id, checkrelation.user_id, 
+    assert_equal changeset_id, checkrelation.changeset.id,
+        "saved relation does not belong in the changeset it was assigned to"
+    assert_equal users(:normal_user).id, checkrelation.changeset.user_id, 
         "saved relation does not belong to user that created it"
     assert_equal true, checkrelation.visible, 
         "saved relation is not visible"
@@ -141,9 +144,10 @@ class RelationControllerTest < Test::Unit::TestCase
     # create an relation with a way and a node as members
     nid = current_nodes(:used_node_1).id
     wid = current_ways(:used_way).id
-    content "<osm><relation><member type='node' ref='#{nid}' role='some'/>" +
-        "<member type='way' ref='#{wid}' role='other'/>" +
-        "<tag k='test' v='yes' /></relation></osm>"
+    content "<osm><relation changeset='#{changeset_id}'>" +
+      "<member type='node' ref='#{nid}' role='some'/>" +
+      "<member type='way' ref='#{wid}' role='other'/>" +
+      "<tag k='test' v='yes' /></relation></osm>"
     put :create
     # hope for success
     assert_response :success, 
@@ -158,7 +162,9 @@ class RelationControllerTest < Test::Unit::TestCase
         "saved relation does not have exactly two members"
     assert_equal checkrelation.tags.length, 1, 
         "saved relation does not contain exactly one tag"
-    assert_equal users(:normal_user).id, checkrelation.user_id, 
+    assert_equal changeset_id, checkrelation.changeset.id,
+        "saved relation does not belong in the changeset it was assigned to"
+    assert_equal users(:normal_user).id, checkrelation.changeset.user_id, 
         "saved relation does not belong to user that created it"
     assert_equal true, checkrelation.visible, 
         "saved relation is not visible"
@@ -175,8 +181,13 @@ class RelationControllerTest < Test::Unit::TestCase
   def test_create_invalid
     basic_authorization "test@openstreetmap.org", "test"
 
+    # put the relation in a dummy fixture changset
+    changeset_id = changesets(:normal_user_first_change).id
+
     # create a relation with non-existing node as member
-    content "<osm><relation><member type='node' ref='0'/><tag k='test' v='yes' /></relation></osm>"
+    content "<osm><relation changeset='#{changeset_id}'>" +
+      "<member type='node' ref='0'/><tag k='test' v='yes' />" +
+      "</relation></osm>"
     put :create
     # expect failure
     assert_response :precondition_failed, 
@@ -188,8 +199,6 @@ class RelationControllerTest < Test::Unit::TestCase
   # -------------------------------------
   
   def test_delete
-  return true
-
     # first try to delete relation without auth
     delete :delete, :id => current_relations(:visible_relation).id
     assert_response :unauthorized
@@ -197,11 +206,17 @@ class RelationControllerTest < Test::Unit::TestCase
     # now set auth
     basic_authorization("test@openstreetmap.org", "test");  
 
-    # this should work
+    # this shouldn't work, as we should need the payload...
+    delete :delete, :id => current_relations(:visible_relation).id
+    assert_response :bad_request
+
+    # this should work when we provide the appropriate payload...
+    content(relations(:visible_relation).to_xml)
     delete :delete, :id => current_relations(:visible_relation).id
     assert_response :success
 
     # this won't work since the relation is already deleted
+    content(relations(:invisible_relation).to_xml)
     delete :delete, :id => current_relations(:invisible_relation).id
     assert_response :gone
 

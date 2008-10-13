@@ -71,7 +71,7 @@ class RelationController < ApplicationController
       new_relation = Relation.from_xml(request.raw_post)
       if new_relation and new_relation.id == relation.id
         relation.delete_with_history(new_relation, @user)
-        render :nothing => true, :status => :success
+        render :nothing => true
       else
         render :nothing => true, :status => :bad_request
       end
