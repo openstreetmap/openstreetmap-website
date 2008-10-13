@@ -169,6 +169,11 @@ class Way < ActiveRecord::Base
 
   def add_tag_keyval(k, v)
     @tags = Hash.new unless @tags
+
+    # duplicate tags are now forbidden, so we can't allow values
+    # in the hash to be overwritten.
+    raise OSM::APIDuplicateTagsError.new if @tags.include? k
+
     @tags[k] = v
   end
 

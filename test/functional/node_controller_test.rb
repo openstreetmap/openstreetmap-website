@@ -16,7 +16,6 @@ class NodeControllerTest < Test::Unit::TestCase
   def test_create
     # cannot read password from fixture as it is stored as MD5 digest
     basic_authorization(users(:normal_user).email, "test");
-    # FIXME we need to create a changeset first argh
     
     # create a node with random lat/lon
     lat = rand(100)-50 + rand
@@ -57,7 +56,6 @@ class NodeControllerTest < Test::Unit::TestCase
   # this tests deletion restrictions - basic deletion is tested in the unit
   # tests for node!
   def test_delete
-
     # first try to delete node without auth
     delete :delete, :id => current_nodes(:visible_node).id
     assert_response :unauthorized
@@ -65,7 +63,18 @@ class NodeControllerTest < Test::Unit::TestCase
     # now set auth
     basic_authorization(users(:normal_user).email, "test");  
 
-    # delete now takes a payload
+    # try to delete with an invalid (closed) changeset
+    content update_changeset(current_nodes(:visible_node).to_xml,
+                             changesets(:normal_user_closed_change).id)
+    delete :delete, :id => current_nodes(:visible_node).id
+    assert_response :conflict
+
+    # try to delete with an invalid (non-existent) changeset
+    content update_changeset(current_nodes(:visible_node).to_xml,0)
+    delete :delete, :id => current_nodes(:visible_node).id
+    assert_response :conflict
+
+    # valid delete now takes a payload
     content(nodes(:visible_node).to_xml)
     delete :delete, :id => current_nodes(:visible_node).id
     assert_response :success
@@ -79,12 +88,116 @@ class NodeControllerTest < Test::Unit::TestCase
     delete :delete, :id => 0
     assert_response :not_found
 
-    # this won't work since the node is in use
+    ## these test whether nodes which are in-use can be deleted:
+    # in a way...
     content(nodes(:used_node_1).to_xml)
     delete :delete, :id => current_nodes(:used_node_1).id
     assert_response :precondition_failed
+
+    # in a relation...
+    content(nodes(:node_used_by_relationship).to_xml)
+    delete :delete, :id => current_nodes(:node_used_by_relationship).id
+    assert_response :precondition_failed
   end
 
+  ##
+  # tests whether the API works and prevents incorrect use while trying
+  # to update nodes.
+  def test_update
+    # try and update a node without authorisation
+    # first try to delete node without auth
+    content current_nodes(:visible_node).to_xml
+    put :update, :id => current_nodes(:visible_node).id
+    assert_response :unauthorized
+    
+    # setup auth
+    basic_authorization(users(:normal_user).email, "test")
+
+    ## trying to break changesets
+
+    # try and update in someone else's changeset
+    content update_changeset(current_nodes(:visible_node).to_xml,
+                             changesets(:second_user_first_change).id)
+    put :update, :id => current_nodes(:visible_node).id
+    assert_response :conflict, "update with other user's changeset should be rejected"
+
+    # try and update in a closed changeset
+    content update_changeset(current_nodes(:visible_node).to_xml,
+                             changesets(:normal_user_closed_change).id)
+    put :update, :id => current_nodes(:visible_node).id
+    assert_response :conflict, "update with closed changeset should be rejected"
+
+    # try and update in a non-existant changeset
+    content update_changeset(current_nodes(:visible_node).to_xml, 0)
+    put :update, :id => current_nodes(:visible_node).id
+    assert_response :conflict, "update with changeset=0 should be rejected"
+
+    ## try and submit invalid updates
+    content xml_attr_rewrite(current_nodes(:visible_node).to_xml, 'lat', 91.0);
+    put :update, :id => current_nodes(:visible_node).id
+    assert_response :bad_request, "node at lat=91 should be rejected"
+
+    content xml_attr_rewrite(current_nodes(:visible_node).to_xml, 'lat', -91.0);
+    put :update, :id => current_nodes(:visible_node).id
+    assert_response :bad_request, "node at lat=-91 should be rejected"
+    
+    content xml_attr_rewrite(current_nodes(:visible_node).to_xml, 'lon', 181.0);
+    put :update, :id => current_nodes(:visible_node).id
+    assert_response :bad_request, "node at lon=181 should be rejected"
+
+    content xml_attr_rewrite(current_nodes(:visible_node).to_xml, 'lon', -181.0);
+    put :update, :id => current_nodes(:visible_node).id
+    assert_response :bad_request, "node at lon=-181 should be rejected"
+
+    ## next, attack the versioning
+    current_node_version = current_nodes(:visible_node).version
+
+    # try and submit a version behind
+    content xml_attr_rewrite(current_nodes(:visible_node).to_xml, 
+                             'version', current_node_version - 1);
+    put :update, :id => current_nodes(:visible_node).id
+    assert_response :conflict, "should have failed on old version number"
+    
+    # try and submit a version ahead
+    content xml_attr_rewrite(current_nodes(:visible_node).to_xml, 
+                             'version', current_node_version + 1);
+    put :update, :id => current_nodes(:visible_node).id
+    assert_response :conflict, "should have failed on skipped version number"
+
+    # try and submit total crap in the version field
+    content xml_attr_rewrite(current_nodes(:visible_node).to_xml, 
+                             'version', 'p1r4t3s!');
+    put :update, :id => current_nodes(:visible_node).id
+    assert_response :conflict, 
+       "should not be able to put 'p1r4at3s!' in the version field"
+    
+    ## finally, produce a good request which should work
+    content current_nodes(:visible_node).to_xml
+    put :update, :id => current_nodes(:visible_node).id
+    assert_response :success, "a valid update request failed"
+  end
+
+  ##
+  # test adding tags to a node
+  def test_duplicate_tags
+    # setup auth
+    basic_authorization(users(:normal_user).email, "test")
+
+    # add an identical tag to the node
+    tag_xml = XML::Node.new("tag")
+    tag_xml['k'] = current_node_tags(:t1).k
+    tag_xml['v'] = current_node_tags(:t1).v
+
+    # add the tag into the existing xml
+    node_xml = current_nodes(:visible_node).to_xml
+    node_xml.find("//osm/node").first << tag_xml
+
+    # try and upload it
+    content node_xml
+    put :update, :id => current_nodes(:visible_node).id
+    assert_response :bad_request, 
+       "adding duplicate tags to a node should fail with 'bad request'"
+  end    
 
   def basic_authorization(user, pass)
     @request.env["HTTP_AUTHORIZATION"] = "Basic %s" % Base64.encode64("#{user}:#{pass}")
@@ -92,5 +205,26 @@ class NodeControllerTest < Test::Unit::TestCase
 
   def content(c)
     @request.env["RAW_POST_DATA"] = c.to_s
+  end
+
+  ##
+  # update the changeset_id of a node element
+  def update_changeset(xml, changeset_id)
+    xml_attr_rewrite(xml, 'changeset', changeset_id)
+  end
+
+  ##
+  # update an attribute in the node element
+  def xml_attr_rewrite(xml, name, value)
+    xml.find("//osm/node").first[name] = value.to_s
+    return xml
+  end
+
+  ##
+  # parse some xml
+  def xml_parse(xml)
+    parser = XML::Parser.new
+    parser.string = xml
+    parser.parse
   end
 end

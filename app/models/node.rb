@@ -75,7 +75,7 @@ class Node < ActiveRecord::Base
   def self.from_xml_node(pt, create=false)
     node = Node.new
     
-    node.version = pt['version']
+    node.version = pt['version'].to_i
     node.lat = pt['lat'].to_f
     node.lon = pt['lon'].to_f
     node.changeset_id = pt['changeset'].to_i
@@ -138,7 +138,7 @@ class Node < ActiveRecord::Base
       check_consistency(self, new_node, user)
       if WayNode.find(:first, :joins => "INNER JOIN current_ways ON current_ways.id = current_way_nodes.id", :conditions => [ "current_ways.visible = 1 AND current_way_nodes.node_id = ?", self.id ])
         raise OSM::APIPreconditionFailedError.new
-      elsif RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", :conditions => [ "visible = 1 AND member_type='node' and member_id=?", self.id])
+      elsif RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", :conditions => [ "visible = 1 AND member_type='node' and member_id=? ", self.id])
         raise OSM::APIPreconditionFailedError.new
       else
         self.changeset_id = new_node.changeset_id
@@ -227,6 +227,11 @@ class Node < ActiveRecord::Base
 
   def add_tag_key_val(k,v)
     @tags = Hash.new unless @tags
+
+    # duplicate tags are now forbidden, so we can't allow values
+    # in the hash to be overwritten.
+    raise OSM::APIDuplicateTagsError.new if @tags.include? k
+
     @tags[k] = v
   end
 
