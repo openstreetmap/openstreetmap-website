@@ -251,6 +251,16 @@ class Relation < ActiveRecord::Base
     self.visible = true
     save_with_history!
   end
+  
+  def create_with_history(user)
+    check_create_consistency(self, user)
+    if !self.preconditions_ok?
+      raise OSM::APIPreconditionFailedError.new
+    end
+    self.version = 0
+    self.visible = true
+    save_with_history!
+  end
 
   def preconditions_ok?
     # These are hastables that store an id in the index of all 

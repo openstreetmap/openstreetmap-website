@@ -8,27 +8,21 @@ class WayController < ApplicationController
   after_filter :compress_output
 
   def create
-    if request.put?
-      way = Way.from_xml(request.raw_post, true)
+    begin
+      if request.put?
+        way = Way.from_xml(request.raw_post, true)
 
-      if way
-        # FIXME move some of this to the model. The controller shouldn't need to
-        # know about the fact that the first version number is 0 on creation
-        # it will also allow use to run a variation on the check_consistency
-        # so that we don't get exceptions thrown when the changesets are not right
-        unless way.preconditions_ok?
-          render :text => "", :status => :precondition_failed
-        else
-          way.version = 0
-          way.save_with_history!
-
+        if way
+          way.create_with_history @user
           render :text => way.id.to_s, :content_type => "text/plain"
+        else
+          render :nothing => true, :status => :bad_request
         end
       else
-        render :nothing => true, :status => :bad_request
+        render :nothing => true, :status => :method_not_allowed
       end
-    else
-      render :nothing => true, :status => :method_not_allowed
+    rescue OSM::APIError => ex
+      render ex.render_opts
     end
   end
 

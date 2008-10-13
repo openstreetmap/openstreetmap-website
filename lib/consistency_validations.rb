@@ -16,4 +16,15 @@ module ConsistencyValidations
       raise OSM::APIChangesetAlreadyClosedError.new
     end
   end
+  
+  # This is similar to above, just some validations don't apply
+  def check_create_consistency(new, user)
+    if new.changeset.nil?
+      raise OSM::APIChangesetMissingError.new
+    elsif new.changeset.user_id != user.id
+      raise OSM::APIUserChangesetMismatchError.new
+    elsif not new.changeset.is_open?
+      raise OSM::APIChangesetAlreadyClosedError.new
+    end
+  end
 end

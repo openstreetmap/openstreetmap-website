@@ -161,6 +161,13 @@ class Node < ActiveRecord::Base
     self.visible = true
     save_with_history!
   end
+  
+  def create_with_history(user)
+    check_create_consistency(self, user)
+    self.version = 0
+    self.visible = true
+    save_with_history!
+  end
 
   def to_xml
     doc = OSM::API.new.get_xml_doc

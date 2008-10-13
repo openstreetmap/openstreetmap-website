@@ -11,24 +11,21 @@ class NodeController < ApplicationController
 
   # Create a node from XML.
   def create
-    if request.put?
-      node = Node.from_xml(request.raw_post, true)
-      # FIXME remove debug
-      logger.debug request.raw_post
-      logger.debug node
+    begin
+      if request.put?
+        node = Node.from_xml(request.raw_post, true)
 
-      if node
-        node.version = 0
-        #node.changeset_id = node.changeset
-        node.visible = true
-        node.save_with_history!
-
-        render :text => node.id.to_s, :content_type => "text/plain"
+        if node
+          node.create_with_history @user
+          render :text => node.id.to_s, :content_type => "text/plain"
+        else
+          render :nothing => true, :status => :bad_request
+        end
       else
-        render :nothing => true, :status => :bad_request
+        render :nothing => true, :status => :method_not_allowed
       end
-    else
-      render :nothing => true, :status => :method_not_allowed
+    rescue OSM::APIError => ex
+      render ex.render_opts
     end
   end
 
