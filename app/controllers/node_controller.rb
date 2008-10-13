@@ -96,7 +96,7 @@ class NodeController < ApplicationController
       
       if new_node and new_node.id == node.id
         node.delete_with_history(new_node, @user)
-        render :nothing => true, :status => :success
+        render :nothing => true
       else
         render :nothing => true, :status => :bad_request
       end

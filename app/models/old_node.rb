@@ -38,6 +38,7 @@ class OldNode < ActiveRecord::Base
     el1['id'] = self.id.to_s
     el1['lat'] = self.lat.to_s
     el1['lon'] = self.lon.to_s
+    el1['changeset'] = self.changeset.id.to_s
     el1['user'] = self.changeset.user.display_name if self.changeset.user.data_public?
 
     self.tags.each do |k,v|

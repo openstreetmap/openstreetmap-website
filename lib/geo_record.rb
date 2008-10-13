@@ -53,8 +53,6 @@ module GeoRecord
       raise OSM::APIVersionMismatchError.new(new.version, old.version)
     elsif new.changeset.nil?
       raise OSM::APIChangesetMissingError.new
-    elsif new.changeset.empty?
-      raise OSM::APIChangesetMissingError.new
     elsif new.changeset.user_id != user.id
       raise OSM::APIUserChangesetMismatchError.new
     elsif not new.changeset.is_open?

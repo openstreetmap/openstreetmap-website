@@ -27,12 +27,15 @@ class Test::Unit::TestCase
 
   # Load standard fixtures needed to test API methods
   def self.api_fixtures
-    fixtures :users
+    fixtures :users, :changesets
 
-    fixtures :current_nodes, :nodes, :current_node_tags
+    fixtures :current_nodes, :nodes
     set_fixture_class :current_nodes => :Node
     set_fixture_class :nodes => :OldNode
+
+    fixtures  :current_node_tags,:node_tags
     set_fixture_class :current_node_tags => :NodeTag
+    set_fixture_class :node_tags => :OldNodeTag
 
     fixtures :current_ways, :current_way_nodes, :current_way_tags
     set_fixture_class :current_ways => :Way
