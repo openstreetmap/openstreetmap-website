@@ -212,7 +212,7 @@ class Way < ActiveRecord::Base
     if !new_way.preconditions_ok?
       raise OSM::APIPreconditionFailedError.new
     end
-    self.changeset_id = changeset_id
+    self.changeset_id = new_way.changeset_id
     self.tags = new_way.tags
     self.nds = new_way.nds
     self.visible = true
