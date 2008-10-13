@@ -293,9 +293,9 @@ class AmfController < ApplicationController
 	  if mid < 0
 		mid = renumberednodes[mid] if m[0] == 'node'
 		mid = renumberedways[mid] if m[0] == 'way'
-		if mid
-		  typedmembers << [m[0], mid, m[2]]
-		end
+	  end
+      if mid
+	    typedmembers << [m[0], mid, m[2]]
 	  end
 	end
 
