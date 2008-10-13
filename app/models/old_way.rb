@@ -1,4 +1,6 @@
 class OldWay < ActiveRecord::Base
+  include ConsistencyValidations
+  
   set_table_name 'ways'
 
   belongs_to :changeset

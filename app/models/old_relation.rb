@@ -1,4 +1,6 @@
 class OldRelation < ActiveRecord::Base
+  include ConsistencyValidations
+  
   set_table_name 'relations'
 
   belongs_to :changeset

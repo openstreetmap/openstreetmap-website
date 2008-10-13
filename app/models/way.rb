@@ -1,5 +1,7 @@
 class Way < ActiveRecord::Base
   require 'xml/libxml'
+  
+  include ConsistencyValidations
 
   set_table_name 'current_ways'
 

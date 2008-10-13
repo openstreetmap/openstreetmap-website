@@ -2,6 +2,7 @@ class Node < ActiveRecord::Base
   require 'xml/libxml'
 
   include GeoRecord
+  include ConsistencyValidations
 
   set_table_name 'current_nodes'
 
