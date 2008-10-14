@@ -1,19 +1,68 @@
 <table>
 
-  <%= render :partial => "common_details", :object => changeset_details %>
-
-  <% unless node_details.ways.empty? and node_details.containing_relation_members.empty? %>
+  <tr>
+    <th>Created at:</th>
+    <td><%= h(changeset_details.created_at) %></td>
+  </tr>
+  
+  <% if changeset_details.user.data_public? %>
+    <tr>
+      <th>Belongs to:</th>
+      <td><%= link_to h(changeset_details.user.display_name), :controller => "user", :action => "view", :display_name => changeset_details.user.display_name %></td>
+    </tr>
+  <% end %>
+  
+  <% unless changeset_details.tags_as_hash.empty? %>
     <tr valign="top">
-      <th>Part of:</th>
+      <th>Tags:</th>
       <td>
         <table padding="0">
-          <% node_details.ways.each do |way| %>
-            <tr><td><%= link_to "Way " + way.id.to_s, :action => "way", :id => way.id.to_s %></td></tr>
+          <%= render :partial => "tag", :collection => changeset_details.tags_as_hash %>
+        </table>
+      </td>
+    </tr>
+    <% end %>
+
+  <% unless changeset_details.old_nodes.empty? %>
+    <tr valign="top">
+      <th>Has the following nodes:</th>
+      <td>
+        <table padding="0">
+          <% changeset_details.old_nodes.each do |node| %>
+            <tr><td><%= link_to "Node #{node.id.to_s}, version #{node.version.to_s}", :action => "node", :id => node.id.to_s %></td></tr>
           <% end %>
-          <%= render :partial => "containing_relation", :collection => node_details.containing_relation_members %>
+        </table>
+      </td>
+    </tr>
+  <% end %>
+  
+  <% unless changeset_details.old_ways.empty? %>
+    <tr valign="top">
+      <th>Has the following ways:</th>
+      <td>
+        <table padding="0">
+          <% changeset_details.old_ways.each do |way| %>
+            <tr><td><%= link_to "Way #{way.id.to_s}, version #{way.version.to_s}", :action => "way", :id => way.id.to_s %></td></tr>
+          <% end %>
+          <%=
+          #render :partial => "containing_relation", :collection => changeset_details.containing_relation_members 
+          %>
         </table>
       </td>
     </tr>      
+  <% end %>
+  
+  <% unless changeset_details.old_relations.empty? %>
+    <tr valign="top">
+      <th>Has the following relations:</th>
+      <td>
+        <table padding="0">
+          <% changeset_details.old_relations.each do |relation| %>
+            <tr><td><%= link_to "Relation #{relation.id.to_s}, version #{relation.version.to_s}", :action => "relation", :id => relation.id.to_s %></td></tr>
+          <% end %>
+        </table>
+      </td>
+    </tr>
   <% end %>
 
 </table>

@@ -118,6 +118,8 @@ class BrowseController < ApplicationController
       @changeset = Changeset.find(params[:id])
       
       @title = "Changeset | #{@changeset.id}"
+      @next = Changeset.find(:first, :order => "id ASC", :conditions => [ "id > :id", { :id => @changeset.id }] ) 
+      @prev = Changeset.find(:first, :order => "id DESC", :conditions => [ "id < :id", { :id => @changeset.id }] ) 
     rescue ActiveRecord::RecordNotFound
       @type = "changeset"
       render :action => "not_found", :status => :not_found
