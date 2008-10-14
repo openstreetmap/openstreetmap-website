@@ -210,6 +210,22 @@ class RelationControllerTest < Test::Unit::TestCase
     delete :delete, :id => current_relations(:visible_relation).id
     assert_response :bad_request
 
+    # try to delete without specifying a changeset
+    content "<osm><relation id='#{current_relations(:visible_relation).id}'/></osm>"
+    delete :delete, :id => current_relations(:visible_relation).id
+    assert_response :conflict
+
+    # try to delete with an invalid (closed) changeset
+    content update_changeset(current_relations(:visible_relation).to_xml,
+                             changesets(:normal_user_closed_change).id)
+    delete :delete, :id => current_relations(:visible_relation).id
+    assert_response :conflict
+
+    # try to delete with an invalid (non-existent) changeset
+    content update_changeset(current_relations(:visible_relation).to_xml,0)
+    delete :delete, :id => current_relations(:visible_relation).id
+    assert_response :conflict
+
     # this won't work because the relation is in-use by another relation
     content(relations(:used_relation).to_xml)
     delete :delete, :id => current_relations(:used_relation).id
@@ -243,4 +259,24 @@ class RelationControllerTest < Test::Unit::TestCase
     assert_response :not_found
   end
 
+  ##
+  # update the changeset_id of a node element
+  def update_changeset(xml, changeset_id)
+    xml_attr_rewrite(xml, 'changeset', changeset_id)
+  end
+
+  ##
+  # update an attribute in the node element
+  def xml_attr_rewrite(xml, name, value)
+    xml.find("//osm/relation").first[name] = value.to_s
+    return xml
+  end
+
+  ##
+  # parse some xml
+  def xml_parse(xml)
+    parser = XML::Parser.new
+    parser.string = xml
+    parser.parse
+  end
 end

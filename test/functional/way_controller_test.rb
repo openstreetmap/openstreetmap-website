@@ -165,6 +165,17 @@ class WayControllerTest < Test::Unit::TestCase
     delete :delete, :id => current_ways(:visible_way).id
     assert_response :bad_request
     
+    # try to delete with an invalid (closed) changeset
+    content update_changeset(current_ways(:visible_way).to_xml,
+                             changesets(:normal_user_closed_change).id)
+    delete :delete, :id => current_ways(:visible_way).id
+    assert_response :conflict
+
+    # try to delete with an invalid (non-existent) changeset
+    content update_changeset(current_ways(:visible_way).to_xml,0)
+    delete :delete, :id => current_ways(:visible_way).id
+    assert_response :conflict
+
     # Now try with a valid changeset
     content current_ways(:visible_way).to_xml
     delete :delete, :id => current_ways(:visible_way).id
@@ -192,4 +203,16 @@ class WayControllerTest < Test::Unit::TestCase
     assert_response :not_found
   end
 
+  ##
+  # update the changeset_id of a node element
+  def update_changeset(xml, changeset_id)
+    xml_attr_rewrite(xml, 'changeset', changeset_id)
+  end
+
+  ##
+  # update an attribute in the node element
+  def xml_attr_rewrite(xml, name, value)
+    xml.find("//osm/way").first[name] = value.to_s
+    return xml
+  end
 end
