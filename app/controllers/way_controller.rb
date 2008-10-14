@@ -67,11 +67,10 @@ class WayController < ApplicationController
     begin
       way = Way.find(params[:id])
       new_way = Way.from_xml(request.raw_post)
-      if new_way and new_way.id == way.id
-        way.delete_with_history(new_way, @user)
 
-        # if we get here, all is fine, otherwise something will catch below.  
-        render :nothing => true
+      if new_way and new_way.id == way.id
+        way.delete_with_history!(new_way, @user)
+        render :text => way.version.to_s, :content_type => "text/plain"
       else
         render :nothing => true, :status => :bad_request
       end

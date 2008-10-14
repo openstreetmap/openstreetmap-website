@@ -224,14 +224,12 @@ class Relation < ActiveRecord::Base
     end
   end
 
-  def delete_with_history(new_relation, user)
+  def delete_with_history!(new_relation, user)
     if self.visible
       check_consistency(self, new_relation, user)
-      if RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", :conditions => [ "visible = 1 AND member_type='relation' and member_id=?", self.id ])
+      if RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", :conditions => [ "visible = 1 AND member_type='relation' and member_id=? ", self.id ])
         raise OSM::APIPreconditionFailedError.new
       else
-        #self.user_id = user.id
-        # FIXME we need to deal with changeset here, which is probably already dealt with
         self.changeset_id = new_relation.changeset_id
         self.tags = []
         self.members = []
@@ -248,8 +246,6 @@ class Relation < ActiveRecord::Base
     if !new_relation.preconditions_ok?
       raise OSM::APIPreconditionFailedError.new
     end
-    # FIXME need to deal with changeset etc
-    #self.user_id = user.id
     self.changeset_id = new_relation.changeset_id
     self.tags = new_relation.tags
     self.members = new_relation.members

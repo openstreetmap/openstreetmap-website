@@ -78,21 +78,17 @@ class NodeController < ApplicationController
     end
   end
 
-  # Delete a node. Doesn't actually delete it, but retains its history in a wiki-like way.
-  # FIXME remove all the fricking SQL
+  # Delete a node. Doesn't actually delete it, but retains its history 
+  # in a wiki-like way. We therefore treat it like an update, so the delete
+  # method returns the new version number.
   def delete
     begin
       node = Node.find(params[:id])
       new_node = Node.from_xml(request.raw_post)
-      # FIXME we no longer care about the user, (or maybe we want to check
-      # that the user of the changeset is the same user as is making this
-      # little change?) we really care about the 
-      # changeset which must be open, and that the version that we have been
-      # given is the one that is currently stored in the database
       
       if new_node and new_node.id == node.id
-        node.delete_with_history(new_node, @user)
-        render :nothing => true
+        node.delete_with_history!(new_node, @user)
+        render :text => node.version.to_s, :content_type => "text/plain"
       else
         render :nothing => true, :status => :bad_request
       end

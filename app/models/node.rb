@@ -133,7 +133,7 @@ class Node < ActiveRecord::Base
   end
 
   # Should probably be renamed delete_from to come in line with update
-  def delete_with_history(new_node, user)
+  def delete_with_history!(new_node, user)
     if self.visible
       check_consistency(self, new_node, user)
       if WayNode.find(:first, :joins => "INNER JOIN current_ways ON current_ways.id = current_way_nodes.id", :conditions => [ "current_ways.visible = 1 AND current_way_nodes.node_id = ?", self.id ])

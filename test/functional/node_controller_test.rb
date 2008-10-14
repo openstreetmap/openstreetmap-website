@@ -79,6 +79,11 @@ class NodeControllerTest < Test::Unit::TestCase
     delete :delete, :id => current_nodes(:visible_node).id
     assert_response :success
 
+    # valid delete should return the new version number, which should
+    # be greater than the old version number
+    assert @response.body.to_i > current_nodes(:visible_node).version,
+       "delete request should return a new version number for node"
+
     # this won't work since the node is already deleted
     content(nodes(:invisible_node).to_xml)
     delete :delete, :id => current_nodes(:invisible_node).id
@@ -92,12 +97,14 @@ class NodeControllerTest < Test::Unit::TestCase
     # in a way...
     content(nodes(:used_node_1).to_xml)
     delete :delete, :id => current_nodes(:used_node_1).id
-    assert_response :precondition_failed
+    assert_response :precondition_failed,
+       "shouldn't be able to delete a node used in a way (#{@response.body})"
 
     # in a relation...
     content(nodes(:node_used_by_relationship).to_xml)
     delete :delete, :id => current_nodes(:node_used_by_relationship).id
-    assert_response :precondition_failed
+    assert_response :precondition_failed,
+       "shouldn't be able to delete a node used in a relation (#{@response.body})"
   end
 
   ##
@@ -197,7 +204,36 @@ class NodeControllerTest < Test::Unit::TestCase
     put :update, :id => current_nodes(:visible_node).id
     assert_response :bad_request, 
        "adding duplicate tags to a node should fail with 'bad request'"
-  end    
+  end
+
+  # test whether string injection is possible
+  def test_string_injection
+    basic_authorization(users(:normal_user).email, "test")
+    changeset_id = changesets(:normal_user_first_change).id
+
+    # try and put something into a string that the API might 
+    # use unquoted and therefore allow code injection...
+    content "<osm><node lat='0' lon='0' changeset='#{changeset_id}'>" +
+      '<tag k="#{@user.inspect}" v="0"/>' +
+      '</node></osm>'
+    put :create
+    assert_response :success
+    nodeid = @response.body
+
+    # find the node in the database
+    checknode = Node.find(nodeid)
+    assert_not_nil checknode, "node not found in data base after upload"
+    
+    # and grab it using the api
+    get :read, :id => nodeid
+    assert_response :success
+    apinode = Node.from_xml(@response.body)
+    assert_not_nil apinode, "downloaded node is nil, but shouldn't be"
+    
+    # check the tags are not corrupted
+    assert_equal checknode.tags, apinode.tags
+    assert apinode.tags.include?('#{@user.inspect}')
+  end
 
   def basic_authorization(user, pass)
     @request.env["HTTP_AUTHORIZATION"] = "Basic %s" % Base64.encode64("#{user}:#{pass}")

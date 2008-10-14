@@ -68,6 +68,21 @@ module OSM
     end
   end
 
+  # raised when a two tags have a duplicate key string in an element.
+  # this is now forbidden by the API.
+  class APIDuplicateTagsError < APIError
+    def initialize(type, id, tag_key)
+      @type, @id, @tag_key = type, id, tag_key
+    end
+
+    attr_reader :type, :id, :tag_key
+
+    def render_opts
+      { :text => "Element #{@type}/#{@id} has duplicate tags with key #{@tag_key}.",
+        :status => :bad_request }
+    end
+  end
+
   # Helper methods for going to/from mercator and lat/lng.
   class Mercator
     include Math

@@ -165,16 +165,27 @@ class WayControllerTest < Test::Unit::TestCase
     delete :delete, :id => current_ways(:visible_way).id
     assert_response :bad_request
     
-    # Now try and get a changeset
-    changeset_id = changesets(:normal_user_first_change).id
+    # Now try with a valid changeset
     content current_ways(:visible_way).to_xml
     delete :delete, :id => current_ways(:visible_way).id
     assert_response :success
+
+    # check the returned value - should be the new version number
+    # valid delete should return the new version number, which should
+    # be greater than the old version number
+    assert @response.body.to_i > current_ways(:visible_way).version,
+       "delete request should return a new version number for way"
 
     # this won't work since the way is already deleted
     content current_ways(:invisible_way).to_xml
     delete :delete, :id => current_ways(:invisible_way).id
     assert_response :gone
+
+    # this shouldn't work as the way is used in a relation
+    content current_ways(:used_way).to_xml
+    delete :delete, :id => current_ways(:used_way).id
+    assert_response :precondition_failed, 
+       "shouldn't be able to delete a way used in a relation (#{@response.body})"
 
     # this won't work since the way never existed
     delete :delete, :id => 0

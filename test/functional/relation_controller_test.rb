@@ -210,15 +210,33 @@ class RelationControllerTest < Test::Unit::TestCase
     delete :delete, :id => current_relations(:visible_relation).id
     assert_response :bad_request
 
+    # this won't work because the relation is in-use by another relation
+    content(relations(:used_relation).to_xml)
+    delete :delete, :id => current_relations(:used_relation).id
+    assert_response :precondition_failed, 
+       "shouldn't be able to delete a relation used in a relation (#{@response.body})"
+
     # this should work when we provide the appropriate payload...
     content(relations(:visible_relation).to_xml)
     delete :delete, :id => current_relations(:visible_relation).id
     assert_response :success
 
+    # valid delete should return the new version number, which should
+    # be greater than the old version number
+    assert @response.body.to_i > current_relations(:visible_relation).version,
+       "delete request should return a new version number for relation"
+
     # this won't work since the relation is already deleted
     content(relations(:invisible_relation).to_xml)
     delete :delete, :id => current_relations(:invisible_relation).id
     assert_response :gone
+
+    # this works now because the relation which was using this one 
+    # has been deleted.
+    content(relations(:used_relation).to_xml)
+    delete :delete, :id => current_relations(:used_relation).id
+    assert_response :success, 
+       "should be able to delete a relation used in an old relation (#{@response.body})"
 
     # this won't work since the relation never existed
     delete :delete, :id => 0
