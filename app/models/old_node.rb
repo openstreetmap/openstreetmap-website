@@ -61,7 +61,7 @@ class OldNode < ActiveRecord::Base
     clear_aggregation_cache
     clear_association_cache
     #ok from here
-    @attributes.update(OldNode.find(:first, :conditions => ['id = ? AND timestamp = ?', self.id, self.timestamp]).instance_variable_get('@attributes'))
+    @attributes.update(OldNode.find(:first, :conditions => ['id = ? AND timestamp = ? AND version = ?', self.id, self.timestamp, self.version]).instance_variable_get('@attributes'))
    
     self.tags.each do |k,v|
       tag = OldNodeTag.new
