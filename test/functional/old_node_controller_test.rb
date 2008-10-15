@@ -84,17 +84,46 @@ class OldNodeControllerTest < Test::Unit::TestCase
   end
 
   ##
+  # Test that getting the current version is identical to picking
+  # that version with the version URI call.
+  def test_current_version
+    check_current_version(current_nodes(:visible_node))
+    check_current_version(current_nodes(:used_node_1))
+    check_current_version(current_nodes(:used_node_2))
+    check_current_version(current_nodes(:node_used_by_relationship))
+    check_current_version(current_nodes(:node_with_versions))
+  end
+  
+  def check_current_version(node_id)
+    # get the current version of the node
+    current_node = with_controller(NodeController.new) do
+      get :read, :id => node_id
+      assert_response :success, "cant get current node #{node_id}" 
+      Node.from_xml(@response.body)
+    end
+    assert_not_nil current_node, "getting node #{node_id} returned nil"
+
+    # get the "old" version of the node from the old_node interface
+    get :version, :id => node_id, :version => current_node.version
+    assert_response :success, "cant get old node #{node_id}, v#{current_node.version}" 
+    old_node = Node.from_xml(@response.body)
+
+    # check the nodes are the same
+    assert_nodes_are_equal current_node, old_node
+  end
+
+  ##
   # for some reason a==b is false, but there doesn't seem to be any 
   # difference between the nodes, so i'm checking all the attributes 
   # manually and blaming it on ActiveRecord
   def assert_nodes_are_equal(a, b)
     assert_equal a.id, b.id, "node IDs"
-    assert_equal a.latitude, b.latitude, "latitude"
-    assert_equal a.longitude, b.longitude, "longitude"
-    assert_equal a.changeset_id, b.changeset_id, "changeset ID"
-    assert_equal a.visible, b.visible, "visible"
-    assert_equal a.version, b.version, "version"
-    assert_equal a.tags, b.tags, "tags"
+    assert_equal a.latitude, b.latitude, "latitude on node #{a.id}"
+    assert_equal a.longitude, b.longitude, "longitude on node #{a.id}"
+    assert_equal a.changeset_id, b.changeset_id, "changeset ID on node #{a.id}"
+    assert_equal a.visible, b.visible, "visible on node #{a.id}"
+    assert_equal a.version, b.version, "version on node #{a.id}"
+    assert_equal a.tags, b.tags, "tags on node #{a.id}"
   end
 
   ##
