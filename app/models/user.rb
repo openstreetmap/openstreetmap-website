@@ -15,8 +15,9 @@ class User < ActiveRecord::Base
   validates_confirmation_of :pass_crypt, :message => 'Password must match the confirmation password'
   validates_uniqueness_of :display_name, :allow_nil => true
   validates_uniqueness_of :email
-  validates_length_of :pass_crypt, :minimum => 8
-  validates_length_of :display_name, :minimum => 3, :allow_nil => true
+  validates_length_of :pass_crypt, :within => 8..255
+  validates_length_of :display_name, :within => 3..255, :allow_nil => true
+  validates_length_of :email, :within => 6..255
   validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
   validates_format_of :display_name, :with => /^[^\/;.,?]*$/
   validates_numericality_of :home_lat, :allow_nil => true
