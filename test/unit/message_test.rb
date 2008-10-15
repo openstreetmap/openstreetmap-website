@@ -32,6 +32,11 @@ class MessageTest < Test::Unit::TestCase
     message.sender = nil
     message.recipient = nil
     assert !message.valid?
+
+    assert_raise(ActiveRecord::RecordNotFound) { User.find(0) }
+    message.from_user_id = 0
+    message.to_user_id = 0
+    assert_raise(ActiveRecord::RecordInvalid) {message.save!}
   end
 
   def test_utf8_roundtrip
