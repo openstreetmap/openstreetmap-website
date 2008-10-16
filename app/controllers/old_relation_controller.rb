@@ -25,6 +25,8 @@ class OldRelationController < ApplicationController
   def version
     begin
       old_relation = OldRelation.find(:first, :conditions => {:id => params[:id], :version => params[:version]} )
+      
+      response.headers['Last-Modified'] = old_relation.timestamp.rfc822
 
       doc = OSM::API.new.get_xml_doc
       doc.root << old_relation.to_xml_node
