@@ -58,5 +58,19 @@ class Test::Unit::TestCase
     set_fixture_class :relation_tags => :OldRelationTag
   end
 
+  ##
+  # takes a block which is executed in the context of a different 
+  # ActionController instance. this is used so that code can call methods
+  # on the node controller whilst testing the old_node controller.
+  def with_controller(new_controller)
+    controller_save = @controller
+    begin
+      @controller = new_controller
+      yield
+    ensure
+      @controller = controller_save
+    end
+  end
+
   # Add more helper methods to be used by all tests here...
 end
