@@ -203,6 +203,90 @@ class WayControllerTest < Test::Unit::TestCase
     assert_response :not_found
   end
 
+  # ------------------------------------------------------------
+  # test tags handling
+  # ------------------------------------------------------------
+
+  ##
+  # Try adding a duplicate of an existing tag to a way
+  def test_add_duplicate_tags
+    # setup auth
+    basic_authorization(users(:normal_user).email, "test")
+
+    # add an identical tag to the way
+    tag_xml = XML::Node.new("tag")
+    tag_xml['k'] = current_way_tags(:t1).k
+    tag_xml['v'] = current_way_tags(:t1).v
+
+    # add the tag into the existing xml
+    way_xml = current_ways(:visible_way).to_xml
+    way_xml.find("//osm/way").first << tag_xml
+
+    # try and upload it
+    content way_xml
+    put :update, :id => current_ways(:visible_way).id
+    assert_response :bad_request, 
+       "adding a duplicate tag to a way should fail with 'bad request'"
+  end
+
+  ##
+  # Try adding a new duplicate tags to a way
+  def test_new_duplicate_tags
+    # setup auth
+    basic_authorization(users(:normal_user).email, "test")
+
+    # create duplicate tag
+    tag_xml = XML::Node.new("tag")
+    tag_xml['k'] = "i_am_a_duplicate"
+    tag_xml['v'] = "foobar"
+
+    # add the tag into the existing xml
+    way_xml = current_ways(:visible_way).to_xml
+
+    # add two copies of the tag
+    way_xml.find("//osm/way").first << tag_xml.copy(true) << tag_xml
+
+    # try and upload it
+    content way_xml
+    put :update, :id => current_ways(:visible_way).id
+    assert_response :bad_request, 
+       "adding new duplicate tags to a way should fail with 'bad request'"
+  end
+
+  ##
+  # Try adding a new duplicate tags to a way.
+  # But be a bit subtle - use unicode decoding ambiguities to use different
+  # binary strings which have the same decoding.
+  def test_invalid_duplicate_tags
+    # setup auth
+    basic_authorization(users(:normal_user).email, "test")
+
+    # add the tag into the existing xml
+    way_str = "<osm><way changeset='1'>"
+
+    # all of these keys have the same unicode decoding, but are binary
+    # not equal. libxml should make these identical as it decodes the
+    # XML document...
+    [ "addr:housenumber",
+      "addr\xc0\xbahousenumber",
+      "addr\xe0\x80\xbahousenumber",
+      "addr\xf0\x80\x80\xbahousenumber" ].each do |key|
+      tag_xml = XML::Node.new("tag")
+      tag_xml['k'] = key
+      tag_xml['v'] = "1"
+
+      # add all new tags to the way
+      way_str << "<tag k='" + key + "' v='1'/>"
+    end
+    way_str << "</way></osm>";
+
+    # try and upload it
+    content way_str
+    put :create
+    assert_response :bad_request, 
+       "adding new duplicate tags to a way should fail with 'bad request'"
+  end
+
   ##
   # update the changeset_id of a node element
   def update_changeset(xml, changeset_id)

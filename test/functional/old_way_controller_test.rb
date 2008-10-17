@@ -74,7 +74,8 @@ class OldWayControllerTest < Test::Unit::TestCase
   end
 
   ##
-  #
+  # look at all the versions of the way in the history and get each version from
+  # the versions call. check that they're the same.
   def check_history_equals_versions(way_id)
     get :history, :id => way_id
     assert_response :success, "can't get way #{way_id} from API"
