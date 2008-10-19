@@ -11,10 +11,10 @@ class ApiController < ApplicationController
   @@count = COUNT
 
   # The maximum area you're allowed to request, in square degrees
-  MAX_REQUEST_AREA = 0.25
+  MAX_REQUEST_AREA = APP_CONFIG['max_request_area']
 
   # Number of GPS trace/trackpoints returned per-page
-  TRACEPOINTS_PER_PAGE = 5000
+  TRACEPOINTS_PER_PAGE = APP_CONFIG['tracepoints_per_page']
 
   
   def trackpoints
@@ -109,6 +109,7 @@ class ApiController < ApplicationController
       return
     end
 
+    # FIXME um why is this area using a different order for the lat/lon from above???
     @nodes = Node.find_by_area(min_lat, min_lon, max_lat, max_lon, :conditions => "visible = 1", :limit => APP_CONFIG['max_number_of_nodes']+1)
     # get all the nodes, by tag not yet working, waiting for change from NickB
     # need to be @nodes (instance var) so tests in /spec can be performed
@@ -245,7 +246,7 @@ class ApiController < ApplicationController
 
       render :text => doc.to_s, :content_type => "text/xml"
     else
-      render :nothing => true, :status => :bad_request
+      render :text => "Requested zoom is invalid", :status => :bad_request
     end
   end
 
@@ -260,6 +261,9 @@ class ApiController < ApplicationController
     area = XML::Node.new 'area'
     area['maximum'] = MAX_REQUEST_AREA.to_s;
     api << area
+    tracepoints = XML::Node.new 'tracepoints'
+    tracepoints['per_page'] = APP_CONFIG['tracepoints_per_page'].to_s
+    api << tracepoints
     
     doc.root << api
 

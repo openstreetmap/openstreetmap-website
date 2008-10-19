@@ -25,6 +25,8 @@ ActionController::Routing::Routes.draw do |map|
   map.connect "api/#{API_VERSION}/way/:id", :controller => 'way', :action => 'delete', :id => /\d+/, :conditions => { :method => :delete }
   map.connect "api/#{API_VERSION}/ways", :controller => 'way', :action => 'ways', :id => nil
 
+  # FIXME Wouldn't capabilites be better placed somewhere else in this file
+  # and without the #{API_VERSION}, so that clients can always find it?
   map.connect "api/#{API_VERSION}/capabilities", :controller => 'api', :action => 'capabilities'
   map.connect "api/#{API_VERSION}/relation/create", :controller => 'relation', :action => 'create'
   map.connect "api/#{API_VERSION}/relation/:id/relations", :controller => 'relation', :action => 'relations_for_relation', :id => /\d+/

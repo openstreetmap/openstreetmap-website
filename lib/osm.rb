@@ -249,7 +249,7 @@ module OSM
       doc.encoding = 'UTF-8' 
       root = XML::Node.new 'osm'
       root['version'] = API_VERSION
-      root['generator'] = 'OpenStreetMap server'
+      root['generator'] = GENERATOR
       doc.root = root
       return doc
     end
