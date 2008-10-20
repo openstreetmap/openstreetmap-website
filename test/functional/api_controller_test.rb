@@ -6,11 +6,21 @@ class ApiController; def rescue_action(e) raise e end; end
 
 class ApiControllerTest < Test::Unit::TestCase
   api_fixtures
+  
+
 
   def setup
     @controller = ApiController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
+    @badbigbbox = %w{ -0.1,-0.1,1.1,1.1 10,10,11,11 }
+    @badmalformedbbox = %w{ -0.1  hello S0.1,W0.1,N0.1,E0.1
+    10N2W10.1N2.1W }
+    @badlatmixedbbox = %w{}
+    @badlonmixedbbox = %w{}
+    @badlatlonoutboundsbbox = %w{ -190.2,-190.2,-190.1,-190.1 -190.1,89.9,-190,90 }
+    @goodbbox = %w{ -0.1,-0.1,0.1,0.1 51.1,-0.1,51.2,0 
+    -0.1,%20-0.1,%200.1,%200.1 -0.1edcd,-0.1d,0.1,0.1 -0.1E,-0.1E,0.1S,0.1N }
   end
 
   def basic_authorization(user, pass)
@@ -47,15 +57,11 @@ class ApiControllerTest < Test::Unit::TestCase
   end
   
   def test_map_without_bbox
-    get :map
-    assert_response :bad_request
-    assert_equal "The parameter bbox is required, and must be of the form min_lon,min_lat,max_lon,max_lat", @response.body
-  end
-  
-  def test_traces_without_bbox
-    get :trackpoints
-    assert_response :bad_request
-    assert_equal "The parameter bbox is required, and must be of the form min_lon,min_lat,max_lon,max_lat", @response.body
+    ["trackpoints", "map"].each do |tq|
+      get tq
+      assert_response :bad_request
+      assert_equal "The parameter bbox is required, and must be of the form min_lon,min_lat,max_lon,max_lat", @response.body
+    end
   end
   
   def test_traces_page_less_than_0
@@ -70,12 +76,54 @@ class ApiControllerTest < Test::Unit::TestCase
     end
   end
   
-  def test_traces_bbox_too_big
-    bad = %w{ -0.1,-0.1,1.1,1.1 10,10,11,11 }
-    bad.each do |bbox|
-      get :trackpoints, :bbox => bbox
-      assert_response :bad_request
-      assert_equal "The maximum bbox size is #{APP_CONFIG['max_request_area']}, and your request was too large. Either request a smaller area, or use planet.osm", @response.body
+  def test_bbox_too_big
+    @badbigbbox.each do |bbox|
+      [ "trackpoints", "map" ].each do |tq|
+        get tq, :bbox => bbox
+        assert_response :bad_request, "The bbox:#{bbox} was expected to be too big"
+        assert_equal "The maximum bbox size is #{APP_CONFIG['max_request_area']}, and your request was too large. Either request a smaller area, or use planet.osm", @response.body
+      end
+    end
+  end
+  
+  def test_bbox_malformed
+    @badmalformedbbox.each do |bbox|
+      [ "trackpoints", "map" ].each do |tq|
+        get tq, :bbox => bbox
+        assert_response :bad_request, "The bbox:#{bbox} was expected to be malformed"
+        assert_equal "The parameter bbox is required, and must be of the form min_lon,min_lat,max_lon,max_lat", @response.body
+      end
+    end
+  end
+  
+  def test_bbox_lon_mixedup
+    @badlonmixedbbox.each do |bbox|
+      [ "trackpoints", "map" ].each do |tq|
+        get tq, :bbox => bbox
+        assert_response :bad_request, "The bbox:#{bbox} was expected to have the longitude mixed up"
+        assert_equal "The minimum longitude must be less than the maximum longitude, but it wasn't", @response.body
+      end
+    end
+  end
+  
+  def test_bbox_lat_mixedup
+    @badlatmixedbbox.each do |bbox|
+      ["trackpoints", "map"].each do |tq|
+        get tq, :bbox => bbox
+        assert_response :bad_request, "The bbox:#{bbox} was expected to have the latitude mixed up"
+        assert_equal "The minimum latitude must be less than the maximum latitude, but it wasn't", @response.body
+      end
+    end
+  end
+  
+  def test_latlon_outofbounds
+    @badlatlonoutboundsbbox.each do |bbox|
+      [ "trackpoints", "map" ].each do |tq|
+        get tq, :bbox => bbox
+        #print @request.to_yaml
+        assert_response :bad_request, "The bbox was expected to be out of range"
+        assert_equal "The latitudes must be between -90 an 90, and longitudes between -180 and 180", @response.body
+      end
     end
   end
   
