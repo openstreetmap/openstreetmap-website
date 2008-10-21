@@ -40,7 +40,6 @@ class Changeset < ActiveRecord::Base
         end
       end
     rescue Exception => ex
-    print "noes "+ ex.to_s + "\n"
       cs = nil
     end
 

@@ -7,8 +7,6 @@ class ApiController; def rescue_action(e) raise e end; end
 class ApiControllerTest < Test::Unit::TestCase
   api_fixtures
   
-
-
   def setup
     @controller = ApiController.new
     @request    = ActionController::TestRequest.new
