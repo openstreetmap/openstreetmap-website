@@ -14,7 +14,7 @@ class ApiControllerTest < Test::Unit::TestCase
     @badbigbbox = %w{ -0.1,-0.1,1.1,1.1 10,10,11,11 }
     @badmalformedbbox = %w{ -0.1  hello S0.1,W0.1,N0.1,E0.1
     10N2W10.1N2.1W }
-    @badlatmixedbbox = %w{}
+    @badlatmixedbbox = %w{ 0,0.1,0.1,0 }
     @badlonmixedbbox = %w{}
     @badlatlonoutboundsbbox = %w{ -190.2,-190.2,-190.1,-190.1 -190.1,89.9,-190,90 }
     @goodbbox = %w{ -0.1,-0.1,0.1,0.1 51.1,-0.1,51.2,0 
