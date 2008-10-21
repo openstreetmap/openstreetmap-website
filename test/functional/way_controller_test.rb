@@ -37,21 +37,11 @@ class WayControllerTest < Test::Unit::TestCase
     # check chat a non-existent way is not returned
     get :read, :id => 0
     assert_response :not_found
+  end
 
-    # check the "ways for node" mode
-    get :ways_for_node, :id => current_nodes(:used_node_1).id
-    assert_response :success
-    # FIXME check whether this contains the stuff we want!
-    #print @response.body
-    # Needs to be updated when changing fixtures
-    # The generator should probably be defined in the environment.rb file
-    # in the same place as the api version
-    assert_select "osm[version=#{API_VERSION}][generator=\"OpenStreetMap server\"]", 1
-    assert_select "osm way", 3
-    assert_select "osm way nd", 3
-    assert_select "osm way tag", 3
-
-    # check the "full" mode
+  ##
+  # check the "full" mode
+  def test_full
     get :full, :id => current_ways(:visible_way).id
     assert_response :success
     # FIXME check whether this contains the stuff we want!
@@ -287,6 +277,33 @@ class WayControllerTest < Test::Unit::TestCase
       put :create
       assert_response :bad_request, 
          "adding new duplicate tags to a way should fail with 'bad request'"
+    end
+  end
+
+  ##
+  # test that a call to ways_for_node returns all ways that contain the node
+  # and none that don't.
+  def test_ways_for_node
+    # in current fixtures ways 1 and 3 all use node 3. ways 2 and 4 
+    # *used* to use it but doesn't.
+    get :ways_for_node, :id => current_nodes(:used_node_1).id
+    assert_response :success
+    ways_xml = XML::Parser.string(@response.body).parse
+    assert_not_nil ways_xml, "failed to parse ways_for_node response"
+
+    # check that the set of IDs match expectations
+    expected_way_ids = [ current_ways(:visible_way).id,
+                         current_ways(:used_way).id
+                       ]
+    found_way_ids = ways_xml.find("//osm/way").collect { |w| w["id"].to_i }
+    assert_equal expected_way_ids, found_way_ids,
+      "expected ways for node #{current_nodes(:used_node_1).id} did not match found"
+    
+    # check the full ways to ensure we're not missing anything
+    expected_way_ids.each do |id|
+      way_xml = ways_xml.find("//osm/way[@id=#{id}]").first
+      assert_ways_are_equal(Way.find(id),
+                            Way.from_xml_node(way_xml))
     end
   end
 

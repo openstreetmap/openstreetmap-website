@@ -125,13 +125,19 @@ class WayController < ApplicationController
     end
   end
 
+  ##
+  # returns all the ways which are currently using the node given in the 
+  # :id parameter. note that this used to return deleted ways as well, but
+  # this seemed not to be the expected behaviour, so it was removed.
   def ways_for_node
-    wayids = WayNode.find(:all, :conditions => ['node_id = ?', params[:id]]).collect { |ws| ws.id[0] }.uniq
+    wayids = WayNode.find(:all, 
+                          :conditions => ['node_id = ?', params[:id]]
+                          ).collect { |ws| ws.id[0] }.uniq
 
     doc = OSM::API.new.get_xml_doc
 
     Way.find(wayids).each do |way|
-      doc.root << way.to_xml_node
+      doc.root << way.to_xml_node if way.visible
     end
 
     render :text => doc.to_s, :content_type => "text/xml"

@@ -72,5 +72,33 @@ class Test::Unit::TestCase
     end
   end
 
+  ##
+  # for some reason assert_equal a, b fails when the ways are actually
+  # equal, so this method manually checks the fields...
+  def assert_ways_are_equal(a, b)
+    assert_not_nil a, "first way is not allowed to be nil"
+    assert_not_nil b, "second way #{a.id} is not allowed to be nil"
+    assert_equal a.id, b.id, "way IDs"
+    assert_equal a.changeset_id, b.changeset_id, "changeset ID on way #{a.id}"
+    assert_equal a.visible, b.visible, "visible on way #{a.id}, #{a.visible.inspect} != #{b.visible.inspect}"
+    assert_equal a.version, b.version, "version on way #{a.id}"
+    assert_equal a.tags, b.tags, "tags on way #{a.id}"
+    assert_equal a.nds, b.nds, "node references on way #{a.id}"
+  end
+
+  ##
+  # for some reason a==b is false, but there doesn't seem to be any 
+  # difference between the nodes, so i'm checking all the attributes 
+  # manually and blaming it on ActiveRecord
+  def assert_nodes_are_equal(a, b)
+    assert_equal a.id, b.id, "node IDs"
+    assert_equal a.latitude, b.latitude, "latitude on node #{a.id}"
+    assert_equal a.longitude, b.longitude, "longitude on node #{a.id}"
+    assert_equal a.changeset_id, b.changeset_id, "changeset ID on node #{a.id}"
+    assert_equal a.visible, b.visible, "visible on node #{a.id}"
+    assert_equal a.version, b.version, "version on node #{a.id}"
+    assert_equal a.tags, b.tags, "tags on node #{a.id}"
+  end
+
   # Add more helper methods to be used by all tests here...
 end

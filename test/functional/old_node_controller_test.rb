@@ -113,20 +113,6 @@ class OldNodeControllerTest < Test::Unit::TestCase
   end
 
   ##
-  # for some reason a==b is false, but there doesn't seem to be any 
-  # difference between the nodes, so i'm checking all the attributes 
-  # manually and blaming it on ActiveRecord
-  def assert_nodes_are_equal(a, b)
-    assert_equal a.id, b.id, "node IDs"
-    assert_equal a.latitude, b.latitude, "latitude on node #{a.id}"
-    assert_equal a.longitude, b.longitude, "longitude on node #{a.id}"
-    assert_equal a.changeset_id, b.changeset_id, "changeset ID on node #{a.id}"
-    assert_equal a.visible, b.visible, "visible on node #{a.id}"
-    assert_equal a.version, b.version, "version on node #{a.id}"
-    assert_equal a.tags, b.tags, "tags on node #{a.id}"
-  end
-
-  ##
   # returns a 16 character long string with some nasty characters in it.
   # this ought to stress-test the tag handling as well as the versioning.
   def random_string

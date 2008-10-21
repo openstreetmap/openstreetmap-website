@@ -51,6 +51,8 @@ class Way < ActiveRecord::Base
       if pt['timestamp']
         way.timestamp = Time.parse(pt['timestamp'])
       end
+      # if visible isn't present then it defaults to true
+      way.visible = (pt['visible'] or true)
     end
 
     pt.find('tag').each do |tag|

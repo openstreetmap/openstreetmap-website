@@ -95,16 +95,4 @@ class OldWayControllerTest < Test::Unit::TestCase
     end
   end
 
-  ##
-  # for some reason assert_equal a, b fails when the ways are actually
-  # equal, so this method manually checks the fields...
-  def assert_ways_are_equal(a, b)
-    assert_equal a.id, b.id, "way IDs"
-    assert_equal a.changeset_id, b.changeset_id, "changeset ID on way #{a.id}"
-    assert_equal a.visible, b.visible, "visible on way #{a.id}"
-    assert_equal a.version, b.version, "version on way #{a.id}"
-    assert_equal a.tags, b.tags, "tags on way #{a.id}"
-    assert_equal a.nds, b.nds, "node references on way #{a.id}"
-  end
-
 end
