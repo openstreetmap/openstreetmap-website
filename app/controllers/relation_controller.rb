@@ -185,7 +185,7 @@ class RelationController < ApplicationController
     doc = OSM::API.new.get_xml_doc
 
     Relation.find(relationids).each do |relation|
-      doc.root << relation.to_xml_node
+      doc.root << relation.to_xml_node if relation.visible
     end
 
     render :text => doc.to_s, :content_type => "text/xml"

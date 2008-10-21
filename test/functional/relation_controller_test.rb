@@ -37,18 +37,34 @@ class RelationControllerTest < Test::Unit::TestCase
     # check chat a non-existent relation is not returned
     get :read, :id => 0
     assert_response :not_found
+  end
 
-    # check the "relations for node" mode
-    get :relations_for_node, :id => current_nodes(:node_used_by_relationship).id
+  ##
+  # check that all relations containing a particular node, and no extra
+  # relations, are returned from the relations_for_node call.
+  def test_relations_for_node
+    node_id = current_nodes(:node_used_by_relationship).id
+    
+    # fetch all the relations which contain that node
+    get :relations_for_node, :id => node_id
     assert_response :success
-    # FIXME check whether this contains the stuff we want!
-    # see the test_read in way_controller_test.rb for the assert_select
-    assert_select "osm[version=#{API_VERSION}][generator=\"OpenStreetMap server\"]", 1
-    assert_select "osm relation"
-    if $VERBOSE
-        print @response.body
-    end
 
+    # count one osm element
+    assert_select "osm[version=#{API_VERSION}][generator=\"OpenStreetMap server\"]", 1
+
+    # we should have only two relations
+    assert_select "osm>relation", 2
+
+    # and each of them should contain the node we originally searched for
+    [ :visible_relation, 
+      :used_relation ].each do |r|
+      relation_id = current_relations(r).id
+      assert_select "osm>relation#?", relation_id
+      assert_select "osm>relation#?>member[type=\"node\"][ref=#{node_id}]", relation_id
+    end
+  end
+
+  def test_relations_for_way
     # check the "relations for way" mode
     get :relations_for_way, :id => current_ways(:used_way).id
     assert_response :success
@@ -56,7 +72,9 @@ class RelationControllerTest < Test::Unit::TestCase
     if $VERBOSE
         print @response.body
     end
+  end
 
+  def test_relations_for_relation
     # check the "relations for relation" mode
     get :relations_for_relation, :id => current_relations(:used_relation).id
     assert_response :success
@@ -64,7 +82,9 @@ class RelationControllerTest < Test::Unit::TestCase
     if $VERBOSE
         print @response.body
     end
+  end
 
+  def test_full
     # check the "full" mode
     get :full, :id => current_relations(:visible_relation).id
     assert_response :success
