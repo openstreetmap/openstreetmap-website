@@ -306,9 +306,10 @@ private
     @trace.user = @user
     @trace.timestamp = Time.now
 
-    FileUtils.mv(filename, @trace.trace_name)
-    unless @trace.save
-      FileUtils.rm_f(@trace.trace_name)
+    if @trace.save
+      FileUtils.mv(filename, @trace.trace_name)
+    else
+      FileUtils.rm_f(filename)
     end
   end
 
