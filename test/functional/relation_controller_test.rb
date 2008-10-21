@@ -49,15 +49,17 @@ class RelationControllerTest < Test::Unit::TestCase
     get :relations_for_node, :id => node_id
     assert_response :success
 
+    # the results we expect
+    expected_relations = [ :visible_relation, :used_relation ]
+
     # count one osm element
     assert_select "osm[version=#{API_VERSION}][generator=\"OpenStreetMap server\"]", 1
 
-    # we should have only two relations
-    assert_select "osm>relation", 2
+    # we should have only the expected number of relations
+    assert_select "osm>relation", expected_relations.size
 
     # and each of them should contain the node we originally searched for
-    [ :visible_relation, 
-      :used_relation ].each do |r|
+    expected_relations.each do |r|
       relation_id = current_relations(r).id
       assert_select "osm>relation#?", relation_id
       assert_select "osm>relation#?>member[type=\"node\"][ref=#{node_id}]", relation_id
