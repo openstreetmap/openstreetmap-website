@@ -7,9 +7,9 @@
 static void exit_mysql_err(MYSQL *mysql) {
   const char *err = mysql_error(mysql);
   if (err) {
-    fprintf(stderr, "013_populate_node_tags_and_remove_helper: MySQL error: %s\n", err);
+    fprintf(stderr, "017_populate_node_tags_and_remove_helper: MySQL error: %s\n", err);
   } else {
-    fprintf(stderr, "013_populate_node_tags_and_remove_helper: MySQL error\n");
+    fprintf(stderr, "017_populate_node_tags_and_remove_helper: MySQL error\n");
   }
   abort();
   exit(EXIT_FAILURE);
@@ -192,7 +192,7 @@ int main(int argc, char **argv) {
   struct data data, *d = &data;
 
   if (argc != 8) {
-    printf("Usage: 013_populate_node_tags_and_remove_helper host user passwd database port socket prefix\n");
+    printf("Usage: 017_populate_node_tags_and_remove_helper host user passwd database port socket prefix\n");
     exit(EXIT_FAILURE);
   }
 
