@@ -487,6 +487,7 @@ class AmfController < ApplicationController
 	way.unshared_node_ids.each do |n|
 	  deleteitemrelations(n, 'node')
 	end
+	deleteitemrelations(way_id, 'way')
 
 	way.delete_with_relations_and_nodes_and_history(user)  
 
