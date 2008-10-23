@@ -4,7 +4,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect "api/capabilities", :controller => 'api', :action => 'capabilities'
   
   map.connect "api/#{API_VERSION}/changeset/create", :controller => 'changeset', :action => 'create'
-  map.connect "api/#{API_VERSION}/changeset/upload", :controller => 'changeset', :action => 'upload'
+  map.connect "api/#{API_VERSION}/changeset/:id/upload", :controller => 'changeset', :action => 'upload', :id => /\d+/
   map.connect "api/#{API_VERSION}/changeset/:id", :controller => 'changeset', :action => 'read', :id => /\d+/
   map.connect "api/#{API_VERSION}/changeset/:id/close", :controller => 'changeset', :action => 'close', :id =>/\d+/
   
@@ -22,6 +22,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect "api/#{API_VERSION}/way/:id/history", :controller => 'old_way', :action => 'history', :id => /\d+/
   map.connect "api/#{API_VERSION}/way/:id/full", :controller => 'way', :action => 'full', :id => /\d+/
   map.connect "api/#{API_VERSION}/way/:id/relations", :controller => 'relation', :action => 'relations_for_way', :id => /\d+/
+  map.connect "api/#{API_VERSION}/way/:id/:version", :controller => 'old_way', :action => 'version', :id => /\d+/, :version => /\d+/
   map.connect "api/#{API_VERSION}/way/:id", :controller => 'way', :action => 'read', :id => /\d+/, :conditions => { :method => :get }
   map.connect "api/#{API_VERSION}/way/:id", :controller => 'way', :action => 'update', :id => /\d+/, :conditions => { :method => :put }
   map.connect "api/#{API_VERSION}/way/:id", :controller => 'way', :action => 'delete', :id => /\d+/, :conditions => { :method => :delete }

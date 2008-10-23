@@ -54,6 +54,32 @@ module OSM
     end
   end
 
+  # Raised when a diff is uploaded containing many changeset IDs which don't match
+  # the changeset ID that the diff was uploaded to.
+  class APIChangesetMismatchError < APIError
+    def initialize(provided, allowed)
+      @provided, @allowed = provided, allowed
+    end
+    
+    def render_opts
+      { :text => "Changeset mismatch: Provided #{@provided} but only " +
+        "#{@allowed} is allowed.", :status => :conflict }
+    end
+  end
+
+  # Raised when bad XML is encountered which stops things parsing as
+  # they should.
+  class APIBadXMLError < APIError
+    def initialize(model, xml)
+      @model, @xml = model, xml
+    end
+
+    def render_opts
+      { :text => "Cannot parse valid #{@model} from xml string #{@xml}",
+        :status => :bad_request }
+    end
+  end
+
   # Raised when the provided version is not equal to the latest in the db.
   class APIVersionMismatchError < APIError
     def initialize(provided, latest)

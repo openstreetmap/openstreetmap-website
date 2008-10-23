@@ -75,12 +75,15 @@ class Node < ActiveRecord::Base
   def self.from_xml_node(pt, create=false)
     node = Node.new
     
-    node.version = pt['version'].to_i
     node.lat = pt['lat'].to_f
     node.lon = pt['lon'].to_f
     node.changeset_id = pt['changeset'].to_i
 
     return nil unless node.in_world?
+
+    # version must be present unless creating
+    return nil unless create or not pt['version'].nil?
+    node.version = pt['version'].to_i
 
     unless create
       if pt['id'] != '0'
@@ -88,7 +91,9 @@ class Node < ActiveRecord::Base
       end
     end
 
-    node.visible = pt['visible'] and pt['visible'] == 'true'
+    # visible if it says it is, or as the default if the attribute
+    # is missing.
+    node.visible = pt['visible'].nil? or pt['visible'] == 'true'
 
     if create
       node.timestamp = Time.now
@@ -233,6 +238,13 @@ class Node < ActiveRecord::Base
     raise OSM::APIDuplicateTagsError.new if @tags.include? k
 
     @tags[k] = v
+  end
+
+  ##
+  # dummy method to make the interfaces of node, way and relation
+  # more consistent.
+  def fix_placeholders!(id_map)
+    # nodes don't refer to anything, so there is nothing to do here
   end
 
 end

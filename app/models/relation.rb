@@ -320,4 +320,22 @@ class Relation < ActiveRecord::Base
   def tags_as_hash
     return self.tags
   end
+
+  ##
+  # if any members are referenced by placeholder IDs (i.e: negative) then
+  # this calling this method will fix them using the map from placeholders 
+  # to IDs +id_map+. 
+  def fix_placeholders!(id_map)
+    self.members.map! do |type, id, role|
+      old_id = id.to_i
+      if old_id < 0
+        new_id = id_map[type.to_sym][old_id]
+        raise "invalid placeholder" if new_id.nil?
+        [type, new_id, role]
+      else
+        [type, id, role]
+      end
+    end
+  end
+
 end
