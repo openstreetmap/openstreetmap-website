@@ -4,6 +4,9 @@ class MessageController < ApplicationController
   before_filter :authorize_web
   before_filter :require_user
 
+  # Allow the user to write a new message to another user. This action also 
+  # deals with the sending of that message to the other user when the user
+  # clicks send.
   def new
     @title = 'send message'
     if params[:message]
@@ -22,6 +25,7 @@ class MessageController < ApplicationController
     end
   end
 
+  # Allow the user to reply to another message.
   def reply
     message = Message.find(params[:message_id], :conditions => ["to_user_id = ? or from_user_id = ?", @user.id, @user.id ])
     @body = "On #{message.sent_on} #{message.sender.display_name} wrote:\n\n#{message.body.gsub(/^/, '> ')}" 
@@ -32,6 +36,7 @@ class MessageController < ApplicationController
     render :nothing => true, :status => :not_found
   end
 
+  # Show a message
   def read
     @title = 'read message'
     @message = Message.find(params[:message_id], :conditions => ["to_user_id = ? or from_user_id = ?", @user.id, @user.id ])
@@ -41,6 +46,7 @@ class MessageController < ApplicationController
     render :nothing => true, :status => :not_found
   end
 
+  # Display the list of messages that have been sent to the user.
   def inbox
     @title = 'inbox'
     if @user and params[:display_name] == @user.display_name
@@ -49,6 +55,7 @@ class MessageController < ApplicationController
     end
   end
 
+  # Display the list of messages that the user has sent to other users.
   def outbox
     @title = 'outbox'
     if @user and params[:display_name] == @user.display_name
@@ -57,6 +64,7 @@ class MessageController < ApplicationController
     end
   end
 
+  # Set the message as being read or unread.
   def mark
     if params[:message_id]
       id = params[:message_id]

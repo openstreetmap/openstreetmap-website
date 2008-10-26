@@ -16,7 +16,8 @@ class ApiController < ApplicationController
   # Number of GPS trace/trackpoints returned per-page
   TRACEPOINTS_PER_PAGE = APP_CONFIG['tracepoints_per_page']
 
-  
+  # Get an XML response containing a list of tracepoints that have been uploaded
+  # within the specified bounding box, and in the specified page.
   def trackpoints
     @@count+=1
     #retrieve the page number
@@ -84,6 +85,15 @@ class ApiController < ApplicationController
     render :text => doc.to_s, :content_type => "text/xml"
   end
 
+  # This is probably the most common call of all. It is used for getting the 
+  # OSM data for a specified bounding box, usually for editing. First the
+  # bounding box (bbox) is checked to make sure that it is sane. All nodes 
+  # are searched, then all the ways that reference those nodes are found.
+  # All Nodes that are referenced by those ways are fetched and added to the list
+  # of nodes.
+  # Then all the relations that reference the already found nodes and ways are
+  # fetched. All the nodes and ways that are referenced by those ways are then 
+  # fetched. Finally all the xml is returned.
   def map
     GC.start
     @@count+=1
@@ -205,6 +215,8 @@ class ApiController < ApplicationController
     end
   end
 
+  # Get a list of the tiles that have changed within a specified time
+  # period
   def changes
     zoom = (params[:zoom] || '12').to_i
 
@@ -250,6 +262,11 @@ class ApiController < ApplicationController
     end
   end
 
+  # External apps that use the api are able to query the api to find out some 
+  # parameters of the API. It currently returns: 
+  # * minimum and maximum API versions that can be used.
+  # * maximum area that can be requested in a bbox request in square degrees
+  # * number of tracepoints that are returned in each tracepoints page
   def capabilities
     doc = OSM::API.new.get_xml_doc
 
