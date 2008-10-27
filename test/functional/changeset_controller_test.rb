@@ -381,4 +381,104 @@ EOF
       "shouldn't be able to upload an element without version: #{@response.body}"
   end
 
+  ##
+  # when we make some simple changes we get the same changes back from the 
+  # diff download.
+  def test_diff_download_simple
+    basic_authorization(users(:normal_user).email, "test")
+
+    # create a temporary changeset
+    content "<osm><changeset>" +
+      "<tag k='created_by' v='osm test suite checking changesets'/>" + 
+      "</changeset></osm>"
+    put :create
+    assert_response :success
+    changeset_id = @response.body.to_i
+
+    # add a diff to it
+    diff = <<EOF
+<osmChange>
+ <modify>
+  <node id='1' lon='0' lat='0' changeset='#{changeset_id}' version='1'/>
+  <node id='1' lon='1' lat='0' changeset='#{changeset_id}' version='2'/>
+  <node id='1' lon='1' lat='1' changeset='#{changeset_id}' version='3'/>
+  <node id='1' lon='1' lat='2' changeset='#{changeset_id}' version='4'/>
+  <node id='1' lon='2' lat='2' changeset='#{changeset_id}' version='5'/>
+  <node id='1' lon='3' lat='2' changeset='#{changeset_id}' version='6'/>
+  <node id='1' lon='3' lat='3' changeset='#{changeset_id}' version='7'/>
+  <node id='1' lon='9' lat='9' changeset='#{changeset_id}' version='8'/>
+ </modify>
+</osmChange>
+EOF
+
+    # upload it
+    content diff
+    post :upload, :id => changeset_id
+    assert_response :success, 
+      "can't upload multiple versions of an element in a diff: #{@response.body}"
+    
+    get :download, :id => changeset_id
+    assert_response :success
+
+    assert_select "osmChange", 1
+    assert_select "osmChange>modify", 8
+    assert_select "osmChange>modify>node", 8
+  end
+  
+  ##
+  # when we make some complex changes we get the same changes back from the 
+  # diff download.
+  def test_diff_download_complex
+    basic_authorization(users(:normal_user).email, "test")
+
+    # create a temporary changeset
+    content "<osm><changeset>" +
+      "<tag k='created_by' v='osm test suite checking changesets'/>" + 
+      "</changeset></osm>"
+    put :create
+    assert_response :success
+    changeset_id = @response.body.to_i
+
+    # add a diff to it
+    diff = <<EOF
+<osmChange>
+ <delete>
+  <node id='1' lon='0' lat='0' changeset='#{changeset_id}' version='1'/>
+ </delete>
+ <create>
+  <node id='-1' lon='9' lat='9' changeset='#{changeset_id}' version='0'/>
+  <node id='-2' lon='8' lat='9' changeset='#{changeset_id}' version='0'/>
+  <node id='-3' lon='7' lat='9' changeset='#{changeset_id}' version='0'/>
+ </create>
+ <modify>
+  <node id='3' lon='20' lat='15' changeset='#{changeset_id}' version='1'/>
+  <way id='1' changeset='#{changeset_id}' version='1'>
+   <nd ref='3'/>
+   <nd ref='-1'/>
+   <nd ref='-2'/>
+   <nd ref='-3'/>
+  </way>
+ </modify>
+</osmChange>
+EOF
+
+    # upload it
+    content diff
+    post :upload, :id => changeset_id
+    assert_response :success, 
+      "can't upload multiple versions of an element in a diff: #{@response.body}"
+    
+    get :download, :id => changeset_id
+    assert_response :success
+
+    assert_select "osmChange", 1
+    assert_select "osmChange>create", 3
+    assert_select "osmChange>delete", 1
+    assert_select "osmChange>modify", 2
+    assert_select "osmChange>create>node", 3
+    assert_select "osmChange>delete>node", 1 
+    assert_select "osmChange>modify>node", 1
+    assert_select "osmChange>modify>way", 1
+  end
+  
 end
