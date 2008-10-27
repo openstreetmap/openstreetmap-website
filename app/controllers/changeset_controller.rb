@@ -81,7 +81,8 @@ class ChangesetController < ApplicationController
   # Furthermore, each element in the diff can only reference the current
   # changeset.
   #
-  # Returns: ??? the new document? updated diffs?
+  # Returns: a diffResult document, as described in 
+  # http://wiki.openstreetmap.org/index.php/OSM_Protocol_Version_0.6
   def upload
     # only allow POST requests, as the upload method is most definitely
     # not idempotent, as several uploads with placeholder IDs will have
