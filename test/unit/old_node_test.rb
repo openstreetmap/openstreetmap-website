@@ -1,11 +1,11 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class OldNodeTest < Test::Unit::TestCase
+  set_fixture_class :current_nodes => Node
+  set_fixture_class :nodes => OldNode
+  set_fixture_class :node_tags => OldNodeTag
+  set_fixture_class :current_node_tags => NodeTag
   fixtures :current_nodes, :users, :current_node_tags, :nodes, :node_tags
-  set_fixture_class :current_nodes => :Node
-  set_fixture_class :nodes => :OldNode
-  set_fixture_class :node_tags => :OldNodeTag
-  set_fixture_class :current_node_tags => :NodeTag
     
   def test_node_too_far_north
 	  invalid_node_test(:node_too_far_north)

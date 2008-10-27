@@ -27,35 +27,36 @@ class Test::Unit::TestCase
 
   # Load standard fixtures needed to test API methods
   def self.api_fixtures
+    print "setting up the api_fixtures"
     fixtures :users, :changesets
 
     fixtures :current_nodes, :nodes
-    set_fixture_class :current_nodes => :Node
-    set_fixture_class :nodes => :OldNode
+    set_fixture_class :current_nodes => Node
+    set_fixture_class :nodes => OldNode
 
     fixtures  :current_node_tags,:node_tags
-    set_fixture_class :current_node_tags => :NodeTag
-    set_fixture_class :node_tags => :OldNodeTag
+    set_fixture_class :current_node_tags => NodeTag
+    set_fixture_class :node_tags => OldNodeTag
 
     fixtures :current_ways, :current_way_nodes, :current_way_tags
-    set_fixture_class :current_ways => :Way
-    set_fixture_class :current_way_nodes => :WayNode
-    set_fixture_class :current_way_tags => :WayTag
+    set_fixture_class :current_ways => Way
+    set_fixture_class :current_way_nodes => WayNode
+    set_fixture_class :current_way_tags => WayTag
 
     fixtures :ways, :way_nodes, :way_tags
-    set_fixture_class :ways => :OldWay
-    set_fixture_class :way_nodes => :OldWayNode
-    set_fixture_class :way_tags => :OldWayTag
+    set_fixture_class :ways => OldWay
+    set_fixture_class :way_nodes => OldWayNode
+    set_fixture_class :way_tags => OldWayTag
 
     fixtures :current_relations, :current_relation_members, :current_relation_tags
-    set_fixture_class :current_relations => :Relation
-    set_fixture_class :current_relation_members => :RelationMember
-    set_fixture_class :current_relation_tags => :RelationTag
+    set_fixture_class :current_relations => Relation
+    set_fixture_class :current_relation_members => RelationMember
+    set_fixture_class :current_relation_tags => RelationTag
 
     fixtures :relations, :relation_members, :relation_tags
-    set_fixture_class :relations => :OldRelation
-    set_fixture_class :relation_members => :OldRelationMember
-    set_fixture_class :relation_tags => :OldRelationTag
+    set_fixture_class :relations => OldRelation
+    set_fixture_class :relation_members => OldRelationMember
+    set_fixture_class :relation_tags => OldRelationTag
   end
 
   ##
