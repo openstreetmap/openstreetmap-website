@@ -1,0 +1,54 @@
+FEATURES
+========
+
+Let's assume an model class named Entry, where we want to define the "image" column
+as a "file_upload" column.
+
+class Entry < ActiveRecord::Base
+  file_column :image
+end
+
+* every entry can have one uploaded file, the filename will be stored in the "image" column
+
+* files will be stored in "public/entry/image/<entry.id>/filename.ext"
+
+* Newly uploaded files will be stored in "public/entry/tmp/<random>/filename.ext" so that
+  they can be reused in form redisplays (due to validation etc.)
+
+* in a view, "<%= file_column_field 'entry', 'image' %> will create a file upload field as well
+  as a hidden field to recover files uploaded before in a case of a form redisplay
+
+* in a view, "<%= url_for_file_column 'entry', 'image' %> will create an URL to access the
+  uploaded file. Note that you need an Entry object in the instance variable @entry for this
+  to work.
+
+* easy integration with RMagick to resize images and/or create thumb-nails.
+
+USAGE
+=====
+
+Just drop the whole directory into your application's "vendor/plugins" directory. Starting
+with version 1.0rc of rails, it will be automatically picked for you by rails plugin
+mechanism.
+
+DOCUMENTATION
+=============
+
+Please look at the rdoc-generated documentation in the "doc" directory.
+
+RUNNING UNITTESTS
+=================
+
+There are extensive unittests in the "test" directory. Currently, only MySQL is supported, but
+you should be able to easily fix this by looking at "connection.rb". You have to create a
+database for the tests and put the connection information into "connection.rb". The schema
+for MySQL can be found in "test/fixtures/mysql.sql".
+
+You can run the tests by starting the "*_test.rb" in the directory "test"
+
+BUGS & FEEDBACK
+===============
+
+Bug reports (as well as patches) and feedback are very welcome. Please send it to
+sebastian.kanthak@muehlheim.de
+
