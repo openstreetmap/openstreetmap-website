@@ -1,16 +1,11 @@
 require File.dirname(__FILE__) + '/../test_helper'
 require 'api_controller'
 
-# Re-raise errors caught by the controller.
-class ApiController; def rescue_action(e) raise e end; end
-
-class ApiControllerTest < Test::Unit::TestCase
+class ApiControllerTest < ActionController::TestCase
   api_fixtures
   
   def setup
-    @controller = ApiController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
+    super
     @badbigbbox = %w{ -0.1,-0.1,1.1,1.1  10,10,11,11 }
     @badmalformedbbox = %w{ -0.1  hello 
     10N2W10.1N2.1W }

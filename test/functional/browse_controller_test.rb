@@ -1,19 +1,8 @@
 require File.dirname(__FILE__) + '/../test_helper'
 require 'browse_controller'
 
-# Re-raise errors caught by the controller.
-class BrowseController; def rescue_action(e) raise e end; end
-
-  class BrowseControllerTest < Test::Unit::TestCase
+class BrowseControllerTest < ActionController::TestCase
   api_fixtures
-  
-
-
-  def setup
-    @controller = BrowseController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-  end
 
   def basic_authorization(user, pass)
     @request.env["HTTP_AUTHORIZATION"] = "Basic %s" % Base64.encode64("#{user}:#{pass}")

@@ -1,17 +1,8 @@
 require File.dirname(__FILE__) + '/../test_helper'
 require 'node_controller'
 
-# Re-raise errors caught by the controller.
-class NodeController; def rescue_action(e) raise e end; end
-
-class NodeControllerTest < Test::Unit::TestCase
+class NodeControllerTest < ActionController::TestCase
   api_fixtures
-
-  def setup
-    @controller = NodeController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-  end
 
   def test_create
     # cannot read password from fixture as it is stored as MD5 digest

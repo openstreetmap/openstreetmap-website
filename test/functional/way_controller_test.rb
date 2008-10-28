@@ -1,17 +1,8 @@
 require File.dirname(__FILE__) + '/../test_helper'
 require 'way_controller'
 
-# Re-raise errors caught by the controller.
-class WayController; def rescue_action(e) raise e end; end
-
-class WayControllerTest < Test::Unit::TestCase
+class WayControllerTest < ActionController::TestCase
   api_fixtures
-
-  def setup
-    @controller = WayController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-  end
 
   def basic_authorization(user, pass)
     @request.env["HTTP_AUTHORIZATION"] = "Basic %s" % Base64.encode64("#{user}:#{pass}")

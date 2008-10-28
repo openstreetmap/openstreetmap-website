@@ -1,17 +1,8 @@
 require File.dirname(__FILE__) + '/../test_helper'
 require 'old_node_controller'
 
-# Re-raise errors caught by the controller.
-class OldNodeController; def rescue_action(e) raise e end; end
-
-class OldNodeControllerTest < Test::Unit::TestCase
+class OldNodeControllerTest < ActionController::TestCase
   api_fixtures
-
-  def setup
-    @controller = OldNodeController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-  end
 
   #
   # TODO: test history
