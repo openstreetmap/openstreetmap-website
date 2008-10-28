@@ -34,14 +34,27 @@ class RelationControllerTest < ActionController::TestCase
   # check that all relations containing a particular node, and no extra
   # relations, are returned from the relations_for_node call.
   def test_relations_for_node
-    node_id = current_nodes(:node_used_by_relationship).id
-    
-    # fetch all the relations which contain that node
-    get :relations_for_node, :id => node_id
-    assert_response :success
+    check_relations_for_element(:relations_for_node, "node", 
+                                current_nodes(:node_used_by_relationship).id,
+                                [ :visible_relation, :used_relation ])
+  end
 
-    # the results we expect
-    expected_relations = [ :visible_relation, :used_relation ]
+  def test_relations_for_way
+    check_relations_for_element(:relations_for_way, "way",
+                                current_ways(:used_way).id,
+                                [ :visible_relation ])
+  end
+
+  def test_relations_for_relation
+    check_relations_for_element(:relations_for_relation, "relation",
+                                current_relations(:used_relation).id,
+                                [ :visible_relation ])
+  end
+
+  def check_relations_for_element(method, type, id, expected_relations)
+    # check the "relations for relation" mode
+    get method, :id => id
+    assert_response :success
 
     # count one osm element
     assert_select "osm[version=#{API_VERSION}][generator=\"OpenStreetMap server\"]", 1
@@ -53,27 +66,7 @@ class RelationControllerTest < ActionController::TestCase
     expected_relations.each do |r|
       relation_id = current_relations(r).id
       assert_select "osm>relation#?", relation_id
-      assert_select "osm>relation#?>member[type=\"node\"][ref=#{node_id}]", relation_id
-    end
-  end
-
-  def test_relations_for_way
-    # check the "relations for way" mode
-    get :relations_for_way, :id => current_ways(:used_way).id
-    assert_response :success
-    # FIXME check whether this contains the stuff we want!
-    if $VERBOSE
-        print @response.body
-    end
-  end
-
-  def test_relations_for_relation
-    # check the "relations for relation" mode
-    get :relations_for_relation, :id => current_relations(:used_relation).id
-    assert_response :success
-    # FIXME check whether this contains the stuff we want!
-    if $VERBOSE
-        print @response.body
+      assert_select "osm>relation#?>member[type=\"#{type}\"][ref=#{id}]", relation_id
     end
   end
 
