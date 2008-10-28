@@ -51,6 +51,21 @@ class MessageTest < Test::Unit::TestCase
     assert_raise(ActiveRecord::RecordInvalid) { make_message(EURO, 256).save! }
   end
 
+  def test_invalid_utf8
+    # See e.g http://en.wikipedia.org/wiki/UTF-8 for byte sequences
+    # FIXME - Invalid Unicode characters can still be encoded into "valid" utf-8 byte sequences - maybe check this too?
+    invalid_sequences = ["\xC0",         # always invalid utf8
+                         "\xC2\x4a",     # 2-byte multibyte identifier, followed by plain ASCII
+                         "\xC2\xC2",     # 2-byte multibyte identifier, followed by another one
+                         "\x4a\x82",     # plain ASCII, followed by multibyte continuation
+                         "\x82\x82",     # multibyte continuations without multibyte identifier
+                         "\xe1\x82\x4a", # three-byte identifier, contination and (incorrectly) plain ASCII
+                        ]
+    invalid_sequences.each do |char|
+      assert_raise(ActiveRecord::RecordInvalid) { make_message(char, 1).save! } 
+    end
+  end  
+
   def make_message(char, count)
     message = messages(:one)
     message.title = char * count
