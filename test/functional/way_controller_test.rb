@@ -33,19 +33,30 @@ class WayControllerTest < ActionController::TestCase
   ##
   # check the "full" mode
   def test_full
-    get :full, :id => current_ways(:visible_way).id
-    assert_response :success
-    # FIXME check whether this contains the stuff we want!
-    #print @response.body
-    # Check the way is correctly returned
-    way = current_ways(:visible_way)
-    assert_select "osm way[id=#{way.id}][version=#{way.version}][visible=#{way.visible}]", 1
-    assert_select "osm way nd[ref=#{way.way_nodes[0].node_id}]", 1
-    # Check that the node is correctly returned
-    nd = current_ways(:visible_way).nodes
-    assert_equal 1, nd.count
-    nda = nd[0]
-    assert_select "osm node[id=#{nda.id}][version=#{nda.version}][lat=#{nda.lat}][lon=#{nda.lon}]", 1 
+    Way.find(:all).each do |way|
+      get :full, :id => way.id
+
+      # full call should say "gone" for non-visible ways...
+      unless way.visible
+        assert_response :gone
+        next
+      end
+
+      # otherwise it should say success
+      assert_response :success
+      
+      # Check the way is correctly returned
+      assert_select "osm way[id=#{way.id}][version=#{way.version}][visible=#{way.visible}]", 1
+      
+      # check that each node in the way appears once in the output as a 
+      # reference and as the node element. note the slightly dodgy assumption
+      # that nodes appear only once. this is currently the case with the
+      # fixtures, but it doesn't have to be.
+      way.nodes.each do |n|
+        assert_select "osm way nd[ref=#{n.id}]", 1
+        assert_select "osm node[id=#{n.id}][version=#{n.version}][lat=#{n.lat}][lon=#{n.lon}]", 1
+      end
+    end
   end
 
   # -------------------------------------
