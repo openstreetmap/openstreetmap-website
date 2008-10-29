@@ -62,7 +62,21 @@ class MessageTest < Test::Unit::TestCase
                          "\xe1\x82\x4a", # three-byte identifier, contination and (incorrectly) plain ASCII
                         ]
     invalid_sequences.each do |char|
-      assert_raise(ActiveRecord::RecordInvalid) { make_message(char, 1).save! } 
+      begin
+        # create a message and save to the database
+        msg = make_message(char, 1)
+        # if the save throws, thats fine and the test should pass, as we're
+        # only testing invalid sequences anyway.
+        msg.save! 
+
+        # get the saved message back and check that it is identical - i.e: 
+        # its OK to accept invalid UTF-8 as long as we return it unmodified.
+        db_msg = msg.class.find(msg.id)
+        assert_equal char, db_msg.title, "Database silently truncated message title"
+
+      rescue ActiveRecord::RecordInvalid
+        # because we only test invalid sequences it is OK to barf on them
+      end
     end
   end  
 
