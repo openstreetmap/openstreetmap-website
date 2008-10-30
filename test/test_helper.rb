@@ -57,6 +57,11 @@ class Test::Unit::TestCase
     set_fixture_class :relations => OldRelation
     set_fixture_class :relation_members => OldRelationMember
     set_fixture_class :relation_tags => OldRelationTag
+    
+    fixtures :gpx_files, :gpx_points, :gpx_file_tags
+    set_fixture_class :gpx_files => Trace
+    set_fixture_class :gpx_points => Tracepoint
+    set_fixture_class :gpx_file_tags => Tracetag
   end
 
   ##

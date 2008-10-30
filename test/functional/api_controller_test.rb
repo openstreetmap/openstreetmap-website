@@ -51,6 +51,23 @@ class ApiControllerTest < ActionController::TestCase
     end
   end
   
+  def test_tracepoints
+    node = gpx_files(:first_trace_file)
+    minlon = node.longitude-0.1
+    minlat = node.latitude-0.1
+    maxlon = node.longitude+0.1
+    maxlat = node.latitude+0.1
+    bbox = "#{minlon},#{minlat},#{maxlon},#{maxlat}"
+    get :trackpoints, :bbox => bbox
+    #print @response.body
+    assert_response :success
+    assert_select "gpx[version=1.0][creator=OpenStreetMap.org][xmlns=http://www.topografix.com/GPX/1/0/]:root", :count => 1 do
+      assert_select "trk" do
+        assert_select "trkseg"
+      end
+    end
+  end
+  
   def test_map_without_bbox
     ["trackpoints", "map"].each do |tq|
       get tq
