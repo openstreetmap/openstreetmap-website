@@ -238,6 +238,9 @@ class Way < ActiveRecord::Base
 
   def preconditions_ok?
     return false if self.nds.empty?
+    if self.nds.length > APP_CONFIG['max_number_of_way_nodes']
+      raise OSM::APITooManyWayNodesError.new(self.nds.count, APP_CONFIG['max_number_of_way_nodes'])
+    end
     self.nds.each do |n|
       node = Node.find(:first, :conditions => ["id = ?", n])
       unless node and node.visible

@@ -108,6 +108,21 @@ module OSM
         :status => :bad_request }
     end
   end
+  
+  # Raised when a way has more than the configured number of way nodes.
+  # This prevents ways from being to long and difficult to work with
+  class APITooManyWayNodesError < APIError
+    def initialize(provided, max)
+      @provided, @max = provided, max
+    end
+    
+    attr_reader :provided, :max
+    
+    def render_opts
+      { :text => "You tried to add #{provided} nodes to the way, however only #{max} are allowed",
+      :status => :bad_request }
+    end
+  end
 
   # Helper methods for going to/from mercator and lat/lng.
   class Mercator

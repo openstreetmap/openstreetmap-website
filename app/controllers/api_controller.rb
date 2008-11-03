@@ -281,6 +281,9 @@ class ApiController < ApplicationController
     tracepoints = XML::Node.new 'tracepoints'
     tracepoints['per_page'] = APP_CONFIG['tracepoints_per_page'].to_s
     api << tracepoints
+    waynodes = XML::Node.new 'waynodes'
+    waynodes['maximum'] = APP_CONFIG['max_number_of_way_nodes'].to_s
+    api << waynodes
     
     doc.root << api
 
