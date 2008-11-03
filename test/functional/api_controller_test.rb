@@ -40,7 +40,7 @@ class ApiControllerTest < ActionController::TestCase
       print @request.to_yaml
       print @response.body
     end
-    assert_response :success
+    assert_response :success, "Expected scucess with the map call"
     assert_select "osm[version='#{API_VERSION}'][generator='#{GENERATOR}']:root", :count => 1 do
       assert_select "bounds[minlon=#{minlon}][minlat=#{minlat}][maxlon=#{maxlon}][maxlat=#{maxlat}]", :count => 1
       assert_select "node[id=#{node.id}][lat=#{node.lat}][lon=#{node.lon}][version=#{node.version}][changeset=#{node.changeset_id}][visible=#{node.visible}][timestamp=#{node.timestamp.xmlschema}]", :count => 1 do
@@ -51,12 +51,23 @@ class ApiControllerTest < ActionController::TestCase
     end
   end
   
+  # This differs from the above test in that we are making the bbox exactly
+  # the same as the node we are looking at
+  def test_map_inclusive
+    node = current_nodes(:used_node_1)
+    bbox = "#{node.lon},#{node.lat},#{node.lon},#{node.lat}"
+    get :map, :bbox => bbox
+    #print @response.body
+    assert_response :success, "The map call should have succeeded"
+    assert_select "osm[version='#{API_VERSION}'][generator='#{GENERATOR}']:root:empty", :count => 1
+  end
+  
   def test_tracepoints
-    node = gpx_files(:first_trace_file)
-    minlon = node.longitude-0.1
-    minlat = node.latitude-0.1
-    maxlon = node.longitude+0.1
-    maxlat = node.latitude+0.1
+    point = gpx_files(:first_trace_file)
+    minlon = point.longitude-0.1
+    minlat = point.latitude-0.1
+    maxlon = point.longitude+0.1
+    maxlat = point.latitude+0.1
     bbox = "#{minlon},#{minlat},#{maxlon},#{maxlat}"
     get :trackpoints, :bbox => bbox
     #print @response.body
@@ -139,6 +150,69 @@ class ApiControllerTest < ActionController::TestCase
   #    end
   #  end
   #end
+  
+  # MySQL requires that the C based functions are installed for this test to 
+  # work. More information is available from:
+  # http://wiki.openstreetmap.org/index.php/Rails#Installing_the_quadtile_functions
+  def test_changes_simple
+    get :changes
+    assert_response :success
+    #print @response.body
+    # As we have loaded the fixtures, we can assume that there are no 
+    # changes recently
+    now = Time.now
+    hourago = now - 1.hour
+    # Note that this may fail on a very slow machine, so isn't a great test
+    assert_select "osm[version='#{API_VERSION}'][generator='#{GENERATOR}']:root", :count => 1 do
+      assert_select "changes[starttime='#{hourago.xmlschema}'][endtime='#{now.xmlschema}']", :count => 1
+    end
+  end
+  
+  def test_changes_zoom_invalid
+    zoom_to_test = %w{ p -1 0 17 one two }
+    zoom_to_test.each do |zoom|
+      get :changes, :zoom => zoom
+      assert_response :bad_request
+      assert_equal @response.body, "Requested zoom is invalid, or the supplied start is after the end time, or the start duration is more than 24 hours"
+    end
+  end
+  
+  def test_changes_zoom_valid
+    1.upto(16) do |zoom|
+      get :changes, :zoom => zoom
+      assert_response :success
+      now = Time.now
+      hourago = now - 1.hour
+      # Note that this may fail on a very slow machine, so isn't a great test
+      assert_select "osm[version='#{API_VERSION}'][generator='#{GENERATOR}']:root", :count => 1 do
+        assert_select "changes[starttime='#{hourago.xmlschema}'][endtime='#{now.xmlschema}']", :count => 1
+      end
+    end
+  end
+  
+  def test_start_end_time_invalid
+    
+  end
+  
+  def test_start_end_time_invalid
+    
+  end
+  
+  def test_hours_invalid
+    invalid = %w{ -21 335 -1 0 25 26 100 one two three ping pong : }
+    invalid.each do |hour|
+      get :changes, :hours => hour
+      assert_response :bad_request, "Problem with the hour: #{hour}"
+      assert_equal @response.body, "Requested zoom is invalid, or the supplied start is after the end time, or the start duration is more than 24 hours", "Problem with the hour: #{hour}."
+    end
+  end
+  
+  def test_hours_valid
+    1.upto(24) do |hour|
+      get :changes, :hours => hour
+      assert_response :success
+    end
+  end
   
   def test_capabilities
     get :capabilities

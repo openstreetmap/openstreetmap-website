@@ -131,7 +131,7 @@ class ApiController < ApplicationController
       return
     end
     if node_ids.length == 0
-      render :text => "<osm version='#{API_VERSION}'></osm>", :content_type => "text/xml"
+      render :text => "<osm version='#{API_VERSION}' generator='#{GENERATOR}'></osm>", :content_type => "text/xml"
       return
     end
 
@@ -230,7 +230,7 @@ class ApiController < ApplicationController
     end
 
     if zoom >= 1 and zoom <= 16 and
-       endtime >= starttime and endtime - starttime <= 24.hours
+       endtime > starttime and endtime - starttime <= 24.hours
       mask = (1 << zoom) - 1
 
       tiles = Node.count(:conditions => ["timestamp BETWEEN ? AND ?", starttime, endtime],
@@ -258,7 +258,7 @@ class ApiController < ApplicationController
 
       render :text => doc.to_s, :content_type => "text/xml"
     else
-      render :text => "Requested zoom is invalid", :status => :bad_request
+      render :text => "Requested zoom is invalid, or the supplied start is after the end time, or the start duration is more than 24 hours", :status => :bad_request
     end
   end
 
