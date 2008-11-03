@@ -156,7 +156,7 @@ class DiffReader
 
       else
         # no other actions to choose from, so it must be the users fault!
-        raise "Unknown action #{action_name}, choices are create, modify, delete."
+        raise OSM::APIChangesetActionInvalid.new(action_name)
       end
     end
 

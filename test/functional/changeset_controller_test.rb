@@ -233,7 +233,7 @@ EOF
       "can't upload a complex diff to changeset: #{@response.body}"
 
     # check the returned payload
-    assert_select "osm[version=#{API_VERSION}][generator=\"OpenStreetMap server\"]", 1
+    assert_select "osm[version=#{API_VERSION}][generator=\"#{GENERATOR}\"]", 1
     assert_select "osm>node", 1
     assert_select "osm>way", 1
     assert_select "osm>relation", 1
@@ -368,6 +368,24 @@ EOF
     post :upload, :id => 1
     assert_response :bad_request, 
       "shouldn't be able to upload an element without version: #{@response.body}"
+  end
+  
+  ##
+  # try to upload with commands other than create, modify, or delete
+  def test_action_upload_invalid
+    basic_authorization "test@openstreetmap.org", "test"
+    
+    diff = <<EOF
+<osmChange>
+  <ping>
+    <node id='1' lon='1' lat='1' changeset='1' />
+  </ping>
+</osmChange>
+EOF
+  content diff
+  post :upload, :id => 1
+  assert_response :bad_request, "Shouldn't be able to upload a diff with the action ping"
+  assert_equal @response.body, "Unknown action ping, choices are create, modify, delete."
   end
 
   ##

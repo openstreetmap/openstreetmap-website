@@ -66,6 +66,19 @@ module OSM
         "#{@allowed} is allowed.", :status => :conflict }
     end
   end
+  
+  # Raised when a diff upload has an unknown action. You can only have create,
+  # modify, or delete
+  class APIChangesetActionInvalid < APIError
+    def initialize(provided)
+      @provided = provided
+    end
+    
+    def render_opts
+      { :text => "Unknown action #{@provided}, choices are create, modify, delete.",
+      :status => :bad_request }
+    end
+  end
 
   # Raised when bad XML is encountered which stops things parsing as
   # they should.
