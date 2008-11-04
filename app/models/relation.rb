@@ -221,6 +221,9 @@ class Relation < ActiveRecord::Base
       old_relation = OldRelation.from_relation(self)
       old_relation.timestamp = t
       old_relation.save_with_dependencies!
+
+      # update the bbox of the changeset and save it too.
+      # FIXME: what is the bounding box of a relation?
     end
   end
 

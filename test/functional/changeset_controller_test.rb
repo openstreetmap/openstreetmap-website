@@ -36,8 +36,16 @@ class ChangesetControllerTest < ActionController::TestCase
     assert_response :bad_request, "creating a invalid changeset should fail"
   end
 
+  ##
+  # check that the changeset can be read and returns the correct
+  # document structure.
   def test_read
+    changeset_id = changesets(:normal_user_first_change).id
+    get :read, :id => changeset_id
+    assert_response :success, "cannot get first changeset"
     
+    assert_select "osm[version=#{API_VERSION}][generator=\"OpenStreetMap server\"]", 1
+    assert_select "osm>changeset[id=#{changeset_id}]", 1
   end
   
   def test_close
@@ -487,5 +495,80 @@ EOF
     assert_select "osmChange>modify>node", 1
     assert_select "osmChange>modify>way", 1
   end
-  
+
+  ##
+  # check that the bounding box of a changeset gets updated correctly
+  def test_changeset_bbox
+    basic_authorization "test@openstreetmap.org", "test"
+
+    # create a new changeset
+    content "<osm><changeset/></osm>"
+    put :create
+    assert_response :success, "Creating of changeset failed."
+    changeset_id = @response.body.to_i
+    
+    # add a single node to it
+    with_controller(NodeController.new) do
+      content "<osm><node lon='1' lat='2' changeset='#{changeset_id}'/></osm>"
+      put :create
+      assert_response :success, "Couldn't create node."
+    end
+
+    # get the bounding box back from the changeset
+    get :read, :id => changeset_id
+    assert_response :success, "Couldn't read back changeset."
+    assert_select "osm>changeset[min_lon=1]", 1
+    assert_select "osm>changeset[max_lon=1]", 1
+    assert_select "osm>changeset[min_lat=2]", 1
+    assert_select "osm>changeset[max_lat=2]", 1
+
+    # add another node to it
+    with_controller(NodeController.new) do
+      content "<osm><node lon='2' lat='1' changeset='#{changeset_id}'/></osm>"
+      put :create
+      assert_response :success, "Couldn't create second node."
+    end
+
+    # get the bounding box back from the changeset
+    get :read, :id => changeset_id
+    assert_response :success, "Couldn't read back changeset for the second time."
+    assert_select "osm>changeset[min_lon=1]", 1
+    assert_select "osm>changeset[max_lon=2]", 1
+    assert_select "osm>changeset[min_lat=1]", 1
+    assert_select "osm>changeset[max_lat=2]", 1
+
+    # add (delete) a way to it
+    with_controller(WayController.new) do
+      content update_changeset(current_ways(:visible_way).to_xml,
+                               changeset_id)
+      put :delete, :id => current_ways(:visible_way).id
+      assert_response :success, "Couldn't delete a way."
+    end
+
+    # get the bounding box back from the changeset
+    get :read, :id => changeset_id
+    assert_response :success, "Couldn't read back changeset for the third time."
+    assert_select "osm>changeset[min_lon=1]", 1
+    assert_select "osm>changeset[max_lon=3]", 1
+    assert_select "osm>changeset[min_lat=1]", 1
+    assert_select "osm>changeset[max_lat=3]", 1    
+  end
+
+  #------------------------------------------------------------
+  # utility functions
+  #------------------------------------------------------------
+
+  ##
+  # update the changeset_id of a way element
+  def update_changeset(xml, changeset_id)
+    xml_attr_rewrite(xml, 'changeset', changeset_id)
+  end
+
+  ##
+  # update an attribute in a way element
+  def xml_attr_rewrite(xml, name, value)
+    xml.find("//osm/way").first[name] = value.to_s
+    return xml
+  end
+
 end

@@ -179,8 +179,23 @@ class Way < ActiveRecord::Base
     @tags[k] = v
   end
 
+  ##
+  # the integer coords (i.e: unscaled) bounding box of the way, assuming
+  # straight line segments.
+  def bbox
+    lons = nodes.collect { |n| n.longitude }
+    lats = nodes.collect { |n| n.latitude }
+    [ lons.min, lats.min, lons.max, lats.max ]
+  end
+
   def save_with_history!
     t = Time.now
+
+    # update the bounding box, but don't save it as the controller knows the 
+    # lifetime of the change better. note that this has to be done both before 
+    # and after the save, so that nodes from both versions are included in the 
+    # bbox.
+    changeset.update_bbox!(bbox) unless nodes.empty?
 
     Way.transaction do
       self.version += 1
@@ -211,6 +226,11 @@ class Way < ActiveRecord::Base
       old_way = OldWay.from_way(self)
       old_way.timestamp = t
       old_way.save_with_dependencies!
+
+      # update and commit the bounding box, now that way nodes 
+      # have been updated and we're in a transaction.
+      changeset.update_bbox!(bbox) unless nodes.empty?
+      changeset.save!
     end
   end
 

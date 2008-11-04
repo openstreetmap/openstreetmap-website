@@ -15,6 +15,9 @@ class Changeset < ActiveRecord::Base
   validates_presence_of :user_id, :created_at
   validates_inclusion_of :open, :in => [ true, false ]
   
+  # over-expansion factor to use when updating the bounding box
+  EXPAND = 0.1
+
   # Use a method like this, so that we can easily change how we
   # determine whether a changeset is open, without breaking code in at 
   # least 6 controllers
@@ -44,6 +47,35 @@ class Changeset < ActiveRecord::Base
     end
 
     return cs
+  end
+
+  ##
+  # returns the bounding box of the changeset. it is possible that some
+  # or all of the values will be nil, indicating that they are undefined.
+  def bbox
+    @bbox ||= [ min_lon, min_lat, max_lon, max_lat ]
+  end
+
+  ##
+  # expand the bounding box to include the given bounding box. also, 
+  # expand a little bit more in the direction of the expansion, so that
+  # further expansions may be unnecessary. this is an optimisation 
+  # suggested on the wiki page by kleptog.
+  def update_bbox!(array)
+    # ensure that bbox is cached and has no nils in it. if there are any
+    # nils, just use the bounding box update to write over them.
+    @bbox = bbox.zip(array).collect { |a, b| a.nil? ? b : a }
+
+    # FIXME - this looks nasty and violates DRY... is there any prettier 
+    # way to do this? 
+    @bbox[0] = array[0] + EXPAND * (@bbox[0] - @bbox[2]) if array[0] < @bbox[0]
+    @bbox[1] = array[1] + EXPAND * (@bbox[1] - @bbox[3]) if array[1] < @bbox[1]
+    @bbox[2] = array[2] + EXPAND * (@bbox[2] - @bbox[0]) if array[2] > @bbox[2]
+    @bbox[3] = array[3] + EXPAND * (@bbox[3] - @bbox[1]) if array[3] > @bbox[3]
+
+    # update active record. rails 2.1's dirty handling should take care of
+    # whether this object needs saving or not.
+    self.min_lon, self.min_lat, self.max_lon, self.max_lat = @bbox
   end
 
   def tags_as_hash
@@ -124,9 +156,14 @@ class Changeset < ActiveRecord::Base
     el1['created_at'] = self.created_at.xmlschema
     el1['open'] = self.open.to_s
 
-    # FIXME FIXME FIXME: This does not include changes yet! There is 
-    # currently no changeset_id column in the tables as far as I can tell,
-    # so this is just a scaffold to build on, not a complete to_xml
+    el1['min_lon'] = (bbox[0] / SCALE).to_s unless bbox[0].nil?
+    el1['min_lat'] = (bbox[1] / SCALE).to_s unless bbox[1].nil?
+    el1['max_lon'] = (bbox[2] / SCALE).to_s unless bbox[2].nil?
+    el1['max_lat'] = (bbox[3] / SCALE).to_s unless bbox[3].nil?
+    
+    # NOTE: changesets don't include the XML of the changes within them,
+    # they are just structures for tagging. to get the osmChange of a
+    # changeset, see the download method of the controller.
 
     return el1
   end

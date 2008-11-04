@@ -99,9 +99,8 @@ class DiffReader
           # diff, so we must fix these before saving the element.
           new.fix_placeholders!(ids)
 
-          # set the initial version to zero and save (which increments it)
-          new.version = 0
-          new.save_with_history!
+          # create element given user
+          new.create_with_history(@changeset.user)
           
           # save placeholder => allocated ID map
           ids[model.to_s.downcase.to_sym][placeholder_id] = new.id
