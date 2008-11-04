@@ -110,7 +110,7 @@ class CreateOsmDb < ActiveRecord::Migration
     add_primary_key "gpx_file_tags", ["id"]
     add_index "gpx_file_tags", ["gpx_id"], :name => "gpx_file_tags_gpxid_idx"
 
-    change_column "gpx_file_tags", "id", :integer, :limit => 20, :null => false, :options => "AUTO_INCREMENT"
+    change_column "gpx_file_tags", "id", :bigint, :limit => 20, :null => false, :options => "AUTO_INCREMENT"
 
     create_table "gpx_files", myisam_table do |t|
       t.column "id",          :bigint,   :limit => 64,                   :null => false
