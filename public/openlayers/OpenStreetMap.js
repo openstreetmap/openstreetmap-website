@@ -175,7 +175,7 @@ OpenLayers.Layer.OSM.CycleMap = OpenLayers.Class(OpenLayers.Layer.OSM, {
             "http://b.andy.sandbox.cloudmade.com/tiles/cycle/",
             "http://c.andy.sandbox.cloudmade.com/tiles/cycle/"
         ];
-        options = OpenLayers.Util.extend({ numZoomLevels: 18 }, options);
+        options = OpenLayers.Util.extend({ numZoomLevels: 19 }, options);
         var newArguments = [name, url, options];
         OpenLayers.Layer.OSM.prototype.initialize.apply(this, newArguments);
     },
