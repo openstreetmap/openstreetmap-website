@@ -4,9 +4,9 @@ class ChangesetController < ApplicationController
   require 'xml/libxml'
   require 'diff_reader'
 
-  before_filter :authorize, :only => [:create, :update, :delete, :upload]
-  before_filter :check_write_availability, :only => [:create, :update, :delete, :upload]
-  before_filter :check_read_availability, :except => [:create, :update, :delete, :upload]
+  before_filter :authorize, :only => [:create, :update, :delete, :upload, :include]
+  before_filter :check_write_availability, :only => [:create, :update, :delete, :upload, :include]
+  before_filter :check_read_availability, :except => [:create, :update, :delete, :upload, :download]
   after_filter :compress_output
 
   # Create a changeset from XML.
@@ -26,27 +26,6 @@ class ChangesetController < ApplicationController
     end
   end
 
-  def create_prim(ids, prim, nd)
-    prim.version = 0
-    prim.user_id = @user.id
-    prim.visible = true
-    prim.save_with_history!
-
-    ids[nd['id'].to_i] = prim.id
-  end
-
-  def fix_way(w, node_ids)
-    w.nds = w.instance_eval { @nds }.
-      map { |nd| node_ids[nd] || nd }
-    return w
-  end
-
-  def fix_rel(r, ids)
-    r.members = r.instance_eval { @members }.
-      map { |memb| [memb[0], ids[memb[0]][memb[1].to_i] || memb[1], memb[2]] }
-    return r
-  end
-  
   def read
     begin
       changeset = Changeset.find(params[:id])
@@ -69,6 +48,54 @@ class ChangesetController < ApplicationController
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
     end
+  end
+
+  ##
+  # insert a (set of) points into a changeset bounding box. this can only
+  # increase the size of the bounding box. this is a hint that clients can
+  # set either before uploading a large number of changes, or changes that
+  # the client (but not the server) knows will affect areas further away.
+  def include
+    # only allow POST requests, because although this method is
+    # idempotent, there is no "document" to PUT really...
+    if request.post?
+      cs = Changeset.find(params[:id])
+
+      # keep an array of lons and lats
+      lon = Array.new
+      lat = Array.new
+
+      # the request is in pseudo-osm format... this is kind-of an
+      # abuse, maybe should change to some other format?
+      doc = XML::Parser.string(request.raw_post).parse
+      doc.find("//osm/node").each do |n|
+        lon << n['lon'].to_f * SCALE
+        lat << n['lat'].to_f * SCALE
+      end
+
+      # add the existing bounding box to the lon-lat array
+      lon << cs.min_lon unless cs.min_lon.nil?
+      lat << cs.min_lat unless cs.min_lat.nil?
+      lon << cs.max_lon unless cs.max_lon.nil?
+      lat << cs.max_lat unless cs.max_lat.nil?
+
+      # collapse the arrays to minimum and maximum
+      cs.min_lon, cs.min_lat, cs.max_lon, cs.max_lat = 
+        lon.min, lat.min, lon.max, lat.max
+
+      # save the larger bounding box and return the changeset, which
+      # will include the bigger bounding box.
+      cs.save!
+      render :text => cs.to_xml.to_s, :content_type => "text/xml"
+
+    else
+      render :nothing => true, :status => :method_not_allowed
+    end
+
+  rescue ActiveRecord::RecordNotFound
+    render :nothing => true, :status => :not_found
+  rescue OSM::APIError => ex
+    render ex.render_opts
   end
 
   ##

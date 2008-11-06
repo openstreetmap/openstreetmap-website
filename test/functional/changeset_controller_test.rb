@@ -49,7 +49,7 @@ class ChangesetControllerTest < ActionController::TestCase
   end
   
   def test_close
-    
+    # FIXME FIXME FIXME!
   end
 
   ##
@@ -554,9 +554,51 @@ EOF
     assert_select "osm>changeset[max_lat=3]", 1    
   end
 
+  ##
+  # test that the changeset :include method works as it should
+  def test_changeset_include
+    basic_authorization "test@openstreetmap.org", "test"
+
+    # create a new changeset
+    content "<osm><changeset/></osm>"
+    put :create
+    assert_response :success, "Creating of changeset failed."
+    changeset_id = @response.body.to_i
+
+    # NOTE: the include method doesn't over-expand, like inserting
+    # a real method does. this is because we expect the client to 
+    # know what it is doing!
+    check_after_include(changeset_id,  1,  1, [ 1,  1,  1,  1])
+    check_after_include(changeset_id,  3,  3, [ 1,  1,  3,  3])
+    check_after_include(changeset_id,  4,  2, [ 1,  1,  4,  3])
+    check_after_include(changeset_id,  2,  2, [ 1,  1,  4,  3])
+    check_after_include(changeset_id, -1, -1, [-1, -1,  4,  3])
+    check_after_include(changeset_id, -2,  5, [-2, -1,  4,  5])
+  end
+
   #------------------------------------------------------------
   # utility functions
   #------------------------------------------------------------
+
+  ##
+  # call the include method and assert properties of the bbox
+  def check_after_include(changeset_id, lon, lat, bbox)
+    content "<osm><node lon='#{lon}' lat='#{lat}'/></osm>"
+    post :include, :id => changeset_id
+    assert_response :success, "Setting include of changeset failed: #{@response.body}"
+
+    # check exactly one changeset
+    assert_select "osm>changeset", 1
+    assert_select "osm>changeset[id=#{changeset_id}]", 1
+
+    # check the bbox
+    doc = XML::Parser.string(@response.body).parse
+    changeset = doc.find("//osm/changeset").first
+    assert_equal bbox[0], changeset['min_lon'].to_f, "min lon"
+    assert_equal bbox[1], changeset['min_lat'].to_f, "min lat"
+    assert_equal bbox[2], changeset['max_lon'].to_f, "max lon"
+    assert_equal bbox[3], changeset['max_lat'].to_f, "max lat"
+  end
 
   ##
   # update the changeset_id of a way element
