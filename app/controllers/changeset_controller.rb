@@ -41,7 +41,13 @@ class ChangesetController < ApplicationController
         render :nothing => true, :status => :method_not_allowed
         return
       end
+
       changeset = Changeset.find(params[:id])
+
+      unless @user.id == changeset.user_id 
+        raise OSM::APIUserChangesetMismatchError 
+      end
+
       changeset.open = false
       changeset.save!
       render :nothing => true
@@ -60,6 +66,12 @@ class ChangesetController < ApplicationController
     # idempotent, there is no "document" to PUT really...
     if request.post?
       cs = Changeset.find(params[:id])
+
+      # check user credentials - only the user who opened a changeset
+      # may alter it.
+      unless @user.id == changeset.user_id 
+        raise OSM::APIUserChangesetMismatchError 
+      end
 
       # keep an array of lons and lats
       lon = Array.new
@@ -118,6 +130,12 @@ class ChangesetController < ApplicationController
     unless request.post?
       render :nothing => true, :status => :method_not_allowed
       return
+    end
+
+    # access control - only the user who created a changeset may
+    # upload to it.
+    unless @user.id == changeset.user_id 
+      raise OSM::APIUserChangesetMismatchError 
     end
 
     changeset = Changeset.find(params[:id])
