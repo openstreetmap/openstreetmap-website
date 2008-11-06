@@ -192,13 +192,42 @@ class Relation < ActiveRecord::Base
 
   def save_with_history!
     Relation.transaction do
+      # have to be a little bit clever here - to detect if any tags
+      # changed then we have to monitor their before and after state.
+      tags_changed = false
+
       t = Time.now
       self.version += 1
       self.timestamp = t
       self.save!
 
       tags = self.tags
-      RelationTag.delete_all(['id = ?', self.id])
+      self.relation_tags.each do |old_tag|
+        key = old_tag.k
+        # if we can match the tags we currently have to the list
+        # of old tags, then we never set the tags_changed flag. but
+        # if any are different then set the flag and do the DB 
+        # update.
+        if tags.has_key? key 
+          # rails 2.1 dirty handling should take care of making this
+          # somewhat efficient... hopefully...
+          old_tag.v = tags[key]
+          tags_changed |= old_tag.changed?
+          old_tag.save!
+
+          # remove from the map, so that we can expect an empty map
+          # at the end if there are no new tags
+          tags.delete key
+
+        else
+          # this means a tag was deleted
+          tags_changed = true
+          RelationTag.delete_all ['id = ? and k = ?', self.id, old_tag.k]
+        end
+      end
+      # if there are left-over tags then they are new and will have to
+      # be added.
+      tags_changed |= (not tags.empty?)
       tags.each do |k,v|
         tag = RelationTag.new
         tag.k = k
@@ -207,14 +236,37 @@ class Relation < ActiveRecord::Base
         tag.save!
       end
 
-      members = self.members
-      RelationMember.delete_all(['id = ?', self.id])
-      members.each do |n|
+      # same pattern as before, but this time we're collecting the
+      # changed members in an array, as the bounding box updates for
+      # elements are per-element, not blanked on/off like for tags.
+      changed_members = Array.new
+      members = self.members_as_hash
+      relation_members.each do |old_member|
+        key = [old_member.member_id.to_s, old_member.member_type]
+        if members.has_key? key
+          # i'd love to rely on rails' dirty handling here, but the 
+          # relation members are always dirty because of the member_class
+          # handling.
+          if members[key] != old_member.member_role
+            old_member.member_role = members[key]
+            changed_members << key
+            old_member.save!
+          end
+          members.delete key
+
+        else
+          changed_members << key
+          RelationMember.delete_all ['id = ? and member_id = ? and member_type = ?', self.id, old_member.member_id, old_member.member_type]
+        end
+      end
+      # any remaining members must be new additions
+      changed_members += members.keys
+      members.each do |k,v|
         mem = RelationMember.new
         mem.id = self.id
-        mem.member_type = n[0];
-        mem.member_id = n[1];
-        mem.member_role = n[2];
+        mem.member_type = k[1];
+        mem.member_id = k[0];
+        mem.member_role = v;
         mem.save!
       end
 
@@ -223,9 +275,49 @@ class Relation < ActiveRecord::Base
       old_relation.save_with_dependencies!
 
       # update the bbox of the changeset and save it too.
-      # FIXME: what is the bounding box of a relation?
+      # discussion on the mailing list gave the following definition for
+      # the bounding box update procedure of a relation:
+      #
+      # adding or removing nodes or ways from a relation causes them to be
+      # added to the changeset bounding box. adding a relation member or
+      # changing tag values causes all node and way members to be added to the
+      # bounding box. this is similar to how the map call does things and is
+      # reasonable on the assumption that adding or removing members doesn't
+      # materially change the rest of the relation.
+      any_relations = 
+        changed_members.collect { |id,type| type == "relation" }.
+        inject(false) { |b,s| b or s }
+
+      if tags_changed or any_relations
+        # add all non-relation bounding boxes to the changeset
+        # FIXME: check for tag changes along with element deletions and
+        # make sure that the deleted element's bounding box is hit.
+        self.members.each do |type, id, role|
+          if type != "relation"
+            update_changeset_element(type, id)
+          end
+        end
+      else
+        # add only changed members to the changeset
+        changed_members.each do |id, type|
+          update_changeset_element(type, id)
+        end
+      end
+
+      # save the (maybe updated) changeset bounding box
+      changeset.save!
     end
   end
+
+  ##
+  # updates the changeset bounding box to contain the bounding box of 
+  # the element with given +type+ and +id+. this only works with nodes
+  # and ways at the moment, as they're the only elements to respond to
+  # the :bbox call.
+  def update_changeset_element(type, id)
+    element = Kernel.const_get(type.capitalize).find(id)
+    changeset.update_bbox! element.bbox
+  end    
 
   def delete_with_history!(new_relation, user)
     if self.visible
@@ -234,7 +326,7 @@ class Relation < ActiveRecord::Base
         raise OSM::APIPreconditionFailedError.new
       else
         self.changeset_id = new_relation.changeset_id
-        self.tags = []
+        self.tags = {}
         self.members = []
         self.visible = false
         save_with_history!
@@ -317,6 +409,17 @@ class Relation < ActiveRecord::Base
     return true
   rescue
     return false
+  end
+
+  ##
+  # members in a hash table [id,type] => role
+  def members_as_hash
+    h = Hash.new
+    members.each do |m|
+      # should be: h[[m.id, m.type]] = m.role, but someone prefers arrays
+      h[[m[1], m[0]]] = m[2]
+    end
+    return h
   end
 
   # Temporary method to match interface to nodes

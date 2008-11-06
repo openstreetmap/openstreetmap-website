@@ -266,6 +266,107 @@ class RelationControllerTest < ActionController::TestCase
   end
 
   ##
+  # when a relation's tag is modified then it should put the bounding
+  # box of all its members into the changeset.
+  def test_tag_modify_bounding_box
+    # in current fixtures, relation 5 contains nodes 3 and 5 (node 3
+    # indirectly via way 3), so the bbox should be [3,3,5,5].
+    check_changeset_modify([3,3,5,5]) do |changeset_id|
+      # add a tag to an existing relation
+      relation_xml = current_relations(:visible_relation).to_xml
+      relation_element = relation_xml.find("//osm/relation").first
+      new_tag = XML::Node.new("tag")
+      new_tag['k'] = "some_new_tag"
+      new_tag['v'] = "some_new_value"
+      relation_element << new_tag
+      
+      # update changeset ID to point to new changeset
+      update_changeset(relation_xml, changeset_id)
+      
+      # upload the change
+      content relation_xml
+      put :update, :id => current_relations(:visible_relation).id
+      assert_response :success, "can't update relation for tag/bbox test"
+    end
+  end
+
+  ##
+  # add a member to a relation and check the bounding box is only that
+  # element.
+  def test_add_member_bounding_box
+    check_changeset_modify([4,4,4,4]) do |changeset_id|
+      # add node 4 (4,4) to an existing relation
+      relation_xml = current_relations(:visible_relation).to_xml
+      relation_element = relation_xml.find("//osm/relation").first
+      new_member = XML::Node.new("member")
+      new_member['ref'] = current_nodes(:used_node_2).id.to_s
+      new_member['type'] = "node"
+      new_member['role'] = "some_role"
+      relation_element << new_member
+      
+      # update changeset ID to point to new changeset
+      update_changeset(relation_xml, changeset_id)
+      
+      # upload the change
+      content relation_xml
+      put :update, :id => current_relations(:visible_relation).id
+      assert_response :success, "can't update relation for add node/bbox test"
+    end
+  end
+  
+  ##
+  # remove a member from a relation and check the bounding box is 
+  # only that element.
+  def test_remove_member_bounding_box
+    check_changeset_modify([5,5,5,5]) do |changeset_id|
+      # remove node 5 (5,5) from an existing relation
+      relation_xml = current_relations(:visible_relation).to_xml
+      relation_xml.
+        find("//osm/relation/member[@type='node'][@ref='5']").
+        first.remove!
+      
+      # update changeset ID to point to new changeset
+      update_changeset(relation_xml, changeset_id)
+      
+      # upload the change
+      content relation_xml
+      put :update, :id => current_relations(:visible_relation).id
+      assert_response :success, "can't update relation for remove node/bbox test"
+    end
+  end
+  
+  ##
+  # create a changeset and yield to the caller to set it up, then assert
+  # that the changeset bounding box is +bbox+.
+  def check_changeset_modify(bbox)
+    basic_authorization("test@openstreetmap.org", "test");  
+
+    # create a new changeset for this operation, so we are assured
+    # that the bounding box will be newly-generated.
+    changeset_id = with_controller(ChangesetController.new) do
+      content "<osm><changeset/></osm>"
+      put :create
+      assert_response :success, "couldn't create changeset for modify test"
+      @response.body.to_i
+    end
+
+    # go back to the block to do the actual modifies
+    yield changeset_id
+
+    # now download the changeset to check its bounding box
+    with_controller(ChangesetController.new) do
+      get :read, :id => changeset_id
+      assert_response :success, "can't re-read changeset for modify test"
+      assert_select "osm>changeset", 1
+      assert_select "osm>changeset[id=#{changeset_id}]", 1
+      assert_select "osm>changeset[min_lon=#{bbox[0]}]", 1
+      assert_select "osm>changeset[min_lat=#{bbox[1]}]", 1
+      assert_select "osm>changeset[max_lon=#{bbox[2]}]", 1
+      assert_select "osm>changeset[max_lat=#{bbox[3]}]", 1
+    end
+  end
+
+  ##
   # update the changeset_id of a node element
   def update_changeset(xml, changeset_id)
     xml_attr_rewrite(xml, 'changeset', changeset_id)
