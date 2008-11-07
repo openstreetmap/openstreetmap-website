@@ -69,7 +69,7 @@ class ChangesetController < ApplicationController
 
       # check user credentials - only the user who opened a changeset
       # may alter it.
-      unless @user.id == changeset.user_id 
+      unless @user.id == cs.user_id 
         raise OSM::APIUserChangesetMismatchError 
       end
 
@@ -132,13 +132,13 @@ class ChangesetController < ApplicationController
       return
     end
 
+    changeset = Changeset.find(params[:id])
+
     # access control - only the user who created a changeset may
     # upload to it.
     unless @user.id == changeset.user_id 
       raise OSM::APIUserChangesetMismatchError 
     end
-
-    changeset = Changeset.find(params[:id])
     
     diff_reader = DiffReader.new(request.raw_post, changeset)
     Changeset.transaction do
