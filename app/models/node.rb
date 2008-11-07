@@ -156,7 +156,7 @@ class Node < ActiveRecord::Base
         raise OSM::APIPreconditionFailedError.new
       else
         self.changeset_id = new_node.changeset_id
-        self.visible = 0
+        self.visible = false
 
         # update the changeset with the deleted position
         changeset.update_bbox!(bbox)

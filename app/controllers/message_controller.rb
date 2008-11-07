@@ -40,7 +40,7 @@ class MessageController < ApplicationController
   def read
     @title = 'read message'
     @message = Message.find(params[:message_id], :conditions => ["to_user_id = ? or from_user_id = ?", @user.id, @user.id ])
-    @message.message_read = 1 if @message.to_user_id == @user.id
+    @message.message_read = true if @message.to_user_id == @user.id
     @message.save
   rescue ActiveRecord::RecordNotFound
     render :nothing => true, :status => :not_found
@@ -70,10 +70,10 @@ class MessageController < ApplicationController
       id = params[:message_id]
       message = Message.find_by_id(id)
       if params[:mark] == 'unread'
-        message_read = 0 
+        message_read = false 
         mark_type = 'unread'
       else
-        message_read = 1
+        message_read = true
         mark_type = 'read'
       end
       message.message_read = message_read
