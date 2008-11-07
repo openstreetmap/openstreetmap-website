@@ -83,7 +83,7 @@ class Node < ActiveRecord::Base
 
     # version must be present unless creating
     return nil unless create or not pt['version'].nil?
-    node.version = pt['version'].to_i
+    node.version = create ? 0 : pt['version'].to_i
 
     unless create
       if pt['id'] != '0'

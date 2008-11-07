@@ -576,6 +576,14 @@ EOF
     check_after_include(changeset_id, -2,  5, [-2, -1,  4,  5])
   end
 
+  ##
+  # check searching for changesets by bbox
+  def test_changeset_by_bbox
+    get :query, :bbox => "-10,-10, 10, 10"
+    assert_response :success, "can't get changesets in bbox"
+    # FIXME: write the actual test bit after fixing the fixtures!
+  end
+
   #------------------------------------------------------------
   # utility functions
   #------------------------------------------------------------

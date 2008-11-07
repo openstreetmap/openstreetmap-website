@@ -6,8 +6,11 @@ class ChangesetController < ApplicationController
 
   before_filter :authorize, :only => [:create, :update, :delete, :upload, :include]
   before_filter :check_write_availability, :only => [:create, :update, :delete, :upload, :include]
-  before_filter :check_read_availability, :except => [:create, :update, :delete, :upload, :download]
+  before_filter :check_read_availability, :except => [:create, :update, :delete, :upload, :download, :query]
   after_filter :compress_output
+
+  # Help methods for checking boundary sanity and area size
+  include MapBoundary
 
   # Create a changeset from XML.
   def create
@@ -222,6 +225,106 @@ class ChangesetController < ApplicationController
     render :nothing => true, :status => :not_found
   rescue OSM::APIError => ex
     render ex.render_opts
+  end
+
+  ##
+  # query changesets by bounding box, time, user or open/closed status.
+  def query
+    # create the conditions that the user asked for. some or all of
+    # these may be nil.
+    conditions = conditions_bbox(params['bbox'])
+    cond_merge conditions, conditions_user(params['user'])
+    cond_merge conditions, conditions_time(params['time'])
+    cond_merge conditions, conditions_open(params['open'])
+
+    # create the results document
+    results = OSM::API.new.get_xml_doc
+
+    # add all matching changesets to the XML results document
+    Changeset.find(:all, 
+                   :conditions => conditions, 
+                   :limit => 100,
+                   :order => 'created_at desc').each do |cs|
+      results.root << cs.to_xml_node
+    end
+
+    render :text => results.to_s, :content_type => "text/xml"
+
+  rescue ActiveRecord::RecordNotFound
+    render :nothing => true, :status => :not_found
+  rescue OSM::APIError => ex
+    render ex.render_opts
+  rescue String => s
+    render :text => s, :content_type => "text/plain", :status => :bad_request
+  end
+
+  ##
+  # merge two conditions
+  def cond_merge(a, b)
+    if a and b
+      a_str = a.shift
+      b_str = b.shift
+      return [ a_str + " and " + b_str ] + a + b
+    elsif a 
+      return a
+    else b
+      return b
+    end
+  end
+
+  ##
+  # if a bounding box was specified then parse it and do some sanity 
+  # checks. this is mostly the same as the map call, but without the 
+  # area restriction.
+  def conditions_bbox(bbox)
+    unless bbox.nil?
+      raise "Bounding box should be min_lon,min_lat,max_lon,max_lat" unless bbox.count(',') == 3
+      bbox = sanitise_boundaries(bbox.split(/,/))
+      raise "Minimum longitude should be less than maximum." unless bbox[0] <= bbox[2]
+      raise "Minimum latitude should be less than maximum." unless bbox[1] <= bbox[3]
+      return ['min_lon < ? and max_lon > ? and min_lat < ? and max_lat > ?',
+              bbox[2] * SCALE, bbox[0] * SCALE, bbox[3]* SCALE, bbox[1] * SCALE]
+    else
+      return nil
+    end
+  end
+
+  ##
+  # restrict changesets to those by a particular user
+  def conditions_user(user)
+    unless user.nil?
+      u = User.find(user.to_i)
+      raise OSM::APINotFoundError unless u.data_public?
+      return ['user_id = ?', u.id]
+    else
+      return nil
+    end
+  end
+
+  ##
+  # restrict changes to those during a particular time period
+  def conditions_time(time) 
+    unless time.nil?
+      # if there is a range, i.e: comma separated, then the first is 
+      # low, second is high - same as with bounding boxes.
+      if time.count(',') == 1
+        from, to = time.split(/,/).collect { |t| Date.parse(t) }
+        return ['created_at > ? and created_at < ?', from, to]
+      else
+        # if there is no comma, assume its a lower limit on time
+        return ['created_at > ?', Date.parse(time)]
+      end
+    else
+      return nil
+    end
+  rescue ArgumentError => ex
+    raise ex.message.to_s
+  end
+
+  ##
+  # restrict changes to those which are open
+  def conditions_open(open)
+    return open.nil? ? nil : ['open = ?', true]
   end
 
 end
