@@ -196,7 +196,7 @@ class TraceController < ApplicationController
   end
 
   def georss
-    conditions = ["gpx_files.public = 1"]
+    conditions = ["gpx_files.public = 1"] # fixme pass boolean true as parameter
 
     if params[:display_name]
       conditions[0] += " AND users.display_name = ?"
