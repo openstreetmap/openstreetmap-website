@@ -8,18 +8,16 @@ class PopulateNodeTagsAndRemove < ActiveRecord::Migration
       cmd = "db/migrate/017_populate_node_tags_and_remove_helper"
       src = "#{cmd}.c"
       if not File.exists? cmd or File.mtime(cmd) < File.mtime(src) then 
-	system 'cc -O3 -Wall `mysql_config --cflags --libs` ' +
-	  "#{src} -o #{cmd}" or fail
+        system 'cc -O3 -Wall `mysql_config --cflags --libs` ' +
+          "#{src} -o #{cmd}" or fail
       end
 
-      conn_opts = ActiveRecord::Base.connection.
-	instance_eval { @connection_options }
+      conn_opts = ActiveRecord::Base.connection.instance_eval { @connection_options }
       args = conn_opts.map { |arg| arg.to_s } + [prefix]
       fail "#{cmd} failed" unless system cmd, *args
 
-      tempfiles = ['nodes', 'node_tags',
-	  'current_nodes', 'current_node_tags'].
-	map { |base| prefix + base }
+      tempfiles = ['nodes', 'node_tags', 'current_nodes', 'current_node_tags'].
+        map { |base| prefix + base }
       nodes, node_tags, current_nodes, current_node_tags = tempfiles
     end
 

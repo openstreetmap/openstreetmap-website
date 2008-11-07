@@ -51,10 +51,10 @@ static void unescape(char *str) {
     if (*i == '\\') {
       i++;
       switch (tmp = *i++) {
-	case 's': *o++ = ';'; break;
-	case 'e': *o++ = '='; break;
-	case '\\': *o++ = '\\'; break;
-	default: *o++ = tmp; break;
+        case 's': *o++ = ';'; break;
+        case 'e': *o++ = '='; break;
+        case '\\': *o++ = '\\'; break;
+        default: *o++ = tmp; break;
       }
     } else {
       *o++ = *i++;
@@ -115,7 +115,7 @@ static void proc_nodes(struct data *d, const char *tbl, FILE *out, FILE *out_tag
       version = ++(d->version[id]);
 
       fprintf(out, "\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%u\"\n",
-	row[0], row[1], row[2], row[3], row[4], row[6], row[7], version);
+        row[0], row[1], row[2], row[3], row[4], row[6], row[7], version);
     } else {
       /*fprintf(out, "\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"\n",
 	row[0], row[1], row[2], row[3], row[4], row[6], row[7]);*/
@@ -124,9 +124,9 @@ static void proc_nodes(struct data *d, const char *tbl, FILE *out, FILE *out_tag
     char *tags_it = row[5], *k, *v;
     while (read_node_tags(&tags_it, &k, &v)) {
       if (hist) {
-	fprintf(out_tags, "\"%s\",\"%u\",", row[0], version);
+        fprintf(out_tags, "\"%s\",\"%u\",", row[0], version);
       } else {
-	fprintf(out_tags, "\"%s\",", row[0]);
+        fprintf(out_tags, "\"%s\",", row[0]);
       }
 
       write_csv_col(out_tags, k, ',');
