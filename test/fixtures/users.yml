@@ -2,11 +2,11 @@
 normal_user:
   id: 1
   email: test@openstreetmap.org
-  active: 1
+  active: true
   pass_crypt: <%= Digest::MD5.hexdigest('test') %>
   creation_time: "2007-01-01 00:00:00"
   display_name: test
-  data_public: 0
+  data_public: false
   description: test
   home_lat: 12.1
   home_lon: 12.1
@@ -15,11 +15,11 @@ normal_user:
 second_user:
   id: 2
   email: test@example.com
-  active: 1
+  active: true
   pass_crypt: <%= Digest::MD5.hexdigest('test') %>
   creation_time: "2008-05-01 01:23:45"
   display_name: test2
-  data_public: 1
+  data_public: true
   description: some test description
   home_lat: 12
   home_lon: 12
@@ -28,10 +28,10 @@ second_user:
 inactive_user:
   id: 3
   email: inactive@openstreetmap.org
-  active: 0
+  active: false
   pass_crypt: <%= Digest::MD5::hexdigest('test2') %>
   display_name: Inactive User
-  data_public: 1
+  data_public: true
   description: description
   home_lat: 123.4
   home_lon: 12.34
