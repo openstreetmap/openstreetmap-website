@@ -120,7 +120,7 @@ class ApiController < ApplicationController
     end
 
     # FIXME um why is this area using a different order for the lat/lon from above???
-    @nodes = Node.find_by_area(min_lat, min_lon, max_lat, max_lon, :conditions => "visible = 1", :limit => APP_CONFIG['max_number_of_nodes']+1)
+    @nodes = Node.find_by_area(min_lat, min_lon, max_lat, max_lon, :conditions => {:visible => true}, :limit => APP_CONFIG['max_number_of_nodes']+1)
     # get all the nodes, by tag not yet working, waiting for change from NickB
     # need to be @nodes (instance var) so tests in /spec can be performed
     #@nodes = Node.search(bbox, params[:tag])
@@ -187,15 +187,15 @@ class ApiController < ApplicationController
       end
     end 
 
-    relations = Relation.find_for_nodes(visible_nodes.keys, :conditions => "visible = 1") +
-                Relation.find_for_ways(way_ids, :conditions => "visible = 1")
+    relations = Relation.find_for_nodes(visible_nodes.keys, :conditions => {:visible => true}) +
+                Relation.find_for_ways(way_ids, :conditions => {:visible => true})
 
     # we do not normally return the "other" partners referenced by an relation, 
     # e.g. if we return a way A that is referenced by relation X, and there's 
     # another way B also referenced, that is not returned. But we do make 
     # an exception for cases where an relation references another *relation*; 
     # in that case we return that as well (but we don't go recursive here)
-    relations += Relation.find_for_relations(relations.collect { |r| r.id }, :conditions => "visible = 1")
+    relations += Relation.find_for_relations(relations.collect { |r| r.id }, :conditions => {:visible => true})
 
     # this "uniq" may be slightly inefficient; it may be better to first collect and output
     # all node-related relations, then find the *not yet covered* way-related ones etc.

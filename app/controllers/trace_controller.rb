@@ -12,7 +12,7 @@ class TraceController < ApplicationController
     # from display name, pick up user id if one user's traces only
     display_name = params[:display_name]
     if target_user.nil? and !display_name.blank?
-      target_user = User.find(:first, :conditions => [ "visible = 1 and display_name = ?", display_name])
+      target_user = User.find(:first, :conditions => [ "visible = ? and display_name = ?", true, display_name])
     end
 
     # set title
@@ -33,15 +33,15 @@ class TraceController < ApplicationController
     # 4 - user's traces, not logged in as that user = all user's public traces
     if target_user.nil? # all traces
       if @user
-        conditions = ["(gpx_files.public = 1 OR gpx_files.user_id = ?)", @user.id] #1
+        conditions = ["(gpx_files.public = ? OR gpx_files.user_id = ?)", true, @user.id] #1
       else
-        conditions  = ["gpx_files.public = 1"] #2
+        conditions  = ["gpx_files.public = ?", true] #2
       end
     else
       if @user and @user == target_user
         conditions = ["gpx_files.user_id = ?", @user.id] #3 (check vs user id, so no join + can't pick up non-public traces by changing name)
       else
-        conditions = ["gpx_files.public = 1 AND gpx_files.user_id = ?", target_user.id] #4
+        conditions = ["gpx_files.public = ? AND gpx_files.user_id = ?", true, target_user.id] #4
       end
     end
     
@@ -51,7 +51,7 @@ class TraceController < ApplicationController
       conditions << @tag
     end
     
-    conditions[0] += " AND gpx_files.visible = 1"
+    conditions[0] += " AND gpx_files.visible = 1"   #FIXME: use boolean true as parameter to active record
 
     @trace_pages, @traces = paginate(:traces,
                                      :include => [:user, :tags],

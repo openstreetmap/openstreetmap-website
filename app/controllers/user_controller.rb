@@ -76,7 +76,7 @@ class UserController < ApplicationController
   def lost_password
     @title = 'lost password'
     if params[:user] and params[:user][:email]
-      user = User.find_by_email(params[:user][:email], :conditions => "visible = 1")
+      user = User.find_by_email(params[:user][:email], :conditions => {:visible => true})
 
       if user
         token = user.tokens.create
@@ -216,7 +216,7 @@ class UserController < ApplicationController
   end
 
   def view
-    @this_user = User.find_by_display_name(params[:display_name], :conditions => "visible = 1")
+    @this_user = User.find_by_display_name(params[:display_name], :conditions => {:visible => true})
 
     if @this_user
       @title = @this_user.display_name
@@ -229,7 +229,7 @@ class UserController < ApplicationController
   def make_friend
     if params[:display_name]     
       name = params[:display_name]
-      new_friend = User.find_by_display_name(name, :conditions => "visible = 1")
+      new_friend = User.find_by_display_name(name, :conditions => {:visible => true})
       friend = Friend.new
       friend.user_id = @user.id
       friend.friend_user_id = new_friend.id
@@ -251,7 +251,7 @@ class UserController < ApplicationController
   def remove_friend
     if params[:display_name]     
       name = params[:display_name]
-      friend = User.find_by_display_name(name, :conditions => "visible = 1")
+      friend = User.find_by_display_name(name, :conditions => {:visible => true})
       if @user.is_friends_with?(friend)
         Friend.delete_all "user_id = #{@user.id} AND friend_user_id = #{friend.id}"
         flash[:notice] = "#{friend.display_name} was removed from your friends."

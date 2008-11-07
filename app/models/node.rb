@@ -53,7 +53,7 @@ class Node < ActiveRecord::Base
     #conditions = keys.join(' AND ')
  
     find_by_area(min_lat, min_lon, max_lat, max_lon,
-                    :conditions => 'visible = 1',
+                    :conditions => {:visible => true},
                     :limit => APP_CONFIG['max_number_of_nodes']+1)  
   end
 
@@ -150,9 +150,9 @@ class Node < ActiveRecord::Base
   def delete_with_history!(new_node, user)
     if self.visible
       check_consistency(self, new_node, user)
-      if WayNode.find(:first, :joins => "INNER JOIN current_ways ON current_ways.id = current_way_nodes.id", :conditions => [ "current_ways.visible = 1 AND current_way_nodes.node_id = ?", self.id ])
+      if WayNode.find(:first, :joins => "INNER JOIN current_ways ON current_ways.id = current_way_nodes.id", :conditions => [ "current_ways.visible = ? AND current_way_nodes.node_id = ?", true, self.id ])
         raise OSM::APIPreconditionFailedError.new
-      elsif RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", :conditions => [ "visible = 1 AND member_type='node' and member_id=? ", self.id])
+      elsif RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", :conditions => [ "visible = ? AND member_type='node' and member_id=? ", true, self.id])
         raise OSM::APIPreconditionFailedError.new
       else
         self.changeset_id = new_node.changeset_id

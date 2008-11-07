@@ -87,7 +87,7 @@ class WayController < ApplicationController
 
       if way.visible
         nd_ids = way.nds + [-1]
-        nodes = Node.find(:all, :conditions => "visible = 1 AND id IN (#{nd_ids.join(',')})")
+        nodes = Node.find(:all, :conditions => ["visible = ? AND id IN (#{nd_ids.join(',')})", true])
 
         # Render
         doc = OSM::API.new.get_xml_doc
