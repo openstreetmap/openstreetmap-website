@@ -50,7 +50,7 @@ class CreateOsmDb < ActiveRecord::Migration
     end
 
     add_index "current_way_tags", ["id"], :name => "current_way_tags_id_idx"
-    execute "CREATE FULLTEXT INDEX `current_way_tags_v_idx` ON `current_way_tags` (`v`)"
+    add_fulltext_index "current_way_tags", "v"
 
     create_table "current_ways", myisam_table do |t|
       t.column "id",        :bigint_pk_64, :null => false

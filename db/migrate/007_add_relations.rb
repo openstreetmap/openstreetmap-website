@@ -24,7 +24,7 @@ class AddRelations < ActiveRecord::Migration
     end
 
     add_index "current_relation_tags", ["id"], :name => "current_relation_tags_id_idx"
-    execute "CREATE FULLTEXT INDEX `current_relation_tags_v_idx` ON `current_relation_tags` (`v`)"
+    add_fulltext_index "current_relation_tags", "v"
 
     create_table "current_relations", innodb_table do |t|
       t.column "id",        :bigint_pk_64,           :null => false

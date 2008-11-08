@@ -81,6 +81,10 @@ module ActiveRecord
       def change_engine (table_name, engine)
         execute "ALTER TABLE #{table_name} ENGINE = #{engine}"
       end
+
+      def add_fulltext_index (table_name, column)
+        execute "CREATE FULLTEXT INDEX `#{table_name}_#{column}_idx` ON `#{table_name}` (`#{column}`)"
+      end
     end
   end
 end
