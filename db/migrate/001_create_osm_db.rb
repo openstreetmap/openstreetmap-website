@@ -199,7 +199,7 @@ class CreateOsmDb < ActiveRecord::Migration
 
     add_primary_key "way_segments", ["id", "version", "sequence_id"]
 
-    change_column "way_segments", "sequence_id", :bigint, :limit => 11, :null => false, :options => "AUTO_INCREMENT"
+    change_column "way_segments", "sequence_id", :bigint_auto_11
 
     create_table "way_tags", myisam_table do |t|
       t.column "id",      :bigint,  :limit => 64, :default => 0, :null => false
@@ -221,7 +221,7 @@ class CreateOsmDb < ActiveRecord::Migration
     add_primary_key "ways", ["id", "version"]
     add_index "ways", ["id"], :name => "ways_id_version_idx"
 
-    change_column "ways", "version", :bigint, :limit => 20, :null => false, :options => "AUTO_INCREMENT"
+    change_column "ways", "version", :bigint_auto_20
   end
 
   def self.down

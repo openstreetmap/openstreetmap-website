@@ -65,7 +65,7 @@ class AddRelations < ActiveRecord::Migration
     add_primary_key "relations", ["id", "version"]
     add_index "relations", ["timestamp"], :name => "relations_timestamp_idx"
     
-    change_column "relations", "version", :bigint, :limit => 20, :null => false, :options => "AUTO_INCREMENT"
+    change_column "relations", "version", :bigint_auto_20
   end
 
 

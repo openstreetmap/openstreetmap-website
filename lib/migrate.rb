@@ -47,6 +47,8 @@ module ActiveRecord
         types[:bigint_pk] = { :name => "bigint(20) DEFAULT NULL auto_increment PRIMARY KEY" }
         types[:bigint_pk_64] = { :name => "bigint(64) DEFAULT NULL auto_increment PRIMARY KEY" }
         types[:bigint_auto_64] = { :name => "bigint(64) DEFAULT NULL auto_increment" }
+        types[:bigint_auto_11] = { :name => "bigint(11) DEFAULT NULL auto_increment" }
+        types[:bigint_auto_20] = { :name => "bigint(20) DEFAULT NULL auto_increment" }
         types
       end
 
