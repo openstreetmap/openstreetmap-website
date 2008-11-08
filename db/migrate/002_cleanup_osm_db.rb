@@ -29,7 +29,7 @@ class CleanupOsmDb < ActiveRecord::Migration
     change_column "current_ways", "user_id", :bigint, :limit => 20, :null => false
     change_column "current_ways", "timestamp", :datetime, :null => false
     change_column "current_ways", "visible", :boolean, :null => false
-    execute "ALTER TABLE current_ways ENGINE = InnoDB"
+    change_engine "current_ways", "InnoDB"
 
     change_column "diary_entries", "title", :string, :null => false
     change_column "diary_entries", "body", :text, :null => false
@@ -191,7 +191,7 @@ class CleanupOsmDb < ActiveRecord::Migration
     change_column "diary_entries", "body", :text
     change_column "diary_entries", "title", :string, :default => nil
 
-    execute "ALTER TABLE current_ways ENGINE = MyISAM"
+    change_engine "current_ways", "MyISAM"
     change_column "current_ways", "visible", :boolean
     change_column "current_ways", "timestamp", :datetime
     change_column "current_ways", "user_id", :bigint, :limit => 20

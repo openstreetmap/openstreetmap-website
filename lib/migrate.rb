@@ -73,6 +73,14 @@ module ActiveRecord
       def innodb_table
         return { :id => false, :force => true, :options => "ENGINE=InnoDB" }
       end
+
+      def innodb_option
+        return "ENGINE=InnoDB"
+      end
+ 
+      def change_engine (table_name, engine)
+        execute "ALTER TABLE #{table_name} ENGINE = #{engine}"
+      end
     end
   end
 end
