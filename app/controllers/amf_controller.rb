@@ -28,6 +28,9 @@ class AmfController < ApplicationController
 
   include Potlatch
 
+  # Help methods for checking boundary sanity and area size
+  include MapBoundary
+
   session :off
   before_filter :check_write_availability
 
@@ -128,6 +131,15 @@ class AmfController < ApplicationController
   def whichways(xmin, ymin, xmax, ymax) #:doc:
 	xmin -= 0.01; ymin -= 0.01
 	xmax += 0.01; ymax += 0.01
+    
+    # check boundary is sane and area within defined
+    # see /config/application.yml
+    begin
+      check_boundaries(xmin, ymin, xmax, ymax)
+    rescue Exception => err
+      # FIXME: report an error rather than just return an empty result
+      return [[],[],[]]
+    end
 
 	if POTLATCH_USE_SQL then
 	  way_ids = sql_find_way_ids_in_area(xmin, ymin, xmax, ymax)
@@ -135,7 +147,7 @@ class AmfController < ApplicationController
 	  relation_ids = sql_find_relations_in_area_and_ways(xmin, ymin, xmax, ymax, way_ids)
 	else
 	  # find the way ids in an area
-	  nodes_in_area = Node.find_by_area(ymin, xmin, ymax, xmax, :conditions => "current_nodes.visible = 1", :include => :ways)
+	  nodes_in_area = Node.find_by_area(ymin, xmin, ymax, xmax, :conditions => ["current_nodes.visible = ?", true], :include => :ways)
 	  way_ids = nodes_in_area.collect { |node| node.way_ids }.flatten.uniq
 
 	  # find the node ids in an area that aren't part of ways
@@ -143,8 +155,8 @@ class AmfController < ApplicationController
 	  points = nodes_not_used_in_area.collect { |n| [n.id, n.lon, n.lat, n.tags_as_hash] }
 
 	  # find the relations used by those nodes and ways
-	  relations = Relation.find_for_nodes(nodes_in_area.collect { |n| n.id }, :conditions => "visible = 1") +
-                  Relation.find_for_ways(way_ids, :conditions => "visible = 1")
+	  relations = Relation.find_for_nodes(nodes_in_area.collect { |n| n.id }, :conditions => {:visible => true}) +
+                  Relation.find_for_ways(way_ids, :conditions => {:visible => true})
 	  relation_ids = relations.collect { |relation| relation.id }.uniq
 	end
 
@@ -158,7 +170,16 @@ class AmfController < ApplicationController
 	xmin -= 0.01; ymin -= 0.01
 	xmax += 0.01; ymax += 0.01
 
-	nodes_in_area = Node.find_by_area(ymin, xmin, ymax, xmax, :conditions => "current_nodes.visible = 0 AND current_ways.visible = 0", :include => :ways_via_history)
+    # check boundary is sane and area within defined
+    # see /config/application.yml
+    begin
+      check_boundaries(xmin, ymin, xmax, ymax)
+    rescue Exception => err
+      # FIXME: report an error rather than just return an empty result
+      return [[]]
+    end
+
+	nodes_in_area = Node.find_by_area(ymin, xmin, ymax, xmax, :conditions => ["current_ways.visible = ?", false], :include => :ways_via_history)
 	way_ids = nodes_in_area.collect { |node| node.ways_via_history_ids }.flatten.uniq
 
 	[way_ids]
@@ -175,7 +196,15 @@ class AmfController < ApplicationController
 	  # Ideally we would do ":include => :nodes" here but if we do that
 	  # then rails only seems to return the first copy of a node when a
 	  # way includes a node more than once
-	  way = Way.find(wayid)
+      begin
+	    way = Way.find(wayid)
+      rescue ActiveRecord::RecordNotFound
+        return [wayid,[],{}]
+      end
+
+      # check case where way has been deleted or doesn't exist
+      return [wayid,[],{}] if way.nil? or !way.visible
+
 	  points = way.nodes.collect do |node|
 		nodetags=node.tags_as_hash
 		nodetags.delete('created_by')
@@ -196,7 +225,7 @@ class AmfController < ApplicationController
 
   def getway_old(id, version) #:doc:
 	if version < 0
-	  old_way = OldWay.find(:first, :conditions => ['visible = 1 AND id = ?', id], :order => 'version DESC')
+	  old_way = OldWay.find(:first, :conditions => ['visible = ? AND id = ?', true, id], :order => 'version DESC')
 	  points = old_way.get_nodes_undelete
 	else
 	  old_way = OldWay.find(:first, :conditions => ['id = ? AND version = ?', id, version])
@@ -241,7 +270,13 @@ class AmfController < ApplicationController
   # 2. list of members.
   
   def getrelation(relid) #:doc:
-	rel = Relation.find(relid)
+    begin
+	  rel = Relation.find(relid)
+    rescue ActiveRecord::RecordNotFound
+      return [relid, {}, []]
+    end
+
+    return [relid, {}, []] if rel.nil? or !rel.visible
 
 	[relid, rel.tags, rel.members]
   end
@@ -277,7 +312,7 @@ class AmfController < ApplicationController
 	if !uid then return -1,"You are not logged in, so the relation could not be saved." end
 
 	relid = relid.to_i
-	visible = visible.to_i
+	visible = (visible.to_i != 0)
 
 	# create a new relation, or find the existing one
 	if relid <= 0
@@ -563,8 +598,8 @@ class AmfController < ApplicationController
 		FROM current_way_nodes
   INNER JOIN current_nodes ON current_nodes.id=current_way_nodes.node_id
   INNER JOIN current_ways  ON current_ways.id =current_way_nodes.id
-	   WHERE current_nodes.visible=1 
-		 AND current_ways.visible=1 
+	   WHERE current_nodes.visible=TRUE 
+		 AND current_ways.visible=TRUE 
 		 AND #{OSM.sql_for_area(ymin, xmin, ymax, xmax, "current_nodes.")}
 	EOF
 	return ActiveRecord::Base.connection.select_all(sql).collect { |a| a['wayid'].to_i }
@@ -575,7 +610,7 @@ class AmfController < ApplicationController
 		  SELECT current_nodes.id,current_nodes.latitude*0.0000001 AS lat,current_nodes.longitude*0.0000001 AS lon,current_nodes.tags 
 			FROM current_nodes 
  LEFT OUTER JOIN current_way_nodes cwn ON cwn.node_id=current_nodes.id 
-		   WHERE current_nodes.visible=1
+		   WHERE current_nodes.visible=TRUE
 			 AND cwn.id IS NULL
 			 AND #{OSM.sql_for_area(ymin, xmin, ymax, xmax, "current_nodes.")}
 	EOF
@@ -612,7 +647,7 @@ class AmfController < ApplicationController
 		  FROM current_way_nodes,current_nodes 
 		 WHERE current_way_nodes.id=#{wayid.to_i} 
 		   AND current_way_nodes.node_id=current_nodes.id 
-		   AND current_nodes.visible=1
+		   AND current_nodes.visible=TRUE
 	  ORDER BY sequence_id
 	  EOF
 	ActiveRecord::Base.connection.select_all(sql).each do |row|
