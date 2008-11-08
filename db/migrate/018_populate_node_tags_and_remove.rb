@@ -5,7 +5,7 @@ class PopulateNodeTagsAndRemove < ActiveRecord::Migration
     if have_nodes
       prefix = File.join Dir.tmpdir, "017_populate_node_tags_and_remove.#{$$}."
 
-      cmd = "db/migrate/017_populate_node_tags_and_remove_helper"
+      cmd = "db/migrate/018_populate_node_tags_and_remove_helper"
       src = "#{cmd}.c"
       if not File.exists? cmd or File.mtime(cmd) < File.mtime(src) then 
         system 'cc -O3 -Wall `mysql_config --cflags --libs` ' +
