@@ -1,34 +1,53 @@
-<h2>User details</h2>
+<h2>My settings</h2>
 <%= error_messages_for 'user' %>
 <% form_for :user, @user do |f| %>
-<table style="width : 100%">
-  <tr><td>Email</td><td><%= f.text_field :email %></td></tr>
-  <tr><td>Mapper since</td><td><%= @user.creation_time %> (<%= time_ago_in_words(@user.creation_time) %> ago)</td></tr>
-  <tr><td>Display Name</td><td><%= f.text_field :display_name %></td></tr>
-  <tr><td>Password</td><td><%= f.password_field :pass_crypt, {:value => '', :size => 50, :maxlength => 255} %></td></tr>
-  <tr><td>Confirm Password</td><td><%= f.password_field :pass_crypt_confirmation, {:value => '', :size => 50, :maxlength => 255} %></td></tr>
+<table id="accountForm">
+  <tr><td class="fieldName">Display Name : </td><td><%= f.text_field :display_name %></td></tr>
+  <tr><td class="fieldName">Email : </td><td><%= f.text_field :email, {:size => 50, :maxlength => 255} %> <span class="minorNote">(not displayed publicly)</span></td></tr>
+  <tr><td class="fieldName" style="padding-bottom:0px;">Password : </td><td style="padding-bottom:0px;"><%= f.password_field :pass_crypt, {:value => '', :size => 30, :maxlength => 255} %></td></tr>
+  <tr><td class="fieldName">Confirm Password : </td><td><%= f.password_field :pass_crypt_confirmation, {:value => '', :size => 30, :maxlength => 255} %></td></tr>
+ 
+  <tr>
+  <td class="fieldName" valign="top">Public editing :</td>
+  <td>
+<% if @user.data_public? %>
+  Enabled. Not anonymous <span class="minorNote">(<a href="http://wiki.openstreetmap.org/index.php/Disabling_anonymous_edits" target="_new">what's this?</a>)</span>
+<% else %>
 
-  <tr><td valign="top">Description</td><td><%= f.text_area :description, :class => "editDescription" %></td></tr>
+  Currently your edits are anonymous and people can't send you messages or see your location. To show what you edited and allow people to contact you through the website, click the button below.
+  <b>You will need to do this if you want to use the online editor and it is encouraged</b> (<a href="http://wiki.openstreetmap.org/index.php/Disabling_anonymous_edits" target="_new">find out why</a>).
+  <br /><br >
+  This action cannot be reversed and all new users are now public by default.
+  <br /><br />
+  <%= button_to "Make all my edits public", :action => :go_public %>
+  <br /><br />
+  
+<% end %>
+  </td>
+  </tr>
 
-  <tr id="homerow" <% unless @user.home_lat and @user.home_lon %> class="nohome" <%end%> ><td>Your home</td><td><em class="message">You have not entered your home location.</em><span class="location">Latitude: <%= f.text_field :home_lat, :size => 20, :id => "home_lat" %> Longitude <%= f.text_field :home_lon, :size => 20, :id => "home_lon" %></span></td></tr>
+  
+   
+  <tr><td class="fieldName" valign="top">Profile Description : </td><td><%= f.text_area :description, :rows => '5', :cols => '60' %><br /><br /></td></tr>
+
+  <tr id="homerow" <% unless @user.home_lat and @user.home_lon %> class="nohome" <%end%> ><td class="fieldName">Home Location : </td><td><em class="message">You have not entered your home location.</em><span class="location">Latitude: <%= f.text_field :home_lat, :size => 20, :id => "home_lat" %> Longitude <%= f.text_field :home_lon, :size => 20, :id => "home_lon" %></span></td></tr>
 
   <tr><td></td><td>
   <p>Update home location when I click on the map? <input type="checkbox" value="1" <% unless @user.home_lat and @user.home_lon %> checked="checked" <% end %> id="updatehome" /> </p>
-  <div id="map" style="border: 1px solid black; position: relative; width : 90%; height : 400px;"></div>
+  <div id="map" style="border:1px solid black; position:relative; width:500px; height:400px;"></div>
   </td></tr>
+  
+  <tr><td></td><td align=right><br/></br><%= submit_tag 'Save Changes' %></td></tr>
 </table>
-<%= submit_tag 'Save Changes' %>
+<br/>
+
 <% end %>
 
 <%= render :partial => 'friend_map' %>
 
-<h2>Public editing</h2>
-<% if @user.data_public? %>
-  All your edits are public.
-<% else %>
-Currently your edits are anonymous and people can't send you messages or see your location. To show what you edited and allow people to contact you through the website, click the button below.
-<b>You will need to do this if you want to use the online editor and it is encouraged</b> (<a href="http://wiki.openstreetmap.org/index.php/Disabling_anonymous_edits">find out why</a>).
-This action cannot be reversed and all new users are now public by default.
-  <br /><br />
-  <%= button_to "Make all my edits public", :action => :go_public %>
-<% end %>
+<br/>
+<br/>
+<br/>
+<%= link_to 'return to profile', :controller => 'user', :action => @user.display_name %>
+<br/>
+<br/>
