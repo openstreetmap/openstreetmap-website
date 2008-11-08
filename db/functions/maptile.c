@@ -76,6 +76,16 @@ maptile_for_point(PG_FUNCTION_ARGS)
 
 PG_FUNCTION_INFO_V1(maptile_for_point);
 
+/*
+ * To bind this into PGSQL, try something like:
+ *
+ * CREATE FUNCTION maptile_for_point(int8, int8, int4) RETURNS int4 
+ *  AS '/path/to/rails-port/db/functions/libpgosm', 'maptile_for_point'
+ *  LANGUAGE C STRICT;
+ *
+ * (without all the *s)
+ */
+
 #ifdef PG_MODULE_MAGIC
 PG_MODULE_MAGIC;
 #endif
