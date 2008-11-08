@@ -44,6 +44,7 @@ module ActiveRecord
         types = old_native_database_types
         types[:bigint] = { :name => "bigint", :limit => 20 }
         types[:double] = { :name => "double" }
+        types[:bigint_pk] = { :name => "bigint(20) DEFAULT NULL auto_increment PRIMARY KEY" }
         types
       end
 
