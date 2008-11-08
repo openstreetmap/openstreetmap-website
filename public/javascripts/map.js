@@ -32,7 +32,8 @@ function createMap(divName, options) {
       ],
       units: "m",
       maxResolution: 156543.0339,
-      numZoomLevels: 20
+      numZoomLevels: 20,
+      displayProjection: new OpenLayers.Projection("EPSG:4326")
    });
 
    var mapnik = new OpenLayers.Layer.OSM.Mapnik("Mapnik", {
@@ -133,6 +134,8 @@ function getMapCenter(center, zoom) {
 }
 
 function setMapCenter(center, zoom) {
+   var numzoom = map.getNumZoomLevels();
+   if (zoom >= numzoom) zoom = numzoom - 1;
    map.setCenter(center.clone().transform(epsg4326, map.getProjectionObject()), zoom);
 }
 

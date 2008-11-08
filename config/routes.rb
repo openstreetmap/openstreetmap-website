@@ -63,7 +63,8 @@ ActionController::Routing::Routes.draw do |map|
   
   # Potlatch API
   
-  map.connect "api/#{API_VERSION}/amf", :controller =>'amf', :action =>'talk'
+  map.connect "api/#{API_VERSION}/amf/read", :controller =>'amf', :action =>'amf_read'
+  map.connect "api/#{API_VERSION}/amf/write", :controller =>'amf', :action =>'amf_write'
   map.connect "api/#{API_VERSION}/amf", :controller =>'amf', :action =>'talk'
   map.connect "api/#{API_VERSION}/swf/trackpoints", :controller =>'swf', :action =>'trackpoints'
   

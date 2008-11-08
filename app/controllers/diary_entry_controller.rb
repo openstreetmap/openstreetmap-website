@@ -69,7 +69,8 @@ class DiaryEntryController < ApplicationController
       end
     else
       @title = "Users' diaries"
-      @entry_pages, @entries = paginate(:diary_entries,
+      @entry_pages, @entries = paginate(:diary_entries, :include => :user,
+                                        :conditions => "users.visible = 1",
                                         :order => 'created_at DESC',
                                         :per_page => 20)
     end
@@ -90,7 +91,9 @@ class DiaryEntryController < ApplicationController
         render :nothing => true, :status => :not_found
       end
     else
-      @entries = DiaryEntry.find(:all, :order => 'created_at DESC', :limit => 20)
+      @entries = DiaryEntry.find(:all, :include => :user,
+                                 :conditions => "users.visible = 1",
+                                 :order => 'created_at DESC', :limit => 20)
       @title = "OpenStreetMap diary entries"
       @description = "Recent diary entries from users of OpenStreetMap"
       @link = "http://www.openstreetmap.org/diary"

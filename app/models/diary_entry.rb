@@ -1,6 +1,8 @@
 class DiaryEntry < ActiveRecord::Base
   belongs_to :user
-  has_many :diary_comments, :order => "id"
+  has_many :diary_comments, :include => :user,
+                            :conditions => "users.visible = 1",
+                            :order => "diary_comments.id"
 
   validates_presence_of :title, :body
   validates_length_of :title, :within => 1..255

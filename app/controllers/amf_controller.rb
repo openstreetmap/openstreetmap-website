@@ -10,10 +10,10 @@
 #
 # == General structure
 #
-# Apart from the talk method (which distributes the requests from the
-# AMF message), each method generally takes arguments in the order they were 
-# sent by the Potlatch SWF. Do not assume typing has been preserved. Methods 
-# all return an array to the SWF.
+# Apart from the amf_read and amf_write methods (which distribute the requests
+# from the AMF message), each method generally takes arguments in the order 
+# they were sent by the Potlatch SWF. Do not assume typing has been preserved. 
+# Methods all return an array to the SWF.
 # 
 # == Debugging
 # 
@@ -31,16 +31,15 @@ class AmfController < ApplicationController
   session :off
   before_filter :check_write_availability
 
-  # Main AMF handler: processes the raw AMF string (using AMF library) and
+  # Main AMF handlers: process the raw AMF string (using AMF library) and
   # calls each action (private method) accordingly.
+  # ** FIXME: refactor to reduce duplication of code across read/write
   
-  def talk
-	req=StringIO.new(request.raw_post+0.chr)	# Get POST data as request
-												# (cf http://www.ruby-forum.com/topic/122163)
-	req.read(2)									# Skip version indicator and client ID
-	results={}									# Results of each body
-	renumberednodes={}							# Shared across repeated putways
-	renumberedways={}							# Shared across repeated putways
+  def amf_read
+	req=StringIO.new(request.raw_post+0.chr)# Get POST data as request
+											# (cf http://www.ruby-forum.com/topic/122163)
+	req.read(2)								# Skip version indicator and client ID
+	results={}								# Results of each body
 
 	# Parse request
 
@@ -69,6 +68,36 @@ class AmfController < ApplicationController
 		when 'getway_old';			results[index]=AMF.putdata(index,getway_old(args[0].to_i,args[1].to_i))
 		when 'getway_history';		results[index]=AMF.putdata(index,getway_history(args[0].to_i))
 		when 'getnode_history';		results[index]=AMF.putdata(index,getnode_history(args[0].to_i))
+		when 'findrelations';		results[index]=AMF.putdata(index,findrelations(*args))
+		when 'getpoi';				results[index]=AMF.putdata(index,getpoi(*args))
+	  end
+	end
+    sendresponse(results)
+  end
+
+  def amf_write
+	req=StringIO.new(request.raw_post+0.chr)
+	req.read(2)
+	results={}
+	renumberednodes={}						# Shared across repeated putways
+	renumberedways={}						# Shared across repeated putways
+
+	headers=AMF.getint(req)					# Read number of headers
+	headers.times do						# Read each header
+	  name=AMF.getstring(req)				#  |
+	  req.getc				   				#  | skip boolean
+	  value=AMF.getvalue(req)				#  |
+	  header["name"]=value					#  |
+	end
+
+	bodies=AMF.getint(req)					# Read number of bodies
+	bodies.times do							# Read each body
+	  message=AMF.getstring(req)			#  | get message name
+	  index=AMF.getstring(req)				#  | get index in response sequence
+	  bytes=AMF.getlong(req)				#  | get total size in bytes
+	  args=AMF.getvalue(req)				#  | get response (probably an array)
+
+	  case message
 		when 'putway';				r=putway(renumberednodes,*args)
 									renumberednodes=r[3]
 									if r[1] != r[2]
@@ -76,22 +105,11 @@ class AmfController < ApplicationController
 									end
 									results[index]=AMF.putdata(index,r)
 		when 'putrelation';			results[index]=AMF.putdata(index,putrelation(renumberednodes, renumberedways, *args))
-		when 'findrelations';		results[index]=AMF.putdata(index,findrelations(*args))
 		when 'deleteway';			results[index]=AMF.putdata(index,deleteway(args[0],args[1].to_i))
 		when 'putpoi';				results[index]=AMF.putdata(index,putpoi(*args))
-		when 'getpoi';				results[index]=AMF.putdata(index,getpoi(*args))
 	  end
 	end
-
-	# Write out response
-
-	a,b=results.length.divmod(256)
-	render :content_type => "application/x-amf", :text => proc { |response, output| 
-	  output.write 0.chr+0.chr+0.chr+0.chr+a.chr+b.chr
-	  results.each do |k,v|
-		output.write(v)
-	  end
-	}
+    sendresponse(results)
   end
 
   private
@@ -159,7 +177,9 @@ class AmfController < ApplicationController
 	  # way includes a node more than once
 	  way = Way.find(wayid)
 	  points = way.nodes.collect do |node|
-		[node.lon, node.lat, node.id, nil, node.tags_as_hash]
+		nodetags=node.tags_as_hash
+		nodetags.delete('created_by')
+		[node.lon, node.lat, node.id, nodetags]
 	  end
 	  tags = way.tags
 	end
@@ -273,11 +293,10 @@ class AmfController < ApplicationController
 	  if mid < 0
 		mid = renumberednodes[mid] if m[0] == 'node'
 		mid = renumberedways[mid] if m[0] == 'way'
-		if mid < 0
-		  return -2, "Negative ID unresolved"
-		end
 	  end
-	  typedmembers << [m[0], mid, m[2]]
+      if mid
+	    typedmembers << [m[0], mid, m[2]]
+	  end
 	end
 
 	# assign new contents
@@ -352,8 +371,10 @@ class AmfController < ApplicationController
 		savenode = true
 	  else
 		node = Node.find(id)
+		nodetags=node.tags_as_hash
+		nodetags.delete('created_by')
 		if !fpcomp(lat, node.lat) or !fpcomp(lon, node.lon) or
-		   Tags.join(n[4]) != node.tags or !node.visible?
+		   n[4] != nodetags or !node.visible?
 		  savenode = true
 		end
 	  end
@@ -466,6 +487,7 @@ class AmfController < ApplicationController
 	way.unshared_node_ids.each do |n|
 	  deleteitemrelations(n, 'node')
 	end
+	deleteitemrelations(way_id, 'way')
 
 	way.delete_with_relations_and_nodes_and_history(user)  
 
@@ -517,6 +539,18 @@ class AmfController < ApplicationController
 
   def fpcomp(a,b) #:doc:
 	return ((a/0.0000001).round==(b/0.0000001).round)
+  end
+
+  # Send AMF response
+  
+  def sendresponse(results)
+	a,b=results.length.divmod(256)
+	render :content_type => "application/x-amf", :text => proc { |response, output| 
+	  output.write 0.chr+0.chr+0.chr+0.chr+a.chr+b.chr
+	  results.each do |k,v|
+		output.write(v)
+	  end
+	}
   end
 
 
@@ -582,7 +616,9 @@ class AmfController < ApplicationController
 	  ORDER BY sequence_id
 	  EOF
 	ActiveRecord::Base.connection.select_all(sql).each do |row|
-	  points << [row['lon'].to_f,row['lat'].to_f,row['id'].to_i,nil,tagstring_to_hash(row['tags'])]
+	  nodetags=tagstring_to_hash(row['tags'])
+	  nodetags.delete('created_by')
+	  points << [row['lon'].to_f,row['lat'].to_f,row['id'].to_i,nodetags]
 	end
 	points
   end
