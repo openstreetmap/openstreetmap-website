@@ -4,6 +4,7 @@ class AddChangesets < ActiveRecord::Migration
   
   def self.up
     create_table "changesets", innodb_table do |t|
+      t.column "id",             :bigint_pk,              :null => false
       t.column "user_id",        :bigint,   :limit => 20, :null => false
       t.column "created_at",     :datetime,               :null => false
       t.column "open",           :boolean,                :null => false, :default => true
@@ -12,7 +13,6 @@ class AddChangesets < ActiveRecord::Migration
       t.column "min_lon",        :integer,                :null => true
       t.column "max_lon",        :integer,                :null => true
     end
-    add_column :changesets, :id, :bigint_pk
 
     create_table "changeset_tags", innodb_table do |t|
       t.column "id", :bigint, :limit => 64, :null => false
