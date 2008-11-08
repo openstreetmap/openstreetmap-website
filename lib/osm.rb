@@ -95,15 +95,16 @@ module OSM
 
   # Raised when the provided version is not equal to the latest in the db.
   class APIVersionMismatchError < APIError
-    def initialize(provided, latest)
-      @provided, @latest = provided, latest
+    def initialize(id, type, provided, latest)
+      @id, @type, @provided, @latest = id, type, provided, latest
     end
 
-    attr_reader :provided, :latest
+    attr_reader :provided, :latest, :id, :type
 
     def render_opts
       { :text => "Version mismatch: Provided " + provided.to_s +
-      ", server had: " + latest.to_s, :status => :conflict }
+        ", server had: " + latest.to_s + " of " + type + " " + id.to_s, 
+        :status => :conflict }
     end
   end
 

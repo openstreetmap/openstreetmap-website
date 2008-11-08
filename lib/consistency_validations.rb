@@ -7,7 +7,7 @@ module ConsistencyValidations
   # This will throw an exception if there is an inconsistency
   def check_consistency(old, new, user)
     if new.version != old.version
-      raise OSM::APIVersionMismatchError.new(new.version, old.version)
+      raise OSM::APIVersionMismatchError.new(new.id, new.class.to_s, new.version, old.version)
     elsif new.changeset.nil?
       raise OSM::APIChangesetMissingError.new
     elsif new.changeset.user_id != user.id
