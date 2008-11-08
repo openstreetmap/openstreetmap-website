@@ -27,14 +27,11 @@ class AddRelations < ActiveRecord::Migration
     execute "CREATE FULLTEXT INDEX `current_relation_tags_v_idx` ON `current_relation_tags` (`v`)"
 
     create_table "current_relations", innodb_table do |t|
-      t.column "id",        :bigint,   :limit => 64, :null => false
+      t.column "id",        :bigint_pk_64,           :null => false
       t.column "user_id",   :bigint,   :limit => 20, :null => false
       t.column "timestamp", :datetime, :null => false
       t.column "visible",   :boolean,  :null => false
     end
-
-    add_primary_key "current_relations", ["id"]
-    change_column "current_relations", "id", :bigint, :limit => 64, :null => false, :options => "AUTO_INCREMENT"
 
     create_table "relation_members", myisam_table do |t|
       t.column "id",          :bigint,  :limit => 64, :default => 0, :null => false

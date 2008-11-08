@@ -16,7 +16,7 @@ class CreateOsmDb < ActiveRecord::Migration
     add_index "current_nodes", ["latitude", "longitude"], :name => "current_nodes_lat_lon_idx"
     add_index "current_nodes", ["timestamp"], :name => "current_nodes_timestamp_idx"
 
-    change_column "current_nodes", "id", :bigint, :limit => 64, :null => false, :options => "AUTO_INCREMENT"
+    change_column :current_nodes, :id, :bigint_auto_64
 
     create_table "current_segments", innodb_table do |t|
       t.column "id",        :bigint,   :limit => 64,                 :null => false
@@ -32,7 +32,7 @@ class CreateOsmDb < ActiveRecord::Migration
     add_index "current_segments", ["node_a"], :name => "current_segments_a_idx"
     add_index "current_segments", ["node_b"], :name => "current_segments_b_idx"
 
-    change_column "current_segments", "id", :bigint, :limit => 64, :null => false, :options => "AUTO_INCREMENT"
+    change_column :current_segments, :id, :bigint_auto_64
 
     create_table "current_way_segments", innodb_table do |t|
       t.column "id",          :bigint, :limit => 64
@@ -53,18 +53,14 @@ class CreateOsmDb < ActiveRecord::Migration
     execute "CREATE FULLTEXT INDEX `current_way_tags_v_idx` ON `current_way_tags` (`v`)"
 
     create_table "current_ways", myisam_table do |t|
-      t.column "id",        :bigint,   :limit => 64, :null => false
+      t.column "id",        :bigint_pk_64, :null => false
       t.column "user_id",   :bigint,   :limit => 20
       t.column "timestamp", :datetime
       t.column "visible",   :boolean
     end
 
-    add_primary_key "current_ways", ["id"]
-
-    change_column "current_ways", "id", :bigint, :limit => 64, :null => false, :options => "AUTO_INCREMENT"
-
     create_table "diary_entries", myisam_table do |t|
-      t.column "id",         :bigint,   :limit => 20, :null => false
+      t.column "id",         :bigint_pk, :null => false
       t.column "user_id",    :bigint,   :limit => 20, :null => false
       t.column "title",      :string
       t.column "body",       :text
@@ -72,20 +68,13 @@ class CreateOsmDb < ActiveRecord::Migration
       t.column "updated_at", :datetime
     end
 
-    add_primary_key "diary_entries", ["id"]
-
-    change_column "diary_entries", "id", :bigint, :limit => 20, :null => false, :options => "AUTO_INCREMENT"
-
     create_table "friends", myisam_table do |t|
-      t.column "id",             :bigint,  :limit => 20, :null => false
+      t.column "id",             :bigint_pk, :null => false
       t.column "user_id",        :bigint,  :limit => 20, :null => false
       t.column "friend_user_id", :bigint,  :limit => 20, :null => false
     end
 
-    add_primary_key "friends", ["id"]
     add_index "friends", ["friend_user_id"], :name => "user_id_idx"
-
-    change_column "friends", "id", :bigint, :limit => 20, :null => false, :options => "AUTO_INCREMENT"
 
     create_table "gps_points", myisam_table do |t|
       t.column "altitude",  :float
@@ -104,16 +93,13 @@ class CreateOsmDb < ActiveRecord::Migration
     create_table "gpx_file_tags", myisam_table do |t|
       t.column "gpx_id", :bigint,  :limit => 64, :default => 0, :null => false
       t.column "tag",    :string
-      t.column "id",     :integer, :limit => 20, :null => false
+      t.column "id",     :bigint_pk, :null => false
     end
 
-    add_primary_key "gpx_file_tags", ["id"]
     add_index "gpx_file_tags", ["gpx_id"], :name => "gpx_file_tags_gpxid_idx"
 
-    change_column "gpx_file_tags", "id", :integer, :null => false, :options => "AUTO_INCREMENT"
-
     create_table "gpx_files", myisam_table do |t|
-      t.column "id",          :bigint,   :limit => 64,                   :null => false
+      t.column "id",          :bigint_pk_64,                   :null => false
       t.column "user_id",     :bigint,   :limit => 20
       t.column "visible",     :boolean,                :default => true, :null => false
       t.column "name",        :string,                 :default => "",   :null => false
@@ -126,11 +112,8 @@ class CreateOsmDb < ActiveRecord::Migration
       t.column "inserted",    :boolean
     end
 
-    add_primary_key "gpx_files", ["id"]
     add_index "gpx_files", ["timestamp"], :name => "gpx_files_timestamp_idx"
     add_index "gpx_files", ["visible", "public"], :name => "gpx_files_visible_public_idx"
-
-    change_column "gpx_files", "id", :bigint, :limit => 64, :null => false, :options => "AUTO_INCREMENT"
 
     create_table "gpx_pending_files", myisam_table do |t|
       t.column "originalname", :string
@@ -139,7 +122,7 @@ class CreateOsmDb < ActiveRecord::Migration
     end
 
     create_table "messages", myisam_table do |t|
-      t.column "id",                :bigint,   :limit => 20,                    :null => false
+      t.column "id",                :bigint_pk,                                 :null => false
       t.column "user_id",           :bigint,   :limit => 20,                    :null => false
       t.column "from_user_id",      :bigint,   :limit => 20,                    :null => false
       t.column "from_display_name", :string,                 :default => ""
@@ -150,20 +133,13 @@ class CreateOsmDb < ActiveRecord::Migration
       t.column "to_user_id",        :bigint,   :limit => 20,                    :null => false
     end
 
-    add_primary_key "messages", ["id"]
     add_index "messages", ["from_display_name"], :name => "from_name_idx"
 
-    change_column "messages", "id", :bigint, :limit => 20, :null => false, :options => "AUTO_INCREMENT"
-
     create_table "meta_areas", myisam_table do |t|
-      t.column "id",        :bigint,  :limit => 64, :null => false
+      t.column "id",        :bigint_pk_64, :null => false
       t.column "user_id",   :bigint,  :limit => 20
       t.column "timestamp", :datetime
     end
-
-    add_primary_key "meta_areas", ["id"]
-
-    change_column "meta_areas", "id", :bigint, :limit => 64, :null => false, :options => "AUTO_INCREMENT"
 
     create_table "nodes", myisam_table do |t|
       t.column "id",        :bigint,  :limit => 64
@@ -194,7 +170,7 @@ class CreateOsmDb < ActiveRecord::Migration
 
     create_table "users", innodb_table do |t|
       t.column "email",         :string
-      t.column "id",            :bigint,   :limit => 20,                    :null => false
+      t.column "id",            :bigint_pk,                    :null => false
       t.column "token",         :string
       t.column "active",        :integer,                :default => 0,     :null => false
       t.column "pass_crypt",    :string
@@ -211,11 +187,8 @@ class CreateOsmDb < ActiveRecord::Migration
       t.column "home_zoom",     :integer,  :limit => 2,  :default => 3
     end
 
-    add_primary_key "users", ["id"]
     add_index "users", ["email"], :name => "users_email_idx"
     add_index "users", ["display_name"], :name => "users_display_name_idx"
-
-    change_column "users", "id", :bigint, :limit => 20, :null => false, :options => "AUTO_INCREMENT"
 
     create_table "way_segments", myisam_table do |t|
       t.column "id",          :bigint,  :limit => 64, :default => 0, :null => false

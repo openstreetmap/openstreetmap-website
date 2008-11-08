@@ -150,14 +150,10 @@ class CleanupOsmDb < ActiveRecord::Migration
     change_column "nodes", "id", :bigint, :limit => 64
 
     create_table "meta_areas", myisam_table do |t|
-      t.column "id",        :bigint,  :limit => 64, :null => false
+      t.column "id",        :bigint_pk_64, :null => false
       t.column "user_id",   :bigint,  :limit => 20
       t.column "timestamp", :datetime
     end
-
-    add_primary_key "meta_areas", ["id"]
-
-    change_column "meta_areas", "id", :bigint, :limit => 64, :null => false, :options => "AUTO_INCREMENT"
 
     remove_index "messages", :name => "messages_to_user_id_idx"
     change_column "messages", "message_read", :boolean, :default => false
@@ -223,6 +219,6 @@ class CleanupOsmDb < ActiveRecord::Migration
     change_column "current_nodes", "user_id", :bigint, :limit => 20
     change_column "current_nodes", "longitude", :double
     change_column "current_nodes", "latitude", :double
-    change_column "current_nodes", "id", :bigint, :limit => 64, :null => false, :options => "AUTO_INCREMENT"
+    change_column "current_nodes", "id", :bigint_auto_64
   end
 end
