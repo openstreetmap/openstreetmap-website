@@ -129,8 +129,10 @@ class DiffReader
 
           xml_result = XML::Node.new model.to_s.downcase
           xml_result["old_id"] = old.id.to_s
-          xml_result["new_id"] = new.id.to_s
-          xml_result["new_version"] = new.version.to_s
+          xml_result["new_id"] = new.id.to_s 
+          # version is updated in "old" through the update, so we must not
+          # return new.version here but old.version!
+          xml_result["new_version"] = old.version.to_s
           result.root << xml_result
         end
 
