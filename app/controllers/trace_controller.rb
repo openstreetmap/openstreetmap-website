@@ -51,7 +51,8 @@ class TraceController < ApplicationController
       conditions << @tag
     end
     
-    conditions[0] += " AND gpx_files.visible = 1"   #FIXME: use boolean true as parameter to active record
+    conditions[0] += " AND gpx_files.visible = ?"
+    conditions << true
 
     @trace_pages, @traces = paginate(:traces,
                                      :include => [:user, :tags],
@@ -196,7 +197,7 @@ class TraceController < ApplicationController
   end
 
   def georss
-    conditions = ["gpx_files.public = 1"] # fixme pass boolean true as parameter
+    conditions = ["gpx_files.public = ?", true]
 
     if params[:display_name]
       conditions[0] += " AND users.display_name = ?"
