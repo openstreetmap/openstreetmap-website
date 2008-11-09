@@ -246,26 +246,36 @@ class AmfController < ApplicationController
   # an array of previous versions.
 
   def getway_history(wayid) #:doc:
-	history = Way.find(wayid).old_ways.reverse.collect do |old_way|
-	  user = old_way.user.data_public? ? old_way.user.display_name : 'anonymous'
-	  uid  = old_way.user.data_public? ? old_way.user.id : 0
-	  [old_way.version, old_way.timestamp.strftime("%d %b %Y, %H:%M"), old_way.visible ? 1 : 0, user, uid]
-	end
+    begin
+	  history = Way.find(wayid).old_ways.reverse.collect do |old_way|
+        user_object = old_way.changeset.user
+	    user = user_object.data_public? ? user_object.display_name : 'anonymous'
+	    uid  = user_object.data_public? ? user_object.id : 0
+	    [old_way.version, old_way.timestamp.strftime("%d %b %Y, %H:%M"), old_way.visible ? 1 : 0, user, uid]
+	  end
 
-	['way',wayid,history]
+	  return ['way',wayid,history]
+    rescue ActiveRecord::RecordNotFound
+      return ['way', wayid, []]
+    end
   end
 
   # Find history of a node. Returns 'node', id, and 
   # an array of previous versions.
 
   def getnode_history(nodeid) #:doc:
-	history = Node.find(nodeid).old_nodes.reverse.collect do |old_node|
-	  user = old_node.user.data_public? ? old_node.user.display_name : 'anonymous'
-	  uid  = old_node.user.data_public? ? old_node.user.id : 0
-	  [old_node.timestamp.to_i, old_node.timestamp.strftime("%d %b %Y, %H:%M"), old_node.visible ? 1 : 0, user, uid]
-	end
+    begin
+	  history = Node.find(nodeid).old_nodes.reverse.collect do |old_node|
+        user_object = old_node.changeset.user
+	    user = user_object.data_public? ? user_object.display_name : 'anonymous'
+	    uid  = user_object.data_public? ? user_object.id : 0
+	    [old_node.timestamp.to_i, old_node.timestamp.strftime("%d %b %Y, %H:%M"), old_node.visible ? 1 : 0, user, uid]
+	  end
 
-	['node',nodeid,history]
+	  return ['node',nodeid,history]
+    rescue ActiveRecord::RecordNotFound
+      return ['node', nodeid, []]
+    end
   end
 
   # Get a relation with all tags and members.

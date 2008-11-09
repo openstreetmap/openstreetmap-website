@@ -187,6 +187,62 @@ class AmfControllerTest < ActionController::TestCase
     end
   end
 
+  def test_getway_history
+    latest = current_ways(:way_with_versions)
+    amf_content "getway_history", "/1", [latest.id]
+    post :amf_read
+    assert_response :success
+    amf_parse_response
+    history = amf_result("/1")
+
+    # ['way',wayid,history]
+    assert_equal history[0], 'way'
+    assert_equal history[1], latest.id
+    assert_equal history[2].first[0], latest.version
+    assert_equal history[2].last[0], ways(:way_with_versions_v1).version
+  end
+
+  def test_getway_history_nonexistent
+    amf_content "getway_history", "/1", [0]
+    post :amf_read
+    assert_response :success
+    amf_parse_response
+    history = amf_result("/1")
+
+    # ['way',wayid,history]
+    assert_equal history[0], 'way'
+    assert_equal history[1], 0
+    assert history[2].empty?
+  end
+
+  def test_getnode_history
+    latest = current_nodes(:node_with_versions)
+    amf_content "getnode_history", "/1", [latest.id]
+    post :amf_read
+    assert_response :success
+    amf_parse_response
+    history = amf_result("/1")
+
+    # ['node',nodeid,history]
+    assert_equal history[0], 'node'
+    assert_equal history[1], latest.id
+    assert_equal history[2].first[0], latest.timestamp.to_i
+    assert_equal history[2].last[0], nodes(:node_with_versions_v1).timestamp.to_i
+  end
+
+  def test_getnode_history_nonexistent
+    amf_content "getnode_history", "/1", [0]
+    post :amf_read
+    assert_response :success
+    amf_parse_response
+    history = amf_result("/1")
+
+    # ['node',nodeid,history]
+    assert_equal history[0], 'node'
+    assert_equal history[1], 0
+    assert history[2].empty?
+  end
+
 
   # ************************************************************
   # AMF Helper functions
