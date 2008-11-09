@@ -124,26 +124,26 @@ EOF
       "can't upload a simple valid creation to changeset: #{@response.body}"
 
     # check the returned payload
-    assert_select "osm[version=#{API_VERSION}][generator=\"OpenStreetMap server\"]", 1
-    assert_select "osm>node", 1
-    assert_select "osm>way", 1
-    assert_select "osm>relation", 1
+    assert_select "diffResult[version=#{API_VERSION}][generator=\"OpenStreetMap server\"]", 1
+    assert_select "diffResult>node", 1
+    assert_select "diffresult>way", 1
+    assert_select "diffResult>relation", 1
 
     # inspect the response to find out what the new element IDs are
     doc = XML::Parser.string(@response.body).parse
-    new_node_id = doc.find("//osm/node").first["new_id"].to_i
-    new_way_id = doc.find("//osm/way").first["new_id"].to_i
-    new_rel_id = doc.find("//osm/relation").first["new_id"].to_i
+    new_node_id = doc.find("//diffResult/node").first["new_id"].to_i
+    new_way_id = doc.find("//diffResult/way").first["new_id"].to_i
+    new_rel_id = doc.find("//diffResult/relation").first["new_id"].to_i
 
     # check the old IDs are all present and negative one
-    assert_equal -1, doc.find("//osm/node").first["old_id"].to_i
-    assert_equal -1, doc.find("//osm/way").first["old_id"].to_i
-    assert_equal -1, doc.find("//osm/relation").first["old_id"].to_i
+    assert_equal -1, doc.find("//diffResult/node").first["old_id"].to_i
+    assert_equal -1, doc.find("//diffResult/way").first["old_id"].to_i
+    assert_equal -1, doc.find("//diffResult/relation").first["old_id"].to_i
 
     # check the versions are present and equal one
-    assert_equal 1, doc.find("//osm/node").first["new_version"].to_i
-    assert_equal 1, doc.find("//osm/way").first["new_version"].to_i
-    assert_equal 1, doc.find("//osm/relation").first["new_version"].to_i
+    assert_equal 1, doc.find("//diffResult/node").first["new_version"].to_i
+    assert_equal 1, doc.find("//diffResult/way").first["new_version"].to_i
+    assert_equal 1, doc.find("//diffResult/relation").first["new_version"].to_i
 
     # check that the changes made it into the database
     assert_equal 2, Node.find(new_node_id).tags.size, "new node should have two tags"
@@ -241,14 +241,14 @@ EOF
       "can't upload a complex diff to changeset: #{@response.body}"
 
     # check the returned payload
-    assert_select "osm[version=#{API_VERSION}][generator=\"#{GENERATOR}\"]", 1
-    assert_select "osm>node", 1
-    assert_select "osm>way", 1
-    assert_select "osm>relation", 1
+    assert_select "diffResult[version=#{API_VERSION}][generator=\"#{GENERATOR}\"]", 1
+    assert_select "diffResult>node", 1
+    assert_select "diffResult>way", 1
+    assert_select "diffResult>relation", 1
 
     # inspect the response to find out what the new element IDs are
     doc = XML::Parser.string(@response.body).parse
-    new_node_id = doc.find("//osm/node").first["new_id"].to_i
+    new_node_id = doc.find("//diffResult/node").first["new_id"].to_i
 
     # check that the changes made it into the database
     assert_equal 2, Node.find(new_node_id).tags.size, "new node should have two tags"
@@ -517,10 +517,10 @@ EOF
     # get the bounding box back from the changeset
     get :read, :id => changeset_id
     assert_response :success, "Couldn't read back changeset."
-    assert_select "osm>changeset[min_lon=1]", 1
-    assert_select "osm>changeset[max_lon=1]", 1
-    assert_select "osm>changeset[min_lat=2]", 1
-    assert_select "osm>changeset[max_lat=2]", 1
+    assert_select "osm>changeset[min_lon=1.0]", 1
+    assert_select "osm>changeset[max_lon=1.0]", 1
+    assert_select "osm>changeset[min_lat=2.0]", 1
+    assert_select "osm>changeset[max_lat=2.0]", 1
 
     # add another node to it
     with_controller(NodeController.new) do
@@ -532,10 +532,10 @@ EOF
     # get the bounding box back from the changeset
     get :read, :id => changeset_id
     assert_response :success, "Couldn't read back changeset for the second time."
-    assert_select "osm>changeset[min_lon=1]", 1
-    assert_select "osm>changeset[max_lon=2]", 1
-    assert_select "osm>changeset[min_lat=1]", 1
-    assert_select "osm>changeset[max_lat=2]", 1
+    assert_select "osm>changeset[min_lon=1.0]", 1
+    assert_select "osm>changeset[max_lon=2.0]", 1
+    assert_select "osm>changeset[min_lat=1.0]", 1
+    assert_select "osm>changeset[max_lat=2.0]", 1
 
     # add (delete) a way to it
     with_controller(WayController.new) do
@@ -548,10 +548,10 @@ EOF
     # get the bounding box back from the changeset
     get :read, :id => changeset_id
     assert_response :success, "Couldn't read back changeset for the third time."
-    assert_select "osm>changeset[min_lon=1]", 1
-    assert_select "osm>changeset[max_lon=3]", 1
-    assert_select "osm>changeset[min_lat=1]", 1
-    assert_select "osm>changeset[max_lat=3]", 1    
+    assert_select "osm>changeset[min_lon=1.0]", 1
+    assert_select "osm>changeset[max_lon=3.1]", 1
+    assert_select "osm>changeset[min_lat=1.0]", 1
+    assert_select "osm>changeset[max_lat=3.1]", 1    
   end
 
   ##

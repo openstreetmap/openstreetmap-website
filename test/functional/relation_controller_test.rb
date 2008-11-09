@@ -359,10 +359,10 @@ class RelationControllerTest < ActionController::TestCase
       assert_response :success, "can't re-read changeset for modify test"
       assert_select "osm>changeset", 1
       assert_select "osm>changeset[id=#{changeset_id}]", 1
-      assert_select "osm>changeset[min_lon=#{bbox[0]}]", 1
-      assert_select "osm>changeset[min_lat=#{bbox[1]}]", 1
-      assert_select "osm>changeset[max_lon=#{bbox[2]}]", 1
-      assert_select "osm>changeset[max_lat=#{bbox[3]}]", 1
+      assert_select "osm>changeset[min_lon=#{bbox[0].to_f}]", 1
+      assert_select "osm>changeset[min_lat=#{bbox[1].to_f}]", 1
+      assert_select "osm>changeset[max_lon=#{bbox[2].to_f}]", 1
+      assert_select "osm>changeset[max_lat=#{bbox[3].to_f}]", 1
     end
   end
 
