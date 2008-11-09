@@ -84,8 +84,8 @@ class ChangesetController < ApplicationController
       # abuse, maybe should change to some other format?
       doc = XML::Parser.string(request.raw_post).parse
       doc.find("//osm/node").each do |n|
-        lon << n['lon'].to_f * SCALE
-        lat << n['lat'].to_f * SCALE
+        lon << n['lon'].to_f * GeoRecord::SCALE
+        lat << n['lat'].to_f * GeoRecord::SCALE
       end
 
       # add the existing bounding box to the lon-lat array
@@ -283,7 +283,7 @@ class ChangesetController < ApplicationController
       raise "Minimum longitude should be less than maximum." unless bbox[0] <= bbox[2]
       raise "Minimum latitude should be less than maximum." unless bbox[1] <= bbox[3]
       return ['min_lon < ? and max_lon > ? and min_lat < ? and max_lat > ?',
-              bbox[2] * SCALE, bbox[0] * SCALE, bbox[3]* SCALE, bbox[1] * SCALE]
+              bbox[2] * GeoRecord::SCALE, bbox[0] * GeoRecord::SCALE, bbox[3]* GeoRecord::SCALE, bbox[1] * GeoRecord::SCALE]
     else
       return nil
     end

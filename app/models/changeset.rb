@@ -156,10 +156,10 @@ class Changeset < ActiveRecord::Base
     el1['created_at'] = self.created_at.xmlschema
     el1['open'] = self.open.to_s
 
-    el1['min_lon'] = (bbox[0] / SCALE).to_s unless bbox[0].nil?
-    el1['min_lat'] = (bbox[1] / SCALE).to_s unless bbox[1].nil?
-    el1['max_lon'] = (bbox[2] / SCALE).to_s unless bbox[2].nil?
-    el1['max_lat'] = (bbox[3] / SCALE).to_s unless bbox[3].nil?
+    el1['min_lon'] = (bbox[0].to_f / GeoRecord::SCALE).to_s unless bbox[0].nil?
+    el1['min_lat'] = (bbox[1].to_f / GeoRecord::SCALE).to_s unless bbox[1].nil?
+    el1['max_lon'] = (bbox[2].to_f / GeoRecord::SCALE).to_s unless bbox[2].nil?
+    el1['max_lat'] = (bbox[3].to_f / GeoRecord::SCALE).to_s unless bbox[3].nil?
     
     # NOTE: changesets don't include the XML of the changes within them,
     # they are just structures for tagging. to get the osmChange of a
