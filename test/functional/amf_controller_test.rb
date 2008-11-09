@@ -154,6 +154,43 @@ class AmfControllerTest < ActionController::TestCase
     assert rel[1].empty? and rel[2].empty?
   end
 
+  def test_getway_old
+    # try to get the last visible version (specified by <0) (should be current version)
+    latest = current_ways(:way_with_versions)
+    # try to get version 1
+    v1 = ways(:way_with_versions_v1)
+    {latest => -1, v1 => v1.version}.each do |way, v|
+      amf_content "getway_old", "/1", [way.id, v]
+      post :amf_read
+      assert_response :success
+      amf_parse_response
+      returned_way = amf_result("/1")
+      assert_equal returned_way[1], way.id
+      assert_equal returned_way[4], way.version
+    end
+  end
+
+  def test_getway_old_nonexistent
+    # try to get the last version+10 (shoudn't exist)
+    latest = current_ways(:way_with_versions)
+    # try to get last visible version of non-existent way
+    # try to get specific version of non-existent way
+    {nil => -1, nil => 1, latest => latest.version + 10}.each do |way, v|
+      amf_content "getway_old", "/1", [way.nil? ? 0 : way.id, v]
+      post :amf_read
+      assert_response :success
+      amf_parse_response
+      returned_way = amf_result("/1")
+      assert returned_way[2].empty?
+      assert returned_way[3].empty?
+      assert returned_way[4] < 0
+    end
+  end
+
+
+  # ************************************************************
+  # AMF Helper functions
+
   # Get the result record for the specified ID
   # It's an assertion FAIL if the record does not exist
   def amf_result ref

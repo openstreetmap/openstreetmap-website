@@ -61,6 +61,7 @@ class AmfController < ApplicationController
 	  index=AMF.getstring(req)				#  | get index in response sequence
 	  bytes=AMF.getlong(req)				#  | get total size in bytes
 	  args=AMF.getvalue(req)				#  | get response (probably an array)
+      logger.info "Executing AMF #{message}:#{index}"
 
 	  case message
 		when 'getpresets';			results[index]=AMF.putdata(index,getpresets())
@@ -75,6 +76,7 @@ class AmfController < ApplicationController
 		when 'getpoi';				results[index]=AMF.putdata(index,getpoi(*args))
 	  end
 	end
+    logger.info("encoding AMF results")
     sendresponse(results)
   end
 
@@ -218,23 +220,26 @@ class AmfController < ApplicationController
 
   # Get an old version of a way, and all constituent nodes.
   #
-  # For undelete (version=0), always uses the most recent version of each node, 
-  # even if it's moved.  For revert (version=1+), uses the node in existence 
+  # For undelete (version<0), always uses the most recent version of each node, 
+  # even if it's moved.  For revert (version >= 0), uses the node in existence 
   # at the time, generating a new id if it's still visible and has been moved/
   # retagged.
 
   def getway_old(id, version) #:doc:
 	if version < 0
 	  old_way = OldWay.find(:first, :conditions => ['visible = ? AND id = ?', true, id], :order => 'version DESC')
-	  points = old_way.get_nodes_undelete
+	  points = old_way.get_nodes_undelete unless old_way.nil?
 	else
 	  old_way = OldWay.find(:first, :conditions => ['id = ? AND version = ?', id, version])
-	  points = old_way.get_nodes_revert
+	  points = old_way.get_nodes_revert unless old_way.nil?
 	end
 
-	old_way.tags['history'] = "Retrieved from v#{old_way.version}"
-
-	[0, id, points, old_way.tags, old_way.version]
+    if old_way.nil?
+      return [0, id, [], {}, -1]
+    else
+	  old_way.tags['history'] = "Retrieved from v#{old_way.version}"
+	  return [0, id, points, old_way.tags, old_way.version]
+    end
   end
   
   # Find history of a way. Returns 'way', id, and 

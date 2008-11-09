@@ -92,11 +92,7 @@ class OldNode < ActiveRecord::Base
   end
 
   def tags_as_hash 
-    hash = {} 
-    Tags.split(self.tags) do |k,v| 
-      hash[k] = v 
-    end 
-    hash 
+    return self.tags
   end 
  
   # Pretend we're not in any ways 
