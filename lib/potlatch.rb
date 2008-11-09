@@ -92,6 +92,10 @@ module Potlatch
         0.chr+encodedouble(n)
       when 'NilClass'
         5.chr
+	  when 'TrueClass'
+        0.chr+encodedouble(1)
+	  when 'FalseClass'
+        0.chr+encodedouble(0)
       else
         RAILS_DEFAULT_LOGGER.error("Unexpected Ruby type for AMF conversion: "+n.class.to_s)
       end

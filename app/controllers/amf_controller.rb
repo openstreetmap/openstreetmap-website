@@ -110,14 +110,34 @@ class AmfController < ApplicationController
 									end
 									results[index]=AMF.putdata(index,r)
 		when 'putrelation';			results[index]=AMF.putdata(index,putrelation(renumberednodes, renumberedways, *args))
-		when 'deleteway';			results[index]=AMF.putdata(index,deleteway(args[0],args[1].to_i))
+		when 'deleteway';			results[index]=AMF.putdata(index,deleteway(*args))
 		when 'putpoi';				results[index]=AMF.putdata(index,putpoi(*args))
+		when 'startchangeset';		results[index]=AMF.putdata(index,startchangeset(*args))
 	  end
 	end
     sendresponse(results)
   end
 
   private
+
+  # Start new changeset
+  
+  def startchangeset(usertoken, cstags, closeid, closecomment)
+	uid = getuserid(usertoken)
+	if !uid then return -1,"You are not logged in, so Potlatch can't write any changes to the database." end
+
+	# close previous changeset and add comment
+	if closeid
+	end
+	
+	# open a new changeset
+	cs = Changeset.new
+	cs.tags = cstags
+	cs.user_id = uid
+	cs.created_at = Time.now
+	cs.save_with_tags!
+	return [0,cs.id]
+  end
 
   # Return presets (default tags, localisation etc.):
   # uses POTLATCH_PRESETS global, set up in OSM::Potlatch.
@@ -144,17 +164,18 @@ class AmfController < ApplicationController
     end
 
 	if POTLATCH_USE_SQL then
-	  way_ids = sql_find_way_ids_in_area(xmin, ymin, xmax, ymax)
+	  ways = sql_find_ways_in_area(xmin, ymin, xmax, ymax)
 	  points = sql_find_pois_in_area(xmin, ymin, xmax, ymax)
-	  relation_ids = sql_find_relations_in_area_and_ways(xmin, ymin, xmax, ymax, way_ids)
+	  relation_ids = sql_find_relations_in_area_and_ways(xmin, ymin, xmax, ymax, ways.collect {|x| x[0]})
 	else
 	  # find the way ids in an area
-	  nodes_in_area = Node.find_by_area(ymin, xmin, ymax, xmax, :conditions => ["current_nodes.visible = ?", true], :include => :ways)
+	  nodes_in_area = Node.find_by_area(ymin, xmin, ymax, xmax, :conditions => ["current_nodes.visible = ?", true], :include => :ways)  # ** include causes problems
 	  way_ids = nodes_in_area.collect { |node| node.way_ids }.flatten.uniq
+	  # ** get versions
 
 	  # find the node ids in an area that aren't part of ways
 	  nodes_not_used_in_area = nodes_in_area.select { |node| node.ways.empty? }
-	  points = nodes_not_used_in_area.collect { |n| [n.id, n.lon, n.lat, n.tags_as_hash] }
+	  points = nodes_not_used_in_area.collect { |n| [n.id, n.lon, n.lat, n.tags] }
 
 	  # find the relations used by those nodes and ways
 	  relations = Relation.find_for_nodes(nodes_in_area.collect { |n| n.id }, :conditions => {:visible => true}) +
@@ -162,7 +183,7 @@ class AmfController < ApplicationController
 	  relation_ids = relations.collect { |relation| relation.id }.uniq
 	end
 
-	[way_ids, points, relation_ids]
+	[ways, points, relation_ids]
   end
 
   # Find deleted ways in current bounding box (similar to whichways, but ways
@@ -188,12 +209,13 @@ class AmfController < ApplicationController
   end
 
   # Get a way including nodes and tags.
-  # Returns 0 (success), a Potlatch-style array of points, and a hash of tags.
+  # Returns the way id, a Potlatch-style array of points, a hash of tags, and the version number.
 
   def getway(wayid) #:doc:
 	if POTLATCH_USE_SQL then
 	  points = sql_get_nodes_in_way(wayid)
 	  tags = sql_get_tags_in_way(wayid)
+	  version = sql_get_way_version(wayid)
 	else
 	  # Ideally we would do ":include => :nodes" here but if we do that
 	  # then rails only seems to return the first copy of a node when a
@@ -208,14 +230,15 @@ class AmfController < ApplicationController
       return [wayid,[],{}] if way.nil? or !way.visible
 
 	  points = way.nodes.collect do |node|
-		nodetags=node.tags_as_hash
+		nodetags=node.tags
 		nodetags.delete('created_by')
 		[node.lon, node.lat, node.id, nodetags]
 	  end
 	  tags = way.tags
+	  version = way.version
 	end
 
-	[wayid, points, tags]
+	[wayid, points, tags, version]
   end
 
   # Get an old version of a way, and all constituent nodes.
@@ -224,6 +247,14 @@ class AmfController < ApplicationController
   # even if it's moved.  For revert (version >= 0), uses the node in existence 
   # at the time, generating a new id if it's still visible and has been moved/
   # retagged.
+  #
+  # Returns:
+  # 0. success code, 
+  # 1. id, 
+  # 2. array of points, 
+  # 3. hash of tags, 
+  # 4. version, 
+  # 5. is this the current, visible version? (boolean)
 
   def getway_old(id, version) #:doc:
 	if version < 0
@@ -235,10 +266,11 @@ class AmfController < ApplicationController
 	end
 
     if old_way.nil?
-      return [0, id, [], {}, -1]
+      return [-1, id, [], {}, -1,0]
     else
+	  curway=Way.find(id)
 	  old_way.tags['history'] = "Retrieved from v#{old_way.version}"
-	  return [0, id, points, old_way.tags, old_way.version]
+	  return [0, id, points, old_way.tags, old_way.version, (curway.version==old_way.version and curway.visible)]
     end
   end
   
@@ -269,7 +301,7 @@ class AmfController < ApplicationController
         user_object = old_node.changeset.user
 	    user = user_object.data_public? ? user_object.display_name : 'anonymous'
 	    uid  = user_object.data_public? ? user_object.id : 0
-	    [old_node.timestamp.to_i, old_node.timestamp.strftime("%d %b %Y, %H:%M"), old_node.visible ? 1 : 0, user, uid]
+	    [old_node.version, old_node.timestamp.strftime("%d %b %Y, %H:%M"), old_node.visible ? 1 : 0, user, uid]
 	  end
 
 	  return ['node',nodeid,history]
@@ -282,7 +314,8 @@ class AmfController < ApplicationController
   # Returns:
   # 0. relation id,
   # 1. hash of tags,
-  # 2. list of members.
+  # 2. list of members,
+  # 3. version.
   
   def getrelation(relid) #:doc:
     begin
@@ -291,9 +324,8 @@ class AmfController < ApplicationController
       return [relid, {}, []]
     end
 
-    return [relid, {}, []] if rel.nil? or !rel.visible
-
-	[relid, rel.tags, rel.members]
+    return [relid, {}, [], nil] if rel.nil? or !rel.visible
+	[relid, rel.tags, rel.members, rel.version]
   end
 
   # Find relations with specified name/id.
@@ -322,7 +354,7 @@ class AmfController < ApplicationController
   # 1. original relation id (unchanged),
   # 2. new relation id.
 
-  def putrelation(renumberednodes, renumberedways, usertoken, relid, tags, members, visible) #:doc:
+  def putrelation(renumberednodes, renumberedways, usertoken, changeset, relid, tags, members, visible) #:doc:
 	uid = getuserid(usertoken)
 	if !uid then return -1,"You are not logged in, so the relation could not be saved." end
 
@@ -332,6 +364,7 @@ class AmfController < ApplicationController
 	# create a new relation, or find the existing one
 	if relid <= 0
 	  rel = Relation.new
+	  rel.version = 0
 	else
 	  rel = Relation.find(relid)
 	end
@@ -353,7 +386,7 @@ class AmfController < ApplicationController
 	rel.members = typedmembers
 	rel.tags = tags
 	rel.visible = visible
-	rel.user_id = uid
+	rel.changeset_id = changeset
 
 	# check it then save it
 	# BUG: the following is commented out because it always fails on my
@@ -375,9 +408,10 @@ class AmfController < ApplicationController
   # 0. '0' (code for success),
   # 1. original way id (unchanged),
   # 2. new way id,
-  # 3. hash of renumbered nodes (old id=>new id)
+  # 3. hash of renumbered nodes (old id=>new id),
+  # 4. version
 
-  def putway(renumberednodes, usertoken, originalway, points, attributes) #:doc:
+  def putway(renumberednodes, usertoken, changeset, originalway, points, attributes) #:doc:
 
 	# -- Initialise and carry out checks
 	
@@ -397,6 +431,7 @@ class AmfController < ApplicationController
 
 	if originalway < 0
 	  way = Way.new
+	  way.version = 0	# otherwise +=1 breaks
 	  uniques = []
 	else
 	  way = Way.find(originalway)
@@ -418,10 +453,11 @@ class AmfController < ApplicationController
 	  elsif id < 0
 		# Create new node
 		node = Node.new
+		node.version = 0	# otherwise +=1 breaks
 		savenode = true
 	  else
 		node = Node.find(id)
-		nodetags=node.tags_as_hash
+		nodetags=node.tags
 		nodetags.delete('created_by')
 		if !fpcomp(lat, node.lat) or !fpcomp(lon, node.lon) or
 		   n[4] != nodetags or !node.visible?
@@ -430,10 +466,10 @@ class AmfController < ApplicationController
 	  end
 
 	  if savenode
-		node.user_id = uid
+		node.changeset_id = changeset
 	    node.lat = lat
         node.lon = lon
-	    node.tags = Tags.join(n[4])
+	    node.tags = n[4]
 	    node.visible = true
 	    node.save_with_history!
 
@@ -453,20 +489,22 @@ class AmfController < ApplicationController
 	  deleteitemrelations(n, 'node')
 
 	  node = Node.find(n)
-	  node.user_id = uid
+	  node.changeset_id = changeset
 	  node.visible = false
 	  node.save_with_history!
 	end
 
 	# -- Save revised way
 
-	way.tags = attributes
-	way.nds = nodes
-	way.user_id = uid
-	way.visible = true
-	way.save_with_history!
+	if way.tags!=attributes or way.nds!=nodes or !way.visible?
+	  way.tags = attributes
+	  way.nds = nodes
+	  way.changeset_id = changeset
+	  way.visible = true
+	  way.save_with_history!
+	end
 
-	[0, originalway, way.id, renumberednodes]
+	[0, originalway, way.id, renumberednodes, way.version]
   end
 
   # Save POI to the database.
@@ -474,9 +512,10 @@ class AmfController < ApplicationController
   # Returns:
   # 0. 0 (success),
   # 1. original node id (unchanged),
-  # 2. new node id.
+  # 2. new node id,
+  # 3. version.
 
-  def putpoi(usertoken, id, lon, lat, tags, visible) #:doc:
+  def putpoi(usertoken, changeset, id, lon, lat, tags, visible) #:doc:
 	uid = getuserid(usertoken)
 	if !uid then return -1,"You are not logged in, so the point could not be saved." end
 
@@ -492,54 +531,55 @@ class AmfController < ApplicationController
 	  end
 	else
 	  node = Node.new
+	  node.version = 0
 	end
 
-	node.user_id = uid
+	node.changeset_id = changeset
 	node.lat = lat
 	node.lon = lon
-	node.tags = Tags.join(tags)
+	node.tags = tags
 	node.visible = visible
 	node.save_with_history!
 
-	[0, id, node.id]
+	[0, id, node.id, node.version]
   end
 
   # Read POI from database
   # (only called on revert: POIs are usually read by whichways).
   #
-  # Returns array of id, long, lat, hash of tags.
+  # Returns array of id, long, lat, hash of tags, version.
 
-  def getpoi(id,timestamp) #:doc:
-	if timestamp>0 then
-	  n = OldNode.find(id, :conditions=>['UNIX_TIMESTAMP(timestamp)=?',timestamp])
+  def getpoi(id,version) #:doc:
+	if version>0 then
+	  n = OldNode.find(id, :conditions=>['version=?',version])
 	else
 	  n = Node.find(id)
 	end
 
 	if n
-	  return [n.id, n.lon, n.lat, n.tags_as_hash]
+	  return [n.id, n.lon, n.lat, n.tags, n.version]
 	else
-	  return [nil, nil, nil, '']
+	  return [nil, nil, nil, {}, nil]
 	end
   end
 
   # Delete way and all constituent nodes. Also removes from any relations.
   # Returns 0 (success), unchanged way id.
 
-  def deleteway(usertoken, way_id) #:doc:
-	uid = getuserid(usertoken)
-	if !uid then return -1,"You are not logged in, so the way could not be deleted." end
+  def deleteway(usertoken, changeset_id, way_id) #:doc:
+	if !getuserid(usertoken) then return -1,"You are not logged in, so the way could not be deleted." end
+
+	way_id = way_id.to_i
 
 	# FIXME: would be good not to make two history entries when removing
 	#		 two nodes from the same relation
-	user = User.find(uid)
 	way = Way.find(way_id)
 	way.unshared_node_ids.each do |n|
 	  deleteitemrelations(n, 'node')
 	end
 	deleteitemrelations(way_id, 'way')
 
-	way.delete_with_relations_and_nodes_and_history(user)  
+	way.delete_with_relations_and_nodes_and_history(changeset_id.to_i)
 
 	[0, way_id]
   end
@@ -596,6 +636,9 @@ class AmfController < ApplicationController
   def sendresponse(results)
 	a,b=results.length.divmod(256)
 	render :content_type => "application/x-amf", :text => proc { |response, output| 
+	  # ** move amf writing loop into here - 
+	  # basically we read the messages in first (into an array of some sort),
+	  # then iterate through that array within here, and do all the AMF writing
 	  output.write 0.chr+0.chr+0.chr+0.chr+a.chr+b.chr
 	  results.each do |k,v|
 		output.write(v)
@@ -607,9 +650,9 @@ class AmfController < ApplicationController
   # ====================================================================
   # Alternative SQL queries for getway/whichways
 
-  def sql_find_way_ids_in_area(xmin,ymin,xmax,ymax)
+  def sql_find_ways_in_area(xmin,ymin,xmax,ymax)
 	sql=<<-EOF
-  SELECT DISTINCT current_way_nodes.id AS wayid
+  SELECT DISTINCT current_ways.id AS wayid,current_ways.version AS version
 		FROM current_way_nodes
   INNER JOIN current_nodes ON current_nodes.id=current_way_nodes.node_id
   INNER JOIN current_ways  ON current_ways.id =current_way_nodes.id
@@ -617,26 +660,34 @@ class AmfController < ApplicationController
 		 AND current_ways.visible=TRUE 
 		 AND #{OSM.sql_for_area(ymin, xmin, ymax, xmax, "current_nodes.")}
 	EOF
-	return ActiveRecord::Base.connection.select_all(sql).collect { |a| a['wayid'].to_i }
+	return ActiveRecord::Base.connection.select_all(sql).collect { |a| [a['wayid'].to_i,a['version'].to_i] }
   end
 	
   def sql_find_pois_in_area(xmin,ymin,xmax,ymax)
+	pois=[]
 	sql=<<-EOF
-		  SELECT current_nodes.id,current_nodes.latitude*0.0000001 AS lat,current_nodes.longitude*0.0000001 AS lon,current_nodes.tags 
+		  SELECT current_nodes.id,current_nodes.latitude*0.0000001 AS lat,current_nodes.longitude*0.0000001 AS lon,current_nodes.version 
 			FROM current_nodes 
  LEFT OUTER JOIN current_way_nodes cwn ON cwn.node_id=current_nodes.id 
 		   WHERE current_nodes.visible=TRUE
 			 AND cwn.id IS NULL
 			 AND #{OSM.sql_for_area(ymin, xmin, ymax, xmax, "current_nodes.")}
 	EOF
-	return ActiveRecord::Base.connection.select_all(sql).collect { |n| [n['id'].to_i,n['lon'].to_f,n['lat'].to_f,tagstring_to_hash(n['tags'])] }
+	ActiveRecord::Base.connection.select_all(sql).each do |row|
+	  poitags={}
+	  ActiveRecord::Base.connection.select_all("SELECT k,v FROM current_node_tags WHERE id=#{row['id']}").each do |n|
+		poitags[n['k']]=n['v']
+	  end
+	  pois << [row['id'].to_i, row['lon'].to_f, row['lat'].to_f, poitags, row['version'].to_i]
+	end
+	pois
   end
 	
   def sql_find_relations_in_area_and_ways(xmin,ymin,xmax,ymax,way_ids)
 	# ** It would be more Potlatchy to get relations for nodes within ways
 	#    during 'getway', not here
 	sql=<<-EOF
-	  SELECT DISTINCT cr.id AS relid 
+	  SELECT DISTINCT cr.id AS relid,cr.version AS version 
 		FROM current_relations cr
   INNER JOIN current_relation_members crm ON crm.id=cr.id 
   INNER JOIN current_nodes cn ON crm.member_id=cn.id AND crm.member_type='node' 
@@ -645,20 +696,20 @@ class AmfController < ApplicationController
 	unless way_ids.empty?
 	  sql+=<<-EOF
 	   UNION
-	  SELECT DISTINCT cr.id AS relid
+	  SELECT DISTINCT cr.id AS relid,cr.version AS version
 		FROM current_relations cr
   INNER JOIN current_relation_members crm ON crm.id=cr.id
 	   WHERE crm.member_type='way' 
 		 AND crm.member_id IN (#{way_ids.join(',')})
 	  EOF
 	end
-	return ActiveRecord::Base.connection.select_all(sql).collect { |a| a['relid'].to_i }.uniq
+	return ActiveRecord::Base.connection.select_all(sql).collect { |a| [a['relid'].to_i,a['version'].to_i] }
   end
 	
   def sql_get_nodes_in_way(wayid)
 	points=[]
 	sql=<<-EOF
-		SELECT latitude*0.0000001 AS lat,longitude*0.0000001 AS lon,current_nodes.id,tags 
+		SELECT latitude*0.0000001 AS lat,longitude*0.0000001 AS lon,current_nodes.id 
 		  FROM current_way_nodes,current_nodes 
 		 WHERE current_way_nodes.id=#{wayid.to_i} 
 		   AND current_way_nodes.node_id=current_nodes.id 
@@ -666,7 +717,10 @@ class AmfController < ApplicationController
 	  ORDER BY sequence_id
 	  EOF
 	ActiveRecord::Base.connection.select_all(sql).each do |row|
-	  nodetags=tagstring_to_hash(row['tags'])
+	  nodetags={}
+	  ActiveRecord::Base.connection.select_all("SELECT k,v FROM current_node_tags WHERE id=#{row['id']}").each do |n|
+		nodetags[n['k']]=n['v']
+	  end
 	  nodetags.delete('created_by')
 	  points << [row['lon'].to_f,row['lat'].to_f,row['id'].to_i,nodetags]
 	end
@@ -681,6 +735,9 @@ class AmfController < ApplicationController
 	tags
   end
 
+  def sql_get_way_version(wayid)
+    ActiveRecord::Base.connection.select_one("SELECT version FROM current_ways WHERE id=#{wayid.to_i}")
+  end
 end
 
 # Local Variables:

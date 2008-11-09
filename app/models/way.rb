@@ -291,22 +291,24 @@ class Way < ActiveRecord::Base
     end
   end
 
-  # delete a way and it's nodes that aren't part of other ways, with history
+  # delete a way and its nodes that aren't part of other ways, with history
 
   # FIXME: merge the potlatch code to delete the relations
-  def delete_with_relations_and_nodes_and_history(user)
+  #        and refactor to use delete_with_history!
+  def delete_with_relations_and_nodes_and_history(changeset_id)
     # delete the nodes not used by other ways
     self.unshared_node_ids.each do |node_id|
       n = Node.find(node_id)
-      n.user_id = user.id
+      n.changeset_id = changeset_id
       n.visible = false
       n.save_with_history!
     end
     
-    # FIXME needs more information passed in so that the changeset can be updated
-    self.user_id = user.id
-
-    self.delete_with_history(user)
+    self.changeset_id = changeset_id
+    self.tags = []
+    self.nds = []
+    self.visible = false
+    self.save_with_history!
   end
 
   # Find nodes that belong to this way only
