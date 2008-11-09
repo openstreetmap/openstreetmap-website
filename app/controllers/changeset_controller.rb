@@ -4,7 +4,7 @@ class ChangesetController < ApplicationController
   require 'xml/libxml'
   require 'diff_reader'
 
-  before_filter :authorize, :only => [:create, :update, :delete, :upload, :include]
+  before_filter :authorize, :only => [:create, :update, :delete, :upload, :include, :close]
   before_filter :check_write_availability, :only => [:create, :update, :delete, :upload, :include]
   before_filter :check_read_availability, :except => [:create, :update, :delete, :upload, :download, :query]
   after_filter :compress_output
