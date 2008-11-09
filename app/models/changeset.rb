@@ -145,6 +145,7 @@ class Changeset < ActiveRecord::Base
     end
 
     el1['user'] = user_display_name_cache[self.user_id] unless user_display_name_cache[self.user_id].nil?
+    el1['uid'] = self.user_id.to_s if self.user.data_public?
 
     self.tags.each do |k,v|
       el2 = XML::Node.new('tag')
