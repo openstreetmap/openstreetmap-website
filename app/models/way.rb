@@ -113,7 +113,7 @@ class Way < ActiveRecord::Base
         end
       else
         # otherwise, manually go to the db to check things
-        if nd.node.visible? and nd.node.visible?
+        if nd.node and nd.node.visible?
           ordered_nodes[nd.sequence_id] = nd.node_id.to_s
         end
       end
