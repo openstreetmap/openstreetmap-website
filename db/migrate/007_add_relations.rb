@@ -11,7 +11,7 @@ class AddRelations < ActiveRecord::Migration
       t.column "member_role", :string
     end
     # enums work like strings but are more efficient
-    execute "alter table current_relation_members change column member_type member_type enum('node','way','relation');"
+    alter_column_nwr_enum :current_relation_members, :member_type
 
     add_primary_key "current_relation_members", ["id", "member_type", "member_id", "member_role"]
     add_index "current_relation_members", ["member_type", "member_id"], :name => "current_relation_members_member_idx"
@@ -41,7 +41,7 @@ class AddRelations < ActiveRecord::Migration
       t.column "version",     :bigint,  :limit => 20, :default => 0, :null => false
     end
 
-    execute "alter table relation_members change column member_type member_type enum('node','way','relation');" 
+    alter_column_nwr_enum :relation_members, :member_type 
     add_primary_key "relation_members", ["id", "version", "member_type", "member_id", "member_role"]
     add_index "relation_members", ["member_type", "member_id"], :name => "relation_members_member_idx"
 

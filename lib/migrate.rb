@@ -85,6 +85,10 @@ module ActiveRecord
       def add_fulltext_index (table_name, column)
         execute "CREATE FULLTEXT INDEX `#{table_name}_#{column}_idx` ON `#{table_name}` (`#{column}`)"
       end
+
+      def alter_column_nwr_enum (table_name, column)
+        execute "alter table #{table_name} change column #{column} #{column} enum('node','way','relation');"
+      end
     end
   end
 end
