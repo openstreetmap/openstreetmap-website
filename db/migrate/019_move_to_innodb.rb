@@ -6,8 +6,8 @@ class MoveToInnodb < ActiveRecord::Migration
   @@ver_tbl = ['nodes', 'ways', 'relations']
 
   def self.up
-    execute 'DROP INDEX current_way_tags_v_idx ON current_way_tags'
-    execute 'DROP INDEX current_relation_tags_v_idx ON current_relation_tags'
+    remove_index :current_way_tags, :name=> :current_way_tags_v_idx
+    remove_index :current_relation_tags, :name=> :current_relation_tags_v_idx
 
     @@ver_tbl.each { |tbl|
       change_column tbl, "version", :bigint, :limit => 20, :null => false
