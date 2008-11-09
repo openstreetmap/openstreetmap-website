@@ -25,12 +25,12 @@ $ mysql -u <uid> -p
 > flush privileges;
 > exit
 
-Creating functions
-====================
+Creating functions For MySQL
+==============================
 
 Run this command in the db/functions directory:
 
-$ make
+$ make libmyosm.so
 
 Make sure the db/functions directory is on the MySQL server's library
 path and restart the MySQL server. 
@@ -48,6 +48,22 @@ $ mysql -u <uid> -p openstreetmap
 > create function tile_for_point returns integer soname 'libmyosm.so';
 > create function maptile_for_point returns integer soname 'libmyosm.so';
 > exit
+
+Creating functions for PgSQL
+==============================
+
+Run this command in the db/functions directory:
+
+$ make libmyosm.so
+
+Now create the function as follows:
+
+$ psql openstreetmap
+(This may need authentication or a -u <dbowneruid>)
+
+> CREATE FUNCTION maptile_for_point(int8, int8, int4) RETURNS int4 
+  AS '/path/to/rails-port/db/functions/libpgosm', 'maptile_for_point'
+  LANGUAGE C STRICT;
 
 Creating database skeleton tables
 ===================================
