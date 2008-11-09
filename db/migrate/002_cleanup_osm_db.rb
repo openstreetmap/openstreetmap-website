@@ -39,7 +39,9 @@ class CleanupOsmDb < ActiveRecord::Migration
     add_index "friends", ["user_id"], :name => "friends_user_id_idx"
 
     remove_index "gps_points", :name => "points_uid_idx"
+    remove_index "gps_points", :name => "points_idx"
     remove_column "gps_points", "user_id"
+    add_index "gps_points", ["latitude", "longitude"], :name => "points_idx"
     change_column "gps_points", "trackid", :integer, :null => false
     change_column "gps_points", "latitude", :integer, :null => false
     change_column "gps_points", "longitude", :integer, :null => false

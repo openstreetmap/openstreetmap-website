@@ -33,6 +33,8 @@ class TileNodes < ActiveRecord::Migration
   end
 
   def self.up
+    remove_index "current_nodes", :name => "current_nodes_timestamp_idx"
+
     rename_table "current_nodes", "current_nodes_v5"
 
     create_table "current_nodes", innodb_table do |t|
@@ -49,12 +51,14 @@ class TileNodes < ActiveRecord::Migration
     add_index "current_nodes", ["timestamp"], :name => "current_nodes_timestamp_idx"
     add_index "current_nodes", ["tile"], :name => "current_nodes_tile_idx"
 
-    change_column "current_nodes", "tile", :integer, :null => false, :unsigned => true
+    change_column "current_nodes", "tile", :four_byte_unsigned
 
     upgrade_table "current_nodes_v5", "current_nodes", Node
     
     drop_table "current_nodes_v5"
 
+    remove_index "nodes", :name=> "nodes_uid_idx"
+    remove_index "nodes", :name=> "nodes_timestamp_idx"
     rename_table "nodes", "nodes_v5"
 
     create_table "nodes", myisam_table do |t|
@@ -72,7 +76,7 @@ class TileNodes < ActiveRecord::Migration
     add_index "nodes", ["timestamp"], :name => "nodes_timestamp_idx"
     add_index "nodes", ["tile"], :name => "nodes_tile_idx"
 
-    change_column "nodes", "tile", :integer, :null => false, :unsigned => true
+    change_column "nodes", "tile", :four_byte_unsigned
 
     upgrade_table "nodes_v5", "nodes", OldNode
 
