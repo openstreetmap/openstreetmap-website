@@ -99,7 +99,10 @@ class OldRelation < ActiveRecord::Base
     el1['id'] = self.id.to_s
     el1['visible'] = self.visible.to_s
     el1['timestamp'] = self.timestamp.xmlschema
-    el1['user'] = self.changeset.user.display_name if self.changeset.user.data_public?
+    if self.changeset.user.data_public?
+      el1['user'] = self.changeset.user.display_name
+      el1['uid'] = self.changeset.user.id.to_s
+    end
     el1['version'] = self.version.to_s
     el1['changeset'] = self.changeset_id.to_s
     

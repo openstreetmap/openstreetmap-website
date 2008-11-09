@@ -40,7 +40,10 @@ class OldNode < ActiveRecord::Base
     el1['lat'] = self.lat.to_s
     el1['lon'] = self.lon.to_s
     el1['changeset'] = self.changeset.id.to_s
-    el1['user'] = self.changeset.user.display_name if self.changeset.user.data_public?
+    if self.changeset.user.data_public?
+      el1['user'] = self.changeset.user.display_name
+      el1['uid'] = self.changeset.user.id.to_s
+    end
 
     self.tags.each do |k,v|
       el2 = XML::Node.new('tag')

@@ -101,7 +101,10 @@ class Way < ActiveRecord::Base
       user_display_name_cache[self.changeset.user_id] = nil
     end
 
-    el1['user'] = user_display_name_cache[self.changeset.user_id] unless user_display_name_cache[self.changeset.user_id].nil?
+    if not user_display_name_cache[self.changeset.user_id].nil?
+      el1['user'] = user_display_name_cache[self.changeset.user_id]
+      el1['uid'] = self.changeset.user_id.to_s
+    end
 
     # make sure nodes are output in sequence_id order
     ordered_nodes = []

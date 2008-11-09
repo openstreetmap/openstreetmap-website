@@ -83,7 +83,10 @@ class Relation < ActiveRecord::Base
       user_display_name_cache[self.changeset.user_id] = nil
     end
 
-    el1['user'] = user_display_name_cache[self.changeset.user_id] unless user_display_name_cache[self.changeset.user_id].nil?
+    if not user_display_name_cache[self.changeset.user_id].nil?
+      el1['user'] = user_display_name_cache[self.changeset.user_id]
+      el1['uid'] = self.changeset.user_id.to_s
+    end
 
     self.relation_members.each do |member|
       p=0
