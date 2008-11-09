@@ -79,6 +79,7 @@ class DiffReader
     ids = { :node => node_ids, :way => way_ids, :relation => rel_ids}
 
     result = OSM::API.new.get_xml_doc
+    result.root.name = "diffResult"
 
     # loop at the top level, within the <osmChange> element (although we
     # don't actually check this...)
