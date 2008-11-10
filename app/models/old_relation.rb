@@ -36,14 +36,12 @@ class OldRelation < ActiveRecord::Base
       tag.save!
     end
 
-    i = 1
-    self.members.each do |m|
+    self.members.each_with_index do |m,i|
       member = OldRelationMember.new
-      member.id = self.id
+      member.id = [self.id, self.version, i]
       member.member_type = m[0]
       member.member_id = m[1]
       member.member_role = m[2]
-      member.version = self.version
       member.save!
     end
   end
@@ -51,7 +49,7 @@ class OldRelation < ActiveRecord::Base
   def members
     unless @members
         @members = Array.new
-        OldRelationMember.find(:all, :conditions => ["id = ? AND version = ?", self.id, self.version]).each do |m|
+        OldRelationMember.find(:all, :conditions => ["id = ? AND version = ?", self.id, self.version], :order => "sequence_id").each do |m|
             @members += [[m.type,m.id,m.role]]
         end
     end

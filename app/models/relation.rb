@@ -9,7 +9,7 @@ class Relation < ActiveRecord::Base
 
   has_many :old_relations, :foreign_key => 'id', :order => 'version'
 
-  has_many :relation_members, :foreign_key => 'id'
+  has_many :relation_members, :foreign_key => 'id', :order => 'sequence_id'
   has_many :relation_tags, :foreign_key => 'id'
 
   has_many :containing_relation_members, :class_name => "RelationMember", :as => :member
@@ -243,33 +243,33 @@ class Relation < ActiveRecord::Base
       # changed members in an array, as the bounding box updates for
       # elements are per-element, not blanked on/off like for tags.
       changed_members = Array.new
-      members = self.members_as_hash
+      members = Hash.new
+      self.members.each do |m|
+        # should be: h[[m.id, m.type]] = m.role, but someone prefers arrays
+        members[[m[1], m[0]]] = m[2]
+      end
       relation_members.each do |old_member|
         key = [old_member.member_id.to_s, old_member.member_type]
         if members.has_key? key
-          # i'd love to rely on rails' dirty handling here, but the 
-          # relation members are always dirty because of the member_class
-          # handling.
-          if members[key] != old_member.member_role
-            old_member.member_role = members[key]
-            changed_members << key
-            old_member.save!
-          end
           members.delete key
-
         else
           changed_members << key
-          RelationMember.delete_all ['id = ? and member_id = ? and member_type = ?', self.id, old_member.member_id, old_member.member_type]
         end
       end
       # any remaining members must be new additions
       changed_members += members.keys
-      members.each do |k,v|
+
+      # update the members. first delete all the old members, as the new
+      # members may be in a different order and i don't feel like implementing
+      # a longest common subsequence algorithm to optimise this.
+      members = self.members
+      RelationMember.delete_all(:id => self.id)
+      members.each_with_index do |m,i|
         mem = RelationMember.new
-        mem.id = self.id
-        mem.member_type = k[1];
-        mem.member_id = k[0];
-        mem.member_role = v;
+        mem.id = [self.id, i]
+        mem.member_type = m[0]
+        mem.member_id = m[1]
+        mem.member_role = m[2]
         mem.save!
       end
 
@@ -364,65 +364,35 @@ class Relation < ActiveRecord::Base
   def preconditions_ok?
     # These are hastables that store an id in the index of all 
     # the nodes/way/relations that have already been added.
-    # Once we know the id of the node/way/relation exists
-    # we check to see if it is already existing in the hashtable
-    # if it does, then we return false. Otherwise
-    # we add it to the relevant hash table, with the value true..
+    # If the member is valid and visible then we add it to the 
+    # relevant hash table, with the value true as a cache.
     # Thus if you have nodes with the ids of 50 and 1 already in the
     # relation, then the hash table nodes would contain:
     # => {50=>true, 1=>true}
-    nodes = Hash.new
-    ways = Hash.new
-    relations = Hash.new
+    elements = { :node => Hash.new, :way => Hash.new, :relation => Hash.new }
     self.members.each do |m|
-      if (m[0] == "node")
-        n = Node.find(:first, :conditions => ["id = ?", m[1]])
-        unless n and n.visible 
+      # find the hash for the element type or die
+      hash = elements[m[0].to_sym] or return false
+
+      # unless its in the cache already
+      unless hash.key? m[1]
+        # use reflection to look up the appropriate class
+        model = Kernel.const_get(m[0].capitalize)
+
+        # get the element with that ID
+        element = model.find(m[1])
+
+        # and check that it is OK to use.
+        unless element and element.visible? and element.preconditions_ok?
           return false
         end
-        if nodes[m[1]]
-          return false
-        else
-          nodes[m[1]] = true
-        end
-      elsif (m[0] == "way")
-        w = Way.find(:first, :conditions => ["id = ?", m[1]])
-        unless w and w.visible and w.preconditions_ok?
-          return false
-        end
-        if ways[m[1]]
-          return false
-        else
-          ways[m[1]] = true
-        end
-      elsif (m[0] == "relation")
-        e = Relation.find(:first, :conditions => ["id = ?", m[1]])
-        unless e and e.visible and e.preconditions_ok?
-          return false
-        end
-        if relations[m[1]]
-          return false
-        else
-          relations[m[1]] = true
-        end
-      else
-        return false
+        hash[m[1]] = true
       end
     end
+
     return true
   rescue
     return false
-  end
-
-  ##
-  # members in a hash table [id,type] => role
-  def members_as_hash
-    h = Hash.new
-    members.each do |m|
-      # should be: h[[m.id, m.type]] = m.role, but someone prefers arrays
-      h[[m[1], m[0]]] = m[2]
-    end
-    return h
   end
 
   # Temporary method to match interface to nodes

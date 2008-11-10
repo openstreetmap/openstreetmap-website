@@ -268,6 +268,13 @@ class Node < ActiveRecord::Base
   end
 
   ##
+  # are the preconditions OK? this is mainly here to keep the duck
+  # typing interface the same between nodes, ways and relations.
+  def preconditions_ok?
+    in_world?
+  end
+
+  ##
   # dummy method to make the interfaces of node, way and relation
   # more consistent.
   def fix_placeholders!(id_map)

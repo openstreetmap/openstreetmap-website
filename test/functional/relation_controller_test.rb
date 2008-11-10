@@ -336,6 +336,106 @@ class RelationControllerTest < ActionController::TestCase
   end
   
   ##
+  # check that relations are ordered
+  def test_relation_member_ordering
+    basic_authorization("test@openstreetmap.org", "test");  
+
+    doc_str = <<OSM
+<osm>
+ <relation changeset='1'>
+  <member ref='1' type='node' role='first'/>
+  <member ref='3' type='node' role='second'/>
+  <member ref='1' type='way' role='third'/>
+  <member ref='3' type='way' role='fourth'/>
+ </relation>
+</osm>
+OSM
+    doc = XML::Parser.string(doc_str).parse
+
+    content doc
+    put :create
+    assert_response :success, "can't create a relation: #{@response.body}"
+    relation_id = @response.body.to_i
+
+    # get it back and check the ordering
+    get :read, :id => relation_id
+    assert_response :success, "can't read back the relation: #{@response.body}"
+    check_ordering(doc, @response.body)
+
+    # insert a member at the front
+    new_member = XML::Node.new "member"
+    new_member['ref'] = 5.to_s
+    new_member['type'] = 'node'
+    new_member['role'] = 'new first'
+    doc.find("//osm/relation").first.child.prev = new_member
+    # update the version, should be 1?
+    doc.find("//osm/relation").first['id'] = relation_id.to_s
+    doc.find("//osm/relation").first['version'] = 1.to_s
+
+    # upload the next version of the relation
+    content doc
+    put :update, :id => relation_id
+    assert_response :success, "can't update relation: #{@response.body}"
+    new_version = @response.body.to_i
+
+    # get it back again and check the ordering again
+    get :read, :id => relation_id
+    assert_response :success, "can't read back the relation: #{@response.body}"
+    check_ordering(doc, @response.body)
+  end
+
+  ## 
+  # check that relations can contain duplicate members
+  def test_relation_member_duplicates
+    basic_authorization("test@openstreetmap.org", "test");  
+
+    doc_str = <<OSM
+<osm>
+ <relation changeset='1'>
+  <member ref='1' type='node' role='forward'/>
+  <member ref='3' type='node' role='forward'/>
+  <member ref='1' type='node' role='forward'/>
+  <member ref='3' type='node' role='forward'/>
+ </relation>
+</osm>
+OSM
+    doc = XML::Parser.string(doc_str).parse
+
+    content doc
+    put :create
+    assert_response :success, "can't create a relation: #{@response.body}"
+    relation_id = @response.body.to_i
+
+    # get it back and check the ordering
+    get :read, :id => relation_id
+    assert_response :success, "can't read back the relation: #{@response.body}"
+    check_ordering(doc, @response.body)
+  end
+
+  # ============================================================
+  # utility functions
+  # ============================================================
+
+  ##
+  # checks that the XML document and the string arguments have
+  # members in the same order.
+  def check_ordering(doc, xml)
+    new_doc = XML::Parser.string(xml).parse
+
+    doc_members = doc.find("//osm/relation/member").collect do |m|
+      [m['ref'].to_i, m['type'].to_sym, m['role']]
+    end
+
+    new_members = new_doc.find("//osm/relation/member").collect do |m|
+      [m['ref'].to_i, m['type'].to_sym, m['role']]
+    end
+
+    doc_members.zip(new_members).each do |d, n|
+      assert_equal d, n, "members are not equal - ordering is wrong? (#{doc}, #{xml})"
+    end
+  end
+
+  ##
   # create a changeset and yield to the caller to set it up, then assert
   # that the changeset bounding box is +bbox+.
   def check_changeset_modify(bbox)
