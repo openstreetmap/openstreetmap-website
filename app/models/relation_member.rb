@@ -10,7 +10,7 @@ class RelationMember < ActiveRecord::Base
   end
 
   def after_initialize
-    self[:member_class] = self.member_type.capitalize
+      self[:member_class] = self.member_type.capitalize if !self.member_type.nil?
   end
 
   def before_save
