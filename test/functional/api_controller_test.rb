@@ -45,7 +45,7 @@ class ApiControllerTest < ActionController::TestCase
       assert_select "bounds[minlon=#{minlon}][minlat=#{minlat}][maxlon=#{maxlon}][maxlat=#{maxlat}]", :count => 1
       assert_select "node[id=#{node.id}][lat=#{node.lat}][lon=#{node.lon}][version=#{node.version}][changeset=#{node.changeset_id}][visible=#{node.visible}][timestamp=#{node.timestamp.xmlschema}]", :count => 1 do
         # This should really be more generic
-        assert_select "tag[k=test][v=1]"
+        assert_select "tag[k='test'][v='yes']"
       end
       # Should also test for the ways and relation
     end
