@@ -15,6 +15,13 @@ class DiaryEntryControllerTest < ActionController::TestCase
     get :new
     assert_response 302
     assert_redirected_to :controller => :user, :action => "login", :referer => "/diary_entry/new"
+    # Now pretend to login by using the session hash, with the 
+    # id of the person we want to login as through session(:user)=user.id
+    
+    #
+    get(:new, nil, {'user' => users(:normal_user).id})
+    assert_response :success
+    
     # can't really redirect to the 
     #follow_redirect
     # Now login
