@@ -38,7 +38,9 @@ module ActiveRecord
     end
 
     class MysqlAdapter
-      alias_method :old_native_database_types, :native_database_types
+      if MysqlAdapter.public_instance_methods(false).include?('native_database_types')
+        alias_method :old_native_database_types, :native_database_types
+      end
 
       def native_database_types
         types = old_native_database_types
@@ -78,7 +80,7 @@ module ActiveRecord
       def innodb_option
         return "ENGINE=InnoDB"
       end
- 
+
       def change_engine (table_name, engine)
         execute "ALTER TABLE #{table_name} ENGINE = #{engine}"
       end
@@ -89,6 +91,60 @@ module ActiveRecord
 
       def alter_column_nwr_enum (table_name, column)
         execute "alter table #{table_name} change column #{column} #{column} enum('node','way','relation');"
+      end
+
+      def alter_primary_key(table_name, new_columns)
+        execute("alter table #{table_name} drop primary key, add primary key (#{new_columns.join(',')})")
+      end
+    end
+
+    class PostgreSQLAdapter
+      if PostgreSQLAdapter.public_instance_methods(false).include?('native_database_types')
+        alias_method :old_native_database_types, :native_database_types
+      end
+
+      def native_database_types
+        types = old_native_database_types
+        types[:double] = { :name => "double precision" }
+        types[:bigint_pk] = { :name => "bigserial PRIMARY KEY" }
+        types[:bigint_pk_64] = { :name => "bigserial PRIMARY KEY" }
+        types[:bigint_auto_64] = { :name => "bigint" } #fixme: need autoincrement?
+        types[:bigint_auto_11] = { :name => "bigint" } #fixme: need autoincrement?
+        types[:bigint_auto_20] = { :name => "bigint" } #fixme: need autoincrement?
+        types[:four_byte_unsigned] = { :name => "bigint" } # meh
+        types
+      end
+
+      def myisam_table
+        return { :id => false, :force => true, :options => ""}
+      end
+
+      def innodb_table
+        return { :id => false, :force => true, :options => ""}
+      end
+
+      def innodb_option
+        return ""
+      end
+ 
+      def change_engine (table_name, engine)
+      end
+
+      def add_fulltext_index (table_name, column)
+        execute "CREATE INDEX #{table_name}_#{column}_idx on #{table_name} (#{column})"
+      end
+
+      def alter_column_nwr_enum (table_name, column)
+        response = select_one("select count(*) as count from pg_type where typname = 'nwr_enum'")
+        if response['count'] == "0" #yep, as a string
+          execute "create type nwr_enum as ENUM ('node', 'way', 'relation')"
+        end
+        execute	"alter table #{table_name} drop #{column}"
+        execute "alter table #{table_name} add #{column} nwr_enum"
+      end
+
+      def alter_primary_key(table_name, new_columns)
+        execute "alter table #{table_name} drop constraint #{table_name}_pkey; alter table #{table_name} add primary key (#{new_columns.join(',')})"
       end
     end
   end
