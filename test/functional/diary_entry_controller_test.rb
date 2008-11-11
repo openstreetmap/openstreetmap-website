@@ -17,28 +17,20 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_redirected_to :controller => :user, :action => "login", :referer => "/diary_entry/new"
     # Now pretend to login by using the session hash, with the 
     # id of the person we want to login as through session(:user)=user.id
-    
-    #
     get(:new, nil, {'user' => users(:normal_user).id})
     assert_response :success
-    
-    # can't really redirect to the 
-    #follow_redirect
-    # Now login
-    #post  :login, :user_email => "test@openstreetmap.org", :user_password => "test"
-    
-    #get :controller => :users, :action => :new
-    #assert_response :success
+    #print @response.body
+        
     #print @response.to_yaml
-    #assert_select "html" do
-    #  assert_select "body" do
-    #    assert_select "div#content" do
-    #      assert_select "form" do
-    #        assert_select "input[id=diary_entry_title]"
-    #      end
-    #    end
-    #  end
-    #end
+    assert_select "html" do
+      assert_select "body" do
+        assert_select "div#content" do
+          assert_select "form" do
+            assert_select "input[id=diary_entry_title]"
+          end
+        end
+      end
+    end
         
   end
   
