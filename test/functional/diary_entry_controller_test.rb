@@ -1,5 +1,4 @@
 require File.dirname(__FILE__) + '/../test_helper'
-require 'app/controllers/user_controller.rb'
 
 class DiaryEntryControllerTest < ActionController::TestCase
   fixtures :users, :diary_entries, :diary_comments
@@ -20,13 +19,15 @@ class DiaryEntryControllerTest < ActionController::TestCase
     get(:new, nil, {'user' => users(:normal_user).id})
     assert_response :success
     #print @response.body
-        
+    
     #print @response.to_yaml
-    assert_select "html" do
+    assert_select "html:root", :count => 1 do
       assert_select "body" do
         assert_select "div#content" do
-          assert_select "form" do
-            assert_select "input[id=diary_entry_title]"
+          assert_select "h1", "New diary entry" 
+          assert_select "form[action='/diary_entry/new']" do
+            assert_select "input[id=diary_entry_title][name='diary_entry[title]']"
+            assert_select "textarea#diary_entry_body[name='diary_entry[body]']"
           end
         end
       end

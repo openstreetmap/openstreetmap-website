@@ -29,15 +29,22 @@ class UserDiariesTest < ActionController::IntegrationTest
     #print @response.body
     #print @html_document.to_yaml
 
+    # We will make sure that the form exists here, full 
+    # assert testing of the full form should be done in the
+    # functional tests rather than this integration test
+    # There are some things that are specific to the integratio
+    # that need to be tested, which can't be tested in the functional tests
     assert_select "html:root" do
       assert_select "body" do
         assert_select "div#content" do
           assert_select "h1", "New diary entry" 
-          assert_select "form" do
+          assert_select "form[action='/user/#{users(:normal_user).display_name}/diary/new']" do
             assert_select "input[id=diary_entry_title]"
           end
         end
       end
     end
+    
+    
   end
 end
