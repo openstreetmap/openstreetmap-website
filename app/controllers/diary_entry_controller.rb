@@ -38,6 +38,8 @@ class DiaryEntryController < ApplicationController
         redirect_to :controller => 'diary_entry', :action => 'view', :id => params[:id]
       end
     end
+  rescue ActiveRecord::RecordNotFound
+    render :action => "no_such_entry", :status => :not_found
   end
 
   def comment
