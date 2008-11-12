@@ -84,7 +84,7 @@ class NodeController < ApplicationController
     end
   end
 
-  # WTF does this do?
+  # Dump the details on many nodes whose ids are given in the "nodes" parameter.
   def nodes
     ids = params['nodes'].split(',').collect { |n| n.to_i }
 
