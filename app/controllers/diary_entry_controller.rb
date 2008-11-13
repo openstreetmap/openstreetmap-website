@@ -86,7 +86,7 @@ class DiaryEntryController < ApplicationController
         @entries = DiaryEntry.find(:all, :conditions => ['user_id = ?', user.id], :order => 'created_at DESC', :limit => 20)
         @title = "OpenStreetMap diary entries for #{user.display_name}"
         @description = "Recent OpenStreetmap diary entries from #{user.display_name}"
-        @link = "http://www.openstreetmap.org/user/#{user.display_name}/diary"
+        @link = "http://#{SERVER_URL}/user/#{user.display_name}/diary"
 
         render :content_type => Mime::RSS
       else
@@ -98,7 +98,7 @@ class DiaryEntryController < ApplicationController
                                  :order => 'created_at DESC', :limit => 20)
       @title = "OpenStreetMap diary entries"
       @description = "Recent diary entries from users of OpenStreetMap"
-      @link = "http://www.openstreetmap.org/diary"
+      @link = "http://#{SERVER_URL}/diary"
 
       render :content_type => Mime::RSS
     end
@@ -109,6 +109,7 @@ class DiaryEntryController < ApplicationController
 
     if user
       @entry = DiaryEntry.find(:first, :conditions => ['user_id = ? AND id = ?', user.id, params[:id]])
+      @title = "Users' diaries | #{params[:display_name]}"
     else
       @not_found_user = params[:display_name]
 
