@@ -14,6 +14,12 @@
 # from the AMF message), each method generally takes arguments in the order 
 # they were sent by the Potlatch SWF. Do not assume typing has been preserved. 
 # Methods all return an array to the SWF.
+#
+# == API 0.6
+#
+# Note that this requires a patched version of composite_primary_keys 1.1.0
+# (see http://groups.google.com/group/compositekeys/t/a00e7562b677e193) 
+# if you are to run with POTLATCH_USE_SQL=false .
 # 
 # == Debugging
 # 
@@ -72,6 +78,7 @@ class AmfController < ApplicationController
 		when 'getway_old';			results[index]=AMF.putdata(index,getway_old(args[0].to_i,args[1].to_i))
 		when 'getway_history';		results[index]=AMF.putdata(index,getway_history(args[0].to_i))
 		when 'getnode_history';		results[index]=AMF.putdata(index,getnode_history(args[0].to_i))
+		when 'findgpx';				results[index]=AMF.putdata(index,findgpx(*args))
 		when 'findrelations';		results[index]=AMF.putdata(index,findrelations(*args))
 		when 'getpoi';				results[index]=AMF.putdata(index,getpoi(*args))
 	  end
@@ -159,19 +166,20 @@ class AmfController < ApplicationController
     begin
       check_boundaries(xmin, ymin, xmax, ymax)
     rescue Exception => err
-      # FIXME: report an error rather than just return an empty result
-      return [[],[],[]]
+      return [-2,"Sorry - I can't get the map for that area."]
     end
 
 	if POTLATCH_USE_SQL then
 	  ways = sql_find_ways_in_area(xmin, ymin, xmax, ymax)
 	  points = sql_find_pois_in_area(xmin, ymin, xmax, ymax)
-	  relation_ids = sql_find_relations_in_area_and_ways(xmin, ymin, xmax, ymax, ways.collect {|x| x[0]})
+	  relations = sql_find_relations_in_area_and_ways(xmin, ymin, xmax, ymax, ways.collect {|x| x[0]})
 	else
 	  # find the way ids in an area
-	  nodes_in_area = Node.find_by_area(ymin, xmin, ymax, xmax, :conditions => ["current_nodes.visible = ?", true], :include => :ways)  # ** include causes problems
-	  way_ids = nodes_in_area.collect { |node| node.way_ids }.flatten.uniq
-	  # ** get versions
+	  nodes_in_area = Node.find_by_area(ymin, xmin, ymax, xmax, :conditions => ["current_nodes.visible = ?", true], :include => :ways)
+	  ways = nodes_in_area.collect { |node| 
+		node.ways.collect { |w| [w.id,w.version] }.flatten
+	  }.uniq
+	  ways.delete([])
 
 	  # find the node ids in an area that aren't part of ways
 	  nodes_not_used_in_area = nodes_in_area.select { |node| node.ways.empty? }
@@ -179,11 +187,11 @@ class AmfController < ApplicationController
 
 	  # find the relations used by those nodes and ways
 	  relations = Relation.find_for_nodes(nodes_in_area.collect { |n| n.id }, :conditions => {:visible => true}) +
-                  Relation.find_for_ways(way_ids, :conditions => {:visible => true})
-	  relation_ids = relations.collect { |relation| relation.id }.uniq
+                  Relation.find_for_ways(ways.collect { |w| w[0] }, :conditions => {:visible => true})
+	  relations = relations.collect { |relation| [relation.id,relation.version] }.uniq
 	end
 
-	[ways, points, relation_ids]
+	[0,ways, points, relations]
   end
 
   # Find deleted ways in current bounding box (similar to whichways, but ways
@@ -308,6 +316,27 @@ class AmfController < ApplicationController
     rescue ActiveRecord::RecordNotFound
       return ['node', nodeid, []]
     end
+  end
+
+  # Find GPS traces with specified name/id.
+  # Returns array listing GPXs, each one comprising id, name and description.
+  
+  def findgpx(searchterm, usertoken)
+	uid = getuserid(usertoken)
+	if !uid then return -1,"You must be logged in to search for GPX traces." end
+
+	gpxs = []
+	if searchterm.to_i>0 then
+	  gpx = Trace.find(searchterm.to_i, :conditions => ["visible=? AND (public=? OR user_id=?)",true,true,uid] )
+	  if gpx then
+	    gpxs.push([gpx.id, gpx.name, gpx.description])
+	  end
+	else
+	  Trace.find(:all, :limit => 21, :conditions => ["visible=? AND (public=? OR user_id=?) AND MATCH(name) AGAINST (?)",true,true,uid,searchterm] ).each do |gpx|
+		gpxs.push([gpx.id, gpx.name, gpx.description])
+	  end
+	end
+	gpxs
   end
 
   # Get a relation with all tags and members.
@@ -613,10 +642,10 @@ class AmfController < ApplicationController
   end
 
   # Authenticate token
-  # (could be removed if no-one uses the username+password form)
+  # (can also be of form user:pass)
 
   def getuserid(token) #:doc:
-	if (token =~ /^(.+)\+(.+)$/) then
+	if (token =~ /^(.+)\:(.+)$/) then
 	  user = User.authenticate(:username => $1, :password => $2)
 	else
 	  user = User.authenticate(:token => token)
