@@ -135,6 +135,14 @@ class AmfController < ApplicationController
 
 	# close previous changeset and add comment
 	if closeid
+	  cs = Changeset.find(closeid)
+	  cs.open = false
+	  if closecomment.empty?
+		cs.save!
+	  else
+	    cs.tags['comment']=closecomment
+	    cs.save_with_tags!
+	  end
 	end
 	
 	# open a new changeset
@@ -206,14 +214,13 @@ class AmfController < ApplicationController
     begin
       check_boundaries(xmin, ymin, xmax, ymax)
     rescue Exception => err
-      # FIXME: report an error rather than just return an empty result
-      return [[]]
+      return [-2,"Sorry - I can't get the map for that area."]
     end
 
 	nodes_in_area = Node.find_by_area(ymin, xmin, ymax, xmax, :conditions => ["current_ways.visible = ?", false], :include => :ways_via_history)
 	way_ids = nodes_in_area.collect { |node| node.ways_via_history_ids }.flatten.uniq
 
-	[way_ids]
+	[0,way_ids]
   end
 
   # Get a way including nodes and tags.
