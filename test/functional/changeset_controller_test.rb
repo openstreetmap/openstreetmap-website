@@ -64,6 +64,7 @@ class ChangesetControllerTest < ActionController::TestCase
 
     put :close, :id => changesets(:normal_user_first_change).id
     assert_response :conflict
+    assert_equal "The user doesn't own that changeset", @response.body
   end
 
   ##
@@ -636,8 +637,8 @@ EOF
     changeset = changesets(:normal_user_first_change)
     new_changeset = changeset.to_xml
     new_tag = XML::Node.new "tag"
-    new_tag['k'] = "testing"
-    new_tag['v'] = "testing"
+    new_tag['k'] = "tagtesting"
+    new_tag['v'] = "valuetesting"
     new_changeset.find("//osm/changeset").first << new_tag
 
     content new_changeset
@@ -646,7 +647,7 @@ EOF
 
     assert_select "osm>changeset[id=#{changeset.id}]", 1
     assert_select "osm>changeset>tag", 2
-    assert_select "osm>changeset>tag[k=testing][v=testing]", 1
+    assert_select "osm>changeset>tag[k=tagtesting][v=valuetesting]", 1
   end
   
   ##
