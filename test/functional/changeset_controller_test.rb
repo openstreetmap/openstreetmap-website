@@ -592,8 +592,8 @@ EOF
   end
 
   ##
-  # check searching for changesets by bbox
-  def test_changeset_by_bbox
+  # test the query functionality of changesets
+  def test_query
     get :query, :bbox => "-10,-10, 10, 10"
     assert_response :success, "can't get changesets in bbox"
     assert_changesets [1,4]
@@ -627,6 +627,38 @@ EOF
     get :query, :time => '2007-12-31T23:59Z,2008-01-01T00:01Z'
     assert_response :success, "can't get changesets by time-range"
     assert_changesets [4,5]
+  end
+
+  ##
+  # check that errors are returned if garbage is inserted 
+  # into query strings
+  def test_query_invalid
+    [ "abracadabra!",
+      "1,2,3,F",
+      ";drop table users;"
+      ].each do |bbox|
+      get :query, :bbox => bbox
+      assert_response :bad_request, "'#{bbox}' isn't a bbox"
+    end
+
+    [ "now()",
+      "00-00-00",
+      ";drop table users;",
+      ",",
+      "-,-"
+      ].each do |time|
+      get :query, :time => time
+      assert_response :bad_request, "'#{time}' isn't a valid time range"
+    end
+
+    [ "me",
+      "foobar",
+      "-1",
+      "0"
+      ].each do |uid|
+      get :query, :user => uid
+      assert_response :bad_request, "'#{uid}' isn't a valid user ID"
+    end
   end
 
   ##

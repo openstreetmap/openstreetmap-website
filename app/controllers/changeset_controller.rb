@@ -257,8 +257,6 @@ class ChangesetController < ApplicationController
     render :nothing => true, :status => :not_found
   rescue OSM::APIError => ex
     render ex.render_opts
-  rescue String => s
-    render :text => s, :content_type => "text/plain", :status => :bad_request
   end
   
   ##
@@ -317,10 +315,10 @@ class ChangesetController < ApplicationController
   # area restriction.
   def conditions_bbox(bbox)
     unless bbox.nil?
-      raise "Bounding box should be min_lon,min_lat,max_lon,max_lat" unless bbox.count(',') == 3
+      raise OSM::APIBadUserInput.new("Bounding box should be min_lon,min_lat,max_lon,max_lat") unless bbox.count(',') == 3
       bbox = sanitise_boundaries(bbox.split(/,/))
-      raise "Minimum longitude should be less than maximum." unless bbox[0] <= bbox[2]
-      raise "Minimum latitude should be less than maximum." unless bbox[1] <= bbox[3]
+      raise OSM::APIBadUserInput.new("Minimum longitude should be less than maximum.") unless bbox[0] <= bbox[2]
+      raise OSM::APIBadUserInput.new("Minimum latitude should be less than maximum.") unless bbox[1] <= bbox[3]
       return ['min_lon < ? and max_lon > ? and min_lat < ? and max_lat > ?',
               bbox[2] * GeoRecord::SCALE, bbox[0] * GeoRecord::SCALE, bbox[3]* GeoRecord::SCALE, bbox[1] * GeoRecord::SCALE]
     else
@@ -332,6 +330,9 @@ class ChangesetController < ApplicationController
   # restrict changesets to those by a particular user
   def conditions_user(user)
     unless user.nil?
+      # user input checking, we don't have any UIDs < 1
+      raise OSM::APIBadUserInput.new("invalid user ID") if user.to_i < 1
+
       u = User.find(user.to_i)
       # should be able to get changesets of public users only, or 
       # our own changesets regardless of public-ness.
@@ -355,7 +356,11 @@ class ChangesetController < ApplicationController
       # if there is a range, i.e: comma separated, then the first is 
       # low, second is high - same as with bounding boxes.
       if time.count(',') == 1
-        from, to = time.split(/,/).collect { |t| DateTime.parse(t) }
+        # check that we actually have 2 elements in the array
+        times = time.split(/,/)
+        raise OSM::APIBadUserInput.new("bad time range") if times.size != 2 
+
+        from, to = times.collect { |t| DateTime.parse(t) }
         return ['created_at > ? and created_at < ?', from, to]
       else
         # if there is no comma, assume its a lower limit on time
@@ -364,8 +369,12 @@ class ChangesetController < ApplicationController
     else
       return nil
     end
+    # stupid DateTime seems to throw both of these for bad parsing, so
+    # we have to catch both and ensure the correct code path is taken.
   rescue ArgumentError => ex
-    raise ex.message.to_s
+    raise OSM::APIBadUserInput.new(ex.message.to_s)
+  rescue RuntimeError => ex
+    raise OSM::APIBadUserInput.new(ex.message.to_s)
   end
 
   ##

@@ -141,6 +141,18 @@ module OSM
     end
   end
 
+  ##
+  # raised when user input couldn't be parsed
+  class APIBadUserInput < APIError
+    def initialize(message)
+      @message = message
+    end
+
+    def render_opts
+      { :text => message, :mime_type => "text/plain", :status => :bad_request }
+    end
+  end
+
   # Helper methods for going to/from mercator and lat/lng.
   class Mercator
     include Math
