@@ -5,6 +5,10 @@ include Potlatch
 class AmfControllerTest < ActionController::TestCase
   api_fixtures
 
+  # this should be what AMF controller returns when the bbox of a request
+  # is invalid or too large.
+  BOUNDARY_ERROR = [-2,"Sorry - I can't get the map for that area."]
+
   def test_getway
     # check a visible way
     id = current_ways(:visible_way).id
@@ -51,47 +55,37 @@ class AmfControllerTest < ActionController::TestCase
 
     # check contents of message
     map = amf_result "/1"
-    assert map[0].include?(current_ways(:used_way).id)
-    assert !map[0].include?(current_ways(:invisible_way).id)
+    assert_equal 0, map[0]
+    assert_equal Array, map[1].class
+    assert map[1].include?(current_ways(:used_way).id)
+    assert !map[1].include?(current_ways(:invisible_way).id)
   end
 
+  ##
+  # checks that too-large a bounding box will not be served.
   def test_whichways_toobig
     bbox = [-0.1,-0.1,1.1,1.1]
-    amf_content "whichways", "/1", bbox
-    post :amf_read
-    assert_response :success
-    amf_parse_response 
-
-    # FIXME: whichways needs to reject large bboxes and the test needs to check for this
-    map = amf_result "/1"
-    assert map[0].empty? and map[1].empty? and map[2].empty?
-  end
-
-  def test_whichways_badlat
-    bboxes = [[0,0.1,0.1,0], [-0.1,80,0.1,70], [0.24,54.34,0.25,54.33]]
-    bboxes.each do |bbox|
-      amf_content "whichways", "/1", bbox
-      post :amf_read
-      assert_response :success
-      amf_parse_response 
-
-      # FIXME: whichways needs to reject bboxes with illegal lats and the test needs to check for this
-      map = amf_result "/1"
-      assert map[0].empty? and map[1].empty? and map[2].empty?
+    check_bboxes_are_bad [bbox] do |map|
+      assert_equal BOUNDARY_ERROR, map, "AMF controller should have returned an error."
     end
   end
 
+  ##
+  # checks that an invalid bounding box will not be served. in this case
+  # one with max < min latitudes.
+  def test_whichways_badlat
+    bboxes = [[0,0.1,0.1,0], [-0.1,80,0.1,70], [0.24,54.34,0.25,54.33]]
+    check_bboxes_are_bad bboxes do |map|
+      assert_equal BOUNDARY_ERROR, map, "AMF controller should have returned an error."
+    end
+  end
+
+  ##
+  # same as test_whichways_badlat, but for longitudes
   def test_whichways_badlon
     bboxes = [[80,-0.1,70,0.1], [54.34,0.24,54.33,0.25]]
-    bboxes.each do |bbox|
-      amf_content "whichways", "/1", bbox
-      post :amf_read
-      assert_response :success
-      amf_parse_response
-
-      # FIXME: whichways needs to reject bboxes with illegal lons and the test needs to check for this
-      map = amf_result "/1"
-      assert map[0].empty? and map[1].empty? and map[2].empty?
+    check_bboxes_are_bad bboxes do |map|
+      assert_equal BOUNDARY_ERROR, map, "AMF controller should have returned an error."
     end
   end
 
@@ -107,9 +101,11 @@ class AmfControllerTest < ActionController::TestCase
     amf_parse_response
 
     # check contents of message
-    ways = amf_result "/1"
-    assert ways[0].include?(current_ways(:invisible_way).id)
-    assert !ways[0].include?(current_ways(:used_way).id)
+    map = amf_result "/1"
+    assert_equal 0, map[0]
+    assert_equal Array, map[1].class
+    assert map[1].include?(current_ways(:used_way).id)
+    assert !map[1].include?(current_ways(:invisible_way).id)
   end
 
   def test_whichways_deleted_toobig
@@ -119,8 +115,8 @@ class AmfControllerTest < ActionController::TestCase
     assert_response :success
     amf_parse_response 
 
-    ways = amf_result "/1"
-    assert ways[0].empty?
+    map = amf_result "/1"
+    assert_equal BOUNDARY_ERROR, map, "AMF controller should have returned an error."
   end
 
   def test_getrelation
@@ -305,4 +301,21 @@ class AmfControllerTest < ActionController::TestCase
     results
   end
 
+  ##
+  # given an array of bounding boxes (each an array of 4 floats), call the
+  # AMF "whichways" controller for each and pass the result back to the
+  # caller's block for assertion testing.
+  def check_bboxes_are_bad(bboxes)
+    bboxes.each do |bbox|
+      amf_content "whichways", "/1", bbox
+      post :amf_read
+      assert_response :success
+      amf_parse_response
+
+      # pass the response back to the caller's block to be tested
+      # against what the caller expected.
+      map = amf_result "/1"
+      yield map
+    end
+  end
 end
