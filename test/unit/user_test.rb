@@ -96,7 +96,7 @@ class UserTest < Test::Unit::TestCase
   end
   
   def test_friend_with
-    assert_equal false, users(:normal_user).is_friends_with?(users(:second_user))
+    assert_equal true, users(:normal_user).is_friends_with?(users(:second_user))
     assert_equal false, users(:normal_user).is_friends_with?(users(:inactive_user))
     assert_equal false, users(:second_user).is_friends_with?(users(:normal_user))
     assert_equal false, users(:second_user).is_friends_with?(users(:inactive_user))
@@ -114,15 +114,15 @@ class UserTest < Test::Unit::TestCase
   end
   
   def test_friends_with
-    # make normal user a friend of second user
+    # normal user is a friend of second user
     # it should be a one way friend accossitation
-    assert_equal 0, Friend.count
+    assert_equal 1, Friend.count
     norm = users(:normal_user)
     sec = users(:second_user)
-    friend = Friend.new
-    friend.befriender = norm
-    friend.befriendee = sec
-    friend.save
+    #friend = Friend.new
+    #friend.befriender = norm
+    #friend.befriendee = sec
+    #friend.save
     assert_equal [sec], norm.nearby
     assert_equal 1, norm.nearby.size
     assert_equal 1, Friend.count
@@ -133,7 +133,7 @@ class UserTest < Test::Unit::TestCase
     assert_equal false, users(:second_user).is_friends_with?(users(:inactive_user))
     assert_equal false, users(:inactive_user).is_friends_with?(users(:normal_user))
     assert_equal false, users(:inactive_user).is_friends_with?(users(:second_user))
-    Friend.delete(friend)
-    assert_equal 0, Friend.count
+    #Friend.delete(friend)
+    #assert_equal 0, Friend.count
   end
 end
