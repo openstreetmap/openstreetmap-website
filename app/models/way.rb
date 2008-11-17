@@ -233,6 +233,10 @@ class Way < ActiveRecord::Base
       # update and commit the bounding box, now that way nodes 
       # have been updated and we're in a transaction.
       changeset.update_bbox!(bbox) unless nodes.empty?
+
+      # tell the changeset we updated one element only
+      changeset.add_changes! 1
+
       changeset.save!
     end
   end

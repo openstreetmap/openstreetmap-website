@@ -307,6 +307,9 @@ class Relation < ActiveRecord::Base
         end
       end
 
+      # tell the changeset we updated one element only
+      changeset.add_changes! 1
+
       # save the (maybe updated) changeset bounding box
       changeset.save!
     end

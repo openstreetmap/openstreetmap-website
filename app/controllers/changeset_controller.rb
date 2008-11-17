@@ -53,7 +53,11 @@ class ChangesetController < ApplicationController
       raise OSM::APIUserChangesetMismatchError 
     end
     
-    changeset.open = false
+    # to close the changeset, we'll just set its closed_at time to
+    # now. this might not be enough if there are concurrency issues, 
+    # but we'll have to wait and see.
+    changeset.closed_at = DateTime.now
+
     changeset.save!
     render :nothing => true
   rescue ActiveRecord::RecordNotFound
@@ -361,10 +365,10 @@ class ChangesetController < ApplicationController
         raise OSM::APIBadUserInput.new("bad time range") if times.size != 2 
 
         from, to = times.collect { |t| DateTime.parse(t) }
-        return ['created_at > ? and created_at < ?', from, to]
+        return ['closed_at >= ? and created_at <= ?', from, to]
       else
         # if there is no comma, assume its a lower limit on time
-        return ['created_at > ?', DateTime.parse(time)]
+        return ['closed_at >= ?', DateTime.parse(time)]
       end
     else
       return nil
@@ -380,7 +384,7 @@ class ChangesetController < ApplicationController
   ##
   # restrict changes to those which are open
   def conditions_open(open)
-    return open.nil? ? nil : ['open = ?', true]
+    return open.nil? ? nil : ['closed_at >= ?', DateTime.now]
   end
 
 end

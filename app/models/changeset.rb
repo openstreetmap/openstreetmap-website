@@ -12,17 +12,31 @@ class Changeset < ActiveRecord::Base
   has_many :old_ways
   has_many :old_relations
   
-  validates_presence_of :user_id, :created_at
-  validates_inclusion_of :open, :in => [ true, false ]
+  validates_presence_of :user_id, :created_at, :closed_at
   
   # over-expansion factor to use when updating the bounding box
   EXPAND = 0.1
+
+  # maximum number of elements allowed in a changeset
+  MAX_ELEMENTS = 50000
+
+  # maximum time a changeset is allowed to be open for (note that this
+  # is in days - so one hour is Rational(1,24)).
+  MAX_TIME_OPEN = 1
+
+  # idle timeout increment, one hour as a rational number of days.
+  IDLE_TIMEOUT = Rational(1,24)
 
   # Use a method like this, so that we can easily change how we
   # determine whether a changeset is open, without breaking code in at 
   # least 6 controllers
   def is_open?
-    return open
+    # a changeset is open (that is, it will accept further changes) when
+    # it has not yet run out of time and its capacity is small enough.
+    # note that this may not be a hard limit - due to timing changes and
+    # concurrency it is possible that some changesets may be slightly 
+    # longer than strictly allowed or have slightly more changes in them.
+    return ((closed_at > DateTime.now) and (num_changes <= MAX_ELEMENTS))
   end
 
   def self.from_xml(xml, create=false)
@@ -36,6 +50,11 @@ class Changeset < ActiveRecord::Base
       doc.find('//osm/changeset').each do |pt|
         if create
           cs.created_at = Time.now
+          # initial close time is 1h ahead, but will be increased on each
+          # modification.
+          cs.closed_at = Time.now + IDLE_TIMEOUT
+          # initially we have no changes in a changeset
+          cs.num_changes = 0
         end
 
         pt.find('tag').each do |tag|
@@ -78,6 +97,14 @@ class Changeset < ActiveRecord::Base
     self.min_lon, self.min_lat, self.max_lon, self.max_lat = @bbox
   end
 
+  ##
+  # the number of elements is also passed in so that we can ensure that
+  # a single changeset doesn't contain too many elements. this, of course,
+  # destroys the optimisation described in the bbox method above.
+  def add_changes!(elements)
+    self.num_changes += elements
+  end
+
   def tags_as_hash
     return tags
   end
@@ -107,8 +134,14 @@ class Changeset < ActiveRecord::Base
     # do the changeset update and the changeset tags update in the
     # same transaction to ensure consistency.
     Changeset.transaction do
-      # fixme update modified_at time?
-      # FIXME there is no modified_at time, should it be added
+      # set the auto-close time to be one hour in the future unless
+      # that would make it more than 24h long, in which case clip to
+      # 24h, as this has been decided is a reasonable time limit.
+      if (closed_at - created_at) > (MAX_TIME_OPEN - IDLE_TIMEOUT)
+        self.closed_at = created_at + MAX_TIME_OPEN
+      else
+        self.closed_at = DateTime.now + IDLE_TIMEOUT
+      end
       self.save!
 
       tags = self.tags
@@ -155,7 +188,8 @@ class Changeset < ActiveRecord::Base
     end
     
     el1['created_at'] = self.created_at.xmlschema
-    el1['open'] = self.open.to_s
+    el1['closed_at'] = self.closed_at.xmlschema unless is_open?
+    el1['open'] = is_open?.to_s
 
     el1['min_lon'] = (bbox[0].to_f / GeoRecord::SCALE).to_s unless bbox[0].nil?
     el1['min_lat'] = (bbox[1].to_f / GeoRecord::SCALE).to_s unless bbox[1].nil?
@@ -180,7 +214,7 @@ class Changeset < ActiveRecord::Base
     end
     
     # can't change a closed changeset
-    unless open
+    unless is_open?
       raise OSM::APIChangesetAlreadyClosedError
     end
 

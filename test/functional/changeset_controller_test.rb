@@ -618,15 +618,19 @@ EOF
 
     get :query, :time => '2007-12-31'
     assert_response :success, "can't get changesets by time-since"
-    assert_changesets [2,4,5]
+    assert_changesets [1,2,4,5]
 
     get :query, :time => '2008-01-01T12:34Z'
     assert_response :success, "can't get changesets by time-since with hour"
-    assert_changesets [2]
+    assert_changesets [1,2,4,5]
 
     get :query, :time => '2007-12-31T23:59Z,2008-01-01T00:01Z'
     assert_response :success, "can't get changesets by time-range"
-    assert_changesets [4,5]
+    assert_changesets [1,4,5]
+
+    get :query, :open => 'true'
+    assert_response :success, "can't get changesets by open-ness"
+    assert_changesets [1,2,4]
   end
 
   ##
@@ -700,6 +704,62 @@ EOF
     assert_response :conflict
   end
 
+  ##
+  # check that a changeset can contain a certain max number of changes.
+  def test_changeset_limits
+    basic_authorization "test@openstreetmap.org", "test"
+
+    # open a new changeset
+    content "<osm><changeset/></osm>"
+    put :create
+    assert_response :success, "can't create a new changeset"
+    cs_id = @response.body.to_i
+
+    # start the counter just short of where the changeset should finish.
+    offset = 10
+    # alter the database to set the counter on the changeset directly, 
+    # otherwise it takes about 6 minutes to fill all of them.
+    changeset = Changeset.find(cs_id)
+    changeset.num_changes = Changeset::MAX_ELEMENTS - offset
+    changeset.save!
+
+    with_controller(NodeController.new) do
+      # create a new node
+      content "<osm><node changeset='#{cs_id}' lat='0.0' lon='0.0'/></osm>"
+      put :create
+      assert_response :success, "can't create a new node"
+      node_id = @response.body.to_i
+
+      get :read, :id => node_id
+      assert_response :success, "can't read back new node"
+      node_doc = XML::Parser.string(@response.body).parse
+      node_xml = node_doc.find("//osm/node").first
+
+      # loop until we fill the changeset with nodes
+      offset.times do |i|
+        node_xml['lat'] = rand.to_s
+        node_xml['lon'] = rand.to_s
+        node_xml['version'] = (i+1).to_s
+
+        content node_doc
+        put :update, :id => node_id
+        assert_response :success, "attempt #{i} should have succeeded"
+      end
+
+      # trying again should fail
+      node_xml['lat'] = rand.to_s
+      node_xml['lon'] = rand.to_s
+      node_xml['version'] = offset.to_s
+      
+      content node_doc
+      put :update, :id => node_id
+      assert_response :conflict, "final attempt should have failed"
+    end
+
+    changeset = Changeset.find(cs_id)
+    assert_equal Changeset::MAX_ELEMENTS + 1, changeset.num_changes
+  end
+  
   #------------------------------------------------------------
   # utility functions
   #------------------------------------------------------------

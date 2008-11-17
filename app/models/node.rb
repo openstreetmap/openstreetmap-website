@@ -141,6 +141,9 @@ class Node < ActiveRecord::Base
       old_node.timestamp = t
       old_node.save_with_dependencies!
 
+      # tell the changeset we updated one element only
+      changeset.add_changes! 1
+
       # save the changeset in case of bounding box updates
       changeset.save!
     end
