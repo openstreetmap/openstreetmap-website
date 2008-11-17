@@ -48,8 +48,22 @@ class ChangesetControllerTest < ActionController::TestCase
     assert_select "osm>changeset[id=#{changeset_id}]", 1
   end
   
+  ##
+  # test that the user who opened a change can close it
   def test_close
-    # FIXME FIXME FIXME!
+    basic_authorization "test@openstreetmap.org", "test"
+
+    put :close, :id => changesets(:normal_user_first_change).id
+    assert_response :success
+  end
+
+  ##
+  # test that a different user can't close another user's changeset
+  def test_close_invalid
+    basic_authorization "test@example.com", "test"
+
+    put :close, :id => changesets(:normal_user_first_change).id
+    assert_response :conflict
   end
 
   ##

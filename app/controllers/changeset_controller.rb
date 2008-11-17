@@ -38,25 +38,28 @@ class ChangesetController < ApplicationController
     end
   end
   
+  ##
+  # marks a changeset as closed. this may be called multiple times
+  # on the same changeset, so is idempotent.
   def close 
-    begin
-      unless request.put?
-        render :nothing => true, :status => :method_not_allowed
-        return
-      end
-
-      changeset = Changeset.find(params[:id])
-
-      unless @user.id == changeset.user_id 
-        raise OSM::APIUserChangesetMismatchError 
-      end
-
-      changeset.open = false
-      changeset.save!
-      render :nothing => true
-    rescue ActiveRecord::RecordNotFound
-      render :nothing => true, :status => :not_found
+    unless request.put?
+      render :nothing => true, :status => :method_not_allowed
+      return
     end
+    
+    changeset = Changeset.find(params[:id])
+    
+    unless @user.id == changeset.user_id 
+      raise OSM::APIUserChangesetMismatchError 
+    end
+    
+    changeset.open = false
+    changeset.save!
+    render :nothing => true
+  rescue ActiveRecord::RecordNotFound
+    render :nothing => true, :status => :not_found
+  rescue OSM::APIError => ex
+    render ex.render_opts
   end
 
   ##
