@@ -584,6 +584,45 @@ EOF
     # FIXME: write the actual test bit after fixing the fixtures!
   end
 
+  ##
+  # check updating tags on a changeset
+  def test_changeset_update
+    basic_authorization "test@openstreetmap.org", "test"
+
+    changeset = changesets(:normal_user_first_change)
+    new_changeset = changeset.to_xml
+    new_tag = XML::Node.new "tag"
+    new_tag['k'] = "testing"
+    new_tag['v'] = "testing"
+    new_changeset.find("//osm/changeset").first << new_tag
+
+    content new_changeset
+    put :update, :id => changeset.id
+    assert_response :success
+
+    assert_select "osm>changeset[id=#{changeset.id}]", 1
+    assert_select "osm>changeset>tag", 2
+    assert_select "osm>changeset>tag[k=testing][v=testing]", 1
+  end
+  
+  ##
+  # check that a user different from the one who opened the changeset
+  # can't modify it.
+  def test_changeset_update_invalid
+    basic_authorization "test@example.com", "test"
+
+    changeset = changesets(:normal_user_first_change)
+    new_changeset = changeset.to_xml
+    new_tag = XML::Node.new "tag"
+    new_tag['k'] = "testing"
+    new_tag['v'] = "testing"
+    new_changeset.find("//osm/changeset").first << new_tag
+
+    content new_changeset
+    put :update, :id => changeset.id
+    assert_response :conflict
+  end
+
   #------------------------------------------------------------
   # utility functions
   #------------------------------------------------------------

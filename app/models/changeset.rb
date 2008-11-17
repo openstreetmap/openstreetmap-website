@@ -104,13 +104,13 @@ class Changeset < ActiveRecord::Base
   def save_with_tags!
     t = Time.now
 
+    # do the changeset update and the changeset tags update in the
+    # same transaction to ensure consistency.
     Changeset.transaction do
       # fixme update modified_at time?
       # FIXME there is no modified_at time, should it be added
       self.save!
-    end
 
-    ChangesetTag.transaction do
       tags = self.tags
       ChangesetTag.delete_all(['id = ?', self.id])
 
@@ -167,5 +167,26 @@ class Changeset < ActiveRecord::Base
     # changeset, see the download method of the controller.
 
     return el1
+  end
+
+  ##
+  # update this instance from another instance given and the user who is
+  # doing the updating. note that this method is not for updating the
+  # bounding box, only the tags of the changeset.
+  def update_from(other, user)
+    # ensure that only the user who opened the changeset may modify it.
+    unless user.id == self.user_id 
+      raise OSM::APIUserChangesetMismatchError 
+    end
+    
+    # can't change a closed changeset
+    unless open
+      raise OSM::APIChangesetAlreadyClosedError
+    end
+
+    # copy the other's tags
+    self.tags = other.tags
+
+    save_with_tags!
   end
 end

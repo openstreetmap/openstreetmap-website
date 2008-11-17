@@ -257,6 +257,42 @@ class ChangesetController < ApplicationController
   rescue String => s
     render :text => s, :content_type => "text/plain", :status => :bad_request
   end
+  
+  ##
+  # updates a changeset's tags. none of the changeset's attributes are
+  # user-modifiable, so they will be ignored.
+  #
+  # changesets are not (yet?) versioned, so we don't have to deal with
+  # history tables here. changesets are locked to a single user, however.
+  #
+  # after succesful update, returns the XML of the changeset.
+  def update
+    # request *must* be a PUT.
+    unless request.put?
+      render :nothing => true, :status => :method_not_allowed
+      return
+    end
+    
+    changeset = Changeset.find(params[:id])
+    new_changeset = Changeset.from_xml(request.raw_post)
+
+    unless new_changeset.nil?
+      changeset.update_from(new_changeset, @user)
+      render :text => changeset.to_xml, :mime_type => "text/xml"
+    else
+      
+      render :nothing => true, :status => :bad_request
+    end
+      
+  rescue ActiveRecord::RecordNotFound
+    render :nothing => true, :status => :not_found
+  rescue OSM::APIError => ex
+    render ex.render_opts
+  end
+
+  #------------------------------------------------------------
+  # utility functions below.
+  #------------------------------------------------------------  
 
   ##
   # merge two conditions
