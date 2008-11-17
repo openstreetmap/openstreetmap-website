@@ -236,9 +236,9 @@ class ChangesetController < ApplicationController
     # create the conditions that the user asked for. some or all of
     # these may be nil.
     conditions = conditions_bbox(params['bbox'])
-    cond_merge conditions, conditions_user(params['user'])
-    cond_merge conditions, conditions_time(params['time'])
-    cond_merge conditions, conditions_open(params['open'])
+    conditions = cond_merge conditions, conditions_user(params['user'])
+    conditions = cond_merge conditions, conditions_time(params['time'])
+    conditions = cond_merge conditions, conditions_open(params['open'])
 
     # create the results document
     results = OSM::API.new.get_xml_doc
@@ -333,7 +333,15 @@ class ChangesetController < ApplicationController
   def conditions_user(user)
     unless user.nil?
       u = User.find(user.to_i)
-      raise OSM::APINotFoundError unless u.data_public?
+      # should be able to get changesets of public users only, or 
+      # our own changesets regardless of public-ness.
+      unless u.data_public?
+        # get optional user auth stuff so that users can see their own
+        # changesets if they're non-public
+        setup_user_auth
+        
+        raise OSM::APINotFoundError if @user.nil? or @user.id != u.id
+      end
       return ['user_id = ?', u.id]
     else
       return nil
@@ -347,11 +355,11 @@ class ChangesetController < ApplicationController
       # if there is a range, i.e: comma separated, then the first is 
       # low, second is high - same as with bounding boxes.
       if time.count(',') == 1
-        from, to = time.split(/,/).collect { |t| Date.parse(t) }
+        from, to = time.split(/,/).collect { |t| DateTime.parse(t) }
         return ['created_at > ? and created_at < ?', from, to]
       else
         # if there is no comma, assume its a lower limit on time
-        return ['created_at > ?', Date.parse(time)]
+        return ['created_at > ?', DateTime.parse(time)]
       end
     else
       return nil

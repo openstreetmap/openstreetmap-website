@@ -22,7 +22,11 @@ class ApplicationController < ActionController::Base
     redirect_to :controller => 'user', :action => 'login', :referer => request.request_uri unless @user
   end
 
-  def authorize(realm='Web Password', errormessage="Couldn't authenticate you") 
+  ##
+  # sets up the @user object for use by other methods. this is mostly called
+  # from the authorize method, but can be called elsewhere if authorisation
+  # is optional.
+  def setup_user_auth
     username, passwd = get_auth_data # parse from headers
     # authenticate per-scheme
     if username.nil?
@@ -32,6 +36,11 @@ class ApplicationController < ActionController::Base
     else
       @user = User.authenticate(:username => username, :password => passwd) # basic auth
     end
+  end
+
+  def authorize(realm='Web Password', errormessage="Couldn't authenticate you") 
+    # make the @user object from any auth sources we have
+    setup_user_auth
 
     # handle authenticate pass/fail
     unless @user

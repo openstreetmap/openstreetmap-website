@@ -595,7 +595,37 @@ EOF
   def test_changeset_by_bbox
     get :query, :bbox => "-10,-10, 10, 10"
     assert_response :success, "can't get changesets in bbox"
-    # FIXME: write the actual test bit after fixing the fixtures!
+    assert_changesets [1,4]
+
+    get :query, :bbox => "4.5,4.5,4.6,4.6"
+    assert_response :success, "can't get changesets in bbox"
+    assert_changesets [1]
+
+    # can't get changesets of user 1 without authenticating
+    get :query, :user => users(:normal_user).id
+    assert_response :not_found, "shouldn't be able to get changesets by non-public user"
+
+    # but this should work
+    basic_authorization "test@openstreetmap.org", "test"
+    get :query, :user => users(:normal_user).id
+    assert_response :success, "can't get changesets by user"
+    assert_changesets [1,3,4]
+
+    get :query, :user => users(:normal_user).id, :open => true
+    assert_response :success, "can't get changesets by user and open"
+    assert_changesets [1,4]
+
+    get :query, :time => '2007-12-31'
+    assert_response :success, "can't get changesets by time-since"
+    assert_changesets [2,4,5]
+
+    get :query, :time => '2008-01-01T12:34Z'
+    assert_response :success, "can't get changesets by time-since with hour"
+    assert_changesets [2]
+
+    get :query, :time => '2007-12-31T23:59Z,2008-01-01T00:01Z'
+    assert_response :success, "can't get changesets by time-range"
+    assert_changesets [4,5]
   end
 
   ##
@@ -640,6 +670,16 @@ EOF
   #------------------------------------------------------------
   # utility functions
   #------------------------------------------------------------
+
+  ##
+  # boilerplate for checking that certain changesets exist in the
+  # output.
+  def assert_changesets(ids)
+    assert_select "osm>changeset", ids.size
+    ids.each do |id|
+      assert_select "osm>changeset[id=#{id}]", 1
+    end
+  end
 
   ##
   # call the include method and assert properties of the bbox

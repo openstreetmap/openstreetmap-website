@@ -17,6 +17,9 @@ module OSM
 
   # Raised when an API object is not found.
   class APINotFoundError < APIError
+    def render_opts
+      { :nothing => true, :status => :not_found }
+    end
   end
 
   # Raised when a precondition to an API action fails sanity check.
