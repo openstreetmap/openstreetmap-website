@@ -42,7 +42,7 @@ class WayTagTest < Test::Unit::TestCase
   end
   
   def test_length_value_invalid
-    ["k"*256].each do |i|
+    ["v"*256].each do |i|
       tag = WayTag.new
       tag.id = current_way_tags(:t1).id
       tag.k = "k"
@@ -57,7 +57,7 @@ class WayTagTest < Test::Unit::TestCase
     assert tag.errors.invalid?(:id)
   end
   
-  def test_uniquess
+  def test_uniquness
     tag = WayTag.new
     tag.id = current_way_tags(:t1).id
     tag.k = current_way_tags(:t1).k

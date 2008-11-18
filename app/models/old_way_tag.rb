@@ -1,5 +1,5 @@
 class OldWayTag < ActiveRecord::Base
-  belongs_to :user
+  belongs_to :old_way
 
   set_table_name 'way_tags'
 

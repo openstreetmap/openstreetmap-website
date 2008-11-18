@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
   has_many :friends, :include => :befriendee, :conditions => ["users.visible = ?", true]
   has_many :tokens, :class_name => "UserToken"
   has_many :preferences, :class_name => "UserPreference"
+  has_many :changesets
 
   validates_presence_of :email, :display_name
   validates_confirmation_of :email, :message => 'Email addresses must match'
