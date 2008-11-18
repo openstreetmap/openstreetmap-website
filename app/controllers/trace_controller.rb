@@ -2,6 +2,7 @@ class TraceController < ApplicationController
   layout 'site'
 
   before_filter :authorize_web  
+  before_filter :require_user, :only => [:mine, :edit, :delete, :make_public]
   before_filter :authorize, :only => [:api_details, :api_data, :api_create]
   before_filter :check_database_availability, :except => [:api_details, :api_data, :api_create]
   before_filter :check_read_availability, :only => [:api_details, :api_data, :api_create]
@@ -77,11 +78,7 @@ class TraceController < ApplicationController
   end
 
   def mine
-    if @user
-      list(@user, "mine") unless @user.nil?
-    else
-      redirect_to :controller => 'user', :action => 'login', :referer => request.request_uri
-    end
+    list(@user, "mine")
   end
 
   def view
