@@ -106,4 +106,8 @@ class User < ActiveRecord::Base
     return false
   end
 
+  def trace_public_default
+    return self.preferences.find(:first, :conditions => {:k => "gps.trace.public", :v => "default"})
+  end
+
 end

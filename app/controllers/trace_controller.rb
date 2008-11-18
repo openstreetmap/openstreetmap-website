@@ -79,6 +79,12 @@ class TraceController < ApplicationController
 
   def mine
     if @user
+      @trace = Trace.new
+      unless @user.trace_public_default.nil?
+        @trace.public = true
+      else 
+        @trace.public = false
+      end
       list(@user, "mine") unless @user.nil?
     else
       redirect_to :controller => 'user', :action => 'login', :referer => request.request_uri
@@ -312,6 +318,17 @@ private
     else
       FileUtils.rm_f(filename)
     end
+    
+    # Finally save whether the user marked the trace as being public
+    if @trace.public?
+      if @user.trace_public_default.nil?
+        @user.preferences.create(:k => "gps.trace.public", :v => "default")
+      end
+    else
+      pref = @user.trace_public_default
+      pref.destroy unless pref.nil?
+    end
+    
   end
 
 end
