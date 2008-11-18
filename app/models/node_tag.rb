@@ -4,5 +4,5 @@ class NodeTag < ActiveRecord::Base
   belongs_to :node, :foreign_key => 'id'
   
   validates_presence_of :id
-  validates_length_of :k, :v, :within => 0..255, :allow_blank => true
+  validates_length_of :k, :v, :maximum => 255, :allow_blank => true
 end
