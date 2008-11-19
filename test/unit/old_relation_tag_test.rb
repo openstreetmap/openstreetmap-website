@@ -1,11 +1,11 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class RelationTagTest < Test::Unit::TestCase
+class OldRelationTagTest < Test::Unit::TestCase
   fixtures :relation_tags
   set_fixture_class :relation_tags => OldRelationTag
   
   def test_tag_count
-    assert_equal 3, OldRlationTag.count
+    assert_equal 3, OldRelationTag.count
   end
   
   def test_length_key_valid

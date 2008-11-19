@@ -1,7 +1,7 @@
 class OldWayTag < ActiveRecord::Base
-  belongs_to :old_way
-
   set_table_name 'way_tags'
+
+  belongs_to :old_way, :foreign_key => [:id, :version]
 
   validates_presence_of :id
   validates_length_of :k, :v, :maximum => 255, :allow_blank => true

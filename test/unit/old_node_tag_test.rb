@@ -63,4 +63,16 @@ class OldNodeTest < Test::Unit::TestCase
     assert tag.errors.invalid?(:id)
     assert tag.errors.invalid?(:version)
   end
+  
+  def test_uniqueness
+    tag = OldNodeTag.new
+    tag.id = node_tags(:t1).id
+    tag.version = node_tags(:t1).version
+    tag.k = node_tags(:t1).k
+    tag.v = node_tags(:t1).v
+    assert tag.new_record?
+    assert !tag.valid?
+    assert_raise(ActiveRecord::RecordInvalid) {tag.save!}
+    assert tag.new_record?
+  end
 end

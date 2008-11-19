@@ -68,4 +68,15 @@ class NodeTagTest < Test::Unit::TestCase
     assert !tag.valid?, "Empty tag should be invalid"
     assert tag.errors.invalid?(:id)
   end
+  
+  def test_uniqueness
+    tag = NodeTag.new
+    tag.id = current_node_tags(:t1).id
+    tag.k = current_node_tags(:t1).k
+    tag.v = current_node_tags(:t1).v
+    assert tag.new_record?
+    assert !tag.valid?
+    assert_raise(ActiveRecord::RecordInvalid) {tag.save!}
+    assert tag.new_record?
+  end
 end
