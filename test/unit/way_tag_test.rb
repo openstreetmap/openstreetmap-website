@@ -48,6 +48,7 @@ class WayTagTest < Test::Unit::TestCase
       tag.k = "k"
       tag.v = i
       assert !tag.valid?, "Value #{i} should be too long"
+      assert tag.errors.invalid?(:v)
     end
   end
   
@@ -57,7 +58,7 @@ class WayTagTest < Test::Unit::TestCase
     assert tag.errors.invalid?(:id)
   end
   
-  def test_uniquness
+  def test_uniqueness
     tag = WayTag.new
     tag.id = current_way_tags(:t1).id
     tag.k = current_way_tags(:t1).k
