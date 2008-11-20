@@ -56,7 +56,7 @@ class ChangesetController < ApplicationController
     # to close the changeset, we'll just set its closed_at time to
     # now. this might not be enough if there are concurrency issues, 
     # but we'll have to wait and see.
-    changeset.closed_at = DateTime.now
+    changeset.set_closed_time_now
 
     changeset.save!
     render :nothing => true

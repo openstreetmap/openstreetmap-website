@@ -25,7 +25,7 @@ class Changeset < ActiveRecord::Base
   MAX_TIME_OPEN = 1
 
   # idle timeout increment, one hour as a rational number of days.
-  IDLE_TIMEOUT = Rational(1,24)
+  IDLE_TIMEOUT = 1.hour #Rational(1,24)
 
   # Use a method like this, so that we can easily change how we
   # determine whether a changeset is open, without breaking code in at 
@@ -39,6 +39,10 @@ class Changeset < ActiveRecord::Base
     return ((closed_at > DateTime.now) and (num_changes <= MAX_ELEMENTS))
   end
 
+  def set_closed_time_now
+    closed_at = DateTime.now
+  end
+  
   def self.from_xml(xml, create=false)
     begin
       p = XML::Parser.new
