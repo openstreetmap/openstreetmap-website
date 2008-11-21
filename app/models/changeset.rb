@@ -25,7 +25,10 @@ class Changeset < ActiveRecord::Base
   MAX_TIME_OPEN = 1
 
   # idle timeout increment, one hour as a rational number of days.
-  IDLE_TIMEOUT = 1.hour #Rational(1,24)
+  # NOTE: DO NOT CHANGE THIS TO 1.hour! when this was done the idle
+  # timeout changed to 1 second, which meant all changesets closed 
+  # almost immediately.
+  IDLE_TIMEOUT = Rational(1,24)
 
   # Use a method like this, so that we can easily change how we
   # determine whether a changeset is open, without breaking code in at 
@@ -219,7 +222,7 @@ class Changeset < ActiveRecord::Base
     
     # can't change a closed changeset
     unless is_open?
-      raise OSM::APIChangesetAlreadyClosedError
+      raise OSM::APIChangesetAlreadyClosedError.new(self)
     end
 
     # copy the other's tags

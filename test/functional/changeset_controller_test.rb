@@ -26,7 +26,19 @@ class ChangesetControllerTest < ActionController::TestCase
     put :create
     
     assert_response :success, "Creation of changeset did not return sucess status"
-    newid = @response.body
+    newid = @response.body.to_i
+
+    # check end time, should be an hour ahead of creation time
+    cs = Changeset.find(newid)
+    duration = cs.closed_at - cs.created_at
+    # the difference can either be a rational, or a floating point number
+    # of seconds, depending on the code path taken :-(
+    if duration.class == Rational
+      assert_equal Rational(1,24), duration , "initial idle timeout should be an hour (#{cs.created_at} -> #{cs.closed_at})"
+    else
+      # must be number of seconds...
+      assert_equal 3600.0, duration , "initial idle timeout should be an hour (#{cs.created_at} -> #{cs.closed_at})"
+    end
   end
   
   def test_create_invalid
@@ -455,6 +467,67 @@ EOF
     assert_select "osmChange>modify>node", 8
   end
   
+  ##
+  # culled this from josm to ensure that nothing in the way that josm
+  # is formatting the request is causing it to fail.
+  #
+  # NOTE: the error turned out to be something else completely!
+  def test_josm_upload
+    basic_authorization(users(:normal_user).email, "test")
+
+    # create a temporary changeset
+    content "<osm><changeset>" +
+      "<tag k='created_by' v='osm test suite checking changesets'/>" + 
+      "</changeset></osm>"
+    put :create
+    assert_response :success
+    changeset_id = @response.body.to_i
+
+    diff = <<OSM
+<osmChange version="0.6" generator="JOSM">
+<create version="0.6" generator="JOSM">
+  <node id='-1' visible='true' changeset='#{changeset_id}' lat='51.49619982187321' lon='-0.18722061869438314' />
+  <node id='-2' visible='true' changeset='#{changeset_id}' lat='51.496359883909605' lon='-0.18653093576241928' />
+  <node id='-3' visible='true' changeset='#{changeset_id}' lat='51.49598132358285' lon='-0.18719613290981638' />
+  <node id='-4' visible='true' changeset='#{changeset_id}' lat='51.4961591711078' lon='-0.18629015888084607' />
+  <node id='-5' visible='true' changeset='#{changeset_id}' lat='51.49582126021711' lon='-0.18708186591517145' />
+  <node id='-6' visible='true' changeset='#{changeset_id}' lat='51.49591018437858' lon='-0.1861432441734455' />
+  <node id='-7' visible='true' changeset='#{changeset_id}' lat='51.49560784152179' lon='-0.18694719410005425' />
+  <node id='-8' visible='true' changeset='#{changeset_id}' lat='51.49567389979617' lon='-0.1860289771788006' />
+  <node id='-9' visible='true' changeset='#{changeset_id}' lat='51.49543761398892' lon='-0.186820684213126' />
+  <way id='-10' action='modiy' visible='true' changeset='#{changeset_id}'>
+    <nd ref='-1' />
+    <nd ref='-2' />
+    <nd ref='-3' />
+    <nd ref='-4' />
+    <nd ref='-5' />
+    <nd ref='-6' />
+    <nd ref='-7' />
+    <nd ref='-8' />
+    <nd ref='-9' />
+    <tag k='highway' v='residential' />
+    <tag k='name' v='Foobar Street' />
+  </way>
+</create>
+</osmChange>
+OSM
+
+    # upload it
+    content diff
+    post :upload, :id => changeset_id
+    assert_response :success, 
+      "can't upload a diff from JOSM: #{@response.body}"
+    
+    get :download, :id => changeset_id
+    assert_response :success
+
+    assert_select "osmChange", 1
+    assert_select "osmChange>create>node", 9
+    assert_select "osmChange>create>way", 1
+    assert_select "osmChange>create>way>nd", 9
+    assert_select "osmChange>create>way>tag", 2
+  end
+
   ##
   # when we make some complex changes we get the same changes back from the 
   # diff download.

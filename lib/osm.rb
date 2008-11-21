@@ -45,8 +45,14 @@ module OSM
 
   # Raised when the changeset provided is already closed
   class APIChangesetAlreadyClosedError < APIError
+    def initialize(changeset)
+      @changeset = changeset
+    end
+
+    attr_reader :changeset
+    
     def render_opts
-      { :text => "The supplied changeset has already been closed", :status => :conflict }
+      { :text => "The changeset #{@changeset.id} was closed at #{@changeset.closed_at}.", :status => :conflict }
     end
   end
   

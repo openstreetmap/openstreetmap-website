@@ -13,7 +13,7 @@ module ConsistencyValidations
     elsif new.changeset.user_id != user.id
       raise OSM::APIUserChangesetMismatchError.new
     elsif not new.changeset.is_open?
-      raise OSM::APIChangesetAlreadyClosedError.new
+      raise OSM::APIChangesetAlreadyClosedError.new(new.changeset)
     end
   end
   
@@ -24,7 +24,7 @@ module ConsistencyValidations
     elsif new.changeset.user_id != user.id
       raise OSM::APIUserChangesetMismatchError.new
     elsif not new.changeset.is_open?
-      raise OSM::APIChangesetAlreadyClosedError.new
+      raise OSM::APIChangesetAlreadyClosedError.new(new.changeset)
     end
   end
 end
