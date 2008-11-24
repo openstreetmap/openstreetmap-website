@@ -5,24 +5,28 @@
 <% form_for :diary_entry do |f| %>
   <table>
     <tr valign="top">
-      <th>Subject</th>
+      <td class="fieldName">Subject:</td>
       <td><%= f.text_field :title, :size => 60 %></td>
     </tr>
     <tr valign="top">
-      <th>Body</th>
+      <td class="fieldName">Body:</td>
       <td><%= f.text_area :body, :cols => 80 %></td>
     </tr>
     <tr valign="top">
-      <th>Location</th>
+      <td class="fieldName">Location:</td>
       <td>
         <div id="map" style="border: 1px solid black; position: relative; width : 90%; height : 400px; display: none;"></div>
         <span class="location">Latitude: <%= f.text_field :latitude, :size => 20, :id => "latitude" %> Longitude: <%= f.text_field :longitude, :size => 20, :id => "longitude" %></span>
         <a href="javascript:openMap()" id="usemap">use map</a>
+        <br/><br/>
       </td>
     </tr>
     <tr>
-      <th></th>
-      <td><%= submit_tag 'Save' %></td>
+      <td></td>
+      <td>
+	  <%= submit_tag 'Save' %>
+	  <%# TODO: button should say 'publish' or 'save changes' depending on new/edit state %>
+      </td>
     </tr>
   </table>
 <% end %>
