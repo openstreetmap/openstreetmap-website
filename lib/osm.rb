@@ -11,35 +11,39 @@ module OSM
   # The base class for API Errors.
   class APIError < RuntimeError
     def render_opts
-      { :text => "", :status => :internal_server_error }
+      { :text => "Generic API Error", :status => :internal_server_error, :content_type => "text/plain" }
     end
   end
 
   # Raised when an API object is not found.
   class APINotFoundError < APIError
     def render_opts
-      { :nothing => true, :status => :not_found }
+      { :text => "The API wasn't found", :status => :not_found, :content_type => "text/plain" }
     end
   end
 
   # Raised when a precondition to an API action fails sanity check.
   class APIPreconditionFailedError < APIError
+    def initialize(message = "")
+      @message = message
+    end
+    
     def render_opts
-      { :text => "", :status => :precondition_failed }
+      { :text => "Precondition failed: #{@message}", :status => :precondition_failed, :content_type => "text/plain" }
     end
   end
 
   # Raised when to delete an already-deleted object.
   class APIAlreadyDeletedError < APIError
     def render_opts
-      { :text => "", :status => :gone }
+      { :text => "The object has already been deleted", :status => :gone, :content_type => "text/plain" }
     end
   end
 
   # Raised when the user logged in isn't the same as the changeset
   class APIUserChangesetMismatchError < APIError
     def render_opts
-      { :text => "The user doesn't own that changeset", :status => :conflict }
+      { :text => "The user doesn't own that changeset", :status => :conflict, :content_type => "text/plain" }
     end
   end
 
@@ -52,14 +56,14 @@ module OSM
     attr_reader :changeset
     
     def render_opts
-      { :text => "The changeset #{@changeset.id} was closed at #{@changeset.closed_at}.", :status => :conflict }
+      { :text => "The changeset #{@changeset.id} was closed at #{@changeset.closed_at}.", :status => :conflict, :content_type => "text/plain" }
     end
   end
   
   # Raised when a change is expecting a changeset, but the changeset doesn't exist
   class APIChangesetMissingError < APIError
     def render_opts
-      { :text => "You need to supply a changeset to be able to make a change", :status => :conflict }
+      { :text => "You need to supply a changeset to be able to make a change", :status => :conflict, :content_type => "text/plain" }
     end
   end
 
@@ -72,7 +76,7 @@ module OSM
     
     def render_opts
       { :text => "Changeset mismatch: Provided #{@provided} but only " +
-        "#{@allowed} is allowed.", :status => :conflict }
+      "#{@allowed} is allowed.", :status => :conflict, :content_type => "text/plain" }
     end
   end
   
@@ -85,20 +89,20 @@ module OSM
     
     def render_opts
       { :text => "Unknown action #{@provided}, choices are create, modify, delete.",
-      :status => :bad_request }
+      :status => :bad_request, :content_type => "text/plain" }
     end
   end
 
   # Raised when bad XML is encountered which stops things parsing as
   # they should.
   class APIBadXMLError < APIError
-    def initialize(model, xml)
-      @model, @xml = model, xml
+    def initialize(model, xml, message="")
+      @model, @xml, @message = model, xml, message
     end
 
     def render_opts
-      { :text => "Cannot parse valid #{@model} from xml string #{@xml}",
-        :status => :bad_request }
+      { :text => "Cannot parse valid #{@model} from xml string #{@xml}. #{@message}",
+      :status => :bad_request, :content_type => "text/plain" }
     end
   end
 
@@ -113,7 +117,7 @@ module OSM
     def render_opts
       { :text => "Version mismatch: Provided " + provided.to_s +
         ", server had: " + latest.to_s + " of " + type + " " + id.to_s, 
-        :status => :conflict }
+        :status => :conflict, :content_type => "text/plain" }
     end
   end
 
@@ -128,7 +132,7 @@ module OSM
 
     def render_opts
       { :text => "Element #{@type}/#{@id} has duplicate tags with key #{@tag_key}.",
-        :status => :bad_request }
+        :status => :bad_request, :content_type => "text/plain" }
     end
   end
   
@@ -143,7 +147,7 @@ module OSM
     
     def render_opts
       { :text => "You tried to add #{provided} nodes to the way, however only #{max} are allowed",
-      :status => :bad_request }
+        :status => :bad_request, :content_type => "text/plain" }
     end
   end
 
@@ -155,7 +159,7 @@ module OSM
     end
 
     def render_opts
-      { :text => message, :mime_type => "text/plain", :status => :bad_request }
+      { :text => @message, :content_type => "text/plain", :status => :bad_request }
     end
   end
 

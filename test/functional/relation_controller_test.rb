@@ -117,10 +117,45 @@ class RelationControllerTest < ActionController::TestCase
     assert_response :success
 
 
+    ###
     # create an relation with a node as member
+    # This time try with a role attribute in the relation
     nid = current_nodes(:used_node_1).id
     content "<osm><relation changeset='#{changeset_id}'>" +
-      "<member type='node' ref='#{nid}' role='some'/>" +
+      "<member  ref='#{nid}' type='node' role='some'/>" +
+      "<tag k='test' v='yes' /></relation></osm>"
+    put :create
+    # hope for success
+    assert_response :success, 
+        "relation upload did not return success status"
+    # read id of created relation and search for it
+    relationid = @response.body
+    checkrelation = Relation.find(relationid)
+    assert_not_nil checkrelation, 
+        "uploaded relation not found in data base after upload"
+    # compare values
+    assert_equal checkrelation.members.length, 1, 
+        "saved relation does not contain exactly one member"
+    assert_equal checkrelation.tags.length, 1, 
+        "saved relation does not contain exactly one tag"
+    assert_equal changeset_id, checkrelation.changeset.id,
+        "saved relation does not belong in the changeset it was assigned to"
+    assert_equal users(:normal_user).id, checkrelation.changeset.user_id, 
+        "saved relation does not belong to user that created it"
+    assert_equal true, checkrelation.visible, 
+        "saved relation is not visible"
+    # ok the relation is there but can we also retrieve it?
+    
+    get :read, :id => relationid
+    assert_response :success
+    
+    
+    ###
+    # create an relation with a node as member, this time test that we don't 
+    # need a role attribute to be included
+    nid = current_nodes(:used_node_1).id
+    content "<osm><relation changeset='#{changeset_id}'>" +
+      "<member  ref='#{nid}' type='node'/>"+
       "<tag k='test' v='yes' /></relation></osm>"
     put :create
     # hope for success
@@ -147,6 +182,7 @@ class RelationControllerTest < ActionController::TestCase
     get :read, :id => relationid
     assert_response :success
 
+    ###
     # create an relation with a way and a node as members
     nid = current_nodes(:used_node_1).id
     wid = current_ways(:used_way).id
@@ -200,6 +236,27 @@ class RelationControllerTest < ActionController::TestCase
         "relation upload with invalid node did not return 'precondition failed'"
   end
 
+  # -------------------------------------
+  # Test creating a relation, with some invalid XML
+  # -------------------------------------
+  def test_create_invalid_xml
+    basic_authorization "test@openstreetmap.org", "test"
+    
+    # put the relation in a dummy fixture changeset that works
+    changeset_id = changesets(:normal_user_first_change).id
+    
+    # create some xml that should return an error
+    content "<osm><relation changeset='#{changeset_id}'>" +
+    "<member type='type' ref='#{current_nodes(:used_node_1).id}' role=''/>" +
+    "<tag k='tester' v='yep'/></relation></osm>"
+    put :create
+    # expect failure
+    assert_response :bad_request
+    assert_match(/Cannot parse valid relation from xml string/, @response.body)
+    assert_match(/The type is not allowed only, /, @response.body)
+  end
+  
+  
   # -------------------------------------
   # Test deleting relations.
   # -------------------------------------

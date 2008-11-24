@@ -15,6 +15,8 @@ class Relation < ActiveRecord::Base
   has_many :containing_relation_members, :class_name => "RelationMember", :as => :member
   has_many :containing_relations, :class_name => "Relation", :through => :containing_relation_members, :source => :relation, :extend => ObjectFinder
 
+  TYPES = ["node", "way", "relation"]
+
   def self.from_xml(xml, create=false)
     begin
       p = XML::Parser.new
@@ -22,10 +24,11 @@ class Relation < ActiveRecord::Base
       doc = p.parse
 
       doc.find('//osm/relation').each do |pt|
-	return Relation.from_xml_node(pt, create)
+        return Relation.from_xml_node(pt, create)
       end
-    rescue
-      return nil
+    rescue LibXML::XML::Error => ex
+      #return nil
+      raise OSM::APIBadXMLError.new("relation", xml, ex.message)
     end
   end
 
@@ -53,8 +56,17 @@ class Relation < ActiveRecord::Base
     end
 
     pt.find('member').each do |member|
+      #member_type = 
+      logger.debug "each member"
+      raise OSM::APIBadXMLError.new("relation", pt, "The #{member['type']} is not allowed only, #{TYPES.inspect} allowed") unless TYPES.include? member['type']
+      logger.debug "after raise"
+      #member_ref = member['ref']
+      #member_role
+      member['role'] ||= "" # Allow  the upload to not include this, in which case we default to an empty string.
+      logger.debug member['role']
       relation.add_member(member['type'], member['ref'], member['role'])
     end
+    raise OSM::APIBadUserInput.new("Some bad xml in relation") if relation.nil?
 
     return relation
   end

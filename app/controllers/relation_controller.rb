@@ -12,12 +12,14 @@ class RelationController < ApplicationController
       if request.put?
         relation = Relation.from_xml(request.raw_post, true)
 
-        if relation
+        # We assume that an exception has been thrown if there was an error 
+        # generating the relation
+        #if relation
           relation.create_with_history @user
           render :text => relation.id.to_s, :content_type => "text/plain"
-        else
-          render :nothing => true, :status => :bad_request
-        end
+        #else
+         # render :text => "Couldn't get turn the input into a relation.", :status => :bad_request
+        #end
       else
         render :nothing => true, :status => :method_not_allowed
       end
