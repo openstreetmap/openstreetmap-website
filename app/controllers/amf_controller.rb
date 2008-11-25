@@ -110,16 +110,15 @@ class AmfController < ApplicationController
       args=AMF.getvalue(req)				#  | get response (probably an array)
 
       case message
-        when 'putway';				
-          r=putway(renumberednodes,*args)
-          renumberednodes=r[3]
-          if r[1] != r[2]
-            renumberedways[r[1]] = r[2]
-          end
-          results[index]=AMF.putdata(index,r)
+        when 'putway';				r=putway(renumberednodes,*args)
+									renumberednodes=r[3]
+									if r[1] != r[2] then renumberedways[r[1]] = r[2] end
+									results[index]=AMF.putdata(index,r)
         when 'putrelation';			results[index]=AMF.putdata(index,putrelation(renumberednodes, renumberedways, *args))
         when 'deleteway';			results[index]=AMF.putdata(index,deleteway(*args))
-        when 'putpoi';				results[index]=AMF.putdata(index,putpoi(*args))
+        when 'putpoi';				r=putpoi(*args)
+									if r[1] != r[2] then renumberednodes[r[1]] = r[2] end
+        							results[index]=AMF.putdata(index,r)
         when 'startchangeset';		results[index]=AMF.putdata(index,startchangeset(*args))
       end
     end
