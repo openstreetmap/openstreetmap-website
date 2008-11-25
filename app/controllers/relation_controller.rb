@@ -64,7 +64,6 @@ class RelationController < ApplicationController
   end
 
   def delete
-#XXX check if member somewhere!
     begin
       relation = Relation.find(params[:id])
       new_relation = Relation.from_xml(request.raw_post)
@@ -143,8 +142,7 @@ class RelationController < ApplicationController
         render :text => doc.to_s, :content_type => "text/xml"
 
       else
-
-        render :text => "", :status => :gone
+        render :nothing => true, :status => :gone
       end
 
     rescue ActiveRecord::RecordNotFound
@@ -167,8 +165,10 @@ class RelationController < ApplicationController
 
       render :text => doc.to_s, :content_type => "text/xml"
     else
-      render :nothing => true, :status => :bad_request
+      render :text => "You need to supply a comma separated list of ids.", :status => :bad_request
     end
+  rescue ActiveRecord::RecordNotFound
+    render :text => "Could not find one of the relations", :status => :not_found
   end
 
   def relations_for_way

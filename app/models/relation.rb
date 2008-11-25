@@ -35,7 +35,6 @@ class Relation < ActiveRecord::Base
         return Relation.from_xml_node(pt, create)
       end
     rescue LibXML::XML::Error => ex
-      #return nil
       raise OSM::APIBadXMLError.new("relation", xml, ex.message)
     end
   end
@@ -47,16 +46,18 @@ class Relation < ActiveRecord::Base
       relation.id = pt['id'].to_i
     end
 
-    relation.version = pt['version']
+    raise OSM::APIBadXMLError.new("relation", pt, "You are missing the required changeset in the relation") if pt['changeset'].nil?
     relation.changeset_id = pt['changeset']
 
     if create
       relation.timestamp = Time.now
       relation.visible = true
+      relation.version = 0
     else
       if pt['timestamp']
         relation.timestamp = Time.parse(pt['timestamp'])
       end
+      relation.version = pt['version']
     end
 
     pt.find('tag').each do |tag|
@@ -348,15 +349,15 @@ class Relation < ActiveRecord::Base
   def delete_with_history!(new_relation, user)
     if self.visible
       check_consistency(self, new_relation, user)
+      # This will check to see if this relation is used by another relation
       if RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", :conditions => [ "visible = ? AND member_type='relation' and member_id=? ", true, self.id ])
-        raise OSM::APIPreconditionFailedError.new
-      else
-        self.changeset_id = new_relation.changeset_id
-        self.tags = {}
-        self.members = []
-        self.visible = false
-        save_with_history!
+        raise OSM::APIPreconditionFailedError.new("The relation #{new_relation.id} is a used in another relation")
       end
+      self.changeset_id = new_relation.changeset_id
+      self.tags = {}
+      self.members = []
+      self.visible = false
+      save_with_history!
     else
       raise OSM::APIAlreadyDeletedError.new
     end

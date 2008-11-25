@@ -294,6 +294,7 @@ class ChangesetController < ApplicationController
     render ex.render_opts
   end
 
+private
   #------------------------------------------------------------
   # utility functions below.
   #------------------------------------------------------------  
