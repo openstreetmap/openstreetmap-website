@@ -12,8 +12,15 @@ class Changeset < ActiveRecord::Base
   has_many :old_ways
   has_many :old_relations
   
-  validates_presence_of :user_id, :created_at, :closed_at
-  
+  validates_presence_of :id, :on => :update
+  validates_presence_of :user_id, :created_at, :closed_at, :num_changes
+  validates_uniqueness_of :id
+  validates_numericality_of :id, :on => :update, :integer_only => true
+  validates_numericality_of :min_lat, :max_lat, :min_lon, :max_lat, :allow_nil => true, :integer_only => true
+  validates_numericality_of :user_id,  :integer_only => true, :greater_than_or_equal_to => 1
+  validates_numericality_of :num_changes, :integer_only => true, :greater_than_or_equal_to => 0
+  validates_associated :user
+
   # over-expansion factor to use when updating the bounding box
   EXPAND = 0.1
 

@@ -4,9 +4,6 @@ class Way < ActiveRecord::Base
   include ConsistencyValidations
 
   set_table_name 'current_ways'
-
-  validates_presence_of :changeset_id, :timestamp
-  validates_inclusion_of :visible, :in => [ true, false ]
   
   belongs_to :changeset
 
@@ -19,6 +16,14 @@ class Way < ActiveRecord::Base
 
   has_many :containing_relation_members, :class_name => "RelationMember", :as => :member
   has_many :containing_relations, :class_name => "Relation", :through => :containing_relation_members, :source => :relation, :extend => ObjectFinder
+
+  validates_presence_of :id, :on => :update
+  validates_presence_of :changeset_id,:version,  :timestamp
+  validates_uniqueness_of :id
+  validates_inclusion_of :visible, :in => [ true, false ]
+  validates_numericality_of :changeset_id, :version, :integer_only => true
+  validates_numericality_of :id, :on => :update, :integer_only => true
+  validates_associated :changeset
 
   def self.from_xml(xml, create=false)
     begin

@@ -15,6 +15,14 @@ class Relation < ActiveRecord::Base
   has_many :containing_relation_members, :class_name => "RelationMember", :as => :member
   has_many :containing_relations, :class_name => "Relation", :through => :containing_relation_members, :source => :relation, :extend => ObjectFinder
 
+  validates_presence_of :id, :on => :update
+  validates_presence_of :timestamp,:version,  :changeset_id 
+  validates_uniqueness_of :id
+  validates_inclusion_of :visible, :in => [ true, false ]
+  validates_numericality_of :id, :on => :update, :integer_only => true
+  validates_numericality_of :changeset_id, :version, :integer_only => true
+  validates_associated :changeset
+  
   TYPES = ["node", "way", "relation"]
 
   def self.from_xml(xml, create=false)

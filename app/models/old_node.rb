@@ -8,6 +8,7 @@ class OldNode < ActiveRecord::Base
   validates_inclusion_of :visible, :in => [ true, false ]
   validates_numericality_of :latitude, :longitude
   validate :validate_position
+  validates_associated :changeset
 
   belongs_to :changeset
  

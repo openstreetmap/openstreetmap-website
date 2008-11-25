@@ -5,6 +5,8 @@ class OldWay < ActiveRecord::Base
 
   belongs_to :changeset
 
+  validates_associated :changeset
+  
   def self.from_way(way)
     old_way = OldWay.new
     old_way.visible = way.visible

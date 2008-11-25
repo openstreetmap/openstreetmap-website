@@ -79,7 +79,7 @@ class NodeTest < Test::Unit::TestCase
   def test_create
     node_template = Node.new(:latitude => 12.3456,
                              :longitude => 65.4321,
-                             :changeset_id => changesets(:normal_user_first_change),
+                             :changeset_id => changesets(:normal_user_first_change).id,
                              :visible => 1, 
                              :version => 1)
     assert node_template.save_with_history!

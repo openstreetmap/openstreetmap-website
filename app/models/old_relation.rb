@@ -4,6 +4,8 @@ class OldRelation < ActiveRecord::Base
   set_table_name 'relations'
 
   belongs_to :changeset
+  
+  validates_associated :changeset
 
   def self.from_relation(relation)
     old_relation = OldRelation.new
