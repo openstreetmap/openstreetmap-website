@@ -741,16 +741,25 @@ EOF
   ##
   # check updating tags on a changeset
   def test_changeset_update
-    basic_authorization "test@openstreetmap.org", "test"
-
     changeset = changesets(:normal_user_first_change)
     new_changeset = changeset.to_xml
     new_tag = XML::Node.new "tag"
     new_tag['k'] = "tagtesting"
     new_tag['v'] = "valuetesting"
     new_changeset.find("//osm/changeset").first << new_tag
-
     content new_changeset
+
+    # try without any authorization
+    put :update, :id => changeset.id
+    assert_response :unauthorized
+
+    # try with the wrong authorization
+    basic_authorization "test@example.com", "test"
+    put :update, :id => changeset.id
+    assert_response :conflict
+
+    # now this should work...
+    basic_authorization "test@openstreetmap.org", "test"
     put :update, :id => changeset.id
     assert_response :success
 
