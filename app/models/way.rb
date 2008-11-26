@@ -283,8 +283,15 @@ class Way < ActiveRecord::Base
   end
 
   def delete_with_history!(new_way, user)
-    check_consistency(self, new_way, user)
-    if self.visible
+    unless self.visible
+      raise OSM::APIAlreadyDeletedError
+    end
+    
+    # need to start the transaction here, so that the database can 
+    # provide repeatable reads for the used-by checks. this means it
+    # shouldn't be possible to get race conditions.
+    Way.transaction do
+      check_consistency(self, new_way, user)
       if RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id",
                              :conditions => [ "visible = ? AND member_type='way' and member_id=? ", true, self.id])
         raise OSM::APIPreconditionFailedError
@@ -295,8 +302,6 @@ class Way < ActiveRecord::Base
         self.visible = false
         self.save_with_history!
       end
-    else
-      raise OSM::APIAlreadyDeletedError
     end
   end
 

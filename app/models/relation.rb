@@ -347,7 +347,14 @@ class Relation < ActiveRecord::Base
   end    
 
   def delete_with_history!(new_relation, user)
-    if self.visible
+    unless self.visible
+      raise OSM::APIAlreadyDeletedError.new
+    end
+
+    # need to start the transaction here, so that the database can 
+    # provide repeatable reads for the used-by checks. this means it
+    # shouldn't be possible to get race conditions.
+    Relation.transaction do
       check_consistency(self, new_relation, user)
       # This will check to see if this relation is used by another relation
       if RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", :conditions => [ "visible = ? AND member_type='relation' and member_id=? ", true, self.id ])
@@ -358,8 +365,6 @@ class Relation < ActiveRecord::Base
       self.members = []
       self.visible = false
       save_with_history!
-    else
-      raise OSM::APIAlreadyDeletedError.new
     end
   end
 

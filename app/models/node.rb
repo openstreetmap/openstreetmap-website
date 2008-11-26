@@ -155,7 +155,14 @@ class Node < ActiveRecord::Base
 
   # Should probably be renamed delete_from to come in line with update
   def delete_with_history!(new_node, user)
-    if self.visible
+    unless self.visible
+      raise OSM::APIAlreadyDeletedError.new
+    end
+
+    # need to start the transaction here, so that the database can 
+    # provide repeatable reads for the used-by checks. this means it
+    # shouldn't be possible to get race conditions.
+    Node.transaction do
       check_consistency(self, new_node, user)
       if WayNode.find(:first, :joins => "INNER JOIN current_ways ON current_ways.id = current_way_nodes.id", :conditions => [ "current_ways.visible = ? AND current_way_nodes.node_id = ?", true, self.id ])
         raise OSM::APIPreconditionFailedError.new
@@ -164,14 +171,12 @@ class Node < ActiveRecord::Base
       else
         self.changeset_id = new_node.changeset_id
         self.visible = false
-
+        
         # update the changeset with the deleted position
         changeset.update_bbox!(bbox)
-
+        
         save_with_history!
       end
-    else
-      raise OSM::APIAlreadyDeletedError.new
     end
   end
 
