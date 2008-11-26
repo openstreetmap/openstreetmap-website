@@ -6,7 +6,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect "api/#{API_VERSION}/changeset/create", :controller => 'changeset', :action => 'create'
   map.connect "api/#{API_VERSION}/changeset/:id/upload", :controller => 'changeset', :action => 'upload', :id => /\d+/
   map.connect "api/#{API_VERSION}/changeset/:id/download", :controller => 'changeset', :action => 'download', :id => /\d+/
-  map.connect "api/#{API_VERSION}/changeset/:id/include", :controller => 'changeset', :action => 'include', :id => /\d+/
+  map.connect "api/#{API_VERSION}/changeset/:id/expand_bbox", :controller => 'changeset', :action => 'expand_bbox', :id => /\d+/
   map.connect "api/#{API_VERSION}/changeset/:id", :controller => 'changeset', :action => 'read', :id => /\d+/, :conditions => { :method => :get }
   map.connect "api/#{API_VERSION}/changeset/:id", :controller => 'changeset', :action => 'update', :id => /\d+/, :conditions => { :method => :put }
   map.connect "api/#{API_VERSION}/changeset/:id/close", :controller => 'changeset', :action => 'close', :id =>/\d+/

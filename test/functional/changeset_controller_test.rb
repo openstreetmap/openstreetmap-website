@@ -851,7 +851,7 @@ EOF
   # call the include method and assert properties of the bbox
   def check_after_include(changeset_id, lon, lat, bbox)
     content "<osm><node lon='#{lon}' lat='#{lat}'/></osm>"
-    post :include, :id => changeset_id
+    post :expand_bbox, :id => changeset_id
     assert_response :success, "Setting include of changeset failed: #{@response.body}"
 
     # check exactly one changeset

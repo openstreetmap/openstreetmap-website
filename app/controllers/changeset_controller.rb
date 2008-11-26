@@ -70,7 +70,7 @@ class ChangesetController < ApplicationController
   # increase the size of the bounding box. this is a hint that clients can
   # set either before uploading a large number of changes, or changes that
   # the client (but not the server) knows will affect areas further away.
-  def include
+  def expand_bbox
     # only allow POST requests, because although this method is
     # idempotent, there is no "document" to PUT really...
     if request.post?
