@@ -11,6 +11,9 @@ class ChangesetController < ApplicationController
   # Help methods for checking boundary sanity and area size
   include MapBoundary
 
+  # Helper methods for checking consistency
+  include ConsistencyValidations
+
   # Create a changeset from XML.
   def create
     if request.put?
@@ -46,12 +49,9 @@ class ChangesetController < ApplicationController
       return
     end
     
-    changeset = Changeset.find(params[:id])
-    
-    unless @user.id == changeset.user_id 
-      raise OSM::APIUserChangesetMismatchError 
-    end
-    
+    changeset = Changeset.find(params[:id])    
+    check_changeset_consistency(changeset, @user)
+
     # to close the changeset, we'll just set its closed_at time to
     # now. this might not be enough if there are concurrency issues, 
     # but we'll have to wait and see.
@@ -75,12 +75,7 @@ class ChangesetController < ApplicationController
     # idempotent, there is no "document" to PUT really...
     if request.post?
       cs = Changeset.find(params[:id])
-
-      # check user credentials - only the user who opened a changeset
-      # may alter it.
-      unless @user.id == cs.user_id 
-        raise OSM::APIUserChangesetMismatchError 
-      end
+      check_changeset_consistency(cs, @user)
 
       # keep an array of lons and lats
       lon = Array.new
@@ -142,12 +137,7 @@ class ChangesetController < ApplicationController
     end
 
     changeset = Changeset.find(params[:id])
-
-    # access control - only the user who created a changeset may
-    # upload to it.
-    unless @user.id == changeset.user_id 
-      raise OSM::APIUserChangesetMismatchError 
-    end
+    check_changeset_consistency(changeset, @user)
     
     diff_reader = DiffReader.new(request.raw_post, changeset)
     Changeset.transaction do
@@ -281,6 +271,7 @@ class ChangesetController < ApplicationController
     new_changeset = Changeset.from_xml(request.raw_post)
 
     unless new_changeset.nil?
+      check_changeset_consistency(changeset, @user)
       changeset.update_from(new_changeset, @user)
       render :text => changeset.to_xml, :mime_type => "text/xml"
     else

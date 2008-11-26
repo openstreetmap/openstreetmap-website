@@ -27,4 +27,19 @@ module ConsistencyValidations
       raise OSM::APIChangesetAlreadyClosedError.new(new.changeset)
     end
   end
+
+  ##
+  # subset of consistency checks which should be applied to almost
+  # all the changeset controller's writable methods.
+  def check_changeset_consistency(changeset, user)
+    # check user credentials - only the user who opened a changeset
+    # may alter it.
+    if changeset.nil?
+      raise OSM::APIChangesetMissingError.new
+    elsif user.id != changeset.user_id 
+      raise OSM::APIUserChangesetMismatchError.new
+    elsif not changeset.is_open?
+      raise OSM::APIChangesetAlreadyClosedError.new(changeset)
+    end
+  end
 end
