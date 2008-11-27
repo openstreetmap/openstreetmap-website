@@ -5,6 +5,11 @@
     <td><%= h(changeset_details.created_at) %></td>
   </tr>
   
+  <tr>
+    <th>Closed at:</th>
+    <td><%= h(changeset_details.closed_at) %></td>
+  </tr>
+  
   <% if changeset_details.user.data_public? %>
     <tr>
       <th>Belongs to:</th>
@@ -21,27 +26,33 @@
         </table>
       </td>
     </tr>
-    <% end %>
+  <% else %>
+    <tr>
+      <th>Tags</th>
+      <td>There are no tags for this changeset</td>
+    </tr>
+  <% end %>
 
-  <% unless changeset_details.old_nodes.empty? %>
+  <% unless @nodes.empty? %>
     <tr valign="top">
-      <th>Has the following nodes:</th>
+      <th>Has the following <%= @node_pages.item_count %> nodes:</th>
       <td>
         <table padding="0">
-          <% changeset_details.old_nodes.each do |node| %>
+          <% @nodes.each do |node| %>
             <tr><td><%= link_to "Node #{node.id.to_s}, version #{node.version.to_s}", :action => "node", :id => node.id.to_s %></td></tr>
           <% end %>
         </table>
       </td>
     </tr>
+    <%= render :partial => 'paging_nav', :locals => { :pages => @node_pages, :page_param => "node_page"} %>
   <% end %>
   
-  <% unless changeset_details.old_ways.empty? %>
+  <% unless @ways.empty? %>
     <tr valign="top">
-      <th>Has the following ways:</th>
+      <th>Has the following <%= @way_pages.item_count %> ways:</th>
       <td>
         <table padding="0">
-          <% changeset_details.old_ways.each do |way| %>
+          <% @ways.each do |way| %>
             <tr><td><%= link_to "Way #{way.id.to_s}, version #{way.version.to_s}", :action => "way", :id => way.id.to_s %></td></tr>
           <% end %>
           <%=
@@ -49,20 +60,22 @@
           %>
         </table>
       </td>
-    </tr>      
+    </tr>
+    <%= render :partial => 'paging_nav', :locals => { :pages => @way_pages, :page_param => "way_page" } %>
   <% end %>
   
-  <% unless changeset_details.old_relations.empty? %>
+  <% unless @relations.empty? %>
     <tr valign="top">
-      <th>Has the following relations:</th>
+      <th>Has the following <%= @relation_pages.item_count %> relations:</th>
       <td>
         <table padding="0">
-          <% changeset_details.old_relations.each do |relation| %>
+          <% @relations.each do |relation| %>
             <tr><td><%= link_to "Relation #{relation.id.to_s}, version #{relation.version.to_s}", :action => "relation", :id => relation.id.to_s %></td></tr>
           <% end %>
         </table>
       </td>
     </tr>
+    <%= render :partial => 'paging_nav', :locals => { :pages => @relation_pages, :page_param => "relation_page" } %>
   <% end %>
 
 </table>
