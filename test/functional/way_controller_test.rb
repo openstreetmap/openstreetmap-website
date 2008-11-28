@@ -249,10 +249,6 @@ class WayControllerTest < ActionController::TestCase
   # Try adding a new duplicate tags to a way.
   # But be a bit subtle - use unicode decoding ambiguities to use different
   # binary strings which have the same decoding.
-  #
-  # NOTE: I'm not sure this test is working correctly, as a lot of the tag
-  # keys seem to come out as "addr��housenumber". It might be something to
-  # do with Ruby's unicode handling...?
   def test_invalid_duplicate_tags
     # setup auth
     basic_authorization(users(:normal_user).email, "test")
@@ -260,26 +256,14 @@ class WayControllerTest < ActionController::TestCase
     # add the tag into the existing xml
     way_str = "<osm><way changeset='1'>"
     way_str << "<tag k='addr:housenumber' v='1'/>"
+    way_str << "<tag k='addr:housenumber' v='2'/>"
+    way_str << "</way></osm>";
 
-    # all of these keys have the same unicode decoding, but are binary
-    # not equal. libxml should make these identical as it decodes the
-    # XML document...
-    [ "addr\xc0\xbahousenumber",
-      "addr\xe0\x80\xbahousenumber",
-      "addr\xf0\x80\x80\xbahousenumber" ].each do |key|
-      # copy the XML doc to add the tags
-      way_str_copy = way_str.clone
-
-      # add all new tags to the way
-      way_str_copy << "<tag k='" << key << "' v='1'/>"
-      way_str_copy << "</way></osm>";
-
-      # try and upload it
-      content way_str_copy
-      put :create
-      assert_response :bad_request, 
-         "adding new duplicate tags to a way should fail with 'bad request'"
-    end
+    # try and upload it
+    content way_str
+    put :create
+    assert_response :bad_request, 
+    "adding new duplicate tags to a way should fail with 'bad request'"
   end
 
   ##
