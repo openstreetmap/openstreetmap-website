@@ -34,8 +34,8 @@ class Way < ActiveRecord::Base
       doc.find('//osm/way').each do |pt|
         return Way.from_xml_node(pt, create)
       end
-    rescue
-      return nil
+    rescue LibXML::XML::Error => ex
+      raise OSM::APIBadXMLError.new("relation", xml, ex.message)
     end
   end
 
@@ -182,7 +182,7 @@ class Way < ActiveRecord::Base
 
     # duplicate tags are now forbidden, so we can't allow values
     # in the hash to be overwritten.
-    raise OSM::APIDuplicateTagsError.new if @tags.include? k
+    raise OSM::APIDuplicateTagsError.new("way", self.id, k) if @tags.include? k
 
     @tags[k] = v
   end

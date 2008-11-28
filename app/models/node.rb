@@ -71,8 +71,8 @@ class Node < ActiveRecord::Base
       doc.find('//osm/node').each do |pt|
         return Node.from_xml_node(pt, create)
       end
-    rescue
-      return nil
+    rescue LibXML::XML::Error => ex
+      raise OSM::APIBadXMLError.new("node", xml, ex.message)
     end
   end
 
@@ -274,7 +274,7 @@ class Node < ActiveRecord::Base
 
     # duplicate tags are now forbidden, so we can't allow values
     # in the hash to be overwritten.
-    raise OSM::APIDuplicateTagsError.new if @tags.include? k
+    raise OSM::APIDuplicateTagsError.new("node", self.id, k) if @tags.include? k
 
     @tags[k] = v
   end

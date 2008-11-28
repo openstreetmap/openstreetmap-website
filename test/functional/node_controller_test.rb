@@ -194,7 +194,8 @@ class NodeControllerTest < ActionController::TestCase
     content node_xml
     put :update, :id => current_nodes(:visible_node).id
     assert_response :bad_request, 
-       "adding duplicate tags to a node should fail with 'bad request'"
+      "adding duplicate tags to a node should fail with 'bad request'"
+    assert_equal "Element node/#{current_nodes(:visible_node).id} has duplicate tags with key #{current_node_tags(:t1).k}.", @response.body
   end
 
   # test whether string injection is possible

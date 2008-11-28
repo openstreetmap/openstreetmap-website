@@ -209,7 +209,7 @@ class Relation < ActiveRecord::Base
 
     # duplicate tags are now forbidden, so we can't allow values
     # in the hash to be overwritten.
-    raise OSM::APIDuplicateTagsError.new if @tags.include? k
+    raise OSM::APIDuplicateTagsError.new("relation", self.id, k) if @tags.include? k
 
     @tags[k] = v
   end
