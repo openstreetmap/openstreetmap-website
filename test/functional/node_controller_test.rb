@@ -6,7 +6,7 @@ class NodeControllerTest < ActionController::TestCase
 
   def test_create
     # cannot read password from fixture as it is stored as MD5 digest
-    basic_authorization(users(:normal_user).email, "test");
+    basic_authorization(users(:normal_user).email, "test")
     
     # create a node with random lat/lon
     lat = rand(100)-50 + rand
@@ -28,6 +28,32 @@ class NodeControllerTest < ActionController::TestCase
     assert_in_delta lon * 10000000, checknode.longitude, 1, "saved node does not match requested longitude"
     assert_equal changesets(:normal_user_first_change).id, checknode.changeset_id, "saved node does not belong to changeset that it was created in"
     assert_equal true, checknode.visible, "saved node is not visible"
+  end
+
+  def test_create_invalid_xml
+    # Initial setup
+    basic_authorization(users(:normal_user).email, "test")
+    # normal user has a changeset open, so we'll use that.
+    changeset = changesets(:normal_user_first_change)
+    lat = 3.434
+    lon = 3.23
+    
+    # test that the upload is rejected when no lat is supplied
+    # create a minimal xml file
+    content("<osm><node lon='#{lon}' changeset='#{changeset.id}'/></osm>")
+    put :create
+    # hope for success
+    assert_response :bad_request, "node upload did not return bad_request status"
+    assert_equal 'Cannot parse valid node from xml string <node lon="3.23" changeset="1"/>. lat missing', @response.body
+
+    # test that the upload is rejected when no lon is supplied
+    # create a minimal xml file
+    content("<osm><node lat='#{lat}' changeset='#{changeset.id}'/></osm>")
+    put :create
+    # hope for success
+    assert_response :bad_request, "node upload did not return bad_request status"
+    assert_equal 'Cannot parse valid node from xml string <node lat="3.434" changeset="1"/>. lon missing', @response.body
+
   end
 
   def test_read

@@ -310,7 +310,7 @@ EOF
   </relation>
  </modify>
  <create>
-  <node id='-1' changeset='4'>
+  <node id='-1' lon='0' lat='0' changeset='4'>
    <tag k='foo' v='bar'/>
    <tag k='baz' v='bat'/>
   </node>

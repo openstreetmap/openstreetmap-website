@@ -35,7 +35,7 @@ class Way < ActiveRecord::Base
         return Way.from_xml_node(pt, create)
       end
     rescue LibXML::XML::Error => ex
-      raise OSM::APIBadXMLError.new("relation", xml, ex.message)
+      raise OSM::APIBadXMLError.new("way", xml, ex.message)
     end
   end
 

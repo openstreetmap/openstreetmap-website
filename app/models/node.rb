@@ -79,11 +79,13 @@ class Node < ActiveRecord::Base
   def self.from_xml_node(pt, create=false)
     node = Node.new
     
+    raise OSM::APIBadXMLError.new("node", pt, "lat missing") if pt['lat'].nil?
+    raise OSM::APIBadXMLError.new("node", pt, "lon missing") if pt['lon'].nil?
     node.lat = pt['lat'].to_f
     node.lon = pt['lon'].to_f
     node.changeset_id = pt['changeset'].to_i
 
-    return nil unless node.in_world?
+    raise OSM::APIBadUserInput.new("The node is outside this world") unless node.in_world?
 
     # version must be present unless creating
     return nil unless create or not pt['version'].nil?
