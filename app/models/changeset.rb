@@ -50,7 +50,7 @@ class Changeset < ActiveRecord::Base
   end
 
   def set_closed_time_now
-    closed_at = DateTime.now
+    self.closed_at = DateTime.now
   end
   
   def self.from_xml(xml, create=false)
