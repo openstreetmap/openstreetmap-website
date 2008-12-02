@@ -31,6 +31,9 @@ class ChangesetController < ApplicationController
     end
   end
 
+  ##
+  # Return XML giving the basic info about the changeset. Does not 
+  # return anything about the nodes, ways and relations in the changeset.
   def read
     begin
       changeset = Changeset.find(params[:id])
