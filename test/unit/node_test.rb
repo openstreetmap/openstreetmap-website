@@ -82,7 +82,7 @@ class NodeTest < Test::Unit::TestCase
                              :changeset_id => changesets(:normal_user_first_change).id,
                              :visible => 1, 
                              :version => 1)
-    assert node_template.save_with_history!
+    assert node_template.create_with_history(users(:normal_user))
 
     node = Node.find(node_template.id)
     assert_not_nil node
@@ -114,7 +114,7 @@ class NodeTest < Test::Unit::TestCase
     node_template.latitude = 12.3456
     node_template.longitude = 65.4321
     #node_template.tags = "updated=yes"
-    assert node_template.save_with_history!
+    assert node_template.update_from(old_node_template, users(:normal_user))
 
     node = Node.find(node_template.id)
     assert_not_nil node
@@ -145,8 +145,7 @@ class NodeTest < Test::Unit::TestCase
     old_node_template = OldNode.find(:first, :conditions => [ "id = ?", node_template.id ])
     assert_not_nil old_node_template
 
-    node_template.visible = 0
-    assert node_template.save_with_history!
+    assert node_template.delete_with_history!(old_node_template, users(:normal_user))
 
     node = Node.find(node_template.id)
     assert_not_nil node

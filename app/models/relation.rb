@@ -214,6 +214,118 @@ class Relation < ActiveRecord::Base
     @tags[k] = v
   end
 
+  ##
+  # updates the changeset bounding box to contain the bounding box of 
+  # the element with given +type+ and +id+. this only works with nodes
+  # and ways at the moment, as they're the only elements to respond to
+  # the :bbox call.
+  def update_changeset_element(type, id)
+    element = Kernel.const_get(type.capitalize).find(id)
+    changeset.update_bbox! element.bbox
+  end    
+
+  def delete_with_history!(new_relation, user)
+    unless self.visible
+      raise OSM::APIAlreadyDeletedError.new
+    end
+
+    # need to start the transaction here, so that the database can 
+    # provide repeatable reads for the used-by checks. this means it
+    # shouldn't be possible to get race conditions.
+    Relation.transaction do
+      check_consistency(self, new_relation, user)
+      # This will check to see if this relation is used by another relation
+      if RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", :conditions => [ "visible = ? AND member_type='relation' and member_id=? ", true, self.id ])
+        raise OSM::APIPreconditionFailedError.new("The relation #{new_relation.id} is a used in another relation")
+      end
+      self.changeset_id = new_relation.changeset_id
+      self.tags = {}
+      self.members = []
+      self.visible = false
+      save_with_history!
+    end
+  end
+
+  def update_from(new_relation, user)
+    check_consistency(self, new_relation, user)
+    if !new_relation.preconditions_ok?
+      raise OSM::APIPreconditionFailedError.new
+    end
+    self.changeset_id = new_relation.changeset_id
+    self.tags = new_relation.tags
+    self.members = new_relation.members
+    self.visible = true
+    save_with_history!
+  end
+  
+  def create_with_history(user)
+    check_create_consistency(self, user)
+    if !self.preconditions_ok?
+      raise OSM::APIPreconditionFailedError.new
+    end
+    self.version = 0
+    self.visible = true
+    save_with_history!
+  end
+
+  def preconditions_ok?
+    # These are hastables that store an id in the index of all 
+    # the nodes/way/relations that have already been added.
+    # If the member is valid and visible then we add it to the 
+    # relevant hash table, with the value true as a cache.
+    # Thus if you have nodes with the ids of 50 and 1 already in the
+    # relation, then the hash table nodes would contain:
+    # => {50=>true, 1=>true}
+    elements = { :node => Hash.new, :way => Hash.new, :relation => Hash.new }
+    self.members.each do |m|
+      # find the hash for the element type or die
+      hash = elements[m[0].to_sym] or return false
+
+      # unless its in the cache already
+      unless hash.key? m[1]
+        # use reflection to look up the appropriate class
+        model = Kernel.const_get(m[0].capitalize)
+
+        # get the element with that ID
+        element = model.find(m[1])
+
+        # and check that it is OK to use.
+        unless element and element.visible? and element.preconditions_ok?
+          return false
+        end
+        hash[m[1]] = true
+      end
+    end
+
+    return true
+  rescue
+    return false
+  end
+
+  # Temporary method to match interface to nodes
+  def tags_as_hash
+    return self.tags
+  end
+
+  ##
+  # if any members are referenced by placeholder IDs (i.e: negative) then
+  # this calling this method will fix them using the map from placeholders 
+  # to IDs +id_map+. 
+  def fix_placeholders!(id_map)
+    self.members.map! do |type, id, role|
+      old_id = id.to_i
+      if old_id < 0
+        new_id = id_map[type.to_sym][old_id]
+        raise "invalid placeholder" if new_id.nil?
+        [type, new_id, role]
+      else
+        [type, id, role]
+      end
+    end
+  end
+
+  private
+  
   def save_with_history!
     Relation.transaction do
       # have to be a little bit clever here - to detect if any tags
@@ -333,116 +445,6 @@ class Relation < ActiveRecord::Base
 
       # save the (maybe updated) changeset bounding box
       changeset.save!
-    end
-  end
-
-  ##
-  # updates the changeset bounding box to contain the bounding box of 
-  # the element with given +type+ and +id+. this only works with nodes
-  # and ways at the moment, as they're the only elements to respond to
-  # the :bbox call.
-  def update_changeset_element(type, id)
-    element = Kernel.const_get(type.capitalize).find(id)
-    changeset.update_bbox! element.bbox
-  end    
-
-  def delete_with_history!(new_relation, user)
-    unless self.visible
-      raise OSM::APIAlreadyDeletedError.new
-    end
-
-    # need to start the transaction here, so that the database can 
-    # provide repeatable reads for the used-by checks. this means it
-    # shouldn't be possible to get race conditions.
-    Relation.transaction do
-      check_consistency(self, new_relation, user)
-      # This will check to see if this relation is used by another relation
-      if RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", :conditions => [ "visible = ? AND member_type='relation' and member_id=? ", true, self.id ])
-        raise OSM::APIPreconditionFailedError.new("The relation #{new_relation.id} is a used in another relation")
-      end
-      self.changeset_id = new_relation.changeset_id
-      self.tags = {}
-      self.members = []
-      self.visible = false
-      save_with_history!
-    end
-  end
-
-  def update_from(new_relation, user)
-    check_consistency(self, new_relation, user)
-    if !new_relation.preconditions_ok?
-      raise OSM::APIPreconditionFailedError.new
-    end
-    self.changeset_id = new_relation.changeset_id
-    self.tags = new_relation.tags
-    self.members = new_relation.members
-    self.visible = true
-    save_with_history!
-  end
-  
-  def create_with_history(user)
-    check_create_consistency(self, user)
-    if !self.preconditions_ok?
-      raise OSM::APIPreconditionFailedError.new
-    end
-    self.version = 0
-    self.visible = true
-    save_with_history!
-  end
-
-  def preconditions_ok?
-    # These are hastables that store an id in the index of all 
-    # the nodes/way/relations that have already been added.
-    # If the member is valid and visible then we add it to the 
-    # relevant hash table, with the value true as a cache.
-    # Thus if you have nodes with the ids of 50 and 1 already in the
-    # relation, then the hash table nodes would contain:
-    # => {50=>true, 1=>true}
-    elements = { :node => Hash.new, :way => Hash.new, :relation => Hash.new }
-    self.members.each do |m|
-      # find the hash for the element type or die
-      hash = elements[m[0].to_sym] or return false
-
-      # unless its in the cache already
-      unless hash.key? m[1]
-        # use reflection to look up the appropriate class
-        model = Kernel.const_get(m[0].capitalize)
-
-        # get the element with that ID
-        element = model.find(m[1])
-
-        # and check that it is OK to use.
-        unless element and element.visible? and element.preconditions_ok?
-          return false
-        end
-        hash[m[1]] = true
-      end
-    end
-
-    return true
-  rescue
-    return false
-  end
-
-  # Temporary method to match interface to nodes
-  def tags_as_hash
-    return self.tags
-  end
-
-  ##
-  # if any members are referenced by placeholder IDs (i.e: negative) then
-  # this calling this method will fix them using the map from placeholders 
-  # to IDs +id_map+. 
-  def fix_placeholders!(id_map)
-    self.members.map! do |type, id, role|
-      old_id = id.to_i
-      if old_id < 0
-        new_id = id_map[type.to_sym][old_id]
-        raise "invalid placeholder" if new_id.nil?
-        [type, new_id, role]
-      else
-        [type, id, role]
-      end
     end
   end
 

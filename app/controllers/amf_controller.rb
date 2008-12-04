@@ -3,7 +3,7 @@
 # OSM database takes place using this controller. Messages are 
 # encoded in the Actionscript Message Format (AMF).
 #
-# Helper functions are in /lib/potlatch.
+# Helper functions are in /lib/potlatch.rb
 #
 # Author::	editions Systeme D / Richard Fairhurst 2004-2008
 # Licence::	public domain.
@@ -130,8 +130,8 @@ class AmfController < ApplicationController
   # Start new changeset
   
   def startchangeset(usertoken, cstags, closeid, closecomment)
-    uid = getuserid(usertoken)
-    if !uid then return -1,"You are not logged in, so Potlatch can't write any changes to the database." end
+    user = getuserid(usertoken)
+    if !user then return -1,"You are not logged in, so Potlatch can't write any changes to the database." end
 
     # close previous changeset and add comment
     if closeid
@@ -392,20 +392,19 @@ class AmfController < ApplicationController
   # 1. original relation id (unchanged),
   # 2. new relation id.
 
-  def putrelation(renumberednodes, renumberedways, usertoken, changeset, relid, tags, members, visible) #:doc:
-    uid = getuserid(usertoken)
-    if !uid then return -1,"You are not logged in, so the relation could not be saved." end
+  def putrelation(renumberednodes, renumberedways, usertoken, changeset, version, relid, tags, members, visible) #:doc:
+    user = getuserid(usertoken)
+    if !user then return -1,"You are not logged in, so the relation could not be saved." end
 
     relid = relid.to_i
     visible = (visible.to_i != 0)
 
     # create a new relation, or find the existing one
-    if relid <= 0
-      rel = Relation.new
-      rel.version = 0
-    else
-      rel = Relation.find(relid)
+    if relid > 0
+      relation = Relation.find(relid)
     end
+    # We always need a new node, based on the data that has been sent to us
+    new_relation = Relation.new
 
     # check the members are all positive, and correctly type
     typedmembers = []
@@ -421,22 +420,38 @@ class AmfController < ApplicationController
     end
 
     # assign new contents
-    rel.members = typedmembers
-    rel.tags = tags
-    rel.visible = visible
-    rel.changeset_id = changeset
+    new_relation.members = typedmembers
+    new_relation.tags = tags
+    new_relation.visible = visible
+    new_relation.changeset_id = changeset
+    new_relation.version = version
 
-    # check it then save it
-    # BUG: the following is commented out because it always fails on my
-    #  install. I think it's a Rails bug.
 
-    #if !rel.preconditions_ok?
-    #  return -2, "Relation preconditions failed"
-    #else
-    rel.save_with_history!
-    #end
-
-    [0, relid, rel.id]
+    if id <= 0
+      # We're creating the node
+      new_relation.create_with_history(user)
+    elsif visible
+      # We're updating the node
+      relation.update_from(new_relation, user)
+    else
+      # We're deleting the node
+      relation.delete_with_history!(new_relation, user)
+    end
+      
+    if id <= 0
+      return [0, relid, new_relation.id, new_relation.version]
+    else
+      return [0, relid, relation.id, relation.version]
+    end
+  rescue OSM::APIChangesetAlreadyClosedError => ex
+    return [-1, "The changeset #{ex.changeset.id} was closed at #{ex.changeset.closed_at}"]
+  rescue OSM::APIVersionMismatchError => ex
+    return [-1, "You have taken too long to edit, please reload the area"]
+  rescue OSM::APIAlreadyDeletedError => ex
+    return [-1, "The object has already been deleted"]
+  rescue OSM::APIError => ex
+    # Some error that we don't specifically catch
+    return [-2, "Something really bad happened :-()"]
   end
 
   # Save a way to the database, including all nodes. Any nodes in the previous
@@ -453,8 +468,8 @@ class AmfController < ApplicationController
 
     # -- Initialise and carry out checks
 	
-    uid = getuserid(usertoken)
-    if !uid then return -1,"You are not logged in, so the way could not be saved." end
+    user = getuserid(usertoken)
+    if !user then return -1,"You are not logged in, so the way could not be saved." end
 
     originalway = originalway.to_i
 
@@ -467,14 +482,13 @@ class AmfController < ApplicationController
 
     # -- Get unique nodes
 
-    if originalway < 0
-      way = Way.new
-      way.version = 0	# otherwise +=1 breaks
+    if originalway <= 0
       uniques = []
     else
       way = Way.find(originalway)
       uniques = way.unshared_node_ids
     end
+    new_way = Way.new
 
     # -- Compare nodes and save changes to any that have changed
 
@@ -484,16 +498,19 @@ class AmfController < ApplicationController
       lon = n[0].to_f
       lat = n[1].to_f
       id = n[2].to_i
+      version = n[3].to_i # FIXME which index does the version come in on????
       savenode = false
+      # We always need a new node if we are saving it
+      new_node = Node.new
+
 
       if renumberednodes[id]
         id = renumberednodes[id]
-      elsif id < 0
+      elsif id <= 0
         # Create new node
-        node = Node.new
-        node.version = 0	# otherwise +=1 breaks
         savenode = true
       else
+        # Don't modify this node, make any changes you want to the new_node above
         node = Node.find(id)
         nodetags=node.tags
         nodetags.delete('created_by')
@@ -504,12 +521,19 @@ class AmfController < ApplicationController
       end
 
       if savenode
-        node.changeset_id = changeset
-        node.lat = lat
-        node.lon = lon
-        node.tags = n[4]
-        node.visible = true
-        node.save_with_history!
+        new_node.changeset_id = changeset
+        new_node.lat = lat
+        new_node.lon = lon
+        new_node.tags = n[4]
+        new_node.visible = true
+        new_node.version = version
+        if id <= 0
+          # We're creating the node
+          new_node.create_with_history(user)
+        else
+          # We're updating the node (no delete here)
+          node.update_from(new_node, user)
+        end
 
         if id != node.id
           renumberednodes[id] = node.id
@@ -527,19 +551,21 @@ class AmfController < ApplicationController
       deleteitemrelations(n, 'node')
 
       node = Node.find(n)
-      node.changeset_id = changeset
-      node.visible = false
-      node.save_with_history!
+      new_node = Node.new
+      new_node.changeset_id = changeset
+      new_node.version = version
+      node.delete_with_history!(new_node, user)
     end
 
     # -- Save revised way
 
     if way.tags!=attributes or way.nds!=nodes or !way.visible?
-      way.tags = attributes
-      way.nds = nodes
-      way.changeset_id = changeset
-      way.visible = true
-      way.save_with_history!
+      new_way = Way.new
+      new_way.tags = attributes
+      new_way.nds = nodes
+      new_way.changeset_id = changeset
+      new_way.version = version
+      way.update_from(new_way, user)
     end
 
     [0, originalway, way.id, renumberednodes, way.version]
@@ -553,9 +579,9 @@ class AmfController < ApplicationController
   # 2. new node id,
   # 3. version.
 
-  def putpoi(usertoken, changeset, id, lon, lat, tags, visible) #:doc:
-    uid = getuserid(usertoken)
-    if !uid then return -1,"You are not logged in, so the point could not be saved." end
+  def putpoi(usertoken, changeset, version, id, lon, lat, tags, visible) #:doc:
+    user = getuser(usertoken)
+    if !user then return -1,"You are not logged in, so the point could not be saved." end
 
     id = id.to_i
     visible = (visible.to_i == 1)
@@ -567,19 +593,32 @@ class AmfController < ApplicationController
         unless node.ways.empty? then return -1,"The point has since become part of a way, so you cannot save it as a POI." end
         deleteitemrelations(id, 'node')
       end
+    end
+    # We always need a new node, based on the data that has been sent to us
+    new_node = Node.new
+
+    new_node.changeset_id = changeset
+    new_node.version = version
+    new_node.lat = lat
+    new_node.lon = lon
+    new_node.tags = tags
+    new_node.visible = visible
+    if id <= 0 
+      # We're creating the node
+      new_node.create_with_history(user)
+    elsif visible
+      # We're updating the node
+      node.update_from(new_node, user)
     else
-      node = Node.new
-      node.version = 0
+      # We're deleting the node
+      node.delete_with_history!(new_node, user)
     end
 
-    node.changeset_id = changeset
-    node.lat = lat
-    node.lon = lon
-    node.tags = tags
-    node.visible = visible
-    node.save_with_history!
-
-    [0, id, node.id, node.version]
+    if id <= 0
+      return [0, id, new_node.id, new_node.version]
+    else
+      return [0, id, node.id, node.version]
+    end
   end
 
   # Read POI from database
@@ -652,14 +691,20 @@ class AmfController < ApplicationController
 
   # Authenticate token
   # (can also be of form user:pass)
+  # When we are writing to the api, we need the actual user model, 
+  # not just the id, hence this abstraction
 
-  def getuserid(token) #:doc:
+  def getuser(token) #:doc:
     if (token =~ /^(.+)\:(.+)$/) then
       user = User.authenticate(:username => $1, :password => $2)
     else
       user = User.authenticate(:token => token)
     end
-
+    return user
+  end
+  
+  def getuserid(token)
+    user = getuser(token)
     return user ? user.id : nil;
   end
 

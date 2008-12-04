@@ -88,7 +88,7 @@ class Node < ActiveRecord::Base
     raise OSM::APIBadUserInput.new("The node is outside this world") unless node.in_world?
 
     # version must be present unless creating
-    return nil unless create or not pt['version'].nil?
+    raise OSM::APIBadXMLError.new("node", pt, "Version is required when updating") unless create or not pt['version'].nil?
     node.version = create ? 0 : pt['version'].to_i
 
     unless create
@@ -119,40 +119,10 @@ class Node < ActiveRecord::Base
   end
 
   ##
-  # the bounding box around a node
+  # the bounding box around a node, which is used for determining the changeset's
+  # bounding box
   def bbox
     [ longitude, latitude, longitude, latitude ]
-  end
-
-  def save_with_history!
-    t = Time.now
-    Node.transaction do
-      self.version += 1
-      self.timestamp = t
-      self.save!
-
-      # Create a NodeTag
-      tags = self.tags
-      NodeTag.delete_all(['id = ?', self.id])
-      tags.each do |k,v|
-        tag = NodeTag.new
-        tag.k = k 
-        tag.v = v 
-        tag.id = self.id
-        tag.save!
-      end 
-
-      # Create an OldNode
-      old_node = OldNode.from_node(self)
-      old_node.timestamp = t
-      old_node.save_with_dependencies!
-
-      # tell the changeset we updated one element only
-      changeset.add_changes! 1
-
-      # save the changeset in case of bounding box updates
-      changeset.save!
-    end
   end
 
   # Should probably be renamed delete_from to come in line with update
@@ -294,5 +264,38 @@ class Node < ActiveRecord::Base
   def fix_placeholders!(id_map)
     # nodes don't refer to anything, so there is nothing to do here
   end
+  
+  private
 
+  def save_with_history!
+    t = Time.now
+    Node.transaction do
+      self.version += 1
+      self.timestamp = t
+      self.save!
+
+      # Create a NodeTag
+      tags = self.tags
+      NodeTag.delete_all(['id = ?', self.id])
+      tags.each do |k,v|
+        tag = NodeTag.new
+        tag.k = k 
+        tag.v = v 
+        tag.id = self.id
+        tag.save!
+      end 
+
+      # Create an OldNode
+      old_node = OldNode.from_node(self)
+      old_node.timestamp = t
+      old_node.save_with_dependencies!
+
+      # tell the changeset we updated one element only
+      changeset.add_changes! 1
+
+      # save the changeset in case of bounding box updates
+      changeset.save!
+    end
+  end
+  
 end

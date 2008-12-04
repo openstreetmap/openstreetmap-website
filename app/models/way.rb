@@ -196,56 +196,6 @@ class Way < ActiveRecord::Base
     [ lons.min, lats.min, lons.max, lats.max ]
   end
 
-  def save_with_history!
-    t = Time.now
-
-    # update the bounding box, but don't save it as the controller knows the 
-    # lifetime of the change better. note that this has to be done both before 
-    # and after the save, so that nodes from both versions are included in the 
-    # bbox.
-    changeset.update_bbox!(bbox) unless nodes.empty?
-
-    Way.transaction do
-      self.version += 1
-      self.timestamp = t
-      self.save!
-
-      tags = self.tags
-      WayTag.delete_all(['id = ?', self.id])
-      tags.each do |k,v|
-        tag = WayTag.new
-        tag.k = k
-        tag.v = v
-        tag.id = self.id
-        tag.save!
-      end
-
-      nds = self.nds
-      WayNode.delete_all(['id = ?', self.id])
-      sequence = 1
-      nds.each do |n|
-        nd = WayNode.new
-        nd.id = [self.id, sequence]
-        nd.node_id = n
-        nd.save!
-        sequence += 1
-      end
-
-      old_way = OldWay.from_way(self)
-      old_way.timestamp = t
-      old_way.save_with_dependencies!
-
-      # update and commit the bounding box, now that way nodes 
-      # have been updated and we're in a transaction.
-      changeset.update_bbox!(bbox) unless nodes.empty?
-
-      # tell the changeset we updated one element only
-      changeset.add_changes! 1
-
-      changeset.save!
-    end
-  end
-
   def update_from(new_way, user)
     check_consistency(self, new_way, user)
     if !new_way.preconditions_ok?
@@ -300,7 +250,7 @@ class Way < ActiveRecord::Base
         self.tags = []
         self.nds = []
         self.visible = false
-        self.save_with_history!
+        save_with_history!
       end
     end
   end
@@ -355,6 +305,58 @@ class Way < ActiveRecord::Base
       else
         node_id
       end
+    end
+  end
+
+  private
+  
+  def save_with_history!
+    t = Time.now
+
+    # update the bounding box, but don't save it as the controller knows the 
+    # lifetime of the change better. note that this has to be done both before 
+    # and after the save, so that nodes from both versions are included in the 
+    # bbox.
+    changeset.update_bbox!(bbox) unless nodes.empty?
+
+    Way.transaction do
+      self.version += 1
+      self.timestamp = t
+      self.save!
+
+      tags = self.tags
+      WayTag.delete_all(['id = ?', self.id])
+      tags.each do |k,v|
+        tag = WayTag.new
+        tag.k = k
+        tag.v = v
+        tag.id = self.id
+        tag.save!
+      end
+
+      nds = self.nds
+      WayNode.delete_all(['id = ?', self.id])
+      sequence = 1
+      nds.each do |n|
+        nd = WayNode.new
+        nd.id = [self.id, sequence]
+        nd.node_id = n
+        nd.save!
+        sequence += 1
+      end
+
+      old_way = OldWay.from_way(self)
+      old_way.timestamp = t
+      old_way.save_with_dependencies!
+
+      # update and commit the bounding box, now that way nodes 
+      # have been updated and we're in a transaction.
+      changeset.update_bbox!(bbox) unless nodes.empty?
+
+      # tell the changeset we updated one element only
+      changeset.add_changes! 1
+
+      changeset.save!
     end
   end
 
