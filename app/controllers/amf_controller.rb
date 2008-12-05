@@ -468,7 +468,7 @@ class AmfController < ApplicationController
 
     # -- Initialise and carry out checks
 	
-    user = getuserid(usertoken)
+    user = getuser(usertoken)
     if !user then return -1,"You are not logged in, so the way could not be saved." end
 
     originalway = originalway.to_i
