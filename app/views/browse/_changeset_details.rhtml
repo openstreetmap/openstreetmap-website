@@ -33,6 +33,25 @@
     </tr>
   <% end %>
 
+  <% if changeset_details.max_lat.nil? or changeset_details.min_lat.nil? or changeset_details.max_lon.nil? or changeset_details.min_lon.nil? %>
+    <tr>
+      <td>No bounding box has been stored for this changeset.</td>
+    </tr>
+  <% else %>
+    <table>
+      <tr>
+        <td colspan="2" style="text-align:center"><b>Max Latitude: </b><%= changeset_details.max_lat/GeoRecord::SCALE.to_f -%></td>
+      </tr>
+      <tr>
+        <td><b>Min Longitude: </b><%= changeset_details.min_lon/GeoRecord::SCALE.to_f -%></td>
+        <td><b>Max Longitude: </b><%= changeset_details.max_lon/GeoRecord::SCALE.to_f -%></td>
+      </tr>
+      <tr>
+        <td colspan="2" style="text-align:center"><b>Min Latitude: </b><%= changeset_details.min_lon/GeoRecord::SCALE.to_f -%></td>
+      </tr>
+    </table>
+  <% end %>
+
   <% unless @nodes.empty? %>
     <tr valign="top">
       <th>Has the following <%= @node_pages.item_count %> nodes:</th>
