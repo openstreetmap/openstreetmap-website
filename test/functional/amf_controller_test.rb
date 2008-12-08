@@ -15,7 +15,7 @@ class AmfControllerTest < ActionController::TestCase
     amf_content "getway", "/1", [id]
     post :amf_read
     assert_response :success
-    amf_parse_response
+    amf_parse_response                                         
     assert_equal amf_result("/1")[0], id
   end
 
@@ -299,15 +299,15 @@ class AmfControllerTest < ActionController::TestCase
     current_node = Node.find(result[2])
     assert_in_delta lat, current_node.lat, 0.00001, "The latitude was not retreieved correctly"
     assert_in_delta lon, current_node.lon, 0.00001, "The longitude was not retreived correctly"
-    assert_equal 0, current_node.tags.count, "There seems to be a tag that has been added to the node"
+    assert_equal 0, current_node.tags.size, "There seems to be a tag that has been added to the node"
     assert_equal result[3], current_node.version, "The version returned, is different to the one returned by the amf"
     # Now check the history table
     historic_nodes = Node.find(:all, :conditions => { :id => result[2] })
-    assert_equal 1, historic_nodes.count, "There should only be one historic node created"
+    assert_equal 1, historic_nodes.size, "There should only be one historic node created"
     first_historic_node = historic_nodes.first
     assert_in_delta lat, first_historic_node.lat, 0.00001, "The latitude was not retreived correctly"
     assert_in_delta lon, first_historic_node.lon, 0.00001, "The longitude was not retreuved correctly"
-    assert_equal 0, first_historic_node.tags.count, "There seems to be a tag that have been attached to this node"
+    assert_equal 0, first_historic_node.tags.size, "There seems to be a tag that have been attached to this node"
     assert_equal result[3], first_historic_node.version, "The version returned, is different to the one returned by the amf"
     
     ####
@@ -338,16 +338,16 @@ class AmfControllerTest < ActionController::TestCase
     current_node = Node.find(result[2])
     assert_in_delta lat, current_node.lat, 0.00001, "The latitude was not retreieved correctly"
     assert_in_delta lon, current_node.lon, 0.00001, "The longitude was not retreived correctly"
-    assert_equal 2, current_node.tags.count, "There seems to be a tag that has been added to the node"
+    assert_equal 2, current_node.tags.size, "There seems to be a tag that has been added to the node"
     assert_equal({ "key" => "value", "ping" => "pong" }, current_node.tags, "tags are different")
     assert_equal result[3], current_node.version, "The version returned, is different to the one returned by the amf"
     # Now check the history table
     historic_nodes = Node.find(:all, :conditions => { :id => result[2] })
-    assert_equal 1, historic_nodes.count, "There should only be one historic node created"
+    assert_equal 1, historic_nodes.size, "There should only be one historic node created"
     first_historic_node = historic_nodes.first
     assert_in_delta lat, first_historic_node.lat, 0.00001, "The latitude was not retreived correctly"
     assert_in_delta lon, first_historic_node.lon, 0.00001, "The longitude was not retreuved correctly"
-    assert_equal 2, first_historic_node.tags.count, "There seems to be a tag that have been attached to this node"
+    assert_equal 2, first_historic_node.tags.size, "There seems to be a tag that have been attached to this node"
     assert_equal({ "key" => "value", "ping" => "pong" }, first_historic_node.tags, "tags are different")
     assert_equal result[3], first_historic_node.version, "The version returned, is different to the one returned by the amf"
 
