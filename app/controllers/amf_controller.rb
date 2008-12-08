@@ -506,7 +506,8 @@ class AmfController < ApplicationController
 
       if renumberednodes[id]
         id = renumberednodes[id]
-      elsif id <= 0
+      end
+      if id <= 0
         # Create new node
         savenode = true
       else
@@ -573,7 +574,7 @@ class AmfController < ApplicationController
 
   # Save POI to the database.
   # Refuses save if the node has since become part of a way.
-  # Returns:
+  # Returns array with:
   # 0. 0 (success),
   # 1. original node id (unchanged),
   # 2. new node id,
@@ -597,6 +598,7 @@ class AmfController < ApplicationController
     # We always need a new node, based on the data that has been sent to us
     new_node = Node.new
 
+    new_node.id = id
     new_node.changeset_id = changeset
     new_node.version = version
     new_node.lat = lat

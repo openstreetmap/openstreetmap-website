@@ -239,6 +239,119 @@ class AmfControllerTest < ActionController::TestCase
     assert history[2].empty?
   end
 
+  # ************************************************************
+  # AMF Write tests
+  def test_putpoi_update_valid
+    nd = current_nodes(:visible_node)
+    amf_content "putpoi", "/1", ["test@openstreetmap.org:test", nd.changeset_id, nd.version, nd.id, nd.lon, nd.lat, nd.tags, nd.visible]
+    post :amf_write
+    assert_response :success
+    amf_parse_response
+    result = amf_result("/1")
+    
+    assert_equal 0, result[0]
+    assert_equal nd.id, result[1]
+    assert_equal nd.id, result[2]
+    assert_equal nd.version+1, result[3]
+    
+    # Now try to update again, with a different lat/lon, using the updated version number
+    lat = nd.lat+0.1
+    lon = nd.lon-0.1
+    amf_content "putpoi", "/2", ["test@openstreetmap.org:test", nd.changeset_id, nd.version+1, nd.id, lon, lat, nd.tags, nd.visible]
+    post :amf_write
+    assert_response :success
+    amf_parse_response
+    result = amf_result("/2")
+    
+    assert_equal 0, result[0]
+    assert_equal nd.id, result[1]
+    assert_equal nd.id, result[2]
+    assert_equal nd.version+2, result[3]
+  end
+  
+  # Check that we can create a no valid poi
+  # Using similar method for the node controller test
+  def test_putpoi_create_valid
+    # This node has no tags
+    nd = Node.new
+    # create a node with random lat/lon
+    lat = rand(100)-50 + rand
+    lon = rand(100)-50 + rand
+    # normal user has a changeset open
+    changeset = changesets(:normal_user_first_change)
+    
+    amf_content "putpoi", "/1", ["test@openstreetmap.org:test", changeset.id, nil, nil, lon, lat, {}, nil]
+    post :amf_write
+    assert_response :success
+    amf_parse_response
+    result = amf_result("/1")
+    
+    # check the array returned by the amf
+    assert_equal 4, result.size
+    assert_equal 0, result[0], "expected to get the status ok from the amf"
+    assert_equal 0, result[1], "The old id should be 0"
+    assert result[2] > 0, "The new id should be greater than 0"
+    assert_equal 1, result[3], "The new version should be 1"
+    
+    # Finally check that the node that was saved has saved the data correctly 
+    # in both the current and history tables
+    # First check the current table
+    current_node = Node.find(result[2])
+    assert_in_delta lat, current_node.lat, 0.00001, "The latitude was not retreieved correctly"
+    assert_in_delta lon, current_node.lon, 0.00001, "The longitude was not retreived correctly"
+    assert_equal 0, current_node.tags.count, "There seems to be a tag that has been added to the node"
+    assert_equal result[3], current_node.version, "The version returned, is different to the one returned by the amf"
+    # Now check the history table
+    historic_nodes = Node.find(:all, :conditions => { :id => result[2] })
+    assert_equal 1, historic_nodes.count, "There should only be one historic node created"
+    first_historic_node = historic_nodes.first
+    assert_in_delta lat, first_historic_node.lat, 0.00001, "The latitude was not retreived correctly"
+    assert_in_delta lon, first_historic_node.lon, 0.00001, "The longitude was not retreuved correctly"
+    assert_equal 0, first_historic_node.tags.count, "There seems to be a tag that have been attached to this node"
+    assert_equal result[3], first_historic_node.version, "The version returned, is different to the one returned by the amf"
+    
+    ####
+    # This node has some tags
+    tnd = Node.new
+    # create a node with random lat/lon
+    lat = rand(100)-50 + rand
+    lon = rand(100)-50 + rand
+    # normal user has a changeset open
+    changeset = changesets(:normal_user_first_change)
+    
+    amf_content "putpoi", "/2", ["test@openstreetmap.org:test", changeset.id, nil, nil, lon, lat, { "key" => "value", "ping" => "pong" }, nil]
+    post :amf_write
+    assert_response :success
+    amf_parse_response
+    result = amf_result("/2")
+
+    # check the array returned by the amf
+    assert_equal 4, result.size
+    assert_equal 0, result[0], "Expected to get the status ok in the amf"
+    assert_equal 0, result[1], "The old id should be 0"
+    assert result[2] > 0, "The new id should be greater than 0"
+    assert_equal 1, result[3], "The new version should be 1"
+    
+    # Finally check that the node that was saved has saved the data correctly 
+    # in both the current and history tables
+    # First check the current table
+    current_node = Node.find(result[2])
+    assert_in_delta lat, current_node.lat, 0.00001, "The latitude was not retreieved correctly"
+    assert_in_delta lon, current_node.lon, 0.00001, "The longitude was not retreived correctly"
+    assert_equal 2, current_node.tags.count, "There seems to be a tag that has been added to the node"
+    assert_equal({ "key" => "value", "ping" => "pong" }, current_node.tags, "tags are different")
+    assert_equal result[3], current_node.version, "The version returned, is different to the one returned by the amf"
+    # Now check the history table
+    historic_nodes = Node.find(:all, :conditions => { :id => result[2] })
+    assert_equal 1, historic_nodes.count, "There should only be one historic node created"
+    first_historic_node = historic_nodes.first
+    assert_in_delta lat, first_historic_node.lat, 0.00001, "The latitude was not retreived correctly"
+    assert_in_delta lon, first_historic_node.lon, 0.00001, "The longitude was not retreuved correctly"
+    assert_equal 2, first_historic_node.tags.count, "There seems to be a tag that have been attached to this node"
+    assert_equal({ "key" => "value", "ping" => "pong" }, first_historic_node.tags, "tags are different")
+    assert_equal result[3], first_historic_node.version, "The version returned, is different to the one returned by the amf"
+
+  end
 
   # ************************************************************
   # AMF Helper functions
