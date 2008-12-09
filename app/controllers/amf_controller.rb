@@ -446,7 +446,10 @@ class AmfController < ApplicationController
   rescue OSM::APIChangesetAlreadyClosedError => ex
     return [-1, "The changeset #{ex.changeset.id} was closed at #{ex.changeset.closed_at}"]
   rescue OSM::APIVersionMismatchError => ex
-    return [-1, "You have taken too long to edit, please reload the area"]
+    # Really need to check to see whether this is a server load issue, and the 
+    # last version was in the same changeset, or belongs to the same user, then
+    # we can return something different
+    return [-3, "You have taken too long to edit, please reload the area"]
   rescue OSM::APIAlreadyDeletedError => ex
     return [-1, "The object has already been deleted"]
   rescue OSM::APIError => ex
@@ -570,6 +573,18 @@ class AmfController < ApplicationController
     end
 
     [0, originalway, way.id, renumberednodes, way.version]
+  rescue OSM::APIChangesetAlreadyClosedError => ex
+    return [-1, "The changeset #{ex.changeset.id} was closed at #{ex.changeset.closed_at}"]
+  rescue OSM::APIVersionMismatchError => ex
+    # Really need to check to see whether this is a server load issue, and the 
+    # last version was in the same changeset, or belongs to the same user, then
+    # we can return something different
+    return [-3, "You have taken too long to edit, please reload the area"]
+  rescue OSM::APIAlreadyDeletedError => ex
+    return [-1, "The object has already been deleted"]
+  rescue OSM::APIError => ex
+    # Some error that we don't specifically catch
+    return [-2, "Something really bad happened :-()"]
   end
 
   # Save POI to the database.
@@ -621,6 +636,18 @@ class AmfController < ApplicationController
     else
       return [0, id, node.id, node.version]
     end
+  rescue OSM::APIChangesetAlreadyClosedError => ex
+    return [-1, "The changeset #{ex.changeset.id} was closed at #{ex.changeset.closed_at}"]
+  rescue OSM::APIVersionMismatchError => ex
+        # Really need to check to see whether this is a server load issue, and the 
+    # last version was in the same changeset, or belongs to the same user, then
+    # we can return something different
+    return [-3, "You have taken too long to edit, please reload the area"]
+  rescue OSM::APIAlreadyDeletedError => ex
+    return [-1, "The object has already been deleted"]
+  rescue OSM::APIError => ex
+    # Some error that we don't specifically catch
+    return [-2, "Something really bad happened :-()"]
   end
 
   # Read POI from database
@@ -645,21 +672,23 @@ class AmfController < ApplicationController
   # Delete way and all constituent nodes. Also removes from any relations.
   # Returns 0 (success), unchanged way id.
 
-  def deleteway(usertoken, changeset_id, way_id) #:doc:
-    if !getuserid(usertoken) then return -1,"You are not logged in, so the way could not be deleted." end
+  def deleteway(usertoken, changeset_id, way_id, version_id) #:doc:
+    user = getuser(usertoken)
+    if user then return -1,"You are not logged in, so the way could not be deleted." end
+    # Need a transaction so that if one item fails to delete, the whole delete fails.
+    Way.transaction do
+      way_id = way_id.to_i
 
-    way_id = way_id.to_i
+      # FIXME: would be good not to make two history entries when removing
+      #		 two nodes from the same relation
+      old_way = Way.find(way_id)
+      old_way.unshared_node_ids.each do |n|
+        deleteitemrelations(n, 'node')
+      end
+      deleteitemrelations(way_id, 'way')
 
-    # FIXME: would be good not to make two history entries when removing
-    #		 two nodes from the same relation
-    way = Way.find(way_id)
-    way.unshared_node_ids.each do |n|
-      deleteitemrelations(n, 'node')
+      way.delete_with_relations_and_nodes_and_history(changeset_id.to_i)
     end
-    deleteitemrelations(way_id, 'way')
-
-    way.delete_with_relations_and_nodes_and_history(changeset_id.to_i)
-
     [0, way_id]
   end
 
@@ -668,7 +697,7 @@ class AmfController < ApplicationController
   # Support functions
 
   # Remove a node or way from all relations
-
+  # FIXME needs version, changeset, and user
   def deleteitemrelations(objid, type) #:doc:
     relations = RelationMember.find(:all, 
 									:conditions => ['member_type = ? and member_id = ?', type, objid], 
@@ -676,7 +705,12 @@ class AmfController < ApplicationController
 
     relations.each do |rel|
       rel.members.delete_if { |x| x[0] == type and x[1] == objid }
-      rel.save_with_history!
+      # FIXME need to create the new node/way based on the type.
+      new_rel = Relation.new
+      new_rel.version = version
+      new_rel.members = members
+      new_rel.changeset = changeset
+      rel.delete_with_history(new_rel, user)
     end
   end
 

@@ -83,6 +83,7 @@ class Node < ActiveRecord::Base
     raise OSM::APIBadXMLError.new("node", pt, "lon missing") if pt['lon'].nil?
     node.lat = pt['lat'].to_f
     node.lon = pt['lon'].to_f
+    raise OSM::APIBadXMLError.new("node", pt, "changeset id missing") if pt['changeset'].nil?
     node.changeset_id = pt['changeset'].to_i
 
     raise OSM::APIBadUserInput.new("The node is outside this world") unless node.in_world?
@@ -99,15 +100,10 @@ class Node < ActiveRecord::Base
 
     # visible if it says it is, or as the default if the attribute
     # is missing.
-    node.visible = pt['visible'].nil? or pt['visible'] == 'true'
+    # Don't need to set the visibility, when it is set explicitly in the create/update/delete
+    #node.visible = pt['visible'].nil? or pt['visible'] == 'true'
 
-    if create
-      node.timestamp = Time.now
-    else
-      if pt['timestamp']
-        node.timestamp = Time.parse(pt['timestamp'])
-      end
-    end
+    # We don't care about the time, as it is explicitly set on create/update/delete
 
     tags = []
 

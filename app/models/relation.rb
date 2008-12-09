@@ -49,6 +49,8 @@ class Relation < ActiveRecord::Base
     raise OSM::APIBadXMLError.new("relation", pt, "You are missing the required changeset in the relation") if pt['changeset'].nil?
     relation.changeset_id = pt['changeset']
 
+    # The follow block does not need to be executed because they are dealt with 
+    # in create_with_history, update_from and delete_with_history
     if create
       relation.timestamp = Time.now
       relation.visible = true

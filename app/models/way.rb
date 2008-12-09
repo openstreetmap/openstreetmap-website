@@ -47,8 +47,10 @@ class Way < ActiveRecord::Base
     end
     
     way.version = pt['version']
+    raise OSM::APIBadXMLError.new("node", pt, "Changeset is required") if pt['changeset'].nil?
     way.changeset_id = pt['changeset']
 
+    # This next section isn't required for the create, update, or delete of ways
     if create
       way.timestamp = Time.now
       way.visible = true
@@ -244,7 +246,7 @@ class Way < ActiveRecord::Base
       check_consistency(self, new_way, user)
       if RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id",
                              :conditions => [ "visible = ? AND member_type='way' and member_id=? ", true, self.id])
-        raise OSM::APIPreconditionFailedError
+        raise OSM::APIPreconditionFailedError.new("You need to make sure that this way is not a member of a relation.")
       else
         self.changeset_id = new_way.changeset_id
         self.tags = []
@@ -259,12 +261,15 @@ class Way < ActiveRecord::Base
 
   # FIXME: merge the potlatch code to delete the relations
   #        and refactor to use delete_with_history!
+  # This really needs the ids and versions of the nodes/relations to be passed in too
+  # so that we can do the version checking before the delete
   def delete_with_relations_and_nodes_and_history(changeset_id)
     # delete the nodes not used by other ways
     self.unshared_node_ids.each do |node_id|
       n = Node.find(node_id)
       n.changeset_id = changeset_id
       n.visible = false
+      # FIXME next line is bad
       n.save_with_history!
     end
     
@@ -272,6 +277,7 @@ class Way < ActiveRecord::Base
     self.tags = []
     self.nds = []
     self.visible = false
+    # FIXME next line is bad
     self.save_with_history!
   end
 
