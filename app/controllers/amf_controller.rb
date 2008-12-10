@@ -678,9 +678,16 @@ class AmfController < ApplicationController
   end
 
   # Delete way and all constituent nodes. Also removes from any relations.
+  # Params:
+  # * The user token
+  # * the changeset id
+  # * the id of the way to change
+  # * the version of the way that was downloaded
+  # * a hash of the id and versions of all the nodes that are in the way, if any 
+  # of the nodes have been changed by someone else then, there is a problem!
   # Returns 0 (success), unchanged way id.
 
-  def deleteway(usertoken, changeset_id, way_id, version_id) #:doc:
+  def deleteway(usertoken, changeset_id, way_id, version_id, node_id_version) #:doc:
     user = getuser(usertoken)
     if user then return -1,"You are not logged in, so the way could not be deleted." end
     # Need a transaction so that if one item fails to delete, the whole delete fails.
@@ -706,14 +713,14 @@ class AmfController < ApplicationController
 
   # Remove a node or way from all relations
   # FIXME needs version, changeset, and user
-  def deleteitemrelations(objid, type) #:doc:
+  def deleteitemrelations(objid, type, version) #:doc:
     relations = RelationMember.find(:all, 
 									:conditions => ['member_type = ? and member_id = ?', type, objid], 
 									:include => :relation).collect { |rm| rm.relation }.uniq
 
     relations.each do |rel|
       rel.members.delete_if { |x| x[0] == type and x[1] == objid }
-      # FIXME need to create the new node/way based on the type.
+      # FIXME need to create the new relation
       new_rel = Relation.new
       new_rel.version = version
       new_rel.members = members
