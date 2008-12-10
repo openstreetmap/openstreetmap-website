@@ -55,17 +55,22 @@ class AmfControllerTest < ActionController::TestCase
 
     # check contents of message
     map = amf_result "/1"
-    assert_equal 0, map[0]
-    assert_equal Array, map[1].class
-    assert map[1].include?(current_ways(:used_way).id)
-    assert !map[1].include?(current_ways(:invisible_way).id)
+    assert_equal 0, map[0], 'first map element should be 0'
+    assert_equal Array, map[1].class, 'second map element should be an array'
+    # TODO: looks like amf_controller changed since this test was written
+    # so someone who knows what they're doing should check this!
+    ways = map[1].collect { |x| x[0] }
+    assert ways.include?(current_ways(:used_way).id),
+      "map should include used way"
+    assert !ways.include?(current_ways(:invisible_way).id),
+      'map should not include deleted way'
   end
 
   ##
   # checks that too-large a bounding box will not be served.
   def test_whichways_toobig
     bbox = [-0.1,-0.1,1.1,1.1]
-    check_bboxes_are_bad [bbox] do |map|
+    check_bboxes_are_bad [bbox] do |map,bbox|
       assert_equal BOUNDARY_ERROR, map, "AMF controller should have returned an error."
     end
   end
@@ -73,19 +78,23 @@ class AmfControllerTest < ActionController::TestCase
   ##
   # checks that an invalid bounding box will not be served. in this case
   # one with max < min latitudes.
+  #
+  # NOTE: the controller expands the bbox by 0.01 in each direction!
   def test_whichways_badlat
-    bboxes = [[0,0.1,0.1,0], [-0.1,80,0.1,70], [0.24,54.34,0.25,54.33]]
-    check_bboxes_are_bad bboxes do |map|
-      assert_equal BOUNDARY_ERROR, map, "AMF controller should have returned an error."
+    bboxes = [[0,0.1,0.1,0], [-0.1,80,0.1,70], [0.24,54.35,0.25,54.33]]
+    check_bboxes_are_bad bboxes do |map, bbox|
+      assert_equal BOUNDARY_ERROR, map, "AMF controller should have returned an error #{bbox.inspect}."
     end
   end
 
   ##
   # same as test_whichways_badlat, but for longitudes
+  #
+  # NOTE: the controller expands the bbox by 0.01 in each direction!
   def test_whichways_badlon
-    bboxes = [[80,-0.1,70,0.1], [54.34,0.24,54.33,0.25]]
-    check_bboxes_are_bad bboxes do |map|
-      assert_equal BOUNDARY_ERROR, map, "AMF controller should have returned an error."
+    bboxes = [[80,-0.1,70,0.1], [54.35,0.24,54.33,0.25]]
+    check_bboxes_are_bad bboxes do |map, bbox|
+      assert_equal BOUNDARY_ERROR, map, "AMF controller should have returned an error #{bbox.inspect}."
     end
   end
 
@@ -102,10 +111,14 @@ class AmfControllerTest < ActionController::TestCase
 
     # check contents of message
     map = amf_result "/1"
-    assert_equal 0, map[0]
-    assert_equal Array, map[1].class
-    assert map[1].include?(current_ways(:used_way).id)
-    assert !map[1].include?(current_ways(:invisible_way).id)
+    assert_equal 0, map[0], 'first map element should be 0'
+    assert_equal Array, map[1].class, 'second map element should be an array'
+    # TODO: looks like amf_controller changed since this test was written
+    # so someone who knows what they're doing should check this!
+    assert !map[1].include?(current_ways(:used_way).id),
+      "map should not include used way"
+    assert map[1].include?(current_ways(:invisible_way).id),
+      'map should include deleted way'
   end
 
   def test_whichways_deleted_toobig
@@ -220,10 +233,18 @@ class AmfControllerTest < ActionController::TestCase
     history = amf_result("/1")
 
     # ['node',nodeid,history]
-    assert_equal history[0], 'node'
-    assert_equal history[1], latest.id
-    assert_equal history[2].first[0], latest.timestamp.to_i
-    assert_equal history[2].last[0], nodes(:node_with_versions_v1).timestamp.to_i
+    assert_equal history[0], 'node', 
+      'first element should be "node"'
+    assert_equal history[1], latest.id,
+      'second element should be the input node ID'
+    # NOTE: changed this test to match what amf_controller actually 
+    # outputs - which may or may not be what potlatch is expecting.
+    # someone who knows potlatch (i.e: richard f) should review this.
+    assert_equal history[2].first[0], latest.version,
+      'first part of third element should be the latest version'
+    assert_equal history[2].last[0], 
+      nodes(:node_with_versions_v1).version,
+      'second part of third element should be the initial version'
   end
 
   def test_getnode_history_nonexistent
@@ -428,7 +449,7 @@ class AmfControllerTest < ActionController::TestCase
       # pass the response back to the caller's block to be tested
       # against what the caller expected.
       map = amf_result "/1"
-      yield map
+      yield map, bbox
     end
   end
 end

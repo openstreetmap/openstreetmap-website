@@ -163,21 +163,27 @@ class AmfController < ApplicationController
     return POTLATCH_PRESETS
   end
 
+  ##
   # Find all the ways, POI nodes (i.e. not part of ways), and relations
   # in a given bounding box. Nodes are returned in full; ways and relations 
   # are IDs only. 
-
+  #
+  # return is of the form: 
+  # [error_code, 
+  #  [[way_id, way_version], ...],
+  #  [[node_id, lat, lon, [tags, ...]], ...],
+  #  [[rel_id, rel_version], ...]]
+  # where the ways are any visible ways which refer to any visible
+  # nodes in the bbox, nodes are any visible nodes in the bbox but not
+  # used in any way, rel is any relation which refers to either a way
+  # or node that we're returning.
   def whichways(xmin, ymin, xmax, ymax) #:doc:
     xmin -= 0.01; ymin -= 0.01
     xmax += 0.01; ymax += 0.01
     
     # check boundary is sane and area within defined
     # see /config/application.yml
-    begin
-      check_boundaries(xmin, ymin, xmax, ymax)
-    rescue Exception => err
-      return [-2,"Sorry - I can't get the map for that area."]
-    end
+    check_boundaries(xmin, ymin, xmax, ymax)
 
     if POTLATCH_USE_SQL then
       ways = sql_find_ways_in_area(xmin, ymin, xmax, ymax)
@@ -186,8 +192,9 @@ class AmfController < ApplicationController
     else
       # find the way ids in an area
       nodes_in_area = Node.find_by_area(ymin, xmin, ymax, xmax, :conditions => ["current_nodes.visible = ?", true], :include => :ways)
-      ways = nodes_in_area.collect { |node| 
-        node.ways.collect { |w| [w.id,w.version] }.flatten
+      ways = nodes_in_area.inject([]) { |sum, node| 
+        visible_ways = node.ways.select { |w| w.visible? }
+        sum + visible_ways.collect { |w| [w.id,w.version] }
       }.uniq
       ways.delete([])
 
@@ -202,6 +209,9 @@ class AmfController < ApplicationController
     end
 
     [0,ways, points, relations]
+
+  rescue Exception => err
+    [-2,"Sorry - I can't get the map for that area."]
   end
 
   # Find deleted ways in current bounding box (similar to whichways, but ways
@@ -313,18 +323,16 @@ class AmfController < ApplicationController
   # an array of previous versions.
 
   def getnode_history(nodeid) #:doc:
-    begin
-	  history = Node.find(nodeid).old_nodes.reverse.collect do |old_node|
-        user_object = old_node.changeset.user
-        user = user_object.data_public? ? user_object.display_name : 'anonymous'
-        uid  = user_object.data_public? ? user_object.id : 0
-        [old_node.version, old_node.timestamp.strftime("%d %b %Y, %H:%M"), old_node.visible ? 1 : 0, user, uid]
-      end
-
-      return ['node',nodeid,history]
-    rescue ActiveRecord::RecordNotFound
-      return ['node', nodeid, []]
+    history = Node.find(nodeid).old_nodes.reverse.collect do |old_node|
+      user_object = old_node.changeset.user
+      user = user_object.data_public? ? user_object.display_name : 'anonymous'
+      uid  = user_object.data_public? ? user_object.id : 0
+      [old_node.version, old_node.timestamp.strftime("%d %b %Y, %H:%M"), old_node.visible ? 1 : 0, user, uid]
     end
+    
+    return ['node',nodeid,history]
+  rescue ActiveRecord::RecordNotFound
+    return ['node', nodeid, []]
   end
 
   # Find GPS traces with specified name/id.
