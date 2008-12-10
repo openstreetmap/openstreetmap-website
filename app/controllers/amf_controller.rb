@@ -171,7 +171,7 @@ class AmfController < ApplicationController
   # return is of the form: 
   # [error_code, 
   #  [[way_id, way_version], ...],
-  #  [[node_id, lat, lon, [tags, ...]], ...],
+  #  [[node_id, lat, lon, [tags, ...], node_version], ...],
   #  [[rel_id, rel_version], ...]]
   # where the ways are any visible ways which refer to any visible
   # nodes in the bbox, nodes are any visible nodes in the bbox but not
@@ -200,7 +200,7 @@ class AmfController < ApplicationController
 
       # find the node ids in an area that aren't part of ways
       nodes_not_used_in_area = nodes_in_area.select { |node| node.ways.empty? }
-      points = nodes_not_used_in_area.collect { |n| [n.id, n.lon, n.lat, n.tags] }
+      points = nodes_not_used_in_area.collect { |n| [n.id, n.lon, n.lat, n.tags, n.version] }
 
       # find the relations used by those nodes and ways
       relations = Relation.find_for_nodes(nodes_in_area.collect { |n| n.id }, :conditions => {:visible => true}) +

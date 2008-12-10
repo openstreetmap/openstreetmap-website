@@ -55,8 +55,36 @@ class AmfControllerTest < ActionController::TestCase
 
     # check contents of message
     map = amf_result "/1"
-    assert_equal 0, map[0], 'first map element should be 0'
-    assert_equal Array, map[1].class, 'second map element should be an array'
+    assert_equal 0, map[0], 'map error code should be 0'
+
+    # check the formatting of the message
+    assert_equal 4, map.length, 'map should have length 4'
+    assert_equal Array, map[1].class, 'map "ways" element should be an array'
+    assert_equal Array, map[2].class, 'map "nodes" element should be an array'
+    assert_equal Array, map[3].class, 'map "relations" element should be an array'
+    map[1].each do |w|
+      assert_equal 2, w.length, 'way should be (id, version) pair'
+      assert w[0] == w[0].floor, 'way ID should be an integer'
+      assert w[1] == w[1].floor, 'way version should be an integer'
+    end
+
+    map[2].each do |n|
+      assert_equal 5, w.length, 'node should be (id, lat, lon, [tags], version) tuple'
+      assert n[0] == n[0].floor, 'node ID should be an integer'
+      assert n[1] >= minlat - 0.01, 'node lat should be greater than min'
+      assert n[1] <= maxlat - 0.01, 'node lat should be less than max'
+      assert n[2] >= minlon - 0.01, 'node lon should be greater than min'
+      assert n[2] <= maxlon - 0.01, 'node lon should be less than max'
+      assert_equal Array, a[3].class, 'node tags should be array'
+      assert n[4] == n[4].floor, 'node version should be an integer'
+    end
+
+    map[3].each do |r|
+      assert_equal 2, r.length, 'relation should be (id, version) pair'
+      assert r[0] == r[0].floor, 'relation ID should be an integer'
+      assert r[1] == r[1].floor, 'relation version should be an integer'
+    end
+
     # TODO: looks like amf_controller changed since this test was written
     # so someone who knows what they're doing should check this!
     ways = map[1].collect { |x| x[0] }
