@@ -702,7 +702,17 @@ class AmfController < ApplicationController
       end
       deleteitemrelations(way_id, 'way')
 
-      way.delete_with_relations_and_nodes_and_history(changeset_id.to_i)
+   
+      #way.delete_with_relations_and_nodes_and_history(changeset_id.to_i)
+      way.unshared_node_ids.each do |node_id|
+        # delete the node
+        node = Node.find(node_id)
+        delete_node = Node.new
+        delete_node.id = node_id
+        delete_node.version = node_id_version[node_id]
+        node.delete_with_history!(delete_node, user)
+      end
+      # delete the way
     end
     [0, way_id]
   end
@@ -711,6 +721,11 @@ class AmfController < ApplicationController
   # ====================================================================
   # Support functions
 
+  # delete a way and its nodes that aren't part of other ways
+  # this functionality used to be in the model, however it is specific to amf
+  # controller
+  #def delete_unshared_nodes(changeset_id, way_id)
+  
   # Remove a node or way from all relations
   # FIXME needs version, changeset, and user
   def deleteitemrelations(objid, type, version) #:doc:
