@@ -621,13 +621,11 @@ class AmfController < ApplicationController
     # We always need a new node, based on the data that has been sent to us
     new_node = Node.new
 
-    new_node.id = id
     new_node.changeset_id = changeset
     new_node.version = version
     new_node.lat = lat
     new_node.lon = lon
     new_node.tags = tags
-    new_node.visible = visible
     if id <= 0 
       # We're creating the node
       new_node.create_with_history(user)
@@ -647,7 +645,7 @@ class AmfController < ApplicationController
   rescue OSM::APIChangesetAlreadyClosedError => ex
     return [-1, "The changeset #{ex.changeset.id} was closed at #{ex.changeset.closed_at}"]
   rescue OSM::APIVersionMismatchError => ex
-        # Really need to check to see whether this is a server load issue, and the 
+    # Really need to check to see whether this is a server load issue, and the 
     # last version was in the same changeset, or belongs to the same user, then
     # we can return something different
     return [-3, "You have taken too long to edit, please reload the area"]
@@ -687,9 +685,9 @@ class AmfController < ApplicationController
   # of the nodes have been changed by someone else then, there is a problem!
   # Returns 0 (success), unchanged way id.
 
-  def deleteway(usertoken, changeset_id, way_id, version_id, node_id_version) #:doc:
+  def deleteway(usertoken, changeset_id, way_id, way_version, node_id_version) #:doc:
     user = getuser(usertoken)
-    if user then return -1,"You are not logged in, so the way could not be deleted." end
+    unless user then return -1,"You are not logged in, so the way could not be deleted." end
     # Need a transaction so that if one item fails to delete, the whole delete fails.
     Way.transaction do
       way_id = way_id.to_i
@@ -697,24 +695,38 @@ class AmfController < ApplicationController
       # FIXME: would be good not to make two history entries when removing
       #		 two nodes from the same relation
       old_way = Way.find(way_id)
-      old_way.unshared_node_ids.each do |n|
-        deleteitemrelations(n, 'node')
-      end
-      deleteitemrelations(way_id, 'way')
+      #old_way.unshared_node_ids.each do |n|
+      #  deleteitemrelations(n, 'node')
+      #end
+      #deleteitemrelations(way_id, 'way')
 
    
       #way.delete_with_relations_and_nodes_and_history(changeset_id.to_i)
-      way.unshared_node_ids.each do |node_id|
+      old_way.unshared_node_ids.each do |node_id|
         # delete the node
         node = Node.find(node_id)
         delete_node = Node.new
-        delete_node.id = node_id
         delete_node.version = node_id_version[node_id]
         node.delete_with_history!(delete_node, user)
       end
       # delete the way
+      delete_way = Way.new
+      delete_way.version = way_version
+      old_way.delete_with_history!(delete_way, user)
     end
     [0, way_id]
+  rescue OSM::APIChangesetAlreadyClosedError => ex
+    return [-1, "The changeset #{ex.changeset.id} was closed at #{ex.changeset.closed_at}"]
+  rescue OSM::APIVersionMismatchError => ex
+    # Really need to check to see whether this is a server load issue, and the 
+    # last version was in the same changeset, or belongs to the same user, then
+    # we can return something different
+    return [-3, "You have taken too long to edit, please reload the area"]
+  rescue OSM::APIAlreadyDeletedError => ex
+    return [-1, "The object has already been deleted"]
+  rescue OSM::APIError => ex
+    # Some error that we don't specifically catch
+    return [-2, "Something really bad happened :-()"]
   end
 
 

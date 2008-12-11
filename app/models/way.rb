@@ -228,7 +228,7 @@ class Way < ActiveRecord::Base
     self.nds.each do |n|
       node = Node.find(:first, :conditions => ["id = ?", n])
       unless node and node.visible
-        return false
+        raise OSM::APIPreconditionFailedError.new("The node with id #{n} either does not exist, or is not visible")
       end
     end
     return true
@@ -255,30 +255,6 @@ class Way < ActiveRecord::Base
         save_with_history!
       end
     end
-  end
-
-  # delete a way and its nodes that aren't part of other ways, with history
-
-  # FIXME: merge the potlatch code to delete the relations
-  #        and refactor to use delete_with_history!
-  # This really needs the ids and versions of the nodes/relations to be passed in too
-  # so that we can do the version checking before the delete
-  def delete_with_relations_and_nodes_and_history(changeset_id)
-    # delete the nodes not used by other ways
-    self.unshared_node_ids.each do |node_id|
-      n = Node.find(node_id)
-      n.changeset_id = changeset_id
-      n.visible = false
-      # FIXME next line is bad
-      n.save_with_history!
-    end
-    
-    self.changeset_id = changeset_id
-    self.tags = []
-    self.nds = []
-    self.visible = false
-    # FIXME next line is bad
-    self.save_with_history!
   end
 
   # Find nodes that belong to this way only
