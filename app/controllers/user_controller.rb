@@ -117,6 +117,14 @@ class UserController < ApplicationController
   end
 
   def login
+    if session[:user]
+      # The user is logged in already, if the referer param exists, redirect them to that
+      if params[:referer]
+        redirect_to params[:referer]
+      else
+        redirect_to :controller => 'site', :action => 'index'
+      end
+    end
     @title = 'login'
     if params[:user]
       email_or_display_name = params[:user][:email]
