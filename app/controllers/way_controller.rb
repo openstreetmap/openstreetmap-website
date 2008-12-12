@@ -22,6 +22,7 @@ class WayController < ApplicationController
         render :nothing => true, :status => :method_not_allowed
       end
     rescue OSM::APIError => ex
+      logger.warn request.raw_post
       render ex.render_opts
     end
   end
@@ -56,6 +57,7 @@ class WayController < ApplicationController
         render :nothing => true, :status => :bad_request
       end
     rescue OSM::APIError => ex
+      logger.warn request.raw_post
       render ex.render_opts
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
