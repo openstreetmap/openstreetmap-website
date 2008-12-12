@@ -13,7 +13,6 @@ class UserPreferenceControllerTest < ActionController::TestCase
     
     get :read
     assert_response :success
-    print @response.body
     assert_select "osm:root" do
       assert_select "preferences", :count => 1 do
         assert_select "preference", :count => 2
