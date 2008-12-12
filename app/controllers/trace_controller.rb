@@ -48,8 +48,9 @@ class TraceController < ApplicationController
     
     if params[:tag]
       @tag = params[:tag]
-      conditions[0] += " AND EXISTS (SELECT * FROM gpx_file_tags AS gft WHERE gft.gpx_id = gpx_files.id AND gft.tag = ?)"
-      conditions << @tag
+
+      files = Tracetag.find_all_by_tag(params[:tag]).collect { |tt| tt.gpx_id }
+      conditions[0] += " AND gpx_files.id IN (#{files.join(',')})"
     end
     
     conditions[0] += " AND gpx_files.visible = 1"
