@@ -1,5 +1,4 @@
 require File.dirname(__FILE__) + '/../test_helper'
-require 'node_controller'
 
 class NodeControllerTest < ActionController::TestCase
   api_fixtures

@@ -106,5 +106,13 @@ class Test::Unit::TestCase
     assert_equal a.tags, b.tags, "tags on node #{a.id}"
   end
 
+  def basic_authorization(user, pass)
+    @request.env["HTTP_AUTHORIZATION"] = "Basic %s" % Base64.encode64("#{user}:#{pass}")
+  end
+
+  def content(c)
+    @request.env["RAW_POST_DATA"] = c.to_s
+  end
+
   # Add more helper methods to be used by all tests here...
 end

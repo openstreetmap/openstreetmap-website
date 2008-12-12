@@ -5,11 +5,9 @@ class UserPreferenceController < ApplicationController
   def read_one
     pref = UserPreference.find(@user.id, params[:preference_key])
 
-    if pref
-      render :text => pref.v.to_s
-    else
-      render :text => 'OH NOES! PREF NOT FOUND!', :status => 404
-    end
+    render :text => pref.v.to_s
+  rescue ActiveRecord::RecordNotFound => ex
+    render :text => 'OH NOES! PREF NOT FOUND!', :status => :not_found
   end
 
   def update_one
@@ -32,6 +30,8 @@ class UserPreferenceController < ApplicationController
     UserPreference.delete(@user.id, params[:preference_key])
 
     render :nothing => true
+  rescue ActiveRecord::RecordNotFound => ex
+    render :text => "param: #{params[:preference_key]} not found", :status => :not_found
   end
 
   # print out all the preferences as a big xml block
@@ -52,49 +52,43 @@ class UserPreferenceController < ApplicationController
 
   # update the entire set of preferences
   def update
-    begin
-      p = XML::Parser.new
-      p.string = request.raw_post
-      doc = p.parse
+    p = XML::Parser.new
+    p.string = request.raw_post
+    doc = p.parse
 
-      prefs = []
+    prefs = []
 
-      keyhash = {}
+    keyhash = {}
 
-      doc.find('//preferences/preference').each do |pt|
-        pref = UserPreference.new
+    doc.find('//preferences/preference').each do |pt|
+      pref = UserPreference.new
 
-        unless keyhash[pt['k']].nil? # already have that key
-          render :text => 'OH NOES! CAN HAS UNIQUE KEYS?', :status => :not_acceptable
-          return
-        end
-
-        keyhash[pt['k']] = 1
-
-        pref.k = pt['k']
-        pref.v = pt['v']
-        pref.user_id = @user.id
-        prefs << pref
+      unless keyhash[pt['k']].nil? # already have that key
+        render :text => 'OH NOES! CAN HAS UNIQUE KEYS?', :status => :not_acceptable
       end
 
-      if prefs.size > 150
-        render :text => 'Too many preferences', :status => :request_entity_too_large
-        return
-      end
+      keyhash[pt['k']] = 1
 
-      # kill the existing ones
-      UserPreference.delete_all(['user_id = ?', @user.id])
-
-      # save the new ones
-      prefs.each do |pref|
-        pref.save!
-      end
-
-    rescue Exception => ex
-      render :text => 'OH NOES! FAIL!: ' + ex.to_s, :status => :internal_server_error
-      return
+      pref.k = pt['k']
+      pref.v = pt['v']
+      pref.user_id = @user.id
+      prefs << pref
     end
 
+    if prefs.size > 150
+      render :text => 'Too many preferences', :status => :request_entity_too_large
+    end
+
+    # kill the existing ones
+    UserPreference.delete_all(['user_id = ?', @user.id])
+
+    # save the new ones
+    prefs.each do |pref|
+      pref.save!
+    end
     render :nothing => true
+
+  rescue Exception => ex
+    render :text => 'OH NOES! FAIL!: ' + ex.to_s, :status => :internal_server_error
   end
 end
