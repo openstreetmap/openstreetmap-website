@@ -588,6 +588,8 @@ class AmfController < ApplicationController
     # last version was in the same changeset, or belongs to the same user, then
     # we can return something different
     return [-3, "You have taken too long to edit, please reload the area"]
+  rescue OSM::APITooManyWayNodesError => ex
+    return [-1, "You have tried to upload a way with #{ex.provided}, however only #{ex.max} are allowed."]
   rescue OSM::APIAlreadyDeletedError => ex
     return [-1, "The object has already been deleted"]
   rescue OSM::APIError => ex
