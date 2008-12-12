@@ -110,4 +110,17 @@ class User < ActiveRecord::Base
     return self.preferences.find(:first, :conditions => {:k => "gps.trace.public", :v => "default"})
   end
 
+  def delete
+    self.active = false
+    self.display_name = "user_#{self.id}"
+    self.description = nil
+    self.home_lat = nil
+    self.home_lon = nil
+    self.image = nil
+    self.email_valid = false
+    self.new_email = nil
+    self.visible = false
+    self.save
+  end
+
 end
