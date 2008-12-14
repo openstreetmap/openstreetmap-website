@@ -124,6 +124,7 @@ class UserController < ApplicationController
       else
         redirect_to :controller => 'site', :action => 'index'
       end
+      return
     end
     @title = 'login'
     if params[:user]
