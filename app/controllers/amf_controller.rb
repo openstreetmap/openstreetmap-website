@@ -407,6 +407,8 @@ class AmfController < ApplicationController
     relid = relid.to_i
     visible = (visible.to_i != 0)
 
+    new_relation = nil
+    relation = nil
     Relation.transaction do
       # create a new relation, or find the existing one
       if relid > 0
@@ -495,6 +497,8 @@ class AmfController < ApplicationController
 
     # -- Get unique nodes
 
+    new_way = nil
+    way= nil
     Way.transaction do
       if originalway <= 0
         uniques = []
@@ -613,7 +617,8 @@ class AmfController < ApplicationController
 
     id = id.to_i
     visible = (visible.to_i == 1)
-
+    node = nil
+    new_node = nil
     Node.transaction do
       if id > 0 then
         node = Node.find(id)
@@ -641,13 +646,13 @@ class AmfController < ApplicationController
         # We're deleting the node
         node.delete_with_history!(new_node, user)
       end
-    end # transaction
+     end # transaction
 
     if id <= 0
       return [0, id, new_node.id, new_node.version]
     else
       return [0, id, node.id, node.version]
-    end
+    end 
   rescue OSM::APIChangesetAlreadyClosedError => ex
     return [-1, "The changeset #{ex.changeset.id} was closed at #{ex.changeset.closed_at}"]
   rescue OSM::APIVersionMismatchError => ex
@@ -694,9 +699,10 @@ class AmfController < ApplicationController
   def deleteway(usertoken, changeset_id, way_id, way_version, node_id_version) #:doc:
     user = getuser(usertoken)
     unless user then return -1,"You are not logged in, so the way could not be deleted." end
+      
+    way_id = way_id.to_i
     # Need a transaction so that if one item fails to delete, the whole delete fails.
     Way.transaction do
-      way_id = way_id.to_i
 
       # FIXME: would be good not to make two history entries when removing
       #		 two nodes from the same relation
@@ -719,7 +725,7 @@ class AmfController < ApplicationController
       delete_way = Way.new
       delete_way.version = way_version
       old_way.delete_with_history!(delete_way, user)
-    end
+    end # transaction
     [0, way_id]
   rescue OSM::APIChangesetAlreadyClosedError => ex
     return [-1, "The changeset #{ex.changeset.id} was closed at #{ex.changeset.closed_at}"]
@@ -746,6 +752,8 @@ class AmfController < ApplicationController
   
   # Remove a node or way from all relations
   # FIXME needs version, changeset, and user
+  # Fixme make sure this doesn't depend on anything and delete this, as potlatch 
+  # itself should remove the relations first
   def deleteitemrelations(objid, type, version) #:doc:
     relations = RelationMember.find(:all, 
 									:conditions => ['member_type = ? and member_id = ?', type, objid], 
