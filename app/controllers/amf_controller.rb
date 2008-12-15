@@ -407,44 +407,46 @@ class AmfController < ApplicationController
     relid = relid.to_i
     visible = (visible.to_i != 0)
 
-    # create a new relation, or find the existing one
-    if relid > 0
-      relation = Relation.find(relid)
-    end
-    # We always need a new node, based on the data that has been sent to us
-    new_relation = Relation.new
-
-    # check the members are all positive, and correctly type
-    typedmembers = []
-    members.each do |m|
-      mid = m[1].to_i
-      if mid < 0
-        mid = renumberednodes[mid] if m[0] == 'node'
-        mid = renumberedways[mid] if m[0] == 'way'
+    Relation.transaction do
+      # create a new relation, or find the existing one
+      if relid > 0
+        relation = Relation.find(relid)
       end
-      if mid
-        typedmembers << [m[0], mid, m[2]]
+      # We always need a new node, based on the data that has been sent to us
+      new_relation = Relation.new
+
+      # check the members are all positive, and correctly type
+      typedmembers = []
+      members.each do |m|
+        mid = m[1].to_i
+        if mid < 0
+          mid = renumberednodes[mid] if m[0] == 'node'
+          mid = renumberedways[mid] if m[0] == 'way'
+        end
+        if mid
+          typedmembers << [m[0], mid, m[2]]
+        end
       end
-    end
 
-    # assign new contents
-    new_relation.members = typedmembers
-    new_relation.tags = tags
-    new_relation.visible = visible
-    new_relation.changeset_id = changeset
-    new_relation.version = version
+      # assign new contents
+      new_relation.members = typedmembers
+      new_relation.tags = tags
+      new_relation.visible = visible
+      new_relation.changeset_id = changeset
+      new_relation.version = version
 
 
-    if id <= 0
-      # We're creating the node
-      new_relation.create_with_history(user)
-    elsif visible
-      # We're updating the node
-      relation.update_from(new_relation, user)
-    else
-      # We're deleting the node
-      relation.delete_with_history!(new_relation, user)
-    end
+      if id <= 0
+        # We're creating the node
+        new_relation.create_with_history(user)
+      elsif visible
+        # We're updating the node
+        relation.update_from(new_relation, user)
+      else
+        # We're deleting the node
+        relation.delete_with_history!(new_relation, user)
+      end
+    end # transaction
       
     if id <= 0
       return [0, relid, new_relation.id, new_relation.version]
@@ -475,7 +477,7 @@ class AmfController < ApplicationController
   # 3. hash of renumbered nodes (old id=>new id),
   # 4. version
 
-  def putway(renumberednodes, usertoken, changeset, originalway, points, attributes) #:doc:
+  def putway(renumberednodes, usertoken, changeset, version, originalway, points, attributes) #:doc:
 
     # -- Initialise and carry out checks
 	
@@ -493,92 +495,92 @@ class AmfController < ApplicationController
 
     # -- Get unique nodes
 
-    if originalway <= 0
-      uniques = []
-    else
-      way = Way.find(originalway)
-      uniques = way.unshared_node_ids
-    end
-    new_way = Way.new
-
-    # -- Compare nodes and save changes to any that have changed
-
-    nodes = []
-
-    points.each do |n|
-      lon = n[0].to_f
-      lat = n[1].to_f
-      id = n[2].to_i
-      version = n[3].to_i # FIXME which index does the version come in on????
-      savenode = false
-      # We always need a new node if we are saving it
-      new_node = Node.new
-
-
-      if renumberednodes[id]
-        id = renumberednodes[id]
-      end
-      if id <= 0
-        # Create new node
-        savenode = true
+    Way.transaction do
+      if originalway <= 0
+        uniques = []
       else
-        # Don't modify this node, make any changes you want to the new_node above
-        node = Node.find(id)
-        nodetags=node.tags
-        nodetags.delete('created_by')
-        if !fpcomp(lat, node.lat) or !fpcomp(lon, node.lon) or
-           n[4] != nodetags or !node.visible?
-          savenode = true
-        end
+        way = Way.find(originalway)
+        uniques = way.unshared_node_ids
       end
-
-      if savenode
-        new_node.changeset_id = changeset
-        new_node.lat = lat
-        new_node.lon = lon
-        new_node.tags = n[4]
-        new_node.visible = true
-        new_node.version = version
-        if id <= 0
-          # We're creating the node
-          new_node.create_with_history(user)
-        else
-          # We're updating the node (no delete here)
-          node.update_from(new_node, user)
-        end
-
-        if id != node.id
-          renumberednodes[id] = node.id
-          id = node.id
-        end
-      end
-
-      uniques = uniques - [id]
-      nodes.push(id)
-    end
-
-    # -- Delete any unique nodes
-	
-    uniques.each do |n|
-      deleteitemrelations(n, 'node')
-
-      node = Node.find(n)
-      new_node = Node.new
-      new_node.changeset_id = changeset
-      new_node.version = version
-      node.delete_with_history!(new_node, user)
-    end
-
-    # -- Save revised way
-
-    if way.tags!=attributes or way.nds!=nodes or !way.visible?
       new_way = Way.new
-      new_way.tags = attributes
-      new_way.nds = nodes
-      new_way.changeset_id = changeset
-      new_way.version = version
-      way.update_from(new_way, user)
-    end
+
+      # -- Compare nodes and save changes to any that have changed
+
+      nodes = []
+
+      points.each do |n|
+        lon = n[0].to_f
+        lat = n[1].to_f
+        id = n[2].to_i
+        version = n[3].to_i # FIXME which index does the version come in on????
+        savenode = false
+        # We always need a new node if we are saving it
+        new_node = Node.new
+
+        if renumberednodes[id]
+          id = renumberednodes[id]
+        end
+        if id <= 0
+          # Create new node
+          savenode = true
+        else
+          # Don't modify this node, make any changes you want to the new_node above
+          node = Node.find(id)
+          nodetags=node.tags
+          nodetags.delete('created_by')
+          if !fpcomp(lat, node.lat) or !fpcomp(lon, node.lon) or
+             n[4] != nodetags or !node.visible?
+            savenode = true
+          end
+        end
+
+        if savenode
+          new_node.changeset_id = changeset
+          new_node.lat = lat
+          new_node.lon = lon
+          new_node.tags = n[4]
+          new_node.version = version
+          if id <= 0
+            # We're creating the node
+            new_node.create_with_history(user)
+          else
+            # We're updating the node (no delete here)
+            node.update_from(new_node, user)
+          end
+
+          if id != node.id
+            renumberednodes[id] = node.id
+            id = node.id
+          end
+        end
+
+        uniques = uniques - [id]
+        nodes.push(id)
+      end
+
+      # -- Delete any unique nodes
+	
+      uniques.each do |n|
+        #deleteitemrelations(n, 'node')
+
+        node = Node.find(n)
+        new_node = Node.new
+        new_node.changeset_id = changeset
+        new_node.version = version
+        node.delete_with_history!(new_node, user)
+      end
+
+      # -- Save revised way
+
+      if way.tags!=attributes or way.nds!=nodes or !way.visible?
+        new_way = Way.new
+        new_way.tags = attributes
+        new_way.nds = nodes
+        new_way.changeset_id = changeset
+        new_way.version = version
+        way.update_from(new_way, user)
+      end
+    end # transaction
 
     [0, originalway, way.id, renumberednodes, way.version]
   rescue OSM::APIChangesetAlreadyClosedError => ex
@@ -612,32 +614,34 @@ class AmfController < ApplicationController
     id = id.to_i
     visible = (visible.to_i == 1)
 
-    if id > 0 then
-      node = Node.find(id)
+    Node.transaction do
+      if id > 0 then
+        node = Node.find(id)
 
-      if !visible then
-        unless node.ways.empty? then return -1,"The point has since become part of a way, so you cannot save it as a POI." end
-        deleteitemrelations(id, 'node')
+        if !visible then
+          unless node.ways.empty? then return -1,"The point has since become part of a way, so you cannot save it as a POI." end
+          deleteitemrelations(id, 'node')
+        end
       end
-    end
-    # We always need a new node, based on the data that has been sent to us
-    new_node = Node.new
+      # We always need a new node, based on the data that has been sent to us
+      new_node = Node.new
 
-    new_node.changeset_id = changeset
-    new_node.version = version
-    new_node.lat = lat
-    new_node.lon = lon
-    new_node.tags = tags
-    if id <= 0 
-      # We're creating the node
-      new_node.create_with_history(user)
-    elsif visible
-      # We're updating the node
-      node.update_from(new_node, user)
-    else
-      # We're deleting the node
-      node.delete_with_history!(new_node, user)
-    end
+      new_node.changeset_id = changeset
+      new_node.version = version
+      new_node.lat = lat
+      new_node.lon = lon
+      new_node.tags = tags
+      if id <= 0 
+        # We're creating the node
+        new_node.create_with_history(user)
+      elsif visible
+        # We're updating the node
+        node.update_from(new_node, user)
+      else
+        # We're deleting the node
+        node.delete_with_history!(new_node, user)
+      end
+    end # transaction
 
     if id <= 0
       return [0, id, new_node.id, new_node.version]
