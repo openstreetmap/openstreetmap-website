@@ -399,7 +399,22 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal 2, first_historic_node.tags.size, "There seems to be a tag that have been attached to this node"
     assert_equal({ "key" => "value", "ping" => "pong" }, first_historic_node.tags, "tags are different")
     assert_equal result[3], first_historic_node.version, "The version returned, is different to the one returned by the amf"
-
+  end
+  
+  def test_putpoi_delete_valid
+    
+  end
+  
+  def test_putpoi_delete_already_deleted
+    
+  end
+  
+  def test_putpoi_delete_not_found
+    
+  end
+  
+  def test_putpoi_invalid_latlon
+    
   end
 
   # ************************************************************
