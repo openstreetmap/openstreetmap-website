@@ -512,7 +512,7 @@ class AmfController < ApplicationController
         uniques = way.unshared_node_ids
       end
 
-      #Ê-- Update each changed node
+      #-- Update each changed node
 
       nodeversions = {}
       nodes.each do |a|
