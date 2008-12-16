@@ -506,13 +506,11 @@ class AmfController < ApplicationController
       # -- Get unique nodes
 
       if originalway <= 0
-        way = nil
         uniques = []
       else
         way = Way.find(originalway)
         uniques = way.unshared_node_ids
       end
-      new_way = Way.new
 
       #Ê-- Update each changed node
 
@@ -559,31 +557,34 @@ class AmfController < ApplicationController
 
       # -- Save revised way
 
-      if way.tags!=attributes or way.nds!=nodes or !way.visible?
-        new_way = Way.new
-        new_way.tags = attributes
-        new_way.nds = pointlist
-        new_way.changeset_id = changeset
-        new_way.version = version
+      new_way = Way.new
+      new_way.tags = attributes
+      new_way.nds = pointlist
+      new_way.changeset_id = changeset
+      new_way.version = version
+      if originalway <= 0
+        new_way.create_with_history(user)
+        way=new_way	# so we can get way.id and way.version
+      elsif way.tags!=attributes or way.nds!=pointlist or !way.visible?
         way.update_from(new_way, user)
       end
     end # transaction
 
     [0, originalway, way.id, renumberednodes, way.version, nodeversions]
   rescue OSM::APIChangesetAlreadyClosedError => ex
-    return [-1, "The changeset #{ex.changeset.id} was closed at #{ex.changeset.closed_at}"]
+    return [-2, "Sorry, your changeset #{ex.changeset.id} has been closed (at #{ex.changeset.closed_at})."]
   rescue OSM::APIVersionMismatchError => ex
     # Really need to check to see whether this is a server load issue, and the 
     # last version was in the same changeset, or belongs to the same user, then
     # we can return something different
     return [-3, "Sorry, someone else has changed this way since you started editing - please reload the area"]
   rescue OSM::APITooManyWayNodesError => ex
-    return [-1, "You have tried to upload a way with #{ex.provided}, however only #{ex.max} are allowed."]
+    return [-1, "You have tried to upload a really long way with #{ex.provided} points: only #{ex.max} are allowed."]
   rescue OSM::APIAlreadyDeletedError => ex
-    return [-1, "The object has already been deleted"]
+    return [-1, "The object has already been deleted."]
   rescue OSM::APIError => ex
     # Some error that we don't specifically catch
-    return [-2, "Something really bad happened :-()"]
+    return [-2, "Something really bad happened :-(."]
   end
 
   # Save POI to the database.
