@@ -137,7 +137,9 @@ class AmfController < ApplicationController
     if closeid
       cs = Changeset.find(closeid)
       cs.set_closed_time_now
-      if closecomment.empty?
+      if cs.user_id!=user.id
+        return -2,"You cannot close that changeset because you're not the person who opened it."
+      elsif closecomment.empty?
         cs.save!
       else
         cs.tags['comment']=closecomment
@@ -148,8 +150,8 @@ class AmfController < ApplicationController
     # open a new changeset
     cs = Changeset.new
     cs.tags = cstags
-    cs.user_id = uid
-    # Don't like the next two lines. These need to be abstracted to the model more/better
+    cs.user_id = user.id
+    # smsm1 doesn't like the next two lines and thinks they need to be abstracted to the model more/better
     cs.created_at = Time.now
     cs.closed_at = Time.new + Changeset::IDLE_TIMEOUT
     cs.save_with_tags!
@@ -259,7 +261,7 @@ class AmfController < ApplicationController
         points = way.nodes.collect do |node|
         nodetags=node.tags
         nodetags.delete('created_by')
-        [node.lon, node.lat, node.id, nodetags]
+        [node.lon, node.lat, node.id, nodetags, node.version]
       end
       tags = way.tags
       version = way.version
@@ -472,35 +474,39 @@ class AmfController < ApplicationController
   # Save a way to the database, including all nodes. Any nodes in the previous
   # version and no longer used are deleted.
   # 
+  # Parameters:
+  # 0. hash of renumbered nodes
+  # 1. current user token (for authentication)
+  # 2. current changeset
+  # 3. new way version
+  # 4. way ID
+  # 5. list of nodes in way
+  # 6. hash of way tags
+  # 7. array of nodes to change (each one is [lon,lat,id,version,tags])
+  # 
   # Returns:
   # 0. '0' (code for success),
   # 1. original way id (unchanged),
   # 2. new way id,
   # 3. hash of renumbered nodes (old id=>new id),
-  # 4. version
+  # 4. way version,
+  # 5. hash of node versions (node=>version)
 
-  def putway(renumberednodes, usertoken, changeset, version, originalway, points, attributes) #:doc:
+  def putway(renumberednodes, usertoken, changeset, version, originalway, pointlist, attributes, nodes) #:doc:
 
-    # -- Initialise and carry out checks
+    # -- Initialise
 	
     user = getuser(usertoken)
     if !user then return -1,"You are not logged in, so the way could not be saved." end
+    if pointlist.length < 2 then return -2,"Server error - way is only #{points.length} points long." end
 
     originalway = originalway.to_i
-
-    points.each do |a|
-      if a[2] == 0 or a[2].nil? then return -2,"Server error - node with id 0 found in way #{originalway}." end
-      if a[1] == 90 then return -2,"Server error - node with lat -90 found in way #{originalway}." end
-    end
-
-    if points.length < 2 then return -2,"Server error - way is only #{points.length} points long." end
-
-    # -- Get unique nodes
-
-    new_way = nil
-    way= nil
     Way.transaction do
+
+      # -- Get unique nodes
+
       if originalway <= 0
+        way = nil
         uniques = []
       else
         way = Way.find(originalway)
@@ -508,65 +514,42 @@ class AmfController < ApplicationController
       end
       new_way = Way.new
 
-      # -- Compare nodes and save changes to any that have changed
+      #Ê-- Update each changed node
 
-      nodes = []
+      nodeversions = {}
+      nodes.each do |a|
+        lon = a[0].to_f
+        lat = a[1].to_f
+        id = a[2].to_i
+        version = a[3].to_i
+        if id == 0  then return -2,"Server error - node with id 0 found in way #{originalway}." end
+        if lat== 90 then return -2,"Server error - node with latitude -90 found in way #{originalway}." end
+        if renumberednodes[id] then id = renumberednodes[id] end
 
-      points.each do |n|
-        lon = n[0].to_f
-        lat = n[1].to_f
-        id = n[2].to_i
-        version = n[3].to_i # FIXME which index does the version come in on????
-        savenode = false
-        # We always need a new node if we are saving it
-        new_node = Node.new
-
-        if renumberednodes[id]
-          id = renumberednodes[id]
-        end
+        node = Node.new
+        node.changeset_id = changeset
+        node.lat = lat
+        node.lon = lon
+        node.tags = a[4]
+        node.tags.delete('created_by')
+        node.version = version
         if id <= 0
-          # Create new node
-          savenode = true
+          # We're creating the node
+          node.create_with_history(user)
+          renumberednodes[id] = node.id
+          nodeversions[id] = node.version
         else
-          # Don't modify this node, make any changes you want to the new_node above
-          node = Node.find(id)
-          nodetags=node.tags
-          nodetags.delete('created_by')
-          if !fpcomp(lat, node.lat) or !fpcomp(lon, node.lon) or
-             n[4] != nodetags or !node.visible?
-            savenode = true
-          end
+          # We're updating an existing node
+          previous=Node.find(id)
+          previous.update_from(node, user)
+          nodeversions[id] = previous.version
         end
-
-        if savenode
-          new_node.changeset_id = changeset
-          new_node.lat = lat
-          new_node.lon = lon
-          new_node.tags = n[4]
-          new_node.version = version
-          if id <= 0
-            # We're creating the node
-            new_node.create_with_history(user)
-          else
-            # We're updating the node (no delete here)
-            node.update_from(new_node, user)
-          end
-
-          if id != node.id
-            renumberednodes[id] = node.id
-            id = node.id
-          end
-        end
-
-        uniques = uniques - [id]
-        nodes.push(id)
       end
 
-      # -- Delete any unique nodes
-	
-      uniques.each do |n|
-        #deleteitemrelations(n, 'node')
+      # -- Delete any unique nodes no longer used
 
+      uniques=uniques-pointlist
+      uniques.each do |n|
         node = Node.find(n)
         new_node = Node.new
         new_node.changeset_id = changeset
@@ -579,21 +562,21 @@ class AmfController < ApplicationController
       if way.tags!=attributes or way.nds!=nodes or !way.visible?
         new_way = Way.new
         new_way.tags = attributes
-        new_way.nds = nodes
+        new_way.nds = pointlist
         new_way.changeset_id = changeset
         new_way.version = version
         way.update_from(new_way, user)
       end
     end # transaction
 
-    [0, originalway, way.id, renumberednodes, way.version]
+    [0, originalway, way.id, renumberednodes, way.version, nodeversions]
   rescue OSM::APIChangesetAlreadyClosedError => ex
     return [-1, "The changeset #{ex.changeset.id} was closed at #{ex.changeset.closed_at}"]
   rescue OSM::APIVersionMismatchError => ex
     # Really need to check to see whether this is a server load issue, and the 
     # last version was in the same changeset, or belongs to the same user, then
     # we can return something different
-    return [-3, "You have taken too long to edit, please reload the area"]
+    return [-3, "Sorry, someone else has changed this way since you started editing - please reload the area"]
   rescue OSM::APITooManyWayNodesError => ex
     return [-1, "You have tried to upload a way with #{ex.provided}, however only #{ex.max} are allowed."]
   rescue OSM::APIAlreadyDeletedError => ex
