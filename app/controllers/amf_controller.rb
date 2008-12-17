@@ -130,7 +130,7 @@ class AmfController < ApplicationController
   # Start new changeset
   
   def startchangeset(usertoken, cstags, closeid, closecomment)
-    user = getuserid(usertoken)
+    user = getuser(usertoken)
     if !user then return -1,"You are not logged in, so Potlatch can't write any changes to the database." end
 
     # close previous changeset and add comment
@@ -153,7 +153,7 @@ class AmfController < ApplicationController
     cs.user_id = user.id
     # smsm1 doesn't like the next two lines and thinks they need to be abstracted to the model more/better
     cs.created_at = Time.now
-    cs.closed_at = Time.new + Changeset::IDLE_TIMEOUT
+    cs.closed_at = cs.created_at + Changeset::IDLE_TIMEOUT
     cs.save_with_tags!
     return [0,cs.id]
   end
@@ -341,17 +341,17 @@ class AmfController < ApplicationController
   # Returns array listing GPXs, each one comprising id, name and description.
   
   def findgpx(searchterm, usertoken)
-    uid = getuserid(usertoken)
+    user = getuser(usertoken)
     if !uid then return -1,"You must be logged in to search for GPX traces." end
 
     gpxs = []
     if searchterm.to_i>0 then
-      gpx = Trace.find(searchterm.to_i, :conditions => ["visible=? AND (public=? OR user_id=?)",true,true,uid] )
+      gpx = Trace.find(searchterm.to_i, :conditions => ["visible=? AND (public=? OR user_id=?)",true,true,user.id] )
       if gpx then
         gpxs.push([gpx.id, gpx.name, gpx.description])
       end
     else
-      Trace.find(:all, :limit => 21, :conditions => ["visible=? AND (public=? OR user_id=?) AND MATCH(name) AGAINST (?)",true,true,uid,searchterm] ).each do |gpx|
+      Trace.find(:all, :limit => 21, :conditions => ["visible=? AND (public=? OR user_id=?) AND MATCH(name) AGAINST (?)",true,true,user.id,searchterm] ).each do |gpx|
       gpxs.push([gpx.id, gpx.name, gpx.description])
 	  end
 	end
@@ -403,7 +403,7 @@ class AmfController < ApplicationController
   # 2. new relation id.
 
   def putrelation(renumberednodes, renumberedways, usertoken, changeset, version, relid, tags, members, visible) #:doc:
-    user = getuserid(usertoken)
+    user = getuser(usertoken)
     if !user then return -1,"You are not logged in, so the relation could not be saved." end
 
     relid = relid.to_i
@@ -475,7 +475,7 @@ class AmfController < ApplicationController
   # version and no longer used are deleted.
   # 
   # Parameters:
-  # 0. hash of renumbered nodes
+  # 0. hash of renumbered nodes (added by amf_controller)
   # 1. current user token (for authentication)
   # 2. current changeset
   # 3. new way version
@@ -501,6 +501,10 @@ class AmfController < ApplicationController
     if pointlist.length < 2 then return -2,"Server error - way is only #{points.length} points long." end
 
     originalway = originalway.to_i
+	pointlist.collect! {|a| a.to_i }
+
+    way=nil	# this is returned, so scope it outside the transaction
+    nodeversions = {}
     Way.transaction do
 
       # -- Get unique nodes
@@ -514,7 +518,6 @@ class AmfController < ApplicationController
 
       #-- Update each changed node
 
-      nodeversions = {}
       nodes.each do |a|
         lon = a[0].to_f
         lat = a[1].to_f
@@ -557,6 +560,9 @@ class AmfController < ApplicationController
 
       # -- Save revised way
 
+	  pointlist.collect! {|a|
+		renumberednodes[a] ? renumberednodes[a]:a
+	  } # renumber nodes
       new_way = Way.new
       new_way.tags = attributes
       new_way.nds = pointlist
@@ -777,17 +783,6 @@ class AmfController < ApplicationController
       user = User.authenticate(:token => token)
     end
     return user
-  end
-  
-  def getuserid(token)
-    user = getuser(token)
-    return user ? user.id : nil;
-  end
-
-  # Compare two floating-point numbers to within 0.0000001
-
-  def fpcomp(a,b) #:doc:
-    return ((a/0.0000001).round==(b/0.0000001).round)
   end
 
   # Send AMF response
