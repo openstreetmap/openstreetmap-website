@@ -458,12 +458,12 @@ class AmfController < ApplicationController
       return [0, relid, relation.id, relation.version]
     end
   rescue OSM::APIChangesetAlreadyClosedError => ex
-    return [-1, "The changeset #{ex.changeset.id} was closed at #{ex.changeset.closed_at}"]
+    return [-1, "The changeset #{ex.changeset.id} was closed at #{ex.changeset.closed_at}."]
   rescue OSM::APIVersionMismatchError => ex
     # Really need to check to see whether this is a server load issue, and the 
     # last version was in the same changeset, or belongs to the same user, then
     # we can return something different
-    return [-3, "You have taken too long to edit, please reload the area"]
+    return [-3, "You have taken too long to edit, please reload the area."]
   rescue OSM::APIAlreadyDeletedError => ex
     return [-1, "The object has already been deleted"]
   rescue OSM::APIError => ex
@@ -538,12 +538,12 @@ class AmfController < ApplicationController
           # We're creating the node
           node.create_with_history(user)
           renumberednodes[id] = node.id
-          nodeversions[id] = node.version
+          nodeversions[node.id] = node.version
         else
           # We're updating an existing node
           previous=Node.find(id)
           previous.update_from(node, user)
-          nodeversions[id] = previous.version
+          nodeversions[previous.id] = previous.version
         end
       end
 

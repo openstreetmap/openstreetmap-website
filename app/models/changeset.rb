@@ -29,13 +29,13 @@ class Changeset < ActiveRecord::Base
 
   # maximum time a changeset is allowed to be open for (note that this
   # is in days - so one hour is Rational(1,24)).
-  MAX_TIME_OPEN = 1
+  MAX_TIME_OPEN = 1.day
 
   # idle timeout increment, one hour as a rational number of days.
   # NOTE: DO NOT CHANGE THIS TO 1.hour! when this was done the idle
   # timeout changed to 1 second, which meant all changesets closed 
   # almost immediately.
-  IDLE_TIMEOUT = Rational(1,24)
+  IDLE_TIMEOUT = 1.hour # Rational(1,24)
 
   # Use a method like this, so that we can easily change how we
   # determine whether a changeset is open, without breaking code in at 
