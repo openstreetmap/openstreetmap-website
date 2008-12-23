@@ -1,9 +1,12 @@
 # The ChangesetController is the RESTful interface to Changeset objects
 
 class ChangesetController < ApplicationController
+  layout 'site'
   require 'xml/libxml'
 
-  session :off
+# session :off
+# FIXME is this required?
+  before_filter :authorize_web, :only => [:list]
   before_filter :authorize, :only => [:create, :update, :delete, :upload, :include, :close]
   before_filter :check_write_availability, :only => [:create, :update, :delete, :upload, :include]
   before_filter :check_read_availability, :except => [:create, :update, :delete, :upload, :download, :query]
@@ -287,6 +290,21 @@ class ChangesetController < ApplicationController
     render :nothing => true, :status => :not_found
   rescue OSM::APIError => ex
     render ex.render_opts
+  end
+
+  ##
+  # list edits belonging to a user
+  def list
+    user = User.find(:first, :conditions => [ "visible = ? and display_name = ?", true, params[:display_name]])
+    @edit_pages, @edits = paginate(:changesets,
+                                   :include => [:user, :changeset_tags],
+                                   :conditions => ["changesets.user_id = ? AND min_lat IS NOT NULL", user.id],
+                                   :order => "changesets.created_at DESC",
+                                   :per_page => 20)
+    
+    @action = 'list'
+    @display_name = user.display_name
+    # FIXME needs rescues in here
   end
 
 private

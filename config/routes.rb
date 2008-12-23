@@ -137,6 +137,7 @@ ActionController::Routing::Routes.draw do |map|
 
   # user pages
   map.connect '/user/:display_name', :controller => 'user', :action => 'view'
+  map.connect '/user/:display_name/edits', :controller => 'changeset', :action => 'list'
   map.connect '/user/:display_name/make_friend', :controller => 'user', :action => 'make_friend'
   map.connect '/user/:display_name/remove_friend', :controller => 'user', :action => 'remove_friend'
   map.connect '/user/:display_name/diary', :controller => 'diary_entry', :action => 'list'
