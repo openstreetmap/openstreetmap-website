@@ -27,15 +27,11 @@ class Changeset < ActiveRecord::Base
   # maximum number of elements allowed in a changeset
   MAX_ELEMENTS = 50000
 
-  # maximum time a changeset is allowed to be open for (note that this
-  # is in days - so one hour is Rational(1,24)).
+  # maximum time a changeset is allowed to be open for.
   MAX_TIME_OPEN = 1.day
 
-  # idle timeout increment, one hour as a rational number of days.
-  # NOTE: DO NOT CHANGE THIS TO 1.hour! when this was done the idle
-  # timeout changed to 1 second, which meant all changesets closed 
-  # almost immediately.
-  IDLE_TIMEOUT = 1.hour # Rational(1,24)
+  # idle timeout increment, one hour seems reasonable.
+  IDLE_TIMEOUT = 1.hour
 
   # Use a method like this, so that we can easily change how we
   # determine whether a changeset is open, without breaking code in at 
@@ -46,12 +42,12 @@ class Changeset < ActiveRecord::Base
     # note that this may not be a hard limit - due to timing changes and
     # concurrency it is possible that some changesets may be slightly 
     # longer than strictly allowed or have slightly more changes in them.
-    return ((closed_at > DateTime.now) and (num_changes <= MAX_ELEMENTS))
+    return ((closed_at > Time.now) and (num_changes <= MAX_ELEMENTS))
   end
 
   def set_closed_time_now
     unless is_open?
-      self.closed_at = DateTime.now
+      self.closed_at = Time.now
     end
   end
   
@@ -156,7 +152,7 @@ class Changeset < ActiveRecord::Base
       if (closed_at - created_at) > (MAX_TIME_OPEN - IDLE_TIMEOUT)
         self.closed_at = created_at + MAX_TIME_OPEN
       else
-        self.closed_at = DateTime.now + IDLE_TIMEOUT
+        self.closed_at = Time.now + IDLE_TIMEOUT
       end
       self.save!
 
