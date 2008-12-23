@@ -18,20 +18,27 @@ class BrowseControllerTest < ActionController::TestCase
   
   end
   
-  # This should display the last 20 nodes that were edited.
+  # This should display the last 20 changesets closed.
   def test_index
-    @nodes = Node.find(:all, :order => "timestamp DESC", :limit => 20)
-    assert @nodes.size <= 20
+    @changesets = Changeset.find(:all, :order => "closed_at DESC", :limit=> 20)
+    assert @changesets.size <= 20
     get :index
     assert_response :success
     assert_template "index"
-    # Now check that all 20 (or however many were returned) nodes are in the html
-    assert_select "h2", :text => "#{@nodes.size} Recently Changed Nodes", :count => 1
-    assert_select "ul[id='recently_changed'] li a", :count => @nodes.size
-    @nodes.each do |node|
-      name = node.tags_as_hash['name'].to_s
-      name = "(No name)" if name.length == 0
-      assert_select "ul[id='recently_changed'] li a[href=/browse/node/#{node.id}]", :text => "#{name} - #{node.id} (#{node.version})"
+    # Now check that all 20 (or however many were returned) changesets are in the html
+    assert_select "h2", :text => "#{@changesets.size} Recently Closed Changesets", :count => 1
+    assert_select "ul[id='recently_changed'] li a", :count => @changesets.size
+    @changesets.each do |changeset|
+      if changeset.user.data_public?
+        user = changeset.user.display_name
+      else
+        user = "(anonymous)"
+      end
+    
+      cmt = changeset.tags_as_hash['comment'].to_s
+      cmt = "(no comment)" if cmt.length == 0
+      text = "#{changeset.id} by #{user} - #{cmt}"
+      assert_select "ul[id='recently_changed'] li a[href=/browse/changeset/#{changeset.id}]", :text => text
     end
   end
   

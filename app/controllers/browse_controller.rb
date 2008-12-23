@@ -8,7 +8,7 @@ class BrowseController < ApplicationController
   end
   
   def index
-    @nodes = Node.find(:all, :order => "timestamp DESC", :limit=> 20)  
+    @changesets = Changeset.find(:all, :order => "closed_at DESC", :limit=> 20)
   end
   
   def relation 
