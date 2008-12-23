@@ -4,8 +4,7 @@ class ChangesetController < ApplicationController
   layout 'site'
   require 'xml/libxml'
 
-# session :off
-# FIXME is this required?
+  session :off, :except => [:list]
   before_filter :authorize_web, :only => [:list]
   before_filter :authorize, :only => [:create, :update, :delete, :upload, :include, :close]
   before_filter :check_write_availability, :only => [:create, :update, :delete, :upload, :include]
