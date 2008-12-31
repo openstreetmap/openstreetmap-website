@@ -20,7 +20,7 @@ class BrowseControllerTest < ActionController::TestCase
   
   # This should display the last 20 changesets closed.
   def test_index
-    @changesets = Changeset.find(:all, :order => "closed_at DESC", :conditions => ['closed_at < ?', Time.now], :limit=> 20)
+    @changesets = Changeset.find(:all, :order => "closed_at DESC", :conditions => ['closed_at < ?', DateTime.now], :limit=> 20)
     assert @changesets.size <= 20
     get :index
     assert_response :success

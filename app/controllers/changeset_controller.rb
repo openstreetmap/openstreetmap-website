@@ -376,11 +376,11 @@ private
         times = time.split(/,/)
         raise OSM::APIBadUserInput.new("bad time range") if times.size != 2 
 
-        from, to = times.collect { |t| Time.parse(t) }
+        from, to = times.collect { |t| DateTime.parse(t) }
         return ['closed_at >= ? and created_at <= ?', from, to]
       else
         # if there is no comma, assume its a lower limit on time
-        return ['closed_at >= ?', Time.parse(time)]
+        return ['closed_at >= ?', DateTime.parse(time)]
       end
     else
       return nil
@@ -396,7 +396,7 @@ private
   ##
   # restrict changes to those which are open
   def conditions_open(open)
-    return open.nil? ? nil : ['closed_at >= ?', Time.now]
+    return open.nil? ? nil : ['closed_at >= ?', DateTime.now]
   end
 
 end
