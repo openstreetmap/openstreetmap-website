@@ -284,7 +284,13 @@ class AmfController < ApplicationController
   # 3. hash of tags, 
   # 4. version, 
   # 5. is this the current, visible version? (boolean)
-
+  #
+  # *** FIXME:
+  # Should work by timestamp, not version (so that we can recover versions when
+  # a node has been changed, but not the enclosing way)
+  #   Use strptime (http://www.ruby-doc.org/core/classes/DateTime.html) to
+  # to turn string back into timestamp.
+  
   def getway_old(id, version) #:doc:
     if version < 0
       old_way = OldWay.find(:first, :conditions => ['visible = ? AND id = ?', true, id], :order => 'version DESC')
@@ -305,8 +311,39 @@ class AmfController < ApplicationController
   
   # Find history of a way. Returns 'way', id, and 
   # an array of previous versions.
+  #
+  # *** FIXME:
+  # Should look for changes in constituent nodes as well,
+  # and return timestamps.
+  #   Heuristic: Find all nodes that have ever been part of the way; 
+  # get a list of their revision dates; add revision dates of the way;
+  # sort and collapse list (to within 2 seconds); trim all dates before the 
+  # start dateÊof the way.
 
   def getway_history(wayid) #:doc:
+
+    # Find list of revision dates for way and all constituent nodes
+    revdates=[]
+    Way.find(wayid).old_ways.collect do |a|
+      revdates.push(a.timestamp)
+      a.nds.each do |n|
+        Node.find(n).old_nodes.collect do |o|
+          revdates.push(o.timestamp)
+        end
+      end
+    end
+    waycreated=revdates[0]
+    revdates.uniq!
+    revdates.sort!
+
+    # Remove any dates (from nodes) before first revision date of way
+    revdates.delete_if { |d| d<waycreated }
+    # Remove any elements where 2 seconds doesn't elapse before next one
+    revdates.delete_if { |d| revdates.include?(d+1) or revdates.include?(d+2) }
+
+RAILS_DEFAULT_LOGGER.info("** revision dates: #{revdates.inspect}")
+RAILS_DEFAULT_LOGGER.info("** range: #{revdates[-1]-revdates[0]}")
+
     begin
       history = Way.find(wayid).old_ways.reverse.collect do |old_way|
         user_object = old_way.changeset.user
@@ -492,7 +529,7 @@ class AmfController < ApplicationController
   # 4. way version,
   # 5. hash of node versions (node=>version)
 
-  def putway(renumberednodes, usertoken, changeset, version, originalway, pointlist, attributes, nodes) #:doc:
+  def putway(renumberednodes, usertoken, changeset, wayversion, originalway, pointlist, attributes, nodes) #:doc:
 
     # -- Initialise
 	
@@ -567,7 +604,7 @@ class AmfController < ApplicationController
       new_way.tags = attributes
       new_way.nds = pointlist
       new_way.changeset_id = changeset
-      new_way.version = version
+      new_way.version = wayversion
       if originalway <= 0
         new_way.create_with_history(user)
         way=new_way	# so we can get way.id and way.version
