@@ -397,6 +397,14 @@ class AmfController < ApplicationController
 	  nodes.push(id)
 	end
 
+	# -- Save revised way
+
+	way.tags = attributes
+	way.nds = nodes
+	way.user_id = uid
+	way.visible = true
+	way.save_with_history!
+
 	# -- Delete any unique nodes
 	
 	uniques.each do |n|
@@ -407,14 +415,6 @@ class AmfController < ApplicationController
 	  node.visible = false
 	  node.save_with_history!
 	end
-
-	# -- Save revised way
-
-	way.tags = attributes
-	way.nds = nodes
-	way.user_id = uid
-	way.visible = true
-	way.save_with_history!
 
 	[0, originalway, way.id, renumberednodes]
   end
