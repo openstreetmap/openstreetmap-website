@@ -344,18 +344,16 @@ class AmfController < ApplicationController
 RAILS_DEFAULT_LOGGER.info("** revision dates: #{revdates.inspect}")
 RAILS_DEFAULT_LOGGER.info("** range: #{revdates[-1]-revdates[0]}")
 
-    begin
-      history = Way.find(wayid).old_ways.reverse.collect do |old_way|
-        user_object = old_way.changeset.user
-        user = user_object.data_public? ? user_object.display_name : 'anonymous'
-        uid  = user_object.data_public? ? user_object.id : 0
-        [old_way.version, old_way.timestamp.strftime("%d %b %Y, %H:%M"), old_way.visible ? 1 : 0, user, uid]
-      end
-
-      return ['way',wayid,history]
-    rescue ActiveRecord::RecordNotFound
-      return ['way', wayid, []]
+    history = Way.find(wayid).old_ways.reverse.collect do |old_way|
+      user_object = old_way.changeset.user
+      user = user_object.data_public? ? user_object.display_name : 'anonymous'
+      uid  = user_object.data_public? ? user_object.id : 0
+      [old_way.version, old_way.timestamp.strftime("%d %b %Y, %H:%M"), old_way.visible ? 1 : 0, user, uid]
     end
+
+    return ['way',wayid,history]
+  rescue ActiveRecord::RecordNotFound
+    return ['way', wayid, []]
   end
 
   # Find history of a node. Returns 'node', id, and 
