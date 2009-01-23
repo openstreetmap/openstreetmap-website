@@ -279,12 +279,20 @@ class TraceController < ApplicationController
 
   def api_create
     if request.post?
-      do_create(params[:file], params[:tags], params[:description], params[:public])
+      tags = params[:tags] || ""
+      description = params[:description] || ""
+      pub = params[:public] || false
+      
+      if params[:file].respond_to?(:read)
+        do_create(params[:file], tags, description, pub)
 
-      if @trace.id
-        render :text => @trace.id.to_s, :content_type => "text/plain"
-      elsif @trace.valid?
-        render :nothing => true, :status => :internal_server_error
+        if @trace.id
+          render :text => @trace.id.to_s, :content_type => "text/plain"
+        elsif @trace.valid?
+          render :nothing => true, :status => :internal_server_error
+        else
+          render :nothing => true, :status => :bad_request
+        end
       else
         render :nothing => true, :status => :bad_request
       end
