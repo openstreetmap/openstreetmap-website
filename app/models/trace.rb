@@ -3,8 +3,8 @@ class Trace < ActiveRecord::Base
 
   validates_presence_of :user_id, :name, :timestamp
   validates_presence_of :description, :on => :create
-  validates_length_of :name, :within => 1..255
-  validates_length_of :description, :within => 1..255
+  validates_length_of :name, :maximum => 255
+  validates_length_of :description, :maximum => 255
 #  validates_numericality_of :latitude, :longitude
   validates_inclusion_of :public, :inserted, :in => [ true, false]
   

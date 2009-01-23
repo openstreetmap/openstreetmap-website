@@ -1,8 +1,8 @@
 class TraceController < ApplicationController
   layout 'site'
 
-  before_filter :authorize_web  
-  before_filter :require_user, :only => [:mine, :edit, :delete, :make_public]
+  before_filter :authorize_web
+  before_filter :require_user, :only => [:mine, :create, :edit, :delete, :make_public]
   before_filter :authorize, :only => [:api_details, :api_data, :api_create]
   before_filter :check_database_availability, :except => [:api_details, :api_data, :api_create]
   before_filter :check_read_availability, :only => [:api_details, :api_data, :api_create]
@@ -99,26 +99,28 @@ class TraceController < ApplicationController
   end
 
   def create
-    logger.info(params[:trace][:gpx_file].class.name)
-    if params[:trace][:gpx_file].respond_to?(:read)
-      do_create(params[:trace][:gpx_file], params[:trace][:tagstring],
-                params[:trace][:description], params[:trace][:public])
+    if params[:trace]
+      logger.info(params[:trace][:gpx_file].class.name)
+      if params[:trace][:gpx_file].respond_to?(:read)
+        do_create(params[:trace][:gpx_file], params[:trace][:tagstring],
+                  params[:trace][:description], params[:trace][:public])
 
-      if @trace.id
-        logger.info("id is #{@trace.id}")
-        flash[:notice] = "Your GPX file has been uploaded and is awaiting insertion in to the database. This will usually happen within half an hour, and an email will be sent to you on completion."
+        if @trace.id
+          logger.info("id is #{@trace.id}")
+          flash[:notice] = "Your GPX file has been uploaded and is awaiting insertion in to the database. This will usually happen within half an hour, and an email will be sent to you on completion."
 
-        redirect_to :action => 'mine'
+          redirect_to :action => 'mine'
+        end
+      else
+        @trace = Trace.new({:name => "Dummy",
+                            :tagstring => params[:trace][:tagstring],
+                            :description => params[:trace][:description],
+                            :public => params[:trace][:public],
+                            :inserted => false, :user => @user,
+                            :timestamp => Time.now})
+        @trace.valid?
+        @trace.errors.add(:gpx_file, "can't be blank")
       end
-    else
-      @trace = Trace.new({:name => "Dummy",
-                          :tagstring => params[:trace][:tagstring],
-                          :description => params[:trace][:description],
-                          :public => params[:trace][:public],
-                          :inserted => false, :user => @user,
-                          :timestamp => Time.now})
-      @trace.valid?
-      @trace.errors.add(:gpx_file, "can't be blank")
     end
   end
 
