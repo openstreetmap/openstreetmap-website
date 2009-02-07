@@ -5,7 +5,7 @@ class ChangesetTest < Test::Unit::TestCase
   
   
   def test_changeset_count
-    assert_equal 5, Changeset.count
+    assert_equal 6, Changeset.count
   end
   
 end

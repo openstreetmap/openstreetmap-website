@@ -395,8 +395,14 @@ private
 
   ##
   # restrict changes to those which are open
+  #
+  # at the moment this code assumes we're only interested in open
+  # changesets and gives no facility to query closed changesets. this
+  # would be reasonably simple to implement if anyone actually wants
+  # it?
   def conditions_open(open)
-    return open.nil? ? nil : ['closed_at >= ?', DateTime.now]
+    return open.nil? ? nil : ['closed_at >= ? and num_changes <= ?', 
+                              DateTime.now, Changeset::MAX_ELEMENTS]
   end
 
 end

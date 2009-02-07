@@ -46,7 +46,7 @@ class Changeset < ActiveRecord::Base
   end
 
   def set_closed_time_now
-    unless is_open?
+    if is_open?
       self.closed_at = Time.now
     end
   end

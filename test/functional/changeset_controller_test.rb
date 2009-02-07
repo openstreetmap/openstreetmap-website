@@ -65,8 +65,14 @@ class ChangesetControllerTest < ActionController::TestCase
   def test_close
     basic_authorization "test@openstreetmap.org", "test"
 
-    put :close, :id => changesets(:normal_user_first_change).id
+    cs_id = changesets(:normal_user_first_change).id
+    put :close, :id => cs_id
     assert_response :success
+
+    # test that it really is closed now
+    cs = Changeset.find(cs_id)
+    assert(!cs.is_open?, 
+           "changeset should be closed now (#{cs.closed_at} > #{Time.now}.")
   end
 
   ##
@@ -669,7 +675,7 @@ EOF
   def test_query
     get :query, :bbox => "-10,-10, 10, 10"
     assert_response :success, "can't get changesets in bbox"
-    assert_changesets [1,4]
+    assert_changesets [1,4,6]
 
     get :query, :bbox => "4.5,4.5,4.6,4.6"
     assert_response :success, "can't get changesets in bbox"
@@ -683,7 +689,7 @@ EOF
     basic_authorization "test@openstreetmap.org", "test"
     get :query, :user => users(:normal_user).id
     assert_response :success, "can't get changesets by user"
-    assert_changesets [1,3,4]
+    assert_changesets [1,3,4,6]
 
     get :query, :user => users(:normal_user).id, :open => true
     assert_response :success, "can't get changesets by user and open"
@@ -691,15 +697,15 @@ EOF
 
     get :query, :time => '2007-12-31'
     assert_response :success, "can't get changesets by time-since"
-    assert_changesets [1,2,4,5]
+    assert_changesets [1,2,4,5,6]
 
     get :query, :time => '2008-01-01T12:34Z'
     assert_response :success, "can't get changesets by time-since with hour"
-    assert_changesets [1,2,4,5]
+    assert_changesets [1,2,4,5,6]
 
     get :query, :time => '2007-12-31T23:59Z,2008-01-01T00:01Z'
     assert_response :success, "can't get changesets by time-range"
-    assert_changesets [1,4,5]
+    assert_changesets [1,4,5,6]
 
     get :query, :open => 'true'
     assert_response :success, "can't get changesets by open-ness"
@@ -840,6 +846,11 @@ EOF
 
     changeset = Changeset.find(cs_id)
     assert_equal Changeset::MAX_ELEMENTS + 1, changeset.num_changes
+
+    # check that the changeset is now closed as well
+    assert(!changeset.is_open?, 
+           "changeset should have been auto-closed by exceeding " + 
+           "element limit.")
   end
   
   #------------------------------------------------------------
