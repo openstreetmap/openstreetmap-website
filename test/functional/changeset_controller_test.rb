@@ -531,6 +531,24 @@ EOF
   end
 
   ##
+  # test for more issues in #1568
+  def test_upload_empty_invalid
+    basic_authorization "test@openstreetmap.org", "test"
+
+    [ "<osmChange/>",
+      "<osmChange></osmChange>",
+      "<osmChange><modify/></osmChange>",
+      "<osmChange><modify></modify></osmChange>"
+    ].each do |diff|
+      # upload it
+      content diff
+      post :upload, :id => 1
+      assert_response(:success, "should be able to upload " +
+                      "empty changeset: " + diff)
+    end
+  end
+
+  ##
   # when we make some simple changes we get the same changes back from the 
   # diff download.
   def test_diff_download_simple

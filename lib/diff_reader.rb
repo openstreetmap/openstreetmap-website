@@ -47,7 +47,7 @@ class DiffReader
       # read the first element
       read_or_die
 
-      begin
+      while @reader.node_type != 15 do # end element
         # because we read elements in DOM-style to reuse their DOM
         # parsing code, we don't always read an element on each pass
         # as the call to @reader.next in the innermost loop will take
@@ -57,7 +57,7 @@ class DiffReader
         else
           read_or_die
         end
-      end while @reader.node_type != 15 # end element
+      end 
     end
     read_or_die
   end
