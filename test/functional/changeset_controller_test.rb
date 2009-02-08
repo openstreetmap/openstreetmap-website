@@ -218,6 +218,29 @@ EOF
   end
 
   ##
+  # test uploading a delete with no lat/lon, as they are optional in
+  # the osmChange spec.
+  def test_upload_nolatlon_delete
+    basic_authorization "test@openstreetmap.org", "test"
+
+    node = current_nodes(:visible_node)
+    cs = changesets(:normal_user_first_change)
+    diff = "<osmChange><delete><node id='#{node.id}' version='#{node.version}' changeset='#{cs.id}'/></delete></osmChange>"
+
+    # upload it
+    content diff
+    post :upload, :id => cs.id
+    assert_response :success, 
+      "can't upload a deletion diff to changeset: #{@response.body}"
+
+    # check the response is well-formed
+    assert_select "diffResult>node", 1
+
+    # check that everything was deleted
+    assert_equal false, Node.find(node.id).visible
+  end
+
+  ##
   # test that deleting stuff in a transaction doesn't bypass the checks
   # to ensure that used elements are not deleted.
   def test_upload_delete_invalid

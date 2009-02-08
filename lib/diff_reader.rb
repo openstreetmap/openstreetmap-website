@@ -179,14 +179,23 @@ class DiffReader
         # delete action. this takes a payload in API 0.6, so we need to do
         # most of the same checks that are done for the modify.
         with_model do |model, xml|
-          new = model.from_xml_node(xml, false)
-          check(model, xml, new)
+          # delete doesn't have to contain a full payload, according to
+          # the wiki docs, so we just extract the things we need.
+          new_id = xml['id'].to_i
+          raise API::APIBadXMLError.new(model, xml, "ID attribute is required") if new_id.nil?
 
           # if the ID is a placeholder then map it to the real ID
           model_sym = model.to_s.downcase.to_sym
-          is_placeholder = ids[model_sym].include? new.id
-          id = is_placeholder ? ids[model_sym][new.id] : new.id
+          is_placeholder = ids[model_sym].include? new_id
+          id = is_placeholder ? ids[model_sym][new_id] : new_id
 
+          # build the "new" element by modifying the existing one
+          new = model.find(id)
+          new.changeset_id = xml['changeset'].to_i
+          new.version = xml['version'].to_i
+          check(model, xml, new)
+
+          # fetch the matching old element from the DB
           old = model.find(id)
 
           # can a delete have placeholders under any circumstances?
@@ -197,7 +206,7 @@ class DiffReader
           xml_result = XML::Node.new model.to_s.downcase
           # oh, the irony... the "new" element actually contains the "old" ID
           # a better name would have been client/server, but anyway...
-          xml_result["old_id"] = new.id.to_s
+          xml_result["old_id"] = new_id.to_s
           result.root << xml_result
         end
 
