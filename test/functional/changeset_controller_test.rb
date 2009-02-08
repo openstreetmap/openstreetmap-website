@@ -205,6 +205,11 @@ EOF
     assert_response :success, 
       "can't upload a deletion diff to changeset: #{@response.body}"
 
+    # check the response is well-formed
+    assert_select "diffResult>node", 1
+    assert_select "diffResult>way", 1
+    assert_select "diffResult>relation", 2
+
     # check that everything was deleted
     assert_equal false, Node.find(current_nodes(:node_used_by_relationship).id).visible
     assert_equal false, Way.find(current_ways(:used_way).id).visible
@@ -367,6 +372,11 @@ EOF
     post :upload, :id => 1
     assert_response :success, 
       "can't upload multiple versions of an element in a diff: #{@response.body}"
+    
+    # check the response is well-formed. its counter-intuitive, but the
+    # API will return multiple elements with the same ID and different
+    # version numbers for each change we made.
+    assert_select "diffResult>node", 8
   end
 
   ##
@@ -427,6 +437,97 @@ EOF
   post :upload, :id => 1
   assert_response :bad_request, "Shouldn't be able to upload a diff with the action ping"
   assert_equal @response.body, "Unknown action ping, choices are create, modify, delete."
+  end
+
+  ##
+  # upload a valid changeset which has a mixture of whitespace
+  # to check a bug reported by ivansanchez (#1565).
+  def test_upload_whitespace_valid
+    basic_authorization "test@openstreetmap.org", "test"
+
+    diff = <<EOF
+<osmChange>
+ <modify><node id='1' lon='0' lat='0' changeset='1' 
+  version='1'></node>
+  <node id='1' lon='1' lat='1' changeset='1' version='2'><tag k='k' v='v'/></node></modify>
+ <modify>
+  <relation id='1' changeset='1' version='1'><member 
+   type='way' role='some' ref='3'/><member 
+    type='node' role='some' ref='5'/>
+   <member type='relation' role='some' ref='3'/>
+  </relation>
+ </modify></osmChange>
+EOF
+
+    # upload it
+    content diff
+    post :upload, :id => 1
+    assert_response :success, 
+      "can't upload a valid diff with whitespace variations to changeset: #{@response.body}"
+
+    # check the response is well-formed
+    assert_select "diffResult>node", 2
+    assert_select "diffResult>relation", 1
+
+    # check that the changes made it into the database
+    assert_equal 1, Node.find(1).tags.size, "node 1 should now have one tag"
+    assert_equal 0, Relation.find(1).tags.size, "relation 1 should now have no tags"
+  end
+
+  ##
+  # upload a valid changeset which has a mixture of whitespace
+  # to check a bug reported by ivansanchez.
+  def test_upload_reuse_placeholder_valid
+    basic_authorization "test@openstreetmap.org", "test"
+
+    diff = <<EOF
+<osmChange>
+ <create>
+  <node id='-1' lon='0' lat='0' changeset='1'>
+   <tag k="foo" v="bar"/>
+  </node>
+ </create>
+ <modify>
+  <node id='-1' lon='1' lat='1' changeset='1' version='1'/>
+ </modify>
+ <delete>
+  <node id='-1' lon='2' lat='2' changeset='1' version='2'/>
+ </delete>
+</osmChange>
+EOF
+
+    # upload it
+    content diff
+    post :upload, :id => 1
+    assert_response :success, 
+      "can't upload a valid diff with re-used placeholders to changeset: #{@response.body}"
+
+    # check the response is well-formed
+    assert_select "diffResult>node", 3
+    assert_select "diffResult>node[old_id=-1]", 3
+  end
+
+  ##
+  # test what happens if a diff upload re-uses placeholder IDs in an
+  # illegal way.
+  def test_upload_placeholder_invalid
+    basic_authorization "test@openstreetmap.org", "test"
+
+    diff = <<EOF
+<osmChange>
+ <create>
+  <node id='-1' lon='0' lat='0' changeset='1' version='1'/>
+  <node id='-1' lon='1' lat='1' changeset='1' version='1'/>
+  <node id='-1' lon='2' lat='2' changeset='1' version='2'/>
+ </create>
+</osmChange>
+EOF
+
+    # upload it
+    content diff
+    post :upload, :id => 1
+    assert_response :bad_request, 
+      "shouldn't be able to re-use placeholder IDs"
   end
 
   ##
