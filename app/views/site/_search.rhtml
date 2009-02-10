@@ -1,7 +1,7 @@
 <script type="text/javascript">
 <!--
   function startSearch() {
-    updateSidebar("Search Results", "<p class='search_results_entry'>Searching...</p>");
+    updateSidebar("Search Results", "<p class='search_results_entry'>Searching...<\/p>");
 
     $("search_field").style.display = "none";
     $("search_active").style.display = "inline";
@@ -34,14 +34,14 @@
     <span class="oboxheader">Search</span>
     <span class="whereami"><a href="javascript:describeLocation()">Where am I?</a></span>
     <div class="search_form">
-    <span id="search_field">
+    <div id="search_field">
     <% form_remote_tag(:loading => "startSearch()",
                        :complete => "endSearch()",
                        :url => { :controller => :geocoder, :action => :search }) do %>
       <%= text_field_tag :query, h(params[:query]) %>
       <%= submit_tag "Go" %>
     <% end %>
-    </span>
+    </div>
     <p id="search_active">Searching...</p>
     </div>
     <p class="search_help">
