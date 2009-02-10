@@ -16,5 +16,3 @@ config.action_view.cache_template_extensions         = false
 
 # Don't care if the mailer can't send
 config.action_mailer.raise_delivery_errors = false
-
-ENV['RAILS_ASSET_ID'] = '' # http://wiki.openstreetmap.org/wiki/The_Rails_Port
