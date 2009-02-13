@@ -126,8 +126,9 @@ class AmfController < ApplicationController
   # are IDs only. 
 
   def whichways(xmin, ymin, xmax, ymax) #:doc:
-	xmin -= 0.01; ymin -= 0.01
-	xmax += 0.01; ymax += 0.01
+	enlarge = [(xmax-xmin)/8,0.01].min
+	xmin -= enlarge; ymin -= enlarge
+	xmax += enlarge; ymax += enlarge
 
 	if POTLATCH_USE_SQL then
 	  way_ids = sql_find_way_ids_in_area(xmin, ymin, xmax, ymax)
