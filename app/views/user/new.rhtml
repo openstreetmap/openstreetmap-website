@@ -1,7 +1,28 @@
-<h1>Create a user account</h1><br>
-Fill in the form and we'll send you a quick email to activate your account.<br><br>
+<h1>Create a user account</h1>
 
-By creating an account, you agree that all work uploaded to openstreetmap.org and all data created by use of any tools which connect to openstreetmap.org is to be (non-exclusively) licensed under <a href="http://creativecommons.org/licenses/by-sa/2.0/">this Creative Commons license (by-sa)</a>.<br><br>
+<% if Acl.find_by_address(request.remote_ip, :conditions => {:k => "no_account_creation"}) %>
+
+<p>Unfortunately we are not currently able to create an account for
+   you automatically.
+</p>
+
+<p>Please contact the <a href="mailto:webmaster@openstreetmap.org">webmaster</a>
+   to arrange for an account to be created - we will try and deal with
+   the request as quickly as possible. 
+</p>
+
+<% else %>
+
+<p>Fill in the form and we'll send you a quick email to activate your
+   account.
+</p>
+
+<p>By creating an account, you agree that all work uploaded to
+   openstreetmap.org and all data created by use of any tools which
+   connect to openstreetmap.org is to be (non-exclusively) licensed under
+   <a href="http://creativecommons.org/licenses/by-sa/2.0/">this Creative
+   Commons license (by-sa)</a>.
+</p>
 
 <%= error_messages_for 'user' %>
 
@@ -16,5 +37,7 @@ By creating an account, you agree that all work uploaded to openstreetmap.org an
 <br>
 <br>
 <input type="submit" value="Signup">
+
+<% end %>
 
 <% end %>
