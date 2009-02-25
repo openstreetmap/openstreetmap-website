@@ -247,9 +247,9 @@ class AmfController < ApplicationController
 
   def getway(wayid) #:doc:
     if POTLATCH_USE_SQL then
-      points = sql_get_nodes_in_way(wayid)
-      tags = sql_get_tags_in_way(wayid)
-      version = sql_get_way_version(wayid)
+        points = sql_get_nodes_in_way(wayid)
+        tags = sql_get_tags_in_way(wayid)
+        version = sql_get_way_version(wayid)
       else
         # Ideally we would do ":include => :nodes" here but if we do that
         # then rails only seems to return the first copy of a node when a
@@ -311,7 +311,7 @@ class AmfController < ApplicationController
     else
       curway=Way.find(id)
       old_way.tags['history'] = "Retrieved from v#{old_way.version}"
-      return [0, id, points, old_way.tags, old_way.version, (curway.version==old_way.version and curway.visible)]
+      return [0, id, points, old_way.tags, curway.version, (curway.version==old_way.version and curway.visible)]
     end
   end
   
@@ -611,6 +611,7 @@ class AmfController < ApplicationController
       uniques=uniques-pointlist
       uniques.each do |n|
         node = Node.find(n)
+        deleteitemrelations(user, changeset, id, 'node', node.version)
         new_node = Node.new
         new_node.changeset_id = changeset
         new_node.version = node.version
@@ -658,7 +659,6 @@ class AmfController < ApplicationController
 
         if !visible then
           unless node.ways.empty? then return -1,"The point has since become part of a way, so you cannot save it as a POI." end
-          deleteitemrelations(id, 'node')
         end
       end
       # We always need a new node, based on the data that has been sent to us
@@ -744,14 +744,6 @@ class AmfController < ApplicationController
       delete_way.changeset_id = changeset_id
       old_way.delete_with_history!(delete_way, user)
 
-      # FIXME: would be good not to make two history entries when removing
-      #		 two nodes from the same relation
-      #old_way.unshared_node_ids.each do |n|
-      #  deleteitemrelations(n, 'node')
-      #end
-      #deleteitemrelations(way_id, 'way')
-
-      #way.delete_with_relations_and_nodes_and_history(changeset_id.to_i)
       old_way.unshared_node_ids.each do |node_id|
         # delete the node
         node = Node.find(node_id)
@@ -781,34 +773,24 @@ class AmfController < ApplicationController
   # Support functions
 
   # Remove a node or way from all relations
-  # FIXME needs version, changeset, and user
-  # Fixme make sure this doesn't depend on anything and delete this, as potlatch 
-  # itself should remove the relations first
-  def deleteitemrelations(objid, type, version) #:doc:
+  # This is only used by putway when deleting nodes removed from a way (because
+  # Potlatch itself doesn't keep track of these - possible FIXME).
+
+  def deleteitemrelations(user, changeset, objid, type, version) #:doc:
     relations = RelationMember.find(:all, 
 									:conditions => ['member_type = ? and member_id = ?', type, objid], 
 									:include => :relation).collect { |rm| rm.relation }.uniq
 
     relations.each do |rel|
       rel.members.delete_if { |x| x[0] == type and x[1] == objid }
-      # FIXME need to create the new relation
       new_rel = Relation.new
-      new_rel.version = version
-      new_rel.members = members
-      new_rel.changeset = changeset
-      rel.delete_with_history(new_rel, user)
+      new_rel.tags = rel.tags
+      new_rel.visible = rel.visible
+      new_rel.version = rel.version
+      new_rel.members = rel.members
+      new_rel.changeset_id = changeset
+      rel.update_from(new_rel, user)
     end
-  end
-
-  # Break out node tags into a hash
-  # (should become obsolete as of API 0.6)
-
-  def tagstring_to_hash(a) #:doc:
-    tags={}
-    Tags.split(a) do |k, v|
-      tags[k]=v
-    end
-    tags
   end
 
   # Authenticate token
