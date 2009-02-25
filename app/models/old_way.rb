@@ -134,10 +134,10 @@ class OldWay < ActiveRecord::Base
 	points
   end
   
-  def get_nodes_revert
+  def get_nodes_revert(timestamp)
     points=[]
     self.nds.each do |n|
-      oldnode=OldNode.find(:first, :conditions=>['id=? AND timestamp<=?',n,self.timestamp], :order=>"timestamp DESC")
+      oldnode=OldNode.find(:first, :conditions=>['id=? AND timestamp<=?',n,timestamp], :order=>"timestamp DESC")
       curnode=Node.find(n)
       id=n; v=curnode.visible ? 1 : 0
       if oldnode.lat!=curnode.lat or oldnode.lon!=curnode.lon or oldnode.tags!=curnode.tags then

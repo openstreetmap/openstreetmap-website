@@ -147,7 +147,7 @@ module Potlatch
             presetcategory=$2
             presetmenus[presettype].push(presetcategory)
             presetnames[presettype][presetcategory]=["(no preset)"]
-          elsif (t=~/^(.+):\s?(.+)$/) then
+          elsif (t=~/^([\w\s]+):\s?(.+)$/) then
             pre=$1; kv=$2
             presetnames[presettype][presetcategory].push(pre)
             presets[pre]={}
@@ -191,7 +191,7 @@ module Potlatch
       File.open("#{RAILS_ROOT}/config/potlatch/autocomplete.txt") do |file|
         file.each_line {|line|
           t=line.chomp
-          if (t=~/^(\w+)\/(\w+)\s+(.+)$/) then
+          if (t=~/^([\w:]+)\/(\w+)\s+(.+)$/) then
             tag=$1; type=$2; values=$3
             if values=='-' then autotags[type][tag]=[]
             else autotags[type][tag]=values.split(',').sort.reverse end

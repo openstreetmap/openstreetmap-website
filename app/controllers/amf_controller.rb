@@ -27,7 +27,10 @@
 #	return(-1,"message")		<-- just puts up a dialogue
 #	return(-2,"message")		<-- also asks the user to e-mail me
 # 
-# To write to the Rails log, use RAILS_DEFAULT_LOGGER.info("message").
+# To write to the Rails log, use logger.info("message").
+
+# Remaining issues:
+# * version conflict when POIs and ways are reverted
 
 class AmfController < ApplicationController
   require 'stringio'
@@ -75,7 +78,7 @@ class AmfController < ApplicationController
         when 'whichways_deleted';	results[index]=AMF.putdata(index,whichways_deleted(*args))
         when 'getway';				results[index]=AMF.putdata(index,getway(args[0].to_i))
         when 'getrelation';			results[index]=AMF.putdata(index,getrelation(args[0].to_i))
-        when 'getway_old';			results[index]=AMF.putdata(index,getway_old(args[0].to_i,args[1].to_i))
+        when 'getway_old';			results[index]=AMF.putdata(index,getway_old(args[0].to_i,args[1]))
         when 'getway_history';		results[index]=AMF.putdata(index,getway_history(args[0].to_i))
         when 'getnode_history';		results[index]=AMF.putdata(index,getnode_history(args[0].to_i))
         when 'findgpx';				results[index]=AMF.putdata(index,findgpx(*args))
@@ -180,8 +183,9 @@ class AmfController < ApplicationController
   # used in any way, rel is any relation which refers to either a way
   # or node that we're returning.
   def whichways(xmin, ymin, xmax, ymax) #:doc:
-    xmin -= 0.01; ymin -= 0.01
-    xmax += 0.01; ymax += 0.01
+    enlarge = [(xmax-xmin)/8,0.01].min
+    xmin -= enlarge; ymin -= enlarge
+    xmax += enlarge; ymax += enlarge
     
     # check boundary is sane and area within defined
     # see /config/application.yml
@@ -202,7 +206,7 @@ class AmfController < ApplicationController
 
       # find the node ids in an area that aren't part of ways
       nodes_not_used_in_area = nodes_in_area.select { |node| node.ways.empty? }
-      points = nodes_not_used_in_area.collect { |n| [n.id, n.lon, n.lat, n.tags, n.version] }
+      points = nodes_not_used_in_area.collect { |n| [n.id, n.lon, n.lat, n.tags, n.version] }.uniq
 
       # find the relations used by those nodes and ways
       relations = Relation.find_for_nodes(nodes_in_area.collect { |n| n.id }, :conditions => {:visible => true}) +
@@ -210,7 +214,7 @@ class AmfController < ApplicationController
       relations = relations.collect { |relation| [relation.id,relation.version] }.uniq
     end
 
-    [0,ways, points, relations]
+    [0, ways, points, relations]
 
   rescue Exception => err
     [-2,"Sorry - I can't get the map for that area."]
@@ -220,8 +224,9 @@ class AmfController < ApplicationController
   # with a deleted node only - not POIs or relations).
 
   def whichways_deleted(xmin, ymin, xmax, ymax) #:doc:
-    xmin -= 0.01; ymin -= 0.01
-    xmax += 0.01; ymax += 0.01
+    enlarge = [(xmax-xmin)/8,0.01].min
+    xmin -= enlarge; ymin -= enlarge
+    xmax += enlarge; ymax += enlarge
 
     # check boundary is sane and area within defined
     # see /config/application.yml
@@ -284,23 +289,24 @@ class AmfController < ApplicationController
   # 3. hash of tags, 
   # 4. version, 
   # 5. is this the current, visible version? (boolean)
-  #
-  # *** FIXME:
-  # Should work by timestamp, not version (so that we can recover versions when
-  # a node has been changed, but not the enclosing way)
-  #   Use strptime (http://www.ruby-doc.org/core/classes/DateTime.html) to
-  # to turn string back into timestamp.
   
-  def getway_old(id, version) #:doc:
-    if version < 0
+  def getway_old(id, timestamp) #:doc:
+    if timestamp == ''
+      # undelete
       old_way = OldWay.find(:first, :conditions => ['visible = ? AND id = ?', true, id], :order => 'version DESC')
       points = old_way.get_nodes_undelete unless old_way.nil?
     else
-      old_way = OldWay.find(:first, :conditions => ['id = ? AND version = ?', id, version])
-      points = old_way.get_nodes_revert unless old_way.nil?
+      # revert
+      timestamp = DateTime.strptime(timestamp, "%d %b %Y, %H:%M:%S")
+      old_way = OldWay.find(:first, :conditions => ['id = ? AND timestamp <= ?', id, timestamp], :order => 'timestamp DESC')
+      points = old_way.get_nodes_revert(timestamp) unless old_way.nil?
+      if !old_way.visible
+        return [-1, "Sorry, the way was deleted at that time - please revert to a previous version."]
+      end
     end
 
     if old_way.nil?
+      # *** FIXME: shouldn't this be returning an error?
       return [-1, id, [], {}, -1,0]
     else
       curway=Way.find(id)
@@ -309,67 +315,68 @@ class AmfController < ApplicationController
     end
   end
   
-  # Find history of a way. Returns 'way', id, and 
-  # an array of previous versions.
+  # Find history of a way.
+  # Returns 'way', id, and an array of previous versions:
+  # - formerly [old_way.version, old_way.timestamp.strftime("%d %b %Y, %H:%M"), old_way.visible ? 1 : 0, user, uid]
+  # - now [timestamp,user,uid]
   #
-  # *** FIXME:
-  # Should look for changes in constituent nodes as well,
-  # and return timestamps.
-  #   Heuristic: Find all nodes that have ever been part of the way; 
+  # Heuristic: Find all nodes that have ever been part of the way; 
   # get a list of their revision dates; add revision dates of the way;
   # sort and collapse list (to within 2 seconds); trim all dates before the 
-  # start dateÊof the way.
+  # start date of the way.
 
   def getway_history(wayid) #:doc:
 
-    # Find list of revision dates for way and all constituent nodes
-    revdates=[]
-    Way.find(wayid).old_ways.collect do |a|
-      revdates.push(a.timestamp)
-      a.nds.each do |n|
-        Node.find(n).old_nodes.collect do |o|
-          revdates.push(o.timestamp)
+    begin
+      # Find list of revision dates for way and all constituent nodes
+      revdates=[]
+      revusers={}
+      Way.find(wayid).old_ways.collect do |a|
+        revdates.push(a.timestamp)
+        unless revusers.has_key?(a.timestamp.to_i) then revusers[a.timestamp.to_i]=change_user(a) end
+        a.nds.each do |n|
+          Node.find(n).old_nodes.collect do |o|
+            revdates.push(o.timestamp)
+            unless revusers.has_key?(o.timestamp.to_i) then revusers[o.timestamp.to_i]=change_user(o) end
+          end
         end
       end
+      waycreated=revdates[0]
+      revdates.uniq!
+      revdates.sort!
+	  revdates.reverse!
+
+      # Remove any dates (from nodes) before first revision date of way
+      revdates.delete_if { |d| d<waycreated }
+      # Remove any elements where 2 seconds doesn't elapse before next one
+      revdates.delete_if { |d| revdates.include?(d+1) or revdates.include?(d+2) }
+      # Collect all in one nested array
+      revdates.collect! {|d| [d.strftime("%d %b %Y, %H:%M:%S")] + revusers[d.to_i] }
+
+      return ['way',wayid,revdates]
+    rescue ActiveRecord::RecordNotFound
+      return ['way', wayid, []]
     end
-    waycreated=revdates[0]
-    revdates.uniq!
-    revdates.sort!
-
-    # Remove any dates (from nodes) before first revision date of way
-    revdates.delete_if { |d| d<waycreated }
-    # Remove any elements where 2 seconds doesn't elapse before next one
-    revdates.delete_if { |d| revdates.include?(d+1) or revdates.include?(d+2) }
-
-RAILS_DEFAULT_LOGGER.info("** revision dates: #{revdates.inspect}")
-RAILS_DEFAULT_LOGGER.info("** range: #{revdates[-1]-revdates[0]}")
-
-    history = Way.find(wayid).old_ways.reverse.collect do |old_way|
-      user_object = old_way.changeset.user
-      user = user_object.data_public? ? user_object.display_name : 'anonymous'
-      uid  = user_object.data_public? ? user_object.id : 0
-      [old_way.version, old_way.timestamp.strftime("%d %b %Y, %H:%M"), old_way.visible ? 1 : 0, user, uid]
-    end
-
-    return ['way',wayid,history]
-  rescue ActiveRecord::RecordNotFound
-    return ['way', wayid, []]
   end
-
-  # Find history of a node. Returns 'node', id, and 
-  # an array of previous versions.
+  
+  # Find history of a node. Returns 'node', id, and an array of previous versions as above.
 
   def getnode_history(nodeid) #:doc:
-    history = Node.find(nodeid).old_nodes.reverse.collect do |old_node|
-      user_object = old_node.changeset.user
-      user = user_object.data_public? ? user_object.display_name : 'anonymous'
-      uid  = user_object.data_public? ? user_object.id : 0
-      [old_node.version, old_node.timestamp.strftime("%d %b %Y, %H:%M"), old_node.visible ? 1 : 0, user, uid]
+    begin 
+      history = Node.find(nodeid).old_nodes.reverse.collect do |old_node|
+        [old_node.timestamp.strftime("%d %b %Y, %H:%M:%S")] + change_user(old_node)
+      end
+      return ['node', nodeid, history]
+    rescue ActiveRecord::RecordNotFound
+      return ['node', nodeid, []]
     end
-    
-    return ['node',nodeid,history]
-  rescue ActiveRecord::RecordNotFound
-    return ['node', nodeid, []]
+  end
+
+  def change_user(obj)
+    user_object = obj.changeset.user
+    user = user_object.data_public? ? user_object.display_name : 'anonymous'
+    uid  = user_object.data_public? ? user_object.id : 0
+    [user,uid]
   end
 
   # Find GPS traces with specified name/id.
@@ -582,17 +589,6 @@ RAILS_DEFAULT_LOGGER.info("** range: #{revdates[-1]-revdates[0]}")
         end
       end
 
-      # -- Delete any unique nodes no longer used
-
-      uniques=uniques-pointlist
-      uniques.each do |n|
-        node = Node.find(n)
-        new_node = Node.new
-        new_node.changeset_id = changeset
-        new_node.version = version
-        node.delete_with_history!(new_node, user)
-      end
-
       # -- Save revised way
 
 	  pointlist.collect! {|a|
@@ -609,6 +605,18 @@ RAILS_DEFAULT_LOGGER.info("** range: #{revdates[-1]-revdates[0]}")
       elsif way.tags!=attributes or way.nds!=pointlist or !way.visible?
         way.update_from(new_way, user)
       end
+
+      # -- Delete any unique nodes no longer used
+
+      uniques=uniques-pointlist
+      uniques.each do |n|
+        node = Node.find(n)
+        new_node = Node.new
+        new_node.changeset_id = changeset
+        new_node.version = node.version
+        node.delete_with_history!(new_node, user)
+      end
+
     end # transaction
 
     [0, originalway, way.id, renumberednodes, way.version, nodeversions]
@@ -697,11 +705,11 @@ RAILS_DEFAULT_LOGGER.info("** range: #{revdates[-1]-revdates[0]}")
   #
   # Returns array of id, long, lat, hash of tags, version.
 
-  def getpoi(id,version) #:doc:
-    if version>0 then
-        n = OldNode.find(id, :conditions=>['version=?',version])
-    else
+  def getpoi(id,timestamp) #:doc:
+    if timestamp == '' then
       n = Node.find(id)
+    else
+      n = OldNode.find(id, :conditions=>['timestamp=?',DateTime.strptime(timestamp, "%d %b %Y, %H:%M:%S")])
     end
 
     if n
@@ -729,27 +737,29 @@ RAILS_DEFAULT_LOGGER.info("** range: #{revdates[-1]-revdates[0]}")
     # Need a transaction so that if one item fails to delete, the whole delete fails.
     Way.transaction do
 
+      # delete the way
+      old_way = Way.find(way_id)
+      delete_way = Way.new
+      delete_way.version = way_version
+      delete_way.changeset_id = changeset_id
+      old_way.delete_with_history!(delete_way, user)
+
       # FIXME: would be good not to make two history entries when removing
       #		 two nodes from the same relation
-      old_way = Way.find(way_id)
       #old_way.unshared_node_ids.each do |n|
       #  deleteitemrelations(n, 'node')
       #end
       #deleteitemrelations(way_id, 'way')
 
-   
       #way.delete_with_relations_and_nodes_and_history(changeset_id.to_i)
       old_way.unshared_node_ids.each do |node_id|
         # delete the node
         node = Node.find(node_id)
         delete_node = Node.new
-        delete_node.version = node_id_version[node_id]
+        delete_node.changeset_id = changeset_id
+        delete_node.version = node_id_version[node_id.to_s]
         node.delete_with_history!(delete_node, user)
       end
-      # delete the way
-      delete_way = Way.new
-      delete_way.version = way_version
-      old_way.delete_with_history!(delete_way, user)
     end # transaction
     [0, way_id]
   rescue OSM::APIChangesetAlreadyClosedError => ex
@@ -770,11 +780,6 @@ RAILS_DEFAULT_LOGGER.info("** range: #{revdates[-1]-revdates[0]}")
   # ====================================================================
   # Support functions
 
-  # delete a way and its nodes that aren't part of other ways
-  # this functionality used to be in the model, however it is specific to amf
-  # controller
-  #def delete_unshared_nodes(changeset_id, way_id)
-  
   # Remove a node or way from all relations
   # FIXME needs version, changeset, and user
   # Fixme make sure this doesn't depend on anything and delete this, as potlatch 
