@@ -70,7 +70,7 @@ class AmfController < ApplicationController
       index=AMF.getstring(req)				#  | get index in response sequence
       bytes=AMF.getlong(req)				#  | get total size in bytes
       args=AMF.getvalue(req)				#  | get response (probably an array)
-      logger.info "Executing AMF #{message}:#{index}"
+      logger.info("Executing AMF #{message}:#{index}")
 
       case message
         when 'getpresets';			results[index]=AMF.putdata(index,getpresets())
@@ -112,6 +112,7 @@ class AmfController < ApplicationController
       bytes=AMF.getlong(req)				#  | get total size in bytes
       args=AMF.getvalue(req)				#  | get response (probably an array)
 
+      logger.info("Executing AMF #{message}:#{index}")
       case message
         when 'putway';				r=putway(renumberednodes,*args)
 									renumberednodes=r[3]
@@ -125,6 +126,7 @@ class AmfController < ApplicationController
         when 'startchangeset';		results[index]=AMF.putdata(index,startchangeset(*args))
       end
     end
+    logger.info("encoding AMF results")
     sendresponse(results)
   end
 
@@ -444,7 +446,7 @@ class AmfController < ApplicationController
   # 1. original relation id (unchanged),
   # 2. new relation id.
 
-  def putrelation(renumberednodes, renumberedways, usertoken, changeset, version, relid, tags, members, visible) #:doc:
+  def putrelation(renumberednodes, renumberedways, usertoken, changeset_id, version, relid, tags, members, visible) #:doc:
     user = getuser(usertoken)
     if !user then return -1,"You are not logged in, so the relation could not be saved." end
 
@@ -478,7 +480,7 @@ class AmfController < ApplicationController
       new_relation.members = typedmembers
       new_relation.tags = tags
       new_relation.visible = visible
-      new_relation.changeset_id = changeset
+      new_relation.changeset_id = changeset_id
       new_relation.version = version
 
 
@@ -505,12 +507,12 @@ class AmfController < ApplicationController
     # Really need to check to see whether this is a server load issue, and the 
     # last version was in the same changeset, or belongs to the same user, then
     # we can return something different
-    return [-3, "You have taken too long to edit, please reload the area."]
+    return [-3, "Sorry, someone else has changed this relation since you started editing. Please click the 'Edit' tab to reload the area."]
   rescue OSM::APIAlreadyDeletedError => ex
-    return [-1, "The object has already been deleted"]
+    return [-1, "The relation has already been deleted."]
   rescue OSM::APIError => ex
     # Some error that we don't specifically catch
-    return [-2, "Something really bad happened :-()"]
+    return [-2, "Something really bad happened :-( ."]
   end
 
   # Save a way to the database, including all nodes. Any nodes in the previous
@@ -534,7 +536,7 @@ class AmfController < ApplicationController
   # 4. way version,
   # 5. hash of node versions (node=>version)
 
-  def putway(renumberednodes, usertoken, changeset, wayversion, originalway, pointlist, attributes, nodes) #:doc:
+  def putway(renumberednodes, usertoken, changeset_id, wayversion, originalway, pointlist, attributes, nodes) #:doc:
 
     # -- Initialise
 	
@@ -570,7 +572,7 @@ class AmfController < ApplicationController
         if renumberednodes[id] then id = renumberednodes[id] end
 
         node = Node.new
-        node.changeset_id = changeset
+        node.changeset_id = changeset_id
         node.lat = lat
         node.lon = lon
         node.tags = a[4]
@@ -597,7 +599,7 @@ class AmfController < ApplicationController
       new_way = Way.new
       new_way.tags = attributes
       new_way.nds = pointlist
-      new_way.changeset_id = changeset
+      new_way.changeset_id = changeset_id
       new_way.version = wayversion
       if originalway <= 0
         new_way.create_with_history(user)
@@ -611,9 +613,9 @@ class AmfController < ApplicationController
       uniques=uniques-pointlist
       uniques.each do |n|
         node = Node.find(n)
-        deleteitemrelations(user, changeset, id, 'node', node.version)
+        deleteitemrelations(user, changeset_id, id, 'node', node.version)
         new_node = Node.new
-        new_node.changeset_id = changeset
+        new_node.changeset_id = changeset_id
         new_node.version = node.version
         node.delete_with_history!(new_node, user)
       end
@@ -627,11 +629,11 @@ class AmfController < ApplicationController
     # Really need to check to see whether this is a server load issue, and the 
     # last version was in the same changeset, or belongs to the same user, then
     # we can return something different
-    return [-3, "Sorry, someone else has changed this way since you started editing - please reload the area"]
+    return [-3, "Sorry, someone else has changed this way since you started editing. Please click the 'Edit' tab to reload the area."]
   rescue OSM::APITooManyWayNodesError => ex
     return [-1, "You have tried to upload a really long way with #{ex.provided} points: only #{ex.max} are allowed."]
   rescue OSM::APIAlreadyDeletedError => ex
-    return [-1, "The object has already been deleted."]
+    return [-1, "The point has already been deleted."]
   rescue OSM::APIError => ex
     # Some error that we don't specifically catch
     return [-2, "Something really bad happened :-(."]
@@ -645,7 +647,7 @@ class AmfController < ApplicationController
   # 2. new node id,
   # 3. version.
 
-  def putpoi(usertoken, changeset, version, id, lon, lat, tags, visible) #:doc:
+  def putpoi(usertoken, changeset_id, version, id, lon, lat, tags, visible) #:doc:
     user = getuser(usertoken)
     if !user then return -1,"You are not logged in, so the point could not be saved." end
 
@@ -664,7 +666,7 @@ class AmfController < ApplicationController
       # We always need a new node, based on the data that has been sent to us
       new_node = Node.new
 
-      new_node.changeset_id = changeset
+      new_node.changeset_id = changeset_id
       new_node.version = version
       new_node.lat = lat
       new_node.lon = lon
@@ -692,9 +694,9 @@ class AmfController < ApplicationController
     # Really need to check to see whether this is a server load issue, and the 
     # last version was in the same changeset, or belongs to the same user, then
     # we can return something different
-    return [-3, "You have taken too long to edit, please reload the area"]
+    return [-3, "Sorry, someone else has changed this point since you started editing. Please click the 'Edit' tab to reload the area."]
   rescue OSM::APIAlreadyDeletedError => ex
-    return [-1, "The object has already been deleted"]
+    return [-1, "The point has already been deleted"]
   rescue OSM::APIError => ex
     # Some error that we don't specifically catch
     return [-2, "Something really bad happened :-()"]
@@ -749,7 +751,14 @@ class AmfController < ApplicationController
         node = Node.find(node_id)
         delete_node = Node.new
         delete_node.changeset_id = changeset_id
-        delete_node.version = node_id_version[node_id.to_s]
+        if node_id_version[node_id.to_s]
+          delete_node.version = node_id_version[node_id.to_s]
+        else
+          # in case the node wasn't passed (i.e. if it was previously removed
+          # from the way in Potlatch)
+          deleteitemrelations(user, changeset_id, node_id, 'node', node.version)
+	      delete_node.version = node.version
+	    end
         node.delete_with_history!(delete_node, user)
       end
     end # transaction
@@ -760,12 +769,12 @@ class AmfController < ApplicationController
     # Really need to check to see whether this is a server load issue, and the 
     # last version was in the same changeset, or belongs to the same user, then
     # we can return something different
-    return [-3, "You have taken too long to edit, please reload the area"]
+    return [-3, "Sorry, someone else has changed this way since you started editing. Please click the 'Edit' tab to reload the area."]
   rescue OSM::APIAlreadyDeletedError => ex
-    return [-1, "The object has already been deleted"]
+    return [-1, "The way has already been deleted."]
   rescue OSM::APIError => ex
     # Some error that we don't specifically catch
-    return [-2, "Something really bad happened :-()"]
+    return [-2, "Something really bad happened :-( ."]
   end
 
 
@@ -773,10 +782,11 @@ class AmfController < ApplicationController
   # Support functions
 
   # Remove a node or way from all relations
-  # This is only used by putway when deleting nodes removed from a way (because
-  # Potlatch itself doesn't keep track of these - possible FIXME).
+  # This is only used by putway and deleteway when deleting nodes removed 
+  # from a way (because Potlatch itself doesn't keep track of these - 
+  # possible FIXME).
 
-  def deleteitemrelations(user, changeset, objid, type, version) #:doc:
+  def deleteitemrelations(user, changeset_id, objid, type, version) #:doc:
     relations = RelationMember.find(:all, 
 									:conditions => ['member_type = ? and member_id = ?', type, objid], 
 									:include => :relation).collect { |rm| rm.relation }.uniq
@@ -788,7 +798,7 @@ class AmfController < ApplicationController
       new_rel.visible = rel.visible
       new_rel.version = rel.version
       new_rel.members = rel.members
-      new_rel.changeset_id = changeset
+      new_rel.changeset_id = changeset_id
       rel.update_from(new_rel, user)
     end
   end
