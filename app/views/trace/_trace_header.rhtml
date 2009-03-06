@@ -1,6 +1,8 @@
 <h1><%= h(@title) %></h1>
 
+<% content_for :head do %>
 <%= auto_discovery_link_tag :atom, :action => 'georss', :display_name => @display_name, :tag => @tag %>
+<% end %>
 
 <p>
   <%= rss_link_to :action => 'georss', :display_name => @display_name, :tag => @tag %>
