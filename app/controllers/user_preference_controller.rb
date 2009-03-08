@@ -53,8 +53,7 @@ class UserPreferenceController < ApplicationController
   # update the entire set of preferences
   def update
     begin
-      p = XML::Parser.new
-      p.string = request.raw_post
+      p = XML::Parser.string(request.raw_post)
       doc = p.parse
 
       prefs = []
