@@ -540,8 +540,7 @@ OSM
   ##
   # parse some xml
   def xml_parse(xml)
-    parser = XML::Parser.new
-    parser.string = xml
+    parser = XML::Parser.string(xml)
     parser.parse
   end
 end

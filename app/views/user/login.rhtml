@@ -1,15 +1,13 @@
-<h1>Login:</h1><br />
-Please login or <%= link_to 'create an account', :controller => 'user', :action => 'new' %>.<br />
+<h1>Login</h1>
+
+<p>Please login or <%= link_to 'create an account', :controller => 'user', :action => 'new' %>.</p>
 
 <% form_tag :action => 'login' do %>
 <%= hidden_field_tag('referer', h(params[:referer])) %>
-<br/>
 <table>
-  <tr><td class="fieldName">Email Address or username:</td><td><%= text_field('user', 'email',{:size => 50, :maxlength => 255}) %></td></tr>
+  <tr><td class="fieldName">Email Address or Username:</td><td><%= text_field('user', 'email',{:size => 50, :maxlength => 255}) %></td></tr>
   <tr><td class="fieldName">Password:</td><td><%= password_field('user', 'password',{:size => 28, :maxlength => 255}) %> <span class="minorNote">(<%= link_to 'Lost your password?', :controller => 'user', :action => 'lost_password' %>)</span></td></tr>
   <tr><td colspan=2>&nbsp;<!--vertical spacer--></td></tr>
   <tr><td></td><td align="right"><%= submit_tag 'Login' %></td></tr>
 </table>
-
-<br />
 <% end %>

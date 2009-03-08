@@ -29,7 +29,7 @@ class GeocoderController < ApplicationController
 
       if results_count == 1
         position = results.collect { |s| s[:results] }.compact.flatten[0]
-        page.call "setPosition", position[:lat], position[:lon], position[:zoom]
+        page.call "setPosition", position[:lat].to_f, position[:lon].to_f, position[:zoom].to_i
       else
         page.call "openSidebar"
       end

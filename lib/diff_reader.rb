@@ -18,7 +18,7 @@ class DiffReader
   # in OsmChange format. All diffs must be limited to a single changeset
   # given in +changeset+.
   def initialize(data, changeset)
-    @reader = XML::Reader.new data
+    @reader = XML::Reader.string(data)
     @changeset = changeset
   end
 
@@ -26,11 +26,12 @@ class DiffReader
   # Reads the next element from the XML document. Checks the return value
   # and throws an exception if an error occurred.
   def read_or_die
-    # NOTE: XML::Reader#read returns 0 for EOF and -1 for error.
-    # we allow an EOF because we are expecting this to always happen
-    # at the end of a document.
-    if @reader.read < 0
-      raise APIBadUserInput.new("Unexpected end of XML document.")
+    # NOTE: XML::Reader#read returns false for EOF and raises an
+    # exception if an error occurs.
+    begin
+      @reader.read
+    rescue LibXML::XML::Error => ex
+      raise OSM::APIBadXMLError.new("changeset", xml, ex.message)
     end
   end
 

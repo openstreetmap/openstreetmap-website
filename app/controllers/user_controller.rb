@@ -11,19 +11,24 @@ class UserController < ApplicationController
 
   def save
     @title = 'create account'
-    @user = User.new(params[:user])
 
-    @user.visible = true
-    @user.data_public = true
-    @user.description = "" if @user.description.nil?
-    @user.creation_ip = request.remote_ip
-
-    if @user.save
-      flash[:notice] = "User was successfully created. Check your email for a confirmation note, and you\'ll be mapping in no time :-)<br>Please note that you won't be able to login until you've received and confirmed your email address."
-      Notifier.deliver_signup_confirm(@user, @user.tokens.create)
-      redirect_to :action => 'login'
-    else
+    if Acl.find_by_address(request.remote_ip, :conditions => {:k => "no_account_creation"})
       render :action => 'new'
+    else
+      @user = User.new(params[:user])
+
+      @user.visible = true
+      @user.data_public = true
+      @user.description = "" if @user.description.nil?
+      @user.creation_ip = request.remote_ip
+
+      if @user.save
+        flash[:notice] = "User was successfully created. Check your email for a confirmation note, and you\'ll be mapping in no time :-)<br>Please note that you won't be able to login until you've received and confirmed your email address."
+        Notifier.deliver_signup_confirm(@user, @user.tokens.create)
+        redirect_to :action => 'login'
+      else
+        render :action => 'new'
+      end
     end
   end
 

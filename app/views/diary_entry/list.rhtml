@@ -17,27 +17,23 @@
 
 
 <% if @entries.empty? %>
-	<p>No diary entries</p>
-
+  <p>No diary entries</p>
 <% else %>
+  <p>Recent diary entries:</p>
+
+  <hr />
+
+  <%= render :partial => 'diary_entry', :collection => @entries %>
 	
-	<p>Recent diary entries:</p>
-	<hr />
-	<%= render :partial => 'diary_entry', :collection => @entries %>
-	
-	<%= link_to "Older Entries", { :page => @entry_pages.current.next } if @entry_pages.current.next %>
-	<% if @entry_pages.current.next and @entry_pages.current.previous %>
-	|
-	<% end %>
-	<%= link_to "Newer Entries", { :page => @entry_pages.current.previous } if @entry_pages.current.previous %>
-	
-	<br />
-	
+  <%= link_to "Older Entries", { :page => @entry_pages.current.next } if @entry_pages.current.next %>
+  <% if @entry_pages.current.next and @entry_pages.current.previous %>|<% end %>
+  <%= link_to "Newer Entries", { :page => @entry_pages.current.previous } if @entry_pages.current.previous %>
+
+  <br />
 <% end %>
 
 <%= rss_link_to :action => 'rss' %>
+
+<% content_for :head do %>
 <%= auto_discovery_link_tag :atom, :action => 'rss' %>
-
-
-<br />
-<br />
+<% end %>
