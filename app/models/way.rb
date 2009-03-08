@@ -17,8 +17,7 @@ class Way < ActiveRecord::Base
 
   def self.from_xml(xml, create=false)
     begin
-      p = XML::Parser.new
-      p.string = xml
+      p = XML::Parser.string(xml)
       doc = p.parse
 
       way = Way.new

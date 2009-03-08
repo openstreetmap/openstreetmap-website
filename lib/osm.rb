@@ -101,7 +101,7 @@ module OSM
   class GeoRSS
     def initialize(feed_title='OpenStreetMap GPS Traces', feed_description='OpenStreetMap GPS Traces', feed_url='http://www.openstreetmap.org/traces/')
       @doc = XML::Document.new
-      @doc.encoding = 'UTF-8' 
+      @doc.encoding = XML::Encoding::UTF_8
 
       rss = XML::Node.new 'rss'
       @doc.root = rss
@@ -187,7 +187,7 @@ module OSM
   class API
     def get_xml_doc
       doc = XML::Document.new
-      doc.encoding = 'UTF-8' 
+      doc.encoding = XML::Encoding::UTF_8
       root = XML::Node.new 'osm'
       root['version'] = API_VERSION
       root['generator'] = 'OpenStreetMap server'

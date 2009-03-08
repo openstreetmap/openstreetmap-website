@@ -57,8 +57,7 @@ class Node < ActiveRecord::Base
   # Read in xml as text and return it's Node object representation
   def self.from_xml(xml, create=false)
     begin
-      p = XML::Parser.new
-      p.string = xml
+      p = XML::Parser.string(xml)
       doc = p.parse
   
       node = Node.new

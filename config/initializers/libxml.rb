@@ -1,7 +1,9 @@
 require 'rubygems'
-gem 'libxml-ruby', '>= 0.8.3'
+gem 'libxml-ruby', '>= 1.0.0'
 require 'libxml'
 
-LibXML::XML::Parser.register_error_handler do |message|
+# This is required otherwise libxml writes out memory errors to
+# the standard output and exits uncleanly
+LibXML::XML::Error.set_handler do |message|
   raise message
 end

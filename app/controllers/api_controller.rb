@@ -54,7 +54,7 @@ class ApiController < ApplicationController
     points = Tracepoint.find_by_area(min_lat, min_lon, max_lat, max_lon, :offset => offset, :limit => TRACEPOINTS_PER_PAGE, :order => "timestamp DESC" )
 
     doc = XML::Document.new
-    doc.encoding = 'UTF-8'
+    doc.encoding = XML::Encoding::UTF_8
     root = XML::Node.new 'gpx'
     root['version'] = '1.0'
     root['creator'] = 'OpenStreetMap.org'
