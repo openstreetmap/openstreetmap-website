@@ -46,7 +46,7 @@ Rails::Initializer.run do |config|
   # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
   # config.gem "aws-s3", :lib => "aws/s3"
   config.gem 'composite_primary_keys', :version => '1.1.0'
-  config.gem 'libxml-ruby', :version => '>= 1.0.0', :lib => 'libxml'
+  config.gem 'libxml-ruby', :version => '>= 1.1.1', :lib => 'libxml'
   config.gem 'rmagick', :lib => 'RMagick'
   config.gem 'mysql'
 
