@@ -1,5 +1,5 @@
 require 'rubygems'
-gem 'libxml-ruby', '>= 1.0.0'
+gem 'libxml-ruby', '>= 1.1.1'
 require 'libxml'
 
 # This is required otherwise libxml writes out memory errors to
