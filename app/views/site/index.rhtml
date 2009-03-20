@@ -32,51 +32,58 @@
   </table>
 </div>
 
-<% if params['mlon'] and params['mlat'] %>
-<% marker = true %>
-<% mlon = h(params['mlon']) %> 
-<% mlat = h(params['mlat']) %>
-<% end %>
+<%
+if params['mlon'] and params['mlat'] 
+	marker = true
+	mlon = h(params['mlon'])
+	mlat = h(params['mlat'])
+end
 
-<% if params['minlon'] and params['minlat'] and params['maxlon'] and params['maxlat'] %>
-<% bbox = true %>
-<% minlon = h(params['minlon']) %>
-<% minlat = h(params['minlat']) %>
-<% maxlon = h(params['maxlon']) %>
-<% maxlat = h(params['maxlat']) %>
-<% end %>
+if params['minlon'] and params['minlat'] and params['maxlon'] and params['maxlat']
+	bbox = true
+	minlon = h(params['minlon'])
+	minlat = h(params['minlat'])
+	maxlon = h(params['maxlon'])
+	maxlat = h(params['maxlat'])
+end
 
-<% if params['lon'] and params['lat'] %>
-<% lon =  h(params['lon']) %>
-<% lat =  h(params['lat']) %>
-<% zoom =  h(params['zoom'] || '5') %>
-<% layers = h(params['layers']) %>
-<% elsif params['mlon'] and params['mlat'] %>
-<% lon = h(params['mlon']) %> 
-<% lat = h(params['mlat']) %>
-<% zoom =  h(params['zoom'] || '12') %>
-<% layers = h(params['layers']) %>
-<% elsif cookies.key?("_osm_location") %>
-<% lon,lat,zoom,layers = cookies["_osm_location"].split("|") %>
-<% elsif @user and !@user.home_lon.nil? and !@user.home_lat.nil? %> 
-<% lon =  @user.home_lon %>
-<% lat =  @user.home_lat %>
-<% zoom = '10' %>
-<% else %>
-<% session[:location] = OSM::IPLocation(request.env['REMOTE_ADDR']) unless session[:location] %>
-<% if session[:location] %>
-<% bbox = true %>
-<% minlon = session[:location][:minlon] %>
-<% minlat = session[:location][:minlat] %>
-<% maxlon = session[:location][:maxlon] %>
-<% maxlat = session[:location][:maxlat] %>
-<% else %>
-<% lon =  '-0.1' %>
-<% lat =  '51.5' %>
-<% zoom =  h(params['zoom'] || '5') %>
-<% end %>
-<% layers = h(params['layers']) %>
-<% end %>
+# Decide on a lat lon to initialise the map with. Various ways of doing this
+if params['lon'] and params['lat'] 
+	lon =  h(params['lon'])
+	lat =  h(params['lat'])
+	zoom =  h(params['zoom'] || '5')
+	layers = h(params['layers'])
+	
+elsif params['mlon'] and params['mlat']
+	lon = h(params['mlon']) 
+	lat = h(params['mlat'])
+	zoom =  h(params['zoom'] || '12')
+	layers = h(params['layers'])
+	
+elsif cookies.key?("_osm_location")
+	lon,lat,zoom,layers = cookies["_osm_location"].split("|")
+	
+elsif @user and !@user.home_lon.nil? and !@user.home_lat.nil? 
+	lon =  @user.home_lon
+	lat =  @user.home_lat
+	zoom = '10'
+else
+	session[:location] = OSM::IPLocation(request.env['REMOTE_ADDR']) unless session[:location]
+
+	if session[:location]
+		bbox = true
+		minlon = session[:location][:minlon]
+		minlat = session[:location][:minlat]
+		maxlon = session[:location][:maxlon]
+		maxlat = session[:location][:maxlat]
+	else
+		lon =  '-0.1' 
+		lat =  '51.5' 
+		zoom =  h(params['zoom'] || '5') 
+	end
+	layers = h(params['layers']) 
+end
+%>
 
 <%= javascript_include_tag '/openlayers/OpenLayers.js' %>
 <%= javascript_include_tag '/openlayers/OpenStreetMap.js' %>
