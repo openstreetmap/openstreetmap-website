@@ -293,20 +293,37 @@ class TraceController < ApplicationController
 private
 
   def do_create(file, tags, description, public)
+    # Sanitise the user's filename
     name = file.original_filename.gsub(/[^a-zA-Z0-9.]/, '_')
+
+    # Get a temporary filename...
     filename = "/tmp/#{rand}"
 
+    # ...and save the uploaded file to that location
     File.open(filename, "w") { |f| f.write(file.read) }
 
-    @trace = Trace.new({:name => name, :tagstring => tags,
-                        :description => description, :public => public})
-    @trace.inserted = false
-    @trace.user = @user
-    @trace.timestamp = Time.now
+    # Create the trace object, falsely marked as already
+    # inserted to stop the import daemon trying to load it
+    @trace = Trace.new({
+      :name => name,
+      :tagstring => tags,
+      :description => description,
+      :public => public,
+      :inserted => true,
+      :user => @user,
+      :timestamp => Time.now
+    })
 
+    # Save the trace object
     if @trace.save
+      # Rename the temporary file to the final name
       FileUtils.mv(filename, @trace.trace_name)
+
+      # Clear the inserted flag to make the import daemon load the trace
+      @trace.inserted = false
+      @trace.save!
     else
+      # Remove the file as we have failed to update the database
       FileUtils.rm_f(filename)
     end
   end
