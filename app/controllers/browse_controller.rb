@@ -7,9 +7,7 @@ class BrowseController < ApplicationController
   def start 
   end
   
-  def index
-    @changesets = Changeset.find(:all, :order => "closed_at DESC", :conditions => ['closed_at < ?', DateTime.now], :limit=> 20)
-  end
+  
   
   def relation 
     begin

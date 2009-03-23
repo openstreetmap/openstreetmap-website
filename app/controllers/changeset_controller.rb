@@ -238,6 +238,7 @@ class ChangesetController < ApplicationController
     conditions = cond_merge conditions, conditions_user(params['user'])
     conditions = cond_merge conditions, conditions_time(params['time'])
     conditions = cond_merge conditions, conditions_open(params['open'])
+    conditions = cond_merge conditions, conditions_closed(params['closed'])
 
     # create the results document
     results = OSM::API.new.get_xml_doc
@@ -291,21 +292,71 @@ class ChangesetController < ApplicationController
     render ex.render_opts
   end
 
+  
+  
   ##
-  # list edits belonging to a user
+  # list edits (open changesets) in reverse chronological order
   def list
+    conditions = conditions_nonempty
+    
+    
+   # @changesets = Changeset.find(:all, :order => "closed_at DESC", :conditions => ['closed_at < ?', DateTime.now], :limit=> 20)
+   
+   
+   #@edit_pages, @edits = paginate(:changesets,
+   #                                :include => [:user, :changeset_tags],
+   #                                :conditions => conditions,
+   #                                :order => "changesets.created_at DESC",
+   #                                :per_page => 20)
+   #
+    
+   @edits =  Changeset.find(:all,
+                                   :order => "changesets.created_at DESC",
+                                   :conditions => conditions,
+                                   :limit => 20)
+    
+  end
+  
+  ##
+  # list edits (changesets) belonging to a user
+  def list_user
+    #find user by display name	  
     user = User.find(:first, :conditions => [ "visible = ? and display_name = ?", true, params[:display_name]])
+    
+    conditions = conditions_user(user.id);
+    conditions = cond_merge conditions, conditions_nonempty
     @edit_pages, @edits = paginate(:changesets,
                                    :include => [:user, :changeset_tags],
-                                   :conditions => ["changesets.user_id = ? AND min_lat IS NOT NULL", user.id],
+                                   :conditions => conditions,
                                    :order => "changesets.created_at DESC",
                                    :per_page => 20)
     
-    @action = 'list'
     @display_name = user.display_name
     # FIXME needs rescues in here
   end
-
+  
+  ##
+  # list changesets in a bbox
+  def list_bbox
+    # support 'bbox' param or alternatively 'minlon', 'minlat' etc	  
+    if params['bbox']
+       bbox = params['bbox']
+    elsif params['minlon'] and params['minlat'] and params['maxlon'] and params['maxlat']	    
+       bbox = params['minlon'] + ',' + params['minlat'] + ',' + params['maxlon'] + ',' + params['maxlat']
+    end
+       
+    conditions = conditions_bbox(bbox);
+    conditions = cond_merge conditions, conditions_nonempty
+    
+    @edit_pages, @edits = paginate(:changesets,
+                                   :include => [:user, :changeset_tags],
+                                   :conditions => conditions,
+                                   :order => "changesets.created_at DESC",
+                                   :per_page => 20)
+                                   
+    @bbox = sanitise_boundaries(bbox.split(/,/)) unless bbox==nil
+  end
+  
 private
   #------------------------------------------------------------
   # utility functions below.
@@ -317,7 +368,7 @@ private
     if a and b
       a_str = a.shift
       b_str = b.shift
-      return [ a_str + " and " + b_str ] + a + b
+      return [ a_str + " AND " + b_str ] + a + b
     elsif a 
       return a
     else b
@@ -366,7 +417,7 @@ private
   end
 
   ##
-  # restrict changes to those during a particular time period
+  # restrict changes to those closed during a particular time period
   def conditions_time(time) 
     unless time.nil?
       # if there is a range, i.e: comma separated, then the first is 
@@ -394,15 +445,28 @@ private
   end
 
   ##
-  # restrict changes to those which are open
-  #
-  # at the moment this code assumes we're only interested in open
-  # changesets and gives no facility to query closed changesets. this
-  # would be reasonably simple to implement if anyone actually wants
-  # it?
+  # return changesets which are open (haven't been closed yet)
+  # we do this by seeing if the 'closed at' time is in the future. Also if we've
+  # hit the maximum number of changes then it counts as no longer open.
+  # if parameter 'open' is nill then open and closed changsets are returned
   def conditions_open(open)
     return open.nil? ? nil : ['closed_at >= ? and num_changes <= ?', 
                               DateTime.now, Changeset::MAX_ELEMENTS]
   end
+  
+  ##
+  # query changesets which are closed
+  # ('closed at' time has passed or changes limit is hit)
+  def conditions_closed(closed)
+    return closed.nil? ? nil : ['closed_at < ? and num_changes > ?', 
+                              DateTime.now, Changeset::MAX_ELEMENTS]
+  end
 
+  ##
+  # eliminate empty changesets (where the bbox has not been set)
+  # this should be applied to all changeset list displays
+  def conditions_nonempty()
+    return ['min_lat IS NOT NULL']
+  end
+  
 end

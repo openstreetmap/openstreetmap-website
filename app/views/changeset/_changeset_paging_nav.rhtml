@@ -7,6 +7,12 @@ if (current_page.first_item < current_page.last_item) # if more than 1 changeset
 end %>
 of <%= @edit_pages.item_count %>)
 
-<% if @edit_pages.page_count > 1 %>
- | <%= pagination_links_each(@edit_pages, {}) { |n| link_to(n, :display_name => @display_name, :page => n) }  %>
-<% end %>
+<%
+if @edit_pages.page_count > 1 
+	bboxparam = h(params['bbox'])
+	bboxparam = nil if bboxparam==""
+%>
+ | <%= pagination_links_each(@edit_pages, {}) { |n| link_to(n,  :display_name => @display_name, :bbox => bboxparam , :page => n) }  %>
+<%
+end
+%>

@@ -1,0 +1,50 @@
+<h1>History</h1>
+<%
+if @bbox!=nil
+	lon1 = @bbox[0] 
+	lat1 = @bbox[1] 
+	lon2 = @bbox[2]
+	lat2 = @bbox[3] 
+
+	%>
+<p>
+Changsets within the area: 
+(<a href='/?lat=<%= lat1 %>&lon=<%= lon1 %>&zoom=14'><%= format("%0.3f",lat1) -%>,<%= format("%0.3f",lon1) -%></a>) to 
+(<a href='/?lat=<%= lat2 %>&lon=<%= lon2 %>&zoom=14'><%= format("%0.3f",lat2) -%>,<%= format("%0.3f",lon2) -%></a>)   
+</p>
+
+<%	if @edits.nil? or @edits.empty? %>
+<p><b>No changesets</b></p>
+<%	else %>
+
+<%= render :partial => 'changeset_paging_nav' %>
+
+<table id="keyvalue" cellpadding="3">
+  <tr>
+    <th>ID</th>
+    <th>Saved at</th>
+    <th>User</th>
+    <th>Comment</th>
+    <th>Area</th>
+    <th></th>
+  </tr>
+  <%= render :partial => 'changeset', :locals => {:showusername => true}, :collection => @edits unless @edits.nil? %>
+</table>
+
+<%= render :partial => 'changeset_paging_nav' %>
+
+<%
+	end
+
+else 
+	#bbox is nil. happens if the user surfs to this page directly.
+%>
+
+<p>No area specified</p>
+<p>First use the <a href="/" title="view the map">view tab</a> to pan and zoom to an area of interest, then click the history tab</p>
+
+<%
+end
+%>
+<br>
+<br>

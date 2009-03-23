@@ -8,9 +8,19 @@
     <% if changeset.closed_at > DateTime.now %> (still editing)
     <% else %><%= changeset.closed_at.strftime("%d %b %Y %H:%M") %><% end %>
 
+    
+  <%if showusername==true %>  
+	  <td class="<%= cl %>">
+	  <% if changeset.user.data_public? %>
+	  	<%= link_to h(changeset.user.display_name), :controller => "user", :action => "view", :display_name => changeset.user.display_name %>
+	  <% else %>
+	  	<i>annon</i>
+	  <% end %>
+  <% end %>
+    
   <td class="<%= cl %>">
     <% if changeset.tags['comment'] %>
-      <%= changeset.tags['comment'] %>
+      <%= h(changeset.tags['comment']) %>
     <% else %>
       (none)
     <% end %>

@@ -1,0 +1,15 @@
+<h1>Edits by <%= link_to(@display_name, {:controller=>'user', :action=>'view', :display_name=>@display_name}) %></h1>
+<%= render :partial => 'changeset_paging_nav' %>
+
+<table id="keyvalue" cellpadding="3">
+  <tr>
+    <th>ID</th>
+    <th>Saved at</th>
+    <th>Comment</th>
+    <th>Area</th>
+    <th></th>
+  </tr>
+  <%= render :partial => 'changeset', :locals => {:showusername => false},  :collection => @edits unless @edits.nil?  %>
+</table>
+
+<%= render :partial => 'changeset_paging_nav' %>

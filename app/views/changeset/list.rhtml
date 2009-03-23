@@ -1,15 +1,19 @@
-<h1>Edits by <%= link_to(@display_name, {:controller=>'user', :action=>'view', :display_name=>@display_name}) %></h1>
-<%= render :partial => 'changeset_paging_nav' %>
+<h1>Recent Changes</h1>
 
+Recently closed changesets:
 <table id="keyvalue" cellpadding="3">
   <tr>
     <th>ID</th>
     <th>Saved at</th>
+    <th>User</th>
     <th>Comment</th>
     <th>Area</th>
     <th></th>
   </tr>
-  <%= render :partial => 'changeset', :collection => @edits unless @edits.nil? %>
+  <%= render :partial => 'changeset', :locals => {:showusername => true},  :collection => @edits unless @edits.nil?  %>
 </table>
 
-<%= render :partial => 'changeset_paging_nav' %>
+<p>
+For more changesets, select a user and view their edits, or see the editing 'history' of a specific area.
+</p>
+<br>	
