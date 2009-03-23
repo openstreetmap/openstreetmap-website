@@ -33,7 +33,7 @@ class Relation < ActiveRecord::Base
       doc.find('//osm/relation').each do |pt|
         return Relation.from_xml_node(pt, create)
       end
-    rescue LibXML::XML::Error => ex
+    rescue LibXML::XML::Error, ArgumentError => ex
       raise OSM::APIBadXMLError.new("relation", xml, ex.message)
     end
   end

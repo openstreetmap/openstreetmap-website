@@ -33,7 +33,7 @@ class Way < ActiveRecord::Base
       doc.find('//osm/way').each do |pt|
         return Way.from_xml_node(pt, create)
       end
-    rescue LibXML::XML::Error => ex
+    rescue LibXML::XML::Error, ArgumentError => ex
       raise OSM::APIBadXMLError.new("way", xml, ex.message)
     end
   end
