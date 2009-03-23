@@ -348,8 +348,10 @@ class ChangesetController < ApplicationController
     # support 'bbox' param or alternatively 'minlon', 'minlat' etc	  
     if params['bbox']
        bbox = params['bbox']
-    elsif params['minlon'] and params['minlat'] and params['maxlon'] and params['maxlat']	    
+    elsif params['minlon'] and params['minlat'] and params['maxlon'] and params['maxlat']
        bbox = params['minlon'] + ',' + params['minlat'] + ',' + params['maxlon'] + ',' + params['maxlat']
+    else
+      redirect_to :action => 'list'
     end
        
     conditions = conditions_bbox(bbox);
