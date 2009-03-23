@@ -1,6 +1,9 @@
-<h1>Edits by <%= link_to(@display_name, {:controller=>'user', :action=>'view', :display_name=>@display_name}) %></h1>
-<%= render :partial => 'changeset_paging_nav' %>
+<h1>Edits by <%= link_to(h(@display_name), {:controller=>'user', :action=>'view', :display_name=>@display_name}) %></h1>
 
+<% if not @edits or @edits.empty? %>
+<p><b>No visible edits by <%= h(@display_name) %>.</b></p>
+<% else %>
+<%= render :partial => 'changeset_paging_nav' %>
 <table id="keyvalue" cellpadding="3">
   <tr>
     <th>ID</th>
@@ -9,7 +12,7 @@
     <th>Area</th>
     <th></th>
   </tr>
-  <%= render :partial => 'changeset', :locals => {:showusername => false},  :collection => @edits unless @edits.nil?  %>
+  <%= render :partial => 'changeset', :locals => {:showusername => false},  :collection => @edits %>
 </table>
-
 <%= render :partial => 'changeset_paging_nav' %>
+<% end %>

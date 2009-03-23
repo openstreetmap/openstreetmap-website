@@ -320,24 +320,26 @@ class ChangesetController < ApplicationController
   ##
   # list edits (changesets) belonging to a user
   def list_user
-    #find user by display name	  
-    user = User.find(:first, :conditions => [ "visible = ? and display_name = ?", true, params[:display_name]])
+    user = User.find_by_display_name(params[:display_name], :conditions => {:visible => true})
     
-    conditions = nil
-    begin
-      conditions = conditions_user(user.id);
-    rescue OSM::APINotFoundError
-      
+    if user
+      @display_name = user.display_name
+      if not user.data_public? and @user != user
+        @edits = nil
+        render
+      else
+        conditions = cond_merge conditions, ['user_id = ?', user.id]
+        conditions = cond_merge conditions, conditions_nonempty
+        @edit_pages, @edits = paginate(:changesets,
+                                        :include => [:user, :changeset_tags],
+                                        :conditions => conditions,
+                                        :order => "changesets.created_at DESC",
+                                        :per_page => 20)
+      end
+    else
+      @not_found_user = params[:display_name]
+      render :template => 'user/no_such_user', :status => :not_found
     end
-    conditions = cond_merge conditions, conditions_nonempty
-    @edit_pages, @edits = paginate(:changesets,
-                                   :include => [:user, :changeset_tags],
-                                   :conditions => conditions,
-                                   :order => "changesets.created_at DESC",
-                                   :per_page => 20)
-    
-    @display_name = user.display_name
-    # FIXME needs rescues in here
   end
   
   ##
