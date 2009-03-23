@@ -995,6 +995,21 @@ EOF
            "element limit.")
   end
   
+  # This should display the last 20 changesets closed.
+  def test_list
+    @changesets = Changeset.find(:all, :order => "created_at DESC", :conditions => ['min_lat IS NOT NULL'], :limit=> 20)
+    assert @changesets.size <= 20
+    get :list
+    assert_response :success
+    assert_template "list"
+    # Now check that all 20 (or however many were returned) changesets are in the html
+    assert_select "h1", :text => "Recent Changes", :count => 1
+    assert_select "table[id='keyvalue'] tr", :count => @changesets.size + 1
+    @changesets.each do |changeset|
+      # FIXME this test needs rewriting - test for table contents
+    end
+  end
+  
   #------------------------------------------------------------
   # utility functions
   #------------------------------------------------------------

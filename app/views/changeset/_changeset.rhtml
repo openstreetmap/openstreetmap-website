@@ -3,10 +3,12 @@
 
   <td class="<%= cl %>">
     #<%= changeset.id %>
+  </td>
 
   <td class="<%= cl %>">
     <% if changeset.closed_at > DateTime.now %> (still editing)
     <% else %><%= changeset.closed_at.strftime("%d %b %Y %H:%M") %><% end %>
+  </td>
 
     
   <%if showusername %>  
@@ -16,6 +18,7 @@
     <% else %>
       <i>Anonymous</i>
     <% end %>
+    </td>
   <% end %>
     
   <td class="<%= cl %>">
@@ -24,6 +27,7 @@
     <% else %>
       (none)
     <% end %>
+  </td>
 
   <td class="<%= cl %>">
     <% if changeset.min_lat.nil? %>
@@ -37,8 +41,10 @@
       (<a href='/?lat=<%= lat1 %>&lon=<%= lon1 %>&zoom=14'><%= format("%0.3f",lat1) -%>,<%= format("%0.3f",lon1) -%></a>) to 
       (<a href='/?lat=<%= lat2 %>&lon=<%= lon2 %>&zoom=14'><%= format("%0.3f",lat2) -%>,<%= format("%0.3f",lon2) -%></a>) 
   <% end %>
+  </td>
 
   <td class="<%= cl %>">
     <%= link_to 'more', {:controller => 'browse', :action => 'changeset', :id => changeset.id}, {:title => 'View changeset details'} %> 
+  </td>
 
 </tr>

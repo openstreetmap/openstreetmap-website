@@ -18,30 +18,6 @@ class BrowseControllerTest < ActionController::TestCase
   
   end
   
-  # This should display the last 20 changesets closed.
-  def test_index
-    @changesets = Changeset.find(:all, :order => "closed_at DESC", :conditions => ['closed_at < ?', DateTime.now], :limit=> 20)
-    assert @changesets.size <= 20
-    get :index
-    assert_response :success
-    assert_template "index"
-    # Now check that all 20 (or however many were returned) changesets are in the html
-    assert_select "h2", :text => "#{@changesets.size} Recently Closed Changesets", :count => 1
-    assert_select "ul[id='recently_changed'] li a", :count => @changesets.size
-    @changesets.each do |changeset|
-      if changeset.user.data_public?
-        user = changeset.user.display_name
-      else
-        user = "(anonymous)"
-      end
-    
-      cmt = changeset.tags_as_hash['comment'].to_s
-      cmt = "(no comment)" if cmt.length == 0
-      text = "#{changeset.id} by #{user} - #{cmt}"
-      assert_select "ul[id='recently_changed'] li a[href=/browse/changeset/#{changeset.id}]", :text => text
-    end
-  end
-  
   # Test reading a relation
   def test_read_relation
     
