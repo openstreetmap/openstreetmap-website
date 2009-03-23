@@ -4,8 +4,8 @@ class ChangesetController < ApplicationController
   layout 'site'
   require 'xml/libxml'
 
-  session :off, :except => [:list]
-  before_filter :authorize_web, :only => [:list]
+  session :off, :except => [:list, :list_user, :list_bbox]
+  before_filter :authorize_web, :only => [:list, :list_user, :list_bbox]
   before_filter :authorize, :only => [:create, :update, :delete, :upload, :include, :close]
   before_filter :check_write_availability, :only => [:create, :update, :delete, :upload, :include]
   before_filter :check_read_availability, :except => [:create, :update, :delete, :upload, :download, :query]
@@ -323,7 +323,12 @@ class ChangesetController < ApplicationController
     #find user by display name	  
     user = User.find(:first, :conditions => [ "visible = ? and display_name = ?", true, params[:display_name]])
     
-    conditions = conditions_user(user.id);
+    conditions = nil
+    begin
+      conditions = conditions_user(user.id);
+    rescue OSM::APINotFoundError
+      
+    end
     conditions = cond_merge conditions, conditions_nonempty
     @edit_pages, @edits = paginate(:changesets,
                                    :include => [:user, :changeset_tags],
