@@ -349,9 +349,10 @@ class ChangesetController < ApplicationController
     if params['bbox']
        bbox = params['bbox']
     elsif params['minlon'] and params['minlat'] and params['maxlon'] and params['maxlat']
-       bbox = params['minlon'] + ',' + params['minlat'] + ',' + params['maxlon'] + ',' + params['maxlat']
+       bbox = h(params['minlon']) + ',' + h(params['minlat']) + ',' + h(params['maxlon']) + ',' + h(params['maxlat'])
     else
-      redirect_to :action => 'list'
+      #TODO: fix bugs in location determination for history tab (and other tabs) then uncomment this redirect
+      #redirect_to :action => 'list'
     end
        
     conditions = conditions_bbox(bbox);

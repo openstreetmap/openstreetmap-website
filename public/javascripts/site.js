@@ -62,8 +62,7 @@ function updatelinks(lon,lat,zoom,layers,extents) {
   if (node) {
     if (zoom >= 11) {
       var args = new Object();
-      //conjure a bounding box centred at the lat/lon.
-      //TODO: feed actual bounds of the window through to here somehow.
+      //set bbox param from 'extents' object
       minlon = extents.left;
       minlat = extents.bottom;
       maxlon = extents.right;

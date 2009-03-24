@@ -8,7 +8,7 @@ if @bbox!=nil
 
 	%>
 <p>
-Changsets within the area: 
+Changesets within the area: 
 (<a href='/?lat=<%= lat1 %>&lon=<%= lon1 %>&zoom=14'><%= format("%0.3f",lat1) -%>,<%= format("%0.3f",lon1) -%></a>) to 
 (<a href='/?lat=<%= lat2 %>&lon=<%= lon2 %>&zoom=14'><%= format("%0.3f",lat2) -%>,<%= format("%0.3f",lon2) -%></a>)   
 </p>
@@ -32,7 +32,19 @@ Changsets within the area:
 </table>
 
 <%= render :partial => 'changeset_paging_nav' %>
+<%
+	end
 
-<% end %>
+else 
+	#bbox is nil. happens if the user surfs to this page directly.
+%>
+
+<p>No area specified</p>
+<p>First use the <a href="/" title="view the map">view tab</a> to pan and zoom to an area of interest, then click the history tab.</p>
+<p>Alternatively view all <%=  link_to("recent changes", :controller => "browse", :action => "changesets") %> </p>
+
+<%
+end
+%>
 <br>
 <br>
