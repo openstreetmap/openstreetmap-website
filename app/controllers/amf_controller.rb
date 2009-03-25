@@ -298,12 +298,19 @@ class AmfController < ApplicationController
       old_way = OldWay.find(:first, :conditions => ['visible = ? AND id = ?', true, id], :order => 'version DESC')
       points = old_way.get_nodes_undelete unless old_way.nil?
     else
-      # revert
-      timestamp = DateTime.strptime(timestamp, "%d %b %Y, %H:%M:%S")
-      old_way = OldWay.find(:first, :conditions => ['id = ? AND timestamp <= ?', id, timestamp], :order => 'timestamp DESC')
-      points = old_way.get_nodes_revert(timestamp) unless old_way.nil?
-      if !old_way.visible
-        return [-1, "Sorry, the way was deleted at that time - please revert to a previous version."]
+      begin
+        # revert
+        timestamp = DateTime.strptime(timestamp.to_s, "%d %b %Y, %H:%M:%S")
+        old_way = OldWay.find(:first, :conditions => ['id = ? AND timestamp <= ?', id, timestamp], :order => 'timestamp DESC')
+        unless old_way.nil?
+          points = old_way.get_nodes_revert(timestamp)
+          if !old_way.visible
+            return [-1, "Sorry, the way was deleted at that time - please revert to a previous version."]
+          end
+        end
+      rescue ArgumentError
+        # thrown by date parsing method. leave old_way as nil for
+        # the superb error handler below.
       end
     end
 

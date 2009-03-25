@@ -194,26 +194,56 @@ class AmfControllerTest < ActionController::TestCase
   def test_getway_old
     # try to get the last visible version (specified by <0) (should be current version)
     latest = current_ways(:way_with_versions)
+    # NOTE: looks from the API changes that this now expects a timestamp
+    # instead of a version number...
     # try to get version 1
     v1 = ways(:way_with_versions_v1)
-    {latest => -1, v1 => v1.version}.each do |way, v|
-      amf_content "getway_old", "/1", [way.id, v]
+    { latest => '', 
+      v1 => v1.timestamp.strftime("%d %b %Y, %H:%M:%S")
+    }.each do |way, t|
+      amf_content "getway_old", "/1", [way.id, t]
+      post :amf_read      
+      assert_response :success
+      amf_parse_response
+      returned_way = amf_result("/1")
+      assert_equal way.id, returned_way[1]
+      # API returns the *latest* version, even for old ways...
+      assert_equal latest.version, returned_way[4]
+    end
+  end
+  
+  ##
+  # test that the server doesn't fall over when rubbish is passed
+  # into the method args.
+  def test_getway_old_invalid
+    way_id = current_ways(:way_with_versions).id
+    { "foo"  => "bar",
+      way_id => "not a date",
+      way_id => "2009-03-25 00:00:00", # <- wrong format
+      way_id => "0 Jan 2009 00:00:00", # <- invalid date
+      -1     => "1 Jan 2009 00:00:00"  # <- invalid ID
+    }.each do |id, t|
+      amf_content "getway_old", "/1", [id, t]
       post :amf_read
       assert_response :success
       amf_parse_response
       returned_way = amf_result("/1")
-      assert_equal returned_way[1], way.id
-      assert_equal returned_way[4], way.version
+      assert returned_way[2].empty?
+      assert returned_way[3].empty?
+      assert returned_way[4] < 0
     end
   end
 
   def test_getway_old_nonexistent
     # try to get the last version+10 (shoudn't exist)
-    latest = current_ways(:way_with_versions)
+    v1 = ways(:way_with_versions_v1)
     # try to get last visible version of non-existent way
     # try to get specific version of non-existent way
-    {nil => -1, nil => 1, latest => latest.version + 10}.each do |way, v|
-      amf_content "getway_old", "/1", [way.nil? ? 0 : way.id, v]
+    [[nil, ''], 
+     [nil, '1 Jan 1970, 00:00:00'], 
+     [v1, (v1.timestamp - 10).strftime("%d %b %Y, %H:%M:%S")]
+    ].each do |way, t|
+      amf_content "getway_old", "/1", [way.nil? ? 0 : way.id, t]
       post :amf_read
       assert_response :success
       amf_parse_response
@@ -226,6 +256,8 @@ class AmfControllerTest < ActionController::TestCase
 
   def test_getway_history
     latest = current_ways(:way_with_versions)
+    oldest = ways(:way_with_versions_v1)
+
     amf_content "getway_history", "/1", [latest.id]
     post :amf_read
     assert_response :success
@@ -233,10 +265,12 @@ class AmfControllerTest < ActionController::TestCase
     history = amf_result("/1")
 
     # ['way',wayid,history]
-    assert_equal history[0], 'way'
-    assert_equal history[1], latest.id
-    assert_equal history[2].first[0], latest.version
-    assert_equal history[2].last[0], ways(:way_with_versions_v1).version
+    assert_equal 'way', history[0]
+    assert_equal latest.id, history[1] 
+    # for some reason undocumented, the potlatch API now prefers dates
+    # over version numbers. presumably no-one edits concurrently any more?
+    assert_equal latest.timestamp.strftime("%d %b %Y, %H:%M:%S"), history[2].first[0]
+    assert_equal oldest.timestamp.strftime("%d %b %Y, %H:%M:%S"), history[2].last[0]
   end
 
   def test_getway_history_nonexistent
@@ -268,10 +302,13 @@ class AmfControllerTest < ActionController::TestCase
     # NOTE: changed this test to match what amf_controller actually 
     # outputs - which may or may not be what potlatch is expecting.
     # someone who knows potlatch (i.e: richard f) should review this.
-    assert_equal history[2].first[0], latest.version,
+    # NOTE2: wow - this is the second time this has changed in the
+    # API and the tests are being patched up. 
+    assert_equal history[2].first[0], 
+      latest.timestamp.strftime("%d %b %Y, %H:%M:%S"),
       'first part of third element should be the latest version'
     assert_equal history[2].last[0], 
-      nodes(:node_with_versions_v1).version,
+      nodes(:node_with_versions_v1).timestamp.strftime("%d %b %Y, %H:%M:%S"),
       'second part of third element should be the initial version'
   end
 
