@@ -524,10 +524,10 @@ class AmfController < ApplicationController
   end
 
   # Authenticate token
-  # (could be removed if no-one uses the username+password form)
+  # (can also be of form user:pass)
 
   def getuserid(token) #:doc:
-	if (token =~ /^(.+)\+(.+)$/) then
+	if (token =~ /^(.+)\:(.+)$/) then
 	  user = User.authenticate(:username => $1, :password => $2)
 	else
 	  user = User.authenticate(:token => token)
