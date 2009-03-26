@@ -12,7 +12,7 @@
 <!-- Displaying another user's profile page -->
 <%= link_to 'send message', :controller => 'message', :action => 'new', :user_id => @this_user.id %>
 | <%= link_to 'diary', :controller => 'diary_entry', :action => 'list', :display_name => @this_user.display_name %>
-| <%= link_to 'edits', :controller => 'changeset', :action => 'list', :display_name => @this_user.display_name %>
+| <%= link_to 'edits', :controller => 'changeset', :action => 'list_user', :display_name => @this_user.display_name %>
 | <%= link_to 'traces', :controller => 'trace', :action => 'view', :display_name => @this_user.display_name %>
 | <% if @user and @user.is_friends_with?(@this_user) %>
   <%= link_to 'remove as friend', :controller => 'user', :action => 'remove_friend', :display_name => @this_user.display_name %>
