@@ -202,7 +202,9 @@ class Way < ActiveRecord::Base
     if !new_way.preconditions_ok?
       raise OSM::APIPreconditionFailedError.new
     end
+
     self.changeset_id = new_way.changeset_id
+    self.changeset = new_way.changeset
     self.tags = new_way.tags
     self.nds = new_way.nds
     self.visible = true
@@ -248,6 +250,8 @@ class Way < ActiveRecord::Base
         raise OSM::APIPreconditionFailedError.new("You need to make sure that this way is not a member of a relation.")
       else
         self.changeset_id = new_way.changeset_id
+        self.changeset = new_way.changeset
+
         self.tags = []
         self.nds = []
         self.visible = false
@@ -294,11 +298,12 @@ class Way < ActiveRecord::Base
   def save_with_history!
     t = Time.now
 
-    # update the bounding box, but don't save it as the controller knows the 
-    # lifetime of the change better. note that this has to be done both before 
+    # update the bounding box, note that this has to be done both before 
     # and after the save, so that nodes from both versions are included in the 
-    # bbox.
-    changeset.update_bbox!(bbox) unless nodes.empty?
+    # bbox. we use a copy of the changeset so that it isn't reloaded
+    # later in the save.
+    cs = self.changeset
+    cs.update_bbox!(bbox) unless nodes.empty?
 
     Way.transaction do
       self.version += 1
@@ -330,14 +335,18 @@ class Way < ActiveRecord::Base
       old_way.timestamp = t
       old_way.save_with_dependencies!
 
+      # reload the way so that the nodes array points to the correct
+      # new set of nodes.
+      self.reload
+
       # update and commit the bounding box, now that way nodes 
       # have been updated and we're in a transaction.
-      changeset.update_bbox!(bbox) unless nodes.empty?
+      cs.update_bbox!(bbox) unless nodes.empty?
 
       # tell the changeset we updated one element only
-      changeset.add_changes! 1
+      cs.add_changes! 1
 
-      changeset.save!
+      cs.save!
     end
   end
 

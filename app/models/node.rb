@@ -150,17 +150,20 @@ class Node < ActiveRecord::Base
   def update_from(new_node, user)
     check_consistency(self, new_node, user)
 
-    # update changeset with *old* position first
+    # update changeset first
+    self.changeset_id = new_node.changeset_id
+    self.changeset = new_node.changeset
+
+    # update changeset bbox with *old* position first
     changeset.update_bbox!(bbox);
 
     # FIXME logic needs to be double checked
-    self.changeset_id = new_node.changeset_id
     self.latitude = new_node.latitude 
     self.longitude = new_node.longitude
     self.tags = new_node.tags
     self.visible = true
 
-    # update changeset with *new* position
+    # update changeset bbox with *new* position
     changeset.update_bbox!(bbox);
 
     save_with_history!

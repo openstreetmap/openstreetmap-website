@@ -253,6 +253,7 @@ class Relation < ActiveRecord::Base
       raise OSM::APIPreconditionFailedError.new
     end
     self.changeset_id = new_relation.changeset_id
+    self.changeset = new_relation.changeset
     self.tags = new_relation.tags
     self.members = new_relation.members
     self.visible = true
@@ -372,6 +373,10 @@ class Relation < ActiveRecord::Base
         tag.id = self.id
         tag.save!
       end
+      
+      # reload, so that all of the members are accessible in their
+      # new state.
+      self.reload
 
       # same pattern as before, but this time we're collecting the
       # changed members in an array, as the bounding box updates for

@@ -554,6 +554,84 @@ EOF
   end
 
   ##
+  # test what happens if a diff is uploaded containing only a node
+  # move.
+  def test_upload_node_move
+    basic_authorization "test@openstreetmap.org", "test"
+
+    content "<osm><changeset>" +
+      "<tag k='created_by' v='osm test suite checking changesets'/>" + 
+      "</changeset></osm>"
+    put :create
+    assert_response :success
+    changeset_id = @response.body.to_i
+
+    old_node = current_nodes(:visible_node)
+
+    diff = XML::Document.new
+    diff.root = XML::Node.new "osmChange"
+    modify = XML::Node.new "modify"
+    xml_old_node = old_node.to_xml_node
+    xml_old_node["lat"] = (2.0).to_s
+    xml_old_node["lon"] = (2.0).to_s
+    xml_old_node["changeset"] = changeset_id.to_s
+    modify << xml_old_node
+    diff.root << modify
+
+    # upload it
+    content diff
+    post :upload, :id => changeset_id
+    assert_response :success, 
+      "diff should have uploaded OK"
+
+    # check the bbox
+    changeset = Changeset.find(changeset_id)
+    assert_equal 1*SCALE, changeset.min_lon, "min_lon should be 1 degree"
+    assert_equal 2*SCALE, changeset.max_lon, "max_lon should be 2 degrees"
+    assert_equal 1*SCALE, changeset.min_lat, "min_lat should be 1 degree"
+    assert_equal 2*SCALE, changeset.max_lat, "max_lat should be 2 degrees"
+  end
+
+  ##
+  # test what happens if a diff is uploaded adding a node to a way.
+  def test_upload_way_extend
+    basic_authorization "test@openstreetmap.org", "test"
+
+    content "<osm><changeset>" +
+      "<tag k='created_by' v='osm test suite checking changesets'/>" + 
+      "</changeset></osm>"
+    put :create
+    assert_response :success
+    changeset_id = @response.body.to_i
+
+    old_way = current_ways(:visible_way)
+
+    diff = XML::Document.new
+    diff.root = XML::Node.new "osmChange"
+    modify = XML::Node.new "modify"
+    xml_old_way = old_way.to_xml_node
+    nd_ref = XML::Node.new "nd"
+    nd_ref["ref"] = current_nodes(:visible_node).id.to_s
+    xml_old_way << nd_ref
+    xml_old_way["changeset"] = changeset_id.to_s
+    modify << xml_old_way
+    diff.root << modify
+
+    # upload it
+    content diff
+    post :upload, :id => changeset_id
+    assert_response :success, 
+      "diff should have uploaded OK"
+
+    # check the bbox
+    changeset = Changeset.find(changeset_id)
+    assert_equal 1*SCALE, changeset.min_lon, "min_lon should be 1 degree"
+    assert_equal 3*SCALE, changeset.max_lon, "max_lon should be 3 degrees"
+    assert_equal 1*SCALE, changeset.min_lat, "min_lat should be 1 degree"
+    assert_equal 3*SCALE, changeset.max_lat, "max_lat should be 3 degrees"
+  end
+
+  ##
   # test for more issues in #1568
   def test_upload_empty_invalid
     basic_authorization "test@openstreetmap.org", "test"
@@ -773,7 +851,7 @@ EOF
     assert_select "osm>changeset[min_lat=1.0]", 1
     assert_select "osm>changeset[max_lat=2.0]", 1
 
-    # add (delete) a way to it
+    # add (delete) a way to it, which contains a point at (3,3)
     with_controller(WayController.new) do
       content update_changeset(current_ways(:visible_way).to_xml,
                                changeset_id)
@@ -784,6 +862,7 @@ EOF
     # get the bounding box back from the changeset
     get :read, :id => changeset_id
     assert_response :success, "Couldn't read back changeset for the third time."
+    # note that the 3.1 here is because of the bbox overexpansion
     assert_select "osm>changeset[min_lon=1.0]", 1
     assert_select "osm>changeset[max_lon=3.1]", 1
     assert_select "osm>changeset[min_lat=1.0]", 1
