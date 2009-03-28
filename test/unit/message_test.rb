@@ -1,7 +1,8 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class MessageTest < Test::Unit::TestCase
-  fixtures :messages, :users
+  api_fixtures
+  fixtures :messages
 
   EURO = "\xe2\x82\xac" #euro symbol
 

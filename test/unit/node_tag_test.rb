@@ -1,9 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class NodeTagTest < Test::Unit::TestCase
-  fixtures :current_node_tags, :current_nodes
-  set_fixture_class :current_nodes => Node
-  set_fixture_class :current_node_tags => NodeTag
+  api_fixtures
   
   def test_tag_count
     assert_equal 6, NodeTag.count

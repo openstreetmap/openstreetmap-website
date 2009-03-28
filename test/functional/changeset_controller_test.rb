@@ -240,6 +240,20 @@ EOF
     assert_equal false, Node.find(node.id).visible
   end
 
+  def test_repeated_changeset_create
+    30.times do
+      basic_authorization "test@openstreetmap.org", "test"
+    
+      # create a temporary changeset
+      content "<osm><changeset>" +
+        "<tag k='created_by' v='osm test suite checking changesets'/>" + 
+        "</changeset></osm>"
+      put :create
+      assert_response :success
+      changeset_id = @response.body.to_i
+    end
+  end
+
   ##
   # test that deleting stuff in a transaction doesn't bypass the checks
   # to ensure that used elements are not deleted.

@@ -1,8 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class WayTagTest < Test::Unit::TestCase
-  fixtures :way_tags
-  set_fixture_class :way_tags => OldWayTag
+  api_fixtures
   
   def test_tag_count
     assert_equal 3, OldWayTag.count

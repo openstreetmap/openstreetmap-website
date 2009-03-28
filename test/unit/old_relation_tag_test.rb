@@ -1,8 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class OldRelationTagTest < Test::Unit::TestCase
-  fixtures :relation_tags
-  set_fixture_class :relation_tags => OldRelationTag
+  api_fixtures
   
   def test_tag_count
     assert_equal 3, OldRelationTag.count

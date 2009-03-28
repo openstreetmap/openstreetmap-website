@@ -1,8 +1,9 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class UserTest < Test::Unit::TestCase
-  fixtures :users
-  
+  api_fixtures
+  fixtures :friends
+
   def test_invalid_with_empty_attributes
     user = User.new
     assert !user.valid?

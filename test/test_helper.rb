@@ -25,43 +25,52 @@ class Test::Unit::TestCase
   # then set this back to true.
   self.use_instantiated_fixtures  = false
 
+
   # Load standard fixtures needed to test API methods
   def self.api_fixtures
     #print "setting up the api_fixtures"
     fixtures :users, :changesets, :changeset_tags
 
     fixtures :current_nodes, :nodes
-    set_fixture_class :current_nodes => Node
-    set_fixture_class :nodes => OldNode
+    set_fixture_class :current_nodes => 'Node'
+    set_fixture_class :nodes => 'OldNode'
 
     fixtures  :current_node_tags,:node_tags
-    set_fixture_class :current_node_tags => NodeTag
-    set_fixture_class :node_tags => OldNodeTag
+    set_fixture_class :current_node_tags => 'NodeTag'
+    set_fixture_class :node_tags => 'OldNodeTag'
 
-    fixtures :current_ways, :current_way_nodes, :current_way_tags
-    set_fixture_class :current_ways => Way
-    set_fixture_class :current_way_nodes => WayNode
-    set_fixture_class :current_way_tags => WayTag
+    fixtures :current_ways
+    set_fixture_class :current_ways => 'Way'
 
-    fixtures :ways, :way_nodes, :way_tags
-    set_fixture_class :ways => OldWay
-    set_fixture_class :way_nodes => OldWayNode
-    set_fixture_class :way_tags => OldWayTag
+    fixtures :current_way_nodes, :current_way_tags
+    set_fixture_class :current_way_nodes => 'WayNode'
+    set_fixture_class :current_way_tags => 'WayTag'
 
-    fixtures :current_relations, :current_relation_members, :current_relation_tags
-    set_fixture_class :current_relations => Relation
-    set_fixture_class :current_relation_members => RelationMember
-    set_fixture_class :current_relation_tags => RelationTag
+    fixtures :ways
+    set_fixture_class :ways => 'OldWay'
 
-    fixtures :relations, :relation_members, :relation_tags
-    set_fixture_class :relations => OldRelation
-    set_fixture_class :relation_members => OldRelationMember
-    set_fixture_class :relation_tags => OldRelationTag
+    fixtures :way_nodes, :way_tags
+    set_fixture_class :way_nodes => 'OldWayNode'
+    set_fixture_class :way_tags => 'OldWayTag'
+
+    fixtures :current_relations
+    set_fixture_class :current_relations => 'Relation'
+
+    fixtures :current_relation_members, :current_relation_tags
+    set_fixture_class :current_relation_members => 'RelationMember'
+    set_fixture_class :current_relation_tags => 'RelationTag'
+
+    fixtures :relations
+    set_fixture_class :relations => 'OldRelation'
+
+    fixtures :relation_members, :relation_tags
+    set_fixture_class :relation_members => 'OldRelationMember'
+    set_fixture_class :relation_tags => 'OldRelationTag'
     
     fixtures :gpx_files, :gps_points, :gpx_file_tags
-    set_fixture_class :gpx_files => Trace
-    set_fixture_class :gps_points => Tracepoint
-    set_fixture_class :gpx_file_tags => Tracetag
+    set_fixture_class :gpx_files => 'Trace'
+    set_fixture_class :gps_points => 'Tracepoint'
+    set_fixture_class :gpx_file_tags => 'Tracetag'
   end
 
   ##

@@ -3,7 +3,6 @@ require File.dirname(__FILE__) + '/../test_helper'
 class WayTest < Test::Unit::TestCase
   api_fixtures
 
-  
   # Check that we have the correct number of currnet ways in the db
   # This will need to updated whenever the current_ways.yml is updated
   def test_db_count

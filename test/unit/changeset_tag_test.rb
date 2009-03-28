@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class ChangesetTagTest < Test::Unit::TestCase
-  fixtures :changeset_tags
+  api_fixtures
 
   def test_changeset_tag_count
     assert_equal 1, ChangesetTag.count

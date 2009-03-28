@@ -1,10 +1,8 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class OldNodeTest < Test::Unit::TestCase
-  set_fixture_class :nodes => OldNode
-  set_fixture_class :node_tags => OldNodeTag
-  fixtures  :users, :nodes, :node_tags
-  
+  api_fixtures
+
   def test_old_node_tag_count
     assert_equal 8, OldNodeTag.count, "Unexpected number of fixtures loaded."
   end

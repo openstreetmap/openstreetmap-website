@@ -1,7 +1,8 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class UserPreferenceTest < ActiveSupport::TestCase
-  fixtures :users, :user_preferences
+  api_fixtures
+  fixtures :user_preferences
 
   # This checks to make sure that there are two user preferences
   # stored in the test database.
