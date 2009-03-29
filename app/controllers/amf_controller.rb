@@ -490,8 +490,8 @@ class AmfController < ApplicationController
       new_relation.changeset_id = changeset_id
       new_relation.version = version
 
-
-      if id <= 0
+      # NOTE: id or relid here? id doesn't seem to be set above
+      if relid <= 0
         # We're creating the node
         new_relation.create_with_history(user)
       elsif visible

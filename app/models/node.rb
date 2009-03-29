@@ -171,7 +171,6 @@ class Node < ActiveRecord::Base
   
   def create_with_history(user)
     check_create_consistency(self, user)
-    self.id = nil
     self.version = 0
     self.visible = true
 
