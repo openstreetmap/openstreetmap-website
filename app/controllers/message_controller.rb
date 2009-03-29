@@ -15,7 +15,7 @@ class MessageController < ApplicationController
       @message = Message.new(params[:message])
       @message.to_user_id = @to_user.id
       @message.from_user_id = @user.id
-      @message.sent_on = Time.now
+      @message.sent_on = Time.now.getutc
    
       if @message.save
         flash[:notice] = 'Message sent'

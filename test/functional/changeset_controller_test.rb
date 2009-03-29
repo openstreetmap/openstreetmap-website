@@ -37,7 +37,7 @@ class ChangesetControllerTest < ActionController::TestCase
       assert_equal Rational(1,24), duration , "initial idle timeout should be an hour (#{cs.created_at} -> #{cs.closed_at})"
     else
       # must be number of seconds...
-      assert_equal 3600.0, duration , "initial idle timeout should be an hour (#{cs.created_at} -> #{cs.closed_at})"
+      assert_equal 3600, duration.round, "initial idle timeout should be an hour (#{cs.created_at} -> #{cs.closed_at})"
     end
   end
   

@@ -51,7 +51,7 @@ class Way < ActiveRecord::Base
 
     # This next section isn't required for the create, update, or delete of ways
     if create
-      way.timestamp = Time.now
+      way.timestamp = Time.now.getutc
       way.visible = true
     else
       if pt['timestamp']
@@ -296,7 +296,7 @@ class Way < ActiveRecord::Base
   private
   
   def save_with_history!
-    t = Time.now
+    t = Time.now.getutc
 
     # update the bounding box, note that this has to be done both before 
     # and after the save, so that nodes from both versions are included in the 

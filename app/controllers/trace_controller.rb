@@ -117,7 +117,7 @@ class TraceController < ApplicationController
                             :description => params[:trace][:description],
                             :public => params[:trace][:public],
                             :inserted => false, :user => @user,
-                            :timestamp => Time.now})
+                            :timestamp => Time.now.getutc})
         @trace.valid?
         @trace.errors.add(:gpx_file, "can't be blank")
       end
@@ -313,7 +313,7 @@ private
                         :description => description, :public => public})
     @trace.inserted = false
     @trace.user = @user
-    @trace.timestamp = Time.now
+    @trace.timestamp = Time.now.getutc
 
     if @trace.save
       FileUtils.mv(filename, @trace.trace_name)

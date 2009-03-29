@@ -267,7 +267,7 @@ class Node < ActiveRecord::Base
   private
 
   def save_with_history!
-    t = Time.now
+    t = Time.now.getutc
     Node.transaction do
       self.version += 1
       self.timestamp = t

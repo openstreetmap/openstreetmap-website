@@ -160,7 +160,7 @@ class ApiControllerTest < ActionController::TestCase
     #print @response.body
     # As we have loaded the fixtures, we can assume that there are no 
     # changes recently
-    now = Time.now
+    now = Time.now.getutc
     hourago = now - 1.hour
     # Note that this may fail on a very slow machine, so isn't a great test
     assert_select "osm[version='#{API_VERSION}'][generator='#{GENERATOR}']:root", :count => 1 do
@@ -181,7 +181,7 @@ class ApiControllerTest < ActionController::TestCase
     1.upto(16) do |zoom|
       get :changes, :zoom => zoom
       assert_response :success
-      now = Time.now
+      now = Time.now.getutc
       hourago = now - 1.hour
       # Note that this may fail on a very slow machine, so isn't a great test
       assert_select "osm[version='#{API_VERSION}'][generator='#{GENERATOR}']:root", :count => 1 do

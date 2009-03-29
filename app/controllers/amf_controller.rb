@@ -157,7 +157,7 @@ class AmfController < ApplicationController
     cs.tags = cstags
     cs.user_id = user.id
     # smsm1 doesn't like the next two lines and thinks they need to be abstracted to the model more/better
-    cs.created_at = Time.now
+    cs.created_at = Time.now.getutc
     cs.closed_at = cs.created_at + Changeset::IDLE_TIMEOUT
     cs.save_with_tags!
     return [0,cs.id]

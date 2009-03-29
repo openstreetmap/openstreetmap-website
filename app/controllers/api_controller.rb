@@ -225,7 +225,7 @@ class ApiController < ApplicationController
       endtime = Time.parse(params[:end])
     else
       hours = (params[:hours] || '1').to_i.hours
-      endtime = Time.now
+      endtime = Time.now.getutc
       starttime = endtime - hours
     end
 

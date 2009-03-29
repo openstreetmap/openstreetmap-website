@@ -42,12 +42,12 @@ class Changeset < ActiveRecord::Base
     # note that this may not be a hard limit - due to timing changes and
     # concurrency it is possible that some changesets may be slightly 
     # longer than strictly allowed or have slightly more changes in them.
-    return ((closed_at > Time.now) and (num_changes <= MAX_ELEMENTS))
+    return ((closed_at > Time.now.getutc) and (num_changes <= MAX_ELEMENTS))
   end
 
   def set_closed_time_now
     if is_open?
-      self.closed_at = Time.now
+      self.closed_at = Time.now.getutc
     end
   end
   
@@ -60,10 +60,10 @@ class Changeset < ActiveRecord::Base
 
       doc.find('//osm/changeset').each do |pt|
         if create
-          cs.created_at = Time.now
+          cs.created_at = Time.now.getutc
           # initial close time is 1h ahead, but will be increased on each
           # modification.
-          cs.closed_at = Time.now + IDLE_TIMEOUT
+          cs.closed_at = cs.created_at + IDLE_TIMEOUT
           # initially we have no changes in a changeset
           cs.num_changes = 0
         end
@@ -140,7 +140,7 @@ class Changeset < ActiveRecord::Base
   end
 
   def save_with_tags!
-    t = Time.now
+    t = Time.now.getutc
 
     # do the changeset update and the changeset tags update in the
     # same transaction to ensure consistency.
@@ -151,7 +151,7 @@ class Changeset < ActiveRecord::Base
       if (closed_at - created_at) > (MAX_TIME_OPEN - IDLE_TIMEOUT)
         self.closed_at = created_at + MAX_TIME_OPEN
       else
-        self.closed_at = Time.now + IDLE_TIMEOUT
+        self.closed_at = Time.now.getutc + IDLE_TIMEOUT
       end
       self.save!
 

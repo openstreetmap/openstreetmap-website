@@ -461,7 +461,7 @@ private
   # if parameter 'open' is nill then open and closed changsets are returned
   def conditions_open(open)
     return open.nil? ? nil : ['closed_at >= ? and num_changes <= ?', 
-                              DateTime.now, Changeset::MAX_ELEMENTS]
+                              Time.now.getutc, Changeset::MAX_ELEMENTS]
   end
   
   ##
@@ -469,7 +469,7 @@ private
   # ('closed at' time has passed or changes limit is hit)
   def conditions_closed(closed)
     return closed.nil? ? nil : ['closed_at < ? and num_changes > ?', 
-                              DateTime.now, Changeset::MAX_ELEMENTS]
+                                Time.now.getutc, Changeset::MAX_ELEMENTS]
   end
 
   ##

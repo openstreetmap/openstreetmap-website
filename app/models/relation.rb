@@ -51,7 +51,7 @@ class Relation < ActiveRecord::Base
     # The follow block does not need to be executed because they are dealt with 
     # in create_with_history, update_from and delete_with_history
     if create
-      relation.timestamp = Time.now
+      relation.timestamp = Time.now.getutc
       relation.visible = true
       relation.version = 0
     else
@@ -334,7 +334,7 @@ class Relation < ActiveRecord::Base
       # changed then we have to monitor their before and after state.
       tags_changed = false
 
-      t = Time.now
+      t = Time.now.getutc
       self.version += 1
       self.timestamp = t
       self.save!
