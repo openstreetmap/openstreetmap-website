@@ -21,21 +21,24 @@
 <%= render :partial => 'sidebar', :locals => { :onopen => "resizeMap();", :onclose => "resizeMap();" } %>
 <%= render :partial => 'search' %>
 
-<% session[:token] = @user.tokens.create.token unless session[:token] %>
+<%
+session[:token] = @user.tokens.create.token unless session[:token]
 
-<% if params['mlon'] and params['mlat'] %>
-	<% lon =  h(params['mlon']) %>
-	<% lat =  h(params['mlat'])  %>
-	<% zoom =  h(params['zoom'] || '14') %>
-<% elsif @user and params['lon'].nil? and params['lat'].nil? and params['gpx'].nil? %> 
-	<% lon =  @user.home_lon %>
-	<% lat =  @user.home_lat %>
-	<% zoom = '14' %>
-<% else %>
-	<% lon =  h(params['lon'] || 'null') %>
-	<% lat =  h(params['lat'] || 'null') %>
-	<% zoom =  h(params['zoom'] || '14') %>
-<% end %>
+if params['mlon'] and params['mlat'] 
+	lon =  h(params['mlon']) 
+	lat =  h(params['mlat']) 
+	zoom =  h(params['zoom'] || '14')
+	
+elsif @user and params['lon'].nil? and params['lat'].nil? and params['gpx'].nil?
+	lon =  @user.home_lon
+	lat =  @user.home_lat
+	zoom = '14'
+else
+	lon =  h(params['lon'] || 'null') 
+	lat =  h(params['lat'] || 'null') 
+	zoom =  h(params['zoom'] || '14') 
+end
+%>
 
 <div id="map">
 	You need a Flash player to use Potlatch, the
