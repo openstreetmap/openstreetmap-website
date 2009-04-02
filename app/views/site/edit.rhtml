@@ -24,20 +24,33 @@
 <%
 session[:token] = @user.tokens.create.token unless session[:token]
 
-if params['mlon'] and params['mlat'] 
+# Decide on a lat lon to initialise potlatch with. Various ways of doing this
+if params['lon'] and params['lat']
+	lon =  h(params['lon']) 
+	lat =  h(params['lat']) 
+	zoom =  h(params['zoom'])
+
+elsif params['mlon'] and params['mlat'] 
 	lon =  h(params['mlon']) 
 	lat =  h(params['mlat']) 
-	zoom =  h(params['zoom'] || '14')
+	zoom =  h(params['zoom'])
 	
-elsif @user and params['lon'].nil? and params['lat'].nil? and params['gpx'].nil?
+elsif params['gpx']
+	#use gpx id to locate (dealt with below)
+	
+elsif cookies.key?("_osm_location")
+	lon,lat,zoom,layers = cookies["_osm_location"].split("|")
+	
+elsif @user and !@user.home_lon.nil? and !@user.home_lat.nil? 
 	lon =  @user.home_lon
 	lat =  @user.home_lat
-	zoom = '14'
+
 else
-	lon =  h(params['lon'] || 'null') 
-	lat =  h(params['lat'] || 'null') 
-	zoom =  h(params['zoom'] || '14') 
+	#catch all.  Do nothing.  lat=nil, lon=nil
+	#Currently this results in potlatch starting up at 0,0 (Atlantic ocean).
 end
+
+zoom='14' if zoom.nil?
 %>
 
 <div id="map">
