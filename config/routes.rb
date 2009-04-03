@@ -1,6 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
 
   # API
+  map.connect "api/capabilities", :controller => 'api', :action => 'capabilities'
+
   map.connect "api/#{API_VERSION}/node/create", :controller => 'node', :action => 'create'
   map.connect "api/#{API_VERSION}/node/:id/ways", :controller => 'way', :action => 'ways_for_node', :id => /\d+/
   map.connect "api/#{API_VERSION}/node/:id/relations", :controller => 'relation', :action => 'relations_for_node', :id => /\d+/
