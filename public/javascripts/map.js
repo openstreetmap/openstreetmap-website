@@ -121,8 +121,8 @@ function addMarkerToMap(position, icon, description) {
 function addBoxToMap(boxbounds) {
    var geometry = boxbounds.toGeometry().transform(epsg4326, map.getProjectionObject());
    var box = new OpenLayers.Feature.Vector(geometry, {}, {
-      strokeWidth: 3,
-      strokeColor: '#0000ff',
+      strokeWidth: 2,
+      strokeColor: '#ee9900',
       fillOpacity: 0,
    });
    
