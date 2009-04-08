@@ -20,13 +20,4 @@
   <td><%= link_to common_details.changeset_id, :action => :changeset, :id => common_details.changeset_id %></td>
 </tr>
 
-<% unless common_details.tags_as_hash.empty? %>
-  <tr valign="top">
-    <th>Tags:</th>
-    <td>
-      <table padding="0">
-        <%= render :partial => "tag", :collection => common_details.tags_as_hash %>
-      </table>
-    </td>
-  </tr>      
-<% end %>
+<%= render :partial => "tag_details", :object => common_details %>

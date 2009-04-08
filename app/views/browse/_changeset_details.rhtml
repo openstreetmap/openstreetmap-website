@@ -17,21 +17,7 @@
     </tr>
   <% end %>
   
-  <% unless changeset_details.tags_as_hash.empty? %>
-    <tr valign="top">
-      <th>Tags:</th>
-      <td>
-        <table padding="0">
-          <%= render :partial => "tag", :collection => changeset_details.tags_as_hash %>
-        </table>
-      </td>
-    </tr>
-  <% else %>
-    <tr>
-      <th>Tags</th>
-      <td>There are no tags for this changeset</td>
-    </tr>
-  <% end %>
+  <%= render :partial => "tag_details", :object => changeset_details %>
 
   <tr>
     <th>Bounding box:</th>
