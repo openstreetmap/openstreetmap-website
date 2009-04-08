@@ -45,6 +45,7 @@ if params['minlon'] and params['minlat'] and params['maxlon'] and params['maxlat
 	minlat = h(params['minlat'])
 	maxlon = h(params['maxlon'])
 	maxlat = h(params['maxlat'])
+	box = true if params['box']=="yes" 
 end
 
 # Decide on a lat lon to initialise the map with. Various ways of doing this
@@ -109,13 +110,16 @@ end
     var bbox = new OpenLayers.Bounds(<%= minlon %>, <%= minlat %>, <%= maxlon %>, <%= maxlat %>);
 
     setMapExtent(bbox);
+    <%    if box %>
+    box = addBoxToMap(bbox);
+    <%    end %>
     <% else %>
     var centre = new OpenLayers.LonLat(<%= lon %>, <%= lat %>);
     var zoom = <%= zoom %>;
 
-    <% if params['scale'] and params['scale'].length > 0 then %>
+    <%    if params['scale'] and params['scale'].length > 0 then %>
     zoom = scaleToZoom(<%= params['scale'].to_f() %>);
-    <% end %>
+    <%    end %>
 
     setMapCenter(centre, zoom);
     <% end %>

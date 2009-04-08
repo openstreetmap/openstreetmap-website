@@ -37,18 +37,25 @@
     <th>Bounding box:</th>
     <% if changeset_details.max_lat.nil? or changeset_details.min_lat.nil? or changeset_details.max_lon.nil? or changeset_details.min_lon.nil? %>
       <td>No bounding box has been stored for this changeset.</td>
-    <% else %>
+    <%
+       else
+          minlon = changeset_details.min_lon/GeoRecord::SCALE.to_f
+          minlat = changeset_details.min_lat/GeoRecord::SCALE.to_f
+          maxlon = changeset_details.max_lon/GeoRecord::SCALE.to_f
+          maxlat = changeset_details.max_lat/GeoRecord::SCALE.to_f
+    %>
       <td>
         <table>
           <tr>
-            <td colspan="2" style="text-align:center"><%= changeset_details.max_lat/GeoRecord::SCALE.to_f -%></td>
+            <td colspan="3" style="text-align:center"><%=maxlat -%></td>
           </tr>
           <tr>
-            <td><%= changeset_details.min_lon/GeoRecord::SCALE.to_f -%></td>
-            <td><%= changeset_details.max_lon/GeoRecord::SCALE.to_f -%></td>
+            <td><%=minlon -%></td>
+            <td>(<a href='/?minlon=<%= minlon %>&minlat=<%= minlat %>&maxlon=<%= maxlon %>&maxlat=<%= maxlat %>&box=yes' title='show area box'>box</a>)</td>
+            <td><%=maxlon -%></td>
           </tr>
           <tr>
-            <td colspan="2" style="text-align:center"><%= changeset_details.min_lon/GeoRecord::SCALE.to_f -%></td>
+            <td colspan="3" style="text-align:center"><%= minlon -%></td>
           </tr>
         </table>
       </td>

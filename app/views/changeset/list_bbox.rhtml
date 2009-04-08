@@ -1,16 +1,16 @@
 <h1>History</h1>
 <%
 if @bbox!=nil
-	lon1 = @bbox[0] 
-	lat1 = @bbox[1] 
-	lon2 = @bbox[2]
-	lat2 = @bbox[3] 
+	minlon = @bbox[0] 
+	minlat = @bbox[1] 
+	maxlon = @bbox[2]
+	maxlat = @bbox[3] 
 
 	%>
 <p>
 Changesets within the area: 
-(<a href='/?lat=<%= lat1 %>&lon=<%= lon1 %>&zoom=14'><%= format("%0.3f",lat1) -%>,<%= format("%0.3f",lon1) -%></a>) to 
-(<a href='/?lat=<%= lat2 %>&lon=<%= lon2 %>&zoom=14'><%= format("%0.3f",lat2) -%>,<%= format("%0.3f",lon2) -%></a>)   
+      (<a href='/?minlon=<%= minlon %>&minlat=<%= minlat %>&maxlon=<%= maxlon %>&maxlat=<%= maxlat %>&box=yes' title='show area box'><%= format("%0.3f",minlon) -%>,<%= format("%0.3f",minlat) -%>,<%= format("%0.3f",maxlon) -%>,<%= format("%0.3f",maxlat) -%></a>) 
+
 </p>
 
 <%	if @edits.nil? or @edits.empty? %>
@@ -32,6 +32,9 @@ Changesets within the area:
 </table>
 
 <%= render :partial => 'changeset_paging_nav' %>
+
+<p>For all changes everywhere see <%=  link_to("Recent Changes", :controller => "browse", :action => "changesets") %> </p>
+
 <%
 	end
 
@@ -47,4 +50,4 @@ else
 end
 %>
 <br>
-<br>
+

@@ -1,6 +1,7 @@
 var epsg4326 = new OpenLayers.Projection("EPSG:4326");
 var map;
 var markers;
+var vectors;
 var popup;
 
 var nonamekeys = {
@@ -82,6 +83,17 @@ function createMap(divName, options) {
       projection: "EPSG:900913"
    });
    map.addLayer(markers);
+   
+   vectors = new OpenLayers.Layer.Vector("Vectors", {
+      displayInLayerSwitcher: false,
+      numZoomLevels: numZoomLevels,
+      maxExtent: new OpenLayers.Bounds(-20037508,-20037508,20037508,20037508),
+      maxResolution: 156543,
+      units: "m",
+      projection: "EPSG:900913"
+   });
+   map.addLayer(vectors);
+   
 
    return map;
 }
@@ -106,6 +118,19 @@ function addMarkerToMap(position, icon, description) {
    return marker;
 }
 
+function addBoxToMap(boxbounds) {	
+   box = new OpenLayers.Feature.Vector(
+            boxbounds.toGeometry().transform(new OpenLayers.Projection("EPSG:4326"), map.getProjectionObject()) );
+   
+   box.style = {
+	  'strokeWidth': 3,
+	  'strokeColor': '#0000ff',
+	  'fillOpacity': 0,
+	};
+   vectors.addFeatures(box);
+   return box;
+}
+
 function openMapPopup(marker, description) {
    closeMapPopup();
 
@@ -127,6 +152,10 @@ function closeMapPopup() {
 
 function removeMarkerFromMap(marker){
    markers.removeMarker(marker);
+}
+
+function removeBoxFromMap(box){
+   vectors.removeFeature(box);
 }
 
 function getMapCenter(center, zoom) {
