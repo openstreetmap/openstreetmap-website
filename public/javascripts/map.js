@@ -118,16 +118,16 @@ function addMarkerToMap(position, icon, description) {
    return marker;
 }
 
-function addBoxToMap(boxbounds) {	
-   box = new OpenLayers.Feature.Vector(
-            boxbounds.toGeometry().transform(new OpenLayers.Projection("EPSG:4326"), map.getProjectionObject()) );
+function addBoxToMap(boxbounds) {
+   var geometry = boxbounds.toGeometry().transform(epsg4326, map.getProjectionObject());
+   var box = new OpenLayers.Feature.Vector(geometry, {}, {
+      strokeWidth: 3,
+      strokeColor: '#0000ff',
+      fillOpacity: 0,
+   });
    
-   box.style = {
-	  'strokeWidth': 3,
-	  'strokeColor': '#0000ff',
-	  'fillOpacity': 0,
-	};
    vectors.addFeatures(box);
+
    return box;
 }
 
