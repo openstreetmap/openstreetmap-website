@@ -46,6 +46,7 @@ module ActiveRecord
         types = old_native_database_types
         types[:bigint] = { :name => "bigint", :limit => 20 }
         types[:double] = { :name => "double" }
+        types[:integer_pk] = { :name => "integer DEFAULT NULL auto_increment PRIMARY KEY" }
         types[:bigint_pk] = { :name => "bigint(20) DEFAULT NULL auto_increment PRIMARY KEY" }
         types[:bigint_pk_64] = { :name => "bigint(64) DEFAULT NULL auto_increment PRIMARY KEY" }
         types[:bigint_auto_64] = { :name => "bigint(64) DEFAULT NULL auto_increment" }
@@ -106,6 +107,7 @@ module ActiveRecord
       def native_database_types
         types = old_native_database_types
         types[:double] = { :name => "double precision" }
+        types[:integer_pk] = { :name => "serial PRIMARY KEY" }
         types[:bigint_pk] = { :name => "bigserial PRIMARY KEY" }
         types[:bigint_pk_64] = { :name => "bigserial PRIMARY KEY" }
         types[:bigint_auto_64] = { :name => "bigint" } #fixme: need autoincrement?
