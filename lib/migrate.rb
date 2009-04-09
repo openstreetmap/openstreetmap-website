@@ -52,7 +52,8 @@ module ActiveRecord
         types[:bigint_auto_64] = { :name => "bigint(64) DEFAULT NULL auto_increment" }
         types[:bigint_auto_11] = { :name => "bigint(11) DEFAULT NULL auto_increment" }
         types[:bigint_auto_20] = { :name => "bigint(20) DEFAULT NULL auto_increment" }
-        types[:four_byte_unsigned] = { :name=> "integer unsigned NOT NULL" }
+        types[:four_byte_unsigned] = { :name=> "integer unsigned" }
+        types[:inet] = { :name=> "integer unsigned" }
         types
       end
 
@@ -114,6 +115,7 @@ module ActiveRecord
         types[:bigint_auto_11] = { :name => "bigint" } #fixme: need autoincrement?
         types[:bigint_auto_20] = { :name => "bigint" } #fixme: need autoincrement?
         types[:four_byte_unsigned] = { :name => "bigint" } # meh
+        types[:inet] = { :name=> "inet" }
         types
       end
 
