@@ -89,8 +89,8 @@ class CleanupOsmDb < ActiveRecord::Migration
     change_column "users", "creation_time", :datetime, :null => false
     change_column "users", "display_name", :string, :default => "", :null => false
     change_column "users", "data_public", :boolean, :default => false, :null => false
-    change_column "users", "home_lat", :double
-    change_column "users", "home_lon", :double
+    change_column "users", "home_lat", :double, :default => nil
+    change_column "users", "home_lon", :double, :default => nil
     remove_index "users", :name => "users_email_idx"
     add_index "users", ["email"], :name => "users_email_idx", :unique => true
     remove_index "users", :name => "users_display_name_idx"
