@@ -1,7 +1,5 @@
 QTDIR=../../lib/quad_tile
 
-PGSQLINC=/usr/include/postgresql/8.3/server/
-
 OS=$(shell uname -s)
 ifeq (${OS},Darwin)
     LDFLAGS=-bundle
@@ -27,4 +25,4 @@ maptile-mysql.o: maptile.c
 	cc `mysql_config --include` -fPIC -O3 -DUSE_MYSQL -c -o maptile-mysql.o maptile.c
 
 maptile-pgsql.o: maptile.c
-	cc -I${PGSQLINC} -O3 -fPIC -DUSE_PGSQL -c -o maptile-pgsql.o maptile.c
+	cc -I `pg_config --includedir-server` -O3 -fPIC -DUSE_PGSQL -c -o maptile-pgsql.o maptile.c
