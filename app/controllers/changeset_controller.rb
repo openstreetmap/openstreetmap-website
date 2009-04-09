@@ -114,6 +114,8 @@ class ChangesetController < ApplicationController
       render :nothing => true, :status => :method_not_allowed
     end
 
+  rescue LibXML::XML::Error, ArgumentError => ex
+    raise OSM::APIBadXMLError.new("osm", xml, ex.message)
   rescue ActiveRecord::RecordNotFound
     render :nothing => true, :status => :not_found
   rescue OSM::APIError => ex

@@ -52,7 +52,11 @@ class UserPreferenceController < ApplicationController
 
   # update the entire set of preferences
   def update
-    p = XML::Parser.string(request.raw_post)
+    do
+      p = XML::Parser.string(request.raw_post)
+    rescue LibXML::XML::Error, ArgumentError => ex
+      raise OSM::APIBadXMLError.new("preferences", xml, ex.message)
+    end
     doc = p.parse
 
     prefs = []

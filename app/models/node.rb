@@ -70,7 +70,7 @@ class Node < ActiveRecord::Base
       doc.find('//osm/node').each do |pt|
         return Node.from_xml_node(pt, create)
       end
-    rescue LibXML::XML::Error => ex
+    rescue LibXML::XML::Error, ArgumentError => ex
       raise OSM::APIBadXMLError.new("node", xml, ex.message)
     end
   end
