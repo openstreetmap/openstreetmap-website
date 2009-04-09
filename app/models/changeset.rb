@@ -85,6 +85,10 @@ class Changeset < ActiveRecord::Base
   def bbox
     @bbox ||= [ min_lon, min_lat, max_lon, max_lat ]
   end
+  
+  def has_valid_bbox?
+    not bbox.include? nil
+  end
 
   ##
   # expand the bounding box to include the given bounding box. also, 

@@ -21,10 +21,9 @@
 
   <tr>
     <th>Bounding box:</th>
-    <% if changeset_details.max_lat.nil? or changeset_details.min_lat.nil? or changeset_details.max_lon.nil? or changeset_details.min_lon.nil? %>
+    <% unless changeset_details.has_valid_bbox? %>
       <td>No bounding box has been stored for this changeset.</td>
-    <%
-       else
+    <% else
           minlon = changeset_details.min_lon/GeoRecord::SCALE.to_f
           minlat = changeset_details.min_lat/GeoRecord::SCALE.to_f
           maxlon = changeset_details.max_lon/GeoRecord::SCALE.to_f

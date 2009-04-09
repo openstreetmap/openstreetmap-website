@@ -16,6 +16,8 @@
     or
     <%= link_to "osmChange XML", :controller => "changeset", :action => "download" %>
     </td>
+    <% if @changeset.has_valid_bbox? %>
     <%= render :partial => "map", :object => @changeset %>
+    <% end %>
   </tr>
 </table>
