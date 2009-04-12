@@ -119,6 +119,9 @@ class UserController < ApplicationController
 
   def new
     @title = 'create account'
+    # The user is logged in already, so don't show them the signup page, instead
+    # send them to the home page
+    redirect_to :controller => 'site', :action => 'index' if session[:user]
   end
 
   def login

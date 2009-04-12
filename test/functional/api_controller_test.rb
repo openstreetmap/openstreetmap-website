@@ -18,10 +18,6 @@ class ApiControllerTest < ActionController::TestCase
     # reall reject it, however this is to test to see if the api changes.
   end
 
-  def basic_authorization(user, pass)
-    @request.env["HTTP_AUTHORIZATION"] = "Basic %s" % Base64.encode64("#{user}:#{pass}")
-  end
-
   # -------------------------------------
   # Test reading a bounding box.
   # -------------------------------------
@@ -151,9 +147,10 @@ class ApiControllerTest < ActionController::TestCase
   #  end
   #end
   
-  # MySQL requires that the C based functions are installed for this test to 
-  # work. More information is available from:
+  # MySQL and Postgres require that the C based functions are installed for 
+  # this test to work. More information is available from:
   # http://wiki.openstreetmap.org/index.php/Rails#Installing_the_quadtile_functions
+  # or by looking at the readme in db/README
   def test_changes_simple
     get :changes
     assert_response :success

@@ -3,6 +3,8 @@ require File.dirname(__FILE__) + '/../test_helper'
 class UserDiariesTest < ActionController::IntegrationTest
   fixtures :users, :diary_entries
 
+  # Test the creation of a diary entry, making sure that you are redirected to 
+  # login page when not logged in
   def test_showing_create_diary_entry
     get_via_redirect '/user/test/diary/new'
     # We should now be at the login page
