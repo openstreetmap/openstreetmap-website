@@ -1,2 +1,2 @@
 # Use the MySQL interface for SqlSessionStore
-SqlSessionStore.session_class = PostgresqlSession
+SqlSessionStore.session_class = MysqlSession

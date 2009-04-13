@@ -7,8 +7,8 @@ class AddEndTimeToChangesets < ActiveRecord::Migration
     # it appears that execute will only accept string arguments, so
     # this is an ugly, ugly hack to get some sort of mysql/postgres
     # independence. now i have to go wash my brain with bleach.
-    #execute("update changesets set closed_at=(now()-'1 hour') where open=(1=0)")
-    #execute("update changesets set closed_at=(now()+'1 hour') where open=(1=1)")
+    execute("update changesets set closed_at=(now()-'1 hour') where open=(1=0)")
+    execute("update changesets set closed_at=(now()+'1 hour') where open=(1=1)")
 
     # remove the open column as it is unnecessary now and denormalises 
     # the table.
