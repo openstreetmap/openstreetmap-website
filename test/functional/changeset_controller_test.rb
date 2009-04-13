@@ -4,14 +4,6 @@ require 'changeset_controller'
 class ChangesetControllerTest < ActionController::TestCase
   api_fixtures
 
-  def basic_authorization(user, pass)
-    @request.env["HTTP_AUTHORIZATION"] = "Basic %s" % Base64.encode64("#{user}:#{pass}")
-  end
-
-  def content(c)
-    @request.env["RAW_POST_DATA"] = c.to_s
-  end
-  
   # -----------------------
   # Test simple changeset creation
   # -----------------------
@@ -48,6 +40,18 @@ class ChangesetControllerTest < ActionController::TestCase
     assert_response :bad_request, "creating a invalid changeset should fail"
   end
 
+  def test_create_invalid_no_content
+    basic_authorization "test@openstreetmap.org", "test"
+    put :create
+    assert_response :bad_request, "creating a changeset with no content should fail"
+  end
+  
+  def test_create_wrong_method
+    basic_authorization "test@openstreetmap.org", "test"
+    get :create
+    assert_response :method_not_allowed
+  end
+    
   ##
   # check that the changeset can be read and returns the correct
   # document structure.
@@ -248,7 +252,9 @@ EOF
       content "<osm><changeset>" +
         "<tag k='created_by' v='osm test suite checking changesets'/>" + 
         "</changeset></osm>"
-      put :create
+      assert_difference('Changeset.count', 1) do
+        put :create
+      end
       assert_response :success
       changeset_id = @response.body.to_i
     end
