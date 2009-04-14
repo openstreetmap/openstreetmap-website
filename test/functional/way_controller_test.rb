@@ -4,14 +4,6 @@ require 'way_controller'
 class WayControllerTest < ActionController::TestCase
   api_fixtures
 
-  def basic_authorization(user, pass)
-    @request.env["HTTP_AUTHORIZATION"] = "Basic %s" % Base64.encode64("#{user}:#{pass}")
-  end
-
-  def content(c)
-    @request.env["RAW_POST_DATA"] = c.to_s
-  end
-
   # -------------------------------------
   # Test reading ways.
   # -------------------------------------
