@@ -225,7 +225,7 @@ class Changeset < ActiveRecord::Base
   def update_from(other, user)
     # ensure that only the user who opened the changeset may modify it.
     unless user.id == self.user_id 
-      raise OSM::APIUserChangesetMismatchError 
+      raise OSM::APIUserChangesetMismatchError.new
     end
     
     # can't change a closed changeset
