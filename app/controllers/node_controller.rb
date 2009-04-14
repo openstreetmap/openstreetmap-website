@@ -5,8 +5,8 @@ class NodeController < ApplicationController
 
   session :off
   before_filter :authorize, :only => [:create, :update, :delete]
-  before_filter :check_write_availability, :only => [:create, :update, :delete]
-  before_filter :check_read_availability, :except => [:create, :update, :delete]
+  before_filter :check_api_writeable, :only => [:create, :update, :delete]
+  before_filter :check_api_readable, :except => [:create, :update, :delete]
   after_filter :compress_output
 
   # Create a node from XML.

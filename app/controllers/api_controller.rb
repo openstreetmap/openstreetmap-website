@@ -1,7 +1,7 @@
 class ApiController < ApplicationController
 
   session :off
-  before_filter :check_read_availability, :except => [:capabilities]
+  before_filter :check_api_readable, :except => [:capabilities]
   after_filter :compress_output
 
   # Help methods for checking boundary sanity and area size

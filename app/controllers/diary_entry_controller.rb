@@ -3,7 +3,8 @@ class DiaryEntryController < ApplicationController
 
   before_filter :authorize_web
   before_filter :require_user, :only => [:new, :edit]
-  before_filter :check_database_availability
+  before_filter :check_database_readable
+  before_filter :check_database_writable, :only => [:new, :edit]
 
   def new
     @title = 'New diary entry'

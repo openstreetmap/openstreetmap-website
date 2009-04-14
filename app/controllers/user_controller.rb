@@ -4,8 +4,9 @@ class UserController < ApplicationController
   before_filter :authorize, :only => [:api_details, :api_gpx_files]
   before_filter :authorize_web, :except => [:api_details, :api_gpx_files]
   before_filter :require_user, :only => [:set_home, :account, :go_public, :make_friend, :remove_friend, :upload_image, :delete_image]
-  before_filter :check_database_availability, :except => [:api_details, :api_gpx_files]
-  before_filter :check_read_availability, :only => [:api_details, :api_gpx_files]
+  before_filter :check_database_readable, :except => [:api_details, :api_gpx_files]
+  before_filter :check_database_writable, :only => [:login, :new, :set_home, :account, :go_public, :make_friend, :remove_friend, :upload_image, :delete_image]
+  before_filter :check_api_readable, :only => [:api_details, :api_gpx_files]
 
   filter_parameter_logging :password, :pass_crypt, :pass_crypt_confirmation
 

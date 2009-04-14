@@ -4,8 +4,10 @@ class TraceController < ApplicationController
   before_filter :authorize_web  
   before_filter :require_user, :only => [:mine, :edit, :delete, :make_public]
   before_filter :authorize, :only => [:api_details, :api_data, :api_create]
-  before_filter :check_database_availability, :except => [:api_details, :api_data, :api_create]
-  before_filter :check_read_availability, :only => [:api_details, :api_data, :api_create]
+  before_filter :check_database_readable, :except => [:api_details, :api_data, :api_create]
+  before_filter :check_database_writable, :only => [:create, :edit, :delete, :make_public]
+  before_filter :check_api_readable, :only => [:api_details, :api_data]
+  before_filter :check_api_writable, :only => [:api_create]
  
   # Counts and selects pages of GPX traces for various criteria (by user, tags, public etc.).
   #  target_user - if set, specifies the user to fetch traces for.  if not set will fetch all traces
