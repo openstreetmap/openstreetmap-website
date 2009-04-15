@@ -133,7 +133,7 @@ class Node < ActiveRecord::Base
       check_consistency(self, new_node, user)
       if WayNode.find(:first, :joins => "INNER JOIN current_ways ON current_ways.id = current_way_nodes.id", :conditions => [ "current_ways.visible = ? AND current_way_nodes.node_id = ?", true, self.id ])
         raise OSM::APIPreconditionFailedError.new
-      elsif RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", :conditions => [ "visible = ? AND member_type='node' and member_id=? ", true, self.id])
+      elsif RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", :conditions => [ "visible = ? AND member_type='Node' and member_id=? ", true, self.id])
         raise OSM::APIPreconditionFailedError.new
       else
         self.changeset_id = new_node.changeset_id

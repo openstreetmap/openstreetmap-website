@@ -92,7 +92,7 @@ module ActiveRecord
       end
 
       def alter_column_nwr_enum (table_name, column)
-        execute "alter table #{table_name} change column #{column} #{column} enum('node','way','relation');"
+        execute "alter table #{table_name} change column #{column} #{column} enum('Node','Way','Relation');"
       end
 
       def alter_primary_key(table_name, new_columns)
@@ -141,7 +141,7 @@ module ActiveRecord
       def alter_column_nwr_enum (table_name, column)
         response = select_one("select count(*) as count from pg_type where typname = 'nwr_enum'")
         if response['count'] == "0" #yep, as a string
-          execute "create type nwr_enum as ENUM ('node', 'way', 'relation')"
+          execute "create type nwr_enum as ENUM ('Node', 'Way', 'Relation')"
         end
         execute	"alter table #{table_name} drop #{column}"
         execute "alter table #{table_name} add #{column} nwr_enum"

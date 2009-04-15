@@ -41,7 +41,7 @@ class OldRelation < ActiveRecord::Base
     self.members.each_with_index do |m,i|
       member = OldRelationMember.new
       member.id = [self.id, self.version, i]
-      member.member_type = m[0]
+      member.member_type = m[0].classify
       member.member_id = m[1]
       member.member_role = m[2]
       member.save!
@@ -108,7 +108,7 @@ class OldRelation < ActiveRecord::Base
     
     self.old_members.each do |member|
       e = XML::Node.new 'member'
-      e['type'] = member.member_type.to_s
+      e['type'] = member.member_type.to_s.downcase
       e['ref'] = member.member_id.to_s # "id" is considered uncool here as it should be unique in XML
       e['role'] = member.member_role.to_s
       el1 << e

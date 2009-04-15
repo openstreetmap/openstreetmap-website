@@ -74,7 +74,7 @@ class Relation < ActiveRecord::Base
       #member_role
       member['role'] ||= "" # Allow  the upload to not include this, in which case we default to an empty string.
       logger.debug member['role']
-      relation.add_member(member['type'], member['ref'], member['role'])
+      relation.add_member(member['type'].classify, member['ref'], member['role'])
     end
     raise OSM::APIBadUserInput.new("Some bad xml in relation") if relation.nil?
 
@@ -125,7 +125,7 @@ class Relation < ActiveRecord::Base
       #end
       if p
         e = XML::Node.new 'member'
-        e['type'] = member.member_type
+        e['type'] = member.member_type.downcase
         e['ref'] = member.member_id.to_s 
         e['role'] = member.member_role
         el1 << e
@@ -145,7 +145,7 @@ class Relation < ActiveRecord::Base
     if ids.empty?
       return []
     else
-      self.with_scope(:find => { :joins => "INNER JOIN current_relation_members ON current_relation_members.id = current_relations.id", :conditions => "current_relation_members.member_type = 'node' AND current_relation_members.member_id IN (#{ids.join(',')})" }) do
+      self.with_scope(:find => { :joins => "INNER JOIN current_relation_members ON current_relation_members.id = current_relations.id", :conditions => "current_relation_members.member_type = 'Node' AND current_relation_members.member_id IN (#{ids.join(',')})" }) do
         return self.find(:all, options)
       end
     end
@@ -155,7 +155,7 @@ class Relation < ActiveRecord::Base
     if ids.empty?
       return []
     else
-      self.with_scope(:find => { :joins => "INNER JOIN current_relation_members ON current_relation_members.id = current_relations.id", :conditions => "current_relation_members.member_type = 'way' AND current_relation_members.member_id IN (#{ids.join(',')})" }) do
+      self.with_scope(:find => { :joins => "INNER JOIN current_relation_members ON current_relation_members.id = current_relations.id", :conditions => "current_relation_members.member_type = 'Way' AND current_relation_members.member_id IN (#{ids.join(',')})" }) do
         return self.find(:all, options)
       end
     end
@@ -165,7 +165,7 @@ class Relation < ActiveRecord::Base
     if ids.empty?
       return []
     else
-      self.with_scope(:find => { :joins => "INNER JOIN current_relation_members ON current_relation_members.id = current_relations.id", :conditions => "current_relation_members.member_type = 'relation' AND current_relation_members.member_id IN (#{ids.join(',')})" }) do
+      self.with_scope(:find => { :joins => "INNER JOIN current_relation_members ON current_relation_members.id = current_relations.id", :conditions => "current_relation_members.member_type = 'Relation' AND current_relation_members.member_id IN (#{ids.join(',')})" }) do
         return self.find(:all, options)
       end
     end
@@ -236,7 +236,7 @@ class Relation < ActiveRecord::Base
     Relation.transaction do
       check_consistency(self, new_relation, user)
       # This will check to see if this relation is used by another relation
-      if RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", :conditions => [ "visible = ? AND member_type='relation' and member_id=? ", true, self.id ])
+      if RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", :conditions => [ "visible = ? AND member_type='Relation' and member_id=? ", true, self.id ])
         raise OSM::APIPreconditionFailedError.new("The relation #{new_relation.id} is a used in another relation")
       end
       self.changeset_id = new_relation.changeset_id
@@ -281,13 +281,12 @@ class Relation < ActiveRecord::Base
     elements = { :node => Hash.new, :way => Hash.new, :relation => Hash.new }
     self.members.each do |m|
       # find the hash for the element type or die
-      hash = elements[m[0].to_sym] or return false
-
+      logger.debug m[0]
+      hash = elements[m[0].downcase.to_sym] or return false
       # unless its in the cache already
       unless hash.key? m[1]
         # use reflection to look up the appropriate class
         model = Kernel.const_get(m[0].capitalize)
-
         # get the element with that ID
         element = model.find(m[1])
 
@@ -317,7 +316,7 @@ class Relation < ActiveRecord::Base
     self.members.map! do |type, id, role|
       old_id = id.to_i
       if old_id < 0
-        new_id = id_map[type.to_sym][old_id]
+        new_id = id_map[type.downcase.to_sym][old_id]
         raise "invalid placeholder" if new_id.nil?
         [type, new_id, role]
       else
@@ -435,14 +434,16 @@ class Relation < ActiveRecord::Base
         # FIXME: check for tag changes along with element deletions and
         # make sure that the deleted element's bounding box is hit.
         self.members.each do |type, id, role|
-          if type != "relation"
+          if type != "Relation"
             update_changeset_element(type, id)
           end
         end
       else
         # add only changed members to the changeset
         changed_members.each do |id, type|
-          update_changeset_element(type, id)
+          if type != "Relation"
+            update_changeset_element(type, id)
+          end
         end
       end
 

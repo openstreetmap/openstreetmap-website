@@ -97,12 +97,12 @@ class RelationController < ApplicationController
         # first collect nodes, ways, and relations referenced by this relation.
         
         ways = Way.find_by_sql("select w.* from current_ways w,current_relation_members rm where "+
-            "rm.member_type='way' and rm.member_id=w.id and rm.id=#{relation.id}");
+            "rm.member_type='Way' and rm.member_id=w.id and rm.id=#{relation.id}");
         nodes = Node.find_by_sql("select n.* from current_nodes n,current_relation_members rm where "+
-            "rm.member_type='node' and rm.member_id=n.id and rm.id=#{relation.id}");
+            "rm.member_type='Node' and rm.member_id=n.id and rm.id=#{relation.id}");
         # note query is built to exclude self just in case.
         relations = Relation.find_by_sql("select r.* from current_relations r,current_relation_members rm where "+
-            "rm.member_type='relation' and rm.member_id=r.id and rm.id=#{relation.id} and r.id<>rm.id");
+            "rm.member_type='Relation' and rm.member_id=r.id and rm.id=#{relation.id} and r.id<>rm.id");
 
         # now additionally collect nodes referenced by ways. Note how we recursively 
         # evaluate ways but NOT relations.
@@ -172,13 +172,13 @@ class RelationController < ApplicationController
   end
 
   def relations_for_way
-    relations_for_object("way")
+    relations_for_object("Way")
   end
   def relations_for_node
-    relations_for_object("node")
+    relations_for_object("Node")
   end
   def relations_for_relation
-    relations_for_object("relation")
+    relations_for_object("Relation")
   end
 
   def relations_for_object(objtype)
