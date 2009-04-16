@@ -7,8 +7,8 @@ class ChangesetController < ApplicationController
   session :off, :except => [:list, :list_user, :list_bbox]
   before_filter :authorize_web, :only => [:list, :list_user, :list_bbox]
   before_filter :authorize, :only => [:create, :update, :delete, :upload, :include, :close]
-  before_filter :check_write_availability, :only => [:create, :update, :delete, :upload, :include]
-  before_filter :check_read_availability, :except => [:create, :update, :delete, :upload, :download, :query]
+  before_filter :check_api_writable, :only => [:create, :update, :delete, :upload, :include]
+  before_filter :check_api_readable, :except => [:create, :update, :delete, :upload, :download, :query]
   after_filter :compress_output
 
   # Help methods for checking boundary sanity and area size

@@ -2,7 +2,7 @@ class OldRelationController < ApplicationController
   require 'xml/libxml'
 
   session :off
-  before_filter :check_read_availability
+  before_filter :check_api_readable
   after_filter :compress_output
 
   def history
