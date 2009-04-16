@@ -82,6 +82,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def require_public_data
+    unless @user.data_public?
+      response.headers['Error'] = "You must make your edits public to upload new data"
+      render :nothing => true, :status => :forbidden
+      return false
+    end
+  end
+
   # Report and error to the user
   # (If anyone ever fixes Rails so it can set a http status "reason phrase",
   #  rather than only a status code and having the web engine make up a 

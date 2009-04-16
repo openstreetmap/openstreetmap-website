@@ -5,6 +5,7 @@ class NodeController < ApplicationController
 
   session :off
   before_filter :authorize, :only => [:create, :update, :delete]
+  before_filter :require_public_data, :only => [:create, :update, :delete]
   before_filter :check_api_writable, :only => [:create, :update, :delete]
   before_filter :check_api_readable, :except => [:create, :update, :delete]
   after_filter :compress_output
