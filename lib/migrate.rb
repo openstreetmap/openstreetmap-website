@@ -98,6 +98,10 @@ module ActiveRecord
       def alter_primary_key(table_name, new_columns)
         execute("alter table #{table_name} drop primary key, add primary key (#{new_columns.join(',')})")
       end
+
+      def interval_constant(interval)
+        "'#{interval}'"
+      end
     end
 
     class PostgreSQLAdapter
@@ -149,6 +153,10 @@ module ActiveRecord
 
       def alter_primary_key(table_name, new_columns)
         execute "alter table #{table_name} drop constraint #{table_name}_pkey; alter table #{table_name} add primary key (#{new_columns.join(',')})"
+      end
+
+      def interval_constant(interval)
+        "'#{interval}'::interval"
       end
     end
   end
