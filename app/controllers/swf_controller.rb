@@ -1,6 +1,6 @@
 class SwfController < ApplicationController
 	session :off
-	before_filter :check_read_availability
+	before_filter :check_api_readable
 
 # to log:
 # RAILS_DEFAULT_LOGGER.error("Args: #{args[0]}, #{args[1]}, #{args[2]}, #{args[3]}")

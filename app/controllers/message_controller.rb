@@ -3,6 +3,8 @@ class MessageController < ApplicationController
 
   before_filter :authorize_web
   before_filter :require_user
+  before_filter :check_database_readable
+  before_filter :check_database_writable, :only => [:new, :reply, :mark]
 
   # Allow the user to write a new message to another user. This action also 
   # deals with the sending of that message to the other user when the user

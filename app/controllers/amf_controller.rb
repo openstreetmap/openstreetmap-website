@@ -41,7 +41,7 @@ class AmfController < ApplicationController
   include MapBoundary
 
   session :off
-  before_filter :check_write_availability
+  before_filter :check_api_writable
 
   # Main AMF handlers: process the raw AMF string (using AMF library) and
   # calls each action (private method) accordingly.
