@@ -97,19 +97,19 @@ class UserTest < Test::Unit::TestCase
   end
   
   def test_friend_with
-    assert_equal true, users(:normal_user).is_friends_with?(users(:second_user))
+    assert_equal true, users(:normal_user).is_friends_with?(users(:public_user))
     assert_equal false, users(:normal_user).is_friends_with?(users(:inactive_user))
-    assert_equal false, users(:second_user).is_friends_with?(users(:normal_user))
-    assert_equal false, users(:second_user).is_friends_with?(users(:inactive_user))
+    assert_equal false, users(:public_user).is_friends_with?(users(:normal_user))
+    assert_equal false, users(:public_user).is_friends_with?(users(:inactive_user))
     assert_equal false, users(:inactive_user).is_friends_with?(users(:normal_user))
-    assert_equal false, users(:inactive_user).is_friends_with?(users(:second_user))
+    assert_equal false, users(:inactive_user).is_friends_with?(users(:public_user))
   end
   
   def test_users_nearby
     # second user has their data public and is close by normal user
-    assert_equal [users(:second_user)], users(:normal_user).nearby
+    assert_equal [users(:public_user)], users(:normal_user).nearby
     # second_user has normal user nearby, but normal user has their data private
-    assert_equal [], users(:second_user).nearby
+    assert_equal [], users(:public_user).nearby
     # inactive_user has no user nearby
     assert_equal [], users(:inactive_user).nearby
   end
@@ -119,7 +119,7 @@ class UserTest < Test::Unit::TestCase
     # it should be a one way friend accossitation
     assert_equal 1, Friend.count
     norm = users(:normal_user)
-    sec = users(:second_user)
+    sec = users(:public_user)
     #friend = Friend.new
     #friend.befriender = norm
     #friend.befriendee = sec
@@ -130,10 +130,10 @@ class UserTest < Test::Unit::TestCase
     assert_equal true, norm.is_friends_with?(sec)
     assert_equal false, sec.is_friends_with?(norm)
     assert_equal false, users(:normal_user).is_friends_with?(users(:inactive_user))
-    assert_equal false, users(:second_user).is_friends_with?(users(:normal_user))
-    assert_equal false, users(:second_user).is_friends_with?(users(:inactive_user))
+    assert_equal false, users(:public_user).is_friends_with?(users(:normal_user))
+    assert_equal false, users(:public_user).is_friends_with?(users(:inactive_user))
     assert_equal false, users(:inactive_user).is_friends_with?(users(:normal_user))
-    assert_equal false, users(:inactive_user).is_friends_with?(users(:second_user))
+    assert_equal false, users(:inactive_user).is_friends_with?(users(:public_user))
     #Friend.delete(friend)
     #assert_equal 0, Friend.count
   end

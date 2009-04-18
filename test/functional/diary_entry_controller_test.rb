@@ -117,7 +117,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     end
     
     # and when not logged in as the user who wrote the entry
-    get :view, {:id => diary_entries(:normal_user_entry_1).id, :display_name => 'test'}, {'user' => users(:second_user).id}
+    get :view, {:id => diary_entries(:normal_user_entry_1).id, :display_name => 'test'}, {'user' => users(:public_user).id}
     assert_response :success
     assert_template 'diary_entry/view'
     assert_select "html:root", :count => 1 do

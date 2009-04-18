@@ -56,12 +56,32 @@ class WayControllerTest < ActionController::TestCase
   # -------------------------------------
 
   def test_create
+    ## First check that it fails when creating a way using a non-public user
     nid1 = current_nodes(:used_node_1).id
     nid2 = current_nodes(:used_node_2).id
-    basic_authorization "test@openstreetmap.org", "test"
+    basic_authorization users(:normal_user).email, "test"
 
     # use the first user's open changeset
     changeset_id = changesets(:normal_user_first_change).id
+    
+    # create a way with pre-existing nodes
+    content "<osm><way changeset='#{changeset_id}'>" +
+      "<nd ref='#{nid1}'/><nd ref='#{nid2}'/>" + 
+      "<tag k='test' v='yes' /></way></osm>"
+    put :create
+    # hope for success
+    assert_response :forbidden, 
+        "way upload did not return success status"
+    # read id of created way and search for it
+    wayid = @response.body
+
+    ## Now use a public user
+    nid1 = current_nodes(:used_node_1).id
+    nid2 = current_nodes(:used_node_2).id
+    basic_authorization users(:public_user).email, "test"
+
+    # use the first user's open changeset
+    changeset_id = changesets(:public_user_first_change).id
     
     # create a way with pre-existing nodes
     content "<osm><way changeset='#{changeset_id}'>" +
@@ -85,7 +105,7 @@ class WayControllerTest < ActionController::TestCase
         "saved way does not contain the right node on pos 1"
     assert_equal checkway.changeset_id, changeset_id,
         "saved way does not belong to the correct changeset"
-    assert_equal users(:normal_user).id, checkway.changeset.user_id, 
+    assert_equal users(:public_user).id, checkway.changeset.user_id, 
         "saved way does not belong to user that created it"
     assert_equal true, checkway.visible, 
         "saved way is not visible"
@@ -96,11 +116,45 @@ class WayControllerTest < ActionController::TestCase
   # -------------------------------------
 
   def test_create_invalid
-    basic_authorization "test@openstreetmap.org", "test"
+    ## First test with a private user to make sure that they are not authorized
+    basic_authorization users(:normal_user).email, "test"
 
     # use the first user's open changeset
     open_changeset_id = changesets(:normal_user_first_change).id
     closed_changeset_id = changesets(:normal_user_closed_change).id
+    nid1 = current_nodes(:used_node_1).id
+
+    # create a way with non-existing node
+    content "<osm><way changeset='#{open_changeset_id}'>" + 
+      "<nd ref='0'/><tag k='test' v='yes' /></way></osm>"
+    put :create
+    # expect failure
+    assert_response :forbidden, 
+    "way upload with invalid node using a private user did not return 'forbidden'"
+
+    # create a way with no nodes
+    content "<osm><way changeset='#{open_changeset_id}'>" +
+      "<tag k='test' v='yes' /></way></osm>"
+    put :create
+    # expect failure
+    assert_response :forbidden, 
+    "way upload with no node using a private userdid not return 'forbidden'"
+
+    # create a way inside a closed changeset
+    content "<osm><way changeset='#{closed_changeset_id}'>" +
+      "<nd ref='#{nid1}'/></way></osm>"
+    put :create
+    # expect failure
+    assert_response :forbidden, 
+    "way upload to closed changeset with a private user did not return 'forbidden'"    
+
+    
+    ## Now test with a public user
+    basic_authorization users(:public_user).email, "test"
+
+    # use the first user's open changeset
+    open_changeset_id = changesets(:public_user_first_change).id
+    closed_changeset_id = changesets(:public_user_closed_change).id
     nid1 = current_nodes(:used_node_1).id
 
     # create a way with non-existing node
@@ -137,8 +191,59 @@ class WayControllerTest < ActionController::TestCase
     delete :delete, :id => current_ways(:visible_way).id
     assert_response :unauthorized
 
+    # now set auth using the private user
+    basic_authorization(users(:normal_user).email, "test");  
+
+    # this shouldn't work as with the 0.6 api we need pay load to delete
+    delete :delete, :id => current_ways(:visible_way).id
+    assert_response :forbidden
+    
+    # Now try without having a changeset
+    content "<osm><way id='#{current_ways(:visible_way).id}'></osm>"
+    delete :delete, :id => current_ways(:visible_way).id
+    assert_response :forbidden
+    
+    # try to delete with an invalid (closed) changeset
+    content update_changeset(current_ways(:visible_way).to_xml,
+                             changesets(:normal_user_closed_change).id)
+    delete :delete, :id => current_ways(:visible_way).id
+    assert_response :forbidden
+
+    # try to delete with an invalid (non-existent) changeset
+    content update_changeset(current_ways(:visible_way).to_xml,0)
+    delete :delete, :id => current_ways(:visible_way).id
+    assert_response :forbidden
+
+    # Now try with a valid changeset
+    content current_ways(:visible_way).to_xml
+    delete :delete, :id => current_ways(:visible_way).id
+    assert_response :forbidden
+
+    # check the returned value - should be the new version number
+    # valid delete should return the new version number, which should
+    # be greater than the old version number
+    #assert @response.body.to_i > current_ways(:visible_way).version,
+    #   "delete request should return a new version number for way"
+
+    # this won't work since the way is already deleted
+    content current_ways(:invisible_way).to_xml
+    delete :delete, :id => current_ways(:invisible_way).id
+    assert_response :forbidden
+
+    # this shouldn't work as the way is used in a relation
+    content current_ways(:used_way).to_xml
+    delete :delete, :id => current_ways(:used_way).id
+    assert_response :forbidden, 
+    "shouldn't be able to delete a way used in a relation (#{@response.body}), when done by a private user"
+
+    # this won't work since the way never existed
+    delete :delete, :id => 0
+    assert_response :forbidden
+
+    
+    ### Now check with a public user
     # now set auth
-    basic_authorization("test@openstreetmap.org", "test");  
+    basic_authorization(users(:public_user).email, "test");  
 
     # this shouldn't work as with the 0.6 api we need pay load to delete
     delete :delete, :id => current_ways(:visible_way).id
@@ -151,7 +256,7 @@ class WayControllerTest < ActionController::TestCase
     
     # try to delete with an invalid (closed) changeset
     content update_changeset(current_ways(:visible_way).to_xml,
-                             changesets(:normal_user_closed_change).id)
+                             changesets(:public_user_closed_change).id)
     delete :delete, :id => current_ways(:visible_way).id
     assert_response :conflict
 
@@ -194,8 +299,28 @@ class WayControllerTest < ActionController::TestCase
   ##
   # Try adding a duplicate of an existing tag to a way
   def test_add_duplicate_tags
+    ## Try with the non-public user
     # setup auth
     basic_authorization(users(:normal_user).email, "test")
+
+    # add an identical tag to the way
+    tag_xml = XML::Node.new("tag")
+    tag_xml['k'] = current_way_tags(:t1).k
+    tag_xml['v'] = current_way_tags(:t1).v
+
+    # add the tag into the existing xml
+    way_xml = current_ways(:visible_way).to_xml
+    way_xml.find("//osm/way").first << tag_xml
+
+    # try and upload it
+    content way_xml
+    put :update, :id => current_ways(:visible_way).id
+    assert_response :forbidden, 
+    "adding a duplicate tag to a way for a non-public should fail with 'forbidden'"
+
+    ## Now try with the public user
+    # setup auth
+    basic_authorization(users(:public_user).email, "test")
 
     # add an identical tag to the way
     tag_xml = XML::Node.new("tag")
@@ -217,8 +342,30 @@ class WayControllerTest < ActionController::TestCase
   ##
   # Try adding a new duplicate tags to a way
   def test_new_duplicate_tags
+    ## First test with the non-public user so should be rejected
     # setup auth
     basic_authorization(users(:normal_user).email, "test")
+
+    # create duplicate tag
+    tag_xml = XML::Node.new("tag")
+    tag_xml['k'] = "i_am_a_duplicate"
+    tag_xml['v'] = "foobar"
+
+    # add the tag into the existing xml
+    way_xml = current_ways(:visible_way).to_xml
+
+    # add two copies of the tag
+    way_xml.find("//osm/way").first << tag_xml.copy(true) << tag_xml
+
+    # try and upload it
+    content way_xml
+    put :update, :id => current_ways(:visible_way).id
+    assert_response :forbidden, 
+    "adding new duplicate tags to a way using a non-public user should fail with 'forbidden'"
+    
+    ## Now test with the public user
+    # setup auth
+    basic_authorization(users(:public_user).email, "test")
 
     # create duplicate tag
     tag_xml = XML::Node.new("tag")
@@ -237,6 +384,7 @@ class WayControllerTest < ActionController::TestCase
     assert_response :bad_request, 
        "adding new duplicate tags to a way should fail with 'bad request'"
     assert_equal "Element way/#{current_ways(:visible_way).id} has duplicate tags with key i_am_a_duplicate.", @response.body
+    
   end
 
   ##
@@ -244,8 +392,25 @@ class WayControllerTest < ActionController::TestCase
   # But be a bit subtle - use unicode decoding ambiguities to use different
   # binary strings which have the same decoding.
   def test_invalid_duplicate_tags
+    ## First make sure that you can't with a non-public user
     # setup auth
     basic_authorization(users(:normal_user).email, "test")
+
+    # add the tag into the existing xml
+    way_str = "<osm><way changeset='1'>"
+    way_str << "<tag k='addr:housenumber' v='1'/>"
+    way_str << "<tag k='addr:housenumber' v='2'/>"
+    way_str << "</way></osm>";
+
+    # try and upload it
+    content way_str
+    put :create
+    assert_response :forbidden, 
+    "adding new duplicate tags to a way with a non-public user should fail with 'forbidden'"
+    
+    ## Now do it with a public user
+    # setup auth
+    basic_authorization(users(:public_user).email, "test")
 
     # add the tag into the existing xml
     way_str = "<osm><way changeset='1'>"
