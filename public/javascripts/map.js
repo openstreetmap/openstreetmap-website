@@ -123,7 +123,7 @@ function addBoxToMap(boxbounds) {
    var box = new OpenLayers.Feature.Vector(geometry, {}, {
       strokeWidth: 2,
       strokeColor: '#ee9900',
-      fillOpacity: 0,
+      fillOpacity: 0
    });
    
    vectors.addFeatures(box);
