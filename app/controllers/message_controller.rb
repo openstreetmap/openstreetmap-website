@@ -36,8 +36,7 @@ class MessageController < ApplicationController
     message = Message.find(params[:message_id], :conditions => ["to_user_id = ? or from_user_id = ?", @user.id, @user.id ])
     @body = "On #{message.sent_on} #{message.sender.display_name} wrote:\n\n#{message.body.gsub(/^/, '> ')}" 
     @title = "Re: #{message.title.sub(/^Re:\s*/, '')}"
-    @user_id = message.from_user_id
-    @to_user = User.find(message.to_user_id)
+    @to_user = User.find(message.from_user_id)
     render :action => 'new'
   rescue ActiveRecord::RecordNotFound
     render :action => 'no_such_user', :status => :not_found
