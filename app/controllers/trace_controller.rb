@@ -16,6 +16,11 @@ class TraceController < ApplicationController
     display_name = params[:display_name]
     if target_user.nil? and !display_name.blank?
       target_user = User.find(:first, :conditions => [ "visible = ? and display_name = ?", true, display_name])
+      if target_user.nil?
+        @not_found_user = display_name
+        render :action => 'no_such_user', :status => :not_found
+        return
+      end
     end
 
     # set title
