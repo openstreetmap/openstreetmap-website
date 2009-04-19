@@ -75,16 +75,6 @@ function createMap(divName, options) {
 
    var numZoomLevels = Math.max(mapnik.numZoomLevels, osmarender.numZoomLevels);
 
-   vectors = new OpenLayers.Layer.Vector("Vectors", {
-      displayInLayerSwitcher: false,
-      numZoomLevels: numZoomLevels,
-      maxExtent: new OpenLayers.Bounds(-20037508,-20037508,20037508,20037508),
-      maxResolution: 156543,
-      units: "m",
-      projection: "EPSG:900913"
-   });
-   map.addLayer(vectors);
-
    markers = new OpenLayers.Layer.Markers("Markers", {
       displayInLayerSwitcher: false,
       numZoomLevels: numZoomLevels,
@@ -119,6 +109,13 @@ function addMarkerToMap(position, icon, description) {
 }
 
 function addBoxToMap(boxbounds) {
+   if(!vectors) {
+     // Be aware that IE requires Vector layers be initialised on page load, and not under deferred script conditions
+     vectors = new OpenLayers.Layer.Vector("Box Layer", {
+        displayInLayerSwitcher: false
+     });
+     map.addLayer(vectors);
+   }
    var geometry = boxbounds.toGeometry().transform(epsg4326, map.getProjectionObject());
    var box = new OpenLayers.Feature.Vector(geometry, {}, {
       strokeWidth: 2,

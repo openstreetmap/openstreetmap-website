@@ -111,7 +111,8 @@ end
 
     setMapExtent(bbox);
     <%    if box %>
-    box = addBoxToMap(bbox);
+    // IE requires Vector layers be initialised on page load, and not under deferred script conditions
+    Event.observe(window, 'load', function() {addBoxToMap(bbox)});
     <%    end %>
     <% else %>
     var centre = new OpenLayers.LonLat(<%= lon %>, <%= lat %>);
