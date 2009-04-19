@@ -74,6 +74,17 @@ function createMap(divName, options) {
    map.addLayer(maplint);
 
    var numZoomLevels = Math.max(mapnik.numZoomLevels, osmarender.numZoomLevels);
+
+   vectors = new OpenLayers.Layer.Vector("Vectors", {
+      displayInLayerSwitcher: false,
+      numZoomLevels: numZoomLevels,
+      maxExtent: new OpenLayers.Bounds(-20037508,-20037508,20037508,20037508),
+      maxResolution: 156543,
+      units: "m",
+      projection: "EPSG:900913"
+   });
+   map.addLayer(vectors);
+
    markers = new OpenLayers.Layer.Markers("Markers", {
       displayInLayerSwitcher: false,
       numZoomLevels: numZoomLevels,
@@ -84,17 +95,6 @@ function createMap(divName, options) {
    });
    map.addLayer(markers);
    
-   vectors = new OpenLayers.Layer.Vector("Vectors", {
-      displayInLayerSwitcher: false,
-      numZoomLevels: numZoomLevels,
-      maxExtent: new OpenLayers.Bounds(-20037508,-20037508,20037508,20037508),
-      maxResolution: 156543,
-      units: "m",
-      projection: "EPSG:900913"
-   });
-   map.addLayer(vectors);
-   
-
    return map;
 }
 
