@@ -1,0 +1,22 @@
+<h1>Edits by <%= link_to(h(@display_name), {:controller=>'user', :action=>'view', :display_name=>@display_name}) %></h1>
+
+<% if not @edits or @edits.empty? %>
+<p><b>No visible edits by <%= h(@display_name) %>.</b></p>
+<% else %>
+<%= render :partial => 'changeset_paging_nav' %>
+<table id="keyvalue" cellpadding="3">
+  <tr>
+    <th>ID</th>
+    <th>Saved at</th>
+    <th>Comment</th>
+    <th>Area</th>
+    <th></th>
+  </tr>
+  <%= render :partial => 'changeset', :locals => {:showusername => false},  :collection => @edits %>
+</table>
+<%= render :partial => 'changeset_paging_nav' %>
+<% end %>
+
+<p>For changes by all users see <%=  link_to("Recent Changes", :controller => "browse", :action => "changesets") %> </p>
+<br>
+

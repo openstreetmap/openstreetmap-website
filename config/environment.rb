@@ -5,13 +5,16 @@
 ENV['RAILS_ENV'] ||= 'production'
 
 # Specifies gem version of Rails to use when vendor/rails is not present
-RAILS_GEM_VERSION = '2.0.2' unless defined? RAILS_GEM_VERSION
+RAILS_GEM_VERSION = '2.1.2' unless defined? RAILS_GEM_VERSION
 
 # Set the server URL
 SERVER_URL = ENV['OSM_SERVER_URL'] || 'www.openstreetmap.org'
 
+# Set the generator
+GENERATOR = ENV['OSM_SERVER_GENERATOR'] || 'OpenStreetMap server'
+
 # Application constants needed for routes.rb - must go before Initializer call
-API_VERSION = ENV['OSM_API_VERSION'] || '0.5'
+API_VERSION = ENV['OSM_API_VERSION'] || '0.6'
 
 # Set application status - possible settings are:
 #
@@ -37,6 +40,16 @@ Rails::Initializer.run do |config|
   if OSM_STATUS == :database_offline
     config.frameworks -= [ :active_record ]
   end
+
+  # Specify gems that this application depends on. 
+  # They can then be installed with "rake gems:install" on new installations.
+  # config.gem "bj"
+  # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
+  # config.gem "aws-s3", :lib => "aws/s3"
+  config.gem 'composite_primary_keys', :version => '1.1.0'
+  config.gem 'libxml-ruby', :version => '>= 1.1.1', :lib => 'libxml'
+  config.gem 'rmagick', :lib => 'RMagick'
+  config.gem 'mysql'
 
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.
@@ -64,6 +77,12 @@ Rails::Initializer.run do |config|
   # (create the session table with 'rake db:sessions:create')
   config.action_controller.session_store = :sql_session_store
 
+  # We will use the old style of migrations, rather than the newer
+  # timestamped migrations that were introduced with Rails 2.1, as
+  # it will be confusing to have the numbered and timestamped migrations
+  # together in the same folder.
+  config.active_record.timestamped_migrations = false
+
   # Use SQL instead of Active Record's schema dumper when creating the test database.
   # This is necessary if your schema can't be completely dumped by the schema dumper,
   # like if you have constraints or database-specific column types
@@ -73,5 +92,5 @@ Rails::Initializer.run do |config|
   # config.active_record.observers = :cacher, :garbage_collector
 
   # Make Active Record use UTC-base instead of local time
-  # config.active_record.default_timezone = :utc
+  config.active_record.default_timezone = :utc
 end

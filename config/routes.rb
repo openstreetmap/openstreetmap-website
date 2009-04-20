@@ -2,11 +2,21 @@ ActionController::Routing::Routes.draw do |map|
 
   # API
   map.connect "api/capabilities", :controller => 'api', :action => 'capabilities'
-
+  
+  map.connect "api/#{API_VERSION}/changeset/create", :controller => 'changeset', :action => 'create'
+  map.connect "api/#{API_VERSION}/changeset/:id/upload", :controller => 'changeset', :action => 'upload', :id => /\d+/
+  map.connect "api/#{API_VERSION}/changeset/:id/download", :controller => 'changeset', :action => 'download', :id => /\d+/
+  map.connect "api/#{API_VERSION}/changeset/:id/expand_bbox", :controller => 'changeset', :action => 'expand_bbox', :id => /\d+/
+  map.connect "api/#{API_VERSION}/changeset/:id", :controller => 'changeset', :action => 'read', :id => /\d+/, :conditions => { :method => :get }
+  map.connect "api/#{API_VERSION}/changeset/:id", :controller => 'changeset', :action => 'update', :id => /\d+/, :conditions => { :method => :put }
+  map.connect "api/#{API_VERSION}/changeset/:id/close", :controller => 'changeset', :action => 'close', :id =>/\d+/
+  map.connect "api/#{API_VERSION}/changesets", :controller => 'changeset', :action => 'query'
+  
   map.connect "api/#{API_VERSION}/node/create", :controller => 'node', :action => 'create'
   map.connect "api/#{API_VERSION}/node/:id/ways", :controller => 'way', :action => 'ways_for_node', :id => /\d+/
   map.connect "api/#{API_VERSION}/node/:id/relations", :controller => 'relation', :action => 'relations_for_node', :id => /\d+/
   map.connect "api/#{API_VERSION}/node/:id/history", :controller => 'old_node', :action => 'history', :id => /\d+/
+  map.connect "api/#{API_VERSION}/node/:id/:version", :controller => 'old_node', :action => 'version', :id => /\d+/, :version => /\d+/
   map.connect "api/#{API_VERSION}/node/:id", :controller => 'node', :action => 'read', :id => /\d+/, :conditions => { :method => :get }
   map.connect "api/#{API_VERSION}/node/:id", :controller => 'node', :action => 'update', :id => /\d+/, :conditions => { :method => :put }
   map.connect "api/#{API_VERSION}/node/:id", :controller => 'node', :action => 'delete', :id => /\d+/, :conditions => { :method => :delete }
@@ -16,12 +26,12 @@ ActionController::Routing::Routes.draw do |map|
   map.connect "api/#{API_VERSION}/way/:id/history", :controller => 'old_way', :action => 'history', :id => /\d+/
   map.connect "api/#{API_VERSION}/way/:id/full", :controller => 'way', :action => 'full', :id => /\d+/
   map.connect "api/#{API_VERSION}/way/:id/relations", :controller => 'relation', :action => 'relations_for_way', :id => /\d+/
+  map.connect "api/#{API_VERSION}/way/:id/:version", :controller => 'old_way', :action => 'version', :id => /\d+/, :version => /\d+/
   map.connect "api/#{API_VERSION}/way/:id", :controller => 'way', :action => 'read', :id => /\d+/, :conditions => { :method => :get }
   map.connect "api/#{API_VERSION}/way/:id", :controller => 'way', :action => 'update', :id => /\d+/, :conditions => { :method => :put }
   map.connect "api/#{API_VERSION}/way/:id", :controller => 'way', :action => 'delete', :id => /\d+/, :conditions => { :method => :delete }
   map.connect "api/#{API_VERSION}/ways", :controller => 'way', :action => 'ways', :id => nil
 
-  map.connect "api/#{API_VERSION}/capabilities", :controller => 'api', :action => 'capabilities'
   map.connect "api/#{API_VERSION}/relation/create", :controller => 'relation', :action => 'create'
   map.connect "api/#{API_VERSION}/relation/:id/relations", :controller => 'relation', :action => 'relations_for_relation', :id => /\d+/
   map.connect "api/#{API_VERSION}/relation/:id/history", :controller => 'old_relation', :action => 'history', :id => /\d+/
@@ -54,14 +64,14 @@ ActionController::Routing::Routes.draw do |map|
   map.connect "api/#{API_VERSION}/gpx/:id/details", :controller => 'trace', :action => 'api_details'
   map.connect "api/#{API_VERSION}/gpx/:id/data", :controller => 'trace', :action => 'api_data'
   
-  # Potlatch API
+  # AMF (ActionScript) API
   
   map.connect "api/#{API_VERSION}/amf/read", :controller =>'amf', :action =>'amf_read'
   map.connect "api/#{API_VERSION}/amf/write", :controller =>'amf', :action =>'amf_write'
   map.connect "api/#{API_VERSION}/swf/trackpoints", :controller =>'swf', :action =>'trackpoints'
   
   # Data browsing
-  map.connect '/browse', :controller => 'browse', :action => 'index'
+  map.connect '/browse', :controller => 'changeset', :action => 'list'
   map.connect '/browse/start', :controller => 'browse', :action => 'start'
   map.connect '/browse/way/:id', :controller => 'browse', :action => 'way', :id => /\d+/
   map.connect '/browse/way/:id/history', :controller => 'browse', :action => 'way_history', :id => /\d+/
@@ -69,11 +79,13 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/browse/node/:id/history', :controller => 'browse', :action => 'node_history', :id => /\d+/
   map.connect '/browse/relation/:id', :controller => 'browse', :action => 'relation', :id => /\d+/
   map.connect '/browse/relation/:id/history', :controller => 'browse', :action => 'relation_history', :id => /\d+/
+  map.connect '/browse/changeset/:id', :controller => 'browse', :action => 'changeset', :id => /\d+/
+  map.connect '/browse/changesets', :controller => 'changeset', :action => 'list'
   
   # web site
-
   map.connect '/', :controller => 'site', :action => 'index'
   map.connect '/edit', :controller => 'site', :action => 'edit'
+  map.connect '/history', :controller => 'changeset', :action => 'list_bbox'
   map.connect '/export', :controller => 'site', :action => 'export'
   map.connect '/login', :controller => 'user', :action => 'login'
   map.connect '/logout', :controller => 'user', :action => 'logout'
@@ -90,6 +102,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.connect '/index.html', :controller => 'site', :action => 'index'
   map.connect '/edit.html', :controller => 'site', :action => 'edit'
+  map.connect '/history.html', :controller => 'changeset', :action => 'list_bbox'
   map.connect '/export.html', :controller => 'site', :action => 'export'
   map.connect '/search.html', :controller => 'way_tag', :action => 'search'
   map.connect '/login.html', :controller => 'user', :action => 'login'
@@ -126,6 +139,7 @@ ActionController::Routing::Routes.draw do |map|
 
   # user pages
   map.connect '/user/:display_name', :controller => 'user', :action => 'view'
+  map.connect '/user/:display_name/edits', :controller => 'changeset', :action => 'list_user'
   map.connect '/user/:display_name/make_friend', :controller => 'user', :action => 'make_friend'
   map.connect '/user/:display_name/remove_friend', :controller => 'user', :action => 'remove_friend'
   map.connect '/user/:display_name/diary', :controller => 'diary_entry', :action => 'list'
@@ -140,7 +154,8 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/diary/rss', :controller => 'diary_entry', :action => 'rss'
   map.connect '/diary/:language', :controller => 'diary_entry', :action => 'list'
   map.connect '/diary/:language/rss', :controller => 'diary_entry', :action => 'rss'
-
+  
+  
   # test pages
   map.connect '/test/populate/:table/:from/:count', :controller => 'test', :action => 'populate'
   map.connect '/test/populate/:table/:count', :controller => 'test', :action => 'populate', :from => 1

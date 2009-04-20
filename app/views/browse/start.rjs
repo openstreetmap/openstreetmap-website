@@ -189,7 +189,7 @@ page << <<EOJ
     if (size > 0.25) {
       setStatus("Unable to load: Bounding box size of " + size + " is too large (must be smaller than 0.25)");
     } else {
-      loadGML("/api/0.5/map?bbox=" + projected.toBBOX());
+      loadGML("/api/#{API_VERSION}/map?bbox=" + projected.toBBOX());
     }
   }
 
@@ -393,7 +393,7 @@ page << <<EOJ
     this.link.href = "";
     this.link.innerHTML = "Wait...";
 
-    new Ajax.Request("/api/0.5/" + this.type + "/" + this.feature.osm_id + "/history", {
+    new Ajax.Request("/api/#{API_VERSION}/" + this.type + "/" + this.feature.osm_id + "/history", {
       onComplete: OpenLayers.Function.bind(displayHistory, this)
     });
 

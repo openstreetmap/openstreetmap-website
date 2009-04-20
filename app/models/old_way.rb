@@ -1,14 +1,19 @@
 class OldWay < ActiveRecord::Base
+  include ConsistencyValidations
+  
   set_table_name 'ways'
 
-  belongs_to :user
+  belongs_to :changeset
 
+  validates_associated :changeset
+  
   def self.from_way(way)
     old_way = OldWay.new
     old_way.visible = way.visible
-    old_way.user_id = way.user_id
+    old_way.changeset_id = way.changeset_id
     old_way.timestamp = way.timestamp
     old_way.id = way.id
+    old_way.version = way.version
     old_way.nds = way.nds
     old_way.tags = way.tags
     return old_way
@@ -93,7 +98,12 @@ class OldWay < ActiveRecord::Base
     el1['id'] = self.id.to_s
     el1['visible'] = self.visible.to_s
     el1['timestamp'] = self.timestamp.xmlschema
-    el1['user'] = self.user.display_name if self.user.data_public?
+    if self.changeset.user.data_public?
+      el1['user'] = self.changeset.user.display_name
+      el1['uid'] = self.changeset.user.id.to_s
+    end
+    el1['version'] = self.version.to_s
+    el1['changeset'] = self.changeset.id.to_s
     
     self.old_nodes.each do |nd| # FIXME need to make sure they come back in the right order
       e = XML::Node.new 'nd'
@@ -114,27 +124,29 @@ class OldWay < ActiveRecord::Base
   # For get_nodes_undelete, uses same nodes, even if they've moved since
   # For get_nodes_revert,   allocates new ids 
   # Currently returns Potlatch-style array
-  
+  # where [5] indicates whether latest version is usable as is (boolean)
+  # (i.e. is it visible? are we actually reverting to an earlier version?)
+
   def get_nodes_undelete
 	points = []
 	self.nds.each do |n|
 	  node=Node.find(n)
-	  points << [node.lon, node.lat, n, node.visible ? 1 : 0, node.tags_as_hash]
+	  points << [node.lon, node.lat, n, node.version, node.tags_as_hash, node.visible]
     end
 	points
   end
   
-  def get_nodes_revert
+  def get_nodes_revert(timestamp)
     points=[]
     self.nds.each do |n|
-      oldnode=OldNode.find(:first, :conditions=>['id=? AND timestamp<=?',n,self.timestamp], :order=>"timestamp DESC")
+      oldnode=OldNode.find(:first, :conditions=>['id=? AND timestamp<=?',n,timestamp], :order=>"timestamp DESC")
       curnode=Node.find(n)
-      id=n; v=curnode.visible ? 1 : 0
+      id=n; reuse=curnode.visible
       if oldnode.lat!=curnode.lat or oldnode.lon!=curnode.lon or oldnode.tags!=curnode.tags then
         # node has changed: if it's in other ways, give it a new id
-        if curnode.ways-[self.id] then id=-1; v=nil end
+        if curnode.ways-[self.id] then id=-1; reuse=false end
       end
-      points << [oldnode.lon, oldnode.lat, id, v, oldnode.tags_as_hash]
+      points << [oldnode.lon, oldnode.lat, id, curnode.version, oldnode.tags_as_hash, reuse]
     end
     points
   end

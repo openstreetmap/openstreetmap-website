@@ -29,7 +29,7 @@ class CleanupOsmDb < ActiveRecord::Migration
     change_column "current_ways", "user_id", :bigint, :limit => 20, :null => false
     change_column "current_ways", "timestamp", :datetime, :null => false
     change_column "current_ways", "visible", :boolean, :null => false
-    execute "ALTER TABLE current_ways ENGINE = InnoDB"
+    change_engine "current_ways", "InnoDB"
 
     change_column "diary_entries", "title", :string, :null => false
     change_column "diary_entries", "body", :text, :null => false
@@ -39,7 +39,9 @@ class CleanupOsmDb < ActiveRecord::Migration
     add_index "friends", ["user_id"], :name => "friends_user_id_idx"
 
     remove_index "gps_points", :name => "points_uid_idx"
+    remove_index "gps_points", :name => "points_idx"
     remove_column "gps_points", "user_id"
+    add_index "gps_points", ["latitude", "longitude"], :name => "points_idx"
     change_column "gps_points", "trackid", :integer, :null => false
     change_column "gps_points", "latitude", :integer, :null => false
     change_column "gps_points", "longitude", :integer, :null => false
@@ -87,8 +89,8 @@ class CleanupOsmDb < ActiveRecord::Migration
     change_column "users", "creation_time", :datetime, :null => false
     change_column "users", "display_name", :string, :default => "", :null => false
     change_column "users", "data_public", :boolean, :default => false, :null => false
-    change_column "users", "home_lat", :double
-    change_column "users", "home_lon", :double
+    change_column "users", "home_lat", :double, :default => nil
+    change_column "users", "home_lon", :double, :default => nil
     remove_index "users", :name => "users_email_idx"
     add_index "users", ["email"], :name => "users_email_idx", :unique => true
     remove_index "users", :name => "users_display_name_idx"
@@ -150,14 +152,10 @@ class CleanupOsmDb < ActiveRecord::Migration
     change_column "nodes", "id", :bigint, :limit => 64
 
     create_table "meta_areas", myisam_table do |t|
-      t.column "id",        :bigint,  :limit => 64, :null => false
+      t.column "id",        :bigint_pk_64, :null => false
       t.column "user_id",   :bigint,  :limit => 20
       t.column "timestamp", :datetime
     end
-
-    add_primary_key "meta_areas", ["id"]
-
-    change_column "meta_areas", "id", :bigint, :limit => 64, :null => false, :options => "AUTO_INCREMENT"
 
     remove_index "messages", :name => "messages_to_user_id_idx"
     change_column "messages", "message_read", :boolean, :default => false
@@ -195,7 +193,7 @@ class CleanupOsmDb < ActiveRecord::Migration
     change_column "diary_entries", "body", :text
     change_column "diary_entries", "title", :string, :default => nil
 
-    execute "ALTER TABLE current_ways ENGINE = MyISAM"
+    change_engine "current_ways", "MyISAM"
     change_column "current_ways", "visible", :boolean
     change_column "current_ways", "timestamp", :datetime
     change_column "current_ways", "user_id", :bigint, :limit => 20
@@ -223,6 +221,6 @@ class CleanupOsmDb < ActiveRecord::Migration
     change_column "current_nodes", "user_id", :bigint, :limit => 20
     change_column "current_nodes", "longitude", :double
     change_column "current_nodes", "latitude", :double
-    change_column "current_nodes", "id", :bigint, :limit => 64, :null => false, :options => "AUTO_INCREMENT"
+    change_column "current_nodes", "id", :bigint_auto_64
   end
 end

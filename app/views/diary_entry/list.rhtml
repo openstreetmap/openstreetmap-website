@@ -4,29 +4,33 @@
  <%= image_tag url_for_file_column(@this_user, "image") %>
 <% end %>
 
-<br />
 
 <% if @this_user %>
   <% if @user == @this_user %>
-    <%= link_to 'New diary entry', :controller => 'diary_entry', :action => 'new', :display_name => @user.display_name %>
+    <%= link_to image_tag("new.png", :border=>0) + 'New diary entry', {:controller => 'diary_entry', :action => 'new', :display_name => @user.display_name}, {:title => 'Compose a new entry in your user diary'} %>
   <% end %>
 <% else %>
   <% if @user %>
-    <%= link_to 'New diary entry', :controller => 'diary_entry', :action => 'new', :display_name => @user.display_name %>
+    <%= link_to image_tag("new.png", :border=>0) + 'New diary entry', {:controller => 'diary_entry', :action => 'new', :display_name => @user.display_name}, {:title => 'Compose a new entry in your user diary'} %>
   <% end %>
 <% end %>
 
-<h3>Recent diary entries:</h3>
 
-<%= render :partial => 'diary_entry', :collection => @entries %>
+<% if @entries.empty? %>
+  <p>No diary entries</p>
+<% else %>
+  <p>Recent diary entries:</p>
 
-<%= link_to "Older Entries", { :page => @entry_pages.current.next } if @entry_pages.current.next %>
-<% if @entry_pages.current.next and @entry_pages.current.previous %>
-|
+  <hr />
+
+  <%= render :partial => 'diary_entry', :collection => @entries %>
+	
+  <%= link_to "Older Entries", { :page => @entry_pages.current.next } if @entry_pages.current.next %>
+  <% if @entry_pages.current.next and @entry_pages.current.previous %>|<% end %>
+  <%= link_to "Newer Entries", { :page => @entry_pages.current.previous } if @entry_pages.current.previous %>
+
+  <br />
 <% end %>
-<%= link_to "Newer Entries", { :page => @entry_pages.current.previous } if @entry_pages.current.previous %>
-
-<br />
 
 <%= rss_link_to :action => 'rss' %>
 

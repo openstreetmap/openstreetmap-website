@@ -56,7 +56,9 @@
       var nearmarker = addMarkerToMap(new OpenLayers.LonLat(nearest[i].home_lon, nearest[i].home_lat), near_icon.clone(), description);
     }
 
-    map.events.register("click", map, setHome);
+    if (document.getElementById('updatehome')) {
+      map.events.register("click", map, setHome);
+    }
   }        
 
   function setHome( e ) { 

@@ -1,0 +1,49 @@
+<tr>
+  <% cl = cycle('table0', 'table1') %>
+
+  <td class="<%= cl %>">
+    #<%= changeset.id %>
+  </td>
+
+  <td class="<%= cl %>">
+    <% if changeset.closed_at > DateTime.now %> (still editing)
+    <% else %><%= changeset.closed_at.strftime("%d %b %Y %H:%M") %><% end %>
+  </td>
+
+    
+  <%if showusername %>  
+    <td class="<%= cl %>">
+    <% if changeset.user.data_public? %>
+      <%= link_to h(changeset.user.display_name), :controller => "user", :action => "view", :display_name => changeset.user.display_name %>
+    <% else %>
+      <i>Anonymous</i>
+    <% end %>
+    </td>
+  <% end %>
+    
+  <td class="<%= cl %>">
+    <% if changeset.tags['comment'] %>
+      <%= h(changeset.tags['comment']) %>
+    <% else %>
+      (none)
+    <% end %>
+  </td>
+
+  <td class="<%= cl %>">
+    <% if changeset.min_lat.nil? %>
+      (no edits)
+    <% else 
+      minlon = changeset.min_lon/GeoRecord::SCALE.to_f
+      minlat = changeset.min_lat/GeoRecord::SCALE.to_f
+      maxlon = changeset.max_lon/GeoRecord::SCALE.to_f
+      maxlat = changeset.max_lat/GeoRecord::SCALE.to_f
+    %>
+      (<a href='/?minlon=<%= minlon %>&minlat=<%= minlat %>&maxlon=<%= maxlon %>&maxlat=<%= maxlat %>&box=yes' title='show area box'><%= format("%0.3f",minlon) -%>,<%= format("%0.3f",minlat) -%>,<%= format("%0.3f",maxlon) -%>,<%= format("%0.3f",maxlat) -%></a>) 
+  <% end %>
+  </td>
+
+  <td class="<%= cl %>">
+    <%= link_to 'more', {:controller => 'browse', :action => 'changeset', :id => changeset.id}, {:title => 'View changeset details'} %> 
+  </td>
+
+</tr>

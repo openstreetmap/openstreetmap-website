@@ -11,12 +11,13 @@ class ApiController < ApplicationController
   @@count = COUNT
 
   # The maximum area you're allowed to request, in square degrees
-  MAX_REQUEST_AREA = 0.25
+  MAX_REQUEST_AREA = APP_CONFIG['max_request_area']
 
   # Number of GPS trace/trackpoints returned per-page
-  TRACEPOINTS_PER_PAGE = 5000
+  TRACEPOINTS_PER_PAGE = APP_CONFIG['tracepoints_per_page']
 
-  
+  # Get an XML response containing a list of tracepoints that have been uploaded
+  # within the specified bounding box, and in the specified page.
   def trackpoints
     @@count+=1
     #retrieve the page number
@@ -84,6 +85,15 @@ class ApiController < ApplicationController
     render :text => doc.to_s, :content_type => "text/xml"
   end
 
+  # This is probably the most common call of all. It is used for getting the 
+  # OSM data for a specified bounding box, usually for editing. First the
+  # bounding box (bbox) is checked to make sure that it is sane. All nodes 
+  # are searched, then all the ways that reference those nodes are found.
+  # All Nodes that are referenced by those ways are fetched and added to the list
+  # of nodes.
+  # Then all the relations that reference the already found nodes and ways are
+  # fetched. All the nodes and ways that are referenced by those ways are then 
+  # fetched. Finally all the xml is returned.
   def map
     GC.start
     @@count+=1
@@ -109,18 +119,19 @@ class ApiController < ApplicationController
       return
     end
 
-    @nodes = Node.find_by_area(min_lat, min_lon, max_lat, max_lon, :conditions => "visible = 1", :limit => APP_CONFIG['max_number_of_nodes']+1)
+    # FIXME um why is this area using a different order for the lat/lon from above???
+    @nodes = Node.find_by_area(min_lat, min_lon, max_lat, max_lon, :conditions => {:visible => true}, :limit => APP_CONFIG['max_number_of_nodes']+1)
     # get all the nodes, by tag not yet working, waiting for change from NickB
     # need to be @nodes (instance var) so tests in /spec can be performed
     #@nodes = Node.search(bbox, params[:tag])
 
     node_ids = @nodes.collect(&:id)
     if node_ids.length > APP_CONFIG['max_number_of_nodes']
-      report_error("You requested too many nodes (limit is 50,000). Either request a smaller area, or use planet.osm")
+      report_error("You requested too many nodes (limit is #{APP_CONFIG['max_number_of_nodes']}). Either request a smaller area, or use planet.osm")
       return
     end
     if node_ids.length == 0
-      render :text => "<osm version='0.5'></osm>", :content_type => "text/xml"
+      render :text => "<osm version='#{API_VERSION}' generator='#{GENERATOR}'></osm>", :content_type => "text/xml"
       return
     end
 
@@ -176,15 +187,15 @@ class ApiController < ApplicationController
       end
     end 
 
-    relations = Relation.find_for_nodes(visible_nodes.keys, :conditions => "visible = 1") +
-                Relation.find_for_ways(way_ids, :conditions => "visible = 1")
+    relations = Relation.find_for_nodes(visible_nodes.keys, :conditions => {:visible => true}) +
+                Relation.find_for_ways(way_ids, :conditions => {:visible => true})
 
     # we do not normally return the "other" partners referenced by an relation, 
     # e.g. if we return a way A that is referenced by relation X, and there's 
     # another way B also referenced, that is not returned. But we do make 
     # an exception for cases where an relation references another *relation*; 
     # in that case we return that as well (but we don't go recursive here)
-    relations += Relation.find_for_relations(relations.collect { |r| r.id }, :conditions => "visible = 1")
+    relations += Relation.find_for_relations(relations.collect { |r| r.id }, :conditions => {:visible => true})
 
     # this "uniq" may be slightly inefficient; it may be better to first collect and output
     # all node-related relations, then find the *not yet covered* way-related ones etc.
@@ -204,6 +215,8 @@ class ApiController < ApplicationController
     end
   end
 
+  # Get a list of the tiles that have changed within a specified time
+  # period
   def changes
     zoom = (params[:zoom] || '12').to_i
 
@@ -212,12 +225,12 @@ class ApiController < ApplicationController
       endtime = Time.parse(params[:end])
     else
       hours = (params[:hours] || '1').to_i.hours
-      endtime = Time.now
+      endtime = Time.now.getutc
       starttime = endtime - hours
     end
 
     if zoom >= 1 and zoom <= 16 and
-       endtime >= starttime and endtime - starttime <= 24.hours
+       endtime > starttime and endtime - starttime <= 24.hours
       mask = (1 << zoom) - 1
 
       tiles = Node.count(:conditions => ["timestamp BETWEEN ? AND ?", starttime, endtime],
@@ -245,21 +258,32 @@ class ApiController < ApplicationController
 
       render :text => doc.to_s, :content_type => "text/xml"
     else
-      render :nothing => true, :status => :bad_request
+      render :text => "Requested zoom is invalid, or the supplied start is after the end time, or the start duration is more than 24 hours", :status => :bad_request
     end
   end
 
+  # External apps that use the api are able to query the api to find out some 
+  # parameters of the API. It currently returns: 
+  # * minimum and maximum API versions that can be used.
+  # * maximum area that can be requested in a bbox request in square degrees
+  # * number of tracepoints that are returned in each tracepoints page
   def capabilities
     doc = OSM::API.new.get_xml_doc
 
     api = XML::Node.new 'api'
     version = XML::Node.new 'version'
-    version['minimum'] = '0.5';
-    version['maximum'] = '0.5';
+    version['minimum'] = "#{API_VERSION}";
+    version['maximum'] = "#{API_VERSION}";
     api << version
     area = XML::Node.new 'area'
     area['maximum'] = MAX_REQUEST_AREA.to_s;
     api << area
+    tracepoints = XML::Node.new 'tracepoints'
+    tracepoints['per_page'] = APP_CONFIG['tracepoints_per_page'].to_s
+    api << tracepoints
+    waynodes = XML::Node.new 'waynodes'
+    waynodes['maximum'] = APP_CONFIG['max_number_of_way_nodes'].to_s
+    api << waynodes
     
     doc.root << api
 

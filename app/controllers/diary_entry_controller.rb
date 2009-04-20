@@ -39,6 +39,8 @@ class DiaryEntryController < ApplicationController
         redirect_to :controller => 'diary_entry', :action => 'view', :id => params[:id]
       end
     end
+  rescue ActiveRecord::RecordNotFound
+    render :action => "no_such_entry", :status => :not_found
   end
 
   def comment
@@ -55,7 +57,7 @@ class DiaryEntryController < ApplicationController
 
   def list
     if params[:display_name]
-      @this_user = User.find_by_display_name(params[:display_name], :conditions => "visible = 1")
+      @this_user = User.find_by_display_name(params[:display_name], :conditions => {:visible => true})
 
       if @this_user
         @title = @this_user.display_name + "'s diary"
@@ -71,7 +73,7 @@ class DiaryEntryController < ApplicationController
     else
       @title = "Users' diaries"
       @entry_pages, @entries = paginate(:diary_entries, :include => :user,
-                                        :conditions => "users.visible = 1",
+                                        :conditions => ["users.visible = ?", true],
                                         :order => 'created_at DESC',
                                         :per_page => 20)
     end
@@ -79,13 +81,13 @@ class DiaryEntryController < ApplicationController
 
   def rss
     if params[:display_name]
-      user = User.find_by_display_name(params[:display_name], :conditions => "visible = 1")
+      user = User.find_by_display_name(params[:display_name], :conditions => {:visible => true})
 
       if user
         @entries = DiaryEntry.find(:all, :conditions => ['user_id = ?', user.id], :order => 'created_at DESC', :limit => 20)
         @title = "OpenStreetMap diary entries for #{user.display_name}"
         @description = "Recent OpenStreetmap diary entries from #{user.display_name}"
-        @link = "http://www.openstreetmap.org/user/#{user.display_name}/diary"
+        @link = "http://#{SERVER_URL}/user/#{user.display_name}/diary"
 
         render :content_type => Mime::RSS
       else
@@ -93,21 +95,22 @@ class DiaryEntryController < ApplicationController
       end
     else
       @entries = DiaryEntry.find(:all, :include => :user,
-                                 :conditions => "users.visible = 1",
+                                 :conditions => ["users.visible = ?", true],
                                  :order => 'created_at DESC', :limit => 20)
       @title = "OpenStreetMap diary entries"
       @description = "Recent diary entries from users of OpenStreetMap"
-      @link = "http://www.openstreetmap.org/diary"
+      @link = "http://#{SERVER_URL}/diary"
 
       render :content_type => Mime::RSS
     end
   end
 
   def view
-    user = User.find_by_display_name(params[:display_name], :conditions => "visible = 1")
+    user = User.find_by_display_name(params[:display_name], :conditions => {:visible => true})
 
     if user
       @entry = DiaryEntry.find(:first, :conditions => ['user_id = ? AND id = ?', user.id, params[:id]])
+      @title = "Users' diaries | #{params[:display_name]}"
     else
       @not_found_user = params[:display_name]
 

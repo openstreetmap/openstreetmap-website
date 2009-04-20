@@ -13,17 +13,14 @@ class UserEnhancements < ActiveRecord::Migration
     add_primary_key "user_preferences", ["user_id", "k"]
 
     create_table "user_tokens", innodb_table do |t|
-      t.column "id",      :bigint,   :limit => 20, :null => false
+      t.column "id",      :bigint_pk, :null => false
       t.column "user_id", :bigint,   :limit => 20, :null => false
       t.column "token",   :string,   :null => false
       t.column "expiry",  :datetime, :null => false
     end
 
-    add_primary_key "user_tokens", ["id"]
     add_index "user_tokens", ["token"], :name => "user_tokens_token_idx", :unique => true
     add_index "user_tokens", ["user_id"], :name => "user_tokens_user_id_idx"
-
-    change_column "user_tokens", "id", :bigint, :limit => 20, :null => false, :options => "AUTO_INCREMENT"
 
     User.find(:all, :conditions => "token is not null").each do |user|
       UserToken.create(:user_id => user.id, :token => user.token, :expiry => 1.week.from_now)

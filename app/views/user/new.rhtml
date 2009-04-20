@@ -1,4 +1,4 @@
-<h1>Create a user account</h1>
+<h1>Create a User Account</h1>
 
 <% if Acl.find_by_address(request.remote_ip, :conditions => {:k => "no_account_creation"}) %>
 
@@ -27,17 +27,19 @@
 <%= error_messages_for 'user' %>
 
 <% form_tag :action => 'save' do %>
-<table>
-  <tr><td>Email Address</td><td><%= text_field('user', 'email',{:size => 50, :maxlength => 255}) %></td></tr>
-  <tr><td>Confirm Email Address</td><td><%= text_field('user', 'email_confirmation',{:size => 50, :maxlength => 255}) %></td></tr>
-  <tr><td>Display Name</td><td><%= text_field('user', 'display_name',{:size => 50, :maxlength => 255}) %></td></tr>
-  <tr><td>Password</td><td><%= password_field('user', 'pass_crypt',{:size => 50, :maxlength => 255}) %></td></tr>
-  <tr><td>Confirm Password</td><td><%= password_field('user', 'pass_crypt_confirmation',{:size => 50, :maxlength => 255}) %></td></tr>
+<table id="loginForm">
+  <tr><td class="fieldName">Email Address : </td><td><%= text_field('user', 'email',{:size => 50, :maxlength => 255, :tabindex => 1}) %></td></tr>
+  <tr><td class="fieldName">Confirm Email Address : </td><td><%= text_field('user', 'email_confirmation',{:size => 50, :maxlength => 255, :tabindex => 2}) %></td></tr>
+  <tr><td></td><td><span class="minorNote">Not displayed publicly (see <a href="http://wiki.openstreetmap.org/index.php/Privacy_Policy" title="wiki privacy policy including section on email addresses">privacy policy)</span></td></tr>
+  <tr><td colspan=2>&nbsp;<!--vertical spacer--></td></tr>
+  <tr><td class="fieldName">Display Name : </td><td><%= text_field('user', 'display_name',{:size => 30, :maxlength => 255, :tabindex => 3}) %></td></tr>
+  <tr><td colspan=2>&nbsp;<!--vertical spacer--></td></tr>
+  <tr><td class="fieldName">Password : </td><td><%= password_field('user', 'pass_crypt',{:size => 30, :maxlength => 255, :tabindex => 4}) %></td></tr>
+  <tr><td class="fieldName">Confirm Password : </td><td><%= password_field('user', 'pass_crypt_confirmation',{:size => 30, :maxlength => 255, :tabindex => 5}) %></td></tr>
+  
+  <tr><td colspan=2>&nbsp;<!--vertical spacer--></td></tr>
+  <tr><td></td><td align=right><input type="submit" value="Signup" tabindex="6"></td></tr>
 </table>
-<br>
-<br>
-<input type="submit" value="Signup">
-
 <% end %>
 
 <% end %>

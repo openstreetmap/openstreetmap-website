@@ -5,26 +5,28 @@ class NodeController < ApplicationController
 
   session :off
   before_filter :authorize, :only => [:create, :update, :delete]
+  before_filter :require_public_data, :only => [:create, :update, :delete]
   before_filter :check_api_writable, :only => [:create, :update, :delete]
   before_filter :check_api_readable, :except => [:create, :update, :delete]
   after_filter :compress_output
 
   # Create a node from XML.
   def create
-    if request.put?
-      node = Node.from_xml(request.raw_post, true)
+    begin
+      if request.put?
+        node = Node.from_xml(request.raw_post, true)
 
-      if node
-        node.user_id = @user.id
-        node.visible = true
-        node.save_with_history!
-
-        render :text => node.id.to_s, :content_type => "text/plain"
+        if node
+          node.create_with_history @user
+          render :text => node.id.to_s, :content_type => "text/plain"
+        else
+          render :nothing => true, :status => :bad_request
+        end
       else
-        render :nothing => true, :status => :bad_request
+        render :nothing => true, :status => :method_not_allowed
       end
-    else
-      render :nothing => true, :status => :method_not_allowed
+    rescue OSM::APIError => ex
+      render ex.render_opts
     end
   end
 
@@ -32,7 +34,7 @@ class NodeController < ApplicationController
   def read
     begin
       node = Node.find(params[:id])
-      if node.visible
+      if node.visible?
         response.headers['Last-Modified'] = node.timestamp.rfc822
         render :text => node.to_xml.to_s, :content_type => "text/xml"
        else
@@ -42,7 +44,7 @@ class NodeController < ApplicationController
       render :nothing => true, :status => :not_found
     end
   end
-
+  
   # Update a node from given XML
   def update
     begin
@@ -50,49 +52,40 @@ class NodeController < ApplicationController
       new_node = Node.from_xml(request.raw_post)
 
       if new_node and new_node.id == node.id
-        node.user_id = @user.id
-        node.latitude = new_node.latitude 
-        node.longitude = new_node.longitude
-        node.tags = new_node.tags
-        node.visible = true
-        node.save_with_history!
+        node.update_from(new_node, @user)
+        render :text => node.version.to_s, :content_type => "text/plain"
+      else
+        render :nothing => true, :status => :bad_request
+      end
+    rescue OSM::APIError => ex
+      render ex.render_opts
+    rescue ActiveRecord::RecordNotFound
+      render :nothing => true, :status => :not_found
+    end
+  end
 
-        render :nothing => true
+  # Delete a node. Doesn't actually delete it, but retains its history 
+  # in a wiki-like way. We therefore treat it like an update, so the delete
+  # method returns the new version number.
+  def delete
+    begin
+      node = Node.find(params[:id])
+      new_node = Node.from_xml(request.raw_post)
+      
+      if new_node and new_node.id == node.id
+        node.delete_with_history!(new_node, @user)
+        render :text => node.version.to_s, :content_type => "text/plain"
       else
         render :nothing => true, :status => :bad_request
       end
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
+    rescue OSM::APIError => ex
+      render ex.render_opts
     end
   end
 
-  # Delete a node. Doesn't actually delete it, but retains its history in a wiki-like way.
-  # FIXME remove all the fricking SQL
-  def delete
-    begin
-      node = Node.find(params[:id])
-
-      if node.visible
-        if WayNode.find(:first, :joins => "INNER JOIN current_ways ON current_ways.id = current_way_nodes.id", :conditions => [ "current_ways.visible = 1 AND current_way_nodes.node_id = ?", node.id ])
-          render :text => "", :status => :precondition_failed
-        elsif RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", :conditions => [ "visible = 1 AND member_type='node' and member_id=?", params[:id]])
-          render :text => "", :status => :precondition_failed
-        else
-          node.user_id = @user.id
-          node.visible = 0
-          node.save_with_history!
-
-          render :nothing => true
-        end
-      else
-        render :text => "", :status => :gone
-      end
-    rescue ActiveRecord::RecordNotFound
-      render :nothing => true, :status => :not_found
-    end
-  end
-
-  # WTF does this do?
+  # Dump the details on many nodes whose ids are given in the "nodes" parameter.
   def nodes
     ids = params['nodes'].split(',').collect { |n| n.to_i }
 

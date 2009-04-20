@@ -3,20 +3,21 @@
   <td><%= h(common_details.timestamp) %></td>
 </tr>
 
-<% if common_details.user.data_public %>
+<% if common_details.changeset.user.data_public? %>
   <tr>
     <th>Edited by:</th>
-    <td><%= link_to h(common_details.user.display_name), :controller => "user", :action => "view", :display_name => common_details.user.display_name %></td>
+    <td><%= link_to h(common_details.changeset.user.display_name), :controller => "user", :action => "view", :display_name => common_details.changeset.user.display_name %></td>
   </tr>
 <% end %>
 
-<% unless common_details.tags_as_hash.empty? %>
-  <tr valign="top">
-    <th>Tags:</th>
-    <td>
-      <table padding="0">
-        <%= render :partial => "tag", :collection => common_details.tags_as_hash %>
-      </table>
-    </td>
-  </tr>      
-<% end %>
+<tr>
+  <th>Version:</th>
+  <td><%= h(common_details.version) %></td>
+</tr>
+
+<tr>
+  <th>In changeset:</th>
+  <td><%= link_to common_details.changeset_id, :action => :changeset, :id => common_details.changeset_id %></td>
+</tr>
+
+<%= render :partial => "tag_details", :object => common_details %>

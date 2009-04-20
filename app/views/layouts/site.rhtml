@@ -7,6 +7,7 @@
     <%= stylesheet_link_tag 'site' %>
     <%= stylesheet_link_tag 'print', :media => "print" %>
     <%= tag("link", { :rel => "search", :type => "application/opensearchdescription+xml", :title => "OpenStreetMap Search", :href => "/opensearch/osm.xml" }) %>
+    <%= tag("meta", { :name => "description", :content => "OpenStreetMap is the free wiki world map." }) %>
     <%= yield :head %>
     <title>OpenStreetMap<%= ' | '+ h(@title) if @title %></title>
   </head>
@@ -37,16 +38,19 @@
         <%
         viewclass = ''
         editclass = ''
+        historyclass = ''
         exportclass = ''
         traceclass = ''
         viewclass = 'active' if params['controller'] == 'site' and params['action'] == 'index' 
         editclass = 'active' if params['controller'] == 'site' and params['action'] == 'edit' 
+        historyclass = 'active' if params['controller'] == 'changeset' and params['action'] == 'list_bbox' 
         exportclass = 'active' if params['controller'] == 'site' and params['action'] == 'export'
         traceclass = 'active' if params['controller'] == 'trace'
         diaryclass = 'active' if params['controller'] == 'diary_entry'
         %>
         <li><%= link_to 'View', {:controller => 'site', :action => 'index'}, {:id => 'viewanchor', :title => 'view maps', :class => viewclass} %></li>
         <li><%= link_to 'Edit', {:controller => 'site', :action => 'edit'}, {:id => 'editanchor', :title => 'edit maps', :class => editclass} %></li>
+        <li><%= link_to 'History', {:controller => 'history' }, {:id => 'historyanchor', :title => 'changeset history', :class => historyclass} %></li>
         <% if params['controller'] == 'site' and (params['action'] == 'index' or params['action'] == 'export') %>
         <li><%= link_to_remote 'Export', {:url => {:controller => 'export', :action => 'start'}}, {:id => 'exportanchor', :title => 'export map data', :class => exportclass, :href => url_for(:controller => 'site', :action => 'export')} %></li>
         <% else %>
@@ -126,7 +130,7 @@
         </div>
 
         <div id="cclogo" class="button" style="width: 88px">
-          <a href="http://creativecommons.org/licenses/by-sa/2.0/"><img src="/images/cc_button.png" border="0" alt="" /></a>
+          <%= link_to image_tag("cc_button.png", :alt => "CC by-sa 2.0", :border => "0"), "http://creativecommons.org/licenses/by-sa/2.0/" %>
         </div>
       </center>
     </div>

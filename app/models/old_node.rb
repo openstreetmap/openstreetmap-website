@@ -1,23 +1,19 @@
 class OldNode < ActiveRecord::Base
   include GeoRecord
+  include ConsistencyValidations
 
   set_table_name 'nodes'
   
-  validates_presence_of :user_id, :timestamp
+  validates_presence_of :changeset_id, :timestamp
   validates_inclusion_of :visible, :in => [ true, false ]
   validates_numericality_of :latitude, :longitude
   validate :validate_position
+  validates_associated :changeset
 
-  belongs_to :user
+  belongs_to :changeset
  
   def validate_position
     errors.add_to_base("Node is not in the world") unless in_world?
-  end
-
-  def in_world?
-    return false if self.lat < -90 or self.lat > 90
-    return false if self.lon < -180 or self.lon > 180
-    return true
   end
 
   def self.from_node(node)
@@ -27,9 +23,16 @@ class OldNode < ActiveRecord::Base
     old_node.visible = node.visible
     old_node.tags = node.tags
     old_node.timestamp = node.timestamp
-    old_node.user_id = node.user_id
+    old_node.changeset_id = node.changeset_id
     old_node.id = node.id
+    old_node.version = node.version
     return old_node
+  end
+  
+  def to_xml
+    doc = OSM::API.new.get_xml_doc
+    doc.root << to_xml_node()
+    return doc
   end
 
   def to_xml_node
@@ -37,9 +40,13 @@ class OldNode < ActiveRecord::Base
     el1['id'] = self.id.to_s
     el1['lat'] = self.lat.to_s
     el1['lon'] = self.lon.to_s
-    el1['user'] = self.user.display_name if self.user.data_public?
+    el1['changeset'] = self.changeset.id.to_s
+    if self.changeset.user.data_public?
+      el1['user'] = self.changeset.user.display_name
+      el1['uid'] = self.changeset.user.id.to_s
+    end
 
-    Tags.split(self.tags) do |k,v|
+    self.tags.each do |k,v|
       el2 = XML::Node.new('tag')
       el2['k'] = k.to_s
       el2['v'] = v.to_s
@@ -48,24 +55,54 @@ class OldNode < ActiveRecord::Base
 
     el1['visible'] = self.visible.to_s
     el1['timestamp'] = self.timestamp.xmlschema
+    el1['version'] = self.version.to_s
     return el1
   end
-  
-  def tags_as_hash
-    hash = {}
-    Tags.split(self.tags) do |k,v|
-      hash[k] = v
+
+  def save_with_dependencies!
+    save!
+    #not sure whats going on here
+    clear_aggregation_cache
+    clear_association_cache
+    #ok from here
+    @attributes.update(OldNode.find(:first, :conditions => ['id = ? AND timestamp = ? AND version = ?', self.id, self.timestamp, self.version]).instance_variable_get('@attributes'))
+   
+    self.tags.each do |k,v|
+      tag = OldNodeTag.new
+      tag.k = k
+      tag.v = v
+      tag.id = self.id
+      tag.version = self.version
+      tag.save!
     end
-    hash
   end
 
-  # Pretend we're not in any ways
-  def ways
-    return []
+  def tags
+    unless @tags
+        @tags = Hash.new
+        OldNodeTag.find(:all, :conditions => ["id = ? AND version = ?", self.id, self.version]).each do |tag|
+            @tags[tag.k] = tag.v
+        end
+    end
+    @tags = Hash.new unless @tags
+    @tags
   end
 
-  # Pretend we're not in any relations
-  def containing_relation_members
-    return []
+  def tags=(t)
+    @tags = t 
   end
+
+  def tags_as_hash 
+    return self.tags
+  end 
+ 
+  # Pretend we're not in any ways 
+  def ways 
+    return [] 
+  end 
+ 
+  # Pretend we're not in any relations 
+  def containing_relation_members 
+    return [] 
+  end 
 end

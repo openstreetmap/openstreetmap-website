@@ -4,19 +4,21 @@ class User < ActiveRecord::Base
   has_many :traces
   has_many :diary_entries, :order => 'created_at DESC'
   has_many :messages, :foreign_key => :to_user_id, :order => 'sent_on DESC'
-  has_many :new_messages, :class_name => "Message", :foreign_key => :to_user_id, :conditions => "message_read = 0", :order => 'sent_on DESC'
+  has_many :new_messages, :class_name => "Message", :foreign_key => :to_user_id, :conditions => {:message_read => false}, :order => 'sent_on DESC'
   has_many :sent_messages, :class_name => "Message", :foreign_key => :from_user_id, :order => 'sent_on DESC'
-  has_many :friends, :include => :befriendee, :conditions => "users.visible = 1"
+  has_many :friends, :include => :befriendee, :conditions => ["users.visible = ?", true]
   has_many :tokens, :class_name => "UserToken"
   has_many :preferences, :class_name => "UserPreference"
+  has_many :changesets
 
   validates_presence_of :email, :display_name
   validates_confirmation_of :email, :message => 'Email addresses must match'
   validates_confirmation_of :pass_crypt, :message => 'Password must match the confirmation password'
   validates_uniqueness_of :display_name, :allow_nil => true
   validates_uniqueness_of :email
-  validates_length_of :pass_crypt, :minimum => 8
-  validates_length_of :display_name, :minimum => 3, :allow_nil => true
+  validates_length_of :pass_crypt, :within => 8..255
+  validates_length_of :display_name, :within => 3..255, :allow_nil => true
+  validates_length_of :email, :within => 6..255
   validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
   validates_format_of :display_name, :with => /^[^\/;.,?]*$/
   validates_numericality_of :home_lat, :allow_nil => true
@@ -28,7 +30,7 @@ class User < ActiveRecord::Base
   file_column :image, :magick => { :geometry => "100x100>" }
 
   def after_initialize
-    self.creation_time = Time.now if self.creation_time.nil?
+    self.creation_time = Time.now.getutc if self.creation_time.nil?
   end
 
   def encrypt_password
@@ -80,7 +82,7 @@ class User < ActiveRecord::Base
     if self.home_lon and self.home_lat 
       gc = OSM::GreatCircle.new(self.home_lat, self.home_lon)
       bounds = gc.bounds(radius)
-      nearby = User.find(:all, :conditions => "visible = 1 and home_lat between #{bounds[:minlat]} and #{bounds[:maxlat]} and home_lon between #{bounds[:minlon]} and #{bounds[:maxlon]} and data_public = 1 and id != #{self.id}")
+      nearby = User.find(:all, :conditions => ["visible = ? and home_lat between #{bounds[:minlat]} and #{bounds[:maxlat]} and home_lon between #{bounds[:minlon]} and #{bounds[:maxlon]} and data_public = ? and id != #{self.id}", true, true])
       nearby.delete_if { |u| gc.distance(u.home_lat, u.home_lon) > radius }
       nearby.sort! { |u1,u2| gc.distance(u1.home_lat, u1.home_lon) <=> gc.distance(u2.home_lat, u2.home_lon) }
     else
@@ -102,6 +104,10 @@ class User < ActiveRecord::Base
       end
     end
     return false
+  end
+
+  def trace_public_default
+    return self.preferences.find(:first, :conditions => {:k => "gps.trace.public", :v => "default"})
   end
 
   def delete

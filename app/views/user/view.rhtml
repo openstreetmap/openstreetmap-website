@@ -2,13 +2,17 @@
 <h2><%= h(@this_user.display_name) %></h2>
 <div id="userinformation">
 <% if @user and @this_user.id == @user.id %>
+<!-- Displaying user's own profile page -->
 <%= link_to 'my diary', :controller => 'diary_entry', :action => 'list', :display_name => @user.display_name %>
 | <%= link_to 'new diary entry', :controller => 'diary_entry', :action => 'new', :display_name => @user.display_name %>
+| <%= link_to 'my edits', :controller => 'changeset', :action => 'list_user', :display_name => @user.display_name %>
 | <%= link_to 'my traces', :controller => 'trace', :action=>'mine' %>
 | <%= link_to 'my settings', :controller => 'user', :action => 'account', :display_name => @user.display_name %>
 <% else %>
+<!-- Displaying another user's profile page -->
 <%= link_to 'send message', :controller => 'message', :action => 'new', :user_id => @this_user.id %>
 | <%= link_to 'diary', :controller => 'diary_entry', :action => 'list', :display_name => @this_user.display_name %>
+| <%= link_to 'edits', :controller => 'changeset', :action => 'list_user', :display_name => @this_user.display_name %>
 | <%= link_to 'traces', :controller => 'trace', :action => 'view', :display_name => @this_user.display_name %>
 | <% if @user and @user.is_friends_with?(@this_user) %>
   <%= link_to 'remove as friend', :controller => 'user', :action => 'remove_friend', :display_name => @this_user.display_name %>
@@ -18,6 +22,12 @@
 <% end %>
 </div>
 
+<% if @this_user != nil %>
+<P>
+<b>Mapper since : </b><%= @this_user.creation_time %> (<%= time_ago_in_words(@this_user.creation_time) %> ago)
+</P>
+<% end %>
+  
 <h3>User image</h3>
 <% if @this_user.image %>
   <%= image_tag url_for_file_column(@this_user, "image") %>
@@ -91,4 +101,10 @@
       </table>
     <% end %>
   <% end %>
+<% end %>
+
+<br/>
+<br/>
+<% if @user and @this_user.id == @user.id %>
+<%= link_to 'change your settings', :controller => 'user', :action => 'account', :display_name => @user.display_name %>
 <% end %>

@@ -1,6 +1,7 @@
 var epsg4326 = new OpenLayers.Projection("EPSG:4326");
 var map;
 var markers;
+var vectors;
 var popup;
 
 var nonamekeys = {
@@ -13,6 +14,8 @@ var nonamekeys = {
 };
 
 OpenLayers._getScriptLocation = function () {
+  // Should really have this file as an erb, so that this can return 
+  // the real rails root
    return "/openlayers/";
 }
 
@@ -71,6 +74,7 @@ function createMap(divName, options) {
    map.addLayer(maplint);
 
    var numZoomLevels = Math.max(mapnik.numZoomLevels, osmarender.numZoomLevels);
+
    markers = new OpenLayers.Layer.Markers("Markers", {
       displayInLayerSwitcher: false,
       numZoomLevels: numZoomLevels,
@@ -80,7 +84,7 @@ function createMap(divName, options) {
       projection: "EPSG:900913"
    });
    map.addLayer(markers);
-
+   
    return map;
 }
 
@@ -102,6 +106,26 @@ function addMarkerToMap(position, icon, description) {
    }
 
    return marker;
+}
+
+function addBoxToMap(boxbounds) {
+   if(!vectors) {
+     // Be aware that IE requires Vector layers be initialised on page load, and not under deferred script conditions
+     vectors = new OpenLayers.Layer.Vector("Box Layer", {
+        displayInLayerSwitcher: false
+     });
+     map.addLayer(vectors);
+   }
+   var geometry = boxbounds.toGeometry().transform(epsg4326, map.getProjectionObject());
+   var box = new OpenLayers.Feature.Vector(geometry, {}, {
+      strokeWidth: 2,
+      strokeColor: '#ee9900',
+      fillOpacity: 0
+   });
+   
+   vectors.addFeatures(box);
+
+   return box;
 }
 
 function openMapPopup(marker, description) {
@@ -127,11 +151,16 @@ function removeMarkerFromMap(marker){
    markers.removeMarker(marker);
 }
 
+function removeBoxFromMap(box){
+   vectors.removeFeature(box);
+}
+
 function getMapCenter(center, zoom) {
    return map.getCenter().clone().transform(map.getProjectionObject(), epsg4326);
 }
 
 function setMapCenter(center, zoom) {
+   zoom = parseInt(zoom);
    var numzoom = map.getNumZoomLevels();
    if (zoom >= numzoom) zoom = numzoom - 1;
    map.setCenter(center.clone().transform(epsg4326, map.getProjectionObject()), zoom);
@@ -141,7 +170,7 @@ function setMapExtent(extent) {
    map.zoomToExtent(extent.clone().transform(epsg4326, map.getProjectionObject()));
 }
 
-function getMapExtent(extent) {
+function getMapExtent() {
    return map.getExtent().clone().transform(map.getProjectionObject(), epsg4326);
 }
 

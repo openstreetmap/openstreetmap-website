@@ -1,4 +1,9 @@
 module GeoRecord
+  # This scaling factor is used to convert between the float lat/lon that is 
+  # returned by the API, and the integer lat/lon equivalent that is stored in
+  # the database.
+  SCALE = 10000000
+  
   def self.included(base)
     base.extend(ClassMethods)
   end
@@ -20,21 +25,21 @@ module GeoRecord
   end
 
   def lat=(l)
-    self.latitude = (l * 10000000).round
+    self.latitude = (l * SCALE).round
   end
 
   def lon=(l)
-    self.longitude = (l * 10000000).round
+    self.longitude = (l * SCALE).round
   end
 
   # Return WGS84 latitude
   def lat
-    return self.latitude.to_f / 10000000
+    return self.latitude.to_f / SCALE
   end
 
   # Return WGS84 longitude
   def lon
-    return self.longitude.to_f / 10000000
+    return self.longitude.to_f / SCALE
   end
 
 private

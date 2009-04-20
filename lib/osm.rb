@@ -10,18 +10,157 @@ module OSM
 
   # The base class for API Errors.
   class APIError < RuntimeError
+    def render_opts
+      { :text => "Generic API Error", :status => :internal_server_error, :content_type => "text/plain" }
+    end
   end
 
   # Raised when an API object is not found.
   class APINotFoundError < APIError
+    def render_opts
+      { :text => "The API wasn't found", :status => :not_found, :content_type => "text/plain" }
+    end
   end
 
   # Raised when a precondition to an API action fails sanity check.
   class APIPreconditionFailedError < APIError
+    def initialize(message = "")
+      @message = message
+    end
+    
+    def render_opts
+      { :text => "Precondition failed: #{@message}", :status => :precondition_failed, :content_type => "text/plain" }
+    end
   end
 
   # Raised when to delete an already-deleted object.
   class APIAlreadyDeletedError < APIError
+    def render_opts
+      { :text => "The object has already been deleted", :status => :gone, :content_type => "text/plain" }
+    end
+  end
+
+  # Raised when the user logged in isn't the same as the changeset
+  class APIUserChangesetMismatchError < APIError
+    def render_opts
+      { :text => "The user doesn't own that changeset", :status => :conflict, :content_type => "text/plain" }
+    end
+  end
+
+  # Raised when the changeset provided is already closed
+  class APIChangesetAlreadyClosedError < APIError
+    def initialize(changeset)
+      @changeset = changeset
+    end
+
+    attr_reader :changeset
+    
+    def render_opts
+      { :text => "The changeset #{@changeset.id} was closed at #{@changeset.closed_at}.", :status => :conflict, :content_type => "text/plain" }
+    end
+  end
+  
+  # Raised when a change is expecting a changeset, but the changeset doesn't exist
+  class APIChangesetMissingError < APIError
+    def render_opts
+      { :text => "You need to supply a changeset to be able to make a change", :status => :conflict, :content_type => "text/plain" }
+    end
+  end
+
+  # Raised when a diff is uploaded containing many changeset IDs which don't match
+  # the changeset ID that the diff was uploaded to.
+  class APIChangesetMismatchError < APIError
+    def initialize(provided, allowed)
+      @provided, @allowed = provided, allowed
+    end
+    
+    def render_opts
+      { :text => "Changeset mismatch: Provided #{@provided} but only " +
+      "#{@allowed} is allowed.", :status => :conflict, :content_type => "text/plain" }
+    end
+  end
+  
+  # Raised when a diff upload has an unknown action. You can only have create,
+  # modify, or delete
+  class APIChangesetActionInvalid < APIError
+    def initialize(provided)
+      @provided = provided
+    end
+    
+    def render_opts
+      { :text => "Unknown action #{@provided}, choices are create, modify, delete.",
+      :status => :bad_request, :content_type => "text/plain" }
+    end
+  end
+
+  # Raised when bad XML is encountered which stops things parsing as
+  # they should.
+  class APIBadXMLError < APIError
+    def initialize(model, xml, message="")
+      @model, @xml, @message = model, xml, message
+    end
+
+    def render_opts
+      { :text => "Cannot parse valid #{@model} from xml string #{@xml}. #{@message}",
+      :status => :bad_request, :content_type => "text/plain" }
+    end
+  end
+
+  # Raised when the provided version is not equal to the latest in the db.
+  class APIVersionMismatchError < APIError
+    def initialize(id, type, provided, latest)
+      @id, @type, @provided, @latest = id, type, provided, latest
+    end
+
+    attr_reader :provided, :latest, :id, :type
+
+    def render_opts
+      { :text => "Version mismatch: Provided " + provided.to_s +
+        ", server had: " + latest.to_s + " of " + type + " " + id.to_s, 
+        :status => :conflict, :content_type => "text/plain" }
+    end
+  end
+
+  # raised when a two tags have a duplicate key string in an element.
+  # this is now forbidden by the API.
+  class APIDuplicateTagsError < APIError
+    def initialize(type, id, tag_key)
+      @type, @id, @tag_key = type, id, tag_key
+    end
+
+    attr_reader :type, :id, :tag_key
+
+    def render_opts
+      { :text => "Element #{@type}/#{@id} has duplicate tags with key #{@tag_key}.",
+        :status => :bad_request, :content_type => "text/plain" }
+    end
+  end
+  
+  # Raised when a way has more than the configured number of way nodes.
+  # This prevents ways from being to long and difficult to work with
+  class APITooManyWayNodesError < APIError
+    def initialize(provided, max)
+      @provided, @max = provided, max
+    end
+    
+    attr_reader :provided, :max
+    
+    def render_opts
+      { :text => "You tried to add #{provided} nodes to the way, however only #{max} are allowed",
+        :status => :bad_request, :content_type => "text/plain" }
+    end
+  end
+
+  ##
+  # raised when user input couldn't be parsed
+  class APIBadUserInput < APIError
+    def initialize(message)
+      @message = message
+    end
+
+    def render_opts
+      { :text => @message, :content_type => "text/plain", :status => :bad_request }
+    end
   end
 
   # Helper methods for going to/from mercator and lat/lng.
@@ -190,7 +329,7 @@ module OSM
       doc.encoding = XML::Encoding::UTF_8
       root = XML::Node.new 'osm'
       root['version'] = API_VERSION
-      root['generator'] = 'OpenStreetMap server'
+      root['generator'] = GENERATOR
       doc.root = root
       return doc
     end

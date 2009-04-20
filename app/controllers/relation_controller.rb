@@ -3,28 +3,29 @@ class RelationController < ApplicationController
 
   session :off
   before_filter :authorize, :only => [:create, :update, :delete]
+  before_filter :require_public_data, :only => [:create, :update, :delete]
   before_filter :check_api_writable, :only => [:create, :update, :delete]
   before_filter :check_api_readable, :except => [:create, :update, :delete]
   after_filter :compress_output
 
   def create
-    if request.put?
-      relation = Relation.from_xml(request.raw_post, true)
+    begin
+      if request.put?
+        relation = Relation.from_xml(request.raw_post, true)
 
-      if relation
-        if !relation.preconditions_ok?
-          render :text => "", :status => :precondition_failed
-        else
-          relation.user_id = @user.id
-          relation.save_with_history!
-
-	  render :text => relation.id.to_s, :content_type => "text/plain"
-        end
+        # We assume that an exception has been thrown if there was an error 
+        # generating the relation
+        #if relation
+          relation.create_with_history @user
+          render :text => relation.id.to_s, :content_type => "text/plain"
+        #else
+         # render :text => "Couldn't get turn the input into a relation.", :status => :bad_request
+        #end
       else
-        render :nothing => true, :status => :bad_request
+        render :nothing => true, :status => :method_not_allowed
       end
-    else
-      render :nothing => true, :status => :method_not_allowed
+    rescue OSM::APIError => ex
+      render ex.render_opts
     end
   end
 
@@ -45,56 +46,38 @@ class RelationController < ApplicationController
   end
 
   def update
+    logger.debug request.raw_post
     begin
       relation = Relation.find(params[:id])
       new_relation = Relation.from_xml(request.raw_post)
 
       if new_relation and new_relation.id == relation.id
-        if !new_relation.preconditions_ok?
-          render :text => "", :status => :precondition_failed
-        else
-          relation.user_id = @user.id
-          relation.tags = new_relation.tags
-          relation.members = new_relation.members
-          relation.visible = true
-          relation.save_with_history!
-
-          render :nothing => true
-        end
+        relation.update_from new_relation, @user
+        render :text => relation.version.to_s, :content_type => "text/plain"
       else
         render :nothing => true, :status => :bad_request
       end
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
-    rescue
-      render :nothing => true, :status => :internal_server_error
+    rescue OSM::APIError => ex
+      render ex.render_opts
     end
   end
 
   def delete
-#XXX check if member somewhere!
     begin
       relation = Relation.find(params[:id])
-
-      if relation.visible
-        if RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", :conditions => [ "visible = 1 AND member_type='relation' and member_id=?", params[:id]])
-          render :text => "", :status => :precondition_failed
-        else
-          relation.user_id = @user.id
-          relation.tags = []
-          relation.members = []
-          relation.visible = false
-          relation.save_with_history!
-
-          render :nothing => true
-        end
+      new_relation = Relation.from_xml(request.raw_post)
+      if new_relation and new_relation.id == relation.id
+        relation.delete_with_history!(new_relation, @user)
+        render :text => relation.version.to_s, :content_type => "text/plain"
       else
-        render :text => "", :status => :gone
+        render :nothing => true, :status => :bad_request
       end
+    rescue OSM::APIError => ex
+      render ex.render_opts
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
-    rescue
-      render :nothing => true, :status => :internal_server_error
     end
   end
 
@@ -115,12 +98,12 @@ class RelationController < ApplicationController
         # first collect nodes, ways, and relations referenced by this relation.
         
         ways = Way.find_by_sql("select w.* from current_ways w,current_relation_members rm where "+
-            "rm.member_type='way' and rm.member_id=w.id and rm.id=#{relation.id}");
+            "rm.member_type='Way' and rm.member_id=w.id and rm.id=#{relation.id}");
         nodes = Node.find_by_sql("select n.* from current_nodes n,current_relation_members rm where "+
-            "rm.member_type='node' and rm.member_id=n.id and rm.id=#{relation.id}");
+            "rm.member_type='Node' and rm.member_id=n.id and rm.id=#{relation.id}");
         # note query is built to exclude self just in case.
         relations = Relation.find_by_sql("select r.* from current_relations r,current_relation_members rm where "+
-            "rm.member_type='relation' and rm.member_id=r.id and rm.id=#{relation.id} and r.id<>rm.id");
+            "rm.member_type='Relation' and rm.member_id=r.id and rm.id=#{relation.id} and r.id<>rm.id");
 
         # now additionally collect nodes referenced by ways. Note how we recursively 
         # evaluate ways but NOT relations.
@@ -160,8 +143,7 @@ class RelationController < ApplicationController
         render :text => doc.to_s, :content_type => "text/xml"
 
       else
-
-        render :text => "", :status => :gone
+        render :nothing => true, :status => :gone
       end
 
     rescue ActiveRecord::RecordNotFound
@@ -184,27 +166,29 @@ class RelationController < ApplicationController
 
       render :text => doc.to_s, :content_type => "text/xml"
     else
-      render :nothing => true, :status => :bad_request
+      render :text => "You need to supply a comma separated list of ids.", :status => :bad_request
     end
+  rescue ActiveRecord::RecordNotFound
+    render :text => "Could not find one of the relations", :status => :not_found
   end
 
   def relations_for_way
-    relations_for_object("way")
+    relations_for_object("Way")
   end
   def relations_for_node
-    relations_for_object("node")
+    relations_for_object("Node")
   end
   def relations_for_relation
-    relations_for_object("relation")
+    relations_for_object("Relation")
   end
 
   def relations_for_object(objtype)
-    relationids = RelationMember.find(:all, :conditions => ['member_type=? and member_id=?', objtype, params[:id]]).collect { |ws| ws.id }.uniq
+    relationids = RelationMember.find(:all, :conditions => ['member_type=? and member_id=?', objtype, params[:id]]).collect { |ws| ws.id[0] }.uniq
 
     doc = OSM::API.new.get_xml_doc
 
     Relation.find(relationids).each do |relation|
-      doc.root << relation.to_xml_node
+      doc.root << relation.to_xml_node if relation.visible
     end
 
     render :text => doc.to_s, :content_type => "text/xml"

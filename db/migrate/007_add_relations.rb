@@ -11,7 +11,7 @@ class AddRelations < ActiveRecord::Migration
       t.column "member_role", :string
     end
     # enums work like strings but are more efficient
-    execute "alter table current_relation_members change column member_type member_type enum('node','way','relation');"
+    alter_column_nwr_enum :current_relation_members, :member_type
 
     add_primary_key "current_relation_members", ["id", "member_type", "member_id", "member_role"]
     add_index "current_relation_members", ["member_type", "member_id"], :name => "current_relation_members_member_idx"
@@ -24,17 +24,14 @@ class AddRelations < ActiveRecord::Migration
     end
 
     add_index "current_relation_tags", ["id"], :name => "current_relation_tags_id_idx"
-    execute "CREATE FULLTEXT INDEX `current_relation_tags_v_idx` ON `current_relation_tags` (`v`)"
+    add_fulltext_index "current_relation_tags", "v"
 
     create_table "current_relations", innodb_table do |t|
-      t.column "id",        :bigint,   :limit => 64, :null => false
+      t.column "id",        :bigint_pk_64,           :null => false
       t.column "user_id",   :bigint,   :limit => 20, :null => false
       t.column "timestamp", :datetime, :null => false
       t.column "visible",   :boolean,  :null => false
     end
-
-    add_primary_key "current_relations", ["id"]
-    change_column "current_relations", "id", :bigint, :limit => 64, :null => false, :options => "AUTO_INCREMENT"
 
     create_table "relation_members", myisam_table do |t|
       t.column "id",          :bigint,  :limit => 64, :default => 0, :null => false
@@ -44,7 +41,7 @@ class AddRelations < ActiveRecord::Migration
       t.column "version",     :bigint,  :limit => 20, :default => 0, :null => false
     end
 
-    execute "alter table relation_members change column member_type member_type enum('node','way','relation');" 
+    alter_column_nwr_enum :relation_members, :member_type 
     add_primary_key "relation_members", ["id", "version", "member_type", "member_id", "member_role"]
     add_index "relation_members", ["member_type", "member_id"], :name => "relation_members_member_idx"
 
@@ -68,7 +65,7 @@ class AddRelations < ActiveRecord::Migration
     add_primary_key "relations", ["id", "version"]
     add_index "relations", ["timestamp"], :name => "relations_timestamp_idx"
     
-    change_column "relations", "version", :bigint, :limit => 20, :null => false, :options => "AUTO_INCREMENT"
+    change_column "relations", "version", :bigint_auto_20
   end
 
 

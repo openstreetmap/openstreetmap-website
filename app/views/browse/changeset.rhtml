@@ -1,0 +1,23 @@
+<table width="100%">
+  <tr>
+    <td>
+      <h2>Changeset: <%= h(@changeset.id) %></h2>
+    </td>
+    <td>
+      <%= render :partial => "navigation" %>
+    </td>
+  </tr>
+  <tr valign="top">
+    <td>
+    <%= render :partial => "changeset_details", :object => @changeset %>
+    <hr />
+    Download 
+    <%= link_to "Changeset XML", :controller => "changeset", :action => "read" %>
+    or
+    <%= link_to "osmChange XML", :controller => "changeset", :action => "download" %>
+    </td>
+    <% if @changeset.has_valid_bbox? %>
+    <%= render :partial => "map", :object => @changeset %>
+    <% end %>
+  </tr>
+</table>

@@ -1,14 +1,19 @@
 class OldRelation < ActiveRecord::Base
+  include ConsistencyValidations
+  
   set_table_name 'relations'
 
-  belongs_to :user
+  belongs_to :changeset
+  
+  validates_associated :changeset
 
   def self.from_relation(relation)
     old_relation = OldRelation.new
     old_relation.visible = relation.visible
-    old_relation.user_id = relation.user_id
+    old_relation.changeset_id = relation.changeset_id
     old_relation.timestamp = relation.timestamp
     old_relation.id = relation.id
+    old_relation.version = relation.version
     old_relation.members = relation.members
     old_relation.tags = relation.tags
     return old_relation
@@ -33,14 +38,12 @@ class OldRelation < ActiveRecord::Base
       tag.save!
     end
 
-    i = 1
-    self.members.each do |m|
+    self.members.each_with_index do |m,i|
       member = OldRelationMember.new
-      member.id = self.id
-      member.member_type = m[0]
+      member.id = [self.id, self.version, i]
+      member.member_type = m[0].classify
       member.member_id = m[1]
       member.member_role = m[2]
-      member.version = self.version
       member.save!
     end
   end
@@ -48,7 +51,7 @@ class OldRelation < ActiveRecord::Base
   def members
     unless @members
         @members = Array.new
-        OldRelationMember.find(:all, :conditions => ["id = ? AND version = ?", self.id, self.version]).each do |m|
+        OldRelationMember.find(:all, :conditions => ["id = ? AND version = ?", self.id, self.version], :order => "sequence_id").each do |m|
             @members += [[m.type,m.id,m.role]]
         end
     end
@@ -85,16 +88,27 @@ class OldRelation < ActiveRecord::Base
     OldRelationTag.find(:all, :conditions => ['id = ? AND version = ?', self.id, self.version])    
   end
 
+  def to_xml
+    doc = OSM::API.new.get_xml_doc
+    doc.root << to_xml_node()
+    return doc
+  end
+
   def to_xml_node
     el1 = XML::Node.new 'relation'
     el1['id'] = self.id.to_s
     el1['visible'] = self.visible.to_s
     el1['timestamp'] = self.timestamp.xmlschema
-    el1['user'] = self.user.display_name if self.user.data_public?
+    if self.changeset.user.data_public?
+      el1['user'] = self.changeset.user.display_name
+      el1['uid'] = self.changeset.user.id.to_s
+    end
+    el1['version'] = self.version.to_s
+    el1['changeset'] = self.changeset_id.to_s
     
     self.old_members.each do |member|
       e = XML::Node.new 'member'
-      e['type'] = member.member_type.to_s
+      e['type'] = member.member_type.to_s.downcase
       e['ref'] = member.member_id.to_s # "id" is considered uncool here as it should be unique in XML
       e['role'] = member.member_role.to_s
       el1 << e

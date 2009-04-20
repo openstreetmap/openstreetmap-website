@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
 
   def authorize_web
     if session[:user]
-      @user = User.find(session[:user], :conditions => "visible = 1")
+      @user = User.find(session[:user], :conditions => {:visible => true})
     elsif session[:token]
       @user = User.authenticate(:token => session[:token])
       session[:user] = @user.id
@@ -22,7 +22,11 @@ class ApplicationController < ActionController::Base
     redirect_to :controller => 'user', :action => 'login', :referer => request.request_uri unless @user
   end
 
-  def authorize(realm='Web Password', errormessage="Couldn't authenticate you") 
+  ##
+  # sets up the @user object for use by other methods. this is mostly called
+  # from the authorize method, but can be called elsewhere if authorisation
+  # is optional.
+  def setup_user_auth
     username, passwd = get_auth_data # parse from headers
     # authenticate per-scheme
     if username.nil?
@@ -32,6 +36,11 @@ class ApplicationController < ActionController::Base
     else
       @user = User.authenticate(:username => username, :password => passwd) # basic auth
     end
+  end
+
+  def authorize(realm='Web Password', errormessage="Couldn't authenticate you") 
+    # make the @user object from any auth sources we have
+    setup_user_auth
 
     # handle authenticate pass/fail
     unless @user
@@ -73,13 +82,21 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def require_public_data
+    unless @user.data_public?
+      response.headers['Error'] = "You must make your edits public to upload new data"
+      render :nothing => true, :status => :forbidden
+      return false
+    end
+  end
+
   # Report and error to the user
   # (If anyone ever fixes Rails so it can set a http status "reason phrase",
   #  rather than only a status code and having the web engine make up a 
   #  phrase from that, we can also put the error message into the status
   #  message. For now, rails won't let us)
   def report_error(message)
-    render :nothing => true, :status => :bad_request
+    render :text => message, :status => :bad_request
     # Todo: some sort of escaping of problem characters in the message
     response.headers['Error'] = message
   end
@@ -90,6 +107,8 @@ private
   def get_auth_data 
     if request.env.has_key? 'X-HTTP_AUTHORIZATION'          # where mod_rewrite might have put it 
       authdata = request.env['X-HTTP_AUTHORIZATION'].to_s.split 
+    elsif request.env.has_key? 'REDIRECT_X_HTTP_AUTHORIZATION'          # mod_fcgi 
+      authdata = request.env['REDIRECT_X_HTTP_AUTHORIZATION'].to_s.split 
     elsif request.env.has_key? 'HTTP_AUTHORIZATION'         # regular location
       authdata = request.env['HTTP_AUTHORIZATION'].to_s.split
     end 

@@ -1,7 +1,7 @@
 class AddUserVisible < ActiveRecord::Migration
   def self.up
     add_column "users", "visible", :boolean, :default => true, :null => false
-    User.update_all("visible = 1")
+    User.update_all(:visible => true)
   end
 
   def self.down

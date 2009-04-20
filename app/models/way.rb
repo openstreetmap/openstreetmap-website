@@ -1,9 +1,11 @@
 class Way < ActiveRecord::Base
   require 'xml/libxml'
+  
+  include ConsistencyValidations
 
   set_table_name 'current_ways'
-
-  belongs_to :user
+  
+  belongs_to :changeset
 
   has_many :old_ways, :foreign_key => 'id', :order => 'version'
 
@@ -15,37 +17,56 @@ class Way < ActiveRecord::Base
   has_many :containing_relation_members, :class_name => "RelationMember", :as => :member
   has_many :containing_relations, :class_name => "Relation", :through => :containing_relation_members, :source => :relation, :extend => ObjectFinder
 
+  validates_presence_of :id, :on => :update
+  validates_presence_of :changeset_id,:version,  :timestamp
+  validates_uniqueness_of :id
+  validates_inclusion_of :visible, :in => [ true, false ]
+  validates_numericality_of :changeset_id, :version, :integer_only => true
+  validates_numericality_of :id, :on => :update, :integer_only => true
+  validates_associated :changeset
+
   def self.from_xml(xml, create=false)
     begin
       p = XML::Parser.string(xml)
       doc = p.parse
 
-      way = Way.new
-
       doc.find('//osm/way').each do |pt|
-        if !create and pt['id'] != '0'
-          way.id = pt['id'].to_i
-        end
-
-        if create
-          way.timestamp = Time.now
-          way.visible = true
-        else
-          if pt['timestamp']
-            way.timestamp = Time.parse(pt['timestamp'])
-          end
-        end
-
-        pt.find('tag').each do |tag|
-          way.add_tag_keyval(tag['k'], tag['v'])
-        end
-
-        pt.find('nd').each do |nd|
-          way.add_nd_num(nd['ref'])
-        end
+        return Way.from_xml_node(pt, create)
       end
-    rescue
-      way = nil
+    rescue LibXML::XML::Error, ArgumentError => ex
+      raise OSM::APIBadXMLError.new("way", xml, ex.message)
+    end
+  end
+
+  def self.from_xml_node(pt, create=false)
+    way = Way.new
+
+    if !create and pt['id'] != '0'
+      way.id = pt['id'].to_i
+    end
+    
+    way.version = pt['version']
+    raise OSM::APIBadXMLError.new("node", pt, "Changeset is required") if pt['changeset'].nil?
+    way.changeset_id = pt['changeset']
+
+    # This next section isn't required for the create, update, or delete of ways
+    if create
+      way.timestamp = Time.now.getutc
+      way.visible = true
+    else
+      if pt['timestamp']
+        way.timestamp = Time.parse(pt['timestamp'])
+      end
+      # if visible isn't present then it defaults to true
+      way.visible = (pt['visible'] or true)
+    end
+
+    pt.find('tag').each do |tag|
+      way.add_tag_keyval(tag['k'], tag['v'])
+    end
+
+    pt.find('nd').each do |nd|
+      way.add_nd_num(nd['ref'])
     end
 
     return way
@@ -73,18 +94,23 @@ class Way < ActiveRecord::Base
     el1['id'] = self.id.to_s
     el1['visible'] = self.visible.to_s
     el1['timestamp'] = self.timestamp.xmlschema
+    el1['version'] = self.version.to_s
+    el1['changeset'] = self.changeset_id.to_s
 
     user_display_name_cache = {} if user_display_name_cache.nil?
 
-    if user_display_name_cache and user_display_name_cache.key?(self.user_id)
+    if user_display_name_cache and user_display_name_cache.key?(self.changeset.user_id)
       # use the cache if available
-    elsif self.user.data_public?
-      user_display_name_cache[self.user_id] = self.user.display_name
+    elsif self.changeset.user.data_public?
+      user_display_name_cache[self.changeset.user_id] = self.changeset.user.display_name
     else
-      user_display_name_cache[self.user_id] = nil
+      user_display_name_cache[self.changeset.user_id] = nil
     end
 
-    el1['user'] = user_display_name_cache[self.user_id] unless user_display_name_cache[self.user_id].nil?
+    if not user_display_name_cache[self.changeset.user_id].nil?
+      el1['user'] = user_display_name_cache[self.changeset.user_id]
+      el1['uid'] = self.changeset.user_id.to_s
+    end
 
     # make sure nodes are output in sequence_id order
     ordered_nodes = []
@@ -96,7 +122,7 @@ class Way < ActiveRecord::Base
         end
       else
         # otherwise, manually go to the db to check things
-        if nd.node.visible? and nd.node.visible?
+        if nd.node and nd.node.visible?
           ordered_nodes[nd.sequence_id] = nd.node_id.to_s
         end
       end
@@ -154,97 +180,84 @@ class Way < ActiveRecord::Base
 
   def add_tag_keyval(k, v)
     @tags = Hash.new unless @tags
+
+    # duplicate tags are now forbidden, so we can't allow values
+    # in the hash to be overwritten.
+    raise OSM::APIDuplicateTagsError.new("way", self.id, k) if @tags.include? k
+
     @tags[k] = v
   end
 
-  def save_with_history!
-    t = Time.now
+  ##
+  # the integer coords (i.e: unscaled) bounding box of the way, assuming
+  # straight line segments.
+  def bbox
+    lons = nodes.collect { |n| n.longitude }
+    lats = nodes.collect { |n| n.latitude }
+    [ lons.min, lats.min, lons.max, lats.max ]
+  end
 
-    Way.transaction do
-      self.timestamp = t
-      self.save!
+  def update_from(new_way, user)
+    check_consistency(self, new_way, user)
+    if !new_way.preconditions_ok?
+      raise OSM::APIPreconditionFailedError.new
     end
 
-    WayTag.transaction do
-      tags = self.tags
+    self.changeset_id = new_way.changeset_id
+    self.changeset = new_way.changeset
+    self.tags = new_way.tags
+    self.nds = new_way.nds
+    self.visible = true
+    save_with_history!
+  end
 
-      WayTag.delete_all(['id = ?', self.id])
-
-      tags.each do |k,v|
-        tag = WayTag.new
-        tag.k = k
-        tag.v = v
-        tag.id = self.id
-        tag.save!
-      end
+  def create_with_history(user)
+    check_create_consistency(self, user)
+    if !self.preconditions_ok?
+      raise OSM::APIPreconditionFailedError.new
     end
-
-    WayNode.transaction do
-      nds = self.nds
-
-      WayNode.delete_all(['id = ?', self.id])
-
-      sequence = 1
-      nds.each do |n|
-        nd = WayNode.new
-        nd.id = [self.id, sequence]
-        nd.node_id = n
-        nd.save!
-        sequence += 1
-      end
-    end
-
-    old_way = OldWay.from_way(self)
-    old_way.timestamp = t
-    old_way.save_with_dependencies!
+    self.version = 0
+    self.visible = true
+    save_with_history!
   end
 
   def preconditions_ok?
     return false if self.nds.empty?
+    if self.nds.length > APP_CONFIG['max_number_of_way_nodes']
+      raise OSM::APITooManyWayNodesError.new(self.nds.count, APP_CONFIG['max_number_of_way_nodes'])
+    end
     self.nds.each do |n|
       node = Node.find(:first, :conditions => ["id = ?", n])
       unless node and node.visible
-        return false
+        raise OSM::APIPreconditionFailedError.new("The node with id #{n} either does not exist, or is not visible")
       end
     end
     return true
   end
 
-  # Delete the way and it's relations, but don't really delete it - set its visibility to false and update the history etc to maintain wiki-like functionality.
-  def delete_with_relations_and_history(user)
-    if self.visible
-	  # FIXME
-	  # this should actually delete the relations,
-	  # not just throw a PreconditionFailed if it's a member of a relation!!
+  def delete_with_history!(new_way, user)
+    unless self.visible
+      raise OSM::APIAlreadyDeletedError
+    end
+    
+    # need to start the transaction here, so that the database can 
+    # provide repeatable reads for the used-by checks. this means it
+    # shouldn't be possible to get race conditions.
+    Way.transaction do
+      check_consistency(self, new_way, user)
       if RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id",
-                             :conditions => [ "visible = 1 AND member_type='way' and member_id=?", self.id])
-        raise OSM::APIPreconditionFailedError
-      # end FIXME
+                             :conditions => [ "visible = ? AND member_type='Way' and member_id=? ", true, self.id])
+        raise OSM::APIPreconditionFailedError.new("You need to make sure that this way is not a member of a relation.")
       else
-        self.user_id = user.id
+        self.changeset_id = new_way.changeset_id
+        self.changeset = new_way.changeset
+
         self.tags = []
         self.nds = []
         self.visible = false
-        self.save_with_history!
+        save_with_history!
       end
-    else
-      raise OSM::APIAlreadyDeletedError
     end
-  end
-
-  # delete a way and it's nodes that aren't part of other ways, with history
-  def delete_with_relations_and_nodes_and_history(user)
-    # delete the nodes not used by other ways
-    self.unshared_node_ids.each do |node_id|
-      n = Node.find(node_id)
-      n.user_id = user.id
-      n.visible = false
-      n.save_with_history!
-    end
-    
-    self.user_id = user.id
-
-    self.delete_with_relations_and_history(user)
   end
 
   # Find nodes that belong to this way only
@@ -263,4 +276,78 @@ class Way < ActiveRecord::Base
   def tags_as_hash
     return self.tags
   end
+
+  ##
+  # if any referenced nodes are placeholder IDs (i.e: are negative) then
+  # this calling this method will fix them using the map from placeholders 
+  # to IDs +id_map+. 
+  def fix_placeholders!(id_map)
+    self.nds.map! do |node_id|
+      if node_id < 0
+        new_id = id_map[:node][node_id]
+        raise "invalid placeholder for #{node_id.inspect}: #{new_id.inspect}" if new_id.nil?
+        new_id
+      else
+        node_id
+      end
+    end
+  end
+
+  private
+  
+  def save_with_history!
+    t = Time.now.getutc
+
+    # update the bounding box, note that this has to be done both before 
+    # and after the save, so that nodes from both versions are included in the 
+    # bbox. we use a copy of the changeset so that it isn't reloaded
+    # later in the save.
+    cs = self.changeset
+    cs.update_bbox!(bbox) unless nodes.empty?
+
+    Way.transaction do
+      self.version += 1
+      self.timestamp = t
+      self.save!
+
+      tags = self.tags
+      WayTag.delete_all(['id = ?', self.id])
+      tags.each do |k,v|
+        tag = WayTag.new
+        tag.k = k
+        tag.v = v
+        tag.id = self.id
+        tag.save!
+      end
+
+      nds = self.nds
+      WayNode.delete_all(['id = ?', self.id])
+      sequence = 1
+      nds.each do |n|
+        nd = WayNode.new
+        nd.id = [self.id, sequence]
+        nd.node_id = n
+        nd.save!
+        sequence += 1
+      end
+
+      old_way = OldWay.from_way(self)
+      old_way.timestamp = t
+      old_way.save_with_dependencies!
+
+      # reload the way so that the nodes array points to the correct
+      # new set of nodes.
+      self.reload
+
+      # update and commit the bounding box, now that way nodes 
+      # have been updated and we're in a transaction.
+      cs.update_bbox!(bbox) unless nodes.empty?
+
+      # tell the changeset we updated one element only
+      cs.add_changes! 1
+
+      cs.save!
+    end
+  end
+
 end

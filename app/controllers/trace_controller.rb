@@ -1,8 +1,8 @@
 class TraceController < ApplicationController
   layout 'site'
 
-  before_filter :authorize_web  
-  before_filter :require_user, :only => [:mine, :edit, :delete, :make_public]
+  before_filter :authorize_web
+  before_filter :require_user, :only => [:mine, :create, :edit, :delete, :make_public]
   before_filter :authorize, :only => [:api_details, :api_data, :api_create]
   before_filter :check_database_readable, :except => [:api_details, :api_data, :api_create]
   before_filter :check_database_writable, :only => [:create, :edit, :delete, :make_public]
@@ -15,7 +15,12 @@ class TraceController < ApplicationController
     # from display name, pick up user id if one user's traces only
     display_name = params[:display_name]
     if target_user.nil? and !display_name.blank?
-      target_user = User.find(:first, :conditions => [ "visible = 1 and display_name = ?", display_name])
+      target_user = User.find(:first, :conditions => [ "visible = ? and display_name = ?", true, display_name])
+      if target_user.nil?
+        @not_found_user = display_name
+        render :action => 'no_such_user', :status => :not_found
+        return
+      end
     end
 
     # set title
@@ -36,15 +41,15 @@ class TraceController < ApplicationController
     # 4 - user's traces, not logged in as that user = all user's public traces
     if target_user.nil? # all traces
       if @user
-        conditions = ["(gpx_files.public = 1 OR gpx_files.user_id = ?)", @user.id] #1
+        conditions = ["(gpx_files.public = ? OR gpx_files.user_id = ?)", true, @user.id] #1
       else
-        conditions  = ["gpx_files.public = 1"] #2
+        conditions  = ["gpx_files.public = ?", true] #2
       end
     else
       if @user and @user == target_user
         conditions = ["gpx_files.user_id = ?", @user.id] #3 (check vs user id, so no join + can't pick up non-public traces by changing name)
       else
-        conditions = ["gpx_files.public = 1 AND gpx_files.user_id = ?", target_user.id] #4
+        conditions = ["gpx_files.public = ? AND gpx_files.user_id = ?", true, target_user.id] #4
       end
     end
     
@@ -55,7 +60,8 @@ class TraceController < ApplicationController
       conditions[0] += " AND gpx_files.id IN (#{files.join(',')})"
     end
     
-    conditions[0] += " AND gpx_files.visible = 1"
+    conditions[0] += " AND gpx_files.visible = ?"
+    conditions << true
 
     @trace_pages, @traces = paginate(:traces,
                                      :include => [:user, :tags],
@@ -100,26 +106,28 @@ class TraceController < ApplicationController
   end
 
   def create
-    logger.info(params[:trace][:gpx_file].class.name)
-    if params[:trace][:gpx_file].respond_to?(:read)
-      do_create(params[:trace][:gpx_file], params[:trace][:tagstring],
-                params[:trace][:description], params[:trace][:public])
+    if params[:trace]
+      logger.info(params[:trace][:gpx_file].class.name)
+      if params[:trace][:gpx_file].respond_to?(:read)
+        do_create(params[:trace][:gpx_file], params[:trace][:tagstring],
+                  params[:trace][:description], params[:trace][:public])
 
-      if @trace.id
-        logger.info("id is #{@trace.id}")
-        flash[:notice] = "Your GPX file has been uploaded and is awaiting insertion in to the database. This will usually happen within half an hour, and an email will be sent to you on completion."
+        if @trace.id
+          logger.info("id is #{@trace.id}")
+          flash[:notice] = "Your GPX file has been uploaded and is awaiting insertion in to the database. This will usually happen within half an hour, and an email will be sent to you on completion."
 
-        redirect_to :action => 'mine'
+          redirect_to :action => 'mine'
+        end
+      else
+        @trace = Trace.new({:name => "Dummy",
+                            :tagstring => params[:trace][:tagstring],
+                            :description => params[:trace][:description],
+                            :public => params[:trace][:public],
+                            :inserted => false, :user => @user,
+                            :timestamp => Time.now.getutc})
+        @trace.valid?
+        @trace.errors.add(:gpx_file, "can't be blank")
       end
-    else
-      @trace = Trace.new({:name => "Dummy",
-                          :tagstring => params[:trace][:tagstring],
-                          :description => params[:trace][:description],
-                          :public => params[:trace][:public],
-                          :inserted => false, :user => @user,
-                          :timestamp => Time.now})
-      @trace.valid?
-      @trace.errors.add(:gpx_file, "can't be blank")
     end
   end
 
@@ -196,7 +204,7 @@ class TraceController < ApplicationController
   end
 
   def georss
-    conditions = ["gpx_files.public = 1"]
+    conditions = ["gpx_files.public = ?", true]
 
     if params[:display_name]
       conditions[0] += " AND users.display_name = ?"
@@ -278,12 +286,20 @@ class TraceController < ApplicationController
 
   def api_create
     if request.post?
-      do_create(params[:file], params[:tags], params[:description], params[:public])
+      tags = params[:tags] || ""
+      description = params[:description] || ""
+      pub = params[:public] || false
+      
+      if params[:file].respond_to?(:read)
+        do_create(params[:file], tags, description, pub)
 
-      if @trace.id
-        render :text => @trace.id.to_s, :content_type => "text/plain"
-      elsif @trace.valid?
-        render :nothing => true, :status => :internal_server_error
+        if @trace.id
+          render :text => @trace.id.to_s, :content_type => "text/plain"
+        elsif @trace.valid?
+          render :nothing => true, :status => :internal_server_error
+        else
+          render :nothing => true, :status => :bad_request
+        end
       else
         render :nothing => true, :status => :bad_request
       end
@@ -313,7 +329,7 @@ private
       :public => public,
       :inserted => true,
       :user => @user,
-      :timestamp => Time.now
+      :timestamp => Time.now.getutc
     })
 
     # Save the trace object
@@ -328,6 +344,17 @@ private
       # Remove the file as we have failed to update the database
       FileUtils.rm_f(filename)
     end
+    
+    # Finally save whether the user marked the trace as being public
+    if @trace.public?
+      if @user.trace_public_default.nil?
+        @user.preferences.create(:k => "gps.trace.public", :v => "default")
+      end
+    else
+      pref = @user.trace_public_default
+      pref.destroy unless pref.nil?
+    end
+    
   end
 
 end

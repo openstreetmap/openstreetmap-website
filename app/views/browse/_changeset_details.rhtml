@@ -1,0 +1,95 @@
+<table>
+
+  <tr>
+    <th>Created at:</th>
+    <td><%= h(changeset_details.created_at) %></td>
+  </tr>
+  
+  <tr>
+    <th>Closed at:</th>
+    <td><%= h(changeset_details.closed_at) %></td>
+  </tr>
+  
+  <% if changeset_details.user.data_public? %>
+    <tr>
+      <th>Belongs to:</th>
+      <td><%= link_to h(changeset_details.user.display_name), :controller => "user", :action => "view", :display_name => changeset_details.user.display_name %></td>
+    </tr>
+  <% end %>
+  
+  <%= render :partial => "tag_details", :object => changeset_details %>
+
+  <tr>
+    <th>Bounding box:</th>
+    <% unless changeset_details.has_valid_bbox? %>
+      <td>No bounding box has been stored for this changeset.</td>
+    <% else
+          minlon = changeset_details.min_lon/GeoRecord::SCALE.to_f
+          minlat = changeset_details.min_lat/GeoRecord::SCALE.to_f
+          maxlon = changeset_details.max_lon/GeoRecord::SCALE.to_f
+          maxlat = changeset_details.max_lat/GeoRecord::SCALE.to_f
+    %>
+      <td>
+        <table>
+          <tr>
+            <td colspan="3" style="text-align:center"><%=maxlat -%></td>
+          </tr>
+          <tr>
+            <td><%=minlon -%></td>
+            <td>(<a href='/?minlon=<%= minlon %>&minlat=<%= minlat %>&maxlon=<%= maxlon %>&maxlat=<%= maxlat %>&box=yes' title='show area box'>box</a>)</td>
+            <td><%=maxlon -%></td>
+          </tr>
+          <tr>
+            <td colspan="3" style="text-align:center"><%= minlon -%></td>
+          </tr>
+        </table>
+      </td>
+    <% end %>
+  </tr>
+
+  <% unless @nodes.empty? %>
+    <tr valign="top">
+      <th>Has the following <%= @node_pages.item_count %> nodes:</th>
+      <td>
+        <table padding="0">
+          <% @nodes.each do |node| %>
+            <tr><td><%= link_to "Node #{node.id.to_s}, version #{node.version.to_s}", :action => "node", :id => node.id.to_s %></td></tr>
+          <% end %>
+        </table>
+      </td>
+    </tr>
+    <%= render :partial => 'paging_nav', :locals => { :pages => @node_pages, :page_param => "node_page"} %>
+  <% end %>
+  
+  <% unless @ways.empty? %>
+    <tr valign="top">
+      <th>Has the following <%= @way_pages.item_count %> ways:</th>
+      <td>
+        <table padding="0">
+          <% @ways.each do |way| %>
+            <tr><td><%= link_to "Way #{way.id.to_s}, version #{way.version.to_s}", :action => "way", :id => way.id.to_s %></td></tr>
+          <% end %>
+          <%=
+          #render :partial => "containing_relation", :collection => changeset_details.containing_relation_members 
+          %>
+        </table>
+      </td>
+    </tr>
+    <%= render :partial => 'paging_nav', :locals => { :pages => @way_pages, :page_param => "way_page" } %>
+  <% end %>
+  
+  <% unless @relations.empty? %>
+    <tr valign="top">
+      <th>Has the following <%= @relation_pages.item_count %> relations:</th>
+      <td>
+        <table padding="0">
+          <% @relations.each do |relation| %>
+            <tr><td><%= link_to "Relation #{relation.id.to_s}, version #{relation.version.to_s}", :action => "relation", :id => relation.id.to_s %></td></tr>
+          <% end %>
+        </table>
+      </td>
+    </tr>
+    <%= render :partial => 'paging_nav', :locals => { :pages => @relation_pages, :page_param => "relation_page" } %>
+  <% end %>
+
+</table>
