@@ -25,6 +25,11 @@ class OldRelationController < ApplicationController
   def version
     begin
       old_relation = OldRelation.find(:first, :conditions => {:id => params[:id], :version => params[:version]} )
+      if old_relation.nil?
+        # (RecordNotFound is not raised with find :first...)
+        render :nothing => true, :status => :not_found
+        return
+      end
       
       response.headers['Last-Modified'] = old_relation.timestamp.rfc822
 
@@ -32,8 +37,6 @@ class OldRelationController < ApplicationController
       doc.root << old_relation.to_xml_node
 
       render :text => doc.to_s, :content_type => "text/xml"
-    rescue ActiveRecord::RecordNotFound
-      render :nothing => true, :status => :not_found
     rescue
       render :nothing => true, :status => :internal_server_error
     end
