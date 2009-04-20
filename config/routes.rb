@@ -36,6 +36,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect "api/#{API_VERSION}/relation/:id/relations", :controller => 'relation', :action => 'relations_for_relation', :id => /\d+/
   map.connect "api/#{API_VERSION}/relation/:id/history", :controller => 'old_relation', :action => 'history', :id => /\d+/
   map.connect "api/#{API_VERSION}/relation/:id/full", :controller => 'relation', :action => 'full', :id => /\d+/
+  map.connect "api/#{API_VERSION}/relation/:id/:version", :controller => 'old_relation', :action => 'version', :id => /\d+/, :version => /\d+/
   map.connect "api/#{API_VERSION}/relation/:id", :controller => 'relation', :action => 'read', :id => /\d+/, :conditions => { :method => :get }
   map.connect "api/#{API_VERSION}/relation/:id", :controller => 'relation', :action => 'update', :id => /\d+/, :conditions => { :method => :put }
   map.connect "api/#{API_VERSION}/relation/:id", :controller => 'relation', :action => 'delete', :id => /\d+/, :conditions => { :method => :delete }

@@ -35,7 +35,7 @@ class OldRelationController < ApplicationController
     rescue ActiveRecord::RecordNotFound
       render :nothing => true, :status => :not_found
     rescue
-      render :nothing => true, :status => :internal_service_error
+      render :nothing => true, :status => :internal_server_error
     end
   end
 end
