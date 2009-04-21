@@ -46,7 +46,20 @@ class SearchController < ApplicationController
     nodes = Array.new
     relations = Array.new
 
-    # Matching for tags table
+    # Matching for node tags table
+    cond_node = Array.new
+    sql = '1=1'
+    if type
+      sql += ' AND current_node_tags.k=?'
+      cond_node += [type]
+    end
+    if value
+      sql += ' AND current_node_tags.v=?'
+      cond_node += [value]
+    end
+    cond_node = [sql] + cond_node
+
+    # Matching for way tags table
     cond_way = Array.new
     sql = '1=1'
     if type
@@ -54,12 +67,12 @@ class SearchController < ApplicationController
       cond_way += [type]
     end
     if value
-      sql += ' AND current_way_tags.v=? AND MATCH (current_way_tags.v) AGAINST (? IN BOOLEAN MODE)'
-      cond_way += [value,'"' + value.sub(/[-+*<>"~()]/, ' ') + '"']
+      sql += ' AND current_way_tags.v=?'
+      cond_way += [value]
     end
     cond_way = [sql] + cond_way
 
-    # Matching for tags table
+    # Matching for relation tags table
     cond_rel = Array.new
     sql = '1=1'
     if type
@@ -67,29 +80,10 @@ class SearchController < ApplicationController
       cond_rel += [type]
     end
     if value
-      sql += ' AND current_relation_tags.v=? AND MATCH (current_relation_tags.v) AGAINST (? IN BOOLEAN MODE)'
-      cond_rel += [value,'"' + value.sub(/[-+*<>"~()]/, ' ') + '"']
+      sql += ' AND current_relation_tags.v=?'
+      cond_rel += [value]
     end
     cond_rel = [sql] + cond_rel
-
-    # Matching for tags column
-    if type and value
-      cond_tags = ['tags LIKE ? OR tags LIKE ? OR tags LIKE ? OR tags LIKE ?', 
-      ''+type+'='+value+'',
-      ''+type+'='+value+';%',
-      '%;'+type+'='+value+';%',
-      '%;'+type+'='+value+'' ]
-    elsif type
-      cond_tags = ['tags LIKE ? OR tags LIKE ?',
-      ''+type+'=%',
-      '%;'+type+'=%' ]
-    elsif value
-      cond_tags = ['tags LIKE ? OR tags LIKE ?',
-      '%='+value+';%',
-      '%='+value+'' ]
-    else
-      cond_tags = ['1=1']
-    end
 
     # First up, look for the relations we want
     if do_relations
@@ -107,7 +101,9 @@ class SearchController < ApplicationController
 
     # Now, nodes
     if do_nodes
-      nodes = Node.find(:all, :conditions => cond_tags, :limit => 2000)
+      nodes = Node.find(:all,
+                        :joins => "INNER JOIN current_node_tags ON current_node_tags.id = current_nodes.id",
+                        :conditions => cond_node, :limit => 2000)
     end
 
     # Fetch any node needed for our ways (only have matching nodes so far)
