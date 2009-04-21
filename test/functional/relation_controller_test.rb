@@ -208,6 +208,68 @@ class RelationControllerTest < ActionController::TestCase
 
   end
 
+  # ------------------------------------
+  # Test updating relations
+  # ------------------------------------
+
+  ##
+  # test that, when tags are updated on a relation, the correct things
+  # happen to the correct tables and the API gives sensible results. 
+  # this is to test a case that gregory marler noticed and posted to
+  # josm-dev.
+  def test_update_relation_tags
+    basic_authorization "test@example.com", "test"
+    rel_id = current_relations(:multi_tag_relation).id
+    cs_id = changesets(:public_user_first_change).id
+
+    with_relation(rel_id) do |rel|
+      # alter one of the tags
+      tag = rel.find("//osm/relation/tag").first
+      tag['v'] = 'some changed value'
+      update_changeset(rel, cs_id)
+
+      # check that the downloaded tags are the same as the uploaded tags...
+      new_version = with_update(rel) do |new_rel|
+        assert_tags_equal rel, new_rel
+      end
+
+      # check the original one in the current_* table again
+      with_relation(rel_id) { |r| assert_tags_equal rel, r }
+
+      # now check the version in the history
+      with_relation(rel_id, new_version) { |r| assert_tags_equal rel, r }
+    end
+  end
+
+  ##
+  # test that, when tags are updated on a relation when using the diff
+  # upload function, the correct things happen to the correct tables 
+  # and the API gives sensible results. this is to test a case that 
+  # gregory marler noticed and posted to josm-dev.
+  def test_update_relation_tags_via_upload
+    basic_authorization "test@example.com", "test"
+    rel_id = current_relations(:multi_tag_relation).id
+    cs_id = changesets(:public_user_first_change).id
+
+    with_relation(rel_id) do |rel|
+      # alter one of the tags
+      tag = rel.find("//osm/relation/tag").first
+      tag['v'] = 'some changed value'
+      update_changeset(rel, cs_id)
+
+      # check that the downloaded tags are the same as the uploaded tags...
+      new_version = with_update_diff(rel) do |new_rel|
+        assert_tags_equal rel, new_rel
+      end
+
+      # check the original one in the current_* table again
+      with_relation(rel_id) { |r| assert_tags_equal rel, r }
+
+      # now check the version in the history
+      with_relation(rel_id, new_version) { |r| assert_tags_equal rel, r }
+    end
+  end
+
   # -------------------------------------
   # Test creating some invalid relations.
   # -------------------------------------
@@ -513,6 +575,101 @@ OSM
       assert_select "osm>changeset[min_lat=#{bbox[1].to_f}]", 1
       assert_select "osm>changeset[max_lon=#{bbox[2].to_f}]", 1
       assert_select "osm>changeset[max_lat=#{bbox[3].to_f}]", 1
+    end
+  end
+
+  ##
+  # yields the relation with the given +id+ (and optional +version+
+  # to read from the history tables) into the block. the parsed XML
+  # doc is returned.
+  def with_relation(id, ver = nil)
+    if ver.nil?
+      get :read, :id => id
+    else
+      with_controller(OldRelationController.new) do
+        get :version, :id => id, :version => ver
+      end
+    end
+    assert_response :success
+    yield xml_parse(@response.body)
+  end
+
+  ##
+  # updates the relation (XML) +rel+ and 
+  # yields the new version of that relation into the block. 
+  # the parsed XML doc is retured.
+  def with_update(rel)
+    rel_id = rel.find("//osm/relation").first["id"].to_i
+    content rel
+    put :update, :id => rel_id
+    assert_response :success, "can't update relation: #{@response.body}"
+    version = @response.body.to_i
+
+    # now get the new version
+    get :read, :id => rel_id
+    assert_response :success
+    new_rel = xml_parse(@response.body)
+
+    yield new_rel
+
+    return version
+  end
+
+  ##
+  # updates the relation (XML) +rel+ via the diff-upload API and
+  # yields the new version of that relation into the block. 
+  # the parsed XML doc is retured.
+  def with_update_diff(rel)
+    rel_id = rel.find("//osm/relation").first["id"].to_i
+    cs_id = rel.find("//osm/relation").first['changeset'].to_i
+    version = nil
+
+    with_controller(ChangesetController.new) do
+      doc = OSM::API.new.get_xml_doc
+      change = XML::Node.new 'osmChange'
+      doc.root = change
+      modify = XML::Node.new 'modify'
+      change << modify
+      modify << doc.import(rel.find("//osm/relation").first)
+
+      content doc.to_s
+      post :upload, :id => cs_id
+      assert_response :success, "can't upload diff relation: #{@response.body}"
+      version = xml_parse(@response.body).find("//diffResult/relation").first["new_version"].to_i
+    end      
+    
+    # now get the new version
+    get :read, :id => rel_id
+    assert_response :success
+    new_rel = xml_parse(@response.body)
+    
+    yield new_rel
+    
+    return version
+  end
+
+  ##
+  # returns a k->v hash of tags from an xml doc
+  def get_tags_as_hash(a) 
+    a.find("//osm/relation/tag").inject({}) do |h,v|
+      h[v['k']] = v['v']
+      h
+    end
+  end
+  
+  ##
+  # assert that all tags on relation documents +a+ and +b+ 
+  # are equal
+  def assert_tags_equal(a, b)
+    # turn the XML doc into tags hashes
+    a_tags = get_tags_as_hash(a)
+    b_tags = get_tags_as_hash(b)
+
+    assert_equal a_tags.keys, b_tags.keys, "Tag keys should be identical."
+    a_tags.each do |k, v|
+      assert_equal v, b_tags[k], 
+        "Tags which were not altered should be the same. " +
+        "#{a_tags.inspect} != #{b_tags.inspect}"
     end
   end
 
