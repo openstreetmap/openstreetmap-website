@@ -12,14 +12,69 @@ class OldNodeControllerTest < ActionController::TestCase
   # test the version call by submitting several revisions of a new node
   # to the API and ensuring that later calls to version return the 
   # matching versions of the object.
+  #
+  ##
+  # FIXME Move this test to being an integration test since it spans multiple controllers 
   def test_version
+    ## First try this with a non-public user
     basic_authorization(users(:normal_user).email, "test")
     changeset_id = changesets(:normal_user_first_change).id
-
+    
     # setup a simple XML node
     xml_doc = current_nodes(:visible_node).to_xml
     xml_node = xml_doc.find("//osm/node").first
     nodeid = current_nodes(:visible_node).id
+
+    # keep a hash of the versions => string, as we'll need something
+    # to test against later
+    versions = Hash.new
+
+    # save a version for later checking
+    versions[xml_node['version']] = xml_doc.to_s
+
+    # randomly move the node about
+    20.times do 
+      # move the node somewhere else
+      xml_node['lat'] = precision(rand * 180 -  90).to_s
+      xml_node['lon'] = precision(rand * 360 - 180).to_s
+      with_controller(NodeController.new) do
+        content xml_doc
+        put :update, :id => nodeid
+        assert_response :forbidden, "Should have rejected node update"
+        xml_node['version'] = @response.body.to_s
+      end
+      # save a version for later checking
+      versions[xml_node['version']] = xml_doc.to_s
+    end
+
+    # add a bunch of random tags
+    30.times do 
+      xml_tag = XML::Node.new("tag")
+      xml_tag['k'] = random_string
+      xml_tag['v'] = random_string
+      xml_node << xml_tag
+      with_controller(NodeController.new) do
+        content xml_doc
+        put :update, :id => nodeid
+        assert_response :forbidden,
+        "should have rejected node #{nodeid} (#{@response.body}) with forbidden"
+        xml_node['version'] = @response.body.to_s
+      end
+      # save a version for later checking
+      versions[xml_node['version']] = xml_doc.to_s
+    end
+
+    # probably should check that they didn't get written to the database
+
+    
+    ## Now do it with the public user
+    basic_authorization(users(:public_user).email, "test")
+    changeset_id = changesets(:public_user_first_change).id
+
+    # setup a simple XML node
+    xml_doc = current_nodes(:node_with_versions).to_xml
+    xml_node = xml_doc.find("//osm/node").first
+    nodeid = current_nodes(:node_with_versions).id
 
     # keep a hash of the versions => string, as we'll need something
     # to test against later
@@ -73,7 +128,19 @@ class OldNodeControllerTest < ActionController::TestCase
       assert_nodes_are_equal check_node, api_node
     end
   end
-
+  
+  def test_not_found_version
+    check_not_found_id_version(70000,312344)
+    check_not_found_id_version(-1, -13)
+    check_not_found_id_version(nodes(:visible_node).id, 24354)
+    check_not_found_id_version(24356,   nodes(:visible_node).version)
+  end
+  
+  def check_not_found_id_version(id, version)
+    get :version, :id => id, :version => version
+    assert_response :not_found
+  end
+  
   ##
   # Test that getting the current version is identical to picking
   # that version with the version URI call.
@@ -121,13 +188,4 @@ class OldNodeControllerTest < ActionController::TestCase
   def precision(f)
     return (f * GeoRecord::SCALE).round.to_f / GeoRecord::SCALE
   end
-
-  def basic_authorization(user, pass)
-    @request.env["HTTP_AUTHORIZATION"] = "Basic %s" % Base64.encode64("#{user}:#{pass}")
-  end
-
-  def content(c)
-    @request.env["RAW_POST_DATA"] = c.to_s
-  end
-
 end

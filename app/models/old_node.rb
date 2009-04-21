@@ -4,6 +4,10 @@ class OldNode < ActiveRecord::Base
 
   set_table_name 'nodes'
   
+  # Should probably have the composite primary key set in the model
+  # however there are some weird bugs happening when you do
+  #set_primary_keys :id, :version
+  
   validates_presence_of :changeset_id, :timestamp
   validates_inclusion_of :visible, :in => [ true, false ]
   validates_numericality_of :latitude, :longitude
