@@ -2,7 +2,8 @@ ActionController::Routing::Routes.draw do |map|
 
   # API
   map.connect "api/capabilities", :controller => 'api', :action => 'capabilities'
-  
+  map.connect "api/#{API_VERSION}/capabilities", :controller => 'api', :action => 'capabilities'
+
   map.connect "api/#{API_VERSION}/changeset/create", :controller => 'changeset', :action => 'create'
   map.connect "api/#{API_VERSION}/changeset/:id/upload", :controller => 'changeset', :action => 'upload', :id => /\d+/
   map.connect "api/#{API_VERSION}/changeset/:id/download", :controller => 'changeset', :action => 'download', :id => /\d+/
