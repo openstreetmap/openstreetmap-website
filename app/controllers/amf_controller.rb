@@ -76,7 +76,8 @@ class AmfController < ApplicationController
         when 'getpresets';			results[index]=AMF.putdata(index,getpresets())
         when 'whichways';			results[index]=AMF.putdata(index,whichways(*args))
         when 'whichways_deleted';	results[index]=AMF.putdata(index,whichways_deleted(*args))
-        when 'getway';				results[index]=AMF.putdata(index,getway(args[0].to_i))
+        when 'getway';				r=AMF.putdata(index,getway(args[0].to_i))
+                                    results[index]=r
         when 'getrelation';			results[index]=AMF.putdata(index,getrelation(args[0].to_i))
         when 'getway_old';			results[index]=AMF.putdata(index,getway_old(args[0].to_i,args[1]))
         when 'getway_history';		results[index]=AMF.putdata(index,getway_history(args[0].to_i))
