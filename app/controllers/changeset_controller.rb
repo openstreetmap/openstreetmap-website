@@ -356,6 +356,10 @@ class ChangesetController < ApplicationController
     else
       #TODO: fix bugs in location determination for history tab (and other tabs) then uncomment this redirect
       #redirect_to :action => 'list'
+      
+      # For now just render immediately, and skip the db
+      render
+      return
     end
        
     conditions = conditions_bbox(bbox);
