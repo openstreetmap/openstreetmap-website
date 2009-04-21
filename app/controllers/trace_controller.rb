@@ -233,6 +233,7 @@ class TraceController < ApplicationController
 
     if trace.inserted?
       if trace.public? or (@user and @user == trace.user)
+        expires_in 7.days, :private => !trace.public, :public => trace.public
         send_file(trace.large_picture_name, :filename => "#{trace.id}.gif", :type => 'image/gif', :disposition => 'inline')
       else
         render :nothing => true, :status => :forbidden
@@ -249,6 +250,7 @@ class TraceController < ApplicationController
 
     if trace.inserted?
       if trace.public? or (@user and @user == trace.user)
+        expires_in 7.days, :private => !trace.public, :public => trace.public
         send_file(trace.icon_picture_name, :filename => "#{trace.id}_icon.gif", :type => 'image/gif', :disposition => 'inline')
       else
         render :nothing => true, :status => :forbidden
