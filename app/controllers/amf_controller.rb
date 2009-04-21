@@ -452,7 +452,8 @@ class AmfController < ApplicationController
   # Returns
   # 0. 0 (success),
   # 1. original relation id (unchanged),
-  # 2. new relation id.
+  # 2. new relation id,
+  # 3. version.
 
   def putrelation(renumberednodes, renumberedways, usertoken, changeset_id, version, relid, tags, members, visible) #:doc:
     user = getuser(usertoken)
@@ -504,10 +505,10 @@ class AmfController < ApplicationController
       end
     end # transaction
       
-    if id <= 0
+    if relid <= 0
       return [0, relid, new_relation.id, new_relation.version]
     else
-      return [0, relid, relation.id, relation.version]
+      return [0, relid, relid, relation.version]
     end
   rescue OSM::APIChangesetAlreadyClosedError => ex
     return [-1, "The changeset #{ex.changeset.id} was closed at #{ex.changeset.closed_at}."]
@@ -897,7 +898,7 @@ class AmfController < ApplicationController
          AND crm.member_id IN (#{way_ids.join(',')})
         EOF
     end
-    return ActiveRecord::Base.connection.select_all(sql).collect { |a| [a['relid'].to_i,a['version'].to_i] }
+    ActiveRecord::Base.connection.select_all(sql).collect { |a| [a['relid'].to_i,a['version'].to_i] }
   end
 	
   def sql_get_nodes_in_way(wayid)
