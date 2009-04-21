@@ -520,7 +520,7 @@ class AmfController < ApplicationController
     return [-1, "The relation has already been deleted."]
   rescue OSM::APIError => ex
     # Some error that we don't specifically catch
-    return [-2, "Something really bad happened :-( ."]
+    return [-2, "An unusual error happened (in 'putrelation')."]
   end
 
   # Save a way to the database, including all nodes. Any nodes in the previous
@@ -644,7 +644,7 @@ class AmfController < ApplicationController
     return [-1, "The point has already been deleted."]
   rescue OSM::APIError => ex
     # Some error that we don't specifically catch
-    return [-2, "Something really bad happened :-(."]
+    return [-2, "An unusual error happened (in 'putway')."]
   end
 
   # Save POI to the database.
@@ -707,7 +707,7 @@ class AmfController < ApplicationController
     return [-1, "The point has already been deleted"]
   rescue OSM::APIError => ex
     # Some error that we don't specifically catch
-    return [-2, "Something really bad happened :-()"]
+    return [-2, "An unusual error happened (in 'putpoi')."]
   end
 
   # Read POI from database
@@ -782,7 +782,7 @@ class AmfController < ApplicationController
     return [-1, "The way has already been deleted."]
   rescue OSM::APIError => ex
     # Some error that we don't specifically catch
-    return [-2, "Something really bad happened :-( ."]
+    return [-2, "An unusual error happened (in 'deleteway')."]
   end
 
 
