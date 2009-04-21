@@ -67,4 +67,20 @@ class RelationTagTest < Test::Unit::TestCase
     assert_raise(ActiveRecord::RecordInvalid) {tag.save!}
     assert tag.new_record?
   end
+
+  ##
+  # test that tags can be updated and saved uniquely, i.e: tag.save!
+  # only affects the single tag that the activerecord object 
+  # represents. this amounts to testing that the primary key is
+  # unique.
+  def test_update
+    v = "probably unique string here 3142592654"
+    assert_equal 0, RelationTag.count(:conditions => ['v=?', v])
+
+    tag = RelationTag.find(:first)
+    tag.v = v
+    tag.save!
+
+    assert_equal 1, RelationTag.count(:conditions => ['v=?', v])
+  end
 end
