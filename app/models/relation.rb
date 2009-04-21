@@ -338,7 +338,7 @@ class Relation < ActiveRecord::Base
       self.timestamp = t
       self.save!
 
-      tags = self.tags
+      tags = self.tags.clone
       self.relation_tags.each do |old_tag|
         key = old_tag.k
         # if we can match the tags we currently have to the list
@@ -346,11 +346,7 @@ class Relation < ActiveRecord::Base
         # if any are different then set the flag and do the DB 
         # update.
         if tags.has_key? key 
-          # rails 2.1 dirty handling should take care of making this
-          # somewhat efficient... hopefully...
-          old_tag.v = tags[key]
-          tags_changed |= old_tag.changed?
-          old_tag.save!
+          tags_changed |= (old_tag.v != tags[key])
 
           # remove from the map, so that we can expect an empty map
           # at the end if there are no new tags
@@ -359,13 +355,14 @@ class Relation < ActiveRecord::Base
         else
           # this means a tag was deleted
           tags_changed = true
-          RelationTag.delete_all ['id = ? and k = ?', self.id, old_tag.k]
         end
       end
       # if there are left-over tags then they are new and will have to
       # be added.
       tags_changed |= (not tags.empty?)
-      tags.each do |k,v|
+      RelationTag.delete_all(:id => self.id)
+      self.tags.each do |k,v|
+        logger.info "TAG added: #{k} -> #{v}"
         tag = RelationTag.new
         tag.k = k
         tag.v = v
@@ -373,10 +370,6 @@ class Relation < ActiveRecord::Base
         tag.save!
       end
       
-      # reload, so that all of the members are accessible in their
-      # new state.
-      self.reload
-
       # same pattern as before, but this time we're collecting the
       # changed members in an array, as the bounding box updates for
       # elements are per-element, not blanked on/off like for tags.
