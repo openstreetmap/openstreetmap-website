@@ -57,7 +57,10 @@ class TraceController < ApplicationController
       @tag = params[:tag]
 
       files = Tracetag.find_all_by_tag(params[:tag]).collect { |tt| tt.gpx_id }
-      conditions[0] += " AND gpx_files.id IN (#{files.join(',')})"
+
+      if files.length > 0
+        conditions[0] += " AND gpx_files.id IN (#{files.join(',')})"
+      end
     end
     
     conditions[0] += " AND gpx_files.visible = ?"
