@@ -4,7 +4,7 @@ class OldRelationTagTest < Test::Unit::TestCase
   api_fixtures
   
   def test_tag_count
-    assert_equal 3, OldRelationTag.count
+    assert_equal 7, OldRelationTag.count
   end
   
   def test_length_key_valid
