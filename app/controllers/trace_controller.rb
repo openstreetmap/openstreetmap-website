@@ -60,6 +60,8 @@ class TraceController < ApplicationController
 
       if files.length > 0
         conditions[0] += " AND gpx_files.id IN (#{files.join(',')})"
+      else
+        conditions[0] += " AND 0 = 1"
       end
     end
     
