@@ -33,7 +33,7 @@ class SwfController < ApplicationController
 		bounds_top   =240*20
 
 		m =''
-		m+=swfRecord(9,255.chr + 155.chr + 155.chr)			#ÊBackground
+		m+=swfRecord(9,255.chr + 155.chr + 155.chr)			# Background
 		absx=0
 		absy=0
 		xl=yb= 9999999
@@ -47,7 +47,7 @@ class SwfController < ApplicationController
 	
 		if params['token']
 		  user=User.authenticate(:token => params[:token])
-		  sql="SELECT gps_points.latitude*0.0000001 AS lat,gps_points.longitude*0.0000001 AS lon,gpx_files.id AS fileid,UNIX_TIMESTAMP(gps_points.timestamp) AS ts "+
+		  sql="SELECT gps_points.latitude*0.0000001 AS lat,gps_points.longitude*0.0000001 AS lon,gpx_files.id AS fileid,EXTRACT(EPOCH FROM gps_points.timestamp) AS ts "+
 			   " FROM gpx_files,gps_points "+
 			   "WHERE gpx_files.id=gpx_id "+
 			   "  AND gpx_files.user_id=#{user.id} "+
@@ -56,7 +56,7 @@ class SwfController < ApplicationController
 			   "ORDER BY fileid DESC,ts "+
 			   "LIMIT 10000"
 		  else
-			sql="SELECT latitude*0.0000001 AS lat,longitude*0.0000001 AS lon,gpx_id AS fileid,UNIX_TIMESTAMP(timestamp) AS ts "+
+			sql="SELECT latitude*0.0000001 AS lat,longitude*0.0000001 AS lon,gpx_id AS fileid,EXTRACT(EPOCH FROM timestamp) AS ts "+
 				 " FROM gps_points "+
 				 "WHERE "+OSM.sql_for_area(ymin,xmin,ymax,xmax,"gps_points.")+
 				 "  AND (gps_points.timestamp IS NOT NULL) "+
