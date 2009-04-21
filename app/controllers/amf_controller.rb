@@ -796,7 +796,7 @@ class AmfController < ApplicationController
 
   def deleteitemrelations(user, changeset_id, objid, type, version) #:doc:
     relations = RelationMember.find(:all, 
-									:conditions => ['member_type = ? and member_id = ?', type, objid], 
+									:conditions => ['member_type = ? and member_id = ?', type.classify, objid], 
 									:include => :relation).collect { |rm| rm.relation }.uniq
 
     relations.each do |rel|
@@ -884,7 +884,7 @@ class AmfController < ApplicationController
       SELECT DISTINCT cr.id AS relid,cr.version AS version 
       FROM current_relations cr
       INNER JOIN current_relation_members crm ON crm.id=cr.id 
-      INNER JOIN current_nodes cn ON crm.member_id=cn.id AND crm.member_type='node' 
+      INNER JOIN current_nodes cn ON crm.member_id=cn.id AND crm.member_type='Node' 
        WHERE #{OSM.sql_for_area(ymin, xmin, ymax, xmax, "cn.")}
       EOF
     unless way_ids.empty?
@@ -893,7 +893,7 @@ class AmfController < ApplicationController
         SELECT DISTINCT cr.id AS relid,cr.version AS version
         FROM current_relations cr
         INNER JOIN current_relation_members crm ON crm.id=cr.id
-         WHERE crm.member_type='way' 
+         WHERE crm.member_type='Way' 
          AND crm.member_id IN (#{way_ids.join(',')})
         EOF
     end
