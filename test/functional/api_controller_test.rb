@@ -219,6 +219,7 @@ class ApiControllerTest < ActionController::TestCase
         assert_select "version[minimum=#{API_VERSION}][maximum=#{API_VERSION}]", :count => 1
         assert_select "area[maximum=#{APP_CONFIG['max_request_area']}]", :count => 1
         assert_select "tracepoints[per_page=#{APP_CONFIG['tracepoints_per_page']}]", :count => 1
+        assert_select "changesets[maximum_elements=#{Changeset::MAX_ELEMENTS}]", :count => 1
       end
     end
   end

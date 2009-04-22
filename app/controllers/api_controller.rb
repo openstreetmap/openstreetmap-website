@@ -284,6 +284,9 @@ class ApiController < ApplicationController
     waynodes = XML::Node.new 'waynodes'
     waynodes['maximum'] = APP_CONFIG['max_number_of_way_nodes'].to_s
     api << waynodes
+    changesets = XML::Node.new 'changesets'
+    changesets['maximum_elements'] = Changeset::MAX_ELEMENTS.to_s
+    api << changesets
     
     doc.root << api
 
