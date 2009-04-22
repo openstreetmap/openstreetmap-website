@@ -77,10 +77,62 @@ class RelationControllerTest < ActionController::TestCase
   # -------------------------------------
 
   def test_create
-    basic_authorization "test@openstreetmap.org", "test"
+    basic_authorization users(:normal_user).email, "test"
     
     # put the relation in a dummy fixture changset
     changeset_id = changesets(:normal_user_first_change).id
+
+    # create an relation without members
+    content "<osm><relation changeset='#{changeset_id}'><tag k='test' v='yes' /></relation></osm>"
+    put :create
+    # hope for forbidden, due to user
+    assert_response :forbidden, 
+    "relation upload should have failed with forbidden"
+
+    ###
+    # create an relation with a node as member
+    # This time try with a role attribute in the relation
+    nid = current_nodes(:used_node_1).id
+    content "<osm><relation changeset='#{changeset_id}'>" +
+      "<member  ref='#{nid}' type='node' role='some'/>" +
+      "<tag k='test' v='yes' /></relation></osm>"
+    put :create
+    # hope for forbidden due to user
+    assert_response :forbidden, 
+    "relation upload did not return forbidden status"
+    
+    ###
+    # create an relation with a node as member, this time test that we don't 
+    # need a role attribute to be included
+    nid = current_nodes(:used_node_1).id
+    content "<osm><relation changeset='#{changeset_id}'>" +
+      "<member  ref='#{nid}' type='node'/>"+
+      "<tag k='test' v='yes' /></relation></osm>"
+    put :create
+    # hope for forbidden due to user
+    assert_response :forbidden, 
+    "relation upload did not return forbidden status"
+
+    ###
+    # create an relation with a way and a node as members
+    nid = current_nodes(:used_node_1).id
+    wid = current_ways(:used_way).id
+    content "<osm><relation changeset='#{changeset_id}'>" +
+      "<member type='node' ref='#{nid}' role='some'/>" +
+      "<member type='way' ref='#{wid}' role='other'/>" +
+      "<tag k='test' v='yes' /></relation></osm>"
+    put :create
+    # hope for forbidden, due to user
+    assert_response :forbidden, 
+        "relation upload did not return success status"
+
+
+
+    ## Now try with the public user
+    basic_authorization users(:public_user).email, "test"
+    
+    # put the relation in a dummy fixture changset
+    changeset_id = changesets(:public_user_first_change).id
 
     # create an relation without members
     content "<osm><relation changeset='#{changeset_id}'><tag k='test' v='yes' /></relation></osm>"
@@ -100,7 +152,7 @@ class RelationControllerTest < ActionController::TestCase
         "saved relation does not contain exactly one tag"
     assert_equal changeset_id, checkrelation.changeset.id,
         "saved relation does not belong in the changeset it was assigned to"
-    assert_equal users(:normal_user).id, checkrelation.changeset.user_id, 
+    assert_equal users(:public_user).id, checkrelation.changeset.user_id, 
         "saved relation does not belong to user that created it"
     assert_equal true, checkrelation.visible, 
         "saved relation is not visible"
@@ -132,7 +184,7 @@ class RelationControllerTest < ActionController::TestCase
         "saved relation does not contain exactly one tag"
     assert_equal changeset_id, checkrelation.changeset.id,
         "saved relation does not belong in the changeset it was assigned to"
-    assert_equal users(:normal_user).id, checkrelation.changeset.user_id, 
+    assert_equal users(:public_user).id, checkrelation.changeset.user_id, 
         "saved relation does not belong to user that created it"
     assert_equal true, checkrelation.visible, 
         "saved relation is not visible"
@@ -165,7 +217,7 @@ class RelationControllerTest < ActionController::TestCase
         "saved relation does not contain exactly one tag"
     assert_equal changeset_id, checkrelation.changeset.id,
         "saved relation does not belong in the changeset it was assigned to"
-    assert_equal users(:normal_user).id, checkrelation.changeset.user_id, 
+    assert_equal users(:public_user).id, checkrelation.changeset.user_id, 
         "saved relation does not belong to user that created it"
     assert_equal true, checkrelation.visible, 
         "saved relation is not visible"
@@ -198,7 +250,7 @@ class RelationControllerTest < ActionController::TestCase
         "saved relation does not contain exactly one tag"
     assert_equal changeset_id, checkrelation.changeset.id,
         "saved relation does not belong in the changeset it was assigned to"
-    assert_equal users(:normal_user).id, checkrelation.changeset.user_id, 
+    assert_equal users(:public_user).id, checkrelation.changeset.user_id, 
         "saved relation does not belong to user that created it"
     assert_equal true, checkrelation.visible, 
         "saved relation is not visible"
