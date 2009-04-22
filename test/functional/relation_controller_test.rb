@@ -319,9 +319,59 @@ class RelationControllerTest < ActionController::TestCase
     # first try to delete relation without auth
     delete :delete, :id => current_relations(:visible_relation).id
     assert_response :unauthorized
+    
+    ## First try with the private user, to make sure that you get a forbidden
+    basic_authorization(users(:normal_user).email, "test")
+    
+    # this shouldn't work, as we should need the payload...
+    delete :delete, :id => current_relations(:visible_relation).id
+    assert_response :forbidden
 
-    # now set auth
-    basic_authorization("test@openstreetmap.org", "test");  
+    # try to delete without specifying a changeset
+    content "<osm><relation id='#{current_relations(:visible_relation).id}'/></osm>"
+    delete :delete, :id => current_relations(:visible_relation).id
+    assert_response :forbidden
+
+    # try to delete with an invalid (closed) changeset
+    content update_changeset(current_relations(:visible_relation).to_xml,
+                             changesets(:normal_user_closed_change).id)
+    delete :delete, :id => current_relations(:visible_relation).id
+    assert_response :forbidden
+
+    # try to delete with an invalid (non-existent) changeset
+    content update_changeset(current_relations(:visible_relation).to_xml,0)
+    delete :delete, :id => current_relations(:visible_relation).id
+    assert_response :forbidden
+
+    # this won't work because the relation is in-use by another relation
+    content(relations(:used_relation).to_xml)
+    delete :delete, :id => current_relations(:used_relation).id
+    assert_response :forbidden
+
+    # this should work when we provide the appropriate payload...
+    content(relations(:visible_relation).to_xml)
+    delete :delete, :id => current_relations(:visible_relation).id
+    assert_response :forbidden
+
+    # this won't work since the relation is already deleted
+    content(relations(:invisible_relation).to_xml)
+    delete :delete, :id => current_relations(:invisible_relation).id
+    assert_response :forbidden
+
+    # this works now because the relation which was using this one 
+    # has been deleted.
+    content(relations(:used_relation).to_xml)
+    delete :delete, :id => current_relations(:used_relation).id
+    assert_response :forbidden
+
+    # this won't work since the relation never existed
+    delete :delete, :id => 0
+    assert_response :forbidden
+
+    
+
+    # now set auth for the private user
+    basic_authorization(users(:public_user).email, "test");  
 
     # this shouldn't work, as we should need the payload...
     delete :delete, :id => current_relations(:visible_relation).id
@@ -344,15 +394,27 @@ class RelationControllerTest < ActionController::TestCase
     delete :delete, :id => current_relations(:visible_relation).id
     assert_response :conflict
 
-    # this won't work because the relation is in-use by another relation
+    # this won't work because the relation is in a changeset owned by someone else
     content(relations(:used_relation).to_xml)
     delete :delete, :id => current_relations(:used_relation).id
+    assert_response :conflict, 
+    "shouldn't be able to delete a relation in a changeset owned by someone else (#{@response.body})"
+
+    # this won't work because the relation in the payload is different to that passed
+    content(relations(:public_used_relation).to_xml)
+    delete :delete, :id => current_relations(:used_relation).id
+    assert_not_equal relations(:public_used_relation).id, current_relations(:used_relation).id
+    assert_response :bad_request, "shouldn't be able to delete a relation when payload is different to the url"
+    
+    # this won't work because the relation is in-use by another relation
+    content(relations(:public_used_relation).to_xml)
+    delete :delete, :id => current_relations(:public_used_relation).id
     assert_response :precondition_failed, 
        "shouldn't be able to delete a relation used in a relation (#{@response.body})"
 
     # this should work when we provide the appropriate payload...
-    content(relations(:visible_relation).to_xml)
-    delete :delete, :id => current_relations(:visible_relation).id
+    content(relations(:multi_tag_relation).to_xml)
+    delete :delete, :id => current_relations(:multi_tag_relation).id
     assert_response :success
 
     # valid delete should return the new version number, which should
@@ -367,8 +429,8 @@ class RelationControllerTest < ActionController::TestCase
 
     # this works now because the relation which was using this one 
     # has been deleted.
-    content(relations(:used_relation).to_xml)
-    delete :delete, :id => current_relations(:used_relation).id
+    content(relations(:public_used_relation).to_xml)
+    delete :delete, :id => current_relations(:public_used_relation).id
     assert_response :success, 
        "should be able to delete a relation used in an old relation (#{@response.body})"
 
@@ -450,11 +512,11 @@ class RelationControllerTest < ActionController::TestCase
   ##
   # check that relations are ordered
   def test_relation_member_ordering
-    basic_authorization("test@openstreetmap.org", "test");  
-
+    basic_authorization(users(:public_user).email, "test")
+    
     doc_str = <<OSM
 <osm>
- <relation changeset='1'>
+ <relation changeset='4'>
   <member ref='1' type='node' role='first'/>
   <member ref='3' type='node' role='second'/>
   <member ref='1' type='way' role='third'/>
@@ -499,11 +561,32 @@ OSM
   ## 
   # check that relations can contain duplicate members
   def test_relation_member_duplicates
-    basic_authorization("test@openstreetmap.org", "test");  
+    ## First try with the private user
+    basic_authorization(users(:normal_user).email, "test");  
 
     doc_str = <<OSM
 <osm>
- <relation changeset='1'>
+ <relation changeset='4'>
+  <member ref='1' type='node' role='forward'/>
+  <member ref='3' type='node' role='forward'/>
+  <member ref='1' type='node' role='forward'/>
+  <member ref='3' type='node' role='forward'/>
+ </relation>
+</osm>
+OSM
+    doc = XML::Parser.string(doc_str).parse
+
+    content doc
+    put :create
+    assert_response :forbidden
+
+
+    ## Now try with the public user
+    basic_authorization(users(:public_user).email, "test");  
+
+    doc_str = <<OSM
+<osm>
+ <relation changeset='4'>
   <member ref='1' type='node' role='forward'/>
   <member ref='3' type='node' role='forward'/>
   <member ref='1' type='node' role='forward'/>
@@ -551,8 +634,21 @@ OSM
   # create a changeset and yield to the caller to set it up, then assert
   # that the changeset bounding box is +bbox+.
   def check_changeset_modify(bbox)
-    basic_authorization("test@openstreetmap.org", "test");  
+    ## First test with the private user to check that you get a forbidden
+    basic_authorization(users(:normal_user).email, "test");  
 
+    # create a new changeset for this operation, so we are assured
+    # that the bounding box will be newly-generated.
+    changeset_id = with_controller(ChangesetController.new) do
+      content "<osm><changeset/></osm>"
+      put :create
+      assert_response :forbidden, "shouldn't be able to create changeset for modify test, as should get forbidden"
+    end
+
+    
+    ## Now do the whole thing with the public user
+    basic_authorization(users(:public_user).email, "test")
+    
     # create a new changeset for this operation, so we are assured
     # that the bounding box will be newly-generated.
     changeset_id = with_controller(ChangesetController.new) do
