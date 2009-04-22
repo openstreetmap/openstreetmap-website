@@ -492,7 +492,6 @@ class AmfController < ApplicationController
       new_relation.changeset_id = changeset_id
       new_relation.version = version
 
-      # NOTE: id or relid here? id doesn't seem to be set above
       if relid <= 0
         # We're creating the node
         new_relation.create_with_history(user)
@@ -521,7 +520,7 @@ class AmfController < ApplicationController
     return [-1, "The relation has already been deleted."]
   rescue OSM::APIError => ex
     # Some error that we don't specifically catch
-    return [-2, "An unusual error happened (in 'putrelation')."]
+    return [-2, "An unusual error happened (in 'putrelation' #{relid})."]
   end
 
   # Save a way to the database, including all nodes. Any nodes in the previous
@@ -645,7 +644,7 @@ class AmfController < ApplicationController
     return [-1, "The point has already been deleted."]
   rescue OSM::APIError => ex
     # Some error that we don't specifically catch
-    return [-2, "An unusual error happened (in 'putway')."]
+    return [-2, "An unusual error happened (in 'putway' #{originalway})."]
   end
 
   # Save POI to the database.
@@ -708,7 +707,7 @@ class AmfController < ApplicationController
     return [-1, "The point has already been deleted"]
   rescue OSM::APIError => ex
     # Some error that we don't specifically catch
-    return [-2, "An unusual error happened (in 'putpoi')."]
+    return [-2, "An unusual error happened (in 'putpoi' #{id})."]
   end
 
   # Read POI from database
@@ -783,7 +782,7 @@ class AmfController < ApplicationController
     return [-1, "The way has already been deleted."]
   rescue OSM::APIError => ex
     # Some error that we don't specifically catch
-    return [-2, "An unusual error happened (in 'deleteway')."]
+    return [-2, "An unusual error happened (in 'deleteway' #{way_id})."]
   end
 
 
