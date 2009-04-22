@@ -72,7 +72,7 @@ function updatelinks(lon,lat,zoom,layers,extents) {
       maxlon = Math.round(maxlon * decimals) / decimals;
       maxlat = Math.round(maxlat * decimals) / decimals;
       args.bbox = minlon + "," + minlat + "," + maxlon + "," + maxlat;
-      node.href = setArgs("history/", args);
+      node.href = setArgs("/history", args);
       node.style.fontStyle = 'normal';
     } else {
       node.href = 'javascript:alert("zoom in to see editing history");';
