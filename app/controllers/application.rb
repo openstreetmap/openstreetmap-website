@@ -96,9 +96,9 @@ class ApplicationController < ActionController::Base
   #  phrase from that, we can also put the error message into the status
   #  message. For now, rails won't let us)
   def report_error(message)
-    render :text => message, :status => :bad_request
     # Todo: some sort of escaping of problem characters in the message
     response.headers['Error'] = message
+    render :text => message, :status => :bad_request
   end
 
 private 
