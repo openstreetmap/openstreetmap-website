@@ -749,12 +749,13 @@ class AmfController < ApplicationController
 
       # delete the way
       old_way = Way.find(way_id)
+      u = old_way.unshared_node_ids
       delete_way = Way.new
       delete_way.version = way_version
       delete_way.changeset_id = changeset_id
       old_way.delete_with_history!(delete_way, user)
 
-      old_way.unshared_node_ids.each do |node_id|
+      u.each do |node_id|
         # delete the node
         node = Node.find(node_id)
         delete_node = Node.new
