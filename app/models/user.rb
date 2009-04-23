@@ -42,7 +42,13 @@ class User < ActiveRecord::Base
 
   def self.authenticate(options)
     if options[:username] and options[:password]
-      user = find(:first, :conditions => ["email = ? OR display_name = ?", options[:username], options[:username]])
+      environment = Rails.configuration.environment
+      adapter = Rails.configuration.database_configuration[environment]["adapter"]
+      if adapter == "postgresql"
+        user = find(:first, :conditions => ["email ILIKE ? OR display_name ILIKE ?", options[:username], options[:username]])
+      else
+        user = find(:first, :conditions => ["email = ? OR display_name = ?", options[:username], options[:username]])
+      end
       user = nil if user and user.pass_crypt != OSM::encrypt_password(options[:password], user.pass_salt)
     elsif options[:token]
       token = UserToken.find(:first, :include => :user, :conditions => ["user_tokens.token = ?", options[:token]])

@@ -7,6 +7,7 @@ class UserControllerTest < ActionController::TestCase
   def test_user_create
     get :new
     assert_response :success
+    assert_template 'new'
     
     assert_select "html:root", :count => 1 do
       assert_select "head", :count => 1 do
@@ -41,8 +42,45 @@ class UserControllerTest < ActionController::TestCase
     get :api_details
     assert_response :unauthorized
     
-    basic_authorization(users(:normal_user).email, "test")
+    # Private users can login and get the api details
+    usr = users(:normal_user)
+    basic_authorization(usr.email, "test")
     get :api_details
     assert_response :success
+    # Now check the content of the XML returned
+    print @response.body
+    assert_select "osm:root[version=#{API_VERSION}][generator='#{GENERATOR}']", :count => 1 do
+      assert_select "user[display_name='#{usr.display_name}'][account_created='#{usr.creation_time.xmlschema}']", :count => 1 do
+      assert_select "home[lat='#{usr.home_lat}'][lon='#{usr.home_lon}'][zoom='#{usr.home_zoom}']", :count => 1
+      end
+    end
+    
+  end
+  
+  # Check that we can login through the web using the mixed case fixture,
+  # lower case and upper case
+  def test_user_login_web_case
+    login_web_case_ok users(:normal_user).email,  "test"
+    login_web_case_ok users(:normal_user).email.upcase, "test"
+    login_web_case_ok users(:normal_user).email.downcase, "test"
+  end
+
+  def login_web_case_ok(userstring, password)
+    post :login, :user => {:email => userstring, :password => password}
+    assert_redirected_to :controller => 'site', :action => 'index'
+  end
+
+  # Check that we can login to the api, and get the user details 
+  # using the mixed case fixture, lower case and upper case  
+  def test_user_login_api_case
+    login_api_case_ok users(:normal_user).email, "test"
+    login_api_case_ok users(:normal_user).email.upcase, "test"
+    login_api_case_ok users(:normal_user).email.downcase, "test"
+  end
+  
+  def login_api_case_ok(userstring, password)
+    basic_authorization(userstring, password)
+    get :api_details
+    assert :success
   end
 end
