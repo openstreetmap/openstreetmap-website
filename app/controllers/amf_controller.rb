@@ -477,8 +477,8 @@ class AmfController < ApplicationController
       members.each do |m|
         mid = m[1].to_i
         if mid < 0
-          mid = renumberednodes[mid] if m[0] == 'node'
-          mid = renumberedways[mid] if m[0] == 'way'
+          mid = renumberednodes[mid] if m[0] == 'Node'
+          mid = renumberedways[mid] if m[0] == 'Way'
         end
         if mid
           typedmembers << [m[0], mid, m[2]]
@@ -621,7 +621,7 @@ class AmfController < ApplicationController
       uniques=uniques-pointlist
       uniques.each do |n|
         node = Node.find(n)
-        deleteitemrelations(user, changeset_id, id, 'node', node.version)
+        deleteitemrelations(user, changeset_id, id, 'Node', node.version)
         new_node = Node.new
         new_node.changeset_id = changeset_id
         new_node.version = node.version
@@ -765,7 +765,7 @@ class AmfController < ApplicationController
         else
           # in case the node wasn't passed (i.e. if it was previously removed
           # from the way in Potlatch)
-          deleteitemrelations(user, changeset_id, node_id, 'node', node.version)
+          deleteitemrelations(user, changeset_id, node_id, 'Node', node.version)
 	      delete_node.version = node.version
 	    end
         node.delete_with_history!(delete_node, user)
