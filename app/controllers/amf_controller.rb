@@ -903,7 +903,7 @@ class AmfController < ApplicationController
   def sql_get_nodes_in_way(wayid)
     points=[]
     sql=<<-EOF
-      SELECT latitude*0.0000001 AS lat,longitude*0.0000001 AS lon,current_nodes.id 
+      SELECT latitude*0.0000001 AS lat,longitude*0.0000001 AS lon,current_nodes.id,current_nodes.version 
       FROM current_way_nodes,current_nodes 
        WHERE current_way_nodes.id=#{wayid.to_i} 
 		   AND current_way_nodes.node_id=current_nodes.id 
@@ -916,7 +916,7 @@ class AmfController < ApplicationController
         nodetags[n['k']]=n['v']
       end
       nodetags.delete('created_by')
-      points << [row['lon'].to_f,row['lat'].to_f,row['id'].to_i,nodetags]
+      points << [row['lon'].to_f,row['lat'].to_f,row['id'].to_i,nodetags,row['version'].to_i]
     end
     points
   end
