@@ -236,9 +236,9 @@ class Relation < ActiveRecord::Base
     Relation.transaction do
       check_consistency(self, new_relation, user)
       # This will check to see if this relation is used by another relation
-      if RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", :conditions => [ "visible = ? AND member_type='Relation' and member_id=? ", true, self.id ])
-        raise OSM::APIPreconditionFailedError.new("The relation #{new_relation.id} is a used in another relation")
-      end
+      rel = RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", :conditions => [ "visible = ? AND member_type='Relation' and member_id=? ", true, self.id ])
+      raise OSM::APIPreconditionFailedError.new("The relation #{new_relation.id} is a used in relation #{rel.id}.") unless rel.nil?
+
       self.changeset_id = new_relation.changeset_id
       self.tags = {}
       self.members = []
@@ -249,8 +249,8 @@ class Relation < ActiveRecord::Base
 
   def update_from(new_relation, user)
     check_consistency(self, new_relation, user)
-    if !new_relation.preconditions_ok?
-      raise OSM::APIPreconditionFailedError.new
+    unless preconditions_ok?
+      raise OSM::APIPreconditionFailedError.new("Cannot update relation #{self.id}: data or member data is invalid.")
     end
     self.changeset_id = new_relation.changeset_id
     self.changeset = new_relation.changeset
@@ -262,8 +262,8 @@ class Relation < ActiveRecord::Base
   
   def create_with_history(user)
     check_create_consistency(self, user)
-    if !self.preconditions_ok?
-      raise OSM::APIPreconditionFailedError.new
+    unless self.preconditions_ok?
+      raise OSM::APIPreconditionFailedError.new("Cannot create relation: data or member data is invalid.")
     end
     self.version = 0
     self.visible = true
