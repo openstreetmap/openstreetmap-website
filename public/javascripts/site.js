@@ -1,6 +1,6 @@
 //Called as the user scrolls/zooms around.
 //Maniplate hrefs of the view tab and various other links
-function updatelinks(lon,lat,zoom,layers,extents) {
+function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat) {
   var decimals = Math.pow(10, Math.floor(zoom/3));
   var node;
 
@@ -63,15 +63,18 @@ function updatelinks(lon,lat,zoom,layers,extents) {
     if (zoom >= 11) {
       var args = new Object();
       //set bbox param from 'extents' object
-      minlon = extents.left;
-      minlat = extents.bottom;
-      maxlon = extents.right;
-      maxlat = extents.top;
-      minlon = Math.round(minlon * decimals) / decimals;
-      minlat = Math.round(minlat * decimals) / decimals;
-      maxlon = Math.round(maxlon * decimals) / decimals;
-      maxlat = Math.round(maxlat * decimals) / decimals;
-      args.bbox = minlon + "," + minlat + "," + maxlon + "," + maxlat;
+      if (typeof minlon == "number" &&
+	  typeof minlat == "number" &&
+	  typeof maxlon == "number" &&
+	  typeof maxlat == "number") {
+      
+        minlon = Math.round(minlon * decimals) / decimals;
+        minlat = Math.round(minlat * decimals) / decimals;
+        maxlon = Math.round(maxlon * decimals) / decimals;
+        maxlat = Math.round(maxlat * decimals) / decimals;
+        args.bbox = minlon + "," + minlat + "," + maxlon + "," + maxlat;
+      }
+      
       node.href = setArgs("/history", args);
       node.style.fontStyle = 'normal';
     } else {
