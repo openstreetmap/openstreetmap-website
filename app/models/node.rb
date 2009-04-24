@@ -131,19 +131,21 @@ class Node < ActiveRecord::Base
     # shouldn't be possible to get race conditions.
     Node.transaction do
       check_consistency(self, new_node, user)
-      if WayNode.find(:first, :joins => "INNER JOIN current_ways ON current_ways.id = current_way_nodes.id", :conditions => [ "current_ways.visible = ? AND current_way_nodes.node_id = ?", true, self.id ])
-        raise OSM::APIPreconditionFailedError.new
-      elsif RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", :conditions => [ "visible = ? AND member_type='Node' and member_id=? ", true, self.id])
-        raise OSM::APIPreconditionFailedError.new
-      else
-        self.changeset_id = new_node.changeset_id
-        self.visible = false
-        
-        # update the changeset with the deleted position
-        changeset.update_bbox!(bbox)
-        
-        save_with_history!
-      end
+      way = WayNode.find(:first, :joins => "INNER JOIN current_ways ON current_ways.id = current_way_nodes.id", 
+                         :conditions => [ "current_ways.visible = ? AND current_way_nodes.node_id = ?", true, self.id ])
+      raise OSM::APIPreconditionFailedError.new("Node #{self.id} is still used by way #{way.id}.") unless way.nil?
+      
+      rel = RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", 
+                                :conditions => [ "visible = ? AND member_type='Node' and member_id=? ", true, self.id])
+      raise OSM::APIPreconditionFailedError.new("Node #{self.id} is still used by way #{way.id}.") unless rel.nil?
+
+      self.changeset_id = new_node.changeset_id
+      self.visible = false
+      
+      # update the changeset with the deleted position
+      changeset.update_bbox!(bbox)
+      
+      save_with_history!
     end
   end
 

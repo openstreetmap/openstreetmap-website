@@ -199,8 +199,8 @@ class Way < ActiveRecord::Base
 
   def update_from(new_way, user)
     check_consistency(self, new_way, user)
-    if !new_way.preconditions_ok?
-      raise OSM::APIPreconditionFailedError.new
+    unless new_way.preconditions_ok?
+      raise OSM::APIPreconditionFailedError("Cannot update way #{self.id}: data is invalid.")
     end
 
     self.changeset_id = new_way.changeset_id
@@ -213,8 +213,8 @@ class Way < ActiveRecord::Base
 
   def create_with_history(user)
     check_create_consistency(self, user)
-    if !self.preconditions_ok?
-      raise OSM::APIPreconditionFailedError.new
+    unless self.preconditions_ok?
+      raise OSM::APIPreconditionFailedError("Cannot create way: data is invalid.")
     end
     self.version = 0
     self.visible = true
