@@ -436,12 +436,12 @@ class AmfController < ApplicationController
     if searchterm.to_i>0 then
       rel = Relation.find(searchterm.to_i)
       if rel and rel.visible then
-        rels.push([rel.id, rel.tags, rel.members])
+        rels.push([rel.id, rel.tags, rel.members, rel.version])
       end
     else
       RelationTag.find(:all, :limit => 11, :conditions => ["match(v) against (?)", searchterm] ).each do |t|
       if t.relation.visible then
-	      rels.push([t.relation.id, t.relation.tags, t.relation.members])
+	      rels.push([t.relation.id, t.relation.tags, t.relation.members, t.relation.version])
 	    end
 	  end
 	end
