@@ -713,17 +713,17 @@ class AmfController < ApplicationController
   # Read POI from database
   # (only called on revert: POIs are usually read by whichways).
   #
-  # Returns array of id, long, lat, hash of tags, version.
+  # Returns array of id, long, lat, hash of tags, (current) version.
 
   def getpoi(id,timestamp) #:doc:
-    if timestamp == '' then
-      n = Node.find(id)
-    else
+    n = Node.find(id)
+    v = n.version
+    unless timestamp == ''
       n = OldNode.find(id, :conditions=>['timestamp=?',DateTime.strptime(timestamp, "%d %b %Y, %H:%M:%S")])
     end
 
     if n
-      return [n.id, n.lon, n.lat, n.tags, n.version]
+      return [n.id, n.lon, n.lat, n.tags, v]
     else
       return [nil, nil, nil, {}, nil]
     end
