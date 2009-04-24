@@ -220,7 +220,7 @@ class AmfController < ApplicationController
     [0, ways, points, relations]
 
   rescue Exception => err
-    [-2,"Sorry - I can't get the map for that area."]
+    [-2,"Sorry - I can't get the map for that area. The server said: #{err}"]
   end
 
   # Find deleted ways in current bounding box (similar to whichways, but ways
@@ -236,7 +236,7 @@ class AmfController < ApplicationController
     begin
       check_boundaries(xmin, ymin, xmax, ymax)
     rescue Exception => err
-      return [-2,"Sorry - I can't get the map for that area."]
+      return [-2,"Sorry - I can't get the map for that area. The server said: #{err}"]
     end
 
     nodes_in_area = Node.find_by_area(ymin, xmin, ymax, xmax, :conditions => ["current_ways.visible = ?", false], :include => :ways_via_history)
@@ -515,12 +515,12 @@ class AmfController < ApplicationController
     # Really need to check to see whether this is a server load issue, and the 
     # last version was in the same changeset, or belongs to the same user, then
     # we can return something different
-    return [-3, "Sorry, someone else has changed this relation since you started editing. Please click the 'Edit' tab to reload the area."]
+    return [-3, "Sorry, someone else has changed this relation since you started editing. Please click the 'Edit' tab to reload the area. The server said: #{ex}"]
   rescue OSM::APIAlreadyDeletedError => ex
     return [-1, "The relation has already been deleted."]
   rescue OSM::APIError => ex
     # Some error that we don't specifically catch
-    return [-2, "An unusual error happened (in 'putrelation' #{relid})."]
+    return [-2, "An unusual error happened (in 'putrelation' #{relid}). The server said: #{ex}"]
   end
 
   # Save a way to the database, including all nodes. Any nodes in the previous
@@ -637,14 +637,14 @@ class AmfController < ApplicationController
     # Really need to check to see whether this is a server load issue, and the 
     # last version was in the same changeset, or belongs to the same user, then
     # we can return something different
-    return [-3, "Sorry, someone else has changed this way since you started editing. Please click the 'Edit' tab to reload the area."]
+    return [-3, "Sorry, someone else has changed this way since you started editing. Click the 'Edit' tab to reload the area. The server said: #{ex}"]
   rescue OSM::APITooManyWayNodesError => ex
     return [-1, "You have tried to upload a really long way with #{ex.provided} points: only #{ex.max} are allowed."]
   rescue OSM::APIAlreadyDeletedError => ex
     return [-1, "The point has already been deleted."]
   rescue OSM::APIError => ex
     # Some error that we don't specifically catch
-    return [-2, "An unusual error happened (in 'putway' #{originalway})."]
+    return [-2, "An unusual error happened (in 'putway' #{originalway}). The server said: #{ex}"]
   end
 
   # Save POI to the database.
@@ -702,12 +702,12 @@ class AmfController < ApplicationController
     # Really need to check to see whether this is a server load issue, and the 
     # last version was in the same changeset, or belongs to the same user, then
     # we can return something different
-    return [-3, "Sorry, someone else has changed this point since you started editing. Please click the 'Edit' tab to reload the area."]
+    return [-3, "Sorry, someone else has changed this point since you started editing. Please click the 'Edit' tab to reload the area. The server said: #{ex}"]
   rescue OSM::APIAlreadyDeletedError => ex
     return [-1, "The point has already been deleted"]
   rescue OSM::APIError => ex
     # Some error that we don't specifically catch
-    return [-2, "An unusual error happened (in 'putpoi' #{id})."]
+    return [-2, "An unusual error happened (in 'putpoi' #{id}). The server said: #{ex}"]
   end
 
   # Read POI from database
@@ -783,7 +783,7 @@ class AmfController < ApplicationController
     return [-1, "The way has already been deleted."]
   rescue OSM::APIError => ex
     # Some error that we don't specifically catch
-    return [-2, "An unusual error happened (in 'deleteway' #{way_id})."]
+    return [-2, "An unusual error happened (in 'deleteway' #{way_id}). The server said: #{ex}"]
   end
 
 

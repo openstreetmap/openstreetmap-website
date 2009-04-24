@@ -13,6 +13,10 @@ module OSM
     def render_opts
       { :text => "Generic API Error", :status => :internal_server_error, :content_type => "text/plain" }
     end
+
+    def to_s
+      "Generic API Error"
+    end
   end
 
   # Raised when an API object is not found.
@@ -30,6 +34,10 @@ module OSM
     
     def render_opts
       { :text => "Precondition failed: #{@message}", :status => :precondition_failed, :content_type => "text/plain" }
+    end
+
+    def to_s
+      "Precondition failed: #{@message}"
     end
   end
 
@@ -64,6 +72,10 @@ module OSM
   class APIChangesetMissingError < APIError
     def render_opts
       { :text => "You need to supply a changeset to be able to make a change", :status => :conflict, :content_type => "text/plain" }
+    end
+    
+    def to_s
+       "You need to supply a changeset to be able to make a change"
     end
   end
 
@@ -118,6 +130,10 @@ module OSM
       { :text => "Version mismatch: Provided " + provided.to_s +
         ", server had: " + latest.to_s + " of " + type + " " + id.to_s, 
         :status => :conflict, :content_type => "text/plain" }
+    end
+    
+    def to_s
+       "Version mismatch: Provided " + provided.to_s + ", server had: " + latest.to_s + " of " + type + " " + id.to_s
     end
   end
 
