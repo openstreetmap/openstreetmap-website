@@ -214,7 +214,7 @@ class Way < ActiveRecord::Base
   def create_with_history(user)
     check_create_consistency(self, user)
     unless self.preconditions_ok?
-      raise OSM::APIPreconditionFailedError("Cannot create way: data is invalid.")
+      raise OSM::APIPreconditionFailedError.new("Cannot create way: data is invalid.")
     end
     self.version = 0
     self.visible = true
