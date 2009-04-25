@@ -113,7 +113,7 @@ class User < ActiveRecord::Base
   def delete
     self.active = false
     self.display_name = "user_#{self.id}"
-    self.description = nil
+    self.description = ""
     self.home_lat = nil
     self.home_lon = nil
     self.image = nil
