@@ -7,9 +7,6 @@ class ApiController < ApplicationController
   # Help methods for checking boundary sanity and area size
   include MapBoundary
 
-  #COUNT is the number of map requests to allow before exiting and starting a new process
-  @@count = COUNT
-
   # The maximum area you're allowed to request, in square degrees
   MAX_REQUEST_AREA = APP_CONFIG['max_request_area']
 
@@ -71,13 +68,6 @@ class ApiController < ApplicationController
 
     points.each do |point|
       trkseg << point.to_xml_node()
-    end
-
-    #exit when we have too many requests
-    if @@count > MAX_COUNT
-      render :text => doc.to_s, :content_type => "text/xml"
-      @@count = COUNT
-      exit!
     end
 
     response.headers["Content-Disposition"] = "attachment; filename=\"map.osm\""
@@ -206,13 +196,6 @@ class ApiController < ApplicationController
     response.headers["Content-Disposition"] = "attachment; filename=\"map.osm\""
 
     render :text => doc.to_s, :content_type => "text/xml"
-    
-    #exit when we have too many requests
-    if @@count > MAX_COUNT
-      @@count = COUNT
-      
-      exit!
-    end
   end
 
   # Get a list of the tiles that have changed within a specified time
