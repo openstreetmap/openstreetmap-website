@@ -200,7 +200,7 @@ class Way < ActiveRecord::Base
   def update_from(new_way, user)
     check_consistency(self, new_way, user)
     unless new_way.preconditions_ok?
-      raise OSM::APIPreconditionFailedError("Cannot update way #{self.id}: data is invalid.")
+      raise OSM::APIPreconditionFailedError.new("Cannot update way #{self.id}: data is invalid.")
     end
 
     self.changeset_id = new_way.changeset_id
