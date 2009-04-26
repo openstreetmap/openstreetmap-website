@@ -21,4 +21,30 @@
 require File.dirname(__FILE__) + "/../config/environment"
 require 'fcgi_handler'
 
-RailsFCGIHandler.process! nil, 10
+class OpenStreetMapFCGIHandler < RailsFCGIHandler
+protected
+  def process_request(cgi)
+    # Call superclass to process the request
+    super
+
+    # Restart if we've hit our memory limit
+    if resident_size > 512
+      dispatcher_log :info, "restarting due to memory limit"
+      restart!
+    end
+  end
+
+  def resident_size
+    # Read statm to get process sizes. Format is
+    #   Size RSS Shared Text Lib Data
+    fields = File.open("/proc/self/statm") do |file|
+      fields = file.gets.split(" ")
+    end
+
+    # Return resident size in megabytes
+    return fields[1].to_i / 256
+  end
+
+end
+
+OpenStreetMapFCGIHandler.process! nil, 10
