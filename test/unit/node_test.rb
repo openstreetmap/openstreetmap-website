@@ -2,6 +2,10 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class NodeTest < Test::Unit::TestCase
   api_fixtures
+  
+  def test_node_count
+    assert_equal 16, Node.count
+  end
 
   def test_node_too_far_north
 	  invalid_node_test(:node_too_far_north)

@@ -127,11 +127,16 @@ class NodeControllerTest < ActionController::TestCase
   # tests whether the API works and prevents incorrect use while trying
   # to update nodes.
   def test_update
+    ## First test with no user credentials
     # try and update a node without authorisation
     # first try to delete node without auth
     content current_nodes(:visible_node).to_xml
     put :update, :id => current_nodes(:visible_node).id
     assert_response :unauthorized
+    
+    
+    
+    ## Second test with the private user
     
     # setup auth
     basic_authorization(users(:normal_user).email, "test")
@@ -140,7 +145,62 @@ class NodeControllerTest < ActionController::TestCase
 
     # try and update in someone else's changeset
     content update_changeset(current_nodes(:visible_node).to_xml,
-                             changesets(:second_user_first_change).id)
+                             changesets(:public_user_first_change).id)
+    put :update, :id => current_nodes(:visible_node).id
+    assert_require_public_data "update with other user's changeset should be forbidden when date isn't public"
+
+    # try and update in a closed changeset
+    content update_changeset(current_nodes(:visible_node).to_xml,
+                             changesets(:normal_user_closed_change).id)
+    put :update, :id => current_nodes(:visible_node).id
+    assert_require_public_data "update with closed changeset should be forbidden, when data isn't public"
+
+    # try and update in a non-existant changeset
+    content update_changeset(current_nodes(:visible_node).to_xml, 0)
+    put :update, :id => current_nodes(:visible_node).id
+    assert_require_public_data("update with changeset=0 should be forbidden, when data isn't public")
+
+    ## try and submit invalid updates
+    content xml_attr_rewrite(current_nodes(:visible_node).to_xml, 'lat', 91.0);
+    put :update, :id => current_nodes(:visible_node).id
+    assert_require_public_data "node at lat=91 should be forbidden, when data isn't public"
+
+    content xml_attr_rewrite(current_nodes(:visible_node).to_xml, 'lat', -91.0);
+    put :update, :id => current_nodes(:visible_node).id
+    assert_require_public_data "node at lat=-91 should be forbidden, when data isn't public"
+    
+    content xml_attr_rewrite(current_nodes(:visible_node).to_xml, 'lon', 181.0);
+    put :update, :id => current_nodes(:visible_node).id
+    assert_require_public_data "node at lon=181 should be forbidden, when data isn't public"
+
+    content xml_attr_rewrite(current_nodes(:visible_node).to_xml, 'lon', -181.0);
+    put :update, :id => current_nodes(:visible_node).id
+    assert_require_public_data "node at lon=-181 should be forbidden, when data isn't public"
+    
+    ## finally, produce a good request which should work
+    content current_nodes(:visible_node).to_xml
+    put :update, :id => current_nodes(:visible_node).id
+    assert_require_public_data "should have failed with a forbidden when data isn't public"
+
+    
+    
+    
+    ## Finally test with the public user
+    
+    # try and update a node without authorisation
+    # first try to delete node without auth
+    content current_nodes(:visible_node).to_xml
+    put :update, :id => current_nodes(:visible_node).id
+    assert_response :forbidden
+    
+    # setup auth
+    basic_authorization(users(:public_user).email, "test")
+
+    ## trying to break changesets
+
+    # try and update in someone else's changeset
+    content update_changeset(current_nodes(:visible_node).to_xml,
+                              changesets(:normal_user_first_change).id)
     put :update, :id => current_nodes(:visible_node).id
     assert_response :conflict, "update with other user's changeset should be rejected"
 
@@ -195,8 +255,8 @@ class NodeControllerTest < ActionController::TestCase
        "should not be able to put 'p1r4at3s!' in the version field"
     
     ## finally, produce a good request which should work
-    content current_nodes(:visible_node).to_xml
-    put :update, :id => current_nodes(:visible_node).id
+    content current_nodes(:public_visible_node).to_xml
+    put :update, :id => current_nodes(:public_visible_node).id
     assert_response :success, "a valid update request failed"
   end
 

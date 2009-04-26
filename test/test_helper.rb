@@ -122,6 +122,13 @@ class Test::Unit::TestCase
   def content(c)
     @request.env["RAW_POST_DATA"] = c.to_s
   end
-
+  
+  # Used to check that the error header and the forbidden responses are given
+  # when the owner of the changset has their data not marked as public
+  def assert_require_public_data(msg = "Shouldn't be able to use API when the user's data is not public")
+    assert_response :forbidden, msg
+    assert_equal @response.headers['Error'], "You must make your edits public to upload new data", "Wrong error message"
+  end
+  
   # Add more helper methods to be used by all tests here...
 end

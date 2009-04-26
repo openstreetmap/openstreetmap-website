@@ -269,6 +269,7 @@ class RelationControllerTest < ActionController::TestCase
   # happen to the correct tables and the API gives sensible results. 
   # this is to test a case that gregory marler noticed and posted to
   # josm-dev.
+  ## FIXME Move this to an integration test
   def test_update_relation_tags
     basic_authorization "test@example.com", "test"
     rel_id = current_relations(:multi_tag_relation).id
