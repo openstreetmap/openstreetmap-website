@@ -29,8 +29,12 @@ protected
 
     # Restart if we've hit our memory limit
     if resident_size > 512
-      dispatcher_log :info, "restarting due to memory limit"
-      restart!
+      run_gc!
+
+      if resident_size > 512
+        dispatcher_log :info, "restarting due to memory limit"
+        restart!
+      end
     end
   end
 
