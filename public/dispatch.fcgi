@@ -48,7 +48,6 @@ protected
     # Return resident size in megabytes
     return fields[1].to_i / 256
   end
-
 end
 
 OpenStreetMapFCGIHandler.process! nil, 10
