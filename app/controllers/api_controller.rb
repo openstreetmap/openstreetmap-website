@@ -16,7 +16,6 @@ class ApiController < ApplicationController
   # Get an XML response containing a list of tracepoints that have been uploaded
   # within the specified bounding box, and in the specified page.
   def trackpoints
-    @@count+=1
     #retrieve the page number
     page = params['page'].to_i
     unless page
@@ -85,8 +84,6 @@ class ApiController < ApplicationController
   # fetched. All the nodes and ways that are referenced by those ways are then 
   # fetched. Finally all the xml is returned.
   def map
-    GC.start
-    @@count+=1
     # Figure out the bbox
     bbox = params['bbox']
 
