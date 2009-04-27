@@ -237,7 +237,7 @@ class Way < ActiveRecord::Base
 
   def delete_with_history!(new_way, user)
     unless self.visible
-      raise OSM::APIAlreadyDeletedError
+      raise OSM::APIAlreadyDeletedError.new("way", new_way.id)
     end
     
     # need to start the transaction here, so that the database can 

@@ -43,8 +43,14 @@ module OSM
 
   # Raised when to delete an already-deleted object.
   class APIAlreadyDeletedError < APIError
+    def initialize(object = "object", object_id = "")
+      @object, @object_id = object, object_id
+    end
+    
+    attr_reader :object, :object_id
+    
     def render_opts
-      { :text => "The object has already been deleted", :status => :gone, :content_type => "text/plain" }
+      { :text => "The #{object} with the id #{object_id} has already been deleted", :status => :gone, :content_type => "text/plain" }
     end
   end
 

@@ -227,7 +227,7 @@ class Relation < ActiveRecord::Base
 
   def delete_with_history!(new_relation, user)
     unless self.visible
-      raise OSM::APIAlreadyDeletedError.new
+      raise OSM::APIAlreadyDeletedError.new("relation", new_relation.id)
     end
 
     # need to start the transaction here, so that the database can 
