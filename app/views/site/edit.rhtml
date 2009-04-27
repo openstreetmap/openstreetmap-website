@@ -8,8 +8,8 @@
 </p>
 <% elsif !@user.data_public? %>
 <p>You haven't set your edits to be public.</p>
-<p>You can't use the online editor unless you do so. You can set your edits as public from your 
-<%= link_to 'user page', {:controller => 'user', :action => 'account', :display_name => @user.display_name}%>.</p>
+<p>You can no longer edit the map unless you do so. You can set your edits as public from your 
+<%= link_to 'user page', {:controller => 'user', :action => 'account', :display_name => @user.display_name, :anchor => 'public'}%>.</p>
 <p>(<a href="http://wiki.openstreetmap.org/index.php/Disabling_anonymous_edits">Find out why this is the case.</a>)</p>
 <% else %>
 <% content_for :greeting do %>
