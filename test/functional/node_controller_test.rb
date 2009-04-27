@@ -5,6 +5,24 @@ class NodeControllerTest < ActionController::TestCase
 
   def test_create
     # cannot read password from fixture as it is stored as MD5 digest
+    ## First try with no auth
+    
+    # create a node with random lat/lon
+    lat = rand(100)-50 + rand
+    lon = rand(100)-50 + rand
+    # normal user has a changeset open, so we'll use that.
+    changeset = changesets(:normal_user_first_change)
+    # create a minimal xml file
+    content("<osm><node lat='#{lat}' lon='#{lon}' changeset='#{changeset.id}'/></osm>")
+    assert_difference('OldNode.count', 0) do
+      put :create
+    end
+    # hope for unauthorized
+    assert_response :unauthorized, "node upload did not return unauthorized status"
+
+    
+    
+    ## Now try with the user which doesn't have their data public
     basic_authorization(users(:normal_user).email, "test")
     
     # create a node with random lat/lon
@@ -12,6 +30,24 @@ class NodeControllerTest < ActionController::TestCase
     lon = rand(100)-50 + rand
     # normal user has a changeset open, so we'll use that.
     changeset = changesets(:normal_user_first_change)
+    # create a minimal xml file
+    content("<osm><node lat='#{lat}' lon='#{lon}' changeset='#{changeset.id}'/></osm>")
+    assert_difference('Node.count', 0) do
+      put :create
+    end
+    # hope for success
+    assert_require_public_data "node create did not return forbidden status"
+
+
+    
+    ## Now try with the user that has the public data
+    basic_authorization(users(:public_user).email, "test")
+    
+    # create a node with random lat/lon
+    lat = rand(100)-50 + rand
+    lon = rand(100)-50 + rand
+    # normal user has a changeset open, so we'll use that.
+    changeset = changesets(:public_user_first_change)
     # create a minimal xml file
     content("<osm><node lat='#{lat}' lon='#{lon}' changeset='#{changeset.id}'/></osm>")
     put :create
@@ -25,15 +61,17 @@ class NodeControllerTest < ActionController::TestCase
     # compare values
     assert_in_delta lat * 10000000, checknode.latitude, 1, "saved node does not match requested latitude"
     assert_in_delta lon * 10000000, checknode.longitude, 1, "saved node does not match requested longitude"
-    assert_equal changesets(:normal_user_first_change).id, checknode.changeset_id, "saved node does not belong to changeset that it was created in"
+    assert_equal changesets(:public_user_first_change).id, checknode.changeset_id, "saved node does not belong to changeset that it was created in"
     assert_equal true, checknode.visible, "saved node is not visible"
   end
 
   def test_create_invalid_xml
+    ## Only test public user here, as test_create should cover what's the forbiddens
+    ## that would occur here
     # Initial setup
-    basic_authorization(users(:normal_user).email, "test")
+    basic_authorization(users(:public_user).email, "test")
     # normal user has a changeset open, so we'll use that.
-    changeset = changesets(:normal_user_first_change)
+    changeset = changesets(:public_user_first_change)
     lat = 3.434
     lon = 3.23
     
@@ -43,7 +81,7 @@ class NodeControllerTest < ActionController::TestCase
     put :create
     # hope for success
     assert_response :bad_request, "node upload did not return bad_request status"
-    assert_equal 'Cannot parse valid node from xml string <node lon="3.23" changeset="1"/>. lat missing', @response.body
+    assert_equal "Cannot parse valid node from xml string <node lon=\"3.23\" changeset=\"#{changeset.id}\"/>. lat missing", @response.body
 
     # test that the upload is rejected when no lon is supplied
     # create a minimal xml file
@@ -51,7 +89,7 @@ class NodeControllerTest < ActionController::TestCase
     put :create
     # hope for success
     assert_response :bad_request, "node upload did not return bad_request status"
-    assert_equal 'Cannot parse valid node from xml string <node lat="3.434" changeset="1"/>. lon missing', @response.body
+    assert_equal "Cannot parse valid node from xml string <node lat=\"3.434\" changeset=\"#{changeset.id}\"/>. lon missing", @response.body
 
   end
 
@@ -72,12 +110,56 @@ class NodeControllerTest < ActionController::TestCase
   # this tests deletion restrictions - basic deletion is tested in the unit
   # tests for node!
   def test_delete
-    # first try to delete node without auth
+    ## first try to delete node without auth
     delete :delete, :id => current_nodes(:visible_node).id
     assert_response :unauthorized
-
-    # now set auth
+    
+    
+    ## now set auth for the non-data public user
     basic_authorization(users(:normal_user).email, "test");  
+
+    # try to delete with an invalid (closed) changeset
+    content update_changeset(current_nodes(:visible_node).to_xml,
+                             changesets(:normal_user_closed_change).id)
+    delete :delete, :id => current_nodes(:visible_node).id
+    assert_require_public_data("non-public user shouldn't be able to delete node")
+
+    # try to delete with an invalid (non-existent) changeset
+    content update_changeset(current_nodes(:visible_node).to_xml,0)
+    delete :delete, :id => current_nodes(:visible_node).id
+    assert_require_public_data("shouldn't be able to delete node, when user's data is private")
+
+    # valid delete now takes a payload
+    content(nodes(:visible_node).to_xml)
+    delete :delete, :id => current_nodes(:visible_node).id
+    assert_require_public_data("shouldn't be able to delete node when user's data isn't public'")
+
+    # this won't work since the node is already deleted
+    content(nodes(:invisible_node).to_xml)
+    delete :delete, :id => current_nodes(:invisible_node).id
+    assert_require_public_data
+
+    # this won't work since the node never existed
+    delete :delete, :id => 0
+    assert_require_public_data
+
+    ## these test whether nodes which are in-use can be deleted:
+    # in a way...
+    content(nodes(:used_node_1).to_xml)
+    delete :delete, :id => current_nodes(:used_node_1).id
+    assert_require_public_data
+       "shouldn't be able to delete a node used in a way (#{@response.body})"
+
+    # in a relation...
+    content(nodes(:node_used_by_relationship).to_xml)
+    delete :delete, :id => current_nodes(:node_used_by_relationship).id
+    assert_require_public_data
+       "shouldn't be able to delete a node used in a relation (#{@response.body})"
+
+    
+
+    ## now set auth for the public data user
+    basic_authorization(users(:public_user).email, "test");  
 
     # try to delete with an invalid (closed) changeset
     content update_changeset(current_nodes(:visible_node).to_xml,
@@ -91,13 +173,13 @@ class NodeControllerTest < ActionController::TestCase
     assert_response :conflict
 
     # valid delete now takes a payload
-    content(nodes(:visible_node).to_xml)
-    delete :delete, :id => current_nodes(:visible_node).id
+    content(nodes(:public_visible_node).to_xml)
+    delete :delete, :id => current_nodes(:public_visible_node).id
     assert_response :success
 
     # valid delete should return the new version number, which should
     # be greater than the old version number
-    assert @response.body.to_i > current_nodes(:visible_node).version,
+    assert @response.body.to_i > current_nodes(:public_visible_node).version,
        "delete request should return a new version number for node"
 
     # this won't work since the node is already deleted
@@ -264,29 +346,43 @@ class NodeControllerTest < ActionController::TestCase
   # test adding tags to a node
   def test_duplicate_tags
     # setup auth
-    basic_authorization(users(:normal_user).email, "test")
+    basic_authorization(users(:public_user).email, "test")
 
     # add an identical tag to the node
     tag_xml = XML::Node.new("tag")
-    tag_xml['k'] = current_node_tags(:t1).k
-    tag_xml['v'] = current_node_tags(:t1).v
+    tag_xml['k'] = current_node_tags(:public_v_t1).k
+    tag_xml['v'] = current_node_tags(:public_v_t1).v
 
     # add the tag into the existing xml
-    node_xml = current_nodes(:visible_node).to_xml
+    node_xml = current_nodes(:public_visible_node).to_xml
     node_xml.find("//osm/node").first << tag_xml
 
     # try and upload it
     content node_xml
-    put :update, :id => current_nodes(:visible_node).id
+    put :update, :id => current_nodes(:public_visible_node).id
     assert_response :bad_request, 
       "adding duplicate tags to a node should fail with 'bad request'"
-    assert_equal "Element node/#{current_nodes(:visible_node).id} has duplicate tags with key #{current_node_tags(:t1).k}.", @response.body
+    assert_equal "Element node/#{current_nodes(:public_visible_node).id} has duplicate tags with key #{current_node_tags(:t1).k}.", @response.body
   end
 
   # test whether string injection is possible
   def test_string_injection
+    ## First try with the non-data public user
     basic_authorization(users(:normal_user).email, "test")
     changeset_id = changesets(:normal_user_first_change).id
+
+    # try and put something into a string that the API might 
+    # use unquoted and therefore allow code injection...
+    content "<osm><node lat='0' lon='0' changeset='#{changeset_id}'>" +
+      '<tag k="#{@user.inspect}" v="0"/>' +
+      '</node></osm>'
+    put :create
+    assert_require_public_data "Shouldn't be able to create with non-public user"
+    
+    
+    ## Then try with the public data user
+    basic_authorization(users(:public_user).email, "test")
+    changeset_id = changesets(:public_user_first_change).id
 
     # try and put something into a string that the API might 
     # use unquoted and therefore allow code injection...

@@ -300,7 +300,7 @@ class RelationControllerTest < ActionController::TestCase
   # and the API gives sensible results. this is to test a case that 
   # gregory marler noticed and posted to josm-dev.
   def test_update_relation_tags_via_upload
-    basic_authorization "test@example.com", "test"
+    basic_authorization users(:public_user).email, "test"
     rel_id = current_relations(:multi_tag_relation).id
     cs_id = changesets(:public_user_first_change).id
 
@@ -328,10 +328,10 @@ class RelationControllerTest < ActionController::TestCase
   # -------------------------------------
 
   def test_create_invalid
-    basic_authorization "test@openstreetmap.org", "test"
+    basic_authorization users(:public_user).email, "test"
 
     # put the relation in a dummy fixture changset
-    changeset_id = changesets(:normal_user_first_change).id
+    changeset_id = changesets(:public_user_first_change).id
 
     # create a relation with non-existing node as member
     content "<osm><relation changeset='#{changeset_id}'>" +
@@ -347,10 +347,10 @@ class RelationControllerTest < ActionController::TestCase
   # Test creating a relation, with some invalid XML
   # -------------------------------------
   def test_create_invalid_xml
-    basic_authorization "test@openstreetmap.org", "test"
+    basic_authorization users(:public_user).email, "test"
     
     # put the relation in a dummy fixture changeset that works
-    changeset_id = changesets(:normal_user_first_change).id
+    changeset_id = changesets(:public_user_first_change).id
     
     # create some xml that should return an error
     content "<osm><relation changeset='#{changeset_id}'>" +

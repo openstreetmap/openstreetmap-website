@@ -4,7 +4,7 @@ class OldNodeTest < Test::Unit::TestCase
   api_fixtures
 
   def test_old_node_tag_count
-    assert_equal 8, OldNodeTag.count, "Unexpected number of fixtures loaded."
+    assert_equal 9, OldNodeTag.count, "Unexpected number of fixtures loaded."
   end
   
   def test_length_key_valid
