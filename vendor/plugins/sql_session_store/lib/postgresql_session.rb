@@ -46,8 +46,12 @@ class PostgresqlSession
     def find_session(session_id)
       connection = session_connection
       result = connection.query("SELECT id, data FROM sessions WHERE session_id = $1 LIMIT 1", [session_id])
-      my_session = new(session_id, result.getvalue(0, 1))
-      my_session.id = result.getvalue(0, 0)
+      if result.ntuples > 0
+        my_session = new(session_id, result.getvalue(0, 1))
+        my_session.id = result.getvalue(0, 0)
+      else
+        my_session = nil
+      end
       result.clear
       my_session
     end
