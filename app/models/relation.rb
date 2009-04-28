@@ -151,7 +151,7 @@ class Relation < ActiveRecord::Base
     if ids.empty?
       return []
     else
-      self.with_scope(:find => { :joins => "INNER JOIN current_relation_members AS crm ON crm.id = current_relations.id", :conditions => "current_relation_members.member_type = 'Node' AND current_relation_members.member_id IN (#{ids.join(',')})" }) do
+      self.with_scope(:find => { :joins => "INNER JOIN current_relation_members AS crm ON crm.id = current_relations.id", :conditions => "crm.member_type = 'Node' AND crm.member_id IN (#{ids.join(',')})" }) do
         return self.find(:all, options)
       end
     end
@@ -161,7 +161,7 @@ class Relation < ActiveRecord::Base
     if ids.empty?
       return []
     else
-      self.with_scope(:find => { :joins => "INNER JOIN current_relation_members AS crm ON crm.id = current_relations.id", :conditions => "current_relation_members.member_type = 'Way' AND current_relation_members.member_id IN (#{ids.join(',')})" }) do
+      self.with_scope(:find => { :joins => "INNER JOIN current_relation_members AS crm ON crm.id = current_relations.id", :conditions => "crm.member_type = 'Way' AND crm.member_id IN (#{ids.join(',')})" }) do
         return self.find(:all, options)
       end
     end
@@ -171,7 +171,7 @@ class Relation < ActiveRecord::Base
     if ids.empty?
       return []
     else
-      self.with_scope(:find => { :joins => "INNER JOIN current_relation_members AS crm ON crm.id = current_relations.id", :conditions => "current_relation_members.member_type = 'Relation' AND current_relation_members.member_id IN (#{ids.join(',')})" }) do
+      self.with_scope(:find => { :joins => "INNER JOIN current_relation_members AS crm ON crm.id = current_relations.id", :conditions => "crm.member_type = 'Relation' AND crm.member_id IN (#{ids.join(',')})" }) do
         return self.find(:all, options)
       end
     end
