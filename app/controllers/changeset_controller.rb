@@ -12,6 +12,8 @@ class ChangesetController < ApplicationController
   before_filter :check_api_readable, :except => [:create, :update, :delete, :upload, :download, :query]
   after_filter :compress_output
 
+  filter_parameter_logging "<osmChange version"
+
   # Help methods for checking boundary sanity and area size
   include MapBoundary
 
