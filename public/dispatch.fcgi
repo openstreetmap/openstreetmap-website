@@ -29,12 +29,8 @@ protected
 
     # Restart if we've hit our memory limit
     if resident_size > 512
-      run_gc!
-
-      if resident_size > 512
-        dispatcher_log :info, "restarting due to memory limit"
-        restart!
-      end
+      dispatcher_log :info, "restarting due to memory limit"
+      restart!
     end
   end
 
@@ -50,4 +46,4 @@ protected
   end
 end
 
-OpenStreetMapFCGIHandler.process! nil, 10
+OpenStreetMapFCGIHandler.process!
