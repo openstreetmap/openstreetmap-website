@@ -362,7 +362,6 @@ class Relation < ActiveRecord::Base
       tags_changed |= (not tags.empty?)
       RelationTag.delete_all(:id => self.id)
       self.tags.each do |k,v|
-        logger.info "TAG added: #{k} -> #{v}"
         tag = RelationTag.new
         tag.k = k
         tag.v = v
