@@ -1,6 +1,6 @@
-require 'postgres'
+require 'pg'
 
-# allow access to the real Mysql connection
+# allow access to the real Posqtgresql connection
 class ActiveRecord::ConnectionAdapters::PostgreSQLAdapter
   attr_reader :connection
 end
@@ -45,16 +45,9 @@ class PostgresqlSession
     # outside this class.
     def find_session(session_id)
       connection = session_connection
-      # postgres adds string delimiters when quoting, so strip them off
-      session_id = PGconn::quote(session_id)[1..-2]
-      result = connection.query("SELECT id, data FROM sessions WHERE session_id='#{session_id}' LIMIT 1")
-      my_session = nil
-      # each is used below, as other methods barf on my 64bit linux machine
-      # I suspect this to be a bug in mysql-ruby
-      result.each do |row|
-        my_session = new(session_id, row[1])
-        my_session.id = row[0]
-      end
+      result = connection.query("SELECT id, data FROM sessions WHERE session_id = $1 LIMIT 1", [session_id])
+      my_session = new(session_id, result.getvalue(0, 1))
+      my_session.id = result.getvalue(0, 0)
       result.clear
       my_session
     end
@@ -62,12 +55,10 @@ class PostgresqlSession
     # create a new session with given +session_id+ and +data+
     # and save it immediately to the database
     def create_session(session_id, data)
-      # postgres adds string delimiters when quoting, so strip them off
-      session_id = PGconn::quote(session_id)[1..-2]
       new_session = new(session_id, data)
       if @@eager_session_creation
         connection = session_connection
-        connection.query("INSERT INTO sessions (\"created_at\", \"updated_at\", \"session_id\", \"data\") VALUES (NOW(), NOW(), '#{session_id}', #{PGconn::quote(data)})")
+        connection.query("INSERT INTO sessions (created_at, updated_at, session_id, data) VALUES (NOW(), NOW(), $1, $2)", [session_id, data])
         new_session.id = connection.lastval
       end
       new_session
@@ -75,9 +66,9 @@ class PostgresqlSession
 
     # delete all sessions meeting a given +condition+. it is the
     # caller's responsibility to pass a valid sql condition
-    def delete_all(condition=nil)
-      if condition
-        session_connection.query("DELETE FROM sessions WHERE #{condition}")
+    def delete_all(id=nil)
+      if id
+        session_connection.query("DELETE FROM sessions WHERE session_id = $1", [id])
       else
         session_connection.query("DELETE FROM sessions")
       end
@@ -93,18 +84,19 @@ class PostgresqlSession
     if @id
       # if @id is not nil, this is a session already stored in the database
       # update the relevant field using @id as key
-      connection.query("UPDATE sessions SET \"updated_at\"=NOW(), \"data\"=#{PGconn::quote(data)} WHERE id=#{@id}")
+      connection.query("UPDATE sessions SET updated_at = NOW(), data = $1 WHERE id = $2", [data, @id])
     else
       # if @id is nil, we need to create a new session in the database
       # and set @id to the primary key of the inserted record
-      connection.query("INSERT INTO sessions (\"created_at\",  \"updated_at\", \"session_id\", \"data\") VALUES (NOW(), NOW(), '#{@session_id}', #{PGconn::quote(data)})")
-      @id = connection.lastval rescue connection.query("select lastval()").first[0]
+      result = connection.query("INSERT INTO sessions (created_at,  updated_at, session_id, data) VALUES (NOW(), NOW(), $1, $2) RETURNING id", [@session_id, data])
+      @id = result.getvalue(0, 0)
+      result.clear
     end
   end
 
   # destroy the current session
   def destroy
-    self.class.delete_all("session_id=#{PGconn.quote(session_id)}")
+    self.class.delete_all(session_id)
   end
 
 end
