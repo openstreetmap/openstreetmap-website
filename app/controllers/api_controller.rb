@@ -157,11 +157,12 @@ class ApiController < ApplicationController
     end
 
     visible_nodes = {}
+    changeset_cache = {}
     user_display_name_cache = {}
 
     @nodes.each do |node|
       if node.visible?
-        doc.root << node.to_xml_node(user_display_name_cache)
+        doc.root << node.to_xml_node(changeset_cache, user_display_name_cache)
         visible_nodes[node.id] = node
       end
     end
@@ -169,7 +170,7 @@ class ApiController < ApplicationController
     way_ids = Array.new
     ways.each do |way|
       if way.visible?
-        doc.root << way.to_xml_node(visible_nodes, user_display_name_cache)
+        doc.root << way.to_xml_node(visible_nodes, changeset_cache, user_display_name_cache)
         way_ids << way.id
       end
     end 
@@ -187,7 +188,7 @@ class ApiController < ApplicationController
     # this "uniq" may be slightly inefficient; it may be better to first collect and output
     # all node-related relations, then find the *not yet covered* way-related ones etc.
     relations.uniq.each do |relation|
-      doc.root << relation.to_xml_node(user_display_name_cache)
+      doc.root << relation.to_xml_node(changeset_cache, user_display_name_cache)
     end
 
     response.headers["Content-Disposition"] = "attachment; filename=\"map.osm\""

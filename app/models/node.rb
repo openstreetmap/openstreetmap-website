@@ -188,27 +188,33 @@ class Node < ActiveRecord::Base
     return doc
   end
 
-  def to_xml_node(user_display_name_cache = nil)
+  def to_xml_node(changeset_cache = {}, user_display_name_cache = {})
     el1 = XML::Node.new 'node'
     el1['id'] = self.id.to_s
     el1['lat'] = self.lat.to_s
     el1['lon'] = self.lon.to_s
     el1['version'] = self.version.to_s
     el1['changeset'] = self.changeset_id.to_s
-    
-    user_display_name_cache = {} if user_display_name_cache.nil?
 
-    if user_display_name_cache and user_display_name_cache.key?(self.changeset.user_id)
+    if changeset_cache.key?(self.changeset_id)
       # use the cache if available
-    elsif self.changeset.user.data_public?
-      user_display_name_cache[self.changeset.user_id] = self.changeset.user.display_name
     else
-      user_display_name_cache[self.changeset.user_id] = nil
+      changeset_cache[self.changeset_id] = self.changeset.user_id
     end
 
-    if not user_display_name_cache[self.changeset.user_id].nil?
-      el1['user'] = user_display_name_cache[self.changeset.user_id]
-      el1['uid'] = self.changeset.user_id.to_s
+    user_id = changeset_cache[self.changeset_id]
+
+    if user_display_name_cache.key?(user_id)
+      # use the cache if available
+    elsif self.changeset.user.data_public?
+      user_display_name_cache[user_id] = self.changeset.user.display_name
+    else
+      user_display_name_cache[user_id] = nil
+    end
+
+    if not user_display_name_cache[user_id].nil?
+      el1['user'] = user_display_name_cache[user_id]
+      el1['uid'] = user_id.to_s
     end
 
     self.tags.each do |k,v|
