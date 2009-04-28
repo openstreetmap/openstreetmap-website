@@ -107,7 +107,7 @@ class ApiController < ApplicationController
     end
 
     # FIXME um why is this area using a different order for the lat/lon from above???
-    @nodes = Node.find_by_area(min_lat, min_lon, max_lat, max_lon, :conditions => {:visible => true}, :limit => APP_CONFIG['max_number_of_nodes']+1)
+    @nodes = Node.find_by_area(min_lat, min_lon, max_lat, max_lon, :conditions => {:visible => true}, :include => :node_tags, :limit => APP_CONFIG['max_number_of_nodes']+1)
     # get all the nodes, by tag not yet working, waiting for change from NickB
     # need to be @nodes (instance var) so tests in /spec can be performed
     #@nodes = Node.search(bbox, params[:tag])
@@ -138,7 +138,7 @@ class ApiController < ApplicationController
     if node_ids.length > 0
       way_nodes = WayNode.find_all_by_node_id(node_ids)
       way_ids = way_nodes.collect { |way_node| way_node.id[0] }
-      ways = Way.find(way_ids)
+      ways = Way.find(way_ids, :include => [:way_nodes, :way_tags])
 
       list_of_way_nodes = ways.collect { |way|
         way.way_nodes.collect { |way_node| way_node.node_id }
@@ -153,7 +153,7 @@ class ApiController < ApplicationController
     nodes_to_fetch = (list_of_way_nodes.uniq - node_ids) - [0]
 
     if nodes_to_fetch.length > 0
-      @nodes += Node.find(nodes_to_fetch)
+      @nodes += Node.find(nodes_to_fetch, :include => :node_tags)
     end
 
     visible_nodes = {}
