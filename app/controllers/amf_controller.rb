@@ -48,87 +48,95 @@ class AmfController < ApplicationController
   # ** FIXME: refactor to reduce duplication of code across read/write
   
   def amf_read
-    req=StringIO.new(request.raw_post+0.chr)# Get POST data as request
-                              # (cf http://www.ruby-forum.com/topic/122163)
-    req.read(2)								# Skip version indicator and client ID
-    results={}								# Results of each body
+    if request.post?
+      req=StringIO.new(request.raw_post+0.chr)# Get POST data as request
+                                # (cf http://www.ruby-forum.com/topic/122163)
+      req.read(2)								# Skip version indicator and client ID
+      results={}								# Results of each body
 
-    # Parse request
+      # Parse request
 
-	headers=AMF.getint(req)					# Read number of headers
+      headers=AMF.getint(req)				# Read number of headers
 
-    headers.times do						# Read each header
-      name=AMF.getstring(req)				#  |
-      req.getc				   				#  | skip boolean
-      value=AMF.getvalue(req)				#  |
-      header["name"]=value					#  |
-    end
-
-    bodies=AMF.getint(req)					# Read number of bodies
-    bodies.times do							# Read each body
-      message=AMF.getstring(req)			#  | get message name
-      index=AMF.getstring(req)				#  | get index in response sequence
-      bytes=AMF.getlong(req)				#  | get total size in bytes
-      args=AMF.getvalue(req)				#  | get response (probably an array)
-      logger.info("Executing AMF #{message}:#{index}")
-
-      case message
-        when 'getpresets';			results[index]=AMF.putdata(index,getpresets())
-        when 'whichways';			results[index]=AMF.putdata(index,whichways(*args))
-        when 'whichways_deleted';	results[index]=AMF.putdata(index,whichways_deleted(*args))
-        when 'getway';				r=AMF.putdata(index,getway(args[0].to_i))
-                                    results[index]=r
-        when 'getrelation';			results[index]=AMF.putdata(index,getrelation(args[0].to_i))
-        when 'getway_old';			results[index]=AMF.putdata(index,getway_old(args[0].to_i,args[1]))
-        when 'getway_history';		results[index]=AMF.putdata(index,getway_history(args[0].to_i))
-        when 'getnode_history';		results[index]=AMF.putdata(index,getnode_history(args[0].to_i))
-        when 'findgpx';				results[index]=AMF.putdata(index,findgpx(*args))
-        when 'findrelations';		results[index]=AMF.putdata(index,findrelations(*args))
-        when 'getpoi';				results[index]=AMF.putdata(index,getpoi(*args))
+      headers.times do					# Read each header
+        name=AMF.getstring(req)				#  |
+        req.getc				   	#  | skip boolean
+        value=AMF.getvalue(req)				#  |
+        header["name"]=value				#  |
       end
+
+      bodies=AMF.getint(req)				# Read number of bodies
+      bodies.times do					# Read each body
+        message=AMF.getstring(req)			#  | get message name
+        index=AMF.getstring(req)			#  | get index in response sequence
+        bytes=AMF.getlong(req)				#  | get total size in bytes
+        args=AMF.getvalue(req)				#  | get response (probably an array)
+        logger.info("Executing AMF #{message}:#{index}")
+
+        case message
+          when 'getpresets';		results[index]=AMF.putdata(index,getpresets())
+          when 'whichways';		results[index]=AMF.putdata(index,whichways(*args))
+          when 'whichways_deleted';	results[index]=AMF.putdata(index,whichways_deleted(*args))
+          when 'getway';		r=AMF.putdata(index,getway(args[0].to_i))
+                                        results[index]=r
+          when 'getrelation';		results[index]=AMF.putdata(index,getrelation(args[0].to_i))
+          when 'getway_old';		results[index]=AMF.putdata(index,getway_old(args[0].to_i,args[1]))
+          when 'getway_history';	results[index]=AMF.putdata(index,getway_history(args[0].to_i))
+          when 'getnode_history';	results[index]=AMF.putdata(index,getnode_history(args[0].to_i))
+          when 'findgpx';		results[index]=AMF.putdata(index,findgpx(*args))
+          when 'findrelations';		results[index]=AMF.putdata(index,findrelations(*args))
+          when 'getpoi';		results[index]=AMF.putdata(index,getpoi(*args))
+        end
+      end
+      logger.info("encoding AMF results")
+      sendresponse(results)
+    else
+      render :nothing => true, :status => :method_not_allowed
     end
-    logger.info("encoding AMF results")
-    sendresponse(results)
   end
 
   def amf_write
-    req=StringIO.new(request.raw_post+0.chr)
-    req.read(2)
-    results={}
-    renumberednodes={}						# Shared across repeated putways
-    renumberedways={}						# Shared across repeated putways
+    if request.post?
+      req=StringIO.new(request.raw_post+0.chr)
+      req.read(2)
+      results={}
+      renumberednodes={}				# Shared across repeated putways
+      renumberedways={}					# Shared across repeated putways
 
-    headers=AMF.getint(req)					# Read number of headers
-    headers.times do						# Read each header
-      name=AMF.getstring(req)				#  |
-      req.getc				   				#  | skip boolean
-      value=AMF.getvalue(req)				#  |
-      header["name"]=value					#  |
-    end
-
-    bodies=AMF.getint(req)					# Read number of bodies
-    bodies.times do							# Read each body
-      message=AMF.getstring(req)			#  | get message name
-      index=AMF.getstring(req)				#  | get index in response sequence
-      bytes=AMF.getlong(req)				#  | get total size in bytes
-      args=AMF.getvalue(req)				#  | get response (probably an array)
-
-      logger.info("Executing AMF #{message}:#{index}")
-      case message
-        when 'putway';				r=putway(renumberednodes,*args)
-									renumberednodes=r[3]
-									if r[1] != r[2] then renumberedways[r[1]] = r[2] end
-									results[index]=AMF.putdata(index,r)
-        when 'putrelation';			results[index]=AMF.putdata(index,putrelation(renumberednodes, renumberedways, *args))
-        when 'deleteway';			results[index]=AMF.putdata(index,deleteway(*args))
-        when 'putpoi';				r=putpoi(*args)
-									if r[1] != r[2] then renumberednodes[r[1]] = r[2] end
-        							results[index]=AMF.putdata(index,r)
-        when 'startchangeset';		results[index]=AMF.putdata(index,startchangeset(*args))
+      headers=AMF.getint(req)				# Read number of headers
+      headers.times do					# Read each header
+        name=AMF.getstring(req)				#  |
+        req.getc					#  | skip boolean
+        value=AMF.getvalue(req)				#  |
+        header["name"]=value				#  |
       end
+
+      bodies=AMF.getint(req)				# Read number of bodies
+      bodies.times do					# Read each body
+        message=AMF.getstring(req)			#  | get message name
+        index=AMF.getstring(req)			#  | get index in response sequence
+        bytes=AMF.getlong(req)				#  | get total size in bytes
+        args=AMF.getvalue(req)				#  | get response (probably an array)
+
+        logger.info("Executing AMF #{message}:#{index}")
+        case message
+          when 'putway';			r=putway(renumberednodes,*args)
+						renumberednodes=r[3]
+						if r[1] != r[2] then renumberedways[r[1]] = r[2] end
+						results[index]=AMF.putdata(index,r)
+          when 'putrelation';			results[index]=AMF.putdata(index,putrelation(renumberednodes, renumberedways, *args))
+          when 'deleteway';			results[index]=AMF.putdata(index,deleteway(*args))
+          when 'putpoi';			r=putpoi(*args)
+						if r[1] != r[2] then renumberednodes[r[1]] = r[2] end
+        					results[index]=AMF.putdata(index,r)
+          when 'startchangeset';		results[index]=AMF.putdata(index,startchangeset(*args))
+        end
+      end
+      logger.info("encoding AMF results")
+      sendresponse(results)
+    else
+      render :nothing => true, :status => :method_not_allowed
     end
-    logger.info("encoding AMF results")
-    sendresponse(results)
   end
 
   private
