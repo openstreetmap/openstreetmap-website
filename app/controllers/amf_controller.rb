@@ -266,7 +266,7 @@ class AmfController < ApplicationController
         # then rails only seems to return the first copy of a node when a
         # way includes a node more than once
         begin
-          way = Way.find(wayid)
+          way = Way.find(wayid, :include => { :nodes => :node_tags })
         rescue ActiveRecord::RecordNotFound
           return [wayid,[],{}]
         end
