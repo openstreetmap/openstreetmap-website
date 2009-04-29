@@ -130,5 +130,11 @@ class Test::Unit::TestCase
     assert_equal @response.headers['Error'], "You must make your edits public to upload new data", "Wrong error message"
   end
   
+  # Not sure this is the best response we could give
+  def assert_inactive_user(msg = "an inactive user shouldn't be able to access the API")
+    assert_response :unauthorized, msg
+    #assert_equal @response.headers['Error'], ""
+  end
+  
   # Add more helper methods to be used by all tests here...
 end

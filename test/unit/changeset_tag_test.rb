@@ -4,7 +4,7 @@ class ChangesetTagTest < Test::Unit::TestCase
   api_fixtures
 
   def test_changeset_tag_count
-    assert_equal 1, ChangesetTag.count
+    assert_equal 2, ChangesetTag.count
   end
   
   def test_length_key_valid

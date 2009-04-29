@@ -9,8 +9,16 @@ class ChangesetControllerTest < ActionController::TestCase
   # -----------------------
   
   def test_create
-    basic_authorization "test@openstreetmap.org", "test"
+    basic_authorization users(:normal_user).email, "test"
+    # Create the first user's changeset
+    content "<osm><changeset>" +
+      "<tag k='created_by' v='osm test suite checking changesets'/>" + 
+      "</changeset></osm>"
+    put :create
+    assert_require_public_data
     
+    
+    basic_authorization users(:public_user).email, "test"
     # Create the first user's changeset
     content "<osm><changeset>" +
       "<tag k='created_by' v='osm test suite checking changesets'/>" + 
@@ -34,21 +42,44 @@ class ChangesetControllerTest < ActionController::TestCase
   end
   
   def test_create_invalid
-    basic_authorization "test@openstreetmap.org", "test"
+    basic_authorization users(:normal_user).email, "test"
+    content "<osm><changeset></osm>"
+    put :create
+    assert_require_public_data
+
+    ## Try the public user
+    basic_authorization users(:public_user).email, "test"
     content "<osm><changeset></osm>"
     put :create
     assert_response :bad_request, "creating a invalid changeset should fail"
   end
 
   def test_create_invalid_no_content
-    basic_authorization "test@openstreetmap.org", "test"
+    ## First check with no auth
+    put :create
+    assert_response :unauthorized, "shouldn't be able to create a changeset with no auth"
+    
+    ## Now try to with the non-public user
+    basic_authorization users(:normal_user).email, "test"
+    put :create
+    assert_require_public_data
+    
+    ## Try the inactive user
+    basic_authorization users(:inactive_user).email, "test"
+    put :create
+    assert_inactive_user
+    
+    ## Now try to use the public user
+    basic_authorization users(:public_user).email, "test"
     put :create
     assert_response :bad_request, "creating a changeset with no content should fail"
   end
   
   def test_create_wrong_method
-    basic_authorization "test@openstreetmap.org", "test"
+    basic_authorization users(:public_user).email, "test"
     get :create
+    assert_response :method_not_allowed
+    post :create
     assert_response :method_not_allowed
   end
     
@@ -82,7 +113,7 @@ class ChangesetControllerTest < ActionController::TestCase
   ##
   # test that a different user can't close another user's changeset
   def test_close_invalid
-    basic_authorization "test@example.com", "test"
+    basic_authorization user(:public_user).email, "test"
 
     put :close, :id => changesets(:normal_user_first_change).id
     assert_response :conflict
@@ -91,22 +122,24 @@ class ChangesetControllerTest < ActionController::TestCase
 
   ##
   # upload something simple, but valid and check that it can 
-  # be read back ok.
+  # be read back ok
+  # Also try without auth and another user.
   def test_upload_simple_valid
-    basic_authorization "test@openstreetmap.org", "test"
+    ## Try with no auth
+    changeset_id = changesets(:public_user_first_change).id
 
     # simple diff to change a node, way and relation by removing 
     # their tags
     diff = <<EOF
 <osmChange>
  <modify>
-  <node id='1' lon='0' lat='0' changeset='1' version='1'/>
-  <way id='1' changeset='1' version='1'>
+  <node id='1' lon='0' lat='0' changeset='#{changeset_id}' version='1'/>
+  <way id='1' changeset='#{changeset_id}' version='1'>
    <nd ref='3'/>
   </way>
  </modify>
  <modify>
-  <relation id='1' changeset='1' version='1'>
+  <relation id='1' changeset='#{changeset_id}' version='1'>
    <member type='way' role='some' ref='3'/>
    <member type='node' role='some' ref='5'/>
    <member type='relation' role='some' ref='3'/>
@@ -117,7 +150,71 @@ EOF
 
     # upload it
     content diff
-    post :upload, :id => 1
+    post :upload, :id => changeset_id
+    assert_response :unauthorized, 
+      "shouldnn't be able to upload a simple valid diff to changeset: #{@response.body}"
+      
+      
+    
+    ## Now try with a private user
+    basic_authorization users(:normal_user).email, "test"
+    changeset_id = changesets(:normal_user_first_change).id
+
+    # simple diff to change a node, way and relation by removing 
+    # their tags
+    diff = <<EOF
+<osmChange>
+ <modify>
+  <node id='1' lon='0' lat='0' changeset='#{changeset_id}' version='1'/>
+  <way id='1' changeset='#{changeset_id}' version='1'>
+   <nd ref='3'/>
+  </way>
+ </modify>
+ <modify>
+  <relation id='1' changeset='#{changeset_id}' version='1'>
+   <member type='way' role='some' ref='3'/>
+   <member type='node' role='some' ref='5'/>
+   <member type='relation' role='some' ref='3'/>
+  </relation>
+ </modify>
+</osmChange>
+EOF
+
+    # upload it
+    content diff
+    post :upload, :id => changeset_id
+    assert_response :forbidden, 
+      "can't upload a simple valid diff to changeset: #{@response.body}"    
+    
+      
+      
+    ## Now try with the public user
+    basic_authorization users(:public_user).email, "test"
+    changeset_id = changesets(:public_user_first_change).id
+
+    # simple diff to change a node, way and relation by removing 
+    # their tags
+    diff = <<EOF
+<osmChange>
+ <modify>
+  <node id='1' lon='0' lat='0' changeset='#{changeset_id}' version='1'/>
+  <way id='1' changeset='#{changeset_id}' version='1'>
+   <nd ref='3'/>
+  </way>
+ </modify>
+ <modify>
+  <relation id='1' changeset='#{changeset_id}' version='1'>
+   <member type='way' role='some' ref='3'/>
+   <member type='node' role='some' ref='5'/>
+   <member type='relation' role='some' ref='3'/>
+  </relation>
+ </modify>
+</osmChange>
+EOF
+
+    # upload it
+    content diff
+    post :upload, :id => changeset_id
     assert_response :success, 
       "can't upload a simple valid diff to changeset: #{@response.body}"
 
@@ -486,15 +583,16 @@ EOF
   # upload a valid changeset which has a mixture of whitespace
   # to check a bug reported by ivansanchez (#1565).
   def test_upload_whitespace_valid
-    basic_authorization "test@openstreetmap.org", "test"
+    basic_authorization users(:public_user).email, "test"
+    changeset_id = changesets(:public_user_first_change).id
 
     diff = <<EOF
 <osmChange>
- <modify><node id='1' lon='0' lat='0' changeset='1' 
+ <modify><node id='1' lon='0' lat='0' changeset='#{changeset_id}' 
   version='1'></node>
-  <node id='1' lon='1' lat='1' changeset='1' version='2'><tag k='k' v='v'/></node></modify>
+  <node id='1' lon='1' lat='1' changeset='#{changeset_id}' version='2'><tag k='k' v='v'/></node></modify>
  <modify>
-  <relation id='1' changeset='1' version='1'><member 
+ <relation id='1' changeset='#{changeset_id}' version='1'><member 
    type='way' role='some' ref='3'/><member 
     type='node' role='some' ref='5'/>
    <member type='relation' role='some' ref='3'/>
@@ -504,7 +602,7 @@ EOF
 
     # upload it
     content diff
-    post :upload, :id => 1
+    post :upload, :id => changeset_id
     assert_response :success, 
       "can't upload a valid diff with whitespace variations to changeset: #{@response.body}"
 
@@ -521,27 +619,28 @@ EOF
   # upload a valid changeset which has a mixture of whitespace
   # to check a bug reported by ivansanchez.
   def test_upload_reuse_placeholder_valid
-    basic_authorization "test@openstreetmap.org", "test"
+    basic_authorization users(:public_user).email, "test"
+    changeset_id = changesets(:public_user_first_change).id
 
     diff = <<EOF
 <osmChange>
  <create>
-  <node id='-1' lon='0' lat='0' changeset='1'>
+  <node id='-1' lon='0' lat='0' changeset='#{changeset_id}'>
    <tag k="foo" v="bar"/>
   </node>
  </create>
  <modify>
-  <node id='-1' lon='1' lat='1' changeset='1' version='1'/>
+  <node id='-1' lon='1' lat='1' changeset='#{changeset_id}' version='1'/>
  </modify>
  <delete>
-  <node id='-1' lon='2' lat='2' changeset='1' version='2'/>
+  <node id='-1' lon='2' lat='2' changeset='#{changeset_id}' version='2'/>
  </delete>
 </osmChange>
 EOF
 
     # upload it
     content diff
-    post :upload, :id => 1
+    post :upload, :id => changeset_id
     assert_response :success, 
       "can't upload a valid diff with re-used placeholders to changeset: #{@response.body}"
 
@@ -554,21 +653,22 @@ EOF
   # test what happens if a diff upload re-uses placeholder IDs in an
   # illegal way.
   def test_upload_placeholder_invalid
-    basic_authorization "test@openstreetmap.org", "test"
+    basic_authorization users(:public_user).email, "test"
+    changeset_id = changesets(:public_user_first_change).id
 
     diff = <<EOF
 <osmChange>
  <create>
-  <node id='-1' lon='0' lat='0' changeset='1' version='1'/>
-  <node id='-1' lon='1' lat='1' changeset='1' version='1'/>
-  <node id='-1' lon='2' lat='2' changeset='1' version='2'/>
+  <node id='-1' lon='0' lat='0' changeset='#{changeset_id}' version='1'/>
+  <node id='-1' lon='1' lat='1' changeset='#{changeset_id}' version='1'/>
+  <node id='-1' lon='2' lat='2' changeset='#{changeset_id}' version='2'/>
  </create>
 </osmChange>
 EOF
 
     # upload it
     content diff
-    post :upload, :id => 1
+    post :upload, :id => changeset_id
     assert_response :bad_request, 
       "shouldn't be able to re-use placeholder IDs"
   end
@@ -577,15 +677,16 @@ EOF
   # test that uploading a way referencing invalid placeholders gives a 
   # proper error, not a 500.
   def test_upload_placeholder_invalid_way
-    basic_authorization "test@example.com", "test"
+    basic_authorization users(:public_user).email, "test"
+    changeset_id = changesets(:public_user_first_change).id
 
     diff = <<EOF
 <osmChange>
  <create>
-  <node id="-1" lon="0" lat="0" changeset="2" version="1"/>
-  <node id="-2" lon="1" lat="1" changeset="2" version="1"/>
-  <node id="-3" lon="2" lat="2" changeset="2" version="1"/>
-  <way id="-1" changeset="2" version="1">
+  <node id="-1" lon="0" lat="0" changeset="#{changeset_id}" version="1"/>
+  <node id="-2" lon="1" lat="1" changeset="#{changeset_id}" version="1"/>
+  <node id="-3" lon="2" lat="2" changeset="#{changeset_id}" version="1"/>
+  <way id="-1" changeset="#{changeset_id}" version="1">
    <nd ref="-1"/>
    <nd ref="-2"/>
    <nd ref="-3"/>
@@ -597,7 +698,7 @@ EOF
 
     # upload it
     content diff
-    post :upload, :id => 2
+    post :upload, :id => changeset_id
     assert_response :bad_request, 
       "shouldn't be able to use invalid placeholder IDs"
     assert_equal "Placeholder node not found for reference -4 in way -1", @response.body
@@ -606,10 +707,10 @@ EOF
     diff = <<EOF
 <osmChange>
  <create>
-  <node id="-1" lon="0" lat="0" changeset="2" version="1"/>
-  <node id="-2" lon="1" lat="1" changeset="2" version="1"/>
-  <node id="-3" lon="2" lat="2" changeset="2" version="1"/>
-  <way id="1" changeset="2" version="1">
+  <node id="-1" lon="0" lat="0" changeset="#{changeset_id}" version="1"/>
+  <node id="-2" lon="1" lat="1" changeset="#{changeset_id}" version="1"/>
+  <node id="-3" lon="2" lat="2" changeset="#{changeset_id}" version="1"/>
+  <way id="1" changeset="#{changeset_id}" version="1">
    <nd ref="-1"/>
    <nd ref="-2"/>
    <nd ref="-3"/>
@@ -621,7 +722,7 @@ EOF
 
     # upload it
     content diff
-    post :upload, :id => 2
+    post :upload, :id => changeset_id
     assert_response :bad_request, 
       "shouldn't be able to use invalid placeholder IDs"
     assert_equal "Placeholder node not found for reference -4 in way 1", @response.body
@@ -631,15 +732,16 @@ EOF
   # test that uploading a relation referencing invalid placeholders gives a 
   # proper error, not a 500.
   def test_upload_placeholder_invalid_relation
-    basic_authorization "test@example.com", "test"
+    basic_authorization users(:public_user).email, "test"
+    changeset_id = changesets(:public_user_first_change).id
 
     diff = <<EOF
 <osmChange>
  <create>
-  <node id="-1" lon="0" lat="0" changeset="2" version="1"/>
-  <node id="-2" lon="1" lat="1" changeset="2" version="1"/>
-  <node id="-3" lon="2" lat="2" changeset="2" version="1"/>
-  <relation id="-1" changeset="2" version="1">
+  <node id="-1" lon="0" lat="0" changeset="#{changeset_id}" version="1"/>
+  <node id="-2" lon="1" lat="1" changeset="#{changeset_id}" version="1"/>
+  <node id="-3" lon="2" lat="2" changeset="#{changeset_id}" version="1"/>
+  <relation id="-1" changeset="#{changeset_id}" version="1">
    <member type="node" role="foo" ref="-1"/>
    <member type="node" role="foo" ref="-2"/>
    <member type="node" role="foo" ref="-3"/>
@@ -651,7 +753,7 @@ EOF
 
     # upload it
     content diff
-    post :upload, :id => 2
+    post :upload, :id => changeset_id
     assert_response :bad_request, 
       "shouldn't be able to use invalid placeholder IDs"
     assert_equal "Placeholder Node not found for reference -4 in relation -1.", @response.body
@@ -660,10 +762,10 @@ EOF
     diff = <<EOF
 <osmChange>
  <create>
-  <node id="-1" lon="0" lat="0" changeset="2" version="1"/>
-  <node id="-2" lon="1" lat="1" changeset="2" version="1"/>
-  <node id="-3" lon="2" lat="2" changeset="2" version="1"/>
-  <relation id="1" changeset="2" version="1">
+  <node id="-1" lon="0" lat="0" changeset="#{changeset_id}" version="1"/>
+  <node id="-2" lon="1" lat="1" changeset="#{changeset_id}" version="1"/>
+  <node id="-3" lon="2" lat="2" changeset="#{changeset_id}" version="1"/>
+  <relation id="1" changeset="#{changeset_id}" version="1">
    <member type="node" role="foo" ref="-1"/>
    <member type="node" role="foo" ref="-2"/>
    <member type="node" role="foo" ref="-3"/>
@@ -675,7 +777,7 @@ EOF
 
     # upload it
     content diff
-    post :upload, :id => 2
+    post :upload, :id => changeset_id
     assert_response :bad_request, 
       "shouldn't be able to use invalid placeholder IDs"
     assert_equal "Placeholder Way not found for reference -1 in relation 1.", @response.body
@@ -685,7 +787,7 @@ EOF
   # test what happens if a diff is uploaded containing only a node
   # move.
   def test_upload_node_move
-    basic_authorization "test@openstreetmap.org", "test"
+    basic_authorization users(:public_user).email, "test"
 
     content "<osm><changeset>" +
       "<tag k='created_by' v='osm test suite checking changesets'/>" + 
@@ -723,7 +825,7 @@ EOF
   ##
   # test what happens if a diff is uploaded adding a node to a way.
   def test_upload_way_extend
-    basic_authorization "test@openstreetmap.org", "test"
+    basic_authorization users(:public_user).email, "test"
 
     content "<osm><changeset>" +
       "<tag k='created_by' v='osm test suite checking changesets'/>" + 
@@ -762,7 +864,7 @@ EOF
   ##
   # test for more issues in #1568
   def test_upload_empty_invalid
-    basic_authorization "test@openstreetmap.org", "test"
+    basic_authorization users(:public_user).email, "test"
 
     [ "<osmChange/>",
       "<osmChange></osmChange>",
@@ -771,7 +873,7 @@ EOF
     ].each do |diff|
       # upload it
       content diff
-      post :upload, :id => 1
+      post :upload, :id => changesets(:public_user_first_change).id
       assert_response(:success, "should be able to upload " +
                       "empty changeset: " + diff)
     end
@@ -781,7 +883,20 @@ EOF
   # when we make some simple changes we get the same changes back from the 
   # diff download.
   def test_diff_download_simple
+    ## First try with the normal user, which should get a forbidden
     basic_authorization(users(:normal_user).email, "test")
+
+    # create a temporary changeset
+    content "<osm><changeset>" +
+      "<tag k='created_by' v='osm test suite checking changesets'/>" + 
+      "</changeset></osm>"
+    put :create
+    assert_response :forbidden
+    
+    
+    
+    ## Now try with the public user
+    basic_authorization(users(:public_user).email, "test")
 
     # create a temporary changeset
     content "<osm><changeset>" +
@@ -827,7 +942,7 @@ EOF
   #
   # NOTE: the error turned out to be something else completely!
   def test_josm_upload
-    basic_authorization(users(:normal_user).email, "test")
+    basic_authorization(users(:public_user).email, "test")
 
     # create a temporary changeset
     content "<osm><changeset>" +
@@ -837,7 +952,7 @@ EOF
     assert_response :success
     changeset_id = @response.body.to_i
 
-    diff = <<OSM
+    diff = <<OSMFILE
 <osmChange version="0.6" generator="JOSM">
 <create version="0.6" generator="JOSM">
   <node id='-1' visible='true' changeset='#{changeset_id}' lat='51.49619982187321' lon='-0.18722061869438314' />
@@ -864,7 +979,7 @@ EOF
   </way>
 </create>
 </osmChange>
-OSM
+OSMFILE
 
     # upload it
     content diff
@@ -886,7 +1001,7 @@ OSM
   # when we make some complex changes we get the same changes back from the 
   # diff download.
   def test_diff_download_complex
-    basic_authorization(users(:normal_user).email, "test")
+    basic_authorization(users(:public_user).email, "test")
 
     # create a temporary changeset
     content "<osm><changeset>" +
@@ -940,8 +1055,9 @@ EOF
 
   ##
   # check that the bounding box of a changeset gets updated correctly
+  ## FIXME: This should really be moded to a integration test due to the with_controller
   def test_changeset_bbox
-    basic_authorization "test@openstreetmap.org", "test"
+    basic_authorization users(:public_user).email, "test"
 
     # create a new changeset
     content "<osm><changeset/></osm>"
@@ -1000,7 +1116,7 @@ EOF
   ##
   # test that the changeset :include method works as it should
   def test_changeset_include
-    basic_authorization "test@openstreetmap.org", "test"
+    basic_authorization users(:public_user).display_name, "test"
 
     # create a new changeset
     content "<osm><changeset/></osm>"
@@ -1038,11 +1154,11 @@ EOF
     basic_authorization "test@openstreetmap.org", "test"
     get :query, :user => users(:normal_user).id
     assert_response :success, "can't get changesets by user"
-    assert_changesets [1,3,4,6]
+    assert_changesets [1,3,6]
 
     get :query, :user => users(:normal_user).id, :open => true
     assert_response :success, "can't get changesets by user and open"
-    assert_changesets [1,4]
+    assert_changesets [1]
 
     get :query, :time => '2007-12-31'
     assert_response :success, "can't get changesets by time-since"
@@ -1096,6 +1212,7 @@ EOF
   ##
   # check updating tags on a changeset
   def test_changeset_update
+    ## First try with the non-public user
     changeset = changesets(:normal_user_first_change)
     new_changeset = changeset.to_xml
     new_tag = XML::Node.new "tag"
@@ -1109,12 +1226,37 @@ EOF
     assert_response :unauthorized
 
     # try with the wrong authorization
-    basic_authorization "test@example.com", "test"
+    basic_authorization users(:public_user).email, "test"
+    put :update, :id => changeset.id
+    assert_response :conflict
+
+    # now this should get an unauthorized
+    basic_authorization users(:normal_user).email, "test"
+    put :update, :id => changeset.id
+    assert_require_public_data "user with their data non-public, shouldn't be able to edit their changeset"
+    
+    
+    ## Now try with the public user
+    changeset = changesets(:public_user_first_change)
+    new_changeset = changeset.to_xml
+    new_tag = XML::Node.new "tag"
+    new_tag['k'] = "tagtesting"
+    new_tag['v'] = "valuetesting"
+    new_changeset.find("//osm/changeset").first << new_tag
+    content new_changeset
+    
+    # try without any authorization
+    @request.env["HTTP_AUTHORIZATION"] = nil
+    put :update, :id => changeset.id
+    assert_response :unauthorized
+
+    # try with the wrong authorization
+    basic_authorization users(:second_public_user).email, "test"
     put :update, :id => changeset.id
     assert_response :conflict
 
     # now this should work...
-    basic_authorization "test@openstreetmap.org", "test"
+    basic_authorization users(:public_user).email, "test"
     put :update, :id => changeset.id
     assert_response :success
 
@@ -1127,7 +1269,7 @@ EOF
   # check that a user different from the one who opened the changeset
   # can't modify it.
   def test_changeset_update_invalid
-    basic_authorization "test@example.com", "test"
+    basic_authorization users(:public_user).email, "test"
 
     changeset = changesets(:normal_user_first_change)
     new_changeset = changeset.to_xml
@@ -1143,8 +1285,9 @@ EOF
 
   ##
   # check that a changeset can contain a certain max number of changes.
+  ## FIXME should be changed to an integration test due to the with_controller
   def test_changeset_limits
-    basic_authorization "test@openstreetmap.org", "test"
+    basic_authorization users(:public_user).email, "test"
 
     # open a new changeset
     content "<osm><changeset/></osm>"
