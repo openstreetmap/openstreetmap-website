@@ -98,9 +98,21 @@ class ChangesetControllerTest < ActionController::TestCase
   ##
   # test that the user who opened a change can close it
   def test_close
-    basic_authorization "test@openstreetmap.org", "test"
+    ## Try without authentication
+    put :close, :id => changesets(:public_user_first_change).id
+    assert_response :unauthorized
+    
+    
+    ## Try using the non-public user
+    basic_authorization users(:normal_user).email, "test"
+    put :close, :id => changesets(:normal_user_first_change).id
+    assert_require_public_data
+    
+    
+    ## The try with the public user
+    basic_authorization users(:public_user).email, "test"
 
-    cs_id = changesets(:normal_user_first_change).id
+    cs_id = changesets(:public_user_first_change).id
     put :close, :id => cs_id
     assert_response :success
 
@@ -113,7 +125,7 @@ class ChangesetControllerTest < ActionController::TestCase
   ##
   # test that a different user can't close another user's changeset
   def test_close_invalid
-    basic_authorization user(:public_user).email, "test"
+    basic_authorization users(:public_user).email, "test"
 
     put :close, :id => changesets(:normal_user_first_change).id
     assert_response :conflict
@@ -227,22 +239,23 @@ EOF
   ##
   # upload something which creates new objects using placeholders
   def test_upload_create_valid
-    basic_authorization "test@openstreetmap.org", "test"
+    basic_authorization users(:public_user).email, "test"
+    cs_id = changesets(:public_user_first_change).id
 
     # simple diff to create a node way and relation using placeholders
     diff = <<EOF
 <osmChange>
  <create>
-  <node id='-1' lon='0' lat='0' changeset='1'>
+  <node id='-1' lon='0' lat='0' changeset='#{cs_id}'>
    <tag k='foo' v='bar'/>
    <tag k='baz' v='bat'/>
   </node>
-  <way id='-1' changeset='1'>
+  <way id='-1' changeset='#{cs_id}'>
    <nd ref='3'/>
   </way>
  </create>
  <create>
-  <relation id='-1' changeset='1'>
+  <relation id='-1' changeset='#{cs_id}'>
    <member type='way' role='some' ref='3'/>
    <member type='node' role='some' ref='5'/>
    <member type='relation' role='some' ref='3'/>
@@ -253,7 +266,7 @@ EOF
 
     # upload it
     content diff
-    post :upload, :id => 1
+    post :upload, :id => cs_id
     assert_response :success, 
       "can't upload a simple valid creation to changeset: #{@response.body}"
 
@@ -289,20 +302,20 @@ EOF
   # test a complex delete where we delete elements which rely on eachother
   # in the same transaction.
   def test_upload_delete
-    basic_authorization "test@openstreetmap.org", "test"
+    basic_authorization users(:public_user).display_name, "test"
 
     diff = XML::Document.new
     diff.root = XML::Node.new "osmChange"
     delete = XML::Node.new "delete"
     diff.root << delete
-    delete << current_relations(:visible_relation).to_xml_node
-    delete << current_relations(:used_relation).to_xml_node
+    delete << current_relations(:public_used_relation).to_xml_node
+    delete << current_relations(:public_visible_relation).to_xml_node
     delete << current_ways(:used_way).to_xml_node
     delete << current_nodes(:node_used_by_relationship).to_xml_node
 
     # upload it
     content diff
-    post :upload, :id => 1
+    post :upload, :id => changesets(:public_user_first_change).id
     assert_response :success, 
       "can't upload a deletion diff to changeset: #{@response.body}"
 
@@ -322,10 +335,10 @@ EOF
   # test uploading a delete with no lat/lon, as they are optional in
   # the osmChange spec.
   def test_upload_nolatlon_delete
-    basic_authorization "test@openstreetmap.org", "test"
+    basic_authorization users(:public_user).display_name, "test"
 
-    node = current_nodes(:visible_node)
-    cs = changesets(:normal_user_first_change)
+    node = current_nodes(:public_visible_node)
+    cs = changesets(:public_user_first_change)
     diff = "<osmChange><delete><node id='#{node.id}' version='#{node.version}' changeset='#{cs.id}'/></delete></osmChange>"
 
     # upload it
@@ -343,7 +356,7 @@ EOF
 
   def test_repeated_changeset_create
     30.times do
-      basic_authorization "test@openstreetmap.org", "test"
+      basic_authorization users(:public_user).email, "test"
     
       # create a temporary changeset
       content "<osm><changeset>" +
@@ -361,19 +374,19 @@ EOF
   # test that deleting stuff in a transaction doesn't bypass the checks
   # to ensure that used elements are not deleted.
   def test_upload_delete_invalid
-    basic_authorization "test@openstreetmap.org", "test"
+    basic_authorization users(:public_user).email, "test"
 
     diff = XML::Document.new
     diff.root = XML::Node.new "osmChange"
     delete = XML::Node.new "delete"
     diff.root << delete
-    delete << current_relations(:visible_relation).to_xml_node
+    delete << current_relations(:public_visible_relation).to_xml_node
     delete << current_ways(:used_way).to_xml_node
     delete << current_nodes(:node_used_by_relationship).to_xml_node
 
     # upload it
     content diff
-    post :upload, :id => 1
+    post :upload, :id => 2
     assert_response :precondition_failed, 
       "shouldn't be able to upload a invalid deletion diff: #{@response.body}"
 
@@ -387,23 +400,24 @@ EOF
   # upload something which creates new objects and inserts them into
   # existing containers using placeholders.
   def test_upload_complex
-    basic_authorization "test@openstreetmap.org", "test"
+    basic_authorization users(:public_user).email, "test"
+    cs_id = changesets(:public_user_first_change).id
 
     # simple diff to create a node way and relation using placeholders
     diff = <<EOF
 <osmChange>
  <create>
-  <node id='-1' lon='0' lat='0' changeset='1'>
+  <node id='-1' lon='0' lat='0' changeset='#{cs_id}'>
    <tag k='foo' v='bar'/>
    <tag k='baz' v='bat'/>
   </node>
  </create>
  <modify>
-  <way id='1' changeset='1' version='1'>
+  <way id='1' changeset='#{cs_id}' version='1'>
    <nd ref='-1'/>
    <nd ref='3'/>
   </way>
-  <relation id='1' changeset='1' version='1'>
+  <relation id='1' changeset='#{cs_id}' version='1'>
    <member type='way' role='some' ref='3'/>
    <member type='node' role='some' ref='-1'/>
    <member type='relation' role='some' ref='3'/>
@@ -414,7 +428,7 @@ EOF
 
     # upload it
     content diff
-    post :upload, :id => 1
+    post :upload, :id => cs_id
     assert_response :success, 
       "can't upload a complex diff to changeset: #{@response.body}"
 
@@ -442,19 +456,20 @@ EOF
   # create a diff which references several changesets, which should cause
   # a rollback and none of the diff gets committed
   def test_upload_invalid_changesets
-    basic_authorization "test@openstreetmap.org", "test"
+    basic_authorization users(:public_user).email, "test"
+    cs_id = changesets(:public_user_first_change).id
 
     # simple diff to create a node way and relation using placeholders
     diff = <<EOF
 <osmChange>
  <modify>
-  <node id='1' lon='0' lat='0' changeset='1' version='1'/>
-  <way id='1' changeset='1' version='1'>
+  <node id='1' lon='0' lat='0' changeset='#{cs_id}' version='1'/>
+  <way id='1' changeset='#{cs_id}' version='1'>
    <nd ref='3'/>
   </way>
  </modify>
  <modify>
-  <relation id='1' changeset='1' version='1'>
+  <relation id='1' changeset='#{cs_id}' version='1'>
    <member type='way' role='some' ref='3'/>
    <member type='node' role='some' ref='5'/>
    <member type='relation' role='some' ref='3'/>
@@ -475,7 +490,7 @@ EOF
 
     # upload it
     content diff
-    post :upload, :id => 1
+    post :upload, :id => cs_id
     assert_response :conflict, 
       "uploading a diff with multiple changsets should have failed"
 
@@ -487,7 +502,8 @@ EOF
   ##
   # upload multiple versions of the same element in the same diff.
   def test_upload_multiple_valid
-    basic_authorization "test@openstreetmap.org", "test"
+    basic_authorization users(:public_user).email, "test"
+    cs_id = changesets(:public_user_first_change).id
 
     # change the location of a node multiple times, each time referencing
     # the last version. doesn't this depend on version numbers being
@@ -495,21 +511,21 @@ EOF
     diff = <<EOF
 <osmChange>
  <modify>
-  <node id='1' lon='0' lat='0' changeset='1' version='1'/>
-  <node id='1' lon='1' lat='0' changeset='1' version='2'/>
-  <node id='1' lon='1' lat='1' changeset='1' version='3'/>
-  <node id='1' lon='1' lat='2' changeset='1' version='4'/>
-  <node id='1' lon='2' lat='2' changeset='1' version='5'/>
-  <node id='1' lon='3' lat='2' changeset='1' version='6'/>
-  <node id='1' lon='3' lat='3' changeset='1' version='7'/>
-  <node id='1' lon='9' lat='9' changeset='1' version='8'/>
+  <node id='1' lon='0' lat='0' changeset='#{cs_id}' version='1'/>
+  <node id='1' lon='1' lat='0' changeset='#{cs_id}' version='2'/>
+  <node id='1' lon='1' lat='1' changeset='#{cs_id}' version='3'/>
+  <node id='1' lon='1' lat='2' changeset='#{cs_id}' version='4'/>
+  <node id='1' lon='2' lat='2' changeset='#{cs_id}' version='5'/>
+  <node id='1' lon='3' lat='2' changeset='#{cs_id}' version='6'/>
+  <node id='1' lon='3' lat='3' changeset='#{cs_id}' version='7'/>
+  <node id='1' lon='9' lat='9' changeset='#{cs_id}' version='8'/>
  </modify>
 </osmChange>
 EOF
 
     # upload it
     content diff
-    post :upload, :id => 1
+    post :upload, :id => cs_id
     assert_response :success, 
       "can't upload multiple versions of an element in a diff: #{@response.body}"
     
@@ -523,20 +539,21 @@ EOF
   # upload multiple versions of the same element in the same diff, but
   # keep the version numbers the same.
   def test_upload_multiple_duplicate
-    basic_authorization "test@openstreetmap.org", "test"
+    basic_authorization users(:public_user).email, "test"
+    cs_id = changesets(:public_user_first_change).id
 
     diff = <<EOF
 <osmChange>
  <modify>
-  <node id='1' lon='0' lat='0' changeset='1' version='1'/>
-  <node id='1' lon='1' lat='1' changeset='1' version='1'/>
+  <node id='1' lon='0' lat='0' changeset='#{cs_id}' version='1'/>
+  <node id='1' lon='1' lat='1' changeset='#{cs_id}' version='1'/>
  </modify>
 </osmChange>
 EOF
 
     # upload it
     content diff
-    post :upload, :id => 1
+    post :upload, :id => cs_id
     assert_response :conflict, 
       "shouldn't be able to upload the same element twice in a diff: #{@response.body}"
   end
@@ -544,19 +561,20 @@ EOF
   ##
   # try to upload some elements without specifying the version
   def test_upload_missing_version
-    basic_authorization "test@openstreetmap.org", "test"
+    basic_authorization users(:public_user).email, "test"
+    cs_id = changesets(:public_user_first_change).id
 
     diff = <<EOF
 <osmChange>
  <modify>
-  <node id='1' lon='1' lat='1' changeset='1'/>
+ <node id='1' lon='1' lat='1' changeset='cs_id'/>
  </modify>
 </osmChange>
 EOF
 
     # upload it
     content diff
-    post :upload, :id => 1
+    post :upload, :id => cs_id
     assert_response :bad_request, 
       "shouldn't be able to upload an element without version: #{@response.body}"
   end
@@ -564,17 +582,18 @@ EOF
   ##
   # try to upload with commands other than create, modify, or delete
   def test_action_upload_invalid
-    basic_authorization "test@openstreetmap.org", "test"
+    basic_authorization users(:public_user).email, "test"
+    cs_id = changesets(:public_user_first_change).id
     
     diff = <<EOF
 <osmChange>
   <ping>
-    <node id='1' lon='1' lat='1' changeset='1' />
+   <node id='1' lon='1' lat='1' changeset='#{cs_id}' />
   </ping>
 </osmChange>
 EOF
   content diff
-  post :upload, :id => 1
+  post :upload, :id => cs_id
   assert_response :bad_request, "Shouldn't be able to upload a diff with the action ping"
   assert_equal @response.body, "Unknown action ping, choices are create, modify, delete."
   end
