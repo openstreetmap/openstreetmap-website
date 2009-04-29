@@ -267,7 +267,7 @@ class Node < ActiveRecord::Base
   ##
   # dummy method to make the interfaces of node, way and relation
   # more consistent.
-  def fix_placeholders!(id_map)
+  def fix_placeholders!(id_map, placeholder_id = nil)
     # nodes don't refer to anything, so there is nothing to do here
   end
   

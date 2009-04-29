@@ -287,11 +287,11 @@ class Way < ActiveRecord::Base
   # if any referenced nodes are placeholder IDs (i.e: are negative) then
   # this calling this method will fix them using the map from placeholders 
   # to IDs +id_map+. 
-  def fix_placeholders!(id_map)
+  def fix_placeholders!(id_map, placeholder_id = nil)
     self.nds.map! do |node_id|
       if node_id < 0
         new_id = id_map[:node][node_id]
-        raise "invalid placeholder for #{node_id.inspect}: #{new_id.inspect}" if new_id.nil?
+        raise OSM::APIBadUserInput.new("Placeholder node not found for reference #{node_id} in way #{self.id.nil? ? placeholder_id : self.id}") if new_id.nil?
         new_id
       else
         node_id

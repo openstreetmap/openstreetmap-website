@@ -574,6 +574,114 @@ EOF
   end
 
   ##
+  # test that uploading a way referencing invalid placeholders gives a 
+  # proper error, not a 500.
+  def test_upload_placeholder_invalid_way
+    basic_authorization "test@example.com", "test"
+
+    diff = <<EOF
+<osmChange>
+ <create>
+  <node id="-1" lon="0" lat="0" changeset="2" version="1"/>
+  <node id="-2" lon="1" lat="1" changeset="2" version="1"/>
+  <node id="-3" lon="2" lat="2" changeset="2" version="1"/>
+  <way id="-1" changeset="2" version="1">
+   <nd ref="-1"/>
+   <nd ref="-2"/>
+   <nd ref="-3"/>
+   <nd ref="-4"/>
+  </way>
+ </create>
+</osmChange>
+EOF
+
+    # upload it
+    content diff
+    post :upload, :id => 2
+    assert_response :bad_request, 
+      "shouldn't be able to use invalid placeholder IDs"
+    assert_equal "Placeholder node not found for reference -4 in way -1", @response.body
+
+    # the same again, but this time use an existing way
+    diff = <<EOF
+<osmChange>
+ <create>
+  <node id="-1" lon="0" lat="0" changeset="2" version="1"/>
+  <node id="-2" lon="1" lat="1" changeset="2" version="1"/>
+  <node id="-3" lon="2" lat="2" changeset="2" version="1"/>
+  <way id="1" changeset="2" version="1">
+   <nd ref="-1"/>
+   <nd ref="-2"/>
+   <nd ref="-3"/>
+   <nd ref="-4"/>
+  </way>
+ </create>
+</osmChange>
+EOF
+
+    # upload it
+    content diff
+    post :upload, :id => 2
+    assert_response :bad_request, 
+      "shouldn't be able to use invalid placeholder IDs"
+    assert_equal "Placeholder node not found for reference -4 in way 1", @response.body
+  end
+
+  ##
+  # test that uploading a relation referencing invalid placeholders gives a 
+  # proper error, not a 500.
+  def test_upload_placeholder_invalid_relation
+    basic_authorization "test@example.com", "test"
+
+    diff = <<EOF
+<osmChange>
+ <create>
+  <node id="-1" lon="0" lat="0" changeset="2" version="1"/>
+  <node id="-2" lon="1" lat="1" changeset="2" version="1"/>
+  <node id="-3" lon="2" lat="2" changeset="2" version="1"/>
+  <relation id="-1" changeset="2" version="1">
+   <member type="node" role="foo" ref="-1"/>
+   <member type="node" role="foo" ref="-2"/>
+   <member type="node" role="foo" ref="-3"/>
+   <member type="node" role="foo" ref="-4"/>
+  </relation>
+ </create>
+</osmChange>
+EOF
+
+    # upload it
+    content diff
+    post :upload, :id => 2
+    assert_response :bad_request, 
+      "shouldn't be able to use invalid placeholder IDs"
+    assert_equal "Placeholder Node not found for reference -4 in relation -1.", @response.body
+
+    # the same again, but this time use an existing way
+    diff = <<EOF
+<osmChange>
+ <create>
+  <node id="-1" lon="0" lat="0" changeset="2" version="1"/>
+  <node id="-2" lon="1" lat="1" changeset="2" version="1"/>
+  <node id="-3" lon="2" lat="2" changeset="2" version="1"/>
+  <relation id="1" changeset="2" version="1">
+   <member type="node" role="foo" ref="-1"/>
+   <member type="node" role="foo" ref="-2"/>
+   <member type="node" role="foo" ref="-3"/>
+   <member type="way" role="bar" ref="-1"/>
+  </relation>
+ </create>
+</osmChange>
+EOF
+
+    # upload it
+    content diff
+    post :upload, :id => 2
+    assert_response :bad_request, 
+      "shouldn't be able to use invalid placeholder IDs"
+    assert_equal "Placeholder Way not found for reference -1 in relation 1.", @response.body
+  end
+
+  ##
   # test what happens if a diff is uploaded containing only a node
   # move.
   def test_upload_node_move

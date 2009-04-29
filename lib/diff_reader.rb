@@ -72,8 +72,8 @@ class DiffReader
   def with_model
     with_element do |model_name|
       model = MODELS[model_name]
-      raise "Unexpected element type #{model_name}, " +
-        "expected node, way, relation." if model.nil?
+      raise OSM::APIBadUserInput.new("Unexpected element type #{model_name}, " +
+                                     "expected node, way or relation.") if model.nil?
       yield model, @reader.expand
       @reader.next
     end
@@ -130,7 +130,7 @@ class DiffReader
 
           # some elements may have placeholders for other elements in the
           # diff, so we must fix these before saving the element.
-          new.fix_placeholders!(ids)
+          new.fix_placeholders!(ids, placeholder_id)
 
           # create element given user
           new.create_with_history(@changeset.user)
