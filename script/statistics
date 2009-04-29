@@ -53,14 +53,11 @@ begin
 
   puts "<tr><th>GPX Files</th><td>#{day_count}</td><td>#{week_count}</td><td>#{month_count}</td></tr>"
 
-  day_count = OldNode.count(:user_id, :distinct => true,
-                            :include => :changeset,
+  day_count = OldNode.count(:user_id, :distinct => true, :joins => :changeset,
                             :conditions => "timestamp > NOW() - '1 DAY'::INTERVAL")
-  week_count = OldNode.count(:user_id, :distinct => true, 
-                             :include => :changeset,
+  week_count = OldNode.count(:user_id, :distinct => true,  :joins => :changeset,
                              :conditions => "timestamp > NOW() - '7 DAYS'::INTERVAL")
-  month_count = OldNode.count(:user_id, :distinct => true, 
-                              :include => :changeset,
+  month_count = OldNode.count(:user_id, :distinct => true, :joins => :changeset,
                               :conditions => "timestamp > NOW() - '28 DAYS'::INTERVAL")
 
   puts "<tr><th>Nodes</th><td>#{day_count}</td><td>#{week_count}</td><td>#{month_count}</td></tr>"
@@ -72,13 +69,13 @@ begin
   puts "<tr><th>Day</th><th>Week</th><th>Month</th></tr>"
 
   day_users = OldNode.count(:conditions => "timestamp > NOW() - '1 DAY'::INTERVAL",
-                            :include => :changeset, :group => :user_id,
+                            :joins => :changeset, :group => :user_id,
                             :order => "count_all DESC")
   week_users = OldNode.count(:conditions => "timestamp > NOW() - '7 DAYS'::INTERVAL",
-                             :include => :changeset, :group => :user_id,
+                             :joins => :changeset, :group => :user_id,
                              :order => "count_all DESC", :limit => 60)
   month_users = OldNode.count(:conditions => "timestamp > NOW() - '28 DAYS'::INTERVAL",
-                              :include => :changeset, :group => :user_id,
+                              :joins => :changeset, :group => :user_id,
                               :order => "count_all DESC", :limit => 60)
 
   SyncEnumerator.new(day_users, week_users, month_users).each do |row|
