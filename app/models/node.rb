@@ -137,7 +137,7 @@ class Node < ActiveRecord::Base
       
       rel = RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", 
                                 :conditions => [ "visible = ? AND member_type='Node' and member_id=? ", true, self.id])
-      raise OSM::APIPreconditionFailedError.new("Node #{self.id} is still used by relation #{rel.id}.") unless rel.nil?
+      raise OSM::APIPreconditionFailedError.new("Node #{self.id} is still used by relation #{rel.relation.id}.") unless rel.nil?
 
       self.changeset_id = new_node.changeset_id
       self.visible = false
