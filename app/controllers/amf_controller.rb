@@ -501,13 +501,13 @@ class AmfController < ApplicationController
       new_relation.version = version
 
       if relid <= 0
-        # We're creating the node
+        # We're creating the relation
         new_relation.create_with_history(user)
       elsif visible
-        # We're updating the node
+        # We're updating the relation
         relation.update_from(new_relation, user)
       else
-        # We're deleting the node
+        # We're deleting the relation
         relation.delete_with_history!(new_relation, user)
       end
     end # transaction
@@ -542,7 +542,8 @@ class AmfController < ApplicationController
   # 4. way ID
   # 5. list of nodes in way
   # 6. hash of way tags
-  # 7. array of nodes to change (each one is [lon,lat,id,version,tags])
+  # 7. array of nodes to change (each one is [lon,lat,id,version,tags]),
+  # 8. hash of nodes to delete (id->version).
   # 
   # Returns:
   # 0. '0' (code for success),
@@ -552,7 +553,7 @@ class AmfController < ApplicationController
   # 4. way version,
   # 5. hash of node versions (node=>version)
 
-  def putway(renumberednodes, usertoken, changeset_id, wayversion, originalway, pointlist, attributes, nodes) #:doc:
+  def putway(renumberednodes, usertoken, changeset_id, wayversion, originalway, pointlist, attributes, nodes, deletednodes) #:doc:
 
     # -- Initialise
 	
@@ -561,22 +562,13 @@ class AmfController < ApplicationController
     if pointlist.length < 2 then return -2,"Server error - way is only #{points.length} points long." end
 
     originalway = originalway.to_i
-	pointlist.collect! {|a| a.to_i }
+  	pointlist.collect! {|a| a.to_i }
 
     way=nil	# this is returned, so scope it outside the transaction
     nodeversions = {}
     Way.transaction do
 
-      # -- Get unique nodes
-
-      if originalway <= 0
-        uniques = []
-      else
-        way = Way.find(originalway)
-        uniques = way.unshared_node_ids
-      end
-
-      #-- Update each changed node
+      # -- Update each changed node
 
       nodes.each do |a|
         lon = a[0].to_f
@@ -609,9 +601,9 @@ class AmfController < ApplicationController
 
       # -- Save revised way
 
-	  pointlist.collect! {|a|
-		renumberednodes[a] ? renumberednodes[a]:a
-	  } # renumber nodes
+	    pointlist.collect! {|a|
+		    renumberednodes[a] ? renumberednodes[a]:a
+	    } # renumber nodes
       new_way = Way.new
       new_way.tags = attributes
       new_way.nds = pointlist
@@ -620,25 +612,26 @@ class AmfController < ApplicationController
       if originalway <= 0
         new_way.create_with_history(user)
         way=new_way	# so we can get way.id and way.version
-      elsif way.tags!=attributes or way.nds!=pointlist or !way.visible?
-        way.update_from(new_way, user)
+      else
+	      way = Way.find(originalway)
+   		  if way.tags!=attributes or way.nds!=pointlist or !way.visible?
+    	    way.update_from(new_way, user)
+        end
       end
 
-      # -- Delete any unique nodes no longer used
+      # -- Delete unwanted nodes
 
-      uniques=uniques-pointlist
-      uniques.each do |n|
-        node = Node.find(n)
-        deleteitemrelations(user, changeset_id, id, 'Node', node.version)
+      deletednodes.each do |id,v|
+        node = Node.find(id.to_i)
         new_node = Node.new
         new_node.changeset_id = changeset_id
-        new_node.version = node.version
-        node.delete_with_history!(new_node, user)
+        new_node.version = v.to_i
+        node.delete_with_history_unless_used!(new_node, user)
       end
 
     end # transaction
 
-    [0, originalway, way.id, renumberednodes, way.version, nodeversions]
+    [0, originalway, way.id, renumberednodes, way.version, nodeversions, deletednodes]
   rescue OSM::APIChangesetAlreadyClosedError => ex
     return [-2, "Sorry, your changeset #{ex.changeset.id} has been closed (at #{ex.changeset.closed_at})."]
   rescue OSM::APIVersionMismatchError => ex
@@ -747,7 +740,7 @@ class AmfController < ApplicationController
   # of the nodes have been changed by someone else then, there is a problem!
   # Returns 0 (success), unchanged way id.
 
-  def deleteway(usertoken, changeset_id, way_id, way_version, node_id_version) #:doc:
+  def deleteway(usertoken, changeset_id, way_id, way_version, deletednodes) #:doc:
     user = getuser(usertoken)
     unless user then return -1,"You are not logged in, so the way could not be deleted." end
       
@@ -755,29 +748,24 @@ class AmfController < ApplicationController
     # Need a transaction so that if one item fails to delete, the whole delete fails.
     Way.transaction do
 
-      # delete the way
+      # -- Delete the way
+
       old_way = Way.find(way_id)
-      u = old_way.unshared_node_ids
       delete_way = Way.new
       delete_way.version = way_version
       delete_way.changeset_id = changeset_id
       old_way.delete_with_history!(delete_way, user)
 
-      u.each do |node_id|
-        # delete the node
-        node = Node.find(node_id)
-        delete_node = Node.new
-        delete_node.changeset_id = changeset_id
-        if node_id_version[node_id.to_s]
-          delete_node.version = node_id_version[node_id.to_s]
-        else
-          # in case the node wasn't passed (i.e. if it was previously removed
-          # from the way in Potlatch)
-          deleteitemrelations(user, changeset_id, node_id, 'Node', node.version)
-	      delete_node.version = node.version
-	    end
-        node.delete_with_history!(delete_node, user)
+      # -- Delete unwanted nodes
+
+      deletednodes.each do |id,v|
+        node = Node.find(id.to_i)
+        new_node = Node.new
+        new_node.changeset_id = changeset_id
+        new_node.version = v.to_i
+        node.delete_with_history_unless_used!(new_node, user)
       end
+
     end # transaction
     [0, way_id]
   rescue OSM::APIChangesetAlreadyClosedError => ex
@@ -797,28 +785,6 @@ class AmfController < ApplicationController
 
   # ====================================================================
   # Support functions
-
-  # Remove a node or way from all relations
-  # This is only used by putway and deleteway when deleting nodes removed 
-  # from a way (because Potlatch itself doesn't keep track of these - 
-  # possible FIXME).
-
-  def deleteitemrelations(user, changeset_id, objid, type, version) #:doc:
-    relations = RelationMember.find(:all, 
-									:conditions => ['member_type = ? and member_id = ?', type.classify, objid], 
-									:include => :relation).collect { |rm| rm.relation }.uniq
-
-    relations.each do |rel|
-      rel.members.delete_if { |x| x[0] == type and x[1] == objid }
-      new_rel = Relation.new
-      new_rel.tags = rel.tags
-      new_rel.visible = rel.visible
-      new_rel.version = rel.version
-      new_rel.members = rel.members
-      new_rel.changeset_id = changeset_id
-      rel.update_from(new_rel, user)
-    end
-  end
 
   # Authenticate token
   # (can also be of form user:pass)

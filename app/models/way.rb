@@ -266,18 +266,6 @@ class Way < ActiveRecord::Base
     end
   end
 
-  # Find nodes that belong to this way only
-  def unshared_node_ids
-    node_ids = self.nodes.collect { |node| node.id }
-
-    unless node_ids.empty?
-      way_nodes = WayNode.find(:all, :conditions => "node_id in (#{node_ids.join(',')}) and id != #{self.id}")
-      node_ids = node_ids - way_nodes.collect { |way_node| way_node.node_id }
-    end
-
-    return node_ids
-  end
-
   # Temporary method to match interface to nodes
   def tags_as_hash
     return self.tags
