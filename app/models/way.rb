@@ -251,7 +251,7 @@ class Way < ActiveRecord::Base
     # shouldn't be possible to get race conditions.
     Way.transaction do
       check_consistency(self, new_way, user)
-      if RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id",
+      if RelationMember.find(:first, :joins => :relation,
                              :conditions => [ "visible = ? AND member_type='Way' and member_id=? ", true, self.id])
         raise OSM::APIPreconditionFailedError.new("You need to make sure that the way with id: #{self.id} is not a member of a relation.")
       else

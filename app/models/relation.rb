@@ -242,7 +242,8 @@ class Relation < ActiveRecord::Base
     Relation.transaction do
       check_consistency(self, new_relation, user)
       # This will check to see if this relation is used by another relation
-      rel = RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", :conditions => [ "visible = ? AND member_type='Relation' and member_id=? ", true, self.id ])
+      rel = RelationMember.find(:first, :joins => :relation, 
+                                :conditions => [ "visible = ? AND member_type='Relation' and member_id=? ", true, self.id ])
       raise OSM::APIPreconditionFailedError.new("The relation #{new_relation.id} is used in relation #{rel.relation.id}.") unless rel.nil?
 
       self.changeset_id = new_relation.changeset_id
