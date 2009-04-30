@@ -149,30 +149,6 @@ class Node < ActiveRecord::Base
     end
   end
 
-  # As above but doesn't throw an error if node is used elsewhere - instead, just silently
-  # returns without deleting the node. Potlatch needs this in case you ask to delete an
-  # off-screen node while deleting a way - it doesn't know whether the node is used
-  # elsewhere or not.
-  def delete_with_history_unless_used!(new_node, user)
-    unless self.visible
-      raise OSM::APIAlreadyDeletedError.new("node", new_node.id)
-    end
-
-    Node.transaction do
-      check_consistency(self, new_node, user)
-      way = WayNode.find(:first, :joins => "INNER JOIN current_ways ON current_ways.id = current_way_nodes.id", 
-                         :conditions => [ "current_ways.visible = ? AND current_way_nodes.node_id = ?", true, self.id ])
-      rel = RelationMember.find(:first, :joins => "INNER JOIN current_relations ON current_relations.id=current_relation_members.id", 
-                                :conditions => [ "visible = ? AND member_type='Node' and member_id=? ", true, self.id])
-      if way.nil? and rel.nil?
-        self.changeset_id = new_node.changeset_id
-        self.visible = false
-        changeset.update_bbox!(bbox)
-        save_with_history!
-      end
-    end
-  end
-
   def update_from(new_node, user)
     check_consistency(self, new_node, user)
 

@@ -626,7 +626,12 @@ class AmfController < ApplicationController
         new_node = Node.new
         new_node.changeset_id = changeset_id
         new_node.version = v.to_i
-        node.delete_with_history_unless_used!(new_node, user)
+        begin
+          node.delete_with_history!(new_node, user)
+        rescue OSM::APIPreconditionFailedError => ex
+          # We don't do anything here as the node is being used elsewhere
+          # and we don't want to delete it
+        end
       end
 
     end # transaction
@@ -763,7 +768,12 @@ class AmfController < ApplicationController
         new_node = Node.new
         new_node.changeset_id = changeset_id
         new_node.version = v.to_i
-        node.delete_with_history_unless_used!(new_node, user)
+        begin
+          node.delete_with_history!(new_node, user)
+        rescue OSM::APIPreconditionFailedError => ex
+          # We don't do anything with the exception as the node is in use
+          # elsewhere and we don't want to delete it
+        end
       end
 
     end # transaction
