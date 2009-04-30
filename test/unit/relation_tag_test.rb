@@ -77,7 +77,8 @@ class RelationTagTest < Test::Unit::TestCase
     v = "probably unique string here 3142592654"
     assert_equal 0, RelationTag.count(:conditions => ['v=?', v])
 
-    tag = RelationTag.find(:first)
+    # make sure we select a tag on a relation which has more than one tag
+    tag = RelationTag.find(:first, :conditions => ["id = ?", 4])
     tag.v = v
     tag.save!
 
