@@ -78,7 +78,8 @@ class RelationTagTest < Test::Unit::TestCase
     assert_equal 0, RelationTag.count(:conditions => ['v=?', v])
 
     # make sure we select a tag on a relation which has more than one tag
-    tag = RelationTag.find(:first, :conditions => ["id = ?", 4])
+    id = current_relations(:multi_tag_relation).id
+    tag = RelationTag.find(:first, :conditions => ["id = ?", id])
     tag.v = v
     tag.save!
 
