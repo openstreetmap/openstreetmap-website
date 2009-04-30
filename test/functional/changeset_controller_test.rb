@@ -308,8 +308,8 @@ EOF
     diff.root = XML::Node.new "osmChange"
     delete = XML::Node.new "delete"
     diff.root << delete
-    delete << current_relations(:public_used_relation).to_xml_node
     delete << current_relations(:public_visible_relation).to_xml_node
+    delete << current_relations(:public_used_relation).to_xml_node
     delete << current_ways(:used_way).to_xml_node
     delete << current_nodes(:node_used_by_relationship).to_xml_node
 
