@@ -15,84 +15,86 @@ puts "<body>"
 puts "<h2>OpenStreetMap stats report run at #{start_time.to_s}</h2>"
 
 begin
-  user_count = User.count(:conditions => "active = 1")
-  tracepoint_count = Tracepoint.count()
-  node_count = Node.count(:conditions => "visible = true")
-  way_count = Way.count(:conditions => "visible = true")
-  relation_count = Relation.count(:conditions => "visible = true")
+  ActiveRecord::Base.transaction do
+    user_count = User.count(:conditions => "active = 1")
+    tracepoint_count = Tracepoint.count()
+    node_count = Node.count(:conditions => "visible = true")
+    way_count = Way.count(:conditions => "visible = true")
+    relation_count = Relation.count(:conditions => "visible = true")
 
-  puts "<table>"
-  puts "<tr><td>Number of users</td><td>#{user_count}</td></tr>"
-  puts "<tr><td>Number of uploaded GPS points</td><td>#{tracepoint_count}</td></tr>"
-  puts "<tr><td>Number of nodes</td><td>#{node_count}</td></tr>"
-  puts "<tr><td>Number of ways</td><td>#{way_count}</td></tr>"
-  puts "<tr><td>Number of relations</td><td>#{relation_count}</td></tr>"
-  puts "</table>"
+    puts "<table>"
+    puts "<tr><td>Number of users</td><td>#{user_count}</td></tr>"
+    puts "<tr><td>Number of uploaded GPS points</td><td>#{tracepoint_count}</td></tr>"
+    puts "<tr><td>Number of nodes</td><td>#{node_count}</td></tr>"
+    puts "<tr><td>Number of ways</td><td>#{way_count}</td></tr>"
+    puts "<tr><td>Number of relations</td><td>#{relation_count}</td></tr>"
+    puts "</table>"
 
-  puts "<h2>Top 50 users for uploads of GPS data</h2>"
-  puts "<table>"
-  puts "<tr><th>User</th><th>Number of Points</th></tr>"
+    puts "<h2>Top 50 users for uploads of GPS data</h2>"
+    puts "<table>"
+    puts "<tr><th>User</th><th>Number of Points</th></tr>"
 
-  Trace.sum(:size, :group => :user_id, :order => "sum_size DESC", :limit => 50).each do |user, count|
-    display_name = User.find(user).display_name.gsub('@', ' at ').gsub('.', ' dot ')
-    puts "<tr><td><a href=\"/user/#{display_name}\">#{display_name}</a></td><td>#{count}</td></tr>"
-  end
+    Trace.sum(:size, :group => :user_id, :order => "sum_size DESC", :limit => 50).each do |user, count|
+      display_name = User.find(user).display_name.gsub('@', ' at ').gsub('.', ' dot ')
+      puts "<tr><td><a href=\"/user/#{display_name}\">#{display_name}</a></td><td>#{count}</td></tr>"
+    end
 
-  puts "</table>"
+    puts "</table>"
 
-  puts "<h2>Number of users editing over the past...</h2>"
-  puts "<table>"
-  puts "<tr><th>Data Type</th><th>Day</th><th>Week</th><th>Month</th></tr>"
+    puts "<h2>Number of users editing over the past...</h2>"
+    puts "<table>"
+    puts "<tr><th>Data Type</th><th>Day</th><th>Week</th><th>Month</th></tr>"
 
-  day_count = Trace.count(:user_id, :distinct => true, 
-                          :conditions => "timestamp > NOW() - '1 DAY'::INTERVAL")
-  week_count = Trace.count(:user_id, :distinct => true, 
-                           :conditions => "timestamp > NOW() - '7 DAYS'::INTERVAL")
-  month_count = Trace.count(:user_id, :distinct => true, 
-                            :conditions => "timestamp > NOW() - '28 DAYS'::INTERVAL")
-
-  puts "<tr><th>GPX Files</th><td>#{day_count}</td><td>#{week_count}</td><td>#{month_count}</td></tr>"
-
-  day_count = OldNode.count(:user_id, :distinct => true, :joins => :changeset,
+    day_count = Trace.count(:user_id, :distinct => true, 
                             :conditions => "timestamp > NOW() - '1 DAY'::INTERVAL")
-  week_count = OldNode.count(:user_id, :distinct => true,  :joins => :changeset,
+    week_count = Trace.count(:user_id, :distinct => true, 
                              :conditions => "timestamp > NOW() - '7 DAYS'::INTERVAL")
-  month_count = OldNode.count(:user_id, :distinct => true, :joins => :changeset,
+    month_count = Trace.count(:user_id, :distinct => true, 
                               :conditions => "timestamp > NOW() - '28 DAYS'::INTERVAL")
 
-  puts "<tr><th>Nodes</th><td>#{day_count}</td><td>#{week_count}</td><td>#{month_count}</td></tr>"
+    puts "<tr><th>GPX Files</th><td>#{day_count}</td><td>#{week_count}</td><td>#{month_count}</td></tr>"
 
-  puts "</table>"
+    day_count = OldNode.count(:user_id, :distinct => true, :joins => :changeset,
+                              :conditions => "timestamp > NOW() - '1 DAY'::INTERVAL")
+    week_count = OldNode.count(:user_id, :distinct => true,  :joins => :changeset,
+                               :conditions => "timestamp > NOW() - '7 DAYS'::INTERVAL")
+    month_count = OldNode.count(:user_id, :distinct => true, :joins => :changeset,
+                                :conditions => "timestamp > NOW() - '28 DAYS'::INTERVAL")
+
+    puts "<tr><th>Nodes</th><td>#{day_count}</td><td>#{week_count}</td><td>#{month_count}</td></tr>"
+
+    puts "</table>"
   
-  puts "<h2>Top users editing over the past...</h2>"
-  puts "<table>"
-  puts "<tr><th>Day</th><th>Week</th><th>Month</th></tr>"
+    puts "<h2>Top users editing over the past...</h2>"
+    puts "<table>"
+    puts "<tr><th>Day</th><th>Week</th><th>Month</th></tr>"
 
-  day_users = OldNode.count(:conditions => "timestamp > NOW() - '1 DAY'::INTERVAL",
-                            :joins => :changeset, :group => :user_id,
-                            :order => "count_all DESC")
-  week_users = OldNode.count(:conditions => "timestamp > NOW() - '7 DAYS'::INTERVAL",
-                             :joins => :changeset, :group => :user_id,
-                             :order => "count_all DESC", :limit => 60)
-  month_users = OldNode.count(:conditions => "timestamp > NOW() - '28 DAYS'::INTERVAL",
+    day_users = OldNode.count(:conditions => "timestamp > NOW() - '1 DAY'::INTERVAL",
                               :joins => :changeset, :group => :user_id,
-                              :order => "count_all DESC", :limit => 60)
+                              :order => "count_all DESC")
+    week_users = OldNode.count(:conditions => "timestamp > NOW() - '7 DAYS'::INTERVAL",
+                               :joins => :changeset, :group => :user_id,
+                               :order => "count_all DESC", :limit => 60)
+    month_users = OldNode.count(:conditions => "timestamp > NOW() - '28 DAYS'::INTERVAL",
+                                :joins => :changeset, :group => :user_id,
+                                :order => "count_all DESC", :limit => 60)
 
-  SyncEnumerator.new(day_users, week_users, month_users).each do |row|
-    puts "<tr>"
-    row.each do |column|
-      if column.nil?
-        puts "<td></td>"
-      else
-        display_name = User.find(column[0]).display_name.gsub('@', ' at ').gsub('.', ' dot ')
-        count = column[1]
-        puts "<td>#{count} <a href=\"/user/#{display_name}\">#{display_name}</a></td>"
+    SyncEnumerator.new(day_users, week_users, month_users).each do |row|
+      puts "<tr>"
+      row.each do |column|
+        if column.nil?
+          puts "<td></td>"
+        else
+          display_name = User.find(column[0]).display_name.gsub('@', ' at ').gsub('.', ' dot ')
+          count = column[1]
+          puts "<td>#{count} <a href=\"/user/#{display_name}\">#{display_name}</a></td>"
+        end
       end
+      puts "</tr>"
     end
-    puts "</tr>"
-  end
 
-  puts "</table>"
+    puts "</table>"
+  end
 rescue Exception => e
   puts "<p><em>Exception: #{e.to_s}</em><br />#{e.backtrace.join('<br />')}</p>"
 end
