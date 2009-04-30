@@ -308,14 +308,22 @@ EOF
     diff.root = XML::Node.new "osmChange"
     delete = XML::Node.new "delete"
     diff.root << delete
-    delete << current_relations(:public_visible_relation).to_xml_node
-    delete << current_relations(:public_used_relation).to_xml_node
+    delete << current_relations(:visible_relation).to_xml_node
+    delete << current_relations(:used_relation).to_xml_node
     delete << current_ways(:used_way).to_xml_node
     delete << current_nodes(:node_used_by_relationship).to_xml_node
 
+    # update the changeset to one that this user owns
+    changeset_id = changesets(:public_user_first_change).id
+    ["node", "way", "relation"].each do |type|
+      delete.find("//osmChange/delete/#{type}").each do |n| 
+        n['changeset'] = changeset_id.to_s 
+      end
+    end
+
     # upload it
     content diff
-    post :upload, :id => changesets(:public_user_first_change).id
+    post :upload, :id => changeset_id
     assert_response :success, 
       "can't upload a deletion diff to changeset: #{@response.body}"
 
