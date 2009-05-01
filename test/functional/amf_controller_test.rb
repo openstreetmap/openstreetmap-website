@@ -95,7 +95,7 @@ class AmfControllerTest < ActionController::TestCase
   def test_whichways_toobig
     bbox = [-0.1,-0.1,1.1,1.1]
     check_bboxes_are_bad [bbox] do |map,bbox|
-    assert_boundary_error map, " The server said: The maximum bbox size is 0.25, and your request was too large. Either request a smaller area, or use planet.osm"
+      assert_boundary_error map, " The server said: The maximum bbox size is 0.25, and your request was too large. Either request a smaller area, or use planet.osm"
     end
   end
 
@@ -107,7 +107,7 @@ class AmfControllerTest < ActionController::TestCase
   def test_whichways_badlat
     bboxes = [[0,0.1,0.1,0], [-0.1,80,0.1,70], [0.24,54.35,0.25,54.33]]
     check_bboxes_are_bad bboxes do |map, bbox|
-    assert_boundary_error map, " The server said: The minimum latitude must be less than the maximum latitude, but it wasn't", bbox.inspect
+      assert_boundary_error map, " The server said: The minimum latitude must be less than the maximum latitude, but it wasn't", bbox.inspect
     end
   end
 
