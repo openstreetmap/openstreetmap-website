@@ -5,10 +5,6 @@ include Potlatch
 class AmfControllerTest < ActionController::TestCase
   api_fixtures
 
-  # this should be what AMF controller returns when the bbox of a request
-  # is invalid or too large.
-  BOUNDARY_ERROR = [-2,"Sorry - I can't get the map for that area."]
-
   def test_getway
     # check a visible way
     id = current_ways(:visible_way).id
@@ -99,7 +95,7 @@ class AmfControllerTest < ActionController::TestCase
   def test_whichways_toobig
     bbox = [-0.1,-0.1,1.1,1.1]
     check_bboxes_are_bad [bbox] do |map,bbox|
-      assert_equal BOUNDARY_ERROR, map, "AMF controller should have returned an error."
+    assert_boundary_error map, " The server said: The maximum bbox size is 0.25, and your request was too large. Either request a smaller area, or use planet.osm"
     end
   end
 
@@ -111,7 +107,7 @@ class AmfControllerTest < ActionController::TestCase
   def test_whichways_badlat
     bboxes = [[0,0.1,0.1,0], [-0.1,80,0.1,70], [0.24,54.35,0.25,54.33]]
     check_bboxes_are_bad bboxes do |map, bbox|
-      assert_equal BOUNDARY_ERROR, map, "AMF controller should have returned an error #{bbox.inspect}."
+    assert_boundary_error map, " The server said: The minimum latitude must be less than the maximum latitude, but it wasn't", bbox.inspect
     end
   end
 
@@ -122,7 +118,7 @@ class AmfControllerTest < ActionController::TestCase
   def test_whichways_badlon
     bboxes = [[80,-0.1,70,0.1], [54.35,0.24,54.33,0.25]]
     check_bboxes_are_bad bboxes do |map, bbox|
-      assert_equal BOUNDARY_ERROR, map, "AMF controller should have returned an error #{bbox.inspect}."
+      assert_boundary_error map, " The server said: The minimum longitude must be less than the maximum longitude, but it wasn't", bbox.inspect
     end
   end
 
@@ -157,7 +153,7 @@ class AmfControllerTest < ActionController::TestCase
     amf_parse_response 
 
     map = amf_result "/1"
-    assert_equal BOUNDARY_ERROR, map, "AMF controller should have returned an error."
+    assert_boundary_error map, " The server said: The maximum bbox size is 0.25, and your request was too large. Either request a smaller area, or use planet.osm"
   end
 
   def test_getrelation
@@ -531,5 +527,12 @@ class AmfControllerTest < ActionController::TestCase
       map = amf_result "/1"
       yield map, bbox
     end
+  end
+  
+  # this should be what AMF controller returns when the bbox of a request
+  # is invalid or too large.
+  def assert_boundary_error(map, msg=nil, error_hint=nil)
+    expected_map = [-2, "Sorry - I can't get the map for that area.#{msg}"]
+    assert_equal expected_map, map, "AMF controller should have returned an error. (#{error_hint})"
   end
 end
