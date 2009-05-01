@@ -2,7 +2,7 @@ class RelationMember < ActiveRecord::Base
   set_table_name 'current_relation_members'
   
   set_primary_keys :id, :sequence_id
-  belongs_to :member, :polymorphic => true, :foreign_type => :member_class
+  belongs_to :member, :polymorphic => true
   belongs_to :relation, :foreign_key => :id
 
   def after_find
