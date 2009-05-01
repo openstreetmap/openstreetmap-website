@@ -369,11 +369,12 @@ class RelationControllerTest < ActionController::TestCase
   # -------------------------------------
   
   def test_delete
-    # first try to delete relation without auth
+    ## First try to delete relation without auth
     delete :delete, :id => current_relations(:visible_relation).id
     assert_response :unauthorized
     
-    ## First try with the private user, to make sure that you get a forbidden
+    
+    ## Then try with the private user, to make sure that you get a forbidden
     basic_authorization(users(:normal_user).email, "test")
     
     # this shouldn't work, as we should need the payload...
@@ -423,7 +424,7 @@ class RelationControllerTest < ActionController::TestCase
 
     
 
-    # now set auth for the private user
+    ## now set auth for the public user
     basic_authorization(users(:public_user).email, "test");  
 
     # this shouldn't work, as we should need the payload...
@@ -479,6 +480,11 @@ class RelationControllerTest < ActionController::TestCase
     content(relations(:invisible_relation).to_xml)
     delete :delete, :id => current_relations(:invisible_relation).id
     assert_response :gone
+    
+    # Public visible relation needs to be deleted
+    content(relations(:public_visible_relation).to_xml)
+    delete :delete, :id => current_relations(:public_visible_relation).id
+    assert_response :success
 
     # this works now because the relation which was using this one 
     # has been deleted.
