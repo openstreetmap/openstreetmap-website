@@ -9,17 +9,10 @@ class BrowseController < ApplicationController
   
   
   
-  def relation 
+  def relation
     @relation = Relation.find(params[:id])
-   
-    @name = @relation.tags['name'].to_s 
-    if @name.length == 0:
-      @name = "#" + @relation.id.to_s
-    end
-	
-    @title = 'Relation | ' + (@name)
-    @next = Relation.find(:first, :order => "id ASC", :conditions => [ "visible = true AND id > :id", { :id => @relation.id }] ) 
-    @prev = Relation.find(:first, :order => "id DESC", :conditions => [ "visible = true AND id < :id", { :id => @relation.id }] ) 
+    @next = Relation.find(:first, :order => "id ASC", :conditions => [ "visible = true AND id > :id", { :id => @relation.id }] )
+    @prev = Relation.find(:first, :order => "id DESC", :conditions => [ "visible = true AND id < :id", { :id => @relation.id }] )
   rescue ActiveRecord::RecordNotFound
     @type = "relation"
     render :action => "not_found", :status => :not_found
@@ -27,73 +20,38 @@ class BrowseController < ApplicationController
   
   def relation_history
     @relation = Relation.find(params[:id])
-     
-    @name = @relation.tags['name'].to_s 
-    if @name.length == 0:
-      @name = "#" + @relation.id.to_s
-    end
-	
-    @title = 'Relation History | ' + (@name)
   rescue ActiveRecord::RecordNotFound
     @type = "relation"
     render :action => "not_found", :status => :not_found
   end
   
-  def way 
+  def way
     @way = Way.find(params[:id])
-     
-    @name = @way.tags['name'].to_s 
-    if @name.length == 0:
-      @name = "#" + @way.id.to_s
-    end
-	
-    @title = 'Way | ' + (@name)
-    @next = Way.find(:first, :order => "id ASC", :conditions => [ "visible = true AND id > :id", { :id => @way.id }] ) 
-    @prev = Way.find(:first, :order => "id DESC", :conditions => [ "visible = true AND id < :id", { :id => @way.id }] ) 
+    @next = Way.find(:first, :order => "id ASC", :conditions => [ "visible = true AND id > :id", { :id => @way.id }] )
+    @prev = Way.find(:first, :order => "id DESC", :conditions => [ "visible = true AND id < :id", { :id => @way.id }] )
   rescue ActiveRecord::RecordNotFound
     @type = "way"
     render :action => "not_found", :status => :not_found
   end
   
-  def way_history 
+  def way_history
     @way = Way.find(params[:id])
-     
-    @name = @way.tags['name'].to_s 
-    if @name.length == 0:
-      @name = "#" + @way.id.to_s
-    end
-	
-    @title = 'Way History | ' + (@name)
   rescue ActiveRecord::RecordNotFound
     @type = "way"
     render :action => "not_found", :status => :not_found
   end
 
-  def node 
+  def node
     @node = Node.find(params[:id])
-     
-    @name = @node.tags_as_hash['name'].to_s 
-    if @name.length == 0:
-      @name = "#" + @node.id.to_s
-    end
-	
-    @title = 'Node | ' + (@name)
-    @next = Node.find(:first, :order => "id ASC", :conditions => [ "visible = true AND id > :id", { :id => @node.id }] ) 
-    @prev = Node.find(:first, :order => "id DESC", :conditions => [ "visible = true AND id < :id", { :id => @node.id }] ) 
+    @next = Node.find(:first, :order => "id ASC", :conditions => [ "visible = true AND id > :id", { :id => @node.id }] )
+    @prev = Node.find(:first, :order => "id DESC", :conditions => [ "visible = true AND id < :id", { :id => @node.id }] )
   rescue ActiveRecord::RecordNotFound
     @type = "node"
     render :action => "not_found", :status => :not_found
   end
   
-  def node_history 
+  def node_history
     @node = Node.find(params[:id])
-     
-    @name = @node.tags_as_hash['name'].to_s 
-    if @name.length == 0:
-      @name = "#" + @node.id.to_s
-    end
-	
-    @title = 'Node History | ' + (@name)
   rescue ActiveRecord::RecordNotFound
     @type = "way"
     render :action => "not_found", :status => :not_found

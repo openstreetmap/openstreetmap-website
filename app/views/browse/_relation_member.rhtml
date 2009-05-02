@@ -1,7 +1,7 @@
 <tr>
   <td>
     <%= relation_member.member_type.capitalize %>
-    <%= link_to relation_member.member_id.to_s, :action => relation_member.member_type.downcase, :id => relation_member.member_id %>
+    <%= link_to h(printable_name(relation_member.member)), :action => relation_member.member_type.downcase, :id => relation_member.member_id.to_s %>
     <% unless relation_member.member_role.blank? %>
       as
       <%= h(relation_member.member_role) %>

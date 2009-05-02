@@ -7,7 +7,7 @@
     <td>
       <table cellpadding="0">
         <% way_details.way_nodes.each do |wn| %>
-          <tr><td><%= link_to "Node " + wn.node_id.to_s, :action => "node", :id => wn.node_id.to_s %></td></tr>
+          <tr><td><%= link_to h(printable_name(wn.node)), :action => "node", :id => wn.node_id.to_s %></td></tr>
         <% end %>
       </table>
     </td>

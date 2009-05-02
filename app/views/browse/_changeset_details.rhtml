@@ -53,7 +53,7 @@
       <td>
         <table cellpadding="0">
           <% @nodes.each do |node| %>
-            <tr><td><%= link_to "Node #{node.id.to_s}, version #{node.version.to_s}", :action => "node", :id => node.id.to_s %></td></tr>
+            <tr><td><%= link_to h(printable_name(node, true)), :action => "node", :id => node.id.to_s %></td></tr>
           <% end %>
         </table>
       </td>
@@ -67,7 +67,7 @@
       <td>
         <table cellpadding="0">
           <% @ways.each do |way| %>
-            <tr><td><%= link_to "Way #{way.id.to_s}, version #{way.version.to_s}", :action => "way", :id => way.id.to_s %></td></tr>
+          <tr><td><%= link_to h(printable_name(way, true)), :action => "way", :id => way.id.to_s %></td></tr>
           <% end %>
           <%=
           #render :partial => "containing_relation", :collection => changeset_details.containing_relation_members 
@@ -84,7 +84,7 @@
       <td>
         <table cellpadding="0">
           <% @relations.each do |relation| %>
-            <tr><td><%= link_to "Relation #{relation.id.to_s}, version #{relation.version.to_s}", :action => "relation", :id => relation.id.to_s %></td></tr>
+          <tr><td><%= link_to h(printable_name(relation, true)), :action => "relation", :id => relation.id.to_s %></td></tr>
           <% end %>
         </table>
       </td>
