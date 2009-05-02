@@ -133,7 +133,7 @@ class Node < ActiveRecord::Base
       check_consistency(self, new_node, user)
       way = WayNode.find(:first, :joins => :way, 
                          :conditions => [ "current_ways.visible = ? AND current_way_nodes.node_id = ?", true, self.id ])
-      raise OSM::APIPreconditionFailedError.new("Node #{self.id} is still used by way #{way.id}.") unless way.nil?
+      raise OSM::APIPreconditionFailedError.new("Node #{self.id} is still used by way #{way.way.id}.") unless way.nil?
       
       rel = RelationMember.find(:first, :joins => :relation, 
                                 :conditions => [ "visible = ? AND member_type='Node' and member_id=? ", true, self.id])
