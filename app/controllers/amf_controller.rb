@@ -362,7 +362,7 @@ class AmfController < ApplicationController
       waycreated=revdates[0]
       revdates.uniq!
       revdates.sort!
-	  revdates.reverse!
+      revdates.reverse!
 
       # Remove any dates (from nodes) before first revision date of way
       revdates.delete_if { |d| d<waycreated }
@@ -510,6 +510,7 @@ class AmfController < ApplicationController
         # We're deleting the relation
         relation.delete_with_history!(new_relation, user)
       end
+      updatetimeout(changeset_id)
     end # transaction
       
     if relid <= 0
@@ -633,6 +634,7 @@ class AmfController < ApplicationController
           # and we don't want to delete it
         end
       end
+      updatetimeout(changeset_id)
 
     end # transaction
 
@@ -695,7 +697,9 @@ class AmfController < ApplicationController
         # We're deleting the node
         node.delete_with_history!(new_node, user)
       end
-     end # transaction
+      updatetimeout(changeset_id)
+
+    end # transaction
 
     if id <= 0
       return [0, id, new_node.id, new_node.version]
@@ -775,6 +779,7 @@ class AmfController < ApplicationController
           # elsewhere and we don't want to delete it
         end
       end
+      updatetimeout(changeset_id)
 
     end # transaction
     [0, way_id]
@@ -808,6 +813,15 @@ class AmfController < ApplicationController
       user = User.authenticate(:token => token)
     end
     return user
+  end
+
+  # Update changeset timeout
+  # i.e. one hour after current edit
+  
+  def updatetimeout(changeset_id) #:doc:
+    cs = Changeset.find(changeset_id)
+    cs.closed_at = Time.now.getutc + Changeset::IDLE_TIMEOUT
+    cs.save!
   end
 
   # Send AMF response
