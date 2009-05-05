@@ -288,7 +288,6 @@ class Relation < ActiveRecord::Base
     elements = { :node => Hash.new, :way => Hash.new, :relation => Hash.new }
     self.members.each do |m|
       # find the hash for the element type or die
-      logger.debug m[0]
       hash = elements[m[0].downcase.to_sym] or return false
       # unless its in the cache already
       unless hash.key? m[1]
@@ -299,6 +298,7 @@ class Relation < ActiveRecord::Base
 
         # and check that it is OK to use.
         unless element and element.visible? and element.preconditions_ok?
+          raise OSM::APIPreconditionFailedError.new("Relation with id #{self.id} cannot be saved due to #{m[0]} with id #{element.id}")
           return false
         end
         hash[m[1]] = true

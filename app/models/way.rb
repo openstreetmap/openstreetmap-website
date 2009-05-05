@@ -251,18 +251,17 @@ class Way < ActiveRecord::Base
     # shouldn't be possible to get race conditions.
     Way.transaction do
       check_consistency(self, new_way, user)
-      if RelationMember.find(:first, :joins => :relation,
+      rel = RelationMember.find(:first, :joins => :relation,
                              :conditions => [ "visible = ? AND member_type='Way' and member_id=? ", true, self.id])
-        raise OSM::APIPreconditionFailedError.new("You need to make sure that the way with id: #{self.id} is not a member of a relation.")
-      else
-        self.changeset_id = new_way.changeset_id
-        self.changeset = new_way.changeset
+      raise OSM::APIPreconditionFailedError.new("You need to make sure that the way with id: #{self.id} is not a member of the relation with id #{rel.id}.") if rel
+      
+      self.changeset_id = new_way.changeset_id
+      self.changeset = new_way.changeset
 
-        self.tags = []
-        self.nds = []
-        self.visible = false
-        save_with_history!
-      end
+      self.tags = []
+      self.nds = []
+      self.visible = false
+      save_with_history!
     end
   end
 
