@@ -253,7 +253,7 @@ class Way < ActiveRecord::Base
       check_consistency(self, new_way, user)
       rel = RelationMember.find(:first, :joins => :relation,
                              :conditions => [ "visible = ? AND member_type='Way' and member_id=? ", true, self.id])
-      raise OSM::APIPreconditionFailedError.new("You need to make sure that the way with id: #{self.id} is not a member of the relation with id #{rel.id}.") if rel
+      raise OSM::APIPreconditionFailedError.new("Way #{self.id} still used by relation #{rel.relation.id}.") if rel
       
       self.changeset_id = new_way.changeset_id
       self.changeset = new_way.changeset
