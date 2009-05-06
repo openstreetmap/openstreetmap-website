@@ -256,7 +256,7 @@ class Relation < ActiveRecord::Base
 
   def update_from(new_relation, user)
     check_consistency(self, new_relation, user)
-    unless new_relation.preconditions_ok?
+    unless new_relation.preconditions_ok?(self.members)
       raise OSM::APIPreconditionFailedError.new("Cannot update relation #{self.id}: data or member data is invalid.")
     end
     self.changeset_id = new_relation.changeset_id
@@ -277,7 +277,7 @@ class Relation < ActiveRecord::Base
     save_with_history!
   end
 
-  def preconditions_ok?
+  def preconditions_ok?(good_members = [])
     # These are hastables that store an id in the index of all 
     # the nodes/way/relations that have already been added.
     # If the member is valid and visible then we add it to the 
@@ -286,6 +286,10 @@ class Relation < ActiveRecord::Base
     # relation, then the hash table nodes would contain:
     # => {50=>true, 1=>true}
     elements = { :node => Hash.new, :way => Hash.new, :relation => Hash.new }
+
+    # pre-set all existing members to good
+    good_members.each { |m| elements[m[0].downcase.to_sym][m[1]] = true }
+
     self.members.each do |m|
       # find the hash for the element type or die
       hash = elements[m[0].downcase.to_sym] or return false
