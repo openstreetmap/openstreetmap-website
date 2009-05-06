@@ -341,6 +341,7 @@ class RelationControllerTest < ActionController::TestCase
     # expect failure
     assert_response :precondition_failed, 
         "relation upload with invalid node did not return 'precondition failed'"
+    assert_equal "Precondition failed: Cannot create relation: data or member data is invalid.", @response.body
   end
 
   # -------------------------------------
@@ -465,6 +466,7 @@ class RelationControllerTest < ActionController::TestCase
     delete :delete, :id => current_relations(:public_used_relation).id
     assert_response :precondition_failed, 
        "shouldn't be able to delete a relation used in a relation (#{@response.body})"
+    assert_equal "Precondition failed: The relation 5 is used in relation 6.", @response.body
 
     # this should work when we provide the appropriate payload...
     content(relations(:multi_tag_relation).to_xml)

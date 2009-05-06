@@ -298,7 +298,7 @@ class Relation < ActiveRecord::Base
         # use reflection to look up the appropriate class
         model = Kernel.const_get(m[0].capitalize)
         # get the element with that ID
-        element = model.find(m[1])
+        element = model.find(:first, :conditions =>["id = ?", m[1]])
 
         # and check that it is OK to use.
         unless element and element.visible? and element.preconditions_ok?

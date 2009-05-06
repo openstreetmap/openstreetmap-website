@@ -235,7 +235,7 @@ class Way < ActiveRecord::Base
     self.nds.each do |n|
       node = Node.find(:first, :conditions => ["id = ?", n])
       unless node and node.visible
-        raise OSM::APIPreconditionFailedError.new("The node with id #{n} either does not exist, or is not visible")
+        raise OSM::APIPreconditionFailedError.new("Way #{self.id} requires the node with id #{n}, which either does not exist, or is not visible.")
       end
     end
     return true

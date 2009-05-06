@@ -164,6 +164,7 @@ class WayControllerTest < ActionController::TestCase
     # expect failure
     assert_response :precondition_failed, 
         "way upload with invalid node did not return 'precondition failed'"
+    assert_equal "Precondition failed: Way  requires the node with id 0, which either does not exist, or is not visible.", @response.body
 
     # create a way with no nodes
     content "<osm><way changeset='#{open_changeset_id}'>" +
@@ -172,6 +173,7 @@ class WayControllerTest < ActionController::TestCase
     # expect failure
     assert_response :precondition_failed, 
         "way upload with no node did not return 'precondition failed'"
+    assert_equal "Precondition failed: Cannot create way: data is invalid.", @response.body
 
     # create a way inside a closed changeset
     content "<osm><way changeset='#{closed_changeset_id}'>" +
@@ -286,6 +288,7 @@ class WayControllerTest < ActionController::TestCase
     delete :delete, :id => current_ways(:used_way).id
     assert_response :precondition_failed, 
        "shouldn't be able to delete a way used in a relation (#{@response.body})"
+    assert_equal "Precondition failed: Way 3 still used by relation 1.", @response.body
 
     # this won't work since the way never existed
     delete :delete, :id => 0
