@@ -59,7 +59,7 @@ class ApiControllerTest < ActionController::TestCase
   end
   
   def test_tracepoints
-    point = gpx_files(:first_trace_file)
+    point = gpx_files(:public_trace_file)
     minlon = point.longitude-0.1
     minlat = point.latitude-0.1
     maxlon = point.longitude+0.1
