@@ -12,6 +12,19 @@ class TraceControllerTest < ActionController::TestCase
     assert_template 'list'
   end
   
+  # Check that I can get mine
+  def test_list_mine
+    # First try to get it when not logged in
+    get :mine
+    assert_redirected_to :controller => 'user', :action => 'login', :referer => '/traces/mine'
+    
+    # Now try when logged in
+    get :mine, {}, {:user => users(:public_user).id}
+    assert_response :success
+    assert_template 'mine'
+    # Should really test to see which files are shown to the user
+  end
+  
   # Check that the rss loads
   def test_rss
     get :georss

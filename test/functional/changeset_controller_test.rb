@@ -96,6 +96,15 @@ class ChangesetControllerTest < ActionController::TestCase
   end
   
   ##
+  # check that a changeset that doesn't exist returns an appropriate message
+  def test_read_not_found
+    [0, -32, 233455644, "afg", "213"].each do |id|
+      get :read, :id => id
+      assert_response :not_found, "should get a not found"
+    end
+  end
+  
+  ##
   # test that the user who opened a change can close it
   def test_close
     ## Try without authentication
@@ -130,6 +139,38 @@ class ChangesetControllerTest < ActionController::TestCase
     put :close, :id => changesets(:normal_user_first_change).id
     assert_response :conflict
     assert_equal "The user doesn't own that changeset", @response.body
+  end
+  
+  ##
+  # test that you can't close using another method
+  def test_close_method_invalid
+    basic_authorization users(:public_user).email, "test"
+    
+    cs_id = changesets(:public_user_first_change).id
+    get :close, :id => cs_id
+    assert_response :method_not_allowed
+    
+    post :close, :id => cs_id
+    assert_response :method_not_allowed
+  end
+  
+  ##
+  # check that you can't close a changeset that isn't found
+  def test_close_not_found
+    cs_ids = [0, -132, "123"]
+    
+    # First try to do it with no auth
+    cs_ids.each do |id|
+      put :close, :id => id
+      assert_response :unauthorized, "Shouldn't be able close the non-existant changeset #{id}, when not authorized"
+    end
+    
+    # Now try with auth
+    basic_authorization users(:public_user).email, "test"
+    cs_ids.each do |id|
+      put :close, :id => id
+      assert_response :not_found, "The changeset #{id} doesn't exist, so can't be closed"
+    end
   end
 
   ##
