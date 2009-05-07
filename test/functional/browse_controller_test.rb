@@ -30,7 +30,7 @@ class BrowseControllerTest < ActionController::TestCase
   end
   
   def test_read_node_history
-    browse_check 'node', nodes(:visible_node)
+    browse_check 'node_history', nodes(:visible_node)
   end
   
   def test_read_changeset
