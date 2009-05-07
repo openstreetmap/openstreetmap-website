@@ -4,16 +4,7 @@
 <p><b>No visible edits by <%= h(@display_name) %>.</b></p>
 <% else %>
 <%= render :partial => 'changeset_paging_nav' %>
-<table id="keyvalue" cellpadding="3">
-  <tr>
-    <th>ID</th>
-    <th>Saved at</th>
-    <th>Comment</th>
-    <th>Area</th>
-    <th></th>
-  </tr>
-  <%= render :partial => 'changeset', :locals => {:showusername => false},  :collection => @edits %>
-</table>
+<%= render :partial => 'changesets', :locals => {:showusername => false} %>
 <%= render :partial => 'changeset_paging_nav' %>
 <% end %>
 

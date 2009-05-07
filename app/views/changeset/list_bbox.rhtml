@@ -18,19 +18,7 @@ Changesets within the area:
 <%	else %>
 
 <%= render :partial => 'changeset_paging_nav' %>
-
-<table id="keyvalue" cellpadding="3">
-  <tr>
-    <th>ID</th>
-    <th>Saved at</th>
-    <th>User</th>
-    <th>Comment</th>
-    <th>Area</th>
-    <th></th>
-  </tr>
-  <%= render :partial => 'changeset', :locals => {:showusername => true}, :collection => @edits unless @edits.nil? %>
-</table>
-
+<%= render :partial => 'changesets' %>
 <%= render :partial => 'changeset_paging_nav' %>
 
 <p>For all changes everywhere see <%=  link_to("Recent Changes", :controller => "browse", :action => "changesets") %> </p>
