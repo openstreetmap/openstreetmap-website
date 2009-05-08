@@ -24,7 +24,7 @@ class UserTest < Test::Unit::TestCase
       :data_public => 1,
       :description => "desc")
     assert !new_user.save
-    assert_equal ActiveRecord::Errors.default_error_messages[:taken], new_user.errors.on(:email)
+    assert_equal "has already been taken", new_user.errors.on(:email)
   end
   
   def test_unique_display_name
@@ -35,7 +35,7 @@ class UserTest < Test::Unit::TestCase
       :data_public => 1,
       :description => "desc")
     assert !new_user.save
-    assert_equal ActiveRecord::Errors.default_error_messages[:taken], new_user.errors.on(:display_name)
+    assert_equal "has already been taken", new_user.errors.on(:display_name)
   end
   
   def test_email_valid
