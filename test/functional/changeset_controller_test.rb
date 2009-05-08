@@ -1203,6 +1203,37 @@ EOF
     check_after_include(changeset_id, -1, -1, [-1, -1,  4,  3])
     check_after_include(changeset_id, -2,  5, [-2, -1,  4,  5])
   end
+  
+  ##
+  # test that a not found, wrong method with the expand bbox works as expected
+  def test_changeset_expand_bbox_error
+    basic_authorization users(:public_user).display_name, "test"
+    
+    # create a new changeset
+    content "<osm><changeset/></osm>"
+    put :create
+    assert_response :success, "Creating of changeset failed."
+    changeset_id = @response.body.to_i
+    
+    lon=58.2
+    lat=-0.45
+    
+    # Try and put
+    content "<osm><node lon='#{lon}' lat='#{lat}'/></osm>"
+    put :expand_bbox, :id => changeset_id
+    assert_response :method_not_allowed, "shouldn't be able to put a bbox expand"
+
+    # Try to get the update
+    content "<osm><node lon='#{lon}' lat='#{lat}'/></osm>"
+    get :expand_bbox, :id => changeset_id
+    assert_response :method_not_allowed, "shouldn't be able to get a bbox expand"
+    
+    # Try to use a hopefully missing changeset
+    content "<osm><node lon='#{lon}' lat='#{lat}'/></osm>"
+    post :expand_bbox, :id => changeset_id+13245
+    assert_response :not_found, "shouldn't be able to do a bbox expand on a nonexistant changeset"
+
+  end
 
   ##
   # test the query functionality of changesets
@@ -1414,19 +1445,38 @@ EOF
            "element limit.")
   end
   
+  ##
   # This should display the last 20 changesets closed.
   def test_list
-    @changesets = Changeset.find(:all, :order => "created_at DESC", :conditions => ['min_lat IS NOT NULL'], :limit=> 20)
-    assert @changesets.size <= 20
+    changesets = Changeset.find(:all, :order => "created_at DESC", :conditions => ['min_lat IS NOT NULL'], :limit=> 20)
+    assert changesets.size <= 20
     get :list
     assert_response :success
     assert_template "list"
     # Now check that all 20 (or however many were returned) changesets are in the html
     assert_select "h1", :text => "Recent Changes", :count => 1
-    assert_select "table[id='changeset_list'] tr", :count => @changesets.size + 1
-    @changesets.each do |changeset|
+    assert_select "table[id='changeset_list'] tr", :count => changesets.size + 1
+    changesets.each do |changeset|
       # FIXME this test needs rewriting - test for table contents
     end
+  end
+  
+  ##
+  # Checks the display of the user changesets listing
+  def test_list_user
+    user = users(:public_user)
+    get :list_user, {:display_name => user.display_name}
+    assert_response :success
+    assert_template 'list_user'
+    ## FIXME need to add more checks to see which if edits are actually shown if your data is public
+  end
+  
+  ##
+  # Check the not found of the list user changesets
+  def test_list_user_not_found
+    get :list_user, {:display_name => "Some random user"}
+    assert_response :not_found
+    assert_template 'user/no_such_user'
   end
   
   #------------------------------------------------------------
