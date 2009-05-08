@@ -7,12 +7,6 @@ class ApiController < ApplicationController
   # Help methods for checking boundary sanity and area size
   include MapBoundary
 
-  # The maximum area you're allowed to request, in square degrees
-  MAX_REQUEST_AREA = APP_CONFIG['max_request_area']
-
-  # Number of GPS trace/trackpoints returned per-page
-  TRACEPOINTS_PER_PAGE = APP_CONFIG['tracepoints_per_page']
-
   # Get an XML response containing a list of tracepoints that have been uploaded
   # within the specified bounding box, and in the specified page.
   def trackpoints
@@ -27,7 +21,7 @@ class ApiController < ApplicationController
         return
     end
 
-    offset = page * TRACEPOINTS_PER_PAGE
+    offset = page * APP_CONFIG['tracepoints_per_page']
 
     # Figure out the bbox
     bbox = params['bbox']
@@ -48,7 +42,7 @@ class ApiController < ApplicationController
     end
 
     # get all the points
-    points = Tracepoint.find_by_area(min_lat, min_lon, max_lat, max_lon, :offset => offset, :limit => TRACEPOINTS_PER_PAGE, :order => "timestamp DESC" )
+    points = Tracepoint.find_by_area(min_lat, min_lon, max_lat, max_lon, :offset => offset, :limit => APP_CONFIG['tracepoints_per_page'], :order => "timestamp DESC" )
 
     doc = XML::Document.new
     doc.encoding = XML::Encoding::UTF_8
@@ -257,7 +251,7 @@ class ApiController < ApplicationController
     version['maximum'] = "#{API_VERSION}";
     api << version
     area = XML::Node.new 'area'
-    area['maximum'] = MAX_REQUEST_AREA.to_s;
+    area['maximum'] = APP_CONFIG['max_request_area'].to_s;
     api << area
     tracepoints = XML::Node.new 'tracepoints'
     tracepoints['per_page'] = APP_CONFIG['tracepoints_per_page'].to_s
