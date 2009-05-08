@@ -1,3 +1,5 @@
+require 'lib/migrate'
+
 class AddForeignKeys < ActiveRecord::Migration
   def self.up
     add_foreign_key :changeset_tags, [:id], :changesets

@@ -1,3 +1,5 @@
+require 'lib/migrate'
+
 class AddUserForeignKeys < ActiveRecord::Migration
   def self.up
     add_foreign_key :changesets, [:user_id], :users, [:id]

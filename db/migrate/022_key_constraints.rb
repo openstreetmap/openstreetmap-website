@@ -1,3 +1,5 @@
+require 'lib/migrate'
+
 class KeyConstraints < ActiveRecord::Migration
   def self.up
     # Primary keys
