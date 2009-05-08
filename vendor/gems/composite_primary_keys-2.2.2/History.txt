@@ -1,0 +1,156 @@
+== 2.2.1 2009-01-21
+
+* fix ActiveRecord#exists? to work when passing conditions instead of ids
+
+== 2.2.0 2008-10-29
+
+* Rails 2.2.0 compatibility
+
+== 1.1.0 2008-10-29
+
+* fixes to get cpk working for Rails 2.1.2
+
+== 1.0.10 2008-10-22
+
+* add composite key where clause creator method [timurv]
+
+== 1.0.9 2008-09-08
+
+* fix postgres tests
+* fix for delete_records when has_many association has composite keys [darxriggs]
+* more consistent table/column name quoting [pbrant]
+
+== 1.0.8 2008-08-27
+
+* fix has_many :through for non composite models [thx rcarver]
+
+== 1.0.7 2008-08-12
+
+* fix for the last fix -- when has_many is composite and belongs_to is single
+
+== 1.0.6 2008-08-06
+
+* fix associations create
+
+== 1.0.5 2008-07-25
+
+* fix for calculations with a group by clause [thx Sirius Black]
+
+== 1.0.4 2008-07-15
+
+* support for oracle_enhanced adapter [thx Raimonds Simanovskis] 
+
+== 1.0.3 2008-07-13
+
+* more fixes and tests for has many through [thx Menno van der Sman]
+
+== 1.0.2 2008-06-07
+
+* fix for has many through when through association has composite keys
+
+== 1.0.1 2008-06-06
+
+* Oracle fixes
+
+== 1.0.0 2008-06-05
+
+* Support for Rails 2.1
+
+== 0.9.93 2008-06-01
+
+* set fixed dependency on activerecord 2.0.2
+
+== 0.9.92 2008-02-22
+
+* Support for has_and_belongs_to_many
+
+== 0.9.91 2008-01-27
+
+* Incremented activerecord dependency to 2.0.2 [thx emmanuel.pirsch]
+
+== 0.9.90 2008-01-27
+
+* Trial release for rails/activerecord 2.0.2 supported
+
+== 0.9.1 2007-10-28
+
+* Migrations fix - allow :primary_key => [:name] to work [no unit test] [thx Shugo Maeda]
+
+== 0.9.0 2007-09-28
+
+* Added support for polymorphs [thx nerdrew]
+* init.rb file so gem can be installed as a plugin for Rails [thx nerdrew]
+* Added ibm_db support [thx K Venkatasubramaniyan]
+* Support for cleaning dependents [thx K Venkatasubramaniyan]
+* Rafactored db rake tasks into namespaces
+* Added namespaced tests (e.g. mysql:test for test_mysql)
+
+== 0.8.6 / 2007-6-12
+
+* 1 emergency fix due to Rails Core change
+  * Rails v7004 removed #quote; fixed with connection.quote_column_name [thx nerdrew]
+
+== 0.8.5 / 2007-6-5
+
+* 1 change due to Rails Core change
+  * Can no longer use RAILS_CONNECTION_ADAPTERS from Rails core
+* 7 dev improvement:
+  * Changed History.txt syntax to rdoc format
+  * Added deploy tasks
+  * Removed CHANGELOG + migrated into History.txt
+  * Changed PKG_NAME -> GEM_NAME in Rakefile
+  * Renamed README -> README.txt for :publish_docs task
+  * Added :check_version task
+  * VER => VERS in rakefile
+* 1 website improvement:
+  * website/index.txt includes link to "8 steps to fix other ppls code"
+
+== 0.8.4 / 2007-5-3
+
+* 1 bugfix
+  * Corrected ids_list => ids in the exception message. That'll teach me for not adding unit tests before fixing bugs. 
+
+== 0.8.3 / 2007-5-3
+
+* 1 bugfix
+  * Explicit reference to ::ActiveRecord::RecordNotFound
+* 1 website addition:
+  * Added routing help [Pete Sumskas]
+
+== 0.8.2 / 2007-4-11
+
+* 1 major enhancement:
+  * Oracle unit tests!! [Darrin Holst]
+  * And they work too
+
+== 0.8.1 / 2007-4-10
+
+* 1 bug fix:
+  * Fixed the distinct(count) for oracle (removed 'as')
+
+== 0.8.0 / 2007-4-6
+
+* 1 major enhancement:
+  * Support for calcualtions on associations
+* 2 new DB supported:
+  * Tests run on sqlite
+  * Tests run on postgresql
+* History.txt to keep track of changes like these
+* Using Hoe for Rakefile
+* Website generator rake tasks
+
+== 0.3.3
+* id=
+* create now work
+
+== 0.1.4
+* it was important that #{primary_key} for composites --> 'key1,key2' and not 'key1key2' so created PrimaryKeys class
+
+== 0.0.1 
+* Initial version
+* set_primary_keys(*keys) is the activation class method to transform an ActiveRecord into a composite primary key AR
+* find(*ids) supports the passing of 
+  * id sets: Foo.find(2,1), 
+  * lists of id sets: Foo.find([2,1], [7,3], [8,12]), 
+  * and even stringified versions of the above:
+  * Foo.find '2,1' or Foo.find '2,1;7,3'
