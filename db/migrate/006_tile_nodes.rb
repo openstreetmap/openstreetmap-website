@@ -1,3 +1,5 @@
+require 'lib/migrate'
+
 class TileNodes < ActiveRecord::Migration
   def self.upgrade_table(from_table, to_table, model)
     begin
@@ -5,8 +7,8 @@ class TileNodes < ActiveRecord::Migration
       INSERT INTO #{to_table} (id, latitude, longitude, user_id, visible, tags, timestamp, tile)
       SELECT id, ROUND(latitude * 10000000), ROUND(longitude * 10000000),
              user_id, visible, tags, timestamp,
-             tile_for_point(CAST(ROUND(latitude * 10000000) AS UNSIGNED),
-                            CAST(ROUND(longitude * 10000000) AS UNSIGNED))
+             tile_for_point(CAST(ROUND(latitude * 10000000) AS INTEGER),
+                            CAST(ROUND(longitude * 10000000) AS INTEGER))
       FROM #{from_table}
       END_SQL
     rescue ActiveRecord::StatementInvalid => ex
