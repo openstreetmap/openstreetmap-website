@@ -114,7 +114,7 @@ module CompositePrimaryKeys
             id_map = {}
 
             records.each do |record|
-              key = primary_key_name.map{|k| record.send(k)}
+              key = primary_key_name.map{|k| record.attributes[k]}
               key_as_string = key.join(CompositePrimaryKeys::ID_SEP)
 
               if key_as_string
