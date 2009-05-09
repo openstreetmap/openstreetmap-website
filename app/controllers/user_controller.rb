@@ -24,7 +24,7 @@ class UserController < ApplicationController
       @user.creation_ip = request.remote_ip
 
       if @user.save
-        flash[:notice] = "User was successfully created. Check your email for a confirmation note, and you\'ll be mapping in no time :-)<br>Please note that you won't be able to login until you've received and confirmed your email address."
+        flash[:notice] = "User was successfully created. Check your email for a confirmation note, and you\'ll be mapping in no time :-)<br /><br />Please note that you won't be able to login until you've received and confirmed your email address.<br /><br />If you use an antispam system which sends confirmation requests then please make sure you whitelist webmaster@openstreetmap.org as we are unable to reply to any confirmation requests."
         Notifier.deliver_signup_confirm(@user, @user.tokens.create)
         redirect_to :action => 'login'
       else
