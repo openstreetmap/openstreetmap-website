@@ -1,19 +1,16 @@
 class Notifier < ActionMailer::Base
   def signup_confirm(user, token)
-    recipients user.email
-    from "webmaster@openstreetmap.org"
+    common_headers user
     subject "[OpenStreetMap] Confirm your email address"
-    headers "Auto-Submitted" => "auto-generated"
     body :url => url_for(:host => SERVER_URL,
                          :controller => "user", :action => "confirm",
                          :confirm_string => token.token)
   end
 
   def email_confirm(user, token)
+    common_headers user
     recipients user.new_email
-    from "webmaster@openstreetmap.org"
     subject "[OpenStreetMap] Confirm your email address"
-    headers "Auto-Submitted" => "auto-generated"
     body :address => user.new_email,
          :url => url_for(:host => SERVER_URL,
                          :controller => "user", :action => "confirm_email",
@@ -21,28 +18,22 @@ class Notifier < ActionMailer::Base
   end
 
   def lost_password(user, token)
-    recipients user.email
-    from "webmaster@openstreetmap.org"
+    common_headers user
     subject "[OpenStreetMap] Password reset request"
-    headers "Auto-Submitted" => "auto-generated"
     body :url => url_for(:host => SERVER_URL,
                          :controller => "user", :action => "reset_password",
                          :email => user.email, :token => token.token)
   end
 
   def reset_password(user, pass)
-    recipients user.email
-    from "webmaster@openstreetmap.org"
+    common_headers user
     subject "[OpenStreetMap] Password reset"
-    headers "Auto-Submitted" => "auto-generated"
     body :pass => pass
   end
 
   def gpx_success(trace, possible_points)
-    recipients trace.user.email if trace.user.email_valid
-    from "webmaster@openstreetmap.org"
+    common_headers trace.user
     subject "[OpenStreetMap] GPX Import success"
-    headers "Auto-Submitted" => "auto-generated"
     body :trace_name => trace.name,
          :trace_points => trace.size,
          :trace_description => trace.description,
@@ -51,10 +42,9 @@ class Notifier < ActionMailer::Base
   end
 
   def gpx_failure(trace, error)
-    recipients trace.user.email if trace.user.email_valid
+    common_headers trace.user
     from "webmaster@openstreetmap.org"
     subject "[OpenStreetMap] GPX Import failure"
-    headers "Auto-Submitted" => "auto-generated"
     body :trace_name => trace.name,
          :trace_description => trace.description,
          :trace_tags => trace.tags,
@@ -62,10 +52,8 @@ class Notifier < ActionMailer::Base
   end
   
   def message_notification(message)
-    recipients message.recipient.email if message.recipient.email_valid
-    from "webmaster@openstreetmap.org"
+    common_headers message.recipient
     subject "[OpenStreetMap] #{message.sender.display_name} sent you a new message"
-    headers "Auto-Submitted" => "auto-generated"
     body :to_user => message.recipient.display_name,
          :from_user => message.sender.display_name,
          :body => message.body,
@@ -79,10 +67,8 @@ class Notifier < ActionMailer::Base
   end
 
   def diary_comment_notification(comment)
-    recipients comment.diary_entry.user.email if comment.diary_entry.user.email_valid
-    from "webmaster@openstreetmap.org"
+    common_headers comment.diary_entry.user
     subject "[OpenStreetMap] #{comment.user.display_name} commented on your diary entry"
-    headers "Auto-Submitted" => "auto-generated"
     body :to_user => comment.diary_entry.user.display_name,
          :from_user => comment.user.display_name,
          :body => comment.body,
@@ -110,13 +96,20 @@ class Notifier < ActionMailer::Base
     befriender = User.find_by_id(friend.user_id)
     befriendee = User.find_by_id(friend.friend_user_id)
 
-    recipients befriendee.email if  befriendee.email_valid
-    from "webmaster@openstreetmap.org"
+    common_headers befriendee
     subject "[OpenStreetMap] #{befriender.display_name} added you as a friend"
-    headers "Auto-Submitted" => "auto-generated"
     body :user => befriender.display_name,
          :userurl => url_for(:host => SERVER_URL,
                              :controller => "user", :action => "view",
                              :display_name => befriender.display_name)
+  end
+
+private
+
+  def common_headers(recipient)
+    recipients recipient.email
+    from "webmaster@openstreetmap.org"
+    headers "return-path" => "bounces@openstreetmap.org",
+            "Auto-Submitted" => "auto-generated"
   end
 end
