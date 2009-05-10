@@ -91,6 +91,12 @@ class NodeControllerTest < ActionController::TestCase
     assert_response :bad_request, "node upload did not return bad_request status"
     assert_equal "Cannot parse valid node from xml string <node lat=\"3.434\" changeset=\"#{changeset.id}\"/>. lon missing", @response.body
 
+    # test that the upload is rejected when we have a tag which is too long
+    content("<osm><node lat='#{lat}' lon='#{lon}' changeset='#{changeset.id}'><tag k='foo' v='#{'x'*256}'/></node></osm>")
+    put :create
+    assert_response :bad_request, "node upload did not return bad_request status"
+    assert_equal "Node  has a tag with too long a value, 'foo'='#{'x'*256}'.", @response.body
+
   end
 
   def test_read

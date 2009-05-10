@@ -218,6 +218,11 @@ class Relation < ActiveRecord::Base
     # in the hash to be overwritten.
     raise OSM::APIDuplicateTagsError.new("relation", self.id, k) if @tags.include? k
 
+    # check tag size here, as we don't create a RelationTag object until
+    # just before we save...
+    raise OSM::APIBadUserInput.new("Relation #{self.id} has a tag with too long a key, '#{k}'.") if k.length > 255
+    raise OSM::APIBadUserInput.new("Relation #{self.id} has a tag with too long a value, '#{k}'='#{v}'.") if v.length > 255
+
     @tags[k] = v
   end
 

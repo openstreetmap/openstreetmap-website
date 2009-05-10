@@ -182,6 +182,16 @@ class WayControllerTest < ActionController::TestCase
     # expect failure
     assert_response :conflict, 
         "way upload to closed changeset did not return 'conflict'"    
+
+    # create a way with a tag which is too long
+    content "<osm><way changeset='#{open_changeset_id}'>" +
+      "<nd ref='#{nid1}'/>" +
+      "<tag k='foo' v='#{'x'*256}'/>" +
+      "</way></osm>"
+    put :create
+    # expect failure
+    assert_response :bad_request, 
+        "way upload to with too long tag did not return 'bad_request'"
   end
 
   # -------------------------------------

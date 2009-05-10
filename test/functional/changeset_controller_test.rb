@@ -82,7 +82,7 @@ class ChangesetControllerTest < ActionController::TestCase
     post :create
     assert_response :method_not_allowed
   end
-    
+
   ##
   # check that the changeset can be read and returns the correct
   # document structure.
@@ -446,6 +446,31 @@ EOF
     assert_equal true, Relation.find(current_relations(:visible_relation).id).visible
   end
 
+  ##
+  # upload an element with a really long tag value
+  def test_upload_invalid_too_long_tag
+    basic_authorization users(:public_user).email, "test"
+    cs_id = changesets(:public_user_first_change).id
+
+    # simple diff to create a node way and relation using placeholders
+    diff = <<EOF
+<osmChange>
+ <create>
+  <node id='-1' lon='0' lat='0' changeset='#{cs_id}'>
+   <tag k='foo' v='#{"x"*256}'/>
+  </node>
+ </create>
+</osmChange>
+EOF
+
+    # upload it
+    content diff
+    post :upload, :id => cs_id
+    assert_response :bad_request, 
+      "shoudln't be able to upload too long a tag to changeset: #{@response.body}"
+
+  end
+    
   ##
   # upload something which creates new objects and inserts them into
   # existing containers using placeholders.
