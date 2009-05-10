@@ -7,12 +7,17 @@ class GeocoderController < ApplicationController
     query = params[:query]
     results = Array.new
 
-    if query.match(/^\d{5}(-\d{4})?$/)
+    query.sub(/^\s+/, "")
+    query.sub(/\s+$/, "")
+
+    if query.match(/^[+-]?\d+(\.\d*)?\s*[\s,]\s*[+-]?\d+(\.\d*)?$/)
+      results.push search_latlon(query)
+    elsif query.match(/^\d{5}(-\d{4})?$/)
       results.push search_us_postcode(query)
-    elsif query.match(/(GIR 0AA|[A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]|[A-HK-Y][0-9]([0-9]|[ABEHMNPRV-Y]))|[0-9][A-HJKS-UW])\s*[0-9][ABD-HJLNP-UW-Z]{2})/i)
+    elsif query.match(/^(GIR 0AA|[A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]|[A-HK-Y][0-9]([0-9]|[ABEHMNPRV-Y]))|[0-9][A-HJKS-UW])\s*[0-9][ABD-HJLNP-UW-Z]{2})$/i)
       results.push search_uk_postcode(query)
       results.push search_osm_namefinder(query)
-    elsif query.match(/[A-Z]\d[A-Z]\s*\d[A-Z]\d/i)
+    elsif query.match(/^[A-Z]\d[A-Z]\s*\d[A-Z]\d$/i)
       results.push search_ca_postcode(query)
     else
       results.push search_osm_namefinder(query)
@@ -51,6 +56,29 @@ class GeocoderController < ApplicationController
   end
 
 private
+
+  def search_latlon(query)
+    results = Array.new
+
+    # decode the location
+    if m = query.match(/^([+-]?\d+(\.\d*)?)\s*[\s,]\s*([+-]?\d+(\.\d*)?)$/)
+      lat = m[1].to_f
+      lon = m[3].to_f
+    end
+
+    # generate results
+    if lat < -90 or lat > 90
+      return { :source => "Internal", :url => "http://openstreetmap.org/", :error => "Latitude #{lat} out of range" }
+    elsif lon < -180 or lon > 180
+      return { :source => "Internal", :url => "http://openstreetmap.org/", :error => "Longitude #{lon} out of range" }
+    else
+      results.push({:lat => lat, :lon => lon,
+                    :zoom => APP_CONFIG['postcode_zoom'],
+                    :name => "#{lat}, #{lon}"})
+
+      return { :source => "Internal", :url => "http://openstreetmap.org/", :results => results }
+    end
+  end
 
   def search_us_postcode(query)
     results = Array.new
