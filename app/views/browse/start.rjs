@@ -50,11 +50,6 @@ page << <<EOJ
     if (browseActive) {
       browseActive = false;
 
-      if (browseDataLayer) {
-        browseDataLayer.destroy();
-        browseDataLayer = null; 
-      } 
-
       if (browseSelectControl) {   
         browseSelectControl.destroy();  
         browseSelectControl = null;
@@ -69,6 +64,11 @@ page << <<EOJ
         browseActiveFeature.destroy(); 
         browseActiveFeature = null; 
       }
+
+      if (browseDataLayer) {
+        browseDataLayer.destroy();
+        browseDataLayer = null; 
+      } 
 
       map.dataLayer.setVisibility(false);
       map.events.unregister("moveend", map, showData);
