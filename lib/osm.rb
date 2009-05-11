@@ -362,16 +362,8 @@ module OSM
       Net::HTTP.start('api.hostip.info') do |http|
         country = http.get("/country.php?ip=#{ip_address}").body
         country = "GB" if country == "UK"
-        Net::HTTP.start('ws.geonames.org') do |http|
-          xml = REXML::Document.new(http.get("/countryInfo?country=#{country}").body)
-          xml.elements.each("geonames/country") do |ele|
-            minlon = ele.get_text("bBoxWest").to_s
-            minlat = ele.get_text("bBoxSouth").to_s
-            maxlon = ele.get_text("bBoxEast").to_s
-            maxlat = ele.get_text("bBoxNorth").to_s
-            return { :minlon => minlon, :minlat => minlat, :maxlon => maxlon, :maxlat => maxlat }
-          end
-        end
+        country = Country.find_by_code(country)
+        return { :minlon => country.min_lon, :minlat => country.min_lat, :maxlon => country.max_lon, :maxlat => country.max_lat }
       end
     end
 
