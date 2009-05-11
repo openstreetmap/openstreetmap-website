@@ -210,7 +210,7 @@ class Way < ActiveRecord::Base
 
   def update_from(new_way, user)
     check_consistency(self, new_way, user)
-    unless new_way.preconditions_ok?
+    unless new_way.preconditions_ok?(self.nds)
       raise OSM::APIPreconditionFailedError.new("Cannot update way #{self.id}: data is invalid.")
     end
 
@@ -232,15 +232,22 @@ class Way < ActiveRecord::Base
     save_with_history!
   end
 
-  def preconditions_ok?
+  def preconditions_ok?(old_nodes = [])
     return false if self.nds.empty?
     if self.nds.length > APP_CONFIG['max_number_of_way_nodes']
       raise OSM::APITooManyWayNodesError.new(self.nds.length, APP_CONFIG['max_number_of_way_nodes'])
     end
+    
+    # pre-set all the old nodes to OK, as we must have checked them before.
+    checked = old_nodes.inject(Hash.new) {|h,n| h[n] = true; h }
+
     self.nds.each do |n|
-      node = Node.find(:first, :conditions => ["id = ?", n])
-      unless node and node.visible
-        raise OSM::APIPreconditionFailedError.new("Way #{self.id} requires the node with id #{n}, which either does not exist, or is not visible.")
+      unless checked.key? n
+        node = Node.find(:first, :conditions => ["id = ?", n])
+        unless node and node.visible
+          raise OSM::APIPreconditionFailedError.new("Way #{self.id} requires the node with id #{n}, which either does not exist, or is not visible.")
+        end
+        checked[n] = true
       end
     end
     return true
