@@ -237,19 +237,20 @@ class Way < ActiveRecord::Base
     if self.nds.length > APP_CONFIG['max_number_of_way_nodes']
       raise OSM::APITooManyWayNodesError.new(self.nds.length, APP_CONFIG['max_number_of_way_nodes'])
     end
-    
-    # pre-set all the old nodes to OK, as we must have checked them before.
-    checked = old_nodes.inject(Hash.new) {|h,n| h[n] = true; h }
 
-    self.nds.each do |n|
-      unless checked.key? n
-        node = Node.find(:first, :conditions => ["id = ?", n])
-        unless node and node.visible
-          raise OSM::APIPreconditionFailedError.new("Way #{self.id} requires the node with id #{n}, which either does not exist, or is not visible.")
-        end
-        checked[n] = true
+    # check only the new nodes, for efficiency - old nodes having been checked last time and can't
+    # be deleted when they're in-use.
+    new_nds = (self.nds - old_nodes).sort.uniq
+
+    unless new_nds.empty?
+      db_nds = Node.find(:all, :conditions => { :id => new_nds, :visible => true })
+
+      if db_nds.length < new_nds.length
+        missing = new_nds - db_nds.collect { |n| n.id }
+        raise OSM::APIPreconditionFailedError.new("Way #{self.id} requires the nodes with id in (#{missing.join(',')}), which either do not exist, or are not visible.")
       end
     end
+
     return true
   end
 

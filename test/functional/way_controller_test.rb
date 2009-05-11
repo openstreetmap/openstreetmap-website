@@ -164,7 +164,7 @@ class WayControllerTest < ActionController::TestCase
     # expect failure
     assert_response :precondition_failed, 
         "way upload with invalid node did not return 'precondition failed'"
-    assert_equal "Precondition failed: Way  requires the node with id 0, which either does not exist, or is not visible.", @response.body
+    assert_equal "Precondition failed: Way  requires the nodes with id in (0), which either do not exist, or are not visible.", @response.body
 
     # create a way with no nodes
     content "<osm><way changeset='#{open_changeset_id}'>" +
