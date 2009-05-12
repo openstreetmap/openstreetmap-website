@@ -128,7 +128,7 @@ class ChangesetControllerTest < ActionController::TestCase
     # test that it really is closed now
     cs = Changeset.find(cs_id)
     assert(!cs.is_open?, 
-           "changeset should be closed now (#{cs.closed_at} > #{Time.now}.")
+           "changeset should be closed now (#{cs.closed_at} > #{Time.now.getutc}.")
   end
 
   ##
@@ -1295,7 +1295,7 @@ EOF
 
     get :query, :time => '2007-12-31T23:59Z,2008-01-01T00:01Z'
     assert_response :success, "can't get changesets by time-range"
-    assert_changesets [1,4,5,6]
+    assert_changesets [1,5,6]
 
     get :query, :open => 'true'
     assert_response :success, "can't get changesets by open-ness"

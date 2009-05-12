@@ -144,19 +144,9 @@ class Changeset < ActiveRecord::Base
   end
 
   def save_with_tags!
-    t = Time.now.getutc
-
     # do the changeset update and the changeset tags update in the
     # same transaction to ensure consistency.
     Changeset.transaction do
-      # set the auto-close time to be one hour in the future unless
-      # that would make it more than 24h long, in which case clip to
-      # 24h, as this has been decided is a reasonable time limit.
-      if (closed_at - created_at) > (MAX_TIME_OPEN - IDLE_TIMEOUT)
-        self.closed_at = created_at + MAX_TIME_OPEN
-      else
-        self.closed_at = Time.now.getutc + IDLE_TIMEOUT
-      end
       self.save!
 
       tags = self.tags
@@ -168,6 +158,20 @@ class Changeset < ActiveRecord::Base
         tag.v = v
         tag.id = self.id
         tag.save!
+      end
+    end
+  end
+
+  ##
+  # set the auto-close time to be one hour in the future unless
+  # that would make it more than 24h long, in which case clip to
+  # 24h, as this has been decided is a reasonable time limit.
+  def before_save
+    if self.is_open?
+      if (closed_at - created_at) > (MAX_TIME_OPEN - IDLE_TIMEOUT)
+        self.closed_at = created_at + MAX_TIME_OPEN
+      else
+        self.closed_at = Time.now.getutc + IDLE_TIMEOUT
       end
     end
   end

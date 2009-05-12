@@ -325,7 +325,8 @@ class AmfControllerTest < ActionController::TestCase
   # AMF Write tests
   def test_putpoi_update_valid
     nd = current_nodes(:visible_node)
-    amf_content "putpoi", "/1", ["test@openstreetmap.org:test", nd.changeset_id, nd.version, nd.id, nd.lon, nd.lat, nd.tags, nd.visible]
+    cs_id = changesets(:public_user_first_change).id
+    amf_content "putpoi", "/1", ["test@example.com:test", cs_id, nd.version, nd.id, nd.lon, nd.lat, nd.tags, nd.visible]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -339,7 +340,7 @@ class AmfControllerTest < ActionController::TestCase
     # Now try to update again, with a different lat/lon, using the updated version number
     lat = nd.lat+0.1
     lon = nd.lon-0.1
-    amf_content "putpoi", "/2", ["test@openstreetmap.org:test", nd.changeset_id, nd.version+1, nd.id, lon, lat, nd.tags, nd.visible]
+    amf_content "putpoi", "/2", ["test@example.com:test", cs_id, nd.version+1, nd.id, lon, lat, nd.tags, nd.visible]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -360,9 +361,9 @@ class AmfControllerTest < ActionController::TestCase
     lat = rand(100)-50 + rand
     lon = rand(100)-50 + rand
     # normal user has a changeset open
-    changeset = changesets(:normal_user_first_change)
+    changeset = changesets(:public_user_first_change)
     
-    amf_content "putpoi", "/1", ["test@openstreetmap.org:test", changeset.id, nil, nil, lon, lat, {}, nil]
+    amf_content "putpoi", "/1", ["test@example.com:test", changeset.id, nil, nil, lon, lat, {}, nil]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -399,9 +400,9 @@ class AmfControllerTest < ActionController::TestCase
     lat = rand(100)-50 + rand
     lon = rand(100)-50 + rand
     # normal user has a changeset open
-    changeset = changesets(:normal_user_first_change)
+    changeset = changesets(:public_user_first_change)
     
-    amf_content "putpoi", "/2", ["test@openstreetmap.org:test", changeset.id, nil, nil, lon, lat, { "key" => "value", "ping" => "pong" }, nil]
+    amf_content "putpoi", "/2", ["test@example.com:test", changeset.id, nil, nil, lon, lat, { "key" => "value", "ping" => "pong" }, nil]
     post :amf_write
     assert_response :success
     amf_parse_response

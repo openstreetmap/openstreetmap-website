@@ -815,12 +815,10 @@ class AmfController < ApplicationController
     return user
   end
 
-  # Update changeset timeout
-  # i.e. one hour after current edit
-  
-  def updatetimeout(changeset_id) #:doc:
+  # save the changeset identified by +changeset_id+. this 
+  # automatically sets the close timeout appropriately.
+  def updatetimeout(changeset_id) 
     cs = Changeset.find(changeset_id)
-    cs.closed_at = Time.now.getutc + Changeset::IDLE_TIMEOUT
     cs.save!
   end
 
