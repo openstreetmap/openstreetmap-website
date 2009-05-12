@@ -92,6 +92,13 @@ class TraceController < ApplicationController
   end
 
   def mine
+    # Load the preference of whether the user set the trace public the last time
+    @trace = Trace.new
+    if @user.preferences.find(:first, :conditions => {:k => "gps.trace.public", :v => "default"}).nil?
+      @trace.public = false
+    else 
+      @trace.public = true
+    end
     list(@user, "mine")
   end
 
