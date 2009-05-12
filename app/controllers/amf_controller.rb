@@ -510,7 +510,6 @@ class AmfController < ApplicationController
         # We're deleting the relation
         relation.delete_with_history!(new_relation, user)
       end
-      updatetimeout(changeset_id)
     end # transaction
       
     if relid <= 0
@@ -634,7 +633,6 @@ class AmfController < ApplicationController
           # and we don't want to delete it
         end
       end
-      updatetimeout(changeset_id)
 
     end # transaction
 
@@ -697,7 +695,6 @@ class AmfController < ApplicationController
         # We're deleting the node
         node.delete_with_history!(new_node, user)
       end
-      updatetimeout(changeset_id)
 
     end # transaction
 
@@ -779,7 +776,6 @@ class AmfController < ApplicationController
           # elsewhere and we don't want to delete it
         end
       end
-      updatetimeout(changeset_id)
 
     end # transaction
     [0, way_id]
@@ -813,13 +809,6 @@ class AmfController < ApplicationController
       user = User.authenticate(:token => token)
     end
     return user
-  end
-
-  # save the changeset identified by +changeset_id+. this 
-  # automatically sets the close timeout appropriately.
-  def updatetimeout(changeset_id) 
-    cs = Changeset.find(changeset_id)
-    cs.save!
   end
 
   # Send AMF response
