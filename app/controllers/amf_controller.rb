@@ -26,6 +26,7 @@
 # Any method that returns a status code (0 for ok) can also send:
 #	return(-1,"message")		<-- just puts up a dialogue
 #	return(-2,"message")		<-- also asks the user to e-mail me
+#   return(-3,'type',id)        <-- version conflict
 # 
 # To write to the Rails log, use logger.info("message").
 
@@ -505,9 +506,11 @@ class AmfController < ApplicationController
         new_relation.create_with_history(user)
       elsif visible
         # We're updating the relation
+        new_relation.id = relid
         relation.update_from(new_relation, user)
       else
         # We're deleting the relation
+        new_relation.id = relid
         relation.delete_with_history!(new_relation, user)
       end
     end # transaction
@@ -520,9 +523,6 @@ class AmfController < ApplicationController
   rescue OSM::APIChangesetAlreadyClosedError => ex
     return [-1, "The changeset #{ex.changeset.id} was closed at #{ex.changeset.closed_at}."]
   rescue OSM::APIVersionMismatchError => ex
-    # Really need to check to see whether this is a server load issue, and the 
-    # last version was in the same changeset, or belongs to the same user, then
-    # we can return something different
     return [-3, "Sorry, someone else has changed this relation since you started editing. Please click the 'Edit' tab to reload the area. The server said: #{ex}"]
   rescue OSM::APIAlreadyDeletedError => ex
     return [-1, "The relation has already been deleted."]
@@ -594,6 +594,7 @@ class AmfController < ApplicationController
         else
           # We're updating an existing node
           previous=Node.find(id)
+          node.id=id
           previous.update_from(node, user)
           nodeversions[previous.id] = previous.version
         end
@@ -615,6 +616,7 @@ class AmfController < ApplicationController
       else
 	      way = Way.find(originalway)
    		  if way.tags!=attributes or way.nds!=pointlist or !way.visible?
+   		    new_way.id=originalway
     	    way.update_from(new_way, user)
         end
       end
@@ -626,6 +628,7 @@ class AmfController < ApplicationController
         new_node = Node.new
         new_node.changeset_id = changeset_id
         new_node.version = v.to_i
+        new_node.id = id.to_i
         begin
           node.delete_with_history!(new_node, user)
         rescue OSM::APIPreconditionFailedError => ex
@@ -640,9 +643,6 @@ class AmfController < ApplicationController
   rescue OSM::APIChangesetAlreadyClosedError => ex
     return [-2, "Sorry, your changeset #{ex.changeset.id} has been closed (at #{ex.changeset.closed_at})."]
   rescue OSM::APIVersionMismatchError => ex
-    # Really need to check to see whether this is a server load issue, and the 
-    # last version was in the same changeset, or belongs to the same user, then
-    # we can return something different
     return [-3, "Sorry, someone else has changed this way since you started editing. Click the 'Edit' tab to reload the area. The server said: #{ex}"]
   rescue OSM::APITooManyWayNodesError => ex
     return [-1, "You have tried to upload a really long way with #{ex.provided} points: only #{ex.max} are allowed."]
@@ -690,9 +690,11 @@ class AmfController < ApplicationController
         new_node.create_with_history(user)
       elsif visible
         # We're updating the node
+        new_node.id=id
         node.update_from(new_node, user)
       else
         # We're deleting the node
+        new_node.id=id
         node.delete_with_history!(new_node, user)
       end
 
@@ -706,9 +708,6 @@ class AmfController < ApplicationController
   rescue OSM::APIChangesetAlreadyClosedError => ex
     return [-1, "The changeset #{ex.changeset.id} was closed at #{ex.changeset.closed_at}"]
   rescue OSM::APIVersionMismatchError => ex
-    # Really need to check to see whether this is a server load issue, and the 
-    # last version was in the same changeset, or belongs to the same user, then
-    # we can return something different
     return [-3, "Sorry, someone else has changed this point since you started editing. Please click the 'Edit' tab to reload the area. The server said: #{ex}"]
   rescue OSM::APIAlreadyDeletedError => ex
     return [-1, "The point has already been deleted"]
@@ -760,6 +759,7 @@ class AmfController < ApplicationController
       delete_way = Way.new
       delete_way.version = way_version
       delete_way.changeset_id = changeset_id
+      delete_way.id = way_id
       old_way.delete_with_history!(delete_way, user)
 
       # -- Delete unwanted nodes
@@ -769,6 +769,7 @@ class AmfController < ApplicationController
         new_node = Node.new
         new_node.changeset_id = changeset_id
         new_node.version = v.to_i
+        new_node.id = id.to_i
         begin
           node.delete_with_history!(new_node, user)
         rescue OSM::APIPreconditionFailedError => ex
