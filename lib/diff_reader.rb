@@ -156,19 +156,21 @@ class DiffReader
 
           # if the ID is a placeholder then map it to the real ID
           model_sym = model.to_s.downcase.to_sym
-          is_placeholder = ids[model_sym].include? new.id
-          id = is_placeholder ? ids[model_sym][new.id] : new.id
+          client_id = new.id
+          is_placeholder = ids[model_sym].include? client_id
+          id = is_placeholder ? ids[model_sym][client_id] : client_id
 
           # and the old one from the database
           old = model.find(id)
 
+          # translate any placeholder IDs to their true IDs.
           new.fix_placeholders!(ids)
+          new.id = id
+
           old.update_from(new, @changeset.user)
 
           xml_result = XML::Node.new model.to_s.downcase
-          # oh, the irony... the "new" element actually contains the "old" ID
-          # a better name would have been client/server, but anyway...
-          xml_result["old_id"] = new.id.to_s
+          xml_result["old_id"] = client_id.to_s
           xml_result["new_id"] = id.to_s 
           # version is updated in "old" through the update, so we must not
           # return new.version here but old.version!
