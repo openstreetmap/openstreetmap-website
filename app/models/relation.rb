@@ -315,8 +315,6 @@ class Relation < ActiveRecord::Base
     end
 
     return true
-  rescue
-    return false
   end
 
   # Temporary method to match interface to nodes
