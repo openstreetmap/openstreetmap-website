@@ -43,11 +43,12 @@ class SwfController < ApplicationController
 	
 		b=''
 		lasttime=0
-		lastfile='-1'
+		lasttrack=lastfile='-1'
 	
 		if params['token']
 		  user=User.authenticate(:token => params[:token])
-		  sql="SELECT gps_points.latitude*0.0000001 AS lat,gps_points.longitude*0.0000001 AS lon,gpx_files.id AS fileid,EXTRACT(EPOCH FROM gps_points.timestamp) AS ts "+
+		  sql="SELECT gps_points.latitude*0.0000001 AS lat,gps_points.longitude*0.0000001 AS lon,gpx_files.id AS fileid,"+
+		       "      EXTRACT(EPOCH FROM gps_points.timestamp) AS ts, gps_points.trackid AS trackid "+
 			   " FROM gpx_files,gps_points "+
 			   "WHERE gpx_files.id=gpx_id "+
 			   "  AND gpx_files.user_id=#{user.id} "+
@@ -56,7 +57,8 @@ class SwfController < ApplicationController
 			   "ORDER BY fileid DESC,ts "+
 			   "LIMIT 10000"
 		  else
-			sql="SELECT latitude*0.0000001 AS lat,longitude*0.0000001 AS lon,gpx_id AS fileid,EXTRACT(EPOCH FROM timestamp) AS ts "+
+			sql="SELECT latitude*0.0000001 AS lat,longitude*0.0000001 AS lon,gpx_id AS fileid,"+
+			     "      EXTRACT(EPOCH FROM timestamp) AS ts, gps_points.trackid AS trackid "+
 				 " FROM gps_points "+
 				 "WHERE "+OSM.sql_for_area(ymin,xmin,ymax,xmax,"gps_points.")+
 				 "  AND (gps_points.timestamp IS NOT NULL) "+
@@ -73,7 +75,7 @@ class SwfController < ApplicationController
 			ys=(lat2coord(row['lat'].to_f ,basey   ,masterscale)*20).floor
 			xl=[xs,xl].min; xr=[xs,xr].max
 			yb=[ys,yb].min; yt=[ys,yt].max
-			if (row['ts'].to_i-lasttime<180 and row['fileid']==lastfile and row['ts'].to_i!=lasttime)
+			if (row['ts'].to_i-lasttime<180 and row['fileid']==lastfile and row['trackid']==lasttrack and row['ts'].to_i!=lasttime)
 				b+=drawTo(absx,absy,xs,ys)
 			else
 				b+=startAndMove(xs,ys,'01')
@@ -81,6 +83,7 @@ class SwfController < ApplicationController
 			absx=xs.floor; absy=ys.floor
 			lasttime=row['ts'].to_i
 			lastfile=row['fileid']
+			lasttrack=row['trackid']
 			while b.length>80 do
 				r+=[b.slice!(0...80)].pack("B*")
 			end
