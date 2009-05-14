@@ -307,8 +307,7 @@ class Relation < ActiveRecord::Base
 
         # and check that it is OK to use.
         unless element and element.visible? and element.preconditions_ok?
-          raise OSM::APIPreconditionFailedError.new("Relation with id #{self.id} cannot be saved due to #{m[0]} with id #{element.id}")
-          return false
+          raise OSM::APIPreconditionFailedError.new("Relation with id #{self.id} cannot be saved due to #{m[0]} with id #{m[1]}")
         end
         hash[m[1]] = true
       end

@@ -341,7 +341,7 @@ class RelationControllerTest < ActionController::TestCase
     # expect failure
     assert_response :precondition_failed, 
         "relation upload with invalid node did not return 'precondition failed'"
-    assert_equal "Precondition failed: Cannot create relation: data or member data is invalid.", @response.body
+    assert_equal "Precondition failed: Relation with id  cannot be saved due to Node with id 0", @response.body
   end
 
   # -------------------------------------
