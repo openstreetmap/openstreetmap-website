@@ -87,7 +87,7 @@ class Relation < ActiveRecord::Base
     return doc
   end
 
-  def to_xml_node(changeset_cache = {}, user_display_name_cache = {})
+  def to_xml_node(visible_members = nil, changeset_cache = {}, user_display_name_cache = {})
     el1 = XML::Node.new 'relation'
     el1['id'] = self.id.to_s
     el1['visible'] = self.visible.to_s
@@ -118,17 +118,17 @@ class Relation < ActiveRecord::Base
 
     self.relation_members.each do |member|
       p=0
-      #if visible_members
-      #  # if there is a list of visible members then use that to weed out deleted segments
-      #  if visible_members[member.member_type][member.member_id]
-      #    p=1
-      #  end
-      #else
+      if visible_members
+        # if there is a list of visible members then use that to weed out deleted segments
+        if visible_members[member.member_type][member.member_id]
+          p=1
+        end
+      else
         # otherwise, manually go to the db to check things
         if member.member.visible?
           p=1
         end
-      #end
+      end
       if p
         e = XML::Node.new 'member'
         e['type'] = member.member_type.downcase

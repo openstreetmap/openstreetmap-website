@@ -95,31 +95,31 @@ class RelationController < ApplicationController
 
       if relation.visible
 
-        # first collect nodes, ways, and relations referenced by this relation.
-        
-        ways = Way.find_by_sql("select w.* from current_ways w,current_relation_members rm where "+
-            "rm.member_type='Way' and rm.member_id=w.id and rm.id=#{relation.id}");
-        nodes = Node.find_by_sql("select n.* from current_nodes n,current_relation_members rm where "+
-            "rm.member_type='Node' and rm.member_id=n.id and rm.id=#{relation.id}");
-        # note query is built to exclude self just in case.
-        relations = Relation.find_by_sql("select r.* from current_relations r,current_relation_members rm where "+
-            "rm.member_type='Relation' and rm.member_id=r.id and rm.id=#{relation.id} and r.id<>rm.id");
+        # first find the ids of nodes, ways and relations referenced by this
+        # relation - note that we exclude this relation just in case.
 
-        # now additionally collect nodes referenced by ways. Note how we recursively 
-        # evaluate ways but NOT relations.
+        node_ids = relation.members.select { |m| m[0] == 'Node' }.map { |m| m[1] }
+        way_ids = relation.members.select { |m| m[0] == 'Way' }.map { |m| m[1] }
+        relation_ids = relation.members.select { |m| m[0] == 'Relation' and m[1] != relation.id }.map { |m| m[1] }
 
-        node_ids = nodes.collect {|node| node.id }
+        # next load the relations and the ways.
+
+        relations = Relation.find(relation_ids, :include => [:relation_tags])
+        ways = Way.find(way_ids, :include => [:way_nodes, :way_tags])
+
+        # now additionally collect nodes referenced by ways. Note how we 
+        # recursively evaluate ways but NOT relations.
+
         way_node_ids = ways.collect { |way|
            way.way_nodes.collect { |way_node| way_node.node_id }
         }
-        way_node_ids.flatten!
-        way_node_ids.uniq
-        way_node_ids -= node_ids
-        nodes += Node.find(way_node_ids)
+        node_ids += way_node_ids.flatten
+        nodes = Node.find(node_ids.uniq, :include => :node_tags)
     
         # create XML.
         doc = OSM::API.new.get_xml_doc
         visible_nodes = {}
+        visible_members = { "Node" => [], "Way" => [], "Relation" => [] }
         changeset_cache = {}
         user_display_name_cache = {}
 
@@ -127,20 +127,23 @@ class RelationController < ApplicationController
           if node.visible? # should be unnecessary if data is consistent.
             doc.root << node.to_xml_node(changeset_cache, user_display_name_cache)
             visible_nodes[node.id] = node
+            visible_members["Node"][node.id] = true
           end
         end
         ways.each do |way|
           if way.visible? # should be unnecessary if data is consistent.
             doc.root << way.to_xml_node(visible_nodes, changeset_cache, user_display_name_cache)
+            visible_members["Way"][way.id] = true
           end
         end
         relations.each do |rel|
           if rel.visible? # should be unnecessary if data is consistent.
-            doc.root << rel.to_xml_node(changeset_cache, user_display_name_cache)
+            doc.root << rel.to_xml_node(nil, changeset_cache, user_display_name_cache)
+            visible_members["Relation"][rel.id] = true
           end
         end
         # finally add self and output
-        doc.root << relation.to_xml_node(changeset_cache, user_display_name_cache)
+        doc.root << relation.to_xml_node(visible_members, changeset_cache, user_display_name_cache)
         render :text => doc.to_s, :content_type => "text/xml"
 
       else
