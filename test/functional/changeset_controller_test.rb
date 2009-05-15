@@ -1147,6 +1147,21 @@ EOF
     assert_select "osmChange>modify>way", 1
   end
 
+  def test_changeset_download
+    get :download, :id => changesets(:normal_user_first_change).id
+    assert_response :success
+    assert_template nil
+    #print @response.body
+    # FIXME needs more assert_select tests
+    assert_select "osmChange[version='#{API_VERSION}'][generator='#{GENERATOR}']" do
+      assert_select "create", :count => 5
+      assert_select "create>node[id=#{nodes(:used_node_2).id}][visible=#{nodes(:used_node_2).visible?}][version=#{nodes(:used_node_2).version}]" do
+        assert_select "tag[k=#{node_tags(:t3).k}][v=#{node_tags(:t3).v}]"
+      end
+      assert_select "create>node[id=#{nodes(:visible_node).id}]"
+    end
+  end
+  
   ##
   # check that the bounding box of a changeset gets updated correctly
   ## FIXME: This should really be moded to a integration test due to the with_controller
