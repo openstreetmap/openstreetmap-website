@@ -89,6 +89,16 @@ class Changeset < ActiveRecord::Base
   def has_valid_bbox?
     not bbox.include? nil
   end
+  
+  ##
+  # returns area of the changset bbox as a rough comparitive quantity for use of changset displays
+  def area
+     if has_valid_bbox?
+	     (max_lon - min_lon) * (max_lat - min_lat)
+     else
+	     0
+     end
+  end
 
   ##
   # expand the bounding box to include the given bounding box. also, 
