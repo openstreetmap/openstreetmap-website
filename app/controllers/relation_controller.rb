@@ -119,7 +119,7 @@ class RelationController < ApplicationController
         # create XML.
         doc = OSM::API.new.get_xml_doc
         visible_nodes = {}
-        visible_members = { "Node" => [], "Way" => [], "Relation" => [] }
+        visible_members = { "Node" => {}, "Way" => {}, "Relation" => {} }
         changeset_cache = {}
         user_display_name_cache = {}
 
