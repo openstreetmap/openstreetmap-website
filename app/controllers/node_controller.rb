@@ -9,58 +9,43 @@ class NodeController < ApplicationController
   before_filter :check_api_writable, :only => [:create, :update, :delete]
   before_filter :check_api_readable, :except => [:create, :update, :delete]
   after_filter :compress_output
+  around_filter :api_call_handle_error
 
   # Create a node from XML.
   def create
-    begin
-      if request.put?
-        node = Node.from_xml(request.raw_post, true)
+    assert_method :put
 
-        if node
-          node.create_with_history @user
-          render :text => node.id.to_s, :content_type => "text/plain"
-        else
-          render :nothing => true, :status => :bad_request
-        end
-      else
-        render :nothing => true, :status => :method_not_allowed
-      end
-    rescue OSM::APIError => ex
-      render ex.render_opts
+    node = Node.from_xml(request.raw_post, true)
+
+    if node
+      node.create_with_history @user
+      render :text => node.id.to_s, :content_type => "text/plain"
+    else
+      raise OSM::APIBadXMLError.new(:node, request.raw_post)
     end
   end
 
   # Dump the details on a node given in params[:id]
   def read
-    begin
-      node = Node.find(params[:id])
-      if node.visible?
-        response.headers['Last-Modified'] = node.timestamp.rfc822
-        render :text => node.to_xml.to_s, :content_type => "text/xml"
-       else
-        render :text => "", :status => :gone
-      end
-    rescue ActiveRecord::RecordNotFound
-      render :nothing => true, :status => :not_found
+    node = Node.find(params[:id])
+    if node.visible?
+      response.headers['Last-Modified'] = node.timestamp.rfc822
+      render :text => node.to_xml.to_s, :content_type => "text/xml"
+    else
+      render :text => "", :status => :gone
     end
   end
   
   # Update a node from given XML
   def update
-    begin
-      node = Node.find(params[:id])
-      new_node = Node.from_xml(request.raw_post)
-
-      if new_node and new_node.id == node.id
-        node.update_from(new_node, @user)
-        render :text => node.version.to_s, :content_type => "text/plain"
-      else
-        render :nothing => true, :status => :bad_request
-      end
-    rescue OSM::APIError => ex
-      render ex.render_opts
-    rescue ActiveRecord::RecordNotFound
-      render :nothing => true, :status => :not_found
+    node = Node.find(params[:id])
+    new_node = Node.from_xml(request.raw_post)
+    
+    if new_node and new_node.id == node.id
+      node.update_from(new_node, @user)
+      render :text => node.version.to_s, :content_type => "text/plain"
+    else
+      render :nothing => true, :status => :bad_request
     end
   end
 
@@ -68,20 +53,14 @@ class NodeController < ApplicationController
   # in a wiki-like way. We therefore treat it like an update, so the delete
   # method returns the new version number.
   def delete
-    begin
-      node = Node.find(params[:id])
-      new_node = Node.from_xml(request.raw_post)
-      
-      if new_node and new_node.id == node.id
-        node.delete_with_history!(new_node, @user)
-        render :text => node.version.to_s, :content_type => "text/plain"
-      else
-        render :nothing => true, :status => :bad_request
-      end
-    rescue ActiveRecord::RecordNotFound
-      render :nothing => true, :status => :not_found
-    rescue OSM::APIError => ex
-      render ex.render_opts
+    node = Node.find(params[:id])
+    new_node = Node.from_xml(request.raw_post)
+    
+    if new_node and new_node.id == node.id
+      node.delete_with_history!(new_node, @user)
+      render :text => node.version.to_s, :content_type => "text/plain"
+    else
+      render :nothing => true, :status => :bad_request
     end
   end
 

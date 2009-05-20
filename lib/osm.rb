@@ -185,6 +185,18 @@ module OSM
     end
   end
 
+  ##
+  # raised when an API call is made using a method not supported on that URI
+  class APIBadMethodError < APIError
+    def initialize(supported_method)
+      @supported_method = supported_method
+    end
+
+    def render_opts
+      { :text => "Only method #{@supported_method} is supported on this URI.", :status => :method_not_allowed }
+    end
+  end
+
   # Helper methods for going to/from mercator and lat/lng.
   class Mercator
     include Math

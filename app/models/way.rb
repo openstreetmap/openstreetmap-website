@@ -191,11 +191,6 @@ class Way < ActiveRecord::Base
     # in the hash to be overwritten.
     raise OSM::APIDuplicateTagsError.new("way", self.id, k) if @tags.include? k
 
-    # check tag size here, as we don't create a WayTag object until
-    # just before we save...
-    raise OSM::APIBadUserInput.new("Way #{self.id} has a tag with too long a key, '#{k}'.") if k.length > 255
-    raise OSM::APIBadUserInput.new("Way #{self.id} has a tag with too long a value, '#{k}'='#{v}'.") if v.length > 255
-
     @tags[k] = v
   end
 

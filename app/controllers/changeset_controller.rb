@@ -11,6 +11,7 @@ class ChangesetController < ApplicationController
   before_filter :check_api_writable, :only => [:create, :update, :delete, :upload, :include]
   before_filter :check_api_readable, :except => [:create, :update, :delete, :upload, :download, :query]
   after_filter :compress_output
+  around_filter :api_call_handle_error
 
   filter_parameter_logging "<osmChange version"
 
@@ -22,18 +23,16 @@ class ChangesetController < ApplicationController
 
   # Create a changeset from XML.
   def create
-    if request.put?
-      cs = Changeset.from_xml(request.raw_post, true)
+    assert_method :put
 
-      if cs
-        cs.user_id = @user.id
-        cs.save_with_tags!
-        render :text => cs.id.to_s, :content_type => "text/plain"
-      else
-        render :nothing => true, :status => :bad_request
-      end
+    cs = Changeset.from_xml(request.raw_post, true)
+
+    if cs
+      cs.user_id = @user.id
+      cs.save_with_tags!
+      render :text => cs.id.to_s, :content_type => "text/plain"
     else
-      render :nothing => true, :status => :method_not_allowed
+      raise OSM::APIBadXMLError.new(Changeset, request.raw_post);
     end
   end
 
@@ -41,22 +40,15 @@ class ChangesetController < ApplicationController
   # Return XML giving the basic info about the changeset. Does not 
   # return anything about the nodes, ways and relations in the changeset.
   def read
-    begin
-      changeset = Changeset.find(params[:id])
-      render :text => changeset.to_xml.to_s, :content_type => "text/xml"
-    rescue ActiveRecord::RecordNotFound
-      render :nothing => true, :status => :not_found
-    end
+    changeset = Changeset.find(params[:id])
+    render :text => changeset.to_xml.to_s, :content_type => "text/xml"
   end
   
   ##
   # marks a changeset as closed. this may be called multiple times
   # on the same changeset, so is idempotent.
   def close 
-    unless request.put?
-      render :nothing => true, :status => :method_not_allowed
-      return
-    end
+    assert_method :put
     
     changeset = Changeset.find(params[:id])    
     check_changeset_consistency(changeset, @user)
@@ -68,10 +60,6 @@ class ChangesetController < ApplicationController
 
     changeset.save!
     render :nothing => true
-  rescue ActiveRecord::RecordNotFound
-    render :nothing => true, :status => :not_found
-  rescue OSM::APIError => ex
-    render ex.render_opts
   end
 
   ##
@@ -82,47 +70,37 @@ class ChangesetController < ApplicationController
   def expand_bbox
     # only allow POST requests, because although this method is
     # idempotent, there is no "document" to PUT really...
-    if request.post?
-      cs = Changeset.find(params[:id])
-      check_changeset_consistency(cs, @user)
+    assert_method :post
 
-      # keep an array of lons and lats
-      lon = Array.new
-      lat = Array.new
-
-      # the request is in pseudo-osm format... this is kind-of an
-      # abuse, maybe should change to some other format?
-      doc = XML::Parser.string(request.raw_post).parse
-      doc.find("//osm/node").each do |n|
-        lon << n['lon'].to_f * GeoRecord::SCALE
-        lat << n['lat'].to_f * GeoRecord::SCALE
-      end
-
-      # add the existing bounding box to the lon-lat array
-      lon << cs.min_lon unless cs.min_lon.nil?
-      lat << cs.min_lat unless cs.min_lat.nil?
-      lon << cs.max_lon unless cs.max_lon.nil?
-      lat << cs.max_lat unless cs.max_lat.nil?
-
-      # collapse the arrays to minimum and maximum
-      cs.min_lon, cs.min_lat, cs.max_lon, cs.max_lat = 
-        lon.min, lat.min, lon.max, lat.max
-
-      # save the larger bounding box and return the changeset, which
-      # will include the bigger bounding box.
-      cs.save!
-      render :text => cs.to_xml.to_s, :content_type => "text/xml"
-
-    else
-      render :nothing => true, :status => :method_not_allowed
+    cs = Changeset.find(params[:id])
+    check_changeset_consistency(cs, @user)
+    
+    # keep an array of lons and lats
+    lon = Array.new
+    lat = Array.new
+    
+    # the request is in pseudo-osm format... this is kind-of an
+    # abuse, maybe should change to some other format?
+    doc = XML::Parser.string(request.raw_post).parse
+    doc.find("//osm/node").each do |n|
+      lon << n['lon'].to_f * GeoRecord::SCALE
+      lat << n['lat'].to_f * GeoRecord::SCALE
     end
-
-  rescue LibXML::XML::Error, ArgumentError => ex
-    raise OSM::APIBadXMLError.new("osm", xml, ex.message)
-  rescue ActiveRecord::RecordNotFound
-    render :nothing => true, :status => :not_found
-  rescue OSM::APIError => ex
-    render ex.render_opts
+    
+    # add the existing bounding box to the lon-lat array
+    lon << cs.min_lon unless cs.min_lon.nil?
+    lat << cs.min_lat unless cs.min_lat.nil?
+    lon << cs.max_lon unless cs.max_lon.nil?
+    lat << cs.max_lat unless cs.max_lat.nil?
+    
+    # collapse the arrays to minimum and maximum
+    cs.min_lon, cs.min_lat, cs.max_lon, cs.max_lat = 
+      lon.min, lat.min, lon.max, lat.max
+    
+    # save the larger bounding box and return the changeset, which
+    # will include the bigger bounding box.
+    cs.save!
+    render :text => cs.to_xml.to_s, :content_type => "text/xml"
   end
 
   ##
@@ -142,10 +120,7 @@ class ChangesetController < ApplicationController
     # not idempotent, as several uploads with placeholder IDs will have
     # different side-effects.
     # see http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html#sec9.1.2
-    unless request.post?
-      render :nothing => true, :status => :method_not_allowed
-      return
-    end
+    assert_method :post
 
     changeset = Changeset.find(params[:id])
     check_changeset_consistency(changeset, @user)
@@ -155,11 +130,6 @@ class ChangesetController < ApplicationController
       result = diff_reader.commit
       render :text => result.to_s, :content_type => "text/xml"
     end
-    
-  rescue ActiveRecord::RecordNotFound
-    render :nothing => true, :status => :not_found
-  rescue OSM::APIError => ex
-    render ex.render_opts
   end
 
   ##
@@ -227,11 +197,6 @@ class ChangesetController < ApplicationController
     end
 
     render :text => result.to_s, :content_type => "text/xml"
-            
-  rescue ActiveRecord::RecordNotFound
-    render :nothing => true, :status => :not_found
-  rescue OSM::APIError => ex
-    render ex.render_opts
   end
 
   ##
@@ -257,11 +222,6 @@ class ChangesetController < ApplicationController
     end
 
     render :text => results.to_s, :content_type => "text/xml"
-
-  rescue ActiveRecord::RecordNotFound
-    render :nothing => true, :status => :not_found
-  rescue OSM::APIError => ex
-    render ex.render_opts
   end
   
   ##
@@ -274,11 +234,8 @@ class ChangesetController < ApplicationController
   # after succesful update, returns the XML of the changeset.
   def update
     # request *must* be a PUT.
-    unless request.put?
-      render :nothing => true, :status => :method_not_allowed
-      return
-    end
-    
+    assert_method :put
+
     changeset = Changeset.find(params[:id])
     new_changeset = Changeset.from_xml(request.raw_post)
 
@@ -290,11 +247,6 @@ class ChangesetController < ApplicationController
       
       render :nothing => true, :status => :bad_request
     end
-      
-  rescue ActiveRecord::RecordNotFound
-    render :nothing => true, :status => :not_found
-  rescue OSM::APIError => ex
-    render ex.render_opts
   end
 
   

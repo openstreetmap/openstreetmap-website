@@ -95,7 +95,7 @@ class NodeControllerTest < ActionController::TestCase
     content("<osm><node lat='#{lat}' lon='#{lon}' changeset='#{changeset.id}'><tag k='foo' v='#{'x'*256}'/></node></osm>")
     put :create
     assert_response :bad_request, "node upload did not return bad_request status"
-    assert_equal "Node  has a tag with too long a value, 'foo'='#{'x'*256}'.", @response.body
+    assert_equal ["NodeTag ", " v: is too long (maximum is 255 characters) (\"#{'x'*256}\")"], @response.body.split(/[0-9]+:/)
 
   end
 

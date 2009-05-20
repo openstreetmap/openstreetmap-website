@@ -101,6 +101,31 @@ class ApplicationController < ActionController::Base
     render :text => message, :status => status
   end
 
+  def api_call_handle_error
+    begin
+      yield
+    rescue ActiveRecord::RecordNotFound => ex
+      render :nothing => true, :status => :not_found
+    rescue LibXML::XML::Error, ArgumentError => ex
+      report_error ex.message, :bad_request
+    rescue ActiveRecord::RecordInvalid => ex
+      message = "#{ex.record.class} #{ex.record.id}: "
+      ex.record.errors.each { |attr,msg| message << "#{attr}: #{msg} (#{ex.record[attr].inspect})" }
+      report_error message, :bad_request
+    rescue OSM::APIError => ex
+      render_opts = ex.render_opts
+      report_error render_opts[:text], render_opts[:status]
+    end
+  end
+
+  ##
+  # asserts that the request method is the +method+ given as a parameter
+  # or raises a suitable error. +method+ should be a symbol, e.g: :put or :get.
+  def assert_method(method)
+    ok = request.send((method.to_s.downcase + "?").to_sym)
+    raise OSM::APIBadMethodError.new(method) unless ok
+  end
+
 private 
 
   # extract authorisation credentials from headers, returns user = nil if none
