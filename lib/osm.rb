@@ -197,6 +197,18 @@ module OSM
     end
   end
 
+  ##
+  # raised when an API call takes too long
+  class APITimeoutError < APIError
+    def render_opts
+      { :text => "Request timed out", :status => :request_timeout }
+    end
+
+    def to_s
+      "Request timed out"
+    end
+  end
+
   # Helper methods for going to/from mercator and lat/lng.
   class Mercator
     include Math

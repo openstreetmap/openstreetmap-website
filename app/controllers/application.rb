@@ -126,6 +126,12 @@ class ApplicationController < ActionController::Base
     raise OSM::APIBadMethodError.new(method) unless ok
   end
 
+  def api_call_timeout
+    Timeout::timeout(APP_CONFIG['api_timeout'], OSM::APITimeoutError) do
+      yield
+    end
+  end
+
 private 
 
   # extract authorisation credentials from headers, returns user = nil if none

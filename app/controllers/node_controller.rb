@@ -9,7 +9,7 @@ class NodeController < ApplicationController
   before_filter :check_api_writable, :only => [:create, :update, :delete]
   before_filter :check_api_readable, :except => [:create, :update, :delete]
   after_filter :compress_output
-  around_filter :api_call_handle_error
+  around_filter :api_call_handle_error, :api_call_timeout
 
   # Create a node from XML.
   def create

@@ -43,6 +43,7 @@ class AmfController < ApplicationController
 
   session :off
   before_filter :check_api_writable
+  around_filter :api_call_timeout, :only => [:amf_read]
 
   # Main AMF handlers: process the raw AMF string (using AMF library) and
   # calls each action (private method) accordingly.
@@ -198,7 +199,7 @@ class AmfController < ApplicationController
     enlarge = [(xmax-xmin)/8,0.01].min
     xmin -= enlarge; ymin -= enlarge
     xmax += enlarge; ymax += enlarge
-    
+
     # check boundary is sane and area within defined
     # see /config/application.yml
     check_boundaries(xmin, ymin, xmax, ymax)
@@ -228,6 +229,8 @@ class AmfController < ApplicationController
 
     [0, ways, points, relations]
 
+  rescue OSM::APITimeoutError => err
+    [-1,"Sorry - I can't get the map for that area. The server said: #{err}"]
   rescue Exception => err
     [-2,"Sorry - I can't get the map for that area. The server said: #{err}"]
   end
