@@ -72,7 +72,7 @@ class AmfController < ApplicationController
         index=AMF.getstring(req)			#  | get index in response sequence
         bytes=AMF.getlong(req)				#  | get total size in bytes
         args=AMF.getvalue(req)				#  | get response (probably an array)
-        logger.info("Executing AMF #{message}:#{index}")
+        logger.info("Executing AMF #{message}(#{args.join(',')}):#{index}")
 
         case message
           when 'getpresets';		results[index]=AMF.putdata(index,getpresets())
@@ -89,7 +89,7 @@ class AmfController < ApplicationController
           when 'getpoi';		results[index]=AMF.putdata(index,getpoi(*args))
         end
       end
-      logger.info("encoding AMF results")
+      logger.info("Encoding AMF results")
       sendresponse(results)
     else
       render :nothing => true, :status => :method_not_allowed
@@ -133,7 +133,7 @@ class AmfController < ApplicationController
           when 'startchangeset';		results[index]=AMF.putdata(index,startchangeset(*args))
         end
       end
-      logger.info("encoding AMF results")
+      logger.info("Encoding AMF results")
       sendresponse(results)
     else
       render :nothing => true, :status => :method_not_allowed
