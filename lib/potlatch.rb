@@ -199,10 +199,10 @@ module Potlatch
         }
       end
 
-	  # Read internationalisation
-	  localised = YAML::load(File.open("#{RAILS_ROOT}/config/potlatch/localised.yaml"))
+#	  # Read internationalisation
+#	  localised = YAML::load(File.open("#{RAILS_ROOT}/config/potlatch/localised.yaml"))
 
-      [presets,presetmenus,presetnames,colours,casing,areas,autotags,relcolours,relalphas,relwidths,localised]
+      [presets,presetmenus,presetnames,colours,casing,areas,autotags,relcolours,relalphas,relwidths]
     end
   end
 
