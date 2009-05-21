@@ -13,7 +13,7 @@ module ActiveRecord
           old_log(sql, name)
         end
       rescue ActiveRecord::StatementInvalid => ex
-        if ex =~ /^OSM::APITimeoutError: /
+        if ex.message =~ /^OSM::APITimeoutError: /
           raise OSM::APITimeoutError.new
         else
           raise
