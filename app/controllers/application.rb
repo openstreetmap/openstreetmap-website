@@ -116,7 +116,7 @@ class ApplicationController < ActionController::Base
       render_opts = ex.render_opts
       report_error render_opts[:text], render_opts[:status]
     rescue Exception => ex
-      render :text => "#{ex.class}: #{ex.message}", :status => :internal_server_error
+      report_error "#{ex.class}: #{ex.message}", :internal_server_error
     end
   end
 
