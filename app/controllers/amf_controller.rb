@@ -448,10 +448,12 @@ class AmfController < ApplicationController
 
   # Get a relation with all tags and members.
   # Returns:
-  # 0. relation id,
-  # 1. hash of tags,
-  # 2. list of members,
-  # 3. version.
+  # 0. success code?
+  # 1. object type?
+  # 2. relation id,
+  # 3. hash of tags,
+  # 4. list of members,
+  # 5. version.
   
   def getrelation(relid) #:doc:
     begin
@@ -690,9 +692,10 @@ logger.info("saving with #{pointlist}")
   # Refuses save if the node has since become part of a way.
   # Returns array with:
   # 0. 0 (success),
-  # 1. original node id (unchanged),
-  # 2. new node id,
-  # 3. version.
+  # 1. success message,
+  # 2. original node id (unchanged),
+  # 3. new node id,
+  # 4. version.
 
   def putpoi(usertoken, changeset_id, version, id, lon, lat, tags, visible) #:doc:
     user = getuser(usertoken)
