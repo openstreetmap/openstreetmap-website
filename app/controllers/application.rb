@@ -115,6 +115,8 @@ class ApplicationController < ActionController::Base
     rescue OSM::APIError => ex
       render_opts = ex.render_opts
       report_error render_opts[:text], render_opts[:status]
+    rescue Exception => ex
+      render :text => "#{ex.class}: #{ex.message}", :status => :internal_server_error
     end
   end
 
