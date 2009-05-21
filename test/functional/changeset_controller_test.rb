@@ -670,7 +670,7 @@ EOF
   content diff
   post :upload, :id => cs_id
   assert_response :bad_request, "Shouldn't be able to upload a diff with the action ping"
-  assert_equal @response.body, "Unknown action ping, choices are create, modify, delete."
+  assert_equal @response.body, "Unknown action ping, choices are create, modify, delete"
   end
 
   ##

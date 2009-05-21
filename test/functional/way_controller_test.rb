@@ -349,7 +349,7 @@ class WayControllerTest < ActionController::TestCase
     put :update, :id => current_ways(:visible_way).id
     assert_response :bad_request, 
        "adding a duplicate tag to a way should fail with 'bad request'"
-    assert_equal "Element way/#{current_ways(:visible_way).id} has duplicate tags with key #{current_way_tags(:t1).k}.", @response.body
+    assert_equal "Element way/#{current_ways(:visible_way).id} has duplicate tags with key #{current_way_tags(:t1).k}", @response.body
   end
 
   ##
@@ -396,7 +396,7 @@ class WayControllerTest < ActionController::TestCase
     put :update, :id => current_ways(:visible_way).id
     assert_response :bad_request, 
        "adding new duplicate tags to a way should fail with 'bad request'"
-    assert_equal "Element way/#{current_ways(:visible_way).id} has duplicate tags with key i_am_a_duplicate.", @response.body
+    assert_equal "Element way/#{current_ways(:visible_way).id} has duplicate tags with key i_am_a_duplicate", @response.body
     
   end
 
@@ -436,7 +436,7 @@ class WayControllerTest < ActionController::TestCase
     put :create
     assert_response :bad_request, 
     "adding new duplicate tags to a way should fail with 'bad request'"
-    assert_equal "Element way/ has duplicate tags with key addr:housenumber.", @response.body
+    assert_equal "Element way/ has duplicate tags with key addr:housenumber", @response.body
   end
 
   ##

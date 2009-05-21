@@ -113,8 +113,7 @@ class ApplicationController < ActionController::Base
       ex.record.errors.each { |attr,msg| message << "#{attr}: #{msg} (#{ex.record[attr].inspect})" }
       report_error message, :bad_request
     rescue OSM::APIError => ex
-      render_opts = ex.render_opts
-      report_error render_opts[:text], render_opts[:status]
+      report_error ex.message, ex.status
     rescue Exception => ex
       report_error "#{ex.class}: #{ex.message}", :internal_server_error
     end

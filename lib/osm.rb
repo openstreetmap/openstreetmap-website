@@ -10,8 +10,8 @@ module OSM
 
   # The base class for API Errors.
   class APIError < RuntimeError
-    def render_opts
-      { :text => "Generic API Error", :status => :internal_server_error, :content_type => "text/plain" }
+    def status
+      :internal_server_error
     end
 
     def to_s
@@ -21,8 +21,12 @@ module OSM
 
   # Raised when an API object is not found.
   class APINotFoundError < APIError
-    def render_opts
-      { :text => "The API wasn't found", :status => :not_found, :content_type => "text/plain" }
+    def status
+      :not_found
+    end
+
+    def to_s
+      "Object not found"
     end
   end
 
@@ -31,9 +35,9 @@ module OSM
     def initialize(message = "")
       @message = message
     end
-    
-    def render_opts
-      { :text => "Precondition failed: #{@message}", :status => :precondition_failed, :content_type => "text/plain" }
+
+    def status
+      :precondition_failed    
     end
 
     def to_s
@@ -48,16 +52,24 @@ module OSM
     end
     
     attr_reader :object, :object_id
+
+    def status
+      :gone
+    end
     
-    def render_opts
-      { :text => "The #{object} with the id #{object_id} has already been deleted", :status => :gone, :content_type => "text/plain" }
+    def to_s
+      "The #{object} with the id #{object_id} has already been deleted"
     end
   end
 
   # Raised when the user logged in isn't the same as the changeset
   class APIUserChangesetMismatchError < APIError
-    def render_opts
-      { :text => "The user doesn't own that changeset", :status => :conflict, :content_type => "text/plain" }
+    def status
+      :conflict
+    end
+
+    def to_s
+      "The user doesn't own that changeset"
     end
   end
 
@@ -68,20 +80,24 @@ module OSM
     end
 
     attr_reader :changeset
-    
-    def render_opts
-      { :text => "The changeset #{@changeset.id} was closed at #{@changeset.closed_at}.", :status => :conflict, :content_type => "text/plain" }
+
+    def status
+      :conflict
+    end
+
+    def to_s
+      "The changeset #{@changeset.id} was closed at #{@changeset.closed_at}"
     end
   end
   
   # Raised when a change is expecting a changeset, but the changeset doesn't exist
   class APIChangesetMissingError < APIError
-    def render_opts
-      { :text => "You need to supply a changeset to be able to make a change", :status => :conflict, :content_type => "text/plain" }
+    def status
+      :conflict
     end
-    
+
     def to_s
-       "You need to supply a changeset to be able to make a change"
+      "You need to supply a changeset to be able to make a change"
     end
   end
 
@@ -91,10 +107,13 @@ module OSM
     def initialize(provided, allowed)
       @provided, @allowed = provided, allowed
     end
-    
-    def render_opts
-      { :text => "Changeset mismatch: Provided #{@provided} but only " +
-      "#{@allowed} is allowed.", :status => :conflict, :content_type => "text/plain" }
+
+    def status
+      :conflict
+    end
+
+    def rto_s
+      "Changeset mismatch: Provided #{@provided} but only #{@allowed} is allowed"
     end
   end
   
@@ -104,10 +123,13 @@ module OSM
     def initialize(provided)
       @provided = provided
     end
+
+    def status
+      :bad_request
+    end
     
-    def render_opts
-      { :text => "Unknown action #{@provided}, choices are create, modify, delete.",
-      :status => :bad_request, :content_type => "text/plain" }
+    def to_s
+      "Unknown action #{@provided}, choices are create, modify, delete"
     end
   end
 
@@ -118,9 +140,12 @@ module OSM
       @model, @xml, @message = model, xml, message
     end
 
-    def render_opts
-      { :text => "Cannot parse valid #{@model} from xml string #{@xml}. #{@message}",
-      :status => :bad_request, :content_type => "text/plain" }
+    def status
+      :bad_request
+    end
+
+    def to_s
+      "Cannot parse valid #{@model} from xml string #{@xml}. #{@message}"
     end
   end
 
@@ -132,13 +157,12 @@ module OSM
 
     attr_reader :provided, :latest, :id, :type
 
-    def render_opts
-      { :text => "Version mismatch: Provided #{provided}, server had: #{latest} of #{type} #{id}",
-        :status => :conflict, :content_type => "text/plain" }
+    def status
+      :conflict
     end
-    
+
     def to_s
-       "Version mismatch: Provided #{provided}, server had: #{latest} of #{type} #{id}"
+      "Version mismatch: Provided #{provided}, server had: #{latest} of #{type} #{id}"
     end
   end
 
@@ -151,9 +175,12 @@ module OSM
 
     attr_reader :type, :id, :tag_key
 
-    def render_opts
-      { :text => "Element #{@type}/#{@id} has duplicate tags with key #{@tag_key}.",
-        :status => :bad_request, :content_type => "text/plain" }
+    def status
+      :bad_request
+    end
+
+    def to_s
+      "Element #{@type}/#{@id} has duplicate tags with key #{@tag_key}"
     end
   end
   
@@ -165,10 +192,13 @@ module OSM
     end
     
     attr_reader :provided, :max
+
+    def status
+      :bad_request
+    end
     
-    def render_opts
-      { :text => "You tried to add #{provided} nodes to the way, however only #{max} are allowed",
-        :status => :bad_request, :content_type => "text/plain" }
+    def to_s
+      "You tried to add #{provided} nodes to the way, however only #{max} are allowed"
     end
   end
 
@@ -179,8 +209,12 @@ module OSM
       @message = message
     end
 
-    def render_opts
-      { :text => @message, :content_type => "text/plain", :status => :bad_request }
+    def status
+      :bad_request
+    end
+
+    def to_s
+      @message
     end
   end
 
@@ -191,16 +225,20 @@ module OSM
       @supported_method = supported_method
     end
 
-    def render_opts
-      { :text => "Only method #{@supported_method} is supported on this URI.", :status => :method_not_allowed }
+    def status
+      :method_not_allowed
+    end
+
+    def to_s
+      "Only method #{@supported_method} is supported on this URI"
     end
   end
 
   ##
   # raised when an API call takes too long
   class APITimeoutError < APIError
-    def render_opts
-      { :text => "Request timed out", :status => :request_timeout }
+    def status
+      :request_timeout
     end
 
     def to_s
