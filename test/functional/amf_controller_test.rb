@@ -12,7 +12,9 @@ class AmfControllerTest < ActionController::TestCase
     post :amf_read
     assert_response :success
     amf_parse_response                                         
-    assert_equal amf_result("/1")[0], id
+    way = amf_result("/1")
+    assert_equal way[0], 0
+    assert_equal way[2], id
   end
 
   def test_getway_invisible
@@ -23,8 +25,10 @@ class AmfControllerTest < ActionController::TestCase
     assert_response :success
     amf_parse_response
     way = amf_result("/1")
-    assert_equal way[0], id
-    assert way[1].empty? and way[2].empty?
+    assert_equal way[0], -4
+    assert_equal way[1], "way"
+    assert_equal way[2], id
+    assert way[3].empty? and way[4].empty?
   end
 
   def test_getway_nonexistent
@@ -34,8 +38,10 @@ class AmfControllerTest < ActionController::TestCase
     assert_response :success
     amf_parse_response
     way = amf_result("/1")
-    assert_equal way[0], 0
-    assert way[1].empty? and way[2].empty?
+    assert_equal way[0], -4
+    assert_equal way[1], "way"
+    assert_equal way[2], 0
+    assert way[3].empty? and way[4].empty?
   end
 
   def test_whichways
@@ -52,19 +58,20 @@ class AmfControllerTest < ActionController::TestCase
     # check contents of message
     map = amf_result "/1"
     assert_equal 0, map[0], 'map error code should be 0'
+    assert_equal "", map[1], 'map error text should be empty'
 
     # check the formatting of the message
-    assert_equal 4, map.length, 'map should have length 4'
-    assert_equal Array, map[1].class, 'map "ways" element should be an array'
-    assert_equal Array, map[2].class, 'map "nodes" element should be an array'
-    assert_equal Array, map[3].class, 'map "relations" element should be an array'
-    map[1].each do |w|
+    assert_equal 5, map.length, 'map should have length 5'
+    assert_equal Array, map[2].class, 'map "ways" element should be an array'
+    assert_equal Array, map[3].class, 'map "nodes" element should be an array'
+    assert_equal Array, map[4].class, 'map "relations" element should be an array'
+    map[2].each do |w|
       assert_equal 2, w.length, 'way should be (id, version) pair'
       assert w[0] == w[0].floor, 'way ID should be an integer'
       assert w[1] == w[1].floor, 'way version should be an integer'
     end
 
-    map[2].each do |n|
+    map[3].each do |n|
       assert_equal 5, w.length, 'node should be (id, lat, lon, [tags], version) tuple'
       assert n[0] == n[0].floor, 'node ID should be an integer'
       assert n[1] >= minlat - 0.01, 'node lat should be greater than min'
@@ -75,7 +82,7 @@ class AmfControllerTest < ActionController::TestCase
       assert n[4] == n[4].floor, 'node version should be an integer'
     end
 
-    map[3].each do |r|
+    map[4].each do |r|
       assert_equal 2, r.length, 'relation should be (id, version) pair'
       assert r[0] == r[0].floor, 'relation ID should be an integer'
       assert r[1] == r[1].floor, 'relation version should be an integer'
@@ -83,7 +90,7 @@ class AmfControllerTest < ActionController::TestCase
 
     # TODO: looks like amf_controller changed since this test was written
     # so someone who knows what they're doing should check this!
-    ways = map[1].collect { |x| x[0] }
+    ways = map[2].collect { |x| x[0] }
     assert ways.include?(current_ways(:used_way).id),
       "map should include used way"
     assert !ways.include?(current_ways(:invisible_way).id),
@@ -136,12 +143,13 @@ class AmfControllerTest < ActionController::TestCase
     # check contents of message
     map = amf_result "/1"
     assert_equal 0, map[0], 'first map element should be 0'
-    assert_equal Array, map[1].class, 'second map element should be an array'
+    assert_equal "", map[1], 'second map element should be an empty string'
+    assert_equal Array, map[2].class, 'third map element should be an array'
     # TODO: looks like amf_controller changed since this test was written
     # so someone who knows what they're doing should check this!
-    assert !map[1].include?(current_ways(:used_way).id),
+    assert !map[2].include?(current_ways(:used_way).id),
       "map should not include used way"
-    assert map[1].include?(current_ways(:invisible_way).id),
+    assert map[2].include?(current_ways(:invisible_way).id),
       'map should include deleted way'
   end
 
@@ -153,7 +161,7 @@ class AmfControllerTest < ActionController::TestCase
     amf_parse_response 
 
     map = amf_result "/1"
-    assert_boundary_error map, " The server said: The maximum bbox size is 0.25, and your request was too large. Either request a smaller area, or use planet.osm"
+    assert_deleted_boundary_error map, " The server said: The maximum bbox size is 0.25, and your request was too large. Either request a smaller area, or use planet.osm"
   end
 
   def test_getrelation
@@ -162,7 +170,9 @@ class AmfControllerTest < ActionController::TestCase
     post :amf_read
     assert_response :success
     amf_parse_response
-    assert_equal amf_result("/1")[0], id
+    rel = amf_result("/1")
+    assert_equal rel[0], 0
+    assert_equal rel[2], id
   end
 
   def test_getrelation_invisible
@@ -172,8 +182,10 @@ class AmfControllerTest < ActionController::TestCase
     assert_response :success
     amf_parse_response
     rel = amf_result("/1")
-    assert_equal rel[0], id
-    assert rel[1].empty? and rel[2].empty?
+    assert_equal rel[0], -4
+    assert_equal rel[1], "relation"
+    assert_equal rel[2], id
+    assert rel[3].empty? and rel[4].empty?
   end
 
   def test_getrelation_nonexistent
@@ -183,8 +195,10 @@ class AmfControllerTest < ActionController::TestCase
     assert_response :success
     amf_parse_response
     rel = amf_result("/1")
-    assert_equal rel[0], id
-    assert rel[1].empty? and rel[2].empty?
+    assert_equal rel[0], -4
+    assert_equal rel[1], "relation"
+    assert_equal rel[2], id
+    assert rel[3].empty? and rel[4].empty?
   end
 
   def test_getway_old
@@ -202,9 +216,10 @@ class AmfControllerTest < ActionController::TestCase
       assert_response :success
       amf_parse_response
       returned_way = amf_result("/1")
-      assert_equal way.id, returned_way[1]
+      assert_equal 0, returned_way[0]
+      assert_equal way.id, returned_way[2]
       # API returns the *latest* version, even for old ways...
-      assert_equal latest.version, returned_way[4]
+      assert_equal latest.version, returned_way[5]
     end
   end
   
@@ -224,9 +239,10 @@ class AmfControllerTest < ActionController::TestCase
       assert_response :success
       amf_parse_response
       returned_way = amf_result("/1")
-      assert returned_way[2].empty?
+      assert_equal -1, returned_way[0]
       assert returned_way[3].empty?
-      assert returned_way[4] < 0
+      assert returned_way[4].empty?
+      assert returned_way[5].nil?
     end
   end
 
@@ -244,9 +260,10 @@ class AmfControllerTest < ActionController::TestCase
       assert_response :success
       amf_parse_response
       returned_way = amf_result("/1")
-      assert returned_way[2].empty?
+      assert_equal -1, returned_way[0]
       assert returned_way[3].empty?
-      assert returned_way[4] < 0
+      assert returned_way[4].empty?
+      assert returned_way[5].nil?
     end
   end
 
@@ -333,9 +350,10 @@ class AmfControllerTest < ActionController::TestCase
     result = amf_result("/1")
     
     assert_equal 0, result[0]
-    assert_equal nd.id, result[1]
+    assert_equal "", result[1]
     assert_equal nd.id, result[2]
-    assert_equal nd.version+1, result[3]
+    assert_equal nd.id, result[3]
+    assert_equal nd.version+1, result[4]
     
     # Now try to update again, with a different lat/lon, using the updated version number
     lat = nd.lat+0.1
@@ -347,9 +365,10 @@ class AmfControllerTest < ActionController::TestCase
     result = amf_result("/2")
     
     assert_equal 0, result[0]
-    assert_equal nd.id, result[1]
+    assert_equal "", result[1]
     assert_equal nd.id, result[2]
-    assert_equal nd.version+2, result[3]
+    assert_equal nd.id, result[3]
+    assert_equal nd.version+2, result[4]
   end
   
   # Check that we can create a no valid poi
@@ -370,28 +389,28 @@ class AmfControllerTest < ActionController::TestCase
     result = amf_result("/1")
     
     # check the array returned by the amf
-    assert_equal 4, result.size
+    assert_equal 5, result.size
     assert_equal 0, result[0], "expected to get the status ok from the amf"
-    assert_equal 0, result[1], "The old id should be 0"
-    assert result[2] > 0, "The new id should be greater than 0"
-    assert_equal 1, result[3], "The new version should be 1"
+    assert_equal 0, result[2], "The old id should be 0"
+    assert result[3] > 0, "The new id should be greater than 0"
+    assert_equal 1, result[4], "The new version should be 1"
     
     # Finally check that the node that was saved has saved the data correctly 
     # in both the current and history tables
     # First check the current table
-    current_node = Node.find(result[2])
+    current_node = Node.find(result[3])
     assert_in_delta lat, current_node.lat, 0.00001, "The latitude was not retreieved correctly"
     assert_in_delta lon, current_node.lon, 0.00001, "The longitude was not retreived correctly"
     assert_equal 0, current_node.tags.size, "There seems to be a tag that has been added to the node"
-    assert_equal result[3], current_node.version, "The version returned, is different to the one returned by the amf"
+    assert_equal result[4], current_node.version, "The version returned, is different to the one returned by the amf"
     # Now check the history table
-    historic_nodes = Node.find(:all, :conditions => { :id => result[2] })
+    historic_nodes = Node.find(:all, :conditions => { :id => result[3] })
     assert_equal 1, historic_nodes.size, "There should only be one historic node created"
     first_historic_node = historic_nodes.first
     assert_in_delta lat, first_historic_node.lat, 0.00001, "The latitude was not retreived correctly"
     assert_in_delta lon, first_historic_node.lon, 0.00001, "The longitude was not retreuved correctly"
     assert_equal 0, first_historic_node.tags.size, "There seems to be a tag that have been attached to this node"
-    assert_equal result[3], first_historic_node.version, "The version returned, is different to the one returned by the amf"
+    assert_equal result[4], first_historic_node.version, "The version returned, is different to the one returned by the amf"
     
     ####
     # This node has some tags
@@ -409,30 +428,30 @@ class AmfControllerTest < ActionController::TestCase
     result = amf_result("/2")
 
     # check the array returned by the amf
-    assert_equal 4, result.size
+    assert_equal 5, result.size
     assert_equal 0, result[0], "Expected to get the status ok in the amf"
-    assert_equal 0, result[1], "The old id should be 0"
-    assert result[2] > 0, "The new id should be greater than 0"
-    assert_equal 1, result[3], "The new version should be 1"
+    assert_equal 0, result[2], "The old id should be 0"
+    assert result[3] > 0, "The new id should be greater than 0"
+    assert_equal 1, result[4], "The new version should be 1"
     
     # Finally check that the node that was saved has saved the data correctly 
     # in both the current and history tables
     # First check the current table
-    current_node = Node.find(result[2])
+    current_node = Node.find(result[3])
     assert_in_delta lat, current_node.lat, 0.00001, "The latitude was not retreieved correctly"
     assert_in_delta lon, current_node.lon, 0.00001, "The longitude was not retreived correctly"
     assert_equal 2, current_node.tags.size, "There seems to be a tag that has been added to the node"
     assert_equal({ "key" => "value", "ping" => "pong" }, current_node.tags, "tags are different")
-    assert_equal result[3], current_node.version, "The version returned, is different to the one returned by the amf"
+    assert_equal result[4], current_node.version, "The version returned, is different to the one returned by the amf"
     # Now check the history table
-    historic_nodes = Node.find(:all, :conditions => { :id => result[2] })
+    historic_nodes = Node.find(:all, :conditions => { :id => result[3] })
     assert_equal 1, historic_nodes.size, "There should only be one historic node created"
     first_historic_node = historic_nodes.first
     assert_in_delta lat, first_historic_node.lat, 0.00001, "The latitude was not retreived correctly"
     assert_in_delta lon, first_historic_node.lon, 0.00001, "The longitude was not retreuved correctly"
     assert_equal 2, first_historic_node.tags.size, "There seems to be a tag that have been attached to this node"
     assert_equal({ "key" => "value", "ping" => "pong" }, first_historic_node.tags, "tags are different")
-    assert_equal result[3], first_historic_node.version, "The version returned, is different to the one returned by the amf"
+    assert_equal result[4], first_historic_node.version, "The version returned, is different to the one returned by the amf"
   end
   
   def test_putpoi_delete_valid
@@ -530,10 +549,17 @@ class AmfControllerTest < ActionController::TestCase
     end
   end
   
-  # this should be what AMF controller returns when the bbox of a request
-  # is invalid or too large.
+  # this should be what AMF controller returns when the bbox of a
+  # whichways request is invalid or too large.
   def assert_boundary_error(map, msg=nil, error_hint=nil)
-    expected_map = [-2, "Sorry - I can't get the map for that area.#{msg}"]
+    expected_map = [-2, "Sorry - I can't get the map for that area.#{msg}", [], [], []]
+    assert_equal expected_map, map, "AMF controller should have returned an error. (#{error_hint})"
+  end
+
+  # this should be what AMF controller returns when the bbox of a
+  # whichways_deleted request is invalid or too large.
+  def assert_deleted_boundary_error(map, msg=nil, error_hint=nil)
+    expected_map = [-2, "Sorry - I can't get the map for that area.#{msg}", []]
     assert_equal expected_map, map, "AMF controller should have returned an error. (#{error_hint})"
   end
 end
