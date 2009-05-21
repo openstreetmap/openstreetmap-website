@@ -36,10 +36,6 @@ elsif params['mlon'] and params['mlat']
 	zoom =  h(params['zoom'])
 	
 elsif params['gpx']
-        # The user may pass a gpx and zoom
-	if params['zoom']
-	   zoom = h(params['zoom'])
-	end
 	#use gpx id to locate (dealt with below)
 	
 elsif cookies.key?("_osm_location")
@@ -87,7 +83,6 @@ zoom='14' if zoom.nil?
     fo.addVariable('token','<%= session[:token] %>');
     if (lat) { fo.addVariable('lat',lat); }
     if (lon) { fo.addVariable('long',lon); }
-    if (zoom) { fo.addVariable('zoom',zoom); }
     <% if params['gpx']  %>fo.addVariable('gpx' ,'<%= h(params['gpx'] ) %>');<% end %>
     <% if params['way']  %>fo.addVariable('way' ,'<%= h(params['way'] ) %>');<% end %>
     <% if params['node'] %>fo.addVariable('node','<%= h(params['node']) %>');<% end %>
