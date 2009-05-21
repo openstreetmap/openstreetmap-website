@@ -204,17 +204,20 @@ class Way < ActiveRecord::Base
   end
 
   def update_from(new_way, user)
-    check_consistency(self, new_way, user)
-    unless new_way.preconditions_ok?(self.nds)
-      raise OSM::APIPreconditionFailedError.new("Cannot update way #{self.id}: data is invalid.")
+    Way.transaction do
+      self.lock!
+      check_consistency(self, new_way, user)
+      unless new_way.preconditions_ok?(self.nds)
+        raise OSM::APIPreconditionFailedError.new("Cannot update way #{self.id}: data is invalid.")
+      end
+      
+      self.changeset_id = new_way.changeset_id
+      self.changeset = new_way.changeset
+      self.tags = new_way.tags
+      self.nds = new_way.nds
+      self.visible = true
+      save_with_history!
     end
-
-    self.changeset_id = new_way.changeset_id
-    self.changeset = new_way.changeset
-    self.tags = new_way.tags
-    self.nds = new_way.nds
-    self.visible = true
-    save_with_history!
   end
 
   def create_with_history(user)
@@ -258,6 +261,7 @@ class Way < ActiveRecord::Base
     # provide repeatable reads for the used-by checks. this means it
     # shouldn't be possible to get race conditions.
     Way.transaction do
+      self.lock!
       check_consistency(self, new_way, user)
       rel = RelationMember.find(:first, :joins => :relation,
                              :conditions => [ "visible = ? AND member_type='Way' and member_id=? ", true, self.id])

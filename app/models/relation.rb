@@ -240,6 +240,7 @@ class Relation < ActiveRecord::Base
     # provide repeatable reads for the used-by checks. this means it
     # shouldn't be possible to get race conditions.
     Relation.transaction do
+      self.lock!
       check_consistency(self, new_relation, user)
       # This will check to see if this relation is used by another relation
       rel = RelationMember.find(:first, :joins => :relation, 
@@ -255,16 +256,19 @@ class Relation < ActiveRecord::Base
   end
 
   def update_from(new_relation, user)
-    check_consistency(self, new_relation, user)
-    unless new_relation.preconditions_ok?(self.members)
-      raise OSM::APIPreconditionFailedError.new("Cannot update relation #{self.id}: data or member data is invalid.")
+    Relation.transaction do
+      self.lock!
+      check_consistency(self, new_relation, user)
+      unless new_relation.preconditions_ok?(self.members)
+        raise OSM::APIPreconditionFailedError.new("Cannot update relation #{self.id}: data or member data is invalid.")
+      end
+      self.changeset_id = new_relation.changeset_id
+      self.changeset = new_relation.changeset
+      self.tags = new_relation.tags
+      self.members = new_relation.members
+      self.visible = true
+      save_with_history!
     end
-    self.changeset_id = new_relation.changeset_id
-    self.changeset = new_relation.changeset
-    self.tags = new_relation.tags
-    self.members = new_relation.members
-    self.visible = true
-    save_with_history!
   end
   
   def create_with_history(user)
