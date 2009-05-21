@@ -263,6 +263,9 @@ class ApiController < ApplicationController
     changesets = XML::Node.new 'changesets'
     changesets['maximum_elements'] = Changeset::MAX_ELEMENTS.to_s
     api << changesets
+    timeout = XML::Node.new 'timeout'
+    timeout['seconds'] = APP_CONFIG['api_timeout'].to_s
+    api << timeout
     
     doc.root << api
 
