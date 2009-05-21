@@ -112,7 +112,7 @@ module OSM
       :conflict
     end
 
-    def rto_s
+    def to_s
       "Changeset mismatch: Provided #{@provided} but only #{@allowed} is allowed"
     end
   end
