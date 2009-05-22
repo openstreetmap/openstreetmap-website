@@ -127,8 +127,10 @@ class AmfController < ApplicationController
           results[index]=[-5,nil]
         else
           case message
-            when 'putway';			  r=putway(renumberednodes,*args)
-                      						renumberednodes=r[4]
+            when 'putway';			  orn=renumberednodes.dup
+                                  r=putway(renumberednodes,*args)
+                      						renumberednodes=r[4].dup
+                      						r[4].delete_if { |k,v| orn.has_key?(k) }
                       						if r[2] != r[3] then renumberedways[r[2]] = r[3] end
                       						results[index]=AMF.putdata(index,r)
             when 'putrelation';		results[index]=AMF.putdata(index,putrelation(renumberednodes, renumberedways, *args))
@@ -477,7 +479,7 @@ class AmfController < ApplicationController
         rels.push([rel.id, rel.tags, rel.members, rel.version])
       end
     else
-      RelationTag.find(:all, :limit => 11, :conditions => ["match(v) against (?)", searchterm] ).each do |t|
+      RelationTag.find(:all, :limit => 11, :conditions => ["v like ?", "%#{searchterm}%"] ).each do |t|
       if t.relation.visible then
 	      rels.push([t.relation.id, t.relation.tags, t.relation.members, t.relation.version])
 	    end
@@ -592,9 +594,7 @@ class AmfController < ApplicationController
     if pointlist.length < 2 then return -2,"Server error - way is only #{points.length} points long." end
 
     originalway = originalway.to_i
-logger.info("received #{pointlist} for #{originalway}")
   	pointlist.collect! {|a| a.to_i }
-logger.info("converted to #{pointlist}")
 
     way=nil	# this is returned, so scope it outside the transaction
     nodeversions = {}
@@ -634,11 +634,9 @@ logger.info("converted to #{pointlist}")
 
       # -- Save revised way
 
-logger.info("renumberednodes is #{renumberednodes.inspect}")
   	  pointlist.collect! {|a|
 	      renumberednodes[a] ? renumberednodes[a]:a
   	  } # renumber nodes
-logger.info("saving with #{pointlist}")
       new_way = Way.new
       new_way.tags = attributes
       new_way.nds = pointlist
