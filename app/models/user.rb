@@ -1,6 +1,8 @@
 class User < ActiveRecord::Base
   require 'xml/libxml'
 
+  belongs_to :language, :foreign_key => 'locale'
+  
   has_many :traces
   has_many :diary_entries, :order => 'created_at DESC'
   has_many :messages, :foreign_key => :to_user_id, :order => 'sent_on DESC'

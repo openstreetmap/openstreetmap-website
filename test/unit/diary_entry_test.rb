@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class DiaryEntryTest < Test::Unit::TestCase
   api_fixtures
-  fixtures :diary_entries
+  fixtures :diary_entries, :languages
   
   def test_diary_entry_count
     assert_equal 2, DiaryEntry.count
@@ -27,7 +27,7 @@ class DiaryEntryTest < Test::Unit::TestCase
   def diary_entry_valid(attrs, result = true)
     entry = diary_entries(:normal_user_entry_1).clone
     entry.attributes = attrs
-    assert_equal result, entry.valid?
+    assert_equal result, entry.valid?, "Expected #{attrs.inspect} to be #{result}"
   end
   
 end

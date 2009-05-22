@@ -13,6 +13,10 @@
       <td><%= f.text_area :body, :cols => 80 %></td>
     </tr>
     <tr valign="top">
+      <td class="fieldName">Language:</td>
+      <td><%= f.select :language, Language.find(:all).map {|l| [l.name, l.language_code]} %></td>
+    </tr>
+    <tr valign="top">
       <td class="fieldName">Location:</td>
       <td>
         <div id="map" style="border: 1px solid black; position: relative; width : 90%; height : 400px; display: none;"></div>

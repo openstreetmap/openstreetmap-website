@@ -1,6 +1,7 @@
 class DiaryEntryController < ApplicationController
   layout 'site', :except => :rss
 
+  before_filter :set_locale
   before_filter :authorize_web
   before_filter :require_user, :only => [:new, :edit]
   before_filter :check_database_readable
@@ -30,12 +31,7 @@ class DiaryEntryController < ApplicationController
     if @user != @diary_entry.user
       redirect_to :controller => 'diary_entry', :action => 'view', :id => params[:id]
     elsif params[:diary_entry]
-      @diary_entry.title = params[:diary_entry][:title]
-      @diary_entry.body = params[:diary_entry][:body]
-      @diary_entry.latitude = params[:diary_entry][:latitude]
-      @diary_entry.longitude = params[:diary_entry][:longitude]
-
-      if @diary_entry.save
+      if @diary_entry.update_attributes(params[:diary_entry])
         redirect_to :controller => 'diary_entry', :action => 'view', :id => params[:id]
       end
     end
@@ -93,6 +89,15 @@ class DiaryEntryController < ApplicationController
       else
         render :nothing => true, :status => :not_found
       end
+    elsif params[:language]
+      @entries = DiaryEntry.find(:all, :include => :user,
+        :conditions => ["users.visible = ? AND diary_entries.language = ?", true, params[:language]],
+        :order => 'created_at DESC', :limit => 20)
+      @title = "OpenStreetMap diary entries in #{params[:language]}"
+      @description = "Recent diary entries from users of OpenStreetMap"
+      @link = "http://#{SERVER_URL}/diary/#{params[:language]}"
+      
+      render :content_type => Mime::RSS
     else
       @entries = DiaryEntry.find(:all, :include => :user,
                                  :conditions => ["users.visible = ?", true],

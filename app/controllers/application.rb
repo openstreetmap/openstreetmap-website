@@ -100,6 +100,10 @@ class ApplicationController < ActionController::Base
     response.headers['Error'] = message
     render :text => message, :status => status
   end
+  
+  def set_locale
+    request.compatible_language_from(I18n.backend.available_locales)
+  end
 
   def api_call_handle_error
     begin
@@ -134,7 +138,6 @@ class ApplicationController < ActionController::Base
   end
 
 private 
-
   # extract authorisation credentials from headers, returns user = nil if none
   def get_auth_data 
     if request.env.has_key? 'X-HTTP_AUTHORIZATION'          # where mod_rewrite might have put it 

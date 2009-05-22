@@ -1,5 +1,5 @@
 # Set location of GPX trace files
-GPX_TRACE_DIR = "/home/osm/traces"
+GPX_TRACE_DIR = "/Users/shaunmcdonald/Documents/osm/pg_api06/public/traces"
 
 # Set location of GPX image files
-GPX_IMAGE_DIR = "/home/osm/images"
+GPX_IMAGE_DIR = "/Users/shaunmcdonald/Documents/osm/pg_api06/public/images"
