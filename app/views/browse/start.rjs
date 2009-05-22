@@ -210,7 +210,10 @@ page << <<EOJ
 
       browseDataLayer = new OpenLayers.Layer.GML("Data", url, {
         format: OpenLayers.Format.OSM,
-        formatOptions: { checkTags: true },
+        formatOptions: {
+          checkTags: true, 
+          interestingTagsExclude: ['source','source_ref','source:ref','history','attribution','created_by','tiger:county','tiger:tlid','tiger:upload_uuid']
+        },
         maxFeatures: 100,
         requestSuccess: customDataLoader,
         displayInLayerSwitcher: false,
