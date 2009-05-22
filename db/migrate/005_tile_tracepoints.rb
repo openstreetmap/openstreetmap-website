@@ -1,3 +1,5 @@
+require 'lib/migrate'
+
 class TileTracepoints < ActiveRecord::Migration
   def self.up
     add_column "gps_points", "tile", :four_byte_unsigned
