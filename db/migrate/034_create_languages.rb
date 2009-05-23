@@ -10,7 +10,11 @@ class CreateLanguages < ActiveRecord::Migration
 
     add_primary_key :languages, [:code]
 
-    Language.create(:code => 'en', :name => 'English', :translation_available => true)
+    Language.create do |l|
+      l.code = 'en'
+      l.name = 'English'
+      l.translation_available = true
+    end
 
     add_foreign_key :users, [:locale], :languages, [:code]
     add_foreign_key :diary_entries, [:language], :languages, [:code]    
