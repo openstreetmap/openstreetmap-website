@@ -178,6 +178,7 @@ class AmfController < ApplicationController
       cs = Changeset.new
       cs.tags = cstags
       cs.user_id = user.id
+      if !closecomment.empty? then cs.tags['comment']=closecomment end
       # smsm1 doesn't like the next two lines and thinks they need to be abstracted to the model more/better
       cs.created_at = Time.now.getutc
       cs.closed_at = cs.created_at + Changeset::IDLE_TIMEOUT
