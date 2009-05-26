@@ -30,7 +30,7 @@ class OldWay < ActiveRecord::Base
     save!
     clear_aggregation_cache
     clear_association_cache
-    @attributes.update(OldWay.find(:first, :conditions => ['id = ? AND timestamp = ?', self.id, self.timestamp]).instance_variable_get('@attributes'))
+    @attributes.update(OldWay.find(:first, :conditions => ['id = ? AND timestamp = ?', self.id, self.timestamp], :order => "version desc").instance_variable_get('@attributes'))
 
     # ok, you can touch from here on
 
