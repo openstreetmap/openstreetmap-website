@@ -529,23 +529,36 @@ class RelationControllerTest < ActionController::TestCase
   # add a member to a relation and check the bounding box is only that
   # element.
   def test_add_member_bounding_box
-    check_changeset_modify([4,4,4,4]) do |changeset_id|
-      # add node 4 (4,4) to an existing relation
-      relation_xml = current_relations(:visible_relation).to_xml
-      relation_element = relation_xml.find("//osm/relation").first
-      new_member = XML::Node.new("member")
-      new_member['ref'] = current_nodes(:used_node_2).id.to_s
-      new_member['type'] = "node"
-      new_member['role'] = "some_role"
-      relation_element << new_member
+    relation_id = current_relations(:visible_relation).id
+
+    [current_nodes(:used_node_1),
+     current_nodes(:used_node_2),
+     current_ways(:used_way),
+     current_ways(:way_with_versions)
+    ].each_with_index do |element, version|
+      bbox = element.bbox.collect { |x| x / SCALE }
+      check_changeset_modify(bbox) do |changeset_id|
+        relation_xml = Relation.find(relation_id).to_xml
+        relation_element = relation_xml.find("//osm/relation").first
+        new_member = XML::Node.new("member")
+        new_member['ref'] = element.id.to_s
+        new_member['type'] = element.class.to_s.downcase
+        new_member['role'] = "some_role"
+        relation_element << new_member
       
-      # update changeset ID to point to new changeset
-      update_changeset(relation_xml, changeset_id)
+        # update changeset ID to point to new changeset
+        update_changeset(relation_xml, changeset_id)
       
-      # upload the change
-      content relation_xml
-      put :update, :id => current_relations(:visible_relation).id
-      assert_response :success, "can't update relation for add node/bbox test"
+        # upload the change
+        content relation_xml
+        put :update, :id => current_relations(:visible_relation).id
+        assert_response :success, "can't update relation for add #{element.class}/bbox test: #{@response.body}"
+
+        # get it back and check the ordering 
+        get :read, :id => relation_id
+        assert_response :success, "can't read back the relation: #{@response.body}"
+        check_ordering(relation_xml, @response.body)
+      end
     end
   end
   
@@ -617,14 +630,18 @@ OSM
     get :read, :id => relation_id
     assert_response :success, "can't read back the relation: #{@response.body}"
     check_ordering(doc, @response.body)
+
+    # check the ordering in the history tables:
+    with_controller(OldRelationController.new) do
+      get :version, :id => relation_id, :version => 2
+      assert_response :success, "can't read back version 2 of the relation #{relation_id}"
+      check_ordering(doc, @response.body)
+    end
   end
 
   ## 
   # check that relations can contain duplicate members
   def test_relation_member_duplicates
-    ## First try with the private user
-    basic_authorization(users(:normal_user).email, "test");  
-
     doc_str = <<OSM
 <osm>
  <relation changeset='4'>
@@ -636,26 +653,16 @@ OSM
 </osm>
 OSM
     doc = XML::Parser.string(doc_str).parse
+
+    ## First try with the private user
+    basic_authorization(users(:normal_user).email, "test");  
 
     content doc
     put :create
     assert_response :forbidden
 
-
     ## Now try with the public user
     basic_authorization(users(:public_user).email, "test");  
-
-    doc_str = <<OSM
-<osm>
- <relation changeset='4'>
-  <member ref='1' type='node' role='forward'/>
-  <member ref='3' type='node' role='forward'/>
-  <member ref='1' type='node' role='forward'/>
-  <member ref='3' type='node' role='forward'/>
- </relation>
-</osm>
-OSM
-    doc = XML::Parser.string(doc_str).parse
 
     content doc
     put :create
@@ -664,8 +671,42 @@ OSM
 
     # get it back and check the ordering
     get :read, :id => relation_id
+    assert_response :success, "can't read back the relation: #{relation_id}"
+    check_ordering(doc, @response.body)
+  end
+
+  ##
+  # test that the ordering of elements in the history is the same as in current.
+  def test_history_ordering
+    doc_str = <<OSM
+<osm>
+ <relation changeset='4'>
+  <member ref='1' type='node' role='forward'/>
+  <member ref='5' type='node' role='forward'/>
+  <member ref='4' type='node' role='forward'/>
+  <member ref='3' type='node' role='forward'/>
+ </relation>
+</osm>
+OSM
+    doc = XML::Parser.string(doc_str).parse
+    basic_authorization(users(:public_user).email, "test");  
+
+    content doc
+    put :create
+    assert_response :success, "can't create a relation: #{@response.body}"
+    relation_id = @response.body.to_i
+
+    # check the ordering in the current tables:
+    get :read, :id => relation_id
     assert_response :success, "can't read back the relation: #{@response.body}"
     check_ordering(doc, @response.body)
+
+    # check the ordering in the history tables:
+    with_controller(OldRelationController.new) do
+      get :version, :id => relation_id, :version => 1
+      assert_response :success, "can't read back version 1 of the relation: #{@response.body}"
+      check_ordering(doc, @response.body)
+    end
   end
 
   # ============================================================
@@ -726,12 +767,12 @@ OSM
     with_controller(ChangesetController.new) do
       get :read, :id => changeset_id
       assert_response :success, "can't re-read changeset for modify test"
-      assert_select "osm>changeset", 1
-      assert_select "osm>changeset[id=#{changeset_id}]", 1
-      assert_select "osm>changeset[min_lon=#{bbox[0].to_f}]", 1
-      assert_select "osm>changeset[min_lat=#{bbox[1].to_f}]", 1
-      assert_select "osm>changeset[max_lon=#{bbox[2].to_f}]", 1
-      assert_select "osm>changeset[max_lat=#{bbox[3].to_f}]", 1
+      assert_select "osm>changeset", 1, "Changeset element doesn't exist in #{@response.body}"
+      assert_select "osm>changeset[id=#{changeset_id}]", 1, "Changeset id=#{changeset_id} doesn't exist in #{@response.body}"
+      assert_select "osm>changeset[min_lon=#{bbox[0].to_f}]", 1, "Changeset min_lon wrong in #{@response.body}"
+      assert_select "osm>changeset[min_lat=#{bbox[1].to_f}]", 1, "Changeset min_lat wrong in #{@response.body}"
+      assert_select "osm>changeset[max_lon=#{bbox[2].to_f}]", 1, "Changeset max_lon wrong in #{@response.body}"
+      assert_select "osm>changeset[max_lat=#{bbox[3].to_f}]", 1, "Changeset max_lat wrong in #{@response.body}"
     end
   end
 
