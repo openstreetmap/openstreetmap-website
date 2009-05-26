@@ -219,6 +219,22 @@ module OSM
   end
 
   ##
+  # raised when bounding box is invalid
+  class APIBadBoundingBox < APIError
+    def initialize(message)
+      @message = message
+    end
+
+    def status
+      :bad_request
+    end
+
+    def to_s
+      @message
+    end
+  end
+
+  ##
   # raised when an API call is made using a method not supported on that URI
   class APIBadMethodError < APIError
     def initialize(supported_method)
