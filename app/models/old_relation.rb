@@ -81,7 +81,7 @@ class OldRelation < ActiveRecord::Base
 #  has_many :relation_tags, :class_name => 'OldRelationTag', :foreign_key => 'id'
 
   def old_members
-    OldRelationMember.find(:all, :conditions => ['id = ? AND version = ?', self.id, self.version])    
+    OldRelationMember.find(:all, :conditions => ['id = ? AND version = ?', self.id, self.version], :order => "sequence_id")
   end
 
   def old_tags
