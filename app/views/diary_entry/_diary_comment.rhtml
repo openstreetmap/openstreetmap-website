@@ -1,3 +1,3 @@
-<h4 id="comment<%= diary_comment.id %>">Comment from <%= link_to h(diary_comment.user.display_name), :controller => 'user', :action => 'view', :display_name => diary_comment.user.display_name %>  at <%= diary_comment.created_at %></h4>
+<h4 id="comment<%= diary_comment.id %>"><%= t('diary_entry.comment_from', :link_user => (link_to h(diary_comment.user.display_name), :controller => 'user', :action => 'view', :display_name => diary_comment.user.display_name), :comment_created_at => l(diary_comment.created_at)) %></h4>
 <%= htmlize(diary_comment.body) %>
 <hr />

@@ -115,7 +115,11 @@ class DiaryEntryController < ApplicationController
 
     if user
       @entry = DiaryEntry.find(:first, :conditions => ['user_id = ? AND id = ?', user.id, params[:id]])
-      @title = "Users' diaries | #{params[:display_name]}"
+      if @entry
+        @title = "Users' diaries | #{params[:display_name]}"
+      else
+        render :action => 'no_such_entry', :status => :not_found
+      end
     else
       @not_found_user = params[:display_name]
 
