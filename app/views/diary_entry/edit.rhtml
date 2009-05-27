@@ -14,7 +14,7 @@
     </tr>
     <tr valign="top">
       <td class="fieldName">Language:</td>
-      <td><%= f.select :language, Language.find(:all).map {|l| [l.name, l.code]} %></td>
+      <td><%= f.collection_select :language, Language.find(:all), :code, :name %></td>
     </tr>
     <tr valign="top">
       <td class="fieldName">Location:</td>
