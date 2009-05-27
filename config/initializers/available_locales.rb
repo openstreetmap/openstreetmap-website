@@ -16,7 +16,3 @@ module I18n
   end
 end
 
-LANGUAGES = 
-{ "en" => "English",
-  "de" => "Deutsch"
-  }
