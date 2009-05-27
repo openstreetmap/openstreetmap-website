@@ -153,15 +153,21 @@ class DiaryEntryControllerTest < ActionController::TestCase
     
   end
   
+  # Check that you can get the expected response and template for all available languages
+  # Should test that there are no <span class="translation_missing">
   def test_listing_diary_entries
-    get :list
-    assert_response :success
-    assert_template 'list'
+    I18n.available_locales.each do |locale|
+      set_locale locale
+      
+      get :list
+      assert_response :success, "Should be able to list the diary entries in #{locale}"
+      assert_template 'list', "Should use the list template in #{locale}"
     
-    # Now try to find a specific user's diary entry
-    get :list, {:display_name => users(:normal_user).display_name}
-    assert_response :success
-    assert_template 'list'
+      # Now try to find a specific user's diary entry
+      get :list, {:display_name => users(:normal_user).display_name}
+      assert_response :success, "Should be able to list the diary entries for a user in #{locale}"
+      assert_template 'list', "Should use the list template for a user in #{locale}"
+    end
   end
   
   def test_rss
