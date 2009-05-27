@@ -102,7 +102,7 @@ class ApplicationController < ActionController::Base
   end
   
   def set_locale
-    request.compatible_language_from(I18n.available_locales)
+    I18n.locale = request.compatible_language_from(I18n.available_locales)
   end
 
   def api_call_handle_error
