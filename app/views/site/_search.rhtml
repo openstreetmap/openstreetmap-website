@@ -31,23 +31,21 @@
 
 <% content_for "optionals" do %>
   <div class="optionalbox">
-    <span class="oboxheader">Search</span>
-    <span class="whereami"><a href="javascript:describeLocation()">Where am I?</a></span>
+    <span class="oboxheader"><%= t 'site.search.search' %></span>
+    <span class="whereami"><a href="javascript:describeLocation()"><%= t 'site.search.where_am_i' %></a></span>
     <div class="search_form">
     <div id="search_field">
     <% form_remote_tag(:loading => "startSearch()",
                        :complete => "endSearch()",
                        :url => { :controller => :geocoder, :action => :search }) do %>
       <%= text_field_tag :query, h(params[:query]) %>
-      <%= submit_tag "Go" %>
+      <%= submit_tag t('site.search.submit_text') %>
     <% end %>
     </div>
-    <p id="search_active">Searching...</p>
+    <p id="search_active"><%= t 'site.search.searching' %></p>
     </div>
     <p class="search_help">
-      examples: 'Alkmaar', 'Regent Street, Cambridge', 'CB2 5AQ',
-      or 'post offices near Lünen'
-      <a href="http://wiki.openstreetmap.org/index.php/Search">more examples...</a>
+      <%= t 'site.search.search_help' %>
     </p>
   </div>
 <% end %>
