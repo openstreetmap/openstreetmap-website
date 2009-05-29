@@ -1,44 +1,36 @@
-<h1>Create a User Account</h1>
+<h1><%= t 'user.new.heading' %></h1>
 
 <% if Acl.find_by_address(request.remote_ip, :conditions => {:k => "no_account_creation"}) %>
 
-<p>Unfortunately we are not currently able to create an account for
-   you automatically.
+<p><%= t 'user.new.no_auto_account_create' %>
 </p>
 
-<p>Please contact the <a href="mailto:webmaster@openstreetmap.org">webmaster</a>
-   to arrange for an account to be created - we will try and deal with
-   the request as quickly as possible. 
+<p><%= t 'user.new.contact_webmaster' %>
 </p>
 
 <% else %>
 
-<p>Fill in the form and we'll send you a quick email to activate your
-   account.
+<p><%= t 'user.new.fill_form' %>
 </p>
 
-<p>By creating an account, you agree that all work uploaded to
-   openstreetmap.org and all data created by use of any tools which
-   connect to openstreetmap.org is to be (non-exclusively) licensed under
-   <a href="http://creativecommons.org/licenses/by-sa/2.0/">this Creative
-   Commons license (by-sa)</a>.
+<p><%= t 'user.new.license_agreement' %>
 </p>
 
 <%= error_messages_for 'user' %>
 
 <% form_tag :action => 'save' do %>
 <table id="loginForm">
-  <tr><td class="fieldName">Email Address : </td><td><%= text_field('user', 'email',{:size => 50, :maxlength => 255, :tabindex => 1}) %></td></tr>
-  <tr><td class="fieldName">Confirm Email Address : </td><td><%= text_field('user', 'email_confirmation',{:size => 50, :maxlength => 255, :tabindex => 2}) %></td></tr>
-  <tr><td></td><td><span class="minorNote">Not displayed publicly (see <a href="http://wiki.openstreetmap.org/index.php/Privacy_Policy" title="wiki privacy policy including section on email addresses">privacy policy</a>)</span></td></tr>
+  <tr><td class="fieldName"><%= t 'user.new.email address' %></td><td><%= text_field('user', 'email',{:size => 50, :maxlength => 255, :tabindex => 1}) %></td></tr>
+  <tr><td class="fieldName"><%= t 'user.new.confirm email address' %></td><td><%= text_field('user', 'email_confirmation',{:size => 50, :maxlength => 255, :tabindex => 2}) %></td></tr>
+  <tr><td></td><td><span class="minorNote"><%= t 'user.new.not displayed publicly' %></span></td></tr>
   <tr><td colspan=2>&nbsp;<!--vertical spacer--></td></tr>
-  <tr><td class="fieldName">Display Name : </td><td><%= text_field('user', 'display_name',{:size => 30, :maxlength => 255, :tabindex => 3}) %></td></tr>
+  <tr><td class="fieldName"><%= t 'user.new.display name' %></td><td><%= text_field('user', 'display_name',{:size => 30, :maxlength => 255, :tabindex => 3}) %></td></tr>
   <tr><td colspan=2>&nbsp;<!--vertical spacer--></td></tr>
-  <tr><td class="fieldName">Password : </td><td><%= password_field('user', 'pass_crypt',{:size => 30, :maxlength => 255, :tabindex => 4}) %></td></tr>
-  <tr><td class="fieldName">Confirm Password : </td><td><%= password_field('user', 'pass_crypt_confirmation',{:size => 30, :maxlength => 255, :tabindex => 5}) %></td></tr>
+  <tr><td class="fieldName"><%= t 'user.new.password' %></td><td><%= password_field('user', 'pass_crypt',{:size => 30, :maxlength => 255, :tabindex => 4}) %></td></tr>
+  <tr><td class="fieldName"><%= t 'user.new.confirm password' %></td><td><%= password_field('user', 'pass_crypt_confirmation',{:size => 30, :maxlength => 255, :tabindex => 5}) %></td></tr>
   
   <tr><td colspan=2>&nbsp;<!--vertical spacer--></td></tr>
-  <tr><td></td><td align=right><input type="submit" value="Signup" tabindex="6"></td></tr>
+  <tr><td></td><td align=right><input type="submit" value="<%= t'user.new.signup' %>" tabindex="6"></td></tr>
 </table>
 <% end %>
 
