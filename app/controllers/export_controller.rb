@@ -1,4 +1,7 @@
 class ExportController < ApplicationController
+
+  before_filter :set_locale
+
   def start
   end
 

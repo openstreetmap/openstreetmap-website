@@ -1,6 +1,7 @@
 class TraceController < ApplicationController
   layout 'site'
 
+  before_filter :set_locale
   before_filter :authorize_web
   before_filter :require_user, :only => [:mine, :create, :edit, :delete, :make_public]
   before_filter :authorize, :only => [:api_details, :api_data, :api_create]
