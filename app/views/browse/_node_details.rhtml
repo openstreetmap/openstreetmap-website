@@ -2,6 +2,11 @@
 
   <%= render :partial => "common_details", :object => node_details %>
 
+  <tr>
+    <th>Coordinates:</th>
+    <td><div class="geo"><a href="/?lat=<%= h(node_details.lat) %>&lon=<%= h(node_details.lon) %>&zoom=18"><span class="latitude"><%= h(node_details.lat) %></span>, <span class="longitude"><%= h(node_details.lon) %></span></a></div></td>
+  </tr>
+
   <% unless node_details.ways.empty? and node_details.containing_relation_members.empty? %>
     <tr valign="top">
       <th>Part of:</th>
