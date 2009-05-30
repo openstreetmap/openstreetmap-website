@@ -72,7 +72,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
           assert_select "form[action='/diary_entry/#{diary_entries(:normal_user_entry_1).id}/edit'][method=post]", :count => 1 do
             assert_select "input#diary_entry_title[name='diary_entry[title]'][value='#{diary_entries(:normal_user_entry_1).title}']", :count => 1
             assert_select "textarea#diary_entry_body[name='diary_entry[body]']", :text => diary_entries(:normal_user_entry_1).body, :count => 1
-            assert_select "select#diary_entry_language", :count => 1
+            assert_select "select#diary_entry_language_code", :count => 1
             assert_select "input#latitude[name='diary_entry[latitude]']", :count => 1
             assert_select "input#longitude[name='diary_entry[longitude]']", :count => 1
             assert_select "input[name=commit][type=submit][value=Save]", :count => 1
@@ -87,10 +87,10 @@ class DiaryEntryControllerTest < ActionController::TestCase
     new_body = "This is a new body for the diary entry"
     new_latitude = "1.1"
     new_longitude = "2.2"
-    new_language = "en"
+    new_language_code = "en"
     post(:edit, {:id => diary_entries(:normal_user_entry_1).id, 'commit' => 'save', 
       'diary_entry'=>{'title' => new_title, 'body' => new_body, 'latitude' => new_latitude,
-      'longitude' => new_longitude, 'language' => new_language} },
+      'longitude' => new_longitude, 'language_code' => new_language_code} },
          {'user' => users(:normal_user).id})
     assert_response :redirect
     assert_redirected_to :action => :view, :id => diary_entries(:normal_user_entry_1).id
