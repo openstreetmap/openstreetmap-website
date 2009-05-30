@@ -27,7 +27,7 @@ class UserController < ApplicationController
       @user.locale = Language.find_by_code("en") if @user.locale.nil?
 
       if @user.save
-        flash[:notice] = I18n.t('user.new.create success message')
+        flash[:notice] = I18n.t('user.new.flash create success message')
         Notifier.deliver_signup_confirm(@user, @user.tokens.create)
         redirect_to :action => 'login'
       else
