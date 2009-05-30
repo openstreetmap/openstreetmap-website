@@ -1,4 +1,4 @@
-page.replace_html :sidebar_title, 'Data'
+page.replace_html :sidebar_title, t('browse.start_rjs.data_frame_title')
 page.replace_html :sidebar_content, :partial => 'start'
 page << <<EOJ
   var browseBoxControl;
@@ -41,7 +41,7 @@ page << <<EOJ
       if (map.getZoom() >= 15) {
           useMap();
       } else {
-          setStatus("Zoom in or select an area of the map to view");
+          setStatus("#{I18n.t('browse.start_rjs.zoom_or_select')}");
       }    
     }
   }
@@ -76,7 +76,7 @@ page << <<EOJ
   }
 
   function startDrag() {
-    $("browse_select_box").innerHTML='Drag a box on the map to select an area';
+    $("browse_select_box").innerHTML='#{I18n.t('browse.start_rjs.drag_a_box')}';
 
     browseBoxControl.activate();
 
@@ -121,7 +121,7 @@ page << <<EOJ
 
     browseMode = "manual";  
 
-    $("browse_select_box").innerHTML = "Manually select a different area";
+    $("browse_select_box").innerHTML = "#{I18n.t('browse.start_rjs.manually_select')}";
     $("browse_select_view").style.display = "inline";
   }
 
@@ -131,12 +131,12 @@ page << <<EOJ
     var div = document.createElement("div");
 
     var p = document.createElement("p");
-    p.appendChild(document.createTextNode("You have loaded an area which contains " + browseFeatureList.length + " features. In general, some browsers may not cope well with displaying this quantity of data. Generally, browsers work best at displaying less than 100 features at a time: doing anything else may make your browser slow/unresponsive. If you are sure you want to display this data, you may do so by clicking the button below."));
+    p.appendChild(document.createTextNode("#{I18n.t('browse.start_rjs.loaded_an_area')} " + browseFeatureList.length + " #{I18n.t('browse.start_rjs.browsers')}"));
     div.appendChild(p);
 
     var input = document.createElement("input");
     input.type = "submit";
-    input.value = "Load Data";
+    input.value = "#{I18n.t('browse.start_rjs.load_data')}";
     input.onclick = loadFeatureList;
     div.appendChild(input); 
 
@@ -187,14 +187,14 @@ page << <<EOJ
     var size = projected.getWidth() * projected.getHeight();
 
     if (size > 0.25) {
-      setStatus("Unable to load: Bounding box size of " + size + " is too large (must be smaller than 0.25)");
+      setStatus("#{I18n.t('browse.start_rjs.unable_to_load')} " + size + " #{I18n.t('must_be_smaller')}");
     } else {
       loadGML("/api/#{API_VERSION}/map?bbox=" + projected.toBBOX());
     }
   }
 
   function loadGML(url) {
-    setStatus("Loading...");
+    setStatus("#{I18n.t('browse.start_rjs.loading')}");
     $("browse_content").innerHTML = "";
 
     if (!browseDataLayer) {
@@ -381,7 +381,7 @@ page << <<EOJ
         
     var link = document.createElement("a");   
     link.href =  "/browse/" + type + "/" + feature.osm_id + "/history";
-    link.appendChild(document.createTextNode("Show history"));
+    link.appendChild(document.createTextNode("#{I18n.t('browse.start_rjs.show_history')}"));
     link.onclick = OpenLayers.Function.bind(loadHistory, {
       type: type, feature: feature, link: link
     });
@@ -394,7 +394,7 @@ page << <<EOJ
 
   function loadHistory() {
     this.link.href = "";
-    this.link.innerHTML = "Wait...";
+    this.link.innerHTML = "#{I18n.t('browse.start_rjs.wait')}";
 
     new Ajax.Request("/api/#{API_VERSION}/" + this.type + "/" + this.feature.osm_id + "/history", {
       onComplete: OpenLayers.Function.bind(displayHistory, this)
@@ -421,7 +421,7 @@ page << <<EOJ
     table.appendChild(tr);
 
     var heading = document.createElement("td");
-    heading.appendChild(document.createTextNode("History for " + featureName(this.feature)));
+    heading.appendChild(document.createTextNode("#{I18n.t('browse.start_rjs.history_for')} " + featureName(this.feature)));
     tr.appendChild(heading);
 
     var td = document.createElement("td");
@@ -430,7 +430,7 @@ page << <<EOJ
 
     var link = document.createElement("a");   
     link.href = "/browse/" + this.type + "/" + this.feature.osm_id + "/history";
-    link.appendChild(document.createTextNode("Details"));
+    link.appendChild(document.createTextNode("#{I18n.t('browse.start_rjs.details')}"));
     td.appendChild(link);
 
     var div = document.createElement("div");
@@ -439,10 +439,10 @@ page << <<EOJ
     var nodes = doc.getElementsByTagName(this.type);
     var history = document.createElement("ul");  
     for (var i = nodes.length - 1; i >= 0; i--) {
-      var user = nodes[i].getAttribute("user") || "private user";
+      var user = nodes[i].getAttribute("user") || "#{I18n.t('browse.start_rjs.private_user')}";
       var timestamp = nodes[i].getAttribute("timestamp");
       var item = document.createElement("li");
-      item.appendChild(document.createTextNode("Edited by " + user + " at " + timestamp));
+      item.appendChild(document.createTextNode("#{I18n.t('browse.start_rjs.edited_by')} " + user + " #{I18n.t('browse.start_rjs.at_timestamp')} " + timestamp));
       history.appendChild(item);
     }
     div.appendChild(history);
