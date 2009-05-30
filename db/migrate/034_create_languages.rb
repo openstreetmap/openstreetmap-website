@@ -19,7 +19,7 @@ class CreateLanguages < ActiveRecord::Migration
     end
 
     add_foreign_key :users, [:locale], :languages, [:code]
-    add_foreign_key :diary_entries, [:language], :languages, [:code]    
+    add_foreign_key :diary_entries, [:language_code], :languages, [:code]    
   end
 
   def self.down
