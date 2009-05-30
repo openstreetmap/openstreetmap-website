@@ -3,6 +3,35 @@ de:
     view: Karte
     edit: Bearbeiten
     coordinates: "Koordinaten:"
+  browse:
+    changeset:
+      changeset: "Changeset:"
+      download: "Download {{changeset_xml_link}} or {{osmchange_xml_link}}"
+      changesetxml: "Changeset XML"
+      osmchangexml: "osmChange XML"
+    changeset_details:
+      created_at: "Erstellt am:"
+      closed_at: "Geschlossen am:"
+      belongs_to: "Belongs to:"
+      bounding_box: "Bounding box:"
+      no_bounding_box: "No bounding box has been stored for this changeset."
+      show_area_box: "Show Area Box"
+      box: "box"
+      has_nodes: "Has the following {{node_count}} nodes:"
+      has_ways: "Has the following {{way_count}} ways:"
+      has_relations: "Has the following {{relation_count}} relations:"
+    common_details: 
+      edited_at: "Bearbeitet am:"
+      edited_by: "Bearbeitet von:"
+      version: "Version:"
+      in_changeset: "In changeset:"
+    containing_relation:
+      relation: "Relation {{relation_name}}"
+      relation_as: "(as {{relation_role}})"
+    map:
+      loading: "Loading..."
+      deleted: "Gelöscht"
+      view_larger_map: "Größere Karte"
   diary_entry:
     list:
       new: Neuer Tagebucheintrag
@@ -12,12 +41,12 @@ de:
       older_entries: Ältere Einträge
       newer_entries: Neuere Einträge
     edit:
-      subject: "Betreff:"
-      body: "Text:"
-      language: "Language:"
-      location: "Ort:"
-      latitude: "Breitengrad:"
-      longitude: "Längengrad:"
+      subject: "Betreff: "
+      body: "Text: "
+      language: "Sprache: "
+      location: "Ort: "
+      latitude: "Breitengrad: "
+      longitude: "Längengrad: "
       use_map_link: "Karte nutzen"
       save_button: "Speichern"
       marker_text: Ort des Tagebucheintrages
@@ -85,30 +114,38 @@ de:
       map_key: "Legende"
   user:
     login:
-      heading: Anmelde
+      heading: Anmelden
       please login: "Bitte melde dich an oder {{create_user_link}}."
       create_account: erstelle ein Benutzerkonto
-      email or username: "E-Mail Adresse oder Benutzername: "
+      email or username: "E-Mail-Adresse oder Benutzername: "
       password: "Passwort: "
       lost password link: "Passwort vergessen?"
       login_button: Anmelden
     lost_password:
+      title: Passwort verloren
       heading: "Passwort vergessen?"
-      email address: "E-Mail Addresse:"
+      email address: "E-Mail-Adresse:"
       new password button: "Sende mir ein neues Passwort"
+      notice email on way: "Sorry you lost it :-( but an email is on its way so you can reset it soon."
+      notice email cannot find: "Couldn't find that email address, sorry."
+    reset_password:
+      title: reset password
+      flash changed check mail: "Your password has been changed and is on its way to your mailbox :-)"
+      flash token bad: "Didn't find that token, check the URL maybe?"
     new:
       heading: Erstelle ein Benutzerkonto
       no_auto_account_create: "Leider ist das automatische Erstellen eines Benutzerkontos gerade nicht möglich."
       contact_webmaster: 'Bitte kontaktiere den <a href="mailto:webmaster@openstreetmap.org">Webmaster</a> um ein Benutzerkonto erstellt zu bekommen - wir werden die Anfrage so schnell wie möglich bearbeiten. '
       fill_form: "Fülle das Formular aus und dir wird eine kurze E-Mail zur Aktivierung deines Accounts geschickt."
       license_agreement: 'Mit der Accounterstellung stimmst du zu, dass alle Daten, die du zu openstreetmap.org hochlädst und alle Daten, die du mit irgendeinem externem Programm, dass sich mit openstreetmap.org verbindet, erstellst, (nicht exklusiv) unter <a href="http://creativecommons.org/licenses/by-sa/2.0/">dieser Creative Commons Lizenz (by-sa) lizenziert werden.</a>.'
-      email address: "E-Mail Addresse: "
-      confirm email address: "Bestätige deine E-Mail Addresse: "
+      email address: "E-Mail-Adresse: "
+      confirm email address: "Bestätige deine E-Mail-Adresse: "
       not displayed publicly: 'Nicht öffentlich sichtbar (<a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="wiki privacy policy including section on email addresses">Datenschutzrichtlinie</a>)'
       display name: "Benutzername: "
       password: "Passwort: "
       confirm password: "Passwort bestätigen: "
       signup: Registieren
+      flash create success message: "User was successfully created. Check your email for a confirmation note, and you\'ll be mapping in no time :-)<br /><br />Please note that you won't be able to login until you've received and confirmed your email address.<br /><br />If you use an antispam system which sends confirmation requests then please make sure you whitelist webmaster@openstreetmap.org as we are unable to reply to any confirmation requests."
     no_such_user:
       body: "Es gibt leider keinen Benutzer mit dem Namen {{user}}. Bitte überprüfe deine Schreibweise oder der Link war beschädigt."
     view:
@@ -142,3 +179,36 @@ de:
     friend_map:
       your location: Dein Standort
       nearby mapper: "Mapper in der Nähe: "
+    account:
+      my settings: Meine Einstellungen
+      email never displayed publicly: "(nicht öffentlich sichtbar)"
+      public editing:
+        heading: "Öffentliches Bearbeiten: "
+        enabled: "Aktiviert. Nicht anonym, bearbeiten der Kartendaten möglich."
+        enabled link: "http://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits"
+        enabled link text: "Was ist das?"
+        disabled: "Deaktiviert, bearbeiten von Daten nicht möglich, alle bisherigen Bearbeitungen sind anonym."
+        disabled link text: "Warum kann ich nichts bearbeiten?"
+      profile description: "Profil Beschreibung: "
+      home location: "Standort: "
+      no home location: "Du hast noch keinen Standort angegeben."
+      latitude: "Breitengrad: "
+      longitude: "Längengrad: "
+      update home location on click: "Standort bei Klick auf die Karte aktualisieren?"
+      save changes button: Speichere Änderungen
+      make edits public button: Mache alle meine Bearbeitungen öffentlich
+      return to profile: Zurück zum Profil
+      flash update success confirm needed: "Benutzerinformationen erfolgreich aktualisiert. Du erzählst eine E-Mail, um deine neue E-Mail-Adresse zu bestätigen."
+      flash update success: "Benutzerinformationen erfolgreich aktualisiert."
+    confirm:
+      heading: Bestätige das Benutzerkonto
+      press confirm button: "Aktiviere dein Account, indem du auf den Bestätigungsbutton klickst."
+      button: Bestätigen
+    confirm email:
+      heading: Bestätige die Änderung der E-Mail-Adresse
+      press confirm button: "Bestätige deine neue E-Mail-Adresse, indem du auf den Bestätigungsbutton klickst."
+      button: Bestätigen
+    set_home:
+      flash success: "Standort erfolgreich gespeichert"
+    go_public:
+      flash success: "Alle deine Bearbeitungen sind nun öffentlich und du kannst nun die Kartendaten bearbeiten."
