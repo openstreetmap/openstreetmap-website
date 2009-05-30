@@ -5,10 +5,10 @@
   <% if map.instance_of? Changeset or map.visible %>
     <div id="small_map" style="width:250px; height: 300px; border: solid 1px black">
     </div>
-    <span id="loading">Loading...</span>
+    <span id="loading"><%= t 'browse.map.loading' %></span>
     <a id="larger_map" href=""></a>
   <% else %>
-    Deleted
+    <%= t 'browse.map.deleted' %>
   <% end %>
 </td>
 <script type="text/javascript">
@@ -30,7 +30,7 @@
     $("loading").innerHTML = "";
 
     $("larger_map").href = '/?minlon='+minlon+'&minlat='+minlat+'&maxlon='+maxlon+'&maxlat='+maxlat+'&box=yes';
-    $("larger_map").innerHTML = "View Larger Map";
+    $("larger_map").innerHTML = "<%= t 'browse.map.view_larger_map' %>";
     <% else %>
     var obj_type = "<%= map.class.name.downcase %>";
     var obj_id = <%= map.id %>;
@@ -63,7 +63,7 @@
 
 	var center = getMapCenter();
         $("larger_map").href = '/?lat='+center.lat+'&lon='+center.lon+'&zoom='+this.map.getZoom();
-        $("larger_map").innerHTML = "View Larger Map";
+        $("larger_map").innerHTML = "<%= t 'browse.map.view_larger_map' %>";
       } else {
         $("small_map").style.display = "none";
       }
