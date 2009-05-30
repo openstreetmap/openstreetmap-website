@@ -13,8 +13,6 @@ class DiaryEntryController < ApplicationController
     if params[:diary_entry]     
       @diary_entry = DiaryEntry.new(params[:diary_entry])
       @diary_entry.user = @user
-      @diary_entry.language = Language.find_by_code(params[:language])
-      @diary_entry.language = Language.find_by_code("en") if @diary_entry.language.nil?
 
       if @diary_entry.save 
         redirect_to :controller => 'diary_entry', :action => 'list', :display_name => @user.display_name 
@@ -22,6 +20,7 @@ class DiaryEntryController < ApplicationController
         render :action => 'edit'
       end
     else
+      @diary_entry = DiaryEntry.new(:language => @user.language)
       render :action => 'edit'
     end
   end

@@ -3,17 +3,19 @@ require 'lib/migrate'
 class CreateLanguages < ActiveRecord::Migration
   def self.up
     create_table :languages, innodb_table do |t|
-      t.string :code, :limit => 5, :null => false
-      t.string :name, :null => false
-      t.boolean :translation_available, :null => false, :default => false
+      t.string :code, :null => false
+      t.string :english_name, :null => false
+      t.string :native_name
     end
 
     add_primary_key :languages, [:code]
 
-    Language.create do |l|
-      l.code = 'en'
-      l.name = 'English'
-      l.translation_available = true
+    YAML.load(File.read(RAILS_ROOT + "/config/languages.yml")).each do |k,v|
+      Language.create do |l|
+        l.code = k
+        l.english_name = v["english"]
+        l.native_name = v["native"]
+      end
     end
 
     add_foreign_key :users, [:locale], :languages, [:code]
