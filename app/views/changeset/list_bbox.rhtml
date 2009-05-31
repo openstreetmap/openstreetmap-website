@@ -1,4 +1,4 @@
-<h1>History</h1>
+<h1><%= t'changeset.list_bbox.history' %></h1>
 <%
 if @bbox!=nil
 	minlon = @bbox[0] 
@@ -8,20 +8,20 @@ if @bbox!=nil
 
 	%>
 <p>
-Changesets within the area: 
-      (<a href='/?minlon=<%= minlon %>&minlat=<%= minlat %>&maxlon=<%= maxlon %>&maxlat=<%= maxlat %>&box=yes' title='show area box'><%= format("%0.3f",minlon) -%>,<%= format("%0.3f",minlat) -%>,<%= format("%0.3f",maxlon) -%>,<%= format("%0.3f",maxlat) -%></a>) 
+<%= t'changeset.list_bbox.changesets.within_the_area' %> 
+      (<a href='/?minlon=<%= minlon %>&minlat=<%= minlat %>&maxlon=<%= maxlon %>&maxlat=<%= maxlat %>&box=yes' title='<%= t'changeset.list_bbox.show_area_box' %>'><%= format("%0.3f",minlon) -%>,<%= format("%0.3f",minlat) -%>,<%= format("%0.3f",maxlon) -%>,<%= format("%0.3f",maxlat) -%></a>) 
 
 </p>
 
 <%	if @edits.nil? or @edits.empty? %>
-<p><b>No changesets</b></p>
+<p><b><%= t'changeset.list_bbox.no_changesets' %></b></p>
 <%	else %>
 
 <%= render :partial => 'changeset_paging_nav' %>
 <%= render :partial => 'changesets' %>
 <%= render :partial => 'changeset_paging_nav' %>
 
-<p>For all changes everywhere see <%=  link_to("Recent Changes", :controller => "browse", :action => "changesets") %> </p>
+<p><%= t'changeset.list_bbox.all_changes_everywhere' , :recent_changes_link => link_to(t('changest.list_bbox.recent_changes'), :controller => "browse", :action => "changesets") %> </p>
 
 <%
 	end
@@ -30,9 +30,9 @@ else
 	#bbox is nil. happens if the user surfs to this page directly.
 %>
 
-<p>No area specified</p>
-<p>First use the <a href="/" title="view the map">view tab</a> to pan and zoom to an area of interest, then click the history tab.</p>
-<p>Alternatively view all <%=  link_to("recent changes", :controller => "browse", :action => "changesets") %> </p>
+<p><%= t'changeset.list_bbox.no_area_specified' %></p>
+<p><%= t'changeset.list_bbox.first_use_view', :view_tab_link => '<a href="/" title="' + t('changeset.list_bbox.view_the_map') + '">' + t('changeset.list_bbox.view_tab') + '</a>' %></p>
+<p><%= t'changeset.list_bbox.alternatively_view', :recent_changes_link => link_to(t('changeset.list_bbox.recent_changes'), :controller => "browse", :action => "changesets") %></p>
 
 <%
 end

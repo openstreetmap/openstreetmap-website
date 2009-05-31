@@ -1,11 +1,11 @@
 <% current_page = @edit_pages.current_page %>
 
-Showing page 
+<%= t'changeset.changeset_paging_nav.showing_page' %> 
 <%= current_page.number %> (<%= current_page.first_item %><% 
 if (current_page.first_item < current_page.last_item) # if more than 1 changeset on page 
   %>-<%= current_page.last_item %><% 
 end %>
-of <%= @edit_pages.item_count %>)
+<%= t'changeset.changeset_paging_nav.of'%> <%= @edit_pages.item_count %>)
 
 <%
 if @edit_pages.page_count > 1 
