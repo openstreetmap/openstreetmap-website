@@ -50,10 +50,13 @@ class UserController < ApplicationController
       end
 
       @user.description = params[:user][:description]
+      @user.languages = params[:user][:languages].split(",")
       @user.home_lat = params[:user][:home_lat]
       @user.home_lon = params[:user][:home_lon]
 
       if @user.save
+        set_locale
+
         if params[:user][:email] == @user.new_email
           flash[:notice] = I18n.t('user.account.flash update success confirm needed')
           Notifier.deliver_email_confirm(@user, @user.tokens.create)
