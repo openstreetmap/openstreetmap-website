@@ -8,7 +8,7 @@ class DiaryEntryController < ApplicationController
   before_filter :check_database_writable, :only => [:new, :edit]
 
   def new
-    @title = 'New diary entry'
+    @title = I18n.t('diary_entry.list.new')
 
     if params[:diary_entry]     
       @diary_entry = DiaryEntry.new(params[:diary_entry])
@@ -26,7 +26,7 @@ class DiaryEntryController < ApplicationController
   end
 
   def edit
-    @title= 'Edit diary entry'
+    @title= I18n.t('diary_entry.edit.title')
     @diary_entry = DiaryEntry.find(params[:id])
 
     if @user != @diary_entry.user
@@ -70,7 +70,7 @@ class DiaryEntryController < ApplicationController
         render :action => 'no_such_user', :status => :not_found
       end
     else
-      @title = "Users' diaries"
+      @title = I18n.t('diary_entry.list.title')
       @entry_pages, @entries = paginate(:diary_entries, :include => :user,
                                         :conditions => ["users.visible = ?", true],
                                         :order => 'created_at DESC',
