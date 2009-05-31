@@ -327,7 +327,7 @@ page << <<EOJ
     var ymax = bounds.top * Math.PI / 180;
     var yzoom = Math.LOG2E * (Math.log(2000 * 2 * Math.PI) - Math.log(Math.log((Math.tan(ymax) + 1 / Math.cos(ymax)) / (Math.tan(ymin) + 1 / Math.cos(ymin)))))
 
-    return Math.floor(Math.min(xzoom, yzoom));
+    return Math.min(Math.floor(Math.min(xzoom, yzoom)), 17);
   }
 
   function roundScale(scale) {
