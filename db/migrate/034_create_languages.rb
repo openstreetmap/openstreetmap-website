@@ -23,7 +23,10 @@ class CreateLanguages < ActiveRecord::Migration
   end
 
   def self.down
-    raise IrreversibleMigration.new
+    remove_foreign_key :diary_entries, [:language_code], :languages, [:code]
+    remove_foreign_key :users, [:locale], :languages, [:code]
+
+    drop_table :languages
   end
 end
 

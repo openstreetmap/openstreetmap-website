@@ -21,6 +21,11 @@ module ActiveRecord
 	  "REFERENCES #{reftbl} (#{quote_column_names(refcol || column_name)})"
       end
 
+      def remove_foreign_key(table_name, column_name, reftbl, refcol = nil)
+        execute "ALTER TABLE #{table_name} DROP " +
+          "CONSTRAINT #{table_name}_#{column_name[0]}_fkey"
+      end
+
       alias_method :old_options_include_default?, :options_include_default?
 
       def options_include_default?(options)
