@@ -16,7 +16,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     #print @response.to_yaml
     assert_select "html:root", :count => 1 do
       assert_select "head", :count => 1 do
-        assert_select "title", :text => /New diary entry/, :count => 1
+        assert_select "title", :text => /New Diary Entry/, :count => 1
       end
       assert_select "body", :count => 1 do
         assert_select "div#content", :count => 1 do
