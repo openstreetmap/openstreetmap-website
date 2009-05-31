@@ -60,18 +60,19 @@ class WayController < ApplicationController
   end
 
   def full
-    way = Way.find(params[:id])
+    way = Way.find(params[:id], :include => {:nodes => :node_tags})
     
     if way.visible
-      nd_ids = way.nds + [-1]
-      nodes = Node.find(:all, :conditions => ["visible = ? AND id IN (#{nd_ids.join(',')})", true])
-      
-      # Render
+      changeset_cache = {}
+      user_display_name_cache = {}
+
       doc = OSM::API.new.get_xml_doc
-      nodes.each do |node|
-        doc.root << node.to_xml_node()
+      way.nodes.each do |node|
+        if node.visible
+          doc.root << node.to_xml_node(changeset_cache, user_display_name_cache)
+        end
       end
-      doc.root << way.to_xml_node()
+      doc.root << way.to_xml_node(nil, changeset_cache, user_display_name_cache)
       
       render :text => doc.to_s, :content_type => "text/xml"
     else
