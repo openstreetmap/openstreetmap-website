@@ -85,6 +85,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/browse/changesets', :controller => 'changeset', :action => 'list'
   
   # web site
+  map.root :controller => 'site', :action => 'index'
   map.connect '/', :controller => 'site', :action => 'index'
   map.connect '/edit', :controller => 'site', :action => 'edit'
   map.connect '/history', :controller => 'changeset', :action => 'list_bbox'
