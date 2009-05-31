@@ -2,12 +2,13 @@ class DiaryEntryController < ApplicationController
   layout 'site', :except => :rss
 
   before_filter :authorize_web
+  before_filter :set_locale
   before_filter :require_user, :only => [:new, :edit]
   before_filter :check_database_readable
   before_filter :check_database_writable, :only => [:new, :edit]
 
   def new
-    @title = 'New diary entry'
+    @title = I18n.t('diary_entry.list.new')
 
     if params[:diary_entry]     
       @diary_entry = DiaryEntry.new(params[:diary_entry])
@@ -19,23 +20,21 @@ class DiaryEntryController < ApplicationController
         render :action => 'edit'
       end
     else
+      @diary_entry = DiaryEntry.new(:language_code => @user.preferred_language)
       render :action => 'edit'
     end
   end
 
   def edit
-    @title= 'Edit diary entry'
+    @title= I18n.t('diary_entry.edit.title')
     @diary_entry = DiaryEntry.find(params[:id])
 
     if @user != @diary_entry.user
       redirect_to :controller => 'diary_entry', :action => 'view', :id => params[:id]
     elsif params[:diary_entry]
-      @diary_entry.title = params[:diary_entry][:title]
-      @diary_entry.body = params[:diary_entry][:body]
-      @diary_entry.latitude = params[:diary_entry][:latitude]
-      @diary_entry.longitude = params[:diary_entry][:longitude]
-
-      if @diary_entry.save
+      params[:diary_entry][:language] = Language.find_by_code(params[:diary_entry][:language])
+      params[:diary_entry][:language] = Language.find_by_code("en") if params[:diary_entry][:language].nil?
+      if @diary_entry.update_attributes(params[:diary_entry])
         redirect_to :controller => 'diary_entry', :action => 'view', :id => params[:id]
       end
     end
@@ -71,7 +70,7 @@ class DiaryEntryController < ApplicationController
         render :action => 'no_such_user', :status => :not_found
       end
     else
-      @title = "Users' diaries"
+      @title = I18n.t('diary_entry.list.title')
       @entry_pages, @entries = paginate(:diary_entries, :include => :user,
                                         :conditions => ["users.visible = ?", true],
                                         :order => 'created_at DESC',
@@ -93,6 +92,15 @@ class DiaryEntryController < ApplicationController
       else
         render :nothing => true, :status => :not_found
       end
+    elsif params[:language]
+      @entries = DiaryEntry.find(:all, :include => :user,
+        :conditions => ["users.visible = ? AND diary_entries.language = ?", true, params[:language]],
+        :order => 'created_at DESC', :limit => 20)
+      @title = "OpenStreetMap diary entries in #{params[:language]}"
+      @description = "Recent diary entries from users of OpenStreetMap"
+      @link = "http://#{SERVER_URL}/diary/#{params[:language]}"
+      
+      render :content_type => Mime::RSS
     else
       @entries = DiaryEntry.find(:all, :include => :user,
                                  :conditions => ["users.visible = ?", true],
@@ -110,7 +118,11 @@ class DiaryEntryController < ApplicationController
 
     if user
       @entry = DiaryEntry.find(:first, :conditions => ['user_id = ? AND id = ?', user.id, params[:id]])
-      @title = "Users' diaries | #{params[:display_name]}"
+      if @entry
+        @title = "Users' diaries | #{params[:display_name]}"
+      else
+        render :action => 'no_such_entry', :status => :not_found
+      end
     else
       @not_found_user = params[:display_name]
 

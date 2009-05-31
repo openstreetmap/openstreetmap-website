@@ -78,6 +78,22 @@ class User < ActiveRecord::Base
     return el1
   end
 
+  def languages
+    attribute_present?(:languages) ? read_attribute(:languages).split(",") : []
+  end
+
+  def languages=(languages)
+    write_attribute(:languages, languages.join(","))
+  end
+
+  def preferred_language
+    languages.find { |l| Language.find(:first, :conditions => { :code => l }) }
+  end
+
+  def preferred_language_from(array)
+    (languages & array.collect { |i| i.to_s }).first
+  end
+
   def nearby(radius = 50, num = 10)
     if self.home_lon and self.home_lat 
       gc = OSM::GreatCircle.new(self.home_lat, self.home_lon)

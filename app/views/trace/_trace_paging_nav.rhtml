@@ -1,11 +1,11 @@
 <% current_page = @trace_pages.current_page %>
 
-Showing page 
+<%= t'trace.trace_paging_nav.showing' %> 
 <%= current_page.number %> (<%= current_page.first_item %><% 
 if (current_page.first_item < current_page.last_item) # if more than 1 trace on page 
   %>-<%= current_page.last_item %><% 
 end %>
-of <%= @trace_pages.item_count %>)
+<%= t'trace.trace_paging_nav.of' %> <%= @trace_pages.item_count %>)
 
 <% if @trace_pages.page_count > 1 %>
  | <%= pagination_links_each(@trace_pages, {}) { |n| link_to_page(n) } %>

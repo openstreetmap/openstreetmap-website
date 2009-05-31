@@ -3,6 +3,7 @@ class UserController < ApplicationController
 
   before_filter :authorize, :only => [:api_details, :api_gpx_files]
   before_filter :authorize_web, :except => [:api_details, :api_gpx_files]
+  before_filter :set_locale, :except => [:api_details, :api_gpx_files]
   before_filter :require_user, :only => [:set_home, :account, :go_public, :make_friend, :remove_friend, :upload_image, :delete_image]
   before_filter :check_database_readable, :except => [:api_details, :api_gpx_files]
   before_filter :check_database_writable, :only => [:login, :new, :set_home, :account, :go_public, :make_friend, :remove_friend, :upload_image, :delete_image]
@@ -22,9 +23,10 @@ class UserController < ApplicationController
       @user.data_public = true
       @user.description = "" if @user.description.nil?
       @user.creation_ip = request.remote_ip
+      @user.languages = request.user_preferred_languages
 
       if @user.save
-        flash[:notice] = "User was successfully created. Check your email for a confirmation note, and you\'ll be mapping in no time :-)<br /><br />Please note that you won't be able to login until you've received and confirmed your email address.<br /><br />If you use an antispam system which sends confirmation requests then please make sure you whitelist webmaster@openstreetmap.org as we are unable to reply to any confirmation requests."
+        flash[:notice] = I18n.t('user.new.flash create success message')
         Notifier.deliver_signup_confirm(@user, @user.tokens.create)
         redirect_to :action => 'login'
       else
@@ -48,15 +50,18 @@ class UserController < ApplicationController
       end
 
       @user.description = params[:user][:description]
+      @user.languages = params[:user][:languages].split(",")
       @user.home_lat = params[:user][:home_lat]
       @user.home_lon = params[:user][:home_lon]
 
       if @user.save
+        set_locale
+
         if params[:user][:email] == @user.new_email
-          @notice = "User information updated successfully. Check your email for a note to confirm your new email address."
+          flash[:notice] = I18n.t('user.account.flash update success confirm needed')
           Notifier.deliver_email_confirm(@user, @user.tokens.create)
         else
-          @notice = "User information updated successfully."
+          flash[:notice] = I18n.t('user.account.flash update success')
         end
       end
     end
@@ -67,7 +72,7 @@ class UserController < ApplicationController
       @user.home_lat = params[:user][:home_lat].to_f
       @user.home_lon = params[:user][:home_lon].to_f
       if @user.save
-        flash[:notice] = "Home location saved successfully."
+        flash[:notice] = I18n.t('user.set_home.flash success')
         redirect_to :controller => 'user', :action => 'account'
       end
     end
@@ -76,27 +81,27 @@ class UserController < ApplicationController
   def go_public
     @user.data_public = true
     @user.save
-    flash[:notice] = 'All your edits are now public.'
+    flash[:notice] = I18n.t('user.go_public.flash success')
     redirect_to :controller => 'user', :action => 'account', :display_name => @user.display_name
   end
 
   def lost_password
-    @title = 'lost password'
+    @title = I18n.t('user.lost_password.title')
     if params[:user] and params[:user][:email]
       user = User.find_by_email(params[:user][:email], :conditions => {:visible => true})
 
       if user
         token = user.tokens.create
         Notifier.deliver_lost_password(user, token)
-        @notice = "Sorry you lost it :-( but an email is on its way so you can reset it soon."
+        flash[:notice] = I18n.t('user.lost_password.notice.email on way')
       else
-        @notice = "Couldn't find that email address, sorry."
+        flash[:notice] = I18n.t('user.lost_password.notice email cannot find')
       end
     end
   end
 
   def reset_password
-    @title = 'reset password'
+    @title = I18n.t('user.reset_password.title')
     if params['token']
       token = UserToken.find_by_token(params[:token])
       if token
@@ -109,9 +114,9 @@ class UserController < ApplicationController
         user.save!
         token.destroy
         Notifier.deliver_reset_password(user, pass)
-        flash[:notice] = "Your password has been changed and is on its way to your mailbox :-)"
+        flash[:notice] = I18n.t('user.reset_password.flash changed check mail')
       else
-        flash[:notice] = "Didn't find that token, check the URL maybe?"
+        flash[:notice] = I18n.t('user.reset_password.flash token bad')
       end
     end
 

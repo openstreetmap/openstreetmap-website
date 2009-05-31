@@ -1,22 +1,22 @@
 <tr>
-  <th>Edited at:</th>
-  <td><%= h(common_details.timestamp) %></td>
+  <th><%= t 'browse.common_details.edited_at' %></th>
+  <td><%= l common_details.timestamp %></td>
 </tr>
 
 <% if common_details.changeset.user.data_public? %>
   <tr>
-    <th>Edited by:</th>
+    <th><%= t 'browse.common_details.edited_by' %></th>
     <td><%= link_to h(common_details.changeset.user.display_name), :controller => "user", :action => "view", :display_name => common_details.changeset.user.display_name %></td>
   </tr>
 <% end %>
 
 <tr>
-  <th>Version:</th>
+  <th><%= t 'browse.common_details.version' %></th>
   <td><%= h(common_details.version) %></td>
 </tr>
 
 <tr>
-  <th>In changeset:</th>
+  <th><%= t 'browse.common_details.in_changeset' %></th>
   <td><%= link_to common_details.changeset_id, :action => :changeset, :id => common_details.changeset_id %></td>
 </tr>
 

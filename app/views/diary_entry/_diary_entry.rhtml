@@ -1,19 +1,19 @@
 <b><%= link_to h(diary_entry.title), :action => 'view', :display_name => diary_entry.user.display_name, :id => diary_entry.id %></b><br />
 <%= htmlize(diary_entry.body) %>
 <% if diary_entry.latitude and diary_entry.longitude %>
-Coordinates: <div class="geo" style="display: inline"><span class="latitude"><%= diary_entry.latitude %></span>; <span class="longitude"><%= diary_entry.longitude %></span></div> (<%=link_to 'map', :controller => 'site', :action => 'index', :lat => diary_entry.latitude, :lon => diary_entry.longitude, :zoom => 14 %> / <%=link_to 'edit', :controller => 'site', :action => 'edit', :lat => diary_entry.latitude, :lon => diary_entry.longitude, :zoom => 14 %>)<br/>
+<%= t 'map.coordinates' %> <div class="geo" style="display: inline"><span class="latitude"><%= diary_entry.latitude %></span>; <span class="longitude"><%= diary_entry.longitude %></span></div> (<%=link_to (t 'map.view'), :controller => 'site', :action => 'index', :lat => diary_entry.latitude, :lon => diary_entry.longitude, :zoom => 14 %> / <%=link_to (t 'map.edit'), :controller => 'site', :action => 'edit', :lat => diary_entry.latitude, :lon => diary_entry.longitude, :zoom => 14 %>)<br/>
 <% end %>
-Posted by <b><%= link_to h(diary_entry.user.display_name), :controller => 'user', :action => 'view', :display_name => diary_entry.user.display_name %></b> at <%= diary_entry.created_at %>
+<%= t 'diary_entry.posted_by', :link_user => (link_to h(diary_entry.user.display_name), :controller => 'user', :action => 'view', :display_name => diary_entry.user.display_name), :created => l(diary_entry.created_at), :language => diary_entry.language.name %>
 <% if params[:action] == 'list' %>
 <br />
-<%= link_to 'Comment on this entry', :action => 'view', :display_name => diary_entry.user.display_name, :id => diary_entry.id, :anchor => 'newcomment' %>
+<%= link_to t('diary_entry.comment_link'), :action => 'view', :display_name => diary_entry.user.display_name, :id => diary_entry.id, :anchor => 'newcomment' %>
 |
-<%= link_to 'Reply to this entry', :controller => 'message', :action => 'new', :user_id => diary_entry.user.id, :title => "Re: #{diary_entry.title}" %>
+<%= link_to t('diary_entry.reply_link'), :controller => 'message', :action => 'new', :user_id => diary_entry.user.id, :title => "Re: #{diary_entry.title}" %>
 |
-<%= link_to pluralize(diary_entry.diary_comments.count, "comment"), :action => 'view', :display_name => diary_entry.user.display_name, :id => diary_entry.id, :anchor => 'comments' %>
+<%= link_to t('diary_entry.comment_count', :count => diary_entry.diary_comments.count), :action => 'view', :display_name => diary_entry.user.display_name, :id => diary_entry.id, :anchor => 'comments' %>
 <% end %>
 <% if @user == diary_entry.user %> 
-| <%= link_to 'Edit this entry', :action => 'edit', :display_name => @user.display_name, :id => diary_entry.id %>
+| <%= link_to t('diary_entry.edit_link'), :action => 'edit', :display_name => @user.display_name, :id => diary_entry.id %>
 <% end %>
 <br />
 <hr />

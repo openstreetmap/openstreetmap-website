@@ -7,27 +7,27 @@
 
 <% if @this_user %>
   <% if @user == @this_user %>
-    <%= link_to image_tag("new.png", :border=>0) + 'New diary entry', {:controller => 'diary_entry', :action => 'new', :display_name => @user.display_name}, {:title => 'Compose a new entry in your user diary'} %>
+    <%= link_to image_tag("new.png", :border=>0) + t('diary_entry.list.new'), {:controller => 'diary_entry', :action => 'new', :display_name => @user.display_name}, {:title => t('diary_entry.list.new_title')} %>
   <% end %>
 <% else %>
   <% if @user %>
-    <%= link_to image_tag("new.png", :border=>0) + 'New diary entry', {:controller => 'diary_entry', :action => 'new', :display_name => @user.display_name}, {:title => 'Compose a new entry in your user diary'} %>
+    <%= link_to image_tag("new.png", :border=>0) + t('diary_entry.list.new'), {:controller => 'diary_entry', :action => 'new', :display_name => @user.display_name}, {:title => t('diary_entry.list.new_title')} %>
   <% end %>
 <% end %>
 
 
 <% if @entries.empty? %>
-  <p>No diary entries</p>
+  <p><%= t 'diary_entry.list.no_entries' %></p>
 <% else %>
-  <p>Recent diary entries:</p>
+  <p><%= t 'diary_entry.list.recent_entries' %></p>
 
   <hr />
 
   <%= render :partial => 'diary_entry', :collection => @entries %>
 	
-  <%= link_to "Older Entries", { :page => @entry_pages.current.next } if @entry_pages.current.next %>
+  <%= link_to t('diary_entry.list.older_entries'), { :page => @entry_pages.current.next } if @entry_pages.current.next %>
   <% if @entry_pages.current.next and @entry_pages.current.previous %>|<% end %>
-  <%= link_to "Newer Entries", { :page => @entry_pages.current.previous } if @entry_pages.current.previous %>
+  <%= link_to t('diary_entry.list.newer_entries'), { :page => @entry_pages.current.previous } if @entry_pages.current.previous %>
 
   <br />
 <% end %>

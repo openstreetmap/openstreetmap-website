@@ -123,6 +123,10 @@ class Test::Unit::TestCase
     @request.env["RAW_POST_DATA"] = c.to_s
   end
   
+  def set_locale(l)
+    @request.env["HTTP_ACCEPT_LANGUAGE"] = l.to_s
+  end
+  
   # Used to check that the error header and the forbidden responses are given
   # when the owner of the changset has their data not marked as public
   def assert_require_public_data(msg = "Shouldn't be able to use API when the user's data is not public")

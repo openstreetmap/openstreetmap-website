@@ -1,4 +1,4 @@
-page.replace_html :sidebar_title, 'Export'
+page.replace_html :sidebar_title, t('export.start_rjs.export')
 page.replace_html :sidebar_content, :partial => 'start'
 page << <<EOJ
   var vectors;
@@ -77,7 +77,7 @@ page << <<EOJ
   $("minlat").onchange = boundsChanged;
 
   function startDrag() {
-    $("drag_box").innerHTML='Drag a box on the map to select an area';
+    $("drag_box").innerHTML='#{I18n.t('export.start_rjs.drag_a_box')}';
 
     clearBox();
     box.activate();
@@ -94,11 +94,11 @@ page << <<EOJ
     box.deactivate();
     validateControls();
 
-    $("drag_box").innerHTML = "Manually select a different area";
+    $("drag_box").innerHTML = "#{I18n.t('export.start_rjs.manually_select')}";
   }
 
   function startMarker() {
-    $("add_marker").innerHTML='Click on the map to add a marker';
+    $("add_marker").innerHTML='#{I18n.t('export.start_rjs.click_add_marker')}';
 
     if (!markerLayer) {
       markerLayer = new OpenLayers.Layer.Vector("",{
@@ -130,7 +130,7 @@ page << <<EOJ
   function endMarker(event) {
     markerControl.deactivate();
 
-    $("add_marker").innerHTML = "Change marker position";
+    $("add_marker").innerHTML = "#{I18n.t('export.start_rjs.change_marker')}";
     $("marker_inputs").style.display = "block";
     
     var epsg4326 = new OpenLayers.Projection("EPSG:4326");
@@ -147,7 +147,7 @@ page << <<EOJ
     $("marker_lon").value = "";
     $("marker_lat").value = "";
     $("marker_inputs").style.display = "none";
-    $("add_marker").innerHTML = "Add a marker to the map";
+    $("add_marker").innerHTML = "#{I18n.t('export.start_rjs.add_marker')}";
 
     if (markerLayer) { 
       markerControl.destroy();
@@ -248,7 +248,7 @@ page << <<EOJ
     
     var layers = getMapLayers();
 
-    html += '<br /><small><a href="http://#{SERVER_URL}/?lat='+center.lat+'&lon='+center.lon+'&zoom='+zoom+'&layers='+layers+markerUrl+'">View Larger Map</a></small>';
+    html += '<br /><small><a href="http://#{SERVER_URL}/?lat='+center.lat+'&lon='+center.lon+'&zoom='+zoom+'&layers='+layers+markerUrl+'">#{I18n.t('export.start_rjs.view_larger_map')}</a></small>';
 
     $("export_html_text").value = html;
 

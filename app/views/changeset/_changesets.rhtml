@@ -1,13 +1,13 @@
 <% showusername = true if showusername.nil? %>
 <table id="changeset_list" cellpadding="3">
   <tr>
-    <th>ID</th>
-    <th>Saved at</th>
+    <th><%= t'changeset.changesets.id' %></th>
+    <th><%= t'changeset.changesets.saved_at' %></th>
 <% if showusername %>
-    <th>User</th>
+    <th><%= t'changeset.changesets.user' %></th>
 <% end %>
-    <th>Comment</th>
-    <th>Area</th>
+    <th><%= t'changeset.changesets.comment' %></th>
+    <th><%= t'changeset.changesets.area' %></th>
     <th></th>
   </tr>
   <%= render :partial => 'changeset', :locals => {:showusername => showusername}, :collection => @edits unless @edits.nil? %>

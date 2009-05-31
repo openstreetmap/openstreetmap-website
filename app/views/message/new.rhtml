@@ -1,29 +1,24 @@
-<h2>Send a new message to <%= h(@to_user.display_name) %></h2>
-
-<% if params[:display_name] %>
-<p>Writing a new message to <%= h(params[:display_name]) %></p>  
-<p>TODO: drop down box of your friends</p>
-<%end%>
+<h2><%= t'message.new.send_message_to', :name => h(@to_user.display_name) %></h2>
 
 <%= error_messages_for 'message' %>
 
 <% form_for :message, :url => { :action => "new", :user_id => @to_user.id } do |f| %>
   <table>
     <tr valign="top">
-      <th>Subject</th>
+      <th><%= t'message.new.subject' %></th>
       <td><%= f.text_field :title, :size => 60, :value => @title %></td>
     </tr>
     <tr valign="top">
-      <th>Body</th>
+      <th><%= t'message.new.body' %></th>
       <td><%= f.text_area :body, :cols => 80, :value => @body %></td>
     </tr>
     <tr>
       <th></th>
-      <td><%= submit_tag 'Send' %></td>
+      <td><%= submit_tag t('message.new.send_button') %></td>
     </tr>
   </table>
 <% end %>
 
 <br />
 
-<%= link_to 'Back to inbox', :controller => 'message', :action => 'inbox', :display_name => @user.display_name %>
+<%= link_to t('message.new.back_to_inbox'), :controller => 'message', :action => 'inbox', :display_name => @user.display_name %>

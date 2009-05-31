@@ -1,7 +1,7 @@
 <table width="100%">
   <tr>
     <td>
-      <h2>Changeset: <%= h(@changeset.id) %></h2>
+      <h2><%= t 'browse.changeset.changeset' %> <%= h(@changeset.id) %></h2>
     </td>
     <td>
       <%= render :partial => "navigation" %>
@@ -11,10 +11,8 @@
     <td>
     <%= render :partial => "changeset_details", :object => @changeset %>
     <hr />
-    Download 
-    <%= link_to "Changeset XML", :controller => "changeset", :action => "read" %>
-    or
-    <%= link_to "osmChange XML", :controller => "changeset", :action => "download" %>
+    <%= t 'browse.changeset.download', :changeset_xml_link => link_to(t('browse.changeset.changesetxml'), :controller => "changeset", :action => "read"), 
+                                       :osmchange_xml_link => link_to(t('browse.changeset.osmchangexml'), :controller => "changeset", :action => "download") %>
     </td>
     <% if @changeset.has_valid_bbox? %>
     <%= render :partial => "map", :object => @changeset %>

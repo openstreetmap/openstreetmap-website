@@ -72,6 +72,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
           assert_select "form[action='/diary_entry/#{diary_entries(:normal_user_entry_1).id}/edit'][method=post]", :count => 1 do
             assert_select "input#diary_entry_title[name='diary_entry[title]'][value='#{diary_entries(:normal_user_entry_1).title}']", :count => 1
             assert_select "textarea#diary_entry_body[name='diary_entry[body]']", :text => diary_entries(:normal_user_entry_1).body, :count => 1
+            assert_select "select#diary_entry_language_code", :count => 1
             assert_select "input#latitude[name='diary_entry[latitude]']", :count => 1
             assert_select "input#longitude[name='diary_entry[longitude]']", :count => 1
             assert_select "input[name=commit][type=submit][value=Save]", :count => 1
@@ -86,8 +87,10 @@ class DiaryEntryControllerTest < ActionController::TestCase
     new_body = "This is a new body for the diary entry"
     new_latitude = "1.1"
     new_longitude = "2.2"
+    new_language_code = "en"
     post(:edit, {:id => diary_entries(:normal_user_entry_1).id, 'commit' => 'save', 
-      'diary_entry'=>{'title' => new_title, 'body' => new_body, 'latitude' => new_latitude, 'longitude' => new_longitude} },
+      'diary_entry'=>{'title' => new_title, 'body' => new_body, 'latitude' => new_latitude,
+      'longitude' => new_longitude, 'language_code' => new_language_code} },
          {'user' => users(:normal_user).id})
     assert_response :redirect
     assert_redirected_to :action => :view, :id => diary_entries(:normal_user_entry_1).id
@@ -142,21 +145,51 @@ class DiaryEntryControllerTest < ActionController::TestCase
     
   end
   
-  def test_editing_creating_diary_comment
+  def test_edit_diary_entry_i18n
+    I18n.available_locales.each do |locale|
+      set_locale locale
+      
+      get(:edit, {:id => diary_entries(:normal_user_entry_1).id}, {'user' => users(:normal_user).id})
+      assert_response :success
+      assert_select "span[class=translation_missing]", false, "Missing translation in edit diary entry"
+    end
+  end
+  
+  def test_create_diary_entry
+    #post :new
+  end
+  
+  def test_creating_diary_comment
     
   end
   
+  # Check that you can get the expected response and template for all available languages
+  # Should test that there are no <span class="translation_missing">
   def test_listing_diary_entries
+    I18n.available_locales.each do |locale|
+      set_locale locale
+      
+      get :list
+      assert_response :success, "Should be able to list the diary entries in #{locale}"
+      assert_template 'list', "Should use the list template in #{locale}"
+      assert_select "span[class=translation_missing]", false, "Missing translation in list of diary entries"
     
+      # Now try to find a specific user's diary entry
+      get :list, {:display_name => users(:normal_user).display_name}
+      assert_response :success, "Should be able to list the diary entries for a user in #{locale}"
+      assert_template 'list', "Should use the list template for a user in #{locale}"
+      assert_select "span[class=translation_missing]", false, "Missing translation in list of diary entries for user"
+    end
   end
   
   def test_rss
     get :rss
-    assert :success
-    
+    assert_response :success
   end
   
   def test_viewing_diary_entry
-    
+    get :view, {:display_name => users(:normal_user).display_name, :id => diary_entries(:normal_user_entry_1).id}
+    assert_response :success
+    assert_template 'view'
   end
 end

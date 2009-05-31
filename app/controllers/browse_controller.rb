@@ -2,6 +2,7 @@ class BrowseController < ApplicationController
   layout 'site'
 
   before_filter :authorize_web  
+  before_filter :set_locale 
   before_filter { |c| c.check_database_readable(true) }
 
   def start 
@@ -63,7 +64,7 @@ class BrowseController < ApplicationController
     @way_pages, @ways = paginate(:old_ways, :conditions => {:changeset_id => @changeset.id}, :per_page => 20, :parameter => 'way_page')
     @relation_pages, @relations = paginate(:old_relations, :conditions => {:changeset_id => @changeset.id}, :per_page => 20, :parameter => 'relation_page')
       
-    @title = "Changeset | #{@changeset.id}"
+    @title = "#{I18n.t('browse.changeset.title')} | #{@changeset.id}"
     @next = Changeset.find(:first, :order => "id ASC", :conditions => [ "id > :id", { :id => @changeset.id }] ) 
     @prev = Changeset.find(:first, :order => "id DESC", :conditions => [ "id < :id", { :id => @changeset.id }] ) 
   rescue ActiveRecord::RecordNotFound

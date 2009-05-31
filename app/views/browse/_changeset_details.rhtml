@@ -1,18 +1,18 @@
 <table>
 
   <tr>
-    <th>Created at:</th>
-    <td><%= h(changeset_details.created_at) %></td>
+    <th><%= t 'browse.changeset_details.created_at' %></th>
+    <td><%= l changeset_details.created_at %></td>
   </tr>
   
   <tr>
-    <th>Closed at:</th>
-    <td><%= h(changeset_details.closed_at) %></td>
+    <th><%= t 'browse.changeset_details.closed_at' %></th>
+    <td><%= l changeset_details.closed_at %></td>
   </tr>
   
   <% if changeset_details.user.data_public? %>
     <tr>
-      <th>Belongs to:</th>
+      <th><%= t 'browse.changeset_details.belongs_to' %></th>
       <td><%= link_to h(changeset_details.user.display_name), :controller => "user", :action => "view", :display_name => changeset_details.user.display_name %></td>
     </tr>
   <% end %>
@@ -20,9 +20,9 @@
   <%= render :partial => "tag_details", :object => changeset_details %>
 
   <tr>
-    <th>Bounding box:</th>
+    <th><%= t 'browse.changeset_details.bounding_box' %></th>
     <% unless changeset_details.has_valid_bbox? %>
-      <td>No bounding box has been stored for this changeset.</td>
+      <td><%= t 'browse.changeset_details.no_bounding_box' %></td>
     <% else
           minlon = changeset_details.min_lon/GeoRecord::SCALE.to_f
           minlat = changeset_details.min_lat/GeoRecord::SCALE.to_f
@@ -36,7 +36,7 @@
           </tr>
           <tr>
             <td><%=minlon -%></td>
-            <td>(<a href='/?minlon=<%= minlon %>&minlat=<%= minlat %>&maxlon=<%= maxlon %>&maxlat=<%= maxlat %>&box=yes' title='show area box'>box</a>)</td>
+            <td>(<a href='/?minlon=<%= minlon %>&minlat=<%= minlat %>&maxlon=<%= maxlon %>&maxlat=<%= maxlat %>&box=yes' title='<%= t 'browse.changeset_details.show_area_box' %>'><%= t 'browse.changeset_details.box' %></a>)</td>
             <td><%=maxlon -%></td>
           </tr>
           <tr>
@@ -49,7 +49,7 @@
 
   <% unless @nodes.empty? %>
     <tr valign="top">
-      <th>Has the following <%= @node_pages.item_count %> nodes:</th>
+      <th><%= t 'browse.changeset_details.has_nodes', :node_count => @node_pages.item_count %></th>
       <td>
         <table cellpadding="0">
           <% @nodes.each do |node| %>
@@ -63,7 +63,7 @@
   
   <% unless @ways.empty? %>
     <tr valign="top">
-      <th>Has the following <%= @way_pages.item_count %> ways:</th>
+      <th><%= t 'browse.changeset_details.has_ways', :way_count => @way_pages.item_count %></th>
       <td>
         <table cellpadding="0">
           <% @ways.each do |way| %>
@@ -80,7 +80,7 @@
   
   <% unless @relations.empty? %>
     <tr valign="top">
-      <th>Has the following <%= @relation_pages.item_count %> relations:</th>
+      <th><%= t 'browse.changeset_details.has_relations', :relation_count => @relation_pages.item_count %></th>
       <td>
         <table cellpadding="0">
           <% @relations.each do |relation| %>

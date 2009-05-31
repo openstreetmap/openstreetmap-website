@@ -45,14 +45,14 @@
     setMapCenter(centre, zoom);
 
     <% if marker %>
-    marker = addMarkerToMap(new OpenLayers.LonLat(<%= mlon %>, <%= mlat %>), null, "Your location");
+    marker = addMarkerToMap(new OpenLayers.LonLat(<%= mlon %>, <%= mlat %>), null, "<%= t 'user.friend_map.your location' %>");
     <% end %>
 
     var near_icon = OpenLayers.Marker.defaultIcon();
     near_icon.url = OpenLayers.Util.getImagesLocation() + "marker-green.png";;
     var i = nearest.length;
     while( i-- ) {
-      var description = 'Nearby mapper: <a href="/user/'+nearest[i].display_name+'">'+nearest[i].display_name+'</a>'
+      var description = '<%= t 'user.friend_map.nearby mapper'%><a href="/user/'+nearest[i].display_name+'">'+nearest[i].display_name+'</a>'
       var nearmarker = addMarkerToMap(new OpenLayers.LonLat(nearest[i].home_lon, nearest[i].home_lat), near_icon.clone(), description);
     }
 
@@ -75,7 +75,7 @@
         removeMarkerFromMap(marker);
       }
 
-      marker = addMarkerToMap(lonlat, null, "Your location");
+      marker = addMarkerToMap(lonlat, null, "<%= t 'user.friend_map.your location' %>");
     }
   }
 

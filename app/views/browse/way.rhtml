@@ -1,11 +1,11 @@
 <%
 @name = printable_name @way
-@title = 'Way | ' + @name
+@title = t('browse.way.way') + ' | ' + @name
 %>
 <table width="100%">
   <tr>
     <td>
-      <h2>Way: <%= h(@name) %></h2>
+      <h2><%= t'browse.way.way_title', :way_name => h(@name) %></h2>
     </td>
     <td>
       <%= render :partial => "navigation" %>
@@ -15,9 +15,8 @@
     <td>
       <%= render :partial => "way_details", :object => @way %>
       <hr />
-      <%= link_to "Download XML", :controller => "way", :action => "read" %>
-      or
-      <%= link_to "view history", :action => "way_history" %>
+      <%= t'browse.way.download', :download_xml_link => link_to(t('browse.way.download_xml'), :controller => "way", :action => "read"), 
+                                  :view_history_link => link_to(t('browse.way.view_history'), :action => "way_history") %>
     </td>
     <%= render :partial => "map", :object => @way %>
   </tr>

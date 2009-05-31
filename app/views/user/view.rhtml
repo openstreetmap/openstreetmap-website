@@ -1,66 +1,65 @@
-<% @this_user = User.find_by_display_name(@this_user.display_name) %>
 <h2><%= h(@this_user.display_name) %></h2>
 <div id="userinformation">
 <% if @user and @this_user.id == @user.id %>
 <!-- Displaying user's own profile page -->
-<%= link_to 'my diary', :controller => 'diary_entry', :action => 'list', :display_name => @user.display_name %>
-| <%= link_to 'new diary entry', :controller => 'diary_entry', :action => 'new', :display_name => @user.display_name %>
-| <%= link_to 'my edits', :controller => 'changeset', :action => 'list_user', :display_name => @user.display_name %>
-| <%= link_to 'my traces', :controller => 'trace', :action=>'mine' %>
-| <%= link_to 'my settings', :controller => 'user', :action => 'account', :display_name => @user.display_name %>
+<%= link_to t('user.view.my diary'), :controller => 'diary_entry', :action => 'list', :display_name => @user.display_name %>
+| <%= link_to t('user.view.new diary entry'), :controller => 'diary_entry', :action => 'new', :display_name => @user.display_name %>
+| <%= link_to t('user.view.my edits'), :controller => 'changeset', :action => 'list_user', :display_name => @user.display_name %>
+| <%= link_to t('user.view.my traces'), :controller => 'trace', :action=>'mine' %>
+| <%= link_to t('user.view.my settings'), :controller => 'user', :action => 'account', :display_name => @user.display_name %>
 <% else %>
 <!-- Displaying another user's profile page -->
-<%= link_to 'send message', :controller => 'message', :action => 'new', :user_id => @this_user.id %>
-| <%= link_to 'diary', :controller => 'diary_entry', :action => 'list', :display_name => @this_user.display_name %>
-| <%= link_to 'edits', :controller => 'changeset', :action => 'list_user', :display_name => @this_user.display_name %>
-| <%= link_to 'traces', :controller => 'trace', :action => 'view', :display_name => @this_user.display_name %>
+<%= link_to t('user.view.send message'), :controller => 'message', :action => 'new', :user_id => @this_user.id %>
+| <%= link_to t('user.view.diary'), :controller => 'diary_entry', :action => 'list', :display_name => @this_user.display_name %>
+| <%= link_to t('user.view.edits'), :controller => 'changeset', :action => 'list_user', :display_name => @this_user.display_name %>
+| <%= link_to t('user.view.traces'), :controller => 'trace', :action => 'view', :display_name => @this_user.display_name %>
 | <% if @user and @user.is_friends_with?(@this_user) %>
-  <%= link_to 'remove as friend', :controller => 'user', :action => 'remove_friend', :display_name => @this_user.display_name %>
+  <%= link_to t('user.view.remove as friend'), :controller => 'user', :action => 'remove_friend', :display_name => @this_user.display_name %>
 <% else %>
-  <%= link_to 'add as friend', :controller => 'user', :action => 'make_friend', :display_name => @this_user.display_name %>
+  <%= link_to t('user.view.add as friend'), :controller => 'user', :action => 'make_friend', :display_name => @this_user.display_name %>
 <% end %>
 <% end %>
 </div>
 
 <% if @this_user != nil %>
 <P>
-<b>Mapper since : </b><%= @this_user.creation_time %> (<%= time_ago_in_words(@this_user.creation_time) %> ago)
+<b><%= t 'user.view.mapper since' %></b><%= l @this_user.creation_time %> <%= t 'user.view.ago', :time_in_words_ago => time_ago_in_words(@this_user.creation_time) %>
 </P>
 <% end %>
   
-<h3>User image</h3>
+<h3><%= t 'user.view.user image heading' %></h3>
 <% if @this_user.image %>
   <%= image_tag url_for_file_column(@this_user, "image") %>
   <% if @user and @this_user.id == @user.id %>
-    <%= button_to 'Delete Image', :action => 'delete_image' %>
+    <%= button_to t('user.view.delete image'), :action => 'delete_image' %>
   <% end %>
 <% end %>
 <br />
 
 <% if @user and @this_user.id == @user.id %>
-  Upload an image<br />
+  <%= t 'user.view.upload an image' %><br />
   <%= form_tag({:action=>'upload_image'}, :multipart => true)%>
     <%= file_column_field 'user', 'image' %>
-    <%= submit_tag 'Add Image' %>
+    <%= submit_tag t('user.view.add image') %>
   </form>
 <% end %>
 
-<h3>Description</h3>
+<h3><%= t 'user.view.description' %></h3>
 <div id="description"><%= htmlize(@this_user.description) %></div>
 
 <% if @this_user.home_lat.nil? or @this_user.home_lon.nil? %>
-<h3>User location</h3>
+<h3><%= t 'user.view.user location' %></h3>
 
-  No home location has been set.
+  <%= t 'user.view.no home location' %>
   <% if @user and @this_user.id == @user.id %>
-  If you set your location, a pretty map and stuff will appear below. You can set your home location on your <%= link_to 'settings', :controller => 'user', :action => 'account', :display_name => @user.display_name %> page.
+  <%= t 'user.view.if set location', :settings_link => (link_to t('user.view.settings_link_text'), :controller => 'user', :action => 'account', :display_name => @user.display_name) %>
   <% end %>
 <% else %>
 
   <% if @user and @this_user.id == @user.id %>
-    <h3>Your friends</h3>
+    <h3><%= t 'user.view.your friends' %></h3>
     <% if @this_user.friends.empty? %>
-      You have not added any friends yet.
+      <%= t 'user.view.no friends' %>
     <% else %>
       <table id="friends">
       <% @this_user.friends.each do |friend| %>
@@ -72,8 +71,8 @@
       <% end %>
       </td>
       <td class="username"><%= link_to h(@friend.display_name), :controller => 'user', :action => 'view',  :display_name => @friend.display_name %></td>
-      <td><% if @friend.home_lon and @friend.home_lat %><%= @this_user.distance(@friend).round %>km away<% end %></td>
-      <td class="message">(<%= link_to 'send message', :controller => 'message', :action => 'new', :user_id => @friend.id %>)</td>
+      <td><% if @friend.home_lon and @friend.home_lat %><%= t 'user.view.km away', :distance => l(@this_user.distance(@friend).round) %><% end %></td>
+      <td class="message">(<%= link_to t('user.view.send message'), :controller => 'message', :action => 'new', :user_id => @friend.id %>)</td>
       </tr>
       <%end%>
       </table>
@@ -83,9 +82,9 @@
 
 
   <% if @user and @this_user.id == @user.id %>
-    <h3>Nearby users:</h3>
+    <h3><%= t 'user.view.nearby users' %></h3>
     <% if @this_user.nearby.empty? %>
-      There are no users who admit to mapping nearby yet.
+      <%= t 'user.view.no nearby users' %>
     <% else %>
 
     <div id="map" style="border: 1px solid black; position: relative; width : 90%; height : 400px;"></div>
@@ -94,8 +93,8 @@
       <% @this_user.nearby.each do |nearby| %>
       <tr>
       <td class="username"><%= link_to h(nearby.display_name), :controller => 'user', :action => 'view',  :display_name => nearby.display_name %></td>
-      <td><%= @this_user.distance(nearby).round %>km away</td>
-      <td class="message">(<%= link_to 'send message', :controller => 'message', :action => 'new', :user_id => nearby.id %>)</td>
+      <td><%= t 'user.view.no nearby users', :distance => l(@this_user.distance(nearby).round) %></td>
+      <td class="message">(<%= link_to t('user.view.send message'), :controller => 'message', :action => 'new', :user_id => nearby.id %>)</td>
       </tr>
       <% end %>
       </table>
@@ -106,5 +105,5 @@
 <br/>
 <br/>
 <% if @user and @this_user.id == @user.id %>
-<%= link_to 'change your settings', :controller => 'user', :action => 'account', :display_name => @user.display_name %>
+<%= link_to t('user.view.change your settings'), :controller => 'user', :action => 'account', :display_name => @user.display_name %>
 <% end %>

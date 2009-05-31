@@ -1,16 +1,14 @@
 <% if OSM_STATUS == :database_offline or OSM_STATUS == :api_offline %>
-<p>The OpenStreetMap database is currently offline while
-   essential database maintenance work is carried out.
+<p><%= t 'layouts.osm_offline' %>
 </p>
 <% elsif OSM_STATUS == :database_readonly or OSM_STATUS == :api_readonly %>
-<p>The OpenStreetMap database is currently in read-only mode while
-   essential database maintenance work is carried out.
+<p><%= t 'layouts.osm_read_only' %>
 </p>
 <% elsif !@user.data_public? %>
-<p>You haven't set your edits to be public.</p>
-<p>You can no longer edit the map unless you do so. You can set your edits as public from your 
-<%= link_to 'user page', {:controller => 'user', :action => 'account', :display_name => @user.display_name, :anchor => 'public'}%>.</p>
-<p>(<a href="http://wiki.openstreetmap.org/index.php/Disabling_anonymous_edits">Find out why this is the case.</a>)</p>
+<p><%= t 'site.edit.not_public' %></p>
+<p><%= t 'site.edit.not_public_description', 
+:user_page => (link_to t('site.edit.user_page_link'), {:controller => 'user', :action => 'account', :display_name => @user.display_name, :anchor => 'public'}) %></p>
+<p><%= t 'site.edit.anon_edits', :link => link_to(t('site.edit.anon_edit_link_text'), t('site.edit.anon_edits_link')) %> (<a href=""></a>)</p>
 <% else %>
 <% content_for :greeting do %>
 <% if @user and !@user.home_lon.nil? and !@user.home_lat.nil? %>
@@ -54,11 +52,7 @@ zoom='14' if zoom.nil?
 %>
 
 <div id="map">
-	You need a Flash player to use Potlatch, the
-    OpenStreetMap Flash editor. You can <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">download Flash Player from Adobe.com</a>.
-
-    <a href="http://wiki.openstreetmap.org/index.php/Editing">Several other options</a> are also available
-    for editing OpenStreetMap.
+	<%= t 'site.edit.flash_player_required' %>
 </div>
 
 <%= javascript_include_tag 'swfobject.js' %>
@@ -71,7 +65,7 @@ zoom='14' if zoom.nil?
   
   window.onbeforeunload=function() {
 	if (!changesaved && !winie) {
-	    return "You have unsaved changes.";
+	    return "<%= t 'site.edit.potlatch_unsaved_changes' %>";
 	}
   }
 

@@ -6,28 +6,28 @@
 
 <table border="0">
   <tr>
-    <td>Filename:</td>
+    <td><%= t'trace.edit.filename' %></td>
     <td><%= @trace.name %> (<%= link_to 'download', :controller => 'trace', :action => 'data', :id => @trace.id %>)</td>
   </tr> 
   <tr>
-    <td>Uploaded at:</td>
+    <td><%= t'trace.edit.uploaded_at' %></td>
     <td><%= @trace.timestamp %></td>
   </tr>
   <% if @trace.inserted? %>
   <tr>
-    <td>Points:</td>
+    <td><%= t'trace.edit.points' %></td>
     <td><%= @trace.size.to_s.gsub(/(\d)(?=(\d{3})+$)/,'\1,') %></td></tr>
   <tr>
-    <td>Start coordinate:</td>
-    <td><div class="geo" style="display: inline"><span class="latitude"><%= @trace.latitude %></span>; <span class="longitude"><%= @trace.longitude %></span></div> (<%=link_to 'map', :controller => 'site', :action => 'index', :lat => @trace.latitude, :lon => @trace.longitude, :zoom => 14 %> / <%=link_to 'edit', :controller => 'site', :action => 'edit', :lat => @trace.latitude, :lon => @trace.longitude, :gpx=> @trace.id, :zoom => 14 %>)</td>
+    <td><%= t'trace.edit.start_coord' %>Start coordinate:</td>
+    <td><div class="geo" style="display: inline"><span class="latitude"><%= @trace.latitude %></span>; <span class="longitude"><%= @trace.longitude %></span></div> (<%=link_to 'map', :controller => 'site', :action => 'index', :lat => @trace.latitude, :lon => @trace.longitude, :zoom => 14 %> / <%=link_to t('trace.edit.edit'), :controller => 'site', :action => 'edit', :lat => @trace.latitude, :lon => @trace.longitude, :gpx=> @trace.id, :zoom => 14 %>)</td>
   </tr>
   <% end %>
   <tr>
-    <td>Owner:</td>
+    <td><%= t'trace.edit.owner' %></td>
     <td><%= link_to h(@trace.user.display_name), {:controller => 'user', :action => 'view', :display_name => @trace.user.display_name} %></td>
   </tr>
   <tr>
-    <td>Description:</td>
+    <td><%= t'trace.edit.description' %></td>
     <td><%= f.text_field :description %></td>
   </tr>
   <tr>
