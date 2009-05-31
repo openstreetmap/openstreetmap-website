@@ -2,7 +2,7 @@ require 'lib/migrate'
 
 class TileNodes < ActiveRecord::Migration
   def self.upgrade_table(from_table, to_table, model)
-    begin
+    if ENV["USE_DB_FUNCTIONS"]
       execute <<-END_SQL
       INSERT INTO #{to_table} (id, latitude, longitude, user_id, visible, tags, timestamp, tile)
       SELECT id, ROUND(latitude * 10000000), ROUND(longitude * 10000000),
@@ -11,7 +11,7 @@ class TileNodes < ActiveRecord::Migration
                             CAST(ROUND(longitude * 10000000) AS INTEGER))
       FROM #{from_table}
       END_SQL
-    rescue ActiveRecord::StatementInvalid => ex
+    else
       execute <<-END_SQL
       INSERT INTO #{to_table} (id, latitude, longitude, user_id, visible, tags, timestamp, tile)
       SELECT id, ROUND(latitude * 10000000), ROUND(longitude * 10000000),

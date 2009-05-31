@@ -6,9 +6,9 @@ class TileTracepoints < ActiveRecord::Migration
     add_index "gps_points", ["tile"], :name => "points_tile_idx"
     remove_index "gps_points", :name => "points_idx"
 
-    begin
+    if ENV["USE_DB_FUNCTIONS"]
       Tracepoint.update_all("latitude = latitude * 10, longitude = longitude * 10, tile = tile_for_point(latitude * 10, longitude * 10)")
-    rescue ActiveRecord::StatementInvalid => ex
+    else
       Tracepoint.find(:all).each do |tp|
         tp.latitude = tp.latitude * 10
         tp.longitude = tp.longitude * 10

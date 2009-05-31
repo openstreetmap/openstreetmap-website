@@ -25,7 +25,7 @@ class OldRelation < ActiveRecord::Base
     save!
     clear_aggregation_cache
     clear_association_cache
-    @attributes.update(OldRelation.find(:first, :conditions => ['id = ? AND timestamp = ?', self.id, self.timestamp]).instance_variable_get('@attributes'))
+    @attributes.update(OldRelation.find(:first, :conditions => ['id = ? AND timestamp = ?', self.id, self.timestamp], :order => "version desc").instance_variable_get('@attributes'))
 
     # ok, you can touch from here on
 
@@ -81,7 +81,7 @@ class OldRelation < ActiveRecord::Base
 #  has_many :relation_tags, :class_name => 'OldRelationTag', :foreign_key => 'id'
 
   def old_members
-    OldRelationMember.find(:all, :conditions => ['id = ? AND version = ?', self.id, self.version])    
+    OldRelationMember.find(:all, :conditions => ['id = ? AND version = ?', self.id, self.version], :order => "sequence_id")
   end
 
   def old_tags

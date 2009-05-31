@@ -5,14 +5,14 @@
     #<%= changeset.id %>
   </td>
 
-  <td class="<%= cl %>">
+  <td class="<%= cl %> date">
     <% if changeset.closed_at > DateTime.now %> <%= t'changeset.changeset.still_editing' %>
     <% else %><%= changeset.closed_at.strftime("%d %b %Y %H:%M") %><% end %>
   </td>
 
     
   <%if showusername %>  
-    <td class="<%= cl %>">
+    <td class="<%= cl %> user">
     <% if changeset.user.data_public? %>
       <%= link_to h(changeset.user.display_name), :controller => "changeset", :action => "list_user", :display_name => changeset.user.display_name %>
     <% else %>
@@ -29,7 +29,7 @@
     <% end %>
   </td>
 
-  <td class="<%= cl %>">
+  <td class="<%= cl %> area">
     <% if changeset.min_lat.nil? %>
       <%= t'changeset.changeset.no_edits' %>
     <% else 

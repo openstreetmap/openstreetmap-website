@@ -1,4 +1,4 @@
-# Configure ActionMailer
+# Configure ActionMailer SMTP settings
 ActionMailer::Base.smtp_settings = {
   :address => 'localhost',
   :port => 25, 

@@ -208,7 +208,7 @@ class Relation < ActiveRecord::Base
 
   def add_member(type,id,role)
     @members = Array.new unless @members
-    @members += [[type,id,role]]
+    @members += [[type,id.to_i,role]]
   end
 
   def add_tag_keyval(k, v)
@@ -385,21 +385,18 @@ class Relation < ActiveRecord::Base
       # changed members in an array, as the bounding box updates for
       # elements are per-element, not blanked on/off like for tags.
       changed_members = Array.new
-      members = Hash.new
-      self.members.each do |m|
-        # should be: h[[m.id, m.type]] = m.role, but someone prefers arrays
-        members[[m[1], m[0]]] = m[2]
-      end
-      relation_members.each do |old_member|
-        key = [old_member.member_id.to_s, old_member.member_type]
-        if members.has_key? key
-          members.delete key
-        else
+      members = self.members.clone
+      self.relation_members.each do |old_member|
+        key = [old_member.member_type, old_member.member_id, old_member.member_role]
+        i = members.index key
+        if i.nil?
           changed_members << key
+        else
+          members.delete_at i
         end
       end
       # any remaining members must be new additions
-      changed_members += members.keys
+      changed_members += members
 
       # update the members. first delete all the old members, as the new
       # members may be in a different order and i don't feel like implementing
@@ -433,21 +430,17 @@ class Relation < ActiveRecord::Base
         changed_members.collect { |id,type| type == "relation" }.
         inject(false) { |b,s| b or s }
 
-      if tags_changed or any_relations
-        # add all non-relation bounding boxes to the changeset
-        # FIXME: check for tag changes along with element deletions and
-        # make sure that the deleted element's bounding box is hit.
-        self.members.each do |type, id, role|
-          if type != "Relation"
-            update_changeset_element(type, id)
-          end
-        end
-      else
-        # add only changed members to the changeset
-        changed_members.each do |id, type|
-          if type != "Relation"
-            update_changeset_element(type, id)
-          end
+      update_members = if tags_changed or any_relations
+                         # add all non-relation bounding boxes to the changeset
+                         # FIXME: check for tag changes along with element deletions and
+                         # make sure that the deleted element's bounding box is hit.
+                         self.members
+                       else 
+                         changed_members
+                       end
+      update_members.each do |type, id, role|
+        if type != "Relation"
+          update_changeset_element(type, id)
         end
       end
 

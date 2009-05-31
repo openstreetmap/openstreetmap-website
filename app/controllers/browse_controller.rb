@@ -27,7 +27,7 @@ class BrowseController < ApplicationController
   end
   
   def way
-    @way = Way.find(params[:id])
+    @way = Way.find(params[:id], :include => [:way_tags, {:changeset => :user}, {:nodes => [:node_tags, {:ways => :way_tags}]}, :containing_relation_members])
     @next = Way.find(:first, :order => "id ASC", :conditions => [ "visible = true AND id > :id", { :id => @way.id }] )
     @prev = Way.find(:first, :order => "id DESC", :conditions => [ "visible = true AND id < :id", { :id => @way.id }] )
   rescue ActiveRecord::RecordNotFound
@@ -36,7 +36,7 @@ class BrowseController < ApplicationController
   end
   
   def way_history
-    @way = Way.find(params[:id])
+    @way = Way.find(params[:id], :include => [:way_tags, {:old_ways => {:changeset => :user}}])
   rescue ActiveRecord::RecordNotFound
     @type = "way"
     render :action => "not_found", :status => :not_found

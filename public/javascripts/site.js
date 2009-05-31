@@ -45,7 +45,7 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat) {
 
   node = document.getElementById("editanchor");
   if (node) {
-    if (zoom >= 11) {
+    if (zoom >= 13) {
       var args = new Object();
       args.lat = lat;
       args.lon = lon;
