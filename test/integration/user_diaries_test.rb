@@ -39,7 +39,7 @@ class UserDiariesTest < ActionController::IntegrationTest
     assert_select "html:root" do
       assert_select "body" do
         assert_select "div#content" do
-          assert_select "h1", "New diary entry" 
+          assert_select "h1", "New Diary Entry" 
           assert_select "form[action='/user/#{users(:normal_user).display_name}/diary/new']" do
             assert_select "input[id=diary_entry_title]"
           end
