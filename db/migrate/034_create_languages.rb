@@ -26,4 +26,3 @@ class CreateLanguages < ActiveRecord::Migration
     raise IrreversibleMigration.new
   end
 end
-
