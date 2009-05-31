@@ -22,6 +22,12 @@ module HttpAcceptLanguage
     []
   end
 
+  # Sets the user languages preference, overiding the browser
+  #
+  def user_preferred_languages=(languages)
+    @user_preferred_languages = languages.join(",")
+  end
+
   # Finds the locale specifically requested by the browser.
   #
   # Example:

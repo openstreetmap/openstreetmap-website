@@ -1,8 +1,8 @@
 class BrowseController < ApplicationController
   layout 'site'
 
-  before_filter :set_locale
   before_filter :authorize_web  
+  before_filter :set_locale 
   before_filter { |c| c.check_database_readable(true) }
 
   def start 

@@ -1,5 +1,6 @@
 class ExportController < ApplicationController
 
+  before_filter :authorize_web
   before_filter :set_locale
 
   def start

@@ -1,8 +1,8 @@
 class MessageController < ApplicationController
   layout 'site'
 
-  before_filter :set_locale
   before_filter :authorize_web
+  before_filter :set_locale
   before_filter :require_user
   before_filter :check_database_readable
   before_filter :check_database_writable, :only => [:new, :reply, :mark]

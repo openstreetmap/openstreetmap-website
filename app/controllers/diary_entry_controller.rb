@@ -1,8 +1,8 @@
 class DiaryEntryController < ApplicationController
   layout 'site', :except => :rss
 
-  before_filter :set_locale
   before_filter :authorize_web
+  before_filter :set_locale
   before_filter :require_user, :only => [:new, :edit]
   before_filter :check_database_readable
   before_filter :check_database_writable, :only => [:new, :edit]
@@ -20,7 +20,7 @@ class DiaryEntryController < ApplicationController
         render :action => 'edit'
       end
     else
-      @diary_entry = DiaryEntry.new(:language => @user.language)
+      @diary_entry = DiaryEntry.new(:language_code => @user.preferred_language)
       render :action => 'edit'
     end
   end

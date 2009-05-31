@@ -1,8 +1,6 @@
 class User < ActiveRecord::Base
   require 'xml/libxml'
 
-  belongs_to :language, :foreign_key => 'locale'
-  
   has_many :traces
   has_many :diary_entries, :order => 'created_at DESC'
   has_many :messages, :foreign_key => :to_user_id, :order => 'sent_on DESC'
@@ -78,6 +76,18 @@ class User < ActiveRecord::Base
       el1 << home
     end
     return el1
+  end
+
+  def languages
+    attribute_present?(:languages) ? read_attribute(:languages).split(",") : []
+  end
+
+  def languages=(languages)
+    write_attribute(:languages, languages.join(","))
+  end
+
+  def preferred_language
+    languages.find { |l| Language.find(:first, :conditions => { :code => l }) }
   end
 
   def nearby(radius = 50, num = 10)

@@ -2,8 +2,8 @@ class UserController < ApplicationController
   layout 'site'
 
   before_filter :authorize, :only => [:api_details, :api_gpx_files]
-  before_filter :set_locale, :except => [:api_details, :api_gpx_files]
   before_filter :authorize_web, :except => [:api_details, :api_gpx_files]
+  before_filter :set_locale, :except => [:api_details, :api_gpx_files]
   before_filter :require_user, :only => [:set_home, :account, :go_public, :make_friend, :remove_friend, :upload_image, :delete_image]
   before_filter :check_database_readable, :except => [:api_details, :api_gpx_files]
   before_filter :check_database_writable, :only => [:login, :new, :set_home, :account, :go_public, :make_friend, :remove_friend, :upload_image, :delete_image]
@@ -23,8 +23,7 @@ class UserController < ApplicationController
       @user.data_public = true
       @user.description = "" if @user.description.nil?
       @user.creation_ip = request.remote_ip
-      @user.locale = Language.find_by_code(I18n.locale.to_s)
-      @user.locale = Language.find_by_code("en") if @user.locale.nil?
+      @user.languages = request.user_preferred_languages
 
       if @user.save
         flash[:notice] = I18n.t('user.new.flash create success message')

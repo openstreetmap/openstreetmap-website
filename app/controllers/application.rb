@@ -102,6 +102,15 @@ class ApplicationController < ActionController::Base
   end
   
   def set_locale
+    if @user
+      if !@user.languages.empty?
+        request.user_preferred_languages = @user.languages
+      elsif !request.user_preferred_languages.empty?
+        @user.languages = request.user_preferred_languages
+        @user.save
+      end
+    end
+
     I18n.locale = request.compatible_language_from(I18n.available_locales)
   end
 
