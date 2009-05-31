@@ -1,10 +1,10 @@
 <% if @user == @message.recipient %>
 
-<h2>Reading your messages</h2>
+<h2><%= t'message.read.reading_your_messages' %></h2>
 
 <table>
   <tr>
-    <th align="right">From</th>
+    <th align="right"><%= t'message.read.from' %></th>
     <td>
      <% if @message.sender.image %>
         <%= image_tag url_for_file_column(@message.sender, "image") %>
@@ -13,12 +13,12 @@
 <%= link_to h(@message.sender.display_name), :controller => 'user', :action => 'view', :display_name => @message.sender.display_name %></td>
   </tr>
   <tr>
-    <th align="right">Subject</th>
+    <th align="right"><%= t'message.read.subject' %></th>
     <td><%= h(@message.title) %></td>
   </tr>
   <tr>
-    <th align="right">Date</th>
-    <td><%= @message.sent_on %></td>
+    <th align="right"><%= t'message.read.date' %></th>
+    <td><%= l @message.sent_on %></td>
   </tr>
   <tr>
     <th></th>
@@ -30,28 +30,28 @@
 
 <table>
   <tr>
-    <td><%= button_to 'Reply', :controller => 'message', :action => 'reply', :message_id => @message.id %></td>
-    <td><%= button_to 'Mark as unread', :controller => 'message', :action => 'mark', :message_id => @message.id, :mark => 'unread' %></td>
-    <td><%= link_to 'Back to inbox', :controller => 'message', :action => 'inbox', :display_name => @user.display_name %></td>
+    <td><%= button_to t('message.read.reply_button'), :controller => 'message', :action => 'reply', :message_id => @message.id %></td>
+    <td><%= button_to t('message.read.unread_button'), :controller => 'message', :action => 'mark', :message_id => @message.id, :mark => 'unread' %></td>
+    <td><%= link_to t('message.read.back_to_inbox'), :controller => 'message', :action => 'inbox', :display_name => @user.display_name %></td>
   </tr>
 </table>
 
 <% else %>
 
-<h2>Reading your sent messages</h2>
+<h2><%= t'message.read.reading_your_sent_messages' %></h2>
 
 <table>
   <tr>
-    <th align="right">To</th>
+    <th align="right"><%= t'message.read.to' %></th>
     <td><%= link_to h(@message.recipient.display_name), :controller => 'user', :action => 'view', :display_name => @message.recipient.display_name %></td>
   </tr>
   <tr>
-    <th align="right">Subject</th>
+    <th align="right"><%= t'message.read.subject' %></th>
     <td><%= h(@message.title) %></td>
   </tr>
   <tr>
-    <th align="right">Date</th>
-    <td><%= @message.sent_on %></td>
+    <th align="right"><%= t'message.read.date' %></th>
+    <td><%= l @message.sent_on %></td>
   </tr>
   <tr>
     <th></th>
@@ -63,7 +63,7 @@
 
 <table>
   <tr>
-    <td><%= link_to 'Back to outbox', :controller => 'message', :action => 'outbox', :display_name => @user.display_name %></td>
+    <td><%= link_to t('message.read.back_to_outbox'), :controller => 'message', :action => 'outbox', :display_name => @user.display_name %></td>
   </tr>
 </table>
 

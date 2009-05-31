@@ -1,14 +1,14 @@
-<h2>My inbox/<%= link_to "outbox", url_for(:controller => "user", :action => "outbox", :id => @user.display_name) %></h2>
+<h2><%= t'message.inbox.my_inbox'%>/<%= link_to t('message.inbox.outbox'), url_for(:controller => "user", :action => "outbox", :id => @user.display_name) %></h2>
 
-<p>You have <%= @user.new_messages.size %> new messages and <%= @user.messages.size -  @user.new_messages.size %> old messages</p> 
+<p><%= t'message.inbox.you_have', :new_count => @user.new_messages.size, :old_count => (@user.messages.size -  @user.new_messages.size) %></p> 
 
 <% if @user.messages.size > 0 %>
   <div id="messages">
     <table class="messages">
       <tr>
-        <th>From</th>
-        <th>Subject</th>
-        <th>Date</th>
+        <th><%= t'message.inbox.from' %></th>
+        <th><%= t'message.inbox.subject' %></th>
+        <th><%= t'message.inbox.date' %></th>
         <th></th>
         <th></th>
       </tr>
@@ -16,5 +16,5 @@
     </table>
   </div>
 <% else %>
-	  <div id="messages">You have no messages yet. Why not get in touch with some of the <%= link_to 'people mapping nearby', :controller => 'user', :action => 'view', :display_name => @user.display_name %>?</div>
+	  <div id="messages"><%= t'message.inbox.no_messages_yet', :people_mapping_nearby_link => link_to(t('message.inbox.people_mapping_nearby'), :controller => 'user', :action => 'view', :display_name => @user.display_name) %></div>
 <% end %>
