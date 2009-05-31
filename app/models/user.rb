@@ -90,6 +90,10 @@ class User < ActiveRecord::Base
     languages.find { |l| Language.find(:first, :conditions => { :code => l }) }
   end
 
+  def preferred_language_from(array)
+    (languages & array.collect { |i| i.to_s }).first
+  end
+
   def nearby(radius = 50, num = 10)
     if self.home_lon and self.home_lat 
       gc = OSM::GreatCircle.new(self.home_lat, self.home_lon)

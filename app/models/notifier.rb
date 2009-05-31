@@ -108,6 +108,7 @@ private
 
   def common_headers(recipient)
     recipients recipient.email
+    locale recipient.preferred_language_from(I18n.available_locales)
     from "webmaster@openstreetmap.org"
     headers "return-path" => "bounces@openstreetmap.org",
             "Auto-Submitted" => "auto-generated"
