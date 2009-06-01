@@ -170,10 +170,12 @@ end
     var zoom = map.getZoom();
     var layers = getMapLayers();
     var extents = getMapExtent();
+    var expiry = new Date();
 
     updatelinks(lonlat.lon, lonlat.lat, zoom, layers, extents.left, extents.bottom, extents.right, extents.top);
-      
-    document.cookie = "_osm_location=" + lonlat.lon + "|" + lonlat.lat + "|" + zoom + "|" + layers;
+
+    expiry.setYear(expiry.getFullYear() + 10); 
+    document.cookie = "_osm_location=" + lonlat.lon + "|" + lonlat.lat + "|" + zoom + "|" + layers + "; expires=" + expiry.toGMTString();
   }
 
   function resizeContent() {
