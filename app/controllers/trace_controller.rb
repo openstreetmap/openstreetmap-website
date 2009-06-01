@@ -142,6 +142,7 @@ class TraceController < ApplicationController
         @trace.errors.add(:gpx_file, "can't be blank")
       end
     end
+    @title = I18n.t('trace.create.upload_trace')
   end
 
   def data

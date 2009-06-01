@@ -12,8 +12,8 @@ class User < ActiveRecord::Base
   has_many :changesets
 
   validates_presence_of :email, :display_name
-  validates_confirmation_of :email, :message => 'Email addresses must match'
-  validates_confirmation_of :pass_crypt, :message => 'Password must match the confirmation password'
+  validates_confirmation_of :email#, :message => ' addresses must match'
+  validates_confirmation_of :pass_crypt#, :message => ' must match the confirmation password'
   validates_uniqueness_of :display_name, :allow_nil => true
   validates_uniqueness_of :email
   validates_length_of :pass_crypt, :within => 8..255
