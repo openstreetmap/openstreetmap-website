@@ -26,14 +26,14 @@ class TraceController < ApplicationController
 
     # set title
     if target_user.nil?
-      @title = "Public GPS traces"
+      @title = t 'trace.list.public_traces'
     elsif @user and @user == target_user
-      @title = "Your GPS traces"
+      @title = t 'trace.list.your_traces'
     else
-      @title = "Public GPS traces from #{target_user.display_name}"
+      @title = t 'trace.list.public_traces_from', :user => target_user.display_name
     end
 
-    @title += " tagged with #{params[:tag]}" if params[:tag]
+    @title += t 'trace.list.tagged_with', :tags => params[:tag] if params[:tag]
 
     # four main cases:
     # 1 - all traces, logged in = all public traces + all user's (i.e + all mine)
@@ -108,13 +108,13 @@ class TraceController < ApplicationController
 
     if @trace and @trace.visible? and
        (@trace.public? or @trace.user == @user)
-      @title = "Viewing trace #{@trace.name}"
+      @title = t 'trace.view.viewing_trace', :name => @trace.name
     else
-      flash[:notice] = "Trace not found!"
+      flash[:notice] = t 'trace.view.trace_not_found'
       redirect_to :controller => 'trace', :action => 'list'
     end
   rescue ActiveRecord::RecordNotFound
-    flash[:notice] = "Trace not found!"
+    flash[:notice] = t 'trace.view.trace not found'
     redirect_to :controller => 'trace', :action => 'list'
   end
 
@@ -127,7 +127,7 @@ class TraceController < ApplicationController
 
         if @trace.id
           logger.info("id is #{@trace.id}")
-          flash[:notice] = "Your GPX file has been uploaded and is awaiting insertion in to the database. This will usually happen within half an hour, and an email will be sent to you on completion."
+          flash[:notice] = t 'trace.create.trace_uploaded'
 
           redirect_to :action => 'mine'
         end
@@ -142,7 +142,7 @@ class TraceController < ApplicationController
         @trace.errors.add(:gpx_file, "can't be blank")
       end
     end
-    @title = I18n.t('trace.create.upload_trace')
+    @title = t 'trace.create.upload_trace'
   end
 
   def data
@@ -186,7 +186,7 @@ class TraceController < ApplicationController
       if request.post? and trace.visible?
         trace.visible = false
         trace.save
-        flash[:notice] = 'Track scheduled for deletion'
+        flash[:notice] = t 'trace.delete.scheduled_for_deletion'
         redirect_to :controller => 'traces', :action => 'mine'
       else
         render :nothing => true, :status => :bad_request
@@ -205,7 +205,7 @@ class TraceController < ApplicationController
       if request.post? and !trace.public?
         trace.public = true
         trace.save
-        flash[:notice] = 'Track made public'
+        flash[:notice] = t 'trace.make_public.made_public'
         redirect_to :controller => 'trace', :action => 'view', :id => params[:id]
       else
         render :nothing => true, :status => :bad_request
