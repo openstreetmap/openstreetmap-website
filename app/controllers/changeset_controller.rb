@@ -115,7 +115,7 @@ class ChangesetController < ApplicationController
   # changeset.
   #
   # Returns: a diffResult document, as described in 
-  # http://wiki.openstreetmap.org/index.php/OSM_Protocol_Version_0.6
+  # http://wiki.openstreetmap.org/wiki/OSM_Protocol_Version_0.6
   def upload
     # only allow POST requests, as the upload method is most definitely
     # not idempotent, as several uploads with placeholder IDs will have

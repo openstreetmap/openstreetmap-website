@@ -149,7 +149,7 @@ class ApiControllerTest < ActionController::TestCase
   
   # MySQL and Postgres require that the C based functions are installed for 
   # this test to work. More information is available from:
-  # http://wiki.openstreetmap.org/index.php/Rails#Installing_the_quadtile_functions
+  # http://wiki.openstreetmap.org/wiki/Rails#Installing_the_quadtile_functions
   # or by looking at the readme in db/README
   def test_changes_simple
     get :changes
