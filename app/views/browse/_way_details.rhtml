@@ -11,7 +11,7 @@
             <%= link_to h(printable_name(wn.node)), :action => "node", :id => wn.node_id.to_s %>
             <% related_ways = wn.node.ways.reject { |w| w.id == way_details.id } %>
 	    <% if related_ways.size > 0 then %>
-	      (also part of <%= related_ways.map { |w| link_to(h(printable_name(w)), :action => "way", :id => w.id.to_s) }.join(", ") %>)
+        (<%= t 'browse.way_details.also_part_of', :related_ways => related_ways.map { |w| link_to(h(printable_name(w)), :action => "way", :id => w.id.to_s) }.join(", ") %>)
             <% end %>
 	  </td></tr>
         <% end %>
