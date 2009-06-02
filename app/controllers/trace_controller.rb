@@ -114,7 +114,7 @@ class TraceController < ApplicationController
       redirect_to :controller => 'trace', :action => 'list'
     end
   rescue ActiveRecord::RecordNotFound
-    flash[:notice] = t 'trace.view.trace not found'
+    flash[:notice] = t 'trace.view.trace_not_found'
     redirect_to :controller => 'trace', :action => 'list'
   end
 
