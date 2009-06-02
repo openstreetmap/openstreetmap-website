@@ -8,7 +8,7 @@ class DiaryEntryController < ApplicationController
   before_filter :check_database_writable, :only => [:new, :edit]
 
   def new
-    @title = I18n.t('diary_entry.list.new')
+    @title = t 'diary_entry.new.title'
 
     if params[:diary_entry]     
       @diary_entry = DiaryEntry.new(params[:diary_entry])
@@ -26,7 +26,7 @@ class DiaryEntryController < ApplicationController
   end
 
   def edit
-    @title= I18n.t('diary_entry.edit.title')
+    @title= t 'diary_entry.edit.title'
     @diary_entry = DiaryEntry.find(params[:id])
 
     if @user != @diary_entry.user
@@ -59,7 +59,7 @@ class DiaryEntryController < ApplicationController
       @this_user = User.find_by_display_name(params[:display_name], :conditions => {:visible => true})
 
       if @this_user
-        @title = @this_user.display_name + "'s diary"
+        @title = t 'diary_entry.list.user_title', :user => @this_user.display_name
         @entry_pages, @entries = paginate(:diary_entries,
                                           :conditions => ['user_id = ?', @this_user.id],
                                           :order => 'created_at DESC',
@@ -70,7 +70,7 @@ class DiaryEntryController < ApplicationController
         render :action => 'no_such_user', :status => :not_found
       end
     else
-      @title = I18n.t('diary_entry.list.title')
+      @title = t 'diary_entry.list.title'
       @entry_pages, @entries = paginate(:diary_entries, :include => :user,
                                         :conditions => ["users.visible = ?", true],
                                         :order => 'created_at DESC',
@@ -119,7 +119,7 @@ class DiaryEntryController < ApplicationController
     if user
       @entry = DiaryEntry.find(:first, :conditions => ['user_id = ? AND id = ?', user.id, params[:id]])
       if @entry
-        @title = "Users' diaries | #{params[:display_name]}"
+        @title = t 'diary_entry.view.title', :user => params[:display_name]
       else
         render :action => 'no_such_entry', :status => :not_found
       end
