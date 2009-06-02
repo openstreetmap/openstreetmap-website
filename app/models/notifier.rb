@@ -72,7 +72,7 @@ class Notifier < ActionMailer::Base
     body :to_user => comment.diary_entry.user.display_name,
          :from_user => comment.user.display_name,
          :body => comment.body,
-         :subject => comment.diary_entry.title,
+         :title => comment.diary_entry.title,
          :readurl => url_for(:host => SERVER_URL,
                              :controller => "diary_entry",
                              :action => "view",
