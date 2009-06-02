@@ -8,13 +8,13 @@
 
 <% if @user %>
 
-<h4 id="newcomment">Leave a comment</h4>
+<h4 id="newcomment"><%= t 'diary_entry.view.leave_a_comment' %></h4>
 <%= error_messages_for 'diary_comment' %>
 <% form_for :diary_comment, @diary_comment, :url => { :action => 'comment' } do |f| %>
 <%= f.text_area :body, :cols => 80, :rows => 5 %>
 <br />
 <br />
-<%= submit_tag 'Save' %>
+<%= submit_tag t('diary_entry.view.save_button') %>
 <% end %>
 
 <% else %>
