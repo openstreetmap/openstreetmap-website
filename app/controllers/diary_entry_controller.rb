@@ -32,8 +32,6 @@ class DiaryEntryController < ApplicationController
     if @user != @diary_entry.user
       redirect_to :controller => 'diary_entry', :action => 'view', :id => params[:id]
     elsif params[:diary_entry]
-      params[:diary_entry][:language] = Language.find_by_code(params[:diary_entry][:language])
-      params[:diary_entry][:language] = Language.find_by_code("en") if params[:diary_entry][:language].nil?
       if @diary_entry.update_attributes(params[:diary_entry])
         redirect_to :controller => 'diary_entry', :action => 'view', :id => params[:id]
       end
