@@ -10,7 +10,7 @@ class UserControllerTest < ActionController::TestCase
     
     assert_select "html:root", :count => 1 do
       assert_select "head", :count => 1 do
-        assert_select "title", :text => /create account/, :count => 1
+        assert_select "title", :text => /Create account/, :count => 1
       end
       assert_select "body", :count => 1 do
         assert_select "div#content", :count => 1 do

@@ -12,7 +12,7 @@ class UserController < ApplicationController
   filter_parameter_logging :password, :pass_crypt, :pass_crypt_confirmation
 
   def save
-    @title = 'create account'
+    @title = t 'user.new.title'
 
     if Acl.find_by_address(request.remote_ip, :conditions => {:k => "no_account_creation"})
       render :action => 'new'
@@ -26,7 +26,7 @@ class UserController < ApplicationController
       @user.languages = request.user_preferred_languages
 
       if @user.save
-        flash[:notice] = I18n.t('user.new.flash create success message')
+        flash[:notice] = t 'user.new.flash create success message'
         Notifier.deliver_signup_confirm(@user, @user.tokens.create)
         redirect_to :action => 'login'
       else
@@ -36,7 +36,8 @@ class UserController < ApplicationController
   end
 
   def account
-    @title = 'edit account'
+    @title = t 'user.account.title'
+
     if params[:user] and params[:user][:display_name] and params[:user][:description]
       if params[:user][:email] != @user.email
         @user.new_email = params[:user][:email]
@@ -58,10 +59,10 @@ class UserController < ApplicationController
         set_locale
 
         if params[:user][:email] == @user.new_email
-          flash[:notice] = I18n.t('user.account.flash update success confirm needed')
+          flash[:notice] = t 'user.account.flash update success confirm needed'
           Notifier.deliver_email_confirm(@user, @user.tokens.create)
         else
-          flash[:notice] = I18n.t('user.account.flash update success')
+          flash[:notice] = t 'user.account.flash update success'
         end
       end
     end
@@ -72,7 +73,7 @@ class UserController < ApplicationController
       @user.home_lat = params[:user][:home_lat].to_f
       @user.home_lon = params[:user][:home_lon].to_f
       if @user.save
-        flash[:notice] = I18n.t('user.set_home.flash success')
+        flash[:notice] = t 'user.set_home.flash success'
         redirect_to :controller => 'user', :action => 'account'
       end
     end
@@ -81,27 +82,29 @@ class UserController < ApplicationController
   def go_public
     @user.data_public = true
     @user.save
-    flash[:notice] = I18n.t('user.go_public.flash success')
+    flash[:notice] = t 'user.go_public.flash success'
     redirect_to :controller => 'user', :action => 'account', :display_name => @user.display_name
   end
 
   def lost_password
-    @title = I18n.t('user.lost_password.title')
+    @title = t 'user.lost_password.title'
+
     if params[:user] and params[:user][:email]
       user = User.find_by_email(params[:user][:email], :conditions => {:visible => true})
 
       if user
         token = user.tokens.create
         Notifier.deliver_lost_password(user, token)
-        flash[:notice] = I18n.t('user.lost_password.notice email on way')
+        flash[:notice] = t 'user.lost_password.notice email on way'
       else
-        flash[:notice] = I18n.t('user.lost_password.notice email cannot find')
+        flash[:notice] = t 'user.lost_password.notice email cannot find'
       end
     end
   end
 
   def reset_password
-    @title = I18n.t('user.reset_password.title')
+    @title = t 'user.reset_password.title'
+
     if params['token']
       token = UserToken.find_by_token(params[:token])
       if token
@@ -114,9 +117,9 @@ class UserController < ApplicationController
         user.save!
         token.destroy
         Notifier.deliver_reset_password(user, pass)
-        flash[:notice] = I18n.t('user.reset_password.flash changed check mail')
+        flash[:notice] = t 'user.reset_password.flash changed check mail'
       else
-        flash[:notice] = I18n.t('user.reset_password.flash token bad')
+        flash[:notice] = t 'user.reset_password.flash token bad'
       end
     end
 
@@ -124,7 +127,8 @@ class UserController < ApplicationController
   end
 
   def new
-    @title = 'create account'
+    @title = t 'user.new.title'
+
     # The user is logged in already, so don't show them the signup page, instead
     # send them to the home page
     redirect_to :controller => 'site', :action => 'index' if session[:user]
@@ -140,7 +144,9 @@ class UserController < ApplicationController
       end
       return
     end
-    @title = 'login'
+
+    @title = t 'user.login.title'
+
     if params[:user]
       email_or_display_name = params[:user][:email]
       pass = params[:user][:password]
@@ -154,9 +160,9 @@ class UserController < ApplicationController
         end
         return
       elsif User.authenticate(:username => email_or_display_name, :password => pass, :inactive => true)
-        @notice = I18n.t('user.login.account not active')
+        @notice = t 'user.login.account not active'
       else
-        @notice = I18n.t('user.login.auth failure')
+        @notice = t 'user.login.auth failure'
       end
     end
   end
@@ -186,11 +192,11 @@ class UserController < ApplicationController
         @user.email_valid = true
         @user.save!
         token.destroy
-        flash[:notice] = I18n.t('user.confirm.success')
+        flash[:notice] = t 'user.confirm.success'
         session[:user] = @user.id
         redirect_to :action => 'account', :display_name => @user.display_name
       else
-        @notice = I18n.t('user.confirm.failure')
+        @notice = t 'user.confirm.failure'
       end
     end
   end
@@ -206,11 +212,11 @@ class UserController < ApplicationController
         @user.email_valid = true
         @user.save!
         token.destroy
-        flash[:notice] = I18n.t('user.confirm_email.success')
+        flash[:notice] = t 'user.confirm_email.success'
         session[:user] = @user.id
         redirect_to :action => 'account', :display_name => @user.display_name
       else
-        @notice = I18n.t('user.confirm_email.failure')
+        @notice = t 'user.confirm_email.failure'
       end
     end
   end
@@ -259,13 +265,13 @@ class UserController < ApplicationController
       friend.friend_user_id = new_friend.id
       unless @user.is_friends_with?(new_friend)
         if friend.save
-          flash[:notice] = "#{name} is now your friend."
+          flash[:notice] = t 'user.make_friend.success', :name => name
           Notifier.deliver_friend_notification(friend)
         else
-          friend.add_error("Sorry, failed to add #{name} as a friend.")
+          friend.add_error(t('user.make_friend.failed', :name => name))
         end
       else
-        flash[:notice] = "You are already friends with #{name}."  
+        flash[:notice] = t 'user.make_friend.already_a_friend', :name => name
       end
 
       redirect_to :controller => 'user', :action => 'view'
@@ -278,9 +284,9 @@ class UserController < ApplicationController
       friend = User.find_by_display_name(name, :conditions => {:visible => true})
       if @user.is_friends_with?(friend)
         Friend.delete_all "user_id = #{@user.id} AND friend_user_id = #{friend.id}"
-        flash[:notice] = "#{friend.display_name} was removed from your friends."
+        flash[:notice] = t 'user.remove_friend.success', :name => friend.display_name
       else
-        flash[:notice] = "#{friend.display_name} is not one of your friends."
+        flash[:notice] = t 'user.remove_friend.not_a_friend', :name => friend.display_name
       end
 
       redirect_to :controller => 'user', :action => 'view'
