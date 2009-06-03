@@ -112,6 +112,8 @@ class ApplicationController < ActionController::Base
     end
 
     I18n.locale = request.compatible_language_from(I18n.available_locales)
+
+    response.headers['Content-Language'] = I18n.locale
   end
 
   def api_call_handle_error
