@@ -61,6 +61,7 @@ zoom='14' if zoom.nil?
   var fo = new SWFObject("/potlatch/potlatch.swf?d="+Math.round(Math.random()*1000), "potlatch", "100%", "100%", "6", "#FFFFFF");
   // 700,600 for fixed size, 100%,100% for resizable
   var changesaved=true;
+  var winie=false; if (document.all && window.print) { winie=true; }
   
   window.onbeforeunload=function() {
     if (!changesaved) {
@@ -72,6 +73,7 @@ zoom='14' if zoom.nil?
 
   function doSWF(lat,lon,sc) {
     if (sc < 11) sc = 11;
+    fo.addVariable('winie',winie);
     fo.addVariable('scale',sc);
     fo.addVariable('token','<%= session[:token] %>');
     if (lat) { fo.addVariable('lat',lat); }
