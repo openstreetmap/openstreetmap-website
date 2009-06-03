@@ -206,11 +206,11 @@ class UserController < ApplicationController
         @user.email_valid = true
         @user.save!
         token.destroy
-        flash[:notice] = I18n.t('user.confirm email.success')
+        flash[:notice] = I18n.t('user.confirm_email.success')
         session[:user] = @user.id
         redirect_to :action => 'account', :display_name => @user.display_name
       else
-        @notice = I18n.t('user.confirm email.failure')
+        @notice = I18n.t('user.confirm_email.failure')
       end
     end
   end
