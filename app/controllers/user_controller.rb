@@ -154,9 +154,9 @@ class UserController < ApplicationController
         end
         return
       elsif User.authenticate(:username => email_or_display_name, :password => pass, :inactive => true)
-        @notice = "Sorry, your account is not active yet.<br>Please click on the link in the account confirmation email to activate your account."
+        @notice = I18n.t('user.login.account not active')
       else
-        @notice = "Sorry, couldn't log in with those details."
+        @notice = I18n.t('user.login.auth failure')
       end
     end
   end
