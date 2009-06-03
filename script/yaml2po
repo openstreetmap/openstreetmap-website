@@ -1,0 +1,37 @@
+#!/usr/bin/env ruby
+# yaml2po, for converting RoR translation YAML to the standard gettext
+#          for eventual use with a translation site such as Transifex
+# Use:
+#  - To create a 'master' .pot
+#    yaml2po > translations.pot
+#  - To create a partucular language's .po
+#    yaml2po de > de.po
+
+require "yaml"
+
+LOCALE_DIR = File.dirname(__FILE__) + '/../config/locales/'
+
+def iterate(hash, fhash={}, path='')
+  hash.each {|key, val|
+    unless fhash.has_key? key
+     fhash[key] = {}
+    end
+    if val.is_a? Hash
+      iterate(val, fhash[key], path+key+':')
+    else
+      puts "#: #{path}#{key}"
+      puts "msgid \"#{val}\""
+      puts "msgstr \"#{fhash[key]}\""
+    end
+  }
+end
+
+language = ARGV[0]
+oth = {}
+if language
+  oth = YAML::load_file(LOCALE_DIR+language+'.yml')
+  oth = oth[language]
+end
+
+en = YAML::load_file(LOCALE_DIR+'en.yml')
+iterate(en['en'], oth)
