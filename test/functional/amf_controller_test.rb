@@ -552,14 +552,14 @@ class AmfControllerTest < ActionController::TestCase
   # this should be what AMF controller returns when the bbox of a
   # whichways request is invalid or too large.
   def assert_boundary_error(map, msg=nil, error_hint=nil)
-    expected_map = [-2, "Sorry - I can't get the map for that area.#{msg}", [], [], []]
+    expected_map = [-2, "Sorry - I can't get the map for that area.#{msg}"]
     assert_equal expected_map, map, "AMF controller should have returned an error. (#{error_hint})"
   end
 
   # this should be what AMF controller returns when the bbox of a
   # whichways_deleted request is invalid or too large.
   def assert_deleted_boundary_error(map, msg=nil, error_hint=nil)
-    expected_map = [-2, "Sorry - I can't get the map for that area.#{msg}", []]
+    expected_map = [-2, "Sorry - I can't get the map for that area.#{msg}"]
     assert_equal expected_map, map, "AMF controller should have returned an error. (#{error_hint})"
   end
 end
