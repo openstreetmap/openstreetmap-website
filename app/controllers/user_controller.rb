@@ -186,11 +186,11 @@ class UserController < ApplicationController
         @user.email_valid = true
         @user.save!
         token.destroy
-        flash[:notice] = 'Confirmed your account, thanks for signing up!'
+        flash[:notice] = I18n.t('user.confirm.success')
         session[:user] = @user.id
         redirect_to :action => 'account', :display_name => @user.display_name
       else
-        @notice = 'Something went wrong confirming that user.'
+        @notice = I18n.t('user.confirm.failure')
       end
     end
   end
@@ -206,11 +206,11 @@ class UserController < ApplicationController
         @user.email_valid = true
         @user.save!
         token.destroy
-        flash[:notice] = 'Confirmed your email address, thanks for signing up!'
+        flash[:notice] = I18n.t('user.confirm email.success')
         session[:user] = @user.id
         redirect_to :action => 'account', :display_name => @user.display_name
       else
-        @notice = 'Something went wrong confirming that email address.'
+        @notice = I18n.t('user.confirm email.failure')
       end
     end
   end
