@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class NodeTest < Test::Unit::TestCase
+class NodeTest < ActiveSupport::TestCase
   api_fixtures
   
   def test_node_count
@@ -56,7 +56,7 @@ class NodeTest < Test::Unit::TestCase
     assert_equal dbnode.version, node.version
     assert_equal dbnode.visible, node.visible
     #assert_equal node.tile, QuadTile.tile_for_point(node.lat, node.lon)
-    assert_valid node
+    assert node.valid?
   end
   
   # This helper method will check to make sure that a node is outwith the world, 

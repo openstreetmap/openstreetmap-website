@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class OldRelationTagTest < Test::Unit::TestCase
+class OldRelationTagTest < ActiveSupport::TestCase
   api_fixtures
   
   def test_tag_count
@@ -15,7 +15,7 @@ class OldRelationTagTest < Test::Unit::TestCase
       tag.version = 1
       tag.k = key*i
       tag.v = "v"
-      assert_valid tag
+      assert tag.valid?
     end
   end
   
@@ -27,7 +27,7 @@ class OldRelationTagTest < Test::Unit::TestCase
       tag.version = 1
       tag.k = "k"
       tag.v = val*i
-      assert_valid tag
+      assert tag.valid?
     end
   end
   

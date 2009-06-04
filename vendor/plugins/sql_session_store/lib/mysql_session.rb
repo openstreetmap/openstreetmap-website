@@ -1,10 +1,5 @@
 require 'mysql'
 
-# allow access to the real Mysql connection
-class ActiveRecord::ConnectionAdapters::MysqlAdapter
-  attr_reader :connection
-end
-
 # MysqlSession is a down to the bare metal session store
 # implementation to be used with +SQLSessionStore+. It is much faster
 # than the default ActiveRecord implementation.
@@ -13,30 +8,8 @@ end
 # 'data', 'created_at' and 'updated_at'. If you want use other names,
 # you will need to change the SQL statments in the code.
 
-class MysqlSession
-
-  # if you need Rails components, and you have a pages which create
-  # new sessions, and embed components insides this pages that need
-  # session access, then you *must* set +eager_session_creation+ to
-  # true (as of Rails 1.0).
-  cattr_accessor :eager_session_creation
-  @@eager_session_creation = false
-
-  attr_accessor :id, :session_id, :data
-
-  def initialize(session_id, data)
-    @session_id = session_id
-    @data = data
-    @id = nil
-  end
-
+class MysqlSession < AbstractSession
   class << self
-
-    # retrieve the session table connection and get the 'raw' Mysql connection from it
-    def session_connection
-      SqlSession.connection.connection
-    end
-
     # try to find a session with a given +session_id+. returns nil if
     # no such session exists. note that we don't retrieve
     # +created_at+ and +updated_at+ as they are not accessed anywhyere
@@ -44,13 +17,12 @@ class MysqlSession
     def find_session(session_id)
       connection = session_connection
       connection.query_with_result = true
-      session_id = Mysql::quote(session_id)
       result = connection.query("SELECT id, data FROM sessions WHERE `session_id`='#{session_id}' LIMIT 1")
       my_session = nil
       # each is used below, as other methods barf on my 64bit linux machine
       # I suspect this to be a bug in mysql-ruby
       result.each do |row|
-        my_session = new(session_id, row[1])
+        my_session = new(session_id, AbstractSession.unmarshalize(row[1]))
         my_session.id = row[0]
       end
       result.free
@@ -59,12 +31,11 @@ class MysqlSession
 
     # create a new session with given +session_id+ and +data+
     # and save it immediately to the database
-    def create_session(session_id, data)
-      session_id = Mysql::quote(session_id)
+    def create_session(session_id, data={})      
       new_session = new(session_id, data)
       if @@eager_session_creation
         connection = session_connection
-        connection.query("INSERT INTO sessions (`created_at`, `updated_at`, `session_id`, `data`) VALUES (NOW(), NOW(), '#{session_id}', '#{Mysql::quote(data)}')")
+        connection.query("INSERT INTO sessions (`created_at`, `updated_at`, `session_id`, `data`) VALUES (NOW(), NOW(), '#{session_id}', '#{Mysql::quote(AbstractSession.marshalize(data))}')")
         new_session.id = connection.insert_id
       end
       new_session
@@ -90,11 +61,11 @@ class MysqlSession
     if @id
       # if @id is not nil, this is a session already stored in the database
       # update the relevant field using @id as key
-      connection.query("UPDATE sessions SET `updated_at`=NOW(), `data`='#{Mysql::quote(data)}' WHERE id=#{@id}")
+      connection.query("UPDATE sessions SET `updated_at`=NOW(), `data`='#{Mysql::quote(AbstractSession.marshalize(data))}' WHERE id=#{@id}")
     else
       # if @id is nil, we need to create a new session in the database
-      # and set @id to the primary key of the inserted record
-      connection.query("INSERT INTO sessions (`created_at`, `updated_at`, `session_id`, `data`) VALUES (NOW(), NOW(), '#{@session_id}', '#{Mysql::quote(data)}')")
+      # and set @id to the primary key of the inserted record     
+      connection.query("INSERT INTO sessions (`created_at`, `updated_at`, `session_id`, `data`) VALUES (NOW(), NOW(), '#{@session_id}', '#{Mysql::quote(AbstractSession.marshalize(data))}')")
       @id = connection.insert_id
     end
   end
@@ -110,7 +81,7 @@ __END__
 
 # This software is released under the MIT license
 #
-# Copyright (c) 2005-2008 Stefan Kaes
+# Copyright (c) 2005,2006 Stefan Kaes
 
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the

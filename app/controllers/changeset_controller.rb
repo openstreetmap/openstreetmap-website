@@ -4,7 +4,6 @@ class ChangesetController < ApplicationController
   layout 'site'
   require 'xml/libxml'
 
-  session :off, :except => [:list, :list_user, :list_bbox]
   before_filter :authorize_web, :only => [:list, :list_user, :list_bbox]
   before_filter :set_locale, :only => [:list, :list_user, :list_bbox]
   before_filter :authorize, :only => [:create, :update, :delete, :upload, :include, :close]

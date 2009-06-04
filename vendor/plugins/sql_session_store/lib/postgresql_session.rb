@@ -1,10 +1,5 @@
 require 'pg'
 
-# allow access to the real Posqtgresql connection
-class ActiveRecord::ConnectionAdapters::PostgreSQLAdapter
-  attr_reader :connection
-end
-
 # PostgresqlSession is a down to the bare metal session store
 # implementation to be used with +SQLSessionStore+. It is much faster
 # than the default ActiveRecord implementation.
@@ -15,30 +10,8 @@ end
 #
 # This table layout is compatible with ActiveRecordStore.
 
-class PostgresqlSession
-
-  # if you need Rails components, and you have a pages which create
-  # new sessions, and embed components insides these pages that need
-  # session access, then you *must* set +eager_session_creation+ to
-  # true (as of Rails 1.0). Not needed for Rails 1.1 and up.
-  cattr_accessor :eager_session_creation
-  @@eager_session_creation = false
-
-  attr_accessor :id, :session_id, :data
-
-  def initialize(session_id, data)
-    @session_id = session_id
-    @data = data
-    @id = nil
-  end
-
+class PostgresqlSession < AbstractSession
   class << self
-
-    # retrieve the session table connection and get the 'raw' Postgresql connection from it
-    def session_connection
-      SqlSession.connection.connection
-    end
-
     # try to find a session with a given +session_id+. returns nil if
     # no such session exists. note that we don't retrieve
     # +created_at+ and +updated_at+ as they are not accessed anywhyere
@@ -47,7 +20,7 @@ class PostgresqlSession
       connection = session_connection
       result = connection.query("SELECT id, data FROM sessions WHERE session_id = $1 LIMIT 1", [session_id])
       if result.ntuples > 0
-        my_session = new(session_id, result.getvalue(0, 1))
+        my_session = new(session_id, AbstractSession.unmarshalize(result.getvalue(0, 1)))
         my_session.id = result.getvalue(0, 0)
       else
         my_session = nil
@@ -58,11 +31,11 @@ class PostgresqlSession
 
     # create a new session with given +session_id+ and +data+
     # and save it immediately to the database
-    def create_session(session_id, data)
+    def create_session(session_id, data={})
       new_session = new(session_id, data)
       if @@eager_session_creation
         connection = session_connection
-        connection.query("INSERT INTO sessions (created_at, updated_at, session_id, data) VALUES (NOW(), NOW(), $1, $2)", [session_id, data])
+        connection.query("INSERT INTO sessions (created_at, updated_at, session_id, data) VALUES (NOW(), NOW(), $1, $2)", [session_id, AbstractSession.marshalize(data)])
         new_session.id = connection.lastval
       end
       new_session
@@ -70,9 +43,9 @@ class PostgresqlSession
 
     # delete all sessions meeting a given +condition+. it is the
     # caller's responsibility to pass a valid sql condition
-    def delete_all(id=nil)
-      if id
-        session_connection.query("DELETE FROM sessions WHERE session_id = $1", [id])
+    def delete_all(condition=nil)
+      if condition
+        session_connection.query("DELETE FROM sessions WHERE #{condition}")
       else
         session_connection.query("DELETE FROM sessions")
       end
@@ -88,11 +61,11 @@ class PostgresqlSession
     if @id
       # if @id is not nil, this is a session already stored in the database
       # update the relevant field using @id as key
-      connection.query("UPDATE sessions SET updated_at = NOW(), data = $1 WHERE id = $2", [data, @id])
+      connection.query("UPDATE sessions SET updated_at = NOW(), data = $1 WHERE id = $2", [AbstractSession.marshalize(data), @id])
     else
       # if @id is nil, we need to create a new session in the database
       # and set @id to the primary key of the inserted record
-      result = connection.query("INSERT INTO sessions (created_at,  updated_at, session_id, data) VALUES (NOW(), NOW(), $1, $2) RETURNING id", [@session_id, data])
+      result = connection.query("INSERT INTO sessions (created_at,  updated_at, session_id, data) VALUES (NOW(), NOW(), $1, $2) RETURNING id", [@session_id, AbstractSession.marshalize(data)])
       @id = result.getvalue(0, 0)
       result.clear
     end
@@ -100,7 +73,7 @@ class PostgresqlSession
 
   # destroy the current session
   def destroy
-    self.class.delete_all(session_id)
+    self.class.delete_all("session_id='#{session_id}'")
   end
 
 end
@@ -109,7 +82,7 @@ __END__
 
 # This software is released under the MIT license
 #
-# Copyright (c) 2006-2008 Stefan Kaes
+# Copyright (c) 2006 Stefan Kaes
 
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the

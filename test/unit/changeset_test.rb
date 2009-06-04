@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class ChangesetTest < Test::Unit::TestCase
+class ChangesetTest < ActiveSupport::TestCase
   api_fixtures
   
   def test_changeset_count

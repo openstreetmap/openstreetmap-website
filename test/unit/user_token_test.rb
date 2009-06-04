@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class UserTokenTest < Test::Unit::TestCase
+class UserTokenTest < ActiveSupport::TestCase
   api_fixtures
   fixtures :user_tokens
 

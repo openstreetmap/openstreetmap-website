@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class FriendTest < Test::Unit::TestCase
+class FriendTest < ActiveSupport::TestCase
   api_fixtures
   fixtures :friends
 

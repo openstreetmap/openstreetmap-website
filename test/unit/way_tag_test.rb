@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class WayTagTest < Test::Unit::TestCase
+class WayTagTest < ActiveSupport::TestCase
   api_fixtures
   
   def test_way_tag_count
@@ -14,7 +14,7 @@ class WayTagTest < Test::Unit::TestCase
       tag.id = current_way_tags(:t1).id
       tag.k = key*i
       tag.v = current_way_tags(:t1).v
-      assert_valid tag
+      assert tag.valid?
     end
   end
   
@@ -25,7 +25,7 @@ class WayTagTest < Test::Unit::TestCase
       tag.id = current_way_tags(:t1).id
       tag.k = "k"
       tag.v = val*i
-      assert_valid tag
+      assert tag.valid?
     end
   end
   

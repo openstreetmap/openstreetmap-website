@@ -12,7 +12,7 @@ class SqlSession < ActiveRecord::Base
   # retrieve session data for a given +session_id+ from the database,
   # return nil if no such session exists
   def self.find_session(session_id)
-    find :first, :conditions => "session_id='#{session_id}'"
+    find :first, :conditions => { :session_id => session_id }
   end
 
   # create a new session with given +session_id+ and +data+

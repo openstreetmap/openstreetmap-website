@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class DiaryEntryTest < Test::Unit::TestCase
+class DiaryEntryTest < ActiveSupport::TestCase
   api_fixtures
   fixtures :diary_entries, :languages
   

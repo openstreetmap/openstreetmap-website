@@ -1,10 +1,5 @@
 require 'oci8'
 
-# allow access to the real Oracle connection
-class ActiveRecord::ConnectionAdapters::OracleAdapter
-  attr_reader :connection
-end
-
 # OracleSession is a down to the bare metal session store
 # implementation to be used with +SQLSessionStore+. It is much faster
 # than the default ActiveRecord implementation.
@@ -15,74 +10,81 @@ end
 #
 # This table layout is compatible with ActiveRecordStore.
 
-class OracleSession
-
-  # if you need Rails components, and you have a pages which create
-  # new sessions, and embed components insides these pages that need
-  # session access, then you *must* set +eager_session_creation+ to
-  # true (as of Rails 1.0). Not needed for Rails 1.1 and up.
-  cattr_accessor :eager_session_creation
-  @@eager_session_creation = false
-
-  attr_accessor :id, :session_id, :data
-
-  def initialize(session_id, data)
-    @session_id = session_id
-    @data = data
-    @id = nil
-  end
-
+class OracleSession < AbstractSession
   class << self
-
-    # retrieve the session table connection and get the 'raw' Oracle connection from it
-    def session_connection
-      SqlSession.connection.connection
-    end
-
     # try to find a session with a given +session_id+. returns nil if
     # no such session exists. note that we don't retrieve
     # +created_at+ and +updated_at+ as they are not accessed anywhyere
     # outside this class.
     def find_session(session_id)
       new_session = nil
-      connection = session_connection
-      result = connection.exec("SELECT id, data FROM sessions WHERE session_id = :a and rownum=1", session_id)
 
       # Make sure to save the @id if we find an existing session
-      while row = result.fetch
-        new_session = new(session_id,row[1].read)
-        new_session.id = row[0]
+      cursor = session_connection.exec(find_session_sql, session_id)
+      if row = cursor.fetch_hash
+        new_session = new(session_id, unmarshalize(row['DATA'].read), row['ID'])
+
+        # Pull out native columns
+        native_columns.each do |col|
+          new_session.data[col] = row[col.to_s.upcase]
+          new_session.data[col] = row[col.to_s.upcase]
+        end
       end
-      result.close
+
+      cursor.close
       new_session
     end
 
     # create a new session with given +session_id+ and +data+
     # and save it immediately to the database
-    def create_session(session_id, data)
+    def create_session(session_id, data={})
       new_session = new(session_id, data)
-      if @@eager_session_creation
-        connection = session_connection
-        connection.exec("INSERT INTO sessions (id, created_at, updated_at, session_id, data)"+
-                        " VALUES (sessions_seq.nextval, SYSDATE, SYSDATE, :a, :b)",
-                         session_id, data)
-        result = connection.exec("SELECT sessions_seq.currval FROM dual")
-        row = result.fetch
-        new_session.id = row[0].to_i
+      if eager_session_creation
+        new_session.id = next_id
+        cursor = session_connection.parse(insert_session_sql)
+
+        # Now bind all variables
+        cursor.bind_param(':id', new_session.id)
+        cursor.bind_param(':session_id', session_id)
+        native_columns.each do |col|
+          cursor.bind_param(":#{col}", data.delete(col) || '')
+        end
+        cursor.bind_param(':data', marshalize(data))
+        cursor.exec
+        cursor.close
       end
       new_session
     end
 
-    # delete all sessions meeting a given +condition+. it is the
-    # caller's responsibility to pass a valid sql condition
-    def delete_all(condition=nil)
-      if condition
-        session_connection.exec("DELETE FROM sessions WHERE #{condition}")
-      else
-        session_connection.exec("DELETE FROM sessions")
-      end
+    # Internal methods for generating SQL
+    # Get the next ID from the sequence
+    def next_id
+      cursor = session_connection.exec("SELECT #{table_name}_seq.nextval FROM dual")
+      id = cursor.fetch.first.to_i
+      cursor.close
+      id
     end
 
+    # Dynamically generate finder SQL so we can include our special columns
+    def find_session_sql
+      @find_session_sql ||=
+        "SELECT " + ([:id, :data] + native_columns).join(', ') +
+        " FROM #{table_name} WHERE session_id = :session_id AND rownum = 1"
+    end
+
+    def insert_session_sql
+      @insert_session_sql ||=
+        "INSERT INTO #{table_name} (" + ([:id, :data, :session_id] + native_columns + [:created_at, :updated_at]).join(', ') + ")" + 
+        " VALUES (" + ([:id, :data, :session_id] + native_columns).collect{|col| ":#{col}" }.join(', ') + 
+        " , SYSDATE, SYSDATE)"
+    end
+
+    def update_session_sql
+      @update_session_sql ||=
+        "UPDATE #{table_name} SET "+
+        ([:data] + native_columns).collect{|col| "#{col} = :#{col}"}.join(', ') +
+        " , updated_at = SYSDATE WHERE ID = :id"
+    end
   end # class methods
 
   # update session with given +data+.
@@ -90,26 +92,33 @@ class OracleSession
   # column `updated_at` will be done by the database itself
   def update_session(data)
     connection = self.class.session_connection
+    cursor = nil
     if @id
       # if @id is not nil, this is a session already stored in the database
       # update the relevant field using @id as key
-      connection.exec("UPDATE sessions SET updated_at = SYSDATE, data = :a WHERE id = :b",
-                       data, @id)
+      cursor = connection.parse(self.class.update_session_sql)
     else
       # if @id is nil, we need to create a new session in the database
       # and set @id to the primary key of the inserted record
-      connection.exec("INSERT INTO sessions (id, created_at, updated_at, session_id, data)"+
-                      " VALUES (sessions_seq.nextval, SYSDATE, SYSDATE, :a, :b)",
-                       @session_id, data)
-      result = connection.exec("SELECT sessions_seq.currval FROM dual")
-      row = result.fetch
-      @id = row[0].to_i
+      @id = self.class.next_id
+
+      cursor = connection.parse(self.class.insert_session_sql)
+      cursor.bind_param(':session_id', @session_id)
     end
+
+    # These are always the same, as @id is set above!
+    cursor.bind_param(':id', @id, Fixnum) 
+    native_columns.each do |col|
+      cursor.bind_param(":#{col}", data.delete(col) || '')
+    end
+    cursor.bind_param(':data', self.class.marshalize(data))
+    cursor.exec
+    cursor.close
   end
 
   # destroy the current session
   def destroy
-    self.class.delete_all("session_id='#{session_id}'")
+    self.class.delete_all(["session_id = ?", session_id])
   end
 
 end
@@ -118,9 +127,9 @@ __END__
 
 # This software is released under the MIT license
 #
-# Copyright (c) 2006-2008 Stefan Kaes
-# Copyright (c) 2006-2008 Tiago Macedo
-# Copyright (c) 2007-2008 Nate Wiger
+# Copyright (c) 2006 Stefan Kaes
+# Copyright (c) 2006 Tiago Macedo
+# Copyright (c) 2007 Nate Wiger
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the

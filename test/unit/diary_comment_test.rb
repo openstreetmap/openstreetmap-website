@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class DiaryCommentTest < Test::Unit::TestCase
+class DiaryCommentTest < ActiveSupport::TestCase
   api_fixtures
   fixtures :diary_comments
   

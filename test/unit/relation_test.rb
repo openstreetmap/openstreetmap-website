@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class RelationTest < Test::Unit::TestCase
+class RelationTest < ActiveSupport::TestCase
   api_fixtures
   
   def test_relation_count

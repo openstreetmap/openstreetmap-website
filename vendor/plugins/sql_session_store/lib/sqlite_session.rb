@@ -1,10 +1,5 @@
 require 'sqlite3'
 
-# allow access to the real Sqlite connection
-#class ActiveRecord::ConnectionAdapters::SQLiteAdapter
-#  attr_reader :connection
-#end
-
 # SqliteSession is a down to the bare metal session store
 # implementation to be used with +SQLSessionStore+. It is much faster
 # than the default ActiveRecord implementation.
@@ -13,37 +8,15 @@ require 'sqlite3'
 # 'data', 'created_at' and 'updated_at'. If you want use other names,
 # you will need to change the SQL statments in the code.
 
-class SqliteSession
-
-  # if you need Rails components, and you have a pages which create
-  # new sessions, and embed components insides this pages that need
-  # session access, then you *must* set +eager_session_creation+ to
-  # true (as of Rails 1.0).
-  cattr_accessor :eager_session_creation
-  @@eager_session_creation = false
-
-  attr_accessor :id, :session_id, :data
-
-  def initialize(session_id, data)
-    @session_id = session_id
-    @data = data
-    @id = nil
-  end
+class SqliteSession < AbstractSession
 
   class << self
-
-    # retrieve the session table connection and get the 'raw' Sqlite connection from it
-    def session_connection
-      SqlSession.connection.instance_variable_get(:@connection)
-    end
-
     # try to find a session with a given +session_id+. returns nil if
     # no such session exists. note that we don't retrieve
     # +created_at+ and +updated_at+ as they are not accessed anywhyere
     # outside this class
     def find_session(session_id)
       connection = session_connection
-      session_id = SQLite3::Database.quote(session_id)
       result = connection.execute("SELECT id, data FROM sessions WHERE `session_id`='#{session_id}' LIMIT 1")
       my_session = nil
       # each is used below, as other methods barf on my 64bit linux machine
@@ -59,7 +32,6 @@ class SqliteSession
     # create a new session with given +session_id+ and +data+
     # and save it immediately to the database
     def create_session(session_id, data)
-      session_id = SQLite3::Database.quote(session_id)
       new_session = new(session_id, data)
       if @@eager_session_creation
         connection = session_connection
@@ -110,8 +82,8 @@ __END__
 
 # This software is released under the MIT license
 #
-# Copyright (c) 2005-2008 Stefan Kaes
-# Copyright (c) 2006-2008 Ted X Toth
+# Copyright (c) 2005, 2006 Stefan Kaes
+# Copyright (c) 2006 Ted X Toth
 
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the

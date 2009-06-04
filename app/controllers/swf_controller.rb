@@ -1,5 +1,4 @@
 class SwfController < ApplicationController
-	session :off
 	before_filter :check_api_readable
 
 # to log:

@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class TraceTest < Test::Unit::TestCase
+class TraceTest < ActiveSupport::TestCase
   api_fixtures
   
   def test_trace_count

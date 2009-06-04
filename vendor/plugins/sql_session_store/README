@@ -1,8 +1,20 @@
 == SqlSessionStore
 
-See http://railsexpress.de/blog/articles/2005/12/19/roll-your-own-sql-session-store
+This version of SqlSessionStore properly supports both CGI-based sessions (Rails < 2.3)
+and Rack-based sessions released in Rails 2.3.  For the latest version of +SqlSessionStore+,
+see:
 
-Only Mysql, Postgres and Oracle are currently supported (others work,
+    http://github.com/nateware/sql_session_store/tree/master
+
+To install, use:
+
+    script/plugin install git://github.com/nateware/sql_session_store.git
+
+This version also includes the "native columns" feature, which enables +session[:xyz]+
+to map directly to column +xyz+ in the sessions table transparently.  For info,
+scroll down to "Step 4".
+
+Note: Only Mysql, PostgreSQL, and Oracle are currently supported (others work,
 but you won't see much performance improvement).
 
 == Step 1
@@ -10,29 +22,33 @@ but you won't see much performance improvement).
 If you have generated your sessions table using rake db:sessions:create, go to Step 2
 
 If you're using an old version of sql_session_store, run
-    script/generate sql_session_store DB
+
+    script/generate sql_session_store [DB]
+
 where DB is mysql, postgresql or oracle
 
 Then run
-    rake migrate
-or
+
     rake db:migrate
-for edge rails.
+
+to create the sessions table.
 
 == Step 2
 
-Add the code below after the initializer config section:
+Add the code below in +config/environment.rb+, inside the initializers section
 
-    ActionController::CgiRequest::DEFAULT_SESSION_OPTIONS.
-      update(:database_manager => SqlSessionStore)
+  # Use SqlSessionStore instead of the standard ActiveRecord store
+  config.action_controller.session_store = :sql_session_store
 
-Finally, depending on your database type, add
+Then, depending on your database type, add
 
     SqlSessionStore.session_class = MysqlSession
 or
 
     SqlSessionStore.session_class = PostgresqlSession
+
 or
+
     SqlSessionStore.session_class = OracleSession
 
 after the initializer section in environment.rb
@@ -46,6 +62,32 @@ environment.rb:
 
    SqlSession.establish_connection :sessions
 
+== Step 4 (optional)
+
+If you want to store certain pieces of data as actual columns in the 
++sessions+ table transparently, simply update the sessions migration
+to include the columns.  For example, if you wanted to store +user_id+
+and +language+ as columns, your migration might look something like:
+
+    create_table :sessions do |t|
+      t.string  :session_id, :null => false, :references => nil, :unique => true
+      t.integer :user_id
+      t.string  :language
+      t.text    :data
+      t.timestamps
+    end
+
+Then, use the "native columns" feature of the specific database driver:
+
+    OracleSession.native_columns = [:user_id, :language]
+
+This will map these columns transparently for you. Simply access them like
+normal columns:
+
+    session[:user_id]  = @user.id
+    session[:language] = @language
+
+And the appropriate columns in the sessions table will be updated for you.
 
 == IMPORTANT NOTES
 

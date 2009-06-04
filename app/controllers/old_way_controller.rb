@@ -1,7 +1,6 @@
 class OldWayController < ApplicationController
   require 'xml/libxml'
 
-  session :off
   before_filter :check_api_readable
   after_filter :compress_output
   around_filter :api_call_handle_error, :api_call_timeout

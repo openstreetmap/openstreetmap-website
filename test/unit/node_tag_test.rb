@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class NodeTagTest < Test::Unit::TestCase
+class NodeTagTest < ActiveSupport::TestCase
   api_fixtures
   
   def test_tag_count
@@ -24,7 +24,7 @@ class NodeTagTest < Test::Unit::TestCase
       tag.id = current_node_tags(:t1).id
       tag.k = key*i
       tag.v = "v"
-      assert_valid tag
+      assert tag.valid?
     end
   end
   
@@ -35,7 +35,7 @@ class NodeTagTest < Test::Unit::TestCase
       tag.id = current_node_tags(:t1).id
       tag.k = "k"
       tag.v = val*i
-      assert_valid tag
+      assert tag.valid?
     end
   end
   

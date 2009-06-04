@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class ChangesetTagTest < Test::Unit::TestCase
+class ChangesetTagTest < ActiveSupport::TestCase
   api_fixtures
 
   def test_changeset_tag_count
@@ -14,7 +14,7 @@ class ChangesetTagTest < Test::Unit::TestCase
       tag.id = 1
       tag.k = key*i
       tag.v = "v"
-      assert_valid tag
+      assert tag.valid?
     end
   end
   
@@ -25,7 +25,7 @@ class ChangesetTagTest < Test::Unit::TestCase
       tag.id = 1
       tag.k = "k"
       tag.v = val*i
-      assert_valid tag
+      assert tag.valid?
     end
   end
   

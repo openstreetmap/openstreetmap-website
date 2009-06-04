@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class WayTest < Test::Unit::TestCase
+class WayTest < ActiveSupport::TestCase
   api_fixtures
 
   # Check that we have the correct number of currnet ways in the db
