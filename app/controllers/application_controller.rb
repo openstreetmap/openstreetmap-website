@@ -45,7 +45,6 @@ class ApplicationController < ActionController::Base
     # handle authenticate pass/fail
     unless @user
       # no auth, the user does not exist or the password was wrong
-      response.headers["Status"] = "Unauthorized" 
       response.headers["WWW-Authenticate"] = "Basic realm=\"#{realm}\"" 
       render :text => errormessage, :status => :unauthorized
       return false
