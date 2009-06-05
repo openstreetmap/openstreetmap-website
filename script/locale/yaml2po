@@ -50,9 +50,11 @@ if opt == '--all'
   Dir.mkdir(PO_DIR) unless File.directory?(PO_DIR)
   Dir.glob(LOCALE_DIR+"*.yml") {|filename|
     lang = File.basename(filename, '.yml')
-    outfile = File.new(PO_DIR+"#{lang}.po", 'w')
-    lang2po(lang, outfile)
-    outfile.close
+    unless lang == 'en'
+      outfile = File.new(PO_DIR+"#{lang}.po", 'w')
+      lang2po(lang, outfile)
+      outfile.close
+    end
   }
   outfile = File.new(PO_DIR+"rails_port.pot", 'w')
   iterate(EN['en'], {}, '', outfile)
