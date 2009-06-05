@@ -334,6 +334,11 @@ module OSM
       maxlon = (@lon + lonradius) * 180 / PI
       return { :minlat => minlat, :maxlat => maxlat, :minlon => minlon, :maxlon => maxlon }
     end
+
+    # get the SQL to use to calculate distance
+    def sql_for_distance(lat_field, lon_field)
+      "6372.795 * 2 * asin(sqrt(power(sin((radians(#{lat_field}) - #{@lat}) / 2), 2) + cos(#{@lat}) * cos(radians(#{lat_field})) * power(sin((radians(#{lon_field}) - #{@lon})/2), 2)))"
+    end
   end
 
   class GeoRSS
