@@ -4,7 +4,9 @@
 # Use:
 #  - To create a 'master' .pot
 #    yaml2po > translations.pot
-#  - To create a partucular language's .po
+#  - To create a language's .po from scratch
+#    yaml2po > de.po
+#  - To create a partucular language's .po from existing translations
 #    yaml2po de > de.po
 
 require "yaml"
@@ -19,7 +21,7 @@ def iterate(hash, fhash={}, path='')
     if val.is_a? Hash
       iterate(val, fhash[key], path+key+':')
     else
-      puts "#: #{path}#{key}"
+      puts "msgctxt \"#{path}#{key}\""
       puts "msgid \"#{val}\""
       puts "msgstr \"#{fhash[key]}\""
     end
