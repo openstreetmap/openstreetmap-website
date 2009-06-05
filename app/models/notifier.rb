@@ -1,7 +1,7 @@
 class Notifier < ActionMailer::Base
   def signup_confirm(user, token)
     common_headers user
-    subject "[OpenStreetMap] Confirm your email address"
+    subject I18n.t('notifier.signup_confirm.subject')
     body :url => url_for(:host => SERVER_URL,
                          :controller => "user", :action => "confirm",
                          :confirm_string => token.token)
@@ -10,7 +10,7 @@ class Notifier < ActionMailer::Base
   def email_confirm(user, token)
     common_headers user
     recipients user.new_email
-    subject "[OpenStreetMap] Confirm your email address"
+    subject I18n.t('notifier.email_confirm.subject')
     body :address => user.new_email,
          :url => url_for(:host => SERVER_URL,
                          :controller => "user", :action => "confirm_email",
@@ -19,7 +19,7 @@ class Notifier < ActionMailer::Base
 
   def lost_password(user, token)
     common_headers user
-    subject "[OpenStreetMap] Password reset request"
+    subject I18n.t('notifier.lost_password.subject')
     body :url => url_for(:host => SERVER_URL,
                          :controller => "user", :action => "reset_password",
                          :email => user.email, :token => token.token)
@@ -27,7 +27,7 @@ class Notifier < ActionMailer::Base
 
   def reset_password(user, pass)
     common_headers user
-    subject "[OpenStreetMap] Password reset"
+    subject I18n.t('notifier.reset_password.subject')
     body :pass => pass
   end
 
@@ -53,11 +53,11 @@ class Notifier < ActionMailer::Base
   
   def message_notification(message)
     common_headers message.recipient
-    subject "[OpenStreetMap] #{message.sender.display_name} sent you a new message"
+    subject I18n.t('notifier.message_notification.subject', :user => message.sender.display_name)
     body :to_user => message.recipient.display_name,
          :from_user => message.sender.display_name,
          :body => message.body,
-         :subject => message.title,
+         :title => message.title,
          :readurl => url_for(:host => SERVER_URL,
                              :controller => "message", :action => "read",
                              :message_id => message.id),
@@ -68,7 +68,7 @@ class Notifier < ActionMailer::Base
 
   def diary_comment_notification(comment)
     common_headers comment.diary_entry.user
-    subject "[OpenStreetMap] #{comment.user.display_name} commented on your diary entry"
+    subject I18n.t('notifier.diary_comment_notification.subject', :user => comment.user.display_name)
     body :to_user => comment.diary_entry.user.display_name,
          :from_user => comment.user.display_name,
          :body => comment.body,
@@ -97,7 +97,7 @@ class Notifier < ActionMailer::Base
     befriendee = User.find_by_id(friend.friend_user_id)
 
     common_headers befriendee
-    subject "[OpenStreetMap] #{befriender.display_name} added you as a friend"
+    subject I18n.t('notifier.friend_notification.subject', :user => befriender.display_name)
     body :user => befriender.display_name,
          :userurl => url_for(:host => SERVER_URL,
                              :controller => "user", :action => "view",
