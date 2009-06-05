@@ -44,6 +44,7 @@ module DeadlockRetry
       begin
         transaction_without_deadlock_handling(*objects, &block)
       rescue ActiveRecord::StatementInvalid => error
+        raise unless connection.open_transactions.zero?
         if DEADLOCK_ERROR_MESSAGES.any? { |msg| error.message =~ /#{Regexp.escape(msg)}/ }
           raise if retry_count >= MAXIMUM_RETRIES_ON_DEADLOCK
           retry_count += 1

@@ -20,8 +20,21 @@ require 'test/unit'
 require "#{File.dirname(__FILE__)}/../lib/deadlock_retry"
 
 class MockModel
-  def self.transaction(*objects, &block)
-    block.call
+  @@open_transactions = 0
+
+  def self.transaction(*objects)
+    @@open_transactions += 1
+    yield
+  ensure
+    @@open_transactions -= 1
+  end
+
+  def self.open_transactions
+    @@open_transactions
+  end
+
+  def self.connection
+    self
   end
 
   def self.logger
@@ -61,5 +74,22 @@ class DeadlockRetryTest < Test::Unit::TestCase
     assert_raise(ActiveRecord::StatementInvalid) do
       MockModel.transaction { raise ActiveRecord::StatementInvalid, "Something else" }
     end
+  end
+
+  def test_error_in_nested_transaction_should_retry_outermost_transaction
+    tries = 0
+    errors = 0
+
+    MockModel.transaction do
+      tries += 1
+      MockModel.transaction do
+        MockModel.transaction do
+          errors += 1
+          raise ActiveRecord::StatementInvalid, "MySQL::Error: Lock wait timeout exceeded" unless errors > 3
+        end
+      end
+    end
+  
+    assert_equal 4, tries
   end
 end
