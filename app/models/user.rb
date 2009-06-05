@@ -99,12 +99,12 @@ class User < ActiveRecord::Base
       gc = OSM::GreatCircle.new(self.home_lat, self.home_lon)
       bounds = gc.bounds(radius)
       nearby = User.find(:all, :conditions => ["visible = ? and home_lat between #{bounds[:minlat]} and #{bounds[:maxlat]} and home_lon between #{bounds[:minlon]} and #{bounds[:maxlon]} and data_public = ? and id != #{self.id}", true, true])
+      nearby = nearby.sort_by { |u| gc.distance(u.home_lat, u.home_lon) }.first(num)
       nearby.delete_if { |u| gc.distance(u.home_lat, u.home_lon) > radius }
-      nearby.sort! { |u1,u2| gc.distance(u1.home_lat, u1.home_lon) <=> gc.distance(u2.home_lat, u2.home_lon) }
     else
       nearby = []
     end
-    return nearby.first(num)
+    return nearby
   end
 
   def distance(nearby_user)
