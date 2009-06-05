@@ -24,7 +24,7 @@ def po2hash(f)
   path = []
   msgstr = ''
   f.each_line { |line|
-    line = line.strip
+    line.strip!
     if line[0..8] == 'msgctxt "'
       path = line[9..-2].split(':')
     elsif line[0..7] == 'msgstr "'
