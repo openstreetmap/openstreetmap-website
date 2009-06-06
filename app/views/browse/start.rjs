@@ -249,19 +249,15 @@ page << <<EOJ
       browseObjectList.appendChild(heading);
 
       var list = document.createElement("ul");
-      // Pull in 118n names for node/way/relation
-      var typeTranslations = new Array();
-      typeTranslations['node']     = "#{I18n.t('browse.start_rjs.object_list.type.node')}"
-      typeTranslations['way']      = "#{I18n.t('browse.start_rjs.object_list.type.way')}"
-      typeTranslations['relation'] = "#{I18n.t('browse.start_rjs.object_list.type.relation')}"
 
       for (var i = 0; i < this.features.length; i++) {
         var feature = this.features[i]; 
             
         // Type, for linking
         var type = featureType(feature);
+        var typeName = featureTypeName(feature);
         var li = document.createElement("li");
-        li.appendChild(document.createTextNode(typeTranslations[type] + " "));
+        li.appendChild(document.createTextNode(typeName + " "));
             
         // Link, for viewing in the tab
         var link = document.createElement("a");
@@ -461,28 +457,32 @@ page << <<EOJ
       return "way";
     }
   }
-  
+
+  function featureTypeName(feature) {
+    if (featureType(feature) == "node") {
+      return "#{I18n.t('browse.start_rjs.object_list.type.node')}";
+    } else if (featureType(feature) == "way") {
+      return "#{I18n.t('browse.start_rjs.object_list.type.way')}";
+    }
+  }
+
   function featureNameSelect(feature) {
     if (feature.attributes.name) {
       return feature.attributes.name;
-    } else {
-      // Pull in 118n names for node/way
-      var featureNameSelectTypeTranslations = new Array();
-      featureNameSelectTypeTranslations['node'] = "#{I18n.t('browse.start_rjs.object_list.selected.type.node')}"
-      featureNameSelectTypeTranslations['way']  = "#{I18n.t('browse.start_rjs.object_list.selected.type.way')}"
-      return featureNameSelectTypeTranslations[featureType(feature)] + " " + feature.osm_id;
+    } else if (featureType(feature) == "node") {
+      return "#{I18n.t('browse.start_rjs.object_list.selected.type.node')} " + feature.osm_id;
+    } else if (featureType(feature) == "way") {
+      return "#{I18n.t('browse.start_rjs.object_list.selected.type.way')} " + feature.osm_id;
     }
   }
 
   function featureNameHistory(feature) {
     if (feature.attributes.name) {
       return feature.attributes.name;
-    } else {
-      // Pull in 118n names for node/way
-      var featureNameHistoryTypeTranslations = new Array();
-      featureNameHistoryTypeTranslations['node'] = "#{I18n.t('browse.start_rjs.object_list.history.type.node')}"
-      featureNameHistoryTypeTranslations['way']  = "#{I18n.t('browse.start_rjs.object_list.history.type.way')}"
-      return featureNameHistoryTypeTranslations[featureType(feature)] + " " + feature.osm_id;
+    } else if (featureType(feature) == "node") {
+      return "#{I18n.t('browse.start_rjs.object_list.history.type.node')} " + feature.osm_id;
+    } else if (featureType(feature) == "way") {
+      return "#{I18n.t('browse.start_rjs.object_list.history.type.way')} " + feature.osm_id;
     }
   }
 
@@ -494,10 +494,6 @@ page << <<EOJ
   function clearStatus() {
     $("browse_status").innerHTML = "";
     $("browse_status").style.display = "none";
-  }
-
-  function ucFirst(str) {
-    return str.substr(0,1).toUpperCase() + str.substr(1,str.length);
   }
 
   startBrowse();
