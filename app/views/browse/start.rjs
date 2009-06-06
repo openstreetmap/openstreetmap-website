@@ -131,7 +131,7 @@ page << <<EOJ
     var div = document.createElement("div");
 
     var p = document.createElement("p");
-    p.appendChild(document.createTextNode("#{I18n.t('browse.start_rjs.loaded_an_area')} " + browseFeatureList.length + " #{I18n.t('browse.start_rjs.browsers')}"));
+    p.appendChild(document.createTextNode(i18n_js("#{I18n.t('browse.start_rjs.loaded_an_area_with_num_features', :num_features => '{{num_features}}')}", { num_features: browseFeatureList.length })));
     div.appendChild(p);
 
     var input = document.createElement("input");
@@ -485,6 +485,22 @@ page << <<EOJ
       return "#{I18n.t('browse.start_rjs.object_list.history.type.way')} " + feature.osm_id;
     }
   }
+
+  /*
+   This is a hack so that we can interpolate JavaScript variables in
+   translation strings from Ruby, doing the string replacement
+   client-side instead of on the server.
+  */
+  function i18n_js(string, keys) {
+    for (var key in keys) {
+      var re_key = '\{\{' + key + '\}\}';
+      var re = new RegExp(re_key, "g");
+
+      string = string.replace(re, keys[key]);
+    }
+
+    return string;
+  } 
 
   function setStatus(status) {
     $("browse_status").innerHTML = status;
