@@ -245,19 +245,23 @@ page << <<EOJ
 
       var heading = document.createElement("p");
       heading.className = "browse_heading";
-      heading.appendChild(document.createTextNode("Object list"));
+      heading.appendChild(document.createTextNode("#{I18n.t('browse.start_rjs.object_list.heading')}"));
       browseObjectList.appendChild(heading);
 
       var list = document.createElement("ul");
+      // Pull in 118n names for node/way/relation
+      var typeTranslations = new Array();
+      typeTranslations['node']     = "#{I18n.t('browse.start_rjs.object_list.type.node')}"
+      typeTranslations['way']      = "#{I18n.t('browse.start_rjs.object_list.type.way')}"
+      typeTranslations['relation'] = "#{I18n.t('browse.start_rjs.object_list.type.relation')}"
 
       for (var i = 0; i < this.features.length; i++) {
         var feature = this.features[i]; 
             
         // Type, for linking
         var type = featureType(feature);
-        var typeName = ucFirst(type);
         var li = document.createElement("li");
-        li.appendChild(document.createTextNode(typeName + " "));
+        li.appendChild(document.createTextNode(typeTranslations[type] + " "));
             
         // Link, for viewing in the tab
         var link = document.createElement("a");
@@ -275,7 +279,7 @@ page << <<EOJ
 
       var link = document.createElement("a");
       link.href = this.url;
-      link.appendChild(document.createTextNode("API"));
+      link.appendChild(document.createTextNode("#{I18n.t('browse.start_rjs.object_list.api')}"));
       browseObjectList.appendChild(link);
 
       $("browse_content").innerHTML = "";
@@ -336,7 +340,7 @@ page << <<EOJ
     var link = document.createElement("a");
     link.href = "#";
     link.onclick = loadObjectList;
-    link.appendChild(document.createTextNode("Display object list"));
+    link.appendChild(document.createTextNode("#{I18n.t('browse.start_rjs.object_list.back')}"));
     div.appendChild(link);
 
     var table = document.createElement("table");
@@ -348,7 +352,7 @@ page << <<EOJ
     table.appendChild(tr);
 
     var heading = document.createElement("td");
-    heading.appendChild(document.createTextNode(featureName(feature)));
+    heading.appendChild(document.createTextNode(featureNameSelect(feature)));
     tr.appendChild(heading);
 
     var td = document.createElement("td");
@@ -358,7 +362,7 @@ page << <<EOJ
     var type = featureType(feature);
     var link = document.createElement("a");   
     link.href = "/browse/" + type + "/" + feature.osm_id;
-    link.appendChild(document.createTextNode("Details"));
+    link.appendChild(document.createTextNode("#{I18n.t('browse.start_rjs.object_list.details')}"));
     td.appendChild(link);
 
     var div = document.createElement("div");
@@ -421,7 +425,7 @@ page << <<EOJ
     table.appendChild(tr);
 
     var heading = document.createElement("td");
-    heading.appendChild(document.createTextNode("#{I18n.t('browse.start_rjs.history_for')} " + featureName(this.feature)));
+    heading.appendChild(document.createTextNode("#{I18n.t('browse.start_rjs.history_for')} " + featureNameHistory(this.feature)));
     tr.appendChild(heading);
 
     var td = document.createElement("td");
@@ -458,11 +462,27 @@ page << <<EOJ
     }
   }
   
-  function featureName(feature) {
+  function featureNameSelect(feature) {
     if (feature.attributes.name) {
       return feature.attributes.name;
     } else {
-      return ucFirst(featureType(feature)) + " " + feature.osm_id;
+      // Pull in 118n names for node/way
+      var featureNameSelectTypeTranslations = new Array();
+      featureNameSelectTypeTranslations['node'] = "#{I18n.t('browse.start_rjs.object_list.selected.type.node')}"
+      featureNameSelectTypeTranslations['way']  = "#{I18n.t('browse.start_rjs.object_list.selected.type.way')}"
+      return featureNameSelectTypeTranslations[featureType(feature)] + " " + feature.osm_id;
+    }
+  }
+
+  function featureNameHistory(feature) {
+    if (feature.attributes.name) {
+      return feature.attributes.name;
+    } else {
+      // Pull in 118n names for node/way
+      var featureNameHistoryTypeTranslations = new Array();
+      featureNameHistoryTypeTranslations['node'] = "#{I18n.t('browse.start_rjs.object_list.history.type.node')}"
+      featureNameHistoryTypeTranslations['way']  = "#{I18n.t('browse.start_rjs.object_list.history.type.way')}"
+      return featureNameHistoryTypeTranslations[featureType(feature)] + " " + feature.osm_id;
     }
   }
 
