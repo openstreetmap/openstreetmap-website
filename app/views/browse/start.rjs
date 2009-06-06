@@ -187,7 +187,7 @@ page << <<EOJ
     var size = projected.getWidth() * projected.getHeight();
 
     if (size > #{APP_CONFIG['max_request_area']}) {
-      setStatus("#{I18n.t('browse.start_rjs.unable_to_load')} " + size + " #{I18n.t('browse.start_rjs.must_be_smaller')}");
+      setStatus(i18n_js("#{I18n.t('browse.start_rjs.unable_to_load_size', :bbox_size => '{{bbox_size}}', :max_bbox_size => APP_CONFIG['max_request_area'])}", { bbox_size: size }));
     } else {
       loadGML("/api/#{API_VERSION}/map?bbox=" + projected.toBBOX());
     }
