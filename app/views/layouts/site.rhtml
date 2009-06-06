@@ -48,16 +48,16 @@
         traceclass = 'active' if params['controller'] == 'trace'
         diaryclass = 'active' if params['controller'] == 'diary_entry'
         %>
-        <li><%= link_to t('layouts.view'), {:controller => 'site', :action => 'index'}, {:id => 'viewanchor', :title => 'view maps', :class => viewclass} %></li>
-        <li><%= link_to t('layouts.edit'), {:controller => 'site', :action => 'edit'}, {:id => 'editanchor', :title => 'edit maps', :class => editclass} %></li>
-        <li><%= link_to t('layouts.history'), {:controller => 'changeset', :action => 'list_bbox' }, {:id => 'historyanchor', :title => 'changeset history', :class => historyclass} %></li>
+        <li><%= link_to t('layouts.view'), {:controller => 'site', :action => 'index'}, {:id => 'viewanchor', :title => t('layouts.view_tooltip'), :class => viewclass} %></li>
+        <li><%= link_to t('layouts.edit'), {:controller => 'site', :action => 'edit'}, {:id => 'editanchor', :title => t('layouts.edit_tooltip'), :class => editclass} %></li>
+        <li><%= link_to t('layouts.history'), {:controller => 'changeset', :action => 'list_bbox' }, {:id => 'historyanchor', :title => t('layouts.history_tooltip'), :class => historyclass} %></li>
         <% if params['controller'] == 'site' and (params['action'] == 'index' or params['action'] == 'export') %>
-        <li><%= link_to_remote t('layouts.export'), {:url => {:controller => 'export', :action => 'start'}}, {:id => 'exportanchor', :title => 'export map data', :class => exportclass, :href => url_for(:controller => 'site', :action => 'export')} %></li>
+        <li><%= link_to_remote t('layouts.export'), {:url => {:controller => 'export', :action => 'start'}}, {:id => 'exportanchor', :title => t('layouts.export_tooltip'), :class => exportclass, :href => url_for(:controller => 'site', :action => 'export')} %></li>
         <% else %>
-        <li><%= link_to t('layouts.export'), {:controller => 'site', :action => 'export'}, {:id => 'exportanchor', :title => 'export map data', :class => exportclass} %></li>
+        <li><%= link_to t('layouts.export'), {:controller => 'site', :action => 'export'}, {:id => 'exportanchor', :title => t('layouts.export_tooltip'), :class => exportclass} %></li>
         <% end %>
-        <li><%= link_to t('layouts.gps_traces'), {:controller => 'trace', :action => 'list'}, {:id => 'traceanchor', :title => 'manage traces', :class => traceclass} %></li>
-        <li><%= link_to t('layouts.user_diaries'), {:controller => 'diary_entry', :action => 'list', :display_name => nil}, {:id => 'diaryanchor', :title => 'view user diaries', :class => diaryclass} %></li>
+        <li><%= link_to t('layouts.gps_traces'), {:controller => 'trace', :action => 'list'}, {:id => 'traceanchor', :title => t('layouts.gps_traces_tooltip'), :class => traceclass} %></li>
+        <li><%= link_to t('layouts.user_diaries'), {:controller => 'diary_entry', :action => 'list', :display_name => nil}, {:id => 'diaryanchor', :title => t('layouts.user_diaries_tooltip'), :class => diaryclass} %></li>
       </ul>
     </div>
 
