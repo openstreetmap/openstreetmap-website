@@ -421,7 +421,7 @@ page << <<EOJ
     table.appendChild(tr);
 
     var heading = document.createElement("td");
-    heading.appendChild(document.createTextNode("#{I18n.t('browse.start_rjs.history_for')} " + featureNameHistory(this.feature)));
+    heading.appendChild(document.createTextNode(i18n_js("#{I18n.t('browse.start_rjs.history_for_feature', :feature => '{{feature}}')}", { feature: featureNameHistory(this.feature) })));
     tr.appendChild(heading);
 
     var td = document.createElement("td");
@@ -442,7 +442,7 @@ page << <<EOJ
       var user = nodes[i].getAttribute("user") || "#{I18n.t('browse.start_rjs.private_user')}";
       var timestamp = nodes[i].getAttribute("timestamp");
       var item = document.createElement("li");
-      item.appendChild(document.createTextNode("#{I18n.t('browse.start_rjs.edited_by')} " + user + " #{I18n.t('browse.start_rjs.at_timestamp')} " + timestamp));
+      item.appendChild(document.createTextNode(i18n_js("#{I18n.t('browse.start_rjs.edited_by_user_at_timestamp', :user => '{{user}}', :timestamp => '{{timestamp}}')}", { user: user, timestamp: timestamp })));
       history.appendChild(item);
     }
     div.appendChild(history);
@@ -470,9 +470,9 @@ page << <<EOJ
     if (feature.attributes.name) {
       return feature.attributes.name;
     } else if (featureType(feature) == "node") {
-      return "#{I18n.t('browse.start_rjs.object_list.selected.type.node')} " + feature.osm_id;
+      return i18n_js("#{I18n.t('browse.start_rjs.object_list.selected.type.node', :id => '{{id}}')}", { id: feature.osm_id });
     } else if (featureType(feature) == "way") {
-      return "#{I18n.t('browse.start_rjs.object_list.selected.type.way')} " + feature.osm_id;
+      return i18n_js("#{I18n.t('browse.start_rjs.object_list.selected.type.way',  :id => '{{id}}')}", { id: feature.osm_id });
     }
   }
 
@@ -480,9 +480,9 @@ page << <<EOJ
     if (feature.attributes.name) {
       return feature.attributes.name;
     } else if (featureType(feature) == "node") {
-      return "#{I18n.t('browse.start_rjs.object_list.history.type.node')} " + feature.osm_id;
+      return i18n_js("#{I18n.t('browse.start_rjs.object_list.history.type.node', :id => '{{id}}')}", { id: feature.osm_id });
     } else if (featureType(feature) == "way") {
-      return "#{I18n.t('browse.start_rjs.object_list.history.type.way')} " + feature.osm_id;
+      return i18n_js("#{I18n.t('browse.start_rjs.object_list.history.type.way',  :id => '{{id}}')}", { id: feature.osm_id });
     }
   }
 
