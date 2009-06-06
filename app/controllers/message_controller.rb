@@ -29,6 +29,7 @@ class MessageController < ApplicationController
       @title = params[:title]
     end
   rescue ActiveRecord::RecordNotFound
+    @title = t'message.no_such_user.title'
     render :action => 'no_such_user', :status => :not_found
   end
 
@@ -40,6 +41,7 @@ class MessageController < ApplicationController
     @to_user = User.find(message.from_user_id)
     render :action => 'new'
   rescue ActiveRecord::RecordNotFound
+    @title = t'message.no_such_user.title'
     render :action => 'no_such_user', :status => :not_found
   end
 
@@ -50,6 +52,7 @@ class MessageController < ApplicationController
     @message.message_read = true if @message.to_user_id == @user.id
     @message.save
   rescue ActiveRecord::RecordNotFound
+    @title = t'message.no_such_user.title'
     render :action => 'no_such_user', :status => :not_found
   end
 
@@ -90,6 +93,7 @@ class MessageController < ApplicationController
       end
     end
   rescue ActiveRecord::RecordNotFound
+    @title = t'message.no_such_user.title'
     render :action => 'no_such_user', :status => :not_found
   end
 end

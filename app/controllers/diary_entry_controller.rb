@@ -63,6 +63,7 @@ class DiaryEntryController < ApplicationController
                                           :order => 'created_at DESC',
                                           :per_page => 20)
       else
+        @title = t'diary_entry.no_such_user.title'
         @not_found_user = params[:display_name]
 
         render :action => 'no_such_user', :status => :not_found
