@@ -190,7 +190,7 @@ page << <<EOJ
   function validateControls() {
     var bounds = new OpenLayers.Bounds($("minlon").value, $("minlat").value, $("maxlon").value, $("maxlat").value);
 
-    if (bounds.getWidth() * bounds.getHeight() > 0.25) {
+    if (bounds.getWidth() * bounds.getHeight() > #{APP_CONFIG['max_request_area']}) {
       $("format_osm").disabled = true;
       $("format_osm").checked = false;
       $("export_osm").style.display = "none";
