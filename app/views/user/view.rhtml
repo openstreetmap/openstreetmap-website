@@ -4,14 +4,14 @@
 <!-- Displaying user's own profile page -->
 <%= link_to t('user.view.my diary'), :controller => 'diary_entry', :action => 'list', :display_name => @user.display_name %>
 | <%= link_to t('user.view.new diary entry'), :controller => 'diary_entry', :action => 'new', :display_name => @user.display_name %>
-| <%= link_to t('user.view.my edits'), :controller => 'changeset', :action => 'list_user', :display_name => @user.display_name %>
+| <%= link_to t('user.view.my edits'), :controller => 'changeset', :action => 'list_user', :display_name => @user.display_name, :format => 'rhtml' %>
 | <%= link_to t('user.view.my traces'), :controller => 'trace', :action=>'mine' %>
 | <%= link_to t('user.view.my settings'), :controller => 'user', :action => 'account', :display_name => @user.display_name %>
 <% else %>
 <!-- Displaying another user's profile page -->
 <%= link_to t('user.view.send message'), :controller => 'message', :action => 'new', :user_id => @this_user.id %>
 | <%= link_to t('user.view.diary'), :controller => 'diary_entry', :action => 'list', :display_name => @this_user.display_name %>
-| <%= link_to t('user.view.edits'), :controller => 'changeset', :action => 'list_user', :display_name => @this_user.display_name %>
+| <%= link_to t('user.view.edits'), :controller => 'changeset', :action => 'list_user', :display_name => @this_user.display_name, :format => 'rhtml' %>
 | <%= link_to t('user.view.traces'), :controller => 'trace', :action => 'view', :display_name => @this_user.display_name %>
 | <% if @user and @user.is_friends_with?(@this_user) %>
   <%= link_to t('user.view.remove as friend'), :controller => 'user', :action => 'remove_friend', :display_name => @this_user.display_name %>
