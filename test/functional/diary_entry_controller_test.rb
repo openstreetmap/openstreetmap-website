@@ -146,13 +146,9 @@ class DiaryEntryControllerTest < ActionController::TestCase
   end
   
   def test_edit_diary_entry_i18n
-    I18n.available_locales.each do |locale|
-      set_locale locale
-      
-      get(:edit, {:id => diary_entries(:normal_user_entry_1).id}, {'user' => users(:normal_user).id})
-      assert_response :success
-      assert_select "span[class=translation_missing]", false, "Missing translation in edit diary entry"
-    end
+    get(:edit, {:id => diary_entries(:normal_user_entry_1).id}, {'user' => users(:normal_user).id})
+    assert_response :success
+    assert_select "span[class=translation_missing]", false, "Missing translation in edit diary entry"
   end
   
   def test_create_diary_entry
@@ -166,20 +162,16 @@ class DiaryEntryControllerTest < ActionController::TestCase
   # Check that you can get the expected response and template for all available languages
   # Should test that there are no <span class="translation_missing">
   def test_listing_diary_entries
-    I18n.available_locales.each do |locale|
-      set_locale locale
-      
       get :list
-      assert_response :success, "Should be able to list the diary entries in #{locale}"
-      assert_template 'list', "Should use the list template in #{locale}"
+      assert_response :success, "Should be able to list the diary entries in locale"
+      assert_template 'list', "Should use the list template in locale"
       assert_select "span[class=translation_missing]", false, "Missing translation in list of diary entries"
     
       # Now try to find a specific user's diary entry
       get :list, {:display_name => users(:normal_user).display_name}
-      assert_response :success, "Should be able to list the diary entries for a user in #{locale}"
-      assert_template 'list', "Should use the list template for a user in #{locale}"
-      assert_select "span[class=translation_missing]", false, "Missing translation in list of diary entries for user"
-    end
+      assert_response :success, "Should be able to list the diary entries for a user in locale"
+      assert_template 'list', "Should use the list template for a user in locale"
+      assert_no_missing_translations
   end
   
   def test_rss
