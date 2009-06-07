@@ -175,7 +175,6 @@ module ActionController
     def count_collection_for_pagination(model, options)
       model.count(:conditions => options[:conditions],
                   :joins => options[:join] || options[:joins],
-                  :include => options[:include],
                   :select => (options[:group] ? "DISTINCT #{options[:group]}" : options[:count]))
     end
     
