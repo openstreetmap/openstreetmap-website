@@ -374,12 +374,7 @@ class ChangesetController < ApplicationController
     elsif params['minlon'] and params['minlat'] and params['maxlon'] and params['maxlat']
        bbox = h(params['minlon']) + ',' + h(params['minlat']) + ',' + h(params['maxlon']) + ',' + h(params['maxlat'])
     else
-      #TODO: fix bugs in location determination for history tab (and other tabs) then uncomment this redirect
-      #redirect_to :action => 'list'
-      
-      # For now just render immediately, and skip the db
-      render
-      return
+      raise OSM::APIBadUserInput.new("Bounding box must be supplied for /history/rss")
     end
        
     conditions = conditions_bbox(bbox);
