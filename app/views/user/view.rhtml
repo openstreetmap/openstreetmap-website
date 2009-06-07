@@ -71,7 +71,7 @@
       <% end %>
       </td>
       <td class="username"><%= link_to h(@friend.display_name), :controller => 'user', :action => 'view',  :display_name => @friend.display_name %></td>
-      <td><% if @friend.home_lon and @friend.home_lat %><%= t 'user.view.km away', :distance => @this_user.distance(@friend).round %><% end %></td>
+      <td><% if @friend.home_lon and @friend.home_lat %><%= t 'user.view.km away', :count => @this_user.distance(@friend).round %><% end %></td>
       <td class="message">(<%= link_to t('user.view.send message'), :controller => 'message', :action => 'new', :user_id => @friend.id %>)</td>
       </tr>
       <%end%>
@@ -93,7 +93,7 @@
       <% @this_user.nearby.each do |nearby| %>
       <tr>
       <td class="username"><%= link_to h(nearby.display_name), :controller => 'user', :action => 'view',  :display_name => nearby.display_name %></td>
-      <td><%= t 'user.view.km away', :distance => @this_user.distance(nearby).round %></td>
+      <td><%= t 'user.view.km away', :count => @this_user.distance(nearby).round %></td>
       <td class="message">(<%= link_to t('user.view.send message'), :controller => 'message', :action => 'new', :user_id => nearby.id %>)</td>
       </tr>
       <% end %>
