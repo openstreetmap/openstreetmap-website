@@ -1,7 +1,7 @@
 # The ChangesetController is the RESTful interface to Changeset objects
 
 class ChangesetController < ApplicationController
-  layout 'site', :except => [ :list_rss, :list_user_rss, :list_bbox_rss ]
+  layout 'site'
   require 'xml/libxml'
 
   before_filter :authorize_web, :only => [:list, :list_user, :list_bbox]
@@ -255,65 +255,25 @@ class ChangesetController < ApplicationController
   # list edits (open changesets) in reverse chronological order
   def list
     conditions = conditions_nonempty
-    
-    
-   # @changesets = Changeset.find(:all, :order => "closed_at DESC", :conditions => ['closed_at < ?', DateTime.now], :limit=> 20)
-   
-   
-   #@edit_pages, @edits = paginate(:changesets,
-   #                                :include => [:user, :changeset_tags],
-   #                                :conditions => conditions,
-   #                                :order => "changesets.created_at DESC",
-   #                                :per_page => 20)
-   #
-    
-   @edits =  Changeset.find(:all,
-                                   :order => "changesets.created_at DESC",
-                                   :conditions => conditions,
-                                   :limit => 20)
-    
-  end
 
-  ##
-  # list edits (open changesets) in reverse chronological order
-  def list_rss
-    conditions = conditions_nonempty
+    # @changesets = Changeset.find(:all, :order => "closed_at DESC", :conditions => ['closed_at < ?', DateTime.now], :limit=> 20)
+
+    #@edit_pages, @edits = paginate(:changesets,
+    #                                :include => [:user, :changeset_tags],
+    #                                :conditions => conditions,
+    #                                :order => "changesets.created_at DESC",
+    #                                :per_page => 20)
+    #
 
     @edits =  Changeset.find(:all,
                              :order => "changesets.created_at DESC",
                              :conditions => conditions,
                              :limit => 20)
-    
   end
   
   ##
   # list edits (changesets) belonging to a user
   def list_user
-    user = User.find_by_display_name(params[:display_name], :conditions => {:visible => true})
-    
-    if user
-      @display_name = user.display_name
-      if not user.data_public? and @user != user
-        @edits = nil
-        render
-      else
-        conditions = cond_merge conditions, ['user_id = ?', user.id]
-        conditions = cond_merge conditions, conditions_nonempty
-        @edit_pages, @edits = paginate(:changesets,
-                                        :include => [:user, :changeset_tags],
-                                        :conditions => conditions,
-                                        :order => "changesets.created_at DESC",
-                                        :per_page => 20)
-      end
-    else
-      @not_found_user = params[:display_name]
-      render :template => 'user/no_such_user', :status => :not_found
-    end
-  end
-
-  ##
-  # list edits (changesets) belonging to a user
-  def list_user_rss
     user = User.find_by_display_name(params[:display_name], :conditions => {:visible => true})
     
     if user
@@ -344,6 +304,8 @@ class ChangesetController < ApplicationController
        bbox = params['bbox']
     elsif params['minlon'] and params['minlat'] and params['maxlon'] and params['maxlat']
        bbox = h(params['minlon']) + ',' + h(params['minlat']) + ',' + h(params['maxlon']) + ',' + h(params['maxlat'])
+    elsif params['format'] == "rxml"
+      raise OSM::APIBadUserInput.new("Bounding box must be supplied for the RSS feed")
     else
       #TODO: fix bugs in location determination for history tab (and other tabs) then uncomment this redirect
       #redirect_to :action => 'list'
@@ -351,30 +313,6 @@ class ChangesetController < ApplicationController
       # For now just render immediately, and skip the db
       render
       return
-    end
-       
-    conditions = conditions_bbox(bbox);
-    conditions = cond_merge conditions, conditions_nonempty
-    
-    @edit_pages, @edits = paginate(:changesets,
-                                   :include => [:user, :changeset_tags],
-                                   :conditions => conditions,
-                                   :order => "changesets.created_at DESC",
-                                   :per_page => 20)
-                                   
-    @bbox = sanitise_boundaries(bbox.split(/,/)) unless bbox==nil
-  end
-
-  ##
-  # list changesets in a bbox
-  def list_bbox_rss
-    # support 'bbox' param or alternatively 'minlon', 'minlat' etc	  
-    if params['bbox']
-       bbox = params['bbox']
-    elsif params['minlon'] and params['minlat'] and params['maxlon'] and params['maxlat']
-       bbox = h(params['minlon']) + ',' + h(params['minlat']) + ',' + h(params['maxlon']) + ',' + h(params['maxlat'])
-    else
-      raise OSM::APIBadUserInput.new("Bounding box must be supplied for /history/rss")
     end
        
     conditions = conditions_bbox(bbox);
