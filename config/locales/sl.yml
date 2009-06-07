@@ -1,4 +1,6 @@
 sl:
+  html:
+    dir: ltr
   activerecord:
     # Translates all the model names, which is used in error handling on the web site
     models:
@@ -337,12 +339,14 @@ sl:
     export_tooltip: Izvozite podatke zemljevida
     gps_traces: GPS sledi
     gps_traces_tooltip: Upravljanje z GPS sledmi
-    user_diaries: Dnevniki
+    user_diaries: Dnevnik
     user_diaries_tooltip: Pregled dnevnikov uporabnikov
     tag_line: Prost wiki zemljevid sveta
     intro_1: "OpenStreetMap je prost zemljevid sveta, ki ga urejajo ljudje, kot ste Vi."
     intro_2: "OpenStreetMap vam omogoča ogled, urejanje in souporabo geografskih podatkov kjerkoli na Zemlji."
     intro_3: "Strežniki OpenStreetMap projekta prijazno gostujejo pri {{ucl}} in {{bytemark}}."
+    intro_3_ucl: "UCL VR Centru"
+    intro_3_bytemark: "bytemarku"
     osm_offline: "Baza OpenStreetMap zaradi izvajanja nujnih vzdrževalnih del trenutno ni dostopna."
     osm_read_only: "Baza OpenStreetMap je zaradi izvajanja nujnih vzdrževalnih del trenutno dostopna le za branje."
     donate: "Podprite OpenStreetMap z {{link}} v fond za nadgradnjo strojne opreme."
@@ -362,9 +366,37 @@ sl:
       hi: "Pozdravljen, {{to_user}}!"
       header: "{{from_user}} je komentiral vaš nedavni vnos v OpenStreetMap dnevnik z naslovom {{subject}}:"
       footer: "Komentar lahko preberete tudi na {{readurl}} komentirate lahko na {{commenturl}} ali odgovorite na {{replyurl}}"
+    message_notification:
+      subject: "[OpenStreetMap] {{user}} vam je poslal novo sporočilo"
+      banner1: "*                    Ne odgovarjajte na to sporočilo.                     *"
+      banner2: "*           Za odgovor uporabite spletno stran OpenStreetMap.             *"
+      hi: "Pozdravljeni, {{to_user}},"
+      header: "Uporabnik {{from_user}}  vam je prek OpenStreetMap poslal novo sporočilo glede {{subject}}:"
+      footer1: "Sporočilo lahko preberete tudi na {{readurl}}"
+      footer2: "in nanj odgovorite na naslovu {{replyurl}}"
     friend_notification:
+      subject: "[OpenStreetMap] {{user}} vas je dodal med prijatelje"
       had_added_you: "{{user}} vas je dodal med prijatelje na OpenStreetMap."
-      see_their_profile: "You can see their profile at {{userurl}} and add them as a friend too if you wish."
+      see_their_profile: "Uporabnikov profil lahko vidite na naslovu {{userurl}} in ga po želji lahko dodate med svoje prijatelje."
+    gpx_notification:
+      greeting: "Pozdravljeni,"
+      your_gpx_file: "Izgleda, da je vaša datoteka GPX"
+      with_description: "z opisom"
+      and_the_tags: "in naslednjimi oznakami:"
+      and_no_tags: "in brez oznak."
+      failure:
+        subject: "[OpenStreetMap] Neuspeh uvoza datoteke GPX"
+        failed_to_import: " vsebovala neko napako, zaradi katere je ni bilo mogoče uvoziti. Napaka:"
+        more_info_1: "Več informacij o možnih napakah v datotekah GPX in kako se jim izogniti"
+        more_info_2: "si lahko preberete na:"
+        import_failures_url: "http://wiki.openstreetmap.org/wiki/GPX_Import_Failures"
+      success:
+        subject: "[OpenStreetMap] Uspeh uvoza datoteke GPX"
+        loaded_successfully: |
+          bila uspešno uvožena z {{trace_points}} od vseh možnih 
+          {{possible_points}} točk.
+    signup_confirm:
+      subject: "[OpenStreetMap] Potrdite svoj elektronski naslov"
     signup_confirm_plain:
       greeting: "Pozdravljeni!"
       hopefully_you: "Nekdo (najverjetneje vi) bi rad naredil uporabniški račun na"
@@ -374,15 +406,17 @@ sl:
       introductory_video: "Uvodni video posnetek si lahko pogledate na naslovu:"
       more_videos: "Več video posnetkov je na naslovu:"
       the_wiki: "Get reading about OpenStreetMap on the wiki:"
+      the_wiki_url: "http://wiki.openstreetmap.org/wiki/Beginners%27_Guide"
       opengeodata: "OpenGeoData.org is OpenStreetMap's blog, and it has podcasts too:"
       wiki_signup: "You may also want to sign up to the OpenStreetMap wiki at:"
+      wiki_signup_url: "http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page"
       # next four translations are in pairs : please word wrap appropriately
       user_wiki_1: "It is recommended that you create a user wiki page, which includes"
-      user_wiki_2: "category tags noting where you are, such as [[Category:Users_in_London]]."
+      user_wiki_2: "category tags noting where you are, such as [[Category:Users_in_Slovenia]]."
       current_user_1: "A list of current users in categories, based on where in the world"
       current_user_2: "they are, is available from:"
     signup_confirm_html:
-      greeting: "Hi there!"
+      greeting: "Pozdravljeni!"
       hopefully_you: "Someone (hopefully you) would like to create an account over at"
       click_the_link: "If this is you, welcome! Please click the link below to confirm that account and read on for more information about OpenStreetMap"
       introductory_video: "You can watch an {{introductory_video_link}}."
@@ -391,7 +425,7 @@ sl:
       more_videos_here: "more videos here"
       get_reading: 'Get reading about OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Beginners%27_Guide">on the wiki</p> or  <a href="http://www.opengeodata.org/">the opengeodata blog</a> which has <a href="http://www.opengeodata.org/?cat=13">podcasts to listen to</a> also!'
       wiki_signup: 'You may also want to <a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page">sign up to the OpenStreetMap wiki</a>.'
-      user_wiki_page: 'It is recommended that you create a user wiki page, which includes category tags noting where you are, such as <a href="http://wiki.openstreetmap.org/wiki/Category:Users_in_London">[[Category:Users_in_London]]</a>.'
+      user_wiki_page: 'It is recommended that you create a user wiki page, which includes category tags noting where you are, such as <a href="http://wiki.openstreetmap.org/wiki/Category:Users_in_Slovenia">[[Category:Users_in_Slovenia]]</a>.'
       current_user: 'A list of current users in categories, based on where in the world they are, is available from <a href="http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region">Category:Users_by_geographical_region</a>.'
     email_confirm:
       subject: "[OpenStreetMap] Potrdite svoj elektronski naslov"
@@ -506,7 +540,7 @@ sl:
       where_am_i: "Kje sem?"
       submit_text: "Išči"
       searching: "Iščem..."
-      search_help: "primeri: 'Alkmaar', 'Regent Street, Cambridge', 'CB2 5AQ', or 'post offices near Lünen' <a href='http://wiki.openstreetmap.org/wiki/Search'>Več primerov...</a>"
+      search_help: "primeri: 'Bovec', 'Prešernova, Celje', 'Živalski vrt' ali 'vzpenjača' <a href='http://wiki.openstreetmap.org/wiki/Search'>Več primerov...</a>"
     key:
       map_key: "Legenda"
   trace:
@@ -524,6 +558,8 @@ sl:
       tags: "Oznake:"
       save_button: "Shrani spremembe"
     no_such_user:
+      title: "No such user"
+      heading: "Uporabnik {{user}} ne obstaja"
       body: "Oprostite, uporabnika z imenom {{user}} ni. Prosimo, preverite črkovanje in povezavo, ki ste jo kliknili."
     trace_form:
       upload_gpx: "Pošljite datoteko GPX"
@@ -532,11 +568,12 @@ sl:
       public: "Javna?"
       upload_button: "Pošlji"
       help: "Pomoč"
+      help_url: "http://wiki.openstreetmap.org/wiki/Upload"
     trace_header:
       see_just_your_traces: "Seznam le mojih in pošiljanje novih sledi"
       see_all_traces: "Seznam vseh sledi"
       see_your_traces: "Seznam vseh mojih sledi"
-      traces_waiting: "You have {{count}} traces waiting for upload. Please consider waiting for these to finish before uploading any more, so as not to block the queue for other users."
+      traces_waiting: "V čakalni vrsti na uvoz čaka {{count}} sledi. Prosim, razmislite o tem, da bi počakali, da se te sledi uvozijo preden pošljete nove in s tem ne podaljšujete vrste drugim uporabnikom."
     trace_optionals:
       tags: "Oznake"
     view:
@@ -585,6 +622,7 @@ sl:
       made_public: "Sled je postala javno" 
   user:
     login:
+      title: "Prijava"
       heading: "Prijava"
       please login: "Prijavite se ali {{create_user_link}}."
       create_account: "ustvarite uporabniški račun"
@@ -592,6 +630,8 @@ sl:
       password: "Geslo: "
       lost password link: "Ste pozabili geslo?"
       login_button: "Prijava"
+      account not active: "Oprostite, vaš uporabniški račun še ni aktiven.<br>Za aktivacijo prosim kliknite na povezavo, ki ste jo prejeli v elektronskem sporočilu za potrditev uporabniškega računa."
+      auth failure: "Oprostite, prijava s temi podatki ni uspela."
     lost_password:
       title: "pozabljeno geslo"
       heading: "Ste pozabili geslo?"
@@ -604,6 +644,7 @@ sl:
       flash changed check mail: "Vaše geslo je bilo spremenjeno in je že na poti v vaš poštni predal :-)"
       flash token bad: "Tega žetona ni bilo mogoče najti.  Predlagamo, da preverite naslov URL."
     new:
+      title: "Nov uporabniški račun"
       heading: "Ustvarite si uporabniški račun"
       no_auto_account_create: "Na žalost vam trenutno ne moremo samodejno ustvariti uporabniškega računa."
       contact_webmaster: 'Prosimo, pišite <a href="mailto:webmaster@openstreetmap.org">webmastru</a> (v angleščini) in se dogovorite za ustvarjenje uporabniškega računa - potrudili se bomo za čimprejšnjo obravnavo vašega zahtevka. '
@@ -654,6 +695,7 @@ sl:
       your location: Vaša lokacija
       nearby mapper: "Bližnji kartograf: "
     account:
+      title: "Urejanje uporabniškega računa"
       my settings: Moje nastavitve
       email never displayed publicly: "(nikoli javno objavljen)"
       public editing:
@@ -679,11 +721,22 @@ sl:
       heading: Potrdite uporabniški račun
       press confirm button: "Za aktivacijo vašega uporabniškega računa pritisnite na gumb Potrdi spodaj."
       button: Potrdi
+      success: "Vaš uporabniški račun je potrjen. Hvala, da ste se vpisali!"
+      failure: "Uporabnišli račun je že bil potrjen s tem žetonom."
     confirm_email:
       heading: Potrdite spremembo naslova e-pošte
       press confirm button: "Za potrditev spremembe vašega naslova elektronske pošte pritisnite na gumb Potrdi spodaj."
       button: Potrdi
+      success: "Vaš naslov elektronske pošte je potrjen. Hvala, da ste se vpisali!"
+      failure: "Naslov elektronske pošte je že bil potrjen s tem žetonom."
     set_home:
       flash success: "Domača lokacija uspešno shranjena"
     go_public:
       flash success: "Vsi vaši prispevki so sedaj javni in sedaj imate pravico do urejanja."
+    make_friend:
+      success: "Uporabnik {{name}} je sedaj vaš prijatelj."
+      failed: "Oprostite, uporabnika {{name}} ni bilo mogoče dodati med prijatelje."
+      already_a_friend: "Z uporabnikom {{name}} ste že prijatelja."
+    remove_friend:
+      success: "Uporabnika {{name}} ste odstranili izmed svojih prijateljev."
+      not_a_friend: "Uporabnika {{name}} ni med vašimi prijatelji."
