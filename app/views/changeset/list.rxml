@@ -2,17 +2,16 @@ xml.rss("version" => "2.0",
         "xmlns:geo" => "http://www.w3.org/2003/01/geo/wgs84_pos#",
         "xmlns:georss" => "http://www.georss.org/georss") do
   xml.channel do
-    xml.title t('changeset.list_rss.title')
-    xml.description t('changeset.list_rss.description')
-    xml.link url_for(:controller => "browse", :action => "changesets", :only_path => false)
+    xml.title t('changeset.list.title')
+    xml.description @description
+    xml.link url_for(params.merge({ :only_path => false }))
     xml.image do
       xml.url "http://www.openstreetmap.org/images/mag_map-rss2.0.png"
       xml.title "OpenStreetMap"
       xml.width "100"
       xml.height "100"
-      xml.link url_for(:controller => "browse", :action => "changesets", :only_path => false)
+      xml.link url_for(params.merge({ :only_path => false }))
     end
-
 
     for changeset in @edits
       xml.item do
