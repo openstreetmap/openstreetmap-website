@@ -4,15 +4,15 @@ xml.rss("version" => "2.0",
         "xmlns:geo" => "http://www.w3.org/2003/01/geo/wgs84_pos#",
         "xmlns:georss" => "http://www.georss.org/georss") do
   xml.channel do
-    xml.title t('changeset.list_user_rss.title', :user => @display_name)
-    xml.description t('changeset.list_user_rss.description', :user => @display_name)
-    xml.link url_for(:controller => "user", :action => "edits", :id => @display_name, :only_path => false)
+    xml.title t('changeset.list_bbox_rss.title', :bbox => @bbox.join(","))
+    xml.description t('changeset.list_bbox_rss.description', :bbox => @bbox.join(","))
+    xml.link url_for(:controller => "history", :bbox => @bbox.join(","), :only_path => false)
     xml.image do
       xml.url "http://www.openstreetmap.org/images/mag_map-rss2.0.png"
       xml.title "OpenStreetMap"
       xml.width "100"
       xml.height "100"
-      xml.link url_for(:controller => "user", :action => "edits", :id => @display_name, :only_path => false)
+      xml.link url_for(:controller => "history", :bbox => @bbox.join(","), :only_path => false)
     end
 
 
@@ -28,7 +28,9 @@ xml.rss("version" => "2.0",
           xml.description changeset.tags['comment']
         end
         xml.pubDate changeset.created_at.to_s(:rfc822)
-        xml.comments url_for(:controller => "message", :action => "new", :id => changeset.user.id, :only_path => false)
+        if changeset.user.data_public?
+          xml.comments url_for(:controller => "message", :action => "new", :id => changeset.user.id, :only_path => false)
+        end
 
         unless changeset.min_lat.nil?
           minlon = changeset.min_lon/GeoRecord::SCALE.to_f

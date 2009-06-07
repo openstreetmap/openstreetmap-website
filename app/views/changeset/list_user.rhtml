@@ -11,8 +11,8 @@
 <p><%= t'changeset.list_user.for_all_changes', :recent_changes_link => link_to(t('changeset.list_user.recent_changes'), :controller => "browse", :action => "changesets") %></p>
 <br>
 
-<%= rss_link_to :action => 'rss' %>
+<%= rss_link_to :action => 'list_user_rss' %>
 
 <% content_for :head do %>
-<%= auto_discovery_link_tag :atom, :action => 'rss' %>
+<%= auto_discovery_link_tag :atom, :controller => 'changeset', :action => 'list_user_rss' %>
 <% end %>

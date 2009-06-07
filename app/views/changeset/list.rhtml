@@ -5,3 +5,9 @@
 
 <p><%= t'changeset.list.for_more_changesets' %></p>
 <br>
+
+<%= rss_link_to :action => 'list_rss' %>
+
+<% content_for :head do %>
+<%= auto_discovery_link_tag :atom, :controller => 'changeset', :action => 'list_rss' %>
+<% end %>
