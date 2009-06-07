@@ -9,7 +9,7 @@
     <%= tag("link", { :rel => "search", :type => "application/opensearchdescription+xml", :title => "OpenStreetMap Search", :href => "/opensearch/osm.xml" }) %>
     <%= tag("meta", { :name => "description", :content => "OpenStreetMap is the free wiki world map." }) %>
     <%= yield :head %>
-    <title>OpenStreetMap<%= ' | '+ h(@title) if @title %></title>
+    <title><%= t 'layouts.project_name.title' %><%= ' | '+ h(@title) if @title %></title>
   </head>
   <body>
     <div id="content">
@@ -22,14 +22,13 @@
 
     <span id="greeting">
       <% if @user and @user.id %>
-        <%= t 'layouts.welcome_user', :user_link => (link_to h(@user.display_name), {:controller => 'user', :action => 'view', :display_name => @user.display_name}) %> | 
-        <% @inbox_weight = 'bold' if @user.new_messages.size > 0 %>
+        <%= t 'layouts.welcome_user', :user_link => (link_to h(@user.display_name), {:controller => 'user', :action => 'view', :display_name => @user.display_name}, :title => t('layouts.welcome_user_link_tooltip')) %> | 
         <%= yield :greeting %>
-        <%= link_to t('layouts.inbox', :size => @user.new_messages.size), {:controller => 'message', :action => 'inbox', :display_name => @user.display_name}, {:style => "font-weight: #{@inbox_weight};" } %> |
-        <%= link_to t('layouts.logout'), {:controller => 'user', :action => 'logout', :referer => request.request_uri}, {:id => 'logoutanchor'}%>
-      <% else %>               
-        <%= link_to t('layouts.log_in'), {:controller => 'user', :action => 'login', :referer => request.request_uri}, {:id => 'loginanchor'}%> |
-        <%= link_to t('layouts.sign_up'), {:controller => 'user', :action => 'new'}, {:id => 'registeranchor'} %>
+        <%= link_to t('layouts.inbox', :size => @user.new_messages.size), {:controller => 'message', :action => 'inbox', :display_name => @user.display_name}, case @user.new_messages.size when 0 then { :title => t('layouts.inbox_tooltip_0') } when 1 then { :class => 'greeting-bar-unread', :title => t('layouts.inbox_tooltip_1') } else { :class => 'greeting-bar-unread', :title => t('layouts.inbox_tooltip_n', :size => @user.new_messages.size) } end %> |
+        <%= link_to t('layouts.logout'), {:controller => 'user', :action => 'logout', :referer => request.request_uri}, {:id => 'logoutanchor', :title => t('layouts.logout_tooltip')}%>
+      <% else %>
+        <%= link_to t('layouts.log_in'), {:controller => 'user', :action => 'login', :referer => request.request_uri}, {:id => 'loginanchor', :title => t('layouts.log_in_tooltip')} %>
+        <%= link_to t('layouts.sign_up'), {:controller => 'user', :action => 'new'}, {:id => 'registeranchor', :title => t('layouts.sign_up_tooltip')} %>
       <% end %>
     </span>
 
@@ -65,8 +64,8 @@
 
       <div id="logo">
         <center>
-          <h1>OpenStreetMap</h1>
-          <%= link_to(image_tag("osm_logo.png", :size => "120x120", :border => 0), :controller => 'site', :action => 'index') %><br/>
+          <h1><%= t 'layouts.project_name.h1' %></h1>
+          <%= link_to(image_tag("osm_logo.png", :size => "120x120", :border => 0, :alt => t('layouts.logo.alt_text')), :controller => 'site', :action => 'index') %><br/>
           <h2 class="nowrap"><%= t('layouts.tag_line') %></h2>
         </center>
       </div>
