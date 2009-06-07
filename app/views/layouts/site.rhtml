@@ -24,7 +24,12 @@
       <% if @user and @user.id %>
         <%= t 'layouts.welcome_user', :user_link => (link_to h(@user.display_name), {:controller => 'user', :action => 'view', :display_name => @user.display_name}, :title => t('layouts.welcome_user_link_tooltip')) %> | 
         <%= yield :greeting %>
-        <%= link_to t('layouts.inbox', :size => @user.new_messages.size), {:controller => 'message', :action => 'inbox', :display_name => @user.display_name}, case @user.new_messages.size when 0 then { :title => t('layouts.inbox_tooltip_0') } when 1 then { :class => 'greeting-bar-unread', :title => t('layouts.inbox_tooltip_1') } else { :class => 'greeting-bar-unread', :title => t('layouts.inbox_tooltip_n', :size => @user.new_messages.size) } end %> |
+        <%
+        inbox_attributes = {}
+        inbox_attributes[:class] = 'greeting-bar-unread' if @user.new_messages.size > 0
+        inbox_attributes[:title] = t 'layouts.inbox_tooltip', :count => @user.new_messages.size
+        %>
+        <%= link_to t('layouts.inbox', :count => @user.new_messages.size), {:controller => 'message', :action => 'inbox', :display_name => @user.display_name}, inbox_attributes %> |
         <%= link_to t('layouts.logout'), {:controller => 'user', :action => 'logout', :referer => request.request_uri}, {:id => 'logoutanchor', :title => t('layouts.logout_tooltip')}%>
       <% else %>
         <%= link_to t('layouts.log_in'), {:controller => 'user', :action => 'login', :referer => request.request_uri}, {:id => 'loginanchor', :title => t('layouts.log_in_tooltip')} %>
