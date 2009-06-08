@@ -127,14 +127,13 @@ class AmfController < ApplicationController
           case message
             when 'putway';         orn=renumberednodes.dup
                                    r=putway(renumberednodes,*args)
-                                   r[4]=renumberednodes.dup
-                                   r[4].delete_if { |k,v| orn.has_key?(k) }
+                                   r[4]=renumberednodes.reject { |k,v| orn.has_key?(k) }
                                    if r[2] != r[3] then renumberedways[r[2]] = r[3] end
                                    results[index]=AMF.putdata(index,r)
             when 'putrelation';    results[index]=AMF.putdata(index,putrelation(renumberednodes, renumberedways, *args))
             when 'deleteway';      results[index]=AMF.putdata(index,deleteway(*args))
             when 'putpoi';         r=putpoi(*args)
-                    	             if r[2] != r[3] then renumberednodes[r[2]] = r[3] end
+                                   if r[2] != r[3] then renumberednodes[r[2]] = r[3] end
                                    results[index]=AMF.putdata(index,r)
             when 'startchangeset'; results[index]=AMF.putdata(index,startchangeset(*args))
            end
