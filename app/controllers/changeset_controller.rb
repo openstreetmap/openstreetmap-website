@@ -266,6 +266,7 @@ class ChangesetController < ApplicationController
           conditions = cond_merge conditions, ['false']
         end
       elsif params[:format] == 'rhtml'
+        @title = t 'user.no_such_user.title'
         @not_found_user = params[:display_name]
         render :template => 'user/no_such_user', :status => :not_found
       end
@@ -282,6 +283,8 @@ class ChangesetController < ApplicationController
       bbox = BoundingBox.from_s(bbox)
       bbox_link = "<a href='#{url_for(:controller => "site", :action => "index", :minlon => bbox.min_lon, :minlat => bbox.min_lat, :maxlon => bbox.max_lon, :maxlat => bbox.max_lat, :box => "yes")}'>#{bbox.to_s}</a>"
     end
+
+    @title =  t 'changeset.list.title'
 
     if user and bbox
       @description = t 'changeset.list.description_user_bbox', :user => user.display_name, :bbox => bbox_link
