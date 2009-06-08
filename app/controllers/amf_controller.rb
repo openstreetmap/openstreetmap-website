@@ -127,7 +127,7 @@ class AmfController < ApplicationController
           case message
             when 'putway';         orn=renumberednodes.dup
                                    r=putway(renumberednodes,*args)
-                                   renumberednodes=r[4].dup
+                                   r[4]=renumberednodes.dup
                                    r[4].delete_if { |k,v| orn.has_key?(k) }
                                    if r[2] != r[3] then renumberedways[r[2]] = r[3] end
                                    results[index]=AMF.putdata(index,r)
@@ -588,11 +588,12 @@ class AmfController < ApplicationController
   # 
   # Returns:
   # 0. '0' (code for success),
-  # 1. original way id (unchanged),
-  # 2. new way id,
-  # 3. hash of renumbered nodes (old id=>new id),
-  # 4. way version,
-  # 5. hash of node versions (node=>version)
+  # 1. message,
+  # 2. original way id (unchanged),
+  # 3. new way id,
+  # 4. hash of renumbered nodes (old id=>new id),
+  # 5. way version,
+  # 6. hash of node versions (node=>version)
 
   def putway(renumberednodes, usertoken, changeset_id, wayversion, originalway, pointlist, attributes, nodes, deletednodes) #:doc:
     amf_handle_error("'putway' #{originalway}") do
