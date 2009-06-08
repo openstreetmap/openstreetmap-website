@@ -167,4 +167,69 @@ class NodeTest < ActiveSupport::TestCase
     #assert_equal node_template.tags, old_node.tags
     assert_equal node_template.timestamp.to_i, old_node.timestamp.to_i
   end
+  
+  def test_from_xml_no_id
+    lat = 56.7
+    lon = -2.3
+    changeset = 2
+    version = 1
+    noid = "<osm><node lat='#{lat}' lon='#{lon}' changeset='#{changeset}' version='#{version}' /></osm>"
+    # First try a create which doesn't need the id
+    assert_nothing_raised(OSM::APIBadXMLError) {
+      Node.from_xml(noid, true)
+    }
+    # Now try an update with no id, and make sure that it gives the appropriate exception
+    message = assert_raise(OSM::APIBadXMLError) {
+      Node.from_xml(noid, false)
+    }
+    assert_match /ID is required when updating./, message.message
+  end
+  
+  def test_from_xml_no_lat
+    nolat = "<osm><node id='1' lon='23.3' changeset='2' version='23' /></osm>"
+    message_create = assert_raise(OSM::APIBadXMLError) {
+      Node.from_xml(nolat, true)
+    }
+    assert_match /lat missing/, message_create.message
+    message_update = assert_raise(OSM::APIBadXMLError) {
+      Node.from_xml(nolat, false)
+    }
+    assert_match /lat missing/, message_update.message
+  end
+  
+  def test_from_xml_no_lon
+    nolon = "<osm><node id='1' lat='23.1' changeset='2' version='23' /></osm>"
+    message_create = assert_raise(OSM::APIBadXMLError) {
+      Node.from_xml(nolon, true)
+    }
+    assert_match /lon missing/, message_create.message
+    message_update = assert_raise(OSM::APIBadXMLError) {
+      Node.from_xml(nolon, false)
+    }
+    assert_match /lon missing/, message_update.message
+  end
+
+  def test_from_xml_no_changeset_id
+    nocs = "<osm><node id='123' lon='23.23' lat='23.1' version='23' /></osm>"
+    message_create = assert_raise(OSM::APIBadXMLError) {
+      Node.from_xml(nocs, true)
+    }
+    assert_match /changeset id missing/, message_create.message
+    message_update = assert_raise(OSM::APIBadXMLError) {
+      Node.from_xml(nocs, false)
+    }
+    assert_match /changeset id missing/, message_update.message
+  end
+  
+  def test_from_xml_double_lat
+    nocs = "<osm><node id='123' lon='23.23' lat='23.1' lat='12' changeset='23' version='23' /></osm>"
+    message_create = assert_raise(OSM::APIBadXMLError) {
+      Node.from_xml(nocs, true)
+    }
+    assert_match /Fatal error: Attribute lat redefined at/, message_create.message
+    message_update = assert_raise(OSM::APIBadXMLError) {
+      Node.from_xml(nocs, false)
+    }
+    assert_match /Fatal error: Attribute lat redefined at/, message_update.message
+  end
 end
