@@ -92,17 +92,14 @@ class Node < ActiveRecord::Base
     node.version = create ? 0 : pt['version'].to_i
 
     unless create
+      raise OSM::APIBadXMLError.new("node", pt, "ID is required when updating.") if pt['id'].nil?
       if pt['id'] != '0'
         node.id = pt['id'].to_i
       end
     end
 
-    # visible if it says it is, or as the default if the attribute
-    # is missing.
-    # Don't need to set the visibility, when it is set explicitly in the create/update/delete
-    #node.visible = pt['visible'].nil? or pt['visible'] == 'true'
-
     # We don't care about the time, as it is explicitly set on create/update/delete
+    # We don't care about the visibility as it is implicit based on the action
 
     tags = []
 

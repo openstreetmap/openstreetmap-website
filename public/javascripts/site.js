@@ -1,5 +1,7 @@
-//Called as the user scrolls/zooms around.
-//Maniplate hrefs of the view tab and various other links
+/*
+ * Called as the user scrolls/zooms around to aniplate hrefs of the
+ * view tab and various other links
+ */
 function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat) {
   var decimals = Math.pow(10, Math.floor(zoom/3));
   var node;
@@ -104,6 +106,9 @@ function getArgs(url) {
   return args;
 }
 
+/*
+ * Called to set the arguments on a URL from the given hash.
+ */
 function setArgs(url, args) {
    var queryitems = new Array();
 
@@ -119,6 +124,9 @@ function setArgs(url, args) {
    return url.replace(/\?.*$/, "") + "?" + queryitems.join("&");
 }
 
+/*
+ * Called to get the arguments from a URL as a hash.
+ */
 function getStyle(el, property) {
   var style;
 
@@ -132,3 +140,21 @@ function getStyle(el, property) {
 
   return style;
 }
+
+/*
+ * Called to interpolate JavaScript variables in strings using a
+ * similar syntax to rails I18n string interpolation - the only
+ * difference is that [[foo]] is the placeholder syntax instead
+ * of {{foo}} which allows the same string to be processed by both
+ * rails and then later by javascript.
+ */
+function i18n(string, keys) {
+  for (var key in keys) {
+    var re_key = '\\[\\[' + key + '\\]\\]';
+    var re = new RegExp(re_key, "g");
+      
+    string = string.replace(re, keys[key]);
+  }
+   
+  return string;
+} 

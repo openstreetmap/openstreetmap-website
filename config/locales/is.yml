@@ -89,9 +89,9 @@ is:
       no_bounding_box: "Engin svæðismörk voru vistuð ásamt þessu breytingarsetti."
       show_area_box: "Sýna svæðismörk á aðalkorti"
       box: "svæðismörk"
-      has_nodes: "Inniheldur {{node_count}} hnúta:"
-      has_ways: "Inniheldur {{way_count}} vegi:"
-      has_relations: "Inniheldur {{relation_count}} vensl:"
+      has_nodes: "Inniheldur {{count}} hnúta:"
+      has_ways: "Inniheldur {{count}} vegi:"
+      has_relations: "Inniheldur {{count}} vensl:"
     common_details: 
       edited_at: "Breytt:"
       edited_by: "Breytt af:"
@@ -145,20 +145,21 @@ is:
       view_data: "Sýna gögn fyrir núverandi kortasýn"
       manually_select: "Velja svæði á kortinu"
     start_rjs:
+      data_layer_name: "Gögn"
       data_frame_title: "Gögn"
       zoom_or_select: "Þú verður að þysja að eða velja svæði á kortinu"
       drag_a_box: "Teiknaðu kassa á kortið til að velja svæði"
       manually_select: "Velja annað svæði á kortinu"
-      loaded_an_area_with_num_features: "Þú hefur valið svæði sem á eru {{num_features}} hlutir. Sumir vafrar höndla illa fleiri en 100 hluti í einu, en þú getur hlaðið þeim inn þrátt fyrir það ef þú telur þig geta höndlað það."
+      loaded_an_area_with_num_features: "Þú hefur valið svæði sem á eru [[num_features]] hlutir. Sumir vafrar höndla illa fleiri en 100 hluti í einu, en þú getur hlaðið þeim inn þrátt fyrir það ef þú telur þig geta höndlað það."
       load_data: "Hlaða inn gögnum"
-      unable_to_load_size: "Gat ekki hlaðið gögnum: Svæði af stærðinni {{bbox_size}} er of stórt, svæðið verður að vera minna en {{max_bbox_size}}"
+      unable_to_load_size: "Gat ekki hlaðið gögnum: Svæði af stærðinni [[bbox_size]] er of stórt, svæðið verður að vera minna en {{max_bbox_size}}"
       loading: "Hleð inn gögnum..."
       show_history: "Sýna breytingarsögu"
       wait: "Augnablik..."
-      history_for_feature: "Breytingarskrá fyrir {{feature}}"
+      history_for_feature: "Breytingarskrá fyrir [[feature]]"
       details: "Nánar"
       private_user: "ónafngreindum"
-      edited_by_user_at_timestamp: "Breytt af {{user}} klukkan {{timestamp}}"
+      edited_by_user_at_timestamp: "Breytt af [[user]] klukkan [[timestamp]]"
       object_list:
         heading: "Hlutir"
         back: "Aftur á listann yfir hluti á þessu svæði"
@@ -169,13 +170,13 @@ is:
         details: "Nánar"
         selected:
           type:
-            node: "Hnútur {{id}}"
-            way: "Vegur {{id}}"
+            node: "Hnútur [[id]]"
+            way: "Vegur [[id]]"
             # There's no 'relation' type because it isn't represented in OpenLayers
         history:
           type:
-            node: "hnút {{id}}"
-            way: "veg {{id}}"
+            node: "hnút [[id]]"
+            way: "veg [[id]]"
             # There's no 'relation' type because it isn't represented in OpenLayers
     tag_details:
       tags: "Eigindi:"
@@ -322,7 +323,8 @@ is:
       no_results: "Ekkert fannst"
   layouts:
     welcome_user: "Hæ {{user_link}}"
-    inbox: "innhólf ({{size}})"
+    home: "heim"
+    inbox: "innhólf ({{count}})"
     logout: "útskrá"
     log_in: "innskrá"
     sign_up: "búa til aðgang"
@@ -486,12 +488,14 @@ is:
       as_unread: "Skilaboðin voru merkt sem ólesin"
   site:
     index:
-      home: "heim"
-      js_1: "You are either using a browser that doesn't support javascript, or you have disabled javascript."
-      js_2: "OpenStreetMap uses javascript for its slippy map."
-      js_3: 'You may want to try the <a href="http://tah.openstreetmap.org/Browse/">Tiles@Home static tile browser</a> if you are unable to enable javascript.'
+      js_1: "Þú ert annaðhvort að nota vafra sem styður ekki JavaScript eða hefur slökkt á JavaScript stuðning."
+      js_2: "OpenStreetMap notar JavaScript til að útfæra gagnvirk kort."
+      js_3: 'Þú getur einnig notað <a href="http://tah.openstreetmap.org/Browse/">Tiles@Home kortasýnina</a> sem krefst ekki JavaScript stuðnings.'
       permalink: "Varanlegur tengill"
-      license: "Licensed under the Creative Commons Attribution-Share Alike 2.0 license by the OpenStreetMap project and its contributors."
+      license:
+        notice: "Gefið út undir {{license_name}} leyfinu af þáttakendum í {{project_name}}."
+        license_name: "Creative Commons Attribution-Share Alike 2.0"
+        project_name: "OpenStreetMap verkefninu"
     edit:
       not_public: "You haven't set your edits to be public."
       not_public_description: "You can no longer edit the map unless you do so. You can set your edits as public from your {{user_page}}."
@@ -655,7 +659,7 @@ is:
       settings_link_text: "stillingarsíðunni"
       your friends: Vinir þínir
       no friends: Þú átt enga vini
-      km away: "í {{distance}} km fjarlægð"
+      km away: "í {{count}} km fjarlægð"
       nearby users: "Nálægir notendur:"
       no nearby users: "Engir notendur hafa stillt staðsetningu sína nálægt þér."
       change your settings: "breyttu stillingunum þínum"

@@ -1,7 +1,7 @@
 class ChangeDiaryEntriesLanguage < ActiveRecord::Migration
   def self.up
     remove_column "diary_entries", "language"
-    add_column "diary_entries", "language_code", :string
+    add_column "diary_entries", "language_code", :string, :null => false, :default => "en"
   end
 
   def self.down

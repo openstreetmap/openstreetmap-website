@@ -8,15 +8,14 @@ class SiteControllerTest < ActionController::TestCase
     get :index
     assert_response :success
     assert_template 'index'
-    # Seems that we need to wait for Rails 2.3 for this one
-    # assert_template :partial => '_search', :count => 1
+    assert_site_partials
   end
   
   # Get the edit page
   def test_edit
     get :edit
     # Should be redirected
-    assert_response :redirect
+    assert_redirected_to :controller => :user, :action => 'login', :referer => "/edit"
   end
   
   # Get the export page
@@ -24,6 +23,7 @@ class SiteControllerTest < ActionController::TestCase
     get :export
     assert_response :success
     assert_template 'index'
+    assert_site_partials
   end
   
   # Offline page
@@ -31,5 +31,12 @@ class SiteControllerTest < ActionController::TestCase
     get :offline
     assert_response :success
     assert_template 'offline'
+    assert_site_partials 0
+  end
+  
+  def assert_site_partials(count = 1)
+    assert_template :partial => '_search', :count => count
+    assert_template :partial => '_key', :count => count
+    assert_template :partial => '_sidebar', :count => count
   end
 end

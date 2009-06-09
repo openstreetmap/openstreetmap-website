@@ -4,7 +4,7 @@ class UserControllerTest < ActionController::TestCase
   fixtures :users
   
   # The user creation page loads
-  def test_user_create
+  def test_user_create_view
     get :new
     assert_response :success
     
@@ -25,6 +25,41 @@ class UserControllerTest < ActionController::TestCase
         end
       end
     end
+  end
+  
+  def test_user_create_success
+    new_email = "newtester@osm.org"
+    display_name = "new_tester"
+    assert_difference('User.count') do
+      assert_difference('ActionMailer::Base.deliveries.size') do
+        post :save, {:user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest"}}
+      end
+    end
+      
+    # Check the e-mail
+    register_email = ActionMailer::Base.deliveries.first
+  
+    assert_equal register_email.to[0], new_email
+    assert_match /#{@url}/, register_email.body
+
+    # Check the page
+    assert_redirected_to :action => 'login'
+      
+    ActionMailer::Base.deliveries.clear
+  end
+  
+  def test_user_create_submit_duplicate_email
+    dup_email = users(:public_user).email
+    display_name = "new_tester"
+    assert_difference('User.count', 0) do
+      assert_difference('ActionMailer::Base.deliveries.size', 0) do
+        post :save, :user => { :email => dup_email, :email_confirmation => dup_email, :display_name => display_name, :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest"}
+      end
+    end
+    assert_response :success                                                                       
+    assert_template 'new'
+    assert_select "div#errorExplanation"
+    assert_select "table#loginForm > tr > td > div[class=fieldWithErrors] > input#user_email"
   end
   
   # Check that the user account page will display and contains some relevant

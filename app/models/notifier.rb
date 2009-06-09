@@ -33,7 +33,7 @@ class Notifier < ActionMailer::Base
 
   def gpx_success(trace, possible_points)
     common_headers trace.user
-    subject "[OpenStreetMap] GPX Import success"
+    subject I18n.t('notifier.gpx_notification.success.subject')
     body :trace_name => trace.name,
          :trace_points => trace.size,
          :trace_description => trace.description,
@@ -44,7 +44,7 @@ class Notifier < ActionMailer::Base
   def gpx_failure(trace, error)
     common_headers trace.user
     from "webmaster@openstreetmap.org"
-    subject "[OpenStreetMap] GPX Import failure"
+    subject I18n.t('notifier.gpx_notification.failure.subject')
     body :trace_name => trace.name,
          :trace_description => trace.description,
          :trace_tags => trace.tags,

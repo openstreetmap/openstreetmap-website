@@ -73,7 +73,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect "api/#{API_VERSION}/swf/trackpoints", :controller =>'swf', :action =>'trackpoints'
   
   # Data browsing
-  map.connect '/browse', :controller => 'changeset', :action => 'list', :format => 'rhtml'
+  map.connect '/browse', :controller => 'changeset', :action => 'list'
   map.connect '/browse/start', :controller => 'browse', :action => 'start'
   map.connect '/browse/way/:id', :controller => 'browse', :action => 'way', :id => /\d+/
   map.connect '/browse/way/:id/history', :controller => 'browse', :action => 'way_history', :id => /\d+/
@@ -82,15 +82,15 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/browse/relation/:id', :controller => 'browse', :action => 'relation', :id => /\d+/
   map.connect '/browse/relation/:id/history', :controller => 'browse', :action => 'relation_history', :id => /\d+/
   map.connect '/browse/changeset/:id', :controller => 'browse', :action => 'changeset', :id => /\d+/
-  map.connect '/browse/changesets', :controller => 'changeset', :action => 'list', :format => 'rhtml'
-  map.connect '/browse/changesets/rss', :controller => 'changeset', :action => 'list', :format => 'rxml'
+  map.connect '/browse/changesets', :controller => 'changeset', :action => 'list'
+  map.connect '/browse/changesets/rss', :controller => 'changeset', :action => 'list', :format => :rss
   
   # web site
-  map.root :controller => 'site', :action => 'index', :format => 'rhtml'
+  map.root :controller => 'site', :action => 'index'
   map.connect '/', :controller => 'site', :action => 'index'
   map.connect '/edit', :controller => 'site', :action => 'edit'
-  map.connect '/history', :controller => 'changeset', :action => 'list', :format => 'rhtml'
-  map.connect '/history/rss', :controller => 'changeset', :action => 'list', :format => 'rxml'
+  map.connect '/history', :controller => 'changeset', :action => 'list'
+  map.connect '/history/rss', :controller => 'changeset', :action => 'list', :format => :rss
   map.connect '/export', :controller => 'site', :action => 'export'
   map.connect '/login', :controller => 'user', :action => 'login'
   map.connect '/logout', :controller => 'user', :action => 'logout'
@@ -144,8 +144,8 @@ ActionController::Routing::Routes.draw do |map|
 
   # user pages
   map.connect '/user/:display_name', :controller => 'user', :action => 'view'
-  map.connect '/user/:display_name/edits', :controller => 'changeset', :action => 'list', :format => 'rhtml'
-  map.connect '/user/:display_name/edits/rss', :controller => 'changeset', :action => 'list', :format => 'rxml'
+  map.connect '/user/:display_name/edits', :controller => 'changeset', :action => 'list'
+  map.connect '/user/:display_name/edits/rss', :controller => 'changeset', :action => 'list', :format =>:rss
   map.connect '/user/:display_name/make_friend', :controller => 'user', :action => 'make_friend'
   map.connect '/user/:display_name/remove_friend', :controller => 'user', :action => 'remove_friend'
   map.connect '/user/:display_name/diary', :controller => 'diary_entry', :action => 'list'

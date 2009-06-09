@@ -1,6 +1,6 @@
 <% content_for :greeting do %>
 <% if @user and !@user.home_lon.nil? and !@user.home_lat.nil? %>
-<%= link_to_function t('site.index.home'), "setPosition(#{@user.home_lat}, #{@user.home_lon}, 10)" %> |
+  <%= link_to_function t('layouts.home'), "setPosition(#{@user.home_lat}, #{@user.home_lon}, 10)", { :title => t('layouts.home_tooltip') } %> |
 <% end %>
 <% end %>
 
@@ -23,11 +23,15 @@
 <div id="attribution">
   <table width="100%">
     <tr>
-      <td align="left">http://creativecommons.org/licenses/by-sa/2.0/</td>
-      <td align="right">http://openstreetmap.org/</td>
+      <td align="left"><%= t'site.index.license.license_url' %></td>
+      <td align="right"><%= t'site.index.license.project_url' %></td>
     </tr>
     <tr>
-      <td colspan="2" align="center"><%= t 'site.index.license' %></td>
+      <td colspan="2" align="center"><%=
+        t'site.index.license.notice',
+          :license_name => t('site.index.license.license_name'),
+          :project_name => t('site.index.license.project_name')
+        %></td>
     </tr>
   </table>
 </div>
@@ -103,7 +107,7 @@ end
     map = createMap("map");
 
     <% unless OSM_STATUS == :api_offline or OSM_STATUS == :database_offline %>
-    map.dataLayer = new OpenLayers.Layer("Data", { "visibility": false });
+    map.dataLayer = new OpenLayers.Layer("<%= I18n.t 'browse.start_rjs.data_layer_name' %>", { "visibility": false });
     map.dataLayer.events.register("visibilitychanged", map.dataLayer, toggleData);
     map.addLayer(map.dataLayer);
     <% end %>

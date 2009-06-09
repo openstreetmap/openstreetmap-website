@@ -1,4 +1,6 @@
 de:
+  html: 
+    dir: ltr
   activerecord:
     # Translates all the model names, which is used in error handling on the web site (1. Teil nicht so wichtig!)
     models:
@@ -89,9 +91,9 @@ de:
       no_bounding_box: "Für dieses Changeset wurde kein Bereich gespeichert."
       show_area_box: "Bereichsgrenze anzeigen"
       box: "Bereichsgrenze"
-      has_nodes: "Enthält folgende {{node_count}} Knoten:"
-      has_ways: "Enthält folgende {{way_count}} Wege:"
-      has_relations: "Enthält folgende {{relation_count}} Relationen:"
+      has_nodes: "Enthält folgende {{count}} Knoten:"
+      has_ways: "Enthält folgende {{count}} Wege:"
+      has_relations: "Enthält folgende {{count}} Relationen:"
     common_details: 
       edited_at: "Bearbeitet am:"
       edited_by: "Bearbeitet von:"
@@ -121,7 +123,7 @@ de:
     not_found:
       sorry: "Wir konnten den {{type}} mit der Nummer {{id}} leider nicht finden. Du hast dich möglicherweise vertippt oder du bist einem ungültigem Link gefolgt."
       type:
-        node: Konten
+        node: Knoten
         way: Weg
         relation: Relation
     paging_nav:
@@ -149,34 +151,34 @@ de:
       zoom_or_select: "Karte vergrössern oder einen Bereich auf der Karte auswählen"
       drag_a_box: "Einen Rahmen über die Karte aufziehen, um einen Bereich auszuwählen"
       manually_select: "Einen anderen Kartenausschnitt manuell auswählen"
-      loaded_an_area_with_num_features: "Du hast einen Bereich geladen, der {{num_features}} Elemente enthält. Manche Browser haben Probleme bei der Darstellung einer so großen Datenmenge. Normalerweise ist es am besten, nur weniger als 100 Elemente zu betrachten; alles andere macht deinen Browser langsam bzw. lässt ihn nicht mehr auf Eingaben reagieren. Wenn du sicher bist, dass du diese Daten darstellen willst, klicke auf \'Daten laden\' unten."
+      loaded_an_area_with_num_features: "Du hast einen Bereich geladen, der [[num_features]] Elemente enthält. Manche Browser haben Probleme bei der Darstellung einer so großen Datenmenge. Normalerweise ist es am besten, nur weniger als 100 Elemente zu betrachten; alles andere macht deinen Browser langsam bzw. lässt ihn nicht mehr auf Eingaben reagieren. Wenn du sicher bist, dass du diese Daten darstellen willst, klicke auf \'Daten laden\' unten."
       load_data: "Daten laden"
-      unable_to_load_size: "Konnte nicht geladen werden: Bereich der Größe {{bbox_size}} ist zu groß (soll kleiner als {{max_bbox_size}} sein)"
+      unable_to_load_size: "Konnte nicht geladen werden: Bereich der Größe [[bbox_size]] ist zu groß (soll kleiner als {{max_bbox_size}} sein)"
       loading: "Laden..."
       show_history: "Chronik"
       wait: "Verarbeiten..."
-      history_for_feature: "Chronik für {{feature}}"
+      history_for_feature: "Chronik für [[feature]]"
       details: "Details"
       private_user: "Anonymer Benutzer"
-      edited_by_user_at_timestamp: "Bearbeitet von {{user}} am {{timestamp}}"
+      edited_by_user_at_timestamp: "Bearbeitet von [[user]] am [[timestamp]]"
       object_list:
         heading: "Object list"
         back: "Display object list"
         type:
-          node: "Konten"
+          node: "Knoten"
           way: "Weg"
           # There's no 'relation' type because it isn't represented in OpenLayers
         api: "Retrieve this area from the API"
         details: "Details"
         selected:
           type:
-            node: "Knoten {{id}}"
-            way: "Weg {{id}}"
+            node: "Knoten [[id]]"
+            way: "Weg [[id]]"
             # There's no 'relation' type because it isn't represented in OpenLayers
         history:
           type:
-            node: "Knoten {{id}}"
-            way: "Weg {{id}}"
+            node: "Knoten [[id]]"
+            way: "Weg [[id]]"
             # There's no 'relation' type because it isn't represented in OpenLayers
     tag_details:
       tags: "Tags:"
@@ -322,11 +324,28 @@ de:
       type_from_source: "{{type}} von {{source_link}}"
       no_results: "Keine Ergebnisse"
   layouts:
+    project_name:
+      # in <title>
+      title: OpenStreetMap
+      # in <h1>
+      h1: OpenStreetMap
+    logo:
+      alt_text: OpenStreetMap logo
     welcome_user: "Willkommen, {{user_link}}"
-    inbox: "Posteingang ({{size}})"
+    welcome_user_link_tooltip: Eigene Benutzerseite
+    home: Standort
+    home_tooltip: Eigener Standort
+    inbox: "Posteingang ({{count}})"
+    inbox_tooltip:
+      zero: Dein Posteingang enthält keine ungelesenen Nachrichten
+      one: Dein Posteingang enthält 1 ungelesene Nachricht
+      other: Dein Posteingang enthält {{count}} ungelesene Nachrichten
     logout: Abmelden
+    logout_tooltip: "Abmelden"
     log_in: Anmelden
+    log_in_tooltip: Für dein Benutzerkonto anmelden
     sign_up: Registrieren
+    sign_up_tooltip: Ein Benutzerkonto zum Daten bearbeiten erstellen
     view: Karte
     view_tooltip: Karte betrachten
     edit: Bearbeiten
@@ -343,13 +362,20 @@ de:
     intro_1: "OpenStreetMap ist eine freie, editierbare Karte der gesamten Welt, die von Menschen wie dir erstellt wird." 
     intro_2: "OpenStreetMap ermöglicht es geographische Daten gemeinschaftlich von überall auf der Welt anzuschauen und zu bearbeiten."
     intro_3: "Das Hosting der OpenStreetMap-Server wird freundlicherweise von {{ucl}} und {{bytemark}} unterstützt."
+    intro_3_ucl: "UCL VR Centre"
+    intro_3_bytemark: "bytemark"
     osm_offline: "Die OpenStreetMap-Datenbank ist im Moment wegen wichtiger Wartungsarbeiten nicht verfügbar."
     osm_read_only: 'Die OpenStreetMap-Datenbank ist im Moment wegen wichtiger Wartungsarbeiten im "Nur-Lesen-Modus".'
     donate: "Unterstütze die OpenStreetMap-Hardwarespendenaktion durch eine eigene {{link}}."
     donate_link_text: Spende
     help_wiki: "Hilfe & Wiki"
+    help_wiki_tooltip: "Hilfe & Wiki; Wiki des Projekts"
+    help_wiki_url: "http://wiki.openstreetmap.org/wiki/Hauptseite"
     news_blog: "News-Blog"
+    news_blog_tooltip: "News-Blog über OpenStreetMap, freie geographische Daten, etc."
     shop: Shop
+    shop_tooltip: Shop with branded OpenStreetMap 
+    shop_url: http://wiki.openstreetmap.org/wiki/Merchandise
     sotm: 'Besuche die OpenStreetMap-Konferenz, The State of the Map 2009, am 10.-12. Juli in Amsterdam!'
     alt_donation: Spenden
   notifier:
@@ -363,7 +389,7 @@ de:
     message_notification:
       subject: "[OpenStreetMap] {{user}} hat dir eine Nachricht gesendet"
       banner1: "*                   Bitte antworte nicht auf diese E-Mail.                    *"
-      banner2: "*                Nutze die OpenStreetMap-Webseite, um zu antworten.                 *"
+      banner2: "*                Nutze die OpenStreetMap-Webseite, um zu antworten.           *"
       hi: "Hallo {{to_user}},"
       header: "{{from_user}} hat dir eine Nachricht über OpenStreetMap mit dem Betreff {{subject}} gesendet:"
       footer1: "Du kannst diese Nachricht auch hier {{readurl}} lesen"
@@ -372,6 +398,23 @@ de:
       subject: "[OpenStreetMap] {{user}} hat dich als Freund hinzugefügt"
       had_added_you: "{{user}} hat dich als Freund hinzugefügt."
       see_their_profile: "Sein Profil ist hier {{userurl}} zu finden, dort kannst du ihn ebenfalls als Freund hinzufügen."
+    gpx_notification:
+      greeting: "Hi,"
+      your_gpx_file: "It looks like your GPX file"
+      with_description: "with the description"
+      and_the_tags: "and the following tags:"
+      and_no_tags: "and no tags."
+      failure:
+        subject: "[OpenStreetMap] GPX Import failure"
+        failed_to_import: "failed to import. Here's the error:"
+        more_info_1: "More information about GPX import failures and how to avoid"
+        more_info_2: "them can be found at:"
+        import_failures_url: "http://wiki.openstreetmap.org/wiki/GPX_Import_Failures"
+      success:
+        subject: "[OpenStreetMap] GPX Import success"
+        loaded_successfully: |
+          loaded successfully with {{trace_points}} out of a possible
+          {{possible_points}} points.
     signup_confirm:
       subject: "[OpenStreetMap] Deine E-Mail-Adresse bestätigen"
     signup_confirm_plain:
@@ -383,8 +426,10 @@ de:
       introductory_video: "Ein Einführungsvideo zu OpenStreetMap kannst du dir hier anschauen:"
       more_videos: "Weitere Videos gibt es hier:"
       the_wiki: "Weitere Informationen über OSM findest du in unserem Wiki:"
+      the_wiki_url: "http://wiki.openstreetmap.org/wiki/DE:Beginners_Guide"
       opengeodata: "OpenGeoData.org ist das OpenStreetMap Blog; dort gibt es auch einen Podcast:"
       wiki_signup: "Im Wiki von OpenStreetMap kannst du dich ebenfalls registrieren:"
+      wiki_signup_url: "http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page"
       # next four translations are in pairs : please word wrap appropriately
       user_wiki_1: "Es wird begrüßt wenn du dort eine Benutzerseite erstellst, welche"
       user_wiki_2: "einen Kategorie-Tag enthält der auf deinen Standort hinweist, zum Beispiel [[Category:Users_in_München]]."
@@ -398,8 +443,8 @@ de:
       video_to_openstreetmap: "Einführungsvideo zu OpenStreetMap"
       more_videos: "Darüber hinaus gibt es noch viele weitere {{more_videos_link}}."
       more_videos_here: "Videos über OpenStreetMap"
-      get_reading: 'Weitere Informationen über OSM findest du in <a href="http://wiki.openstreetmap.org/wiki/Beginners%27_Guide">unserem Wiki</a><br /><a href="http://www.opengeodata.org/">OpenGeoData.org</a> ist das OpenStreetMap Blog; dort gibt es auch einen <a href="http://www.opengeodata.org/?cat=13">Podcast</a>.'
-      wiki_signup: 'Im <a href="http://wiki.openstreetmap.org/wiki/Main_Page">Wiki von OpenStreetMap</a> kannst du dich ebenfalls <a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup">registrieren</a>.'
+      get_reading: 'Weitere Informationen über OSM findest du in <a href="http://wiki.openstreetmap.org/wiki/DE:Beginners_Guide">unserem Wiki</a><br /><a href="http://www.opengeodata.org/">OpenGeoData.org</a> ist das OpenStreetMap Blog; dort gibt es auch einen <a href="http://www.opengeodata.org/?cat=13">Podcast</a>.'
+      wiki_signup: 'Im <a href="http://wiki.openstreetmap.org/wiki/Hauptseite">Wiki von OpenStreetMap</a> kannst du dich ebenfalls <a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup">registrieren</a>.'
       user_wiki_page: 'Es ist notwendig, dass du eine Wiki-Benutzerseite erstellst.  Bitte füge auch ein Kategorie-Tag ein, das deinen Standort anzeigt, zum Beispiel <a href="http://wiki.openstreetmap.org/wiki/Category:Users_in_München">[[Category:Users_in_München]]</a>.'
       current_user: 'Ebenso ist <a href="http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region">eine Liste mit allen Benutzern in einer Kategorie</a>, die anzeigt wo diese auf der Welt sind, verfügbar.'
     email_confirm:
@@ -487,12 +532,16 @@ de:
       as_unread: "Nachricht als ungelesen markiert"
   site:
     index:
-      home: "home" 
       js_1: "Dein Browser unterstützt kein Javascript oder du hast es deaktiviert."
       js_2: "OpenStreetMap nutzt Javascript für die Kartendarstellung."
       js_3: 'Solltest bei dir kein Javascript möglich sein, kannst du auf der <a href="http://tah.openstreetmap.org/Browse/">Tiles@Home Website</a> eine Version ohne Javascript benutzen.'
       permalink: Permalink
-      license: "Lizenziert unter Creative Commons Attribution-Share Alike 2.0 Lizenz durch das OpenStreetMap Projekt und seine Mitwirkenden."
+      license:
+        notice: "Lizenziert unter {{license_name}} Lizenz durch das {{project_name}} und seine Mitwirkenden."
+        license_name: "Creative Commons Attribution-Share Alike 2.0"
+        license_url: "http://creativecommons.org/licenses/by-sa/2.0/deed.de"
+        project_name: "OpenStreetMap Projekt"
+        project_url: "http://openstreetmap.org"
     edit:
       not_public: "Deine Einstellungen sind auf anonymes Bearbeiten gestellt."
       not_public_description: "Du musst deine Einstellungen auf öffentliches Bearbeiten umstellen. Dies kannst du auf deiner {{user_page}} tun."
@@ -513,6 +562,7 @@ de:
       search_help: "Beispiele: 'München', 'Heinestraße, Würzburg', 'CB2 5AQ', oder 'post offices near Lünen' <a href='http://wiki.openstreetmap.org/wiki/Search'>mehr Beispiele...</a>"
     key:
       map_key: "Legende"
+      map_key_tooltip: "Map key for the mapnik rendering at this zoom level"
   trace:
     create:
       upload_trace: "Lade einen GPS-Track hoch"
@@ -538,6 +588,7 @@ de:
       public: "Öffentlich?"
       upload_button: "Hochladen"
       help: "Hilfe"
+      help_url: "http://wiki.openstreetmap.org/wiki/DE:Upload"
     trace_header:
       see_just_your_traces: "Eigene GPS-Tracks anzeigen oder neue hinzufügen"
       see_all_traces: "Alle GPS-Tracks"
@@ -656,7 +707,7 @@ de:
       settings_link_text: Einstellungen
       your friends: Eigene Freunde
       no friends: Du hast bis jetzt keine Freunde hinzugefügt.
-      km away: "{{distance}}km entfernt"
+      km away: "{{count}}km entfernt"
       nearby users: "Benutzer in der Nähe: "
       no nearby users: "Es gibt bisher keine Benutzer, die einen Standort in deiner Nähe angegeben haben."
       change your settings: Ändere deine Einstellungen

@@ -123,10 +123,6 @@ class ActiveSupport::TestCase
     @request.env["RAW_POST_DATA"] = c.to_s
   end
   
-  def set_locale(l)
-    @request.env["HTTP_ACCEPT_LANGUAGE"] = l.to_s
-  end
-  
   # Used to check that the error header and the forbidden responses are given
   # when the owner of the changset has their data not marked as public
   def assert_require_public_data(msg = "Shouldn't be able to use API when the user's data is not public")
@@ -138,6 +134,10 @@ class ActiveSupport::TestCase
   def assert_inactive_user(msg = "an inactive user shouldn't be able to access the API")
     assert_response :unauthorized, msg
     #assert_equal @response.headers['Error'], ""
+  end
+  
+  def assert_no_missing_translations(msg="")
+    assert_select "span[class=translation_missing]", false, "Missing translation #{msg}"
   end
   
   # Add more helper methods to be used by all tests here...

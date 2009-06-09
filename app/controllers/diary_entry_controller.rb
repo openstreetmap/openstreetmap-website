@@ -78,6 +78,8 @@ class DiaryEntryController < ApplicationController
   end
 
   def rss
+    request.format = :rss
+
     if params[:display_name]
       user = User.find_by_display_name(params[:display_name], :conditions => {:visible => true})
 
@@ -86,8 +88,6 @@ class DiaryEntryController < ApplicationController
         @title = "OpenStreetMap diary entries for #{user.display_name}"
         @description = "Recent OpenStreetmap diary entries from #{user.display_name}"
         @link = "http://#{SERVER_URL}/user/#{user.display_name}/diary"
-
-        render :content_type => Mime::RSS
       else
         render :nothing => true, :status => :not_found
       end
@@ -98,8 +98,6 @@ class DiaryEntryController < ApplicationController
       @title = "OpenStreetMap diary entries in #{params[:language]}"
       @description = "Recent diary entries from users of OpenStreetMap"
       @link = "http://#{SERVER_URL}/diary/#{params[:language]}"
-      
-      render :content_type => Mime::RSS
     else
       @entries = DiaryEntry.find(:all, :include => :user,
                                  :conditions => ["users.visible = ?", true],
@@ -107,8 +105,6 @@ class DiaryEntryController < ApplicationController
       @title = "OpenStreetMap diary entries"
       @description = "Recent diary entries from users of OpenStreetMap"
       @link = "http://#{SERVER_URL}/diary"
-
-      render :content_type => Mime::RSS
     end
   end
 
