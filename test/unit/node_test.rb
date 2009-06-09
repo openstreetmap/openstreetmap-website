@@ -221,15 +221,38 @@ class NodeTest < ActiveSupport::TestCase
     assert_match /changeset id missing/, message_update.message
   end
   
+  def test_from_xml_no_version
+    no_version = "<osm><node id='123' lat='23' lon='23' changeset='23' /></osm>"
+    assert_nothing_raised(OSM::APIBadXMLError) {
+      Node.from_xml(no_version, true)
+    }
+    message_update = assert_raise(OSM::APIBadXMLError) {
+      Node.from_xml(no_version, false)
+    }
+    assert_match /Version is required when updating/, message_update.message
+  end
+  
   def test_from_xml_double_lat
     nocs = "<osm><node id='123' lon='23.23' lat='23.1' lat='12' changeset='23' version='23' /></osm>"
     message_create = assert_raise(OSM::APIBadXMLError) {
       Node.from_xml(nocs, true)
-    }
+    } 
     assert_match /Fatal error: Attribute lat redefined at/, message_create.message
     message_update = assert_raise(OSM::APIBadXMLError) {
       Node.from_xml(nocs, false)
     }
     assert_match /Fatal error: Attribute lat redefined at/, message_update.message
+  end
+  
+  def test_from_xml_no_text
+    no_text = ""
+    message_create = assert_raise(OSM::APIBadXMLError) {
+      Node.from_xml(no_text, true)
+    }
+    assert_match /Must specify a string with one or more characters/, message_create.message
+    message_update = assert_raise(OSM::APIBadXMLError) {
+      Node.from_xml(no_text, false)
+    }
+    assert_match /Must specify a string with one or more characters/, message_create.message
   end
 end
