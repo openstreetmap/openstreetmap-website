@@ -86,7 +86,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/browse/changesets/rss', :controller => 'changeset', :action => 'list', :format => 'rxml'
   
   # web site
-  map.root :controller => 'site', :action => 'index'
+  map.root :controller => 'site', :action => 'index', :format => 'rhtml'
   map.connect '/', :controller => 'site', :action => 'index'
   map.connect '/edit', :controller => 'site', :action => 'edit'
   map.connect '/history', :controller => 'changeset', :action => 'list', :format => 'rhtml'
