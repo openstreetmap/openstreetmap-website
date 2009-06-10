@@ -94,6 +94,6 @@ class WayTest < ActiveSupport::TestCase
     message_update = assert_raise(OSM::APIBadXMLError) {
       Way.from_xml(no_text, false)
     }
-    assert_match /Must specify a string with one or more characters/, message_create.message
+    assert_match /Must specify a string with one or more characters/, message_update.message
   end
 end

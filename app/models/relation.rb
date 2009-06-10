@@ -41,25 +41,23 @@ class Relation < ActiveRecord::Base
   def self.from_xml_node(pt, create=false)
     relation = Relation.new
 
-    if !create and pt['id'] != '0'
-      relation.id = pt['id'].to_i
-    end
-
-    raise OSM::APIBadXMLError.new("relation", pt, "You are missing the required changeset in the relation") if pt['changeset'].nil?
+    raise OSM::APIBadXMLError.new("relation", pt, "Version is required when updating") unless create or not pt['version'].nil?
+    relation.version = pt['version']
+    raise OSM::APIBadXMLError.new("relation", pt, "Changeset id is missing") if pt['changeset'].nil?
     relation.changeset_id = pt['changeset']
-
-    # The follow block does not need to be executed because they are dealt with 
-    # in create_with_history, update_from and delete_with_history
-    if create
-      relation.timestamp = Time.now.getutc
-      relation.visible = true
-      relation.version = 0
-    else
-      if pt['timestamp']
-        relation.timestamp = Time.parse(pt['timestamp'])
-      end
-      relation.version = pt['version']
+    
+    unless create
+      raise OSM::APIBadXMLError.new("relation", pt, "ID is required when updating") if pt['id'].nil?
+      relation.id = pt['id'].to_i
+      # .to_i will return 0 if there is no number that can be parsed. 
+      # We want to make sure that there is no id with zero anyway
+      raise OSM::APIBadUserInput.new("ID of relation cannot be zero when updating.") if relation.id == 0
     end
+    
+    # We don't care about the timestamp nor the visibility as these are either
+    # set explicitly or implicit in the action. The visibility is set to true, 
+    # and manually set to false before the actual delete.
+    relation.visible = true
 
     pt.find('tag').each do |tag|
       relation.add_tag_keyval(tag['k'], tag['v'])

@@ -433,10 +433,10 @@ class RelationControllerTest < ActionController::TestCase
     assert_response :bad_request
 
     # try to delete without specifying a changeset
-    content "<osm><relation id='#{current_relations(:visible_relation).id}'/></osm>"
+    content "<osm><relation id='#{current_relations(:visible_relation).id}' version='#{current_relations(:visible_relation).version}' /></osm>"
     delete :delete, :id => current_relations(:visible_relation).id
     assert_response :bad_request
-    assert_match(/You are missing the required changeset in the relation/, @response.body)
+    assert_match(/Changeset id is missing/, @response.body)
 
     # try to delete with an invalid (closed) changeset
     content update_changeset(current_relations(:visible_relation).to_xml,
