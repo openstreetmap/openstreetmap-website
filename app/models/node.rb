@@ -82,7 +82,7 @@ class Node < ActiveRecord::Base
     raise OSM::APIBadXMLError.new("node", pt, "lon missing") if pt['lon'].nil?
     node.lat = pt['lat'].to_f
     node.lon = pt['lon'].to_f
-    raise OSM::APIBadXMLError.new("node", pt, "changeset id missing") if pt['changeset'].nil?
+    raise OSM::APIBadXMLError.new("node", pt, "Changeset id is missing") if pt['changeset'].nil?
     node.changeset_id = pt['changeset'].to_i
 
     raise OSM::APIBadUserInput.new("The node is outside this world") unless node.in_world?
@@ -93,15 +93,16 @@ class Node < ActiveRecord::Base
 
     unless create
       raise OSM::APIBadXMLError.new("node", pt, "ID is required when updating.") if pt['id'].nil?
-      if pt['id'] != '0'
-        node.id = pt['id'].to_i
-      end
+      node.id = pt['id'].to_i
+      # .to_i will return 0 if there is no number that can be parsed. 
+      # We want to make sure that there is no id with zero anyway
+      raise OSM::APIBadUserInput.new("ID of node cannot be zero when updating.") if node.id == 0
     end
 
     # We don't care about the time, as it is explicitly set on create/update/delete
     # We don't care about the visibility as it is implicit based on the action
-
-    tags = []
+    # and set manually before the actual delete
+    node.visible = true
 
     pt.find('tag').each do |tag|
       node.add_tag_key_val(tag['k'],tag['v'])

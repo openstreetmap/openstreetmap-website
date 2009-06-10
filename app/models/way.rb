@@ -25,6 +25,7 @@ class Way < ActiveRecord::Base
   validates_numericality_of :id, :on => :update, :integer_only => true
   validates_associated :changeset
 
+  # Read in xml as text and return it's Way object representation
   def self.from_xml(xml, create=false)
     begin
       p = XML::Parser.string(xml)
@@ -41,25 +42,23 @@ class Way < ActiveRecord::Base
   def self.from_xml_node(pt, create=false)
     way = Way.new
 
-    if !create and pt['id'] != '0'
-      way.id = pt['id'].to_i
-    end
-    
+    raise OSM::APIBadXMLError.new("way", pt, "Version is required when updating") unless create or not pt['version'].nil?
     way.version = pt['version']
-    raise OSM::APIBadXMLError.new("node", pt, "Changeset is required") if pt['changeset'].nil?
+    raise OSM::APIBadXMLError.new("way", pt, "Changeset id is missing") if pt['changeset'].nil?
     way.changeset_id = pt['changeset']
 
-    # This next section isn't required for the create, update, or delete of ways
-    if create
-      way.timestamp = Time.now.getutc
-      way.visible = true
-    else
-      if pt['timestamp']
-        way.timestamp = Time.parse(pt['timestamp'])
-      end
-      # if visible isn't present then it defaults to true
-      way.visible = (pt['visible'] or true)
+    unless create
+      raise OSM::APIBadXMLError.new("way", pt, "ID is required when updating") if pt['id'].nil?
+      way.id = pt['id'].to_i
+      # .to_i will return 0 if there is no number that can be parsed. 
+      # We want to make sure that there is no id with zero anyway
+      raise OSM::APIBadUserInput.new("ID of way cannot be zero when updating.") if way.id == 0
     end
+
+    # We don't care about the timestamp nor the visibility as these are either
+    # set explicitly or implicit in the action. The visibility is set to true, 
+    # and manually set to false before the actual delete.
+    way.visible = true
 
     pt.find('tag').each do |tag|
       way.add_tag_keyval(tag['k'], tag['v'])

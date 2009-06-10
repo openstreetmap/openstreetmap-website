@@ -214,11 +214,11 @@ class NodeTest < ActiveSupport::TestCase
     message_create = assert_raise(OSM::APIBadXMLError) {
       Node.from_xml(nocs, true)
     }
-    assert_match /changeset id missing/, message_create.message
+    assert_match /Changeset id is missing/, message_create.message
     message_update = assert_raise(OSM::APIBadXMLError) {
       Node.from_xml(nocs, false)
     }
-    assert_match /changeset id missing/, message_update.message
+    assert_match /Changeset id is missing/, message_update.message
   end
   
   def test_from_xml_no_version
@@ -242,6 +242,20 @@ class NodeTest < ActiveSupport::TestCase
       Node.from_xml(nocs, false)
     }
     assert_match /Fatal error: Attribute lat redefined at/, message_update.message
+  end
+  
+  def test_from_xml_id_zero
+    id_list = ["", "0", "00", "0.0", "a"]
+    id_list.each do |id|
+      zero_id = "<osm><node id='#{id}' lat='12.3' lon='12.3' changeset='33' version='23' /></osm>"
+      assert_nothing_raised(OSM::APIBadUserInput) {
+        Node.from_xml(zero_id, true)
+      }
+      message_update = assert_raise(OSM::APIBadUserInput) {
+        Node.from_xml(zero_id, false)
+      }
+      assert_match /ID of node cannot be zero when updating/, message_update.message
+    end
   end
   
   def test_from_xml_no_text
