@@ -66,4 +66,24 @@ class RelationTest < ActiveSupport::TestCase
     }
     assert_match /Must specify a string with one or more characters/, message_update.message
   end
+  
+  def test_from_xml_no_k_v
+    nokv = "<osm><relation id='23' changeset='23' version='23'><tag /></relation></osm>"
+    assert_nothing_raised(OSM::APIBadUserInput, OSM::APIBadXMLError) {
+      Relation.from_xml(nokv, true)
+      Relation.from_xml(nokv, false)
+    }
+  end
+  
+  def test_from_xml_duplicate_k
+    dupk = "<osm><relation id='23' changeset='23' version='23'><tag k='dup' v='test'/><tag k='dup' v='test'/></relation></osm>"
+    message_create = assert_raise(OSM::APIDuplicateTagsError) {
+      Relation.from_xml(dupk, true)
+    }
+    assert_equal "Element relation/ has duplicate tags with key dup", message_create.message
+    message_update = assert_raise(OSM::APIDuplicateTagsError) {
+      Relation.from_xml(dupk, false)
+    }
+    assert_equal "Element relation/23 has duplicate tags with key dup", message_update.message
+  end
 end
