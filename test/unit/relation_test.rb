@@ -69,14 +69,30 @@ class RelationTest < ActiveSupport::TestCase
   
   def test_from_xml_no_k_v
     nokv = "<osm><relation id='23' changeset='23' version='23'><tag /></relation></osm>"
-    assert_nothing_raised(OSM::APIBadUserInput, OSM::APIBadXMLError) {
+    message_create = assert_raise(OSM::APIBadXMLError) {
       Relation.from_xml(nokv, true)
+    }
+    assert_match /tag is missing key/, message_create.message
+    message_update = assert_raise(OSM::APIBadXMLError) {
       Relation.from_xml(nokv, false)
     }
+    assert_match /tag is missing key/, message_update.message
+  end
+  
+  def test_from_xml_no_v
+    no_v = "<osm><relation id='23' changeset='23' version='23'><tag k='key' /></relation></osm>"
+    message_create = assert_raise(OSM::APIBadXMLError) {
+      Relation.from_xml(no_v, true)
+    }
+    assert_match /tag is missing value/, message_create.message
+    message_update = assert_raise(OSM::APIBadXMLError) {
+      Relation.from_xml(no_v, false)
+    }
+    assert_match /tag is missing value/, message_update.message
   end
   
   def test_from_xml_duplicate_k
-    dupk = "<osm><relation id='23' changeset='23' version='23'><tag k='dup' v='test'/><tag k='dup' v='test'/></relation></osm>"
+    dupk = "<osm><relation id='23' changeset='23' version='23'><tag k='dup' v='test'/><tag k='dup' v='tester'/></relation></osm>"
     message_create = assert_raise(OSM::APIDuplicateTagsError) {
       Relation.from_xml(dupk, true)
     }

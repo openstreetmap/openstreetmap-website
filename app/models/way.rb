@@ -61,6 +61,8 @@ class Way < ActiveRecord::Base
     way.visible = true
 
     pt.find('tag').each do |tag|
+      raise OSM::APIBadXMLError.new("way", pt, "tag is missing key") if tag['k'].nil?
+      raise OSM::APIBadXMLError.new("way", pt, "tag is missing value") if tag['v'].nil?
       way.add_tag_keyval(tag['k'], tag['v'])
     end
 

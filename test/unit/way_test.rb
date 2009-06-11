@@ -96,4 +96,40 @@ class WayTest < ActiveSupport::TestCase
     }
     assert_match /Must specify a string with one or more characters/, message_update.message
   end
+  
+  def test_from_xml_no_k_v
+    nokv = "<osm><way id='23' changeset='23' version='23'><tag /></way></osm>"
+    message_create = assert_raise(OSM::APIBadXMLError) {
+      Way.from_xml(nokv, true)
+    }
+    assert_match /tag is missing key/, message_create.message
+    message_update = assert_raise(OSM::APIBadXMLError) {
+      Way.from_xml(nokv, false)
+    }
+    assert_match /tag is missing key/, message_update.message
+  end
+  
+  def test_from_xml_no_v
+    no_v = "<osm><way id='23' changeset='23' version='23'><tag k='key' /></way></osm>"
+    message_create = assert_raise(OSM::APIBadXMLError) {
+      Way.from_xml(no_v, true)
+    }
+    assert_match /tag is missing value/, message_create.message
+    message_update = assert_raise(OSM::APIBadXMLError) {
+      Way.from_xml(no_v, false)
+    }
+    assert_match /tag is missing value/, message_update.message
+  end
+  
+  def test_from_xml_duplicate_k
+    dupk = "<osm><way id='23' changeset='23' version='23'><tag k='dup' v='test' /><tag k='dup' v='tester' /></way></osm>"
+    message_create = assert_raise(OSM::APIDuplicateTagsError) {
+      Way.from_xml(dupk, true)
+    }
+    assert_equal "Element way/ has duplicate tags with key dup", message_create.message
+    message_update = assert_raise(OSM::APIDuplicateTagsError) {
+      Way.from_xml(dupk, false)
+    }
+    assert_equal "Element way/23 has duplicate tags with key dup", message_update.message
+  end
 end

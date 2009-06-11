@@ -269,4 +269,40 @@ class NodeTest < ActiveSupport::TestCase
     }
     assert_match /Must specify a string with one or more characters/, message_update.message
   end
+  
+  def test_from_xml_no_k_v
+    nokv = "<osm><node id='23' lat='12.3' lon='23.4' changeset='12' version='23'><tag /></node></osm>"
+    message_create = assert_raise(OSM::APIBadXMLError) {
+      Node.from_xml(nokv, true)
+    }
+    assert_match /tag is missing key/, message_create.message
+    message_update = assert_raise(OSM::APIBadXMLError) {
+      Node.from_xml(nokv, false)
+    }
+    assert_match /tag is missing key/, message_update.message
+  end
+  
+  def test_from_xml_no_v
+    no_v = "<osm><node id='23' lat='23.43' lon='23.32' changeset='23' version='32'><tag k='key' /></node></osm>"
+    message_create = assert_raise(OSM::APIBadXMLError) {
+      Node.from_xml(no_v, true)
+    }
+    assert_match /tag is missing value/, message_create.message
+    message_update = assert_raise(OSM::APIBadXMLError) {
+      Node.from_xml(no_v, false)
+    }
+    assert_match /tag is missing value/, message_update.message
+  end
+  
+  def test_from_xml_duplicate_k
+    dupk = "<osm><node id='23' lat='23.2' lon='23' changeset='34' version='23'><tag k='dup' v='test' /><tag k='dup' v='tester' /></node></osm>"
+    message_create = assert_raise(OSM::APIDuplicateTagsError) {
+      Node.from_xml(dupk, true)
+    }
+    assert_equal "Element node/ has duplicate tags with key dup", message_create.message
+    message_update = assert_raise(OSM::APIDuplicateTagsError) {
+      Node.from_xml(dupk, false)
+    }
+    assert_equal "Element node/23 has duplicate tags with key dup", message_update.message
+  end
 end

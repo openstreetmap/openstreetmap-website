@@ -60,6 +60,8 @@ class Relation < ActiveRecord::Base
     relation.visible = true
 
     pt.find('tag').each do |tag|
+      raise OSM::APIBadXMLError.new("relation", pt, "tag is missing key") if tag['k'].nil?
+      raise OSM::APIBadXMLError.new("relation", pt, "tag is missing value") if tag['v'].nil?
       relation.add_tag_keyval(tag['k'], tag['v'])
     end
 
