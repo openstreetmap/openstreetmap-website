@@ -85,52 +85,107 @@
     },
 
     # Distance of time ... helper
-    # NOTE: In Czech language, these values are different for the past and for the future. Preference has been given to past here.
+    # TODO: Needs proper pluralization formula: (n%100==1 ? one : n%100==2 ? two : n%100==3 || n%100==4 ? few : other)
+    # NOTE: focused on "time ago" as in  "2 minuti nazaj", "3 tedne nazaj" which can be used also in other time distances 
+    #       ("pred 2 minutama" isn't as universally usable.)
     :datetime => {
       :distance_in_words => {
         :half_a_minute => 'pol minute',
         :less_than_x_seconds => {
-          :one => 'manj kot sekundo',
+          :one => 'manj kot sekunda',
+          :two => 'manj kot dve sekundi',
+          :few => 'manj kot {{count}} sekunde',
           :other => 'manj kot {{count}} sekund'
         },
         :x_seconds => {
           :one => 'sekunda',
+          :two => 'dve sekundi',
+          :few => '{{count}} sekunde',
           :other => '{{count}} sekund'
         },
         :less_than_x_minutes => {
-          :one => 'manj kot minuto',
+          :one => 'manj kot minuta',
+          :two => 'manj kot dve minuti',
+          :few => 'manj kot {{count}} minute',
           :other => 'manj kot {{count}} minut'
         },
         :x_minutes => {
           :one => 'minuta',
+          :two => 'dve minuti',
+          :few => '{{count}} minute',
           :other => '{{count}} minut'
         },
         :about_x_hours => {
-          :one => 'približno eno uro',
+          :one => 'približno ena ura',
+          :two => 'približno dve uri',
+          :few => 'približno {{count}} ure',
           :other => 'približno {{count}} ur'
         },
         :x_days => {
           :one => 'en dan',
+          :two => 'dva dni',
+          :few => '{{count}} dni',
           :other => '{{count}} dni'
         },
         :about_x_months => {
           :one => 'približno en mesec',
+          :two => 'približno dva meseca',
+          :few => 'približno {{count}} mesece',
           :other => 'približno {{count}} mesecev'
         },
         :x_months => {
           :one => 'en mesec',
+          :two => 'dva meseca',
+          :few => '{{count}} meseci',
           :other => '{{count}} mesecev'
         },
         :about_x_years => {
-          :one => 'približno eno leto',
+          :one => 'približno {{count}} leto',
+          :two => 'približno {{count}} leti',
+          :few => 'približno {{count}} leta',
           :other => 'približno {{count}} let'
         },
         :over_x_years => {
-          :one => 'več kot eno leto',
+          :one => 'več kot {{count}} leto',
+          :two => 'več kot {{count}} leti',
+          :few => 'več kot {{count}} leta',
           :other => 'več kot {{count}} let'
         }
       }
     },
 
+    # ActiveRecord validation messages
+    :activerecord => {
+      :errors => {
+        :messages => {
+          :inclusion           => "ni v seznamu",
+          :exclusion           => "ni dostopno",
+          :invalid             => "ni veljavno",
+          :confirmation        => "ni skladno s potrditvijo",
+          :accepted            => "mora biti potrjeno",
+          :empty               => "ne sme biti prazno",
+          :blank               => "je obezno", # alternate formulation: "is required"
+          :too_long            => "je predolgo (največ {{count}} znakov)",
+          :too_short           => "je prekratko (vsaj {{count}} znakov)",
+          :wrong_length        => "ni pravilne dolžine (natanko {{count}} znakov)",
+          :taken               => "že obstaja v bazi",
+          :not_a_number        => "ni številka",
+          :greater_than        => "mora biti večje od {{count}}",
+          :greater_than_or_equal_to => "mora biti večje ali enako {{count}}",
+          :equal_to            => "mora biti enako {{count}}",
+          :less_than           => "mora biti manjše od {{count}}",
+          :less_than_or_equal_to    => "mora biti manjše ali enako {{count}}",
+          :odd                 => "mora biti liho",
+          :even                => "mora biti sodo"
+        },
+        :template => {
+          :header   => {
+            :one => "Pri shranjevanju predmeta {{model}} je prišlo do {{count}} napake",
+            :other => "Pri shranjevanju predmeta {{model}} je prišlo do {{count}} napak"
+          },
+          :body  => "Prosim, popravite naslednje napake posameznih polj:"
+        }
+      }
+    }
   }
 }
