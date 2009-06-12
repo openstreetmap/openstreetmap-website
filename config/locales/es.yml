@@ -1,6 +1,371 @@
 es:
+  html:
+    dir: "ltr"
+  activerecord:
+    models:
+      acl: "Lista de controlar el acceso"
+      changeset: "Conjunto de cambios"
+      changeset_tag: "Etiqueta del conjunto de cambios"
+      country: "País"
+      diary_comment: "Comentario al diario"
+      diary_entry: "Entrega al diario"
+      friend: "Amigo"
+      language: "Idioma"
+      message: "Mensaje"
+      node: "Nodo"
+      node_tag: "Etiqueta del nodo"
+      old_node: "Nodo antiguo"
+      old_node_tag: "Etiqueta del nodo antiguo"
+      old_relation: "Relación antigua"
+      old_way: "Vía antigua"
+      relation: "Relación"
+      relation_member: "miembro de relación"
+      relation_tag: "Etiqueta de la relación"
+      session: "Sesión"
+      trace: "Traza "
+      tracepoint: "Punto de la traza"
+      tracetag: "Etiqueta de la traza"
+      user: "Usuario"
+      user_preference: "Preferencias de usuario"
+      way: "Vía"
+      way_node: "Nodo de la vía"
+      way_tag: "Etiqueta de vía"
+    attributes:
+      diary_comment:
+        body: "Cuerpo"
+      diary_entry:
+        user: "Usuario"
+        title: "Título"
+        latitude: "Latitud"
+        longitude: "Longitud"
+        language: "Idioma"
+      friend:
+        user: "Usuario"
+        friend: "Amigo"
+      trace:
+        user: "Usuario"
+        visible: "Visible"
+        name: "Nombre"
+        size: "Tamaño"
+        latitude: "Latitud"
+        longitude: "Longitud"
+        public: "Pública"
+        description: "Descripción"
+      message:
+        sender: "Remitente"
+        title: "Título"
+        body: "Cuerpo"
+        recipient: "Destinatario"
+      user:
+        email: "Correo"
+        active: "Activo"
+        display_name: "Nombre en pantalla"
+        description: "Descripción"
+        languages: "Idiomas"
+        pass_crypt: "Contraseña"
+  map:
+    view: "Ver"
+    edit: "Editar"
+    coordinates: "Coordinadas"
+  browse:
+    changeset:
+      changeset: "Conjunto de cambios"
+    changeset_details:
+      created_at: "Creado en:"
+      closed_at: "Cerrado en:"
+      belongs_to: "Pertenece a"
+      bounding_box: "Envoltura"
+      no_bounding_box: "No se ha guardado una envoltura para este conjuntod e cambios"
+      box: "Caja"
+      has_nodes: "Tiene {{count}} nodos:"
+      has_ways: "Tiene {{count}} vías:"
+      has_relations: "Tiene {{count}} relaciones:"
+    common_details:
+      edited_at: "Editado en"
+      edited_by: "Editado por:"
+      version: "Versión:"
+      in_changeset: "En el conjunto de cambios:"
+    containing_relation:
+      relation: "Relación {{relation_name}}"
+      relation_as: "(como {{relacion_role}})"
+    map:
+      loading: "Cargando..."
+      deleted: "Borrado"
+      view_larger_map: "Ver mapa más grande"
+    node_details:
+      coordinates: "Coordenadas"
+      part_of: "Parte de:"
+    node_history:
+      node_history: "Historial del nodo"
+      download: "{{download_xml_link}} o {{view_details_link}}"
+      download_xml: "Descargar XML"
+      view_details: "ver detalles"
+    node:
+      node: "Nodo"
+      node_title: "Nodo: {{node_name}}"
+      download: "{{download_xml_link}} o {{view_details_link}}"
+      download_xml: "Descargar XML"
+      view_history: "ver historial"
+    not_found:
+      sorry: "Lo sentimos, {{type}} con ID {{id}} no fue encontrado"
+      type:
+        node: "el nodo"
+        way: "la vía"
+        relation: "la relación"
+    paging_nav:
+      showing_page: "Mostrando página"
+      of: "de"
+    relation_details:
+      members: "Miembros"
+      part_of: "Parte de"
+    relation_history:
+      relation_history: "Historial de la relación"
+      relation_history_title: "Historial de la relación {{relation_name}}:"
+    relation_member:
+      as: "como"
+    relation:
+      relation: "Relación"
+      relation_title: "Relación {{relation_name}}:"
+      download: "{{download_xml_link}} o {{view_history_link}}"
+      download_xml: "Descargar XML"
+      view_history: "ver historial"
+    start:
+      view_data: "Ver datos para el encuadre actual"
+      manually_select: "Seleccionar manualmente un área diferente"
+    start_rjs:
+      data_layer_name: "Datos"
+      data_frame_title: "Datos"
+      zoom_or_select: "Para ver los datos, haga más zoom o seleccione un área del mapa"
+      drag_a_box: "Arrastre en el mapa para dibujar un área de encuadre"
+      manually_select: "Seleccionar manualmente un área diferente"
+      loaded_an_area_with_num_features: "Ha cargado un área que contiene [[num_features]] objetos. Por lo general, algunos navegadores web no aguantan bien el mostrar esta candidad de información vectorial. Generalmente, el funcionamiento óptimo se da cuando se muestran menos de 100 objetos al mismo tiempo; de otra manera, su navegador puede volverse lento o no responder. Si está seguro de que quiere mostrar todos estos datos, puede hacerlo pulsando el botón que aparece debajo."
+      load_data: "Cargar datos"
+      unable_to_load_size: "Imposible cargar: El tamaño de la envoltura ([[bbox_size]] es demasiado grande (debe ser menor que {{max_bbox_size}})"
+      loading: "Cargando..."
+      show_history: "Mostrar historial"
+      wait: "Espere..."
+      history_for_feature: "Historial de [[feature]]"
+      details: "Detalles"
+      private_user: "usuario privado"
+      edited_by_user_at_timestamp: "Editado por [[user]] en [[timestamp]]"
+      object_list:
+        heading: "Lista de objetos"
+        back: "Mostrar lista de objetos"
+        type:
+          node: "Nodo"
+          way: "Vía"
+        api: "Descargar este área a través de la API"
+        details: "Detalles"
+        selected:
+          type:
+            node: "Nodo [[id]]"
+            way: "Vía [[id]]"
+        history:
+            node: "Nodo [[id]]"
+            way: "Vía [[id]]"
+    tag_details:
+      tags: "Etiquetas"
+    way_details:
+      nodes: "Nodos"
+      part_of: "Parte de"
+      also_part_of:
+        one: "también parte de la vía {{related_ways}}"
+        other: "también parte de las vías {{related_ways}}"
+    way_history:
+      way_history: "Historial de la vía"
+      way_history_title: "Historial del camino {{way_name}}:"
+      download: "{{download_xml_link}} o {{view_details_link}}"
+      download_xml: "Descargar XML"
+      view_details: "ver detalles"
+    way:
+      way: "Vía"
+      way_title: "Vía {{way_name}}:"
+      download: "{{download_xml_link}} o {{view_history_link}}"
+      download_xml: "Descargar XML"
+      view_history: "ver historial"
+  changeset:
+    changeset_paging_nav:
+      showing_page: "Mostrando página"
+      of: "de"
+    changeset:
+      still_editing: "(todavía en edición)"
+      anonymous: "Anónimo"
+      no_comment: "(ninguno)"
+      no_edits: "(sin ediciones)"
+      show_area_box: "mostrar caja"
+      big_area: "(grande)"
+      view_changeset_details: "Ver detalles del conjunto de cambios"
+      more: "más"
+    changesets:
+      id: "ID"
+      saved_at: "Guardado en"
+      user: "Usuario"
+      comment: "Comentario"
+      area: "Área"
+    list_bbox:
+      history: "Historial"
+      changesets_within_the_area: "Conjuntos de cambios en el área:"
+      show_area_box: "mostrar caja"
+      no_changesets: "Sin conjuntos de cambios"
+      all_changes_everywhere: "Para todos los cambios en cualquier lugar véase {{recent_changes_link}}"
+      recent_changes: "Cambios Recientes"
+      no_area_specified: "No se especificó un área"
+      first_use_view: "Primero usa la {{view_tab_link}} para desplazarte y hacer zoom sobre el área de interés, entonces haz clic en la pestaña de historial."
+      view_the_map: "ver el mapa"
+      view_tab: "pestaña vista"
+    list:
+      recent_changes: "Cambios recientes"
+      recently_edited_changesets: "Conjunto de cambios editados recientemente"
+  diary_entry:
+    new:
+      title: "Nueva entrada en el diario"
+    edit:
+      subject: "Asunto: "
+      body: "Cuerpo: "
+      language: "Idioma: "
+      location: "Localización: "
+      latitude: "Latitud"
+      longitude: "Longitud"
+      save_button: "Guardar"
+    view:
+      save_button: "Guardar"
+    diary_entry:
+      comment_count:
+        one: "1 comentario"
+        other: "{{count}} comentarios"
+  export:
+    start:
+      area_to_export: "Area a exportar"
+      mapnik_image: "Imagen de Mapnik"
+      osmarender_image: "Imagen de Osmarender"
+      licence: "Licencia"
+      options: "Opciones"
+      format: "Formato"
+      scale: "Escala"
+      zoom: "Zoom"
+    start_rjs:
+      export: "Exportar"
+  geocoder:
+    results:
+      results: "Resultados"
+      no_results: "No se han encontrado resultados"
+  layouts:
+    project_name:
+      title: "OpenStreetMap"
+      h1: "OpenStreetMap"
+    logo:
+      alt_text: "Logo de OpenStreetMap"
+    export: "Exportar"
+    gps_traces: "Trazas GPS"
+    intro_3_ucl: "UCL VR Centre"
+    intro_3_bytemark: "bytemark"
+    help_wiki_url: "http://wiki.openstreetmap.org"
+    shop_url: "http://wiki.openstreetmap.org/wiki/Merchandise"
   notifier:
     diary_comment_notification:
-      banner1: "*                 Por favor, no responda a este mensaje.                  *"
-      banner2: "*           Utilice el OpenStreetMap sitio web para responder.            *"
+      subject: "[OpenStreetMap] {{user}} ha comentado en tu entrada de diario"
+      banner1: "* Por favor no responda a este correo. *"
+      banner2: "* Use el sitio web de OpenStreetMap para responder. *"
+      hi: "Hola {{to_user}},"
+    message_notification:
+      banner1: "* Por favor no responda a este correo. *"
+      banner2: "* Use el sitio web de OpenStreetMap para responder. *"
+      hi: "Hola {{to_user}},"
+    gpx_notification:
+      greeting: "Hola,"
+    email_confirm_plain:
+      greeting: "Hola,"
+    email_confirm_html:
+      greeting: "Hola,"
+    lost_password_plain:
+      greeting: "Hola,"
+    lost_password_html:
+      greeting: "Hola,"
+    reset_password_plain:
+      greeting: "Hola,"
+    reset_password_html:
+      greeting: "Hola,"
+  message:
+    inbox:
+      from: "De"
+      date: "Fecha"
+    message_summary:
+      unread_button: "Marcar como sin leer"
+      read_button: "Marcar como leído"
+    new:
+      subject: "Asunto"
+      body: "Cuerpo"
+      send_button: "Enviar"
+    outbox:
+      subject: "Asunto"
+      date: "Fecha"
+    read:
+      subject: "Asunto"
+      date: "Fecha"
+      unread_button: "Marcar como no leido"
+  site:
+    index:
+      license:
+        license_name: "Creative Commons Attribution-Share Alike 2.0"
+        license_url: "http://creativecommons.org/licenses/by-sa/2.0/"
+        project_name: "Proyecto OpenStreetMap"
+        project_url: "http://openstreetmap.org"
+    sidebar:
+      search_results: "Resultados de la búsqueda"
+      close: "Cerrar"
+    search:
+      search: "Buscar"
+  trace:
+    edit:
+      points: "Puntos:"
+      owner: "Propietario"
+      description: "Descripción"
+      tags: "Etiquetas"
+    trace_form:
+      description: "Descripción"
+      tags: "Etiquetas"
+      help: "Ayuda"
+    trace_header:
+      see_all_traces: "Ver todas las trazas"
+      see_your_traces: "Ver todas tus trazas"
+    trace_optionals:
+      tags: "Etiquetas"
+    view:
+      pending: "PENDIENTE"
+      points: "Puntos:"
+      map: "Mapa"
+      edit: "Editor"
+      owner: "Propietario"
+      description: "Descripción:"
+      tags: "Etiquetas"
+    trace_paging_nav:
+      showing: "Mostrando página"
+      of: "de"
+    trace:
+      pending: "PENDIENTE"
+      count_points: "{{count}} puntos"
+      more: "más"
+      view_map: "Ver mapa"
+      edit_map: "Editar mapa"
+      private: "PRIVADO"
+      by: "por"
+      in: "en"
+      map: "mapa"
+  user:
+    new:
+      password: "Contraseña: "
+      confirm password: "Confirmar contraseña: "
+    view:
+      my diary: "mi diario"
+      my traces: "mis trazas"
+      diary: "diario"
+      traces: "trazas"
+      user image heading: "Imagen del usuario"
+      description: "Descripción"
+      no friends: "Tus amigos"
+      nearby users: "Usuarios cercanos: "
+    confirm:
+      button: "Confirmar"
+    confirm_email:
+      button: "Confirmar"
 
