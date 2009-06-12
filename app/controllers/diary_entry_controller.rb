@@ -68,6 +68,12 @@ class DiaryEntryController < ApplicationController
 
         render :action => 'no_such_user', :status => :not_found
       end
+    elsif params[:language]
+      @title = t 'diary_entry.list.in_language_title', :language => Language.find(params[:language]).english_name
+      @entry_pages, @entries = paginate(:diary_entries, :include => :user,
+                                        :conditions => ["users.visible = ? AND diary_entries.language_code = ?", true, params[:language]],
+                                        :order => 'created_at DESC',
+                                        :per_page => 20)
     else
       @title = t 'diary_entry.list.title'
       @entry_pages, @entries = paginate(:diary_entries, :include => :user,
@@ -93,10 +99,10 @@ class DiaryEntryController < ApplicationController
       end
     elsif params[:language]
       @entries = DiaryEntry.find(:all, :include => :user,
-        :conditions => ["users.visible = ? AND diary_entries.language = ?", true, params[:language]],
+        :conditions => ["users.visible = ? AND diary_entries.language_code = ?", true, params[:language]],
         :order => 'created_at DESC', :limit => 20)
-      @title = "OpenStreetMap diary entries in #{params[:language]}"
-      @description = "Recent diary entries from users of OpenStreetMap"
+      @title = "OpenStreetMap diary entries in #{Language.find(params[:language]).english_name}"
+      @description = "Recent diary entries from users of OpenStreetMap in #{Language.find(params[:language]).english_name} language"
       @link = "http://#{SERVER_URL}/diary/#{params[:language]}"
     else
       @entries = DiaryEntry.find(:all, :include => :user,
