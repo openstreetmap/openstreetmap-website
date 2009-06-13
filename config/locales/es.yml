@@ -290,7 +290,7 @@ es:
       osmarender_image: "Imagen de Osmarender"
       embeddable_html: "HTML para pegar"
       licence: "Licencia"
-      export_details: 'Los datos de OpenStreetMap se encuentran bajo una <a href="http://creativecommons.org/licenses/by-sa/2.0/">licencia Creative Commons Atribución-Compartir Igual 2.0</a>.'
+      export_details: "Los datos de OpenStreetMap se encuentran bajo una <a href='http://creativecommons.org/licenses/by-sa/2.0/'>licencia Creative Commons Atribución-Compartir Igual 2.0</a>."
       options: "Opciones"
       format: "Formato"
       scale: "Escala"
@@ -324,6 +324,7 @@ es:
       alt_text: "Logo de OpenStreetMap"
     welcome_user: "Bienvenido, {{user_link}}"
     welcome_user_link_tooltip: "Tu página de usuario"
+    home: "inicio"
     home_tooltip: "Ir a la página inicial"
     inbox: "bandeja de entrada ({{count}})"
     inbox_tooltip:
@@ -399,6 +400,7 @@ es:
         failed_to_import: "no ha podido ser importado. El mensaje de error es:"
         more_info_1: "Puede encontrar más información sobre fallos de importación "
         more_info_2: "de GPX y cómo evitarlos en:"
+        import_failures_url: "http://wiki.openstreetmap.org/wiki/GPX_Import_Failures"
       success:
         subject: "[OpenStreetMap] Éxito al importar GPX"
         loaded_successfully: "ha sido cargada con éxito"
@@ -428,57 +430,106 @@ es:
       video_to_openstreetmap: "vídeo introductorio a OpenStreetMap."
       more_videos: "Hay más {{more_videos_link}}"
       more_videos_here: "vídeos aquí"
+    email_confirm:
+      subject: "[OpenStreetMap] Confirme su dirección de correo"
     email_confirm_plain:
       greeting: "Hola,"
+      hopefully_you_1: "Alguien (posiblemente usted) quiere cambiar la dirección de correo en"
+      hopefully_you_2: "{{server_url}} a {{new_address}}."
+      click_the_link: "Si es usted, por favor pulse el enlace inferior para confirmar el cambio"
     email_confirm_html:
       greeting: "Hola,"
+      hopefully_you: "Alguien (posiblemente usted) quiere cambiar la dirección de correo en {{server_url}} a {{new_address}}."
+      click_the_link: "Si es usted, por favor pulse el enlace inferior para confirmar el cambio"
+    lost_password:
+      subject: "[OpenStreetMap] Petición para resetear la contraseña"
     lost_password_plain:
       greeting: "Hola,"
+      click_the_link: "Si es usted, por favor pulse el enlace inferior para resetear la contraseña."
     lost_password_html:
       greeting: "Hola,"
+      click_the_link: "Si es usted, por favor pulse el enlace inferior para resetear la contraseña."
+    reset_password:
+      subject: "[OpenStreetMap] Reset de contraseña"
     reset_password_plain:
       greeting: "Hola,"
     reset_password_html:
       greeting: "Hola,"
   message:
     inbox:
+      title: "Buzón de entrada"
+      my_inbox: "Mi buzón de entrada"
+      outbox: "bandeja de salida"
+      you_have: "tienes {{new_count}} mensajes nuevos y {{old_count}} mensajes viejos"
       from: "De"
+      subject: "Asunto"
       date: "Fecha"
+      people_mapping_nearby: "gente cercana mapeando"
     message_summary:
       unread_button: "Marcar como sin leer"
       read_button: "Marcar como leído"
+      reply_button: "Responder"
     new:
+      title: "Enviar mensaje"
+      send_message_to: "Enviar un mensaje nuevo a {{name}}"
       subject: "Asunto"
       body: "Cuerpo"
       send_button: "Enviar"
+      message_sent: "Mensaje enviado"
     outbox:
+      title: "Salida"
+      my_inbox: "Mi {{inbox_link}}"
+      inbox: "entrada"
+      outbox: "salida"
+      to: "A"
       subject: "Asunto"
       date: "Fecha"
+      people_mapping_nearby: "gente cercana mapeando"
     read:
+      title: "Leer mensaje"
+      from: "Desde"
       subject: "Asunto"
       date: "Fecha"
+      reply_button: "Responder"
       unread_button: "Marcar como no leido"
+      to: "A"
+    mark:
+      as_read: "Mensaje marcado como leido"
+      as_unread: "Mensaje marcado como sin leer"
   site:
     index:
+      js_1: "Está usando un navegador que no soporta javascript, o lo tiene desactivado"
+      js_2: "OpenStreetMap utiliza javascript para mostrar su mapa"
+      permalink: "Enlace permanente"
       license:
         license_name: "Creative Commons Attribution-Share Alike 2.0"
         license_url: "http://creativecommons.org/licenses/by-sa/2.0/"
         project_name: "Proyecto OpenStreetMap"
         project_url: "http://openstreetmap.org"
+    edit:
+      user_page_link: "página de usuario"
+      anon_edits: "({{link}})"
+      anon_edits_link: "http://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits"
     sidebar:
       search_results: "Resultados de la búsqueda"
       close: "Cerrar"
     search:
       search: "Buscar"
+      where_am_i: "¿Dónde estoy?"
+      submit_text: "Ir"
+      searching: "Buscando..."
   trace:
     edit:
       points: "Puntos:"
+      edit: "editar"
       owner: "Propietario"
       description: "Descripción"
       tags: "Etiquetas"
+      save_button: "Guardar cambios"
     trace_form:
       description: "Descripción"
       tags: "Etiquetas"
+      public: "¿Público?"
       upload_button: "Subir"
       help: "Ayuda"
     trace_header:
@@ -488,40 +539,143 @@ es:
       tags: "Etiquetas"
     view:
       pending: "PENDIENTE"
+      download: "descargar"
       points: "Puntos:"
+      start_coordinates: "Coordenada de inicio:"
       map: "Mapa"
       edit: "Editor"
       owner: "Propietario"
       description: "Descripción:"
       tags: "Etiquetas"
+      none: "Ninguna"
+      make_public: "Hacer esta traza pública de forma permanente"
+      edit_track: "Editar esta traza"
+      delete_track: "Borrar esta traza"
+      viewing_trace: "Viendo traza {{name}}"
+      trace_not_found: "¡No se ha encontrado la traza!"
     trace_paging_nav:
       showing: "Mostrando página"
       of: "de"
     trace:
       pending: "PENDIENTE"
       count_points: "{{count}} puntos"
+      ago: "hace {{time_in_words_ago}}"
       more: "más"
+      trace_details: "Ver detalle de la traza"
       view_map: "Ver mapa"
+      edit: "editar"
       edit_map: "Editar mapa"
+      public: "PÚBLICO"
       private: "PRIVADO"
       by: "por"
       in: "en"
       map: "mapa"
+    list:
+      public_traces: "Trazas GPS públicas"
+      your_traces: "Tus trazas GPS"
+      tagged_with: "etiquetado con {{tags}}"
   user:
+    login:
+      create_account: "crear una cuenta"
+      email or username: "Dirección de correo o nombre de usuario"
+      password: "Contraseña"
+      lost password link: "¿ha perdido su contraseña?"
+    lost_password:
+      title: "contraseña perdida"
+      heading: "¿Contraseña olvidada?"
+      email address: "Dirección de correo:"
+      new password button: "Enviarme la nueva contraseña"
+      notice email cannot find: "Lo siento, no se pudo encontrar la dirección de correo electrónico."
+    reset_password:
+      title: "restablecer contraseña"
     new:
+      title: "Crear cuenta"
+      heading: "Crear una cuenta de usuario"
+      email address: "Dirección de correo"
+      confirm email address: "Confirmar la dirección de correo"
+      display name: "Nombre en pantalla:"
       password: "Contraseña: "
       confirm password: "Confirmar contraseña: "
+      signup: "Registro"
+    no_such_user:
+      title: "Este usuario no existe"
+      heading: "El usuario {{user}} no existe"
     view:
       my diary: "mi diario"
+      new diary entry: "nueva entrada de diario"
+      my edits: "mis ediciones"
       my traces: "mis trazas"
+      my settings: "mis preferencias"
+      send message: "enviar mensaje"
       diary: "diario"
+      edits: "ediciones"
       traces: "trazas"
+      remove as friend: "eliminar como amigo"
+      add as friend: "añadir como amigo"
+      mapper since: "Mapeador más próximo"
+      ago: "(hace {{time_in_words_ago}})"
       user image heading: "Imagen del usuario"
+      delete image: "Borrar imagen"
+      upload an image: "Subir una imagen"
+      add image: "Añadir imagen"
       description: "Descripción"
-      no friends: "Tus amigos"
+      user location: "Localización del usuario"
+      no home location: "No se ha fijado ninguna localización."
+      if set location: "Si ha configurado su lugar de origen, verá un mapa debajo. Puede configurar su lugar de origen en la página de {{settings_link}}."
+      settings_link_text: "preferencias"
+      your friends: "Tus amigos"
+      no friends: "No has añadido ningún amigo aún."
+      km away: "{{count}} km de distancia"
       nearby users: "Usuarios cercanos: "
+      no nearby users: "Todavía no hay usuarios que reconozcan el estar mapeando cerca."
+      change your settings: "cambiar tu configuración"
+    friend_map:
+      your location: "Tu lugar de origen:"
+      nearby mapper: "Mapeadores cercanos:"
+    account:
+      title: "Editar cuenta"
+      my settings: "Mis preferencias"
+      email never displayed publicly: "(nunca es mostrado públicamente)"
+      public editing:
+        heading: "Ediciones públicas:"
+        enabled: "Activadas. No es anónimo y puede editar datos."
+        enabled link: "http://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits"
+        enabled link text: "¿qué es esto?"
+        disabled: "Desactivadas y no puede editar datos; todas las ediciones anteriores son anónimas."
+        disabled link text: "¿por qué no puedo editar?"
+      profile description: "Descripción del perfil:"
+      preferred languages: "Idiomas preferidos:"
+      home location: "Lugar de origen:"
+      no home location: "No has introducido tu lugar de origen."
+      latitude: "Latitud:"
+      longitude: "Longitud:"
+      update home location on click: "¿Actualizar tu lugar de origen cuando pulses sobre el mapa?"
+      save changes button: "Guardar cambios"
+      make edits public button: "Hacer que todas mis ediciones sean públicas"
+      return to profile: "Regresar al perfil"
+      flash update success confirm needed: "La información del usuario se ha actualizado correctamente. Compruebe su correo electrónico para ver una nota sobre cómo confirmar su nueva dirección de correo electrónico."
+      flash update success: "La información del usuario se ha actualizado correctamente."
     confirm:
+      heading: "Confirmar la cuenta de usuario"
+      press confirm button: "Pulse botón de confirmación de debajo para activar su cuenta."
       button: "Confirmar"
+      success: "¡Confirmada su cuenta, gracias por registrarse!"
+      failure: "Una cuenta de usuario con esta misma credencial de autentificación ya ha sido confirmada"
     confirm_email:
+      heading: "Confirmar el cambio de dirección de correo electrónico"
+      press confirm button: "Pulse botón de confirmación de debajo para confirmar su nueva dirección de correo"
       button: "Confirmar"
+      success: "Dirección de correo electrónico confirmada. ¡Gracias por registrarse!"
+      failure: "La dirección de correo electrónico ha sido confirmada mediante esta credencial de autentificación"
+    set_home:
+      flash success: "Localización guardada con éxito"
+    go_public:
+      flash success: ""
+    make_friend:
+      success: "{{name}} es ahora tu amigo"
+      failed: "Lo sentimos, no se ha podido añadir {{name}} como un amigo."
+      already_a_friend: "Ya sois amigos"
+    remove_friend:
+      success: "Has quitado a {{name}} de tus amigos."
+      not_a_friend: "{{name}} no es uno de tus amigos."
 
