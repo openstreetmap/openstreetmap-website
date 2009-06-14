@@ -3,8 +3,7 @@
 <% if diary_entry.latitude and diary_entry.longitude %>
 <%= t 'map.coordinates' %> <div class="geo" style="display: inline"><span class="latitude"><%= diary_entry.latitude %></span>; <span class="longitude"><%= diary_entry.longitude %></span></div> (<%=link_to (t 'map.view'), :controller => 'site', :action => 'index', :lat => diary_entry.latitude, :lon => diary_entry.longitude, :zoom => 14 %> / <%=link_to (t 'map.edit'), :controller => 'site', :action => 'edit', :lat => diary_entry.latitude, :lon => diary_entry.longitude, :zoom => 14 %>)<br/>
 <% end %>
-<%= t 'diary_entry.diary_entry.posted_by', :link_user => (link_to h(diary_entry.user.display_name), :controller => 'user', :action => 'view', :display_name => diary_entry.user.display_name), :created => l(diary_entry.created_at), :language_link => (link_to h(I18nData.languages(I18n.locale)[diary_entry.language.code.upcase]), :controller => 'diary_entry', :action => 'list', :language => diary_entry.language_code)  %>
-
+<%= t 'diary_entry.diary_entry.posted_by', :link_user => (link_to h(diary_entry.user.display_name), :controller => 'user', :action => 'view', :display_name => diary_entry.user.display_name), :created => l(diary_entry.created_at), :language => diary_entry.language.name %>
 <% if params[:action] == 'list' %>
 <br />
 <%= link_to t('diary_entry.diary_entry.comment_link'), :action => 'view', :display_name => diary_entry.user.display_name, :id => diary_entry.id, :anchor => 'newcomment' %>
