@@ -69,7 +69,6 @@ class DiaryEntryController < ApplicationController
         render :action => 'no_such_user', :status => :not_found
       end
     elsif params[:language]
-#      @title = t 'diary_entry.list.in_language_title', :language => Language.find(params[:language]).english_name
       @title = t 'diary_entry.list.in_language_title', :language => I18nData.languages(I18n.locale)[params[:language].upcase]
       @entry_pages, @entries = paginate(:diary_entries, :include => :user,
                                         :conditions => ["users.visible = ? AND diary_entries.language_code = ?", true, params[:language]],
