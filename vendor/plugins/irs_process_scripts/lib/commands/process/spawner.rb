@@ -7,7 +7,7 @@ def daemonize #:nodoc:
   exit if fork                   # Parent exits, child continues.
   Process.setsid                 # Become session leader.
   exit if fork                   # Zap session leader. See [1].
-  Dir.chdir "/"                  # Release old working directory.
+#  Dir.chdir "/"                  # Release old working directory.
   File.umask 0000                # Ensure sensible umask. Adjust as needed.
   STDIN.reopen "/dev/null"       # Free file descriptors and
   STDOUT.reopen "/dev/null", "a" # point them somewhere sensible.
