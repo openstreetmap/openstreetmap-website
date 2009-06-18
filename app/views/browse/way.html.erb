@@ -16,7 +16,9 @@
       <%= render :partial => "way_details", :object => @way %>
       <hr />
       <%= t'browse.way.download', :download_xml_link => link_to(t('browse.way.download_xml'), :controller => "way", :action => "read"), 
-                                  :view_history_link => link_to(t('browse.way.view_history'), :action => "way_history") %>
+                                  :view_history_link => link_to(t('browse.way.view_history'), :action => "way_history"),
+                                  :edit_link => link_to(t('browse.way.edit'), :controller => "site", :action => "edit", :way => @way.id, :lat => @midnode.lat, :lon => @midnode.lon, :zoom => 16)
+      %>
     </td>
     <%= render :partial => "map", :object => @way %>
   </tr>
