@@ -1,4 +1,21 @@
 <div style="float:right; text-align:center; width: 250px;">
+  <% if @next_by_user or @prev_by_user %>
+    <% if @prev_by_user %>
+      &lt;
+      <%= link_to @prev_by_user.id.to_s, :id => @prev_by_user.id %>
+    <% end %>
+    |
+    <%=
+    user = (@prev_by_user || @next_by_user).user.display_name
+    link_to(h(user), :controller => "changeset", :action => "list", :display_name => user)
+    %>
+    |
+    <% if @next_by_user %>
+      <%= link_to @next_by_user.id.to_s, :id => @next_by_user.id %>
+      &gt;
+    <% end %>
+    <br/>
+  <% end %>
   <% if @prev %>
     &lt;
     <%= link_to @prev.id.to_s, :id => @prev.id %>
