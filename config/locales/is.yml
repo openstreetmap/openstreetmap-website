@@ -1,4 +1,6 @@
 is:
+  html:
+    dir: ltr
   activerecord:
     # Translates all the model names, which is used in error handling on the web site
     models:
@@ -89,8 +91,12 @@ is:
       no_bounding_box: "Engin svæðismörk voru vistuð ásamt þessu breytingarsetti."
       show_area_box: "Sýna svæðismörk á aðalkorti"
       box: "svæðismörk"
-      has_nodes: "Inniheldur {{count}} hnúta:"
-      has_ways: "Inniheldur {{count}} vegi:"
+      has_nodes:
+        one: "Inniheldur {{count}} hnút:"
+        other: "Inniheldur {{count}} hnúta:"
+      has_ways:
+        one:  "Inniheldur {{count}} veg:"
+        other: "Inniheldur {{count}} vegi:"
       has_relations: "Inniheldur {{count}} vensl:"
     common_details: 
       edited_at: "Breytt:"
@@ -115,9 +121,10 @@ is:
     node:
       node: "Hnútur"
       node_title: "Hnútur: {{node_name}}"
-      download: "{{download_xml_link}} eða {{view_history_link}}"
+      download: "{{download_xml_link}} eða {{view_history_link}} eða {{edit_link}}"
       download_xml: "Hala niður á XML sniði"
       view_history: "sýna breytingarsögu"
+      edit: "breyta"
     not_found:
       sorry: "Því miður {{type}} með kennitöluna {{id}}."
       type:
@@ -195,9 +202,10 @@ is:
     way:
       way: "Veginum"
       way_title: "Vegur: {{way_name}}"
-      download: "{{download_xml_link}} eða {{view_history_link}}"
+      download: "{{download_xml_link}} eða {{view_history_link}} eða {{edit_link}}"
       download_xml: "Hala niður á XML sniði"
       view_history: "sýna breytingarsögu"
+      edit: "breyta"
   changeset:
     changeset_paging_nav: 
       showing_page: "Sýni síðu"
@@ -245,6 +253,7 @@ is:
       title: "Blogg notenda"
       user_title: "Blogg {{user}}"
       new: "Ný bloggfærsla"
+      in_language_title: "Bloggfærslur á {{language}}"
       new_title: "Semja nýja færslu á bloggið þitt"
       no_entries: "Engar bloggfærslur"
       recent_entries: "Nýlegar færslur: "
@@ -260,7 +269,7 @@ is:
       longitude: "Breiddargráða: "
       use_map_link: "finna á korti"
       save_button: "Vista"
-      marker_text: Diary entry location
+      marker_text: "Staðsetning bloggfærslu"
     view:
       title: "Blogg | {{user}}"
       user_title: "Blogg {{user}}"
@@ -276,7 +285,7 @@ is:
       heading: "Notandinn {{user}} er ekki til"
       body: "Það er ekki til notandi með nafninu {{user}}. Kannski slóstu nafnið rangt inn eða fylgdir ógildum tengli."
     diary_entry:
-      posted_by: "Sett inn af {{link_user}} klukkan {{created}} á {{language}}"
+      posted_by: "Sett inn af {{link_user}} klukkan {{created}} á {{language_link}}"
       comment_link: "Bæta við athugasemd"
       reply_link: "Senda höfund skilaboð"
       comment_count:
@@ -322,12 +331,28 @@ is:
       type_from_source: "{{type}} frá {{source_link}}"
       no_results: "Ekkert fannst"
   layouts:
+    project_name:
+      # in <title>
+      title: OpenStreetMap
+      # in <h1>
+      h1: OpenStreetMap
+    logo:
+      alt_text: OpenStreetMap merkið
     welcome_user: "Hæ {{user_link}}"
+    welcome_user_link_tooltip: Notandasíðan þín
     home: "heim"
+    home_tooltip: "Færa kortasýnina á þína staðsetningu"
     inbox: "innhólf ({{count}})"
+    inbox_tooltip:
+      zero: Það eru engin skilaboð í innhólfinu þínu
+      one: Það eru ein skilaboð í innhólfinu þínu
+      other: Það eru {{count}} skilaboð í innhólfinu þínu
     logout: "útskrá"
+    logout_tooltip: "Útskrá"
     log_in: "innskrá"
+    log_in_tooltip: Skráðu þig inn með aðgangi sem er þegar til
     sign_up: "búa til aðgang"
+    sign_up_tooltip: "Búaðu til aðgang til að geta breytt kortinu"
     view: "Kort"
     view_tooltip: "Kortasýn"
     edit: "Breyta"
@@ -344,15 +369,22 @@ is:
     intro_1: "OpenStreetMap er frjálst heimskort sem hver sem er getur breytt. Líka þú!"
     intro_2: "OpenStreetMap gerir þér kleift að skoða, breyta og nota kortagögn í samvinnu við aðra."
     intro_3: "Hýsíng verkefnisins er studd af {{ucl}} og {{bytemark}}."
-    osm_offline: "The OpenStreetMap database is currently offline while essential database maintenance work is carried out."
-    osm_read_only: "The OpenStreetMap database is currently in read-only mode while essential database maintenance work is carried out."
+    intro_3_ucl: "UCL VR Centre"
+    intro_3_bytemark: "bytemark"
+    osm_offline: "OpenStreetMap gagnagrunnurinn er niðri vegna viðhalds."
+    osm_read_only: "Ekki er hægt að skrifa í OpenStreetMap gagnagrunninn í augnablikinu vegna viðhalds."
     donate: "Support OpenStreetMap by {{link}} to the Hardware Upgrade Fund."
     donate_link_text: donating
     help_wiki: "Hjálp &amp; Wiki"
+    help_wiki_tooltip: "Hjálpar og wiki-síða fyrir verkefnið"
+    help_wiki_url: "http://wiki.openstreetmap.org"
     news_blog: "Fréttablogg"
+    news_blog_tooltip: "Blogg um OpenStreetMap, frjáls kortagögn o.fl."
     shop: "Verslun"
+    shop_tooltip: Verslun með vörum tengdum OpenStreetMap
+    shop_url: http://wiki.openstreetmap.org/wiki/Merchandise
     sotm: 'Come to the 2009 OpenStreetMap Conference, The State of the Map, July 10-12 in Amsterdam!'
-    alt_donation: Make a Donation
+    alt_donation: "Fjárframlagssíða"
   notifier:
     diary_comment_notification:
       subject: "[OpenStreetMap] {{user}} bætti við athugasemd á bloggfærslu þína"
@@ -373,6 +405,23 @@ is:
       subject: "[OpenStreetMap] {{user}} bætti þér við sem vin"
       had_added_you: "Notandinn {{user}} hefur bætt þér við sem vini á OpenStreetMap."
       see_their_profile: "Þú getur séð notandasíðu notandans á {{userurl}} og jafnvel bætt honum við sem vini líka."
+    gpx_notification:
+      greeting: "Hi,"
+      your_gpx_file: "It looks like your GPX file"
+      with_description: "with the description"
+      and_the_tags: "and the following tags:"
+      and_no_tags: "and no tags."
+      failure:
+        subject: "[OpenStreetMap] GPX Import failure"
+        failed_to_import: "failed to import. Here's the error:"
+        more_info_1: "More information about GPX import failures and how to avoid"
+        more_info_2: "them can be found at:"
+        import_failures_url: "http://wiki.openstreetmap.org/wiki/GPX_Import_Failures"
+      success:
+        subject: "[OpenStreetMap] GPX Import success"
+        loaded_successfully: |
+          loaded successfully with {{trace_points}} out of a possible
+          {{possible_points}} points.
     signup_confirm:
       subject: "[OpenStreetMap] Staðfestu tölvupóstfangið þitt"
     signup_confirm_plain:
@@ -384,8 +433,10 @@ is:
       introductory_video: "You can watch an introductory video to OpenStreetMap here:"
       more_videos: "There are more videos here:"
       the_wiki: "Get reading about OpenStreetMap on the wiki:"
+      the_wiki_url: "http://wiki.openstreetmap.org/wiki/Beginners%27_Guide"
       opengeodata: "OpenGeoData.org is OpenStreetMap's blog, and it has podcasts too:"
       wiki_signup: "You may also want to sign up to the OpenStreetMap wiki at:"
+      wiki_signup_url: "http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page"
       # next four translations are in pairs : please word wrap appropriately
       user_wiki_1: "It is recommended that you create a user wiki page, which includes"
       user_wiki_2: "category tags noting where you are, such as [[Category:Users_in_London]]."
@@ -495,7 +546,9 @@ is:
       license:
         notice: "Gefið út undir {{license_name}} leyfinu af þáttakendum í {{project_name}}."
         license_name: "Creative Commons Attribution-Share Alike 2.0"
+        license_url: "http://creativecommons.org/licenses/by-sa/2.0/"
         project_name: "OpenStreetMap verkefninu"
+        project_url: "http://openstreetmap.org"
     edit:
       not_public: "You haven't set your edits to be public."
       not_public_description: "You can no longer edit the map unless you do so. You can set your edits as public from your {{user_page}}."
@@ -516,6 +569,7 @@ is:
       search_help: "dæmi: „Akureyri“, „Laugavegur, Reykjavík“ eða „post offices near Lünen“. Sjá einnig <a href='http://wiki.openstreetmap.org/wiki/Search'>leitarhjálpina</a>."
     key:
       map_key: "Kortaskýringar"
+      map_key_tooltip: "Kortaútskýringar fyrir mapnik útgáfuna af kortinu á þessu þys-stigi"
   trace:
     create:
       upload_trace: "Upphala GPS feril"
@@ -541,6 +595,7 @@ is:
       public: "Sjáanleg öðrum?"
       upload_button: "Upphala"
       help: "Hjálp"
+      help_url: "http://wiki.openstreetmap.org/wiki/Upload"
     trace_header:
       see_just_your_traces: "Sýna aðeins þína ferla, eða hlaða upp feril"
       see_all_traces: "Sjá alla ferla"
