@@ -68,7 +68,7 @@ class Notifier < ActionMailer::Base
 
   def diary_comment_notification(comment)
     common_headers comment.diary_entry.user
-    subject I18n.t('notifier.diary_comment_notification.subject', :user => comment.user.display_name)
+    subject I18n.t('notifier.diary_comment_notification.subject', :user => comment.user.display_name, :locale => locale)
     body :to_user => comment.diary_entry.user.display_name,
          :from_user => comment.user.display_name,
          :body => comment.body,
