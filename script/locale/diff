@@ -30,6 +30,18 @@ translated files when F<en.yml> changes.
 
 Print this help message.
 
+=item --diff-keys
+
+Show the hash keys that differ between the two files, useful merging
+new entries from F<en.yml> to a local file.
+
+=item --untranslated-values
+
+Show keys whose values are either exactly the same between the two
+files, or don't exist in the target file (the latter file specified).
+
+This helps to find untranslated values.
+
 =back
 
 =head1 AUTHOR
@@ -43,6 +55,8 @@ Getopt::Long::Parser->new(
     config => [ qw< bundling no_ignore_case no_require_order pass_through > ],
 )->getoptions(
     'h|help' => \my $help,
+    'diff-keys' => \my $diff_keys,
+    'undiff-values' => \my $undiff_values,
 ) or help();
 
 # On --help
@@ -59,17 +73,35 @@ my $to_data   = LoadFile($to);
 my $from_parsed = { iterate($from_data->{basename($from)}) };
 my $to_parsed = { iterate($to_data->{basename($to)}) };
 
-# Delete hash values
-#walkdepth \&delete_hash_values, $_ for $from_data, $to_data;
+# Since this used to be the default, support that...
+if ((not $undiff_values and not $diff_keys) or $diff_keys)
+{
+    print_key_differences();
+}
+elsif ($undiff_values)
+{
+    my @untranslated = untranslated_keys($from_parsed, $to_parsed);
 
-# Hack around Test::Differences wanting a Test::* module loaded
-$INC{"Test.pm"} = 1;
-sub Test::ok { print shift }
-
-# Diff the tree
-eq_or_diff([ sort keys %$from_parsed ], [ sort keys %$to_parsed ]);
+    print $_, "\n" for @untranslated;
+}
 
 exit 0;
+
+sub print_key_differences
+{
+    # Hack around Test::Differences wanting a Test::* module loaded
+    $INC{"Test.pm"} = 1;
+    sub Test::ok { print shift }
+
+    # Diff the tree
+    eq_or_diff([ sort keys %$from_parsed ], [ sort keys %$to_parsed ]);
+}
+
+sub untranslated_keys
+{
+    my ($from_parsed, $to_parsed) = @_;
+    sort grep { not exists $to_parsed->{$_} or $from_parsed->{$_} eq $to_parsed->{$_} } keys %$from_parsed;
+}
 
 sub iterate
 {
