@@ -124,7 +124,7 @@ sub print_key_differences
 sub untranslated_keys
 {
     my ($from_parsed, $to_parsed) = @_;
-    grep { not exists $to_parsed->{$_} or $from_parsed->{$_} eq $to_parsed->{$_} } keys %$from_parsed;
+    sort grep { not exists $to_parsed->{$_} or $from_parsed->{$_} eq $to_parsed->{$_} } keys %$from_parsed;
 }
 
 sub prune_untranslated_with_blacklist
