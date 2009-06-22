@@ -140,10 +140,6 @@ sub prune_untranslated_with_blacklist
 
     my %bw_list = (%$default, %$this_language);
     
-    use feature ':5.10';
-    use Data::Dump 'dump';
-    say STDERR dump \%bw_list;
-
     while (my ($key, $blacklisted) = each %bw_list)
     {
         # FIXME: Does syck actually support true/false booleans in yaml?
