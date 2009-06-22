@@ -59,7 +59,7 @@ is:
         latitude: "Latitude"
         longitude: "Longitude"
         public: "Public"
-        description: "Description"
+        description: "Lýsing"
       message:
         sender: "Sender"
         title: "Title"
@@ -573,17 +573,22 @@ is:
   trace:
     create:
       upload_trace: "Upphala GPS feril"
-      trace_uploaded: "Your GPX file has been uploaded and is awaiting insertion in to the database. This will usually happen within half an hour, and an email will be sent to you on completion."
+      trace_uploaded: "Búið er að hlaða upp GPS ferlinum og bíður hann núna eftir því að vera settur inn í gagnagrunninn, sem gerist yfirleitt innan stundar. Póstur verður sendur á netfangið þitt þegar því er lokið."
     edit:
-      filename: "Filename:"
-      uploaded_at: "Uploaded at:"
-      points: "Points:"
-      start_coord: "Start coordinate:"
-      edit: "edit"
-      owner: "Owner:"
+      title: "Breyti ferlinum {{name}}"
+      heading: "Breyti ferlinum {{name}}"
+      filename: "Skráanafn:"
+      download: "niðurhala"
+      uploaded_at: "Hlaðið upp:"
+      points: "Punktar:"
+      start_coord: "Byrjunarhnit:"
+      map: "kort"
+      edit: "breyta"
+      owner: "Eigandi:"
       description: "Lýsing:"
       tags: "Tögg:"
-      save_button: "Save Changes"
+      editing_trace: "Breyti ferlinum {{name}}"
+      save_button: "Vista breytingar"
     no_such_user:
       title: "Notandi ekki til"
       heading: "Notandinn {{user}} er ekki til"
@@ -604,11 +609,13 @@ is:
     trace_optionals:
       tags: "Tögg"
     view:
+      title: "Skoða ferilinn {{name}}"
+      heading: "Skoða ferilinn {{name}}"
       pending: "Í BIÐ"
       filename: "Skráarnafn:"
       download: "niðurhala"
       uploaded: "Hlaðið upp:"
-      points: "Points:"
+      points: "Punktar:"
       start_coordinates: "Byrjunarhnit:"
       map: "kort"
       edit: "breyta"
@@ -619,7 +626,6 @@ is:
       make_public: "Gera þennan feril sjáanlegan öðrum til frambúðar"
       edit_track: "Breyta"
       delete_track: "Eyða"
-      viewing_trace: "Skoða ferilinn {{name}}"
       trace_not_found: "Þessi ferill fannst ekki!"
     trace_paging_nav:
       showing: "Sýni síðu"
@@ -647,6 +653,21 @@ is:
       scheduled_for_deletion: "Þessum feril verður eitt"
     make_public:
       made_public: "Ferilinn var gerður sjáanlegur"
+  oauth:
+    client_application:
+      request_access: "The application {{app_name}} is requesting access to your account. Please check whether you would like the application to have the following capabilities. You may choose as many or as few as you like."
+      allow_to: "Allow the client application to:"
+      allow_read_prefs:  "read your user preferences."
+      allow_write_prefs: "modify your user preferences."
+      allow_write_diary: "create diary entries, comments and make friends."
+      allow_write_api:   "modify the map."
+      allow_read_gpx:    "read your private GPS traces."
+      allow_write_gpx:   "upload GPS traces."
+    token:
+      none: "You have not authorised any clients to act on your behalf. You do not have to do anything now to authorise them, as they will ask for authorisation when they need it. After that time you can return here to revoke those permissions if you do not want the clients to have your authorisation any more."
+      application: "Application"
+      issued: "Issued"
+      revoke: "Revoke!"
   user:
     login:
       title: "Innskrá"
@@ -702,7 +723,7 @@ is:
       remove as friend: fjarlægja sem vin
       add as friend: bæta við sem vin
       mapper since: "Notandi síðan: "
-      ago: "({{time_in_words_ago}} ago)"
+      ago: "({{time_in_words_ago}} síðan)"
       user image heading: Notandamynd
       delete image: Eyða myndinni
       upload an image: Upphala mynd
@@ -744,6 +765,12 @@ is:
       return to profile: "Aftur á mína síðu"
       flash update success confirm needed: "User information updated successfully. Check your email for a note to confirm your new email address."
       flash update success: "Stillingarnar þínar voru uppfærðar."
+      my apps: "My client applications"
+      developers: "Application Developers"
+      dev_intro: "Have you written an application which you would like to register to make {{link}} requests to the OpenStreetMap server?"
+      register_app: "Register your application"
+      apps_registered: "You have the following client applications registered:"
+      register_another_app: "Register another application"
     confirm:
       heading: "Staðfesta notanda"
       press confirm button: "Hér getur þú staðfest að þú viljir búa til notanda.."
@@ -757,7 +784,7 @@ is:
       success: "Netfangið þitt hefur verið staðfest."
       failure: "Netfang hefur þegar verið staðfest með þessum lykli."
     set_home:
-      flash success: "Home location saved successfully"
+      flash success: "Staðsetning þín hefur verið stillt"
     go_public:
       flash success: "All your edits are now public, and you are now allowed to edit."
     make_friend:
