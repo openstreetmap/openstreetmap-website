@@ -2,7 +2,6 @@
 use strict;
 use warnings;
 use YAML::Syck qw(LoadFile);
-use Data::Walk;
 use Test::Differences;
 use Pod::Usage ();
 use Getopt::Long ();
@@ -57,31 +56,46 @@ my ($from, $to) = @ARGV;
 my $from_data = LoadFile($from);
 my $to_data   = LoadFile($to);
 
-# Normalize the two to have the same root element
-my ($from_key) = keys %$from_data;
-$from_data = $from_data->{$from_key};
-
-my ($to_key) = keys %$to_data;
-$to_data = $to_data->{$to_key};
+my $from_parsed = { iterate($from_data->{basename($from)}) };
+my $to_parsed = { iterate($to_data->{basename($to)}) };
 
 # Delete hash values
-walkdepth \&delete_hash_values, $_ for $from_data, $to_data;
+#walkdepth \&delete_hash_values, $_ for $from_data, $to_data;
 
 # Hack around Test::Differences wanting a Test::* module loaded
 $INC{"Test.pm"} = 1;
 sub Test::ok { print shift }
 
 # Diff the tree
-eq_or_diff($from_data, $to_data);
+eq_or_diff([ sort keys %$from_parsed ], [ sort keys %$to_parsed ]);
 
-sub delete_hash_values
+exit 0;
+
+sub iterate
 {
-    return unless defined $Data::Walk::type and $Data::Walk::type eq 'HASH';
+    my ($hash, @path) = @_;
+    my @ret;
+        
+    while (my ($k, $v) = each %$hash)
+    {
+        if (ref $v eq 'HASH')
+        {
+             push @ret => iterate($v, @path, $k);
+        }
+        else
+        {
+            push @ret => join(".",@path, $k), $v;
+        }
+    }
 
-    # We totally need Perl 6's $OUTER::_ to make this prettier
-    my $hash = $_;
+    return @ret;
+}
 
-    @$hash{grep { not ref $hash->{$_} } keys %$hash} = ();
+sub basename
+{
+    my $name = shift;
+    $name =~ s[\..*?$][];
+    $name;
 }
 
 sub help
