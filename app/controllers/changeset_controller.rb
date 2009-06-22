@@ -7,6 +7,7 @@ class ChangesetController < ApplicationController
   before_filter :authorize_web, :only => [:list, :list_user, :list_bbox]
   before_filter :set_locale, :only => [:list, :list_user, :list_bbox]
   before_filter :authorize, :only => [:create, :update, :delete, :upload, :include, :close]
+  before_filter :require_allow_write_api, :only => [:create, :update, :delete, :upload, :include, :close]
   before_filter :require_public_data, :only => [:create, :update, :delete, :upload, :include, :close]
   before_filter :check_api_writable, :only => [:create, :update, :delete, :upload, :include]
   before_filter :check_api_readable, :except => [:create, :update, :delete, :upload, :download, :query]

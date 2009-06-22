@@ -8,6 +8,8 @@ class UserController < ApplicationController
   before_filter :check_database_readable, :except => [:api_details, :api_gpx_files]
   before_filter :check_database_writable, :only => [:login, :new, :set_home, :account, :go_public, :make_friend, :remove_friend, :upload_image, :delete_image]
   before_filter :check_api_readable, :only => [:api_details, :api_gpx_files]
+  before_filter :require_allow_read_prefs, :only => [:api_details]
+  before_filter :require_allow_read_gpx, :only => [:api_gpx_files]
 
   filter_parameter_logging :password, :pass_crypt, :pass_crypt_confirmation
 
@@ -37,6 +39,7 @@ class UserController < ApplicationController
 
   def account
     @title = t 'user.account.title'
+    @tokens = @user.oauth_tokens.find :all, :conditions => 'oauth_tokens.invalidated_at is null and oauth_tokens.authorized_at is not null'
 
     if params[:user] and params[:user][:display_name] and params[:user][:description]
       if params[:user][:email] != @user.email

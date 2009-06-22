@@ -1,6 +1,8 @@
 # Update and read user preferences, which are arbitrayr key/val pairs
 class UserPreferenceController < ApplicationController
   before_filter :authorize
+  before_filter :require_allow_read_prefs, :only => [:read_one, :read]
+  before_filter :require_allow_write_prefs, :except => [:read_one, :read]
 
   def read_one
     pref = UserPreference.find(@user.id, params[:preference_key])

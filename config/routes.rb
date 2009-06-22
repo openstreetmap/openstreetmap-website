@@ -172,13 +172,20 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/export/finish', :controller => 'export', :action => 'finish'
 
   # messages
-
   map.connect '/user/:display_name/inbox', :controller => 'message', :action => 'inbox'
   map.connect '/user/:display_name/outbox', :controller => 'message', :action => 'outbox'
   map.connect '/message/new/:display_name', :controller => 'message', :action => 'new'
   map.connect '/message/read/:message_id', :controller => 'message', :action => 'read'
   map.connect '/message/mark/:message_id', :controller => 'message', :action => 'mark'
   map.connect '/message/reply/:message_id', :controller => 'message', :action => 'reply'
+
+  # oauth admin pages (i.e: for setting up new clients, etc...)
+  map.resources :oauth_clients
+  map.connect '/oauth/revoke', :controller => 'oauth', :action => 'revoke'
+  map.authorize '/oauth/authorize', :controller => 'oauth', :action => 'oauthorize'
+  map.request_token '/oauth/request_token', :controller => 'oauth', :action => 'request_token'
+  map.access_token '/oauth/access_token', :controller => 'oauth', :action => 'access_token'
+  map.test_request '/oauth/test_request', :controller => 'oauth', :action => 'test_request'
 
   # fall through
   map.connect ':controller/:id/:action'
