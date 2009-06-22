@@ -12,8 +12,11 @@ locale-diff - Compare two YAML files and print how their datastructures differ
 
 =head1 SYNOPSIS
 
-    locale-diff en.yml is.yml
-    locale-diff en.yml is.yml | grep '*'
+    diff en.yml is.yml
+    # --keys is the default
+    diff --keys en.yml is.yml
+    # --untranslated-values compares prints keys whose values don't differ
+    diff --untranslated-values en.yml is.yml
 
 =head1 DESCRIPTION
 
@@ -30,7 +33,7 @@ translated files when F<en.yml> changes.
 
 Print this help message.
 
-=item --diff-keys
+=item --keys
 
 Show the hash keys that differ between the two files, useful merging
 new entries from F<en.yml> to a local file.
@@ -55,8 +58,8 @@ Getopt::Long::Parser->new(
     config => [ qw< bundling no_ignore_case no_require_order pass_through > ],
 )->getoptions(
     'h|help' => \my $help,
-    'diff-keys' => \my $diff_keys,
-    'undiff-values' => \my $undiff_values,
+    'keys' => \my $keys,
+    'untranslated-values' => \my $untranslated_values,
 ) or help();
 
 # On --help
@@ -74,11 +77,11 @@ my $from_parsed = { iterate($from_data->{basename($from)}) };
 my $to_parsed = { iterate($to_data->{basename($to)}) };
 
 # Since this used to be the default, support that...
-if ((not $undiff_values and not $diff_keys) or $diff_keys)
+if ((not $untranslated_values and not $keys) or $keys)
 {
     print_key_differences();
 }
-elsif ($undiff_values)
+elsif ($untranslated_values)
 {
     my @untranslated = untranslated_keys($from_parsed, $to_parsed);
 
