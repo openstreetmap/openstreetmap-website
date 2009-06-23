@@ -11,9 +11,6 @@ class User < ActiveRecord::Base
   has_many :preferences, :class_name => "UserPreference"
   has_many :changesets
 
-  has_many :client_applications
-  has_many :oauth_tokens, :class_name => "OauthToken", :order => "authorized_at desc", :include => [:client_application]
-
   validates_presence_of :email, :display_name
   validates_confirmation_of :email#, :message => ' addresses must match'
   validates_confirmation_of :pass_crypt#, :message => ' must match the confirmation password'

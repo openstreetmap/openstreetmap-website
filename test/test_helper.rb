@@ -71,8 +71,6 @@ class ActiveSupport::TestCase
     set_fixture_class :gpx_files => 'Trace'
     set_fixture_class :gps_points => 'Tracepoint'
     set_fixture_class :gpx_file_tags => 'Tracetag'
-
-    fixtures :client_applications
   end
 
   ##

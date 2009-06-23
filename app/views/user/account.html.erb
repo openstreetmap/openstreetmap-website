@@ -29,7 +29,7 @@
   <div id="map" style="border:1px solid black; position:relative; width:500px; height:400px;"></div>
   </td></tr>
   
-  <tr><td></td><td align=right><br/><%= submit_tag t('user.account.save changes button') %></td></tr>
+  <tr><td></td><td align=right><br/></br><%= submit_tag t('user.account.save changes button') %></td></tr>
 </table>
 <br/>
 
@@ -45,39 +45,6 @@
   This action cannot be reversed and all new users are now public by default.<br />
   <br /><br />
   <%= button_to t('user.account.make all my edits public button'), :action => :go_public %>
-<% end %>
-<h2><%= t 'user.account.my apps' %></h2>
-<% if @tokens.empty? %>
-<p><%= t 'oauth.token.none' %></p>
-<% else %>
-<table>
-  <tr><th><%= t 'oauth.token.application' %></th><th><%= t 'oauth.token.issued' %></th><th>&nbsp;</th></tr>
-  <% @tokens.each do |token|%>
-    <% content_tag_for :tr, token do %>
-      <td><%= link_to token.client_application.name, token.client_application.url %></td>
-      <td><%= token.authorized_at %></td>
-      <td>
-	<% form_tag :controller => 'oauth', :action => 'revoke' do %>
-	<%= hidden_field_tag 'token', token.token %>
-	<%= submit_tag t('oauth.token.revoke') %>
-	<% end %>
-      </td>
-    <% end %>
-  <% end %>	
-</table>
-<% end %>
-<h2><%= t 'user.account.developers' %></h2>
-<% if @user.client_applications.empty? %>
-<p><%= t 'user.account.dev_intro', :link => "<a href=\"http://oauth.net\">OAuth</a>" %></p>
-<p><%= link_to t('user.account.register_app'), :controller => 'oauth_clients', :action => :new %></p>
-<% else %>
-<p><%= t 'user.account.apps_registered' %></p>
-<ul><% @user.client_applications.each do |client| %>
-  <li><% div_for client do %>
-    <%= link_to client.name, :controller => 'oauth_clients', :action => :show, :id => client.id %>
-  <% end %></li>
-<% end %></ul>
-<p><%= link_to t('user.account.register_another_app'), :controller => 'oauth_clients', :action => :new %></p>
 <% end %>
 <br/>
 <br/>

@@ -4,7 +4,6 @@ class NodeController < ApplicationController
   require 'xml/libxml'
 
   before_filter :authorize, :only => [:create, :update, :delete]
-  before_filter :require_allow_write_api, :only => [:create, :update, :delete]
   before_filter :require_public_data, :only => [:create, :update, :delete]
   before_filter :check_api_writable, :only => [:create, :update, :delete]
   before_filter :check_api_readable, :except => [:create, :update, :delete]
