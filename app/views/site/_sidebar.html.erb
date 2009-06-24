@@ -21,6 +21,8 @@
        onclose = null;
     }
 
+    if (options.title) { $("sidebar_title").innerHTML = options.title; }
+
     if (options.width) { $("sidebar").style.width = options.width; }
     else { $("sidebar").style.width = "30%"; }
 
@@ -45,11 +47,6 @@
   function updateSidebar(title, content) {
     $("sidebar_title").innerHTML = title;
     $("sidebar_content").innerHTML = content;
-  }
-
-  function sidebarOpen(title) {
-    return $("sidebar").style.display == "block" &&
-           $("sidebar_title").innerHTML == title;
   }
 // -->
 </script>

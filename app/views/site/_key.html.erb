@@ -1,190 +1,33 @@
-<% content_for :left_menu do %>
-<%= link_to_function t('site.key.map_key'), "showKey();", { :title => t('site.key.map_key_tooltip') } %>
-<% end %>
-
 <script type="text/javascript">
-<!--
+  function openMapKey() {
+    updateMapKey();
 
-  function showKeyEntry(image, text) {
-    var ret = '';
-    ret += '<tr>';
-    ret += '  <td class="mapkey-table-key" align="center">';
-    ret += '    <img src="/images/mapkey/' + image + '" />';
-    ret += '  </td>';
-    ret += '  <td class="mapkey-table-value">';
-    ret +=      text;
-    ret += '  </td>';
-    ret += '</tr>';
-    return ret;
-  }
-  function showKey() {
-    var zoomlevel = map.getZoom();
-    var mapkey_values = new Array();
-    mapkey_values['heading']      = "<%= t'site.key.table.heading' %>";
-    mapkey_values['motorway']     = "<%= t'site.key.table.entry.motorway' %>";
-    mapkey_values['trunk']        = "<%= t'site.key.table.entry.trunk' %>";
-    mapkey_values['primary']      = "<%= t'site.key.table.entry.primary' %>";
-    mapkey_values['secondary']    = "<%= t'site.key.table.entry.secondary' %>";
-    mapkey_values['unclassified'] = "<%= t'site.key.table.entry.unclassified' %>";
-    mapkey_values['unsurfaced']   = "<%= t'site.key.table.entry.unsurfaced' %>";
-    mapkey_values['track']        = "<%= t'site.key.table.entry.track' %>";
-    mapkey_values['byway']        = "<%= t'site.key.table.entry.byway' %>";
-    mapkey_values['bridleway']    = "<%= t'site.key.table.entry.bridleway' %>";
-    mapkey_values['cycleway']     = "<%= t'site.key.table.entry.cycleway' %>";
-    mapkey_values['footway']      = "<%= t'site.key.table.entry.footway' %>";
-    mapkey_values['rail']         = "<%= t'site.key.table.entry.rail' %>";
-    mapkey_values['subway']       = "<%= t'site.key.table.entry.subway' %>";
-    mapkey_values['tram']         = "<%= t'site.key.table.entry.tram' %>";
-    mapkey_values['cable']        = "<%= t'site.key.table.entry.cable' %>";
-    mapkey_values['runway']       = "<%= t'site.key.table.entry.runway' %>";
-    mapkey_values['apron']        = "<%= t'site.key.table.entry.apron' %>";
-    mapkey_values['admin']        = "<%= t'site.key.table.entry.admin' %>";
-    mapkey_values['forest']       = "<%= t'site.key.table.entry.forest' %>";
-    mapkey_values['wood']         = "<%= t'site.key.table.entry.wood' %>";
-    mapkey_values['golf']         = "<%= t'site.key.table.entry.golf' %>";
-    mapkey_values['park']         = "<%= t'site.key.table.entry.park' %>";
-    mapkey_values['resident']     = "<%= t'site.key.table.entry.resident' %>";
-    mapkey_values['tourist']      = "<%= t'site.key.table.entry.tourist' %>";
-    mapkey_values['common']       = "<%= t'site.key.table.entry.common' %>";
-    mapkey_values['retail']       = "<%= t'site.key.table.entry.retail' %>";
-    mapkey_values['industrial']   = "<%= t'site.key.table.entry.industrial' %>";
-    mapkey_values['commercial']   = "<%= t'site.key.table.entry.commercial' %>";
-    mapkey_values['heathland']    = "<%= t'site.key.table.entry.heathland' %>";
-    mapkey_values['lake']         = "<%= t'site.key.table.entry.lake' %>";
-    mapkey_values['farm']         = "<%= t'site.key.table.entry.farm' %>";
-    mapkey_values['brownfield']   = "<%= t'site.key.table.entry.brownfield' %>";
-    mapkey_values['cemetery']     = "<%= t'site.key.table.entry.cemetery' %>";
-    mapkey_values['allotments']   = "<%= t'site.key.table.entry.allotments' %>";
-    mapkey_values['pitch']        = "<%= t'site.key.table.entry.pitch' %>";
-    mapkey_values['centre']       = "<%= t'site.key.table.entry.centre' %>";
-    mapkey_values['reserve']      = "<%= t'site.key.table.entry.reserve' %>";
-    mapkey_values['military']     = "<%= t'site.key.table.entry.military' %>";
-    mapkey_values['school']       = "<%= t'site.key.table.entry.school' %>";
-    mapkey_values['building']     = "<%= t'site.key.table.entry.building' %>";
-    mapkey_values['station']      = "<%= t'site.key.table.entry.station' %>";
-    mapkey_values['summit']       = "<%= t'site.key.table.entry.summit' %>";
-    mapkey_values['tunnel']       = "<%= t'site.key.table.entry.tunnel' %>";
-    mapkey_values['bridge']       = "<%= t'site.key.table.entry.bridge' %>";
-    mapkey_values['private']      = "<%= t'site.key.table.entry.private' %>";
-    mapkey_values['permissive']   = "<%= t'site.key.table.entry.permissive' %>";
-    mapkey_values['destination']  = "<%= t'site.key.table.entry.destination' %>";
-    mapkey_values['construction'] = "<%= t'site.key.table.entry.construction' %>";
+    openSidebar({ 
+      title: "<%= t('site.key.map_key') %>",
+      onclose: closeMapKey
+    });
 
-    var out = '';
-    var suffix = '';
-
-    out += '<div id="mapkey">';
-    out += '<h3>' + i18n(mapkey_values['heading'], { zoom_level: zoomlevel }) + "</h3>";
-    out += '<table class="mapkey-table">';
-    out += showKeyEntry('motorway.png', mapkey_values['motorway']);
-    
-    if (zoomlevel >= 12) {
-        suffix = 12;
-    }
-    out += showKeyEntry('trunk' + suffix + '.png', mapkey_values['trunk']);
-    if (zoomlevel >= 7) {
-        out += showKeyEntry('primary' + suffix + '.png', mapkey_values['primary']);
-    }
-    if (zoomlevel >= 9) {
-        out += showKeyEntry('secondary' + suffix + '.png', mapkey_values['secondary']);
-    }
-    if (zoomlevel >= 10) {
-        suffix = '';
-        if (zoomlevel >= 13) { suffix="13"; }
-        out += showKeyEntry('unclassified' + suffix + '.png', mapkey_values['unclassified']);
-    }
-    if (zoomlevel >= 13) {
-        out += showKeyEntry('unsurfaced.png', mapkey_values['unsurfaced']);
-        out += showKeyEntry('track.png', mapkey_values['track']);
-        out += showKeyEntry('byway.png', mapkey_values['byway']);
-        out += showKeyEntry('bridleway.png', mapkey_values['bridleway']);
-        out += showKeyEntry('cycleway.png', mapkey_values['cycleway']);
-        out += showKeyEntry('footway.png', mapkey_values['footway']);
-    }
-    if (zoomlevel >= 8) {
-        suffix = '';
-        if (zoomlevel >= 13) { suffix = "13"; }
-        out += showKeyEntry('rail' + suffix + '.png', mapkey_values['rail']);
-    }
-    if (zoomlevel >= 13) {
-        out += showKeyEntry('subway.png', mapkey_values['subway']);
-        out += showKeyEntry('tram.png', mapkey_values['tram']);
-    }
-    if (zoomlevel >= 12) {
-        out += showKeyEntry('cable.png', mapkey_values['cable']);
-    }
-    if (zoomlevel >= 11) {
-        out += showKeyEntry('runway.png', mapkey_values['runway']);
-    }
-    if (zoomlevel >= 12) {
-        out += showKeyEntry('apron.png', mapkey_values['apron']);
-    }
-    out += showKeyEntry('admin.png', mapkey_values['admin']);
-    if (zoomlevel >= 9) {
-        out += showKeyEntry('forest.png', mapkey_values['forest']);
-    }
-    if (zoomlevel >= 10) {
-        out += showKeyEntry('wood.png', mapkey_values['wood']);
-        out += showKeyEntry('golf.png', mapkey_values['golf']);
-        out += showKeyEntry('park.png', mapkey_values['park']);
-    }
-    if (zoomlevel >= 8) {
-        out += showKeyEntry('resident.png', mapkey_values['resident']);
-    }
-    if (zoomlevel >= 10) {
-        out += showKeyEntry('tourist.png', mapkey_values['tourist']);
-        out += showKeyEntry('common.png', mapkey_values['common']);
-        out += showKeyEntry('retail.png', mapkey_values['retail']);
-        out += showKeyEntry('industrial.png', mapkey_values['industrial']);
-        out += showKeyEntry('commercial.png', mapkey_values['commercial']);
-        out += showKeyEntry('heathland.png', mapkey_values['heathland']);
-    }
-    if (zoomlevel >= 8) {
-        out += showKeyEntry('lake.png', mapkey_values['lake']);
-    }
-    if (zoomlevel >= 10) {
-        out += showKeyEntry('farm.png', mapkey_values['farm']);
-        out += showKeyEntry('brownfield.png', mapkey_values['brownfield']);
-    }
-    if (zoomlevel >= 11) {
-        out += showKeyEntry('cemetery.png', mapkey_values['cemetery']);
-        out += showKeyEntry('allotments.png', mapkey_values['allotments']);
-        out += showKeyEntry('pitch.png', mapkey_values['pitch']);
-        out += showKeyEntry('centre.png', mapkey_values['centre']);
-        out += showKeyEntry('reserve.png', mapkey_values['reserve']);
-        out += showKeyEntry('military.png', mapkey_values['military']);
-    }
-    if (zoomlevel >= 12) {
-        out += showKeyEntry('school.png', mapkey_values['school']);
-        out += showKeyEntry('building.png', mapkey_values['building']);
-        out += showKeyEntry('station.png', mapkey_values['station']);
-        out += showKeyEntry('summit.png', mapkey_values['summit']);
-        out += showKeyEntry('tunnel.png', mapkey_values['tunnel']);
-    }
-    if (zoomlevel >= 13) {
-        out += showKeyEntry('bridge.png', mapkey_values['bridge']);
-    }
-    if (zoomlevel >= 15) {
-        out += showKeyEntry('private.png', mapkey_values['private']);
-        out += showKeyEntry('permissive.png', mapkey_values['permissive']);
-        out += showKeyEntry('destination.png', mapkey_values['destination']);
-    }
-    if (zoomlevel >= 12) {
-        out += showKeyEntry('construction.png', mapkey_values['construction']);
-    }
-        
-    out += "</table>";
-    out += "</div>";
-
-    updateSidebar("<%= t('site.key.map_key') %>", out);
-    openSidebar({ width: "210px" });
+    map.events.register("zoomend", map, updateMapKey);
+    map.events.register("changelayer", map, updateMapKey);
   }
 
-  function updateKey() {
-    if (sidebarOpen("<%= t('site.key.map_key') %>")) 
-    {
-      showKey();
-    }
+  function closeMapKey() {
+    map.events.unregister("zoomend", map, updateMapKey);
+    map.events.unregister("changelayer", map, updateMapKey);
   }
-// -->
+
+  function updateMapKey() {
+    var layer = map.baseLayer.name.toLowerCase().replace(/\s+/g, "_");
+    var zoom = map.getZoom();
+
+    <%= remote_function :update => "sidebar_content",
+                        :url => { :action => "key" },
+                        :with => "'layer=' + layer + '&zoom=' + zoom",
+                        :method => :get
+    %>
+  }
 </script>
+
+<% content_for :left_menu do %>
+  <%= link_to_function t('site.key.map_key'), "openMapKey()", :title => t('site.key.map_key_tooltip') %>
+<% end %>
