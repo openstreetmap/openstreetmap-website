@@ -1,4 +1,5 @@
 #!/usr/bin/env perl
+use feature ':5.10';
 use strict;
 use warnings;
 use YAML::Syck qw(Load LoadFile);
@@ -23,6 +24,9 @@ locale-diff - Compare two YAML files and print how their datastructures differ
     # don't differ. Ignoring the blacklist which prunes things
     # unlikley to be translated
     diff --untranslated-values-all en.yml is.yml
+
+    # Check that interpolated variables ({{var}} and [[var]]) are the same
+    diff --validate-variables en.yml is.yml
 
 =head1 DESCRIPTION
 
@@ -57,6 +61,11 @@ This helps to find untranslated values.
 
 Like C<--untranslated-values> but ignores blacklists.
 
+=item --validate-variables
+
+Check that interpolated Ruby i18n variables (C<{{foo}}> and
+C<[[foo]]>) are equivalent in the two provided files.
+
 =back
 
 =head1 AUTHOR
@@ -73,10 +82,11 @@ Getopt::Long::Parser->new(
     'keys' => \my $keys,
     'untranslated-values' => \my $untranslated_values,
     'untranslated-values-all' => \my $untranslated_values_all,
+    'validate-variables' => \my $validate_variables,
 ) or help();
 
 # --keys is the default
-$keys = 1 if not $untranslated_values_all and not $untranslated_values;
+$keys = 1 if not $untranslated_values_all and not $untranslated_values and not $validate_variables;
 
 # On --help
 help() if $help;
@@ -92,10 +102,9 @@ my $to_data   = LoadFile($to);
 my $from_parsed = { iterate($from_data->{basename($from)}) };
 my $to_parsed = { iterate($to_data->{basename($to)}) };
 
-# Since this used to be the default, support that...
 if ($keys)
 {
-    print_key_differences();
+    print_key_differences($from_parsed, $to_parsed);
 }
 elsif ($untranslated_values or $untranslated_values_all)
 {
@@ -106,19 +115,24 @@ elsif ($untranslated_values or $untranslated_values_all)
         @untranslated = prune_untranslated_with_blacklist(basename($to), @untranslated);
     }
 
-    print $_, "\n" for @untranslated;
+    say for @untranslated;
+} elsif ($validate_variables)
+{
+    print_validate_variables($from_parsed, $to_parsed);
 }
 
 exit 0;
 
 sub print_key_differences
 {
+    my ($f, $t) = @_;
+
     # Hack around Test::Differences wanting a Test::* module loaded
     $INC{"Test.pm"} = 1;
     sub Test::ok { print shift }
 
     # Diff the tree
-    eq_or_diff([ sort keys %$from_parsed ], [ sort keys %$to_parsed ]);
+    eq_or_diff([ sort keys %$f ], [ sort keys %$t ]);
 }
 
 sub untranslated_keys
@@ -147,6 +161,38 @@ sub prune_untranslated_with_blacklist
     }
 
     sort keys %keys;
+}
+
+sub print_validate_variables
+{
+    my ($f, $t) = @_;
+
+    while (my ($key, $val) = each %$f)
+    {
+        next if exists $f->{$key} and not exists $t->{$key};
+
+        my @from_var = parse_variables_from_string($f->{$key});
+        my @to_var   = parse_variables_from_string($t->{$key});
+
+        unless (@from_var ~~ @to_var) {
+            say "$key in $from has (@from_var) and $to has (@to_var)";
+        }
+
+    }
+}
+
+sub parse_variables_from_string
+{
+    my ($string) = @_;
+
+    # This probably matches most of the variables
+    my $var = qr/ [a-z0-9_]+? /xs;
+
+    if (my @var = $string =~ m/ \{\{ ($var) \}\} | \[\[ ($var) \]\] /gsx) {
+        return sort grep { defined } @var;
+    } else {
+        return;
+    }
 }
 
 sub iterate
