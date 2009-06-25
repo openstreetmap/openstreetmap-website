@@ -1490,7 +1490,7 @@ EOF
   def test_list
     changesets = Changeset.find(:all, :order => "created_at DESC", :conditions => ['min_lat IS NOT NULL'], :limit=> 20)
     assert changesets.size <= 20
-    get :list, {:format => "rhtml"}
+    get :list, {:format => "html"}
     assert_response :success
     assert_template "list"
     # Now check that all 20 (or however many were returned) changesets are in the html
@@ -1505,7 +1505,7 @@ EOF
   # Checks the display of the user changesets listing
   def test_list_user
     user = users(:public_user)
-    get :list, {:format => "rhtml", :display_name => user.display_name}
+    get :list, {:format => "html", :display_name => user.display_name}
     assert_response :success
     assert_template "list"
     ## FIXME need to add more checks to see which if edits are actually shown if your data is public
@@ -1514,7 +1514,7 @@ EOF
   ##
   # Check the not found of the list user changesets
   def test_list_user_not_found
-    get :list, {:format => "rhtml", :display_name => "Some random user"}
+    get :list, {:format => "html", :display_name => "Some random user"}
     assert_response :not_found
     assert_template 'user/no_such_user'
   end
