@@ -10,17 +10,26 @@ class DiaryEntryController < ApplicationController
   def new
     @title = t 'diary_entry.new.title'
 
-    if params[:diary_entry]     
+    if params[:diary_entry]
       @diary_entry = DiaryEntry.new(params[:diary_entry])
       @diary_entry.user = @user
 
-      if @diary_entry.save 
+      if @diary_entry.save
+        default_lang = @user.preferences.find(:first, :conditions => {:k => "diary.default_language"})
+        if default_lang
+          default_lang.v = @diary_entry.language_code
+          default_lang.save!
+        else
+          @user.preferences.create(:k => "diary.default_language", :v => @diary_entry.language_code)
+        end
         redirect_to :controller => 'diary_entry', :action => 'list', :display_name => @user.display_name 
       else
         render :action => 'edit'
       end
     else
-      @diary_entry = DiaryEntry.new(:language_code => @user.preferred_language)
+      default_lang = @user.preferences.find(:first, :conditions => {:k => "diary.default_language"})
+      lang_code = default_lang ? default_lang.v : @user.preferred_language
+      @diary_entry = DiaryEntry.new(:language_code => lang_code)
       render :action => 'edit'
     end
   end
@@ -122,6 +131,7 @@ class DiaryEntryController < ApplicationController
       if @entry
         @title = t 'diary_entry.view.title', :user => params[:display_name]
       else
+        @title = t 'diary_entry.no_such_entry.title', :id => params[:id]
         render :action => 'no_such_entry', :status => :not_found
       end
     else

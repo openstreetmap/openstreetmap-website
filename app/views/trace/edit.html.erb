@@ -1,4 +1,4 @@
-<h2><%= h(@title) %></h2>
+<h2><%= t 'trace.edit.heading', :name => h(@trace.name) %></h2>
 
 <img src="<%= url_for :controller => 'trace', :action => 'picture', :id => @trace.id, :display_name => @trace.user.display_name %>">
 
@@ -7,7 +7,7 @@
 <table border="0">
   <tr>
     <td><%= t'trace.edit.filename' %></td>
-    <td><%= @trace.name %> (<%= link_to 'download', :controller => 'trace', :action => 'data', :id => @trace.id %>)</td>
+    <td><%= @trace.name %> (<%= link_to t('trace.edit.download'), :controller => 'trace', :action => 'data', :id => @trace.id %>)</td>
   </tr> 
   <tr>
     <td><%= t'trace.edit.uploaded_at' %></td>
@@ -18,8 +18,8 @@
     <td><%= t'trace.edit.points' %></td>
     <td><%= @trace.size.to_s.gsub(/(\d)(?=(\d{3})+$)/,'\1,') %></td></tr>
   <tr>
-    <td><%= t'trace.edit.start_coord' %>Start coordinate:</td>
-    <td><div class="geo" style="display: inline"><span class="latitude"><%= @trace.latitude %></span>; <span class="longitude"><%= @trace.longitude %></span></div> (<%=link_to 'map', :controller => 'site', :action => 'index', :lat => @trace.latitude, :lon => @trace.longitude, :zoom => 14 %> / <%=link_to t('trace.edit.edit'), :controller => 'site', :action => 'edit', :lat => @trace.latitude, :lon => @trace.longitude, :gpx=> @trace.id, :zoom => 14 %>)</td>
+    <td><%= t'trace.edit.start_coord' %></td>
+    <td><div class="geo" style="display: inline"><span class="latitude"><%= @trace.latitude %></span>; <span class="longitude"><%= @trace.longitude %></span></div> (<%=link_to t('trace.edit.map'), :controller => 'site', :action => 'index', :lat => @trace.latitude, :lon => @trace.longitude, :zoom => 14 %> / <%=link_to t('trace.edit.edit'), :controller => 'site', :action => 'edit', :lat => @trace.latitude, :lon => @trace.longitude, :gpx=> @trace.id, :zoom => 14 %>)</td>
   </tr>
   <% end %>
   <tr>
@@ -31,13 +31,13 @@
     <td><%= f.text_field :description %></td>
   </tr>
   <tr>
-    <td>Tags:</td>
+    <td><%= t'trace.edit.tags' %></td>
     <td><%= f.text_field :tagstring %></td>
   </tr>
 </table>
 
 <br /><br />
 
-<%= submit_tag 'Save Changes' %>
+<%= submit_tag t'trace.edit.save_button' %>
 
 <% end %>

@@ -53,7 +53,7 @@ class Notifier < ActionMailer::Base
   
   def message_notification(message)
     common_headers message.recipient
-    subject I18n.t('notifier.message_notification.subject', :user => message.sender.display_name)
+    subject I18n.t('notifier.message_notification.subject', :user => message.sender.display_name, :locale => locale)
     body :to_user => message.recipient.display_name,
          :from_user => message.sender.display_name,
          :body => message.body,
@@ -68,7 +68,7 @@ class Notifier < ActionMailer::Base
 
   def diary_comment_notification(comment)
     common_headers comment.diary_entry.user
-    subject I18n.t('notifier.diary_comment_notification.subject', :user => comment.user.display_name)
+    subject I18n.t('notifier.diary_comment_notification.subject', :user => comment.user.display_name, :locale => locale)
     body :to_user => comment.diary_entry.user.display_name,
          :from_user => comment.user.display_name,
          :body => comment.body,
@@ -97,7 +97,7 @@ class Notifier < ActionMailer::Base
     befriendee = User.find_by_id(friend.friend_user_id)
 
     common_headers befriendee
-    subject I18n.t('notifier.friend_notification.subject', :user => befriender.display_name)
+    subject I18n.t('notifier.friend_notification.subject', :user => befriender.display_name, :locale => locale)
     body :user => befriender.display_name,
          :userurl => url_for(:host => SERVER_URL,
                              :controller => "user", :action => "view",

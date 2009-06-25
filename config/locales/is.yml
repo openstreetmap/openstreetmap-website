@@ -59,14 +59,14 @@ is:
         latitude: "Latitude"
         longitude: "Longitude"
         public: "Public"
-        description: "Description"
+        description: "Lýsing"
       message:
         sender: "Sender"
         title: "Title"
         body: "Body"
         recipient: "Recipient"
       user:
-        email: "Tölvupóstfang"
+        email: "Netfang"
         active: "Active"
         display_name: "Display Name"
         description: "Description"
@@ -291,8 +291,9 @@ is:
       login: "Innskráðu þig"
       save_button: "Vista"
     no_such_entry:
-      heading: "No entry with the id: {{id}}"
-      body: "Sorry, there is no diary entry or comment with the id {{id}}. Please check your spelling, or maybe the link you clicked is wrong."
+      title: "Þessi bloggfærsla er ekki til"
+      heading: "Bloggfærsla númer {{id}} er ekki til"
+      body: "Bloggfærsla númer er ekki til {{id}}. Kannski slóstu slóðina vitlaust inn eða fylgdir ógildum tengli."
     no_such_user:
       title: "Notandi ekki til"
       heading: "Notandinn {{user}} er ekki til"
@@ -436,7 +437,7 @@ is:
           loaded successfully with {{trace_points}} out of a possible
           {{possible_points}} points.
     signup_confirm:
-      subject: "[OpenStreetMap] Staðfestu tölvupóstfangið þitt"
+      subject: "[OpenStreetMap] Staðfestu netfangið þitt"
     signup_confirm_plain:
       greeting: "Hi there!"
       hopefully_you: "Someone (hopefully you) would like to create an account over at"
@@ -468,26 +469,26 @@ is:
       user_wiki_page: 'It is recommended that you create a user wiki page, which includes category tags noting where you are, such as <a href="http://wiki.openstreetmap.org/wiki/Category:Users_in_London">[[Category:Users_in_London]]</a>.'
       current_user: 'A list of current users in categories, based on where in the world they are, is available from <a href="http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region">Category:Users_by_geographical_region</a>.'
     email_confirm:
-      subject: "[OpenStreetMap] Staðfestu tölvupóstfangið þitt"
+      subject: "[OpenStreetMap] Staðfestu netfangið þitt"
     email_confirm_plain:
       greeting: "Hæ,"
-      hopefully_you_1: "Einhver (vonandi þú) vill breyta tölvupóstfanginu sínu á"
+      hopefully_you_1: "Einhver (vonandi þú) vill breyta netfanginu sínu á"
       hopefully_you_2: "{{server_url}} í {{new_address}}."
       click_the_link: "Ef þú óskaðir eftir þessari breytingu fylgdu tenglinum hér fyrir neðan til að staðfesta breytinguna."
     email_confirm_html:
       greeting: "Hi,"
-      hopefully_you: "Einhver (vonandi þú) vill breyta tölvupóstfanginu sínu á {{server_url}} í {{new_address}}."
+      hopefully_you: "Einhver (vonandi þú) vill breyta netfanginu sínu á {{server_url}} í {{new_address}}."
       click_the_link: "Ef þú óskaðir eftir þessari breytingu fylgdu tenglinum hér fyrir neðan til að staðfesta breytinguna."
     lost_password:
       subject: "[OpenStreetMap] Beðni um að endurstilla lykilorð"
     lost_password_plain:
       greeting: "Hæ,"
       hopefully_you_1: "Einhver (vonandi þú) hefur beðið um að endurstilla lykilorðið á reikningnum"
-      hopefully_you_2: "með þetta tölvupóstfang á openstreetmap.org"
+      hopefully_you_2: "með þetta netfang á openstreetmap.org"
       click_the_link: "Ef þú óskaðir eftir þessari endurstillingu fylgdu tenglinum hér fyrir neðan til að staðfesta breytinguna."
     lost_password_html:
       greeting: "Hæ,"
-      hopefully_you: "Einhver (vonandi þú) hefur beðið um að endurstilla lykilorðið á reikningnum með þetta tölvupóstfang á openstreetmap.org"
+      hopefully_you: "Einhver (vonandi þú) hefur beðið um að endurstilla lykilorðið á reikningnum með þetta netfang á openstreetmap.org"
       click_the_link: "Ef þú óskaðir eftir þessari endurstillingu fylgdu tenglinum hér fyrir neðan til að staðfesta breytinguna."
     reset_password:
       subject: "[OpenStreetMap] Lykilorði breytt"
@@ -506,14 +507,14 @@ is:
       from: "Frá"
       subject: "Titill"
       date: "Dagsetning"
-      no_messages_yet: "You have no messages yet. Why not get in touch with some of the {{people_mapping_nearby_link}}?"
-      people_mapping_nearby: "people mapping nearby" 
+      no_messages_yet: "Þú hefur ekki fengið nein skilboð. Hví ekki að hafa samband við einhverja {{people_mapping_nearby_link}}?"
+      people_mapping_nearby: "nálæga notendur" 
     message_summary:
       unread_button: "Merkja sem ólesin"
       read_button: "Merkja sem lesin"
       reply_button: "Svara"
     new:
-      title: "Send message"
+      title: "Senda skilaboð"
       send_message_to: "Senda skilaboð til {{name}}"
       subject: "Titill"
       body: "Texti"
@@ -588,15 +589,20 @@ is:
       upload_trace: "Upphala GPS feril"
       trace_uploaded: "Búið er að hlaða upp GPS ferlinum og bíður hann núna eftir því að vera settur inn í gagnagrunninn, sem gerist yfirleitt innan stundar. Póstur verður sendur á netfangið þitt þegar því er lokið."
     edit:
-      filename: "Filename:"
-      uploaded_at: "Uploaded at:"
-      points: "Points:"
-      start_coord: "Start coordinate:"
-      edit: "edit"
-      owner: "Owner:"
+      title: "Breyti ferlinum {{name}}"
+      heading: "Breyti ferlinum {{name}}"
+      filename: "Skráanafn:"
+      download: "niðurhala"
+      uploaded_at: "Hlaðið upp:"
+      points: "Punktar:"
+      start_coord: "Byrjunarhnit:"
+      map: "kort"
+      edit: "breyta"
+      owner: "Eigandi:"
       description: "Lýsing:"
       tags: "Tögg:"
-      save_button: "Save Changes"
+      editing_trace: "Breyti ferlinum {{name}}"
+      save_button: "Vista breytingar"
     no_such_user:
       title: "Notandi ekki til"
       heading: "Notandinn {{user}} er ekki til"
@@ -606,6 +612,8 @@ is:
       description: "Lýsing"
       tags: "Tögg"
       public: "Sjáanleg öðrum?"
+      public_help: "Hvað þýðir þetta?"
+      public_help_url: "http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces"
       upload_button: "Upphala"
       help: "Hjálp"
       help_url: "http://wiki.openstreetmap.org/wiki/Upload"
@@ -617,22 +625,23 @@ is:
     trace_optionals:
       tags: "Tögg"
     view:
+      title: "Skoða ferilinn {{name}}"
+      heading: "Skoða ferilinn {{name}}"
       pending: "Í BIÐ"
       filename: "Skráarnafn:"
       download: "niðurhala"
       uploaded: "Hlaðið upp:"
-      points: "Points:"
+      points: "Punktar:"
       start_coordinates: "Byrjunarhnit:"
       map: "kort"
       edit: "breyta"
       owner: "Eigandi:"
       description: "Lýsing:"
       tags: "Tögg"
-      none: "None"
+      none: "engin"
       make_public: "Gera þennan feril sjáanlegan öðrum til frambúðar"
       edit_track: "Breyta"
       delete_track: "Eyða"
-      viewing_trace: "Skoða ferilinn {{name}}"
       trace_not_found: "Þessi ferill fannst ekki!"
     trace_paging_nav:
       showing: "Sýni síðu"
@@ -660,13 +669,28 @@ is:
       scheduled_for_deletion: "Þessum feril verður eitt"
     make_public:
       made_public: "Ferilinn var gerður sjáanlegur"
+  oauth:
+    client_application:
+      request_access: "The application {{app_name}} is requesting access to your account. Please check whether you would like the application to have the following capabilities. You may choose as many or as few as you like."
+      allow_to: "Allow the client application to:"
+      allow_read_prefs:  "read your user preferences."
+      allow_write_prefs: "modify your user preferences."
+      allow_write_diary: "create diary entries, comments and make friends."
+      allow_write_api:   "modify the map."
+      allow_read_gpx:    "read your private GPS traces."
+      allow_write_gpx:   "upload GPS traces."
+    token:
+      none: "You have not authorised any clients to act on your behalf. You do not have to do anything now to authorise them, as they will ask for authorisation when they need it. After that time you can return here to revoke those permissions if you do not want the clients to have your authorisation any more."
+      application: "Application"
+      issued: "Issued"
+      revoke: "Revoke!"
   user:
     login:
       title: "Innskrá"
       heading: "Innskrá"
       please login: "Vinsamlegast innskráðu þig eða {{create_user_link}}."
       create_account: "stofnaðu aðgang"
-      email or username: "Tölvupóstfang eða notandanafn: "
+      email or username: "Netfang eða notandanafn: "
       password: "Lykilorð: "
       lost password link: "Gleymt lykilorð?"
       login_button: "Innskrá"
@@ -675,10 +699,10 @@ is:
     lost_password:
       title: "gleymt lykilorð"
       heading: "Gleymt lykilorð?"
-      email address: "Tölvupóstfang:"
-      new password button: "Senda nýtt lykilorð með tölvupósti"
+      email address: "Netfang:"
+      new password button: "Senda nýtt lykilorð á netfangið þitt"
       notice email on way: "Nýtt lykilorð er á leiðinni í innhólfið þitt."
-      notice email cannot find: "Þetta tölvupóstfang fannst ekki."
+      notice email cannot find: "Þetta netfang fannst ekki."
     reset_password:
       title: "lykilorð endurstillt"
       flash changed check mail: "Nýtt lykilorð hefur verið búið til fyrir þig og sent til þín í pósti"
@@ -686,13 +710,13 @@ is:
     new:
       title: "Nýskrá"
       heading: "Nýskrá"
-      no_auto_account_create: "Unfortunately we are not currently able to create an account for you automatically."
-      contact_webmaster: 'Please contact the <a href="mailto:webmaster@openstreetmap.org">webmaster</a> to arrange for an account to be created - we will try and deal with the request as quickly as possible. '
-      fill_form: "Filltu út þetta form og við munum senda þér tölvupóst svo þú getir virkjað reikninginn þinn."
+      no_auto_account_create: "Því miður getum við eki búið til reikning fyrir þig sjálfkrafa."
+      contact_webmaster: 'Hafðu samband við <a href="mailto:webmaster@openstreetmap.org">vefstjóra</a> til að fá reikning búinn til.'
+      fill_form: "Filltu út þetta form og við munum senda þér póst svo þú getir virkjað reikninginn þinn."
       license_agreement: 'Með því að búa til reikning samþykkiru að öll framlög þín til verkefnisins falli undir <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative Commons Attribution-Share Alike (BY-SA)</a> leyfið.'
-      email address: "Tölvupóstfang: "
-      confirm email address: "Staðfestu tölvupóstfang: "
-      not displayed publicly: 'Ekki sýnt opinberlega (sjá <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="Meðferð persónuupplýsinga, þ.á.m. tölvupóstfanga">meðferð persónuupplýsinga</a>)'
+      email address: "Netfang: "
+      confirm email address: "Staðfestu netfang: "
+      not displayed publicly: 'Ekki sýnt opinberlega (sjá <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="Meðferð persónuupplýsinga, þ.á.m. netfanga">meðferð persónuupplýsinga</a>)'
       display name: "Sýnilegt nafn: "
       password: "Lykilorð: "
       confirm password: "Staðfestu lykilorðið: "
@@ -715,7 +739,7 @@ is:
       remove as friend: fjarlægja sem vin
       add as friend: bæta við sem vin
       mapper since: "Notandi síðan: "
-      ago: "({{time_in_words_ago}} ago)"
+      ago: "({{time_in_words_ago}} síðan)"
       user image heading: Notandamynd
       delete image: Eyða myndinni
       upload an image: Upphala mynd
@@ -732,8 +756,8 @@ is:
       no nearby users: "Engir notendur hafa stillt staðsetningu sína nálægt þér."
       change your settings: "breyttu stillingunum þínum"
     friend_map:
-      your location: Your location
-      nearby mapper: "Nearby mapper: "
+      your location: Þín staðsetning
+      nearby mapper: "Nálægur notandi: "
     account:
       title: "Stillingar"
       my settings: Mínar stillingar
@@ -757,6 +781,12 @@ is:
       return to profile: "Aftur á mína síðu"
       flash update success confirm needed: "User information updated successfully. Check your email for a note to confirm your new email address."
       flash update success: "Stillingarnar þínar voru uppfærðar."
+      my apps: "My client applications"
+      developers: "Application Developers"
+      dev_intro: "Have you written an application which you would like to register to make {{link}} requests to the OpenStreetMap server?"
+      register_app: "Register your application"
+      apps_registered: "You have the following client applications registered:"
+      register_another_app: "Register another application"
     confirm:
       heading: "Staðfesta notanda"
       press confirm button: "Hér getur þú staðfest að þú viljir búa til notanda.."
@@ -764,13 +794,13 @@ is:
       success: "Notandinn þinn hefur verið staðfestur."
       failure: "Notandi hefur þegar verið staðfestur með þessum lykli."
     confirm_email:
-      heading: "Staðfesta breytingu á tölvupóstfangi"
-      press confirm button: "Hér getur þú staðfest breytingu á tölvupóstfangi."
+      heading: "Staðfesta breytingu á netfangi"
+      press confirm button: "Hér getur þú staðfest breytingu á netfangi."
       button: "Staðfesta"
-      success: "Tölvupóstfangið þitt hefur verið staðfest."
-      failure: "Tölvupóstfanga hefur þegar verið staðfest með þessum lykli."
+      success: "Netfangið þitt hefur verið staðfest."
+      failure: "Netfang hefur þegar verið staðfest með þessum lykli."
     set_home:
-      flash success: "Home location saved successfully"
+      flash success: "Staðsetning þín hefur verið stillt"
     go_public:
       flash success: "All your edits are now public, and you are now allowed to edit."
     make_friend:

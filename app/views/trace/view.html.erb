@@ -1,4 +1,4 @@
-<h2><%= h(@title) %></h2>
+<h2><%= t 'trace.view.heading', :name => h(@trace.name) %></h2>
 
   <% if @trace.inserted %>
     <img src="<%= url_for :controller => 'trace', :action => 'picture', :id => @trace.id, :display_name => @trace.user.display_name %>">
@@ -35,12 +35,12 @@
   <tr>
     <td><%= t'trace.view.tags' %></td>
     <td>
-    <% if @trace.tags %>
+    <% unless @trace.tags.empty? %>
       <% @trace.tags.each do |tag| %>
         <%= link_to tag.tag, { :controller => 'trace', :action => 'list', :tag => tag.tag, :id => nil } %>
       <% end %>
     <% else %>
-      <%= t'trace.view.none' %>
+      <i><%= t'trace.view.none' %></i>
     <% end %>
     </td>
   </tr>

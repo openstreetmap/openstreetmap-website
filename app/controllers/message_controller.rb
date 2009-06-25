@@ -12,7 +12,6 @@ class MessageController < ApplicationController
   # clicks send.
   # The display_name param is the display name of the user that the message is being sent to.
   def new
-    @title = t 'message.new.title'
     @to_user = User.find_by_display_name(params[:display_name])
     if @to_user
       if params[:message]
@@ -27,7 +26,13 @@ class MessageController < ApplicationController
           redirect_to :controller => 'message', :action => 'inbox', :display_name => @user.display_name
         end
       else
-        @title = params[:title]
+        if params[:title]
+          # ?title= is set when someone reponds to this user's diary entry
+          @title = params[:title]
+        else
+          # The default /message/new/$user view
+          @title = t 'message.new.title'
+        end
       end
     else
       @title = t'message.no_such_user.title'

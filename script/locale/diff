@@ -1,8 +1,8 @@
 #!/usr/bin/env perl
+use feature ':5.10';
 use strict;
 use warnings;
-use YAML::Syck qw(LoadFile);
-use Data::Walk;
+use YAML::Syck qw(Load LoadFile);
 use Test::Differences;
 use Pod::Usage ();
 use Getopt::Long ();
@@ -13,8 +13,20 @@ locale-diff - Compare two YAML files and print how their datastructures differ
 
 =head1 SYNOPSIS
 
-    locale-diff en.yml is.yml
-    locale-diff en.yml is.yml | grep '*'
+    # --keys is the default
+    diff en.yml is.yml
+    diff --keys en.yml is.yml
+
+    # --untranslated-values compares prints keys whose values don't differ
+    diff --untranslated-values-all en.yml is.yml
+
+    # --untranslated-values-all compares prints keys whose values
+    # don't differ. Ignoring the blacklist which prunes things
+    # unlikley to be translated
+    diff --untranslated-values-all en.yml is.yml
+
+    # Check that interpolated variables ({{var}} and [[var]]) are the same
+    diff --validate-variables en.yml is.yml
 
 =head1 DESCRIPTION
 
@@ -31,6 +43,29 @@ translated files when F<en.yml> changes.
 
 Print this help message.
 
+=item --keys
+
+Show the hash keys that differ between the two files, useful merging
+new entries from F<en.yml> to a local file.
+
+=item --untranslated-values
+
+Show keys whose values are either exactly the same between the two
+files, or don't exist in the target file (the latter file
+specified). The values are pruned according to global and language
+specific blacklists found in the C<__DATA__> section of this script.
+
+This helps to find untranslated values.
+
+=item --untranslated-values-all
+
+Like C<--untranslated-values> but ignores blacklists.
+
+=item --validate-variables
+
+Check that interpolated Ruby i18n variables (C<{{foo}}> and
+C<[[foo]]>) are equivalent in the two provided files.
+
 =back
 
 =head1 AUTHOR
@@ -44,7 +79,14 @@ Getopt::Long::Parser->new(
     config => [ qw< bundling no_ignore_case no_require_order pass_through > ],
 )->getoptions(
     'h|help' => \my $help,
+    'keys' => \my $keys,
+    'untranslated-values' => \my $untranslated_values,
+    'untranslated-values-all' => \my $untranslated_values_all,
+    'validate-variables' => \my $validate_variables,
 ) or help();
+
+# --keys is the default
+$keys = 1 if not $untranslated_values_all and not $untranslated_values and not $validate_variables;
 
 # On --help
 help() if $help;
@@ -57,31 +99,127 @@ my ($from, $to) = @ARGV;
 my $from_data = LoadFile($from);
 my $to_data   = LoadFile($to);
 
-# Normalize the two to have the same root element
-my ($from_key) = keys %$from_data;
-$from_data = $from_data->{$from_key};
+my $from_parsed = { iterate($from_data->{basename($from)}) };
+my $to_parsed = { iterate($to_data->{basename($to)}) };
 
-my ($to_key) = keys %$to_data;
-$to_data = $to_data->{$to_key};
-
-# Delete hash values
-walkdepth \&delete_hash_values, $_ for $from_data, $to_data;
-
-# Hack around Test::Differences wanting a Test::* module loaded
-$INC{"Test.pm"} = 1;
-sub Test::ok { print shift }
-
-# Diff the tree
-eq_or_diff($from_data, $to_data);
-
-sub delete_hash_values
+if ($keys)
 {
-    return unless defined $Data::Walk::type and $Data::Walk::type eq 'HASH';
+    print_key_differences($from_parsed, $to_parsed);
+}
+elsif ($untranslated_values or $untranslated_values_all)
+{
+    my @untranslated = untranslated_keys($from_parsed, $to_parsed);
 
-    # We totally need Perl 6's $OUTER::_ to make this prettier
-    my $hash = $_;
+    # Prune according to blacklist
+    if ($untranslated_values) {
+        @untranslated = prune_untranslated_with_blacklist(basename($to), @untranslated);
+    }
 
-    @$hash{grep { not ref $hash->{$_} } keys %$hash} = ();
+    say for @untranslated;
+} elsif ($validate_variables)
+{
+    print_validate_variables($from_parsed, $to_parsed);
+}
+
+exit 0;
+
+sub print_key_differences
+{
+    my ($f, $t) = @_;
+
+    # Hack around Test::Differences wanting a Test::* module loaded
+    $INC{"Test.pm"} = 1;
+    sub Test::ok { print shift }
+
+    # Diff the tree
+    eq_or_diff([ sort keys %$f ], [ sort keys %$t ]);
+}
+
+sub untranslated_keys
+{
+    my ($from_parsed, $to_parsed) = @_;
+    sort grep { not exists $to_parsed->{$_} or $from_parsed->{$_} eq $to_parsed->{$_} } keys %$from_parsed;
+}
+
+sub prune_untranslated_with_blacklist
+{
+    my ($language, @keys) = @_;
+    my %keys;
+    @keys{@keys} = ();
+
+    my $end_yaml = Load(join '', <DATA>);
+    my $untranslated_values = $end_yaml->{untranslated_values};
+    my $default = $untranslated_values->{default};
+    my $this_language = $untranslated_values->{$language} || {};
+
+    my %bw_list = (%$default, %$this_language);
+    
+    while (my ($key, $blacklisted) = each %bw_list)
+    {
+        # FIXME: Does syck actually support true/false booleans in yaml?
+        delete $keys{$key} if $blacklisted eq 'true'
+    }
+
+    sort keys %keys;
+}
+
+sub print_validate_variables
+{
+    my ($f, $t) = @_;
+
+    while (my ($key, $val) = each %$f)
+    {
+        next if exists $f->{$key} and not exists $t->{$key};
+
+        my @from_var = parse_variables_from_string($f->{$key});
+        my @to_var   = parse_variables_from_string($t->{$key});
+
+        unless (@from_var ~~ @to_var) {
+            say "$key in $from has (@from_var) and $to has (@to_var)";
+        }
+
+    }
+}
+
+sub parse_variables_from_string
+{
+    my ($string) = @_;
+
+    # This probably matches most of the variables
+    my $var = qr/ [a-z0-9_]+? /xs;
+
+    if (my @var = $string =~ m/ \{\{ ($var) \}\} | \[\[ ($var) \]\] /gsx) {
+        return sort grep { defined } @var;
+    } else {
+        return;
+    }
+}
+
+sub iterate
+{
+    my ($hash, @path) = @_;
+    my @ret;
+        
+    while (my ($k, $v) = each %$hash)
+    {
+        if (ref $v eq 'HASH')
+        {
+             push @ret => iterate($v, @path, $k);
+        }
+        else
+        {
+            push @ret => join(".",@path, $k), $v;
+        }
+    }
+
+    return @ret;
+}
+
+sub basename
+{
+    my $name = shift;
+    $name =~ s[\..*?$][];
+    $name;
 }
 
 sub help
@@ -93,3 +231,56 @@ sub help
         -exitval => $arg{ exitval } || 0,
     );
 }
+
+__DATA__
+untranslated_values:
+
+  # Default/Per language blacklist/whitelist for the
+  # --untranslated-values switch. "true" as a value indicates that the
+  # key is to be blacklisted, and "false" that it's to be
+  # whitelisted. "false" is only required to whitelist a key
+  # blacklisted by default on a per-language basis.
+
+  default:
+    html.dir: true
+    layouts.intro_3_bytemark: true
+    layouts.intro_3_ucl: true
+    layouts.project_name.h1: true
+    layouts.project_name.title: true
+    site.index.license.project_url: true
+  de:
+    activerecord.attributes.message.sender: true
+    activerecord.attributes.trace.name: true
+    activerecord.models.changeset: true
+    activerecord.models.relation: true
+    browse.changeset.changeset: true
+    browse.changeset.changesetxml: true
+    browse.changeset.osmchangexml: true
+    browse.changeset.title: true
+    browse.common_details.version: true
+    browse.containing_relation.relation: true
+    browse.relation.relation: true
+    browse.relation.relation_title: true
+    browse.start_rjs.details: true
+    browse.start_rjs.object_list.details: true
+    browse.tag_details.tags: true
+    changeset.changesets.id: true
+    export.start.export_button: true
+    export.start.format: true
+    export.start.output: true
+    export.start.zoom: true
+    export.start_rjs.export: true
+    layouts.export: true
+    layouts.shop: true
+    site.edit.anon_edits: true
+    site.index.license.license_name: true
+    site.index.permalink: true
+    site.key.table.entry.park: true
+    site.search.submit_text: true
+    trace.edit.tags: true
+    trace.trace.in: true
+    trace.trace_form.tags: true
+    trace.trace_optionals.tags: true
+    trace.view.tags: true
+    user.account.public editing.enabled link: true
+

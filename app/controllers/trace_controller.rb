@@ -109,7 +109,7 @@ class TraceController < ApplicationController
 
     if @trace and @trace.visible? and
        (@trace.public? or @trace.user == @user)
-      @title = t 'trace.view.viewing_trace', :name => @trace.name
+      @title = t 'trace.view.title', :name => @trace.name
     else
       flash[:notice] = t 'trace.view.trace_not_found'
       redirect_to :controller => 'trace', :action => 'list'
@@ -166,6 +166,7 @@ class TraceController < ApplicationController
     @trace = Trace.find(params[:id])
 
     if @user and @trace.user == @user
+      @title = t 'trace.edit.title', :name => @trace.name
       if params[:trace]
         @trace.description = params[:trace][:description]
         @trace.tagstring = params[:trace][:tagstring]

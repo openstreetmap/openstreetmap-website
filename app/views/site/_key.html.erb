@@ -1,26 +1,33 @@
-<% content_for :left_menu do %>
-<%= link_to_function t('site.key.map_key'), "showKey();", { :title => t('site.key.map_key_tooltip') } %>
-<% end %>
-
 <script type="text/javascript">
-<!--
-  function showKey() {
-    var zoomlevel = map.getZoom();
+  function openMapKey() {
+    updateMapKey();
 
-    if (zoomlevel<7 )      { var imgname = 'keymapnik6.png'; }
-    else if (zoomlevel<13) { var imgname = 'keymapnik'+zoomlevel+'.png'; }
-    else if (zoomlevel<15) { var imgname = 'keymapnik13.png'; }
-    else                   { var imgname = 'keymapnik15.png'; }
+    openSidebar({ 
+      title: "<%= t('site.key.map_key') %>",
+      onclose: closeMapKey
+    });
 
-    updateSidebar("<%= t('site.key.map_key') %>", "<p><img src='images/"+imgname+"' /><\/p>");
-    openSidebar({ width: "210px" });
+    map.events.register("zoomend", map, updateMapKey);
+    map.events.register("changelayer", map, updateMapKey);
   }
 
-  function updateKey() {
-    if (sidebarOpen("<%= t('site.key.map_key') %>")) 
-    {
-      showKey();
-    }
+  function closeMapKey() {
+    map.events.unregister("zoomend", map, updateMapKey);
+    map.events.unregister("changelayer", map, updateMapKey);
   }
-// -->
+
+  function updateMapKey() {
+    var layer = map.baseLayer.name.toLowerCase().replace(/\s+/g, "_");
+    var zoom = map.getZoom();
+
+    <%= remote_function :update => "sidebar_content",
+                        :url => { :action => "key" },
+                        :with => "'layer=' + layer + '&zoom=' + zoom",
+                        :method => :get
+    %>
+  }
 </script>
+
+<% content_for :left_menu do %>
+  <%= link_to_function t('site.key.map_key'), "openMapKey()", :title => t('site.key.map_key_tooltip') %>
+<% end %>
