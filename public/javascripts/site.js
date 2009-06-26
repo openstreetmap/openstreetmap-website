@@ -93,9 +93,9 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat) {
     // show me the Right way to do it.
     if (layers && (layers != "B000FTF")) {
       args["layers"] = layers;
-      node.href = setArgs("/go/" + code, args);
+      node.href = setArgs("http://osm.org/go/" + code, args);
     } else {
-      node.href = "/go/" + code;
+      node.href = "http://osm.org/go/" + code;
     }
   }
 }
