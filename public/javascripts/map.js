@@ -57,9 +57,9 @@ function createMap(divName, options) {
 
    var nonamekey = nonamekeys[document.domain];
    var noname = new OpenLayers.Layer.OSM("NoName", [
-      "http://a.tile.cloudmade.com/" + nonamekey + "/3/256/",
-      "http://b.tile.cloudmade.com/" + nonamekey + "/3/256/",
-      "http://c.tile.cloudmade.com/" + nonamekey + "/3/256/"
+      "http://a.tile.cloudmade.com/" + nonamekey + "/3/256/${z}/${x}/${y}.png",
+      "http://b.tile.cloudmade.com/" + nonamekey + "/3/256/${z}/${x}/${y}.png",
+      "http://c.tile.cloudmade.com/" + nonamekey + "/3/256/${z}/${x}/${y}.png"
    ], {
       displayOutsideMaxExtent: true,
       wrapDateLine: true,
