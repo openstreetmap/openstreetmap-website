@@ -11,72 +11,74 @@
     <%= t 'browse.map.deleted' %>
   <% end %>
 </td>
-<script type="text/javascript">
-  OpenLayers.Lang.setCode("<%= I18n.locale.to_s %>");
+<% if map.instance_of? Changeset or map.visible %>
+  <script type="text/javascript">
+    OpenLayers.Lang.setCode("<%= I18n.locale.to_s %>");
 
-  function init() {
-    var map = createMap("small_map", {
-      controls: [ new OpenLayers.Control.Navigation() ]
-    });
+    function init() {
+      var map = createMap("small_map", {
+        controls: [ new OpenLayers.Control.Navigation() ]
+      });
 
-    <% if map.instance_of? Changeset %>
-    var minlon = <%= map.min_lon / GeoRecord::SCALE.to_f %>;
-    var minlat = <%= map.min_lat / GeoRecord::SCALE.to_f %>;
-    var maxlon = <%= map.max_lon / GeoRecord::SCALE.to_f %>;
-    var maxlat = <%= map.max_lat / GeoRecord::SCALE.to_f %>;
-    var bbox = new OpenLayers.Bounds(minlon, minlat, maxlon, maxlat);
+      <% if map.instance_of? Changeset %>
+        var minlon = <%= map.min_lon / GeoRecord::SCALE.to_f %>;
+        var minlat = <%= map.min_lat / GeoRecord::SCALE.to_f %>;
+        var maxlon = <%= map.max_lon / GeoRecord::SCALE.to_f %>;
+        var maxlat = <%= map.max_lat / GeoRecord::SCALE.to_f %>;
+        var bbox = new OpenLayers.Bounds(minlon, minlat, maxlon, maxlat);
 
-    setMapExtent(bbox);
-    addBoxToMap(bbox);
+        setMapExtent(bbox);
+        addBoxToMap(bbox);
 
-    $("loading").innerHTML = "";
+        $("loading").innerHTML = "";
 
-    $("larger_map").href = '/?minlon='+minlon+'&minlat='+minlat+'&maxlon='+maxlon+'&maxlat='+maxlat+'&box=yes';
-    $("larger_map").innerHTML = "<%= t 'browse.map.view_larger_map' %>";
-    <% else %>
-    var obj_type = "<%= map.class.name.downcase %>";
-    var obj_id = <%= map.id %>;
-    var url = "/api/<%= "#{API_VERSION}" %>/<%= map.class.name.downcase %>/<%= map.id %>";
+        $("larger_map").href = '/?minlon='+minlon+'&minlat='+minlat+'&maxlon='+maxlon+'&maxlat='+maxlat+'&box=yes';
+        $("larger_map").innerHTML = "<%= t 'browse.map.view_larger_map' %>";
+      <% else %>
+        var obj_type = "<%= map.class.name.downcase %>";
+        var obj_id = <%= map.id %>;
+        var url = "/api/<%= "#{API_VERSION}" %>/<%= map.class.name.downcase %>/<%= map.id %>";
 
-    if (obj_type != "node") {
-      url += "/full";
-    }
-
-    var osm_layer = new OpenLayers.Layer.GML("OSM", url, {
-      format: OpenLayers.Format.OSM,
-      projection: new OpenLayers.Projection("EPSG:4326")
-    });
-
-    osm_layer.events.register("loadend", osm_layer, function() {
-      $("loading").innerHTML = "";
-
-      if (this.features.length) { 
-        var extent =  this.features[0].geometry.getBounds();
-
-        for (var i = 1; i < this.features.length; i++) {
-          extent.extend(this.features[i].geometry.getBounds());
+        if (obj_type != "node") {
+          url += "/full";
         }
 
-        if (extent) {
-          this.map.zoomToExtent(extent);
-        } else {
-          this.map.zoomToMaxExtent();
-	}
+        var osm_layer = new OpenLayers.Layer.GML("OSM", url, {
+          format: OpenLayers.Format.OSM,
+          projection: new OpenLayers.Projection("EPSG:4326")
+        });
 
-	var center = getMapCenter();
-        $("larger_map").href = '/?lat='+center.lat+'&lon='+center.lon+'&zoom='+this.map.getZoom();
-        $("larger_map").innerHTML = "<%= t 'browse.map.view_larger_map' %>";
-      } else {
-        $("small_map").style.display = "none";
+        osm_layer.events.register("loadend", osm_layer, function() {
+          $("loading").innerHTML = "";
+
+          if (this.features.length) {
+            var extent =  this.features[0].geometry.getBounds();
+
+            for (var i = 1; i < this.features.length; i++) {
+              extent.extend(this.features[i].geometry.getBounds());
+            }
+
+            if (extent) {
+              this.map.zoomToExtent(extent);
+            } else {
+              this.map.zoomToMaxExtent();
       }
-    });
 
-    map.addLayer(osm_layer);
+      var center = getMapCenter();
+            $("larger_map").href = '/?lat='+center.lat+'&lon='+center.lon+'&zoom='+this.map.getZoom();
+            $("larger_map").innerHTML = "<%= t 'browse.map.view_larger_map' %>";
+          } else {
+            $("small_map").style.display = "none";
+          }
+        });
 
-    osm_layer.loadGML();
-    osm_layer.loaded = true;
-    <% end %>
-  }
+        map.addLayer(osm_layer);
 
-  window.onload = init;
-</script>
+        osm_layer.loadGML();
+        osm_layer.loaded = true;
+      <% end %>
+    }
+
+    window.onload = init;
+  </script>
+<% end %>
