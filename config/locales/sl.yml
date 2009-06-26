@@ -120,6 +120,7 @@ sl:
       download: "{{download_xml_link}} ali {{view_history_link}}"
       download_xml: "prenesi XML"
       view_history: "poglej zgodovino"
+      edit: "uredi"
     not_found:
       sorry: "Oprostite, {{type}} z ID-jem {{id}} ni bilo mogoče najti."
       type:
@@ -147,6 +148,7 @@ sl:
       view_data: "Ogled podatkov trenutno prikazanega zemljevida"
       manually_select: "Ročno izberite drugo področje"
     start_rjs:
+      data_layer_name: "Podatki"
       data_frame_title: "Podatki"
       zoom_or_select: "Povečajte zemljevid ali izberite področje za prikaz"
       drag_a_box: "Za izbor področja povlecite pravokotnik na zemljevidu"
@@ -200,6 +202,7 @@ sl:
       download: "{{download_xml_link}} ali {{view_history_link}}"
       download_xml: "prenesi XML"
       view_history: "poglej zgodovino"
+      edit: "uredi"
   changeset:
     changeset_paging_nav: 
       showing_page: "Prikaz strani"
@@ -272,7 +275,8 @@ sl:
       login: "Prijavite se"
       save_button: "Shrani"
     no_such_entry:
-      heading: "No entry with the id: {{id}}"
+      title: "Takšnega vnosa v dnevnik ni"
+      heading: "Vnosa v dnevnik z id-jem: {{id}} ni"
       body: "Oprostite, vnosa v dnevnik št. {{id}} ni. Prosimo, preverite črkovanje in povezavo, ki ste jo kliknili."
     no_such_user:
       title: "Ni tega uporabnika"
@@ -325,12 +329,30 @@ sl:
       type_from_source: "{{type}} iz {{source_link}}"
       no_results: "Ni zadetkov"
   layouts:
+    project_name:
+      # in <title>
+      title: OpenStreetMap
+      # in <h1>
+      h1: OpenStreetMap
+    logo:
+      alt_text: OpenStreetMap logotip
     welcome_user: "Dobrodošli, {{user_link}}"
+    welcome_user_link_tooltip: Vaša uporabniška stran
     home: "domov"
+    home_tooltip: Prikaži domači kraj
     inbox: "prejeta pošta ({{count}})"
+    inbox_tooltip:
+      zero: Niste prejeli novih spročil
+      one: Prejeli ste {{count}} novo sporočilo
+      two: Prejeli ste {{count}} novi sporočili
+      few: Prejeli ste {{count}} nova sporočila
+      other: Prejeli ste {{count}} novih sporočil
     logout: odjava
+    logout_tooltip: "Odjava iz sistema"
     log_in: prijava
+    log_in_tooltip: Vstop s svojim obstoječim uporabniškim računom
     sign_up: vpis
+    sign_up_tooltip: Ustvarite si nov uporabniški račun za urejanje
     view: Zemljevid
     view_tooltip: Prikaz zemljevida
     edit: Uredi
@@ -354,9 +376,12 @@ sl:
     donate: "Podprite OpenStreetMap z {{link}} v fond za nadgradnjo strojne opreme."
     donate_link_text: donacijo
     help_wiki: "Pomoč in Wiki"
+    help_wiki_tooltip: "Pomoč in Wiki strani projekta"
     help_wiki_url: "http://wiki.openstreetmap.org/wiki/Sl:Main_Page"
     news_blog: "Novice"
+    news_blog_tooltip: "Novice o OpenStreetMap, prostih geografskih podatkih, ipd."
     shop: Trgovina
+    shop_tooltip: Nakup izdelkov z OpenStreetMap logotipi
     shop_url: http://wiki.openstreetmap.org/wiki/Merchandise
     sotm: 'Udeležite se letošnje OpenStreetMap konference, The State of the Map, ki bo od 10 do 12 Julija v Amsterdamu!'
     alt_donation: Prispevajte finančna sredstva
@@ -518,6 +543,7 @@ sl:
       js_2: "OpenStreetMap za prikaz zemljevida uporablja Javascript."
       js_3: 'Če Javascripta ne morete omogočiti lahko poizkusite <a href="http://tah.openstreetmap.org/Browse/">statičen pregledovalnik zemljevida Tiles@Home</a>.'
       permalink: Trajna povezava
+      shortlink: Kratka povezava
       license:
         notice: "Licensed under the {{license_name}} license by the {{project_name}} and its contributors."
         license_name: "Creative Commons Attribution-Share Alike 2.0"
@@ -544,15 +570,71 @@ sl:
       search_help: "primeri: 'Bovec', 'Prešernova, Celje', 'Živalski vrt' ali 'vzpenjača' <a href='http://wiki.openstreetmap.org/wiki/Search'>Več primerov...</a>"
     key:
       map_key: "Legenda"
+      map_key_tooltip: "Legenda mapnik zemljevida na prikazanem nivoju povečave"
+      table:
+        heading: "Legenda povečave {{zoom_level}}"
+        entry:
+          motorway: "Avtocesta"
+          trunk: "Trunk road"
+          primary: "Primary road"
+          secondary: "Secondary road"
+          unclassified: "Unclassified road"
+          unsurfaced: "Unsurfaced road"
+          track: "Track"
+          byway: "Byway"
+          bridleway: "Bridleway"
+          cycleway: "Kolesarska steza"
+          footway: "Pešpot"
+          rail: "Železnica"
+          subway: "Podzemna"
+          tram: "Light rail; tram"
+          cable: "Gondola; sedežnica"
+          runway: "Airport Runway; taxiway"
+          apron: "Airport apron; terminal"
+          admin: "Administrative boundary"
+          forest: "Forest"
+          wood: "Wood"
+          golf: "Golf igrišče"
+          park: "Park"
+          resident: "Naselje"
+          tourist: "Turistična znamenitost"
+          common: "Common; meadow"
+          retail: "Retail area"
+          industrial: "Industrial area"
+          commercial: "Commercial area"
+          heathland: "Heathland"
+          lake: "Lake; reservoir"
+          farm: "Kmetija"
+          brownfield: "Brownfield site"
+          cemetery: "Pokopališče"
+          allotments: "Allotments"
+          pitch: "Sports pitch"
+          centre: "Sports centre"
+          reserve: "Naravni rezervat"
+          military: "Vojaško področje"
+          school: "Šola; univerza"
+          building: "Pomembna zgradba"
+          station: "Železniška postaja"
+          summit: "Vrh"
+          tunnel: "Črtkana obroba = predor"
+          bridge: "Krepka obroba = most"
+          private: "Private access"
+          permissive: "Permissive access"
+          destination: "Destination access"
+          construction: "Ceste v gradnji"
   trace:
     create:
       upload_trace: "Pošlji GPS sled"
       trace_uploaded: "Vaša datoteka z GPS sledjo v datoteki GPX je bila poslana na strežnik in čaka na uvoz v bazo. To se ponavadi zgodi v roku pol ure. O uvozu boste obveščeni po elektronski pošti." 
     edit:
+      title: "Urejanje sledi {{name}}"
+      heading: "Urejanje sledi {{name}}"
       filename: "Ime datoteke:"
+      download: "prenos"
       uploaded_at: "Poslano na strežnik:"
       points: "Točk:"
       start_coord: "Začetna koordinata:"
+      map: "zemljevid"
       edit: "uredi"
       owner: "Lastnik:"
       description: "Opis:"
@@ -567,6 +649,8 @@ sl:
       description: "Opis"
       tags: "Oznake"
       public: "Javna?"
+      public_help: "Kaj to pomeni?"
+      public_help_url: "http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces"
       upload_button: "Pošlji"
       help: "Pomoč"
       help_url: "http://wiki.openstreetmap.org/wiki/Upload"
@@ -578,6 +662,8 @@ sl:
     trace_optionals:
       tags: "Oznake"
     view:
+      title: "Prikaz sledi {{name}}"
+      heading: "Prikaz sledi {{name}}" 
       pending: "ČAKAJOČA"
       filename: "Datoteka:"
       download: "prenos"
@@ -588,12 +674,11 @@ sl:
       edit: "uredi"
       owner: "Lastnik:"
       description: "Opis:"
-      tags: "Oznake"
+      tags: "Oznake:"
       none: "Brez"
       make_public: "Naj ta sled postane trajno javna"
       edit_track: "Uredi to sled"
       delete_track: "Izbriši to sled"
-      heading: "Prikaz sledi {{name}}" 
       trace_not_found: "Sledi ni bilo mogoče najti!" 
     trace_paging_nav:
       showing: "Prikaz strani"
@@ -702,7 +787,7 @@ sl:
       public editing:
         heading: "Javno urejanje: "
         enabled: "Omogočeno. Niste anonimni in lahko urejate podatke."
-        enabled link: "http://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits"
+        enabled link: "http://wiki.openstreetmap.org/wiki/Anonymous_edits"
         enabled link text: "Kaj je to?"
         disabled: "Onemogočeno in ne morete urejati podatkov. Vsi vaši prejšnji prispevki so anonimni."
         disabled link text: "Zakaj ne morem urejati?"
