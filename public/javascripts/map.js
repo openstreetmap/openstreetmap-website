@@ -84,7 +84,7 @@ function createMap(divName, options) {
       projection: "EPSG:900913"
    });
    map.addLayer(markers);
-   
+
    return map;
 }
 
@@ -106,6 +106,42 @@ function addMarkerToMap(position, icon, description) {
    }
 
    return marker;
+}
+
+function addObjectToMap(url, zoom, callback) {
+   var layer = new OpenLayers.Layer.GML("Objects", url, {
+      format: OpenLayers.Format.OSM,
+      projection: new OpenLayers.Projection("EPSG:4326"),
+      displayInLayerSwitcher: false
+   });
+
+   layer.events.register("loadend", layer, function() {
+      var extent;
+
+      if (this.features.length) {
+         extent = this.features[0].geometry.getBounds();
+
+         for (var i = 1; i < this.features.length; i++) {
+            extent.extend(this.features[i].geometry.getBounds());
+         }
+
+         if (zoom) {
+            if (extent) {
+               this.map.zoomToExtent(extent);
+            } else {
+               this.map.zoomToMaxExtent();
+            }
+         }
+      }
+
+      if (callback) {
+         callback(extent);
+      }
+   });
+  
+   map.addLayer(layer);
+
+   layer.loadGML();
 }
 
 function addBoxToMap(boxbounds) {

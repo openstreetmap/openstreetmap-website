@@ -2,7 +2,7 @@
  * Called as the user scrolls/zooms around to aniplate hrefs of the
  * view tab and various other links
  */
-function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat, obj_type, obj_id) {
+function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat,objtype,objid) {
   var decimals = Math.pow(10, Math.floor(zoom/3));
   var node;
 
@@ -18,8 +18,8 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat, obj_type, 
     if (layers) {
       args["layers"] = layers;
     }
-    if (obj_type && obj_id) {
-      args[obj_type] = obj_id;
+    if (objtype && objid) {
+      args[objtype] = objid;
     }
     node.href = setArgs(node.href, args);
   }
@@ -95,8 +95,8 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat, obj_type, 
     var prefix = shortlinkPrefix();
 
     // Add ?{node,way,relation}=id to the arguments
-    if (obj_type && obj_id) {
-      args[obj_type] = obj_id;
+    if (objtype && objid) {
+      args[objtype] = objid;
     }
 
     // little hack. may the gods of hardcoding please forgive me, or 
@@ -110,23 +110,20 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat, obj_type, 
   }
 }
 
-
 /*
- * This is a hack to hardcode opestreetmap.org -> osm.org in the
- * shortlink
+ * Get the URL prefix to use for a short link
  */
 function shortlinkPrefix() {
-    var hostname = window.location.hostname;
-    var normalized_hostname = hostname.replace(/^:www\./i,'');
-    var prefix = '';
-
-    if (normalized_hostname.match(/^openstreetmap\.org$/i)) {
-        prefix = "http://osm.org";
-    }
-
-    return prefix;
+  if (window.location.hostname.match(/^www\.openstreetmap\.org/i)) {
+    return "http://osm.org";
+  } else {
+    return "";     
+  }
 }
 
+/*
+ * Called to get the arguments from a URL as a hash.
+ */
 function getArgs(url) {
   var args = new Object();
   var querystart = url.indexOf("?");
@@ -166,7 +163,7 @@ function setArgs(url, args) {
 }
 
 /*
- * Called to get the arguments from a URL as a hash.
+ * Called to get a CSS property for an element.
  */
 function getStyle(el, property) {
   var style;
