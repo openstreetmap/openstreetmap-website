@@ -6,9 +6,11 @@
     <div id="small_map" style="width:250px; height: 300px; border: solid 1px black">
     </div>
     <span id="loading"><%= t 'browse.map.loading' %></span>
-    <a id="larger_map" href=""></a>
+    <a id="area_larger_map" href=""></a>
+    <% unless map.instance_of? Changeset %>
     <br />
-    <a id="main_map" href=""></a>
+    <a id="object_larger_map" href=""></a>
+    <% end %>
   <% else %>
     <%= t 'browse.map.deleted' %>
   <% end %>
@@ -34,11 +36,8 @@
 
         $("loading").innerHTML = "";
 
-        $("larger_map").href = '<%= url_for :controller => 'browse', :action => (map.class.to_s.downcase +  '_map'), :id => map.id, :only_path => true %>';
-        $("larger_map").innerHTML = "<%= t 'browse.map.view_larger_map' %>";
-
-        $("main_map").href = '/?minlon='+minlon+'&minlat='+minlat+'&maxlon='+maxlon+'&maxlat='+maxlat+'&box=yes';
-        $("main_map").innerHTML = "<%= t 'browse.map.view_main_map' %>";
+        $("area_larger_map").href = '/?minlon='+minlon+'&minlat='+minlat+'&maxlon='+maxlon+'&maxlat='+maxlat+'&box=yes';
+        $("area_larger_map").innerHTML = "<%= t 'browse.map.larger.area' %>";
       <% else %>
         var obj_type = "<%= map.class.name.downcase %>";
         var obj_id = <%= map.id %>;
@@ -70,12 +69,12 @@
             }
 
             var center = getMapCenter();
-
-            $("larger_map").href = '<%= url_for :controller => 'browse', :action => (map.class.to_s.downcase +  '_map'), :id => map.id, :only_path => true %>';
-            $("larger_map").innerHTML = "<%= t 'browse.map.view_larger_map' %>";
-
-            $("main_map").href = '/?lat='+center.lat+'&lon='+center.lon+'&zoom='+this.map.getZoom();
-            $("main_map").innerHTML = "<%= t 'browse.map.view_main_map' %>";
+            $("area_larger_map").href = '/?lat='+center.lat+'&lon='+center.lon+'&zoom='+this.map.getZoom();
+            $("area_larger_map").innerHTML = "<%= t 'browse.map.larger.area' %>";
+            <% unless map.instance_of? Changeset %>
+            $("object_larger_map").href = '/?<%= map.class.to_s.downcase %>=<%= map.id %>';
+            $("object_larger_map").innerHTML = "<%= t('browse.map.larger.' + map.class.to_s.downcase) %>";
+            <% end %>
           } else {
             $("small_map").style.display = "none";
           }

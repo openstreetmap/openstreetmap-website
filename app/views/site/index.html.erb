@@ -55,8 +55,26 @@ if params['minlon'] and params['minlat'] and params['maxlon'] and params['maxlat
 	box = true if params['box']=="yes" 
 end
 
+if params['node'] or params['way'] or params['relation']
+    object = true
+    if params['node']
+        object_type = 'node'
+        object_id = h(params['node'])
+    elsif params['way']
+        object_type = 'way'
+        object_id = h(params['way'])
+    elsif params['relation']
+        object_type = 'relation'
+        object_id = h(params['relation'])
+    end
+end
+
 # Decide on a lat lon to initialise the map with. Various ways of doing this
-if params['lon'] and params['lat'] 
+if params['lon'] and params['lat']
+	# We only want to override the default 'object = true' zoom above
+	# if we get actual GET params, as opposed to say a cookie
+	lat_lon_zoom_via_params = true
+
 	lon =  h(params['lon'])
 	lat =  h(params['lat'])
 	zoom =  h(params['zoom'] || '5')
@@ -103,6 +121,8 @@ end
   var brokenContentSize = $("content").offsetWidth == 0;
   var marker;
   var map;
+  var obj_type = false;
+  var obj_id = false;
 
   OpenLayers.Lang.setCode("<%= I18n.locale.to_s %>");
 
@@ -123,6 +143,47 @@ end
     // IE requires Vector layers be initialised on page load, and not under deferred script conditions
     Event.observe(window, 'load', function() {addBoxToMap(bbox)});
     <%    end %>
+    <% elsif object %>
+    // Display node/way/relation on the map
+    obj_type = "<%= object_type %>";
+    obj_id = <%= object_id %>;
+    var url = "/api/<%= "#{API_VERSION}" %>/<%= object_type %>/<%= object_id %>";
+
+    if (obj_type != "node") {
+        url += "/full";
+    }
+
+    var osm_layer = new OpenLayers.Layer.GML("OSM", url, {
+        format: OpenLayers.Format.OSM,
+        projection: new OpenLayers.Projection("EPSG:4326")
+    });
+
+    osm_layer.events.register("loadend", osm_layer, function() {
+      if (this.features.length) {
+        var extent =  this.features[0].geometry.getBounds();
+          for (var i = 1; i < this.features.length; i++) {
+            extent.extend(this.features[i].geometry.getBounds());
+           }
+
+           <% unless lat_lon_zoom_via_params %>
+           if (extent) {
+             this.map.zoomToExtent(extent);
+           } else {
+             this.map.zoomToMaxExtent();
+           }
+           <% else %>
+           var center = new OpenLayers.LonLat(<%= lon %>, <%= lat %>);
+           var zoom = <%= zoom %>;
+           <% end %>
+  
+           var center = getMapCenter();
+      }
+    });
+   
+    map.addLayer(osm_layer);
+    osm_layer.loadGML();
+    osm_layer.loaded = true;
+
     <% else %>
     var centre = new OpenLayers.LonLat(<%= lon %>, <%= lat %>);
     var zoom = <%= zoom %>;
@@ -179,7 +240,7 @@ end
     var extents = getMapExtent();
     var expiry = new Date();
 
-    updatelinks(lonlat.lon, lonlat.lat, zoom, layers, extents.left, extents.bottom, extents.right, extents.top);
+    updatelinks(lonlat.lon, lonlat.lat, zoom, layers, extents.left, extents.bottom, extents.right, extents.top, obj_type, obj_id);
 
     expiry.setYear(expiry.getFullYear() + 10); 
     document.cookie = "_osm_location=" + lonlat.lon + "|" + lonlat.lat + "|" + zoom + "|" + layers + "; expires=" + expiry.toGMTString();

@@ -2,7 +2,7 @@
  * Called as the user scrolls/zooms around to aniplate hrefs of the
  * view tab and various other links
  */
-function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat) {
+function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat, obj_type, obj_id) {
   var decimals = Math.pow(10, Math.floor(zoom/3));
   var node;
 
@@ -17,6 +17,9 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat) {
     args["zoom"] = zoom;
     if (layers) {
       args["layers"] = layers;
+    }
+    if (obj_type && obj_id) {
+      args[obj_type] = obj_id;
     }
     node.href = setArgs(node.href, args);
   }
