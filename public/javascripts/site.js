@@ -92,15 +92,34 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat, obj_type, 
   if (node) {
     var args = getArgs(node.href);
     var code = makeShortCode(lat, lon, zoom);
+    var prefix = shortlinkPrefix();
+
     // little hack. may the gods of hardcoding please forgive me, or 
     // show me the Right way to do it.
     if (layers && (layers != "B000FTF")) {
       args["layers"] = layers;
-      node.href = setArgs("http://osm.org/go/" + code, args);
+      node.href = setArgs(prefix + "/go/" + code, args);
     } else {
-      node.href = "http://osm.org/go/" + code;
+      node.href = prefix + "/go/" + code;
     }
   }
+}
+
+
+/*
+ * This is a hack to hardcode opestreetmap.org -> osm.org in the
+ * shortlink
+ */
+function shortlinkPrefix() {
+    var hostname = window.location.hostname;
+    var normalized_hostname = hostname.replace(/^:www\./i,'');
+    var prefix = '';
+
+    if (normalized_hostname.match(/^openstreetmap\.org$/i)) {
+        prefix = "http://osm.org";
+    }
+
+    return prefix;
 }
 
 function getArgs(url) {
