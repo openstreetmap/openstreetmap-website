@@ -94,6 +94,11 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat, obj_type, 
     var code = makeShortCode(lat, lon, zoom);
     var prefix = shortlinkPrefix();
 
+    // Add ?{node,way,relation}=id to the arguments
+    if (obj_type && obj_id) {
+      args[obj_type] = obj_id;
+    }
+
     // little hack. may the gods of hardcoding please forgive me, or 
     // show me the Right way to do it.
     if (layers && (layers != "B000FTF")) {
