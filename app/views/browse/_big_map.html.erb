@@ -1,0 +1,119 @@
+<%
+# Decide on a lat lon to initialise the map with
+if params['lon'] and params['lat'] 
+	lon =  h(params['lon'])
+	lat =  h(params['lat'])
+	zoom =  h(params['zoom'] || '5')
+	layers = h(params['layers'])
+end
+%>
+<%= javascript_include_tag '/openlayers/OpenLayers.js' %>
+<%= javascript_include_tag '/openlayers/OpenStreetMap.js' %>
+<%= javascript_include_tag 'map.js' %>
+<td align="right">
+  <% if big_map.instance_of? Changeset or big_map.visible %>
+    <div id="big_map" style="right: 0; left: 0; bottom: 0; top: 0; position: absolute; border: solid 1px black">
+      <div id="permalink">
+        <a href="<%= url_for :controller => 'browse', :action => (big_map.class.to_s.downcase +  '_map'), :id => big_map.id, :only_path => true %>" id="permalinkanchor"><%= t 'site.index.permalink' %></a><br/>
+      </div>
+    </div>
+  <% else %>
+    <%= t 'browse.map.deleted' %>
+  <% end %>
+</td>
+<% if big_map.instance_of? Changeset or big_map.visible %>
+  <script type="text/javascript">
+    var big_map;
+
+    OpenLayers.Lang.setCode("<%= I18n.locale.to_s %>");
+
+    /* A version of index.html.erb->updateLocation that doesn't set a cookie */  
+    function updateBigmapLocation() {
+      var lonlat = getMapCenter();
+      var zoom = big_map.getZoom();
+      var layers = getMapLayers();
+      var extents = getMapExtent();
+      var expiry = new Date();
+
+      updatelinks(lonlat.lon, lonlat.lat, zoom, layers, extents.left, extents.bottom, extents.right, extents.top);
+    }
+    
+    function init() {
+      big_map = createMap("big_map", {
+        controls: [
+          new OpenLayers.Control.ArgParser(),
+          new OpenLayers.Control.Attribution(),
+          new OpenLayers.Control.LayerSwitcher(),
+          new OpenLayers.Control.Navigation(),
+          new OpenLayers.Control.PanZoomBar(),
+          new OpenLayers.Control.ScaleLine()
+        ]
+      });
+
+      <% if big_map.instance_of? Changeset %>
+        var minlon = <%= big_map.min_lon / GeoRecord::SCALE.to_f %>;
+        var minlat = <%= big_map.min_lat / GeoRecord::SCALE.to_f %>;
+        var maxlon = <%= big_map.max_lon / GeoRecord::SCALE.to_f %>;
+        var maxlat = <%= big_map.max_lat / GeoRecord::SCALE.to_f %>;
+        var bbox = new OpenLayers.Bounds(minlon, minlat, maxlon, maxlat);
+
+        <% if lat and lon and zoom %>
+          var center = new OpenLayers.LonLat(<%= lon %>, <%= lat %>);
+          var zoom = <%= zoom %>;
+        <% else %>
+          setMapExtent(bbox);
+        <% end %>
+        addBoxToMap(bbox);
+
+        <% if !layers.nil? and !layers.empty? %>
+        setMapLayers("<%= layers %>");
+        <% end %>
+
+      <% else %>
+        var obj_type = "<%= big_map.class.name.downcase %>";
+        var obj_id = <%= big_map.id %>;
+        var url = "/api/<%= "#{API_VERSION}" %>/<%= big_map.class.name.downcase %>/<%= big_map.id %>";
+
+        if (obj_type != "node") {
+          url += "/full";
+        }
+
+        var osm_layer = new OpenLayers.Layer.GML("OSM", url, {
+          format: OpenLayers.Format.OSM,
+          projection: new OpenLayers.Projection("EPSG:4326")
+        });
+
+        osm_layer.events.register("loadend", osm_layer, function() {
+          var extent =  this.features[0].geometry.getBounds();
+
+          for (var i = 1; i < this.features.length; i++) {
+            extent.extend(this.features[i].geometry.getBounds());
+          }
+
+          <% if lat and lon and zoom %>
+          var center = new OpenLayers.LonLat(<%= lon %>, <%= lat %>);
+          var zoom = <%= zoom %>;
+          <% else %>
+          if (extent) {
+            this.map.zoomToExtent(extent);
+          } else {
+            this.map.zoomToMaxExtent();
+          }
+          <% end %>
+
+          var center = getMapCenter();
+        });
+
+        big_map.addLayer(osm_layer);
+
+        osm_layer.loadGML();
+        osm_layer.loaded = true;
+      <% end %>
+        big_map.events.register("moveend", big_map, updateBigmapLocation);
+        big_map.events.register("changelayer", big_map, updateBigmapLocation);
+        updateBigmapLocation();
+    }
+
+    window.onload = init;
+  </script>
+<% end %>

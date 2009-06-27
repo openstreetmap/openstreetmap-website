@@ -76,12 +76,16 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/browse', :controller => 'changeset', :action => 'list'
   map.connect '/browse/start', :controller => 'browse', :action => 'start'
   map.connect '/browse/way/:id', :controller => 'browse', :action => 'way', :id => /\d+/
+  map.connect '/browse/way/:id/map', :controller => 'browse', :action => 'way_map', :id => /\d+/
   map.connect '/browse/way/:id/history', :controller => 'browse', :action => 'way_history', :id => /\d+/
   map.connect '/browse/node/:id', :controller => 'browse', :action => 'node', :id => /\d+/
+  map.connect '/browse/node/:id/map', :controller => 'browse', :action => 'node_map', :id => /\d+/
   map.connect '/browse/node/:id/history', :controller => 'browse', :action => 'node_history', :id => /\d+/
   map.connect '/browse/relation/:id', :controller => 'browse', :action => 'relation', :id => /\d+/
+  map.connect '/browse/relation/:id/map', :controller => 'browse', :action => 'relation_map', :id => /\d+/
   map.connect '/browse/relation/:id/history', :controller => 'browse', :action => 'relation_history', :id => /\d+/
   map.connect '/browse/changeset/:id', :controller => 'browse', :action => 'changeset', :id => /\d+/
+  map.connect '/browse/changeset/:id/map', :controller => 'browse', :action => 'changeset_map', :id => /\d+/
   map.connect '/browse/changesets', :controller => 'changeset', :action => 'list'
   
   # web site
