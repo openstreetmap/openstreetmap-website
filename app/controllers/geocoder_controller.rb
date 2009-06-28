@@ -3,6 +3,8 @@ class GeocoderController < ApplicationController
   require 'net/http'
   require 'rexml/document'
 
+  before_filter :set_locale
+
   def search
     query = params[:query]
     results = Array.new
