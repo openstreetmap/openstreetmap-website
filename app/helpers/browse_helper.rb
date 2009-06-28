@@ -4,12 +4,12 @@ module BrowseHelper
   end
   
   def printable_name(object, version=false)
-    name = object.id.to_s
+    name = t 'printable_name.with_id', :id => object.id.to_s
     if version
-      name = "#{name}, v#{object.version.to_s}"
+      name = t 'printable_name.with_version', :id => name, :version => object.version.to_s
     end
     if object.tags.include? 'name'
-      name = "#{object.tags['name'].to_s} (#{name})"
+      name = t 'printable_name.with_name',  :name => object.tags['name'].to_s, :id => name
     end
     return name
   end
