@@ -1,6 +1,6 @@
 <tr>
   <td>
-    <%= relation_member.member_type.capitalize %>
+    <%= t 'activerecord.models.'+relation_member.member_type.downcase %>
     <%= link_to h(printable_name(relation_member.member)), :action => relation_member.member_type.downcase, :id => relation_member.member_id.to_s %>
     <% unless relation_member.member_role.blank? %>
       <%= t'browse.relation_member.as' %>
