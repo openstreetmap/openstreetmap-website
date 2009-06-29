@@ -99,10 +99,18 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat,objtype,obj
       args[objtype] = objid;
     }
 
-    // little hack. may the gods of hardcoding please forgive me, or 
-    // show me the Right way to do it.
-    if (layers && (layers != "B000FTF")) {
+    // This is a hack to omit the default mapnik layer (B000FTF) from
+    // the shortlink. B000FTFT is then the "Object" layer which we get
+    // on /?{node,way,relation}=id
+    if (layers && (layers != "B000FTF") && (layers != "B000FTFT")) {
       args["layers"] = layers;
+    }
+
+    // Here we're assuming that all parameters but ?layers= and
+    // ?{node,way,relation}= can be safely omitted from the shortlink
+    // which encodes lat/lon/zoom. If new URL parameters are added to
+    // the main slippy map this needs to be changed.
+    if (args["layers"] || args[objtype]) {
       node.href = setArgs(prefix + "/go/" + code, args);
     } else {
       node.href = prefix + "/go/" + code;
