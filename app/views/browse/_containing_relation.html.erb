@@ -1,8 +1,11 @@
 <tr>
-  <td>
-    <%= link_to t('browse.containing_relation.relation', :relation_name => h(printable_name(containing_relation.relation))), :action => "relation", :id => containing_relation.relation.id.to_s %>
-    <% unless containing_relation.member_role.blank? %>
-      <%= t 'browse.containing_relation.relation_as', :relation_role => h(containing_relation.member_role) %>
-    <% end %>
-  </td>
+  <td><%=
+    linked_name = link_to h(printable_name(containing_relation.relation)), :action => "relation", :id => containing_relation.relation.id.to_s
+
+    if containing_relation.member_role.blank?
+      t 'browse.containing_relation.entry', :relation_name => linked_name
+    else
+      t 'browse.containing_relation.entry_role', :relation_name => linked_name, :relation_role => h(containing_relation.member_role)
+    end
+  %></td>
 </tr>

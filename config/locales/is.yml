@@ -4,74 +4,78 @@ is:
   activerecord:
     # Translates all the model names, which is used in error handling on the web site
     models:
-      acl: "Access Control List"
-      changeset: "Changeset"
-      changeset_tag: "Changeset Tag"
-      country: "Country"
-      diary_comment: "Diary Comment"
-      diary_entry: "Diary Entry"
-      friend: "Friend"
-      language: "Language"
-      message: "Message"
-      node: "Node"
-      node_tag: "Node Tag"
-      notifier: "Notifier"
-      old_node: "Old Node"
-      old_node_tag: "Old Node Tag"
-      old_relation: "Old Relation"
-      old_relation_member: "Old Relation Member"
-      old_relation_tag: "Old Relation Tag"
-      old_way: "Old Way"
-      old_way_node: "Old Way Node"
-      old_way_tag: "Old Way Tag"
-      relation: "Relation"
-      relation_member: "Relation Member"
-      relation_tag: "Relation Tag"
-      session: "Session"
-      trace: "Trace"
-      tracepoint: "Trace Point"
-      tracetag: "Trace Tag"
-      user: "User"
-      user_preference: "User Preference"
-      user_token: "User Token"
-      way: "Way"
-      way_node: "Way Node"
-      way_tag: "Way Tag"
+      acl: "Aðgangslisti"
+      changeset: "Breytingarsett"
+      changeset_tag: "Eigindi breytingarsetts"
+      country: "Land"
+      diary_comment: "Bloggathugasemd"
+      diary_entry: "Bloggfærsla"
+      friend: "Vinur"
+      language: "Tungumál"
+      message: "Skilaboð"
+      node: "Hnútur"
+      node_tag: "Eigindi hnúts"
+      notifier: "Tilkynnandi"
+      old_node: "Gamall hnútur"
+      old_node_tag: "Eigindi gamals hnúts"
+      old_relation: "Gömul vensl"
+      old_relation_member: "Stak í gömlum venslum"
+      old_relation_tag: "Eigindi gamalla vensla"
+      old_way: "Gamall vegur"
+      old_way_node: "Hnútur í gömlum vegi"
+      old_way_tag: "Eigindi gamals vegs Tag"
+      relation: "Vensl"
+      relation_member: "Stak í venslum"
+      relation_tag: "Eigindi vensla"
+      session: "Seta"
+      trace: "Ferill"
+      tracepoint: "Ferilpunktur"
+      tracetag: "Eigindi ferils"
+      user: "Notandi"
+      user_preference: "Notandastillingar"
+      user_token: "Leynistrengur notanda"
+      way: "Vegur"
+      way_node: "Veghnútur"
+      way_tag: "Vegeigindi"
     # Translates all the model attributes, which is used in error handling on the web site
     # Only the ones that are used on the web site are translated at the moment
     attributes:
       diary_comment:
-        body: "Body"
+        body: "Texit"
       diary_entry:
-        user: "User"
-        title: "Title"
-        latitude: "Latitude"
-        longitude: "Longitude"
-        language: "Language"
+        user: "Notandi"
+        title: "Titill"
+        latitude: "Lengdargráða"
+        longitude: "Breiddargráða"
+        language: "Tungumál"
       friend:
-        user: "User"
-        friend: "Friend"
+        user: "Notandi"
+        friend: "Vinur"
       trace:
-        user: "User"
-        visible: "Visible"
-        name: "Name"
-        size: "Size"
-        latitude: "Latitude"
-        longitude: "Longitude"
-        public: "Public"
+        user: "Notandi"
+        visible: "Sýnileg"
+        name: "Nafn"
+        size: "Stærð"
+        latitude: "Lengdargráða"
+        longitude: "Breiddargráða"
+        public: "Sýnileg öllum"
         description: "Lýsing"
       message:
-        sender: "Sender"
-        title: "Title"
-        body: "Body"
-        recipient: "Recipient"
+        sender: "Sendandi"
+        title: "Titill"
+        body: "Texti"
+        recipient: "Móttakandi"
       user:
         email: "Netfang"
-        active: "Active"
-        display_name: "Display Name"
-        description: "Description"
+        active: "Virkur"
+        display_name: "Sýnilegt nafn"
+        description: "Lýsing"
         languages: "Tungumál"
         pass_crypt: "Lykilorð"
+  printable_name:
+    with_id: "{{id}}"
+    with_version: "{{id}}, útgáfa {{version}}"
+    with_name: "{{name}} ({{id}})"
   map:
     view: "Kort"
     edit: "Breyta"
@@ -80,9 +84,9 @@ is:
     changeset:
       title: "Breytingarsett"
       changeset: "Breytingarsett:"
-      download: "Niðurhala breytingunni á {{changeset_xml_link}} sniði eða á {{osmchange_xml_link}} sniði"
-      changesetxml: "Breytingarsetts XML"
-      osmchangexml: "osmChange XML"
+      download: "Niðurhala breytingunni á {{changeset_xml_link}} eða á {{osmchange_xml_link}}"
+      changesetxml: "Breytingarsetts XML sniði"
+      osmchangexml: "osmChange XML sniði"
     changeset_navigation:
       user:
         name: "{{user}}"
@@ -117,17 +121,22 @@ is:
       version: "Útgáfa:"
       in_changeset: "Í breytingarsetti:"
     containing_relation:
-      relation: "Venslunum „{{relation_name}}“"
-      relation_as: "(sem {{relation_role}})"
+      entry: "Venslunum {{relation_name}}"
+      entry_role: "Venslunum {{relation_name}} (sem „{{relation_role}}“)"
     map:
       loading: "Hleð..."
       deleted: "Eytt"
-      view_larger_map: "Skoða á stærra korti"
+      larger:
+        area: "Skoða þetta svæði á stærra korti"
+        node: "Skoða þennan hnút á stærra korti"
+        way: "Skoða þennan veg á stærra korti"
+        relation: "Skoða þessi vensl á stærra korti"
     node_details:
       coordinates: "Hnit: "
       part_of: "Hluti af:"
     node_history:
       node_history: "Breytingarskrá hnúts"
+      node_history_title: "Breytingarskrá hnúts: {{node_name}}"
       download: "{{download_xml_link}} eða {{view_details_link}}"
       download_xml: "Hala niður á XML sniði"
       view_details: "sýna breytingarsögu"
@@ -154,7 +163,12 @@ is:
       relation_history: "Breytingarskrá vensla "
       relation_history_title: "Breytingarskrá vensla: {{relation_name}}"
     relation_member:
-      as: "sem"
+      entry: "{{type}} {{name}}"
+      entry_role: "{{type}} {{name}} sem „{{role}}“"
+      type:
+        node: "Hnúturinn"
+        way: "Vegurinn"
+        relation: "Venslin"
     relation:
       relation: "Vensl"
       relation_title: "Vensl: {{relation_name}}"
@@ -213,7 +227,7 @@ is:
       download_xml: "Hala niður á XML sniði"
       view_details: "sýna breytingarsögu"
     way:
-      way: "Veginum"
+      way: "Vegur"
       way_title: "Vegur: {{way_name}}"
       download: "{{download_xml_link}} eða {{view_history_link}} eða {{edit_link}}"
       download_xml: "Hala niður á XML sniði"
@@ -299,7 +313,7 @@ is:
       heading: "Notandinn {{user}} er ekki til"
       body: "Það er ekki til notandi með nafninu {{user}}. Kannski slóstu nafnið rangt inn eða fylgdir ógildum tengli."
     diary_entry:
-      posted_by: "Sett inn af {{link_user}} klukkan {{created}} á {{language_link}}"
+      posted_by: "Sett inn af {{link_user}} {{created}} á {{language_link}}"
       comment_link: "Bæta við athugasemd"
       reply_link: "Senda höfund skilaboð"
       comment_count:
@@ -338,7 +352,7 @@ is:
       click_add_marker: "Smelltu á kortið til að bæta við punkti"
       change_marker: "Breyta staðsetningu punktsins"
       add_marker: "Bæta við punkt á kortið"
-      view_larger_map: "View Larger Map"
+      view_larger_map: "Skoða á stærra korti"
   geocoder:
     results:
       results: "Niðurstöður"
@@ -387,17 +401,17 @@ is:
     intro_3_bytemark: "bytemark"
     osm_offline: "OpenStreetMap gagnagrunnurinn er niðri vegna viðhalds."
     osm_read_only: "Ekki er hægt að skrifa í OpenStreetMap gagnagrunninn í augnablikinu vegna viðhalds."
-    donate: "Support OpenStreetMap by {{link}} to the Hardware Upgrade Fund."
-    donate_link_text: donating
+    donate: "Hjálpaðu OpenStreetMap verkefninu með {{link}} í vélbúnaðarsjóðinn."
+    donate_link_text: "fjárframlagi"
     help_wiki: "Hjálp &amp; Wiki"
     help_wiki_tooltip: "Hjálpar og wiki-síða fyrir verkefnið"
-    help_wiki_url: "http://wiki.openstreetmap.org"
+    help_wiki_url: "http://wiki.openstreetmap.org/index.php?title=Fors%C3%AD%C3%B0a&uselang=is"
     news_blog: "Fréttablogg"
     news_blog_tooltip: "Blogg um OpenStreetMap, frjáls kortagögn o.fl."
     shop: "Verslun"
     shop_tooltip: Verslun með vörum tengdum OpenStreetMap
-    shop_url: http://wiki.openstreetmap.org/wiki/Merchandise
-    sotm: 'Come to the 2009 OpenStreetMap Conference, The State of the Map, July 10-12 in Amsterdam!'
+    shop_url: "http://wiki.openstreetmap.org/index.php?title=Merchandise&uselang=is"
+    sotm: 'Komdu á „State of the map“ - OpenStreetMap ráðstefnuna sem verður haldin 10. - 12. júlí 2009 í Amsterdam!'
     alt_donation: "Fjárframlagssíða"
   notifier:
     diary_comment_notification:
@@ -420,54 +434,52 @@ is:
       had_added_you: "Notandinn {{user}} hefur bætt þér við sem vini á OpenStreetMap."
       see_their_profile: "Þú getur séð notandasíðu notandans á {{userurl}} og jafnvel bætt honum við sem vini líka."
     gpx_notification:
-      greeting: "Hi,"
-      your_gpx_file: "It looks like your GPX file"
-      with_description: "with the description"
-      and_the_tags: "and the following tags:"
-      and_no_tags: "and no tags."
+      greeting: "Hæ,"
+      your_gpx_file: "GPX skráin þín"
+      with_description: "með lýsinguna:"
+      and_the_tags: "og eftirfarandi tögg:"
+      and_no_tags: "og engin tögg."
       failure:
-        subject: "[OpenStreetMap] GPX Import failure"
-        failed_to_import: "failed to import. Here's the error:"
-        more_info_1: "More information about GPX import failures and how to avoid"
-        more_info_2: "them can be found at:"
-        import_failures_url: "http://wiki.openstreetmap.org/wiki/GPX_Import_Failures"
+        subject: "[OpenStreetMap] Villa við að flytja inn GPX skrá"
+        failed_to_import: "Lenti í villu þegar átti að flytja hana inn, hérna er villan::"
+        more_info_1: "Frekari upplýsinagr um GPX innflutningarvillur og hvernig"
+        more_info_2: "má forðast þær er að finna hér::"
+        import_failures_url: "http://wiki.openstreetmap.org/index.php?title=FAQ&uselang=is#Why_didn.27t_my_GPX_file_upload_properly.3F"
       success:
-        subject: "[OpenStreetMap] GPX Import success"
-        loaded_successfully: |
-          loaded successfully with {{trace_points}} out of a possible
-          {{possible_points}} points.
+        subject: "[OpenStreetMap] GPX skrá innflutt"
+        loaded_successfully: "var innflutt með {{trace_points}} punkta af {{possible_points}} mögulegum."
     signup_confirm:
       subject: "[OpenStreetMap] Staðfestu netfangið þitt"
     signup_confirm_plain:
-      greeting: "Hi there!"
-      hopefully_you: "Someone (hopefully you) would like to create an account over at"
+      greeting: "Hæ!"
+      hopefully_you: "Einhver (vonandi þú) vill búa til notanda á þessari vefsíðu:"
       # next two translations run-on : please word wrap appropriately
-      click_the_link_1: "If this is you, welcome! Please click the link below to confirm your"
-      click_the_link_2: "account and read on for more information about OpenStreetMap."
-      introductory_video: "You can watch an introductory video to OpenStreetMap here:"
-      more_videos: "There are more videos here:"
-      the_wiki: "Get reading about OpenStreetMap on the wiki:"
-      the_wiki_url: "http://wiki.openstreetmap.org/wiki/Beginners%27_Guide"
-      opengeodata: "OpenGeoData.org is OpenStreetMap's blog, and it has podcasts too:"
-      wiki_signup: "You may also want to sign up to the OpenStreetMap wiki at:"
-      wiki_signup_url: "http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page"
+      click_the_link_1: "Ef þetta ert þú þá vertu velkomin(n)! vinsamlegast fylgdu tenglinum til að staðfesta"
+      click_the_link_2: "reikningin þinn og haltu áfrám að lesa til að fá frekari upplýsingar um OpenStreetMap."
+      introductory_video: "Þú getur horft á kynningarmyndband um OpenStreetMap hér:"
+      more_videos: "Og fleiri kynningarmyndbönd er að finna hér:"
+      the_wiki: "Þú getur lesið um OpenStreetMap verkefnið á wiki-síðunni okkar:"
+      the_wiki_url: "http://wiki.openstreetmap.org/index.php?uselang=is&title=Beginners%27_Guide"
+      opengeodata: "OpenGeoData.org er aðal-OpenStreetMap bloggið, þar er líka hljóðvarp:"
+      wiki_signup: "Kannski viltu einnig skrá þig á wiki-síðuna:"
+      wiki_signup_url: "http://wiki.openstreetmap.org/index.php?title=Special:UserLogin&type=signup&returnto=Fors%C3%AD%C3%B0a&uselang=is"
       # next four translations are in pairs : please word wrap appropriately
-      user_wiki_1: "It is recommended that you create a user wiki page, which includes"
-      user_wiki_2: "category tags noting where you are, such as [[Category:Users_in_London]]."
-      current_user_1: "A list of current users in categories, based on where in the world"
-      current_user_2: "they are, is available from:"
+      user_wiki_1: "Það er mælt með því að þú búir til notandasíðu á wiki-inu"
+      user_wiki_2: "og takir fram hvar þú ert, t.d. með því að bæta við á hana [[Category:Users_in_Iceland]]."
+      current_user_1: "Í flokkakerfinu getur þú séð hvar í heiminum OpenStreetMap notendur eru."
+      current_user_2: "Hér er tengill á rótina á notendaflokkunum:"
     signup_confirm_html:
-      greeting: "Hi there!"
-      hopefully_you: "Someone (hopefully you) would like to create an account over at"
-      click_the_link: "If this is you, welcome! Please click the link below to confirm that account and read on for more information about OpenStreetMap"
-      introductory_video: "You can watch an {{introductory_video_link}}."
-      video_to_openstreetmap: "introductory video to OpenStreetMap"
-      more_videos: "There are {{more_videos_link}}."
-      more_videos_here: "more videos here"
-      get_reading: 'Get reading about OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Beginners%27_Guide">on the wiki</p> or  <a href="http://www.opengeodata.org/">the opengeodata blog</a> which has <a href="http://www.opengeodata.org/?cat=13">podcasts to listen to</a> also!'
-      wiki_signup: 'You may also want to <a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page">sign up to the OpenStreetMap wiki</a>.'
-      user_wiki_page: 'It is recommended that you create a user wiki page, which includes category tags noting where you are, such as <a href="http://wiki.openstreetmap.org/wiki/Category:Users_in_London">[[Category:Users_in_London]]</a>.'
-      current_user: 'A list of current users in categories, based on where in the world they are, is available from <a href="http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region">Category:Users_by_geographical_region</a>.'
+      greeting: "Hæ!"
+      hopefully_you: "Einhver (vonandi þú) vill búa til notanda á þessari vefsíðu:"
+      click_the_link: "Ef þetta ert þú þá vertu velkomin(n)! vinsamlegast fylgdu tenglinum til að staðfesta reikningin þinn og haltu áfrám að lesa til að fá frekari upplýsingar um OpenStreetMap."
+      introductory_video: "Þú getur horft á {{introductory_video_link}}."
+      video_to_openstreetmap: "kynningarmyndband um OpenStreetMap"
+      more_videos: "Fleiri myndbönd er {{more_videos_link}}."
+      more_videos_here: "hægt að finna hér"
+      get_reading: 'Þú getur lesið um OpenStreetMap verkefnið á <a href="http://wiki.openstreetmap.org/index.php?uselang=is&title=Beginners%27_Guide">wiki-síðunni okkar</p> eða <a href="http://www.opengeodata.org/">OpenGeoData blogginu</a> þar sem einnig er að finna <a href="http://www.opengeodata.org/?cat=13">hljóðvarp</a>.'
+      wiki_signup: 'Kannski viltu einnig <a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page">skrá þig á wiki-síðuna</a>.'
+      user_wiki_page: 'Það er mælt með því að þú búir ttil notandasíðu á wiki-inu þar sem tengt er í flokk sem gefur til kynna hvar þú ert, t.d. <a href="http://wiki.openstreetmap.org/index.php?uselang=is&title=Category:Users_in_Iceland">[[Category:Users_in_Iceland]]</a>.'
+      current_user: 'Í flokkakerfinu getur þú einnig séð <a href="http://wiki.openstreetmap.org/index.php?uselang=is&title=Category:Users_by_geographical_region"> hvar í heiminum OpenStreetMap notendur</a> eru staðsettir.'
     email_confirm:
       subject: "[OpenStreetMap] Staðfestu netfangið þitt"
     email_confirm_plain:
@@ -476,7 +488,7 @@ is:
       hopefully_you_2: "{{server_url}} í {{new_address}}."
       click_the_link: "Ef þú óskaðir eftir þessari breytingu fylgdu tenglinum hér fyrir neðan til að staðfesta breytinguna."
     email_confirm_html:
-      greeting: "Hi,"
+      greeting: "Hæ,"
       hopefully_you: "Einhver (vonandi þú) vill breyta netfanginu sínu á {{server_url}} í {{new_address}}."
       click_the_link: "Ef þú óskaðir eftir þessari breytingu fylgdu tenglinum hér fyrir neðan til að staðfesta breytinguna."
     lost_password:
@@ -557,6 +569,7 @@ is:
       js_2: "OpenStreetMap notar JavaScript til að útfæra gagnvirk kort."
       js_3: 'Þú getur einnig notað <a href="http://tah.openstreetmap.org/Browse/">Tiles@Home kortasýnina</a> sem krefst ekki JavaScript stuðnings.'
       permalink: "Varanlegur tengill"
+      shortlink: "Varanlegur smátengill"
       license:
         notice: "Gefið út undir {{license_name}} leyfinu af þáttakendum í {{project_name}}."
         license_name: "Creative Commons Attribution-Share Alike 2.0"
@@ -564,14 +577,14 @@ is:
         project_name: "OpenStreetMap verkefninu"
         project_url: "http://openstreetmap.org"
     edit:
-      not_public: "You haven't set your edits to be public."
-      not_public_description: "You can no longer edit the map unless you do so. You can set your edits as public from your {{user_page}}."
-      user_page_link: user page
+      not_public: "Þú hefur ekki merkt breytingar þínar sem opinberar."
+      not_public_description: "Þú getur ekki lengur gert breytingar nema þær séu merktar opinberar, þú getur breytt þeim stillingum á {{user_page}}."
+      user_page_link: notandasíðunni þinni
       anon_edits: "({{link}})"
-      anon_edits_link: "http://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits"
-      anon_edits_link_text: "Find out why this is the case."
-      flash_player_required: 'You need a Flash player to use Potlatch, the OpenStreetMap Flash editor. You can <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">download Flash Player from Adobe.com</a>. <a href="http://wiki.openstreetmap.org/wiki/Editing">Several other options</a> are also available for editing OpenStreetMap.'
-      potlatch_unsaved_changes: "You have unsaved changes. (To save in Potlatch, you should deselect the current way or point, if editing in list mode, or click save if you have a save button.)"
+      anon_edits_link: "http://wiki.openstreetmap.org/index.php?title=Anonymous_edits&uselang=is"
+      anon_edits_link_text: "Finndu út afhverju."
+      flash_player_required: 'Þú þarft Flash spilara til að nota Potlatch ritilinn. Þú getur <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">halað niður Flash spilara frá Adobe.com</a> eða notað <a href="http://wiki.openstreetmap.org/index.php?uselang=is&title=Editing">aðra OpenStreetMap ritla</a> sem ekki krefjast Flash.'
+      potlatch_unsaved_changes: "Þú ert með óvistaðar breytingar. Til að vista í Potlatch þarf að af-velja núverandi val ef þú ert í „Live“-ham, eða ýta á „Save“ hnappinn til að vista ef sá hnappur er sjáanlegur."
     sidebar:
       search_results: "Leitarniðurstöður"
       close: "Loka"
@@ -580,10 +593,78 @@ is:
       where_am_i: "Hvar er ég?"
       submit_text: "Ok"
       searching: "Leita..."
-      search_help: "dæmi: „Akureyri“, „Laugavegur, Reykjavík“ eða „post offices near Lünen“. Sjá einnig <a href='http://wiki.openstreetmap.org/wiki/Search'>leitarhjálpina</a>."
+      search_help: "dæmi: „Akureyri“, „Laugavegur, Reykjavík“ eða „post offices near Lünen“. Sjá einnig <a href='http://wiki.openstreetmap.org/index.php?uselang=is&title=Search'>leitarhjálpina</a>."
     key:
       map_key: "Kortaskýringar"
       map_key_tooltip: "Kortaútskýringar fyrir mapnik útgáfuna af kortinu á þessu þys-stigi"
+      table:
+        heading: "Kortaskýringar fyrir þys {{zoom_level}}"
+        entry:
+          motorway: "Hraðbraut"
+          trunk: "Stofnbraut (Hringvegurinn)"
+          primary: "Stofnvegur"
+          secondary: "Tengivegur"
+          # tertiary: "Landsvegur"
+          unclassified: "Héraðsvegur"
+          unsurfaced: "Óbundið slitlag"
+          track: "Slóði"
+          byway: "Merkt (bresk) hjólaleið"
+          bridleway: "Reiðstígur"
+          cycleway: "Hjólastígur"
+          footway: "Göngustígur"
+          rail: "Lestarteinar"
+          subway: "Neðanjarðarlest"
+          tram:
+            - Smálest
+            - „tram“
+          cable:
+            - Skíðalyfta
+            - stólalyfta
+          runway:
+            - Flugbraut
+            - akstursbraut
+          apron:
+            - Flugbrautarhlað
+            - flugstöð
+          admin: "Stjórnsýslumörk"
+          forest: "Ræktaður skógur"
+          wood: "Náttúrulegur skógur"
+          golf: "Golfvöllur"
+          park: "Almenningsgarður"
+          resident: "Íbúðasvæði"
+          tourist: "Ferðamannasvæði"
+          common:
+            - Almenningur
+            - lundur
+          retail: "Smásölusvæði"
+          industrial: "Iðnaðarsvæði"
+          commercial: "Skrifstoðusvæði"
+          heathland: "Heiðalönd"
+          lake:
+            - Vatn
+            - uppistöðulón
+          farm: "Bóndabær"
+          brownfield: "Nýbyggingarsvæði"
+          cemetery: "Grafreitur"
+          allotments: "Ræktuð svæði úthlutuð í einkaeigu"
+          pitch: "Íþróttavöllur"
+          centre: "Íþróttamiðstöð"
+          reserve: "Náttúruverndarsvæði"
+          military: "Hersvæði"
+          school:
+            - Skóli
+            - Háskóli
+          building: "Merkisbygging"
+          station: "Lestarstöð"
+          summit:
+            - Fjallstindur
+            - tindur
+          tunnel: "Umkringt punktalínum = göng"
+          bridge: "Umkringt svartri línu = brú"
+          private: "Í einkaeigu"
+          permissive: "Umferð leyfileg"
+          destination: "Umferð leyfileg á ákveðinn áfangastað"
+          construction: "Vegur í byggingu"
   trace:
     create:
       upload_trace: "Upphala GPS feril"
@@ -601,7 +682,6 @@ is:
       owner: "Eigandi:"
       description: "Lýsing:"
       tags: "Tögg:"
-      editing_trace: "Breyti ferlinum {{name}}"
       save_button: "Vista breytingar"
     no_such_user:
       title: "Notandi ekki til"
@@ -613,15 +693,15 @@ is:
       tags: "Tögg"
       public: "Sjáanleg öðrum?"
       public_help: "Hvað þýðir þetta?"
-      public_help_url: "http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces"
+      public_help_url: "http://wiki.openstreetmap.org/index.php?title=Visibility_of_GPS_traces&uselang=is"
       upload_button: "Upphala"
       help: "Hjálp"
-      help_url: "http://wiki.openstreetmap.org/wiki/Upload"
+      help_url: "http://wiki.openstreetmap.org/index.php?title=Upload&uselang=is"
     trace_header:
       see_just_your_traces: "Sýna aðeins þína ferla, eða hlaða upp feril"
       see_all_traces: "Sjá alla ferla"
       see_your_traces: "Sjá aðeins þína ferla"
-      traces_waiting: "You have {{count}} traces waiting for upload. Please consider waiting for these to finish before uploading any more, so as not to block the queue for other users."
+      traces_waiting: "Þú ert með {{count}} ferla í bið. Íhugaðu að bíða með að upphala fleiri ferlum til að aðrir notendur komist að."
     trace_optionals:
       tags: "Tögg"
     view:
@@ -664,26 +744,11 @@ is:
       public_traces: "Allir ferlar"
       your_traces: "Þínir ferlar"
       public_traces_from: "Ferlar eftir {{user}}"
-      tagged_with: " tagged with {{tags}}"
+      tagged_with: " með taggið {{tags}}"
     delete:
       scheduled_for_deletion: "Þessum feril verður eitt"
     make_public:
       made_public: "Ferilinn var gerður sjáanlegur"
-  oauth:
-    client_application:
-      request_access: "The application {{app_name}} is requesting access to your account. Please check whether you would like the application to have the following capabilities. You may choose as many or as few as you like."
-      allow_to: "Allow the client application to:"
-      allow_read_prefs:  "read your user preferences."
-      allow_write_prefs: "modify your user preferences."
-      allow_write_diary: "create diary entries, comments and make friends."
-      allow_write_api:   "modify the map."
-      allow_read_gpx:    "read your private GPS traces."
-      allow_write_gpx:   "upload GPS traces."
-    token:
-      none: "You have not authorised any clients to act on your behalf. You do not have to do anything now to authorise them, as they will ask for authorisation when they need it. After that time you can return here to revoke those permissions if you do not want the clients to have your authorisation any more."
-      application: "Application"
-      issued: "Issued"
-      revoke: "Revoke!"
   user:
     login:
       title: "Innskrá"
@@ -706,7 +771,7 @@ is:
     reset_password:
       title: "lykilorð endurstillt"
       flash changed check mail: "Nýtt lykilorð hefur verið búið til fyrir þig og sent til þín í pósti"
-      flash token bad: "Didn't find that token, check the URL maybe?"
+      flash token bad: "Þessi leynistrengur fannst ekki, kannski er slóðin röng?"
     new:
       title: "Nýskrá"
       heading: "Nýskrá"
@@ -716,7 +781,7 @@ is:
       license_agreement: 'Með því að búa til reikning samþykkiru að öll framlög þín til verkefnisins falli undir <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative Commons Attribution-Share Alike (BY-SA)</a> leyfið.'
       email address: "Netfang: "
       confirm email address: "Staðfestu netfang: "
-      not displayed publicly: 'Ekki sýnt opinberlega (sjá <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="Meðferð persónuupplýsinga, þ.á.m. netfanga">meðferð persónuupplýsinga</a>)'
+      not displayed publicly: 'Ekki sýnt opinberlega (sjá <a href="http://wiki.openstreetmap.org/index.php?uselang=is&title=Privacy_Policy" title="Meðferð persónuupplýsinga, þ.á.m. netfanga">meðferð persónuupplýsinga</a>)'
       display name: "Sýnilegt nafn: "
       password: "Lykilorð: "
       confirm password: "Staðfestu lykilorðið: "
@@ -765,10 +830,10 @@ is:
       public editing:
         heading: "Ónafngreindur notandi?: "
         enabled: "Nei, nafngreindur og getur breytt gögnum."
-        enabled link: "http://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits"
+        enabled link: "http://wiki.openstreetmap.org/index.php?uselang=is&title=Anonymous_edits"
         enabled link text: "nánar"
-        disabled: "Disabled and cannot edit data, all previous edits are anonymous."
-        disabled link text: "why can't I edit?"
+        disabled: "Óvirkur og getur ekki breytt gögnum, allar fyrri breytingar eru ónafngreindar."
+        disabled link text: "hví get ég ekki breytt neinu?"
       profile description: "Lýsing á þér: "
       preferred languages: "Viðmótstungumál: "
       home location: "Staðsetning: "
@@ -777,16 +842,10 @@ is:
       longitude: "Breiddargráða: "
       update home location on click: "Uppfæra staðsetninguna þegar ég smelli á kortið"
       save changes button: "Vista breytingar"
-      make edits public button: Make all my edits public
+      make edits public button: "Gera allar breytingarnar mínar opinberar"
       return to profile: "Aftur á mína síðu"
-      flash update success confirm needed: "User information updated successfully. Check your email for a note to confirm your new email address."
+      flash update success confirm needed: "Stillingarnar þínar voru uppfærðar. Póstur var sendur á netfangið þitt sem þú þarft að bregðast við til að netfangið þitt verði staðfest."
       flash update success: "Stillingarnar þínar voru uppfærðar."
-      my apps: "My client applications"
-      developers: "Application Developers"
-      dev_intro: "Have you written an application which you would like to register to make {{link}} requests to the OpenStreetMap server?"
-      register_app: "Register your application"
-      apps_registered: "You have the following client applications registered:"
-      register_another_app: "Register another application"
     confirm:
       heading: "Staðfesta notanda"
       press confirm button: "Hér getur þú staðfest að þú viljir búa til notanda.."
@@ -802,7 +861,7 @@ is:
     set_home:
       flash success: "Staðsetning þín hefur verið stillt"
     go_public:
-      flash success: "All your edits are now public, and you are now allowed to edit."
+      flash success: "Allar breytingar þínar eru nú opinberar, og þú getur breytt gögnum."
     make_friend:
       success: "{{name}} er núna vinur þinn."
       failed: "Gat ekki bætt {{name}} á vinalistann þinn."

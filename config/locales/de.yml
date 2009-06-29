@@ -72,6 +72,10 @@ de:
         description: "Beschreibung"
         languages: "Sprachen"
         pass_crypt: "Passwort"
+  printable_name:
+    with_id: "{{id}}"
+    with_version: "{{id}}, v{{version}}"
+    with_name: "{{name}} ({{id}})"
   map:
     view: Karte
     edit: Bearbeiten
@@ -100,17 +104,22 @@ de:
       version: "Version:"
       in_changeset: "Im Changeset:"
     containing_relation:
-      relation: "Relation {{relation_name}}"
-      relation_as: "(als {{relation_role}})"
+      entry: "Relation {{relation_name}}"
+      entry_role: "Relation {{relation_name}} (als {{relation_role}})"
     map:
       loading: "Laden..."
       deleted: "Gelöscht"
-      view_larger_map: "Größere Karte anzeigen"
+      larger:
+        area: "Bereich größerer Karte"
+        node: "Knoten auf größerer Karte"
+        way: "Weg auf größerer Karte"
+        relation: "Relation auf größerer Karte"
     node_details:
       coordinates: "Koordinaten: "
       part_of: "Teil von:"
     node_history:
       node_history: "Knoten-Chronik"
+      node_history_title: "Knoten-Chronik: {{node_name}}"
       download: "{{download_xml_link}} oder {{view_details_link}}"
       download_xml: "XML herunterladen"
       view_details: "Detailseite anzeigen"
@@ -137,7 +146,12 @@ de:
       relation_history: "Relations-Chronik"
       relation_history_title: "Relations-Chronik: {{relation_name}}"
     relation_member:
-      as: "des Typs"
+      entry: "{{type}} {{name}}"
+      entry_role: "{{type}} {{name}} als {{role}}"
+      type:
+        node: "Knoten"
+        way: "Weg"
+        relation: "Relation"
     relation:
       relation: "Relation"
       relation_title: "Relation: {{relation_name}}"
@@ -375,7 +389,7 @@ de:
     donate_link_text: Spende
     help_wiki: "Hilfe & Wiki"
     help_wiki_tooltip: "Hilfe & Wiki; Wiki des Projekts"
-    help_wiki_url: "http://wiki.openstreetmap.org/wiki/Hauptseite"
+    help_wiki_url: "http://wiki.openstreetmap.org/index.php?title=Hauptseite&uselang=de"
     news_blog: "News-Blog"
     news_blog_tooltip: "News-Blog über OpenStreetMap, freie geographische Daten, etc."
     shop: Shop
@@ -541,6 +555,7 @@ de:
       js_2: "OpenStreetMap nutzt Javascript für die Kartendarstellung."
       js_3: 'Solltest bei dir kein Javascript möglich sein, kannst du auf der <a href="http://tah.openstreetmap.org/Browse/">Tiles@Home Website</a> eine Version ohne Javascript benutzen.'
       permalink: Permalink
+      shortlink: Shortlink
       license:
         notice: "Lizenziert unter {{license_name}} Lizenz durch das {{project_name}} und seine Mitwirkenden."
         license_name: "Creative Commons Attribution-Share Alike 2.0"
@@ -584,10 +599,18 @@ de:
           footway: "Fussweg"
           rail: "Eisenbahn"
           subway: "U-Bahn"
-          tram: "Straßenbahn, Stadtbahn"
-          cable: "Seilbahn"
-          runway: "Start-/Landebahn, Rollfeld"
-          apron: "Vorfeld, Flughafengebäude"
+          tram:
+            - Light rail
+            - tram
+          cable:
+            - Cable car
+            - chair lift
+          runway:
+            - Airport Runway
+            - taxiway
+          apron:
+            - Airport apron
+            - terminal
           admin: "Landesgrenzen, sonstige Grenzen"
           forest: "Forst"
           wood: "Naturwald"
@@ -595,12 +618,16 @@ de:
           park: "Park"
           resident: "Wohngebiet"
           tourist: "Touristenattraktion"
-          common: "Wiese, Grünfläche"
+          common:
+            - Common
+            - meadow
           retail: "Einkaufszentrum"
           industrial: "Industriegebiet"
           commercial: "Gewerbegebiet"
           heathland: "Heide"
-          lake: "See, Stausee"
+          lake:
+            - Lake
+            - reservoir
           farm: "Landwirtschaft"
           brownfield: "Brachland"
           cemetery: "Friedhof"
@@ -612,7 +639,9 @@ de:
           school: "Schule, Universität"
           building: "Besonderes Gebäude"
           station: "Bahnhof"
-          summit: "Gipfel, Bergspitze"
+          summit:
+            - Summit
+            - peak
           tunnel: "Gestrichelter Rand = Tunnel"
           bridge: "Dicker Rand = Brücke"
           private: "Privater Zugang"
@@ -671,7 +700,7 @@ de:
       edit: "bearbeiten"
       owner: "Besitzer:"
       description: "Beschreibung:"
-      tags: "Tags"
+      tags: "Tags:"
       none: "Keine"
       make_public: "Mache diesen Track öffentlich"
       edit_track: "Diesen Track bearbeiten"
@@ -784,7 +813,7 @@ de:
       public editing:
         heading: "Öffentliches Bearbeiten: "
         enabled: "Aktiviert. Nicht anonym, bearbeiten der Kartendaten möglich."
-        enabled link: "http://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits"
+        enabled link: "http://wiki.openstreetmap.org/wiki/Anonymous_edits"
         enabled link text: "Was ist das?"
         disabled: "Deaktiviert, bearbeiten von Daten nicht möglich, alle bisherigen Bearbeitungen sind anonym."
         disabled link text: "Warum kann ich nichts bearbeiten?"

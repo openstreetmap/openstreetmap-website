@@ -17,7 +17,10 @@
 </noscript>
 
 <div id="map">
-<div id="permalink"><a href="/" id="permalinkanchor"><%= t 'site.index.permalink' %></a></div>
+  <div id="permalink">
+    <a href="/" id="permalinkanchor"><%= t 'site.index.permalink' %></a><br/>
+    <a href="/" id="shortlinkanchor"><%= t 'site.index.shortlink' %></a>
+  </div>
 </div> 
 
 <div id="attribution">
@@ -38,62 +41,78 @@
 
 <%
 if params['mlon'] and params['mlat'] 
-	marker = true
-	mlon = h(params['mlon'])
-	mlat = h(params['mlat'])
+    marker = true
+    mlon = h(params['mlon'])
+    mlat = h(params['mlat'])
+end
+
+if params['node'] or params['way'] or params['relation']
+    object = true
+    object_zoom = true
+
+    if params['node']
+        object_type = 'node'
+        object_id = h(params['node'])
+    elsif params['way']
+        object_type = 'way'
+        object_id = h(params['way'])
+    elsif params['relation']
+        object_type = 'relation'
+        object_id = h(params['relation'])
+    end
 end
 
 if params['minlon'] and params['minlat'] and params['maxlon'] and params['maxlat']
-	bbox = true
-	minlon = h(params['minlon'])
-	minlat = h(params['minlat'])
-	maxlon = h(params['maxlon'])
-	maxlat = h(params['maxlat'])
-	box = true if params['box']=="yes" 
+    bbox = true
+    minlon = h(params['minlon'])
+    minlat = h(params['minlat'])
+    maxlon = h(params['maxlon'])
+    maxlat = h(params['maxlat'])
+    box = true if params['box']=="yes" 
+    object_zoom = false
 end
 
 # Decide on a lat lon to initialise the map with. Various ways of doing this
-if params['lon'] and params['lat'] 
-	lon =  h(params['lon'])
-	lat =  h(params['lat'])
-	zoom =  h(params['zoom'] || '5')
-	layers = h(params['layers'])
-	
+if params['lon'] and params['lat']
+    lon =  h(params['lon'])
+    lat =  h(params['lat'])
+    zoom =  h(params['zoom'] || '5')
+    layers = h(params['layers'])
+    object_zoom = false
 elsif params['mlon'] and params['mlat']
-	lon = h(params['mlon']) 
-	lat = h(params['mlat'])
-	zoom =  h(params['zoom'] || '12')
-	layers = h(params['layers'])
-	
+    lon = h(params['mlon']) 
+    lat = h(params['mlat'])
+    zoom =  h(params['zoom'] || '12')
+    layers = h(params['layers'])
+    object_zoom = false
 elsif cookies.key?("_osm_location")
-	lon,lat,zoom,layers = cookies["_osm_location"].split("|")
-	
+    lon,lat,zoom,layers = cookies["_osm_location"].split("|")
 elsif @user and !@user.home_lon.nil? and !@user.home_lat.nil? 
-	lon =  @user.home_lon
-	lat =  @user.home_lat
-	zoom = '10'
+    lon =  @user.home_lon
+    lat =  @user.home_lat
+    zoom = '10'
 else
-	session[:location] = OSM::IPLocation(request.env['REMOTE_ADDR']) unless session[:location]
+    session[:location] = OSM::IPLocation(request.env['REMOTE_ADDR']) unless session[:location]
 
-	if session[:location]
-		bbox = true
-		minlon = session[:location][:minlon]
-		minlat = session[:location][:minlat]
-		maxlon = session[:location][:maxlon]
-		maxlat = session[:location][:maxlat]
-	else
-		lon =  '-0.1' 
-		lat =  '51.5' 
-		zoom =  h(params['zoom'] || '5') 
-	end
-	layers = h(params['layers']) 
+    if session[:location]
+        bbox = true
+        minlon = session[:location][:minlon]
+        minlat = session[:location][:minlat]
+        maxlon = session[:location][:maxlon]
+        maxlat = session[:location][:maxlat]
+    else
+        lon =  '-0.1' 
+        lat =  '51.5' 
+        zoom =  h(params['zoom'] || '5') 
+    end
+
+    layers = h(params['layers']) 
 end
 %>
 
 <%= javascript_include_tag '/openlayers/OpenLayers.js' %>
 <%= javascript_include_tag '/openlayers/OpenStreetMap.js' %>
 <%= javascript_include_tag 'map.js' %>
-
 
 <script type="text/javascript" defer="defer">
   <!--
@@ -107,41 +126,55 @@ end
     map = createMap("map");
 
     <% unless OSM_STATUS == :api_offline or OSM_STATUS == :database_offline %>
-    map.dataLayer = new OpenLayers.Layer("<%= I18n.t 'browse.start_rjs.data_layer_name' %>", { "visibility": false });
-    map.dataLayer.events.register("visibilitychanged", map.dataLayer, toggleData);
-    map.addLayer(map.dataLayer);
+      map.dataLayer = new OpenLayers.Layer("<%= I18n.t 'browse.start_rjs.data_layer_name' %>", { "visibility": false });
+      map.dataLayer.events.register("visibilitychanged", map.dataLayer, toggleData);
+      map.addLayer(map.dataLayer);
     <% end %>
 
-    <% if bbox %>
-    var bbox = new OpenLayers.Bounds(<%= minlon %>, <%= minlat %>, <%= maxlon %>, <%= maxlat %>);
+    <% unless object_zoom %>
+      <% if bbox %>
+        var bbox = new OpenLayers.Bounds(<%= minlon %>, <%= minlat %>, <%= maxlon %>, <%= maxlat %>);
 
-    setMapExtent(bbox);
-    <%    if box %>
-    // IE requires Vector layers be initialised on page load, and not under deferred script conditions
-    Event.observe(window, 'load', function() {addBoxToMap(bbox)});
-    <%    end %>
-    <% else %>
-    var centre = new OpenLayers.LonLat(<%= lon %>, <%= lat %>);
-    var zoom = <%= zoom %>;
+        setMapExtent(bbox);
 
-    <%    if params['scale'] and params['scale'].length > 0 then %>
-    zoom = scaleToZoom(<%= params['scale'].to_f() %>);
-    <%    end %>
+        <% if box %>
+          // IE requires Vector layers be initialised on page load, and not under deferred script conditions
+          Event.observe(window, 'load', function() { addBoxToMap(bbox) });
+        <% end %>
+      <% else %>
+        var centre = new OpenLayers.LonLat(<%= lon %>, <%= lat %>);
+        var zoom = <%= zoom %>;
 
-    setMapCenter(centre, zoom);
+        <% if params['scale'] and params['scale'].length > 0 then %>
+          zoom = scaleToZoom(<%= params['scale'].to_f() %>);
+        <% end %>
+
+        setMapCenter(centre, zoom);
+      <% end %>
+
+      updateLocation();
     <% end %>
 
     <% if !layers.nil? and !layers.empty? %>
-    setMapLayers("<%= layers %>");
+      setMapLayers("<%= layers %>");
     <% end %>
 
     <% if marker %>
-    marker = addMarkerToMap(new OpenLayers.LonLat(<%= mlon %>, <%= mlat %>));
+      marker = addMarkerToMap(new OpenLayers.LonLat(<%= mlon %>, <%= mlat %>));
+    <% end %>
+
+    <% if object %>
+      var url = "/api/<%= "#{API_VERSION}" %>/<%= object_type %>/<%= object_id %>";
+
+      <% if object_type != "node" %>
+        url += "/full";
+      <% end %>
+
+      addObjectToMap(url, <%= object_zoom %>);
     <% end %>
 
     map.events.register("moveend", map, updateLocation);
     map.events.register("changelayer", map, updateLocation);
-    updateLocation();
 
     handleResize();
   }
@@ -175,8 +208,15 @@ end
     var layers = getMapLayers();
     var extents = getMapExtent();
     var expiry = new Date();
+    var objtype;
+    var objid;
 
-    updatelinks(lonlat.lon, lonlat.lat, zoom, layers, extents.left, extents.bottom, extents.right, extents.top);
+    <% if object %>
+      objtype = "<%= object_type %>";
+      objid = <%= object_id %>;
+    <% end %>
+
+    updatelinks(lonlat.lon, lonlat.lat, zoom, layers, extents.left, extents.bottom, extents.right, extents.top, objtype, objid);
 
     expiry.setYear(expiry.getFullYear() + 10); 
     document.cookie = "_osm_location=" + lonlat.lon + "|" + lonlat.lat + "|" + zoom + "|" + layers + "; expires=" + expiry.toGMTString();
