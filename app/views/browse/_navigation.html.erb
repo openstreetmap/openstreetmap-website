@@ -1,27 +1,30 @@
 <div style="float:right; text-align:center; width: 250px;">
   <% if @next_by_user or @prev_by_user %>
     <% if @prev_by_user %>
-       <%= link_to t('browse.changeset_navigation.user.prev', :id => @prev_by_user.id.to_s),
-           { :id => @prev_by_user.id },
-           { :title => t('browse.changeset_navigation.user.prev_tooltip', :user => @prev_by_user.user.display_name) } %>
-    |
+      &lt;
+      <%= link_to @prev_by_user.id.to_s,
+                  { :id => @prev_by_user.id },
+                  { :title => t('browse.changeset_navigation.user.prev_tooltip', :user => @prev_by_user.user.display_name) } %>
+      |
     <% end %>
     <%=
     user = (@prev_by_user || @next_by_user).user.display_name
-    link_to(t('browse.changeset_navigation.user.name', :user => h(user)),
+    link_to h(user),
             { :controller => "changeset", :action => "list", :display_name => user },
-            { :title => t('browse.changeset_navigation.user.name_tooltip', :user => h(user)) })
+            { :title => t('browse.changeset_navigation.user.name_tooltip', :user => h(user)) }
     %>
     <% if @next_by_user %>
-    |
-      <%= link_to t('browse.changeset_navigation.user.next', :id => @next_by_user.id.to_s),
-         { :id => @next_by_user.id },
-         { :title => t('browse.changeset_navigation.user.next_tooltip', :user => @next_by_user.user.display_name) } %>
+      |
+      <%= link_to @next_by_user.id.to_s,
+                  { :id => @next_by_user.id },
+                  { :title => t('browse.changeset_navigation.user.next_tooltip', :user => @next_by_user.user.display_name) } %>
+      &gt;
     <% end %>
     <br/>
   <% end %>
   <% if @prev %>
-    <%= link_to t('browse.changeset_navigation.all.prev', :id => @prev.id.to_s),
+    &lt;
+    <%= link_to @prev.id.to_s,
                 { :id => @prev.id },
                 { :title => t('browse.changeset_navigation.all.prev_tooltip') } %>
   <% end %>
@@ -29,8 +32,9 @@
     | 
   <% end %>
   <% if @next %>
-    <%= link_to t('browse.changeset_navigation.all.next', :id => @next.id.to_s),
+    <%= link_to @next.id.to_s,
                 { :id => @next.id },
                 { :title => t('browse.changeset_navigation.all.next_tooltip') } %>
+    &gt;
   <% end %>
 </div>
