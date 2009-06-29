@@ -114,7 +114,9 @@ function addObjectToMap(url, zoom, callback) {
       style: {
           strokeColor: "blue",
           strokeWidth: 3,
-          strokeOpacity: 0.5
+          strokeOpacity: 0.5,
+          fillOpacity: 0.2,
+          fillColor: "lightblue"
       },
       projection: new OpenLayers.Projection("EPSG:4326"),
       displayInLayerSwitcher: false
