@@ -162,14 +162,14 @@ private
         prefix = ""
         name = type
       else
-        prefix = "#{type} "
+        prefix =  t "geocoder.results.namefinder.prefix", :type => type
       end
 
       if place
         distance = format_distance(place.attributes["approxdistance"].to_i)
         direction = format_direction(place.attributes["direction"].to_i)
         placename = format_name(place.attributes["name"].to_s)
-        suffix = ", #{distance} #{direction} of #{placename}"
+        suffix = t "geocoder.results.namefinder.suffix_place", :distance => distance, :direction => direction, :placename => placename
 
         if place.attributes["rank"].to_i <= 30
           parent = nil
@@ -193,11 +193,11 @@ private
             parentname = format_name(parent.attributes["name"].to_s)
 
             if  place.attributes["info"].to_s == "suburb"
-              suffix = "#{suffix}, #{parentname}"
+              suffix = t "geocoder.results.namefinder.suffix_suburb", :suffix => suffix, :parentname => parentname
             else
               parentdistance = format_distance(parent.attributes["approxdistance"].to_i)
               parentdirection = format_direction(parent.attributes["direction"].to_i)
-              suffix = "#{suffix} (#{parentdistance} #{parentdirection} of #{parentname})"
+              suffix = t "geocoder.results.namefinder.suffix_parent", :suffix => suffix, :parentdistance => parentdistance, :parentdirection => parentdirection, :parentname => parentname
             end
           end
         end
@@ -293,19 +293,19 @@ private
   end
 
   def format_distance(distance)
-    return "less than 1km" if distance == 0
-    return "about #{distance}km"
+    return t "geocoder.results.distance.less_than_1km" if distance == 0
+    return t "geocoder.results.distance.about_distance_km", :distance => distance
   end
 
   def format_direction(bearing)
-    return "south-west" if bearing >= 22.5 and bearing < 67.5
-    return "south" if bearing >= 67.5 and bearing < 112.5
-    return "south-east" if bearing >= 112.5 and bearing < 157.5
-    return "east" if bearing >= 157.5 and bearing < 202.5
-    return "north-east" if bearing >= 202.5 and bearing < 247.5
-    return "north" if bearing >= 247.5 and bearing < 292.5
-    return "north-west" if bearing >= 292.5 and bearing < 337.5
-    return "west"
+    return t "geocoder.results.direction.south_west" if bearing >= 22.5 and bearing < 67.5
+    return t "geocoder.results.direction.south" if bearing >= 67.5 and bearing < 112.5
+    return t "geocoder.results.direction.south_east" if bearing >= 112.5 and bearing < 157.5
+    return t "geocoder.results.direction.east" if bearing >= 157.5 and bearing < 202.5
+    return t "geocoder.results.direction.north_east" if bearing >= 202.5 and bearing < 247.5
+    return t "geocoder.results.direction.north" if bearing >= 247.5 and bearing < 292.5
+    return t "geocoder.results.direction.north_west" if bearing >= 292.5 and bearing < 337.5
+    return t "geocoder.results.direction.west"
   end
 
   def format_name(name)
