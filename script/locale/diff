@@ -2,7 +2,7 @@
 use feature ':5.10';
 use strict;
 use warnings;
-use YAML::Syck qw(Load LoadFile);
+use YAML::Syck qw(LoadFile);
 use Test::Differences;
 use Pod::Usage ();
 use Getopt::Long ();
@@ -149,7 +149,7 @@ sub prune_untranslated_with_blacklist
     my %keys;
     @keys{@keys} = ();
 
-    my $end_yaml = Load(join '', <DATA>);
+    my $end_yaml = LoadFile(*DATA);
     my $untranslated_values = $end_yaml->{untranslated_values};
     my $default = $untranslated_values->{default};
     my $this_language = $untranslated_values->{$language} || {};
