@@ -111,6 +111,11 @@ function addMarkerToMap(position, icon, description) {
 function addObjectToMap(url, zoom, callback) {
    var layer = new OpenLayers.Layer.GML("Objects", url, {
       format: OpenLayers.Format.OSM,
+      style: {
+          strokeColor: "blue",
+          strokeWidth: 3,
+          strokeOpacity: 0.5
+      },
       projection: new OpenLayers.Projection("EPSG:4326"),
       displayInLayerSwitcher: false
    });
