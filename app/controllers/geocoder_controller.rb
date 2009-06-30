@@ -293,19 +293,18 @@ private
   end
 
   def format_distance(distance)
-    return t "geocoder.results.distance.less_than_1km" if distance == 0
-    return t "geocoder.results.distance.about_distance_km", :distance => distance
+    return t("geocoder.results.distance", :count => distance)
   end
 
   def format_direction(bearing)
-    return t "geocoder.results.direction.south_west" if bearing >= 22.5 and bearing < 67.5
-    return t "geocoder.results.direction.south" if bearing >= 67.5 and bearing < 112.5
-    return t "geocoder.results.direction.south_east" if bearing >= 112.5 and bearing < 157.5
-    return t "geocoder.results.direction.east" if bearing >= 157.5 and bearing < 202.5
-    return t "geocoder.results.direction.north_east" if bearing >= 202.5 and bearing < 247.5
-    return t "geocoder.results.direction.north" if bearing >= 247.5 and bearing < 292.5
-    return t "geocoder.results.direction.north_west" if bearing >= 292.5 and bearing < 337.5
-    return t "geocoder.results.direction.west"
+    return t("geocoder.results.direction.south_west") if bearing >= 22.5 and bearing < 67.5
+    return t("geocoder.results.direction.south") if bearing >= 67.5 and bearing < 112.5
+    return t("geocoder.results.direction.south_east") if bearing >= 112.5 and bearing < 157.5
+    return t("geocoder.results.direction.east") if bearing >= 157.5 and bearing < 202.5
+    return t("geocoder.results.direction.north_east") if bearing >= 202.5 and bearing < 247.5
+    return t("geocoder.results.direction.north") if bearing >= 247.5 and bearing < 292.5
+    return t("geocoder.results.direction.north_west") if bearing >= 292.5 and bearing < 337.5
+    return t("geocoder.results.direction.west")
   end
 
   def format_name(name)
