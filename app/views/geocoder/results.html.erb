@@ -1,0 +1,7 @@
+<% if @results.empty? %>
+  <p class="search_results_entry"><%= t 'geocoder.results.no_results' %></p>
+<% else %>
+  <% @results.each do |result| %>
+    <p class="search_results_entry"><%= result_to_html(result) %></p>
+  <% end %>
+<% end %>
