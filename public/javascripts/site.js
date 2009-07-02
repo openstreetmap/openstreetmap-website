@@ -231,7 +231,7 @@ function makeShortCode(lat, lon, zoom) {
 	str += char_array.charAt(digit);
     }
     for (var i = 0; i < ((zoom + 8) % 3); ++i) {
-	str += "=";
+	str += "-";
     }
     return str;
 }
