@@ -115,7 +115,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/forgot-password.html', :controller => 'user', :action => 'lost_password'
 
   # permalink
-  map.connect '/go/:code', :controller => 'site', :action => 'permalink', :code => /[a-zA-Z0-9_@]+=*/
+  map.connect '/go/:code', :controller => 'site', :action => 'permalink', :code => /[a-zA-Z0-9_@]+[=-]*/
 
   # traces  
   map.connect '/traces', :controller => 'trace', :action => 'list'
