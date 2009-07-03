@@ -278,7 +278,7 @@ class GeocoderController < ApplicationController
       description = named.elements["description"].to_s
       distance = format_distance(place.attributes["approxdistance"].to_i)
       direction = format_direction((place.attributes["direction"].to_i - 180) % 360)
-      prefix = "#{distance} #{direction} of #{type} "
+      prefix = t "geocoder.description.osm_namefinder_prefix", :distance => distance, :direction => direction, :type => type
       @results.push({:lat => lat, :lon => lon, :zoom => zoom,
                      :prefix => prefix.capitalize, :name => name,
                      :description => description})
