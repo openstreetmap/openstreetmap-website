@@ -6,9 +6,9 @@ ActionController::Routing::Routes.draw do |map|
 
   map.connect "api/#{API_VERSION}/changeset/create", :controller => 'changeset', :action => 'create'
   map.connect "api/#{API_VERSION}/changeset/:id/upload", :controller => 'changeset', :action => 'upload', :id => /\d+/
-  map.connect "api/#{API_VERSION}/changeset/:id/download", :controller => 'changeset', :action => 'download', :id => /\d+/
+  map.changeset_download "api/#{API_VERSION}/changeset/:id/download", :controller => 'changeset', :action => 'download', :id => /\d+/
   map.connect "api/#{API_VERSION}/changeset/:id/expand_bbox", :controller => 'changeset', :action => 'expand_bbox', :id => /\d+/
-  map.connect "api/#{API_VERSION}/changeset/:id", :controller => 'changeset', :action => 'read', :id => /\d+/, :conditions => { :method => :get }
+  map.changeset_read "api/#{API_VERSION}/changeset/:id", :controller => 'changeset', :action => 'read', :id => /\d+/, :conditions => { :method => :get }
   map.connect "api/#{API_VERSION}/changeset/:id", :controller => 'changeset', :action => 'update', :id => /\d+/, :conditions => { :method => :put }
   map.connect "api/#{API_VERSION}/changeset/:id/close", :controller => 'changeset', :action => 'close', :id =>/\d+/
   map.connect "api/#{API_VERSION}/changesets", :controller => 'changeset', :action => 'query'
@@ -81,16 +81,16 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/browse/node/:id/history', :controller => 'browse', :action => 'node_history', :id => /\d+/
   map.connect '/browse/relation/:id', :controller => 'browse', :action => 'relation', :id => /\d+/
   map.connect '/browse/relation/:id/history', :controller => 'browse', :action => 'relation_history', :id => /\d+/
-  map.connect '/browse/changeset/:id', :controller => 'browse', :action => 'changeset', :id => /\d+/
+  map.changeset '/browse/changeset/:id', :controller => 'browse', :action => 'changeset', :id => /\d+/
   map.connect '/browse/changesets', :controller => 'changeset', :action => 'list'
-  map.connect '/browse/changesets/rss', :controller => 'changeset', :action => 'list', :format => :rss
+  map.connect '/browse/changesets/feed', :controller => 'changeset', :action => 'list', :format => :atom
   
   # web site
   map.root :controller => 'site', :action => 'index'
   map.connect '/', :controller => 'site', :action => 'index'
   map.connect '/edit', :controller => 'site', :action => 'edit'
   map.connect '/history', :controller => 'changeset', :action => 'list'
-  map.connect '/history/rss', :controller => 'changeset', :action => 'list', :format => :rss
+  map.connect '/history/feed', :controller => 'changeset', :action => 'list', :format => :atom
   map.connect '/export', :controller => 'site', :action => 'export'
   map.connect '/login', :controller => 'user', :action => 'login'
   map.connect '/logout', :controller => 'user', :action => 'logout'
@@ -149,7 +149,7 @@ ActionController::Routing::Routes.draw do |map|
   # user pages
   map.connect '/user/:display_name', :controller => 'user', :action => 'view'
   map.connect '/user/:display_name/edits', :controller => 'changeset', :action => 'list'
-  map.connect '/user/:display_name/edits/rss', :controller => 'changeset', :action => 'list', :format =>:rss
+  map.connect '/user/:display_name/edits/feed', :controller => 'changeset', :action => 'list', :format =>:atom
   map.connect '/user/:display_name/make_friend', :controller => 'user', :action => 'make_friend'
   map.connect '/user/:display_name/remove_friend', :controller => 'user', :action => 'remove_friend'
   map.connect '/user/:display_name/diary', :controller => 'diary_entry', :action => 'list'
