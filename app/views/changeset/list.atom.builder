@@ -36,8 +36,38 @@ atom_feed(:language => I18n.locale, :schema_date => 2009,
         end
       end
 
-      if changeset.tags['comment']
-        feed.content changeset.tags['comment']
+      feed.content :type => 'xhtml' do |xhtml|
+        xhtml.h2 t("browse.changeset.changeset", :id => changeset.id)
+        xhtml.table do |table|
+          table.tr do |tr|
+            tr.th t("browse.changeset_details.created_at")
+            tr.td l(changeset.created_at)
+          end
+          table.tr do |tr|
+            tr.th t("browse.changeset_details.closed_at")
+            tr.td l(changeset.closed_at)
+          end
+          if changeset.user.data_public?
+            table.tr do |tr|
+              tr.th t("browse.changeset_details.belongs_to")
+              tr.td link_to(h(changeset.user.display_name), :controller => "user", :action => "view", :display_name => changeset.user.display_name, :only_path => false)
+            end
+          end
+          unless changeset.tags.empty?
+            table.tr :valign => "top" do |tr|
+              tr.th t("browse.tag_details.tags")
+              tr.td do |td|
+                td.table :cellpadding => "0" do |table|
+                  changeset.tags.sort.each do |tag|
+                    table.tr do |tr|
+                      tr.td "#{h(tag[0])} = #{sanitize(auto_link(tag[1]))}"
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
       end
 
       unless changeset.min_lat.nil?
