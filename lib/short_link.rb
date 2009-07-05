@@ -57,7 +57,7 @@ module ShortLink
     # append characters onto the end of the string to represent
     # partial zoom levels (characters themselves have a granularity
     # of 3 zoom levels).
-    ((z + 8) % 3).times { str << "=" }
+    ((z + 8) % 3).times { str << "-" }
     
     return str
   end
