@@ -37,7 +37,6 @@ atom_feed(:language => I18n.locale, :schema_date => 2009,
       end
 
       feed.content :type => 'xhtml' do |xhtml|
-        xhtml.h2 t("browse.changeset.changeset", :id => changeset.id)
         xhtml.table do |table|
           table.tr do |tr|
             tr.th t("browse.changeset_details.created_at")
@@ -50,7 +49,9 @@ atom_feed(:language => I18n.locale, :schema_date => 2009,
           if changeset.user.data_public?
             table.tr do |tr|
               tr.th t("browse.changeset_details.belongs_to")
-              tr.td link_to(h(changeset.user.display_name), :controller => "user", :action => "view", :display_name => changeset.user.display_name, :only_path => false)
+              tr.td do |td|
+                td.a h(changeset.user.display_name), :href => url_for(:controller => "user", :action => "view", :display_name => changeset.user.display_name, :only_path => false)
+              end
             end
           end
           unless changeset.tags.empty?
