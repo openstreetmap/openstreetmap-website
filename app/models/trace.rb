@@ -31,6 +31,7 @@ class Trace < ActiveRecord::Base
         tt
       }
     else
+      #do as before for backwards compatibility:
       self.tags = s.split().collect {|tag|
         tt = Tracetag.new
         tt.tag = tag
