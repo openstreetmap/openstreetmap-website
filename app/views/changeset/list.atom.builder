@@ -37,6 +37,7 @@ atom_feed(:language => I18n.locale, :schema_date => 2009,
       end
 
       feed.content :type => 'xhtml' do |xhtml|
+        xhtml.style "th { text-align: left } tr { vertical-align: top }"
         xhtml.table do |table|
           table.tr do |tr|
             tr.th t("browse.changeset_details.created_at")
@@ -55,7 +56,7 @@ atom_feed(:language => I18n.locale, :schema_date => 2009,
             end
           end
           unless changeset.tags.empty?
-            table.tr :valign => "top" do |tr|
+            table.tr do |tr|
               tr.th t("browse.tag_details.tags")
               tr.td do |td|
                 td.table :cellpadding => "0" do |table|
