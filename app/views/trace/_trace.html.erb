@@ -27,8 +27,8 @@
     <%= t'trace.trace.by' %> <%=link_to h(trace.user.display_name), {:controller => 'user', :action => 'view', :display_name => trace.user.display_name} %>
     <% if !trace.tags.empty? %>
       <%= t'trace.trace.in' %> 
-      <% trace.tags.each do |tag| %>
-        <%= link_to_tag tag.tag %>
+      <% trace.tags.each_with_index do |tag, index| %>
+        <%= link_to_tag tag.tag %><%=', ' if index+1 < trace.tags.count %>
       <% end %>
     <% end %>
   </td>
