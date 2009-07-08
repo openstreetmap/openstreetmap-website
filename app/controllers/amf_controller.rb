@@ -598,14 +598,6 @@ class AmfController < ApplicationController
   # 6. hash of node versions (node=>version)
 
   def putway(renumberednodes, usertoken, changeset_id, wayversion, originalway, pointlist, attributes, nodes, deletednodes) #:doc:
-
-logger.info("renumberednodes is #{renumberednodes.inspect}")
-logger.info("wayversion is #{wayversion}")
-logger.info("pointlist is #{pointlist.inspect}")
-logger.info("sendnodes is #{nodes.inspect}")
-logger.info("deletednodes is #{deletednodes.inspect}")
-
-
     amf_handle_error("'putway' #{originalway}") do
       # -- Initialise
 	

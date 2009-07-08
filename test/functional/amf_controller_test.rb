@@ -311,21 +311,18 @@ class AmfControllerTest < ActionController::TestCase
     history = amf_result("/1")
 
     # ['node',nodeid,history]
+    # note that (as per getway_history) we actually round up
+    # to the next second
     assert_equal history[0], 'node', 
       'first element should be "node"'
     assert_equal history[1], latest.id,
       'second element should be the input node ID'
-    # NOTE: changed this test to match what amf_controller actually 
-    # outputs - which may or may not be what potlatch is expecting.
-    # someone who knows potlatch (i.e: richard f) should review this.
-    # NOTE2: wow - this is the second time this has changed in the
-    # API and the tests are being patched up. 
     assert_equal history[2].first[0], 
-      latest.timestamp.strftime("%d %b %Y, %H:%M:%S"),
-      'first part of third element should be the latest version'
+      latest.timestamp.succ.strftime("%d %b %Y, %H:%M:%S"),
+      'first element in third element (array) should be the latest version'
     assert_equal history[2].last[0], 
-      nodes(:node_with_versions_v1).timestamp.strftime("%d %b %Y, %H:%M:%S"),
-      'second part of third element should be the initial version'
+      nodes(:node_with_versions_v1).timestamp.succ.strftime("%d %b %Y, %H:%M:%S"),
+      'last element in third element (array) should be the initial version'
   end
 
   def test_getnode_history_nonexistent
