@@ -280,10 +280,13 @@ class AmfControllerTest < ActionController::TestCase
     # ['way',wayid,history]
     assert_equal 'way', history[0]
     assert_equal latest.id, history[1] 
-    # for some reason undocumented, the potlatch API now prefers dates
-    # over version numbers. presumably no-one edits concurrently any more?
-    assert_equal latest.timestamp.strftime("%d %b %Y, %H:%M:%S"), history[2].first[0]
-    assert_equal oldest.timestamp.strftime("%d %b %Y, %H:%M:%S"), history[2].last[0]
+    # We use dates rather than version numbers here, because you might
+    # have moved a node within a way (i.e. way version not incremented).
+    # The timestamp is +1 (timestamp.succ) because we say "give me the
+    # revision of 15:33:02", but that might actually include changes at
+    # 15:33:02.457.
+    assert_equal latest.timestamp.succ.strftime("%d %b %Y, %H:%M:%S"), history[2].first[0]
+    assert_equal oldest.timestamp.succ.strftime("%d %b %Y, %H:%M:%S"), history[2].last[0]
   end
 
   def test_getway_history_nonexistent

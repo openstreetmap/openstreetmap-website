@@ -55,6 +55,9 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat,objtype,obj
       args.lat = lat;
       args.lon = lon;
       args.zoom = zoom;
+      if (objtype && objid) {
+        args[objtype] = objid;
+      }
       node.href = setArgs("/edit", args);
       node.style.fontStyle = 'normal';
     } else {
