@@ -22,7 +22,7 @@
       },
       :day_names         => %w{nedelja ponedeljek torek sreda četrtek petek sobota},
       :abbr_day_names    => %w{ned pon tor sre čet pet sob},
-      :month_names       => %w{~ januar februar marec april maj junij julj avgust september oktober november december},
+      :month_names       => %w{~ januar februar marec april maj junij julij avgust september oktober november december},
       :abbr_month_names  => %w{~ jan feb mar apr maj jun jul avg sep okt nov dec},
       :order             => [:day, :month, :year]
     },
@@ -30,7 +30,7 @@
     # Time
     :time => {
       :formats => {
-        :default => "%a %d. %B %Y %H:%M %z",
+        :default => "%A, %d. %B %Y %H:%M %z",
         :short   => "%d. %m. %H:%M",
         :long    => "%A %d. %B %Y %H:%M",
 	:time    => "%H:%M"
