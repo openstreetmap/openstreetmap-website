@@ -186,6 +186,18 @@ module Potlatch
         }
       end
 
+      # Read POI presets
+      icon_list=[]; icon_names={}; icon_tags={};
+      File.open("#{RAILS_ROOT}/config/potlatch/icon_presets.txt") do |file|
+        file.each_line {|line|
+          (icon,name,tags)=line.chomp.split("\t")
+          icon_list.push(icon)
+          icon_names[icon]=name
+          icon_tags[icon]=Hash[*tags.scan(/([^;=]+)=([^;=]+)/).flatten]
+        }
+      end
+      icon_list.reverse!
+      
       # Read auto-complete
       autotags={}; autotags['point']={}; autotags['way']={}; autotags['POI']={};
       File.open("#{RAILS_ROOT}/config/potlatch/autocomplete.txt") do |file|
@@ -202,7 +214,7 @@ module Potlatch
 #	  # Read internationalisation
 #	  localised = YAML::load(File.open("#{RAILS_ROOT}/config/potlatch/localised.yaml"))
 
-      [presets,presetmenus,presetnames,colours,casing,areas,autotags,relcolours,relalphas,relwidths]
+      [presets,presetmenus,presetnames,colours,casing,areas,autotags,relcolours,relalphas,relwidths,icon_list,icon_names,icon_tags]
     end
   end
 
