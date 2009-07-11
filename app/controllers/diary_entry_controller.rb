@@ -54,7 +54,10 @@ class DiaryEntryController < ApplicationController
     @diary_comment = @entry.diary_comments.build(params[:diary_comment])
     @diary_comment.user = @user
     if @diary_comment.save
-      Notifier::deliver_diary_comment_notification(@diary_comment)
+      if @diary_comment.user != @entry.user
+        Notifier::deliver_diary_comment_notification(@diary_comment)
+      end
+
       redirect_to :controller => 'diary_entry', :action => 'view', :display_name => @entry.user.display_name, :id => @entry.id
     else
       render :action => 'view'
