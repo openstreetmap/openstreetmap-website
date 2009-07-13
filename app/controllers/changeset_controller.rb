@@ -255,79 +255,54 @@ class ChangesetController < ApplicationController
   # list edits (open changesets) in reverse chronological order
   def list
     conditions = conditions_nonempty
-    
-    
-   # @changesets = Changeset.find(:all, :order => "closed_at DESC", :conditions => ['closed_at < ?', DateTime.now], :limit=> 20)
-   
-   
-   #@edit_pages, @edits = paginate(:changesets,
-   #                                :include => [:user, :changeset_tags],
-   #                                :conditions => conditions,
-   #                                :order => "changesets.created_at DESC",
-   #                                :per_page => 20)
-   #
-    
-   @edits =  Changeset.find(:all,
-                                   :order => "changesets.created_at DESC",
-                                   :conditions => conditions,
-                                   :limit => 20)
-    
-  end
-  
-  ##
-  # list edits (changesets) belonging to a user
-  def list_user
-    user = User.find_by_display_name(params[:display_name], :conditions => {:visible => true})
-    
-    if user
-      @display_name = user.display_name
-      if not user.data_public? and @user != user
-        @edits = nil
-        render
-      else
-        conditions = cond_merge conditions, ['user_id = ?', user.id]
-        conditions = cond_merge conditions, conditions_nonempty
-        @edit_pages, @edits = paginate(:changesets,
-                                        :include => [:user, :changeset_tags],
-                                        :conditions => conditions,
-                                        :order => "changesets.created_at DESC",
-                                        :per_page => 20)
+
+    if params[:display_name]
+      user = User.find_by_display_name(params[:display_name], :conditions => { :visible => true })
+
+      if user 
+        if user.data_public? or user == @user
+          conditions = cond_merge conditions, ['user_id = ?', user.id]
+        else
+          conditions = cond_merge conditions, ['false']
+        end
+      elsif request.format == :html
+        @title = t 'user.no_such_user.title'
+        @not_found_user = params[:display_name]
+        render :template => 'user/no_such_user', :status => :not_found
       end
-    else
-      @not_found_user = params[:display_name]
-      render :template => 'user/no_such_user', :status => :not_found
     end
-  end
-  
-  ##
-  # list changesets in a bbox
-  def list_bbox
-    # support 'bbox' param or alternatively 'minlon', 'minlat' etc	  
-    if params['bbox']
-       bbox = params['bbox']
-    elsif params['minlon'] and params['minlat'] and params['maxlon'] and params['maxlat']
-       bbox = h(params['minlon']) + ',' + h(params['minlat']) + ',' + h(params['maxlon']) + ',' + h(params['maxlat'])
-    else
-      #TODO: fix bugs in location determination for history tab (and other tabs) then uncomment this redirect
-      #redirect_to :action => 'list'
-      
-      # For now just render immediately, and skip the db
-      render
-      return
+
+    if params[:bbox]
+      bbox = params[:bbox]
+    elsif params[:minlon] and params[:minlat] and params[:maxlon] and params[:maxlat]
+      bbox = params[:minlon] + ',' + params[:minlat] + ',' + params[:maxlon] + ',' + params[:maxlat]
     end
-       
-    conditions = conditions_bbox(bbox);
-    conditions = cond_merge conditions, conditions_nonempty
-    
+
+    if bbox
+      conditions = cond_merge conditions, conditions_bbox(bbox)
+      bbox = BoundingBox.from_s(bbox)
+      bbox_link = "<a href='#{url_for(:controller => "site", :action => "index", :minlon => bbox.min_lon, :minlat => bbox.min_lat, :maxlon => bbox.max_lon, :maxlat => bbox.max_lat, :box => "yes")}'>#{bbox.to_s}</a>"
+    end
+
+    @title =  t 'changeset.list.title'
+
+    if user and bbox
+      @description = t 'changeset.list.description_user_bbox', :user => user.display_name, :bbox => bbox_link
+    elsif user
+      @description = t 'changeset.list.description_user', :user => user.display_name
+    elsif bbox
+      @description = t 'changeset.list.description_bbox', :bbox => bbox_link
+    else
+      @description = t 'changeset.list.description'
+    end
+
     @edit_pages, @edits = paginate(:changesets,
                                    :include => [:user, :changeset_tags],
                                    :conditions => conditions,
                                    :order => "changesets.created_at DESC",
                                    :per_page => 20)
-                                   
-    @bbox = sanitise_boundaries(bbox.split(/,/)) unless bbox==nil
   end
-  
+
 private
   #------------------------------------------------------------
   # utility functions below.

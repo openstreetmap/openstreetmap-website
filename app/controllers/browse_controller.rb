@@ -69,7 +69,10 @@ class BrowseController < ApplicationController
       
     @title = "#{I18n.t('browse.changeset.title')} | #{@changeset.id}"
     @next = Changeset.find(:first, :order => "id ASC", :conditions => [ "id > :id", { :id => @changeset.id }] ) 
-    @prev = Changeset.find(:first, :order => "id DESC", :conditions => [ "id < :id", { :id => @changeset.id }] ) 
+    @prev = Changeset.find(:first, :order => "id DESC", :conditions => [ "id < :id", { :id => @changeset.id }] )
+
+    @next_by_user = Changeset.find(:first, :order => "id ASC", :conditions => [ "id > :id AND user_id = :user_id", {:id => @changeset.id, :user_id => @changeset.user_id }] )
+    @prev_by_user = Changeset.find(:first, :order => "id DESC", :conditions => [ "id < :id AND user_id = :user_id", {:id => @changeset.id, :user_id => @changeset.user_id }] )
   rescue ActiveRecord::RecordNotFound
     @type = "changeset"
     render :action => "not_found", :status => :not_found
