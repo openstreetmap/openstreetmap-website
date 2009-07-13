@@ -181,6 +181,8 @@
         :template => {
           :header   => {
             :one => "Pri shranjevanju predmeta {{model}} je prišlo do {{count}} napake",
+            :two => "Pri shranjevanju predmeta {{model}} je prišlo do {{count}} napak",
+            :few => "Pri shranjevanju predmeta {{model}} je prišlo do {{count}} napak",
             :other => "Pri shranjevanju predmeta {{model}} je prišlo do {{count}} napak"
           },
           :body  => "Prosim, popravite naslednje napake posameznih polj:"
