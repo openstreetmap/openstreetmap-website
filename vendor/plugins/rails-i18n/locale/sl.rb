@@ -92,51 +92,51 @@
       :distance_in_words => {
         :half_a_minute => 'pol minute',
         :less_than_x_seconds => {
-          :one => 'manj kot sekunda',
-          :two => 'manj kot dve sekundi',
+          :one => 'manj kot {{count}} sekunda',
+          :two => 'manj kot {{count}} sekundi',
           :few => 'manj kot {{count}} sekunde',
           :other => 'manj kot {{count}} sekund'
         },
         :x_seconds => {
-          :one => 'sekunda',
-          :two => 'dve sekundi',
+          :one => '{{count}} sekunda',
+          :two => '{{count}} sekundi',
           :few => '{{count}} sekunde',
           :other => '{{count}} sekund'
         },
         :less_than_x_minutes => {
-          :one => 'manj kot minuta',
-          :two => 'manj kot dve minuti',
+          :one => 'manj kot {{count}} minuta',
+          :two => 'manj kot {{count}} minuti',
           :few => 'manj kot {{count}} minute',
           :other => 'manj kot {{count}} minut'
         },
         :x_minutes => {
-          :one => 'minuta',
-          :two => 'dve minuti',
+          :one => '{{count}} minuta',
+          :two => '{{count}} minuti',
           :few => '{{count}} minute',
           :other => '{{count}} minut'
         },
         :about_x_hours => {
-          :one => 'približno ena ura',
-          :two => 'približno dve uri',
+          :one => 'približno {{count}} ura',
+          :two => 'približno {{count}} uri',
           :few => 'približno {{count}} ure',
           :other => 'približno {{count}} ur'
         },
         :x_days => {
-          :one => 'en dan',
-          :two => 'dva dni',
+          :one => '{{count}} dan',
+          :two => '{{count}} dni',
           :few => '{{count}} dni',
           :other => '{{count}} dni'
         },
         :about_x_months => {
-          :one => 'približno en mesec',
-          :two => 'približno dva meseca',
+          :one => 'približno {{count}} mesec',
+          :two => 'približno {{count}} meseca',
           :few => 'približno {{count}} mesece',
           :other => 'približno {{count}} mesecev'
         },
         :x_months => {
-          :one => 'en mesec',
-          :two => 'dva meseca',
-          :few => '{{count}} meseci',
+          :one => '{{count}} mesec',
+          :two => '{{count}} meseca',
+          :few => '{{count}} mesece',
           :other => '{{count}} mesecev'
         },
         :about_x_years => {
@@ -165,9 +165,24 @@
           :accepted            => "mora biti potrjeno",
           :empty               => "ne sme biti prazno",
           :blank               => "je obezno", # alternate formulation: "is required"
-          :too_long            => "je predolgo (največ {{count}} znakov)",
-          :too_short           => "je prekratko (vsaj {{count}} znakov)",
-          :wrong_length        => "ni pravilne dolžine (natanko {{count}} znakov)",
+          :too_long => {
+            :one               => "je predolgo (največ {{count}} znak)",
+            :two               => "je predolgo (največ {{count}} znaka)",
+            :few               => "je predolgo (največ {{count}} znaki)",
+            :other             => "je predolgo (največ {{count}} znakov)"
+          },
+          :too_short => {
+            :one               => "je prekratko (vsaj {{count}} znak)",
+            :two               => "je prekratko (vsaj {{count}} znaka)",
+            :few               => "je prekratko (vsaj {{count}} znaki)",
+            :other             => "je prekratko (vsaj {{count}} znakov)"
+          },
+          :wrong_length        => {
+            :one               => "ni pravilne dolžine (natanko {{count}} znak)",
+            :two               => "ni pravilne dolžine (natanko {{count}} znaka)",
+            :few               => "ni pravilne dolžine (natanko {{count}} znaki)",
+            :other             => "ni pravilne dolžine (natanko {{count}} znakov)"
+          },
           :taken               => "že obstaja v bazi",
           :not_a_number        => "ni številka",
           :greater_than        => "mora biti večje od {{count}}",
