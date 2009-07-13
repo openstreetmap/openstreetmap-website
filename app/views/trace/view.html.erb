@@ -36,9 +36,7 @@
     <td><%= t'trace.view.tags' %></td>
     <td>
     <% unless @trace.tags.empty? %>
-      <% @trace.tags.each do |tag| %>
-        <%= link_to tag.tag, { :controller => 'trace', :action => 'list', :tag => tag.tag, :id => nil } %>
-      <% end %>
+      <%= @trace.tags.collect { |tag| link_to tag.tag, { :controller => 'trace', :action => 'list', :tag => tag.tag, :id => nil } }.join(", ") %>
     <% else %>
       <i><%= t'trace.view.none' %></i>
     <% end %>

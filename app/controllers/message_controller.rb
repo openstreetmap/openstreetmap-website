@@ -27,8 +27,9 @@ class MessageController < ApplicationController
         end
       else
         if params[:title]
-          # ?title= is set when someone reponds to this user's diary entry
-          @title = params[:title]
+          # ?title= is set when someone reponds to this user's diary
+          # entry. Then we pre-fill out the subject and the <title>
+          @title = @subject = params[:title]
         else
           # The default /message/new/$user view
           @title = t 'message.new.title'
@@ -44,7 +45,7 @@ class MessageController < ApplicationController
   def reply
     message = Message.find(params[:message_id], :conditions => ["to_user_id = ? or from_user_id = ?", @user.id, @user.id ])
     @body = "On #{message.sent_on} #{message.sender.display_name} wrote:\n\n#{message.body.gsub(/^/, '> ')}" 
-    @title = "Re: #{message.title.sub(/^Re:\s*/, '')}"
+    @title = @subject = "Re: #{message.title.sub(/^Re:\s*/, '')}"
     @to_user = User.find(message.from_user_id)
     render :action => 'new'
   rescue ActiveRecord::RecordNotFound
@@ -104,3 +105,4 @@ class MessageController < ApplicationController
     render :action => 'no_such_user', :status => :not_found
   end
 end
+ 
