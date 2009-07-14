@@ -76,7 +76,7 @@ class AmfController < ApplicationController
         logger.info("Executing AMF #{message}(#{args.join(',')}):#{index}")
 
         case message
-          when 'getpresets';        results[index]=AMF.putdata(index,getpresets(args[0]))
+          when 'getpresets';        results[index]=AMF.putdata(index,getpresets(I18n.locale))
           when 'whichways';         results[index]=AMF.putdata(index,whichways(*args))
           when 'whichways_deleted'; results[index]=AMF.putdata(index,whichways_deleted(*args))
           when 'getway';            results[index]=AMF.putdata(index,getway(args[0].to_i))
@@ -214,11 +214,11 @@ class AmfController < ApplicationController
   # uses POTLATCH_PRESETS global, set up in OSM::Potlatch.
 
   def getpresets(lang) #:doc:
-    lang.gsub!(/[^\w\-]/,'')
-
     begin
+      logger.info("Loading Potlatch/#{lang} localisation")
       localised = YAML::load(File.open("#{RAILS_ROOT}/config/potlatch/localised/#{lang}/localised.yaml"))
     rescue
+      logger.info("Loading Potlatch/#{lang} localisation failed, using English defaults")
       localised = "" # guess we'll just have to use the hardcoded English text instead
     end
 
