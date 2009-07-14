@@ -109,7 +109,9 @@ is:
       has_ways:
         one:  "Inniheldur {{count}} veg:"
         other: "Inniheldur {{count}} vegi:"
-      has_relations: "Inniheldur {{count}} vensl:"
+      has_relations:
+        one: "Inniheldur {{count}} vensl:"
+        other: "Inniheldur {{count}} vensl:"
     common_details: 
       edited_at: "Breytt:"
       edited_by: "Breytt af:"
@@ -157,6 +159,9 @@ is:
     relation_history:
       relation_history: "Breytingarskrá vensla "
       relation_history_title: "Breytingarskrá vensla: {{relation_name}}"
+      download: "{{download_xml_link}} eða {{view_details_link}}"
+      download_xml: "Hala niður á XML sniði"
+      view_details: "sýna breytingarsögu"
     relation_member:
       entry: "{{type}} {{name}}"
       entry_role: "{{type}} {{name}} sem „{{role}}“"
@@ -247,27 +252,12 @@ is:
       user: "Notandi"
       comment: "Athugasemd"
       area: "Svæði"
-    list_bbox:
-      history: "Breytingarskrá"
-      changesets_within_the_area: "Breytingarsett innan svæðisins:"
-      show_area_box: "sýna svæðismörk"
-      no_changesets: "Engin breytingarsett"
-      all_changes_everywhere: "Sjá {{recent_changes_link}} óháð svæði"
-      recent_changes: "nýlegar breytingar"
-      no_area_specified: "Engin svæðsmörk tilgreind"
-      first_use_view: "Notaðu {{view_tab_link}} til að þysja á það svæði sem þú hefur áhuga á, farðu svo í breytingarskránna."
-      view_the_map: "Opna kortasjá"
-      view_tab: "kortasjánna"
-      alternatively_view: "Einnig er hægt að skoða allar {{recent_changes_link}}"
     list:
-      recent_changes: "Nýlegar breytingar"
-      recently_edited_changesets: "Breytingarsettum sem var nýlega breytt:"
-      for_more_changesets: "Til að sjá fleiri breytingarsett veldu notanda og kannaðu breytingar hans, eða skoðaðu breytingarsöguna fyrir tiltekið svæði."
-    list_user:
-      edits_by_username: "Framlög {{username_link}}"
-      no_visible_edits_by: "Engin sýnileg framlög skráð á {{name}}."
-      for_all_changes: "Sjá {{recent_changes_link}} til að sjá breytingar eftir alla notendur"
-      recent_changes: "nýlegar breytingar"
+      title: "Breytingarsett"
+      description: "Nýlegar breytingar"
+      description_user: "Nýlegar breytingar eftir {{user}}"
+      description_bbox: "Nýlegar breytingar innan {{bbox}}"
+      description_user_bbox: "Nýlegar breytingar eftir {{user}} innan {{bbox}}"
   diary_entry:
     new:
       title: "Ný bloggfærsla"
@@ -357,26 +347,36 @@ is:
         ca_postcode: 'Niðurstöður frá <a href="http://geocoder.ca/">Geocoder.CA</a>'
         osm_namefinder: 'Niðurstöður frá <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>'
         geonames: 'Niðurstöður frá <a href="http://www.geonames.org/">GeoNames</a>'
+    search_osm_namefinder:
+      prefix: "{{type}} "
+      suffix_place: ", {{distance}} {{direction}} af {{placename}}"
+      suffix_parent: "{{suffix}} ({{parentdistance}} {{parentdirection}} af {{parentname}})"
+      suffix_suburb: "{{suffix}}, {{parentname}}"
+    description:
+      title:
+        osm_namefinder: '{{types}} frá <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>'
+        geonames: 'Staðsetning frá <a href="http://www.geonames.org/">GeoNames</a>'
+      types:
+        cities: Borgir
+        towns: Bæir
+        places: Staðir
+    description_osm_namefinder:
+      prefix: "{{distance}} {{direction}} af{{type}} "
     results:
       no_results: "Ekkert fannst"
-      namefinder:
-        prefix: "{{type}} "
-        suffix_place: ", {{distance}} {{direction}} af {{placename}}"
-        suffix_parent: "{{suffix}} ({{parentdistance}} {{parentdirection}} af {{parentname}})"
-        suffix_suburb: "{{suffix}}, {{parentname}}"
-      distance:
-        zero: "minna en 1km"
-        one: "u.þ.b. 1km"
-        other: "u.þ.b. {{count}}km"
-      direction:
-        south_west: "suðvestur"
-        south: "suður"
-        south_east: "suðaustur"
-        east: "austur"
-        north_east: "norðaustur"
-        north: "norður"
-        north_west: "norðvestur"
-        west: "vestur"
+    distance:
+      zero: "minna en 1km"
+      one: "u.þ.b. 1km"
+      other: "u.þ.b. {{count}}km"
+    direction:
+      south_west: "suðvestur"
+      south: "suður"
+      south_east: "suðaustur"
+      east: "austur"
+      north_east: "norðaustur"
+      north: "norður"
+      north_west: "norðvestur"
+      west: "vestur"
   layouts:
     project_name:
       # in <title>
@@ -700,6 +700,7 @@ is:
       owner: "Eigandi:"
       description: "Lýsing:"
       tags: "Tögg:"
+      tags_help: "aðskilin með kommum"
       save_button: "Vista breytingar"
     no_such_user:
       title: "Notandi ekki til"
@@ -709,6 +710,7 @@ is:
       upload_gpx: "Upphala GPX skrá"
       description: "Lýsing"
       tags: "Tögg"
+      tags_help: "aðskilin með kommum"
       public: "Sjáanleg öðrum?"
       public_help: "Hvað þýðir þetta?"
       public_help_url: "http://wiki.openstreetmap.org/index.php?title=Visibility_of_GPS_traces&uselang=is"
