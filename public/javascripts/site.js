@@ -2,7 +2,7 @@
  * Called as the user scrolls/zooms around to aniplate hrefs of the
  * view tab and various other links
  */
-function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat) {
+function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat,objtype,objid) {
   var decimals = Math.pow(10, Math.floor(zoom/3));
   var node;
 
@@ -17,6 +17,9 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat) {
     args["zoom"] = zoom;
     if (layers) {
       args["layers"] = layers;
+    }
+    if (objtype && objid) {
+      args[objtype] = objid;
     }
     node.href = setArgs(node.href, args);
   }
@@ -52,6 +55,9 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat) {
       args.lat = lat;
       args.lon = lon;
       args.zoom = zoom;
+      if (objtype && objid) {
+        args[objtype] = objid;
+      }
       node.href = setArgs("/edit", args);
       node.style.fontStyle = 'normal';
     } else {
@@ -84,8 +90,51 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat) {
       node.style.fontStyle = 'italic';
     }
   }
+
+  node = document.getElementById("shortlinkanchor");
+  if (node) {
+    var args = getArgs(node.href);
+    var code = makeShortCode(lat, lon, zoom);
+    var prefix = shortlinkPrefix();
+
+    // Add ?{node,way,relation}=id to the arguments
+    if (objtype && objid) {
+      args[objtype] = objid;
+    }
+
+    // This is a hack to omit the default mapnik layer (B000FTF) from
+    // the shortlink. B000FTFT is then the "Object" layer which we get
+    // on /?{node,way,relation}=id
+    if (layers && (layers != "B000FTF") && (layers != "B000FTFT")) {
+      args["layers"] = layers;
+    }
+
+    // Here we're assuming that all parameters but ?layers= and
+    // ?{node,way,relation}= can be safely omitted from the shortlink
+    // which encodes lat/lon/zoom. If new URL parameters are added to
+    // the main slippy map this needs to be changed.
+    if (args["layers"] || args[objtype]) {
+      node.href = setArgs(prefix + "/go/" + code, args);
+    } else {
+      node.href = prefix + "/go/" + code;
+    }
+  }
 }
 
+/*
+ * Get the URL prefix to use for a short link
+ */
+function shortlinkPrefix() {
+  if (window.location.hostname.match(/^www\.openstreetmap\.org/i)) {
+    return "http://osm.org";
+  } else {
+    return "";     
+  }
+}
+
+/*
+ * Called to get the arguments from a URL as a hash.
+ */
 function getArgs(url) {
   var args = new Object();
   var querystart = url.indexOf("?");
@@ -125,7 +174,7 @@ function setArgs(url, args) {
 }
 
 /*
- * Called to get the arguments from a URL as a hash.
+ * Called to get a CSS property for an element.
  */
 function getStyle(el, property) {
   var style;
@@ -158,3 +207,34 @@ function i18n(string, keys) {
    
   return string;
 } 
+
+function makeShortCode(lat, lon, zoom) {
+    char_array = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_@";
+    var x = Math.round((lon + 180.0) * ((1 << 30) / 90.0));
+    var y = Math.round((lat +  90.0) * ((1 << 30) / 45.0));
+    // hack around the fact that JS apparently only allows 53-bit integers?!?
+    // note that, although this reduces the accuracy of the process, it's fine for
+    // z18 so we don't need to care for now.
+    var c1 = 0, c2 = 0;
+    for (var i = 31; i > 16; --i) {
+	c1 = (c1 << 1) | ((x >> i) & 1);
+	c1 = (c1 << 1) | ((y >> i) & 1);
+    }
+    for (var i = 16; i > 1; --i) {
+	c2 = (c2 << 1) | ((x >> i) & 1);
+	c2 = (c2 << 1) | ((y >> i) & 1);
+    }
+    var str = "";
+    for (var i = 0; i < Math.ceil((zoom + 8) / 3.0) && i < 5; ++i) {
+	digit = (c1 >> (24 - 6 * i)) & 0x3f;
+	str += char_array.charAt(digit);
+    }
+    for (var i = 5; i < Math.ceil((zoom + 8) / 3.0); ++i) {
+	digit = (c2 >> (24 - 6 * (i - 5))) & 0x3f;
+	str += char_array.charAt(digit);
+    }
+    for (var i = 0; i < ((zoom + 8) % 3); ++i) {
+	str += "-";
+    }
+    return str;
+}

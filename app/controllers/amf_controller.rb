@@ -302,7 +302,7 @@ class AmfController < ApplicationController
   end
 
   # Get a way including nodes and tags.
-  # Returns the way id, a Potlatch-style array of points, a hash of tags, and the version number.
+  # Returns the way id, a Potlatch-style array of points, a hash of tags, the version number, and the user ID.
 
   def getway(wayid) #:doc:
     amf_handle_error_with_timeout("'getway' #{wayid}") do
@@ -310,6 +310,7 @@ class AmfController < ApplicationController
         points = sql_get_nodes_in_way(wayid)
         tags = sql_get_tags_in_way(wayid)
         version = sql_get_way_version(wayid)
+        uid = sql_get_way_user(wayid)
       else
         # Ideally we would do ":include => :nodes" here but if we do that
         # then rails only seems to return the first copy of a node when a
@@ -326,9 +327,10 @@ class AmfController < ApplicationController
         end
         tags = way.tags
         version = way.version
+        uid = way.changeset.user.id
       end
 
-      [0, '', wayid, points, tags, version]
+      [0, '', wayid, points, tags, version, uid]
     end
   end
   
@@ -415,7 +417,8 @@ class AmfController < ApplicationController
       # Remove any elements where 2 seconds doesn't elapse before next one
       revdates.delete_if { |d| revdates.include?(d+1) or revdates.include?(d+2) }
       # Collect all in one nested array
-      revdates.collect! {|d| [d.strftime("%d %b %Y, %H:%M:%S")] + revusers[d.to_i] }
+      revdates.collect! {|d| [d.succ.strftime("%d %b %Y, %H:%M:%S")] + revusers[d.to_i] }
+      revdates.uniq!
 
       return ['way', wayid, revdates]
     rescue ActiveRecord::RecordNotFound
@@ -428,7 +431,7 @@ class AmfController < ApplicationController
   def getnode_history(nodeid) #:doc:
     begin 
       history = Node.find(nodeid).old_nodes.reverse.collect do |old_node|
-        [old_node.timestamp.strftime("%d %b %Y, %H:%M:%S")] + change_user(old_node)
+        [old_node.timestamp.succ.strftime("%d %b %Y, %H:%M:%S")] + change_user(old_node)
       end
       return ['node', nodeid, history]
     rescue ActiveRecord::RecordNotFound
@@ -748,10 +751,11 @@ class AmfController < ApplicationController
 
   def getpoi(id,timestamp) #:doc:
     amf_handle_error("'getpoi' #{id}") do
+      id = id.to_i
       n = Node.find(id)
       v = n.version
       unless timestamp == ''
-        n = OldNode.find(id, :conditions=>['timestamp=?',DateTime.strptime(timestamp, "%d %b %Y, %H:%M:%S")])
+        n = OldNode.find(:first, :conditions => ['id = ? AND timestamp <= ?', id, timestamp], :order => 'timestamp DESC')
       end
 
       if n
@@ -937,7 +941,11 @@ class AmfController < ApplicationController
   end
 
   def sql_get_way_version(wayid)
-    ActiveRecord::Base.connection.select_one("SELECT version FROM current_ways WHERE id=#{wayid.to_i}")
+    ActiveRecord::Base.connection.select_one("SELECT version FROM current_ways WHERE id=#{wayid.to_i}")['version']
+  end
+
+  def sql_get_way_user(wayid)
+    ActiveRecord::Base.connection.select_one("SELECT user FROM current_ways,changesets WHERE current_ways.id=#{wayid.to_i} AND current_ways.changeset=changesets.id")['user']
   end
 end
 

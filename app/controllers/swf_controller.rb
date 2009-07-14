@@ -23,6 +23,7 @@ class SwfController < ApplicationController
 		xmax=params['xmax'].to_f;
 		ymin=params['ymin'].to_f;
 		ymax=params['ymax'].to_f;
+		start=params['start'].to_i;
 	
 		# -	Begin movie
 	
@@ -54,7 +55,7 @@ class SwfController < ApplicationController
 			   "  AND "+OSM.sql_for_area(ymin,xmin,ymax,xmax,"gps_points.")+
 			   "  AND (gps_points.timestamp IS NOT NULL) "+
 			   "ORDER BY fileid DESC,ts "+
-			   "LIMIT 10000"
+			   "LIMIT 10000 OFFSET #{start}"
 		  else
 			sql="SELECT latitude*0.0000001 AS lat,longitude*0.0000001 AS lon,gpx_id AS fileid,"+
 			     "      EXTRACT(EPOCH FROM timestamp) AS ts, gps_points.trackid AS trackid "+
@@ -62,7 +63,7 @@ class SwfController < ApplicationController
 				 "WHERE "+OSM.sql_for_area(ymin,xmin,ymax,xmax,"gps_points.")+
 				 "  AND (gps_points.timestamp IS NOT NULL) "+
 				 "ORDER BY fileid DESC,ts "+
-				 "LIMIT 10000"
+				 "LIMIT 10000 OFFSET #{start}"
 		end
 		gpslist=ActiveRecord::Base.connection.select_all sql
 	

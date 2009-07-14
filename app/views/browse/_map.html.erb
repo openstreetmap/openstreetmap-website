@@ -6,77 +6,67 @@
     <div id="small_map" style="width:250px; height: 300px; border: solid 1px black">
     </div>
     <span id="loading"><%= t 'browse.map.loading' %></span>
-    <a id="larger_map" href=""></a>
+    <a id="area_larger_map" href=""></a>
+    <% unless map.instance_of? Changeset %>
+      <br />
+      <a id="object_larger_map" href=""></a>
+    <% end %>
   <% else %>
     <%= t 'browse.map.deleted' %>
   <% end %>
 </td>
-<script type="text/javascript">
-  OpenLayers.Lang.setCode("<%= I18n.locale.to_s %>");
+<% if map.instance_of? Changeset or map.visible %>
+  <script type="text/javascript">
+    OpenLayers.Lang.setCode("<%= I18n.locale.to_s %>");
 
-  function init() {
-    var map = createMap("small_map", {
-      controls: [ new OpenLayers.Control.Navigation() ]
-    });
+    function init() {
+      var map = createMap("small_map", {
+        controls: [ new OpenLayers.Control.Navigation() ]
+      });
 
-    <% if map.instance_of? Changeset %>
-    var minlon = <%= map.min_lon / GeoRecord::SCALE.to_f %>;
-    var minlat = <%= map.min_lat / GeoRecord::SCALE.to_f %>;
-    var maxlon = <%= map.max_lon / GeoRecord::SCALE.to_f %>;
-    var maxlat = <%= map.max_lat / GeoRecord::SCALE.to_f %>;
-    var bbox = new OpenLayers.Bounds(minlon, minlat, maxlon, maxlat);
+      <% if map.instance_of? Changeset %>
+        var minlon = <%= map.min_lon / GeoRecord::SCALE.to_f %>;
+        var minlat = <%= map.min_lat / GeoRecord::SCALE.to_f %>;
+        var maxlon = <%= map.max_lon / GeoRecord::SCALE.to_f %>;
+        var maxlat = <%= map.max_lat / GeoRecord::SCALE.to_f %>;
+        var bbox = new OpenLayers.Bounds(minlon, minlat, maxlon, maxlat);
 
-    setMapExtent(bbox);
-    addBoxToMap(bbox);
+        setMapExtent(bbox);
+        addBoxToMap(bbox);
 
-    $("loading").innerHTML = "";
+        $("loading").innerHTML = "";
 
-    $("larger_map").href = '/?minlon='+minlon+'&minlat='+minlat+'&maxlon='+maxlon+'&maxlat='+maxlat+'&box=yes';
-    $("larger_map").innerHTML = "<%= t 'browse.map.view_larger_map' %>";
-    <% else %>
-    var obj_type = "<%= map.class.name.downcase %>";
-    var obj_id = <%= map.id %>;
-    var url = "/api/<%= "#{API_VERSION}" %>/<%= map.class.name.downcase %>/<%= map.id %>";
+        $("area_larger_map").href = '/?minlon='+minlon+'&minlat='+minlat+'&maxlon='+maxlon+'&maxlat='+maxlat+'&box=yes';
+        $("area_larger_map").innerHTML = "<%= t 'browse.map.larger.area' %>";
+      <% else %>
+        var obj_type = "<%= map.class.name.downcase %>";
+        var obj_id = <%= map.id %>;
+        var url = "/api/<%= "#{API_VERSION}" %>/<%= map.class.name.downcase %>/<%= map.id %>";
 
-    if (obj_type != "node") {
-      url += "/full";
-    }
-
-    var osm_layer = new OpenLayers.Layer.GML("OSM", url, {
-      format: OpenLayers.Format.OSM,
-      projection: new OpenLayers.Projection("EPSG:4326")
-    });
-
-    osm_layer.events.register("loadend", osm_layer, function() {
-      $("loading").innerHTML = "";
-
-      if (this.features.length) { 
-        var extent =  this.features[0].geometry.getBounds();
-
-        for (var i = 1; i < this.features.length; i++) {
-          extent.extend(this.features[i].geometry.getBounds());
+        if (obj_type != "node") {
+          url += "/full";
         }
 
-        if (extent) {
-          this.map.zoomToExtent(extent);
-        } else {
-          this.map.zoomToMaxExtent();
-	}
+        addObjectToMap(url, true, function(extent) {
+          $("loading").innerHTML = "";
 
-	var center = getMapCenter();
-        $("larger_map").href = '/?lat='+center.lat+'&lon='+center.lon+'&zoom='+this.map.getZoom();
-        $("larger_map").innerHTML = "<%= t 'browse.map.view_larger_map' %>";
-      } else {
-        $("small_map").style.display = "none";
-      }
-    });
+          if (extent) {
+            extent.transform(map.getProjectionObject(), map.displayProjection);
 
-    map.addLayer(osm_layer);
+            $("area_larger_map").href = '/?minlon='+extent.left+'&minlat='+extent.bottom+'&maxlon='+extent.right+'&maxlat='+extent.top;
+            $("area_larger_map").innerHTML = "<%= t 'browse.map.larger.area' %>";
 
-    osm_layer.loadGML();
-    osm_layer.loaded = true;
-    <% end %>
-  }
+            <% unless map.instance_of? Changeset %>
+              $("object_larger_map").href = '/?<%= map.class.to_s.downcase %>=<%= map.id %>';
+              $("object_larger_map").innerHTML = "<%= t('browse.map.larger.' + map.class.to_s.downcase) %>";
+            <% end %>
+          } else {
+            $("small_map").style.display = "none";
+          }
+        });
+      <% end %>
+    }
 
-  window.onload = init;
-</script>
+    window.onload = init;
+  </script>
+<% end %>

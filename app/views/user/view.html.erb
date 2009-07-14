@@ -4,14 +4,14 @@
 <!-- Displaying user's own profile page -->
 <%= link_to t('user.view.my diary'), :controller => 'diary_entry', :action => 'list', :display_name => @user.display_name %>
 | <%= link_to t('user.view.new diary entry'), :controller => 'diary_entry', :action => 'new', :display_name => @user.display_name %>
-| <%= link_to t('user.view.my edits'), :controller => 'changeset', :action => 'list_user', :display_name => @user.display_name %>
+| <%= link_to t('user.view.my edits'), :controller => 'changeset', :action => 'list', :display_name => @user.display_name %>
 | <%= link_to t('user.view.my traces'), :controller => 'trace', :action=>'mine' %>
 | <%= link_to t('user.view.my settings'), :controller => 'user', :action => 'account', :display_name => @user.display_name %>
 <% else %>
 <!-- Displaying another user's profile page -->
 <%= link_to t('user.view.send message'), :controller => 'message', :action => 'new', :display_name => @this_user.display_name %>
 | <%= link_to t('user.view.diary'), :controller => 'diary_entry', :action => 'list', :display_name => @this_user.display_name %>
-| <%= link_to t('user.view.edits'), :controller => 'changeset', :action => 'list_user', :display_name => @this_user.display_name %>
+| <%= link_to t('user.view.edits'), :controller => 'changeset', :action => 'list', :display_name => @this_user.display_name %>
 | <%= link_to t('user.view.traces'), :controller => 'trace', :action => 'view', :display_name => @this_user.display_name %>
 | <% if @user and @user.is_friends_with?(@this_user) %>
   <%= link_to t('user.view.remove as friend'), :controller => 'user', :action => 'remove_friend', :display_name => @this_user.display_name %>
@@ -71,7 +71,16 @@
       <% end %>
       </td>
       <td class="username"><%= link_to h(@friend.display_name), :controller => 'user', :action => 'view',  :display_name => @friend.display_name %></td>
-      <td><% if @friend.home_lon and @friend.home_lat %><%= t 'user.view.km away', :count => @this_user.distance(@friend).round %><% end %></td>
+      <td>
+        <% if @friend.home_lon and @friend.home_lat %>
+          <% distance = @this_user.distance(@friend) %>
+          <% if distance < 1 %>
+            <%= t 'user.view.m away', :count => (distance * 1000).round %>
+          <% else %>
+            <%= t 'user.view.km away', :count => distance.round %>
+          <% end %>
+        <% end %>
+      </td>
       <td class="message">(<%= link_to t('user.view.send message'), :controller => 'message', :action => 'new', :user_id => @friend.id %>)</td>
       </tr>
       <%end%>
@@ -93,7 +102,14 @@
       <% @this_user.nearby.each do |nearby| %>
       <tr>
       <td class="username"><%= link_to h(nearby.display_name), :controller => 'user', :action => 'view',  :display_name => nearby.display_name %></td>
-      <td><%= t 'user.view.km away', :count => @this_user.distance(nearby).round %></td>
+      <td>
+        <% distance = @this_user.distance(nearby) %>
+        <% if distance < 1 %>
+          <%= t 'user.view.m away', :count => (distance * 1000).round %>
+        <% else %>
+          <%= t 'user.view.km away', :count => distance.round %>
+        <% end %>
+      </td>
       <td class="message">(<%= link_to t('user.view.send message'), :controller => 'message', :action => 'new', :user_id => nearby.id %>)</td>
       </tr>
       <% end %>

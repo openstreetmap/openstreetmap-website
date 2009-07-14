@@ -20,15 +20,24 @@ class Trace < ActiveRecord::Base
   end
 
   def tagstring
-    return tags.collect {|tt| tt.tag}.join(" ")
+    return tags.collect {|tt| tt.tag}.join(", ")
   end
 
   def tagstring=(s)
-    self.tags = s.split().collect {|tag|
-      tt = Tracetag.new
-      tt.tag = tag
-      tt
-    }
+    if s.include?','
+      self.tags = s.split(/\s*,\s*/).collect {|tag|
+        tt = Tracetag.new
+        tt.tag = tag
+        tt
+      }
+    else
+      #do as before for backwards compatibility:
+      self.tags = s.split().collect {|tag|
+        tt = Tracetag.new
+        tt.tag = tag
+        tt
+      }
+    end
   end
   
   def large_picture= (data)

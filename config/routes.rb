@@ -6,9 +6,9 @@ ActionController::Routing::Routes.draw do |map|
 
   map.connect "api/#{API_VERSION}/changeset/create", :controller => 'changeset', :action => 'create'
   map.connect "api/#{API_VERSION}/changeset/:id/upload", :controller => 'changeset', :action => 'upload', :id => /\d+/
-  map.connect "api/#{API_VERSION}/changeset/:id/download", :controller => 'changeset', :action => 'download', :id => /\d+/
+  map.changeset_download "api/#{API_VERSION}/changeset/:id/download", :controller => 'changeset', :action => 'download', :id => /\d+/
   map.connect "api/#{API_VERSION}/changeset/:id/expand_bbox", :controller => 'changeset', :action => 'expand_bbox', :id => /\d+/
-  map.connect "api/#{API_VERSION}/changeset/:id", :controller => 'changeset', :action => 'read', :id => /\d+/, :conditions => { :method => :get }
+  map.changeset_read "api/#{API_VERSION}/changeset/:id", :controller => 'changeset', :action => 'read', :id => /\d+/, :conditions => { :method => :get }
   map.connect "api/#{API_VERSION}/changeset/:id", :controller => 'changeset', :action => 'update', :id => /\d+/, :conditions => { :method => :put }
   map.connect "api/#{API_VERSION}/changeset/:id/close", :controller => 'changeset', :action => 'close', :id =>/\d+/
   map.connect "api/#{API_VERSION}/changesets", :controller => 'changeset', :action => 'query'
@@ -81,14 +81,16 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/browse/node/:id/history', :controller => 'browse', :action => 'node_history', :id => /\d+/
   map.connect '/browse/relation/:id', :controller => 'browse', :action => 'relation', :id => /\d+/
   map.connect '/browse/relation/:id/history', :controller => 'browse', :action => 'relation_history', :id => /\d+/
-  map.connect '/browse/changeset/:id', :controller => 'browse', :action => 'changeset', :id => /\d+/
+  map.changeset '/browse/changeset/:id', :controller => 'browse', :action => 'changeset', :id => /\d+/
   map.connect '/browse/changesets', :controller => 'changeset', :action => 'list'
+  map.connect '/browse/changesets/feed', :controller => 'changeset', :action => 'list', :format => :atom
   
   # web site
   map.root :controller => 'site', :action => 'index'
   map.connect '/', :controller => 'site', :action => 'index'
   map.connect '/edit', :controller => 'site', :action => 'edit'
-  map.connect '/history', :controller => 'changeset', :action => 'list_bbox'
+  map.connect '/history', :controller => 'changeset', :action => 'list'
+  map.connect '/history/feed', :controller => 'changeset', :action => 'list', :format => :atom
   map.connect '/export', :controller => 'site', :action => 'export'
   map.connect '/login', :controller => 'user', :action => 'login'
   map.connect '/logout', :controller => 'user', :action => 'logout'
@@ -113,6 +115,9 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/logout.html', :controller => 'user', :action => 'logout'
   map.connect '/create-account.html', :controller => 'user', :action => 'new'
   map.connect '/forgot-password.html', :controller => 'user', :action => 'lost_password'
+
+  # permalink
+  map.connect '/go/:code', :controller => 'site', :action => 'permalink', :code => /[a-zA-Z0-9_@]+[=-]*/
 
   # traces  
   map.connect '/traces', :controller => 'trace', :action => 'list'
@@ -143,7 +148,8 @@ ActionController::Routing::Routes.draw do |map|
 
   # user pages
   map.connect '/user/:display_name', :controller => 'user', :action => 'view'
-  map.connect '/user/:display_name/edits', :controller => 'changeset', :action => 'list_user'
+  map.connect '/user/:display_name/edits', :controller => 'changeset', :action => 'list'
+  map.connect '/user/:display_name/edits/feed', :controller => 'changeset', :action => 'list', :format =>:atom
   map.connect '/user/:display_name/make_friend', :controller => 'user', :action => 'make_friend'
   map.connect '/user/:display_name/remove_friend', :controller => 'user', :action => 'remove_friend'
   map.connect '/user/:display_name/diary', :controller => 'diary_entry', :action => 'list'
@@ -166,7 +172,15 @@ ActionController::Routing::Routes.draw do |map|
 
   # geocoder
   map.connect '/geocoder/search', :controller => 'geocoder', :action => 'search'
+  map.connect '/geocoder/search_latlon', :controller => 'geocoder', :action => 'search_latlon'
+  map.connect '/geocoder/search_us_postcode', :controller => 'geocoder', :action => 'search_us_postcode'
+  map.connect '/geocoder/search_uk_postcode', :controller => 'geocoder', :action => 'search_uk_postcode'
+  map.connect '/geocoder/search_ca_postcode', :controller => 'geocoder', :action => 'search_ca_postcode'
+  map.connect '/geocoder/search_osm_namefinder', :controller => 'geocoder', :action => 'search_osm_namefinder'
+  map.connect '/geocoder/search_geonames', :controller => 'geocoder', :action => 'search_geonames'
   map.connect '/geocoder/description', :controller => 'geocoder', :action => 'description'
+  map.connect '/geocoder/description_osm_namefinder', :controller => 'geocoder', :action => 'description_osm_namefinder'
+  map.connect '/geocoder/description_geonames', :controller => 'geocoder', :action => 'description_geonames'
 
   # export
   map.connect '/export/start', :controller => 'export', :action => 'start'

@@ -280,10 +280,13 @@ class AmfControllerTest < ActionController::TestCase
     # ['way',wayid,history]
     assert_equal 'way', history[0]
     assert_equal latest.id, history[1] 
-    # for some reason undocumented, the potlatch API now prefers dates
-    # over version numbers. presumably no-one edits concurrently any more?
-    assert_equal latest.timestamp.strftime("%d %b %Y, %H:%M:%S"), history[2].first[0]
-    assert_equal oldest.timestamp.strftime("%d %b %Y, %H:%M:%S"), history[2].last[0]
+    # We use dates rather than version numbers here, because you might
+    # have moved a node within a way (i.e. way version not incremented).
+    # The timestamp is +1 (timestamp.succ) because we say "give me the
+    # revision of 15:33:02", but that might actually include changes at
+    # 15:33:02.457.
+    assert_equal latest.timestamp.succ.strftime("%d %b %Y, %H:%M:%S"), history[2].first[0]
+    assert_equal oldest.timestamp.succ.strftime("%d %b %Y, %H:%M:%S"), history[2].last[0]
   end
 
   def test_getway_history_nonexistent
@@ -308,21 +311,18 @@ class AmfControllerTest < ActionController::TestCase
     history = amf_result("/1")
 
     # ['node',nodeid,history]
+    # note that (as per getway_history) we actually round up
+    # to the next second
     assert_equal history[0], 'node', 
       'first element should be "node"'
     assert_equal history[1], latest.id,
       'second element should be the input node ID'
-    # NOTE: changed this test to match what amf_controller actually 
-    # outputs - which may or may not be what potlatch is expecting.
-    # someone who knows potlatch (i.e: richard f) should review this.
-    # NOTE2: wow - this is the second time this has changed in the
-    # API and the tests are being patched up. 
     assert_equal history[2].first[0], 
-      latest.timestamp.strftime("%d %b %Y, %H:%M:%S"),
-      'first part of third element should be the latest version'
+      latest.timestamp.succ.strftime("%d %b %Y, %H:%M:%S"),
+      'first element in third element (array) should be the latest version'
     assert_equal history[2].last[0], 
-      nodes(:node_with_versions_v1).timestamp.strftime("%d %b %Y, %H:%M:%S"),
-      'second part of third element should be the initial version'
+      nodes(:node_with_versions_v1).timestamp.succ.strftime("%d %b %Y, %H:%M:%S"),
+      'last element in third element (array) should be the initial version'
   end
 
   def test_getnode_history_nonexistent

@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%= I18n.locale %>" lang="<%= I18n.locale %>" dir="<% t'html.dir' %>">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%= I18n.locale %>" lang="<%= I18n.locale %>" dir="<%= t'html.dir' %>">
   <head>
     <%= javascript_include_tag 'prototype' %>
     <%= javascript_include_tag 'site' %>
@@ -47,14 +47,14 @@
         traceclass = ''
         viewclass = 'active' if params['controller'] == 'site' and params['action'] == 'index' 
         editclass = 'active' if params['controller'] == 'site' and params['action'] == 'edit' 
-        historyclass = 'active' if params['controller'] == 'changeset' and params['action'] == 'list_bbox' 
+        historyclass = 'active' if params['controller'] == 'changeset' and params['action'] == 'list' 
         exportclass = 'active' if params['controller'] == 'site' and params['action'] == 'export'
         traceclass = 'active' if params['controller'] == 'trace'
         diaryclass = 'active' if params['controller'] == 'diary_entry'
         %>
         <li><%= link_to t('layouts.view'), {:controller => 'site', :action => 'index'}, {:id => 'viewanchor', :title => t('layouts.view_tooltip'), :class => viewclass} %></li>
         <li><%= link_to t('layouts.edit'), {:controller => 'site', :action => 'edit'}, {:id => 'editanchor', :title => t('layouts.edit_tooltip'), :class => editclass} %></li>
-        <li><%= link_to t('layouts.history'), {:controller => 'changeset', :action => 'list_bbox' }, {:id => 'historyanchor', :title => t('layouts.history_tooltip'), :class => historyclass} %></li>
+        <li><%= link_to t('layouts.history'), {:controller => 'changeset', :action => 'list' }, {:id => 'historyanchor', :title => t('layouts.history_tooltip'), :class => historyclass} %></li>
         <% if params['controller'] == 'site' and (params['action'] == 'index' or params['action'] == 'export') %>
         <li><%= link_to_remote t('layouts.export'), {:url => {:controller => 'export', :action => 'start'}}, {:id => 'exportanchor', :title => t('layouts.export_tooltip'), :class => exportclass, :href => url_for(:controller => 'site', :action => 'export')} %></li>
         <% else %>
@@ -112,10 +112,6 @@
         <a href="http://www.opengeodata.org" title="<%= t 'layouts.news_blog_tooltip' %>"><%= t 'layouts.news_blog' %></a><br />
         <a href="<%= t 'layouts.shop_url' %>" title="<%= t 'layouts.shop_tooltip' %>"><%= t 'layouts.shop' %></a><br />
         <%= yield :left_menu %>
-      </div>
-
-      <div id="sotm" class="notice">
-        <%= link_to image_tag("sotm.png", :alt => t('layouts.sotm'), :title => t('layouts.sotm'), :border => "0"), "http://www.stateofthemap.org/register" %>
       </div>
 
       <%= yield :optionals %>

@@ -57,9 +57,9 @@ function createMap(divName, options) {
 
    var nonamekey = nonamekeys[document.domain];
    var noname = new OpenLayers.Layer.OSM("NoName", [
-      "http://a.tile.cloudmade.com/" + nonamekey + "/3/256/",
-      "http://b.tile.cloudmade.com/" + nonamekey + "/3/256/",
-      "http://c.tile.cloudmade.com/" + nonamekey + "/3/256/"
+      "http://a.tile.cloudmade.com/" + nonamekey + "/3/256/${z}/${x}/${y}.png",
+      "http://b.tile.cloudmade.com/" + nonamekey + "/3/256/${z}/${x}/${y}.png",
+      "http://c.tile.cloudmade.com/" + nonamekey + "/3/256/${z}/${x}/${y}.png"
    ], {
       displayOutsideMaxExtent: true,
       wrapDateLine: true,
@@ -84,7 +84,7 @@ function createMap(divName, options) {
       projection: "EPSG:900913"
    });
    map.addLayer(markers);
-   
+
    return map;
 }
 
@@ -106,6 +106,49 @@ function addMarkerToMap(position, icon, description) {
    }
 
    return marker;
+}
+
+function addObjectToMap(url, zoom, callback) {
+   var layer = new OpenLayers.Layer.GML("Objects", url, {
+      format: OpenLayers.Format.OSM,
+      style: {
+          strokeColor: "blue",
+          strokeWidth: 3,
+          strokeOpacity: 0.5,
+          fillOpacity: 0.2,
+          fillColor: "lightblue"
+      },
+      projection: new OpenLayers.Projection("EPSG:4326"),
+      displayInLayerSwitcher: false
+   });
+
+   layer.events.register("loadend", layer, function() {
+      var extent;
+
+      if (this.features.length) {
+         extent = this.features[0].geometry.getBounds();
+
+         for (var i = 1; i < this.features.length; i++) {
+            extent.extend(this.features[i].geometry.getBounds());
+         }
+
+         if (zoom) {
+            if (extent) {
+               this.map.zoomToExtent(extent);
+            } else {
+               this.map.zoomToMaxExtent();
+            }
+         }
+      }
+
+      if (callback) {
+         callback(extent);
+      }
+   });
+  
+   map.addLayer(layer);
+
+   layer.loadGML();
 }
 
 function addBoxToMap(boxbounds) {

@@ -73,11 +73,11 @@ nl:
   map:
     view: Bekijken
     edit: Bewerken
-    coordinates: "Coördinaten:"
+    coordinates: "CoÃ¶rdinaten:"
   browse:
     changeset:
       title: "Changeset"
-      changeset: "Changeset:"
+      changeset: "Changeset: {{id}}"
       download: "Download {{changeset_xml_link}} of {{osmchange_xml_link}}"
       changesetxml: "Changeset-XML"
       osmchangexml: "osmChange-XML"
@@ -86,7 +86,7 @@ nl:
       closed_at: "Gesloten op:"
       belongs_to: "Gemaakt door:"
       bounding_box: "Rechthoek:" #good translation?
-      no_bounding_box: "Geen coördinaten opgeslagen voor deze changeset."
+      no_bounding_box: "Geen coÃ¶rdinaten opgeslagen voor deze changeset."
       show_area_box: "Laat gebied zien"
       box: "vak" #good translation?
       has_nodes: "Bevat de volgende {{count}} nodes:"
@@ -98,14 +98,13 @@ nl:
       version: "Versie:"
       in_changeset: "In changeset:"
     containing_relation:
-      relation: "Relatie {{relation_name}}"
-      relation_as: "(als {{relation_role}})"
+      entry: "Relatie {{relation_name}}"
+      entry_role: "Relatie {{relation_name}} (als {{relation_role}})"
     map:
       loading: "Laden..."
       deleted: "Verwijderd"
-      view_larger_map: "Grotere kaart"
     node_details:
-      coordinates: "Coördinaten: "
+      coordinates: "CoÃ¶rdinaten: "
       part_of: "Part of:" #to be translated
     node_history:
       node_history: "Node-geschiedenis"
@@ -129,8 +128,6 @@ nl:
     relation_history:
       relation_history: "Relatie-geschiedenis"
       relation_history_title: "Relatie-geschiedenis: {{relation_name}}"
-    relation_member:
-      as: "als"
     relation:
       relation: "Relatie"
       relation_title: "Relatie: {{relation_name}}"
@@ -202,7 +199,7 @@ nl:
       all_changes_everywhere: "Voor alle aanpassingen over de hele wereld zie {{recent_changes_link}}"
       recent_changes: "Recente wijzigingen"
       no_area_specified: "Geen gebied opgegeven"
-      first_use_view: "Gebruik eerst de {{view_tab_link}} om te schuiven en te zoomen naar het gebied waarin je geïnteresseerd bent, klik dan op de Geschiedenis-tab."
+      first_use_view: "Gebruik eerst de {{view_tab_link}} om te schuiven en te zoomen naar het gebied waarin je geÃ¯nteresseerd bent, klik dan op de Geschiedenis-tab."
       view_the_map: "Bekijk de kaart"
       view_tab: "Bekijken-tab"
       alternatively_view: "Of bekijk alle {{recent_changes_link}}"
@@ -290,9 +287,15 @@ nl:
       add_marker: "Marker op de kaart zetten"
       view_larger_map: "Grotere kaart zien"
   geocoder:
+    search:
+      title:
+        latlon: 'Resultaten van <a href="http://openstreetmap.org/">Internal</a>'
+        us_postcode: 'Resultaten van <a href="http://geocoder.us/">Geocoder.us</a>'
+        uk_postcode: 'Resultaten van <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>'
+        ca_postcode: 'Resultaten van <a href="http://geocoder.ca/">Geocoder.CA</a>'
+        osm_namefinder: 'Resultaten van <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>'
+        geonames: 'Resultaten van <a href="http://www.geonames.org/">GeoNames</a>'
     results:
-      results: "Resultaten"
-      type_from_source: "{{type}} van {{source_link}}"
       no_results: "Geen resultaten gevonden"
   layouts:
     welcome_user: "Welkom, {{user_link}}"
@@ -343,7 +346,7 @@ nl:
       wiki_signup: "Je kunt je ook registreren bij de OpenStreetMap-wiki:"
       # next four translations are in pairs : please word wrap appropriately
       user_wiki_1: "Het is aanbevolen dat je een gebruikerspagina maakt met onder andere"
-      user_wiki_2: "categorieën die zeggen waar je bent, zoals [[Category:Users_in_Amsterdam]]."
+      user_wiki_2: "categorieÃ«n die zeggen waar je bent, zoals [[Category:Users_in_Amsterdam]]."
       current_user_1: "Een lijst van gebruikers, gesorteerd op woonplaats"
       current_user_2: "is beschikbaar op:" #good translation?
     signup_confirm_html:
@@ -356,7 +359,7 @@ nl:
       more_videos_here: "hier nog meer video's"
       get_reading: 'Lees over OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Beginners%27_Guide">op de wiki</p> of <a href="http://www.opengeodata.org/">de OpenGeoData-blog</a> die ook <a href="http://www.opengeodata.org/?cat=13">podcasts</a> aanbiedt!'
       wiki_signup: 'Je kunt je ook <a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page">registreren op de OpenStreetMap-wiki</a>.'
-      user_wiki_page: 'Het is aanbevolen dat je een gebruikerspagina maakt met onder andere categorieën die zeggen waar je bent, zoals <a href="http://wiki.openstreetmap.org/wiki/Category:Users_in_Amsterdam">[[Category:Users_in_Amsterdam]]</a>.'
+      user_wiki_page: 'Het is aanbevolen dat je een gebruikerspagina maakt met onder andere categorieÃ«n die zeggen waar je bent, zoals <a href="http://wiki.openstreetmap.org/wiki/Category:Users_in_Amsterdam">[[Category:Users_in_Amsterdam]]</a>.'
       current_user: 'Een lijst van gebruikers, gesorteerd op woonplaats, is te zien op <a href="http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region">Category:Users_by_geographical_region</a>.'
   message:
     inbox:
@@ -436,19 +439,18 @@ nl:
       search: Zoeken
       where_am_i: "Waar ben ik?"
       submit_text: "Ga"
-      searching: "Zoeken..."
       search_help: "voorbeelden: 'Alkmaar', 'Spui, Amsterdam', 'CB2 5AQ', of 'post offices near Leiden' <a href='http://wiki.openstreetmap.org/wiki/Search'>meer voorbeelden...</a>"
     key:
       map_key: "Legenda"
   trace:
     create:
       upload_trace: "Upload GPS-track"
-      trace_uploaded: "Je track is geüpload en wacht totdat hij in de database wordt opgenomen. Dit gebeurt normaal binnen een half uur. Als het klaar is, zul je een e-mail ontvangen."
+      trace_uploaded: "Je track is geÃ¼pload en wacht totdat hij in de database wordt opgenomen. Dit gebeurt normaal binnen een half uur. Als het klaar is, zul je een e-mail ontvangen."
     edit:
       filename: "Bestandsnaam:"
-      uploaded_at: "Geüpload op:"
+      uploaded_at: "GeÃ¼pload op:"
       points: "Punten:"
-      start_coord: "Startcoördinaat:"
+      start_coord: "StartcoÃ¶rdinaat:"
       edit: "bewerken"
       owner: "Eigenaar:"
       description: "Beschrijving:"
@@ -467,16 +469,16 @@ nl:
       see_just_your_traces: "Alleen je eigen tracks zien, of een track uploaden"
       see_all_traces: "Alle tracks zien"
       see_your_traces: "Al jouw tracks zien"
-      traces_waiting: "Je hebt al {{count}} tracks die wachten om geüpload te worden. Overweeg om te wachten totdat die verwerkt zijn, om te voorkomen dat de wachtrij voor andere gebruikers geblokkeerd wordt."
+      traces_waiting: "Je hebt al {{count}} tracks die wachten om geÃ¼pload te worden. Overweeg om te wachten totdat die verwerkt zijn, om te voorkomen dat de wachtrij voor andere gebruikers geblokkeerd wordt."
     trace_optionals:
       tags: "Tags"
     view:
       pending: "BEZIG"
       filename: "Bestandsnaam:"
       download: "download"
-      uploaded: "Geüpload op:"
+      uploaded: "GeÃ¼pload op:"
       points: "Punten:"
-      start_coordinates: "Startcoördinaat:"
+      start_coordinates: "StartcoÃ¶rdinaat:"
       map: "kaart"
       edit: "bewerken"
       owner: "Eigenaar:"
@@ -501,7 +503,7 @@ nl:
       edit: "bewerken"
       edit_map: "Kaart bewerken"
       public: "OPENBAAR"
-      private: "PRIVÉ"
+      private: "PRIVÃ‰"
       by: "door"
       in: "in"
       map: "kaart"
@@ -551,7 +553,7 @@ nl:
       password: "Wachtwoord: "
       confirm password: "Wachtwoord bevestigen: "
       signup: Registreren
-      flash create success message: "Gebruiker succesvol gemaakt. Bekijk je e-mail voor een bevestigingsmail, en je bent zó aan het mappen :-)<br /><br />Denk eraan dat je niet kunt inloggen voordat je je bevestigingsmail hebt ontvangen en bevestigd.<br /><br />Als je een spamfilter gebruikt die bevestigingsmails stuurt, zorg er dan voor dat je webmaster@openstreetmap.org toestaat. Wij kunnen namelijk geen bevestigingsmails terugsturen."
+      flash create success message: "Gebruiker succesvol gemaakt. Bekijk je e-mail voor een bevestigingsmail, en je bent zÃ³ aan het mappen :-)<br /><br />Denk eraan dat je niet kunt inloggen voordat je je bevestigingsmail hebt ontvangen en bevestigd.<br /><br />Als je een spamfilter gebruikt die bevestigingsmails stuurt, zorg er dan voor dat je webmaster@openstreetmap.org toestaat. Wij kunnen namelijk geen bevestigingsmails terugsturen."
     no_such_user:
       body: "Sorry, er is geen gebruiker met de naam {{user}}. Controleer de spelling, of misschien is de link waarop je klikte onjuist."
     view:

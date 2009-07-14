@@ -1,7 +1,12 @@
-<h1><%= t'changeset.list.recent_changes' %></h1>
-<p><%= t'changeset.list.recently_edited_changesets' %></p>
+<h1><%= @title %></h1>
+<p><%= @description %></p>
 
-<%= render :partial => 'changesets' %>
+<%= render :partial => 'changeset_paging_nav' %>
+<%= render :partial => 'changesets', :locals => { :showusername => !params.has_key?(:display_name) } %>
+<%= render :partial => 'changeset_paging_nav' %>
 
-<p><%= t'changeset.list.for_more_changesets' %></p>
-<br>
+<%= atom_link_to params.merge({ :format => :atom }) %>
+
+<% content_for :head do %>
+<%= auto_discovery_link_tag :atom, params.merge({ :format => :atom }) %>
+<% end %>

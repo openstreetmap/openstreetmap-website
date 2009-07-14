@@ -1,29 +1,19 @@
 <script type="text/javascript">
 <!--
   function startSearch() {
-    updateSidebar("Search Results", "<p class='search_results_entry'>Searching...<\/p>");
-
-    $("search_field").style.display = "none";
-    $("search_active").style.display = "inline";
-  }
-
-  function endSearch() {
-    $("search_field").style.display = "inline";
-    $("search_active").style.display = "none";
+    updateSidebar("<%= t 'site.sidebar.search_results' %>", "");
   }
 
   function describeLocation() {
     var position = getPosition();
 
     <%= remote_function(:loading => "startSearch()",
-                        :complete => "endSearch()",
                         :url => { :controller => :geocoder, :action => :description },
                         :with => "'lat=' + position.lat + '&lon=' + position.lon") %>
   }
 
   <% if params[:query] %>
   <%= remote_function(:loading => "startSearch()",
-                      :complete => "endSearch()",
                       :url => { :controller => :geocoder, :action => :search, :query => h(params[:query]) }) %>
   <% end %>
 // -->
@@ -42,7 +32,6 @@
       <%= submit_tag t('site.search.submit_text') %>
     <% end %>
     </div>
-    <p id="search_active"><%= t 'site.search.searching' %></p>
     </div>
     <p class="search_help">
       <%= t 'site.search.search_help' %>

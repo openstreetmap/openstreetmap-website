@@ -4,7 +4,7 @@ class BoundingBox
   end
 
   def self.from_s(s)
-    BoundingBox.new(s.split(/,/))
+    BoundingBox.new(*s.split(/,/))
   end
 
   def min_lon
