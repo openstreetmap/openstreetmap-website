@@ -110,9 +110,8 @@ class ApplicationController < ActionController::Base
       end
     end
 
-    I18n.locale = request.preferred_language_from(I18n.available_locales) ||
-                  request.compatible_language_from(I18n.available_locales)
-    logger.info("Select #{I18n.locale} matching #{request.user_preferred_languages.join(',')} against #{I18n.available_locales.join(',')}")
+    I18n.locale = request.compatible_language_from(I18n.available_locales)
+
     response.headers['Content-Language'] = I18n.locale.to_s
   end
 
