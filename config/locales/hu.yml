@@ -83,10 +83,18 @@ hu:
   browse:
     changeset:
       title: "Módosításcsomag"
-      changeset: "Módosításcsomag:"
+      changeset: "Módosításcsomag: {{id}}"
       download: "{{changeset_xml_link}} vagy {{osmchange_xml_link}} letöltése"
       changesetxml: "Changeset XML"
       osmchangexml: "osmChange XML"
+    changeset_navigation:
+      user:
+        name_tooltip: "{{user}} szerkesztéseinek megtekintése"
+        prev_tooltip: "{{user}} előző szerkesztése"
+        next_tooltip: "{{user}} következő szerkesztése"
+      all:
+        prev_tooltip: "Előző módosításcsomag"
+        next_tooltip: "Következő módosításcsomag"
     changeset_details:
       created_at: "Készült:"
       closed_at: "Lezárva:"
@@ -95,9 +103,15 @@ hu:
       no_bounding_box: "Nincs eltárolva határoló ehhez a módosításcsomaghoz."
       show_area_box: "Területhatároló megtekintése"
       box: "határoló"
-      has_nodes: "A következő {{count}} pontot tartalmazza:"
-      has_ways: "A következő {{count}} vonalat tartalmazza:"
-      has_relations: "A következő {{count}} kapcsolatot tartalmazza:"
+      has_nodes:
+        one: "A következő {{count}} pontot tartalmazza:"
+        other: "A következő {{count}} pontot tartalmazza:"
+      has_ways:
+        one:  "A következő {{count}} vonalat tartalmazza:"
+        other: "A következő {{count}} vonalat tartalmazza:"
+      has_relations:
+        one:  "A következő {{count}} kapcsolatot tartalmazza:"
+        other: "A következő {{count}} kapcsolatot tartalmazza:"
     common_details: 
       edited_at: "Szerkesztve:"
       edited_by: "Szerkesztette:"
@@ -239,27 +253,12 @@ hu:
       user: "Felhasználó"
       comment: "Megjegyzés"
       area: "Terület"
-    list_bbox:
-      history: "Történet"
-      changesets_within_the_area: "Módosításcsomagok ezen a területen:"
-      show_area_box: "területhatároló megjelenítése"
-      no_changesets: "Nincsenek változtatáscsomagok"
-      all_changes_everywhere: "Az összes módosításhoz lásd a {{recent_changes_link}}at"
-      recent_changes: "Legutóbbi módosítások"
-      no_area_specified: "Nincs terület meghatározva"
-      first_use_view: "Először használd a {{view_tab_link}}t a kívánt területre való mozgatáshoz és nagyításhoz, majd kattints a történet fülre."
-      view_the_map: "a térkép megjelenítése"
-      view_tab: "térkép fül"
-      alternatively_view: "Vagy tekintsd meg az összeset: {{recent_changes_link}}"
     list:
-      recent_changes: "Legutóbbi módosítások"
-      recently_edited_changesets: "Legutóbb szerkesztett módosításcsomagok:"
-      for_more_changesets: "További módosításcsomagokhoz válassz egy felhasználót, és tekintsd meg szerkesztéseit, vagy nézz meg egy meghatározott terület szerkesztési történetét."
-    list_user:
-      edits_by_username: "{{username_link}} szerkesztései"
-      no_visible_edits_by: "{{name}} felhasználónak nincsenek látható szerkesztései"
-      for_all_changes: "Az összes felhasználó módosításaihoz lásd a {{recent_changes_link}}at"
-      recent_changes: "Legutóbbi módosítások"
+      title: "Módosításcsomagok"
+      description: "Legutóbbi szerkesztések"
+      description_user: "{{user}} legutóbbi szerkesztései"
+      description_bbox: "Legutóbbi szerkesztések ezen belül: {{bbox}}"
+      description_user_bbox: "{{user}} legutóbbi szerkesztései ezen belül: {{bbox}}"
   diary_entry:
     new:
       title: Új naplóbejegyzés
@@ -711,7 +710,7 @@ hu:
       upload_gpx: "GPX fájl feltöltése"
       description: "Leírás"
       tags: "Címkék"
-      tags_help: "használj vesszőket"
+      tags_help: "vesszővel elválasztva"
       public: "Nyilvános?"
       public_help: "mit jelent ez?"
       public_help_url: "http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces"
