@@ -187,18 +187,18 @@ module OSM
   # Raised when a way has more than the configured number of way nodes.
   # This prevents ways from being to long and difficult to work with
   class APITooManyWayNodesError < APIError
-    def initialize(provided, max)
-      @provided, @max = provided, max
+    def initialize(id, provided, max)
+      @id, @provided, @max = id, provided, max
     end
     
-    attr_reader :provided, :max
+    attr_reader :id, :provided, :max
 
     def status
       :bad_request
     end
     
     def to_s
-      "You tried to add #{provided} nodes to the way, however only #{max} are allowed"
+      "You tried to add #{provided} nodes to way #{id}, however only #{max} are allowed"
     end
   end
 
