@@ -76,7 +76,7 @@ class AmfController < ApplicationController
         logger.info("Executing AMF #{message}(#{args.join(',')}):#{index}")
 
         case message
-          when 'getpresets';        results[index]=AMF.putdata(index,getpresets(I18n.locale))
+          when 'getpresets';        results[index]=AMF.putdata(index,getpresets(*args))
           when 'whichways';         results[index]=AMF.putdata(index,whichways(*args))
           when 'whichways_deleted'; results[index]=AMF.putdata(index,whichways_deleted(*args))
           when 'getway';            results[index]=AMF.putdata(index,getway(args[0].to_i))
@@ -213,19 +213,28 @@ class AmfController < ApplicationController
   # Return presets (default tags, localisation etc.):
   # uses POTLATCH_PRESETS global, set up in OSM::Potlatch.
 
-  def getpresets(lang) #:doc:
+  def getpresets(usertoken,lang) #:doc:
     begin
-      logger.info("Loading Potlatch/#{lang} localisation")
-      localised = YAML::load(File.open("#{RAILS_ROOT}/config/potlatch/localised/#{lang}/localised.yaml"))
+      # first, try the user setting
+      localised = YAML::load(File.open("#{RAILS_ROOT}/config/potlatch/localised/#{I18n.locale}/localised.yaml"))
     rescue
-      logger.info("Loading Potlatch/#{lang} localisation failed, using English defaults")
-      localised = "" # guess we'll just have to use the hardcoded English text instead
+      begin
+        # if not, try the browser language
+        localised = YAML::load(File.open("#{RAILS_ROOT}/config/potlatch/localised/#{lang}/localised.yaml"))
+      rescue
+        # fall back to hardcoded English text
+        localised = ""
+      end
     end
 
     begin
-      help = File.read("#{RAILS_ROOT}/config/potlatch/localised/#{lang}/help.html")
+      help = File.read("#{RAILS_ROOT}/config/potlatch/localised/#{I18n.locale}/help.html")
     rescue
-      help = File.read("#{RAILS_ROOT}/config/potlatch/localised/en/help.html")
+      begin
+        help = File.read("#{RAILS_ROOT}/config/potlatch/localised/#{lang}/help.html")
+      rescue
+        help = File.read("#{RAILS_ROOT}/config/potlatch/localised/en/help.html")
+      end
     end
     return POTLATCH_PRESETS+[localised,help]
   end
