@@ -214,6 +214,14 @@ class AmfController < ApplicationController
   # uses POTLATCH_PRESETS global, set up in OSM::Potlatch.
 
   def getpresets(usertoken,lang) #:doc:
+    user = getuser(usertoken)
+
+    if user && !user.languages.empty?
+      request.user_preferred_languages = user.languages
+    end
+
+    lang = request.compatible_language_from(getlocales)
+
     begin
       # first, try the user setting
       localised = YAML::load(File.open("#{RAILS_ROOT}/config/potlatch/localised/#{I18n.locale}/localised.yaml"))
@@ -860,6 +868,9 @@ class AmfController < ApplicationController
     }
   end
 
+  def getlocales
+    Dir.glob("#{RAILS_ROOT}/config/potlatch/localised/*").collect { |f| File.basename(f) }
+  end
 
   # ====================================================================
   # Alternative SQL queries for getway/whichways
