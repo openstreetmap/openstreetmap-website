@@ -223,26 +223,17 @@ class AmfController < ApplicationController
     lang = request.compatible_language_from(getlocales)
 
     begin
-      # first, try the user setting
-      localised = YAML::load(File.open("#{RAILS_ROOT}/config/potlatch/localised/#{I18n.locale}/localised.yaml"))
+      # if not, try the browser language
+      localised = YAML::load(File.open("#{RAILS_ROOT}/config/potlatch/localised/#{lang}/localised.yaml"))
     rescue
-      begin
-        # if not, try the browser language
-        localised = YAML::load(File.open("#{RAILS_ROOT}/config/potlatch/localised/#{lang}/localised.yaml"))
-      rescue
-        # fall back to hardcoded English text
-        localised = ""
-      end
+      # fall back to hardcoded English text
+      localised = ""
     end
 
     begin
-      help = File.read("#{RAILS_ROOT}/config/potlatch/localised/#{I18n.locale}/help.html")
+      help = File.read("#{RAILS_ROOT}/config/potlatch/localised/#{lang}/help.html")
     rescue
-      begin
-        help = File.read("#{RAILS_ROOT}/config/potlatch/localised/#{lang}/help.html")
-      rescue
-        help = File.read("#{RAILS_ROOT}/config/potlatch/localised/en/help.html")
-      end
+      help = File.read("#{RAILS_ROOT}/config/potlatch/localised/en/help.html")
     end
     return POTLATCH_PRESETS+[localised,help]
   end
