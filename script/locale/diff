@@ -6,6 +6,7 @@ use YAML::Syck qw(LoadFile);
 use Test::Differences;
 use Pod::Usage ();
 use Getopt::Long ();
+use File::Basename qw(fileparse);
 
 =head1 NAME
 
@@ -101,8 +102,8 @@ my ($from, $to) = @ARGV;
 my $from_data = LoadFile($from);
 my $to_data   = LoadFile($to);
 
-my $from_parsed = { iterate($from_data->{basename($from)}) };
-my $to_parsed = { iterate($to_data->{basename($to)}) };
+my $from_parsed = { iterate($from_data->{fileparse($from, qr/\.[^.]*/)}) };
+my $to_parsed = { iterate($to_data->{fileparse($to, qr/\.[^.]*/)}) };
 
 if ($keys)
 {
@@ -114,7 +115,7 @@ elsif ($untranslated_values or $untranslated_values_all)
 
     # Prune according to blacklist
     if ($untranslated_values) {
-        @untranslated = prune_untranslated_with_blacklist(basename($to), @untranslated);
+        @untranslated = prune_untranslated_with_blacklist(fileparse($to, qr/\.[^.]*/), @untranslated);
     }
 
     say for @untranslated;
@@ -215,13 +216,6 @@ sub iterate
     }
 
     return @ret;
-}
-
-sub basename
-{
-    my $name = shift;
-    $name =~ s[\..*?$][];
-    $name;
 }
 
 sub help
