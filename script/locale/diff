@@ -115,7 +115,7 @@ elsif ($untranslated_values or $untranslated_values_all)
 
     # Prune according to blacklist
     if ($untranslated_values) {
-        @untranslated = prune_untranslated_with_blacklist(fileparse($to, qr/\.[^.]*/), @untranslated);
+        @untranslated = prune_untranslated_with_blacklist(scalar(fileparse($to, qr/\.[^.]*/)), @untranslated);
     }
 
     say for @untranslated;
