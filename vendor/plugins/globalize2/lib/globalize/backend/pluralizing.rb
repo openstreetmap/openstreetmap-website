@@ -6,7 +6,7 @@ module Globalize
       def pluralize(locale, entry, count)
         return entry unless entry.is_a?(Hash) and count
         key = :zero if count == 0 && entry.has_key?(:zero)
-        key ||= pluralizer(locale).call(count)
+        key ||= pluralizer(locale).call(count, entry)
         raise InvalidPluralizationData.new(entry, count) unless entry.has_key?(key)
         translation entry[key], :plural_key => key
       end
@@ -25,7 +25,22 @@ module Globalize
         end
 
         def pluralizers
-          @pluralizers ||= { :en => lambda{|n| n == 1 ? :one : :other } }
+          @pluralizers ||= {
+            :en => lambda { |count, entry|
+              case count
+                when 1 then entry.has_key?(:one) ? :one : :other
+                else :other
+              end
+            },
+            :sl => lambda { |count, entry|
+              case count % 100
+                when 1 then entry.has_key?(:one) ? :one : :other
+                when 2 then entry.has_key?(:two) ? :two : :other
+                when 3,4 then entry.has_key?(:few) ? :few : :other
+                else :other
+              end
+            }
+          }
         end
 
         # Overwrite this method to return something other than a String
