@@ -104,5 +104,20 @@ class MessageController < ApplicationController
     @title = t'message.no_such_user.title'
     render :action => 'no_such_user', :status => :not_found
   end
+
+  # Delete the message.
+  def delete
+    if params[:message_id]
+      id = params[:message_id]
+      message = Message.find_by_id(id)
+      message.visible = false
+      if message.save
+        flash[:notice] = t 'message.delete.deleted'
+        redirect_to :controller => 'message', :action => 'inbox', :display_name => @user.display_name
+      end
+    end
+  rescue ActiveRecord::RecordNotFound
+    @title = t'message.no_such_user.title'
+    render :action => 'no_such_user', :status => :not_found
+  end
 end
- 
