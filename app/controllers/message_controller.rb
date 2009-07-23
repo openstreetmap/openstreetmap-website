@@ -110,10 +110,16 @@ class MessageController < ApplicationController
     if params[:message_id]
       id = params[:message_id]
       message = Message.find_by_id(id)
-      message.visible = false
+      message.from_user_visible = false if message.sender == @user
+      message.to_user_visible = false if message.recipient == @user
       if message.save
         flash[:notice] = t 'message.delete.deleted'
-        redirect_to :controller => 'message', :action => 'inbox', :display_name => @user.display_name
+
+        if params[:referer]
+          redirect_to params[:referer]
+        else
+          redirect_to :controller => 'message', :action => 'inbox', :display_name => @user.display_name
+        end
       end
     end
   rescue ActiveRecord::RecordNotFound
