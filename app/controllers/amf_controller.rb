@@ -526,6 +526,8 @@ class AmfController < ApplicationController
     amf_handle_error("'putrelation' #{relid}")  do
       user = getuser(usertoken)
       if !user then return -1,"You are not logged in, so the relation could not be saved." end
+      if !tags_ok(tags) then return -1,"One of the tags is invalid. Please pester Adobe to fix Flash on Linux." end
+      tags = strip_non_xml_chars tags
 
       relid = relid.to_i
       visible = (visible.to_i != 0)
@@ -612,6 +614,8 @@ class AmfController < ApplicationController
       user = getuser(usertoken)
       if !user then return -1,"You are not logged in, so the way could not be saved." end
       if pointlist.length < 2 then return -2,"Server error - way is only #{points.length} points long." end
+      if !tags_ok(tags) then return -1,"One of the tags is invalid. Please pester Adobe to fix Flash on Linux." end
+      tags = strip_non_xml_chars tags
 
       originalway = originalway.to_i
       pointlist.collect! {|a| a.to_i }
@@ -708,6 +712,8 @@ class AmfController < ApplicationController
     amf_handle_error("'putpoi' #{id}") do
       user = getuser(usertoken)
       if !user then return -1,"You are not logged in, so the point could not be saved." end
+      if !tags_ok(tags) then return -1,"One of the tags is invalid. Please pester Adobe to fix Flash on Linux." end
+      tags = strip_non_xml_chars tags
 
       id = id.to_i
       visible = (visible.to_i == 1)
@@ -861,6 +867,31 @@ class AmfController < ApplicationController
 
   def getlocales
     Dir.glob("#{RAILS_ROOT}/config/potlatch/localised/*").collect { |f| File.basename(f) }
+  end
+  
+  ##
+  # check that all key-value pairs are valid UTF-8.
+  def tags_ok(tags)
+    tags.each do |k, v|
+      return false unless UTF8.valid? k
+      return false unless UTF8.valid? v
+    end
+    return true
+  end
+
+  ##
+  # strip characters which are invalid in XML documents from the strings
+  # in the +tags+ hash.
+  def strip_non_xml_chars(tags)
+    new_tags = Hash.new
+    unless tags.nil?
+      tags.each do |k, v|
+        new_k = k.delete "\000-\037", "^\011\012\015"
+        new_v = v.delete "\000-\037", "^\011\012\015"
+        new_tags[new_k] = new_v
+      end
+    end
+    return new_tags
   end
 
   # ====================================================================
