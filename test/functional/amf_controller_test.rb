@@ -464,7 +464,7 @@ class AmfControllerTest < ActionController::TestCase
     # normal user has a changeset open
     changeset = changesets(:public_user_first_change)
     
-    mostly_invalid = 32.times.to_a.map {|i| i.chr}.join
+    mostly_invalid = (0..31).to_a.map {|i| i.chr}.join
     tags = { "something" => "foo#{mostly_invalid}bar" }
       
     amf_content "putpoi", "/1", ["test@example.com:test", changeset.id, nil, nil, lon, lat, tags, nil]
