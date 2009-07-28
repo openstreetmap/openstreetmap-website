@@ -614,8 +614,8 @@ class AmfController < ApplicationController
       user = getuser(usertoken)
       if !user then return -1,"You are not logged in, so the way could not be saved." end
       if pointlist.length < 2 then return -2,"Server error - way is only #{points.length} points long." end
-      if !tags_ok(tags) then return -1,"One of the tags is invalid. Please pester Adobe to fix Flash on Linux." end
-      tags = strip_non_xml_chars tags
+      if !tags_ok(attributes) then return -1,"One of the tags is invalid. Please pester Adobe to fix Flash on Linux." end
+      attributes = strip_non_xml_chars attributes
 
       originalway = originalway.to_i
       pointlist.collect! {|a| a.to_i }
@@ -640,6 +640,11 @@ class AmfController < ApplicationController
           node.lat = lat
           node.lon = lon
           node.tags = a[4]
+
+          # fixup node tags in a way as well
+          if !tags_ok(node.tags) then return -1,"One of the tags is invalid. Please pester Adobe to fix Flash on Linux." end
+          node.tags = strip_non_xml_chars node.tags
+
           node.tags.delete('created_by')
           node.version = version
           if id <= 0
