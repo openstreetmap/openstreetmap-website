@@ -5,7 +5,7 @@ atom_feed(:language => I18n.locale, :schema_date => 2009,
   feed.title @title
 
   feed.subtitle :type => 'xhtml' do |xhtml|
-    xhtml.p @description
+    xhtml.p @description_plain
   end
 
   feed.updated @edits.map {|e|  [e.created_at, e.closed_at].max }.max
