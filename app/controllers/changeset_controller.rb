@@ -278,8 +278,6 @@ class ChangesetController < ApplicationController
       bbox = params[:minlon] + ',' + params[:minlat] + ',' + params[:maxlon] + ',' + params[:maxlat]
     end
 
-    user_link = bbox_link = nil
-
     if bbox
       conditions = cond_merge conditions, conditions_bbox(bbox)
       bbox = BoundingBox.from_s(bbox)
@@ -294,22 +292,18 @@ class ChangesetController < ApplicationController
       @title =  t 'changeset.list.title_user_bbox', :user => user.display_name, :bbox => bbox.to_s
       @heading =  t 'changeset.list.heading_user_bbox', :user => user.display_name, :bbox => bbox.to_s
       @description = t 'changeset.list.description_user_bbox', :user => user_link, :bbox => bbox_link
-      @description_plain = t 'changeset.list.description_user_bbox', :user => user.display_name, :bbox => bbox.to_s
     elsif user
       @title =  t 'changeset.list.title_user', :user => user.display_name
       @heading =  t 'changeset.list.heading_user', :user => user.display_name
       @description = t 'changeset.list.description_user', :user => user_link
-      @description_plain = t 'changeset.list.description_user', :user => user.display_name
     elsif bbox
       @title =  t 'changeset.list.title_bbox', :bbox => bbox.to_s
       @heading =  t 'changeset.list.heading_bbox', :bbox => bbox.to_s
       @description = t 'changeset.list.description_bbox', :bbox => bbox_link
-      @description_plain = t 'changeset.list.description_bbox', :bbox => bbox.to_s
     else
       @title =  t 'changeset.list.title'
       @heading =  t 'changeset.list.heading'
       @description = t 'changeset.list.description'
-      @description_plain = @description
     end
 
     @edit_pages, @edits = paginate(:changesets,
