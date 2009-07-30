@@ -72,6 +72,10 @@ sl:
         description: "Opis"
         languages: "Jeziki"
         pass_crypt: "Geslo"
+  printable_name:
+    with_id: "{{id}}"
+    with_version: "{{id}}, {{version}}. različica"
+    with_name: "{{name}} ({{id}})"
   map:
     view: Zemljevid
     edit: Urejanje
@@ -83,6 +87,14 @@ sl:
       download: "Prenesi {{changeset_xml_link}} ali {{osmchange_xml_link}}"
       changesetxml: "Changeset XML"
       osmchangexml: "osmChange XML"
+    changeset_navigation:
+      user:
+        name_tooltip: "Prikaz prispevkov uporabnika {{user}}"
+        prev_tooltip: "Prejšnji prispevek uporabnika {{user}}"
+        next_tooltip: "Naslednji prispevek uporabnika {{user}}"
+      all:
+        prev_tooltip: "Prejšnji paket sprememb"
+        next_tooltip: "Naslednji paket sprememb"
     changeset_details:
       created_at: "Ustvarjen:"
       closed_at: "Zaključen:"
@@ -139,7 +151,7 @@ sl:
       view_history: "poglej zgodovino"
       edit: "uredi"
     not_found:
-      sorry: "Oprostite, {{type}} z ID-jem {{id}} ni bilo mogoče najti."
+      sorry: "Oprostite, {{type}} z ID-jem {{id}} ne obstaja v bazi."
       type:
         node: vozlišče
         way: pot
@@ -229,6 +241,7 @@ sl:
       showing_page: "Prikaz strani"
       of: "od"
     changeset:
+      id: "št. {{id}}"
       still_editing: "(še ureja)"
       anonymous: "Anonimen"
       no_comment: "(brez)"
@@ -242,27 +255,21 @@ sl:
       user: "Uporabnik"
       comment: "Komentar"
       area: "Področje"
-    list_bbox:
-      history: "Zgodovina"
-      changesets_within_the_area: "Paketi sprememb na področju:"
-      show_area_box: "prikaži pravokotno področje"
-      no_changesets: "Ni paketov sprememb"
-      all_changes_everywhere: "Za vse spremembe kjerkoli poglejte {{recent_changes_link}}"
-      recent_changes: "Nedavne spremembe"
-      no_area_specified: "Področje ni določeno"
-      first_use_view: "Najprej na {{view_tab_link}} izberite področje, ki vas zanima, nato pa kliknite zavihek Zgodovina."
-      view_the_map: "zavihek, na katerem je zemljevid"
-      view_tab: "zavihku z zemljevidom"
-      alternatively_view: "Lahko pa pogledate tudi vse {{recent_changes_link}}"
     list:
-      recent_changes: "Nedavne spremembe"
-      recently_edited_changesets: "Nedavno urejeni paketi sprememb:"
-      for_more_changesets: "Za več sprememb izberite uporabnika in poglejte njegove spremembe ali pa med ogledom zemljevida nekega področja preklopite na zavihek 'zgodovina'."
-    list_user:
-      edits_by_username: "Spremembe uporabnika {{username_link}}"
-      no_visible_edits_by: "Ni vidnih sprememb uporabnika {{name}}."
-      for_all_changes: "Za spremembe vseh uporabnikov poglejte {{recent_changes_link}}"
-      recent_changes: "nedavne spremembe"
+      title: "Paketi sprememb"
+      title_user: "Paketi sprememb uporabnika {{user}}"
+      title_bbox: "Paketi sprememb znotraj področja {{bbox}}"
+      title_user_bbox: "Paketi sprememb uporabnika {{user}} znotraj {{bbox}}"
+
+      heading: "Paketi sprememb"
+      heading_user: "Paketi sprememb uporabnika {{user}}"
+      heading_bbox: "Paketi sprememb znotraj področja {{bbox}}"
+      heading_user_bbox: "Paketi sprememb uporabnika {{user}} znotraj {{bbox}}"
+
+      description: "Nedavne spremembe"
+      description_user: "Paketi sprememb uporabnika {{user}}"
+      description_bbox: "Paketi sprememb znotraj področja {{bbox}}"
+      description_user_bbox: "Paketi sprememb uporabnika {{user}} znotraj {{bbox}}"
   diary_entry:
     new:
       title: Nov zapis v dnevnik uporabnikov
@@ -563,6 +570,7 @@ sl:
       unread_button: "Označi kot neprebrano"
       read_button: "Označi kot prebrano"
       reply_button: "Odgovori"
+      delete_button: "Izbriši"
     new:
       title: "Pošiljanje sporočila"
       send_message_to: "Pošlji novo sporočilo uporabniku {{name}}"
@@ -598,9 +606,13 @@ sl:
       reading_your_sent_messages: "Prebiranje vaših poslanih sporočil"
       to: "Za"
       back_to_outbox: "Nazaj na poslano pošto"
+    sent_message_summary:
+      delete_button: "Izbriši"
     mark:
       as_read: "Sporočilo označeno kot prebrano"
       as_unread: "Sporočilo označeno kot neprebrano"
+    delete:
+      deleted: "Sporočilo izbrisano"
   site:
     index:
       js_1: "Bodisi uporabljate brskalnik, ki ne podpira Javascript-a, ali pa je izvajanje Javascript-a onemogočeno."
