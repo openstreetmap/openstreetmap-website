@@ -76,7 +76,7 @@ class AmfController < ApplicationController
         logger.info("Executing AMF #{message}(#{args.join(',')}):#{index}")
 
         case message
-          when 'getpresets';        results[index]=AMF.putdata(index,getpresets(args[0]))
+          when 'getpresets';        results[index]=AMF.putdata(index,getpresets(*args))
           when 'whichways';         results[index]=AMF.putdata(index,whichways(*args))
           when 'whichways_deleted'; results[index]=AMF.putdata(index,whichways_deleted(*args))
           when 'getway';            results[index]=AMF.putdata(index,getway(args[0].to_i))
@@ -213,13 +213,21 @@ class AmfController < ApplicationController
   # Return presets (default tags, localisation etc.):
   # uses POTLATCH_PRESETS global, set up in OSM::Potlatch.
 
-  def getpresets(lang) #:doc:
-    lang.gsub!(/[^\w\-]/,'')
+  def getpresets(usertoken,lang) #:doc:
+    user = getuser(usertoken)
+
+    if user && !user.languages.empty?
+      request.user_preferred_languages = user.languages
+    end
+
+    lang = request.compatible_language_from(getlocales)
 
     begin
+      # if not, try the browser language
       localised = YAML::load(File.open("#{RAILS_ROOT}/config/potlatch/localised/#{lang}/localised.yaml"))
     rescue
-      localised = "" # guess we'll just have to use the hardcoded English text instead
+      # fall back to hardcoded English text
+      localised = ""
     end
 
     begin
@@ -518,6 +526,8 @@ class AmfController < ApplicationController
     amf_handle_error("'putrelation' #{relid}")  do
       user = getuser(usertoken)
       if !user then return -1,"You are not logged in, so the relation could not be saved." end
+      if !tags_ok(tags) then return -1,"One of the tags is invalid. Please pester Adobe to fix Flash on Linux." end
+      tags = strip_non_xml_chars tags
 
       relid = relid.to_i
       visible = (visible.to_i != 0)
@@ -604,6 +614,8 @@ class AmfController < ApplicationController
       user = getuser(usertoken)
       if !user then return -1,"You are not logged in, so the way could not be saved." end
       if pointlist.length < 2 then return -2,"Server error - way is only #{points.length} points long." end
+      if !tags_ok(attributes) then return -1,"One of the tags is invalid. Please pester Adobe to fix Flash on Linux." end
+      attributes = strip_non_xml_chars attributes
 
       originalway = originalway.to_i
       pointlist.collect! {|a| a.to_i }
@@ -628,6 +640,11 @@ class AmfController < ApplicationController
           node.lat = lat
           node.lon = lon
           node.tags = a[4]
+
+          # fixup node tags in a way as well
+          if !tags_ok(node.tags) then return -1,"One of the tags is invalid. Please pester Adobe to fix Flash on Linux." end
+          node.tags = strip_non_xml_chars node.tags
+
           node.tags.delete('created_by')
           node.version = version
           if id <= 0
@@ -700,6 +717,8 @@ class AmfController < ApplicationController
     amf_handle_error("'putpoi' #{id}") do
       user = getuser(usertoken)
       if !user then return -1,"You are not logged in, so the point could not be saved." end
+      if !tags_ok(tags) then return -1,"One of the tags is invalid. Please pester Adobe to fix Flash on Linux." end
+      tags = strip_non_xml_chars tags
 
       id = id.to_i
       visible = (visible.to_i == 1)
@@ -851,6 +870,34 @@ class AmfController < ApplicationController
     }
   end
 
+  def getlocales
+    Dir.glob("#{RAILS_ROOT}/config/potlatch/localised/*").collect { |f| File.basename(f) }
+  end
+  
+  ##
+  # check that all key-value pairs are valid UTF-8.
+  def tags_ok(tags)
+    tags.each do |k, v|
+      return false unless UTF8.valid? k
+      return false unless UTF8.valid? v
+    end
+    return true
+  end
+
+  ##
+  # strip characters which are invalid in XML documents from the strings
+  # in the +tags+ hash.
+  def strip_non_xml_chars(tags)
+    new_tags = Hash.new
+    unless tags.nil?
+      tags.each do |k, v|
+        new_k = k.delete "\000-\037", "^\011\012\015"
+        new_v = v.delete "\000-\037", "^\011\012\015"
+        new_tags[new_k] = new_v
+      end
+    end
+    return new_tags
+  end
 
   # ====================================================================
   # Alternative SQL queries for getway/whichways

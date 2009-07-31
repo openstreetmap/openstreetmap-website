@@ -285,15 +285,25 @@ class ChangesetController < ApplicationController
       bbox_link = "<a href='#{url_for(:controller => "site", :action => "index", :minlon => bbox.min_lon, :minlat => bbox.min_lat, :maxlon => bbox.max_lon, :maxlat => bbox.max_lat, :box => "yes")}'>#{bbox.to_s}</a>"
     end
 
-    @title =  t 'changeset.list.title'
+    if user
+      user_link = "<a href='#{url_for(:controller => "user", :action => "view", :display_name => user.display_name)}'>#{user.display_name}</a>"
+    end
 
     if user and bbox
-      @description = t 'changeset.list.description_user_bbox', :user => user.display_name, :bbox => bbox_link
+      @title =  t 'changeset.list.title_user_bbox', :user => user.display_name, :bbox => bbox.to_s
+      @heading =  t 'changeset.list.heading_user_bbox', :user => user.display_name, :bbox => bbox.to_s
+      @description = t 'changeset.list.description_user_bbox', :user => user_link, :bbox => bbox_link
     elsif user
-      @description = t 'changeset.list.description_user', :user => user.display_name
+      @title =  t 'changeset.list.title_user', :user => user.display_name
+      @heading =  t 'changeset.list.heading_user', :user => user.display_name
+      @description = t 'changeset.list.description_user', :user => user_link
     elsif bbox
+      @title =  t 'changeset.list.title_bbox', :bbox => bbox.to_s
+      @heading =  t 'changeset.list.heading_bbox', :bbox => bbox.to_s
       @description = t 'changeset.list.description_bbox', :bbox => bbox_link
     else
+      @title =  t 'changeset.list.title'
+      @heading =  t 'changeset.list.heading'
       @description = t 'changeset.list.description'
     end
 

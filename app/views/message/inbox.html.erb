@@ -11,10 +11,11 @@
         <th><%= t'message.inbox.date' %></th>
         <th></th>
         <th></th>
+        <th></th>
       </tr>
       <%= render :partial => "message_summary", :collection => @user.messages %>
     </table>
   </div>
 <% else %>
-	  <div id="messages"><%= t'message.inbox.no_messages_yet', :people_mapping_nearby_link => link_to(t('message.inbox.people_mapping_nearby'), :controller => 'user', :action => 'view', :display_name => @user.display_name) %></div>
+  <div id="messages"><%= t'message.inbox.no_messages_yet', :people_mapping_nearby_link => link_to(t('message.inbox.people_mapping_nearby'), :controller => 'user', :action => 'view', :display_name => @user.display_name) %></div>
 <% end %>

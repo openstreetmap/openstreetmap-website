@@ -87,6 +87,14 @@ de:
       download: "{{changeset_xml_link}} oder {{osmchange_xml_link}} herunterladen"
       changesetxml: "Changeset XML"
       osmchangexml: "osmChange XML"
+    changeset_navigation:
+      user:
+        name_tooltip: "Änderungen von {{user}} anzeigen"
+        prev_tooltip: "Vorherige Änderung von {{user}}"
+        next_tooltip: "Nächste Änderung von {{user}}"
+      all:
+        prev_tooltip: "Vorheriges Changeset"
+        next_tooltip: "Nächstes Changeset"
     changeset_details:
       created_at: "Erstellt am:"
       closed_at: "Geschlossen am:"
@@ -95,9 +103,15 @@ de:
       no_bounding_box: "Für dieses Changeset wurde kein Bereich gespeichert."
       show_area_box: "Bereichsgrenze anzeigen"
       box: "Bereichsgrenze"
-      has_nodes: "Enthält folgende {{count}} Knoten:"
-      has_ways: "Enthält folgende {{count}} Wege:"
-      has_relations: "Enthält folgende {{count}} Relationen:"
+      has_nodes:
+        one: "Enthält folgenden Knoten:"
+        other: "Enhält folgende {{count}} Knoten:"
+      has_ways:
+        one:  "Enthält folgenden Weg:"
+        other: "Enthält folgende {{count}} Wege:"
+      has_relations:
+        one:  "Enthält folgende Relation:"
+        other: "Enthält folgende {{count}} Relationen:"
     common_details: 
       edited_at: "Bearbeitet am:"
       edited_by: "Bearbeitet von:"
@@ -145,6 +159,9 @@ de:
     relation_history:
       relation_history: "Relations-Chronik"
       relation_history_title: "Relations-Chronik: {{relation_name}}"
+      download: "{{download_xml_link}} oder {{view_details_link}}"
+      download_xml: "XML herungerladen"
+      view_details: "Details anzeigen"
     relation_member:
       entry: "{{type}} {{name}}"
       entry_role: "{{type}} {{name}} als {{role}}"
@@ -229,34 +246,18 @@ de:
       show_area_box: "Bereich anzeigen"
       big_area: "(groß)"
       view_changeset_details: "Details des Changesets"
-      more: "mehr"
     changesets:
       id: "ID"
       saved_at: "Gespeichert am"
       user: "Benutzer"
       comment: "Kommentar"
       area: "Bereich"
-    list_bbox:
-      history: "Chronik"
-      changesets_within_the_area: "Changesets in dem Bereich:"
-      show_area_box: "Bereich anzeigen"
-      no_changesets: "Keine Changesets"
-      all_changes_everywhere: "Für letzte Änderungen weltweit siehe {{recent_changes_link}}"
-      recent_changes: "Letzte Änderungen"
-      no_area_specified: "Kein Bereich angegeben"
-      first_use_view: "{{view_tab_link}} verwenden, um einen interessanten Bereich zu finden und dann auf das 'Chronik-Tab' klicken."
-      view_the_map: "Karte"
-      view_tab: "Kartenansicht"
-      alternatively_view: "Alternativ: {{recent_changes_link}} anzeigen"
     list:
-      recent_changes: "Letzte Änderungen"
-      recently_edited_changesets: "Zuletzt erstellte Changesets:"
-      for_more_changesets: "Mehr Changesets des Benutzers kannst du auf dessen Benutzerseite unter Beiträge einsehen, für Changesets eines Bereiches gehe auf den 'Chronik'-Reiter beim betrachten des gewünschten Kartenausschnitts."
-    list_user:
-      edits_by_username: "Beiträge von {{username_link}}"
-      no_visible_edits_by: "Keine sichtbaren Beiträge von {{name}}."
-      for_all_changes: "Änderungen von allen Nutzern {{recent_changes_link}}"
-      recent_changes: "Letzte Änderungen"
+      title: "Changesets"
+      description: "Letzte Änderungen"
+      description_user: "Letzte Änderungen von {{user}}"
+      description_bbox: "Letzte Änderungen in {{bbox}}"
+      description_user_bbox: "Letzte Änderungen von {{user}} in {{bbox}}"
   diary_entry:
     new:
       title: Selbst Bloggen
@@ -346,8 +347,36 @@ de:
         ca_postcode: 'Suchergebnisse von <a href="http://geocoder.ca/">Geocoder.CA</a>'
         osm_namefinder: 'Suchergebnisse von <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>'
         geonames: 'Suchergebnisse von <a href="http://www.geonames.org/">GeoNames</a>'
+    search_osm_namefinder:
+      prefix: "{{type}} "
+      suffix_place: ", {{distance}} {{direction}} von {{placename}}"
+      suffix_parent: "{{suffix}} ({{parentdistance}} {{parentdirection}} von {{parentname}})"
+      suffix_suburb: "{{suffix}}, {{parentname}}"
+    description:
+      title:
+        osm_namefinder: '{{types}} vom <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>'
+        geonames: 'Ort von <a href="http://www.geonames.org/">GeoNames</a>'
+      types:
+        cities: Großstädte
+        towns: Städte
+        places: Orte
+    description_osm_namefinder:
+      prefix: "{{distance}} {{direction}} von {{type}} "
     results:
       no_results: "Keine Ergebnisse"
+    distance:
+      zero: "weniger als 1km"
+      one: "ca. 1km"
+      other: "ca. {{count}}km"
+    direction:
+      south_west: "südwestlich"
+      south: "südlich"
+      south_east: "südöstlich"
+      east: "östlich"
+      north_east: "nordöstlich"
+      north: "nördlich"
+      north_west: "nordwestlich"
+      west: "westlich"
   layouts:
     project_name:
       # in <title>
@@ -517,6 +546,7 @@ de:
       unread_button: "Als ungelesen markieren"
       read_button: "Als gelesen markieren"
       reply_button: "Antworten"
+      delete_button: "Löschen"
     new:
       title: "Nachricht senden" 
       send_message_to: "Eine Nachricht an {{name}} senden"
@@ -552,9 +582,13 @@ de:
       reading_your_sent_messages: "Deine versendeten Nachrichten lesen"
       to: "An"
       back_to_outbox: "Zurück zu Gesendete Nachrichten"
+    sent_message_summary:
+      delete_button: "Löschen"
     mark: 
       as_read: "Nachricht als gelesen markiert" 
       as_unread: "Nachricht als ungelesen markiert"
+    delete:
+      deleted: "Nachricht gelöscht"
   site:
     index:
       js_1: "Dein Browser unterstützt kein Javascript oder du hast es deaktiviert."
@@ -576,7 +610,7 @@ de:
       anon_edits_link: "http://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits"
       anon_edits_link_text: "Hier findest du mehr Infos dazu."
       flash_player_required: 'Du benötigst den Flash Player um Potlatch, den OpenStreetMap-Flash-Editor zu benutzen. <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">Lade den Flash Player von Adobe.com herunter</a>. <a href="http://wiki.openstreetmap.org/wiki/DE:Editing">Einige andere Möglichkeiten</a>, um OpenStreetMap zu editieren, sind hier beschrieben.'
-      potlatch_unsaved_changes: "Du hast deine Arbeit noch nicht gespeichert. (Um sie in Potlach zu speichern, klicke auf eine leere Fläche bzw. deselektiere den Weg oder Punkt, wenn du im Live Modus editierst oder klicke auf Speichern, wenn ein Speicherbutton vorhanden ist.)"
+      potlatch_unsaved_changes: "Du hast deine Arbeit noch nicht gespeichert. (Um sie in Potlach zu speichern, klicke auf eine leere Fläche bzw. deselektiere den Weg oder Punkt, wenn du im Live-Modus editierst oder klicke auf Speichern, wenn ein Speicherbutton vorhanden ist.)"
     sidebar:
       search_results: Suchergebnisse
       close: Schließen
@@ -670,6 +704,7 @@ de:
       owner: "Besitzer:"
       description: "Beschreibung:"
       tags: "Tags:"
+      tags_help: "Trennung durch Komma" 
       save_button: "Speichere Änderungen"
     no_such_user:
       title: "Benutzer nicht gefunden"
@@ -679,6 +714,7 @@ de:
       upload_gpx: "GPX-Datei"
       description: "Beschreibung"
       tags: "Tags"
+      tags_help: "Trennung durch Komma" 
       public: "Öffentlich?"
       public_help: "Was heißt das?"
       public_help_url: "http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces"
@@ -820,6 +856,7 @@ de:
       your friends: Eigene Freunde
       no friends: Du hast bis jetzt keine Freunde hinzugefügt.
       km away: "{{count}}km entfernt"
+      m away: "{{count}}m entfernt" 
       nearby users: "Benutzer in der Nähe: "
       no nearby users: "Es gibt bisher keine Benutzer, die einen Standort in deiner Nähe angegeben haben."
       change your settings: Ändere deine Einstellungen

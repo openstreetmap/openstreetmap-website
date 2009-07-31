@@ -48,9 +48,8 @@ module HttpAcceptLanguage
   #
   def compatible_language_from(array)
     user_preferred_languages.map do |x|
-      x = x.to_s.split("-")[0]
       array.find do |y|
-        y.to_s.split("-")[0] == x
+        y.to_s =~ /^#{x.to_s}(-|$)/
       end
     end.compact.first
   end

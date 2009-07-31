@@ -454,6 +454,65 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal result[4], first_historic_node.version, "The version returned, is different to the one returned by the amf"
   end
   
+  # try creating a POI with rubbish in the tags
+  def test_putpoi_create_with_control_chars
+    # This node has no tags
+    nd = Node.new
+    # create a node with random lat/lon
+    lat = rand(100)-50 + rand
+    lon = rand(100)-50 + rand
+    # normal user has a changeset open
+    changeset = changesets(:public_user_first_change)
+    
+    mostly_invalid = (0..31).to_a.map {|i| i.chr}.join
+    tags = { "something" => "foo#{mostly_invalid}bar" }
+      
+    amf_content "putpoi", "/1", ["test@example.com:test", changeset.id, nil, nil, lon, lat, tags, nil]
+    post :amf_write
+    assert_response :success
+    amf_parse_response
+    result = amf_result("/1")
+      
+    # check the array returned by the amf
+    assert_equal 5, result.size
+    assert_equal 0, result[0], "Expected to get the status ok in the amf"
+    assert_equal 0, result[2], "The old id should be 0"
+    assert result[3] > 0, "The new id should be greater than 0"
+    assert_equal 1, result[4], "The new version should be 1"
+    
+    # Finally check that the node that was saved has saved the data correctly 
+    # in both the current and history tables
+    # First check the current table
+    current_node = Node.find(result[3])
+    assert_equal 1, current_node.tags.size, "There seems to be a tag that has been added to the node"
+    assert_equal({ "something" => "foo\t\n\rbar" }, current_node.tags, "tags were not fixed correctly")
+    assert_equal result[4], current_node.version, "The version returned, is different to the one returned by the amf"
+  end
+
+  # try creating a POI with rubbish in the tags
+  def test_putpoi_create_with_invalid_utf8
+    # This node has no tags
+    nd = Node.new
+    # create a node with random lat/lon
+    lat = rand(100)-50 + rand
+    lon = rand(100)-50 + rand
+    # normal user has a changeset open
+    changeset = changesets(:public_user_first_change)
+    
+    invalid = "\xc0\xc0"
+    tags = { "something" => "foo#{invalid}bar" }
+      
+    amf_content "putpoi", "/1", ["test@example.com:test", changeset.id, nil, nil, lon, lat, tags, nil]
+    post :amf_write
+    assert_response :success
+    amf_parse_response
+    result = amf_result("/1")
+
+    assert_equal 2, result.size
+    assert_equal -1, result[0], "Expected to get the status FAIL in the amf"
+    assert_equal "One of the tags is invalid. Please pester Adobe to fix Flash on Linux.", result[1] 
+  end
+      
   def test_putpoi_delete_valid
     
   end

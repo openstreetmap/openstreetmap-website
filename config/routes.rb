@@ -193,6 +193,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/message/read/:message_id', :controller => 'message', :action => 'read'
   map.connect '/message/mark/:message_id', :controller => 'message', :action => 'mark'
   map.connect '/message/reply/:message_id', :controller => 'message', :action => 'reply'
+  map.connect '/message/delete/:message_id', :controller => 'message', :action => 'delete'
 
   # oauth admin pages (i.e: for setting up new clients, etc...)
   map.resources :oauth_clients

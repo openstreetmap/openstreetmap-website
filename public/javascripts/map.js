@@ -14,7 +14,7 @@ var nonamekeys = {
 };
 
 OpenLayers._getScriptLocation = function () {
-  // Should really have this file as an erb, so that this can return 
+  // Should really have this file as an erb, so that this can return
   // the real rails root
    return "/openlayers/";
 }
@@ -116,7 +116,8 @@ function addObjectToMap(url, zoom, callback) {
           strokeWidth: 3,
           strokeOpacity: 0.5,
           fillOpacity: 0.2,
-          fillColor: "lightblue"
+          fillColor: "lightblue",
+          pointRadius: 6
       },
       projection: new OpenLayers.Projection("EPSG:4326"),
       displayInLayerSwitcher: false
@@ -145,7 +146,7 @@ function addObjectToMap(url, zoom, callback) {
          callback(extent);
       }
    });
-  
+
    map.addLayer(layer);
 
    layer.loadGML();
@@ -165,7 +166,7 @@ function addBoxToMap(boxbounds) {
       strokeColor: '#ee9900',
       fillOpacity: 0
    });
-   
+
    vectors.addFeatures(box);
 
    return box;

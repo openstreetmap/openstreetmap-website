@@ -2,12 +2,17 @@
   <% cl = cycle('table0', 'table1') %>
 
   <td class="<%= cl %>">
-    #<%= changeset.id %>
+    <%=
+      id_link = link_to(changeset.id,
+                        {:controller => 'browse', :action => 'changeset', :id => changeset.id},
+                        {:title => t('changeset.changeset.view_changeset_details')})
+      t'changeset.changeset.id', :id => id_link
+    %>
   </td>
 
   <td class="<%= cl %> date">
     <% if changeset.closed_at > DateTime.now %> <%= t'changeset.changeset.still_editing' %>
-    <% else %><%= changeset.closed_at.strftime("%d %b %Y %H:%M") %><% end %>
+    <% else %><%= l changeset.closed_at, :format => :short %><% end %>
   </td>
 
     
@@ -46,10 +51,6 @@
          end
        end
     %>
-  </td>
-
-  <td class="<%= cl %>">
-    <%= link_to t('changeset.changeset.more'), {:controller => 'browse', :action => 'changeset', :id => changeset.id}, {:title => t('changeset.changeset.view_changeset_details')} %> 
   </td>
 
 </tr>
