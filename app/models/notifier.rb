@@ -22,13 +22,7 @@ class Notifier < ActionMailer::Base
     subject I18n.t('notifier.lost_password.subject')
     body :url => url_for(:host => SERVER_URL,
                          :controller => "user", :action => "reset_password",
-                         :email => user.email, :token => token.token)
-  end
-
-  def reset_password(user, pass)
-    common_headers user
-    subject I18n.t('notifier.reset_password.subject')
-    body :pass => pass
+                         :token => token.token)
   end
 
   def gpx_success(trace, possible_points)
