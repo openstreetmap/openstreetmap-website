@@ -7,15 +7,21 @@ class ClientApplicationTest < ActionController::IntegrationTest
   # run through the procedure of creating a client application and checking
   # that it shows up on the user's account page.
   def test_create_application
-    post '/login', {'user[email]' => "test@example.com", 'user[password]' => "test", :referer => '/user/test/account'}
+    post '/login', {'user[email]' => "test@example.com", 'user[password]' => "test", :referer => '/user/test2'}
     assert_response :redirect
     follow_redirect!
     assert_response :success
-    assert_template 'user/account'
+    assert_template 'user/view'
 
     # check that the form to allow new client application creations exists
     assert_in_body do
-      assert_select "h2", "Application Developers" 
+      assert_select "a[href='/oauth_clients']"
+    end
+
+    # now we follow the link to the oauth client list
+    get '/oauth_clients'
+    assert_response :success
+    assert_in_body do
       assert_select "a[href='/oauth_clients/new']"
     end
 
@@ -46,10 +52,10 @@ class ClientApplicationTest < ActionController::IntegrationTest
     assert_equal 'Registered the information successfully', flash[:notice]
 
     # now go back to the account page and check its listed under this user
-    get '/user/test/account'
+    get '/oauth_clients'
     assert_response :success
-    assert_template 'user/account'
-    assert_in_body { assert_select "li>div>a", "My New App" }
+    assert_template 'oauth_clients/index'
+    assert_in_body { assert_select "div>a", "My New App" }
   end
 
   ##

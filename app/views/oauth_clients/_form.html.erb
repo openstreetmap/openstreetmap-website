@@ -1,40 +1,23 @@
 <div class="field">
-	<label for="client_application_name">Name*</label><br/>
+	<label for="client_application_name"><%= t'oauth.client_application.form.name' %> (<%= t'oauth.client_application.form.required' %>)</label><br/>
 	<%= f.text_field :name %>
 </div>
 <div class="field">
-	<label for="client_application_url">Main Application URL*</label><br/>
+	<label for="client_application_url"><%= t'oauth.client_application.form.url' %> (<%= t'oauth.client_application.form.required' %>)</label><br/>
 	<%= f.text_field :url %>
 </div>
 <div class="field">
-	<label for="client_application_callback_url">Callback URL*</label><br/>
+	<label for="client_application_callback_url"><%= t'oauth.client_application.form.callback_url' %></label><br/>
 	<%= f.text_field :callback_url %>
 </div>
 <div class="field">
-	<label for="client_application_support_url">Support URL</label><br/>
+	<label for="client_application_support_url"><%= t'oauth.client_application.form.support_url' %></label><br/>
 	<%= f.text_field :support_url %>
 </div>
+<p><%= t'oauth.client_application.form.requests' %></p>
+<% ClientApplication.all_permissions.each do |perm| %>
 <div class="field">
-  <%= f.check_box :allow_read_prefs %>
-  <label for="client_application_allow_read_prefs">Request permission to read the user preferences.</label><br/>
+  <%= f.check_box perm %>
+  <label for="client_application_<%= perm.to_s %>"><%= t('oauth.client_application.form.' + perm.to_s) %></label><br/>
 </div>
-<div class="field">
-  <%= f.check_box :allow_write_prefs %>
-  <label for="client_application_allow_write_prefs">Request permission to write the user preferences.</label><br/>
-</div>
-<div class="field">
-  <%= f.check_box :allow_write_diary %>
-  <label for="client_application_allow_write_diary">Request permission to create diary entries, comments and friends.</label><br/>
-</div>
-<div class="field">
-  <%= f.check_box :allow_write_api %>
-  <label for="client_application_allow_write_api">Request permission to write the API on the user's behalf.</label><br/>
-</div>
-<div class="field">
-  <%= f.check_box :allow_read_gpx %>
-  <label for="client_application_allow_read_gpx">Request permission to read the user's private GPS traces.</label><br/>
-</div>
-<div class="field">
-  <%= f.check_box :allow_write_gpx %>
-  <label for="client_application_allow_write_gpx">Request permission to upload GPS traces as the user.</label><br/>
-</div>
+<% end %>

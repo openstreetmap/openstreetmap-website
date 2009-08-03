@@ -1,9 +1,10 @@
-<div class="flash"><%= flash[:notice] %></div>
-<h1>OAuth Client Applications</h1>
+<h1><%= t'oauth.client_application.index.title' %></h1>
 <% unless @tokens.empty? %>
-<p>The following tokens have been issued to applications in your name</p>
+<h3><%= t'oauth.client_application.index.my_tokens' %></h3>
+<p><%= t'oauth.client_application.index.list_tokens' %></p>
 <table>
-  <tr><th>Application</th><th>Issued</th><th>&nbsp;</th></tr>
+  <tr><th><%= t'oauth.client_application.index.application' %></th>
+    <th><%= t'oauth.client_application.index.issued_at' %></th><th>&nbsp;</th></tr>
   <% @tokens.each do |token|%>
     <% content_tag_for :tr, token do %>
       <td><%= link_to token.client_application.name, token.client_application.url %></td>
@@ -11,29 +12,22 @@
       <td>
 	<% form_tag :controller => 'oauth', :action => 'revoke' do %>
 	<%= hidden_field_tag 'token', token.token %>
-	<%= submit_tag "Revoke!" %>
+	<%= submit_tag t('oauth.client_application.index.revoke') %>
 	<% end %>
       </td>
     <% end %>
   <% end %>	
 </table>
 <% end %>
-<h3>Application Developers</h3>
+<h3><%= t'oauth.client_application.index.my_apps' %></h3>
 <% if @client_applications.empty? %>
-	<p>
-		Do you have an application you would like to register for use with us using the <a href="http://oauth.net">OAuth</a> standard?
-	</p>
-	<p>
-		You must register your web application before it can make OAuth requests to this service
-	</p>
+<p><%= t('oauth.client_application.index.no_apps', :oauth => "<a href=\"http://oauth.net\">OAuth</a>") %></p>
 <% else %>
-	<p>
-		You have the following client applications registered:
-	</p>
-	<% @client_applications.each do |client|%>
-		<% div_for client do %>
-			<%= link_to client.name, :action => :show, :id => client.id %>
-		<% end %>
-	<% end %>
+<p><%= t'oauth.client_application.index.registered_apps' %></p>
+<% @client_applications.each do |client|%>
+  <% div_for client do %>
+    <%= link_to client.name, :action => :show, :id => client.id %>
+  <% end %>
 <% end %>
-<h3><%= link_to "Register your application", :action => :new %></h3>
+<% end %>
+<h3><%= link_to t('oauth.client_application.index.register_new'), :action => :new %></h3>
