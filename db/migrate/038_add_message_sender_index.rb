@@ -4,6 +4,6 @@ class AddMessageSenderIndex < ActiveRecord::Migration
   end
 
   def self.down
-    drop_index :messages, :name=> "messages_from_user_id_idx"
+    remove_index :messages, :name=> "messages_from_user_id_idx"
   end
 end
