@@ -95,9 +95,9 @@ class UserController < ApplicationController
       if user
         token = user.tokens.create
         Notifier.deliver_lost_password(user, token)
-        flash[:notice] = t 'user.lost_password.notice email on way'
+        @notice = t 'user.lost_password.notice email on way'
       else
-        flash[:notice] = t 'user.lost_password.notice email cannot find'
+        @notice = t 'user.lost_password.notice email cannot find'
       end
     end
   end
@@ -105,25 +105,28 @@ class UserController < ApplicationController
   def reset_password
     @title = t 'user.reset_password.title'
 
-    if params['token']
+    if params[:token]
       token = UserToken.find_by_token(params[:token])
+
       if token
-        pass = OSM::make_token(8)
-        user = token.user
-        user.pass_crypt = pass
-        user.pass_crypt_confirmation = pass
-        user.active = true
-        user.email_valid = true
-        user.save!
-        token.destroy
-        Notifier.deliver_reset_password(user, pass)
-        flash[:notice] = t 'user.reset_password.flash changed check mail'
+        if params[:user]
+          @user = token.user
+          @user.pass_crypt = params[:user][:pass_crypt]
+          @user.pass_crypt_confirmation = params[:user][:pass_crypt_confirmation]
+          @user.active = true
+          @user.email_valid = true
+
+          if @user.save
+            token.destroy
+            flash[:notice] = t 'user.reset_password.flash changed'
+            redirect_to :action => 'login'
+          end
+        end
       else
         flash[:notice] = t 'user.reset_password.flash token bad'
+        redirect_to :action => 'lost_password'
       end
     end
-
-    redirect_to :action => 'login'
   end
 
   def new
