@@ -49,7 +49,9 @@ Rails::Initializer.run do |config|
   config.gem 'composite_primary_keys', :version => '2.2.2'
   config.gem 'libxml-ruby', :version => '>= 1.1.1', :lib => 'libxml'
   config.gem 'rmagick', :lib => 'RMagick'
-  config.gem 'oauth', :version => '0.3.5'
+  # note: this should be changed to 0.3.6 as soon as it's released, as this has fixes for
+  # uploading multipart documents.
+  config.gem 'oauth', :version => '>=0.2.1'
 
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.
