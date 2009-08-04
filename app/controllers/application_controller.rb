@@ -31,8 +31,8 @@ class ApplicationController < ActionController::Base
   def require_capability(cap)
     # when the current token is nil, it means the user logged in with a different
     # method, otherwise an OAuth token was used, which has to be checked.
-    unless @current_token.nil?
-      unless @current_token.read_attribute(cap)
+    unless current_token.nil?
+      unless current_token.read_attribute(cap)
         render :text => "OAuth token doesn't have that capability.", :status => :forbidden
         return false
       end
@@ -66,7 +66,7 @@ class ApplicationController < ActionController::Base
   def setup_user_auth
     # try and setup using OAuth
     if oauthenticate
-      @user = @current_token.user
+      @user = current_token.user
     else
       username, passwd = get_auth_data # parse from headers
       # authenticate per-scheme
