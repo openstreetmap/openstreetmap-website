@@ -109,8 +109,9 @@ class UserController < ApplicationController
       token = UserToken.find_by_token(params[:token])
 
       if token
+        @user = token.user
+
         if params[:user]
-          @user = token.user
           @user.pass_crypt = params[:user][:pass_crypt]
           @user.pass_crypt_confirmation = params[:user][:pass_crypt_confirmation]
           @user.active = true
