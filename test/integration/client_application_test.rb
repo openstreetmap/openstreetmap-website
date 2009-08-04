@@ -15,22 +15,22 @@ class ClientApplicationTest < ActionController::IntegrationTest
 
     # check that the form to allow new client application creations exists
     assert_in_body do
-      assert_select "a[href='/oauth_clients']"
+      assert_select "a[href='/user/test2/oauth_clients']"
     end
 
     # now we follow the link to the oauth client list
-    get '/oauth_clients'
+    get '/user/test2/oauth_clients'
     assert_response :success
     assert_in_body do
-      assert_select "a[href='/oauth_clients/new']"
+      assert_select "a[href='/user/test2/oauth_clients/new']"
     end
 
     # now we follow the link to the new oauth client page
-    get '/oauth_clients/new'
+    get '/user/test2/oauth_clients/new'
     assert_response :success
     assert_in_body do
       assert_select "h1", "Register a new application"
-      assert_select "form[action='/oauth_clients']" do
+      assert_select "form[action='/user/test2/oauth_clients']" do
         [ :name, :url, :callback_url, :support_url ].each do |inp|
           assert_select "input[name=?]", "client_application[#{inp}]"
         end
@@ -40,7 +40,7 @@ class ClientApplicationTest < ActionController::IntegrationTest
       end
     end
 
-    post '/oauth_clients', {
+    post '/user/test2/oauth_clients', {
       'client_application[name]' => 'My New App',
       'client_application[url]' => 'http://my.new.app.org/',
       'client_application[callback_url]' => 'http://my.new.app.org/callback',
@@ -52,7 +52,7 @@ class ClientApplicationTest < ActionController::IntegrationTest
     assert_equal 'Registered the information successfully', flash[:notice]
 
     # now go back to the account page and check its listed under this user
-    get '/oauth_clients'
+    get '/user/test2/oauth_clients'
     assert_response :success
     assert_template 'oauth_clients/index'
     assert_in_body { assert_select "div>a", "My New App" }
