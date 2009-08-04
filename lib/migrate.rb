@@ -59,6 +59,11 @@ module ActiveRecord
         types[:bigint_auto_20] = { :name => "bigint(20) DEFAULT NULL auto_increment" }
         types[:four_byte_unsigned] = { :name=> "integer unsigned" }
         types[:inet] = { :name=> "integer unsigned" }
+
+        enumerations.each do |e,v|
+          types[e.to_sym]= { :name => "enum('#{v.join '\',\''}')" }
+        end
+
         types
       end
 
@@ -96,8 +101,16 @@ module ActiveRecord
         execute "CREATE FULLTEXT INDEX `#{table_name}_#{column}_idx` ON `#{table_name}` (`#{column}`)"
       end
 
-      def alter_column_nwr_enum (table_name, column)
-        execute "alter table #{table_name} change column #{column} #{column} enum('Node','Way','Relation');"
+      def enumerations
+        @enumerations ||= Hash.new
+      end
+
+      def create_enumeration (enumeration_name, values)
+        enumerations[enumeration_name] = values
+      end
+
+      def drop_enumeration (enumeration_name)
+        enumerations.delete(enumeration_name)
       end
 
       def alter_primary_key(table_name, new_columns)
@@ -125,6 +138,11 @@ module ActiveRecord
         types[:bigint_auto_20] = { :name => "bigint" } #fixme: need autoincrement?
         types[:four_byte_unsigned] = { :name => "bigint" } # meh
         types[:inet] = { :name=> "inet" }
+
+        enumerations.each_key do |e|
+          types[e.to_sym]= { :name => e }
+        end
+
         types
       end
 
@@ -147,13 +165,18 @@ module ActiveRecord
         execute "CREATE INDEX #{table_name}_#{column}_idx on #{table_name} (#{column})"
       end
 
-      def alter_column_nwr_enum (table_name, column)
-        response = select_one("select count(*) as count from pg_type where typname = 'nwr_enum'")
-        if response['count'] == "0" #yep, as a string
-          execute "create type nwr_enum as ENUM ('Node', 'Way', 'Relation')"
-        end
-        execute	"alter table #{table_name} drop #{column}"
-        execute "alter table #{table_name} add #{column} nwr_enum"
+      def enumerations
+        @enumerations ||= Hash.new
+      end
+
+      def create_enumeration (enumeration_name, values)
+        enumerations[enumeration_name] = values
+        execute "create type #{enumeration_name} as enum ('#{values.join '\',\''}')"
+      end
+
+      def drop_enumeration (enumeration_name)
+        execute "drop type #{enumeration_name}"
+        enumerations.delete(enumeration_name)
       end
 
       def alter_primary_key(table_name, new_columns)

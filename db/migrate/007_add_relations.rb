@@ -2,18 +2,19 @@ require 'lib/migrate'
 
 class AddRelations < ActiveRecord::Migration
   def self.up
+    # enums work like strings but are more efficient
+    create_enumeration :nwr_enum, ["Node", "Way", "Relation"]
+
     # a relation can have members much like a way can have nodes.
     # differences:
     # way: only nodes / relation: any kind of member
     # way: ordered sequence of nodes / relation: free-form "role" string
     create_table "current_relation_members", innodb_table do |t|
-      t.column "id",          :bigint, :limit => 64, :null => false
-      t.column "member_type", :string, :limit => 11, :null => false
-      t.column "member_id",   :bigint, :limit => 11, :null => false
+      t.column "id",          :bigint,   :limit => 64, :null => false
+      t.column "member_type", :nwr_enum, :null => false
+      t.column "member_id",   :bigint,   :limit => 11, :null => false
       t.column "member_role", :string
     end
-    # enums work like strings but are more efficient
-    alter_column_nwr_enum :current_relation_members, :member_type
 
     add_primary_key "current_relation_members", ["id", "member_type", "member_id", "member_role"]
     add_index "current_relation_members", ["member_type", "member_id"], :name => "current_relation_members_member_idx"
@@ -36,14 +37,13 @@ class AddRelations < ActiveRecord::Migration
     end
 
     create_table "relation_members", myisam_table do |t|
-      t.column "id",          :bigint,  :limit => 64, :default => 0, :null => false
-      t.column "member_type", :string, :limit => 11, :null => false
-      t.column "member_id",   :bigint, :limit => 11, :null => false
+      t.column "id",          :bigint,   :limit => 64, :default => 0, :null => false
+      t.column "member_type", :nwr_enum, :null => false
+      t.column "member_id",   :bigint,   :limit => 11, :null => false
       t.column "member_role", :string
-      t.column "version",     :bigint,  :limit => 20, :default => 0, :null => false
+      t.column "version",     :bigint,   :limit => 20, :default => 0, :null => false
     end
 
-    alter_column_nwr_enum :relation_members, :member_type 
     add_primary_key "relation_members", ["id", "version", "member_type", "member_id", "member_role"]
     add_index "relation_members", ["member_type", "member_id"], :name => "relation_members_member_idx"
 
@@ -78,5 +78,6 @@ class AddRelations < ActiveRecord::Migration
     drop_table :current_relation_tags
     drop_table :relation_members
     drop_table :current_relation_members
+    drop_enumeration :nwr_enum
   end
 end
