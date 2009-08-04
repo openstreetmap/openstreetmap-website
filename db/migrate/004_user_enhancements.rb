@@ -1,3 +1,5 @@
+require 'lib/migrate'
+
 class UserEnhancements < ActiveRecord::Migration
   def self.up
     add_column "diary_entries", "latitude", :double

@@ -1,3 +1,5 @@
+require 'lib/migrate'
+
 class CreateAcls < ActiveRecord::Migration
   def self.up
     create_table "acls", myisam_table do |t|

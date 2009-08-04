@@ -1,3 +1,5 @@
+require 'lib/migrate'
+
 class MoveToInnodb < ActiveRecord::Migration
   @@conv_tables = ['nodes', 'ways', 'way_tags', 'way_nodes',
     'current_way_tags', 'relation_members',

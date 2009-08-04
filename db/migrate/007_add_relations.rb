@@ -1,3 +1,5 @@
+require 'lib/migrate'
+
 class AddRelations < ActiveRecord::Migration
   def self.up
     # a relation can have members much like a way can have nodes.
