@@ -196,7 +196,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/message/delete/:message_id', :controller => 'message', :action => 'delete'
 
   # oauth admin pages (i.e: for setting up new clients, etc...)
-  map.resources :oauth_clients
+  map.resources :oauth_clients, :path_prefix => '/user/:display_name'
   map.connect '/oauth/revoke', :controller => 'oauth', :action => 'revoke'
   map.authorize '/oauth/authorize', :controller => 'oauth', :action => 'oauthorize'
   map.request_token '/oauth/request_token', :controller => 'oauth', :action => 'request_token'
