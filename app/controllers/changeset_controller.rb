@@ -281,11 +281,11 @@ class ChangesetController < ApplicationController
     if bbox
       conditions = cond_merge conditions, conditions_bbox(bbox)
       bbox = BoundingBox.from_s(bbox)
-      bbox_link = "<a href='#{url_for(:controller => "site", :action => "index", :minlon => bbox.min_lon, :minlat => bbox.min_lat, :maxlon => bbox.max_lon, :maxlat => bbox.max_lat, :box => "yes")}'>#{bbox.to_s}</a>"
+      bbox_link = render_to_string :partial => "bbox", :object => bbox
     end
 
     if user
-      user_link = "<a href='#{url_for(:controller => "user", :action => "view", :display_name => user.display_name)}'>#{user.display_name}</a>"
+      user_link = render_to_string :partial => "user", :object => user
     end
 
     if user and bbox
