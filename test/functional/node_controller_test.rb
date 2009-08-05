@@ -178,6 +178,12 @@ class NodeControllerTest < ActionController::TestCase
     delete :delete, :id => current_nodes(:visible_node).id
     assert_response :conflict
 
+    # try to delete a node with a different ID
+    content(nodes(:public_visible_node).to_xml)
+    delete :delete, :id => current_nodes(:visible_node).id
+    assert_response :bad_request, 
+       "should not be able to delete a node with a different ID from the XML"
+
     # valid delete now takes a payload
     content(nodes(:public_visible_node).to_xml)
     delete :delete, :id => current_nodes(:public_visible_node).id
@@ -271,9 +277,6 @@ class NodeControllerTest < ActionController::TestCase
     content current_nodes(:visible_node).to_xml
     put :update, :id => current_nodes(:visible_node).id
     assert_require_public_data "should have failed with a forbidden when data isn't public"
-
-    
-    
     
     ## Finally test with the public user
     
@@ -344,6 +347,12 @@ class NodeControllerTest < ActionController::TestCase
     assert_response :conflict, 
        "should not be able to put 'p1r4at3s!' in the version field"
     
+    ## try an update with the wrong ID
+    content current_nodes(:public_visible_node).to_xml
+    put :update, :id => current_nodes(:visible_node).id
+    assert_response :bad_request, 
+       "should not be able to update a node with a different ID from the XML"
+
     ## finally, produce a good request which should work
     content current_nodes(:public_visible_node).to_xml
     put :update, :id => current_nodes(:public_visible_node).id
