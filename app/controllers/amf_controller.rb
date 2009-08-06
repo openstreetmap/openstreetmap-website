@@ -149,10 +149,10 @@ class AmfController < ApplicationController
 
   private
 
-  def amf_handle_error(call)
+  def amf_handle_error(call,rootobj,rootid)
     yield
   rescue OSM::APIVersionMismatchError => ex
-    return [-3, [ex.type.downcase, ex.latest, ex.id]]
+    return [-3, [rootobj, rootid], [ex.type.downcase, ex.id, ex.latest]]
   rescue OSM::APIUserChangesetMismatchError => ex
     return [-2, ex.to_s]
   rescue OSM::APIBadBoundingBox => ex
@@ -163,8 +163,8 @@ class AmfController < ApplicationController
     return [-2, "An unusual error happened (in #{call}). The server said: #{ex.to_s}"]
   end
 
-  def amf_handle_error_with_timeout(call)
-    amf_handle_error(call) do
+  def amf_handle_error_with_timeout(call,rootobj,rootid)
+    amf_handle_error(call,rootobj,rootid) do
       Timeout::timeout(APP_CONFIG['api_timeout'], OSM::APITimeoutError) do
         yield
       end
@@ -175,7 +175,7 @@ class AmfController < ApplicationController
   # Returns success_code,success_message,changeset id
   
   def startchangeset(usertoken, cstags, closeid, closecomment, opennew)
-    amf_handle_error("'startchangeset'") do
+    amf_handle_error("'startchangeset'",nil,nil) do
       user = getuser(usertoken)
       if !user then return -1,"You are not logged in, so Potlatch can't write any changes to the database." end
 
@@ -253,7 +253,7 @@ class AmfController < ApplicationController
   # used in any way, rel is any relation which refers to either a way
   # or node that we're returning.
   def whichways(xmin, ymin, xmax, ymax) #:doc:
-    amf_handle_error_with_timeout("'whichways'") do
+    amf_handle_error_with_timeout("'whichways'",nil,nil) do
       enlarge = [(xmax-xmin)/8,0.01].min
       xmin -= enlarge; ymin -= enlarge
       xmax += enlarge; ymax += enlarge
@@ -293,7 +293,7 @@ class AmfController < ApplicationController
   # with a deleted node only - not POIs or relations).
 
   def whichways_deleted(xmin, ymin, xmax, ymax) #:doc:
-    amf_handle_error_with_timeout("'whichways_deleted'") do
+    amf_handle_error_with_timeout("'whichways_deleted'",nil,nil) do
       enlarge = [(xmax-xmin)/8,0.01].min
       xmin -= enlarge; ymin -= enlarge
       xmax += enlarge; ymax += enlarge
@@ -313,7 +313,7 @@ class AmfController < ApplicationController
   # Returns the way id, a Potlatch-style array of points, a hash of tags, the version number, and the user ID.
 
   def getway(wayid) #:doc:
-    amf_handle_error_with_timeout("'getway' #{wayid}") do
+    amf_handle_error_with_timeout("'getway' #{wayid}" ,'way',wayid) do
       if POTLATCH_USE_SQL then
         points = sql_get_nodes_in_way(wayid)
         tags = sql_get_tags_in_way(wayid)
@@ -358,7 +358,7 @@ class AmfController < ApplicationController
   # 5. is this the current, visible version? (boolean)
   
   def getway_old(id, timestamp) #:doc:
-    amf_handle_error_with_timeout("'getway_old' #{id}, #{timestamp}") do
+    amf_handle_error_with_timeout("'getway_old' #{id}, #{timestamp}", 'way',id) do
       if timestamp == ''
         # undelete
         old_way = OldWay.find(:first, :conditions => ['visible = ? AND id = ?', true, id], :order => 'version DESC')
@@ -458,7 +458,7 @@ class AmfController < ApplicationController
   # Returns array listing GPXs, each one comprising id, name and description.
   
   def findgpx(searchterm, usertoken)
-    amf_handle_error_with_timeout("'findgpx'") do
+    amf_handle_error_with_timeout("'findgpx'" ,nil,nil) do
       user = getuser(usertoken)
       if !uid then return -1,"You must be logged in to search for GPX traces.",[] end
 
@@ -487,7 +487,7 @@ class AmfController < ApplicationController
   # 5. version.
   
   def getrelation(relid) #:doc:
-    amf_handle_error("'getrelation' #{relid}") do
+    amf_handle_error("'getrelation' #{relid}" ,'relation',relid) do
       rel = Relation.find(:first, :conditions => { :id => relid })
 
       return [-4, 'relation', relid, {}, [], nil] if rel.nil? or !rel.visible
@@ -523,7 +523,7 @@ class AmfController < ApplicationController
   # 3. version.
 
   def putrelation(renumberednodes, renumberedways, usertoken, changeset_id, version, relid, tags, members, visible) #:doc:
-    amf_handle_error("'putrelation' #{relid}")  do
+    amf_handle_error("'putrelation' #{relid}" ,'relation',relid)  do
       user = getuser(usertoken)
       if !user then return -1,"You are not logged in, so the relation could not be saved." end
       if !tags_ok(tags) then return -1,"One of the tags is invalid. Please pester Adobe to fix Flash on Linux." end
@@ -608,7 +608,7 @@ class AmfController < ApplicationController
   # 6. hash of node versions (node=>version)
 
   def putway(renumberednodes, usertoken, changeset_id, wayversion, originalway, pointlist, attributes, nodes, deletednodes) #:doc:
-    amf_handle_error("'putway' #{originalway}") do
+    amf_handle_error("'putway' #{originalway}" ,'way',originalway) do
       # -- Initialise
 	
       user = getuser(usertoken)
@@ -714,7 +714,7 @@ class AmfController < ApplicationController
   # 4. version.
 
   def putpoi(usertoken, changeset_id, version, id, lon, lat, tags, visible) #:doc:
-    amf_handle_error("'putpoi' #{id}") do
+    amf_handle_error("'putpoi' #{id}", 'node',id) do
       user = getuser(usertoken)
       if !user then return -1,"You are not logged in, so the point could not be saved." end
       if !tags_ok(tags) then return -1,"One of the tags is invalid. Please pester Adobe to fix Flash on Linux." end
@@ -769,7 +769,7 @@ class AmfController < ApplicationController
   # Returns array of id, long, lat, hash of tags, (current) version.
 
   def getpoi(id,timestamp) #:doc:
-    amf_handle_error("'getpoi' #{id}") do
+    amf_handle_error("'getpoi' #{id}" ,'node',id) do
       id = id.to_i
       n = Node.find(id)
       v = n.version
@@ -796,7 +796,7 @@ class AmfController < ApplicationController
   # Returns 0 (success), unchanged way id, new way version, new node versions.
 
   def deleteway(usertoken, changeset_id, way_id, way_version, deletednodes) #:doc:
-    amf_handle_error("'deleteway' #{way_id}") do
+    amf_handle_error("'deleteway' #{way_id}" ,'way',id) do
       user = getuser(usertoken)
       unless user then return -1,"You are not logged in, so the way could not be deleted." end
       

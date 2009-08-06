@@ -39,7 +39,7 @@ class NodeController < ApplicationController
     new_node = Node.from_xml(request.raw_post)
        
     unless new_node and new_node.id == node.id
-      raise OSM::BadUserInput.new("The id in the url (#{node.id}) is not the same as provided in the xml (#{new_node.id})")
+      raise OSM::APIBadUserInput.new("The id in the url (#{node.id}) is not the same as provided in the xml (#{new_node.id})")
     end
     node.update_from(new_node, @user)
     render :text => node.version.to_s, :content_type => "text/plain"
@@ -53,7 +53,7 @@ class NodeController < ApplicationController
     new_node = Node.from_xml(request.raw_post)
     
     unless new_node and new_node.id == node.id
-      raise OSM::BadUserInput.new("The id in the url (#{node.id}) is not the same as provided in the xml (#{new_node.id})")
+      raise OSM::APIBadUserInput.new("The id in the url (#{node.id}) is not the same as provided in the xml (#{new_node.id})")
     end
     node.delete_with_history!(new_node, @user)
     render :text => node.version.to_s, :content_type => "text/plain"
@@ -64,7 +64,7 @@ class NodeController < ApplicationController
     ids = params['nodes'].split(',').collect { |n| n.to_i }
 
     if ids.length == 0
-      raise OSM::BadUserInput.new("No nodes were given to search for")
+      raise OSM::APIBadUserInput.new("No nodes were given to search for")
     end
     doc = OSM::API.new.get_xml_doc
 

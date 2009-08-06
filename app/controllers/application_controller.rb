@@ -143,9 +143,12 @@ class ApplicationController < ActionController::Base
   end
   
   def set_locale
+    response.header['Vary'] = 'Accept-Language'
+
     if @user
       if !@user.languages.empty?
         request.user_preferred_languages = @user.languages
+        response.header['Vary'] = '*'
       elsif !request.user_preferred_languages.empty?
         @user.languages = request.user_preferred_languages
         @user.save

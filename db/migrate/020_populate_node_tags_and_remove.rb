@@ -1,3 +1,5 @@
+require 'lib/migrate'
+
 class PopulateNodeTagsAndRemove < ActiveRecord::Migration
   def self.up
     have_nodes = select_value("SELECT count(*) FROM current_nodes").to_i != 0

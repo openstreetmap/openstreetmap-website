@@ -1,3 +1,5 @@
+require 'lib/migrate'
+
 class SqlSessionStoreSetup < ActiveRecord::Migration
   def self.up
     create_table "sessions", :options => innodb_option do |t|

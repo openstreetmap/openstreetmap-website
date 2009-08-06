@@ -1,3 +1,5 @@
+require 'lib/migrate'
+
 class AddEndTimeToChangesets < ActiveRecord::Migration
   def self.up
     # swap the boolean closed-or-not for a time when the changeset will

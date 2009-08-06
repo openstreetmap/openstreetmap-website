@@ -1,3 +1,5 @@
+require 'lib/migrate'
+
 class DiaryComments < ActiveRecord::Migration
   def self.up
     create_table "diary_comments", myisam_table do |t|
