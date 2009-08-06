@@ -75,6 +75,12 @@ class NodeControllerTest < ActionController::TestCase
     lat = 3.434
     lon = 3.23
     
+    # test that the upload is rejected when xml is valid, but osm doc isn't
+    content("<create/>")
+    put :create
+    assert_response :bad_request, "node upload did not return bad_request status"
+    assert_equal "Cannot parse valid node from xml string <create/>. XML doesn't contain an osm/node element.", @response.body
+
     # test that the upload is rejected when no lat is supplied
     # create a minimal xml file
     content("<osm><node lon='#{lon}' changeset='#{changeset.id}'/></osm>")
@@ -183,6 +189,12 @@ class NodeControllerTest < ActionController::TestCase
     delete :delete, :id => current_nodes(:visible_node).id
     assert_response :bad_request, 
        "should not be able to delete a node with a different ID from the XML"
+
+    # try to delete a node rubbish in the payloads
+    content("<delete/>")
+    delete :delete, :id => current_nodes(:visible_node).id
+    assert_response :bad_request, 
+       "should not be able to delete a node without a valid XML payload"
 
     # valid delete now takes a payload
     content(nodes(:public_visible_node).to_xml)
@@ -352,6 +364,12 @@ class NodeControllerTest < ActionController::TestCase
     put :update, :id => current_nodes(:visible_node).id
     assert_response :bad_request, 
        "should not be able to update a node with a different ID from the XML"
+
+    ## try an update with a minimal valid XML doc which isn't a well-formed OSM doc.
+    content "<update/>"
+    put :update, :id => current_nodes(:visible_node).id
+    assert_response :bad_request, 
+       "should not be able to update a node with non-OSM XML doc."
 
     ## finally, produce a good request which should work
     content current_nodes(:public_visible_node).to_xml
