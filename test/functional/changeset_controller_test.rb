@@ -1507,7 +1507,7 @@ EOF
     user = users(:public_user)
     get :list, {:format => "html", :display_name => user.display_name}
     assert_response :success
-    assert_template "list"
+    assert_template "changeset/_user"
     ## FIXME need to add more checks to see which if edits are actually shown if your data is public
   end
   
