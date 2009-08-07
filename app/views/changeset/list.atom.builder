@@ -30,7 +30,7 @@ atom_feed(:language => I18n.locale, :schema_date => 2009,
                  :type => "application/osmChange+xml"
 
       if !changeset.tags.empty? and changeset.tags.has_key? "comment"
-        entry.title t('browse.changeset.feed.title_comment', :id => h(changeset.id), :comment => h(changeset.tags['comment']))
+        entry.title t('browse.changeset.feed.title_comment', :id => h(changeset.id), :comment => h(changeset.tags['comment'])), :type => "html"
       else
         entry.title t('browse.changeset.feed.title', :id => h(changeset.id))
       end
