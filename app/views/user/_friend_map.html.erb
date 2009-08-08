@@ -2,7 +2,7 @@
 <% if !@user.home_lat.nil? and !@user.home_lon.nil? %>
   <% if !@user.nearby.empty? %>
     <% @user.nearby.each do |nearby| %>
-    <% nearest_str += "nearest.push( { 'display_name' : '#{nearby.display_name}', 'home_lat' : #{nearby.home_lat}, 'home_lon' : #{nearby.home_lon} } );\n" %>
+    <% nearest_str += "nearest.push( { 'display_name' : '#{escape_javascript(nearby.display_name)}', 'home_lat' : #{nearby.home_lat}, 'home_lon' : #{nearby.home_lon} } );\n" %>
     <% end %>
   <% end %>
 <% end %>
