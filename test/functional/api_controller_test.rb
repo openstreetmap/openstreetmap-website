@@ -60,10 +60,10 @@ class ApiControllerTest < ActionController::TestCase
   
   def test_tracepoints
     point = gpx_files(:public_trace_file)
-    minlon = point.longitude-0.1
-    minlat = point.latitude-0.1
-    maxlon = point.longitude+0.1
-    maxlat = point.latitude+0.1
+    minlon = point.longitude-0.001
+    minlat = point.latitude-0.001
+    maxlon = point.longitude+0.001
+    maxlat = point.latitude+0.001
     bbox = "#{minlon},#{minlat},#{maxlon},#{maxlat}"
     get :trackpoints, :bbox => bbox
     #print @response.body
@@ -71,6 +71,53 @@ class ApiControllerTest < ActionController::TestCase
     assert_select "gpx[version=1.0][creator=OpenStreetMap.org][xmlns=http://www.topografix.com/GPX/1/0/]:root", :count => 1 do
       assert_select "trk" do
         assert_select "trkseg"
+      end
+    end
+  end
+  
+  def test_tracepoints_trackable
+    point = gpx_files(:trackable_trace_file)
+    minlon = point.longitude-0.002
+    minlat = point.latitude-0.002
+    maxlon = point.longitude+0.002
+    maxlat = point.latitude+0.002
+    bbox = "#{minlon},#{minlat},#{maxlon},#{maxlat}"
+    get :trackpoints, :bbox => bbox
+    #print @response.body
+    assert_response :success
+    assert_select "gpx[version=1.0][creator=OpenStreetMap.org][xmlns=http://www.topografix.com/GPX/1/0/]:root", :count => 1 do
+      assert_select "trk", :count => 1 do
+        assert_select "trk > trkseg", :count => 2 do |trksegs|
+          trksegs.each do |trkseg|
+            assert_select trkseg, "trkpt", :count => 1 do |trkpt|
+              assert_select trkpt[0], "time", :count => 1
+            end
+          end
+        end
+      end
+    end
+  end
+  
+  def test_tracepoints_identifiable
+    point = gpx_files(:identifiable_trace_file)
+    minlon = point.longitude-0.002
+    minlat = point.latitude-0.002
+    maxlon = point.longitude+0.002
+    maxlat = point.latitude+0.002
+    bbox = "#{minlon},#{minlat},#{maxlon},#{maxlat}"
+    get :trackpoints, :bbox => bbox
+    #print @response.body
+    assert_response :success
+    assert_select "gpx[version=1.0][creator=OpenStreetMap.org][xmlns=http://www.topografix.com/GPX/1/0/]:root", :count => 1 do
+      assert_select "trk", :count => 1 do
+        assert_select "trk>name", :count => 1
+        assert_select "trk>desc", :count => 1
+        assert_select "trk>url", :count => 1
+        assert_select "trkseg", :count => 1 do
+          assert_select "trkpt", :count => 1 do
+            assert_select "time", :count => 1
+          end
+        end
       end
     end
   end

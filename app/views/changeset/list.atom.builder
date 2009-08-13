@@ -29,7 +29,11 @@ atom_feed(:language => I18n.locale, :schema_date => 2009,
                  :href => changeset_download_url(changeset, :only_path => false),
                  :type => "application/osmChange+xml"
 
-      entry.title t('browse.changeset.title') + " " + h(changeset.id)
+      if !changeset.tags.empty? and changeset.tags.has_key? "comment"
+        entry.title t('browse.changeset.feed.title_comment', :id => h(changeset.id), :comment => h(changeset.tags['comment'])), :type => "html"
+      else
+        entry.title t('browse.changeset.feed.title', :id => h(changeset.id))
+      end
 
       if changeset.user.data_public?
         entry.author do |author|

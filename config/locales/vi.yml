@@ -87,6 +87,17 @@ vi:
       download: "Tải xuống {{changeset_xml_link}} hoặc {{osmchange_xml_link}}"
       changesetxml: "Bộ thay đổi XML"
       osmchangexml: "osmChange XML"
+      feed:
+        title: "Bộ thay đổi {{id}}"
+        title_comment: "Bộ thay đổi {{id}} - {{comment}}"
+    changeset_navigation:
+      user:
+        name_tooltip: "Xem các đóng góp của {{user}}"
+        prev_tooltip: "Đóng góp trước của {{user}}"
+        next_tooltip: "Đóng góp sau của {{user}}"
+      all:
+        prev_tooltip: "Bộ thay đổi trước"
+        next_tooltip: "Bộ thay đổi sau"
     changeset_details:
       created_at: "Lúc Tạo:"
       closed_at: "Lúc Đóng:"
@@ -95,9 +106,15 @@ vi:
       no_bounding_box: "Không lưu hộp bao của bộ thay đổi này."
       show_area_box: "Hiện Hộp vùng"
       box: "hộp"
-      has_nodes: "Có {{count}} nốt sau:"
-      has_ways: "Có {{count}} lối sau:"
-      has_relations: "Có {{count}} quan hệ sau:"
+      has_nodes:
+        one: "Có {{count}} nốt sau:"
+        other: "Có {{count}} nốt sau:"
+      has_ways:
+        one: "Có {{count}} lối sau:"
+        other: "Có {{count}} lối sau:"
+      has_relations:
+        one: "Có {{count}} quan hệ sau:"
+        other: "Có {{count}} quan hệ sau:"
     common_details: 
       edited_at: "Lúc Sửa đổi:"
       edited_by: "Người Sửa đổi:"
@@ -145,6 +162,9 @@ vi:
     relation_history:
       relation_history: "Lịch sử Quan hệ"
       relation_history_title: "Lịch sử Quan hệ: {{relation_name}}"
+      download: "{{download_xml_link}} hoặc {{view_details_link}}"
+      download_xml: "Tải xuống XML"
+      view_details: "xem chi tiết"
     relation_member:
       entry: "{{type}} {{name}}"
       entry_role: "{{type}} {{name}} với vai trò {{role}}"
@@ -222,6 +242,7 @@ vi:
       showing_page: "Đang hiện trang"
       of: "trong"
     changeset:
+      id: "#{{id}}"
       still_editing: "(đang mở)"
       anonymous: "Vô danh"
       no_comment: "(không có)"
@@ -235,27 +256,22 @@ vi:
       user: "Người dùng"
       comment: "Miêu tả"
       area: "Vùng"
-    list_bbox:
-      history: "Lịch sử"
-      changesets_within_the_area: "Bộ thay đổi ở vùng:"
-      show_area_box: "xem hộp vùng"
-      no_changesets: "Không có bộ thay đổi"
-      all_changes_everywhere: "Xem các thay đổi ở mọi nơi tại {{recent_changes_link}}"
-      recent_changes: "Thay đổi Gần đây"
-      no_area_specified: "Không định rõ vùng"
-      first_use_view: "Trước tiên dùng {{view_tab_link}} để chuyển và phóng to một vùng, rồi nhấn chuột vào thẻ lịch sử."
-      view_the_map: "xem bản đồ"
-      view_tab: "thẻ Xem"
-      alternatively_view: "Hoặc xem tất cả các {{recent_changes_link}}"
     list:
-      recent_changes: "Thay đổi Gần đây"
-      recently_edited_changesets: "Bộ thay đổi được sửa đổi gần đây:"
-      for_more_changesets: 'Để xem thêm bộ thay đổi, chọn người dùng và xem danh sách sửa đổi của họ, hoặc xem "lịch sử" của một vùng.'
-    list_user:
-      edits_by_username: "Sửa đổi của {{username_link}}"
-      no_visible_edits_by: "{{name}} không có sửa đổi công khai."
-      for_all_changes: "Xem các thay đổi bởi mọi người dùng tại {{recent_changes_link}}"
-      recent_changes: "Thay đổi Gần đây"
+      title: "Các bộ thay đổi"
+      description: "Những đóng góp gần đây"
+      title_user: "Những bộ thay đổi của {{user}}"
+      title_bbox: "Những bộ thay đổi ở trong {{bbox}}"
+      title_user_bbox: "v bộ thay đổi của {{user}} ở trong {{bbox}}"
+
+      heading: "Các bộ thay đổi"
+      heading_user: "Các bộ thay đổi"
+      heading_bbox: "Các bộ thay đổi"
+      heading_user_bbox: "Các bộ thay đổi"
+
+      description: "Những thay đổi gần đây"
+      description_user: "Những bộ thay đổi của {{user}}"
+      description_bbox: "Những bộ thay đổi ở trong {{bbox}}"
+      description_user_bbox: "Những bộ thay đổi của {{user}} ở trong {{bbox}}"
   diary_entry:
     new:
       title: "Mục Nhật ký Mới"
@@ -305,6 +321,16 @@ vi:
       edit_link: "Sửa đổi mục này"
     diary_comment:
       comment_from: "Bình luận của {{link_user}} lúc {{comment_created_at}}"
+    feed:
+      user:
+        title: "Các mục nhật ký của {{user}}"
+        description: "Những mục gần đây trong nhật ký OpenStreetMap của {{user}}"
+      language:
+        title: "Các mục nhật ký OpenStreetMap bằng {{language_name}}"
+        description: "Những mục nhật ký gần đây của người dùng OpenStreetMap bằng {{language_name}}"
+      all:
+        title: "Các mục nhật ký OpenStreetMap"
+        description: "Những mục nhật ký gần đây của người dùng OpenStreetMap"
   export:
     start:
       area_to_export: "Vùng để Xuất"
@@ -536,6 +562,7 @@ vi:
       unread_button: "Đánh dấu là chưa đọc"
       read_button: "Đánh dấu là đã đọc"
       reply_button: "Trả lời"
+      delete_button: "Xóa"
     new:
       title: "Gửi thư"
       send_message_to: "Gửi thư mới cho {{name}}"
@@ -571,9 +598,13 @@ vi:
       reading_your_sent_messages: "Đọc thư đã gửi"
       to: "Tới"
       back_to_outbox: "Trở về hộp thư đã gửi"
+    sent_message_summary:
+      delete_button: "Xóa"
     mark:
       as_read: "Thư đã đọc"
       as_unread: "Thư chưa đọc"
+    delete:
+      deleted: "Đã xóa thư"
   site:
     index:
       js_1: "Hoặc trình duyệt của bạn không hỗ trợ JavaScript, hoặc bạn đã tắt JavaScript."
@@ -610,11 +641,11 @@ vi:
       table:
         heading: "Chú giải tại mức {{zoom_level}}"
         entry:
-          motorway: "Quốc lộ"
+          motorway: "Đường cao tốc"
           trunk: "Xa lộ"
-          primary: "Tỉnh lộ"
-          secondary: "Đường chính"
-          unclassified: "Đường lớn"
+          primary: "Đường chính"
+          secondary: "Đường lớn"
+          unclassified: "Đường không phân loại"
           unsurfaced: "Đường không lát"
           track: "Đường mòn"
           byway: "Đường mòn đa mốt"
@@ -689,6 +720,7 @@ vi:
       owner: "Tác giả:"
       description: "Miêu tả:"
       tags: "Thẻ:"
+      tags_help: "dấu phẩy phân cách"
       save_button: "Lưu các Thay đổi"
     no_such_user:
       title: "Người dùng không tồn tại"
@@ -698,6 +730,7 @@ vi:
       upload_gpx: "Tải lên Tập tin GPX"
       description: "Miêu tả"
       tags: "Thẻ"
+      tags_help: "dấu phẩy phân cách"
       public: "Công khai?"
       public_help: "có nghĩa là gì?"
       public_help_url: "http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces?uselang=vi"
@@ -769,15 +802,19 @@ vi:
       account not active: "Rất tiếc, tài khoản của bạn chưa được kích hoạt.<br>Xin hãy nhấn chuột vào liên kết trong thư điện tử xác nhận tài khoản để kích hoạt tài khoản."
       auth failure: "Rất tiếc, không thể đăng nhập với những chi tiết đó."
     lost_password:
-      title: "quên mất mật khẩu"
+      title: "Quên mất mật khẩu"
       heading: "Quên mất Mật khẩu?"
       email address: "Địa chỉ Thư điện tử:"
-      new password button: "Gửi mật khẩu mới cho tôi"
+      new password button: "Đặt lại mật khẩu"
       notice email on way: "Đáng tiếc là bạn quên nó. :-( May là thư điện tử sắp tới để bạn đặt nó lại."
       notice email cannot find: "Rất tiếc, không tìm thấy địa chỉ thư điện tử."
     reset_password:
-      title: "đặt lại mật khẩu"
-      flash changed check mail: "Mật khẩu của bạn đã được đổi và mật khẩu mới sắp tới hộp thư của bạn. :-)"
+      title: "Đặt lại mật khẩu"
+      heading: "Đặt lại Mật khẩu của {{user}}"
+      password: "Mật khẩu: "
+      confirm password: "Xác nhận Mật khẩu: "
+      reset: "Đặt lại Mật khẩu"
+      flash changed: "Mật khẩu của bạn đã được thay đổi."
       flash token bad: "Không tìm thấy dấu hiệu đó. Có lẽ kiểm tra URL?"
     new:
       title: "Mở tài khoản"
@@ -875,5 +912,5 @@ vi:
       failed: "Rất tiếc, việc thêm {{name}} là người bạn bị thất bại."
       already_a_friend: "{{name}} đã là người bạn."
     remove_friend:
-      success: "{{name}} không còn người bạn."
+      success: "{{name}} không còn là người bạn."
       not_a_friend: "{{name}} đã không phải người bạn."

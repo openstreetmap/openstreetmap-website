@@ -65,7 +65,7 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat,objtype,obj
       node.style.fontStyle = 'italic';
     }
   }
-  
+
   node = document.getElementById("historyanchor");
   if (node) {
     if (zoom >= 11) {
@@ -75,14 +75,14 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat,objtype,obj
 	  typeof minlat == "number" &&
 	  typeof maxlon == "number" &&
 	  typeof maxlat == "number") {
-      
+
         minlon = Math.round(minlon * decimals) / decimals;
         minlat = Math.round(minlat * decimals) / decimals;
         maxlon = Math.round(maxlon * decimals) / decimals;
         maxlat = Math.round(maxlat * decimals) / decimals;
         args.bbox = minlon + "," + minlat + "," + maxlon + "," + maxlat;
       }
-      
+
       node.href = setArgs("/history", args);
       node.style.fontStyle = 'normal';
     } else {
@@ -108,6 +108,9 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat,objtype,obj
     if (layers && (layers != "B000FTF") && (layers != "B000FTFT")) {
       args["layers"] = layers;
     }
+    else {
+      delete args["layers"];
+    }
 
     // Here we're assuming that all parameters but ?layers= and
     // ?{node,way,relation}= can be safely omitted from the shortlink
@@ -128,7 +131,7 @@ function shortlinkPrefix() {
   if (window.location.hostname.match(/^www\.openstreetmap\.org/i)) {
     return "http://osm.org";
   } else {
-    return "";     
+    return "";
   }
 }
 
@@ -201,12 +204,12 @@ function i18n(string, keys) {
   for (var key in keys) {
     var re_key = '\\[\\[' + key + '\\]\\]';
     var re = new RegExp(re_key, "g");
-      
+
     string = string.replace(re, keys[key]);
   }
-   
+
   return string;
-} 
+}
 
 function makeShortCode(lat, lon, zoom) {
     char_array = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_@";

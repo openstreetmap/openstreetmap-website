@@ -34,6 +34,7 @@ class Way < ActiveRecord::Base
       doc.find('//osm/way').each do |pt|
         return Way.from_xml_node(pt, create)
       end
+      raise OSM::APIBadXMLError.new("node", xml, "XML doesn't contain an osm/way element.")
     rescue LibXML::XML::Error, ArgumentError => ex
       raise OSM::APIBadXMLError.new("way", xml, ex.message)
     end
