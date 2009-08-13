@@ -42,15 +42,16 @@
     <% end %>
     </td>
   </tr>
+  <tr>
+    <td><%= t'trace.view.visibility' %></td>
+    <td><%= t"trace.visibility.#{@trace.visibility}" %></td>
+  </tr>
 </table>
 
 <br /><br />
 
 <table>
   <tr>
-    <% unless @trace.public? %>
-    <td><%= button_to t('trace.view.make_public'), :controller => 'trace', :action => 'make_public', :id => @trace.id %></td>
-    <% end %>
     <% if @trace.user == @user %>
     <td><%= button_to t('trace.view.edit_track'), :controller => 'trace', :action => 'edit', :id => @trace.id %></td>
     <% end %>

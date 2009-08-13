@@ -11,10 +11,11 @@ class Tracepoint < ActiveRecord::Base
 
   belongs_to :trace, :foreign_key => 'gpx_id'
 
-  def to_xml_node
+  def to_xml_node(print_timestamp = false)
     el1 = XML::Node.new 'trkpt'
     el1['lat'] = self.lat.to_s
     el1['lon'] = self.lon.to_s
+    el1 << (XML::Node.new("time") << self.timestamp.xmlschema) if print_timestamp
     return el1
   end
 end

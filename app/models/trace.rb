@@ -6,8 +6,9 @@ class Trace < ActiveRecord::Base
   validates_length_of :name, :maximum => 255
   validates_length_of :description, :maximum => 255
 #  validates_numericality_of :latitude, :longitude
-  validates_inclusion_of :public, :inserted, :in => [ true, false]
-  
+  validates_inclusion_of :inserted, :in => [ true, false ]
+  validates_inclusion_of :visibility, :in => ["private", "public", "trackable", "identifiable"]
+
   belongs_to :user
   has_many :tags, :class_name => 'Tracetag', :foreign_key => 'gpx_id', :dependent => :delete_all
   has_many :points, :class_name => 'Tracepoint', :foreign_key => 'gpx_id', :dependent => :delete_all
@@ -24,7 +25,7 @@ class Trace < ActiveRecord::Base
   end
 
   def tagstring=(s)
-    if s.include?','
+    if s.include? ','
       self.tags = s.split(/\s*,\s*/).collect {|tag|
         tt = Tracetag.new
         tt.tag = tag
@@ -39,7 +40,19 @@ class Trace < ActiveRecord::Base
       }
     end
   end
-  
+
+  def public?
+    visibility == "public" || visibility == "identifiable"
+  end
+
+  def trackable?
+    visibility == "trackable" || visibility == "identifiable"
+  end
+
+  def identifiable?
+    visibility == "identifiable"
+  end
+
   def large_picture= (data)
     f = File.new(large_picture_name, "wb")
     f.syswrite(data)
@@ -139,7 +152,7 @@ class Trace < ActiveRecord::Base
     el1['lat'] = self.latitude.to_s
     el1['lon'] = self.longitude.to_s
     el1['user'] = self.user.display_name
-    el1['public'] = self.public.to_s
+    el1['visibility'] = self.visibility
     el1['pending'] = (!self.inserted).to_s
     el1['timestamp'] = self.timestamp.xmlschema
     return el1

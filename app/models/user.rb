@@ -122,10 +122,6 @@ class User < ActiveRecord::Base
     return false
   end
 
-  def trace_public_default
-    return self.preferences.find(:first, :conditions => {:k => "gps.trace.public", :v => "default"})
-  end
-
   def delete
     self.active = false
     self.display_name = "user_#{self.id}"
