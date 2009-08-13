@@ -51,7 +51,7 @@ class TraceController < ApplicationController
       if @user and @user == target_user
         conditions = ["gpx_files.user_id = ?", @user.id] #3 (check vs user id, so no join + can't pick up non-public traces by changing name)
       else
-        conditions = ["gpx_files.public <> 'private' AND gpx_files.user_id = ?", target_user.id] #4
+        conditions = ["gpx_files.visibility <> 'private' AND gpx_files.user_id = ?", target_user.id] #4
       end
     end
     
