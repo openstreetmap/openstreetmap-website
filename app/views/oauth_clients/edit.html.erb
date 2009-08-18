@@ -1,0 +1,6 @@
+<h1><%= t'oauth.client_application.edit.title' %></h1>
+<% form_for :client_application, @client_application, :url => oauth_client_path(@client_application.user.display_name, @client_application), :html => { :method => :put } do |f| %>
+       <%= render :partial => "form", :locals => { :f => f } %>
+       <br/>
+       <%= submit_tag t'oauth.client_application.edit.submit' %>
+<% end %>

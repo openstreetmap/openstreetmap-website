@@ -1,0 +1,20 @@
+<h1>OAuth details for <%%=@client_application.name %></h1>
+<p>
+	<b>Consumer Key:</b> <%%=@client_application.key %>
+</p>
+<p>
+	<b>Consumer Secret:</b> <%%=@client_application.secret %>
+</p>
+<p>
+	<b>Request Token URL</b> http<%%='s' if request.ssl? %>://<%%= request.host_with_port %><%%=@client_application.oauth_server.request_token_path %>
+</p>
+<p>
+	<b>Access Token URL</b> http<%%='s' if request.ssl? %>://<%%= request.host_with_port %><%%=@client_application.oauth_server.access_token_path %>
+</p>
+<p>
+	<b>Authorize URL</b> http<%%='s' if request.ssl? %>://<%%= request.host_with_port %><%%=@client_application.oauth_server.authorize_path %>
+</p>
+
+<p>
+	We support hmac-sha1 (recommended) as well as plain text in ssl mode.
+</p>

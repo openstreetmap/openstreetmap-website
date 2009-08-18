@@ -1,0 +1,61 @@
+2/11/2009
+- Fixed escaping error and file path error in the generator simultaneously reported and fixed by Ivan Valdes and Mike Demers thanks
+
+2/9/2009
+- Fixed compatibility issue with OAuth Gem 3.1 (wr0ngway and aeden)
+- Added Test:Unit tests to generator (Ed Hickey)
+- added missing oauth_clients/edit.html.erb view template (Ed Hickey)
+- added missing :oauth_clients resource route in USAGE (Ed Hickey)
+- Don't throw NPE it token is not in db (Haruska)
+- Cleaned up whitespace (bricolage, Nicholas Nam)
+- Fixed bug in default verify_oauth_signature (igrigorik)
+- Doc fixes (skippy)
+
+6/23/2008
+
+- Split OAuth controller into two parts: OAuth and OAuth clients. [jcrosby]
+
+revision 31
+
+- patch that fixes a problem in oauth_required from Hannes Tyden and Sean Treadway from SoundCloud. Thanks.
+
+revision 30
+
+- updated to use oauth gem 0.2.1
+
+
+revision 23
+
+- removed all core libraries from plugin. They are now in the oauth gem.
+
+# oauth-plugin-pre-gem Branch created
+
+revision 18
+- added a generator for creation oauth_providers
+
+revision 12
+- the bug with post and put has now been fixed.
+- better documentation
+
+revision 9
+- added a test helper. Include OAuth::TestHelper in your tests or specs to mock incoming requests
+
+revision: 8
+- moved tests into oauth folder and renamed them to make them work with autotest by default
+- Refactored the request methods to make them more flexible and ready for integrating with ActiveResource
+- There are a few tests that fail. All of them to do with put and post requests with payload data. I decided to commit anyway, to get the new api out.
+
+revision: 7
+
+- Done a lot of work on the Server side of things. The Server class has changed a lot and is likely to be incompatible with previous versions
+
+revision: 6
+
+- Throws InsecureSignatureMethod exception if attempting to use straight sha1 or md5.
+- Disables plaintext signature over http (throws an InsecureSignatureMethod)
+- Better testing of signature methods - the prior tests were seriously flawed.
+
+revision: 5
+
+- Removed support for sha1 and md5
+- Implemented draft 6 support of OAuth removing secrets from base string

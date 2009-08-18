@@ -23,18 +23,60 @@ class ApplicationController < ActionController::Base
   end
 
   ##
+  # requires the user to be logged in by the token or HTTP methods, or have an 
+  # OAuth token with the right capability. this method is a bit of a pain to call 
+  # directly, since it's cumbersome to call filters with arguments in rails. to
+  # make it easier to read and write the code, there are some utility methods
+  # below.
+  def require_capability(cap)
+    # when the current token is nil, it means the user logged in with a different
+    # method, otherwise an OAuth token was used, which has to be checked.
+    unless current_token.nil?
+      unless current_token.read_attribute(cap)
+        render :text => "OAuth token doesn't have that capability.", :status => :forbidden
+        return false
+      end
+    end
+  end
+
+  # Utility methods to make the controller filter methods easier to read and write.
+  def require_allow_read_prefs
+    require_capability(:allow_read_prefs)
+  end
+  def require_allow_write_prefs
+    require_capability(:allow_write_prefs)
+  end
+  def require_allow_write_diary
+    require_capability(:allow_write_diary)
+  end
+  def require_allow_write_api
+    require_capability(:allow_write_api)
+  end
+  def require_allow_read_gpx
+    require_capability(:allow_read_gpx)
+  end
+  def require_allow_write_gpx
+    require_capability(:allow_write_gpx)
+  end
+
+  ##
   # sets up the @user object for use by other methods. this is mostly called
   # from the authorize method, but can be called elsewhere if authorisation
   # is optional.
   def setup_user_auth
-    username, passwd = get_auth_data # parse from headers
-    # authenticate per-scheme
-    if username.nil?
-      @user = nil # no authentication provided - perhaps first connect (client should retry after 401)
-    elsif username == 'token' 
-      @user = User.authenticate(:token => passwd) # preferred - random token for user from db, passed in basic auth
+    # try and setup using OAuth
+    if oauthenticate
+      @user = current_token.user
     else
-      @user = User.authenticate(:username => username, :password => passwd) # basic auth
+      username, passwd = get_auth_data # parse from headers
+      # authenticate per-scheme
+      if username.nil?
+        @user = nil # no authentication provided - perhaps first connect (client should retry after 401)
+      elsif username == 'token'
+        @user = User.authenticate(:token => passwd) # preferred - random token for user from db, passed in basic auth
+      else
+        @user = User.authenticate(:username => username, :password => passwd) # basic auth
+      end
     end
   end
 
