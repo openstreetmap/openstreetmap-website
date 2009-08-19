@@ -176,9 +176,44 @@ class DiaryEntryControllerTest < ActionController::TestCase
   
   def test_rss
     get :rss
-    assert_response :success
+    assert_response :success, "Should be able to get a diary RSS"
+    assert_select "rss:root", :count => 1 do
+      assert_select "channel", :count => 1 do
+        assert_select "channel>title", :count => 1
+        assert_select "image", :count => 1
+        assert_select "channel>item", :count => 2
+      end
+    end
   end
   
+  def test_rss_language
+    get :rss, {:language => diary_entries(:normal_user_entry_1).language_code}
+    assert_response :success, "Should be able to get a specific language diary RSS"
+    assert_select "rss>channel>item", :count => 1 #, "Diary entries should be filtered by language"
+  end
+  
+#  def test_rss_nonexisting_language
+#    get :rss, {:language => 'xx'}
+#    assert_response :not_found, "Should not be able to get a nonexisting language diary RSS"
+#  end
+
+  def test_rss_language_with_no_entries
+    get :rss, {:language => 'sl'}
+    assert_response :success, "Should be able to get a specific language diary RSS"
+    assert_select "rss>channel>item", :count => 0 #, "Diary entries should be filtered by language"
+  end
+
+  def test_rss_user
+    get :rss, {:display_name => users(:normal_user).display_name}
+    assert_response :success, "Should be able to get a specific users diary RSS"
+    assert_select "rss>channel>item", :count => 2 #, "Diary entries should be filtered by user"
+  end
+  
+  def test_rss_nonexisting_user
+    get :rss, {:display_name => 'fakeUsername76543'}
+    assert_response :not_found, "Should not be able to get a nonexisting users diary RSS"
+  end
+
   def test_viewing_diary_entry
     get :view, {:display_name => users(:normal_user).display_name, :id => diary_entries(:normal_user_entry_1).id}
     assert_response :success
