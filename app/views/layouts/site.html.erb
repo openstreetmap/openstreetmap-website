@@ -1,11 +1,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%= I18n.locale %>" lang="<%= I18n.locale %>" dir="<%= t'html.dir' %>">
   <head>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
     <%= javascript_include_tag 'prototype' %>
     <%= javascript_include_tag 'site' %>
     <!--[if lt IE 7]><%= javascript_include_tag 'pngfix' %><![endif]--> <!-- thanks, microsoft! -->
-    <%= stylesheet_link_tag 'site' %>
-    <%= stylesheet_link_tag 'print', :media => "print" %>
+    <!--[if IE]><%= stylesheet_link_tag 'site', :media => "screen" %><![endif]--> <!-- IE is totally broken with CSS media queries -->
+    <%= stylesheet_link_tag 'site-sml', :media => "only screen and (max-width: 481px)" %> 
+    <%= stylesheet_link_tag 'site', :media => "screen and (min-width: 482px)" %> 
+    <%= stylesheet_link_tag 'print', :media => "print" %> 
     <%= tag("link", { :rel => "search", :type => "application/opensearchdescription+xml", :title => "OpenStreetMap Search", :href => "/opensearch/osm.xml" }) %>
     <%= tag("meta", { :name => "description", :content => "OpenStreetMap is the free wiki world map." }) %>
     <%= yield :head %>
