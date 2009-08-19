@@ -75,7 +75,7 @@ class OauthController < ApplicationController
     @token = @user.oauth_tokens.find_by_token params[:token]
     if @token
       @token.invalidate!
-      flash[:notice] = "You've revoked the token for #{@token.client_application.name}"
+      flash[:notice] = t('oauth.revoke.flash', :application => @token.client_application.name)
     end
     logger.info "about to redirect"
     redirect_to :controller => 'oauth_clients', :action => 'index'
