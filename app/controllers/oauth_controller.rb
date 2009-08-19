@@ -12,13 +12,11 @@ class OauthController < ApplicationController
   def request_token
     @token = current_client_application.create_request_token
 
-    logger.info "in REQUEST TOKEN"
     if @token
       logger.info "request token params: #{params.inspect}"
       # request tokens indicate what permissions the client *wants*, not
       # necessarily the same as those which the user allows.
       current_client_application.permissions.each do |pref|
-        logger.info "PARAMS found #{pref}"
         @token.write_attribute(pref, true)
       end
       @token.save!
@@ -45,7 +43,6 @@ class OauthController < ApplicationController
         any_auth = false
         @token.client_application.permissions.each do |pref|
           if params[pref]
-            logger.info "OAUTHORIZE PARAMS found #{pref}"
             @token.write_attribute(pref, true)
             any_auth ||= true
           else
@@ -77,7 +74,6 @@ class OauthController < ApplicationController
       @token.invalidate!
       flash[:notice] = t('oauth.revoke.flash', :application => @token.client_application.name)
     end
-    logger.info "about to redirect"
     redirect_to :controller => 'oauth_clients', :action => 'index'
   end
 end
