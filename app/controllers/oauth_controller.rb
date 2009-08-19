@@ -1,7 +1,8 @@
 class OauthController < ApplicationController
   layout 'site'
 
-  before_filter :authorize_web, :except => [:request_token, :access_token]
+  before_filter :authorize_web, :only => [:oauthorize, :revoke]
+  before_filter :set_locale, :only => [:oauthorize, :revoke]
   before_filter :require_user, :only => [:oauthorize]
   before_filter :verify_oauth_consumer_signature, :only => [:request_token]
   before_filter :verify_oauth_request_token, :only => [:access_token]
@@ -26,8 +27,8 @@ class OauthController < ApplicationController
     else
       render :nothing => true, :status => 401
     end
-  end 
-  
+  end
+
   def access_token
     @token = current_token && current_token.exchange!
     if @token
@@ -39,8 +40,8 @@ class OauthController < ApplicationController
 
   def oauthorize
     @token = RequestToken.find_by_token params[:oauth_token]
-    unless @token.invalidated?    
-      if request.post? 
+    unless @token.invalidated?
+      if request.post?
         any_auth = false
         @token.client_application.permissions.each do |pref|
           if params[pref]
@@ -51,7 +52,7 @@ class OauthController < ApplicationController
             @token.write_attribute(pref, false)
           end
         end
-        
+
         if any_auth
           @token.authorize!(@user)
           redirect_url = params[:oauth_callback] || @token.client_application.callback_url
@@ -69,7 +70,7 @@ class OauthController < ApplicationController
       render :action => "authorize_failure"
     end
   end
-  
+
   def revoke
     @token = @user.oauth_tokens.find_by_token params[:token]
     if @token
@@ -79,5 +80,4 @@ class OauthController < ApplicationController
     logger.info "about to redirect"
     redirect_to :controller => 'oauth_clients', :action => 'index'
   end
-  
 end

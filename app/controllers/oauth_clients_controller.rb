@@ -2,8 +2,9 @@ class OauthClientsController < ApplicationController
   layout 'site'
 
   before_filter :authorize_web
+  before_filter :set_locale
   before_filter :require_user
-  
+
   def index
     @client_applications = @user.client_applications
     @tokens = @user.oauth_tokens.find :all, :conditions => 'oauth_tokens.invalidated_at is null and oauth_tokens.authorized_at is not null'
@@ -22,7 +23,7 @@ class OauthClientsController < ApplicationController
       render :action => "new"
     end
   end
-  
+
   def show
     @client_application = @user.client_applications.find(params[:id])
   rescue ActiveRecord::RecordNotFound
@@ -33,7 +34,7 @@ class OauthClientsController < ApplicationController
   def edit
     @client_application = @user.client_applications.find(params[:id])
   end
-  
+
   def update
     @client_application = @user.client_applications.find(params[:id])
     if @client_application.update_attributes(params[:client_application])
