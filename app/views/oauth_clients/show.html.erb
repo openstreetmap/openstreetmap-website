@@ -1,28 +1,27 @@
-<h1><%= t('oauth.client_application.show.title', :app_name => @client_application.name) %></h1>
+<h1><%= t('oauth_clients.show.title', :app_name => @client_application.name) %></h1>
 <p>
-	<b><%= t'oauth.client_application.show.key' %></b> <%=@client_application.key %>
+  <b><%= t'oauth_clients.show.key' %></b> <%=@client_application.key %>
 </p>
 <p>
-	<b><%= t'oauth.client_application.show.secret' %></b> <%=@client_application.secret %>
+  <b><%= t'oauth_clients.show.secret' %></b> <%=@client_application.secret %>
 </p>
 <p>
-	<b><%= t'oauth.client_application.show.url' %></b> http<%='s' if request.ssl? %>://<%= request.host_with_port %><%=@client_application.oauth_server.request_token_path %>
+  <b><%= t'oauth_clients.show.url' %></b> http<%='s' if request.ssl? %>://<%= request.host_with_port %><%=@client_application.oauth_server.request_token_path %>
 </p>
 <p>
-	<b><%= t'oauth.client_application.show.access_url' %></b> http<%='s' if request.ssl? %>://<%= request.host_with_port %><%=@client_application.oauth_server.access_token_path %>
+  <b><%= t'oauth_clients.show.access_url' %></b> http<%='s' if request.ssl? %>://<%= request.host_with_port %><%=@client_application.oauth_server.access_token_path %>
 </p>
 <p>
-	<b><%= t'oauth.client_application.show.authorize_url' %></b> http<%='s' if request.ssl? %>://<%= request.host_with_port %><%=@client_application.oauth_server.authorize_path %>
+  <b><%= t'oauth_clients.show.authorize_url' %></b> http<%='s' if request.ssl? %>://<%= request.host_with_port %><%=@client_application.oauth_server.authorize_path %>
 </p>
 
-<p><%= t'oauth.client_application.show.requests' %></p>
+<p><%= t'oauth_clients.show.requests' %></p>
 <ul><% @client_application.permissions.each do |perm| %>
 <div class="field">
-  <li><%= t('oauth.client_application.form.' + perm.to_s) %></li>
+  <li><%= t('oauth_clients.form.' + perm.to_s) %></li>
 </div>
 <% end %></ul>
 
-<p><%= t'oauth.client_application.show.support_notice' %></p>
+<p><%= t'oauth_clients.show.support_notice' %></p>
 
-<p><%= link_to t('oauth.client_application.show.edit'), edit_oauth_client_url(@client_application.user.display_name, @client_application) %></p>
-
+<p><%= link_to t('oauth_clients.show.edit'), edit_oauth_client_url(@client_application.user.display_name, @client_application) %></p>

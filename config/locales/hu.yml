@@ -87,6 +87,9 @@ hu:
       download: "{{changeset_xml_link}} vagy {{osmchange_xml_link}} letöltése"
       changesetxml: "Changeset XML"
       osmchangexml: "osmChange XML"
+      feed:
+        title: "Módosításcsomag: {{id}}"
+        title_comment: "Módosításcsomag: {{id}} - {{comment}}"
     changeset_navigation:
       user:
         name_tooltip: "{{user}} szerkesztéseinek megtekintése"
@@ -317,6 +320,16 @@ hu:
       edit_link: Ezen bejegyzés szerkesztése
     diary_comment:
       comment_from: "{{link_user}} hozzászólása ekkor: {{comment_created_at}}"
+    feed:
+      user:
+        title: "{{user}} OpenStreetMap naplóbejegyzései"
+        description: "Legutóbbi OpenStreetMap naplóbejegyzések {{user}} felhasználótól"
+      language:
+        title: "OpenStreetMap naplóbejegyzések {{language_name}} nyelven"
+        description: "Legutóbbi naplóbejegyzések az OpenStreetMap felhasználóitól {{language_name}} nyelven"
+      all:
+        title: "OpenStreetMap naplóbejegyzések"
+        description: "Legutóbbi naplóbejegyzések az OpenStreetMap felhasználóitól"
   export:
     start:
       area_to_export: "Exportálandó terület"
@@ -690,6 +703,11 @@ hu:
           destination: "Csak célforgalom"
           construction: "Utak építés alatt"
   trace:
+    visibility:
+      private: "Magán (megosztva csak névtelenül, rendezetlen pontok)"
+      public: "Nyilvános (megjelenik a nyomvonalak listáján névtelenül, rendezetlen pontok)"
+      trackable: "Követhető (megosztva csak névtelenül, rendezett pontok időbélyeggel)"
+      identifiable: "Azonosítható (megjelenik a nyomvonalak listáján, és azonodítható, rendezett pontok időbélyeggel)"
     create:
       upload_trace: "GPS nyomvonal feltöltése"
       trace_uploaded: "A GPX fájl feltöltése megtörtént, és várakozik az adatbázisba való beillesztésre. Ez általában fél órán belül megtörténik, és fogsz kapni egy e-mailt, amint elkészült."
@@ -708,6 +726,9 @@ hu:
       tags: "Címkék:"
       tags_help: "vesszővel elválasztva"
       save_button: "Módosítások mentése"
+      visibility: "Láthatóság:"
+      visibility_help: "Mit jelent ez?"
+      visibility_help_url: "http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces"
     no_such_user:
       title: "Nincs ilyen felhasználó"
       heading: "{{user}} felhasználó nem létezik"
@@ -717,9 +738,9 @@ hu:
       description: "Leírás"
       tags: "Címkék"
       tags_help: "vesszővel elválasztva"
-      public: "Nyilvános?"
-      public_help: "mit jelent ez?"
-      public_help_url: "http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces"
+      visibility: "Láthatóság"
+      visibility_help: "Mit jelent ez?"
+      visibility_help_url: "http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces"
       upload_button: "Feltöltés"
       help: "Segítség"
       help_url: "http://wiki.openstreetmap.org/wiki/Upload"
@@ -745,10 +766,10 @@ hu:
       description: "Leírás:"
       tags: "Címkék:"
       none: "nincsenek"
-      make_public: "Ezen nyomvonal nyilvánossá tétele véglegesen"
       edit_track: "Ezen nyomvonal szerkesztése"
       delete_track: "Ezen nyomvonal törlése"
       trace_not_found: "Nem található nyomvonal!"
+      visibility: "Láthatóság:"
     trace_paging_nav:
       showing: "Jelenlegi oldal:"
       of: "összesen:"
@@ -775,6 +796,73 @@ hu:
       scheduled_for_deletion: "A nyomvonal törlésre kijelölve"
     make_public:
       made_public: "A nyomvonal nyilvános lett"
+  oauth:
+    oauthorize:
+      request_access: "A(z) {{app_name}} alkalmazás hozzáférést kér a felhasználói fiókodhoz. Kérlek, jelöld, ha azt szeretnéd, hogy az alkalmazás rendelkezzen a következő képességekkel. Választhatsz olyan sokat vagy keveset, amennyit szeretnél."
+      allow_to: "Az alábbiak engedélyezése a kliensalkalmazásnak:"
+      allow_read_prefs:  "felhasználói beállítások olvasása."
+      allow_write_prefs: "felhasználói beállítások módosítása."
+      allow_write_diary: "naplóbejegyzések, hozzászólások készítése és barátok hozzáadása."
+      allow_write_api:   "a térkép módosítása."
+      allow_read_gpx:    "magán GPS nyomvonalak olvasása."
+      allow_write_gpx:   "GPS nyomvonalak feltöltése."
+    revoke:
+      flash: "Visszavontad az utalványt a(z) {{application}} alkalmazáshoz"
+  oauth_clients:
+    new:
+      title: "Új alkalmazás regisztrálása"
+      submit: "Regisztrálás"
+    edit:
+      title: "Alkalmazás szerkesztése"
+      submit: "Szerkesztés"
+    show:
+      title: "{{app_name}} OAuth részletei"
+      key: "Consumer Key:"
+      secret: "Consumer Secret:"
+      url: "Request Token URL:"
+      access_url: "Access Token URL:"
+      authorize_url: "Authorise URL:"
+      support_notice: "Támogatjuk a hmac-sha1 hitelesítést (ajánlott), valamint a sima szöveget ssl módban."
+      edit: "Részletek szerkesztése"
+      requests: "A következő engedélyek kérése a felhasználótól:"
+      allow_read_prefs:  "felhasználó beállításainak olvasása."
+      allow_write_prefs: "felhasználó beállításainak módosítása."
+      allow_write_diary: "naplóbejegyzések, hozzászólások készítése és barátok hozzáadása."
+      allow_write_api:   "a térkép módosítása."
+      allow_read_gpx:    "magán GPS nyomvonalainak olvasása."
+      allow_write_gpx:   "GPS nyomvonalak feltöltése."
+    index:
+      title: "OAuth részletek"
+      my_tokens: "Engedélyezett alkalmazások"
+      list_tokens: "A következő utalványok kerültek kibocsátásra a nevedben:"
+      application: "Alkalmazás neve"
+      issued_at: "Kibocsátva ekkor"
+      revoke: Visszavonás!"
+      my_apps: "Kliensalkalmazások"
+      no_apps: "Van olyan alkalmazásod, amit szeretnél regisztrálni a velünk való használathoz a(z) {{oauth}} szabvány használatával? Regisztrálnod kell a webalkalmazásod, mielőtt OAuth kéréseket küld ehhez a szolgáltatáshoz."
+      registered_apps: "A következő kliensalkalmazások vannak regisztrálva:"
+      register_new: "Alkalmazás regisztrálása"
+    form:
+      name: "Név"
+      required: "Szükséges"
+      url: "Main Application URL"
+      callback_url: "Callback URL"
+      support_url: "Support URL"
+      requests: "A következő engedélyek kérése a felhasználótól:"
+      allow_read_prefs:  "felhasználó beállításainak olvasása."
+      allow_write_prefs: "felhasználó beállításainak módosítása."
+      allow_write_diary: "naplóbejegyzések, hozzászólások készítése és barátok hozzáadása."
+      allow_write_api:   "a térkép módosítása."
+      allow_read_gpx:    "magán GPS nyomvonalainak olvasása."
+      allow_write_gpx:   "GPS nyomvonalak feltöltése."
+    not_found: 
+      sorry: "Sajnálom, a(z) {{type}} nem található."
+    create:
+      flash: "Az információ sikeresen regisztrálva"
+    update:
+      flash: "A kliens információi sikeresen frissítve"
+    destroy:
+      flash: "A kliensalkalmazás regisztrációja törölve"
   user:
     login:
       title: "Bejelentkezés"
@@ -851,6 +939,7 @@ hu:
       nearby users: "Közeli felhasználók: "
       no nearby users: "Még nincsenek felhasználók, akik megadták, hogy a közelben szerkesztenek."
       change your settings: beállítások módosítása
+      my_oauth_details: "OAuth részletek megtekintése"
     friend_map:
       your location: Helyed
       nearby mapper: "Közeli térképszerkesztők: "

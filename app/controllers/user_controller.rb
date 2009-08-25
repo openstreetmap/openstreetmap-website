@@ -29,7 +29,7 @@ class UserController < ApplicationController
 
       if @user.save
         flash[:notice] = t 'user.new.flash create success message'
-        Notifier.deliver_signup_confirm(@user, @user.tokens.create)
+        Notifier.deliver_signup_confirm(@user, @user.tokens.create(:referer => params[:referer]))
         redirect_to :action => 'login'
       else
         render :action => 'new'
@@ -198,10 +198,15 @@ class UserController < ApplicationController
         @user.active = true
         @user.email_valid = true
         @user.save!
+        referer = token.referer
         token.destroy
         flash[:notice] = t 'user.confirm.success'
         session[:user] = @user.id
-        redirect_to :action => 'account', :display_name => @user.display_name
+        unless referer.nil?
+          redirect_to referer
+        else
+          redirect_to :action => 'account', :display_name => @user.display_name
+        end
       else
         @notice = t 'user.confirm.failure'
       end

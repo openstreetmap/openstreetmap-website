@@ -103,7 +103,7 @@ class DiaryEntryController < ApplicationController
 
       if user
         @entries = DiaryEntry.find(:all, :conditions => ['user_id = ?', user.id], :order => 'created_at DESC', :limit => 20)
-        @title = I18n.t('diary_entry.feed.user.title', :user => user.display_name, :locale => I18n.locale)
+        @title = I18n.t('diary_entry.feed.user.title', :user => user.display_name)
         @description = I18n.t('diary_entry.feed.user.description', :user => user.display_name)
         @link = "http://#{SERVER_URL}/user/#{user.display_name}/diary"
       else
@@ -113,8 +113,8 @@ class DiaryEntryController < ApplicationController
       @entries = DiaryEntry.find(:all, :include => :user,
         :conditions => ["users.visible = ? AND diary_entries.language_code = ?", true, params[:language]],
         :order => 'created_at DESC', :limit => 20)
-      @title = I18n.t('diary_entry.feed.language.title', Language.find(params[:language]).english_name)
-      @description = I18n.t('diary_entry.feed.language.description', Language.find(params[:language]).english_name)
+      @title = I18n.t('diary_entry.feed.language.title', :language_name => Language.find(params[:language]).english_name)
+      @description = I18n.t('diary_entry.feed.language.description', :language_name => Language.find(params[:language]).english_name)
       @link = "http://#{SERVER_URL}/diary/#{params[:language]}"
     else
       @entries = DiaryEntry.find(:all, :include => :user,

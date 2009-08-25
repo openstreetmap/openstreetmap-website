@@ -19,6 +19,7 @@
 <%= error_messages_for 'user' %>
 
 <% form_tag :action => 'save' do %>
+<%= hidden_field_tag('referer', h(params[:referer])) unless params[:referer].nil? %>
 <table id="loginForm">
   <tr><td class="fieldName"><%= t 'user.new.email address' %></td><td><%= text_field('user', 'email',{:size => 50, :maxlength => 255, :tabindex => 1}) %></td></tr>
   <tr><td class="fieldName"><%= t 'user.new.confirm email address' %></td><td><%= text_field('user', 'email_confirmation',{:size => 50, :maxlength => 255, :tabindex => 2}) %></td></tr>
