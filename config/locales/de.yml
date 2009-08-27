@@ -87,6 +87,9 @@ de:
       download: "{{changeset_xml_link}} oder {{osmchange_xml_link}} herunterladen"
       changesetxml: "Changeset XML"
       osmchangexml: "osmChange XML"
+      feed:
+        title: "Changeset {{id}}"
+        title_comment: "Changeset {{id}} - {{comment}}"
     changeset_navigation:
       user:
         name_tooltip: "Änderungen von {{user}} anzeigen"
@@ -317,6 +320,16 @@ de:
       edit_link: Diesen Eintrag bearbeiten
     diary_comment:
       comment_from: "Kommentar von {{link_user}} am {{comment_created_at}}"
+    feed:
+      user:
+        title: "OpenStreetMap diary entries for {{user}}"
+        description: "Recent OpenStreetmap diary entries from {{user}}"
+      language:
+        title: "OpenStreetMap diary entries in {{language_name}}"
+        description: "Recent diary entries from users of OpenStreetMap in {{language_name}}"
+      all:
+        title: "OpenStreetMap diary entries"
+        description: "Recent diary entries from users of OpenStreetMap"
   export:
     start:
       area_to_export: "Bereich für den Export"
@@ -690,6 +703,11 @@ de:
           destination: "Nur für Anrainer"
           construction: "Straße im Bau"
   trace:
+    visibility:
+      private: "Private (only shared as anonymous, unordered points)"
+      public: "Public (shown in trace list and as anonymous, unordered points)"
+      trackable: "Trackable (only shared as anonymous, ordered points with timestamps)"
+      identifiable: "Identifiable (shown in trace list and as identifiable, ordered points with timestamps)"
     create:
       upload_trace: "Lade einen GPS-Track hoch"
       trace_uploaded: "Deine GPX-Datei wurde hochgeladen und wartet auf die Aufnahme in die Datenbank. Dies geschieht normalerweise innerhalb einer halben Stunde, anschließend wird dir eine Bestätigungs-E-Mail gesendet."
@@ -708,6 +726,9 @@ de:
       tags: "Tags:"
       tags_help: "Trennung durch Komma" 
       save_button: "Speichere Änderungen"
+      visibility: "Visibility:"
+      visibility_help: "what does this mean?"
+      visibility_help_url: "http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces"
     no_such_user:
       title: "Benutzer nicht gefunden"
       heading: "Der Benutzer {{user}} existiert nicht"
@@ -717,9 +738,9 @@ de:
       description: "Beschreibung"
       tags: "Tags"
       tags_help: "Trennung durch Komma" 
-      public: "Öffentlich?"
-      public_help: "Was heißt das?"
-      public_help_url: "http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces"
+      visibility: "Öffentlich?"
+      visibility_help: "Was heißt das?"
+      visibility_help_url: "http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces"
       upload_button: "Hochladen"
       help: "Hilfe"
       help_url: "http://wiki.openstreetmap.org/wiki/DE:Upload"
@@ -745,10 +766,10 @@ de:
       description: "Beschreibung:"
       tags: "Tags:"
       none: "Keine"
-      make_public: "Mache diesen Track öffentlich"
       edit_track: "Diesen Track bearbeiten"
       delete_track: "Diesen Track löschen"
       trace_not_found: "Track nicht gefunden!"
+      visibility: "Visibility:" 
     trace_paging_nav:
       showing: "Zeige Seite"
       of: "von"
@@ -775,21 +796,73 @@ de:
       scheduled_for_deletion: "Für Löschung vorgesehener Track" 
     make_public: 
       made_public: "veröffentlichter Track"
-  oauth:
-    client_application:
-      request_access: "Die Anwendung {{app_name}} möchte auf Deinen OpenStreetMap-Account zugreifen. Bitte entscheide, ob Du der Anwendung die folgenden Rechte gewähren möchtest. Du kannst alle oder einige der folgenden Rechte gewähren:"
-      allow_to: "Erlaube der Anwendung:"
-      allow_read_prefs:  "Deine Benutzereinstellungen zu lesen"
-      allow_write_prefs: "Deine Benutzereinstellungen zu verändern"
-      allow_write_diary: "Blog-Einträge und Kommentare zu schreiben und Freunde einzutragen"
-      allow_write_api:   "Die OSM-Datenbank zu ändern"
-      allow_read_gpx:    "Deine privaten GPS-Tracks auszulesen"
-      allow_write_gpx:   "GPS-Tracks hochzuladen"
-    token:
-      none: "Du hast bislang keinen Anwendungen Zugriff auf Deinen Account gewährt. Du musst jetzt nichts unternehmen, denn die Anwendungen werden Dich dazu auffordern, wenn es nötig ist. Zu einem späteren Zeitpunkt kannst Du in diesem Menü sehen, welche Anwendungen Zugriff erhalten haben, und kannst diese Erlaubnis hier auch widerrufen."
-      application: "Anwendung"
-      issued: "Zugriff gewährt"
-      revoke: "widerrufen"
+   oauth:
+    oauthorize:
+      request_access: "The application {{app_name}} is requesting access to your account. Please check whether you would like the application to have the following capabilities. You may choose as many or as few as you like."
+      allow_to: "Allow the client application to:"
+      allow_read_prefs:  "read your user preferences."
+      allow_write_prefs: "modify your user preferences."
+      allow_write_diary: "create diary entries, comments and make friends."
+      allow_write_api:   "modify the map."
+      allow_read_gpx:    "read your private GPS traces."
+      allow_write_gpx:   "upload GPS traces."
+    revoke:
+      flash: "You've revoked the token for {{application}}"
+  oauth_clients:
+    new:
+      title: "Register a new application"
+      submit: "Register"
+    edit:
+      title: "Edit your application"
+      submit: "Edit"
+    show:
+      title: "OAuth details for {{app_name}}"
+      key: "Consumer Key:"
+      secret: "Consumer Secret:"
+      url: "Request Token URL:"
+      access_url: "Access Token URL:"
+      authorize_url: "Authorise URL:"
+      support_notice: "We support hmac-sha1 (recommended) as well as plain text in ssl mode."
+      edit: "Edit Details"
+      requests: "Requesting the following permissions from the user:"
+      allow_read_prefs:  "read their user preferences."
+      allow_write_prefs: "modify their user preferences."
+      allow_write_diary: "create diary entries, comments and make friends."
+      allow_write_api:   "modify the map."
+      allow_read_gpx:    "read their private GPS traces."
+      allow_write_gpx:   "upload GPS traces."
+    index:
+      title: "My OAuth Details"
+      my_tokens: "My Authorised Applications"
+      list_tokens: "The following tokens have been issued to applications in your name:"
+      application: "Application Name"
+      issued_at: "Issued At"
+      revoke: "Revoke!"
+      my_apps: "My Client Applications"
+      no_apps: "Do you have an application you would like to register for use with us using the {{oauth}} standard? You must register your web application before it can make OAuth requests to this service."
+      registered_apps: "You have the following client applications registered:"
+      register_new: "Register your application"
+    form:
+      name: "Name"
+      required: "Required"
+      url: "Main Application URL"
+      callback_url: "Callback URL"
+      support_url: "Support URL"
+      requests: "Request the following permissions from the user:"
+      allow_read_prefs:  "read their user preferences."
+      allow_write_prefs: "modify their user preferences."
+      allow_write_diary: "create diary entries, comments and make friends."
+      allow_write_api:   "modify the map."
+      allow_read_gpx:    "read their private GPS traces."
+      allow_write_gpx:   "upload GPS traces."
+    not_found: 
+      sorry: "Sorry, that {{type}} could not be found."
+    create:
+      flash: "Registered the information successfully"
+    update:
+      flash: "Updated the client information successfully"
+    destroy:
+      flash: "Destroyed the client application registration"
   user:
     login:
       title: "Anmelden"
@@ -806,12 +879,16 @@ de:
       title: "Passwort vergessen"
       heading: "Passwort vergessen?"
       email address: "E-Mail-Adresse:"
-      new password button: "Neues Passwort senden"
+      new password button: "Passwort zurücksetzen"
       notice email on way: "Eine E-Mail mit Hinweisen zum Zurücksetzen des Passworts wurde an dich versandt."
       notice email cannot find: "Wir konnten die E-Mailadresse nicht finden. Du hast dich möglicherweise vertippt oder mit einer anderen E-Mailadresse angemeldet."
     reset_password:
-      title: Passwort zurücksetzen
-      flash changed check mail: "Dein Passwort wurde geändert und per E-Mail an dich versandt."
+      title: "Passwort zurücksetzen"
+      heading: "Reset Password for {{user}}"
+      password: "Password: "
+      confirm password: "Confirm Password: "
+      reset: "Reset Password"
+      flash changed: "Your password has been changed."
       flash token bad: "Wir konnten dieses Kürzel leider nicht finden. Du hast dich möglicherweise vertippt oder du bist einem ungültigem Link gefolgt."
     new:
       title: "Benutzerkonto erstellen"
@@ -862,6 +939,7 @@ de:
       nearby users: "Benutzer in der Nähe: "
       no nearby users: "Es gibt bisher keine Benutzer, die einen Standort in deiner Nähe angegeben haben."
       change your settings: Ändere deine Einstellungen
+      my_oauth_details: "View my OAuth details"
     friend_map:
       your location: "Eigener Standort"
       nearby mapper: "Mapper in der Nähe: "
