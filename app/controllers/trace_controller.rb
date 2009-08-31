@@ -293,12 +293,16 @@ class TraceController < ApplicationController
     if request.post?
       tags = params[:tags] || ""
       description = params[:description] || ""
-      visibility = params[:visibility] || false
+      visibility = params[:visibility]
 
-      if params[:public] && !visibility
-        visibility = "public"
+      if visibility.nil?
+        if params[:public]
+          visibility = "public"
+        else
+          visibility = "private"
+        end
       end
-      
+
       if params[:file].respond_to?(:read)
         do_create(params[:file], tags, description, visibility)
 
