@@ -12,9 +12,7 @@ xml.osm("version" => API_VERSION, "generator" => GENERATOR) do
                        :zoom => @user.home_zoom
     end    
     if @user.image
-      # i'd love to use "url_for_file_column, :absolute=>true", but that doesn't seem
-      # to work with the file_column plugin version we're using.
-      xml.tag! "img", :href => ("http://" + SERVER_URL + url_for_file_column(@user, "image"))
+      xml.tag! "img", :href => (url_for_file_column(@user, "image", :absolute => true))
     end
     if @user.languages
       xml.tag! "languages" do
