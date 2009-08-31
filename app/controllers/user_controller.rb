@@ -246,7 +246,8 @@ class UserController < ApplicationController
   end
 
   def api_details
-    render :text => @user.to_xml.to_s, :content_type => "text/xml"
+    # moved implementation to a view.
+    render :layout => false
   end
 
   def api_gpx_files
