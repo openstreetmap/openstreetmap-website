@@ -1,5 +1,5 @@
 class UserController < ApplicationController
-  layout 'site'
+  layout 'site', :except => :api_details
 
   before_filter :authorize, :only => [:api_details, :api_gpx_files]
   before_filter :authorize_web, :except => [:api_details, :api_gpx_files]
@@ -243,11 +243,6 @@ class UserController < ApplicationController
     @user.image = nil
     @user.save!
     redirect_to :controller => 'user', :action => 'view', :display_name => @user.display_name
-  end
-
-  def api_details
-    # moved implementation to a view.
-    render :layout => false
   end
 
   def api_gpx_files
