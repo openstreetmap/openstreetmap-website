@@ -38,7 +38,7 @@ class OauthController < ApplicationController
 
   def oauthorize
     @token = RequestToken.find_by_token params[:oauth_token]
-    unless @token.invalidated?
+    unless @token.nil? or @token.invalidated? 
       if request.post?
         any_auth = false
         @token.client_application.permissions.each do |pref|
