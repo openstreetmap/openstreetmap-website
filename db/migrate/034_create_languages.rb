@@ -10,13 +10,7 @@ class CreateLanguages < ActiveRecord::Migration
 
     add_primary_key :languages, [:code]
 
-    YAML.load(File.read(RAILS_ROOT + "/config/languages.yml")).each do |k,v|
-      Language.create do |l|
-        l.code = k
-        l.english_name = v["english"]
-        l.native_name = v["native"]
-      end
-    end
+    Language.load(RAILS_ROOT + "/config/languages.yml")
 
     add_foreign_key :users, [:locale], :languages, [:code]
     add_foreign_key :diary_entries, [:language_code], :languages, [:code]    
