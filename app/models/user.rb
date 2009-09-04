@@ -33,7 +33,7 @@ class User < ActiveRecord::Base
   file_column :image, :magick => { :geometry => "100x100>" }
 
   def after_initialize
-    self.creation_time = Time.now.getutc if self.creation_time.nil?
+    self.creation_time = Time.now.getutc unless self.attribute_present?(:creation_time)
   end
 
   def encrypt_password
