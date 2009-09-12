@@ -2,7 +2,7 @@ zh-TW:
   html:
     dir: ltr
   activerecord:
-    # Translates all the model names, which is used in error handling on the web site
+  
     models:
       acl: "存取控制清單"
       changeset: "變更組合"
@@ -28,17 +28,15 @@ zh-TW:
       relation_member: "關係成員"
       relation_tag: "關係標籤"
       session: "作業階段"
-      trace: "追蹤"
-      tracepoint: "追蹤點"
-      tracetag: "追蹤標籤"
+      trace: "軌跡"
+      tracepoint: "軌跡點"
+      tracetag: "軌跡標籤"
       user: "使用者"
       user_preference: "使用者偏好設定"
       user_token: "使用者記號"
       way: "路徑"
       way_node: "路徑節點"
       way_tag: "路徑標籤"
-    # Translates all the model attributes, which is used in error handling on the web site
-    # Only the ones that are used on the web site are translated at the moment
     attributes:
       diary_comment:
         body: "內文"
@@ -72,6 +70,10 @@ zh-TW:
         description: "描述"
         languages: "語言"
         pass_crypt: "密碼"
+  printable_name:
+    with_id: "{{id}}"
+    with_version: "{{id}}, v{{version}}"
+    with_name: "{{name}} ({{id}})"
   map:
     view: "檢視"
     edit: "編輯"
@@ -79,10 +81,21 @@ zh-TW:
   browse:
     changeset:
       title: "變更組合"
-      changeset: "變更組合： {{id}}"
+      changeset: "變更組合："
       download: "下載 {{changeset_xml_link}} 或 {{osmchange_xml_link}}"
       changesetxml: "Changeset XML"
       osmchangexml: "osmChange XML"
+      feed:
+        title: "變更組合 {{id}}"
+        title_comment: "變更組合 {{id}} - {{comment}}"
+    changeset_navigation:
+      user:
+        name_tooltip: "檢視由 {{user}} 進行的編輯"
+        prev_tooltip: "上一個 {{user}} 的編輯"
+        next_tooltip: "下一個 {{user}} 的編輯"
+      all:
+        prev_tooltip: "上一個變更組合"
+        next_tooltip: "下一個變更組合"
     changeset_details:
       created_at: "建立於："
       closed_at: "關閉於："
@@ -91,25 +104,37 @@ zh-TW:
       no_bounding_box: "這個變更組合沒有儲存綁定方塊。"
       show_area_box: "顯示區域方塊"
       box: "方塊"
-      has_nodes: "有下列 {{count}} 節點："
-      has_ways: "有下列 {{count}} 路徑："
-      has_relations: "有下列 {{count}} 關係："
-    common_details: 
+      has_nodes:
+        one: "有下列 {{count}} 個節點："
+        other: "有下列 {{count}} 個節點："
+      has_ways:
+        one:  "有下列 {{count}} 個路徑："
+        other: "有下列 {{count}} 個路徑："
+      has_relations:
+        one:  "有下列 {{count}} 個關係："
+        other: "有下列 {{count}} 個關係："
+    common_details:
       edited_at: "編輯於："
       edited_by: "編輯者："
       version: "版本："
       in_changeset: "於變更組合："
     containing_relation:
       entry: "關係 {{relation_name}}"
-      entry_role: "關係 {{relation_name}} (as {{relation_role}})"
+      entry_role: "關係 {{relation_name}} (做為 {{relation_role}})"
     map:
       loading: "正在載入..."
       deleted: "已刪除"
+      larger:
+        area: "在較大的地圖檢視區域"
+        node: "在較大的地圖檢視節點"
+        way: "在較大的地圖檢視路徑"
+        relation: "在較大的地圖檢視關係"
     node_details:
       coordinates: "坐標："
       part_of: "部分："
     node_history:
-      node_history: "節點歷史紀錄"
+      node_history: "節點歷史"
+      node_history_title: "節點歷史： {{node_name}}"
       download: "{{download_xml_link}} 或 {{view_details_link}}"
       download_xml: "下載 XML"
       view_details: "檢視詳細資訊"
@@ -118,13 +143,15 @@ zh-TW:
       node_title: "節點： {{node_name}}"
       download: "{{download_xml_link}} 或 {{view_history_link}}"
       download_xml: "下載 XML"
-      view_history: "檢視歷史紀錄"
+      view_history: "檢視歷史"
+      edit: "編輯"	  
     not_found:
       sorry: "抱歉，找不到 id {{id}} 的 {{type}}。"
       type:
         node: "節點"
         way: "路徑"
         relation: "關係"
+        changeset: "變更組合"
     paging_nav:
       showing_page: "正在顯示頁面"
       of: "／"
@@ -132,14 +159,24 @@ zh-TW:
       members: "成員："
       part_of: "部分："
     relation_history:
-      relation_history: "關係歷史紀錄"
-      relation_history_title: "關係歷史紀錄： {{relation_name}}"
+      relation_history: "關係歷史"
+      relation_history_title: "關係歷史： {{relation_name}}"
+      download: "{{download_xml_link}} 或 {{view_details_link}}"
+      download_xml: "下載 XML"
+      view_details: "檢視詳細資料"
+    relation_member:
+      entry: "{{type}} {{name}}"
+      entry_role: "{{type}} {{name}} 做為 {{role}}"
+      type:
+        node: "節點"
+        way: "路徑"
+        relation: "關係"
     relation:
       relation: "關係"
       relation_title: "關係： {{relation_name}}"
       download: "{{download_xml_link}} 或 {{view_history_link}}"
       download_xml: "下載 XML"
-      view_history: "檢視歷史紀錄"
+      view_history: "檢視歷史"
     start:
       view_data: "目前地圖檢視的檢視資料"
       manually_select: "手動選擇不同的區域"
@@ -153,9 +190,9 @@ zh-TW:
       load_data: "載入資料"
       unable_to_load_size: "無法載入：綁定方塊的大小 [[bbox_size]] 太過巨大 (必須小於 {{max_bbox_size}})"
       loading: "正在載入..."
-      show_history: "顯示歷史紀錄"
+      show_history: "顯示歷史"
       wait: "Wait..."
-      history_for_feature: "[[feature]] 的歷史紀錄"
+      history_for_feature: "[[feature]] 的歷史"
       details: "詳細資訊"
       private_user: "個人使用者"
       edited_by_user_at_timestamp: "由 [[user]] 於 [[timestamp]] 編輯"
@@ -165,19 +202,16 @@ zh-TW:
         type:
           node: "節點"
           way: "路徑"
-          # There's no 'relation' type because it isn't represented in OpenLayers
         api: "從 API 取回這個區域"
         details: "詳細資訊"
         selected:
           type:
             node: "節點 [[id]]"
             way: "路徑 [[id]]"
-            # There's no 'relation' type because it isn't represented in OpenLayers
         history:
           type:
             node: "節點 [[id]]"
             way: "路徑 [[id]]"
-            # There's no 'relation' type because it isn't represented in OpenLayers
     tag_details:
       tags: "標籤："
     way_details:
@@ -187,8 +221,8 @@ zh-TW:
         one: "也是路徑 {{related_ways}} 的一部分"
         other: "也是路徑 {{related_ways}} 的一部分"
     way_history:
-      way_history: "路徑歷史紀錄"
-      way_history_title: "路徑歷史紀錄： {{way_name}}"
+      way_history: "路徑歷史"
+      way_history_title: "路徑歷史： {{way_name}}"
       download: "{{download_xml_link}} 或 {{view_details_link}}"
       download_xml: "下載 XML"
       view_details: "檢視詳細資訊"
@@ -197,12 +231,14 @@ zh-TW:
       way_title: "路徑： {{way_name}}"
       download: "{{download_xml_link}} 或 {{view_history_link}}"
       download_xml: "下載 XML"
-      view_history: "檢視歷史紀錄"
+      view_history: "檢視歷史"
+      edit: "編輯"
   changeset:
-    changeset_paging_nav: 
+    changeset_paging_nav:
       showing_page: "正在顯示頁面"
       of: "／"
     changeset:
+      id: "#{{id}}"
       still_editing: "(尚在編輯)"
       anonymous: "匿名"
       no_comment: "(沒有)"
@@ -216,36 +252,30 @@ zh-TW:
       user: "使用者"
       comment: "註解"
       area: "區域"
-    list_bbox:
-      history: "歷史紀錄"
-      changesets_within_the_area: "變更組合位於此區域："
-      show_area_box: "顯示區域方塊"
-      no_changesets: "沒有變更組合"
-      all_changes_everywhere: "要了解每個地方的所有變更請參閱 {{recent_changes_link}}"
-      recent_changes: "最近的變更"
-      no_area_specified: "沒有指定區域"
-      first_use_view: "首先使用 {{view_tab_link}} 指定並縮放感興趣的區域，然後按下歷史紀錄分頁。"
-      view_the_map: "檢視此地圖"
-      view_tab: "檢視分頁"
-      alternatively_view: "或者，檢視所有的 {{recent_changes_link}}"
     list:
-      recent_changes: "最近的變更"
-      recently_edited_changesets: "最近編輯的變更組合："
-      for_more_changesets: "要看更多變更組合，選擇一位使用者並檢視他們的編輯，或是看看特定區域的編輯「歷史紀錄」。"
-    list_user:
-      edits_by_username: "由 {{username_link}} 編輯"
-      no_visible_edits_by: "沒有 {{name}} 可見的編輯。"
-      for_all_changes: "要了解所有使用者的變更請參閱 {{recent_changes_link}}"
-      recent_changes: "最近的變更"
+      title: "變更組合"
+      title_user: "{{user}} 的變更組合"
+      title_bbox: "{{bbox}} 裡的變更組合"
+      title_user_bbox: "{{user}} 在 {{bbox}} 裡的變更組合"
+
+      heading: "變更組合"
+      heading_user: "變更組合"
+      heading_bbox: "變更組合"
+      heading_user_bbox: "變更組合"
+
+      description: "最近的變更組合"
+      description_user: "{{user}} 的變更組合"
+      description_bbox: "{{bbox}} 裡的變更組合"
+      description_user_bbox: "{{user}} 在 {{bbox}} 裡的變更組合"
   diary_entry:
     new:
       title: "新日記項目"
     list:
-      title: "使用者日記"
+      title: "日記"
       user_title: "{{user}} 的日記"
-      in_language_title: "日記項目使用語言為 {{language}}"
+      in_language_title: "日記 (語言為 {{language}})"
       new: "新增日記項目"
-      new_title: "在您的使用者日記中撰寫新的項目"
+      new_title: "在您的日記中撰寫新的項目"
       no_entries: "沒有日記項目"
       recent_entries: "最近的日記項目："
       older_entries: "較舊的項目"
@@ -269,6 +299,7 @@ zh-TW:
       login: "登入"
       save_button: "儲存"
     no_such_entry:
+      title: "沒有這個日記項目"
       heading: "沒有項目的 id 為： {{id}}"
       body: "抱歉，沒有日記項目或評論的 id 是 {{id}}。請檢查您的拼字，或者可能是按到錯誤的連結。"
     no_such_user:
@@ -285,6 +316,16 @@ zh-TW:
       edit_link: "編輯這個項目"
     diary_comment:
       comment_from: "由 {{link_user}}  於 {{comment_created_at}} 發表評論"
+    feed:
+      user:
+        title: "{{user}} 的 OpenStreetMap 日記"
+        description: "{{user}} 最近的 OpenStreetMap 日記"
+      language:
+        title: "OpenStreetMap 日記 (語言為 {{language_name}})"
+        description: "R使用者最近的 OpenStreetMap (語言為 {{language_name}})"
+      all:
+        title: "OpenStreetMap 日記"
+        description: "使用者最近的 OpenStreetMap 日記"
   export:
     start:
       area_to_export: "要匯出的區域"
@@ -319,23 +360,49 @@ zh-TW:
   geocoder:
     search:
       title:
-        latlon: '結果 從 <a href="http://openstreetmap.org/">Internal</a>'
-        us_postcode: '結果 從 <a href="http://geocoder.us/">Geocoder.us</a>'
-        uk_postcode: '結果 從 <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>'
-        ca_postcode: '結果 從 <a href="http://geocoder.ca/">Geocoder.CA</a>'
-        osm_namefinder: '結果 從 <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>'
-        geonames: '結果 從 <a href="http://www.geonames.org/">GeoNames</a>'
+        latlon: '來自<a href="http://openstreetmap.org/">內部</a>的結果'
+        us_postcode: '來自<a href="http://geocoder.us/">Geocoder.us</a>的結果'
+        uk_postcode: '來自<a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>的結果'
+        ca_postcode: '來自<a href="http://geocoder.ca/">Geocoder.CA</a>的結果'
+        osm_namefinder: '來自<a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>的結果'
+        geonames: '來自<a href="http://www.geonames.org/">GeoNames</a>的結果'
+    search_osm_namefinder:
+      prefix: "{{type}} "
+      suffix_place: ", {{direction}} {{distance}} ／ {{placename}}"
+      suffix_parent: "{{suffix}} ({{parentdistance}} {{parentdirection}} ／ {{parentname}})"
+      suffix_suburb: "{{suffix}}, {{parentname}}"
+    description:
+      title:
+        osm_namefinder: '{{types}} 來自 <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>'
+        geonames: '位置來自 <a href="http://www.geonames.org/">GeoNames</a>'
+      types:
+        cities: "城市"
+        towns: "鄉鎮"
+        places: "地區"
+    description_osm_namefinder:
+      prefix: "{{distance}} {{direction}} ／ {{type}} "
     results:
       no_results: "找不到任何結果"
+    distance:
+      zero: "1 公里以內"
+      one: "大約 1 公里"
+      other: "大約 {{count}} 公里"
+    direction:
+      south_west: "西南方"
+      south: "南方"
+      south_east: "東南方"
+      east: "東方"
+      north_east: "東北方"
+      north: "北方"
+      north_west: "西北方"
+      west: "西方"
   layouts:
     project_name:
-      # in <title>
       title: OpenStreetMap
-      # in <h1>
       h1: OpenStreetMap
     logo:
       alt_text: OpenStreetMap logo
-    welcome_user: "歡迎， {{user_link}}"
+    welcome_user: "歡迎，{{user_link}}"
     welcome_user_link_tooltip: "您的使用者頁面"
     home: "家"
     home_tooltip: "移至家位置"
@@ -354,14 +421,14 @@ zh-TW:
     view_tooltip: "檢視地圖"
     edit: "編輯"
     edit_tooltip: "編輯地圖"
-    history: "歷史紀錄"
-    history_tooltip: "變更組合歷史紀錄"
+    history: "歷史"
+    history_tooltip: "變更組合歷史"
     export: "匯出"
     export_tooltip: "匯出地圖資料"
-    gps_traces: "GPS 追蹤"
-    gps_traces_tooltip: "管理追蹤"
-    user_diaries: "使用者日記"
-    user_diaries_tooltip: "檢視使用者日記"
+    gps_traces: "GPS 軌跡"
+    gps_traces_tooltip: "管理軌跡"
+    user_diaries: "日記"
+    user_diaries_tooltip: "檢視日記"
     tag_line: "自由的 Wiki 世界地圖"
     intro_1: "OpenStreetMap 是一個自由、可編輯的全世界地圖。它是由像您這樣的人所製作的。"
     intro_2: "OpenStreetMap 讓您可以從地球上的任何地方以合作的方式檢視、編輯與使用地圖資料。"
@@ -417,14 +484,13 @@ zh-TW:
       success:
         subject: "[OpenStreetMap] GPX 匯入成功"
         loaded_successfully: |
-          成功的載入 {{trace_points}} 個點，全部可能有
-          {{possible_points}} 個點。
+          成功載入可能 {{possible_points}} 點中的
+          {{trace_points}} 點。
     signup_confirm:
       subject: "[OpenStreetMap] 確認您的電子郵件"
     signup_confirm_plain:
       greeting: "您好！"
       hopefully_you: "有人 (希望是您) 想要建立一個新帳號到"
-      # next two translations run-on : please word wrap appropriately
       click_the_link_1: "如果這是您，歡迎！請按下列連結來確認您的"
       click_the_link_2: "帳號並了解更多 OpenStreetMap 的資訊。"
       introductory_video: "您可以在這裡觀看 OpenStreetMap 的導覽影片："
@@ -434,7 +500,6 @@ zh-TW:
       opengeodata: "OpenGeoData.org 是 OpenStreetMap 的部落格，它也有 podcasts："
       wiki_signup: "您可能也想在 OpenStreetMap wiki 註冊："
       wiki_signup_url: "http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page"
-      # next four translations are in pairs : please word wrap appropriately
       user_wiki_1: "建議您建立一個使用者 wiki 頁面，其中包含"
       user_wiki_2: "註記您住哪裡的分類標籤，如 [[Category:Users_in_London]]。"
       current_user_1: "一份目前使用者的清單，以他們在世界上何處為基礎"
@@ -447,7 +512,7 @@ zh-TW:
       video_to_openstreetmap: "觀看 OpenStreetMap 的導覽影片"
       more_videos: "這裡還有更多 {{more_videos_link}}。"
       more_videos_here: "影片"
-      get_reading: '在 wiki 中閱讀更多 <a href="http://wiki.openstreetmap.org/wiki/Beginners%27_Guide"></a> 或 <a href="http://www.opengeodata.org/">opengeodata 部落格，</a> 其中也有 <a href="http://www.opengeodata.org/?cat=13">podcasts 可以聽</a>！'
+      get_reading: '在 wiki 中閱讀更多 <a href="http://wiki.openstreetmap.org/wiki/Beginners%27_Guide"></p> 或 <a href="http://www.opengeodata.org/">opengeodata 部落格，</a> 其中也有 <a href="http://www.opengeodata.org/?cat=13">podcasts 可以聽</a>！'
       wiki_signup: '您可能也想在 <a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page"> OpenStreetMap wiki 註冊</a>。'
       user_wiki_page: '建議您建立一個使用者 wiki 頁面，其中包含註記您住哪裡的分類標籤，如 <a href="http://wiki.openstreetmap.org/wiki/Category:Users_in_London">[[Category:Users_in_London]]</a>。'
       current_user: '一份目前使用者的清單，以他們在世界上何處為基礎的分類，可在這裡取得：<a href="http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region">Category:Users_by_geographical_region</a>。'
@@ -483,11 +548,12 @@ zh-TW:
       subject: "主旨"
       date: "日期"
       no_messages_yet: "您還沒有訊息。何不跟 {{people_mapping_nearby_link}} 的人們接觸看看？"
-      people_mapping_nearby: "附近製作地圖" 
+      people_mapping_nearby: "附近製作地圖"
     message_summary:
       unread_button: "標記為未讀"
       read_button: "標記為已讀"
       reply_button: "回覆"
+      delete_button: "刪除"
     new:
       title: "寄出訊息"
       send_message_to: "寄出新訊息給 {{name}}"
@@ -500,7 +566,7 @@ zh-TW:
       title: "沒有這個使用者或訊息"
       heading: "沒有這個使用者或訊息"
       body: "抱歉沒有這個名字的使用者或此 id 的訊息"
-    outbox: 
+    outbox:
       title: "寄件匣"
       my_inbox: "我的{{inbox_link}}"
       inbox: "收件匣"
@@ -523,15 +589,20 @@ zh-TW:
       reading_your_sent_messages: "閱讀您寄出的訊息"
       to: "收件者"
       back_to_outbox: "回到寄件匣"
+    sent_message_summary:
+      delete_button: "刪除"
     mark:
       as_read: "訊息標記為已讀"
       as_unread: "訊息標記為未讀"
+    delete:
+      deleted: "訊息已刪除"
   site:
     index:
       js_1: "您使用不支援 javascript 的瀏覽器，或者停用了 javascript。"
       js_2: "OpenStreetMap 使用 javascript 讓地圖更平順。"
       js_3: '如果您無法啟用 javascript，可以試試 <a href="http://tah.openstreetmap.org/Browse/">Tiles@Home 靜態拼貼瀏覽器</a>。'
       permalink: "靜態連結"
+      shortlink: "簡短連結"
       license:
         notice: "由 {{project_name}} 和它的貢獻者依 {{license_name}} 條款授權。"
         license_name: "Creative Commons Attribution-Share Alike 2.0"
@@ -553,25 +624,103 @@ zh-TW:
     search:
       search: "搜尋"
       where_am_i: "我在哪裡？"
-      submit_text: "走"
+      submit_text: "出發"
       search_help: "範例： 'Alkmaar', 'Regent Street, Cambridge', 'CB2 5AQ', 或 'post offices near L羹nen' <a href='http://wiki.openstreetmap.org/wiki/Search'>更多範例...</a>"
     key:
       map_key: "圖例"
       map_key_tooltip: "在這個縮放等級會顯示的圖例"
+      table:
+        heading: "z{{zoom_level}} 的圖例"
+        entry:
+          motorway: "高速公路"
+          trunk: "快速道路"
+          primary: "主要道路"
+          secondary: "次要道路"
+          unclassified: "未分類道路"
+          unsurfaced: "無鋪面道路"
+          track: "產業道路"
+          byway: "鄉間小路"
+          bridleway: "馬道"
+          cycleway: "自行車道"
+          footway: "步道"
+          rail: "鐵路"
+          subway: "地下鐵"
+          tram:
+            - 輕軌電車
+            - tram
+          cable:
+            - 纜車
+            - chair lift
+          runway:
+            - 機場跑道
+            - 飛機滑行道
+          apron:
+            - Airport apron
+            - terminal
+          admin: "行政區邊界"
+          forest: "森林"
+          wood: "樹木"
+          golf: "高爾夫球道"
+          park: "公園"
+          resident: "住宅區"
+          tourist: "Tourist attraction"
+          common:
+            - Common
+            - meadow
+          retail: "Retail area"
+          industrial: "工業區"
+          commercial: "商業區"
+          heathland: "Heathland"
+          lake:
+            - 湖泊
+            - reservoir
+          farm: "農田"
+          brownfield: "Brownfield site"
+          cemetery: "Cemetery"
+          allotments: "Allotments"
+          pitch: "Sports pitch"
+          centre: "運動中心"
+          reserve: "自然保留區"
+          military: "軍事區"
+          school: "學校；大學"
+          building: "特殊建築"
+          station: "火車站"
+          summit:
+            - Summit
+            - peak
+          tunnel: "Dashed casing = tunnel"
+          bridge: "Black casing = bridge"
+          private: "Private access"
+          permissive: "Permissive access"
+          destination: "Destination access"
+          construction: "建築中路段" 
   trace:
+    visibility:
+      private: "私人 (以匿名方式分享，節點無順序)"
+      public: "公開 (以匿名方式顯示於軌跡清單，節點無順序)"
+      trackable: "可追蹤 (以匿名方式分享，節點有時間戳記)"
+      identifiable: "可辨識 (以可辨認的方式顯示於軌跡清單，節點有時間戳記)"
     create:
-      upload_trace: "上傳 GPS 追蹤"
+      upload_trace: "上傳 GPS 軌跡"
       trace_uploaded: "您的 GPX 檔案已經上傳並且在等候進入資料庫中。這通常不會超過半小時，完成時會以電子郵件通知您。"
     edit:
+      title: "編輯軌跡 {{name}}"
+      heading: "編輯軌跡 {{name}}"
       filename: "檔案名稱："
+      download: "下載"
       uploaded_at: "上傳於："
       points: "點數："
       start_coord: "開始坐標："
+      map: "地圖"
       edit: "編輯"
       owner: "擁有者："
       description: "描述："
       tags: "標籤："
+      tags_help: "以逗點分隔"
       save_button: "儲存變更"
+      visibility: "可見性："
+      visibility_help: "這是什麼意思？"
+      visibility_help_url: "http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces"
     no_such_user:
       title: "沒有這個使用者"
       heading: "使用者 {{user}} 不存在"
@@ -580,18 +729,23 @@ zh-TW:
       upload_gpx: "上傳 GPX 檔案"
       description: "描述"
       tags: "標籤"
-      public: "是否公開？"
+      tags_help: "以逗點分隔"
+      visibility: "可見性"
+      visibility_help: "這是什麼意思？"
+      visibility_help_url: "http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces"
       upload_button: "上傳"
       help: "求助"
       help_url: "http://wiki.openstreetmap.org/wiki/Upload"
     trace_header:
-      see_just_your_traces: "只查看您的追蹤，或是上傳一個追蹤"
-      see_all_traces: "查看所有的追蹤"
-      see_your_traces: "查看您所有的追蹤"
-      traces_waiting: "您有 {{count}} 個追蹤等待上傳。請先等待這些結束後才做進一步的上傳，如此才不會阻擋其他使用者的排程。"
+      see_just_your_traces: "只查看您的軌跡，或是上傳一個軌跡"
+      see_all_traces: "查看所有的軌跡"
+      see_your_traces: "查看您所有的軌跡"
+      traces_waiting: "您有 {{count}} 個軌跡等待上傳。請先等待這些結束後才做進一步的上傳，如此才不會阻擋其他使用者的排程。"
     trace_optionals:
       tags: "標籤"
     view:
+      title: "檢視軌跡 {{name}}"
+      heading: "檢視軌跡 {{name}}"
       pending: "等候"
       filename: "檔案名稱："
       download: "下載"
@@ -604,11 +758,10 @@ zh-TW:
       description: "描述："
       tags: "標籤"
       none: "沒有"
-      make_public: "將這個追蹤永遠標記為公開"
-      edit_track: "編輯這個追蹤"
-      delete_track: "刪除這個追蹤"
-      heading: "正在檢視追蹤 {{name}}"
-      trace_not_found: "找不到追蹤！"
+      edit_track: "編輯這個軌跡"
+      delete_track: "刪除這個軌跡"
+      trace_not_found: "找不到軌跡！"
+      visibility: "可見性："
     trace_paging_nav:
       showing: "正在顯示頁面"
       of: "／"
@@ -617,7 +770,7 @@ zh-TW:
       count_points: "{{count}} 個點"
       ago: "{{time_in_words_ago}} 之前"
       more: "更多"
-      trace_details: "檢視追蹤詳細資訊"
+      trace_details: "檢視軌跡詳細資訊"
       view_map: "檢視地圖"
       edit: "編輯"
       edit_map: "編輯地圖"
@@ -627,14 +780,81 @@ zh-TW:
       in: "於"
       map: "地圖"
     list:
-      public_traces: "公開 GPS 追蹤"
-      your_traces: "您的 GPS 追蹤"
-      public_traces_from: "{{user}} 的公開 GPS 追蹤"
+      public_traces: "公開 GPS 軌跡"
+      your_traces: "您的 GPS 軌跡"
+      public_traces_from: "{{user}} 的公開 GPS 軌跡"
       tagged_with: " 標籤為 {{tags}}"
     delete:
-      scheduled_for_deletion: "追蹤已預定刪除"
+      scheduled_for_deletion: "軌跡已預定刪除"
     make_public:
-      made_public: "追蹤標記為公開"
+      made_public: "軌跡標記為公開"
+  oauth:
+    oauthorize:
+      request_access: "應用程式 {{app_name}} 要求存取您的帳號。請確定您要讓此應用程式使用下列功能。您可以依自己的意思選擇。"
+      allow_to: "允許客戶端應用程式："
+      allow_read_prefs:  "讀取您的使用者偏好設定。"
+      allow_write_prefs: "修改您的使用者偏好設定。"
+      allow_write_diary: "建立日記、註解和設定朋友。"
+      allow_write_api:   "修改地圖。"
+      allow_read_gpx:    "讀取您的私人 GPS 軌跡。"
+      allow_write_gpx:   "上傳 GPS 軌跡。"
+    revoke:
+      flash: "您已經註銷 {{application}} 的記號。"
+  oauth_clients:
+    new:
+      title: "註冊新的應用程式"
+      submit: "註冊"
+    edit:
+      title: "編輯您的應用程式"
+      submit: "編輯"
+    show:
+      title: "{{app_name}} 的 OAuth 詳細資料"
+      key: "消費者金鑰："
+      secret: "消費者密鑰："
+      url: "要求記號 URL："
+      access_url: "存取記號 URL："
+      authorize_url: "授權 URL："
+      support_notice: "我們支援 hmac-sha1 (建議值) 和 ssl 模式的純文字。"
+      edit: "編輯詳細資料"
+      requests: "向使用者要求下列權限："
+      allow_read_prefs:  "讀取他們的使用者偏好設定。"
+      allow_write_prefs: "修改他們的使用者偏好設定。"
+      allow_write_diary: "建立日記、註解和設定朋友。"
+      allow_write_api:   "修改地圖。"
+      allow_read_gpx:    "讀取他們的私人 GPS 軌跡。"
+      allow_write_gpx:   "上傳 GPS 軌跡。"
+    index:
+      title: "我的 OAuth 詳細資料"
+      my_tokens: "我授權的應用程式"
+      list_tokens: "下列記號已發給您名下的應用程式："
+      application: "應用程式名稱"
+      issued_at: "簽發於"
+      revoke: "註銷！"
+      my_apps: "我的客戶端應用程式"
+      no_apps: "您是否有想要註冊以使用於 {{oauth}} 標準的應用程式？您必須先註冊您的網頁應用程式，才能對這個服務進行 OAuth 要求。"
+      registered_apps: "您已經註冊下列客戶端應用程式："
+      register_new: "註冊您的應用程式"
+    form:
+      name: "名稱"
+      required: "必要的"
+      url: "主要應用程式 URL"
+      callback_url: "召回 URL"
+      support_url: "支援 URL"
+      requests: "向使用者要求下列權限："
+      allow_read_prefs:  "讀取他們的使用者偏好設定。"
+      allow_write_prefs: "修改他們的使用者偏好設定。"
+      allow_write_diary: "建立日記、註解和設定朋友。"
+      allow_write_api:   "修改地圖。"
+      allow_read_gpx:    "讀取他們的私人 GPS 軌跡。"
+      allow_write_gpx:   "上傳 GPS 軌跡。"
+    not_found: 
+      sorry: "抱歉，找不到此 {{type}}。"
+    create:
+      flash: "註冊資訊成功"
+    update:
+      flash: "更新客戶端資訊成功"
+    destroy:
+      flash: "已破壞此客戶端應用程式註冊"
   user:
     login:
       title: "登入"
@@ -656,7 +876,11 @@ zh-TW:
       notice email cannot find: "找不到該電子郵件位址，抱歉。"
     reset_password:
       title: "重設密碼"
-      flash changed check mail: "您的密碼已經變更，並且已經寄到您的信箱 :-)"
+      heading: "重設 {{user}} 的密碼"
+      password: "密碼："
+      confirm password: "確認密碼："
+      reset: "重設密碼"
+      flash changed: "您的密碼已經變更。"
       flash token bad: "找不到該記號，可能要檢查一下 URL？"
     new:
       title: "建立帳號"
@@ -664,7 +888,7 @@ zh-TW:
       no_auto_account_create: "很不幸的我們現在無法自動為您建立帳號。"
       contact_webmaster: '請連絡 <a href="mailto:webmaster@openstreetmap.org">網站管理者</a>安排要建立的帳號，我們會儘快嘗試並處理這個要求。'
       fill_form: "填好下列表單，我們會寄給您一封電子郵件來啟用您的帳號。"
-      license_agreement: '藉由建立帳號，您同意所有上傳到 openstreetmap.org 的成果和任何使用連線到 openstreetmap.org 的工具所建立的資料都以 (非排除) <a href="http://creativecommons.org/licenses/by-sa/2.0/">這個創用 CC 授權 (by-sa)</a>來授權。'
+      license_agreement: '藉由建立帳號，您同意所有上傳到 Openstreetmap 計畫的資料都以 (非排除) <a href="http://creativecommons.org/licenses/by-sa/2.0/">這個創用 CC 授權 (by-sa)</a>來授權。'
       email address: "電子郵件位址："
       confirm email address: "確認電子郵件位址："
       not displayed publicly: '不要公開顯示 (請看 <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="wiki privacy policy including section on email addresses">隱私權政策</a>)'
@@ -679,14 +903,14 @@ zh-TW:
       body: "抱歉，沒有名為 {{user}} 的使用者。請檢查您的拼字，或者可能是按到錯誤的連結。"
     view:
       my diary: "我的日記"
-      new diary entry: "新日記項目"
+      new diary entry: "新增日記"
       my edits: "我的編輯"
-      my traces: "我的追蹤"
+      my traces: "我的軌跡"
       my settings: "我的設定值"
       send message: "傳送訊息"
       diary: "日記"
       edits: "個編輯"
-      traces: "個追蹤"
+      traces: "個軌跡"
       remove as friend: "移除朋友"
       add as friend: "加入朋友"
       mapper since: "成為製圖者於："
@@ -698,11 +922,12 @@ zh-TW:
       description: "描述"
       user location: "使用者位置"
       no home location: "尚未設定家的位置。"
-      if set location: "如果您設定了位置，一張漂亮的地圖和小東西會出現在下面。您可以在{{settings_link}}頁面設定您的家位置。"
+      if set location: "如果您設定了位置，一張漂亮的地圖和小指標會出現在下面。您可以在{{settings_link}}頁面設定您的家位置。"
       settings_link_text: "設定值"
       your friends: "您的朋友"
       no friends: "您尚未加入任何朋友。"
-      km away: "{{count}}公里遠"
+      km away: "{{count}} 公里遠"
+      m away: "{{count}} 公尺遠"
       nearby users: "附近的使用者："
       no nearby users: "附近沒有在進行製圖的使用者。"
       change your settings: "改變您的設定值"
@@ -720,7 +945,7 @@ zh-TW:
         enabled link text: "這是什麼？"
         disabled: "已停用且不能編輯資料，所有先前的編輯都會成為匿名的。"
         disabled link text: "為什麼我不能編輯？"
-      profile description: "設定檔描述："
+      profile description: "個人檔案描述："
       preferred languages: "偏好的語言："
       home location: "家的位置："
       no home location: "您尚未輸入家的位置。"
