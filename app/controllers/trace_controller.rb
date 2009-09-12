@@ -296,7 +296,7 @@ class TraceController < ApplicationController
       visibility = params[:visibility]
 
       if visibility.nil?
-        if params[:public]
+        if params[:public] && params[:public].to_i.nonzero?
           visibility = "public"
         else
           visibility = "private"
