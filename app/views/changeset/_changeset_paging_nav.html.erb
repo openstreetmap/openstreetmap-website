@@ -7,7 +7,7 @@ if (current_page.first_item < current_page.last_item) # if more than 1 changeset
   %>-<%= current_page.last_item %><% 
 end %>
 <%= t'changeset.changeset_paging_nav.of'%> <%= @edit_pages.item_count %>)
-<% if @edit_pages.item_count > 1 %>
+<% if @edit_pages.page_count > 1 %>
  | <%= pagination_links_each(@edit_pages, {}) { |n| link_to(n, params.merge({ :page => n })) } %>
 <% end %>
 </p>
