@@ -1,6 +1,7 @@
 ru:
+  html:
+    dir: "ltr"
   activerecord:
-    # Translates all the model names, which is used in error handling on the web site
     models:
       acl: "Список ограничения доступа"
       changeset: "Пакет изменений"
@@ -35,8 +36,6 @@ ru:
       way: "Линия"
       way_node: "Узел линии"
       way_tag: "Тег линии"
-    # Translates all the model attributes, which is used in error handling on the web site
-    # Only the ones that are used on the web site are translated at the moment
     attributes:
       diary_comment:
         body: "Текст"
@@ -77,7 +76,7 @@ ru:
   browse:
     changeset:
       title: "Пакет изменений"
-      changeset: "Пакет изменений: {{id}}"
+      changeset: "Пакет изменений:"
       download: "Загрузить {{changeset_xml_link}} или {{osmchange_xml_link}}"
       changesetxml: "XML пакета изменений"
       osmchangexml: "osmChange XML"
@@ -87,6 +86,7 @@ ru:
       belongs_to: "Пользователь:"
       bounding_box: "Границы:"
       no_bounding_box: "Для данного сеанса границы не установлены."
+      show_area_box: "Показать выделенную область"
       box: "Показать"
       box: "граница"
       has_nodes: "Содержит {{count}} узла(ов):"
@@ -98,11 +98,12 @@ ru:
       version: "Версия:"
       in_changeset: "Сеанс:"
     containing_relation:
-      entry: "Отношение {{relation_name}}"
-      entry_role: "Отношение {{relation_name}} (в роли {{relation_role}})"
+      relation: "Отношение {{relation_name}}"
+      relation_as: "(в роли {{relation_role}})"
     map:
       loading: "Загрузка..."
       deleted: "Удалено"
+      view_larger_map: "На большой карте"
     node_details:
       coordinates: "Координаты: "
       part_of: "Принадлежит к:"
@@ -119,6 +120,10 @@ ru:
       view_history: "посмотреть историю"
     not_found:
       sorry: "К сожалению, {{type}} с идентификатором {{id}} не найден."
+      type:
+        node: "узел"
+        way: "линия"
+        relation: "отношение"
     paging_nav:
       showing_page: "Страница"
       of: "из"
@@ -128,6 +133,8 @@ ru:
     relation_history:
       relation_history: "История отношения"
       relation_history_title: "История отношения {{relation_name}}"
+    relation_member:
+      as: "в роли"
     relation:
       relation: "Отношение"
       relation_title: "Отношение: {{relation_name}}"
@@ -138,6 +145,7 @@ ru:
       view_data: "Посмотреть данные для текущего вида"
       manually_select: "Выделить другую область"
     start_rjs:
+      data_layer_name: "Данные"
       data_frame_title: "Данные"
       zoom_or_select: "Увеличьте или выберите область для просмотра"
       drag_a_box: "Для выбора области растяните рамку по карте"
@@ -151,7 +159,22 @@ ru:
       history_for_feature: "История [[feature]]"
       details: "Детали"
       private_user: "частный пользователь"
-      edited_by_user_at_timestamp: "Изменен [[user]] в [[timestamp]]"
+      edited_by_user_at_timestamp: "Изменил [[user]] в [[timestamp]]"
+      object_list:
+        heading: "Список объектов"
+        back: "Отобразить список объектов"
+        type:
+          node: "Узел"
+          way: "Линия"
+        api: "Получить эту область из API"
+        details: "Детали"
+        selected:
+          type:
+            node: "Узел [[id]]"
+            way: "Линия [[id]]"
+        history:
+            node: "Узел [[id]]"
+            way: "Линия [[id]]"
     tag_details:
       tags: "Теги:"
     way_details:
@@ -177,13 +200,14 @@ ru:
       showing_page: "Страница"
       of: "из"
     changeset:
-      still editing: "(идет редактирование)"
+      still_editing: "(ещё редактируется)"
       anonymous: "Аноним"
       no_comment: "(нет)"
       no_edits: "(нет правок)"
       show_area_box: "Показать границы сеанса"
       big_area: "(большая)"
       view_changeset_details: "Просмотреть данные сеанса"
+      more: "подробнее"
     changesets:
       id: "ID"
       saved_at: "Завершено"
@@ -217,6 +241,7 @@ ru:
     list:
       title: "Дневники пользователей"
       user_title: "Дневник {{user}}"
+      in_language_title: "Дневник записей в {{language}}"
       new: Новая запись в дневнике
       new_title: Написать новую запись в своем дневнике
       no_entries: В дневнике нет записей
@@ -238,14 +263,18 @@ ru:
       title: "Дневники пользователей | {{user}}"
       user_title: "Дневник {{user}}"
       leave_a_comment: "Оставить комментарий"
+      login_to_leave_a_comment: "{{login_link}}, чтобы оставить комментарий"
+      login: "Логин"
       save_button: "Сохранить"
     no_such_entry:
       heading: "Нет записи с id {{id}}"
       body: "К сожалению, запись или комментарий с id {{id}} не найдены. Проверьте правильность ввода адреса. Возможно, ссылка, по которой вы перешли, неверна."
     no_such_user:
+      title: "Нет такого пользователя"
+      heading: "Пользователь {{user}} не существует"
       body: "К сожалению, пользователь с именем {{user}} не найден. Проверьте правильность ввода. Возможно ссылка, по которой вы перешли, неверна."
     diary_entry:
-      posted_by: "Опубликовано пользователем {{link_user}} в {{created}}, язык записи — {{language_link}}"
+      posted_by: "Отправил {{link_user}} в {{created}}, язык: {{language_link}}"
       comment_link: Комментировать
       reply_link: Ответить
       comment_count:
@@ -286,64 +315,112 @@ ru:
       add_marker: "Добавить маркер на карту"
       view_larger_map: "Посмотреть бо&#769;льшую карту"
   geocoder:
-    search:
-      title:
-        latlon: 'Результаты из <a href="http://openstreetmap.org/">Internal</a>'
-        us_postcode: 'Результаты из <a href="http://geocoder.us/">Geocoder.us</a>'
-        uk_postcode: 'Результаты из <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>'
-        ca_postcode: 'Результаты из <a href="http://geocoder.ca/">Geocoder.CA</a>'
-        osm_namefinder: 'Результаты из <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>'
-        geonames: 'Результаты из <a href="http://www.geonames.org/">GeoNames</a>'
     results:
+      results: "Результаты"
+      type_from_source: "{{type}} из {{source_link}}"
       no_results: "Ничего не найдено"
   layouts:
+    project_name:
+      title: "OpenStreetMap"
+      h1: "OpenStreetMap"
+    logo:
+      alt_text: "Логотип OpenStreetMap"
     welcome_user: "Добро пожаловать, {{user_link}}"
+    welcome_user_link_tooltip: "Ваша страница пользователя"
     home: "домой"
+    home_tooltip: "Показать мой дом"
     inbox: "входящие ({{count}})"
+    inbox_tooltip:
+      zero: "В вашем ящике нет непрочитанных сообщений"
+      one: "В вашем ящике есть 1 новое сообщение"
+      other: "В вашем ящике есть {{count}} новых сообщен."
     logout: выйти
+    logout_tooltip: "Выйти"
     log_in: войти
+    log_in_tooltip: "Войти с существующим аккаунтом"
     sign_up: регистрация
+    sign_up_tooltip: "Создать аккаунт для редактирования"
     view: Карта
+    view_tooltip: "Посмотреть карты"
     edit: Правка
+    edit_tooltip: "Редактировать карты"
     history: История
+    history_tooltip: "История изменений"
     export: Экспорт
+    export_tooltip: "Экспортировать данные карты"
     gps_traces: GPS-треки
+    gps_traces_tooltip: "Работать с треками"
     user_diaries: Дневники пользователей
+    user_diaries_tooltip: "Посмотреть дневники пользователей"
     tag_line: Свободная Wiki-карта мира
     intro_1: "OpenStreetMap - это свободно редактируемая карта всего мира. Она сделана такими же людьми, как и вы."
     intro_2: "OpenStreetMap позволяет совместно просматривать, изменять и использовать географические данные в любой точке Земли"
     intro_3: "Услуги хостинга для OpenStreetMap предоставлены {{ucl}} и {{bytemark}}."
+    intro_3_ucl: "Центр UCL VR"
+    intro_3_bytemark: "bytemark"
     osm_offline: "База данных OpenStreetMap в данный момент не доступна, так как проводится необходимое техническое обслуживание."
     osm_read_only: "База данных OpenStreetMap в данный момент доступна только для чтения, так как проводится необходимое техническое обслуживание."
     donate: "Поддержите OpenStreetMap {{link}} в Фонд Обновления Оборудования."
     donate_link_text: пожертвованиями
-    help_wiki: "Помощь &amp; Вики"
+    help_wiki: "Справка и Вики"
+    help_wiki_tooltip: "Справка и сайт Вики"
+    help_wiki_url: "http://wiki.openstreetmap.org/wiki/RU:Main_Page"
     news_blog: "Блог новостей"
+    news_blog_tooltip: "Блог новостей OpenStreetMap, бесплатные геоданные, и т.д."
     shop: Магазин
+    shop_tooltip: "Магазин с фирменной символикой OpenStreetMap"
+    shop_url: "http://wiki.openstreetmap.org/wiki/Merchandise"
     sotm: 'Приглашаем на конференцию OpenStreetMap 2009, The State of the Map, проходящую 10-12 июля в Амстердаме!'
     alt_donation: Сделать пожертвование
   notifier:
     diary_comment_notification:
+      subject: "[OpenStreetMap] {{user}} оставил комментарий в вашем дневнике"
       banner1: "* Пожалуйста, не отвечайте на это сообщение. *"
       banner2: "* Для ответа используйте сайт OpenStreetMap. *"
       hi: "Привет, {{to_user}},"
       header: "{{from_user}} прокомментировал вашу запись в дневнике на OpenStreetMap с темой {{subject}}:"
-      footer: "Вы можете так же прочитать комментарий - {{readurl}}, оставить свой - {{commenturl}} или ответить - {{replyurl}}"
+      footer: "Вы можете также прочитать комментарий - {{readurl}}, оставить свой - {{commenturl}} или ответить - {{replyurl}}"
+    message_notification:
+      subject: "[OpenStreetMap] {{user}} прислал вам новое сообщение"
+      banner1: "* Пожалуйста, не отвечайте на это сообщение. *"
+      banner2: "* Для ответа используйте сайт OpenStreetMap. *"
+      hi: "Привет, {{to_user}},"
+      header: "{{from_user}} отправил вам сообщение с темой {{subject}} через OpenStreetMap:"
+      footer1: "Вы можете также прочитать сообщение - {{readurl}}"
+      footer2: "и вы можете ответить на {{replyurl}}"
     friend_notification:
+      subject: "[OpenStreetMap] {{user}} добавил вас в список своих друзей"
       had_added_you: "{{user}} добавил вас в друзья на OpenStreetMap."
       see_their_profile: "Вы можете просмотреть информацию о нем по ссылке: {{userurl}} и тоже добавить его в друзья."
+    gpx_notification:
+      greeting: "Привет,"
+      your_gpx_file: "Это выглядит как ваш файл GPX"
+      with_description: "с описанием"
+      and_the_tags: "и следующими тегами:"
+      and_no_tags: "и без тегов."
+      failure:
+        subject: "[OpenStreetMap] Сбой импорта GPX"
+        failed_to_import: "сбой импорта. Произошла ошибка:"
+        more_info_1: "Дополнительную информацию о сбое импорта GPX и о том, как избежать"
+        more_info_2: "сбой,  можно найти здесь: "
+        import_failures_url: "http://wiki.openstreetmap.org/wiki/GPX_Import_Failures"
+      success:
+        subject: "[OpenStreetMap] Импорт GPX прошёл успешно"
+        loaded_successfully: " |"
+    signup_confirm:
+      subject: "[OpenStreetMap] Подтвердите ваш адрес электронной почты"
     signup_confirm_plain:
       greeting: "Здравствуйте!"
       hopefully_you: "Кто-то (надеемся, что вы) хотел создать учетную запись на"
-      # Тут нас предупреждают, что следующий текст идет с форматированием
       click_the_link_1: "Если это действительно вы — добро пожаловать! Пожалуйста, перейдите по ссылке ниже, чтобы подтвердить"
-      click_the_link_2: "регистрацию и прочитать больше о OpenStreetMap."
+      click_the_link_2: "регистрацию и прочитать больше об OpenStreetMap."
       introductory_video: "Вы можете посмотреть ознакомительное видео об OpenStreetMap здесь:"
       more_videos: "Здесь ещё больше видео:"
       the_wiki: "Почитать об OpenStreetMap на wiki:"
+      the_wiki_url: "http://wiki.openstreetmap.org/wiki/RU:Beginners_Guide"
       opengeodata: "OpenGeoData.org — это блог OpenStreetMap, а ещё есть подкасты:"
       wiki_signup: "Вы также можете зарегистрироваться на OpenStreetMap wiki здесь:"
-      # next four translations are in pairs : please word wrap appropriately
+      wiki_signup_url: "http://wiki.openstreetmap.org/index.php?title=Special:UserLogin&type=signup&returnto=RU%3AMain_Page"
       user_wiki_1: "Рекомендуется создать свою страницу пользователя, включив в неё"
       user_wiki_2: "тег категории, описывающий ваше местонахождение, например: [[Category:Users_in_Moscow]]."
       current_user_1: "Список пользователей, основанный на их местонахождении,"
@@ -356,10 +433,40 @@ ru:
       video_to_openstreetmap: "ознакомительное видео об OpenStreetMap"
       more_videos: "Посмотрите {{more_videos_link}}."
       more_videos_here: "больше видео здесь"
-      get_reading: 'Узнайте больше об OpenStreetMap в <a href="http://wiki.openstreetmap.org/wiki/Ru:Beginners_Guide">Вики</a> или на <a href="http://www.opengeodata.org/">блоге OpenGeoData</a>, в котором еще можно послушать <a href="http://www.opengeodata.org/?cat=13">подкасты</a>!'
+      get_reading: 'Узнайте больше об OpenStreetMap в <a href="http://wiki.openstreetmap.org/wiki/Ru:Beginners_Guide">Вики</p> или на <a href="http://www.opengeodata.org/">блоге OpenGeoData</a>, в котором еще можно послушать <a href="http://www.opengeodata.org/?cat=13">подкасты</a>!'
       wiki_signup: 'Вы можете <a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Ru:Main_Page">зарегистрироваться на Вики OpenStreetMap</a>.'
       user_wiki_page: 'Рекомендуется создать свою страницу пользователя, включив в неё тег категории, описывающий ваше местонахождение, например: <a href="http://wiki.openstreetmap.org/wiki/Category:Users_in_Moscow">[[Category:Users_in_Moscow]]</a>.'
       current_user: 'Список пользователей, основанный на их местоположении, доступен здесь: <a href="http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region">Category:Users_by_geographical_region</a>.'
+    email_confirm:
+      subject: "[OpenStreetMap] Подтвердите ваш адрес электронной почты"
+    email_confirm_plain:
+      greeting: "Здравствуйте,"
+      hopefully_you_1: "Кто-то (надеемся, что вы) хочет изменить свой адрес электронной почты в  "
+      hopefully_you_2: "{{server_url}} на адрес: {{new_address}}."
+      click_the_link: "Если это вы, то перейдите по ссылке, расположенной ниже, чтобы подтвердить изменение."
+    email_confirm_html:
+      greeting: "Здравствуйте, "
+      hopefully_you: "Кто-то (надеемся, что вы) хочет изменить свой адрес электронной почты в {{server_url}} на адрес: {{new_address}}."
+      click_the_link: "Если это вы, то перейдите по ссылке, расположенной ниже, чтобы подтвердить изменение."
+    lost_password:
+      subject: "[OpenStreetMap] Запрос на смену пароля"
+    lost_password_plain:
+      greeting: "Здравствуйте,"
+      hopefully_you_1: "Кто-то (надеемся, что вы) запросил смену пароля для этого"
+      hopefully_you_2: "адреса электронной почты, зарегистрированного на openstreetmap.org."
+      click_the_link: "Если это вы, пожалуйста, перейдите по ссылке, указанной ниже, чтобы сменить ваш пароль."
+    lost_password_html:
+      greeting: "Здравствуйте,"
+      hopefully_you: "Кто-то (надеемся, что вы) запросил смену пароля для этого адреса электронной почты, зарегистрированного на openstreetmap.org."
+      click_the_link: "Если это вы, пожалуйста, перейдите по ссылке, указанной ниже, чтобы сменить ваш пароль."
+    reset_password:
+      subject: "[OpenStreetMap] Смена пароля"
+    reset_password_plain:
+      greeting: "Здравствуйте,"
+      reset: "Ваш пароль был заменён на {{new_password}}"
+    reset_password_html:
+      greeting: "Здравствуйте,"
+      reset: "Ваш пароль был заменён на {{new_password}}"
   message:
     inbox:
       title: "Входящие"
@@ -384,6 +491,7 @@ ru:
       back_to_inbox: "Назад ко входящим"
       message_sent: "Сообщение отправлено"
     no_such_user:
+      title: "Нет такого пользователя/сообщения"
       heading: "Нет такого пользователя/сообщения"
       body: "К сожалению, не удалось найти пользователя или сообщение с таким именем или идентификатором"
     outbox:
@@ -421,7 +529,9 @@ ru:
       license:
         notice: "Защищено лицензией {{license_name}} проектом {{project_name}} и его пользователями."
         license_name: "Creative Commons Attribution-Share Alike 2.0"
+        license_url: "http://creativecommons.org/licenses/by-sa/2.0/"
         project_name: "OpenStreetMap"
+        project_url: "http://openstreetmap.org"
     edit:
       not_public: "Вы не сделали свои правки публичными."
       not_public_description: "Вы не можете больше анонимно редактировать карту. Вы можете сделать ваши правки публичными здесь {{user_page}}."
@@ -438,9 +548,11 @@ ru:
       search: Поиск
       where_am_i: "Где я?"
       submit_text: "->"
+      searching: "Поиск..."
       search_help: "примеры: 'Alkmaar', 'Regent Street, Cambridge', 'CB2 5AQ', или 'post offices near LУМnen' <a href='http://wiki.openstreetmap.org/wiki/Search'>больше примеров...</a>"
     key:
       map_key: "Легенда"
+      map_key_tooltip: "Легенда для рендеринга mapnik на этом уровне масштаба"
   trace:
     create:
       upload_trace: "Выгрузить GPS-трек"
@@ -456,6 +568,8 @@ ru:
       tags: "Метки:"
       save_button: "Сохранить изменения"
     no_such_user:
+      title: "Нет такого пользователя"
+      heading: "Пользователь {{user}} не существует"
       body: "Извините, пользователя с именем {{user}} не существует. Пожалуйста, проверьте правильность написания. Возможно ссылка, по которой вы пришли, неверна."
     trace_form:
       upload_gpx: "Файл GPX"
@@ -463,7 +577,8 @@ ru:
       tags: "Метки"
       public: "Публичный?"
       upload_button: "Загрузить"
-      help: "Помощь"
+      help: "Справка"
+      help_url: "http://wiki.openstreetmap.org/wiki/RU:Upload"
     trace_header:
       see_just_your_traces: "Показать только ваши треки, либо выгрузить трек"
       see_all_traces: "Показать все треки"
@@ -487,7 +602,7 @@ ru:
       make_public: "Сделать этот трек публичным бессрочно"
       edit_track: "Редактировать свойства"
       delete_track: "Удалить трек"
-      heading: "Просмотр трека {{name}}"
+      viewing_trace: "Просмотр трека {{name}}"
       trace_not_found: "Трек не найден!"
     trace_paging_nav:
       showing: "Страница"
@@ -503,7 +618,7 @@ ru:
       edit_map: "Изменить карту"
       public: "ПУБЛИЧНЫЙ"
       private: "ЧАСТНЫЙ"
-      by: ""
+      by: "с помощью"
       in: "в"
       map: "карта"
     list:
@@ -554,6 +669,8 @@ ru:
       signup: Регистрация
       flash create success message: "Пользователь был создан удачно. Проверьте ваш email на наличие письма с подтверждением, нажмите на ссылку в нем и вы тут же сможете заняться внесением изменений :-)<br /><br />Обратите внимание, что вы не сможете войти, пока вы не подтвердите ваш адрес email.<br /><br />Если вы используете антиспам, который посылает запросы на подтверждение, тогда внесите адрес webmaster@openstreetmap.org в ваш белый список, так как мы не можем отвечать на такие запросы."
     no_such_user:
+      title: "Нет такого пользователя"
+      heading: "Пользователь {{user}} не существует"
       body: "Извините, нет такого пользователя с именем {{user}}. Пожалуйста, проверьте правильность ввода. Возможно ссылка, по которой вы пришли не верна."
     view:
       my diary: мой дневник
@@ -633,3 +750,4 @@ ru:
     remove_friend:
       success: "{{name}} удален из вашего списка друзей."
       not_a_friend: "{{name}} не является вашим другом."
+
