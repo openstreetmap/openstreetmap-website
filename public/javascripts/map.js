@@ -28,8 +28,7 @@ function createMap(divName, options) {
          new OpenLayers.Control.Attribution(),
          new OpenLayers.Control.LayerSwitcher(),
          new OpenLayers.Control.Navigation(),
-         new OpenLayers.Control.PanZoomBar(),
-         new OpenLayers.Control.ScaleLine()
+         new OpenLayers.Control.PanZoomBar()
       ],
       units: "m",
       maxResolution: 156543.0339,
