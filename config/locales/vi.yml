@@ -120,6 +120,7 @@ vi:
       edited_by: "Người Sửa đổi:"
       version: "Phiên bản:"
       in_changeset: "Thuộc bộ thay đổi:"
+      changeset_comment: "Miêu tả:"
     containing_relation:
       entry: "Quan hệ {{relation_name}}"
       entry_role: "Quan hệ {{relation_name}} (vai trò: {{relation_role}})"
@@ -153,6 +154,7 @@ vi:
         node: "nốt"
         way: "lối"
         relation: "quan hệ"
+        changeset: "bộ thay đổi"
     paging_nav:
       showing_page: "Đang hiện trang"
       of: "trong"
@@ -704,6 +706,11 @@ vi:
           destination: "Chỉ giao thông địa phương"
           construction: "Đường đang xây"
   trace:
+    visibility:
+      private: "Bí mật (chỉ hiển thị các điểm vô danh không có thứ tự)"
+      public: "Công khai (hiển thị trong danh sách tuyến đường là các điểm vô danh không có thứ tự)"
+      trackable: "Theo dõi được (chỉ hiển thị một dãy điểm vô danh có thời điểm)"
+      identifiable: "Nhận ra được (hiển thị trong danh sách tuyến đường là một dãy điểm có tên và thời điểm)"
     create:
       upload_trace: "Tải lên Tuyến đường GPS"
       trace_uploaded: "Tập tin GPX của bạn đã được tải lên và đang chờ được chèn vào cơ sở dữ liệu. Thường chỉ cần chờ đợi trong vòng nửa tiếng, và bạn sẽ nhận thư điện tử lúc khi nó xong."
@@ -722,6 +729,9 @@ vi:
       tags: "Thẻ:"
       tags_help: "dấu phẩy phân cách"
       save_button: "Lưu các Thay đổi"
+      visibility: "Mức độ truy cập:"
+      visibility_help: "có nghĩa là gì?"
+      visibility_help_url: "http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces?uselang=vi"
     no_such_user:
       title: "Người dùng không tồn tại"
       heading: "Người dùng {{user}} không tồn tại"
@@ -731,9 +741,9 @@ vi:
       description: "Miêu tả"
       tags: "Thẻ"
       tags_help: "dấu phẩy phân cách"
-      public: "Công khai?"
-      public_help: "có nghĩa là gì?"
-      public_help_url: "http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces?uselang=vi"
+      visibility: "Mức độ truy cập:"
+      visibility_help: "có nghĩa là gì?"
+      visibility_help_url: "http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces?uselang=vi"
       upload_button: "Tải lên"
       help: "Trợ giúp"
       help_url: "http://wiki.openstreetmap.org/wiki/Upload?uselang=vi"
@@ -759,10 +769,10 @@ vi:
       description: "Miêu tả:"
       tags: "Thẻ:"
       none: "Không có"
-      make_public: "Phát hành tuyến đường công khai thường trực"
       edit_track: "Sửa đổi tuyến đường này"
       delete_track: "Xóa tuyến đường này"
       trace_not_found: "Không tìm thấy tuyến đường!"
+      visibility: "Mức độ truy cập:"
     trace_paging_nav:
       showing: "Xem trang"
       of: "trong"
@@ -789,6 +799,73 @@ vi:
       scheduled_for_deletion: "Tuyến đường chờ được xóa"
     make_public:
       made_public: "Tuyến đường được phát hành công khai"
+  oauth:
+    oauthorize:
+      request_access: "Chương trình {{app_name}} xin phép truy cập tài khoản của bạn. Xin hãy chọn những khả năng mà bạn muốn cho chương trình này. Bạn có thể chọn nhiều hay ít khả năng tùy ý."
+      allow_to: "Cho phép trình khách:"
+      allow_read_prefs:  "truy cập tùy chọn cá nhân."
+      allow_write_prefs: "thay đổi tùy chọn cá nhân."
+      allow_write_diary: "tạo mục trong nhật ký, bình luận, và thêm người bạn."
+      allow_write_api:   "sửa đổi bản đồ."
+      allow_read_gpx:    "truy cập các tuyến đường GPS bí mật của bạn."
+      allow_write_gpx:   "tải lên tuyến đường GPS."
+    revoke:
+      flash: "Bạn đã thu hồi dấu của {{application}}"
+  oauth_clients:
+    new:
+      title: "Đăng ký chương trình mới"
+      submit: "Đăng ký"
+    edit:
+      title: "Sửa đổi chương trình của bạn"
+      submit: "Sửa đổi"
+    show:
+      title: "Chi tiết OAuth của {{app_name}}"
+      key: "Từ khóa Tiêu dùng:"
+      secret: "Mật khẩu Tiêu dùng:"
+      url: "URL của Dấu Yêu cầu:"
+      access_url: "URL của Dấu Truy cập:"
+      authorize_url: "Cho phép URL:"
+      support_notice: "Chúng tôi hỗ trợ mã hóa hmac-sha1 (khuyên dùng) cũng như văn bản thuần với chế độ ssl."
+      edit: "Sửa đổi Chi tiết"
+      requests: "Yêu cầu các khả năng của người dùng ở dưới:"
+      allow_read_prefs:  "truy cập tùy chọn cá nhân."
+      allow_write_prefs: "thay đổi tùy chọn cá nhân."
+      allow_write_diary: "tạo mục trong nhật ký, bình luận, và thêm người bạn."
+      allow_write_api:   "sửa đổi bản đồ."
+      allow_read_gpx:    "truy cập các tuyến đường GPS bí mật của họ."
+      allow_write_gpx:   "tải lên tuyến đường GPS."
+    index:
+      title: "Chi tiết OAuth của Tôi"
+      my_tokens: "Chương trình Tôi Cho phép"
+      list_tokens: "Các dấu ở dưới được gửi cho chương trình dùng tên của bạn:"
+      application: "Tên Chương trình"
+      issued_at: "Lúc Cho phép"
+      revoke: "Thu hồi!"
+      my_apps: "Trình khách của Tôi"
+      no_apps: "Bạn có muốn đăng ky chương trình của bạn với chúng tôi dùng tiêu chuẩn {{oauth}}? Bạn cần phải đăng ký chương trình Web trước khi gửi yêu cầu OAuth được."
+      registered_apps: "Các trình khá ở dưới đã được đăng ký:"
+      register_new: "Đăng ký chương trình của bạn"
+    form:
+      name: "Tên"
+      required: "Bắt buộc"
+      url: "URL Trang chủ Chương trình"
+      callback_url: "URL Gọi lại"
+      support_url: "URL Trợ giúp"
+      requests: "Yêu cầu các khả năng của người dùng ở dưới:"
+      allow_read_prefs:  "truy cập tùy chọn cá nhân."
+      allow_write_prefs: "thay đổi tùy chọn cá nhân."
+      allow_write_diary: "tạo mục trong nhật ký, bình luận, và thêm người bạn."
+      allow_write_api:   "sửa đổi bản đồ."
+      allow_read_gpx:    "truy cập các tuyến đường GPS bí mật của họ."
+      allow_write_gpx:   "tải lên tuyến đường GPS."
+    not_found:
+      sorry: "Rất tiếc, không tìm thấy {{type}} đó."
+    create:
+      flash: "Đã đăng ký thông tin thành công"
+    update:
+      flash: "Đã cập nhật thông tin trình khách thành công"
+    destroy:
+      flash: "Đã xóa đăng ký trình khách"
   user:
     login:
       title: "Đăng nhập"
