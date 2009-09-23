@@ -883,7 +883,7 @@ class AmfController < ApplicationController
   end
 
   def getlocales
-    Dir.glob("#{RAILS_ROOT}/config/potlatch/localised/*").collect { |f| File.basename(f) }
+    Dir.glob("#{RAILS_ROOT}/config/potlatch/locales/*").collect { |f| File.basename(f, ".yml") }
   end
   
   ##
