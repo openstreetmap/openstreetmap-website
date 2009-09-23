@@ -2,7 +2,7 @@
 use feature ':5.10';
 use strict;
 use warnings;
-use YAML::Syck qw(LoadFile);
+use YAML::Syck qw(Dump LoadFile);
 use Test::Differences;
 use Pod::Usage ();
 use Getopt::Long ();
@@ -69,6 +69,11 @@ Like C<--untranslated-values> but ignores blacklists.
 Check that interpolated Ruby i18n variables (C<{{foo}}> and
 C<[[foo]]>) are equivalent in the two provided files.
 
+=item --dump-flat
+
+Dump a flat version of the translation hash in YAML format,
+i.e. "foo.bar" instead of "{foo}->{bar}".
+
 =back
 
 =head1 AUTHOR
@@ -83,26 +88,37 @@ Getopt::Long::Parser->new(
 )->getoptions(
     'h|help' => \my $help,
     'keys' => \my $keys,
+    'dump-flat' => \my $dump_flat,
     'untranslated-values' => \my $untranslated_values,
     'untranslated-values-all' => \my $untranslated_values_all,
     'validate-variables' => \my $validate_variables,
 ) or help();
 
 # --keys is the default
-$keys = 1 if not $untranslated_values_all and not $untranslated_values and not $validate_variables;
+$keys = 1 if not $untranslated_values_all and not $untranslated_values and not $validate_variables and not $dump_flat;
 
 # On --help
 help() if $help;
 
 # If we're not given two .yml files
-help() if @ARGV != 2 or (!-f $ARGV[0] or !-f $ARGV[1]);
+help() if (@ARGV != 2 or (!-f $ARGV[0] or !-f $ARGV[1])) and not $dump_flat;
 
 my ($from, $to) = @ARGV;
 
 my $from_data = LoadFile($from);
-my $to_data   = LoadFile($to);
-
 my $from_parsed = { iterate($from_data->{fileparse($from, qr/\.[^.]*/)}) };
+
+if ($dump_flat)
+{
+    # Mark as UTF-8
+    map { utf8::decode($_) } values %$from_parsed;
+
+    print Dump $from_parsed;
+
+    exit 0;
+}
+
+my $to_data   = LoadFile($to);
 my $to_parsed = { iterate($to_data->{fileparse($to, qr/\.[^.]*/)}) };
 
 if ($keys)
