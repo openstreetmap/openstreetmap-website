@@ -226,7 +226,6 @@ class AmfController < ApplicationController
     # Get help from i18n but delete it so we won't pass it around
     # twice for nothing
     help = localised["help_html"]
-    help = 'foo'
     localised.delete("help_html")
 
     return POTLATCH_PRESETS+[localised,help]
