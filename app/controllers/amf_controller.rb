@@ -221,21 +221,34 @@ class AmfController < ApplicationController
     end
 
     lang = request.compatible_language_from(getlocales)
+    localised = getlocalized(lang)
 
-    begin
-      # if not, try the browser language
-      localised = YAML::load(File.open("#{RAILS_ROOT}/config/potlatch/localised/#{lang}/localised.yaml"))
-    rescue
-      # fall back to hardcoded English text
-      localised = ""
-    end
+    # Get help from i18n but delete it so we won't pass it around
+    # twice for nothing
+    help = localised["help_html"]
+    help = 'foo'
+    localised.delete("help_html")
 
-    begin
-      help = File.read("#{RAILS_ROOT}/config/potlatch/localised/#{lang}/help.html")
-    rescue
-      help = File.read("#{RAILS_ROOT}/config/potlatch/localised/en/help.html")
-    end
     return POTLATCH_PRESETS+[localised,help]
+  end
+
+  def getlocalized(lang)
+    en = YAML::load(File.open("#{RAILS_ROOT}/config/potlatch/locales/en.yml"))["en"]
+
+    if lang == 'en'
+      return en
+    else
+      # Use English as a fallback
+      begin
+        other = YAML::load(File.open("#{RAILS_ROOT}/config/potlatch/locales/#{lang}.yml"))[lang]
+      rescue
+        other = en
+      end
+
+      # We have to return a flat list and some of the keys won't be
+      # translated (probably)
+      return en.merge(other)
+    end
   end
 
   ##
