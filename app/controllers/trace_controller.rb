@@ -377,7 +377,7 @@ private
       end
     end
 
-    # Finally save the user's preferred previacy level
+    # Finally save the user's preferred privacy level
     if pref = @user.preferences.find(:first, :conditions => {:k => "gps.trace.visibility"})
       pref.v = visibility
       pref.save
