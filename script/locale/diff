@@ -111,7 +111,7 @@ my $from_parsed = { iterate($from_data->{fileparse($from, qr/\.[^.]*/)}) };
 if ($dump_flat)
 {
     # Mark as UTF-8
-    map { utf8::decode($_) } values %$from_parsed;
+    map { if (ref $_ eq 'ARRAY') { map { utf8::decode($_) } @$_ } else {  utf8::decode($_) } } values %$from_parsed;
 
     print Dump $from_parsed;
 
