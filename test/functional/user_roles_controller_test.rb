@@ -4,25 +4,35 @@ class UserRolesControllerTest < ActionController::TestCase
   fixtures :users, :user_roles
 
   test "grant" do
-    check_redirect(:grant, :public_user, "/403.html")
-    check_redirect(:grant, :moderator_user, "/403.html")
-    check_redirect(:grant, :administrator_user, {:controller => :user, :action => :view})
+    check_forbidden(:grant, :public_user)
+    check_forbidden(:grant, :moderator_user)
+    check_success(:grant, :administrator_user)
   end
 
   test "revoke" do
-    check_redirect(:revoke, :public_user, "/403.html")
-    check_redirect(:revoke, :moderator_user, "/403.html")
-    check_redirect(:revoke, :administrator_user, {:controller => :user, :action => :view})
+    check_forbidden(:revoke, :public_user)
+    check_forbidden(:revoke, :moderator_user)
+    check_success(:revoke, :administrator_user)
   end
 
-  def check_redirect(action, user, redirect)
+  def check_forbidden(action, user)
     UserRole::ALL_ROLES.each do |role|
       u = users(user)
       basic_authorization(u.email, "test")
       
       get(action, {:display_name => users(:second_public_user).display_name, :role => role}, {'user' => u.id})
       assert_response :redirect
-      assert_redirected_to redirect
+      assert_redirected_to "/403.html"
+    end
+  end
+
+  def check_success(action, user)
+    UserRole::ALL_ROLES.each do |role|
+      u = users(user)
+      basic_authorization(u.email, "test")
+      
+      get(action, {:display_name => users(:second_public_user).display_name, :role => role}, {'user' => u.id})
+      assert_response :success
     end
   end
 end
