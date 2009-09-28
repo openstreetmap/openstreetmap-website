@@ -1,0 +1,25 @@
+<h1><%= t('user_block.revoke.heading', 
+	:block_on => @user_block.user.display_name, 
+        :block_by => @user_block.moderator.display_name) %></h1>
+
+<% if @user_block.end_at > Time.now %>
+<p><b>
+  <%= t('user_block.revoke.time_future', :time => distance_of_time_in_words_to_now(@user_block.end_at)) %>
+</b></p>
+
+<% form_for :revoke, :url => { :action => "revoke" } do |f| %>
+  <%= f.error_messages %>
+<p>  
+  <%= check_box_tag 'confirm', 'yes' %>
+  <%= label_tag 'confirm', t('user_block.revoke.confirm') %>
+</p>
+<p>
+  <%= submit_tag t('user_block.revoke.revoke') %>
+</p>
+<% end %>
+
+<% else %>
+<p>
+  <%= t('user_block.revoke.past', :time => distance_of_time_in_words_to_now(@user_block.end_at)) %>
+</p>
+<% end %>

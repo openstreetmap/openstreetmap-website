@@ -1,5 +1,4 @@
 ActionController::Routing::Routes.draw do |map|
-
   # API
   map.connect "api/capabilities", :controller => 'api', :action => 'capabilities'
   map.connect "api/#{API_VERSION}/capabilities", :controller => 'api', :action => 'capabilities'
@@ -201,6 +200,14 @@ ActionController::Routing::Routes.draw do |map|
   map.request_token '/oauth/request_token', :controller => 'oauth', :action => 'request_token'
   map.access_token '/oauth/access_token', :controller => 'oauth', :action => 'access_token'
   map.test_request '/oauth/test_request', :controller => 'oauth', :action => 'test_request'
+
+  # roles and banning pages
+  map.connect '/user/:display_name/role/:role/grant', :controller => 'user_roles', :action => 'grant'
+  map.connect '/user/:display_name/role/:role/revoke', :controller => 'user_roles', :action => 'revoke'
+  map.connect '/user/:display_name/blocks', :controller => 'user_blocks', :action => 'blocks_on'
+  map.connect '/user/:display_name/blocks_by', :controller => 'user_blocks', :action => 'blocks_by'
+  map.resources :user_blocks, :as => 'blocks'
+  map.connect '/blocks/:id/revoke', :controller => 'user_blocks', :action => 'revoke'
 
   # fall through
   map.connect ':controller/:id/:action'
