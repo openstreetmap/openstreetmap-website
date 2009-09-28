@@ -1,635 +1,918 @@
-nl:
-  activerecord:
-    # Translates all the model names, which is used in error handling on the web site
-    models:
-      acl: "Access Control List" #to be translated
-      changeset: "Changeset"
-      changeset_tag: "Changeset-tag"
-      country: "Land"
-      diary_comment: "Dagboek-commentaar"
-      diary_entry: "Dagboek-artikel"
-      friend: "Vriend"
-      language: "Taal"
-      message: "Bericht"
-      node: "Node"
-      node_tag: "Node-tag"
-      notifier: "Melding" #good translation?
-      old_node: "Oude node"
-      old_node_tag: "Oude node-tag"
-      old_relation: "Oude relatie"
-      old_relation_member: "Oud lid van een relatie"
-      old_relation_tag: "Oude relatie-tag"
-      old_way: "Oude way"
-      old_way_node: "Oude node op een way"
-      old_way_tag: "Oude way-tag"
-      relation: "Relatie"
-      relation_member: "Lid van een relatie"
-      relation_tag: "Relatie-tag"
-      session: "Sessie"
-      trace: "Track"
-      tracepoint: "Trackpunt"
-      tracetag: "Track-tag"
-      user: "Gebruiker"
-      user_preference: "Gebruikersvoorkeuren"
-      user_token: "Gebruikers-id" #good translation?
-      way: "Way"
-      way_node: "Node op een way"
-      way_tag: "Way-tag"
-    # Translates all the model attributes, which is used in error handling on the web site
-    # Only the ones that are used on the web site are translated at the moment
-    attributes:
-      diary_comment:
-        body: "Tekst"
-      diary_entry:
-        user: "Gebruiker"
-        title: "Titel"
-        latitude: "Latitude"
-        longitude: "Longitude"
-        language: "Taal"
-      friend:
-        user: "Gebruiker"
-        friend: "Vriend"
-      trace:
-        user: "Gebruiker"
-        visible: "Zichtbaar"
-        name: "Naam"
-        size: "Grootte"
-        latitude: "Latitude"
-        longitude: "Longitude"
-        public: "Openbaar"
-        description: "Beschrijving"
-      message:
-        sender: "Afzender"
-        title: "Titel"
-        body: "Tekst"
-        recipient: "Ontvanger"
-      user:
-        email: "E-mail"
-        active: "Actief"
-        display_name: "Weergavenaam"
-        description: "Beschrijving"
-        languages: "Talen"
-        pass_crypt: "Wachtwoord"
-  map:
-    view: Bekijken
-    edit: Bewerken
-    coordinates: "Coördinaten:"
-  browse:
-    changeset:
-      title: "Changeset"
-      changeset: "Changeset: {{id}}"
-      download: "Download {{changeset_xml_link}} of {{osmchange_xml_link}}"
-      changesetxml: "Changeset-XML"
-      osmchangexml: "osmChange-XML"
-    changeset_details:
-      created_at: "Aangemaakt op:"
-      closed_at: "Gesloten op:"
+nl: 
+  activerecord: 
+    attributes: 
+      diary_comment: 
+        body: Tekst
+      diary_entry: 
+        language: Taal
+        latitude: Breedtegraad
+        longitude: Lengtegraad
+        title: Titel
+        user: Gebruiker
+      friend: 
+        friend: Vriend
+        user: Gebruiker
+      message: 
+        body: Tekst
+        recipient: Ontvanger
+        sender: Afzender
+        title: Titel
+      trace: 
+        description: Beschrijving
+        latitude: Breedtegraad
+        longitude: Lengtegraad
+        name: Naam
+        public: Openbaar
+        size: Grootte
+        user: Gebruiker
+        visible: Zichtbaar
+      user: 
+        active: Actief
+        description: Beschrijving
+        display_name: Weergavenaam
+        email: E-mail
+        languages: Talen
+        pass_crypt: Wachtwoord
+    models: 
+      acl: Rechtenoverzicht
+      changeset: Set wijzigingen
+      changeset_tag: Label van set wijzigingen
+      country: Land
+      diary_comment: Dagboekopmerking
+      diary_entry: Dagboekingave
+      friend: Vriend
+      language: Taal
+      message: Bericht
+      node: Node
+      node_tag: Nodelabel
+      notifier: Melding
+      old_node: Oude node
+      old_node_tag: Oud nodelabel
+      old_relation: Oude relatie
+      old_relation_member: Oud relatielid
+      old_relation_tag: Oud relatielabel
+      old_way: Oude weg
+      old_way_node: Oude node op een weg
+      old_way_tag: Oud weglabel
+      relation: Relatie
+      relation_member: Relatielid
+      relation_tag: Relatielabel
+      session: Sessie
+      trace: Track
+      tracepoint: Trackpunt
+      tracetag: Tracklabel
+      user: Gebruiker
+      user_preference: Gebruikersvoorkeuren
+      user_token: Gebruikersnummer
+      way: Weg
+      way_node: Wegnode
+      way_tag: Weglabel
+  browse: 
+    changeset: 
+      changeset: "Set wijzigingen: {{id}}"
+      changesetxml: Changeset-XML
+      download: "{{changeset_xml_link}} of {{osmchange_xml_link}} downloaden"
+      feed: 
+        title: Set wijzigingen {{id}}
+        title_comment: Set wijzigingen {{id}} - {{comment}}
+      osmchangexml: osmChange-XML
+      title: Set wijzigingen
+    changeset_details: 
       belongs_to: "Gemaakt door:"
-      bounding_box: "Rechthoek:" #good translation?
-      no_bounding_box: "Geen coördinaten opgeslagen voor deze changeset."
-      show_area_box: "Laat gebied zien"
-      box: "vak" #good translation?
-      has_nodes: "Bevat de volgende {{count}} nodes:"
+      bounding_box: "Selectiekader:"
+      box: kader
+      closed_at: "Gesloten op:"
+      created_at: "Aangemaakt op:"
+      has_nodes: 
+        one: "Heeft de volgende node:"
+        other: "Heeft de volgende {{count}} nodes:"
+      has_relations: 
+        other: "Heeft de volgende {{count}} relaties:"
       has_ways: "Bevat de volgende {{count}} ways:"
-      has_relations: "Bevat de volgende {{count}} relaties:"
+      no_bounding_box: Er is geen selectiekader opgeslagen voor deze set wijzigingen.
+      show_area_box: Gebied weergeven
+    changeset_navigation: 
+      all: 
+        next_tooltip: Volgende set wijzigingen
+        prev_tooltip: Vorige set wijzigingen
+      user: 
+        name_tooltip: Bewerkingen van {{user}} bekijken
+        next_tooltip: Volgende beweking door {{user}}
+        prev_tooltip: Vorige bewerking door {{user}}
     common_details: 
+      changeset_comment: "Opmerking:"
       edited_at: "Bewerkt op:"
       edited_by: "Bewerkt door:"
+      in_changeset: "In set wijzigingen:"
       version: "Versie:"
-      in_changeset: "In changeset:"
-    containing_relation:
-      entry: "Relatie {{relation_name}}"
-      entry_role: "Relatie {{relation_name}} (als {{relation_role}})"
-    map:
-      loading: "Laden..."
-      deleted: "Verwijderd"
-    node_details:
-      coordinates: "Coördinaten:"
-      part_of: "Part of:" #to be translated
-    node_history:
-      node_history: "Node-geschiedenis"
-      download: "{{download_xml_link}} of {{view_details_link}}"
-      download_xml: "Download XML"
-      view_details: "details zien"
-    node:
-      node: "Node"
+    containing_relation: 
+      entry: Relatie {{relation_name}}
+      entry_role: Relatie {{relation_name}} (als {{relation_role}})
+    map: 
+      deleted: Verwijderd
+      larger: 
+        area: Gebied op grotere kaart bekijken
+        node: Node op grotere kaart bekijken
+        relation: Relatie op grotere kaart bekijken
+        way: Weg op grotere kaart bekijken
+      loading: Bezig met laden...
+    node: 
+      download: "{{download_xml_link}} of {{view_history_link}}"
+      download_xml: XML downloaden
+      edit: bewerken
+      node: Node
       node_title: "Node: {{node_name}}"
-      download: "{{download_xml_link}} of {{view_history_link}}"
-      download_xml: "Download XML"
-      view_history: "geschiedenis zien"
-    not_found:
-      sorry: "Sorry, de {{type}} met id {{id}} kan niet worden gevonden."
-    paging_nav:
-      showing_page: "Pagina"
-      of: "van"
-    relation_details:
-      members: "Leden:"
-      part_of: "Deel van:" #good translation?
-    relation_history:
-      relation_history: "Relatie-geschiedenis"
-      relation_history_title: "Relatie-geschiedenis: {{relation_name}}"
-    relation:
-      relation: "Relatie"
-      relation_title: "Relatie: {{relation_name}}"
-      download: "{{download_xml_link}} of {{view_history_link}}"
-      download_xml: "Download XML"
-      view_history: "geschiedenis zien"
-    start:
-      view_data: "Gegevens voor de huidige kaartweergave weergeven"
-      manually_select: "Handmatig een ander gebied selecteren"
-    start_rjs:
-      data_frame_title: "Gegevens"
-      zoom_or_select: "Zoom in of selecteer een gebied van de kaart om te zien"
-      drag_a_box: "Sleep een rechthoek op de kaart om een gebied te selecteren"
-      manually_select: "Selecteer handmatig een ander gebied"
-      loaded_an_area_with_num_features: "Je hebt een gebied geladen dat [[num_features]] objecten bevat. In het algemeen kunnen sommige browsers niet goed overweg met zoveel gegevens. Normaal gesproken werken browsers het best met minder dan 100 objecten: als je meer weergeeft kan de browser traag worden of niet meer reageren. Als je zeker weet dat je de gegevens wilt laten zien, kan dat met de knop hieronder."
-      load_data: "Gegevens laden"
-      unable_to_load_size: "Niet mogelijk om te laden: rechthoek ([[bbox_size]]) is te groot (moet kleiner zijn dan {{max_bbox_size}})"
-      loading: "Laden..."
-      show_history: "Geschiedenis weergeven"
-      wait: "Een ogenblik geduld a.u.b..."
-      history_for_feature: "Geschiedenis voor [[feature]]"
-      details: "Details"
-      private_user: "private user" #to be translated
-      edited_by_user_at_timestamp: "Bewerkt door [[user]] op [[timestamp]]"
-    tag_details:
-      tags: "Tags:"
-    way_details:
-      nodes: "Nodes:"
-      part_of: "Deel van:"
-      also_part_of:
-        one: "Ook deel van way {{related_ways}}"
-        other: "Ook deel van ways {{related_ways}}"
-    way_history:
-      way_history: "Way-geschiedenis"
-      way_history_title: "Way-geschiedenis: {{way_name}}"
+      view_history: geschiedenis bekijken
+    node_details: 
+      coordinates: "Coördinaten:"
+      part_of: "Onderdeel van:"
+    node_history: 
       download: "{{download_xml_link}} of {{view_details_link}}"
-      download_xml: "Download XML"
-      view_details: "details weergeven"
-    way:
-      way: "Way"
-      way_title: "Way: {{way_name}}"
+      download_xml: XML downloaden
+      node_history: Nodegeschiedenis
+      node_history_title: "Nodegeschiedenis: {{node_name}}"
+      view_details: details weergeven
+    not_found: 
+      sorry: Sorry, de {{type}} met id {{id}} kan niet worden gevonden.
+      type: 
+        changeset: set wijzigingen
+        node: node
+        relation: relatie
+        way: weg
+    paging_nav: 
+      of: van
+      showing_page: Bezig met weergeven van pagina
+    relation: 
       download: "{{download_xml_link}} of {{view_history_link}}"
-      download_xml: "Download XML"
-      view_history: "geschiedenis weergeven"
-  changeset:
+      download_xml: XML downloaden
+      relation: Relatie
+      relation_title: "Relatie: {{relation_name}}"
+      view_history: geschiedenis weergeven
+    relation_details: 
+      members: "Leden:"
+      part_of: "Onderdeel van:"
+    relation_history: 
+      download: "{{download_xml_link}} of {{view_details_link}}"
+      download_xml: XML downloaden
+      relation_history: Relatiegeschiedenis
+      relation_history_title: "Relatiegeschiedenis: {{relation_name}}"
+      view_details: details bekijken
+    relation_member: 
+      entry_role: "{{type}} {{name}} als {{role}}"
+      type: 
+        node: Node
+        relation: Relatie
+        way: Weg
+    start: 
+      manually_select: Handmatig een ander gebied selecteren
+      view_data: Gegevens voor de huidige kaartweergave weergeven
+    start_rjs: 
+      data_frame_title: Gegevens
+      data_layer_name: Gegevens
+      details: Details
+      drag_a_box: Sleep een rechthoek op de kaart om een gebied te selecteren
+      edited_by_user_at_timestamp: Bewerkt door [[user]] op [[timestamp]]
+      history_for_feature: Geschiedenis voor [[feature]]
+      load_data: Gegevens laden
+      loaded_an_area_with_num_features: U hebt een gebied geladen dat [[num_features]] objecten bevat. Sommige browsers kunnen niet goed overweg met zoveel gegevens. Normaal gesproken werken browsers het best met minder dan honderd objecten. Als u er meer weergeeft kan de browser traag worden of niet meer reageren. Als u zeker weet dat u de gegevens wilt weergeven, klik dan op de knop hieronder.
+      loading: Bezig met laden...
+      manually_select: Handmatig een ander gebied selecteren
+      object_list: 
+        api: Dit gebied via de API ophalen
+        back: Objectenlijst weergeven
+        details: Details
+        heading: Objectenlijst
+        history: 
+          type: 
+            node: Node [[id]]
+            way: Weg [[id]]
+        selected: 
+          type: 
+            node: Node [[id]]
+            way: Weg [[id]]
+        type: 
+          node: Node
+          way: Weg
+      private_user: private gebruiker
+      show_history: Geschiedenis weergeven
+      unable_to_load_size: Laden is niet mogelijk. Het selectiekader van [[bbox_size]] is te groot. Het moet kleiner zijn dan {{max_bbox_size}}
+      wait: Een ogenblik geduld alstublieft...
+      zoom_or_select: Inzoomen of een gebied van de kaart selecteren om te bekijken
+    tag_details: 
+      tags: "Labels:"
+    way: 
+      download: "{{download_xml_link}} of {{view_history_link}}"
+      download_xml: XML downloaden
+      edit: bewerken
+      view_history: geschiedenis weergeven
+      way: Weg
+      way_title: "Weg: {{way_name}}"
+    way_details: 
+      also_part_of: 
+        one: ook onderdeel van weg {{related_ways}}
+        other: ook deel van ways {{related_ways}}
+      nodes: "Nodes:"
+      part_of: "Onderdeel van:"
+    way_history: 
+      download: "{{download_xml_link}} of {{view_details_link}}"
+      download_xml: XML downloaden
+      view_details: details weergeven
+      way_history: Weggeschiedenis
+      way_history_title: "Weggeschiedenis: {{way_name}}"
+  changeset: 
+    changeset: 
+      anonymous: Anoniem
+      big_area: (groot)
+      no_comment: (geen)
+      no_edits: (geen bewerkingen)
+      show_area_box: toon rechthoek
+      still_editing: (nog aan het bewerken)
+      view_changeset_details: Details wijzigingenset weergeven
     changeset_paging_nav: 
-      showing_page: "Pagina"
-      of: "van"
-    changeset:
-      still_editing: "(nog aan het bewerken)"
-      anonymous: "Anoniem"
-      no_comment: "(geen)"
-      no_edits: "(geen aanpassingen)"
-      show_area_box: "toon rechthoek"
-      big_area: "(groot)"
-      view_changeset_details: "Toon changeset-details"
-    changesets:
-      id: "ID"
-      saved_at: "Opgeslagen op"
-      user: "Gebruiker"
-      comment: "Commentaar"
-      area: "Gebied"
-    list_bbox:
-      history: "Geschiedenis"
-      changesets_within_the_area: "Changesets binnen het gebied:"
-      show_area_box: "rechthoek weergeven"
-      no_changesets: "Geen changesets"
-      all_changes_everywhere: "Voor alle aanpassingen over de hele wereld zie {{recent_changes_link}}"
-      recent_changes: "Recente wijzigingen"
-      no_area_specified: "Geen gebied opgegeven"
-      first_use_view: "Gebruik eerst de {{view_tab_link}} om te schuiven en te zoomen naar het gebied waarin je geïnteresseerd bent, klik dan op de Geschiedenis-tab."
-      view_the_map: "Bekijk de kaart"
-      view_tab: "Bekijken-tab"
-      alternatively_view: "Of bekijk alle {{recent_changes_link}}"
-    list:
-      recent_changes: "recente wijzigingen"
-      recently_edited_changesets: "Recent gewijzigde changesets:"
-      for_more_changesets: "Selecteer een gebruiker en bekijk de aanpassingen of zie de aanpas-geschiedenis van een specifiek gebied voor meer changesets."
-    list_user:
-      edits_by_username: "Aanpassingen door {{username_link}}"
-      no_visible_edits_by: "Geen zichtbare aanpassingen door {{name}}."
-      for_all_changes: "Voor aanpassingen door alle gebruikers, zie {{recent_changes_link}}"
-      recent_changes: "Recente wijzigingen"
-  diary_entry:
-    new:
-      title: Nieuw dagboek-artikel
-    list:
-      title: "Gebruikersdagboeken"
-      user_title: "Dagboek van {{user}}"
-      new: Nieuw dagboek-artikel
-      new_title: Nieuw artikel in je dagboek zetten
-      no_entries: Geen dagboek-artikelen
-      recent_entries: "Recente dagboek-artikelen:"
-      older_entries: Oudere artikelen
-      newer_entries: Nieuwere artikelen
-    edit:
-      title: "Dagboek-artikel aanpassen"
-      subject: "Onderwerp:"
+      of: van
+      showing_page: Bezig met weergeven van pagina
+    changesets: 
+      area: Gebied
+      comment: Opmerking
+      id: ID
+      saved_at: Opgeslagen op
+      user: Gebruiker
+    list: 
+      description: Recente wijzigingen
+      description_bbox: Wijzigingensets binnen {{bbox}}
+      description_user: Wijzigingensets door {{user}}
+      description_user_bbox: Wijzigingensets door {{user}} binnen {{bbox}}
+      heading: Wijzigingensets
+      heading_bbox: Wijzigingensets
+      heading_user: Wijzigingensets
+      heading_user_bbox: Wijzigingensets
+      title: Wijzigingensets
+      title_bbox: Wijzigingensets binnen {{bbox}}
+      title_user: Wijzigingensets door {{user}}
+      title_user_bbox: Wijzigingensets door {{user}} binnen {{bbox}}
+  diary_entry: 
+    diary_comment: 
+      comment_from: Reactie van {{link_user}}  op {{comment_created_at}}
+    diary_entry: 
+      comment_count: 
+        one: 1 reactie
+        other: "{{count}} reacties"
+      comment_link: Reactie op deze ingave geven
+      edit_link: Deze ingave bewerken
+      posted_by: Geplaatst door {{link_user}} op {{created}} in het {{language_link}}
+      reply_link: Op deze ingave reageren
+    edit: 
       body: "Tekst:"
       language: "Taal:"
+      latitude: "Breedtegraad:"
       location: "Locatie:"
-      latitude: "Latitude:"
-      longitude: "Longitude:"
-      use_map_link: "gebruik kaart"
-      save_button: "Opslaan"
-      marker_text: Locatie van het artikel
-    view:
-      title: "Gebruikersdagboeken | {{user}}"
-      user_title: "Dagboek van {{user}}"
-      leave_a_comment: "Commentaar achterlaten"
-      save_button: "Opslaan"
-    no_such_entry:
-      heading: "Geen invoer met id {{id}}"
-      body: "Sorry, er is geen dagboek-artikel of commentaar met {{id}}. Controleer de spelling, of misschien is de link waarop je geklikt hebt verkeerd."
-    no_such_user:
-      body: "Sorry, er is geen gebruiker met de naam {{user}}. Controleer de spelling, of misschien is de link waarop je geklikt hebt verkeerd."
-    diary_entry:
-      posted_by: "Geplaatst door {{link_user}} op {{created}} in het {{language_link}}"
-      comment_link: Opmerking over dit artikel plaatsen
-      reply_link: Antwoorden op dit artikel
-      comment_count:
-        one: 1 opmerking
-        other: "{{count}} opmerkingen"
-      edit_link: Dit artikel bewerken
-    diary_comment:
-      comment_from: "Opmerking van {{link_user}}  op {{comment_created_at}}"
-  export:
-    start:
-      area_to_export: "Gebied om te exporteren"
-      manually_select: "Handmatig een ander gebied selecteren"
-      format_to_export: "Bestandsformaat"
-      osm_xml_data: "OpenStreetMap XML-gegevens"
-      mapnik_image: "Mapnik-afbeelding"
-      osmarender_image: "Osmarender-afbeelding"
-      embeddable_html: "HTML-code"
-      licence: "Licentie"
-      export_details: 'OpenStreetMap-gegevens zijn gelicenseerd onder de <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative Commons Attribution-ShareAlike 2.0 licentie</a>.'
-      options: "Opties"
-      format: "Formaat"
-      scale: "Schaal"
-      max: "max"
-      image_size: "Afbeeldingsgrootte"
-      zoom: "Zoom"
-      add_marker: "Marker op de kaart zetten"
-      latitude: "Lat:"
-      longitude: "Lon:"
-      output: "Uitvoer"
-      paste_html: "Kopieer de HTML-code en plak hem in je website."
-      export_button: "Export"
-    start_rjs:
-      export: "Exporteren"
-      drag_a_box: "Sleep een rechthoek op de kaart om een gebied te selecteren"
-      manually_select: "Handmatig een ander gebied selecteren"
-      click_add_marker: "Klik op de kaart om een marker te plaatsen"
-      change_marker: "Positie van de marker veranderen"
-      add_marker: "Marker op de kaart zetten"
-      view_larger_map: "Grotere kaart zien"
-  geocoder:
-    search:
-      title:
-        latlon: 'Resultaten van <a href="http://openstreetmap.org/">Internal</a>'
-        us_postcode: 'Resultaten van <a href="http://geocoder.us/">Geocoder.us</a>'
-        uk_postcode: 'Resultaten van <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>'
-        ca_postcode: 'Resultaten van <a href="http://geocoder.ca/">Geocoder.CA</a>'
-        osm_namefinder: 'Resultaten van <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>'
-        geonames: 'Resultaten van <a href="http://www.geonames.org/">GeoNames</a>'
-    results:
-      no_results: "Geen resultaten gevonden"
-  layouts:
-    welcome_user: "Welkom, {{user_link}}"
-    home: "home"
-    inbox: "Postvak IN ({{count}})"
-    logout: uitloggen
-    log_in: inloggen
-    sign_up: registreren
-    view: Bekijken
-    edit: Bewerken
-    history: Geschiedenis
-    export: Exporteren
-    gps_traces: GPS-tracks
-    user_diaries: Gebruikersdagboeken
-    tag_line: De vrije wiki-wereldkaart
-    intro_1: "OpenStreetMap is een vrij bewerkbare kaart van de hele wereld. Hij wordt gemaakt door mensen zoals jij."
-    intro_2: "Met OpenStreetMap kun je geografische gegevens van de hele aarde zien, bewerken en gebruiken op een collaboratieve manier"
-    intro_3: "De hosting van OpenStreetMap wordt ondersteund door het {{ucl}} en {{bytemark}}."
-    osm_offline: "De OpenStreetMap-database is momenteel offline terwijl noodzakelijke onderhoudswerkzaamheden aan de database worden uitgevoerd."
-    osm_read_only: "De OpenStreetMap-database is momenteel alleen-lezen terwijl noodzakelijke onderhoudswerkzaamheden aan de database worden uitgevoerd."
-    donate: "Ondersteun OpenStreetMap door te {{link}} aan het Hardware Upgrade-fonds."
+      longitude: "Lengtegraad:"
+      marker_text: Locatie van ingave
+      save_button: Opslaan
+      subject: "Onderwerp:"
+      title: Dagboekingave bewerken
+      use_map_link: kaart gebruiken
+    feed: 
+      all: 
+        description: Recente dagboekingaven van OpenStreetMap-gebruikers
+        title: OpenStreetMap dagboekingaven
+      language: 
+        description: Recente dagboekingaven van OpenStreetMap-gebruikers in het {{language_name}}
+        title: OpenStreetMap dagboekingaven in het {{language_name}}
+      user: 
+        description: Recente OpenStreetMap dagboekingaven van {{user}}
+        title: OpenStreetMap dagboekingaven van {{user}}
+    list: 
+      in_language_title: Dagboekingaven in het {{language}}
+      new: Nieuwe dagboekingave
+      new_title: Nieuw artikel in je dagboek zetten
+      newer_entries: Nieuwere ingaven
+      no_entries: Geen dagboekingaven
+      older_entries: Oudere ingaven
+      recent_entries: "Recente dagboekingaven:"
+      title: Gebruikersdagboeken
+      user_title: Dagboek van {{user}}
+    new: 
+      title: Nieuwe dagboekingave
+    no_such_entry: 
+      body: Sorry, er is geen dagboekingave of opmerking met het id {{id}}. Controleer de spelling, of misschien is de verwijzing waarop u geklikt hebt onjuist.
+      heading: De ingave met het id {{id}} bestaat niet
+      title: De opgevraagde dagboekingave bestaat niet
+    no_such_user: 
+      body: Sorry, er is geen gebruiker met de naam {{user}}. Controleer de spelling, of misschien is de verwijzing waarop u geklikt hebt onjuist.
+      heading: De gebruiker {{user}} bestaat niet
+      title: De opgevraagde gebruiker bestaat niet
+    view: 
+      leave_a_comment: Opmerking achterlaten
+      login: aanmelden
+      login_to_leave_a_comment: U moet moet zich {{login_link}} om te kunnen reageren
+      save_button: Opslaan
+      title: Gebruikersdagboeken | {{user}}
+      user_title: Dagboek van {{user}}
+  export: 
+    start: 
+      add_marker: Marker op de kaart zetten
+      area_to_export: Te exporteren gebied
+      embeddable_html: HTML-code
+      export_button: Exporteren
+      export_details: OpenStreetMap-gegevens zijn gelicenseerd onder de licentie <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative Commons Naamsvermelding-Gelijk delen 2.0</a>.
+      format: Formaat
+      format_to_export: Bestandsformaat
+      image_size: Afbeeldingsgrootte
+      latitude: "Breedte:"
+      licence: Licentie
+      longitude: "Lengte:"
+      manually_select: Handmatig een ander gebied selecteren
+      mapnik_image: Mapnik-afbeelding
+      max: max
+      options: Instellingen
+      osm_xml_data: OpenStreetMap XML-gegevens
+      osmarender_image: Osmarender-afbeelding
+      output: Uitvoer
+      paste_html: Kopieer de HTML-code en voeg deze toe aan uw website
+      scale: Schaal
+      zoom: Zoom
+    start_rjs: 
+      add_marker: Marker op de kaart zetten
+      change_marker: Positie van de marker veranderen
+      click_add_marker: Klik op de kaart om een marker te plaatsen
+      drag_a_box: Sleep een selectiekader op de kaart om een gebied te selecteren
+      export: Exporteren
+      manually_select: Handmatig een ander gebied selecteren
+      view_larger_map: Grotere kaart bekijken
+  geocoder: 
+    description: 
+      title: 
+        geonames: Locatie van <a href="http://www.geonames.org/">GeoNames</a>
+        osm_namefinder: "{{types}} van <a href=\"http://gazetteer.openstreetmap.org/namefinder/\">OpenStreetMap Namefinder</a>"
+      types: 
+        cities: Steden
+        places: Plaatsen
+        towns: Steden
+    description_osm_namefinder: 
+      prefix: "{{distance}} {{direction}} van {{type}}"
+    direction: 
+      east: oost
+      north: noord
+      north_east: noordoost
+      north_west: noordwest
+      south: zuid
+      south_east: zuidoost
+      south_west: zuidwest
+      west: west
+    distance: 
+      one: ongeveer 1 km.
+      other: ongeveer {{count}} km.
+      zero: minder dan 1 km.
+    results: 
+      no_results: Geen resultaten gevonden
+    search: 
+      title: 
+        ca_postcode: Resultaten van <a href="http://geocoder.ca/">Geocoder.CA</a>
+        geonames: Resultaten van <a href="http://www.geonames.org/">GeoNames</a>
+        latlon: Resultaten van <a href="http://openstreetmap.org/">intern</a>
+        osm_namefinder: Resultaten van <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>
+        uk_postcode: Resultaten van <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
+        us_postcode: Resultaten van <a href="http://geocoder.us/">Geocoder.us</a>
+    search_osm_namefinder: 
+      suffix_parent: "{{suffix}} ({{parentdistance}} {{parentdirection}} van {{parentname}})"
+      suffix_place: ", {{distance}} {{direction}} van {{placename}}"
+  layouts: 
+    alt_donation: Doneren
+    donate: Ondersteun OpenStreetMap door te {{link}} aan het Hardware Upgrade-fonds.
     donate_link_text: doneren
-    help_wiki: "Help &amp; Wiki"
-    news_blog: "Nieuwsblog"
+    edit: Bewerken
+    edit_tooltip: Kaarten bewerken
+    export: Exporteren
+    export_tooltip: Kaartgegevens exporteren
+    gps_traces: GPS-tracks
+    gps_traces_tooltip: Tracks beheren
+    help_wiki: Help &amp; Wiki
+    help_wiki_tooltip: Help en wikisite voor het project
+    history: Geschiedenis
+    history_tooltip: Wijzigingensetgeschiedenis
+    home: home
+    home_tooltip: Naar thuislocatie gaan
+    inbox: Postvak IN ({{count}})
+    inbox_tooltip: 
+      one: Uw Postvak IN bevat 1 ongelezen bericht
+      other: Uw Postvak IN bevat {{count}} ongelezen berichten
+      zero: Uw Postvak IN bevat geen nieuwe berichten
+    intro_1: OpenStreetMap is een vrij bewerkbare kaart van de hele wereld. Hij wordt gemaakt door mensen zoals u.
+    intro_2: Met OpenStreetMap kunt u geografische gegevens van de hele aarde bekijken, samen bewerken en gebruiken.
+    intro_3: De hosting van OpenStreetMap wordt ondersteund door {{ucl}} en {{bytemark}}.
+    log_in: aanmelden
+    log_in_tooltip: Aanmelden met bestaande gebruiker
+    logo: 
+      alt_text: Logo OpenStreetMap
+    logout: afmelden
+    logout_tooltip: Afmelden
+    news_blog: Nieuwsblog
+    news_blog_tooltip: Nieuwsblog over OpenStreetMap, vrije geografische gegevens, enzovoort
+    osm_offline: De OpenStreetMap-database is op het moment niet beschikbaar wegens het uitvoeren van onderhoudswerkzaamheden.
+    osm_read_only: De OpenStreetMap-database kan op het moment niet gewijzigd worden wegens het uitvoeren van onderhoudswerkzaamheden.
     shop: Winkel
-    sotm: 'Kom naar de OpenStreetMap-conferentie, de State of the Map, op 10-12 juli 2009 in Amsterdam!'
-    alt_donation: Doneer
-  notifier:
-    diary_comment_notification:
+    shop_tooltip: Winkel met OpenStreetMap-producten
+    sign_up: registreren
+    sign_up_tooltip: Gebruiker voor bewerken aanmaken
+    sotm: Kom naar de OpenStreetMap-conferentie, de State of the Map, op 10-12 juli 2009 in Amsterdam!
+    tag_line: De vrije wikiwereldkaart
+    user_diaries: Gebruikersdagboeken
+    user_diaries_tooltip: Gebruikersdagboeken bekijken
+    view: Bekijken
+    view_tooltip: Kaarten bekijken
+    welcome_user: Welkom, {{user_link}}
+    welcome_user_link_tooltip: Uw gebruikerspagina
+  map: 
+    coordinates: "Coördinaten:"
+    edit: Bewerken
+    view: Bekijken
+  message: 
+    delete: 
+      deleted: Het bericht is verwijderd
+    inbox: 
+      date: Datum
+      from: Van
+      my_inbox: Mijn Postvak IN
+      no_messages_yet: U hebt nog geen berichten. Waarom legt u geen contact met {{people_mapping_nearby_link}}?
+      outbox: Postvak UIT
+      people_mapping_nearby: dichtbijzijnde mappers
+      subject: Onderwerp
+      title: Postvak IN
+      you_have: U hebt {{new_count}} nieuwe berichten en {{old_count}} oude berichten
+    mark: 
+      as_read: Gemarkeerd als gelezen
+      as_unread: Gemarkeerd als ongelezen
+    message_summary: 
+      delete_button: Verwijderen
+      read_button: Markeren als gelezen
+      reply_button: Beantwoorden
+      unread_button: Markeren als ongelezen
+    new: 
+      back_to_inbox: Terug naar Postvak IN
+      body: Tekst
+      message_sent: Bericht verzonden
+      send_button: Verzenden
+      send_message_to: Nieuw bericht naar {{name}} verzenden
+      subject: Onderwerp
+      title: Bericht verzenden
+    no_such_user: 
+      body: Sorry, er is geen gebruiker of bericht met die naam of id
+      heading: Deze gebruiker of dit bericht bestaat niet
+      title: De gebruiker of het bericht bestaat niet
+    outbox: 
+      date: Datum
+      inbox: Postvak IN
+      my_inbox: Mijn {{inbox_link}}
+      no_sent_messages: U hebt nog geen berichten verzonden. Waarom legt u geen contact met {{people_mapping_nearby_link}}?
+      outbox: Postvak UIT
+      people_mapping_nearby: dichtbijzijnde mappers
+      subject: Onderwerp
+      title: Postvak UIT
+      to: Aan
+      you_have_sent_messages: U hebt {{sent_count}} verzonden berichten
+    read: 
+      back_to_inbox: Terug naar Postvak IN
+      back_to_outbox: Terug naar Postvak UIT
+      date: Datum
+      from: Van
+      reading_your_messages: Bezig met het lezen van uw berichten
+      reading_your_sent_messages: Bezig met het lezen van uw verzonden berichten
+      reply_button: Beantwoorden
+      subject: Onderwerp
+      title: Bericht lezen
+      to: Aan
+      unread_button: Markeren als ongelezen
+    sent_message_summary: 
+      delete_button: Verwijderen
+  notifier: 
+    diary_comment_notification: 
       banner1: "*                       Graag niet antwoorden op deze mail.                      *"
       banner2: "*                Gebruik de OpenStreetMap-site om te antwoorden.                 *"
-      hi: "Hallo {{to_user}},"
-      header: "{{from_user}} heeft een opmerking gepost over je recente OpenStreetMap dagboek-artikel met het onderwerp {{subject}}:"
-      footer: "Je kunt de opmerking ook lezen op {{readurl}} en je kunt een opmerking terugschrijven op {{commenturl}} of antwoorden op {{replyurl}}"
-    friend_notification:
-      had_added_you: "{{user}} heeft je toegevoegd als vriend op OpenStreetMap."
-      see_their_profile: "Je kunt zijn/haar profiel zien op {{userurl}} en deze ook als vriend toevoegen."
-    signup_confirm_plain:
-      greeting: "Hallo!"
-      hopefully_you: "Iemand (waarschijnlijk jij) wil een account aanmaken op"
-      # next two translations run-on : please word wrap appropriately
-      click_the_link_1: "Als jij dat bent, welkom! Volg de link beneden om je account te bevestigen"
-      click_the_link_2: "en om meer informatie over OpenStreetMap te krijgen."
-      introductory_video: "Je kunt hier een introductievideo over OpenStreetMap zien:"
-      more_videos: "Er zijn nog meer video's hier:"
-      the_wiki: "Lees over OpenStreetMap op de wiki:"
+      footer: U kunt de reactie ook lezen op {{readurl}} en u kunt zelf ook reageren op {{commenturl}} of antwoorden op {{replyurl}}
+      header: "{{from_user}} heeft een reactie geplaatst bij uw recente OpenStreetMap-dagboekingave met het onderwerp {{subject}}:"
+      hi: Hallo {{to_user}},
+      subject: "[OpenStreetMap] {{user}} heeft een reactie bij uw dagboek geplaatst"
+    email_confirm: 
+      subject: "[OpenStreetMap] Bevestig uw e-mailadres"
+    email_confirm_html: 
+      greeting: Hallo,
+    email_confirm_plain: 
+      greeting: Hallo,
+      hopefully_you_2: "{{server_url}} naar {{new_address}}."
+    friend_notification: 
+      had_added_you: "{{user}} heeft u toegevoegd als vriend op OpenStreetMap."
+      see_their_profile: U kunt zijn/haar profiel bekijken op {{userurl}} en deze gebruiker ook als vriend toevoegen.
+      subject: "[OpenStreetMap] {{user}} heeft u als vriend toegevoegd"
+    gpx_notification: 
+      and_no_tags: en geen labels.
+      and_the_tags: "en de volgende labels:"
+      failure: 
+        more_info_1: Meer informatie over GPX-importfouten en hoe deze
+        more_info_2: "te vermijden is te vinden op:"
+        subject: "[OpenStreetMap] GPX-import mislukt"
+      greeting: Hallo,
+      success: 
+        subject: "[OpenStreetMap] GPX-import afgerond"
+      with_description: met de beschrijving
+      your_gpx_file: Het lijkt erop dat uw GPX-bestand
+    lost_password: 
+      subject: "[OpenStreetMap] Verzoek wachtwoord opnieuw instellen"
+    lost_password_html: 
+      click_the_link: Als u dit bent, klik dan op de onderstaande verwijzing om uw wachtwoord te wijzigen.
+      greeting: Hallo,
+    lost_password_plain: 
+      greeting: Hallo,
+    message_notification: 
+      banner1: "*               Reageer alstublieft niet op deze e-mail.                 *"
+      banner2: "*            Gebruik de OpenStreetMap-website om te reageren.            *"
+      footer1: U kunt het bericht ook lezen op {{readurl}}
+      footer2: en u kunt antwoorden op {{replyurl}}
+      header: "{{from_user}} heeft u een bericht gezonden via OpenStreetMap met het onderwerp {{subject}}:"
+      hi: Hallo {{to_user}},
+      subject: "[OpenStreetMap] {{user}} heeft u een nieuw bericht gezonden"
+    signup_confirm: 
+      subject: "[OpenStreetMap] Bevestig uw e-mailadres"
+    signup_confirm_html: 
+      click_the_link: Als jij dat bent, welkom! Volg de link beneden om je account te bevestigen en om meer informatie over OpenStreetMap te lezen
+      current_user: Een lijst van gebruikers, gesorteerd op woonplaats, is te zien op <a href="http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region">Category:Users_by_geographical_region</a>.
+      get_reading: Lees over OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Beginners%27_Guide">op de wiki</a> of <a href="http://www.opengeodata.org/">de OpenGeoData-blog</a> die ook <a href="http://www.opengeodata.org/?cat=13">podcasts</a> aanbiedt!
+      greeting: Hallo!
+      hopefully_you: Iemand (waarschijnlijk jij) wil een account aanmaken op
+      introductory_video: U kunt een {{introductory_video_link}}.
+      more_videos: Er zijn {{more_videos_link}}.
+      more_videos_here: Er zijn nog meer video's
+      user_wiki_page: We adviseren u een gebruikerspagina aan te maken met onder andere categorieën die aangeven waar u verblijft, zoals <a href="http://wiki.openstreetmap.org/wiki/Category:Users_in_Amsterdam">[[Category:Users_in_Amsterdam]]</a>.
+      video_to_openstreetmap: This message is substituted in {{msg-osm|Notifier.signup confirm html.introductory video}}.
+      wiki_signup: U kunt je ook <a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page">registreren op de OpenStreetMap-wiki</a>.
+    signup_confirm_plain: 
+      click_the_link_1: Als u dat bent, welkom! Volg de verwijzing hieronder om uw gebruiker te bevestigen
+      click_the_link_2: en om meer informatie over OpenStreetMap te krijgen.
+      current_user_1: Een lijst van gebruikers, gesorteerd op woonplaats
+      current_user_2: "is beschikbaar op:"
+      greeting: Hallo!
+      hopefully_you: Iemand (waarschijnlijk u) wil een gebruiker aanmaken op
+      introductory_video: "Er is een introductievideo over OpenStreetMap:"
+      more_videos: "Via de volgende verwijzing zijn meer video's beschikbaar:"
       opengeodata: "OpenGeoData.org is de blog van OpenStreetMap en er zijn ook podcasts:"
-      wiki_signup: "Je kunt je ook registreren bij de OpenStreetMap-wiki:"
-      # next four translations are in pairs : please word wrap appropriately
-      user_wiki_1: "Het is aanbevolen dat je een gebruikerspagina maakt met onder andere"
-      user_wiki_2: "categorieën die zeggen waar je bent, zoals [[Category:Users_in_Amsterdam]]."
-      current_user_1: "Een lijst van gebruikers, gesorteerd op woonplaats"
-      current_user_2: "is beschikbaar op:" #good translation?
-    signup_confirm_html:
-      greeting: "Hallo!"
-      hopefully_you: "Iemand (waarschijnlijk jij) wil een account aanmaken op"
-      click_the_link: "Als jij dat bent, welkom! Volg de link beneden om je account te bevestigen en om meer informatie over OpenStreetMap te lezen"
-      introductory_video: "Je kunt een {{introductory_video_link}}."
-      video_to_openstreetmap: "introductievideo over OpenStreetMap bekijken"
-      more_videos: "Er zijn {{more_videos_link}}."
-      more_videos_here: "hier nog meer video's"
-      get_reading: 'Lees over OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Beginners%27_Guide">op de wiki</a> of <a href="http://www.opengeodata.org/">de OpenGeoData-blog</a> die ook <a href="http://www.opengeodata.org/?cat=13">podcasts</a> aanbiedt!'
-      wiki_signup: 'Je kunt je ook <a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page">registreren op de OpenStreetMap-wiki</a>.'
-      user_wiki_page: 'Het is aanbevolen dat je een gebruikerspagina maakt met onder andere categorieën die zeggen waar je bent, zoals <a href="http://wiki.openstreetmap.org/wiki/Category:Users_in_Amsterdam">[[Category:Users_in_Amsterdam]]</a>.'
-      current_user: 'Een lijst van gebruikers, gesorteerd op woonplaats, is te zien op <a href="http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region">Category:Users_by_geographical_region</a>.'
-  message:
-    inbox:
-      title: "Postvak IN"
-      my_inbox: "Mijn inbox"
-      outbox: "Postvak UIT"
-      you_have: "Je hebt {{new_count}} nieuwe berichten en {{old_count}} oude berichten"
-      from: "Van"
-      subject: "Onderwerp"
-      date: "Datum"
-      no_messages_yet: "Je hebt nog geen berichten. Waarom leg je geen contact met {{people_mapping_nearby_link}}?"
-      people_mapping_nearby: "dichtbijzijnde mappers" 
-    message_summary:
-      unread_button: "Markeren als ongelezen"
-      read_button: "Markeren als gelezen"
-      reply_button: "Beantwoorden"
-    new:
-      title: "Bericht zenden"
-      send_message_to: "Zend een nieuw bericht naar {{name}}"
-      subject: "Onderwerp"
-      body: "Tekst"
-      send_button: "Verzenden"
-      back_to_inbox: "Terug naar Postvak IN"
-      message_sent: "Bericht verzonden"
-    no_such_user:
-      heading: "Deze gebruiker of dit bericht bestaat niet"
-      body: "Sorry, er is geen gebruiker of bericht met die naam of id"
-    outbox: 
-      title: "Postvak UIT"
-      my_inbox: "Mijn {{inbox_link}}"
-      inbox: "Postvak IN"
-      outbox: "Postvak UIT"
-      you_have_sent_messages: "Je hebt {{sent_count}} verzonden berichten"
-      to: "Aan"
-      subject: "Onderwerp"
-      date: "Datum"
-      no_sent_messages: "Je hebt nog geen berichten verzonden. Waarom leg je geen contact met {{people_mapping_nearby_link}}?"
-      people_mapping_nearby: "dichtbijzijnde mappers"
-    read:
-      title: "Lees bericht"
-      reading_your_messages: "Je berichten lezen"
-      from: "Van"
-      subject: "Onderwerp"
-      date: "Datum"
-      reply_button: "Beantwoorden"
-      unread_button: "Markeren als ongelezen"
-      back_to_inbox: "Terug naar Postvak IN"
-      reading_your_sent_messages: "Je verzonden berichten lezen"
-      to: "Aan"
-      back_to_outbox: "Terug naar Postvak UIT"
-    mark:
-      as_read: "Gemarkeerd als gelezen"
-      as_unread: "Gemarkeerd als ongelezen"
-  site:
-    index:
-      js_1: "Of je gebruikt een browser die JavaScript niet ondersteunt, of je hebt het uitstaan."
-      js_2: "OpenStreetMap gebruikt JavaScript voor de slippy-kaart."
-      js_3: 'Je kunt de <a href="http://tah.openstreetmap.org/Browse/">Tiles@Home statische tilebrowser</a> gebruiken als je niet de mogelijkheid hebt om JavaScript aan te zetten.'
-      permalink: Permalink
-      license:
-        notice: "Gelicenseerd onder de {{license_name}} licentie door het {{project_name}} en zijn bijdragers."
-        license_name: "Creative Commons Attribution-Share Alike 2.0"
-        project_name: "OpenStreetMap-project"
-    edit:
-      not_public: "Je hebt ingesteld dat je bewerkingen niet openbaar zijn."
-      not_public_description: "Je kunt de kaart niet meer bewerken, behalve als je je bewerkingen openbaar maak. Je kunt dit instellen op je {{user_page}}."
+      the_wiki: "Lees meer over OpenStreetMap op de wiki:"
+      user_wiki_1: We adviseren u een gebruikerspagina aan te maken met onder andere
+      user_wiki_2: categorieën die zeggen waar u verblijf, zoals [[Category:Users_in_Amsterdam]].
+      wiki_signup: "U kunt zich ook registreren bij de OpenStreetMap-wiki:"
+  oauth: 
+    oauthorize: 
+      allow_read_prefs: uw gebruikersvoorkeuren te lezen.
+      allow_to: "De client-toepassing toelaten om:"
+      allow_write_api: de kaart te wijzigen.
+      allow_write_diary: Dagboekingaven aanmaken, reacties geven en vrienden maken.
+      allow_write_gpx: GPS-tracks uploaden
+      allow_write_prefs: uw gebruikersvoorkeuren te wijzigen.
+    revoke: 
+      flash: U hebt het token voor {{application}} ingetrokken
+  oauth_clients: 
+    create: 
+      flash: De informatie is geregistreerd
+    destroy: 
+      flash: De clientapplicatieregistratie is verwijderd
+    edit: 
+      submit: Bewerken
+      title: Uw melding bewerken
+    form: 
+      callback_url: Callback-URL
+      name: Naam
+      required: Verplicht
+      support_url: Ondersteunings-URL
+      url: Applicatie-URL
+    index: 
+      application: Applicatienaam
+      issued_at: Uitgegeven op
+      list_tokens: "De volgende tokens zijn op uw naam voor applicaties uitgegeven:"
+      my_apps: Mijn clientapplicaties
+      my_tokens: Mijn geautoriseerde applicaties
+      no_apps: Heeft u een applicatie die u wilt registreren met de {{oauth}}-standaard? Dan moet u uw webapplicatie registreren voordat u OAuth-verzoeken naar deze dienst kunt maken.
+      register_new: Uw applicatie registreren
+      revoke: Intrekken!
+      title: Mijn OAuth-gegeven
+    new: 
+      submit: Registreren
+      title: Nieuwe applicatie registreren
+    not_found: 
+      sorry: Sorry, die {{type}} kan niet gevonden worden.
+    show: 
+      access_url: "URL voor toegangstoken:"
+      authorize_url: "URL voor autorisatie:"
+      edit: Details bewerken
+      key: "Gebruikerssleutel:"
+      secret: "Gebruikersgeheim:"
+      support_notice: HMAC-SHA-1 (aangeraden) wordt ondersteund, als ook platte tekst in SSL-modus.
+      title: OAuth-gegevens voor {{app_name}}
+      url: "URL voor tokenverzoek:"
+    update: 
+      flash: De informatie voor de client is bijgewerkt
+  site: 
+    edit: 
+      anon_edits_link_text: Lees waarom dit het geval is.
+      flash_player_required: U hebt Flash-player nodig om Potlatch, de OpenStreetMap Flash-editor te gebruiken. Je kunt <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">Flash-player van Adobe.com downloaden</a>. <a href="http://wiki.openstreetmap.org/wiki/Editing">Er zijn ook andere opties</a> om OpenStreetMap te bewerken.
+      not_public: U hebt ingesteld dat uw bewerkingen niet openbaar zijn.
+      not_public_description: U kunt de kaart niet meer bewerken, behalve als u uw bewerkingen openbaar maakt. U kunt deze instelling maken op uw {{user_page}}.
+      potlatch_unsaved_changes: U hebt wijzigingen gemaakt die nog niet zijn opgeslagen. Om op te slaan in Potlach, deselecteert u de huidige weg of het huidige punt als u in livemodus bewerkt, of klikt u op de knop Opslaan.
       user_page_link: gebruikerspagina
-      anon_edits: "({{link}})"
-      anon_edits_link: "http://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits"
-      anon_edits_link_text: "Lees waarom dit het geval is."
-      flash_player_required: 'Je hebt Flash-player nodig om Potlatch, de OpenStreetMap Flash-editor. Je kunt <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">Flash-player van Adobe.com downloaden</a>. <a href="http://wiki.openstreetmap.org/wiki/Editing">Er zijn ook andere opties</a> om OpenStreetMap te bewerken.'
-      potlatch_unsaved_changes: "Je hebt onopgeslagen wijzigingen. (Om op te slaan, moet je de huidige point of way deselecteren of, als je een save-knop hebt, hierop klikken.)"
-    sidebar:
-      search_results: Zoekresultaten
-      close: Sluiten
-    search:
+    index: 
+      js_1: U gebruikt een browser die JavaScript niet ondersteunt, of u hebt JavaScript uitgeschakeld.
+      js_2: OpenStreetMap gebruikt JavaScript voor de slippy-kaart.
+      js_3: Gebruik de <a href="http://tah.openstreetmap.org/Browse/">Tiles@Home statische tilebrowser</a> als u niet de mogelijkheid hebt om JavaScript aan te zetten.
+      license: 
+        license_name: Creative Commons Naamsvermelding-Gelijk delen 2.0
+        notice: Gelicenseerd onder de {{license_name}} licentie door het {{project_name}} en zijn bijdragers.
+        project_name: OpenStreetMap-project
+      permalink: Permanente verwijzing
+      shortlink: Korte verwijzing
+    key: 
+      map_key: Legenda
+      table: 
+        entry: 
+          admin: Bestuurlijke grens
+          allotments: Volkstuinen
+          apron: 
+            - Luchthavenplatform
+            - terminal
+          bridge: Brug
+          bridleway: Ruiterpad
+          brownfield: Brownfield
+          building: Belangrijk gebouw
+          byway: Ventweg
+          cable: 
+            - Kabelbaan
+            - stoeltjeslift
+          cemetery: Begraafplaats
+          centre: Sportcentrum
+          commercial: Winkelgebied
+          common: 
+            - Algemeen
+            - weide
+          construction: Weg in aanbouw
+          cycleway: Fietspad
+          destination: Bestemmingsverkeer
+          farm: Boerderij
+          footway: Voetpad
+          forest: Bos
+          golf: Golfbaan
+          heathland: Heide
+          industrial: Industriegebied
+          lake: 
+            - Meer
+            - reservoir
+          military: Militair gebied
+          motorway: Snelweg
+          park: Park
+          permissive: Beperkte toegang
+          pitch: Sportvelden
+          primary: Primaire weg
+          private: Privétoegang
+          rail: Spoor
+          reserve: Natuurreservaat
+          resident: Bewoond gebied
+          retail: Winkelgebied
+          runway: 
+            - Start- en landingsbaan
+            - taxibaan
+          school: 
+            - School
+            - universiteit
+          secondary: Secundaire weg
+          station: Spoorwegstation
+          subway: Metro
+          summit: 
+            - Top
+            - piek
+          tourist: Touristische attractie
+          track: Spoor
+          tram: 
+            - Licht spoor
+            - tram
+          trunk: Rijksweg
+          tunnel: Tunnel
+          unclassified: Ongeclassificeerde weg
+          unsurfaced: Onverharde weg
+          wood: Bos
+        heading: Legenda voor z{{zoom_level}}
+    search: 
       search: Zoeken
-      where_am_i: "Waar ben ik?"
-      submit_text: "Ga"
-      search_help: "voorbeelden: 'Alkmaar', 'Spui, Amsterdam', 'CB2 5AQ', of 'post offices near Leiden' <a href='http://wiki.openstreetmap.org/wiki/Search'>meer voorbeelden...</a>"
-    key:
-      map_key: "Legenda"
-  trace:
-    create:
-      upload_trace: "Upload GPS-track"
-      trace_uploaded: "Je track is geüpload en wacht totdat hij in de database wordt opgenomen. Dit gebeurt normaal binnen een half uur. Als het klaar is, zul je een e-mail ontvangen."
-    edit:
-      filename: "Bestandsnaam:"
-      uploaded_at: "Geüpload op:"
-      points: "Punten:"
-      start_coord: "Startcoördinaat:"
-      edit: "bewerken"
-      owner: "Eigenaar:"
+      search_help: "voorbeelden: 'Alkmaar', 'Spui, Amsterdam', '1234 AA', of 'post offices near Leiden' (<a href='http://wiki.openstreetmap.org/wiki/Search'>meer voorbeelden...</a>)."
+      submit_text: OK
+      where_am_i: Waar ben ik?
+    sidebar: 
+      close: Sluiten
+      search_results: Zoekresultaten
+  trace: 
+    create: 
+      trace_uploaded: Uw track is geüpload en staat te wachten totdat hij in de database wordt opgenomen. Dit gebeurt meestal binnen een half uur. U ontvangt dan een e-mail.
+      upload_trace: Upload GPS-track
+    delete: 
+      scheduled_for_deletion: Track staat op de lijst voor verwijdering
+    edit: 
       description: "Beschrijving:"
-      tags: "Tags:"
-      save_button: "Wijzigingen opslaan"
-    no_such_user:
-      body: "Sorry, er is geen gebruiker {{user}}. Controleer de spelling, of misschien is de link waarop je klikte verkeerd."
-    trace_form:
-      upload_gpx: "Upload GPX-bestand"
-      description: "Beschrijving"
-      tags: "Tags"
-      public: "Openbaar?"
-      upload_button: "Upload"
-      help: "Help"
-    trace_header:
-      see_just_your_traces: "Alleen je eigen tracks zien, of een track uploaden"
-      see_all_traces: "Alle tracks zien"
-      see_your_traces: "Al jouw tracks zien"
-      traces_waiting: "Je hebt al {{count}} tracks die wachten om geüpload te worden. Overweeg om te wachten totdat die verwerkt zijn, om te voorkomen dat de wachtrij voor andere gebruikers geblokkeerd wordt."
-    trace_optionals:
-      tags: "Tags"
-    view:
-      pending: "BEZIG"
+      download: downloaden
+      edit: bewerken
       filename: "Bestandsnaam:"
-      download: "download"
-      uploaded: "Geüpload op:"
+      heading: Track {{name}} aan het bewerken
+      map: kaart
+      owner: "Eigenaar:"
+      points: "Punten:"
+      save_button: Wijzigingen opslaan
+      start_coord: "Startcoördinaat:"
+      tags: "Labels:"
+      tags_help: kommegescheiden
+      title: Track {{name}} aan het bewerken
+      uploaded_at: "Geüpload op:"
+      visibility: "Zichtbaarheid:"
+      visibility_help: wat betekent dit?
+    list: 
+      public_traces: Openbare GPS-tracks
+      public_traces_from: Openbare GPS-tracks van {{user}}
+      tagged_with: " gelabeld met {{tags}}"
+      your_traces: Uw GPS-tracks
+    make_public: 
+      made_public: Track openbaar gemaakt
+    no_such_user: 
+      body: Sorry, er is geen gebruiker {{user}}. Controleer de spelling, of misschien is de verwijzing waarop u geklikt hebt onjuist.
+      heading: De gebruiker {{user}} bestaat niet
+      title: De gebruiker bestaat niet
+    trace: 
+      ago: "{{time_in_words_ago}} geleden"
+      by: door
+      count_points: "{{count}} punten"
+      edit: bewerken
+      edit_map: Kaart bewerken
+      in: in
+      map: kaart
+      more: meer
+      pending: BEZIG
+      private: PRIVÉ
+      public: OPENBAAR
+      trace_details: Trackdetails bekijken
+      view_map: Kaart bekijken
+    trace_form: 
+      description: Beschrijving
+      help: Help
+      tags: Labels
+      tags_help: kommagescheiden
+      upload_button: Uploaden
+      upload_gpx: Upload GPX-bestand
+      visibility: Zichtbaarheid
+      visibility_help: wat betekent dit?
+    trace_header: 
+      see_all_traces: Alle tracks zien
+      see_just_your_traces: Alleen uw eigen tracks weergeven, of een track uploaden
+      see_your_traces: Al uw tracks weergeven
+      traces_waiting: U hebt al {{count}} tracks die wachten om geüpload te worden. Overweeg om te wachten totdat die verwerkt zijn, om te voorkomen dat de wachtrij voor andere gebruikers geblokkeerd wordt.
+    trace_optionals: 
+      tags: Labels
+    trace_paging_nav: 
+      of: van
+      showing: Bezig met weergeven van pagina
+    view: 
+      delete_track: Deze track verwijderen
+      description: "Beschrijving:"
+      download: downloaden
+      edit: bewerken
+      edit_track: Deze track bewerken
+      filename: "Bestandsnaam:"
+      heading: Track {{name}} aan het bekijken
+      map: kaart
+      none: Geen
+      owner: "Eigenaar:"
+      pending: BEZIG
       points: "Punten:"
       start_coordinates: "Startcoördinaat:"
-      map: "kaart"
-      edit: "bewerken"
-      owner: "Eigenaar:"
-      description: "Beschrijving:"
-      tags: "Tags"
-      none: "Geen"
-      make_public: "Deze track permanent openbaar maken"
-      edit_track: "Deze track bewerken"
-      delete_track: "Deze track wissen"
-      heading: "Track {{name}} bekijken"
-      trace_not_found: "Track niet gevonden!"
-    trace_paging_nav:
-      showing: "Pagina"
-      of: "van"
-    trace:
-      pending: "BEZIG"
-      count_points: "{{count}} punten"
-      ago: "{{time_in_words_ago}} geleden"
-      more: "meer"
-      trace_details: "Trackdetails zien"
-      view_map: "Kaart zien"
-      edit: "bewerken"
-      edit_map: "Kaart bewerken"
-      public: "OPENBAAR"
-      private: "PRIVÉ"
-      by: "door"
-      in: "in"
-      map: "kaart"
-    list:
-      public_traces: "Openbare GPS-tracks"
-      your_traces: "Jouw GPS-tracks"
-      public_traces_from: "Openbare GPS-tracks van {{user}}"
-      tagged_with: " getagd met {{tags}}"
-    delete:
-      scheduled_for_deletion: "Track staat op de lijst voor verwijdering"
-    make_public:
-      made_public: "Track openbaar gemaakt"
-  user:
-    login:
-      title: "Inloggen"
-      heading: "Inloggen"
-      please login: "Log in of {{create_user_link}}."
-      create_account: "maak een account aan"
-      email or username: "E-mailadres of gebruikersnaam:"
-      password: "Wachtwoord:"
-      lost password link: "Wachtwoord vergeten?"
-      login_button: "Inloggen"
-      account not active: "Sorry, je account is nog niet actief.<br />Klik op de link in de bevestigingsmail om hem te activeren."
-      auth failure: "Sorry, je kon met deze details niet inloggen."
-    lost_password:
-      title: "vergeten wachtwoord"
-      heading: "Wachtwoord vergeten?"
-      email address: "E-mailadres:"
-      new password button: "Zend een nieuw wachtwoord"
-      notice email on way: "Jammer dat je het wachtwoord kwijt bent :-( maar een e-mail is op weg om het te resetten."
-      notice email cannot find: "Kon dat e-mailadres niet vinden, sorry."
-    reset_password:
-      title: "reset wachtwoord"
-      flash changed check mail: "Je wachtwoord is veranderd en het is onderweg naar je mailbox :-)"
-      flash token bad: "Kon die token niet vinden, controleer de URL." #don't know the translation for token
-    new:
-      title: "Account aanmaken"
-      heading: "Gebruikersaccount aanmaken"
-      no_auto_account_create: "Helaas zijn we niet in staat om automatisch een account aan te maken."
-      contact_webmaster: 'Leg contact met de <a href="mailto:webmaster@openstreetmap.org">webmaster</a> om een account te laten maken - we zullen proberen het zo snel mogelijk af te handelen.'
-      fill_form: "Vul het formulier in en we zullen zo snel mogelijk een mail zenden om het account te activeren."
-      license_agreement: "Door een account aan te maken, ga je akkoord dat al het werk dat je uploadt naar openstreetmap.org en dat alle gegevens die zijn gemaakt met programma's die hierbij horen (niet-exclusief) gelicenseerd zijn <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">deze Creative Commons-licentie (by-sa)</a>." #good translation?
-      email address: "E-mailadres:"
-      confirm email address: "E-mailadres bevestigen:"
-      not displayed publicly: 'Niet openbaar gemaakt (zie <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="wiki privacyovereenkomst met een sectie over e-mailadressen">Privacyovereenkomst (en)</a>)'
-      display name: "Weergavenaam:"
-      password: "Wachtwoord:"
-      confirm password: "Wachtwoord bevestigen:"
-      signup: Registreren
-      flash create success message: "Gebruiker succesvol gemaakt. Bekijk je e-mail voor een bevestigingsmail, en je bent zó aan het mappen :-)<br /><br />Denk eraan dat je niet kunt inloggen voordat je je bevestigingsmail hebt ontvangen en bevestigd.<br /><br />Als je een spamfilter gebruikt die bevestigingsmails stuurt, zorg er dan voor dat je webmaster@openstreetmap.org toestaat. Wij kunnen namelijk geen bevestigingsmails terugsturen."
-    no_such_user:
-      body: "Sorry, er is geen gebruiker met de naam {{user}}. Controleer de spelling, of misschien is de link waarop je klikte onjuist."
-    view:
-      my diary: mijn dagboek
-      new diary entry: nieuw dagboek-artikel
-      my edits: mijn aanpassingen
-      my traces: mijn tracks
-      my settings: mijn instellingen
-      send message: bericht zenden
-      diary: dagboek
-      edits: aanpassingen
-      traces: tracks
-      remove as friend: vriend verwijderen
-      add as friend: vriend toevoegen
-      mapper since: "Mapper sinds:"
-      ago: "({{time_in_words_ago}} geleden)"
-      user image heading: Gebruikersafbeelding
-      delete image: Afbeelding verwijderen
-      upload an image: Afbeelding uploaden
-      add image: Afbeelding toevoegen
-      description: Beschrijving
-      user location: Gebruikerslocatie
-      no home location: "Geen thuislocatie ingesteld."
-      if set location: "Als je je locatie instelt, zal er beneden een kaart verschijnen. Je kunt de locatie instellen op je {{settings_link}}."
-      settings_link_text: instellingen-pagina
-      your friends: Je vrienden
-      no friends: Je hebt nog geen vrienden toegevoegd.
-      km away: "{{count}}km ver"
-      nearby users: "Dichtbijzijnde mappers:"
-      no nearby users: "Er zijn geen dichtbijzijnde mappers."
-      change your settings: instellingen aanpassen
-    friend_map:
-      your location: Jouw locatie
-      nearby mapper: "Dichtbijzijnde mapper: [[nearby_user]]"
-    account:
-      title: "Account bewerken"
-      my settings: Mijn instellingen
-      email never displayed publicly: "(nooit openbaar gemaakt)"
-      public editing:
-        heading: "Openbare aanpassingen"
-        enabled: "Staat aan. Je bent niet anoniem en je kunt bewerken."
-        enabled link: "http://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits"
-        enabled link text: "wat is dit?"
-        disabled: "Staat uit. Je kunt niet bewerken en alle eerdere bewerkingen zijn anoniem."
-        disabled link text: "waarom kan ik niets bewerken?"
-      profile description: "Profielbeschrijving:"
-      preferred languages: "Voorkeurstaal:"
+      tags: "Labels:"
+      title: Track {{name}} aan het bekijken
+      trace_not_found: De track is niet gevonden!
+      uploaded: "Geüpload op:"
+      visibility: "Zichtbaarheid:"
+  user: 
+    account: 
+      email never displayed publicly: (nooit openbaar gemaakt)
+      flash update success: De gebruikersinformatie is bijgewerkt.
+      flash update success confirm needed: De gebruikersinformatie is bijgewerkt. Controleer uw e-mail om uw nieuwe e-mailadres te bevestigen.
       home location: "Thuislocatie:"
-      no home location: "Er is geen thuislocatie ingevoerd."
-      latitude: "Latitude:"
-      longitude: "Longitude:"
-      update home location on click: "Thuislocatie aanpassen als ik op de kaart klik?"
-      save changes button: Aanpassingen opslaan
-      make edits public button: Alle aanpassingen openbaar maken
+      latitude: "Breedtegraad:"
+      longitude: "Lengtegraad:"
+      make edits public button: Al mijn wijzigingen  openbaar maken
+      my settings: Mijn instellingen
+      no home location: Er is geen thuislocatie ingevoerd.
+      preferred languages: "Voorkeurstalen:"
+      profile description: "Profielbeschrijving:"
+      public editing: 
+        disabled: Uitgeschakeld. U kunt niet bewerken en al uw eerdere bewerkingen zijn anoniem.
+        disabled link text: waarom kan ik niets bewerken?
+        enabled: Ingeschakeld. U bent niet anoniem en u kunt bewerken.
+        enabled link: http://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits
+        enabled link text: wat is dit?
+        heading: "Bewerkingen openbaar:"
       return to profile: Terug naar profiel
-      flash update success confirm needed: "Gebruikersinformatie succesvol bijgewerkt. Controleer je e-mail om je nieuwe e-mailadress te bevestigen."
-      flash update success: "Gebruikersinformatie succesvol bijgewerkt."
-    confirm:
-      heading: Gebruikersaccount bevestigen
-      press confirm button: "Druk op de bevestig-knop hieronder om je account te activeren."
+      save changes button: Wijzgingen opslaan
+      title: Gebruiker bewerken
+      update home location on click: Thuislocatie aanpassen bij klikken op de kaart
+    confirm: 
       button: Bevestigen
-      success: "Account geactiveerd, dankjewel voor het registreren!"
-      failure: "Er is al een account met deze naam gemaakt."
-    confirm_email:
+      failure: Er bestaat al een gebruiker met deze naam.
+      heading: Gebruikers bevestigen
+      press confirm button: Klik op de "Bevestigen" hieronder om uw gebruiker te activeren.
+      success: De gebruiker is geactiveerd. Dank u wel voor het registreren!
+    confirm_email: 
+      button: Bevestigen
+      failure: Er is al een e-mailadres bevestigd met dit token.
       heading: Veranderd e-mailadres bevestigen
-      press confirm button: "Druk op de bevestig-knop hieronder om je e-mailadres te activeren."
-      button: Bevestigen
-      success: "E-mailadres geactiveerd, dankjewel voor het registreren!"
-      failure: "Er is al een e-mailadres met deze naam gemaakt."
-    set_home:
-      flash success: "Thuislocatie succesvol opgeslagen"
-    go_public:
-      flash success: "Al je aanpassingen zijn nu openbaar, nu is het toegestaan te bewerken."
-    make_friend:
-      success: "{{name}} is nu je vriend."
-      failed: "Sorry, toevoegen van {{name}} als vriend mislukt."
-      already_a_friend: "Je bent al vrienden met {{name}}."
-    remove_friend:
-      success: "{{name} is verwijderd van je vrienden."
-      not_a_friend: "{{name}} is geen vriend van jou."
+      press confirm button: Druk op de bevestig-knop hieronder om je e-mailadres te activeren.
+      success: E-mailadres geactiveerd, dankjewel voor het registreren!
+    friend_map: 
+      nearby mapper: "Dichtbijzijnde mapper: [[nearby_user]]"
+      your location: Uw locatie
+    go_public: 
+      flash success: Al uw bewerkingen zijn nu openbaar en u kunt bewerken.
+    login: 
+      account not active: Sorry, uw gebruiker is nog niet actief.<br />Klik op de verwijzing in de bevestigingse-mail om deze te activeren.
+      auth failure: Sorry, met deze gegevens kunt u niet aanmelden.
+      create_account: registreren
+      email or username: "E-mailadres of gebruikersnaam:"
+      heading: Aanmelden
+      login_button: Aanmelden
+      lost password link: Wachtwoord vergeten?
+      password: "Wachtwoord:"
+      please login: Aanmelden of {{create_user_link}}.
+      title: Aanmelden
+    lost_password: 
+      email address: "E-mailadres:"
+      heading: Wachtwoord vergeten?
+      new password button: Nieuw wachtwoord verzenden
+      notice email cannot find: Kon dat e-mailadres niet vinden, sorry.
+      notice email on way: Jammer dat je het wachtwoord kwijt bent :-( maar een e-mail is op weg om het te resetten.
+      title: Wachtwoord vergeten
+    make_friend: 
+      already_a_friend: U bent al bevriend met {{name}}.
+      failed: Sorry, het toevoegen van {{name}} als vriend is mislukt.
+      success: "{{name}} is nu uw vriend."
+    new: 
+      confirm email address: "E-mailadres bevestigen:"
+      confirm password: "Wachtwoord bevestigen:"
+      contact_webmaster: Neem contact op met de <a href="mailto:webmaster@openstreetmap.org">webmaster</a> om een gebruiker te laten maken. We proberen uw aanvraag dan zo snel mogelijk af te handelen.
+      display name: "Weergavenaam:"
+      email address: "E-mailadres:"
+      fill_form: Vul het formulier in en we sturen u dan zo snel mogelijk een e-mail met gegevens over hoe u uw gebruiker kunt activeren.
+      flash create success message: De gebruiker is aangemaakt. Controleer uw e-mail voor een bevestigingse-mail, en dan kunt u zo gaan mappen :-)<br /><br />Denk eraan dat u niet kunt aanmelden voordat u uw bevestigingse-mail hebt ontvangen en deze hebt bevestigd.<br /><br />Als u een spamfilter gebruikt die bevestigingse-mails stuurt, zorg er dan voor dat u webmaster@openstreetmap.org toestaat. Dit systeem stuurt geen antwoord op bevestigingsverzoeken.
+      heading: Gebruiker aanmaken
+      license_agreement: Door een gebruiker aan te maken geeft u aan dat u akkoord akkoord gaat met de voorwaarde dat al het werk dat u uploadt naar openstreetmap.org en dat alle gegevens die zijn gemaakt met programma's die hierbij horen (niet-exclusief) gelicenseerd zijn onder <a href="http://creativecommons.org/licenses/by-sa/2.0/">deze Creative Commons-licentie (by-sa)</a>.
+      no_auto_account_create: Helaas is het niet mogelijk om automatisch een gebruiker voor u aan te maken.
+      not displayed publicly: Niet openbaar gemaakt (zie <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="wiki privacyovereenkomst met een sectie over e-mailadressen">Privacyovereenkomst (en)</a>)
+      password: "Wachtwoord:"
+      signup: Registreren
+      title: Gebruiker aanmaken
+    no_such_user: 
+      body: Sorry, er is geen gebruiker met de naam {{user}}. Controleer de spelling, of misschien is de link waarop je klikte onjuist.
+      heading: De gebruiker {{user}} bestaat niet
+      title: Deze gebruiker bestaat niet
+    remove_friend: 
+      not_a_friend: "{{name}} staat niet in uw vriendelijst."
+      success: "{{name} is verwijderd uit uw vriendenlijst."
+    reset_password: 
+      confirm password: "Wachtwoord bevestigen:"
+      flash changed: Uw wachtwoord is gewijzigd.
+      flash token bad: Het token kon niet gevonden worden. Controleer de URL.
+      heading: Wachtwoord voor {{user}} opnieuw instellen
+      password: "Wachtwoord:"
+      reset: Wachtwoord opnieuw instellen
+      title: reset wachtwoord
+    set_home: 
+      flash success: De thuislocatie is opgeslagen
+    view: 
+      add as friend: vriend toevoegen
+      add image: Afbeelding toevoegen
+      ago: ({{time_in_words_ago}} geleden)
+      change your settings: instellingen aanpassen
+      delete image: Afbeelding verwijderen
+      description: Beschrijving
+      diary: dagboek
+      edits: bewerkingen
+      if set location: Als u uw locatie instelt, verschijnt er hieronder een kaart. U kunt de locatie instellen in uw {{settings_link}}.
+      km away: "{{count}}km ver"
+      m away: "{{count}} m verwijderd"
+      mapper since: "Mapper sinds:"
+      my diary: mijn dagboek
+      my edits: mijn bewerkingen
+      my settings: mijn instellingen
+      my traces: mijn tracks
+      my_oauth_details: Mijn OAuth-gegevens bekijken
+      nearby users: "Dichtbijzijnde mappers:"
+      new diary entry: nieuwe dagboekingave
+      no friends: U hebt nog geen vrienden toegevoegd.
+      no home location: Geen thuislocatie ingesteld.
+      no nearby users: Er zijn geen dichtbijzijnde mappers.
+      remove as friend: vriend verwijderen
+      send message: bericht verzenden
+      settings_link_text: voorkeuren
+      traces: tracks
+      upload an image: Afbeelding uploaden
+      user image heading: Gebruikersafbeelding
+      user location: Gebruikerslocatie
+      your friends: Uw vrienden
