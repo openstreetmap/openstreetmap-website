@@ -306,9 +306,12 @@ sub get_translatewiki_translations
     }
 
     my %translatewiki_languages;
-    say "All languages are: @languages";
+    my $all_count = scalar @languages;
+    say "Translatewiki has $all_count languages I'm about to get";
+    my $count = 0;
     for my $lang (@languages) {
-        say STDERR "Getting language $lang from Translatewiki";
+        $count ++;
+        say STDERR "Getting language $count/$all_count ($lang) from Translatewiki";
         my $yaml = get_language_from_translatewiki($lang);
 
         my $flat_data = load_and_flatten_yaml($yaml);
