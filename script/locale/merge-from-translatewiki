@@ -1,0 +1,337 @@
+#!/usr/bin/env perl
+use feature ':5.10';
+use strict;
+use warnings;
+use File::Slurp qw(slurp);
+use YAML::Syck qw(Dump Load LoadFile DumpFile);
+BEGIN {
+    $YAML::Syck::Headless = 1;
+    $YAML::Syck::SortKeys = 1;
+}
+use WWW::Mechanize;
+use HTML::TableParser::Grid;
+use Pod::Usage ();
+use Getopt::Long ();
+use Data::Dump 'dump';
+use File::Spec::Functions qw(catfile);
+use Storable;
+use autodie;
+
+=head1 NAME
+
+merge-from-translatewiki - Get new translations from L<http://translatewiki.net> and selectively merge them with ours
+
+=head1 SYNOPSIS
+
+    merge-from-translatewiki --locales-dir=config/locales
+
+    # Diff the existing files:
+    config/locales$ for i in $(ls *yml | grep -v en.yml); do perl ../../script/locale/diff --dump-flat $i > $i.0 ;done
+
+    # Merge and find out what changed:
+    rails_port$ for i in $(svn st config/locales/ | egrep '^M|\\?' | awk '{print $2}' | grep 'yml$'); do rm -v $i; done && svn up config/locales && perl script/locale/merge-from-translatewiki --locales-dir config/locales && svn st config/locales
+ 
+    # Diff:
+    config/locales$ for i in $(ls *yml | grep -v en.yml); do perl ../../script/locale/diff --dump-flat $i > $i.1 ;done && for i in $(ls *yml | grep -v en.yml); do diff -ru $i.*; done
+
+=head1 DESCRIPTION
+
+Translatewiki's export process L<is
+broken|http://trac.openstreetmap.org/ticket/2305>. This script imports
+new messages from it while tiptoeing around known bugs.
+
+=head1 OPTIONS
+
+=over
+
+=item -h, --help
+
+Print this help message.
+
+=item --locales-dir
+
+The locales dir we'll merge stuff into. E.g. C<config/locales>.
+
+=back
+
+=head1 AUTHOR
+
+E<AElig>var ArnfjE<ouml>rE<eth> Bjarmason <avarab@gmail.com>
+
+=cut
+
+# Get the command-line options
+Getopt::Long::Parser->new(
+    config => [ qw< bundling no_ignore_case no_require_order pass_through > ],
+)->getoptions(
+    'h|help' => \my $help,
+    'locales-dir=s' => \my $locales_dir,
+) or help();
+
+# On --help
+help() if $help;
+
+help() unless $locales_dir;
+
+###
+### Main
+###
+
+### Get Translatewiki data
+my %translatewiki_languages = translatewiki_languages();
+
+# Don't process English from Translatewiki
+delete $translatewiki_languages{en};
+
+#say Dump \%translatewiki_languages;
+
+my @translatewiki_languages_codes = keys %translatewiki_languages;
+my %translatewiki_translations = get_translatewiki_translations(@translatewiki_languages_codes);
+
+#say Dump \%translatewiki_translations;
+
+### Get our existing data
+my %my_translations;
+my @my_yaml_files = glob catfile($locales_dir, '*.yml');
+for my $my_yaml_file (@my_yaml_files) {
+    my $basename = basename($my_yaml_file);
+    my $tw_lang = lc $basename;
+
+    say STDERR "Loading my translation $tw_lang ($my_yaml_file)";
+    $my_translations{$tw_lang} = load_and_flatten_yaml(scalar slurp($my_yaml_file));
+}
+
+say "loaded my translations";
+
+## Write out merged data
+for my $translatewiki_lang (@translatewiki_languages_codes) {
+    my $rails_lang = $translatewiki_lang; $rails_lang =~ s/(?<=-)(\w+)/\U$1\E/;
+    my $out_file = catfile($locales_dir, $rails_lang . '.yml');
+
+    unless (-f $out_file) {
+        # No translation like this exists
+        say STDERR "$rails_lang has no existing translation. Importing as-is from Translatewiki to $out_file";
+        my $expanded = expand_hash($translatewiki_translations{$translatewiki_lang});
+        my $out = +{ $rails_lang => $expanded };
+        spit_out($out_file, $out);
+    } elsif (ref $my_translations{$translatewiki_lang} eq 'HASH') {
+        say STDERR "$rails_lang has existing translations. Merging";
+
+        # Get the data
+        my %tw = %{ $translatewiki_translations{$translatewiki_lang} };
+        my %me = %{ $my_translations{$translatewiki_lang} };
+        # Use %tw to start with
+        my %new = %tw;
+
+        ### Merge stuff
+
+        # These keys shouldn't be removed
+        my @url_keys = qw(
+                             layouts.help_wiki_url
+                             layouts.shop_url
+                             notifier.gpx_notification.failure.import_failures_url
+                             notifier.signup_confirm_plain.the_wiki_url
+                             notifier.signup_confirm_plain.wiki_signup_url
+                             trace.edit.visibility_help_url
+                             trace.trace_form.help_url
+                             trace.trace_form.visibility_help_url
+                     );
+
+        for my $key (@url_keys) {
+            if ( exists $me{$key} and not exists $new{$key} ) {
+                $new{$key} = $me{$key};
+            }
+        }
+
+        my $expanded = expand_hash( \%new );
+        my $out = +{ $rails_lang => $expanded };
+        spit_out($out_file, $out);
+    } else {
+        die "Internal error on $translatewiki_lang";
+    }
+}
+
+sub spit_out
+{
+    my ($file, $data) = @_;
+    my $yaml_out = Dump $data;
+    
+    open my $fh, ">", $file;
+    say $fh "# Imported at " . (scalar localtime) . " from Translatewiki.net";
+    print $fh $yaml_out;
+    close $fh;
+}
+
+#
+# YAML stuff
+#
+
+sub mark_utf8
+{
+    my ($hash) = @_;
+
+    # Mark as UTF-8
+    map { if (ref $_ eq 'ARRAY') { map { utf8::decode($_) } @$_ } else {  utf8::decode($_) } } values %$hash;
+}
+
+sub iterate
+{
+    my ($hash, @path) = @_;
+    my @ret;
+        
+    while (my ($k, $v) = each %$hash)
+    {
+        if (ref $v eq 'HASH')
+        {
+             push @ret => iterate($v, @path, $k);
+        }
+        else
+        {
+            push @ret => join(".",@path, $k), $v;
+        }
+    }
+
+    return @ret;
+}
+
+sub expand_hash
+{
+    my ($flat_hash) = @_;
+    my %new_hash;
+    while (my ($k, $v) = each %$flat_hash) {
+        insert_string_deep(\%new_hash, $k, $v);
+    }
+
+    \%new_hash;
+}
+
+sub insert_string_deep {
+    my ($h, $ks, $v) = @_;
+    my $p = \$h; $p = \$$p->{$_} for split /\./, $ks;
+    $$p = $v;
+}
+
+#
+# Get language from Translatewiki
+#
+
+sub get_translatewiki_translations
+{
+    my @languages = @_;
+
+    my $cache_file = "/tmp/merge-from-translatewiki.storable";
+    if (-f $cache_file) {
+        my $cache = retrieve($cache_file);
+        return %$cache;
+    }
+
+    my %translatewiki_languages;
+    say "All languages are: @languages";
+    for my $lang (@languages) {
+        say STDERR "Getting language $lang from Translatewiki";
+        my $yaml = get_language_from_translatewiki($lang);
+
+        my $flat_data = load_and_flatten_yaml($yaml);
+
+        $translatewiki_languages{$lang} = $flat_data;
+    }
+
+    store \%translatewiki_languages, $cache_file;
+
+    return %translatewiki_languages;
+}
+
+sub get_language_from_translatewiki
+{
+    my ($lang) = @_;
+    my $mech = WWW::Mechanize->new;
+
+    $mech->get("http://translatewiki.net/w/i.php?title=Special%3ATranslate&task=export-to-file&group=out-osm&language=$lang");
+
+    die "Couldn't get lang $lang lang from Translatewiki" unless $mech->success;
+
+    return $mech->content;
+}
+
+#
+# from language list
+#
+
+sub translatewiki_languages
+{
+    my $mech = WWW::Mechanize->new;
+
+    $mech->get('http://translatewiki.net/wiki/Translating:OpenStreetMap/stats/trunk');
+
+    die "Couldn't get translatewiki table" unless $mech->success;
+
+    my $content = $mech->content;
+    my ($sortable) = $content =~ m[(<table class="sortable.*</table>)]s;
+
+    my @table = parse_language_table($sortable);
+
+    # Just get the codes
+    map { $_->{code} => $_->{language} } @table;
+}
+
+sub parse_language_table
+{
+    my ($table) = @_;
+
+    my $parser = HTML::TableParser::Grid->new($table);
+    my @rows;
+    for my $n (0 .. $parser->num_rows - 1) {
+        my %row;
+        @row{qw(code language done fuzzy)} = $parser->row($n);
+        mark_utf8(\%row);
+
+        push @rows => \%row;
+    }
+
+    @rows;
+}
+
+#
+# Misc
+#
+
+sub basename
+{
+    my $name = shift;
+    $name =~ s[\..*?$][];
+    $name =~ s[.*/][];
+    $name;
+}
+
+sub load_and_flatten_yaml
+{
+    my ($yaml) = @_;
+
+    my $data = Load($yaml);
+
+    # Remove the root $lang => key
+    my @keys = keys %$data;
+    die "YAML data had more than 1 root key" if @keys != 1;
+    $data = $data->{$keys[0]};
+
+    # Flatten it
+    my $flat_data = { iterate($data) };
+
+    mark_utf8($flat_data);
+
+    $flat_data;
+}
+
+#
+# Help
+#
+
+sub help
+{
+    my %arg = @_;
+
+    Pod::Usage::pod2usage(
+        -verbose => $arg{ verbose },
+        -exitval => $arg{ exitval } || 0,
+    );
+}
