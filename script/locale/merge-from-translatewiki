@@ -104,7 +104,7 @@ for my $my_yaml_file (@my_yaml_files) {
 say "loaded my translations";
 
 ## Write out merged data
-for my $translatewiki_lang (@translatewiki_languages_codes) {
+for my $translatewiki_lang (sort @translatewiki_languages_codes) {
     my $rails_lang = $translatewiki_lang; $rails_lang =~ s/(?<=-)(\w+)/\U$1\E/;
     my $out_file = catfile($locales_dir, $rails_lang . '.yml');
 
@@ -120,13 +120,26 @@ for my $translatewiki_lang (@translatewiki_languages_codes) {
         # Get the data
         my %tw = %{ $translatewiki_translations{$translatewiki_lang} };
         my %me = %{ $my_translations{$translatewiki_lang} };
+        my %en = %{ $my_translations{en} };
         # Use %tw to start with
         my %new = %tw;
 
         ### Merge stuff
 
-        # These keys shouldn't be removed
+        ## These keys shouldn't be removed but are due to
+        ## Translatewiki fail (they were missing in the original
+        ## import)
         my @url_keys = qw(
+                             browse.relation_member.entry
+                             changeset.changeset.id
+                             geocoder.search_osm_namefinder.suffix_suburb
+                             html.dir
+                             layouts.intro_3_bytemark
+                             layouts.intro_3_ucl
+                             layouts.project_name.h1
+                             layouts.project_name.title
+                             printable_name.with_version
+                             site.edit.anon_edits
                              layouts.help_wiki_url
                              layouts.shop_url
                              notifier.gpx_notification.failure.import_failures_url
@@ -139,7 +152,38 @@ for my $translatewiki_lang (@translatewiki_languages_codes) {
 
         for my $key (@url_keys) {
             if ( exists $me{$key} and not exists $new{$key} ) {
-                $new{$key} = $me{$key};
+                $new{$key} = $me{$key} if $me{$key} ne $en{$key};
+            }
+        }
+
+        ## When foo exists in this file but only foo.one, foo,other
+        ## etc in English or the original file we don't want to throw away what we have
+        my @plural_keys = qw( zero one many few other two );
+
+        while (my ($me_k, $me_v) = each %me) {
+            if (not exists $tw{ $me_k } and 
+                not exists $en{ $me_k } and
+                (
+                    exists $en{ $me_k . '.zero' } or
+                    exists $en{ $me_k . '.one' } or
+                    exists $en{ $me_k . '.many' } or
+                    exists $en{ $me_k . '.few' } or
+                    exists $en{ $me_k . '.other' } or
+                    exists $en{ $me_k . '.two' })) {
+                say STDERR "Bringing back nuked plural form '$me_k' Setting it to '$me{ $me_k }'";
+                $new{ $me_k } = $me{ $me_k };
+            }
+        }
+
+        # Both arrays and strings are supported in the site key. Avoid removing e.g.:
+        #   -site.key.table.entry.school: 學校；大學
+        # Just because en.yml has site.key.table.entry.school.0 and site.key.table.entry.school.1
+        while (my ($me_k, $me_v) = each %me) {
+            next unless $me_k =~ /^site\.key\.table\.entry/;
+            next if $me_k =~ /\.\d+$/;
+
+            if (ref $en{ $me_k } eq 'ARRAY' and not ref $me{ $me_k }) {
+                $new{ $me_k } = $me{ $me_k };
             }
         }
 
@@ -199,16 +243,46 @@ sub expand_hash
     my ($flat_hash) = @_;
     my %new_hash;
     while (my ($k, $v) = each %$flat_hash) {
+        #say "Inserting $k=$v";
         insert_string_deep(\%new_hash, $k, $v);
     }
 
     \%new_hash;
 }
 
-sub insert_string_deep {
-    my ($h, $ks, $v) = @_;
-    my $p = \$h; $p = \$$p->{$_} for split /\./, $ks;
-    $$p = $v;
+# Fails under strict in certain cases:
+## Inserting browse.start_rjs.object_list.history.type.way=Vía [[id]]
+## Inserting activerecord.models.relation_tag=Etiqueta de la relación
+## Inserting browse.changeset_details.has_nodes.one=Tiene el siguiente {{count}} nodo:
+## Can't use string ("Tiene {{count}} nodos:") as a HASH ref while "strict refs" in use at script/locale/merge-from-translatewiki line 234.
+# Line 234 = my $p = \$h; $p = \$$p->{$_} for split /\./, $ks;
+
+# sub insert_string_deep_X {
+#     my ($h, $ks, $v) = @_;
+#     my $p = \$h; $p = \$$p->{$_} for split /\./, $ks;
+#     $$p = $v;
+# }
+
+sub insert_string_deep
+{
+    my ($hash, $key, $value) = @_;
+
+    my @key = split /\./, $key;
+    my $h = $hash;
+
+    my $i = 0;
+    for my $k (@key) {
+        $i ++;
+        if ($i == @key) {
+            $h->{$k} = $value;
+        } else {
+            if (ref $h->{$k}) {
+                $h = $h->{$k};
+            } else {
+                $h = $h->{$k} = {};
+            }
+        }
+    }
 }
 
 #
