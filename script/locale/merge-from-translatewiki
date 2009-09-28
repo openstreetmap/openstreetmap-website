@@ -23,6 +23,7 @@ merge-from-translatewiki - Get new translations from L<http://translatewiki.net>
 
 =head1 SYNOPSIS
 
+    # Run this normally, hopefully...
     merge-from-translatewiki --locales-dir=config/locales
 
     # Diff the existing files:
@@ -52,6 +53,10 @@ Print this help message.
 
 The locales dir we'll merge stuff into. E.g. C<config/locales>.
 
+=item --only-new
+
+Only import translations that don't exists for us yet.
+
 =back
 
 =head1 AUTHOR
@@ -66,6 +71,7 @@ Getopt::Long::Parser->new(
 )->getoptions(
     'h|help' => \my $help,
     'locales-dir=s' => \my $locales_dir,
+    'only-new' => \my $only_new,
 ) or help();
 
 # On --help
@@ -114,8 +120,8 @@ for my $translatewiki_lang (sort @translatewiki_languages_codes) {
         my $expanded = expand_hash($translatewiki_translations{$translatewiki_lang});
         my $out = +{ $rails_lang => $expanded };
         spit_out($out_file, $out);
-    } elsif (ref $my_translations{$translatewiki_lang} eq 'HASH') {
-        say STDERR "$rails_lang has existing translations. Merging";
+    } elsif (ref $my_translations{$translatewiki_lang} eq 'HASH' and not $only_new) {
+        say STDERR "$rails_lang has existing translations. Merging the old translation with the new Translatewiki one";
 
         # Get the data
         my %tw = %{ $translatewiki_translations{$translatewiki_lang} };
@@ -170,7 +176,7 @@ for my $translatewiki_lang (sort @translatewiki_languages_codes) {
                     exists $en{ $me_k . '.few' } or
                     exists $en{ $me_k . '.other' } or
                     exists $en{ $me_k . '.two' })) {
-                say STDERR "Bringing back nuked plural form '$me_k' Setting it to '$me{ $me_k }'";
+                #say STDERR "Bringing back nuked plural form '$me_k' Setting it to '$me{ $me_k }'";
                 $new{ $me_k } = $me{ $me_k };
             }
         }
@@ -190,7 +196,7 @@ for my $translatewiki_lang (sort @translatewiki_languages_codes) {
         my $expanded = expand_hash( \%new );
         my $out = +{ $rails_lang => $expanded };
         spit_out($out_file, $out);
-    } else {
+    } elsif (not $only_new) {
         die "Internal error on $translatewiki_lang";
     }
 }
