@@ -30,6 +30,9 @@ merge-from-translatewiki - Get new translations from L<http://translatewiki.net>
     config/locales$ for i in $(ls *yml | grep -v en.yml); do perl ../../script/locale/diff --dump-flat $i > $i.0 ;done
 
     # Merge and find out what changed:
+    rails_port$ perl script/locale/merge-from-translatewiki --locales-dir config/locales
+
+    # Or, more complexy:
     rails_port$ for i in $(svn st config/locales/ | egrep '^M|\\?' | awk '{print $2}' | grep 'yml$'); do rm -v $i; done && svn up config/locales && perl script/locale/merge-from-translatewiki --locales-dir config/locales && svn st config/locales
  
     # Diff:
