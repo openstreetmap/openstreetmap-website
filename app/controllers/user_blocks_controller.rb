@@ -8,8 +8,8 @@ class UserBlocksController < ApplicationController
 
   def index
     @user_blocks_pages, @user_blocks = paginate(:user_blocks,
-                                            :include => [:user, :moderator, :revoker],
-                                            :order => "user_blocks.end_at DESC",
+                                            :include => [:user, :creator, :revoker],
+                                            :order => "user_blocks.ends_at DESC",
                                             :per_page => 20)
   end
 
@@ -31,7 +31,7 @@ class UserBlocksController < ApplicationController
   # GET /user_blocks/1/edit
   def edit
     @user_block = UserBlock.find(params[:id])
-    params[:user_block_period] = ((@user_block.end_at - Time.now.getutc) / 1.hour).ceil.to_s
+    params[:user_block_period] = ((@user_block.ends_at - Time.now.getutc) / 1.hour).ceil.to_s
   end
 
   def create
@@ -40,9 +40,9 @@ class UserBlocksController < ApplicationController
     block_period = [UserBlock::PERIODS.max, params[:user_block_period].to_i].min
 
     @user_block = UserBlock.new(:user_id => @this_user.id,
-                                :moderator_id => @user.id,
+                                :creator_id => @user.id,
                                 :reason => params[:user_block][:reason],
-                                :end_at => Time.now.getutc() + block_period.hours,
+                                :ends_at => Time.now.getutc() + block_period.hours,
                                 :needs_view => params[:user_block][:needs_view])
     
     if (@this_user and @user.moderator? and 
@@ -75,7 +75,7 @@ class UserBlocksController < ApplicationController
     @user_block = UserBlock.find(params[:id])
     block_period = [72, params[:user_block_period].to_i].min
     
-    if @user_block.moderator_id != @user.id
+    if @user_block.creator_id != @user.id
       flash[:notice] = t('user_block.update.only_creator_can_edit')
       redirect_to(@user_block)
 
@@ -83,7 +83,7 @@ class UserBlocksController < ApplicationController
       flash[:notice] = t('user_block.update.block_expired')
       redirect_to(@user_block)
       
-    elsif @user_block.update_attributes({ :end_at => Time.now.getutc() + block_period.hours,
+    elsif @user_block.update_attributes({ :ends_at => Time.now.getutc() + block_period.hours,
                                           :reason => params[:user_block][:reason],
                                           :needs_view => params[:user_block][:needs_view] })
       flash[:notice] = t('user_block.update.success')
@@ -119,9 +119,9 @@ class UserBlocksController < ApplicationController
     @this_user = User.find_by_display_name(params[:display_name])
 
     @user_blocks_pages, @user_blocks = paginate(:user_blocks,
-                                                :include => [:user, :moderator, :revoker],
+                                                :include => [:user, :creator, :revoker],
                                                 :conditions => {:user_id => @this_user.id},
-                                                :order => "user_blocks.end_at DESC",
+                                                :order => "user_blocks.ends_at DESC",
                                                 :per_page => 20)
   end
 
@@ -131,9 +131,9 @@ class UserBlocksController < ApplicationController
     @this_user = User.find_by_display_name(params[:display_name])
 
     @user_blocks_pages, @user_blocks = paginate(:user_blocks,
-                                            :include => [:user, :moderator, :revoker],
-                                            :conditions => {:moderator_id => @this_user.id},
-                                            :order => "user_blocks.end_at DESC",
+                                            :include => [:user, :creator, :revoker],
+                                            :conditions => {:creator_id => @this_user.id},
+                                            :order => "user_blocks.ends_at DESC",
                                             :per_page => 20)
   end
 

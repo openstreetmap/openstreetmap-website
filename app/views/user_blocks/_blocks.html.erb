@@ -3,8 +3,8 @@
     <% if show_user_name %>
     <th><%= t'user_block.partial.display_name' %></th>
     <% end %>
-    <% if show_moderator_name %>
-    <th><%= t'user_block.partial.moderator_name' %></th>
+    <% if show_creator_name %>
+    <th><%= t'user_block.partial.creator_name' %></th>
     <% end %>
     <th><%= t'user_block.partial.reason' %></th>
     <th><%= t'user_block.partial.status' %></th>
@@ -15,5 +15,5 @@
     <th></th>
     <% end %>
   </tr>
-  <%= render :partial => 'block', :locals => {:show_revoke_link => show_revoke_link, :show_user_name => show_user_name, :show_moderator_name => show_moderator_name }, :collection => @user_blocks unless @user_blocks.nil? %>
+  <%= render :partial => 'block', :locals => {:show_revoke_link => show_revoke_link, :show_user_name => show_user_name, :show_creator_name => show_creator_name }, :collection => @user_blocks unless @user_blocks.nil? %>
 </table>

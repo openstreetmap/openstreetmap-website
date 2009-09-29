@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   has_many :client_applications
   has_many :oauth_tokens, :class_name => "OauthToken", :order => "authorized_at desc", :include => [:client_application]
 
-  has_many :blocks, :class_name => "UserBlock", :conditions => ["user_blocks.end_at > now() or user_blocks.needs_view"]
+  has_many :blocks, :class_name => "UserBlock", :conditions => ["user_blocks.ends_at > now() or user_blocks.needs_view"]
   has_many :roles, :class_name => "UserRole"
 
   validates_presence_of :email, :display_name

@@ -4,21 +4,11 @@
   <% if show_user_name %>
   <td class="<%= c1 %>"><%= link_to h(block.user.display_name), :controller => 'user', :action => 'view', :display_name => block.user.display_name %></td>
   <% end %>
-  <% if show_moderator_name %>
-  <td class="<%= c1 %>"><%= link_to h(block.moderator.display_name), :controller => 'user', :action => 'view', :display_name => block.moderator.display_name %></td>
+  <% if show_creator_name %>
+  <td class="<%= c1 %>"><%= link_to h(block.creator.display_name), :controller => 'user', :action => 'view', :display_name => block.creator.display_name %></td>
   <% end %>
   <td class="<%= c1 %>"><%=h truncate(block.reason) %></td>
-  <td class="<%= c1 %>">
-    <% if block.active? %>
-      <% if block.needs_view? %>
-        <%= t'user_block.partial.until_login' %>
-      <% else %>
-        <%= t('user_block.partial.time_future', :time => distance_of_time_in_words_to_now(block.end_at)) %>
-      <% end %>
-    <% else %>
-      <%= t'user_block.partial.not_active' %>
-    <% end %>
-  </td>
+  <td class="<%= c1 %>"><%=h block_status(block) %></td>
   <td class="<%= c1 %>">
     <% if block.revoker_id.nil? %>
       <%= t('user_block.partial.not_revoked') %>
@@ -27,7 +17,7 @@
     <% end %>
   </td>
   <td class="<%= c1 %>"><%= link_to t('user_block.partial.show'), block %></td>
-  <td class="<%= c1 %>"><% if @user and @user.id == block.moderator_id and block.active? %><%= link_to t('user_block.partial.edit'), edit_user_block_path(block) %><% end %></td>
+  <td class="<%= c1 %>"><% if @user and @user.id == block.creator_id and block.active? %><%= link_to t('user_block.partial.edit'), edit_user_block_path(block) %><% end %></td>
   <% if show_revoke_link %>
   <td class="<%= c1 %>"><% if block.active? %><%= link_to t('user_block.partial.revoke'), block, :confirm => t('user_block.partial.confirm'), :action => :revoke %><% end %></td>
   <% end %>
