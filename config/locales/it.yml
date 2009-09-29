@@ -1,635 +1,604 @@
-it:
-  activerecord:
-    # Translates all the model names, which is used in error handling on the web site
-    models:
-      acl: "Lista di controllo degli accessi"
-      changeset: "Gruppo di modifiche"
-      changeset_tag: "Etichetta del gruppo di modifiche"
-      country: "Paese"
-      diary_comment: "Commento al diario"
-      diary_entry: "Voce del diario"
-      friend: "Amico"
-      language: "Lingua"
-      message: "Messaggio"
-      node: "Nodo"
-      node_tag: "Etichetta nodo"
-      notifier: "Promemoria"
-      old_node: "Vecchio nodo"
-      old_node_tag: "Vecchia etichetta del nodo"
-      old_relation: "Vecchia relazione"
-      old_relation_member: "Vecchio membro della relazione"
-      old_relation_tag: "Vecchia etichetta della relazione"
-      old_way: "Vecchio percorso"
-      old_way_node: "Vecchio nodo del percorso"
-      old_way_tag: "Vecchia etichetta del percorso"
-      relation: "Relazione"
-      relation_member: "Membro della relazione"
-      relation_tag: "Etichetta della relazione"
-      session: "Sessione"
-      trace: "Tracciato"
-      tracepoint: "Punto del tracciato"
-      tracetag: "Etichetta del tracciato"
-      user: "Utente"
-      user_preference: "Preferenze dell'utente"
-      user_token: "Codice dell'utente"
-      way: "Percorso"
-      way_node: "Nodo del percorso"
-      way_tag: "Etichetta del percorso"
-    # Translates all the model attributes, which is used in error handling on the web site
-    # Only the ones that are used on the web site are translated at the moment
-    attributes:
-      diary_comment:
-        body: "Corpo del messaggio"
-      diary_entry:
-        user: "Utente"
-        title: "Titolo"
-        latitude: "Latitudine"
-        longitude: "Longitudine"
-        language: "Lingua"
-      friend:
-        user: "Utente"
-        friend: "Amico"
-      trace:
-        user: "Utente"
-        visible: "Visibile"
-        name: "Nome"
-        size: "Dimensione"
-        latitude: "Latitudine"
-        longitude: "Longitudine"
-        public: "Pubblico"
-        description: "Descrizione"
-      message:
-        sender: "Mittente"
-        title: "Titolo"
-        body: "Corpo del messaggio"
-        recipient: "Recipiente"
-      user:
-        email: "Email"
-        active: "Attivo"
-        display_name: "Nome visualizzato"
-        description: "Descrizione"
-        languages: "Lingue"
-        pass_crypt: "Password"
-  map:
-    view: Visualizza
-    edit: Modifica
-    coordinates: "Coordinate:"
-  browse:
-    changeset:
-      title: "Gruppo di modifiche"
+it: 
+  activerecord: 
+    attributes: 
+      diary_comment: 
+        body: Corpo del messaggio
+      diary_entry: 
+        language: Lingua
+        latitude: Latitudine
+        longitude: Longitudine
+        title: Titolo
+        user: Utente
+      friend: 
+        friend: Amico
+        user: Utente
+      message: 
+        body: Corpo del messaggio
+        recipient: Recipiente
+        sender: Mittente
+        title: Titolo
+      trace: 
+        description: Descrizione
+        latitude: Latitudine
+        longitude: Longitudine
+        name: Nome
+        public: Pubblico
+        size: Dimensione
+        user: Utente
+        visible: Visibile
+      user: 
+        active: Attivo
+        description: Descrizione
+        display_name: Nome visualizzato
+        email: Email
+        languages: Lingue
+        pass_crypt: Password
+    models: 
+      acl: Lista di controllo degli accessi
+      changeset: Gruppo di modifiche
+      changeset_tag: Etichetta del gruppo di modifiche
+      country: Paese
+      diary_comment: Commento al diario
+      diary_entry: Voce del diario
+      friend: Amico
+      language: Lingua
+      message: Messaggio
+      node: Nodo
+      node_tag: Etichetta nodo
+      notifier: Promemoria
+      old_node: Vecchio nodo
+      old_node_tag: Vecchia etichetta del nodo
+      old_relation: Vecchia relazione
+      old_relation_member: Vecchio membro della relazione
+      old_relation_tag: Vecchia etichetta della relazione
+      old_way: Vecchio percorso
+      old_way_node: Vecchio nodo del percorso
+      old_way_tag: Vecchia etichetta del percorso
+      relation: Relazione
+      relation_member: Membro della relazione
+      relation_tag: Etichetta della relazione
+      session: Sessione
+      trace: Tracciato
+      tracepoint: Punto del tracciato
+      tracetag: Etichetta del tracciato
+      user: Utente
+      user_preference: Preferenze dell'utente
+      user_token: Codice dell'utente
+      way: Percorso
+      way_node: Nodo del percorso
+      way_tag: Etichetta del percorso
+  browse: 
+    changeset: 
       changeset: "Gruppo di modifiche: {{id}}"
-      download: "Scarica il {{changeset_xml_link}} oppure le {{osmchange_xml_link}}"
-      changesetxml: "gruppo di modifiche XML"
-      osmchangexml: "modificheOsm XML"
-    changeset_details:
-      created_at: "Creato il:"
-      closed_at: "Chiuso il:"
+      changesetxml: gruppo di modifiche XML
+      download: Scarica il {{changeset_xml_link}} oppure le {{osmchange_xml_link}}
+      osmchangexml: modificheOsm XML
+      title: Gruppo di modifiche
+    changeset_details: 
       belongs_to: "Appartiene a:"
       bounding_box: "Riquadro di selezione:"
-      no_bounding_box: "Per questo gruppo di modifiche non è stato memorizzato alcun riquadro di selezione."
-      show_area_box: "Mostra il riquadro dell'area"
-      box: "riquadro"
+      box: riquadro
+      closed_at: "Chiuso il:"
+      created_at: "Creato il:"
       has_nodes: "Possiede i seguenti {{count}} nodi:"
-      has_ways: "Possiede i seguenti {{count}} percorsi:"
       has_relations: "Possiede le seguenti {{count}} relazioni:"
-    common_details:
+      has_ways: "Possiede i seguenti {{count}} percorsi:"
+      no_bounding_box: Per questo gruppo di modifiche non è stato memorizzato alcun riquadro di selezione.
+      show_area_box: Mostra il riquadro dell'area
+    common_details: 
       edited_at: "Modificato il:"
       edited_by: "Modificato da:"
-      version: "Versione:"
       in_changeset: "Nel gruppo di modifiche:"
-    containing_relation:
-      entry: "Relazione {{relation_name}}"
-      entry_role: "Relazione {{relation_name}} (come {{relation_role}})"
-    map:
-      loading: "Caricamento in corso..."
-      deleted: "Eliminato"
-    node_details:
+      version: "Versione:"
+    containing_relation: 
+      entry: Relazione {{relation_name}}
+      entry_role: Relazione {{relation_name}} (come {{relation_role}})
+    map: 
+      deleted: Eliminato
+      loading: Caricamento in corso...
+    node: 
+      download: "{{download_xml_link}} oppure {{view_history_link}}"
+      download_xml: Scarica XML
+      node: Nodo
+      node_title: "Nodo: {{node_name}}"
+      view_history: visualizza lo storico
+    node_details: 
       coordinates: "Coordinate:"
       part_of: "Parte di:"
-    node_history:
-      node_history: "Storico del nodo"
+    node_history: 
       download: "{{download_xml_link}} oppure {{view_details_link}}"
-      download_xml: "Scarica XML"
-      view_details: "visualizza i dettagli"
-    node:
-      node: "Nodo"
-      node_title: "Nodo: {{node_name}}"
+      download_xml: Scarica XML
+      node_history: Storico del nodo
+      view_details: visualizza i dettagli
+    not_found: 
+      sorry: Spiacenti, non è stato possibile trovare il {{type}} con l'identificativo {{id}}.
+    paging_nav: 
+      of: di
+      showing_page: Visualizzata la pagina
+    relation: 
       download: "{{download_xml_link}} oppure {{view_history_link}}"
-      download_xml: "Scarica XML"
-      view_history: "visualizza lo storico"
-    not_found:
-      sorry: "Spiacenti, non è stato possibile trovare il {{type}} con l'identificativo {{id}}."
-    paging_nav:
-      showing_page: "Visualizzata la pagina"
-      of: "di"
-    relation_details:
+      download_xml: Scarica XML
+      relation: Relazione
+      relation_title: "Relazione: {{relation_name}}"
+      view_history: visualizza lo storico
+    relation_details: 
       members: "Membri:"
       part_of: "Parte di:"
-    relation_history:
-      relation_history: "Storico della relazione"
+    relation_history: 
+      relation_history: Storico della relazione
       relation_history_title: "Storico della relazione: {{relation_name}}"
-    relation:
-      relation: "Relazione"
-      relation_title: "Relazione: {{relation_name}}"
-      download: "{{download_xml_link}} oppure {{view_history_link}}"
-      download_xml: "Scarica XML"
-      view_history: "visualizza lo storico"
-    start:
-      view_data: "Visualizza i dati per la visualizzazione corrente della mappa"
-      manually_select: "Seleziona manualmente un'area differente"
-    start_rjs:
-      data_frame_title: "Dati"
-      zoom_or_select: "Ingrandire oppure selezionare l'area della mappa che si desidera visualizzare"
-      drag_a_box: "Tracciare un riquadro sulla mappa per selezionare un'area"
-      manually_select: "Seleziona manualmente un'area differente"
+    start: 
+      manually_select: Seleziona manualmente un'area differente
+      view_data: Visualizza i dati per la visualizzazione corrente della mappa
+    start_rjs: 
+      data_frame_title: Dati
+      details: Dettagli
+      drag_a_box: Tracciare un riquadro sulla mappa per selezionare un'area
+      edited_by_user_at_timestamp: Modificato da [[user]] il [[timestamp]]
+      history_for_feature: Storico per [[feature]]
+      load_data: Carica dati
       loaded_an_area_with_num_features: "E' stata caricata un'area che contiene [[num_features]] caratteristiche. In generale, alcuni browser potrebbero non visualizzare correttamente questa quantità di dati. Generalmente i browser lavorano al meglio  se si visualizzano meno di 100 caratteristiche alla volta: se si fa qualcos'altro il proprio browser potrebbe diventare lento o non rispondere più. Se si è sicuri di voler visualizzare questi dati, allora si può premere il pulsante sottostante."
-      load_data: "Carica dati"
+      loading: Caricamento in corso...
+      manually_select: Seleziona manualmente un'area differente
+      private_user: utente privato
+      show_history: Visualizza storico
       unable_to_load_size: "Impossibile caricare: la dimensione del riquadro di selezione di [[bbox_size]] è troppo grande (deve essere minore di {{max_bbox_size}})"
-      loading: "Caricamento in corso..."
-      show_history: "Visualizza storico"
-      wait: "Attendere..."
-      history_for_feature: "Storico per [[feature]]"
-      details: "Dettagli"
-      private_user: "utente privato"
-      edited_by_user_at_timestamp: "Modificato da [[user]] il [[timestamp]]"
-    tag_details:
+      wait: Attendere...
+      zoom_or_select: Ingrandire oppure selezionare l'area della mappa che si desidera visualizzare
+    tag_details: 
       tags: "Etichette:"
-    way_details:
+    way: 
+      download: "{{download_xml_link}} oppure {{view_history_link}}"
+      download_xml: Scarica XML
+      view_history: visualizza lo storico
+      way: Percorso
+      way_title: "Percorso: {{way_name}}"
+    way_details: 
+      also_part_of: 
+        one: anche parte del percorso {{related_ways}}
+        other: anche parte dei percorsi {{related_ways}}
       nodes: "Nodi:"
       part_of: "Parte di:"
-      also_part_of:
-        one: "anche parte del percorso {{related_ways}}"
-        other: "anche parte dei percorsi {{related_ways}}"
-    way_history:
-      way_history: "Storico del percorso"
-      way_history_title: "Storico del percorso: {{way_name}}"
+    way_history: 
       download: "{{download_xml_link}} oppure {{view_details_link}}"
-      download_xml: "Scarica XML"
-      view_details: "visualizza i dettagli"
-    way:
-      way: "Percorso"
-      way_title: "Percorso: {{way_name}}"
-      download: "{{download_xml_link}} oppure {{view_history_link}}"
-      download_xml: "Scarica XML"
-      view_history: "visualizza lo storico"
-  changeset:
-    changeset_paging_nav:
-      showing_page: "Visualizzata la pagina"
-      of: "di"
-    changeset:
-      still_editing: "(ancora in modifica)"
-      anonymous: "Anonimo"
-      no_comment: "(nessuno)"
-      no_edits: "(nessuna modifica)"
-      show_area_box: "visualizza il riquadro dell'area"
-      big_area: "(grande)"
-      view_changeset_details: "Visualizza i dettagli del gruppo di modifiche"
-    changesets:
-      id: "ID"
-      saved_at: "Salvato il"
-      user: "Utente"
-      comment: "Commento"
-      area: "Area"
-    list_bbox:
-      history: "Storico"
-      changesets_within_the_area: "Gruppi di modifiche all'interno dell'area:"
-      show_area_box: "mostra il riquadro dell'area"
-      no_changesets: "Nessun gruppo di modifiche"
-      all_changes_everywhere: "Per le modifiche apportate in qualsiasi area vedere le {{recent_changes_link}}"
-      recent_changes: "modifiche recenti"
-      no_area_specified: "Non è stata specificata alcuna area"
-      first_use_view: "Prima entra nella {{view_tab_link}} per spostare e ingrandire l'area di interesse, poi clicca sulla scheda dello storico."
-      view_the_map: "visualizza la mappa"
-      view_tab: "scheda di visualizzazione"
-      alternatively_view: "In alternativa visualizza tutte le {{recent_changes_link}}"
-    list:
-      recent_changes: "Modifiche recenti"
-      recently_edited_changesets: "Gruppi di modifiche recenti:"
-      for_more_changesets: "Per ulteriori gruppi di modifiche, selezionare un utente e visualizzare le sue modifiche, oppure vedere lo 'storico' delle modifiche di un'area specifica."
-    list_user:
-      edits_by_username: "Modifiche di {{username_link}}"
-      no_visible_edits_by: "Non c'è alcuna modifica visibile di {{name}}."
-      for_all_changes: "Per le modifiche di tutti gli utenti vedere le {{recent_changes_link}}"
-      recent_changes: "modifiche recenti"
-  diary_entry:
-    new:
-      title: Nuova voce del diario
-    list:
-      title: "Diari degli utenti"
-      user_title: "Diario dell'utente {{user}}"
-      new: Nuova voce del diario
-      new_title: Componi una nuova voce nel tuo diario-utente
-      no_entries: Nessuna voce nel diario
-      recent_entries: "Voci del diario recenti:"
-      older_entries: Voci più vecchie
-      newer_entries: Voci più recenti
-    edit:
-      title: "Modifica voce del diario"
-      subject: "Oggetto:"
-      body: "Corpo:"
-      language: "Lingua:"
-      location: "Luogo:"
-      latitude: "Latitudine:"
-      longitude: "Longitudine:"
-      use_map_link: "utilizza mappa"
-      save_button: "Salva"
-      marker_text: Luogo della voce del diario
-    view:
-      title: "Diari degli utenti | {{user}}"
-      user_title: "Diario dell'utente {{user}}"
-      leave_a_comment: "Lascia un commento"
-      save_button: "Salva"
-    no_such_entry:
-      heading: "Nessuna voce con l'identificativo: {{id}}"
-      body: "Spiacenti, non c'è alcuna voce del diario o commento con l'identificativo {{id}}. Controllare la digitazione, oppure potrebbe essere che il collegamento che si è seguito sia errato."
-    no_such_user:
-      body: "Spiacenti, non c'è alcun utente con il nome {{user}}. Controllare la digitazione, oppure potrebbe essere che il collegamento che si è seguito sia errato."
-    diary_entry:
-      posted_by: "Inviato da {{link_user}} il {{created}} in {{language_link}}"
-      comment_link: Commento su questa voce
-      reply_link: Rispondi a questa voce
-      comment_count:
+      download_xml: Scarica XML
+      view_details: visualizza i dettagli
+      way_history: Storico del percorso
+      way_history_title: "Storico del percorso: {{way_name}}"
+  changeset: 
+    changeset: 
+      anonymous: Anonimo
+      big_area: (grande)
+      no_comment: (nessuno)
+      no_edits: (nessuna modifica)
+      show_area_box: visualizza il riquadro dell'area
+      still_editing: (ancora in modifica)
+      view_changeset_details: Visualizza i dettagli del gruppo di modifiche
+    changeset_paging_nav: 
+      of: di
+      showing_page: Visualizzata la pagina
+    changesets: 
+      area: Area
+      comment: Commento
+      id: ID
+      saved_at: Salvato il
+      user: Utente
+  diary_entry: 
+    diary_comment: 
+      comment_from: Commento di {{link_user}} il {{comment_created_at}}
+    diary_entry: 
+      comment_count: 
         one: 1 commento
         other: "{{count}} commenti"
+      comment_link: Commento su questa voce
       edit_link: Modifica questa voce
-    diary_comment:
-      comment_from: "Commento di {{link_user}} il {{comment_created_at}}"
-  export:
-    start:
-      area_to_export: "Area da esportare"
-      manually_select: "Seleziona manualmente un'area differente"
-      format_to_export: "Formato di esportazione"
-      osm_xml_data: "Dati XML OpenStreetMap"
-      mapnik_image: "Immagine Mapnik"
-      osmarender_image: "Immagine Osmarender"
-      embeddable_html: "HTML incapsulabile"
-      licence: "Licenza"
-      export_details: 'I dati di OpenStreetMap sono rilasciati sotto la <a href="http://creativecommons.org/licenses/by-sa/2.0/">licenza Creative Commons Attribution-ShareAlike 2.0</a>.'
-      options: "Opzioni"
-      format: "Formato"
-      scale: "Scala"
-      max: "max"
-      image_size: "Dimensione immagine"
-      zoom: "Ingrandimento"
-      add_marker: "Aggiungi un marcatore alla mappa"
+      posted_by: Inviato da {{link_user}} il {{created}} in {{language_link}}
+      reply_link: Rispondi a questa voce
+    edit: 
+      body: "Corpo:"
+      language: "Lingua:"
+      latitude: "Latitudine:"
+      location: "Luogo:"
+      longitude: "Longitudine:"
+      marker_text: Luogo della voce del diario
+      save_button: Salva
+      subject: "Oggetto:"
+      title: Modifica voce del diario
+      use_map_link: utilizza mappa
+    list: 
+      new: Nuova voce del diario
+      new_title: Componi una nuova voce nel tuo diario-utente
+      newer_entries: Voci più recenti
+      no_entries: Nessuna voce nel diario
+      older_entries: Voci più vecchie
+      recent_entries: "Voci del diario recenti:"
+      title: Diari degli utenti
+      user_title: Diario dell'utente {{user}}
+    new: 
+      title: Nuova voce del diario
+    no_such_entry: 
+      body: Spiacenti, non c'è alcuna voce del diario o commento con l'identificativo {{id}}. Controllare la digitazione, oppure potrebbe essere che il collegamento che si è seguito sia errato.
+      heading: "Nessuna voce con l'identificativo: {{id}}"
+    no_such_user: 
+      body: Spiacenti, non c'è alcun utente con il nome {{user}}. Controllare la digitazione, oppure potrebbe essere che il collegamento che si è seguito sia errato.
+    view: 
+      leave_a_comment: Lascia un commento
+      save_button: Salva
+      title: Diari degli utenti | {{user}}
+      user_title: Diario dell'utente {{user}}
+  export: 
+    start: 
+      add_marker: Aggiungi un marcatore alla mappa
+      area_to_export: Area da esportare
+      embeddable_html: HTML incapsulabile
+      export_button: Esporta
+      export_details: I dati di OpenStreetMap sono rilasciati sotto la <a href="http://creativecommons.org/licenses/by-sa/2.0/">licenza Creative Commons Attribution-ShareAlike 2.0</a>.
+      format: Formato
+      format_to_export: Formato di esportazione
+      image_size: Dimensione immagine
       latitude: "Lat:"
+      licence: Licenza
       longitude: "Lon:"
-      output: "Risultato"
-      paste_html: "Incolla l'HTML per incapsulare nel sito web"
-      export_button: "Esporta"
-    start_rjs:
-      export: "Esporta"
-      drag_a_box: "Traccia un riquadro sulla mappa per selezionare un'area"
-      manually_select: "Seleziona manualmente un'area differente"
-      click_add_marker: "Clicca sulla mappa per aggiungere un marcatore"
-      change_marker: "Cambia la posizione del marcatore"
-      add_marker: "Aggiungi un marcatore alla mappa"
-      view_larger_map: "Visualizza una mappa più ampia"
-  geocoder:
-    search:
-      title:
-        latlon: 'Risultati da <a href="http://openstreetmap.org/">Internal</a>'
-        us_postcode: 'Risultati da <a href="http://geocoder.us/">Geocoder.us</a>'
-        uk_postcode: 'Risultati da <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>'
-        ca_postcode: 'Risultati da <a href="http://geocoder.ca/">Geocoder.CA</a>'
-        osm_namefinder: 'Risultati da <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>'
-        geonames: 'Risultati da <a href="http://www.geonames.org/">GeoNames</a>'
-    results:
-      no_results: "Nessun risultato"
-  layouts:
-    welcome_user: "Benvenuto, {{user_link}}"
-    home: "posizione iniziale"
-    inbox: "in arrivo ({{count}})"
-    logout: esci
-    log_in: entra
-    sign_up: iscriviti
-    view: Visualizza
+      manually_select: Seleziona manualmente un'area differente
+      mapnik_image: Immagine Mapnik
+      max: max
+      options: Opzioni
+      osm_xml_data: Dati XML OpenStreetMap
+      osmarender_image: Immagine Osmarender
+      output: Risultato
+      paste_html: Incolla l'HTML per incapsulare nel sito web
+      scale: Scala
+      zoom: Ingrandimento
+    start_rjs: 
+      add_marker: Aggiungi un marcatore alla mappa
+      change_marker: Cambia la posizione del marcatore
+      click_add_marker: Clicca sulla mappa per aggiungere un marcatore
+      drag_a_box: Traccia un riquadro sulla mappa per selezionare un'area
+      export: Esporta
+      manually_select: Seleziona manualmente un'area differente
+      view_larger_map: Visualizza una mappa più ampia
+  geocoder: 
+    results: 
+      no_results: Nessun risultato
+    search: 
+      title: 
+        ca_postcode: Risultati da <a href="http://geocoder.ca/">Geocoder.CA</a>
+        geonames: Risultati da <a href="http://www.geonames.org/">GeoNames</a>
+        latlon: Risultati da <a href="http://openstreetmap.org/">Internal</a>
+        osm_namefinder: Risultati da <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>
+        uk_postcode: Risultati da <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
+        us_postcode: Risultati da <a href="http://geocoder.us/">Geocoder.us</a>
+  layouts: 
+    alt_donation: Fai una donazione
+    donate: Supporta OpenStreetMap {{link}} al fondo destinato all'aggiornamento dell'hardware.
+    donate_link_text: donando
     edit: Modifica
-    history: Storico
     export: Esporta
     gps_traces: Tracciati GPS
-    user_diaries: Diari degli utenti
-    tag_line: "La wiki-mappa Libera del Mondo"
-    intro_1: "OpenStreetMap è una mappa liberamente modificabile dell'intero pianeta. E' fatta da persone come te."
-    intro_2: "OpenStreetMap permette a chiunque sulla Terra di visualizzare, modificare ed utilizzare dati geografici con un approccio collaborativo."
-    intro_3: "L'hosting di OpenStreetMap è supportato gentilmente dalla {{ucl}} e {{bytemark}}."
-    osm_offline: "Il database di OpenStreetMap è al momento non in linea per pemettere lo svolgimento di alcuni lavori essenziali su di esso."
-    osm_read_only: "Il database di OpenStreetMap è al momento in modalità sola-lettura per pemettere lo svolgimento di alcuni lavori essenziali su di esso."
-    donate: "Supporta OpenStreetMap {{link}} al fondo destinato all'aggiornamento dell'hardware."
-    donate_link_text: donando
-    help_wiki: "Aiuto &amp; Wiki"
-    news_blog: "Blog delle notizie"
+    help_wiki: Aiuto &amp; Wiki
+    history: Storico
+    home: posizione iniziale
+    inbox: in arrivo ({{count}})
+    intro_1: OpenStreetMap è una mappa liberamente modificabile dell'intero pianeta. E' fatta da persone come te.
+    intro_2: OpenStreetMap permette a chiunque sulla Terra di visualizzare, modificare ed utilizzare dati geografici con un approccio collaborativo.
+    intro_3: L'hosting di OpenStreetMap è supportato gentilmente dalla {{ucl}} e {{bytemark}}.
+    log_in: entra
+    logout: esci
+    news_blog: Blog delle notizie
+    osm_offline: Il database di OpenStreetMap è al momento non in linea per pemettere lo svolgimento di alcuni lavori essenziali su di esso.
+    osm_read_only: Il database di OpenStreetMap è al momento in modalità sola-lettura per pemettere lo svolgimento di alcuni lavori essenziali su di esso.
     shop: Negozio
-    sotm: 'Vieni alla conferenza OpenStreetMap 2009, The State of the Map, ad Amsterdam il 10-12 Luglio!'
-    alt_donation: Fai una donazione
-  notifier:
-    diary_comment_notification:
+    sign_up: iscriviti
+    sotm: Vieni alla conferenza OpenStreetMap 2009, The State of the Map, ad Amsterdam il 10-12 Luglio!
+    tag_line: La wiki-mappa Libera del Mondo
+    user_diaries: Diari degli utenti
+    view: Visualizza
+    welcome_user: Benvenuto, {{user_link}}
+  map: 
+    coordinates: "Coordinate:"
+    edit: Modifica
+    view: Visualizza
+  message: 
+    inbox: 
+      date: Data
+      from: Da
+      my_inbox: I miei messaggi in arrivo
+      no_messages_yet: Non ci sono ancora messaggi. Perché non contatti qualcuna di queste {{people_mapping_nearby_link}}?
+      outbox: in uscita
+      people_mapping_nearby: persone che mappano nelle vicinanze
+      subject: Oggetto
+      title: In arrivo
+      you_have: Hai {{new_count}} nuovi messaggi e {{old_count}} vecchi messaggi
+    mark: 
+      as_read: Messaggio marcato come letto
+      as_unread: Messaggio marcato come non letto
+    message_summary: 
+      read_button: Marca come letto
+      reply_button: Rispondi
+      unread_button: Marca come non letto
+    new: 
+      back_to_inbox: Ritorna ai messaggi in arrivo
+      body: Corpo
+      message_sent: Messaggio inviato
+      send_button: Spedisci
+      send_message_to: Spedisci un nuovo messaggio a {{name}}
+      subject: Oggetto
+      title: Spedisci messaggio
+    no_such_user: 
+      body: Spiacenti, ma non c'è alcun utente o messaggio con questo nome o identificativo
+      heading: Nessun utente o messaggio
+    outbox: 
+      date: Data
+      inbox: in arrivo
+      my_inbox: Messaggi {{inbox_link}}
+      no_sent_messages: Non ci sono ancora messaggi inviati. Perché non contatti qualcuno di questi {{people_mapping_nearby_link}}?
+      outbox: in uscita
+      people_mapping_nearby: persone che mappano nelle vicinanze
+      subject: Oggetto
+      title: In uscita
+      to: A
+      you_have_sent_messages: Hai {{sent_count}} messaggi inviati
+    read: 
+      back_to_inbox: Ritorna ai messaggi in arrivo
+      back_to_outbox: Ritorna ai messaggi in uscita
+      date: Data
+      from: Da
+      reading_your_messages: Lettura dei propri messaggi
+      reading_your_sent_messages: Lettura dei propri messaggi inviati
+      reply_button: Rispondi
+      subject: Oggetto
+      title: Leggi messaggio
+      to: A
+      unread_button: Marca come non letto
+  notifier: 
+    diary_comment_notification: 
       banner1: "*                Per favore non rispondere a questa email.                *"
       banner2: "*          Utilizza il sito web di OpenStreetMap per rispondere.          *"
-      hi: "Salve {{to_user}},"
+      footer: Puoi anche leggere il commento su {{readurl}} e puoi commentare su {{commenturl}} oppure rispondere su {{replyurl}}
       header: "{{from_user}} ha commentato la tua recente voce del diario OpenStreetMap con l'oggetto {{subject}}:"
-      footer: "Puoi anche leggere il commento su {{readurl}} e puoi commentare su {{commenturl}} oppure rispondere su {{replyurl}}"
-    friend_notification:
+      hi: Salve {{to_user}},
+    friend_notification: 
       had_added_you: "{{user}} ti ha aggiunto come suo amico su OpenStreetMap."
-      see_their_profile: "Puoi vedere il loro profilo su {{userurl}} e aggiungerli anche come amici, se lo si desidera."
-    signup_confirm_plain:
-      greeting: "Benvenuto!"
-      hopefully_you: "Qualcuno (si spera tu) vuole creare un profilo"
-      # next two translations run-on : please word wrap appropriately
-      click_the_link_1: "Se questo qualcuno sei tu, benvenuto! Clicca sul collegamento sottostante"
-      click_the_link_2: "per confermare il tuo profilo ed avere ulteriori informazioni su OpenStreetMap."
+      see_their_profile: Puoi vedere il loro profilo su {{userurl}} e aggiungerli anche come amici, se lo si desidera.
+    signup_confirm_html: 
+      click_the_link: Se questo qualcuno sei tu, benvenuto! Clicca sul collegamento sottostante per confermare il tuo profilo ed avere ulteriori informazioni su OpenStreetMap.
+      current_user: Una lista degli utenti attuali nelle categorie, basate sul luogo in cui essi operano, è disponibile su <a href="http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region">Category:Users_by_geographical_region</a>.
+      get_reading: Puoi avere altre informazioni su OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Beginners%27_Guide">sul wiki</a> oppure <a href="http://www.opengeodata.org/">sul blog opengeodata</a> che mette a disposizione anche <a href="http://www.opengeodata.org/?cat=13">alcuni podcast da ascoltare</a>!
+      greeting: Benvenuto!
+      hopefully_you: Qualcuno (si spera tu) vuole creare un profilo
+      introductory_video: Puoi guardare un {{introductory_video_link}}.
+      more_videos: Ci sono {{more_videos_link}}.
+      more_videos_here: ulteriori video qui
+      user_wiki_page: E' consigliato creare una pagina utente sul wiki, che includa delle etichette di categoria che si riferiscano al luogo in si opera, come ad esempio <a href="http://wiki.openstreetmap.org/wiki/Category:Users_in_London">[[Category:Users_in_London]]</a>.
+      video_to_openstreetmap: video introduttivo su OpenStreetMap
+      wiki_signup: Ci si può anche <a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page">iscrivere al wiki di OpenStreetMap</a>.
+    signup_confirm_plain: 
+      click_the_link_1: Se questo qualcuno sei tu, benvenuto! Clicca sul collegamento sottostante
+      click_the_link_2: per confermare il tuo profilo ed avere ulteriori informazioni su OpenStreetMap.
+      current_user_1: Una lista degli utenti attuali nelle categorie, basate sul luogo in cui
+      current_user_2: "essi operano, è disponibile su:"
+      greeting: Benvenuto!
+      hopefully_you: Qualcuno (si spera tu) vuole creare un profilo
       introductory_video: "Puoi guardare un video introduttivo su OpenStreetMap qui:"
       more_videos: "Ci sono ulteriori video qui:"
-      the_wiki: "Puoi avere altre informazioni su OpenStreetMap sul wiki:"
       opengeodata: "OpenGeoData.org è il blog di OpenStreetMap, che mette a disposizione anche dei podcast:"
+      the_wiki: "Puoi avere altre informazioni su OpenStreetMap sul wiki:"
+      user_wiki_1: E' consigliato creare una pagina utente sul wiki, che includa delle etichette di categoria
+      user_wiki_2: che si riferiscano al luogo in si opera, come ad esempio [[Category:Users_in_Friuli-Venezia_Giulia]].
       wiki_signup: "Ci si può anche iscrivere al wiki di OpenStreetMap a:"
-      # next four translations are in pairs : please word wrap appropriately
-      user_wiki_1: "E' consigliato creare una pagina utente sul wiki, che includa delle etichette di categoria"
-      user_wiki_2: "che si riferiscano al luogo in si opera, come ad esempio [[Category:Users_in_Friuli-Venezia_Giulia]]."
-      current_user_1: "Una lista degli utenti attuali nelle categorie, basate sul luogo in cui"
-      current_user_2: "essi operano, è disponibile su:"
-    signup_confirm_html:
-      greeting: "Benvenuto!"
-      hopefully_you: "Qualcuno (si spera tu) vuole creare un profilo"
-      click_the_link: "Se questo qualcuno sei tu, benvenuto! Clicca sul collegamento sottostante per confermare il tuo profilo ed avere ulteriori informazioni su OpenStreetMap."
-      introductory_video: "Puoi guardare un {{introductory_video_link}}."
-      video_to_openstreetmap: "video introduttivo su OpenStreetMap"
-      more_videos: "Ci sono {{more_videos_link}}."
-      more_videos_here: "ulteriori video qui"
-      get_reading: 'Puoi avere altre informazioni su OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Beginners%27_Guide">sul wiki</a> oppure <a href="http://www.opengeodata.org/">sul blog opengeodata</a> che mette a disposizione anche <a href="http://www.opengeodata.org/?cat=13">alcuni podcast da ascoltare</a>!'
-      wiki_signup: 'Ci si può anche <a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page">iscrivere al wiki di OpenStreetMap</a>.'
-      user_wiki_page: 'E'' consigliato creare una pagina utente sul wiki, che includa delle etichette di categoria che si riferiscano al luogo in si opera, come ad esempio <a href="http://wiki.openstreetmap.org/wiki/Category:Users_in_London">[[Category:Users_in_London]]</a>.'
-      current_user: 'Una lista degli utenti attuali nelle categorie, basate sul luogo in cui essi operano, è disponibile su <a href="http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region">Category:Users_by_geographical_region</a>.'
-  message:
-    inbox:
-      title: "In arrivo"
-      my_inbox: "I miei messaggi in arrivo"
-      outbox: "in uscita"
-      you_have: "Hai {{new_count}} nuovi messaggi e {{old_count}} vecchi messaggi"
-      from: "Da"
-      subject: "Oggetto"
-      date: "Data"
-      no_messages_yet: "Non ci sono ancora messaggi. Perché non contatti qualcuna di queste {{people_mapping_nearby_link}}?"
-      people_mapping_nearby: "persone che mappano nelle vicinanze"
-    message_summary:
-      unread_button: "Marca come non letto"
-      read_button: "Marca come letto"
-      reply_button: "Rispondi"
-    new:
-      title: "Spedisci messaggio"
-      send_message_to: "Spedisci un nuovo messaggio a {{name}}"
-      subject: "Oggetto"
-      body: "Corpo"
-      send_button: "Spedisci"
-      back_to_inbox: "Ritorna ai messaggi in arrivo"
-      message_sent: "Messaggio inviato"
-    no_such_user:
-      heading: "Nessun utente o messaggio"
-      body: "Spiacenti, ma non c'è alcun utente o messaggio con questo nome o identificativo"
-    outbox:
-      title: "In uscita"
-      my_inbox: "Messaggi {{inbox_link}}"
-      inbox: "in arrivo"
-      outbox: "in uscita"
-      you_have_sent_messages: "Hai {{sent_count}} messaggi inviati"
-      to: "A"
-      subject: "Oggetto"
-      date: "Data"
-      no_sent_messages: "Non ci sono ancora messaggi inviati. Perché non contatti qualcuno di questi {{people_mapping_nearby_link}}?"
-      people_mapping_nearby: "persone che mappano nelle vicinanze"
-    read:
-      title: "Leggi messaggio"
-      reading_your_messages: "Lettura dei propri messaggi"
-      from: "Da"
-      subject: "Oggetto"
-      date: "Data"
-      reply_button: "Rispondi"
-      unread_button: "Marca come non letto"
-      back_to_inbox: "Ritorna ai messaggi in arrivo"
-      reading_your_sent_messages: "Lettura dei propri messaggi inviati"
-      to: "A"
-      back_to_outbox: "Ritorna ai messaggi in uscita"
-    mark:
-      as_read: "Messaggio marcato come letto"
-      as_unread: "Messaggio marcato come non letto"
-  site:
-    index:
-      js_1: "Si sta utilizzando un browser che non supporta javascript, oppure è stato disabilitato javascript."
-      js_2: "OpenStreetMap utilizza javascript per le sua mappa."
-      js_3: 'Se non si riesce ad abilitare javascript si può provare il <a href="http://tah.openstreetmap.org/Browse/">browser statico Tiles@Home</a>.'
-      permalink: Permalink
-      license:
-        notice: "Rilasciato sotto la licenza {{license_name}} dal {{project_name}} ed i suoi contributori."
-        license_name: "Creative Commons Attribution-Share Alike 2.0"
-        project_name: "progetto OpenStreetMap"
-    edit:
-      not_public: "Non si sono impostate come pubbliche le proprie modifiche."
-      not_public_description: "Non è possibile modificare la mappa finché non lo si fa. Si possono impostare come pubbliche le proprie modifiche dalla propria {{user_page}}."
+  site: 
+    edit: 
+      anon_edits_link_text: Leggi il perché.
+      flash_player_required: E' necessario un visualizzatore Flash per utilizzare Potlatch, il programma Flash per le modifiche di OpenStreetMap. Si può <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">scaricare il Flash Player da Adobe.com</a>. Sono disponibili anche <a href="http://wiki.openstreetmap.org/wiki/Editing">altre possibilità</a> per apportare modifiche a OpenStreetMap.
+      not_public: Non si sono impostate come pubbliche le proprie modifiche.
+      not_public_description: Non è possibile modificare la mappa finché non lo si fa. Si possono impostare come pubbliche le proprie modifiche dalla propria {{user_page}}.
+      potlatch_unsaved_changes: Ci sono modifiche non salvate. (Per salvare in Potlatch, si dovrebbe deselezionare il percorso o nodo corrente, se si sta editando nella modalità 'list', o cliccare sul bottone salva se presente.)
       user_page_link: pagina utente
-      anon_edits: "({{link}})"
-      anon_edits_link: "http://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits"
-      anon_edits_link_text: "Leggi il perché."
-      flash_player_required: 'E'' necessario un visualizzatore Flash per utilizzare Potlatch, il programma Flash per le modifiche di OpenStreetMap. Si può <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">scaricare il Flash Player da Adobe.com</a>. Sono disponibili anche <a href="http://wiki.openstreetmap.org/wiki/Editing">altre possibilità</a> per apportare modifiche a OpenStreetMap.'
-      potlatch_unsaved_changes: "Ci sono modifiche non salvate. (Per salvare in Potlatch, si dovrebbe deselezionare il percorso o nodo corrente, se si sta editando nella modalità 'list', o cliccare sul bottone salva se presente.)"
-    sidebar:
-      search_results: Risultati della ricerca
-      close: Chiudi
-    search:
+    index: 
+      js_1: Si sta utilizzando un browser che non supporta javascript, oppure è stato disabilitato javascript.
+      js_2: OpenStreetMap utilizza javascript per le sua mappa.
+      js_3: Se non si riesce ad abilitare javascript si può provare il <a href="http://tah.openstreetmap.org/Browse/">browser statico Tiles@Home</a>.
+      license: 
+        license_name: Creative Commons Attribution-Share Alike 2.0
+        notice: Rilasciato sotto la licenza {{license_name}} dal {{project_name}} ed i suoi contributori.
+        project_name: progetto OpenStreetMap
+      permalink: Permalink
+    key: 
+      map_key: Legenda
+    search: 
       search: Cerca
-      where_am_i: "Dove sono?"
-      submit_text: "Vai"
       search_help: "esempi: 'Trieste', 'Via Dante Alighieri, Trieste', 'CB2 5AQ', oppure 'post offices near Trieste' <a href='http://wiki.openstreetmap.org/wiki/Search'>altri esempi...</a>"
-    key:
-      map_key: "Legenda"
-  trace:
-    create:
-      upload_trace: "Carica tracciato GPS"
-      trace_uploaded: "Il tuo file GPX è stato caricato ed è in attesa del suo inserimento nel database. Questo generalmente accade entro mezz'ora, con il successivo invio al tuo indirizzo di una email di conferma relativo al completamento dell'operazione."
-    edit:
-      filename: "Nome file:"
-      uploaded_at: "Caricato il:"
-      points: "Punti:"
-      start_coord: "Coordinata iniziale:"
-      edit: "modifica"
-      owner: "Proprietario:"
+      submit_text: Vai
+      where_am_i: Dove sono?
+    sidebar: 
+      close: Chiudi
+      search_results: Risultati della ricerca
+  trace: 
+    create: 
+      trace_uploaded: Il tuo file GPX è stato caricato ed è in attesa del suo inserimento nel database. Questo generalmente accade entro mezz'ora, con il successivo invio al tuo indirizzo di una email di conferma relativo al completamento dell'operazione.
+      upload_trace: Carica tracciato GPS
+    delete: 
+      scheduled_for_deletion: Tracciato in attesa di essere eliminato
+    edit: 
       description: "Descrizione:"
-      tags: "Etichette:"
-      save_button: "Salva modifiche"
-    no_such_user:
-      body: "Spiacenti, non c'è alcun utente con il nome {{user}}. Controllare la digitazione, oppure potrebbe essere che il collegamento che si è seguito sia errato."
-    trace_form:
-      upload_gpx: "Carica file GPX"
-      description: "Descrizione"
-      tags: "Etichette"
-      public: "Pubblico?"
-      upload_button: "Carica"
-      help: "Aiuto"
-    trace_header:
-      see_just_your_traces: "Vedi solo i tuoi tracciati, o carica un tracciato"
-      see_all_traces: "Vedi tutti i tracciati"
-      see_your_traces: "Vedi tutti i tuoi tracciati"
-      traces_waiting: "Ci sono {{count}} tracciati in attesa di caricamento. Si consiglia di aspettare il loro completamento prima di caricarne altri, altrimenti si blocca la lista di attesa per altri utenti."
-    trace_optionals:
-      tags: "Etichette"
-    view:
-      pending: "IN ATTESA"
+      edit: modifica
       filename: "Nome file:"
-      download: "scarica"
-      uploaded: "Caricato il:"
+      owner: "Proprietario:"
+      points: "Punti:"
+      save_button: Salva modifiche
+      start_coord: "Coordinata iniziale:"
+      tags: "Etichette:"
+      uploaded_at: "Caricato il:"
+    list: 
+      public_traces: Tracciati GPS pubblici
+      public_traces_from: Tracciati GPS pubblici di {{user}}
+      tagged_with: " etichettati con {{tags}}"
+      your_traces: Tracciati GPS personali
+    make_public: 
+      made_public: Tracciato reso pubblico
+    no_such_user: 
+      body: Spiacenti, non c'è alcun utente con il nome {{user}}. Controllare la digitazione, oppure potrebbe essere che il collegamento che si è seguito sia errato.
+    trace: 
+      ago: "{{time_in_words_ago}} fa"
+      by: da
+      count_points: "{{count}} punti"
+      edit: modifica
+      edit_map: Modifica mappa
+      in: in
+      map: mappa
+      more: altri
+      pending: IN ATTESA
+      private: PRIVATO
+      public: PUBBLICO
+      trace_details: Visualizza i dettagli del tracciato
+      view_map: Visualizza mappa
+    trace_form: 
+      description: Descrizione
+      help: Aiuto
+      tags: Etichette
+      upload_button: Carica
+      upload_gpx: Carica file GPX
+    trace_header: 
+      see_all_traces: Vedi tutti i tracciati
+      see_just_your_traces: Vedi solo i tuoi tracciati, o carica un tracciato
+      see_your_traces: Vedi tutti i tuoi tracciati
+      traces_waiting: Ci sono {{count}} tracciati in attesa di caricamento. Si consiglia di aspettare il loro completamento prima di caricarne altri, altrimenti si blocca la lista di attesa per altri utenti.
+    trace_optionals: 
+      tags: Etichette
+    trace_paging_nav: 
+      of: di
+      showing: Visualizzata la pagina
+    view: 
+      delete_track: Elimina questo tracciato
+      description: "Descrizione:"
+      download: scarica
+      edit: modifica
+      edit_track: Modifica questo tracciato
+      filename: "Nome file:"
+      heading: Visualizzazione del tracciato {{name}}
+      map: mappa
+      none: Nessuno
+      owner: "Proprietario:"
+      pending: IN ATTESA
       points: "Punti:"
       start_coordinates: "Coordinata iniziale:"
-      map: "mappa"
-      edit: "modifica"
-      owner: "Proprietario:"
-      description: "Descrizione:"
-      tags: "Etichette"
-      none: "Nessuno"
-      make_public: "Rendi pubblico questo tracciato in modo permanente"
-      edit_track: "Modifica questo tracciato"
-      delete_track: "Elimina questo tracciato"
-      heading: "Visualizzazione del tracciato {{name}}"
-      trace_not_found: "Tracciato non trovato!"
-    trace_paging_nav:
-      showing: "Visualizzata la pagina"
-      of: "di"
-    trace:
-      pending: "IN ATTESA"
-      count_points: "{{count}} punti"
-      ago: "{{time_in_words_ago}} fa"
-      more: "altri"
-      trace_details: "Visualizza i dettagli del tracciato"
-      view_map: "Visualizza mappa"
-      edit: "modifica"
-      edit_map: "Modifica mappa"
-      public: "PUBBLICO"
-      private: "PRIVATO"
-      by: "da"
-      in: "in"
-      map: "mappa"
-    list:
-      public_traces: "Tracciati GPS pubblici"
-      your_traces: "Tracciati GPS personali"
-      public_traces_from: "Tracciati GPS pubblici di {{user}}"
-      tagged_with: " etichettati con {{tags}}"
-    delete:
-      scheduled_for_deletion: "Tracciato in attesa di essere eliminato"
-    make_public:
-      made_public: "Tracciato reso pubblico"
-  user:
-    login:
-      title: "Entra"
-      heading: "Entra"
-      please login: "Entra o {{create_user_link}}."
-      create_account: "crea un profilo"
-      email or username: "Indirizzo email o nome utente:"
-      password: "Password:"
-      lost password link: "Persa la password?"
-      login_button: "Entra"
-      account not active: "Spiacenti, il tuo profilo non è ancora attivo.<br />Clicca sul collegamento presente nell'email di conferma per attivare il tuo profilo."
-      auth failure: "Spiacenti, non si può accedere con questi dettagli."
-    lost_password:
-      title: "password persa"
-      heading: "Password dimenticata?"
-      email address: "Indirizzo email:"
-      new password button: "Spediscimi una nuova password"
-      notice email on way: "Siamo spiacenti che tu l'abbia persa :-( ma una email ti è stata spedita in modo che tu la possa presto reimpostare."
-      notice email cannot find: "Spiacenti, ma non è possibile trovare l'indirizzo email."
-    reset_password:
-      title: "reimposta la password"
-      flash changed check mail: "La tua password è stata cambiata ed è stata inoltrata alla tua casella di posta :-)"
-      flash token bad: "Non è stato possibile trovare il codice. Controllare l'indirizzo URL."
-    new:
-      title: "Crea profilo"
-      heading: "Crea un profilo utente"
-      no_auto_account_create: "Sfortunatamente in questo momento non è possibile creare automaticamente per te un profilo."
-      contact_webmaster: 'Si prega di contattare il <a href="mailto:webmaster@openstreetmap.org">webmaster</a> affinchè faccia in modo di creare un profilo. Tenteremo di soddisfare la richiesta il più rapidamente possibile.'
-      fill_form: "Riempi il modulo e noi ti invieremo velocemente una email per attivare il tuo profilo."
-      license_agreement: 'Con la creazione di un profilo si accetta che tutto il lavoro caricato nel progetto Openstreetmap è da ritenersi (in modo non-esclusivo) rilasciato sotto <a href="http://creativecommons.org/licenses/by-sa/2.0/">questa licenza Creative Commons (by-sa)</a>.'
-      email address: "Indirizzo email:"
-      confirm email address: "Conferma indirizzo email:"
-      not displayed publicly: 'Non visualizzato pubblicamente (vedi le <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="wiki privacy policy including section on email addresses">norme sulla privacy</a>)'
-      display name: "Nome visualizzato:"
-      password: "Password:"
-      confirm password: "Conferma password:"
-      signup: Iscrivi
-      flash create success message: "L'utente è stato creato con successo. Controllare la propria email per conferma, e si sarà in grado di mappare immediatamente :-)<br /><br />Si ricorda che non si sarà in grado di effettuare l'accesso finché non si sarà ricevuta e confermata la propria email.<br /><br />Se si utilizza un sistema antispam che spedisce richieste di conferma allora assicurarsi di accreditare l'indirizzo webmaster@openstreetmap.org altrimenti non siamo in grado di rispondere ad alcuna richiesta di conferma."
-    no_such_user:
-      body: "Spiacenti, non c'è alcun utente con il nome {{user}}. Controllare la digitazione, oppure potrebbe essere che il collegamento che si è seguito sia errato."
-    view:
-      my diary: diario personale
-      new diary entry: nuova voce del diario
-      my edits: modifiche personali
-      my traces: tracciati personali
-      my settings: impostazioni personali
-      send message: spedisci messaggio
-      diary: diario
-      edits: modifiche
-      traces: tracciati
-      remove as friend: rimuovi come amico
-      add as friend: aggiungi come amico
-      mapper since: "Mappatore dal:"
-      ago: "({{time_in_words_ago}} fa)"
-      user image heading: "Immagine dell'utente"
-      delete image: Elimina immagine
-      upload an image: Carica una immagine
-      add image: Aggiungi immagine
-      description: Descrizione
-      user location: "Luogo dell'utente"
-      no home location: "Non è stato impostato alcun luogo."
-      if set location: "Se si imposta una propria posizione, una bella mappa ed altre informazioni compariranno di seguito. E' possibile impostare la propria posizione sulla pagina delle {{settings_link}}."
-      settings_link_text: impostazioni
-      your friends: Amici personali
-      no friends: Non ci sono ancora amici.
-      km away: "distante {{count}} km"
-      nearby users: "Utenti nelle vicinanze:"
-      no nearby users: "Non c'è ancora alcun utente che ammette di mappare nelle vicinanze."
-      change your settings: modifica le impostazioni personali
-    friend_map:
-      your location: Propria posizione
-      nearby mapper: "Mappatore vicino: [[nearby_user]]"
-    account:
-      title: "Modifica profilo"
-      my settings: Impostazioni personali
-      email never displayed publicly: "(mai visualizzato pubblicamente)"
-      public editing:
-        heading: "Modifiche pubbliche:"
-        enabled: "Abilitate. Non anonimo con il permesso di modificare i dati."
-        enabled link: "http://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits"
-        enabled link text: "cos'è questo?"
-        disabled: "Disabilitate senza il permesso di modificare i dati, tutte le modifiche precedenti sono anonime."
-        disabled link text: "perché non posso modificare?"
-      profile description: "Descrizione del profilo:"
-      preferred languages: "Lingua preferita:"
+      tags: Etichette
+      trace_not_found: Tracciato non trovato!
+      uploaded: "Caricato il:"
+  user: 
+    account: 
+      email never displayed publicly: (mai visualizzato pubblicamente)
+      flash update success: Informazioni sull'utente aggiornate con successo.
+      flash update success confirm needed: Informazioni sull'utente aggiornate con successo. Controllare la propria email per la conferma del nuovo indirizzo di posta elettronica.
       home location: "Posizione:"
-      no home location: "Non si è inserita la propria posizione."
       latitude: "Latitudine:"
       longitude: "Longitudine:"
-      update home location on click: "Aggiorna la posizione quando clicco sulla mapppa?"
-      save changes button: Salva modifiche
       make edits public button: Rendi pubbliche tutte le mie modifiche
+      my settings: Impostazioni personali
+      no home location: Non si è inserita la propria posizione.
+      preferred languages: "Lingua preferita:"
+      profile description: "Descrizione del profilo:"
+      public editing: 
+        disabled: Disabilitate senza il permesso di modificare i dati, tutte le modifiche precedenti sono anonime.
+        disabled link text: perché non posso modificare?
+        enabled: Abilitate. Non anonimo con il permesso di modificare i dati.
+        enabled link: http://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits
+        enabled link text: cos'è questo?
+        heading: "Modifiche pubbliche:"
       return to profile: Ritorna al profilo
-      flash update success confirm needed: "Informazioni sull'utente aggiornate con successo. Controllare la propria email per la conferma del nuovo indirizzo di posta elettronica."
-      flash update success: "Informazioni sull'utente aggiornate con successo."
-    confirm:
+      save changes button: Salva modifiche
+      title: Modifica profilo
+      update home location on click: Aggiorna la posizione quando clicco sulla mapppa?
+    confirm: 
+      button: Conferma
+      failure: E' stato già confermato un profilo utente con questo codice.
       heading: Conferma un profilo utente
-      press confirm button: "Premere sul pulsante di conferma sottostante per attivare il proprio profilo utente."
+      press confirm button: Premere sul pulsante di conferma sottostante per attivare il proprio profilo utente.
+      success: Il profilo utente è stato confermato, grazie per l'iscrizione!
+    confirm_email: 
       button: Conferma
-      success: "Il profilo utente è stato confermato, grazie per l'iscrizione!"
-      failure: "E' stato già confermato un profilo utente con questo codice."
-    confirm_email:
+      failure: E' stato già confermato un indirizzo email con questo codice.
       heading: Conferma una variazione di indirizzo email
-      press confirm button: "Premere sul pulsante di conferma sottostante per confermare il nuovo indirizzo email."
-      button: Conferma
-      success: "L'indirizzo email è stato confermato, grazie per l'iscrizione!"
-      failure: "E' stato già confermato un indirizzo email con questo codice."
-    set_home:
-      flash success: "Posizione personale salvata con successo"
-    go_public:
-      flash success: "Tutte le tue modifiche sono ora pubbliche, e hai il permesso di modificare."
-    make_friend:
+      press confirm button: Premere sul pulsante di conferma sottostante per confermare il nuovo indirizzo email.
+      success: L'indirizzo email è stato confermato, grazie per l'iscrizione!
+    friend_map: 
+      nearby mapper: "Mappatore vicino: [[nearby_user]]"
+      your location: Propria posizione
+    go_public: 
+      flash success: Tutte le tue modifiche sono ora pubbliche, e hai il permesso di modificare.
+    login: 
+      account not active: Spiacenti, il tuo profilo non è ancora attivo.<br />Clicca sul collegamento presente nell'email di conferma per attivare il tuo profilo.
+      auth failure: Spiacenti, non si può accedere con questi dettagli.
+      create_account: crea un profilo
+      email or username: "Indirizzo email o nome utente:"
+      heading: Entra
+      login_button: Entra
+      lost password link: Persa la password?
+      password: "Password:"
+      please login: Entra o {{create_user_link}}.
+      title: Entra
+    lost_password: 
+      email address: "Indirizzo email:"
+      heading: Password dimenticata?
+      new password button: Spediscimi una nuova password
+      notice email cannot find: Spiacenti, ma non è possibile trovare l'indirizzo email.
+      notice email on way: Siamo spiacenti che tu l'abbia persa :-( ma una email ti è stata spedita in modo che tu la possa presto reimpostare.
+      title: password persa
+    make_friend: 
+      already_a_friend: Sei già amico di {{name}}.
+      failed: Spiacenti, non è stato possibile aggiungere {{name}} come un amico.
       success: "{{name}} è ora tuo amico."
-      failed: "Spiacenti, non è stato possibile aggiungere {{name}} come un amico."
-      already_a_friend: "Sei già amico di {{name}}."
-    remove_friend:
-      success: "{{name}} è stato rimosso dai tuoi amici."
+    new: 
+      confirm email address: "Conferma indirizzo email:"
+      confirm password: "Conferma password:"
+      contact_webmaster: Si prega di contattare il <a href="mailto:webmaster@openstreetmap.org">webmaster</a> affinchè faccia in modo di creare un profilo. Tenteremo di soddisfare la richiesta il più rapidamente possibile.
+      display name: "Nome visualizzato:"
+      email address: "Indirizzo email:"
+      fill_form: Riempi il modulo e noi ti invieremo velocemente una email per attivare il tuo profilo.
+      flash create success message: L'utente è stato creato con successo. Controllare la propria email per conferma, e si sarà in grado di mappare immediatamente :-)<br /><br />Si ricorda che non si sarà in grado di effettuare l'accesso finché non si sarà ricevuta e confermata la propria email.<br /><br />Se si utilizza un sistema antispam che spedisce richieste di conferma allora assicurarsi di accreditare l'indirizzo webmaster@openstreetmap.org altrimenti non siamo in grado di rispondere ad alcuna richiesta di conferma.
+      heading: Crea un profilo utente
+      license_agreement: Con la creazione di un profilo si accetta che tutto il lavoro caricato nel progetto Openstreetmap è da ritenersi (in modo non-esclusivo) rilasciato sotto <a href="http://creativecommons.org/licenses/by-sa/2.0/">questa licenza Creative Commons (by-sa)</a>.
+      no_auto_account_create: Sfortunatamente in questo momento non è possibile creare automaticamente per te un profilo.
+      not displayed publicly: Non visualizzato pubblicamente (vedi le <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="wiki privacy policy including section on email addresses">norme sulla privacy</a>)
+      password: "Password:"
+      signup: Iscrivi
+      title: Crea profilo
+    no_such_user: 
+      body: Spiacenti, non c'è alcun utente con il nome {{user}}. Controllare la digitazione, oppure potrebbe essere che il collegamento che si è seguito sia errato.
+    remove_friend: 
       not_a_friend: "{{name}} non è uno dei tuoi amici."
+      success: "{{name}} è stato rimosso dai tuoi amici."
+    reset_password: 
+      flash token bad: Non è stato possibile trovare il codice. Controllare l'indirizzo URL.
+      title: reimposta la password
+    set_home: 
+      flash success: Posizione personale salvata con successo
+    view: 
+      add as friend: aggiungi come amico
+      add image: Aggiungi immagine
+      ago: ({{time_in_words_ago}} fa)
+      change your settings: modifica le impostazioni personali
+      delete image: Elimina immagine
+      description: Descrizione
+      diary: diario
+      edits: modifiche
+      if set location: Se si imposta una propria posizione, una bella mappa ed altre informazioni compariranno di seguito. E' possibile impostare la propria posizione sulla pagina delle {{settings_link}}.
+      km away: distante {{count}} km
+      mapper since: "Mappatore dal:"
+      my diary: diario personale
+      my edits: modifiche personali
+      my settings: impostazioni personali
+      my traces: tracciati personali
+      nearby users: "Utenti nelle vicinanze:"
+      new diary entry: nuova voce del diario
+      no friends: Non ci sono ancora amici.
+      no home location: Non è stato impostato alcun luogo.
+      no nearby users: Non c'è ancora alcun utente che ammette di mappare nelle vicinanze.
+      remove as friend: rimuovi come amico
+      send message: spedisci messaggio
+      settings_link_text: impostazioni
+      traces: tracciati
+      upload an image: Carica una immagine
+      user image heading: Immagine dell'utente
+      user location: Luogo dell'utente
+      your friends: Amici personali

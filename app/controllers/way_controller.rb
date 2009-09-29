@@ -67,7 +67,7 @@ class WayController < ApplicationController
       user_display_name_cache = {}
 
       doc = OSM::API.new.get_xml_doc
-      way.nodes.each do |node|
+      way.nodes.uniq.each do |node|
         if node.visible
           doc.root << node.to_xml_node(changeset_cache, user_display_name_cache)
         end
