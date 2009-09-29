@@ -54,7 +54,7 @@ Print this help message.
 
 =item --locales-dir
 
-The locales dir we'll merge stuff into. E.g. C<config/locales>.
+The locales dir we'll merge stuff into. F<config/locales> by default.
 
 =item --only-new
 
@@ -73,14 +73,14 @@ Getopt::Long::Parser->new(
     config => [ qw< bundling no_ignore_case no_require_order pass_through > ],
 )->getoptions(
     'h|help' => \my $help,
-    'locales-dir=s' => \my $locales_dir,
+    'locales-dir=s' => \(my $locales_dir = 'config/locales'),
     'only-new' => \my $only_new,
 ) or help();
 
 # On --help
 help() if $help;
 
-help() unless $locales_dir;
+help() unless $locales_dir and -d $locales_dir;
 
 ###
 ### Main
