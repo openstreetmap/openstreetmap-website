@@ -79,25 +79,26 @@ fr:
       title: Groupe de modifications
     changeset_details: 
       belongs_to: "Appartient à :"
-      bounding_box: "Bounding box :"
-      box: boite
+      bounding_box: "Cadre de délimitation :"
+      box: cadre
       closed_at: "Terminé le :"
       created_at: "Créé le :"
       has_nodes: 
         one: "Concerne le {{count}} nœud suivant :"
         other: "Concerne les {{count}} nœuds suivants :"
       has_relations: 
+        one: "Concerne la relation suivante :"
         other: "Concerne les {{count}} relations suivantes :"
       has_ways: "A les {{count}} ways suivants :"
-      no_bounding_box: Aucune bounding box n'a été stockée pour ce changeset.
-      show_area_box: Montrer la boite
+      no_bounding_box: Aucun cadre de délimitation n'a été stocké pour ce changeset.
+      show_area_box: Montrer le cadre
     changeset_navigation: 
       all: 
         next_tooltip: Groupe de modifications suivant
         prev_tooltip: Groupe de modifications précédent
       user: 
         name_tooltip: Voir les modifications par {{user}}
-        next_tooltip: Prochaines modifications par {{user}}
+        next_tooltip: Modifications suivantes par {{user}}
         prev_tooltip: Modifications précédentes par {{user}}
     common_details: 
       changeset_comment: "Commentaire :"
@@ -158,6 +159,7 @@ fr:
       relation_history_title: "Historique de la relation : {{relation_name}}"
       view_details: afficher les détails
     relation_member: 
+      entry_role: "{{type}} {{name}} avec le rôle {{role}}"
       type: 
         node: Nœud
         relation: Relation
@@ -169,11 +171,11 @@ fr:
       data_frame_title: Données
       data_layer_name: Données
       details: Détails
-      drag_a_box: Dessiner une boite sur la carte pour sélectionner une zone
+      drag_a_box: Dessiner un cadre sur la carte pour sélectionner une zone
       edited_by_user_at_timestamp: Édité par [[user]] le [[timestamp]]
       history_for_feature: Historique pour [[feature]]
       load_data: Charger les données
-      loaded_an_area_with_num_features: "Vous avez chargé une zone qui contient [[num_features]] un grand nombre d'éléments. En général, les navigateurs ne supportent pas bien l'affichage de tant de données, et travaillent mieux lorsqu'ils affichent moins de 100 éléments : accepter peut rendre votre navigateur lent ou non fonctionnel. Si vous etes sûr de vouloir afficher ces données, vous pouvez le faire en appuyant sur le bouton ci-dessous."
+      loaded_an_area_with_num_features: "Vous avez chargé une zone qui contient [[num_features]] éléments. En général, les navigateurs ne supportent pas bien l'affichage de tant de données, et travaillent mieux lorsqu'ils affichent moins de 100 éléments : accepter peut rendre votre navigateur lent ou non fonctionnel. Si vous êtes sûr de vouloir afficher ces données, vous pouvez le faire en appuyant sur le bouton ci-dessous."
       loading: Chargement...
       manually_select: Sélectionner manuellement une zone différente
       object_list: 
@@ -194,7 +196,7 @@ fr:
           way: Chemin
       private_user: utilisateur privé
       show_history: Montrer l'historique
-      unable_to_load_size: "Impossible de charger les données : la Bounding box d'une taille de [[bbox_size]] est trop grande (elle doit être plus petite que {{max_bbox_size}})"
+      unable_to_load_size: "Impossible de charger les données : le cadre de délimitation d'une taille de [[bbox_size]] est trop grand (il doit être inférieur à {{max_bbox_size}})"
       wait: Patienter...
       zoom_or_select: Zoomer ou sélectionner une zone de la carte pour la visualiser
     tag_details: 
@@ -376,7 +378,7 @@ fr:
       suffix_parent: "{{suffix}} ({{parentdistance}} {{parentdirection}} de {{parentname}})"
       suffix_place: ", {{distance}} {{direction}} de {{placename}}"
   layouts: 
-    alt_donation: Faites une donation
+    alt_donation: Faire un don
     donate: Soutenez OpenStreetMap, {{link}} au fond pour améliorer le matériel.
     donate_link_text: participez
     edit: Éditer
@@ -391,7 +393,7 @@ fr:
     history_tooltip: Historique du groupe de modifications
     home: Chez moi
     home_tooltip: Aller à l'emplacement de mon domicile
-    inbox: Boite aux lettres ({{count}})
+    inbox: Boîte aux lettres ({{count}})
     inbox_tooltip: 
       one: Votre boîte aux lettres contient 1 message non lu
       other: Votre boîte aux lettres contient {{count}} messages non lus
@@ -516,6 +518,7 @@ fr:
         subject: "[OpenStreetMap] Erreur lors de l'import GPX"
       greeting: Bonjour,
       success: 
+        loaded_successfully: s'est chargé correctement avec {{trace_points}} points sur {{possible_points}}.
         subject: "[OpenStreetMap] Import GPX réussi"
       with_description: avec les description
       your_gpx_file: Il semble que votre fichier GPX
@@ -542,6 +545,7 @@ fr:
       subject: "[OpenStreetMap] Confirmer votre adresse de courriel"
     signup_confirm_html: 
       click_the_link: Si vous êtes à l'origine de cette action, bienvenue ! Cliquez sur le lien ci-dessous pour confirmer la création de compte et avoir plus d'informations sur OpenStreetMap
+      current_user: Une liste par catégories des utilisateurs actuels, basée sur leur position géographique, est disponible dans <a href="http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region">Category:Users_by_geographical_region</a>.
       get_reading: Plus d’informations sur OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/FR:Beginners_Guide">sur le wiki</a> ou <a href="http://www.opengeodata.org/">sur le blog opengeodata</a> qui propose également des  <a href="http://www.opengeodata.org/?cat=13">podcasts à écouter</a> !
       greeting: Bonjour !
       hopefully_you: Quelqu'un (probablement vous) aimerait créer un compte sur
@@ -647,14 +651,15 @@ fr:
         license_name: Creative Commons Attribution-Share Alike 2.0
         notice: Sous license {{license_name}} par le {{project_name}} et ses contributeurs.
         project_name: projet OpenStreetMap
-      permalink: Permalink
+      permalink: Lien permanent
       shortlink: Lien court
     key: 
       map_key: Légende de la carte
+      map_key_tooltip: Légende pour le rendu Mapnik à ce niveau de zoom
       table: 
         entry: 
           admin: Limite administrative
-          allotments: Lotissements
+          allotments: Jardins familiaux
           apron: 
             - Piste d'aéroport
             - terminal
@@ -671,6 +676,7 @@ fr:
           commercial: Zone commerciale
           common: 
             - prairie
+            - Prairie
           construction: Routes en construction
           cycleway: Voie cyclable
           farm: Ferme
@@ -713,11 +719,12 @@ fr:
           trunk: Route nationale
           tunnel: Bord en pointillés = tunnel
           unclassified: Route non classifiée
+          unsurfaced: Route non revêtue
           wood: Bois
         heading: Légende pour z{{zoom_level}}
     search: 
       search: Recherche
-      search_help: "exemples : 'Alkmaar', 'Regent Street, Cambridge', 'CB2 5AQ', ou 'bureaux de poste près de Lünen' <a href='http://wiki.openstreetmap.org/wiki/Search'>Autres d'exemples...</a>"
+      search_help: "exemples : 'Alkmaar', 'Regent Street, Cambridge', 'CB2 5AQ', ou 'bureaux de poste près de Lünen' <a href='http://wiki.openstreetmap.org/wiki/Search'>Autres exemples...</a>"
       submit_text: Envoyer
       where_am_i: Où suis-je ?
     sidebar: 
@@ -818,7 +825,7 @@ fr:
     account: 
       email never displayed publicly: (jamais affiché publiquement)
       flash update success: Informations sur l'utilisateur mises à jour avec succès.
-      flash update success confirm needed: Informations sur l'utilisateur mises à jour avec succès. Vérifiez votre boite mail afin de valider la vérification de votre nouvelle adresse e-mail.
+      flash update success confirm needed: Informations sur l'utilisateur mises à jour avec succès. Vérifiez votre boîte mail afin de valider la vérification de votre nouvelle adresse e-mail.
       home location: "Emplacement du domicile :"
       latitude: "Latitude:"
       longitude: "Longitude:"

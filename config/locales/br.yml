@@ -47,9 +47,14 @@ br:
       old_node: Skoulm kozh
       old_node_tag: balizenn ar skoulm kozh
       old_way: Hent kozh
+      old_way_node: Skoulm an hent kozh
       old_way_tag: Balizenn an hent kozh
       relation: Darempred
+      relation_tag: Balizenn darempred
       session: Dalc'h
+      trace: Roud
+      tracepoint: Poent eus ar roud
+      tracetag: Balizenn roud
       user: Implijer
       user_preference: Penndibaboù Implijer
       user_token: Jedouer an implijer
@@ -60,6 +65,7 @@ br:
     changeset: 
       changeset: "Strollad kemmoù : {{id}}"
       changesetxml: Strollad kemmoù XML
+      download: Pellgargañ {{changeset_xml_link}} pe {{osmchange_xml_link}}
       feed: 
         title: Strollad kemmoù {{id}}
         title_comment: Strollad kemmoù {{id}} - {{comment}}
@@ -70,6 +76,15 @@ br:
       box: boest
       closed_at: "Serret d'an :"
       created_at: "Krouet d'an :"
+      has_nodes: 
+        one: "Zo gantañ an {{count}} skoulm-mañ :"
+        other: "Zo gantañ an {{count}} skoulm-mañ :"
+      has_relations: 
+        one: "Zo gantañ an {{count}} darempred-mañ :"
+        other: "Zo gantañ an {{count}} darempred-mañ :"
+      has_ways: 
+        one: "Zo gantañ an {{count}} hent-mañ :"
+        other: "Zo gantañ an {{count}} hent-mañ :"
       show_area_box: Diskouez boest an takad
     changeset_navigation: 
       all: 
@@ -77,6 +92,8 @@ br:
         prev_tooltip: Strollad kemmoù kent
       user: 
         name_tooltip: Gwelet an aozadennoù gant {{user}}
+        next_tooltip: Aozadenn da-heul gant {{user}}
+        prev_tooltip: Aozadenn gent gant {{user}}
     common_details: 
       changeset_comment: "Addispleg :"
       edited_at: "Aozet d'an :"
@@ -135,16 +152,19 @@ br:
       relation_history_title: "Istor an darempred : {{relation_name}}"
       view_details: gwelet ar munudoù
     relation_member: 
+      entry_role: "{{type}} {{name}} evel {{role}}"
       type: 
         node: Skoulm
         relation: Darempred
         way: Hent
     start: 
       manually_select: Diuzañ un takad disheñvel gant an dorn
+      view_data: Gwelet ar roadennoù evit gwel red ar gartenn
     start_rjs: 
       data_frame_title: Roadennoù
       data_layer_name: Roadennoù
       details: Munudoù
+      drag_a_box: Tresit ur voest war ar gartenn evit diuzañ un takad
       edited_by_user_at_timestamp: Aozet gant [[user]] da [[timestamp]]
       history_for_feature: Istor evit [[feature]]
       load_data: Kargañ ar roadennoù
@@ -180,6 +200,9 @@ br:
       way: Hent
       way_title: "Hent : {{way_name}}"
     way_details: 
+      also_part_of: 
+        one: lodenn ivez eus an hent {{related_ways}}
+        other: lodenn ivez eus an hentoù {{related_ways}}
       nodes: "Skoulmoù :"
       part_of: "Lodenn eus :"
     way_history: 
@@ -198,6 +221,7 @@ br:
       view_changeset_details: Gwelet munudoù ar strollad kemmoù
     changeset_paging_nav: 
       of: eus
+      showing_page: O tiskouez ar bajenn
     changesets: 
       area: Takad
       comment: Addispleg
@@ -218,6 +242,11 @@ br:
       title_user: Strolladoù kemmoù gant {{user}}
       title_user_bbox: Strolladoù kemmoù gant {{user}} e-barzh {{bbox}}
   diary_entry: 
+    diary_entry: 
+      comment_count: 
+        one: 1 addispleg
+        other: "{{count}} addispleg"
+      posted_by: Postet gant {{link_user}} da {{created}} e {{language_link}}
     edit: 
       body: "Korf :"
       language: "Yezh :"
@@ -233,12 +262,15 @@ br:
     no_such_user: 
       title: N'eus implijer ebet evel-se
     view: 
+      leave_a_comment: Lezel un addispleg
+      login: Kevreañ
       save_button: Enrollañ
       user_title: Deizlevr {{user}}
   export: 
     start: 
       add_marker: Ouzhpennañ ur merker d'ar gartenn
       area_to_export: Takad da ezporzhiañ
+      embeddable_html: HTML enkorfadus
       export_button: Ezporzhiañ
       format: Furmad
       format_to_export: Furmad da ezporzhiañ
@@ -252,11 +284,13 @@ br:
       options: Dibarzhioù
       osm_xml_data: Roadennoù XML OpenStreetMap
       osmarender_image: Skeudenn Osmarender
+      paste_html: Pegañ HTML evit bezañ enkorfet en ul lec'hienn web
       scale: Skeuliad
       zoom: Zoum
     start_rjs: 
       add_marker: Ouzhpennañ ur merker d'ar gartenn
       change_marker: Cheñch lec'hiadur ar merker
+      click_add_marker: Klikit war ar gartenn evit ouzhpennañ ur merker
       export: Ezporzhiañ
       manually_select: Diuzañ un takad disheñvel gant an dorn
       view_larger_map: Gwelet ur gartenn vrasoc'h
@@ -286,7 +320,12 @@ br:
     search: 
       title: 
         ca_postcode: Disoc'hoù diwar <a href="http://geocoder.ca/">Geocoder.CA</a>
+        geonames: Disoc'hoù diwar <a href="http://www.geonames.org/">GeoNames</a>
+        latlon: Disoc'hoù diwar <a href="http://openstreetmap.org/">Internal</a>
+        osm_namefinder: Disoc'hoù diwar <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>
         us_postcode: Disoc'hoù diwar <a href="http://geocoder.us/">Geocoder.us</a>
+    search_osm_namefinder: 
+      suffix_parent: "{{suffix}} ({{parentdistance}} {{parentdirection}} eus {{parentname}})"
   layouts: 
     alt_donation: Ober un donezon
     donate_link_text: oc'h ober un donezon
@@ -294,6 +333,8 @@ br:
     edit_tooltip: Aozañ kartennoù
     export: Ezporzhiañ
     export_tooltip: Ezporzhiañ roadennoù ar gartenn
+    gps_traces: Roudoù GPS
+    gps_traces_tooltip: Merañ ar roudoù
     help_wiki: Skoazell &amp; Wiki
     help_wiki_tooltip: Skoazell &amp; lec'hienn Wiki evit ar raktres
     history: Istor
@@ -302,10 +343,18 @@ br:
     inbox: boest resev ({{count}})
     inbox_tooltip: 
       one: 1 gemennadenn anlennet zo en ho poest resev
+      other: E-barzh ho poest resev ez eus {{count}} kemennadenn anlennet
       zero: N'eus kemennadenn anlennet ebet en ho poest resev
+    log_in: kevreañ
+    logo: 
+      alt_text: Logo OpenStreetMap
+    logout: digevreañ
+    logout_tooltip: Digevreañ
     shop: Stal
+    sign_up: En em enskrivañ
     sign_up_tooltip: Krouiñ ur gont evit aozañ
     user_diaries: Deizlevrioù an implijer
+    user_diaries_tooltip: Gwelet deizlevrioù an implijerien
     view: Gwelet
     view_tooltip: Gwelet ar c'hartennoù
     welcome_user: Degemer mat, {{user_link}}
@@ -335,6 +384,7 @@ br:
       body: Korf
       message_sent: Kemennadenn kaset
       send_button: Kas
+      send_message_to: Kas ur gemennadenn nevez da {{name}}
       subject: Danvez
       title: Kas ur gemennadenn
     outbox: 
@@ -346,13 +396,17 @@ br:
       title: Boest kas
       to: Da
     read: 
+      back_to_inbox: Distreiñ d'ar voest resev
+      back_to_outbox: Distreiñ d'ar voest kas
       date: Deiziad
       from: A-berzh
       reading_your_messages: O lenn ho kemennadennoù
+      reading_your_sent_messages: O lenn ho kemennadennoù kaset
       reply_button: Respont
       subject: Danvez
       title: Lenn ar gemennadenn
       to: Da
+      unread_button: Merkañ evel anlennet
     sent_message_summary: 
       delete_button: Dilemel
   notifier: 
@@ -370,6 +424,8 @@ br:
     gpx_notification: 
       and_no_tags: ha balizenn ebet.
       and_the_tags: "hag ar balizennoù-mañ :"
+      failure: 
+        more_info_2: "a c'hall bezañ kavet war :"
       greeting: Demat,
       with_description: gant an deskrivadur
     lost_password_html: 
@@ -377,17 +433,24 @@ br:
     lost_password_plain: 
       greeting: Demat,
     message_notification: 
+      banner1: "*                  Na respontit ket d'ar postel-mañ, mar plij.                                                *"
+      footer2: ha gallout a rit respont da {{replyurl}}
       hi: Demat {{to_user}},
     signup_confirm_html: 
       greeting: Demat !
+      introductory_video: Gallout a rit sellet ouzh un {{introductory_video_link}}.
       more_videos: Bez' ez eus {{more_videos_link}}.
       more_videos_here: muioc'h a videoioù amañ
     signup_confirm_plain: 
+      current_user_2: "a c'haller kaout diwar :"
       greeting: Demat !
       more_videos: "Muioc'h a videoioù zo amañ :"
   oauth: 
     oauthorize: 
+      allow_read_gpx: lenn ho roudoù GPS prevez.
+      allow_to: "Lezel an arload arval da :"
       allow_write_api: kemmañ ar gartenn.
+      allow_write_gpx: kas roudoù GPS.
       allow_write_prefs: kemmañ ho penndibaboù implijer.
   oauth_clients: 
     edit: 
@@ -395,17 +458,29 @@ br:
       title: Aozañ hoc'h arload
     form: 
       allow_write_api: kemmañ ar gartenn.
+      allow_write_gpx: kas roudoù GPS.
       name: Anv
       required: Rekis
+      url: URL pennañ an arload
     index: 
       application: Anv an arload
       issued_at: Kaset da
+      my_tokens: Ma arloadoù aotreet
       revoke: Terriñ !
+      title: Ma munudoù OAuth
     show: 
+      allow_read_gpx: lenn o roudoù GPS prevez.
       allow_write_api: kemmañ ar gartenn.
+      allow_write_gpx: kas roudoù GPS.
+      allow_write_prefs: kemmañ o fenndibaboù implijerien.
       edit: Aozañ ar munudoù
+      key: "Alc'hwez an implijer :"
+      url: "URL ar jedouer reked :"
+    update: 
+      flash: Hizivaet eo bet titouroù an arval
   site: 
     edit: 
+      anon_edits_link_text: Kavit perak.
       not_public: N'hoc'h eus ket lakaet hoc'h aozadennoù da vezañ foran.
       user_page_link: pajenn implijer
     index: 
@@ -419,9 +494,20 @@ br:
         entry: 
           admin: Bevenn velestradurel
           allotments: Lodennaouegoù
+          apron: 
+            - Roudenn aerborzh
+          bridleway: Hent evit kezeg
+          brownfield: Takad greanterezh
+          building: Savadur pouezus
+          cable: 
+            - Teleferik
+            - fungador
           cemetery: Bered
           centre: Kreizenn sport
           commercial: Takad kenwerzhel
+          common: 
+            - prad
+          construction: Hentoù war ar stern
           cycleway: Roudenn divrodegoù
           farm: Ti-feurm
           footway: Hent evit an dud war droad
@@ -431,22 +517,33 @@ br:
           industrial: Takad greantel
           lake: 
             - Lenn
+            - mirlec'h
           military: Takad milourel
           motorway: Gourhent
           park: Park
+          pitch: Tachenn sport
           private: Moned prevez
           rail: Hent-houarn
           reserve: Gwarezva natur
+          resident: Takad annez
           retail: Takad kenwerzh
+          runway: 
+            - Roudenn evit an taksioù
           school: 
             - Skol
             - skol-veur
           station: Porzh-houarn
           subway: Linenn vetro
+          summit: 
+            - Lein
+            - pikern
           track: Roudenn
           tram: 
             - tramgarr
+            - tramgarr
+          trunk: Hent broadel
           unclassified: Hent n'eo ket rummet
+          unsurfaced: Hent n'eo ket goloet
           wood: Koad
         heading: Alc'hwez evit z{{zoom_level}}
     search: 
@@ -455,12 +552,18 @@ br:
       where_am_i: Pelec'h emaon ?
     sidebar: 
       close: Serriñ
+      search_results: Disoc'hoù an enklask
   trace: 
+    create: 
+      upload_trace: Kas ar roud GPS
+    delete: 
+      scheduled_for_deletion: Roudenn da vezañ dilamet
     edit: 
       description: "Deskrivadur :"
       download: pellgargañ
       edit: aozañ
       filename: "Anv ar restr :"
+      heading: Oc'h aozañ ar roud {{name}}
       map: kartenn
       owner: "Perc'henn :"
       points: "Poentoù :"
@@ -468,11 +571,15 @@ br:
       start_coord: "Daveennoù orin :"
       tags: "Balizennoù :"
       tags_help: bevennet gant virgulennoù
+      title: Oc'h aozañ ar roud {{name}}
       uploaded_at: "Kaset da :"
       visibility: "Gwelusted :"
       visibility_help: Petra a dalvez an dra-mañ ?
     list: 
+      public_traces: Roudoù GPS foran
+      public_traces_from: Roudoù GPS foran gant {{user}}
       tagged_with: " balizennet gant {{tags}}"
+      your_traces: Ho roudoù GPS
     make_public: 
       made_public: Roudenn lakaet da vezañ foran
     no_such_user: 
@@ -490,6 +597,7 @@ br:
       pending: WAR C'HORTOZ
       private: PREVEZ
       public: FORAN
+      trace_details: Gwelet munudoù ar roud
       view_map: Gwelet ar gartenn
     trace_form: 
       description: Deskrivadur
@@ -500,6 +608,10 @@ br:
       upload_gpx: Kas ar restr GPX
       visibility: Gwelusted
       visibility_help: Petra a dalvez ?
+    trace_header: 
+      see_all_traces: Gwelet an holl roudoù
+      see_just_your_traces: Gwelet ho roudoù hepken, pe kas ur roud
+      see_your_traces: Gwelet hoc'h holl roudoù
     trace_optionals: 
       tags: Balizennoù
     trace_paging_nav: 
@@ -512,16 +624,23 @@ br:
       edit: aozañ
       edit_track: Aozañ ar roudenn-mañ
       filename: "Anv ar restr :"
+      heading: O welet ar roud {{name}}
       map: kartenn
       none: Hini ebet
       owner: Perc'henn
       pending: WAR C'HORTOZ
       points: "Poentoù :"
+      start_coordinates: "Daveennoù orin :"
       tags: "Balizennoù :"
+      title: O welet ar roud {{name}}
+      trace_not_found: N'eo ket bet kavet ar roud !
       uploaded: "Karget da :"
       visibility: "Gwelusted :"
+    visibility: 
+      private: Prevez (rannet ent dizanv hepken, poentoù hep urzh)
   user: 
     account: 
+      flash update success: Hizivaet eo bet titouroù an implijer.
       latitude: "Ledred :"
       longitude: "Hedred :"
       make edits public button: Lakaat ma holl aozadennoù da vezañ foran
@@ -538,20 +657,29 @@ br:
       title: Aozañ ar gont
     confirm: 
       button: Kadarnaat
+      failure: Ur gont implijer gant ar jedouer-mañ zo bet kadarnaet dija.
       heading: Kadarnaat kont un implijer
+      press confirm button: Pouezit war ar bouton kadarnaat amañ dindan evit gweredekaat ho kont.
+      success: Kadarnaet eo ho kont, trugarez evit bezañ en em enskrivet !
     confirm_email: 
       button: Kadarnaat
       failure: Kadarnaet ez eus bet ur chomlec'h postel dija gant art jedouer-mañ.
       heading: Kadarnaat ur c'hemm chomlec'h postel
+      press confirm button: Pouezit war ar bouton kadarnaat evit kadarnaat ho chomlec'h postel nevez.
     friend_map: 
+      nearby mapper: "Kartennour en ardremez : [[nearby_user]]"
       your location: Ho lec'hiadur
     go_public: 
       flash success: Foran eo hoc'h holl aozadennoù bremañ, ha n'oc'h ket aotreet da aozañ.
     login: 
       create_account: krouiñ ur gont
       email or username: "Chomlec'h postel pe anv implijer :"
+      heading: Kevreañ
+      login_button: Kevreañ
       lost password link: Kollet hoc'h eus ho ker-tremen ?
       password: "Ger-tremen :"
+      please login: Kevreit, mar plij, pe {{create_user_link}}.
+      title: Kevreañ
     lost_password: 
       email address: "Chomlec'h postel :"
       heading: Ankouaet hoc'h eus ho ker-tremen ?
@@ -559,6 +687,7 @@ br:
       title: Ger-tremen kollet
     make_friend: 
       already_a_friend: Mignon oc'h gant {{name}} dija.
+      success: "{{name}} zo ho mignon bremañ."
     new: 
       confirm email address: "Kadarnaat ar chomlec'h postel :"
       confirm password: "Kadarnaat ar ger-tremen :"
@@ -567,6 +696,7 @@ br:
       fill_form: Leugnit ar furmskrid hag e kasimp deoc'h ur postel evit gweredekaat ho kont.
       heading: Krouiñ ur gont implijer
       password: "Ger-tremen :"
+      signup: En em enskrivañ
       title: Krouiñ ur gont
     no_such_user: 
       heading: N'eus ket eus an implijer {{user}}
@@ -577,6 +707,7 @@ br:
     reset_password: 
       confirm password: "Kadarnaat ar ger-tremen :"
       flash changed: Cheñchet eo bet ho ker-tremen.
+      flash token bad: N'eo ket bet kavet ar jedouer-se, gwiriañ an URL marteze ?
       heading: Adderaouekaat ar ger-tremen evit {{user}}
       password: "Ger-tremen :"
       reset: Adderaouekaat ar ger-tremen
@@ -590,17 +721,20 @@ br:
       description: Deskrivadur
       diary: deizlevr
       edits: kemmoù
+      km away: war-hed {{count}} km
       m away: war-hed {{count}} m
       mapper since: "Kartennour abaoe :"
       my diary: ma deizlevr
       my edits: ma aozadennoù
       my settings: ma arventennoù
+      my traces: ma roudoù
       my_oauth_details: Gwelet ma munudoù OAuth
       nearby users: "Implijerien tost deoc'h :"
       no friends: N'hoc'h eus ouzhpennet mignon ebet c'hoazh.
       remove as friend: Lemel evel mignon
       send message: Kas ur gemennadenn
       settings_link_text: arventennoù
+      traces: roudoù
       upload an image: Kas ur skeudenn
       user image heading: Skeudenn implijer
       user location: Lec'hiadur an implijer
