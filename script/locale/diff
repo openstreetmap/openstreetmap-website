@@ -6,7 +6,6 @@ use YAML::Syck qw(Dump LoadFile);
 use Test::Differences;
 use Pod::Usage ();
 use Getopt::Long ();
-use File::Basename qw(fileparse);
 
 =head1 NAME
 
@@ -92,6 +91,7 @@ Getopt::Long::Parser->new(
     'untranslated-values' => \my $untranslated_values,
     'untranslated-values-all' => \my $untranslated_values_all,
     'validate-variables' => \my $validate_variables,
+    'reconstruct' => \my $reconstruct,
 ) or help();
 
 # --keys is the default
@@ -101,25 +101,37 @@ $keys = 1 if not $untranslated_values_all and not $untranslated_values and not $
 help() if $help;
 
 # If we're not given two .yml files
-help() if (@ARGV != 2 or (!-f $ARGV[0] or !-f $ARGV[1])) and not $dump_flat;
+help() if (@ARGV != 2 or (!-f $ARGV[0] or !-f $ARGV[1])) and not $dump_flat || $reconstruct;
 
 my ($from, $to) = @ARGV;
 
 my $from_data = LoadFile($from);
-my $from_parsed = { iterate($from_data->{fileparse($from, qr/\.[^.]*/)}) };
+my $from_parsed = { iterate($from_data->{basename($from)}) };
 
 if ($dump_flat)
 {
-    # Mark as UTF-8
-    map { if (ref $_ eq 'ARRAY') { map { utf8::decode($_) } @$_ } else {  utf8::decode($_) } } values %$from_parsed;
+    mark_utf8($from_parsed);
 
     print Dump $from_parsed;
 
     exit 0;
 }
 
+if ($reconstruct) {
+    mark_utf8($from_parsed);
+
+    my %out;
+    while (my ($k, $v) = each %$from_parsed) {
+        insert_string_deep(\%out, $k, $v);
+    }
+
+    print Dump { basename($from) => \%out };
+
+    exit 0;
+}
+
 my $to_data   = LoadFile($to);
-my $to_parsed = { iterate($to_data->{fileparse($to, qr/\.[^.]*/)}) };
+my $to_parsed = { iterate($to_data->{basename($to)}) };
 
 if ($keys)
 {
@@ -131,7 +143,7 @@ elsif ($untranslated_values or $untranslated_values_all)
 
     # Prune according to blacklist
     if ($untranslated_values) {
-        @untranslated = prune_untranslated_with_blacklist(scalar(fileparse($to, qr/\.[^.]*/)), @untranslated);
+        @untranslated = prune_untranslated_with_blacklist(basename($to), @untranslated);
     }
 
     say for @untranslated;
@@ -232,6 +244,52 @@ sub iterate
     }
 
     return @ret;
+}
+
+# $s = 'foo.bar.baz.spam.eggs.ham'; $h = \%h; $h = $h->{$_} = {} for split /\./, $s; \%h
+# ==> {foo => {bar => {baz => {spam => {eggs => {ham => {}}}}}}}
+sub insert_string_deep {
+    my ($h, $ks, $v) = @_;
+    my $p = \$h; $p = \$$p->{$_} for split /\./, $ks;
+    $$p = $v;
+}
+
+# sub insert_string_deep
+# {
+#     my ($hash, $key, $value) = @_;
+#
+#     my @key = split /\./, $key;
+#     my $h = $hash;
+#
+#     my $i = 0;
+#     for my $k (@key) {
+#         $i ++;
+#         if ($i == @key) {
+#             $h->{$k} = $value;
+#         } else {
+#             if (ref $h->{$k}) {
+#                 $h = $h->{$k};
+#             } else {
+#                 $h = $h->{$k} = {};
+#             }
+#         }
+#     }
+# }
+
+sub basename
+{
+    my $name = shift;
+    $name =~ s[\..*?$][];
+    $name =~ s[.*/][];
+    $name;
+}
+
+sub mark_utf8
+{
+    my ($hash) = @_;
+
+    # Mark as UTF-8
+    map { if (ref $_ eq 'ARRAY') { map { utf8::decode($_) } @$_ } else {  utf8::decode($_) } } values %$hash;
 }
 
 sub help
