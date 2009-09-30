@@ -207,7 +207,7 @@ for my $translatewiki_lang (sort @translatewiki_languages_codes) {
         # were there at import time. Nuke them.
         while (my ($new_k, $new_v) = each %new) {
             if (exists $en{ $new_k } and $en{ $new_k } eq $new_v) {
-                say "Purging dupe in $rails_lang: $new_k=$new_v";
+                #say "Purging dupe in $rails_lang: $new_k=$new_v";
                 delete $new{ $new_k };
             }
         }
