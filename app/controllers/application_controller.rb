@@ -80,9 +80,9 @@ class ApplicationController < ActionController::Base
     end
 
     # check if the user has been banned
-    unless @user.nil? or @user.blocks.empty?
+    unless @user.nil? or @user.active_blocks.empty?
       # NOTE: need slightly more helpful message than this.
-      render :text => "You got banned!", :status => :forbidden
+      render :text => t('application.setup_user_auth.blocked'), :status => :forbidden
     end
   end
 

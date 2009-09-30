@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   has_many :client_applications
   has_many :oauth_tokens, :class_name => "OauthToken", :order => "authorized_at desc", :include => [:client_application]
 
-  has_many :blocks, :class_name => "UserBlock", :conditions => ["user_blocks.ends_at > now() or user_blocks.needs_view"]
+  has_many :active_blocks, :class_name => "UserBlock", :conditions => ['user_blocks.ends_at > \'#{Time.now.getutc.xmlschema(5)}\' or user_blocks.needs_view']
   has_many :roles, :class_name => "UserRole"
 
   validates_presence_of :email, :display_name
@@ -150,7 +150,7 @@ class User < ActiveRecord::Base
   # returns the first active block which would require users to view 
   # a message, or nil if there are none.
   def blocked_on_view
-    blocks.inject(nil) { |s,x| s || (x.needs_view? ? x : nil) }
+    active_blocks.inject(nil) { |s,x| s || (x.needs_view? ? x : nil) }
   end
 
   def delete

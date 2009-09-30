@@ -122,12 +122,16 @@ class UserBlocksController < ApplicationController
   # ensure that there is a "this_user" instance variable
   def lookup_this_user
     @this_user = User.find_by_display_name(params[:display_name])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to :controller => 'user', :action => 'view', :display_name => params[:display_name] unless @this_user
   end
 
   ##
   # ensure that there is a "user_block" instance variable
   def lookup_user_block
     @user_block = UserBlock.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    render :action => "not_found", :status => :not_found
   end
 
   ##
