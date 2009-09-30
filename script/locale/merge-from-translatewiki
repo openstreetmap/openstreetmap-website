@@ -60,6 +60,11 @@ The locales dir we'll merge stuff into. F<config/locales> by default.
 
 Only import translations that don't exists for us yet.
 
+=item --cache
+
+Write a L<Storable> cache for things downloaded from Translatewiki and
+use it if it exists.
+
 =back
 
 =head1 AUTHOR
@@ -75,6 +80,7 @@ Getopt::Long::Parser->new(
     'h|help' => \my $help,
     'locales-dir=s' => \(my $locales_dir = 'config/locales'),
     'only-new' => \my $only_new,
+    'cache' => \my $cache,
 ) or help();
 
 # On --help
@@ -311,10 +317,12 @@ sub get_translatewiki_translations
 {
     my @languages = @_;
 
-    my $cache_file = "/tmp/merge-from-translatewiki.storable";
-    if (-f $cache_file) {
-        my $cache = retrieve($cache_file);
-        return %$cache;
+    if ($cache) {
+        my $cache_file = "/tmp/merge-from-translatewiki.storable";
+        if (-f $cache_file) {
+            my $c = retrieve($cache_file);
+            return %$c;
+        }
     }
 
     my %translatewiki_languages;
@@ -331,7 +339,9 @@ sub get_translatewiki_translations
         $translatewiki_languages{$lang} = $flat_data;
     }
 
-    store \%translatewiki_languages, $cache_file;
+    if ($cache) {
+        store \%translatewiki_languages, $cache_file;
+    }
 
     return %translatewiki_languages;
 }
