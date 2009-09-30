@@ -5,7 +5,7 @@ class UserBlock < ActiveRecord::Base
   belongs_to :creator, :class_name => "User", :foreign_key => :creator_id
   belongs_to :revoker, :class_name => "User", :foreign_key => :revoker_id
   
-  PERIODS = [0, 1, 3, 6, 12, 24, 48, 96]
+  PERIODS = APP_CONFIG['user_block_periods']
 
   ##
   # returns true if the block is currently active (i.e: the user can't
@@ -18,10 +18,9 @@ class UserBlock < ActiveRecord::Base
   # revokes the block, allowing the user to use the API again. the argument
   # is the user object who is revoking the ban.
   def revoke!(revoker)
-    attrs = { :ends_at => Time.now.getutc(),
-              :revoker_id => @user.id,
-              :needs_view => false }
-    revoker.moderator? and update_attributes(attrs)
+    update_attributes({ :ends_at => Time.now.getutc(),
+                        :revoker_id => revoker.id,
+                        :needs_view => false })
   end
 
   private
@@ -30,7 +29,7 @@ class UserBlock < ActiveRecord::Base
   # block. this should be caught and dealt with in the controller,
   # but i've also included it here just in case.
   def moderator_permissions
-    errors.add_to_base("Must be a moderator to create or update a block.") if creator_id_changed? and !creator.moderator?
-    errors.add_to_base("Must be a moderator to revoke a block.") unless revoker_id.nil? or revoker.moderator?
+    errors.add_to_base(I18n.t('user_block.model.non_moderator_update')) if creator_id_changed? and !creator.moderator?
+    errors.add_to_base(I18n.t('user_block.model.non_moderator_revoke')) unless revoker_id.nil? or revoker.moderator?
   end
 end

@@ -1,18 +1,10 @@
-<h1><%= t('user_block.new.title', :name => @display_name) %></h1>
+<h1><%= t('user_block.new.title', :name => @this_user.display_name) %></h1>
 
 <% form_for(@user_block) do |f| %>
   <%= f.error_messages %>
 
   <p>
-    <%= check_box_tag 'tried_contacting', 'yes', (params[:tried_contacting] == "yes") %>
-    <%= label_tag 'tried_contacting', t('user_block.new.tried_contacting') %>
-  </p>
-  <p>
-    <%= check_box_tag 'tried_waiting', 'yes', (params[:tried_waiting] == "yes") %>
-    <%= label_tag 'tried_waiting', t('user_block.new.tried_waiting') %>
-  </p>
-  <p>
-    <%= f.label :reason, t('user_block.new.reason', :name => @display_name) %><br />
+    <%= f.label :reason, t('user_block.new.reason', :name => @this_user.display_name) %><br />
     <%= f.text_area :reason %>
   </p>
   <p>
@@ -24,7 +16,7 @@
     <%= f.label :needs_view, t('user_block.new.needs_view') %>
   </p>
   <p>
-    <%= hidden_field_tag 'display_name', @display_name %>
+    <%= hidden_field_tag 'display_name', @this_user.display_name %>
     <%= f.submit t('user_block.new.submit') %>
   </p>
 <% end %>
