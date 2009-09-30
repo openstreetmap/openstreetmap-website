@@ -317,8 +317,8 @@ sub get_translatewiki_translations
 {
     my @languages = @_;
 
+    my $cache_file = "/tmp/merge-from-translatewiki.storable";
     if ($cache) {
-        my $cache_file = "/tmp/merge-from-translatewiki.storable";
         if (-f $cache_file) {
             my $c = retrieve($cache_file);
             return %$c;
