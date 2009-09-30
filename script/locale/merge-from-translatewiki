@@ -196,6 +196,16 @@ for my $translatewiki_lang (sort @translatewiki_languages_codes) {
             }
         }
 
+        # There are a bunch of keys on Translatewiki that are
+        # equivalent to English for some reason. Probably because they
+        # were there at import time. Nuke them.
+        while (my ($new_k, $new_v) = each %new) {
+            if (exists $en{ $new_k } and $en{ $new_k } eq $new_v) {
+                say "Purging dupe in $rails_lang: $new_k=$new_v";
+                delete $new{ $new_k };
+            }
+        }
+
         my $expanded = expand_hash( \%new );
         my $out = +{ $rails_lang => $expanded };
         spit_out($out_file, $out);
