@@ -73,7 +73,7 @@ class UserRolesController < ApplicationController
   end
 
   ##
-  # checks that the user doesn't already have this role
+  # checks that the user already has this role
   def in_role
     unless @this_user.has_role? @role
       flash[:notice] = t('user_role.filter.doesnt_have_role', :role => @role)
