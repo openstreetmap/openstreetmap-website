@@ -135,7 +135,7 @@ class User < ActiveRecord::Base
   end
 
   ##
-  # returns true if the user has the moderator role, false otherwise
+  # returns true if the user has the administrator role, false otherwise
   def administrator?
     has_role? 'administrator'
   end
