@@ -17,7 +17,6 @@ class CreateUserRoles < ActiveRecord::Migration
     remove_column :users, :administrator
 
     add_foreign_key :user_roles, [:user_id], :users, [:id]
-    add_index :user_roles, [:user_id]
   end
 
   def self.down
