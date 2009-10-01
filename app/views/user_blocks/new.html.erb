@@ -1,4 +1,8 @@
-<h1><%= t('user_block.new.title', :name => h(@this_user.display_name)) %></h1>
+<% @title = t 'user_block.new.title', :name => h(@this_user.display_name) %>
+<h1><%= t('user_block.new.heading',
+          :name => link_to(
+                           h(@this_user.display_name),
+                           {:controller => 'user', :action => 'view', :display_name => @this_user.display_name})) %></h1>
 
 <% form_for(@user_block) do |f| %>
   <%= f.error_messages %>
