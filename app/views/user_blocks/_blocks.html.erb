@@ -1,3 +1,4 @@
+<% unless @user_blocks.empty? %>
 <table id="block_list" cellpadding="3">
   <tr>
     <% if show_user_name %>
@@ -15,5 +16,8 @@
     <th></th>
     <% end %>
   </tr>
-  <%= render :partial => 'block', :locals => {:show_revoke_link => show_revoke_link, :show_user_name => show_user_name, :show_creator_name => show_creator_name }, :collection => @user_blocks unless @user_blocks.nil? %>
+  <%= render :partial => 'block', :locals => {:show_revoke_link => show_revoke_link, :show_user_name => show_user_name, :show_creator_name => show_creator_name }, :collection => @user_blocks %>
 </table>
+<% else %>
+<p><%= t "user_block.#{blocks_by_on}.empty", :name => h(@this_user.display_name) %></p>
+<% end %>

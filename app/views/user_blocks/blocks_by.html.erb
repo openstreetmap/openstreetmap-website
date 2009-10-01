@@ -1,4 +1,4 @@
 <% @title = t('user_block.blocks_by.title', :name => h(@this_user.display_name)) %>
 <h1><%= t('user_block.blocks_by.heading', :name => link_to(h(@this_user.display_name), {:controller => 'user', :action => 'view', :display_name => @this_user.display_name})) %></h1>
 
-<%= render :partial => 'blocks', :locals => { :show_revoke_link => (@user and @user.moderator?), :show_user_name => true, :show_creator_name => false } %>
+<%= render :partial => 'blocks', :locals => { :blocks_by_on => 'blocks_by', :show_revoke_link => (@user and @user.moderator?), :show_user_name => true, :show_creator_name => false } %>
