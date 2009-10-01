@@ -18,6 +18,10 @@
 | <%= link_to t('user.view.my edits'), :controller => 'changeset', :action => 'list', :display_name => @user.display_name %>
 | <%= link_to t('user.view.my traces'), :controller => 'trace', :action=>'mine' %>
 | <%= link_to t('user.view.my settings'), :controller => 'user', :action => 'account', :display_name => @user.display_name %>
+| <%= link_to t('user.view.blocks on me'), :controller => 'user_blocks', :action => 'blocks_on', :display_name => @user.display_name %>
+<% if @user and @user.moderator? %>
+| <%= link_to t('user.view.blocks by me'), :controller => 'user_blocks', :action => 'blocks_by', :display_name => @user.display_name %>
+<% end %>
 <% else %>
 <!-- Displaying another user's profile page -->
 <%= link_to t('user.view.send message'), :controller => 'message', :action => 'new', :display_name => @this_user.display_name %>
