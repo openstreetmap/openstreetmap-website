@@ -1,7 +1,13 @@
-<h1><%= t('user_block.show.heading', 
-	:block_on => @user_block.user.display_name, 
-        :block_by => @user_block.creator.display_name) %></h1>
-
+<% @title = t('user_block.show.title',
+              :block_on => @user_block.user.display_name,
+              :block_by => @user_block.creator.display_name) %>
+<h1><%= t('user_block.show.title',
+          :block_on => link_to(
+                               h(@user_block.user.display_name),
+                               {:controller => 'user', :action => 'view', :display_name => @user_block.user.display_name}),
+          :block_by => link_to(
+                               h(@user_block.creator.display_name),
+                               {:controller => 'user', :action => 'view', :display_name => @user_block.creator.display_name})) %></h1>
 <% if @user_block.revoker %>
 <p>
   <b><%= t'user_block.show.revoker' %></b>
