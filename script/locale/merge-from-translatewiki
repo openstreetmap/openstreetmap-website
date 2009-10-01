@@ -351,7 +351,7 @@ sub get_language_from_translatewiki
     my ($lang) = @_;
     my $mech = WWW::Mechanize->new;
 
-    $mech->get("http://translatewiki.net/w/i.php?title=Special%3ATranslate&task=export-to-file&group=out-osm&language=$lang");
+    $mech->get("http://translatewiki.net/w/i.php?title=Special%3ATranslate&task=export-to-file&group=out-osm-site&language=$lang");
 
     die "Couldn't get lang $lang lang from Translatewiki" unless $mech->success;
 
@@ -366,7 +366,7 @@ sub translatewiki_languages
 {
     my $mech = WWW::Mechanize->new;
 
-    $mech->get('http://translatewiki.net/wiki/Translating:OpenStreetMap/stats/trunk');
+    $mech->get('http://translatewiki.net/wiki/Translating:OpenStreetMap/stats/trunk/site');
 
     die "Couldn't get translatewiki table" unless $mech->success;
 
