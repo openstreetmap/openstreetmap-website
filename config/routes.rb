@@ -208,6 +208,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/user/:display_name/blocks_by', :controller => 'user_blocks', :action => 'blocks_by'
   map.resources :user_blocks, :as => 'blocks'
   map.connect '/blocks/:id/revoke', :controller => 'user_blocks', :action => 'revoke'
+  map.connect '/blocks/new/:display_name', :controller => 'user_blocks', :action => 'new'
 
   # fall through
   map.connect ':controller/:id/:action'
