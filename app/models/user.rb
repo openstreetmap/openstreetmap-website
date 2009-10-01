@@ -143,14 +143,14 @@ class User < ActiveRecord::Base
   ##
   # returns true if the user has the requested role
   def has_role?(role)
-    roles.inject(false) { |x, r| x or r.role == role }
+    roles.any? { |r| r.role == role }
   end
 
   ##
   # returns the first active block which would require users to view 
   # a message, or nil if there are none.
   def blocked_on_view
-    active_blocks.inject(nil) { |s,x| s || (x.needs_view? ? x : nil) }
+    active_blocks.detect { |b| b.needs_view? }
   end
 
   def delete
