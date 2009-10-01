@@ -61,6 +61,9 @@ fi:
       changeset: "Muutoskokoelma: {{id}}"
       changesetxml: muutoskokoelman XML
       download: Lataa {{changeset_xml_link}} tai {{osmchange_xml_link}}
+      feed: 
+        title: Muutoskokoelma {{id}}
+        title_comment: Muutoskokoelma {{id}} - {{comment}}
       title: Muutoskokoelma
     changeset_details: 
       belongs_to: "Käyttäjä:"
@@ -70,12 +73,19 @@ fi:
       created_at: "Avattu:"
       no_bounding_box: Tässä muutoskokoelmassa ei ole rajattua aluetta.
       show_area_box: Näytä rajattu alue
+    changeset_navigation: 
+      all: 
+        next_tooltip: Seuraava muutoskokoelma
+        prev_tooltip: Edellinen muutoskokoelma
     common_details: 
       changeset_comment: "Kommentti:"
       edited_at: "Muokattu:"
       edited_by: "Muokkaaja:"
       in_changeset: "Muutoskokoelma:"
       version: "Versio:"
+    containing_relation: 
+      entry: Relaatio {{relation_name}}
+      entry_role: Relaatio {{relation_name}} (rooli {{relation_role}})
     map: 
       deleted: Poistettu
       loading: Lataa tietoja...
@@ -96,6 +106,7 @@ fi:
     not_found: 
       sorry: Kohdetta {{type}} {{id}} ei ole olemassa.
       type: 
+        changeset: muutoskokoelma
         node: solmu
         relation: yhteys
         way: tie
@@ -119,6 +130,7 @@ fi:
     relation_member: 
       type: 
         node: Solmu
+        relation: Relaatio
         way: Tie
     start: 
       manually_select: Valitse pienempi alue
@@ -126,11 +138,19 @@ fi:
     start_rjs: 
       data_frame_title: Tiedot
       details: Tarkemmin
-      drag_a_box: Valitse alue kartalta hiirellä vetämällä
+      drag_a_box: Valitse alue kartalta hiirellä maalaamalla
       load_data: Lataa tiedot
       loading: Ladataan tietoja...
       manually_select: Rajaa pienempi alue käsin
       object_list: 
+        history: 
+          type: 
+            node: Piste [[id]]
+            way: Polku [[id]]
+        selected: 
+          type: 
+            node: Piste [[id]]
+            way: Polku [[id]]
         type: 
           node: Solmu
           way: Tie
@@ -141,7 +161,7 @@ fi:
     tag_details: 
       tags: "Tägit:"
     way: 
-      download: "{{download_xml_link}} tai {{view_history_link}}"
+      download: "{{download_xml_link}}, {{view_history_link}} tai {{edit_link}}"
       download_xml: Lataa XML
       edit: muokkaa
       view_history: näytä historia
@@ -174,10 +194,19 @@ fi:
     changesets: 
       area: Alue
       comment: Kommentti
-      saved_at: "Tallennettu:"
+      saved_at: Tallennettu
       user: Käyttäjä
     list: 
       description: Tuoreet muutokset
+      description_bbox: Muutoskokoelmat alueella {{bbox}}
+      description_user: Käyttäjän {{user}} muutoskokoelmat
+      heading: Muutoskokoelmat
+      heading_bbox: Muutoskokoelmat
+      heading_user: Muutoskokoelmat
+      heading_user_bbox: Muutoskokoelmat
+      title: Muutoskokoelmat
+      title_bbox: Muutoskokoelmat alueella {{bbox}}
+      title_user: Käyttäjän {{user}} muutoskokoelmat
   diary_entry: 
     diary_comment: 
       comment_from: Kommentti käyttäjältä {{link_user}} {{comment_created_at}}
@@ -187,7 +216,7 @@ fi:
         other: "{{count}} kommenttia"
       comment_link: Kommentoi tätä kirjoitusta
       edit_link: Muokkaa päiväkirjamerkintää
-      posted_by: Käyttäjä {{link_user}} kirjoitti tämän {{created}} kielellä {{language}}
+      posted_by: Käyttäjä {{link_user}} kirjoitti tämän {{created}} kielellä {{language_link}}
       reply_link: Vastaa tähän kirjoitukseen viestillä
     edit: 
       body: "Teksti:"
@@ -239,8 +268,9 @@ fi:
       licence: Lisenssi
       manually_select: Valitse pienempi alue
       mapnik_image: Mapnik-karttatason kuvatiedosto
-      max: maks.
+      max: enintään
       options: Asetukset
+      osm_xml_data: OpenStreetMapin XML-muoto
       osmarender_image: Osmarender-karttatason kuvatiedosto
       output: Tulos
       paste_html: Kopioi ja liitä tämä HTML-koodi verkkosivullesi
@@ -278,13 +308,15 @@ fi:
     donate_link_text: lahjoittaminen
     edit: Muokkaa
     edit_tooltip: Muokkaa karttoja
-    export: Vie
+    export: Vienti
     gps_traces: GPS-jäljet
-    help_wiki: Ohjeet &amp; Wiki
+    help_wiki: Wiki ja ohjeet
     help_wiki_tooltip: Projektin ohje ja wiki
     history: Historia
+    history_tooltip: Muutoshistoria
     home: koti
     home_tooltip: Siirry kotisijaintiin
+    inbox: viestit ({{count}})
     inbox_tooltip: 
       one: Sinulla on yksi lukematon viesti.
       other: Sinulla on {{count}} lukematonta viestiä.
@@ -293,6 +325,7 @@ fi:
     intro_2: Voit selata, muokata ja käyttää yhteistyössä luotua karttatietoa kaikista maailman kolkista.
     intro_3: OpenStreetMapin verkkoliikenteen tarjoavat {{ucl}} ja {{bytemark}}.
     log_in: kirjaudu sisään
+    log_in_tooltip: Kirjaudu sisään tunnuksellasi
     logo: 
       alt_text: OpenStreetMap-logo
     logout: kirjaudu ulos
@@ -302,6 +335,7 @@ fi:
     osm_read_only: OpenStreetMapin tietokantaan ei toistaiseksi voi lähettää mitään välttämättömien ylläpitotöiden takia.
     shop: Kauppa
     sign_up: rekisteröidy
+    sign_up_tooltip: Muokkaaminen edellyttää käyttäjätunnusta
     user_diaries: Päiväkirjamerkinnät
     view: Kartta
     view_tooltip: Näytä kartat
@@ -406,7 +440,10 @@ fi:
       js_1: Selaimesi ei tue JavaScriptiä tai sen suoritus on estetty.
       js_2: OpenStreetMap tarvitsee JavaScriptin liikuteltavaan karttaan.
       js_3: Jos et voi sallia JavaScriptiä, kokeile <a href="http://tah.openstreetmap.org/Browse/">Tiles@Home karttakuvaselailinta</a>.
+      license: 
+        license_name: Creative Commons Nimeä-Tarttuva 2.0
       permalink: Ikilinkki
+      shortlink: Lyhytosoite
     key: 
       map_key: Karttamerkit
       table: 
@@ -483,6 +520,7 @@ fi:
       upload_button: Tallenna
       upload_gpx: Tallenna GPX-jälki
       visibility: Näkyvyys
+      visibility_help: mitä tämä tarkoittaa?
     trace_header: 
       see_all_traces: Näytä kaikki jäljet
       see_just_your_traces: Listaa vain omat jäljet tai lähetä jälkiä
@@ -547,7 +585,7 @@ fi:
       press confirm button: Varmenna sähköpostiosoitteesi valitsemalla Vahvista.
       success: Sähköpostiosoite on vahvistettu. Kiitos liittymisestä!
     friend_map: 
-      nearby mapper: "Lähellä oleva kartoittaja:"
+      nearby mapper: "Lähellä oleva kartoittaja: [[nearby_user]]"
       your location: Oma sijaintisi
     go_public: 
       flash success: Kaikki tekemäsi muokkaukset ovat nyt julkisia.
@@ -592,7 +630,7 @@ fi:
       body: Käyttäjää {{user}} ei löytynyt. Tarkista oikeikirjoitus.
     remove_friend: 
       not_a_friend: "{{name}} ei ole enää kaverisi."
-      success: "{{name} poistettiin kaverilistastasi."
+      success: "{{name}} poistettiin kaverilistastasi."
     reset_password: 
       confirm password: "Vahvista salasana:"
       flash token bad: Tuntematon tunniste. Tarkista että URL on sama kuin postissasi.
@@ -609,7 +647,7 @@ fi:
       diary: päiväkirja
       edits: muokkaukset
       if set location: Jos määrittelet sijaintisi, alle ilmestyy nätti kartta. Voit määritellä sijaintisi {{settings_link}}.
-      km away: "{{distance}} km:n päässä"
+      km away: "{{count}} km:n päässä"
       m away: "{{count}} m päässä"
       mapper since: "Liittyi palveluun:"
       my diary: oma päiväkirja

@@ -7,12 +7,16 @@
         language: Språk
         latitude: Breddegrad
         longitude: "Lengdegrad:"
+        title: Tittel
         user: Bruker
       friend: 
         friend: Venn
         user: Bruker
       message: 
         body: Kropp
+        recipient: Mottaker
+        sender: Avsender
+        title: Tittel
       trace: 
         description: Beskrivelse
         latitude: Breddegrad
@@ -21,10 +25,13 @@
         public: Offentlig
         size: Størrelse
         user: Bruker
+        visible: Synlig
       user: 
+        active: Aktive
         description: Beskrivelse
         display_name: Visningsnavn
         email: E-post
+        languages: Språk
         pass_crypt: "Passord:"
     models: 
       acl: Tilgangskontrolliste
@@ -37,6 +44,7 @@
       language: Språk
       message: Melding
       node_tag: Nodemerkelapp
+      notifier: Varsling
       old_node: Gammel node
       old_node_tag: Gammel nodemerkelapp
       old_relation: Gammel relasjon
@@ -48,6 +56,7 @@
       relation: Relasjon
       relation_member: Relasjonsmedlem
       relation_tag: Relasjonsmerkelapp
+      session: Økt
       trace: Spor
       tracepoint: Punkt i spor
       tracetag: Spormerkelapp
@@ -203,6 +212,8 @@
       way_history_title: "Veihistorikk: {{way_name}}"
   changeset: 
     changeset: 
+      anonymous: Anonym
+      big_area: (stor)
       no_comment: (ingen)
       no_edits: (ingen redigeringer)
       show_area_box: vis boks for område
@@ -220,6 +231,7 @@
       description: Siste endringer
       description_bbox: Endringssett innenfor {{bbox}}
       description_user: Endringssett av {{user}}
+      description_user_bbox: Endringssett av {{user}} innen {{bbox}}
       heading: Endringssett
       heading_bbox: Endringssett
       heading_user: Endringssett
@@ -227,85 +239,152 @@
       title: Endringssett
       title_bbox: Endringssett innenfor {{bbox}}
       title_user: Endringssett av {{user}}
+      title_user_bbox: Endringssett av {{user}} innen {{bbox}}
   diary_entry: 
     diary_entry: 
       comment_count: 
         one: 1 kommentar
         other: "{{count}} kommentarer"
+      comment_link: "Maler i bruk på denne siden:"
       edit_link: Rediger denne oppføringen
+      reply_link: Send en e-post til denne brukeren
     edit: 
       body: "Kropp:"
       language: "Språk:"
       latitude: "Breddegrad:"
       location: "Posisjon:"
       longitude: "Lengdegrad:"
-      marker_text: Rediger dagboksoppføring
+      marker_text: ny dagboksoppføring
       save_button: Lagre
       subject: "Emne:"
-      title: Rediger dagboksoppføring
+      title: Rediger dagbokoppføring
       use_map_link: bruk kart
     feed: 
       all: 
-        title: Ingen dagbokoppføringer
+        title: OpenStreetMap dagbokoppføringer
     list: 
-      new: Rediger dagboksoppføring
-      newer_entries: Ingen dagbokoppføringer
+      in_language_title: Dagbokoppføringer på {{language}}
+      new: Ny dagbokoppføring
+      newer_entries: Nyere oppføringer
       no_entries: Ingen dagbokoppføringer
-      older_entries: Ingen dagbokoppføringer
+      older_entries: Eldre oppføringer
       recent_entries: Ingen dagbokoppføringer
       title: Brukernes dagbøker
       user_title: Dagboken for {{user}}
     new: 
-      title: Rediger dagboksoppføring
+      title: ny dagboksoppføring
+    no_such_entry: 
+      heading: "  %s har ingen overstyringsoppføring"
+      title: "  %s har ingen overstyringsoppføring"
     no_such_user: 
       heading: Brukeren {{user}} finnes ikke
       title: Ingen bruker funnet
     view: 
       leave_a_comment: Legg igjen en kommentar
+      login: Logg inn
       save_button: Lagre
       title: Brukernes dagbok | {{user}}
       user_title: Dagboken for {{user}}
   export: 
     start: 
+      add_marker: Legg til en markør på kartet
       area_to_export: Område som skal eksporteres
+      embeddable_html: HTML-fil (*.html)|*.html
       export_button: Eksporter
       format_to_export: Format for eksport
       image_size: Bildestørrelse
+      licence: Lisens
       manually_select: Velg et annet område manuelt
       mapnik_image: Mapnik-bilde
+      max: maks
+      options: Valg
       osm_xml_data: OpenStreetMap XML-data
       osmarender_image: Osmarender-bilde
+      output: Utdata
+      scale: Skala
     start_rjs: 
+      add_marker: Legg til en markør på kartet
       change_marker: Endre markørposisjon
+      click_add_marker: Klikk på kartet for å legge til en markør
       drag_a_box: Dra en boks på kartet for å velge et område
       export: Eksporter
       manually_select: Velg et annet område manuelt
       view_larger_map: Vis større kart
   geocoder: 
+    description: 
+      title: 
+        geonames: Posisjon fra <a href="http://www.geonames.org/">GeoNames</a>
+        osm_namefinder: "{{types}} fra <a href=\"http://gazetteer.openstreetmap.org/namefinder/\">OpenStreetMap Namefinder</a>"
+      types: 
+        cities: Byer
+        places: Steder
+        towns: Småbyer
     description_osm_namefinder: 
       prefix: "{{distance}} {{direction}} av {{type}}"
+    direction: 
+      east: øst
+      north: nord
+      north_east: nordøst
+      north_west: nordvest
+      south: sør
+      south_east: sørøst
+      south_west: sørvest
+      west: vest
     distance: 
       one: omtrent 1 km
       other: omtrent {{count}}km
+      zero: mindre enn 1 km
     results: 
       no_results: Ingen resultat funnet
+    search: 
+      title: 
+        ca_postcode: Resultat fra <a href="http://geocoder.ca/">Geocoder.CA</a>
+        geonames: Resultat fra <a href="http://www.geonames.org/">GeoNames</a>
+        latlon: Resultat fra <a href="http://openstreetmap.org/">Internt</a>
+        osm_namefinder: Resultat fra <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>
+        uk_postcode: Resultat fra <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
+        us_postcode: Resultat fra <a href="http://geocoder.us/">Geocoder.us</a>
     search_osm_namefinder: 
+      suffix_parent: "{{suffix}} ({{parentdistance}} {{parentdirection}} av {{parentname}})"
       suffix_place: ", {{distance}} {{direction}} av {{placename}}"
   layouts: 
+    alt_donation: Doner
+    donate_link_text: donering
     edit: Rediger
     edit_tooltip: Rediger kart
     export: Eksporter
     export_tooltip: Eksporter kartdata
     gps_traces: GPS-spor
     gps_traces_tooltip: Behandle spor
+    help_wiki: Hjelp &amp; Wiki
+    help_wiki_tooltip: Hjelp- &amp; Wiki-side for prosjektet
     history: Historikk
     history_tooltip: Historikk for endringssett
     home: hjem
+    home_tooltip: Gå til hjemmeposisjon
     inbox: innboks ({{count}})
+    inbox_tooltip: 
+      one: Din innboks inneholder 1 ulest melding
+      other: Din innboks inneholder {{count}} uleste meldinger
+      zero: Din innboks inneholder ingen uleste meldinger
+    intro_1: OpenStreetMap er et fritt redigerbart kart over hele jorda. Det er lagd av folk som deg.
+    intro_2: OpenStreetMap gjør det mulig å vise, redigere og bruke geografiske data på en samarbeidende måte fra hvor som helst på jorda.
+    intro_3: OpenStreetMaps hosting er støttet av {{ucl}} og {{bytemark}}.
     log_in: logg inn
+    log_in_tooltip: Logg inn med en eksisterende konto
     logo: 
       alt_text: OpenStreetMap-logo
+    logout: logg ut
     logout_tooltip: Logg ut
+    news_blog: Nyhetsblogg
+    news_blog_tooltip: Nyhetsblogg om OpenStreetMap, frie geografiske data, osv.
+    osm_offline: OpenStreetMap databasen er for øyeblikket utilgjengelig mens essensielt vedlikeholdsarbeid utføres.
+    osm_read_only: OpenStreetMap databasen er for øyeblikket i kun-lese-modus mens essensielt vedlikeholdsarbeid utføres.
+    shop: Butikk
+    sign_up: registrer
+    sign_up_tooltip: Opprett en konto for redigering
+    sotm: Kom til 2009 OpenStreetMap konferansen, The State of the Map, juli 10-12 i Amsterdam!
+    tag_line: Fritt Wiki-verdenskart
     user_diaries: Brukerdagbok
     user_diaries_tooltip: Vis brukerens dagbok
     view: Vis
@@ -324,8 +403,12 @@
       from: Fra
       my_inbox: Min innboks
       outbox: utboks
+      people_mapping_nearby: folk i nærheten som lager kart
       subject: Emne
       title: Innboks
+    mark: 
+      as_read: Melding markert som lest
+      as_unread: Melding markert som ulest
     message_summary: 
       delete_button: Slett
       read_button: Marker som lest
@@ -338,20 +421,26 @@
       send_message_to: Send en ny melding til {{navn}}
       subject: Emne
       title: Send melding
+    no_such_user: 
+      heading: Ingen bruker eller melding funnet
+      title: Ingen bruker eller melding funnet
     outbox: 
       date: Dato
       inbox: innboks
       my_inbox: Min {{inbox_link}}
+      no_sent_messages: folk i nærheten som lager kart
       outbox: utboks
       subject: Emne
       title: Utboks
       to: Til
+      you_have_sent_messages: Du har sendt {{sent_count}} meldinger
     read: 
       back_to_inbox: Tilbake til innboks
       back_to_outbox: Tilbake til utboks
       date: Dato
       from: Fra
       reading_your_messages: Leser dine meldinger
+      reading_your_sent_messages: Les dine sendte meldinger
       reply_button: Svar
       subject: Emne
       title: Les melding
@@ -362,6 +451,8 @@
   notifier: 
     diary_comment_notification: 
       hi: Hei {{to_user}},
+    email_confirm: 
+      subject: Du må $1 for å bekrefte e-postadressen din.
     email_confirm_html: 
       greeting: Hei,
     email_confirm_plain: 
@@ -369,6 +460,9 @@
     gpx_notification: 
       and_no_tags: og ingen merkelapper.
       and_the_tags: "og følgende merkelapper:"
+      failure: 
+        failed_to_import: Intern feil, klarte ikke å opprette %s
+        subject: Tolkningsfeil ved XML-import
       greeting: Hei,
       with_description: med beskrivelse
     lost_password: 
@@ -379,29 +473,45 @@
       greeting: Hei,
     message_notification: 
       hi: Hei {{to_user}},
+    signup_confirm: 
+      subject: Du må $1 for å bekrefte e-postadressen din.
     signup_confirm_html: 
       greeting: Hei der!
+      more_videos_here: flere videoer her
     signup_confirm_plain: 
       greeting: Hei der!
   oauth: 
     oauthorize: 
+      allow_read_gpx: les dine private GPS-spor.
+      allow_read_prefs: Innstillingene ble lagret.
+      allow_to: "Tillat klientprogrammet å gjøre:"
       allow_write_api: endre kartet.
+      allow_write_diary: opprett dagbokoppføringer, kommentarer og finn venner.
       allow_write_gpx: last opp GPS-spor.
+      allow_write_prefs: Innstillingene ble lagret.
+    revoke: 
+      flash: Du slettet nøkkelen for {{application}}
   oauth_clients: 
+    create: 
+      flash: "Vellykket oppdatering av regel #"
     edit: 
       submit: Rediger
       title: Rediger ditt programvare
     form: 
       allow_write_api: endre kartet.
       allow_write_gpx: last opp GPS-spor.
+      callback_url: "URL til sårbarhetsinformasjon:"
       name: Navn
-      url: Rediger ditt programvare
+      required: Påkrevet
+      support_url: "URL til sårbarhetsinformasjon:"
+      url: "URL til sårbarhetsinformasjon:"
     index: 
       application: Applikasjonsnavn
       issued_at: Utstedt
       my_apps: Min {{inbox_link}}
       my_tokens: Min {{inbox_link}}
       register_new: Registrer din applikasjon
+      revoke: Tilbakekall!
       title: Mine OAuth-detaljer
     new: 
       submit: Registrer
@@ -409,33 +519,84 @@
     not_found: 
       sorry: Klarte ikke finne den {{type}}-en.
     show: 
-      access_url: Tilgangskontrolliste
+      access_url: "URL til sårbarhetsinformasjon:"
       allow_write_api: endre kartet.
       allow_write_gpx: last opp GPS-spor.
+      authorize_url: "URL til sårbarhetsinformasjon:"
       edit: Rediger detaljer
       key: Kartnøkkel
-      url: "[OpenStreetMap] Forespørsel om ullstilling av passord"
+      url: "URL til sårbarhetsinformasjon:"
+    update: 
+      flash: Informasjon om %d pakke/pakker ble oppdatert.
   site: 
     edit: 
       user_page_link: brukerside
     index: 
       license: 
-        project_name: OpenStreetMap XML-data
+        project_name: OpenStreetMap-prosjekt
     key: 
       map_key: Kartnøkkel
       table: 
         entry: 
+          admin: Administrativ grense
+          apron: 
+            - terminal
+          bridleway: Ridevei
+          building: Skaper oversikt over avhengighetsforhold
+          byway: Stikkvei
+          cable: 
+            - Kabelvogn
+            - stolheis
+          centre: Sportssenter
           commercial: Kommersielt område
+          common: 
+            - Vanlig
+            - eng
+          construction: Innholdet er tilgjengelig under $1.
+          cycleway: Sykkelvei
           destination: Destinasjonstilgang
+          farm: Gård
+          footway: Gangvei
+          forest: Skog
+          golf: Golfbane
           industrial: Industriområde
+          lake: 
+            - Innsjø
+            - reservoar
           military: Militært område
+          motorway: Motorvei
           permissive: Destinasjonstilgang
+          primary: Primær vei
           private: Privat tilgang
+          rail: Jernbane
+          reserve: Naturreservat
           resident: Boligområde
           retail: Militært område
+          school: 
+            - Skole
+            - universitet
+          secondary: Sekundær vei
+          station: Jernbanestasjon
+          subway: Undergrunnsbane
+          summit: 
+            - Topp
+            - fjelltopp
+          tourist: Turistattraksjon
           track: Spor
+          tram: 
+            - Lyskilde
+            - trikk
+          trunk: Hovedvei
+          unclassified: Uklassifisert vei
+          wood: Ved
+        heading: endret beskyttelsesnivå for «[[$1]]»
+    search: 
+      search: Søk
+      submit_text: Gå
+      where_am_i: Hvor er jeg?
     sidebar: 
-      search_results: Ingen resultat funnet
+      close: Lukk
+      search_results: Søkeresultater
   trace: 
     create: 
       trace_uploaded: Din GPX-fil er last opp og venter på å bli satt inn i databasen. Dette skjer vanligvis innen en halvtime og en e-post blir sendt til deg når det er gjort.
@@ -528,10 +689,13 @@
       trackable: Sporbar (bare delt som anonyme, sorterte punkter med tidsstempel)
   user: 
     account: 
+      email never displayed publicly: " (vis aldri offentlig)"
+      flash update success: Brukerinformasjon oppdatert.
       home location: "Hjemmeposisjon:"
       latitude: "Breddegrad:"
       longitude: "Lengdegrad:"
       my settings: Mine innstillinger
+      preferred languages: "Foretrukne språk:"
       profile description: "Profilbeskrivelse:"
       public editing: 
         disabled link text: hvorfor can jeg ikke redigere?
@@ -553,13 +717,16 @@
       press confirm button: Klikk bekreftknappen nedenfor for å bekrefte din nye e-postadressse.
       success: E-postadressen din er bekreftet - takk for at du registrerte deg.
     friend_map: 
-      nearby mapper: Ingen bruker funnet
+      nearby mapper: "Bruker i nærheten: [[nearby_user]]"
       your location: Din posisjon
     login: 
       create_account: opprett en konto
       email or username: "E-postadresse eller brukernavn:"
+      heading: Logg inn
+      login_button: Logg inn
       lost password link: Mistet passordet ditt?
       password: "Passord:"
+      title: Logg inn
     lost_password: 
       email address: "E-postadresse:"
       heading: Glemt passord?
@@ -576,6 +743,7 @@
       email address: "E-postadresse:"
       heading: Opprett en brukerkonto
       password: "Passord:"
+      signup: Registrering
       title: Opprett konto
     no_such_user: 
       heading: Brukeren {{user}} finnes ikke
@@ -598,13 +766,14 @@
       edits: redigeringer
       km away: "{{count}}km unna"
       m away: "{{count}}m unna"
+      mapper since: "Bruker siden:"
       my diary: min dagbok
       my edits: mine redigeringer
       my settings: mine innstillinger
       my traces: mine spor
       my_oauth_details: Vis mine OAuth-detaljer
       nearby users: "Næreliggende brukere:"
-      new diary entry: ny dagboksoppføring
+      new diary entry: ny dagbokoppføring
       remove as friend: fjern som venn
       send message: send melding
       settings_link_text: innstillinger
