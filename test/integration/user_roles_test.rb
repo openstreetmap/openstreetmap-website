@@ -1,0 +1,46 @@
+require File.dirname(__FILE__) + '/../test_helper'
+
+class UserRolesControllerTest < ActionController::IntegrationTest
+  fixtures :users, :user_roles
+
+  test "grant" do
+    check_fail(:grant, :public_user, :moderator)
+    check_fail(:grant, :moderator_user, :moderator)
+    check_success(:grant, :administrator_user, :moderator)
+  end
+
+  test "revoke" do
+    check_fail(:revoke, :public_user, :moderator)
+    check_fail(:revoke, :moderator_user, :moderator)
+    # this other user doesn't have moderator role, so this fails
+    check_fail(:revoke, :administrator_user, :moderator)
+  end
+
+  def check_fail(action, user, role)
+    post '/login', {'user[email]' => users(user).email, 'user[password]' => "test", :referer => "/"}
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+
+    get "/user/#{users(:second_public_user).display_name}/role/#{role}/#{action}"
+    assert_response :redirect
+    assert_redirected_to :controller => 'user', :action => 'view', :display_name => users(:second_public_user).display_name
+
+    reset!
+  end
+
+  def check_success(action, user, role)
+    post '/login', {'user[email]' => users(user).email, 'user[password]' => "test", :referer => "/"}
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+
+    get "/user/#{users(:second_public_user).display_name}/role/#{role}/#{action}"
+    assert_response :success
+    post "/user/#{users(:second_public_user).display_name}/role/#{role}/#{action}", {:confirm => "yes", :nonce => session[:nonce]}
+    assert_response :redirect
+    assert_redirected_to :controller => 'user', :action => 'view', :display_name => users(:second_public_user).display_name
+
+    reset!
+  end
+end

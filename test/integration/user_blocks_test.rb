@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class UserBlocksTest < ActionController::IntegrationTest
-  fixtures :users, :user_blocks
+  fixtures :users, :user_blocks, :user_roles
 
   def auth_header(user, pass)
     {"HTTP_AUTHORIZATION" => "Basic %s" % Base64.encode64("#{user}:#{pass}")}
