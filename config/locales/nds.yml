@@ -40,16 +40,25 @@ nds:
       belongs_to: "Höört to:"
       closed_at: "Slaten an’n:"
       created_at: "Opstellt an’n:"
+    changeset_navigation: 
+      user: 
+        name_tooltip: Ännern von {{user}} ankieken
+        next_tooltip: Tokamen Ännern von {{user}}
+        prev_tooltip: Vörig Ännern von {{user}}
     common_details: 
       changeset_comment: "Kommentar:"
       edited_at: "Ännert an’n:"
       edited_by: "Ännert von:"
-      version: "Version:"
     map: 
       deleted: Wegdaan
+      larger: 
+        way: Weg op en grötter Koort ankieken
       loading: Laden...
     node: 
+      download_xml: XML dalladen
       edit: ännern
+      node: Knütt
+      node_title: "Knütt: {{node_name}}"
       view_history: Geschicht wiesen
     node_details: 
       coordinates: "Koordinaten:"
@@ -59,6 +68,7 @@ nds:
       view_details: Details wiesen
     not_found: 
       type: 
+        node: Knütt
         way: Weg
     paging_nav: 
       of: von
@@ -74,28 +84,45 @@ nds:
       view_details: Details wiesen
     relation_member: 
       type: 
+        node: Knütt
         way: Weg
     start_rjs: 
       data_frame_title: Daten
       data_layer_name: Daten
-      details: Details
+      history_for_feature: Geschicht för [[feature]]
+      loading: An’t Laden...
       object_list: 
-        details: Details
         heading: Objektlist
+        history: 
+          type: 
+            node: Knütt [[id]]
+            way: Weg [[id]]
+        selected: 
+          type: 
+            node: Knütt [[id]]
+            way: Weg [[id]]
         type: 
+          node: Knütt
           way: Weg
       private_user: anonym Bruker
       show_history: Geschicht wiesen
       wait: Tööv en Stoot...
     way: 
+      download: "{{download_xml_link}}, {{view_history_link}} oder {{edit_link}}"
       download_xml: XML dalladen
       edit: ännern
       view_history: Geschicht wiesen
       way: Weg
+      way_title: "Weg: {{way_name}}"
     way_details: 
+      nodes: "Knütten:"
       part_of: "Deel von:"
+    way_history: 
+      download_xml: XML dalladen
+      view_details: Details ankieken
   changeset: 
     changeset: 
+      anonymous: Anonym
       big_area: (groot)
       no_comment: (keen)
       no_edits: (keen Ännern)
@@ -104,6 +131,7 @@ nds:
       of: von
       showing_page: an’t Sied weddergeven
     changesets: 
+      area: Rebeed
       comment: Kommentar
       saved_at: Spiekert an’n
       user: Bruker
@@ -112,12 +140,14 @@ nds:
       comment_count: 
         one: 1 Kommentar
         other: "{{count}} Kommentare"
+      comment_link: Kommentar op dissen Indrag
       edit_link: Dissen Indrag ännern
     edit: 
       language: "Spraak:"
       latitude: "Bredengraad:"
       location: "Oort:"
       longitude: "Längengraad:"
+      marker_text: Oort von’n Indrag
       save_button: Spiekern
       title: Dagbook-Indrag ännern
       use_map_link: Koort bruken
@@ -133,24 +163,29 @@ nds:
       user_title: "{{user}} sien Dagbook"
     new: 
       title: Ne’en Dagbook-Indrag
+    no_such_entry: 
+      heading: Keen Indrag mit de Nummer {{id}}
+    no_such_user: 
+      title: Bruker nich funnen
     view: 
       leave_a_comment: Kommentar schrieven
       login: Anmellen
       save_button: Spiekern
       title: Bruker-Dagbook | {{user}}
+      user_title: "{{user}} sien Dagbook"
   export: 
     start: 
-      export_button: Export
-      format: Format
+      add_marker: Sett en Markteken op de Koort
       image_size: Bildgrött
       latitude: "Breed:"
+      licence: Lizenz
       longitude: "Läng:"
       mapnik_image: Mapnik-Bild
       max: max.
+      osmarender_image: Osmarender-Bild
       output: Utgaav
-      zoom: Zoom
+      scale: Skaal
     start_rjs: 
-      export: Export
       view_larger_map: Grötter Koort wiesen
   geocoder: 
     description: 
@@ -173,10 +208,15 @@ nds:
       one: üm un bi 1 km
       other: üm un bi {{count}} km
       zero: ünner 1 km
+    results: 
+      no_results: nix funnen
+    search_osm_namefinder: 
+      suffix_parent: "{{suffix}} ({{parentdistance}} {{parentdirection}} von {{parentname}})"
+      suffix_place: ", {{distance}} {{direction}} von {{placename}}"
   layouts: 
     alt_donation: Spenn wat
     donate_link_text: Spennen
-    export: Export
+    edit: Ännern
     export_tooltip: Koortendaten exporteren
     help_wiki: Hülp & Wiki
     history: Geschicht
@@ -192,6 +232,8 @@ nds:
     sign_up: Nee Brukerkonto opstellen
     user_diaries: Bruker-Dagböker
     user_diaries_tooltip: Bruker-Dagböker wiesen
+    view: ankieken
+    view_tooltip: Koorten ankieken
     welcome_user: Willkamen, {{user_link}}
     welcome_user_link_tooltip: Dien Brukersied
   map: 
@@ -222,6 +264,7 @@ nds:
       my_inbox: Mien {{inbox_link}}
       subject: Thema
       title: Postfack Utgang
+      to: An
     read: 
       date: Datum
       reply_button: Antern
@@ -261,14 +304,15 @@ nds:
     index: 
       license: 
         project_name: OpenStreetMap-Projekt
-      permalink: Permalink
       shortlink: Kortlink
     key: 
+      map_key: Legenn
       table: 
         entry: 
           admin: Grenz
           allotments: Schrebergoorns
           apron: 
+            - Terminal
             - Terminal
           bridge: Fett Rand = Brügg
           bridleway: Riedpadd
@@ -283,6 +327,7 @@ nds:
           commercial: Hannelsrebeed
           common: 
             - Wisch
+            - Wisch
           construction: Straat, an de noch boot warrt
           cycleway: Fohrradpadd
           farm: Buurnhoff
@@ -296,7 +341,6 @@ nds:
             - Stausee
           military: Militärrebeed
           motorway: Autobahn
-          park: Park
           pitch: Sportfeld
           primary: wichtige Landstraat
           private: Privat Togang
@@ -335,41 +379,52 @@ nds:
       close: Sluten
   trace: 
     edit: 
+      description: "Beschrieven:"
       download: dalladen
       edit: ännern
       filename: "Dateinaam:"
       map: Koort
       owner: "Besitter:"
       save_button: Ännern spiekern
+      start_coord: "Startkoordinaat:"
+      tags_help: dör Kommas trennt
+      uploaded_at: "Hoochladen an’n:"
       visibility: "Sichtborkeit:"
+      visibility_help: wat bedüüdt dat?
     no_such_user: 
       title: gifft den Bruker nich
     trace: 
       by: von
       edit: ännern
       edit_map: Koort ännern
-      in: in
       map: Koort
       more: mehr
+      private: PRIVAAT
+      public: APEN
+      view_map: Koort ankieken
     trace_form: 
       description: Beschrieven
       help: Hülp
       upload_button: Hoochladen
       upload_gpx: GPX-Datei hoochladen
+      visibility: Sichtborkeit
     trace_paging_nav: 
       of: von
     view: 
+      description: "Beschrieven:"
       download: dalladen
       edit: ännern
       filename: "Dateinaam:"
       map: Koort
       none: Keen
       owner: "Besitter:"
+      visibility: "Sichtborkeit:"
   user: 
     account: 
       email never displayed publicly: (nich apen wiesen)
       latitude: "Bredengraad:"
       longitude: "Längengraad:"
+      make edits public button: All mien Ännern apen wiesen
       no home location: Du hest dien Standoort nich angeven.
       public editing: 
         disabled link text: Worüm kann ik nix ännern?
@@ -382,13 +437,17 @@ nds:
       your location: Dien Standoort
     login: 
       create_account: Brukerkonto opstellen
+      email or username: "E-Mail-Adress oder Brukernaam:"
       heading: Anmellen
       login_button: Anmellen
+      lost password link: Passwoord vergeten?
       password: "Passwoord:"
       title: Anmellen
     lost_password: 
       email address: "E-Mail-Adress:"
+      heading: Passwoord vergeten?
       new password button: Passwoord trüchsetten
+      title: Passwoord vergeten
     make_friend: 
       already_a_friend: "{{name}} is al dien Fründ."
       failed: Dat hett nich klappt,  {{name}} as Fründ totofögen.
@@ -400,11 +459,15 @@ nds:
       password: "Passwoord:"
       signup: Brukerkonto opstellen
       title: Brukerkonto opstellen
+    no_such_user: 
+      heading: Den Bruker {{user}} gifft dat nich
+      title: Bruker nich funnen
     remove_friend: 
       not_a_friend: "{{name}} is keen von dien Frünn."
       success: "{{name}} is rutnahmen bi de Frünn."
     reset_password: 
       flash changed: Dien Passwoord is nu ännert.
+      heading: Passwoord för {{user}} trüchsetten
       password: "Passwoord:"
       reset: Passwoord trüchsetten
       title: Passwoord trüchsetten
@@ -425,7 +488,9 @@ nds:
       my edits: mien Ännern
       nearby users: "Brukers in de Neegd:"
       new diary entry: Nee Dagbook-Indrag
+      no home location: Keen Standoort angeven.
       remove as friend: as Fründ rutnehmen
       send message: Naricht sennen
+      upload an image: Bild hoochladen
       user image heading: Brukerbild
       your friends: Dien Frünn

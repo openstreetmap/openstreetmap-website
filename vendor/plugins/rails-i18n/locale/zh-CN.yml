@@ -7,7 +7,7 @@
       default: "%Y-%m-%d"
       short: "%b%d日"
       long: "%Y年%b%d日"
-    day_names: [星期天, 星期一, 星期二, 星期三, 星期四, 星期五, 星期六]
+    day_names: [星期日, 星期一, 星期二, 星期三, 星期四, 星期五, 星期六]
     abbr_day_names: [日, 一, 二, 三, 四, 五, 六]
     month_names: [~, 一月, 二月, 三月, 四月, 五月, 六月, 七月, 八月, 九月, 十月, 十一月, 十二月]
     abbr_month_names: [~, 1月, 2月, 3月, 4月, 5月, 6月, 7月, 8月, 9月, 10月, 11月, 12月]
@@ -25,14 +25,14 @@
     distance_in_words:
       half_a_minute: "半分钟"
       less_than_x_seconds:
-        one: "一秒内"
-        other: "少于 {{count}} 秒"
+        one: "不到一秒"
+        other: "不到 {{count}} 秒"
       x_seconds:
         one: "一秒"
         other: "{{count}} 秒"
       less_than_x_minutes:
-        one: "一分钟内"
-        other: "少于 {{count}} 分钟"
+        one: "不到一分钟"
+        other: "不到 {{count}} 分钟"
       x_minutes:
         one: "一分钟"
         other: "{{count}} 分钟"
@@ -52,8 +52,8 @@
         one: "大约一年"
         other: "大约 {{count}} 年"
       over_x_years:
-        one: "一年以上"
-        other: "{{count}} 年以上"
+        one: "一年多"
+        other: "{{count}} 年多"
     prompts:
       year:   "年"
       month:  "月"
@@ -70,7 +70,7 @@
     currency:
       format:
         format: "%u %n"
-        unit: "CNY"
+        unit: "CN¥"
         separator: "."
         delimiter: ","
         precision: 2
@@ -84,7 +84,16 @@
       format:
         delimiter: ""
         precision: 1
-      storage_units: [Bytes, KB, MB, GB, TB]
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one: "Byte"
+            other: "Bytes"
+          kb: "KB"
+          mb: "MB"
+          gb: "GB"
+          tb: "TB"
   
   support:
     array:
@@ -108,7 +117,7 @@
         empty: "不能留空"
         blank: "不能为空字符"
         too_long: "过长（最长为 {{count}} 个字符）"
-        too_short: "過短（最短为 {{count}} 个字符）"
+        too_short: "过短（最短为 {{count}} 个字符）"
         wrong_length: "长度非法（必须为 {{count}} 个字符）"
         taken: "已经被使用"
         not_a_number: "不是数字"

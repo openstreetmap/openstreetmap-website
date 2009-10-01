@@ -60,6 +60,11 @@ The locales dir we'll merge stuff into. F<config/locales> by default.
 
 Only import translations that don't exists for us yet.
 
+=item --cache
+
+Write a L<Storable> cache for things downloaded from Translatewiki and
+use it if it exists.
+
 =back
 
 =head1 AUTHOR
@@ -75,6 +80,7 @@ Getopt::Long::Parser->new(
     'h|help' => \my $help,
     'locales-dir=s' => \(my $locales_dir = 'config/locales'),
     'only-new' => \my $only_new,
+    'cache' => \my $cache,
 ) or help();
 
 # On --help
@@ -196,6 +202,16 @@ for my $translatewiki_lang (sort @translatewiki_languages_codes) {
             }
         }
 
+        # There are a bunch of keys on Translatewiki that are
+        # equivalent to English for some reason. Probably because they
+        # were there at import time. Nuke them.
+        while (my ($new_k, $new_v) = each %new) {
+            if (exists $en{ $new_k } and $en{ $new_k } eq $new_v) {
+                #say "Purging dupe in $rails_lang: $new_k=$new_v";
+                delete $new{ $new_k };
+            }
+        }
+
         my $expanded = expand_hash( \%new );
         my $out = +{ $rails_lang => $expanded };
         spit_out($out_file, $out);
@@ -302,9 +318,11 @@ sub get_translatewiki_translations
     my @languages = @_;
 
     my $cache_file = "/tmp/merge-from-translatewiki.storable";
-    if (-f $cache_file) {
-        my $cache = retrieve($cache_file);
-        return %$cache;
+    if ($cache) {
+        if (-f $cache_file) {
+            my $c = retrieve($cache_file);
+            return %$c;
+        }
     }
 
     my %translatewiki_languages;
@@ -321,7 +339,9 @@ sub get_translatewiki_translations
         $translatewiki_languages{$lang} = $flat_data;
     }
 
-    store \%translatewiki_languages, $cache_file;
+    if ($cache) {
+        store \%translatewiki_languages, $cache_file;
+    }
 
     return %translatewiki_languages;
 }
@@ -331,7 +351,7 @@ sub get_language_from_translatewiki
     my ($lang) = @_;
     my $mech = WWW::Mechanize->new;
 
-    $mech->get("http://translatewiki.net/w/i.php?title=Special%3ATranslate&task=export-to-file&group=out-osm&language=$lang");
+    $mech->get("http://translatewiki.net/w/i.php?title=Special%3ATranslate&task=export-to-file&group=out-osm-site&language=$lang");
 
     die "Couldn't get lang $lang lang from Translatewiki" unless $mech->success;
 
@@ -346,7 +366,7 @@ sub translatewiki_languages
 {
     my $mech = WWW::Mechanize->new;
 
-    $mech->get('http://translatewiki.net/wiki/Translating:OpenStreetMap/stats/trunk');
+    $mech->get('http://translatewiki.net/wiki/Translating:OpenStreetMap/stats/trunk/site');
 
     die "Couldn't get translatewiki table" unless $mech->success;
 

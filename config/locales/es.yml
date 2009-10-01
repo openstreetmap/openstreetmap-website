@@ -25,7 +25,6 @@ es:
         public: Pública
         size: Tamaño
         user: Usuario
-        visible: Visible
       user: 
         active: Activo
         description: Descripción
@@ -87,6 +86,7 @@ es:
         one: "Tiene el siguiente {{count}} nodo:"
         other: "Tiene los siguientes {{count}} nodos:"
       has_relations: 
+        one: "Tiene la siguiente {{count}} relación:"
         other: "Tiene las siguientes {{count}} relaciones:"
       has_ways: "Tiene {{count}} vías:"
       no_bounding_box: No se ha guardado una envoltura para este conjunto de cambios
@@ -234,7 +234,6 @@ es:
     changesets: 
       area: Ãrea
       comment: Comentario
-      id: ID
       saved_at: Guardado en
       user: Usuario
     list: 
@@ -274,6 +273,7 @@ es:
       use_map_link: Usar mapa
     feed: 
       all: 
+        description: Entradas recientes en los diarios de los usuarios de OpenStreetMap
         title: Entradas en el diario de OpenStreetMap
       language: 
         title: Entradas de diario en OpenStreetMap en {{language_name}}
@@ -294,6 +294,7 @@ es:
     no_such_entry: 
       body: Lo sentimos, no hay ninguna entrada del diario para la ID {{id}}. Por favor, comprueba que la dirección esté correctamente escrita.
       heading: No hay entrada con la ID {{id}}
+      title: No existe esa entrada de diario
     no_such_user: 
       body: Lo sentimos, no hay ningún usuario llamado {{user}}. Por favor, comprueba que la dirección es correcta.
       heading: El usuario {{user}} no existe
@@ -315,19 +316,15 @@ es:
       format: Formato
       format_to_export: Formato de exportación
       image_size: Tamaño de la imagen
-      latitude: "Lat:"
       licence: Licencia
-      longitude: "Lon:"
       manually_select: Seleccionar a mano otra area
       mapnik_image: Imagen de Mapnik
-      max: max
       options: Opciones
       osm_xml_data: Datos formato OpenStreetMap XML
       osmarender_image: Imagen de Osmarender
       output: Resultado
       paste_html: HTML para empotrar en otro sitio web
       scale: Escala
-      zoom: Zoom
     start_rjs: 
       add_marker: Añadir un marcador al mapa
       change_marker: Cambiar posición del marcador
@@ -588,7 +585,6 @@ es:
       allow_write_diary: crear entradas en el diario, comentarios y hacer amigos.
       allow_write_gpx: subir trazas GPS.
       allow_write_prefs: modificar sus preferencias de usuario.
-      callback_url: Callback URL
       name: Nombre
       requests: "Solicita los siguientes permisos del usuario:"
       required: Requerido
@@ -612,16 +608,9 @@ es:
       sorry: Lo sentimos, ese {{type}} no puede ser encontrado.
     show: 
       access_url: "URL de Token de Acceso:"
-      allow_read_gpx: read their private GPS traces.
-      allow_read_prefs: read their user preferences.
-      allow_write_api: modify the map.
-      allow_write_diary: create diary entries, comments and make friends.
-      allow_write_gpx: upload GPS traces.
-      allow_write_prefs: modify their user preferences.
       authorize_url: "Autorizar URL:"
       edit: Editar Detalles
       key: "Clave de Consumidor:"
-      requests: "Requesting the following permissions from the user:"
       secret: "Secreto de Consumidor:"
       support_notice: Soportamos hmac-sha1 (recomendado) asi como texto plano en el modo ssl.
       title: Detalles OAuth para {{app_name}}
@@ -631,24 +620,35 @@ es:
   site: 
     edit: 
       not_public: No has configurado tus ediciones como públicas.
+      potlatch_unsaved_changes: Tiene cambios sin guardar. (Para guardarlos en Potlatch, debería deseleccionar la vía o punto actual si está editando en directo, o pulse sobre guardar si aparece un botón de guardar.)
       user_page_link: página de usuario
     index: 
-      js_1: Está usando un navegador que no soporta o tiene desactivado javascript
-      js_2: OpenStreetMap utiliza javascript para mostrar su mapa
+      js_1: Está usando un navegador que no soporta o tiene desactivado JavaScript
+      js_2: OpenStreetMap utiliza JavaScript para mostrar su mapa
       license: 
         license_name: Creative Commons Atribución-Licenciar Igual 2.0
+        notice: Bajo la licencia {{license_name}} a nombre de {{project_name}} y sus colaboradores.
         project_name: Proyecto OpenStreetMap
       permalink: Enlace permanente
       shortlink: Atajo
     key: 
       map_key: Leyenda del mapa
+      map_key_tooltip: Leyenda del renderizador mapnik para este nivel de zoom
       table: 
         entry: 
           admin: Límites administrativos
+          allotments: Huertos de ocio
           apron: 
             - terminal
+            - terminal
+          bridge: Borde negro = puente
           bridleway: Vía ecuestre
+          brownfield: Baldío
           building: Edificio significativo
+          byway: camino
+          cable: 
+            - Telecabina
+            - Telesilla
           cemetery: Cementerio
           centre: Centro deportivo
           commercial: Zona comercial
@@ -661,6 +661,7 @@ es:
           footway: Vía peatonal
           forest: Bosque
           golf: Pista de golf
+          heathland: Landa
           industrial: Zona industrial
           lake: 
             - Lago
@@ -669,20 +670,34 @@ es:
           motorway: Autopista
           park: Parque
           permissive: Acceso permisivo
+          pitch: Campo de juego
           primary: Vía primaria
           private: Acceso privado
           rail: Ferrocarril
           reserve: Reserva natural
           resident: Zona residencial
+          retail: Zona de comercios
+          runway: 
+            - Pista de aeropuerto
+            - Vía para taxis
           school: 
             - Escuela
             - universidad
           secondary: Vía secundaria
           station: Estación de tren
           subway: Metro
+          summit: 
+            - Cumbre
+            - pico
           tourist: Atracción turística
+          track: Pista
+          tram: 
+            - Metro ligero
+            - Tranvía
           trunk: Carretera principal
+          tunnel: Borde a rayas = tunel
           unclassified: Carretera sin clasificar
+          unsurfaced: Carretera sin asfaltar
           wood: Madera
         heading: Leyenda para z{{zoom_level}}
     search: 
@@ -723,7 +738,7 @@ es:
     make_public: 
       made_public: Traza hecha publica
     no_such_user: 
-      body: Lo sentimo, no hay un usuario con el nombre {{user}}. Por favor revise la redacción o quizas el enlace al que hizo click esta errado.
+      body: Lo sentimos, no hay un usuario con el nombre {{user}}. Por favor revise la redacción o quizás el enlace al que hizo click esta errado.
       heading: El usuario {{user}} no existe
       title: No existe este usuario
     trace: 
@@ -822,13 +837,17 @@ es:
     friend_map: 
       nearby mapper: "Mapeadores cercanos:"
       your location: "Tu lugar de origen:"
+    go_public: 
+      flash success: Ahora todas tus ediciones son públicas y ya estás autorizado para editar
     login: 
+      account not active: Lo sentimos, su cuenta aun no está activa.<br />Por favor siga el enlace que hay en el correo de confirmación de cuenta para activarla.
       create_account: crear una cuenta
       email or username: Dirección de correo o nombre de usuario
       heading: Iniciar sesión
       login_button: Iniciar sesión
       lost password link: ¿Ha perdido su contraseña?
       password: Contraseña
+      please login: Por favor inicie sesión o {{create_user_link}}.
       title: Iniciar sesión
     lost_password: 
       email address: "Dirección de correo:"
@@ -861,6 +880,7 @@ es:
     reset_password: 
       confirm password: "Confirmar contraseña:"
       flash changed: Tu contraseña ha sido cambiada.
+      flash token bad: No he encontrado este elemento, ¿quizá debería comprobar la URL?
       heading: Reestablecer contraseña para {{user}}
       password: "Contraseña:"
       reset: Reestablecer contraseña

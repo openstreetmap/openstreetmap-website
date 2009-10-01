@@ -1,6 +1,10 @@
 # Italian translations for Ruby on Rails 
 # by Claudio Poli (masterkain@gmail.com)
-# updated by Simone Carletti (weppos@weppos.net)
+# maintained by Simone Carletti (weppos@weppos.net)
+#
+# This localization file targets Rails 2.3.2.
+# If you need a previous version go to http://github.com/weppos/rails-i18n/
+# and choose between available tags.
 
 it:
   number:
@@ -33,15 +37,22 @@ it:
         # separator: 
         delimiter: ""
         precision: 1
-      storage_units: [Byte, Kb, Mb, Gb, Tb]
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one:   "Byte"
+            other: "Byte"
+          kb: "Kb"
+          mb: "Mb"
+          gb: "Gb"
+          tb: "Tb"
 
   date:
     formats:
       default: "%d-%m-%Y"
       short: "%d %b"
       long: "%d %B %Y"
-      # Bogus?
-      only_day: "%e"
 
     day_names: [Domenica, Lunedì, Martedì, Mercoledì, Giovedì, Venerdì, Sabato]
     abbr_day_names: [Dom, Lun, Mar, Mer, Gio, Ven, Sab]
@@ -55,14 +66,6 @@ it:
       default: "%a %d %b %Y, %H:%M:%S %z"
       short: "%d %b %H:%M"
       long: "%d %B %Y %H:%M"
-      # Bogus?
-      time: "%H:%M"
-      only_second: "%S"
-      
-      # Bogus?
-      datetime:
-        formats:
-          default: "%d-%m-%YT%H:%M:%S%Z"
           
     am: 'am'
     pm: 'pm'
