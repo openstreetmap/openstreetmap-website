@@ -1,3 +1,4 @@
+
 /*
  * Called as the user scrolls/zooms around to aniplate hrefs of the
  * view tab and various other links
@@ -61,7 +62,7 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat,objtype,obj
       node.href = setArgs("/edit", args);
       node.style.fontStyle = 'normal';
     } else {
-      node.href = 'javascript:alert("zoom in to edit map");';
+      node.href = 'javascript:alert(rails_i18n["layouts.edit_zoom_alert"]);';
       node.style.fontStyle = 'italic';
     }
   }
@@ -86,7 +87,7 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat,objtype,obj
       node.href = setArgs("/history", args);
       node.style.fontStyle = 'normal';
     } else {
-      node.href = 'javascript:alert("zoom in to see editing history");';
+      node.href = 'javascript:alert(rails_i18n["layouts.history_zoom_alert"]);';
       node.style.fontStyle = 'italic';
     }
   }
