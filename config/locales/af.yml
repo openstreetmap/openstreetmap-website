@@ -33,6 +33,7 @@ af:
         languages: Tale
         pass_crypt: Wagwoord
     models: 
+      acl: Toegangsbeheer
       country: Land
       diary_comment: Dagboekopmerking
       diary_entry: Dagboekinskrywing
@@ -40,8 +41,10 @@ af:
       language: Taal
       message: Boodskap
       notifier: Melding
+      old_node: Ou Node
       session: Sessie
       user: Gebruiker
+      user_preference: Gebruikersvoorkeure
       way: Weg
   browse: 
     changeset_details: 
@@ -80,7 +83,7 @@ af:
       download: "{{download_xml_link}}, {{view_history_link}} of {{edit_link}}"
       download_xml: Laai XML af
       edit: wysig
-      view_history: besigtig geskiedenis
+      view_history: wys geskiedenis
     node_details: 
       coordinates: "Koördinate:"
       part_of: "Deel af:"
@@ -102,7 +105,7 @@ af:
     relation: 
       download: "{{download_xml_link}} of {{view_history_link}}"
       download_xml: Laai XML af
-      view_history: geskiedenis weergeven
+      view_history: wys geskiedenis
     relation_details: 
       members: "Lede:"
       part_of: "Deel van:"
@@ -116,6 +119,9 @@ af:
       type: 
         relation: Relasie
         way: Weg
+    start: 
+      manually_select: Kies 'n ander gebied handmatig
+      view_data: Wys data vir die huidige kaart
     start_rjs: 
       data_frame_title: Gegewens
       edited_by_user_at_timestamp: Verander deur [[user]] om [[timestamp]]
@@ -174,12 +180,15 @@ af:
       saved_at: Gestoor op
       user: Gebruiker
   diary_entry: 
+    diary_comment: 
+      comment_from: Kommentaar van ((link_user)) op ((comment_created_at))
     diary_entry: 
       comment_count: 
         one: 1 reaksie
         other: "{{count}} reaksies"
       comment_link: Lewer kommentaar op hierdie bydrae
       edit_link: Wysig hierdie inskrywing
+      posted_by: Gepos deur {{link_user}} op {{created}} in die {{language_link}}
       reply_link: Antwoord op hierdie bydrae
     edit: 
       body: "Teks:"
@@ -200,6 +209,11 @@ af:
       older_entries: Ouer inskrywings
       title: Gebruikersdagboeke
       user_title: Dagboek van {{user}}
+    new: 
+      title: Nuwe dagboekinskrywing
+    no_such_entry: 
+      heading: Die inskrywing met id {{id}} bestaan nie
+      title: Die opgevraagde dagboekinskrywing bestaan nie
     no_such_user: 
       heading: Die gebruiker {{user}} bestaan nie
       title: Geen sodanige gebruiker nie
@@ -217,6 +231,7 @@ af:
       embeddable_html: HTML-kode
       export_button: Eksporteer
       format: Formaat
+      format_to_export: Lêerformaat
       image_size: Prentgrootte
       latitude: "Breedte:"
       licence: Lisensie
@@ -269,12 +284,11 @@ af:
       suffix_parent: "{{suffix}} ({{parentdistance}} {{parentdirection}} van {{parentname}})"
       suffix_place: ", {{distance}} {{direction}} van {{placename}}"
   layouts: 
-    make_a_donation:
-      text: Skenk 'n donasie
     donate_link_text: skenk
     edit: Wysig
     edit_tooltip: Wysig kaarte
     export: Eksporteer
+    export_tooltip: Eksporteer kaartdata
     help_wiki_tooltip: Help en wiki vir die projek
     history: Geskiedenis
     home: tuis
@@ -284,12 +298,18 @@ af:
       one: U inboks bevat 1 ongeleesde boodskap
       other: U inboks bevat {{count}} ongeleesde boodskappe
       zero: U inboks bevat geen ongelees boodskappe nie
+    intro_3: OpenStreetMap se webwerf word deur {{ucl}} en {{bytemark}} ondersteun.
     log_in: Teken in
     log_in_tooltip: Teken aan met 'n bestaande rekening
+    logo: 
+      alt_text: OpenStreetMap-logo
     logout: teken uit
     logout_tooltip: Teken uit
+    make_a_donation: 
+      text: Skenk 'n donasie
     news_blog: Nuusjoernale
     shop: Winkel
+    shop_tooltip: Winkel met OpenStreetMap-produkte
     sign_up: registreer
     sign_up_tooltip: Skep 'n rekening vir wysigings
     user_diaries: Gebruikersdagboeke
@@ -322,6 +342,7 @@ af:
       reply_button: Antwoord
       unread_button: Merk as ongelees
     new: 
+      back_to_inbox: Terug na inboks
       body: Teks
       message_sent: Boodskap is gestuur
       send_button: Stuur
@@ -335,9 +356,12 @@ af:
       inbox: Posvak IN
       outbox: Posvak UIT
       subject: Onderwerp
+      title: Gestuur
       to: Aan
       you_have_sent_messages: U het {{count}} gestuurde boodskappe
     read: 
+      back_to_inbox: Terug na inboks
+      back_to_outbox: Terug na die UIT-posvak
       date: Datum
       from: Van
       reply_button: Antwoord
@@ -350,25 +374,35 @@ af:
   notifier: 
     diary_comment_notification: 
       hi: Hallo {{to_user}},
+      subject: "[OpenStreetMap] {{user}} het kommentaar op u dagboekinskrywing gelewer"
     email_confirm: 
       subject: "[OpenStreetMap] Bevestig u e-posadres"
     email_confirm_html: 
+      click_the_link: As dit u is, kliek op die onderstaande skakel om die verandering te bevestig.
       greeting: Hallo,
+      hopefully_you: Iemand (hopelik u) wil graag sy e-posadres op {{server_url}} verander na {{new_address}}.
     email_confirm_plain: 
       greeting: Hallo,
+      hopefully_you_2: "{{server_url}} na {{new_address}}."
     gpx_notification: 
       failure: 
         more_info_2: "hulle kan gevind word by:"
       greeting: Hallo,
       with_description: met die beskrywing
       your_gpx_file: Dit lyk soos jou GPX-lêer
+    lost_password: 
+      subject: "[OpenStreetMap] Versoek nuwe wagwoord"
     lost_password_html: 
       greeting: Hallo,
     lost_password_plain: 
       greeting: Hallo,
     message_notification: 
       banner1: "*                  Moet asseblief nie op hierdie e-pos reageer nie.                    *"
+      footer2: en u kan antwoord by {{replyurl}}
       hi: Hallo {{to_user}},
+      subject: "[OpenStreetMap] {{user}} het 'n nuwe boodskap aan u gestuur"
+    signup_confirm: 
+      subject: "[OpenStreetMap] Bevestig u e-posadres"
     signup_confirm_html: 
       greeting: Hallo daar!
       hopefully_you: Iemand (hopelik u) wil graag 'n rekening skep op
@@ -376,35 +410,60 @@ af:
       more_videos_here: meer video's hier
       video_to_openstreetmap: inleidende video vir OpenStreetMap
     signup_confirm_plain: 
+      click_the_link_1: As dit u is, welkom! Kliek asseblief op die onderstaande skakel om u rekening te bevestig
       greeting: Hallo daar!
+      more_videos: "Daar is meer videos hier:"
   oauth: 
     oauthorize: 
       allow_read_prefs: u gebruikersvoorkeure te lees.
       allow_write_api: die kaart te wysig.
+      allow_write_prefs: verander jou gebruikersvoorkeure.
   oauth_clients: 
     edit: 
       submit: Wysig
+      title: Wysig u applikasie
     form: 
+      allow_read_prefs: lees hulle gebruikersvoorkeure.
+      allow_write_diary: skep dagboekinskrywings, lewer kommentaar en maak vriende.
+      allow_write_prefs: verander hulle gebruikersvoorkeure.
       name: Naam
+      required: Verplig
+      support_url: Ondersteunings-URL
+      url: Applikasie-URL
     index: 
+      application: Applikasienaam
+      issued_at: Uitgereik op
+      register_new: Registreer u applikasie
       revoke: Herroep!
     new: 
       submit: Registreer
+      title: Registreer 'n nuwe applikasie
+    not_found: 
+      sorry: Jammer, die {{type}} kon nie gevind word nie.
     show: 
+      allow_read_prefs: lees hulle gebruikersvoorkeure.
       allow_write_api: wysig die kaart.
+      allow_write_diary: skep dagboekinskrywings, lewer kommentaar en maak vriende.
+      authorize_url: "URL vir magtiging:"
       edit: Wysig details
   site: 
     edit: 
+      anon_edits_link_text: Lees waarom dit die geval is.
       user_page_link: gebruikersbladsy
     index: 
+      license: 
+        project_name: OpenStreetMap-projek
+      permalink: Permanente skakel
       shortlink: Kort skakel
     key: 
+      map_key: Sleutel
       table: 
         entry: 
           admin: Administratiewe grens
           apron: 
             - Lughaweplatform
             - terminaal
+          bridge: Brug
           building: Belangrike gebou
           cable: 
             - Kabelkar
@@ -421,11 +480,15 @@ af:
           forest: Bos
           golf: Gholfbaan
           heathland: Heide
+          industrial: Industriële gebied
           lake: 
             - Meer
             - reservoir
           military: Militêre gebied
           motorway: Snelweg
+          permissive: Beperkte toegang
+          pitch: Sportveld
+          primary: Primêre pad
           private: Privaat toegang
           rail: Spoorweg
           reserve: Natuurreservaat
@@ -438,14 +501,20 @@ af:
             - Skool
             - universiteit
           secondary: Sekondêre pad
+          station: Spoorwegstasie
           summit: 
             - Piek
             - piek
           tourist: Toerisme-trekpleister
           track: Spoor
+          tram: 
+            - Ligte spoor
+          trunk: Trokpad
+          tunnel: Tonnel
           unclassified: Ongeklassifiseerde pad
           unsurfaced: Grondpad
           wood: Bos
+        heading: Sleutel vir z{{zoom_level}}
     search: 
       search: Soek
       submit_text: OK
@@ -454,6 +523,8 @@ af:
       close: Sluit
       search_results: Soekresultate
   trace: 
+    create: 
+      upload_trace: Laai GPS-trace op
     delete: 
       scheduled_for_deletion: Spoor is geskeduleer vir verwydering
     edit: 
@@ -535,6 +606,7 @@ af:
       button: Bevestig
       success: U e-posadres is bevestig, dankie dat u geregistreer het!
     friend_map: 
+      nearby mapper: "Nabygeleë karteerder: [[nearby_user]]"
       your location: U ligging
     login: 
       create_account: registreer
@@ -590,6 +662,7 @@ af:
       edits: wysigings
       km away: "{{count}}km vêr"
       m away: "{{count}}m vêr"
+      mapper since: "Karteer sedert:"
       my diary: my dagboek
       my edits: my wysigings
       my settings: my voorkeure
@@ -597,10 +670,13 @@ af:
       nearby users: "Nabygeleë gebruikers:"
       new diary entry: nuwe dagboekinskrywing
       no friends: U het nog geen vriende bygevoeg nie.
+      no home location: Geen tuisligging verskaf nie.
+      no nearby users: Daar is nog geen nabygeleë gebruikers wat erken dat hulle karterinswerk doen nie.
       remove as friend: verwyder as vriend
       send message: stuur boodskap
       settings_link_text: voorkeure
       traces: spore
+      upload an image: Laai 'n prent op
       user image heading: Foto van gebruiker
       user location: Ligging van gebruiker
       your friends: U vriende

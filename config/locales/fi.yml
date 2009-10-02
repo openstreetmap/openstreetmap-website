@@ -71,12 +71,25 @@ fi:
       box: alue
       closed_at: "Suljettu:"
       created_at: "Avattu:"
+      has_nodes: 
+        one: "Sisältää seuraavan pisteen:"
+        other: "Sisältää seuraavat {{count}} pistettä:"
+      has_relations: 
+        one: "Sisältää seuraavan relaation:"
+        other: "Sisältää seuraavat {{count}} relaatiota:"
+      has_ways: 
+        one: "Sisältää seuraavan polun:"
+        other: "Sisältää seuraavat {{count}} polkua:"
       no_bounding_box: Tässä muutoskokoelmassa ei ole rajattua aluetta.
       show_area_box: Näytä rajattu alue
     changeset_navigation: 
       all: 
         next_tooltip: Seuraava muutoskokoelma
         prev_tooltip: Edellinen muutoskokoelma
+      user: 
+        name_tooltip: Näytä käyttäjän {{user}} muutokset
+        next_tooltip: Käyttäjän {{user}} seuraava muutos
+        prev_tooltip: Käyttäjän {{user}} edellinen muutos
     common_details: 
       changeset_comment: "Kommentti:"
       edited_at: "Muokattu:"
@@ -88,8 +101,14 @@ fi:
       entry_role: Relaatio {{relation_name}} (rooli {{relation_role}})
     map: 
       deleted: Poistettu
+      larger: 
+        area: Näytä alue suurella kartalla
+        node: Näytä piste suurella kartalla
+        relation: Näytä relaatio suurella kartalla
+        way: Näytä polku suurella kartalla
       loading: Lataa tietoja...
     node: 
+      download: "{{download_xml_link}}, {{view_history_link}} tai {{edit_link}}"
       download_xml: Lataa XML
       edit: muokkaa
       node: Piste
@@ -102,6 +121,7 @@ fi:
       download: "{{download_xml_link}} tai {{view_details_link}}"
       download_xml: Lataa muokkaushistorian XML
       node_history: Pisteen muokkaushistoria
+      node_history_title: Pisteen {{node_name}} historia
       view_details: näytä pisteen tiedot
     not_found: 
       sorry: Kohdetta {{type}} {{id}} ei ole olemassa.
@@ -123,11 +143,13 @@ fi:
       members: "Jäsenet:"
       part_of: "Relaatiojäsenyydet:"
     relation_history: 
+      download: "{{download_xml_link}} tai {{view_details_link}}"
       download_xml: Lataa XML
       relation_history: Relaation muokkaushistoria
-      relation_history_title: "Relaation muokkaushistoria: {{relation_name}}"
+      relation_history_title: Relaation {{relation_name}} historia
       view_details: näytä yksityiskohdat
     relation_member: 
+      entry_role: "{{type}} {{name}} roolissa {{role}}"
       type: 
         node: Solmu
         relation: Relaatio
@@ -153,7 +175,7 @@ fi:
             way: Polku [[id]]
         type: 
           node: Solmu
-          way: Tie
+          way: Polku
       private_user: käyttäjä
       show_history: Näytä historia
       wait: Odota...
@@ -169,8 +191,8 @@ fi:
       way_title: "Polku: {{way_name}}"
     way_details: 
       also_part_of: 
-        one: myös osa polkua {{related_ways}}
-        other: myös osa polkuja {{related_ways}}
+        one: on myös osana polkua {{related_ways}}
+        other: on myös osana polkuja {{related_ways}}
       nodes: "Pisteet:"
       part_of: "Relaatiojäsenyydet:"
     way_history: 
@@ -178,7 +200,7 @@ fi:
       download_xml: Lataa XML
       view_details: näytä tiedot
       way_history: Polun muokkaushistoria
-      way_history_title: "Polun muokkaushistoria: {{way_name}}"
+      way_history_title: Polun {{way_name}} historia
   changeset: 
     changeset: 
       anonymous: Anonyymi
@@ -190,7 +212,7 @@ fi:
       view_changeset_details: Näytä muutoskokoelman tarkemmat tiedot
     changeset_paging_nav: 
       of: " /"
-      showing_page: Näytetään sivu
+      showing_page: Sivu
     changesets: 
       area: Alue
       comment: Kommentti
@@ -234,12 +256,13 @@ fi:
         description: Viimeisimmät päiväkirjamerkinnät OpenStreetMapin käyttäjiltä kielellä {{language_name}}
         title: OpenStreetMap-päiväkirjamerkinnät kielellä {{language_name}}
     list: 
+      in_language_title: Päiväkirjamerkinnät kielellä {{language}}
       new: Lisää päiväkirjamerkintä
       new_title: Kirjoita uusi päiväkirjamerkintä
       newer_entries: Uudempia...
-      no_entries: Tyhjä päiväkirja
+      no_entries: Päiväkirjassa ei ole merkintöjä.
       older_entries: Vanhempia...
-      recent_entries: "Uusimmat päiväkirjamerkinnät:"
+      recent_entries: Uusimmat päiväkirjamerkinnät
       title: Käyttäjien päiväkirjamerkinnät
       user_title: Käyttäjän {{user}} päiväkirja
     new: 
@@ -255,6 +278,7 @@ fi:
       login_to_leave_a_comment: "{{login_link}} kommentoidaksesi"
       save_button: Tallenna
       title: Käyttäjien päiväkirjat | {{user}}
+      user_title: Käyttäjän {{user}} päiväkirja
   export: 
     start: 
       add_marker: Lisää vietävään kartaan kohdemerkki
@@ -286,26 +310,41 @@ fi:
       view_larger_map: Näytä suurempi kartta
   geocoder: 
     description: 
+      title: 
+        geonames: Sijainti palvelusta <a href="http://www.geonames.org/">GeoNames</a>
+        osm_namefinder: "{{types}} <a href=\"http://gazetteer.openstreetmap.org/namefinder/\">OpenStreetMap Namefinderistä</a>"
       types: 
+        cities: Kaupungit
         places: Paikat
+        towns: Kylät
+    description_osm_namefinder: 
+      prefix: "{{distance}} {{direction}} kohteesta {{type}}"
     direction: 
-      east: itä
-      north: pohjoinen
-      north_east: koillinen
-      north_west: luode
-      south: etelä
-      south_east: kaakko
-      south_west: lounas
-      west: länsi
+      east: itään
+      north: pohjoiseen
+      north_east: koilliseen
+      north_west: luoteeseen
+      south: etelään
+      south_east: kaakkoon
+      south_west: lounaaseen
+      west: länteen
     distance: 
       one: noin 1 km
       other: noin {{count}} km
       zero: alle 1 km
     results: 
       no_results: Mitään ei löytynyt
+    search: 
+      title: 
+        ca_postcode: Tulokset palvelusta <a href="http://geocoder.ca/">Geocoder.CA</a>
+        geonames: Tulokset palvelusta <a href="http://www.geonames.org/">GeoNames</a>
+        latlon: <a href="http://openstreetmap.org/">Sisäiset</a> tulokset
+        osm_namefinder: Tulokset <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinderistä</a>
+        uk_postcode: Tulokset palvelusta <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
+        us_postcode: Tulokset palvelusta <a href="http://geocoder.us/">Geocoder.us</a>
+    search_osm_namefinder: 
+      suffix_place: ", {{distance}} {{direction}} paikasta {{placename}}"
   layouts: 
-    make_a_donation:
-      text: Tee lahjoitus
     donate_link_text: lahjoittaminen
     edit: Muokkaa
     edit_tooltip: Muokkaa karttoja
@@ -331,6 +370,8 @@ fi:
       alt_text: OpenStreetMap-logo
     logout: kirjaudu ulos
     logout_tooltip: Kirjaudu ulos
+    make_a_donation: 
+      text: Tee lahjoitus
     news_blog: Uutisblogi
     osm_offline: OpenStreetMapin tietokantaan ei toistaiseksi ole pääsyä välttämättömien ylläpitotöiden takia.
     osm_read_only: OpenStreetMapin tietokantaan ei toistaiseksi voi lähettää mitään välttämättömien ylläpitotöiden takia.
@@ -344,6 +385,8 @@ fi:
     welcome_user_link_tooltip: Käyttäjäsivusi
   map: 
     coordinates: "Koordinaatit:"
+    edit: Muokkaa
+    view: Näytä
   message: 
     delete: 
       deleted: Viesti poistettu
@@ -353,6 +396,7 @@ fi:
       my_inbox: Saapuneet
       no_messages_yet: Ei viestejä. {{people_mapping_nearby_link}}
       outbox: lähetetyt
+      people_mapping_nearby: Lähellä kartoittavia ihmisiä
       subject: Otsikko
       title: Saapuneet
       you_have: Sinulle on {{new_count}} uutta viestiä ja {{old_count}} vanhaa viestiä
@@ -366,6 +410,7 @@ fi:
       unread_button: Merkitse lukemattomaksi
     new: 
       back_to_inbox: Takaisin saapuneisiin
+      body: Sisältö
       message_sent: Viesti lähetetty
       send_button: Lähetä
       send_message_to: Lähetä viesti käyttäjälle {{name}}
@@ -432,7 +477,7 @@ fi:
   site: 
     edit: 
       anon_edits_link_text: Perustelut (englanniksi) julkisuusvaatimukselle.
-      flash_player_required: Potlatch-editori tarvitsee Flash player -laajennuksen. Saat sen <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">Adobe.com:n download Flash Player</a> -sivulta. Kartan muokkaamiseen on <a href="http://wiki.openstreetmap.org/wiki/Editing">useita muitakin ohjelmia</a>.
+      flash_player_required: Potlatch-editori tarvitsee Flash player -laajennuksen. Saat sen <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">Adobe.comin download Flash Player</a> -sivulta. Kartan muokkaamiseen on <a href="http://wiki.openstreetmap.org/wiki/Editing">useita muitakin ohjelmia</a>.
       not_public: Muokkauksesi eivät ole julkisia.
       not_public_description: Et voi enää muokata karttaa ennen kuin vaihdat muokkauksesi julkisiksi. Voit vaihtaa asetuksen {{user_page}}-sivulta.
       potlatch_unsaved_changes: Tallentamattomia muutoksia. Tallentaaksesi muutokset Potlatchissa, poista valinta nykyiseltä karttakohteelta; tai paina Tallenna -nappia jos sellainen on käytössä.
@@ -443,34 +488,81 @@ fi:
       js_3: Jos et voi sallia JavaScriptiä, kokeile <a href="http://tah.openstreetmap.org/Browse/">Tiles@Home karttakuvaselailinta</a>.
       license: 
         license_name: Creative Commons Nimeä-Tarttuva 2.0
+        project_name: OpenStreetMap-projekti
       permalink: Ikilinkki
       shortlink: Lyhytosoite
     key: 
       map_key: Karttamerkit
+      map_key_tooltip: Kartat (mapnik) selitteet tälle tasolle
       table: 
         entry: 
+          admin: Hallinnollinen raja
+          allotments: Siirtolapuutarha
+          apron: 
+            - Lentokentän asemataso
+            - terminaali
+          bridge: Musta kehys = silta
+          bridleway: Ratsastustie
+          building: Merkittävä rakennus
+          cable: 
+            - Köysirata
+            - tuolihissi
+          cemetery: Hautausmaa
           centre: Urheilukeskus
+          commercial: Toimistoalue
+          common: 
+            - Niitty
+            - keto
+          construction: Rakenteilla olevia teitä
           cycleway: Pyörätie
+          destination: Sallittu kohteeseen
+          farm: Maatila
           footway: Jalankulkutie
-          forest: Metsä
+          forest: Talousmetsä
           golf: Golfkenttä
+          heathland: Kanervikko
           industrial: Teollisuusalue
+          lake: 
+            - Järvi
+            - tekojärvi
           military: Sotilasalue
           motorway: Moottoritie
           park: Puisto
+          permissive: Salliva pääsy
           pitch: Urheilukenttä
           primary: Kantatie
+          private: Yksityinen
           rail: Junarata
+          reserve: Luonnonsuojelualue
+          resident: Asuinalue
+          retail: Kaupallinen alue
+          runway: 
+            - Lentokentän kiitotie
+            - rullaustie
           school: 
             - Koulu
             - yliopisto
           secondary: Seututie
           station: Rautatieasema
+          subway: Metro
+          summit: 
+            - Vuorenhuippu
+            - huippu
+          tourist: Turistikohde
+          track: Metsätie
+          tram: 
+            - Pikaraitiotie
+            - raitiotie
           trunk: Valtatie
+          tunnel: Katkoviivallinen kehys = tunneli
+          unclassified: Luokittelematon tie
+          unsurfaced: Päällystämätön tie
+          wood: Metsä
+        heading: Selitteet karttatasolle z{{zoom_level}}
     search: 
-      search: Etsi
+      search: Haku
       search_help: "esim.: 'Munkkivuori', 'Karttatie, Oulu' tai 'post offices near Helsinki' <a href='http://wiki.openstreetmap.org/wiki/Search'>lisää esimerkkejä...</a> (englanniksi)"
-      submit_text: Siirry
+      submit_text: Hae
       where_am_i: Nykyinen sijainti?
     sidebar: 
       close: Sulje
@@ -486,29 +578,33 @@ fi:
       download: lataa
       edit: muokkaa
       filename: "Tiedostonimi:"
+      heading: Jäljen {{name}} muokkaus
       map: kartta
       owner: "Käyttäjä:"
       points: "Pisteet:"
       save_button: Tallenna muutokset
       start_coord: "Alun koordinaatit:"
       tags: "Tägit:"
+      tags_help: pilkuilla erotettu lista
       uploaded_at: "Lähetetty:"
       visibility: "Näkyvyys:"
       visibility_help: mitä tämä tarkoittaa?
     list: 
       public_traces: Julkiset GPS-jäljet
       public_traces_from: Käyttäjän {{user}} julkiset GPS-jäljet
-      tagged_with: " joilla tägi {{tags}}"
+      tagged_with: ", joilla on tägi {{tags}}"
       your_traces: Omat GPS-jäljet
     make_public: 
       made_public: Jäljestä tehtiin julkinen
     trace: 
+      ago: "{{time_in_words_ago}} sitten"
       by: käyttäjältä
       count_points: "{{count}} pistettä"
       edit: muokkaa
       edit_map: Muokkaa karttaa
       in: tägeillä
       map: sijainti kartalla
+      more: tiedot
       pending: JONOSSA
       private: YKSITYINEN
       public: JULKINEN
@@ -518,6 +614,7 @@ fi:
       description: Kuvaus
       help: Ohje
       tags: Tägit
+      tags_help: pilkuilla erotettu lista
       upload_button: Tallenna
       upload_gpx: Tallenna GPX-jälki
       visibility: Näkyvyys
@@ -531,7 +628,7 @@ fi:
       tags: Tägit
     trace_paging_nav: 
       of: " /"
-      showing: Olet sivulla
+      showing: Sivu
     view: 
       delete_track: Poista tämä jälki
       description: "Kuvaus:"
@@ -539,16 +636,19 @@ fi:
       edit: muokkaa
       edit_track: Muokkaa jäljen tietoja
       filename: "Tiedostonimi:"
-      map: kartta
+      map: kartalla
       none: Tyhjä
       owner: "Käyttäjä:"
       pending: ODOTTAA KÄSITTELYÄ
-      points: "Pisteet:"
+      points: "Pisteitä:"
       start_coordinates: "Alkupisteen koordinaatit:"
       tags: Tägit
       trace_not_found: Jälkeä ei löydy!
       uploaded: "Lähetetty:"
       visibility: "Näkyvyys:"
+    visibility: 
+      identifiable: Tunnistettavissa (näytetään jälkiluettelossa ja pisteet tunnistettavasti järjestettynä aikaleimoineen)
+      trackable: Jäljitettävissä (pisteet jaetaan järjestettynä aikaleimoineen, mutta nimettömänä)
   user: 
     account: 
       email never displayed publicly: (ei näy muille)
@@ -610,7 +710,7 @@ fi:
       title: Unohtunut salasana
     make_friend: 
       already_a_friend: "{{name}} on jo kaverisi."
-      failed: Valitettavasti käyttäjää {{name}} ei voitu lisätä kaverilistaasi.
+      failed: Käyttäjää {{name}} ei voitu lisätä kaverilistaasi.
       success: "{{name}} on nyt kaverisi."
     new: 
       confirm email address: "Sähköpostiosoite uudelleen:"
@@ -648,8 +748,8 @@ fi:
       diary: päiväkirja
       edits: muokkaukset
       if set location: Jos määrittelet sijaintisi, alle ilmestyy nätti kartta. Voit määritellä sijaintisi {{settings_link}}.
-      km away: "{{count}} km:n päässä"
-      m away: "{{count}} m päässä"
+      km away: "{{count}} kilometrin päässä"
+      m away: "{{count}} metrin päässä"
       mapper since: "Liittyi palveluun:"
       my diary: oma päiväkirja
       my edits: omat muokkaukset
