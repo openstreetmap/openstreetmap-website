@@ -117,12 +117,20 @@
       <%= yield :optionals %>
 
       <center>
-        <div class="button" style="width: 115px">
-          <a href="http://donate.openstreetmap.org/"><img src="/images/donate.png" border="0" alt="<%= t 'layouts.alt_donation' %>" title="<%= t 'layouts.alt_donation' %>" /></a>
+        <div class="donate">
+          <a href="http://donate.openstreetmap.org/" title="<%= h(t('layouts.make_a_donation.title')) %>"><%= h(t('layouts.make_a_donation.text')) %></a>
         </div>
 
         <div id="cclogo" class="button" style="width: 88px">
-          <%= link_to image_tag("cc_button.png", :alt => "CC by-sa 2.0", :border => "0"), "http://creativecommons.org/licenses/by-sa/2.0/" %>
+          <%= link_to(
+                  image_tag("cc_button.png",
+                      :alt => t('layouts.license.alt'),
+                      :border => 0,
+                      :width => 88,
+                      :height => 31,
+                      :title => t('layouts.license.title')),
+                  "http://creativecommons.org/licenses/by-sa/2.0/",
+                  { :rel => "license" }) %>
         </div>
       </center>
     </div>
