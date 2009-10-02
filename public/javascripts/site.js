@@ -62,7 +62,7 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat,objtype,obj
       node.href = setArgs("/edit", args);
       node.style.fontStyle = 'normal';
     } else {
-      node.href = 'javascript:alert(rails_i18n["layouts.edit_zoom_alert"]);';
+      node.href = 'javascript:alert(rails_i18n["javascripts.site.edit_zoom_alert"]);';
       node.style.fontStyle = 'italic';
     }
   }
@@ -87,7 +87,7 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat,objtype,obj
       node.href = setArgs("/history", args);
       node.style.fontStyle = 'normal';
     } else {
-      node.href = 'javascript:alert(rails_i18n["layouts.history_zoom_alert"]);';
+      node.href = 'javascript:alert(rails_i18n["javascripts.site.history_zoom_alert"]);';
       node.style.fontStyle = 'italic';
     }
   }
