@@ -74,7 +74,7 @@ function createMap(divName, options) {
 
    var numZoomLevels = Math.max(mapnik.numZoomLevels, osmarender.numZoomLevels);
 
-   markers = new OpenLayers.Layer.Markers(rails_i18n["site.layers.overlays.markers"], {
+   markers = new OpenLayers.Layer.Markers("Markers", {
       displayInLayerSwitcher: false,
       numZoomLevels: numZoomLevels,
       maxExtent: new OpenLayers.Bounds(-20037508,-20037508,20037508,20037508),
@@ -108,7 +108,7 @@ function addMarkerToMap(position, icon, description) {
 }
 
 function addObjectToMap(url, zoom, callback) {
-   var layer = new OpenLayers.Layer.GML(rails_i18n["site.layers.overlays.objects"], url, {
+   var layer = new OpenLayers.Layer.GML("Objects", url, {
       format: OpenLayers.Format.OSM,
       style: {
           strokeColor: "blue",
@@ -152,9 +152,9 @@ function addObjectToMap(url, zoom, callback) {
 }
 
 function addBoxToMap(boxbounds) {
-   if(!vectors) {
+   if (!vectors) {
      // Be aware that IE requires Vector layers be initialised on page load, and not under deferred script conditions
-     vectors = new OpenLayers.Layer.Vector(rails_i18n["site.layers.overlays.box_layer"], {
+     vectors = new OpenLayers.Layer.Vector("Boxes", {
         displayInLayerSwitcher: false
      });
      map.addLayer(vectors);
