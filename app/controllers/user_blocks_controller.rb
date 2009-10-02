@@ -109,8 +109,7 @@ class UserBlocksController < ApplicationController
   private
   ##
   # require that the user is a moderator, or fill out a helpful error message
-  # and return them to the login screen where they might be able to login as
-  # a moderator.
+  # and return them to the blocks index.
   def require_moderator
     unless @user.moderator?
       flash[:notice] = t('user_block.filter.not_a_moderator')
