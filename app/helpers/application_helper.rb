@@ -15,7 +15,7 @@ module ApplicationHelper
     js = ""
 
     js << "<script type='text/javascript'>\n"
-    js << "rails_i18n = new Array();\n"
+    js << "i18n_strings = new Array();\n"
     js << javascript_strings_for_key("javascripts")
     js << "</script>\n"
 
@@ -29,7 +29,7 @@ private
     value = t(key)
 
     if value.is_a?(String)
-      js << "rails_i18n['#{key}'] = '" << escape_javascript(value) << "';\n"
+      js << "i18n_strings['#{key}'] = '" << escape_javascript(value) << "';\n"
     else
       value.each_key do |k|
         js << javascript_strings_for_key("#{key}.#{k}")

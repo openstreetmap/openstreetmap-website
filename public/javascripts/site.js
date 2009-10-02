@@ -62,7 +62,7 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat,objtype,obj
       node.href = setArgs("/edit", args);
       node.style.fontStyle = 'normal';
     } else {
-      node.href = 'javascript:alert(rails_i18n["javascripts.site.edit_zoom_alert"]);';
+      node.href = 'javascript:alert(i18n("javascripts.site.edit_zoom_alert"));';
       node.style.fontStyle = 'italic';
     }
   }
@@ -87,7 +87,7 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat,objtype,obj
       node.href = setArgs("/history", args);
       node.style.fontStyle = 'normal';
     } else {
-      node.href = 'javascript:alert(rails_i18n["javascripts.site.history_zoom_alert"]);';
+      node.href = 'javascript:alert(i18n("javascripts.site.history_zoom_alert"));';
       node.style.fontStyle = 'italic';
     }
   }
@@ -202,6 +202,8 @@ function getStyle(el, property) {
  * rails and then later by javascript.
  */
 function i18n(string, keys) {
+  string = i18n_strings[string] || string
+
   for (var key in keys) {
     var re_key = '\\[\\[' + key + '\\]\\]';
     var re = new RegExp(re_key, "g");
