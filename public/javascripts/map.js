@@ -36,26 +36,26 @@ function createMap(divName, options) {
       displayProjection: new OpenLayers.Projection("EPSG:4326")
    });
 
-   var mapnik = new OpenLayers.Layer.OSM.Mapnik("Mapnik", {
+   var mapnik = new OpenLayers.Layer.OSM.Mapnik(rails_i18n["site.layers.base.mapnik"], {
       displayOutsideMaxExtent: true,
       wrapDateLine: true
    });
    map.addLayer(mapnik);
 
-   var osmarender = new OpenLayers.Layer.OSM.Osmarender("Osmarender", {
+   var osmarender = new OpenLayers.Layer.OSM.Osmarender(rails_i18n["site.layers.base.osmarender"], {
       displayOutsideMaxExtent: true,
       wrapDateLine: true
    });
    map.addLayer(osmarender);
 
-   var cyclemap = new OpenLayers.Layer.OSM.CycleMap("Cycle Map", {
+   var cyclemap = new OpenLayers.Layer.OSM.CycleMap(rails_i18n["site.layers.base.cycle_map"], {
       displayOutsideMaxExtent: true,
       wrapDateLine: true
    });
    map.addLayer(cyclemap);
 
    var nonamekey = nonamekeys[document.domain];
-   var noname = new OpenLayers.Layer.OSM("NoName", [
+   var noname = new OpenLayers.Layer.OSM(rails_i18n["site.layers.base.noname"], [
       "http://a.tile.cloudmade.com/" + nonamekey + "/3/256/${z}/${x}/${y}.png",
       "http://b.tile.cloudmade.com/" + nonamekey + "/3/256/${z}/${x}/${y}.png",
       "http://c.tile.cloudmade.com/" + nonamekey + "/3/256/${z}/${x}/${y}.png"
@@ -66,7 +66,7 @@ function createMap(divName, options) {
    });
    map.addLayer(noname);
 
-   var maplint = new OpenLayers.Layer.OSM.Maplint("Maplint", {
+   var maplint = new OpenLayers.Layer.OSM.Maplint(rails_i18n["site.layers.overlays.maplint"], {
       displayOutsideMaxExtent: true,
       wrapDateLine: true
    });
@@ -74,7 +74,7 @@ function createMap(divName, options) {
 
    var numZoomLevels = Math.max(mapnik.numZoomLevels, osmarender.numZoomLevels);
 
-   markers = new OpenLayers.Layer.Markers("Markers", {
+   markers = new OpenLayers.Layer.Markers(rails_i18n["site.layers.overlays.markers"], {
       displayInLayerSwitcher: false,
       numZoomLevels: numZoomLevels,
       maxExtent: new OpenLayers.Bounds(-20037508,-20037508,20037508,20037508),
@@ -108,7 +108,7 @@ function addMarkerToMap(position, icon, description) {
 }
 
 function addObjectToMap(url, zoom, callback) {
-   var layer = new OpenLayers.Layer.GML("Objects", url, {
+   var layer = new OpenLayers.Layer.GML(rails_i18n["site.layers.overlays.objects"], url, {
       format: OpenLayers.Format.OSM,
       style: {
           strokeColor: "blue",
@@ -154,7 +154,7 @@ function addObjectToMap(url, zoom, callback) {
 function addBoxToMap(boxbounds) {
    if(!vectors) {
      // Be aware that IE requires Vector layers be initialised on page load, and not under deferred script conditions
-     vectors = new OpenLayers.Layer.Vector("Box Layer", {
+     vectors = new OpenLayers.Layer.Vector(rails_i18n["site.layers.overlays.box_layer"], {
         displayInLayerSwitcher: false
      });
      map.addLayer(vectors);
