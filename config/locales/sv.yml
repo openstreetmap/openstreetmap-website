@@ -54,7 +54,13 @@ sv:
       way_node: Sträcknod
   browse: 
     changeset: 
+      changeset: "Ändringsset: {{id}}"
+      changesetxml: XML för ändringsset
       download: Ladda ner {{changeset_xml_link}} eller {{osmchange_xml_link}}
+      feed: 
+        title: Ändringsset {{id}}
+        title_comment: Ändringsset {{id}} - {{comment}}
+      title: Ändringsset
     changeset_details: 
       belongs_to: "Tillhör:"
       bounding_box: "Omslutande område:"
@@ -64,17 +70,17 @@ sv:
         one: "Innehåller följande nod:"
         other: "Innehåller följande {{count}} noder:"
       has_relations: 
-        one: "Har fäljande {{count}} relationer:"
+        one: "Har följande {{count}} relationer:"
         other: "Innehåller följande {{count}} relationer:"
       has_ways: 
-        one: "Har följande {{count}} Way:"
+        one: "Har följande {{count}} sträcka:"
         other: "Innehåller följande {{count}} sträckor:"
       no_bounding_box: Inga yttre gränser (bounding box) lagrades för detta changeset.
-      show_area_box: Visa box area
+      show_area_box: Visa boxarea
     changeset_navigation: 
       all: 
-        next_tooltip: Nästa changeset
-        prev_tooltip: "Nästa chagneset:"
+        next_tooltip: Nästa ändringsset
+        prev_tooltip: Föregående ändringsset
       user: 
         name_tooltip: Se redigeringar av {{user}}
         next_tooltip: Nästa redigering av {{user}}
@@ -83,7 +89,7 @@ sv:
       changeset_comment: "Kommentar:"
       edited_at: "Redigerad:"
       edited_by: "Redigerad av:"
-      in_changeset: "I changeset:"
+      in_changeset: "I ändringsset:"
     containing_relation: 
       entry_role: Relation {{relation_name}} (som {{relation_role}})
     map: 
@@ -109,11 +115,13 @@ sv:
       download_xml: Ladda ner XML
       node_history: Nodhistorik
       node_history_title: "Nodhistorik: {{node_name}}"
-      view_details: se detaljer
+      view_details: visa detaljer
     not_found: 
       sorry: "{{type}}en med id {{id}} kunde inte hittas"
       type: 
+        changeset: ändringsset
         node: nod
+        way: väg
     paging_nav: 
       of: av
       showing_page: Visar sida
@@ -128,23 +136,23 @@ sv:
       download: "{{download_xml_link}} eller {{view_details_link}}"
       download_xml: Ladda hem XML
       relation_history: Relationhistorik
-      relation_history_title: "Relations historia: {{relation_name}}"
-      view_details: se detaljer
+      relation_history_title: "Relationshistorik: {{relation_name}}"
+      view_details: visa detaljer
     relation_member: 
       entry_role: "{{type}} {{name}} som {{role}}"
       type: 
         node: Nod
         way: Väg
     start: 
-      manually_select: Välj ett omårde själv
-      view_data: Visa datat i för denna karta
+      manually_select: Välj ett område manuellt
+      view_data: Visa data för denna karta
     start_rjs: 
       details: Detaljer
       drag_a_box: Markera ett område på kartan.
       edited_by_user_at_timestamp: Redigerad av [[user]] [[timestamp]]
       history_for_feature: Historik för [[feature]]
       load_data: Ladda data
-      loaded_an_area_with_num_features: "Detta område innehåller [[num_features]] objekt. Vanligtvis fungerar inte en del webläsare bra vid hantering av sådana stora mängde data. Vanligtvis fungerar webläsare bäst vid hantering av mindre än 100 objekt på en gång: något annat kan göra din webläsare slö/oanvändbar. Om du är säker på att du vill visa denna datan kan du göra det genom att klicka på knappen nedan."
+      loaded_an_area_with_num_features: Detta område innehåller [[num_features]] objekt. En del webbläsare klarar inte av hantering av sådana stora mängder data. För att inte riskera att datorn ska slöas ner, bör du hålla antalet objekt till 100 eller färre. Om du är säker på att du vill visa datan som det är nu, kan du göra det genom att klicka på knappen nedan.
       loading: Laddar...
       manually_select: Välj en annan area manuellt
       object_list: 
@@ -155,14 +163,17 @@ sv:
         history: 
           type: 
             node: Nod [[id]]
+            way: Väg [[id]]
         selected: 
           type: 
             node: Nod [[id]]
+            way: Väg [[id]]
         type: 
           node: Nod
+          way: Väg
       private_user: privat användare
       show_history: Visa historik
-      unable_to_load_size: "Kan inte ladda: det omslutande område [[bbox_size]] är för stort (den måste vara mindre än {{max_bbox_size}})"
+      unable_to_load_size: "Kan inte ladda: det omslutande området [[bbox_size]] är för stort (den måste vara mindre än {{max_bbox_size}})"
       wait: Vänta...
       zoom_or_select: Zooma in eller välj arean du vill se.
     tag_details: 
@@ -172,6 +183,8 @@ sv:
       download_xml: Ladda hem XML
       edit: redigera
       view_history: se historik
+      way: Väg
+      way_title: "Väg: {{way_name}}"
     way_details: 
       also_part_of: 
         one: också del av väg {{related_ways}}
@@ -181,9 +194,9 @@ sv:
     way_history: 
       download: "{{download_xml_link}} eller {{view_details_link}}"
       download_xml: Ladda hem XML
-      view_details: granska detaljer
+      view_details: visa detaljer
       way_history: Väghistorik
-      way_history_title: "Way historia: {{way_name}}"
+      way_history_title: "Väghistorik: {{way_name}}"
   diary_entry: 
     diary_entry: 
       comment_count: 
@@ -195,6 +208,10 @@ sv:
       title: 
         geonames: Position från <a href="http://www.geonames.org/">GeoNames</a>
         osm_namefinder: "{{types}} från <a href=\"http://gazetteer.openstreetmap.org/namefinder/\">OpenStreetMap Namefinder</a>"
+      types: 
+        cities: Städer
+        places: Platser
+        towns: Samhällen
     direction: 
       east: öst
       north: norr
@@ -204,34 +221,39 @@ sv:
       south_east: sydöst
       south_west: sydväst
       west: väst
+    distance: 
+      one: ungefär 1 km
+      other: ungefär {{count}} km
+      zero: mindre än 1 km
     results: 
       no_results: Hittade inget.
   layouts: 
-    donate: Donnera till Openstreetmap via {{link}} till hårdvaru uppgraderings fonden.
+    donate: Donera till OpenStreetMap via {{link}} till hårdvaruuppgraderingsfonden.
     export: Exportera
     export_tooltip: Exportera kartdata
-    gps_traces: GPS spår
+    gps_traces: GPS-spår
     help_wiki_tooltip: Hjälp och wiki för projektet
     history: Historik
-    history_tooltip: Changeset historik
+    history_tooltip: Changeset-historik
     inbox_tooltip: 
-      one: Du har ett olöst meddlande
+      one: Du har ett oläst meddelande
       other: Du har {{count}} olästa meddelanden
       zero: Du har inga olästa meddelanden.
     intro_3: OpenStreetMap får serverplats av {{ucl}} och {{bytemark}}.
     log_in_tooltip: Logga in med ditt konto
-    logout: loggaut
+    logout: logga ut
     logout_tooltip: Logga ut
     make_a_donation: 
-      text: Donnera
-    news_blog: Nyhetsblog
-    news_blog_tooltip: Blog om Openstreetmap, fri geografiska data osv.
-    osm_offline: Openstreetmap är inte tillgänglig just nu, vi håller på med viktiga arbeten på databasen.
-    osm_read_only: Det går bara att läsa från Openstreetmap databasen just nu, viktiga arbeten utförs på databasen..
+      text: Donera
+      title: Stöd OpenStreetMap med en monetär donation
+    news_blog: Nyhetsblogg
+    news_blog_tooltip: Blogg om OpenStreetMap, fria geografiska data osv.
+    osm_offline: OpenStreetMap-databasen är inte tillgänglig just nu, då databasunderhåll pågår.
+    osm_read_only: Det går bara att läsa från OpenStreetMap-databasen just nu, då viktigt underhåll utförs på databasen.
     sign_up_tooltip: Skapa ett konto för kartering
-    sotm: I sommras var det Openstreetmap konferans i Amsterdam.
+    sotm: I somras var det OpenStreetMap konferens i Amsterdam.
     tag_line: Den fria wiki-världskartan
-    user_diaries: Användar dagböcker
+    user_diaries: Användardagböcker
     view: Visa
     view_tooltip: Visa kartorna
   map: 
@@ -253,14 +275,14 @@ sv:
       greeting: Hej där!
   site: 
     edit: 
-      flash_player_required: Du måste ha Flash för att kunna använda Potatch, Openstreetmaps flash editor. Du kan <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">ladda hem Flash Player från Adobe.com</a>. Det finns<a href="http://wiki.openstreetmap.org/wiki/Editing">många andra editorer</a> tillgängliga för Openstreetmap.
+      flash_player_required: Du måste ha Flash för att kunna använda Potatch, OpenStreetMaps flasheditor. Du kan <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">ladda hem Flash Player från Adobe.com</a>. Det finns <a href="http://wiki.openstreetmap.org/wiki/Editing">flera andra editorer</a> tillgängliga för OpenStreetMap.
     index: 
-      js_1: Du måste ha Javascript påslaget, eller en webbrowser som stödjer javascript.
-      js_2: Opentstreetmap använder javascript för slippymap:en
+      js_1: Du måste ha javascript påslaget, alternativt en webbläsare som stödjer javascript.
+      js_2: OpentStreetMap använder javascript för slippymapen
       js_3: Du kan prova <a href="http://tah.openstreetmap.org/Browse/">Tiles@Home statiska kartan</a> om du inte kan använda javascript.
       license: 
-        project_name: Openstretmap projektet
-      permalink: varaktiglänk
+        project_name: OpenStreetMap-projektet
+      permalink: Permanent länk
       shortlink: Kortlänk
     key: 
       table: 
@@ -273,62 +295,113 @@ sv:
       search_results: Sökresultat
   trace: 
     create: 
-      trace_uploaded: Din GPX-fil har laddats upp och väntar på att lagras i databasen. Detta sker vanligtvis direkt, men det kan mycket väl dröja längre än så, när den är klar får du ett mail.
-      upload_trace: Ladda upp GPX loggspår
+      trace_uploaded: Din GPX-fil har laddats upp och väntar på att lagras i databasen. Detta sker vanligtvis inom en halvtimme. När den är klar skickas ett e-brev till dig.
+      upload_trace: Ladda upp GPS-spår
+    delete: 
+      scheduled_for_deletion: Spår markerat för radering
     edit: 
       description: "Beskrivning:"
+      download: ladda ner
       edit: redigera
       filename: "Filnamn:"
+      heading: Redigerar spår {{name}}
       map: karta
       owner: "Ägare:"
       points: "Punkter:"
       save_button: Spara ändringar
       start_coord: "Startkoordinat:"
       tags: "Taggar:"
-      uploaded_at: "Upplagd på:"
+      tags_help: kommaseparerad
+      title: Redigerar spår {{name}}
+      uploaded_at: "Uppladdad:"
       visibility: "Synlighet:"
       visibility_help: vad betyder detta?
+    list: 
+      public_traces: Publika GPS-spår
+      public_traces_from: Publika GPS-spår från {{user}}
+      tagged_with: " taggad med {{tags}}"
+      your_traces: Dina GPS-spår
+    make_public: 
+      made_public: Spår offentliggjort
+    no_such_user: 
+      body: Det fanns ingen användare med namnet {{user}}. Kontrollera stavningen, och om länken du klickade på var korrekt.
+      heading: Användaren {{user}} finns inte
+      title: Ingen sådan användare
     trace: 
+      ago: "{{time_in_words_ago}} sedan"
+      by: av
       count_points: "{{count}} punkter"
       edit: Redigera
       edit_map: Redigera karta
+      in: i
       map: karta
+      more: mer
       pending: BEHANDLAS
       private: PRIVAT
+      public: PUBLIK
+      trace_details: Visa spårdetaljer
       view_map: Visa karta
     trace_form: 
       description: Beskrivning
       help: Hjälp
+      tags: Taggar
+      tags_help: kommaseparerad
       upload_button: Uppladdning
+      upload_gpx: Ladda upp GPX-fil
       visibility: Synlighet
+      visibility_help: vad betyder detta?
     trace_header: 
-      see_all_traces: Se alla GPS spår
-      see_just_your_traces: Se bara dina GPS spår, eller ladda upp ett eget.
-      traces_waiting: Du har {{count}} GPS spår som laddas upp. Det är en bra idé att låta dessa bli klara innan du laddar upp fler, så att du inte förstör för andra användare.
+      see_all_traces: Se alla GPS-spår
+      see_just_your_traces: Se bara dina GPS-spår, eller ladda upp ett eget.
+      see_your_traces: Visa alla dina spår
+      traces_waiting: Du har {{count}} GPS-spår som laddas upp. Det är en bra idé att låta dessa bli klara innan du laddar upp fler, så att du inte blockerar uppladdningskön för andra användare.
+    trace_optionals: 
+      tags: Taggar
+    trace_paging_nav: 
+      of: av
+      showing: Visar sida
     view: 
+      delete_track: Radera detta spår
+      description: "Beskrivning:"
+      download: ladda ner
+      edit: redigera
+      edit_track: Redigera detta spår
+      filename: "Filnamn:"
+      heading: Visar spår {{name}}
+      map: karta
       none: Ingen
+      owner: "Ägare:"
+      pending: VÄNTANDE
+      points: "Punkter:"
+      start_coordinates: "Startkoordinat:"
+      tags: "Taggar:"
+      title: Visar spår {{name}}
+      trace_not_found: Spår hittades inte!
+      uploaded: "Uppladdad den:"
       visibility: "Synlighet:"
     visibility: 
+      identifiable: Indentifierbar (visas i GPS-spårlistan och som identifierbara, ordnade punkter med tidsstämpel)
       private: Privat (spåret delas anonymt och utan ordning)
-      public: Publik (Visas i GPS spår listan och som anonyma punkter utan ordning)
+      public: Publik (visas i GPS-spårlistan och som anonyma punkter utan ordning)
       trackable: Spårbar (delas bara som anonyma ordnade punker med tidsstämpel)
   user: 
     account: 
       email never displayed publicly: (Visas aldrig offentligt)
-      home location: "Hem position:"
-      latitude: "Bräddgrad (latitud):"
+      home location: "Hemposition:"
+      latitude: "Breddgrad (latitud):"
       longitude: "Längdgrad (longitud):"
       my settings: Mina inställningar
-      preferred languages: "Förstavals språk:"
+      preferred languages: "Föredraget språk:"
       save changes button: Spara ändringar
-      update home location on click: Uppdatera hem platsen när jag klickar på kartan?
+      update home location on click: Uppdatera hemplatsen när jag klickar på kartan?
     confirm: 
       button: Bekräfta
-      failure: Detta kontot är redan bekräftat, iaf med denna nyckel (token).
+      failure: Ett användarkonto med denna nyckel (token) är redan bekräftat.
       heading: Bekräfta ett användarkonto.
       success: Ditt konto är bekräftat, tack för att du registrerade dig.
     confirm_email: 
       button: Bekräfta
+      success: E-postadressen är bekräftad. Tack för att du registrerade dig!
     login: 
       create_account: skapa ett konto
       heading: Inloggning
@@ -339,6 +412,7 @@ sv:
       title: Logga in
     make_friend: 
       already_a_friend: Du är redan vän med {{name}}.
+      failed: Misslyckades med att lägga till {{name}} som vän.
       success: "{{name}} är nu din vän."
     new: 
       confirm password: "Bekräfta lösenord:"
@@ -351,29 +425,29 @@ sv:
       add image: Lägg till bild
       ago: ({{time_in_words_ago}} sedan)
       change your settings: ändra dina inställningar
-      delete image: Ta bort bilden
+      delete image: Radera bild
       description: Beskrivning
       diary: dagbok
       edits: redigeringar
-      if set location: Om du sätter din postion, så kommer en karta med lite häftiga saker upp här nedanför. Du kan sätta din hem position på din {{settings_link}} sida.
+      if set location: Om du sätter din position, så kommer en karta med lite funktioner att dyka upp här nedanför. Du kan sätta din hemposition på din {{settings_link}}-sida.
       km away: "{{count}}km bort"
       m away: "{{count}}m bort"
       mapper since: "Karterar sedan:"
       my diary: min dagbok
       my edits: mina redigeringar
       my settings: Mina inställningar
-      my traces: min GPS spår
-      my_oauth_details: Visa mina OAuth detaljer
-      nearby users: "Användare i nära dig:"
-      new diary entry: nytt dagboks inlägg
+      my traces: min GPS-spår
+      my_oauth_details: Visa mina OAuth-detaljer
+      nearby users: "Användare nära dig:"
+      new diary entry: nytt dagboksinlägg
       no friends: Du har inte lagt till några vänner ännu.
-      no home location: Igen hem postion är satt
-      no nearby users: Det är inga som har erkänt att de kartlägger ditt område ännu..
+      no home location: Ingen hempostion är satt.
+      no nearby users: Det finns inga som registrerat sin position i ditt område ännu.
       remove as friend: ta bort vän
       send message: Skicka meddelande
       settings_link_text: inställningar
-      traces: GPS spår
+      traces: spår
       upload an image: Ladda upp en bild
-      user image heading: Användar bild
-      user location: Användar position
+      user image heading: Användarbild
+      user location: Användarposition
       your friends: Dina vänner

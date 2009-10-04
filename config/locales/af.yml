@@ -29,11 +29,13 @@ af:
       user: 
         active: Aktief
         description: Beskrywing
+        display_name: Vertoon Naam
         email: E-pos
         languages: Tale
         pass_crypt: Wagwoord
     models: 
       acl: Toegangsbeheer
+      changeset: Stel wysigings
       country: Land
       diary_comment: Dagboekopmerking
       diary_entry: Dagboekinskrywing
@@ -43,18 +45,21 @@ af:
       notifier: Melding
       old_node: Ou Node
       session: Sessie
+      trace: Spoor
       user: Gebruiker
       user_preference: Gebruikersvoorkeure
       way: Weg
   browse: 
     changeset_details: 
       belongs_to: "Behoort aan:"
+      bounding_box: "Seleksieboks:"
       box: boks
       closed_at: "Gesluit op:"
       created_at: "Geskep op:"
       has_nodes: 
         one: "Het die volgende node:"
         other: "Het die volgende {{count}} nodes:"
+      show_area_box: Wys gebied
     changeset_navigation: 
       all: 
         next_tooltip: Volgende stel wysigings
@@ -124,6 +129,7 @@ af:
       view_data: Wys data vir die huidige kaart
     start_rjs: 
       data_frame_title: Gegewens
+      drag_a_box: Trek 'n boks op die kaart om 'n gebied te kies
       edited_by_user_at_timestamp: Verander deur [[user]] om [[timestamp]]
       history_for_feature: Geskiedenis van [[feature]]
       load_data: Laai data
@@ -147,6 +153,9 @@ af:
       show_history: Wys Geskiedenis
       unable_to_load_size: Aflaai van data onmoontlik. Area van grootte [[bbox_size]] is te groot. Moet kleiner as {{max_bbox_size}} wees
       wait: Wag asseblief...
+      zoom_or_select: Zoom in of kies 'n gebied op die kaart om te besigtig
+    tag_details: 
+      tags: "Etikette:"
     way: 
       download: "{{download_xml_link}} of {{view_history_link}}"
       download_xml: Laai XML af
@@ -171,14 +180,17 @@ af:
       big_area: (groot)
       no_comment: (geen)
       no_edits: (geen wysigings)
+      still_editing: (steeds besig met wysiging)
     changeset_paging_nav: 
       of: van
-      showing_page: Besig om bladsy te wys
+      showing_page: Wys bladsy
     changesets: 
       area: Gebied
       comment: Opmerking
       saved_at: Gestoor op
       user: Gebruiker
+    list: 
+      description: Onlangse wysigings
   diary_entry: 
     diary_comment: 
       comment_from: Kommentaar van ((link_user)) op ((comment_created_at))
@@ -201,20 +213,34 @@ af:
       subject: "Onderwerp:"
       title: Wysig dagboekinskrywing
       use_map_link: gebruik kaart
+    feed: 
+      all: 
+        description: Onlangse dagboekinskrywings van OpenStreetMap-gebruikers
+        title: OpenStreetMap dagboekinskrywings
+      language: 
+        description: Onlangse dagboekinskrywings van OpenStreetMap-gebruikers in {{language_name}}
+        title: OpenStreetMap dagboekinskrywings in {{language_name}}
+      user: 
+        description: Onlangse OpenStreetMap dagboekinskrywings van {{user}}
+        title: OpenStreetMap dagboekinskrywings van {{user}}
     list: 
       in_language_title: Dagboekinkrywings in {{language}}
       new: Nuwe dagboekinskrywing
+      new_title: Plaas nuwe artikel in u dagboek
       newer_entries: Nuwer inskrywings
       no_entries: Geen dagboekinskrywings nie
       older_entries: Ouer inskrywings
+      recent_entries: "Onlangse dagboekinskrywings:"
       title: Gebruikersdagboeke
       user_title: Dagboek van {{user}}
     new: 
       title: Nuwe dagboekinskrywing
     no_such_entry: 
+      body: Jammer, daar is geen dagboekinskrywing of kommentaar met die id {{id}} nie. Kontroleer u spelling, of miskien is die skakel waarop u gekliek het verkeerd.
       heading: Die inskrywing met id {{id}} bestaan nie
       title: Die opgevraagde dagboekinskrywing bestaan nie
     no_such_user: 
+      body: Jammer, daar is geen gebruiker met die naam {{user}} nie. Kontroleer u spelling, of miskien is die skakel waarop u gekliek het verkeerd.
       heading: Die gebruiker {{user}} bestaan nie
       title: Geen sodanige gebruiker nie
     view: 
@@ -230,6 +256,7 @@ af:
       area_to_export: Area om te eksporteer
       embeddable_html: HTML-kode
       export_button: Eksporteer
+      export_details: OpenStreetMap se data is gelisensieer onder die <a href="http://creativecommons.org/licenses/by-sa/2.0/deed.af">Creative Commons Erkenning-Insgelyks Deel 2.0 lisensie</a>.
       format: Formaat
       format_to_export: Lêerformaat
       image_size: Prentgrootte
@@ -244,6 +271,8 @@ af:
     start_rjs: 
       add_marker: Plaas 'n merker op die kaart
       change_marker: Verander posisie van merker
+      click_add_marker: Kliek op die kaart om 'n merker te plaas
+      drag_a_box: Trek 'n boks op die kaart om 'n gebied te kies
       export: Eksporteer
       manually_select: Kies 'n ander gebied handmatig
       view_larger_map: Wys groter kaart
@@ -251,6 +280,7 @@ af:
     description: 
       title: 
         geonames: Ligging vanaf <a href="http://www.geonames.org/">GeoNames</a>
+        osm_namefinder: "{{types}} vanaf <a href=\"http://gazetteer.openstreetmap.org/namefinder/\">OpenStreetMap Namefinder</a>"
       types: 
         cities: Stede
         places: Plekke
@@ -283,21 +313,34 @@ af:
     search_osm_namefinder: 
       suffix_parent: "{{suffix}} ({{parentdistance}} {{parentdirection}} van {{parentname}})"
       suffix_place: ", {{distance}} {{direction}} van {{placename}}"
+  javascripts: 
+    map: 
+      base: 
+        cycle_map: Fietskaart
+        noname: GeenNaam
+    site: 
+      edit_zoom_alert: u moet in zoom om die kaart te wysig
+      history_zoom_alert: U moet in zoom om die kaart se wysigingsgeskiedenis te sien
   layouts: 
+    donate: Ondersteun OpenStreetMap deur aan die Hardeware Opgradeer-fonds te {{link}}.
     donate_link_text: skenk
     edit: Wysig
     edit_tooltip: Wysig kaarte
     export: Eksporteer
     export_tooltip: Eksporteer kaartdata
+    gps_traces: GPS-spore
+    gps_traces_tooltip: Beheer spore
     help_wiki_tooltip: Help en wiki vir die projek
     history: Geskiedenis
     home: tuis
     home_tooltip: Gaan na tuisligging
-    inbox: Posvak IN ({{count}})
+    inbox: inboks ({{count}})
     inbox_tooltip: 
       one: U inboks bevat 1 ongeleesde boodskap
       other: U inboks bevat {{count}} ongeleesde boodskappe
       zero: U inboks bevat geen ongelees boodskappe nie
+    intro_1: OpenStreetMap is 'n vry bewerkbare kaart van die hele wêreld. Dit word deur mense soos u geskep.
+    intro_2: Met OpenStreetMap kan u geografiese data van die hele aarde sien, wysig en gebruik.
     intro_3: OpenStreetMap se webwerf word deur {{ucl}} en {{bytemark}} ondersteun.
     log_in: Teken in
     log_in_tooltip: Teken aan met 'n bestaande rekening
@@ -306,12 +349,17 @@ af:
     logout: teken uit
     logout_tooltip: Teken uit
     make_a_donation: 
-      text: Skenk 'n donasie
+      text: Maak 'n donasie
+      title: Ondersteun OpenStreetMap met'n geldelike donasie
     news_blog: Nuusjoernale
+    news_blog_tooltip: Nuusjoernaal oor OpenStreetMap, vrye geografiese data, ensovoorts.
+    osm_read_only: Die OpenStreetMap-databasis kan op die oomblik slegs gelees word aangesien noodsaaklik onderhoud tans uitgevoer word.
     shop: Winkel
     shop_tooltip: Winkel met OpenStreetMap-produkte
     sign_up: registreer
     sign_up_tooltip: Skep 'n rekening vir wysigings
+    sotm: Kom na die 2009 OpenStreetMap-konferensie, die "State of the Map", op 10-12 Julie in Amsterdam!
+    tag_line: Die vrye wiki-wêreldkaart
     user_diaries: Gebruikersdagboeke
     user_diaries_tooltip: Wys gebruikersdagboeke
     view: Wys
@@ -329,9 +377,11 @@ af:
       date: Datum
       from: Vanaf
       my_inbox: My inboks
-      outbox: Posvak UIT
+      no_messages_yet: U het nog geen boodskappe nie. Hoekom kontak u nie sommige van die {{people_mapping_nearby_link}} nie?
+      outbox: outboks
+      people_mapping_nearby: nabygeleë karteerders
       subject: Onderwerp
-      title: Posvak IN
+      title: Inboks
       you_have: U het {{new_count}} nuwe boodskappe en {{old_count}} ou boodskappe
     mark: 
       as_read: Boodskap gemerk as gelees
@@ -346,22 +396,26 @@ af:
       body: Teks
       message_sent: Boodskap is gestuur
       send_button: Stuur
+      send_message_to: Stuur 'n nuwe boodskap aan {{name}}
       subject: Onderwerp
       title: Stuur boodskap
     no_such_user: 
+      body: Jammer, daar is geen gebruiker of boodskap met die naam of id nie
       heading: Geen sodanige gebruiker of boodskap nie
       title: Geen sodanige gebruiker of boodskap nie
     outbox: 
       date: Datum
-      inbox: Posvak IN
-      outbox: Posvak UIT
+      inbox: inboks
+      no_sent_messages: U het nog geen boodskappe gestuur nie. Hoekom kontak u nie sommige van die {{people_mapping_nearby_link}} nie?
+      outbox: uitboks
+      people_mapping_nearby: nabygeleë karteerders
       subject: Onderwerp
       title: Gestuur
       to: Aan
       you_have_sent_messages: U het {{count}} gestuurde boodskappe
     read: 
       back_to_inbox: Terug na inboks
-      back_to_outbox: Terug na die UIT-posvak
+      back_to_outbox: Terug na uitboks
       date: Datum
       from: Van
       reply_button: Antwoord
@@ -384,6 +438,8 @@ af:
     email_confirm_plain: 
       greeting: Hallo,
       hopefully_you_2: "{{server_url}} na {{new_address}}."
+    friend_notification: 
+      subject: "[OpenStreetMap] {{user}} het u as 'n vriend bygevoeg"
     gpx_notification: 
       failure: 
         more_info_2: "hulle kan gevind word by:"
@@ -398,25 +454,32 @@ af:
       greeting: Hallo,
     message_notification: 
       banner1: "*                  Moet asseblief nie op hierdie e-pos reageer nie.                    *"
+      footer1: U kan ook die boodskap by {{readurl}} lees
       footer2: en u kan antwoord by {{replyurl}}
       hi: Hallo {{to_user}},
       subject: "[OpenStreetMap] {{user}} het 'n nuwe boodskap aan u gestuur"
     signup_confirm: 
       subject: "[OpenStreetMap] Bevestig u e-posadres"
     signup_confirm_html: 
+      get_reading: Lees meer oor OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Beginners%27_Guide">op die wiki</a> of <a href="http://www.opengeodata.org/">die opengeodata-blog</a> waar u ook na <a href="http://www.opengeodata.org/?cat=13">podgooie</a> kan luister!
       greeting: Hallo daar!
       hopefully_you: Iemand (hopelik u) wil graag 'n rekening skep op
+      introductory_video: U kan na 'n {{introductory_video_link}} kyk.
       more_videos: Daar is {{more_videos_link}}.
       more_videos_here: meer video's hier
-      video_to_openstreetmap: inleidende video vir OpenStreetMap
+      video_to_openstreetmap: inleidende video oor OpenStreetMap
     signup_confirm_plain: 
       click_the_link_1: As dit u is, welkom! Kliek asseblief op die onderstaande skakel om u rekening te bevestig
       greeting: Hallo daar!
       more_videos: "Daar is meer videos hier:"
+      user_wiki_1: Ons beveel aan dat u 'n gebruikersblad op die wiki skep met onder andere
+      user_wiki_2: kategorie-etikette wat aandui waar u woon, soos [[Category:Users_in_Pretoria]].
+      wiki_signup: "U kan ook op die OpenStreetMap-wiki registreer by:"
   oauth: 
     oauthorize: 
       allow_read_prefs: u gebruikersvoorkeure te lees.
       allow_write_api: die kaart te wysig.
+      allow_write_gpx: Laai GPS-spore op.
       allow_write_prefs: verander jou gebruikersvoorkeure.
   oauth_clients: 
     edit: 
@@ -444,6 +507,7 @@ af:
       allow_read_prefs: lees hulle gebruikersvoorkeure.
       allow_write_api: wysig die kaart.
       allow_write_diary: skep dagboekinskrywings, lewer kommentaar en maak vriende.
+      allow_write_gpx: laai GPS-spore op.
       authorize_url: "URL vir magtiging:"
       edit: Wysig details
   site: 
@@ -452,6 +516,8 @@ af:
       user_page_link: gebruikersbladsy
     index: 
       license: 
+        license_name: Creative Commons Naamsvermelding 2.0
+        notice: Gelisensieer onder die {{license_name}} lisensie deur die {{project_name}} en sy bydraers.
         project_name: OpenStreetMap-projek
       permalink: Permanente skakel
       shortlink: Kort skakel
@@ -475,6 +541,7 @@ af:
             - weide
           construction: Paaie onder konstruksie
           cycleway: Fietspad
+          destination: Bestemmingsverkeer
           farm: Plaas
           footway: Voetpad
           forest: Bos
@@ -517,6 +584,7 @@ af:
         heading: Sleutel vir z{{zoom_level}}
     search: 
       search: Soek
+      search_help: "voorbeelde: 'Alkmaar', 'Regent Street, Cambridge', 'CB2 5AQ', or 'post offices near Lünen' <a href='http://wiki.openstreetmap.org/wiki/Search'>meer voorbeelde...</a>"
       submit_text: OK
       where_am_i: Waar is ek?
     sidebar: 
@@ -524,7 +592,7 @@ af:
       search_results: Soekresultate
   trace: 
     create: 
-      upload_trace: Laai GPS-trace op
+      upload_trace: Laai GPS-spore op
     delete: 
       scheduled_for_deletion: Spoor is geskeduleer vir verwydering
     edit: 
@@ -532,15 +600,23 @@ af:
       download: aflaai
       edit: wysig
       filename: "Lêernaam:"
+      heading: Wysig spoor {{name}}
       map: kaart
       owner: "Eienaar:"
       points: "Punte:"
       save_button: Stoor wysigings
       start_coord: "Beginkoördinaat:"
+      tags: "Etikette:"
       tags_help: met kommas geskei
-      uploaded_at: "Opgelaai by:"
+      title: Wysig spoor {{name}}
+      uploaded_at: "Opgelaai op:"
       visibility: "Sigbaarheid:"
       visibility_help: wat beteken dit?
+    list: 
+      public_traces: Openbare GPS-spore
+      public_traces_from: Openbare GPS-spore van {{user}}
+      tagged_with: geëtiketteer met {{tags}}
+      your_traces: U GPS-spore
     make_public: 
       made_public: Spoor is openbaar gemaak
     no_such_user: 
@@ -557,17 +633,26 @@ af:
       pending: BESIG
       private: PRIVAAT
       public: OPENBAAR
+      trace_details: Wys spoor besonderhede
       view_map: Wys kaart
     trace_form: 
       description: Beskrywing
       help: Hulp
+      tags: Etikette
       tags_help: met kommas geskei
       upload_button: Laai op
       upload_gpx: Laai GPX-lêer op
       visibility: Sigbaarheid
       visibility_help: wat beteken dit?
+    trace_header: 
+      see_all_traces: Wys alle spore
+      see_just_your_traces: Sien slegs u spore, of laai 'n spoor op
+      see_your_traces: Sien al u spore
+    trace_optionals: 
+      tags: Etikette
     trace_paging_nav: 
       of: van
+      showing: Wys bladsy
     view: 
       delete_track: Verwyder hierdie spoor
       description: "Beskrywing:"
@@ -575,17 +660,22 @@ af:
       edit: wysig
       edit_track: Wysig hierdie spoor
       filename: "Lêernaam:"
+      heading: Besigtig spoor {{name}}
       map: kaart
       none: Geen
       owner: "Eienaar:"
       pending: BESIG
       points: "Punte:"
       start_coordinates: "Beginkoördinaat:"
-      uploaded: "Opgelaai by:"
+      tags: "Etikette:"
+      title: Besigting spoor {{name}}
+      trace_not_found: Spoor nie gevind nie!
+      uploaded: "Opgelaai op:"
       visibility: "Sigbaarheid:"
   user: 
     account: 
       email never displayed publicly: (word nie openbaar gemaak nie)
+      flash update success: U gebruikersinligting is verander.
       home location: "Tuisligging:"
       latitude: "Breedtegraad:"
       longitude: "Lengtegraad:"
@@ -593,15 +683,20 @@ af:
       my settings: My voorkeure
       no home location: U het nog nie u huis se ligging ingevoer nie.
       preferred languages: "Voorkeur tale:"
+      profile description: "Profielbeskrywing:"
       public editing: 
         disabled link text: hoekom kan ek niks wysig nie?
+        enabled: Geaktiveer. U is nie anoniem nie en kan inligting wysig.
         enabled link text: wat is dit?
+        heading: "Openbaar wysigings:"
       return to profile: Terug na profiel
       save changes button: Stoor wysigings
       title: Wysig rekening
+      update home location on click: Opdateer tuisligging wanneer ek op die kaart kliek?
     confirm: 
       button: Bevestig
       heading: Bevestig 'n gebruiker se rekening
+      press confirm button: Kliek op "Bevestig" hieronder om u rekening aktiveer.
     confirm_email: 
       button: Bevestig
       success: U e-posadres is bevestig, dankie dat u geregistreer het!
@@ -609,6 +704,7 @@ af:
       nearby mapper: "Nabygeleë karteerder: [[nearby_user]]"
       your location: U ligging
     login: 
+      auth failure: Jammer, kon nie met hierdie inligting aanteken nie.
       create_account: registreer
       email or username: "E-posadres of gebruikersnaam:"
       heading: Teken in
@@ -632,11 +728,16 @@ af:
       confirm password: "Bevestig wagwoord:"
       display name: "Vertoon naam:"
       email address: "E-posadres:"
+      fill_form: Vul die vorm in en ons stuur so spoedig moontlik aan u 'n e-pos om u rekening te aktiveer.
+      flash create success message: U rekening is suksesvol geskep. Kontroleer u e-pos vir 'n bevestigingsboodskap.<br /><br />Let daarop dat u nie sal kan aanteken alvorens u nie u rekening bevestig het nie.<br /><br />As u 'n spamfilter gebruik, sorg asseblief dat dit boodskappe vanaf webmaster@openstreetmap.org sal toelaat. Die stelsel stuur nie antwoorde op bevestigings-epos nie.
       heading: Skep 'n rekening
+      license_agreement: Deur 'n rekening hier te skep bevestig u dat u akkoord gaan met voorwaarde dat al die werk wat u na OpenStreetMap oplaai onder die <a href="http://creativecommons.org/licenses/by-sa/2.0/deed.af">Creative Commons-lisensie (by-sa)</a> gelisensieer word (nie-eksklusief).
+      not displayed publicly: Word nie publiek vertoon nie (sien <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="wiki-geheimhoudingbeleid insluitend afdeling oor e-posadresse">geheimhoudingbeleid</a>)
       password: "Wagwoord:"
       signup: Registreer
       title: Skep rekening
     no_such_user: 
+      body: Daar is geen gebruiker met die naam {{user}} nie. Kontroleer u spelling, of die skakel waarop u gekliek het is verkeerd.
       heading: Die gebruiker {{user}} bestaan nie
       title: Gebruiker bestaan nie
     remove_friend: 
@@ -660,6 +761,7 @@ af:
       description: Beskrywing
       diary: dagboek
       edits: wysigings
+      if set location: As u u ligging stel, sal 'n pragtige kaart en ander inligting hieronder verskyn. U kan u ligging stel in u {{settings_link}}.
       km away: "{{count}}km vêr"
       m away: "{{count}}m vêr"
       mapper since: "Karteer sedert:"
@@ -667,6 +769,7 @@ af:
       my edits: my wysigings
       my settings: my voorkeure
       my traces: my spore
+      my_oauth_details: Wys my OAuth-besonderhede
       nearby users: "Nabygeleë gebruikers:"
       new diary entry: nuwe dagboekinskrywing
       no friends: U het nog geen vriende bygevoeg nie.
