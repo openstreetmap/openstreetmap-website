@@ -36,26 +36,26 @@ function createMap(divName, options) {
       displayProjection: new OpenLayers.Projection("EPSG:4326")
    });
 
-   var mapnik = new OpenLayers.Layer.OSM.Mapnik("Mapnik", {
+   var mapnik = new OpenLayers.Layer.OSM.Mapnik(i18n("javascripts.map.base.mapnik"), {
       displayOutsideMaxExtent: true,
       wrapDateLine: true
    });
    map.addLayer(mapnik);
 
-   var osmarender = new OpenLayers.Layer.OSM.Osmarender("Osmarender", {
+   var osmarender = new OpenLayers.Layer.OSM.Osmarender(i18n("javascripts.map.base.osmarender"), {
       displayOutsideMaxExtent: true,
       wrapDateLine: true
    });
    map.addLayer(osmarender);
 
-   var cyclemap = new OpenLayers.Layer.OSM.CycleMap("Cycle Map", {
+   var cyclemap = new OpenLayers.Layer.OSM.CycleMap(i18n("javascripts.map.base.cycle_map"), {
       displayOutsideMaxExtent: true,
       wrapDateLine: true
    });
    map.addLayer(cyclemap);
 
    var nonamekey = nonamekeys[document.domain];
-   var noname = new OpenLayers.Layer.OSM("NoName", [
+   var noname = new OpenLayers.Layer.OSM(i18n("javascripts.map.base.noname"), [
       "http://a.tile.cloudmade.com/" + nonamekey + "/3/256/${z}/${x}/${y}.png",
       "http://b.tile.cloudmade.com/" + nonamekey + "/3/256/${z}/${x}/${y}.png",
       "http://c.tile.cloudmade.com/" + nonamekey + "/3/256/${z}/${x}/${y}.png"
@@ -66,7 +66,7 @@ function createMap(divName, options) {
    });
    map.addLayer(noname);
 
-   var maplint = new OpenLayers.Layer.OSM.Maplint("Maplint", {
+   var maplint = new OpenLayers.Layer.OSM.Maplint(i18n("javascripts.map.overlays.maplint"), {
       displayOutsideMaxExtent: true,
       wrapDateLine: true
    });
@@ -152,9 +152,9 @@ function addObjectToMap(url, zoom, callback) {
 }
 
 function addBoxToMap(boxbounds) {
-   if(!vectors) {
+   if (!vectors) {
      // Be aware that IE requires Vector layers be initialised on page load, and not under deferred script conditions
-     vectors = new OpenLayers.Layer.Vector("Box Layer", {
+     vectors = new OpenLayers.Layer.Vector("Boxes", {
         displayInLayerSwitcher: false
      });
      map.addLayer(vectors);
