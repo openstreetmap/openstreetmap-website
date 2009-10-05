@@ -41,8 +41,8 @@ ru:
         pass_crypt: Пароль
     models: 
       acl: Список ограничения доступа
-      changeset: Пакет изменений
-      changeset_tag: Метка пакета изменений
+      changeset: Пакет правок
+      changeset_tag: Метка пакета правок
       country: Страна
       diary_comment: Комментарий к дневнику
       diary_entry: Запись в дневнике
@@ -75,14 +75,14 @@ ru:
       way_tag: Метка линии
   browse: 
     changeset: 
-      changeset: "Пакет изменений: {{id}}"
-      changesetxml: XML пакета изменений
+      changeset: "Пакет правок: {{id}}"
+      changesetxml: XML пакета правок
       download: Загрузить {{changeset_xml_link}} или {{osmchange_xml_link}}
       feed: 
-        title: Пакет изменений {{id}}
-        title_comment: Пакет изменений {{id}} — {{comment}}
+        title: Пакет правок {{id}}
+        title_comment: Пакет правок {{id}} — {{comment}}
       osmchangexml: osmChange XML
-      title: Пакет изменений
+      title: Пакет правок
     changeset_details: 
       belongs_to: "Пользователь:"
       bounding_box: "Границы:"
@@ -96,12 +96,12 @@ ru:
         one: "Имеет следующие {{count}} отношение:"
         other: "Имеет следующие {{count}} отношений:"
       has_ways: "Содержит {{count}} линий:"
-      no_bounding_box: Для этого пакета изменений границы не установлены.
+      no_bounding_box: Для этого пакета правок границы не установлены.
       show_area_box: Показать выделенную область
     changeset_navigation: 
       all: 
-        next_tooltip: Следующий пакет изменений
-        prev_tooltip: Предыдущий пакет изменений
+        next_tooltip: Следующий пакет правок
+        prev_tooltip: Предыдущий пакет правок
       user: 
         name_tooltip: Просмотр правок {{user}}
         next_tooltip: Следующая правка {{user}}
@@ -110,7 +110,7 @@ ru:
       changeset_comment: "Комментарий:"
       edited_at: "Изменено:"
       edited_by: "Пользователь:"
-      in_changeset: "В пакете изменений:"
+      in_changeset: "В пакете правок:"
       version: "Версия:"
     containing_relation: 
       entry: Отношение {{relation_name}}
@@ -142,13 +142,13 @@ ru:
     not_found: 
       sorry: К сожалению, {{type}} с идентификатором {{id}} не найден.
       type: 
-        changeset: пакет изменений
+        changeset: пакет правок
         node: точка
         relation: отношение
         way: линия
     paging_nav: 
       of: из
-      showing_page: Показ страницы
+      showing_page: Показана страница
     relation: 
       download: "{{download_xml_link}} или {{view_history_link}}"
       download_xml: Скачать XML
@@ -224,17 +224,17 @@ ru:
       download: "{{download_xml_link}} или {{view_details_link}}"
       download_xml: Скачать XML
       view_details: подробнее
-      way_history: История изменений линии
-      way_history_title: "История изменений линии: {{way_name}}"
+      way_history: История правок линии
+      way_history_title: "История правок линии: {{way_name}}"
   changeset: 
     changeset: 
       anonymous: Аноним
       big_area: (большая)
       no_comment: (нет)
       no_edits: (нет правок)
-      show_area_box: Показать рамку, охватывающую область пакета изменений
+      show_area_box: Показать рамку, охватывающую область пакета правок
       still_editing: (ещё редактируется)
-      view_changeset_details: Просмотреть подробности пакета изменений
+      view_changeset_details: Просмотреть подробности пакета правок
     changeset_paging_nav: 
       of: из
       showing_page: Страница
@@ -246,17 +246,17 @@ ru:
       user: Пользователь
     list: 
       description: Последние изменения
-      description_bbox: "Пакеты изменений в рамке, охватывающей координаты: {{bbox}}"
-      description_user: Пакеты изменений пользователя {{user}}
-      description_user_bbox: Пакеты изменений пользователя {{user}} в рамке, охватывающей координаты {{bbox}}
-      heading: Пакеты изменений
-      heading_bbox: Пакеты изменений
-      heading_user: Пакеты изменений
-      heading_user_bbox: Пакеты изменений
-      title: Пакет изменений
-      title_bbox: Пакет изменений в рамке, охватывающей координаты {{bbox}}
-      title_user: Пакеты изменений пользователя {{user}}
-      title_user_bbox: Пакеты изменений пользователя {{user}} в рамке, охватывающей координаты {{bbox}}
+      description_bbox: "Пакеты правок в рамке, охватывающей координаты: {{bbox}}"
+      description_user: Пакеты правок пользователя {{user}}
+      description_user_bbox: Пакеты правок пользователя {{user}} в рамке, охватывающей координаты {{bbox}}
+      heading: Пакеты правок
+      heading_bbox: Пакеты правок
+      heading_user: Пакеты правок
+      heading_user_bbox: Пакеты правок
+      title: Пакет правок
+      title_bbox: Пакет правок в рамке, охватывающей координаты {{bbox}}
+      title_user: Пакеты правок пользователя {{user}}
+      title_user_bbox: Пакеты правок пользователя {{user}} в рамке, охватывающей координаты {{bbox}}
   diary_entry: 
     diary_comment: 
       comment_from: Комментарий от {{link_user}}, {{comment_created_at}}
@@ -384,6 +384,14 @@ ru:
     search_osm_namefinder: 
       suffix_parent: "{{suffix}} ({{parentdistance}} {{parentdirection}} {{parentname}})"
       suffix_place: ", {{distance}} {{direction}} {{placename}}"
+  javascripts: 
+    map: 
+      base: 
+        cycle_map: Зацикливание карты
+        noname: Анонимный
+    site: 
+      edit_zoom_alert: Необходимо увеличить масштаб карты, если вы хотите ее править.
+      history_zoom_alert: Необходимо увеличить масштаб карты, чтобы увидеть историю правок
   layouts: 
     donate: Поддержите OpenStreetMap {{link}} в Фонд обновления оборудования.
     donate_link_text: пожертвованиями
@@ -397,7 +405,7 @@ ru:
     help_wiki_tooltip: Справка и вики-сайт проекта
     help_wiki_url: http://wiki.openstreetmap.org/index.php?title=RU:Main_Page&uselang=ru
     history: История
-    history_tooltip: История пакета изменений
+    history_tooltip: История пакета правок
     home: домой
     home_tooltip: Показать мой дом
     inbox: входящие ({{count}})
@@ -856,6 +864,7 @@ ru:
         disabled: Отключён и не может вносить правки, все предыдущие изменения анонимны.
         disabled link text: почему я не могу вносить изменения?
         enabled: Включено. Можно редактировать. Правки не анонимны.
+        enabled link: http://wiki.openstreetmap.org/wiki/RU:Anonymous_edits&uselang=ru
         enabled link text: что это значит?
         heading: "Публичное изменение:"
       return to profile: Возврат к профилю
@@ -908,7 +917,7 @@ ru:
       display name: "Отображаемое имя:"
       email address: "Адрес эл. почты:"
       fill_form: Заполните форму, и мы вышлем вам на электронную почту письмо с инструкцией по активации.
-      flash create success message: Пользователь был удачно создан. Проверьте вашу электронную почту на наличие письма с подтверждением, нажмите на ссылку в нём и вы тут же сможете заняться внесением изменений :-)<br /><br />Обратите внимание, что вы не сможете войти, пока вы не подтвердите ваш адрес электронной почты.<br /><br />Если вы используете антиспам, посылающий запросы на подтверждение, внесите адрес webmaster@openstreetmap.org в ваш белый список, так как мы не можем отвечать на такие запросы.
+      flash create success message: Пользователь был удачно создан. Проверьте вашу электронную почту на наличие письма с подтверждением, нажмите на ссылку в нём и вы тут же сможете заняться внесением правок :-)<br /><br />Обратите внимание, что вы не сможете войти, пока вы не подтвердите ваш адрес электронной почты.<br /><br />Если вы используете антиспам, посылающий запросы на подтверждение, внесите адрес webmaster@openstreetmap.org в ваш белый список, так как мы не можем отвечать на такие запросы.
       heading: Создание учётной записи
       license_agreement: Создавая учётную запись в проекте, вы подтверждаете, что все данные, отправляемые в Openstreetmap лицензируются на условиях <a href="http://creativecommons.org/licenses/by-sa/2.0/">этой лицензии Creative Commons (BY-SA)</a>.
       no_auto_account_create: К сожалению, сейчас мы не можем автоматически создать для вас учётную запись.
