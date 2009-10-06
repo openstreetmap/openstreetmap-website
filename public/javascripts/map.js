@@ -13,12 +13,6 @@ var nonamekeys = {
    'www.openstreetmap.net': '0bd1654141c85d30b9c2ccdb5302f2e4'
 };
 
-OpenLayers._getScriptLocation = function () {
-  // Should really have this file as an erb, so that this can return
-  // the real rails root
-   return "/openlayers/";
-}
-
 function createMap(divName, options) {
    options = options || {};
 
