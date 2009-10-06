@@ -805,6 +805,9 @@ en:
       scheduled_for_deletion: "Track scheduled for deletion"
     make_public:
       made_public: "Track made public"
+  application:
+    setup_user_auth:
+      blocked: "Your access to the API has been blocked. Please log-in to the web interface to find out more."
   oauth:
     oauthorize:
       request_access: "The application {{app_name}} is requesting access to your account. Please check whether you would like the application to have the following capabilities. You may choose as many or as few as you like."
@@ -924,6 +927,8 @@ en:
       my edits: my edits
       my traces: my traces
       my settings: my settings
+      blocks on me: blocks on me
+      blocks by me: blocks by me
       send message: send message
       diary: diary
       edits: edits
@@ -949,6 +954,18 @@ en:
       no nearby users: "There are no users who admit to mapping nearby yet."
       change your settings: change your settings
       my_oauth_details: "View my OAuth details"
+      role:
+        administrator: "This user is an administrator"
+        moderator: "This user is a moderator"
+        grant:
+          administrator: "Grant administrator access"
+          moderator: "Grant moderator access"
+        revoke:
+          administrator: "Revoke administrator access"
+          moderator: "Revoke moderator access"
+      block_history: "view blocks received"
+      moderator_history: "view blocks given"
+      create_block: "block this user"
     friend_map:
       your location: Your location
       nearby mapper: "Nearby mapper: [[nearby_user]]"
@@ -998,6 +1015,112 @@ en:
     remove_friend:
       success: "{{name}} was removed from your friends."
       not_a_friend: "{{name}} is not one of your friends."
+  user_role:
+    filter:
+      not_an_administrator: "Only administrators can perform user role management, and you are not an administrator."
+      not_a_role: "The string `{{role}}' isn't a valid role."
+      already_has_role: "The user already has role {{role}}."
+      doesnt_have_role: "The user does not have role {{role}}."
+    grant:
+      title: Confirm role granting
+      heading: Confirm role granting
+      are_you_sure: "Are you sure you want to grant the role `{{role}}' to the user `{{name}}'?"
+      confirm: "Confirm"
+      fail: "Couldn't grant role `{{role}}' to user `{{name}}'. Please check that the user and role are both valid."
+    revoke:
+      title: Confirm role revoking
+      heading: Confirm role revoking
+      are_you_sure: "Are you sure you want to revoke the role `{{role}}' from the user `{{name}}'?"
+      confirm: "Confirm"
+      fail: "Couldn't revoke role `{{role}}' from user `{{name}}'. Please check that the user and role are both valid."
+  user_block:
+    model:
+      non_moderator_update: "Must be a moderator to create or update a block."
+      non_moderator_revoke: "Must be a moderator to revoke a block."
+    not_found:
+      sorry: "Sorry, the user block with ID {{id}} could not be found."
+      back: "Back to index"
+    new:
+      title: "Creating block on {{name}}"
+      heading: "Creating block on {{name}}"
+      reason: "The reason why {{name}} is being blocked. Please be as calm and as reasonable as possible, giving as much detail as you can about the situation, remembering that the message will be publicly visible. Bear in mind that not all users understand the community jargon, so please try to use laymans terms."
+      period: "How long, starting now, the user will be blocked from the API for."
+      submit: "Create block"
+      tried_contacting: "I have contacted the user and asked them to stop."
+      tried_waiting: "I have given a reasonable amount of time for the user to respond to those communications."
+      needs_view: "Does the user need to log in before this block will be cleared?"
+      back: "View all blocks"
+    edit:
+      title: "Editing block on {{name}}"
+      heading: "Editing block on {{name}}"
+      reason: "The reason why {{name}} is being blocked. Please be as calm and as reasonable as possible, giving as much detail as you can about the situation. Bear in mind that not all users understand the community jargon, so please try to use laymans terms."
+      period: "How long, starting now, the user will be blocked from the API for."
+      submit: "Update block"
+      show: "View this block"
+      back: "View all blocks"
+      needs_view: "Does the user need to log in before this block will be cleared?"
+    filter:
+      not_a_moderator: "You need to be a moderator to perform that action."
+      block_expired: "The block has already expired and cannot be edited."
+      block_period: "The blocking period must be one of the values selectable in the drop-down list."
+    create:
+      try_contacting: "Please try contacting the user before blocking them and giving them a reasonable time to respond."
+      try_waiting: "Please try giving the user a reasonable time to respond before blocking them."
+      flash: "Created a block on user {{name}}."
+    update:
+      only_creator_can_edit: "Only the moderator who created this block can edit it."
+      success: "Block updated."
+    index:
+      title: "User blocks"
+      heading: "List of user blocks"
+    revoke:
+      title: "Revoking block on {{block_on}}"
+      heading: "Revoking block on {{block_on}} by {{block_by}}"
+      time_future: "This block will end in {{time}}."
+      past: "This block ended {{time}} ago and cannot be revoked now."
+      confirm: "Are you sure you wish to revoke this block?"
+      revoke: "Revoke!"
+      flash: "This block has been revoked."
+    period:
+      one: "1 hour"
+      other: "{{count}} hours"
+    partial:
+      show: "Show"
+      edit: "Edit"
+      revoke: "Revoke!"
+      confirm: "Are you sure?"
+      display_name: "Blocked User"
+      creator_name: "Creator"
+      reason: "Reason for block"
+      status: "Status"
+      revoker_name: "Revoked by"
+      not_revoked: "(not revoked)"
+    helper:
+      time_future: "Ends in {{time}}."
+      until_login: "Active until the user logs in."
+      time_past: "Ended {{time}} ago."
+    blocks_on:
+      title: "Blocks on {{name}}"
+      heading: "List of blocks on {{name}}"
+      empty: "{{name}} has not been blocked yet."
+    blocks_by:
+      title: "Blocks by {{name}}"
+      heading: "List of blocks by {{name}}"
+      empty: "{{name}} has not made any blocks yet."
+    show:
+      title: "{{block_on}} blocked by {{block_by}}"
+      heading: "{{block_on}} blocked by {{block_by}}"
+      time_future: "Ends in {{time}}"
+      time_past: "Ended {{time}} ago"
+      status: "Status"
+      show: "Show"
+      edit: "Edit"
+      revoke: "Revoke!"
+      confirm: "Are you sure?"
+      reason: "Reason for block:"
+      back: "View all blocks"
+      revoker: "Revoker:"
+      needs_view: "The user needs to log in before this block will be cleared."
   javascripts:
     map:
       base:

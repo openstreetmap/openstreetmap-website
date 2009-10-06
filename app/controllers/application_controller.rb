@@ -78,6 +78,12 @@ class ApplicationController < ActionController::Base
         @user = User.authenticate(:username => username, :password => passwd) # basic auth
       end
     end
+
+    # check if the user has been banned
+    unless @user.nil? or @user.active_blocks.empty?
+      # NOTE: need slightly more helpful message than this.
+      render :text => t('application.setup_user_auth.blocked'), :status => :forbidden
+    end
   end
 
   def authorize(realm='Web Password', errormessage="Couldn't authenticate you") 

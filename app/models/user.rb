@@ -14,6 +14,9 @@ class User < ActiveRecord::Base
   has_many :client_applications
   has_many :oauth_tokens, :class_name => "OauthToken", :order => "authorized_at desc", :include => [:client_application]
 
+  has_many :active_blocks, :class_name => "UserBlock", :conditions => ['user_blocks.ends_at > \'#{Time.now.getutc.xmlschema(5)}\' or user_blocks.needs_view']
+  has_many :roles, :class_name => "UserRole"
+
   validates_presence_of :email, :display_name
   validates_confirmation_of :email#, :message => ' addresses must match'
   validates_confirmation_of :pass_crypt#, :message => ' must match the confirmation password'
@@ -123,6 +126,31 @@ class User < ActiveRecord::Base
       end
     end
     return false
+  end
+
+  ##
+  # returns true if the user has the moderator role, false otherwise
+  def moderator?
+    has_role? 'moderator'
+  end
+
+  ##
+  # returns true if the user has the administrator role, false otherwise
+  def administrator?
+    has_role? 'administrator'
+  end
+
+  ##
+  # returns true if the user has the requested role
+  def has_role?(role)
+    roles.any? { |r| r.role == role }
+  end
+
+  ##
+  # returns the first active block which would require users to view 
+  # a message, or nil if there are none.
+  def blocked_on_view
+    active_blocks.detect { |b| b.needs_view? }
   end
 
   def delete

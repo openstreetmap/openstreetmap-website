@@ -142,9 +142,28 @@ class UserController < ApplicationController
   end
 
   def login
+    if params[:user] and session[:user].nil?
+      email_or_display_name = params[:user][:email]
+      pass = params[:user][:password]
+      user = User.authenticate(:username => email_or_display_name, :password => pass)
+      if user
+        session[:user] = user.id
+      elsif User.authenticate(:username => email_or_display_name, :password => pass, :inactive => true)
+        @notice = t 'user.login.account not active'
+      else
+        @notice = t 'user.login.auth failure'
+      end
+    end
+
     if session[:user]
-      # The user is logged in already, if the referer param exists, redirect them to that
-      if params[:referer]
+      # The user is logged in, if the referer param exists, redirect them to that
+      # unless they've also got a block on them, in which case redirect them to 
+      # the block so they can clear it.
+      user = User.find(session[:user])
+      block = user.blocked_on_view
+      if block
+        redirect_to block, :referrer => params[:referrer]
+      elsif params[:referer]
         redirect_to params[:referer]
       else
         redirect_to :controller => 'site', :action => 'index'
@@ -153,25 +172,6 @@ class UserController < ApplicationController
     end
 
     @title = t 'user.login.title'
-
-    if params[:user]
-      email_or_display_name = params[:user][:email]
-      pass = params[:user][:password]
-      user = User.authenticate(:username => email_or_display_name, :password => pass)
-      if user
-        session[:user] = user.id
-        if params[:referer]
-          redirect_to params[:referer]
-        else
-          redirect_to :controller => 'site', :action => 'index'
-        end
-        return
-      elsif User.authenticate(:username => email_or_display_name, :password => pass, :inactive => true)
-        @notice = t 'user.login.account not active'
-      else
-        @notice = t 'user.login.auth failure'
-      end
-    end
   end
 
   def logout

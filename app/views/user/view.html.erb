@@ -1,4 +1,15 @@
-<h2><%= h(@this_user.display_name) %></h2>
+<h2><%= h(@this_user.display_name) %>
+<% UserRole::ALL_ROLES.each do |role| %>
+<% if @user and @user.administrator? %>
+<% if @this_user.has_role? role %>
+<%= link_to(image_tag("roles/#{role}.png", :size => "20x20", :border => 0, :alt => t("user.view.role.revoke.#{role}"), :title => t("user.view.role.revoke.#{role}")), :controller => 'user_roles', :action => 'revoke', :display_name => @this_user.display_name, :role => role) %>
+<% else %>
+<%= link_to(image_tag("roles/blank_#{role}.png", :size => "20x20", :border => 0, :alt => t("user.view.role.grant.#{role}"), :title => t("user.view.role.grant.#{role}")), :controller => 'user_roles', :action => 'grant', :display_name => @this_user.display_name, :role => role) %>
+<% end %>
+<% elsif @this_user.has_role? role %>
+<%= image_tag("roles/#{role}.png", :size => "20x20", :border => 0, :alt => t("user.view.role.#{role}"), :title => t("user.view.role.#{role}")) %>
+<% end %>
+<% end %></h2>
 <div id="userinformation">
 <% if @user and @this_user.id == @user.id %>
 <!-- Displaying user's own profile page -->
@@ -7,6 +18,10 @@
 | <%= link_to t('user.view.my edits'), :controller => 'changeset', :action => 'list', :display_name => @user.display_name %>
 | <%= link_to t('user.view.my traces'), :controller => 'trace', :action=>'mine' %>
 | <%= link_to t('user.view.my settings'), :controller => 'user', :action => 'account', :display_name => @user.display_name %>
+| <%= link_to t('user.view.blocks on me'), :controller => 'user_blocks', :action => 'blocks_on', :display_name => @user.display_name %>
+<% if @user and @user.moderator? %>
+| <%= link_to t('user.view.blocks by me'), :controller => 'user_blocks', :action => 'blocks_by', :display_name => @user.display_name %>
+<% end %>
 <% else %>
 <!-- Displaying another user's profile page -->
 <%= link_to t('user.view.send message'), :controller => 'message', :action => 'new', :display_name => @this_user.display_name %>
@@ -17,6 +32,13 @@
   <%= link_to t('user.view.remove as friend'), :controller => 'user', :action => 'remove_friend', :display_name => @this_user.display_name %>
 <% else %>
   <%= link_to t('user.view.add as friend'), :controller => 'user', :action => 'make_friend', :display_name => @this_user.display_name %>
+<% end %>
+| <%= link_to t('user.view.block_history'), :controller => 'user_blocks', :action => 'blocks_on', :display_name => @this_user.display_name %>
+<% if @this_user.moderator? %>
+| <%= link_to t('user.view.moderator_history'), :controller => 'user_blocks', :action => 'blocks_by', :display_name => @this_user.display_name %>
+<% end %>
+<% if @user and @user.moderator? %>
+| <%= link_to t('user.view.create_block'), :controller => 'user_blocks', :action => 'new', :display_name => @this_user.display_name %>
 <% end %>
 <% end %>
 </div>
