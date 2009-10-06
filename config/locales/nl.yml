@@ -72,6 +72,9 @@ nl:
       way: Weg
       way_node: Wegnode
       way_tag: Weglabel
+  application: 
+    setup_user_auth: 
+      blocked: Uw toegang tot de API is geblokkeerd. Meld u opnieuw aan in de webinterface om meer te weten te komen.
   browse: 
     changeset: 
       changeset: "Set wijzigingen: {{id}}"
@@ -530,11 +533,13 @@ nl:
       and_no_tags: en geen labels.
       and_the_tags: "en de volgende labels:"
       failure: 
+        failed_to_import: "is niet geïmporteerd. Hier volgt de foutmelding:"
         more_info_1: Meer informatie over GPX-importfouten en hoe deze
         more_info_2: "te vermijden is te vinden op:"
         subject: "[OpenStreetMap] GPX-import mislukt"
       greeting: Hallo,
       success: 
+        loaded_successfully: is geladen met {{trace_points}} punten van de mogelijke {{possible_points}} punten.
         subject: "[OpenStreetMap] GPX-import afgerond"
       with_description: met de beschrijving
       your_gpx_file: Het lijkt erop dat uw GPX-bestand
@@ -645,6 +650,7 @@ nl:
       authorize_url: "URL voor autorisatie:"
       edit: Details bewerken
       key: "Gebruikerssleutel:"
+      requests: "Van de gebruiker worden de volgende rechten gevraagd:"
       secret: "Gebruikersgeheim:"
       support_notice: HMAC-SHA-1 (aangeraden) wordt ondersteund, als ook platte tekst in SSL-modus.
       title: OAuth-gegevens voor {{app_name}}
@@ -671,6 +677,7 @@ nl:
       shortlink: Korte verwijzing
     key: 
       map_key: Legenda
+      map_key_tooltip: Kaartsleutel voor de mapnik-redering op dit zoomniveau
       table: 
         entry: 
           admin: Bestuurlijke grens
@@ -937,7 +944,11 @@ nl:
       add as friend: vriend toevoegen
       add image: Afbeelding toevoegen
       ago: ({{time_in_words_ago}} geleden)
+      block_history: blokkades voor mij
+      blocks by me: blokkades door mij
+      blocks on me: blokkades door mij
       change your settings: Instellingen aanpassen
+      create_block: gebruiker blokkeren
       delete image: Afbeelding verwijderen
       description: Beschrijving
       diary: dagboek
@@ -946,6 +957,7 @@ nl:
       km away: "{{count}}km ver"
       m away: "{{count}} m verwijderd"
       mapper since: "Mapper sinds:"
+      moderator_history: ingesteld blokkades bekijken
       my diary: mijn dagboek
       my edits: mijn bewerkingen
       my settings: mijn instellingen
@@ -957,6 +969,15 @@ nl:
       no home location: Geen thuislocatie ingesteld.
       no nearby users: Er zijn geen dichtbijzijnde mappers.
       remove as friend: vriend verwijderen
+      role: 
+        administrator: Deze gebruiker is beheerder
+        grant: 
+          administrator: Beheerdersrechten toekennen
+          moderator: Moderatorrechten toekennen
+        moderator: Deze gebruiker is moderator
+        revoke: 
+          administrator: Beheerdersrechten intrekken
+          moderator: Moderatorrechten intrekken
       send message: bericht verzenden
       settings_link_text: voorkeuren
       traces: tracks
@@ -964,3 +985,110 @@ nl:
       user image heading: Gebruikersafbeelding
       user location: Gebruikerslocatie
       your friends: Uw vrienden
+  user_block: 
+    blocks_by: 
+      empty: "{{name}} heeft nog geen blokkades uitgevoerd."
+      heading: Lijst met blokkades door {{name}}
+      title: Blokkades door {{name}}
+    blocks_on: 
+      empty: "{{name}} is niet geblokkeerd geweest."
+      heading: Lijst met blokkades voor {{name}}
+      title: Blokkades voor {{name}}
+    create: 
+      flash: Heeft gebruiker {{name}} geblokkeerd.
+      try_contacting: Neem contact op met de gebruiker voordat u de blokkade instelt en geef deze de tijd om te reageren.
+      try_waiting: Geef de gebruiker de tijd om te reageren voordat u een blokkade instelt.
+    edit: 
+      back: Alle blokkades bekijken
+      heading: Blokkade voor {{name}} bijwerken
+      needs_view: Moet de gebruiker aanmelden voordat deze blokkade wordt verwijderd?
+      period: Hoe lang, per nu, moet de gebruiker worden uitgesloten van het gebruik van de API?
+      reason: De reden waarom {{name}} is geblokkeerd. Blijf kalm en redelijk en geef zoveel mogelijk details over de situatie. Dit bericht is voor iedereen zichtbaar. Bedank u dat niet alle gebruikers het gemeenschapsjargon begrijpen, dus formuleer begrijpelijk.
+      show: Blokkade bekijken
+      submit: Blokkade bijwerken
+      title: Blokkade voor {{name}} bijwerken
+    filter: 
+      block_expired: De blokkade is al vervallen en kan niet bijgewerkt worden.
+      block_period: De duurt van de blokkade moet een van de waarden in het menu zijn.
+      not_a_moderator: U moet moderator zijn om die handeling uit te kunnen voeren.
+    helper: 
+      time_future: Vervalt over {{time}}.
+      time_past: "{{time}} geleden vervallen."
+      until_login: Actief totdat de gebruiker aanmeldt.
+    index: 
+      empty: Er zijn geen blokkades ingesteld.
+      heading: Lijst met gebruikersblokkades
+      title: Gebruikersblokkades
+    model: 
+      non_moderator_revoke: U moet moderator zijn om een blokkade te kunnen verwijderen.
+      non_moderator_update: U moet moderator zijn om een blokkade te kunnen instellen of bijwerken.
+    new: 
+      back: Alle blokkades bekijken
+      heading: Blokkade aanmaken voor {{name}}
+      needs_view: Moet de gebruiker aanmelden voordat deze blokkade wordt verwijderd?
+      period: Hoe lang, per nu, moet de gebruiker worden uitgesloten van het gebruik van de API?
+      reason: De reden waarom {{name}} is geblokkeerd. Blijf kalm en redelijk en geef zoveel mogelijk details over de situatie. Dit bericht is voor iedereen zichtbaar. Bedank u dat niet alle gebruikers het gemeenschapsjargon begrijpen, dus formuleer begrijpelijk.
+      submit: Blokkade instellen
+      title: Blokkade aanmaken voor {{name}}
+      tried_contacting: Ik heb contact opgenomen met de gebruiker en gevraagd te stoppen.
+      tried_waiting: Ik heb de gebruiker voldoende tijd gegeven om te reageren op de communicatie.
+    not_found: 
+      back: Terug naar de index
+      sorry: De gebruiker met het nummer {{id}} is niet aangetroffen.
+    partial: 
+      confirm: Weet u het zeker?
+      creator_name: Aanmaker
+      display_name: Geblokkeerde gebruiker
+      edit: Bewerken
+      not_revoked: (niet ingetrokken)
+      reason: Reden voor blokkade
+      revoke: Intrekken
+      revoker_name: Ingetrokken door
+      show: Weergeven
+      status: Status
+    period: 
+      one: 1 uur
+      other: "{{count}} uur"
+    revoke: 
+      confirm: Weet u zeker dat u deze blokkade wilt intrekken?
+      flash: Deze blokkade is ingetrokken.
+      heading: Blokkade voor {{block_on}} door {{block_by}} intrekken
+      past: De blokkade is {{time}} geleden vervallen en kan niet ingetrokken worden.
+      revoke: Intrekken
+      time_future: Deze blokkade vervalt over {{time}}.
+      title: Blokkade voor {{block_on}} intrekken
+    show: 
+      back: Alle blokkades bekijken
+      confirm: Weet u het zeker?
+      edit: Bewerken
+      heading: "{{block_on}} geblokkeerd door {{block_by}}"
+      needs_view: De gebruiker moet aanmelden voordat deze blokkade wordt verwijderd.
+      reason: "Reden voor blokkade:"
+      revoke: Intrekken
+      revoker: "Ingetrokken door:"
+      show: Weergeven
+      status: Status
+      time_future: Vervalt over {{time}}
+      time_past: Is {{time}} geleden vervallen
+      title: "{{block_on}} geblokkeerd door {{block_by}}"
+    update: 
+      only_creator_can_edit: Alleen de moderator die deze blokkade heeft ingesteld kan wijzigingen aanbrengen.
+      success: De blokkade is bijgewerkt.
+  user_role: 
+    filter: 
+      already_has_role: De gebruiker heeft de rol {{role}} al.
+      doesnt_have_role: De gebruiker heeft de rol {{role}} niet.
+      not_a_role: "\"{{role}}\" is geen geldige rol."
+      not_an_administrator: Alleen beheerders kunnen gebruikersrollen beheren. U bent geen beheerder.
+    grant: 
+      are_you_sure: Weet u zeker dat u de rol "{{role}}" aan gebruiker "{{user}}" wilt toekennen?
+      confirm: Bevestigen
+      fail: Het was niet mogelijk de rol "{{role}}" aan gebruiker "{{user}}" toe te kennen. Controleer of de gebruikersnaam en rolnaam correct waren.
+      heading: Toekennen rechten bevestigen
+      title: Toekennen rechten bevestigen
+    revoke: 
+      are_you_sure: Weet u zeker dat u de rol "{{role}}" van gebruiker "{{user}}" wilt intrekken?
+      confirm: Bevestigen
+      fail: Het was niet mogelijk de rol "{{role}}" voor gebruiker "{{name}}" in te trekken. Controleer of de gebruikersnaam en rolnaam correct waren.
+      heading: Intrekken rechten bevestigen
+      title: Intrekken rechten bevestigen

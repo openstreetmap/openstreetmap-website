@@ -43,11 +43,14 @@ fur:
       friend: Amì
       language: Lenghe
       message: Messaç
+      old_relation: Viere relazion
       relation: Relazion
       relation_member: Membri de relazion
       session: Session
       trace: Percors
+      tracepoint: Pont dal percors
       user: Utent
+      user_preference: Preference utent
   browse: 
     changeset: 
       changeset: "Grup di cambiaments: {{id}}"
@@ -82,6 +85,7 @@ fur:
       entry: Relazion {{relation_name}}
       entry_role: Relazion {{relation_name}} (come {{relation_role}})
     map: 
+      deleted: Eliminât
       larger: 
         area: Viôt la aree suntune mape plui grande
         relation: Viôt la relazion suntune mape plui grande
@@ -149,6 +153,8 @@ fur:
       download_xml: Discjame XML
       edit: cambie
       view_history: cjale storic
+    way_details: 
+      part_of: "Part di:"
     way_history: 
       download: "{{download_xml_link}} o {{view_details_link}}"
       download_xml: Discjame XML
@@ -159,6 +165,7 @@ fur:
       big_area: (grant)
       no_comment: (nissun)
       no_edits: (nissun cambiament)
+      still_editing: (ancjemò in cambiament)
       view_changeset_details: Viôt detais dal grup di cambiaments
     changeset_paging_nav: 
       of: su
@@ -285,6 +292,14 @@ fur:
         us_postcode: Risultâts cjolts di <a href="http://geocoder.us/">Geocoder.us</a>
     search_osm_namefinder: 
       suffix_place: ", {{distance}} a {{direction}} di {{placename}}"
+  javascripts: 
+    map: 
+      base: 
+        cycle_map: Cycle Map
+        noname: CenceNon
+    site: 
+      edit_zoom_alert: Tu scugnis cressi il zoom par cambiâ la mape
+      history_zoom_alert: Tu scugnis cressi il zoom par viodi il storic dai cambiaments
   layouts: 
     donate: Sosten OpenStreetMap {{link}} al font pal inzornament dal hardware.
     donate_link_text: donant
@@ -324,9 +339,11 @@ fur:
     sign_up_tooltip: Cree un profîl par colaborâ
     tag_line: Il WikiMapeMont libar
     user_diaries: Diaris dai utents
+    user_diaries_tooltip: Viôt i diaris dai utents
     view: Viôt
     view_tooltip: Viôt lis mapis
     welcome_user: Benvignût/de, {{user_link}}
+    welcome_user_link_tooltip: La tô pagjine utent
   map: 
     coordinates: "Coordenadis:"
     edit: Cambie
@@ -364,6 +381,7 @@ fur:
       delete_button: Elimine
   site: 
     edit: 
+      flash_player_required: Ti covente un riprodutôr Flash par doprâ Potlatch, l'editôr Flash di OpenStreetMap. Tu puedis <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">discjamâ il Flash Player di Adobe.com</a>. <a href="http://wiki.openstreetmap.org/wiki/Editing">E je cualchi altre opzion</a> par lavorâ su OpenStreetMap.
       user_page_link: pagjine dal utent
     index: 
       license: 
@@ -381,6 +399,7 @@ fur:
           cemetery: Simiteri
           centre: Centri sportîf
           commercial: Aree comerciâl
+          construction: Stradis in costruzion
           golf: Troi di golf
           industrial: Aree industriâl
           lake: 
@@ -391,6 +410,7 @@ fur:
           private: Acès privât
           rail: Ferade
           reserve: Riserve naturâl
+          resident: Aree residenziâl
           school: 
             - Scuele
             - universitât
@@ -409,26 +429,37 @@ fur:
       search_results: Risultâts de ricercje
   trace: 
     create: 
+      trace_uploaded: Il to file GPX al è stât cjamât e al è cumò daûr a spietâ di jessi zontât ae base di dâts. Chest al sucêt in gjenar jentri di une ore; ti mandarìn un messaç cuant che il lavôr al sarà stât completât.
       upload_trace: Cjame percors GPS
     edit: 
       description: "Descrizion:"
       download: discjame
+      edit: cambie
       filename: "Non dal file:"
+      heading: Cambiant il percors {{name}}
       map: mape
       owner: "Paron:"
       points: "Ponts:"
       save_button: Salve cambiaments
+      start_coord: "Coordenadis iniziâls:"
+      title: Cambiant il percors {{name}}
       uploaded_at: "Cjamât ai:"
       visibility: "Visibilitât:"
+      visibility_help: ce vuelial dî?
     list: 
       public_traces: Percors GPS publics
       your_traces: Percors GPS personâi
     trace: 
+      ago: "{{time_in_words_ago}} fa"
       by: di
       count_points: "{{count}} ponts"
       in: in
       map: mape
       more: plui
+      pending: IN SPIETE
+      private: PRIVÂT
+      public: PUBLIC
+      trace_details: "Cjale i detais dal percors:"
       view_map: Viôt mape
     trace_form: 
       description: "Descrizion:"
@@ -446,10 +477,15 @@ fur:
       delete_track: Elimine chest percors
       description: "Descrizion:"
       download: discjame
+      edit: cambie
       filename: "Non dal file:"
       map: mape
       owner: "Paron:"
+      pending: IN SPIETE
       points: "Ponts:"
+      start_coordinates: "Coordenadis iniziâls:"
+      title: Viodint il percors {{name}}
+      uploaded: "Cjamât ai:"
       visibility: "Visibilitât:"
   user: 
     account: 
@@ -486,10 +522,16 @@ fur:
       login_button: Jentre
       please login: Jentre o {{create_user_link}}.
       title: Jentre
+    make_friend: 
+      success: "{{name}} al è cumò to amì."
     new: 
+      confirm email address: "Conferme direzion pueste:"
       display name: "Non di mostrâ:"
       email address: "Direzion di pueste eletroniche:"
+      fill_form: Jemple il modul e ti mandarin in curt un messaç di pueste par ativâ il to profîl.
       heading: Cree un account utent
+      license_agreement: Creant un profîl, tu confermis di savê che ducj i dâts che tu mandis al progjet OpenStreetMap a son dâts fûr (in mût no esclusîf) sot di <a href="http://creativecommons.org/licenses/by-sa/2.0/">cheste licence Creative Commons (by-sa)</a>.
+      signup: Regjistre
       title: Cree profîl
     no_such_user: 
       body: Nol esist un utent di non {{user}}. Controle par plasê la grafie o che tu vedis seguît il leam just.
@@ -526,3 +568,13 @@ fur:
       user image heading: Figure dal utent
       user location: Lûc dal utent
       your friends: I tiei amîs
+  user_block: 
+    partial: 
+      status: Stât
+    show: 
+      status: Stât
+  user_role: 
+    grant: 
+      confirm: Conferme
+    revoke: 
+      confirm: Conferme

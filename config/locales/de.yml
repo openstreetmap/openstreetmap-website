@@ -3,6 +3,7 @@
 # Export driver: syck
 # Author: Als-Holder
 # Author: Apmon
+# Author: Avatar
 # Author: ChrisiPK
 # Author: Pill
 # Author: Str4nd
@@ -76,6 +77,9 @@ de:
       way: Weg
       way_node: Weg-Knoten
       way_tag: Weg-Tag
+  application: 
+    setup_user_auth: 
+      blocked: Dein Zugriff auf die API wurde gesperrt. Bitte logge dich auf der Web-Oberfläche ein, um mehr zu erfahren.
   browse: 
     changeset: 
       changeset: "Changeset: {{id}}"
@@ -808,6 +812,7 @@ de:
         disabled: Deaktiviert, bearbeiten von Daten nicht möglich, alle bisherigen Bearbeitungen sind anonym.
         disabled link text: Warum kann ich nichts bearbeiten?
         enabled: Aktiviert. Nicht anonym, bearbeiten der Kartendaten möglich.
+        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: Was ist das?
         heading: "Öffentliches Bearbeiten:"
       return to profile: Zurück zum Profil
@@ -889,7 +894,10 @@ de:
       add as friend: Als Freund hinzufügen
       add image: Ein Bild hinzufügen
       ago: ({{time_in_words_ago}})
+      blocks by me: Selbst vergebene Sperren
+      blocks on me: Erhaltene Sperren
       change your settings: Ändere deine Einstellungen
+      create_block: Diesen Nutzer sperren
       delete image: Bild löschen
       description: Beschreibung
       diary: Blog
@@ -898,16 +906,27 @@ de:
       km away: "{{count}}km entfernt"
       m away: "{{count}}m entfernt"
       mapper since: "Mapper seit:"
+      moderator_history: Vergebene Sperren anzeigen
       my diary: Eigener Blog
       my edits: Eigene Bearbeitungen
       my settings: Eigene Einstellungen
       my traces: Eigene Tracks
+      my_oauth_details: Meine OAuth-Details
       nearby users: "Benutzer in der Nähe:"
       new diary entry: Neuer Blogeintrag
       no friends: Du hast bis jetzt keine Freunde hinzugefügt.
       no home location: Es wurde kein Standort angegeben.
       no nearby users: Es gibt bisher keine Benutzer, die einen Standort in deiner Nähe angegeben haben.
       remove as friend: Als Freund entfernen
+      role: 
+        administrator: Dieser Benutzer ist ein Administrator
+        grant: 
+          administrator: Administrator-Rechte vergeben
+          moderator: Moderator-Rechte vergeben
+        moderator: Dieser Benutzer ist ein Moderator
+        revoke: 
+          administrator: Administrator-Rechte entziehen
+          moderator: Moderator-Rechte entziehen
       send message: Nachricht senden
       settings_link_text: Einstellungen
       traces: Tracks
@@ -915,3 +934,21 @@ de:
       user image heading: Benutzerbild
       user location: Standort des Benutzers
       your friends: Eigene Freunde
+  user_role: 
+    filter: 
+      already_has_role: Der Nutzer gehört bereits der Rolle {{role}} an.
+      doesnt_have_role: Der Nutzer gehört nicht der Rolle {{role}} an.
+      not_a_role: Der String „{{role}}“ bezeichnet keine gültige Rolle.
+      not_an_administrator: Benutzerrollen können nur von Administratoren verwaltet werden - und du bist keiner.
+    grant: 
+      are_you_sure: Bist du sicher, dass du Nutzer `{{name}}' der Rolle `{{role}}' zuordnen möchtest?
+      confirm: Bestätigen
+      fail: Der Nutzer `{{name}}' konnte der Rolle `{{role}}' nicht zugeordnet werden. Bitte überprüfe, ob es sich um einen gültigen Benutzer und eine gültige Rolle handelt.
+      heading: Bestätige Rollenzuordnung
+      title: Bestätige Rollenzuordnung
+    revoke: 
+      are_you_sure: Bist du sicher, dass du die Zuordnung von Benutzer `{{name}}' zur Rolle `{{role}}' aufheben willst?
+      confirm: Bestätigen
+      fail: Konnte die Zuordnung von Benutzer `{{name}}' zu Rolle `{{role}}' nicht aufheben. Bitte überprüfe, ob es sich um einen gültigen Benutzer und eine gültige Rolle handelt.
+      heading: Bestätige Aufhebung der Rollenzuordnung
+      title: Bestätige Aufhebung der Rollenzuordnung
