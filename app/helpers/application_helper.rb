@@ -26,10 +26,10 @@ private
 
   def javascript_strings_for_key(key)
     js = ""
-    value = t(key)
+    value = t(key, :locale => "en")
 
     if value.is_a?(String)
-      js << "i18n_strings['#{key}'] = '" << escape_javascript(value) << "';\n"
+      js << "i18n_strings['#{key}'] = '" << escape_javascript(t(key)) << "';\n"
     else
       value.each_key do |k|
         js << javascript_strings_for_key("#{key}.#{k}")
