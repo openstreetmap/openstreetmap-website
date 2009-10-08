@@ -77,6 +77,9 @@ fr:
       way: Chemin
       way_node: Nœud du chemin
       way_tag: Balise du chemin
+  application: 
+    setup_user_auth: 
+      blocked: Votre accès à l'API a été bloqué. Connectez-vous sur l'interface web pour plus d'informations.
   browse: 
     changeset: 
       changeset: "Groupe de modifications : {{id}}"
@@ -945,7 +948,11 @@ fr:
       add as friend: ajouter en tant qu'ami
       add image: Ajouter une image
       ago: (il y a {{time_in_words_ago}})
+      block_history: blocages reçus
+      blocks by me: blocages donnés
+      blocks on me: mes blocages
       change your settings: modifiez vos options
+      create_block: bloquer cet utilisateur
       delete image: Effacer l'image
       description: Description
       diary: journal
@@ -954,6 +961,7 @@ fr:
       km away: "{{count}} km"
       m away: distant de {{count}} m
       mapper since: "Mappeur depuis:"
+      moderator_history: voir les blocages donnés
       my diary: Mon journal
       my edits: Mes modifications
       my settings: Mes options
@@ -965,6 +973,15 @@ fr:
       no home location: Aucun lieu n'a été défini.
       no nearby users: Il n'y a pas encore d'utilisateur à proximité.
       remove as friend: enlever en tant qu'ami
+      role: 
+        administrator: Cet utilisateur est un adminstrateur
+        grant: 
+          administrator: Octroyer l'accès administrateur
+          moderator: Octroyer l'accès modérateur
+        moderator: Cet utilisateur est un modérateur
+        revoke: 
+          administrator: Révoquer l'accès administrateur
+          moderator: Révoquer l'accès modérateur
       send message: Envoyer un message
       settings_link_text: options
       traces: traces
@@ -973,8 +990,109 @@ fr:
       user location: Emplacement de l'utilisateur
       your friends: Vos amis
   user_block: 
+    blocks_by: 
+      empty: "{{name}} n'a pas encore effectué de blocages."
+      heading: Liste des blocages par {{name}}
+      title: Blocages par {{name}}
+    blocks_on: 
+      empty: "{{name}} n'a pas encore été bloqué."
+      heading: Liste des blocages sur {{name}}
+      title: Blocages de {{name}}
+    create: 
+      flash: Blocage créé sur l'utilisateur {{name}}.
+      try_contacting: Merci de contacter l'utilisateur avant de le bloquer et de lui donner un temps raisonnable pour répondre.
+      try_waiting: Merci de donner un temps suffisant à l'utilisateur avant de le bloquer.
+    edit: 
+      back: Voir tous les blocages
+      heading: Modifie un blocage sur {{name}}
+      needs_view: Est-ce que l'utilisateur doit se connecter avant que le blocage n'expire ?
+      period: Combien de temps, à partir de maintenant, l'utilisateur doit être bloqué sur l'API ?
+      reason: Raison pour laquelle {{name}} est bloqué. Merci d'être aussi calme et raisonnable que possible, et de donner autant de détails que possible sur la situation. Sachez que tout le monde ne comprend pas le jargon de la communauté, alors utilisez des termes simples et précis.
+      show: Afficher ce blocage
+      submit: Modifier le blocage
+      title: Modifie un blocage sur {{name}}
+    filter: 
+      block_expired: Le blocage a déjà expiré et ne peut pas être modifié.
+      block_period: La période de blocage doit être choisie dans la liste déroulante.
+      not_a_moderator: Vous devez être modérateur pour effectuer cette action.
+    helper: 
+      time_future: Termine à {{time}}.
+      time_past: Terminé il y a {{time}}.
+      until_login: Actif jusqu'à ce que l'utilisateur se connecte.
+    index: 
+      empty: Aucun blocage n'a encore été effectué.
+      heading: Liste des blocages
+      title: Blocages utilisateur
+    model: 
+      non_moderator_revoke: Vous devez être modérateur pour révoquer un blocage.
+      non_moderator_update: Vous devez être modérateur pour créer ou modifier un blocage.
+    new: 
+      back: Voir tous les blocages
+      heading: Créé un blocage sur {{name}}
+      needs_view: Est-ce que l'utilisateur doit se connecter avant que ce blocage soit effacé ?
+      period: Pendant combien de temps, à partir de maintenant, l'utilisateur doit être bloqué sur l'API ?
+      reason: Raison pour laquelle {{name}} est bloqué. Merci d'être aussi calme et raisonnable que possible, et de donner autant de détails que possible sur la situation. N'oubliez pas que ce message sera visible par tous. Sachez que tout le monde ne comprend pas le jargon de la communauté, alors utilisez des termes simples et précis.
+      submit: Créer un blocage
+      title: Créé un blocage sur {{name}}
+      tried_contacting: J'ai contacté l'utilisateur et lui ai demandé d'arrêter.
+      tried_waiting: J'ai donné un temps suffisant à l'utilisateur pour répondre au messages.
+    not_found: 
+      back: Retour à l'index
+      sorry: Désolé, le blocage utilisateur numéro {{id}}  n'a pas été trouvé.
     partial: 
-      creator_name: Créateur
-      reason: Motif du blocage
-    show: 
       confirm: Êtes-vous sûr ?
+      creator_name: Créateur
+      display_name: Utilisateur Bloqué
+      edit: Éditer
+      not_revoked: (non révoqué)
+      reason: Motif du blocage
+      revoke: Révoquer !
+      revoker_name: Révoqué par
+      show: Afficher
+      status: État
+    period: 
+      one: 1 heure
+      other: "{{count}} heures"
+    revoke: 
+      confirm: Êtes-vous sûr de vouloir révoquer ce blocage ?
+      flash: Ce blocage a été révoqué.
+      heading: Révoque un blocage sur {{block_on}} par {{block_by}}
+      past: Ce blocage s'est terminé il y a {{time}} et ne peut être révoqué maintenant.
+      revoke: Révoquer !
+      time_future: Ce blocage se terminera dans {{time}}.
+      title: Révoque un blocage sur {{block_on}}
+    show: 
+      back: Afficher tous les blocages
+      confirm: Êtes-vous sûr ?
+      edit: Modifier
+      heading: "{{block_on}} bloqué par {{block_by}}"
+      needs_view: L'utilisateur doit se connecter avant que ce blocage soit supprimé.
+      reason: "Raison du blocage :"
+      revoke: Révoquer !
+      revoker: "Révocateur :"
+      show: Afficher
+      status: Statut
+      time_future: Se termine dans {{time}}
+      time_past: S'est terminé il y a {{time}}
+      title: "{{block_on}} bloqué par {{block_by}}"
+    update: 
+      only_creator_can_edit: Seul le modérateur qui a créé le blocage peut le modifier.
+      success: Blocage mis à jour.
+  user_role: 
+    filter: 
+      already_has_role: L'utilisateur possède déjà le rôle {{role}}.
+      doesnt_have_role: L'utilisateur n'a pas le rôle {{role}}.
+      not_a_role: La chaîne « {{role}} » n'est un rôle valide.
+      not_an_administrator: Seuls les administrateurs peuvent gérer les rôles mais vous n'êtes pas administrateur.
+    grant: 
+      are_you_sure: Êtes vous sûr de vouloir attribuer le rôle `{{role}}' à l'utilisateur `{{name}}'?
+      confirm: Confirmer
+      fail: Impossible d'octroyer le rôle « {{role}} » à l'utilisateur « {{name}} ». Vérifiez que l'utilisateur et le rôle sont valides.
+      heading: Confirmer l'octroi du rôle
+      title: Confirmer l'octroi du rôle
+    revoke: 
+      are_you_sure: Êtes vous sûr de vouloir supprimer le rôle `{{role}}' de l'utilisateur `{{name}}' ?
+      confirm: Confirmer
+      fail: Impossible de révoquer le rôle « {{role}} » de l'utilisateur « {{name}} ». Vérifiez que l'utilisateur et le rôle sont valides.
+      heading: Confirmer la révocation du rôle
+      title: Confirmer la révocation du rôle

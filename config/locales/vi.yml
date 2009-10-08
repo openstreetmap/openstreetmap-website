@@ -71,6 +71,9 @@ vi:
       way: Lối
       way_node: Nốt Lối
       way_tag: Thẻ Lối
+  application: 
+    setup_user_auth: 
+      blocked: Bạn bị chặn không được truy cập qua API. Vui lòng đăng nhập vào giao diện Web để biết chi tiết.
   browse: 
     changeset: 
       changeset: "Bộ thay đổi: {{id}}"
@@ -954,7 +957,11 @@ vi:
       add as friend: thêm là người bạn
       add image: Thêm Hình
       ago: (cách đây {{time_in_words_ago}})
+      block_history: xem các tác vụ cấm người này
+      blocks by me: tác vụ cấm bởi tôi
+      blocks on me: tác vụ cấm tôi
       change your settings: thay đổi tùy chọn của bạn
+      create_block: cấm người dùng này
       delete image: Xóa Hình
       description: Miêu tả
       diary: nhật ký
@@ -963,6 +970,7 @@ vi:
       km away: cách {{count}} km
       m away: cách {{count}} m
       mapper since: "Tham gia:"
+      moderator_history: xem các tác vụ cấm bởi người này
       my diary: nhật ký của tôi
       my edits: đóng góp của tôi
       my settings: tùy chọn
@@ -974,6 +982,15 @@ vi:
       no home location: Chưa đặt vị trí nhà.
       no nearby users: Chưa có người dùng nào nhận là họ ở gần.
       remove as friend: dời người bạn
+      role: 
+        administrator: Người dùng này là quản lý viên
+        grant: 
+          administrator: Cấp quyền quản lý viên
+          moderator: Cấp quyền điều hành viên
+        moderator: Người dùng này là điều hành viên
+        revoke: 
+          administrator: Rút quyền quản lý viên
+          moderator: Rút quyền điều hành viên
       send message: gửi thư
       settings_link_text: tùy chọn
       traces: tuyến đường
@@ -981,3 +998,108 @@ vi:
       user image heading: Hình người dùng
       user location: Vị trí của người dùng
       your friends: Người bạn của bạn
+  user_block: 
+    blocks_by: 
+      empty: "{{name}} chưa cấm ai."
+      heading: Danh sách tác vụ cấm bởi {{name}}
+      title: Các tác vụ cấm bởi {{name}}
+    blocks_on: 
+      empty: "{{name}} chưa bị cấm."
+      heading: Danh sách tác vụ cấm {{name}}
+      title: Các tác vụ cấm {{name}}
+    create: 
+      flash: Cấm người dùng {{name}}.
+      try_contacting: Xin hãy liên lạc với người dùng và chờ đợi họ trả lời một thời gian hợp lý trước khi cấm họ.
+      try_waiting: Xin hãy chờ đợi người dùng trả lời một thời gian hợp lý trước khi cấm họ.
+    edit: 
+      back: Xem tất cả tác vụ cấm
+      heading: Sửa đổi tác vụ cấm {{name}}
+      needs_view: Người dùng có phải cần đăng nhập trước khi bỏ cấm được không?
+      period: Thời gian người dùng bị cấm không được dùng API, bắt đầu từ lúc bây giờ.
+      reason: Lý do {{name}} bị cấm. Xin hãy bình tĩnh và hợp lý, và đưa vào nhiều chi tiết về trường hợp này. Xin hãy tránh thuật ngữ chuyên môn vì người dùng có thể không rành.
+      show: Xem tác vụ cấm này
+      submit: Cập nhật tác vụ cấm
+      title: Sửa đổi tác vụ cấm {{name}}
+    filter: 
+      block_expired: Không thể sửa đổi tác vụ cấm này vì nó đã hết hạn.
+      block_period: Thời hạn cấm phải là một trong những giá trị từ danh sách kéo xuống.
+      not_a_moderator: Chỉ có các điều hành viên được phép thực hiện tác vụ đó.
+    helper: 
+      time_future: Hết hạn {{time}}.
+      time_past: Đã hết hạn cách đây {{time}}.
+      until_login: Có hiệu lực cho đến khi người dùng đăng nhập.
+    index: 
+      empty: Chưa ai bị cấm.
+      heading: Danh sách người dùng đang bị cấm
+      title: Người dùng bị cấm
+    model: 
+      non_moderator_revoke: Chỉ có các điều hành viên được phép bỏ cấm.
+      non_moderator_update: Chỉ có các điều hành viên được phép cấm hay cập nhật tác vụ cấm.
+    new: 
+      back: Xem tất cả tác vụ cấm
+      heading: Cấm {{name}}
+      needs_view: Người dùng có phải cần đăng nhập trước khi bỏ cấm được không?
+      period: Thời gian cấm người dùng không được dùng API, bắt đầu từ lúc bây giờ.
+      reason: Lý do cấm {{name}}. Xin hãy bình tĩnh và hợp lý, và đưa vào nhiều chi tiết về trường hợp này. Xin hãy tránh thuật ngữ chuyên môn vì người dùng có thể không rành.
+      submit: Cấm người dùng
+      title: Cấm {{name}}
+      tried_contacting: Tôi đã liên lạc với người dùng để xin họ ngừng.
+      tried_waiting: Tôi đã chờ đợi người dùng trả lời những lời cảnh báo một thời gian hợp lý.
+    not_found: 
+      back: Trở về trang đầu
+      sorry: Rất tiếc, không tìm thấy tác vụ cấm có ID {{id}}.
+    partial: 
+      confirm: Bạn có chắc không?
+      creator_name: Người cấm
+      display_name: Người bị cấm
+      edit: Sửa đổi
+      not_revoked: (không bị hủy)
+      reason: Lý do cấm
+      revoke: Bỏ cấm!
+      revoker_name: Người bỏ cấm
+      show: Hiện
+      status: Trạng thái
+    period: "{{count}} giờ"
+    revoke: 
+      confirm: Bạn có chắc muốn bỏ cấm người này?
+      flash: Đã bỏ cấm.
+      heading: Bỏ tác vụ cấm {{block_on}} bởi {{block_by}}
+      past: Tác vụ cấm này đã hết hạn cách đây {{time}} nên không bỏ được.
+      revoke: Bỏ cấm!
+      time_future: Tác vụ cấm này sẽ hết hạn cách đây {{time}}.
+      title: Bỏ cấm {{block_on}}
+    show: 
+      back: Xem tất cả tác vụ cấm
+      confirm: Bạn có chắc không?
+      edit: Sửa đổi
+      heading: "{{block_on}} bị cấm bởi {{block_by}}"
+      needs_view: Người dùng cần phải đăng nhập trước khi bỏ cấm được.
+      reason: "Lý do cấm:"
+      revoke: Bỏ cấm!
+      revoker: "Người bỏ cấm:"
+      show: Hiện
+      status: Trạng thái
+      time_future: Hết hạn {{time}}
+      time_past: Đã hết hạn cách đây {{time}}
+      title: "{{block_on}} bị cấm bởi {{block_by}}"
+    update: 
+      only_creator_can_edit: Chỉ có điều hành viên đã tạo ra tác vụ cấm này có thể sửa đổi nó.
+      success: Đã cập nhật tác vụ cấm.
+  user_role: 
+    filter: 
+      already_has_role: Người dùng đã có vai trò {{role}}.
+      doesnt_have_role: Người dùng không có vai trò {{role}}.
+      not_a_role: Chuỗi “{{role}}” không phải là vai trò hợp lệ.
+      not_an_administrator: Chỉ các quản lý viên có quyền quản lý quyền của người dùng, nhưng bạn không phải là quản lý viên.
+    grant: 
+      are_you_sure: Bạn có chắc muốn cấp vai trò “{{role}}” cho người dùng “{{name}}”?
+      confirm: Xác nhận
+      fail: Không thể cấp vai trò “{{role}}” cho người dùng “{{name}}”. Vui lòng kiểm tra rằng tên người dùng và vai trò đều hợp lệ.
+      heading: Xác nhận cấp vai trò
+      title: Xác nhận cấp vai trò
+    revoke: 
+      are_you_sure: Bạn có chắc muốn rút vai trò “{{role}}” của người dùng “{{name}}”?
+      confirm: Xác nhận
+      fail: Không thể rút vai trò “{{role}}” của người dùng “{{name}}”. Vui lòng kiểm tra rằng tên người dùng và vai trò đều hợp lệ.
+      heading: Xác nhận rút vai trò
+      title: Xác nhận rút vai trò
