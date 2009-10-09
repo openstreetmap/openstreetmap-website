@@ -10,6 +10,7 @@ class UserController < ApplicationController
   before_filter :check_api_readable, :only => [:api_details, :api_gpx_files]
   before_filter :require_allow_read_prefs, :only => [:api_details]
   before_filter :require_allow_read_gpx, :only => [:api_gpx_files]
+  before_filter :require_cookies, :only => [:login, :confirm]
 
   filter_parameter_logging :password, :pass_crypt, :pass_crypt_confirmation
 
