@@ -43,12 +43,13 @@
 <% end %>
 </div>
 
-<% if @this_user != nil %>
-<P>
-<b><%= t 'user.view.mapper since' %></b> <%= l @this_user.creation_time %> <%= t 'user.view.ago', :time_in_words_ago => time_ago_in_words(@this_user.creation_time) %>
-</P>
+<p><b><%= t 'user.view.mapper since' %></b> <%= l @this_user.creation_time %> <%= t 'user.view.ago', :time_in_words_ago => time_ago_in_words(@this_user.creation_time) %></p>
+
+<% if @user and @user.administrator? %>
+<p><b><%= t 'user.view.email address' %></b> <%= @this_user.email %></p>  
+<p><b><%= t 'user.view.created from' %></b> <%= @this_user.creation_ip %></p>
 <% end %>
-  
+
 <h3><%= t 'user.view.user image heading' %></h3>
 <% if @this_user.image %>
   <%= image_tag url_for_file_column(@this_user, "image") %>
