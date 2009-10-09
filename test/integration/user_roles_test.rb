@@ -17,6 +17,11 @@ class UserRolesControllerTest < ActionController::IntegrationTest
   end
 
   def check_fail(action, user, role)
+    get '/login'
+    assert_response :redirect
+    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
+    follow_redirect!
+    assert_response :success
     post '/login', {'user[email]' => users(user).email, 'user[password]' => "test", :referer => "/"}
     assert_response :redirect
     follow_redirect!
@@ -30,6 +35,11 @@ class UserRolesControllerTest < ActionController::IntegrationTest
   end
 
   def check_success(action, user, role)
+    get '/login'
+    assert_response :redirect
+    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
+    follow_redirect!
+    assert_response :success
     post '/login', {'user[email]' => users(user).email, 'user[password]' => "test", :referer => "/"}
     assert_response :redirect
     follow_redirect!
