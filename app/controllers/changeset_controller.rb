@@ -206,7 +206,7 @@ class ChangesetController < ApplicationController
     # create the conditions that the user asked for. some or all of
     # these may be nil.
     conditions = conditions_bbox(params['bbox'])
-    conditions = cond_merge conditions, conditions_user(params['user'])
+    conditions = cond_merge conditions, conditions_user(params['user'], params['display_name'])
     conditions = cond_merge conditions, conditions_time(params['time'])
     conditions = cond_merge conditions, conditions_open(params['open'])
     conditions = cond_merge conditions, conditions_closed(params['closed'])
@@ -352,12 +352,23 @@ private
 
   ##
   # restrict changesets to those by a particular user
-  def conditions_user(user)
-    unless user.nil?
-      # user input checking, we don't have any UIDs < 1
-      raise OSM::APIBadUserInput.new("invalid user ID") if user.to_i < 1
+  def conditions_user(user, name)
+    unless user.nil? and name.nil?
+      # shouldn't provide both name and UID
+      raise OSM::APIBadUserInput.new("provide either the user ID or display name, but not both") if user and name
 
-      u = User.find(user.to_i)
+      # use either the name or the UID to find the user which we're selecting on.
+      u = if name.nil?
+            # user input checking, we don't have any UIDs < 1
+            raise OSM::APIBadUserInput.new("invalid user ID") if user.to_i < 1
+            u = User.find(user.to_i)
+          else
+            u = User.find_by_display_name(name)
+          end
+
+      # make sure we found a user
+      raise OSM::APINotFoundError.new if u.nil?
+
       # should be able to get changesets of public users only, or 
       # our own changesets regardless of public-ness.
       unless u.data_public?

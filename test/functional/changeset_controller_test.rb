@@ -1337,15 +1337,31 @@ EOF
     assert_response :success, "can't get changesets in bbox"
     assert_changesets [1]
 
+    # not found when looking for changesets of non-existing users
+    get :query, :user => User.maximum(:id) + 1
+    assert_response :not_found
+    get :query, :display_name => " "
+    assert_response :not_found
+
     # can't get changesets of user 1 without authenticating
     get :query, :user => users(:normal_user).id
-    assert_response :not_found, "shouldn't be able to get changesets by non-public user"
+    assert_response :not_found, "shouldn't be able to get changesets by non-public user (ID)"
+    get :query, :display_name => users(:normal_user).display_name
+    assert_response :not_found, "shouldn't be able to get changesets by non-public user (name)"
 
     # but this should work
     basic_authorization "test@openstreetmap.org", "test"
     get :query, :user => users(:normal_user).id
-    assert_response :success, "can't get changesets by user"
+    assert_response :success, "can't get changesets by user ID"
     assert_changesets [1,3,6]
+
+    get :query, :display_name => users(:normal_user).display_name
+    assert_response :success, "can't get changesets by user name"
+    assert_changesets [1,3,6]
+
+    # check that the correct error is given when we provide both UID and name
+    get :query, :user => users(:normal_user).id, :display_name => users(:normal_user).display_name
+    assert_response :bad_request, "should be a bad request to have both ID and name specified"
 
     get :query, :user => users(:normal_user).id, :open => true
     assert_response :success, "can't get changesets by user and open"
