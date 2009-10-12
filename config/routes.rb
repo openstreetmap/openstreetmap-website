@@ -158,6 +158,11 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/user/:display_name/diary/:id/edit', :controller => 'diary_entry', :action => 'edit', :id => /\d+/
   map.connect '/user/:display_name/account', :controller => 'user', :action => 'account'
   map.connect '/user/:display_name/set_home', :controller => 'user', :action => 'set_home'
+  map.connect '/user/:display_name/activate', :controller => 'user', :action => 'activate'
+  map.connect '/user/:display_name/deactivate', :controller => 'user', :action => 'deactivate'
+  map.connect '/user/:display_name/hide', :controller => 'user', :action => 'hide'
+  map.connect '/user/:display_name/unhide', :controller => 'user', :action => 'unhide'
+  map.connect '/user/:display_name/delete', :controller => 'user', :action => 'delete'
   map.connect '/diary', :controller => 'diary_entry', :action => 'list'
   map.connect '/diary/rss', :controller => 'diary_entry', :action => 'rss'
   map.connect '/diary/:language', :controller => 'diary_entry', :action => 'list'

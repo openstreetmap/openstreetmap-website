@@ -41,6 +41,20 @@
 | <%= link_to t('user.view.create_block'), :controller => 'user_blocks', :action => 'new', :display_name => @this_user.display_name %>
 <% end %>
 <% end %>
+<% if @user and @user.administrator? %>
+<br/>
+<% if @this_user.active? %>
+<%= link_to t('user.view.deactivate_user'), {:controller => 'user', :action => 'deactivate', :display_name => @this_user.display_name}, {:confirm => t('user.view.confirm')} %>
+<% else %>
+<%= link_to t('user.view.activate_user'), {:controller => 'user', :action => 'activate', :display_name => @this_user.display_name}, {:confirm => t('user.view.confirm')} %>
+<% end %>
+<% if @this_user.visible? %>
+| <%= link_to t('user.view.hide_user'), {:controller => 'user', :action => 'hide', :display_name => @this_user.display_name}, {:confirm => t('user.view.confirm')} %>
+| <%= link_to t('user.view.delete_user'), {:controller => 'user', :action => 'delete', :display_name => @this_user.display_name}, {:confirm => t('user.view.confirm')} %>
+<% else %>
+| <%= link_to t('user.view.unhide_user'), {:controller => 'user', :action => 'unhide', :display_name => @this_user.display_name}, {:confirm => t('user.view.confirm')} %>
+<% end %>
+<% end %>
 </div>
 
 <p><b><%= t 'user.view.mapper since' %></b> <%= l @this_user.creation_time %> <%= t 'user.view.ago', :time_in_words_ago => time_ago_in_words(@this_user.creation_time) %></p>

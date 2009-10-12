@@ -11,6 +11,8 @@ class UserController < ApplicationController
   before_filter :require_allow_read_prefs, :only => [:api_details]
   before_filter :require_allow_read_gpx, :only => [:api_gpx_files]
   before_filter :require_cookies, :only => [:login, :confirm]
+  before_filter :require_administrator, :only => [:activate, :deactivate, :hide, :unhide, :delete]
+  before_filter :lookup_this_user, :only => [:activate, :deactivate, :hide, :unhide, :delete]
 
   filter_parameter_logging :password, :pass_crypt, :pass_crypt_confirmation
 
@@ -158,7 +160,7 @@ class UserController < ApplicationController
 
     if session[:user]
       # The user is logged in, if the referer param exists, redirect them to that
-      # unless they've also got a block on them, in which case redirect them to 
+      # unless they've also got a block on them, in which case redirect them to
       # the block so they can clear it.
       user = User.find(session[:user])
       block = user.blocked_on_view
@@ -255,9 +257,10 @@ class UserController < ApplicationController
   end
 
   def view
-    @this_user = User.find_by_display_name(params[:display_name], :conditions => {:visible => true})
+    @this_user = User.find_by_display_name(params[:display_name])
 
-    if @this_user
+    if @this_user and
+       (@this_user.visible? or (@user and @user.administrator?))
       @title = @this_user.display_name
     else
       @title = t 'user.no_such_user.title'
@@ -267,7 +270,7 @@ class UserController < ApplicationController
   end
 
   def make_friend
-    if params[:display_name]     
+    if params[:display_name]
       name = params[:display_name]
       new_friend = User.find_by_display_name(name, :conditions => {:visible => true})
       friend = Friend.new
@@ -289,7 +292,7 @@ class UserController < ApplicationController
   end
 
   def remove_friend
-    if params[:display_name]     
+    if params[:display_name]
       name = params[:display_name]
       friend = User.find_by_display_name(name, :conditions => {:visible => true})
       if @user.is_friends_with?(friend)
@@ -301,5 +304,58 @@ class UserController < ApplicationController
 
       redirect_to :controller => 'user', :action => 'view'
     end
+  end
+
+  ##
+  # activate a user, allowing them to log in
+  def activate
+    @this_user.update_attributes(:active => true)
+    redirect_to :controller => 'user', :action => 'view', :display_name => params[:display_name]
+  end
+
+  ##
+  # deactivate a user, preventing them from logging in
+  def deactivate
+    @this_user.update_attributes(:active => false)
+    redirect_to :controller => 'user', :action => 'view', :display_name => params[:display_name]
+  end
+
+  ##
+  # hide a user, marking them as logically deleted
+  def hide
+    @this_user.update_attributes(:visible => false)
+    redirect_to :controller => 'user', :action => 'view', :display_name => params[:display_name]
+  end
+
+  ##
+  # unhide a user, clearing the logically deleted flag
+  def unhide
+    @this_user.update_attributes(:visible => true)
+    redirect_to :controller => 'user', :action => 'view', :display_name => params[:display_name]
+  end
+
+  ##
+  # delete a user, marking them as deleted and removing personal data
+  def delete
+    @this_user.delete
+    redirect_to :controller => 'user', :action => 'view', :display_name => params[:display_name]
+  end
+private
+  ##
+  # require that the user is a administrator, or fill out a helpful error message
+  # and return them to the user page.
+  def require_administrator
+    unless @user.administrator?
+      flash[:notice] = t('user.filter.not_an_administrator')
+      redirect_to :controller => 'user', :action => 'view', :display_name => params[:display_name]
+    end
+  end
+
+  ##
+  # ensure that there is a "this_user" instance variable
+  def lookup_this_user
+    @this_user = User.find_by_display_name(params[:display_name])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to :controller => 'user', :action => 'view', :display_name => params[:display_name] unless @this_user
   end
 end
