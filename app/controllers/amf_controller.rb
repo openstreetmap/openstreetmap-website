@@ -222,7 +222,10 @@ class AmfController < ApplicationController
     end
 
     lang = request.compatible_language_from(getlocales)
-    localised = getlocalized(lang)
+    (real_lang, localised) = getlocalized(lang)
+
+    # Tell Potlatch what language it's using
+    localised["__potlatch_locale"] = real_lang
 
     # Get help from i18n but delete it so we won't pass it around
     # twice for nothing
@@ -233,21 +236,26 @@ class AmfController < ApplicationController
   end
 
   def getlocalized(lang)
+    # What we end up actually using. Reported in Potlatch's created_by=* string
+    loaded_lang = 'en'
+
+    # Load English defaults
     en = YAML::load(File.open("#{RAILS_ROOT}/config/potlatch/locales/en.yml"))["en"]
 
     if lang == 'en'
-      return en
+      return [real_lang, en]
     else
       # Use English as a fallback
       begin
         other = YAML::load(File.open("#{RAILS_ROOT}/config/potlatch/locales/#{lang}.yml"))[lang]
+        loaded_lang = lang
       rescue
         other = en
       end
 
       # We have to return a flat list and some of the keys won't be
       # translated (probably)
-      return en.merge(other)
+      return [loaded_lang, en.merge(other)]
     end
   end
 
