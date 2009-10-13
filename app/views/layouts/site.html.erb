@@ -1,14 +1,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%= I18n.locale %>" lang="<%= I18n.locale %>" dir="<%= t'html.dir' %>">
   <head>
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0"/>
+    <%= javascript_strings %>
     <%= javascript_include_tag 'prototype' %>
     <%= javascript_include_tag 'site' %>
     <!--[if lt IE 7]><%= javascript_include_tag 'pngfix' %><![endif]--> <!-- thanks, microsoft! -->
+    <%= stylesheet_link_tag 'common' %>
     <!--[if IE]><%= stylesheet_link_tag 'site', :media => "screen" %><![endif]--> <!-- IE is totally broken with CSS media queries -->
-    <%= stylesheet_link_tag 'site-sml', :media => "only screen and (max-width: 481px)" %> 
+    <%= stylesheet_link_tag 'site-sml', :media => "only screen and (max-width: 481px)" %>
     <%= stylesheet_link_tag 'site', :media => "screen and (min-width: 482px)" %> 
-    <%= stylesheet_link_tag 'print', :media => "print" %> 
+    <%= stylesheet_link_tag 'print', :media => "print" %>
     <%= tag("link", { :rel => "search", :type => "application/opensearchdescription+xml", :title => "OpenStreetMap Search", :href => "/opensearch/osm.xml" }) %>
     <%= tag("meta", { :name => "description", :content => "OpenStreetMap is the free wiki world map." }) %>
     <%= yield :head %>
@@ -25,7 +27,8 @@
 
     <span id="greeting">
       <% if @user and @user.id %>
-        <%= t 'layouts.welcome_user', :user_link => (link_to h(@user.display_name), {:controller => 'user', :action => 'view', :display_name => @user.display_name}, :title => t('layouts.welcome_user_link_tooltip')) %> | 
+        <span id="full-greeting"><%= t 'layouts.welcome_user', :user_link => (link_to h(@user.display_name), {:controller => 'user', :action => 'view', :display_name => @user.display_name}, :title => t('layouts.welcome_user_link_tooltip')) %></span> 
+        <span id="small-greeting"><%= link_to t('layouts.welcome_user_link_tooltip'), {:controller => 'user', :action => 'view', :display_name => @user.display_name} %></span> | 
         <%= yield :greeting %>
         <%
         inbox_attributes = {}
@@ -120,12 +123,20 @@
       <%= yield :optionals %>
 
       <center>
-        <div class="button" style="width: 115px">
-          <a href="http://donate.openstreetmap.org/"><img src="/images/donate.png" border="0" alt="<%= t 'layouts.alt_donation' %>" title="<%= t 'layouts.alt_donation' %>" /></a>
+        <div class="donate">
+          <a href="http://donate.openstreetmap.org/" title="<%= h(t('layouts.make_a_donation.title')) %>"><%= h(t('layouts.make_a_donation.text')) %></a>
         </div>
 
         <div id="cclogo" class="button" style="width: 88px">
-          <%= link_to image_tag("cc_button.png", :alt => "CC by-sa 2.0", :border => "0"), "http://creativecommons.org/licenses/by-sa/2.0/" %>
+          <%= link_to(
+                  image_tag("cc_button.png",
+                      :alt => t('layouts.license.alt'),
+                      :border => 0,
+                      :width => 88,
+                      :height => 31,
+                      :title => t('layouts.license.title')),
+                  "http://creativecommons.org/licenses/by-sa/2.0/",
+                  { :rel => "license" }) %>
         </div>
       </center>
     </div>
