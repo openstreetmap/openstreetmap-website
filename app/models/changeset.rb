@@ -112,10 +112,10 @@ class Changeset < ActiveRecord::Base
 
     # FIXME - this looks nasty and violates DRY... is there any prettier 
     # way to do this? 
-    @bbox[0] = array[0] + EXPAND * (@bbox[0] - @bbox[2]) if array[0] < @bbox[0]
-    @bbox[1] = array[1] + EXPAND * (@bbox[1] - @bbox[3]) if array[1] < @bbox[1]
-    @bbox[2] = array[2] + EXPAND * (@bbox[2] - @bbox[0]) if array[2] > @bbox[2]
-    @bbox[3] = array[3] + EXPAND * (@bbox[3] - @bbox[1]) if array[3] > @bbox[3]
+    @bbox[0] = [-180 * GeoRecord::SCALE, array[0] + EXPAND * (@bbox[0] - @bbox[2])].max if array[0] < @bbox[0]
+    @bbox[1] = [ -90 * GeoRecord::SCALE, array[1] + EXPAND * (@bbox[1] - @bbox[3])].max if array[1] < @bbox[1]
+    @bbox[2] = [ 180 * GeoRecord::SCALE, array[2] + EXPAND * (@bbox[2] - @bbox[0])].min if array[2] > @bbox[2]
+    @bbox[3] = [  90 * GeoRecord::SCALE, array[3] + EXPAND * (@bbox[3] - @bbox[1])].min if array[3] > @bbox[3]
 
     # update active record. rails 2.1's dirty handling should take care of
     # whether this object needs saving or not.

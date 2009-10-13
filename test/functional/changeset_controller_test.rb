@@ -419,6 +419,57 @@ EOF
     end
   end
 
+  def test_upload_large_changeset
+    basic_authorization users(:public_user).email, "test"
+
+    # create a changeset
+    content "<osm><changeset/></osm>"
+    put :create
+    assert_response :success, "Should be able to create a changeset: #{@response.body}"
+    changeset_id = @response.body.to_i
+    
+    # upload some widely-spaced nodes, spiralling positive and negative to cause 
+    # largest bbox over-expansion possible.
+    diff = <<EOF
+<osmChange>
+ <create>
+  <node id='-1' lon='-20' lat='-10' changeset='#{changeset_id}'/>
+  <node id='-10' lon='20'  lat='10' changeset='#{changeset_id}'/>
+  <node id='-2' lon='-40' lat='-20' changeset='#{changeset_id}'/>
+  <node id='-11' lon='40'  lat='20' changeset='#{changeset_id}'/>
+  <node id='-3' lon='-60' lat='-30' changeset='#{changeset_id}'/>
+  <node id='-12' lon='60'  lat='30' changeset='#{changeset_id}'/>
+  <node id='-4' lon='-80' lat='-40' changeset='#{changeset_id}'/>
+  <node id='-13' lon='80'  lat='40' changeset='#{changeset_id}'/>
+  <node id='-5' lon='-100' lat='-50' changeset='#{changeset_id}'/>
+  <node id='-14' lon='100'  lat='50' changeset='#{changeset_id}'/>
+  <node id='-6' lon='-120' lat='-60' changeset='#{changeset_id}'/>
+  <node id='-15' lon='120'  lat='60' changeset='#{changeset_id}'/>
+  <node id='-7' lon='-140' lat='-70' changeset='#{changeset_id}'/>
+  <node id='-16' lon='140'  lat='70' changeset='#{changeset_id}'/>
+  <node id='-8' lon='-160' lat='-80' changeset='#{changeset_id}'/>
+  <node id='-17' lon='160'  lat='80' changeset='#{changeset_id}'/>
+  <node id='-9' lon='-179.9' lat='-89.9' changeset='#{changeset_id}'/>
+  <node id='-18' lon='179.9'  lat='89.9' changeset='#{changeset_id}'/>
+ </create>
+</osmChange>
+EOF
+
+    # upload it, which used to cause an error like "PGError: ERROR: 
+    # integer out of range" (bug #2152). but shouldn't any more.
+    content diff
+    post :upload, :id => changeset_id
+    assert_response :success, 
+      "can't upload a spatially-large diff to changeset: #{@response.body}"
+
+    # check that the changeset bbox is within bounds
+    cs = Changeset.find(changeset_id)
+    assert cs.min_lon >= -180 * SCALE, "Minimum longitude (#{cs.min_lon / SCALE}) should be >= -180 to be valid."
+    assert cs.max_lon <=  180 * SCALE, "Maximum longitude (#{cs.max_lon / SCALE}) should be <= 180 to be valid."
+    assert cs.min_lat >=  -90 * SCALE, "Minimum latitude (#{cs.min_lat / SCALE}) should be >= -90 to be valid."
+    assert cs.max_lat >=   90 * SCALE, "Maximum latitude (#{cs.max_lat / SCALE}) should be <= 90 to be valid."
+  end
+
   ##
   # test that deleting stuff in a transaction doesn't bypass the checks
   # to ensure that used elements are not deleted.
