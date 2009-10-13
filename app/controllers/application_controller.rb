@@ -193,6 +193,8 @@ class ApplicationController < ActionController::Base
     rescue OSM::APIError => ex
       report_error ex.message, ex.status
     rescue Exception => ex
+      logger.info("API threw unexpected #{ex.class} exception: #{ex.message}")
+      ex.backtrace.each { |l| logger.info(l) }
       report_error "#{ex.class}: #{ex.message}", :internal_server_error
     end
   end
