@@ -41,11 +41,10 @@ class WayControllerTest < ActionController::TestCase
       assert_select "osm way[id=#{way.id}][version=#{way.version}][visible=#{way.visible}]", 1
       
       # check that each node in the way appears once in the output as a 
-      # reference and as the node element. note the slightly dodgy assumption
-      # that nodes appear only once. this is currently the case with the
-      # fixtures, but it doesn't have to be.
+      # reference and as the node element.
       way.nodes.each do |n|
-        assert_select "osm way nd[ref=#{n.id}]", 1
+        count = (way.nodes - (way.nodes - [n])).length
+        assert_select "osm way nd[ref=#{n.id}]", count
         assert_select "osm node[id=#{n.id}][version=#{n.version}][lat=#{n.lat}][lon=#{n.lon}]", 1
       end
     end

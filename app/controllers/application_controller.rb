@@ -39,6 +39,19 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  ##
+  # require the user to have cookies enabled in their browser
+  def require_cookies
+    if request.cookies["_osm_session"].to_s == ""
+      if params[:cookie_test].nil?
+        redirect_to params.merge(:cookie_test => "true")
+        return false
+      else
+        @notice = t 'application.require_cookies.cookies_needed'
+      end
+    end
+  end
+
   # Utility methods to make the controller filter methods easier to read and write.
   def require_allow_read_prefs
     require_capability(:allow_read_prefs)
@@ -77,6 +90,12 @@ class ApplicationController < ActionController::Base
       else
         @user = User.authenticate(:username => username, :password => passwd) # basic auth
       end
+    end
+
+    # check if the user has been banned
+    unless @user.nil? or @user.active_blocks.empty?
+      # NOTE: need slightly more helpful message than this.
+      render :text => t('application.setup_user_auth.blocked'), :status => :forbidden
     end
   end
 

@@ -1,0 +1,28 @@
+<% @title = t 'user_block.edit.title', :name => h(@user_block.user.display_name) %>
+<h1><%= t('user_block.edit.title',
+          :name => link_to(
+                           h(@user_block.user.display_name),
+                           {:controller => 'user', :action => 'view', :display_name => @user_block.user.display_name})) %></h1>
+
+<% form_for(@user_block) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :reason, t('user_block.edit.reason', :name => h(@user_block.user.display_name)) %><br />
+    <%= f.text_area :reason, :cols => 80, :rows => 5 %>
+  </p>
+  <p>
+    <%= label_tag 'user_block_period', t('user_block.edit.period') %><br />
+    <%= select_tag('user_block_period', options_for_select(UserBlock::PERIODS.collect { |h| [t('user_block.period', :count => h), h.to_s] }, params[:user_block_period])) %>
+  </p>
+  <p>
+    <%= f.check_box :needs_view %>
+    <%= f.label :needs_view, t('user_block.edit.needs_view') %>
+  </p>
+  <p>
+    <%= f.submit t('user_block.edit.submit') %>
+  </p>
+<% end %>
+
+<%= link_to t('user_block.edit.show'), @user_block %> |
+<%= link_to t('user_block.edit.back'), user_blocks_path %>

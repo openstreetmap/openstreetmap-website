@@ -16,20 +16,20 @@ class ShortLinkTest < ActionController::IntegrationTest
 
     # test without marker
     get '/go/' + short_link
-    assert_redirected_to :controller => 'site', :action => 'index', :lat => lat, :lon => lon, :zoom => zoom
+    assert_redirected_to :controller => 'site', :action => 'index', :lat => lat.to_s, :lon => lon.to_s, :zoom => zoom.to_s
 
     # test with marker
     get '/go/' + short_link + "?m"
-    assert_redirected_to :controller => 'site', :action => 'index', :mlat => lat, :mlon => lon, :zoom => zoom
+    assert_redirected_to :controller => 'site', :action => 'index', :mlat => lat.to_s, :mlon => lon.to_s, :zoom => zoom.to_s
 
     # test with layers and a marker
     get '/go/' + short_link + "?m&layers=B000FTF"
-    assert_redirected_to :controller => 'site', :action => 'index', :mlat => lat, :mlon => lon, :zoom => zoom, :layers => "B000FTF"
+    assert_redirected_to :controller => 'site', :action => 'index', :mlat => lat.to_s, :mlon => lon.to_s, :zoom => zoom.to_s, :layers => "B000FTF"
     get '/go/' + short_link + "?layers=B000FTF&m"
-    assert_redirected_to :controller => 'site', :action => 'index', :mlat => lat, :mlon => lon, :zoom => zoom, :layers => "B000FTF"
+    assert_redirected_to :controller => 'site', :action => 'index', :mlat => lat.to_s, :mlon => lon.to_s, :zoom => zoom.to_s, :layers => "B000FTF"
 
     # test with some random query parameters we haven't even implemented yet
     get '/go/' + short_link + "?foobar=yes"
-    assert_redirected_to :controller => 'site', :action => 'index', :lat => lat, :lon => lon, :zoom => zoom, :foobar => "yes"
+    assert_redirected_to :controller => 'site', :action => 'index', :lat => lat.to_s, :lon => lon.to_s, :zoom => zoom.to_s, :foobar => "yes"
   end
 end

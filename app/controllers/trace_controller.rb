@@ -11,7 +11,8 @@ class TraceController < ApplicationController
   before_filter :check_api_writable, :only => [:api_create]
   before_filter :require_allow_read_gpx, :only => [:api_details, :api_data]
   before_filter :require_allow_write_gpx, :only => [:api_create]
- 
+  around_filter :api_call_handle_error, :only => [:api_details, :api_data, :api_create]
+
   # Counts and selects pages of GPX traces for various criteria (by user, tags, public etc.).
   #  target_user - if set, specifies the user to fetch traces for.  if not set will fetch all traces
   def list(target_user = nil, action = "list")
@@ -128,8 +129,11 @@ class TraceController < ApplicationController
     if params[:trace]
       logger.info(params[:trace][:gpx_file].class.name)
       if params[:trace][:gpx_file].respond_to?(:read)
-        do_create(params[:trace][:gpx_file], params[:trace][:tagstring],
-                  params[:trace][:description], params[:trace][:visibility])
+        begin
+          do_create(params[:trace][:gpx_file], params[:trace][:tagstring],
+                    params[:trace][:description], params[:trace][:visibility])
+        rescue
+        end
 
         if @trace.id
           logger.info("id is #{@trace.id}")
@@ -293,12 +297,16 @@ class TraceController < ApplicationController
     if request.post?
       tags = params[:tags] || ""
       description = params[:description] || ""
-      visibility = params[:visibility] || false
+      visibility = params[:visibility]
 
-      if params[:public] && !visibility
-        visibility = "public"
+      if visibility.nil?
+        if params[:public] && params[:public].to_i.nonzero?
+          visibility = "public"
+        else
+          visibility = "private"
+        end
       end
-      
+
       if params[:file].respond_to?(:read)
         do_create(params[:file], tags, description, visibility)
 
@@ -341,20 +349,35 @@ private
       :timestamp => Time.now.getutc
     })
 
-    # Save the trace object
-    if @trace.save
-      # Rename the temporary file to the final name
-      FileUtils.mv(filename, @trace.trace_name)
+    Trace.transaction do
+      begin
+        # Save the trace object
+        @trace.save!
 
-      # Clear the inserted flag to make the import daemon load the trace
-      @trace.inserted = false
-      @trace.save!
-    else
-      # Remove the file as we have failed to update the database
-      FileUtils.rm_f(filename)
+        # Rename the temporary file to the final name
+        FileUtils.mv(filename, @trace.trace_name)
+      rescue Exception => ex
+        # Remove the file as we have failed to update the database
+        FileUtils.rm_f(filename)
+
+        # Pass the exception on
+        raise
+      end
+
+      begin
+        # Clear the inserted flag to make the import daemon load the trace
+        @trace.inserted = false
+        @trace.save!
+      rescue Exception => ex
+        # Remove the file as we have failed to update the database
+        FileUtils.rm_f(@trace.trace_name)
+
+        # Pass the exception on
+        raise
+      end
     end
-    
-    # Finally save the user's preferred previacy level
+
+    # Finally save the user's preferred privacy level
     if pref = @user.preferences.find(:first, :conditions => {:k => "gps.trace.visibility"})
       pref.v = visibility
       pref.save

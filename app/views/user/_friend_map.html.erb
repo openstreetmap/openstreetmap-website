@@ -54,7 +54,7 @@
     near_icon.url = OpenLayers.Util.getImagesLocation() + "marker-green.png";;
     var i = nearest.length;
     while( i-- ) {
-      var description = '<%= t 'user.friend_map.nearby mapper'%><a href="/user/'+nearest[i].display_name+'">'+nearest[i].display_name+'</a>'
+      var description = i18n('<%= t 'user.friend_map.nearby mapper'%>', { nearby_user: '<a href="/user/'+nearest[i].display_name+'">'+nearest[i].display_name+'</a>' });
       var nearmarker = addMarkerToMap(new OpenLayers.LonLat(nearest[i].home_lon, nearest[i].home_lat), near_icon.clone(), description);
     }
 

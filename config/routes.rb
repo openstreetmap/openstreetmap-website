@@ -1,5 +1,4 @@
 ActionController::Routing::Routes.draw do |map|
-
   # API
   map.connect "api/capabilities", :controller => 'api', :action => 'capabilities'
   map.connect "api/#{API_VERSION}/capabilities", :controller => 'api', :action => 'capabilities'
@@ -159,6 +158,11 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/user/:display_name/diary/:id/edit', :controller => 'diary_entry', :action => 'edit', :id => /\d+/
   map.connect '/user/:display_name/account', :controller => 'user', :action => 'account'
   map.connect '/user/:display_name/set_home', :controller => 'user', :action => 'set_home'
+  map.connect '/user/:display_name/activate', :controller => 'user', :action => 'activate'
+  map.connect '/user/:display_name/deactivate', :controller => 'user', :action => 'deactivate'
+  map.connect '/user/:display_name/hide', :controller => 'user', :action => 'hide'
+  map.connect '/user/:display_name/unhide', :controller => 'user', :action => 'unhide'
+  map.connect '/user/:display_name/delete', :controller => 'user', :action => 'delete'
   map.connect '/diary', :controller => 'diary_entry', :action => 'list'
   map.connect '/diary/rss', :controller => 'diary_entry', :action => 'rss'
   map.connect '/diary/:language', :controller => 'diary_entry', :action => 'list'
@@ -201,6 +205,15 @@ ActionController::Routing::Routes.draw do |map|
   map.request_token '/oauth/request_token', :controller => 'oauth', :action => 'request_token'
   map.access_token '/oauth/access_token', :controller => 'oauth', :action => 'access_token'
   map.test_request '/oauth/test_request', :controller => 'oauth', :action => 'test_request'
+
+  # roles and banning pages
+  map.connect '/user/:display_name/role/:role/grant', :controller => 'user_roles', :action => 'grant'
+  map.connect '/user/:display_name/role/:role/revoke', :controller => 'user_roles', :action => 'revoke'
+  map.connect '/user/:display_name/blocks', :controller => 'user_blocks', :action => 'blocks_on'
+  map.connect '/user/:display_name/blocks_by', :controller => 'user_blocks', :action => 'blocks_by'
+  map.resources :user_blocks, :as => 'blocks'
+  map.connect '/blocks/:id/revoke', :controller => 'user_blocks', :action => 'revoke'
+  map.connect '/blocks/new/:display_name', :controller => 'user_blocks', :action => 'new'
 
   # fall through
   map.connect ':controller/:id/:action'

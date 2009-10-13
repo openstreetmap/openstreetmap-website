@@ -26,7 +26,7 @@ class Trace < ActiveRecord::Base
 
   def tagstring=(s)
     if s.include? ','
-      self.tags = s.split(/\s*,\s*/).collect {|tag|
+      self.tags = s.split(/\s*,\s*/).select {|tag| tag !~ /^\s*$/}.collect {|tag|
         tt = Tracetag.new
         tt.tag = tag
         tt

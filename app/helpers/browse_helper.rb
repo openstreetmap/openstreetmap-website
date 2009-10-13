@@ -8,7 +8,9 @@ module BrowseHelper
     if version
       name = t 'printable_name.with_version', :id => name, :version => object.version.to_s
     end
-    if object.tags.include? 'name'
+    if object.tags.include? "name:#{I18n.locale}"
+      name = t 'printable_name.with_name',  :name => object.tags["name:#{I18n.locale}"].to_s, :id => name
+    elsif object.tags.include? 'name'
       name = t 'printable_name.with_name',  :name => object.tags['name'].to_s, :id => name
     end
     return name

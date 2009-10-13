@@ -1,0 +1,34 @@
+<% @title = t('user_block.show.title',
+              :block_on => @user_block.user.display_name,
+              :block_by => @user_block.creator.display_name) %>
+<h1><%= t('user_block.show.heading',
+          :block_on => link_to(
+                               h(@user_block.user.display_name),
+                               {:controller => 'user', :action => 'view', :display_name => @user_block.user.display_name}),
+          :block_by => link_to(
+                               h(@user_block.creator.display_name),
+                               {:controller => 'user', :action => 'view', :display_name => @user_block.creator.display_name})) %></h1>
+<% if @user_block.revoker %>
+<p>
+  <b><%= t'user_block.show.revoker' %></b>
+  <%= link_to h(@user_block.revoker.display_name), :controller => 'user', :action => 'view', :display_name => @user_block.revoker.display_name %>
+</p>
+<% end %>
+
+<p><b><%= t'user_block.show.status' %></b>: <%= block_status(@user_block) %></p>
+
+<p>
+  <b><%= t'user_block.show.reason' %></b>
+  <%=h @user_block.reason %>
+</p>
+
+
+<% if @user_block.ends_at > Time.now.getutc %>
+<% if @user and @user.id == @user_block.creator_id %>
+<%= link_to t('user_block.show.edit'), edit_user_block_path(@user_block) %> |
+<% end %>
+<% if @user and @user.moderator? %>
+<%= link_to(t('user_block.show.revoke'),{:controller => 'user_blocks', :action => 'revoke', :id => @user_block.id}) %> |
+<% end %>
+<% end %>
+<%= link_to t('user_block.show.back'), user_blocks_path %>

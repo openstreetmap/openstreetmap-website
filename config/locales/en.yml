@@ -120,6 +120,7 @@ en:
       edited_by: "Edited by:"
       version: "Version:"
       in_changeset: "In changeset:"
+      changeset_comment: "Comment:"
     containing_relation:
       entry: "Relation {{relation_name}}"
       entry_role: "Relation {{relation_name}} (as {{relation_role}})"
@@ -132,7 +133,7 @@ en:
         way: "View way on larger map"
         relation: "View relation on larger map"
     node_details:
-      coordinates: "Coordinates: "
+      coordinates: "Coordinates:"
       part_of: "Part of:"
     node_history:
       node_history: "Node History"
@@ -153,6 +154,7 @@ en:
         node: node
         way: way
         relation: relation
+        changeset: changeset
     paging_nav:
       showing_page: "Showing page"
       of: "of"
@@ -281,17 +283,17 @@ en:
       new: New Diary Entry
       new_title: Compose a new entry in your user diary
       no_entries: No diary entries
-      recent_entries: "Recent diary entries: "
+      recent_entries: "Recent diary entries:"
       older_entries: Older Entries
       newer_entries: Newer Entries
     edit:
       title: "Edit diary entry"
-      subject: "Subject: "
-      body: "Body: "
-      language: "Language: "
-      location: "Location: "
-      latitude: "Latitude: "
-      longitude: "Longitude: "
+      subject: "Subject:"
+      body: "Body:"
+      language: "Language:"
+      location: "Location:"
+      latitude: "Latitude:"
+      longitude: "Longitude:"
       use_map_link: "use map"
       save_button: "Save"
       marker_text: Diary entry location
@@ -323,7 +325,7 @@ en:
     feed:
       user:
         title: "OpenStreetMap diary entries for {{user}}"
-        description: "Recent OpenStreetmap diary entries from {{user}}"
+        description: "Recent OpenStreetMap diary entries from {{user}}"
       language:
         title: "OpenStreetMap diary entries in {{language_name}}"
         description: "Recent diary entries from users of OpenStreetMap in {{language_name}}"
@@ -371,7 +373,7 @@ en:
         osm_namefinder: 'Results from <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>'
         geonames: 'Results from <a href="http://www.geonames.org/">GeoNames</a>'
     search_osm_namefinder:
-      prefix: "{{type}} "
+      prefix: "{{type}}"
       suffix_place: ", {{distance}} {{direction}} of {{placename}}"
       suffix_parent: "{{suffix}} ({{parentdistance}} {{parentdirection}} of {{parentname}})"
       suffix_suburb: "{{suffix}}, {{parentname}}"
@@ -384,7 +386,7 @@ en:
         towns: Towns
         places: Places
     description_osm_namefinder:
-      prefix: "{{distance}} {{direction}} of {{type}} "
+      prefix: "{{distance}} {{direction}} of {{type}}"
     results:
       no_results: "No results found"
     distance:
@@ -454,7 +456,12 @@ en:
     shop_tooltip: Shop with branded OpenStreetMap merchandise
     shop_url: http://wiki.openstreetmap.org/wiki/Merchandise
     sotm: 'Come to the 2009 OpenStreetMap Conference, The State of the Map, July 10-12 in Amsterdam!'
-    alt_donation: Make a Donation
+    license:
+      alt: CC by-sa 2.0
+      title: OpenStreetMap data is licensed under the Creative Commons Attribution-Share Alike 2.0 Generic License
+    make_a_donation:
+      title: Support OpenStreetMap with a monetary donation
+      text: Make a Donation
   notifier:
     diary_comment_notification:
       subject: "[OpenStreetMap] {{user}} commented on your diary entry"
@@ -579,7 +586,7 @@ en:
       my_inbox: "My {{inbox_link}}"
       inbox: "inbox"
       outbox: "outbox"
-      you_have_sent_messages: "You have {{sent_count}} sent messages"
+      you_have_sent_messages: "You have {{count}} sent messages"
       to: "To"
       subject: "Subject"
       date: "Date"
@@ -606,9 +613,9 @@ en:
       deleted: "Message deleted"
   site:
     index:
-      js_1: "You are either using a browser that doesn't support javascript, or you have disabled javascript."
-      js_2: "OpenStreetMap uses javascript for its slippy map."
-      js_3: 'You may want to try the <a href="http://tah.openstreetmap.org/Browse/">Tiles@Home static tile browser</a> if you are unable to enable javascript.'
+      js_1: "You are either using a browser that doesn't support JavaScript, or you have disabled JavaScript."
+      js_2: "OpenStreetMap uses JavaScript for its slippy map."
+      js_3: 'You may want to try the <a href="http://tah.openstreetmap.org/Browse/">Tiles@Home static tile browser</a> if you are unable to enable JavaScript.'
       permalink: Permalink
       shortlink: Shortlink
       license:
@@ -690,7 +697,9 @@ en:
           centre: "Sports centre"
           reserve: "Nature reserve"
           military: "Military area"
-          school: "School; university"
+          school:
+            - School
+            - university
           building: "Significant building"
           station: "Railway station"
           summit:
@@ -796,6 +805,11 @@ en:
       scheduled_for_deletion: "Track scheduled for deletion"
     make_public:
       made_public: "Track made public"
+  application:
+    require_cookies:
+      cookies_needed: "You appear to have cookies disabled - please enable cookies in your browser before continuing."
+    setup_user_auth:
+      blocked: "Your access to the API has been blocked. Please log-in to the web interface to find out more."
   oauth:
     oauthorize:
       request_access: "The application {{app_name}} is requesting access to your account. Please check whether you would like the application to have the following capabilities. You may choose as many or as few as you like."
@@ -869,11 +883,11 @@ en:
       heading: "Login"
       please login: "Please login or {{create_user_link}}."
       create_account: "create an account"
-      email or username: "Email Address or Username: "
-      password: "Password: "
+      email or username: "Email Address or Username:"
+      password: "Password:"
       lost password link: "Lost your password?"
       login_button: "Login"
-      account not active: "Sorry, your account is not active yet.<br>Please click on the link in the account confirmation email to activate your account."
+      account not active: "Sorry, your account is not active yet.<br />Please click on the link in the account confirmation email to activate your account."
       auth failure: "Sorry, couldn't log in with those details."
     lost_password:
       title: "Lost password"
@@ -885,8 +899,8 @@ en:
     reset_password:
       title: "Reset password"
       heading: "Reset Password for {{user}}"
-      password: "Password: "
-      confirm password: "Confirm Password: "
+      password: "Password:"
+      confirm password: "Confirm Password:"
       reset: "Reset Password"
       flash changed: "Your password has been changed."
       flash token bad: "Didn't find that token, check the URL maybe?"
@@ -894,15 +908,15 @@ en:
       title: "Create account"
       heading: "Create a User Account"
       no_auto_account_create: "Unfortunately we are not currently able to create an account for you automatically."
-      contact_webmaster: 'Please contact the <a href="mailto:webmaster@openstreetmap.org">webmaster</a> to arrange for an account to be created - we will try and deal with the request as quickly as possible. '
+      contact_webmaster: 'Please contact the <a href="mailto:webmaster@openstreetmap.org">webmaster</a> to arrange for an account to be created - we will try and deal with the request as quickly as possible.'
       fill_form: "Fill in the form and we'll send you a quick email to activate your account."
       license_agreement: 'By creating an account, you agree that all data you submit to the Openstreetmap project is to be (non-exclusively) licensed under <a href="http://creativecommons.org/licenses/by-sa/2.0/">this Creative Commons license (by-sa)</a>.'
-      email address: "Email Address: "
-      confirm email address: "Confirm Email Address: "
+      email address: "Email Address:"
+      confirm email address: "Confirm Email Address:"
       not displayed publicly: 'Not displayed publicly (see <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="wiki privacy policy including section on email addresses">privacy policy</a>)'
-      display name: "Display Name: "
-      password: "Password: "
-      confirm password: "Confirm Password: "
+      display name: "Display Name:"
+      password: "Password:"
+      confirm password: "Confirm Password:"
       signup: Signup
       flash create success message: "User was successfully created. Check your email for a confirmation note, and you'll be mapping in no time :-)<br /><br />Please note that you won't be able to login until you've received and confirmed your email address.<br /><br />If you use an antispam system which sends confirmation requests then please make sure you whitelist webmaster@openstreetmap.org as we are unable to reply to any confirmation requests."
     no_such_user:
@@ -915,14 +929,18 @@ en:
       my edits: my edits
       my traces: my traces
       my settings: my settings
+      blocks on me: blocks on me
+      blocks by me: blocks by me
       send message: send message
       diary: diary
       edits: edits
       traces: traces
       remove as friend: remove as friend
       add as friend: add as friend
-      mapper since: "Mapper since: "
+      mapper since: "Mapper since:"
       ago: "({{time_in_words_ago}} ago)"
+      email address: "Email address:"
+      created from: "Created from:"
       user image heading: User image
       delete image: Delete Image
       upload an image: Upload an image
@@ -936,30 +954,48 @@ en:
       no friends: You have not added any friends yet.
       km away: "{{count}}km away"
       m away: "{{count}}m away"
-      nearby users: "Nearby users: "
+      nearby users: "Nearby users:"
       no nearby users: "There are no users who admit to mapping nearby yet."
       change your settings: change your settings
       my_oauth_details: "View my OAuth details"
+      role:
+        administrator: "This user is an administrator"
+        moderator: "This user is a moderator"
+        grant:
+          administrator: "Grant administrator access"
+          moderator: "Grant moderator access"
+        revoke:
+          administrator: "Revoke administrator access"
+          moderator: "Revoke moderator access"
+      block_history: "view blocks received"
+      moderator_history: "view blocks given"
+      create_block: "block this user"
+      activate_user: "activate this user"
+      deactivate_user: "deactivate this user"
+      hide_user: "hide this user"
+      unhide_user: "unhide this user"
+      delete_user: "delete this user"
+      confirm: "Confirm"
     friend_map:
       your location: Your location
-      nearby mapper: "Nearby mapper: "
+      nearby mapper: "Nearby mapper: [[nearby_user]]"
     account:
       title: "Edit account"
       my settings: My settings
       email never displayed publicly: "(never displayed publicly)"
       public editing:
-        heading: "Public editing: "
+        heading: "Public editing:"
         enabled: "Enabled. Not anonymous and can edit data."
         enabled link: "http://wiki.openstreetmap.org/wiki/Anonymous_edits"
         enabled link text: "what's this?"
         disabled: "Disabled and cannot edit data, all previous edits are anonymous."
         disabled link text: "why can't I edit?"
-      profile description: "Profile Description: "
-      preferred languages: "Preferred Languages: "
-      home location: "Home Location: "
+      profile description: "Profile Description:"
+      preferred languages: "Preferred Languages:"
+      home location: "Home Location:"
       no home location: "You have not entered your home location."
-      latitude: "Latitude: "
-      longitude: "Longitude: "
+      latitude: "Latitude:"
+      longitude: "Longitude:"
       update home location on click: "Update home location when I click on the map?"
       save changes button: Save Changes
       make edits public button: Make all my edits public
@@ -989,3 +1025,124 @@ en:
     remove_friend:
       success: "{{name}} was removed from your friends."
       not_a_friend: "{{name}} is not one of your friends."
+    filter:
+      not_an_administrator: "You need to be an administrator to perform that action."
+  user_role:
+    filter:
+      not_an_administrator: "Only administrators can perform user role management, and you are not an administrator."
+      not_a_role: "The string `{{role}}' isn't a valid role."
+      already_has_role: "The user already has role {{role}}."
+      doesnt_have_role: "The user does not have role {{role}}."
+    grant:
+      title: Confirm role granting
+      heading: Confirm role granting
+      are_you_sure: "Are you sure you want to grant the role `{{role}}' to the user `{{name}}'?"
+      confirm: "Confirm"
+      fail: "Couldn't grant role `{{role}}' to user `{{name}}'. Please check that the user and role are both valid."
+    revoke:
+      title: Confirm role revoking
+      heading: Confirm role revoking
+      are_you_sure: "Are you sure you want to revoke the role `{{role}}' from the user `{{name}}'?"
+      confirm: "Confirm"
+      fail: "Couldn't revoke role `{{role}}' from user `{{name}}'. Please check that the user and role are both valid."
+  user_block:
+    model:
+      non_moderator_update: "Must be a moderator to create or update a block."
+      non_moderator_revoke: "Must be a moderator to revoke a block."
+    not_found:
+      sorry: "Sorry, the user block with ID {{id}} could not be found."
+      back: "Back to index"
+    new:
+      title: "Creating block on {{name}}"
+      heading: "Creating block on {{name}}"
+      reason: "The reason why {{name}} is being blocked. Please be as calm and as reasonable as possible, giving as much detail as you can about the situation, remembering that the message will be publicly visible. Bear in mind that not all users understand the community jargon, so please try to use laymans terms."
+      period: "How long, starting now, the user will be blocked from the API for."
+      submit: "Create block"
+      tried_contacting: "I have contacted the user and asked them to stop."
+      tried_waiting: "I have given a reasonable amount of time for the user to respond to those communications."
+      needs_view: "User needs to log in before this block will be cleared"
+      back: "View all blocks"
+    edit:
+      title: "Editing block on {{name}}"
+      heading: "Editing block on {{name}}"
+      reason: "The reason why {{name}} is being blocked. Please be as calm and as reasonable as possible, giving as much detail as you can about the situation. Bear in mind that not all users understand the community jargon, so please try to use laymans terms."
+      period: "How long, starting now, the user will be blocked from the API for."
+      submit: "Update block"
+      show: "View this block"
+      back: "View all blocks"
+      needs_view: "Does the user need to log in before this block will be cleared?"
+    filter:
+      not_a_moderator: "You need to be a moderator to perform that action."
+      block_expired: "The block has already expired and cannot be edited."
+      block_period: "The blocking period must be one of the values selectable in the drop-down list."
+    create:
+      try_contacting: "Please try contacting the user before blocking them and giving them a reasonable time to respond."
+      try_waiting: "Please try giving the user a reasonable time to respond before blocking them."
+      flash: "Created a block on user {{name}}."
+    update:
+      only_creator_can_edit: "Only the moderator who created this block can edit it."
+      success: "Block updated."
+    index:
+      title: "User blocks"
+      heading: "List of user blocks"
+      empty: "No blocks have been made yet."
+    revoke:
+      title: "Revoking block on {{block_on}}"
+      heading: "Revoking block on {{block_on}} by {{block_by}}"
+      time_future: "This block will end in {{time}}."
+      past: "This block ended {{time}} ago and cannot be revoked now."
+      confirm: "Are you sure you wish to revoke this block?"
+      revoke: "Revoke!"
+      flash: "This block has been revoked."
+    period:
+      one: "1 hour"
+      other: "{{count}} hours"
+    partial:
+      show: "Show"
+      edit: "Edit"
+      revoke: "Revoke!"
+      confirm: "Are you sure?"
+      display_name: "Blocked User"
+      creator_name: "Creator"
+      reason: "Reason for block"
+      status: "Status"
+      revoker_name: "Revoked by"
+      not_revoked: "(not revoked)"
+    helper:
+      time_future: "Ends in {{time}}."
+      until_login: "Active until the user logs in."
+      time_past: "Ended {{time}} ago."
+    blocks_on:
+      title: "Blocks on {{name}}"
+      heading: "List of blocks on {{name}}"
+      empty: "{{name}} has not been blocked yet."
+    blocks_by:
+      title: "Blocks by {{name}}"
+      heading: "List of blocks by {{name}}"
+      empty: "{{name}} has not made any blocks yet."
+    show:
+      title: "{{block_on}} blocked by {{block_by}}"
+      heading: "{{block_on}} blocked by {{block_by}}"
+      time_future: "Ends in {{time}}"
+      time_past: "Ended {{time}} ago"
+      status: "Status"
+      show: "Show"
+      edit: "Edit"
+      revoke: "Revoke!"
+      confirm: "Are you sure?"
+      reason: "Reason for block:"
+      back: "View all blocks"
+      revoker: "Revoker:"
+      needs_view: "The user needs to log in before this block will be cleared."
+  javascripts:
+    map:
+      base:
+        mapnik: Mapnik
+        osmarender: Osmarender
+        cycle_map: Cycle Map
+        noname: NoName
+      overlays:
+        maplint: Maplint
+    site:
+      edit_zoom_alert: You must zoom in to edit the map
+      history_zoom_alert: You must zoom in to see the editing history

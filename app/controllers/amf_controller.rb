@@ -178,6 +178,7 @@ class AmfController < ApplicationController
     amf_handle_error("'startchangeset'",nil,nil) do
       user = getuser(usertoken)
       if !user then return -1,"You are not logged in, so Potlatch can't write any changes to the database." end
+      unless user.active_blocks.empty? then return -1,t('application.setup_user_auth.blocked') end
 
       # close previous changeset and add comment
       if closeid
@@ -221,21 +222,41 @@ class AmfController < ApplicationController
     end
 
     lang = request.compatible_language_from(getlocales)
+    (real_lang, localised) = getlocalized(lang)
 
-    begin
-      # if not, try the browser language
-      localised = YAML::load(File.open("#{RAILS_ROOT}/config/potlatch/localised/#{lang}/localised.yaml"))
-    rescue
-      # fall back to hardcoded English text
-      localised = ""
-    end
+    # Tell Potlatch what language it's using
+    localised["__potlatch_locale"] = real_lang
 
-    begin
-      help = File.read("#{RAILS_ROOT}/config/potlatch/localised/#{lang}/help.html")
-    rescue
-      help = File.read("#{RAILS_ROOT}/config/potlatch/localised/en/help.html")
-    end
+    # Get help from i18n but delete it so we won't pass it around
+    # twice for nothing
+    help = localised["help_html"]
+    localised.delete("help_html")
+
     return POTLATCH_PRESETS+[localised,help]
+  end
+
+  def getlocalized(lang)
+    # What we end up actually using. Reported in Potlatch's created_by=* string
+    loaded_lang = 'en'
+
+    # Load English defaults
+    en = YAML::load(File.open("#{RAILS_ROOT}/config/potlatch/locales/en.yml"))["en"]
+
+    if lang == 'en'
+      return [real_lang, en]
+    else
+      # Use English as a fallback
+      begin
+        other = YAML::load(File.open("#{RAILS_ROOT}/config/potlatch/locales/#{lang}.yml"))[lang]
+        loaded_lang = lang
+      rescue
+        other = en
+      end
+
+      # We have to return a flat list and some of the keys won't be
+      # translated (probably)
+      return [loaded_lang, en.merge(other)]
+    end
   end
 
   ##
@@ -460,7 +481,8 @@ class AmfController < ApplicationController
   def findgpx(searchterm, usertoken)
     amf_handle_error_with_timeout("'findgpx'" ,nil,nil) do
       user = getuser(usertoken)
-      if !uid then return -1,"You must be logged in to search for GPX traces.",[] end
+      if !user then return -1,"You must be logged in to search for GPX traces.",[] end
+      unless user.active_blocks.empty? then return -1,t('application.setup_user_auth.blocked'),[] end
 
       gpxs = []
       if searchterm.to_i>0 then
@@ -526,6 +548,7 @@ class AmfController < ApplicationController
     amf_handle_error("'putrelation' #{relid}" ,'relation',relid)  do
       user = getuser(usertoken)
       if !user then return -1,"You are not logged in, so the relation could not be saved." end
+      unless user.active_blocks.empty? then return -1,t('application.setup_user_auth.blocked') end
       if !tags_ok(tags) then return -1,"One of the tags is invalid. Please pester Adobe to fix Flash on Linux." end
       tags = strip_non_xml_chars tags
 
@@ -613,6 +636,7 @@ class AmfController < ApplicationController
 	
       user = getuser(usertoken)
       if !user then return -1,"You are not logged in, so the way could not be saved." end
+      unless user.active_blocks.empty? then return -1,t('application.setup_user_auth.blocked') end
       if pointlist.length < 2 then return -2,"Server error - way is only #{points.length} points long." end
       if !tags_ok(attributes) then return -1,"One of the tags is invalid. Please pester Adobe to fix Flash on Linux." end
       attributes = strip_non_xml_chars attributes
@@ -717,6 +741,7 @@ class AmfController < ApplicationController
     amf_handle_error("'putpoi' #{id}", 'node',id) do
       user = getuser(usertoken)
       if !user then return -1,"You are not logged in, so the point could not be saved." end
+      unless user.active_blocks.empty? then return -1,t('application.setup_user_auth.blocked') end
       if !tags_ok(tags) then return -1,"One of the tags is invalid. Please pester Adobe to fix Flash on Linux." end
       tags = strip_non_xml_chars tags
 
@@ -799,6 +824,7 @@ class AmfController < ApplicationController
     amf_handle_error("'deleteway' #{way_id}" ,'way',id) do
       user = getuser(usertoken)
       unless user then return -1,"You are not logged in, so the way could not be deleted." end
+      unless user.active_blocks.empty? then return -1,t('application.setup_user_auth.blocked') end
       
       way_id = way_id.to_i
       nodeversions = {}
@@ -871,7 +897,7 @@ class AmfController < ApplicationController
   end
 
   def getlocales
-    Dir.glob("#{RAILS_ROOT}/config/potlatch/localised/*").collect { |f| File.basename(f) }
+    Dir.glob("#{RAILS_ROOT}/config/potlatch/locales/*").collect { |f| File.basename(f, ".yml") }
   end
   
   ##

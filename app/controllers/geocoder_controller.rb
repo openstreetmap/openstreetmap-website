@@ -77,7 +77,7 @@ class GeocoderController < ApplicationController
       data = response.split(/\s*,\s+/) # lat,long,town,state,zip
       @results.push({:lat => data[0], :lon => data[1],
                      :zoom => APP_CONFIG['postcode_zoom'],
-                     :prefix => "#{data[2]}, #{data[3]}, ",
+                     :prefix => "#{data[2]}, #{data[3]},",
                      :name => data[4]})
     end
 

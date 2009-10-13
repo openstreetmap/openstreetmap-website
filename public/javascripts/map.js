@@ -13,12 +13,6 @@ var nonamekeys = {
    'www.openstreetmap.net': '0bd1654141c85d30b9c2ccdb5302f2e4'
 };
 
-OpenLayers._getScriptLocation = function () {
-  // Should really have this file as an erb, so that this can return
-  // the real rails root
-   return "/openlayers/";
-}
-
 function createMap(divName, options) {
    options = options || {};
 
@@ -28,8 +22,7 @@ function createMap(divName, options) {
          new OpenLayers.Control.Attribution(),
          new OpenLayers.Control.LayerSwitcher(),
          new OpenLayers.Control.Navigation(),
-         new OpenLayers.Control.PanZoomBar(),
-         new OpenLayers.Control.ScaleLine()
+         new OpenLayers.Control.PanZoomBar()
       ],
       units: "m",
       maxResolution: 156543.0339,
@@ -37,26 +30,26 @@ function createMap(divName, options) {
       displayProjection: new OpenLayers.Projection("EPSG:4326")
    });
 
-   var mapnik = new OpenLayers.Layer.OSM.Mapnik("Mapnik", {
+   var mapnik = new OpenLayers.Layer.OSM.Mapnik(i18n("javascripts.map.base.mapnik"), {
       displayOutsideMaxExtent: true,
       wrapDateLine: true
    });
    map.addLayer(mapnik);
 
-   var osmarender = new OpenLayers.Layer.OSM.Osmarender("Osmarender", {
+   var osmarender = new OpenLayers.Layer.OSM.Osmarender(i18n("javascripts.map.base.osmarender"), {
       displayOutsideMaxExtent: true,
       wrapDateLine: true
    });
    map.addLayer(osmarender);
 
-   var cyclemap = new OpenLayers.Layer.OSM.CycleMap("Cycle Map", {
+   var cyclemap = new OpenLayers.Layer.OSM.CycleMap(i18n("javascripts.map.base.cycle_map"), {
       displayOutsideMaxExtent: true,
       wrapDateLine: true
    });
    map.addLayer(cyclemap);
 
    var nonamekey = nonamekeys[document.domain];
-   var noname = new OpenLayers.Layer.OSM("NoName", [
+   var noname = new OpenLayers.Layer.OSM(i18n("javascripts.map.base.noname"), [
       "http://a.tile.cloudmade.com/" + nonamekey + "/3/256/${z}/${x}/${y}.png",
       "http://b.tile.cloudmade.com/" + nonamekey + "/3/256/${z}/${x}/${y}.png",
       "http://c.tile.cloudmade.com/" + nonamekey + "/3/256/${z}/${x}/${y}.png"
@@ -67,7 +60,7 @@ function createMap(divName, options) {
    });
    map.addLayer(noname);
 
-   var maplint = new OpenLayers.Layer.OSM.Maplint("Maplint", {
+   var maplint = new OpenLayers.Layer.OSM.Maplint(i18n("javascripts.map.overlays.maplint"), {
       displayOutsideMaxExtent: true,
       wrapDateLine: true
    });
@@ -153,9 +146,9 @@ function addObjectToMap(url, zoom, callback) {
 }
 
 function addBoxToMap(boxbounds) {
-   if(!vectors) {
+   if (!vectors) {
      // Be aware that IE requires Vector layers be initialised on page load, and not under deferred script conditions
-     vectors = new OpenLayers.Layer.Vector("Box Layer", {
+     vectors = new OpenLayers.Layer.Vector("Boxes", {
         displayInLayerSwitcher: false
      });
      map.addLayer(vectors);

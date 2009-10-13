@@ -20,4 +20,11 @@
   <td><%= link_to common_details.changeset_id, :action => :changeset, :id => common_details.changeset_id %></td>
 </tr>
 
+<% if common_details.changeset.tags['comment'] %>
+  <tr>
+    <th><%= t 'browse.common_details.changeset_comment' %></th>
+    <td><%= auto_link(h(common_details.changeset.tags['comment'])) %></td>
+  </tr>
+<% end %>
+
 <%= render :partial => "tag_details", :object => common_details %>

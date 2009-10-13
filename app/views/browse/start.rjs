@@ -262,7 +262,7 @@ page << <<EOJ
         // Link, for viewing in the tab
         var link = document.createElement("a");
         link.href =  "/browse/" + type + "/" + feature.osm_id; 
-        var name = feature.attributes.name || feature.osm_id;
+        var name = featureName(feature);
         link.appendChild(document.createTextNode(name));
         link.feature = feature;
         link.onclick = OpenLayers.Function.bind(viewFeatureLink, link);   
@@ -466,8 +466,20 @@ page << <<EOJ
     }
   }
 
+  function featureName(feature) {
+    if (feature.attributes['name:#{I18n.locale}']) {
+      return feature.attributes['name:#{I18n.locale}'];
+    } else if (feature.attributes.name) {
+      return feature.attributes.name;
+    } else {
+      return feature.osm_id;
+    }
+  }
+
   function featureNameSelect(feature) {
-    if (feature.attributes.name) {
+    if (feature.attributes['name:#{I18n.locale}']) {
+      return feature.attributes['name:#{I18n.locale}'];
+    } else if (feature.attributes.name) {
       return feature.attributes.name;
     } else if (featureType(feature) == "node") {
       return i18n("#{I18n.t('browse.start_rjs.object_list.selected.type.node')}", { id: feature.osm_id });
@@ -477,7 +489,9 @@ page << <<EOJ
   }
 
   function featureNameHistory(feature) {
-    if (feature.attributes.name) {
+    if (feature.attributes['name:#{I18n.locale}']) {
+      return feature.attributes['name:#{I18n.locale}'];
+    } else if (feature.attributes.name) {
       return feature.attributes.name;
     } else if (featureType(feature) == "node") {
       return i18n("#{I18n.t('browse.start_rjs.object_list.history.type.node')}", { id: feature.osm_id });

@@ -7,6 +7,11 @@ class ClientApplicationTest < ActionController::IntegrationTest
   # run through the procedure of creating a client application and checking
   # that it shows up on the user's account page.
   def test_create_application
+    get '/login'
+    assert_response :redirect
+    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
+    follow_redirect!
+    assert_response :success
     post '/login', {'user[email]' => "test@example.com", 'user[password]' => "test", :referer => '/user/test2'}
     assert_response :redirect
     follow_redirect!
