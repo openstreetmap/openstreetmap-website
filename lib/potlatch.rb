@@ -187,12 +187,11 @@ module Potlatch
       end
 
       # Read POI presets
-      icon_list=[]; icon_names={}; icon_tags={};
+      icon_list=[]; icon_tags={};
       File.open("#{RAILS_ROOT}/config/potlatch/icon_presets.txt") do |file|
         file.each_line {|line|
-          (icon,name,tags)=line.chomp.split("\t")
+          (icon,tags)=line.chomp.split("\t")
           icon_list.push(icon)
-          icon_names[icon]=name
           icon_tags[icon]=Hash[*tags.scan(/([^;=]+)=([^;=]+)/).flatten]
         }
       end
@@ -211,7 +210,7 @@ module Potlatch
         }
       end
 
-      [presets,presetmenus,presetnames,colours,casing,areas,autotags,relcolours,relalphas,relwidths,icon_list,icon_names,icon_tags]
+      [presets,presetmenus,presetnames,colours,casing,areas,autotags,relcolours,relalphas,relwidths,icon_list,nil,icon_tags]
     end
   end
 
