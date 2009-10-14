@@ -3,6 +3,79 @@
 # Export driver: syck
 # Author: McDutchie
 ia: 
+  activerecord: 
+    attributes: 
+      diary_comment: 
+        body: Corpore
+      diary_entry: 
+        language: Lingua
+        latitude: Latitude
+        longitude: Longitude
+        title: Titulo
+        user: Usator
+      friend: 
+        friend: Amico
+        user: Usator
+      message: 
+        body: Corpore
+        recipient: Destinatario
+        sender: Expeditor
+        title: Titulo
+      trace: 
+        description: Description
+        latitude: Latitude
+        longitude: Longitude
+        name: Nomine
+        public: Public
+        size: Dimension
+        user: Usator
+        visible: Visibile
+      user: 
+        active: Active
+        description: Description
+        display_name: Nomine public
+        email: E-mail
+        languages: Linguas
+        pass_crypt: Contrasigno
+    models: 
+      acl: Lista de controlo de accesso
+      changeset: Gruppo de modificationes
+      changeset_tag: Etiquetta de gruppo de modificationes
+      country: Pais
+      diary_comment: Commento de diario
+      diary_entry: Entrata del diario
+      friend: Amico
+      language: Lingua
+      message: Message
+      node: Nodo
+      node_tag: Etiquetta de nodo
+      notifier: Notificator
+      old_node: Nodo ancian
+      old_node_tag: Etiquetta de nodo ancian
+      old_relation: Relation ancian
+      old_relation_member: Membro de relation ancian
+      old_relation_tag: Etiquetta de relation ancian
+      old_way: Via ancian
+      old_way_node: Nodo de via ancian
+      old_way_tag: Etiquetta de via ancian
+      relation: Relation
+      relation_member: Membro de relation
+      relation_tag: Etiquetta de relation
+      session: Session
+      trace: Tracia
+      tracepoint: Puncto de tracia
+      tracetag: Etiquetta de tracia
+      user: Usator
+      user_preference: Preferentias de usator
+      user_token: Indicio de usator
+      way: Via
+      way_node: Nodo de via
+      way_tag: Etiquetta de via
+  application: 
+    require_cookies: 
+      cookies_needed: Tu pare haber disactivate le cookies. Per favor activa le cookies in tu navigator ante de continuar.
+    setup_user_auth: 
+      blocked: Tu accesso al API ha essite blocate. Per favor aperi un session al interfacie web pro plus informationes.
   browse: 
     changeset: 
       changeset: "Gruppo de modificationes: {{id}}"
@@ -158,14 +231,119 @@ ia:
       view_details: vider detalios
       way_history: Historia del via
       way_history_title: "Historia del via: {{way_name}}"
+  changeset: 
+    changeset: 
+      anonymous: Anonyme
+      big_area: (grande)
+      no_comment: (nulle)
+      no_edits: (nulle modification)
+      show_area_box: monstrar quadro del area
+      still_editing: (ancora in modification)
+      view_changeset_details: Vider detalios del gruppo de modificationes
+    changeset_paging_nav: 
+      of: de
+      showing_page: Monstrante pagina
+    changesets: 
+      area: Area
+      comment: Commento
+      id: ID
+      saved_at: Salveguardate le
+      user: Usator
+    list: 
+      description: Modificationes recente
+      description_bbox: Gruppos de modificationes intra {{bbox}}
+      description_user: Gruppos de modificationes per {{user}}
+      description_user_bbox: Gruppos de modificationes per {{user}} intra {{bbox}}
+      heading: Gruppos de modificationes
+      heading_bbox: Gruppos de modificationes
+      heading_user: Gruppos de modificationes
+      heading_user_bbox: Gruppos de modificationes
+      title: Gruppos de modificationes
+      title_bbox: Gruppos de modificationes intra {{bbox}}
+      title_user: Gruppos de modificationes per {{user}}
+      title_user_bbox: Gruppos de modificationes per {{user}} intra {{bbox}}
+  diary_entry: 
+    diary_comment: 
+      comment_from: Commento de {{link_user}} a {{comment_created_at}}
+    diary_entry: 
+      comment_count: 
+        one: 1 commento
+        other: "{{count}} commentos"
+      comment_link: Commentar iste entrata
+      edit_link: Modificar iste entrata
+      posted_by: Publicate per {{link_user}} le {{created}} in {{language_link}}
+      reply_link: Responder a iste entrata
+    edit: 
+      body: "Corpore:"
+      language: "Lingua:"
+      latitude: "Latitude:"
+      location: "Loco:"
+      longitude: "Longitude:"
+      marker_text: Loco de entrata de diario
+      save_button: Salveguardar
+      subject: "Subjecto:"
+      title: Modificar entrata de diario
+      use_map_link: usar carta
+    feed: 
+      all: 
+        description: Entratas recente de diario de ustores de OpenStreetMap
+        title: Entratas de diario de OpenStreetMap
+      language: 
+        description: Entratas de diario recente de usatores de OpenStreetMap in {{language_name}}
+        title: Entratas de diario de OpenStreetMap in {{language_name}}
+      user: 
+        description: Entratas recente de diario de OpenStreetMap de {{user}}
+        title: Entratas de diario de OpenStreetMap de {{user}}
+    list: 
+      in_language_title: Entratas de diario in {{language}}
+      new: Nove entrata de diario
+      new_title: Componer un nove entrata in tu diario
+      newer_entries: Entratas plus recente
+      no_entries: Nulle entrata in diario
+      older_entries: Entratas plus ancian
+      recent_entries: "Entratas recente de diario:"
+      title: Diarios de usatores
+      user_title: Diario de {{user}}
+    new: 
+      title: Nove entrata de diario
+    no_such_entry: 
+      body: Pardono, il non ha un entrata de diario o commento con le ID {{id}}. Verifica le orthographia, o pote esser que le ligamine que tu sequeva es incorrecte.
+      heading: "Nulle entrata con le ID: {{id}}"
+      title: Nulle tal entrata de diario
+    no_such_user: 
+      body: Pardono, il non ha un usator con le nomine {{user}}. Verifica le orthographia, o pote esser que le ligamine que tu sequeva es incorrecte.
+      heading: Le usator {{user}} non existe
+      title: Nulle tal usator
+    view: 
+      leave_a_comment: Lassar un commento
+      login: Aperir session
+      login_to_leave_a_comment: "{{login_link}} pro lassar un commento"
+      save_button: Salveguardar
+      title: Diarios de usatores | {{user}}
+      user_title: Diario de {{user}}
   export: 
     start: 
+      add_marker: Adder un marcator al carta
+      area_to_export: Area a exportar
+      embeddable_html: HTML incorporabile
+      export_button: Exportar
+      export_details: Le datos de OpenStreetMap es licentiate sub le <a href="http://creativecommons.org/licenses/by-sa/2.0/">licentia Attribution-ShareAlike 2.0 de Creative Commons</a>.
+      format: Formato
+      format_to_export: Formato a exportar
       image_size: Dimension del imagine
+      latitude: "Lat:"
       licence: Licentia
+      longitude: "Lon:"
+      manually_select: Seliger manualmente un altere area
+      mapnik_image: Imagine Mapnik
       max: max
       options: Optiones
+      osm_xml_data: Datos XML de OpenStreetMap
       osmarender_image: Imagine Osmarender
+      output: Resultato
       paste_html: Colla HTML pro incorporar in sito web
+      scale: Scala
+      zoom: Zoom
     start_rjs: 
       add_marker: Adder un marcator al carta
       change_marker: Cambiar le position del marcator
@@ -174,10 +352,186 @@ ia:
       export: Exportar
       manually_select: Seliger manualmente un altere area
       view_larger_map: Vider un carta plus grande
+  geocoder: 
+    description: 
+      title: 
+        geonames: Position de <a href="http://www.geonames.org/">GeoNames</a>
+        osm_namefinder: "{{types}} de <a href=\"http://gazetteer.openstreetmap.org/namefinder/\">OpenStreetMap Namefinder</a>"
+      types: 
+        cities: Citates
+        places: Locos
+        towns: Villages
+    description_osm_namefinder: 
+      prefix: "{{distance}} {{direction}} de {{type}}"
+    direction: 
+      east: est
+      north: nord
+      north_east: nord-est
+      north_west: nord-west
+      south: sud
+      south_east: sud-est
+      south_west: sud-west
+      west: west
+    distance: 
+      one: circa 1 km
+      other: circa {{count}} km
+      zero: minus de 1 km
+    results: 
+      no_results: Nulle resultato trovate
+    search: 
+      title: 
+        ca_postcode: Resultatos de <a href="http://geocoder.ca/">Geocoder.CA</a>
+        geonames: Resultatos de <a href="http://www.geonames.org/">GeoNames</a>
+        latlon: Resultatos <a href="http://openstreetmap.org/">interne</a>
+        osm_namefinder: Resultatos de <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>
+        uk_postcode: Resultatos de <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
+        us_postcode: Resultatos de <a href="http://geocoder.us/">Geocoder.us</a>
+    search_osm_namefinder: 
+      suffix_parent: "{{suffix}} ({{parentdistance}} al {{parentdirection}} de {{parentname}})"
+      suffix_place: ", {{distance}} al {{direction}} de {{placename}}"
+  layouts: 
+    donate: Supporta OpenStreetMap per {{link}} al Fundo de Actualisation de Hardware.
+    donate_link_text: donation
+    edit: Modificar
+    edit_tooltip: Modificar cartas
+    export: Exportar
+    export_tooltip: Exportar datos cartographic
+    gps_traces: Tracias GPS
+    gps_traces_tooltip: Gerer tracias
+    help_wiki: Adjuta &amp; Wiki
+    help_wiki_tooltip: Adjuta &amp; sito Wiki pro le projecto
+    history: Historia
+    history_tooltip: Historia del gruppo de modificationes
+    home: initio
+    home_tooltip: Ir al position de origine
+    inbox: cassa de entrata ({{count}})
+    inbox_tooltip: 
+      one: Tu cassa de entrata contine 1 message non legite
+      other: Tu cassa de entrata contine {{count}} messages non legite
+      zero: Tu cassa de entrata non contine messages non legite
+    intro_1: OpenStreetMap es un carta libere e modificabile del mundo integre. Illo es facite per gente como te.
+    intro_2: OpenStreetMap permitte vider, modificar e usar datos geographic de modo collaborative desde ubique in le mundo.
+    intro_3: Le albergamento de OpenStreetMap es gratiosemente supportate per le {{ucl}} e {{bytemark}}.
+    license: 
+      title: Le datos de OpenStreetMap es disponibile sub le licentia Attribution-Share Alike 2.0 Generic de Creative Commons
+    log_in: aperir session
+    log_in_tooltip: Aperir un session con un conto existente
+    logo: 
+      alt_text: Logo de OpenStreetMap
+    logout: clauder session
+    logout_tooltip: Clauder session
+    make_a_donation: 
+      text: Facer un donation
+      title: Supporta OpenStreetMap con un donation monetari
+    news_blog: Blog de novas
+    news_blog_tooltip: Blog de novas super OpenStreetMap, datos geographic libere, etc.
+    osm_offline: Le base de datos de OpenStreetMap non es disponibile al momento debite a operationes de mantenentia essential.
+    osm_read_only: Le base de datos de OpenStreetMap es al momento in modo de solmente lectura durante le execution de mantenentia essential.
+    shop: Boteca
+    shop_tooltip: Boteca con mercantias de OpenStreetMap
+    sign_up: inscriber se
+    sign_up_tooltip: Crear un conto pro modification
+    sotm: Veni al conferentia OpenStreetMap 2009, The State of the Map, del 10 al 12 de julio in Amsterdam!
+    tag_line: Le wiki-carta libere del mundo
+    user_diaries: Diarios de usatores
+    user_diaries_tooltip: Leger diarios de usatores
+    view: Vider
+    view_tooltip: Vider cartas
+    welcome_user: Benvenite, {{user_link}}
+    welcome_user_link_tooltip: Tu pagina de usator
   map: 
     coordinates: "Coordinatas:"
     edit: Modificar
     view: Vider
+  message: 
+    delete: 
+      deleted: Message delite
+    inbox: 
+      date: Data
+      from: De
+      my_inbox: Mi cassa de entrata
+      no_messages_yet: Tu non ha ancora messages. Proque non contactar alcun {{people_mapping_nearby_link}}?
+      outbox: cassa de exito
+      people_mapping_nearby: cartographos vicin
+      subject: Subjecto
+      title: Cassa de entrata
+      you_have: Tu ha {{new_count}} nove messages e {{old_count}} vetule messages
+    mark: 
+      as_read: Message marcate como legite
+      as_unread: Message marcate como non legite
+    message_summary: 
+      delete_button: Deler
+      read_button: Marcar como legite
+      reply_button: Responder
+      unread_button: Marcar como non legite
+    new: 
+      back_to_inbox: Retornar al cassa de entrata
+      body: Corpore
+      message_sent: Message inviate
+      send_button: Inviar
+      send_message_to: Inviar un nove message a {{name}}
+      subject: Subjecto
+      title: Inviar message
+    no_such_user: 
+      body: Pardono, il non ha un usator o message con iste nomine o ID.
+      heading: Nulle tal usator o message
+      title: Nulle tal usator o message
+    outbox: 
+      date: Data
+      inbox: cassa de entrata
+      my_inbox: Mi {{inbox_link}}
+      no_sent_messages: Tu non ha ancora inviate alcun message. Proque non contactar alcun {{people_mapping_nearby_link}}?
+      outbox: cassa de exito
+      people_mapping_nearby: cartographos vicin
+      subject: Subjecto
+      title: Cassa de exito
+      to: A
+      you_have_sent_messages: Tu ha {{count}} messages inviate
+    read: 
+      back_to_inbox: Retornar al cassa de entrata
+      back_to_outbox: Retornar al cassa de exito
+      date: Data
+      from: De
+      reading_your_messages: Lectura de tu messages
+      reading_your_sent_messages: Lectura de tu messages inviate
+      reply_button: Responder
+      subject: Subjecto
+      title: Leger message
+      to: A
+      unread_button: Marcar como non legite
+    sent_message_summary: 
+      delete_button: Deler
+  site: 
+    edit: 
+      anon_edits_link_text: Lege proque isto es le caso.
+      flash_player_required: Es necessari haber un reproductor Flash pro usar Potlatch, le editor Flash de OpenStreetMap. Tu pote <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">discargar Flash Player a Adobe.com</a>. <a href="http://wiki.openstreetmap.org/wiki/Editing">Plure altere optiones</a> es tamben disponibile pro modificar OpenStreetMap.
+      not_public: Tu non ha configurate tu modificationes pro esser public.
+      not_public_description: Tu non potera plus modificar le carta si tu non lo face. Tu pote configurar tu modificationes como public a partir de tu {{user_page}}.
+      potlatch_unsaved_changes: Tu ha modificationes non salveguardate. (Pro salveguardar in Potlatch, tu debe deseliger le via o puncto actual si tu modifica in modo directe, o cliccar super le button Salveguardar si presente.)
+      user_page_link: pagina de usator
+    index: 
+      js_1: O tu usa un navigator que non supporta JavaScript, o tu ha disactivate JavaScript.
+      js_2: OpenStreetMap usa JavaScript pro su carta glissante.
+      js_3: Tu pote probar le <a href="http://tah.openstreetmap.org/Browse/">navigator de tegulas static Tiles@Home</a> si tu non succede a activar JavaScript.
+      license: 
+        license_name: Creative Commons Attribution-Share Alike 2.0
+        notice: Publicate sub licentia {{license_name}} per le {{project_name}} e su contributores.
+        project_name: Projecto OpenStreetMap
+      permalink: Permaligamine
+      shortlink: Ligamine curte
+    key: 
+      map_key_tooltip: Legenda pro le rendition Mapnik a iste nivello de zoom
+      table: 
+        entry: 
+          allotments: Jardines familial
+    search: 
+      search: Cercar
+      search_help: "exemplos: 'Alkmaar', 'Regent Street, Cambridge', 'CB2 5AQ', o 'post offices near Lünen' <a href='http://wiki.openstreetmap.org/wiki/Search'>altere exemplos...</a>"
+      submit_text: Ir
+      where_am_i: Ubi es io?
+    sidebar: 
+      close: Clauder
+      search_results: Resultatos del recerca
   trace: 
     create: 
       trace_uploaded: Tu file GPX ha essite cargate e attende insertion in le base de datos. Isto prende generalmente minus de un medie hora, e un e-mail te essera inviate al completion.
@@ -305,6 +659,8 @@ ia:
       heading: Confirmar un cambio de adresse de e-mail
       press confirm button: Preme le button Confirmar ci infra pro confirmar tu nove adresse de e-mail.
       success: Tu adresse de e-mail ha essite confirmate, gratias pro inscriber te!
+    filter: 
+      not_an_administrator: Tu debe esser administrator pro executar iste action.
     friend_map: 
       nearby mapper: "Cartographo vicin: [[nearby_user]]"
       your location: Tu position
@@ -365,6 +721,7 @@ ia:
     set_home: 
       flash success: Position de origine confirmate con successo
     view: 
+      activate_user: activar iste usator
       add as friend: adder como amico
       add image: Adder imagine
       ago: ({{time_in_words_ago}} retro)
@@ -372,11 +729,17 @@ ia:
       blocks by me: blocadas per me
       blocks on me: blocadas super me
       change your settings: cambiar tu configurationes
+      confirm: Confirmar
       create_block: blocar iste usator
+      created from: "Create ex:"
+      deactivate_user: disactivar iste usator
       delete image: Deler imagine
+      delete_user: deler iste usator
       description: Description
       diary: diario
       edits: modificationes
+      email address: "Adresse de e-mail:"
+      hide_user: celar iste usator
       if set location: Si tu ha definite tu position, il apparera ci infra un elegante carta e altere cosas. Tu pote definir tu position de origine in tu pagina de {{settings_link}}.
       km away: a {{count}} km de distantia
       m away: a {{count}} m de distantia
@@ -405,6 +768,7 @@ ia:
       send message: inviar message
       settings_link_text: configurationes
       traces: tracias
+      unhide_user: revelar iste usator
       upload an image: Cargar un imagine
       user image heading: Imagine del usator
       user location: Position del usator

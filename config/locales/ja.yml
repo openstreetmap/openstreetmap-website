@@ -3,6 +3,7 @@
 # Export driver: syck
 # Author: Fryed-peach
 # Author: Hosiryuhosi
+# Author: Nazotoko
 # Author: 青子守歌
 ja: 
   activerecord: 
@@ -40,7 +41,7 @@ ja:
         languages: 言語
         pass_crypt: パスワード
     models: 
-      acl: アクセス制御リスト
+      acl: 通行制限リスト
       changeset: 変更セット
       changeset_tag: 変更セットタグ
       country: 国
@@ -52,16 +53,16 @@ ja:
       node: ノード
       node_tag: ノードタグ
       old_node: 古いノード
-      old_node_tag: 古いノードタグ
-      old_relation: 古い関連
-      old_relation_member: 古い関連のメンバー
-      old_relation_tag: 古い関連のタグ
-      old_way: 古いウエイ
-      old_way_node: 古いウエイのノード
-      old_way_tag: 古いウエイのタグ
-      relation: 関連
-      relation_member: 関連のメンバー
-      relation_tag: 関連のタグ
+      old_node_tag: 古いノードのタグ
+      old_relation: 古いリレーション
+      old_relation_member: 古いリレーションのメンバー
+      old_relation_tag: 古いリレーションのタグ
+      old_way: 古いウェイ
+      old_way_node: 古いウェイのノード
+      old_way_tag: 古いウェイのタグ
+      relation: リレーション
+      relation_member: リレーションのメンバー
+      relation_tag: リレーションのタグ
       session: セッション
       trace: トレース
       tracepoint: トレースポイント
@@ -69,25 +70,28 @@ ja:
       user: ユーザ
       user_preference: ユーザ設定
       user_token: ユーザトークン
-      way: ウエイ
-      way_node: ウエイのノード
-      way_tag: ウエイのタグ
+      way: ウェイ
+      way_node: ウェイのノード
+      way_tag: ウェイのタグ
   browse: 
     changeset: 
       changeset: "変更セット: {{id}}"
       changesetxml: 変更セットXML
       download: ダウンロード{{changeset_xml_link}} or {{osmchange_xml_link}}
+      feed: 
+        title_comment: 変更セット {{id}} - {{comment}}
       osmchangexml: osm変更XML
       title: 変更セット
     changeset_details: 
       belongs_to: "ユーザ:"
       bounding_box: "境界囲み:"
+      box: ボックス
       closed_at: "完了日時:"
       created_at: "作成日時:"
       has_nodes: "以下の {{count}} ノードで構成されています:"
-      has_relations: "Has the following {{count}} relations:"
-      has_ways: "以下の {{count}} ウェイで構成されています:"
-      no_bounding_box: この変更セットに境界囲みは格納しない。
+      has_relations: "次の{{count}} 個のリレーションを持ちます:"
+      has_ways: "次の {{count}} ウェイを持ちます:"
+      no_bounding_box: この変更セットを格納する境界囲みは存在しません。
       show_area_box: 領域範囲表示
     changeset_navigation: 
       user: 
@@ -101,10 +105,15 @@ ja:
       in_changeset: "変更セット:"
       version: "バージョン:"
     containing_relation: 
-      entry: 関連 {{relation_name}}
-      entry_role: 関連 {{relation_name}} (as {{relation_role}})
+      entry: リレーション {{relation_name}}
+      entry_role: リレーション {{relation_name}} (ロール {{relation_role}}で)
     map: 
       deleted: 削除済み
+      larger: 
+        area: このエリアを大きいマップで見る
+        node: このノードを大きいマップで見る
+        relation: このリレーションを大きいマップで見る
+        way: このウェイを大きいマップで見る
       loading: 読み込み中…
     node: 
       download: "{{download_xml_link}}、{{view_history_link}}、または、{{edit_link}}"
@@ -115,6 +124,7 @@ ja:
       view_history: 履歴表示
     node_details: 
       coordinates: "座標:"
+      part_of: "次の一部:"
     node_history: 
       download: "{{download_xml_link}}、または、{{view_details_link}}"
       download_xml: XMLダウンロード
@@ -124,32 +134,35 @@ ja:
     not_found: 
       sorry: ID {{id}} の {{type}} は見つかりません。
       type: 
+        changeset: 変更セット
         node: ノード
-        relation: 関連
-        way: 道
+        relation: リレーション
+        way: ウェイ
     paging_nav: 
       showing_page: ページ表示
     relation: 
       download: "{{download_xml_link}} または {{view_history_link}}"
       download_xml: XMLのダウンロード
-      relation: 関連
+      relation: リレーション
       relation_title: "関連: {{relation_name}}"
       view_history: 履歴表示
     relation_details: 
       members: "メンバー:"
+      part_of: "次の一部:"
     relation_history: 
       download: "{{download_xml_link}}、または、{{view_details_link}}"
       download_xml: XML をダウンロード
       relation_history: 関連の履歴
-      relation_history_title: "関連の履歴: {{relation_name}}"
+      relation_history_title: "リレーションの履歴: {{relation_name}}"
       view_details: 詳細を表示
     relation_member: 
+      entry_role: "{{type}}で、{{role}}の{{name}}"
       type: 
         node: ノード
-        relation: 関係
-        way: 道
+        relation: リレーション
+        way: ウェイ
     start: 
-      manually_select: 違うエリアを手動で選択
+      manually_select: 違う領域を手動で選択
       view_data: 現在のマップのデータを表示
     start_rjs: 
       data_frame_title: データ
@@ -170,14 +183,14 @@ ja:
         history: 
           type: 
             node: ノード [[id]]
-            way: ウエイ [[id]]
+            way: ウェイ [[id]]
         selected: 
           type: 
             node: ノード [[id]]
-            way: ウエイ [[id]]
+            way: ウェイ [[id]]
         type: 
           node: ノード
-          way: ウエイ
+          way: ウェイ
       show_history: 履歴表示
       unable_to_load_size: "読み込みできません: 境界囲みのサイズ [[bbox_size]]が大きすぎます。({{max_bbox_size}}より小さい必要があります)"
       wait: お待ちください...
@@ -189,20 +202,20 @@ ja:
       download_xml: XMLダウンロード
       edit: 編集
       view_history: 履歴表示
-      way: 道
-      way_title: "道: {{way_name}}"
+      way: ウェイ
+      way_title: "ウェイ: {{way_name}}"
     way_details: 
       also_part_of: 
-        one: 道「{{related_ways}}」の一部でもあります
-        other: 道「{{related_ways}}」の一部でもあります
+        one: ウェイ「{{related_ways}}」の一部でもあります
+        other: ウェイ「{{related_ways}}」の一部でもあります
       nodes: "ノード:"
       part_of: "変更セット:"
     way_history: 
       download: "{{download_xml_link}}、または、{{view_details_link}}"
       download_xml: XMLダウンロード
       view_details: 詳細表示
-      way_history: 道の履歴
-      way_history_title: "道の履歴: {{way_name}}"
+      way_history: ウェイの履歴
+      way_history_title: "ウェイの履歴: {{way_name}}"
   changeset: 
     changeset: 
       anonymous: 匿名
@@ -217,6 +230,7 @@ ja:
     changesets: 
       area: 領域
       comment: コメント
+      id: ID
       saved_at: 保存日時
       user: ユーザ
     list: 
@@ -243,7 +257,7 @@ ja:
       title: 日記の編集
       use_map_link: 地図で指定する
     list: 
-      in_language_title: " {{language}} での日記入力"
+      in_language_title: "{{language}} の日記項目"
       new: 新規日記入力
       new_title: あなたの日記に新規項目を作成
       newer_entries: 新しい項目
@@ -415,7 +429,7 @@ ja:
       no_sent_messages: 送信したメッセージはまだありません。{{people_mapping_nearby_link}}とお近づきになってはいかがですか?
       outbox: 送信箱
       people_mapping_nearby: 近所でマッピングしている人々
-      subject: タイトル
+      subject: 件名
       title: 送信箱
       to: 宛先
       you_have_sent_messages: "{{count}}この送信済みメッセージがあります"
@@ -434,15 +448,17 @@ ja:
     sent_message_summary: 
       delete_button: 削除
   notifier: 
+    email_confirm: 
+      subject: "[OpenStreetMap] あなたのEメールアドレスを確認しました。"
     gpx_notification: 
       success: 
-        loaded_successfully: "loaded successfully with {{trace_points}} out of a possible\n{{possible_points}} points."
+        loaded_successfully: 得られた{{possible_points}} 点のうち、{{trace_points}}点がロードに成功しました。
   oauth: 
     oauthorize: 
       allow_read_gpx: あなたの非公開GPSトレースを読み込む。
       allow_read_prefs: あなたの利用者設定を読み込む。
       allow_write_api: 地図を修正する。
-      allow_write_gpx: GPSトレースを更新する。
+      allow_write_gpx: GPSトレースをアップロードする。
       allow_write_prefs: あなたの利用者設定を変更する。
   oauth_clients: 
     edit: 
@@ -478,6 +494,7 @@ ja:
       map_key_tooltip: この縮尺におけるmapnikレンダリングの凡例
       table: 
         entry: 
+          admin: 行政境界
           apron: 
             - 空港ビル
             - 空港ターミナル
@@ -539,6 +556,7 @@ ja:
       download: ダウンロード
       edit: 編集
       filename: "ファイル名:"
+      heading: トレース {{name}} を編集
       map: 地図
       owner: "アップロードしたユーザ:"
       points: "ポイント数:"
@@ -546,6 +564,7 @@ ja:
       start_coord: "開始座標:"
       tags: "タグ:"
       tags_help: コンマ区切り
+      title: トレース {{name}} を編集
       uploaded_at: "アップロード日時:"
       visibility: "可視性:"
       visibility_help: これはどういう意味？
@@ -557,9 +576,9 @@ ja:
     make_public: 
       made_public: 公開されたトラック
     no_such_user: 
-      body: "{{user}}.という名前のユーザは存在しません。スペルをチェックしてください。もしくはリンク元が誤っています。"
+      body: "{{user}} という名前のユーザは存在しません。スペルをチェックしてください。もしくはリンク元が誤っています。"
       heading: "{{user}} というユーザは存在しません。"
-      title: ユーザが存在しません
+      title: そのようなユーザは存在しません
     trace: 
       ago: "{{time_in_words_ago}}前"
       count_points: "{{count}} ポイント"
@@ -608,6 +627,11 @@ ja:
       trace_not_found: トレースが見つかりません!
       uploaded: "アップロード日時:"
       visibility: "可視性:"
+    visibility: 
+      identifiable: 識別可能 (トレースリストに公表していて、常に持ち主を識別可能な状態。点の順序がタイムスタンプ付きでわかる。)
+      private: プライベート (匿名でデータを共有する。点の順序もわからない。)
+      public: パブリック (トレースリストに公表する。匿名の状態では点の順序はわからない。)
+      trackable: 追跡可能  (匿名でのみ共有されるが、点の順序はタイムスタンプ付きでわかる。)
   user: 
     account: 
       email never displayed publicly: （公開しません）
@@ -624,7 +648,7 @@ ja:
       public editing: 
         disabled: Disabled 編集できません。これまでの編集は全て匿名の物として扱われます。
         disabled link text: なぜ編集できないのですか？
-        enabled: Enabled. 匿名ではなく、編集可能です。
+        enabled: 有効。 匿名編集ではなく、ふつうに編集できます。
         enabled link: http://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits
         enabled link text: これは何ですか？
         heading: "公開編集:"
@@ -653,7 +677,7 @@ ja:
       account not active: 申し訳ありません。あなたのアカウントはまだ有効ではありません。<br />アカウント確認メールに記載されている、アカウントを有効にするリンクをクリックしてください。
       auth failure: 申し訳ありません、以下の理由によりログインできません。
       create_account: アカウント作成
-      email or username: "電子メールアドレスかユーザ名:"
+      email or username: "Eメールアドレスかユーザ名:"
       heading: ログイン
       login_button: ログイン
       lost password link: パスワードを忘れましたか?
@@ -668,7 +692,7 @@ ja:
       notice email on way: 残念ながらパスワードをすでに消しました (-.-);; しかし、リセット用の電子メールを送っていますので、すぐに回復できるでしょう。
       title: パスワードを忘れた
     make_friend: 
-      already_a_friend: あなたは {{name}}.と既に友達です。
+      already_a_friend: あなたは {{name}} と既に友達です。
       failed: "{{name}} を友達と登録できませんでした。"
       success: "{{name}} はあなたの友達になりました。"
     new: 
@@ -676,7 +700,7 @@ ja:
       confirm password: "パスワードの再入力:"
       contact_webmaster: アカウントを作成できるよう、<a href="mailto:webmaster@openstreetmap.org">webmaster</a>に連絡してください。 できるだけ早期に、あなたの希望に対応するように努めます。
       display name: "表示名:"
-      email address: "電子メールアドレス:"
+      email address: "Eメールアドレス:"
       fill_form: 以下のフォームを埋めてください。登録すると、あなたのアカウントを有効化するためにあなたにメールをお送りします。
       flash create success message: ユーザ作成に成功しました。すぐに編集を開始するために電子メールを確認してアカウントを有効にしてください。<br /><br />あなたの指定したアドレスに確認メールが届くまであなたはログインすることはできません。<br /><br />メールボックスでスパムフィルタを使っているときには webmaster@openstreetmap.org からの確認メールを受信できるようホワイトリストを設定してください。
       heading: ユーザアカウントの作成
@@ -714,7 +738,7 @@ ja:
       edits: 編集
       if set location: 活動地域を指定すると、この下に周辺の地図と、近くで活動するマッパーが表示されます。{{settings_link}} から設定をしてください。
       km away: 距離 {{count}}km
-      m away: "{{count}}メートル"
+      m away: 距離 {{count}}メートル
       mapper since: "マッパー歴:"
       my diary: 私の日記
       my edits: 私の編集
@@ -734,3 +758,9 @@ ja:
       user image heading: ユーザの画像
       user location: ユーザの位置
       your friends: あなたの友達
+  user_block: 
+    partial: 
+      edit: 編集
+  user_role: 
+    grant: 
+      confirm: 確認
