@@ -180,6 +180,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/geocoder/search_uk_postcode', :controller => 'geocoder', :action => 'search_uk_postcode'
   map.connect '/geocoder/search_ca_postcode', :controller => 'geocoder', :action => 'search_ca_postcode'
   map.connect '/geocoder/search_osm_namefinder', :controller => 'geocoder', :action => 'search_osm_namefinder'
+  map.connect '/geocoder/search_osm_twain', :controller => 'geocoder', :action => 'search_osm_twain'
   map.connect '/geocoder/search_geonames', :controller => 'geocoder', :action => 'search_geonames'
   map.connect '/geocoder/description', :controller => 'geocoder', :action => 'description'
   map.connect '/geocoder/description_osm_namefinder', :controller => 'geocoder', :action => 'description_osm_namefinder'
