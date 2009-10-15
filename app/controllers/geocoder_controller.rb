@@ -223,7 +223,7 @@ class GeocoderController < ApplicationController
     @results = Array.new
 
     # ask OSM namefinder
-    response = fetch_xml("http://katie.openstreetmap.org/~twain/?format=xml&q=#{escape_query(query)}")
+    response = fetch_xml("http://katie.openstreetmap.org/~twain/?format=xml&polygon=true&q=#{escape_query(query)}")
 
     # parse the response
     response.elements.each("searchresults/place") do |place|
@@ -233,6 +233,7 @@ class GeocoderController < ApplicationController
       klass = place.attributes["class"].to_s
       type = place.attributes["type"].to_s
       name = place.attributes["display_name"].to_s
+      min_lat,max_lat,min_lon,max_lon = place.attributes["boundingbox"].to_s.split(",")
 
       if klass == "highway"
         prefix = t 'geocoder.search_osm_twain.prefix_highway', :type => type.capitalize
@@ -241,6 +242,8 @@ class GeocoderController < ApplicationController
       end
 
       @results.push({:lat => lat, :lon => lon, :zoom => zoom,
+                     :min_lat => min_lat, :max_lat => max_lat,
+                     :min_lon => min_lon, :max_lon => max_lon,
                      :prefix => prefix, :name => name})
     end
 
@@ -277,7 +280,7 @@ class GeocoderController < ApplicationController
     @error = "Error contacting ws.geonames.org: #{ex.to_s}"
     render :action => "error"
   end
-  
+
   def description
     @sources = Array.new
 
