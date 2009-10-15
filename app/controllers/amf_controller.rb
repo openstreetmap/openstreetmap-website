@@ -232,12 +232,6 @@ class AmfController < ApplicationController
     help = localised["help_html"]
     localised.delete("help_html")
 
-    # Populate icon names
-    POTLATCH_PRESETS[10].each { |id|
-      POTLATCH_PRESETS[11][id] = localised["preset_icon_#{id}"]
-      localised.delete("preset_icon_#{id}")
-    }
-
     return POTLATCH_PRESETS+[localised,help]
   end
 
