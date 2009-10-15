@@ -249,7 +249,7 @@ class AmfController < ApplicationController
     en = YAML::load(File.open("#{RAILS_ROOT}/config/potlatch/locales/en.yml"))["en"]
 
     if lang == 'en'
-      return [real_lang, en]
+      return [loaded_lang, en]
     else
       # Use English as a fallback
       begin
