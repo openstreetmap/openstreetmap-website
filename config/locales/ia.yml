@@ -392,6 +392,14 @@ ia:
       suffix_place: ", {{distance}} al {{direction}} de {{placename}}"
     search_osm_twain: 
       prefix_highway: cammino {{type}}
+  javascripts: 
+    map: 
+      base: 
+        cycle_map: Carta cyclista
+        noname: Sin nomine
+    site: 
+      edit_zoom_alert: Tu debe facer zoom avante pro modificar le carta
+      history_zoom_alert: Tu debe facer zoom avante pro vider le historia de modification
   layouts: 
     donate: Supporta OpenStreetMap per {{link}} al Fundo de Actualisation de Hardware.
     donate_link_text: donation
@@ -504,6 +512,76 @@ ia:
       unread_button: Marcar como non legite
     sent_message_summary: 
       delete_button: Deler
+  notifier: 
+    lost_password: 
+      subject: "[OpenStreetMap] Requesta de reinitialisation del contrasigno"
+  oauth: 
+    oauthorize: 
+      allow_read_gpx: leger tu tracias GPS private.
+      allow_read_prefs: leger tu preferentias de usator.
+      allow_to: "Permitter al application cliente:"
+      allow_write_api: modificar le carta.
+      allow_write_diary: crear entratas de diario, commentos e adder amicos.
+      allow_write_gpx: cargar tracias GPS.
+      allow_write_prefs: modificar tu preferentias de usator.
+      request_access: Le application {{app_name}} requesta accesso a tu conto. Per favor verifica si tu vole que le application ha le sequente capabilitates. Tu pote seliger tantes o si poches como tu vole.
+    revoke: 
+      flash: Tu ha revocate le indicio pro {{application}}
+  oauth_clients: 
+    create: 
+      flash: Informationes registrate con successo
+    destroy: 
+      flash: Le registration del application cliente ha essite destruite
+    edit: 
+      submit: Modificar
+      title: Modificar tu application
+    form: 
+      allow_read_gpx: leger su tracias GPS private.
+      allow_read_prefs: leger su preferentias de usator.
+      allow_write_api: modificar le carta.
+      allow_write_diary: crear entratas de diario, commentos e adder amicos.
+      allow_write_gpx: cargar tracias GPS.
+      allow_write_prefs: modificar su preferentias de usator.
+      callback_url: URL de reappello
+      name: Nomine
+      requests: "Requestar le sequente permissiones del usator:"
+      required: Requirite
+      support_url: URl de supporto
+      url: URl principal del application
+    index: 
+      application: Nomine del application
+      issued_at: Emittite le
+      list_tokens: "Le sequente indicios ha essite emittite a applicationes in tu nomine:"
+      my_apps: Mi applicationes cliente
+      my_tokens: Mi applicationes autorisate
+      no_apps: Ha tu un aplication que tu vole registrar pro uso con nos per medio del standard {{oauth}}? Tu debe registrar tu application web ante que illo pote facer requestas OAuth a iste servicio.
+      register_new: Registrar tu application
+      registered_apps: "Tu ha le sequente applicationes cliente registrate:"
+      revoke: Revocar!
+      title: Mi detalios OAuth
+    new: 
+      submit: Registrar
+      title: Registrar un nove application
+    not_found: 
+      sorry: Pardono, iste {{type}} non poteva esser trovate.
+    show: 
+      access_url: "URL del indicio de accesso:"
+      allow_read_gpx: leger su tracias GPS private.
+      allow_read_prefs: leger su preferentias de usator.
+      allow_write_api: modificar le carta.
+      allow_write_diary: crear entratas de diario, commentos e adder amicos.
+      allow_write_gpx: cargar tracias GPS.
+      allow_write_prefs: modificar su preferentias de usator.
+      authorize_url: "URL de autorisation:"
+      edit: Modificar detalios
+      key: "Clave de consumitor:"
+      requests: "Le sequente permissiones es requestate del usator:"
+      secret: "Secreto de consumitor:"
+      support_notice: Nos supporta hmac-sha1 (recommendate) e texto simple in modo SSL.
+      title: Detalios OAuth pro {{app_name}}
+      url: "URL del indicio de requesta:"
+    update: 
+      flash: Le information del cliente ha essite actualisate con successo
   site: 
     edit: 
       anon_edits_link_text: Lege proque isto es le caso.
@@ -523,6 +601,7 @@ ia:
       permalink: Permaligamine
       shortlink: Ligamine curte
     key: 
+      map_key: Legenda
       map_key_tooltip: Legenda pro le rendition Mapnik a iste nivello de zoom
       table: 
         entry: 
@@ -586,8 +665,11 @@ ia:
             - Ferrovia legier
             - tram
           trunk: Via national
+          tunnel: Bordo a lineettas = tunnel
+          unclassified: Via non classificate
           unsurfaced: Cammino de terra
           wood: Bosco
+        heading: Legenda pro z{{zoom_level}}
     search: 
       search: Cercar
       search_help: "exemplos: 'Alkmaar', 'Regent Street, Cambridge', 'CB2 5AQ', o 'post offices near Lünen' <a href='http://wiki.openstreetmap.org/wiki/Search'>altere exemplos...</a>"
@@ -839,6 +921,95 @@ ia:
       user image heading: Imagine del usator
       user location: Position del usator
       your friends: Tu amicos
+  user_block: 
+    blocks_by: 
+      empty: "{{name}} non ha ancora facite alcun blocada."
+      heading: Lista de blocadas per {{name}}
+      title: Blocadas per {{name}}
+    blocks_on: 
+      empty: "{{name}} non ha ancora essite blocate."
+      heading: Lista de blocadas de {{name}}
+      title: Blocadas de {{name}}
+    create: 
+      flash: Creava un blocada del usator {{name}}.
+      try_contacting: Per favor contacta le usator ante de blocar le o la, permittente un tempore rationabile pro responder.
+      try_waiting: Per favor da le usator le tempore pro responder ante de blocar le o la.
+    edit: 
+      back: Examinar tote le blocadas
+      heading: Modification de un blocada super {{name}}
+      needs_view: Debe le usator aperir un session ante que iste blocada es cancellate?
+      period: Quante tempore, a partir de ora, essera le usator blocate del API?
+      reason: Le motivo proque {{name}} es blocate. Per favor resta si calme e rationabile como possibile, e da tante detalios como tu pote super le situation. Nota ben que non tote le usatores comprende le jargon del communitate, alora usa terminos simple e precise.
+      show: Examinar iste blocada
+      submit: Actualisar blocada
+      title: Modification de un blocada super {{name}}
+    filter: 
+      block_expired: Le blocada ha ja expirate e non pote esser modificate.
+      block_period: Le periodo de blocada debe esser un del valores seligibile in le lista disrolante.
+      not_a_moderator: Tu debe esser moderator pro executar iste action.
+    helper: 
+      time_future: Expira in {{time}}.
+      time_past: Expirava {{time}} retro.
+      until_login: Active usque le usator aperi un session.
+    index: 
+      empty: Nulle blocada ha ancora essite effectuate.
+      heading: Lista de blocadas de usatores
+      title: Blocadas de usatores
+    model: 
+      non_moderator_revoke: Debe esser moderator pro revocar un blocada.
+      non_moderator_update: Debe esser moderator pro crear o actualisar un blocada.
+    new: 
+      back: Vider tote le blocadas
+      heading: Crea blocada de {{name}}
+      needs_view: Le usator debe aperir un session ante que iste blocada essera cancellate
+      period: Quante tempore, a partir de ora, essera le usator blocate del API?
+      reason: Le motivo proque {{name}} es blocate. Per favor sia si calme e rationabile como possibile, e da tante detalios super le situation como tu pote. Non oblida que le message essera publicamente visibile. Nota ben que non tote le usatores comprende le jargon del communitate, alora usa terminos simple e precise.
+      submit: Crear blocada
+      title: Crea blocada de {{name}}
+      tried_contacting: Io ha contactate le usator pro demandar le/la de cessar.
+      tried_waiting: Io ha date sufficiente tempore al usator pro responder a iste communicationes.
+    not_found: 
+      back: Retornar al indice
+      sorry: Le blocada de usator con ID {{id}} non ha essite trovate.
+    partial: 
+      confirm: Es tu secur?
+      creator_name: Creator
+      display_name: Usator blocate
+      edit: Modificar
+      not_revoked: (non revocate)
+      reason: Motivo del blocada
+      revoke: Revocar!
+      revoker_name: Revocate per
+      show: Monstrar
+      status: Stato
+    period: 
+      one: 1 hora
+      other: "{{count}} horas"
+    revoke: 
+      confirm: Es tu secur de voler revocar iste blocada?
+      flash: Iste blocada ha essite revocate.
+      heading: Revoca blocada de {{block_on}} per {{block_by}}
+      past: Iste blocada expirava {{time}} retro e non pote esser revocate ora.
+      revoke: Revocar!
+      time_future: Iste blocada expirara in {{time}}.
+      title: Revoca blocada de {{block_on}}
+    show: 
+      back: Vider tote le blocadas
+      confirm: Es tu secur?
+      edit: Modificar
+      heading: "{{block_on}} blocate per {{block_by}}"
+      needs_view: Le usator debe aperir un session ante que iste blocada es cancellate.
+      reason: "Motivo del blocada:"
+      revoke: Revocar!
+      revoker: "Revocator:"
+      show: Monstrar
+      status: Stato
+      time_future: Expira in {{time}}
+      time_past: Expirava {{time}} retro
+      title: "{{block_on}} blocate per {{block_by}}"
+    update: 
+      only_creator_can_edit: Solmente le moderator qui creava iste blocada pote modificar lo.
+      success: Blocada actualisate.
   user_role: 
     filter: 
       already_has_role: Le usator ha ja le rolo {{role}}.

@@ -8,6 +8,8 @@ cs:
     attributes: 
       diary_entry: 
         language: Jazyk
+        latitude: Šířka
+        longitude: Délka
         title: Nadpis
         user: Uživatel
       friend: 
@@ -19,6 +21,8 @@ cs:
         title: Nadpis
       trace: 
         description: Popis
+        latitude: Šířka
+        longitude: Délka
         name: Název
         size: Velikost
         user: Uživatel
@@ -62,8 +66,23 @@ cs:
         title_comment: "Sada změn: {{id}} - {{comment}}"
       title: Sada změn
     changeset_details: 
+      belongs_to: "Patří uživateli:"
+      bounding_box: "Rozsah:"
       closed_at: "Uzavřeno v:"
       created_at: "Vytvořeno v:"
+      has_nodes: 
+        few: "Obsahuje následující {{count}} uzly:"
+        one: "Obsahuje následující uzel:"
+        other: "Obsahuje následujících {{count}} uzlů:"
+      has_relations: 
+        few: "Obsahuje následující {{count}} relace:"
+        one: "Obsahuje následující relaci:"
+        other: "Obsahuje následujících {{count}} relací:"
+      has_ways: 
+        few: "Obsahuje následující {{count}} cesty:"
+        one: "Obsahuje následující cestu:"
+        other: "Obsahuje následujících {{count}} cest:"
+      show_area_box: Zobrazit ohraničení oblasti
     changeset_navigation: 
       all: 
         next_tooltip: Další sada změn
@@ -74,6 +93,8 @@ cs:
         prev_tooltip: Předešlá úprava od {{user}}
     common_details: 
       changeset_comment: "Komentář:"
+      edited_at: "Upraveno v:"
+      edited_by: "Upravil:"
       in_changeset: "V sadě změn:"
       version: "Verze:"
     containing_relation: 
@@ -86,6 +107,7 @@ cs:
         node: Zobrazit uzel na větší mapě
         relation: Zobrazit relaci na větší mapě
         way: Zobrazit cestu na větší mapě
+      loading: Načítá se…
     node: 
       download: "{{download_xml_link}}, {{view_history_link}} nebo {{edit_link}}"
       download_xml: Stáhnout XML
@@ -137,8 +159,12 @@ cs:
       data_frame_title: Data
       data_layer_name: Data
       details: Detaily
+      drag_a_box: Myší na mapě označte zvolenou oblast
       history_for_feature: Historie pro [[feature]]
       load_data: Nahrát data
+      loaded_an_area_with_num_features: Máte načtenu oblast, která obsahuje [[num_features]] prvků. Některé prohlížeče mohou mít potíže při zobrazování takového množství dat. Obecně fungují prohlížeče nejlépe při zobrazování ne více než sta prvků současně – větší množství může způsobit, že bude prohlížeč reagovat pomalu či vůbec. Pokud jste si jisti, že chcete tato data zobrazit, klikněte na tlačítko níže.
+      loading: Načítá se…
+      manually_select: Ručně vybrat jinou oblast
       object_list: 
         back: Zobrazit seznam objektů
         details: Detaily
@@ -155,7 +181,9 @@ cs:
           node: Uzel
           way: Cesta
       show_history: Zobrazit historii
+      unable_to_load_size: "Nelze načíst: Rozměr [[bbox_size]] je příliš velký (maximum je {{max_bbox_size}})"
       wait: Čekejte...
+      zoom_or_select: Zvolte větší měřítko nebo vyberte nějakou oblast mapy
     tag_details: 
       tags: "Tagy:"
     way: 
@@ -166,6 +194,9 @@ cs:
       way: Cesta
       way_title: "Cesta: {{way_name}}"
     way_details: 
+      also_part_of: 
+        one: patří také do cesty {{related_ways}}
+        other: patří také do cest {{related_ways}}
       nodes: "Uzly:"
       part_of: "Součást:"
     way_history: 
@@ -220,23 +251,40 @@ cs:
     start: 
       add_marker: Přidat do mapy značku
       area_to_export: Oblast k exportu
+      embeddable_html: Vkládatelné HTML
       export_button: Export
+      export_details: Data OpenStreetMap jsou k dispozici pod licencí <a href="http://creativecommons.org/licenses/by-sa/2.0/deed.cs">Creative Commons Uveďte autora-Zachovejte licenci 2.0</a>.
       format: Formát
       format_to_export: Formát exportu
+      image_size: Velikost obrázku
+      latitude: "Šířka:"
       licence: Licence
+      longitude: "Délka:"
+      mapnik_image: Obrázek z Mapniku
+      max: max.
       options: Nastavení
       output: Výstup
+      paste_html: Ke vložení na stránku použijte toto HTML
       scale: Měřítko
     start_rjs: 
       add_marker: Přidat do mapy značku
+      change_marker: Změnit umístění značky
+      click_add_marker: Kliknutím do mapy vložíte značku
+      drag_a_box: Myší na mapě označte zvolenou oblast
       export: Export
+      manually_select: Ručně vybrat jinou oblast
       view_larger_map: Zobrazit větší mapu
   geocoder: 
     description: 
+      title: 
+        geonames: Poloha podle <a href="http://www.geonames.org/">GeoNames</a>
+        osm_namefinder: "{{types}} podle <a href=\"http://gazetteer.openstreetmap.org/namefinder/\">OpenStreetMap Namefinder</a>"
       types: 
         cities: Velkoměsta
         places: Místa
         towns: Města
+    description_osm_namefinder: 
+      prefix: "{{distance}} na {{direction}} od {{type}}"
     direction: 
       east: východ
       north: sever
@@ -246,6 +294,10 @@ cs:
       south_east: jihovýchod
       south_west: jihozápad
       west: západ
+    distance: 
+      one: asi 1 km
+      other: asi {{count}} km
+      zero: méně než 1 km
     results: 
       no_results: Nenalezeny žádné výsledky
     search: 
@@ -256,12 +308,40 @@ cs:
         osm_namefinder: Výsledky z <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>
         uk_postcode: Výsledky z <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Výsledky z <a href="http://geocoder.us/">Geocoder.us</a>
+    search_osm_namefinder: 
+      suffix_parent: "{{suffix}} ({{parentdistance}} na {{parentdirection}} od {{parentname}})"
+      suffix_place: ", {{distance}} na {{direction}} od {{placename}}"
+  javascripts: 
+    map: 
+      base: 
+        cycle_map: Cyklomapa
+        noname: Bezejmenné ulice
   layouts: 
     edit: Upravit
+    edit_tooltip: Upravovat mapy
     export: Export
     export_tooltip: Exportovat mapová data
+    help_wiki: Nápověda &amp; wiki
+    help_wiki_tooltip: Server s nápovědou a wiki k tomuto projektu
     history: Historie
+    history_tooltip: Historie změn
+    home: domů
+    home_tooltip: Přejít na polohu domova
+    inbox: zprávy ({{count}})
+    inbox_tooltip: 
+      few: Ve schránce máte {{count}} nepřečtené zprávy
+      one: Ve schránce máte 1 nepřečtenou zprávu
+      other: Ve schránce máte {{count}} nepřečtených zpráv
+      zero: Nemáte žádné nepřečtené zprávy
+    intro_1: OpenStreetMap je svobodná editovatelná mapa celého světa. Tvoří ji lidé jako vy.
+    intro_2: OpenStreetMap vám umožňuje společně si prohlížet, upravovat a používat geografická data z libovolného místa na Zemi.
+    intro_3: Hosting OpenStreetMap laskavě poskytují {{ucl}} a {{bytemark}}.
+    intro_3_bytemark: bytemark
+    intro_3_ucl: středisko VR UCL
+    license: 
+      title: Data OpenStreetMap jsou k dispozici pod licencí Creative Commons Uveďte autora-Zachovejte licenci 2.0 Generic
     log_in: přihlásit se
+    log_in_tooltip: Přihlásit se k existujícímu účtu
     logo: 
       alt_text: Logo OpenStreetMap
     logout: odhlásit
@@ -269,9 +349,20 @@ cs:
     make_a_donation: 
       text: Pošlete příspěvek
       title: Podpořte OpenStreetMap finančním příspěvkem
+    news_blog: Novinkový blog
+    news_blog_tooltip: Blog s novinkami o OpenStreetMap, svobodných geografických datech atd.
+    osm_offline: Databáze OpenStreetMap je momentálně kvůli probíhající neodkladné údržbě mimo provoz.
+    osm_read_only: Databáze OpenStreetMap je momentálně kvůli probíhající neodkladné údržbě pouze pro čtení.
+    shop: Obchod
+    shop_tooltip: Obchod se zbožím s logem OpenStreetMap
+    sign_up: zaregistrovat se
+    sign_up_tooltip: Vytvořit si uživatelský účet pro editaci
+    user_diaries: Deníčky
+    user_diaries_tooltip: Zobrazit deníčky uživatelů
     view: Zobrazit
     view_tooltip: Zobrazit mapy
     welcome_user: Vítejte, {{user_link}}
+    welcome_user_link_tooltip: Vaše uživatelská stránka
   map: 
     coordinates: "Souřadnice:"
     edit: Upravit
@@ -282,7 +373,10 @@ cs:
     inbox: 
       date: Datum
       from: Od
+      no_messages_yet: Zatím nemáte žádné zprávy. Co třeba kontaktovat nějaké {{people_mapping_nearby_link}}?
+      people_mapping_nearby: uživatele poblíž
       subject: Předmět
+      you_have: Máte {{new_count}} nových a {{old_count}} starých zpráv
     mark: 
       as_read: Zpráva označena jako přečtená
       as_unread: Zpráva označena jako nepřečtená
@@ -292,14 +386,18 @@ cs:
       reply_button: Odpovědět
       unread_button: Označit jako nepřečtené
     new: 
+      back_to_inbox: Zpět do přijatých zpráv
+      body: Text
       message_sent: Zpráva odeslána
       send_button: Odeslat
+      send_message_to: Poslat novou zprávu uživateli {{name}}
       subject: Předmět
       title: Odeslat zprávu
     outbox: 
       date: Datum
       subject: Předmět
       to: Komu
+      you_have_sent_messages: Máte {{count}} odeslaných zpráv
     read: 
       date: Datum
       from: Od
@@ -312,57 +410,84 @@ cs:
   site: 
     index: 
       js_1: Buď používáte prohlížeč bez podpory JavaScriptu, nebo máte JavaScript zakázaný.
+      license: 
+        license_name: Creative Commons Uveďte autora-Zachovejte licenci 2.0 Generic
+        notice: Nabízeno pod licencí {{license_name}}, vytvořeno přispěvateli {{project_name}}.
+        project_name: projektu OpenStreetMap
+      permalink: Trvalý odkaz
+      shortlink: Krátký odkaz
     key: 
       map_key: Mapový klíč
+      map_key_tooltip: Mapový klíč pro vykreslení mapnikem na této úrovni přiblížení
       table: 
         entry: 
           admin: Administrativní hranice
+          allotments: Zahrádkářská kolonie
           apron: 
+            - Letištní odbavovací plocha
             - terminál
-            - terminál
+          bridge: Černé obrysy = most
+          bridleway: Koňská stezka
+          brownfield: Zbořeniště
           building: Významná budova
           cable: 
             - Lanovka
             - sedačková lanovka
           cemetery: Hřbitov
           centre: Sportovní centrum
+          commercial: Kancelářská oblast
+          common: 
+            - Pastvina
+            - louka
           construction: Cesta ve výstavbě
           cycleway: Cyklostezka
+          destination: Průjezd zakázán
           farm: Farma
           footway: Pěší cesta
           forest: Les
           golf: Golfové hřiště
+          heathland: Vřesoviště
           industrial: Průmyslová oblast
           lake: 
             - Jezero
+            - nádrž
           military: Vojenský prostor
           motorway: Dálnice
           park: Park
+          permissive: Přístup tolerován
           pitch: Sportovní hřiště
           primary: Silnice první třídy
+          private: Soukromý pozemek
           rail: Železnice
           reserve: Přírodní rezervace
           resident: Obytná oblast
+          retail: Nákupní oblast
           runway: 
-            - Přistávací dráha
+            - Vzletová a přistávací dráha
+            - pojezdová dráha
           school: 
             - Škola
-            - střední škola
+            - univerzita
           secondary: Silnice druhé třídy
           station: Nádraží
           subway: Metro
           summit: 
-            - vrchol
-            - vrchol
+            - Vrchol
+            - hora
           tourist: Turistická atrakce
+          track: Lesní či polní cesta
           tram: 
+            - Rychlodráha
             - tramvaj
-            - tramvaj
+          trunk: Významná silnice
+          tunnel: Čárkované obrysy = tunel
           unclassified: Silnice bez klasifikace
           unsurfaced: Nezpevněná cesta
         heading: Legenda pro z{{zoom_level}}
     search: 
       search: Hledat
+      search_help: "příklady: „Příbram“, „Havlíčkova, Plzeň“, „CB2 5AQ“, nebo „post offices near Mělník“ <a href='http://wiki.openstreetmap.org/wiki/Search'>další příklady…</a>"
+      submit_text: Hledat
       where_am_i: Kde se nacházím?
     sidebar: 
       close: Zavřít
@@ -384,6 +509,7 @@ cs:
     no_such_user: 
       heading: Uživatel {{user}} neexistuje
     trace: 
+      ago: před {{time_in_words_ago}}
       edit: upravit
       in: v
       map: mapa
@@ -415,12 +541,20 @@ cs:
       visibility: "Viditelnost:"
   user: 
     account: 
+      email never displayed publicly: (nikde se veřejně nezobrazuje)
       home location: "Poloha domova:"
+      latitude: "Šířka:"
+      longitude: "Délka:"
       make edits public button: Zvěřejnit všechny moje úpravy
       my settings: Moje nastavení
       preferred languages: "Preferované jazyky:"
+      profile description: "Popis profilu:"
       public editing: 
+        disabled: Deaktivováno, nemůže editovat data, všechny předchozí editace jsou anonymní.
+        disabled link text: proč nemůžu editovat?
+        enabled: Aktivní. Není anonym, smí editovat data.
         enabled link text: co tohle je?
+        heading: "Veřejné editace:"
       return to profile: Zpět na profil
       save changes button: Uložit změny
       title: Upravit účet
@@ -430,20 +564,26 @@ cs:
     confirm_email: 
       button: Potvrdit
     friend_map: 
+      nearby mapper: "Nedaleký uživatel: [[nearby_user]]"
       your location: Vaše poloha
     login: 
+      account not active: Je mi líto, ale váš uživatelský účet dosud nebyl aktivován.<br />Svůj účet si můžete aktivovat kliknutím na odkaz v potvrzovacím e-mailu.
+      auth failure: Je mi líto, ale s uvedenými údaji se nemůžete přihlásit.
       create_account: vytvořit účet
       email or username: "E-mailová adresa nebo uživatelské jméno:"
       heading: Přihlášení
       login_button: Přihlásit
       lost password link: Ztratili jste heslo?
       password: "Heslo:"
+      please login: Prosím přihlašte se, nebo si můžete {{create_user_link}}.
       title: Přihlásit se
     lost_password: 
       email address: "E-mailová adresa:"
       heading: Zapomněli jste heslo?
+      help_text: Zadejte e-mailovou adresu, pod kterou jste se zaregistrovali, my vám na ni pošleme odkaz, pomocí kterého si budete moci nastavit nové heslo.
       new password button: Znovu nastavit heslo
       notice email cannot find: Je mi líto, ale nemohu najít tuto e-mailovou adresu.
+      notice email on way: Škoda zapomenutého hesla :-( e-mail už je na cestě, takže si budete brzy moci zvolit nové.
       title: Ztracené heslo
     make_friend: 
       already_a_friend: Již jste přátelé s {{name}}.
@@ -452,12 +592,21 @@ cs:
     new: 
       confirm email address: "Potvrdit e-mailovou adresu:"
       confirm password: "Potvrdit heslo:"
+      display name: "Zobrazované jméno:"
+      display name description: Vaše veřejně zobrazované uživatelské jméno. Můžete si později změnit ve svém nastavení.
       email address: "E-mailová adresa:"
+      fill_form: Vyplňte následující formulář a my vám pošleme stručný e-mail, jak si účet aktivovat.
+      flash create success message: Uživatel byl úspěšně zaregistrován. Podívejte se do své e-mailové schránky na potvrzovací zprávu a budete tvořit mapy cobydup. :-)<br /><br />Uvědomte si, že dokud nepotvrdíte svou e-mailovou adresu, nebudete se moci přihlásit.<br /><br />Pokud používáte nějaký protispamový systém, který vyžaduje potvrzení, nezapomeňte zařídit výjimku pro webmaster@openstreetmap.org, neboť na žádosti o potvrzení nejsme schopni reagovat.
       heading: Vytvořit uživatelský účet
+      license_agreement: Vytvořením účtu souhlasíte s tím, že ke všem datům, která poskytnete projektu OpenStreetMap, poskytujete (nevýhradní) licenci <a href="http://creativecommons.org/licenses/by-sa/2.0/deed.cs">Creative Commons Uveďte autora-Zachovejte licenci (by-sa)</a>.
+      not displayed publicly: Nezobrazuje se veřejně (vizte <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="Pravidla ochrany osobních údajů na wiki, včetně části o e-mailových adresách">pravidla ochrany osobních údajů</a>)
       password: "Heslo:"
+      signup: Zaregistrovat se
       title: Vytvořit účet
     no_such_user: 
-      heading: Uživate {{user}} neexistuje
+      body: Je mi líto, ale uživatel {{user}} neexistuje. Zkontrolujte překlepy nebo jste možná klikli na chybný odkaz.
+      heading: Uživatel {{user}} neexistuje
+      title: Uživatel nenalezen
     remove_friend: 
       not_a_friend: "{{name}} není mezi vašimi přáteli."
       success: "{{name}} byl odstraněn z vašich přátel."
@@ -473,14 +622,28 @@ cs:
     view: 
       add as friend: přidat jako přítele
       add image: Přidat obrázek
+      ago: (před {{time_in_words_ago}})
+      blocks on me: moje zablokování
       change your settings: změnit vaše nastavení
       delete image: Smazat obrázek
       description: Popis
+      diary: deníček
+      edits: editace
+      if set location: Když si nastavíte svou polohu, objeví se níže hezká mapka atp. Polohu domova si můžete nastavit na stránce {{settings_link}}.
+      km away: "{{count}} km"
+      m away: "{{count}} m"
+      mapper since: "Účastník projektu od:"
+      my diary: můj deníček
+      my edits: moje editace
       my settings: moje nastavení
+      nearby users: "Uživatelé poblíž:"
+      new diary entry: nový záznam do deníčku
       no friends: Zatím jste nepřidali žádné přátele.
+      no home location: Pozice domova nebyla nastavena.
       remove as friend: odstranit jako přítele
       send message: poslat zprávu
       settings_link_text: nastavení
       upload an image: Nahrát obrázek
+      user image heading: Obrázek uživatele
       user location: Pozice uživatele
       your friends: Vaši přátelé
