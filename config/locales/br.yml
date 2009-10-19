@@ -385,6 +385,8 @@ br:
     search_osm_namefinder: 
       suffix_parent: "{{suffix}} ({{parentdistance}} {{parentdirection}} eus {{parentname}})"
       suffix_place: " {{distance}} {{direction}} diouzh {{placename}}"
+    search_osm_twain: 
+      prefix_highway: hent {{type}}
   javascripts: 
     map: 
       base: 
@@ -879,6 +881,8 @@ br:
       heading: Kadarnaat ur c'hemm chomlec'h postel
       press confirm button: Pouezit war ar bouton kadarnaat evit kadarnaat ho chomlec'h postel nevez.
       success: Kadarnaet eo ho chomlec'h postel, trugarez evit bezañ en em enskrivet !
+    filter: 
+      not_an_administrator: Ret eo deoc'h bezañ merour evit kas an ober-mañ da benn.
     friend_map: 
       nearby mapper: "Kartennour en ardremez : [[nearby_user]]"
       your location: Ho lec'hiadur
@@ -939,18 +943,30 @@ br:
     set_home: 
       flash success: Enrollet eo bet lec'hiadur ar gêr
     view: 
+      activate_user: gweredekaat an implijer-mañ
       add as friend: Ouzhpennañ evel mignon
       add image: Ouzhpennañ ur skeudenn
       ago: ({{time_in_words_ago}} zo)
+      block_history: gwelet ar stankadurioù resevet
+      blocks by me: stankadurioù graet ganin
+      blocks on me: Stankadurioù evidon
       change your settings: cheñch hoc'h arventennoù
+      confirm: Kadarnaat
+      create_block: stankañ an implijer-mañ
+      created from: "Krouet diwar :"
+      deactivate_user: diweredekaat an implijer-mañ
       delete image: Dilemel ar skeudenn
+      delete_user: dilemel an implijer-mañ
       description: Deskrivadur
       diary: deizlevr
       edits: kemmoù
+      email address: "Chomlec'h postel :"
+      hide_user: kuzhat an implijer-mañ
       if set location: Ma lakait ho lec'hiadur e teuio ur gartenn vrav war wel dindani. Gallout a rit lakaat ho lec'hiadur war ho pajenn {{settings_link}}.
       km away: war-hed {{count}} km
       m away: war-hed {{count}} m
       mapper since: "Kartennour abaoe :"
+      moderator_history: gwelet ar stankadurioù roet
       my diary: ma deizlevr
       my edits: ma aozadennoù
       my settings: ma arventennoù
@@ -962,10 +978,96 @@ br:
       no home location: N'eus bet lakaet lec'hiadur ebet evit ar gêr.
       no nearby users: N'eus implijer ebet en ardremez c'hoazh.
       remove as friend: Lemel evel mignon
+      role: 
+        administrator: Ur merour eo an implijer-mañ
+        moderator: Un habaskaer eo an implijer-mañ
       send message: Kas ur gemennadenn
       settings_link_text: arventennoù
       traces: roudoù
+      unhide_user: Diguzhat an implijer-mañ
       upload an image: Kas ur skeudenn
       user image heading: Skeudenn implijer
       user location: Lec'hiadur an implijer
       your friends: Ho mignoned
+  user_block: 
+    blocks_by: 
+      empty: "{{name}} n'en deus graet stankadur ebet c'hoazh."
+      heading: Roll ar stankadurioù gant {{name}}
+      title: Stankadurioù gant {{name}}
+    blocks_on: 
+      empty: "{{name}} n'eo ket bet stanket c'hoazh."
+      heading: Roll ar stankadurioù evit {{name}}
+      title: Stankadurioù evit {{name}}
+    edit: 
+      back: Gwelet an holl stankadurioù
+      show: Gwelet ar stankadur-mañ
+      submit: Hizivaat ar stankadur
+    filter: 
+      block_expired: Aet eo ar stankadur d'e dermen dija ha ne c'hall ket bezañ aozet.
+      not_a_moderator: Ret eo deoc'h bezañ habaskaer evit kas an ober-mañ da benn.
+    helper: 
+      time_future: Echuiñ a ray a-benn {{time}}.
+      time_past: Echuet {{time}} zo.
+      until_login: Oberiant betek ma kevre an implijer.
+    index: 
+      empty: N'eus bet graet stankadur ebet c'hoazh.
+      heading: Roll stankadurioù an implijer
+      title: Stankadurioù an implijer
+    model: 
+      non_moderator_revoke: Ret eo bezañ un habaskaer evit terriñ ur stankadur.
+      non_moderator_update: Ret eo deoc'h bezañ habaskaer evit krouiñ pe hizivaat ur stankadur.
+    new: 
+      back: Gwelet an holl stankadurioù
+      heading: Krouiñ ur stankadur evit {{name}}
+      submit: Krouiñ ur stankadur
+      title: O krouiñ ur bloc'h war {{name}}
+      tried_contacting: Aet on e darempred gant an implijer ha goulennet em eus digantañ paouez.
+      tried_waiting: Amzer a-walc'h am eus roet d'an implijer evit respont d'ar c'hemennadennoù.
+    not_found: 
+      back: Distreiñ d'ar meneger
+    partial: 
+      confirm: Ha sur oc'h ?
+      creator_name: Krouer
+      display_name: Implijer stanket
+      edit: Aozañ
+      not_revoked: (n'eo ket torret)
+      reason: Abeg evit stankañ
+      revoke: Terriñ !
+      revoker_name: Torret gant
+      show: Diskouez
+      status: Statud
+    revoke: 
+      confirm: Ha sur oc'h hoc'h eus c'hoant da derriñ ar stankadur-mañ ?
+      flash: Torret eo bet ar stankadur-mañ.
+      revoke: Terriñ !
+    show: 
+      back: Gwelet an holl stankadurioù
+      confirm: Ha sur oc'h ?
+      edit: Aozañ
+      heading: "{{block_on}} stanket gant {{block_by}}"
+      reason: "Abeg ar stankadur :"
+      revoke: Terriñ !
+      revoker: "Torrer :"
+      show: Diskouez
+      status: Statud
+      time_future: Echuiñ a ray a-benn {{time}}
+      time_past: Echuet {{time}} zo
+      title: "{{block_on}} stanket gant {{block_by}}"
+    update: 
+      only_creator_can_edit: N'eus nemet an habaskaer en deus krouet ar stankadur-mañ a c'hall e aozañ.
+      success: Hizivaet eo ar stankadur.
+  user_role: 
+    filter: 
+      already_has_role: Ar roll {{roll}} zo gant an implijer dija.
+      doesnt_have_role: N'emañ ket ar roll {{role}} gant an implijer.
+      not_a_role: An neudennad « {{role}} » n'eo ket ur roll reizh.
+      not_an_administrator: N'eus nemet ar verourien a c'hall merañ ar rolloù, ha n'oc'h ket ur merour.
+    grant: 
+      are_you_sure: Ha sur oc'h hoc'h eus c'hoant da reiñ ar roll "{{role}}" d'an implijer "{{name}}" ?
+      confirm: Kadarnaat
+      heading: Kadarnaat roidigezh ar roll
+      title: Kadarnaat roidigezh ar roll
+    revoke: 
+      confirm: Kadarnaat
+      heading: Kadarnaat torridigezh ar roll
+      title: Kadarnaat torridigezh ar roll
