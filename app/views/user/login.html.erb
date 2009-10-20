@@ -4,10 +4,10 @@
 
 <% form_tag :action => 'login' do %>
 <%= hidden_field_tag('referer', h(params[:referer])) %>
-<table>
+<table id="loginForm">
   <tr><td class="fieldName"><%= t 'user.login.email or username' %></td><td><%= text_field('user', 'email',{:size => 28, :maxlength => 255, :tabindex => 1}) %></td></tr>
   <tr><td class="fieldName"><%= t 'user.login.password' %></td><td><%= password_field('user', 'password',{:size => 28, :maxlength => 255, :tabindex => 2}) %> <span class="minorNote">(<%= link_to t('user.login.lost password link'), :controller => 'user', :action => 'lost_password' %>)</span></td></tr>
-  <tr><td colspan=2>&nbsp;<!--vertical spacer--></td></tr>
-  <tr><td></td><td align="left"><%= submit_tag t('user.login.login_button'), :tabindex => 3 %></td></tr>
+  <tr><td colspan="2">&nbsp;<!--vertical spacer--></td></tr>
+  <tr><td></td><td align="right"><%= submit_tag t('user.login.login_button'), :tabindex => 3 %></td></tr>
 </table>
 <% end %>
