@@ -5,8 +5,8 @@
 #
 # Helper functions are in /lib/potlatch.rb
 #
-# Author::	editions Systeme D / Richard Fairhurst 2004-2008
-# Licence::	public domain.
+# Author::  editions Systeme D / Richard Fairhurst 2004-2008
+# Licence:: public domain.
 #
 # == General structure
 #
@@ -24,8 +24,8 @@
 # == Debugging
 # 
 # Any method that returns a status code (0 for ok) can also send:
-#	return(-1,"message")	    	<-- just puts up a dialogue
-#	return(-2,"message")	    	<-- also asks the user to e-mail me
+# return(-1,"message")        <-- just puts up a dialogue
+# return(-2,"message")        <-- also asks the user to e-mail me
 # return(-3,["type",v],id)    <-- version conflict
 # return(-4,"type",id)        <-- object not found
 # -5 indicates the method wasn't called (due to a previous error)
@@ -52,45 +52,47 @@ class AmfController < ApplicationController
   def amf_read
     if request.post?
       req=StringIO.new(request.raw_post+0.chr)# Get POST data as request
-                                # (cf http://www.ruby-forum.com/topic/122163)
-      req.read(2)								# Skip version indicator and client ID
-      results={}								# Results of each body
+                                              # (cf http://www.ruby-forum.com/topic/122163)
+      req.read(2)                             # Skip version indicator and client ID
 
       # Parse request
 
-      headers=AMF.getint(req)				# Read number of headers
-
-      headers.times do					# Read each header
-        name=AMF.getstring(req)				#  |
-        req.getc				   	#  | skip boolean
-        value=AMF.getvalue(req)				#  |
-        header["name"]=value				#  |
+      headers=AMF.getint(req)           # Read number of headers
+      headers.times do                  # Read each header
+        name=AMF.getstring(req)         #  |
+        req.getc                        #  | skip boolean
+        value=AMF.getvalue(req)         #  |
+        header["name"]=value            #  |
       end
 
-      bodies=AMF.getint(req)				# Read number of bodies
-      bodies.times do					# Read each body
-        message=AMF.getstring(req)			#  | get message name
-        index=AMF.getstring(req)			#  | get index in response sequence
-        bytes=AMF.getlong(req)				#  | get total size in bytes
-        args=AMF.getvalue(req)				#  | get response (probably an array)
-        logger.info("Executing AMF #{message}(#{args.join(',')}):#{index}")
+      bodies=AMF.getint(req)            # Read number of bodies
+      render :content_type => "application/x-amf", :text => proc { |response, output| 
+        a,b=bodies.divmod(256)
+        output.write 0.chr+0.chr+0.chr+0.chr+a.chr+b.chr
+        bodies.times do                 # Read each body
+          message=AMF.getstring(req)    #  | get message name
+          index=AMF.getstring(req)      #  | get index in response sequence
+          bytes=AMF.getlong(req)        #  | get total size in bytes
+          args=AMF.getvalue(req)        #  | get response (probably an array)
+          result=''
+          logger.info("Executing AMF #{message}(#{args.join(',')}):#{index}")
 
-        case message
-          when 'getpresets';        results[index]=AMF.putdata(index,getpresets(*args))
-          when 'whichways';         results[index]=AMF.putdata(index,whichways(*args))
-          when 'whichways_deleted'; results[index]=AMF.putdata(index,whichways_deleted(*args))
-          when 'getway';            results[index]=AMF.putdata(index,getway(args[0].to_i))
-          when 'getrelation';       results[index]=AMF.putdata(index,getrelation(args[0].to_i))
-          when 'getway_old';        results[index]=AMF.putdata(index,getway_old(args[0].to_i,args[1]))
-          when 'getway_history';    results[index]=AMF.putdata(index,getway_history(args[0].to_i))
-          when 'getnode_history';   results[index]=AMF.putdata(index,getnode_history(args[0].to_i))
-          when 'findgpx';           results[index]=AMF.putdata(index,findgpx(*args))
-          when 'findrelations';     results[index]=AMF.putdata(index,findrelations(*args))
-          when 'getpoi';            results[index]=AMF.putdata(index,getpoi(*args))
+          case message
+            when 'getpresets';        result=AMF.putdata(index,getpresets(*args))
+            when 'whichways';         result=AMF.putdata(index,whichways(*args))
+            when 'whichways_deleted'; result=AMF.putdata(index,whichways_deleted(*args))
+            when 'getway';            result=AMF.putdata(index,getway(args[0].to_i))
+            when 'getrelation';       result=AMF.putdata(index,getrelation(args[0].to_i))
+            when 'getway_old';        result=AMF.putdata(index,getway_old(args[0].to_i,args[1]))
+            when 'getway_history';    result=AMF.putdata(index,getway_history(args[0].to_i))
+            when 'getnode_history';   result=AMF.putdata(index,getnode_history(args[0].to_i))
+            when 'findgpx';           result=AMF.putdata(index,findgpx(*args))
+            when 'findrelations';     result=AMF.putdata(index,findrelations(*args))
+            when 'getpoi';            result=AMF.putdata(index,getpoi(*args))
+          end
+          output.write(result)
         end
-      end
-      logger.info("Encoding AMF results")
-      sendresponse(results)
+      }
     else
       render :nothing => true, :status => :method_not_allowed
     end
@@ -100,48 +102,51 @@ class AmfController < ApplicationController
     if request.post?
       req=StringIO.new(request.raw_post+0.chr)
       req.read(2)
-      results={}
-      renumberednodes={}			    	# Shared across repeated putways
-      renumberedways={}				    	# Shared across repeated putways
+      renumberednodes={}              # Shared across repeated putways
+      renumberedways={}               # Shared across repeated putways
 
-      headers=AMF.getint(req)	    	# Read number of headers
-      headers.times do				    	# Read each header
-        name=AMF.getstring(req)	    #  |
-        req.getc    					      #  | skip boolean
-        value=AMF.getvalue(req)   	#  |
-        header["name"]=value	    	#  |
+      headers=AMF.getint(req)         # Read number of headers
+      headers.times do                # Read each header
+        name=AMF.getstring(req)       #  |
+        req.getc                      #  | skip boolean
+        value=AMF.getvalue(req)       #  |
+        header["name"]=value          #  |
       end
 
-      bodies=AMF.getint(req)	    	# Read number of bodies
-      bodies.times do					      # Read each body
-        message=AMF.getstring(req)	#  | get message name
-        index=AMF.getstring(req)		#  | get index in response sequence
-        bytes=AMF.getlong(req)			#  | get total size in bytes
-        args=AMF.getvalue(req)			#  | get response (probably an array)
-        err=false                   # Abort batch on error
+      bodies=AMF.getint(req)          # Read number of bodies
+      render :content_type => "application/x-amf", :text => proc { |response, output| 
+        a,b=bodies.divmod(256)
+        output.write 0.chr+0.chr+0.chr+0.chr+a.chr+b.chr
+        bodies.times do               # Read each body
+          message=AMF.getstring(req)  #  | get message name
+          index=AMF.getstring(req)    #  | get index in response sequence
+          bytes=AMF.getlong(req)      #  | get total size in bytes
+          args=AMF.getvalue(req)      #  | get response (probably an array)
+          err=false                   # Abort batch on error
 
-        logger.info("Executing AMF #{message}:#{index}")
-        if err
-          results[index]=[-5,nil]
-        else
-          case message
-            when 'putway';         orn=renumberednodes.dup
-                                   r=putway(renumberednodes,*args)
-                                   r[4]=renumberednodes.reject { |k,v| orn.has_key?(k) }
-                                   if r[2] != r[3] then renumberedways[r[2]] = r[3] end
-                                   results[index]=AMF.putdata(index,r)
-            when 'putrelation';    results[index]=AMF.putdata(index,putrelation(renumberednodes, renumberedways, *args))
-            when 'deleteway';      results[index]=AMF.putdata(index,deleteway(*args))
-            when 'putpoi';         r=putpoi(*args)
-                                   if r[2] != r[3] then renumberednodes[r[2]] = r[3] end
-                                   results[index]=AMF.putdata(index,r)
-            when 'startchangeset'; results[index]=AMF.putdata(index,startchangeset(*args))
-           end
-          if results[index][0]==-3 then err=true end  # If a conflict is detected, don't execute any more writes
+          logger.info("Executing AMF #{message}:#{index}")
+          result=''
+          if err
+            result=[-5,nil]
+          else
+            case message
+              when 'putway';         orn=renumberednodes.dup
+                                     r=putway(renumberednodes,*args)
+                                     r[4]=renumberednodes.reject { |k,v| orn.has_key?(k) }
+                                     if r[2] != r[3] then renumberedways[r[2]] = r[3] end
+                                     result=AMF.putdata(index,r)
+              when 'putrelation';    result=AMF.putdata(index,putrelation(renumberednodes, renumberedways, *args))
+              when 'deleteway';      result=AMF.putdata(index,deleteway(*args))
+              when 'putpoi';         r=putpoi(*args)
+                                     if r[2] != r[3] then renumberednodes[r[2]] = r[3] end
+                                     result=AMF.putdata(index,r)
+              when 'startchangeset'; result=AMF.putdata(index,startchangeset(*args))
+            end
+            if result[0]==-3 then err=true end    # If a conflict is detected, don't execute any more writes
+          end
+          output.write(result)
         end
-      end
-      logger.info("Encoding AMF results")
-      sendresponse(results)
+      }
     else
       render :nothing => true, :status => :method_not_allowed
     end
@@ -193,7 +198,7 @@ class AmfController < ApplicationController
           cs.save_with_tags!
         end
       end
-	
+  
       # open a new changeset
       if opennew!=0
         cs = Changeset.new
@@ -639,7 +644,7 @@ class AmfController < ApplicationController
   def putway(renumberednodes, usertoken, changeset_id, wayversion, originalway, pointlist, attributes, nodes, deletednodes) #:doc:
     amf_handle_error("'putway' #{originalway}" ,'way',originalway) do
       # -- Initialise
-	
+  
       user = getuser(usertoken)
       if !user then return -1,"You are not logged in, so the way could not be saved." end
       unless user.active_blocks.empty? then return -1,t('application.setup_user_auth.blocked') end
@@ -650,7 +655,7 @@ class AmfController < ApplicationController
       originalway = originalway.to_i
       pointlist.collect! {|a| a.to_i }
 
-      way=nil	# this is returned, so scope it outside the transaction
+      way=nil # this is returned, so scope it outside the transaction
       nodeversions = {}
       Way.transaction do
 
@@ -703,7 +708,7 @@ class AmfController < ApplicationController
         new_way.version = wayversion
         if originalway <= 0
           new_way.create_with_history(user)
-          way=new_way	# so we can get way.id and way.version
+          way=new_way # so we can get way.id and way.version
         else
           way = Way.find(originalway)
           if way.tags!=attributes or way.nds!=pointlist or !way.visible?
@@ -887,21 +892,6 @@ class AmfController < ApplicationController
     return user
   end
 
-  # Send AMF response
-  
-  def sendresponse(results)
-    a,b=results.length.divmod(256)
-    render :content_type => "application/x-amf", :text => proc { |response, output| 
-      # ** move amf writing loop into here - 
-      # basically we read the messages in first (into an array of some sort),
-      # then iterate through that array within here, and do all the AMF writing
-      output.write 0.chr+0.chr+0.chr+0.chr+a.chr+b.chr
-      results.each do |k,v|
-        output.write(v)
-      end
-    }
-  end
-
   def getlocales
     Dir.glob("#{RAILS_ROOT}/config/potlatch/locales/*").collect { |f| File.basename(f, ".yml") }
   end
@@ -946,16 +936,16 @@ class AmfController < ApplicationController
     EOF
     return ActiveRecord::Base.connection.select_all(sql).collect { |a| [a['wayid'].to_i,a['version'].to_i] }
   end
-	
+  
   def sql_find_pois_in_area(xmin,ymin,xmax,ymax)
     pois=[]
     sql=<<-EOF
-		  SELECT current_nodes.id,current_nodes.latitude*0.0000001 AS lat,current_nodes.longitude*0.0000001 AS lon,current_nodes.version 
-			FROM current_nodes 
+      SELECT current_nodes.id,current_nodes.latitude*0.0000001 AS lat,current_nodes.longitude*0.0000001 AS lon,current_nodes.version 
+      FROM current_nodes 
        LEFT OUTER JOIN current_way_nodes cwn ON cwn.node_id=current_nodes.id 
-		   WHERE current_nodes.visible=TRUE
-			 AND cwn.id IS NULL
-			 AND #{OSM.sql_for_area(ymin, xmin, ymax, xmax, "current_nodes.")}
+       WHERE current_nodes.visible=TRUE
+       AND cwn.id IS NULL
+       AND #{OSM.sql_for_area(ymin, xmin, ymax, xmax, "current_nodes.")}
     EOF
     ActiveRecord::Base.connection.select_all(sql).each do |row|
       poitags={}
@@ -966,7 +956,7 @@ class AmfController < ApplicationController
     end
     pois
   end
-	
+  
   def sql_find_relations_in_area_and_ways(xmin,ymin,xmax,ymax,way_ids)
     # ** It would be more Potlatchy to get relations for nodes within ways
     #    during 'getway', not here
@@ -989,17 +979,17 @@ class AmfController < ApplicationController
     end
     ActiveRecord::Base.connection.select_all(sql).collect { |a| [a['relid'].to_i,a['version'].to_i] }
   end
-	
+  
   def sql_get_nodes_in_way(wayid)
     points=[]
     sql=<<-EOF
       SELECT latitude*0.0000001 AS lat,longitude*0.0000001 AS lon,current_nodes.id,current_nodes.version 
       FROM current_way_nodes,current_nodes 
        WHERE current_way_nodes.id=#{wayid.to_i} 
-		   AND current_way_nodes.node_id=current_nodes.id 
-		   AND current_nodes.visible=TRUE
+       AND current_way_nodes.node_id=current_nodes.id 
+       AND current_nodes.visible=TRUE
       ORDER BY sequence_id
-	  EOF
+    EOF
     ActiveRecord::Base.connection.select_all(sql).each do |row|
       nodetags={}
       ActiveRecord::Base.connection.select_all("SELECT k,v FROM current_node_tags WHERE id=#{row['id']}").each do |n|
@@ -1010,7 +1000,7 @@ class AmfController < ApplicationController
     end
     points
   end
-	
+  
   def sql_get_tags_in_way(wayid)
     tags={}
     ActiveRecord::Base.connection.select_all("SELECT k,v FROM current_way_tags WHERE id=#{wayid.to_i}").each do |row|
