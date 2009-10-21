@@ -7,8 +7,30 @@
 eo: 
   activerecord: 
     attributes: 
+      diary_entry: 
+        language: Lingvo
+        latitude: Latitudo
+        longitude: Longitudo
+        user: Uzanto
+      friend: 
+        friend: Amiko
+        user: Uzanto
+      trace: 
+        description: Priskribo
+        latitude: Latitudo
+        longitude: Longitudo
+        name: Nomo
+        user: Uzanto
+        visible: Videbla
       user: 
+        languages: Lingvoj
         pass_crypt: Pasvorto
+    models: 
+      friend: Amiko
+      language: Lingvo
+      message: Mesaĝo
+      session: Seanco
+      user: Uzanto
   browse: 
     changeset: 
       changeset: "Ŝanĝaro: {{id}}"
@@ -162,24 +184,70 @@ eo:
       view_details: vidi detalojn
       way_history: Historio de vojo
       way_history_title: Historio de vojo
+  changeset: 
+    changesets: 
+      user: Uzanto
+    list: 
+      description: Ĵusaj ŝanĝoj
+  diary_entry: 
+    edit: 
+      language: "Lingvo:"
+      latitude: "Latitudo:"
+      location: "Loko:"
+      longitude: "Longitudo:"
+      save_button: Konservi
+    view: 
+      login: Ensaluti
+      save_button: Konservi
   export: 
     start: 
       image_size: Grando de Bildo
+  geocoder: 
+    description: 
+      types: 
+        places: Lokoj
   layouts: 
     edit: Redakti
     edit_tooltip: Redakti mapojn
+    help_wiki: Helpo kaj Vikio
     help_wiki_tooltip: Helpo kaj Vikio por la projekto
+    log_in: ensaluti
+    logo: 
+      alt_text: Emblemo de OpenStreetMap
     logout: elsaluti
     logout_tooltip: Elsaluti
+    sign_up: aliĝi
+    welcome_user: Bonvenon, {{user_link}}
   map: 
     coordinates: "Koordinatoj:"
     edit: Redakti
     view: Vidi
+  message: 
+    message_summary: 
+      delete_button: Forigi
+      reply_button: Respondi
+    new: 
+      back_to_inbox: Reen al mesaĝejo
+      send_button: Sendi
+      send_message_to: Sendi novan mesaĝon al {{name}}
+      title: Sendi mesaĝon
+    outbox: 
+      my_inbox: Mia {{inbox_link}}
+    read: 
+      back_to_inbox: Reen al mesaĝejo
+      reply_button: Respondi
+      to: Al
+    sent_message_summary: 
+      delete_button: Forigi
   notifier: 
+    email_confirm_html: 
+      greeting: Saluton,
     lost_password_html: 
       greeting: Saluton,
     lost_password_plain: 
       greeting: Saluton,
+    signup_confirm_html: 
+      more_videos_here: pliaj filmetoj ĉi tie
   oauth_clients: 
     edit: 
       submit: Redakti
@@ -188,6 +256,8 @@ eo:
     create: 
       trace_uploaded: Via GPX dosiero estis alŝutita kaj atendas enkonduko en la datumbason. Tiu ĝenerale okazas antaŭ duonhoro, kaj retletero estos sendita al vi je finaĵo.
       upload_trace: Alŝuti GPS spuron
+    delete: 
+      scheduled_for_deletion: Spuro forviŝota
     edit: 
       description: "Priskribo:"
       download: elŝuti
@@ -198,13 +268,28 @@ eo:
       owner: "Posedanto:"
       points: "Punktoj:"
       save_button: Konservi Ŝanĝojn
+      start_coord: "Komencaj koordinatoj:"
       tags: "Etikedoj:"
+      tags_help: dislimataj de komoj
+      title: Redaktante spuron {{name}}
+      uploaded_at: "Alŝutita je:"
       visibility: "Videbleco:"
+      visibility_help: Kion tio signifas ?
     list: 
       public_traces: Publikaj GPS spuroj
       public_traces_from: Publikaj GPS spuroj el {{user}}
+      tagged_with: "  etikedata kun {{tags}}"
+      your_traces: Viaj GPS spuroj
+    make_public: 
+      made_public: Publikigita spuro
+    no_such_user: 
+      body: Bedaŭrinde, ne ekzistas uzanto nomita {{user}}. Bonvolu kontroli la literumadon aŭ la ligon kion vi sekvis.
+      heading: La uzanto {{user}} ne ekzistas
+      title: La uzanto {{user}} ne ekzistas
     trace: 
+      ago: Antaŭ  {{time_in_words_ago}}
       by: de
+      count_points: "{{count}} punktoj"
       edit: redakti
       edit_map: Redakti Mapon
       in: en
@@ -213,16 +298,22 @@ eo:
       pending: OKAZANTA
       private: PRIVATA
       public: PUBLIKA
+      trace_details: Vidi detalojn de spuro
       view_map: Vidi Mapon
     trace_form: 
       description: Priskribo
       help: Helpo
       tags: Etikedoj
+      tags_help: dislimataj de komoj
       upload_button: Alŝuti
+      upload_gpx: Alŝuti GPX dosieron
       visibility: Videbleco
+      visibility_help: Kion tio signifas ?
     trace_header: 
       see_all_traces: Vidi ĉiujn spurojn
       see_just_your_traces: Vidi nur viajn spurojn, aŭ alŝuti iun spuron
+      see_your_traces: Vidi ĉiujn viajn spurojn
+      traces_waiting: Vi havas {{count}} spurojn atendanta alŝutado. Bonvolu konsideri atendi ke ili terminas alŝuti antaŭ alŝuti aliajn. Tiel vi ne blokus la atendovicon por aliaj uzantoj.
     trace_optionals: 
       tags: Etikedoj
     trace_paging_nav: 
@@ -233,14 +324,25 @@ eo:
       description: "Priskribo:"
       download: elŝuti
       edit: redakti
+      edit_track: Redakti tiun spuron
       filename: "Dosiernomo:"
+      heading: Montrante spuron {{name}}
       map: mapo
       none: Neniu
       owner: "Posedanto:"
       pending: OKAZANTA
       points: "Punktoj:"
+      start_coordinates: "Komencaj koordinatoj:"
       tags: "Etikedoj:"
+      title: Montrante spuron {{name}}
+      trace_not_found: Spuro ne trovebla!
+      uploaded: "Alŝutita je:"
       visibility: "Videbleco:"
+    visibility: 
+      identifiable: Identigebla (montrata en spurlisto kaj kiel identigeblaj, ordigitaj punktoj kun tempstampo)
+      private: Privata (nur partigita kiel sennomaj, neordigitaj punktoj)
+      public: Publika (montrata en spurlisto kaj kiel sennomaj, neordigitaj punktoj)
+      trackable: Spurebla (nur partigita kiel sennomaj, ordigitaj punktoj kun tempstampoj)
   user: 
     account: 
       home location: "Hejma Loko:"
@@ -250,6 +352,8 @@ eo:
       preferred languages: "Preferataj Lingvoj:"
       public editing: 
         disabled link text: kial mi ne povas redakti?
+        enabled link text: Kio estas tio ?
+        heading: "Publika redaktado:"
       return to profile: Reen al profilo
       save changes button: Konservi Ŝanĝojn
       title: Redakti konton
@@ -258,28 +362,66 @@ eo:
       heading: Konfirmi uzantan konton
     confirm_email: 
       button: Konfirmi
+      heading: Konfirmi ŝanĝon de retadreso.
+      press confirm button: Premu la butonon sube por konfirmi vian novan retadreson.
+      success: Via retadreso estis konfirmita, dankon pro registriĝo.
+    filter: 
+      not_an_administrator: Vi devas esti administristo por fari tion.
     friend_map: 
+      nearby mapper: "Proksima uzanto: [[nearby_user]]"
       your location: Via loko
     login: 
+      create_account: krei konton
+      email or username: "Retpoŝtadreso aŭ Salutnomo:"
       heading: Ensaluti
       login_button: Ensaluti
+      lost password link: Ĉu vi forgesis vian pasvorton ?
       password: "Pasvorto:"
+      please login: Bonvolu ensaluti aŭ {{create_user_link}}.
       title: Ensaluti
     lost_password: 
       email address: "Retpoŝtadreso:"
+      heading: Forgesis vian pasvorton ?
+      new password button: Nuligi pasvorton
+      title: Perdita pasvorto
     make_friend: 
       already_a_friend: Vi jam estas amiko de {{name}}.
+      failed: Bedaŭrinde, malsukcesis aldoni {{name}} kiel amiko.
       success: "{{name}} nun estas via amiko."
     new: 
+      confirm email address: "Konfirmi Retpoŝtadreson:"
       confirm password: "Konfirmi Pasvorton:"
       password: "Pasvorto:"
+      signup: Aliĝi
       title: Krei konton
     reset_password: 
       confirm password: "Konfirmi Pasvorton:"
+      flash changed: Via pasvorto estis ŝanĝita.
+      heading: Nuligi Pasvorton por {{user}}
       password: "Pasvorto:"
+      reset: Nuligi Pasvorton
+      title: Nuligi pasvorton
+    set_home: 
+      flash success: Hejma loko sukcese konservita
     view: 
+      add as friend: aldoni kiel amikon
+      add image: Aldoni Bildon
+      change your settings: ŝanĝi viajn agordojn
+      delete image: Forigi Bildon
+      description: Priskribo
+      edits: redaktoj
+      email address: "Retpoŝtadreso:"
+      my settings: miaj agordoj
+      send message: sendi mesaĝon
+      settings_link_text: agordoj
       upload an image: Alŝuti bildon
+      user location: Loko de uzanto
       your friends: Viaj amikoj
+  user_block: 
+    show: 
+      edit: Redakti
+      show: Montri
+      status: Stato
   user_role: 
     filter: 
       already_has_role: La uzanto jam rolas {{role}}.

@@ -371,12 +371,16 @@ en:
         uk_postcode: 'Results from <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>'
         ca_postcode: 'Results from <a href="http://geocoder.ca/">Geocoder.CA</a>'
         osm_namefinder: 'Results from <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>'
+        osm_twain: 'Results from <a href="http://katie.openstreetmap.org/~twain/">OpenStreetMap Twain</a>'
         geonames: 'Results from <a href="http://www.geonames.org/">GeoNames</a>'
     search_osm_namefinder:
       prefix: "{{type}}"
       suffix_place: ", {{distance}} {{direction}} of {{placename}}"
       suffix_parent: "{{suffix}} ({{parentdistance}} {{parentdirection}} of {{parentname}})"
       suffix_suburb: "{{suffix}}, {{parentname}}"
+    search_osm_twain:
+      prefix_highway: "{{type}} road"
+      prefix_other: "{{type}}"
     description:
       title:
         osm_namefinder: '{{types}} from <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>'
@@ -496,9 +500,7 @@ en:
         import_failures_url: "http://wiki.openstreetmap.org/wiki/GPX_Import_Failures"
       success:
         subject: "[OpenStreetMap] GPX Import success"
-        loaded_successfully: |
-          loaded successfully with {{trace_points}} out of a possible
-          {{possible_points}} points.
+        loaded_successfully: loaded successfully with {{trace_points}} out of a possible {{possible_points}} points.
     signup_confirm:
       subject: "[OpenStreetMap] Confirm your email address"
     signup_confirm_plain:
@@ -511,7 +513,8 @@ en:
       more_videos: "There are more videos here:"
       the_wiki: "Get reading about OpenStreetMap on the wiki:"
       the_wiki_url: "http://wiki.openstreetmap.org/wiki/Beginners%27_Guide"
-      opengeodata: "OpenGeoData.org is OpenStreetMap's blog, and it has podcasts too:"
+      blog_and_twitter: "Catch up with the latest news via the OpenStreetMap blog or Twitter:"
+      opengeodata: "OpenGeoData.org is OpenStreetMap founder Steve Coast's blog, and it has podcasts too:"
       wiki_signup: "You may also want to sign up to the OpenStreetMap wiki at:"
       wiki_signup_url: "http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page"
       # next four translations are in pairs : please word wrap appropriately
@@ -527,7 +530,7 @@ en:
       video_to_openstreetmap: "introductory video to OpenStreetMap"
       more_videos: "There are {{more_videos_link}}."
       more_videos_here: "more videos here"
-      get_reading: 'Get reading about OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Beginners%27_Guide">on the wiki</a> or <a href="http://www.opengeodata.org/">the opengeodata blog</a> which has <a href="http://www.opengeodata.org/?cat=13">podcasts to listen to</a> also!'
+      get_reading: Get reading about OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Beginners%27_Guide">on the wiki</a>, catch up with the latest news via the <a href="http://blog.openstreetmap.org/">OpenStreetMap blog</a> or <a href="http://twitter.com/openstreetmap">Twitter</a>, or browse through OpenStreetMap founder Steve Coast's <a href="http://www.opengeodata.org/">OpenGeoData blog</a> for the potted history of the project, which has <a href="http://www.opengeodata.org/?cat=13">podcasts to listen to</a> also!
       wiki_signup: 'You may also want to <a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page">sign up to the OpenStreetMap wiki</a>.'
       user_wiki_page: 'It is recommended that you create a user wiki page, which includes category tags noting where you are, such as <a href="http://wiki.openstreetmap.org/wiki/Category:Users_in_London">[[Category:Users_in_London]]</a>.'
       current_user: 'A list of current users in categories, based on where in the world they are, is available from <a href="http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region">Category:Users_by_geographical_region</a>.'
@@ -894,6 +897,7 @@ en:
       heading: "Forgotten Password?"
       email address: "Email Address:"
       new password button: "Reset password"
+      help_text: "Enter the email address you used to sign up, we'll send a link to it that you can use to reset your password."
       notice email on way: "Sorry you lost it :-( but an email is on its way so you can reset it soon."
       notice email cannot find: "Couldn't find that email address, sorry."
     reset_password:
@@ -915,6 +919,7 @@ en:
       confirm email address: "Confirm Email Address:"
       not displayed publicly: 'Not displayed publicly (see <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="wiki privacy policy including section on email addresses">privacy policy</a>)'
       display name: "Display Name:"
+      display name description: "Your publicly displayed username. You can change this later in the preferences."
       password: "Password:"
       confirm password: "Confirm Password:"
       signup: Signup

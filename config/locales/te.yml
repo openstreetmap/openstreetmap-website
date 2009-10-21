@@ -7,6 +7,8 @@ te:
     attributes: 
       diary_entry: 
         language: భాష
+        latitude: అక్షాంశం
+        longitude: రేఖాంశం
         title: శీర్షిక
         user: వాడుకరి
       friend: 
@@ -15,6 +17,8 @@ te:
         title: శీర్షిక
       trace: 
         description: వివరణ
+        latitude: అక్షాశం
+        longitude: రేఖాంశం
         name: పేరు
         size: పరిమాణం
         user: వాడుకరి
@@ -26,10 +30,14 @@ te:
         pass_crypt: సంకేతపదం
     models: 
       country: దేశం
+      diary_comment: డైరీ వ్యాఖ్య
       language: భాష
       message: సందేశం
       user: వాడుకరి
   browse: 
+    changeset_navigation: 
+      user: 
+        name_tooltip: "{{user}} యొక్క మార్పులను చూడండి"
     common_details: 
       changeset_comment: "వ్యాఖ్య:"
       edited_by: "మార్చినది:"
@@ -40,8 +48,13 @@ te:
       view_history: చరిత్రని చూడండి
     node_history: 
       view_details: వివరాలను చూడండి
+    relation: 
+      relation_title: "సంబంధం: {{relation_name}}"
+      view_history: చరిత్రని చూడండి
     relation_details: 
       members: "సభ్యులు:"
+    relation_history: 
+      view_details: వివరాలను చూడండి
     relation_member: 
       type: 
         relation: సంబంధం
@@ -57,9 +70,12 @@ te:
       view_details: వివరాలను చూడండి
   changeset: 
     changeset: 
+      anonymous: అజ్ఞాత
+      no_comment: (ఏమీలేదు)
       no_edits: (మార్పులు లేవు)
       still_editing: (ఇంకా మారుస్తున్నారు)
     changesets: 
+      area: ప్రదేశం
       comment: వ్యాఖ్య
       user: వాడుకరి
     list: 
@@ -71,9 +87,19 @@ te:
         other: "{{count}} వ్యాఖ్యలు"
     edit: 
       language: "భాష:"
+      latitude: "అక్షాంశం:"
+      location: "ప్రాంతం:"
+      longitude: "రేఖాంశం:"
       save_button: భద్రపరచు
       subject: "విషయం:"
+    list: 
+      title: వాడుకరుల డైరీలు
+    no_such_user: 
+      heading: "{{user}} అనే వాడుకరి లేనే లేరు"
     view: 
+      leave_a_comment: వ్యాఖ్యానించండి
+      login: ప్రవేశించు
+      login_to_leave_a_comment: వ్యాఖ్యానించడానికి {{login_link}}
       save_button: భద్రపరచు
   export: 
     start: 
@@ -86,22 +112,43 @@ te:
     direction: 
       east: తూర్పు
       north: ఉత్తరం
+      north_west: వాయువ్యం
       south: దక్షిణం
+      south_east: ఆగ్నేయం
+      south_west: నైరుతి
       west: పడమర
     distance: 
       one: దాదాపు 1కిమీ
       other: దాదాపు {{count}}కిమీ
     results: 
       no_results: ఫలితాలేమీ దొరకలేదు
+    search: 
+      title: 
+        ca_postcode: <a href="http://geocoder.ca/">Geocoder.CA</a> నుండి ఫలితాలు
+        geonames: <a href="http://www.geonames.org/">GeoNames</a> నుండి ఫలితాలు
+        us_postcode: <a href="http://geocoder.us/">Geocoder.us</a> నుండి ఫలితాలు
+    search_osm_twain: 
+      prefix_highway: "{{type}} రహదారి"
   layouts: 
     edit: మార్చు
     help_wiki: సహాయం &amp; వికీ
     history: చరిత్ర
+    home: ముంగిలి
+    log_in: ప్రవేశించండి
+    logo: 
+      alt_text: ఓపెన్&zwnj;స్ట్రీట్&zwnj;మాప్ చిహ్నం
+    logout: నిష్క్రమించు
+    logout_tooltip: నిష్క్రమించు
+    make_a_donation: 
+      text: విరాళమివ్వండి
     news_blog: వార్తల బ్లాగు
+    tag_line: స్వేచ్ఛా వికీ ప్రపంచ పటం
+    user_diaries: వాడుకరి డైరీలు
     welcome_user: స్వాగతం, {{user_link}}
     welcome_user_link_tooltip: మీ వాడుకరి పేజీ
   map: 
     edit: మార్చు
+    view: చూడండి
   message: 
     inbox: 
       date: తేదీ
@@ -109,15 +156,21 @@ te:
     message_summary: 
       delete_button: తొలగించు
     new: 
+      send_button: పంపించు
+      send_message_to: "{{name}}కి ఒక సందేశాన్ని పంపండి"
       subject: విషయం
     outbox: 
       date: తేదీ
       subject: విషయం
     read: 
       date: తేదీ
+      reply_button: జవాబివ్వు
       subject: విషయం
     sent_message_summary: 
       delete_button: తొలగించు
+  notifier: 
+    gpx_notification: 
+      with_description: వివరణతో
   oauth_clients: 
     edit: 
       submit: మార్చు
@@ -133,12 +186,19 @@ te:
     key: 
       table: 
         entry: 
+          building: ప్రముఖ కట్టడము
+          cemetery: స్మశానం
           commercial: వాణిజ్య ప్రదేశం
+          common: 
+            - పచ్చికబయలు
+          construction: నిర్మాణంలో ఉన్న రహదార్లు
           farm: పొలాలు
           footway: కాల్దారి
           forest: అడవి
+          industrial: పారిశ్రామిక ప్రదేశం
           lake: 
             - సరస్సు
+            - జలాశయం
           military: మిలిటరీ ప్రదేశం
           park: పార్కు
           primary: ప్రధాన రహదారి
@@ -149,51 +209,122 @@ te:
           wood: కలప
     search: 
       search: వెతుకు
+      search_help: "ఉదాహరణలు: 'Alkmaar', 'Regent Street, Cambridge', 'CB2 5AQ', లేదా 'post offices near Lünen' <a href='http://wiki.openstreetmap.org/wiki/Search'>మరిన్ని ఉదాహరణలు...</a>"
       submit_text: వెళ్ళు
       where_am_i: నేను ఎక్కడ ఉన్నాను?
     sidebar: 
+      close: మూసివేయి
       search_results: అన్వేషణ ఫలితాలు
   trace: 
     edit: 
       description: "వివరణ:"
+      download: దింపుకోలు
+      edit: మార్చు
       filename: "ఫైలుపేరు:"
       save_button: మార్పులను భద్రపరచు
       visibility_help: దీని అర్థం ఏమిటి?
+    no_such_user: 
+      heading: "{{user}} అనే వాడుకరి లేనే లేరు"
+    trace: 
+      edit: మార్చు
     trace_form: 
       description: వివరణ
       help: సహాయం
+      visibility_help: దీని అర్థమేమిటి?
     view: 
       description: "వివరణ:"
+      download: దింపుకోలు
+      edit: మార్చు
+      filename: "ఫైలుపేరు:"
   user: 
     account: 
+      email never displayed publicly: (బహిరంగంగా ఎన్నటికీ చూపించబడదు)
+      latitude: "అక్షాంశం:"
+      longitude: "రేఖాంశం:"
       my settings: నా అమరికలు
       preferred languages: "ప్రాధాన్యతా భాషలు:"
       public editing: 
+        disabled link text: నేను ఎందుకు మార్చలేను?
         enabled link text: ఇది ఏమిటి?
       save changes button: మార్పులను భద్రపరచు
+    confirm: 
+      button: నిర్ధారించు
+    confirm_email: 
+      button: నిర్ధారించు
     friend_map: 
       your location: మీ ప్రాంతం
     login: 
+      create_account: ఖాతాని సృష్టించుకోండి
       email or username: "ఈమెయిల్ చిరునామా లేదా వాడుకరిపేరు:"
       heading: ప్రవేశం
+      login_button: ప్రవేశించు
       lost password link: మీ సంకేతపదం పోయిందా?
       password: "సంకేతపదం:"
+      please login: దయచేసి ప్రవేశించండి లేదా {{create_user_link}}.
+      title: ప్రవేశం
     lost_password: 
       email address: "ఈమెయిల్ చిరునామా:"
       heading: సంకేతపదం మర్చిపోయారా?
+      notice email cannot find: క్షమించండి, ఆ ఈమెయిలు చిరునామా దొరకలేదు.
     make_friend: 
       success: "{{name}} ఇప్పుడు మీ మిత్రులు."
     new: 
+      confirm email address: "ఈమెయిలు చిరునామాని నిర్ధారించండి:"
+      confirm password: "సంకేతపదాన్ని నిర్ధారించండి:"
       display name: "చూపించే పేరు:"
       email address: "ఈమెయిలు చిరునామా:"
+      heading: వాడుకరి ఖాతాని సృష్టించుకోండి
+      not displayed publicly: బహిరంగంగా చూపించబడదు (<a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="wiki privacy policy including section on email addresses">గోప్యతా విధానాన్ని</a> చూడండి)
       password: "సంకేతపదం:"
+      signup: నమోదు
+      title: ఖాతా సృష్టింపు
+    no_such_user: 
+      heading: "{{user}} వాడుకరి లేనే లేరు"
     reset_password: 
+      confirm password: "సంకేతపదాన్ని నిర్ధారించండి:"
+      flash changed: మీ సంకేతపదాన్ని మార్చాం.
       password: "సంకేతపదం:"
     view: 
+      ago: ({{time_in_words_ago}} క్రితం)
+      blocks on me: నా మీద నిరోధాలు
+      change your settings: మీ అమరికలను మార్చుకోండి
+      confirm: నిర్ధారించు
+      create_block: ఈ వాడుకరిని నిరోధించు
       description: వివరణ
       edits: మార్పులు
+      email address: "ఈమెయిలు చిరునామా:"
+      km away: "{{count}}కిమీ దూరంలో"
+      m away: "{{count}}మీ దూరంలో"
+      my diary: నా డైరీ
       my edits: నా మార్పులు
       my settings: నా అమరికలు
       nearby users: "దగ్గరలోని వాడుకరులు:"
+      send message: సందేశాన్ని పంపించు
       settings_link_text: అమరికలు
+      user image heading: వాడుకరి చిత్రం
+      user location: వాడుకరి ప్రాంతం
       your friends: మీ స్నేహితులు
+  user_block: 
+    blocks_on: 
+      title: "{{name}} పై నిరోధాలు"
+    index: 
+      heading: వాడుకరి నిరోధాల జాబితా
+      title: వాడుకరి నిరోధాలు
+    partial: 
+      edit: మార్చు
+      reason: నిరోధానికి కారణం
+      status: స్థితి
+    period: 
+      one: 1 గంట
+      other: "{{count}} గంటలు"
+    revoke: 
+      confirm: మీరు నిజంగానే ఈ నిరోధాన్ని ఎత్తివేయాలనుకుంటున్నారా?
+    show: 
+      back: అన్ని నిరోధాలను చూడండి
+      edit: మార్చు
+      reason: "నిరోధానికి కారణం:"
+      show: చూపించు
+      status: స్థితి
+  user_role: 
+    grant: 
+      confirm: నిర్ధారించు

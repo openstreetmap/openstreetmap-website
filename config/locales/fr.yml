@@ -70,7 +70,7 @@ fr:
       relation_tag: Balise de relation
       session: Session
       trace: Piste
-      tracepoint: Point de la piste
+      tracepoint: Point de la trace
       tracetag: Balise de la piste
       user: Utilisateur
       user_preference: Préférences de l'utilisateur
@@ -79,6 +79,8 @@ fr:
       way_node: Nœud du chemin
       way_tag: Balise du chemin
   application: 
+    require_cookies: 
+      cookies_needed: Il semble que les cookies soient désactivés sur votre navigateur. Veuillez les activer avant de continuer.
     setup_user_auth: 
       blocked: Votre accès à l'API a été bloqué. Connectez-vous sur l'interface web pour plus d'informations.
   browse: 
@@ -231,7 +233,7 @@ fr:
     way_history: 
       download: "{{download_xml_link}} ou {{view_details_link}}"
       download_xml: Télécharger le XML
-      view_details: Voir les détails
+      view_details: voir les détails
       way_history: Historique du chemin
       way_history_title: "Historique du chemin : {{way_name}}"
   changeset: 
@@ -387,11 +389,14 @@ fr:
         geonames: Résultats depuis <a href="http://www.geonames.org/">GeoNames</a>
         latlon: Résultats <a href="http://openstreetmap.org/">internes</a>
         osm_namefinder: Résultats depuis <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>
+        osm_twain: Résultats de <a href="http://katie.openstreetmap.org/~twain/">OpenStreetMap Twain</a>
         uk_postcode: Résultats depuis <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Résultats depuis <a href="http://geocoder.us/">Geocoder.us</a>
     search_osm_namefinder: 
       suffix_parent: "{{suffix}} ({{parentdistance}} {{parentdirection}} de {{parentname}})"
       suffix_place: ", {{distance}} {{direction}} de {{placename}}"
+    search_osm_twain: 
+      prefix_highway: route {{type}}
   javascripts: 
     map: 
       base: 
@@ -573,7 +578,7 @@ fr:
     signup_confirm_html: 
       click_the_link: Si vous êtes à l'origine de cette action, bienvenue ! Cliquez sur le lien ci-dessous pour confirmer la création de compte et avoir plus d'informations sur OpenStreetMap
       current_user: Une liste par catégories des utilisateurs actuels, basée sur leur position géographique, est disponible dans <a href="http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region">Category:Users_by_geographical_region</a>.
-      get_reading: Plus d’informations sur OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/FR:Beginners_Guide">sur le wiki</a> ou <a href="http://www.opengeodata.org/">sur le blog opengeodata</a> qui propose également des  <a href="http://www.opengeodata.org/?cat=13">podcasts à écouter</a> !
+      get_reading: Informez-vous sur OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/FR:Beginners_Guide">sur le wiki</a>, restez au courant des dernières infos ''via'' le <a href="http://blog.openstreetmap.org/">blog OpenStreetMap</a> ou <a href="http://twitter.com/openstreetmap">Twitter</a>, ou surfez sur le <a href="http://www.opengeodata.org/">blog OpenGeoData</a> de Steve Coast, le fondateur d’OpenStreetMap pour un petit historique du projet, avec également <a href="http://www.opengeodata.org/?cat=13">des podcasts à écouter</a> !
       greeting: Bonjour !
       hopefully_you: Quelqu'un (probablement vous) aimerait créer un compte sur
       introductory_video: Vous pouvez visionner une {{introductory_video_link}}.
@@ -583,6 +588,7 @@ fr:
       video_to_openstreetmap: vidéo introductive à OpenStreetMap
       wiki_signup: Vous pouvez également vous <a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page">créer un compte sur le wiki d'OpenStreetMap</a>.
     signup_confirm_plain: 
+      blog_and_twitter: "Restez au courant des dernières infos ''via'' le blog OpenStreetMap ou Twitter :"
       click_the_link_1: Si vous êtes à l'origine de cette requête, bienvenue ! Cliquez sur le lien ci-dessous pour confirmer votre
       click_the_link_2: compte et obtenir plus d'informations à propos d'OpenStreetMap.
       current_user_1: Une liste des utilisateurs actuels, basée sur leur localisation dans le monde,
@@ -591,7 +597,7 @@ fr:
       hopefully_you: Quelqu'un (probablement vous) aimerait créer un compte sur
       introductory_video: "Vous pouvez visionner une vidéo introductive à OpenStreetMap ici :"
       more_videos: "Davantage de vidéos sont disponibles ici :"
-      opengeodata: "OpenGeoData.org est le blog de OpenStreetMap, et il propose également des podcasts:"
+      opengeodata: "OpenGeoData.org est le blog de Steve Coast, le fondateur d’OpenStreetMap et il propose également des podcasts :"
       the_wiki: "Lisez à propos d'OpenStreetMap sur le wiki :"
       user_wiki_1: Il est recommandé de créer une page utilisateur qui inclut
       user_wiki_2: des catégories qui indiquent votre localisation, comme [[Category:Users_in_London]].
@@ -605,7 +611,7 @@ fr:
       allow_write_diary: créez des entrées dans le journal, des commentaires et faites-vous des amis.
       allow_write_gpx: envoyer des traces GPS.
       allow_write_prefs: modifier vos préférences utilisateur.
-      request_access: L'application {{app_name}} demande l'accès à votre compte. Vérifiez si vous désirez que les applications aient les possibilités suivantes. Vous pouvez choisir autant ou aussi peu que vous voulez.
+      request_access: L'application {{app_name}} demande l'accès à votre compte. Vérifiez si vous désirez que l'application ait les possibilités suivantes. Vous pouvez en choisir autant ou aussi peu que vous voulez.
     revoke: 
       flash: Vous avez révoqué le jeton pour {{application}}
   oauth_clients: 
@@ -647,7 +653,7 @@ fr:
       sorry: Désolé, ce {{type}} n’a pas pu être trouvé.
     show: 
       access_url: "URL du jeton d'accès :"
-      allow_read_gpx: lire leurs chemins GPS privés.
+      allow_read_gpx: lire leurs traces GPS privées.
       allow_read_prefs: consulter ses préférences utilisateur.
       allow_write_api: modifier la carte.
       allow_write_diary: créez des entrées dans le journal, des commentaire et faîtes-vous des amis.
@@ -695,16 +701,16 @@ fr:
           bridleway: Sentier pour chevaux
           brownfield: Zone rasée
           building: Bâtiment important
-          byway: Piste
+          byway: Chemin
           cable: 
             - Téléphérique
-            - Télésiège
+            - télésiège
           cemetery: Cimetière
           centre: Centre sportif
           commercial: Zone tertiaire
           common: 
+            - Espace commun
             - prairie
-            - Prairie
           construction: Routes en construction
           cycleway: Voie cyclable
           destination: Réservé aux riverains
@@ -716,7 +722,7 @@ fr:
           industrial: Zone industrielle
           lake: 
             - Lac
-            - Bassin de retenue
+            - bassin de retenue
           military: Zone militaire
           motorway: Autoroute
           park: Parc
@@ -729,8 +735,8 @@ fr:
           resident: Zone résidentielle
           retail: Zone de commerce
           runway: 
-            - Piste d’aéroport
-            - Voie de circulation d'aéroport
+            - Piste
+            - voie de circulation d'aéroport
           school: 
             - École
             - université
@@ -743,7 +749,7 @@ fr:
           tourist: Attraction touristique
           track: Piste
           tram: 
-            - Tramway
+            - Voie ferrée légère
             - tram
           trunk: Voie express
           tunnel: Bord en pointillés = tunnel
@@ -761,7 +767,7 @@ fr:
       search_results: Résultats de la recherche
   trace: 
     create: 
-      trace_uploaded: Votre fichier GPX a été téléversé et est en attente de son intégration dans la base de données. Cela prend en général moins d'une demie heure, et un email vous sera envoyé lorsque cette tâche sera finie.
+      trace_uploaded: Votre fichier GPX a été envoyé et est en attente de son intégration dans la base de données. Ceci prend en général moins d'une demie heure, et un email vous sera envoyé lorsque cette tâche sera finie.
       upload_trace: Envoyer la trace GPS
     delete: 
       scheduled_for_deletion: Piste prévue pour la suppression
@@ -770,7 +776,7 @@ fr:
       download: télécharger
       edit: modifier
       filename: "Nom du fichier :"
-      heading: Modifier le chemin {{name}}
+      heading: Modifier la trace {{name}}
       map: carte
       owner: "Propriétaire :"
       points: "Points :"
@@ -778,8 +784,8 @@ fr:
       start_coord: "Coordonnées de départ :"
       tags: "Balises :"
       tags_help: séparé par des virgules
-      title: Modifier le chemin {{name}}
-      uploaded_at: "Envoyé à :"
+      title: Modifier la trace {{name}}
+      uploaded_at: "Envoyé le :"
       visibility: "Visibilité :"
       visibility_help: que signifie ceci ?
     list: 
@@ -805,7 +811,7 @@ fr:
       pending: EN ATTENTE
       private: PRIVÉ
       public: PUBLIQUE
-      trace_details: Voir les détails du chemin
+      trace_details: Voir les détails de la trace
       view_map: Voir la carte
     trace_form: 
       description: Description
@@ -817,10 +823,10 @@ fr:
       visibility: Visibilité
       visibility_help: qu'est-ce que cela veut dire ?
     trace_header: 
-      see_all_traces: Voir tous les chemins
-      see_just_your_traces: Voir seulement vos chemins, ou importer un chemin
-      see_your_traces: Voir tous vos chemins
-      traces_waiting: Vous avez {{count}} chemins en attente d’envoi. Il serait peut-être préférable d’attendre avant d’en envoyer d’autres, pour ne pas bloquer la file d’attente aux autres utilisateurs.
+      see_all_traces: Voir toutes les traces
+      see_just_your_traces: Voir seulement vos traces, ou envoyer une trace
+      see_your_traces: Voir toutes vos traces
+      traces_waiting: Vous avez {{count}} traces en attente d’envoi. Il serait peut-être préférable d’attendre avant d’en envoyer d’autres, pour ne pas bloquer la file d’attente aux autres utilisateurs.
     trace_optionals: 
       tags: Balises
     trace_paging_nav: 
@@ -833,7 +839,7 @@ fr:
       edit: modifier
       edit_track: Modifier cette piste
       filename: "Nom du fichier :"
-      heading: Affichage du chemin {{name}}
+      heading: Affichage de la trace {{name}}
       map: carte
       none: Aucun
       owner: "Propriétaire :"
@@ -841,14 +847,14 @@ fr:
       points: "Points :"
       start_coordinates: "Coordonnées de départ :"
       tags: "Balises :"
-      title: Affichage du chemin {{name}}
-      trace_not_found: Chemin introuvable !
-      uploaded: "Téléversé dans :"
+      title: Affichage de la trace {{name}}
+      trace_not_found: Trace introuvable !
+      uploaded: "Envoyé le :"
       visibility: "Visibilité :"
     visibility: 
-      identifiable: Identifiable (affiché dans la liste des chemin et comme identifiable, points ordonnés avec les dates)
+      identifiable: Identifiable (affiché dans la liste des traces et comme identifiable, points ordonnés avec les dates)
       private: Privé (partagé anonymement, points non ordonnés)
-      public: Public (affiché dans la liste des chemins et anonymement, points non ordonnés)
+      public: Public (affiché dans la liste des traces et anonymement, points non ordonnés)
       trackable: Pistable (partagé seulement anonymement, points ordonnés avec les dates)
   user: 
     account: 
@@ -886,6 +892,8 @@ fr:
       heading: Confirmer le changement de votre adresse e-mail
       press confirm button: Appuyer sur le bouton confirmer pour confirmer votre nouvelle adresse e-mail.
       success: Adresse email confirmée, merci de vous être enregistré !
+    filter: 
+      not_an_administrator: Vous devez être administrateur pour effectuer cette action.
     friend_map: 
       nearby mapper: "Mappeur dans les environs: [[nearby_user]]"
       your location: Votre emplacement
@@ -905,6 +913,7 @@ fr:
     lost_password: 
       email address: "Adresse e-mail :"
       heading: Vous avez perdu votre mot de passe ?
+      help_text: Entrez l'adresse e-mail que vous avez utilisée à votre inscription, nous enverrons à cette adresse un lien que vous pouvez utiliser pour réinitialiser votre mot de passe.
       new password button: Envoyer un nouveau mot de passe
       notice email cannot find: Adresse email introuvable, désolé.
       notice email on way: Un e-mail vous a été envoyé pour réinitialiser votre mot de passe.
@@ -918,9 +927,10 @@ fr:
       confirm password: "Confirmer le mot de passe :"
       contact_webmaster: Veuillez contacter le <a href='mailto:webmaster@openstreetmap.org'>webmaster</a> pour qu'il vous crée un compte - nous essaierons de traiter votre demande le plus rapidement possible.
       display name: "Nom affiché :"
+      display name description: Votre nom d'utilisateur affiché publiquement. Vous pouvez changer ceci ultérieurement dans les préférences.
       email address: "Adresse e-mail :"
       fill_form: Remplissez le formulaire et nous vous enverrons un e-mail pour activer votre compte.
-      flash create success message: L'utilisateur a été créé avec succès. Vérifier votre e-mail de confirmation, et vous serez prêt à mapper dans peu de temps :-)<br /><br />Veuillez noter que vous ne serez pas capable de vous connecter tant que vous n'aurez pas recu le mail de confirmation et confirmé votre e-mail. <br /><br />Si vous utilisez un logiciel anti-spam qui envoie des requêtes de confirmation, veuillez mettre dans votre liste blanche webmaster@openstreetmap.org car nous sommes incapables de répondre à ces e-mails.
+      flash create success message: L'utilisateur a été créé avec succès. Vérifiez votre e-mail de confirmation, et vous serez prêt à mapper dans peu de temps :-)<br /><br />Veuillez noter que vous ne pourrez pas vous connecter tant que vous n'aurez pas reçu l'e-mail de confirmation et confirmé votre adresse e-mail. <br /><br />Si vous utilisez un logiciel anti-spam qui envoie des requêtes de confirmation, veuillez mettre webmaster@openstreetmap.org dans votre liste blanche, car nous sommes incapables de répondre à ces e-mails.
       heading: Créer un compte utilisateur
       license_agreement: En créant un compte, vous acceptez que tout le travail envoyé sur Openstreetmap.org et toutes les données créées par l'utilisation d'outils qui se connectent à Openstreetmap.org soient sous la licence (non exclusive) <a href='http://creativecommons.org/licenses/by-sa/2.0/'>Creative Commons license (by-sa)</a>.
       no_auto_account_create: Malheureusement, nous sommes actuellement dans l'impossibilité de vous créer un compte automatiquement.
@@ -946,6 +956,7 @@ fr:
     set_home: 
       flash success: Emplacement de mon domicile sauvegardé avec succès
     view: 
+      activate_user: activer cet utilisateur
       add as friend: ajouter en tant qu'ami
       add image: Ajouter une image
       ago: (il y a {{time_in_words_ago}})
@@ -953,11 +964,17 @@ fr:
       blocks by me: blocages donnés
       blocks on me: Mes blocages
       change your settings: modifiez vos options
+      confirm: Confirmer
       create_block: bloquer cet utilisateur
+      created from: "Créé depuis :"
+      deactivate_user: désactiver cet utilisateur
       delete image: Effacer l'image
+      delete_user: supprimer cet utilisateur
       description: Description
       diary: journal
       edits: modifications
+      email address: "Adresse email :"
+      hide_user: masquer cet utilisateur
       if set location: Si vous définissez un lieu, une jolie carte va apparaître en dessous. Vous pouvez définir votre lieu sur votre page {{settings_link}}.
       km away: "{{count}} km"
       m away: distant de {{count}} m
@@ -986,6 +1003,7 @@ fr:
       send message: envoyer un message
       settings_link_text: options
       traces: traces
+      unhide_user: ré-afficher cet utilisateur
       upload an image: Envoyer une image
       user image heading: Image utilisateur
       user location: Emplacement de l'utilisateur
@@ -1030,7 +1048,7 @@ fr:
     new: 
       back: Voir tous les blocages
       heading: Créé un blocage sur {{name}}
-      needs_view: Est-ce que l'utilisateur doit se connecter avant que ce blocage soit effacé ?
+      needs_view: L'utilisateur doit se connecter avant que ce blocage soit effacé
       period: Pendant combien de temps, à partir de maintenant, l'utilisateur doit être bloqué sur l'API ?
       reason: Raison pour laquelle {{name}} est bloqué. Merci d'être aussi calme et raisonnable que possible, et de donner autant de détails que possible sur la situation. N'oubliez pas que ce message sera visible par tous. Sachez que tout le monde ne comprend pas le jargon de la communauté, alors utilisez des termes simples et précis.
       submit: Créer un blocage

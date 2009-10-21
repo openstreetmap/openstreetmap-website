@@ -5,6 +5,7 @@
 # Author: Cohan
 # Author: Grillo
 # Author: Liftarn
+# Author: Luen
 # Author: Magol
 # Author: Per
 # Author: Poxnar
@@ -69,7 +70,7 @@ sv:
       way_node: Sträcknod
   application: 
     setup_user_auth: 
-      blocked: Du har blivit blockerad från API:et. Vargod logga in via webinterfacet för att få reda på mer.
+      blocked: Du har blivit blockerad från API:et. Var god logga in via webinterfacet för att få reda på mer.
   browse: 
     changeset: 
       changeset: "Ändringsset: {{id}}"
@@ -186,7 +187,7 @@ sv:
       object_list: 
         api: Hämta detta område från API:t
         back: Visa objektlista
-        details: Delaljer
+        details: Detaljer
         heading: Objektlista
         history: 
           type: 
@@ -251,7 +252,9 @@ sv:
     diary_entry: 
       comment_count: 
         one: 1 kommentar
+        other: "{{count}} kommentarer"
       comment_link: Kommentera denna anteckning
+      edit_link: Redigera denna anteckning
       posted_by: Skrivet av {{link_user}} den {{created}} på {{language_link}}
       reply_link: Svara på denna anteckning
     edit: 
@@ -261,6 +264,7 @@ sv:
       longitude: "Longitud:"
       save_button: Spara
       subject: "Ärende:"
+      title: Redigera dagboksanteckning
       use_map_link: använd karta
     feed: 
       language: 
@@ -279,11 +283,13 @@ sv:
       heading: "Ingen dagboksanteckning med id: {{id}}"
       title: Ingen sådan dagboksanteckning
     no_such_user: 
+      body: Det finns ingen användare med namnet {user}}. Kontrollera din stavning, eller kanske det är länken du klickade på som är fel.
       heading: Användaren {{user}} finns inte
       title: Ingen sådan användare
     view: 
       leave_a_comment: Lämna en kommentar
       login: Inloggning
+      login_to_leave_a_comment: "{{login_link}} för att lämna en kommentar"
       save_button: Spara
       user_title: Dagbok för {{user}}
   export: 
@@ -794,6 +800,7 @@ sv:
       description: Beskrivning
       diary: dagbok
       edits: redigeringar
+      email address: "E-post:"
       if set location: Om du sätter din position, så kommer en karta med lite funktioner att dyka upp här nedanför. Du kan sätta din hemposition på din {{settings_link}}-sida.
       km away: "{{count}}km bort"
       m away: "{{count}}m bort"
@@ -802,7 +809,7 @@ sv:
       my diary: min dagbok
       my edits: mina redigeringar
       my settings: Mina inställningar
-      my traces: min GPS-spår
+      my traces: mina GPS-spår
       my_oauth_details: Visa mina OAuth-detaljer
       nearby users: "Användare nära dig:"
       new diary entry: nytt dagboksinlägg
@@ -829,19 +836,27 @@ sv:
   user_block: 
     create: 
       flash: Skapat en blockering av användare {{name}}.
+      try_contacting: Försök att kontakta användarenoch ge användaren tid att svara innan du blockerar .
     partial: 
       confirm: Är du säker?
       display_name: Blockerad användare
       edit: Ändra
       reason: Orsak till blockering
       revoke: Återkalla!
+      show: Visa
+    period: 
+      one: 1 timma
+      other: "{{count}} timmar"
     show: 
+      back: Se alla blockeringar
       confirm: Är du säker?
       edit: Ändra
+      needs_view: Användaren måste logga in innan blockeringen upphör.
       reason: "Anledning för blockering:"
       revoke: Återkalla!
       show: Visa
       status: Status
+      time_future: Upphör om {{time}}
   user_role: 
     filter: 
       already_has_role: Användaren har rollen {{role}}.
@@ -849,8 +864,11 @@ sv:
       not_a_role: Strängen `{{role}}' är inte en korrekt roll.
       not_an_administrator: Endast adminstratörer kan ändra användares roller och du är inte administratör.
     grant: 
+      are_you_sure: Är du säker på att du vill ge rollen `{{role}}' till användaren `{{name}}'?
       confirm: Bekräfta
       heading: Bekräfta rolltilldelning
       title: Bekräfta rolltilldelning
     revoke: 
       confirm: Bekräfta
+      heading: Bekräfta återkallning av roll
+      title: Bekräfta återkallning av roll

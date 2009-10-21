@@ -191,10 +191,16 @@ end
     return getMapCenter();
   }
 
-  function setPosition(lat, lon, zoom) {
+  function setPosition(lat, lon, zoom, min_lon, min_lat, max_lon, max_lat) {
     var centre = new OpenLayers.LonLat(lon, lat);
 
-    setMapCenter(centre, zoom);
+    if (min_lon && min_lat && max_lon && max_lat) {
+      var bbox = new OpenLayers.Bounds(min_lon, min_lat, max_lon, max_lat);
+
+      setMapExtent(bbox);
+    } else {
+      setMapCenter(centre, zoom);
+    }
 
     if (marker)
       removeMarkerFromMap(marker);

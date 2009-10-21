@@ -2,8 +2,10 @@
 # Exported from translatewiki.net
 # Export driver: syck
 # Author: Damouns
+# Author: EtienneChove
 # Author: IAlex
 # Author: Jean-Frédéric
+# Author: Peter17
 fr: 
   a_poi: $1 un POI
   a_way: $1 un chemin
@@ -18,12 +20,12 @@ fr:
   action_movepoi: Déplacer un POI
   action_movepoint: Déplacer un point
   action_moveway: Déplacer un chemin
-  action_pointtags: Paramétrer un point
-  action_poitags: Paramétrer un POI
+  action_pointtags: entrer les balises sur un point
+  action_poitags: entrer les balises sur un POI
   action_reverseway: Inverser le sens du chemin
   action_revertway: rétablir un chemin
   action_splitway: Scinder un chemin
-  action_waytags: Paramétrer un chemin
+  action_waytags: entrer les balises sur un chemin
   advanced: Avancé
   advanced_close: Fermer le groupe de modifications
   advanced_history: Historique du chemin
@@ -31,7 +33,7 @@ fr:
   advanced_maximise: Maximiser la fenêtre
   advanced_minimise: Réduire la fenêtre
   advanced_parallel: Chemin parallèle
-  advanced_tooltip: Actions d'édition avancées
+  advanced_tooltip: Actions de modification avancées
   advanced_undelete: Rétablir
   advice_bendy: Trop de courbure pour aligner (Maj pour forcer)
   advice_deletingpoi: Suppression du POI (Z pour annuler)
@@ -39,9 +41,9 @@ fr:
   advice_nocommonpoint: Les chemins ne partagent pas de point commun
   advice_revertingpoi: Rétablissement au dernier POI sauvegardé (Z pour annuler)
   advice_revertingway: Retour au dernier chemin sauvegardé (Z pour annuler)
-  advice_tagconflict: Les tags ne correspondent pas - Veuillez vérifier
+  advice_tagconflict: Les balises ne correspondent pas - Veuillez vérifier
   advice_toolong: Trop long pour débloquer la situation - Scindez le chemin en chemins plus courts
-  advice_uploadempty: Rien à importer
+  advice_uploadempty: Rien à envoyer
   advice_uploadfail: Envoi arrêté
   advice_uploadsuccess: Toutes les données ont été correctement envoyées
   advice_waydragged: Chemin déplacé (Z pour annuler)
@@ -52,15 +54,15 @@ fr:
   conflict_poichanged: Après le début de votre modification, quelqu'un a modifié le point $1$2.
   conflict_relchanged: Après le début de votre modification, quelqu'un a modifié la relation $1$2.
   conflict_visitpoi: Cliquez sur « Ok » pour montrer le point.
-  conflict_visitway: Cliquer sur 'OK' pour voir le chemin.
+  conflict_visitway: Cliquer sur 'Ok' pour voir le chemin.
   conflict_waychanged: Après le début de votre modification, quelqu'un a modifié le chemin $1$2.
   createrelation: Créer une nouvelle relation
   custom: "Personnalisé :"
   delete: Supprimer
   deleting: Supprimer
   drag_pois: Déplacer des points d'intérêt
-  editinglive: Édition en direct
-  editingoffline: Édition hors-ligne
+  editinglive: Modification en direct
+  editingoffline: Modification hors-ligne
   emailauthor: \n\nMerci d'envoyer un e-mail a richard\@systemeD.net pour signaler ce bogue, en expliquant ce que vous faisiez quand il est survenu.
   error_anonymous: Vous ne pouvez pas contacter un mappeur anonyme.
   error_connectionfailed: Désolé, la connexion au serveur OpenStreetMap a échoué. Vos changements récents ne sont pas enregistrés.\n\nVoulez-vous réessayer ?
@@ -80,12 +82,24 @@ fr:
   heading_troubleshooting: Dépannage
   help: Aide
   hint_drawmode: Clic pour ajouter un point\nDouble-clic/Entrée pour terminer le chemin
+  hint_latlon: "lat $1\nlon $2"
   hint_loading: Chargement des chemins en cours
   hint_overendpoint: Sur le dernier point du tracé\nClick pour joindre\nShift-click pour fusionner
   hint_overpoint: Point du dessus\nClick pour joindre
   hint_pointselected: Point sélectionné\n(Shift-clic sur le point pour\ncommencer une nouvelle ligne)
   hint_saving: sauvegarde des données
   hint_saving_loading: Charger/sauvegarder les données
+  inspector: Inspecteur
+  inspector_in_ways: Dans les chemins
+  inspector_latlon: "Lat $1\nLon $2"
+  inspector_locked: Verrouillé
+  inspector_not_in_any_ways: Présent dans aucun chemin (POI)
+  inspector_unsaved: Non sauvegardé
+  inspector_uploading: (envoi)
+  inspector_way_connects_to: Connecté à $1 chemins
+  inspector_way_connects_to_principal: Connecte à $1 $2 et $3 autres $4
+  inspector_way_nodes: $1 nœuds
+  inspector_way_nodes_closed: $1 nœuds (fermé)
   login_pwd: "Mot de passe :"
   login_retry: Votre nom d'utilisateur du site n'a pas été reconnu. Merci de réessayer.
   login_title: Connexion impossible
@@ -105,6 +119,12 @@ fr:
   option_custompointers: Remplacer la souris par le Crayon et la Main
   option_external: "Lancement externe :"
   option_fadebackground: Arrière-plan éclairci
+  option_layer_cycle_map: OSM - carte cycliste
+  option_layer_maplint: OSM - Maplint (erreurs)
+  option_layer_ooc_25k: Historique UK au 1:25k
+  option_layer_ooc_7th: Historique UK 7e
+  option_layer_ooc_npe: Historique UK NPE
+  option_layer_tip: Choisir l'arrière-plan à afficher
   option_noname: Mettre en évidence les toutes non nommées
   option_photo: "Photo KML :"
   option_thinareas: Utiliser des lignes plus fines pour les surfaces
@@ -112,24 +132,51 @@ fr:
   option_tiger: Voir les données TIGER non modifiées
   option_warnings: Montrer les avertissements flottants
   point: Point
+  preset_icon_airport: Aéroport
+  preset_icon_bar: Bar
+  preset_icon_bus_stop: Arrêt de bus
+  preset_icon_cafe: Café
+  preset_icon_cinema: Cinéma
+  preset_icon_convenience: Épicerie
+  preset_icon_fast_food: Restauration rapide
+  preset_icon_ferry_terminal: Terminal de ferry
+  preset_icon_fire_station: Caserne de pompiers
+  preset_icon_hospital: Hôpital
+  preset_icon_hotel: Hôtel
+  preset_icon_museum: Musée
+  preset_icon_parking: Parc de stationnement
+  preset_icon_pharmacy: Pharmacie
+  preset_icon_place_of_worship: Lieu de culte
+  preset_icon_police: Poste de police
+  preset_icon_post_box: Boîte aux lettres
+  preset_icon_pub: Pub
+  preset_icon_recycling: Recyclage
+  preset_icon_restaurant: Restaurant
+  preset_icon_school: École
+  preset_icon_station: Gare
+  preset_icon_supermarket: Supermarché
+  preset_icon_taxi: Station de taxis
+  preset_icon_telephone: Téléphone
+  preset_icon_theatre: Théâtre
+  preset_tip: Choisir dans un menu de balises présélectionnées décrivant le $1
   prompt_addtorelation: Ajouter $1 à la relation
   prompt_changesetcomment: "Entrez une description de vos modifications :"
   prompt_closechangeset: Fermer le groupe de modifications $1
   prompt_createparallel: Créer un chemin parallèle
-  prompt_editlive: Éditer en direct
-  prompt_editsave: Éditer avec sauvegarde
+  prompt_editlive: Modifier en direct
+  prompt_editsave: Modifier avec sauvegarde
   prompt_helpavailable: Nouvel utilisateur ? Regardez en bas à gauche pour de l'aide
   prompt_launch: Lancer un URL externe
   prompt_revertversion: "Revenir à une version sauvegardée plus récente :"
   prompt_savechanges: Sauvegarder les modifications
-  prompt_taggedpoints: Certains points de ce chemin sont tagués. Souhaitez-vous les supprimer?
+  prompt_taggedpoints: Certains points de ce chemin sont balisés. Souhaitez-vous les supprimer?
   prompt_track: Conversion d'une trace GPS en chemin (verrouillé) pour l'édition
   prompt_welcome: Bienvenue sur OpenStreetMap !
   retry: Réessayer
   revert: Révoquer
   save: Sauvegarder
   tip_addrelation: Ajouter à une relation
-  tip_addtag: Ajouter un nouveau tag
+  tip_addtag: Ajouter une nouvelle balise
   tip_alert: Une erreur est survenue - Cliquez pour plus de détails
   tip_anticlockwise: Circulation dans le sens inverse des aiguilles d'une montre (trigonométrique) - Cliquez pour inverser le sens
   tip_clockwise: Circulation dans le sens des aiguilles d'une montre - Cliquez pour inverser le sens
@@ -139,11 +186,19 @@ fr:
   tip_options: Options (choix de la carte d'arrière plan)
   tip_photo: Charger des photos
   tip_presettype: Sélectionner le type de paramètres proposés dans le menu de sélection.
-  tip_repeattag: Recopier les informations du chemin sélectionné précédemment (R)
+  tip_repeattag: Recopier les balises du chemin sélectionné précédemment (R)
   tip_revertversion: Choisissez la version vers laquelle revenir
   tip_selectrelation: Ajouter à la route choisie
   tip_splitway: Scinder le chemin au point sélectionné (X)
   tip_tidy: Lisser les points du chemin (T)
   tip_undo: Annuler l'opération $1 (Z)
   uploading: Envoi...
+  uploading_deleting_pois: Supression des POI
+  uploading_deleting_ways: Suppression de chemins
+  uploading_poi: Envoi du POI $1
+  uploading_poi_name: Envoi du POI $1, $2
+  uploading_relation: Envoi de la relation $1
+  uploading_relation_name: Envoi de la relation $1, $2
+  uploading_way: Envoi du chemin $1
+  uploading_way_name: Envoi du chemin $1, $2
   way: Chemin

@@ -27,7 +27,8 @@
     <div id="search_field">
     <% form_remote_tag(:loading => "startSearch()",
                        :complete => "endSearch()",
-                       :url => { :controller => :geocoder, :action => :search }) do %>
+                       :url => { :controller => :geocoder, :action => :search },
+                       :html => { :method => "get", :action => url_for(:action => "index") }) do %>
       <%= text_field_tag :query, h(params[:query]) %>
       <%= submit_tag t('site.search.submit_text') %>
     <% end %>

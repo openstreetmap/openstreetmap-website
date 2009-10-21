@@ -20,10 +20,12 @@ class GeocoderController < ApplicationController
     elsif @query.match(/^(GIR 0AA|[A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]|[A-HK-Y][0-9]([0-9]|[ABEHMNPRV-Y]))|[0-9][A-HJKS-UW])\s*[0-9][ABD-HJLNP-UW-Z]{2})$/i)
       @sources.push "uk_postcode"
       @sources.push "osm_namefinder"
+      @sources.push "osm_twain" if APP_CONFIG['twain_enabled']
     elsif @query.match(/^[A-Z]\d[A-Z]\s*\d[A-Z]\d$/i)
       @sources.push "ca_postcode"
     else
       @sources.push "osm_namefinder"
+      @sources.push "osm_twain" if APP_CONFIG['twain_enabled']
       @sources.push "geonames"
     end
 
@@ -213,6 +215,44 @@ class GeocoderController < ApplicationController
     render :action => "error"
   end
 
+  def search_osm_twain
+    # get query parameters
+    query = params[:query]
+
+    # create result array
+    @results = Array.new
+
+    # ask OSM namefinder
+    response = fetch_xml("http://katie.openstreetmap.org/~twain/?format=xml&polygon=true&q=#{escape_query(query)}")
+
+    # parse the response
+    response.elements.each("searchresults/place") do |place|
+      lat = place.attributes["lat"].to_s
+      lon = place.attributes["lon"].to_s
+      zoom = place.attributes["zoom"].to_s
+      klass = place.attributes["class"].to_s
+      type = place.attributes["type"].to_s
+      name = place.attributes["display_name"].to_s
+      min_lat,max_lat,min_lon,max_lon = place.attributes["boundingbox"].to_s.split(",")
+
+      if klass == "highway"
+        prefix = t 'geocoder.search_osm_twain.prefix_highway', :type => type.capitalize
+      else
+        prefix = t 'geocoder.search_osm_twain.prefix_other', :type => type.capitalize
+      end
+
+      @results.push({:lat => lat, :lon => lon, :zoom => zoom,
+                     :min_lat => min_lat, :max_lat => max_lat,
+                     :min_lon => min_lon, :max_lon => max_lon,
+                     :prefix => prefix, :name => name})
+    end
+
+    render :action => "results"
+  rescue Exception => ex
+    @error = "Error contacting katie.openstreetmap.org: #{ex.to_s}"
+    render :action => "error"
+  end
+
   def search_geonames
     # get query parameters
     query = params[:query]
@@ -240,7 +280,7 @@ class GeocoderController < ApplicationController
     @error = "Error contacting ws.geonames.org: #{ex.to_s}"
     render :action => "error"
   end
-  
+
   def description
     @sources = Array.new
 

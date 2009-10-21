@@ -34,7 +34,7 @@ begin
     puts "<table>"
     puts "<tr><th>User</th><th>Number of Points</th></tr>"
 
-    Trace.sum(:size, :group => :user_id, :order => "sum_size DESC", :limit => 50).each do |user, count|
+    Trace.sum(:size, :conditions => { :inserted => true }, :group => :user_id, :order => "sum_size DESC", :limit => 50).each do |user, count|
       display_name = User.find(user).display_name.gsub('@', ' at ').gsub('.', ' dot ')
       puts "<tr><td><a href=\"/user/#{display_name}\">#{display_name}</a></td><td>#{count}</td></tr>"
     end
