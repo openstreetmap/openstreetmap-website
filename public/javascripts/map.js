@@ -22,6 +22,7 @@ function createMap(divName, options) {
          new OpenLayers.Control.Attribution(),
          new OpenLayers.Control.LayerSwitcher(),
          new OpenLayers.Control.Navigation(),
+         new OpenLayers.Control.PanZoom(),
          new OpenLayers.Control.PanZoomBar()
       ],
       units: "m",
