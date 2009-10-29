@@ -5,6 +5,8 @@
 te: 
   activerecord: 
     attributes: 
+      diary_comment: 
+        body: వివరణ
       diary_entry: 
         language: భాష
         latitude: అక్షాంశం
@@ -14,12 +16,14 @@ te:
       friend: 
         user: వాడుకరి
       message: 
+        body: వీవరణ
         title: శీర్షిక
       trace: 
         description: వివరణ
         latitude: అక్షాశం
         longitude: రేఖాంశం
         name: పేరు
+        public: బహిరంగం
         size: పరిమాణం
         user: వాడుకరి
       user: 
@@ -33,6 +37,8 @@ te:
       diary_comment: డైరీ వ్యాఖ్య
       language: భాష
       message: సందేశం
+      old_relation: పాత సంబంధం
+      relation: సంబంధం
       user: వాడుకరి
   browse: 
     changeset_navigation: 
@@ -48,12 +54,18 @@ te:
       view_history: చరిత్రని చూడండి
     node_history: 
       view_details: వివరాలను చూడండి
+    not_found: 
+      type: 
+        relation: సంబంధం
     relation: 
+      relation: సంబంధం
       relation_title: "సంబంధం: {{relation_name}}"
       view_history: చరిత్రని చూడండి
     relation_details: 
       members: "సభ్యులు:"
     relation_history: 
+      relation_history: సంబంధ చరిత్ర
+      relation_history_title: "సంబంధ చరిత్ర: {{relation_name}}"
       view_details: వివరాలను చూడండి
     relation_member: 
       type: 
@@ -62,6 +74,7 @@ te:
       details: వివరాలు
       object_list: 
         details: వివరాలు
+      show_history: చరిత్రని చూపించు
       wait: వేచియుండండి...
     way: 
       edit: మార్చు
@@ -71,12 +84,14 @@ te:
   changeset: 
     changeset: 
       anonymous: అజ్ఞాత
+      big_area: (పెద్దది)
       no_comment: (ఏమీలేదు)
       no_edits: (మార్పులు లేవు)
       still_editing: (ఇంకా మారుస్తున్నారు)
     changesets: 
       area: ప్రదేశం
       comment: వ్యాఖ్య
+      saved_at: భద్రపరచిన సమయం
       user: వాడుకరి
     list: 
       description: ఇటీవలి మార్పులు
@@ -85,7 +100,10 @@ te:
       comment_count: 
         one: 1 వ్యాఖ్య
         other: "{{count}} వ్యాఖ్యలు"
+      comment_link: ఈ పద్దుపై వ్యాఖ్యానించండి
+      reply_link: ఈ పద్దుపై స్పందించండి
     edit: 
+      body: "వివరణ:"
       language: "భాష:"
       latitude: "అక్షాంశం:"
       location: "ప్రాంతం:"
@@ -93,14 +111,22 @@ te:
       save_button: భద్రపరచు
       subject: "విషయం:"
     list: 
+      in_language_title: "{{language}}లో ఉన్న డైరీ పద్దులు"
+      newer_entries: కొత్త పద్దులు
+      no_entries: డైరీ పద్దులు లేవు
+      older_entries: పాత పద్దులు
+      recent_entries: "ఇటీవలి డైరీ పద్దులు:"
       title: వాడుకరుల డైరీలు
     no_such_user: 
       heading: "{{user}} అనే వాడుకరి లేనే లేరు"
+      title: అటువంటి వాడుకరి లేరు
     view: 
       leave_a_comment: వ్యాఖ్యానించండి
       login: ప్రవేశించు
       login_to_leave_a_comment: వ్యాఖ్యానించడానికి {{login_link}}
       save_button: భద్రపరచు
+      title: వాడుకరుల డైరీలు | {{user}}
+      user_title: "{{user}} యొక్క డైరీ"
   export: 
     start: 
       options: ఎంపికలు
@@ -129,12 +155,19 @@ te:
         us_postcode: <a href="http://geocoder.us/">Geocoder.us</a> నుండి ఫలితాలు
     search_osm_twain: 
       prefix_highway: "{{type}} రహదారి"
+  javascripts: 
+    map: 
+      base: 
+        noname: పేరులేదు
   layouts: 
     edit: మార్చు
     help_wiki: సహాయం &amp; వికీ
+    help_wiki_tooltip: ఈ ప్రాజెక్టుకై సహాయపు &amp; వికీ సైటు
     history: చరిత్ర
     home: ముంగిలి
+    inbox: వచ్చినవి ({{count}})
     log_in: ప్రవేశించండి
+    log_in_tooltip: ఇప్పటికే ఉన్న ఖాతాతో ప్రవేశించండి
     logo: 
       alt_text: ఓపెన్&zwnj;స్ట్రీట్&zwnj;మాప్ చిహ్నం
     logout: నిష్క్రమించు
@@ -142,6 +175,7 @@ te:
     make_a_donation: 
       text: విరాళమివ్వండి
     news_blog: వార్తల బ్లాగు
+    sign_up: నమోదవ్వండి
     tag_line: స్వేచ్ఛా వికీ ప్రపంచ పటం
     user_diaries: వాడుకరి డైరీలు
     welcome_user: స్వాగతం, {{user_link}}
@@ -152,15 +186,18 @@ te:
   message: 
     inbox: 
       date: తేదీ
+      outbox: పంపించినవి
       subject: విషయం
     message_summary: 
       delete_button: తొలగించు
+      reply_button: స్పందించు
     new: 
       send_button: పంపించు
       send_message_to: "{{name}}కి ఒక సందేశాన్ని పంపండి"
       subject: విషయం
     outbox: 
       date: తేదీ
+      outbox: పంపించినవి
       subject: విషయం
     read: 
       date: తేదీ
@@ -169,18 +206,29 @@ te:
     sent_message_summary: 
       delete_button: తొలగించు
   notifier: 
+    email_confirm: 
+      subject: "[ఓపెన్‌స్ట్రీట్‌మాప్] మీ ఈమెయిలు చిరునామాని నిర్ధారించండి"
     gpx_notification: 
       with_description: వివరణతో
+    signup_confirm_html: 
+      more_videos: "{{more_videos_link}} ఉన్నాయి."
+      more_videos_here: మరిన్ని వీడియోలు ఇక్కడ
   oauth_clients: 
     edit: 
       submit: మార్చు
     form: 
       name: పేరు
       required: తప్పనిసరి
+    index: 
+      application: ఉపకరణపు పేరు
+    show: 
+      edit: వివరాలను మార్చు
   site: 
     edit: 
       user_page_link: వాడుకరి పేజీ
     index: 
+      license: 
+        project_name: ఓపెన్‌స్ట్రీట్‌మాప్ ప్రాజెక్టు
       permalink: స్థిరలింకు
       shortlink: చిన్నలింకు
     key: 
@@ -205,7 +253,9 @@ te:
           school: 
             - పాఠశాల
             - విశ్వవిద్యాలయం
+          secondary: ద్వితీయ శ్రేణి రహదారి
           station: రైల్వే స్టేషన్
+          subway: కిందారి
           wood: కలప
     search: 
       search: వెతుకు
@@ -221,21 +271,28 @@ te:
       download: దింపుకోలు
       edit: మార్చు
       filename: "ఫైలుపేరు:"
+      owner: "యజమాని:"
       save_button: మార్పులను భద్రపరచు
+      tags_help: కామాలతో వేరుపరచిన
       visibility_help: దీని అర్థం ఏమిటి?
     no_such_user: 
       heading: "{{user}} అనే వాడుకరి లేనే లేరు"
+      title: ఆ వాడుకరి లేరు
     trace: 
+      ago: "{{time_in_words_ago}} క్రితం"
       edit: మార్చు
+      more: మరిన్ని
     trace_form: 
       description: వివరణ
       help: సహాయం
+      tags_help: కామాలతో వేరుపరచినవి
       visibility_help: దీని అర్థమేమిటి?
     view: 
       description: "వివరణ:"
       download: దింపుకోలు
       edit: మార్చు
       filename: "ఫైలుపేరు:"
+      owner: "యజమాని:"
   user: 
     account: 
       email never displayed publicly: (బహిరంగంగా ఎన్నటికీ చూపించబడదు)
@@ -243,10 +300,12 @@ te:
       longitude: "రేఖాంశం:"
       my settings: నా అమరికలు
       preferred languages: "ప్రాధాన్యతా భాషలు:"
+      profile description: "ప్రొఫైలు వివరణ:"
       public editing: 
         disabled link text: నేను ఎందుకు మార్చలేను?
         enabled link text: ఇది ఏమిటి?
       save changes button: మార్పులను భద్రపరచు
+      title: ఖాతా మార్పు
     confirm: 
       button: నిర్ధారించు
     confirm_email: 
@@ -266,6 +325,7 @@ te:
       email address: "ఈమెయిల్ చిరునామా:"
       heading: సంకేతపదం మర్చిపోయారా?
       notice email cannot find: క్షమించండి, ఆ ఈమెయిలు చిరునామా దొరకలేదు.
+      title: సంకేతపదం పోయింది
     make_friend: 
       success: "{{name}} ఇప్పుడు మీ మిత్రులు."
     new: 
@@ -285,11 +345,13 @@ te:
       flash changed: మీ సంకేతపదాన్ని మార్చాం.
       password: "సంకేతపదం:"
     view: 
+      add image: చిత్రాన్ని చేర్చు
       ago: ({{time_in_words_ago}} క్రితం)
       blocks on me: నా మీద నిరోధాలు
       change your settings: మీ అమరికలను మార్చుకోండి
       confirm: నిర్ధారించు
       create_block: ఈ వాడుకరిని నిరోధించు
+      delete_user: ఈ వాడుకరిని తొలగించు
       description: వివరణ
       edits: మార్పులు
       email address: "ఈమెయిలు చిరునామా:"
@@ -299,20 +361,28 @@ te:
       my edits: నా మార్పులు
       my settings: నా అమరికలు
       nearby users: "దగ్గరలోని వాడుకరులు:"
+      role: 
+        administrator: ఈ వాడుకరి ఒక నిర్వాహకులు
       send message: సందేశాన్ని పంపించు
       settings_link_text: అమరికలు
+      upload an image: ఓ చిత్రాన్ని ఎక్కించండి
       user image heading: వాడుకరి చిత్రం
       user location: వాడుకరి ప్రాంతం
       your friends: మీ స్నేహితులు
   user_block: 
     blocks_on: 
       title: "{{name}} పై నిరోధాలు"
+    edit: 
+      show: ఈ నిరోధాన్ని చూడండి
     index: 
       heading: వాడుకరి నిరోధాల జాబితా
       title: వాడుకరి నిరోధాలు
+    new: 
+      back: అన్ని నిరోధాలను చూడండి
     partial: 
       edit: మార్చు
       reason: నిరోధానికి కారణం
+      show: చూపించు
       status: స్థితి
     period: 
       one: 1 గంట
@@ -327,4 +397,6 @@ te:
       status: స్థితి
   user_role: 
     grant: 
+      confirm: నిర్ధారించు
+    revoke: 
       confirm: నిర్ధారించు

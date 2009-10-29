@@ -172,6 +172,7 @@ pt-BR:
       relation_history_title: "Histórico da Relação: {{relation_name}}"
       view_details: ver detalhes
     relation_member: 
+      entry: "{{type}} {{name}}"
       entry_role: "{{type}} {{name}} como {{role}}"
       type: 
         node: Ponto
@@ -237,6 +238,7 @@ pt-BR:
     changeset: 
       anonymous: Anônimo
       big_area: (grande)
+      id: "#{{id}}"
       no_comment: (nenhum)
       no_edits: (sem alterações)
       show_area_box: exibir limite da área
@@ -386,16 +388,23 @@ pt-BR:
         geonames: Resultados do <a href="http://www.geonames.org/">GeoNames</a>
         latlon: Resultados <a href="http://openstreetmap.org/">Internos</a>
         osm_namefinder: Resultados do <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>
+        osm_twain: Resultados de <a href="http://katie.openstreetmap.org/~twain/">OpenStreetMap Twain</a>
         uk_postcode: Resultados do <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Resultados do <a href="http://geocoder.us/">Geocoder.us</a>
     search_osm_namefinder: 
       prefix: "{{type}}"
       suffix_parent: "{{suffix}} ({{parentdistance}} {{parentdirection}} de {{parentname}})"
       suffix_place: ", {{distance}} {{direction}} de {{placename}}"
+      suffix_suburb: "{{suffix}}, {{parentname}}"
+    search_osm_twain: 
+      prefix_highway: via {{type}}
+      prefix_other: "{{type}}"
   javascripts: 
     map: 
       base: 
+        cycle_map: Cycle Map
         mapnik: Mapnik
+        noname: Sem nomes
         osmarender: Osmarender
       overlays: 
         maplint: Maplint
@@ -427,6 +436,7 @@ pt-BR:
     intro_2: OpenStreetMap permite visualizar, editar e usar dados geográficos de maneira colaborativa de qualquer lugar do mundo.
     intro_3: A hospedagem dos dados do OpenStreetMap é cedida gentilmente por {{ucl}} e {{bytemark}}.
     license: 
+      alt: CC by-sa 2.0
       title: Os dados do OpenStreetMaps estão licenciados na Licença Creative Commons Atribuição-Compartilhamento pela Mesma Licença 2.0 Genérica
     log_in: entrar
     log_in_tooltip: Entrar com uma conta existente
@@ -441,6 +451,9 @@ pt-BR:
     news_blog_tooltip: Blog de notícias sobre o OpenStreetMap, dados geográficos livres, etc.
     osm_offline: A base de dados do OpenStreetMap está off-line devido a operações de manutenção.
     osm_read_only: A base de dados do OpenStreetMap está em modo somente leitura devido a operações de manutenção.
+    project_name: 
+      h1: OpenStreetMap
+      title: OpenStreetMap
     shop: Produtos
     shop_tooltip: Compre produtos com a marca OpenStreetMap
     shop_url: http://wiki.openstreetmap.org/wiki/Merchandise?uselang=pt-br
@@ -578,7 +591,7 @@ pt-BR:
     signup_confirm_html: 
       click_the_link: Se esta pessoa é você, bem-vindo! Por favor, clique no link abaixo para confirmar sua inscrição e ler mais informações sobre o OpenStreetMap.
       current_user: A lista de usuários, baseada em suas localizações no mundo, está disponível em <a href="http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region">Category:Users_by_geographical_region</a>.
-      get_reading: Continue lendo sobre o OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Pt-br:Beginners_Guide">no wiki</a> ou <a href="http://www.opengeodata.org/">no blog OpenGeoData (em inglês)</a> que tem <a href="http://www.opengeodata.org/?cat=13">podcasts para baixar (em inglês)</a>!
+      get_reading: Continue lendo sobre o OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Pt-br:Beginners_Guide">no wiki</a>, mantenha-se informado via o <a href="http://blog.openstreetmap.org/">blog OpenStreetMap</a><sup>(em inglês)</sup> ou pelo <a href="http://twitter.com/openstreetmap">Twitter</a><sup>(em inglês)</sup>, ou então navegue pelo <a href="http://www.opengeodata.org/">blog do fundador do OSM</a><sup>(em inglês)</sup>, Steve Coast, que também tem <a href="http://www.opengeodata.org/?cat=13">podcasts</a><sup>(em inglês)</sup>.
       greeting: Olá!
       hopefully_you: Alguém (esperamos que você) quer criar uma conta em
       introductory_video: Você pode ver um vídeo introdutório (em inglês) em {{introductory_video_link}}.
@@ -674,8 +687,10 @@ pt-BR:
   printable_name: 
     with_id: "{{id}}"
     with_name: "{{name}} ({{id}})"
+    with_version: "{{id}}, v{{version}}"
   site: 
     edit: 
+      anon_edits: ({{link}})
       anon_edits_link: http://wiki.openstreetmap.org/wiki/Pt-br:Disabling_anonymous_edits
       anon_edits_link_text: Descubra se é esse o seu caso.
       flash_player_required: Você precisa de um tocador Flash para usar o Potlatch, o editor Flash do OpenStreetMap. Você pode <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">baixar o Flash Player da Adobe.com</a>. <a href="http://wiki.openstreetmap.org/wiki/Pt-br:Editing">Outras opções</a> estão disponíveis para editar o OpenStreetMap.
@@ -972,6 +987,7 @@ pt-BR:
       add as friend: adicionar como amigos
       add image: Adicionar Imagem
       ago: ({{time_in_words_ago}} atrás)
+      block_history: ver bloqueios recebidos
       blocks by me: bloqueios em mim
       blocks on me: bloqueios sobre mim
       change your settings: mudar suas configurações
@@ -1020,7 +1036,13 @@ pt-BR:
       user location: Local do usuário
       your friends: Seus amigos
   user_block: 
+    blocks_by: 
+      empty: "{{name}} ainda não criou nenhum bloqueio."
+      heading: Lista de bloqueios por {{name}}
+      title: Bloqueios por {{name}}
     blocks_on: 
+      empty: "{{name}} ainda não foi bloqueado."
+      heading: Lista de bloqueios em {{name}}
       title: Bloqueios em {{name}}
     create: 
       flash: Bloquear o usuário {{name}}.
@@ -1029,40 +1051,79 @@ pt-BR:
     edit: 
       back: Ver todos bloqueios
       heading: Editando bloqueio em {{name}}
+      needs_view: O usuário precisa se logar para esse bloqueio ser retirado?
+      period: Quanto tempo, começando de agora, o usuário será bloqueado do uso da API.
       reason: A razão pela qual {{name}} está sendo bloqueado. Por favor seja o mais calmo e razoável possível, dando tantos detalhes quanto você puder sobre a situação. Mantenha em mente que nem todos usuários entendem o jargão da comunidade, então tente usar termos gerais.
+      show: Ver esse bloqueio
+      submit: Atualizar bloqueio
+      title: Editando bloqueio em {{name}}
     filter: 
       block_expired: O bloqueio já expirou e não pode mais ser editado.
       block_period: O período de bloqueio deve ser um dos valores selecionáveis na lista.
       not_a_moderator: Você precisa ser um moderador para tomar essa ação.
+    helper: 
+      time_future: Termina em {{time}}.
+      time_past: Terminou há {{time}}
+      until_login: Ativo até que o usuário se conecte.
     index: 
+      empty: Nenhum bloqueio foi feito ainda.
+      heading: Lista de bloqueios do usuário.
       title: Bloqueios do usuário
     model: 
       non_moderator_revoke: É necessário ser um moderador para retirar um bloqueio.
       non_moderator_update: É necessário ser um moderador para criar ou atualizar um bloqueio.
     new: 
       back: Ver todos bloqueios
+      heading: Criando bloqueio em {{name}}
+      needs_view: O usuário precisa se logar para esse bloqueio ser retirado
+      period: Quanto tempo, começando de agora, o usuário será bloqueado do uso da API.
       reason: A razão pela qual {{name}} está sendo bloqueado. Por favor seja o mais calmo e razoável o quanto possível, dando o máximo de detalhes que você puder sobre a situação, lembrando que a mensagem será visível publicamente. Mantenha em mente que nem todos usuários entendem os jargões da comunidade, então, por favor, use termos leigos.
+      submit: Criar bloqueio
       title: Criando bloqueio em {{name}}
       tried_contacting: Eu contactei o usuário e o pedi para parar.
+      tried_waiting: Eu dei um tempo razoável para o usuário responder a esses comunicados.
+    not_found: 
+      back: Voltar para o índice
+      sorry: Me desculpe, o bloqueio de usuário de ID {{id}} não pôde ser encontrado.
     partial: 
       confirm: Você tem certeza disso?
       creator_name: Criador
       display_name: Usuário bloqueado
       edit: Editar
+      not_revoked: (não retirado)
       reason: Razão para o bloqueio
+      revoke: Cancelar!
+      revoker_name: Retirado por
+      show: Mostrar
       status: Status
     period: 
       one: uma hora
       other: "{{count}} horas"
+    revoke: 
+      confirm: Você tem certeza que deseja retirar esse bloqueio?
+      flash: Esse bloqueio foi retirado.
+      heading: Retirando bloqueio em {{block_on}} por {{block_by}}
+      past: Esse bloqueio terminou há {{time}} e não pode ser retirado agora.
+      revoke: Cancelar!
+      time_future: Esse bloqueio terminará em {{time}}.
+      title: Retirando bloqueio de {{block_on}}
     show: 
       back: Ver todos os bloqueios
       confirm: Você tem certeza disso?
       edit: Editar
       heading: "{{block_on}} bloqueado por {{block_by}}"
+      needs_view: O usuário precisa se logar para esse bloqueio ser retirado.
       reason: "Razão do bloqueio:"
+      revoke: Cancelar!
+      revoker: "Quem retirou:"
       show: Mostrar
       status: Status
       time_future: Termina em {{time}}
+      time_past: Terminou há {{time}}
+      title: "{{block_on}} bloqueado por {{block_by}}"
+    update: 
+      only_creator_can_edit: Apenas o moderador que criou esse bloqueio pode editá-lo.
+      success: Bloqueio atualizado.
   user_role: 
     filter: 
       already_has_role: O usuário já tem o papel {{role}}.
@@ -1071,6 +1132,13 @@ pt-BR:
       not_an_administrator: Somente administradores podem gerenciar papéis de usuários, mas você não é um administrador.
     grant: 
       are_you_sure: Você tem certeza que quer dar o papel "{{role}}" para o usuário "{{name}}"?
+      confirm: Confirmar
+      fail: Não foi possível adicionar o papel "{{role}}" ao usuário "{{name}}". Por favor cheque se o usuário e o papel são ambos válidos.
+      heading: Confirmar adição de papel
+      title: Confirmar adição de papel
     revoke: 
+      are_you_sure: Você tem certeza que deseja retirar o papel "{{role}}" do usuário "{{name}}"?
       confirm: Confirmar
       fail: Não foi possível retirar o papel "{{role}}" do usuário "{{name}}". Por favor cheque se o usuário e o papel são ambos válidos.
+      heading: Confirmar remoção de papel
+      title: Confirmar remoção de papel
