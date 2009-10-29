@@ -8,6 +8,7 @@ mk:
       diary_comment: 
         body: Содржина
       diary_entry: 
+        language: Јазик
         latitude: Геог. ширина
         longitude: Геог. должина
         title: Наслов
@@ -38,6 +39,7 @@ mk:
         pass_crypt: Лозинка
     models: 
       acl: Листа за контрола на пристап
+      changeset: Измени
       changeset_tag: Ознака во измените
       country: Земја
       diary_comment: Коментар од дневникот
@@ -45,18 +47,24 @@ mk:
       friend: Пријател
       language: Јазик
       message: Порака
+      node: Јазол
       node_tag: Ознака на јазол
       notifier: Известувач
       old_node: Стар јазол
+      old_node_tag: Стара ознака за јазол
       old_relation: Стара релација
+      old_relation_member: Стар член во релација
       old_relation_tag: Стара ознака на релација
       old_way: Стар пат
       old_way_node: Стар јазол на пат
+      old_way_tag: Стара ознака за пат
       relation: Релација
       relation_member: Член на релација
+      relation_tag: Ознака за релација
       session: Сесија
       trace: Трага
       tracepoint: Точка на трага
+      tracetag: Ознака за трага
       user: Корисник
       user_preference: Кориснички прилагодувања
       user_token: Кориснички жетон
@@ -234,16 +242,37 @@ mk:
       view_changeset_details: Преглед на детали од измените
     changeset_paging_nav: 
       of: од
+      showing_page: Приказ на страница
     changesets: 
       area: Површина
+      comment: Коментар
       id: ид. бр.
       saved_at: Зачувано во
       user: Корисник
     list: 
       description: Скорешни промени
+      description_bbox: Измени во рамките на {{bbox}}
+      description_user: Измени на {{user}}
+      description_user_bbox: Измени на {{user}} во рамките на {{bbox}}
+      heading: Измени
       heading_bbox: Измени
+      heading_user: Измени
+      heading_user_bbox: Измени
+      title: Измени
+      title_bbox: Измени во рамките на {{bbox}}
+      title_user: Измени на {{user}}
       title_user_bbox: Измени на {{user}} во рамките на {{bbox}}
   diary_entry: 
+    diary_comment: 
+      comment_from: Коментар од {{link_user}}  во {{comment_created_at}}
+    diary_entry: 
+      comment_count: 
+        one: 1 коментар
+        other: "{{count}} коментари"
+      comment_link: Коментирај на оваа ставка
+      edit_link: Уреди ја оваа ставка
+      posted_by: Испратено од {{link_user}} во {{created}} на {{language_link}}
+      reply_link: Одговори на оваа ставка
     edit: 
       body: "Содржина:"
       language: "Јазик:"
@@ -252,19 +281,46 @@ mk:
       longitude: Геог. должина
       marker_text: Локација на дневничкиот запис
       save_button: Зачувај
-      subject: "Предмет:"
+      subject: "Наслов:"
+      title: Уреди дневничка ставка
+      use_map_link: покажи на карта
     feed: 
+      all: 
+        description: Скорешни дневнички ставки од корисници на OpenStreetMap
+        title: Дневнички ставки
       language: 
         description: Скорешни дневнички записи од корисниците на OpenStreetMap на {{language_name}}
+        title: Дневнички ставки на {{language_name}}
+      user: 
+        description: Скорешни дневнички ставки од {{user}}
+        title: Дневнички ставки на {{user}}
     list: 
       in_language_title: Дневнички написи на {{language}}
       new: "Нов дневнички запис:"
       new_title: Напишете нов запис во вашиот кориснички дневник
+      newer_entries: Понови ставки
+      no_entries: Нема дневнички ставки
+      older_entries: Постари ставки
       recent_entries: "Скорешни дневнички записи:"
+      title: Дневници на корисници
+      user_title: Дневник на {{user}}
+    new: 
+      title: Нова дневничка ставка
+    no_such_entry: 
+      body: Жалиме, но нема дневничка ставка или коментар со ид.бр. {{id}}. Проверете дали сте напишале правилно, или да не сте кликнале на погрешна врска.
+      heading: "Нема ставка со ид. бр.: {{id}}"
+      title: Нема таква дневничка ставка
+    no_such_user: 
+      body: Жалиме, но нема корисник по име {{user}}. Проверете дали сте напишале правилно, или да не сте кликнале на погрешна врска.
+      heading: Корисникот {{user}} не постои
+      title: Нема таков корисник
     view: 
       leave_a_comment: Пиши коментар
       login: Најавување
+      login_to_leave_a_comment: "{{login_link}} за да оставите коментар"
       save_button: Зачувај
+      title: Кориснички дневници | {{user}}
+      user_title: дневник на {{user}}
   export: 
     start: 
       add_marker: Додај бележник на картата
@@ -336,6 +392,14 @@ mk:
       suffix_place: ", {{distance}} {{direction}} од {{placename}}"
     search_osm_twain: 
       prefix_highway: "{{type}} пат"
+  javascripts: 
+    map: 
+      base: 
+        cycle_map: Велосипедска карта
+        noname: БезИме
+    site: 
+      edit_zoom_alert: Морате да зумирате за да можете да ја уредувате картата.
+      history_zoom_alert: Морате да зумирате за да можете да ја видите историјата на уредувања
   layouts: 
     donate: Поддржете ја OpenStreetMap со {{link}} за Фондот за обнова на хардвер.
     donate_link_text: донирање
@@ -345,7 +409,7 @@ mk:
     export_tooltip: Извези податоци од картата
     gps_traces: GPS траги
     gps_traces_tooltip: Раководење со траги
-    help_wiki: Помош и Вики
+    help_wiki: Помош и вики
     help_wiki_tooltip: Помош и Вики-страница за овој проект
     history: Историја
     history_tooltip: Историја на измените
@@ -381,7 +445,7 @@ mk:
     sign_up: регистрација
     sign_up_tooltip: Создај сметка за уредување
     sotm: Дојдете на конференцијата на OpenStreetMap за 2009 наречена „The State of the Map“ од 10-12 јули во Амстердам!
-    tag_line: Слободната Вики-Карта на Светот
+    tag_line: Слободна вики-карта на светот
     user_diaries: Кориснички дневници
     user_diaries_tooltip: Види кориснички дневници
     view: Види
@@ -402,7 +466,7 @@ mk:
       no_messages_yet: Сè уште немате пораки. Зошто не се поврзете со некој од {{people_mapping_nearby_link}}?
       outbox: за праќање
       people_mapping_nearby: картографи од соседството
-      subject: Предмет
+      subject: Наслов
       title: Примени
       you_have: Имате {{new_count}} нови пораки и {{old_count}} стари пораки
     mark: 
@@ -414,9 +478,17 @@ mk:
       reply_button: Одговори
       unread_button: Означи како непрочитано
     new: 
+      back_to_inbox: Назад во примени
+      body: Содржина
       message_sent: Пораката е испратена
       send_button: Испрати
+      send_message_to: Испрати нова порака за {{name}}
+      subject: Наслов
       title: Испрати ја пораката
+    no_such_user: 
+      body: Жалиме, нема корисник или порака со тоа име или ид. бр.
+      heading: Нема таков корисник или порака
+      title: Нема таков корисник или порака
     outbox: 
       date: Даѕум
       inbox: примени пораки
@@ -424,31 +496,188 @@ mk:
       no_sent_messages: Сè уште немате испратено пораки. Зошто да не исконтактирате некои {{people_mapping_nearby_link}}?
       outbox: за праќање
       people_mapping_nearby: картографи од соседството
-      subject: Предмет
+      subject: Наслов
       title: За праќање
       to: До
       you_have_sent_messages: Имате {{count}} испратени пораки
     read: 
       back_to_inbox: Назад во добиени
+      back_to_outbox: Назад во „за праќање“
       date: Датум
       from: Од
       reading_your_messages: Читање на пораките
       reading_your_sent_messages: Читање на вашите пратени пораки
       reply_button: Одговори
-      subject: Предмет
+      subject: Наслов
+      title: Прочитај ја пораката
       to: За
       unread_button: Означи како непрочитано
     sent_message_summary: 
       delete_button: Избриши
+  notifier: 
+    diary_comment_notification: 
+      banner1: "*                  Не одговарајте на оваа порака.                    *"
+      banner2: "*                Одговорете на страницата OpenStreetMap.                *"
+      footer: Можете да го прочитате коментарот и на {{readurl}} и можете да коментирате на {{commenturl}} или да одговорите на {{replyurl}}
+      header: "{{from_user}} коментираше на вашата скорешна дневничка ставка на OpenStreetMap со насловот {{subject}}:"
+      hi: Здраво {{to_user}},
+      subject: "[OpenStreetMap] {{user}} коментираше на вашата дневничка ставка"
+    email_confirm: 
+      subject: "[OpenStreetMap] Потврдете ја вашата е-поштенска адреса"
+    email_confirm_html: 
+      click_the_link: Ако ова сте вие, кликнете подолу за да ја потврдите измената.
+      greeting: Здраво,
+      hopefully_you: Некој (се надеваме, Вие) сака да ја смени е-поштенската адреса на {{server_url}} со новата адреса {{new_address}}.
+    email_confirm_plain: 
+      click_the_link: Ако ова сте вие, кликнете на врската подолу за да ја потврдите измената.
+      greeting: Здраво,
+      hopefully_you_1: Некој (се надеваме Вие) сака да ја замени е-поштенската адреса на
+      hopefully_you_2: "{{server_url}} со новата адреса {{new_address}}."
+    friend_notification: 
+      had_added_you: "{{user}} ве додаде како пријател на OpenStreetMap."
+      see_their_profile: Можете да му го погледате профилот на {{userurl}} и да го додадете како пријател, ако сакате.
+      subject: "[OpenStreetMap] {{user}} ве додаде како пријател"
+    gpx_notification: 
+      and_no_tags: и без ознаки.
+      and_the_tags: "и следниве ознаки:"
+      failure: 
+        failed_to_import: не можеше да се увезе. Еве ја грешката;
+        more_info_1: Повеќе информации за проблеми при увозот на GPX податотеки, и како да
+        more_info_2: "ги избегнете ,ќе најдете на:"
+        subject: "[OpenStreetMap] Проблем при увозот на GPX податотека"
+      greeting: Здраво,
+      success: 
+        loaded_successfully: успешно се вчита со {{trace_points}} од вкупно можни {{possible_points}} точки.
+        subject: "[OpenStreetMap] Успешен увоз на GPX податотека"
+      with_description: со описот
+      your_gpx_file: Изгледа дека вашата GPX податотека
+    lost_password: 
+      subject: "[OpenStreetMap] Барање за промена на лозинка"
+    lost_password_html: 
+      click_the_link: Ако ова сте вие, тогаш кликнете ја врската подолу за да си ја промените лозинката.
+      greeting: Здраво,
+      hopefully_you: Некој (можеби Вие) побарал да се промени лозинката на сметката на openstreetmap.org која ѝ припаѓа на оваа адреса.
+    lost_password_plain: 
+      click_the_link: Ако ова сте вие, кликнете на врската подолу за да си ја смените лозинката.
+      greeting: Здраво,
+      hopefully_you_1: Некој (можеби Вие) има побарано да се смени лозинката на
+      hopefully_you_2: адресата на оваа openstreetmap.org сметка.
+    message_notification: 
+      banner1: "*                  Не одговарајте на оваа порака.                    *"
+      banner2: "*                Одговорете на страницата OpenStreetMap.                *"
+      footer1: Можете да ја прочитате пораката и на {{readurl}}
+      footer2: и можете да одговорите на {{replyurl}}
+      header: "{{from_user}} ви испрати порака преку OpenStreetMap со насловот {{subject}}:"
+      hi: Здраво {{to_user}},
+      subject: "[OpenStreetMap] {{user}} ви испрати нова порака"
+    signup_confirm: 
+      subject: "[OpenStreetMap] Потврдете ја вашата е-поштенска адреса"
+    signup_confirm_html: 
+      click_the_link: Ако ова сте вие, добредојдовте! Кликнете на врската подолу за да ја потврдите таа сметка и да прочитате повеќе информации за OpenStreetMap
+      current_user: На <a href="http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region">Категорија:Корисници_по_географски_регион</a> ќе најдете листа на тековни корисници во категории, зависно од нивната локација во светот.
+      get_reading: Читајте за OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Beginners%27_Guide">на викито</a>, информирајте се за најновите збиднувања преку <a href="http://blog.openstreetmap.org/">OpenStreetMap блогот</a> или <a href="http://twitter.com/openstreetmap">Twitter</a>, или пак прелистајте го<a href="http://www.opengeodata.org/">блогот „OpenGeoData“</a> на основачот на OpenStreetMap, Стив Коуст за историја на проектот, заедно со <a href="http://www.opengeodata.org/?cat=13">под-емитувања</a>!
+      greeting: Здраво!
+      hopefully_you: Некој (се надеваме, Вие) сака да отвори сметка на
+      introductory_video: Можете да погледате {{introductory_video_link}}.
+      more_videos: Имаме {{more_videos_link}}.
+      more_videos_here: повеќе видеоклипови овде
+      user_wiki_page: Се препорачува да направите корисничка вики-страница, на која ќе стојат ознаки за категории кои ќе го означуваат вашето место на живеење, како да речеме <a href="http://wiki.openstreetmap.org/wiki/Category:Users_in_London">[[Category:Users_in_London]]</a>.
+      video_to_openstreetmap: воведен видеоклип за OpenStreetMap
+      wiki_signup: Препорачуваме да <a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page">се регистрирате на викито на OpenStreetMap</a>.
+    signup_confirm_plain: 
+      blog_and_twitter: "Бидете информирани за најновите збиднувања преку блогот на OpenStreetMap blog или Twitter:"
+      click_the_link_1: Ако ова сте вие, добредојдовте! Кликнете на врската подолу за да ја потврдите
+      click_the_link_2: сметка и прочитајте повеќе за дополнителни информации за OpenStreetMap.
+      current_user_1: Листа на тековни корисници во категории, на база на нивната
+      current_user_2: "локација во светот ќе најдете на:"
+      greeting: Здраво!
+      hopefully_you: Некој (се надеваме, Вие) сака да отвори сметка на
+      introductory_video: "Погледајте го воведниот видеоклип за  OpenStreetMap тука:"
+      more_videos: "Повеќе видеоклипови ќе најдете тука:"
+      opengeodata: "OpenGeoData.org е блогот на основачот на OpenStreetMap, Стив Коуст, а таму има и под-емитувања:"
+      the_wiki: "Читајте за OpenStreetMap на викито:"
+      user_wiki_1: Се препорачува да отворите корисничка вики-страница, каде ќе стојат
+      user_wiki_2: ознаки за категории на кои ќе стои вашето место на живеење, како да речеме [[Category:Users_in_London]].
+      wiki_signup: "Препорачуваме да се регистрирате на викито на OpenStreetMap на:"
+  oauth: 
+    oauthorize: 
+      allow_read_gpx: ви ги чита вашите приватни GPS траги.
+      allow_read_prefs: ви ги чита корисничките прилагодувања.
+      allow_to: "Дозволи ѝ на клиентската апликација да:"
+      allow_write_api: ја менува картата.
+      allow_write_diary: создава ставки во дневникот, пишува коментари и да се спријателува.
+      allow_write_gpx: подига GPS траги.
+      allow_write_prefs: ги менува вашите кориснички прилагодувања.
+      request_access: Апликацијата {{app_name}} бара пристап до вашата сметка. Видете дали би сакале апликацијата да ги има следните можности. Можете да одберете колку што сакате.
+    revoke: 
+      flash: Го поништивте жетонот за {{application}}
+  oauth_clients: 
+    create: 
+      flash: Информациите се успешно регистрирани
+    destroy: 
+      flash: Уништена е пријавната регистрација за клиентската апликација.
+    edit: 
+      submit: Уреди
+      title: Уредете ја апликацијата
+    form: 
+      allow_read_gpx: им ги чита приватните GPS траги
+      allow_read_prefs: им ги чита корисничките прилагодувања.
+      allow_write_api: ја менува картата.
+      allow_write_diary: создава ставки во дневници, да коментира, и да се спријателува.
+      allow_write_gpx: подига GPS траги.
+      allow_write_prefs: им ги менува корисничките прилагодувања.
+      callback_url: URL адреса за обратен одзив
+      name: Име
+      requests: "Побарај ги следниве дозволи од корисникот:"
+      required: Се бара
+      support_url: URL поддршка
+      url: URL адреса на главната апликација
+    index: 
+      application: Назив на апликацијата
+      issued_at: Издадено
+      list_tokens: "Следниве жетони се издадени на апликации во ваше име:"
+      my_apps: Мои клиентни апликации
+      my_tokens: Мои овластени апликации
+      no_apps: Дали имате апликација која би сакале да ја регистрирате за користење кај нас, со стандардот {{oauth}}? Апликацијата мора да е регистрирана пред да може да поставува OAuth барања до оваа служба.
+      register_new: Регистрирајте ја вашата апликација
+      registered_apps: "Ги имате регистрирано следниве клиентски апликации:"
+      revoke: Поништи!
+      title: Мои OAuth податоци
+    new: 
+      submit: Регистрирање
+      title: Регистрирајте нова апликација
+    not_found: 
+      sorry: Жалиме, но тој {{type}} не е пронајден.
+    show: 
+      access_url: "URL адреса на пристапниот жетон:"
+      allow_read_gpx: им ги чита приватните GPS траги.
+      allow_read_prefs: им ги чита корисничките прилагодувања.
+      allow_write_api: ја менува картата.
+      allow_write_diary: прави ставки во дневници, да коментира и да се сптијателува.
+      allow_write_gpx: подига GPS траги.
+      allow_write_prefs: им ги менува корисничките прилагодувања.
+      authorize_url: "Дозволи URL адреса:"
+      edit: Детали од уредувањето
+      key: "Потрошувачки клуч:"
+      requests: Ги барам следните дозволи од корисникот
+      secret: "Потрошувачка тајна:"
+      support_notice: Поддржуваме hmac-sha1 (препорачано) како и  ssl режим со прост текст.
+      title: OAuth детали за {{app_name}}
+      url: "Побарај URL адреса на жетонот:"
+    update: 
+      flash: Клиентските информации се успешно ажурирани
   site: 
     edit: 
       anon_edits_link_text: Дознајте зошто ова е така.
       flash_player_required: Ќе ви треба Flash програма за да го користите Potlatch - „OpenStreetMap Flash уредник“. Можете да <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">го преземете Flash Player од Adobe.com</a>. Имате и <a href="http://wiki.openstreetmap.org/wiki/Editing">неколку други можности</a> за уредување на OpenStreetMap.
       not_public: Не сте наместиле уредувањата да ви бидат јавни.
       not_public_description: Повеќе не можете да ја уредувате картата  ако не го направите тоа. Можете да наместите уредувањата да ви бидат јавни на вашата {{user_page}}.
+      potlatch_unsaved_changes: Имате незачувани промени. (За да зачувате во Potlatch, треба го одселектирате тековниот пат или точка, ако уредувате во живо, или кликнете на „зачувај“ ако го имате тоа копче.)
+      user_page_link: корисничка страница
     index: 
       js_1: Или користите прелистувач кој не поддржува JavaScript, или пак сте го оневозможиле тој програм.
       js_2: OpenStreetMap користи JavaScript за нејзината лизгава карта.
+      js_3: Препорачуваме да ја пробате <a href="http://tah.openstreetmap.org/Browse/">Tiles@Home статичната карта</a> ако не можете да овозможите JavaScript.
       license: 
         license_name: Creative Commons Наведи извор-Сподели под исти услови 2.0
         notice: Под лиценцата {{license_name}} од {{project_name}} и неговите придонесувачи.
@@ -456,30 +685,80 @@ mk:
       permalink: Постојана врска
       shortlink: Кратка врска
     key: 
+      map_key: Клуч на картата
+      map_key_tooltip: Клуч на картата за mapnik приказ на ова размерно ниво
       table: 
         entry: 
           admin: Административна граница
+          allotments: Парцели
+          apron: 
+            - Аеродромска платформа
+            - терминал
+          bridge: Црна линија = мост
           bridleway: Пешачко-влечен пат
           brownfield: Запуштено подрачје
+          building: Значајно здание
+          byway: Спореден пат
           cable: 
             - клупна жичарница
           cemetery: Гробишта
           centre: Спортски центар
           commercial: Комерцијално подрачје
+          common: 
+            - Општествена земја
+            - ливада
+          construction: Патишта во изградба
           cycleway: Велосипедска патека
+          destination: Пристап кон дестинацијата
+          farm: Фарма
           footway: Пешачка патека
+          forest: Шума
+          golf: Голф-терен
+          heathland: Голиште
+          industrial: Индустриско подрачје
+          lake: 
+            - Езеро
+            - резервоар
           military: Воено подрачје
+          motorway: Автопат
+          park: Парк
           permissive: Дозволив пристап
           pitch: Спортски терен
+          primary: Главен пат
+          private: Приватен пристап
+          rail: Железница
           reserve: Природен резерват
+          resident: Станбено подрачје
           retail: Трговско подрачје
+          runway: 
+            - Аеродромска писта
+            - рулажна патека
+          school: 
+            - Училиште
+            - универзитет
+          secondary: Спореден пат
+          station: Железничка станица
+          subway: Метро
           summit: 
             - Врв
+            - врв
+          tourist: Туристичка атракција
+          track: Патека
+          tram: 
+            - Лека железница
+            - трамвај
+          trunk: Главна сообраќајна артерија
+          tunnel: Испрекината линија = тунел
+          unclassified: Некласификуван пат
+          unsurfaced: Неасфалтиран пат
+          wood: Шумичка
+        heading: Легенда за z{{zoom_level}}
     search: 
       search: Пребарај
       search_help: "примери: 'Струмица', 'Илинденска', 'Regent Street, Cambridge', 'CB2 5AQ' или 'post offices near Lünen' <a href='http://wiki.openstreetmap.org/wiki/Search'>повеќе примери...</a>"
-      submit_text: Оди
+      submit_text: ->
       where_am_i: Каде сум?
+      where_am_i_title: Опишете ја моменталната локација со помош на пребарувачот
     sidebar: 
       close: Затвори
       search_results: Резултати од пребарувањето
@@ -726,6 +1005,95 @@ mk:
       user image heading: Корисничка слика
       user location: Локација на корисникот
       your friends: Ваши пријатели
+  user_block: 
+    blocks_by: 
+      empty: Корисникот {{name}} досега не блокирал.
+      heading: Листа на блокови од {{name}}
+      title: Блокови од {{name}}
+    blocks_on: 
+      empty: Корисникот {{name}} досега не бил блокиран.
+      heading: Листа на блокови за {{name}}
+      title: Блокови за {{name}}
+    create: 
+      flash: Направен е блок на корисникот {{name}}.
+      try_contacting: Обидете се да го контактирате корисникот пред да го блокирате, и да му дадете разумен рок за да одговори.
+      try_waiting: Обидете се на корисникот да му дадете разумен рок за да одговори пред да го блокирате.
+    edit: 
+      back: Преглед на сите блокови
+      heading: Уредување на блок за {{name}}
+      needs_view: Дали корисникот треба да се најави пред да се исчисти овој блок?
+      period: Колку да трае блокот на корисникот?
+      reason: Причината зошто е блокиран корисникот {{name}}. Бидете што посмирени и поразумни, и напишете што повеќе подробности за ситуацијата. Имајте на ум дека не сите корисници го разбираат жаргонот на заедницата, па затоа користете лаички поими.
+      show: Преглед на овој блок
+      submit: Ажурирај го блокот
+      title: Уредување на блок за {{name}}
+    filter: 
+      block_expired: Блокот е веќе истечен и не може да се ажурира.
+      block_period: Периодот на блокада мора да биде со рок избран од паѓачката листа.
+      not_a_moderator: Треба да бидете модератор за да го направите тоа.
+    helper: 
+      time_future: Истекува за {{time}}.
+      time_past: Истечено пред {{time}}.
+      until_login: Активно додека не се најави корисникот.
+    index: 
+      empty: Досега сè уште нема блокови.
+      heading: Листа на кориснички блокови
+      title: Кориснички блокови
+    model: 
+      non_moderator_revoke: Морате да бидете модератор за да поништувате блокови.
+      non_moderator_update: Морате да бидете модератор за да правите или ажурирате блокови.
+    new: 
+      back: Преглед на сите блокови
+      heading: Правење на блок за {{name}}
+      needs_view: Корисникот треба да се најави пред да се исчисти овој блок.
+      period: Колку да трае блокот за овој корисник?
+      reason: Причината зошто корисникот {{name}} е блокиран. Бидете што посмирени и поразумни, наведете што повеќе подробности за ситуацијата, имајќи на ум дека пораката ќе биде јавно видлива. Имајте во предвид и дека не сите корисници го разбираат жаргонот на заедницата, па затоа обидете се да користите лаички поими.
+      submit: Направи блок
+      title: Правење на блок за {{name}}
+      tried_contacting: Го контактирав корисникот и побарав да престане.
+      tried_waiting: На корисникот му дадов разумен рок за да одговори на тие преписки.
+    not_found: 
+      back: Назад кон индексот
+      sorry: Жалиме, но нема пронајдено кориснички блок со ид. бр. {{id}}
+    partial: 
+      confirm: Дали сте сигурни?
+      creator_name: Создавач
+      display_name: Блокиран корисник
+      edit: Уреди
+      not_revoked: (не се поништува)
+      reason: Причина за блокирање
+      revoke: Поништи!
+      revoker_name: "Поништил:"
+      show: Прикажи
+      status: Статус
+    period: 
+      one: 1 час
+      other: "{{count}} час"
+    revoke: 
+      confirm: Дали сигурно дакате да го поништите овој блок?
+      flash: Овој блок е поништен.
+      heading: Поништување на блок за {{block_on}} од {{block_by}}
+      past: Овој блок истекол пред {{time}} и сега не може да се поништи.
+      revoke: Поништи!
+      time_future: Овој блок истекува за {{time}}.
+      title: Поништување на блок за {{block_on}}
+    show: 
+      back: Преглед на сите блокови
+      confirm: Дали сте сигурни?
+      edit: Уреди
+      heading: "{{block_on}} блокиран од {{block_by}}"
+      needs_view: Овој корисник мора да се најави пред да се исчисти блокот.
+      reason: "Причина за блокирање:"
+      revoke: Поништи!
+      revoker: "Поништувач:"
+      show: Прикажи
+      status: Статус
+      time_future: Уредувања во {{time}}
+      time_past: Истечено пред {{time}}
+      title: "{{block_on}} блокиран од {{block_by}}"
+    update: 
+      only_creator_can_edit: Само модераторот кој го направил блоков може да го ажурира.
+      success: Блокот е ажуриран.
   user_role: 
     filter: 
       already_has_role: Корисникот веќе ја има улогата {{role}}.

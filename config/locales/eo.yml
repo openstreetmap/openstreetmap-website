@@ -163,6 +163,7 @@ eo:
       show_history: Montri Historion
       unable_to_load_size: "Ne ŝarĝeblas: limskatolo kun dimensio de [[bbox_size]] estas tro granda (devas esti malgranda ol {{max_bbox_size}})"
       wait: Atendu...
+      zoom_or_select: Zomu aŭ elektu videndan mapareon
     tag_details: 
       tags: "Etikedoj:"
     way: 
@@ -201,22 +202,57 @@ eo:
       save_button: Konservi
   export: 
     start: 
-      image_size: Grando de Bildo
+      add_marker: Aldoni markon al la mapo
+      area_to_export: Eksportonta areo
+      export_button: Eksporti
+      format: Formato
+      format_to_export: Formato por Eksportado
+      image_size: Bildamplekso
+      latitude: "Lat:"
+      licence: Licenco
+      longitude: "Lon:"
+      manually_select: Mane elekti alian aeron.
+      mapnik_image: Mapnik Bildo
+      max: maks
+      options: Opcioj
+      osm_xml_data: XML datumoj de OpenStreetMap
+      osmarender_image: Osmarender bildo
+      output: Eliro
+      scale: Skalo
+      zoom: Zomi
+    start_rjs: 
+      add_marker: Aldoni markon al la mapo
+      change_marker: Ŝanĝi lokon de la marko.
+      click_add_marker: Kliku al la mapo por aldoni markon
+      export: Eksporti
+      manually_select: Mane elekti alian aeron.
+      view_larger_map: Vidi pligrandan mapon
   geocoder: 
     description: 
       types: 
         places: Lokoj
+    search: 
+      title: 
+        ca_postcode: Rezultoj el <a href="http://geocoder.ca/">Geocoder.CA</a>
+        geonames: Rezultoj el <a href="http://www.geonames.org/">GeoNames</a>
+        latlon: Rezultoj el <a href="http://openstreetmap.org/">Internal</a>
+        osm_namefinder: Rezultoj el <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>
+        osm_twain: Rezultoj el <a href="http://katie.openstreetmap.org/~twain/">OpenStreetMap Twain</a>
+        uk_postcode: Rezultoj el <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
+        us_postcode: Rezultoj el <a href="http://geocoder.us/">Geocoder.us</a>
   layouts: 
     edit: Redakti
     edit_tooltip: Redakti mapojn
     help_wiki: Helpo kaj Vikio
     help_wiki_tooltip: Helpo kaj Vikio por la projekto
+    home: hejmo
     log_in: ensaluti
     logo: 
       alt_text: Emblemo de OpenStreetMap
     logout: elsaluti
     logout_tooltip: Elsaluti
     sign_up: aliĝi
+    sign_up_tooltip: Krei konton por redaktado
     welcome_user: Bonvenon, {{user_link}}
   map: 
     coordinates: "Koordinatoj:"
@@ -345,18 +381,28 @@ eo:
       trackable: Spurebla (nur partigita kiel sennomaj, ordigitaj punktoj kun tempstampoj)
   user: 
     account: 
+      email never displayed publicly: (neniam publike montrita)
+      flash update success: Uzantinformoj sukcese freŝigitaj.
+      flash update success confirm needed: Uzantinformoj sukcese freŝigitaj. Kontrolu vian retpoŝtilon por iu mesaĝo kiu konfirmos vian novan retadreso.
       home location: "Hejma Loko:"
       latitude: "Latitudo:"
       longitude: "Longitudo:"
+      make edits public button: Publikigu ĉiujn miajn redaktojn.
       my settings: Miaj agordoj
+      no home location: Vi ne enigis vian hejmlokon.
       preferred languages: "Preferataj Lingvoj:"
+      profile description: "Priskribo de profilo:"
       public editing: 
+        disabled: Malebligita kaj ne rajtas redakti, ĉiuj antaŭaj redaktoj naŭ estas publikaj.
         disabled link text: kial mi ne povas redakti?
+        enabled: Ebligita. Ne anonima kaj rajtas redakti.
+        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: Kio estas tio ?
         heading: "Publika redaktado:"
       return to profile: Reen al profilo
       save changes button: Konservi Ŝanĝojn
       title: Redakti konton
+      update home location on click: Freŝigi la hejmlokon kiam mi klikas sur la mapo ?
     confirm: 
       button: Konfirmi
       heading: Konfirmi uzantan konton
@@ -371,6 +417,8 @@ eo:
     friend_map: 
       nearby mapper: "Proksima uzanto: [[nearby_user]]"
       your location: Via loko
+    go_public: 
+      flash success: Ĉiuj viaj redaktoj naŭ estas publikaj, kaj vi naŭ rajtas redakti.
     login: 
       create_account: krei konton
       email or username: "Retpoŝtadreso aŭ Salutnomo:"
@@ -392,12 +440,22 @@ eo:
     new: 
       confirm email address: "Konfirmi Retpoŝtadreson:"
       confirm password: "Konfirmi Pasvorton:"
+      display name: "Montrita Nomo:"
+      email address: "Retpoŝtadreso:"
+      heading: Krei uzantkonton
       password: "Pasvorto:"
       signup: Aliĝi
       title: Krei konton
+    no_such_user: 
+      heading: La uzanto {{user}} ne ekzistas
+      title: Neniu tiel uzanto
+    remove_friend: 
+      not_a_friend: "{{name}} ne estas amiko via."
+      success: "{{name}} estis forviŝita el viaj amikoj."
     reset_password: 
       confirm password: "Konfirmi Pasvorton:"
       flash changed: Via pasvorto estis ŝanĝita.
+      flash token bad: Netrovebla ĵetono, bonvolu kontroli la URLon.
       heading: Nuligi Pasvorton por {{user}}
       password: "Pasvorto:"
       reset: Nuligi Pasvorton
@@ -405,17 +463,39 @@ eo:
     set_home: 
       flash success: Hejma loko sukcese konservita
     view: 
+      activate_user: ebligi tiun uzanto
       add as friend: aldoni kiel amikon
       add image: Aldoni Bildon
+      ago: (antaŭ {{time_in_words_ago}})
+      blocks on me: blokas min
       change your settings: ŝanĝi viajn agordojn
+      confirm: Konfirmi
+      create_block: bloki tiun uzanto
+      created from: "Kreita de:"
+      deactivate_user: malebligi tiun uzanto
       delete image: Forigi Bildon
+      delete_user: forviŝi tiun uzanto
       description: Priskribo
+      diary: ĵurnalo
       edits: redaktoj
       email address: "Retpoŝtadreso:"
+      hide_user: kaŝi tiun uzanto
+      mapper since: "Mapisto ekde:"
+      my diary: mia ĵurnalo
+      my edits: miaj redaktoj
       my settings: miaj agordoj
+      my traces: miaj spuroj
+      my_oauth_details: Vidi miajn OAuth detalojn
+      nearby users: "Proksimaj uzantoj:"
+      new diary entry: nova ĵurnalrikordo
+      no friends: Vi jam ne aldonis neniun amikon.
+      remove as friend: forviŝu kiel amiko
       send message: sendi mesaĝon
       settings_link_text: agordoj
+      traces: spuroj
+      unhide_user: aperigi tiun uzanto
       upload an image: Alŝuti bildon
+      user image heading: Uzantbildo
       user location: Loko de uzanto
       your friends: Viaj amikoj
   user_block: 

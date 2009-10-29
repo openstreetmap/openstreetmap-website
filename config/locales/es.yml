@@ -5,6 +5,7 @@
 # Author: McDutchie
 # Author: PerroVerd
 # Author: Peter17
+# Author: Translationista
 es: 
   activerecord: 
     attributes: 
@@ -74,6 +75,11 @@ es:
       way: Vía
       way_node: Nodo de la vía
       way_tag: Etiqueta de ví­a
+  application: 
+    require_cookies: 
+      cookies_needed: Parece que tienes las cookies deshabilitadas. Por favor, habilita las cookies en tu navegador antes de continuar.
+    setup_user_auth: 
+      blocked: Su acceso a la API ha sido bloqueado. Por favor, haga login en la interfaz web para obtener más información.
   browse: 
     changeset: 
       changeset: Conjunto de cambios {{id}}
@@ -378,11 +384,14 @@ es:
         geonames: Resultados en <a href="http://www.geonames.org/">GeoNames</a>
         latlon: Resultados en <a href="http://openstreetmap.org/">Internal</a>
         osm_namefinder: Resultados en <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>
+        osm_twain: Resultados de <a href="http://katie.openstreetmap.org/~twain/">OpenStreetMap Twain</a>
         uk_postcode: Resultados en <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Resultados en <a href="http://geocoder.us/">Geocoder.us</a>
     search_osm_namefinder: 
       suffix_parent: "{{suffix}} ({{parentdistance}} {{parentdirection}} de {{parentname}})"
       suffix_place: ", {{distance}} {{direction}} de {{placename}}"
+    search_osm_twain: 
+      prefix_highway: vía {{type}}
   javascripts: 
     map: 
       base: 
@@ -415,6 +424,8 @@ es:
     intro_1: OpenStreetMap es un mapa libremente editable de todo el mundo. Está hecho por personas como usted.
     intro_2: OpenStreetMap te permite ver, editar y usar información geográfica de manera colaborativa desde cualquier lugar del mundo.
     intro_3: Agradecimientos al {{ucl}} y {{bytemark}} por apoyar el hospedaje de los servidores de OpenStreetMap.
+    license: 
+      title: Los datos de OpenStreetMap se encuentran bajo la licencia Creative Commons Attribution-Share Alike 2.0 Generic License
     log_in: identificarse
     log_in_tooltip: Identificarse con una cuenta existente
     logo: 
@@ -535,7 +546,7 @@ es:
         subject: "[OpenStreetMap] Fallo al importar GPX"
       greeting: Hola,
       success: 
-        loaded_successfully: ha sido cargada con éxito
+        loaded_successfully: carga exitosa con {{trace_points}}  a partir de {{possible_points}} puntos posibles.
         subject: "[OpenStreetMap] Éxito al importar GPX"
       with_description: con la descripción
       your_gpx_file: Parece que su archivo GPX
@@ -560,13 +571,16 @@ es:
       subject: "[OpenStreetMap] Confirme su dirección de correo electrónico"
     signup_confirm_html: 
       click_the_link: Si este es usted, ¡Bienvenido! Por favor, pulse en el enlace más abajo para confirmar su cuenta y leer más información sobre OpenStreetMap.
+      current_user: Un listado categorizado de usuarios actuales, basado en que zona del mundo se encuentran, está disponible desde <a href="http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region">Category:Users_by_geographical_region</a>.
       greeting: ¡Hola!
       hopefully_you: Alguien (probablemente usted) ha creado una cuenta en
       introductory_video: Puede ver un {{introductory_video_link}}
       more_videos: Hay más {{more_videos_link}}
       more_videos_here: ví­deos aquí­
+      user_wiki_page: Se recomienda que cree una página de usuario en el wiki, que incluya etiquetas de categoría que indiquen donde se encuentra, como por ejemplo <a href="http://wiki.openstreetmap.org/wiki/Category:Users_in_Madrid">[[Category:Users_in_Madrid]]</a>.
       video_to_openstreetmap: ví­deo introductorio a OpenStreetMap.
     signup_confirm_plain: 
+      blog_and_twitter: "Ponte al día con las últimas noticias a través del blog de OpenStreetMap o Twitter:"
       click_the_link_1: Si este es usted, ¡Bienvenido! Por favor, pulse en el enlace más abajo para
       click_the_link_2: confirmar su cuenta y leer más información sobre OpenStreetMap.
       current_user_1: Una lista de todos los usuarios por categorí­as, basado en su procedencia,
@@ -575,7 +589,7 @@ es:
       hopefully_you: Alguien (probablemente usted) ha creado una cuenta en
       introductory_video: "Puede ver un vídeo introductorio sobre OpenStreetMap aquí­:"
       more_videos: "Hay más ví­deos aquí­:"
-      opengeodata: "OpenGeoData.org es el blog de OpenStreetMap, y tambiín tiene podcasts:"
+      opengeodata: "OpenGeoData.org es el blog del fundador de OpenStreetMap Steve Coast, y también tiene podcasts:"
       the_wiki: "Lea más sobre OpenStreetMap en el wiki:"
       the_wiki_url: http://wiki.openstreetmap.org/wiki/ES:Beginners_Guide
       user_wiki_1: Recomendamos que cree una página de usuario en el wiki, que incluya
@@ -633,12 +647,18 @@ es:
       sorry: Lo sentimos, ese {{type}} no puede ser encontrado.
     show: 
       access_url: "URL de Token de Acceso:"
+      allow_read_gpx: leer sus rastros privados de GPS.
+      allow_read_prefs: leer sus preferencias de usuario.
+      allow_write_api: modificar el mapa.
+      allow_write_diary: Escribe tu diario, comentarios y haz amigos.
       allow_write_gpx: subir trazas de GPS
+      allow_write_prefs: modificar sus preferencias de usuario.
       authorize_url: "URL de autorización:"
       edit: Editar Detalles
       key: "Clave de Consumidor:"
+      requests: "Solicitando los siguientes permisos del usuario:"
       secret: "Secreto de Consumidor:"
-      support_notice: Soportamos hmac-sha1 (recomendado) asi como texto plano en el modo ssl.
+      support_notice: Soportamos HMAC-SHA1 (recomendado) asi como texto plano en el modo ssl.
       title: Detalles OAuth para {{app_name}}
       url: "URL de Token de Solicitud:"
     update: 
@@ -730,6 +750,7 @@ es:
       search: Buscar
       submit_text: Ir
       where_am_i: ¿Dónde estoy?
+      where_am_i_title: Describe la ubicación actual por medio del motor de búsqueda
     sidebar: 
       close: Cerrar
       search_results: Resultados de la búsqueda
@@ -860,6 +881,8 @@ es:
       heading: Confirmar el cambio de dirección de correo electrónico
       press confirm button: Pulse botón de confirmación de debajo para confirmar su nueva dirección de correo
       success: Dirección de correo electrónico confirmada. ¡Gracias por registrarse!
+    filter: 
+      not_an_administrator: Necesitas ser administrador para ejecutar esta acción.
     friend_map: 
       nearby mapper: "Mapeadores cercanos:"
       your location: "Tu lugar de origen:"
@@ -867,6 +890,7 @@ es:
       flash success: Ahora todas tus ediciones son públicas y ya estás autorizado para editar
     login: 
       account not active: Lo sentimos, su cuenta aun no está activa.<br />Por favor siga el enlace que hay en el correo de confirmación de cuenta para activarla.
+      auth failure: Lo sentimos. No pudo producirse el acceso con esos datos.
       create_account: crear una cuenta
       email or username: Dirección de correo o nombre de usuario
       heading: Iniciar sesión
@@ -878,8 +902,10 @@ es:
     lost_password: 
       email address: "Dirección de correo:"
       heading: ¿Contraseña olvidada?
+      help_text: Escriba el correo electrónico con el que se registró. Le enviaremos un vínculo a esa dirección, que podrá utilizar para reiniciar su contraseña.
       new password button: Enviarme la nueva contraseña
       notice email cannot find: Lo siento, no se pudo encontrar la dirección de correo electrónico.
+      notice email on way: Sentimos que lo haya perdido :-( pero ya va de camino un correo electrónico que le servirá para reiniciar su contraseña.
       title: contraseña perdida
     make_friend: 
       already_a_friend: Ya son amigos
@@ -888,9 +914,12 @@ es:
     new: 
       confirm email address: Confirmar la dirección de correo
       confirm password: "Confirmar contraseña:"
+      contact_webmaster: Por favor, contacta al webmaster <a href="mailto:webmaster@openstreetmap.org">webmaster</a> para organizar la creación de una cuenta. Intentaremos gestionar la solicitud lo más pronto posible.
       display name: "Nombre en pantalla:"
+      display name description: Tu nombre de usuario público. Puedes cambiarlo más tarde en "preferencias".
       email address: Dirección de correo
       fill_form: Llenar el formulario y te enviaremos un mensaje de correo rápidamente para activar tu cuenta.
+      flash create success message: El usuario ha sido creado con éxito. Revisa tu cuenta de correo electrónico, donde deberás encontrar una nota de confirmación, y estarás colaborando con los mapas en un abrir y cerrar de ojos. :-)<br /><br />Por favor, toma en consideracón que no podrás acceder hasta que hayas recibido la nota y confirmado tu dirección de correo electrónico,.<br /><br />Si utilizas un sistema de bloqueo de correo no deseado que envía solicitudes de confirmación, asegúrate por favor de que incluyas entre tus remitentes seguros a webmaster@openstreetmap.org, puesto que nosotros no podemos responder solicitudes de confirmación.
       heading: Crear una cuenta de usuario
       no_auto_account_create: Desafortunadamente no estamos actualmente habilitados para crear una cuenta para ti automáticamente.
       password: "Contraseña:"
@@ -914,6 +943,7 @@ es:
     set_home: 
       flash success: Localización guardada con Éxito
     view: 
+      activate_user: activar este usuario
       add as friend: añadir como amigo
       add image: Añadir imagen
       ago: (hace {{time_in_words_ago}})
@@ -921,15 +951,21 @@ es:
       blocks by me: bloqueados por mi
       blocks on me: bloqueos sobre mi
       change your settings: cambiar tu configuración
+      confirm: Confirmar
       create_block: bloquear a este usuario
+      created from: "Creado a partir de:"
+      deactivate_user: desactivar este usuario
       delete image: Borrar imagen
+      delete_user: borrar este usuario
       description: Descripción
       diary: diario
       edits: ediciones
+      email address: "Dirección de correo electrónico:"
+      hide_user: esconder este usuario
       if set location: Si ha configurado su lugar de origen, verá un mapa abajo. Puede configurar su lugar de origen en la página de {{settings_link}}.
       km away: "{{count}} km de distancia"
       m away: "{{count}}m alejado"
-      mapper since: Mapeador más próximo
+      mapper since: "Mapeando desde:"
       moderator_history: ver los bloqueos impuestos
       my diary: mi diario
       my edits: mis ediciones
@@ -954,25 +990,59 @@ es:
       send message: enviar mensaje
       settings_link_text: preferencias
       traces: trazas
+      unhide_user: descubrir este usuario
       upload an image: Subir una imagen
       user image heading: Imagen del usuario
       user location: Localización del usuario
       your friends: Tus amigos
   user_block: 
+    blocks_by: 
+      empty: "{{name}} todavía no ha creado ningún bloque."
+      heading: Listado de bloques por {{name}}
+      title: Bloques por {{name}}
     blocks_on: 
       empty: "{{name}} no ha sido bloqueado todavía."
+      heading: Listado de bloques en {{name}}
+      title: Bloqueos para {{name}}
+    create: 
+      flash: Ha creado un bloque en el usuario {{name}}.
+      try_contacting: Por favor, antes de bloquear al usuario, intenta contactarle y darle un tiempo razonable de respuesta.
+      try_waiting: Por favor, trata de darle al usuario un tiempo razonable de respuesta antes de bloquearle.
+    edit: 
+      back: Ver todos los bloques
+      heading: Editando el bloque en {{name}}
+      show: Ver este bloque
+      submit: Actualizar el bloque
+      title: Editando el bloque en {{name}}
+    filter: 
+      not_a_moderator: Necesitas ser un moderador para ejecutar esa acción.
+    helper: 
+      time_future: Termina en {{time}}.
+      time_past: Finalizado hace {{time}}.
+      until_login: Activo hasta que el usuario acceda.
     index: 
+      empty: Todavía no se ha hecho ningun bloque.
+      heading: Listado de bloqueos de usuario
       title: Bloqueos de usuario
+    model: 
+      non_moderator_revoke: Debes ser un moderador para revocar bloques.
+      non_moderator_update: Debes ser un moderador para poder crear o actualizar bloques.
     new: 
       back: Ver todos los bloqueos
       heading: Creando un bloqueo para {{name}}
+      reason: La razón por la que {{name}} está bloqueado. Por favor, actúa con calma y sé tan razonable como sea posible. Presenta tantos datos como puedas acerca de la situación y considera que ese mensaje será visible públicamente. Recuerda que no todos los usuarios entienden la jerga de la comunidad, así que intenta utilizar términos sencillos.
       submit: Crear bloqueo
       title: Creando un bloqueo para {{name}}
+      tried_contacting: He contactado al usuario y le he pedido que deje de hacerlo.
+      tried_waiting: Le he dado al usuario un tiempo razonable para que responda a estas comunicaciones.
+    not_found: 
+      back: Regresar al índice
     partial: 
       confirm: ¿Está seguro?
       creator_name: Creador
       display_name: Usuario bloqueado
       edit: Editar
+      not_revoked: (no revocado)
       reason: Razón del bloqueo
       revoke: Revocar
       revoker_name: Revocado por
@@ -982,7 +1052,13 @@ es:
       one: 1 hora
       other: "{{count}} horas"
     revoke: 
+      confirm: ¿Seguro que deseas revocar este bloque?
+      flash: Este bloque ha sido revocado.
+      heading: Revocando bloque en {{block_on}} por {{block_by}}
+      past: Este bloque terminó hace {{time}} y no puede ser revocado ahora.
       revoke: Revocar
+      time_future: Este bloque finalizará en {{time}}.
+      title: Revocando bloque en {{block_on}}
     show: 
       back: Ver todos los bloqueos
       confirm: ¿Está seguro?
@@ -991,19 +1067,30 @@ es:
       needs_view: El usuario tiene que entrar para eliminar este bloqueo
       reason: "Razón del bloqueo:"
       revoke: Revocar
+      revoker: "Revocador:"
       show: Mostrar
       status: Estado
       time_future: Finaliza en {{time}}
+      time_past: Finalizado hace {{time}}
+      title: "{{block_on}} bloqueado por {{block_by}}"
+    update: 
+      only_creator_can_edit: Sólo el moderador que ha creado este bloque puede editarlo.
+      success: Bloqueo actualizado.
   user_role: 
     filter: 
       already_has_role: El usuario ya tiene el rol {{role}}.
       doesnt_have_role: El usuario no tiene el rol {{role}}.
       not_a_role: La cadena `{{role}}' no es un rol válido.
+      not_an_administrator: Sólo los administradores pueden gestionar roles de usuario y no eres un administrador.
     grant: 
+      are_you_sure: ¿Seguro que deseas otorgar el rol `{{role}}' al usuario `{{name}}'?
       confirm: Confirmar
+      fail: No pudo otorgarse el rol `{{role}}' al usuario`{{name}}'. Por favor, comprueba que el usuario y el rol sean válidos.
       heading: Confirmar adjudicación de rol
       title: Confirmar adjudicación de rol
     revoke: 
+      are_you_sure: ¿Seguro que deseas revocar el rol `{{role}}' del usuario `{{name}}'?
       confirm: Confirmar
+      fail: No se pudo revocar el rol`{{role}}' del usuario `{{name}}'. Por favor, comprueba que el usuario y el rol sean válidos.
       heading: Confirmar revocación de rol
       title: Confirmar revocación de rol
