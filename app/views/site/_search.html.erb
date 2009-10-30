@@ -6,10 +6,11 @@
 
   function describeLocation() {
     var position = getPosition();
+    var zoom = getZoom();
 
     <%= remote_function(:loading => "startSearch()",
                         :url => { :controller => :geocoder, :action => :description },
-                        :with => "'lat=' + position.lat + '&lon=' + position.lon") %>
+                        :with => "'lat=' + position.lat + '&lon=' + position.lon + '&zoom=' + zoom") %>
   }
 
   <% if params[:query] %>

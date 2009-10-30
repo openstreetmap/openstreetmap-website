@@ -193,7 +193,7 @@ function removeBoxFromMap(box){
    vectors.removeFeature(box);
 }
 
-function getMapCenter(center, zoom) {
+function getMapCenter() {
    return map.getCenter().clone().transform(map.getProjectionObject(), epsg4326);
 }
 
@@ -210,6 +210,10 @@ function setMapExtent(extent) {
 
 function getMapExtent() {
    return map.getExtent().clone().transform(map.getProjectionObject(), epsg4326);
+}
+
+function getMapZoom() {
+   return map.getZoom();
 }
 
 function getEventPosition(event) {

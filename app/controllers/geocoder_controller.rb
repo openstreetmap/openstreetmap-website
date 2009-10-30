@@ -287,6 +287,7 @@ class GeocoderController < ApplicationController
     @sources.push({ :name => "osm_namefinder", :types => "cities", :max => 2 })
     @sources.push({ :name => "osm_namefinder", :types => "towns", :max => 4 })
     @sources.push({ :name => "osm_namefinder", :types => "places", :max => 10 })
+    @sources.push({ :name => "osm_twain" }) if APP_CONFIG['twain_enabled']
     @sources.push({ :name => "geonames" })
 
     render :update do |page|
@@ -328,6 +329,31 @@ class GeocoderController < ApplicationController
     render :action => "results"
   rescue Exception => ex
     @error = "Error contacting gazetteer.openstreetmap.org: #{ex.to_s}"
+    render :action => "error"
+  end
+
+  def description_osm_twain
+    # get query parameters
+    lat = params[:lat]
+    lon = params[:lon]
+    zoom = params[:zoom]
+
+    # create result array
+    @results = Array.new
+
+    # ask OSM namefinder
+    response = fetch_xml("http://katie.openstreetmap.org/~twain/reverse.php?lat=#{lat}&lon=#{lon}&zoom=#{zoom}")
+
+    # parse the response
+    response.elements.each("reversegeocode") do |result|
+      description = result.get_text("result").to_s
+
+      @results.push({:prefix => "#{description}"})
+    end
+
+    render :action => "results"
+  rescue Exception => ex
+    @error = "Error contacting katie.openstreetmap.org: #{ex.to_s}"
     render :action => "error"
   end
 
