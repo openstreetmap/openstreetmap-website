@@ -38,12 +38,8 @@
 <%= render :partial => 'friend_map' %>
 <% unless @user.data_public? %>
 <a name="public"></a>
-<h2>Public editing</h2>
-  Currently your edits are anonymous and people can't send you messages or see your location. To show what you edited and allow people to contact you through the website, click the button below.
-  <b>Since the 0.6 API changeover, only public users can edit map data</b>. (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">find out why</a>).<br />
-  Your email address will not be revealed by becoming public.<br />
-  This action cannot be reversed and all new users are now public by default.<br />
-  <br /><br />
+<h2><%= t 'user.account.public editing note.heading' %></h2>
+<%= t 'user.account.public editing note.text' %>
   <%= button_to t('user.account.make edits public button'), :action => :go_public %>
 <% end %>
 <br/>
