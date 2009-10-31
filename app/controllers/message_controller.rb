@@ -15,15 +15,19 @@ class MessageController < ApplicationController
     @to_user = User.find_by_display_name(params[:display_name])
     if @to_user
       if params[:message]
-        @message = Message.new(params[:message])
-        @message.to_user_id = @to_user.id
-        @message.from_user_id = @user.id
-        @message.sent_on = Time.now.getutc
+        if @user.sent_messages.count(:conditions => ["sent_on >= ?", Time.now.getutc - 1.hour]) >= APP_CONFIG['max_messages_per_hour']
+          flash[:notice] = t 'message.new.limit_exceeded'
+        else
+          @message = Message.new(params[:message])
+          @message.to_user_id = @to_user.id
+          @message.from_user_id = @user.id
+          @message.sent_on = Time.now.getutc
 
-        if @message.save
-          flash[:notice] = t 'message.new.message_sent'
-          Notifier::deliver_message_notification(@message)
-          redirect_to :controller => 'message', :action => 'inbox', :display_name => @user.display_name
+          if @message.save
+            flash[:notice] = t 'message.new.message_sent'
+            Notifier::deliver_message_notification(@message)
+            redirect_to :controller => 'message', :action => 'inbox', :display_name => @user.display_name
+          end
         end
       else
         if params[:title]
