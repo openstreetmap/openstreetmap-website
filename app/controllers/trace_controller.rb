@@ -117,11 +117,11 @@ class TraceController < ApplicationController
        (@trace.public? or @trace.user == @user)
       @title = t 'trace.view.title', :name => @trace.name
     else
-      flash[:notice] = t 'trace.view.trace_not_found'
+      flash[:error] = t 'trace.view.trace_not_found'
       redirect_to :controller => 'trace', :action => 'list'
     end
   rescue ActiveRecord::RecordNotFound
-    flash[:notice] = t 'trace.view.trace_not_found'
+    flash[:error] = t 'trace.view.trace_not_found'
     redirect_to :controller => 'trace', :action => 'list'
   end
 

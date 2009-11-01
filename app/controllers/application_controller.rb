@@ -47,7 +47,7 @@ class ApplicationController < ActionController::Base
         redirect_to params.merge(:cookie_test => "true")
         return false
       else
-        flash.now[:notice] = t 'application.require_cookies.cookies_needed'
+        flash.now[:warning] = t 'application.require_cookies.cookies_needed'
       end
     end
   end

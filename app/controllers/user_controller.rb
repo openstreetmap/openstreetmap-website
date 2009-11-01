@@ -65,10 +65,10 @@ class UserController < ApplicationController
         set_locale
 
         if params[:user][:email] == @user.new_email
-          flash[:notice] = t 'user.account.flash update success confirm needed'
+          flash.now[:notice] = t 'user.account.flash update success confirm needed'
           Notifier.deliver_email_confirm(@user, @user.tokens.create)
         else
-          flash[:notice] = t 'user.account.flash update success'
+          flash.now[:notice] = t 'user.account.flash update success'
         end
       end
     end
@@ -103,7 +103,7 @@ class UserController < ApplicationController
         Notifier.deliver_lost_password(user, token)
         flash.now[:notice] = t 'user.lost_password.notice email on way'
       else
-        flash.now[:notice] = t 'user.lost_password.notice email cannot find'
+        flash.now[:error] = t 'user.lost_password.notice email cannot find'
       end
     end
   end
@@ -130,7 +130,7 @@ class UserController < ApplicationController
           end
         end
       else
-        flash[:notice] = t 'user.reset_password.flash token bad'
+        flash[:error] = t 'user.reset_password.flash token bad'
         redirect_to :action => 'lost_password'
       end
     end
@@ -152,9 +152,9 @@ class UserController < ApplicationController
       if user
         session[:user] = user.id
       elsif User.authenticate(:username => email_or_display_name, :password => pass, :inactive => true)
-        flash.now[:notice] = t 'user.login.account not active'
+        flash.now[:error] = t 'user.login.account not active'
       else
-        flash.now[:notice] = t 'user.login.auth failure'
+        flash.now[:error] = t 'user.login.auth failure'
       end
     end
 
@@ -211,7 +211,7 @@ class UserController < ApplicationController
           redirect_to :action => 'account', :display_name => @user.display_name
         end
       else
-        flash.now[:notice] = t 'user.confirm.failure'
+        flash.now[:error] = t 'user.confirm.failure'
       end
     end
   end
@@ -231,7 +231,7 @@ class UserController < ApplicationController
         session[:user] = @user.id
         redirect_to :action => 'account', :display_name => @user.display_name
       else
-        flash.now[:notice] = t 'user.confirm_email.failure'
+        flash.now[:error] = t 'user.confirm_email.failure'
       end
     end
   end
@@ -284,7 +284,7 @@ class UserController < ApplicationController
           friend.add_error(t('user.make_friend.failed', :name => name))
         end
       else
-        flash[:notice] = t 'user.make_friend.already_a_friend', :name => name
+        flash[:warning] = t 'user.make_friend.already_a_friend', :name => name
       end
 
       redirect_to :controller => 'user', :action => 'view'
@@ -299,7 +299,7 @@ class UserController < ApplicationController
         Friend.delete_all "user_id = #{@user.id} AND friend_user_id = #{friend.id}"
         flash[:notice] = t 'user.remove_friend.success', :name => friend.display_name
       else
-        flash[:notice] = t 'user.remove_friend.not_a_friend', :name => friend.display_name
+        flash[:error] = t 'user.remove_friend.not_a_friend', :name => friend.display_name
       end
 
       redirect_to :controller => 'user', :action => 'view'
@@ -346,7 +346,7 @@ private
   # and return them to the user page.
   def require_administrator
     unless @user.administrator?
-      flash[:notice] = t('user.filter.not_an_administrator')
+      flash[:error] = t('user.filter.not_an_administrator')
       redirect_to :controller => 'user', :action => 'view', :display_name => params[:display_name]
     end
   end

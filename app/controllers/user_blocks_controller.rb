@@ -60,7 +60,7 @@ class UserBlocksController < ApplicationController
     end
 
     if @user_block.creator_id != @user.id
-      flash[:notice] = t('user_block.update.only_creator_can_edit')
+      flash[:error] = t('user_block.update.only_creator_can_edit')
       redirect_to :action => "edit"
       return
     end
@@ -112,7 +112,7 @@ class UserBlocksController < ApplicationController
   # and return them to the blocks index.
   def require_moderator
     unless @user.moderator?
-      flash[:notice] = t('user_block.filter.not_a_moderator')
+      flash[:error] = t('user_block.filter.not_a_moderator')
       redirect_to :action => 'index'
     end
   end
@@ -143,10 +143,10 @@ class UserBlocksController < ApplicationController
     @valid_params = false
 
     if !UserBlock::PERIODS.include?(@block_period)
-      flash[:notice] = t('user_block.filter.block_period')
+      flash[:error] = t('user_block.filter.block_period')
       
     elsif @user_block and !@user_block.active?
-      flash[:notice] = t('user_block.filter.block_expired')
+      flash[:error] = t('user_block.filter.block_expired')
       
     else
       @valid_params = true

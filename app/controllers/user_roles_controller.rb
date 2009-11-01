@@ -23,7 +23,7 @@ class UserRolesController < ApplicationController
   private
   def require_administrator
     unless @user.administrator?
-      flash[:notice] = t'user_role.filter.not_an_administrator'
+      flash[:error] = t'user_role.filter.not_an_administrator'
       redirect_to :controller => 'user', :action => 'view', :display_name => @this_user.display_name
     end
   end
@@ -58,7 +58,7 @@ class UserRolesController < ApplicationController
   def require_valid_role
     @role = params[:role]
     unless UserRole::ALL_ROLES.include?(@role)
-      flash[:notice] = t('user_role.filter.not_a_role', :role => @role)
+      flash[:error] = t('user_role.filter.not_a_role', :role => @role)
       redirect_to :controller => 'user', :action => 'view', :display_name => @this_user.display_name
     end
   end
@@ -67,7 +67,7 @@ class UserRolesController < ApplicationController
   # checks that the user doesn't already have this role
   def not_in_role
     if @this_user.has_role? @role
-      flash[:notice] = t('user_role.filter.already_has_role', :role => @role)
+      flash[:error] = t('user_role.filter.already_has_role', :role => @role)
       redirect_to :controller => 'user', :action => 'view', :display_name => @this_user.display_name
     end
   end
@@ -76,7 +76,7 @@ class UserRolesController < ApplicationController
   # checks that the user already has this role
   def in_role
     unless @this_user.has_role? @role
-      flash[:notice] = t('user_role.filter.doesnt_have_role', :role => @role)
+      flash[:error] = t('user_role.filter.doesnt_have_role', :role => @role)
       redirect_to :controller => 'user', :action => 'view', :display_name => @this_user.display_name
     end
   end
