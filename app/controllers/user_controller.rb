@@ -101,9 +101,9 @@ class UserController < ApplicationController
       if user
         token = user.tokens.create
         Notifier.deliver_lost_password(user, token)
-        @notice = t 'user.lost_password.notice email on way'
+        flash.now[:notice] = t 'user.lost_password.notice email on way'
       else
-        @notice = t 'user.lost_password.notice email cannot find'
+        flash.now[:notice] = t 'user.lost_password.notice email cannot find'
       end
     end
   end
@@ -152,9 +152,9 @@ class UserController < ApplicationController
       if user
         session[:user] = user.id
       elsif User.authenticate(:username => email_or_display_name, :password => pass, :inactive => true)
-        @notice = t 'user.login.account not active'
+        flash.now[:notice] = t 'user.login.account not active'
       else
-        @notice = t 'user.login.auth failure'
+        flash.now[:notice] = t 'user.login.auth failure'
       end
     end
 
@@ -211,7 +211,7 @@ class UserController < ApplicationController
           redirect_to :action => 'account', :display_name => @user.display_name
         end
       else
-        @notice = t 'user.confirm.failure'
+        flash.now[:notice] = t 'user.confirm.failure'
       end
     end
   end
@@ -231,7 +231,7 @@ class UserController < ApplicationController
         session[:user] = @user.id
         redirect_to :action => 'account', :display_name => @user.display_name
       else
-        @notice = t 'user.confirm_email.failure'
+        flash.now[:notice] = t 'user.confirm_email.failure'
       end
     end
   end
