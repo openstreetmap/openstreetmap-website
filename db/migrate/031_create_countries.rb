@@ -1,4 +1,5 @@
 require 'lib/migrate'
+require 'rexml/document'
 
 class CreateCountries < ActiveRecord::Migration
   def self.up
