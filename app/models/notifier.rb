@@ -47,6 +47,7 @@ class Notifier < ActionMailer::Base
   
   def message_notification(message)
     common_headers message.recipient
+    from_header message.sender.display_name, "m", message.id, message.digest
     subject I18n.t('notifier.message_notification.subject', :user => message.sender.display_name, :locale => locale)
     body :to_user => message.recipient.display_name,
          :from_user => message.sender.display_name,
@@ -62,6 +63,7 @@ class Notifier < ActionMailer::Base
 
   def diary_comment_notification(comment)
     common_headers comment.diary_entry.user
+    from_header comment.user.display_name, "c", comment.id, comment.digest
     subject I18n.t('notifier.diary_comment_notification.subject', :user => comment.user.display_name, :locale => locale)
     body :to_user => comment.diary_entry.user.display_name,
          :from_user => comment.user.display_name,
@@ -103,8 +105,14 @@ private
   def common_headers(recipient)
     recipients recipient.email
     locale recipient.preferred_language_from(I18n.available_locales)
-    from "webmaster@openstreetmap.org"
+    from "OpenStreetMap <webmaster@openstreetmap.org>"
     headers "return-path" => "bounces@openstreetmap.org",
             "Auto-Submitted" => "auto-generated"
+  end
+
+  def from_header(name, type, id, digest)
+    if domain = APP_CONFIG['messages_domain']
+      from "#{name} <#{type}-#{id}-#{digest[0,6]}@#{domain}>"
+    end
   end
 end

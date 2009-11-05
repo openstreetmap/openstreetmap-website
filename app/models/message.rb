@@ -9,4 +9,14 @@ class Message < ActiveRecord::Base
   validates_inclusion_of :message_read, :in => [ true, false ]
   validates_associated :sender, :recipient
   validates_as_utf8 :title
+
+  def digest
+    md5 = Digest::MD5.new
+    md5 << from_user_id.to_s
+    md5 << to_user_id.to_s
+    md5 << sent_on.xmlschema
+    md5 << title
+    md5 << body
+    md5.hexdigest
+  end
 end
