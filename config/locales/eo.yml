@@ -3,6 +3,7 @@
 # Export driver: syck
 # Author: Cfoucher
 # Author: Lucas
+# Author: Michawiki
 # Author: Yekrats
 eo: 
   activerecord: 
@@ -15,21 +16,31 @@ eo:
       friend: 
         friend: Amiko
         user: Uzanto
+      message: 
+        recipient: Ricevonto
+        sender: Sendinto
       trace: 
         description: Priskribo
         latitude: Latitudo
         longitude: Longitudo
         name: Nomo
+        public: Publika
+        size: Grandeco
         user: Uzanto
         visible: Videbla
       user: 
+        active: Aktiva
+        description: Priskribo
         languages: Lingvoj
         pass_crypt: Pasvorto
     models: 
+      country: Lando
       friend: Amiko
       language: Lingvo
       message: Mesaĝo
+      node: Nodo
       old_node: Malnova nodo
+      old_way: Malnova vojo
       session: Seanco
       user: Uzanto
       way: Vojo
@@ -189,17 +200,27 @@ eo:
       way_history: Historio de vojo
       way_history_title: Historio de vojo
   changeset: 
+    changeset: 
+      anonymous: Anonima
+      big_area: (granda)
     changesets: 
+      id: ID
       user: Uzanto
     list: 
       description: Ĵusaj ŝanĝoj
   diary_entry: 
+    diary_entry: 
+      edit_link: Redakti ĉi tiun enskribon
     edit: 
       language: "Lingvo:"
       latitude: "Latitudo:"
       location: "Loko:"
       longitude: "Longitudo:"
       save_button: Konservi
+      use_map_link: uzi mapon
+    list: 
+      newer_entries: Pli novaj enskriboj
+      older_entries: Pli malnovaj enskriboj
     view: 
       login: Ensaluti
       save_button: Konservi
@@ -236,7 +257,9 @@ eo:
         geonames: Loko el <a href="http://www.geonames.org/">GeoNames</a>
         osm_namefinder: "{{types}} el <a href=\"http://gazetteer.openstreetmap.org/namefinder/\">OpenStreetMap Namefinder</a>"
       types: 
+        cities: Grandurboj
         places: Lokoj
+        towns: Urboj
     description_osm_namefinder: 
       prefix: "{{distance}} {{direction}} de {{type}}"
     direction: 
@@ -284,12 +307,14 @@ eo:
       alt_text: Emblemo de OpenStreetMap
     logout: elsaluti
     logout_tooltip: Elsaluti
+    make_a_donation: 
+      text: Donaci
     news_blog: Novaĵblogo
     news_blog_tooltip: Novaĵblogo (en la angla) pri OpenStreetMap, liberaj geografiaj datumoj, ktp.
     shop: Butiko
     sign_up: aliĝi
     sign_up_tooltip: Krei konton por redaktado
-    tag_line: La libera vikia tutmonda mapo
+    tag_line: La libera vikia mondmapo
     user_diaries: Uzantĵurnaloj
     user_diaries_tooltip: Vidi uzantĵurnalojn
     view: Vidi
@@ -301,6 +326,9 @@ eo:
     edit: Redakti
     view: Vidi
   message: 
+    inbox: 
+      date: Dato
+      you_have: Vi havas {{new_count}} novajn mesaĝojn kaj {{old_count}} malnovajn mesaĝojn
     message_summary: 
       delete_button: Forigi
       reply_button: Respondi
@@ -310,16 +338,24 @@ eo:
       send_message_to: Sendi novan mesaĝon al {{name}}
       title: Sendi mesaĝon
     outbox: 
+      date: Dato
       my_inbox: Mia {{inbox_link}}
     read: 
       back_to_inbox: Reen al mesaĝejo
+      date: Dato
       reply_button: Respondi
+      title: Legi mesaĝon
       to: Al
     sent_message_summary: 
       delete_button: Forigi
   notifier: 
     email_confirm_html: 
       greeting: Saluton,
+    email_confirm_plain: 
+      greeting: Saluton,
+    gpx_notification: 
+      greeting: Saluton,
+      with_description: kun la priskribo
     lost_password_html: 
       greeting: Saluton,
     lost_password_plain: 
@@ -330,6 +366,38 @@ eo:
     edit: 
       submit: Redakti
       title: Redakti vian programon
+    form: 
+      name: Nomo
+    new: 
+      submit: Registri
+    show: 
+      edit: Redakti detalojn
+  site: 
+    key: 
+      table: 
+        entry: 
+          building: Grava konstruaĵo
+          cemetery: Tombejo
+          common: 
+            - herbejo
+          lake: 
+            - Lago
+          park: Parko
+          rail: Fervojo
+          school: 
+            - Lernejo
+            - universitato
+          station: Stacidomo
+          tourist: Turista atrakcio
+          tram: 
+            - tramo
+    search: 
+      search: Serĉi
+      submit_text: Ek
+      where_am_i: Kie mi estas?
+    sidebar: 
+      close: Fermi
+      search_results: Serĉrezultoj
   trace: 
     create: 
       trace_uploaded: Via GPX dosiero estis alŝutita kaj atendas enkonduko en la datumbason. Tiu ĝenerale okazas antaŭ duonhoro, kaj retletero estos sendita al vi je finaĵo.
@@ -441,6 +509,8 @@ eo:
         enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: Kio estas tio ?
         heading: "Publika redaktado:"
+      public editing note: 
+        heading: Publika redaktado
       return to profile: Reen al profilo
       save changes button: Konservi Ŝanĝojn
       title: Redakti konton
@@ -541,6 +611,10 @@ eo:
       user location: Loko de uzanto
       your friends: Viaj amikoj
   user_block: 
+    partial: 
+      edit: Redakti
+      show: Montri
+      status: Stato
     show: 
       edit: Redakti
       show: Montri
