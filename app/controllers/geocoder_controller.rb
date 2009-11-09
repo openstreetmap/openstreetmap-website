@@ -19,13 +19,13 @@ class GeocoderController < ApplicationController
       @sources.push "us_postcode"
     elsif @query.match(/^(GIR 0AA|[A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]|[A-HK-Y][0-9]([0-9]|[ABEHMNPRV-Y]))|[0-9][A-HJKS-UW])\s*[0-9][ABD-HJLNP-UW-Z]{2})$/i)
       @sources.push "uk_postcode"
+      @sources.push "osm_nominatim" if APP_CONFIG['nominatim_enabled']
       @sources.push "osm_namefinder"
-      @sources.push "osm_twain" if APP_CONFIG['twain_enabled']
     elsif @query.match(/^[A-Z]\d[A-Z]\s*\d[A-Z]\d$/i)
       @sources.push "ca_postcode"
     else
+      @sources.push "osm_nominatim" if APP_CONFIG['nominatim_enabled']
       @sources.push "osm_namefinder"
-      @sources.push "osm_twain" if APP_CONFIG['twain_enabled']
       @sources.push "geonames"
     end
 
@@ -215,7 +215,7 @@ class GeocoderController < ApplicationController
     render :action => "error"
   end
 
-  def search_osm_twain
+  def search_osm_nominatim
     # get query parameters
     query = params[:query]
 
@@ -223,7 +223,7 @@ class GeocoderController < ApplicationController
     @results = Array.new
 
     # ask OSM namefinder
-    response = fetch_xml("http://katie.openstreetmap.org/~twain/?format=xml&polygon=true&q=#{escape_query(query)}")
+    response = fetch_xml("http://nominatim.openstreetmap.org/search.php?format=xml&polygon=true&q=#{escape_query(query)}")
 
     # parse the response
     response.elements.each("searchresults/place") do |place|
@@ -236,9 +236,9 @@ class GeocoderController < ApplicationController
       min_lat,max_lat,min_lon,max_lon = place.attributes["boundingbox"].to_s.split(",")
 
       if klass == "highway"
-        prefix = t 'geocoder.search_osm_twain.prefix_highway', :type => type.capitalize
+        prefix = t 'geocoder.search_osm_nominatim.prefix_highway', :type => type.capitalize
       else
-        prefix = t 'geocoder.search_osm_twain.prefix_other', :type => type.capitalize
+        prefix = t 'geocoder.search_osm_nominatim.prefix_other', :type => type.capitalize
       end
 
       @results.push({:lat => lat, :lon => lon, :zoom => zoom,
@@ -249,7 +249,7 @@ class GeocoderController < ApplicationController
 
     render :action => "results"
   rescue Exception => ex
-    @error = "Error contacting katie.openstreetmap.org: #{ex.to_s}"
+    @error = "Error contacting nominatim.openstreetmap.org: #{ex.to_s}"
     render :action => "error"
   end
 
@@ -284,10 +284,10 @@ class GeocoderController < ApplicationController
   def description
     @sources = Array.new
 
+    @sources.push({ :name => "osm_nominatim" }) if APP_CONFIG['nominatim_enabled']
     @sources.push({ :name => "osm_namefinder", :types => "cities", :max => 2 })
     @sources.push({ :name => "osm_namefinder", :types => "towns", :max => 4 })
     @sources.push({ :name => "osm_namefinder", :types => "places", :max => 10 })
-    @sources.push({ :name => "osm_twain" }) if APP_CONFIG['twain_enabled']
     @sources.push({ :name => "geonames" })
 
     render :update do |page|
@@ -332,7 +332,7 @@ class GeocoderController < ApplicationController
     render :action => "error"
   end
 
-  def description_osm_twain
+  def description_osm_nominatim
     # get query parameters
     lat = params[:lat]
     lon = params[:lon]
@@ -342,7 +342,7 @@ class GeocoderController < ApplicationController
     @results = Array.new
 
     # ask OSM namefinder
-    response = fetch_xml("http://katie.openstreetmap.org/~twain/reverse.php?lat=#{lat}&lon=#{lon}&zoom=#{zoom}")
+    response = fetch_xml("http://nominatim.openstreetmap.org/reverse.php?lat=#{lat}&lon=#{lon}&zoom=#{zoom}")
 
     # parse the response
     response.elements.each("reversegeocode") do |result|
@@ -353,7 +353,7 @@ class GeocoderController < ApplicationController
 
     render :action => "results"
   rescue Exception => ex
-    @error = "Error contacting katie.openstreetmap.org: #{ex.to_s}"
+    @error = "Error contacting nominatim.openstreetmap.org: #{ex.to_s}"
     render :action => "error"
   end
 
