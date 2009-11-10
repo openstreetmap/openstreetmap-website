@@ -223,13 +223,12 @@ class GeocoderController < ApplicationController
     @results = Array.new
 
     # ask OSM namefinder
-    response = fetch_xml("http://nominatim.openstreetmap.org/search.php?format=xml&polygon=true&q=#{escape_query(query)}")
+    response = fetch_xml("http://nominatim.openstreetmap.org/search?format=xml&q=#{escape_query(query)}")
 
     # parse the response
     response.elements.each("searchresults/place") do |place|
       lat = place.attributes["lat"].to_s
       lon = place.attributes["lon"].to_s
-      zoom = place.attributes["zoom"].to_s
       klass = place.attributes["class"].to_s
       type = place.attributes["type"].to_s
       name = place.attributes["display_name"].to_s
@@ -241,7 +240,7 @@ class GeocoderController < ApplicationController
         prefix = t 'geocoder.search_osm_nominatim.prefix_other', :type => type.capitalize
       end
 
-      @results.push({:lat => lat, :lon => lon, :zoom => zoom,
+      @results.push({:lat => lat, :lon => lon,
                      :min_lat => min_lat, :max_lat => max_lat,
                      :min_lon => min_lon, :max_lon => max_lon,
                      :prefix => prefix, :name => name})
@@ -342,7 +341,7 @@ class GeocoderController < ApplicationController
     @results = Array.new
 
     # ask OSM namefinder
-    response = fetch_xml("http://nominatim.openstreetmap.org/reverse.php?lat=#{lat}&lon=#{lon}&zoom=#{zoom}")
+    response = fetch_xml("http://nominatim.openstreetmap.org/reverse?lat=#{lat}&lon=#{lon}&zoom=#{zoom}")
 
     # parse the response
     response.elements.each("reversegeocode") do |result|

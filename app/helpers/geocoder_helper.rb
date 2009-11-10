@@ -13,7 +13,7 @@ module GeocoderHelper
     html << " " if result[:prefix] and result[:name]
 
     if result[:min_lon] and result[:min_lat] and result[:max_lon] and result[:max_lat]
-      html << link_to_function(result[:name],"setPosition(#{result[:lat]}, #{result[:lon]}, #{result[:zoom]}, #{result[:min_lon]}, #{result[:min_lat]}, #{result[:max_lon]}, #{result[:max_lat]})", html_options)  if result[:name]
+      html << link_to_function(result[:name],"setPosition(#{result[:lat]}, #{result[:lon]}, null, #{result[:min_lon]}, #{result[:min_lat]}, #{result[:max_lon]}, #{result[:max_lat]})", html_options)  if result[:name]
     else
       html << link_to_function(result[:name],"setPosition(#{result[:lat]}, #{result[:lon]}, #{result[:zoom]})", html_options)  if result[:name]
     end
