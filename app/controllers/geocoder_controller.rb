@@ -218,12 +218,21 @@ class GeocoderController < ApplicationController
   def search_osm_nominatim
     # get query parameters
     query = params[:query]
+    minlon = params[:minlon]
+    minlat = params[:minlat]
+    maxlon = params[:maxlon]
+    maxlat = params[:maxlat]
+
+    # get view box
+    if minlon && minlat && maxlon && maxlat
+      viewbox = "&viewbox=#{minlon},#{maxlat},#{maxlon},#{minlat}"
+    end
 
     # create result array
     @results = Array.new
 
-    # ask OSM namefinder
-    response = fetch_xml("http://nominatim.openstreetmap.org/search?format=xml&q=#{escape_query(query)}")
+    # ask nominatim
+    response = fetch_xml("http://nominatim.openstreetmap.org/search?format=xml&q=#{escape_query(query)}#{viewbox}")
 
     # parse the response
     response.elements.each("searchresults/place") do |place|

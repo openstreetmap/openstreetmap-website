@@ -13,6 +13,17 @@
                         :with => "'lat=' + position.lat + '&lon=' + position.lon + '&zoom=' + zoom") %>
   }
 
+  function setSearchViewbox() {
+    <% if params[:action] == 'index' %>
+    var extent = getMapExtent();
+
+    $("minlon").value = extent.left;
+    $("minlat").value = extent.bottom;
+    $("maxlon").value = extent.right;
+    $("maxlat").value = extent.top;
+    <% end %>
+  }
+
   <% if params[:query] %>
   <%= remote_function(:loading => "startSearch()",
                       :url => { :controller => :geocoder, :action => :search, :query => h(params[:query]) }) %>
@@ -26,11 +37,18 @@
     <span class="whereami"><a href="javascript:describeLocation()" title="<%= t 'site.search.where_am_i_title' %>"><%= t 'site.search.where_am_i' %></a></span>
     <div class="search_form">
     <div id="search_field">
-    <% form_remote_tag(:loading => "startSearch()",
+    <% form_remote_tag(:before => "setSearchViewbox()",
+                       :loading => "startSearch()",
                        :complete => "endSearch()",
                        :url => { :controller => :geocoder, :action => :search },
                        :html => { :method => "get", :action => url_for(:action => "index") }) do %>
       <%= text_field_tag :query, h(params[:query]) %>
+      <% if params[:action] == 'index' %>
+        <%= hidden_field_tag :minlon %>
+        <%= hidden_field_tag :minlat %>
+        <%= hidden_field_tag :maxlon %>
+        <%= hidden_field_tag :maxlat %>
+      <% end %>
       <%= submit_tag t('site.search.submit_text') %>
     <% end %>
     </div>
