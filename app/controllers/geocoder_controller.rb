@@ -232,7 +232,7 @@ class GeocoderController < ApplicationController
     @results = Array.new
 
     # ask nominatim
-    response = fetch_xml("http://nominatim.openstreetmap.org/search?format=xml&q=#{escape_query(query)}#{viewbox}")
+    response = fetch_xml("http://nominatim.openstreetmap.org/search?format=xml&q=#{escape_query(query)}#{viewbox}&accept-language=#{request.user_preferred_languages.join(',')}")
 
     # parse the response
     response.elements.each("searchresults/place") do |place|
@@ -350,7 +350,7 @@ class GeocoderController < ApplicationController
     @results = Array.new
 
     # ask OSM namefinder
-    response = fetch_xml("http://nominatim.openstreetmap.org/reverse?lat=#{lat}&lon=#{lon}&zoom=#{zoom}")
+    response = fetch_xml("http://nominatim.openstreetmap.org/reverse?lat=#{lat}&lon=#{lon}&zoom=#{zoom}&accept-language=#{request.user_preferred_languages.join(',')}")
 
     # parse the response
     response.elements.each("reversegeocode") do |result|
