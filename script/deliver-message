@@ -24,7 +24,7 @@ mail = Mail.new(STDIN)
 message = Message.new(:sender => from, :recipient => to,
                       :sent_on => Time.now.getutc,
                       :title => mail["Subject"],
-                      :body => mail.body.join("\n"))
+                      :body => mail.body.map { |l| l.rstrip }.join("\n"))
 message.save!
 
 Notifier::deliver_message_notification(message)
