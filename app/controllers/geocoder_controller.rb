@@ -239,8 +239,8 @@ class GeocoderController < ApplicationController
       lat = place.attributes["lat"].to_s
       lon = place.attributes["lon"].to_s
       klass = place.attributes["class"].to_s
-      type = place.attributes["type"].to_s
-      name = place.attributes["display_name"].to_s.gsub("_", " ")
+      type = place.attributes["type"].to_s.gsub("_", " ")
+      name = place.attributes["display_name"].to_s
       min_lat,max_lat,min_lon,max_lon = place.attributes["boundingbox"].to_s.split(",")
 
       if klass == "highway" and ["trunk","primary","secondary","tertiary","unclassified","residential"].include?(type)
