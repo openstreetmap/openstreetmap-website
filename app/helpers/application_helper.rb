@@ -1,6 +1,6 @@
 module ApplicationHelper
   def htmlize(text)
-    return sanitize(auto_link(simple_format(text), :link => :urls, :href_options => { :rel => "nofollow" }))
+    return sanitize(auto_link(simple_format(text), :link => :urls, :html => { :rel => "nofollow" }))
   end
 
   def html_escape_unicode(text)
