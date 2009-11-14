@@ -3,7 +3,10 @@ class DiaryEntry < ActiveRecord::Base
   belongs_to :language, :foreign_key => 'language_code'
   
   has_many :diary_comments, :include => :user,
-                            :conditions => ["users.visible = ?", true],
+                            :conditions => {
+                              :users => { :visible => true },
+                              :visible => true
+                            },
                             :order => "diary_comments.id"
 
   validates_presence_of :title, :body

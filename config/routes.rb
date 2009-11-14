@@ -156,6 +156,8 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/user/:display_name/diary/rss', :controller => 'diary_entry', :action => 'rss'
   map.connect '/user/:display_name/diary/new', :controller => 'diary_entry', :action => 'new'
   map.connect '/user/:display_name/diary/:id/edit', :controller => 'diary_entry', :action => 'edit', :id => /\d+/
+  map.connect '/user/:display_name/diary/:id/hide', :controller => 'diary_entry', :action => 'hide', :id => /\d+/
+  map.connect '/user/:display_name/diary/:id/hidecomment/:comment', :controller => 'diary_entry', :action => 'hidecomment', :id => /\d+/, :comment => /\d+/
   map.connect '/user/:display_name/account', :controller => 'user', :action => 'account'
   map.connect '/user/:display_name/set_home', :controller => 'user', :action => 'set_home'
   map.connect '/user/:display_name/activate', :controller => 'user', :action => 'activate'

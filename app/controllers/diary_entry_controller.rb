@@ -3,9 +3,10 @@ class DiaryEntryController < ApplicationController
 
   before_filter :authorize_web
   before_filter :set_locale
-  before_filter :require_user, :only => [:new, :edit]
+  before_filter :require_user, :only => [:new, :edit, :comment, :hide, :hidecomment]
   before_filter :check_database_readable
   before_filter :check_database_writable, :only => [:new, :edit]
+  before_filter :require_administrator, :only => [:hide, :hidecomment]
 
   def new
     @title = t 'diary_entry.new.title'
@@ -66,12 +67,15 @@ class DiaryEntryController < ApplicationController
 
   def list
     if params[:display_name]
-      @this_user = User.find_by_display_name(params[:display_name], :conditions => {:visible => true})
+      @this_user = User.find_by_display_name(params[:display_name], :conditions => { :visible => true })
 
       if @this_user
         @title = t 'diary_entry.list.user_title', :user => @this_user.display_name
         @entry_pages, @entries = paginate(:diary_entries,
-                                          :conditions => ['user_id = ?', @this_user.id],
+                                          :conditions => { 
+                                            :user_id => @this_user.id,
+                                            :visible => true 
+                                          },
                                           :order => 'created_at DESC',
                                           :per_page => 20)
       else
@@ -83,13 +87,20 @@ class DiaryEntryController < ApplicationController
     elsif params[:language]
       @title = t 'diary_entry.list.in_language_title', :language => Language.find(params[:language]).english_name
       @entry_pages, @entries = paginate(:diary_entries, :include => :user,
-                                        :conditions => ["users.visible = ? AND diary_entries.language_code = ?", true, params[:language]],
+                                        :conditions => {
+                                          :users => { :visible => true },
+                                          :visible => true,
+                                          :language_code => params[:language]
+                                        },
                                         :order => 'created_at DESC',
                                         :per_page => 20)
     else
       @title = t 'diary_entry.list.title'
       @entry_pages, @entries = paginate(:diary_entries, :include => :user,
-                                        :conditions => ["users.visible = ?", true],
+                                        :conditions => {
+                                          :users => { :visible => true },
+                                          :visible => true
+                                        },
                                         :order => 'created_at DESC',
                                         :per_page => 20)
     end
@@ -99,10 +110,16 @@ class DiaryEntryController < ApplicationController
     request.format = :rss
 
     if params[:display_name]
-      user = User.find_by_display_name(params[:display_name], :conditions => {:visible => true})
+      user = User.find_by_display_name(params[:display_name], :conditions => { :visible => true })
 
       if user
-        @entries = DiaryEntry.find(:all, :conditions => ['user_id = ?', user.id], :order => 'created_at DESC', :limit => 20)
+        @entries = DiaryEntry.find(:all, 
+                                   :conditions => { 
+                                     :user_id => user.id,
+                                     :visible => true 
+                                   },
+                                   :order => 'created_at DESC', 
+                                   :limit => 20)
         @title = I18n.t('diary_entry.feed.user.title', :user => user.display_name)
         @description = I18n.t('diary_entry.feed.user.description', :user => user.display_name)
         @link = "http://#{SERVER_URL}/user/#{user.display_name}/diary"
@@ -111,15 +128,24 @@ class DiaryEntryController < ApplicationController
       end
     elsif params[:language]
       @entries = DiaryEntry.find(:all, :include => :user,
-        :conditions => ["users.visible = ? AND diary_entries.language_code = ?", true, params[:language]],
-        :order => 'created_at DESC', :limit => 20)
+                                 :conditions => {
+                                   :users => { :visible => true },
+                                   :visible => true,
+                                   :language_code => params[:language]
+                                 },
+                                 :order => 'created_at DESC', 
+                                 :limit => 20)
       @title = I18n.t('diary_entry.feed.language.title', :language_name => Language.find(params[:language]).english_name)
       @description = I18n.t('diary_entry.feed.language.description', :language_name => Language.find(params[:language]).english_name)
       @link = "http://#{SERVER_URL}/diary/#{params[:language]}"
     else
       @entries = DiaryEntry.find(:all, :include => :user,
-                                 :conditions => ["users.visible = ?", true],
-                                 :order => 'created_at DESC', :limit => 20)
+                                 :conditions => {
+                                   :users => { :visible => true },
+                                   :visible => true
+                                 },
+                                 :order => 'created_at DESC', 
+                                 :limit => 20)
       @title = I18n.t('diary_entry.feed.all.title')
       @description = I18n.t('diary_entry.feed.all.description')
       @link = "http://#{SERVER_URL}/diary"
@@ -127,10 +153,14 @@ class DiaryEntryController < ApplicationController
   end
 
   def view
-    user = User.find_by_display_name(params[:display_name], :conditions => {:visible => true})
+    user = User.find_by_display_name(params[:display_name], :conditions => { :visible => true })
 
     if user
-      @entry = DiaryEntry.find(:first, :conditions => ['user_id = ? AND id = ?', user.id, params[:id]])
+      @entry = DiaryEntry.find(:first, :conditions => {
+                                 :id => params[:id],
+                                 :user_id => user.id,
+                                 :visible => true
+                               })
       if @entry
         @title = t 'diary_entry.view.title', :user => params[:display_name]
       else
@@ -141,6 +171,28 @@ class DiaryEntryController < ApplicationController
       @not_found_user = params[:display_name]
 
       render :action => 'no_such_user', :status => :not_found
+    end
+  end
+
+  def hide
+    entry = DiaryEntry.find(params[:id])
+    entry.update_attributes(:visible => false)
+    redirect_to :action => "list", :display_name => entry.user.display_name
+  end
+
+  def hidecomment
+    comment = DiaryComment.find(params[:comment])
+    comment.update_attributes(:visible => false)
+    redirect_to :action => "view", :id => comment.diary_entry.id
+  end
+private
+  ##
+  # require that the user is a administrator, or fill out a helpful error message
+  # and return them to the user page.
+  def require_administrator
+    unless @user.administrator?
+      flash[:error] = t('user.filter.not_an_administrator')
+      redirect_to :controller => 'diary_entry', :action => 'view', :display_name => params[:id]
     end
   end
 end

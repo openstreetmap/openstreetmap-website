@@ -15,5 +15,8 @@
 <% if @user == diary_entry.user %> 
 | <%= link_to t('diary_entry.diary_entry.edit_link'), :action => 'edit', :display_name => @user.display_name, :id => diary_entry.id %>
 <% end %>
+<% if @user && @user.administrator? %> 
+| <%= link_to t('diary_entry.diary_entry.hide_link'), {:action => 'hide', :display_name => @user.display_name, :id => diary_entry.id}, {:confirm => t('diary_entry.diary_entry.confirm')} %>
+<% end %>
 <br />
 <hr />
