@@ -2,6 +2,9 @@
 # Exported from translatewiki.net
 # Export driver: syck
 # Author: Apmon
+# Author: CygnusOlor
+# Author: Fnolz
+# Author: Grille chompa
 # Author: Pill
 # Author: Umherirrender
 de: 
@@ -20,9 +23,12 @@ de:
   action_pointtags: Attribute (Tags) für Punkt zuweisen
   action_poitags: Attribute (Tags) für Ort von Interesse (POI) zuweisen
   action_reverseway: Wegrichtung umkehren
+  action_revertway: Einen Weg umkehren
   action_splitway: Weg teilen
   action_waytags: Attribute (Tags) für Weg zuweisen
   advanced: Erweitert
+  advanced_close: Changeset schließen
+  advanced_history: Weg Chronik
   advanced_inspector: Inspektor
   advanced_maximise: Fenster maximieren
   advanced_minimise: Fenster minimieren
@@ -30,88 +36,168 @@ de:
   advanced_tooltip: Erweiterte Editierfunktionen
   advanced_undelete: Wiederherstellen
   advice_bendy: Zu kurvig zum begradigen (SHIFT zum Erzwingen)
-  advice_deletingpoi: Entferne POI (Z zum Rückgängig machen)
-  advice_deletingway: Lösche Weg (Z um es rückgängig zu machen)
+  advice_deletingpoi: POI entfernen (Z zum Rückgängig machen)
+  advice_deletingway: Weg löschen (Z um es rückgängig zu machen)
   advice_nocommonpoint: Die Wege (Ways) haben keinen gemeinsamen Punkt.
   advice_revertingway: Weg wurde zur letztgespeicherten Version wieder hergestellt. (Z für Rückgängig)
   advice_tagconflict: Die Attribute (Tags) passen nicht zusammen (Z zum Rückgängig-Machen)
   advice_toolong: Zu lang zum Entsperren - Bitte in kürzere Wege aufteilen.
   advice_uploadempty: Es gibt nichts zum hochladen
+  advice_uploadfail: Hochladen angehalten
   advice_uploadsuccess: Alle Daten wurden erfolgreich hochgeladen
   advice_waydragged: Weg verschoben (Z zum Rückgängig-Machen)
   cancel: Abbrechen
-  conflict_download: Lade deren Version herunter
-  conflict_overwrite: Überschreibe deren Version
+  closechangeset: Changeset schließen
+  conflict_download: Deren Version herunterladen
+  conflict_overwrite: Deren Version überschreiben
   conflict_poichanged: Seit dem Beginn deiner Änderungen hat jemand anderes den Punkt $1$2 verändert
-  conflict_relchanged: Seit dem Beginn deiner Änderungen hat jemand anderes die Relation $1$2 verändert
+  conflict_relchanged: Seit dem Beginn deiner Änderungen hat ein anderer Nutzer die Relation $1$2 verändert
   conflict_visitpoi: Klicke „Ok“ um den Punkt anzuzeigen
-  conflict_visitway: Klicke „Ok“ um den Weg anzuzeigen.
+  conflict_visitway: Klicke „OK“, um den Weg anzuzeigen.
   conflict_waychanged: Seit dem Beginn deiner Änderungen hat jemand anderes den Weg $1$2 verändert
   createrelation: Eine neue Relation erstellen
+  custom: "Eigener:"
   delete: Löschen
   deleting: löschen
-  emailauthor: \n\nBitte maile an richard\@systemeD.net eine Fehlerbeschreibung, und schildere, was Du in dem Moment getan hast. <b>(Wenn möglich auf Englisch)</b>
+  drag_pois: POI klicken und ziehen
+  editinglive: Bearbeite live
+  editingoffline: Bearbeite offline
+  emailauthor: \n\nBitte maile an richard\@systemeD.net eine Fehlerbeschreibung und schildere, was Du in dem Moment getan hast. <b>(Wenn möglich auf Englisch)</b>
   error_anonymous: Du kannst einen anonymen Mapper nicht kontaktieren.
-  error_connectionfailed: Die Verbindung zum OpenStreetMap-Server ist leider fehlgeschlagen. Kürzlich erfolgte Änderungen wurden nicht gespeichert.\n\nNoch einmal versuchen?
+  error_connectionfailed: Die Verbindung zum OpenStreetMap-Server ist leider fehlgeschlagen. Kürzlich getätigte Änderungen wurden nicht gespeichert.\n\nErneut versuchen?
   error_nopoi: Der Ort von Interesse (POI) kann nicht gefunden werden (vielleicht wurde der Kartenausschnitt verschoben?), daher ist Rückgängigmachen nicht möglich.
   error_nosharedpoint: Die Wege $1 und $2 haben keinen gemeinsamen Punkt mehr, daher kann das Aufteilen nicht rückgängig gemacht werden.
   error_noway: Der Weg $1 kann nicht gefunden werden (eventuell wurde der Kartenausschnitt verschoben), daher ist Rückgängigmachen nicht möglich.
   error_readfailed: Der OpenStreetMap Server reagiert zur Zeit nicht auf Anfragen von Daten.\n\nMöchtest du es noch einmal versuchen?
+  error_twitter: Veröffentlichung bei Twitter leider fehlgeschlagen.
   existingrelation: Zu einer bestehenden Relation hinzufügen
-  findrelation: Finde eine Relation, die $1 enthält
+  findrelation: Relation finden, die dies enthält
   gpxpleasewait: Bitte warten, während die GPX-Aufzeichnung (Track) verarbeitet wird.
+  heading_drawing: Zeichnen
   heading_introduction: Einführung
+  heading_pois: Los geht's
+  heading_quickref: Kurzübersicht
+  heading_surveying: Vermessung
+  heading_troubleshooting: Fehlerbehandlung
   help: Hilfe
   hint_drawmode: Klicken, um Punkt hinzuzufügen\nDoppelklicken oder Eingabetaste zum Beenden der Linie
+  hint_latlon: "Breitengrad $1\nLängengrad $2"
   hint_loading: Wege werden geladen
   hint_overendpoint: Überlappung mit Endpunkt\nKlicken zum Anschließen\nShift+Klick zum Verschmelzen
   hint_overpoint: Überlappung mit Punkt\nKlicken zum Anschließen
   hint_pointselected: Punkt ausgewählt\n(Shift+Punkt anklicken, um\n eine neue Linie zu erstellen)
-  hint_saving: Speichere Daten
-  hint_saving_loading: Laden/speichern von Daten
+  hint_saving: Daten speichern
+  hint_saving_loading: Daten laden/speichern
+  inspector: Inspektor
+  inspector_latlon: "Breitengrad $1\nLängengrad $2"
+  inspector_locked: Gesperrt
+  inspector_not_in_any_ways: In keinem Weg (POI)
+  inspector_unsaved: Ungespeichert
+  inspector_uploading: (hochladen)
+  inspector_way_connects_to: Mit $1 Wegen verbunden
+  inspector_way_connects_to_principal: Verbunden mit $1 $2 und $3 weiteren $4
+  inspector_way_nodes: $1 Knoten
+  inspector_way_nodes_closed: $1 Knoten (geschlossen)
   login_pwd: "Passwort:"
   login_retry: Deine Anmeldung wurde nicht akzeptiert. Bitte versuch es noch einmal.
-  login_title: Konnte dich nicht anmelden
+  login_title: Anmeldung fehlgeschlagen
   login_uid: "Benutzername:"
+  mail: Nachricht
   more: Mehr
   newchangeset: "Bitte versuche es noch einamal: Potlatch wird einen neuen Changeset verwenden."
   nobackground: Kein Hintergrund
   norelations: Keine Relationen in diesem Gebiet
+  offset_broadcanal: Breiter Leinpfad
+  offset_choose: Offset wählen (m)
   offset_motorway: Autobahn (D3)
+  offset_narrowcanal: Enger Leinpfad
   ok: OK
+  openchangeset: Changeset öffnen
   option_custompointers: Stift- und Hand-Mauszeiger benutzen
-  option_fadebackground: Hintergrund halbtransparent
+  option_external: "Externer Aufruf:"
+  option_fadebackground: Halbtransparenter Hintergrund
+  option_layer_cycle_map: OSM - Radwanderkarte
+  option_layer_maplint: OSM - Maplint (Fehler)
+  option_layer_ooc_25k: Historische UK Karten 1:25k
+  option_layer_tip: Hintergrund auswählen
   option_noname: Hervorheben von Straßen ohne Namen
-  option_thinareas: Verwende dünner Linien für Flächen
-  option_thinlines: Dünne Linien in allen Auflösungen benutzen
-  option_tiger: Hervorheben unverändertes TIGER
+  option_photo: "Foto-KML:"
+  option_thinareas: Dünne Linien für Flächen verwenden
+  option_thinlines: Dünne Linien in allen Auflösungen verwenden
+  option_tiger: Unveränderte TIGER-Daten hervorheben
+  option_twitterid: "Twitter-Name:"
+  option_twitterpwd: "Twitter-Kennwort:"
   option_warnings: Warnungen anzeigen
   point: Punkt
+  preset_icon_airport: Flughafen
+  preset_icon_bar: Bar
+  preset_icon_bus_stop: Bushaltestelle
+  preset_icon_cafe: Café
+  preset_icon_cinema: Kino
+  preset_icon_convenience: Nachbarschaftsladen
+  preset_icon_fast_food: Schnellimbiss
+  preset_icon_ferry_terminal: Fähre
+  preset_icon_fire_station: Feuerwehr
+  preset_icon_hospital: Krankenhaus
+  preset_icon_hotel: Hotel
+  preset_icon_museum: Museum
+  preset_icon_parking: Parken
+  preset_icon_pharmacy: Apotheke
+  preset_icon_place_of_worship: Andachtsort
+  preset_icon_police: Polizeiwache
+  preset_icon_post_box: Briefkasten
+  preset_icon_pub: Pub
+  preset_icon_recycling: Recycling
+  preset_icon_restaurant: Restaurant
+  preset_icon_school: Schule
+  preset_icon_station: Bahnhof
+  preset_icon_supermarket: Supermarkt
+  preset_icon_taxi: Taxistand
+  preset_icon_telephone: Telefon
+  preset_icon_theatre: Theater
+  preset_tip: Wähle aus einem Menü von vorgefertigten Tags zur Beschreibung von „$1“
   prompt_addtorelation: $1 zu einer Relation hinzufügen
   prompt_changesetcomment: "Bitte gib eine Beschreibung der Änderungen ein:"
-  prompt_createparallel: Erzeuge einen parallelen Weg
+  prompt_closechangeset: Changeset $1 schließen
+  prompt_createparallel: Einen parallelen Weg erzeugen
+  prompt_editlive: Live bearbeiten
+  prompt_editsave: Bearbeiten und speichern
   prompt_helpavailable: Neuer Benutzer? Unten links gibt es Hilfe.
-  prompt_launch: Starte externe URL
+  prompt_launch: Externe URL öffnen
   prompt_revertversion: "Frühere Version wiederherstellen:"
   prompt_savechanges: Änderungen speichern
   prompt_taggedpoints: Einige Punkte auf diesem Weg tragen Attribute (Tags). Trotzdem löschen?
   prompt_track: Deine GPS-Aufzeichnungen (Tracks) in (gesperrte) Wege zum Editieren wandeln.
+  prompt_twitter: In Twitter veröffentlichen ($1 verbleiben)
+  prompt_unlock: Anklicken zum Endsperren
   prompt_welcome: Willkommen bei OpenStreetMap!
+  retry: Erneut versuchen
+  revert: Rückgängig machen
   save: Speichern
   tip_addrelation: Zu einer Relation hinzufügen
   tip_addtag: Attribut (Tag) hinzufügen
   tip_alert: Ein Fehler ist aufgetreten - Klicken für Details
-  tip_anticlockwise: Geschlossener Weg gegen den Uhrzeigersinn - Klicken zum Ändern der Richtung
+  tip_anticlockwise: Geschlossener Weg gegen den Uhrzeigersinn - Klicken zum Wechseln der Richtung
   tip_clockwise: Geschlossener Weg im Uhrzeigersinn - Klicken zum Ändern der Richtung
-  tip_direction: Richtung des Weges - Klicken zum Ändern
+  tip_direction: Richtung des Weges - Klicken zum Wechseln
   tip_gps: GPS-Aufzeichnungen (Tracks) einblenden (g/G)
   tip_noundo: Es gibt nichts rückgängig zu machen.
   tip_options: Optionen ändern (Kartenhintergrund)
-  tip_photo: Lade Photos
+  tip_photo: Fotos laden
   tip_presettype: Art der Voreinstellungen wählen, die im Menü angeboten werden sollen
   tip_repeattag: Attribute (Tags) vom vorher markierten Weg übernehmen (R)
   tip_revertversion: Version zur Wiederherstellung wählen
   tip_selectrelation: Zur markierten Route hinzufügen
   tip_splitway: Weg am ausgewählten Punkt auftrennen (x)
+  tip_tidy: Punkte im Weg aufräumen (T)
   tip_undo: $1 rückgängig machen (Z)
+  uploading: Hochladen …
+  uploading_deleting_pois: Lösche POIs
+  uploading_deleting_ways: Wege löschen
+  uploading_poi: POI $1 hochladen
+  uploading_poi_name: POI $1, $2 hochladen
+  uploading_relation: Lade Relation $1 hoch
+  uploading_relation_name: Hochladen von Relation $1, $2
+  uploading_way: Weg $1 hochladen
+  uploading_way_name: Weg $1, $2 hochladen
   way: Weg
