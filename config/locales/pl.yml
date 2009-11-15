@@ -2,6 +2,7 @@
 # Exported from translatewiki.net
 # Export driver: syck
 # Author: Sp5uhe
+# Author: Yarl
 pl: 
   activerecord: 
     attributes: 
@@ -34,7 +35,7 @@ pl:
         active: Aktywny
         description: Opis
         display_name: Przyjazna nazwa
-        email: Email
+        email: E-mail
         languages: Języki
         pass_crypt: Hasło
     models: 
@@ -76,6 +77,9 @@ pl:
       changeset: "Changeset: {{id}}"
       changesetxml: XML w formacie Changesetu
       download: Ściągnij {{changeset_xml_link}} lub {{osmchange_xml_link}}
+      feed: 
+        title: Zestaw zmian {{id}}
+        title_comment: Zestaw zmian {{id}} - {{comment}}
       osmchangexml: XML w formacie osmChange
       title: Changeset
     changeset_details: 
@@ -89,20 +93,35 @@ pl:
       has_ways: "Zawiera następujących {{count}} dróg:"
       no_bounding_box: Ten changeset został zapisany bez prostokątu ograniczającego.
       show_area_box: Pokaż obszar prostokątu
+    changeset_navigation: 
+      all: 
+        next_tooltip: Następny zestaw zmian
+        prev_tooltip: Poprzedni zestaw zmian
+      user: 
+        name_tooltip: Zobacz edycje wykonane przez użytkownika {{user}}
+        next_tooltip: Następna edycja wykonana przez użytkownika {{user}}
+        prev_tooltip: Poprzednia edycja wykonana przez użytkownika {{user}}
     common_details: 
+      changeset_comment: "Komentarz:"
       edited_at: "Edytowano:"
       edited_by: "Edytował(a):"
-      in_changeset: "W changesecie:"
+      in_changeset: "W zestawie zmian:"
       version: "Wersja:"
     containing_relation: 
       entry: Relacja {{relation_name}}
       entry_role: Relacja {{relation_name}} (jako {{relation_role}})
     map: 
       deleted: Skasowano
+      larger: 
+        area: Zobacz obszar na większej mapie
+        node: Zobacz punkt na większej mapie
+        relation: Zobacz relację na większej mapie
+        way: Pokaż drogę na większej mapie
       loading: Wczytywanie...
     node: 
       download: "{{download_xml_link}} lub {{view_history_link}}"
       download_xml: Ściągnij XML
+      edit: edytuj
       node: Węzeł
       node_title: "Węzeł: {{node_name}}"
       view_history: zobacz historię zmian
@@ -113,9 +132,15 @@ pl:
       download: "{{download_xml_link}} lub {{view_details_link}}"
       download_xml: Ściągnij XML
       node_history: Historia zmian węzła
+      node_history_title: "Historia punktu: {{node_name}}"
       view_details: zobacz szczegóły
     not_found: 
       sorry: Niestety {{type}} o id {{id}} nie został znaleziony.
+      type: 
+        changeset: zestaw zmian
+        node: węzeł
+        relation: relacja
+        way: droga
     paging_nav: 
       of: z
       showing_page: Widoczna jest strona
@@ -129,13 +154,23 @@ pl:
       members: "Zawiera:"
       part_of: "Jest częścią:"
     relation_history: 
+      download: "{{download_xml_link}} lub {{view_details_link}}"
+      download_xml: Ściągnij XML
       relation_history: Historia zmian relacji
       relation_history_title: "Historia relacji: {{relation_name}}"
+      view_details: zobacz szczegóły
+    relation_member: 
+      entry_role: "{{type}} {{name}} jako {{role}}"
+      type: 
+        node: Węzeł
+        relation: Relacja
+        way: Droga
     start: 
       manually_select: Manualnie wybierz inny obszar
       view_data: Zobacz dane w aktualnym widoku mapy
     start_rjs: 
       data_frame_title: Dane
+      data_layer_name: Dane
       details: Szczegóły
       drag_a_box: Zaznacz prostokąt na mapie przeciągnięciem myszki aby wybrać obszar
       edited_by_user_at_timestamp: Edytowany przez [[user]] ostatni raz [[timestamp]]
@@ -144,6 +179,19 @@ pl:
       loaded_an_area_with_num_features: Załadowano obszar zawierający [[num_features]] obiektów.  Przeglądarki mogą nie radzić sobie z wyświetleniem tej ilości danych -- generalnie działają optymalnie przy wyświetlaniu mniej niż 100 obiektów jednocześnie, w przeciwnym wypadku przeglądarka może działac powoli lub przestać odpowiadać.  Jeśli jesteś pewien że chcesz wyświetlić dane, kliknij przycisk poniżej.
       loading: Wczytywanie...
       manually_select: Manualnie wybierz inny obszar
+      object_list: 
+        details: Szczegóły
+        history: 
+          type: 
+            node: Węzeł [[id]]
+            way: Droga [[id]]
+        selected: 
+          type: 
+            node: Węzeł [[id]]
+            way: Droga [[id]]
+        type: 
+          node: Węzeł
+          way: Droga
       private_user: prywatny użytkownika
       show_history: Pokaż zmiany
       unable_to_load_size: "Nie można załadować: prostokąt ograniczający [[bbox_size]] jest zbyt duży (nie może przekraczać {{max_bbox_size}} stopnia)"
@@ -154,6 +202,8 @@ pl:
     way: 
       download: "{{download_xml_link}} lub {{view_history_link}}"
       download_xml: Ściągnij XML
+      edit: edytuj
+      view_history: pokaż historię
       way: Droga
       way_title: "Droga: {{way_name}}"
     way_details: 
@@ -325,7 +375,7 @@ pl:
     logout: wyloguj
     logout_tooltip: Wyloguj
     make_a_donation: 
-      text: Zrób Donację
+      text: Przekaż darowiznę
     news_blog: Blog wiadomości
     osm_offline: Baza danych OpenStreetMap jest niedostępna na czas ważnych zadań administracyjnych które są w tym momencie wykonywane.
     osm_read_only: Baza danych OpenStreetMap jest w trybie tylko-do-odczytu na czas ważnych zadań administracyjnych które są w tym momencie wykonywane.
@@ -357,6 +407,7 @@ pl:
       as_read: Wiadomość została oznaczona jako przeczytana
       as_unread: Wiadomość została oznaczona jako nieprzeczytana
     message_summary: 
+      delete_button: Usuń
       read_button: Oznacz jako przeczytaną
       reply_button: Odpowiedz
       unread_button: Oznacz jako nieprzeczytaną
@@ -392,11 +443,15 @@ pl:
       title: Czytanie wiadomości
       to: Do
       unread_button: Oznacz jako nieprzeczytaną
+    sent_message_summary: 
+      delete_button: Usuń
   notifier: 
     diary_comment_notification: 
       footer: Możesz również przeczytać komentarz pod {{readurl}}, skomentować go pod {{commenturl}} lub odpowiedzieć pod {{replyurl}}
       header: "{{from_user}} zostawił(a) komentarz do twojego wpisu w dziennikach OpenStreetMap o temacie {{subject}}:"
       hi: Witaj {{to_user}},
+    email_confirm: 
+      subject: "[OpenStreetMap] Potwierdzenie adresu e-mail"
     friend_notification: 
       had_added_you: "{{user}} dodał(a) Cię jako swojego znajomego na OpenStreetMap."
       see_their_profile: Możesz przeczytać jego/jej profil pod {{userurl}} oraz dodać jako Twojego znajomego/ą jeśli chcesz.
@@ -429,7 +484,7 @@ pl:
   site: 
     edit: 
       anon_edits_link_text: Tu dowiesz się dlaczego.
-      flash_player_required: Będziesz potrzebował wtyczki Flash żeby korzystać z Potlatcha, edytora OpenStreetMap we Flashu.  Ściągnij <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">odtwarzacz Flasha z Adobe.com</a>.  Możesz również skorzystać z <a href="http://wiki.openstreetmap.org/wiki/Editing">paru innych dostępnych edytorów</a> żeby kontrybuować w OpenStreetMap.
+      flash_player_required: Aby korzystać z Potlacza, edytora OpenStreetMap, niezbędna jest wtyczka Flash. Możesz <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">ściągnąć odtwarzacz Flash</a> z Adobe.com.  Możesz również skorzystać z <a href="http://wiki.openstreetmap.org/wiki/Editing">innych dostępnych edytorów</a>, aby edytować OpenStreetMap.
       not_public: Nie wybrałeś(aś) by twoje edycje były publiczne.
       not_public_description: W tym trybie nie można już zmieniać mapy.  Możesz ustawić je na publiczne na Twojej {{user_page}}.
       potlatch_unsaved_changes: Nie zapisałeś zmian. (Żeby zapisać zmiany w Potlatchu, należy odznaczyć aktualnie zaznaczony obiekt jeśli edytujesz w trybie "na żywo" lub kliknąć Save (Zapisz) jeśli widoczny jest przycisk Save.)
@@ -445,6 +500,33 @@ pl:
       permalink: Permalink
     key: 
       map_key: Legenda
+      table: 
+        entry: 
+          admin: Granica administracyjna
+          allotments: Ogródki działkowe
+          apron: 
+            - Płyta lotniska
+          bridleway: Ścieżka dla koni
+          cable: 
+            - Kolej linowa
+          cemetery: Cmentarz
+          centre: Centrum sportowe
+          commercial: Zabudowa biurowo-usługowa
+          cycleway: Ścieżka rowerowa
+          farm: Gospodarstwo rolne
+          footway: Chodnik
+          lake: 
+            - Jezioro
+            - rezerwuar
+          military: Teren wojskowy
+          pitch: Boisko sportowe
+          rail: Tory kolejowe
+          reserve: Rezerwat przyrody
+          retail: Zabudowa handlowo-usługowa
+          summit: 
+            - Góra
+            - szczyt
+        heading: Legenda dla przybliżenia {{zoom_level}}
     search: 
       search: Wyszukiwanie
       search_help: "przykłady: 'Wąchock', 'Franciszkańska, Poznań', 'CB2 5AQ', lub 'post offices near Mokotów' <a href='http://wiki.openstreetmap.org/wiki/Search'>więcej przykładów...</a>"
@@ -463,12 +545,16 @@ pl:
       description: "Opis:"
       edit: edytuj
       filename: "Nazwa pliku:"
+      heading: Edycja śladu {{name}}
+      map: mapa
       owner: "Autor:"
       points: "Punkty:"
       save_button: Zapisz zmiany
       start_coord: "Współrzędne początkowe:"
       tags: "Tagi:"
       uploaded_at: "Załadowano:"
+      visibility: "Widoczność:"
+      visibility_help: co to znaczy?
     list: 
       public_traces: Publiczne ślady GPS
       public_traces_from: Publiczne ślady GPS użytkownika {{user}}
@@ -525,6 +611,7 @@ pl:
       tags: Tagi
       trace_not_found: Ślad nie znaleziony!
       uploaded: "Dodano:"
+      visibility: "Widoczność:"
   user: 
     account: 
       email never displayed publicly: (nie jest wyświetlany publicznie)
@@ -572,7 +659,7 @@ pl:
       create_account: dodaj konto
       email or username: "Adres email lub nazwa użytkownika:"
       heading: Login
-      login_button: Zaloguj mnie
+      login_button: Zaloguj się
       lost password link: Zapomniane hasło?
       password: "Hasło:"
       please login: Zaloguj się lub {{create_user_link}}.
@@ -622,7 +709,7 @@ pl:
       flash success: Nowa lokalizacja domowa zapisana
     view: 
       add as friend: dodaj do znajomych
-      add image: Dodaj Zdjęcie
+      add image: Dodaj zdjęcie
       ago: ({{time_in_words_ago}} temu)
       change your settings: zmień swoje ustawienia
       delete image: Usuń zdjęcie

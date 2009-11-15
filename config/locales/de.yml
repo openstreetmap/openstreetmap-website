@@ -5,6 +5,8 @@
 # Author: Apmon
 # Author: Avatar
 # Author: ChrisiPK
+# Author: CygnusOlor
+# Author: Grille chompa
 # Author: McDutchie
 # Author: Pill
 # Author: Raymond
@@ -153,7 +155,7 @@ de:
       node_history_title: "Knoten-Chronik: {{node_name}}"
       view_details: Detailseite anzeigen
     not_found: 
-      sorry: Wir konnten den {{type}} mit der Nummer {{id}} leider nicht finden. Du hast dich möglicherweise vertippt oder du bist einem ungültigem Link gefolgt.
+      sorry: Wir konnten den {{type}} mit der Nummer {{id}} leider nicht finden. Du hast dich möglicherweise vertippt oder bist einem ungültigem Link gefolgt.
       type: 
         changeset: Menge von Änderungen
         node: Knoten
@@ -222,7 +224,7 @@ de:
       tags: "Tags:"
     way: 
       download: "{{download_xml_link}}, {{view_history_link}} oder {{edit_link}}"
-      download_xml: Download als XML
+      download_xml: Als XML herunterladen
       edit: Bearbeiten
       view_history: Chronik anzeigen
       way: Weg
@@ -235,7 +237,7 @@ de:
       part_of: "Teil von:"
     way_history: 
       download: "{{download_xml_link}} oder {{view_details_link}}"
-      download_xml: Download als XML
+      download_xml: Als XML herunterladen
       view_details: Detailseite anzeigen
       way_history: Wege-Chronik
       way_history_title: "Chronik des Wegs: {{way_name}}"
@@ -294,6 +296,7 @@ de:
       use_map_link: Karte anzeigen
     feed: 
       all: 
+        description: Neueste Blogeinträge von OpenStreetMap-Nutzern
         title: OpenStreetMap-Blogbeiträge
       language: 
         description: Letzte Blogeinträge von Benutzern von OpenStreetMap in {{language_name}}
@@ -391,11 +394,14 @@ de:
         geonames: Suchergebnisse von <a href="http://www.geonames.org/">GeoNames</a>
         latlon: Suchergebnisse von <a href="http://openstreetmap.org/">Internal</a>
         osm_namefinder: Suchergebnisse von <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>
+        osm_nominatim: Ergebnisse von <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
         uk_postcode: Suchergebnisse von <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Suchergebnisse von <a href="http://geocoder.us/">Geocoder.us</a>
     search_osm_namefinder: 
       suffix_parent: "{{suffix}} ({{parentdistance}} {{parentdirection}} von {{parentname}})"
       suffix_place: ", {{distance}} {{direction}} von {{placename}}"
+    search_osm_nominatim: 
+      prefix_highway: "{{type}} Straße"
   javascripts: 
     map: 
       base: 
@@ -483,6 +489,7 @@ de:
     new: 
       back_to_inbox: Zurück zum Posteingang
       body: Text
+      limit_exceeded: Du hast kürzlich sehr viele Nachrichten versendet. Bitte warte etwas bevor Du weitere versendest.
       message_sent: Nachricht gesendet
       send_button: Senden
       send_message_to: Eine Nachricht an {{name}} senden
@@ -584,6 +591,7 @@ de:
       video_to_openstreetmap: Einführungsvideo zu OpenStreetMap
       wiki_signup: Im <a href="http://wiki.openstreetmap.org/wiki/Hauptseite">Wiki von OpenStreetMap</a> kannst du dich ebenfalls <a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup">registrieren</a>.
     signup_confirm_plain: 
+      blog_and_twitter: "Immer auf dem neuesten Stand dank dem OpenStreetMap-Blog oder Twitter:"
       click_the_link_1: Wenn du das bist, Herzlich Willkommen! Bitte klicke auf den folgenden Link unter dieser Zeile, um dein
       click_the_link_2: Benutzerkonto zu bestätigen. Lies danach weiter, denn es folgen mehr Informationen über OSM.
       current_user_1: Eine Liste mit allen Benutzern in einer Kategorie,
@@ -611,6 +619,23 @@ de:
       request_access: "Die Anwendung {{app_name}} möchte auf Deinen OpenStreetMap-Account zugreifen. Bitte entscheide, ob Du der Anwendung die folgenden Rechte gewähren möchtest. Du kannst alle oder einige der folgenden Rechte gewähren:"
     revoke: 
       flash: Du hast den Berechtigungsschlüssel für {{application}} zurückgezogen
+  oauth_clients: 
+    edit: 
+      submit: Bearbeiten
+      title: Anwendung bearbeiten
+    form: 
+      allow_write_api: Kartendaten verändern.
+      callback_url: Callback-URL
+      name: Name
+      required: Erforderlich
+    index: 
+      register_new: Anwendung registrieren
+    new: 
+      submit: Registrieren
+      title: Eine neue Anwendung registrieren
+    show: 
+      allow_write_prefs: Nutzereinstellungen verändern.
+      edit: Details bearbeiten
   site: 
     edit: 
       anon_edits_link_text: Hier findest du mehr Infos dazu.
@@ -704,6 +729,7 @@ de:
       search_help: "Beispiele: „München“, „Heinestraße, Würzburg“, „CB2 5AQ“, oder „post offices near Lünen“ <a href='http://wiki.openstreetmap.org/wiki/Search'>mehr Beispiele …</a>"
       submit_text: Los
       where_am_i: Wo bin ich?
+      where_am_i_title: Die momentane Position mit der Suchmaschine anzeigen
     sidebar: 
       close: Schließen
       search_results: Suchergebnisse
@@ -819,6 +845,8 @@ de:
         enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: Was ist das?
         heading: "Öffentliches Bearbeiten:"
+      public editing note: 
+        heading: öffentliches Editieren
       return to profile: Zurück zum Profil
       save changes button: Speichere Änderungen
       title: Benutzerkonto bearbeiten
@@ -870,6 +898,7 @@ de:
       confirm password: "Passwort bestätigen:"
       contact_webmaster: Bitte kontaktiere den <a href="mailto:webmaster@openstreetmap.org">Webmaster</a> um ein Benutzerkonto erstellt zu bekommen - wir werden die Anfrage so schnell wie möglich bearbeiten.
       display name: "Benutzername:"
+      display name description: Dein öffentlich angezeigter Benutzername. Er kann später in den Einstellungen geändert werden.
       email address: "E-Mail-Adresse:"
       fill_form: Fülle das Formular aus und dir wird eine kurze E-Mail zur Aktivierung deines Benutzerkontos geschickt.
       flash create success message: Benutzerkonto wurde erfolgreich erstellt. Ein Bestätigungslink wurde dir per E-Mail zugesendet, bitte bestätige diesen und du kannst mit dem Mappen beginnen.<br /><br />Du kannst dich nicht einloggen bevor du deine E-Mail-Adresse mit dem Bestätigungslink bestätigt hast.<br /><br />Falls du einen Spam-Blocker nutzt, der Bestätigungsanfragen sendet, dann setze bitte webmaster@openstreetmap.org auf deine Whitelist, weil wir auf keine Bestätigungsanfrage antworten können.
@@ -898,17 +927,25 @@ de:
     set_home: 
       flash success: Standort erfolgreich gespeichert
     view: 
+      activate_user: Benutzer aktivieren
       add as friend: Als Freund hinzufügen
       add image: Ein Bild hinzufügen
       ago: ({{time_in_words_ago}} her)
+      block_history: Blockierungen ansehen
       blocks by me: Selbst vergebene Sperren
       blocks on me: Erhaltene Sperren
       change your settings: Ändere deine Einstellungen
+      confirm: Bestätigen
       create_block: Diesen Nutzer sperren
+      created from: "erstellt aus:"
+      deactivate_user: Benutzer deaktivieren
       delete image: Bild löschen
+      delete_user: Benutzer löschen
       description: Beschreibung
       diary: Blog
       edits: Bearbeitungen
+      email address: Email Adresse
+      hide_user: Benutzer verstecken
       if set location: Wenn du deinen Standort angegeben hast, erscheint eine Karte am Seitenende. Du kannst deinen Standort in deinen {{settings_link}} ändern.
       km away: "{{count}} km entfernt"
       m away: "{{count}} m entfernt"
@@ -937,10 +974,70 @@ de:
       send message: Nachricht senden
       settings_link_text: Einstellungen
       traces: Tracks
+      unhide_user: Benutzer nicht mehr verstecken
       upload an image: Ein Bild hochladen
       user image heading: Benutzerbild
       user location: Standort des Benutzers
       your friends: Eigene Freunde
+  user_block: 
+    blocks_by: 
+      heading: Liste der Blockierungen durch {{name}}
+      title: Blockierungen von {{name}}
+    create: 
+      try_waiting: Bitte gib dem Benutzer einen angemessenen Zeitraum zu antworten bevor Du ihn blockierst.
+    edit: 
+      back: Alle Blockierungen anzeigen
+      heading: Blockierung von {{name}} bearbeiten
+      needs_view: Muss der Benutzer sich einloggen, damit die Blockierung beendet wird?
+      period: Zeitraum, ab jetzt, den der Benutzer von der API blockiert wird.
+      reason: Der Grund warum {{name}} blockiert wird. Bitte bleibe ruhig und sachlich und versuche so viele Details wie möglich anzugeben. Bedenke, dass nicht alle Benutzer den Community Jargon verstehen und versuche eine Erklärung zu finden, die von Laien verstanden werden kann.
+      show: Diese Blockierung ansehen
+      submit: Blockierung aktualisieren
+      title: Blockierung von {{name}} bearbeiten
+    filter: 
+      block_expired: Die Blockierung kann nicht bearbeitet werden weil die Blockierungszeit bereits abgelaufen ist.
+      block_period: Die Blockierungszeit muss einer der Werte aus der Drop-Down Liste sein
+      not_a_moderator: Du musst Moderator sein um diese Aktion durchzuführen-
+    helper: 
+      time_future: Endet in {{time}}.
+      time_past: Endete vor {{time}}
+    index: 
+      empty: Noch nie blockiert.
+    new: 
+      back: Alle Blockierungen anzeigen
+      tried_contacting: Ich habe den Benutzer kontaktiert und ihn gebeten aufzuhören.
+    not_found: 
+      back: Zurück zur Übersicht
+      sorry: Sorry, die Blockierung mit der ID {{id}} konnte nicht gefunden werden.
+    partial: 
+      confirm: Bist du sicher?
+      creator_name: Ersteller
+      display_name: Blockierte Benuter
+      edit: Bearbeiten
+      not_revoked: (nicht aufgehoben)
+      reason: Grund der Blockierung
+      revoke: Aufheben!
+      revoker_name: Aufgehoben von
+      show: Anzeigen
+    period: 
+      one: 1 Stunde
+      other: "{{count}} Stunden"
+    revoke: 
+      confirm: Bist du sicher das diese Blockierung aufgehoben wird
+    show: 
+      back: Alle Blockierungen anzeigen
+      confirm: Bist Du sicher?
+      edit: Bearbeiten
+      heading: "{{block_on}} blockiert durch {{block_by}}"
+      needs_view: Der Benutzer muss sich wieder einloggen, damit die Blockierung beendet wird.
+      reason: "Grund der Blockierung:"
+      revoke: Aufheben!
+      revoker: "Aufgehoben von:"
+      show: anzeigen
+      status: Status
+      time_future: Endet in {{time}}
+      time_past: Geendet vor {{time}}
+      title: "{{block_on}} blockiert von  {{block_by}}"
   user_role: 
     filter: 
       already_has_role: Der Nutzer gehört bereits der Rolle {{role}} an.

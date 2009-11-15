@@ -74,6 +74,11 @@ hu:
       way: Vonal
       way_node: Vonal pontja
       way_tag: Vonal címkéje
+  application: 
+    require_cookies: 
+      cookies_needed: Úgy tűnik, hogy a böngésződben le vannak tiltva a sütik – a folytatás előtt engedélyezd azokat.
+    setup_user_auth: 
+      blocked: Az API-hoz való hozzáférésed blokkolva lett. Jelentkezz be a webes felületen a részletek megtekintéséhez.
   browse: 
     changeset: 
       changeset: "Módosításcsomag: {{id}}"
@@ -355,6 +360,7 @@ hu:
       title: 
         geonames: Helyek a <a href="http://www.geonames.org/">GeoNames</a>ről
         osm_namefinder: "{{types}} az <a href=\"http://gazetteer.openstreetmap.org/namefinder/\">OpenStreetMap Namefinder</a>ről"
+        osm_nominatim: Helyek az <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>tól
       types: 
         cities: Nagyvárosok
         places: Helyek
@@ -382,6 +388,7 @@ hu:
         geonames: Eredmények a <a href="http://www.geonames.org/">GeoNames</a>ről
         latlon: Eredmények az <a href="http://openstreetmap.org/">Internal</a>ról
         osm_namefinder: Eredmények az <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>ről
+        osm_nominatim: Eredmények az <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>tól
         uk_postcode: Eredmények a <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>-ról
         us_postcode: Eredmények a <a href="http://geocoder.us/">Geocoder.us</a>-ról
     search_osm_namefinder: 
@@ -479,6 +486,7 @@ hu:
     new: 
       back_to_inbox: Vissza a beérkezett üzenetekhez
       body: Szöveg
+      limit_exceeded: Sok üzenetet küldtél az utóbbi időben. Várj egy kicsit, mielőtt újabbakat küldenél.
       message_sent: Üzenet elküldve
       send_button: Küldés
       send_message_to: "Új üzenet küldése neki: {{name}}"
@@ -645,16 +653,21 @@ hu:
     not_found: 
       sorry: Sajnálom, a(z) {{type}} nem található.
     show: 
+      access_url: "Utalvány-hozzáférési URL:"
       allow_read_gpx: magán GPS nyomvonalainak olvasása.
       allow_read_prefs: felhasználó beállításainak olvasása.
       allow_write_api: a térkép módosítása.
       allow_write_diary: naplóbejegyzések, hozzászólások készítése és barátok hozzáadása.
       allow_write_gpx: GPS nyomvonalak feltöltése.
       allow_write_prefs: felhasználó beállításainak módosítása.
+      authorize_url: "Felhatalmazási URL:"
       edit: Részletek szerkesztése
+      key: "Fogyasztói kulcs:"
       requests: "A következő engedélyek kérése a felhasználótól:"
+      secret: "Fogyasztói titok:"
       support_notice: Támogatjuk a HMAC-SHA1 hitelesítést (ajánlott), valamint a sima szöveget ssl módban.
       title: "{{app_name}} OAuth részletei"
+      url: "Utalványkérési URL:"
     update: 
       flash: A kliens információi sikeresen frissítve
   printable_name: 
@@ -678,6 +691,8 @@ hu:
         notice: "{{license_name}} licenc alatt az {{project_name}} és hozzájárulói által."
         project_name: OpenStreetMap projekt
         project_url: http://openstreetmap.org
+      permalink: Permalink
+      shortlink: Shortlink
     key: 
       map_key: Jelmagyarázat
       map_key_tooltip: Jelmagyarázat a Mapnik rendereléshez ezen a nagyítási szinten
@@ -753,6 +768,7 @@ hu:
       search_help: "példák: 'Szeged', 'Piac utca, Debrecen', 'CB2 5AQ' vagy 'post offices near Kaposvár' <a href='http://wiki.openstreetmap.org/wiki/Search'>további példák...</a>"
       submit_text: Menj
       where_am_i: Hol vagyok?
+      where_am_i_title: A jelenlegi helyszín leírása a keresőmotor segítségével
     sidebar: 
       close: Bezár
       search_results: Keresés eredményei
@@ -867,6 +883,9 @@ hu:
         enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: mi ez?
         heading: "Nyilvános szerkesztés:"
+      public editing note: 
+        heading: Nyilvános szerkesztés
+        text: Jelenleg a szerkesztéseid névtelenek, és az emberek nem küldhetnek neked üzeneteket, és nem láthatják a tartózkodási helyedet. Hogy megmutasd, mit szerkesztettél, és megengedd az embereknek, hogy a webhelyen keresztül kapcsolatba lépjenek veled, kattints az alábbi gombra. <b>A 0.6 API-ra történt átállás óta csak nyilvános felhasználók szerkeszthetik a térképadatokat</b>. (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">nézz utána, miért</a>).<ul><li>Az e-mail címed nem kerül felfedésre azzal, hogy nyilvános leszel.</li><li>Ez a művelet nem vonható vissza, és alapértelmezésben az összes új felhasználó már nyilvános.</li></ul>
       return to profile: Vissza a profilhoz
       save changes button: Módosítások mentése
       title: Felhasználói fiók szerkesztése
@@ -1001,38 +1020,92 @@ hu:
       your friends: Barátaid
   user_block: 
     blocks_by: 
+      empty: "{{name}} még nem osztott ki blokkolást."
+      heading: "{{name}} által kiosztott blokkolások listája"
       title: "{{name}} által kiosztott blokkolások"
     blocks_on: 
       empty: "{{name}} még nem volt blokkolva."
       heading: "{{name}} blokkolásainak felsorolása"
+      title: "{{name}} blokkolásai"
+    create: 
+      flash: "{{name}} felhasználó blokkolva lett."
+      try_contacting: Kérlek, próbálj meg kapcsolatba lépni a felhasználóval, mielőtt blokkolod őt, és a válaszoláshoz adj neki ésszerű időt a válasz.
+      try_waiting: Kérlek, adj a felhasználónak ésszerű időt a válaszoláshoz, mielőtt blokkolod őt.
     edit: 
       back: Összes blokkolás megjelenítése
+      heading: "{{name}} blokkolásának szerkesztése"
+      needs_view: Be kell jelentkeznie a felhasználónak, mielőtt a blokkolás feloldódik?
+      period: Mennyi ideig lesz a felhasználó blokkolva az API-tól, mostantól számítva.
+      reason: Az ok, amiért {{name}} blokkolásra került. Kérlek légy nyugodt és méltányos, amennyire csak lehetséges, olyan sok részlet megadásával, amennyit csak tudsz a helyzetről. Tartsd szem előtt, hogy nem minden felhasználó érti a közösségi zsargont, ezért próbálj laikus nyelvezetet használni.
       show: Ezen blokkolás megjelenítése
       submit: Blokkolás frissítése
+      title: "{{name}} blokkolásának szerkesztése"
+    filter: 
+      block_expired: A blokkolás már lejárt, és nem szerkeszthető.
+      block_period: A blokkolási időszaknak egy, a legördülő listából kiválasztható értéknek kell lennie.
+      not_a_moderator: A művelet végrehajtásához moderátornak kell lenned.
+    helper: 
+      time_future: Véget ér {{time}} múlva.
+      time_past: Véget ért {{time}} óta.
+      until_login: Aktív a felhasználó bejelentkezéséig.
     index: 
+      empty: Még nem lett kiosztva blokkolás.
+      heading: Felhasználói blokkolások listája
       title: Felhasználói blokkolások
+    model: 
+      non_moderator_revoke: Blokkolás visszavonásához moderátornak kell lenned.
+      non_moderator_update: Blokkolás kiosztásához vagy frissítéséhez moderátornak kell lenned.
     new: 
       back: Összes blokkolás megtekintése
+      heading: "{{name}} blokkolása"
+      needs_view: A felhasználónak be kell jelentkeznie, mielőtt a blokkolás feloldódna
+      period: Mennyi ideig lesz a felhasználó blokkolva az API-tól, mostantól számítva.
+      reason: Az ok, amiért {{name}} blokkolásra került. Kérlek légy nyugodt és méltányos, amennyire csak lehetséges, olyan sok részlet megadásával, amennyit csak tudsz a helyzetről, emlékezve arra, hogy ez az üzenet nyilvánosan látható lesz. Tartsd szem előtt, hogy nem minden felhasználó érti a közösségi zsargont, ezért próbálj laikus nyelvezetet használni.
       submit: Blokkolás kiosztása
+      title: "{{name}} blokkolása"
+      tried_contacting: Kapcsolatba léptem a felhasználóval, és megkértem, hogy hagyja abba.
+      tried_waiting: Adtam egy ésszerű határidőt a felhasználónak, hogy válaszoljon az értesítésre.
     not_found: 
       back: Vissza a tartalomjegyzékhez
+      sorry: Sajnálom, a(z) {{id}} azonosítójú felhasználói blokkolás nem található.
     partial: 
       confirm: Biztos vagy benne?
       creator_name: Készítő
       display_name: Blokkolt felhasználó
       edit: Szerkesztés
+      not_revoked: (nincs visszavonva)
       reason: Blokkolás indoklása
+      revoke: Visszavonás!
+      revoker_name: "Visszavonta:"
       show: Megjelenítés
       status: Állapot
+    period: 
+      one: 1 óra
+      other: "{{count}} óra"
+    revoke: 
+      confirm: Biztosan vissza szeretnéd vonni ezt a blokkolást?
+      flash: Ez a blokkolás vissza lett vonva.
+      heading: "{{block_on}} blokkolásának visszavonása {{block_by}} által"
+      past: Ez a blokkolás véget ért {{time}} óta, és már nem vonható vissza.
+      revoke: Visszavonás!
+      time_future: Ez a blokkolás {{time}} múlva véget ér.
+      title: "{{block_on}} blokkolásának visszavonása"
     show: 
       back: Összes blokkolás megjelenítése
       confirm: Biztos vagy benne?
       edit: Szerkesztés
       heading: "{{block_by}} blokkolta {{block_on}} felhasználót"
+      needs_view: A felhasználónak be kell jelentkeznie, mielőtt a blokkolás feloldódna.
       reason: "Blokkolás indoklása:"
+      revoke: Visszavonás!
+      revoker: "Visszavonó:"
       show: Megjelenítés
       status: Állapot
+      time_future: Véget ér {{time}} múlva
+      time_past: Véget ért {{time}} óta
+      title: "{{block_on}} blokkolva {{block_by}} által"
     update: 
+      only_creator_can_edit: Csak a blokkolást létrehozó moderátor szerkesztheti.
       success: Blokkolás frissítve.
   user_role: 
     filter: 
