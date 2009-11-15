@@ -2,12 +2,16 @@ class DiaryEntry < ActiveRecord::Base
   belongs_to :user
   belongs_to :language, :foreign_key => 'language_code'
   
-  has_many :diary_comments, :include => :user,
-                            :conditions => {
-                              :users => { :visible => true },
-                              :visible => true
-                            },
-                            :order => "diary_comments.id"
+  has_many :comments, :class_name => "DiaryComment",
+                      :include => :user,
+                      :order => "diary_comments.id"
+  has_many :visible_comments, :class_name => "DiaryComment",
+                              :include => :user,
+                              :conditions => {
+                                :users => { :visible => true },
+                                :visible => true
+                              },
+                              :order => "diary_comments.id"
 
   validates_presence_of :title, :body
   validates_length_of :title, :within => 1..255

@@ -52,7 +52,7 @@ class DiaryEntryController < ApplicationController
 
   def comment
     @entry = DiaryEntry.find(params[:id])
-    @diary_comment = @entry.diary_comments.build(params[:diary_comment])
+    @diary_comment = @entry.comments.build(params[:diary_comment])
     @diary_comment.user = @user
     if @diary_comment.save
       if @diary_comment.user != @entry.user
