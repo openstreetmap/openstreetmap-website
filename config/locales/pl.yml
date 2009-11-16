@@ -34,14 +34,14 @@ pl:
       user: 
         active: Aktywny
         description: Opis
-        display_name: Przyjazna nazwa
+        display_name: Publiczna nazwa
         email: E-mail
         languages: Języki
         pass_crypt: Hasło
     models: 
       acl: Lista ACL
-      changeset: Changeset
-      changeset_tag: Tag changesetu
+      changeset: Zestaw zmian
+      changeset_tag: Znacznik zestawu zmian
       country: Państwo
       diary_comment: Komentarz dziennika
       diary_entry: Wpis w dzienniku
@@ -49,7 +49,7 @@ pl:
       language: Język
       message: Wiadomość
       node: Węzeł
-      node_tag: Tag węzła
+      node_tag: Znacznik węzła
       notifier: Notifier
       old_node: Wcześniejszy węzeł
       old_node_tag: Tag wcześniejszego węzła
@@ -61,11 +61,11 @@ pl:
       old_way_tag: Tag wcześniejszej drogi
       relation: Relacja
       relation_member: Członek relacji
-      relation_tag: Tag relacji
+      relation_tag: Znacznik relacji
       session: Sesja
       trace: Ślad
       tracepoint: Punkt śladu
-      tracetag: Tag Śladu
+      tracetag: Znacznik śladu
       user: Użytkownik
       user_preference: Preferencje użytkownika
       user_token: Token użytkownika
@@ -74,24 +74,33 @@ pl:
       way_tag: Tag drogi
   browse: 
     changeset: 
-      changeset: "Changeset: {{id}}"
-      changesetxml: XML w formacie Changesetu
+      changeset: "Zestaw zmian: {{id}}"
+      changesetxml: XML w formacie zestawu zmian
       download: Ściągnij {{changeset_xml_link}} lub {{osmchange_xml_link}}
       feed: 
         title: Zestaw zmian {{id}}
         title_comment: Zestaw zmian {{id}} - {{comment}}
       osmchangexml: XML w formacie osmChange
-      title: Changeset
+      title: Zestaw zmian
     changeset_details: 
       belongs_to: "Należy do:"
-      bounding_box: "Prostokąt min/max:"
+      bounding_box: "Obszar edycji:"
       box: prostokąt
       closed_at: "Zamknięto:"
       created_at: "Utworzono:"
-      has_nodes: "Zawiera następujących {{count}} węzłów:"
-      has_relations: "Zawiera następujących {{count}} relacji:"
-      has_ways: "Zawiera następujących {{count}} dróg:"
-      no_bounding_box: Ten changeset został zapisany bez prostokątu ograniczającego.
+      has_nodes: 
+        few: "Zawiera następujące {{count}} węzły:"
+        one: "Zawiera następujący {{count}} węzeł:"
+        other: "Zawiera następujących {{count}} węzłów:"
+      has_relations: 
+        few: "Zawiera następujące {{count}} relacje:"
+        one: "Zawiera następującą {{count}} relację:"
+        other: "Zawiera następujących {{count}} relacji:"
+      has_ways: 
+        few: "Zawiera następujące {{count}} drogi:"
+        one: "Zawiera następującą {{count}} drogę:"
+        other: "Zawiera następujących {{count}} dróg:"
+      no_bounding_box: Ten zestaw zmian został zapisany bez obszaru edycji.
       show_area_box: Pokaż obszar prostokątu
     changeset_navigation: 
       all: 
@@ -198,7 +207,7 @@ pl:
       wait: Moment...
       zoom_or_select: Przybliż albo wybierz inny obszar mapy
     tag_details: 
-      tags: "Tagi:"
+      tags: "Znaczniki:"
     way: 
       download: "{{download_xml_link}} lub {{view_history_link}}"
       download_xml: Ściągnij XML
@@ -236,15 +245,31 @@ pl:
       id: ID
       saved_at: Zapisano
       user: Użytkownik
+    list: 
+      description: Ostatnie zmiany
+      description_user: Zestawy zmian utworzone przez użytkownika {{user}}
+      description_user_bbox: Zestawy zmian utworzone przez użytkownika {{user}} w {{bbox}}
+      heading: Zestawy zmian
+      heading_bbox: Zestawy zmian
+      heading_user: Zestawy zmian
+      heading_user_bbox: Zestawy zmian
+      title: Zestawy zmian
+      title_bbox: Zestawy zmian w {{bbox}}
+      title_user: Zestawy zmian utworzone przez użytkownika {{user}}
+      title_user_bbox: Zestawy zmian utworzone przez użytkownika {{user}} w {{bbox}}
   diary_entry: 
     diary_comment: 
       comment_from: Komentarz od {{link_user}} z {{comment_created_at}}
+      confirm: Potwierdź
+      hide_link: Ukryj ten komentarz
     diary_entry: 
       comment_count: 
         one: 1 komentarz
         other: "{{count}} komentarzy"
       comment_link: Skomentuj ten wpis
+      confirm: Potwierdź
       edit_link: Edytuj ten wpis
+      hide_link: Ukryj ten wpis
       posted_by: Wpis od {{link_user}} z {{created}} w języku {{language_link}}
       reply_link: Odpowiedz na ten wpis
     edit: 
@@ -277,6 +302,8 @@ pl:
       title: Nie znaleziono użytkownika
     view: 
       leave_a_comment: Zostaw komentarz
+      login: Zaloguj się
+      login_to_leave_a_comment: "{{login_link}}, aby dodać komentarz"
       save_button: Zapisz
       title: Wpisy użytkowników | {{user}}
       user_title: Dziennik dla {{user}}
@@ -286,7 +313,7 @@ pl:
       area_to_export: Obszar do eksportu
       embeddable_html: HTML do wklejenia
       export_button: Eksportuj
-      export_details: Dane OpenStreetMap są na licencji <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative Commons Attribution-ShareAlike 2.0</a>.
+      export_details: "Dane OpenStreetMap udostępnione są na licencji <a href=\"http://creativecommons.org/licenses/by-sa/2.0/deed.pl\">Creative Commons: uznanie autorstwa, na tych samych warunkach 2.0</a>."
       format: Format
       format_to_export: Format eksportu
       image_size: Rozmiar obrazka
@@ -316,6 +343,7 @@ pl:
       title: 
         geonames: Położenie według <a href="http://www.geonames.org/">Geonames</a>
         osm_namefinder: "{{types}} według <a href=\"http://gazetteer.openstreetmap.org/namefinder/\">OpenStreetMap Namefinder</a>"
+        osm_nominatim: Położenie według <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
       types: 
         cities: Miasta
         places: Miejsca
@@ -343,6 +371,7 @@ pl:
         geonames: Wyniki z <a href="http://www.geonames.org/">GeoNames</a>
         latlon: Wyniki z <a href="http://openstreetmap.org/">Internal</a>
         osm_namefinder: Wyniki z <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>
+        osm_nominatim: Wyniki z <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
         uk_postcode: Wyniki z <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Wyniki z <a href="http://geocoder.us/">Geocoder.us</a>
     search_osm_namefinder: 
@@ -360,9 +389,10 @@ pl:
     help_wiki: Pomoc &amp; Wiki
     help_wiki_tooltip: Pomoc i strony Wiki projektu
     history: Zmiany
+    history_tooltip: Historia zestawu zmian
     home: główna
     home_tooltip: Przejdź do strony głównej
-    inbox: skrzynka ({{count}})
+    inbox: poczta ({{count}})
     inbox_tooltip: 
       one: Twoja skrzynka zawiera jedną nową wiadomość
       other: Twoja skrzynka zawiera  {{count}} nowych wiadomości
@@ -376,7 +406,8 @@ pl:
     logout_tooltip: Wyloguj
     make_a_donation: 
       text: Przekaż darowiznę
-    news_blog: Blog wiadomości
+    news_blog: Blog informacyjny
+    news_blog_tooltip: Blog z wiadomościami o OpenStreetMap, wolnych danych geograficznych, itp.
     osm_offline: Baza danych OpenStreetMap jest niedostępna na czas ważnych zadań administracyjnych które są w tym momencie wykonywane.
     osm_read_only: Baza danych OpenStreetMap jest w trybie tylko-do-odczytu na czas ważnych zadań administracyjnych które są w tym momencie wykonywane.
     shop: Zakupy
@@ -386,6 +417,7 @@ pl:
     user_diaries: Dzienniczki
     user_diaries_tooltip: Przeglądaj dzienniczki użytkownika
     view: Mapa
+    view_tooltip: Zobacz mapy
     welcome_user: Witaj, {{user_link}}
     welcome_user_link_tooltip: Strona użytkownika
   map: 
@@ -393,13 +425,15 @@ pl:
     edit: Edycja
     view: Mapa
   message: 
+    delete: 
+      deleted: Wiadomość usunięta
     inbox: 
       date: Nadano
       from: Od
       my_inbox: Moja skrzynka odbiorcza
-      no_messages_yet: Nie masz jeszcze wiadomości.  Czemu nie podyskutować z {{people_mapping_nearby_link}}.
+      no_messages_yet: Nie masz jeszcze wiadomości. Może skontaktujesz się z {{people_mapping_nearby_link}}?
       outbox: nadawcza
-      people_mapping_nearby: mapowiczami w Twojej okolicy
+      people_mapping_nearby: użytkownikami z Twojej okolicy
       subject: Temat
       title: Wiadomości odebrane
       you_have: Masz {{new_count}} nowych i {{old_count}} przeczytanych wiadomości.
@@ -426,14 +460,16 @@ pl:
       date: Nadano
       inbox: odbiorcza
       my_inbox: Moja skrzynka {{inbox_link}}
+      no_sent_messages: Nie masz jeszcze wysłanych wiadomości. Może skontaktujesz się z {{people_mapping_nearby_link}}?
       outbox: nadawcza
-      people_mapping_nearby: mapowiczami w Twojej okolicy
+      people_mapping_nearby: użytkownikami z Twojej okolicy
       subject: Temat
       title: Wiadomości wysłane
       to: Do
       you_have_sent_messages: Wysłaleś/aś {{count}} wiadomości
     read: 
       back_to_inbox: Powrót do wysłanych
+      back_to_outbox: Powrót do skrzynki nadawczej
       date: Nadano
       from: Od
       reading_your_messages: Czytanie odebranej wiadomości
@@ -450,11 +486,27 @@ pl:
       footer: Możesz również przeczytać komentarz pod {{readurl}}, skomentować go pod {{commenturl}} lub odpowiedzieć pod {{replyurl}}
       header: "{{from_user}} zostawił(a) komentarz do twojego wpisu w dziennikach OpenStreetMap o temacie {{subject}}:"
       hi: Witaj {{to_user}},
+      subject: "[OpenStreetMap] Użytkownik {{user}} skomentował Twój wpis w pamiętniku"
     email_confirm: 
       subject: "[OpenStreetMap] Potwierdzenie adresu e-mail"
+    email_confirm_html: 
+      click_the_link: Jeśli to ty, kliknij na poniższy link, aby potwierdzić zmianę.
+      greeting: Cześć,
+      hopefully_you: Ktoś (prawdopodobnie Ty) chce zmienić adres e-mail w {{server_url}} na {{new_address}}.
     friend_notification: 
       had_added_you: "{{user}} dodał(a) Cię jako swojego znajomego na OpenStreetMap."
       see_their_profile: Możesz przeczytać jego/jej profil pod {{userurl}} oraz dodać jako Twojego znajomego/ą jeśli chcesz.
+      subject: "[OpenStreetMap] Użytkownik {{user}} dodał Cię jako przyjaciela"
+    gpx_notification: 
+      failure: 
+        subject: "[OpenStreetMap] Błąd importu pliku GPX"
+      success: 
+        subject: "[OpenStreetMap] Sukces importu pliku GPX"
+    lost_password_plain: 
+      click_the_link: Jeśli to ty, kliknij na poniższy link, aby zresetować hasło.
+      greeting: Cześć,
+    message_notification: 
+      subject: "[OpenStreetMap] Użytkownik {{user}} przysłał nową wiadomość"
     signup_confirm_html: 
       click_the_link: Jeśli to Ty, witamy!  Kliknij poniższy link żeby potwierdzić Twoje nowe konto i dowiedzieć się więcej o OpenStreetMap.
       current_user: Aktualne listy użytkowników według ich położenia na Ziemi znajdziesz na stronie <a href="http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region">Category:Users_by_geographical_region</a>.
@@ -468,6 +520,7 @@ pl:
       video_to_openstreetmap: wideo-wprowadzenie do OpenStreetMap
       wiki_signup: Załóż sobie <a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page">konto na wiki projektu OpenStreetMap</a> jeśli chcesz.
     signup_confirm_plain: 
+      blog_and_twitter: "Bądź na bieżąco z wiadomościami poprzez blog OpenStreetMap czy Twitter:"
       click_the_link_1: Jeśli to Ty, witamy!  Kliknij poniższy link żeby potwierdzić
       click_the_link_2: Twoje nowe konto i dowiedzieć się więcej o OpenStreetMap.
       current_user_1: Aktualne listy użytkowników według ich położenia na Ziemi znajdziesz
@@ -476,7 +529,7 @@ pl:
       hopefully_you: Ktoś (prawdopodobnie Ty sam(a)) chciałby utworzyć konto na
       introductory_video: "To dobry moment żeby obejrzeć wideo-wprowadzenie do OpenStreetMap tutaj:"
       more_videos: "Więcej materiału wideo znajdziesz na:"
-      opengeodata: "OpenGeoData.org to blog OpenStreetMap, ma nawet podcasty:"
+      opengeodata: "OpenGeoData.org to blog założyciela OpenStreetMap, Steve'a Coasta. Ma także podcasty:"
       the_wiki: "Zacznij czytać o OpenStreetMap na naszej wiki:"
       user_wiki_1: Najlepiej stwórz swoją stronę użytkownika na wiki zawierającą odpowiednie
       user_wiki_2: kategorie wskazujące twoją lokalizację, np. [[Category:Users_in_Warszawa]].
@@ -491,7 +544,7 @@ pl:
       user_page_link: stronie użytkownika
     index: 
       js_1: Prawdopodobnie masz wyłączone javaskrypty lub przeglądarka której używasz ich nie obsługuje.
-      js_2: OpenStreetMap używa javaskryptów do wyświetlania mapki slippy map.
+      js_2: OpenStreetMap używa JavaScript do wyświetlania mapki slippy map.
       js_3: Spróbuj <a href="http://tah.openstreetmap.org/Browse/">statycznej przeglądarki Tiles@Home</a> jeśli nie masz możliwości włączyć javaskryptu.
       license: 
         license_name: Creative Commons Attribution-Share Alike 2.0
@@ -506,35 +559,72 @@ pl:
           allotments: Ogródki działkowe
           apron: 
             - Płyta lotniska
+            - terminal
+          bridge: Czarny obrys – most
           bridleway: Ścieżka dla koni
+          brownfield: Teren powyburzeniowy
+          building: Ważny budynek
           cable: 
             - Kolej linowa
+            - wyciąg krzesełkowy
           cemetery: Cmentarz
           centre: Centrum sportowe
           commercial: Zabudowa biurowo-usługowa
+          common: 
+            - Pole
+            - łąka
+          construction: Drogi w budowie
           cycleway: Ścieżka rowerowa
           farm: Gospodarstwo rolne
           footway: Chodnik
+          forest: Las
+          golf: Pole golfowe
+          heathland: Wrzosowisko
+          industrial: Teren przemysłowy
           lake: 
             - Jezioro
             - rezerwuar
           military: Teren wojskowy
+          motorway: Autostrada
+          park: Park
           pitch: Boisko sportowe
+          primary: Droga pierwszorzędna
           rail: Tory kolejowe
           reserve: Rezerwat przyrody
+          resident: Teren mieszkalny
           retail: Zabudowa handlowo-usługowa
+          runway: 
+            - Pas startowy
+            - kołowania
+          school: 
+            - Szkoła
+            - uniwersytet
+          secondary: Droga drugorzędna
+          station: Dworzec kolejowy
+          subway: Metro
           summit: 
             - Góra
             - szczyt
+          tourist: Atrakcja turystyczna
+          track: Ścieżka
+          tram: 
+            - Lekka kolej
+            - tramwaj
+          trunk: Droga główna
+          tunnel: Kreskowany obrys – tunel
+          unclassified: Drogi niesklasyfikowane
+          unsurfaced: Droga nieutwardzona
+          wood: Las
         heading: Legenda dla przybliżenia {{zoom_level}}
     search: 
-      search: Wyszukiwanie
+      search: Szukaj
       search_help: "przykłady: 'Wąchock', 'Franciszkańska, Poznań', 'CB2 5AQ', lub 'post offices near Mokotów' <a href='http://wiki.openstreetmap.org/wiki/Search'>więcej przykładów...</a>"
-      submit_text: Szukaj
+      submit_text: →
       where_am_i: Gdzie jestem?
+      where_am_i_title: Określ obecną lokalizację przy użyciu wyszukiwarki
     sidebar: 
       close: Zamknij
-      search_results: Wyniki Wyszukiwania
+      search_results: Wyniki wyszukiwania
   trace: 
     create: 
       trace_uploaded: Twój plik GPX został załadowany i czeka na dodanie do bazy danych.  Powinno to nastąpić w ciągu najbliższej pół godziny i dostaniesz wtedy maila z informacją o tym.
@@ -543,6 +633,7 @@ pl:
       scheduled_for_deletion: Ślad oczekuje na skasowanie
     edit: 
       description: "Opis:"
+      download: pobierz
       edit: edytuj
       filename: "Nazwa pliku:"
       heading: Edycja śladu {{name}}
@@ -551,7 +642,9 @@ pl:
       points: "Punkty:"
       save_button: Zapisz zmiany
       start_coord: "Współrzędne początkowe:"
-      tags: "Tagi:"
+      tags: "Znaczniki:"
+      tags_help: rozdzielone przecinkami
+      title: Edycja śladu {{name}}
       uploaded_at: "Załadowano:"
       visibility: "Widoczność:"
       visibility_help: co to znaczy?
@@ -581,16 +674,19 @@ pl:
     trace_form: 
       description: Opis
       help: Pomoc
-      tags: Tagi
+      tags: Znaczniki
+      tags_help: rozdzielone przecinkami
       upload_button: Wgrywaj
-      upload_gpx: Wgraj plik GPX
+      upload_gpx: Plik GPX
+      visibility: Widoczność
+      visibility_help: co to znaczy?
     trace_header: 
       see_all_traces: Zobacz wszystkie ślady
       see_just_your_traces: Zobacz tylko Twoje ślady lub wgraj nowy ślad
       see_your_traces: Zobacz wszystkie Twoje ślady
       traces_waiting: Masz w tym momencie {{count}} śladów nadal oczekujących na dodanie.  Prosimy poczekaj aż wgrywanie ich zostanie zakończone przed dodaniem kolejnych aby nie blokować kolejki innym użytkownikom.
     trace_optionals: 
-      tags: Tagi
+      tags: Znaczniki
     trace_paging_nav: 
       of: z
       showing: Widoczna jest strona
@@ -609,6 +705,7 @@ pl:
       points: "Punktów:"
       start_coordinates: "Współrzędne początkowe:"
       tags: Tagi
+      title: Przeglądanie śladu {{name}}
       trace_not_found: Ślad nie znaleziony!
       uploaded: "Dodano:"
       visibility: "Widoczność:"
@@ -656,18 +753,19 @@ pl:
     login: 
       account not active: Niestety Twoje konto nie jest jeszcze aktywne.<br />Otwórz link zawarty w mailu potwierdzenia założenia konta aby je aktywować.
       auth failure: Niestety podane dane nie pozwoliły na zalogowanie Cię.
-      create_account: dodaj konto
+      create_account: załóż konto
       email or username: "Adres email lub nazwa użytkownika:"
-      heading: Login
+      heading: Logowanie
       login_button: Zaloguj się
       lost password link: Zapomniane hasło?
       password: "Hasło:"
       please login: Zaloguj się lub {{create_user_link}}.
       title: Logowanie
     lost_password: 
-      email address: "Adres E-mail:"
-      heading: Zapomniane Hasło?
-      new password button: Wyślij mi nowe hasło
+      email address: "Adres e-mail:"
+      heading: Zapomniałeś hasła?
+      help_text: Wpisz adres e-mail, którego użyłeś do logowania się. Wyślemy na niego link, który możesz użyć do zresetowania hasła.
+      new password button: Wyczyść hasło
       notice email cannot find: Niestety nie znaleziono tego adresu e-mail.
       notice email on way: Przykro nam że je zgubiłeś/aś ale zaraz dostaniesz maila z pomocą którego niedługo zresetujesz hasło.
       title: zgubione hasło
@@ -676,17 +774,18 @@ pl:
       failed: Niestety dodanie {{name}} jako znajomego nie powiodło się.
       success: "{{name}} jest teraz Twoim znajomym."
     new: 
-      confirm email address: "Potwierdź Adres E-mail:"
+      confirm email address: "Potwierdzenie adresu e-mail:"
       confirm password: "Potwierdzenie hasła:"
       contact_webmaster: Prosimy skontaktuj się z <a href="mailto:webmaster@openstreetmap.org">webmasterem</a> żeby poprosić o stworzenie konta - zajmiemy się Twoim zapytaniem najszybciej jak to możliwe.
       display name: "Przyjazna nazwa:"
-      email address: "Adres E-mail:"
-      fill_form: Wypełnij formularz a my zaraz wyślemy Ci e-mail z instrukcjami aktywacji Twojego konta.
+      display name description: Twoja publiczna nazwa użytkownika. Można ją później zmienić w ustawieniach.
+      email address: "Adres e-mail:"
+      fill_form: Po wypełnieniu formularza otrzymasz e-mail z instrukcjami dotyczącymi aktywacji konta.
       flash create success message: Nowy użytkownik został dodany.  Sprawdź czy już przyszedł mail potwierdzający, a już za moment będziesz mapował(a) :-)<br /><br />Zauważ, że nie można zalogować się przed otrzymaniem tego maila i potwierdzeniem adresu.<br /><br />Jeśli korzystasz z rozwiązania antyspamowego które prosi nowych nadawców o potwierdzenia, będziesz musiał(a) dodać adres webmaster@openstreetmap.org do znanych adresów bo nie jesteśmy w stanie odpowiadać na zapytania takich systemów.
-      heading: Zakładanie Konta Użytkownika
+      heading: Zakładanie konta
       license_agreement: Zakładając konto użytkownika wyrażasz zgodę na publikację wszystkich wyników pracy wgrywanych na openstreetmap.org oraz wszystkich danych powstałych w wyniku wykorzystania narzędzi łączących się z openstreetmap.org na prawach (bez wyłączności) <a href="http://creativecommons.org/licenses/by-sa/2.0/">tej licencji Creative Commons (by-sa)</a>.
       no_auto_account_create: Niestety nie możemy aktualnie stworzyć Ci konta automatycznie.
-      not displayed publicly: Informacje nie wyświetlane publicznie (zobacz <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="zasady prywatnością łącznie z sekcją o adresach e-mail na wiki">privacy policy - zasady prywatności</a>)
+      not displayed publicly: Informacje nie wyświetlane publicznie (zobacz <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="zasady prywatnością łącznie z sekcją o adresach e-mail na wiki">polityka prywatności</a>)
       password: "Hasło:"
       signup: Gotowe
       title: Nowe konto
@@ -708,18 +807,28 @@ pl:
     set_home: 
       flash success: Nowa lokalizacja domowa zapisana
     view: 
+      activate_user: aktywuj tego użytkownika
       add as friend: dodaj do znajomych
       add image: Dodaj zdjęcie
       ago: ({{time_in_words_ago}} temu)
+      block_history: otrzymane blokady
+      blocks by me: nałożone blokady
+      blocks on me: otrzymane blokady
       change your settings: zmień swoje ustawienia
+      confirm: Potwierdź
+      create_block: zablokuj tego użytkownika
       delete image: Usuń zdjęcie
+      delete_user: usuń to konto
       description: Opis
       diary: dziennik
       edits: edycje
       email address: Adres e‐mail
+      hide_user: ukryj tego użytkownika
       if set location: Jeśli ustawisz swoją lokalizacje, pojawi się na tej stronie kolorowa mapka i w ogóle.  Lokalizację możesz podać na Twojej {{settings_link}}.
       km away: "{{count}}km stąd"
+      m away: "{{count}}m stąd"
       mapper since: "Mapuje od:"
+      moderator_history: nałożone blokady
       my diary: mój dziennik
       my edits: moje zmiany
       my settings: moje ustawienia
@@ -730,6 +839,9 @@ pl:
       no home location: Lokalizacja domowa nie została podana.
       no nearby users: Nikt nie przyznał się jeszcze do mapowania w tej okolicy.
       remove as friend: usuń ze znajomych
+      role: 
+        administrator: Ten użytkownik jest administratorem
+        moderator: Ten użytkownik jest moderatorem
       send message: wyślij wiadomość
       settings_link_text: stronie ustawień
       traces: ślady
@@ -737,3 +849,13 @@ pl:
       user image heading: Zdjęcie użytkownika
       user location: Lokalizacja użytkownika
       your friends: Twoi znajomi
+  user_block: 
+    partial: 
+      creator_name: Twórca
+      show: Pokaż
+      status: Status
+  user_role: 
+    grant: 
+      confirm: Potwierdź
+    revoke: 
+      confirm: Potwierdź

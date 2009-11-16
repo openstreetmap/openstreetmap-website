@@ -45,7 +45,7 @@
       changeset_tag: Endringssettmerkelapp
       country: Land
       diary_comment: Dagbokskommentar
-      diary_entry: Dagboksoppføring
+      diary_entry: Dagbokoppføring
       friend: Venn
       language: Språk
       message: Melding
@@ -260,47 +260,62 @@
       title_user: Endringssett av {{user}}
       title_user_bbox: Endringssett av {{user}} innen {{bbox}}
   diary_entry: 
+    diary_comment: 
+      confirm: Bekreft
+      hide_link: Skjul denne kommentaren
     diary_entry: 
       comment_count: 
         one: 1 kommentar
         other: "{{count}} kommentarer"
-      comment_link: "Maler i bruk på denne siden:"
+      comment_link: Kommenter denne oppføringen
+      confirm: Bekreft
       edit_link: Rediger denne oppføringen
-      reply_link: Send en e-post til denne brukeren
+      hide_link: Skjul denne oppføringen
+      posted_by: Skrevet av {{link_user}} {{created}} på {{language_link}}
+      reply_link: Svar på denne oppføringen
     edit: 
       body: "Kropp:"
       language: "Språk:"
       latitude: "Breddegrad:"
       location: "Posisjon:"
       longitude: "Lengdegrad:"
-      marker_text: ny dagboksoppføring
+      marker_text: Lokasjon for dagbokoppføring
       save_button: Lagre
       subject: "Emne:"
-      title: Rediger dagbokoppføring
+      title: Rediger oppføring i dagboka
       use_map_link: bruk kart
     feed: 
       all: 
-        title: OpenStreetMap dagbokoppføringer
+        description: Nye oppføringer i dagbøkene til OpenStreetMap-brukere
+        title: Oppføringer OpenStreetMap-dagboka
+      language: 
+        description: Nye oppføringer i dagbøkene til OpenStreetMap-brukere på {{language_name}}
+        title: Oppføringer i OpenStreetMap-dagbøker på {{language_name}}
+      user: 
+        description: Nye oppføringer i OpenStreetMap-dagboka til {{user}}
+        title: Oppføringer i OpenStreetMap-dagboka for {{user}}
     list: 
       in_language_title: Dagbokoppføringer på {{language}}
       new: Ny dagbokoppføring
+      new_title: Skriv en ny oppføring i i din brukerdagbok
       newer_entries: Nyere oppføringer
-      no_entries: Ingen dagbokoppføringer
+      no_entries: Ingen oppføringer i dagboka
       older_entries: Eldre oppføringer
-      recent_entries: Ingen dagbokoppføringer
+      recent_entries: "Nye oppføringer i dagboka:"
       title: Brukernes dagbøker
       user_title: Dagboken for {{user}}
     new: 
-      title: ny dagboksoppføring
+      title: Ny dagbokoppføring
     no_such_entry: 
-      heading: "  %s har ingen overstyringsoppføring"
-      title: "  %s har ingen overstyringsoppføring"
+      heading: Ingen oppføring med {{id}}
+      title: Ingen slik dagbokoppføring
     no_such_user: 
       heading: Brukeren {{user}} finnes ikke
       title: Ingen bruker funnet
     view: 
       leave_a_comment: Legg igjen en kommentar
       login: Logg inn
+      login_to_leave_a_comment: "{{login_link}} for å legge igjen en kommentar"
       save_button: Lagre
       title: Brukernes dagbok | {{user}}
       user_title: Dagboken for {{user}}
@@ -313,7 +328,9 @@
       format: Format
       format_to_export: Format for eksport
       image_size: Bildestørrelse
+      latitude: "Bre:"
       licence: Lisens
+      longitude: "Len:"
       manually_select: Velg et annet område manuelt
       mapnik_image: Mapnik-bilde
       max: maks
@@ -368,6 +385,11 @@
     search_osm_namefinder: 
       suffix_parent: "{{suffix}} ({{parentdistance}} {{parentdirection}} av {{parentname}})"
       suffix_place: ", {{distance}} {{direction}} av {{placename}}"
+  javascripts: 
+    map: 
+      base: 
+        cycle_map: Sykkelkart
+        noname: IntetNavn
   layouts: 
     donate_link_text: donering
     edit: Rediger
@@ -424,10 +446,12 @@
       date: Dato
       from: Fra
       my_inbox: Min innboks
+      no_messages_yet: Du har ingen meldinger enda. Kanskje du kan prøve å komme i kontakt med {{people_mapping_nearby_link}}?
       outbox: utboks
       people_mapping_nearby: folk i nærheten som lager kart
       subject: Emne
       title: Innboks
+      you_have: Du har {{new_count}} ny meldinger og {{old_count}} gamle meldinger
     mark: 
       as_read: Melding markert som lest
       as_unread: Melding markert som ulest
@@ -439,12 +463,14 @@
     new: 
       back_to_inbox: Tilbake til innboks
       body: Kropp
+      limit_exceeded: Du har sendt mange meldinger i det siste. Vent en stind før du prøver å sende flere.
       message_sent: Melding sendt
       send_button: Send
       send_message_to: Send en ny melding til {{name}}
       subject: Emne
       title: Send melding
     no_such_user: 
+      body: Det er ingen bruker eller melding med det navnet eller den id-en
       heading: Ingen bruker eller melding funnet
       title: Ingen bruker eller melding funnet
     outbox: 
@@ -453,6 +479,7 @@
       my_inbox: Min {{inbox_link}}
       no_sent_messages: folk i nærheten som lager kart
       outbox: utboks
+      people_mapping_nearby: folk i nærheten som lager kart
       subject: Emne
       title: Utboks
       to: Til
@@ -474,30 +501,44 @@
   notifier: 
     diary_comment_notification: 
       hi: Hei {{to_user}},
+      subject: "[OpenStreetMap] {{user}} kommenterte på en oppføring i dagboka di"
     email_confirm: 
-      subject: Du må $1 for å bekrefte e-postadressen din.
+      subject: "[OpenStreetMap] Bekreft din e-postadresse"
     email_confirm_html: 
       greeting: Hei,
+      hopefully_you: Noen (forhåpentligvis deg) ønsker å endre e-postadressen for {{server_url}} til {{new_address}}.
     email_confirm_plain: 
+      click_the_link: Hvis det er deg, klikk lenka nedenfor for å bekrefte endringen.
       greeting: Hei,
+      hopefully_you_1: Noen (forhåpentligvis deg) ønsker å endre e-postadressen for
+      hopefully_you_2: "{{server_url}} til {{new_address}}."
+    friend_notification: 
+      subject: "[OpenStreetMap] {{user}} la deg til som en venn"
     gpx_notification: 
       and_no_tags: og ingen merkelapper.
       and_the_tags: "og følgende merkelapper:"
       failure: 
-        failed_to_import: Intern feil, klarte ikke å opprette %s
-        subject: Tolkningsfeil ved XML-import
+        failed_to_import: "klarte ikke importere. Her er feilen:"
+        more_info_1: Mer informasjon om feil ved import av GPX og hvordan du kan unngå det
+        subject: "[OpenStreetMap] Feil under import av GPX"
       greeting: Hei,
+      success: 
+        subject: "[OpenStreetMap] Vellykket import av GPX"
       with_description: med beskrivelse
+      your_gpx_file: Det ser ut som GPX-filen din
     lost_password: 
       subject: "[OpenStreetMap] Forespørsel om ullstilling av passord"
     lost_password_html: 
+      click_the_link: Hvis det er deg, klikk lenka nedenfor for å nullstille passordet ditt.
       greeting: Hei,
+      hopefully_you: Noen (forhåpentligvis deg) har bedt å nullstille passordet for OpenStreetMap-kontoen knyttet til denne e-postadressen.
     lost_password_plain: 
       greeting: Hei,
     message_notification: 
       hi: Hei {{to_user}},
+      subject: "[OpenStreetMap] {{user}} sendte deg en melding"
     signup_confirm: 
-      subject: Du må $1 for å bekrefte e-postadressen din.
+      subject: "[OpenStreetMap] Bekreft din e-postadresse"
     signup_confirm_html: 
       greeting: Hei der!
       more_videos_here: flere videoer her
@@ -516,12 +557,13 @@
       flash: Du slettet nøkkelen for {{application}}
   oauth_clients: 
     create: 
-      flash: "Vellykket oppdatering av regel #"
+      flash: Vellykket registrering av informasjonen
     edit: 
       submit: Rediger
       title: Rediger ditt programvare
     form: 
       allow_write_api: endre kartet.
+      allow_write_diary: opprett dagbokoppføringer, kommentarer og finn venner.
       allow_write_gpx: last opp GPS-spor.
       callback_url: "URL til sårbarhetsinformasjon:"
       name: Navn
@@ -542,8 +584,9 @@
     not_found: 
       sorry: Klarte ikke finne den {{type}}-en.
     show: 
-      access_url: "URL til sårbarhetsinformasjon:"
+      access_url: URL for tilgangensnøkkel
       allow_write_api: endre kartet.
+      allow_write_diary: opprett dagbokoppføringer, kommentarer og finn venner.
       allow_write_gpx: last opp GPS-spor.
       authorize_url: "URL til sårbarhetsinformasjon:"
       edit: Rediger detaljer
@@ -555,8 +598,13 @@
     edit: 
       user_page_link: brukerside
     index: 
+      js_1: Du har en nettleser som ikke støtter JavaScript eller så har du slått av JavaScript.
+      js_2: OpenStreetMap bruker JavaScript på kartsidene.
+      js_3: Hvis du ikke kan slå på JavaScript, så kan du prøve de <a href="http://tah.openstreetmap.org/Browse/">de statiske Tiles@Home-kartsidene</a>.
       license: 
         project_name: OpenStreetMap-prosjekt
+      permalink: Permanent lenke
+      shortlink: Kort lenke
     key: 
       map_key: Kartnøkkel
       table: 
@@ -566,7 +614,7 @@
             - terminal
             - terminal
           bridleway: Ridevei
-          building: Skaper oversikt over avhengighetsforhold
+          building: Viktig bygning
           byway: Stikkvei
           cable: 
             - Kabelvogn
@@ -576,7 +624,7 @@
           common: 
             - Vanlig
             - eng
-          construction: Innholdet er tilgjengelig under $1.
+          construction: Veier under konstruksjon
           cycleway: Sykkelvei
           destination: Destinasjonstilgang
           farm: Gård
@@ -614,11 +662,13 @@
           trunk: Hovedvei
           unclassified: Uklassifisert vei
           wood: Ved
-        heading: endret beskyttelsesnivå for «[[$1]]»
+        heading: Legend for z{{zoom_level}}
     search: 
       search: Søk
+      search_help: "Eksempler: 'Lindesnes', 'Karl Johans gate', 'Sør-Trøndelag' og <a href='http://wiki.openstreetmap.org/wiki/Search'>flere ...</a>"
       submit_text: Gå
       where_am_i: Hvor er jeg?
+      where_am_i_title: Bruke søkemotoren til å beskrive gjeldende lokasjon.
     sidebar: 
       close: Lukk
       search_results: Søkeresultater
@@ -721,6 +771,7 @@
       latitude: "Breddegrad:"
       longitude: "Lengdegrad:"
       my settings: Mine innstillinger
+      no home location: Du har ikke skrevet inn din hjemmelokasjon.
       preferred languages: "Foretrukne språk:"
       profile description: "Profilbeskrivelse:"
       public editing: 
@@ -730,6 +781,7 @@
       return to profile: Returner til profil
       save changes button: Lagre endringer
       title: Rediger konto
+      update home location on click: Oppdater hjemmelokasjon når jeg klikker på kartet?
     confirm: 
       button: Bekreft
       failure: En brukerkonto med denne nøkkelen er allerede bekreftet.
@@ -752,11 +804,14 @@
       login_button: Logg inn
       lost password link: Mistet passordet ditt?
       password: "Passord:"
+      please login: Logg inn eller {{create_user_link}}.
       title: Logg inn
     lost_password: 
       email address: "E-postadresse:"
       heading: Glemt passord?
+      help_text: Skriv inn e-postadressen du brukte for å registrere deg, og vi vil sende deg ei lenke som du kan bruke til å nullstille passordet ditt.
       new password button: Nullstill passord
+      notice email cannot find: Klarte ikke finne den e-postadressen. Beklager.
       title: Glemt passord
     make_friend: 
       already_a_friend: Du er allerede venner med {{name}}.
@@ -781,15 +836,20 @@
       password: "Passord:"
       reset: Nullstill passord
       title: Nullstill passord
+    set_home: 
+      flash success: Hjemmelokasjon lagret
     view: 
       add as friend: legg til som en venn
       add image: Legg til bilde
       ago: ({{time_in_words_ago}} siden)
       change your settings: endre dine innstillinger
+      confirm: Bekreft
       delete image: Slett bilde
       description: Beskrivelse
       diary: dagbok
       edits: redigeringer
+      email address: "E-postadresse:"
+      hide_user: skjul denne brukeren
       km away: "{{count}}km unna"
       m away: "{{count}}m unna"
       mapper since: "Bruker siden:"
@@ -800,7 +860,11 @@
       my_oauth_details: Vis mine OAuth-detaljer
       nearby users: "Næreliggende brukere:"
       new diary entry: ny dagbokoppføring
+      no home location: Ingen hjemmelokasjon satt.
       remove as friend: fjern som venn
+      role: 
+        administrator: Denne brukeren er en administrator
+        moderator: Denne brukeren er en moderator
       send message: send melding
       settings_link_text: innstillinger
       traces: spor
@@ -808,3 +872,27 @@
       user image heading: Brukerbilde
       user location: Brukerens posisjon
       your friends: Dine venner
+  user_block: 
+    helper: 
+      time_future: Slutter om {{time}}.
+      time_past: Sluttet {{time}} siden.
+    not_found: 
+      back: Tilbake til indeksen
+    partial: 
+      confirm: Er du sikker?
+      creator_name: Opprettet av
+      edit: Rediger
+      show: Vis
+      status: Status
+    show: 
+      confirm: Er du sikker?
+      edit: Rediger
+      show: Vis
+      status: Status
+      time_future: Slutter om {{time}}
+      time_past: Sluttet {{time}} siden
+  user_role: 
+    grant: 
+      confirm: Bekreft
+    revoke: 
+      confirm: Bekreft

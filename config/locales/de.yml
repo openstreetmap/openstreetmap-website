@@ -7,6 +7,7 @@
 # Author: ChrisiPK
 # Author: CygnusOlor
 # Author: Grille chompa
+# Author: Markobr
 # Author: McDutchie
 # Author: Pill
 # Author: Raymond
@@ -275,12 +276,16 @@ de:
   diary_entry: 
     diary_comment: 
       comment_from: Kommentar von {{link_user}} am {{comment_created_at}}
+      confirm: Bestätigen
+      hide_link: Diesen Kommentar verbergen
     diary_entry: 
       comment_count: 
         one: 1 Kommentar
         other: "{{count}} Kommentare"
       comment_link: Kommentar zu diesem Eintrag
+      confirm: Bestätigen
       edit_link: Diesen Eintrag bearbeiten
+      hide_link: Diesen Eintrag verbergen
       posted_by: Verfasst von {{link_user}} am {{created}} in {{language_link}}
       reply_link: Auf diesen Eintrag antworten
     edit: 
@@ -620,11 +625,14 @@ de:
     revoke: 
       flash: Du hast den Berechtigungsschlüssel für {{application}} zurückgezogen
   oauth_clients: 
+    create: 
+      flash: Daten erfolgreich registriert
     edit: 
       submit: Bearbeiten
       title: Anwendung bearbeiten
     form: 
       allow_write_api: Kartendaten verändern.
+      allow_write_gpx: GPS-Spuren hochladen
       callback_url: Callback-URL
       name: Name
       required: Erforderlich
@@ -634,6 +642,8 @@ de:
       submit: Registrieren
       title: Eine neue Anwendung registrieren
     show: 
+      allow_write_api: Karte ändern
+      allow_write_gpx: GPS-Spuren hochladen
       allow_write_prefs: Nutzereinstellungen verändern.
       edit: Details bearbeiten
   site: 
@@ -846,7 +856,7 @@ de:
         enabled link text: Was ist das?
         heading: "Öffentliches Bearbeiten:"
       public editing note: 
-        heading: öffentliches Editieren
+        heading: Öffentliches Bearbeiten
       return to profile: Zurück zum Profil
       save changes button: Speichere Änderungen
       title: Benutzerkonto bearbeiten
@@ -944,7 +954,7 @@ de:
       description: Beschreibung
       diary: Blog
       edits: Bearbeitungen
-      email address: Email Adresse
+      email address: "E-Mail-Adresse:"
       hide_user: Benutzer verstecken
       if set location: Wenn du deinen Standort angegeben hast, erscheint eine Karte am Seitenende. Du kannst deinen Standort in deinen {{settings_link}} ändern.
       km away: "{{count}} km entfernt"
@@ -981,14 +991,21 @@ de:
       your friends: Eigene Freunde
   user_block: 
     blocks_by: 
+      empty: "{{name}} hat noch keine Sperren eingerichtet."
       heading: Liste der Blockierungen durch {{name}}
       title: Blockierungen von {{name}}
+    blocks_on: 
+      empty: "{{name}} wurde bisher nicht gesperrt."
+      heading: Liste der Sperren für {{name}}
+      title: Sperren für {{name}}
     create: 
+      flash: Benutzer {{name}} wurde gesperrt.
+      try_contacting: Bitte nimm Kontakt mit dem Benutzer auf und gib ihm eine angemessene Zeit zum Antworden, bevor Du ihn sperrst.
       try_waiting: Bitte gib dem Benutzer einen angemessenen Zeitraum zu antworten bevor Du ihn blockierst.
     edit: 
       back: Alle Blockierungen anzeigen
       heading: Blockierung von {{name}} bearbeiten
-      needs_view: Muss der Benutzer sich einloggen, damit die Blockierung beendet wird?
+      needs_view: Muss der Benutzer sich anmelden, damit die Blockierung beendet wird?
       period: Zeitraum, ab jetzt, den der Benutzer von der API blockiert wird.
       reason: Der Grund warum {{name}} blockiert wird. Bitte bleibe ruhig und sachlich und versuche so viele Details wie möglich anzugeben. Bedenke, dass nicht alle Benutzer den Community Jargon verstehen und versuche eine Erklärung zu finden, die von Laien verstanden werden kann.
       show: Diese Blockierung ansehen
@@ -997,39 +1014,58 @@ de:
     filter: 
       block_expired: Die Blockierung kann nicht bearbeitet werden weil die Blockierungszeit bereits abgelaufen ist.
       block_period: Die Blockierungszeit muss einer der Werte aus der Drop-Down Liste sein
-      not_a_moderator: Du musst Moderator sein um diese Aktion durchzuführen-
+      not_a_moderator: Du musst Moderator sein um diese Aktion durchzuführen.
     helper: 
       time_future: Endet in {{time}}.
       time_past: Endete vor {{time}}
+      until_login: Aktiv, bis der Benutzer sich anmeldet.
     index: 
       empty: Noch nie blockiert.
+      heading: Liste der Benutzersperren
+      title: Benutzersperren
+    model: 
+      non_moderator_revoke: Du musst Moderator sein, um eine Sperre aufzuheben.
+      non_moderator_update: Du musst Moderator sein, um eine Sperre einzurichten oder zu ändern.
     new: 
       back: Alle Blockierungen anzeigen
+      heading: Sperre für {{name}} einrichten
+      needs_view: Der Benutzer muss sich anmelden, bevor die Sperre aufgehoben wird.
+      period: Wie lange der Benutzer von jetzt ab für den Zugriff auf die API gesperrt wird.
+      reason: Der Grund, warum {{name}} gesperrt wird. Sei bitte möglichst ruhig und sachlich, beschreibe die Lage möglichst detailliert und denke daran, dass Deine Nachricht öffentlich sichtbar ist. Denke daran, dass nicht alle Benutzer den Jargon des Gemeinschaftsprojekts verstehen und verwende Formulierungen, die für Laien verständlich sind.
+      submit: Sperre einrichten
+      title: Sperre für {{name}} einrichten
       tried_contacting: Ich habe den Benutzer kontaktiert und ihn gebeten aufzuhören.
+      tried_waiting: Ich habe dem Benutzer eine angemessene Zeit eingeräumt, um auf diese Nachrichten zu antworten.
     not_found: 
       back: Zurück zur Übersicht
       sorry: Sorry, die Blockierung mit der ID {{id}} konnte nicht gefunden werden.
     partial: 
       confirm: Bist du sicher?
       creator_name: Ersteller
-      display_name: Blockierte Benuter
+      display_name: Blockierter Benutzer
       edit: Bearbeiten
       not_revoked: (nicht aufgehoben)
       reason: Grund der Blockierung
       revoke: Aufheben!
       revoker_name: Aufgehoben von
       show: Anzeigen
+      status: Status
     period: 
       one: 1 Stunde
       other: "{{count}} Stunden"
     revoke: 
-      confirm: Bist du sicher das diese Blockierung aufgehoben wird
+      confirm: Bist du sicher, das du diese Blockierung aufheben möchtest?
+      flash: Die Sperre wurde aufgehoben.
+      heading: Sperre für {{block_on}} durch {{block_by}} aufgehoben
+      past: Die Sperre ist seit {{time}} beendet und kann nicht mehr aufgehoben werden.
+      revoke: Aufheben
+      title: Sperre für {{block_on}} aufheben
     show: 
       back: Alle Blockierungen anzeigen
       confirm: Bist Du sicher?
       edit: Bearbeiten
       heading: "{{block_on}} blockiert durch {{block_by}}"
-      needs_view: Der Benutzer muss sich wieder einloggen, damit die Blockierung beendet wird.
+      needs_view: Der Benutzer muss sich wieder anmelden, damit die Blockierung beendet wird.
       reason: "Grund der Blockierung:"
       revoke: Aufheben!
       revoker: "Aufgehoben von:"
@@ -1038,6 +1074,8 @@ de:
       time_future: Endet in {{time}}
       time_past: Geendet vor {{time}}
       title: "{{block_on}} blockiert von  {{block_by}}"
+    update: 
+      only_creator_can_edit: Nur der Moderator, der die Sperre eingerichtet hat, kann sie ändern.
   user_role: 
     filter: 
       already_has_role: Der Nutzer gehört bereits der Rolle {{role}} an.
