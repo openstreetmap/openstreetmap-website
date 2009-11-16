@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 require File.dirname(__FILE__) + '/../config/environment'
-require 'mailread'
+require 'tmail'
 
 exit 0 unless recipient = ARGV[0].match(/^([cm])-(\d+)-(.*)$/)
 
@@ -19,12 +19,12 @@ end
 
 exit 0 unless recipient[3] == digest[0,6]
 
-mail = Mail.new(STDIN)
+mail = TMail::Mail.parse(STDIN.readlines.join)
 
 message = Message.new(:sender => from, :recipient => to,
                       :sent_on => Time.now.getutc,
-                      :title => mail["Subject"],
-                      :body => mail.body.map { |l| l.rstrip }.join("\n"))
+                      :title => mail.subject,
+                      :body => mail.body)
 message.save!
 
 Notifier::deliver_message_notification(message)
