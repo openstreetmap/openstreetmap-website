@@ -307,11 +307,15 @@ class ChangesetController < ApplicationController
       @description = t 'changeset.list.description'
     end
 
-    @edit_pages, @edits = paginate(:changesets,
-                                   :include => [:user, :changeset_tags],
-                                   :conditions => conditions,
-                                   :order => "changesets.created_at DESC",
-                                   :per_page => 20)
+    @page = (params[:page] || 1).to_i
+    @page_size = 20
+
+    @edits = Changeset.find(:all,
+                            :include => [:user, :changeset_tags],
+                            :conditions => conditions,
+                            :order => "changesets.created_at DESC",
+                            :offset => (@page - 1) * @page_size,
+                            :limit => @page_size)
   end
 
 private

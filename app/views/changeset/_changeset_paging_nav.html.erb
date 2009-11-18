@@ -1,13 +1,17 @@
 <p>
-<% current_page = @edit_pages.current_page %>
 
-<%= t'changeset.changeset_paging_nav.showing_page' %> 
-<%= current_page.number %> (<%= current_page.first_item %><% 
-if (current_page.first_item < current_page.last_item) # if more than 1 changeset on page 
-  %>-<%= current_page.last_item %><% 
-end %>
-<%= t'changeset.changeset_paging_nav.of'%> <%= @edit_pages.item_count %>)
-<% if @edit_pages.page_count > 1 %>
- | <%= pagination_links_each(@edit_pages, {}) { |n| link_to(n, params.merge({ :page => n })) } %>
+<% if @page > 1 %>
+<%= link_to t('changeset.changeset_paging_nav.previous'), :page => @page - 1 %>
+<% else %>
+<%= t('changeset.changeset_paging_nav.previous') %>
 <% end %>
+
+| <%= t('changeset.changeset_paging_nav.showing_page', :page => @page) %> |
+
+<% if @edits.size < @page_size %>
+<%= t('changeset.changeset_paging_nav.next') %>
+<% else %>
+<%= link_to t('changeset.changeset_paging_nav.next'), :page => @page + 1 %>
+<% end %>
+
 </p>
