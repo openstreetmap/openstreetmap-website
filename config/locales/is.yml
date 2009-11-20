@@ -72,6 +72,8 @@ is:
       way_node: Veghnútur
       way_tag: Vegeigindi
   application: 
+    require_cookies: 
+      cookies_needed: Þú virðist ekki vera með stuðning fyrir smákökur í vafranum þínum. Þú verður að virkja þann stuðning áður en þú getur haldið áfrám.
     setup_user_auth: 
       blocked: Aðgangur þinn að forritunarviðmótinu hefur verið bannaður. Skráðu þig inn í vefviðmótið fyrir frekari upplýsingar.
   browse: 
@@ -238,6 +240,10 @@ is:
       show_area_box: sýna svæðismörk
       still_editing: (enn að breyta)
       view_changeset_details: Skoða breytingarsett
+    changeset_paging_nav: 
+      next: Næsta &raquo;
+      previous: "&laquo; Fyrri"
+      showing_page: Sýni síðu {{page}}
     changesets: 
       area: Svæði
       comment: Athugasemd
@@ -260,12 +266,16 @@ is:
   diary_entry: 
     diary_comment: 
       comment_from: Athugasemd eftir {{link_user}} sett inn {{comment_created_at}}
+      confirm: Staðfestu
+      hide_link: Fela þessa athugasemd
     diary_entry: 
       comment_count: 
         one: 1 athugasemd
         other: "{{count}} athugasemdir"
       comment_link: Bæta við athugasemd
+      confirm: Staðfestu
       edit_link: Breyta þessari færslu
+      hide_link: Fela þessa færslu
       posted_by: Sett inn af {{link_user}} {{created}} á {{language_link}}
       reply_link: Senda höfund skilaboð
     edit: 
@@ -352,6 +362,7 @@ is:
       title: 
         geonames: Staðsetning frá <a href="http://www.geonames.org/">GeoNames</a>
         osm_namefinder: "{{types}} frá <a href=\"http://gazetteer.openstreetmap.org/namefinder/\">OpenStreetMap Namefinder</a>"
+        osm_nominatim: Staðsetning frá <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
       types: 
         cities: Borgir
         places: Staðir
@@ -385,6 +396,8 @@ is:
     search_osm_namefinder: 
       suffix_parent: "{{suffix}} ({{parentdistance}} {{parentdirection}} af {{parentname}})"
       suffix_place: ", {{distance}} {{direction}} af {{placename}}"
+    search_osm_nominatim: 
+      prefix_highway: "{{type}} vegur"
   javascripts: 
     map: 
       base: 
@@ -476,6 +489,7 @@ is:
     new: 
       back_to_inbox: Aftur í innhólf
       body: Texti
+      limit_exceeded: Þú hefur sent mikið af skilaboðun nýverið. Hinkraðu svoldið áður en þú reynir að senda fleiri.
       message_sent: Skilaboðin hafa verið send
       send_button: Senda
       send_message_to: Senda skilaboð til {{name}}
@@ -568,7 +582,7 @@ is:
     signup_confirm_html: 
       click_the_link: Ef þetta ert þú þá vertu velkomin(n)! vinsamlegast fylgdu tenglinum til að staðfesta reikningin þinn og haltu áfrám að lesa til að fá frekari upplýsingar um OpenStreetMap.
       current_user: Í flokkakerfinu getur þú einnig séð <a href="http://wiki.openstreetmap.org/index.php?uselang=is&title=Category:Users_by_geographical_region"> hvar í heiminum OpenStreetMap notendur</a> eru staðsettir.
-      get_reading: Þú getur lesið um OpenStreetMap verkefnið á <a href="http://wiki.openstreetmap.org/index.php?uselang=is&title=Beginners%27_Guide">wiki-síðunni okkar</a> eða <a href="http://www.opengeodata.org/">OpenGeoData blogginu</a> þar sem einnig er að finna <a href="http://www.opengeodata.org/?cat=13">hljóðvarp</a>.
+      get_reading: "Þú getur lesið um OpenStreetMap verkefnið á <a href=\"http://wiki.openstreetmap.org/index.php?uselang=is&title=Beginners%27_Guide\">wiki-síðunni okkar</a> eða <a href=\"http://www.opengeodata.org/\">OpenGeoData blogginu</a> þar sem einnig er að finna <a href=\"http://www.opengeodata.org/?cat=13\">hljóðvarp</a>.\n\nEinnig er hægt að fylgjast með <a href=\"http://twitter.com/openstreetmap\">OpenStreetMap á Twitter</a> eða skoða <a href=\"http://blogs.openstreetmap.org/\">almennan bloggstraum</a> fyrir verkefnið."
       greeting: Hæ!
       hopefully_you: "Einhver (vonandi þú) vill búa til notanda á þessari vefsíðu:"
       introductory_video: Þú getur horft á {{introductory_video_link}}.
@@ -578,6 +592,7 @@ is:
       video_to_openstreetmap: kynningarmyndband um OpenStreetMap
       wiki_signup: Kannski viltu einnig <a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Fors%C3%AD%C3%B0a">skrá þig á wiki-síðuna</a>.
     signup_confirm_plain: 
+      blog_and_twitter: "Fylgdust með fréttum á OpenStreetMap blogginu eða á Twitter:"
       click_the_link_1: Ef þetta ert þú þá vertu velkomin(n)! vinsamlegast fylgdu tenglinum til að staðfesta
       click_the_link_2: reikningin þinn og haltu áfrám að lesa til að fá frekari upplýsingar um OpenStreetMap.
       current_user_1: Í flokkakerfinu getur þú séð hvar í heiminum OpenStreetMap notendur eru.
@@ -586,7 +601,7 @@ is:
       hopefully_you: "Einhver (vonandi þú) vill búa til notanda á þessari vefsíðu:"
       introductory_video: "Þú getur horft á kynningarmyndband um OpenStreetMap hér:"
       more_videos: "Og fleiri kynningarmyndbönd er að finna hér:"
-      opengeodata: "OpenGeoData.org er aðal-OpenStreetMap bloggið, þar er líka hljóðvarp:"
+      opengeodata: "OpenGeoData.org er OpenStreetMap blog Steve Coast sem stofnaði OpenStreetMap, þar er líka hljóðvarp:"
       the_wiki: "Þú getur lesið um OpenStreetMap verkefnið á wiki-síðunni okkar:"
       the_wiki_url: http://wiki.openstreetmap.org/index.php?uselang=is&title=Beginners%27_Guide
       user_wiki_1: Það er mælt með því að þú búir til notandasíðu á wiki-inu
@@ -729,6 +744,7 @@ is:
       search_help: "dæmi: „Akureyri“, „Laugavegur, Reykjavík“ eða „post offices near Lünen“. Sjá einnig <a href='http://wiki.openstreetmap.org/index.php?uselang=is&title=Search'>leitarhjálpina</a>."
       submit_text: Ok
       where_am_i: Hvar er ég?
+      where_am_i_title: Notar leitarvélina til að lýsa núverandi staðsetningu á kortinu
     sidebar: 
       close: Loka
       search_results: Leitarniðurstöður
@@ -844,6 +860,9 @@ is:
         enabled link: http://wiki.openstreetmap.org/index.php?uselang=is&title=Anonymous_edits
         enabled link text: nánar
         heading: "Ónafngreindur notandi?:"
+      public editing note: 
+        heading: Nafngreindar breytingar
+        text: Breytingarnar þínar eru núna ónafngreindar þannig að aðrir notendur geta ekki sent þér skilaboð eða séð staðsetningu þína. Þú verður að vera nafngreind(ur) til að geta notað vefinn, sjá <a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">þessa síðu</a> fyrir frekari upplýsingar.
       return to profile: Aftur á mína síðu
       save changes button: Vista breytingar
       title: Stillingar
@@ -860,6 +879,8 @@ is:
       heading: Staðfesta breytingu á netfangi
       press confirm button: Hér getur þú staðfest breytingu á netfangi.
       success: Netfangið þitt hefur verið staðfest.
+    filter: 
+      not_an_administrator: Þú þarft að vera möppudýr til að framkvæma þessa aðgerð.
     friend_map: 
       nearby mapper: "Nálægur notandi: [[nearby_user]]"
       your location: Þín staðsetning
@@ -927,8 +948,10 @@ is:
       add image: Senda
       ago: ({{time_in_words_ago}} síðan)
       block_history: bönn gegn þessum notanda
+      blocks by me: bönn eftir mig
       blocks on me: bönn gegn mér
       change your settings: breyttu stillingunum þínum
+      confirm: Staðfesta
       create_block: banna þennan notanda
       created from: "Búin til frá:"
       deactivate_user: óvirkja þennan notanda
@@ -943,6 +966,7 @@ is:
       km away: í {{count}} km fjarlægð
       m away: í {{count}} m fjarlægð
       mapper since: "Notandi síðan:"
+      moderator_history: bönn eftir notandann
       my diary: bloggið mitt
       my edits: mínar breytingar
       my settings: mínar stillingar
@@ -955,8 +979,14 @@ is:
       no nearby users: Engir notendur hafa stillt staðsetningu sína nálægt þér.
       remove as friend: fjarlægja sem vin
       role: 
-        administrator: Þessi notandi er stjórnandi
+        administrator: Þessi notandi er möppudýr
+        grant: 
+          administrator: Veita möppudýrsréttindi
+          moderator: Veita stjórnandaréttindi
         moderator: Þessi notandi er prófarkalesari
+        revoke: 
+          administrator: Svifta möppudýrsréttindum
+          moderator: Svifta stjórnandaréttindum
       send message: senda póst
       settings_link_text: stillingarsíðunni
       traces: ferlar
@@ -966,7 +996,103 @@ is:
       user location: Staðsetning
       your friends: Vinir þínir
   user_block: 
+    blocks_by: 
+      empty: "{{name}} hefur ekki ennþá bannað einhvern."
+      heading: Bönn eftir {{name}}
+      title: Bönn eftir {{name}}
     blocks_on: 
       empty: "{{name}} hefur ekki verið bannaður."
       heading: Bönn gegn {{name}}
       title: Bönn gegn {{name}}
+    create: 
+      flash: Bjó til bann gegn {{name}}.
+    edit: 
+      back: Listi yfir öll bönn
+      heading: Breyti banni gegn {{name}}
+      needs_view: Notandinn þarf að innskrá sig áður en bannið fellur úr gildi.
+      period: Hversu lengi á að banna notandann frá því að nota forritunarviðmótið?
+      reason: "Ástæðan fyrir því að það er bann gegn {{name}}:"
+      show: Sýna þetta bann
+      submit: Uppfæra bannið
+      title: Breyti banni gegn {{name}}
+    filter: 
+      block_period: Banntíminn verður að vera í forstillingunum.
+      not_a_moderator: Þú þarft að vera stjórnandi til að framkvæma þessa aðgerð.
+    helper: 
+      time_future: Endar eftir {{time}}
+      time_past: Endaði fyrir {{time}} síðan
+      until_login: Virkt þangað til notandinn innskráir sig.
+    index: 
+      empty: Enginn hefur verið bannaður enn.
+      heading: Listi yfir bönn
+      title: Bönn
+    model: 
+      non_moderator_revoke: Þú verður að vera stjórnandi til að eyða banni.
+      non_moderator_update: Þú verður að vera stjórnandi til að búa til eða breyta banni.
+    new: 
+      back: Listi yfir öll bönn
+      heading: Banna {{name}}
+      needs_view: Notandinn þarf að innskrá sig áður en bannið fellur úr gildi.
+      period: Hversu lengi á að banna notandann frá því að nota forritunarviðmótið?
+      reason: "Gefðu ástæðu fyrir því að þú viljir banna {{name}}:"
+      submit: Banna notandann
+      title: Banna {{name}}
+    not_found: 
+      back: Listi yfir öll bönn
+      sorry: "Bann #{{id}} fannst ekki."
+    partial: 
+      confirm: Ert þú viss?
+      creator_name: Búið til af
+      display_name: Bann gegn
+      edit: Breyta
+      not_revoked: (ekki eytt)
+      reason: Ástæða banns
+      revoke: Eyða banninu
+      revoker_name: Eytt af
+      show: Sýna
+      status: Staða
+    period: 
+      one: 1 stund
+      other: "{{count}} stundir"
+    revoke: 
+      confirm: Staðfestu að þú viljir eyða þessu banni.
+      flash: Banninu var eytt.
+      heading: Eyði banni á {{block_on}} eftir {{block_by}}
+      past: Bannið endaði fyrir {{time}} síðan, ekki er hægt að eyða því núna.
+      revoke: Eyða banninu
+      time_future: Bannið endar eftir {{time}}.
+      title: Eyði banni á {{block_on}}
+    show: 
+      back: Listi yfir öll bönn
+      edit: Breyta banninu
+      heading: Notandinn „{{block_on}}“ var bannaður af „{{block_by}}“
+      needs_view: Notandinn þarf að innskrá sig áður en bannið fellur úr gildi.
+      reason: "Ástæða banns:"
+      revoke: Eyða banninu
+      revoker: "Eytt af:"
+      show: Sýna
+      status: Staða
+      time_future: Endar eftir {{time}}
+      time_past: Endaði fyrir {{time}} síðan
+      title: Bann á {{block_on}} eftir {{block_by}}
+    update: 
+      only_creator_can_edit: Aðeins stjórnandinn sem bjó til bannið getur breytt því.
+      success: Banninu var breytt.
+  user_role: 
+    filter: 
+      already_has_role: Notandinn hefur þegar „{{role}}“ leyfi
+      doesnt_have_role: Notandinn er ekki með „{{role}}“ leyfi.
+      not_a_role: „{{role}}“ er ekki gilt leyfi.
+      not_an_administrator: Aðeins möppudýr geta sýslað með leyfi, og þú ert ekki möppudýr.
+    grant: 
+      are_you_sure: Staðfestu að þú viljir veita notandanum „{{name}}“ leyfið „{{role}}“
+      confirm: Staðfesta
+      fail: Gat ekki veitt „{{name}}“ leyfið „{{role}}“. Staðfestu að notandinn og leyfið séu bæði gild.
+      heading: Staðfestu leyfisveitingu
+      title: Staðfestu leyfisveitingu
+    revoke: 
+      are_you_sure: Staðfestu að þú viljir svifta notandann „{{name}}“ leyfinu „{{role}}“
+      confirm: Staðfesta
+      fail: Gat ekki svift „{{name}}“ leyfinu „{{role}}“. Staðfestu að notandinn og leyfið séu bæði gild.
+      heading: Staðfestu leyfissviftingu
+      title: Staðfestu leyfissviftingu

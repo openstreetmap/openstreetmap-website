@@ -230,6 +230,8 @@ ja:
       show_area_box: 領域境界を表示
       still_editing: （まだ編集中です）
       view_changeset_details: 変更セットの詳細表示
+    changeset_paging_nav: 
+      showing_page: ページ {{page}} 表示中
     changesets: 
       area: 領域
       comment: コメント
@@ -239,17 +241,29 @@ ja:
     list: 
       description: 最新の変更
       description_bbox: "{{bbox}} 内の変更セット"
+      description_user: "{{user}} による変更セット"
+      description_user_bbox: "{{bbox}} 範囲内の {{user}} の変更セット"
+      heading: 変更セット
       heading_bbox: 変更セット
+      heading_user: 変更セット
+      heading_user_bbox: 変更セット
+      title: 変更セット
+      title_bbox: "{{bbox}} 範囲内の変更セット"
+      title_user: "{{user}} の変更セット"
       title_user_bbox: "{{bbox}}内の{{user}}による変更セット"
   diary_entry: 
     diary_comment: 
       comment_from: "{{comment_created_at}} {{link_user}} からのコメント"
+      confirm: 確認
+      hide_link: このコメントを隠す
     diary_entry: 
       comment_count: 
         one: １コメント
         other: "{{count}} コメント"
       comment_link: このエントリへのコメント
+      confirm: 確認
       edit_link: この記事の編集
+      hide_link: このエントリーを隠す
       posted_by: "{{link_user}} による {{created}}（{{language_link}}）の投稿。"
       reply_link: このエントリーに返信する
     edit: 
@@ -268,6 +282,7 @@ ja:
         description: OpenStreetMap ユーザーの最近の日記エントリー
         title: OpenStreetMap 日記エントリー
       language: 
+        description: "{{language_name}} のOpenStreetMap ユーザーの最近の日記エントリー"
         title: "{{language_name}}のOpenStreetMap 日記エントリー"
       user: 
         description: "{{user}} さんの最近のOpenStreetMap 日記のエントリー"
@@ -369,6 +384,7 @@ ja:
     gps_traces_tooltip: トレースの管理
     help_wiki: ヘルプと Wiki
     help_wiki_tooltip: プロジェクトのヘルプと Wiki
+    help_wiki_url: http://wiki.openstreetmap.org/wiki/Ja:Main_Page
     history: 履歴
     history_tooltip: 変更セットの履歴
     home: ホーム
@@ -470,6 +486,7 @@ ja:
   notifier: 
     diary_comment_notification: 
       footer: "{{readurl}}でコメントを読むことができ、{{commenturl}} でこめんとするか、{{replyurl}} で返信できます。"
+      hi: やあ、{{to_user}} さん
       subject: "[OpenStreetMap] {{user}} さんが、あなたの日記エントリーにコメントしてくれました"
     email_confirm: 
       subject: "[OpenStreetMap] あなたのEメールアドレスを確認しました。"
@@ -482,14 +499,18 @@ ja:
       had_added_you: "{{user}} さんは、あなたを OpenStreetMapの友達に登録しました。"
       subject: "[OpenStreetMap] {{user}} さんは、あなたを友達に加えました。"
     gpx_notification: 
+      and_no_tags: とタグなし。
+      and_the_tags: "と次のタグ:"
       failure: 
         failed_to_import: "インポートするのに失敗しました。エラーはここです。:"
         more_info_1: GPX インポートの失敗とどうやったら避けられるかについての詳しいことは、
         more_info_2: "それらはここにあります:"
         subject: "[OpenStreetMap] GPX のインポートが失敗"
+      greeting: やあ、
       success: 
         loaded_successfully: 得られた{{possible_points}} 点のうち、{{trace_points}}点がロードに成功しました。
         subject: "[OpenStreetMap] GPX のインポートが成功"
+      your_gpx_file: これはあなたのGPX ファイルのようです。
     lost_password: 
       subject: "[OpenStreetMap] パスワードリセットの要求"
     lost_password_html: 
@@ -497,6 +518,21 @@ ja:
       hopefully_you: (たぶんあなたがですが、)誰かがこのEメールアドレスの openstreetmap.org アカウントのパスワードをリセットするように頼みました。
     message_notification: 
       hi: やあ {{to_user}}、
+    signup_confirm: 
+      subject: "[OpenStreetMap] あなたのEメールアドレスの確認"
+    signup_confirm_html: 
+      get_reading: まずは、OpenStreetMap について知るために、<a href="http://wiki.openstreetmap.org/wiki/Ja:Beginners%27_Guide">ウィキを読みましょう</a>。そして、最新ニュースを<a href="http://blog.openstreetmap.org/">OpenStreetMap ブログ</a>か<a href="http://twitter.com/openstreetmap">Twitter</a>で追いかけましょう。また、OpenStreetMap 創設者 Steve Coast の<a href="http://www.opengeodata.org/">OpenGeoData ブログ</a>を見て、このプロジェクトの歴史を味わってみましょう。これは、<a href="http://www.opengeodata.org/?cat=13">podcasts</a>で聞くこともできます。(英語です)
+      greeting: やあ、皆さん!
+      hopefully_you: "誰か(多分あなた)がここでアカウントを作りたいようです:"
+      introductory_video: ビデオは、{{introductory_video_link}} で見ることができます。
+      more_videos: ビデオがあります。{{more_videos_link}}.
+      more_videos_here: ビデオはここです
+      user_wiki_page: ユーザーwiki ページを作ることをお勧めします。その中にあなたがどこにいるかを知らせるCategory タグを入れるといいです。例えば、<a href="http://wiki.openstreetmap.org/wiki/Category:Users_in_Japan">[[Category:Users_in_Japan]]</a>とかです。
+      video_to_openstreetmap: OpenStreetMap の紹介ビデオ
+      wiki_signup: また、<a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page&uselang=ja">OpenStreetMap wikのサインアップi</a>もしたいでしょう。
+    signup_confirm_plain: 
+      the_wiki_url: http://wiki.openstreetmap.org/wiki/Ja:Beginners%27_Guide
+      wiki_signup_url: http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page&uselang=ja
   oauth: 
     oauthorize: 
       allow_read_gpx: あなたの非公開GPSトレースを読み込む。
@@ -535,6 +571,7 @@ ja:
         license_name: クリエイティブコモンズ 表示-継承 2.0
         notice: " {{project_name}}とその貢献者により、{{license_name}} ライセンスの元提供されています。"
         project_name: OpenStreetMapプロジェクト
+      permalink: パーマリンク
       shortlink: ショートリンク
     key: 
       map_key: 凡例
@@ -556,6 +593,7 @@ ja:
           commercial: 商業地域
           construction: 建設中の道路
           cycleway: 自転車道
+          destination: 目的通行
           farm: 農牧場
           footway: 歩道
           forest: 森
@@ -568,8 +606,10 @@ ja:
           military: 軍用地域
           motorway: 自動車専用道路
           park: 公園
+          permissive: 許可制通行
           pitch: 運動場
           primary: 幹線道路
+          private: 私的通行
           rail: 鉄道
           reserve: 自然保護地区
           resident: 住宅街
@@ -587,18 +627,22 @@ ja:
             - 山脈
             - 山頂
           tourist: 観光名所
+          track: Track (農道・林道)
           tram: 
             - 軽便鉄道
             - 路面電車
+          trunk: Trunk道 (国道)
           tunnel: 点線の枠 = トンネル
           unclassified: 未分類の道路
           unsurfaced: 未舗装道路
           wood: 森林
+        heading: z{{zoom_level}} 用凡例
     search: 
       search: 検索
       search_help: "例: 'Alkmaar'、'Regent Street, Cambridge'、'CB2 5AQ'、'post offices near Lünen' など <a href='http://wiki.openstreetmap.org/wiki/Search'>他の例…</a>"
       submit_text: 行く
       where_am_i: いまどこ?
+      where_am_i_title: サーチエンジンを使って現在の場所を記述する
     sidebar: 
       close: 閉じる
       search_results: 検索結果
@@ -625,6 +669,7 @@ ja:
       uploaded_at: "アップロード日時:"
       visibility: "可視性:"
       visibility_help: これはどういう意味？
+      visibility_help_url: http://wiki.openstreetmap.org/wiki/Ja:Visibility_of_GPS_traces
     list: 
       public_traces: 公開GPSトレース
       public_traces_from: "{{user}}からの公開GPSトレース"
@@ -651,12 +696,14 @@ ja:
     trace_form: 
       description: 詳細
       help: ヘルプ
+      help_url: http://wiki.openstreetmap.org/wiki/Ja:Upload
       tags: タグ
       tags_help: コンマ区切り
       upload_button: アップロード
       upload_gpx: アップロードするGPXファイル
       visibility: 可視性
       visibility_help: これはどういう意味？
+      visibility_help_url: http://wiki.openstreetmap.org/wiki/Ja:Visibility_of_GPS_traces
     trace_header: 
       see_all_traces: 全てのトレースを見る
       see_just_your_traces: あなたのトレースだけ見るか、トレースをアップロードする。
@@ -832,6 +879,9 @@ ja:
       show: 見せる
       status: 状態
     period: "{{count}} 時間"
+    show: 
+      confirm: 確かですか?
+      edit: 編集
   user_role: 
     grant: 
       confirm: 確認
