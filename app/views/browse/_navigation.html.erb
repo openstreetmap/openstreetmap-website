@@ -2,8 +2,7 @@
   <% if @next_by_user or @prev_by_user %>
     <span class="nowrap">
       <% if @prev_by_user %>
-        &lt;
-        <%= link_to @prev_by_user.id.to_s,
+        <%= link_to t('browse.changeset_navigation.paging.user.prev', :id => @prev_by_user.id.to_s),
                     { :id => @prev_by_user.id },
                     { :title => t('browse.changeset_navigation.user.prev_tooltip', :user => @prev_by_user.user.display_name) } %>
         |
@@ -16,18 +15,16 @@
       %>
       <% if @next_by_user %>
         |
-        <%= link_to @next_by_user.id.to_s,
+        <%= link_to t('browse.changeset_navigation.paging.user.next', :id => @next_by_user.id.to_s),
                     { :id => @next_by_user.id },
                     { :title => t('browse.changeset_navigation.user.next_tooltip', :user => @next_by_user.user.display_name) } %>
-        &gt;
       <% end %>
     </span>
     <br/>
   <% end %>
   <span class="nowrap">
     <% if @prev %>
-      &lt;
-      <%= link_to @prev.id.to_s,
+      <%= link_to t('browse.changeset_navigation.paging.all.prev', :id => @prev.id.to_s),
                   { :id => @prev.id },
                   { :title => t('browse.changeset_navigation.all.prev_tooltip') } %>
     <% end %>
@@ -35,10 +32,9 @@
       | 
     <% end %>
     <% if @next %>
-      <%= link_to @next.id.to_s,
+      <%= link_to t('browse.changeset_navigation.paging.all.next', :id => @next.id.to_s),
                   { :id => @next.id },
                   { :title => t('browse.changeset_navigation.all.next_tooltip') } %>
-      &gt;
     <% end %>
   </span>
 </div>
