@@ -37,7 +37,7 @@ module OSM
     end
 
     def status
-      :precondition_failed    
+      :precondition_failed
     end
 
     def to_s
@@ -50,13 +50,13 @@ module OSM
     def initialize(object = "object", object_id = "")
       @object, @object_id = object, object_id
     end
-    
+
     attr_reader :object, :object_id
 
     def status
       :gone
     end
-    
+
     def to_s
       "The #{object} with the id #{object_id} has already been deleted"
     end
@@ -89,7 +89,7 @@ module OSM
       "The changeset #{@changeset.id} was closed at #{@changeset.closed_at}"
     end
   end
-  
+
   # Raised when a change is expecting a changeset, but the changeset doesn't exist
   class APIChangesetMissingError < APIError
     def status
@@ -116,7 +116,7 @@ module OSM
       "Changeset mismatch: Provided #{@provided} but only #{@allowed} is allowed"
     end
   end
-  
+
   # Raised when a diff upload has an unknown action. You can only have create,
   # modify, or delete
   class APIChangesetActionInvalid < APIError
@@ -127,7 +127,7 @@ module OSM
     def status
       :bad_request
     end
-    
+
     def to_s
       "Unknown action #{@provided}, choices are create, modify, delete"
     end
@@ -183,20 +183,20 @@ module OSM
       "Element #{@type}/#{@id} has duplicate tags with key #{@tag_key}"
     end
   end
-  
+
   # Raised when a way has more than the configured number of way nodes.
   # This prevents ways from being to long and difficult to work with
   class APITooManyWayNodesError < APIError
     def initialize(id, provided, max)
       @id, @provided, @max = id, provided, max
     end
-    
+
     attr_reader :id, :provided, :max
 
     def status
       :bad_request
     end
-    
+
     def to_s
       "You tried to add #{provided} nodes to way #{id}, however only #{max} are allowed"
     end
@@ -327,11 +327,18 @@ module OSM
     # get the worst case bounds for a given radius from the base position
     def bounds(radius)
       latradius = 2 * asin(sqrt(sin(radius / 6372.795 / 2) ** 2))
-      lonradius = 2 * asin(sqrt(sin(radius / 6372.795 / 2) ** 2 / cos(@lat) ** 2))
+
+      begin
+        lonradius = 2 * asin(sqrt(sin(radius / 6372.795 / 2) ** 2 / cos(@lat) ** 2))
+      rescue Errno::EDOM
+        lonradius = PI
+      end
+
       minlat = (@lat - latradius) * 180 / PI
       maxlat = (@lat + latradius) * 180 / PI
       minlon = (@lon - lonradius) * 180 / PI
       maxlon = (@lon + lonradius) * 180 / PI
+
       return { :minlat => minlat, :maxlat => maxlat, :minlon => minlon, :maxlon => maxlon }
     end
 
