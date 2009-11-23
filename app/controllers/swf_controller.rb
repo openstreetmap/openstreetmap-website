@@ -6,6 +6,7 @@ class SwfController < ApplicationController
 # $log.puts Time.new.to_s+','+Time.new.usec.to_s+": started GPS script"
 # http://localhost:3000/api/0.4/swf/trackpoints?xmin=-2.32402605810577&xmax=-2.18386309423859&ymin=52.1546608755772&ymax=52.2272777906895&baselong=-2.25325793066437&basey=61.3948537948532&masterscale=5825.4222222222
 
+
 	# ====================================================================
 	# Public methods
 	
@@ -75,11 +76,11 @@ class SwfController < ApplicationController
 			ys=(lat2coord(row['lat'].to_f ,basey   ,masterscale)*20).floor
 			xl=[xs,xl].min; xr=[xs,xr].max
 			yb=[ys,yb].min; yt=[ys,yt].max
-			if (row['ts'].to_i-lasttime<180 and row['fileid']==lastfile and row['trackid']==lasttrack and row['ts'].to_i!=lasttime)
-				b+=drawTo(absx,absy,xs,ys)
-			else
-				b+=startAndMove(xs,ys,'01')
-			end
+			if row['ts'].to_i-lasttime>180 or row['fileid']!=lastfile or row['trackid']!=lasttrack #or row['ts'].to_i==lasttime
+			  b+=startAndMove(xs,ys,'01')
+			  absx=xs.floor; absy=ys.floor
+      end
+		  b+=drawTo(absx,absy,xs,ys)
 			absx=xs.floor; absy=ys.floor
 			lasttime=row['ts'].to_i
 			lastfile=row['fileid']
@@ -138,33 +139,58 @@ class SwfController < ApplicationController
 	end
 	
 	def drawTo(absx,absy,x,y)
-		d='11'											# TypeFlag, EdgeFlag
 		dx=x-absx
 		dy=y-absy
-		
+
+    # Split the line up if there's anything>16383, because
+    # that would overflow the 4 bits allowed for length
+    mstep=[dx.abs/16383,dy.abs/16383,1].max.ceil
+    xstep=dx/mstep
+    ystep=dy/mstep
+    d=''
+    for i in (1..mstep)
+      d+=drawSection(x,y,x+xstep,y+ystep)
+      x+=xstep
+      y+=ystep
+    end
+    d
+	end
+	
+	def drawSection(x1,y1,x2,y2)
+		d='11'											# TypeFlag, EdgeFlag
+	  dx=x2-x1
+	  dy=y2-y1
 		l =[lengthSB(dx),lengthSB(dy)].max
 		d+=sprintf("%04b",l-2)
 		d+='1'											# GeneralLine
 		d+=sprintf("%0#{l}b%0#{l}b",dx,dy)
-	end
+  end
 
 	# -----------------------------------------------------------------------
 	# Specific data types
 
+  # SWF data block type
+
 	def swfRecord(id,r)
 		if r.length>62
+      # Long header: tag id, 0x3F, length
 			return packUI16((id<<6)+0x3F) + packUI32(r.length) + r
 		else
+      # Short header: tag id, length
 			return packUI16((id<<6)+r.length) + r
 		end
 	end
+
+  # SWF RECT type
 
 	def packRect(a,b,c,d)
 		l=[lengthSB(a),
 		   lengthSB(b),
 		   lengthSB(c),
 		   lengthSB(d)].max
+    # create binary string (00111001 etc.) - 5-byte length, then bbox
 		n=sprintf("%05b%0#{l}b%0#{l}b%0#{l}b%0#{l}b",l,a,b,c,d)
+    # pack into byte string
 		[n].pack("B*")
 	end
 
