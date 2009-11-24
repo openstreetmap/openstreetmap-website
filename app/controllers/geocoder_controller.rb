@@ -242,7 +242,7 @@ class GeocoderController < ApplicationController
       type = place.attributes["type"].to_s
       name = place.attributes["display_name"].to_s
       min_lat,max_lat,min_lon,max_lon = place.attributes["boundingbox"].to_s.split(",")
-      prefix = t "geocoder.search_osm_nominatim.prefix_#{type}", :default => type.gsub("_", " ").capitalize
+      prefix = t "geocoder.search_osm_nominatim.prefix.#{klass}.#{type}", :default => type.gsub("_", " ").capitalize
 
       @results.push({:lat => lat, :lon => lon,
                      :min_lat => min_lat, :max_lat => max_lat,
