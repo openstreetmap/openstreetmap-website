@@ -239,15 +239,10 @@ class GeocoderController < ApplicationController
       lat = place.attributes["lat"].to_s
       lon = place.attributes["lon"].to_s
       klass = place.attributes["class"].to_s
-      type = place.attributes["type"].to_s.gsub("_", " ")
+      type = place.attributes["type"].to_s
       name = place.attributes["display_name"].to_s
       min_lat,max_lat,min_lon,max_lon = place.attributes["boundingbox"].to_s.split(",")
-
-      if klass == "highway" and ["trunk","primary","secondary","tertiary","unclassified","residential"].include?(type)
-        prefix = t 'geocoder.search_osm_nominatim.prefix_highway', :type => type.capitalize
-      else
-        prefix = t 'geocoder.search_osm_nominatim.prefix_other', :type => type.capitalize
-      end
+      prefix = t "geocoder.search_osm_nominatim.prefix_#{type}", :default => type.gsub("_", " ").capitalize
 
       @results.push({:lat => lat, :lon => lon,
                      :min_lat => min_lat, :max_lat => max_lat,
