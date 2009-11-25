@@ -52,6 +52,7 @@ Rails::Initializer.run do |config|
   # note: this should be changed to 0.3.6 as soon as it's released, as this has fixes for
   # uploading multipart documents.
   config.gem 'oauth', :version => '>=0.2.1'
+  config.gem 'httpclient'
 
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.

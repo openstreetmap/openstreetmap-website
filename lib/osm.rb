@@ -448,12 +448,20 @@ module OSM
 
   def self.IPLocation(ip_address)
     Timeout::timeout(4) do
-      Net::HTTP.start('api.hostip.info') do |http|
-        country = http.get("/country.php?ip=#{ip_address}").body
-        country = "GB" if country == "UK"
-        country = Country.find_by_code(country)
-        return { :minlon => country.min_lon, :minlat => country.min_lat, :maxlon => country.max_lon, :maxlat => country.max_lat }
+      ipinfo = Quova::IpInfo.new(ip_address)
+
+      if ipinfo.status == Quova::Success then
+        country = ipinfo.country_code
+      else
+        Net::HTTP.start('api.hostip.info') do |http|
+          country = http.get("/country.php?ip=#{ip_address}").body
+          country = "GB" if country == "UK"
+        end
       end
+
+      country = Country.find_by_code(country.upcase)
+
+      return { :minlon => country.min_lon, :minlat => country.min_lat, :maxlon => country.max_lon, :maxlat => country.max_lat }
     end
 
     return nil
