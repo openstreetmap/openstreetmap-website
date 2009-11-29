@@ -2,6 +2,7 @@
 # Exported from translatewiki.net
 # Export driver: syck
 # Author: Bellazambo
+# Author: Davalv
 it: 
   activerecord: 
     attributes: 
@@ -76,6 +77,9 @@ it:
       changeset: "Gruppo di modifiche: {{id}}"
       changesetxml: gruppo di modifiche XML
       download: Scarica il {{changeset_xml_link}} oppure le {{osmchange_xml_link}}
+      feed: 
+        title: Gruppo di modifiche {{id}}
+        title_comment: Gruppo di modifiche {{id}} - {{comment}}
       osmchangexml: modificheOsm XML
       title: Gruppo di modifiche
     changeset_details: 
@@ -89,7 +93,16 @@ it:
       has_ways: "Possiede i seguenti {{count}} percorsi:"
       no_bounding_box: Per questo gruppo di modifiche non è stato memorizzato alcun riquadro di selezione.
       show_area_box: Mostra il riquadro dell'area
+    changeset_navigation: 
+      all: 
+        next_tooltip: Gruppo di modifiche successivo
+        prev_tooltip: Gruppo di modifiche precedente
+      user: 
+        name_tooltip: Visualizza le modifiche di {{user}}
+        next_tooltip: Modifica successiva di {{user}}
+        prev_tooltip: Modifica precedente di {{user}}
     common_details: 
+      changeset_comment: "Commento:"
       edited_at: "Modificato il:"
       edited_by: "Modificato da:"
       in_changeset: "Nel gruppo di modifiche:"
@@ -108,6 +121,7 @@ it:
     node: 
       download: "{{download_xml_link}} oppure {{view_history_link}}"
       download_xml: Scarica XML
+      edit: modifica
       node: Nodo
       node_title: "Nodo: {{node_name}}"
       view_history: visualizza lo storico
@@ -118,10 +132,12 @@ it:
       download: "{{download_xml_link}} oppure {{view_details_link}}"
       download_xml: Scarica XML
       node_history: Storico del nodo
+      node_history_title: "Storico del nodo: {{node_name}}"
       view_details: visualizza i dettagli
     not_found: 
       sorry: Spiacenti, non è stato possibile trovare il {{type}} con l'identificativo {{id}}.
       type: 
+        changeset: gruppo di modifiche
         node: nodo
         relation: relation
         way: way
@@ -138,13 +154,23 @@ it:
       members: "Membri:"
       part_of: "Parte di:"
     relation_history: 
+      download: "{{download_xml_link}} oppure {{view_details_link}}"
+      download_xml: Scarica XML
       relation_history: Storico della relazione
       relation_history_title: "Storico della relazione: {{relation_name}}"
+      view_details: visualizza dettagli
+    relation_member: 
+      entry_role: "{{type}} {{name}} come {{role}}"
+      type: 
+        node: Nodo
+        relation: Relazione
+        way: Percorso
     start: 
       manually_select: Seleziona manualmente un'area differente
       view_data: Visualizza i dati per la visualizzazione corrente della mappa
     start_rjs: 
       data_frame_title: Dati
+      data_layer_name: Dati
       details: Dettagli
       drag_a_box: Tracciare un riquadro sulla mappa per selezionare un'area
       edited_by_user_at_timestamp: Modificato da [[user]] il [[timestamp]]
@@ -154,7 +180,21 @@ it:
       loading: Caricamento in corso...
       manually_select: Seleziona manualmente un'area differente
       object_list: 
+        api: Ottieni quest'area dalle API
+        back: Visualizza la lista degli oggetti
         details: Dettagli
+        heading: Lista degli oggetti
+        history: 
+          type: 
+            node: Nodo [[id]]
+            way: Percorso [[id]]
+        selected: 
+          type: 
+            node: Nodo [[id]]
+            way: Percorso [[id]]
+        type: 
+          node: Nodo
+          way: Percorso
       private_user: utente privato
       show_history: Visualizza storico
       unable_to_load_size: "Impossibile caricare: la dimensione del riquadro di selezione di [[bbox_size]] è troppo grande (deve essere minore di {{max_bbox_size}})"
@@ -165,6 +205,7 @@ it:
     way: 
       download: "{{download_xml_link}} oppure {{view_history_link}}"
       download_xml: Scarica XML
+      edit: modifica
       view_history: visualizza lo storico
       way: Percorso
       way_title: "Percorso: {{way_name}}"
@@ -190,21 +231,35 @@ it:
       still_editing: (ancora in modifica)
       view_changeset_details: Visualizza i dettagli del gruppo di modifiche
     changeset_paging_nav: 
-      showing_page: Visualizzata la pagina
+      showing_page: Visualizzata la pagina {{page}}
     changesets: 
       area: Area
       comment: Commento
       id: ID
       saved_at: Salvato il
       user: Utente
+    list: 
+      description: Modifiche recenti
+      description_bbox: Gruppi di modifiche all'interno di {{bbox}}
+      description_user: Modifiche dell'utente {{user}}
+      description_user_bbox: Gruppi di modifiche dell'utente {{user}} all'interno di {{bbox}}
+      heading_bbox: Gruppi di modifiche
+      heading_user: Gruppi di modifiche
+      heading_user_bbox: Gruppi di modifiche
+      title: Gruppi di modifiche
+      title_bbox: Modifiche all'interno di {{bbox}}
+      title_user_bbox: Modifiche dell'utente {{user}} all'interno di {{bbox}}
   diary_entry: 
     diary_comment: 
       comment_from: Commento di {{link_user}} il {{comment_created_at}}
+      confirm: Conferma
+      hide_link: Nascondi questo commento
     diary_entry: 
       comment_count: 
         one: 1 commento
         other: "{{count}} commenti"
       comment_link: Commento su questa voce
+      confirm: Conferma
       edit_link: Modifica questa voce
       posted_by: Inviato da {{link_user}} il {{created}} in {{language_link}}
       reply_link: Rispondi a questa voce
@@ -235,8 +290,10 @@ it:
       heading: "Nessuna voce con l'identificativo: {{id}}"
     no_such_user: 
       body: Spiacenti, non c'è alcun utente con il nome {{user}}. Controllare la digitazione, oppure potrebbe essere che il collegamento che si è seguito sia errato.
+      title: Nessun utente
     view: 
       leave_a_comment: Lascia un commento
+      login: Login
       save_button: Salva
       title: Diari degli utenti | {{user}}
       user_title: Diario dell'utente {{user}}
@@ -272,6 +329,19 @@ it:
       manually_select: Seleziona manualmente un'area differente
       view_larger_map: Visualizza una mappa più ampia
   geocoder: 
+    direction: 
+      east: est
+      north: nord
+      north_east: nord-est
+      north_west: nord-ovest
+      south: sud
+      south_east: sud-est
+      south_west: sud-ovest
+      west: ovest
+    distance: 
+      one: circa 1km
+      other: circa {{count}}km
+      zero: meno di 1km
     results: 
       no_results: Nessun risultato
     search: 
@@ -282,14 +352,113 @@ it:
         osm_namefinder: Risultati da <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>
         uk_postcode: Risultati da <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Risultati da <a href="http://geocoder.us/">Geocoder.us</a>
+    search_osm_nominatim: 
+      prefix: 
+        amenity: 
+          airport: Aeroporto
+          bank: Banca
+          bar: Bar
+          bicycle_parking: Parcheggio per biciclette
+          bicycle_rental: Noleggio biciclette
+          cafe: Cafe
+          car_rental: Autonoleggio
+          car_wash: Autolavaggio
+          casino: Casinò
+          cinema: Cinema
+          courthouse: Tribunale
+          crematorium: Crematorio
+          dentist: Dentista
+          dormitory: Dormitorio
+          embassy: Ambasciata
+          fast_food: Fast Food
+          fuel: Stazione di rifornimento
+          grave_yard: Cimitero
+          hospital: Ospedale
+          hotel: Hotel
+          ice_cream: Gelateria
+          library: Biblioteca
+          parking: Parcheggio
+          pharmacy: Farmacia
+          place_of_worship: Luogo di culto
+          police: Polizia
+          post_box: Cassetta delle lettere
+          post_office: Ufficio postale
+          prison: Prigione
+          pub: Pub
+          public_building: Edificio pubblico
+          restaurant: Ristorante
+          sauna: Sauna
+          supermarket: Supermercato
+          taxi: Taxi
+          telephone: Telefono pubblico
+          theatre: Teatro
+          townhall: Municipio
+          university: Università
+          vending_machine: Distributore automatico
+          veterinary: Veterinario
+          wifi: Punto di accesso WiFi
+        building: 
+          church: Chiesa
+          dormitory: Dormitorio
+        highway: 
+          bus_stop: Fermata autobus
+          steps: Scala
+        historic: 
+          archaeological_site: Sito archeologico
+          castle: Castello
+          church: Chiesa
+          monument: Monumento
+          museum: Museo
+        leisure: 
+          miniature_golf: Minigolf
+        natural: 
+          bay: Baia
+          beach: Spiaggia
+          coastline: Linea di costa
+          geyser: Geyser
+          glacier: Ghiacciaio
+          island: Isola
+          volcano: Vulcano
+        place: 
+          airport: Aeroporto
+          island: Isola
+          postcode: CAP
+          sea: Mare
+        shop: 
+          bakery: Panetteria
+          books: Libreria
+          butcher: Macellaio
+          car: Concessionaria
+          dry_cleaning: Lavasecco
+          estate_agent: Agenzia immobiliare
+          florist: Fioraio
+          food: Alimentari
+          greengrocer: Fruttivendolo
+          grocery: Fruttivendolo
+          insurance: Assicurazioni
+          jewelry: Gioielleria
+          laundry: Lavanderia
+          optician: Ottico
+          supermarket: Supermercato
+          travel_agency: Agenzia di viaggi
+        tourism: 
+          alpine_hut: Rifugio alpino
+          bed_and_breakfast: Bed and Breakfast
+          hostel: Ostello
+          hotel: Hotel
+          museum: Museo
+          zoo: Zoo
   layouts: 
     donate: Supporta OpenStreetMap {{link}} al fondo destinato all'aggiornamento dell'hardware.
     donate_link_text: donando
     edit: Modifica
     export: Esporta
+    export_tooltip: Esporta i dati della mappa
     gps_traces: Tracciati GPS
+    gps_traces_tooltip: Gestione tracciati
     help_wiki: Aiuto &amp; Wiki
     history: Storico
+    history_tooltip: Storico delle modifiche
     home: posizione iniziale
     inbox: in arrivo ({{count}})
     intro_1: OpenStreetMap è una mappa liberamente modificabile dell'intero pianeta. E' fatta da persone come te.
@@ -297,6 +466,7 @@ it:
     intro_3: L'hosting di OpenStreetMap è supportato gentilmente dalla {{ucl}} e {{bytemark}}.
     log_in: entra
     logout: esci
+    logout_tooltip: Esci
     make_a_donation: 
       text: Fai una donazione
     news_blog: Blog delle notizie
@@ -314,6 +484,8 @@ it:
     edit: Modifica
     view: Visualizza
   message: 
+    delete: 
+      deleted: Messaggio eliminato
     inbox: 
       date: Data
       from: Da
@@ -328,6 +500,7 @@ it:
       as_read: Messaggio marcato come letto
       as_unread: Messaggio marcato come non letto
     message_summary: 
+      delete_button: Elimina
       read_button: Marca come letto
       reply_button: Rispondi
       unread_button: Marca come non letto
@@ -365,14 +538,42 @@ it:
       title: Leggi messaggio
       to: A
       unread_button: Marca come non letto
+    sent_message_summary: 
+      delete_button: Elimina
   notifier: 
     diary_comment_notification: 
       footer: Puoi anche leggere il commento su {{readurl}} e puoi commentare su {{commenturl}} oppure rispondere su {{replyurl}}
       header: "{{from_user}} ha commentato la tua recente voce del diario OpenStreetMap con l'oggetto {{subject}}:"
       hi: Salve {{to_user}},
+    email_confirm: 
+      subject: "[OpenStreetMap] Conferma il tuo indirizzo email"
+    email_confirm_html: 
+      greeting: Ciao,
+    email_confirm_plain: 
+      greeting: Ciao,
     friend_notification: 
       had_added_you: "{{user}} ti ha aggiunto come suo amico su OpenStreetMap."
       see_their_profile: Puoi vedere il loro profilo su {{userurl}} e aggiungerli anche come amici, se lo si desidera.
+    gpx_notification: 
+      and_no_tags: e nessuna etichetta.
+      and_the_tags: "e le seguenti etichette:"
+      failure: 
+        failed_to_import: "fallito nell'importazione. Questo è l'errore:"
+        more_info_1: Ulteriori informazioni sulle importazioni GPX fallite e come evitarle
+        more_info_2: "possono essere trovate su:"
+        subject: "[OpenStreetMap] Importazione GPX fallita"
+      greeting: Ciao,
+      success: 
+        loaded_successfully: caricato con successo con {{trace_points}} dei possibili {{possible_points}} punti.
+        subject: "[OpenStreetMap] Importazione GPX completata con successo"
+      with_description: con la descrizione
+      your_gpx_file: Assomiglia al tuo file GPX
+    lost_password_html: 
+      greeting: Ciao,
+    lost_password_plain: 
+      greeting: Ciao,
+    message_notification: 
+      hi: Ciao {{to_user}},
     signup_confirm_html: 
       click_the_link: Se questo qualcuno sei tu, benvenuto! Clicca sul collegamento sottostante per confermare il tuo profilo ed avere ulteriori informazioni su OpenStreetMap.
       current_user: Una lista degli utenti attuali nelle categorie, basate sul luogo in cui essi operano, è disponibile su <a href="http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region">Category:Users_by_geographical_region</a>.
@@ -394,11 +595,28 @@ it:
       hopefully_you: Qualcuno (si spera tu) vuole creare un profilo
       introductory_video: "Puoi guardare un video introduttivo su OpenStreetMap qui:"
       more_videos: "Ci sono ulteriori video qui:"
-      opengeodata: "OpenGeoData.org è il blog di OpenStreetMap, che mette a disposizione anche dei podcast:"
+      opengeodata: "OpenGeoData.org è il blog del fondatore di OpenStreetMap, Steve Coast, che mette a disposizione anche dei podcast:"
       the_wiki: "Puoi avere altre informazioni su OpenStreetMap sul wiki:"
       user_wiki_1: E' consigliato creare una pagina utente sul wiki, che includa delle etichette di categoria
       user_wiki_2: che si riferiscano al luogo in si opera, come ad esempio [[Category:Users_in_Friuli-Venezia_Giulia]].
       wiki_signup: "Ci si può anche iscrivere al wiki di OpenStreetMap a:"
+  oauth_clients: 
+    edit: 
+      submit: Modifica
+    form: 
+      allow_read_prefs: leggi le sue preferenze utente.
+      allow_write_api: modifica la mappa.
+      allow_write_gpx: carica tracciati GPS.
+      name: Nome
+      required: Richiesto
+    index: 
+      revoke: Revoca!
+    show: 
+      allow_read_gpx: leggi i loro tracciati GPS privati.
+      allow_write_api: modifica la mappa.
+      allow_write_gpx: carica tracciati GPS.
+      allow_write_prefs: modifica le sue preferenze utente.
+      edit: Modifica dettagli
   site: 
     edit: 
       anon_edits_link_text: Leggi il perché.
@@ -418,6 +636,9 @@ it:
       permalink: Permalink
     key: 
       map_key: Legenda
+      table: 
+        entry: 
+          cemetery: Cimitero
     search: 
       search: Cerca
       search_help: "esempi: 'Trieste', 'Via Dante Alighieri, Trieste', 'CB2 5AQ', oppure 'post offices near Trieste' <a href='http://wiki.openstreetmap.org/wiki/Search'>altri esempi...</a>"
@@ -434,14 +655,21 @@ it:
       scheduled_for_deletion: Tracciato in attesa di essere eliminato
     edit: 
       description: "Descrizione:"
+      download: scarica
       edit: modifica
       filename: "Nome file:"
+      heading: Modifica al tracciato {{name}}
+      map: mappa
       owner: "Proprietario:"
       points: "Punti:"
       save_button: Salva modifiche
       start_coord: "Coordinata iniziale:"
       tags: "Etichette:"
+      tags_help: delimitato da virgola
+      title: Modifica al tracciato {{name}}
       uploaded_at: "Caricato il:"
+      visibility: "Visibilità:"
+      visibility_help: che cosa significa questo?
     list: 
       public_traces: Tracciati GPS pubblici
       public_traces_from: Tracciati GPS pubblici di {{user}}
@@ -451,6 +679,8 @@ it:
       made_public: Tracciato reso pubblico
     no_such_user: 
       body: Spiacenti, non c'è alcun utente con il nome {{user}}. Controllare la digitazione, oppure potrebbe essere che il collegamento che si è seguito sia errato.
+      heading: L'utente {{user}} non esiste
+      title: Nessun utente
     trace: 
       ago: "{{time_in_words_ago}} fa"
       by: da
@@ -469,8 +699,11 @@ it:
       description: Descrizione
       help: Aiuto
       tags: Etichette
+      tags_help: delimitato da virgola
       upload_button: Carica
       upload_gpx: Carica file GPX
+      visibility: Visibilità
+      visibility_help: che cosa significa questo?
     trace_header: 
       see_all_traces: Vedi tutti i tracciati
       see_just_your_traces: Vedi solo i tuoi tracciati, o carica un tracciato
@@ -496,8 +729,15 @@ it:
       points: "Punti:"
       start_coordinates: "Coordinata iniziale:"
       tags: Etichette
+      title: Visualizzazione tracciato {{name}}
       trace_not_found: Tracciato non trovato!
       uploaded: "Caricato il:"
+      visibility: "Visibilità:"
+    visibility: 
+      identifiable: Identificabile (visualizzato nella lista dei tracciati come identificabile, punti ordinati con marcature temporali)
+      private: Privato (condiviso solamente come anonimo, punti non ordinati)
+      public: Pubblico (visualizzato nella lista dei tracciati come anonimo, punti non ordinati)
+      trackable: Tracciabile (soltanto condiviso come anonimo, punti ordinati con marcature temporali)
   user: 
     account: 
       email never displayed publicly: (mai visualizzato pubblicamente)
@@ -518,6 +758,9 @@ it:
         enabled link: http://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits
         enabled link text: cos'è questo?
         heading: "Modifiche pubbliche:"
+      public editing note: 
+        heading: Modifica pubblica
+        text: Al momento le tue modifiche sono anonime e le persone non possono inviarti messaggi o vedere la tua posizione. Per rendere visibili le tue modifiche e per permettere agli altri utenti di contattarti tramite il sito, clicca sul pulsante sotto. <b>Dalla versione 0.6 delle API, soltanto gli utenti pubblici possono modificare i dati della mappa</b>. (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">scopri perché</a>).<ul><li>Il tuo indirizzo email non sarà reso pubblico.</li><li>Questa decisione non può essere revocata e tutti i nuovi utenti sono ora pubblici in modo predefinito.</li></ul>
       return to profile: Ritorna al profilo
       save changes button: Salva modifiche
       title: Modifica profilo
@@ -534,6 +777,8 @@ it:
       heading: Conferma una variazione di indirizzo email
       press confirm button: Premere sul pulsante di conferma sottostante per confermare il nuovo indirizzo email.
       success: L'indirizzo email è stato confermato, grazie per l'iscrizione!
+    filter: 
+      not_an_administrator: Bisogna essere amministratori per poter eseguire questa azione.
     friend_map: 
       nearby mapper: "Mappatore vicino: [[nearby_user]]"
       your location: Propria posizione
@@ -553,6 +798,7 @@ it:
     lost_password: 
       email address: "Indirizzo email:"
       heading: Password dimenticata?
+      help_text: Inserire l'indirizzo email che si è utilizzato per l'iscrizione, a cui verrà inviato un collegamento che permetterà la reimpostazione della propria password.
       new password button: Spediscimi una nuova password
       notice email cannot find: Spiacenti, ma non è possibile trovare l'indirizzo email.
       notice email on way: Siamo spiacenti che tu l'abbia persa :-( ma una email ti è stata spedita in modo che tu la possa presto reimpostare.
@@ -566,6 +812,7 @@ it:
       confirm password: "Conferma password:"
       contact_webmaster: Si prega di contattare il <a href="mailto:webmaster@openstreetmap.org">webmaster</a> affinchè faccia in modo di creare un profilo. Tenteremo di soddisfare la richiesta il più rapidamente possibile.
       display name: "Nome visualizzato:"
+      display name description: Il proprio nome utente visualizzato pubblicamente. Può essere modificato più tardi nelle preferenze.
       email address: "Indirizzo email:"
       fill_form: Riempi il modulo e noi ti invieremo velocemente una email per attivare il tuo profilo.
       flash create success message: L'utente è stato creato con successo. Controllare la propria email per conferma, e si sarà in grado di mappare immediatamente :-)<br /><br />Si ricorda che non si sarà in grado di effettuare l'accesso finché non si sarà ricevuta e confermata la propria email.<br /><br />Se si utilizza un sistema antispam che spedisce richieste di conferma allora assicurarsi di accreditare l'indirizzo webmaster@openstreetmap.org altrimenti non siamo in grado di rispondere ad alcuna richiesta di conferma.
@@ -578,26 +825,46 @@ it:
       title: Crea profilo
     no_such_user: 
       body: Spiacenti, non c'è alcun utente con il nome {{user}}. Controllare la digitazione, oppure potrebbe essere che il collegamento che si è seguito sia errato.
+      heading: L'utente {{user}} non esiste
+      title: Nessun utente
     remove_friend: 
       not_a_friend: "{{name}} non è uno dei tuoi amici."
       success: "{{name}} è stato rimosso dai tuoi amici."
     reset_password: 
+      confirm password: "Conferma password:"
+      flash changed: La propria password è stata modificata.
       flash token bad: Non è stato possibile trovare il codice. Controllare l'indirizzo URL.
+      heading: Reimposta password per {{user}}
+      password: "Password:"
+      reset: Reimposta password
       title: reimposta la password
     set_home: 
       flash success: Posizione personale salvata con successo
     view: 
+      activate_user: attiva questo utente
       add as friend: aggiungi come amico
       add image: Aggiungi immagine
       ago: ({{time_in_words_ago}} fa)
+      block_history: visualizza i blocchi ricevuti
+      blocks by me: blocchi applicati da me
+      blocks on me: blocchi su di me
       change your settings: modifica le impostazioni personali
+      confirm: Conferma
+      create_block: blocca questo utente
+      created from: "Creato da:"
+      deactivate_user: disattiva questo utente
       delete image: Elimina immagine
+      delete_user: elimina questo utente
       description: Descrizione
       diary: diario
       edits: modifiche
+      email address: "Indirizzo email:"
+      hide_user: nascondi questo utente
       if set location: Se si imposta una propria posizione, una bella mappa ed altre informazioni compariranno di seguito. E' possibile impostare la propria posizione sulla pagina delle {{settings_link}}.
       km away: distante {{count}} km
+      m away: "{{count}}m di distanza"
       mapper since: "Mappatore dal:"
+      moderator_history: visualizza i blocchi applicati
       my diary: diario personale
       my edits: modifiche personali
       my settings: impostazioni personali
@@ -608,10 +875,80 @@ it:
       no home location: Non è stato impostato alcun luogo.
       no nearby users: Non c'è ancora alcun utente che ammette di mappare nelle vicinanze.
       remove as friend: rimuovi come amico
+      role: 
+        administrator: Questo utente è un amministratore
+        grant: 
+          administrator: Assegna l'accesso come amministratore
+          moderator: Assegna l'accesso come moderatore
+        moderator: Questo utente è un moderatore
+        revoke: 
+          administrator: Revoca l'accesso come amministratore
+          moderator: Revoca l'accesso come moderatore
       send message: spedisci messaggio
       settings_link_text: impostazioni
       traces: tracciati
+      unhide_user: mostra questo utente
       upload an image: Carica una immagine
       user image heading: Immagine dell'utente
       user location: Luogo dell'utente
       your friends: Amici personali
+  user_block: 
+    blocks_on: 
+      title: Blocchi su {{name}}
+    edit: 
+      back: Visualizza tutti i blocchi
+      heading: Modifica del blocco su {{name}}
+      submit: Aggiorna blocco
+      title: Modifica del blocco su {{name}}
+    index: 
+      empty: Non è stato ancora applicato alcun blocco.
+      heading: Lista dei blocchi dell'utente
+      title: Blocchi dell'utente
+    new: 
+      back: Visualizza tutti i blocchi
+      heading: Creazione del blocco su {{name}}
+      needs_view: L'utente deve entrare prima che questo blocco sia cancellato.
+      submit: Crea blocco
+      title: Creazione del blocco su {{name}}
+      tried_waiting: Ho dato una ragionevole quantità di tempo all'utente per rispondere a queste comunicazioni.
+    not_found: 
+      back: Ritorna all'indice
+    partial: 
+      confirm: Sei sicuro?
+      creator_name: Autore
+      display_name: Utente bloccato
+      edit: Modifica
+      not_revoked: (non revocato)
+      reason: Motivo del blocco
+      revoke: Revoca!
+      revoker_name: Revocato da
+      show: Mostra
+      status: Stato
+    revoke: 
+      flash: Questo blocco è stato revocato.
+      revoke: Revoca!
+      time_future: Questo blocco terminerà in {{time}}.
+    show: 
+      edit: Modifica
+      show: Mostra
+      status: Stato
+    update: 
+      success: Blocco aggiornato.
+  user_role: 
+    filter: 
+      already_has_role: L'utente possiede già il ruolo {{role}}.
+      doesnt_have_role: L'utente non possiede il ruolo {{role}}.
+      not_a_role: La stringa `{{role}}' non è un ruolo valido.
+      not_an_administrator: Solo gli amministratori possono gestire i ruoli degli utenti, e tu non sei un amministratore.
+    grant: 
+      are_you_sure: Si è sicuri di voler assegnare il ruolo `{{role}}' all'utente `{{name}}'?
+      confirm: Conferma
+      fail: Impossibile assegnare il ruolo `{{role}}' all'utente `{{name}}'. Si prega di controllare che l'utente ed il ruolo siano entrambi validi.
+      heading: Conferma l'assegnazione del ruolo
+      title: Conferma l'assegnazione del ruolo
+    revoke: 
+      are_you_sure: Si è sicuri di voler revocare il ruolo `{{role}}' dall'utente `{{name}}'?
+      confirm: Conferma
+      fail: Impossibile revocare il ruolo `{{role}}' dall'utente `{{name}}'. Si prega di controllare che utente e ruolo siano entrambi validi.
+      heading: Conferma la revoca del ruolo
+      title: Conferma la revoca del ruolo
