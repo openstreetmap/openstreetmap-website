@@ -45,8 +45,13 @@ eu:
   browse: 
     changeset: 
       download: "{{changeset_xml_link}} edo {{osmchange_xml_link}} jaitsi"
+    changeset_details: 
+      closed_at: "Noiz itxita:"
+      created_at: "Noiz sortua:"
     common_details: 
       changeset_comment: "Iruzkin:"
+      edited_at: "Noiz aldatuta:"
+      edited_by: "Nork aldatuta:"
       version: "Bertsio:"
     containing_relation: 
       entry: "{{relation_name}} erlazioa"
@@ -58,6 +63,7 @@ eu:
       download_xml: XML jaitsi
       edit: aldatu
       node: Nodo
+      node_title: "{{node_name}} nodoa"
       view_history: historia ikusi
     node_details: 
       coordinates: "Koordenatuak:"
@@ -73,6 +79,7 @@ eu:
       download: "{{download_xml_link}} edo {{view_history_link}}"
       download_xml: XML jaitsi
       relation: Erlazio
+      relation_title: "{{relation_name}} erlazioa"
       view_history: historia ikusi
     relation_history: 
       download: "{{download_xml_link}} edo {{view_details_link}}"
@@ -87,6 +94,14 @@ eu:
       data_layer_name: Datuak
       loading: Kargatzen...
       object_list: 
+        history: 
+          type: 
+            node: "[[id]]. nodoa"
+            way: "[[id]]. bidea"
+        selected: 
+          type: 
+            node: "[[id]]. nodoa"
+            way: "[[id]]. bidea"
         type: 
           node: Nodo
           way: Bide
@@ -100,6 +115,7 @@ eu:
       edit: aldatu
       view_history: historia ikusi
       way: Bide
+      way_title: "{{way_name}} bidea"
     way_details: 
       nodes: "Nodoak:"
     way_history: 
@@ -107,15 +123,19 @@ eu:
       download_xml: XML jaitsi
   changeset: 
     changeset: 
+      anonymous: Anonimoa
       big_area: (handia)
     changeset_paging_nav: 
       next: Hurrengoa &raquo;
       previous: "&laquo; Aurrekoa"
+    changesets: 
+      saved_at: Noiz gordeta
   diary_entry: 
     diary_entry: 
       comment_count: 
         one: iruzkin bat
         other: "{{count}} iruzkin"
+      confirm: Berretsi
     edit: 
       body: "Testua:"
       language: "Hizkuntza:"
@@ -170,6 +190,7 @@ eu:
       prefix: 
         amenity: 
           airport: Aireportu
+          auditorium: Entzunareto
           bank: Banku
           bar: Taberna
           brothel: Putetxe
@@ -182,12 +203,16 @@ eu:
           club: Diskoteka
           crematorium: Errauste labe
           dentist: Dentista
+          drinking_water: Edateko ur
           driving_school: Autoeskola
           embassy: Enbaxada
           ferry_terminal: Ferry terminal
+          fountain: Iturri
           grave_yard: Hilerri
           hospital: Ospitalea
+          hotel: Hotel
           ice_cream: Izozkiak
+          kindergarten: Haurtzaindegi
           library: Liburutegia
           market: Merkatu
           nightclub: Gau-klub
@@ -208,6 +233,7 @@ eu:
           studio: Estudio
           supermarket: Supermerkatu
           taxi: Taxi
+          telephone: Telefono publiko
           theatre: Antzokia
           toilets: Komunak
           townhall: Udaletxe
@@ -226,6 +252,10 @@ eu:
         highway: 
           bus_stop: Autobus-geraleku
           footway: Oinezkoen bide
+          gate: Ate
+          motorway: Autobide
+          platform: Nasa
+          primary: Lehen mailako errepide
           primary_link: Errepide nagusi
           residential: Bizileku
           road: Errepide
@@ -233,6 +263,7 @@ eu:
           secondary_link: Bigarren mailako errepide
           steps: Eskailera-mailak
           tertiary: Hirugarren mailako errepide
+          track: Pista
         historic: 
           archaeological_site: Aztarnategi arkeologiko
           building: Eraikina
@@ -255,6 +286,7 @@ eu:
           railway: Trenbide
           reservoir: Urtegi
         leisure: 
+          beach_resort: Hondartza konplexu
           garden: Lorategi
           golf_course: Golf-zelai
           ice_rink: Izotz-pista
@@ -276,8 +308,10 @@ eu:
           island: Irla
           mud: Lohi
           peak: Gailur
+          point: Puntu
           reef: Arrezife
           river: Ibai
+          scree: Harritza
           shoal: Hondar-banku
           tree: Zuhaitza
           valley: Haran
@@ -311,11 +345,16 @@ eu:
           books: Liburudenda
           butcher: Harategi
           chemist: Farmazia
+          clothes: Arropa denda
           confectionery: Gozotegi
+          estate_agent: Higiezinen agente
           florist: Loradenda
           furniture: Altzari
           greengrocer: Barazki-saltzaile
           grocery: Janaridenda
+          hairdresser: Ile-apaindegi
+          kiosk: Kiosko
+          laundry: Garbitegi
           mall: Merkataritza-gunea
           market: Merkatu
           shoes: Zapatadenda
@@ -341,6 +380,9 @@ eu:
           zoo: Zoologiko
         waterway: 
           canal: Kanal
+          rapids: Ur-lasterrak
+          river: Ibai
+          waterfall: Ur-jauzi
   javascripts: 
     map: 
       base: 
@@ -351,6 +393,8 @@ eu:
     export: Esportatu
     help_wiki: Laguntza eta Wiki
     inbox: sarrera-ontzia ({{count}})
+    license: 
+      title: OpenStreetMap-eko datuak Creative Commons Aitortu-Partekatu 2.0 Generiko baimen baten mende daude.
     make_a_donation: 
       text: Dohaintza egin
     shop: Denda
@@ -379,8 +423,10 @@ eu:
     new: 
       back_to_inbox: Itzuli sarrera-ontzira
       body: Testua
+      message_sent: Mezua bidalita
       send_button: Bidali
       subject: Gaia
+      title: Bidali mezua
     outbox: 
       date: Data
       inbox: Sarrera-ontzia
@@ -460,7 +506,10 @@ eu:
       download: jaitsi
       edit: aldatu
       map: mapa
+      points: "Puntuak:"
+      save_button: Aldaketak gorde
       tags: "Etiketak:"
+      uploaded_at: "Noiz igota:"
     trace: 
       ago: duela {{time_in_words_ago}}
       count_points: "{{count}} puntu"
@@ -468,6 +517,7 @@ eu:
       edit_map: Mapa aldatu
       map: mapa
       more: gehiago
+      pending: PRIBATUA
       public: PUBLIKOA
       view_map: Mapa ikusi
     trace_form: 
@@ -485,11 +535,13 @@ eu:
       filename: "Fitxategi-izena:"
       map: mapa
       tags: "Etiketak:"
+      uploaded: "Noiz igota:"
       visibility: "Ikuspen:"
   user: 
     account: 
       latitude: "Latitude:"
       longitude: "Longitude:"
+      my settings: Nire aukerak
       public editing: 
         disabled link text: Zergatik ezin dut aldatu?
         enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
@@ -498,11 +550,19 @@ eu:
       public editing note: 
         heading: Aldaketa publikoa
       save changes button: Aldaketak gorde
+    confirm: 
+      button: Berretsi
+    confirm_email: 
+      button: Berretsi
+    friend_map: 
+      nearby mapper: "Hurbileko mapeatzaileak: [[nearby_user]]"
+      your location: Zure kokapena
     login: 
       password: "Pasahitza:"
     lost_password: 
       new password button: Pasahitza berrezarri
     new: 
+      confirm password: "Pasahitza berretsi:"
       email address: "Helbide elektronikoa:"
       password: "Pasahitza:"
       signup: Izena eman
@@ -510,18 +570,23 @@ eu:
     remove_friend: 
       not_a_friend: "{{name}} ez da zure laguna."
     reset_password: 
+      confirm password: "Pasahitza berretsi:"
+      flash changed: Zure pasahitza aldatu da.
       password: "Pasahitza:"
       reset: Pasahitza berrezarri
       title: Pasahitza berrezarri
     view: 
       add image: Irudia gehitu
       ago: (duela {{time_in_words_ago}})
+      confirm: Berretsi
       delete image: Irudia ezabatu
       description: Deskribapen
       edits: aldaketak
       email address: "Helbide elektronikoa:"
       km away: "{{count}} km-tara"
       m away: "{{count}} m-tara"
+      mapper since: "Noiztik mapatzaile:"
+      my settings: nire aukerak
       send message: mezua bidali
       your friends: Zure lagunak
   user_block: 
@@ -534,3 +599,8 @@ eu:
     show: 
       confirm: Ziur zaude?
       edit: Aldatu
+  user_role: 
+    grant: 
+      confirm: Berretsi
+    revoke: 
+      confirm: Berretsi
