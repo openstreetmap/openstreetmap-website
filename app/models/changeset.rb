@@ -56,26 +56,38 @@ class Changeset < ActiveRecord::Base
       p = XML::Parser.string(xml)
       doc = p.parse
 
-      cs = Changeset.new
-
       doc.find('//osm/changeset').each do |pt|
-        if create
-          cs.created_at = Time.now.getutc
-          # initial close time is 1h ahead, but will be increased on each
-          # modification.
-          cs.closed_at = cs.created_at + IDLE_TIMEOUT
-          # initially we have no changes in a changeset
-          cs.num_changes = 0
-        end
-
-        pt.find('tag').each do |tag|
-          cs.add_tag_keyval(tag['k'], tag['v'])
-        end
+        return Changeset.from_xml_node(pt, create)
       end
-    rescue Exception => ex
-      cs = nil
+      raise OSM::APIBadXMLError.new("changeset", xml, "XML doesn't contain an osm/changeset element.")
+    rescue LibXML::XML::Error, ArgumentError => ex
+      raise OSM::APIBadXMLError.new("changeset", xml, ex.message)
+    end
+  end
+  
+  def self.from_xml_node(pt, create=false)
+    cs = Changeset.new
+    if create
+      cs.created_at = Time.now.getutc
+      # initial close time is 1h ahead, but will be increased on each
+      # modification.
+      cs.closed_at = cs.created_at + IDLE_TIMEOUT
+      # initially we have no changes in a changeset
+      cs.num_changes = 0
+    else
+      raise OSM::APIBadXMLError.new("changeset", pt, "ID is required when updating.") if pt['id'].nil?
+      cs.id = pt['id'].to_i
+      # .to_i will return 0 if there is no number that can be parsed.
+      # We want to make sure that there is no id with zero anyway.
+      raise OSM::APIBadUserInput.new("ID of changeset cannot be zero when updating.") if cs.id == 0
     end
 
+    pt.find('tag').each do |tag|
+      raise OSM::APIBadXMLError.new("changeset", pt, "tag is missing key") if tag['k'].nil?
+      raise OSM::APIBadXMLError.new("changeset", pt, "tag is missing value") if tag['v'].nil?
+      cs.add_tag_keyval(tag['k'], tag['v'])
+    end
+    
     return cs
   end
 
@@ -150,6 +162,11 @@ class Changeset < ActiveRecord::Base
 
   def add_tag_keyval(k, v)
     @tags = Hash.new unless @tags
+
+    # duplicate tags are now forbidden, so we can't allow values
+    # in the hash to be overwritten.
+    raise OSM::APIDuplicateTagsError.new("changeset", self.id, k) if @tags.include? k
+
     @tags[k] = v
   end
 

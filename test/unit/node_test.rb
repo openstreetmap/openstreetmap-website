@@ -270,6 +270,18 @@ class NodeTest < ActiveSupport::TestCase
     assert_match /Must specify a string with one or more characters/, message_update.message
   end
   
+  def test_from_xml_no_node
+    no_node = "<osm></osm>"
+    message_create = assert_raise(OSM::APIBadXMLError) {
+      Node.from_xml(no_node, true)
+    }
+    assert_match /XML doesn't contain an osm\/node element/, message_create.message
+    message_update = assert_raise(OSM::APIBadXMLError) {
+      Node.from_xml(no_node, false)
+    }
+    assert_match /XML doesn't contain an osm\/node element/, message_update.message
+  end
+  
   def test_from_xml_no_k_v
     nokv = "<osm><node id='23' lat='12.3' lon='23.4' changeset='12' version='23'><tag /></node></osm>"
     message_create = assert_raise(OSM::APIBadXMLError) {

@@ -28,13 +28,10 @@ class ChangesetController < ApplicationController
 
     cs = Changeset.from_xml(request.raw_post, true)
 
-    if cs
-      cs.user_id = @user.id
-      cs.save_with_tags!
-      render :text => cs.id.to_s, :content_type => "text/plain"
-    else
-      raise OSM::APIBadXMLError.new(Changeset, request.raw_post);
-    end
+    # Assume that Node.from_xml has thrown an exception if there is an error parsing the xml
+    cs.user_id = @user.id
+    cs.save_with_tags!
+    render :text => cs.id.to_s, :content_type => "text/plain"
   end
 
   ##
