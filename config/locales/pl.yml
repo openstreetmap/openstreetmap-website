@@ -73,6 +73,11 @@ pl:
       way: Droga
       way_node: Węzeł drogi
       way_tag: Tag drogi
+  application: 
+    require_cookies: 
+      cookies_needed: Wydaje się, że masz wyłączone Cookies - włącz obsługę cookies w twojej przeglądarce przed kontynuacją.
+    setup_user_auth: 
+      blocked: Twój dostęp do API jest zablokowany. Zaloguj się do interfejsu sieciowego, aby dowiedzieć się więcej.
   browse: 
     changeset: 
       changeset: "Zestaw zmian: {{id}}"
@@ -289,7 +294,18 @@ pl:
       subject: "Temat:"
       title: Edycja wpisu dziennika
       use_map_link: na mapie
+    feed: 
+      all: 
+        description: Ostatnie wpisy od użytkowników OpenStreetMap
+        title: Wpisy OpenStreetMap
+      language: 
+        description: Ostatnie wpisy użytkowników OpenStreetMap w języku {{language_name}}
+        title: Wpisy w języku {{language_name}}
+      user: 
+        description: Ostatnie wpisy od {{user}}
+        title: Wpisy dla {{user}}
     list: 
+      in_language_title: Wpisy w języku {{language}}
       new: Nowy wpis do dziennika
       new_title: Stwórz nowy wpis w Twoim dzienniku użytkownika
       newer_entries: Nowsze wpisy
@@ -303,8 +319,10 @@ pl:
     no_such_entry: 
       body: Niestety nie znaleziono wpisu dziennika / komentarza o id {{id}}, sprawdź pisownię.  Byc może użyłeś(aś) linku który był niepoprawny.
       heading: "Brak wpisu o id: {{id}}"
+      title: Nie ma takiego wpisu
     no_such_user: 
       body: Niestety nie znaleziono użytkownika o nazwie {{user}}, sprawdź pisownię.  Być może użyłeś(aś) linku który był niepoprawny.
+      heading: Użytkownik {{user}} nie istnieje
       title: Nie znaleziono użytkownika
     view: 
       leave_a_comment: Zostaw komentarz
@@ -388,6 +406,7 @@ pl:
         amenity: 
           airport: Lonisko
           arts_centre: Centrum sztuki
+          atm: Bankomat
           auditorium: Audytorium
           bank: Bank
           bar: Bar
@@ -398,13 +417,19 @@ pl:
           bureau_de_change: Kantor
           bus_station: Stacja autobusowa
           cafe: Kawiarnia
+          car_rental: Wynajem samochodów
           car_sharing: Dzielenie się samochodami
+          car_wash: Myjnia samochodowa
+          casino: Kasyno
           cinema: Kino
           clinic: Przychodnia
           club: Klub
           college: Uczelnia
+          community_centre: Centrum społeczności
           courthouse: Sąd
           crematorium: Krematorium
+          dentist: Gabinet dentystyczny
+          doctors: Doktorzy
           dormitory: Bursa
           drinking_water: Źródło wody pitnej
           driving_school: Nauka jazdy
@@ -412,34 +437,47 @@ pl:
           emergency_phone: Telefon alarmowy
           fast_food: Fast Food
           ferry_terminal: Terminal promowy
+          fire_hydrant: Hydrant
+          fire_station: Remiza strażacka
           fountain: Fontanna
           fuel: Stacja benzynowa
           grave_yard: Mniejszy cmentarz
+          gym: Centrum Fitness / Sala Gimnastyczna
           hall: Hala
+          health_centre: Ośrodek zdrowia
+          hospital: Szpital
           hotel: Hotel
           hunting_stand: Stanowisko strzeleckie
           ice_cream: Lodziarnia
           kindergarten: Przedszkole
+          library: Biblioteka
           market: Targowisko
           marketplace: Plac targowy
           mountain_rescue: Ratownictwo górskie
+          nightclub: Klub nocny
           nursery: Żłobek
           nursing_home: Dom opieki
+          office: Biuro
           park: Park
           parking: Parking
+          pharmacy: Apteka
           place_of_worship: Miejsce kultu
           police: Posterunek policji
           post_box: Skrzynka pocztowa
           post_office: Poczta
           preschool: Przedszkole
+          prison: Więzienie
           pub: Pub
           public_building: Budynek publiczny
+          public_market: Rynek publiczny
           reception_area: Recepcja
           recycling: Miejsce recyklingu
           restaurant: Restauracja
           retirement_home: Dom starców
+          sauna: Sauna
           school: Szkoła
           shelter: Schron
+          shop: Sklep
           shopping: Zakupy
           social_club: Klub towarzyski
           studio: Studio
@@ -449,10 +487,46 @@ pl:
           theatre: Teatr
           toilets: Toaleta publiczna
           townhall: Urząd miejski
+          university: Uniwersytet
           vending_machine: Automat do sprzedaży
           veterinary: Chirurgia weterynaryjna
+          village_hall: Urząd gminy
+          waste_basket: Marnowanie koszyka
           wifi: Dostęp do WiFi
           youth_centre: Centrum młodzieżowe
+        boundary: 
+          administrative: Granica administracyjna
+        building: 
+          apartments: Blok mieszkalny
+          block: Budynek bloku
+          bunker: Bunkier
+          chapel: Kaplica
+          church: Kościół
+          city_hall: Ratusz
+          commercial: Budynek handlowy
+          dormitory: Bursa
+          entrance: Wejście do budynku
+          faculty: Budynek prawny
+          farm: Budynek gospodarczy
+          flats: Mieszkania
+          garage: Garaż
+          hall: Hala
+          hospital: Budynek szpitala
+          hotel: Hotel
+          house: Dom
+          industrial: Budynek przemysłowy
+          office: Budynek biurowy
+          public: Budynek publiczny
+          residential: Budynek mieszkalny
+          retail: Budynek detaliczny
+          school: Budynek szkoły
+          shop: Sklep
+          stadium: Stadion
+          store: Składnica
+          terrace: Taras
+          tower: Wieża
+          train_station: Stacja kolejowa
+          university: Budynek uniwersytetu
         highway: 
           bridleway: Droga dla koni
           bus_guideway: Droga dla autobusów
@@ -491,6 +565,59 @@ pl:
           trunk_link: Droga ekspresowa - dojazd
           unclassified: Droga gminna
           unsurfaced: Nierówna droga
+        historic: 
+          archaeological_site: Wykopaliska archeologiczne
+          battlefield: Miejsce historycznej bitwy
+          boundary_stone: Graniczny głaz
+          building: Budynek
+          castle: Zamek
+          church: Kościół
+          house: Dom
+          icon: Ikona
+          manor: Dwór
+          memorial: Mniejszy pomnik
+          mine: Kopalnia
+          monument: Pomnik
+          museum: Muzeum
+          ruins: Ruiny
+          tower: Wieża
+          wayside_cross: Przydrożny krzyż
+          wayside_shrine: Przydrożna kaplica
+          wreck: Wrak
+        landuse: 
+          allotments: Ogródki działkowe
+          basin: Dorzecze
+          brownfield: Grunty poprzemysłowe
+          cemetery: Cmentarz
+          commercial: Obszar handlowo-usługowy
+          conservation: Konserwacja
+          construction: Teren budowy
+          farm: Farma
+          farmland: Grunty rolne
+          farmyard: Podwórze gospodarskie
+          forest: Las
+          grass: Trawa
+          greenfield: Tereny niezagospodarowane
+          industrial: Teren przemysłowy
+          landfill: Wysypisko śmieci
+          meadow: Łąka
+          military: Teren wojskowy
+          mine: Kopalnia
+          mountain: Góra
+          nature_reserve: Rezerwat przyrody
+          park: Park
+          piste: Trasa
+          plaza: Plac
+          quarry: Kamieniołom
+          railway: Teren kolejowy
+          recreation_ground: Ziemia rekreacyjna
+          reservoir: Sztuczny zbiornik wodny
+          residential: Zabudowa mieszkaniowa
+          retail: Handel detaliczny
+          village_green: Park miejski
+          vineyard: Winnica
+          wetland: Tereny podmokłe
+          wood: Puszcza
         leisure: 
           beach_resort: Strzeżona plaża
           common: Błonie
@@ -573,6 +700,100 @@ pl:
           town: Miasteczko
           unincorporated_area: Obszar bez osobowości prawnej
           village: Wieś
+        railway: 
+          abandoned: Dawna linia kolejowa
+          construction: Budowana linia kolejowa
+          disused: Nieczynna trasa kolejowa
+          disused_station: Nieużywana stacja kolejowa
+          funicular: Kolejka linowa
+          halt: Przystanek kolejowy
+          historic_station: Historyczna stacja kolejowa
+          junction: Węzeł Kolejowy
+          level_crossing: Przejazd kolejowy
+          light_rail: Lekka kolej
+          monorail: Kolej jednoszynowa
+          narrow_gauge: Kolej wąskotorowa
+          platform: Peron
+          preserved: Kolej zabytkowa
+          spur: Bocznica kolejowa
+          station: Stacja kolejowa
+          subway: Stacja metra
+          subway_entrance: Wejście na stację metra
+          switch: Zwrotnica
+          tram: Linia tramwajowa
+          tram_stop: Przystanek tramwajowy
+          yard: Jard kolejowy
+        shop: 
+          alcohol: Sklep monopolowy
+          apparel: Sklep odzieżowy
+          art: Sklep z dziełami sztuki
+          bakery: Piekarnia
+          beauty: Salon kosmetyczny
+          beverages: Sklep z napojami
+          bicycle: Sklep rowerowy
+          books: Księgarnia
+          butcher: Rzeźnik
+          car: Sklep samochodowy
+          car_dealer: Salon samochodowy
+          car_parts: Sklep z częściami samochodowymi
+          car_repair: Naprawa samochodów
+          carpet: Sklep z dywanami
+          charity: Sklep miłosny
+          chemist: Drogeria
+          clothes: Sklep odzieżowy
+          computer: Sklep komputerowy
+          confectionery: Cukiernia
+          convenience: Sklep z rzeczami wygodnymi
+          copyshop: Ksero
+          cosmetics: Sklep kosmetyczny
+          department_store: Dom towarowy
+          discount: Sklep z produktami po obniżce
+          doityourself: Sklep budowlany
+          drugstore: Drogeria
+          dry_cleaning: Pralnia chemiczna
+          electronics: Sklep elektroniczny
+          estate_agent: Biuro nieruchomości
+          farm: Sklep gospodarski
+          fashion: Sklep modelarski
+          fish: Sklep rybny
+          florist: Kwiaciarnia
+          food: Sklep spożywczy
+          funeral_directors: Zakłady pogrzebowe
+          furniture: Sklep meblowy
+          gallery: Galeria
+          garden_centre: Centrum ogrodnicze
+          general: Sklep ogólny
+          gift: Sklep z pamiątkami
+          greengrocer: Warzywniak
+          grocery: Sklep spożywczy
+          hairdresser: Fryzjernia
+          hardware: Sklep ze sprzętem
+          hifi: Hi-Fi
+          insurance: Ubezpieczenie
+          jewelry: Sklep z biżuterią
+          kiosk: Kiosk
+          laundry: Pralnia
+          mall: Centrum handlowe
+          market: Targowisko
+          mobile_phone: Sklep z telefonami komórkowymi
+          motorcycle: Sklep z motocyklami
+          music: Sklep muzyczny
+          newsagent: Kiosk
+          optician: Optyk
+          organic: Sklep z produktami organicznymi
+          outdoor: Sklep na wolnym powietrzu
+          pet: Sklep ze zwierzątkami
+          photo: Sklep fotograficzny
+          salon: Salon
+          shoes: Sklep obuwniczy
+          shopping_centre: Centrum handlowe
+          sports: Sklep sportowy
+          stationery: Sklep papierniczy
+          supermarket: Supermarket
+          toys: Sklep zabawkowy
+          travel_agency: Biuro podróży
+          video: Sklep filmowy
+          wine: Winiarnia
         tourism: 
           alpine_hut: Chata Alpejska
           artwork: Sztuka
@@ -594,6 +815,27 @@ pl:
           valley: Dolina
           viewpoint: Punkt widokowy
           zoo: Zoo
+        waterway: 
+          boatyard: Stocznia
+          canal: Kanał
+          connector: Złącze dróg wodnych
+          dam: Tama
+          derelict_canal: Opuszczony kanał
+          ditch: Rów
+          dock: Basen portowy
+          drain: Rów odpływowy
+          lock: Zastawka
+          lock_gate: Śluza
+          mineral_spring: Źródło mineralne
+          mooring: Kotwicowisko
+          rapids: Katarakty
+          river: Rzeka
+          riverbank: Brzeg rzeki
+          stream: Strumień
+          wadi: Starorzecze
+          water_point: Punkt wodny
+          waterfall: Wodospad
+          weir: Jaz
   layouts: 
     donate: Wspomóż Projekt OpenStreetMap {{link}} na Konto Aktualizacji Naszego Sprzętu.
     donate_link_text: dokonując darowizny
@@ -617,18 +859,25 @@ pl:
     intro_1: OpenStreetMap to mapa całego świata którą możesz swobodnie edytować.  Tworzona przez ludzi takich jak Ty.
     intro_2: OpenStreetMap pozwala oglądać, korzystać, i kolaboratywnie tworzyć dane geograficzne z dowolnego miejsca na Ziemi.
     intro_3: Hosting OpenStreetMap jest wspomagany przez {{ucl}} i {{bytemark}}.
+    license: 
+      title: Dane OpenStreetMap są licencjonowane przez Creative Commons Attribution-Share Alike 2.0 Generic License
     log_in: zaloguj się
     log_in_tooltip: Zaloguj się
+    logo: 
+      alt_text: Logo OpenStreetMap
     logout: wyloguj
     logout_tooltip: Wyloguj
     make_a_donation: 
       text: Przekaż darowiznę
+      title: Wspomóż OpenStreetMap za pomocą darowizny pieniężnej
     news_blog: Blog informacyjny
     news_blog_tooltip: Blog z wiadomościami o OpenStreetMap, wolnych danych geograficznych, itp.
     osm_offline: Baza danych OpenStreetMap jest niedostępna na czas ważnych zadań administracyjnych które są w tym momencie wykonywane.
     osm_read_only: Baza danych OpenStreetMap jest w trybie tylko-do-odczytu na czas ważnych zadań administracyjnych które są w tym momencie wykonywane.
     shop: Zakupy
+    shop_tooltip: Sklep z markowymi towarami OpenStreetMap
     sign_up: zarejestruj
+    sign_up_tooltip: Załóż konto, aby edytować
     sotm: Wpadnij na tegoroczną Konferencję OpenStreetMap, The State of the Map, 10-12 Lipca w Amsterdamie!
     tag_line: Swobodna Wiki-Mapa Świata
     user_diaries: Dzienniczki
@@ -665,6 +914,7 @@ pl:
     new: 
       back_to_inbox: Powrót do skrzynki
       body: Treść
+      limit_exceeded: Masz ostatnio wiele wysłanych wiadomości. Proszę poczekać chwilę przed powtórzeniem wysłania.
       message_sent: Wiadomość wysłana
       send_button: Wyślij
       send_message_to: Wyślij nową wiadomość do {{name}}
@@ -673,6 +923,7 @@ pl:
     no_such_user: 
       body: Niestety nie znaleziono użytkownika / wiadomości o tej nazwie lub id
       heading: Nie ma takiego użytkownika / wiadomości
+      title: Nie ma takiego użytkownika lub wiadomości
     outbox: 
       date: Nadano
       inbox: odbiorcza
@@ -768,8 +1019,10 @@ pl:
         notice: Dostęp na zasadach licencji {{license_name}}, prawa autorskie {{project_name}} i jego uczestników.
         project_name: projektu OpenStreetMap
       permalink: Permalink
+      shortlink: Shortlink
     key: 
       map_key: Legenda
+      map_key_tooltip: Klucz mapy dla mapnika renderuje na tym poziomie powiększenia
       table: 
         entry: 
           admin: Granica administracyjna
