@@ -11,6 +11,8 @@ class TraceController < ApplicationController
   before_filter :check_api_writable, :only => [:api_create]
   before_filter :require_allow_read_gpx, :only => [:api_details, :api_data]
   before_filter :require_allow_write_gpx, :only => [:api_create]
+  before_filter :offline_warning, :only => [:mine, :view]
+  before_filter :offline_redirect, :only => [:create, :edit, :delete, :data, :api_data, :api_create]
   around_filter :api_call_handle_error, :only => [:api_details, :api_data, :api_create]
 
   # Counts and selects pages of GPX traces for various criteria (by user, tags, public etc.).
@@ -385,6 +387,14 @@ private
       @user.preferences.create(:k => "gps.trace.visibility", :v => visibility)
     end
     
+  end
+
+  def offline_warning
+    flash.now[:warning] = t 'trace.offline_warning.message' if OSM_STATUS == :gpx_offline
+  end
+
+  def offline_redirect
+    redirect_to :action => :offline if OSM_STATUS == :gpx_offline
   end
 
 end

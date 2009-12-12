@@ -23,6 +23,7 @@ API_VERSION = ENV['OSM_API_VERSION'] || '0.6'
 #   :api_offline - site online but API offline
 #   :database_readonly - database and site in read-only mode
 #   :database_offline - database offline with site in emergency mode
+#   :gpx_offline - gpx storage offline
 #
 OSM_STATUS = :online
 
