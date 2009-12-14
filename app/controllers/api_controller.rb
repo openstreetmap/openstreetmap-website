@@ -144,6 +144,11 @@ class ApiController < ApplicationController
       return
     end
 
+    if param[:restriction] and param[:restriction] != "nodes_only"
+      report_error("The parameter restriction may only take one of the following values: nodes_only")
+      return
+    end
+
     # FIXME um why is this area using a different order for the lat/lon from above???
     @nodes = Node.find_by_area(min_lat, min_lon, max_lat, max_lon, :conditions => {:visible => true}, :include => :node_tags, :limit => APP_CONFIG['max_number_of_nodes']+1)
     # get all the nodes, by tag not yet working, waiting for change from NickB
@@ -169,6 +174,14 @@ class ApiController < ApplicationController
     bounds['maxlat'] = max_lat.to_s
     bounds['maxlon'] = max_lon.to_s
     doc.root << bounds
+
+    # bail out at this stage if user has indicated that he is 
+    # not interested in ways or relations.
+    if params[:restriction] == "nodes_only"
+        response.headers["Content-Disposition"] = "attachment; filename=\"map.osm\""
+        render :text => doc.to_s, :content_type => "text/xml"
+        return
+    end
 
     # get ways
     # find which ways are needed
