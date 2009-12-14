@@ -28,7 +28,7 @@
     
   <td class="<%= cl %> comment">
     <% if changeset.tags['comment'] %>
-      <%= auto_link(h(changeset.tags['comment'])) %>
+      <%= linkify(h(changeset.tags['comment'])) %>
     <% else %>
       <%= t'changeset.changeset.no_comment' %>
     <% end %>
@@ -37,20 +37,18 @@
   <td class="<%= cl %> area">
     <% if changeset.min_lat.nil? %>
       <%= t'changeset.changeset.no_edits' %>
-    <% else 
-      minlon = changeset.min_lon/GeoRecord::SCALE.to_f
-      minlat = changeset.min_lat/GeoRecord::SCALE.to_f
-      maxlon = changeset.max_lon/GeoRecord::SCALE.to_f
-      maxlat = changeset.max_lat/GeoRecord::SCALE.to_f
-    %>
+    <% else %>
+      <%
+        minlon = changeset.min_lon/GeoRecord::SCALE.to_f
+        minlat = changeset.min_lat/GeoRecord::SCALE.to_f
+        maxlon = changeset.max_lon/GeoRecord::SCALE.to_f
+        maxlat = changeset.max_lat/GeoRecord::SCALE.to_f
+      %>
       <a href='/?minlon=<%= minlon %>&minlat=<%= minlat %>&maxlon=<%= maxlon %>&maxlat=<%= maxlat %>&box=yes' title='<%= t'changeset.changeset.show_area_box' %>'><%= format("%0.3f",minlon) -%>,<%= format("%0.3f",minlat) -%>,<%= format("%0.3f",maxlon) -%>,<%= format("%0.3f",maxlat) -%></a>
       <!--<%=changeset.area%>-->
-    <%   if changeset.area > 1500000000000 %>
-      <%= t'changeset.changeset.big_area' %>
-    <%
-         end
-       end
-    %>
+      <% if changeset.area > 1500000000000 %>
+        <%= t'changeset.changeset.big_area' %>
+      <% end %>
+    <% end %>
   </td>
-
 </tr>
