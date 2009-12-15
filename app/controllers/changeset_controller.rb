@@ -28,7 +28,7 @@ class ChangesetController < ApplicationController
 
     cs = Changeset.from_xml(request.raw_post, true)
 
-    # Assume that Node.from_xml has thrown an exception if there is an error parsing the xml
+    # Assume that Changeset.from_xml has thrown an exception if there is an error parsing the xml
     cs.user_id = @user.id
     cs.save_with_tags!
     render :text => cs.id.to_s, :content_type => "text/plain"
