@@ -4,14 +4,14 @@ class Changeset < ActiveRecord::Base
   belongs_to :user
 
   has_many :changeset_tags, :foreign_key => 'id'
-  
+
   has_many :nodes
   has_many :ways
   has_many :relations
   has_many :old_nodes
   has_many :old_ways
   has_many :old_relations
-  
+
   validates_presence_of :id, :on => :update
   validates_presence_of :user_id, :created_at, :closed_at, :num_changes
   validates_uniqueness_of :id
@@ -34,13 +34,13 @@ class Changeset < ActiveRecord::Base
   IDLE_TIMEOUT = 1.hour
 
   # Use a method like this, so that we can easily change how we
-  # determine whether a changeset is open, without breaking code in at 
+  # determine whether a changeset is open, without breaking code in at
   # least 6 controllers
   def is_open?
     # a changeset is open (that is, it will accept further changes) when
     # it has not yet run out of time and its capacity is small enough.
     # note that this may not be a hard limit - due to timing changes and
-    # concurrency it is possible that some changesets may be slightly 
+    # concurrency it is possible that some changesets may be slightly
     # longer than strictly allowed or have slightly more changes in them.
     return ((closed_at > Time.now.getutc) and (num_changes <= MAX_ELEMENTS))
   end
@@ -50,7 +50,7 @@ class Changeset < ActiveRecord::Base
       self.closed_at = Time.now.getutc
     end
   end
-  
+
   def self.from_xml(xml, create=false)
     begin
       p = XML::Parser.string(xml)
@@ -64,7 +64,7 @@ class Changeset < ActiveRecord::Base
       raise OSM::APIBadXMLError.new("changeset", xml, ex.message)
     end
   end
-  
+
   def self.from_xml_node(pt, create=false)
     cs = Changeset.new
     if create
@@ -74,12 +74,6 @@ class Changeset < ActiveRecord::Base
       cs.closed_at = cs.created_at + IDLE_TIMEOUT
       # initially we have no changes in a changeset
       cs.num_changes = 0
-    else
-      raise OSM::APIBadXMLError.new("changeset", pt, "ID is required when updating.") if pt['id'].nil?
-      cs.id = pt['id'].to_i
-      # .to_i will return 0 if there is no number that can be parsed.
-      # We want to make sure that there is no id with zero anyway.
-      raise OSM::APIBadUserInput.new("ID of changeset cannot be zero when updating.") if cs.id == 0
     end
 
     pt.find('tag').each do |tag|
@@ -87,7 +81,7 @@ class Changeset < ActiveRecord::Base
       raise OSM::APIBadXMLError.new("changeset", pt, "tag is missing value") if tag['v'].nil?
       cs.add_tag_keyval(tag['k'], tag['v'])
     end
-    
+
     return cs
   end
 
@@ -97,33 +91,33 @@ class Changeset < ActiveRecord::Base
   def bbox
     @bbox ||= [ min_lon, min_lat, max_lon, max_lat ]
   end
-  
+
   def has_valid_bbox?
     not bbox.include? nil
   end
-  
+
   ##
   # returns area of the changset bbox as a rough comparitive quantity for use of changset displays
   def area
      if has_valid_bbox?
-	     (max_lon - min_lon) * (max_lat - min_lat)
+       (max_lon - min_lon) * (max_lat - min_lat)
      else
-	     0
+       0
      end
   end
 
   ##
-  # expand the bounding box to include the given bounding box. also, 
+  # expand the bounding box to include the given bounding box. also,
   # expand a little bit more in the direction of the expansion, so that
-  # further expansions may be unnecessary. this is an optimisation 
+  # further expansions may be unnecessary. this is an optimisation
   # suggested on the wiki page by kleptog.
   def update_bbox!(array)
     # ensure that bbox is cached and has no nils in it. if there are any
     # nils, just use the bounding box update to write over them.
     @bbox = bbox.zip(array).collect { |a, b| a.nil? ? b : a }
 
-    # FIXME - this looks nasty and violates DRY... is there any prettier 
-    # way to do this? 
+    # FIXME - this looks nasty and violates DRY... is there any prettier
+    # way to do this?
     @bbox[0] = [-180 * GeoRecord::SCALE, array[0] + EXPAND * (@bbox[0] - @bbox[2])].max if array[0] < @bbox[0]
     @bbox[1] = [ -90 * GeoRecord::SCALE, array[1] + EXPAND * (@bbox[1] - @bbox[3])].max if array[1] < @bbox[1]
     @bbox[2] = [ 180 * GeoRecord::SCALE, array[2] + EXPAND * (@bbox[2] - @bbox[0])].min if array[2] > @bbox[2]
@@ -202,13 +196,13 @@ class Changeset < ActiveRecord::Base
       end
     end
   end
-  
+
   def to_xml
     doc = OSM::API.new.get_xml_doc
     doc.root << to_xml_node()
     return doc
   end
-  
+
   def to_xml_node(user_display_name_cache = nil)
     el1 = XML::Node.new 'changeset'
     el1['id'] = self.id.to_s
@@ -232,7 +226,7 @@ class Changeset < ActiveRecord::Base
       el2['v'] = v.to_s
       el1 << el2
     end
-    
+
     el1['created_at'] = self.created_at.xmlschema
     el1['closed_at'] = self.closed_at.xmlschema unless is_open?
     el1['open'] = is_open?.to_s
@@ -241,7 +235,7 @@ class Changeset < ActiveRecord::Base
     el1['min_lat'] = (bbox[1].to_f / GeoRecord::SCALE).to_s unless bbox[1].nil?
     el1['max_lon'] = (bbox[2].to_f / GeoRecord::SCALE).to_s unless bbox[2].nil?
     el1['max_lat'] = (bbox[3].to_f / GeoRecord::SCALE).to_s unless bbox[3].nil?
-    
+
     # NOTE: changesets don't include the XML of the changes within them,
     # they are just structures for tagging. to get the osmChange of a
     # changeset, see the download method of the controller.
@@ -255,10 +249,10 @@ class Changeset < ActiveRecord::Base
   # bounding box, only the tags of the changeset.
   def update_from(other, user)
     # ensure that only the user who opened the changeset may modify it.
-    unless user.id == self.user_id 
+    unless user.id == self.user_id
       raise OSM::APIUserChangesetMismatchError.new
     end
-    
+
     # can't change a closed changeset
     unless is_open?
       raise OSM::APIChangesetAlreadyClosedError.new(self)
