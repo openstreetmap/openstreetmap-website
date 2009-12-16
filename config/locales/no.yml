@@ -3,6 +3,7 @@
 # Export driver: syck
 # Author: Hansfn
 # Author: Jon Harald Søby
+# Author: Laaknor
 # Author: Oyvind
 "no": 
   activerecord: 
@@ -384,6 +385,83 @@
     search_osm_namefinder: 
       suffix_parent: "{{suffix}} ({{parentdistance}} {{parentdirection}} av {{parentname}})"
       suffix_place: ", {{distance}} {{direction}} av {{placename}}"
+    search_osm_nominatim: 
+      prefix: 
+        amenity: 
+          airport: Flyplass
+          atm: Minibank
+          bank: Bank
+          bar: Bar
+          bus_station: Busstasjon
+          car_rental: Bilutleie
+          car_wash: Bilvask
+          casino: Kasino
+          cinema: Kino
+          crematorium: Krematorium
+          dentist: Tannlege
+          embassy: Ambassade
+          ferry_terminal: Ferjeterminal
+          fire_hydrant: Brannhydrant
+          fountain: Fontene
+          gym: Treningssenter
+          hospital: Sykehus
+          hotel: Hotell
+          ice_cream: Iskrem
+          library: Bibliotek
+          nightclub: Nattklubb
+          office: Kontor
+          pharmacy: Apotek
+          police: Politi
+          post_office: Postkontor
+          prison: Fengsel
+          pub: Pub
+          public_building: Offentlig bygning
+          school: Skole
+          telephone: Offentlig telefon
+          toilets: Toaletter
+          townhall: Rådhus
+        boundary: 
+          administrative: Administrativ grense
+        building: 
+          chapel: Kapell
+          church: Kirke
+          city_hall: Rådhus
+          garage: Garasje
+          tower: Tårn
+          train_station: Jernbanestasjon
+        highway: 
+          bus_stop: Busstopp
+        historic: 
+          battlefield: Slagmark
+          castle: Slott
+          church: Kirke
+          monument: Monument
+        leisure: 
+          nature_reserve: Naturreservat
+          swimming_pool: Svømmebaseng
+        natural: 
+          cave_entrance: Huleinngang
+        place: 
+          airport: Flyplass
+        railway: 
+          historic_station: Historisk jernbanestasjon
+          subway: T-banestasjon
+        shop: 
+          bakery: Bakeri
+          car_dealer: Bilforhandler
+          fish: Fiskebutikk
+          garden_centre: Hagesenter
+          hairdresser: Frisør
+          insurance: Forsikring
+          jewelry: Gullsmed
+          optician: Optiker
+          shoes: Skobutikk
+          shopping_centre: Kjøpesenter
+        tourism: 
+          attraction: Attraksjon
+          hotel: Hotell
+          information: Informasjon
+          museum: Museum
   javascripts: 
     map: 
       base: 
@@ -766,17 +844,22 @@
     account: 
       email never displayed publicly: " (vis aldri offentlig)"
       flash update success: Brukerinformasjon oppdatert.
+      flash update success confirm needed: Brukerinformasjon oppdatert. Sjekk eposten din for å bekrefte din epostadresse.
       home location: "Hjemmeposisjon:"
       latitude: "Breddegrad:"
       longitude: "Lengdegrad:"
+      make edits public button: Gjør alle mine redigeringer offentlig
       my settings: Mine innstillinger
       no home location: Du har ikke skrevet inn din hjemmelokasjon.
       preferred languages: "Foretrukne språk:"
       profile description: "Profilbeskrivelse:"
       public editing: 
+        disabled: Deaktivert og kan ikke redigere data. Alle tidligere redigeringer er anonyme.
         disabled link text: hvorfor can jeg ikke redigere?
         enabled link text: hva er dette?
         heading: "Offentlig redigering:"
+      public editing note: 
+        heading: Offentlig redigering
       return to profile: Returner til profil
       save changes button: Lagre endringer
       title: Rediger konto
@@ -793,10 +876,15 @@
       heading: Bekreft endring av e-postadresse
       press confirm button: Klikk bekreftknappen nedenfor for å bekrefte din nye e-postadressse.
       success: E-postadressen din er bekreftet - takk for at du registrerte deg.
+    filter: 
+      not_an_administrator: Du må være administrator for å gjøre det.
     friend_map: 
       nearby mapper: "Bruker i nærheten: [[nearby_user]]"
       your location: Din posisjon
+    go_public: 
+      flash success: Alle dine redigeringer er nå offentlig, og du har lov til å redigere.
     login: 
+      auth failure: Beklager, kunne ikke logge inn med den informasjonen
       create_account: opprett en konto
       email or username: "E-postadresse eller brukernavn:"
       heading: Logg inn
@@ -828,9 +916,13 @@
     no_such_user: 
       heading: Brukeren {{user}} finnes ikke
       title: Ingen bruker funnet
+    remove_friend: 
+      not_a_friend: "{{name}} er ikke en av dine venner."
+      success: "{{name}} ble fjernet fra dine venner"
     reset_password: 
       confirm password: "Bekreft passord:"
       flash changed: Ditt passord er endret.
+      flash token bad: Kunne ikke finne den nøkkelen. Sjekke URLen kanskje?
       heading: Nullstill passord for {{user}}
       password: "Passord:"
       reset: Nullstill passord
@@ -838,12 +930,18 @@
     set_home: 
       flash success: Hjemmelokasjon lagret
     view: 
+      activate_user: aktiver denne brukeren
       add as friend: legg til som en venn
       add image: Legg til bilde
       ago: ({{time_in_words_ago}} siden)
+      blocks on me: mine blokkeringer
       change your settings: endre dine innstillinger
       confirm: Bekreft
+      create_block: blokker denne brukeren
+      created from: "Opprettet fra:"
+      deactivate_user: deaktiver denne brukeren
       delete image: Slett bilde
+      delete_user: slett denne brukeren
       description: Beskrivelse
       diary: dagbok
       edits: redigeringer
@@ -852,6 +950,7 @@
       km away: "{{count}}km unna"
       m away: "{{count}}m unna"
       mapper since: "Bruker siden:"
+      moderator_history: vis tildelte blokkeringer
       my diary: min dagbok
       my edits: mine redigeringer
       my settings: mine innstillinger
@@ -863,7 +962,13 @@
       remove as friend: fjern som venn
       role: 
         administrator: Denne brukeren er en administrator
+        grant: 
+          administrator: Gi administrator-tilgang
+          moderator: Gi moderator-tilgang
         moderator: Denne brukeren er en moderator
+        revoke: 
+          administrator: Fjern administrator-tilgang
+          moderator: fjern moderator-tilgang
       send message: send melding
       settings_link_text: innstillinger
       traces: spor
@@ -891,7 +996,19 @@
       time_future: Slutter om {{time}}
       time_past: Sluttet {{time}} siden
   user_role: 
+    filter: 
+      already_has_role: Brukeren har allerede rollen {{role}}.
+      doesnt_have_role: Brukeren har ikke rollen {{role}}.
+      not_a_role: Strengen "{{role}}" er ikke en gyldig rolle.
+      not_an_administrator: Kun administratorer kan forandre roller, og du er ikke administrator.
     grant: 
       confirm: Bekreft
+      fail: Kunne ikke gi rollen "{{role}}" til bruker "{{name}}". Sjekk at brukeren og rollen er gyldig.
+      heading: Bekreft rolletildeling
+      title: Bekreft rolletildeling
     revoke: 
+      are_you_sure: Er du sikker på at du vil fjerne rollen "{{role}}" fra brukeren "{{name}}"?
       confirm: Bekreft
+      fail: Kunne ikke fjerne rollen "{{role}}" fra bruker "{{name}}". Sjekk at bruker og rolle er gyldig.
+      heading: Bekreft fjerning av rolle
+      title: Bekreft fjerning av rolle
