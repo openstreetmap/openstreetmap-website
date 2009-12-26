@@ -427,7 +427,7 @@ private
   # query changesets which are closed
   # ('closed at' time has passed or changes limit is hit)
   def conditions_closed(closed)
-    return closed.nil? ? nil : ['closed_at < ? and num_changes > ?', 
+    return closed.nil? ? nil : ['closed_at < ? or num_changes > ?', 
                                 Time.now.getutc, Changeset::MAX_ELEMENTS]
   end
 

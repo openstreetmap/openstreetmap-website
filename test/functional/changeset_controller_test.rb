@@ -1382,6 +1382,10 @@ EOF
     get :query, :open => 'true'
     assert_response :success, "can't get changesets by open-ness"
     assert_changesets [1,2,4]
+
+    get :query, :closed => 'true'
+    assert_response :success, "can't get changesets by closed-ness"
+    assert_changesets [3,5,6,7]
   end
 
   ##
