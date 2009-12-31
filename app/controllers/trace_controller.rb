@@ -44,7 +44,7 @@ class TraceController < ApplicationController
     # four main cases:
     # 1 - all traces, logged in = all public traces + all user's (i.e + all mine)
     # 2 - all traces, not logged in = all public traces
-    # 3 - user's traces, logged in as same user = all user's traces 
+    # 3 - user's traces, logged in as same user = all user's traces
     # 4 - user's traces, not logged in as that user = all user's public traces
     if target_user.nil? # all traces
       if @user
@@ -59,7 +59,7 @@ class TraceController < ApplicationController
         conditions = ["gpx_files.visibility in ('public', 'identifiable') AND gpx_files.user_id = ?", target_user.id] #4
       end
     end
-    
+
     if params[:tag]
       @tag = params[:tag]
 
@@ -71,7 +71,7 @@ class TraceController < ApplicationController
         conditions[0] += " AND 0 = 1"
       end
     end
-    
+
     conditions[0] += " AND gpx_files.visible = ?"
     conditions << true
 
@@ -91,7 +91,7 @@ class TraceController < ApplicationController
         end
       end
     end
-    
+
     # final helper vars for view
     @action = action
     @display_name = target_user.display_name if target_user
@@ -106,7 +106,7 @@ class TraceController < ApplicationController
       @trace.visibility = visibility.v
     elsif @user.preferences.find(:first, :conditions => {:k => "gps.trace.public", :v => "default"}).nil?
       @trace.visibility = "private"
-    else 
+    else
       @trace.visibility = "public"
     end
     list(@user, "mine")
@@ -134,7 +134,8 @@ class TraceController < ApplicationController
         begin
           do_create(params[:trace][:gpx_file], params[:trace][:tagstring],
                     params[:trace][:description], params[:trace][:visibility])
-        rescue
+        rescue => ex
+          logger.debug ex
         end
 
         if @trace.id
@@ -184,7 +185,7 @@ class TraceController < ApplicationController
         @trace.visibility = params[:trace][:visibility]
         if @trace.save
           redirect_to :action => 'view'
-        end        
+        end
       end
     else
       render :nothing => true, :status => :forbidden
@@ -225,7 +226,7 @@ class TraceController < ApplicationController
       conditions << params[:tag]
     end
 
-    traces = Trace.find(:all, :include => :user, :conditions => conditions, 
+    traces = Trace.find(:all, :include => :user, :conditions => conditions,
                         :order => "timestamp DESC", :limit => 20)
 
     rss = OSM::GeoRSS.new
@@ -386,7 +387,7 @@ private
     else
       @user.preferences.create(:k => "gps.trace.visibility", :v => visibility)
     end
-    
+
   end
 
   def offline_warning
