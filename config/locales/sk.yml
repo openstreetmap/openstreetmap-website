@@ -1,6 +1,7 @@
 # Messages for Slovak (Slovenčina)
 # Exported from translatewiki.net
 # Export driver: syck
+# Author: Lesny skriatok
 # Author: Rudko
 # Author: Vladolc
 sk: 
@@ -14,6 +15,8 @@ sk:
       friend: 
         friend: Priateľ
         user: Užívateľ
+      message: 
+        sender: Odosielateľ
       trace: 
         description: Popis
         latitude: Zem. šírka
@@ -24,7 +27,24 @@ sk:
         user: Užívateľ
         visible: Viditeľný
       user: 
+        active: Aktívny
+        description: Popis
+        email: E-mail
         languages: Jazyky
+        pass_crypt: Heslo
+    models: 
+      friend: Priateľ
+      language: Jazyk
+      message: Správa
+      node: Uzol
+      node_tag: Tag uzlu
+      old_node: Starý uzol
+      old_relation_member: Starý člen relácie
+      old_way_node: Starý uzol cesty
+      session: Relácia
+      user: Užívateľ
+      way: Cesta
+      way_node: Uzol cesty
   browse: 
     changeset: 
       changeset: "Súbor zmien:  {{id}}"
@@ -85,7 +105,7 @@ sk:
       node_title: "Uzol: {{node_name}}"
       view_history: zobraziť históriu
     node_details: 
-      coordinates: "Koordináty:"
+      coordinates: "Súradnice:"
       part_of: "Časť z:"
     node_history: 
       download: "{{download_xml_link}} alebo {{view_details_link}}"
@@ -182,9 +202,17 @@ sk:
       way_history_title: "História Cesty: {{way_name}}"
   changeset: 
     changesets: 
+      area: Oblasť
+      comment: Komentár
+      id: ID
+      saved_at: Uložené
       user: Používateľ
   diary_entry: 
     edit: 
+      language: "Jazyk:"
+      save_button: Uložiť
+    view: 
+      leave_a_comment: Zanechať komentár
       save_button: Uložiť
   export: 
     start: 
@@ -226,11 +254,14 @@ sk:
       south_east: juhovýchod
       south_west: johozápad
       west: západ
+    results: 
+      no_results: Neboli nájdené žiadne výsledky
     search_osm_nominatim: 
       prefix: 
         amenity: 
           airport: Letisko
           arts_centre: Kultúrne stredisko
+          atm: Bankomat
           bank: Banka
           bar: Bar
           bench: Lavička
@@ -246,6 +277,7 @@ sk:
           community_centre: Kultúrne stredisko
           courthouse: Súd
           crematorium: Krematórium
+          dentist: Zubár
           dormitory: Študentský domov
           drinking_water: Pitná voda
           driving_school: Autoškola
@@ -267,17 +299,21 @@ sk:
           nursing_home: Sanatórium
           park: Park
           parking: Parkovisko
+          pharmacy: lekáreň
           place_of_worship: Kostol
           police: Polícia
           post_box: Poštová schránka
           post_office: Pošta
           preschool: Škôlka
+          prison: Väzenie
           pub: Krčma
           public_building: Verejná budova
           restaurant: Reštaurácia
           retirement_home: Domov dôchodcov
+          sauna: Sauna
           school: Škola
           shelter: Altánok
+          shop: Obchod
           social_club: Spoločenský klub
           studio: Ateliér
           taxi: Taxi
@@ -474,6 +510,7 @@ sk:
           books: Kníhkupectvo
           butcher: Mäsiarstvo
           car_parts: Mototechna
+          car_repair: Autoservis
           charity: Charitatívny obchod
           clothes: Obchod s konfekciou
           computer: Obchod s počítačmi
@@ -541,21 +578,72 @@ sk:
           wadi: Občasné riečisko(Vádí)
           waterfall: Vodopád
           weir: Splav
+  javascripts: 
+    map: 
+      base: 
+        cycle_map: Cyklomapa
   layouts: 
+    edit: Upraviť
+    export: Export
+    help_wiki: Pomocník &amp; Wiki
     history: História
+    inbox: správa ({{count}})
+    log_in: prihlásiť sa
+    logout: odhlásiť
+    shop: Obchod
+    sign_up: prihlásenie
+    view: Zobraziť
     view_tooltip: Zobraziť mapy
+    welcome_user: Vitajte, {{user_link}}
   map: 
     coordinates: "Koordináty:"
     edit: Upraviť
     view: Zobraziť
   message: 
+    delete: 
+      deleted: Správa vymazaná
+    inbox: 
+      from: Od
+    message_summary: 
+      delete_button: Zmazať
+      read_button: Označiť ako prečítané
+      reply_button: Odpovedať
+      unread_button: Označiť ako neprečítané
     new: 
+      back_to_inbox: Späť do prijatých správ
+      message_sent: Správa odoslaná
       send_button: Odoslať
+      send_message_to: Poslať novú správu užívateľovi {{name}}
+      subject: Predmet
     outbox: 
       date: Dátum
+      to: Komu
+    read: 
+      date: Dátum
+      from: Od
+      reply_button: Odpovedať
+      subject: Predmet
+      to: Komu
+    sent_message_summary: 
+      delete_button: Zmazať
+  notifier: 
+    diary_comment_notification: 
+      hi: Ahoj {{to_user}},
+    email_confirm: 
+      subject: "[OpenStreetMap] Potvrďte svoju e-mailovú adresu"
+    email_confirm_plain: 
+      greeting: Ahoj,
+    gpx_notification: 
+      greeting: Ahoj,
+    lost_password_html: 
+      greeting: Ahoj,
+    message_notification: 
+      hi: Ahoj {{to_user}},
   oauth_clients: 
     edit: 
       submit: Upraviť
+    show: 
+      edit: Upraviť detaily
   site: 
     key: 
       table: 
@@ -566,6 +654,12 @@ sk:
           lake: 
             - Jazero
           park: Park
+          school: 
+            - Škola
+            - univerzita
+          station: Železničná stanica
+          tram: 
+            - električka
     search: 
       search: Vyhľadať
       where_am_i: Kde som?
@@ -806,6 +900,11 @@ sk:
       user image heading: Obrázok používateľa
       user location: Poloha užívateľa
       your friends: Vaši priatelia
+  user_block: 
+    partial: 
+      edit: Upraviť
+      show: Zobraziť
+      status: Stav
   user_role: 
     filter: 
       already_has_role: Užívateľ už má úlohu {{role}}.

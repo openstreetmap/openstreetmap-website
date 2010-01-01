@@ -6,7 +6,7 @@ arz:
   activerecord: 
     attributes: 
       diary_comment: 
-        body: المحتوى
+        body: نص الرسالة
       diary_entry: 
         language: اللغة
         latitude: خط العرض
@@ -17,7 +17,7 @@ arz:
         friend: صديق
         user: المستخدم
       message: 
-        body: المحتوى
+        body: نص الرسالة
         recipient: المستلم
         sender: المرسل
         title: العنوان
@@ -29,59 +29,102 @@ arz:
         public: عام
         size: الحجم
         user: المستخدم
-        visible: مرئي
+        visible: ظاهر
       user: 
         active: نشط
         description: الوصف
-        email: البريد الإلكترونى \
+        display_name: الاسم الظاهر
+        email: البريد الإلكتروني
         languages: اللغات
-        pass_crypt: كلمه السر
+        pass_crypt: كلمه المرور
     models: 
-      changeset: باقه التحديثات
-      changeset_tag: سمه باقه التحديثات
+      acl: قائمه تحكم الوصول
+      changeset: حزمه التغييرات
+      changeset_tag: سمه حزمه التغييرات
       country: بلد
+      diary_comment: تعليق يومية
+      diary_entry: مدخله يومية
       friend: صديق
       language: اللغة
-      message: رسالة
+      message: الرسالة
       node: عقدة
+      node_tag: سمه عقدة
+      notifier: المخطر
       old_node: عقده قديمة
+      old_node_tag: سمه عقده قديمة
       old_relation: علاقه قديمة
+      old_relation_member: عضو علاقه قديم
+      old_relation_tag: سمه علاقه قديمة
       old_way: طريق قديم
+      old_way_node: عقده طريق قديمة
+      old_way_tag: سمه طريق قديمة
       relation: علاقة
       relation_member: عضو علاقة
+      relation_tag: سمه علاقة
       session: جلسة
+      trace: أثر
+      tracepoint: نقطه أثر
+      tracetag: سمه الأثر
+      user: المستخدم
       user_preference: تفضيل المستخدم
+      user_token: معلومات مستخدم
       way: طريق
+      way_node: عقده طريق
+      way_tag: سمه طريق
+  application: 
+    require_cookies: 
+      cookies_needed: يبدو أن الكوكيز عندك معطله - يرجى تفعيل الكوكيز فى متصفحك قبل المتابعه.
+    setup_user_auth: 
+      blocked: لقد تم عرقله وصولك إلى الـ API. يرجى تسجيل الدخول من صفحه الموقع لمعرفه المزيد.
   browse: 
     changeset: 
-      changeset: "باقه التحديثات: {{id}}"
-      changesetxml: باقه التحديثات إكس إم إل
+      changeset: "حزمه التغييرات: {{id}}"
+      changesetxml: حزمه التغييرات إكس إم إل
       download: نزّل {{changeset_xml_link}} أو {{osmchange_xml_link}}
       feed: 
-        title: باقه التحديثات {{id}}
-        title_comment: باقه التحديثات {{id}} - {{comment}}
-      title: باقه التحديثات
+        title: حزمه التغييرات {{id}}
+        title_comment: حزمه التغييرات {{id}} - {{comment}}
+      osmchangexml: osmChange XML
+      title: حزمه التغييرات
     changeset_details: 
       belongs_to: "ينتمى إلى:"
-      bounding_box: "مربع إحاطة:"
+      bounding_box: "مربع الإحاطة:"
       box: مربّع
-      no_bounding_box: لم يتم تخزين مربع إحاطه لباقه التحديثات هذه.
+      closed_at: "أُغلق في:"
+      created_at: "أُنشئ في:"
+      has_nodes: 
+        few: "فيه {{count}} عقد التالية:"
+        one: "فيه العقده التالية:"
+        other: "فيه {{count}} عقده التالية:"
+        two: "فيه العقدتين التاليتين:"
+      has_relations: 
+        few: "فيه {{count}} علاقات التالية:"
+        one: "فيه العلاقه التالية:"
+        other: "فيه {{count}} علاقه التالية:"
+        two: "فيه العلاقتين التاليتين:"
+      has_ways: 
+        one: "فيه الطريق التالي:"
+        other: "فيه {{count}} طرق التالية:"
+        two: "فيه الطريقين التاليين:"
+      no_bounding_box: لم يتم تخزين مربع الإحاطه لحزمه التغييرات هذه.
+      show_area_box: اعرض مربع المنطقة
     changeset_navigation: 
       all: 
-        next_tooltip: باقه التحديثات التالية
-        prev_tooltip: باقه التحديثات السابقة
+        next_tooltip: حزمه التغييرات التالية
+        prev_tooltip: حزمه التغييرات السابقة
       user: 
-        name_tooltip: اعرض تحريرات {{user}}
-        next_tooltip: التحرير التالى من قبل {{user}}
-        prev_tooltip: حرر سابقا من قبل {{user}}
+        name_tooltip: اعرض تعديلات {{user}}
+        next_tooltip: التعديل التالى بواسطه {{user}}
+        prev_tooltip: عُدّل سابقًا بواسطه {{user}}
     common_details: 
       changeset_comment: "التعليق:"
-      edited_at: "حرر في:"
-      edited_by: "حرر بواسطة:"
-      in_changeset: "فى باقه التحديثات:"
+      edited_at: "عُدّل في:"
+      edited_by: "عُدّل بواسطة:"
+      in_changeset: "فى حزمه التغييرات:"
       version: "النسخة:"
     containing_relation: 
       entry: العلاقه {{relation_name}}
+      entry_role: العلاقه {{relation_name}} (كــ {{relation_role}})
     map: 
       deleted: تم الحذف
       larger: 
@@ -89,11 +132,11 @@ arz:
         node: اعرض العقده على خريطه أكبر
         relation: اعرض العلاقه على خريطه أكبر
         way: اعرض الطريق على خريطه أكبر
-      loading: تحميل...
+      loading: جارى التحميل...
     node: 
       download: "{{download_xml_link}}، {{view_history_link}} أو {{edit_link}}"
-      download_xml: نزّل إكس إم إل
-      edit: عدل
+      download_xml: نزّل إكس إم أل
+      edit: عدّل
       node: عقدة
       node_title: "عقدة: {{node_name}}"
       view_history: اعرض التاريخ
@@ -102,14 +145,14 @@ arz:
       part_of: "جزء من:"
     node_history: 
       download: "{{download_xml_link}} أو {{view_details_link}}"
-      download_xml: نزّل إكس إم إل
+      download_xml: نزّل إكس إم أل
       node_history: تاريخ العقدة
       node_history_title: "تاريخ العقدة: {{node_name}}"
       view_details: اعرض التفاصيل
     not_found: 
-      sorry: عفوا، لم يتم العثور على {{type}} بالمعرف {{id}}.
+      sorry: عفوًا، لم يتم العثور على {{type}} بالمعرّف {{id}}.
       type: 
-        changeset: باقه التحديثات
+        changeset: حزمه التغييرات
         node: عقدة
         relation: علاقة
         way: طريق
@@ -127,31 +170,35 @@ arz:
       part_of: "جزء من:"
     relation_history: 
       download: "{{download_xml_link}} أو {{view_details_link}}"
-      download_xml: نزّل إكس إم إل
+      download_xml: نزّل إكس إم أل
       relation_history: تاريخ العلاقة
       relation_history_title: "تاريخ العلاقة: {{relation_name}}"
       view_details: اعرض التفاصيل
     relation_member: 
+      entry_role: "{{type}} {{name}} كــ {{role}}"
       type: 
         node: عقدة
         relation: علاقة
         way: طريق
     start: 
       manually_select: اختر يدويًا منطقه أخرى
-      view_data: اعرض البيانات لعرض الخريطه الحالية
+      view_data: أظهر بيانات عرض الخريطه الحالي
     start_rjs: 
       data_frame_title: البيانات
       data_layer_name: البيانات
       details: التفاصيل
       drag_a_box: اسحب مربع على الخريطه لاختيار منطقة
-      edited_by_user_at_timestamp: حرره [[user]] فى [[timestamp]]
-      history_for_feature: تاريخ ال[[feature]]
+      edited_by_user_at_timestamp: عُدّل بواسطه [[user]] فى [[timestamp]]
+      history_for_feature: تاريخ الــ[[feature]]
       load_data: تحميل البيانات
+      loaded_an_area_with_num_features: "لقد قمت بتحميل منطقه تحتوى على [[num_features]] ميّزه. بصفه عامّه، بعض المتصفحات قد لا تتوافق بشكل جيد مع عرض هذه الكميه من البيانات. عمومًا، تعمل المتصفحات بشكل أفضل فى عرض أقل من 100 ميّزه فى وقت واحد: القيام بأى شيء آخر قد يجعل المتصفح بطيء أو لن يستجيب. إن كنت متأكدًا من أنك ترغب فى عرض هذه البيانات، يمكنك القيام بذلك عن طريق النقر على الزر أدناه."
       loading: تحميل...
-      manually_select: اختر يدويا منطقه أخرى
+      manually_select: اختر يدويًا منطقه أخرى
       object_list: 
         api: استرد هذه المنطقه من الأى بى أي
+        back: اعرض لائحه الكائنات
         details: التّفاصيل
+        heading: قائمه الكائنات
         history: 
           type: 
             node: عقده [[id]]
@@ -165,18 +212,24 @@ arz:
           way: طريق
       private_user: مستخدم الخاص
       show_history: أظهر التاريخ
+      unable_to_load_size: "غير قادر على التحميل: حجم مربع الإحاطه [[bbox_size]] كبير جدًا (يجب أن يكون أصغر من {{max_bbox_size}})"
       wait: انتظر...
+      zoom_or_select: قم بالتكبير أو اختر منطقه من الخريطه لعرضها
     tag_details: 
       tags: "الوسوم:"
     way: 
       download: "{{download_xml_link}}، {{view_history_link}} أو {{edit_link}}"
       download_xml: نزّل إكس إم إل
-      edit: عدل
+      edit: عدّل
       view_history: اعرض التاريخ
       way: طريق
       way_title: "طريق: {{way_name}}"
     way_details: 
-      nodes: "عُقد:"
+      also_part_of: 
+        one: أيضًا جزء من الطريق {{related_ways}}
+        other: أيضًا جزء من الطرق {{related_ways}}
+        two: أيضًا جزء من الطريقين {{related_ways}}
+      nodes: "العُقد:"
       part_of: "جزء من:"
     way_history: 
       download: "{{download_xml_link}} أو {{view_details_link}}"
@@ -188,114 +241,226 @@ arz:
     changeset: 
       anonymous: مجهول
       big_area: (كبير)
-      no_comment: (لا شيء)
+      no_comment: (لا يوجد)
       no_edits: (لا تعديلات)
-      still_editing: (لا يزال يحرر)
-      view_changeset_details: اعرض تفاصيل باقه التحديثات
+      show_area_box: اعرض مربع المنطقة
+      still_editing: (لا يزال يعدّل)
+      view_changeset_details: اعرض تفاصيل حزمه التغييرات
     changeset_paging_nav: 
       next: التالى »
       previous: «السابق
+      showing_page: إظهار الصفحه {{page}}
     changesets: 
       area: منطقة
       comment: التعليق
       id: المعرّف
+      saved_at: حُفظ في
       user: المستخدم
     list: 
       description: التغييرات الحديثة
-      description_bbox: باقه التحديثات داخل {{bbox}}
-      heading: باقات التحديثات
-      heading_bbox: باقات التحديثات
+      description_bbox: حزم التغييرات داخل {{bbox}}
+      description_user: حزم التغييرات بواسطه {{user}}
+      description_user_bbox: حزم التغييرات بواسطه {{user}} داخل {{bbox}}
+      heading: حزم التغييرات
+      heading_bbox: حزم التغييرات
+      heading_user: حزم التغييرات
+      heading_user_bbox: حزم التغييرات
+      title: حزم التغييرات
+      title_bbox: حزم التغييرات داخل {{bbox}}
+      title_user: حزم التغييرات بواسطه {{user}}
+      title_user_bbox: حزم التغييرات بواسطه {{user}} داخل {{bbox}}
   diary_entry: 
     diary_comment: 
+      comment_from: تعليق من {{link_user}}  فى {{comment_created_at}}
       confirm: أكّد
-      hide_link: أخفِ هذا التعليق
+      hide_link: اخفِ هذا التعليق
     diary_entry: 
+      comment_count: 
+        few: "{{count}} تعليقات"
+        one: تعليق واحد
+        other: "{{count}} تعليق"
+        two: تعليقان
+        zero: لا تعليق
       comment_link: علّق على هذه المدخلة
       confirm: أكّد
-      edit_link: حرّر هذه المدخلة
-      hide_link: أخفِ هذه المدخلة
+      edit_link: عدّل هذه المدخلة
+      hide_link: اخفِ هذه المدخلة
+      posted_by: أُرسل بواسطه {{link_user}} فى {{created}} باللغه {{language_link}}
       reply_link: رد على هذه المدخلة
     edit: 
-      body: "المحتوى:"
+      body: "نص الرسالة:"
       language: "اللغة:"
       latitude: "خط العرض:"
       location: "الموقع:"
       longitude: "خط الطول:"
+      marker_text: موقع مدخله اليومية
       save_button: احفظ
       subject: "الموضوع:"
-      title: حّرر مدخله يومية
+      title: عدّل مدخله يومية
+      use_map_link: استخدم الخريطة
+    feed: 
+      all: 
+        description: المدخلات الحديثه فى يوميه مستخدمى خريطه الشارع المفتوحة
+        title: مدخلات اليوميه فى خريطه الشارع المفتوحة
+      language: 
+        description: المدخلات الحديثه فى يوميه مستخدمى خريطه الشارع المفتوحه باللغه {{language_name}}
+        title: مدخلات يوميه خريطه الشارع المفتوحه باللغه {{language_name}}
+      user: 
+        description: المدخلات الحديثه فى يوميه خريطه الشارع المفتوحه بواسطه المستخدم {{user}}
+        title: مدخلات يوميه خريطه الشارع المفتوحه للمستخدم {{user}}
+    list: 
+      in_language_title: مدخلات اليوميه باللغه {{language}}
+      new: مدخله يوميه جديدة
+      new_title: اكتب مدخله يوميه جديده فى يوميتك
+      newer_entries: المدخلات الأحدث
+      no_entries: لا يوجد مدخلات يومية
+      older_entries: المدخلات الأقدم
+      recent_entries: "المدخلات اليوميه الحديثة:"
+      title: يوميات المستخدمين
+      user_title: يوميه {{user}}
+    new: 
+      title: مدخله يوميه جديدة
+    no_such_entry: 
+      body: عذرًا، لا يوجد مدخله يوميه أو تعليق بالمعرّف {{id}}. يرجى تدقيق التهجئه، أو ربما يكون الرابط الذى تم النقر عليه خاطئ.
+      heading: "لا يوجد مدخله بالمعرّف: {{id}}"
+      title: مدخله يوميه غير موجودة
+    no_such_user: 
+      body: عذرًا، لا يوجد مستخدم بالاسم {{user}}. يرجى تدقيق الاسم، أو ربما يكون الرابط الذى تم النقر عليه خاطئ.
+      heading: المستخدم {{user}} غير موجود
+      title: مستخدم غير موجود
     view: 
       leave_a_comment: اترك تعليقًا
-      login: لُج
+      login: سجّل دخول
+      login_to_leave_a_comment: "{{login_link}} لترك تعليق"
       save_button: احفظ
+      title: يوميات المستخدمين | {{user}}
+      user_title: يوميه {{user}}
   export: 
     start: 
+      add_marker: أضف علامه على الخريطة
       area_to_export: المنطقه المطلوب تصديرها
+      embeddable_html: HTML مضمن
       export_button: صدِّر
+      export_details: بيانات خريطه الشارع المفتوحه مرخصه تحت <a href="http://creativecommons.org/licenses/by-sa/2.0/">رخصه المشاع الإبداعى، النسبه، نسخه 2.0</a>.
       format: الهيئة
       format_to_export: الهيئه المطلوب تصديرها
       image_size: حجم الصورة
+      latitude: "خط العرض:"
+      licence: الرخصة
+      longitude: "خط الطول:"
+      manually_select: اختر يدويًا منطقه أخرى
+      mapnik_image: Mapnik صورة
       max: الأقصى
       options: خيارات
+      osm_xml_data: معطيات خريطه الطريق المفتوح بنسق إكس أم أل
+      osmarender_image: Osmarender صورة
+      output: الخرج
+      paste_html: ألصق HTML لتضمينه فى موقع ما
       scale: القياس
+      zoom: تكبير
     start_rjs: 
+      add_marker: أضف علامه على الخريطة
+      change_marker: غيّر موضع العلامة
+      click_add_marker: انقر على الخريطه لإضافه علامة
+      drag_a_box: اسحب مربع على الخريطه لاختيار منطقة
       export: صدِّر
+      manually_select: اختر يدويًا منطقه أخرى
       view_larger_map: اعرض خريطه أكبر
   geocoder: 
     description: 
       title: 
         geonames: موقع من <a href="http://www.geonames.org/">GeoNames</a>
+        osm_namefinder: "{{types}} من <a href=\"http://gazetteer.openstreetmap.org/namefinder/\">OpenStreetMap Namefinder</a>"
+        osm_nominatim: موقع من <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
       types: 
         cities: مدن
         places: أماكن
         towns: بلدات
+    description_osm_namefinder: 
+      prefix: "{{distance}} {{direction}} من {{type}}"
+    direction: 
+      east: شرق
+      north: شمال
+      north_east: شمال-شرق
+      north_west: شمال-غرب
+      south: جنوب
+      south_east: جنوب-شرق
+      south_west: جنوب-غرب
+      west: غرب
+    distance: 
+      one: حوالى 1 كم
+      other: حوالى {{count}}كم
+      zero: أقل من 1 كم
     results: 
       no_results: لم يتم العثور على نتائج
+    search: 
+      title: 
+        ca_postcode: نتائج من <a href="http://geocoder.ca/">Geocoder.CA</a>
+        geonames: نتائج من <a href="http://www.geonames.org/">GeoNames</a>
+        latlon: نتائج <a href="http://openstreetmap.org/">داخليًا</a>
+        osm_namefinder: نتائج من <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>
+        osm_nominatim: نتائج من <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
+        uk_postcode: نتائج من <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
+        us_postcode: نتائج من <a href="http://geocoder.us/">Geocoder.us</a>
+    search_osm_namefinder: 
+      suffix_parent: "{{suffix}} ({{parentdistance}} {{parentdirection}} من {{parentname}})"
+      suffix_place: ، {{distance}} {{direction}} من {{placename}}
     search_osm_nominatim: 
       prefix: 
         amenity: 
           airport: مطار
-          arts_centre: مركز ثقافي
+          arts_centre: مركز فني/ثقافي
           atm: صراف آلي
-          auditorium: قاعة
+          auditorium: قاعه محاضرات
           bank: مصرف
           bar: حانة
+          bench: مقعد
+          bicycle_parking: موقف دراجات
+          bicycle_rental: تأجير دراجة
           brothel: بيت دعارة
           bureau_de_change: مكتب صرافة
           bus_station: محطه حافلات
           cafe: مقهى
           car_rental: تأجير سيارات
+          car_sharing: مشاركه سيارات
           car_wash: غسيل سيارات
-          casino: ملهى
+          casino: نادى قمار
           cinema: سينما
           clinic: عيادة
           club: نادي
           college: كلّية
-          community_centre: مركز مجتمع
+          community_centre: مركز اجتماع
           courthouse: محكمة
+          crematorium: محرقه جثث
           dentist: طبيب أسنان
           doctors: أطباء
-          dormitory: عنبر
-          drinking_water: مياه شرب
+          dormitory: عنبر نوم
+          drinking_water: مياه عذبة
           driving_school: مدرسه تعليم قيادة
           embassy: سفارة
           emergency_phone: هاتف طوارئ
           fast_food: وجبات سريعة
+          ferry_terminal: مرسى عبّارة
+          fire_hydrant: مواد مكافحه حرائق
           fire_station: فوج إطفاء
           fountain: نافورة
           fuel: وقود
           grave_yard: مقبرة
+          gym: مركز للرشاقة/الرياضة
           hall: قاعة
           health_centre: مركز صحي
           hospital: مستشفى
           hotel: فندق
+          hunting_stand: مربط للصيد
           ice_cream: مثلجات
           kindergarten: حضانه أطفال
           library: مكتبة
           market: سوق
           marketplace: سوق
+          mountain_rescue: للإنقاذ فى الجبل
           nightclub: نادى ليلي
-          nursery: حضانة
+          nursery: رعايه تمريضية
+          nursing_home: دار رعايه مسنين/معاقين
           office: مكتب
           park: منتزه
           parking: موقف سيارات
@@ -304,35 +469,47 @@ arz:
           police: شرطة
           post_box: صندوق بريد
           post_office: مكتب بريد
+          preschool: روضه أطفال
           prison: سجن
           pub: حانة
           public_building: مبنى عام
           public_market: سوق عمومي
-          reception_area: منطقه استقبال \
+          reception_area: منطقه استقبال
+          recycling: نقطه إعاده تصنيع
           restaurant: مطعم
+          sauna: حمّام بخارى حار
           school: مدرسة
           shelter: ملجأ
-          shop: المتجر
+          shop: متجر/دكان/حانوت
           shopping: التسوق
           social_club: نادى اجتماعي
+          studio: ستوديو
           supermarket: سوبرماركت
-          taxi: تاكسي
+          taxi: سياره أجرة
           telephone: هاتف عمومي
           theatre: مسرح
           toilets: مراحيض
           townhall: مبنى بلدية
           university: جامعة
+          vending_machine: آله بيع
+          veterinary: جراحه بيطرية
           waste_basket: سله نفايات
-          wifi: وصول واى فاي
-          youth_centre: مركز شباب
+          wifi: نقطه اتصال لاسلكيه واى فاي
+          youth_centre: مركز نشاطات للشباب
         boundary: 
           administrative: حدود إدارية
         building: 
+          apartments: مجموعه شقق
+          block: مجمع مباني
+          bunker: ملجأ محصن
+          chapel: معبد/مصلى
           church: كنيسة
+          city_hall: دار/قاعه البلدية
           commercial: مبنى تجاري
-          dormitory: عنبر
+          dormitory: عنبر نوم
           entrance: مدخل مبنى
           faculty: مبنى كلية
+          farm: مبنى مزرعة
           flats: شقق
           garage: مرآب
           hall: قاعة
@@ -340,57 +517,76 @@ arz:
           hotel: فندق
           house: منزل
           industrial: مبنى صناعي
+          office: مبنى مكتب
           public: مبنى عام
           residential: مبنى سكني
           school: مبنى مدرسة
           shop: متجر
           stadium: مدرج ألعاب رياضية
           store: مخزن
-          terrace: شرفة
+          terrace: صف منازل
           tower: برج
           train_station: محطه قطار
           university: مبنى جامعة
+          "yes": مبنى
         highway: 
-          bus_stop: محطه حافلات
+          bridleway: مسلك خيول
+          bus_stop: موقف نزول/صعود من/إلى حافلات
           byway: طريق فرعي
-          construction: طريق سريع تحت الانشاء
+          construction: طريق سريع قيد الإنشاء
+          cycleway: مسار دراجات
+          distance_marker: إشاره مسافة
           emergency_access_point: نقطه دخول طوارئ
-          footway: ممشى
+          footway: ممر للمشاة
           gate: بوّابة
           living_street: شارع سكني
+          minor: طريق غير هام
           motorway: طريق سريع
           motorway_junction: تقاطع طرقات سريعة
+          motorway_link: طريق سريع
           path: مسار
-          pedestrian: طريق مشاة
+          pedestrian: شارع أولوى للمشاة
           platform: منصة
-          primary: طريق رئيسي
-          primary_link: طريق رئيسي
+          primary: طريق أولي
+          primary_link: طريق أولي
+          raceway: حلبه سباق
+          residential: طريق سكني
           road: طريق
           secondary: طريق ثانوي
           secondary_link: طريق ثانوي
+          service: طريق خدمة
+          services: خدمات الطرق السريعة
           steps: درج
+          tertiary: طريق فرعي
           track: مسار
+          trunk: طريق رئيسي
+          trunk_link: طريق رئيسي
           unclassified: طريق غير مصنّف
           unsurfaced: طريق غير معبد
         historic: 
           archaeological_site: موقع أثري
           battlefield: ساحه معركة
+          boundary_stone: حجر/صخره تعليم حدود
           building: مبنى
           castle: قلعة
           church: كنيسة
           house: منزل
           icon: أيقونة
+          manor: عزبة
           memorial: نصب تذكاري
-          monument: نصب تذكاري
+          mine: منجم
+          monument: ضريح
           museum: متحف
           ruins: أطلال
           tower: برج
+          wayside_shrine: مزار جانب طريق
           wreck: حطام
         landuse: 
           allotments: حصص سكنية
           basin: حوض
           cemetery: مقبرة
           commercial: منطقه تجارية
+          construction: ورشه بناء
           farm: مزرعة
           farmland: أرض زراعية
           farmyard: فناء مزرعة
@@ -400,6 +596,7 @@ arz:
           landfill: مكب نفايات
           meadow: مرج
           military: منطقه عسكرية
+          mine: منجم
           mountain: جبل
           nature_reserve: محميه طبيعية
           park: منتزه
@@ -409,14 +606,17 @@ arz:
           recreation_ground: ميدان ألعاب
           reservoir: خزان
           residential: منطقه سكنية
-          retail: بيع بالتجزئة
+          retail: بيع بالمفرق
           vineyard: كرم عنب
           wetland: أرض رطبة
           wood: حرج
         leisure: 
+          beach_resort: شاطئ منتجع
           common: أرض مشاع
-          fishing: منطقه صيد
+          fishing: منطقه صيد سمك
           garden: حديقة
+          golf_course: ملعب غولف
+          ice_rink: حلبه تزلج على الجليد
           marina: مارينا
           miniature_golf: جولف مصغر
           nature_reserve: محميه طبيعية
@@ -424,29 +624,42 @@ arz:
           pitch: ملعب رياضي
           playground: ملعب
           recreation_ground: ميدان ألعاب
+          slipway: مزلقة
           sports_centre: مركز رياضي
           stadium: مدرج ألعاب رياضية
           swimming_pool: بركه سباحة
+          track: مضمار سباق
           water_park: منتزه ألعاب مائية
         natural: 
           bay: خليج
           beach: شاطئ
+          cape: رأس (أرض داخله فى البحر(
           cave_entrance: مدخل كهف
           channel: قناة
           cliff: جرف
-          coastline: شاطئ
+          coastline: خط ساحلي
+          crater: فوهه بركان
           feature: ميزة
-          glacier: جليد
+          fell: منحدر
+          fjord: مضيق بحري
+          geyser: نافوره ماء حار
+          glacier: نهر/بحر جليدي
+          heath: أرض بور
           hill: تلة
           island: جزيرة
           land: أرض
+          moor: أرض جرداء
           mud: وحل
           peak: ذروة
           point: نقطة
+          reef: سلسله صخور قرب سطح الماء
           river: نهر
           rock: صخرة
-          scree: حصاة
+          scree: أرض حصاة
           scrub: أشجار منخفضة
+          shoal: مياه ضحلة
+          spring: نبع
+          strait: مضيق جبلي
           tree: شجرة
           valley: وادي
           volcano: بركان
@@ -460,76 +673,97 @@ arz:
           country: دولة
           county: مقاطعة
           farm: مزرعة
-          hamlet: قريه صغيرة
+          hamlet: كفر
           house: منزل
           houses: منازل
           island: جزيرة
+          islet: جزيره صغيرة
           locality: محلة
+          moor: أرض جرداء
+          municipality: بلدية
           postcode: الرمز البريدي
           region: منطقة
           sea: بحر
           state: ولاية
-          subdivision: تقسيم الفرعي
+          subdivision: التقسيم الفرعي
           suburb: ضاحية
           town: بلدة
           village: قرية
         railway: 
           abandoned: سكه حديد مهجورة
           construction: سكه حديديه تحت الإنشاء
-          disused: سكه حديد غير مستعملة
+          disused: سكه حديد مهجورة
           disused_station: محطه سكه حديد مهجورة
           halt: موقف قطار
           historic_station: محطه سكه حديد تاريخية
           junction: تقاطع سكك حديدية
+          level_crossing: تقاطع سكك حديدية
           monorail: قطار ذات سكه حديد واحدة
           platform: رصيف محطه قطار
           station: محطه قطار
           subway: محطه مترو الأنفاق
           subway_entrance: مدخل مترو
           tram_stop: موقف ترام
-          yard: أرض سكه حديد
+          yard: فناء سكه حديد
         shop: 
           apparel: متجر ملابس
+          art: متجر فن
           bakery: مخبز
+          beauty: صالون تجميل
           beverages: متجر مشروبات
+          bicycle: متجر دراجات
           books: متجر كتب
           butcher: جزار
           car: متجر سيارات
           car_dealer: تاجر سيارات
           car_parts: قطع غيار سيارات
-          car_repair: تصليح سيارات
-          carpet: متجر سجاد
+          car_repair: مرآب سيارات
+          carpet: معرض سجاد
+          charity: متجر جمعيه خيرية
           chemist: صيدلي
           clothes: متجر ألبسة
           computer: متجر كمبيوتر
           confectionery: متجر الحلويات
+          convenience: متجر للأغراض اليومية
+          cosmetics: بائع مستحضرات تجميل
+          department_store: متجر متعدد الأقسام
+          doityourself: براعه منزلية
           drugstore: صيدلية
           dry_cleaning: تنظيف جاف
           electronics: متجر إلكترونيات
+          estate_agent: وكيل عقاري
+          farm: متجر منتوجات زراعية
           fashion: متجر أزياء
+          fish: متجر أسماك
           florist: بائع زهور
+          food: دكان مأكولات
+          funeral_directors: وكلاء ترتيبات جنازة
           furniture: أثاث
           gallery: معرض
           general: متجر عام
           gift: متجر هدايا
           grocery: بقالة
-          hairdresser: مصفف شعر
-          insurance: تأمين
+          hairdresser: مزين/مصفف شعر
+          hardware: متجر عتاد
+          insurance: بوليسات تأمين
           jewelry: متجر مجوهرات
           kiosk: كشك
           laundry: مصبغة
+          mall: مركز تسوق
           market: سوق
           mobile_phone: متجر هواتف محمولة
+          motorcycle: متجر دراجات نارية
           music: متجر موسيقى
-          newsagent: عميل الأخبار
-          optician: فاحص بصر
+          newsagent: وكاله أنباء
+          optician: نظاراتي
           organic: متجر أغذيه عضوية
-          outdoor: متجر خارجي
+          outdoor: متجر للنشاطات الخارجية
           pet: متجر حيوانات أليفة
           photo: متجر صور
           salon: صالون
           shoes: متجر أحذية
           shopping_centre: مركز التسوق
+          sports: متجر رياضة
           stationery: محل قرطاسية
           supermarket: سوبرماركت
           toys: متجر ألعاب
@@ -538,7 +772,9 @@ arz:
         tourism: 
           alpine_hut: كوخ جبلي
           artwork: عمل فني
+          attraction: معلم سياحي
           bed_and_breakfast: سرير وفطار
+          cabin: حُجره أو مقصورة
           camp_site: موقع تخييم
           caravan_site: موقع قافلة
           chalet: شاليه
@@ -546,9 +782,11 @@ arz:
           hostel: سكن شباب
           hotel: فندق
           information: معلومات
-          motel: نزل
+          lean_to: كوخ منحدر
+          motel: نُزل
           museum: متحف
-          picnic_site: موقع تنزه
+          picnic_site: موقع بيك نيك
+          theme_park: حديقه ملاهي
           valley: وادي
           viewpoint: موقع كاشف
           zoo: حديقه حيوانات
@@ -560,49 +798,77 @@ arz:
           dock: مرسى
           drain: مسرب
           lock: قفل
+          mineral_spring: نبع مياه معدنية
+          rapids: منحدرات نهرية
           river: نهر
           riverbank: ضفه نهر
           stream: جدول
+          wadi: وادي
+          water_point: نقطه ماء شفة
           waterfall: شلال
   javascripts: 
     map: 
       base: 
-        noname: بدون اسم
+        cycle_map: خريطه للدراجات
+        noname: التسميه غائبة
     site: 
-      edit_zoom_alert: يجب عليك التكبير لتحرير الخريطة
-      history_zoom_alert: يجب التكبير لرؤيه تاريخ التحرير
+      edit_zoom_alert: يجب عليك التكبير لتعديل الخريطة
+      history_zoom_alert: يجب التكبير لرؤيه تاريخ التعديل
   layouts: 
+    donate: ادعم خريطه الشارع المفتوحه ب{{link}} لتمويل ترقيه العتاد.
     donate_link_text: التبرع
-    edit: عدل
-    edit_tooltip: حرّر الخرائط
+    edit: عدّل هذه الخريطة
+    edit_tooltip: يمكنك تعديل هذه الخريطه، من فضلك اقرأ صفحه الدليل قبل البدء
     export: صدِّر
-    export_tooltip: صدّر بيانات الخري
+    export_tooltip: صدّر بيانات الخريطة
+    gps_traces: آثار جى بى أس
+    gps_traces_tooltip: عالج الآثار
     help_wiki: المساعده والويكي
     help_wiki_tooltip: المساعده وموقع الويكى للمشروع
-    history: التاريخ
-    history_tooltip: تاريخ باقه التحديثات
+    history: تاريخ
+    history_tooltip: تاريخ حزمه التغييرات
+    home: الصفحه الرئيسية
+    home_tooltip: اذهب إلى الصفحه الرئيسية
     inbox: صندوق البريد ({{count}})
+    inbox_tooltip: 
+      few: صندوق بريدك يحوى {{count}} رسائل غير مقروءة
+      one: صندوق بريدك يحوى رساله واحده غير مقروءة
+      other: صندوق بريدك يحوى {{count}} رساله غير مقروءة
+      two: صندوق بريدك يحوى رسالتين غير مقروءتين
+      zero: صندوق بريدك لا يحوى رسائل غير مقروءة
+    intro_1: خريطه الشارع المفتوحه هى خريطه للعالم كله قابله للتحرير حره ومجانيه. قام بإنشائها أشخاص مثلك.
+    intro_2: خريطه الشارع المفتوحه تسمح لك بعرض وتعديل واستخدام البيانات الجغرافيه بطريقه تعاونيه من أى مكان على وجه الأرض.
+    intro_3: تفضل باستضافه خريطه الشارع المفتوحه كلًا من {{ucl}} و {{bytemark}}.
+    license: 
+      title: بيانات خريطه الشارع المفتوحه مرخصه تحت رخصه المشاع الإبداعى، النسبه، نسخه 2.0
     log_in: دخول
     log_in_tooltip: سجّل الدخول مع حساب موجود
-    logout: خروج
+    logo: 
+      alt_text: شعار خريطه الشارع المفتوحة
+    logout: اخرج
     logout_tooltip: خروج
     make_a_donation: 
       text: تبرع
-      title: ادعم خريطه الشارع المفتوح بهبه نقدية
+      title: ادعم خريطه الشارع المفتوحه بهبه نقدية
     news_blog: مدونه الأخبار
-    news_blog_tooltip: مدونه أخبار حول خريطه الشارع المفتوح، بيانات جغرافيه حره، وما إلى ذلك.
+    news_blog_tooltip: مدونه أخبار حول خريطه الشارع المفتوحه، بيانات جغرافيه حره، وما إلى ذلك.
+    osm_offline: حاليًا قاعده بيانات خريطه الشارع المفتوحه مغلقه بينما يتم الانتهاء من أعمال الصيانه الأساسيه لقاعده البيانات.
+    osm_read_only: حاليًا قاعده بيانات خريطه الشارع المفتوحه فى وضع القراءه بينما يتم الانتهاء من أعمال الصيانه الأساسيه لقاعده البيانات.
     shop: المتجر
-    shop_tooltip: تسوق بضائع بعلامه خريطه الشارع المفتوح
-    sign_up_tooltip: أنشئ حسابًا للتحرير
-    user_diaries: يوميات المستخدم
-    user_diaries_tooltip: اعرض يوميات المستخدم
+    shop_tooltip: تسوق بضائع داعمه لخريطه الشارع المفتوحة
+    sign_up: أنشئ حسابًا
+    sign_up_tooltip: أنشئ حسابًا كى تستطيع المساهمة
+    sotm: تعال إلى مؤتمر خريطه الشارع المفتوحه، The State of the Map، 10-12 يوليو فى أمستردام!
+    tag_line: ويكى خريطه العالم الحرة
+    user_diaries: يوميات المستخدمين
+    user_diaries_tooltip: اعرض يوميات المستخدمين
     view: اعرض
     view_tooltip: اعرض الخرائط
-    welcome_user: مرحبًا، {{user_link}}
-    welcome_user_link_tooltip: صفحه المستخدم الخاص بك
+    welcome_user: مرحبًا بك، {{user_link}}
+    welcome_user_link_tooltip: صفحه المستخدم الخاصه بك
   map: 
     coordinates: "الإحداثيات:"
-    edit: حرّر
+    edit: عدّل
     view: اعرض
   message: 
     delete: 
@@ -610,33 +876,45 @@ arz:
     inbox: 
       date: التاريخ
       from: من
-      my_inbox: صندوق بريدي
+      my_inbox: الوارد
+      no_messages_yet: لا يوجد لديك رسائل بعد. لماذا لا تقوم بالاتصال مع بعض {{people_mapping_nearby_link}}؟
       outbox: الصادر
+      people_mapping_nearby: مخططون فى جواري
       subject: الموضوع
       title: الوارد
+      you_have: لديك {{new_count}} رساله جديده و {{old_count}} رساله قديمة
     mark: 
       as_read: عُلّمت الرساله مقروءة
-      as_unread: عُلّمت الرساله غير مقروءة
+      as_unread: عُلّمت الرساله كغير مقروءة
     message_summary: 
       delete_button: احذف
+      read_button: علّم كمقروءة
       reply_button: رد
+      unread_button: علّم كغير مقروءة
     new: 
       back_to_inbox: العوده إلى صندوق الوارد
-      body: المحتوى
+      body: نص الرسالة
       limit_exceeded: لقد أرسلت الكثير من الرسائل مؤخرًا. الرجاء الانتظار بعض الوقت قبل أن تحاول إرسال المزيد.
+      message_sent: تم إرسال الرسالة
       send_button: أرسل
       send_message_to: أرسل رساله جديده إلى {{name}}
       subject: الموضوع
       title: أرسل رسالة
+    no_such_user: 
+      body: عذرًا لا يوجد مستخدم أو رساله بذلك الاسم أو المعرّف
+      heading: لا يوجد مستخدم أو رسالة
+      title: لا يوجد مستخدم أو رسالة
     outbox: 
       date: التاريخ
-      inbox: الوارد
-      my_inbox: "{{inbox_link}}"
+      inbox: صندوق البريد الوارد
+      my_inbox: رابطى {{inbox_link}}
+      no_sent_messages: لا يوجد لديك رسائل مرسله بعد. لماذا لا تقوم بالاتصال مع بعض {{people_mapping_nearby_link}}؟
       outbox: الصادر
+      people_mapping_nearby: مخططون فى جواري
       subject: الموضوع
       title: صندوق الصادر
       to: إلى
-      you_have_sent_messages: لديك {{count}} رسائل المرسلة
+      you_have_sent_messages: لديك {{count}} رساله مرسلة
     read: 
       back_to_inbox: العوده إلى صندوق الوارد
       back_to_outbox: العوده إلى صندوق الصادر
@@ -648,82 +926,176 @@ arz:
       subject: الموضوع
       title: اقرأ الرسالة
       to: إلى
+      unread_button: علّم كغير مقروءة
     sent_message_summary: 
       delete_button: احذف
   notifier: 
     diary_comment_notification: 
-      header: "{{from_user}} علق على مدخلتك اليوميه الأخيره فى خريطه الشارع المفتوح بالعنوان {{subject}}:"
+      footer: يمكنك أيضًا قراءه التعليق على {{readurl}} ويمكنك التعليق على {{commenturl}} أو الرد على {{replyurl}}
+      header: "{{from_user}} علّق على مدخلتك اليوميه الحديثه فى خريطه الشارع المفتوحه بالعنوان {{subject}}:"
       hi: مرحبًا {{to_user}}،
+      subject: "[خريطه الشارع المفتوحة] {{user}} أضاف تعليقًا على مدخلتك فى اليومية"
+    email_confirm: 
+      subject: "[خريطه الشارع المفتوحة] أكّد عنوان بريدك الإلكتروني"
     email_confirm_html: 
+      click_the_link: إذا كان هذا هو أنت، رجاءًا انقر فوق الرابط أدناه لتأكيد التغيير.
       greeting: مرحبًا،
+      hopefully_you: شخص ما (نأمل أنت) يرغب بتغيير عنوان بريده الإلكترونى على {{server_url}} to {{new_address}}.
     email_confirm_plain: 
+      click_the_link: إذا كان هذا هو أنت، يرجى الضغط على الرابط أدناه لتأكيد التغيير.
       greeting: تحياتى،
+      hopefully_you_1: شخص ما (نأمل أنت) يرغب بتغيير عنوان بريده الإلكترونى على
+      hopefully_you_2: "{{server_url}} إلى {{new_address}}."
+    friend_notification: 
+      had_added_you: "{{user}} قام بإضافتك كصديق على خريطه الشارع المفتوحه."
+      see_their_profile: يمكنك أن تشاهد ملفه الشخصى على {{userurl}} وإضافته كصديق أيضًا إن كنت ترغب فى ذلك.
+      subject: "[خريطه الشارع المفتوحة] {{user}} أضافك كصديق."
     gpx_notification: 
+      and_no_tags: ولا يوجد سمات.
       and_the_tags: "والسمات التالية:"
       failure: 
         failed_to_import: "فشل الاستيراد. الخطأ هو:"
+        more_info_1: المزيد من المعلومات حول فشل استيراد جى بى إكس وكيفيه تجنبها
+        more_info_2: "وهم موجودين على:"
+        subject: "[خريطه الشارع المفتوحة] فشل استيراد جى بى إكس"
       greeting: تحياتى،
+      success: 
+        loaded_successfully: تم تحميل بنجاح {{trace_points}} نقطه من أصل {{possible_points}} نقطه ممكنه.
+        subject: "[خريطه الشارع المفتوحة] نجاح استيراد جى بى إكس"
       with_description: مع الوصف
+      your_gpx_file: يبدو أنه ملف جى بى إكس الخاص بك
+    lost_password: 
+      subject: "[خريطه الشارع المفتوحة] طلب إعاده تعيين كلمه المرور"
     lost_password_html: 
+      click_the_link: إذا كان هذا هو أنت، يرجى الضغط على الرابط أدناه لإعاده تعيين كلمه المرور.
       greeting: تحياتى،
+      hopefully_you: شخص ما (ربما أنت) طلب إعاده تعيين كلمه المرور لحساب openstreetmap.org  على عنوان البريد الإلكترونى هذا.
     lost_password_plain: 
       click_the_link: إذا كان هذا هو أنت، يرجى الضغط على الرابط أدناه لإعاده تعيين كلمه المرور.
       greeting: تحياتى،
+      hopefully_you_1: شخص ما (ربما أنت) قد طلب إعاده تعيين كلمه المرور على هذا
       hopefully_you_2: عناوين البريد الإلكترونى لحساب openstreetmap.org.
     message_notification: 
-      header: "{{from_user}} قام بإرسال رساله لك عبر خريطه الشارع المفتوح بالعنوان {{subject}}:"
+      footer1: ويمكنك أيضًا قراءه الرساله على  {{readurl}}
+      footer2: ويمكنك الرد على {{replyurl}}
+      header: "{{from_user}} قام بإرسال رساله لك عبر خريطه الشارع المفتوحه بالعنوان {{subject}}:"
+      hi: مرحبًا {{to_user}}،
+      subject: "[خريطه الشارع المفتوحة] {{user}} أرسل لك رساله جديدة"
+    signup_confirm: 
+      subject: "[خريطه الشارع المفتوحة] أكّد عنوان بريدك الإلكتروني"
     signup_confirm_html: 
-      click_the_link: إذا كان هذا هو أنت، مرحبا! الرجاء اضغط على الرابط أدناه لتأكيد هذا الحساب، واقرأ عن المزيد من المعلومات حول خريطه الشارع المفتوح
+      click_the_link: إذا كان هذا هو أنت، مرحبًا! الرجاء اضغط على الرابط أدناه لتأكيد هذا الحساب، واقرأ عن المزيد من المعلومات حول خريطه الشارع المفتوحة
+      greeting: مرحباَ بك!
+      hopefully_you: شخص ما (نأمل أنت) يرغب بإنشاء حساب على
+      introductory_video: يمكنك مشاهده {{introductory_video_link}}.
+      more_videos: يوجد {{more_videos_link}}.
       more_videos_here: المزيد من الفيديو هنا
+      video_to_openstreetmap: فيديو تمهيديه لـخريطه الطريق المفتوحة
+      wiki_signup: قد تحتاج أيضًا إلى <a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page">التسجيل فى ويكى خريطه الشارع المفتوحه.</a>
     signup_confirm_plain: 
-      blog_and_twitter: واكب أحدث الأخبار عبر مدونه خريطه الشارع المفتوح أو تويتر
-      click_the_link_1: إذا كان هذا هو أنت، مرحبا! الرجاء اضغط على الرابط أدناه لتأكيد
-      greeting: مرحبًا!
-      more_videos: "هناك المزيد من الفيديو هنا:"
+      blog_and_twitter: "واكب أحدث الأخبار عبر مدونه خريطه الشارع المفتوحه أو تويتر:"
+      click_the_link_1: إذا كان هذا هو أنت، مرحبًا! الرجاء اضغط على الرابط أدناه لتأكيد
+      click_the_link_2: حساب وإقرأ المزيد من المعلومات عن خريطه الطريق المفتوحه.
+      current_user_1: لائحه للمستخدمين الحاليين فى فئات، استنادًا إلى الموقع فى العالم
+      current_user_2: "وهم، متوفر من:"
+      greeting: مرحبًا بك!
+      hopefully_you: شخص ما (نأمل أنت) يرغب بإنشاء حساب على
+      introductory_video: "يمكنك مشاهده شريط فيديو تمهيدى لخريطه الطريق المفتوحه هنا:"
+      more_videos: "هناك المزيد من الفيديوهات هنا:"
+      the_wiki: "احصل على بعض المطالعه عن خريطه الطريق المفتوح على الويكي:"
       user_wiki_1: من المستحسن أن تقوم بإنشاء صفحه مستخدم ويكى، والتى تتضمن
+      wiki_signup: "قد تحتاج أيضًا إلى التسجيل فى ويكى خريطه الشارع المفتوحه على:"
   oauth: 
     oauthorize: 
-      allow_read_prefs: اقرأ تفضيلات المستخدم.
-      allow_write_api: تعديل الخريطه.
+      allow_read_gpx: قراءه آثار جى بى أس الخاصه بك.
+      allow_read_prefs: يقرأ تفضيلات المستخدم.
+      allow_to: "اسمح للتطبيق بأن:"
+      allow_write_api: يعدّل الخريطه.
+      allow_write_diary: إنشاء مدخلات يوميه، تعليقات وإضافه أصدقاء.
+      allow_write_gpx: ارفع آثار جى بى أس.
       allow_write_prefs: عدّل تفضيلات المستخدم.
+      request_access: التطبيق {{app_name}} يطلب الوصول إلى حسابك. يرجى التحقق ما إذا كنت تريد أن يكون للتطبيق هذه القدرات. يمكن أن تختار ما تشاء.
   oauth_clients: 
     create: 
       flash: تم تسجيل المعلومات بنجاح
+    destroy: 
+      flash: دمّر تسجيل التطبيق
     edit: 
-      submit: حرِّر
-      title: حرّر تطبيقك
+      submit: عدّل
+      title: عدّل تطبيقك
     form: 
+      allow_read_gpx: قراءه آثاره للجى بى إس الخصوصيه.
+      allow_read_prefs: قراءه تفضيلاته.
       allow_write_api: تعديل الخريطه.
-      callback_url: رابط رد
+      allow_write_diary: إنشاء مدخلات يوميه، تعليقات وإضافه أصدقاء.
+      allow_write_gpx: رفع آثار جى بى إس.
+      allow_write_prefs: تعديل تفضيلاته.
+      callback_url: رابط الرد
       name: الاسم
+      requests: "اطلب الصلاحيات التاليه من المستخدم:"
       required: مطلوب
       support_url: رابط الدعم
+      url: رابط التطبيق الرئيسي
     index: 
       application: اسم التطبيق
-      issued_at: أصدِر في
+      issued_at: أُصدِر في
+      list_tokens: "التصاريح الصادره باسمك للتطبيقات التالية:"
+      my_apps: تطبيقاتي
+      my_tokens: تطبيقاتى المصرحة
+      no_apps: هل لديك تطبيق تود أن تسجله للاستخدام معنا من خلال {{oauth}} القياسي؟ يجب عليك أن تسجل تطبيق الويب الخاص قبل أن يتمكن من تقديم طلبات OAuth لهذه الخدمه.
       register_new: سجِّل تطبيقك
-      revoke: ألغِ
+      registered_apps: "لديك التطبيقات المسجله التالية:"
+      revoke: ابطل!
+      title: تفاصيل OAuth الخاص بي
     new: 
       submit: سجِّل
       title: سجِّل تطبيق جديد
+    not_found: 
+      sorry: عذرًا، لم يتم العثور على تلك {{type}}.
     show: 
+      allow_read_gpx: قراءه آثاره للجى بى إس الخصوصيه.
+      allow_read_prefs: قراءه تفضيلاته.
       allow_write_api: تعديل الخريطه.
+      allow_write_diary: إنشاء مدخلات يوميه، تعليقات وإضافه أصدقاء.
+      allow_write_gpx: ارفع آثار جى بى إس.
+      allow_write_prefs: تعديل تفضيلاته.
       authorize_url: "رابط التصريح:"
-      edit: حرّر التفاصيل
+      edit: عدّل التفاصيل
+      requests: "طلب الصلاحيات التاليه من المستخدم:"
+      support_notice: نحن ندعم HMAC-SHA1 (مستحسن) وكذلك النص العادى فى وضع ssl.
+      title: تفاصيل OAuth للتطبيق {{app_name}}
+      url: "رابط الطلب:"
     update: 
       flash: تم تحديث معلومات العميل بنجاح
   site: 
     edit: 
+      anon_edits_link_text: ابحث عن السبب لماذا هو هذا الحال.
+      flash_player_required: أنت بحاجه لمشغل فلاش لاستخدام Potlatch، محرر فلاش خريطه الشارع المفتوحه. يمكنك <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">تنزيل مشغل الفلاش من موقع أدوبي</a>. <a href="http://wiki.openstreetmap.org/wiki/Editing">وهناك خيارات أخرى</a> أيضًا متاحه لتعديل خريطه الشارع المفتوحه.
+      not_public: لم تقم بتعيين تعديلاتك لتظهر بشكل علنى.
+      not_public_description: أنت لم تعد قادر على تعديل الخريطه إلا إذا قمت بذلك. يمكنك تعيين تعديلاتك لتظهر بشكل علنى من حسابك {{user_page}}.
+      potlatch_unsaved_changes: لديك تغييرات غير محفوظه. (للحفظ فى Potlatch، يجب إلغاء الطريق أو النقطه الحاليين إن كان التعديل فى الوضع المباشر، أو انقر فوق حفظ إن كان لديك زر الحفظ.)
       user_page_link: صفحه مستخدم
     index: 
+      js_1: أنت إما تستخدم متصفح لا يدعم جافا سكريبت، أو أنك عطلت استعمال جافا سكريبت.
+      js_2: خريطه الشارع المفتوحه تستخدم جافا سكريبت لخريطتها المنزلقه.
+      js_3: قد ترغب بمحاوله <a href="http://tah.openstreetmap.org/Browse/">Tiles@Home static tile browser</a> إذا كنت غير قادر على تمكين جافا سكريبت.
+      license: 
+        license_name: المشاع الإبداعى، النسبه، نسخه 2.0
+        notice: مرخص بموجب رخصه {{license_name}} بواسطه {{project_name}} ومساهميه.
+        project_name: مشروع خريطه الشارع المفتوحة
       permalink: وصله دائمة
       shortlink: وصله قصيرة
     key: 
+      map_key: دليل الخريطة
+      map_key_tooltip: دليل الخريطه لبيانات mapnik فى هذا المستوى من التكبير
       table: 
         entry: 
           admin: حدود إدارية
+          allotments: حصص سكنية
           apron: 
             - ساحه مطار
+            - صاله مطار
+          bridleway: مسلك خيول
           building: مبنى كبير
           byway: طريق فرعي
           cemetery: مقبرة
@@ -733,9 +1105,11 @@ arz:
             - شائع
             - مرج
           construction: الطرق تحت الإنشاء
-          farm: مزرعة
+          cycleway: طريق دراجات
+          farm: أرض زراعية
           footway: طريق مشاة
           forest: غابة
+          golf: ملعب غولف
           industrial: منطقه صناعية
           lake: 
             - بحيرة
@@ -743,18 +1117,22 @@ arz:
           military: منطقه عسكرية
           motorway: طريق سريع
           park: منتزه
+          pitch: ملعب رياضي
           primary: طريق رئيسي
-          private: وصول خاص
+          private: استخدام خصوصي
           rail: سكه حديدية
           reserve: محميه طبيعية
           resident: منطقه سكنية
+          retail: منطقه بيع بالمفرق
           runway: 
-            - مدرج مطار
+            - مدرج مطار للإقلاع/الهبوط
+            - مدرج مطار لمناورات الطائرات
           school: 
             - مدرسة
             - جامعة
           secondary: طريق ثانوي
           station: محطه قطار
+          subway: قطار الأنفاق
           summit: 
             - قمة
             - ذروة
@@ -763,47 +1141,72 @@ arz:
           tram: 
             - ترام
             - ترام
+          trunk: طريق رئيسي
           unclassified: طريق غير مصنّف
           unsurfaced: طريق غير معبد
           wood: غابة
+        heading: الدليل للدرجه {{zoom_level}}
     search: 
       search: ابحث
+      search_help: "أمثلة: 'الحرية'، 'شارع الحمراء, بيروت'، 'مدرسة, القاهرة' <a href='http://http://wiki.openstreetmap.org/wiki/Ar:Search?uselang=ar'>المزيد من الأمثله...</a>"
       submit_text: اذهب
       where_am_i: أين أنا؟
+      where_am_i_title: صِف الموقع الحالى باستخدام محرك البحث
     sidebar: 
       close: أغلق
       search_results: نتائج البحث
   trace: 
+    create: 
+      trace_uploaded: لقد تم تحميل ملفك الجى بى إكس ويتنظر الإدراج فى قاعده البيانات. وهذا يحدث عادًه خلال نصف ساعه، وسيتم إرسال رساله إلكترونيه لك عند الانتهاء.
+      upload_trace: ارفع أثر جى بى إس
+    delete: 
+      scheduled_for_deletion: تم جدوله الأثر للحذف
     edit: 
       description: "الوصف:"
       download: نزّل
-      edit: حرّر
+      edit: عدّل
       filename: "اسم الملف:"
+      heading: تعديل الأثر {{name}}
       map: خريطة
       owner: "المالك:"
       points: "النقاط:"
       save_button: احفظ التغييرات
-      start_coord: إحداثيات البدء
+      start_coord: "إحداثيات البدء:"
       tags: "الوسوم:"
       tags_help: محدد بفواصل
-      uploaded_at: "تم الرفع على:"
+      title: تعديل الأثر {{name}}
+      uploaded_at: "تم الرفع في:"
       visibility: "الرؤية:"
       visibility_help: ماذا يعنى هذا؟
+    list: 
+      public_traces: آثار جى بى إس عمومية
+      public_traces_from: آثار جى بى إس عموميه من {{user}}
+      tagged_with: " موسوم مع {{tags}}"
+      your_traces: آثار جى بى إس الخاصه بك
+    make_public: 
+      made_public: تم جعل الأثر عمومي
     no_such_user: 
+      body: عذرًا، لا يوجد مستخدم بالاسم {{user}}. يرجى تدقيق الاسم، أو ربما يكون الرابط الذى تم النقر عليه خاطئ.
       heading: المستخدم {{user}} غير موجود
       title: مستخدم غير موجود
+    offline: 
+      heading: مخزن جى بى إكس غير متصل
+      message: مخزن ونظام رفع ملفات جى بى إكس غير متاح حاليًا.
+    offline_warning: 
+      message: نظام رفع ملفات جى بى إكس غير متاح حاليًا
     trace: 
       ago: منذ {{time_in_words_ago}}
       by: بواسطة
       count_points: "{{count}} نقطة"
-      edit: حرّر
-      edit_map: حرّر الخريطة
+      edit: عدّل
+      edit_map: عدّل الخريطة
       in: في
       map: خريطة
       more: المزيد
-      pending: فى الإنتظار
+      pending: فى الانتظار
       private: خاص
       public: عام
+      trace_details: اعرض تفاصيل الأثر
       view_map: اعرض الخريطة
     trace_form: 
       description: الوصف
@@ -811,143 +1214,304 @@ arz:
       tags: الوسوم
       tags_help: محدد بفواصل
       upload_button: ارفع
+      upload_gpx: ارفع ملف جى بى إكس
       visibility: الرؤية
       visibility_help: ماذا يعنى هذا؟
+    trace_header: 
+      see_all_traces: شاهد كل الآثار
+      see_just_your_traces: شاهد آثارك فقط، أو ارفع أثر
+      see_your_traces: شاهد جميع آثارك
+      traces_waiting: لديك {{count}} أثر فى انتظار التحميل. يرجى مراعاه الانتظار قبل تحميل أكثر من ذلك، بحيث تتجنب إعاقه طابور التحميل لباقى المستخدمين.
     trace_optionals: 
       tags: الوسوم
     trace_paging_nav: 
       of: من
       showing: إظهار الصفحة
     view: 
+      delete_track: احذف هذا الأثر
       description: "الوصف:"
       download: نزّل
-      edit: حرّر
+      edit: عدّل
+      edit_track: عدّل هذا الأثر
       filename: "اسم الملف:"
+      heading: عرض الأثر {{name}}
       map: خريطة
-      none: لا شيء
+      none: لا يوجد
       owner: "المالك:"
       pending: فى الانتظار
       points: "النقاط:"
-      start_coordinates: "احداتيات البدء:"
+      start_coordinates: "إحداثيات البدء:"
       tags: "الوسوم:"
-      uploaded: "تم الرفع على:"
+      title: عرض الأثر {{name}}
+      trace_not_found: لم يتم العثور على الأثر!
+      uploaded: "تم الرفع في:"
       visibility: "الرؤية:"
+    visibility: 
+      identifiable: محدد الهويه (يظهر فى قائمه الآثار محدد الهويه والنقاط مرتبه زمنيًا)
+      private: خصوصى (يظهر كمجهول الهويه ونقاط غير مرتبة)
+      public: عمومى (يظهر فى قائمه الآثار مجهول الهويه ونقاط غير مرتبة)
+      trackable: تعقبى (يظهر كمجهول الهويه ونقاط مرتبه زمنيًا)
   user: 
     account: 
-      email never displayed publicly: (لا تظهر علنا)
+      email never displayed publicly: (لا يظهر علنًا)
       flash update success: تم تحديث معلومات المستخدم بنجاح.
+      flash update success confirm needed: تم تحديث معلومات المستخدم بنجاح. تحقق من بريدك الإلكترونى لمذكره تأكيد العنوان الإلكترونى الجديد.
       home location: "موقع المنزل:"
       latitude: "خط العرض:"
       longitude: "خط الطول:"
       make edits public button: اجعل جميع تعديلاتى عامة
       my settings: إعداداتي
       no home location: لم تدخل موقع منزلك.
-      preferred languages: "اللغات المفضلة:"
+      preferred languages: "اللغات المفضّلة:"
       profile description: "وصف الملف الشخصي:"
       public editing: 
+        disabled: مُعطل ولا يمكن تعديل البيانات، جميع التعديلات السابقه مجهوله الهويه.
         disabled link text: لماذا لا أستطيع التعديل؟
-        enabled: مفعل. غير مجهول ويمكنك تحرير البيانات
+        enabled: مفعّل. غير مجهول ويمكنك تعديل البيانات.
         enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: ما هذا؟
-        heading: "تحرير عام:"
+        heading: "تعديل عام:"
       public editing note: 
-        heading: تحرير عام
+        heading: تعديل عام
+        text: حاليًا تعديلاتك تظهر بشكل مجهول ولا يمكن للناس إرسال رسائل لك أو رؤيه موقعك. لإظهار ما قمت بتعديله وللسماح للناس بالاتصال بك من خلال الموقع، انقر على الزر أدناه. <b>منذ التغيير إلى الأى بى أى 0.6، فقط المستخدمين العلنيين يمكنه تحرير بيانات الخريطة</b>. (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">لمعرفه السبب</a>). <ul><li>عنوانك البريدى لن يكشف به علنّا.</li><li>هذا الإجراء لا يمكن عكسه وجميع المستخدمين الجديد علنيين بشكل افتراضى.</li></ul>
+      return to profile: العوده إلى الملف الشخصي
       save changes button: احفظ التغييرات
-      title: حرّر الحساب
+      title: عدّل الحساب
       update home location on click: حدّث موقع المنزل عندما أنقر على الخريطة؟
     confirm: 
       button: أكّد
+      failure: حساب مستخدم قد أُكّد سابقًا بهذه المعلومات.
+      heading: أكّد حساب المستخدم
+      press confirm button: اضغط على زر التأكيد أدناه لتنشيط حسابك.
+      success: تم تأكيد حسابك، شكرًا للاشتراك!
     confirm_email: 
       button: أكّد
+      failure: عنوان بريد إلكترونى تم تفعيله مسبقًا بهذه البيانات.
       heading: أكّد تغيير عنوان البريد الإلكتروني
       press confirm button: اضغط على زر تأكيد أدناه لتأكيد عنوان بريدك الإلكترونى الجديد.
-      success: أكّد عنوان بريدك الإلكترونى، شكرًا للاشتراك!
+      success: تم تأكيد عنوان بريدك الإلكترونى، شكرًا للاشتراك!
     filter: 
       not_an_administrator: عليك أن تكون إدارى لتنفيذ هذا الإجراء.
     friend_map: 
-      nearby mapper: "مخطط قريب: [[nearby_user]]"
+      nearby mapper: "مخطط بالجوار: [[nearby_user]]"
       your location: موقعك
     go_public: 
       flash success: جميع تعديلاتك الآن عامه، ومسموح لك بالتعديل الآن.
     login: 
-      auth failure: آسف ، لا يمكن الدخول بتلك التفاصيل.
-      create_account: أنشئ حساباً
+      account not active: عذرًا، حسابك غير نشط بعد.<br />يرجى النقر على الرابط فى تأكيد حساب البريد الإلكترونى لتنشيط حسابك.
+      auth failure: آسف، لا يمكن الدخول بتلك التفاصيل.
+      create_account: أنشئ حسابًا
       email or username: "عنوان البريد الإلكترونى أو اسم المستخدم:"
       heading: ولوج
       login_button: لُج
-      lost password link: أنسيت كلمه السر؟
-      password: "كلمه السر:"
+      lost password link: أنسيت كلمه المرور؟
+      password: "كلمه المرور:"
       please login: من فضلك لُج أو {{create_user_link}}.
       title: ولوج
     lost_password: 
       email address: "عنوان البريد الإلكتروني:"
-      heading: أنسيت كلمه السر؟
-      new password button: إعاده ضبط كلمه السر
+      heading: أنسيت كلمه المرور؟
+      help_text: أدخل عنوان البريد الإلكترونى الذى استخدمته للتسجيل ، وسوف نرسل عليه رابط يمكنك استخدامه لإعاده تعيين كلمه المرور.
+      new password button: إعاده ضبط كلمه المرور
       notice email cannot find: تعذّر إيجاد عنوان البريد الإلكترونى، نحن آسفون.
-      title: نسيان كلمه السر
+      notice email on way: نأسف لأنك أضعتها :-( ولكن هناك رساله إلكترونيه فى طريقها إليك ستمكنك من إعاده تعيينها قريبًا.
+      title: نسيان كلمه المرور
     make_friend: 
+      already_a_friend: حاليًا أنت و {{name}} أصدقاء.
+      failed: عفوًا، تعذر إضافه {{name}} كصديق.
       success: "{{name}} الآن صديقك."
     new: 
       confirm email address: "تأكيد عنوان البريد الإلكتروني:"
-      confirm password: "تأكيد كلمه السر:"
-      display name: اسم المستخدم
+      confirm password: "تأكيد كلمه المرور:"
+      contact_webmaster: يرجى الاتصال <a href="mailto:webmaster@openstreetmap.org">بمسؤول الموقع</a> لترتيب الحساب المراد إنشاؤه - وسنحاول التعامل مع هذا الطلب بأسرع وقت ممكن.
+      display name: "اسم المستخدم:"
+      display name description: اسم المستخدم الخاص بك الظاهر علنًا. يمكنك تغيير هذه التفضيلات فى وقت لاحق.
       email address: "عنوان البريد الإلكتروني:"
-      password: "كلمه السر:"
+      fill_form: قم بتعبئه النموذج وسوف نرسل لك رساله بريد إلكترونى سريعه لتنشيط حسابك.
+      flash create success message: لقد تم إنشاء مستخدم جديد بنجاح. تحقق من وجود ملاحظه فى بريدك الإلكترونى، وسيمكنك التخطيط فى أى وقت :-)<br /><br />يرجى ملاحظه أنك لن تتمكن من الدخول حتى تستلم وتأكّد عنوان بريدك الإلكترونى.<br /><br />إن كنت تستخدم مكافح السخام الذى يرسل طلبات التأكيد يرجى أن تتأكد من وضع webmaster@openstreetmap.org فى القائمه البيضاء لأننا غير قادرين على الرد على أى طلب تأكيد.
+      heading: أنشئ حساب مستخدم
+      license_agreement: بإنشائك الحساب، أنت توافق على أن تكون جميع المعلومات التى تقدمها إلى مشروع خريطه الشارع المفتوحه مرخصه (بشكل غير حصري) تحت <a href="http://creativecommons.org/licenses/by-sa/2.0/">رخصه المشاع الإبداعى، النسبه، نسخه 2.0</a>. 2.0
+      no_auto_account_create: للأسف نحن غير قادرين فى الوقت الحالى على إنشاء حساب لك تلقائيًا.
+      not displayed publicly: لا يعرض علنًا (انظر <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="ويكى سياسه الخصوصيه المتضمنه قسم عن عناوين البريد الإلكتروني">سياسه الخصوصية</a>)
+      password: "كلمه المرور:"
+      signup: أنشئ حسابًا
+      title: أنشئ حساب
+    no_such_user: 
+      body: عذرًا، لا يوجد مستخدم بالاسم {{user}}. يرجى تدقيق الاسم، أو ربما يكون الرابط الذى تم النقر عليه خاطئ.
+      heading: المستخدم {{user}} غير موجود
+      title: مستخدم غير موجود
+    remove_friend: 
+      not_a_friend: "{{name}} ليس من أحد أصدقائك."
+      success: تم إزاله {{name}} من قائمه أصدقائك.
     reset_password: 
-      confirm password: "أكّد كلمه السر:"
-      flash changed: كلمه السر الخاصه بك قد تغيرت.
+      confirm password: "أكّد كلمه المرور:"
+      flash changed: كلمه المرور الخاصه بك قد تغيرت.
+      flash token bad: لم تجد تلك المعلومات، تحقق من الرابط ربما؟
       heading: إعاده تعيين كلمه المرور {{user}}
-      password: "كلمه السر:"
-      reset: إعاده ضبط كلمه السر
-      title: إعاده ضبط كلمه السر
+      password: "كلمه المرور:"
+      reset: إعاده ضبط كلمه المرور
+      title: إعاده ضبط كلمه المرور
     set_home: 
       flash success: موقع المنزل حُفظ بنجاح
     view: 
+      activate_user: نشّط هذا المستخدم
       add as friend: أضف كصديق
       add image: أضف صورة
+      ago: (منذ {{time_in_words_ago}})
+      block_history: اعرض العرقلات الواصلة
+      blocks by me: العرقلات بواسطتي
+      blocks on me: العرقلات علي
+      change your settings: غيّر إعداداتك
       confirm: أكّد
+      create_block: امنع هذا المستخدم
+      created from: "أُنشىء من:"
       deactivate_user: احذف هذا المستخدم
       delete image: احذف الصورة
       delete_user: احذف هذا المستخدم
       description: الوصف
-      diary: المفكرة
-      edits: تحريرات
+      diary: يومية
+      edits: مساهمات
       email address: "عنوان البريد الإلكتروني:"
-      my diary: مذكراتي
-      my edits: تحريراتي
-      new diary entry: حّرر مدخله يومية
+      hide_user: اخفِ هذا المستخدم
+      if set location: إن قمت بتعيين موقعك، خريطه وأشياء جميله سوف تظهر أدناه. يمكنك تحديد موقع منزلك من صفحه {{settings_link}}.
+      km away: على بعد {{count}}كم
+      m away: على بعد {{count}}متر
+      mapper since: "مُخطط منذ:"
+      moderator_history: اعرض العرقلات المعطات
+      my diary: يوميتي
+      my edits: مساهماتي
+      my settings: إعداداتي
+      my traces: آثاري
+      my_oauth_details: اعرض تفاصيل OAuth الخاص بي
+      nearby users: "مستخدمين بالجوار:"
+      new diary entry: مدخله يوميه جديدة
+      no friends: لم تقم بإضافه أى أصدقاء بعد.
+      no home location: لم يتم تحديد الموقع.
+      no nearby users: لا يوجد بعد مستخدمين أفصحوا عن تخطيطهم بالجوار.
+      remove as friend: أزل كصديق
+      role: 
+        administrator: هذا المستخدم إداري
+        grant: 
+          administrator: منح وصول إداري
+          moderator: منح وصول وسيط
+        moderator: هذا المستخدم وسيط
+        revoke: 
+          administrator: ابطل وصول إداري
+          moderator: ابطل وصول وسيط
       send message: أرسل رسالة
+      settings_link_text: إعدادات
+      traces: آثار
+      unhide_user: أظهر هذا المستخدم
+      upload an image: حمّل صورة
       user image heading: صوره المستخدم
-      user location: موقعك
+      user location: الموقع
       your friends: أصدقاؤك
   user_block: 
+    blocks_by: 
+      empty: "{{name}} لم يقم بعد بأى عرقلة"
+      heading: لائحه العرقلات بواسطه {{name}}
+      title: العرقلات بواسطه {{name}}
+    blocks_on: 
+      empty: "{{name}} لم يتم عرقلته بعد."
+      heading: لائحه العرقلات على {{name}}
+      title: العرقلات على {{name}}
+    create: 
+      flash: أُنشىء عرقله على المستخدم {{name}}.
+      try_contacting: رجاءًا حاول الاتصال بالمستخدم قبل عرقلته وأعطته فتره زمنيه معقوله للرد.
+      try_waiting: رجاءًا حاول إعطاء المستخدم فتره زمنيه معقوله للرد قبل عرقلته.
+    edit: 
+      back: اعرض كل العرقلات
+      heading: تعديل العرقله على {{name}}
+      needs_view: هل يحتاج المستخدم لتسجيل الدخول قبل أن يتم مسح هذه العرقلة؟
+      period: ماهى المده بدءًا من الآن، سيتم عرقله المستخدم من الـ API.
+      reason: السبب وراء عرقله {{name}}. يرجى أن تكون هادئًا بالقدر الممكن والمعقول، مع إعطاء القدر المستطاع من التفاصيل عن الحاله. آخذًا بالاعتبار أن ليس كل المستخدمين يفهم مصطلحات المجتمع، لذا يرجى محاوله استخدام كلمات بسيطه ومعبره.
+      show: اعرض هذه العرقلة
+      submit: حدّث العرقلة
+      title: تعديل العرقله على {{name}}
+    filter: 
+      block_expired: العرقله قد انتهت ولا يمكن تعديلها.
+      block_period: فتره العرقله يجب أن تكون واحده من القيم الاختياريه فى القائمه المنسدله.
+      not_a_moderator: عليك أن تكون وسيط لتنفيذ هذا الإجراء.
     helper: 
       time_future: ينتهى فى {{time}}.
       time_past: انتهى منذ {{time}}.
+      until_login: نشط حتى يقوم المستخدم بتسجيل الدخول.
+    index: 
+      empty: لم يتم إنشاء عرقلات حتى الآن.
+      heading: لائحه بعرقلات المستخدم
+      title: عرقلات المستخدم
+    model: 
+      non_moderator_revoke: يجب أن تكون وسيط لإبطال عرقله.
+      non_moderator_update: يجب أن تكون وسيط لإنشاء أو تحديث عرقله.
+    new: 
+      back: اعرض كل العرقلات
+      heading: إنشاء عرقله على {{name}}
+      needs_view: يحتاج المستخدم لتسجيل الدخول قبل أن يتم مسح هذه العرقلة
+      period: ماهى المده بدءًا من الآن، سيتم عرقله المستخدم من الـ API.
+      reason: السبب وراء عرقله {{name}}. يرجى أن تكون هادئًا بالقدر الممكن والمعقول، مع إعطاء القدر المستطاع من التفاصيل عن الحاله، وتذكر أن تلك الرساله ستظهر للعلن. آخذًا بالاعتبار أن ليس كل المستخدمين يفهم مصطلحات المجتمع، لذا يرجى محاوله استخدام كلمات بسيطه ومعبره.
+      submit: إنشاء العرقلة
+      title: إنشاء عرقله على {{name}}
+      tried_contacting: لقد اتصلت بالمستخدم وطلبت منه التوقف.
+      tried_waiting: لقد أعطيت المستخدم قدرًا معقولًا من الوقت للرد على تلك الاتصالات.
     not_found: 
       back: العوده إلى الفهرس
+      sorry: عفوًا، لم يتم العثور على عرقله المستخدم بالمعرّف {{id}}.
     partial: 
       confirm: هل أنت متأكد؟
       creator_name: المنشئ
-      edit: حرِّر
+      display_name: مستخدم معرقل
+      edit: عدّل
       not_revoked: (لم تلغ)
-      revoke: ألغِ
+      reason: السبب للعرقلة
+      revoke: ابطل!
+      revoker_name: مُبطل بواسطة
       show: اعرض
       status: الحالة
+    period: 
+      few: "{{count}} ساعات"
+      one: ساعه واحد
+      other: "{{count}} ساعة"
+      two: ساعتين
+    revoke: 
+      confirm: هل أنت متأكد أنك ترغب فى إبطال هذه العرقله ؟
+      flash: تم إبطال هذه العرقله.
+      heading: إبطال العرقله على {{block_on}} بواسطه {{block_by}}
+      past: هذه العرقله انتهت منذ {{time}} ولا يمكن إبطالها الآن.
+      revoke: ابطل!
+      time_future: هذه العرقله ستنتهى فى {{time}}.
+      title: إبطال العرقله على {{block_on}}
     show: 
+      back: اعرض كل العرقلات
       confirm: هل أنت متأكد؟
-      edit: حرِّر
-      revoke: ألغِ
+      edit: عدّل
+      heading: "{{block_on}} عُرقل بواسطه {{block_by}}"
+      needs_view: المستخدم يحتاج لتسجيل الدخول قبل أن يتم مسح هذه العرقله.
+      reason: "سبب العرقلة:"
+      revoke: ابطل!
+      revoker: "المبطل:"
       show: اعرض
       status: الحالة
       time_future: ينتهى فى {{time}}
       time_past: انتهى منذ {{time}}
+      title: "{{block_on}} عُرقل بواسطه {{block_by}}"
+    update: 
+      only_creator_can_edit: فقط الوسيط الذى قام بإنشاء هذه العرقله يمكنه تعديلها.
+      success: تم تحديث العرقله.
   user_role: 
+    filter: 
+      already_has_role: لدى المستخدم الدور  {{role}} سابقًا
+      doesnt_have_role: ليس للمستخدم الدور {{role}}.
+      not_a_role: السلسله `{{role}}' ليست دور صالح.
+      not_an_administrator: يحق فقط للإداريين القيام بتغيير دور المستخدم، وأنت لست إدارى.
     grant: 
+      are_you_sure: هل أنت متأكد من أنك تريد منح الدور `{{role}}' إلى المستخدم `{{name}}'؟
       confirm: أكّد
+      fail: لا يمكن منح الدور '{{role}}' للمستخدم '{{name}}'. يرجى التحقق من أن المستخدم والدور كلاهما صحيحين.
       heading: تأكيد منح الدور
       title: تأكيد منح الدور
     revoke: 
+      are_you_sure: هل أنت متأكد من أنك تريد إبطال الدور `{{role}}' من المستخدم `{{name}}'؟
       confirm: أكّد
+      fail: لا يمكن إبطال الدور '{{role}}' من المستخدم '{{name}}'. يرجى التحقق من أن المستخدم والدور كلاهما صحيحين.
       heading: تأكيد إلغاء الدور
       title: تأكيد إلغاء الدور
