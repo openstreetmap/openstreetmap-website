@@ -33,6 +33,17 @@ module Globalize
                 else :other
               end
             },
+            :ar => lambda { |count, entry|
+              case count
+                when 1 then :one
+                when 2 then :two
+                else case count % 100
+                       when 3..10 then :few
+                       when 11..99 then :many
+                       else :other
+                     end
+              end
+            },
             :ru => lambda { |count, entry|
               case count % 100
                 when 11,12,13,14 then :many
