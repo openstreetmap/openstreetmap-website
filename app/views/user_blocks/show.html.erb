@@ -17,11 +17,8 @@
 
 <p><b><%= t'user_block.show.status' %></b>: <%= block_status(@user_block) %></p>
 
-<p>
-  <b><%= t'user_block.show.reason' %></b>
-  <%=h @user_block.reason %>
-</p>
-
+<p><b><%= t'user_block.show.reason' %></b></p>
+<%= htmlize(@user_block.reason) %>
 
 <% if @user_block.ends_at > Time.now.getutc %>
 <% if @user and @user.id == @user_block.creator_id %>
