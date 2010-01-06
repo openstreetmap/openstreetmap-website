@@ -20,12 +20,10 @@ class GeocoderController < ApplicationController
     elsif @query.match(/^(GIR 0AA|[A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]|[A-HK-Y][0-9]([0-9]|[ABEHMNPRV-Y]))|[0-9][A-HJKS-UW])\s*[0-9][ABD-HJLNP-UW-Z]{2})$/i)
       @sources.push "uk_postcode"
       @sources.push "osm_nominatim"
-      @sources.push "osm_namefinder"
     elsif @query.match(/^[A-Z]\d[A-Z]\s*\d[A-Z]\d$/i)
       @sources.push "ca_postcode"
     else
       @sources.push "osm_nominatim"
-      @sources.push "osm_namefinder"
       @sources.push "geonames"
     end
 
@@ -300,9 +298,6 @@ class GeocoderController < ApplicationController
     @sources = Array.new
 
     @sources.push({ :name => "osm_nominatim" })
-    @sources.push({ :name => "osm_namefinder", :types => "cities", :max => 2 })
-    @sources.push({ :name => "osm_namefinder", :types => "towns", :max => 4 })
-    @sources.push({ :name => "osm_namefinder", :types => "places", :max => 10 })
     @sources.push({ :name => "geonames" })
 
     render :update do |page|
