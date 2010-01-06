@@ -228,14 +228,25 @@ class GeocoderController < ApplicationController
       viewbox = "&viewbox=#{minlon},#{maxlat},#{maxlon},#{minlat}"
     end
 
+    # get objects to excude
+    if params[:exclude]
+      exclude = "&exclude_place_ids=#{params[:exclude].join(',')}"
+    end
+
+    # ask nominatim
+    response = fetch_xml("http://nominatim.openstreetmap.org/search?format=xml&q=#{escape_query(query)}#{viewbox}#{exclude}&accept-language=#{request.user_preferred_languages.join(',')}")
+
     # create result array
     @results = Array.new
 
-    # ask nominatim
-    response = fetch_xml("http://nominatim.openstreetmap.org/search?format=xml&q=#{escape_query(query)}#{viewbox}&accept-language=#{request.user_preferred_languages.join(',')}")
+    # create parameter hash for "more results" link
+    @more_params = params.reverse_merge({ :exclude => [] })
+
+    # extract the results from the response
+    results =  response.elements["searchresults"]
 
     # parse the response
-    response.elements.each("searchresults/place") do |place|
+    results.elements.each("place") do |place|
       lat = place.attributes["lat"].to_s
       lon = place.attributes["lon"].to_s
       klass = place.attributes["class"].to_s
@@ -248,6 +259,7 @@ class GeocoderController < ApplicationController
                      :min_lat => min_lat, :max_lat => max_lat,
                      :min_lon => min_lon, :max_lon => max_lon,
                      :prefix => prefix, :name => name})
+      @more_params[:exclude].push(place.attributes["place_id"].to_s)
     end
 
     render :action => "results"
