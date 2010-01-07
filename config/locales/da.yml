@@ -1,9 +1,84 @@
 # Messages for Danish (Dansk)
 # Exported from translatewiki.net
 # Export driver: syck
+# Author: Ebbe
 # Author: Freek
 da: 
+  activerecord: 
+    attributes: 
+      diary_entry: 
+        title: Titel
+        user: Bruger
+      friend: 
+        friend: Ven
+        user: Bruger
+      message: 
+        recipient: Modtager
+        sender: Afsender
+        title: Titel
+      trace: 
+        description: Beskrivelse
+        name: Navn
+        public: Offentlig
+        size: Størrelse
+        user: Bruger
+        visible: Synlig
+      user: 
+        active: Aktiv
+        description: Beskrivelse
+        email: E-mail
+        languages: Sprog
+        pass_crypt: Kodeord
+    models: 
+      country: Land
+      diary_comment: Dagbogskommentar
+      friend: Ven
+      language: Sprog
+      message: Besked
+      relation: Relation
+      user: Bruger
+      user_preference: Brugerindstillinger
   browse: 
+    changeset: 
+      changeset: "Ændringssæt: {{id}}"
+      changesetxml: XML for ændringssæt
+      download: Hent ned {{changeset_xml_link}} eller {{osmchange_xml_link}}
+      feed: 
+        title: Ændringssæt {{id}}
+        title_comment: Ændringssæt {{id}} - {{comment}}
+      osmchangexml: osmChange XML
+      title: Ændringssæt
+    changeset_details: 
+      belongs_to: "Tilhører:"
+      bounding_box: "Grænse:"
+      box: kasse
+      closed_at: "Lukket:"
+      created_at: "Oprettet:"
+      has_nodes: 
+        one: "Har følgende punkt:"
+        other: "Har følgende {{count}} punkter:"
+      has_relations: 
+        one: "Har følgende relation:"
+        other: "Har følgende {{count}} relationer:"
+      has_ways: 
+        one: "Har følgende vej:"
+        other: "Har følgende {{count}} veje:"
+      no_bounding_box: Ingen grænse er lagret for dette ændringssæt.
+      show_area_box: Vis kasse på et stort kort
+    changeset_navigation: 
+      all: 
+        next_tooltip: Næste ændringssæt
+        prev_tooltip: Forrige ændringssæt
+      user: 
+        name_tooltip: Vis redigeringer af {{user}}
+        next_tooltip: Næste redigering af {{user}}
+        prev_tooltip: Forrige redigering af {{user}}
+    common_details: 
+      changeset_comment: "Kommentar:"
+      edited_at: "Redigeret:"
+      edited_by: "Redigeret af:"
+      in_changeset: "I ændringssæt:"
+      version: "Version:"
     containing_relation: 
       entry: Relation {{relation_name}}
       entry_role: Relation {{relation_name}} (som {{relation_role}})
@@ -11,32 +86,40 @@ da:
       deleted: Slettet
       larger: 
         area: Vis område på større kort
-        node: Vis knude på større kort
-        relation: Vis realtion på større kort
+        node: Vis punkt på større kort
+        relation: Vis relation på større kort
         way: Vis vej på større kort
       loading: Indlæsning...
     node: 
       download: "{{download_xml_link}}, {{view_history_link}} eller {{edit_link}}"
       edit: redigér
-      node: Knude
-      node_title: "Knude: {{node_name}}"
+      node: Punkt
+      node_title: "Punkt: {{node_name}}"
       view_history: vis historik
     node_details: 
       coordinates: "Koordinater:"
       part_of: "Del af:"
     node_history: 
       download: "{{download_xml_link}} eller {{view_details_link}}"
-      node_history: Knudehistorik
-      node_history_title: "Knudehistorik: {{node_name}}"
+      node_history: Punkthistorik
+      node_history_title: "Punkthistorik: {{node_name}}"
       view_details: vis detaljer
     not_found: 
+      sorry: Unskyld, {{type}}'en med id {{id}} kan ikke findes.
       type: 
         changeset: ændringssæt
-        node: knude
+        node: punkt
         relation: relation
         way: vej
     paging_nav: 
       of: af
+      showing_page: Viser side
+    relation: 
+      download: "{{download_xml_link}} eller {{view_history_link}}"
+      download_xml: Hent ned XML
+      relation: Relation
+      relation_title: "Relation: {{relation_name}}"
+      view_history: vis historik
     relation_details: 
       members: "Medlemmer:"
       part_of: "Del af:"
@@ -48,13 +131,22 @@ da:
     relation_member: 
       entry_role: "{{type}} {{name}} som {{role}}"
       type: 
-        node: Knude
+        node: Punkt
         relation: Relation
         way: Vej
+    start: 
+      manually_select: Vælg et andet område manuelt
+      view_data: Vis data for nuværende kortvisning
     start_rjs: 
-      edited_by_user_at_timestamp: Redigert af [[user]], [[timestamp]]
+      data_frame_title: Data
+      data_layer_name: Data
+      details: Detaljer
+      drag_a_box: Træk en kasse på kortet for at vælge et område
+      edited_by_user_at_timestamp: Redigeret af [[user]], [[timestamp]]
       history_for_feature: Historik for [[feature]]
-      loaded_an_area_with_num_features: "Du har indlæst et område som indeholder [[num_features]] objekter. Nogle browsere fungerer ikke ved håndtering af så meget data. Browsere fungerer generelt bedst med mindre end 100 objekter ad gangen: FIXME"
+      loaded_an_area_with_num_features: "Du har indlæst et område som indeholder [[num_features]] objekter. Nogle browsere kan have problemer ved håndtering af så meget data. Browsere fungerer generelt bedst med mindre end 100 objekter ad gangen: flere objekter kan gøre at din browser bliver langsom. Hvis du er sikker på, at du vil se alle disse data, så klik på knappen nedenfor."
+      loading: Indlæsning...
+      manually_select: Vælg et andet område manuelt
       object_list: 
         api: Hent dette område fra API'et
         back: Vis objektliste
@@ -62,15 +154,22 @@ da:
         heading: Objektliste
         history: 
           type: 
-            node: Knude [[id]]
+            node: Punkt [[id]]
             way: Vej [[id]]
         selected: 
           type: 
-            node: Knude [[id]]
+            node: Punkt [[id]]
             way: Vej [[id]]
         type: 
-          node: Knude
+          node: Punkt
           way: Vej
+      private_user: privat bruger
+      show_history: Vis historik
+      unable_to_load_size: "Kunne ikke indlæse: området [[bbox_size]] er for stort (skal være mindre end {{max_bbox_size}})"
+      wait: Vent...
+      zoom_or_select: Zoom ind eller vælg et område af kortet for visning
+    tag_details: 
+      tags: "Egenskaber:"
     way: 
       download: "{{download_xml_link}}, {{view_history_link}} eller {{edit_link}}"
       edit: redigér
@@ -81,34 +180,387 @@ da:
       also_part_of: 
         one: også del af vej {{related_ways}}
         other: også del af veje {{related_ways}}
-      nodes: "Knuder:"
+      nodes: "Punkter:"
       part_of: "Del af:"
     way_history: 
       download: "{{download_xml_link}} eller {{view_details_link}}"
       view_details: vis detaljer
       way_history: Vejhistorik
       way_history_title: "Vejhistorik: {{way_name}}"
+  changeset: 
+    changeset: 
+      anonymous: Anonym
+      big_area: (stor)
+      no_comment: (ingen)
+      no_edits: (ingen redigeringer)
+      show_area_box: vis boks for område
+      still_editing: (redigerer stadig)
+    changeset_paging_nav: 
+      next: Næste &raquo;
+      previous: "&laquo; Forrige"
+      showing_page: Viser side {{page}}
+    changesets: 
+      user: Bruger
+    list: 
+      description: Seneste ændringer
+  diary_entry: 
+    diary_comment: 
+      confirm: Bekræft
+      hide_link: Skjul denne kommentar
+    diary_entry: 
+      confirm: Bekræft
+    edit: 
+      language: "Sprog:"
+      save_button: Gem
+      subject: "Emne:"
+      use_map_link: brug kort
+  export: 
+    start: 
+      add_marker: Tilføj en markør på kortet
+      area_to_export: Område at eksportere
+      export_button: Eksportér
+      format: "Format:"
+      format_to_export: Format for eksport
+      image_size: "Billedestørrelse:"
+      licence: Licens
+      manually_select: Vælg et andet område manuelt
+      mapnik_image: Mapnik billede
+      osm_xml_data: OpenStreetMap XML-data
+      osmarender_image: Osmarender billede
+      scale: Skala
+      zoom: Zoom
+    start_rjs: 
+      add_marker: Tilføj en markør på kortet
+      change_marker: Skrift markørposition
+      click_add_marker: Klik på kortet for at tilføje en markør
+      drag_a_box: Træk en boks på kortet for at vælge et område
+      export: Eksportér
+      manually_select: Vælg et andet område manuelt
+      view_larger_map: Vis større kort
+  geocoder: 
+    direction: 
+      east: øst
+      north: nord
+      north_east: nordøst
+      north_west: nordvest
+      south: syd
+      south_east: sydøst
+      south_west: sydvest
+      west: vest
+    distance: 
+      one: omkring 1 km
+      other: omkring {{count}}km
+      zero: mindre end 1 km
+    results: 
+      no_results: Ingen resultater fundet
+    search_osm_namefinder: 
+      suffix_parent: "{{suffix}} ({{parentdistance}} {{parentdirection}} for {{parentname}})"
+      suffix_place: ", {{distance}} {{direction}} for {{placename}}"
   layouts: 
+    donate: Støt OpenStreetMap med en {{link}} til Hardware-upgradefonden.
+    donate_link_text: donation
     edit: Redigér
     edit_tooltip: Redigér kortet
+    export: Eksporter
+    export_tooltip: Eksporter kortdata
+    gps_traces: GPS-spor
     help_wiki: Hjælp &amp; Wiki
+    help_wiki_tooltip: Hjælp- og Wiki-side for projektet
+    help_wiki_url: http://wiki.openstreetmap.org/wiki/Da:Main_Page?uselang=da
     history: Historik
+    history_tooltip: Historik af ændringssæt
+    home: hjem
+    home_tooltip: Gå til hjemmeposition
+    inbox: indbakke ({{count}})
+    inbox_tooltip: 
+      one: Din indbakke indeholder 1 ulæst besked
+      other: Din indbakke indeholder {{count}} ulæste beskeder
+      zero: Din indbakke indeholder ingen ulæste beskeder
+    intro_1: OpenStreetMap er et frit redigerbart kort over hele verden. Det er lavet af folk som dig.
+    intro_2: OpenStreetMap gør det mulig at vise, redigere og bruge geografiske data på en samarbejdende måde fra hvor som helst på jorden.
+    intro_3: OpenStreetMaps hosting er venligt støttet af {{ucl}} og {{bytemark}}.
     log_in: log på
     log_in_tooltip: Log på med din konto
+    logo: 
+      alt_text: OpenStreetMap logo
     logout: log af
     logout_tooltip: Log af
+    make_a_donation: 
+      text: Doner
+      title: Støt OpenStreetMap med en donation
     news_blog: Nyheder (blog)
     news_blog_tooltip: Blog med nyheder om OpenStreetMap, frie geografiske data, etc
+    osm_offline: OpenStreetMap databasen er for øjeblikket offline på grund af database vedligeholdelse.
+    osm_read_only: OpenStreetMap databasen er for øjeblikket ikke redigerbar på grund af database vedligeholdelse.
     shop: Butik
+    shop_tooltip: Butik med OpenStreetMap produkter
     sign_up: opret en konto
+    sign_up_tooltip: Opret en konto for redigering
     tag_line: Det frie Wiki-verdenskort
+    user_diaries: Brugerdagbøger
+    user_diaries_tooltip: Vis bruger dagbøger
     view: Kort
     view_tooltip: Vis kortere
     welcome_user: Velkommen, {{user_link}}
+    welcome_user_link_tooltip: Din brugerside
   map: 
     coordinates: "Koordinater:"
     edit: Redigér
     view: Kort
+  message: 
+    delete: 
+      deleted: Besked slettet
+    inbox: 
+      date: Dato
+      from: Fra
+      my_inbox: Min indbakke
+      no_messages_yet: Du har ingen beskeder endnu. Hvorfor ikke komme i kontakt med nogle af de {{people_mapping_nearby_link}}?
+      outbox: udbakke
+      people_mapping_nearby: folk som kortlægger i nærheden
+      subject: Emne
+      title: Indbakke
+      you_have: Du har {{new_count}} ny beskeder og {{old_count}} gamle beskeder
+    mark: 
+      as_read: Besked markeret som læst
+      as_unread: Besked markeret som ulæst
+    message_summary: 
+      delete_button: Slet
+      read_button: Marker som læst
+      reply_button: Svar
+      unread_button: Marker som ulæst
+    new: 
+      back_to_inbox: Tilbage til indbakke
+      limit_exceeded: Du har sendt mange beskeder på det sidste. Vent venligst lidt før du forsøger at sende flere.
+      message_sent: Besked sendt
+      send_button: Send
+      send_message_to: Send en ny besked til {{name}}
+      subject: Emne
+      title: Send besked
+    no_such_user: 
+      body: Der er desværre ingen bruger eller besked med det navn eller id.
+      heading: Ingen sådan bruger eller besked
+      title: Ingen sådan bruger eller besked
+    outbox: 
+      date: Dato
+      inbox: indbakke
+      my_inbox: Min {{inbox_link}}
+      no_sent_messages: Du har ingen sendte beskeder endnu. Hvorfor ikke komme i kontakt med nogle af de {{people_mapping_nearby_link}}?
+      outbox: udbakke
+      people_mapping_nearby: folk som kortlægger i nærheden
+      subject: Emne
+      title: Udbakke
+      to: Til
+      you_have_sent_messages: Du har sendt {{count}} beskeder
+    read: 
+      back_to_inbox: Tilbage til indbakke
+      back_to_outbox: Tilbage til udbakke
+      date: Dato
+      from: Fra
+      reading_your_messages: Læser dine beskeder
+      reading_your_sent_messages: Læser dine sendte beskeder
+      reply_button: Svar
+      subject: Emne
+      title: Læs besked
+      to: Til
+      unread_button: Marker som ulæst
+    sent_message_summary: 
+      delete_button: Slet
   site: 
+    key: 
+      map_key: Kortnøgle
     search: 
+      search: Søg
       where_am_i: Hvor er jeg?
+    sidebar: 
+      close: Luk
+  trace: 
+    create: 
+      trace_uploaded: Din GPX-fil er uploadet og afventer lagring i databasen. Det sker normalt inden for en halv time, og en e-mail bliver tilsendt dig når det er gjort.
+      upload_trace: Upload GPS-spor
+    delete: 
+      scheduled_for_deletion: Spor planlagt for sletning
+    edit: 
+      description: "Beskrivelse:"
+      edit: redigér
+      filename: "Filnavn:"
+      heading: Redigerer spor {{name}}
+      map: kort
+      owner: "Ejer:"
+      points: "Punkter:"
+      save_button: Gem ændringer
+      start_coord: "Startkoordinat:"
+      tags: "Mærker:"
+      tags_help: kommasepareret
+      title: Redigerer spor {{name}}
+      uploaded_at: "Uploadet:"
+      visibility: "Synlighed:"
+      visibility_help: hvad betyder det her?
+    list: 
+      public_traces: Offentlige GPS-spor
+      public_traces_from: Offentlige GPS-spor fra {{user}}
+      tagged_with: " mærket med {{tags}}"
+      your_traces: Dine GPS-spor
+    make_public: 
+      made_public: Spor gjort offentlig
+    no_such_user: 
+      body: Beklager, der er ingen bruger med navnet {{user}}. Kontroller at stavemåden er korrekt, eller måske er linket du fulgte fejl.
+      heading: Brugeren {{user}} eksisterer ikke
+      title: Ingen bruger fundet
+    offline: 
+      heading: GPX lagring ikke tilgængelig
+      message: Systemet der håndterer upload og lagring af GPX-filer er på nuværende tidspunkt ikke tilgængelig
+    offline_warning: 
+      message: Systemet der håndterer upload af GPX-filer er på nuværende tidspunkt ikke tilgængelig
+    trace: 
+      ago: "{{time_in_words_ago}} siden"
+      by: af
+      count_points: "{{count}} punkter"
+      edit: redigér
+      edit_map: Redigér kort
+      in: i
+      map: kort
+      more: mere
+      pending: VENTENDE
+      private: PRIVAT
+      public: OFFENTLIG
+      trace_details: Vis spordetaljer
+      view_map: Vis kort
+    trace_form: 
+      description: "Beskrivelse:"
+      help: Hjælp
+      tags: "Mærker:"
+      tags_help: kommasepareret
+      upload_button: Upload
+      upload_gpx: Upload GPX-fil
+      visibility: "Synlighed:"
+      visibility_help: hvad betyder det her?
+    trace_header: 
+      see_all_traces: Vis alle spor
+      see_just_your_traces: Vis kun dine spor, eller upload et spor
+      see_your_traces: Vis alle dine spor
+      traces_waiting: Du har allerede {{count}} GPS-spor i køen. Overvej at vente på disse før du uploader flere spor for ikke at blokkere køen for andre brugere.
+    trace_optionals: 
+      tags: Egenskaber
+    trace_paging_nav: 
+      of: af
+      showing: Viser side
+    view: 
+      delete_track: Slet dette spor
+      description: "Beskrivelse:"
+      edit: redigér
+      edit_track: Rediger dette spor
+      filename: "Filnavn:"
+      heading: Viser spor {{name}}
+      map: kort
+      none: Ingen
+      owner: "Ejer:"
+      pending: VENTENDE
+      points: "Punkter:"
+      start_coordinates: "Startkoordinat:"
+      tags: "Mærker:"
+      title: Viser spor {{name}}
+      trace_not_found: Spor ikke fundet!
+      uploaded: "Uploadet:"
+      visibility: "Synlighed:"
+    visibility: 
+      identifiable: Identificerbar (vist i sporliste, punkterne er identificerbar og beholder rækkefølgen og tidsstempler)
+      private: Privat (kun delt som anonyme punkter uden rækkefølge og tidsstempler)
+      public: Offentlig (vist i sporliste, men punkterne er anonym og er ikke i rækkefølge)
+      trackable: Sporbar (anonym, men punkterne beholder rækkefølgen og tidsstempler)
+  user: 
+    account: 
+      email never displayed publicly: (vises aldrig offentligt)
+      flash update success: Brugerinformation opdateret.
+      home location: "Hjemmeposition:"
+      my settings: Mine indstillinger
+      no home location: Du har ikke angivet din hjemmeposition.
+      preferred languages: "Foretrukne sprog:"
+      public editing: 
+        disabled link text: hvorfor kan jeg ikke redigere?
+        enabled link text: hvad er dette?
+      return to profile: Tilbage til pofil
+      save changes button: Gem ændringer
+      title: Rediger konto
+      update home location on click: Opdater hjemmeposition når jeg klikker på kortet?
+    confirm: 
+      button: Bekræft
+    confirm_email: 
+      button: Bekræft
+      heading: Bekræft ændring af e-mail adresse
+    filter: 
+      not_an_administrator: Du skal være administrator for at gøre dette.
+    friend_map: 
+      your location: Din position
+    login: 
+      account not active: Din konto er ikke aktiveret endnu.<br />Klik på linket i bekræftelsemailen for at aktivere din konto.
+      auth failure: Kunne ikke logge på med disse oplysninger.
+      create_account: opret en konto
+      email or username: "E-mail-adresse eller brugernavn:"
+      heading: Log på
+      login_button: Log på
+      lost password link: Glemt adgangskode?
+      password: "Adgangskode:"
+      please login: Log på eller {{create_user_link}}.
+      title: Log på
+    lost_password: 
+      email address: "E-mailadresse:"
+      heading: Glemt kodeord?
+      new password button: Nulstil kodeord
+      notice email cannot find: Kunne ikke finde din e-mail. Beklager.
+      title: Glemt kodeord
+    make_friend: 
+      already_a_friend: Du er allerede ven med {{name}}.
+      failed: Desværre, kunne ikke tilføje {{name}} som din ven.
+      success: "{{name}} er nu din ven."
+    new: 
+      no_auto_account_create: Vi kan desværre ikke oprette en konto automatisk for dig pt.
+      title: Opret konto
+    no_such_user: 
+      body: Der findes desværre ingen bruger ved navn {{user}}. Tjek venligst stavningen, ellers kan linket du trykkede på være forkert.
+      heading: Brugeren {{user}} findes ikke
+      title: Ingen sådan bruger
+    reset_password: 
+      confirm password: "Bekræft kodeord:"
+      password: "Kodeord:"
+      reset: Nulstil kodeord
+    set_home: 
+      flash success: Hjemmeposition gemt
+    view: 
+      add as friend: tilføj som ven
+      add image: Tilføj billede
+      ago: ({{time_in_words_ago}} siden)
+      confirm: Bekræft
+      deactivate_user: deaktiver denne bruger
+      delete image: Slet billede
+      delete_user: slet denne bruger
+      description: Beskrivelse
+      diary: dagbog
+      hide_user: skjul denne bruger
+      km away: "{{count}}km væk"
+      my diary: min dagbog
+      my settings: mine indstillinger
+      nearby users: "Brugere nær dig:"
+      no home location: Ingen hjemmeposition sat.
+      remove as friend: fjern som ven
+      role: 
+        administrator: Denne bruger er en administrator
+      send message: send besked
+      settings_link_text: indstillinger
+      unhide_user: stop med at skjule denne bruger
+      user location: Brugereposition
+      your friends: Dine venner
+  user_block: 
+    helper: 
+      time_past: Sluttede {{time}} siden.
+    show: 
+      time_past: Sluttede {{time}} siden
+  user_role: 
+    filter: 
+      already_has_role: Brugeren har allerede rollen {{role}}.
+      doesnt_have_role: Brugeren har ikke rollen {{role}}.
+      not_a_role: String'en "{{role}}" er ikke en gyldig rolle.
+      not_an_administrator: Kun administratorer kan forvalte brugerroller, og du er ikke en administrator.
+    grant: 
+      confirm: Bekræft
+    revoke: 
+      confirm: Bekræft
