@@ -4,29 +4,29 @@ class BrowseController < ApplicationController
   before_filter :authorize_web  
   before_filter :set_locale 
   before_filter { |c| c.check_database_readable(true) }
+  around_filter :timeout, :except => [:start]
 
   def start 
   end
   
-  
-  
   def relation
+    @type = "relation"
     @relation = Relation.find(params[:id])
     @next = Relation.find(:first, :order => "id ASC", :conditions => [ "visible = true AND id > :id", { :id => @relation.id }] )
     @prev = Relation.find(:first, :order => "id DESC", :conditions => [ "visible = true AND id < :id", { :id => @relation.id }] )
   rescue ActiveRecord::RecordNotFound
-    @type = "relation"
     render :action => "not_found", :status => :not_found
   end
   
   def relation_history
+    @type = "relation"
     @relation = Relation.find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    @type = "relation"
     render :action => "not_found", :status => :not_found
   end
   
   def way
+    @type = "way"
     @way = Way.find(params[:id], :include => [:way_tags, {:changeset => :user}, {:nodes => [:node_tags, {:ways => :way_tags}]}, :containing_relation_members])
     @next = Way.find(:first, :order => "id ASC", :conditions => [ "visible = true AND id > :id", { :id => @way.id }] )
     @prev = Way.find(:first, :order => "id DESC", :conditions => [ "visible = true AND id < :id", { :id => @way.id }] )
@@ -34,34 +34,35 @@ class BrowseController < ApplicationController
     # Used for edit link, takes approx middle node of way
     @midnode = @way.nodes[@way.nodes.length/2]
   rescue ActiveRecord::RecordNotFound
-    @type = "way"
     render :action => "not_found", :status => :not_found
   end
   
   def way_history
+    @type = "way"
     @way = Way.find(params[:id], :include => [:way_tags, {:old_ways => {:changeset => :user}}])
   rescue ActiveRecord::RecordNotFound
-    @type = "way"
     render :action => "not_found", :status => :not_found
   end
 
   def node
+    @type = "node"
     @node = Node.find(params[:id])
     @next = Node.find(:first, :order => "id ASC", :conditions => [ "visible = true AND id > :id", { :id => @node.id }] )
     @prev = Node.find(:first, :order => "id DESC", :conditions => [ "visible = true AND id < :id", { :id => @node.id }] )
   rescue ActiveRecord::RecordNotFound
-    @type = "node"
     render :action => "not_found", :status => :not_found
   end
   
   def node_history
+    @type = "node"
     @node = Node.find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    @type = "way"
     render :action => "not_found", :status => :not_found
   end
   
   def changeset
+    @type = "changeset"
+
     @changeset = Changeset.find(params[:id])
     @node_pages, @nodes = paginate(:old_nodes, :conditions => {:changeset_id => @changeset.id}, :per_page => 20, :parameter => 'node_page')
     @way_pages, @ways = paginate(:old_ways, :conditions => {:changeset_id => @changeset.id}, :per_page => 20, :parameter => 'way_page')
@@ -74,7 +75,16 @@ class BrowseController < ApplicationController
     @next_by_user = Changeset.find(:first, :order => "id ASC", :conditions => [ "id > :id AND user_id = :user_id", {:id => @changeset.id, :user_id => @changeset.user_id }] )
     @prev_by_user = Changeset.find(:first, :order => "id DESC", :conditions => [ "id < :id AND user_id = :user_id", {:id => @changeset.id, :user_id => @changeset.user_id }] )
   rescue ActiveRecord::RecordNotFound
-    @type = "changeset"
     render :action => "not_found", :status => :not_found
+  end
+
+private
+
+  def timeout
+    Timeout::timeout(30) do
+      yield
+    end
+  rescue Timeout::Error
+    render :action => "timeout", :status => :request_timeout
   end
 end
