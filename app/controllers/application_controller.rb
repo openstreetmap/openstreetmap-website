@@ -213,7 +213,39 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  ##
+  # extend caches_action to include the parameters, locale and logged in
+  # status in all cache keys
+  def self.caches_action(*actions)
+    options = actions.extract_options!
+    cache_path = options[:cache_path] || Hash.new
+
+    options[:cache_path] = Proc.new do |controller|
+      user = controller.instance_variable_get("@user")
+
+      case
+      when user.nil? then user = :none
+      when user.display_name == controller.params[:display_name] then user = :self
+      else user = :other
+      end
+
+      cache_path.merge(controller.params).merge(:locale => I18n.locale, :user => user)
+    end
+
+    actions.push(options)
+
+    super *actions
+  end
+
+  ##
+  # extend expire_action to expire all variants
+  def expire_action(options = {})
+    path = fragment_cache_key(options).gsub('?', '.').gsub(':', '.')
+    expire_fragment(Regexp.new(Regexp.escape(path) + "\\..*"))
+  end
+
 private 
+
   # extract authorisation credentials from headers, returns user = nil if none
   def get_auth_data 
     if request.env.has_key? 'X-HTTP_AUTHORIZATION'          # where mod_rewrite might have put it 

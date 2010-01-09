@@ -8,6 +8,10 @@ class DiaryEntryController < ApplicationController
   before_filter :check_database_writable, :only => [:new, :edit]
   before_filter :require_administrator, :only => [:hide, :hidecomment]
 
+  caches_action :list, :view, :layout => false
+  caches_action :rss, :layout => true
+  cache_sweeper :diary_sweeper, :only => [:new, :edit, :comment, :hide, :hidecomment]
+
   def new
     @title = t 'diary_entry.new.title'
 

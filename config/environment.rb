@@ -65,6 +65,9 @@ Rails::Initializer.run do |config|
   # (by default production uses :info, the others :debug)
   # config.log_level = :debug
 
+  # Configure cache
+  config.cache_store = :file_store, "#{RAILS_ROOT}/tmp/cache"
+
   # Your secret key for verifying cookie session data integrity.
   # If you change this key, all old sessions will become invalid!
   # Make sure the secret is at least 30 characters and all random, 
