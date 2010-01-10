@@ -15,6 +15,11 @@ class TraceController < ApplicationController
   before_filter :offline_redirect, :only => [:create, :edit, :delete, :data, :api_data, :api_create]
   around_filter :api_call_handle_error, :only => [:api_details, :api_data, :api_create]
 
+  caches_action :list, :view, :layout => false
+  caches_action :georss, :layout => true
+  cache_sweeper :trace_sweeper, :only => [:create, :edit, :delete, :api_create]
+  cache_sweeper :tracetag_sweeper, :only => [:create, :edit, :delete, :api_create]
+
   # Counts and selects pages of GPX traces for various criteria (by user, tags, public etc.).
   #  target_user - if set, specifies the user to fetch traces for.  if not set will fetch all traces
   def list(target_user = nil, action = "list")
