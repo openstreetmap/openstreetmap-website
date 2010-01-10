@@ -44,6 +44,14 @@ class UserController < ApplicationController
     @title = t 'user.account.title'
     @tokens = @user.oauth_tokens.find :all, :conditions => 'oauth_tokens.invalidated_at is null and oauth_tokens.authorized_at is not null'
 
+    #The redirect from the OpenID provider reenters here again
+    #and we need to pass the parameters through to the 
+    #open_id_authentication function
+    if params[:open_id_complete]
+      openid_verify('')
+      return
+    end
+
     if params[:user] and params[:user][:display_name] and params[:user][:description]
       if params[:user][:email] != @user.email
         @user.new_email = params[:user][:email]
@@ -54,6 +62,10 @@ class UserController < ApplicationController
       if params[:user][:pass_crypt].length > 0 or params[:user][:pass_crypt_confirmation].length > 0
         @user.pass_crypt = params[:user][:pass_crypt]
         @user.pass_crypt_confirmation = params[:user][:pass_crypt_confirmation]
+      end
+      if (params[:user][:openid_url].length == 0)
+        #Clearing doesn't need OpenID validation, so we can set it here.
+        @user.openid_url = nil
       end
 
       @user.description = params[:user][:description]
@@ -71,8 +83,63 @@ class UserController < ApplicationController
           flash.now[:notice] = t 'user.account.flash update success'
         end
       end
+
+      if (params[:user][:openid_url].length > 0)
+	begin
+	  @norm_openid_url = OpenIdAuthentication.normalize_identifier(params[:user][:openid_url])
+	  if (@norm_openid_url != @user.openid_url)
+	    #If the OpenID has changed, we want to check that it is a valid OpenID and one
+	    #the user has control over before saving the openID as a password equivalent for
+	    #the user.
+	    openid_verify(@norm_openid_url)
+	  end
+	rescue
+	  flash.now[:error] = t 'user.login.openid invalid'
+	end
+      end
     end
   end
+
+  def openid_specialcase_mapping(openid_url)
+    #Special case gmail.com, as it is pontentially a popular OpenID provider and unlike
+    #yahoo.com, where it works automatically, Google have hidden their OpenID endpoint
+    #somewhere obscure making it less userfriendly.
+    if (openid_url.match(/(.*)gmail.com(\/?)$/) or openid_url.match(/(.*)googlemail.com(\/?)$/) )
+      return 'https://www.google.com/accounts/o8/id'
+    end
+
+    return nil
+  end  
+
+  def openid_verify(openid_url)
+    authenticate_with_open_id(openid_url) do |result, identity_url|
+      if result.successful?
+        #We need to use the openid url passed back from the OpenID provider
+        #rather than the one supplied by the user, as these can be different.
+        #e.g. one can simply enter yahoo.com in the login box, i.e. no user specific url
+        #only once it comes back from the OpenID provider do we know the unique address for
+        #the user.
+        @user.openid_url = identity_url
+        if @user.save
+          flash.now[:notice] = t 'user.account.flash update success'
+        end
+      else if result.missing?
+             mapped_id = openid_specialcase_mapping(openid_url)
+             if mapped_id
+               openid_verify(mapped_id)
+             else
+               flash.now[:error] = t 'user.login.openid missing provider'
+             end
+           else if result.invalid?
+                  flash.now[:error] = t 'user.login.openid invalid'
+                else
+                  flash.now[:error] = t 'user.login.auth failure'
+                end
+           end
+      end
+    end
+  end
+
 
   def set_home
     if params[:user][:home_lat] and params[:user][:home_lon]
@@ -142,22 +209,39 @@ class UserController < ApplicationController
     # The user is logged in already, so don't show them the signup page, instead
     # send them to the home page
     redirect_to :controller => 'site', :action => 'index' if session[:user]
+
+    @nickname = params['nickname']
+    @email = params['email']
   end
 
   def login
-    if params[:user] and session[:user].nil?
-      email_or_display_name = params[:user][:email]
-      pass = params[:user][:password]
-      user = User.authenticate(:username => email_or_display_name, :password => pass)
-      if user
-        session[:user] = user.id
-      elsif User.authenticate(:username => email_or_display_name, :password => pass, :inactive => true)
-        flash.now[:error] = t 'user.login.account not active'
-      else
-        flash.now[:error] = t 'user.login.auth failure'
-      end
+
+    #The redirect from the OpenID provider reenters here again
+    #and we need to pass the parameters through to the 
+    # open_id_authentication function
+    if params[:open_id_complete]
+      open_id_authentication('')
     end
 
+    
+    if params[:user] and session[:user].nil?
+
+      if !params[:user][:openid_url].empty?
+        open_id_authentication(params[:user][:openid_url])
+      else
+        email_or_display_name = params[:user][:email]
+        pass = params[:user][:password]
+        user = User.authenticate(:username => email_or_display_name, :password => pass)
+        if user
+          session[:user] = user.id
+        elsif User.authenticate(:username => email_or_display_name, :password => pass, :inactive => true)
+          flash.now[:error] = t 'user.login.account not active'
+        else
+          flash.now[:error] = t 'user.login.auth failure'
+        end
+      end
+    end
+  
     if session[:user]
       # The user is logged in, if the referer param exists, redirect them to that
       # unless they've also got a block on them, in which case redirect them to
@@ -175,6 +259,51 @@ class UserController < ApplicationController
     end
 
     @title = t 'user.login.title'
+  end
+
+  def open_id_authentication(openid_url)
+    #TODO: only ask for nickname and email, if we don't already have a user for that openID, in which case
+    #email and nickname are already filled out. I don't know how to do that with ruby syntax though, as we
+    #don't want to duplicate the do block
+    #On the other hand it also doesn't matter too much if we ask every time, as the OpenID provider should
+    #remember these results, and shouldn't repromt the user for these data each time.
+    authenticate_with_open_id(openid_url, :return_to => request.protocol + request.host_with_port + '/login?referer=' + params[:referer], :optional => [:nickname, :email]) do |result, identity_url, registration|
+      if result.successful?
+        #We need to use the openid url passed back from the OpenID provider
+        #rather than the one supplied by the user, as these can be different.
+        #e.g. one can simply enter yahoo.com in the login box, i.e. no user specific url
+        #only once it comes back from the OpenID provider do we know the unique address for
+        #the user.
+        user = User.find_by_openid_url(identity_url)
+        if user
+          if user.visible? and user.active?
+            session[:user] = user.id
+          else
+            user = nil
+            flash.now[:error] = t 'user.login.account not active'
+          end
+        else
+          #We don't have a user registered to this OpenID. Redirect to the create account page
+          #with username and email filled in if they have been given by the OpenID provider through
+          #the simple registration protocol
+          redirect_to :controller => 'user', :action => 'new', :nickname => registration['nickname'], :email => registration['email']
+        end
+      else if result.missing?
+             #Try and apply some heuristics to make common cases more userfriendly
+             mapped_id = openid_specialcase_mapping(openid_url)
+             if mapped_id
+               open_id_authentication(mapped_id)
+             else
+               flash.now[:error] = t 'user.login.openid missing provider'
+             end
+           else if result.invalid?
+                  flash.now[:error] = t 'user.login.openid invalid'
+                else
+                  flash.now[:error] = t 'user.login.auth failure'
+                end
+           end
+      end
+    end
   end
 
   def logout

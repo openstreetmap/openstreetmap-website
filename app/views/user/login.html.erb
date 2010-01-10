@@ -1,4 +1,4 @@
-<h1><%= t 'user.login.heading' %></h1>
+	<h1><%= t 'user.login.heading' %></h1>
 
 <p><%= t 'user.login.please login', :create_user_link => link_to(t('user.login.create_account'), :controller => 'user', :action => 'new', :referer => params[:referer]) %></p>
 
@@ -7,7 +7,15 @@
 <table id="loginForm">
   <tr><td class="fieldName"><%= t 'user.login.email or username' %></td><td><%= text_field('user', 'email',{:size => 28, :maxlength => 255, :tabindex => 1}) %></td></tr>
   <tr><td class="fieldName"><%= t 'user.login.password' %></td><td><%= password_field('user', 'password',{:size => 28, :maxlength => 255, :tabindex => 2}) %> <span class="minorNote">(<%= link_to t('user.login.lost password link'), :controller => 'user', :action => 'lost_password' %>)</span></td></tr>
-  <tr><td colspan="2">&nbsp;<!--vertical spacer--></td></tr>
-  <tr><td></td><td align="right"><%= submit_tag t('user.login.login_button'), :tabindex => 3 %></td></tr>
+<tr><td colspan="2">&nbsp;<!--vertical spacer--></td></tr>
+<tr><td></td><td align="right"><%= submit_tag t('user.login.login_button'), :tabindex => 3 %></td></tr>
+<tr><td colspan = "3"><h4><%= t 'user.login.alternatively' %></h4></td></tr>
+
+
+<tr><td colspan="2"><%= t 'user.login.openid description' %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a href="<%= t 'user.account.openid.link' %>" target="_new"><%= t 'user.account.openid.link text' %></a>)</td></tr>
+
+<tr><td class="fieldName"><%= t 'user.login.openid' %></td><td><%= text_field('user', 'openid_url',{:size => 28, :maxlength => 255, :tabindex => 3}) %></td></tr>
+<tr><td colspan="2">&nbsp;<!--vertical spacer--></td></tr>
+<tr><td></td><td align="right"><%= submit_tag t('user.login.login_button'), :tabindex => 3 %></td></tr>
 </table>
 <% end %>

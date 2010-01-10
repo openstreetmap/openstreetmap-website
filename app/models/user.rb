@@ -22,6 +22,7 @@ class User < ActiveRecord::Base
   validates_confirmation_of :pass_crypt#, :message => ' must match the confirmation password'
   validates_uniqueness_of :display_name, :allow_nil => true
   validates_uniqueness_of :email
+  validates_uniqueness_of :openid_url, :allow_nil => true
   validates_length_of :pass_crypt, :within => 8..255
   validates_length_of :display_name, :within => 3..255, :allow_nil => true
   validates_length_of :email, :within => 6..255

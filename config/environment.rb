@@ -52,6 +52,7 @@ Rails::Initializer.run do |config|
   config.gem 'rmagick', :lib => 'RMagick'
   config.gem 'oauth', :version => '>= 0.3.6'
   config.gem 'httpclient'
+  config.gem 'ruby-openid', :lib => 'openid', :version => '>=2.0.4'
 
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.
