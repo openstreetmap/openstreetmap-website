@@ -16,7 +16,3 @@
     | <%= link_to t('trace.trace_header.see_your_traces'), :controller => 'trace', :action => 'mine' %>
   <% end %>
 </p>
-
-<% if @user and @user.traces.count(:conditions => ["inserted=?", false]) > 4 %>
-  <p><%= t'trace.trace_header.traces_waiting', :count => @user.traces.count(:conditions => ["inserted=?", false]) %></p>
-<% end %>

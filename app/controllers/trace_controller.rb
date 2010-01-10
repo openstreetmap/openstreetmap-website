@@ -96,20 +96,11 @@ class TraceController < ApplicationController
     @action = action
     @display_name = target_user.display_name if target_user
     @all_tags = tagset.values
+    @trace = Trace.new(:visibility => default_visibility) if @user
   end
 
   def mine
-    # Load the preference of whether the user set the trace public the last time
-    @trace = Trace.new
-    visibility = @user.preferences.find(:first, :conditions => {:k => "gps.trace.visibility"})
-    if visibility
-      @trace.visibility = visibility.v
-    elsif @user.preferences.find(:first, :conditions => {:k => "gps.trace.public", :v => "default"}).nil?
-      @trace.visibility = "private"
-    else
-      @trace.visibility = "public"
-    end
-    list(@user, "mine")
+    redirect_to :action => :list, :display_name => @user.display_name
   end
 
   def view
@@ -396,6 +387,18 @@ private
 
   def offline_redirect
     redirect_to :action => :offline if OSM_STATUS == :gpx_offline
+  end
+
+  def default_visibility
+    visibility = @user.preferences.find(:first, :conditions => {:k => "gps.trace.visibility"})
+
+    if visibility
+      visibility.v
+    elsif @user.preferences.find(:first, :conditions => {:k => "gps.trace.public", :v => "default"}).nil?
+      "private"
+    else
+      "public"
+    end
   end
 
 end
