@@ -15,6 +15,8 @@ module ActiveRecord
       rescue ActiveRecord::StatementInvalid => ex
         if ex.message =~ /^OSM::APITimeoutError: /
           raise OSM::APITimeoutError.new
+        elsif ex.message =~ /^Timeout::Error: /
+          raise Timeout::Error.new
         else
           raise
         end
