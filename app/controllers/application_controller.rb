@@ -244,6 +244,12 @@ class ApplicationController < ActionController::Base
     expire_fragment(Regexp.new(Regexp.escape(path) + "\\..*"))
   end
 
+  ##
+  # is the requestor logged in?
+  def logged_in?
+    !@user.nil?
+  end
+
 private 
 
   # extract authorisation credentials from headers, returns user = nil if none
