@@ -242,7 +242,7 @@ class ApplicationController < ActionController::Base
   ##
   # extend expire_action to expire all variants
   def expire_action(options = {})
-    path = fragment_cache_key(options).gsub('?', '.').gsub(':', '.')
+    path = ActionCachePath.path_for(self, options, false).gsub('?', '.').gsub(':', '.')
     expire_fragment(Regexp.new(Regexp.escape(path) + "\\..*"))
   end
 
