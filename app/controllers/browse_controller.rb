@@ -81,7 +81,7 @@ class BrowseController < ApplicationController
 private
 
   def timeout
-    Timeout::timeout(30) do
+    SystemTimer.timeout_after(30) do
       yield
     end
   rescue Timeout::Error

@@ -208,9 +208,11 @@ class ApplicationController < ActionController::Base
   end
 
   def api_call_timeout
-    Timeout::timeout(APP_CONFIG['api_timeout'], OSM::APITimeoutError) do
+    SystemTimer.timeout_after(APP_CONFIG['api_timeout']) do
       yield
     end
+  rescue Timeout::Error
+    raise OSM::APITimeoutError
   end
 
   ##
