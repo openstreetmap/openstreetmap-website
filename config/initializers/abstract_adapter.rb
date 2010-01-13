@@ -16,7 +16,7 @@ module ActiveRecord
         if ex.message =~ /^OSM::APITimeoutError: /
           raise OSM::APITimeoutError.new
         elsif ex.message =~ /^Timeout::Error: /
-          raise Timeout::Error.new
+          raise Timeout::Error.new("time's up!")
         else
           raise
         end
