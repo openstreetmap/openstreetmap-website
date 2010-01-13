@@ -84,6 +84,12 @@ private
     SystemTimer.timeout_after(30) do
       yield
     end
+  rescue ActionView::TemplateError => ex
+    if ex.original_exception.is_a?(Timeout::Error)
+      render :action => "timeout", :status => :request_timeout
+    else
+      raise
+    end
   rescue Timeout::Error
     render :action => "timeout", :status => :request_timeout
   end
