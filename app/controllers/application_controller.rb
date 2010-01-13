@@ -228,6 +228,8 @@ class ApplicationController < ActionController::Base
       case
       when user.nil? then user = :none
       when user.display_name == controller.params[:display_name] then user = :self
+      when user.administrator? then user = :administrator
+      when user.moderator? then user = :moderator
       else user = :other
       end
 
