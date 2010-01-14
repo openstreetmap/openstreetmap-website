@@ -81,11 +81,15 @@ class TraceController < ApplicationController
     conditions[0] += " AND gpx_files.visible = ?"
     conditions << true
 
-    @trace_pages, @traces = paginate(:traces,
-                                     :include => [:user, :tags],
-                                     :conditions => conditions,
-                                     :order => "gpx_files.timestamp DESC",
-                                     :per_page => 20)
+    @page = (params[:page] || 1).to_i
+    @page_size = 20
+
+    @traces = Trace.find(:all,
+                         :include => [:user, :tags],
+                         :conditions => conditions,
+                         :order => "gpx_files.timestamp DESC",
+                         :offset => (@page - 1) * @page_size,
+                         :limit => @page_size)
 
     # put together SET of tags across traces, for related links
     tagset = Hash.new
