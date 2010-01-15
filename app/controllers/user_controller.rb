@@ -22,6 +22,15 @@ class UserController < ApplicationController
     if Acl.find_by_address(request.remote_ip, :conditions => {:k => "no_account_creation"})
       render :action => 'new'
     else
+	  #The redirect from the OpenID provider reenters here again
+	  #and we need to pass the parameters through to the 
+	  #open_id_authentication function
+	  if params[:open_id_complete]
+		openid_verify('', true)
+		redirect_to :action => 'login'
+		return
+	  end
+
       @user = User.new(params[:user])
 
       @user.visible = true
@@ -33,7 +42,19 @@ class UserController < ApplicationController
       if @user.save
         flash[:notice] = t 'user.new.flash create success message'
         Notifier.deliver_signup_confirm(@user, @user.tokens.create(:referer => params[:referer]))
-        redirect_to :action => 'login'
+		if (params[:user][:openid_url].length > 0)
+		  begin
+			session[:new_usr_name] = @user.display_name
+			@norm_openid_url = OpenIdAuthentication.normalize_identifier(params[:user][:openid_url])
+			#TODO: error messages in the openid_verify aren't correctly returned yet
+			openid_verify(@norm_openid_url, true)
+			#Will have sent the redirect_to in the if open_id_complete section of this method
+		  rescue
+			flash.now[:error] = t 'user.login.openid invalid'
+		  end
+		else
+		  redirect_to :action => 'login'
+		end
       else
         render :action => 'new'
       end
@@ -48,7 +69,7 @@ class UserController < ApplicationController
     #and we need to pass the parameters through to the 
     #open_id_authentication function
     if params[:open_id_complete]
-      openid_verify('')
+      openid_verify('', false)
       return
     end
 
@@ -91,7 +112,7 @@ class UserController < ApplicationController
 	    #If the OpenID has changed, we want to check that it is a valid OpenID and one
 	    #the user has control over before saving the openID as a password equivalent for
 	    #the user.
-	    openid_verify(@norm_openid_url)
+	    openid_verify(@norm_openid_url, false)
 	  end
 	rescue
 	  flash.now[:error] = t 'user.login.openid invalid'
@@ -111,7 +132,7 @@ class UserController < ApplicationController
     return nil
   end  
 
-  def openid_verify(openid_url)
+  def openid_verify(openid_url,account_create)
     authenticate_with_open_id(openid_url) do |result, identity_url|
       if result.successful?
         #We need to use the openid url passed back from the OpenID provider
@@ -119,14 +140,15 @@ class UserController < ApplicationController
         #e.g. one can simply enter yahoo.com in the login box, i.e. no user specific url
         #only once it comes back from the OpenID provider do we know the unique address for
         #the user.
+		@user = User.find_by_display_name(session[:new_usr_name]) unless @user
         @user.openid_url = identity_url
         if @user.save
-          flash.now[:notice] = t 'user.account.flash update success'
+          flash.now[:notice] = t 'user.account.flash update success' unless account_create
         end
       else if result.missing?
              mapped_id = openid_specialcase_mapping(openid_url)
              if mapped_id
-               openid_verify(mapped_id)
+               openid_verify(mapped_id, account_create)
              else
                flash.now[:error] = t 'user.login.openid missing provider'
              end
@@ -212,6 +234,7 @@ class UserController < ApplicationController
 
     @nickname = params['nickname']
     @email = params['email']
+	@openID = params['openid']
   end
 
   def login
@@ -286,7 +309,7 @@ class UserController < ApplicationController
           #We don't have a user registered to this OpenID. Redirect to the create account page
           #with username and email filled in if they have been given by the OpenID provider through
           #the simple registration protocol
-          redirect_to :controller => 'user', :action => 'new', :nickname => registration['nickname'], :email => registration['email']
+          redirect_to :controller => 'user', :action => 'new', :nickname => registration['nickname'], :email => registration['email'], :openid => identity_url
         end
       else if result.missing?
              #Try and apply some heuristics to make common cases more userfriendly
