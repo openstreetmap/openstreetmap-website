@@ -84,7 +84,7 @@ class Notifier < ActionMailer::Base
          :replyurl => url_for(:host => SERVER_URL,
                               :controller => "message",
                               :action => "new",
-                              :user_id => comment.user.id,
+                              :display_name => comment.user.display_name,
                               :title => "Re: #{comment.diary_entry.title}")
   end
 
