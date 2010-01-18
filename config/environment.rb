@@ -52,7 +52,7 @@ Rails::Initializer.run do |config|
   config.gem 'rmagick', :lib => 'RMagick'
   config.gem 'oauth', :version => '>= 0.3.6'
   config.gem 'httpclient'
-  config.gem 'SystemTimer', :lib => 'system_timer', :source => "http://gemcutter.org/"
+  config.gem 'SystemTimer', :version => '>= 1.1.3', :lib => 'system_timer'
 
   # Only load the plugins named here, in the order given. By default, all plugins
   # in vendor/plugins are loaded in alphabetical order.
