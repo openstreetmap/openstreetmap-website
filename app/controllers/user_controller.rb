@@ -16,6 +16,8 @@ class UserController < ApplicationController
 
   filter_parameter_logging :password, :pass_crypt, :pass_crypt_confirmation
 
+  cache_sweeper :user_sweeper, :only => [:account, :hide, :unhide, :delete]
+
   def save
     @title = t 'user.new.title'
 
