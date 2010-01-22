@@ -15,7 +15,7 @@ class UserController < ApplicationController
   before_filter :lookup_this_user, :only => [:activate, :deactivate, :hide, :unhide, :delete]
 
   filter_parameter_logging :password, :pass_crypt, :pass_crypt_confirmation
-
+  
   def save
     @title = t 'user.new.title'
 
@@ -24,40 +24,69 @@ class UserController < ApplicationController
     else
 	  #The redirect from the OpenID provider reenters here again
 	  #and we need to pass the parameters through to the 
-	  #open_id_authentication function
+	  #open_id_authentication function a second time
 	  if params[:open_id_complete]
 		openid_verify('', true)
-		redirect_to :action => 'login'
-		return
-	  end
+		#We have set the user.openid_url to nil beforehand. If it hasn't
+		#been set to a new valid openid_url, it means the openid couldn't be validated
+		if @user.nil? or @user.openid_url.nil?
+		  render :action => 'new'
+		  return
+		end  
+	  else
+		@user = User.new(params[:user])
+		
+		@user.visible = true
+		@user.data_public = true
+		@user.description = "" if @user.description.nil?
+		@user.creation_ip = request.remote_ip
+		@user.languages = request.user_preferred_languages
+		#Set the openid_url to nil as for one it is used
+		#to check if the openid could be validated and secondly
+		#to not get dupplicate conflicts for an empty openid 
+		@user.openid_url = nil
 
-      @user = User.new(params[:user])
-
-      @user.visible = true
-      @user.data_public = true
-      @user.description = "" if @user.description.nil?
-      @user.creation_ip = request.remote_ip
-      @user.languages = request.user_preferred_languages
-
-      if @user.save
-        flash[:notice] = t 'user.new.flash create success message'
-        Notifier.deliver_signup_confirm(@user, @user.tokens.create(:referer => params[:referer]))
 		if (params[:user][:openid_url].length > 0)
-		  begin
-			session[:new_usr_name] = @user.display_name
-			@norm_openid_url = OpenIdAuthentication.normalize_identifier(params[:user][:openid_url])
-			#TODO: error messages in the openid_verify aren't correctly returned yet
+		  #Validate all of the other fields before
+		  #redirecting to the openid provider
+		  if !@user.valid?
+			render :action => 'new'
+		  else		  
+			#TODO: Is it a problem to store the user variable with respect to password safty in the session variables?
+			#Store the user variable in the session for it to be accessible when redirecting back from the openid provider
+			session[:new_usr] = @user
+			begin
+			  @norm_openid_url = OpenIdAuthentication.normalize_identifier(params[:user][:openid_url])
+			rescue
+			  flash.now[:error] = t 'user.login.openid invalid'
+			  render :action => 'new'
+			  return
+			end
+			#Verify that the openid provided is valid and that the user is the owner of the id
 			openid_verify(@norm_openid_url, true)
-			#Will have sent the redirect_to in the if open_id_complete section of this method
-		  rescue
-			flash.now[:error] = t 'user.login.openid invalid'
+			#openid_verify can return in two ways:
+			#Either it returns with a redirect to the openid provider who then freshly
+			#redirects back to this url if the openid is valid, or if the openid is not plausible
+			#and no provider for it could be found it just returns
+			#we want to just let the redirect through
+			if response.headers["Location"].nil?
+			  render :action => 'new'
+			end
 		  end
-		else
-		  redirect_to :action => 'login'
+		  #At this point there was either an error and the page has been rendered,
+		  #or there is a redirect to the openid provider and the rest of the method
+		  #gets executed whenn this method gets reentered after redirecting back
+		  #from the openid provider
+		  return
 		end
-      else
-        render :action => 'new'
-      end
+	  end
+	  if @user.save
+		flash[:notice] = t 'user.new.flash create success message'
+		Notifier.deliver_signup_confirm(@user, @user.tokens.create(:referer => params[:referer]))
+		redirect_to :action => 'login'
+	  else
+		render :action => 'new'
+	  end
     end
   end
 
@@ -70,6 +99,7 @@ class UserController < ApplicationController
     #open_id_authentication function
     if params[:open_id_complete]
       openid_verify('', false)
+	  @user.save
       return
     end
 
@@ -106,18 +136,19 @@ class UserController < ApplicationController
       end
 
       if (params[:user][:openid_url].length > 0)
-	begin
-	  @norm_openid_url = OpenIdAuthentication.normalize_identifier(params[:user][:openid_url])
-	  if (@norm_openid_url != @user.openid_url)
-	    #If the OpenID has changed, we want to check that it is a valid OpenID and one
-	    #the user has control over before saving the openID as a password equivalent for
-	    #the user.
-	    openid_verify(@norm_openid_url, false)
-	  end
-	rescue
-	  flash.now[:error] = t 'user.login.openid invalid'
-	end
+		begin
+		  @norm_openid_url = OpenIdAuthentication.normalize_identifier(params[:user][:openid_url])
+		  if (@norm_openid_url != @user.openid_url)
+			#If the OpenID has changed, we want to check that it is a valid OpenID and one
+			#the user has control over before saving the openID as a password equivalent for
+			#the user.
+			openid_verify(@norm_openid_url, false)
+		  end
+		rescue
+		  flash.now[:error] = t 'user.login.openid invalid'
+		end
       end
+
     end
   end
 
@@ -140,25 +171,20 @@ class UserController < ApplicationController
         #e.g. one can simply enter yahoo.com in the login box, i.e. no user specific url
         #only once it comes back from the OpenID provider do we know the unique address for
         #the user.
-		@user = User.find_by_display_name(session[:new_usr_name]) unless @user
+		@user = session[:new_usr] unless @user #this is used for account creation when the user is not yet in the database
         @user.openid_url = identity_url
-        if @user.save
-          flash.now[:notice] = t 'user.account.flash update success' unless account_create
-        end
-      else if result.missing?
-             mapped_id = openid_specialcase_mapping(openid_url)
-             if mapped_id
-               openid_verify(mapped_id, account_create)
-             else
-               flash.now[:error] = t 'user.login.openid missing provider'
-             end
-           else if result.invalid?
-                  flash.now[:error] = t 'user.login.openid invalid'
-                else
-                  flash.now[:error] = t 'user.login.auth failure'
-                end
-           end
-      end
+	  elsif result.missing?
+		mapped_id = openid_specialcase_mapping(openid_url)
+		if mapped_id
+		  openid_verify(mapped_id, account_create)
+		else
+		  flash.now[:error] = t 'user.login.openid missing provider'
+		end
+	  elsif result.invalid?
+		flash.now[:error] = t 'user.login.openid invalid'
+	  else
+		flash.now[:error] = t 'user.login.auth failure'
+	  end
     end
   end
 
