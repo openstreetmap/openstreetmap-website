@@ -47,6 +47,13 @@ class UserController < ApplicationController
 		@user.openid_url = nil
 
 		if (params[:user][:openid_url].length > 0)
+		  if @user.pass_crypt.length == 0 
+            #if the password is empty, but we have a openid 
+            #then generate a random passowrd to disable 
+            #loging in via password 
+            @user.pass_crypt = ActiveSupport::SecureRandom.base64(16) 
+            @user.pass_crypt_confirmation = @user.pass_crypt 
+          end
 		  #Validate all of the other fields before
 		  #redirecting to the openid provider
 		  if !@user.valid?
