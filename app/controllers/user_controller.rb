@@ -46,7 +46,7 @@ class UserController < ApplicationController
 		#to not get dupplicate conflicts for an empty openid 
 		@user.openid_url = nil
 
-		if (params[:user][:openid_url].length > 0)
+		if (!params[:user][:openid_url].nil? and params[:user][:openid_url].length > 0)
 		  if @user.pass_crypt.length == 0 
             #if the password is empty, but we have a openid 
             #then generate a random passowrd to disable 
@@ -282,7 +282,7 @@ class UserController < ApplicationController
     
     if params[:user] and session[:user].nil?
 
-      if !params[:user][:openid_url].empty?
+      if !params[:user][:openid_url].nil? and !params[:user][:openid_url].empty?
         open_id_authentication(params[:user][:openid_url])
       else
         email_or_display_name = params[:user][:email]
