@@ -218,6 +218,13 @@ pl:
       zoom_or_select: Przybliż albo wybierz inny obszar mapy
     tag_details: 
       tags: "Znaczniki:"
+    timeout: 
+      sorry: Niestety, pobranie danych dla {{type}} o identyfikatorze {{id}} trwało zbyt długo.
+      type: 
+        changeset: Zestaw zmian
+        node: węzeł
+        relation: relacja
+        way: droga
     way: 
       download: "{{download_xml_link}} lub {{view_history_link}}"
       download_xml: Ściągnij XML
@@ -389,6 +396,7 @@ pl:
       other: około {{count}}km
       zero: mniej niż 1km
     results: 
+      more_results: Więcej wyników
       no_results: Nie znaleziono
     search: 
       title: 
@@ -971,6 +979,9 @@ pl:
       click_the_link: Jeśli to ty, kliknij na poniższy link, aby potwierdzić zmianę.
       greeting: Cześć,
       hopefully_you: Ktoś (prawdopodobnie Ty) chce zmienić adres e-mail w {{server_url}} na {{new_address}}.
+    email_confirm_plain: 
+      hopefully_you_1: Ktoś (prawdopodobnie Ty sam(a)) chciałby zmienić adres e-mail w serwisie
+      hopefully_you_2: "{{server_url}} na {{new_address}}."
     friend_notification: 
       had_added_you: "{{user}} dodał(a) Cię jako swojego znajomego na OpenStreetMap."
       see_their_profile: Możesz przeczytać jego/jej profil pod {{userurl}} oraz dodać jako Twojego znajomego/ą jeśli chcesz.
@@ -979,19 +990,33 @@ pl:
       and_no_tags: i brak znaczników
       and_the_tags: i następujące znaczniki
       failure: 
+        failed_to_import: "nie udało się zaimportować. Komunikat błędu:"
+        more_info_1: Więcej informacji na temat błędów przesyłania danych GPX i sposobach ich
+        more_info_2: "uniknięcia można znaleźć na stronie:"
         subject: "[OpenStreetMap] Błąd importu pliku GPX"
       greeting: Witaj,
       success: 
+        loaded_successfully: udało się załadować, wraz z {{trace_points}} z {{possible_points}} punktów łącznie.
         subject: "[OpenStreetMap] Sukces importu pliku GPX"
       with_description: z opisem
       your_gpx_file: Wygląda, ze Twój plik GPX
+    lost_password_html: 
+      click_the_link: Jeśli to Ty, kliknij na poniższy link, aby zresetować hasło.
+      greeting: Witaj,
+      hopefully_you: Ktoś - prawdopodobnie Ty - poprosił w serwisie openstreetmap.org o zresetowanie hasła do konta należącego do tego adresu e-mail.
     lost_password_plain: 
       click_the_link: Jeśli to ty, kliknij na poniższy link, aby zresetować hasło.
       greeting: Cześć,
       hopefully_you_1: Ktoś (prawdopodobnie Ty) poprosił o zresetowanie hasła dla tego
       hopefully_you_2: adresy e-mail konto openstreetmap.org.
     message_notification: 
+      footer1: Możesz też przeczytać tę wiadomość pod adresem {{readurl}}
+      footer2: możesz odpowiedzieć pod adresem {{replyurl}}
+      header: "{{from_user}} wysłał do Ciebie wiadomość z OpenStreetMap o temacie {{subject}}:"
+      hi: Witaj {{to_user}},
       subject: "[OpenStreetMap] Użytkownik {{user}} przysłał nową wiadomość"
+    signup_confirm: 
+      subject: "[OpenStreetMap] Prośba o potwierdzenie adresu e-mail"
     signup_confirm_html: 
       click_the_link: Jeśli to Ty, witamy!  Kliknij poniższy link żeby potwierdzić Twoje nowe konto i dowiedzieć się więcej o OpenStreetMap.
       current_user: Aktualne listy użytkowników według ich położenia na Ziemi znajdziesz na stronie <a href="http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region">Category:Users_by_geographical_region</a>.
@@ -1031,6 +1056,9 @@ pl:
       request_access: Aplikacja {{app_name}} żąda dostępu do Twojego konta użytkownika. Sprawdź, czy chcesz pozwolić aplikacji na poniższe działania. Możesz wybrać dowolną liczbę opcji.
     revoke: 
       flash: Cofnąłeś prawa dostępu dla aplikacji {{application}}
+  oauth_clients: 
+    edit: 
+      submit: Edytuj
   site: 
     edit: 
       anon_edits_link_text: Tu dowiesz się dlaczego.
@@ -1173,7 +1201,7 @@ pl:
       count_points: "{{count}} punktów"
       edit: edycja
       edit_map: Edytuj Mapę
-      identifiable: Możliwy do zidentyfikowania
+      identifiable: IDENTYFIKOWALNY
       in: w
       map: mapa
       more: więcej
@@ -1181,7 +1209,7 @@ pl:
       private: PRYWATNY
       public: PUBLICZNY
       trace_details: Pokaż szczegóły śladu
-      trackable: Możliwy do śledzenia
+      trackable: MOŻLIWY DO ŚLEDZENIA
       view_map: Pokaż mapę
     trace_form: 
       description: Opis
@@ -1200,8 +1228,9 @@ pl:
     trace_optionals: 
       tags: Znaczniki
     trace_paging_nav: 
-      of: z
-      showing: Widoczna jest strona
+      next: Następny &raquo;
+      previous: "&laquo; Poprzedni"
+      showing_page: Wyświetlanie strony {{page}}
     view: 
       delete_track: Wykasuj ten ślad
       description: "Opis:"
@@ -1403,9 +1432,20 @@ pl:
       block_expired: Blokada zakończyła się i nie można jej edytować.
       block_period: Długość blokady należy wybrać z listy rozwijanej.
       not_a_moderator: Musisz być moderatorem, by wykonać to działanie.
+    helper: 
+      time_future: Blokada wygasa {{time}}.
+      time_past: Zakończono {{time}} temu.
+      until_login: Aktywne do momentu zalogowania użytkownika.
+    index: 
+      empty: Nie nałożono do tej pory żadnych blokad.
+      heading: Lista blokad użytkowników
+      title: Blokady użytkownika
     model: 
       non_moderator_revoke: Musisz być moderatorem, żeby odwoływać blokady.
       non_moderator_update: Musisz być moderatorem, żeby ustalać i edytować blokady.
+    not_found: 
+      back: Powrót do spisu
+      sorry: Niestety, nie udało się odnaleźć blokady użytkownika o identyfikatorze {{id}}.
     partial: 
       confirm: Na pewno?
       creator_name: Twórca
@@ -1420,6 +1460,14 @@ pl:
     period: 
       one: 1 godzina
       other: "{{count}} godzin"
+    revoke: 
+      confirm: Czy na pewno chcesz odwołać tę blokadę?
+      flash: Blokada została odwołana.
+      heading: Odwoływanie blokady użytkownika {{block_on}} nałożonej przez użytkownika {{block_by}}
+      past: Blokada zakończyła się {{time}} temu i nie można jej odwołać.
+      revoke: Odwołaj
+      time_future: Blokada zakończy się za {{time}}.
+      title: Odwoływanie blokady użytkownika {{block_on}}
     show: 
       back: Przejrzyj wszystkie blokady
       confirm: Na pewno?

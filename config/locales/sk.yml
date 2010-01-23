@@ -7,15 +7,19 @@
 sk: 
   activerecord: 
     attributes: 
+      diary_comment: 
+        body: Telo
       diary_entry: 
         language: Jazyk
         latitude: Zem. šírka
         longitude: Zem. dĺžka
+        title: Nadpis
         user: Užívateľ
       friend: 
         friend: Priateľ
         user: Užívateľ
       message: 
+        body: Telo
         sender: Odosielateľ
       trace: 
         description: Popis
@@ -33,6 +37,7 @@ sk:
         languages: Jazyky
         pass_crypt: Heslo
     models: 
+      country: Krajina
       friend: Priateľ
       language: Jazyk
       message: Správa
@@ -181,6 +186,9 @@ sk:
       zoom_or_select: Priblížiť alebo zvoliť oblasť na mape na zobrazenie
     tag_details: 
       tags: "Tagy:"
+    timeout: 
+      type: 
+        node: uzol
     way: 
       download: "{{download_xml_link}}, {{view_history_link}} alebo {{edit_link}}"
       download_xml: Stiahnuť XML
@@ -201,13 +209,26 @@ sk:
       way_history: História Cesty
       way_history_title: "História Cesty: {{way_name}}"
   changeset: 
+    changeset: 
+      still_editing: (stále sa upravuje)
+    changeset_paging_nav: 
+      next: Ďalšia &raquo;
+      previous: "&laquo; Predošlá"
+      showing_page: Zobrazená stránka {{page}}
     changesets: 
       area: Oblasť
       comment: Komentár
       id: ID
       saved_at: Uložené
       user: Používateľ
+    list: 
+      description: Posledné zmeny
   diary_entry: 
+    diary_entry: 
+      comment_count: 
+        few: "{{count}} komentáre"
+        one: 1 komentár
+        other: "{{count}} komentárov"
     edit: 
       language: "Jazyk:"
       save_button: Uložiť
@@ -219,11 +240,11 @@ sk:
   export: 
     start: 
       add_marker: Pridať marker na mapu
-      area_to_export: Oblasť pre Export
+      area_to_export: Oblasť pre export
       export_button: Export
       export_details: OpenStreetMap údaje sú licencované pod <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative Commons Attribution-ShareAlike 2.0 license</a>.
-      format: Format
-      format_to_export: Formát pre Export
+      format: Formát
+      format_to_export: Formát pre export
       image_size: Veľkosť Obrazu
       latitude: "Zem.šírka:"
       licence: Licencia
@@ -239,14 +260,18 @@ sk:
       add_marker: Pridať marker na mapu
       change_marker: Zmena polohy markera
       click_add_marker: Kliknite na mapu, pre pridanie markera
+      drag_a_box: Označte myšou na mape zvolenú oblasť
       export: Export
       manually_select: Ručne vyberte rôzne oblasti
+      view_larger_map: Zobraziť väčšiu mapu
   geocoder: 
     description: 
       types: 
         cities: Veľkomestá
         places: Miesta
         towns: Mestá
+    description_osm_namefinder: 
+      prefix: "{{distance}} na {{direction}} od {{type}}"
     direction: 
       east: východ
       north: sever
@@ -254,10 +279,21 @@ sk:
       north_west: severozápad
       south: juh
       south_east: juhovýchod
-      south_west: johozápad
+      south_west: juhozápad
       west: západ
+    distance: 
+      one: asi 1 km
+      other: asi {{count}} km
+      zero: menej ako 1 km
     results: 
+      more_results: Viac výsledkov
       no_results: Neboli nájdené žiadne výsledky
+    search: 
+      title: 
+        ca_postcode: Výsledky z <a href="http://geocoder.ca/">Geocoder.CA</a>
+        geonames: Výsledky z <a href="http://www.geonames.org/">GeoNames</a>
+        osm_namefinder: Výsledky z <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>
+        us_postcode: Výsledky z <a href="http://geocoder.us/">Geocoder.us</a>
     search_osm_nominatim: 
       prefix: 
         amenity: 
@@ -272,6 +308,8 @@ sk:
           brothel: Nevestinec
           bus_station: Autobusová stanica
           cafe: Kaviareň
+          car_rental: Požičovňa áut
+          car_wash: Autoumývareň
           casino: Kasíno
           cinema: Kino
           clinic: Poliklinika
@@ -288,10 +326,14 @@ sk:
           emergency_phone: Núdzový telefón
           fast_food: Rýchle občerstvenie
           ferry_terminal: Terminál trajektu
+          fire_hydrant: Požiarny hydrant
           fire_station: Požiarna stanica
           fountain: Fontána
           fuel: Benzínová pumpa
           grave_yard: Cintorín
+          gym: Fitnes centrum / telocvičňa
+          health_centre: Zdravotné stredisko
+          hospital: Nemocnica
           hotel: Hotel
           hunting_stand: Poľovnícky posed
           ice_cream: Zmrzlina
@@ -329,11 +371,14 @@ sk:
           townhall: Radnica
           vending_machine: Predajný automat
           veterinary: Veterinárna ordinácia
+          waste_basket: Odpadkový kôš
+          wifi: Prístup Wi-Fi
           youth_centre: Mládežnícke centrum
         boundary: 
           administrative: Administratívne hranice
         building: 
           apartments: Bytový dom
+          bunker: Bunker
           chapel: Kaplnka
           church: Kostol,cirkev
           city_hall: Radnica,magistrát
@@ -369,6 +414,7 @@ sk:
           pedestrian: Chodník pre chodcov
           primary: Cesta I. triedy
           primary_link: Cesta I. triedy
+          road: Cesta
           secondary: Cesta II. triedy
           secondary_link: Cesta II. triedy
           steps: Schody
@@ -399,29 +445,33 @@ sk:
           cemetery: Cintorín
           commercial: Obchodná štvrť
           farm: Farma
+          farmyard: Dvor
           forest: Les
           grass: Tráva
           industrial: Priemyslová oblasť
+          landfill: Skládka odpadu
           meadow: Lúka
           military: Vojenský priestor
           mine: Baňa
+          mountain: Hora
           nature_reserve: Prírodná rezervácia
           park: Park
           piste: Zjazdovka
           quarry: Lom
+          railway: Železnica
           village_green: Verejná zeleň
           vineyard: Vinica
           wetland: Mokrina
           wood: Drevo
         leisure: 
           common: Verejné priestranstvo
-          fishing: Rybolov(športový)
+          fishing: Rybolov (športový)
           garden: Záhrada
           golf_course: Golfové ihrisko
           ice_rink: Umelé klzisko
           marina: Prístav pre jachty
           miniature_golf: Mini golf
-          nature_reserve: Prírodná Rezervácia
+          nature_reserve: Prírodná rezervácia
           park: Park
           pitch: Športové ihrisko
           playground: Detské ihrisko
@@ -431,9 +481,9 @@ sk:
           stadium: Štadión
           swimming_pool: Plaváreň
           track: Bežecká dráha
-          water_park: Vodný Park
+          water_park: Aquapark
         natural: 
-          bay: Zátoka,Záliv
+          bay: Zátoka, záliv
           beach: Pláž
           cape: Mys
           cave_entrance: Vstup do jaskyne
@@ -452,6 +502,7 @@ sk:
           moor: Močiar
           mud: Bahno
           peak: Vrchol
+          point: Bod
           reef: Bradlo, Skalisko
           ridge: Hrebeň
           river: Rieka
@@ -498,6 +549,8 @@ sk:
           historic_station: Zastávka historickej železnice
           junction: Železničný uzol
           level_crossing: Železničný prejazd
+          light_rail: Ľahká železnica
+          monorail: Jednokoľajka
           narrow_gauge: Úzkokoľajná železnica
           spur: Železničná vlečka
           station: Železničná stanica
@@ -523,15 +576,18 @@ sk:
           confectionery: Cukráreň
           department_store: Obchodný dom
           doityourself: Urob si sám
+          drugstore: Lekáreň
           dry_cleaning: Chemická čistiareň
           electronics: Elektro
           estate_agent: Realitná kancelária
           fish: Obchod s rybami
           florist: Kvetinárstvo
+          food: Obchod s potravinami
           furniture: Nábytok
           gallery: Galéria
           garden_centre: Záhradnícke centrum
           general: Zmiešaný tovar
+          gift: Suveníry
           greengrocer: Obchod so zeleninou
           grocery: Potraviny
           hairdresser: Kaderníctvo,holičstvo
@@ -547,19 +603,20 @@ sk:
           shoes: Obuva
           sports: Športový obchod
           stationery: Papierníctvo
+          supermarket: Supermarket
           toys: Hračkárstvo
           travel_agency: Cestovná kancelária
         tourism: 
           alpine_hut: Vysokohorská chata
           artwork: Umelecké dielo
           attraction: Atrakcia
-          bed_and_breakfast: Posteľ a Raňajky
+          bed_and_breakfast: Nocľah a raňajky
           cabin: Malá chata
           camp_site: Kemping
           caravan_site: Autokemping
           chalet: Veľká chata
           guest_house: Penzión
-          hostel: Ubytovňa,Internát
+          hostel: Ubytovňa, internát
           hotel: Hotel
           information: Informácie
           lean_to: Prístrešok
@@ -582,6 +639,7 @@ sk:
           river: Rieka
           stream: Potok
           wadi: Občasné riečisko(Vádí)
+          water_point: Vodný bod
           waterfall: Vodopád
           weir: Splav
   javascripts: 
@@ -592,17 +650,24 @@ sk:
     edit: Upraviť
     edit_tooltip: Upravovať mapy
     export: Export
+    export_tooltip: Export mapových dát
     help_wiki: Pomocník &amp; Wiki
     history: História
     home: domov
     inbox: správy ({{count}})
+    inbox_tooltip: 
+      few: V schránke máte {{count}} neprečítané správy
+      one: V schránke máte 1 neprečítanú správu
+      other: V schránke máte {{count}} neprečítaných správ
+      zero: Nemáte žiadne neprečítané správy
     log_in: prihlásiť sa
     logo: 
       alt_text: Logo OpenStreetMap
     logout: odhlásiť
     logout_tooltip: Odhlásiť
+    news_blog: Novinkový blog
     shop: Obchod
-    sign_up: prihlásenie
+    sign_up: zaregistrovať sa
     sign_up_tooltip: Vytvorte si účet pre úpravy
     view: Zobraziť
     view_tooltip: Zobraziť mapy
@@ -616,7 +681,12 @@ sk:
     delete: 
       deleted: Správa vymazaná
     inbox: 
+      date: Dátum
       from: Od
+      you_have: Máte {{new_count}} nových a {{old_count}} starých správ
+    mark: 
+      as_read: Správa označená ako prečítaná
+      as_unread: Správa označená ako neprečítaná
     message_summary: 
       delete_button: Zmazať
       read_button: Označiť ako prečítané
@@ -628,15 +698,18 @@ sk:
       send_button: Odoslať
       send_message_to: Poslať novú správu užívateľovi {{name}}
       subject: Predmet
+      title: Odoslať správu
     outbox: 
       date: Dátum
       to: Komu
+      you_have_sent_messages: Máte {{count}} odoslaných správ
     read: 
       date: Dátum
       from: Od
       reply_button: Odpovedať
       subject: Predmet
       to: Komu
+      unread_button: Označiť ako neprečítané
     sent_message_summary: 
       delete_button: Zmazať
   notifier: 
@@ -666,7 +739,7 @@ sk:
       table: 
         entry: 
           apron: 
-            - terminál
+            1: terminál
           bridleway: Chodník pre kone
           building: Významná budova
           cable: 
@@ -676,7 +749,7 @@ sk:
           centre: Športové centrum
           commercial: Komerčná oblasť
           common: 
-            - lúka
+            1: lúka
           cycleway: Cyklotrasa
           farm: Farma
           footway: Chodník pre peších
@@ -706,7 +779,7 @@ sk:
           tourist: Turistická atrakcia
           track: Lesná, poľná cesta
           tram: 
-            - električka
+            1: električka
         heading: Legenda pre z{{zoom_level}}
     search: 
       search: Vyhľadať
@@ -728,7 +801,7 @@ sk:
       map: mapa
       owner: "Vlastník:"
       points: "Body:"
-      save_button: Uložiť Zmeny
+      save_button: Uložiť zmeny
       tags: "Tagy:"
       title: Úprava stopy {{name}}
       uploaded_at: "Nahrať na:"
@@ -747,11 +820,12 @@ sk:
     offline: 
       message: Ukladací priestor GPX súborov a nahrávací systém je teraz neprístupný.
     trace: 
-      ago: "{{time_in_words_ago}} pred"
+      ago: pred {{time_in_words_ago}}
       by: od
       count_points: "{{count}} body"
       edit: upraviť
       edit_map: Upraviť Mapu
+      identifiable: IDENTIFIKOVATEĽNÝ
       in: v
       map: mapa
       more: viac
@@ -764,6 +838,7 @@ sk:
       description: Popis
       help: Pomoc
       tags: Tagy
+      tags_help: oddelené čiarkou
       upload_button: Nahrať
       upload_gpx: Nahrať GPX Súbor
       visibility: Viditeľnosť
@@ -775,9 +850,6 @@ sk:
       traces_waiting: Máte {{count}} stopy čakajúce na nahratie. Prosím zvážte toto čakanie, dokedy neukončíte nahrávanie niečoho iného, pokiaľ  nie je blok v rade pre iných užívateľov.
     trace_optionals: 
       tags: Tagy
-    trace_paging_nav: 
-      of: z
-      showing: Náhľad stránky
     view: 
       delete_track: Vymazať túto stopu
       description: "Popis:"
@@ -806,18 +878,18 @@ sk:
       email never displayed publicly: (nezobrazovaný verejne)
       flash update success: Informácie používateľa boli obnovené.
       flash update success confirm needed: Užívateľské informácie boli úspešne aktualizované. Skontrolujte vašu emailovú adresu pre správu na potvrdenie vašej novej emailovej adresy.
-      home location: "Domáca poloha:"
+      home location: "Domovské miesto:"
       latitude: "Zem. šírka:"
       longitude: "Zem. dĺžka:"
       make edits public button: Zverejniť všetky moje úpravy
       my settings: Moje nastavenia
-      no home location: Nemáte zapísanú vašu domácu polohu.
-      preferred languages: "Prioritné jazyky:"
-      profile description: "Popis Profilu:"
+      no home location: Nezadali ste svoje domovské miesto.
+      preferred languages: "Uprednostňované jazyky:"
+      profile description: "Popis profilu:"
       public editing: 
         disabled: Vypnutý a nemôže upravovať údaje, všetky predchádzajúce úpravy sú anonymné.
         disabled link text: prečo nemôžem upravovať?
-        enabled: Zapnutý. Neanonymný a môže upravovať dáta.
+        enabled: Zapnutý. Nie je anonym a môže upravovať dáta.
         enabled link text: čo je toto?
         heading: "Verejná úprava:"
       public editing note: 
@@ -826,7 +898,7 @@ sk:
       return to profile: Návrat do profilu
       save changes button: Uložiť Zmeny
       title: Upraviť účet
-      update home location on click: Aktualizujem domácu polohu, keď kliknem na mapu?
+      update home location on click: Upraviť polohu domova, kliknutím na mapu?
     confirm: 
       button: Potvrdiť
       failure: Užívateľský účet s týmito údajmi už bol založený.
@@ -903,6 +975,7 @@ sk:
       activate_user: aktivovať tohto užívateľa
       add as friend: pridať ako priateľa
       add image: Pridať Obrázok
+      ago: (pred {{time_in_words_ago}})
       block_history: zobraziť prijaté položky
       blocks on me: v mojom bloku
       change your settings: zmeniť vaše nastavenia
@@ -910,7 +983,7 @@ sk:
       create_block: blokovať tohto užívateľa
       created from: "Vytvorené od:"
       deactivate_user: deaktivovať tohto užívateľa
-      delete image: Zmazať Obrázok
+      delete image: Zmazať obrázok
       delete_user: vymazať tohto užívateľa
       description: Popis
       diary: denník

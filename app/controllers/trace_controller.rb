@@ -15,6 +15,12 @@ class TraceController < ApplicationController
   before_filter :offline_redirect, :only => [:create, :edit, :delete, :data, :api_data, :api_create]
   around_filter :api_call_handle_error, :only => [:api_details, :api_data, :api_create]
 
+  caches_action :list, :unless => :logged_in?, :layout => false
+  caches_action :view, :layout => false
+  caches_action :georss, :layout => true
+  cache_sweeper :trace_sweeper, :only => [:create, :edit, :delete, :api_create]
+  cache_sweeper :tracetag_sweeper, :only => [:create, :edit, :delete, :api_create]
+
   # Counts and selects pages of GPX traces for various criteria (by user, tags, public etc.).
   #  target_user - if set, specifies the user to fetch traces for.  if not set will fetch all traces
   def list(target_user = nil, action = "list")
@@ -75,11 +81,15 @@ class TraceController < ApplicationController
     conditions[0] += " AND gpx_files.visible = ?"
     conditions << true
 
-    @trace_pages, @traces = paginate(:traces,
-                                     :include => [:user, :tags],
-                                     :conditions => conditions,
-                                     :order => "gpx_files.timestamp DESC",
-                                     :per_page => 20)
+    @page = (params[:page] || 1).to_i
+    @page_size = 20
+
+    @traces = Trace.find(:all,
+                         :include => [:user, :tags],
+                         :conditions => conditions,
+                         :order => "gpx_files.timestamp DESC",
+                         :offset => (@page - 1) * @page_size,
+                         :limit => @page_size)
 
     # put together SET of tags across traces, for related links
     tagset = Hash.new

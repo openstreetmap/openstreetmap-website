@@ -2,6 +2,7 @@
 # Exported from translatewiki.net
 # Export driver: syck
 # Author: Bilbo
+# Author: Masox
 # Author: Mormegil
 cs: 
   activerecord: 
@@ -156,17 +157,22 @@ cs:
         node: Uzel
         relation: Relace
         way: Cesta
+    start: 
+      manually_select: Ručně vybrat jinou oblast
+      view_data: Ukázat data k zobrazené mapě
     start_rjs: 
       data_frame_title: Data
       data_layer_name: Data
       details: Detaily
       drag_a_box: Myší na mapě označte zvolenou oblast
+      edited_by_user_at_timestamp: Upravil [[user]] dne [[timestamp]]
       history_for_feature: Historie pro [[feature]]
       load_data: Nahrát data
       loaded_an_area_with_num_features: Máte načtenu oblast, která obsahuje [[num_features]] prvků. Některé prohlížeče mohou mít potíže při zobrazování takového množství dat. Obecně fungují prohlížeče nejlépe při zobrazování ne více než sta prvků současně – větší množství může způsobit, že bude prohlížeč reagovat pomalu či vůbec. Pokud jste si jisti, že chcete tato data zobrazit, klikněte na tlačítko níže.
       loading: Načítá se…
       manually_select: Ručně vybrat jinou oblast
       object_list: 
+        api: Získat tuto oblast pomocí API
         back: Zobrazit seznam objektů
         details: Detaily
         heading: Seznam objektů
@@ -187,6 +193,13 @@ cs:
       zoom_or_select: Zvolte větší měřítko nebo vyberte nějakou oblast mapy
     tag_details: 
       tags: "Tagy:"
+    timeout: 
+      sorry: Promiňte, ale načítání dat {{type}} číslo {{id}} trvalo příliš dlouho.
+      type: 
+        changeset: sady změn
+        node: uzlu
+        relation: relace
+        way: cesty
     way: 
       download: "{{download_xml_link}}, {{view_history_link}} nebo {{edit_link}}"
       download_xml: Stáhnout XML
@@ -235,11 +248,28 @@ cs:
       title_user: Sady změn uživatele {{user}}
       title_user_bbox: Sady změn uživatele {{user}} v {{bbox}}
   diary_entry: 
+    diary_entry: 
+      comment_count: 
+        few: "{{count}} komentáře"
+        one: 1 komentář
+        other: "{{count}} komentářů"
+      comment_link: Okomentovat tento zápis
+      posted_by: Zapsal {{link_user}} v {{created}} v jazyce {{language_link}}
+      reply_link: Odpovědět na tento zápis
     edit: 
       language: "Jazyk:"
       save_button: Uložit
       subject: "Předmět:"
       use_map_link: použít mapu
+    feed: 
+      language: 
+        description: Aktuální záznamy v deníčcích uživatelů OpenStreetMap v jazyce {{language_name}}
+        title: Deníčkové záznamy OpenStreetMap v jazyce {{language_name}}
+    list: 
+      in_language_title: Deníčkové záznamy v jazyce {{language}}
+      recent_entries: "Aktuální deníčkové záznamy:"
+      title: Deníčky uživatelů
+      user_title: Deníček uživatele {{user}}
     no_such_user: 
       heading: Uživatel {{user}} neexistuje
     view: 
@@ -247,6 +277,7 @@ cs:
       login: Přihlaste se
       login_to_leave_a_comment: "{{login_link}} k zanechání komentáře"
       save_button: Uložit
+      title: Deníčky uživatelů | {{user}}
   export: 
     start: 
       add_marker: Přidat do mapy značku
@@ -260,6 +291,7 @@ cs:
       latitude: "Šířka:"
       licence: Licence
       longitude: "Délka:"
+      manually_select: Ručně vybrat jinou oblast
       mapnik_image: Obrázek z Mapniku
       max: max.
       options: Nastavení
@@ -306,11 +338,52 @@ cs:
         geonames: Výsledky z <a href="http://www.geonames.org/">GeoNames</a>
         latlon: Výsledky z <a href="http://openstreetmap.org/">interní databáze</a>
         osm_namefinder: Výsledky z <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>
+        osm_nominatim: Výsledky z <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
         uk_postcode: Výsledky z <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Výsledky z <a href="http://geocoder.us/">Geocoder.us</a>
     search_osm_namefinder: 
       suffix_parent: "{{suffix}} ({{parentdistance}} na {{parentdirection}} od {{parentname}})"
       suffix_place: ", {{distance}} na {{direction}} od {{placename}}"
+    search_osm_nominatim: 
+      prefix: 
+        leisure: 
+          garden: Zahrada
+          miniature_golf: Minigolf
+          park: Park
+        place: 
+          airport: Letiště
+          city: Velkoměsto
+          country: Stát
+          farm: Farma
+          hamlet: Osada
+          house: Dům
+          houses: Budovy
+          island: Ostrov
+          locality: Oblast
+          municipality: Obecní úřad
+          postcode: PSČ
+          region: Region
+          sea: Moře
+          state: Stát
+          town: Město
+          village: Vesnice
+        tourism: 
+          alpine_hut: Vysokohorská chata
+          attraction: Turistická atrakce
+          camp_site: Tábořiště, kemp
+          caravan_site: Autokemping
+          chalet: Velká chata
+          guest_house: Penzion
+          hostel: Hostel
+          hotel: Hotel
+          information: Turistické informace
+          lean_to: Přístřešek
+          motel: Motel
+          museum: Muzeum
+          theme_park: Zábavní park
+          valley: Údolí
+          viewpoint: Místo s dobrým výhledem
+          zoo: Zoo
   javascripts: 
     map: 
       base: 
@@ -505,24 +578,34 @@ cs:
       close: Zavřít
       search_results: Výsledky vyhledávání
   trace: 
+    create: 
+      trace_uploaded: Váš GPX soubor byl uložen a čeká na zařazení do databáze. Obvykle to netrvá víc jak půl hodiny. Až bude zařazen, budete informováni emailem.
+      upload_trace: Nahrát GPS záznam
     edit: 
       description: "Popis:"
       download: stáhnout
       edit: upravit
       filename: "Název souboru:"
+      heading: Úprava GPS záznamu {{name}}
       map: mapa
       owner: "Vlastník:"
+      points: "Body:"
       save_button: Uložit změny
+      start_coord: "Souřadnice začátku:"
       tags: "Tagy:"
       tags_help: oddělené čárkou
       uploaded_at: "Nahráno v:"
       visibility: "Viditelnost:"
       visibility_help: co tohle znamená?
+    list: 
+      your_traces: Vaše GPS záznamy
     no_such_user: 
       heading: Uživatel {{user}} neexistuje
     trace: 
       ago: před {{time_in_words_ago}}
+      count_points: "{{count}} body"
       edit: upravit
+      edit_map: Upravit mapu
       in: v
       map: mapa
       more: více
@@ -536,11 +619,14 @@ cs:
       upload_gpx: Nahrát GPX soubor
       visibility: Viditelnost
       visibility_help: co tohle znamená?
+    trace_header: 
+      see_all_traces: Zobrazit všechny GPS záznamy
+      see_just_your_traces: Zobrazit pouze vaše GPS záznamy nebo nahrát nový GPS záznam
+      see_your_traces: Zobrazit všechny vaše GPS záznamy
     trace_optionals: 
       tags: Tagy
     trace_paging_nav: 
-      of: z
-      showing: Zobrazuji stranu
+      showing_page: Zobrazuji stranu {{page}}
     view: 
       description: "Popis:"
       download: stáhnout
@@ -549,8 +635,14 @@ cs:
       map: mapa
       owner: "Vlastník:"
       tags: "Tagy:"
+      trace_not_found: GPS záznam nenalezen!
       uploaded: "Nahráno v:"
       visibility: "Viditelnost:"
+    visibility: 
+      identifiable: Identifikovatelný (zobrazuje se v seznamu a jako identifikovatelné, uspořádané body s časovou značkou)
+      private: Soukromý (dostupná jedině jako anonymní, neuspořádané body)
+      public: Veřejný (zobrazuje se v seznamu i jako anonymní, neuspořádané body)
+      trackable: Trackable (dostupný jedině jako anonymní, uspořádané body s časovými značkami)
   user: 
     account: 
       email never displayed publicly: (nikde se veřejně nezobrazuje)
@@ -559,6 +651,7 @@ cs:
       longitude: "Délka:"
       make edits public button: Zvěřejnit všechny moje úpravy
       my settings: Moje nastavení
+      no home location: Nezadali jste polohu svého bydliště.
       preferred languages: "Preferované jazyky:"
       profile description: "Popis profilu:"
       public editing: 
@@ -575,6 +668,8 @@ cs:
       button: Potvrdit
     confirm_email: 
       button: Potvrdit
+      failure: Tento kód byl už pro potvrzení e-mailové adresy použit.
+      success: Vaše e-mailová adresa byla potvrzena, děkujeme za registraci!
     friend_map: 
       nearby mapper: "Nedaleký uživatel: [[nearby_user]]"
       your location: Vaše poloha
@@ -625,6 +720,7 @@ cs:
     reset_password: 
       confirm password: "Potvrdit heslo:"
       flash changed: Vaše heslo bylo změněno.
+      flash token bad: Odpovídající kód nebyl nalezen, možná zkontrolujte URL?
       heading: Vyresetovat heslo pro {{user}}
       password: "Heslo:"
       reset: Vyresetovat heslo
@@ -637,6 +733,7 @@ cs:
       ago: (před {{time_in_words_ago}})
       blocks on me: moje zablokování
       change your settings: změnit vaše nastavení
+      confirm: Potvrdit
       delete image: Smazat obrázek
       description: Popis
       diary: deníček
@@ -660,3 +757,8 @@ cs:
       user image heading: Obrázek uživatele
       user location: Pozice uživatele
       your friends: Vaši přátelé
+  user_role: 
+    grant: 
+      confirm: Potvrdit
+    revoke: 
+      confirm: Potvrdit

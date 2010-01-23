@@ -208,9 +208,11 @@ class ApplicationController < ActionController::Base
   end
 
   def api_call_timeout
-    Timeout::timeout(APP_CONFIG['api_timeout'], OSM::APITimeoutError) do
+    SystemTimer.timeout_after(APP_CONFIG['api_timeout']) do
       yield
     end
+  rescue Timeout::Error
+    raise OSM::APITimeoutError
   end
 
   ##
@@ -226,6 +228,8 @@ class ApplicationController < ActionController::Base
       case
       when user.nil? then user = :none
       when user.display_name == controller.params[:display_name] then user = :self
+      when user.administrator? then user = :administrator
+      when user.moderator? then user = :moderator
       else user = :other
       end
 
@@ -240,8 +244,14 @@ class ApplicationController < ActionController::Base
   ##
   # extend expire_action to expire all variants
   def expire_action(options = {})
-    path = fragment_cache_key(options).gsub('?', '.').gsub(':', '.')
+    path = ActionCachePath.path_for(self, options, false).gsub('?', '.').gsub(':', '.')
     expire_fragment(Regexp.new(Regexp.escape(path) + "\\..*"))
+  end
+
+  ##
+  # is the requestor logged in?
+  def logged_in?
+    !@user.nil?
   end
 
 private 
