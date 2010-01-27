@@ -107,7 +107,7 @@ class ApiController < ApplicationController
       trkseg << point.to_xml_node(timestamps)
     end
 
-    response.headers["Content-Disposition"] = "attachment; filename=\"map.osm\""
+    response.headers["Content-Disposition"] = "attachment; filename=\"tracks.gpx\""
 
     render :text => doc.to_s, :content_type => "text/xml"
   end
