@@ -187,7 +187,7 @@ class DiaryEntryController < ApplicationController
   def hidecomment
     comment = DiaryComment.find(params[:comment])
     comment.update_attributes(:visible => false)
-    redirect_to :action => "view", :display_name => entry.diary_entry.user.display_name, :id => comment.diary_entry.id
+    redirect_to :action => "view", :display_name => comment.diary_entry.user.display_name, :id => comment.diary_entry.id
   end
 private
   ##
