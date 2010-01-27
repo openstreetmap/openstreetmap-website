@@ -21,7 +21,7 @@ private
     when record.is_a?(DiaryComment): entry = record.diary_entry
     end
 
-    expire_action(:controller => 'diary_entry', :action => 'view', :id => entry.id)
+    expire_action(:controller => 'diary_entry', :action => 'view', :display_name => entry.user.display_name, :id => entry.id)
 
     expire_action(:controller => 'diary_entry', :action => 'list', :language => nil, :display_name => nil)
     expire_action(:controller => 'diary_entry', :action => 'list', :language => entry.language_code, :display_name => nil)

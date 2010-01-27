@@ -17,7 +17,7 @@ private
          old_record.visible != new_record.visible or
          old_record.display_name != new_record.display_name)
       old_record.diary_entries.each do |entry|
-        expire_action(:controller => 'diary_entry', :action => 'view', :id => entry.id)
+        expire_action(:controller => 'diary_entry', :action => 'view', :display_name => old_record.display_name, :id => entry.id)
         expire_action(:controller => 'diary_entry', :action => 'list', :language => entry.language_code, :display_name => nil)
         expire_action(:controller => 'diary_entry', :action => 'rss', :language => entry.language_code, :display_name => nil)
       end
