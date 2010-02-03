@@ -182,7 +182,7 @@ end
   function toggleData() {
     if (map.dataLayer.visibility) {
       <%= remote_function :url => { :controller => 'browse', :action => 'start' } %>
-    } else {
+    } else if (map.dataLayer.active) {
       closeSidebar();
     }
   }

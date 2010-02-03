@@ -2,7 +2,6 @@ page.replace_html :sidebar_title, t('browse.start_rjs.data_frame_title')
 page.replace_html :sidebar_content, :partial => 'start'
 page << <<EOJ
   var browseBoxControl;
-  var browseActive;
   var browseMode = "auto";
   var browseBounds;
   var browseFeatureList;
@@ -15,7 +14,7 @@ page << <<EOJ
   OpenLayers.Feature.Vector.style['default'].cursor = "pointer";
     
   function startBrowse() {
-    browseActive = true;
+    map.dataLayer.active = true;
 
     openSidebar({ onclose: stopBrowse });
 
@@ -47,8 +46,8 @@ page << <<EOJ
   }
 
   function stopBrowse() {
-    if (browseActive) {
-      browseActive = false;
+    if (map.dataLayer.active) {
+      map.dataLayer.active = false;
 
       if (browseSelectControl) {   
         browseSelectControl.destroy();  
@@ -154,7 +153,7 @@ page << <<EOJ
   }    
 
   function customDataLoader(request) {
-    if (browseActive) {
+    if (this.map.dataLayer.active) {
       var doc = request.responseXML;
 
       if (!doc || !doc.documentElement) {
@@ -238,9 +237,9 @@ page << <<EOJ
   }
 
   function dataLoaded() {
-    if (browseActive) {
+    if (this.map.dataLayer.active) {
       clearStatus();
-        
+
       browseObjectList = document.createElement("div")
 
       var heading = document.createElement("p");
