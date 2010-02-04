@@ -6,7 +6,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
   def test_showing_new_diary_entry
     get :new
     assert_response :redirect
-    assert_redirected_to :controller => :user, :action => "login", :referer => "/diary_entry/new"
+    assert_redirected_to :controller => :user, :action => "login", :referer => "/diary/new"
     # Now pretend to login by using the session hash, with the 
     # id of the person we want to login as through session(:user)=user.id
     get(:new, nil, {'user' => users(:normal_user).id})
@@ -23,7 +23,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
           assert_select "h1", "New Diary Entry", :count => 1
           # We don't care about the layout, we just care about the form fields
           # that are available
-          assert_select "form[action='/diary_entry/new']", :count => 1 do
+          assert_select "form[action='/diary/new']", :count => 1 do
             assert_select "input[id=diary_entry_title][name='diary_entry[title]']", :count => 1
             assert_select "textarea#diary_entry_body[name='diary_entry[body]']", :count => 1
             assert_select "input#latitude[name='diary_entry[latitude]'][type=text]", :count => 1
