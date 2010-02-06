@@ -154,7 +154,6 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/user/:display_name/diary/:id', :controller => 'diary_entry', :action => 'view', :id => /\d+/
   map.connect '/user/:display_name/diary/:id/newcomment', :controller => 'diary_entry', :action => 'comment', :id => /\d+/
   map.connect '/user/:display_name/diary/rss', :controller => 'diary_entry', :action => 'rss'
-  map.connect '/user/:display_name/diary/new', :controller => 'diary_entry', :action => 'new'
   map.connect '/user/:display_name/diary/:id/edit', :controller => 'diary_entry', :action => 'edit', :id => /\d+/
   map.connect '/user/:display_name/diary/:id/hide', :controller => 'diary_entry', :action => 'hide', :id => /\d+/
   map.connect '/user/:display_name/diary/:id/hidecomment/:comment', :controller => 'diary_entry', :action => 'hidecomment', :id => /\d+/, :comment => /\d+/
@@ -165,11 +164,12 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/user/:display_name/hide', :controller => 'user', :action => 'hide'
   map.connect '/user/:display_name/unhide', :controller => 'user', :action => 'unhide'
   map.connect '/user/:display_name/delete', :controller => 'user', :action => 'delete'
+  map.connect '/diary/new', :controller => 'diary_entry', :action => 'new'
   map.connect '/diary', :controller => 'diary_entry', :action => 'list'
   map.connect '/diary/rss', :controller => 'diary_entry', :action => 'rss'
   map.connect '/diary/:language', :controller => 'diary_entry', :action => 'list'
   map.connect '/diary/:language/rss', :controller => 'diary_entry', :action => 'rss'
-  
+
   
   # test pages
   map.connect '/test/populate/:table/:from/:count', :controller => 'test', :action => 'populate'

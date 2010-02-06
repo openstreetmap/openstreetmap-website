@@ -215,6 +215,13 @@ hu:
       zoom_or_select: Közelíts rá vagy jelölj ki egy területet a térképen a megtekintéshez
     tag_details: 
       tags: "Címkék:"
+    timeout: 
+      sorry: Sajnálom, a(z) {{type}} típusú {{id}} azonosítójú adatok kinyerése túl sokáig tartott.
+      type: 
+        changeset: módosításcsomag
+        node: pont
+        relation: kapcsolat
+        way: vonal
     way: 
       download: "{{download_xml_link}}, {{view_history_link}} vagy {{edit_link}}"
       download_xml: XML letöltése
@@ -386,6 +393,7 @@ hu:
       other: kb. {{count}} km
       zero: kevesebb mint 1 km
     results: 
+      more_results: További eredmények
       no_results: Nem találhatók eredmények
     search: 
       title: 
@@ -405,110 +413,438 @@ hu:
       prefix: 
         amenity: 
           airport: Repülőtér
-          atm: Bankjegykiadó automata
+          arts_centre: Művészeti központ
+          atm: Bankautomata
+          auditorium: Auditórium
           bank: Bank
+          bar: Bár
           bench: Pad
+          bicycle_parking: Kerékpártároló
           bicycle_rental: Kerékpárkölcsönző
-          bus_station: Buszállomás
+          brothel: Bordélyház
+          bureau_de_change: Pénzváltó
+          bus_station: Autóbusz-állomás
           cafe: Kávézó
           car_rental: Autókölcsönző
+          car_sharing: Autómegosztás
           car_wash: Autómosó
           casino: Kaszinó
           cinema: Mozi
+          clinic: Klinika
+          club: Klub
+          college: Fõiskola
+          community_centre: Művelődési központ
+          courthouse: Bíróság
+          crematorium: Krematórium
           dentist: Fogorvos
+          doctors: Orvosi rendelő
+          dormitory: Kollégium
           drinking_water: Ivóvíz
           driving_school: Autósiskola
           embassy: Nagykövetség
+          emergency_phone: Segélyhívó
           fast_food: Gyorsétterem
+          ferry_terminal: Kompkikötő
+          fire_hydrant: Tűzcsap
           fire_station: Tűzoltóság
-          fuel: Üzemanyag
+          fountain: Szökőkút
+          fuel: Benzinkút
+          grave_yard: Kis temető
+          gym: Fitness- / Tornaterem
+          hall: Csarnok
+          health_centre: Egészségügyi központ
           hospital: Kórház
           hotel: Szálloda
+          hunting_stand: Magasles
           ice_cream: Jégkrém
+          kindergarten: Óvoda
           library: Könyvtár
+          market: Piac
+          marketplace: Vásártér
+          mountain_rescue: Hegyimentők
+          nightclub: Éjszakai bár
+          nursery: Óvoda
+          nursing_home: Idősek otthona
           office: Iroda
           park: Park
+          parking: Parkoló
           pharmacy: Gyógyszertár
+          place_of_worship: Vallási hely
           police: Rendőrség
           post_box: Postaláda
           post_office: Posta
+          preschool: Óvoda
           prison: Börtön
+          pub: Kocsma
+          public_building: Középület
+          public_market: Piac
+          reception_area: Recepció
+          recycling: Szelektív hulladékgyűjtő
+          restaurant: Étterem
+          retirement_home: Nyugdíjasotthon
           sauna: Szauna
           school: Iskola
+          shelter: Esőház
+          shop: Bolt
+          shopping: Bevásárlás
+          social_club: Társasági klub
+          studio: Stúdió
+          supermarket: Szupermarket
           taxi: Taxi
+          telephone: Nyilvános telefon
           theatre: Színház
           toilets: WC
           townhall: Városháza
           university: Egyetem
+          vending_machine: Árusító automata
+          veterinary: Állatorvosi rendelő
+          village_hall: Községháza
           waste_basket: Szemétgyűjtő kosár
           wifi: WiFi hozzáférés
+          youth_centre: Ifjúsági központ
+        boundary: 
+          administrative: Közigazgatási határ
         building: 
+          apartments: Társasház
+          block: Háztömb
+          bunker: Bunker
+          chapel: Kápolna
+          church: Templom
+          city_hall: Városháza
           commercial: Kereskedelmi épület
+          dormitory: Kollégium
           entrance: Épületbejárat
+          faculty: Egyetemi épület
+          farm: Tanyaépület
           flats: Lakások
           garage: Garázs
+          hall: Csarnok
           hospital: Kórházépület
           hotel: Szálloda
+          house: Ház
           industrial: Ipari épület
-          public: Nyilvános épület
+          office: Irodaház
+          public: Középület
+          residential: Lakóház
+          retail: Kereskedelmi épület
           school: Iskolaépület
-          university: Egyetemi épület
-        highway: 
-          bus_stop: Buszmegálló
-          construction: Építés alatt álló autópálya
-          footway: Gyalogút
-          steps: Lépcső
-        leisure: 
-          garden: Kert
-          park: Park
+          shop: Bolt
           stadium: Stadion
-          swimming_pool: Úszómedence
+          store: Áruház
+          terrace: Sorház
+          tower: Torony
+          train_station: Vasútállomás
+          university: Egyetemi épület
+          "yes": Épület
+        highway: 
+          bridleway: Lovaglóút
+          bus_guideway: Buszsín
+          bus_stop: Buszmegálló
+          byway: Kiépítetlen ösvény
+          construction: Építés alatt álló közút
+          cycleway: Kerékpárút
+          distance_marker: Távolságjelölő
+          emergency_access_point: Vészhelyzeti hozzáférési pont
+          footway: Gyalogút
+          ford: Gázló
+          gate: Kapu
+          living_street: Pihenőút
+          minor: Alárendelt út
+          motorway: Autópálya
+          motorway_junction: Autópálya-csomópont
+          motorway_link: Autópálya
+          path: Ösvény
+          pedestrian: Sétálóutca
+          platform: Peron
+          primary: Főút
+          primary_link: Főút
+          raceway: Versenypálya
+          residential: Lakóövezeti út
+          road: Út
+          secondary: Összekötő út
+          secondary_link: Összekötő út
+          service: Szervizút
+          services: Autópálya-pihenőhely
+          steps: Lépcső
+          stile: Lépcsős átjáró
+          tertiary: Bekötőút
+          track: Földút
+          trail: Túraút
+          trunk: Autóút
+          trunk_link: Autóút
+          unclassified: Egyéb út
+          unsurfaced: Burkolatlan út
+        historic: 
+          archaeological_site: Régészeti lelőhely
+          battlefield: Csatamező
+          boundary_stone: Határkő
+          building: Épület
+          castle: Vár
+          church: Templom
+          house: Ház
+          icon: Ikon
+          manor: Majorság
+          memorial: Emlékmű
+          mine: Bánya
+          monument: Műemlék
+          museum: Múzeum
+          ruins: Rom
+          tower: Torony
+          wayside_cross: Útszéli kereszt
+          wayside_shrine: Útszéli kegyhely
+          wreck: Hajóroncs
+        landuse: 
+          allotments: Kert
+          basin: Medence
+          brownfield: Barnamező
+          cemetery: Temető
+          commercial: Irodaterület
+          conservation: Védelmi terület
+          construction: Építési terület
+          farm: Tanya
+          farmland: Mezőgazdasági terület
+          farmyard: Tanya épületei
+          forest: Erdő
+          grass: Füves terület
+          greenfield: Zöldmező
+          industrial: Ipari terület
+          landfill: Hulladéklerakó
+          meadow: Rét
+          military: Katonai terület
+          mine: Bánya
+          mountain: Hegy
+          nature_reserve: Természetvédelmi terület
+          park: Park
+          piste: Sípálya
+          plaza: Tér
+          quarry: Kőfejtő
+          railway: Vasúti terület
+          recreation_ground: Szabadidőpark
+          reservoir: Víztározó
+          residential: Lakóövezet
+          retail: Kereskedelmi terület
+          village_green: Közös mező
+          vineyard: Szőlős
+          wetland: Láp
+          wood: Erdő
+        leisure: 
+          beach_resort: Tengerparti üdülőhely
+          common: Közös terület
+          fishing: Horgászterület
+          garden: Kert
+          golf_course: Golfpálya
+          ice_rink: Műjégpálya
+          marina: Kishajókikötő
+          miniature_golf: Minigolfpálya
+          nature_reserve: Természetvédelmi terület
+          park: Park
+          pitch: Labdarúgópálya
+          playground: Játszótér
+          recreation_ground: Szabadidőpark
+          slipway: Sólya
+          sports_centre: Sportközpont
+          stadium: Stadion
+          swimming_pool: Uszoda
+          track: Futópálya
+          water_park: Vízipark
         natural: 
+          bay: Öböl
+          beach: Part
+          cape: Partfok
           cave_entrance: Barlangbejárat
+          channel: Csatorna
+          cliff: Szikla
+          coastline: Tengerpart
+          crater: Kráter
+          feature: Tereptárgy
+          fell: Kopár
           fjord: Fjord
           geyser: Gejzír
           glacier: Gleccser
+          heath: Puszta
           hill: Domb
           island: Sziget
+          land: Szárazföld
+          marsh: Mocsár
+          moor: Mocsár
+          mud: Iszap
+          peak: Hegycsúcs
+          point: Pont
           reef: Zátony
+          ridge: Hegygerinc
           river: Folyó
           rock: Szikla
+          scree: Sziklatörmelék
+          scrub: Cserjés
+          shoal: Zátony
           spring: Forrás
+          strait: Tengerszoros
           tree: Fa
           valley: Völgy
           volcano: Vulkán
+          water: Tó
+          wetland: Láp
+          wetlands: Láp
+          wood: Erdő
         place: 
           airport: Repülőtér
-          city: Város
-          farm: Farm
+          city: Nagyváros
+          country: Ország
+          county: Megye
+          farm: Tanya
+          hamlet: Község
           house: Ház
           houses: Házak
           island: Sziget
+          islet: Kis sziget
+          locality: Hely
+          moor: Mocsár
+          municipality: Település
+          postcode: Irányítószám
           region: Régió
           sea: Tenger
+          state: Állam
+          subdivision: Településrész
+          suburb: Városrész
           town: Város
-          village: Falu
+          unincorporated_area: Jogi személyiséggel nem rendelkező terület
+          village: Nagyközség
         railway: 
+          abandoned: Felhagyott vasút
+          construction: Építés alatt álló vasút
+          disused: Használaton kívüli vasút
+          disused_station: Használaton kívüli vasútállomás
+          funicular: Siklóvasút
+          halt: Vasúti megállóhely
+          historic_station: Történelmi vasútállomás
+          junction: Vasúti csomópont
+          level_crossing: Vasúti átjáró
+          light_rail: HÉV
+          monorail: Egysínű vasút
+          narrow_gauge: Keskeny nyomközű vasút
+          platform: Vasúti peron
+          preserved: Megőrzött vasút
+          spur: Vasúti szárnyvonal
+          station: Vasútállomás
+          subway: Metróállomás
+          subway_entrance: Metrókijárat
+          switch: Vasúti váltó
+          tram: Villamos
           tram_stop: Villamosmegálló
+          yard: Rendező-pályaudvar
         shop: 
-          bicycle: Kerékpárüzlet
+          alcohol: Alkoholos italbolt
+          apparel: Ruházati bolt
+          art: Művészeti bolt
+          bakery: Pékség
+          beauty: Szépészeti bolt
+          beverages: Italbolt
+          bicycle: Kerékpárbolt
           books: Könyvesbolt
-          car_parts: Autóalkatrész
+          butcher: Hentesbolt
+          car: Autókereskedés
+          car_dealer: Autókereskedés
+          car_parts: Autóalkatrészbolt
+          car_repair: Autószerviz
           carpet: Szőnyegbolt
+          charity: Adománybolt
+          chemist: Vegyipari bolt
+          clothes: Ruházati bolt
+          computer: Számítástechnikai bolt
+          confectionery: Cukrászda
+          convenience: Kisbolt
+          copyshop: Fénymásoló bolt
+          cosmetics: Kozmetikai bolt
+          department_store: Áruház
+          discount: Diszkontárubolt
           doityourself: Barkácsbolt
+          drugstore: Illatszerbolt
+          dry_cleaning: Ruhatisztító
+          electronics: Elektronikai bolt
+          estate_agent: Ingatlankereskedés
+          farm: Kertészbolt
+          fashion: Divatbolt
           fish: Halbolt
-          furniture: Bútor
+          florist: Virágárus
+          food: Élelmiszerbolt
+          funeral_directors: Temetkezési vállalkozó
+          furniture: Bútorbolt
+          gallery: Galéria
+          garden_centre: Cserepes virágbolt
+          general: Vegyeskereskedés
           gift: Ajándékbolt
-          hifi: Hi-Fi
+          greengrocer: Zöldséges
+          grocery: Fűszerbolt
+          hairdresser: Fodrászat
+          hardware: Szerelési bolt
+          hifi: Hi-Fi bolt
+          insurance: Biztosító
+          jewelry: Ékszerbolt
+          kiosk: Trafik
           laundry: Mosoda
+          mall: Üzletház
+          market: Piac
+          mobile_phone: Mobiltelefonbolt
+          motorcycle: Motorbolt
+          music: Zenebolt
+          newsagent: Újságárus
+          optician: Látszerész
+          organic: Bioélelmiszerbolt
+          outdoor: Túrabolt
+          pet: Állatkereskedés
+          photo: Fotóbolt
+          salon: Szalon
+          shoes: Cipőbolt
+          shopping_centre: Bevásárlóközpont
           sports: Sportbolt
+          stationery: Írószerbolt
+          supermarket: Szupermarket
           toys: Játékbolt
           travel_agency: Utazási iroda
+          video: Videókölcsönző
+          wine: Borárusító italbolt
         tourism: 
+          alpine_hut: Alpesi kunyhó
+          artwork: Műalkotás
+          attraction: Látnivaló
+          bed_and_breakfast: Vendégház
+          cabin: Kunyhó
+          camp_site: Kemping
+          caravan_site: Lakókocsitábor
+          chalet: Nyaralóház
           guest_house: Vendégház
+          hostel: Turistaszálló
           hotel: Szálloda
+          information: Információ
+          lean_to: Kunyhó
+          motel: Motel
           museum: Múzeum
+          picnic_site: Piknikezőhely
+          theme_park: Vidámpark
+          valley: Völgy
+          viewpoint: Kilátó
           zoo: Állatkert
+        waterway: 
+          boatyard: Hajóhangár
+          canal: Csatorna
+          connector: Vízi csatlakozó
+          dam: Gát
+          derelict_canal: Felhagyott csatorna
+          ditch: Árok
+          dock: Kikötõ
+          drain: Árok
+          lock: Zsilip
+          lock_gate: Zsilip
+          mineral_spring: Ásványos patak
+          mooring: Kikötő
+          rapids: Zuhatag
+          river: Folyó
+          riverbank: Folyópart
+          stream: Patak
+          wadi: Vádi
+          water_point: Vízi fordítópont
+          waterfall: Vízesés
+          weir: Bukógát
   javascripts: 
     map: 
       base: 
@@ -824,7 +1160,7 @@ hu:
             - függőszékes felvonó
           cemetery: Temető
           centre: Sportközpont
-          commercial: Irodaterület
+          commercial: Kereskedelmi terület
           common: 
             - Füves terület
             - rét
@@ -917,12 +1253,18 @@ hu:
       body: Sajnálom, nincs {{user}} nevű felhasználó. Ellenőrizd a helyességét, vagy lehet, hogy a link, amire kattintottál, rossz.
       heading: "{{user}} felhasználó nem létezik"
       title: Nincs ilyen felhasználó
+    offline: 
+      heading: A GPX-tároló offline
+      message: A GPX-fájltároló és -feltöltő rendszer jelenleg nem érhető el.
+    offline_warning: 
+      message: A GPX-fájlfeltöltő rendszer jelenleg nem érhető el
     trace: 
       ago: "ennyivel ezelőtt: {{time_in_words_ago}}"
       by: "készítette:"
       count_points: "{{count}} pont"
       edit: szerkesztés
       edit_map: Térkép szerkesztése
+      identifiable: AZONOSÍTHATÓ
       in: "itt:"
       map: térkép
       more: tovább
@@ -930,6 +1272,7 @@ hu:
       private: NEM NYILVÁNOS
       public: NYILVÁNOS
       trace_details: Nyomvonal részleteinek megtekintése
+      trackable: NYOMKÖVETHETŐ
       view_map: Térkép megtekintése
     trace_form: 
       description: Leírás
@@ -947,6 +1290,10 @@ hu:
       traces_waiting: "{{count}} nyomvonalad várakozik feltöltésre. Kérlek fontold meg, hogy megvárod, amíg ezek befejeződnek mielőtt feltöltesz továbbiakat, hogy így ne tartsd fel a többi felhasználót a sorban."
     trace_optionals: 
       tags: Címkék
+    trace_paging_nav: 
+      next: Következő &raquo;
+      previous: "&laquo; Előző"
+      showing_page: "Jelenlegi oldal: {{page}}"
     view: 
       delete_track: Ezen nyomvonal törlése
       description: "Leírás:"

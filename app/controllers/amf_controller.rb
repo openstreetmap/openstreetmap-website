@@ -187,7 +187,7 @@ class AmfController < ApplicationController
 
       # close previous changeset and add comment
       if closeid
-        cs = Changeset.find(closeid)
+        cs = Changeset.find(closeid.to_i)
         cs.set_closed_time_now
         if cs.user_id!=user.id
           raise OSM::APIUserChangesetMismatchError.new
