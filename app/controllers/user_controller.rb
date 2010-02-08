@@ -73,6 +73,14 @@ class UserController < ApplicationController
           flash.now[:notice] = t 'user.account.flash update success'
         end
       end
+    else
+      if flash[:errors]
+        flash[:errors].each do |attr,msg|
+          @user.errors.add(attr,msg)
+        end
+      end
+
+      @user.email = @user.new_email if @user.new_email
     end
   end
 
@@ -227,9 +235,12 @@ class UserController < ApplicationController
         @user.new_email = nil
         @user.active = true
         @user.email_valid = true
-        @user.save!
+        if @user.save
+          flash[:notice] = t 'user.confirm_email.success'
+        else
+          flash[:errors] = @user.errors
+        end
         token.destroy
-        flash[:notice] = t 'user.confirm_email.success'
         session[:user] = @user.id
         redirect_to :action => 'account', :display_name => @user.display_name
       else
