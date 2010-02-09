@@ -3,7 +3,8 @@
 <% form_for :user, @user do |f| %>
 <table id="accountForm">
   <tr><td class="fieldName"><%= t 'user.new.display name' %></td><td><%= f.text_field :display_name %></td></tr>
-  <tr><td class="fieldName"><%= t 'user.new.email address' %></td><td><%= f.text_field :email, {:size => 50, :maxlength => 255} %> <span class="minorNote"><%= t 'user.account.email never displayed publicly' %></span></td></tr>
+  <tr><td class="fieldName" style="padding-bottom:0px;"><%= t 'user.account.current email address' %></td><td style="padding-bottom:0px;"><%= @user.email %> <span class="minorNote"><%= t 'user.account.email never displayed publicly' %></span></td></tr>
+  <tr><td class="fieldName"><%= t 'user.account.new email address' %></td><td><%= f.text_field :new_email, {:size => 50, :maxlength => 255} %> <span class="minorNote"><%= t 'user.account.email never displayed publicly' %></span></td></tr>
   <tr><td class="fieldName" style="padding-bottom:0px;"><%= t 'user.new.password' %></td><td style="padding-bottom:0px;"><%= f.password_field :pass_crypt, {:value => '', :size => 30, :maxlength => 255} %></td></tr>
   <tr><td class="fieldName"><%= t 'user.new.confirm password' %></td><td><%= f.password_field :pass_crypt_confirmation, {:value => '', :size => 30, :maxlength => 255} %></td></tr>
 

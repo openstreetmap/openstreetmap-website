@@ -47,11 +47,8 @@ class UserController < ApplicationController
     @tokens = @user.oauth_tokens.find :all, :conditions => 'oauth_tokens.invalidated_at is null and oauth_tokens.authorized_at is not null'
 
     if params[:user] and params[:user][:display_name] and params[:user][:description]
-      if params[:user][:email] != @user.email
-        @user.new_email = params[:user][:email]
-      end
-
       @user.display_name = params[:user][:display_name]
+      @user.new_email = params[:user][:new_email]
 
       if params[:user][:pass_crypt].length > 0 or params[:user][:pass_crypt_confirmation].length > 0
         @user.pass_crypt = params[:user][:pass_crypt]
@@ -66,21 +63,20 @@ class UserController < ApplicationController
       if @user.save
         set_locale
 
-        if params[:user][:email] == @user.new_email
+        if @user.new_email.nil? or @user.new_email.empty?
+          flash.now[:notice] = t 'user.account.flash update success'
+        else
           flash.now[:notice] = t 'user.account.flash update success confirm needed'
           Notifier.deliver_email_confirm(@user, @user.tokens.create)
-        else
-          flash.now[:notice] = t 'user.account.flash update success'
         end
       end
     else
       if flash[:errors]
         flash[:errors].each do |attr,msg|
+          attr = "new_email" if attr == "email"
           @user.errors.add(attr,msg)
         end
       end
-
-      @user.email = @user.new_email if @user.new_email
     end
   end
 
