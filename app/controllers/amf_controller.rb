@@ -133,12 +133,12 @@ class AmfController < ApplicationController
               when 'putway';         orn=renumberednodes.dup
                                      r=putway(renumberednodes,*args)
                                      r[4]=renumberednodes.reject { |k,v| orn.has_key?(k) }
-                                     if r[2] != r[3] then renumberedways[r[2]] = r[3] end
+                                     if r[0]==0 and r[2] != r[3] then renumberedways[r[2]] = r[3] end
                                      result=AMF.putdata(index,r)
               when 'putrelation';    result=AMF.putdata(index,putrelation(renumberednodes, renumberedways, *args))
               when 'deleteway';      result=AMF.putdata(index,deleteway(*args))
               when 'putpoi';         r=putpoi(*args)
-                                     if r[2] != r[3] then renumberednodes[r[2]] = r[3] end
+                                     if r[0]==0 and r[2] != r[3] then renumberednodes[r[2]] = r[3] end
                                      result=AMF.putdata(index,r)
               when 'startchangeset'; result=AMF.putdata(index,startchangeset(*args))
             end
@@ -156,6 +156,8 @@ class AmfController < ApplicationController
 
   def amf_handle_error(call,rootobj,rootid)
     yield
+  rescue OSM::APIAlreadyDeletedError => ex
+    return [-4, ex.object, ex.object_id]
   rescue OSM::APIVersionMismatchError => ex
     return [-3, [rootobj, rootid], [ex.type.downcase, ex.id, ex.latest]]
   rescue OSM::APIUserChangesetMismatchError => ex
@@ -358,7 +360,7 @@ class AmfController < ApplicationController
         way = Way.find(:first, :conditions => { :id => wayid }, :include => { :nodes => :node_tags })
 
         # check case where way has been deleted or doesn't exist
-        return [-4, 'way', wayid, [], {}, nil] if way.nil? or !way.visible
+        return [-4, 'way', wayid] if way.nil? or !way.visible
 
         points = way.nodes.collect do |node|
           nodetags=node.tags
@@ -403,7 +405,7 @@ class AmfController < ApplicationController
           unless old_way.nil?
             points = old_way.get_nodes_revert(timestamp)
             if !old_way.visible
-              return [-1, "Sorry, the way was deleted at that time - please revert to a previous version.", id, [], {}, nil, false]
+              return [-1, "Sorry, the way was deleted at that time - please revert to a previous version.", id]
             end
           end
         rescue ArgumentError
@@ -413,7 +415,7 @@ class AmfController < ApplicationController
       end
 
       if old_way.nil?
-        return [-1, "Sorry, the server could not find a way at that time.", id, [], {}, nil, false]
+        return [-1, "Sorry, the server could not find a way at that time.", id]
       else
         curway=Way.find(id)
         old_way.tags['history'] = "Retrieved from v#{old_way.version}"
@@ -492,8 +494,8 @@ class AmfController < ApplicationController
   def findgpx(searchterm, usertoken)
     amf_handle_error_with_timeout("'findgpx'" ,nil,nil) do
       user = getuser(usertoken)
-      if !user then return -1,"You must be logged in to search for GPX traces.",[] end
-      unless user.active_blocks.empty? then return -1,t('application.setup_user_auth.blocked'),[] end
+      if !user then return -1,"You must be logged in to search for GPX traces." end
+      unless user.active_blocks.empty? then return -1,t('application.setup_user_auth.blocked') end
 
       gpxs = []
       if searchterm.to_i>0 then
@@ -523,7 +525,7 @@ class AmfController < ApplicationController
     amf_handle_error("'getrelation' #{relid}" ,'relation',relid) do
       rel = Relation.find(:first, :conditions => { :id => relid })
 
-      return [-4, 'relation', relid, {}, [], nil] if rel.nil? or !rel.visible
+      return [-4, 'relation', relid] if rel.nil? or !rel.visible
       [0, '', relid, rel.tags, rel.members, rel.version]
     end
   end
@@ -560,7 +562,7 @@ class AmfController < ApplicationController
       user = getuser(usertoken)
       if !user then return -1,"You are not logged in, so the relation could not be saved." end
       unless user.active_blocks.empty? then return -1,t('application.setup_user_auth.blocked') end
-      if !tags_ok(tags) then return -1,"One of the tags is invalid. Please pester Adobe to fix Flash on Linux." end
+      if !tags_ok(tags) then return -1,"One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." end
       tags = strip_non_xml_chars tags
 
       relid = relid.to_i
@@ -649,7 +651,7 @@ class AmfController < ApplicationController
       if !user then return -1,"You are not logged in, so the way could not be saved." end
       unless user.active_blocks.empty? then return -1,t('application.setup_user_auth.blocked') end
       if pointlist.length < 2 then return -2,"Server error - way is only #{points.length} points long." end
-      if !tags_ok(attributes) then return -1,"One of the tags is invalid. Please pester Adobe to fix Flash on Linux." end
+      if !tags_ok(attributes) then return -1,"One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." end
       attributes = strip_non_xml_chars attributes
 
       originalway = originalway.to_i
@@ -666,6 +668,7 @@ class AmfController < ApplicationController
           lat = a[1].to_f
           id = a[2].to_i
           version = a[3].to_i
+
           if id == 0  then return -2,"Server error - node with id 0 found in way #{originalway}." end
           if lat== 90 then return -2,"Server error - node with latitude -90 found in way #{originalway}." end
           if renumberednodes[id] then id = renumberednodes[id] end
@@ -677,7 +680,7 @@ class AmfController < ApplicationController
           node.tags = a[4]
 
           # fixup node tags in a way as well
-          if !tags_ok(node.tags) then return -1,"One of the tags is invalid. Please pester Adobe to fix Flash on Linux." end
+          if !tags_ok(node.tags) then return -1,"One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." end
           node.tags = strip_non_xml_chars node.tags
 
           node.tags.delete('created_by')
@@ -753,7 +756,7 @@ class AmfController < ApplicationController
       user = getuser(usertoken)
       if !user then return -1,"You are not logged in, so the point could not be saved." end
       unless user.active_blocks.empty? then return -1,t('application.setup_user_auth.blocked') end
-      if !tags_ok(tags) then return -1,"One of the tags is invalid. Please pester Adobe to fix Flash on Linux." end
+      if !tags_ok(tags) then return -1,"One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." end
       tags = strip_non_xml_chars tags
 
       id = id.to_i
@@ -765,7 +768,7 @@ class AmfController < ApplicationController
           node = Node.find(id)
 
           if !visible then
-            unless node.ways.empty? then return -1,"The point has since become part of a way, so you cannot save it as a POI.",id,id,version end
+            unless node.ways.empty? then return -1,"Point #{id} has since become part of a way, so you cannot save it as a POI.",id,id,version end
           end
         end
         # We always need a new node, based on the data that has been sent to us
@@ -816,7 +819,7 @@ class AmfController < ApplicationController
       if n
         return [0, '', n.id, n.lon, n.lat, n.tags, v]
       else
-        return [-4, 'node', id, nil, nil, {}, nil]
+        return [-4, 'node', id]
       end
     end
   end
@@ -832,7 +835,7 @@ class AmfController < ApplicationController
   # Returns 0 (success), unchanged way id, new way version, new node versions.
 
   def deleteway(usertoken, changeset_id, way_id, way_version, deletednodes) #:doc:
-    amf_handle_error("'deleteway' #{way_id}" ,'way',id) do
+    amf_handle_error("'deleteway' #{way_id}" ,'way', way_id) do
       user = getuser(usertoken)
       unless user then return -1,"You are not logged in, so the way could not be deleted." end
       unless user.active_blocks.empty? then return -1,t('application.setup_user_auth.blocked') end
