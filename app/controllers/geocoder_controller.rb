@@ -17,11 +17,13 @@ class GeocoderController < ApplicationController
       @sources.push "latlon"
     elsif @query.match(/^\d{5}(-\d{4})?$/)
       @sources.push "us_postcode"
+      @sources.push "osm_nominatim"
     elsif @query.match(/^(GIR 0AA|[A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]|[A-HK-Y][0-9]([0-9]|[ABEHMNPRV-Y]))|[0-9][A-HJKS-UW])\s*[0-9][ABD-HJLNP-UW-Z]{2})$/i)
       @sources.push "uk_postcode"
       @sources.push "osm_nominatim"
     elsif @query.match(/^[A-Z]\d[A-Z]\s*\d[A-Z]\d$/i)
       @sources.push "ca_postcode"
+      @sources.push "osm_nominatim"
     else
       @sources.push "osm_nominatim"
       @sources.push "geonames"
