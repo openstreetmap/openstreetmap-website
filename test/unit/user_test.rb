@@ -40,9 +40,9 @@ class UserTest < ActiveSupport::TestCase
   
   def test_email_valid
     ok = %w{ a@s.com test@shaunmcdonald.me.uk hello_local@ping-d.ng 
-    test_local@openstreetmap.org test-local@example.com
+    test_local@openstreetmap.org test-local@example.com }
+    bad = %w{ hi ht@ n@ @.com help@.me.uk help"hi.me.uk も対@応します
     輕觸搖晃的遊戲@ah.com も対応します@s.name }
-    bad = %w{ hi ht@ n@ @.com help@.me.uk help"hi.me.uk も対@応します }
     
     ok.each do |name|
       user = users(:normal_user)
