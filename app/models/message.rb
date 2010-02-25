@@ -7,7 +7,6 @@ class Message < ActiveRecord::Base
   validates_presence_of :title, :body, :sent_on, :sender, :recipient
   validates_length_of :title, :within => 1..255
   validates_inclusion_of :message_read, :in => [ true, false ]
-  validates_associated :sender, :recipient
   validates_as_utf8 :title
 
   def digest
