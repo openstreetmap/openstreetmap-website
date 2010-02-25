@@ -157,6 +157,7 @@ class UserController < ApplicationController
       user = User.authenticate(:username => email_or_display_name, :password => pass)
       if user
         session[:user] = user.id
+        session_expires_after 1.month if params[:remember_me]
       elsif User.authenticate(:username => email_or_display_name, :password => pass, :inactive => true)
         flash.now[:error] = t 'user.login.account not active'
       else
@@ -192,6 +193,7 @@ class UserController < ApplicationController
       session[:token] = nil
     end
     session[:user] = nil
+    session_expires_automatically
     if params[:referer]
       redirect_to params[:referer]
     else
