@@ -67,7 +67,12 @@ class UserController < ApplicationController
           flash.now[:notice] = t 'user.account.flash update success'
         else
           flash.now[:notice] = t 'user.account.flash update success confirm needed'
-          Notifier.deliver_email_confirm(@user, @user.tokens.create)
+
+          begin
+            Notifier.deliver_email_confirm(@user, @user.tokens.create)
+          rescue
+            # Ignore errors sending email
+          end
         end
       end
     else
