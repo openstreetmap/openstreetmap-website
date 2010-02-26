@@ -1,6 +1,6 @@
 <h2><%= t 'user.account.my settings' %></h2>
 <%= error_messages_for 'user' %>
-<% form_for :user, @user do |f| %>
+<% form_for :user, :html => { :multipart => true } do |f| %>
 <table id="accountForm">
   <tr><td class="fieldName"><%= t 'user.new.display name' %></td><td><%= f.text_field :display_name %></td></tr>
   <tr><td class="fieldName" style="padding-bottom:0px;"><%= t 'user.account.current email address' %></td><td style="padding-bottom:0px;"><%= @user.email %> <span class="minorNote"><%= t 'user.account.email never displayed publicly' %></span></td></tr>
@@ -22,6 +22,34 @@
   <tr><td class="fieldName" valign="top"><%= t 'user.account.profile description' %></td><td><%= f.text_area :description, :rows => '5', :cols => '60' %></td></tr>
 
   <tr><td class="fieldName" valign="top"><%= t 'user.account.preferred languages' %></td><td><%= f.text_field :languages %></td></tr>
+
+  <tr>
+    <td class="fieldName" valign="top">
+      <%= t 'user.account.image' %>
+    </td>
+    <td valign="top">
+      <% if @user.image.nil? %>
+        <%= hidden_field_tag "image_action", "new" %>
+        <%= t 'user.account.new image' %><br /><%= file_column_field "user", "image" %>
+      <% else %>
+        <table>
+          <tr>
+            <td rowspan="3" valign="top"><%= image_tag url_for_file_column(@user, "image") %></td>
+            <td><%= radio_button_tag "image_action", "keep", true %></td>
+            <td><%= t 'user.account.keep image' %></td>
+          </tr>
+          <tr>
+            <td><%= radio_button_tag "image_action", "delete" %></td>
+            <td><%= t 'user.account.delete image' %></td>
+          </tr>
+          <tr>
+            <td><%= radio_button_tag "image_action", "new" %></td>
+            <td><%= t 'user.account.replace image' %><br /><%= file_column_field "user", "image", :onchange => "$('image_action_new').checked = true" %></td>
+          </tr>
+        </table>
+      <% end %>
+    </td>
+  </tr>
 
   <tr id="homerow" <% unless @user.home_lat and @user.home_lon %> class="nohome" <%end%> ><td class="fieldName"><%= t 'user.account.home location' %></td><td><em class="message"><%= t 'user.account.no home location' %></em><span class="location"><%= t 'user.account.latitude' %> <%= f.text_field :home_lat, :size => 20, :id => "home_lat" %><%= t 'user.account.longitude' %><%= f.text_field :home_lon, :size => 20, :id => "home_lon" %></span></td></tr>
 

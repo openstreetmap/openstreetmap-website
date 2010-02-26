@@ -4,9 +4,9 @@ class UserController < ApplicationController
   before_filter :authorize, :only => [:api_details, :api_gpx_files]
   before_filter :authorize_web, :except => [:api_details, :api_gpx_files]
   before_filter :set_locale, :except => [:api_details, :api_gpx_files]
-  before_filter :require_user, :only => [:set_home, :account, :go_public, :make_friend, :remove_friend, :upload_image, :delete_image]
+  before_filter :require_user, :only => [:set_home, :account, :go_public, :make_friend, :remove_friend]
   before_filter :check_database_readable, :except => [:api_details, :api_gpx_files]
-  before_filter :check_database_writable, :only => [:login, :new, :set_home, :account, :go_public, :make_friend, :remove_friend, :upload_image, :delete_image]
+  before_filter :check_database_writable, :only => [:login, :new, :set_home, :account, :go_public, :make_friend, :remove_friend]
   before_filter :check_api_readable, :only => [:api_details, :api_gpx_files]
   before_filter :require_allow_read_prefs, :only => [:api_details]
   before_filter :require_allow_read_gpx, :only => [:api_gpx_files]
@@ -57,6 +57,12 @@ class UserController < ApplicationController
 
       @user.description = params[:user][:description]
       @user.languages = params[:user][:languages].split(",")
+
+      case params[:image_action]
+        when "new" then @user.image = params[:user][:image]
+        when "delete" then @user.image = nil
+      end
+
       @user.home_lat = params[:user][:home_lat]
       @user.home_lon = params[:user][:home_lon]
 
@@ -251,18 +257,6 @@ class UserController < ApplicationController
         flash.now[:error] = t 'user.confirm_email.failure'
       end
     end
-  end
-
-  def upload_image
-    @user.image = params[:user][:image]
-    @user.save!
-    redirect_to :controller => 'user', :action => 'view', :display_name => @user.display_name
-  end
-
-  def delete_image
-    @user.image = nil
-    @user.save!
-    redirect_to :controller => 'user', :action => 'view', :display_name => @user.display_name
   end
 
   def api_gpx_files
