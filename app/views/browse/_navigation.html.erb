@@ -4,20 +4,20 @@
       <% if @prev_by_user %>
         <%= link_to t('browse.changeset_navigation.paging.user.prev', :id => @prev_by_user.id.to_s),
                     { :id => @prev_by_user.id },
-                    { :title => t('browse.changeset_navigation.user.prev_tooltip', :user => @prev_by_user.user.display_name) } %>
+                    { :title => t('browse.changeset_navigation.user.prev_tooltip', :user => @prev_by_user.user.display_name), :rel => "nofollow" } %>
         |
       <% end %>
       <%=
       user = (@prev_by_user || @next_by_user).user.display_name
       link_to h(user),
               { :controller => "changeset", :action => "list", :display_name => user },
-              { :title => t('browse.changeset_navigation.user.name_tooltip', :user => h(user)) }
+              { :title => t('browse.changeset_navigation.user.name_tooltip', :user => h(user)), :rel => "nofollow" }
       %>
       <% if @next_by_user %>
         |
         <%= link_to t('browse.changeset_navigation.paging.user.next', :id => @next_by_user.id.to_s),
                     { :id => @next_by_user.id },
-                    { :title => t('browse.changeset_navigation.user.next_tooltip', :user => @next_by_user.user.display_name) } %>
+                    { :title => t('browse.changeset_navigation.user.next_tooltip', :user => @next_by_user.user.display_name), :rel => "nofollow" } %>
       <% end %>
     </span>
     <br/>
@@ -26,7 +26,7 @@
     <% if @prev %>
       <%= link_to t('browse.changeset_navigation.paging.all.prev', :id => @prev.id.to_s),
                   { :id => @prev.id },
-                  { :title => t('browse.changeset_navigation.all.prev_tooltip') } %>
+                  { :title => t('browse.changeset_navigation.all.prev_tooltip'), :rel => "nofollow" } %>
     <% end %>
     <% if @prev and @next %>
       | 
@@ -34,7 +34,7 @@
     <% if @next %>
       <%= link_to t('browse.changeset_navigation.paging.all.next', :id => @next.id.to_s),
                   { :id => @next.id },
-                  { :title => t('browse.changeset_navigation.all.next_tooltip') } %>
+                  { :title => t('browse.changeset_navigation.all.next_tooltip'), :rel => "nofollow" } %>
     <% end %>
   </span>
 </div>
