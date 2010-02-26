@@ -112,7 +112,8 @@ class UserController < ApplicationController
       if user
         token = user.tokens.create
         Notifier.deliver_lost_password(user, token)
-        flash.now[:notice] = t 'user.lost_password.notice email on way'
+        flash[:notice] = t 'user.lost_password.notice email on way'
+        redirect_to :action => 'login'
       else
         flash.now[:error] = t 'user.lost_password.notice email cannot find'
       end
