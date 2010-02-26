@@ -170,7 +170,8 @@ end
         url += "/full";
       <% end %>
 
-      addObjectToMap(url, <%= object_zoom %>);
+      // IE requires Vector layers be initialised on page load, and not under deferred script conditions
+      Event.observe(window, 'load', function() { addObjectToMap(url, <%= object_zoom %>) });
     <% end %>
 
     map.events.register("moveend", map, updateLocation);
