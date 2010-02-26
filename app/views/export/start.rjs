@@ -191,16 +191,16 @@ page << <<EOJ
     var bounds = new OpenLayers.Bounds($("minlon").value, $("minlat").value, $("maxlon").value, $("maxlat").value);
 
     if (bounds.getWidth() * bounds.getHeight() > #{APP_CONFIG['max_request_area']}) {
-      $("format_osm").disabled = true;
-      $("format_osm").checked = false;
-      $("export_osm").style.display = "none";
+      $("export_osm_too_large").style.display = "block";
     } else {
-      $("format_osm").disabled = false;
+      $("export_osm_too_large").style.display = "none";
     }
 
     var max_scale = maxMapnikScale();
 
-    if ($("format_mapnik").checked && $("mapnik_scale").value < max_scale) {
+    if ($("format_osm").checked && bounds.getWidth() * bounds.getHeight() > #{APP_CONFIG['max_request_area']}) {
+      $("export_commit").disabled = true;
+    } else if ($("format_mapnik").checked && $("mapnik_scale").value < max_scale) {
       $("export_commit").disabled = true;
     } else {
       $("export_commit").disabled = false;
