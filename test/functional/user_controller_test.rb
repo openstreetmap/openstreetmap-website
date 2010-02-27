@@ -65,7 +65,7 @@ class UserControllerTest < ActionController::TestCase
   # Check that the user account page will display and contains some relevant
   # information for the user
   def test_view_user_account
-    get :view
+    get :view, {:display_name => "unknown"}
     assert_response :not_found
     
     get :view, {:display_name => "test"}

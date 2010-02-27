@@ -25,8 +25,8 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :openid_url, :allow_nil => true
   validates_length_of :pass_crypt, :within => 8..255
   validates_length_of :display_name, :within => 3..255, :allow_nil => true
-  validates_length_of :email, :within => 6..255
-  validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
+  validates_email_format_of :email
+  validates_email_format_of :new_email, :allow_blank => true
   validates_format_of :display_name, :with => /^[^\/;.,?]*$/
   validates_numericality_of :home_lat, :allow_nil => true
   validates_numericality_of :home_lon, :allow_nil => true

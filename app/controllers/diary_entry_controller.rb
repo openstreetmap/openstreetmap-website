@@ -166,7 +166,7 @@ class DiaryEntryController < ApplicationController
                                  :visible => true
                                })
       if @entry
-        @title = t 'diary_entry.view.title', :user => params[:display_name]
+        @title = t 'diary_entry.view.title', :user => params[:display_name], :title => @entry.title
       else
         @title = t 'diary_entry.no_such_entry.title', :id => params[:id]
         render :action => 'no_such_entry', :status => :not_found

@@ -100,8 +100,15 @@ class MessageController < ApplicationController
       end
       message.message_read = message_read
       if message.save
-        flash[:notice] = notice
-        redirect_to :controller => 'message', :action => 'inbox', :display_name => @user.display_name
+        if request.xhr?
+          render :update do |page|
+            page.replace "inbox-count", :partial => "message_count"
+            page.replace "inbox-#{message.id}", :partial => "message_summary", :object => message
+          end
+        else
+          flash[:notice] = notice
+          redirect_to :controller => 'message', :action => 'inbox', :display_name => @user.display_name
+        end
       end
     end
   rescue ActiveRecord::RecordNotFound

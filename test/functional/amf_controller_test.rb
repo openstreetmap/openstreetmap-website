@@ -28,7 +28,7 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal way[0], -4
     assert_equal way[1], "way"
     assert_equal way[2], id
-    assert way[3].empty? and way[4].empty?
+    assert way[3].nil? and way[4].nil?
   end
 
   def test_getway_nonexistent
@@ -41,7 +41,7 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal way[0], -4
     assert_equal way[1], "way"
     assert_equal way[2], 0
-    assert way[3].empty? and way[4].empty?
+    assert way[3].nil? and way[4].nil?
   end
 
   def test_whichways
@@ -185,7 +185,7 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal rel[0], -4
     assert_equal rel[1], "relation"
     assert_equal rel[2], id
-    assert rel[3].empty? and rel[4].empty?
+    assert rel[3].nil? and rel[4].nil?
   end
 
   def test_getrelation_nonexistent
@@ -198,7 +198,7 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal rel[0], -4
     assert_equal rel[1], "relation"
     assert_equal rel[2], id
-    assert rel[3].empty? and rel[4].empty?
+    assert rel[3].nil? and rel[4].nil?
   end
 
   def test_getway_old
@@ -240,8 +240,8 @@ class AmfControllerTest < ActionController::TestCase
       amf_parse_response
       returned_way = amf_result("/1")
       assert_equal -1, returned_way[0]
-      assert returned_way[3].empty?
-      assert returned_way[4].empty?
+      assert returned_way[3].nil?
+      assert returned_way[4].nil?
       assert returned_way[5].nil?
     end
   end
@@ -261,8 +261,8 @@ class AmfControllerTest < ActionController::TestCase
       amf_parse_response
       returned_way = amf_result("/1")
       assert_equal -1, returned_way[0]
-      assert returned_way[3].empty?
-      assert returned_way[4].empty?
+      assert returned_way[3].nil?
+      assert returned_way[4].nil?
       assert returned_way[5].nil?
     end
   end
@@ -510,7 +510,7 @@ class AmfControllerTest < ActionController::TestCase
 
     assert_equal 2, result.size
     assert_equal -1, result[0], "Expected to get the status FAIL in the amf"
-    assert_equal "One of the tags is invalid. Please pester Adobe to fix Flash on Linux.", result[1] 
+    assert_equal "One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1.", result[1] 
   end
       
   def test_putpoi_delete_valid

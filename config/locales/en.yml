@@ -313,7 +313,7 @@ en:
       save_button: "Save"
       marker_text: Diary entry location
     view:
-      title: "Users' diaries | {{user}}"
+      title: "{{user}}'s diary | {{title}}"
       user_title: "{{user}}'s diary"
       leave_a_comment: "Leave a comment"
       login_to_leave_a_comment: "{{login_link}} to leave a comment"
@@ -362,6 +362,9 @@ en:
       embeddable_html: "Embeddable HTML"
       licence: "Licence"
       export_details: 'OpenStreetMap data is licensed under the <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative Commons Attribution-ShareAlike 2.0 license</a>.'
+      too_large:
+        heading: "Area Too Large"
+        body: "This area is too large to be exported as OpenStreetMap XML Data. Please zoom in or select a smaller area."
       options: "Options"
       format: "Format"
       scale: "Scale"
@@ -884,15 +887,13 @@ en:
     sign_up: sign up
     sign_up_tooltip: Create an account for editing
     view: View
-    view_tooltip: View maps
+    view_tooltip: View the map
     edit: Edit
-    edit_tooltip: Edit maps
     history: History
-    history_tooltip: Changeset history
     export: Export
     export_tooltip: Export map data
     gps_traces: GPS Traces
-    gps_traces_tooltip: Manage traces
+    gps_traces_tooltip: Manage GPS traces
     user_diaries: User Diaries
     user_diaries_tooltip: View user diaries
     tag_line: The Free Wiki World Map
@@ -1415,10 +1416,6 @@ en:
       ago: "({{time_in_words_ago}} ago)"
       email address: "Email address:"
       created from: "Created from:"
-      user image heading: User image
-      delete image: Delete Image
-      upload an image: Upload an image
-      add image: Add Image
       description: Description
       user location: User location
       no home location: "No home location has been set."
@@ -1430,7 +1427,6 @@ en:
       m away: "{{count}}m away"
       nearby users: "Nearby users:"
       no nearby users: "There are no users who admit to mapping nearby yet."
-      change your settings: change your settings
       my_oauth_details: "View my OAuth details"
       role:
         administrator: "This user is an administrator"
@@ -1456,6 +1452,8 @@ en:
     account:
       title: "Edit account"
       my settings: My settings
+      current email address: "Current Email Address:"
+      new email address: "New Email Address:"
       email never displayed publicly: "(never displayed publicly)"
       openid:
         openid: "OpenID:"
@@ -1473,6 +1471,11 @@ en:
         text: "Currently your edits are anonymous and people cannot send you messages or see your location. To show what you edited and allow people to contact you through the website, click the button below. <b>Since the 0.6 API changeover, only public users can edit map data</b>. (<a href=\"http://wiki.openstreetmap.org/wiki/Anonymous_edits\">find out why</a>).<ul><li>Your email address will not be revealed by becoming public.</li><li>This action cannot be reversed and all new users are now public by default.</li></ul>"
       profile description: "Profile Description:"
       preferred languages: "Preferred Languages:"
+      image: "Image:"
+      new image: "Add an image"
+      keep image: "Keep the current image"
+      delete image: "Remove the current image"
+      replace image: "Replace the current image"
       home location: "Home Location:"
       no home location: "You have not entered your home location."
       latitude: "Latitude:"
@@ -1625,5 +1628,9 @@ en:
       overlays:
         maplint: Maplint
     site:
+      edit_tooltip: Edit the map
+      edit_disabled_tooltip: Zoom in to edit the map
       edit_zoom_alert: You must zoom in to edit the map
-      history_zoom_alert: You must zoom in to see the editing history
+      history_tooltip: View edits for this area
+      history_disabled_tooltip: Zoom in to view edits for this area
+      history_zoom_alert: You must zoom in to view edits for this area

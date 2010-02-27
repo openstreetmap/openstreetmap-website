@@ -1,6 +1,6 @@
 <h2><%= t'message.inbox.my_inbox'%>/<%= link_to t('message.inbox.outbox'), url_for(:controller => "user", :action => "outbox", :id => @user.display_name) %></h2>
 
-<p><%= t'message.inbox.you_have', :new_count => @user.new_messages.size, :old_count => (@user.messages.size -  @user.new_messages.size) %></p> 
+<%= render :partial => "message_count" %>
 
 <% if @user.messages.size > 0 %>
   <div id="messages">

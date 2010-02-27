@@ -101,8 +101,6 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/user/confirm-email', :controller => 'user', :action => 'confirm_email'
   map.connect '/user/go_public', :controller => 'user', :action => 'go_public'
   map.connect '/user/reset-password', :controller => 'user', :action => 'reset_password'
-  map.connect '/user/upload-image', :controller => 'user', :action => 'upload_image'
-  map.connect '/user/delete-image', :controller => 'user', :action => 'delete_image'
   map.connect '/user/forgot-password', :controller => 'user', :action => 'lost_password'
 
   map.connect '/index.html', :controller => 'site', :action => 'index'
@@ -158,7 +156,6 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/user/:display_name/diary/:id/hide', :controller => 'diary_entry', :action => 'hide', :id => /\d+/
   map.connect '/user/:display_name/diary/:id/hidecomment/:comment', :controller => 'diary_entry', :action => 'hidecomment', :id => /\d+/, :comment => /\d+/
   map.connect '/user/:display_name/account', :controller => 'user', :action => 'account'
-  map.connect '/user/:display_name/set_home', :controller => 'user', :action => 'set_home'
   map.connect '/user/:display_name/activate', :controller => 'user', :action => 'activate'
   map.connect '/user/:display_name/deactivate', :controller => 'user', :action => 'deactivate'
   map.connect '/user/:display_name/hide', :controller => 'user', :action => 'hide'

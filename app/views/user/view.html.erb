@@ -1,3 +1,6 @@
+<% if @this_user.image %>
+<%= image_tag url_for_file_column(@this_user, "image"), :align => "right", :float => "left" %>
+<% end %>
 <h2><%= h(@this_user.display_name) %>
 <% UserRole::ALL_ROLES.each do |role| %>
 <% if @user and @user.administrator? %>
@@ -62,23 +65,6 @@
 <% if @user and @user.administrator? %>
 <p><b><%= t 'user.view.email address' %></b> <%= @this_user.email %></p>  
 <p><b><%= t 'user.view.created from' %></b> <%= @this_user.creation_ip %></p>
-<% end %>
-
-<h3><%= t 'user.view.user image heading' %></h3>
-<% if @this_user.image %>
-  <%= image_tag url_for_file_column(@this_user, "image") %>
-  <% if @user and @this_user.id == @user.id %>
-    <%= button_to t('user.view.delete image'), :action => 'delete_image' %>
-  <% end %>
-<% end %>
-<br />
-
-<% if @user and @this_user.id == @user.id %>
-  <%= t 'user.view.upload an image' %><br />
-  <%= form_tag({:action=>'upload_image'}, :multipart => true)%>
-    <%= file_column_field 'user', 'image' %>
-    <%= submit_tag t('user.view.add image') %>
-  </form>
 <% end %>
 
 <h3><%= t 'user.view.description' %></h3>
@@ -158,7 +144,5 @@
 <br/>
 <br/>
 <% if @user and @this_user.id == @user.id %>
-<%= link_to t('user.view.change your settings'), :controller => 'user', :action => 'account', :display_name => @user.display_name %>
-<br/><br/>
 <%= link_to t('user.view.my_oauth_details'), :controller => 'oauth_clients', :action => 'index' %>
 <% end %>
