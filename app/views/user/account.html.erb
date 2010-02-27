@@ -59,7 +59,7 @@
       <% else %>
         <table>
           <tr>
-            <td rowspan="3" valign="top"><%= image_tag url_for_file_column(@user, "image") %></td>
+            <td rowspan="3" valign="top"><%= image_tag url_for_file_column(@user, "image"), :class => "user_image" %></td>
             <td><%= radio_button_tag "image_action", "keep", true %></td>
             <td><%= t 'user.account.keep image' %></td>
           </tr>
@@ -96,7 +96,7 @@
 </table>
 <% end %>
 
-<%= render :partial => 'friend_map' %>
+<%= render :partial => 'map' %>
 
 <% unless @user.data_public? %>
 <a name="public"></a>

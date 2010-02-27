@@ -287,7 +287,11 @@ class UserController < ApplicationController
         flash[:warning] = t 'user.make_friend.already_a_friend', :name => name
       end
 
-      redirect_to :controller => 'user', :action => 'view'
+      if params[:referer]
+        redirect_to params[:referer]
+      else
+        redirect_to :controller => 'user', :action => 'view'
+      end
     end
   end
 
@@ -302,7 +306,11 @@ class UserController < ApplicationController
         flash[:error] = t 'user.remove_friend.not_a_friend', :name => friend.display_name
       end
 
-      redirect_to :controller => 'user', :action => 'view'
+      if params[:referer]
+        redirect_to params[:referer]
+      else
+        redirect_to :controller => 'user', :action => 'view'
+      end
     end
   end
 
