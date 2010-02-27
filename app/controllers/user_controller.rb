@@ -4,9 +4,9 @@ class UserController < ApplicationController
   before_filter :authorize, :only => [:api_details, :api_gpx_files]
   before_filter :authorize_web, :except => [:api_details, :api_gpx_files]
   before_filter :set_locale, :except => [:api_details, :api_gpx_files]
-  before_filter :require_user, :only => [:set_home, :account, :go_public, :make_friend, :remove_friend]
+  before_filter :require_user, :only => [:account, :go_public, :make_friend, :remove_friend]
   before_filter :check_database_readable, :except => [:api_details, :api_gpx_files]
-  before_filter :check_database_writable, :only => [:login, :new, :set_home, :account, :go_public, :make_friend, :remove_friend]
+  before_filter :check_database_writable, :only => [:login, :new, :account, :go_public, :make_friend, :remove_friend]
   before_filter :check_api_readable, :only => [:api_details, :api_gpx_files]
   before_filter :require_allow_read_prefs, :only => [:api_details]
   before_filter :require_allow_read_gpx, :only => [:api_gpx_files]
@@ -87,17 +87,6 @@ class UserController < ApplicationController
           attr = "new_email" if attr == "email"
           @user.errors.add(attr,msg)
         end
-      end
-    end
-  end
-
-  def set_home
-    if params[:user][:home_lat] and params[:user][:home_lon]
-      @user.home_lat = params[:user][:home_lat].to_f
-      @user.home_lon = params[:user][:home_lon].to_f
-      if @user.save
-        flash[:notice] = t 'user.set_home.flash success'
-        redirect_to :controller => 'user', :action => 'account'
       end
     end
   end
