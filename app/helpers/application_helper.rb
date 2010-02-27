@@ -1,4 +1,6 @@
 module ApplicationHelper
+  require 'rexml/document'
+
   def htmlize(text)
     return linkify(sanitize(simple_format(text)))
   end
@@ -32,6 +34,15 @@ module ApplicationHelper
     js << "</script>\n"
 
     return js
+  end
+
+  def describe_location(lat, lon, zoom, language)
+    zoom = zoom || 14
+    language = language || request.user_preferred_languages.join(',')
+    url = "http://nominatim.openstreetmap.org/reverse?lat=#{lat}&lon=#{lon}&zoom=#{zoom}&accept-language=#{language}"
+    response = REXML::Document.new(Net::HTTP.get(URI.parse(url)))
+
+    return response.get_text("reversegeocode/result").to_s
   end
 
 private

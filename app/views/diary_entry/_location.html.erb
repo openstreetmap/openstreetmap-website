@@ -1,0 +1,11 @@
+<% cache(:controller => 'diary_entry', :action => 'view', :display_name => location.user.display_name, :id => location.id, :part => "location") do %>
+<%= t 'diary_entry.location.location' %>
+
+<abbr class="geo" title="<%= number_with_precision(location.latitude, :precision => 4) %>; <%= number_with_precision(location.longitude, :precision => 4) %>">
+<%= describe_location location.latitude, location.longitude, 14, location.language_code %>
+</abbr>
+
+(<%=link_to t('diary_entry.location.view'), :controller => 'site', :action => 'index', :lat => location.latitude, :lon => location.longitude, :zoom => 14 %>
+/
+<%=link_to t('diary_entry.location.edit'), :controller => 'site', :action => 'edit', :lat => location.latitude, :lon => location.longitude, :zoom => 14 %>)
+<% end %>
