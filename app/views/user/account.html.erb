@@ -2,26 +2,51 @@
 <%= error_messages_for 'user' %>
 <% form_for :user, :html => { :multipart => true } do |f| %>
 <table id="accountForm">
-  <tr><td class="fieldName"><%= t 'user.new.display name' %></td><td><%= f.text_field :display_name %></td></tr>
-  <tr><td class="fieldName" style="padding-bottom:0px;"><%= t 'user.account.current email address' %></td><td style="padding-bottom:0px;"><%= @user.email %> <span class="minorNote"><%= t 'user.account.email never displayed publicly' %></span></td></tr>
-  <tr><td class="fieldName"><%= t 'user.account.new email address' %></td><td><%= f.text_field :new_email, {:size => 50, :maxlength => 255} %> <span class="minorNote"><%= t 'user.account.email never displayed publicly' %></span></td></tr>
-  <tr><td class="fieldName" style="padding-bottom:0px;"><%= t 'user.new.password' %></td><td style="padding-bottom:0px;"><%= f.password_field :pass_crypt, {:value => '', :size => 30, :maxlength => 255} %></td></tr>
-  <tr><td class="fieldName"><%= t 'user.new.confirm password' %></td><td><%= f.password_field :pass_crypt_confirmation, {:value => '', :size => 30, :maxlength => 255} %></td></tr>
-
   <tr>
-  <td class="fieldName" valign="top"><%= t 'user.account.public editing.heading' %></td>
-  <td>
-<% if @user.data_public? %>
-  <%= t 'user.account.public editing.enabled' %> <span class="minorNote">(<a href="<%= t 'user.account.public editing.enabled link' %>" target="_new"><%= t 'user.account.public editing.enabled link text' %></a>)</span>
-<% else %>
-  <%= t 'user.account.public editing.disabled' %><span class="minorNote">(<a href="#public"><%= t 'user.account.public editing.disabled link text' %></a>)</span>
-<% end %>
-  </td>
+    <td class="fieldName"><%= t 'user.new.display name' %></td>
+    <td><%= f.text_field :display_name %></td>
   </tr>
 
-  <tr><td class="fieldName" valign="top"><%= t 'user.account.profile description' %></td><td><%= f.text_area :description, :rows => '5', :cols => '60' %></td></tr>
+  <tr>
+    <td class="fieldName" style="padding-bottom:0px;"><%= t 'user.account.current email address' %></td>
+    <td style="padding-bottom:0px;"><%= @user.email %> <span class="minorNote"><%= t 'user.account.email never displayed publicly' %></span></td>
+  </tr>
 
-  <tr><td class="fieldName" valign="top"><%= t 'user.account.preferred languages' %></td><td><%= f.text_field :languages %></td></tr>
+  <tr>
+    <td class="fieldName"><%= t 'user.account.new email address' %></td>
+    <td><%= f.text_field :new_email, {:size => 50, :maxlength => 255} %> <span class="minorNote"><%= t 'user.account.email never displayed publicly' %></span></td>
+  </tr>
+
+  <tr>
+    <td class="fieldName" style="padding-bottom:0px;"><%= t 'user.new.password' %></td>
+    <td style="padding-bottom:0px;"><%= f.password_field :pass_crypt, {:value => '', :size => 30, :maxlength => 255} %></td>
+  </tr>
+
+  <tr>
+    <td class="fieldName"><%= t 'user.new.confirm password' %></td>
+    <td><%= f.password_field :pass_crypt_confirmation, {:value => '', :size => 30, :maxlength => 255} %></td>
+  </tr>
+
+  <tr>
+    <td class="fieldName" valign="top"><%= t 'user.account.public editing.heading' %></td>
+    <td>
+      <% if @user.data_public? %>
+        <%= t 'user.account.public editing.enabled' %> <span class="minorNote">(<a href="<%= t 'user.account.public editing.enabled link' %>" target="_new"><%= t 'user.account.public editing.enabled link text' %></a>)</span>
+      <% else %>
+        <%= t 'user.account.public editing.disabled' %> <span class="minorNote">(<a href="#public"><%= t 'user.account.public editing.disabled link text' %></a>)</span>
+      <% end %>
+    </td>
+  </tr>
+
+  <tr>
+    <td class="fieldName" valign="top"><%= t 'user.account.profile description' %></td>
+    <td><%= f.text_area :description, :rows => '5', :cols => '60' %></td>
+  </tr>
+
+  <tr>
+    <td class="fieldName" valign="top"><%= t 'user.account.preferred languages' %></td>
+    <td><%= f.text_field :languages %></td>
+  </tr>
 
   <tr>
     <td class="fieldName" valign="top">
@@ -51,20 +76,28 @@
     </td>
   </tr>
 
-  <tr id="homerow" <% unless @user.home_lat and @user.home_lon %> class="nohome" <%end%> ><td class="fieldName"><%= t 'user.account.home location' %></td><td><em class="message"><%= t 'user.account.no home location' %></em><span class="location"><%= t 'user.account.latitude' %> <%= f.text_field :home_lat, :size => 20, :id => "home_lat" %><%= t 'user.account.longitude' %><%= f.text_field :home_lon, :size => 20, :id => "home_lon" %></span></td></tr>
+  <tr id="homerow" <% unless @user.home_lat and @user.home_lon %> class="nohome" <%end%> >
+    <td class="fieldName"><%= t 'user.account.home location' %></td>
+    <td><em class="message"><%= t 'user.account.no home location' %></em><span class="location"><%= t 'user.account.latitude' %> <%= f.text_field :home_lat, :size => 20, :id => "home_lat" %><%= t 'user.account.longitude' %><%= f.text_field :home_lon, :size => 20, :id => "home_lon" %></span></td>
+  </tr>
 
-  <tr><td></td><td>
-  <p><%= t 'user.account.update home location on click' %> <input type="checkbox" value="1" <% unless @user.home_lat and @user.home_lon %> checked="checked" <% end %> id="updatehome" /> </p>
-  <div id="map" style="border:1px solid black; position:relative; width:500px; height:400px;"></div>
-  </td></tr>
+  <tr>
+    <td></td>
+    <td>
+      <p><%= t 'user.account.update home location on click' %> <input type="checkbox" value="1" <% unless @user.home_lat and @user.home_lon %> checked="checked" <% end %> id="updatehome" /> </p>
+      <div id="map" style="border:1px solid black; position:relative; width:500px; height:400px;"></div>
+    </td>
+  </tr>
   
-  <tr><td></td><td align=right><br/><%= submit_tag t('user.account.save changes button') %></td></tr>
+  <tr>
+    <td></td>
+    <td align=right><br/><%= submit_tag t('user.account.save changes button') %></td>
+  </tr>
 </table>
-<br/>
-
 <% end %>
 
 <%= render :partial => 'friend_map' %>
+
 <% unless @user.data_public? %>
 <a name="public"></a>
 <h2><%= t 'user.account.public editing note.heading' %></h2>
