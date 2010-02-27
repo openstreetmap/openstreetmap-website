@@ -36,13 +36,17 @@ module ApplicationHelper
     return js
   end
 
-  def describe_location(lat, lon, zoom, language)
+  def describe_location(lat, lon, zoom = nil, language = nil)
     zoom = zoom || 14
     language = language || request.user_preferred_languages.join(',')
     url = "http://nominatim.openstreetmap.org/reverse?lat=#{lat}&lon=#{lon}&zoom=#{zoom}&accept-language=#{language}"
     response = REXML::Document.new(Net::HTTP.get(URI.parse(url)))
 
-    return response.get_text("reversegeocode/result").to_s
+    if result = response.get_text("reversegeocode/result")
+      result.to_s
+    else
+      "#{number_with_precision(lat, :precision => 3)}, #{number_with_precision(lon, :precision => 3)}"
+    end
   end
 
 private
