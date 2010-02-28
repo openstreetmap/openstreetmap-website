@@ -5,12 +5,11 @@
   }
 
   function describeLocation() {
-    var position = getPosition();
-    var zoom = getZoom();
+    var args = getArgs($("viewanchor").href);
 
     <%= remote_function(:loading => "startSearch()",
                         :url => { :controller => :geocoder, :action => :description },
-                        :with => "'lat=' + position.lat + '&lon=' + position.lon + '&zoom=' + zoom") %>
+                        :with => "'lat=' + args['lat'] + '&lon=' + args['lon'] + '&zoom=' + args['zoom']") %>
   }
 
   function setSearchViewbox() {
