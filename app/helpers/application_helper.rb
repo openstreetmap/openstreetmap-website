@@ -49,6 +49,26 @@ module ApplicationHelper
     end
   end
 
+  def user_image(user, options = {})
+    options[:class] ||= "user_image"
+
+    if user.image
+      image_tag url_for_file_column(user, "image"), options
+    else
+      image_tag "anon_large.png", options
+    end
+  end
+
+  def user_thumbnail(user, options = {})
+    options[:class] ||= "user_thumbnail"
+
+    if user.image
+      image_tag url_for_file_column(user, "image"), options
+    else
+      image_tag "anon_small.png", options
+    end
+  end
+
 private
 
   def javascript_strings_for_key(key)

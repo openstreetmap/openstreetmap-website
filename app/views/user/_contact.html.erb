@@ -1,10 +1,6 @@
 <tr>
   <td rowspan="2">
-    <% if contact.image %>
-      <%= image_tag url_for_file_column(contact, "image"), :class => "user_thumbnail" %>
-    <% else %>
-      <%= image_tag "anon_small.png", :class => "user_thumbnail" %>
-    <% end %>
+    <%= user_thumbnail contact %>
   </td>
   <td>
     <%= link_to h(contact.display_name), :controller => 'user', :action => 'view',  :display_name => contact.display_name %>
