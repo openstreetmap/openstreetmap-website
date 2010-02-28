@@ -332,7 +332,7 @@ nl:
     no_such_user: 
       body: Sorry, er is geen gebruiker met de naam {{user}}. Controleer de spelling, of misschien is de verwijzing waarop u geklikt hebt onjuist.
       heading: De gebruiker {{user}} bestaat niet
-      title: De opgevraagde gebruiker bestaat niet
+      title: Deze gebruiker bestaat niet
     view: 
       leave_a_comment: Opmerking achterlaten
       login: aanmelden
@@ -941,10 +941,14 @@ nl:
       send_message_to: Een persoonlijk bericht naar {{name}} versturen
       subject: Onderwerp
       title: Bericht verzenden
+    no_such_message: 
+      body: Er is geen bericht met dat ID.
+      heading: Bericht bestaat niet
+      title: Dat bericht bestaat niet
     no_such_user: 
-      body: Sorry, er is geen gebruiker of bericht met die naam of id
-      heading: Deze gebruiker of dit bericht bestaat niet
-      title: De gebruiker of het bericht bestaat niet
+      body: Er is geen gebruiker die naam.
+      heading: Deze gebruiker bestaat niet
+      title: Deze gebruiker bestaat niet
     outbox: 
       date: Datum
       inbox: Postvak IN
@@ -968,6 +972,9 @@ nl:
       title: Bericht lezen
       to: Aan
       unread_button: Markeren als ongelezen
+      wrong_user: "U bent aangemeld als \"{{user}}\", maar het bericht dat u wilt lezen is niet aan die gebruiker gericht.\nMeld u aan als de juiste gebruiker om het te lezen."
+    reply: 
+      wrong_user: U bent aangemeld als "{{user}}", maar het bericht waarop u wilt antwoorden is niet aan die gebruiker gericht. Meld u aan als de juiste gebruiker om te antwoorden.
     sent_message_summary: 
       delete_button: Verwijderen
   notifier: 
@@ -1215,6 +1222,9 @@ nl:
     sidebar: 
       close: Sluiten
       search_results: Zoekresultaten
+  time: 
+    formats: 
+      friendly: "%e %B %Y om %H:%M"
   trace: 
     create: 
       trace_uploaded: Uw track is geüpload en staat te wachten totdat hij in de database wordt opgenomen. Dit gebeurt meestal binnen een half uur. U ontvangt dan een e-mail.
@@ -1248,7 +1258,7 @@ nl:
     no_such_user: 
       body: Sorry, er is geen gebruiker {{user}}. Controleer de spelling, of misschien is de verwijzing waarop u geklikt hebt onjuist.
       heading: De gebruiker {{user}} bestaat niet
-      title: De gebruiker bestaat niet
+      title: Deze gebruiker bestaat niet
     offline: 
       heading: De opslag van GPX-bestanden is niet beschikbaar
       message: Het systeem voor het opslaan en uploaden van GPX-bestanden is op het moment niet beschikbaar.
@@ -1324,6 +1334,7 @@ nl:
       flash update success confirm needed: De gebruikersinformatie is bijgewerkt. Controleer uw e-mail om uw nieuwe e-mailadres te bevestigen.
       home location: "Thuislocatie:"
       image: "Afbeelding:"
+      image size hint: (vierkante afbeeldingen van minstens 100x100 pixels werken het beste)
       keep image: Huidige afbeelding behouden
       latitude: "Breedtegraad:"
       longitude: "Lengtegraad:"
@@ -1363,9 +1374,6 @@ nl:
       success: Uw e-mailadres is bevestigd. Dank u wel voor het registreren!
     filter: 
       not_an_administrator: U moet beheerder zijn om deze handeling uit te kunnen voeren.
-    friend_map: 
-      nearby mapper: "Dichtbijzijnde mapper: [[nearby_user]]"
-      your location: Uw locatie
     go_public: 
       flash success: Al uw bewerkingen zijn nu openbaar en u kunt bewerken.
     login: 
@@ -1378,6 +1386,7 @@ nl:
       lost password link: Wachtwoord vergeten?
       password: "Wachtwoord:"
       please login: Aanmelden of {{create_user_link}}.
+      remember: "Aanmeldgegevens onthouden:"
       title: Aanmelden
     lost_password: 
       email address: "E-mailadres:"
@@ -1391,6 +1400,10 @@ nl:
       already_a_friend: U bent al bevriend met {{name}}.
       failed: Sorry, het toevoegen van {{name}} als vriend is mislukt.
       success: "{{name}} is nu uw vriend."
+    map: 
+      friend: "Vriend: [[friend_user]]"
+      nearby mapper: "Dichtbijzijnde mapper: [[nearby_user]]"
+      your location: Uw locatie
     new: 
       confirm email address: "E-mailadres bevestigen:"
       confirm password: "Wachtwoord bevestigen:"
@@ -1450,12 +1463,11 @@ nl:
       my edits: mijn bewerkingen
       my settings: mijn instellingen
       my traces: mijn tracks
-      my_oauth_details: Mijn OAuth-gegevens bekijken
-      nearby users: "Dichtbijzijnde mappers:"
+      nearby users: Andere dichtbijzijnde gebruikers
       new diary entry: nieuw dagboekbericht
       no friends: U hebt nog geen vrienden toegevoegd.
-      no home location: Geen thuislocatie ingesteld.
-      no nearby users: Er zijn geen dichtbijzijnde mappers.
+      no nearby users: Er zijn geen andere gebruikers die hebben aangegeven in de buurt te mappen.
+      oauth settings: Oauth-instellingen
       remove as friend: vriend verwijderen
       role: 
         administrator: Deze gebruiker is beheerder
