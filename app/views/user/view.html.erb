@@ -75,7 +75,7 @@
   <% end %>
 </div>
 
-<p><b><%= t 'user.view.mapper since' %></b> <%= l @this_user.creation_time %> <%= t 'user.view.ago', :time_in_words_ago => time_ago_in_words(@this_user.creation_time) %></p>
+<p><b><%= t 'user.view.mapper since' %></b> <%= l @this_user.creation_time, :format => :friendly %> <%= t 'user.view.ago', :time_in_words_ago => time_ago_in_words(@this_user.creation_time) %></p>
 
 <% if @user and @user.administrator? %>
   <p><b><%= t 'user.view.email address' %></b> <%= @this_user.email %></p>  
