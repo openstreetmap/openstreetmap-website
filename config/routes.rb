@@ -70,6 +70,15 @@ ActionController::Routing::Routes.draw do |map|
   map.connect "api/#{API_VERSION}/amf/read", :controller =>'amf', :action =>'amf_read'
   map.connect "api/#{API_VERSION}/amf/write", :controller =>'amf', :action =>'amf_write'
   map.connect "api/#{API_VERSION}/swf/trackpoints", :controller =>'swf', :action =>'trackpoints'
+
+  # Map Bugs API  
+  map.connect "api/#{API_VERSION}/bugs/getBugs", :controller =>'map_bugs', :action =>'get_bugs'
+  map.connect "api/#{API_VERSION}/bugs/addPOIexec", :controller =>'map_bugs', :action =>'add_bug'
+  map.connect "api/#{API_VERSION}/bugs/closePOIexec", :controller =>'map_bugs', :action =>'close_bug'
+  map.connect "api/#{API_VERSION}/bugs/editPOIexec", :controller =>'map_bugs', :action =>'edit_bug'
+  map.connect "api/#{API_VERSION}/bugs/getGPX", :controller =>'map_bugs', :action =>'gpx_bugs'
+  map.connect "api/#{API_VERSION}/bugs/getRSSfeed", :controller =>'map_bugs', :action =>'rss'
+
   
   # Data browsing
   map.connect '/browse', :controller => 'changeset', :action => 'list'

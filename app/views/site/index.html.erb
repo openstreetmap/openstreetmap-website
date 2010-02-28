@@ -19,7 +19,8 @@
 <div id="map">
   <div id="permalink">
     <a href="/" id="permalinkanchor"><%= t 'site.index.permalink' %></a><br/>
-    <a href="/" id="shortlinkanchor"><%= t 'site.index.shortlink' %></a>
+    <a href="/" id="shortlinkanchor"><%= t 'site.index.shortlink' %></a><br/>
+    <a onClick="map.osbControl.activate(); return false">Report a problem</a>
   </div>
 </div> 
 
@@ -110,8 +111,11 @@ else
 end
 %>
 
-<%= javascript_include_tag '/openlayers/OpenLayers.js' %>
+<!--Use stock OpenLayers for now, as the OSM one is missing some needed classes-->
+<script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+<!-- < %= javascript_include_tag '/openlayers/OpenLayers.js' % > -->
 <%= javascript_include_tag '/openlayers/OpenStreetMap.js' %>
+<%= javascript_include_tag 'openstreetbugs.js' %>
 <%= javascript_include_tag 'map.js' %>
 
 <script type="text/javascript" defer="defer">
@@ -129,6 +133,24 @@ end
       map.dataLayer = new OpenLayers.Layer("<%= I18n.t 'browse.start_rjs.data_layer_name' %>", { "visibility": false });
       map.dataLayer.events.register("visibilitychanged", map.dataLayer, toggleData);
       map.addLayer(map.dataLayer);
+
+      map.osbLayer = new OpenLayers.Layer.OpenStreetBugs("OpenStreetBugs", {
+          serverURL : "/api/0.6/bugs/",
+          iconOpen : new OpenLayers.Icon("http://openstreetbugs.schokokeks.org/client/open_bug_marker.png", new OpenLayers.Size(22, 22), new OpenLayers.Pixel(-11, -11)),
+          iconClosed : new OpenLayers.Icon("http://openstreetbugs.schokokeks.org/client/closed_bug_marker.png", new OpenLayers.Size(22, 22), new OpenLayers.Pixel(-11, -11)),
+          readonly : false,
+          setCookie : false,
+          cookieLifetime : 1000, 
+          cookiePath : "/my/map/", 
+          permalinkURL : "http://www.openstreetmap.org/", 
+          theme : "http://osm.cdauth.de/map/openstreetbugs.css" 
+      });
+
+      map.addLayer(map.osbLayer);
+
+      map.osbControl = new OpenLayers.Control.OpenStreetBugs(map.osbLayer); 
+      map.addControl(map.osbControl);
+
     <% end %>
 
     <% unless object_zoom %>
