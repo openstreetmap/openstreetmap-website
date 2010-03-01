@@ -1,6 +1,7 @@
 class MapBugsController < ApplicationController
 
   before_filter :check_api_readable
+  before_filter :authorize_web, :only => [:add_bug, :close_bug, :edit_bug]
   before_filter :check_api_writable, :only => [:add_bug, :close_bug, :edit_bug]
   after_filter :compress_output
   around_filter :api_call_handle_error, :api_call_timeout
@@ -34,7 +35,17 @@ class MapBugsController < ApplicationController
 	resp = ""
 	
 	bugs.each do |bug|
-	  resp += "putAJAXMarker(" + bug.id.to_s + ", " + bug.lon.to_s + ", " + bug.lat.to_s + " , '" + bug.text + "'," + (bug.status=="open"?"0":"1") + ");\n"
+	  resp += "putAJAXMarker(" + bug.id.to_s + ", " + bug.lon.to_s + ", " + bug.lat.to_s;
+	  comment_no = 1
+	  bug.map_bug_comment.each do |comment|
+        resp += (comment_no == 1 ? ", '" : "<hr />")
+		resp += comment.comment if comment.comment
+		resp += " [ " 
+		resp += comment.commenter_name if comment.commenter_name
+		resp += " " + comment.date_created.to_s + " ]"
+		comment_no += 1
+	  end
+	  resp += (comment_no == 1 ? "," : "', ") + (bug.status=="open"?"0":"1") + ");\n"
 	end
 
 	render :text => resp, :content_type => "text/javascript"
@@ -49,7 +60,9 @@ class MapBugsController < ApplicationController
 	lat = params['lat'].to_f
 	comment = params['text']
 
-    bug = MapBug.create_bug(lat, lon, comment)	
+    bug = MapBug.create_bug(lat, lon)
+	bug.save;
+	add_comment(bug, comment);
  
 	render_ok
   end
@@ -61,9 +74,8 @@ class MapBugsController < ApplicationController
 	id = params['id'].to_i
 
 	bug = MapBug.find_by_id(id);
-    bug.text += "<hr /> " + params['text']
-    bug.last_changed = Time.now.getutc;
-    bug.save;
+
+	bug_comment = add_comment(bug, params['text']);
 
 	render_ok
   end
@@ -97,6 +109,21 @@ class MapBugsController < ApplicationController
 
   def gpx_bugs
 	##TODO: needs to be implemented
+  end
+
+  def add_comment(bug, comment) 
+    t = Time.now.getutc 
+    bug_comment = bug.map_bug_comment.create(:date_created => t, :visible => true, :comment => comment);  
+    if @user  
+      bug_comment.commenter_id = @user.id
+	  bug_comment.commenter_name = @user.display_name
+    else  
+      bug_comment.commenter_ip = request.remote_ip
+	  bug_comment.commenter_name = "anonymous (a)"
+    end
+    bug_comment.save; 
+    bug.last_changed = t 
+    bug.save 
   end
 
 end

@@ -11,15 +11,15 @@ class MapBug < ActiveRecord::Base
   validates_presence_of :last_changed
   validates_inclusion_of :status, :in => [ "open", "closed", "hidden" ]
 
+  has_many :map_bug_comment, :foreign_key => :bug_id, :order => :date_created, :conditions => { :visible => true } 
 
-  def self.create_bug(lat, lon, comment)
+
+  def self.create_bug(lat, lon)
 	bug = MapBug.new(:lat => lat, :lon => lon);
 	raise OSM::APIBadUserInput.new("The node is outside this world") unless bug.in_world?
-	bug.text = comment
 	bug.date_created = Time.now.getutc
 	bug.last_changed = Time.now.getutc
 	bug.status = "open";
-	bug.save;
 	return bug;
   end
 
