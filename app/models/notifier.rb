@@ -89,15 +89,9 @@ class Notifier < ActionMailer::Base
   end
 
   def friend_notification(friend)
-    befriender = User.find_by_id(friend.user_id)
-    befriendee = User.find_by_id(friend.friend_user_id)
-
-    common_headers befriendee
-    subject I18n.t('notifier.friend_notification.subject', :user => befriender.display_name, :locale => locale)
-    body :user => befriender.display_name,
-         :userurl => url_for(:host => SERVER_URL,
-                             :controller => "user", :action => "view",
-                             :display_name => befriender.display_name)
+    common_headers friend.befriendee
+    subject I18n.t('notifier.friend_notification.subject', :user => friend.befriender.display_name, :locale => locale)
+    body :friend => friend
   end
 
 private
