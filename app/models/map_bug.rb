@@ -29,4 +29,20 @@ class MapBug < ActiveRecord::Base
 	self.save;
   end
 
+  def flatten_comment ( separator_char )
+	resp = ""
+	comment_no = 1
+	self.map_bug_comment.each do |comment|
+        resp += (comment_no == 1 ? "" : separator_char)
+		resp += comment.comment if comment.comment
+		resp += " [ " 
+		resp += comment.commenter_name if comment.commenter_name
+		resp += " " + comment.date_created.to_s + " ]"
+		comment_no += 1
+	end
+
+	return resp
+
+  end
+
 end

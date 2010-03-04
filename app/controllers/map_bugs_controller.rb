@@ -30,25 +30,15 @@ class MapBugsController < ApplicationController
       return
     end
 
-	bugs = MapBug.find_by_area(min_lat, min_lon, max_lat, max_lon, :order => "last_changed DESC", :limit => 100, :conditions => "status != 'hidden'")
+	@bugs = MapBug.find_by_area(min_lat, min_lon, max_lat, max_lon, :order => "last_changed DESC", :limit => 100, :conditions => "status != 'hidden'")
 
-	resp = ""
-	
-	bugs.each do |bug|
-	  resp += "putAJAXMarker(" + bug.id.to_s + ", " + bug.lon.to_s + ", " + bug.lat.to_s;
-	  comment_no = 1
-	  bug.map_bug_comment.each do |comment|
-        resp += (comment_no == 1 ? ", '" : "<hr />")
-		resp += comment.comment if comment.comment
-		resp += " [ " 
-		resp += comment.commenter_name if comment.commenter_name
-		resp += " " + comment.date_created.to_s + " ]"
-		comment_no += 1
-	  end
-	  resp += (comment_no == 1 ? "," : "', ") + (bug.status=="open"?"0":"1") + ");\n"
+	respond_to do |format|
+	  format.html {render :template => 'map_bugs/get_bugs.js', :content_type => "text/javascript"}
+	  format.rss {render :template => 'map_bugs/get_bugs.rss'}
+	  format.js
+	  format.xml {render :template => 'map_bugs/get_bugs.xml'}
+	  #format.gpx {render :text => "Rendering GPX"}
 	end
-
-	render :text => resp, :content_type => "text/javascript"
   end
 
   def add_bug
@@ -104,11 +94,13 @@ class MapBugsController < ApplicationController
   end
 
   def rss
-	##TODO: needs to be implemented
+	request.format = :rss
+	get_bugs
   end
 
   def gpx_bugs
-	##TODO: needs to be implemented
+	request.format = :xml
+	get_bugs
   end
 
   def add_comment(bug, comment) 
