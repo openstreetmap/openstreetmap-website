@@ -291,7 +291,7 @@ es:
       body: "Cuerpo:"
       language: "Idioma:"
       latitude: Latitud
-      location: "Lugar:"
+      location: "Ubicación:"
       longitude: Longitud
       marker_text: Lugar de la entrada del diario
       save_button: Guardar
@@ -318,6 +318,10 @@ es:
       recent_entries: "Entradas recientes en el diario:"
       title: Diarios de usuarios
       user_title: Diario de {{user}}
+    location: 
+      edit: Editar
+      location: "Ubicación:"
+      view: Ver
     new: 
       title: Nueva entrada en el diario
     no_such_entry: 
@@ -357,6 +361,9 @@ es:
       output: Resultado
       paste_html: HTML para empotrar en otro sitio web
       scale: Escala
+      too_large: 
+        body: Este área es demasiado grande para ser exportado como OpenStreetMap XML. Por favor, haga zoom o seleccione un área más pequeña.
+        heading: El área es demasiado grande
       zoom: Zoom
     start_rjs: 
       add_marker: Añadir un marcador al mapa
@@ -848,7 +855,11 @@ es:
         cycle_map: Mapa ciclista
         noname: Sin nombres
     site: 
+      edit_disabled_tooltip: Haga zoom para editar el mapa
+      edit_tooltip: Edita el mapa
       edit_zoom_alert: Debe hacer más zoom para editar el mapa
+      history_disabled_tooltip: Haga zoom para ver las ediciones de este área
+      history_tooltip: Ver ediciones para este área
       history_zoom_alert: Debe hacer más zoom para ver el histórico de ediciones
   layouts: 
     donate: Apoye a OpenStreetMap {{link}} al Fondo de Actualización de Hardware.
@@ -857,7 +868,7 @@ es:
     export: Exportar
     export_tooltip: Exportar datos del mapa
     gps_traces: Trazas GPS
-    gps_traces_tooltip: Gestionar trazas
+    gps_traces_tooltip: Gestiona las trazas GPS
     help_wiki: Ayuda y Wiki
     help_wiki_tooltip: Ayuda y sitio Wiki del proyecto
     help_wiki_url: http://wiki.openstreetmap.org/wiki/ES:Main_Page?uselang=es
@@ -897,7 +908,7 @@ es:
     user_diaries: Diarios de usuario
     user_diaries_tooltip: Ver diarios de usuario
     view: Ver
-    view_tooltip: Ver mapas
+    view_tooltip: Ver el mapa
     welcome_user: Bienvenido, {{user_link}}
     welcome_user_link_tooltip: Tu página de usuario
   message: 
@@ -930,10 +941,14 @@ es:
       send_message_to: Enviar un mensaje nuevo a {{name}}
       subject: Asunto
       title: Enviar mensaje
+    no_such_message: 
+      body: Lo sentimos, no hay ningún mensaje con este identificador.
+      heading: Este mensaje no existe.
+      title: Este mensaje no existe.
     no_such_user: 
-      body: Perdón no existe usuario o mensaje con ese nombre o id
-      heading: No hay tal usuario o mensaje
-      title: No hay tal usuario o mensaje
+      body: Lo sentimos no hay ningún usuario con ese nombre.
+      heading: Este usuario no existe
+      title: Este usuario no existe
     outbox: 
       date: Fecha
       inbox: entrada
@@ -957,6 +972,9 @@ es:
       title: Leer mensaje
       to: A
       unread_button: Marcar como no leído
+      wrong_user: Está conectado como `{{user}}' pero el mensaje que quiere leer no se ha enviado a dicho usuario. Por favor, ingrese con el usuario correcto para ver el mensaje.
+    reply: 
+      wrong_user: Está conectado como `{{user}}' pero el mensaje que quiere responder no se ha enviado a dicho usuario. Por favor, ingrese con el usuario correcto para responder.
     sent_message_summary: 
       delete_button: Borrar
   notifier: 
@@ -977,8 +995,9 @@ es:
       hopefully_you_1: Alguien (posiblemente usted) quiere cambiar la dirección de correo en
       hopefully_you_2: "{{server_url}} a {{new_address}}."
     friend_notification: 
+      befriend_them: También puede añadirle como amigo en {{befriendurl}}.
       had_added_you: "{{user}} te ha añadido como amigo en OpenStreetMap"
-      see_their_profile: Puede ver su perfil en {{userurl}} y añadirle como amigo también, si así­ lo desea
+      see_their_profile: Puede ver su perfil en {{userurl}}.
       subject: "[OpenStreetMap] {{user}} te ha añadido como amigo"
     gpx_notification: 
       and_no_tags: y sin etiquetas
@@ -1206,6 +1225,9 @@ es:
     sidebar: 
       close: Cerrar
       search_results: Resultados de la búsqueda
+  time: 
+    formats: 
+      friendly: "%e %B %Y a las %H:%M"
   trace: 
     create: 
       trace_uploaded: Su archivo GPX ha sido cargado y está esperando ser agregado a la Base de Datos. Esto normalmente ocurre dentro de la próxima media hora, y un email le será enviado al terminar.
@@ -1308,15 +1330,20 @@ es:
   user: 
     account: 
       current email address: "Dirección de correo electrónico actual:"
+      delete image: Elimina la imagen actual
       email never displayed publicly: (nunca es mostrado públicamente)
       flash update success: La información del usuario se ha actualizado correctamente.
       flash update success confirm needed: La información del usuario se ha actualizado correctamente. Compruebe su correo electrónico para ver una nota sobre cómo confirmar su nueva dirección de correo electrónico.
       home location: "Lugar de origen:"
+      image: "Imagen:"
+      image size hint: (las imágenes cuadradas de al menos 100x100 funcionan mejor)
+      keep image: Mantiene la imagen actual
       latitude: "Latitud:"
       longitude: "Longitud:"
       make edits public button: Hacer que todas mis ediciones sean públicas
       my settings: Mis preferencias
       new email address: "Nueva dirección de correo electrónico:"
+      new image: Añadir una imagen
       no home location: No has introducido tu lugar de origen.
       preferred languages: "Idiomas preferidos:"
       profile description: "Descripción del perfil:"
@@ -1330,6 +1357,7 @@ es:
       public editing note: 
         heading: Edición pública
         text: Actualmente sus ediciones son anónimas y la gente no puede ni enviarle mensajes ni ver su localización. Para mostrar que es lo que ha editado y permitir a la gente contactar con usted a través del sitio web, pulse el botón inferior. <b>Desde la migración a la API 0.6, sólo los usuarios públicos pueden editar el mapa</b> (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">más detalles aquí</a>) <ul><li>Su dirección de correo no será revelada por el hecho de ser público. </li><li>Esta acción no puede ser revertida y todos los nuevos usuarios son públicos por omisión.</li></ul>
+      replace image: Reemplazar la imagen actual
       return to profile: Regresar al perfil
       save changes button: Guardar cambios
       title: Editar cuenta
@@ -1360,6 +1388,7 @@ es:
       lost password link: ¿Ha perdido su contraseña?
       password: Contraseña
       please login: Por favor inicie sesión o {{create_user_link}}.
+      remember: "Recordarme:"
       title: Iniciar sesión
     lost_password: 
       email address: "Dirección de correo:"
@@ -1374,6 +1403,7 @@ es:
       failed: Lo sentimos, no se ha podido añadir a {{name}} como un amigo.
       success: "{{name}} es tu amigo ahora"
     map: 
+      friend: "Amigo: [[friend_user]]"
       nearby mapper: "Mapeadores cercanos:"
       your location: "Tu lugar de origen:"
     new: 
@@ -1435,10 +1465,11 @@ es:
       my edits: mis ediciones
       my settings: mis preferencias
       my traces: mis trazas
-      nearby users: "Usuarios cercanos:"
+      nearby users: "Otros usuarios cercanos:"
       new diary entry: nueva entrada de diario
       no friends: No has añadido ningún amigo aún.
-      no nearby users: Todavía no hay usuarios que reconozcan el estar mapeando cerca.
+      no nearby users: Todavía no hay usuarios que se hayan ubicado en su proximidad.
+      oauth settings: ajustes OAuth
       remove as friend: eliminar como amigo
       role: 
         administrator: Este usuario es un administrador

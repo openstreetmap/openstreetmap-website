@@ -329,6 +329,10 @@ pt-BR:
       recent_entries: "Entradas recentes no Diário:"
       title: Diários dos Usuários
       user_title: Diário de {{user}}
+    location: 
+      edit: Editar
+      location: "Local:"
+      view: Exibir
     new: 
       title: Nova Entrada de Diário
     no_such_entry: 
@@ -368,6 +372,9 @@ pt-BR:
       output: Saída
       paste_html: Cole o HTML para publicar no site
       scale: Escala
+      too_large: 
+        body: Esta área é muito grande para ser exportada como dados XML do OpenStreetMap. Por gentileza, aumente o zoom ou selecione uma área menor.
+        heading: Área muito grande
       zoom: Zoom
     start_rjs: 
       add_marker: Adicionar um marcador ao mapa
@@ -867,7 +874,11 @@ pt-BR:
       overlays: 
         maplint: Maplint
     site: 
+      edit_disabled_tooltip: Aumente o zoom para editar o mapa
+      edit_tooltip: Edite o mapa
       edit_zoom_alert: Você deve aumentar o zoom para editar o mapa
+      history_disabled_tooltip: Aumente o zoom para ver as edições desta área
+      history_tooltip: Veja as edições desta área
       history_zoom_alert: Você deve aumentar o zoom para ver o histórico de edição
   layouts: 
     donate: "Ajude o OpenStreetMap fazendo doações para o Fundo de Upgrade de Hardware: {{link}}."
@@ -876,7 +887,7 @@ pt-BR:
     export: Exportar
     export_tooltip: Exportar dados do mapa
     gps_traces: Trilhas GPS
-    gps_traces_tooltip: Gerenciar trilhas
+    gps_traces_tooltip: Gerenciar trilhas GPS
     help_wiki: Ajuda & Wiki
     help_wiki_tooltip: Ajuda &amp; Wiki do projeto
     help_wiki_url: http://wiki.openstreetmap.org/wiki/Pt-br:Main_Page?uselang=pt-br
@@ -924,7 +935,7 @@ pt-BR:
     user_diaries: Diários de Usuário
     user_diaries_tooltip: Ver os diários dos usuários
     view: Ver
-    view_tooltip: Ver mapas
+    view_tooltip: Veja o mapa
     welcome_user: Bem vindo, {{user_link}}
     welcome_user_link_tooltip: Sua Página de usuário
   message: 
@@ -957,10 +968,14 @@ pt-BR:
       send_message_to: Enviar uma nova mensagem para {{name}}
       subject: Assunto
       title: Enviar mensagem
+    no_such_message: 
+      body: Desculpe, mas não existe uma mensagem com este id.
+      heading: Esta mensagem não existe
+      title: Esta mensagem não existe
     no_such_user: 
-      body: Me desculpe, não há nenhum usuário ou mensagem com esse nome ou id
-      heading: Não há tal usuário ou mensagem
-      title: Não existe usuário ou mensagem
+      body: Desculpe, mas não existe usuário com este nome.
+      heading: Este usuário não existe
+      title: Este usuário não existe
     outbox: 
       date: Data
       inbox: caixa de entrada
@@ -984,6 +999,9 @@ pt-BR:
       title: Ler Mensagem
       to: Para
       unread_button: Marcar como não lida
+      wrong_user: Você está conectado como `{{user}}' mas a mensagem que você quer ler não foi enviada para este usuário. Por gentileza, faça o login com o usuário correto para poder responder.
+    reply: 
+      wrong_user: Você está conectado como `{{user}}' mas a mensagem que você quer responder não foi enviada para este usuário. Por gentileza, faça o login com o usuário correto para poder responder.
     sent_message_summary: 
       delete_button: Apagar
   notifier: 
@@ -1004,8 +1022,9 @@ pt-BR:
       hopefully_you_1: Alguém (esperamos que você) quer alterar seu endereço de e-mail de
       hopefully_you_2: "{{server_url}} para {{new_address}}."
     friend_notification: 
+      befriend_them: Você também pode adicioná-lo como amigo em {{befriendurl}}.
       had_added_you: "{{user}} adicionou você como amigo no OpenStreetMap."
-      see_their_profile: Você pode ver seu perfil em {{userurl}} e adicioná-lo também se desejar.
+      see_their_profile: Você pode ver o perfil dele em {{userurl}}.
       subject: "[OpenStreetMap] {{user}} adicionou você como amigo"
     gpx_notification: 
       and_no_tags: e sem etiquetas.
@@ -1242,6 +1261,9 @@ pt-BR:
     sidebar: 
       close: Fechar
       search_results: Resultados da Busca
+  time: 
+    formats: 
+      friendly: "%e %B %E às %H:%M"
   trace: 
     create: 
       trace_uploaded: Seu arquivo GPX foi enviado e está aguardando para ser inserido no banco de dados. Isso normalmente leva meia hora, e um e-mail será enviado para você quando ocorrer.
@@ -1347,15 +1369,20 @@ pt-BR:
   user: 
     account: 
       current email address: "Endereço de e-mail atual:"
+      delete image: Remova a imagem atual
       email never displayed publicly: (nunca mostrado publicamente)
       flash update success: Informação de usuário atualizada com sucesso.
       flash update success confirm needed: Informação de usuário atualizada com sucesso. Verifique sua caixa de entrada do email para confirmar seu novo endereço.
       home location: "Localização:"
+      image: "Imagem:"
+      image size hint: (imagens quadradas, com pelo menos 100x100, funcionam melhor)
+      keep image: Mantenha a imagem atual
       latitude: "Latitude:"
       longitude: "Longitude:"
       make edits public button: Tornar todas as minhas edições públicas
       my settings: Minhas configurações
       new email address: "Novo endereço de e-mail:"
+      new image: Adicionar uma imagem
       no home location: Você ainda não entrou a sua localização.
       preferred languages: "Preferência de Idioma:"
       profile description: "Descrição do Perfil:"
@@ -1369,6 +1396,7 @@ pt-BR:
       public editing note: 
         heading: Edição pública
         text: Atualmente suas edições são anônimas e ninguém pode lhe enviar mensagens ou saber sua localização. Para mostrar o que você editou e permitir que pessoas entrem em contato através do website, clique no botão abaixo. <b>Desde as mudanças na API 0.6, apenas usuários públicos podem editar o mapa</b>. (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">Veja por quê</a>).<ul><li>O seu endereço de e-mail não será revelado para o público.</li><li>Esta ação não pode ser desfeita e todos os novos usuários são agora públicos por padrão.</li></ul>
+      replace image: Substitua a imagem atual
       return to profile: Retornar para o perfil
       save changes button: Salvar Mudanças
       title: Editar conta
@@ -1399,6 +1427,7 @@ pt-BR:
       lost password link: Esqueceu sua senha?
       password: "Senha:"
       please login: Por favor entre as informações de sua conta para entrar, ou {{create_user_link}}.
+      remember: Lembrar neste computador
       title: Entrar
     lost_password: 
       email address: "Endereço de Email:"
@@ -1413,6 +1442,7 @@ pt-BR:
       failed: Desculpe, erro ao adicionar {{name}} como seu amigo.
       success: "{{name}} agora é seu amigo."
     map: 
+      friend: "Amigo: [[friend_user]]"
       nearby mapper: "Mapeador próximo: [[nearby_user]]"
       your location: Sua localização
     new: 
@@ -1474,10 +1504,11 @@ pt-BR:
       my edits: minhas edições
       my settings: minhas configurações
       my traces: minhas trilhas
-      nearby users: "Usuários próximos:"
+      nearby users: Outros usuários próximos
       new diary entry: nova entrada de diário
       no friends: Você ainda não adicionou amigos.
-      no nearby users: Não existem usuários mapeando por perto.
+      no nearby users: Ainda não há outros usuários mapeando por perto.
+      oauth settings: configurações do oauth
       remove as friend: remover da lista de amigos
       role: 
         administrator: Este usuário é um administrador

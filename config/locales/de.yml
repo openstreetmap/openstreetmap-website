@@ -330,6 +330,10 @@ de:
       recent_entries: "Neuste Einträge:"
       title: Blogs
       user_title: "{{user}}s Blog"
+    location: 
+      edit: Bearbeiten
+      location: "Ort:"
+      view: Anzeigen
     new: 
       title: Selbst Bloggen
     no_such_entry: 
@@ -369,6 +373,9 @@ de:
       output: Ausgabe
       paste_html: HTML-Code kopieren, um ihn in eine Website einzufügen.
       scale: Maßstab
+      too_large: 
+        body: Dieser Bereich ist zu groß, um als OpenStreetMap XML-Daten exportiert werden. Bitte heranzoomen oder einen kleineren Bereich wählen.
+        heading: Bereich zu groß
       zoom: Zoom
     start_rjs: 
       add_marker: Markierung zur Karte hinzufügen
@@ -860,7 +867,11 @@ de:
         cycle_map: Radfahrerkarte
         noname: Straßen ohne Name
     site: 
+      edit_disabled_tooltip: Reinzoomen zum Editieren der Karte
+      edit_tooltip: Karte bearbeiten
       edit_zoom_alert: Du musst näher heranzoomen, um die Karte zu bearbeiten
+      history_disabled_tooltip: Reinzoomen um Änderungen für diesen Bereich anzuzeigen
+      history_tooltip: Änderungen für diesen Bereich anzeigen
       history_zoom_alert: Du musst näher heranzoomen, um die Chronik zu sehen
   layouts: 
     donate: Unterstütze die OpenStreetMap-Hardwarespendenaktion durch eine eigene {{link}}.
@@ -869,7 +880,7 @@ de:
     export: Export
     export_tooltip: Kartendaten exportieren
     gps_traces: GPS-Tracks
-    gps_traces_tooltip: GPS-Tracks anzeigen und verwalten
+    gps_traces_tooltip: GPS-Tracks verwalten
     help_wiki: Hilfe & Wiki
     help_wiki_tooltip: Hilfe &amp; Wiki des Projekts
     help_wiki_url: http://wiki.openstreetmap.org/wiki/Hauptseite?uselang=de
@@ -909,7 +920,7 @@ de:
     user_diaries: Blogs
     user_diaries_tooltip: Benutzer-Blogs lesen
     view: Karte
-    view_tooltip: Karte betrachten
+    view_tooltip: Karte anzeigen
     welcome_user: Willkommen, {{user_link}}
     welcome_user_link_tooltip: Eigene Benutzerseite
   message: 
@@ -942,10 +953,14 @@ de:
       send_message_to: Eine Nachricht an {{name}} senden
       subject: Betreff
       title: Nachricht senden
+    no_such_message: 
+      body: Leider gibt es keine Nachricht mit dieser ID.
+      heading: Nachricht nicht vorhanden
+      title: Nachricht nicht vorhanden
     no_such_user: 
-      body: Wir konnten leider keinen entsprechenden Benutzer oder eine entsprechende Nachricht finden. Du hast dich möglicherweise vertippt oder du bist einem ungültigem Link gefolgt.
-      heading: Benutzer oder Nachricht nicht gefunden
-      title: Benutzer oder Nachricht nicht gefunden
+      body: Leider gibt es kein Benutzer mit diesem Namen.
+      heading: Benutzer nicht gefunden
+      title: Benutzer nicht gefunden
     outbox: 
       date: Datum
       inbox: Posteingang
@@ -969,6 +984,9 @@ de:
       title: Nachricht lesen
       to: An
       unread_button: Als ungelesen markieren
+      wrong_user: Sie sind angemeldet als '{{user}}', aber die Nachricht die Sie lesen wollten wurde an einen anderen Benutzer geschickt. Bitte melden Sie sich zum Lesen mit dem korrekten Benutzer an.
+    reply: 
+      wrong_user: Sie sind angemeldet als '{{user}}', aber die Nachricht auf die Sie antworten wollten wurde an einen anderen Benutzer geschickt. Bitte melden Sie sich zum Beantworten mit dem korrekten Benutzer an.
     sent_message_summary: 
       delete_button: Löschen
   notifier: 
@@ -989,8 +1007,9 @@ de:
       hopefully_you_1: Jemand (hoffentlich du) möchte seine E-Mail-Adresse bei
       hopefully_you_2: "{{server_url}} zu {{new_address}} ändern."
     friend_notification: 
+      befriend_them: Du kannst sie unter {{befriendurl}} als Freund hinzufügen.
       had_added_you: "{{user}} hat dich als Freund hinzugefügt."
-      see_their_profile: Sein Profil ist hier {{userurl}} zu finden, dort kannst du ihn ebenfalls als Freund hinzufügen.
+      see_their_profile: Du kannst ihr Profil unter {{userurl}} ansehen.
       subject: "[OpenStreetMap] {{user}} hat dich als Freund hinzugefügt"
     gpx_notification: 
       and_no_tags: und ohne Tags.
@@ -1218,6 +1237,9 @@ de:
     sidebar: 
       close: Schließen
       search_results: Suchergebnisse
+  time: 
+    formats: 
+      friendly: "%e %B %Y um %H:%M"
   trace: 
     create: 
       trace_uploaded: Deine GPX-Datei wurde hochgeladen und wartet auf die Aufnahme in die Datenbank. Dies geschieht normalerweise innerhalb einer halben Stunde, anschließend wird dir eine Bestätigungs-E-Mail gesendet.
@@ -1321,15 +1343,20 @@ de:
   user: 
     account: 
       current email address: "Aktuelle E-Mail-Adresse:"
+      delete image: Aktuelles Bild löschen
       email never displayed publicly: (nicht öffentlich sichtbar)
       flash update success: Benutzerinformationen erfolgreich aktualisiert.
       flash update success confirm needed: Benutzerinformationen erfolgreich aktualisiert. Du erhältst eine E-Mail, um deine neue E-Mail-Adresse zu bestätigen.
       home location: "Standort:"
+      image: "Bild:"
+      image size hint: (quadratische Bilder mit zumindes 100x100 funktionieren am Besten)
+      keep image: Aktuelles Bild beibehalten
       latitude: "Breitengrad:"
       longitude: "Längengrad:"
       make edits public button: Alle meine Bearbeitungen öffentlich machen
       my settings: Eigene Einstellungen
       new email address: "Neue E-Mail Adresse:"
+      new image: Bild einfügen
       no home location: Du hast noch keinen Standort angegeben.
       preferred languages: "Bevorzugte Sprachen:"
       profile description: "Profil-Beschreibung:"
@@ -1343,6 +1370,7 @@ de:
       public editing note: 
         heading: Öffentliches Bearbeiten
         text: Im Moment sind deine Beiträge anonym und man kann dir weder Nachrichten senden noch deinen Wohnort sehen. Um sichtbar zu machen, welche Arbeit von dir stammt, und um kontaktierbar zu werden, klicke auf den Button unten. <b>Seit Version 0.6 der API aktiv ist, können anonyme Benutzer die Karte nicht mehr bearbeiten</b> (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">warum?</a>).<ul><li>Deine E-Mail-Adresse wird bei Verlassen des anonymen Statuses nicht veröffentlicht.</li><li>Die Aktion kann nicht rückgängig gemacht werden. Für neu registrierte Benutzer besteht die Möglichkeit des anonymen Accounts nicht mehr.</li></ul>
+      replace image: Aktuelles Bild austauschen
       return to profile: Zurück zum Profil
       save changes button: Speichere Änderungen
       title: Benutzerkonto bearbeiten
@@ -1373,6 +1401,7 @@ de:
       lost password link: Passwort vergessen?
       password: "Passwort:"
       please login: Bitte melde dich an oder {{create_user_link}}.
+      remember: "Anmeldedaten merken:"
       title: Anmelden
     lost_password: 
       email address: "E-Mail-Adresse:"
@@ -1387,6 +1416,7 @@ de:
       failed: Sorry, {{name}} konnte nicht als dein Freund hinzugefügt werden.
       success: "{{name}} ist nun dein Freund."
     map: 
+      friend: "Freund: [[friend_user]]"
       nearby mapper: "Mapper in der Nähe: [[nearby_user]]"
       your location: Eigener Standort
     new: 
@@ -1448,10 +1478,11 @@ de:
       my edits: Eigene Bearbeitungen
       my settings: Eigene Einstellungen
       my traces: Eigene Tracks
-      nearby users: "Benutzer in der Nähe:"
+      nearby users: Anwender in der Nähe
       new diary entry: Neuer Blogeintrag
       no friends: Du hast bis jetzt keine Freunde hinzugefügt.
       no nearby users: Es gibt bisher keine Benutzer, die einen Standort in deiner Nähe angegeben haben.
+      oauth settings: oauth Einstellungen
       remove as friend: Als Freund entfernen
       role: 
         administrator: Dieser Benutzer ist ein Administrator

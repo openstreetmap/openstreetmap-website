@@ -355,6 +355,9 @@ ia:
       output: Resultato
       paste_html: Colla HTML pro incorporar in sito web
       scale: Scala
+      too_large: 
+        body: Iste area es troppo grande pro esser exportate como datos XML de OpenStreetMap. Per favor face zoom avante o selige un area minor.
+        heading: Area troppo grande
       zoom: Zoom
     start_rjs: 
       add_marker: Adder un marcator al carta
@@ -535,6 +538,9 @@ ia:
           unclassified: Via non classificate
           unsurfaced: Cammino de terra
         landuse: 
+          commercial: Area commercial
+          farm: Ferma
+          military: Area militar
           nature_reserve: Reserva natural
         leisure: 
           beach_resort: Loco de vacantias al plagia
@@ -620,10 +626,15 @@ ia:
           village: Village
         shop: 
           alcohol: Magazin de bibitas alcoholic
+          apparel: Boteca de vestimentos
           art: Magazin de arte
+          bakery: Paneteria
+          beauty: Salon de beltate
+          beverages: Boteca de bibitas
           bicycle: Magazin de bicyclettas
           books: Libreria
           butcher: Macelleria
+          car: Magazin de automobiles
           car_dealer: Venditor de automobiles
           car_parts: Partes de automobiles
           car_repair: Reparation de automobiles
@@ -634,32 +645,51 @@ ia:
           computer: Magazin de computatores
           confectionery: Confecteria
           convenience: Magazin de quartiero
+          copyshop: Centro de photocopias
+          cosmetics: Boteca de cosmetica
           department_store: Grande magazin
+          discount: Boteca de disconto
           doityourself: Magazin de bricolage
           drugstore: Drogeria
+          dry_cleaning: Lavanderia a sic
+          electronics: Boteca de electronica
+          estate_agent: Agentia immobiliari
           farm: Magazin agricole
+          fashion: Boteca de moda
           fish: Pischeria
+          florist: Florista
           food: Magazin de alimentation
           funeral_directors: Directores de pompas funebre
           furniture: Magazin de mobiles
           gallery: Galeria
           garden_centre: Jardineria
+          general: Magazin general
           gift: Boteca de donos
+          greengrocer: Verdurero
           grocery: Specieria
           hairdresser: Perruccheria
           hardware: Quincalieria
           hifi: Hi-fi
+          insurance: Assecurantia
           jewelry: Joieleria
           kiosk: Kiosque
+          laundry: Lavanderia
           mall: Galeria mercante
           market: Mercato
+          mobile_phone: Boteca de telephonos mobile
+          motorcycle: Magazin de motocyclos
           music: Magazin de musica
+          newsagent: Venditor de jornales
           optician: Optico
+          organic: Boteca de alimentos organic
           outdoor: Magazin de sport al aere libere
+          pet: Boteca de animales
           photo: Magazin de photographia
           salon: Salon
+          shoes: Scarperia
           shopping_centre: Centro commercial
           sports: Magazin de sport
+          stationery: Papireria
           supermarket: Supermercato
           toys: Magazin de joculos
           travel_agency: Agentia de viages
@@ -686,6 +716,18 @@ ia:
           valley: Valle
           viewpoint: Puncto de vista
           zoo: Zoo
+        waterway: 
+          derelict_canal: Canal abandonate
+          ditch: Fossato
+          dock: Dock
+          drain: Aquiero
+          lock: Esclusa
+          lock_gate: Porta de esclusa
+          mooring: Ammarrage
+          rapids: Rapidos
+          river: Fluvio/Riviera
+          riverbank: Ripa de fluvio/riviera
+          waterfall: Cascada
   javascripts: 
     map: 
       base: 
@@ -701,7 +743,7 @@ ia:
     export: Exportar
     export_tooltip: Exportar datos cartographic
     gps_traces: Tracias GPS
-    gps_traces_tooltip: Gerer tracias
+    gps_traces_tooltip: Gerer tracias GPS
     help_wiki: Adjuta &amp; Wiki
     help_wiki_tooltip: Adjuta &amp; sito Wiki pro le projecto
     history: Historia
@@ -741,7 +783,7 @@ ia:
     user_diaries: Diarios de usatores
     user_diaries_tooltip: Leger diarios de usatores
     view: Vider
-    view_tooltip: Vider cartas
+    view_tooltip: Vider le carta
     welcome_user: Benvenite, {{user_link}}
     welcome_user_link_tooltip: Tu pagina de usator
   message: 
@@ -775,9 +817,9 @@ ia:
       subject: Subjecto
       title: Inviar message
     no_such_user: 
-      body: Pardono, il non ha un usator o message con iste nomine o ID.
-      heading: Nulle tal usator o message
-      title: Nulle tal usator o message
+      body: Regrettabilemente, il non ha un usator o message con iste nomine.
+      heading: Iste usator non existe
+      title: Iste usator non existe
     outbox: 
       date: Data
       inbox: cassa de entrata
@@ -821,8 +863,9 @@ ia:
       hopefully_you_1: Alcuno (sperabilemente tu) vole cambiar su adresse de e-mail a
       hopefully_you_2: "{{server_url}} a {{new_address}}."
     friend_notification: 
+      befriend_them: Tu pote equalmente adder le/la como amico a {{befriendurl}}.
       had_added_you: "{{user}} te ha addite como amico in OpenStreetMap."
-      see_their_profile: Tu pote vider su profilo a {{userurl}} e adder le/la tamben como amico si tu lo vole.
+      see_their_profile: Tu pote vider su profilo a {{userurl}}.
       subject: "[OpenStreetMap] {{user}} te ha addite como amico"
     gpx_notification: 
       and_no_tags: e sin etiquettas.
@@ -1048,6 +1091,9 @@ ia:
     sidebar: 
       close: Clauder
       search_results: Resultatos del recerca
+  time: 
+    formats: 
+      friendly: "%e %B %Y a %H:%M"
   trace: 
     create: 
       trace_uploaded: Tu file GPX ha essite incargate e attende insertion in le base de datos. Isto prende generalmente minus de un medie hora, e un e-mail te essera inviate al completion.
@@ -1150,15 +1196,20 @@ ia:
   user: 
     account: 
       current email address: "Adresse de e-mail actual:"
+      delete image: Remover le imagine actual
       email never displayed publicly: (nunquam monstrate publicamente)
       flash update success: Informationes del usator actualisate con successo.
       flash update success confirm needed: Informationes del usator actualisate con successo. Tu recipera in e-mail un nota pro confirmar tu nove adresse de e-mail.
       home location: "Position de origine:"
+      image: "Imagine:"
+      image size hint: (imagines quadrate de al minus 100×100 functiona melio)
+      keep image: Retener le imagine actual
       latitude: "Latitude:"
       longitude: "Longitude:"
       make edits public button: Render tote mi modificationes public
       my settings: Mi configurationes
       new email address: "Adresse de e-mail nove:"
+      new image: Adder un imagine
       no home location: Tu non ha entrate tu position de origine.
       preferred languages: "Linguas preferite:"
       profile description: "Description del profilo:"
@@ -1172,6 +1223,7 @@ ia:
       public editing note: 
         heading: Modification public
         text: A iste momento tu modificationes es anonyme, e le gente non pote inviar te messages ni vider tu position. Pro poter monstrar tu contributiones e pro permitter al gente de contactar te per le sito web, clicca le button ci infra. <b>Post le cambio al API 0.6, solo le usatores public pote modificar datos cartographic</b> (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">lege proque</a>).<ul><li>Tu adresse de e-mail non essera revelate si tu deveni public.</li><li>Iste action non pote esser revertite e tote le nove usatores es ora public per predefinition.</li></ul>
+      replace image: Reimplaciar le imagine actual
       return to profile: Retornar al profilo
       save changes button: Salveguardar modificationes
       title: Modificar conto
@@ -1202,6 +1254,7 @@ ia:
       lost password link: Tu perdeva le contrasigno?
       password: "Contrasigno:"
       please login: Per favor aperi un session o {{create_user_link}}.
+      remember: "Memorar me:"
       title: Aperir session
     lost_password: 
       email address: "Adresse de e-mail:"
@@ -1216,6 +1269,7 @@ ia:
       failed: Pardono, non poteva adder {{name}} como amico.
       success: "{{name}} es ora tu amico."
     map: 
+      friend: "Amico: [[friend_user]]"
       nearby mapper: "Cartographo vicin: [[nearby_user]]"
       your location: Tu position
     new: 
@@ -1277,10 +1331,11 @@ ia:
       my edits: mi modificationes
       my settings: mi configurationes
       my traces: mi tracias
-      nearby users: "Usatores vicin:"
+      nearby users: Altere usatores vicin
       new diary entry: nove entrata de diario
       no friends: Tu non ha ancora addite alcun amico.
-      no nearby users: Il non ha ancora cartographos in le vicinitate.
+      no nearby users: Il non ha ancora altere cartographos in le vicinitate.
+      oauth settings: configuration oauth
       remove as friend: remover como amico
       role: 
         administrator: Iste usator es un administrator
