@@ -133,7 +133,7 @@ class MessageController < ApplicationController
   def delete
     if params[:message_id]
       id = params[:message_id]
-      message = Message.find_by_id(id => ["to_user_id = ? or from_user_id = ?", @user.id, @user.id])
+      message = Message.find_by_id(id, :conditions => ["to_user_id = ? or from_user_id = ?", @user.id, @user.id])
       message.from_user_visible = false if message.sender == @user
       message.to_user_visible = false if message.recipient == @user
       if message.save
