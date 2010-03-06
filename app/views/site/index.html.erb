@@ -20,7 +20,7 @@
   <div id="permalink">
     <a href="/" id="permalinkanchor"><%= t 'site.index.permalink' %></a><br/>
     <a href="/" id="shortlinkanchor"><%= t 'site.index.shortlink' %></a><br/>
-    <a onClick="map.osbControl.activate(); return false">Report a problem</a>
+	<a id="ReportBug">Report a problem</a>	
   </div>
 </div> 
 
@@ -150,6 +150,11 @@ end
 
       map.osbControl = new OpenLayers.Control.OpenStreetBugs(map.osbLayer); 
       map.addControl(map.osbControl);
+		
+	  var lBug = document.getElementById('ReportBug');
+      lBug.addEventListener('click',function (e) {
+		map.osbControl.activate(); document.getElementById("map_OpenLayers_Container").style.cursor = "crosshair"; if (e.stopPropagation) e.stopPropagation(); },false);
+
 
     <% end %>
 
