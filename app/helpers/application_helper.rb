@@ -1,6 +1,10 @@
 module ApplicationHelper
   require 'rexml/document'
 
+  def sanitize(text)
+    Sanitize.clean(text, Sanitize::Config::OSM)
+  end
+
   def htmlize(text)
     return linkify(sanitize(simple_format(text)))
   end
