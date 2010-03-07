@@ -20,6 +20,10 @@ class MapBugsController < ApplicationController
 	max_lon = params['r'].to_f
 	min_lat = params['b'].to_f
 	max_lat = params['t'].to_f
+
+	limit = 100;
+	limit = params['limit'] if ((params['limit']) && (params['limit'].to_i < 10000) && (params['limit'].to_i > 0))
+
 	
 	# check boundary is sane and area within defined
     # see /config/application.yml
@@ -30,13 +34,14 @@ class MapBugsController < ApplicationController
       return
     end
 
-	@bugs = MapBug.find_by_area(min_lat, min_lon, max_lat, max_lon, :order => "last_changed DESC", :limit => 100, :conditions => "status != 'hidden'")
+	@bugs = MapBug.find_by_area(min_lat, min_lon, max_lat, max_lon, :order => "last_changed DESC", :limit => limit, :conditions => "status != 'hidden'")
 
 	respond_to do |format|
 	  format.html {render :template => 'map_bugs/get_bugs.js', :content_type => "text/javascript"}
 	  format.rss {render :template => 'map_bugs/get_bugs.rss'}
 	  format.js
 	  format.xml {render :template => 'map_bugs/get_bugs.xml'}
+	  format.json { render :json => @bugs.to_json(:methods => [:lat, :lon], :only => [:id, :status, :date_created], :include => { :map_bug_comment => { :only => [:commenter_name, :date_created, :comment]}}) }	  
 	  #format.gpx {render :text => "Rendering GPX"}
 	end
   end
@@ -50,9 +55,12 @@ class MapBugsController < ApplicationController
 	lat = params['lat'].to_f
 	comment = params['text']
 
+	name = "NoName";
+	name = params['name'] if params['name'];
+
     bug = MapBug.create_bug(lat, lon)
 	bug.save;
-	add_comment(bug, comment);
+	add_comment(bug, comment, name);
  
 	render_ok
   end
@@ -61,11 +69,14 @@ class MapBugsController < ApplicationController
 	raise OSM::APIBadUserInput.new("No id was given") unless params['id']
 	raise OSM::APIBadUserInput.new("No text was given") unless params['text']
 
+	name = "NoName";
+	name = params['name'] if params['name'];
+	
 	id = params['id'].to_i
 
 	bug = MapBug.find_by_id(id);
 
-	bug_comment = add_comment(bug, params['text']);
+	bug_comment = add_comment(bug, params['text'], name);
 
 	render_ok
   end
@@ -103,7 +114,7 @@ class MapBugsController < ApplicationController
 	get_bugs
   end
 
-  def add_comment(bug, comment) 
+  def add_comment(bug, comment, name) 
     t = Time.now.getutc 
     bug_comment = bug.map_bug_comment.create(:date_created => t, :visible => true, :comment => comment);  
     if @user  
@@ -111,7 +122,7 @@ class MapBugsController < ApplicationController
 	  bug_comment.commenter_name = @user.display_name
     else  
       bug_comment.commenter_ip = request.remote_ip
-	  bug_comment.commenter_name = "anonymous (a)"
+	  bug_comment.commenter_name = name + " (a)"
     end
     bug_comment.save; 
     bug.last_changed = t 
