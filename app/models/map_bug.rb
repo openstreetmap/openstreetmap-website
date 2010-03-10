@@ -9,6 +9,7 @@ class MapBug < ActiveRecord::Base
   validates_numericality_of :longitude, :only_integer => true
   validates_presence_of :date_created
   validates_presence_of :last_changed
+  validates_prensence_of :date_closed if :status == "closed"
   validates_inclusion_of :status, :in => [ "open", "closed", "hidden" ]
 
   has_many :map_bug_comment, :foreign_key => :bug_id, :order => :date_created, :conditions => { :visible => true } 
@@ -25,7 +26,10 @@ class MapBug < ActiveRecord::Base
 
   def close_bug
 	self.status = "closed"
-	self.last_changed = Time.now.getutc
+	close_time = Time.now.getutc
+	self.last_changed = close_time
+	self.date_closed = close_time
+
 	self.save;
   end
 
