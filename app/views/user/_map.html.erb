@@ -39,7 +39,7 @@
     <% if marker %>
     marker = addMarkerToMap(
       new OpenLayers.LonLat(<%= mlon %>, <%= mlat %>), null,
-      '<%= escape_javascript(render :partial => "popup", :object => @user, :locals => { :type => "your location" }) %>'
+      '<%= escape_javascript(render(:partial => "popup", :object => @user, :locals => { :type => "your location" })) %>'
     );
     <% end %>
 
@@ -48,7 +48,7 @@
     <% nearest.each do |u| %>
       addMarkerToMap(new OpenLayers.LonLat(
         <%= u.home_lon %>, <%= u.home_lat %>), near_icon.clone(),
-        '<%= escape_javascript(render :partial => "popup", :object => u, :locals => { :type => "nearby mapper" }) %>'
+        '<%= escape_javascript(render(:partial => "popup", :object => u, :locals => { :type => "nearby mapper" })) %>'
       );
     <% end %>
 
@@ -57,7 +57,7 @@
     <% friends.each do |u| %>
       addMarkerToMap(new OpenLayers.LonLat(
         <%= u.home_lon %>, <%= u.home_lat %>), friend_icon.clone(),
-        '<%= escape_javascript(render :partial => "popup", :object => u, :locals => { :type => "friend" }) %>'
+        '<%= escape_javascript(render(:partial => "popup", :object => u, :locals => { :type => "friend" })) %>'
       );
     <% end %>
 
@@ -82,7 +82,7 @@
 
       marker = addMarkerToMap(
         lonlat, null, 
-        '<%= escape_javascript(render :partial => "popup", :object => @user, :locals => { :type => "your location" }) %>'
+        '<%= escape_javascript(render(:partial => "popup", :object => @user, :locals => { :type => "your location" })) %>'
       );
     }
   }
