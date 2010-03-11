@@ -61,11 +61,11 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat,objtype,obj
       }
       node.href = setArgs("/edit", args);
       node.title = i18n("javascripts.site.edit_tooltip");
-      node.style.fontStyle = 'normal';
+      node.removeClassName("disabled");
     } else {
       node.href = 'javascript:alert(i18n("javascripts.site.edit_zoom_alert"));';
       node.title = i18n("javascripts.site.edit_disabled_tooltip");
-      node.style.fontStyle = 'italic';
+      node.addClassName("disabled");
     }
   }
 
@@ -88,11 +88,11 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat,objtype,obj
 
       node.href = setArgs("/history", args);
       node.title = i18n("javascripts.site.history_tooltip");
-      node.style.fontStyle = 'normal';
+      node.removeClassName("disabled");
     } else {
       node.href = 'javascript:alert(i18n("javascripts.site.history_zoom_alert"));';
       node.title = i18n("javascripts.site.history_disabled_tooltip");
-      node.style.fontStyle = 'italic';
+      node.addClassName("disabled");
     }
   }
 
