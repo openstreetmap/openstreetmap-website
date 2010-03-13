@@ -1,0 +1,87 @@
+<table width="100%">
+  <tr>
+    <td width="100%">
+      <h2>
+		<% if @bug.status == "closed" %>
+			<%= image_tag("closed_bug_marker.png", :alt => 'closed') %>
+			<%= t'browse.bug.closed_title', :bug_name => @bug.id %>
+		<% else %>
+			<%= image_tag("open_bug_marker.png", :alt => 'open') %>
+			<%=	t'browse.bug.open_title', :bug_name => @bug.id %>
+		<% end %>
+		</h2>
+    </td>
+    <td>
+      <%= render :partial => "navigation" %>
+    </td>
+  </tr>
+  <tr valign="top">
+    <td>
+		<table>
+			<tr>
+			    <th><%= t 'browse.bug.created_at' %></th>
+			    <td><%= l @bug.date_created %></td>
+			</tr>  
+			
+			<tr>
+				<th><%= t 'browse.bug.edited_at' %></th>
+				<td><%= l @bug.last_changed %></td>
+			</tr>
+			<% if @bug.status == "closed" %>
+			<tr>
+			    <th><%= t 'browse.bug.closed_at' %></th>
+			    <td><%= l @bug.date_closed %></td>
+			</tr>
+			<% end %>
+			<tr>
+				<th><%= t 'browse.bug.opened_by' %></th>
+				<% if @bug.map_bug_comment[0].user.nil? %>
+					<td> <%= @bug.map_bug_comment[0].commenter_name %> </td>
+				<% else %>
+					<td><%= link_to h(@bug.map_bug_comment[0].user.display_name), :controller => "user", :action => "view", :display_name => @bug.map_bug_comment[0].user.display_name %></td>					
+				<% end %>
+  			</tr>
+			<tr>
+				<th><%= t 'browse.bug.description' %></th>
+				<td><%= h(@bug.map_bug_comment[0].comment) %></td>
+			</tr>
+
+			<tr>
+				<th><%= t 'browse.node_details.coordinates' %></th>
+				<td><div class="geo"><%= link_to ("<span class='latitude'>#{number_with_delimiter(@bug.lat)}</span>, <span class='longitude'>#{number_with_delimiter(@bug.lon)}</span>"), {:controller => 'site', :action => 'index', :lat => h(@bug.lat), :lon => h(@bug.lon), :zoom => "18"} %></div></td>
+				</tr>
+
+		</table>
+
+		<br>
+
+	<%if @bug.map_bug_comment.length > 1 %>
+
+		<table>
+			<tr>
+				<th width="20%"> <%= t 'browse.bug.comment_by' %></th> <th width="60%"> <%= t 'browse.bug.comment' %></th> <th width="20%"> <%= t 'browse.bug.date' %></th> 
+			</tr>
+			<% @bug.map_bug_comment[1..-1].each do |bug_comment| %>
+				<tr>
+					
+					<td>
+						<% if bug_comment.user.nil? %>
+							<%= bug_comment.commenter_name %>
+						<% else %>
+							<%= link_to h(bug_comment.user.display_name), :controller => "user", :action => "view", :display_name => bug_comment.user.display_name %>					
+						<% end %>
+					</td>
+					<td> <%= h(bug_comment.comment) %> </td>
+					<td> <%= l bug_comment.date_created %> </td>
+				</tr>
+			<% end %>
+		</table>
+
+	<% end %>
+	
+      <hr />
+      
+    </td>
+    <%= render :partial => "map", :object => @bug %>
+  </tr>
+</table>

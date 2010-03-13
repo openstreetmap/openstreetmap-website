@@ -92,6 +92,7 @@ ActionController::Routing::Routes.draw do |map|
   map.changeset '/browse/changeset/:id', :controller => 'browse', :action => 'changeset', :id => /\d+/
   map.connect '/browse/changesets', :controller => 'changeset', :action => 'list'
   map.connect '/browse/changesets/feed', :controller => 'changeset', :action => 'list', :format => :atom
+  map.connect '/browse/bug/:id', :controller => 'browse', :action => 'bug', :id => /\d+/
   
   # web site
   map.root :controller => 'site', :action => 'index'

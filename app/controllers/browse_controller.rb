@@ -78,6 +78,15 @@ class BrowseController < ApplicationController
     render :action => "not_found", :status => :not_found
   end
 
+  def bug
+    @type = "bug"
+    @bug = MapBug.find(params[:id])
+    @next = MapBug.find(:first, :order => "id ASC", :conditions => [ "status != 'hidden' AND id > :id", { :id => @bug.id }] )
+    @prev = MapBug.find(:first, :order => "id DESC", :conditions => [ "status != 'hidden' AND id < :id", { :id => @bug.id }] )
+  rescue ActiveRecord::RecordNotFound
+    render :action => "not_found", :status => :not_found
+  end
+
 private
 
   def timeout

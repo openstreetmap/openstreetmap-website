@@ -49,4 +49,8 @@ class MapBug < ActiveRecord::Base
 
   end
 
+  def visible
+	return status != "hidden"
+  end
+
 end
