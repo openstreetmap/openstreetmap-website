@@ -115,6 +115,7 @@ class MessageController < ApplicationController
       if message.save
         if request.xhr?
           render :update do |page|
+            page.replace "inboxanchor", :partial => "layouts/inbox"
             page.replace "inbox-count", :partial => "message_count"
             page.replace "inbox-#{message.id}", :partial => "message_summary", :object => message
           end
