@@ -69,6 +69,18 @@ class MapBugsController < ApplicationController
 	name = params['name'] if params['name'];
 
     @bug = MapBug.create_bug(lat, lon)
+
+
+	#TODO: move this into a helper function
+	url = "http://nominatim.openstreetmap.org/reverse?lat=" + lat.to_s + "&lon=" + lon.to_s + "&zoom=16" 
+    response = REXML::Document.new(Net::HTTP.get(URI.parse(url))) 
+ 
+    if result = response.get_text("reversegeocode/result") 
+      @bug.nearby_place = result.to_s 
+    else 
+      @bug.nearby_place = "unknown"
+    end	
+	
 	@bug.save;
 	add_comment(@bug, comment, name);
  
