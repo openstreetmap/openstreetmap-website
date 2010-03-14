@@ -10,7 +10,7 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat,objtype,obj
   lat = Math.round(lat * decimals) / decimals;
   lon = Math.round(lon * decimals) / decimals;
 
-  node = document.getElementById("permalinkanchor");
+  node = $("permalinkanchor");
   if (node) {
     var args = getArgs(node.href);
     args["lat"] = lat;
@@ -25,7 +25,7 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat,objtype,obj
     node.href = setArgs(node.href, args);
   }
 
-  node = document.getElementById("viewanchor");
+  node = $("viewanchor");
   if (node) {
     var args = getArgs(node.href);
     args["lat"] = lat;
@@ -37,7 +37,7 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat,objtype,obj
     node.href = setArgs(node.href, args);
   }
 
-  node = document.getElementById("exportanchor");
+  node = $("exportanchor");
   if (node) {
     var args = getArgs(node.href);
     args["lat"] = lat;
@@ -49,7 +49,7 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat,objtype,obj
     node.href = setArgs(node.href, args);
   }
 
-  node = document.getElementById("editanchor");
+  node = $("editanchor");
   if (node) {
     if (zoom >= 13) {
       var args = new Object();
@@ -69,7 +69,7 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat,objtype,obj
     }
   }
 
-  node = document.getElementById("historyanchor");
+  node = $("historyanchor");
   if (node) {
     if (zoom >= 11) {
       var args = new Object();
@@ -96,7 +96,7 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat,objtype,obj
     }
   }
 
-  node = document.getElementById("shortlinkanchor");
+  node = $("shortlinkanchor");
   if (node) {
     var args = getArgs(node.href);
     var code = makeShortCode(lat, lon, zoom);
