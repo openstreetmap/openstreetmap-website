@@ -52,7 +52,7 @@ class MapBugsController < ApplicationController
 	  format.js
 	  format.xml {render :template => 'map_bugs/get_bugs.xml'}
 	  format.json { render :json => @bugs.to_json(:methods => [:lat, :lon], :only => [:id, :status, :date_created], :include => { :map_bug_comment => { :only => [:commenter_name, :date_created, :comment]}}) }	  
-	  format.gpx {render :template => 'map_bugs/get_bugs.gpx'}
+#	  format.gpx {render :template => 'map_bugs/get_bugs.gpx'}
 	end
   end
 
@@ -146,7 +146,7 @@ class MapBugsController < ApplicationController
 	  format.js
 	  format.xml {render :template => 'map_bugs/get_bugs.xml'}
 	  format.json { render :json => @bugs.to_json(:methods => [:lat, :lon], :only => [:id, :status, :date_created], :include => { :map_bug_comment => { :only => [:commenter_name, :date_created, :comment]}}) }
-	  format.gpx {render :template => 'map_bugs/get_bugs.gpx'}
+#	  format.gpx {render :template => 'map_bugs/get_bugs.gpx'}
 	end
   end
 
