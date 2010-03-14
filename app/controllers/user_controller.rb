@@ -182,19 +182,23 @@ class UserController < ApplicationController
   end
 
   def logout
-    if session[:token]
-      token = UserToken.find_by_token(session[:token])
-      if token
-        token.destroy
+    @title = t 'user.logout.title'
+
+    if params[:session] == request.session_options[:id]
+      if session[:token]
+        token = UserToken.find_by_token(session[:token])
+        if token
+          token.destroy
+        end
+        session[:token] = nil
       end
-      session[:token] = nil
-    end
-    session[:user] = nil
-    session_expires_automatically
-    if params[:referer]
-      redirect_to params[:referer]
-    else
-      redirect_to :controller => 'site', :action => 'index'
+      session[:user] = nil
+      session_expires_automatically
+      if params[:referer]
+        redirect_to params[:referer]
+      else
+        redirect_to :controller => 'site', :action => 'index'
+      end
     end
   end
 
