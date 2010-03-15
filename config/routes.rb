@@ -86,6 +86,8 @@ ActionController::Routing::Routes.draw do |map|
   map.connect "api/#{API_VERSION}/bug/:id/close", :controller => 'map_bugs', :action => 'close_bug', :id => /\d+/
   map.connect "api/#{API_VERSION}/bug/:id", :controller => 'map_bugs', :action => 'read', :id => /\d+/, :conditions => { :method => :get }
   map.connect "api/#{API_VERSION}/bug/:id", :controller => 'map_bugs', :action => 'delete', :id => /\d+/, :conditions => { :method => :delete }
+
+  map.connect '/user/:display_name/bugs', :controller => 'map_bugs', :action => 'my_bugs'
   
 
   

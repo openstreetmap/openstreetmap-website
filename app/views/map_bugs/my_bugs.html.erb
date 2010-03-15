@@ -1,0 +1,45 @@
+<h1><%= @heading %></h1>
+<p><%= @description %></p>
+
+<%= render :partial => 'bugs_paging_nav' %>
+
+<table id="bug_list" cellpadding="3">
+	<tr>
+    	<th></th>
+		<th><%= t'bugs.user.id' %></th>
+		<th><%= t'changeset.changesets.user' %></th>
+		<th><%= t'changeset.changesets.comment' %></th>
+    	<th><%= t'changeset.changesets.saved_at' %></th>
+		<th><%= t'bugs.user.last_changed' %></th>
+    	
+    	
+  	</tr>
+<% @bugs.each do |bug| %>
+<% if bug.map_bug_comment[0].user == @user2 %>
+	<tr>
+<% else %>	
+	<tr bgcolor=#EEEEEE>
+<% end %>	
+		<td>
+			<% if bug.status == "closed" %>
+				<%= image_tag("closed_bug_marker.png", :alt => 'closed') %>
+			<% else %>
+				<%= image_tag("open_bug_marker.png", :alt => 'open') %>
+			<% end %>
+		</td>
+		<td><%= link_to bug.id.to_s, :controller => "browse", :action => "bug", :id => bug.id %></td>
+		
+		<% if bug.map_bug_comment[0].user.nil? %> 
+			<td> <%= bug.map_bug_comment[0].commenter_name %> </td> 
+		<% else %> 
+			<td><%= link_to h(bug.map_bug_comment[0].user.display_name), :controller => "user", :action => "view", :display_name => bug.map_bug_comment[0].user.display_name %></td>
+        <% end %>
+		<td> <%= htmlize bug.map_bug_comment[0].comment  %> </td>	
+		<td><%= l bug.date_created %></td>
+		<td><%= l bug.last_changed %></td>
+	</tr>
+<% end %>
+</table>
+
+
+<%= render :partial => 'bugs_paging_nav' %>

@@ -1,9 +1,12 @@
 class MapBugsController < ApplicationController
 
+  layout 'site', :only => [:my_bugs]
+
   before_filter :check_api_readable
-  before_filter :authorize_web, :only => [:add_bug, :close_bug, :edit_bug, :delete]
+  before_filter :authorize_web, :only => [:add_bug, :close_bug, :edit_bug, :delete, :my_bugs]
   before_filter :check_api_writable, :only => [:add_bug, :close_bug, :edit_bug, :delete]
   before_filter :require_moderator, :only => [:delete]
+  before_filter :set_locale, :only => [:my_bugs]
   after_filter :compress_output
   around_filter :api_call_handle_error, :api_call_timeout
 
@@ -146,11 +149,12 @@ class MapBugsController < ApplicationController
 	raise OSM::APIBadUserInput.new("No query string was given") unless params['q']
 	limit = getLimit
 	conditions = closedCondition
+	conditions = cond_merge conditions, ['map_bug_comment.comment ~ ?', params['q']]
 	
 	#TODO: There should be a better way to do this.   CloseConditions are ignored at the moment
 
 	bugs2 = MapBug.find(:all, :limit => limit, :order => "last_changed DESC", :joins => :map_bug_comment,
-						:conditions => ['map_bug_comment.comment ~ ?', params['q']])
+						:conditions => conditions)
 	@bugs = bugs2.uniq
 	respond_to do |format|
 	  format.html {render :template => 'map_bugs/get_bugs.js', :content_type => "text/javascript"}
@@ -161,6 +165,66 @@ class MapBugsController < ApplicationController
 #	  format.gpx {render :template => 'map_bugs/get_bugs.gpx'}
 	end
   end
+
+  def my_bugs
+ 
+    if params[:display_name] 
+      @user2 = User.find_by_display_name(params[:display_name], :conditions => { :visible => true }) 
+ 
+      if @user2  
+        if @user2.data_public? or @user2 == @user 
+          conditions = ['map_bug_comment.commenter_id = ?', @user2.id] 
+        else 
+          conditions = ['false'] 
+        end 
+      elsif request.format == :html 
+        @title = t 'user.no_such_user.title' 
+        @not_found_user = params[:display_name] 
+        render :template => 'user/no_such_user', :status => :not_found 
+      end 
+    end
+
+	if @user2 
+      user_link = render_to_string :partial => "user", :object => @user2 
+    end 
+
+	@title =  t 'bugs.user.title_user', :user => @user2.display_name 
+    @heading =  t 'bugs.user.heading_user', :user => @user2.display_name 
+    @description = t 'bugs.user.description_user', :user => user_link
+
+	@page = (params[:page] || 1).to_i 
+    @page_size = 10
+
+	@bugs = MapBug.find(:all, 
+						:include => [:map_bug_comment, {:map_bug_comment => :user}],
+						:joins => :map_bug_comment,
+						:order => "last_changed DESC",
+						:conditions => conditions,
+						:offset => (@page - 1) * @page_size, 
+						:limit => @page_size).uniq
+	
+  end
+
+private 
+  #------------------------------------------------------------ 
+  # utility functions below. 
+  #------------------------------------------------------------   
+ 
+  ## 
+  # merge two conditions 
+  # TODO: this is a copy from changeset_controler.rb and should be factored out to share
+  def cond_merge(a, b) 
+    if a and b 
+      a_str = a.shift 
+      b_str = b.shift 
+      return [ a_str + " AND " + b_str ] + a + b 
+    elsif a  
+      return a 
+    else b 
+      return b 
+    end 
+  end 
+
 
 
   def render_ok
@@ -186,11 +250,11 @@ class MapBugsController < ApplicationController
 	closed_since = params['closed'].to_i if params['closed']
 	
 	if closed_since < 0
-	  conditions = "status != 'hidden'"
+	  conditions = ["status != 'hidden'"]
 	elsif closed_since > 0
-	  conditions = "((status = 'open') OR ((status = 'closed' ) AND (date_closed > '" + (Time.now - 7.days).to_s + "')))"
+	  conditions = ["((status = 'open') OR ((status = 'closed' ) AND (date_closed > '" + (Time.now - closed_since.days).to_s + "')))"]
 	else
-	  conditions = "status = 'open'"
+	  conditions = ["status = 'open'"]
 	end
 
 	return conditions
