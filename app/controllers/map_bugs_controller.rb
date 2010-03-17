@@ -100,6 +100,8 @@ class MapBugsController < ApplicationController
 	id = params['id'].to_i
 
 	bug = MapBug.find_by_id(id);
+	raise OSM::APINotFoundError unless bug
+	raise OSM::APIAlreadyDeletedError unless bug.visible
 
 	bug_comment = add_comment(bug, params['text'], name);
 
@@ -112,6 +114,9 @@ class MapBugsController < ApplicationController
 	id = params['id'].to_i
 
 	bug = MapBug.find_by_id(id);
+	raise OSM::APINotFoundError unless bug
+	raise OSM::APIAlreadyDeletedError unless bug.visible
+
 	bug.close_bug;
 
 	render_ok
@@ -130,9 +135,11 @@ class MapBugsController < ApplicationController
 
   def read
 	@bug = MapBug.find(params['id'])
-    render :text => "", :status => :gone unless @bug.visible
+	raise OSM::APINotFoundError unless @bug
+	raise OSM::APIAlreadyDeletedError unless @bug.visible
+
 	respond_to do |format|
-	  format.rss
+  	  format.rss
 	  format.xml
 	  format.json { render :json => @bug.to_json(:methods => [:lat, :lon], :only => [:id, :status, :date_created], :include => { :map_bug_comment => { :only => [:commenter_name, :date_created, :comment]}}) }	  
 	end
@@ -140,6 +147,8 @@ class MapBugsController < ApplicationController
 
   def delete
 	bug = MapBug.find(params['id'])
+	raise OSM::APINotFoundError unless @bug
+	raise OSM::APIAlreadyDeletedError unless @bug.visible
 	bug.status = "hidden"
 	bug.save
 	render :text => "ok\n", :content_type => "text/html" 
