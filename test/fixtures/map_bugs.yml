@@ -1,0 +1,49 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+<% SCALE = 10000000 unless defined?(SCALE) %>
+
+open_bug:
+  id: 1
+  latitude: <%= 1*SCALE %>
+  longitude: <%= 1*SCALE %>
+  status: open
+  tile: <%= QuadTile.tile_for_point(1,1) %>
+  date_created: 2007-01-01 00:00:00
+  last_changed: 2007-01-01 00:00:00
+
+open_bug_with_comment:
+  id: 2
+  latitude: <%= 1.1*SCALE %>
+  longitude: <%= 1.1*SCALE %>
+  status: open
+  tile: <%= QuadTile.tile_for_point(1.1,1.1) %>
+  date_created: 2007-01-01 00:00:00
+  last_changed: 2007-02-01 00:00:00
+
+closed_bug_with_comment:
+  id: 3
+  latitude: <%= 1.2*SCALE %>
+  longitude: <%= 1.2*SCALE %>
+  status: closed
+  tile: <%= QuadTile.tile_for_point(1.2,1.2) %>
+  date_created: 2007-01-01 00:00:00
+  last_changed: 2007-03-01 00:00:00
+  date_closed:  2007-03-01 00:00:00
+
+hidden_bug_with_comment:
+  id: 4
+  latitude: <%= 1.3*SCALE %>
+  longitude: <%= 1.3*SCALE %>
+  status: hidden
+  tile: <%= QuadTile.tile_for_point(1.3,1.3) %>
+  date_created: 2007-01-01 00:00:00
+  last_changed: 2007-03-01 00:00:00
+
+bug_with_hidden_comment:
+  id: 5
+  latitude: <%= 1.4*SCALE %>
+  longitude: <%= 1.4*SCALE %>
+  status: open
+  tile: <%= QuadTile.tile_for_point(1.4,1.4) %>
+  date_created: 2007-01-01 00:00:00
+  last_changed: 2007-03-01 00:00:00
+
