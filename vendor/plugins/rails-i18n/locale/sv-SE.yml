@@ -1,6 +1,8 @@
-# Swedish translation, by Johan Lundström (johanlunds@gmail.com), with parts taken
-# from http://github.com/daniel/swe_rails
-# updated by Sven Dahlstrand (sven.dahlstrand@gmail.com)
+# Swedish translation.
+# By Johan Lundström (johanlunds@gmail.com) with parts taken from http://github.com/daniel/swe_rails.
+# With contributions by:
+#   * Sven Dahlstrand (sven.dahlstrand@gmail.com)
+#   * Henrik Nyh (henrik@nyh.se)
 
 "sv-SE":
   number:
@@ -9,9 +11,9 @@
     format:
       # Sets the separator between the units, for more precision (e.g. 1.0 / 2.0 == 0.5)
       separator: ","
-      # Delimets thousands (e.g. 1,000,000 is a million) (always in groups of three)
+      # Delimits thousands (e.g. 1,000,000 is a million) (always in groups of three)
       delimiter: " "
-      # Number of decimals, behind the separator (the number 1 with a precision of 2 gives: 1.00)
+      # Number of decimals after the separator (the number 1 with a precision of 2 gives: 1.00)
       precision: 2
 
     # Used in number_to_currency()
@@ -20,26 +22,6 @@
         # Where is the currency sign? %u is the currency unit, %n the number (default: $5.00)
         format: "%n %u"
         unit: "kr"
-        # These three are to override number.format and are optional
-        # separator: "."
-        # delimiter: ","
-        # precision: 2
-
-    # Used in number_to_percentage()
-    percentage:
-      format:
-        # These three are to override number.format and are optional
-        # separator:
-        # delimiter: ""
-        # precision:
-
-    # Used in number_to_precision()
-    precision:
-      format:
-        # These three are to override number.format and are optional
-        # separator:
-        # delimiter: ""
-        # precision:
 
     # Used in number_to_human_size()
     human:
@@ -110,13 +92,16 @@
     errors:
       template:
         header:
-          one:    "Ett fel förhindrade denna {{model}} från att sparas"
-          other:  "{{count}} fel förhindrade denna {{model}} från att sparas"
+          one:   "Ett fel förhindrade denna {{model}} från att sparas"
+          other: "{{count}} fel förhindrade denna {{model}} från att sparas"
         # The variable :count is also available
         body: "Det var problem med följande fält:"
 
   activerecord:
     errors:
+      # model.errors.full_messages format.
+      format: "{{attribute}} {{message}}"
+
       # The values :model, :attribute and :value are always available for interpolation
       # The value :count is available when applicable. Can be used for pluralization.
       messages:
@@ -124,7 +109,7 @@
         exclusion: "är reserverat"
         invalid: "är ogiltigt"
         confirmation: "stämmer inte överens"
-        accepted : "måste vara accepterad"
+        accepted: "måste vara accepterad"
         empty: "får ej vara tom"
         blank: "måste anges"
         too_long: "är för lång (maximum är {{count}} tecken)"
@@ -176,7 +161,7 @@
       # You can provide other formats here if you like!
       default: "%Y-%m-%d"
       short: "%e %b"
-      long: "%e %B, %Y"
+      long: "%e %B %Y"
 
     day_names: [söndag, måndag, tisdag, onsdag, torsdag, fredag, lördag]
     abbr_day_names: [sön, mån, tis, ons, tor, fre, lör]
@@ -189,9 +174,9 @@
 
   time:
     formats:
-      default: "%a, %d %b %Y %H:%M:%S %z"
-      short: "%d %b %H:%M"
-      long: "%d %B, %Y %H:%M"
+      default: "%a, %e %b %Y %H:%M:%S %z"
+      short: "%e %b %H:%M"
+      long: "%e %B %Y %H:%M"
     am: ""
     pm: ""
 
