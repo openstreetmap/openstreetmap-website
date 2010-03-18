@@ -189,7 +189,10 @@ sk:
     timeout: 
       sorry: Prepáčte, ale načítanie dát {{type}} číslo {{id}} trvalo príliš dlho
       type: 
+        changeset: zmenový súbor
         node: uzol
+        relation: relácia
+        way: cesta
     way: 
       download: "{{download_xml_link}}, {{view_history_link}} alebo {{edit_link}}"
       download_xml: Stiahnuť XML
@@ -406,13 +409,16 @@ sk:
           bridleway: Cesta pre kone
           bus_guideway: Bus so sprievodcom
           bus_stop: Zastávka autobusu
+          byway: Byway (súkromná cesta)
           cycleway: Cyklistický chodník
+          distance_marker: Distance Marker (kilometrovník)
           emergency_access_point: Stanica prvej pomoci
           footway: Chodník
           ford: Brod
           gate: Brána
           minor: Vedľajšia cesta
           motorway: Diaľnica
+          motorway_junction: Motorway Junction (Diaľničná križovatka)
           motorway_link: Diaľnica
           pedestrian: Chodník pre chodcov
           primary: Cesta I. triedy
@@ -420,6 +426,7 @@ sk:
           road: Cesta
           secondary: Cesta II. triedy
           secondary_link: Cesta II. triedy
+          service: Service Road (prístupová komunikácia)
           steps: Schody
           tertiary: Cesta III. triedy
           track: Nespevnené cesty
@@ -494,6 +501,7 @@ sk:
           cliff: Útes, kamenná stena
           coastline: Pobrežie
           crater: Kráter
+          feature: Vlastnosť
           fell: Horská pastvina
           fjord: Fjord
           geyser: Gejzír
@@ -540,6 +548,7 @@ sk:
           region: Región
           sea: More
           state: Štát
+          subdivision: Pododdelenie
           suburb: Mestský obvod
           town: Mesto 10 tis.-100 tis.
           unincorporated_area: Nezaradená oblasť
@@ -785,6 +794,9 @@ sk:
       where_am_i: Kde som?
     sidebar: 
       close: Zavrieť
+  time: 
+    formats: 
+      friendly: "%e %B %Y at %H:%M"
   trace: 
     create: 
       trace_uploaded: Váš GPX súbor bol nahratý a je očakávané vloženie do databázy. To bude spravidla trvať polhodinu až hodinu, a budete vyrozumený mailom po uskutočnení.
@@ -803,6 +815,7 @@ sk:
       save_button: Uložiť zmeny
       start_coord: "Súradnice začiatku:"
       tags: "Tagy:"
+      tags_help: oddelené čiarkou
       title: Úprava stopy {{name}}
       uploaded_at: "Nahrať na:"
       visibility: "Vidieľnosť:"
@@ -817,8 +830,12 @@ sk:
     no_such_user: 
       body: Prepáčte, nie je tu užívateľ s menom {{user}}. Prosím skontrolujte váš pravopis, alebo možno odkaz na ktorý ste klikli je chybný.
       heading: Užívateľ {{user}} neexistuje
+      title: Nie je taký užívateľ
     offline: 
+      heading: GPX úschovňa je Offline
       message: Ukladací priestor GPX súborov a nahrávací systém je teraz neprístupný.
+    offline_warning: 
+      message: Systém nahrávania GPX súborov je teraz neprístupný
     trace: 
       ago: pred {{time_in_words_ago}}
       by: od
@@ -850,6 +867,10 @@ sk:
       traces_waiting: Máte {{count}} stopy čakajúce na nahratie. Prosím zvážte toto čakanie, dokedy neukončíte nahrávanie niečoho iného, pokiaľ  nie je blok v rade pre iných užívateľov.
     trace_optionals: 
       tags: Tagy
+    trace_paging_nav: 
+      next: Dopredu &raquo;
+      previous: "&laquo; Naspäť"
+      showing_page: Predstavenie stránky {{page}}
     view: 
       delete_track: Vymazať túto stopu
       description: "Popis:"
@@ -863,6 +884,7 @@ sk:
       owner: "Vlastník:"
       pending: NEVYRIEŠENÉ
       points: "Body:"
+      start_coordinates: "Začiatočná súradnica:"
       tags: "Tagy:"
       title: Sledovanie stopy {{name}}
       trace_not_found: Stopa nenajdené!
@@ -875,14 +897,20 @@ sk:
       trackable: Zaznamenávané stopy (zdieľané iba ako anonymné, usporiadané body s časovými značkami)
   user: 
     account: 
+      current email address: "Aktuálna Emailová Adresa:"
+      delete image: Odstrániť aktuálny obrázok
       email never displayed publicly: (nezobrazovaný verejne)
       flash update success: Informácie používateľa boli obnovené.
       flash update success confirm needed: Užívateľské informácie boli úspešne aktualizované. Skontrolujte vašu emailovú adresu pre správu na potvrdenie vašej novej emailovej adresy.
       home location: "Domovské miesto:"
+      image: "Obrázok:"
+      keep image: Ponechať aktuálny obrázok
       latitude: "Zem. šírka:"
       longitude: "Zem. dĺžka:"
       make edits public button: Zverejniť všetky moje úpravy
       my settings: Moje nastavenia
+      new email address: "Nová Emailová Adresa:"
+      new image: "Pridať obrázok:"
       no home location: Nezadali ste svoje domovské miesto.
       preferred languages: "Uprednostňované jazyky:"
       profile description: "Popis profilu:"
@@ -895,6 +923,7 @@ sk:
       public editing note: 
         heading: Úprava pre verejnosť
         text: Teraz upravujete ako anonymný a iný vám nemôžu poslať správy, alebo vidieť vaše miesto. Ukážte čo upravujete a dovoľte iným kontaktovať vás cez webovú stránku, kliknite na tlačítko dolu. <b>Od zmeny verzie 0.6 API, iba užívateľ, ktorý povolil svoje úpravy verejnosti, môže upravovať mapové údaje</b>. (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">zistiť prečo</a>).<ul><li>Vaša emailová adresa nebude odhalená pre patričnú verejnosť.</li><li>Tento dej sa nedá vrátiť späť a všetci nový užívatelia sú nastavený štandardne ako verejný.</li></ul>
+      replace image: Nahradiť aktuálny obrázok
       return to profile: Návrat do profilu
       save changes button: Uložiť Zmeny
       title: Upraviť účet
@@ -913,9 +942,6 @@ sk:
       success: Potvrdením vašej emailovej adresy, ďakujeme za zapísanie sa!
     filter: 
       not_an_administrator: Potrebujete byť administrátor na vykonanie tejto akcie.
-    friend_map: 
-      nearby mapper: "Blízky mapovač: [[nearby_user]]"
-      your location: Vaša poloha
     go_public: 
       flash success: Všetky vaše úpravy sú teraz verejné, a teraz máte povolenie na úpravu.
     login: 
@@ -928,6 +954,7 @@ sk:
       lost password link: Stratili ste heslo?
       password: "Heslo:"
       please login: Prosím prihláste sa, alebo {{create_user_link}}.
+      remember: "Pamätovať si ma:"
       title: Prihlásiť sa
     lost_password: 
       email address: "E-mailová Adresa:"
@@ -944,6 +971,7 @@ sk:
     new: 
       confirm email address: "Potvrdiť emailovú adresu:"
       confirm password: "Potvrdiť Heslo:"
+      contact_webmaster: Prosím kontaktovať <a href="mailto:webmaster@openstreetmap.org">webmaster</a> kvôli žiadosti pre vytvorenie účtu – budeme sa snažiť  vašu požiadavku vybaviť tak rýchlo, ako je len možné.
       display name: "Zobrazované meno:"
       display name description: Vaše verejne zobrazené meno užívateľa. Môžete ho potom zmeniť v nastaveniach.
       email address: "Emailová adresa:"
@@ -952,6 +980,7 @@ sk:
       heading: Vytvoriť užívateľský účet
       license_agreement: Vytvorením účtu súhlasíte, že všetky údaje vami doplnené do Openstreetmap projektu budú (bez výhrady) licencované pod <a href="http://creativecommons.org/licenses/by-sa/2.0/">touto Creative Commons license (by-sa)</a>.
       no_auto_account_create: Bohužiaľ teraz nie sme schopný vytvoriť pre vás účet automaticky.
+      not displayed publicly: Nezobrazovať verejne (pozrite <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="wiki privacy policy including section on email addresses">privacy policy</a>)k
       password: "Heslo:"
       signup: Zaregistrovať sa
       title: Vytvoriť účet
@@ -959,6 +988,10 @@ sk:
       body: Prepáčte, užívateľ s týmto menom sa tu nenachádza {{user}}. Prosím skontrolujte váš text, alebo možno ste klikli na nesprávny odkaz.
       heading: Užívateľ {{user}} neexistuje
       title: Taký užívateľ nie je
+    popup: 
+      friend: Priateľ
+      nearby mapper: Blízky mapovač
+      your location: Vaša poloha
     remove_friend: 
       not_a_friend: "{{name}} nie je nikto z vašich priateľov."
       success: "{{name}} bol z vašich priateľov vymazaný."
@@ -976,6 +1009,7 @@ sk:
       add as friend: pridať ako priateľa
       ago: (pred {{time_in_words_ago}})
       block_history: zobraziť prijaté položky
+      blocks by me: blokovať pre mňa
       blocks on me: v mojom bloku
       confirm: Potvrdiť
       create_block: blokovať tohto užívateľa
@@ -999,7 +1033,7 @@ sk:
       nearby users: "Blízky užívatelia:"
       new diary entry: nový údaj denníka
       no friends: Ešte nemáte pridaných žiadnych priateľov.
-      no home location: Nebola nastavená domovská poloha.
+      no nearby users: Nie je tu iný užívateľ, ktorý priznáva mapovanie v okolí.
       remove as friend: odstrániť ako priateľa
       role: 
         administrator: Tento užívateľ je administrátor

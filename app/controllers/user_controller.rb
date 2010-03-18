@@ -146,59 +146,59 @@ class UserController < ApplicationController
   def new
     @title = t 'user.new.title'
 
-    # The user is logged in already, so don't show them the signup page, instead
-    # send them to the home page
+    # The user is logged in already, so don't show them the signup
+    # page, instead send them to the home page
     redirect_to :controller => 'site', :action => 'index' if session[:user]
   end
 
   def login
-    if params[:user] and session[:user].nil?
+    @title = t 'user.login.title'
+
+    if params[:user]
       email_or_display_name = params[:user][:email]
       pass = params[:user][:password]
       user = User.authenticate(:username => email_or_display_name, :password => pass)
+
       if user
         session[:user] = user.id
         session_expires_after 1.month if params[:remember_me]
-      elsif User.authenticate(:username => email_or_display_name, :password => pass, :inactive => true)
+
+        # The user is logged in, if the referer param exists, redirect
+        # them to that unless they've also got a block on them, in
+        # which case redirect them to the block so they can clear it.
+        if user.blocked_on_view
+          redirect_to user.blocked_on_view, :referrer => params[:referrer]
+        elsif params[:referer]
+          redirect_to params[:referer]
+        else
+          redirect_to :controller => 'site', :action => 'index'
+        end
+       elsif User.authenticate(:username => email_or_display_name, :password => pass, :inactive => true)
         flash.now[:error] = t 'user.login.account not active'
       else
         flash.now[:error] = t 'user.login.auth failure'
       end
     end
+  end
 
-    if session[:user]
-      # The user is logged in, if the referer param exists, redirect them to that
-      # unless they've also got a block on them, in which case redirect them to
-      # the block so they can clear it.
-      user = User.find(session[:user])
-      block = user.blocked_on_view
-      if block
-        redirect_to block, :referrer => params[:referrer]
-      elsif params[:referer]
+  def logout
+    @title = t 'user.logout.title'
+
+    if params[:session] == request.session_options[:id]
+      if session[:token]
+        token = UserToken.find_by_token(session[:token])
+        if token
+          token.destroy
+        end
+        session[:token] = nil
+      end
+      session[:user] = nil
+      session_expires_automatically
+      if params[:referer]
         redirect_to params[:referer]
       else
         redirect_to :controller => 'site', :action => 'index'
       end
-      return
-    end
-
-    @title = t 'user.login.title'
-  end
-
-  def logout
-    if session[:token]
-      token = UserToken.find_by_token(session[:token])
-      if token
-        token.destroy
-      end
-      session[:token] = nil
-    end
-    session[:user] = nil
-    session_expires_automatically
-    if params[:referer]
-      redirect_to params[:referer]
-    else
-      redirect_to :controller => 'site', :action => 'index'
     end
   end
 

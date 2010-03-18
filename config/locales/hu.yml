@@ -319,6 +319,10 @@ hu:
       recent_entries: "Legutóbbi naplóbejegyzések:"
       title: Felhasználók naplói
       user_title: "{{user}} naplója"
+    location: 
+      edit: Szerkesztés
+      location: "Hely:"
+      view: Megtekintés
     new: 
       title: Új naplóbejegyzés
     no_such_entry: 
@@ -358,6 +362,9 @@ hu:
       output: Kimenet
       paste_html: Webhelyekbe való beágyazáshoz illeszd be a HTML kódot
       scale: Méretarány
+      too_large: 
+        body: Ez a terület túl nagy ahhoz, hogy exportálásra kerüljön OpenStreetMap XML adatként. Közelíts, vagy jelölj ki kisebb területet.
+        heading: Túl nagy terület
       zoom: Nagyítási szint
     start_rjs: 
       add_marker: Jelölő hozzáadása a térképhez
@@ -851,7 +858,11 @@ hu:
         cycle_map: Kerékpártérkép
         noname: NincsNév
     site: 
+      edit_disabled_tooltip: Közelíts a térkép szerkesztéséhez
+      edit_tooltip: Térkép szerkesztése
       edit_zoom_alert: Közelítened kell a térkép szerkesztéséhez
+      history_disabled_tooltip: Közelíts ahhoz, hogy lásd a szerkesztéseket ezen a területen.
+      history_tooltip: Szerkesztések megtekintése ezen a területen
       history_zoom_alert: Közelítened kell a szerkesztési előzmények megtekintéséhez
   layouts: 
     donate: Támogasd az OpenStreetMapot a Hardverfrissítési Alapba történő {{link}}sal.
@@ -934,10 +945,14 @@ hu:
       send_message_to: "Új üzenet küldése neki: {{name}}"
       subject: Tárgy
       title: Üzenet küldése
+    no_such_message: 
+      body: Sajnálom, nincs üzenet ezzel az azonosítóval.
+      heading: Nincs ilyen üzenet
+      title: Nincs ilyen üzenet
     no_such_user: 
-      body: Sajnálom, nincs felhasználó vagy üzenet ezzel a névvel vagy azonosítóval
-      heading: Nincs ilyen felhasználó vagy üzenet
-      title: Nincs ilyen felhasználó vagy üzenet
+      body: Sajnálom, nincs felhasználó ezzel a névvel.
+      heading: Nincs ilyen felhasználó
+      title: Nincs ilyen felhasználó
     outbox: 
       date: Elküldve
       inbox: Beérkezett üzenetek
@@ -961,6 +976,9 @@ hu:
       title: Üzenet olvasása
       to: Címzett
       unread_button: Jelölés olvasatlanként
+      wrong_user: „{{user}}” néven jelentkeztél be, de a levelet, amit lekérdeztél olvasásra, nem ez a felhasználó küldte vagy kapta. Annak érdekében, hogy elolvashasd a levelet, jelentkezz be a helyes felhasználóval.
+    reply: 
+      wrong_user: „{{user}}” néven jelentkeztél be, de a levelet, amit lekérdeztél válaszolásra, nem ez a felhasználó kapta. Annak érdekében, hogy válaszolhass, jelentkezz be a helyes felhasználóval.
     sent_message_summary: 
       delete_button: Törlés
   notifier: 
@@ -981,8 +999,9 @@ hu:
       hopefully_you_1: "Valaki (remélhetőleg Te) meg szeretné változtatni az e-mail címét erről:"
       hopefully_you_2: "{{server_url}} erre: {{new_address}}."
     friend_notification: 
+      befriend_them: "Felveheted őt barátnak is itt: {{befriendurl}}."
       had_added_you: "{{user}} felvett a barátai közé az OpenStreetMapon."
-      see_their_profile: "Megnézheted a profilját itt: {{userurl}} és felveheted őt is barátnak, ha szeretnéd."
+      see_their_profile: "Megnézheted a profilját itt: {{userurl}}."
       subject: "[OpenStreetMap] {{user}} felvett a barátai közé"
     gpx_notification: 
       and_no_tags: és címkék nélkül
@@ -1214,6 +1233,9 @@ hu:
     sidebar: 
       close: Bezár
       search_results: Keresés eredményei
+  time: 
+    formats: 
+      friendly: "%Y. %B %e., %H.%M"
   trace: 
     create: 
       trace_uploaded: A GPX fájl feltöltése megtörtént, és várakozik az adatbázisba való beillesztésre. Ez általában fél órán belül megtörténik, és fogsz kapni egy e-mailt, amint elkészült.
@@ -1316,15 +1338,20 @@ hu:
   user: 
     account: 
       current email address: "Jelenlegi e-mail cím:"
+      delete image: Jelenlegi kép eltávolítása
       email never displayed publicly: (soha nem jelenik meg nyilvánosan)
       flash update success: Felhasználói információk sikeresen frissítve.
       flash update success confirm needed: Felhasználói információk sikeresen frissítve. Nézd meg az e-mailjeidet az új e-mail címedet megerősítő levélhez.
       home location: "Otthon:"
+      image: "Kép:"
+      image size hint: (legalább 100x100 pixel nagyságú négyzetes kép javasolt)
+      keep image: Jelenlegi kép megtartása
       latitude: "Földrajzi szélesség:"
       longitude: "Földrajzi hosszúság:"
       make edits public button: Szerkesztéseim nyilvánossá tétele
       my settings: Beállításaim
       new email address: "Új e-mail cím:"
+      new image: Kép hozzáadása
       no home location: Nem adtad meg az otthonod helyét.
       preferred languages: "Előnyben részesített nyelvek:"
       profile description: "Profil leírása:"
@@ -1338,6 +1365,7 @@ hu:
       public editing note: 
         heading: Nyilvános szerkesztés
         text: Jelenleg a szerkesztéseid névtelenek, és az emberek nem küldhetnek neked üzeneteket, és nem láthatják a tartózkodási helyedet. Hogy megmutasd, mit szerkesztettél, és megengedd az embereknek, hogy a webhelyen keresztül kapcsolatba lépjenek veled, kattints az alábbi gombra. <b>A 0.6 API-ra történt átállás óta csak nyilvános felhasználók szerkeszthetik a térképadatokat</b>. (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">nézz utána, miért</a>).<ul><li>Az e-mail címed nem kerül felfedésre azzal, hogy nyilvános leszel.</li><li>Ez a művelet nem vonható vissza, és alapértelmezésben az összes új felhasználó már nyilvános.</li></ul>
+      replace image: Jelenlegi kép cseréje
       return to profile: Vissza a profilhoz
       save changes button: Módosítások mentése
       title: Felhasználói fiók szerkesztése
@@ -1356,9 +1384,6 @@ hu:
       success: E-mail címed megerősítve, köszönjük a regisztrációt!
     filter: 
       not_an_administrator: Ennek a műveletnek az elvégzéséhez adminisztrátori jogosultsággal kell rendelkezned.
-    friend_map: 
-      nearby mapper: "Közeli térképszerkesztő: [[nearby_user]]"
-      your location: Helyed
     go_public: 
       flash success: Mostantól az összes szerkesztésed nyilvános, és engedélyezett a szerkesztés.
     login: 
@@ -1371,7 +1396,12 @@ hu:
       lost password link: Elfelejtetted a jelszavad?
       password: "Jelszó:"
       please login: Jelentkezz be, vagy {{create_user_link}}.
+      remember: "Emlékezz rám:"
       title: Bejelentkezés
+    logout: 
+      heading: Kijelentkezés az OpenStreetMapból
+      logout_button: Kijelentkezés
+      title: Kijelentkezés
     lost_password: 
       email address: "E-mail cím:"
       heading: Elfelejtetted jelszavad?
@@ -1404,6 +1434,10 @@ hu:
       body: Sajnálom, nincs {{user}} nevű felhasználó. Ellenőrizd a helyességét, vagy lehet, hogy a link, amire kattintottál, rossz.
       heading: "{{user}} felhasználó nem létezik"
       title: Nincs ilyen felhasználó
+    popup: 
+      friend: Barát
+      nearby mapper: Közeli térképszerkesztő
+      your location: Helyed
     remove_friend: 
       not_a_friend: "{{name}} nem tartozik a barátaid közé."
       success: "{{name}} eltávolítva a barátaid közül."
@@ -1443,12 +1477,11 @@ hu:
       my edits: szerkesztéseim
       my settings: beállításaim
       my traces: saját nyomvonalak
-      my_oauth_details: OAuth részletek megtekintése
-      nearby users: "Közeli felhasználók:"
+      nearby users: Egyéb közeli felhasználók
       new diary entry: új naplóbejegyzés
       no friends: Még nem adtál meg egyetlen barátot sem.
-      no home location: Nincs otthon beállítva.
-      no nearby users: Még nincsenek felhasználók, akik megadták, hogy a közelben szerkesztenek.
+      no nearby users: Még nincsenek más felhasználók, akik megadták, hogy a közelben szerkesztenek.
+      oauth settings: oauth beállítások
       remove as friend: barát eltávolítása
       role: 
         administrator: Ez a felhasználó adminisztrátor

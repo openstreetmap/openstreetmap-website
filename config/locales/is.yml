@@ -212,6 +212,13 @@ is:
       zoom_or_select: Þú verður að þysja að eða velja svæði á kortinu
     tag_details: 
       tags: "Eigindi:"
+    timeout: 
+      sorry: Ekki var hægt að ná í gögn fyrir {{type}} með kennitöluna {{id}}, það tók of langann tíma að ná í gögnin.
+      type: 
+        changeset: breytingarsettið
+        node: hnútinn
+        relation: venslin
+        way: veginn
     way: 
       download: "{{download_xml_link}} eða {{view_history_link}} eða {{edit_link}}"
       download_xml: Sækja veginn á XML sniði
@@ -383,6 +390,7 @@ is:
       other: u.þ.b. {{count}} km
       zero: minna en 1 km
     results: 
+      more_results: Fleiri niðurstöður
       no_results: Ekkert fannst
     search: 
       title: 
@@ -405,6 +413,7 @@ is:
           bicycle_rental: Reiðhjólaleigan
           brothel: Hóruhúsið
           cafe: Kaffihúsið
+          car_rental: Bílaleigan
           car_wash: Bílaþvottastöðin
           cinema: Kvikmyndarhúsið
           dentist: Tannlæknirinn
@@ -847,6 +856,9 @@ is:
     sidebar: 
       close: Loka
       search_results: Leitarniðurstöður
+  time: 
+    formats: 
+      friendly: "%e .%B %Y kl. %H:%M"
   trace: 
     create: 
       trace_uploaded: Búið er að hlaða upp GPS ferlinum og bíður hann núna eftir því að vera settur inn í gagnagrunninn, sem gerist yfirleitt innan stundar. Póstur verður sendur á netfangið þitt þegar því er lokið.
@@ -912,6 +924,10 @@ is:
       traces_waiting: Þú ert með {{count}} ferla í bið. Íhugaðu að bíða með að senda inn fleiri ferla til að aðrir notendur komist að.
     trace_optionals: 
       tags: Tögg
+    trace_paging_nav: 
+      next: Næsta &raquo;
+      previous: "&laquo; Fyrri"
+      showing_page: Sýni síðu {{page}}
     view: 
       delete_track: Eyða
       description: "Lýsing:"
@@ -938,14 +954,19 @@ is:
       trackable: Rekjanlegur (aðeins deilt sem óauðkennanlegir punktar með tímastimpli)
   user: 
     account: 
+      current email address: "Núverandi netfang:"
+      delete image: Eyða þessari mynd
       email never displayed publicly: (aldrei sýnt opinberlega)
       flash update success: Stillingarnar þínar voru uppfærðar.
       flash update success confirm needed: Stillingarnar þínar voru uppfærðar. Póstur var sendur á netfangið þitt sem þú þarft að bregðast við til að netfangið þitt verði staðfest.
       home location: "Staðsetning:"
+      image: "Mynd:"
+      keep image: Halda þessari mynd
       latitude: "Lengdargráða:"
       longitude: "Breiddargráða:"
       make edits public button: Gera allar breytingarnar mínar opinberar
       my settings: Mínar stillingar
+      new email address: "Nýtt netfang:"
       no home location: Þú hefur ekki stillt staðsetningu þína.
       preferred languages: "Viðmótstungumál:"
       profile description: "Lýsing á þér:"
@@ -977,9 +998,6 @@ is:
       success: Netfangið þitt hefur verið staðfest.
     filter: 
       not_an_administrator: Þú þarft að vera möppudýr til að framkvæma þessa aðgerð.
-    friend_map: 
-      nearby mapper: "Nálægur notandi: [[nearby_user]]"
-      your location: Þín staðsetning
     go_public: 
       flash success: Allar breytingar þínar eru nú opinberar, og þú getur breytt gögnum.
     login: 
@@ -992,6 +1010,7 @@ is:
       lost password link: Gleymt lykilorð?
       password: "Lykilorð:"
       please login: Vinsamlegast innskráðu þig eða {{create_user_link}}.
+      remember: "Muna innskráninguna:"
       title: Innskrá
     lost_password: 
       email address: "Netfang:"
@@ -1025,6 +1044,10 @@ is:
       body: Það er ekki til notandi með nafninu {{user}}. Kannski slóstu nafnið rangt inn eða fylgdir ógildum tengli.
       heading: Notandinn {{user}} er ekki til
       title: Notandi ekki til
+    popup: 
+      friend: Vinur
+      nearby mapper: Nálægur notandi
+      your location: Þín staðsetning
     remove_friend: 
       not_a_friend: "{{name}} er ekki vinur þinn."
       success: "{{name}} er ekki lengur vinur þinn."
@@ -1064,12 +1087,11 @@ is:
       my edits: mínar breytingar
       my settings: mínar stillingar
       my traces: mínir ferlar
-      my_oauth_details: OAuth stillingar
       nearby users: "Nálægir notendur:"
       new diary entry: ný bloggfærsla
       no friends: Þú átt enga vini
-      no home location: Engin staðsetning hefur verið stillt..
       no nearby users: Engir notendur hafa stillt staðsetningu sína nálægt þér.
+      oauth settings: oauth stillingar
       remove as friend: fjarlægja sem vin
       role: 
         administrator: Þessi notandi er möppudýr

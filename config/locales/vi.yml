@@ -213,6 +213,7 @@ vi:
     tag_details: 
       tags: "Thẻ:"
     timeout: 
+      sorry: Rất tiếc, đã chờ lấy dữ liệu của {{type}} có ID {{id}} quá lâu.
       type: 
         changeset: bộ thay đổi
         node: nốt
@@ -315,6 +316,10 @@ vi:
       recent_entries: "Mục nhật ký gần đây:"
       title: Các Nhật ký Cá nhân
       user_title: Nhật ký của {{user}}
+    location: 
+      edit: Sửa
+      location: "Vị trí:"
+      view: Xem
     new: 
       title: Mục Nhật ký Mới
     no_such_entry: 
@@ -354,6 +359,9 @@ vi:
       output: Đầu ra
       paste_html: Dán HTML để nhúng vào trang Web
       scale: Tỷ lệ
+      too_large: 
+        body: Khu vực này quá lớn để xuất dữ liệu OpenStreetMap XML được. Xin hãy phóng to hoặc lựa chọn khu vực nhỏ hơn.
+        heading: Khu vực Lớn quá
       zoom: Thu phóng
     start_rjs: 
       add_marker: Đánh dấu vào bản đồ
@@ -473,6 +481,7 @@ vi:
         boundary: 
           administrative: Biên giới Hành chính
         building: 
+          bunker: Boong ke
           church: Nhà thờ
           commercial: Tòa nhà Thương mại
           dormitory: Ký túc xá
@@ -583,7 +592,9 @@ vi:
           channel: Eo biển
           cliff: Vách đá
           coastline: Bờ biển
+          geyser: Mạch nước Phun
           glacier: Sông băng
+          heath: Bãi Hoang
           hill: Đồi
           island: Đảo
           land: Đất
@@ -620,10 +631,14 @@ vi:
           village: Làng
         railway: 
           construction: Đường sắt Đang Xây
+          disused_station: Nhà ga Đóng cửa
           funicular: Đường sắt Leo núi
           historic_station: Nhà ga Lịch sử
+          junction: Ga Đầu mối
           monorail: Đường Một Ray
+          station: Nhà ga
           subway: Trạm Xe điện Ngầm
+          tram: Đường Xe điện
         shop: 
           bakery: Tiệm Bánh
           bicycle: Tiệm Xe đạp
@@ -689,7 +704,11 @@ vi:
       overlays: 
         maplint: Maplint
     site: 
+      edit_disabled_tooltip: Phóng to để sửa đổi bản đồ
+      edit_tooltip: Sửa đổi bản đồ
       edit_zoom_alert: Hãy phóng to hơn để sửa đổi bản đồ
+      history_disabled_tooltip: Phóng to để xem danh sách sửa đổi trong khu vực này
+      history_tooltip: Xem danh sách sửa đổi trong khu vực này
       history_zoom_alert: Hãy phóng to hơn để xem lịch sử sửa đổi
   layouts: 
     donate: Hỗ trợ OpenStreetMap bằng cách {{link}} cho Quỹ Nâng cấp Phần cứng.
@@ -698,7 +717,7 @@ vi:
     export: Xuất
     export_tooltip: Xuất dữ liệu bản đồ
     gps_traces: Tuyến đường GPS
-    gps_traces_tooltip: Quản lý tuyến đường
+    gps_traces_tooltip: Quản lý tuyến đường GPS
     help_wiki: Trợ giúp &amp; Wiki
     help_wiki_tooltip: Site trợ giúp &amp; wiki của dự án
     help_wiki_url: http://wiki.openstreetmap.org/wiki/Vi:Main_Page?uselang=vi
@@ -1154,15 +1173,19 @@ vi:
   user: 
     account: 
       current email address: "Địa chỉ Thư điện tử Hiện tại:"
+      delete image: Xóa hình hiện dùng
       email never displayed publicly: (không lúc nào hiện công khai)
       flash update success: Đã cập nhật thông tin cá nhân thành công.
       flash update success confirm needed: Đã cập nhật thông tin cá nhân thành công. Kiểm tra thư điện tử xác nhận địa chỉ thư điện tử mới.
       home location: "Vị trí Nhà:"
+      image: "Hình:"
+      keep image: Giữ hình hiện dùng
       latitude: "Vĩ độ:"
       longitude: "Kinh độ:"
       make edits public button: Phát hành công khai các sửa đổi của tôi
       my settings: Tùy chọn
       new email address: "Địa chỉ Thư điện tử Mới:"
+      new image: Thêm hình
       no home location: Bạn chưa định vị trí nhà.
       preferred languages: "Ngôn ngữ Ưu tiên:"
       profile description: "Tự giới thiệu:"
@@ -1176,6 +1199,7 @@ vi:
       public editing note: 
         heading: Sửa đổi công khai
         text: "Các sửa đổi của bạn đang vô danh, và không ai có thể gửi thư cho bạn hay xem bạn ở đâu. Để cho phép mọi người biết bạn sửa đổi gì và gửi thư cho bạn dùng trang Web, bấm nút ở dưới. <b>Từ lúc đổi qua phiên bản 0.6 của API, chỉ có những người dùng công khai có quyền sửa đổi dữ liệu bản đồ</b> (<a href=\"http://wiki.openstreetmap.org/wiki/Anonymous_edits?uselang=vi\">tìm hiểu tại sao</a>).\n<ul>\n<li>Địa chỉ thư điện tử của bạn vẫn không được phát hành công khai sau khi bắt đầu sửa đổi công khai.</li>\n<li>Không thể lùi lại tác vụ này, và mọi người dùng mới hiện là người dùng công khai theo mặc định.</li>\n</ul>"
+      replace image: Thay hình hiện dùng
       return to profile: Trở về trang cá nhân
       save changes button: Lưu các Thay đổi
       title: Chỉnh sửa tài khoản
@@ -1194,9 +1218,6 @@ vi:
       success: Đã xác nhận địa chỉ thư điện tử mới. Cám ơn bạn đã đăng ký!
     filter: 
       not_an_administrator: Chỉ các quản lý viên có quyền thực hiện tác vụ đó.
-    friend_map: 
-      nearby mapper: "Người vẽ bản đồ ở gần: [[nearby_user]]"
-      your location: Vị trí của bạn
     go_public: 
       flash success: Tất cả các sửa đổi của bạn được phát hành công khai, và bạn mới được phép sửa đổi.
     login: 
@@ -1242,6 +1263,9 @@ vi:
       body: Rất tiếc, không có người dùng với tên {{user}}. Xin hãy kiểm tra chính tả, hoặc có lẽ bạn đã theo một liên kết sai.
       heading: Người dùng {{user}} không tồn tại
       title: Người dùng không tồn tại
+    popup: 
+      nearby mapper: Người vẽ bản đồ ở gần
+      your location: Vị trí của bạn
     remove_friend: 
       not_a_friend: "{{name}} đã không phải người bạn."
       success: "{{name}} không còn là người bạn."
@@ -1281,11 +1305,9 @@ vi:
       my edits: đóng góp của tôi
       my settings: tùy chọn
       my traces: tuyến đường của tôi
-      my_oauth_details: Xem chi tiết OAuth của tôi
       nearby users: "Người dùng ở gần:"
       new diary entry: mục nhật ký mới
       no friends: Bạn chưa thêm người bạn.
-      no home location: Chưa đặt vị trí nhà.
       no nearby users: Chưa có người dùng nào nhận là họ ở gần.
       remove as friend: dời người bạn
       role: 

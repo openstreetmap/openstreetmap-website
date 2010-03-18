@@ -75,7 +75,7 @@
   <% end %>
 </div>
 
-<p><b><%= t 'user.view.mapper since' %></b> <%= l @this_user.creation_time %> <%= t 'user.view.ago', :time_in_words_ago => time_ago_in_words(@this_user.creation_time) %></p>
+<p><b><%= t 'user.view.mapper since' %></b> <%= l @this_user.creation_time, :format => :friendly %> <%= t 'user.view.ago', :time_in_words_ago => time_ago_in_words(@this_user.creation_time) %></p>
 
 <% if @user and @user.administrator? %>
   <p><b><%= t 'user.view.email address' %></b> <%= @this_user.email %></p>  
@@ -87,7 +87,7 @@
 <div id="description"><%= htmlize(@this_user.description) %></div>
 
 <% if @user and @this_user.id == @user.id %>
-  <div id="map" style="border: 1px solid black; position: relative; width: 400px; height: 400px; float: right;">
+  <div id="map" class="user_map" style="border: 1px solid black; position: relative; width: 400px; height: 400px; float: right;">
     <% if @this_user.home_lat.nil? or @this_user.home_lon.nil? %>
       <p style="position: absolute; top: 0; bottom: 0; width: 90%; height: 30%; margin: auto 5%">
         <%= t 'user.view.if set location', :settings_link => (link_to t('user.view.settings_link_text'), :controller => 'user', :action => 'account', :display_name => @user.display_name) %>
