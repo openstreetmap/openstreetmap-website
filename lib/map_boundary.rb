@@ -9,7 +9,7 @@ module MapBoundary
     return min_lon, min_lat, max_lon, max_lat
   end
 
-  def check_boundaries(min_lon, min_lat, max_lon, max_lat)
+  def check_boundaries(min_lon, min_lat, max_lon, max_lat, limit_small_area = :true)
     # check the bbox is sane
     unless min_lon <= max_lon
       raise OSM::APIBadBoundingBox.new("The minimum longitude must be less than the maximum longitude, but it wasn't")
@@ -21,6 +21,8 @@ module MapBoundary
       # Due to sanitize_boundaries, it is highly unlikely we'll actually get here
       raise OSM::APIBadBoundingBox.new("The latitudes must be between -90 and 90, and longitudes between -180 and 180")
     end
+
+	return unless limit_small_area == :true
 
     # check the bbox isn't too large
     requested_area = (max_lat-min_lat)*(max_lon-min_lon)

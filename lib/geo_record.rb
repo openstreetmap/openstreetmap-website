@@ -54,6 +54,11 @@ private
         return self.find(:all, options)
       end
     end
+	def find_by_area_no_quadtile(minlat, minlon, maxlat, maxlon, options)
+      self.with_scope(:find => {:conditions => OSM.sql_for_area_no_quadtile(minlat, minlon, maxlat, maxlon)}) do
+        return self.find(:all, options)
+      end
+    end
   end
 end
 

@@ -489,13 +489,23 @@ module OSM
 
   # Return an SQL fragment to select a given area of the globe
   def self.sql_for_area(minlat, minlon, maxlat, maxlon, prefix = nil)
-    tilesql = QuadTile.sql_for_area(minlat, minlon, maxlat, maxlon, prefix)
+	tilesql = QuadTile.sql_for_area(minlat, minlon, maxlat, maxlon, prefix)
     minlat = (minlat * 10000000).round
     minlon = (minlon * 10000000).round
     maxlat = (maxlat * 10000000).round
     maxlon = (maxlon * 10000000).round
 
     return "#{tilesql} AND #{prefix}latitude BETWEEN #{minlat} AND #{maxlat} AND #{prefix}longitude BETWEEN #{minlon} AND #{maxlon}"
+  end
+
+  # Return an SQL fragment to select a given area of the globe without using the quadtile index
+  def self.sql_for_area_no_quadtile(minlat, minlon, maxlat, maxlon, prefix = nil, without_quadtile = :false)
+    minlat = (minlat * 10000000).round
+    minlon = (minlon * 10000000).round
+    maxlat = (maxlat * 10000000).round
+    maxlon = (maxlon * 10000000).round
+
+    return "#{prefix}latitude BETWEEN #{minlat} AND #{maxlat} AND #{prefix}longitude BETWEEN #{minlon} AND #{maxlon}"
   end
 
 

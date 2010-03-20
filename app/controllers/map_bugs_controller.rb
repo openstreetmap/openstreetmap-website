@@ -36,18 +36,9 @@ class MapBugsController < ApplicationController
 	limit = getLimit
 	conditions = closedCondition
 	
-	# check boundary is sane and area within defined
-    # see /config/application.yml
-    begin
-      check_boundaries(min_lon, min_lat, max_lon, max_lat)
-    rescue Exception => err
-      report_error(err.message)
-      return
-    end
+    check_boundaries(min_lon, min_lat, max_lon, max_lat, :false)
 
-
-
-	@bugs = MapBug.find_by_area(min_lat, min_lon, max_lat, max_lon, :order => "last_changed DESC", :limit => limit, :conditions => conditions)
+	@bugs = MapBug.find_by_area_no_quadtile(min_lat, min_lon, max_lat, max_lon, :include => :map_bug_comment, :order => "last_changed DESC", :limit => limit, :conditions => conditions)
 
 	respond_to do |format|
 	  format.html {render :template => 'map_bugs/get_bugs.js', :content_type => "text/javascript"}
@@ -71,21 +62,28 @@ class MapBugsController < ApplicationController
 	name = "NoName";
 	name = params['name'] if params['name'];
 
-    @bug = MapBug.create_bug(lat, lon)
+	#Include in a transaction to ensure that there is always a map_bug_comment for every map_bug
+	MapBug.transaction do
+	  @bug = MapBug.create_bug(lat, lon)
 
 
-	#TODO: move this into a helper function
-	url = "http://nominatim.openstreetmap.org/reverse?lat=" + lat.to_s + "&lon=" + lon.to_s + "&zoom=16" 
-    response = REXML::Document.new(Net::HTTP.get(URI.parse(url))) 
- 
-    if result = response.get_text("reversegeocode/result") 
-      @bug.nearby_place = result.to_s 
-    else 
-      @bug.nearby_place = "unknown"
-    end	
-	
-	@bug.save;
-	add_comment(@bug, comment, name);
+	  #TODO: move this into a helper function
+	  begin
+		url = "http://nominatim.openstreetmap.org/reverse?lat=" + lat.to_s + "&lon=" + lon.to_s + "&zoom=16" 
+		response = REXML::Document.new(Net::HTTP.get(URI.parse(url))) 
+		
+		if result = response.get_text("reversegeocode/result") 
+		  @bug.nearby_place = result.to_s 
+		else 
+		  @bug.nearby_place = "unknown"
+		end
+	  rescue Exception => err
+		@bug.nearby_place = "unknown"
+	  end
+	  
+	  @bug.save;
+	  add_comment(@bug, comment, name);
+	end
  
 	render_ok
   end
@@ -162,7 +160,7 @@ class MapBugsController < ApplicationController
 	
 	#TODO: There should be a better way to do this.   CloseConditions are ignored at the moment
 
-	bugs2 = MapBug.find(:all, :limit => limit, :order => "last_changed DESC", :joins => :map_bug_comment,
+	bugs2 = MapBug.find(:all, :limit => limit, :order => "last_changed DESC", :joins => :map_bug_comment, :include => :map_bug_comment,
 						:conditions => conditions)
 	@bugs = bugs2.uniq
 	respond_to do |format|
