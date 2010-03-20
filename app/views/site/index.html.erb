@@ -126,6 +126,11 @@ end
 
   OpenLayers.Lang.setCode("<%= I18n.locale.to_s %>");
 
+  function createBugCallBack() {
+	map.osbControl.deactivate();
+	document.getElementById("map_OpenLayers_Container").style.cursor = "default";
+  }
+
   function mapInit(){
     map = createMap("map");
 
@@ -135,7 +140,7 @@ end
       map.addLayer(map.dataLayer);
 
       map.osbLayer = new OpenLayers.Layer.OpenStreetBugs("OpenStreetBugs", {
-          serverURL : "/api/0.6/bugs/",
+          serverURL : "/api/0.6/",
           iconOpen : new OpenLayers.Icon("http://openstreetbugs.schokokeks.org/client/open_bug_marker.png", new OpenLayers.Size(22, 22), new OpenLayers.Pixel(-11, -11)),
           iconClosed : new OpenLayers.Icon("http://openstreetbugs.schokokeks.org/client/closed_bug_marker.png", new OpenLayers.Size(22, 22), new OpenLayers.Pixel(-11, -11)),
           readonly : false,

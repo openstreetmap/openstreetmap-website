@@ -246,11 +246,11 @@ OpenLayers.Layer.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Layer.Markers,
 		if(!bounds) return false;
 		bounds.transform(this.map.getProjectionObject(), this.apiProjection);
 
-		this.apiRequest("getBugs"
-			+ "?t="+this.round(bounds.top, 5)
-			+ "&r="+this.round(bounds.right, 5)
-			+ "&b="+this.round(bounds.bottom, 5)
-			+ "&l="+this.round(bounds.left, 5));
+		this.apiRequest("bugs"
+			+ "?bbox="+this.round(bounds.left, 5)
+            + ","+this.round(bounds.bottom, 5)
+		    + ","+this.round(bounds.right, 5)			
+			+ ","+this.round(bounds.top, 5));
 	},
 
 	/**
@@ -448,12 +448,14 @@ OpenLayers.Layer.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Layer.Markers,
 	 * @param String description
 	*/
 	createBug: function(lonlat, description) {
-		this.apiRequest("addPOIexec"
+		this.apiRequest("bug/create"
 			+ "?lat="+encodeURIComponent(lonlat.lat)
 			+ "&lon="+encodeURIComponent(lonlat.lon)
-			+ "&text="+encodeURIComponent(description + " [" + this.getUserName() + "]")
+			+ "&text="+encodeURIComponent(description)
+			+ "&name="+encodeURIComponent(this.getUserName())
 			+ "&format=js"
 		);
+		createBugCallBack();
 	},
 
 	/**
@@ -462,9 +464,9 @@ OpenLayers.Layer.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Layer.Markers,
 	 * @param String comment
 	*/
 	submitComment: function(id, comment) {
-		this.apiRequest("editPOIexec"
-			+ "?id="+encodeURIComponent(id)
-			+ "&text="+encodeURIComponent(comment + " [" + this.getUserName() + "]")
+		this.apiRequest("bug/"+encodeURIComponent(id)+"/comment"
+			+ "?text="+encodeURIComponent(comment)
+			+ "&name="+encodeURIComponent(this.getUserName())
 			+ "&format=js"
 		);
 	},
@@ -474,9 +476,8 @@ OpenLayers.Layer.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Layer.Markers,
 	 * @param Number id
 	*/
 	closeBug: function(id) {
-		this.apiRequest("closePOIexec"
-			+ "?id="+encodeURIComponent(id)
-			+ "&format=js"
+		this.apiRequest("bug/"+encodeURIComponent(id)+"/close"
+			+ "?format=js"
 		);
 	},
 
