@@ -9,48 +9,73 @@ class MapBugsControllerTest < ActionController::TestCase
         post :add_bug, {:lat => -1.0, :lon => -1.0, :name => "new_tester", :text => "This is a comment"}
 	  end
 	end
-    assert_response :success      
+    assert_response :success
+	id = @response.body.sub(/ok/,"").to_i
+	get :read, {:id => id, :format => 'json'}
+    assert_response :success
+	js = @response.body
+	assert_match "\"status\":\"open\"", js
+	assert_match "\"comment\":\"This is a comment\"", js
+	assert_match "\"commenter_name\":\"new_tester (a)\"", js
   end
 
   def test_map_bug_comment_create_success
     assert_difference('MapBugComment.count') do
-        post :edit_bug, {:id => 2, :name => "new_tester", :text => "This is an additional comment"}
+        post :edit_bug, {:id => 2, :name => "new_tester2", :text => "This is an additional comment"}
     end
-    assert_response :success      
+    assert_response :success
+
+	get :read, {:id => 2, :format => 'json'}
+    assert_response :success
+	js = @response.body
+	assert_match "\"id\":2", js
+	assert_match "\"status\":\"open\"", js
+	assert_match "\"comment\":\"This is an additional comment\"", js
+	assert_match "\"commenter_name\":\"new_tester2 (a)\"", js
+
   end
 
   def test_map_bug_read_success
     get :read, {:id => 1}
     assert_response :success      
-  end
 
-  def test_map_bug_read_xml_success
     get :read, {:id => 1,  :format => 'xml'}
-    assert_response :success      
-  end
+    assert_response :success
 
-  def test_map_bug_read_rss_success
     get :read, {:id => 1,  :format => 'rss'}
-    assert_response :success      
-  end
+    assert_response :success
 
-  def test_map_bug_read_json_success
     get :read, {:id => 1,  :format => 'json'}
-    assert_response :success      
-  end
+    assert_response :success
 
-  def test_map_bug_read_gpx_success
     get :read, {:id => 1,  :format => 'gpx'}
     assert_response :success
   end
 
   def test_map_bug_close_success
 	post :close_bug, {:id => 2}
-    assert_response :success      
+    assert_response :success
+
+	get :read, {:id => 2, :format => 'json'}
+	js = @response.body
+	assert_match "\"id\":2", js
+	assert_match "\"status\":\"closed\"", js
   end
 
   def test_get_bugs_success
 	get :get_bugs, {:bbox=>'1,1,1.2,1.2'}
+	assert_response :success
+
+	get :get_bugs, {:bbox=>'1,1,1.2,1.2', :format => 'rss'}
+	assert_response :success
+
+	get :get_bugs, {:bbox=>'1,1,1.2,1.2', :format => 'json'}
+	assert_response :success
+
+	get :get_bugs, {:bbox=>'1,1,1.2,1.2', :format => 'xml'}
+	assert_response :success
+
+	get :get_bugs, {:bbox=>'1,1,1.2,1.2', :format => 'gpx'}
 	assert_response :success
   end
 
@@ -74,33 +99,31 @@ class MapBugsControllerTest < ActionController::TestCase
 	assert_response :success
   end
 
-  def test_get_bugs_rss_success
-	get :get_bugs, {:bbox=>'1,1,1.2,1.2', :format => 'rss'}
-	assert_response :success
-  end
-
-  def test_get_bugs_json_success
-	get :get_bugs, {:bbox=>'1,1,1.2,1.2', :format => 'json'}
-	assert_response :success
-  end
-
-  def test_get_bugs_xml_success
-	get :get_bugs, {:bbox=>'1,1,1.2,1.2', :format => 'xml'}
-	assert_response :success
-  end
-
-  def test_get_bugs_gpx_success
-	get :get_bugs, {:bbox=>'1,1,1.2,1.2', :format => 'gpx'}
-	assert_response :success
-  end
-
-
 
   def test_search_success
 	get :search, {:bbox=>'1,1,1.2,1.2', :q => 'bug 1'}
 	assert_response :success
+
+	get :search, {:bbox=>'1,1,1.2,1.2', :q => 'bug 1', :format => 'xml'}
+	assert_response :success
+
+	get :search, {:bbox=>'1,1,1.2,1.2', :q => 'bug 1', :format => 'json'}
+	assert_response :success
+
+	get :search, {:bbox=>'1,1,1.2,1.2', :q => 'bug 1', :format => 'rss'}
+	assert_response :success
+
+	get :search, {:bbox=>'1,1,1.2,1.2', :q => 'bug 1', :format => 'gpx'}
+	assert_response :success
   end
 
+  def test_rss_success
+	get :rss, {:bbox=>'1,1,1.2,1.2'}
+	assert_response :success
+	
+	get :rss
+	assert_response :success
+  end
 
   def test_map_bug_comment_create_not_found
     assert_no_difference('MapBugComment.count') do
@@ -123,6 +146,17 @@ class MapBugsControllerTest < ActionController::TestCase
 	get :read, {:id => 4}
     assert_response :gone
   end
+
+  def test_map_bug_hidden_comment
+	get :read, {:id => 5, :format => 'json'}
+	assert_response :success
+	js = @response.body
+	assert_match "\"id\":5", js
+	assert_match "\"comment\":\"Valid comment for bug 5\"", js
+	assert_match "\"comment\":\"Another valid comment for bug 5\"", js
+	assert_no_match /\"comment\":\"Spam for bug 5\"/, js
+  end
+  
 
   
 end
