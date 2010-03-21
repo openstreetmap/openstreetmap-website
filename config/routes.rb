@@ -81,6 +81,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.connect "api/#{API_VERSION}/bugs", :controller => 'map_bugs', :action => 'get_bugs'
   map.connect "api/#{API_VERSION}/bugs/search", :controller => 'map_bugs', :action => 'search'
+  map.connect "api/#{API_VERSION}/bugs/rss", :controller =>'map_bugs', :action =>'rss'
   map.connect "api/#{API_VERSION}/bug/create", :controller => 'map_bugs', :action => 'add_bug'
   map.connect "api/#{API_VERSION}/bug/:id/comment", :controller => 'map_bugs', :action => 'edit_bug', :id => /\d+/
   map.connect "api/#{API_VERSION}/bug/:id/close", :controller => 'map_bugs', :action => 'close_bug', :id => /\d+/

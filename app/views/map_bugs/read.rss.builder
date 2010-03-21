@@ -5,7 +5,7 @@ xml.rss("version" => "2.0",
         "xmlns:georss" => "http://www.georss.org/georss") do
   xml.channel do
     xml.title "OpenStreetBugs"
-    xml.description t('bugs.rss.description')
+    xml.description t('bugs.rss.description_item',:id => @bug.id)
     xml.link url_for(:controller => "site", :action => "index", :only_path => false)
 
     xml.item do

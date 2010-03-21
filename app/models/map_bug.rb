@@ -12,7 +12,7 @@ class MapBug < ActiveRecord::Base
   validates_prensence_of :date_closed if :status == "closed"
   validates_inclusion_of :status, :in => [ "open", "closed", "hidden" ]
 
-  has_many :map_bug_comment, :foreign_key => :bug_id, :order => :date_created, :conditions => { :visible => true } 
+  has_many :map_bug_comment, :foreign_key => :bug_id, :order => :date_created, :conditions => "visible = true and comment is not null"
 
 
   def self.create_bug(lat, lon)
@@ -33,10 +33,11 @@ class MapBug < ActiveRecord::Base
 	self.save;
   end
 
-  def flatten_comment ( separator_char )
+  def flatten_comment ( separator_char, upto_timestamp = :nil)
 	resp = ""
 	comment_no = 1
 	self.map_bug_comment.each do |comment|
+	  next if upto_timestamp != :nil and comment.date_created > upto_timestamp
         resp += (comment_no == 1 ? "" : separator_char)
 		resp += comment.comment if comment.comment
 		resp += " [ " 

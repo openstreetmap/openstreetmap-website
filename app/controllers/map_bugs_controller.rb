@@ -20,7 +20,7 @@ class MapBugsController < ApplicationController
 
     if bbox and bbox.count(',') == 3
       bbox = bbox.split(',')
-	  min_lon, min_lat, max_lon, max_lat = sanitise_boundaries(bbox)
+	  @min_lon, @min_lat, @max_lon, @max_lat = sanitise_boundaries(bbox)
 	else
 	  #Fallback to old style, this is deprecated and should not be used
 	  raise OSM::APIBadUserInput.new("No l was given") unless params['l']
@@ -28,17 +28,17 @@ class MapBugsController < ApplicationController
 	  raise OSM::APIBadUserInput.new("No b was given") unless params['b']
 	  raise OSM::APIBadUserInput.new("No t was given") unless params['t']
 
-	  min_lon = params['l'].to_f
-	  max_lon = params['r'].to_f
-	  min_lat = params['b'].to_f
-	  max_lat = params['t'].to_f
+	  @min_lon = params['l'].to_f
+	  @max_lon = params['r'].to_f
+	  @min_lat = params['b'].to_f
+	  @max_lat = params['t'].to_f
     end
 	limit = getLimit
 	conditions = closedCondition
 	
-    check_boundaries(min_lon, min_lat, max_lon, max_lat, :false)
+    check_boundaries(@min_lon, @min_lat, @max_lon, @max_lat, :false)
 
-	@bugs = MapBug.find_by_area_no_quadtile(min_lat, min_lon, max_lat, max_lon, :include => :map_bug_comment, :order => "last_changed DESC", :limit => limit, :conditions => conditions)
+	@bugs = MapBug.find_by_area_no_quadtile(@min_lat, @min_lon, @max_lat, @max_lon, :include => :map_bug_comment, :order => "last_changed DESC", :limit => limit, :conditions => conditions)
 
 	respond_to do |format|
 	  format.html {render :template => 'map_bugs/get_bugs.js', :content_type => "text/javascript"}
@@ -82,7 +82,7 @@ class MapBugsController < ApplicationController
 	  end
 	  
 	  @bug.save;
-	  add_comment(@bug, comment, name);
+	  add_comment(@bug, comment, name,"opened");
 	end
  
 	render_ok
@@ -101,7 +101,9 @@ class MapBugsController < ApplicationController
 	raise OSM::APINotFoundError unless bug
 	raise OSM::APIAlreadyDeletedError unless bug.visible
 
-	bug_comment = add_comment(bug, params['text'], name);
+	MapBug.transaction do
+	  bug_comment = add_comment(bug, params['text'], name,"commented");
+	end
 
 	render_ok
   end
@@ -110,20 +112,44 @@ class MapBugsController < ApplicationController
 	raise OSM::APIBadUserInput.new("No id was given") unless params['id']
 	
 	id = params['id'].to_i
+	name = "NoName";
+	name = params['name'] if params['name'];
 
 	bug = MapBug.find_by_id(id);
 	raise OSM::APINotFoundError unless bug
 	raise OSM::APIAlreadyDeletedError unless bug.visible
 
-	bug.close_bug;
+	MapBug.transaction do
+	  bug.close_bug;
+	  add_comment(bug,:nil,name,"closed")
+	end
 
 	render_ok
   end 
 
 
   def rss
-	request.format = :rss
-	get_bugs
+
+	# Figure out the bbox
+    bbox = params['bbox']
+
+    if bbox and bbox.count(',') == 3
+      bbox = bbox.split(',')
+	  @min_lon, @min_lat, @max_lon, @max_lat = sanitise_boundaries(bbox)
+	else
+	  @min_lon = -180.0
+	  @min_lat = -90.0
+	  @max_lon = 180.0
+	  @max_lat = 90.0
+    end
+	limit = getLimit
+	conditions = closedCondition
+	conditions = cond_merge conditions, [OSM.sql_for_area_no_quadtile(@min_lat, @min_lon, @max_lat, @max_lon)]
+	
+    check_boundaries(@min_lon, @min_lat, @max_lon, @max_lat, :false)
+
+	@comments = MapBugComment.find(:all, :limit => limit, :order => "date_created DESC", :joins => :map_bug, :include => :map_bug, :conditions => conditions);
+	render :template => 'map_bugs/rss.rss'
   end
 
   def gpx_bugs
@@ -147,8 +173,12 @@ class MapBugsController < ApplicationController
 	bug = MapBug.find(params['id'])
 	raise OSM::APINotFoundError unless @bug
 	raise OSM::APIAlreadyDeletedError unless @bug.visible
-	bug.status = "hidden"
-	bug.save
+	MapBug.transaction do
+	  bug.status = "hidden";
+	  bug.save
+	  add_comment(bug,:nil,name,"hidden")
+	end
+
 	render :text => "ok\n", :content_type => "text/html" 
   end
 
@@ -267,9 +297,10 @@ private
 	return conditions
   end
 
-  def add_comment(bug, comment, name) 
+  def add_comment(bug, comment, name,event) 
     t = Time.now.getutc 
-    bug_comment = bug.map_bug_comment.create(:date_created => t, :visible => true, :comment => comment);  
+    bug_comment = bug.map_bug_comment.create(:date_created => t, :visible => true, :event => event);
+	bug_comment.comment = comment unless comment == :nil
     if @user  
       bug_comment.commenter_id = @user.id
 	  bug_comment.commenter_name = @user.display_name
