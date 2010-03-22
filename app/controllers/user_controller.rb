@@ -209,6 +209,8 @@ class UserController < ApplicationController
         @user = token.user
         @user.active = true
         @user.email_valid = true
+        @user.terms_agreed = Time.now.getutc
+        @user.consider_pd = true if params[:consider_pd]
         @user.save!
         referer = token.referer
         token.destroy
