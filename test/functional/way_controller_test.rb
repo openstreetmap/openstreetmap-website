@@ -210,7 +210,7 @@ class WayControllerTest < ActionController::TestCase
     assert_response :forbidden
     
     # Now try without having a changeset
-    content "<osm><way id='#{current_ways(:visible_way).id}'></osm>"
+    content "<osm><way id='#{current_ways(:visible_way).id}'/></osm>"
     delete :delete, :id => current_ways(:visible_way).id
     assert_response :forbidden
     
@@ -261,7 +261,7 @@ class WayControllerTest < ActionController::TestCase
     assert_response :bad_request
     
     # Now try without having a changeset
-    content "<osm><way id='#{current_ways(:visible_way).id}'></osm>"
+    content "<osm><way id='#{current_ways(:visible_way).id}'/></osm>"
     delete :delete, :id => current_ways(:visible_way).id
     assert_response :bad_request
     
