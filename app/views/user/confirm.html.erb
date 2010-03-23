@@ -2,29 +2,33 @@
 
 <p><%= t 'user.confirm.press confirm button' %></p>
 
-<div style="overflow: auto; width: 80%; height: 60%;">
-<p><%= t 'legal.contributor_terms.intro' %></p>
-<ol>
-<li><%= t 'legal.contributor_terms.section_1' %></li>
-<li><%= t 'legal.contributor_terms.section_2' %></li>
-<li><%= t 'legal.contributor_terms.section_3' %></li>
-<p><%= t 'legal.contributor_terms.active_defn_1' %></p>
-<p><%= t 'legal.contributor_terms.active_defn_2' %></p>
-<li><%= t 'legal.contributor_terms.section_4' %></li>
-<li><%= t 'legal.contributor_terms.section_5' %></li>
-<li><%= t 'legal.contributor_terms.section_6' %></li>
-<ol>
-<li><%= t 'legal.contributor_terms.section_6_1' %></li>
-<li><%= t 'legal.contributor_terms.section_6_2' %></li>
-</ol>
-<li><%= t 'legal.contributor_terms.section_7' %></li>
-</ol>
+<div id="contributorTerms">
+  <p><%= t 'legal.contributor_terms.intro' %></p>
+  <ol>
+    <li><%= t 'legal.contributor_terms.section_1' %></li>
+    <li><%= t 'legal.contributor_terms.section_2' %></li>
+    <li><%= t 'legal.contributor_terms.section_3' %></li>
+    <p><%= t 'legal.contributor_terms.active_defn_1' %></p>
+    <p><%= t 'legal.contributor_terms.active_defn_2' %></p>
+    <li><%= t 'legal.contributor_terms.section_4' %></li>
+    <li><%= t 'legal.contributor_terms.section_5' %></li>
+    <li><%= t 'legal.contributor_terms.section_6' %></li>
+    <ol>
+      <li><%= t 'legal.contributor_terms.section_6_1' %></li>
+      <li><%= t 'legal.contributor_terms.section_6_2' %></li>
+    </ol>
+    <li><%= t 'legal.contributor_terms.section_7' %></li>
+  </ol>
 </div>
 
 <form method="post">
-<input type="hidden" name="confirm_string" value="<%= params[:confirm_string] %>"/>
-<label for="confirm_pd_checkbox"><%= t 'user.confirm.consider_pd' %></label><input id="confirm_pd_checkbox" type="checkbox" name="consider_pd"/><br/>
-<input type="submit" name="confirm_action" value="<%= t 'user.confirm.button' %>"/>
+  <p>
+    <label for="confirm_pd_checkbox"><%= t 'user.confirm.consider_pd' %></label>
+    <input id="confirm_pd_checkbox" type="checkbox"
+    name="consider_pd"/><br/>
+  </p>
+  <p>
+    <input type="hidden" name="confirm_string" value="<%= params[:confirm_string] %>"/>
+    <input type="submit" name="confirm_action" value="<%= t 'user.confirm.button' %>"/>
+  </p>
 </form>
-
-
