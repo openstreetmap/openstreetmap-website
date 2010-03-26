@@ -96,6 +96,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/offline', :controller => 'site', :action => 'offline'
   map.connect '/key', :controller => 'site', :action => 'key'
   map.connect '/user/new', :controller => 'user', :action => 'new'
+  map.connect '/user/terms', :controller => 'user', :action => 'terms'
   map.connect '/user/save', :controller => 'user', :action => 'save'
   map.connect '/user/confirm', :controller => 'user', :action => 'confirm'
   map.connect '/user/confirm-email', :controller => 'user', :action => 'confirm_email'

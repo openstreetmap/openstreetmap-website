@@ -1,0 +1,53 @@
+<h1><%= t 'user.terms.heading' %></h1>
+
+<p><%= t 'user.terms.press accept button' %></p>
+
+<div id="contributorTerms">
+  <p id="first"><%= t 'legal.contributor_terms.intro' %></p>
+  <ol>
+    <li>
+      <p><%= t 'legal.contributor_terms.section_1' %></p>
+    </li>
+    <li>
+      <p><%= t 'legal.contributor_terms.section_2' %></p>
+    </li>
+    <li>
+      <p><%= t 'legal.contributor_terms.section_3' %></p>
+      <p><%= t 'legal.contributor_terms.active_defn_1' %></p>
+      <p><%= t 'legal.contributor_terms.active_defn_2' %></p>
+    </li>
+    <li>
+      <p><%= t 'legal.contributor_terms.section_4' %></p>
+    </li>
+    <li>
+      <p><%= t 'legal.contributor_terms.section_5' %></p>
+    </li>
+    <li>
+      <p><%= t 'legal.contributor_terms.section_6' %></p>
+      <ol>
+        <li><p><%= t 'legal.contributor_terms.section_6_1' %></p></li>
+        <li><p><%= t 'legal.contributor_terms.section_6_2' %></p></li>
+      </ol>
+    </li>
+    <li>
+      <p id="last"><%= t 'legal.contributor_terms.section_7' %></p>
+    </li>
+  </ol>
+</div>
+
+<% form_tag :action => 'save' do %>
+  <p>
+    <label for="confirm_pd_checkbox"><%= t 'user.terms.consider_pd' %></label>
+    <%= check_box('user', 'consider_pd') %>
+    <span class="minorNote">(<%= link_to(t('user.terms.consider_pd_why'), t('user.terms.consider_pd_why_url'), :target => :new)%>)</span>
+  </p>
+  <p>
+    <%= hidden_field_tag('referer', h(params[:referer])) unless params[:referer].nil? %>
+    <%= hidden_field('user', 'email') %>
+    <%= hidden_field('user', 'email_confirmation') %>
+    <%= hidden_field('user', 'display_name') %>
+    <%= hidden_field('user', 'pass_crypt') %>
+    <%= hidden_field('user', 'pass_crypt_confirmation') %>
+    <%= submit_tag(t('user.terms.button')) %>
+  </p>
+<% end %>

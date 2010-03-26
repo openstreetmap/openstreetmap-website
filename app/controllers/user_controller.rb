@@ -18,6 +18,15 @@ class UserController < ApplicationController
 
   cache_sweeper :user_sweeper, :only => [:account, :hide, :unhide, :delete]
 
+  def terms
+    @title = t 'user.new.title'
+    @user = User.new(params[:user])
+
+    if @user.invalid?
+      render :action => 'new'
+    end
+  end
+
   def save
     @title = t 'user.new.title'
 
@@ -31,6 +40,7 @@ class UserController < ApplicationController
       @user.description = "" if @user.description.nil?
       @user.creation_ip = request.remote_ip
       @user.languages = request.user_preferred_languages
+      @user.terms_agreed = Time.now.getutc
 
       if @user.save
         flash[:notice] = t 'user.new.flash create success message'
@@ -209,8 +219,6 @@ class UserController < ApplicationController
         @user = token.user
         @user.active = true
         @user.email_valid = true
-        @user.terms_agreed = Time.now.getutc
-        @user.consider_pd = true if params[:consider_pd]
         @user.save!
         referer = token.referer
         token.destroy
