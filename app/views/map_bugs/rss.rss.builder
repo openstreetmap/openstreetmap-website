@@ -36,7 +36,7 @@ xml.rss("version" => "2.0",
 		if (comment.user.nil?)
 			xml.author comment.commenter_name
 		else
-			xml.author comment.user.dislay_name
+			xml.author comment.user.display_name
 		end
 		
         xml.pubDate comment.date_created.to_s(:rfc822)

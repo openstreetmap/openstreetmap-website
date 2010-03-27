@@ -125,6 +125,18 @@ class MapBugsControllerTest < ActionController::TestCase
 	assert_response :success
   end
 
+  def test_user_bugs_success
+	get :my_bugs, {:display_name=>'test'}
+	assert_response :success
+
+	get :my_bugs, {:display_name=>'pulibc_test2'}
+	assert_response :success
+
+	get :my_bugs, {:display_name=>'non-existent'}
+	assert_response :not_found
+	
+  end
+
   def test_map_bug_comment_create_not_found
     assert_no_difference('MapBugComment.count') do
         post :edit_bug, {:id => 12345, :name => "new_tester", :text => "This is an additional comment"}

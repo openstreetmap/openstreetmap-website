@@ -214,10 +214,11 @@ class MapBugsController < ApplicationController
         else 
           conditions = ['false'] 
         end 
-      elsif request.format == :html 
+      else #if request.format == :html 
         @title = t 'user.no_such_user.title' 
         @not_found_user = params[:display_name] 
         render :template => 'user/no_such_user', :status => :not_found 
+		return
       end 
     end
 
