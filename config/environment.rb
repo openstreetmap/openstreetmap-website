@@ -54,9 +54,9 @@ Rails::Initializer.run do |config|
   config.gem 'httpclient'
   config.gem 'SystemTimer', :version => '>= 1.1.3', :lib => 'system_timer'
   config.gem 'sanitize'
-  if Rails.env == "development"
+  # if Rails.env == "development"
     config.gem 'timecop'
-  end
+  # end
 
   # Only load the plugins named here, in the order given. By default, all plugins
   # in vendor/plugins are loaded in alphabetical order.
