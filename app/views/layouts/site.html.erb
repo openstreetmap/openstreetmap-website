@@ -117,7 +117,6 @@
 
       <div id="left_menu" class="left_menu">
         <a href="<%= t 'layouts.help_wiki_url' %>" title="<%= t 'layouts.help_wiki_tooltip' %>"><%= t 'layouts.help_wiki' %></a><br />
-        <%= link_to t('layouts.copyright'), {:controller => 'site', :action => 'copyright'} %><br />
         <a href="http://blogs.openstreetmap.org/" title="<%= t 'layouts.news_blog_tooltip' %>"><%= t 'layouts.news_blog' %></a><br />
         <a href="<%= t 'layouts.shop_url' %>" title="<%= t 'layouts.shop_tooltip' %>"><%= t 'layouts.shop' %></a><br />
         <%= yield :left_menu %>
@@ -128,6 +127,18 @@
       <center>
         <div class="donate">
           <a href="http://donate.openstreetmap.org/" title="<%= h(t('layouts.make_a_donation.title')) %>"><%= h(t('layouts.make_a_donation.text')) %></a>
+        </div>
+
+        <div id="cclogo" style="width: 88px">
+          <%= link_to(
+                  image_tag("cc_button.png",
+                      :alt => t('layouts.license.alt'),
+                      :border => 0,
+                      :width => 88,
+                      :height => 31,
+                      :title => t('layouts.license.title')),
+                  "http://creativecommons.org/licenses/by-sa/2.0/",
+                  { :rel => "license" }) %>
         </div>
       </center>
     </div>
