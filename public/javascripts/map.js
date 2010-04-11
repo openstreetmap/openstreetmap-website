@@ -32,18 +32,21 @@ function createMap(divName, options) {
    });
 
    var mapnik = new OpenLayers.Layer.OSM.Mapnik(i18n("javascripts.map.base.mapnik"), {
+      keyid; "mapnik",
       displayOutsideMaxExtent: true,
       wrapDateLine: true
    });
    map.addLayer(mapnik);
 
    var osmarender = new OpenLayers.Layer.OSM.Osmarender(i18n("javascripts.map.base.osmarender"), {
+      keyid: "osmarender",
       displayOutsideMaxExtent: true,
       wrapDateLine: true
    });
    map.addLayer(osmarender);
 
    var cyclemap = new OpenLayers.Layer.OSM.CycleMap(i18n("javascripts.map.base.cycle_map"), {
+      keyid: "cyclemap",
       displayOutsideMaxExtent: true,
       wrapDateLine: true
    });
