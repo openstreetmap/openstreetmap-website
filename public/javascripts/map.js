@@ -32,7 +32,7 @@ function createMap(divName, options) {
    });
 
    var mapnik = new OpenLayers.Layer.OSM.Mapnik(i18n("javascripts.map.base.mapnik"), {
-      keyid; "mapnik",
+      keyid: "mapnik",
       displayOutsideMaxExtent: true,
       wrapDateLine: true
    });
