@@ -446,7 +446,7 @@ module OSM
     end
   end
 
-  def self.IPLocation(ip_address)
+  def self.IPToCountry(ip_address)
     Timeout::timeout(4) do
       ipinfo = Quova::IpInfo.new(ip_address)
 
@@ -458,14 +458,24 @@ module OSM
           country = "GB" if country == "UK"
         end
       end
-
-      country = Country.find_by_code(country.upcase)
-
-      return { :minlon => country.min_lon, :minlat => country.min_lat, :maxlon => country.max_lon, :maxlat => country.max_lat }
+      
+      return country.upcase
     end
 
     return nil
   rescue Exception
+    return nil
+  end
+
+  def self.IPLocation(ip_address)
+    code = OSM.IPToCountry(ip_address)
+
+    unless code.nil?
+      country = Country.find_by_code(code)
+
+      return { :minlon => country.min_lon, :minlat => country.min_lat, :maxlon => country.max_lon, :maxlat => country.max_lat }
+    end
+
     return nil
   end
 
@@ -498,5 +508,10 @@ module OSM
     return "#{tilesql} AND #{prefix}latitude BETWEEN #{minlat} AND #{maxlat} AND #{prefix}longitude BETWEEN #{minlon} AND #{maxlon}"
   end
 
+  def self.legal_text_for_country(country_code)
+    file_name = File.join(RAILS_ROOT, "config", "legales", country_code.to_s + ".yml")
+    file_name = File.join(RAILS_ROOT, "config", "legales", "GB.yml") unless File.exist? file_name
+    YAML::load_file(file_name)
+  end
 
 end

@@ -2,35 +2,49 @@
 
 <p><%= t 'user.terms.press accept button' %></p>
 
+<p><%= t 'user.terms.legale_select' %>
+<% form_tag :action => 'terms' do %>
+  <select name="legale">
+    <%= options_for_select([['United Kingdom (default)', 'GB'], ['France', 'FR'], ['Italy', 'IT']], params[:legale]) %>
+    <%= hidden_field_tag('referer', h(params[:referer])) unless params[:referer].nil? %>
+    <%= hidden_field('user', 'email') %>
+    <%= hidden_field('user', 'email_confirmation') %>
+    <%= hidden_field('user', 'display_name') %>
+    <%= hidden_field('user', 'pass_crypt') %>
+    <%= hidden_field('user', 'pass_crypt_confirmation') %>
+    <%= submit_tag(t('user.terms.legale_button')) %>
+  </select>
+<% end %></p>
+
 <div id="contributorTerms">
-  <p id="first"><%= t 'legal.contributor_terms.intro' %></p>
+  <p id="first"><%= @text['intro'] %></p>
   <ol>
     <li>
-      <p><%= t 'legal.contributor_terms.section_1' %></p>
+      <p><%= @text['section_1'] %></p>
     </li>
     <li>
-      <p><%= t 'legal.contributor_terms.section_2' %></p>
+      <p><%= @text['section_2'] %></p>
     </li>
     <li>
-      <p><%= t 'legal.contributor_terms.section_3' %></p>
-      <p><%= t 'legal.contributor_terms.active_defn_1' %></p>
-      <p><%= t 'legal.contributor_terms.active_defn_2' %></p>
+      <p><%= @text['section_3'] %></p>
+      <p><%= @text['active_defn_1'] %></p>
+      <p><%= @text['active_defn_2'] %></p>
     </li>
     <li>
-      <p><%= t 'legal.contributor_terms.section_4' %></p>
+      <p><%= @text['section_4'] %></p>
     </li>
     <li>
-      <p><%= t 'legal.contributor_terms.section_5' %></p>
+      <p><%= @text['section_5'] %></p>
     </li>
     <li>
-      <p><%= t 'legal.contributor_terms.section_6' %></p>
+      <p><%= @text['section_6'] %></p>
       <ol>
-        <li><p><%= t 'legal.contributor_terms.section_6_1' %></p></li>
-        <li><p><%= t 'legal.contributor_terms.section_6_2' %></p></li>
+        <li><p><%= @text['section_6_1'] %></p></li>
+        <li><p><%= @text['section_6_2'] %></p></li>
       </ol>
     </li>
     <li>
-      <p id="last"><%= t 'legal.contributor_terms.section_7' %></p>
+      <p id="last"><%= @text['section_7'] %></p>
     </li>
   </ol>
 </div>
@@ -48,6 +62,7 @@
     <%= hidden_field('user', 'display_name') %>
     <%= hidden_field('user', 'pass_crypt') %>
     <%= hidden_field('user', 'pass_crypt_confirmation') %>
+    <a href="<%= t 'user.terms.exit_wiki' %>"><%= t 'user.terms.decline' %></a>
     <%= submit_tag(t('user.terms.button')) %>
   </p>
 <% end %>

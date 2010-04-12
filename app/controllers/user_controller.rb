@@ -22,6 +22,9 @@ class UserController < ApplicationController
     @title = t 'user.new.title'
     @user = User.new(params[:user])
 
+    country_code = params[:legale] || OSM.IPToCountry(request.remote_ip)
+    @text = OSM.legal_text_for_country(country_code)
+
     if @user.invalid?
       render :action => 'new'
     end
