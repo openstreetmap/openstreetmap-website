@@ -166,7 +166,7 @@ gl:
       load_data: Cargar os datos
       loaded_an_area_with_num_features: Cargou unha zona que contén [[num_features]] funcionalidades. Pode que algúns navegadores teñan problemas para amosar correctamente esta cantidade de datos. Xeralmente, os navegadores traballan mellor amosando menos de 100 funcionalidades á vez. Utilizar máis pode provocar que o navegador vaia lento ou non responda. Se está seguro de que quere amosar estes datos, pode facelo premendo no seguinte botón.
       loading: Cargando...
-      manually_select: Escolla manualmente unha zona distinta
+      manually_select: Escoller manualmente unha zona distinta
       object_list: 
         api: Obter esta área desde o API
         back: Mostrar a lista de obxectos
@@ -264,6 +264,7 @@ gl:
       save_button: Gardar
   export: 
     start: 
+      add_marker: Engadir un marcador ao mapa
       area_to_export: Zona a exportar
       export_button: Exportar
       format: Formato
@@ -275,19 +276,32 @@ gl:
       mapnik_image: Imaxe de Mapnik
       max: máx.
       options: Opcións
+      osm_xml_data: Datos XML do OpenStreetMap
       scale: Escala
+      too_large: 
+        body: Esta zona é grande de máis para ser exportada como datos XML do OpenStreetMap. Amplíe a zona ou escolla unha menor.
+        heading: Zona demasiado grande
       zoom: Zoom
     start_rjs: 
+      add_marker: Engadir un marcador ao mapa
+      change_marker: Cambiar a posición do marcador
+      click_add_marker: Prema sobre o mapa para engadir un marcador
+      drag_a_box: Arrastre unha caixa sobre o mapa para escoller unha zona
       export: Exportar
+      manually_select: Escoller manualmente unha zona distinta
+      view_larger_map: Ver un mapa máis grande
   geocoder: 
     description: 
       title: 
         geonames: Localización desde <a href="http://www.geonames.org/">GeoNames</a>
         osm_namefinder: "{{types}} desde <a href=\"http://gazetteer.openstreetmap.org/namefinder/\">OpenStreetMap Namefinder</a>"
+        osm_nominatim: Localización desde <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
       types: 
         cities: Cidades
         places: Lugares
         towns: Municipios
+    description_osm_namefinder: 
+      prefix: "{{distance}} ao {{direction}} de {{type}}"
     direction: 
       east: leste
       north: norte
@@ -297,6 +311,10 @@ gl:
       south_east: sueste
       south_west: suroeste
       west: oeste
+    distance: 
+      one: arredor de 1km
+      other: arredor de {{count}}km
+      zero: menos de 1km
     results: 
       more_results: Máis resultados
       no_results: Non se atopou ningún resultado
@@ -306,8 +324,119 @@ gl:
         geonames: Resultados desde <a href="http://www.geonames.org/">GeoNames</a>
         latlon: Resultados <a href="http://openstreetmap.org/">internos</a>
         osm_namefinder: Resultados desde <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>
+        osm_nominatim: Resultados desde <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
         uk_postcode: Resultados desde <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Resultados desde <a href="http://geocoder.us/">Geocoder.us</a>
+    search_osm_namefinder: 
+      suffix_parent: "{{suffix}} ({{parentdistance}} {{parentdirection}} de {{parentname}})"
+      suffix_place: ", {{distance}} ao {{direction}} de {{placename}}"
+    search_osm_nominatim: 
+      prefix: 
+        highway: 
+          emergency_access_point: Punto de acceso de emerxencia
+          footway: Carreiro
+          motorway_junction: Cruce de autovías
+          primary_link: Estrada principal
+          secondary_link: Estrada secundaria
+        leisure: 
+          beach_resort: Balneario
+          common: Terreo común
+          fishing: Área de pesca
+          garden: Xardín
+          golf_course: Campo de golf
+          ice_rink: Pista de patinaxe sobre xeo
+          marina: Porto deportivo
+          miniature_golf: Minigolf
+          nature_reserve: Reserva natural
+          park: Parque
+          pitch: Cancha deportiva
+          playground: Patio de recreo
+          recreation_ground: Área recreativa
+          slipway: Varadoiro
+          sports_centre: Centro deportivo
+          stadium: Estadio
+          swimming_pool: Piscina
+          track: Pista de carreiras
+          water_park: Parque acuático
+        natural: 
+          bay: Baía
+          beach: Praia
+          cape: Cabo
+          cave_entrance: Entrada de cova
+          channel: Canal
+          cliff: Cantil
+          coastline: Litoral
+          crater: Cráter
+          feature: Elemento
+          fell: Brañal
+          fjord: Fiorde
+          glacier: Glaciar
+          hill: Outeiro
+          island: Illa
+          land: Terra
+          marsh: Marisma
+          moor: Páramo
+          mud: Lama
+          peak: Pico
+          point: Punto
+          reef: Arrecife
+          river: Río
+          rock: Rocha
+          scree: Pedregal
+          shoal: Cardume
+          spring: Primavera
+          strait: Estreito
+          tree: Árbore
+          valley: Val
+          volcano: Volcán
+          water: Auga
+          wetland: Pantano
+          wetlands: Pantano
+          wood: Bosque
+        place: 
+          airport: Aeroporto
+          city: Cidade
+          country: País
+          county: Condado
+          farm: Granxa
+          hamlet: Aldea
+          house: Casa
+          houses: Casas
+          island: Illa
+          islet: Illote
+          locality: Localidade
+          moor: Páramo
+          municipality: Municipio
+          postcode: Código postal
+          region: Rexión
+          sea: Mar
+          state: Estado/Provincia
+          subdivision: Subdivisión
+          suburb: Barrio
+          town: Cidade
+          unincorporated_area: Área non incorporada
+          village: Vila
+        tourism: 
+          alpine_hut: Cabana alpina
+          artwork: Obra de arte
+          attraction: Atracción
+          bed_and_breakfast: Cama e almorzo
+          cabin: Cabana
+          camp_site: Campamento
+          caravan_site: Sitio de caravanas
+          chalet: Chalé
+          guest_house: Albergue
+          hostel: Hostal
+          hotel: Hotel
+          information: Información
+          lean_to: Caseta
+          motel: Motel
+          museum: Museo
+          picnic_site: Sitio de pícnic
+          theme_park: Parque temático
+          valley: Val
+          viewpoint: Miradoiro
+          zoo: Zoolóxico
   layouts: 
     edit: Editar
     export: Exportar
@@ -341,9 +470,16 @@ gl:
       subject: Asunto
     sent_message_summary: 
       delete_button: Borrar
+  notifier: 
+    email_confirm: 
+      subject: "[OpenStreetMap] Confirme o seu enderezo de correo electrónico"
   oauth_clients: 
     edit: 
       submit: Editar
+      title: Editar a súa aplicación
+    index: 
+      application: Nome da aplicación
+      register_new: Rexistrar a súa aplicación
   time: 
     formats: 
       friendly: "%e %B %Y ás %H:%M"
@@ -359,6 +495,7 @@ gl:
       save_button: Gardar os cambios
       start_coord: "Coordenada de inicio:"
       tags: "Etiquetas:"
+      tags_help: separadas por comas
       uploaded_at: "Cargado o:"
       visibility: "Visibilidade:"
       visibility_help: que significa isto?
@@ -382,6 +519,7 @@ gl:
       description: Descrición
       help: Axuda
       tags: Etiquetas
+      tags_help: separadas por comas
       upload_button: Cargar
       visibility: Visibilidade
       visibility_help: que significa isto?
@@ -409,6 +547,8 @@ gl:
       current email address: "Enderezo de correo electrónico actual:"
       delete image: Eliminar a imaxe actual
       email never displayed publicly: (nunca mostrado publicamente)
+      flash update success: Información de usuario actualizada correctamente.
+      flash update success confirm needed: Información de usuario actualizada correctamente. Busque no seu correo electrónico unha mensaxe para confirmar o seu novo enderezo.
       home location: "Lugar de orixe:"
       image: "Imaxe:"
       keep image: Manter a imaxe actual
@@ -431,48 +571,70 @@ gl:
       return to profile: Voltar ao perfil
       save changes button: Gardar os cambios
       title: Editar a conta
+      update home location on click: Quere actualizar o domicilio ao premer sobre o mapa?
     confirm: 
       button: Confirmar
+      failure: Xa se confirmou unha conta de usuario con este pase.
       heading: Confirmar unha conta de usuario
       press confirm button: Prema sobre o botón de confirmación que aparece a continuación para activar a súa conta.
+      success: Confirmouse a súa conta. Grazas por se rexistrar!
     confirm_email: 
       button: Confirmar
+      failure: Xa se confirmou un enderezo de correo electrónico con este pase.
+      heading: Confirmar o cambio do enderezo de correo electrónico
       press confirm button: Prema sobre o botón de confirmación que aparece a continuación para confirmar o seu novo enderezo de correo electrónico.
+      success: Confirmouse o seu enderezo de correo electrónico. Grazas por se rexistrar!
     filter: 
       not_an_administrator: Ten que ser administrador para poder levar a cabo esta acción.
     login: 
+      create_account: cree unha conta
       email or username: "Enderezo de correo electrónico ou nome de usuario:"
       lost password link: Perdeu o seu contrasinal?
       password: "Contrasinal:"
+      please login: Identifíquese ou {{create_user_link}}.
       remember: "Lembrádeme:"
     lost_password: 
       email address: "Enderezo de correo electrónico:"
       heading: Esqueceu o contrasinal?
       new password button: Restablecer o contrasinal
+      notice email cannot find: Non se puido atopar o enderezo de correo electrónico.
+      notice email on way: Por desgraza perdeuno, pero hai en camiño unha mensaxe de correo electrónico coa que o poderá restablecer axiña.
       title: Contrasinal perdido
     make_friend: 
       already_a_friend: Xa é amigo de {{name}}.
+      failed: Houbo un erro ao engadir a {{name}} como amigo.
       success: "{{name}} xa é o seu amigo."
     new: 
       confirm email address: Confirmar o enderezo de correo electrónico
       confirm password: "Confirmar o contrasinal:"
       display name: "Nome mostrado:"
+      display name description: O seu nome de usuario mostrado publicamente. Pode cambialo máis tarde nas preferencias.
       email address: "Enderezo de correo electrónico:"
+      fill_form: Encha o formulario e axiña recibirá un correo electrónico coas instrucións para activar a súa conta.
       heading: Crear unha conta de usuario
+      no_auto_account_create: Por desgraza, arestora non podemos crear automaticamente unha conta para vostede.
       password: "Contrasinal:"
       title: Crear unha conta
     no_such_user: 
+      body: Non existe ningún usuario co nome "{{user}}". Comprobe a ortografía ou que a ligazón que seguiu estea ben.
+      heading: O usuario {{user}} non existe
       title: Non existe tal usuario
     popup: 
       friend: Amigo
       your location: A súa localización
+    remove_friend: 
+      not_a_friend: "{{name}} non é un dos seus amigos."
+      success: "{{name}} foi eliminado dos seus amigos."
     reset_password: 
       confirm password: "Confirmar o contrasinal:"
       flash changed: Cambiouse o seu contrasinal.
+      flash token bad: Non se atopou o pase. Quizais debería comprobar o enderezo URL.
       heading: Restablecer o contrasinal de {{user}}
       password: "Contrasinal:"
       reset: Restablecer o contrasinal
       title: Restablecer o contrasinal
+    set_home: 
+      flash success: Gardouse o domicilio
     view: 
       activate_user: activar este usuario
       add as friend: engadir como amigo
@@ -496,6 +658,15 @@ gl:
       no friends: Aínda non engadiu ningún amigo.
       oauth settings: axustes OAuth
       remove as friend: eliminar como amigo
+      role: 
+        administrator: Este usuario é administrador
+        grant: 
+          administrator: Conceder o acceso de administrador
+          moderator: Conceder o acceso de moderador
+        moderator: Este usuario é moderador
+        revoke: 
+          administrator: Revogar o acceso de administrador
+          moderator: Revogar o acceso de moderador
       send message: enviar unha mensaxe
       settings_link_text: axustes
       unhide_user: descubrir este usuario
