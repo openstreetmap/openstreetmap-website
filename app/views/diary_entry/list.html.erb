@@ -1,9 +1,8 @@
-<h2><%= h(@title) %></h2>
-
-<% if @this_user && @this_user.image %>
- <%= image_tag url_for_file_column(@this_user, "image") %>
+<% if @this_user %>
+<%= user_image @this_user, :style => "float: right" %>
 <% end %>
 
+<h2><%= h(@title) %></h2>
 
 <% if @this_user %>
   <% if @user == @this_user %>
@@ -23,8 +22,12 @@
 
   <hr />
 
-  <%= render :partial => 'diary_entry', :collection => @entries %>
-	
+  <% if @this_user %>
+    <%= render :partial => 'diary_entry', :collection => @entries %>
+  <% else %>
+    <%= render :partial => 'diary_list_entry', :collection => @entries %>
+  <% end %>
+
   <%= link_to t('diary_entry.list.older_entries'), { :page => @entry_pages.current.next, :language => params[:language] } if @entry_pages.current.next %>
   <% if @entry_pages.current.next and @entry_pages.current.previous %>|<% end %>
   <%= link_to t('diary_entry.list.newer_entries'), { :page => @entry_pages.current.previous, :language => params[:language] } if @entry_pages.current.previous %>

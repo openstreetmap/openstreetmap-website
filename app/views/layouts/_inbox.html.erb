@@ -1,0 +1,7 @@
+<%
+inbox_attributes = {}
+inbox_attributes[:id] = "inboxanchor"
+inbox_attributes[:class] = 'greeting-bar-unread' if @user.new_messages.size > 0
+inbox_attributes[:title] = t 'layouts.inbox_tooltip', :count => @user.new_messages.size
+%>
+<%= link_to t('layouts.inbox', :count => @user.new_messages.size), {:controller => 'message', :action => 'inbox', :display_name => @user.display_name}, inbox_attributes %>

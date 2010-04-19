@@ -108,7 +108,7 @@ de:
       created_at: "Erstellt am:"
       has_nodes: 
         one: "Enthält folgenden Knoten:"
-        other: "Enhält folgende {{count}} Knoten:"
+        other: "Enthält folgende {{count}} Knoten:"
       has_relations: 
         one: "Enthält folgende Relation:"
         other: "Enthält folgende {{count}} Relationen:"
@@ -330,6 +330,10 @@ de:
       recent_entries: "Neuste Einträge:"
       title: Blogs
       user_title: "{{user}}s Blog"
+    location: 
+      edit: Bearbeiten
+      location: "Ort:"
+      view: Anzeigen
     new: 
       title: Selbst Bloggen
     no_such_entry: 
@@ -345,7 +349,7 @@ de:
       login: Anmelden
       login_to_leave_a_comment: "{{login_link}}, um einen Kommentar zu schreiben"
       save_button: Speichern
-      title: Benutzer-Blogs | {{user}}
+      title: "{{user}}s Blog | {{title}}"
       user_title: "{{user}}s Blog"
   export: 
     start: 
@@ -369,6 +373,9 @@ de:
       output: Ausgabe
       paste_html: HTML-Code kopieren, um ihn in eine Website einzufügen.
       scale: Maßstab
+      too_large: 
+        body: Dieser Bereich ist zu groß, um als OpenStreetMap XML-Daten exportiert werden. Bitte heranzoomen oder einen kleineren Bereich wählen.
+        heading: Bereich zu groß
       zoom: Zoom
     start_rjs: 
       add_marker: Markierung zur Karte hinzufügen
@@ -860,22 +867,24 @@ de:
         cycle_map: Radfahrerkarte
         noname: Straßen ohne Name
     site: 
+      edit_disabled_tooltip: Reinzoomen zum Editieren der Karte
+      edit_tooltip: Karte bearbeiten
       edit_zoom_alert: Du musst näher heranzoomen, um die Karte zu bearbeiten
+      history_disabled_tooltip: Reinzoomen um Änderungen für diesen Bereich anzuzeigen
+      history_tooltip: Änderungen für diesen Bereich anzeigen
       history_zoom_alert: Du musst näher heranzoomen, um die Chronik zu sehen
   layouts: 
     donate: Unterstütze die OpenStreetMap-Hardwarespendenaktion durch eine eigene {{link}}.
     donate_link_text: Spende
     edit: Bearbeiten
-    edit_tooltip: Karte bearbeiten
     export: Export
     export_tooltip: Kartendaten exportieren
     gps_traces: GPS-Tracks
-    gps_traces_tooltip: GPS-Tracks anzeigen und verwalten
+    gps_traces_tooltip: GPS-Tracks verwalten
     help_wiki: Hilfe & Wiki
     help_wiki_tooltip: Hilfe &amp; Wiki des Projekts
     help_wiki_url: http://wiki.openstreetmap.org/wiki/Hauptseite?uselang=de
     history: Chronik
-    history_tooltip: Änderungen der Kartendaten anzeigen
     home: Standort
     home_tooltip: Eigener Standort
     inbox: Posteingang ({{count}})
@@ -885,7 +894,8 @@ de:
       zero: Dein Posteingang enthält keine ungelesenen Nachrichten
     intro_1: OpenStreetMap ist eine freie, editierbare Karte der gesamten Welt, die von Menschen wie dir erstellt wird.
     intro_2: OpenStreetMap ermöglicht es geographische Daten gemeinschaftlich von überall auf der Welt anzuschauen und zu bearbeiten.
-    intro_3: Das Hosting der OpenStreetMap-Server wird freundlicherweise von {{ucl}} und {{bytemark}} unterstützt.
+    intro_3: Das Hosting der OpenStreetMap-Server wird freundlicherweise von {{ucl}} und {{bytemark}} unterstützt. Weitere Unterstützer sind im {{partners}} aufgelistet.
+    intro_3_partners: Wiki
     license: 
       title: Daten von OpenStreetMap stehen unter der „Creative Commons Attribution-Share Alike 2.0 Generic“-Lizenz
     log_in: Anmelden
@@ -910,13 +920,9 @@ de:
     user_diaries: Blogs
     user_diaries_tooltip: Benutzer-Blogs lesen
     view: Karte
-    view_tooltip: Karte betrachten
+    view_tooltip: Karte anzeigen
     welcome_user: Willkommen, {{user_link}}
     welcome_user_link_tooltip: Eigene Benutzerseite
-  map: 
-    coordinates: "Koordinaten:"
-    edit: Bearbeiten
-    view: Karte
   message: 
     delete: 
       deleted: Nachricht gelöscht
@@ -947,10 +953,14 @@ de:
       send_message_to: Eine Nachricht an {{name}} senden
       subject: Betreff
       title: Nachricht senden
+    no_such_message: 
+      body: Leider gibt es keine Nachricht mit dieser ID.
+      heading: Nachricht nicht vorhanden
+      title: Nachricht nicht vorhanden
     no_such_user: 
-      body: Wir konnten leider keinen entsprechenden Benutzer oder eine entsprechende Nachricht finden. Du hast dich möglicherweise vertippt oder du bist einem ungültigem Link gefolgt.
-      heading: Benutzer oder Nachricht nicht gefunden
-      title: Benutzer oder Nachricht nicht gefunden
+      body: Leider gibt es kein Benutzer mit diesem Namen.
+      heading: Benutzer nicht gefunden
+      title: Benutzer nicht gefunden
     outbox: 
       date: Datum
       inbox: Posteingang
@@ -974,6 +984,9 @@ de:
       title: Nachricht lesen
       to: An
       unread_button: Als ungelesen markieren
+      wrong_user: Sie sind angemeldet als '{{user}}', aber die Nachricht die Sie lesen wollten wurde an einen anderen Benutzer geschickt. Bitte melden Sie sich zum Lesen mit dem korrekten Benutzer an.
+    reply: 
+      wrong_user: Sie sind angemeldet als '{{user}}', aber die Nachricht auf die Sie antworten wollten wurde an einen anderen Benutzer geschickt. Bitte melden Sie sich zum Beantworten mit dem korrekten Benutzer an.
     sent_message_summary: 
       delete_button: Löschen
   notifier: 
@@ -994,8 +1007,9 @@ de:
       hopefully_you_1: Jemand (hoffentlich du) möchte seine E-Mail-Adresse bei
       hopefully_you_2: "{{server_url}} zu {{new_address}} ändern."
     friend_notification: 
+      befriend_them: Du kannst sie / ihn unter {{befriendurl}} ebenfalls als Freund hinzufügen.
       had_added_you: "{{user}} hat dich als Freund hinzugefügt."
-      see_their_profile: Sein Profil ist hier {{userurl}} zu finden, dort kannst du ihn ebenfalls als Freund hinzufügen.
+      see_their_profile: Du kannst sein / ihr Profil unter {{userurl}} ansehen.
       subject: "[OpenStreetMap] {{user}} hat dich als Freund hinzugefügt"
     gpx_notification: 
       and_no_tags: und ohne Tags.
@@ -1101,7 +1115,7 @@ de:
       no_apps: Wenn du mit einer Anwendung gerne den {{oauth}}-Standard verwenden würdest, musst du sie hier registrieren.
       register_new: Anwendung registrieren
       registered_apps: "Du hast die folgenden Client-Anwendungen registriert:"
-      revoke: Wiederrufen!
+      revoke: Widerrufen!
       title: Meine OAuth Details
     new: 
       submit: Registrieren
@@ -1223,6 +1237,9 @@ de:
     sidebar: 
       close: Schließen
       search_results: Suchergebnisse
+  time: 
+    formats: 
+      friendly: "%e %B %Y um %H:%M"
   trace: 
     create: 
       trace_uploaded: Deine GPX-Datei wurde hochgeladen und wartet auf die Aufnahme in die Datenbank. Dies geschieht normalerweise innerhalb einer halben Stunde, anschließend wird dir eine Bestätigungs-E-Mail gesendet.
@@ -1325,14 +1342,21 @@ de:
       trackable: Track (wird in der Trackliste als anonyme, sortierte Punktfolge mit Zeitstempel angezeigt)
   user: 
     account: 
+      current email address: "Aktuelle E-Mail-Adresse:"
+      delete image: Aktuelles Bild löschen
       email never displayed publicly: (nicht öffentlich sichtbar)
       flash update success: Benutzerinformationen erfolgreich aktualisiert.
       flash update success confirm needed: Benutzerinformationen erfolgreich aktualisiert. Du erhältst eine E-Mail, um deine neue E-Mail-Adresse zu bestätigen.
       home location: "Standort:"
+      image: "Bild:"
+      image size hint: (quadratische Bilder mit zumindes 100x100 funktionieren am Besten)
+      keep image: Aktuelles Bild beibehalten
       latitude: "Breitengrad:"
       longitude: "Längengrad:"
       make edits public button: Alle meine Bearbeitungen öffentlich machen
       my settings: Eigene Einstellungen
+      new email address: "Neue E-Mail Adresse:"
+      new image: Bild einfügen
       no home location: Du hast noch keinen Standort angegeben.
       preferred languages: "Bevorzugte Sprachen:"
       profile description: "Profil-Beschreibung:"
@@ -1346,6 +1370,7 @@ de:
       public editing note: 
         heading: Öffentliches Bearbeiten
         text: Im Moment sind deine Beiträge anonym und man kann dir weder Nachrichten senden noch deinen Wohnort sehen. Um sichtbar zu machen, welche Arbeit von dir stammt, und um kontaktierbar zu werden, klicke auf den Button unten. <b>Seit Version 0.6 der API aktiv ist, können anonyme Benutzer die Karte nicht mehr bearbeiten</b> (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">warum?</a>).<ul><li>Deine E-Mail-Adresse wird bei Verlassen des anonymen Statuses nicht veröffentlicht.</li><li>Die Aktion kann nicht rückgängig gemacht werden. Für neu registrierte Benutzer besteht die Möglichkeit des anonymen Accounts nicht mehr.</li></ul>
+      replace image: Aktuelles Bild austauschen
       return to profile: Zurück zum Profil
       save changes button: Speichere Änderungen
       title: Benutzerkonto bearbeiten
@@ -1364,9 +1389,6 @@ de:
       success: Deine E-Mail-Adresse wurde bestätigt, danke fürs Registrieren!
     filter: 
       not_an_administrator: Du must ein Administrator sein um das machen zu dürfen
-    friend_map: 
-      nearby mapper: "Mapper in der Nähe: [[nearby_user]]"
-      your location: Eigener Standort
     go_public: 
       flash success: Alle deine Bearbeitungen sind nun öffentlich und du kannst nun die Kartendaten bearbeiten.
     login: 
@@ -1379,7 +1401,12 @@ de:
       lost password link: Passwort vergessen?
       password: "Passwort:"
       please login: Bitte melde dich an oder {{create_user_link}}.
+      remember: "Anmeldedaten merken:"
       title: Anmelden
+    logout: 
+      heading: Von OpenStreetMap abmelden
+      logout_button: Abmelden
+      title: Abmelden
     lost_password: 
       email address: "E-Mail-Adresse:"
       heading: Passwort vergessen?
@@ -1412,6 +1439,10 @@ de:
       body: Es gibt leider keinen Benutzer mit dem Namen {{user}}. Bitte überprüfe deine Schreibweise oder der Link war beschädigt.
       heading: Der Benutzer {{user}} existiert nicht
       title: Benutzer nicht gefunden
+    popup: 
+      friend: Freund
+      nearby mapper: Mapper in der Nähe
+      your location: Eigener Standort
     remove_friend: 
       not_a_friend: "{{name}} ist nicht dein Freund."
       success: "{{name}} wurde als Freund entfernt."
@@ -1428,17 +1459,14 @@ de:
     view: 
       activate_user: Benutzer aktivieren
       add as friend: Als Freund hinzufügen
-      add image: Ein Bild hinzufügen
       ago: ({{time_in_words_ago}} her)
-      block_history: Blockierungen ansehen
+      block_history: Erhaltene Sperren anzeigen
       blocks by me: Selbst vergebene Sperren
       blocks on me: Erhaltene Sperren
-      change your settings: Ändere deine Einstellungen
       confirm: Bestätigen
       create_block: Diesen Nutzer sperren
       created from: "erstellt aus:"
       deactivate_user: Benutzer deaktivieren
-      delete image: Bild löschen
       delete_user: Benutzer löschen
       description: Beschreibung
       diary: Blog
@@ -1454,12 +1482,11 @@ de:
       my edits: Eigene Bearbeitungen
       my settings: Eigene Einstellungen
       my traces: Eigene Tracks
-      my_oauth_details: Meine OAuth-Details
-      nearby users: "Benutzer in der Nähe:"
+      nearby users: Anwender in der Nähe
       new diary entry: Neuer Blogeintrag
       no friends: Du hast bis jetzt keine Freunde hinzugefügt.
-      no home location: Es wurde kein Standort angegeben.
       no nearby users: Es gibt bisher keine Benutzer, die einen Standort in deiner Nähe angegeben haben.
+      oauth settings: oauth Einstellungen
       remove as friend: Als Freund entfernen
       role: 
         administrator: Dieser Benutzer ist ein Administrator
@@ -1474,15 +1501,13 @@ de:
       settings_link_text: Einstellungen
       traces: Tracks
       unhide_user: Benutzer nicht mehr verstecken
-      upload an image: Ein Bild hochladen
-      user image heading: Benutzerbild
       user location: Standort des Benutzers
       your friends: Eigene Freunde
   user_block: 
     blocks_by: 
       empty: "{{name}} hat noch keine Sperren eingerichtet."
-      heading: Liste der Blockierungen durch {{name}}
-      title: Blockierungen von {{name}}
+      heading: Liste der Sperren durch {{name}}
+      title: Sperre durch {{name}}
     blocks_on: 
       empty: "{{name}} wurde bisher nicht gesperrt."
       heading: Liste der Sperren für {{name}}
@@ -1490,33 +1515,33 @@ de:
     create: 
       flash: Benutzer {{name}} wurde gesperrt.
       try_contacting: Bitte nimm Kontakt mit dem Benutzer auf und gib ihm eine angemessene Zeit zum Antworden, bevor Du ihn sperrst.
-      try_waiting: Bitte gib dem Benutzer einen angemessenen Zeitraum zu antworten bevor Du ihn blockierst.
+      try_waiting: Bitte gib dem Benutzer einen angemessenen Zeitraum zu antworten bevor Du ihn sperrst.
     edit: 
-      back: Alle Blockierungen anzeigen
-      heading: Blockierung von {{name}} bearbeiten
-      needs_view: Muss der Benutzer sich anmelden, damit die Blockierung beendet wird?
-      period: Zeitraum, ab jetzt, den der Benutzer von der API blockiert wird.
-      reason: Der Grund warum {{name}} blockiert wird. Bitte bleibe ruhig und sachlich und versuche so viele Details wie möglich anzugeben. Bedenke, dass nicht alle Benutzer den Community Jargon verstehen und versuche eine Erklärung zu finden, die von Laien verstanden werden kann.
-      show: Diese Blockierung ansehen
-      submit: Blockierung aktualisieren
-      title: Blockierung von {{name}} bearbeiten
+      back: Alle Sperren anzeigen
+      heading: Sperre von {{name}} bearbeiten
+      needs_view: Muss der Benutzer sich anmelden, damit die Sperre aufgehoben wird?
+      period: Dauer, ab jetzt, während der dem Benutzer der Zugriff auf die API gesperrt wird.
+      reason: Der Grund warum {{name}} gesperrt wird. Bitte bleibe ruhig und sachlich und versuche so viele Details wie möglich anzugeben. Bedenke, dass nicht alle Benutzer den Community Jargon verstehen und versuche eine Erklärung zu finden, die von Laien verstanden werden kann.
+      show: Diese Sperre anzeigen
+      submit: Sperre aktualisieren
+      title: Sperre von {{name}} bearbeiten
     filter: 
-      block_expired: Die Blockierung kann nicht bearbeitet werden weil die Blockierungszeit bereits abgelaufen ist.
-      block_period: Die Blockierungszeit muss einer der Werte aus der Drop-Down Liste sein
+      block_expired: Die Sperre kann nicht bearbeitet werden, da die Sperrdauer bereits abgelaufen ist.
+      block_period: Die Sperrdauer muss einem der Werte aus der Drop-Down-Liste entsprechen.
       not_a_moderator: Du musst Moderator sein um diese Aktion durchzuführen.
     helper: 
       time_future: Endet in {{time}}.
       time_past: Endete vor {{time}}
       until_login: Aktiv, bis der Benutzer sich anmeldet.
     index: 
-      empty: Noch nie blockiert.
+      empty: Noch nie gesperrt.
       heading: Liste der Benutzersperren
       title: Benutzersperren
     model: 
       non_moderator_revoke: Du musst Moderator sein, um eine Sperre aufzuheben.
       non_moderator_update: Du musst Moderator sein, um eine Sperre einzurichten oder zu ändern.
     new: 
-      back: Alle Blockierungen anzeigen
+      back: Alle Sperren anzeigen
       heading: Sperre für {{name}} einrichten
       needs_view: Der Benutzer muss sich anmelden, bevor die Sperre aufgehoben wird.
       period: Wie lange der Benutzer von jetzt ab für den Zugriff auf die API gesperrt wird.
@@ -1527,14 +1552,14 @@ de:
       tried_waiting: Ich habe dem Benutzer eine angemessene Zeit eingeräumt, um auf diese Nachrichten zu antworten.
     not_found: 
       back: Zurück zur Übersicht
-      sorry: Sorry, die Blockierung mit der ID {{id}} konnte nicht gefunden werden.
+      sorry: Entschuldigung, die Sperre mit der ID {{id}} konnte nicht gefunden werden.
     partial: 
       confirm: Bist du sicher?
       creator_name: Ersteller
-      display_name: Blockierter Benutzer
+      display_name: Gesperrter Benutzer
       edit: Bearbeiten
       not_revoked: (nicht aufgehoben)
-      reason: Grund der Blockierung
+      reason: Grund der Sperre
       revoke: Aufheben!
       revoker_name: Aufgehoben von
       show: Anzeigen
@@ -1543,7 +1568,7 @@ de:
       one: 1 Stunde
       other: "{{count}} Stunden"
     revoke: 
-      confirm: Bist du sicher, das du diese Blockierung aufheben möchtest?
+      confirm: Bist du sicher, dass du diese Sperre aufheben möchtest?
       flash: Die Sperre wurde aufgehoben.
       heading: Sperre für {{block_on}} durch {{block_by}} aufgehoben
       past: Die Sperre ist seit {{time}} beendet und kann nicht mehr aufgehoben werden.
@@ -1551,19 +1576,19 @@ de:
       time_future: "Blockablaufdatum: {{time}}."
       title: Sperre für {{block_on}} aufheben
     show: 
-      back: Alle Blockierungen anzeigen
+      back: Alle Sperren anzeigen
       confirm: Bist Du sicher?
       edit: Bearbeiten
-      heading: "{{block_on}} blockiert durch {{block_by}}"
-      needs_view: Der Benutzer muss sich wieder anmelden, damit die Blockierung beendet wird.
-      reason: "Grund der Blockierung:"
+      heading: "{{block_on}} gesperrt durch {{block_by}}"
+      needs_view: Der Benutzer muss sich wieder anmelden, damit die Sperre beendet wird.
+      reason: "Grund der Sperre:"
       revoke: Aufheben!
       revoker: "Aufgehoben von:"
       show: anzeigen
       status: Status
       time_future: Endet in {{time}}
       time_past: Geendet vor {{time}}
-      title: "{{block_on}} blockiert von  {{block_by}}"
+      title: "{{block_on}} gesperrt durch  {{block_by}}"
     update: 
       only_creator_can_edit: Nur der Moderator, der die Sperre eingerichtet hat, kann sie ändern.
       success: Block aktualisiert.

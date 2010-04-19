@@ -1,0 +1,92 @@
+<% friends = @user.friends.collect { |f| f.befriendee }.select { |f| !f.home_lat.nil? and !f.home_lon.nil? } %>
+<% nearest = @user.nearby - friends %>
+
+<% if @user.home_lat.nil? or @user.home_lon.nil? %>
+  <% lon = h(params['lon'] || '-0.1') %>
+  <% lat = h(params['lat'] || '51.5') %>
+  <% zoom = h(params['zoom'] || '4') %> 
+<% else %>
+  <% marker = true %>
+  <% mlon = @user.home_lon %> 
+  <% mlat = @user.home_lat %>
+  <% lon =  @user.home_lon %>
+  <% lat =  @user.home_lat %>
+  <% zoom =  '12' %>
+<% end %>
+
+<%= javascript_include_tag '/openlayers/OpenLayers.js' %>
+<%= javascript_include_tag '/openlayers/OpenStreetMap.js' %>
+<%= javascript_include_tag 'map.js' %>
+
+<script type="text/javascript">
+  <!--
+  var marker;
+
+  OpenLayers.Lang.setCode("<%= I18n.locale.to_s %>");
+
+  function init(){
+    var centre = new OpenLayers.LonLat(<%= lon %>, <%= lat %>);
+    var zoom = <%= zoom %>;
+
+    <% if params['scale'] and params['scale'].length > 0 then %>
+    zoom = scaleToZoom(<%= params['scale'].to_f() %>);
+    <% end %>
+
+    var map = createMap("map");
+
+    setMapCenter(centre, zoom);
+
+    <% if marker %>
+    marker = addMarkerToMap(
+      new OpenLayers.LonLat(<%= mlon %>, <%= mlat %>), null,
+      '<%= escape_javascript(render(:partial => "popup", :object => @user, :locals => { :type => "your location" })) %>'
+    );
+    <% end %>
+
+    var near_icon = OpenLayers.Marker.defaultIcon();
+    near_icon.url = OpenLayers.Util.getImagesLocation() + "marker-green.png";
+    <% nearest.each do |u| %>
+      addMarkerToMap(new OpenLayers.LonLat(
+        <%= u.home_lon %>, <%= u.home_lat %>), near_icon.clone(),
+        '<%= escape_javascript(render(:partial => "popup", :object => u, :locals => { :type => "nearby mapper" })) %>'
+      );
+    <% end %>
+
+    var friend_icon = OpenLayers.Marker.defaultIcon();
+    friend_icon.url = OpenLayers.Util.getImagesLocation() + "marker-blue.png";
+    <% friends.each do |u| %>
+      addMarkerToMap(new OpenLayers.LonLat(
+        <%= u.home_lon %>, <%= u.home_lat %>), friend_icon.clone(),
+        '<%= escape_javascript(render(:partial => "popup", :object => u, :locals => { :type => "friend" })) %>'
+      );
+    <% end %>
+
+    if (document.getElementById('updatehome')) {
+      map.events.register("click", map, setHome);
+    }
+  }        
+
+  function setHome( e ) { 
+    closeMapPopup();
+
+    if (document.getElementById('updatehome').checked) {
+      var lonlat = getEventPosition(e);
+
+      document.getElementById('homerow').className = '';
+      document.getElementById('home_lat').value = lonlat.lat;
+      document.getElementById('home_lon').value = lonlat.lon;
+
+      if (marker) {
+        removeMarkerFromMap(marker);
+      }
+
+      marker = addMarkerToMap(
+        lonlat, null, 
+        '<%= escape_javascript(render(:partial => "popup", :object => @user, :locals => { :type => "your location" })) %>'
+      );
+    }
+  }
+
+  window.onload = init;
+// -->
+</script>

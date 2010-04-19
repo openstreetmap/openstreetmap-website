@@ -322,6 +322,10 @@ ru:
       recent_entries: "Недавние записи:"
       title: Дневники
       user_title: Дневник пользователя {{user}}
+    location: 
+      edit: Правка
+      location: "Положение:"
+      view: Вид
     new: 
       title: Сделать новую запись в дневнике
     no_such_entry: 
@@ -361,6 +365,9 @@ ru:
       output: Результат
       paste_html: HTML-код для встраивания на сайт
       scale: Масштаб
+      too_large: 
+        body: Эта область слишком велика, для экспорта в качестве XML данных OpenStreetMap. Пожалуйста, увеличьте масштаб или выберите меньший размер.
+        heading: Область слишком большая
       zoom: Приблизить
     start_rjs: 
       add_marker: Добавить маркер на карту
@@ -856,22 +863,24 @@ ru:
       overlays: 
         maplint: Maplint
     site: 
+      edit_disabled_tooltip: Увеличить масштаб для редактирования карты
+      edit_tooltip: Править карту
       edit_zoom_alert: Необходимо увеличить масштаб карты, если вы хотите ее править.
+      history_disabled_tooltip: Увеличить масштаб для просмотра правок в этой области
+      history_tooltip: Просмотр правок в этой области
       history_zoom_alert: Необходимо увеличить масштаб карты, чтобы увидеть историю правок
   layouts: 
     donate: Поддержите OpenStreetMap {{link}} в Фонд обновления оборудования.
     donate_link_text: пожертвованиями
     edit: Правка
-    edit_tooltip: Редактировать карты
     export: Экспорт
     export_tooltip: Экспортировать данные карты
     gps_traces: GPS-треки
-    gps_traces_tooltip: Работать с треками
+    gps_traces_tooltip: Работать с GPS треками
     help_wiki: Справка и вики
     help_wiki_tooltip: Справка и вики-сайт проекта
     help_wiki_url: http://wiki.openstreetmap.org/wiki/RU:Main_Page?uselang=ru
     history: История
-    history_tooltip: История пакета правок
     home: домой
     home_tooltip: Показать мой дом
     inbox: входящие ({{count}})
@@ -908,13 +917,9 @@ ru:
     user_diaries: Дневники
     user_diaries_tooltip: Посмотреть дневники
     view: Карта
-    view_tooltip: Посмотреть карты
+    view_tooltip: Посмотреть карту
     welcome_user: Добро пожаловать, {{user_link}}
     welcome_user_link_tooltip: Ваша страница пользователя
-  map: 
-    coordinates: "Координаты:"
-    edit: Правка
-    view: Карта
   message: 
     delete: 
       deleted: Сообщение удалено
@@ -945,10 +950,14 @@ ru:
       send_message_to: Отправить новое сообщение для {{name}}
       subject: "Тема:"
       title: Отправить сообщение
+    no_such_message: 
+      body: "\nИзвините, но сообщения с таким ID нет."
+      heading: "\nНет такого сообщения"
+      title: "\nНет такого сообщения"
     no_such_user: 
-      body: К сожалению, не удалось найти пользователя или сообщение с таким именем или идентификатором
-      heading: Нет такого пользователя/сообщения
-      title: Нет такого пользователя/сообщения
+      body: Извините, пользователя с таким именем нет.
+      heading: Нет такого пользователя
+      title: Нет такого пользователя
     outbox: 
       date: Дата
       inbox: входящие
@@ -972,6 +981,9 @@ ru:
       title: Просмотр сообщения
       to: "Кому:"
       unread_button: Пометить как непрочитанное
+      wrong_user: "\nВы вошли как пользователь `{{user}}' но сообщение, которое вы хотите прочитать, отправлено не этим или не этому пользователю. Пожалуйста, войдите как правильный пользователь, чтобы прочитать его."
+    reply: 
+      wrong_user: "\nВы вошли как `{{user}}' но ответ на ваш вопрос был отправлен не этому пользователю. Пожалуйста, войдите как соответствующий вашему вопросу пользователь, чтобы прочитать ответ."
     sent_message_summary: 
       delete_button: Удалить
   notifier: 
@@ -992,8 +1004,9 @@ ru:
       hopefully_you_1: Кто-то (надеемся, что вы) хочет изменить свой адрес электронной почты в
       hopefully_you_2: "{{server_url}} на адрес: {{new_address}}."
     friend_notification: 
+      befriend_them: Вы также можете добавить их в качестве друзей в {{befriendurl}}.
       had_added_you: "{{user}} добавил вас в друзья на OpenStreetMap."
-      see_their_profile: "Вы можете просмотреть информацию о нем по ссылке: {{userurl}} и тоже добавить его в друзья."
+      see_their_profile: "Вы можете просмотреть информацию о них по ссылке: {{userurl}}."
       subject: "[OpenStreetMap] {{user}} добавил вас в список своих друзей"
     gpx_notification: 
       and_no_tags: и без меток.
@@ -1222,6 +1235,9 @@ ru:
     sidebar: 
       close: Закрыть
       search_results: Результаты поиска
+  time: 
+    formats: 
+      friendly: "%e %B %Y в %H:%M"
   trace: 
     create: 
       trace_uploaded: Ваш файл GPX был передан на сервер и сейчас вносится в базу данных. Обычно это занимает от минуты до получаса. По завершении вам будет прислано уведомление на электронную почту.
@@ -1327,15 +1343,20 @@ ru:
   user: 
     account: 
       current email address: "Текущий адрес эл. почты:"
+      delete image: Удалить текущее изображение
       email never displayed publicly: (не будет показан)
       flash update success: Информация о пользователе успешно обновлена.
       flash update success confirm needed: Информация о пользователе успешно обновлена. Проверьте свою электронную почту, чтобы подтвердить ваш новый адрес.
       home location: "Основное местоположение:"
+      image: "Изображение:"
+      image size hint: (квадратные изображения, по крайней мере 100x100 работают лучше)
+      keep image: Хранить текущее изображение
       latitude: "Широта:"
       longitude: "Долгота:"
       make edits public button: Сделать все мои правки доступными
       my settings: Мои настройки
       new email address: "Новый адрес эл. почты:"
+      new image: Добавить изображение
       no home location: Вы не обозначили свое основное местоположение.
       preferred languages: "Предпочитаемые языки:"
       profile description: "Описание профиля:"
@@ -1349,6 +1370,7 @@ ru:
       public editing note: 
         heading: Общедоступная правка
         text: В настоящий момент ваши правки анонимны и никто не может отправлять вам сообщения или видеть ваше местоположение. Чтобы указать авторство своих правок и позволить другим связываться с вами через вебсайт, нажмите на кнопку внизу. <b>После перехода на API  версии 0.6, только доступные для связи пользователи могут править данные карты</b>. (<a href="http://wiki.openstreetmap.org/wiki/RU:Anonymous_edits">узнайте, почему</a>).<ul> <li>Ваш адрес электронной почты не будет раскрыт для других, но связаться с вами будет возможно.</li> <li>Это действие не имеет обратной силы, а все новые пользователи теперь доступны для связи по умолчанию.</li> </ul>
+      replace image: Заменить текущее изображение
       return to profile: Возврат к профилю
       save changes button: Сохранить изменения
       title: Изменение учётной записи
@@ -1367,9 +1389,6 @@ ru:
       success: Ваш адрес электронной почты подтверждён, спасибо за регистрацию!
     filter: 
       not_an_administrator: Только администратор может выполнить это действие.
-    friend_map: 
-      nearby mapper: "Ближайший пользователь: [[nearby_user]]"
-      your location: Ваше местоположение
     go_public: 
       flash success: Все ваши правки теперь общедоступны, и вы теперь можете редактировать.
     login: 
@@ -1382,7 +1401,12 @@ ru:
       lost password link: Забыли пароль?
       password: "Пароль:"
       please login: Пожалуйста, представьтесь или {{create_user_link}}.
+      remember: "\nЗапомнить меня:"
       title: Представьтесь
+    logout: 
+      heading: Выйти из OpenStreetMap
+      logout_button: Выйти
+      title: Выйти
     lost_password: 
       email address: "Аадрес эл. почты:"
       heading: Забыли пароль?
@@ -1415,6 +1439,10 @@ ru:
       body: Извините, нет пользователя с именем {{user}}. Пожалуйста, проверьте правильность ввода. Возможно, вы перешли по ошибочной ссылке.
       heading: Пользователя {{user}} не существует
       title: Нет такого пользователя
+    popup: 
+      friend: Друг
+      nearby mapper: Ближайший пользователь
+      your location: Ваше местоположение
     remove_friend: 
       not_a_friend: "{{name}} не является вашим другом."
       success: "{{name}} удалён из вашего списка друзей."
@@ -1431,17 +1459,14 @@ ru:
     view: 
       activate_user: активировать этого пользователя
       add as friend: добавить в друзья
-      add image: Загрузить
       ago: ({{time_in_words_ago}} назад)
       block_history: полученные блокировки
       blocks by me: наложенные мною блокировки
       blocks on me: мои блокировки
-      change your settings: изменить настройки
       confirm: Подтвердить
       create_block: блокировать пользователя
       created from: "Создано из:"
       deactivate_user: деактивировать этого пользователя
-      delete image: Удалить аватар
       delete_user: удалить этого пользователя
       description: Описание
       diary: дневник
@@ -1457,12 +1482,11 @@ ru:
       my edits: мои правки
       my settings: мои настройки
       my traces: мои треки
-      my_oauth_details: Просмотр подробностей OAuth
-      nearby users: "Ближайшие пользователи:"
+      nearby users: Другие ближайшие пользователи
       new diary entry: новая запись
       no friends: Вы не добавили ещё ни одного друга.
-      no home location: Местонахождение не было указано.
-      no nearby users: Поблизости пока нет пользователей, занимающихся составлением карты.
+      no nearby users: Пока нет других пользователей, признающих, что занимающихся составлением карты поблизости.
+      oauth settings: "\nнастройки OAuth"
       remove as friend: удалить из друзей
       role: 
         administrator: Этот пользователь является администратором
@@ -1477,8 +1501,6 @@ ru:
       settings_link_text: настройки
       traces: треки
       unhide_user: отобразить этого пользователя
-      upload an image: Передать аватар на сервер
-      user image heading: Аватар
       user location: Местонахождение пользователя
       your friends: Ваши друзья
   user_block: 

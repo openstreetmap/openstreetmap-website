@@ -5,13 +5,12 @@
 <% form_tag :action => 'login' do %>
 <%= hidden_field_tag('referer', h(params[:referer])) %>
 <table id="loginForm">
-  <tr><td class="fieldName"><%= t 'user.login.email or username' %></td><td><%= text_field('user', 'email',{:size => 28, :maxlength => 255, :tabindex => 1}) %></td></tr>
-  <tr><td class="fieldName"><%= t 'user.login.password' %></td><td><%= password_field('user', 'password',{:size => 28, :maxlength => 255, :tabindex => 2}) %></td><td> <span class="minorNote">(<%= link_to t('user.login.lost password link'), :controller => 'user', :action => 'lost_password' %>)</span></td></tr>
-<tr><td colspan = "3"><h4><I><%= t 'user.login.alternatively' %></I></h4></td></tr>
-<tr><td class="fieldName"><%= t 'user.login.openid' %></td><td><%= text_field('user', 'openid_url',{:size => 28, :maxlength => 255, :tabindex => 3}) %></td><td> <span class="minorNote">(<a href="<%= t 'user.account.openid.link' %>" target="_new"><%= t 'user.account.openid.link text' %></a>)</span></td></tr>
-
-  <tr><td colspan="2">&nbsp;<!--vertical spacer--></td></tr>
-  <tr><td colspan="2">&nbsp;<!--vertical spacer--></td></tr>
-  <tr><td class="fieldName"><label for="remember_me">Remember me:</label></td><td><%= check_box_tag "remember_me", "yes", false, :tabindex => 3 %></td><td align=right><%= submit_tag t('user.login.login_button'), :tabindex => 3 %></td></tr>
+  <tr><td class="fieldName"><%= t 'user.login.email or username' %></td><td><%= text_field('user', 'email',{:value => "", :size => 28, :maxlength => 255, :tabindex => 1}) %></td></tr>
+  <tr><td class="fieldName"><%= t 'user.login.password' %></td><td><%= password_field('user', 'password',{:value => "", :size => 28, :maxlength => 255, :tabindex => 2}) %></td><td> <span class="minorNote">(<%= link_to t('user.login.lost password link'), :controller => 'user', :action => 'lost_password' %>)</span></td></tr>
+  <tr><td colspan = "3"><h4><I><%= t 'user.login.alternatively' %></I></h4></td></tr>
+  <tr><td class="fieldName"><%= t 'user.login.openid' %></td><td><%= text_field('user', 'openid_url',{:size => 28, :maxlength => 255, :tabindex => 3}) %></td><td> <span class="minorNote">(<a href="<%= t 'user.account.openid.link' %>" target="_new"><%= t 'user.account.openid.link text' %></a>)</span></td></tr>
+  <tr><td colspan="3">&nbsp;<!--vertical spacer--></td></tr>
+  <tr><td colspan="3">&nbsp;<!--vertical spacer--></td></tr>
+  <tr><td class="fieldName"><label for="remember_me"><%= t 'user.login.remember' %></label></td><td><%= check_box_tag "remember_me", "yes", false, :tabindex => 3 %></td><td align=right><%= submit_tag t('user.login.login_button'), :tabindex => 3 %></td></tr>
 </table>
 <% end %>

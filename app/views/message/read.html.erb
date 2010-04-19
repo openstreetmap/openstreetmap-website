@@ -5,24 +5,23 @@
 <table>
   <tr>
     <th align="right"><%= t'message.read.from' %></th>
-    <td>
-     <% if @message.sender.image %>
-        <%= image_tag url_for_file_column(@message.sender, "image") %>
-      <% end %>
-  
-<%= link_to h(@message.sender.display_name), :controller => 'user', :action => 'view', :display_name => @message.sender.display_name %></td>
+    <td><%= link_to h(@message.sender.display_name), :controller => 'user', :action => 'view', :display_name => @message.sender.display_name %></td>
+    <td rowspan="4" valign="top"><%= user_thumbnail @message.sender %></td>
   </tr>
   <tr>
     <th align="right"><%= t'message.read.subject' %></th>
     <td><%= h(@message.title) %></td>
+    <td></td>
   </tr>
   <tr>
     <th align="right"><%= t'message.read.date' %></th>
-    <td><%= l @message.sent_on %></td>
+    <td><%= l @message.sent_on, :format => :friendly %></td>
+    <td></td>
   </tr>
   <tr>
     <th></th>
     <td><%= htmlize(@message.body) %></td>
+    <td></td>
   </tr>
 </table>
 
@@ -44,18 +43,22 @@
   <tr>
     <th align="right"><%= t'message.read.to' %></th>
     <td><%= link_to h(@message.recipient.display_name), :controller => 'user', :action => 'view', :display_name => @message.recipient.display_name %></td>
+    <td rowspan="4" valign="top"><%= user_thumbnail @message.recipient %></td>
   </tr>
   <tr>
     <th align="right"><%= t'message.read.subject' %></th>
     <td><%= h(@message.title) %></td>
+    <td></td>
   </tr>
   <tr>
     <th align="right"><%= t'message.read.date' %></th>
-    <td><%= l @message.sent_on %></td>
+    <td><%= l @message.sent_on, :format => :friendly %></td>
+    <td></td>
   </tr>
   <tr>
     <th></th>
     <td><%= htmlize(@message.body) %></td>
+    <td></td>
   </tr>
 </table>
 

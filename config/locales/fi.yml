@@ -56,6 +56,7 @@ fi:
       node: Piste
       node_tag: Pisteen tägi
       notifier: Ilmoitus
+      old_node: Vanha piste
       old_relation: Vanha relaatio
       old_way: Vanha polku
       relation: Relaatio
@@ -122,7 +123,7 @@ fi:
         node: Näytä piste suurella kartalla
         relation: Näytä relaatio suurella kartalla
         way: Näytä polku suurella kartalla
-      loading: Lataa tietoja...
+      loading: Ladataan…
     node: 
       download: "{{download_xml_link}}, {{view_history_link}} tai {{edit_link}}"
       download_xml: Lataa XML
@@ -304,6 +305,10 @@ fi:
       recent_entries: Uusimmat päiväkirjamerkinnät
       title: Käyttäjien päiväkirjamerkinnät
       user_title: Käyttäjän {{user}} päiväkirja
+    location: 
+      edit: Muokkaa
+      location: "Sijainti:"
+      view: Näytä
     new: 
       title: Uusi päiväkirjamerkintä
     no_such_entry: 
@@ -319,7 +324,7 @@ fi:
       login: Kirjaudu sisään
       login_to_leave_a_comment: "{{login_link}} kommentoidaksesi"
       save_button: Tallenna
-      title: Käyttäjien päiväkirjat | {{user}}
+      title: Käyttäjän {{user}} päiväkirja | {{title}}
       user_title: Käyttäjän {{user}} päiväkirja
   export: 
     start: 
@@ -506,6 +511,7 @@ fi:
           primary: Kantatie
           primary_link: Kantatie
           raceway: Kilparata
+          residential: Asuinkatu
           road: Tie
           secondary: Seututie
           secondary_link: Seututie
@@ -528,11 +534,13 @@ fi:
           wreck: Hylky
         landuse: 
           cemetery: Hautausmaa
+          commercial: Kaupallinen alue
           construction: Rakennustyömaa
           forest: Metsä
           grass: Nurmikko
           industrial: Teollisuusalue
           landfill: Kaatopaikka
+          meadow: Niitty
           military: Sotilasalue
           mine: Kaivos
           mountain: Vuori
@@ -607,12 +615,14 @@ fi:
           town: Kaupunki
           village: Kylä
         railway: 
+          abandoned: Hylätty rautatie
           construction: Rakenteilla oleva rautatie
           disused_station: Käytöstä poistunut rautatieasema
           level_crossing: Tasoristeys
           monorail: Yksikiskoinen raide
           platform: Asemalaituri
           station: Rautatieasema
+          subway: Metroasema
           subway_entrance: Metron sisäänkäynti
           yard: Ratapiha
         shop: 
@@ -691,18 +701,18 @@ fi:
       base: 
         cycle_map: Pyöräilykartta
         noname: Nimettömät tiet
+    site: 
+      edit_tooltip: Muokkaa karttaa
   layouts: 
     donate: Tue OpenStreetMapia {{link}} laitteistopäivitysrahastoon.
     donate_link_text: lahjoittamalla
     edit: Muokkaa
-    edit_tooltip: Muokkaa karttoja
     export: Vienti
     export_tooltip: Karttatiedon vienti
     gps_traces: GPS-jäljet
     help_wiki: Wiki ja ohjeet
     help_wiki_tooltip: Projektin ohje ja wiki
     history: Historia
-    history_tooltip: Muutoshistoria
     home: koti
     home_tooltip: Siirry kotisijaintiin
     inbox: viestit ({{count}})
@@ -734,13 +744,9 @@ fi:
     tag_line: Vapaa wikimaailmankartta
     user_diaries: Päiväkirjamerkinnät
     view: Kartta
-    view_tooltip: Näytä kartat
+    view_tooltip: Näytä kartta
     welcome_user: Tervetuloa, {{user_link}}
     welcome_user_link_tooltip: Käyttäjäsivusi
-  map: 
-    coordinates: "Koordinaatit:"
-    edit: Muokkaa
-    view: Näytä
   message: 
     delete: 
       deleted: Viesti poistettu
@@ -772,8 +778,8 @@ fi:
       subject: Otsikko
       title: Lähetä viesti
     no_such_user: 
-      heading: Käyttäjää tai viestiä ei ole
-      title: Käyttäjää tai viestiä ei ole
+      heading: Käyttäjää ei löydy
+      title: Käyttäjää ei löydy
     outbox: 
       date: Päiväys
       inbox: saapuneet
@@ -968,6 +974,9 @@ fi:
     sidebar: 
       close: Sulje
       search_results: Hakutulokset
+  time: 
+    formats: 
+      friendly: "%e. %Bta %Y kello %H:%M"
   trace: 
     create: 
       trace_uploaded: GPX-tiedostosi on nyt palvelimella ja jonossa tietokantaan syötettäväksi. Yleensä tämä valmistuu puolen tunnin sisällä. Saat vielä sähköpostiisi vahvistuksen asiasta.
@@ -1010,6 +1019,7 @@ fi:
         other: "{{count}} pistettä"
       edit: muokkaa
       edit_map: Muokkaa karttaa
+      identifiable: TUNNISTETTAVA
       in: tägeillä
       map: sijainti kartalla
       more: tiedot
@@ -1034,6 +1044,9 @@ fi:
       traces_waiting: Lähettämiäsi jälkiä on jo {{count}} käsittelyjonossa odottamassa tallennusta tietokantaan. Olisi huomaavaista jos odottaisit näiden valmistuvan ennen kuin lähetät lisää jälkiä. Näin muidenkin käyttäjien lähettämät jäljet pääsevät aiemmin tietokantaan.
     trace_optionals: 
       tags: Tägit
+    trace_paging_nav: 
+      next: Seuraava &raquo;
+      previous: "&laquo; Edellinen"
     view: 
       delete_track: Poista tämä jälki
       description: "Kuvaus:"
@@ -1058,14 +1071,21 @@ fi:
       trackable: Jäljitettävissä (pisteet jaetaan järjestettynä aikaleimoineen, mutta nimettömänä)
   user: 
     account: 
+      current email address: "Nykyinen sähköpostiosoite:"
+      delete image: Poista nykyinen kuva
       email never displayed publicly: (ei näy muille)
       flash update success: Käyttäjätiedot on päivitetty onnistuneesti.
       flash update success confirm needed: Käyttäjätiedot on päivitetty onnistuneesti. Vahvista sähköpostiosoitteesi sinulle lähetettyjen ohjeiden mukaisesti.
       home location: "Kodin sijainti:"
+      image: "Kuva:"
+      image size hint: (parhaiten toimivat neliöt kuvat, joiden koko on vähintään 100x100)
+      keep image: Säilytä nykyinen kuva
       latitude: "Leveyspiiri:"
       longitude: "Pituuspiiri:"
       make edits public button: Tee muokkauksistani julkisia
       my settings: Käyttäjän asetukset
+      new email address: "Uusi sähköpostiosoite:"
+      new image: Lisää kuva
       no home location: Et ole määrittänyt kodin sijaintia.
       preferred languages: "Kielivalinnat:"
       profile description: "Kuvaustekstisi:"
@@ -1078,6 +1098,7 @@ fi:
         heading: "Muokkaukset julkisia:"
       public editing note: 
         heading: Julkinen muokkaus
+      replace image: Korvaa nykyinen kuva
       return to profile: Palaa profiilisivulle
       save changes button: Tallenna muutokset
       title: Asetusten muokkaus
@@ -1096,9 +1117,6 @@ fi:
       success: Sähköpostiosoite on vahvistettu. Kiitos liittymisestä!
     filter: 
       not_an_administrator: Tähän toimintoon tarvitaan ylläpitäjän oikeudet.
-    friend_map: 
-      nearby mapper: "Lähellä oleva kartoittaja: [[nearby_user]]"
-      your location: Oma sijaintisi
     go_public: 
       flash success: Kaikki tekemäsi muokkaukset ovat nyt julkisia.
     login: 
@@ -1111,6 +1129,7 @@ fi:
       lost password link: Salasana unohtunut?
       password: "Salasana:"
       please login: Kirjaudu sisään tai {{create_user_link}}.
+      remember: "Muista minut:"
       title: Kirjautumissivu
     lost_password: 
       email address: "Sähköpostiosoite:"
@@ -1143,6 +1162,10 @@ fi:
       body: Käyttäjää {{user}} ei löytynyt. Tarkista oikeikirjoitus.
       heading: Käyttäjää {{user}} ei ole olemassa
       title: Haettua käyttäjää ei ole olemassa
+    popup: 
+      friend: Ystävä
+      nearby mapper: Lähellä oleva kartoittaja
+      your location: Oma sijaintisi
     remove_friend: 
       not_a_friend: "{{name}} ei ole enää kaverisi."
       success: "{{name}} poistettiin kaverilistastasi."
@@ -1159,16 +1182,13 @@ fi:
     view: 
       activate_user: aktivoi tämä käyttäjä
       add as friend: lisää kaveriksi
-      add image: Tallenna
       ago: ({{time_in_words_ago}} sitten)
       block_history: näytä estot
       blocks by me: tekemäni estot
       blocks on me: saadut estot
-      change your settings: muuta asetuksiasi
       confirm: Vahvista
       create_block: estä tämä käyttäjä
       deactivate_user: deaktivoi tämä käyttäjä
-      delete image: Poista kuva
       delete_user: poista käyttäjä
       description: Kuvaus
       diary: päiväkirja
@@ -1184,12 +1204,11 @@ fi:
       my edits: omat muokkaukset
       my settings: asetukset
       my traces: omat jäljet
-      my_oauth_details: Näytä omat OAuth-yksityiskohdat
-      nearby users: "Lähialueen käyttäjät:"
+      nearby users: Muut lähialueen käyttäjät
       new diary entry: uusi päiväkirjamerkintä
       no friends: Sinulla ei ole vielä kavereita.
-      no home location: Käyttäjä ei ole asettanut kotisijaintiaan.
       no nearby users: Valitun sijainnin lähellä ei ole tiedossa muita käyttäjiä.
+      oauth settings: oauth-asetukset
       remove as friend: poista kavereista
       role: 
         administrator: Tämä käyttäjä on ylläpitäjä.
@@ -1203,8 +1222,6 @@ fi:
       send message: lähetä viesti
       settings_link_text: asetussivulla
       traces: jäljet
-      upload an image: Tallenna kuva
-      user image heading: Käyttäjän kuva
       user location: Käyttäjän sijainti
       your friends: Kaverit
   user_block: 

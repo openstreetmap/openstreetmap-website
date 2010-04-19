@@ -3,6 +3,7 @@
 # Export driver: syck
 # Author: Aude
 # Author: Bassem JARKAS
+# Author: Grille chompa
 # Author: Mutarjem horr
 # Author: OsamaK
 ar: 
@@ -328,6 +329,10 @@ ar:
       recent_entries: "المدخلات اليومية الحديثة:"
       title: يوميات المستخدمين
       user_title: يومية {{user}}
+    location: 
+      edit: عدّل
+      location: "الموقع:"
+      view: اعرض
     new: 
       title: مدخلة يومية جديدة
     no_such_entry: 
@@ -367,6 +372,9 @@ ar:
       output: الخرج
       paste_html: ألصق HTML لتضمينه في موقع ما
       scale: القياس
+      too_large: 
+        body: هذه المنطقة كبيرة جدًا للتصدير على هيئة بيانات إكس إم إل لخريطة الشارع المفتوحة. يرجى تكبير الخريطة أو استخدام منطقة أصغر.
+        heading: المنطقة كبيرة جدًا
       zoom: تكبير
     start_rjs: 
       add_marker: أضف علامة على الخريطة
@@ -852,27 +860,31 @@ ar:
           water_point: نقطة ماء شفة
           waterfall: شلال
           weir: هدار (سدّ منخفض)
+  html: 
+    dir: rtl
   javascripts: 
     map: 
       base: 
         cycle_map: خريطة للدراجات
         noname: التسمية غائبة
     site: 
+      edit_disabled_tooltip: قم بالتكبير لتحرير الخريطة
+      edit_tooltip: عدّل الخريطة
       edit_zoom_alert: يجب عليك التكبير لتعديل الخريطة
+      history_disabled_tooltip: قم بالتكبير لعرض التعديلات في هذه المنطقة
+      history_tooltip: اعرض التعديلات في هذه المنطقة
       history_zoom_alert: يجب التكبير لرؤية تاريخ التعديل
   layouts: 
     donate: ادعم خريطة الشارع المفتوحة ب{{link}} لتمويل ترقية العتاد.
     donate_link_text: التبرع
     edit: عدّل الخريطة
-    edit_tooltip: يمكنك تعديل هذه الخريطة، من فضلك اقرأ صفحة الدليل قبل البدء
     export: صدِّر
     export_tooltip: صدّر بيانات الخريطة
     gps_traces: آثار جي بي أس
-    gps_traces_tooltip: عالج الآثار
+    gps_traces_tooltip: عالج آثار جي بي إس
     help_wiki: المساعدة والويكي
     help_wiki_tooltip: المساعدة وموقع الويكي للمشروع
     history: تاريخ
-    history_tooltip: تاريخ حزمة التغييرات
     home: الصفحة الرئيسية
     home_tooltip: اذهب إلى الصفحة الرئيسية
     inbox: صندوق البريد ({{count}})
@@ -910,13 +922,9 @@ ar:
     user_diaries: يوميات المستخدمين
     user_diaries_tooltip: اعرض يوميات المستخدمين
     view: اعرض
-    view_tooltip: اعرض الخرائط
+    view_tooltip: اعرض الخريطة
     welcome_user: مرحبًا بك، {{user_link}}
     welcome_user_link_tooltip: صفحة المستخدم الخاصة بك
-  map: 
-    coordinates: "الإحداثيات:"
-    edit: عدّل
-    view: اعرض
   message: 
     delete: 
       deleted: حُذفت الرسالة
@@ -947,10 +955,14 @@ ar:
       send_message_to: أرسل رسالة جديدة إلى {{name}}
       subject: الموضوع
       title: أرسل رسالة
+    no_such_message: 
+      body: عذرًا لا يوجد أي رسالة بهذا المعرف.
+      heading: ﻿لا توجد مثل هذه الرسالة
+      title: ﻿لا توجد مثل هذه الرسالة
     no_such_user: 
-      body: عذرًا لا يوجد مستخدم أو رسالة بذلك الاسم أو المعرّف
-      heading: لا يوجد مستخدم أو رسالة
-      title: لا يوجد مستخدم أو رسالة
+      body: عذرًا لا يوجد مستخدم أو رسالة بذلك الاسم.
+      heading: ﻿لا يوجد مثل هذا المستخدم
+      title: ﻿لا يوجد مثل هذا المستخدم
     outbox: 
       date: التاريخ
       inbox: صندوق البريد الوارد
@@ -974,6 +986,9 @@ ar:
       title: اقرأ الرسالة
       to: إلى
       unread_button: علّم كغير مقروءة
+      wrong_user: ﻿أنت مسجل دخول باسم '{{user}}' ولكن الرسالة التي طلبت قراءتها لم تكن من أو إلى ذلك المستخدم. يرجى تسجيل الدخول كمستخدم صحيح للرد.
+    reply: 
+      wrong_user: ﻿أنت مسجل دخول باسم '{{user}}' ولكن الرسالة التي طلبت الرد عليها لم تكن مرسلة لذلك المستخدم. يرجى تسجيل الدخول كمستخدم صحيح للرد.
     sent_message_summary: 
       delete_button: احذف
   notifier: 
@@ -994,8 +1009,9 @@ ar:
       hopefully_you_1: شخص ما (نأمل أنت) يرغب بتغيير عنوان بريده الإلكتروني على
       hopefully_you_2: "{{server_url}} إلى {{new_address}}."
     friend_notification: 
+      befriend_them: ﻿يمكنك أيضًا إضافتهم كصديق على {{befriendurl}}.
       had_added_you: "{{user}} قام بإضافتك كصديق على خريطة الشارع المفتوحة."
-      see_their_profile: يمكنك أن تشاهد ملفه الشخصي على {{userurl}} وإضافته كصديق أيضًا إن كنت ترغب في ذلك.
+      see_their_profile: يمكنك أن تشاهد ملفهم الشخصي على {{userurl}}.
       subject: "[خريطة الشارع المفتوحة] {{user}} أضافك كصديق."
     gpx_notification: 
       and_no_tags: ولا يوجد سمات.
@@ -1222,6 +1238,9 @@ ar:
     sidebar: 
       close: أغلق
       search_results: نتائج البحث
+  time: 
+    formats: 
+      friendly: "%e %B %Y في %H:%M"
   trace: 
     create: 
       trace_uploaded: لقد تم تحميل ملفك الجي بي إكس ويتنظر الإدراج في قاعدة البيانات. وهذا يحدث عادًة خلال نصف ساعة، وسيتم إرسال رسالة إلكترونية لك عند الانتهاء.
@@ -1324,15 +1343,20 @@ ar:
   user: 
     account: 
       current email address: "عنوان البريد الإلكرتروني الحالي:"
+      delete image: أزل الصورة الحالية
       email never displayed publicly: (لا يظهر علنًا)
       flash update success: تم تحديث معلومات المستخدم بنجاح.
       flash update success confirm needed: تم تحديث معلومات المستخدم بنجاح. تحقق من بريدك الإلكتروني لمذكرة تأكيد العنوان الإلكتروني الجديد.
       home location: "موقع المنزل:"
+      image: "﻿الصورة:"
+      image size hint: ﻿(صورة مربعة على الأقل 100 × 100 تعمل بشكل أفضل)
+      keep image: احتفظ بالصورة الحالية
       latitude: "خط العرض:"
       longitude: "خط الطول:"
       make edits public button: اجعل جميع تعديلاتي عامة
       my settings: إعداداتي
       new email address: "عنوان البريد الإلكتروني الجديد:"
+      new image: أضف صورة
       no home location: لم تدخل موقع منزلك.
       preferred languages: "اللغات المفضّلة:"
       profile description: "وصف الملف الشخصي:"
@@ -1346,6 +1370,7 @@ ar:
       public editing note: 
         heading: تعديل عام
         text: حاليًا تعديلاتك تظهر بشكل مجهول ولا يمكن للناس إرسال رسائل لك أو رؤية موقعك. لإظهار ما قمت بتعديله وللسماح للناس بالاتصال بك من خلال الموقع، انقر على الزر أدناه. <b>منذ التغيير إلى الأي بي أي 0.6، فقط المستخدمين العلنيين يمكنه تحرير بيانات الخريطة</b>. (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">لمعرفة السبب</a>). <ul><li>عنوانك البريدي لن يكشف به علنّا.</li><li>هذا الإجراء لا يمكن عكسه وجميع المستخدمين الجديد علنيين بشكل افتراضي.</li></ul>
+      replace image: ﻿استبدل الصورة الحالية
       return to profile: العودة إلى الملف الشخصي
       save changes button: احفظ التغييرات
       title: عدّل الحساب
@@ -1364,9 +1389,6 @@ ar:
       success: تم تأكيد عنوان بريدك الإلكتروني، شكرًا للاشتراك!
     filter: 
       not_an_administrator: عليك أن تكون إداري لتنفيذ هذا الإجراء.
-    friend_map: 
-      nearby mapper: "مخطط بالجوار: [[nearby_user]]"
-      your location: موقعك
     go_public: 
       flash success: جميع تعديلاتك الآن عامة، ومسموح لك بالتعديل الآن.
     login: 
@@ -1379,7 +1401,12 @@ ar:
       lost password link: أنسيت كلمة المرور؟
       password: "كلمة المرور:"
       please login: من فضلك لُج أو {{create_user_link}}.
+      remember: "تذكرني:"
       title: ولوج
+    logout: 
+      heading: الخروج من خريطة الشارع المفتوحة
+      logout_button: اخرج
+      title: اخرج
     lost_password: 
       email address: "عنوان البريد الإلكتروني:"
       heading: أنسيت كلمة المرور؟
@@ -1412,6 +1439,10 @@ ar:
       body: عذرًا، لا يوجد مستخدم بالاسم {{user}}. يرجى تدقيق الاسم، أو ربما يكون الرابط الذي تم النقر عليه خاطئ.
       heading: المستخدم {{user}} غير موجود
       title: مستخدم غير موجود
+    popup: 
+      friend: صديق
+      nearby mapper: مخطط بالجوار
+      your location: موقعك
     remove_friend: 
       not_a_friend: "{{name}} ليس من أحد أصدقائك."
       success: تم إزالة {{name}} من قائمة أصدقائك.
@@ -1428,17 +1459,14 @@ ar:
     view: 
       activate_user: نشّط هذا المستخدم
       add as friend: أضف كصديق
-      add image: أضف صورة
       ago: ({{time_in_words_ago}})
       block_history: اعرض العرقلات الواصلة
       blocks by me: العرقلات بواسطتي
       blocks on me: العرقلات علي
-      change your settings: غيّر إعداداتك
       confirm: أكّد
       create_block: امنع هذا المستخدم
       created from: "أُنشىء من:"
       deactivate_user: احذف هذا المستخدم
-      delete image: احذف الصورة
       delete_user: احذف هذا المستخدم
       description: الوصف
       diary: يومية
@@ -1454,12 +1482,11 @@ ar:
       my edits: مساهماتي
       my settings: إعداداتي
       my traces: آثاري
-      my_oauth_details: اعرض تفاصيل OAuth الخاص بي
-      nearby users: "مستخدمين بالجوار:"
+      nearby users: "مستخدمين أيضًا بالجوار:"
       new diary entry: مدخلة يومية جديدة
       no friends: لم تقم بإضافة أي أصدقاء بعد.
-      no home location: لم يتم تحديد الموقع.
-      no nearby users: لا يوجد بعد مستخدمين أفصحوا عن تخطيطهم بالجوار.
+      no nearby users: لا يوجد بعد المزيد من المستخدمين أفصحوا عن تخطيطهم بالجوار.
+      oauth settings: ﻿إعدادات oauth
       remove as friend: أزل كصديق
       role: 
         administrator: هذا المستخدم إداري
@@ -1474,8 +1501,6 @@ ar:
       settings_link_text: إعدادات
       traces: آثار
       unhide_user: أظهر هذا المستخدم
-      upload an image: حمّل صورة
-      user image heading: صورة المستخدم
       user location: الموقع
       your friends: أصدقاؤك
   user_block: 

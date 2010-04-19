@@ -5,6 +5,7 @@
 # Author: McDutchie
 # Author: PerroVerd
 # Author: Peter17
+# Author: Toliño
 # Author: Translationista
 es: 
   activerecord: 
@@ -291,7 +292,7 @@ es:
       body: "Cuerpo:"
       language: "Idioma:"
       latitude: Latitud
-      location: "Lugar:"
+      location: "Ubicación:"
       longitude: Longitud
       marker_text: Lugar de la entrada del diario
       save_button: Guardar
@@ -318,6 +319,10 @@ es:
       recent_entries: "Entradas recientes en el diario:"
       title: Diarios de usuarios
       user_title: Diario de {{user}}
+    location: 
+      edit: Editar
+      location: "Ubicación:"
+      view: Ver
     new: 
       title: Nueva entrada en el diario
     no_such_entry: 
@@ -341,7 +346,7 @@ es:
       area_to_export: Área a exportar
       embeddable_html: HTML para pegar
       export_button: Exportar
-      export_details: Los datos de OpenStreetMap se encuentran bajo una <a href='http://creativecommons.org/licenses/by-sa/2.0/'>licencia Creative Commons AtribuciÃ³n-Compartir Igual 2.0</a>.
+      export_details: Los datos de OpenStreetMap se encuentran bajo una <a href='http://creativecommons.org/licenses/by-sa/2.0/'>licencia Creative Commons Atribución-Compartir Igual 2.0</a>.
       format: Formato
       format_to_export: Formato de exportación
       image_size: Tamaño de la imagen
@@ -357,6 +362,9 @@ es:
       output: Resultado
       paste_html: HTML para empotrar en otro sitio web
       scale: Escala
+      too_large: 
+        body: Este área es demasiado grande para ser exportado como OpenStreetMap XML. Por favor, haga zoom o seleccione un área más pequeña.
+        heading: El área es demasiado grande
       zoom: Zoom
     start_rjs: 
       add_marker: Añadir un marcador al mapa
@@ -848,22 +856,24 @@ es:
         cycle_map: Mapa ciclista
         noname: Sin nombres
     site: 
+      edit_disabled_tooltip: Haga zoom para editar el mapa
+      edit_tooltip: Edita el mapa
       edit_zoom_alert: Debe hacer más zoom para editar el mapa
+      history_disabled_tooltip: Haga zoom para ver las ediciones de este área
+      history_tooltip: Ver ediciones para este área
       history_zoom_alert: Debe hacer más zoom para ver el histórico de ediciones
   layouts: 
     donate: Apoye a OpenStreetMap {{link}} al Fondo de Actualización de Hardware.
     donate_link_text: donando
     edit: Editar
-    edit_tooltip: Editar mapas
     export: Exportar
     export_tooltip: Exportar datos del mapa
     gps_traces: Trazas GPS
-    gps_traces_tooltip: Gestionar trazas
+    gps_traces_tooltip: Gestiona las trazas GPS
     help_wiki: Ayuda y Wiki
     help_wiki_tooltip: Ayuda y sitio Wiki del proyecto
     help_wiki_url: http://wiki.openstreetmap.org/wiki/ES:Main_Page?uselang=es
     history: Historial
-    history_tooltip: Historial de conjuntos de cambios
     home: inicio
     home_tooltip: Ir a la página inicial
     inbox: bandeja de entrada ({{count}})
@@ -899,13 +909,9 @@ es:
     user_diaries: Diarios de usuario
     user_diaries_tooltip: Ver diarios de usuario
     view: Ver
-    view_tooltip: Ver mapas
+    view_tooltip: Ver el mapa
     welcome_user: Bienvenido, {{user_link}}
     welcome_user_link_tooltip: Tu página de usuario
-  map: 
-    coordinates: Coordenadas
-    edit: Editar
-    view: Ver
   message: 
     delete: 
       deleted: Mensaje borrado
@@ -936,10 +942,14 @@ es:
       send_message_to: Enviar un mensaje nuevo a {{name}}
       subject: Asunto
       title: Enviar mensaje
+    no_such_message: 
+      body: Lo sentimos, no hay ningún mensaje con este identificador.
+      heading: Este mensaje no existe.
+      title: Este mensaje no existe.
     no_such_user: 
-      body: Perdón no existe usuario o mensaje con ese nombre o id
-      heading: No hay tal usuario o mensaje
-      title: No hay tal usuario o mensaje
+      body: Lo sentimos no hay ningún usuario con ese nombre.
+      heading: Este usuario no existe
+      title: Este usuario no existe
     outbox: 
       date: Fecha
       inbox: entrada
@@ -963,6 +973,9 @@ es:
       title: Leer mensaje
       to: A
       unread_button: Marcar como no leído
+      wrong_user: Está conectado como `{{user}}' pero el mensaje que quiere leer no se ha enviado a dicho usuario. Por favor, ingrese con el usuario correcto para ver el mensaje.
+    reply: 
+      wrong_user: Está conectado como `{{user}}' pero el mensaje que quiere responder no se ha enviado a dicho usuario. Por favor, ingrese con el usuario correcto para responder.
     sent_message_summary: 
       delete_button: Borrar
   notifier: 
@@ -983,8 +996,9 @@ es:
       hopefully_you_1: Alguien (posiblemente usted) quiere cambiar la dirección de correo en
       hopefully_you_2: "{{server_url}} a {{new_address}}."
     friend_notification: 
+      befriend_them: También puede añadirle como amigo en {{befriendurl}}.
       had_added_you: "{{user}} te ha añadido como amigo en OpenStreetMap"
-      see_their_profile: Puede ver su perfil en {{userurl}} y añadirle como amigo también, si así­ lo desea
+      see_their_profile: Puede ver su perfil en {{userurl}}.
       subject: "[OpenStreetMap] {{user}} te ha añadido como amigo"
     gpx_notification: 
       and_no_tags: y sin etiquetas
@@ -1212,6 +1226,9 @@ es:
     sidebar: 
       close: Cerrar
       search_results: Resultados de la búsqueda
+  time: 
+    formats: 
+      friendly: "%e %B %Y a las %H:%M"
   trace: 
     create: 
       trace_uploaded: Su archivo GPX ha sido cargado y está esperando ser agregado a la Base de Datos. Esto normalmente ocurre dentro de la próxima media hora, y un email le será enviado al terminar.
@@ -1234,7 +1251,7 @@ es:
       title: Editando trazo {{name}}
       uploaded_at: "Subido el:"
       visibility: "Visibilidad:"
-      visibility_help: ¿Que significa esto?
+      visibility_help: ¿Qué significa esto?
     list: 
       public_traces: Trazas GPS públicas
       public_traces_from: Trazas GPS Publicas de {{user}}
@@ -1314,15 +1331,20 @@ es:
   user: 
     account: 
       current email address: "Dirección de correo electrónico actual:"
+      delete image: Elimina la imagen actual
       email never displayed publicly: (nunca es mostrado públicamente)
       flash update success: La información del usuario se ha actualizado correctamente.
       flash update success confirm needed: La información del usuario se ha actualizado correctamente. Compruebe su correo electrónico para ver una nota sobre cómo confirmar su nueva dirección de correo electrónico.
       home location: "Lugar de origen:"
+      image: "Imagen:"
+      image size hint: (las imágenes cuadradas de al menos 100x100 funcionan mejor)
+      keep image: Mantiene la imagen actual
       latitude: "Latitud:"
       longitude: "Longitud:"
       make edits public button: Hacer que todas mis ediciones sean públicas
       my settings: Mis preferencias
       new email address: "Nueva dirección de correo electrónico:"
+      new image: Añadir una imagen
       no home location: No has introducido tu lugar de origen.
       preferred languages: "Idiomas preferidos:"
       profile description: "Descripción del perfil:"
@@ -1336,6 +1358,7 @@ es:
       public editing note: 
         heading: Edición pública
         text: Actualmente sus ediciones son anónimas y la gente no puede ni enviarle mensajes ni ver su localización. Para mostrar que es lo que ha editado y permitir a la gente contactar con usted a través del sitio web, pulse el botón inferior. <b>Desde la migración a la API 0.6, sólo los usuarios públicos pueden editar el mapa</b> (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">más detalles aquí</a>) <ul><li>Su dirección de correo no será revelada por el hecho de ser público. </li><li>Esta acción no puede ser revertida y todos los nuevos usuarios son públicos por omisión.</li></ul>
+      replace image: Reemplazar la imagen actual
       return to profile: Regresar al perfil
       save changes button: Guardar cambios
       title: Editar cuenta
@@ -1354,9 +1377,6 @@ es:
       success: Dirección de correo electrónico confirmada. ¡Gracias por registrarse!
     filter: 
       not_an_administrator: Necesitas ser administrador para ejecutar esta acción.
-    friend_map: 
-      nearby mapper: "Mapeadores cercanos:"
-      your location: "Tu lugar de origen:"
     go_public: 
       flash success: Ahora todas tus ediciones son públicas y ya estás autorizado para editar
     login: 
@@ -1369,7 +1389,12 @@ es:
       lost password link: ¿Ha perdido su contraseña?
       password: Contraseña
       please login: Por favor inicie sesión o {{create_user_link}}.
+      remember: "Recordarme:"
       title: Iniciar sesión
+    logout: 
+      heading: Salir de OpenStreetMap
+      logout_button: Cerrar sesión
+      title: Cerrar sesión
     lost_password: 
       email address: "Dirección de correo:"
       heading: ¿Contraseña olvidada?
@@ -1402,6 +1427,10 @@ es:
       body: Perdón, No existe usuario con el nombre {{user}}. Por favor verifica las letras, o posiblemente el vínculo que has hecho click está equivocado.
       heading: El usuario {{user}} no existe
       title: Este usuario no existe
+    popup: 
+      friend: Amigo
+      nearby mapper: Mapeadores cercanos
+      your location: "Tu lugar de origen:"
     remove_friend: 
       not_a_friend: "{{name}} no es uno de tus amigos."
       success: Has quitado a {{name}} de tus amigos.
@@ -1418,17 +1447,14 @@ es:
     view: 
       activate_user: activar este usuario
       add as friend: añadir como amigo
-      add image: Añadir imagen
       ago: (hace {{time_in_words_ago}})
       block_history: ver los bloqueos recibidos
       blocks by me: bloqueados por mi
       blocks on me: bloqueos sobre mi
-      change your settings: cambiar tu configuración
       confirm: Confirmar
       create_block: bloquear a este usuario
       created from: "Creado a partir de:"
       deactivate_user: desactivar este usuario
-      delete image: Borrar imagen
       delete_user: borrar este usuario
       description: Descripción
       diary: diario
@@ -1444,12 +1470,11 @@ es:
       my edits: mis ediciones
       my settings: mis preferencias
       my traces: mis trazas
-      my_oauth_details: Ver mis detalles OAuth
-      nearby users: "Usuarios cercanos:"
+      nearby users: "Otros usuarios cercanos:"
       new diary entry: nueva entrada de diario
       no friends: No has añadido ningún amigo aún.
-      no home location: No se ha fijado ninguna localización.
-      no nearby users: Todavía no hay usuarios que reconozcan el estar mapeando cerca.
+      no nearby users: Todavía no hay usuarios que se hayan ubicado en su proximidad.
+      oauth settings: ajustes OAuth
       remove as friend: eliminar como amigo
       role: 
         administrator: Este usuario es un administrador
@@ -1464,32 +1489,30 @@ es:
       settings_link_text: preferencias
       traces: trazas
       unhide_user: descubrir este usuario
-      upload an image: Subir una imagen
-      user image heading: Imagen del usuario
       user location: Localización del usuario
       your friends: Tus amigos
   user_block: 
     blocks_by: 
-      empty: "{{name}} todavía no ha creado ningún bloque."
-      heading: Listado de bloques por {{name}}
-      title: Bloques por {{name}}
+      empty: "{{name}} todavía no ha creado ningún bloqueo."
+      heading: Listado de bloqueos por {{name}}
+      title: Bloqueos por {{name}}
     blocks_on: 
       empty: "{{name}} no ha sido bloqueado todavía."
-      heading: Listado de bloques en {{name}}
+      heading: Listado de bloqueos en {{name}}
       title: Bloqueos para {{name}}
     create: 
       flash: Ha creado un bloque en el usuario {{name}}.
       try_contacting: Por favor, antes de bloquear al usuario, intenta contactarle y darle un tiempo razonable de respuesta.
       try_waiting: Por favor, trata de darle al usuario un tiempo razonable de respuesta antes de bloquearle.
     edit: 
-      back: Ver todos los bloques
-      heading: Editando el bloque en {{name}}
+      back: Ver todos los bloqueos
+      heading: Editando el bloqueo en {{name}}
       needs_view: ¿Necesita el usuario hacer login antes de que este bloqueo sea eliminado_
       period: ¿Por cuánto tiempo, empezando ahora, tiene que estar el usuario bloqueado del uso de la API?
       reason: El motivo por el que {{name}} está siendo bloqueado. Por favor, escriba todo lo calmado y razonable que pueda, proporcionando todos los detalles que pueda sobre la situación. Tenga en cuenta que no todos los usuarios entienden la jerga de la comunidad, así que por favor trate de usar un lenguaje plano.
-      show: Ver este bloque
-      submit: Actualizar el bloque
-      title: Editando el bloque en {{name}}
+      show: Ver este bloqueo
+      submit: Actualizar el bloqueo
+      title: Editando el bloqueo en {{name}}
     filter: 
       block_expired: Este bloqueo ya ha expirado y no puede ser editado.
       block_period: El periodo de bloqueo debe de ser uno de los valores seleccionables de la lista desplegable
@@ -1533,13 +1556,13 @@ es:
       one: 1 hora
       other: "{{count}} horas"
     revoke: 
-      confirm: ¿Seguro que deseas revocar este bloque?
-      flash: Este bloque ha sido revocado.
-      heading: Revocando bloque en {{block_on}} por {{block_by}}
-      past: Este bloque terminó hace {{time}} y no puede ser revocado ahora.
+      confirm: ¿Seguro que deseas revocar este bloqueo?
+      flash: Este bloqueo ha sido revocado.
+      heading: Revocando bloqueo en {{block_on}} por {{block_by}}
+      past: Este bloqueo terminó hace {{time}} y no puede ser revocado ahora.
       revoke: Revocar
-      time_future: Este bloque finalizará en {{time}}.
-      title: Revocando bloque en {{block_on}}
+      time_future: Este bloqueo finalizará en {{time}}.
+      title: Revocando bloqueo en {{block_on}}
     show: 
       back: Ver todos los bloqueos
       confirm: ¿Está seguro?
@@ -1555,7 +1578,7 @@ es:
       time_past: Finalizado hace {{time}}
       title: "{{block_on}} bloqueado por {{block_by}}"
     update: 
-      only_creator_can_edit: Sólo el moderador que ha creado este bloque puede editarlo.
+      only_creator_can_edit: Sólo el moderador que ha creado este bloqueo puede editarlo.
       success: Bloqueo actualizado.
   user_role: 
     filter: 

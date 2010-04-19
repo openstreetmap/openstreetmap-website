@@ -319,6 +319,10 @@ nl:
       recent_entries: "Recente dagboekberichten:"
       title: Gebruikersdagboeken
       user_title: Dagboek van {{user}}
+    location: 
+      edit: Bewerken
+      location: "Locatie:"
+      view: Bekijken
     new: 
       title: Nieuw dagboekbericht
     no_such_entry: 
@@ -328,7 +332,7 @@ nl:
     no_such_user: 
       body: Sorry, er is geen gebruiker met de naam {{user}}. Controleer de spelling, of misschien is de verwijzing waarop u geklikt hebt onjuist.
       heading: De gebruiker {{user}} bestaat niet
-      title: De opgevraagde gebruiker bestaat niet
+      title: Deze gebruiker bestaat niet
     view: 
       leave_a_comment: Opmerking achterlaten
       login: aanmelden
@@ -358,6 +362,9 @@ nl:
       output: Uitvoer
       paste_html: Kopieer de HTML-code en voeg deze toe aan uw website
       scale: Schaal
+      too_large: 
+        body: Dit gebied is te groot om als OpenStreetMap XML-gegevens te exporteren. Zoom in of selecteer een kleiner gebied.
+        heading: Gebied te groot
       zoom: Zoom
     start_rjs: 
       add_marker: Marker op de kaart zetten
@@ -731,7 +738,7 @@ nl:
           tram_stop: Tramhalte
           yard: Rangeerterrein
         shop: 
-          alcohol: Verkooppunt alcoholische dranken
+          alcohol: Slijterij
           apparel: Kledingwinkel
           art: Kunstwinkel
           bakery: Bakkerij
@@ -756,7 +763,7 @@ nl:
           department_store: Warenhuis
           discount: Discountwinkel
           doityourself: Doe-het-zelf-winkel
-          drugstore: Apotheek
+          drugstore: Drogisterij
           dry_cleaning: Stomerij
           electronics: Elektronicawinkel
           estate_agent: Makelaar
@@ -766,13 +773,13 @@ nl:
           florist: Bloemist
           food: Etenswarenwinkel
           funeral_directors: Uitvaartcentrum
-          furniture: Meulbelzaak
+          furniture: Meubelzaak
           gallery: Galerie
           garden_centre: Tuincentrum
           general: Algemene winkel
           gift: Cadeauwinkel
           greengrocer: Groenteboer
-          grocery: Groentenwinkel
+          grocery: Kruidenierswinkel
           hairdresser: Kapper
           hardware: Gereedschappenwinkel
           hifi: Hi-fi
@@ -800,7 +807,7 @@ nl:
           toys: Speelgoedwinkel
           travel_agency: Reisbureau
           video: Videotheek
-          wine: Verkooppunt alcoholische dranken
+          wine: Slijterij
         tourism: 
           alpine_hut: Berghut
           artwork: Kunst
@@ -831,7 +838,7 @@ nl:
           ditch: Sloot
           dock: Dock
           drain: Afvoerkanaal
-          lock: Sluis
+          lock: Schutsluis
           lock_gate: Sluisdeur
           mineral_spring: Bron
           mooring: Aanlegplaats
@@ -849,21 +856,23 @@ nl:
         cycle_map: Fietskaart
         noname: GeenNaam
     site: 
+      edit_disabled_tooltip: Zoom in om de kaart te bewerken
+      edit_tooltip: Kaart bewerken
       edit_zoom_alert: U moet inzoomen om de kaart te bewerken
+      history_disabled_tooltip: Zoom in om de bewerkingen voor dit gebied te bekijken
+      history_tooltip: Bewerkingen voor dit gebied bekijken
       history_zoom_alert: U moet inzoomen om de kaart te bewerkingsgeschiedenis te bekijken
   layouts: 
     donate: Ondersteun OpenStreetMap door te {{link}} aan het Hardware Upgrade-fonds.
     donate_link_text: doneren
     edit: Bewerken
-    edit_tooltip: Kaarten bewerken
     export: Exporteren
     export_tooltip: Kaartgegevens exporteren
     gps_traces: GPS-tracks
-    gps_traces_tooltip: Tracks beheren
+    gps_traces_tooltip: GPS-tracks beheren
     help_wiki: Help &amp; wiki
     help_wiki_tooltip: Help en wikisite voor het project
     history: Geschiedenis
-    history_tooltip: Wijzigingensetgeschiedenis
     home: home
     home_tooltip: Naar thuislocatie gaan
     inbox: Postvak IN ({{count}})
@@ -899,13 +908,9 @@ nl:
     user_diaries: Gebruikersdagboeken
     user_diaries_tooltip: Gebruikersdagboeken bekijken
     view: Bekijken
-    view_tooltip: Kaarten bekijken
+    view_tooltip: Kaart bekijken
     welcome_user: Welkom, {{user_link}}
     welcome_user_link_tooltip: Uw gebruikerspagina
-  map: 
-    coordinates: "Coördinaten:"
-    edit: Bewerken
-    view: Bekijken
   message: 
     delete: 
       deleted: Het bericht is verwijderd
@@ -936,10 +941,14 @@ nl:
       send_message_to: Een persoonlijk bericht naar {{name}} versturen
       subject: Onderwerp
       title: Bericht verzenden
+    no_such_message: 
+      body: Er is geen bericht met dat ID.
+      heading: Bericht bestaat niet
+      title: Dat bericht bestaat niet
     no_such_user: 
-      body: Sorry, er is geen gebruiker of bericht met die naam of id
-      heading: Deze gebruiker of dit bericht bestaat niet
-      title: De gebruiker of het bericht bestaat niet
+      body: Er is geen gebruiker die naam.
+      heading: Deze gebruiker bestaat niet
+      title: Deze gebruiker bestaat niet
     outbox: 
       date: Datum
       inbox: Postvak IN
@@ -963,6 +972,9 @@ nl:
       title: Bericht lezen
       to: Aan
       unread_button: Markeren als ongelezen
+      wrong_user: "U bent aangemeld als \"{{user}}\", maar het bericht dat u wilt lezen is niet aan die gebruiker gericht.\nMeld u aan als de juiste gebruiker om het te lezen."
+    reply: 
+      wrong_user: U bent aangemeld als "{{user}}", maar het bericht waarop u wilt antwoorden is niet aan die gebruiker gericht. Meld u aan als de juiste gebruiker om te antwoorden.
     sent_message_summary: 
       delete_button: Verwijderen
   notifier: 
@@ -983,8 +995,9 @@ nl:
       hopefully_you_1: Iemand - hopelijk u - wil zijn e-mailadres  op
       hopefully_you_2: "{{server_url}} wijzigen naar {{new_address}}."
     friend_notification: 
+      befriend_them: U kunt deze gebruiker ook als vriend toevoegen op {{befriendurl}}.
       had_added_you: "{{user}} heeft u toegevoegd als vriend op OpenStreetMap."
-      see_their_profile: U kunt zijn/haar profiel bekijken op {{userurl}} en deze gebruiker ook als vriend toevoegen.
+      see_their_profile: U kunt zijn/haar profiel bekijken op {{userurl}}.
       subject: "[OpenStreetMap] {{user}} heeft u als vriend toegevoegd"
     gpx_notification: 
       and_no_tags: en geen labels.
@@ -1210,6 +1223,9 @@ nl:
     sidebar: 
       close: Sluiten
       search_results: Zoekresultaten
+  time: 
+    formats: 
+      friendly: "%e %B %Y om %H:%M"
   trace: 
     create: 
       trace_uploaded: Uw track is geüpload en staat te wachten totdat hij in de database wordt opgenomen. Dit gebeurt meestal binnen een half uur. U ontvangt dan een e-mail.
@@ -1243,7 +1259,7 @@ nl:
     no_such_user: 
       body: Sorry, er is geen gebruiker {{user}}. Controleer de spelling, of misschien is de verwijzing waarop u geklikt hebt onjuist.
       heading: De gebruiker {{user}} bestaat niet
-      title: De gebruiker bestaat niet
+      title: Deze gebruiker bestaat niet
     offline: 
       heading: De opslag van GPX-bestanden is niet beschikbaar
       message: Het systeem voor het opslaan en uploaden van GPX-bestanden is op het moment niet beschikbaar.
@@ -1313,15 +1329,20 @@ nl:
   user: 
     account: 
       current email address: "Huidige e-mailadres:"
+      delete image: Huidige afbeelding verwijderen
       email never displayed publicly: (nooit openbaar gemaakt)
       flash update success: De gebruikersinformatie is bijgewerkt.
       flash update success confirm needed: De gebruikersinformatie is bijgewerkt. Controleer uw e-mail om uw nieuwe e-mailadres te bevestigen.
       home location: "Thuislocatie:"
+      image: "Afbeelding:"
+      image size hint: (vierkante afbeeldingen van minstens 100x100 pixels werken het beste)
+      keep image: Huidige afbeelding behouden
       latitude: "Breedtegraad:"
       longitude: "Lengtegraad:"
       make edits public button: Al mijn wijzigingen  openbaar maken
       my settings: Mijn instellingen
       new email address: "Nieuw e-mailadres:"
+      new image: Afbeelding toevoegen
       no home location: Er is geen thuislocatie ingevoerd.
       preferred languages: "Voorkeurstalen:"
       profile description: "Profielbeschrijving:"
@@ -1335,6 +1356,7 @@ nl:
       public editing note: 
         heading: Publiek bewerken
         text: Op dit moment zijn uw bewerkingen anoniem en kunnen andere gebruikers u geen berichten sturen of uw locatie zien. Om uw bewerkingen weer te kunnen geven en andere gebruikers in staat te stellen in contact met u te komen, kunt u op de onderstaande knop klikken. <b>Sinds de overgang naar versie 0.6 van de API kunnen alleen publieke gebruikers de kaartgegevens bewerken</b> (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">meer informatie</a>).<ul><li>Uw e-mailadres wordt niet publiek gemaakt door uw bewerkingen publiek te maken.</li><li>Deze handeling kan niet ongedaan gemaakt worden en alle nieuwe gebrukers zijn nu standaard publiek.</li></ul>
+      replace image: Huidige afbeelding vervangen
       return to profile: Terug naar profiel
       save changes button: Wijzgingen opslaan
       title: Gebruiker bewerken
@@ -1353,9 +1375,6 @@ nl:
       success: Uw e-mailadres is bevestigd. Dank u wel voor het registreren!
     filter: 
       not_an_administrator: U moet beheerder zijn om deze handeling uit te kunnen voeren.
-    friend_map: 
-      nearby mapper: "Dichtbijzijnde mapper: [[nearby_user]]"
-      your location: Uw locatie
     go_public: 
       flash success: Al uw bewerkingen zijn nu openbaar en u kunt bewerken.
     login: 
@@ -1368,7 +1387,12 @@ nl:
       lost password link: Wachtwoord vergeten?
       password: "Wachtwoord:"
       please login: Aanmelden of {{create_user_link}}.
+      remember: "Aanmeldgegevens onthouden:"
       title: Aanmelden
+    logout: 
+      heading: Afmelden van OpenStreetMap
+      logout_button: Afmelden
+      title: Afmelden
     lost_password: 
       email address: "E-mailadres:"
       heading: Wachtwoord vergeten?
@@ -1401,6 +1425,10 @@ nl:
       body: Sorry, er is geen gebruiker met de naam {{user}}. Controleer de spelling, of misschien is de link waarop je klikte onjuist.
       heading: De gebruiker {{user}} bestaat niet
       title: Deze gebruiker bestaat niet
+    popup: 
+      friend: Vriend
+      nearby mapper: Dichtbijzijnde mapper
+      your location: Uw locatie
     remove_friend: 
       not_a_friend: "{{name}} staat niet in uw vriendelijst."
       success: "{{name}} is verwijderd uit uw vriendenlijst."
@@ -1417,17 +1445,14 @@ nl:
     view: 
       activate_user: gebruiker actief maken
       add as friend: vriend toevoegen
-      add image: Afbeelding toevoegen
       ago: ({{time_in_words_ago}} geleden)
       block_history: blokkades voor mij
       blocks by me: blokkades door mij
       blocks on me: blokkades door mij
-      change your settings: Instellingen aanpassen
       confirm: Bevestigen
       create_block: gebruiker blokkeren
       created from: "Aangemaakt door:"
       deactivate_user: gebruiker inactief maken
-      delete image: Afbeelding verwijderen
       delete_user: gebruiker verwijderen
       description: Beschrijving
       diary: dagboek
@@ -1435,7 +1460,7 @@ nl:
       email address: "E-mailadres:"
       hide_user: gebruikers verbergen
       if set location: Als u uw locatie instelt, verschijnt er hieronder een kaart. U kunt de locatie instellen in uw {{settings_link}}.
-      km away: "{{count}}km ver"
+      km away: "{{count}} km verwijderd"
       m away: "{{count}} m verwijderd"
       mapper since: "Mapper sinds:"
       moderator_history: ingesteld blokkades bekijken
@@ -1443,12 +1468,11 @@ nl:
       my edits: mijn bewerkingen
       my settings: mijn instellingen
       my traces: mijn tracks
-      my_oauth_details: Mijn OAuth-gegevens bekijken
-      nearby users: "Dichtbijzijnde mappers:"
+      nearby users: Andere dichtbijzijnde gebruikers
       new diary entry: nieuw dagboekbericht
       no friends: U hebt nog geen vrienden toegevoegd.
-      no home location: Geen thuislocatie ingesteld.
-      no nearby users: Er zijn geen dichtbijzijnde mappers.
+      no nearby users: Er zijn geen andere gebruikers die hebben aangegeven in de buurt te mappen.
+      oauth settings: Oauth-instellingen
       remove as friend: vriend verwijderen
       role: 
         administrator: Deze gebruiker is beheerder
@@ -1463,8 +1487,6 @@ nl:
       settings_link_text: voorkeuren
       traces: tracks
       unhide_user: gebruiker weer zichtbaar maken
-      upload an image: Afbeelding uploaden
-      user image heading: Gebruikersafbeelding
       user location: Gebruikerslocatie
       your friends: Uw vrienden
   user_block: 

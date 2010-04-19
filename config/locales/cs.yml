@@ -4,6 +4,7 @@
 # Author: Bilbo
 # Author: Masox
 # Author: Mormegil
+# Author: Mr. Richard Bolla
 cs: 
   activerecord: 
     attributes: 
@@ -187,6 +188,7 @@ cs:
         type: 
           node: Uzel
           way: Cesta
+      private_user: anonym
       show_history: Zobrazit historii
       unable_to_load_size: "Nelze načíst: Rozměr [[bbox_size]] je příliš velký (maximum je {{max_bbox_size}})"
       wait: Čekejte...
@@ -227,7 +229,9 @@ cs:
       still_editing: (stále se upravuje)
       view_changeset_details: Zobrazit detaily sady změn
     changeset_paging_nav: 
-      showing_page: Zobrazuji stranu
+      next: Následující &raquo;
+      previous: "&laquo; Předchozí"
+      showing_page: Zobrazuji stranu {{page}}
     changesets: 
       area: Oblast
       comment: Komentář
@@ -277,7 +281,7 @@ cs:
       login: Přihlaste se
       login_to_leave_a_comment: "{{login_link}} k zanechání komentáře"
       save_button: Uložit
-      title: Deníčky uživatelů | {{user}}
+      title: Deníček uživatele {{user}} | {{title}}
   export: 
     start: 
       add_marker: Přidat do mapy značku
@@ -295,9 +299,13 @@ cs:
       mapnik_image: Obrázek z Mapniku
       max: max.
       options: Nastavení
+      osmarender_image: Obrázek z Osmarenderu
       output: Výstup
       paste_html: Ke vložení na stránku použijte toto HTML
       scale: Měřítko
+      too_large: 
+        body: Tato oblast je pro export do XML formátu OpenStreetMap příliš velká. Přejděte na větší měřítko nebo zvolte menší oblast.
+        heading: Příliš velká oblast
     start_rjs: 
       add_marker: Přidat do mapy značku
       change_marker: Změnit umístění značky
@@ -346,10 +354,34 @@ cs:
       suffix_place: ", {{distance}} na {{direction}} od {{placename}}"
     search_osm_nominatim: 
       prefix: 
+        amenity: 
+          cinema: Kino
+          parking: Parkoviště
+          post_office: Pošta
+          toilets: Toalety
+        building: 
+          train_station: Železniční stanice
+        highway: 
+          bus_stop: Autobusová zastávka
+          gate: Brána
+          secondary: Silnice II. třídy
+          steps: Schody
+        historic: 
+          museum: Muzeum
         leisure: 
           garden: Zahrada
           miniature_golf: Minigolf
+          nature_reserve: Přírodní rezervace
           park: Park
+          pitch: Hřiště
+          stadium: Stadion
+        natural: 
+          beach: Pláž
+          glacier: Ledovec
+          hill: Kopec
+          island: Ostrov
+          tree: Strom
+          valley: Údolí
         place: 
           airport: Letiště
           city: Velkoměsto
@@ -365,8 +397,14 @@ cs:
           region: Region
           sea: Moře
           state: Stát
+          suburb: Městská část
           town: Město
           village: Vesnice
+        railway: 
+          halt: Železniční zastávka
+          subway: Stanice metra
+        shop: 
+          hairdresser: Kadeřnictví
         tourism: 
           alpine_hut: Vysokohorská chata
           attraction: Turistická atrakce
@@ -388,17 +426,15 @@ cs:
     map: 
       base: 
         cycle_map: Cyklomapa
-        noname: Bezejmenné ulice
+        noname: Nepojmenované ulice
   layouts: 
     edit: Upravit
-    edit_tooltip: Upravovat mapy
     export: Export
     export_tooltip: Exportovat mapová data
     help_wiki: Nápověda &amp; wiki
     help_wiki_tooltip: Server s nápovědou a wiki k tomuto projektu
     help_wiki_url: http://wiki.openstreetmap.org/wiki/Cs:Main_Page?uselang=cs
     history: Historie
-    history_tooltip: Historie změn
     home: domů
     home_tooltip: Přejít na polohu domova
     inbox: zprávy ({{count}})
@@ -409,8 +445,9 @@ cs:
       zero: Nemáte žádné nepřečtené zprávy
     intro_1: OpenStreetMap je svobodná editovatelná mapa celého světa. Tvoří ji lidé jako vy.
     intro_2: OpenStreetMap vám umožňuje společně si prohlížet, upravovat a používat geografická data z libovolného místa na Zemi.
-    intro_3: Hosting OpenStreetMap laskavě poskytují {{ucl}} a {{bytemark}}.
+    intro_3: Hosting OpenStreetMap laskavě poskytují {{ucl}} a {{bytemark}}. Další partneři projektu jsou uvedeni na {{partners}}.
     intro_3_bytemark: bytemark
+    intro_3_partners: wiki
     intro_3_ucl: středisko VR UCL
     license: 
       title: Data OpenStreetMap jsou k dispozici pod licencí Creative Commons Uveďte autora-Zachovejte licenci 2.0 Generic
@@ -431,16 +468,13 @@ cs:
     shop_tooltip: Obchod se zbožím s logem OpenStreetMap
     sign_up: zaregistrovat se
     sign_up_tooltip: Vytvořit si uživatelský účet pro editaci
+    tag_line: Otevřená wiki-mapa světa
     user_diaries: Deníčky
     user_diaries_tooltip: Zobrazit deníčky uživatelů
     view: Zobrazit
-    view_tooltip: Zobrazit mapy
+    view_tooltip: Zobrazit mapu
     welcome_user: Vítejte, {{user_link}}
     welcome_user_link_tooltip: Vaše uživatelská stránka
-  map: 
-    coordinates: "Souřadnice:"
-    edit: Upravit
-    view: Zobrazit
   message: 
     delete: 
       deleted: Zpráva smazána
@@ -493,6 +527,8 @@ cs:
       the_wiki_url: http://wiki.openstreetmap.org/wiki/Cs:Beginners_Guide?uselang=cs
       wiki_signup_url: http://wiki.openstreetmap.org/index.php?title=Special:UserLogin&type=signup&returnto=Cs:Main_Page&uselang=cs
   site: 
+    edit: 
+      flash_player_required: Pokud chcete používat Potlatch, flashový editor OpenStreetMap, potřebujete přehrávač Flashe. Můžete si <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">stáhnout Flash Player z Adobe.com</a>. Pro editaci OpenStreetMap existuje <a href="http://wiki.openstreetmap.org/wiki/Editing">mnoho dalších možností</a>.
     index: 
       js_1: Buď používáte prohlížeč bez podpory JavaScriptu, nebo máte JavaScript zakázaný.
       license: 
@@ -502,8 +538,8 @@ cs:
       permalink: Trvalý odkaz
       shortlink: Krátký odkaz
     key: 
-      map_key: Mapový klíč
-      map_key_tooltip: Mapový klíč pro vykreslení mapnikem na této úrovni přiblížení
+      map_key: Legenda
+      map_key_tooltip: Legenda pro vykreslení mapnikem na této úrovni přiblížení
       table: 
         entry: 
           admin: Administrativní hranice
@@ -560,13 +596,13 @@ cs:
             - Vrchol
             - hora
           tourist: Turistická atrakce
-          track: Lesní či polní cesta
+          track: Lesní a polní cesta
           tram: 
             - Rychlodráha
             - tramvaj
           trunk: Významná silnice
           tunnel: Čárkované obrysy = tunel
-          unclassified: Silnice bez klasifikace
+          unclassified: Silnice
           unsurfaced: Nezpevněná cesta
         heading: Legenda pro z{{zoom_level}}
     search: 
@@ -600,9 +636,12 @@ cs:
     list: 
       your_traces: Vaše GPS záznamy
     no_such_user: 
+      body: Lituji, ale uživatel {{user}} neexistuje. Zkontrolujte překlepy nebo jste možná klikli na chybný odkaz.
       heading: Uživatel {{user}} neexistuje
+      title: Uživatel nenalezen
     trace: 
       ago: před {{time_in_words_ago}}
+      by: od
       count_points: "{{count}} bodů"
       edit: upravit
       edit_map: Upravit mapu
@@ -626,6 +665,8 @@ cs:
     trace_optionals: 
       tags: Tagy
     trace_paging_nav: 
+      next: Následující &raquo;
+      previous: "&laquo; Předchozí"
       showing_page: Zobrazuji stranu {{page}}
     view: 
       description: "Popis:"
@@ -645,12 +686,17 @@ cs:
       trackable: Trackable (dostupný jedině jako anonymní, uspořádané body s časovými značkami)
   user: 
     account: 
+      current email address: "Stávající e-mailová adresa:"
       email never displayed publicly: (nikde se veřejně nezobrazuje)
       home location: "Poloha domova:"
+      image: "Obrázek:"
+      image size hint: (nejlépe fungují čtvercové obrázky velikosti nejméně 100×100)
       latitude: "Šířka:"
       longitude: "Délka:"
       make edits public button: Zvěřejnit všechny moje úpravy
       my settings: Moje nastavení
+      new email address: "Nová e-mailová adresa:"
+      new image: Přidat obrázek
       no home location: Nezadali jste polohu svého bydliště.
       preferred languages: "Preferované jazyky:"
       profile description: "Popis profilu:"
@@ -670,9 +716,6 @@ cs:
       button: Potvrdit
       failure: Tento kód byl už pro potvrzení e-mailové adresy použit.
       success: Vaše e-mailová adresa byla potvrzena, děkujeme za registraci!
-    friend_map: 
-      nearby mapper: "Nedaleký uživatel: [[nearby_user]]"
-      your location: Vaše poloha
     login: 
       account not active: Je mi líto, ale váš uživatelský účet dosud nebyl aktivován.<br />Svůj účet si můžete aktivovat kliknutím na odkaz v potvrzovacím e-mailu.
       auth failure: Je mi líto, ale s uvedenými údaji se nemůžete přihlásit.
@@ -682,8 +725,12 @@ cs:
       login_button: Přihlásit
       lost password link: Ztratili jste heslo?
       password: "Heslo:"
-      please login: Prosím přihlašte se, nebo si můžete {{create_user_link}}.
+      please login: Prosím přihlaste se, nebo si můžete {{create_user_link}}.
+      remember: "Zapamatuj si mě:"
       title: Přihlásit se
+    logout: 
+      logout_button: Odhlásit se
+      title: Odhlásit se
     lost_password: 
       email address: "E-mailová adresa:"
       heading: Zapomněli jste heslo?
@@ -714,6 +761,9 @@ cs:
       body: Je mi líto, ale uživatel {{user}} neexistuje. Zkontrolujte překlepy nebo jste možná klikli na chybný odkaz.
       heading: Uživatel {{user}} neexistuje
       title: Uživatel nenalezen
+    popup: 
+      nearby mapper: Nedaleký uživatel
+      your location: Vaše poloha
     remove_friend: 
       not_a_friend: "{{name}} není mezi vašimi přáteli."
       success: "{{name}} byl odstraněn z vašich přátel."
@@ -729,12 +779,9 @@ cs:
       flash success: Pozice domova byla úspěšně uložena
     view: 
       add as friend: přidat jako přítele
-      add image: Přidat obrázek
       ago: (před {{time_in_words_ago}})
       blocks on me: moje zablokování
-      change your settings: změnit vaše nastavení
       confirm: Potvrdit
-      delete image: Smazat obrázek
       description: Popis
       diary: deníček
       edits: editace
@@ -746,15 +793,15 @@ cs:
       my diary: můj deníček
       my edits: moje editace
       my settings: moje nastavení
-      nearby users: "Uživatelé poblíž:"
+      nearby users: Další uživatelé poblíž
       new diary entry: nový záznam do deníčku
       no friends: Zatím jste nepřidali žádné přátele.
-      no home location: Pozice domova nebyla nastavena.
+      no nearby users: Nejsou známi žádní uživatelé, kteří by uvedli domov blízko vás.
+      oauth settings: nastavení oauth
       remove as friend: odstranit jako přítele
       send message: poslat zprávu
       settings_link_text: nastavení
-      upload an image: Nahrát obrázek
-      user image heading: Obrázek uživatele
+      traces: záznamy
       user location: Pozice uživatele
       your friends: Vaši přátelé
   user_role: 

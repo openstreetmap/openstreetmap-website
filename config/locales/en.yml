@@ -1,6 +1,9 @@
 en:
   html:
     dir: ltr
+  time:
+    formats:
+      friendly: "%e %B %Y at %H:%M"    
   activerecord:
     # Translates all the model names, which is used in error handling on the web site
     models:
@@ -76,10 +79,6 @@ en:
     with_id: "{{id}}"
     with_version: "{{id}}, v{{version}}"
     with_name: "{{name}} ({{id}})"
-  map:
-    view: View
-    edit: Edit
-    coordinates: "Coordinates:"
   browse:
     changeset:
       title: "Changeset"
@@ -328,7 +327,7 @@ en:
       heading: "The user {{user}} does not exist"
       body: "Sorry, there is no user with the name {{user}}. Please check your spelling, or maybe the link you clicked is wrong."
     diary_entry:
-      posted_by: "Posted by {{link_user}} at {{created}} in {{language_link}}"
+      posted_by: "Posted by {{link_user}} on {{created}} in {{language_link}}"
       comment_link: Comment on this entry
       reply_link: Reply to this entry
       comment_count:
@@ -338,9 +337,13 @@ en:
       hide_link: Hide this entry
       confirm: Confirm
     diary_comment:
-      comment_from: "Comment from {{link_user}}  at {{comment_created_at}}"
+      comment_from: "Comment from {{link_user}} on {{comment_created_at}}"
       hide_link: Hide this comment
       confirm: Confirm
+    location:
+      location: "Location:"
+      view: "View"
+      edit: "Edit"
     feed:
       user:
         title: "OpenStreetMap diary entries for {{user}}"
@@ -938,7 +941,8 @@ en:
     friend_notification:
       subject: "[OpenStreetMap] {{user}} added you as a friend"
       had_added_you: "{{user}} has added you as a friend on OpenStreetMap."
-      see_their_profile: "You can see their profile at {{userurl}} and add them as a friend too if you wish."
+      see_their_profile: "You can see their profile at {{userurl}}."
+      befriend_them: "You can also add them as a friend at {{befriendurl}}."
     gpx_notification:
       greeting: "Hi,"
       your_gpx_file: "It looks like your GPX file"
@@ -1035,9 +1039,13 @@ en:
       message_sent: "Message sent"
       limit_exceeded: "You have sent a lot of messages recently. Please wait a while before trying to send any more."
     no_such_user:
-      title: "No such user or message"
-      heading: "No such user or message"
-      body: "Sorry there is no user or message with that name or id"
+      title: "No such user"
+      heading: "No such user"
+      body: "Sorry there is no user with that name."
+    no_such_message:
+      title: "No such message"
+      heading: "No such message"
+      body: "Sorry there is no message with that id."
     outbox: 
       title: "Outbox"
       my_inbox: "My {{inbox_link}}"
@@ -1049,6 +1057,8 @@ en:
       date: "Date"
       no_sent_messages: "You have no sent messages yet. Why not get in touch with some of the {{people_mapping_nearby_link}}?"
       people_mapping_nearby: "people mapping nearby"
+    reply:
+      wrong_user: "You are logged in as `{{user}}' but the message you have asked to reply to was not sent to that user. Please login as the correct user in order to reply."
     read:
       title: "Read message"
       reading_your_messages: "Reading your messages"
@@ -1061,6 +1071,7 @@ en:
       reading_your_sent_messages: "Reading your sent messages"
       to: "To"
       back_to_outbox: "Back to outbox"
+      wrong_user: "You are logged in as `{{user}}' but the message you have asked to read to was not sent by or to that user. Please login as the correct user in order to read it."
     sent_message_summary:
       delete_button: "Delete"
     mark:
@@ -1183,7 +1194,7 @@ en:
       heading: "Editing trace {{name}}"
       filename: "Filename:"
       download: "download"
-      uploaded_at: "Uploaded at:"
+      uploaded_at: "Uploaded:"
       points: "Points:"
       start_coord: "Start coordinate:"
       map: "map"
@@ -1224,7 +1235,7 @@ en:
       pending: "PENDING"
       filename: "Filename:"
       download: "download"
-      uploaded: "Uploaded at:"
+      uploaded: "Uploaded:"
       points: "Points:"
       start_coordinates: "Start coordinate:"
       map: "map"
@@ -1354,12 +1365,17 @@ en:
       openid: "OpenID:"
       openid description: "Use your OpenID to login"
       alternatively: "Alternatively"
+      remember: "Remember me:"
       lost password link: "Lost your password?"
       login_button: "Login"
       account not active: "Sorry, your account is not active yet.<br />Please click on the link in the account confirmation email to activate your account."
       auth failure: "Sorry, could not log in with those details."
       openid missing provider: "Sorry, could not contact your OpenID provider"
       openid invalid: "Sorry, your OpenID seems misformed"
+    logout:
+      title: "Logout"
+      heading: "Logout from OpenStreetMap"
+      logout_button: "Logout"      
     lost_password:
       title: "Lost password"
       heading: "Forgotten Password?"
@@ -1404,6 +1420,7 @@ en:
       my edits: my edits
       my traces: my traces
       my settings: my settings
+      oauth settings: oauth settings
       blocks on me: blocks on me
       blocks by me: blocks by me
       send message: send message
@@ -1418,16 +1435,14 @@ en:
       created from: "Created from:"
       description: Description
       user location: User location
-      no home location: "No home location has been set."
-      if set location: "If you set your location, a pretty map and stuff will appear below. You can set your home location on your {{settings_link}} page."
+      if set location: "If you set your location, a pretty map and stuff will appear here. You can set your home location on your {{settings_link}} page."
       settings_link_text: settings
       your friends: Your friends
       no friends: You have not added any friends yet.
       km away: "{{count}}km away"
       m away: "{{count}}m away"
-      nearby users: "Nearby users:"
-      no nearby users: "There are no users who admit to mapping nearby yet."
-      my_oauth_details: "View my OAuth details"
+      nearby users: "Other nearby users"
+      no nearby users: "There are no other users who admit to mapping nearby yet."
       role:
         administrator: "This user is an administrator"
         moderator: "This user is a moderator"
@@ -1446,9 +1461,10 @@ en:
       unhide_user: "unhide this user"
       delete_user: "delete this user"
       confirm: "Confirm"
-    friend_map:
-      your location: Your location
-      nearby mapper: "Nearby mapper: [[nearby_user]]"
+    popup:
+      your location: "Your location"
+      nearby mapper: "Nearby mapper"
+      friend: "Friend"
     account:
       title: "Edit account"
       my settings: My settings
@@ -1476,6 +1492,7 @@ en:
       keep image: "Keep the current image"
       delete image: "Remove the current image"
       replace image: "Replace the current image"
+      image size hint: "(square images at least 100x100 work best)"
       home location: "Home Location:"
       no home location: "You have not entered your home location."
       latitude: "Latitude:"

@@ -30,5 +30,9 @@ private
     expire_action(:controller => 'diary_entry', :action => 'rss', :language => nil, :display_name => nil)
     expire_action(:controller => 'diary_entry', :action => 'rss', :language => entry.language_code, :display_name => nil)
     expire_action(:controller => 'diary_entry', :action => 'rss', :language => nil, :display_name => entry.user.display_name)
+
+    if record.is_a?(DiaryEntry)
+      expire_fragment(:controller => 'diary_entry', :action => 'view', :display_name => entry.user.display_name, :id => entry.id, :part => "location")
+    end
   end
 end

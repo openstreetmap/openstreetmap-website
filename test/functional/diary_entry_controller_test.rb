@@ -3,6 +3,8 @@ require File.dirname(__FILE__) + '/../test_helper'
 class DiaryEntryControllerTest < ActionController::TestCase
   fixtures :users, :diary_entries, :diary_comments
 
+  include ActionView::Helpers::NumberHelper
+
   def test_showing_new_diary_entry
     get :new
     assert_response :redirect
@@ -110,8 +112,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
           # This next line won't work if the text has been run through the htmlize function
           # due to formatting that could be introduced
           assert_select "p", :text => /#{new_body}/, :count => 1
-          assert_select "span.latitude", :text => new_latitude, :count => 1
-          assert_select "span.longitude", :text => new_longitude, :count => 1
+          assert_select "abbr[class=geo][title=#{number_with_precision(new_latitude, :precision => 4)}; #{number_with_precision(new_longitude, :precision => 4)}]", :count => 1
           # As we're not logged in, check that you cannot edit
           #print @response.body
           assert_select "a[href='/user/#{users(:normal_user).display_name}/diary/#{diary_entries(:normal_user_entry_1).id}/edit']", :text => "Edit this entry", :count => 1
@@ -134,8 +135,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
           # This next line won't work if the text has been run through the htmlize function
           # due to formatting that could be introduced
           assert_select "p", :text => /#{new_body}/, :count => 1
-          assert_select "span.latitude", :text => new_latitude, :count => 1
-          assert_select "span.longitude", :text => new_longitude, :count => 1
+          assert_select "abbr[class=geo][title=#{number_with_precision(new_latitude, :precision => 4)}; #{number_with_precision(new_longitude, :precision => 4)}]", :count => 1
           # As we're not logged in, check that you cannot edit
           assert_select "a[href='/user/#{users(:normal_user).display_name}/diary/#{diary_entries(:normal_user_entry_1).id}/edit']", :text => "Edit this entry", :count => 0
         end

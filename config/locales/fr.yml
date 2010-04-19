@@ -322,6 +322,10 @@ fr:
       recent_entries: "Entrées récentes:"
       title: Journaux des utilisateurs
       user_title: Journal de {{user}}
+    location: 
+      edit: Modifier
+      location: "Lieu :"
+      view: Afficher
     new: 
       title: Nouvelle entrée du journal
     no_such_entry: 
@@ -361,6 +365,9 @@ fr:
       output: Sortie
       paste_html: Collez le code HTML pour incorporer dans un site web.
       scale: Échelle
+      too_large: 
+        body: Cette zone est trop vaste pour être exportée comme données XML OpenStreetMap. Veuillez zoomer ou sélectionner une zone plus petite.
+        heading: Zone trop grande
       zoom: Zoom
     start_rjs: 
       add_marker: Ajouter un marqueur à la carte
@@ -777,7 +784,7 @@ fr:
           greengrocer: Marchand de fruits et légumes
           grocery: Épicerie
           hairdresser: Coiffeur
-          hardware: Magasin de matériel informatique
+          hardware: Quincaillerie
           hifi: Magasin Hi-Fi
           insurance: Assurance
           jewelry: Bijouterie
@@ -852,21 +859,23 @@ fr:
         cycle_map: Carte cyclable
         noname: SansNom
     site: 
+      edit_disabled_tooltip: Zoomez en avant pour modifier la carte
+      edit_tooltip: Modifier la carte
       edit_zoom_alert: Vous devez zoomer pour modifier la carte
+      history_disabled_tooltip: Zoomez en avant pour voir les modifications dans cette zone
+      history_tooltip: Voir les modifications dans cette zone
       history_zoom_alert: Vous devez zoomer pour voir l’historique des modifications
   layouts: 
     donate: Soutenez OpenStreetMap, {{link}} au fond pour améliorer le matériel.
     donate_link_text: participez
     edit: Modifier
-    edit_tooltip: Modifier des cartes
     export: Exporter
     export_tooltip: Exporter les données de la carte
     gps_traces: Traces GPS
-    gps_traces_tooltip: Gérer les traces
+    gps_traces_tooltip: Gérer les traces GPS
     help_wiki: Aide &amp; Wiki
     help_wiki_tooltip: Aide et site Wiki du projet
     history: Historique
-    history_tooltip: Historique du groupe de modifications
     home: Chez moi
     home_tooltip: Aller à l'emplacement de mon domicile
     inbox: Boîte aux lettres ({{count}})
@@ -902,13 +911,9 @@ fr:
     user_diaries: Journaux
     user_diaries_tooltip: Voir les journaux d'utilisateurs
     view: Voir
-    view_tooltip: Afficher les cartes
+    view_tooltip: Afficher la carte
     welcome_user: Bienvenue, {{user_link}}
     welcome_user_link_tooltip: Votre page utilisateur
-  map: 
-    coordinates: Coordonnées
-    edit: Modifier
-    view: Carte
   message: 
     delete: 
       deleted: Message supprimé
@@ -939,10 +944,14 @@ fr:
       send_message_to: Envoyer un nouveau message à {{name}}
       subject: Sujet
       title: Envoyer un message
+    no_such_message: 
+      body: Désolé, il n'y a aucun message avec cet identifiant.
+      heading: Message introuvable
+      title: Message introuvable
     no_such_user: 
-      body: Désolé, il n'y a aucun utilisateur ni message avec ce nom ou cet identifiant
-      heading: Utilisateur ou message inexistant
-      title: Utilisateur ou message inexistant
+      body: Désolé, aucun utilisateur ne porte ce nom.
+      heading: Utilisateur inexistant
+      title: Utilisateur inexistant
     outbox: 
       date: Date
       inbox: boîte de réception
@@ -966,6 +975,9 @@ fr:
       title: Lire le message
       to: À
       unread_button: Marque comme non lu
+      wrong_user: Vous êtes identifié comme « {{user}} » mais le message que vous essayez de lire n'a été envoyé ni à ni par cet utilisateur. Veuillez vous connecter avec l'identifiant correct pour pouvoir le lire.
+    reply: 
+      wrong_user: Vous êtes identifié(e) comme « {{user}} » mais le message auquel vous souhaitez répondre n'a pas été envoyé à cet utilisateur. Veuillez vous connecter avec l'identifiant correct pour pouvoir répondre.
     sent_message_summary: 
       delete_button: Supprimer
   notifier: 
@@ -986,8 +998,9 @@ fr:
       hopefully_you_1: Quelqu'un (problablement vous) voudrait changer son adresse de courriel de
       hopefully_you_2: "{{server_url}} à {{new_address}}."
     friend_notification: 
+      befriend_them: "Vous pouvez également l'ajouter comme ami ici : {{befriendurl}}."
       had_added_you: "{{user}} vous a ajouté comme ami dans OpenStreetMap."
-      see_their_profile: Vous pouvez voir son profil sur {{userurl}} et l’ajouter comme ami si vous le souhaitez.
+      see_their_profile: "Vous pouvez voir son profil ici : {{userurl}}."
       subject: "[OpenStreetMap] {{user}} vous a ajouté comme ami"
     gpx_notification: 
       and_no_tags: et sans balise.
@@ -1214,6 +1227,9 @@ fr:
     sidebar: 
       close: Fermer
       search_results: Résultats de la recherche
+  time: 
+    formats: 
+      friendly: "%e %B %Y à %H:%M"
   trace: 
     create: 
       trace_uploaded: Votre fichier GPX a été envoyé et est en attente de son intégration dans la base de données. Ceci prend en général moins d'une demie heure, et un email vous sera envoyé lorsque cette tâche sera finie.
@@ -1247,7 +1263,7 @@ fr:
     no_such_user: 
       body: Désolé, aucun utilisateur ne porte le nom {{user}}. Veuillez vérifier l'orthographe. Si vous avez cliqué sur un lien, celui-ci est faux.
       heading: L’utilisateur {{user}} n’existe pas
-      title: Aucun utilisteur trouvé
+      title: Utilisateur inexistant
     offline: 
       heading: Stockage GPX hors ligne
       message: Le système de stockage et d'envoi des GPX est actuellement indisponible.
@@ -1316,15 +1332,20 @@ fr:
   user: 
     account: 
       current email address: "Adresse de courriel actuelle :"
+      delete image: Supprimer l'image actuelle
       email never displayed publicly: (jamais affiché publiquement)
       flash update success: Informations sur l'utilisateur mises à jour avec succès.
       flash update success confirm needed: Informations sur l'utilisateur mises à jour avec succès. Vérifiez votre boîte mail afin de valider la vérification de votre nouvelle adresse e-mail.
       home location: "Emplacement du domicile :"
+      image: "Image :"
+      image size hint: (les images carrées d'au moins 100×100 pixels fonctionnent le mieux)
+      keep image: Garder l'image actuelle
       latitude: "Latitude:"
       longitude: "Longitude:"
       make edits public button: Rendre toutes mes modifications publiques
       my settings: Mes options
       new email address: "Nouvelle adresse de courriel :"
+      new image: Ajouter une image
       no home location: Vous n'avez pas indiqué l'emplacement de votre domicile.
       preferred languages: "Langues préférées :"
       profile description: "Description du profil :"
@@ -1338,6 +1359,7 @@ fr:
       public editing note: 
         heading: Modification publique
         text: "Votre compte est actuellement en mode \"modifications anonymes\" : il n'existe pas de lien entre vos modifications et votre compte utilisateur et les autres contributeurs ne peuvent pas vous envoyer de message ni connaître votre localisation géographique. Pour qu'il soit possible de lister vos contributions et permettre aux autres personnes de vous contacter via ce site, cliquez sur le bouton ci-dessous. <b>Depuis le basculement de l'API en version 0.6, seuls les utilisateurs en mode \"modifications publiques\" peuvent modifier les cartes</b> (<a href=\"http://wiki.openstreetmap.org/wiki/Anonymous_edits\">en savoir plus</a>).<ul><li>Votre adresse de courriel ne sera pas rendue publique.</li><li>Cette opération ne peut pas être annulée et tous les nouveaux utilisateurs sont en mode \"modifications publiques\" par défaut.</li></ul>"
+      replace image: Remplacer l'image actuelle
       return to profile: Retourner au profil
       save changes button: Sauvegarder les changements
       title: Modifier le compte
@@ -1356,9 +1378,6 @@ fr:
       success: Adresse email confirmée, merci de vous être enregistré !
     filter: 
       not_an_administrator: Vous devez être administrateur pour effectuer cette action.
-    friend_map: 
-      nearby mapper: "Mappeur dans les environs: [[nearby_user]]"
-      your location: Votre emplacement
     go_public: 
       flash success: Toutes vos modifications sont dorénavant publiques, et vous êtes autorisé a modifier.
     login: 
@@ -1371,7 +1390,12 @@ fr:
       lost password link: Vous avez perdu votre mot de passe ?
       password: "Mot de passe :"
       please login: Veuillez vous connecter ou {{create_user_link}}.
+      remember: "Se souvenir de moi :"
       title: Se connecter
+    logout: 
+      heading: Déconnexion d'OpenStreetMap
+      logout_button: Déconnexion
+      title: Déconnexion
     lost_password: 
       email address: "Adresse e-mail :"
       heading: Vous avez perdu votre mot de passe ?
@@ -1404,6 +1428,10 @@ fr:
       body: Désolé, il n'y a pas d'utilisateur avec le nom {{user}}. Veuillez vérifier l'orthographe, ou le lien que vous avez cliqué n'est pas valide.
       heading: L'utilisateur {{user}} n'existe pas
       title: Utilisateur inexistant
+    popup: 
+      friend: Ami
+      nearby mapper: Mappeur dans les environs
+      your location: Votre emplacement
     remove_friend: 
       not_a_friend: "{{name}} n'est pas parmi vos amis."
       success: "{{name}} a été retiré de vos amis."
@@ -1420,17 +1448,14 @@ fr:
     view: 
       activate_user: activer cet utilisateur
       add as friend: ajouter en tant qu'ami
-      add image: Ajouter une image
       ago: (il y a {{time_in_words_ago}})
       block_history: blocages reçus
       blocks by me: blocages donnés
       blocks on me: mes blocages
-      change your settings: modifiez vos options
       confirm: Confirmer
       create_block: bloquer cet utilisateur
       created from: "Créé depuis :"
       deactivate_user: désactiver cet utilisateur
-      delete image: Effacer l'image
       delete_user: supprimer cet utilisateur
       description: Description
       diary: journal
@@ -1446,12 +1471,11 @@ fr:
       my edits: mes modifications
       my settings: mes options
       my traces: mes traces
-      my_oauth_details: Voir mes détails OAuth
-      nearby users: "Utilisateurs proches de vous :"
+      nearby users: Autres utilisateurs à proximité
       new diary entry: nouvelle entrée dans le journal
       no friends: Vous n'avez pas encore ajouté d'ami
-      no home location: Aucun lieu n'a été défini.
-      no nearby users: Il n'y a pas encore d'utilisateur à proximité.
+      no nearby users: Aucun utilisateur n'a encore signalé qu'il cartographiait à proximité.
+      oauth settings: paramètres OAuth
       remove as friend: enlever en tant qu'ami
       role: 
         administrator: Cet utilisateur est un adminstrateur
@@ -1466,8 +1490,6 @@ fr:
       settings_link_text: options
       traces: traces
       unhide_user: ré-afficher cet utilisateur
-      upload an image: Envoyer une image
-      user image heading: Image utilisateur
       user location: Emplacement de l'utilisateur
       your friends: Vos amis
   user_block: 

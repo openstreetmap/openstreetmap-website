@@ -1,4 +1,10 @@
 module ApplicationHelper
+  require 'rexml/document'
+
+  def sanitize(text)
+    Sanitize.clean(text, Sanitize::Config::OSM)
+  end
+
   def htmlize(text)
     return linkify(sanitize(simple_format(text)))
   end
@@ -32,6 +38,39 @@ module ApplicationHelper
     js << "</script>\n"
 
     return js
+  end
+
+  def describe_location(lat, lon, zoom = nil, language = nil)
+    zoom = zoom || 14
+    language = language || request.user_preferred_languages.join(',')
+    url = "http://nominatim.openstreetmap.org/reverse?lat=#{lat}&lon=#{lon}&zoom=#{zoom}&accept-language=#{language}"
+    response = REXML::Document.new(Net::HTTP.get(URI.parse(url)))
+
+    if result = response.get_text("reversegeocode/result")
+      result.to_s
+    else
+      "#{number_with_precision(lat, :precision => 3)}, #{number_with_precision(lon, :precision => 3)}"
+    end
+  end
+
+  def user_image(user, options = {})
+    options[:class] ||= "user_image"
+
+    if user.image
+      image_tag url_for_file_column(user, "image"), options
+    else
+      image_tag "anon_large.png", options
+    end
+  end
+
+  def user_thumbnail(user, options = {})
+    options[:class] ||= "user_thumbnail"
+
+    if user.image
+      image_tag url_for_file_column(user, "image"), options
+    else
+      image_tag "anon_small.png", options
+    end
   end
 
 private

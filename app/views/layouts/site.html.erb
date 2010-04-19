@@ -7,9 +7,9 @@
     <%= javascript_include_tag 'site' %>
     <!--[if lt IE 7]><%= javascript_include_tag 'pngfix' %><![endif]--> <!-- thanks, microsoft! -->
     <%= stylesheet_link_tag 'common' %>
-    <!--[if IE]><%= stylesheet_link_tag 'site', :media => "screen" %><![endif]--> <!-- IE is totally broken with CSS media queries -->
-    <%= stylesheet_link_tag 'site-sml', :media => "only screen and (max-width: 481px)" %>
-    <%= stylesheet_link_tag 'site', :media => "screen and (min-width: 482px)" %> 
+    <!--[if IE]><%= stylesheet_link_tag 'large', :media => "screen" %><![endif]--> <!-- IE is totally broken with CSS media queries -->
+    <%= stylesheet_link_tag 'small', :media => "only screen and (max-width: 481px)" %>
+    <%= stylesheet_link_tag 'large', :media => "screen and (min-width: 482px)" %> 
     <%= stylesheet_link_tag 'print', :media => "print" %>
     <%= tag("link", { :rel => "search", :type => "application/opensearchdescription+xml", :title => "OpenStreetMap Search", :href => "/opensearch/osm.xml" }) %>
     <%= tag("meta", { :name => "description", :content => "OpenStreetMap is the free wiki world map." }) %>
@@ -36,13 +36,8 @@
         <span id="full-greeting"><%= t 'layouts.welcome_user', :user_link => (link_to h(@user.display_name), {:controller => 'user', :action => 'view', :display_name => @user.display_name}, :title => t('layouts.welcome_user_link_tooltip')) %></span> 
         <span id="small-greeting"><%= link_to t('layouts.welcome_user_link_tooltip'), {:controller => 'user', :action => 'view', :display_name => @user.display_name} %></span> | 
         <%= yield :greeting %>
-        <%
-        inbox_attributes = {}
-        inbox_attributes[:class] = 'greeting-bar-unread' if @user.new_messages.size > 0
-        inbox_attributes[:title] = t 'layouts.inbox_tooltip', :count => @user.new_messages.size
-        %>
-        <%= link_to t('layouts.inbox', :count => @user.new_messages.size), {:controller => 'message', :action => 'inbox', :display_name => @user.display_name}, inbox_attributes %> |
-        <%= link_to t('layouts.logout'), {:controller => 'user', :action => 'logout', :referer => request.request_uri}, {:id => 'logoutanchor', :title => t('layouts.logout_tooltip')}%>
+        <%= render :partial => "layouts/inbox" %> |
+        <%= link_to t('layouts.logout'), {:controller => 'user', :action => 'logout', :session => request.session_options[:id], :referer => request.request_uri}, {:id => 'logoutanchor', :title => t('layouts.logout_tooltip'), :method => :post, :href => url_for(:controller => 'user', :action => 'logout', :referer => request.request_uri)}%>
       <% else %>
         <%= link_to t('layouts.log_in'), {:controller => 'user', :action => 'login', :referer => request.request_uri}, {:id => 'loginanchor', :title => t('layouts.log_in_tooltip')} %> |
         <%= link_to t('layouts.sign_up'), {:controller => 'user', :action => 'new'}, {:id => 'registeranchor', :title => t('layouts.sign_up_tooltip')} %>
@@ -134,7 +129,7 @@
           <a href="http://donate.openstreetmap.org/" title="<%= h(t('layouts.make_a_donation.title')) %>"><%= h(t('layouts.make_a_donation.text')) %></a>
         </div>
 
-        <div id="cclogo" class="button" style="width: 88px">
+        <div id="cclogo" style="width: 88px">
           <%= link_to(
                   image_tag("cc_button.png",
                       :alt => t('layouts.license.alt'),

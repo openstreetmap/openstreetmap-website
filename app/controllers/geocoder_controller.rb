@@ -357,8 +357,8 @@ class GeocoderController < ApplicationController
     response = fetch_xml("http://nominatim.openstreetmap.org/reverse?lat=#{lat}&lon=#{lon}&zoom=#{zoom}&accept-language=#{request.user_preferred_languages.join(',')}")
 
     # parse the response
-    response.elements.each("reversegeocode") do |result|
-      description = result.get_text("result").to_s
+    response.elements.each("reversegeocode/result") do |result|
+      description = result.get_text.to_s
 
       @results.push({:prefix => "#{description}"})
     end

@@ -5,12 +5,11 @@
   }
 
   function describeLocation() {
-    var position = getPosition();
-    var zoom = getZoom();
+    var args = getArgs($("viewanchor").href);
 
     <%= remote_function(:loading => "startSearch()",
                         :url => { :controller => :geocoder, :action => :description },
-                        :with => "'lat=' + position.lat + '&lon=' + position.lon + '&zoom=' + zoom") %>
+                        :with => "'lat=' + args['lat'] + '&lon=' + args['lon'] + '&zoom=' + args['zoom']") %>
   }
 
   function setSearchViewbox() {
@@ -33,8 +32,8 @@
 
 <% content_for "optionals" do %>
   <div class="optionalbox">
-    <span class="oboxheader"><%= t 'site.search.search' %></span>
     <span class="whereami"><a href="javascript:describeLocation()" title="<%= t 'site.search.where_am_i_title' %>"><%= t 'site.search.where_am_i' %></a></span>
+    <h1><%= t 'site.search.search' %></h1>
     <div class="search_form">
     <div id="search_field">
     <% form_remote_tag(:before => "setSearchViewbox()",

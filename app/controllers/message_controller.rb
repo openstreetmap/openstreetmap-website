@@ -47,25 +47,38 @@ class MessageController < ApplicationController
 
   # Allow the user to reply to another message.
   def reply
-    message = Message.find(params[:message_id], :conditions => ["to_user_id = ? or from_user_id = ?", @user.id, @user.id ])
-    @body = "On #{message.sent_on} #{message.sender.display_name} wrote:\n\n#{message.body.gsub(/^/, '> ')}" 
-    @title = @subject = "Re: #{message.title.sub(/^Re:\s*/, '')}"
-    @to_user = User.find(message.from_user_id)
-    render :action => 'new'
+    message = Message.find(params[:message_id])
+
+    if message.to_user_id == @user.id then
+      @body = "On #{message.sent_on} #{message.sender.display_name} wrote:\n\n#{message.body.gsub(/^/, '> ')}" 
+      @title = @subject = "Re: #{message.title.sub(/^Re:\s*/, '')}"
+      @to_user = User.find(message.from_user_id)
+
+      render :action => 'new'
+    else
+      flash[:notice] = t 'message.reply.wrong_user', :user => @user.display_name
+      redirect_to :controller => "user", :action => "login", :referer => request.request_uri
+    end
   rescue ActiveRecord::RecordNotFound
-    @title = t'message.no_such_user.title'
-    render :action => 'no_such_user', :status => :not_found
+    @title = t'message.no_such_message.title'
+    render :action => 'no_such_message', :status => :not_found
   end
 
   # Show a message
   def read
     @title = t 'message.read.title'
-    @message = Message.find(params[:message_id], :conditions => ["to_user_id = ? or from_user_id = ?", @user.id, @user.id ])
-    @message.message_read = true if @message.to_user_id == @user.id
-    @message.save
+    @message = Message.find(params[:message_id])
+
+    if @message.to_user_id == @user.id or @message.from_user_id == @user.id then
+      @message.message_read = true if @message.to_user_id == @user.id
+      @message.save
+    else
+      flash[:notice] = t 'message.read.wrong_user', :user => @user.display_name
+      redirect_to :controller => "user", :action => "login", :referer => request.request_uri
+    end
   rescue ActiveRecord::RecordNotFound
-    @title = t'message.no_such_user.title'
-    render :action => 'no_such_user', :status => :not_found
+    @title = t'message.no_such_message.title'
+    render :action => 'no_such_message', :status => :not_found
   end
 
   # Display the list of messages that have been sent to the user.
@@ -90,7 +103,7 @@ class MessageController < ApplicationController
   def mark
     if params[:message_id]
       id = params[:message_id]
-      message = Message.find_by_id(id)
+      message = Message.find_by_id(id, :conditions => ["to_user_id = ? or from_user_id = ?", @user.id, @user.id])
       if params[:mark] == 'unread'
         message_read = false 
         notice = t 'message.mark.as_unread'
@@ -102,6 +115,7 @@ class MessageController < ApplicationController
       if message.save
         if request.xhr?
           render :update do |page|
+            page.replace "inboxanchor", :partial => "layouts/inbox"
             page.replace "inbox-count", :partial => "message_count"
             page.replace "inbox-#{message.id}", :partial => "message_summary", :object => message
           end
@@ -112,15 +126,15 @@ class MessageController < ApplicationController
       end
     end
   rescue ActiveRecord::RecordNotFound
-    @title = t'message.no_such_user.title'
-    render :action => 'no_such_user', :status => :not_found
+    @title = t'message.no_such_message.title'
+    render :action => 'no_such_message', :status => :not_found
   end
 
   # Delete the message.
   def delete
     if params[:message_id]
       id = params[:message_id]
-      message = Message.find_by_id(id)
+      message = Message.find_by_id(id, :conditions => ["to_user_id = ? or from_user_id = ?", @user.id, @user.id])
       message.from_user_visible = false if message.sender == @user
       message.to_user_visible = false if message.recipient == @user
       if message.save
@@ -134,7 +148,7 @@ class MessageController < ApplicationController
       end
     end
   rescue ActiveRecord::RecordNotFound
-    @title = t'message.no_such_user.title'
-    render :action => 'no_such_user', :status => :not_found
+    @title = t'message.no_such_message.title'
+    render :action => 'no_such_message', :status => :not_found
   end
 end

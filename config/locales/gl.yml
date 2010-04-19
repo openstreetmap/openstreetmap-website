@@ -1,21 +1,99 @@
 # Messages for Galician (Galego)
 # Exported from translatewiki.net
 # Export driver: syck
+# Author: Gallaecio
 # Author: Toliño
 gl: 
   activerecord: 
     attributes: 
+      diary_comment: 
+        body: Corpo
+      diary_entry: 
+        language: Lingua
+        latitude: Latitude
+        longitude: Lonxitude
+        title: Título
+        user: Usuario
+      friend: 
+        friend: Amigo
+        user: Usuario
+      message: 
+        body: Corpo
+        recipient: Destinatario
+        sender: Remitente
+        title: Título
+      trace: 
+        description: Descrición
+        latitude: Latitude
+        longitude: Lonxitude
+        name: Nome
+        public: Público
+        size: Tamaño
+        user: Usuario
+        visible: Visible
       user: 
+        active: Activo
+        description: Descrición
+        display_name: Nome mostrado
+        email: Correo electrónico
+        languages: Linguas
         pass_crypt: Contrasinal
     models: 
+      changeset: Conxunto de cambios
+      changeset_tag: Etiqueta do conxunto de cambios
+      country: País
+      friend: Amigo
+      language: Lingua
+      message: Mensaxe
       node: Nodo
+      node_tag: Etiqueta do nodo
+      notifier: Notificador
+      relation: Relación
+      relation_tag: Etiqueta da relación
+      session: Sesión
+      user: Usuario
+      user_preference: Preferencia do usuario
       way: Camiño
   browse: 
+    changeset: 
+      changeset: "Conxunto de cambios: {{id}}"
+      changesetxml: Conxunto de cambios XML
+      download: Descargar {{changeset_xml_link}} ou {{osmchange_xml_link}}
+      feed: 
+        title: Conxunto de cambios {{id}}
+        title_comment: Conxunto de cambios {{id}} - {{comment}}
+      osmchangexml: osmChange XML
+      title: Conxunto de cambios
     changeset_details: 
+      belongs_to: "Pertence a:"
+      bounding_box: "Caixa de envoltura:"
       box: caixa
+      closed_at: "Pechouse o:"
+      created_at: "Creado o:"
+      has_nodes: 
+        one: "Ten o seguinte {{count}} nodo:"
+        other: "Ten os seguintes {{count}} nodos:"
+      has_relations: 
+        one: "Ten a seguinte relación:"
+        other: "Ten as seguintes {{count}} relacións:"
+      has_ways: 
+        one: "Ten o seguinte camiño:"
+        other: "Ten os seguintes {{count}} camiños:"
+      no_bounding_box: Non se seleccionou ningunha caixa de envoltura para este conxunto de cambios.
+      show_area_box: Amosar a caixa de zona
+    changeset_navigation: 
+      all: 
+        next_tooltip: Seguinte conxunto de cambios
+        prev_tooltip: Conxunto de cambios anterior
+      user: 
+        name_tooltip: Ver as edicións de {{user}}
+        next_tooltip: Seguinte edición de {{user}}
+        prev_tooltip: Edición anterior de {{user}}
     common_details: 
       changeset_comment: "Comentario:"
+      edited_at: "Editado o:"
       edited_by: "Editado por:"
+      in_changeset: "No conxunto de cambios:"
       version: "Versión:"
     containing_relation: 
       entry: Relación {{relation_name}}
@@ -45,7 +123,7 @@ gl:
       node_history_title: "Historial do nodo: {{node_name}}"
       view_details: ver os detalles
     not_found: 
-      sorry: Sentímolo, non se puido atopar o {{type}} co ID {{id}}.
+      sorry: Sentímolo, non se puido atopar o {{type}} co id {{id}}.
       type: 
         changeset: conxunto de cambios
         node: nodo
@@ -75,12 +153,20 @@ gl:
         node: Nodo
         relation: Relación
         way: Camiño
+    start: 
+      manually_select: Escoller manualmente unha zona distinta
+      view_data: Ver os datos para a vista do mapa actual
     start_rjs: 
       data_frame_title: Datos
       data_layer_name: Datos
       details: Detalles
+      drag_a_box: Arrastre unha caixa sobre o mapa para escoller unha zona
+      edited_by_user_at_timestamp: Editado por [[user]] o [[timestamp]]
+      history_for_feature: Historial de [[feature]]
       load_data: Cargar os datos
+      loaded_an_area_with_num_features: Cargou unha zona que contén [[num_features]] funcionalidades. Pode que algúns navegadores teñan problemas para amosar correctamente esta cantidade de datos. Xeralmente, os navegadores traballan mellor amosando menos de 100 funcionalidades á vez. Utilizar máis pode provocar que o navegador vaia lento ou non responda. Se está seguro de que quere amosar estes datos, pode facelo premendo no seguinte botón.
       loading: Cargando...
+      manually_select: Escoller manualmente unha zona distinta
       object_list: 
         api: Obter esta área desde o API
         back: Mostrar a lista de obxectos
@@ -97,10 +183,20 @@ gl:
         type: 
           node: Nodo
           way: Camiño
+      private_user: usuario privado
       show_history: Mostrar o historial
+      unable_to_load_size: "Non se puido cargar: o tamaño [[bbox_size]] da caixa de envoltura é grande de máis (ten que ser menor de {{max_bbox_size}})"
       wait: Agarde...
+      zoom_or_select: Escolla unha zona do mapa ou achéguese a ela para vela
     tag_details: 
       tags: "Etiquetas:"
+    timeout: 
+      sorry: Tardouse demasiado en obter os datos para o {{type}} co id {{id}}.
+      type: 
+        changeset: conxunto de cambios
+        node: nodo
+        relation: relación
+        way: camiño
     way: 
       download: "{{download_xml_link}}, {{view_history_link}} ou {{edit_link}}"
       download_xml: Descargar en XML
@@ -120,53 +216,477 @@ gl:
       view_details: ver os detalles
       way_history: Historial do camiño
       way_history_title: "Historial co camiño: {{way_name}}"
+  changeset: 
+    changesets: 
+      area: Zona
+      comment: Comentario
+      id: ID
+      saved_at: Gardado o
+      user: Usuario
+    list: 
+      description: Cambios recentes
+      description_bbox: Conxuntos de cambios en {{bbox}}
+      description_user: Conxuntos de cambios por {{user}}
+      description_user_bbox: Conxuntos de cambios por {{user}} en {{bbox}}
+      heading: Conxuntos de cambios
+      heading_bbox: Conxuntos de cambios
+      heading_user: Conxuntos de cambios
+      heading_user_bbox: Conxuntos de cambios
+      title: Conxuntos de cambios
+      title_bbox: Conxuntos de cambios en {{bbox}}
+      title_user: Conxuntos de cambios por {{user}}
+      title_user_bbox: Conxuntos de cambios por {{user}} en {{bbox}}
   diary_entry: 
+    diary_comment: 
+      confirm: Confirmar
+      hide_link: Agochar este comentario
+    diary_entry: 
+      comment_count: 
+        one: 1 comentario
+        other: "{{count}} comentarios"
+      comment_link: Comentar esta entrada
+      confirm: Confirmar
+      edit_link: Editar esta entrada
+      hide_link: Agochar esta entrada
     edit: 
+      body: "Corpo:"
+      language: "Lingua:"
+      latitude: "Latitude:"
+      location: "Localización:"
+      longitude: "Lonxitude:"
       save_button: Gardar
+      subject: "Asunto:"
+    location: 
+      edit: Editar
+      location: "Localización:"
+      view: Ver
     view: 
       save_button: Gardar
+  export: 
+    start: 
+      add_marker: Engadir un marcador ao mapa
+      area_to_export: Zona a exportar
+      export_button: Exportar
+      format: Formato
+      format_to_export: Formato de exportación
+      image_size: Tamaño da imaxe
+      latitude: "Lat:"
+      licence: Licenza
+      longitude: "Lon:"
+      mapnik_image: Imaxe de Mapnik
+      max: máx.
+      options: Opcións
+      osm_xml_data: Datos XML do OpenStreetMap
+      scale: Escala
+      too_large: 
+        body: Esta zona é grande de máis para ser exportada como datos XML do OpenStreetMap. Amplíe a zona ou escolla unha menor.
+        heading: Zona demasiado grande
+      zoom: Zoom
+    start_rjs: 
+      add_marker: Engadir un marcador ao mapa
+      change_marker: Cambiar a posición do marcador
+      click_add_marker: Prema sobre o mapa para engadir un marcador
+      drag_a_box: Arrastre unha caixa sobre o mapa para escoller unha zona
+      export: Exportar
+      manually_select: Escoller manualmente unha zona distinta
+      view_larger_map: Ver un mapa máis grande
   geocoder: 
     description: 
       title: 
         geonames: Localización desde <a href="http://www.geonames.org/">GeoNames</a>
         osm_namefinder: "{{types}} desde <a href=\"http://gazetteer.openstreetmap.org/namefinder/\">OpenStreetMap Namefinder</a>"
+        osm_nominatim: Localización desde <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
+      types: 
+        cities: Cidades
+        places: Lugares
+        towns: Municipios
+    description_osm_namefinder: 
+      prefix: "{{distance}} ao {{direction}} de {{type}}"
+    direction: 
+      east: leste
+      north: norte
+      north_east: nordés
+      north_west: noroeste
+      south: sur
+      south_east: sueste
+      south_west: suroeste
+      west: oeste
+    distance: 
+      one: arredor de 1km
+      other: arredor de {{count}}km
+      zero: menos de 1km
+    results: 
+      more_results: Máis resultados
+      no_results: Non se atopou ningún resultado
     search: 
       title: 
         ca_postcode: Resultados desde <a href="http://geocoder.ca/">Geocoder.CA</a>
         geonames: Resultados desde <a href="http://www.geonames.org/">GeoNames</a>
         latlon: Resultados <a href="http://openstreetmap.org/">internos</a>
         osm_namefinder: Resultados desde <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>
+        osm_nominatim: Resultados desde <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
         uk_postcode: Resultados desde <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Resultados desde <a href="http://geocoder.us/">Geocoder.us</a>
+    search_osm_namefinder: 
+      suffix_parent: "{{suffix}} ({{parentdistance}} {{parentdirection}} de {{parentname}})"
+      suffix_place: ", {{distance}} ao {{direction}} de {{placename}}"
+    search_osm_nominatim: 
+      prefix: 
+        highway: 
+          emergency_access_point: Punto de acceso de emerxencia
+          footway: Carreiro
+          motorway_junction: Cruce de autovías
+          primary_link: Estrada principal
+          secondary_link: Estrada secundaria
+        leisure: 
+          beach_resort: Balneario
+          common: Terreo común
+          fishing: Área de pesca
+          garden: Xardín
+          golf_course: Campo de golf
+          ice_rink: Pista de patinaxe sobre xeo
+          marina: Porto deportivo
+          miniature_golf: Minigolf
+          nature_reserve: Reserva natural
+          park: Parque
+          pitch: Cancha deportiva
+          playground: Patio de recreo
+          recreation_ground: Área recreativa
+          slipway: Varadoiro
+          sports_centre: Centro deportivo
+          stadium: Estadio
+          swimming_pool: Piscina
+          track: Pista de carreiras
+          water_park: Parque acuático
+        natural: 
+          bay: Baía
+          beach: Praia
+          cape: Cabo
+          cave_entrance: Entrada de cova
+          channel: Canal
+          cliff: Cantil
+          coastline: Litoral
+          crater: Cráter
+          feature: Elemento
+          fell: Brañal
+          fjord: Fiorde
+          glacier: Glaciar
+          hill: Outeiro
+          island: Illa
+          land: Terra
+          marsh: Marisma
+          moor: Páramo
+          mud: Lama
+          peak: Pico
+          point: Punto
+          reef: Arrecife
+          river: Río
+          rock: Rocha
+          scree: Pedregal
+          shoal: Cardume
+          spring: Primavera
+          strait: Estreito
+          tree: Árbore
+          valley: Val
+          volcano: Volcán
+          water: Auga
+          wetland: Pantano
+          wetlands: Pantano
+          wood: Bosque
+        place: 
+          airport: Aeroporto
+          city: Cidade
+          country: País
+          county: Condado
+          farm: Granxa
+          hamlet: Aldea
+          house: Casa
+          houses: Casas
+          island: Illa
+          islet: Illote
+          locality: Localidade
+          moor: Páramo
+          municipality: Municipio
+          postcode: Código postal
+          region: Rexión
+          sea: Mar
+          state: Estado/Provincia
+          subdivision: Subdivisión
+          suburb: Barrio
+          town: Cidade
+          unincorporated_area: Área non incorporada
+          village: Vila
+        tourism: 
+          alpine_hut: Cabana alpina
+          artwork: Obra de arte
+          attraction: Atracción
+          bed_and_breakfast: Cama e almorzo
+          cabin: Cabana
+          camp_site: Campamento
+          caravan_site: Sitio de caravanas
+          chalet: Chalé
+          guest_house: Albergue
+          hostel: Hostal
+          hotel: Hotel
+          information: Información
+          lean_to: Caseta
+          motel: Motel
+          museum: Museo
+          picnic_site: Sitio de pícnic
+          theme_park: Parque temático
+          valley: Val
+          viewpoint: Miradoiro
+          zoo: Zoolóxico
   layouts: 
     edit: Editar
-  map: 
-    coordinates: "Coordenadas:"
-    edit: Editar
+    export: Exportar
+    export_tooltip: Exportar os datos do mapa
+    history: Historial
+    intro_3_partners: wiki
+    make_a_donation: 
+      text: Facer unha doazón
+    news_blog: Blogue de novas
+    sign_up_tooltip: Crear unha conta para editar
+    view: Ver
+    view_tooltip: Ver o mapa
   message: 
+    inbox: 
+      date: Data
+      subject: Asunto
     message_summary: 
       delete_button: Borrar
+      read_button: Marcar como lido
+      reply_button: Responder
+      unread_button: Marcar como non lido
+    new: 
+      body: Corpo
+      subject: Asunto
+    outbox: 
+      date: Data
+      subject: Asunto
+    read: 
+      date: Data
+      reply_button: Responder
+      subject: Asunto
     sent_message_summary: 
       delete_button: Borrar
+  notifier: 
+    email_confirm: 
+      subject: "[OpenStreetMap] Confirme o seu enderezo de correo electrónico"
   oauth_clients: 
     edit: 
       submit: Editar
+      title: Editar a súa aplicación
+    index: 
+      application: Nome da aplicación
+      register_new: Rexistrar a súa aplicación
+  time: 
+    formats: 
+      friendly: "%e %B %Y ás %H:%M"
   trace: 
     edit: 
+      description: "Descrición:"
+      download: descargar
       edit: editar
+      filename: "Nome do ficheiro:"
+      map: mapa
+      owner: "Propietario:"
+      points: "Puntos:"
       save_button: Gardar os cambios
+      start_coord: "Coordenada de inicio:"
+      tags: "Etiquetas:"
+      tags_help: separadas por comas
+      uploaded_at: "Cargado o:"
+      visibility: "Visibilidade:"
+      visibility_help: que significa isto?
+    no_such_user: 
+      title: Non existe tal usuario
     trace: 
+      ago: hai {{time_in_words_ago}}
+      by: por
+      count_points: "{{count}} puntos"
       edit: editar
+      edit_map: Editar o mapa
+      identifiable: IDENTIFICABLE
+      in: en
+      map: mapa
+      more: máis
+      pending: PENDENTE
+      private: PRIVADO
+      public: PÚBLICO
+      view_map: Ver o mapa
+    trace_form: 
+      description: Descrición
+      help: Axuda
+      tags: Etiquetas
+      tags_help: separadas por comas
+      upload_button: Cargar
+      visibility: Visibilidade
+      visibility_help: que significa isto?
+    trace_optionals: 
+      tags: Etiquetas
+    trace_paging_nav: 
+      next: Seguinte &raquo;
+      previous: "&laquo; Anterior"
     view: 
+      description: "Descrición:"
+      download: descargar
       edit: editar
+      filename: "Nome do ficheiro:"
+      map: mapa
+      none: Ningún
+      owner: "Propietario:"
+      pending: PENDENTE
+      points: "Puntos:"
+      start_coordinates: "Coordenada de inicio:"
+      tags: "Etiquetas:"
+      uploaded: "Cargado o:"
+      visibility: "Visibilidade:"
   user: 
     account: 
+      current email address: "Enderezo de correo electrónico actual:"
+      delete image: Eliminar a imaxe actual
+      email never displayed publicly: (nunca mostrado publicamente)
+      flash update success: Información de usuario actualizada correctamente.
+      flash update success confirm needed: Información de usuario actualizada correctamente. Busque no seu correo electrónico unha mensaxe para confirmar o seu novo enderezo.
+      home location: "Lugar de orixe:"
+      image: "Imaxe:"
+      keep image: Manter a imaxe actual
+      latitude: "Latitude:"
+      longitude: "Lonxitude:"
+      make edits public button: Facer públicas todas as miñas edicións
+      my settings: Os meus axustes
+      new email address: "Novo enderezo de correo electrónico:"
+      new image: Engadir unha imaxe
+      preferred languages: "Linguas preferidas:"
+      profile description: "Descrición do perfil:"
+      public editing: 
+        disabled link text: por que non podo editar?
+        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
+        enabled link text: que é isto?
+        heading: "Edición pública:"
+      public editing note: 
+        heading: Edición pública
+      replace image: Substituír a imaxe actual
+      return to profile: Voltar ao perfil
       save changes button: Gardar os cambios
+      title: Editar a conta
+      update home location on click: Quere actualizar o domicilio ao premer sobre o mapa?
+    confirm: 
+      button: Confirmar
+      failure: Xa se confirmou unha conta de usuario con este pase.
+      heading: Confirmar unha conta de usuario
+      press confirm button: Prema sobre o botón de confirmación que aparece a continuación para activar a súa conta.
+      success: Confirmouse a súa conta. Grazas por se rexistrar!
+    confirm_email: 
+      button: Confirmar
+      failure: Xa se confirmou un enderezo de correo electrónico con este pase.
+      heading: Confirmar o cambio do enderezo de correo electrónico
+      press confirm button: Prema sobre o botón de confirmación que aparece a continuación para confirmar o seu novo enderezo de correo electrónico.
+      success: Confirmouse o seu enderezo de correo electrónico. Grazas por se rexistrar!
+    filter: 
+      not_an_administrator: Ten que ser administrador para poder levar a cabo esta acción.
     login: 
+      create_account: cree unha conta
+      email or username: "Enderezo de correo electrónico ou nome de usuario:"
+      lost password link: Perdeu o seu contrasinal?
       password: "Contrasinal:"
+      please login: Identifíquese ou {{create_user_link}}.
+      remember: "Lembrádeme:"
+    lost_password: 
+      email address: "Enderezo de correo electrónico:"
+      heading: Esqueceu o contrasinal?
+      new password button: Restablecer o contrasinal
+      notice email cannot find: Non se puido atopar o enderezo de correo electrónico.
+      notice email on way: Por desgraza perdeuno, pero hai en camiño unha mensaxe de correo electrónico coa que o poderá restablecer axiña.
+      title: Contrasinal perdido
+    make_friend: 
+      already_a_friend: Xa é amigo de {{name}}.
+      failed: Houbo un erro ao engadir a {{name}} como amigo.
+      success: "{{name}} xa é o seu amigo."
     new: 
+      confirm email address: Confirmar o enderezo de correo electrónico
+      confirm password: "Confirmar o contrasinal:"
+      display name: "Nome mostrado:"
+      display name description: O seu nome de usuario mostrado publicamente. Pode cambialo máis tarde nas preferencias.
+      email address: "Enderezo de correo electrónico:"
+      fill_form: Encha o formulario e axiña recibirá un correo electrónico coas instrucións para activar a súa conta.
+      heading: Crear unha conta de usuario
+      no_auto_account_create: Por desgraza, arestora non podemos crear automaticamente unha conta para vostede.
       password: "Contrasinal:"
+      title: Crear unha conta
+    no_such_user: 
+      body: Non existe ningún usuario co nome "{{user}}". Comprobe a ortografía ou que a ligazón que seguiu estea ben.
+      heading: O usuario {{user}} non existe
+      title: Non existe tal usuario
+    popup: 
+      friend: Amigo
+      your location: A súa localización
+    remove_friend: 
+      not_a_friend: "{{name}} non é un dos seus amigos."
+      success: "{{name}} foi eliminado dos seus amigos."
     reset_password: 
+      confirm password: "Confirmar o contrasinal:"
+      flash changed: Cambiouse o seu contrasinal.
+      flash token bad: Non se atopou o pase. Quizais debería comprobar o enderezo URL.
+      heading: Restablecer o contrasinal de {{user}}
       password: "Contrasinal:"
+      reset: Restablecer o contrasinal
+      title: Restablecer o contrasinal
+    set_home: 
+      flash success: Gardouse o domicilio
     view: 
+      activate_user: activar este usuario
+      add as friend: engadir como amigo
+      ago: (hai {{time_in_words_ago}})
+      block_history: ver os bloqueos recibidos
+      confirm: Confirmar
+      create_block: bloquear este usuario
+      created from: "Creado a partir de:"
+      deactivate_user: desactivar este usuario
+      delete_user: borrar este usuario
+      description: Descrición
       edits: edicións
+      email address: "Enderezo de correo electrónico:"
+      hide_user: agochar este usuario
+      if set location: Se define a súa localización, aquí aparecerá un mapa. Pode establecer o seu lugar de orixe na súa páxina de {{settings_link}}.
+      km away: a {{count}}km de distancia
+      m away: a {{count}}m de distancia
+      moderator_history: ver os bloqueos dados
+      my edits: as miñas edicións
+      my settings: os meus axustes
+      no friends: Aínda non engadiu ningún amigo.
+      oauth settings: axustes OAuth
+      remove as friend: eliminar como amigo
+      role: 
+        administrator: Este usuario é administrador
+        grant: 
+          administrator: Conceder o acceso de administrador
+          moderator: Conceder o acceso de moderador
+        moderator: Este usuario é moderador
+        revoke: 
+          administrator: Revogar o acceso de administrador
+          moderator: Revogar o acceso de moderador
+      send message: enviar unha mensaxe
+      settings_link_text: axustes
+      unhide_user: descubrir este usuario
+      user location: Localización do usuario
+      your friends: Os seus amigos
+  user_role: 
+    filter: 
+      already_has_role: O usuario xa ten o rol {{role}}.
+      doesnt_have_role: O usuario non ten o rol {{role}}.
+      not_a_role: A cadea "{{role}}" non é un rol correcto.
+      not_an_administrator: Só os administradores poden xestionar os roles dos usuarios, e vostede non é administrador.
+    grant: 
+      are_you_sure: Seguro que quere concederlle o rol "{{role}}" ao usuario "{{name}}"?
+      confirm: Confirmar
+      fail: Non se lle puido conceder o rol "{{role}}" ao usuario "{{name}}". Comprobe que tanto o usuario coma o rol son correctos.
+      heading: Confirmar a concesión do rol
+      title: Confirmar a concesión do rol
+    revoke: 
+      are_you_sure: Seguro que quere revogarlle o rol "{{role}}" ao usuario "{{name}}"?
+      confirm: Confirmar
+      fail: Non se lle puido revogar o rol "{{role}}" ao usuario "{{name}}". Comprobe que tanto o usuario coma o rol son correctos.
+      heading: Confirmar a revogación do rol
+      title: Confirmar a revogación do rol

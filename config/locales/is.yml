@@ -212,6 +212,13 @@ is:
       zoom_or_select: Þú verður að þysja að eða velja svæði á kortinu
     tag_details: 
       tags: "Eigindi:"
+    timeout: 
+      sorry: Ekki var hægt að ná í gögn fyrir {{type}} með kennitöluna {{id}}, það tók of langann tíma að ná í gögnin.
+      type: 
+        changeset: breytingarsettið
+        node: hnútinn
+        relation: venslin
+        way: veginn
     way: 
       download: "{{download_xml_link}} eða {{view_history_link}} eða {{edit_link}}"
       download_xml: Sækja veginn á XML sniði
@@ -383,6 +390,7 @@ is:
       other: u.þ.b. {{count}} km
       zero: minna en 1 km
     results: 
+      more_results: Fleiri niðurstöður
       no_results: Ekkert fannst
     search: 
       title: 
@@ -405,6 +413,7 @@ is:
           bicycle_rental: Reiðhjólaleigan
           brothel: Hóruhúsið
           cafe: Kaffihúsið
+          car_rental: Bílaleigan
           car_wash: Bílaþvottastöðin
           cinema: Kvikmyndarhúsið
           dentist: Tannlæknirinn
@@ -437,6 +446,7 @@ is:
           swimming_pool: Sundlaugin
           water_park: Vatnsleikjagarðurinn
         natural: 
+          bay: Flóinn
           beach: Ströndin
           cave_entrance: Hellisop
           crater: Gígurinn
@@ -517,7 +527,6 @@ is:
     donate: Hjálpaðu OpenStreetMap verkefninu með {{link}} í vélbúnaðarsjóðinn.
     donate_link_text: fjárframlagi
     edit: Breyta
-    edit_tooltip: Breyta kortagögnunum
     export: Niðurhala
     export_tooltip: Niðurhala kortagögnum á hinum ýmsu sniðum
     gps_traces: GPS ferlar
@@ -526,7 +535,6 @@ is:
     help_wiki_tooltip: Hjálpar og wiki-síða fyrir verkefnið
     help_wiki_url: http://wiki.openstreetmap.org/wiki/Fors%C3%AD%C3%B0a?uselang=is
     history: Breytingarskrá
-    history_tooltip: Sjá skrá yfir breytingarsett
     home: heim
     home_tooltip: Færa kortasýnina á þína staðsetningu
     inbox: innhólf ({{count}})
@@ -565,10 +573,6 @@ is:
     view_tooltip: Kortasýn
     welcome_user: Hæ {{user_link}}
     welcome_user_link_tooltip: Notandasíðan þín
-  map: 
-    coordinates: "Hnit:"
-    edit: Breyta
-    view: Kort
   message: 
     delete: 
       deleted: Skilaboðunum var eytt
@@ -852,6 +856,9 @@ is:
     sidebar: 
       close: Loka
       search_results: Leitarniðurstöður
+  time: 
+    formats: 
+      friendly: "%e .%B %Y kl. %H:%M"
   trace: 
     create: 
       trace_uploaded: Búið er að hlaða upp GPS ferlinum og bíður hann núna eftir því að vera settur inn í gagnagrunninn, sem gerist yfirleitt innan stundar. Póstur verður sendur á netfangið þitt þegar því er lokið.
@@ -892,13 +899,15 @@ is:
       count_points: "{{count}} punktar"
       edit: breyta
       edit_map: Breyta kortinu með ferilin til hliðsjónar
+      identifiable: AUÐKENNANLEGUR
       in: í
       map: kort
       more: upplýsingar
       pending: Í BIÐ
-      private: BARA ÞÚ SÉRÐ
+      private: PRÍVAT
       public: ALLIR SJÁ
       trace_details: Sýna upplýsingar um ferilinn
+      trackable: REKJANLEGUR
       view_map: Sjá kort
     trace_form: 
       description: Lýsing
@@ -917,6 +926,10 @@ is:
       traces_waiting: Þú ert með {{count}} ferla í bið. Íhugaðu að bíða með að senda inn fleiri ferla til að aðrir notendur komist að.
     trace_optionals: 
       tags: Tögg
+    trace_paging_nav: 
+      next: Næsta &raquo;
+      previous: "&laquo; Fyrri"
+      showing_page: Sýni síðu {{page}}
     view: 
       delete_track: Eyða
       description: "Lýsing:"
@@ -943,14 +956,19 @@ is:
       trackable: Rekjanlegur (aðeins deilt sem óauðkennanlegir punktar með tímastimpli)
   user: 
     account: 
+      current email address: "Núverandi netfang:"
+      delete image: Eyða þessari mynd
       email never displayed publicly: (aldrei sýnt opinberlega)
       flash update success: Stillingarnar þínar voru uppfærðar.
       flash update success confirm needed: Stillingarnar þínar voru uppfærðar. Póstur var sendur á netfangið þitt sem þú þarft að bregðast við til að netfangið þitt verði staðfest.
       home location: "Staðsetning:"
+      image: "Mynd:"
+      keep image: Halda þessari mynd
       latitude: "Lengdargráða:"
       longitude: "Breiddargráða:"
       make edits public button: Gera allar breytingarnar mínar opinberar
       my settings: Mínar stillingar
+      new email address: "Nýtt netfang:"
       no home location: Þú hefur ekki stillt staðsetningu þína.
       preferred languages: "Viðmótstungumál:"
       profile description: "Lýsing á þér:"
@@ -982,9 +1000,6 @@ is:
       success: Netfangið þitt hefur verið staðfest.
     filter: 
       not_an_administrator: Þú þarft að vera möppudýr til að framkvæma þessa aðgerð.
-    friend_map: 
-      nearby mapper: "Nálægur notandi: [[nearby_user]]"
-      your location: Þín staðsetning
     go_public: 
       flash success: Allar breytingar þínar eru nú opinberar, og þú getur breytt gögnum.
     login: 
@@ -997,7 +1012,12 @@ is:
       lost password link: Gleymt lykilorð?
       password: "Lykilorð:"
       please login: Vinsamlegast innskráðu þig eða {{create_user_link}}.
+      remember: "Muna innskráninguna:"
       title: Innskrá
+    logout: 
+      heading: Útskrá
+      logout_button: Útskrá
+      title: Útskrá
     lost_password: 
       email address: "Netfang:"
       heading: Gleymt lykilorð?
@@ -1030,6 +1050,10 @@ is:
       body: Það er ekki til notandi með nafninu {{user}}. Kannski slóstu nafnið rangt inn eða fylgdir ógildum tengli.
       heading: Notandinn {{user}} er ekki til
       title: Notandi ekki til
+    popup: 
+      friend: Vinur
+      nearby mapper: Nálægur notandi
+      your location: Þín staðsetning
     remove_friend: 
       not_a_friend: "{{name}} er ekki vinur þinn."
       success: "{{name}} er ekki lengur vinur þinn."
@@ -1046,17 +1070,14 @@ is:
     view: 
       activate_user: virkja þennan notanda
       add as friend: bæta við sem vin
-      add image: Senda
       ago: ({{time_in_words_ago}} síðan)
       block_history: bönn gegn þessum notanda
       blocks by me: bönn eftir mig
       blocks on me: bönn gegn mér
-      change your settings: breyttu stillingunum þínum
       confirm: Staðfesta
       create_block: banna þennan notanda
       created from: "Búin til frá:"
       deactivate_user: óvirkja þennan notanda
-      delete image: Eyða myndinni
       delete_user: eyða þessum notanda
       description: Lýsing
       diary: blogg
@@ -1072,12 +1093,11 @@ is:
       my edits: mínar breytingar
       my settings: mínar stillingar
       my traces: mínir ferlar
-      my_oauth_details: OAuth stillingar
       nearby users: "Nálægir notendur:"
       new diary entry: ný bloggfærsla
       no friends: Þú átt enga vini
-      no home location: Engin staðsetning hefur verið stillt..
       no nearby users: Engir notendur hafa stillt staðsetningu sína nálægt þér.
+      oauth settings: oauth stillingar
       remove as friend: fjarlægja sem vin
       role: 
         administrator: Þessi notandi er möppudýr
@@ -1092,8 +1112,6 @@ is:
       settings_link_text: stillingarsíðunni
       traces: ferlar
       unhide_user: af-fela þennan notanda
-      upload an image: Senda inn mynd
-      user image heading: Notandamynd
       user location: Staðsetning
       your friends: Vinir þínir
   user_block: 

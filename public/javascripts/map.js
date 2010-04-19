@@ -32,18 +32,21 @@ function createMap(divName, options) {
    });
 
    var mapnik = new OpenLayers.Layer.OSM.Mapnik(i18n("javascripts.map.base.mapnik"), {
+      keyid: "mapnik",
       displayOutsideMaxExtent: true,
       wrapDateLine: true
    });
    map.addLayer(mapnik);
 
    var osmarender = new OpenLayers.Layer.OSM.Osmarender(i18n("javascripts.map.base.osmarender"), {
+      keyid: "osmarender",
       displayOutsideMaxExtent: true,
       wrapDateLine: true
    });
    map.addLayer(osmarender);
 
    var cyclemap = new OpenLayers.Layer.OSM.CycleMap(i18n("javascripts.map.base.cycle_map"), {
+      keyid: "cyclemap",
       displayOutsideMaxExtent: true,
       wrapDateLine: true
    });
@@ -96,7 +99,8 @@ function addMarkerToMap(position, icon, description) {
    markers.addMarker(marker);
 
    if (description) {
-      marker.events.register("click", marker, function() { openMapPopup(marker, description) });
+      marker.events.register("mouseover", marker, function() { openMapPopup(marker, description) });
+      marker.events.register("mouseout", marker, function() { closeMapPopup() });
    }
 
    return marker;
@@ -169,10 +173,9 @@ function addBoxToMap(boxbounds) {
 function openMapPopup(marker, description) {
    closeMapPopup();
 
-   popup = new OpenLayers.Popup.AnchoredBubble("popup", marker.lonlat, null,
-                                               description, marker.icon, true);
+   popup = new OpenLayers.Popup.FramedCloud("popup", marker.lonlat, null,
+                                            description, marker.icon, true);
    popup.setBackgroundColor("#E3FFC5");
-   popup.autoSize = true;
    map.addPopup(popup);
 
    return popup;

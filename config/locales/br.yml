@@ -214,6 +214,12 @@ br:
       zoom_or_select: Zoumañ pe diuzañ un takad eus ar gartenn da welet
     tag_details: 
       tags: "Balizennoù :"
+    timeout: 
+      type: 
+        changeset: strollad kemmoù
+        node: skoulm
+        relation: darempred
+        way: hent
     way: 
       download: "{{download_xml_link}}, {{view_history_link}} pe {{edit_link}}"
       download_xml: Pellgargañ XML
@@ -277,7 +283,7 @@ br:
       comment_link: Addisplegañ an enmoned-mañ
       confirm: Kadarnaat
       edit_link: Aozañ an enmoned-mañ
-      hide_link: Kuzhat an ebarzhadenn-mañ
+      hide_link: Kuzhat an elfenn-mañ
       posted_by: Postet gant {{link_user}} da {{created}} e {{language_link}}
       reply_link: Respont d'an enmoned-mañ
     edit: 
@@ -311,6 +317,10 @@ br:
       recent_entries: "Enmonedoù nevez en deizlevr :"
       title: Deizlevrioù an implijerien
       user_title: Deizlevr {{user}}
+    location: 
+      edit: Kemmañ
+      location: "Lec'hiadur :"
+      view: "Lec'hiadur :"
     new: 
       title: Enmoned nevez en deizlevr
     no_such_entry: 
@@ -326,7 +336,7 @@ br:
       login: Kevreañ
       login_to_leave_a_comment: "{{login_link}} evit lezel un addispleg"
       save_button: Enrollañ
-      title: Deizlevrioù an implijerien | {{user}}
+      title: Deizlevr {{user}} | {{title}}
       user_title: Deizlevr {{user}}
   export: 
     start: 
@@ -350,6 +360,8 @@ br:
       output: Er-maez
       paste_html: Pegañ HTML evit bezañ enkorfet en ul lec'hienn web
       scale: Skeuliad
+      too_large: 
+        heading: Zonenn re vras
       zoom: Zoum
     start_rjs: 
       add_marker: Ouzhpennañ ur merker d'ar gartenn
@@ -385,6 +397,7 @@ br:
       other: war-dro {{count}} km
       zero: nebeutoc'h eget 1 km
     results: 
+      more_results: Muioc'h a zisoc'hoù
       no_results: N'eus bet kavet respont ebet
     search: 
       title: 
@@ -574,7 +587,7 @@ br:
           icon: Arlun
           manor: Maner
           memorial: Kounlec'h
-          mine: Maen-gleuz
+          mine: Mengleuz
           monument: Monumant
           museum: Mirdi
           ruins: Dismantroù
@@ -600,7 +613,7 @@ br:
           landfill: Diskarg
           meadow: Prad
           military: Takad milourel
-          mine: Maen-gleuz
+          mine: Mengleuz
           mountain: Menez
           nature_reserve: Gwarezva natur
           park: Park
@@ -658,7 +671,7 @@ br:
           moor: Lanneier
           mud: Fank
           peak: Pikern
-          point: Beg
+          point: Poent
           reef: Karreg
           ridge: Kribenn
           river: Stêr
@@ -840,21 +853,23 @@ br:
         cycle_map: Kelc'hiad kartenn
         noname: AnvEbet
     site: 
+      edit_disabled_tooltip: Zoumañ da zegas kemmoù war ar gartenn
+      edit_tooltip: Kemmañ ar gartenn
       edit_zoom_alert: Ret eo deoc'h zoumañ evit aozañ ar gartenn
+      history_disabled_tooltip: Zoumañ evit gwelet ar c'hemmoù degaset d'an takad-mañ
+      history_tooltip: Gwelet ar c'hemmoù er zonenn-se
       history_zoom_alert: Ret eo deoc'h zoumañ evit gwelet istor an aozadennoù
   layouts: 
     donate: Skoazellit OpenStreetMap dre {{link}} d'an Hardware Upgrade Fund.
     donate_link_text: oc'h ober un donezon
     edit: Aozañ
-    edit_tooltip: Aozañ kartennoù
     export: Ezporzhiañ
     export_tooltip: Ezporzhiañ roadennoù ar gartenn
     gps_traces: Roudoù GPS
-    gps_traces_tooltip: Merañ ar roudoù
+    gps_traces_tooltip: Merañ ar roudoù GPS
     help_wiki: Skoazell &amp; Wiki
     help_wiki_tooltip: Skoazell &amp; lec'hienn Wiki evit ar raktres
     history: Istor
-    history_tooltip: Istor ar strollad kemmoù
     home: degemer
     home_tooltip: Mont da lec'h ar gêr
     inbox: boest resev ({{count}})
@@ -864,7 +879,8 @@ br:
       zero: N'eus kemennadenn anlennet ebet en ho poest resev
     intro_1: OpenStreetMap zo ur gartenn digoust eus ar bed a-bezh, a c'haller kemmañ. Graet eo gant tud eveldoc'h.
     intro_2: Gant OpenStreetMap e c'hallit gwelet, aozañ hag implijout roadennoù douaroniel eus forzh pelec'h er bed.
-    intro_3: Herberc'hiet eo OpenStreetMap gant {{ucl}} et {{bytemark}}.
+    intro_3: Herberc'hiet eo OpenStreetMap gant {{ucl}} et {{bytemark}}. Skoazellerien all eus ar raktres a vez rollet war ar {{partners}}.
+    intro_3_partners: wiki
     license: 
       title: OpenStreetMap data zo dindan an aotre-implijout Creative Commons Attribution-Share Alike 2.0
     log_in: kevreañ
@@ -889,13 +905,9 @@ br:
     user_diaries: Deizlevrioù an implijer
     user_diaries_tooltip: Gwelet deizlevrioù an implijerien
     view: Gwelet
-    view_tooltip: Gwelet ar c'hartennoù
+    view_tooltip: Gwelet ar gartenn
     welcome_user: Degemer mat, {{user_link}}
     welcome_user_link_tooltip: Ho pajenn implijer
-  map: 
-    coordinates: "Daveennoù :"
-    edit: Aozañ
-    view: Gwelet
   message: 
     delete: 
       deleted: Kemennadenn dilamet
@@ -926,10 +938,14 @@ br:
       send_message_to: Kas ur gemennadenn nevez da {{name}}
       subject: Danvez
       title: Kas ur gemennadenn
+    no_such_message: 
+      body: Ho tigarez, n'eus kemennadenn ebet gant an id-se.
+      heading: N'eus ket eus ar gemennadenn-se
+      title: N'eus ket eus ar gemennadenn-se
     no_such_user: 
-      body: Ho tigarez, n'eus implijer ebet na kemennadenn ebet gant an anv pe an id-se
-      heading: N'eus ket un implijer pe ur gemennadenn evel-se
-      title: N'eus ket un implijer pe ur gemennadenn evel-se
+      body: Ho tigarez, n'eus implijer ebet gant an anv.
+      heading: N'eus implijer ebet evel-se
+      title: N'eus implijer ebet evel-se
     outbox: 
       date: Deiziad
       inbox: boest resev
@@ -973,8 +989,9 @@ br:
       hopefully_you_1: Unan bennak (c'hwi moarvat) a garfe cheñch e chomlec'h postel da
       hopefully_you_2: "{{server_url}} da {{new_address}}."
     friend_notification: 
+      befriend_them: "Tu 'zo deoc'h e ouzhpennañ evel ur mignon amañ : {{befriendurl}}."
       had_added_you: "{{user}} en deus hoc'h ouzhpennet evel mignon war OpenStreetMap."
-      see_their_profile: Gallout a rit gwelet o frofil war {{userurl}} hag o ouzhpennañ evel mignoned ma karit.
+      see_their_profile: "Gallout a rit gwelet o frofil amañ : {{userurl}}."
       subject: "[OpenStreetMap] {{user}} en deus hoc'h ouzhpennet evel mignon"
     gpx_notification: 
       and_no_tags: ha balizenn ebet.
@@ -1200,6 +1217,9 @@ br:
     sidebar: 
       close: Serriñ
       search_results: Disoc'hoù an enklask
+  time: 
+    formats: 
+      friendly: "%e %B %Y da %H:%M"
   trace: 
     create: 
       trace_uploaded: Kaset eo bet ho restr GPX hag emañ en gortoz a vezañ ensoc'het en diaz roadennoù. C'hoarvezout a ra dindan un hanter-eurvezh peurvuiañ, ha kaset e vo ur postel deoc'h pa vo echu.
@@ -1271,6 +1291,10 @@ br:
       traces_waiting: Bez' hoc'h eus {{count}} roud a c'hortoz bezañ kaset. Gwell e vefe gortoz a-raok kas re all, evit chom hep stankañ al lostennad evit an implijerien all.
     trace_optionals: 
       tags: Balizennoù
+    trace_paging_nav: 
+      next: War-lerc'h &raquo;
+      previous: "&laquo; A-raok"
+      showing_page: O tiskouez ar bajenn {{page}}
     view: 
       delete_track: Dilemel ar roudenn-mañ
       description: "Deskrivadur :"
@@ -1297,14 +1321,21 @@ br:
       trackable: A c'haller treseal (rannet evel dizanv hepken, poent uzhiet gant deiziadoù)
   user: 
     account: 
+      current email address: "Chomlec'h postel a-vremañ :"
+      delete image: Dilemel ar skeudenn a-vremañ
       email never displayed publicly: (n'eo ket diskwelet d'an holl morse)
       flash update success: Hizivaet eo bet titouroù an implijer.
       flash update success confirm needed: Hizivaet eo bet titouroù an implijer. Gwiriit ho posteloù evit kadarnaat ho chomlec'h postel nevez.
       home location: "Lec'hiadur ar gêr :"
+      image: "Skeudenn :"
+      image size hint: (ar skeudennoù karrezenneg gant ar stumm 100×100 pixel a zo ar re wellañ)
+      keep image: Derc'hel ar skeudenn a-vremañ
       latitude: "Ledred :"
       longitude: "Hedred :"
       make edits public button: Lakaat ma holl aozadennoù da vezañ foran
       my settings: Ma arventennoù
+      new email address: "Chomlec'h postel nevez :"
+      new image: Ouzhpennañ ur skeudenn
       no home location: N'hoc'h eus ket ebarzhet lec'hiadur ho kêr.
       preferred languages: "Yezhoù gwellañ karet :"
       profile description: "Deskrivadur ar profil :"
@@ -1318,6 +1349,7 @@ br:
       public editing note: 
         heading: Kemm foran
         text: Evit poent ez eo ho embannoù dianv, dre-se ne c'hell den skrivañ deoc'h pe gwelet ho lec'hiadur. Evit diskouez ar pezh o peus embannet ha reiñ an tu d'an dud da vont e darempred ganeoc'h dre al lec'hienn, klikit war al liamm da heul. <b>Abaoe ar c'hemm davet ar stumm API 0.6, ne c'hell nemet an dud gant an doare "kemmoù foran" embann kartennoù</b>. (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">gouzout hiroc'h</a>).<ul><li>Ne vo ket roet ho chomlec'h e-mail d'an dud o kregiñ ganti.</li><li>An obererezh-se ne c'hell ket bezañ nullet hag an implijerien nevez a zo en doare "kemmoù foran" dre ziouer.</li></ul>
+      replace image: Erlec'hiañ ar skeudenn a-vremañ
       return to profile: Distreiñ d'ar profil
       save changes button: Enrollañ ar c'hemmoù
       title: Aozañ ar gont
@@ -1336,9 +1368,6 @@ br:
       success: Kadarnaet eo ho chomlec'h postel, trugarez evit bezañ en em enskrivet !
     filter: 
       not_an_administrator: Ret eo deoc'h bezañ merour evit kas an ober-mañ da benn.
-    friend_map: 
-      nearby mapper: "Kartennour en ardremez : [[nearby_user]]"
-      your location: Ho lec'hiadur
     go_public: 
       flash success: Foran eo hoc'h holl aozadennoù bremañ, ha n'oc'h ket aotreet da aozañ.
     login: 
@@ -1351,7 +1380,12 @@ br:
       lost password link: Kollet hoc'h eus ho ker-tremen ?
       password: "Ger-tremen :"
       please login: Kevreit, mar plij, pe {{create_user_link}}.
+      remember: "Derc'hel soñj ac'hanon :"
       title: Kevreañ
+    logout: 
+      heading: Kuitaat OpenStreetMap
+      logout_button: Kuitaat
+      title: Kuitaat
     lost_password: 
       email address: "Chomlec'h postel :"
       heading: Ankouaet hoc'h eus ho ker-tremen ?
@@ -1384,6 +1418,10 @@ br:
       body: Ho tigarez, n'eus implijer ebet en anv {{user}}. Gwiriit hag-eñ eo skrivet mat, pe marteze hoc'h eus kliket war ul liamm fall.
       heading: N'eus ket eus an implijer {{user}}
       title: N'eus ket un implijer evel-se
+    popup: 
+      friend: Mignon
+      nearby mapper: Kartennour en ardremez
+      your location: Ho lec'hiadur
     remove_friend: 
       not_a_friend: "{{name}} n'eo ket unan eus ho mignoned."
       success: "{{name}} zo bet lamet eus ho mignoned."
@@ -1400,17 +1438,14 @@ br:
     view: 
       activate_user: gweredekaat an implijer-mañ
       add as friend: Ouzhpennañ evel mignon
-      add image: Ouzhpennañ ur skeudenn
       ago: ({{time_in_words_ago}} zo)
       block_history: gwelet ar stankadurioù resevet
       blocks by me: stankadurioù graet ganin
       blocks on me: Stankadurioù evidon
-      change your settings: cheñch hoc'h arventennoù
       confirm: Kadarnaat
       create_block: stankañ an implijer-mañ
       created from: "Krouet diwar :"
       deactivate_user: diweredekaat an implijer-mañ
-      delete image: Dilemel ar skeudenn
       delete_user: dilemel an implijer-mañ
       description: Deskrivadur
       diary: deizlevr
@@ -1426,12 +1461,11 @@ br:
       my edits: ma aozadennoù
       my settings: ma arventennoù
       my traces: ma roudoù
-      my_oauth_details: Gwelet ma munudoù OAuth
-      nearby users: "Implijerien tost deoc'h :"
+      nearby users: "Implijerien all tost deoc'h :"
       new diary entry: enmoned nevez en deizlevr
       no friends: N'hoc'h eus ouzhpennet mignon ebet c'hoazh.
-      no home location: N'eus bet lakaet lec'hiadur ebet evit ar gêr.
-      no nearby users: N'eus implijer ebet en ardremez c'hoazh.
+      no nearby users: N'eus implijer ebet all en ardremez c'hoazh.
+      oauth settings: arventennoù oauth
       remove as friend: Lemel evel mignon
       role: 
         administrator: Ur merour eo an implijer-mañ
@@ -1446,8 +1480,6 @@ br:
       settings_link_text: arventennoù
       traces: roudoù
       unhide_user: Diguzhat an implijer-mañ
-      upload an image: Kas ur skeudenn
-      user image heading: Skeudenn implijer
       user location: Lec'hiadur an implijer
       your friends: Ho mignoned
   user_block: 

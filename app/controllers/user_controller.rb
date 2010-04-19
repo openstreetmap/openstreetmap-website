@@ -253,6 +253,8 @@ if (!params[:user][:openid_url].nil? and params[:user][:openid_url].length > 0)
            end
       end
     end
+
+    user
   end
 
   def go_public
@@ -310,8 +312,8 @@ if (!params[:user][:openid_url].nil? and params[:user][:openid_url].length > 0)
   def new
     @title = t 'user.new.title'
 
-    # The user is logged in already, so don't show them the signup page, instead
-    # send them to the home page
+    # The user is logged in already, so don't show them the signup
+    # page, instead send them to the home page
     redirect_to :controller => 'site', :action => 'index' if session[:user]
 
 	@nickname = params['nickname']
@@ -320,66 +322,64 @@ if (!params[:user][:openid_url].nil? and params[:user][:openid_url].length > 0)
   end
 
   def login
+    @title = t 'user.login.title'
 
-	#The redirect from the OpenID provider reenters here again
+    #The redirect from the OpenID provider reenters here again
     #and we need to pass the parameters through to the 
     # open_id_authentication function
     if params[:open_id_complete]
-      open_id_authentication('')
-    end
-
-    if params[:user] and session[:user].nil?
-	  if !params[:user][:openid_url].nil? and !params[:user][:openid_url].empty?
-		session[:remember] = params[:remember_me]
-        open_id_authentication(params[:user][:openid_url])
+      user = open_id_authentication('')
+    elsif params[:user]
+      if !params[:user][:openid_url].nil? and !params[:user][:openid_url].empty?
+        session[:remember] = params[:remember_me]
+        user = open_id_authentication(params[:user][:openid_url])
       else
-		email_or_display_name = params[:user][:email]
-		pass = params[:user][:password]
-		user = User.authenticate(:username => email_or_display_name, :password => pass)
-		if user
-		  session[:user] = user.id
-		  session_expires_after 1.month if params[:remember_me]
-		elsif User.authenticate(:username => email_or_display_name, :password => pass, :inactive => true)
-		  flash.now[:error] = t 'user.login.account not active'
-		else
-		  flash.now[:error] = t 'user.login.auth failure'
-		end
-	  end
+        email_or_display_name = params[:user][:email]
+        pass = params[:user][:password]
+
+        if user = User.authenticate(:username => email_or_display_name, :password => pass)
+          session[:user] = user.id
+          session_expires_after 1.month if params[:remember_me]
+        elsif User.authenticate(:username => email_or_display_name, :password => pass, :inactive => true)
+          flash.now[:error] = t 'user.login.account not active'
+        else
+          flash.now[:error] = t 'user.login.auth failure'
+        end
+      end
     end
 
-    if session[:user]
-      # The user is logged in, if the referer param exists, redirect them to that
-      # unless they've also got a block on them, in which case redirect them to
-      # the block so they can clear it.
-      user = User.find(session[:user])
-      block = user.blocked_on_view
-      if block
-        redirect_to block, :referrer => params[:referrer]
+    if user
+      # The user is logged in, if the referer param exists, redirect
+      # them to that unless they've also got a block on them, in
+      # which case redirect them to the block so they can clear it.
+      if user.blocked_on_view
+        redirect_to user.blocked_on_view, :referrer => params[:referrer]
       elsif params[:referer]
         redirect_to params[:referer]
       else
         redirect_to :controller => 'site', :action => 'index'
       end
-      return
     end
-
-    @title = t 'user.login.title'
   end
 
   def logout
-    if session[:token]
-      token = UserToken.find_by_token(session[:token])
-      if token
-        token.destroy
+    @title = t 'user.logout.title'
+
+    if params[:session] == request.session_options[:id]
+      if session[:token]
+        token = UserToken.find_by_token(session[:token])
+        if token
+          token.destroy
+        end
+        session[:token] = nil
       end
-      session[:token] = nil
-    end
-    session[:user] = nil
-    session_expires_automatically
-    if params[:referer]
-      redirect_to params[:referer]
-    else
-      redirect_to :controller => 'site', :action => 'index'
+      session[:user] = nil
+      session_expires_automatically
+      if params[:referer]
+        redirect_to params[:referer]
+      else
+        redirect_to :controller => 'site', :action => 'index'
+      end
     end
   end
 
@@ -468,7 +468,11 @@ if (!params[:user][:openid_url].nil? and params[:user][:openid_url].length > 0)
         flash[:warning] = t 'user.make_friend.already_a_friend', :name => name
       end
 
-      redirect_to :controller => 'user', :action => 'view'
+      if params[:referer]
+        redirect_to params[:referer]
+      else
+        redirect_to :controller => 'user', :action => 'view'
+      end
     end
   end
 
@@ -483,7 +487,11 @@ if (!params[:user][:openid_url].nil? and params[:user][:openid_url].length > 0)
         flash[:error] = t 'user.remove_friend.not_a_friend', :name => friend.display_name
       end
 
-      redirect_to :controller => 'user', :action => 'view'
+      if params[:referer]
+        redirect_to params[:referer]
+      else
+        redirect_to :controller => 'user', :action => 'view'
+      end
     end
   end
 
