@@ -95,11 +95,11 @@ private
     end
   rescue ActionView::TemplateError => ex
     if ex.original_exception.is_a?(Timeout::Error)
-      render :action => "timeout", :status => :request_timeout
+      render :action => "timeout"
     else
       raise
     end
   rescue Timeout::Error
-    render :action => "timeout", :status => :request_timeout
+    render :action => "timeout"
   end
 end

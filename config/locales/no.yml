@@ -75,6 +75,11 @@
       way: Vei
       way_node: Veinode
       way_tag: Veimerkelapp
+  application: 
+    require_cookies: 
+      cookies_needed: Du ser ut til å ha deaktivert informasjonskapsler. Aktiver informasjonskapsler i nettleseren din før du fortsetter.
+    setup_user_auth: 
+      blocked: Din tilgang til API-et er blokkert. Logg inn på nettstedet for å finne ut mer.
   browse: 
     changeset: 
       changeset: "Endringssett: {{id}}"
@@ -315,12 +320,18 @@
       recent_entries: "Nye oppføringer i dagboka:"
       title: Brukernes dagbøker
       user_title: Dagboken for {{user}}
+    location: 
+      edit: Rediger
+      location: "Posisjon:"
+      view: Vis
     new: 
       title: Ny dagbokoppføring
     no_such_entry: 
+      body: Det er ingen dagbokinnlegg eller kommentar med ID {{id}}. Sjekk om du har skrevet feil eller om lenka du klikket er feil.
       heading: Ingen oppføring med {{id}}
       title: Ingen slik dagbokoppføring
     no_such_user: 
+      body: Beklager, det finnes ingen bruker med navnet {{user}}. Vennligst sjekk at du har stavet riktig, eller kanskje lenken du fulgte er feil.
       heading: Brukeren {{user}} finnes ikke
       title: Ingen bruker funnet
     view: 
@@ -352,6 +363,9 @@
       output: Utdata
       paste_html: Lim inn HTML som skal bygges inn i nettsted
       scale: Skala
+      too_large: 
+        body: Dette området er for stort for å bli eksportert som OpenStreetMap XML-data. Zoom inn eller velg et mindre område.
+        heading: For stort område
       zoom: Zoom
     start_rjs: 
       add_marker: Legg til en markør på kartet
@@ -366,6 +380,7 @@
       title: 
         geonames: Posisjon fra <a href="http://www.geonames.org/">GeoNames</a>
         osm_namefinder: "{{types}} fra <a href=\"http://gazetteer.openstreetmap.org/namefinder/\">OpenStreetMap Namefinder</a>"
+        osm_nominatim: Sted fra <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
       types: 
         cities: Byer
         places: Steder
@@ -394,6 +409,7 @@
         geonames: Resultat fra <a href="http://www.geonames.org/">GeoNames</a>
         latlon: Resultat fra <a href="http://openstreetmap.org/">Internt</a>
         osm_namefinder: Resultat fra <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>
+        osm_nominatim: Resultat fra <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
         uk_postcode: Resultat fra <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Resultat fra <a href="http://geocoder.us/">Geocoder.us</a>
     search_osm_namefinder: 
@@ -409,23 +425,27 @@
           bank: Bank
           bar: Bar
           bench: Benk
+          bicycle_parking: Sykkelparkering
           bicycle_rental: Sykkelutleie
           brothel: Bordell
           bureau_de_change: Vekslingskontor
           bus_station: Busstasjon
           cafe: Kafé
           car_rental: Bilutleie
+          car_sharing: Bildeling
           car_wash: Bilvask
           casino: Kasino
           cinema: Kino
           clinic: Klinikk
           club: Klubb
           college: Høyskole
+          courthouse: Rettsbygning
           crematorium: Krematorium
           dentist: Tannlege
           doctors: Leger
           dormitory: Sovesal
           drinking_water: Drikkevann
+          driving_school: Kjøreskole
           embassy: Ambassade
           emergency_phone: Nødtelefon
           fast_food: Hurtigmat
@@ -444,6 +464,7 @@
           library: Bibliotek
           market: Marked
           marketplace: Markedsplass
+          mountain_rescue: Fjellredning
           nightclub: Nattklubb
           office: Kontor
           park: Park
@@ -457,9 +478,14 @@
           prison: Fengsel
           pub: Pub
           public_building: Offentlig bygning
+          reception_area: Oppsamlingsområde
+          recycling: Resirkuleringspunkt
           restaurant: Restaurant
           retirement_home: Gamlehjem
+          sauna: Sauna
           school: Skole
+          shop: Butikk
+          shopping: Handel
           studio: Studio
           supermarket: Supermarked
           taxi: Drosje
@@ -467,6 +493,8 @@
           theatre: Teater
           toilets: Toaletter
           townhall: Rådhus
+          university: Universitet
+          vending_machine: Vareautomat
           veterinary: Veterinærklinikk
           wifi: WiFi-tilgangspunkt
           youth_centre: Ungdomssenter
@@ -480,6 +508,7 @@
           church: Kirke
           city_hall: Rådhus
           dormitory: Sovesal
+          entrance: Bygningsinngang
           farm: Gårdsbygg
           flats: Leiligheter
           garage: Garasje
@@ -501,11 +530,25 @@
           "yes": Bygning
         highway: 
           bus_stop: Busstopp
+          construction: Motorvei under konstruksjon
           cycleway: Sykkelsti
+          distance_marker: Avstandsmarkør
           motorway: Motorvei
+          motorway_junction: Motorveikryss
+          path: Sti
           pedestrian: Gangvei
+          primary: Primær vei
+          primary_link: Primær vei
           road: Vei
+          secondary: Sekundær vei
+          secondary_link: Sekundær vei
           steps: Trapper
+          tertiary: Tertiær vei
+          track: Sti
+          trunk: Hovedvei
+          trunk_link: Hovedvei
+          unclassified: Uklassifisert vei
+          unsurfaced: Vei uten dekke
         historic: 
           archaeological_site: Arkeologisk plass
           battlefield: Slagmark
@@ -541,64 +584,92 @@
           park: Park
           quarry: Steinbrudd
           railway: Jernbane
+          recreation_ground: Idrettsplass
           reservoir: Reservoar
           residential: Boligområde
           vineyard: Vingård
           wetland: Våtland
           wood: Skog
         leisure: 
+          beach_resort: Strandsted
+          common: Allmenning
           fishing: Fiskeområde
           garden: Hage
           golf_course: Golfbane
           ice_rink: Skøytebane
+          marina: Båthavn
           miniature_golf: Minigolf
           nature_reserve: Naturreservat
           park: Park
           playground: Lekeplass
+          recreation_ground: Idrettsplass
+          slipway: Slipp
           sports_centre: Sportssenter
           stadium: Stadion
           swimming_pool: Svømmebaseng
+          track: Løpebane
           water_park: Vannpark
         natural: 
+          bay: Bukt
           beach: Strand
+          cape: Nes
           cave_entrance: Huleinngang
           channel: Kanal
           cliff: Klippe
           coastline: Kystlinje
           crater: Krater
+          feature: Egenskap
+          fell: Fjellskrent
           fjord: Fjord
           geyser: Geysir
           glacier: Isbre
+          heath: Vidde
+          hill: Ås
           island: Øy
+          land: Land
+          marsh: Sump
+          moor: Myr
           mud: Gjørme
           peak: Topp
+          point: Punkt
           reef: Rev
+          ridge: Rygg
           river: Elv
           rock: Stein
+          scree: Ur
           scrub: Kratt
+          shoal: Grunning
           spring: Kilde
+          strait: Stred
           tree: Tre
           valley: Dal
           volcano: Vulkan
           water: Vann
+          wetland: Våtmark
           wetlands: Våtland
           wood: Skog
         place: 
           airport: Flyplass
           city: By
           country: Land
+          county: Fylke
           farm: Gård
+          hamlet: Grend
           house: Hus
           houses: Hus
           island: Øy
           islet: Holme
+          locality: Plass
+          moor: Myr
           municipality: Kommune
           postcode: Postnummer
           region: Område
           sea: Hav
+          state: Delstat
           subdivision: Underavdeling
           suburb: Forstad
           town: Tettsted
+          village: Landsby
         railway: 
           abandoned: Forlatt jernbane
           construction: Jernbane under konstruksjon
@@ -606,10 +677,13 @@
           disused_station: Nedlagt jernbanestasjon
           halt: Togstopp
           historic_station: Historisk jernbanestasjon
+          junction: Jernbanekryss
           platform: Jernbaneperrong
           station: Jernbanestasjon
           subway: T-banestasjon
           subway_entrance: T-baneinngang
+          tram: Sporvei
+          tram_stop: Trikkestopp
         shop: 
           alcohol: Utenfor lisens
           art: Kunstbutikk
@@ -675,13 +749,16 @@
           alpine_hut: Fjellhytte
           artwork: Kunstverk
           attraction: Attraksjon
+          bed_and_breakfast: Bed and Breakfast
           cabin: Hytte
           camp_site: Teltplass
           caravan_site: Campingplass
+          chalet: Fjellhytte
           guest_house: Gjestehus
           hostel: Vandrerhjem
           hotel: Hotell
           information: Informasjon
+          lean_to: Lenne inntil
           motel: Motell
           museum: Museum
           picnic_site: Piknikplass
@@ -693,8 +770,10 @@
           canal: Kanal
           dam: Demning
           ditch: Grøft
+          mooring: Fortøyning
           rapids: Stryk
           river: Elv
+          riverbank: Elvebredd
           stream: Strøm
           waterfall: Foss
   javascripts: 
@@ -702,6 +781,13 @@
       base: 
         cycle_map: Sykkelkart
         noname: IntetNavn
+    site: 
+      edit_disabled_tooltip: Zoom inn for å redigere kartet
+      edit_tooltip: Rediger kartet
+      edit_zoom_alert: Du må zoome inn for å redigere kartet
+      history_disabled_tooltip: Zoom inn for å vise redigeringer i dette området
+      history_tooltip: Vis redigeringer for dette området
+      history_zoom_alert: Du må zoome inn for å vise redigeringer i dette området
   layouts: 
     donate: Støtt OpenStreetMap ved {{link}} til Hardware Upgrade Fund (et fond for maskinvareoppgraderinger).
     donate_link_text: donering
@@ -709,7 +795,7 @@
     export: Eksporter
     export_tooltip: Eksporter kartdata
     gps_traces: GPS-spor
-    gps_traces_tooltip: Behandle spor
+    gps_traces_tooltip: Behandle GPS-spor
     help_wiki: Hjelp &amp; Wiki
     help_wiki_tooltip: Hjelp- &amp; Wiki-side for prosjektet
     history: Historikk
@@ -747,7 +833,7 @@
     user_diaries: Brukerdagbok
     user_diaries_tooltip: Vis brukerens dagbok
     view: Vis
-    view_tooltip: Vis kart
+    view_tooltip: Vis kartet
     welcome_user: Velkommen, {{user_link}}
     welcome_user_link_tooltip: Din brukerside
   message: 
@@ -780,10 +866,14 @@
       send_message_to: Send en ny melding til {{name}}
       subject: Emne
       title: Send melding
+    no_such_message: 
+      body: Det er ingen melding med den ID-en.
+      heading: Ingen melding funnet
+      title: Ingen melding funnet
     no_such_user: 
-      body: Det er ingen bruker eller melding med det navnet eller den id-en
-      heading: Ingen bruker eller melding funnet
-      title: Ingen bruker eller melding funnet
+      body: Det er ingen bruker med det navnet.
+      heading: Ingen bruker funnet
+      title: Ingen bruker funnet
     outbox: 
       date: Dato
       inbox: innboks
@@ -807,6 +897,9 @@
       title: Les melding
       to: Til
       unread_button: Marker som ulest
+      wrong_user: Du er logget inn som «{{user}}», men meldingen du ønsker å lese ble ikke sendt til den brukeren. Logg inn som korrekt bruker for å lese.
+    reply: 
+      wrong_user: Du er logget inn som «{{user}}», men meldingen du ønsker å svare på ble ikke sendt til den brukeren. Logg inn som korrekt bruker for å svare.
     sent_message_summary: 
       delete_button: Slett
   notifier: 
@@ -827,8 +920,9 @@
       hopefully_you_1: Noen (forhåpentligvis deg) ønsker å endre e-postadressen for
       hopefully_you_2: "{{server_url}} til {{new_address}}."
     friend_notification: 
+      befriend_them: Du kan også legge dem til som venn på {{befriendurl}}.
       had_added_you: "{{user}} har lagt deg til som venn på OpenStreetMap."
-      see_their_profile: Du kan se profilen deres på {{userurl}} og legge dem til som venn også om du vil det.
+      see_their_profile: Du kan se profilen deres på {{userurl}}.
       subject: "[OpenStreetMap] {{user}} la deg til som en venn"
     gpx_notification: 
       and_no_tags: og ingen merkelapper.
@@ -840,6 +934,7 @@
         subject: "[OpenStreetMap] Feil under import av GPX"
       greeting: Hei,
       success: 
+        loaded_successfully: lastet med {{trace_points}} av {{possible_points}} mulige punkter.
         subject: "[OpenStreetMap] Vellykket import av GPX"
       with_description: med beskrivelse
       your_gpx_file: Det ser ut som GPX-filen din
@@ -853,6 +948,7 @@
       click_the_link: Om dette er deg, vennligst klikk på lenken under for å tilbakestille passordet.
       greeting: Hei,
       hopefully_you_1: Noen (muligens deg) har bedt om å tilbakestille passordet på denne
+      hopefully_you_2: e-postadressser for openstreetmap.org-konto.
     message_notification: 
       footer1: Du kan også lese meldingen på {{readurl}}
       footer2: og du kan svare til {{replyurl}}
@@ -862,23 +958,31 @@
     signup_confirm: 
       subject: "[OpenStreetMap] Bekreft din e-postadresse"
     signup_confirm_html: 
+      click_the_link: Hvis dette er deg, så er du velkommen! Klikke lenka nedenfor for å bekrefte kontoen og les videre for mer informasjon om OpenStreetMap
       current_user: En liste over nåværende brukere i kategorier, basert på hvor i verden de er, er tilgjengelig fra <a href="http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region">Category:Users_by_geographical_region</a>.
+      get_reading: Start å lese om OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Beginners%27_Guide">på wikien</a>, få med deg de siste nyhetene via  <a href="http://blog.openstreetmap.org/">OpenStreetMap-bloggen</a> eller <a href="http://twitter.com/openstreetmap">Twitter</a>. Eller bla gjennom OpenStreetMaps grunnlegger Steve Coasts <a href="http://www.opengeodata.org/">OpenGeoData-blogg</a> for hele historien til prosjektet, som også har <a href="http://www.opengeodata.org/?cat=13">engelske podkaster</a> du kan lytte til.
       greeting: Hei der!
+      hopefully_you: Noen (forhåpentligvis deg) ønsker å opprette en konto på
       introductory_video: Du kan se en {{introductory_video_link}}.
       more_videos: Det er {{more_videos_link}}.
       more_videos_here: flere videoer her
+      user_wiki_page: Det anbefales at du oppretter en brukerside på wiki-en som inkluderer kategorimerker som viser hvor du er, f.eks <a href="http://wiki.openstreetmap.org/wiki/Category:Users_in_London">[[Category:Users_in_London]]</a>.
       video_to_openstreetmap: introduksjonsvideo til OpenStreetMap
       wiki_signup: Du vil kanskje <a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page">melde deg inn i OpenStreetMap-wikien</a> også.
     signup_confirm_plain: 
       blog_and_twitter: "Få med deg de siste nyhetene gjennom OpenStreetMap-bloggen eller Twitter:"
       click_the_link_1: Om dette er deg, velkommen! Vennligst klikk på lenken under for å bekrefte din
       click_the_link_2: konto og les videre for mer informasjon om OpenStreetMap.
+      current_user_1: En liste over nåværende brukere i kategorier, basert på hvor i verden
       current_user_2: "de er, er tilgjengelig fra:"
       greeting: Hei der!
+      hopefully_you: Noen (forhåpentligvis deg) ønsker å opprette en konto på
       introductory_video: "Du kan se en introduksjonsvideo for OpenStreetMap her:"
       more_videos: "Det er flere videoer her:"
+      opengeodata: "OpenGeoData.org er bloggen til OpenStreetMap-grunnlegger Steve Coast, og den har podcast-er også:"
       the_wiki: "Les mer om OpenStreetMap på wikien:"
-      user_wiki_1: Det anbefales at du oppretter en wikibrukerside som inkluderer
+      user_wiki_1: Det anbefales at du oppretter en brukerside på wiki-en som inkluderer
+      user_wiki_2: kategorimerker som viser hvor du er, f.eks [[Category:Users_in_London]].
       wiki_signup: "Du vil kanskje også melde deg inn i OpenStreetMap-wikien på:"
   oauth: 
     oauthorize: 
@@ -898,11 +1002,15 @@
       submit: Rediger
       title: Rediger ditt programvare
     form: 
+      allow_read_gpx: les deres private GPS-spor.
+      allow_read_prefs: les brukerinnstillingene deres.
       allow_write_api: endre kartet.
       allow_write_diary: opprett dagbokoppføringer, kommentarer og finn venner.
       allow_write_gpx: last opp GPS-spor.
+      allow_write_prefs: endre brukerinnstillingene deres.
       callback_url: "URL til sårbarhetsinformasjon:"
       name: Navn
+      requests: "Be om følgende tillatelser fra brukeren:"
       required: Påkrevet
       support_url: Støtte-URL
       url: "URL til sårbarhetsinformasjon:"
@@ -927,19 +1035,23 @@
       allow_write_diary: opprett dagbokoppføringer, kommentarer og finn venner.
       allow_write_gpx: last opp GPS-spor.
       allow_write_prefs: endre brukerinnstillingene deres.
-      authorize_url: "URL til sårbarhetsinformasjon:"
+      authorize_url: "Godkjenn URL:"
       edit: Rediger detaljer
       key: "Forbrukernøkkel:"
       requests: "Ber om følgende tillatelser fra brukeren:"
       secret: "Forbrukerhemmelighet:"
       support_notice: Vi støtter HMAC-SHA1 (anbefalt) så vel som ren tekst i ssl-modus.
       title: OAuth-detaljer for {{app_name}}
-      url: "URL til sårbarhetsinformasjon:"
+      url: "URL for forespørelsnøkkel:"
     update: 
       flash: Oppdaterte klientinformasjonen
   site: 
     edit: 
       anon_edits_link_text: Finn ut hvorfor dette er tilfellet.
+      flash_player_required: Du trenger en Flash-spiller for å kunne bruke Potlatch, Flasheditoren for OpenStreetMap. Du kan <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">laste ned Flash Player fra Adobe.com</a>. <a href="http://wiki.openstreetmap.org/wiki/Editing">Flere andre alternativ</a> er også tilgjengelig for redigering av OpenStreetMap.
+      not_public: Du har ikke satt dine redigeringer til å være offentlige.
+      not_public_description: Du kan ikke lenger redigere kartet om du ikke gjør det. Du kan gjøre dine redigeringer offentlige fra din {{user_page}}.
+      potlatch_unsaved_changes: Du har ulagrede endringer. (For å lagre i Potlatch, må du fjerne markeringen av gjeldende vei eller punkt hvis du redigerer i live-modues eller klikke lagre hvis du har en lagreknapp.)
       user_page_link: brukerside
     index: 
       js_1: Du har en nettleser som ikke støtter JavaScript eller så har du slått av JavaScript.
@@ -1012,6 +1124,7 @@
           trunk: Hovedvei
           tunnel: Streket kant = tunnel
           unclassified: Uklassifisert vei
+          unsurfaced: Vei uten dekke
           wood: Ved
         heading: Legend for z{{zoom_level}}
     search: 
@@ -1060,12 +1173,18 @@
       body: Beklager, det finnes ingen bruker med navnet {{user}}. Vennligst sjekk at du har stavet riktig, eller kanskje lenken du fulgte er feil.
       heading: Brukeren {{user}} finnes ikke
       title: Ingen bruker funnet
+    offline: 
+      heading: GPX-lagring er utilgjengelig
+      message: Systemet for opplasting og lagring av GPX-filer er ikke tilgjengelig for øyeblikket.
+    offline_warning: 
+      message: Systemet for opplasting av GPX-filer er ikke tilgjengelig for øyeblikket.
     trace: 
       ago: "{{time_in_words_ago}} siden"
       by: av
       count_points: "{{count}} punkter"
       edit: rediger
       edit_map: Rediger kart
+      identifiable: IDENTIFISERBAR
       in: i
       map: kart
       more: mer
@@ -1073,6 +1192,7 @@
       private: PRIVAT
       public: OFFENTLIG
       trace_details: Vis detaljer for spor
+      trackable: SPORBAR
       view_map: Vis kart
     trace_form: 
       description: Beskrivelse
@@ -1141,6 +1261,7 @@
       public editing: 
         disabled: Deaktivert og kan ikke redigere data. Alle tidligere redigeringer er anonyme.
         disabled link text: hvorfor can jeg ikke redigere?
+        enabled: Aktivert. Ikke anonym og kan redigere data.
         enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: hva er dette?
         heading: "Offentlig redigering:"
@@ -1179,6 +1300,10 @@
       please login: Logg inn eller {{create_user_link}}.
       remember: "Huske meg:"
       title: Logg inn
+    logout: 
+      heading: Logg ut fra OpenStreetMap
+      logout_button: Logg ut
+      title: Logg ut
     lost_password: 
       email address: "E-postadresse:"
       heading: Glemt passord?
@@ -1194,15 +1319,21 @@
     new: 
       confirm email address: "Bekreft e-postadresse:"
       confirm password: "Bekreft passord:"
+      contact_webmaster: Kontakt <a href="mailto:webmaster@openstreetmap.org">webmaster</a> for å opprette en konto. Vi vil prøve å behandle forespørselen så fort som mulig.
       display name: "Visningsnavn:"
       display name description: Ditt offentlig fremviste brukernavn. Du kan endre dette senere i innstillingene.
       email address: "E-postadresse:"
       fill_form: Fyll ut skjemaet og vi vil sende deg en e-post for å aktivere kontoen din.
+      flash create success message: Bruker ble opprettet. Se etter er en bekreftelsesmelding i e-posten din, og du vil lage kart på null tid :-)<br /><br />Legg merke til at du ikke kan logge inn før du har bekreftet e-postadresssen din.<br /><br />Hvis du bruker en antispam-løsning som krever bekreftelse fra avsender, så må du hvitliste webmaster@openstreetmap.org (siden vi ikke er i stand til å svare på slike forespørsler om bekreftelse).
       heading: Opprett en brukerkonto
+      license_agreement: Ved å opprette en konto, godtar du at alle data du sender inn til OpenStreetMap-prosjektet vil bli (ikke-eksklusivt) lisensiert under <a href="http://creativecommons.org/licenses/by-sa/2.0/">denne Creative Commons-lisensen (by-sa)</a>.
+      no_auto_account_create: Beklageligvis kan vi for øyeblikket ikke opprette en konto for deg automatisk.
+      not displayed publicly: Ikke vist offentlig (se <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="Personvernpolitikk for Wiki-en inklusiv avsnitt om e-postadressser">vår personvernpolitikk</a>)
       password: "Passord:"
       signup: Registrering
       title: Opprett konto
     no_such_user: 
+      body: Det er ingen bruker med navnet {{user}}. Sjekk om du har skrevet navnet feil eller om lenka du klikket er feil.
       heading: Brukeren {{user}} finnes ikke
       title: Ingen bruker funnet
     popup: 
@@ -1239,6 +1370,7 @@
       edits: redigeringer
       email address: "E-postadresse:"
       hide_user: skjul denne brukeren
+      if set location: Hvis du setter din posisjon, så vil et fint kart og ting vises her. Du kan sette din hjemmeposisjon på din {{settings_link}}-side.
       km away: "{{count}}km unna"
       m away: "{{count}}m unna"
       mapper since: "Bruker siden:"
@@ -1251,6 +1383,7 @@
       new diary entry: ny dagbokoppføring
       no friends: Du har ikke lagt til noen venner ennå.
       no nearby users: Det er ingen andre brukere som innrømmer kartlegging i ditt område ennå.
+      oauth settings: oauth-innstillinger
       remove as friend: fjern som venn
       role: 
         administrator: Denne brukeren er en administrator
@@ -1274,6 +1407,7 @@
       title: Blokkeringer av {{name}}
     blocks_on: 
       empty: "{{name}} har ikke blitt blokkert ennå."
+      heading: Liste over blokkeringer av {{name}}
       title: Blokkeringer av {{name}}
     create: 
       flash: Opprettet en blokkering av bruker {{name}}.
@@ -1282,6 +1416,8 @@
     edit: 
       back: Vis alle blokkeringer
       heading: Endrer blokkering av {{name}}
+      needs_view: Må brukeren logge inn før denne blokkeringen blir fjernet?
+      period: Hvor lenge, fra nå, brukeren vil bli blokkert fra API-en.
       reason: Årsaken til hvorfor {{name}} blir blokkert. Vennligst vær så rolig og rimelig som mulig og oppgi så mange detaljer du kan om situasjonen. Husk at ikke alle brukere forstår felleskapssjargongen så prøv å bruke lekmannsuttrykk.
       show: Vis denne blokkeringen
       submit: Oppdater blokkering
@@ -1304,6 +1440,8 @@
     new: 
       back: Vis alle blokkeringer
       heading: Oppretter blokkering av {{name}}
+      needs_view: Brukeren må logge inn før denne blokkeringen blir fjernet.
+      period: Hvor lenge, fra nå, brukeren vil bli blokkert fra API-en.
       reason: Årsaken til at {{name}} blir blokkert. Vennligst vær så rolig og rimelig som mulig og gi så mange detaljer du kan om situasjonen, og husk på at meldingen blir synlig for offentligheten. Husk på at ikke alle brukere forstår fellesskapssjargongen så prøv å bruke lekmannsuttrykk.
       submit: Opprett blokkering
       title: Oppretter blokkering av {{name}}
@@ -1311,6 +1449,7 @@
       tried_waiting: Jeg har gitt brukeren rimelig med tid til å svare på disse kommunikasjonene.
     not_found: 
       back: Tilbake til indeksen
+      sorry: Beklager, brukerblokkeringen med ID {{id}} ble ikke funnet.
     partial: 
       confirm: Er du sikker?
       creator_name: Opprettet av
@@ -1334,8 +1473,12 @@
       time_future: Denne blokkeringen ender i {{time}}
       title: Tilbakekaller blokkering på {{block_on}}
     show: 
+      back: Vis alle blokkeringer
       confirm: Er du sikker?
       edit: Rediger
+      heading: "{{block_on}} blokkert av {{block_by}}"
+      needs_view: Brukeren må logge inn før denne blokkeringen blir fjernet.
+      reason: "Årsak for blokkering:"
       revoke: Tilbakekall!
       show: Vis
       status: Status

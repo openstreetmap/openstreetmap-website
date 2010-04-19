@@ -199,17 +199,18 @@ class ApiControllerTest < ActionController::TestCase
   # http://wiki.openstreetmap.org/wiki/Rails#Installing_the_quadtile_functions
   # or by looking at the readme in db/README
   def test_changes_simple
+    Timecop.freeze(Time.parse('2010-04-03 10:55:00'))
     get :changes
     assert_response :success
     #print @response.body
     # As we have loaded the fixtures, we can assume that there are no 
-    # changes recently
+    # changes at the time we have frozen at
     now = Time.now.getutc
     hourago = now - 1.hour
-    # Note that this may fail on a very slow machine, so isn't a great test
     assert_select "osm[version='#{API_VERSION}'][generator='#{GENERATOR}']:root", :count => 1 do
       assert_select "changes[starttime='#{hourago.xmlschema}'][endtime='#{now.xmlschema}']", :count => 1
     end
+    Timecop.return
   end
   
   def test_changes_zoom_invalid
