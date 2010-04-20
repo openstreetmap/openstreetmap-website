@@ -2,7 +2,7 @@ module BrowseHelper
   def link_to_page(page, page_param)
     return link_to(page, page_param => page)
   end
-  
+
   def printable_name(object, version=false)
     name = t 'printable_name.with_id', :id => object.id.to_s
     if version
@@ -14,6 +14,16 @@ module BrowseHelper
       name = t 'printable_name.with_name',  :name => object.tags['name'].to_s, :id => name
     end
     return name
+  end
+
+  def css_class(type, object)
+    css = type + " " + h(object.tags.find_all { |k,v| k == "aeroway" || k == "amenity" || k == "barrier" || k == "building" || k == "highway" || k == "landuse" || k == "leisure" || k == "man_made" || k == "natural" || k == "railway" || k == "shop" || k == "tourism" || k == "waterway" }.join(' '))
+    return css
+  end
+
+  def link_title(object)
+    title = h(object.tags.map { |k,v| k + '=' + v }.to_sentence)
+    return title
   end
 
   def format_key(key)
