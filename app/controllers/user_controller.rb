@@ -24,7 +24,7 @@ class UserController < ApplicationController
     if Acl.find_by_address(request.remote_ip, :conditions => {:k => "no_account_creation"})
       render :action => 'new'
     else
-	  #The redirect from the OpenID provider reenters here again 
+      #The redirect from the OpenID provider reenters here again 
       #and we need to pass the parameters through to the  
       #open_id_authentication function a second time 
       if params[:open_id_complete] 
@@ -48,47 +48,47 @@ class UserController < ApplicationController
         #to not get dupplicate conflicts for an empty openid  
         @user.openid_url = nil
 
-if (!params[:user][:openid_url].nil? and params[:user][:openid_url].length > 0)
-		  if @user.pass_crypt.length == 0 
+        if (!params[:user][:openid_url].nil? and params[:user][:openid_url].length > 0)
+          if @user.pass_crypt.length == 0 
             #if the password is empty, but we have a openid 
             #then generate a random passowrd to disable 
             #loging in via password 
             @user.pass_crypt = ActiveSupport::SecureRandom.base64(16) 
             @user.pass_crypt_confirmation = @user.pass_crypt 
           end
-		  #Validate all of the other fields before
-		  #redirecting to the openid provider
-		  if !@user.valid?
-			render :action => 'new'
-		  else		  
-			#TODO: Is it a problem to store the user variable with respect to password safty in the session variables?
-			#Store the user variable in the session for it to be accessible when redirecting back from the openid provider
-			session[:new_usr] = @user
-			begin
-			  @norm_openid_url = OpenIdAuthentication.normalize_identifier(params[:user][:openid_url])
-			rescue
-			  flash.now[:error] = t 'user.login.openid invalid'
-			  render :action => 'new'
-			  return
-			end
-			#Verify that the openid provided is valid and that the user is the owner of the id
-			openid_verify(@norm_openid_url, true)
-			#openid_verify can return in two ways:
-			#Either it returns with a redirect to the openid provider who then freshly
-			#redirects back to this url if the openid is valid, or if the openid is not plausible
-			#and no provider for it could be found it just returns
-			#we want to just let the redirect through
-			if response.headers["Location"].nil?
-			  render :action => 'new'
-			end
-		  end
-		  #At this point there was either an error and the page has been rendered,
-		  #or there is a redirect to the openid provider and the rest of the method
-		  #gets executed whenn this method gets reentered after redirecting back
-		  #from the openid provider
-		  return
-		end
-	  end
+          #Validate all of the other fields before
+          #redirecting to the openid provider
+          if !@user.valid?
+            render :action => 'new'
+          else        
+            #TODO: Is it a problem to store the user variable with respect to password safty in the session variables?
+            #Store the user variable in the session for it to be accessible when redirecting back from the openid provider
+            session[:new_usr] = @user
+            begin
+              @norm_openid_url = OpenIdAuthentication.normalize_identifier(params[:user][:openid_url])
+            rescue
+              flash.now[:error] = t 'user.login.openid invalid'
+              render :action => 'new'
+              return
+            end
+            #Verify that the openid provided is valid and that the user is the owner of the id
+            openid_verify(@norm_openid_url, true)
+            #openid_verify can return in two ways:
+            #Either it returns with a redirect to the openid provider who then freshly
+            #redirects back to this url if the openid is valid, or if the openid is not plausible
+            #and no provider for it could be found it just returns
+            #we want to just let the redirect through
+            if response.headers["Location"].nil?
+              render :action => 'new'
+            end
+          end
+          #At this point there was either an error and the page has been rendered,
+          #or there is a redirect to the openid provider and the rest of the method
+          #gets executed whenn this method gets reentered after redirecting back
+          #from the openid provider
+          return
+        end
+      end
 
       if @user.save
         flash[:notice] = t 'user.new.flash create success message'
@@ -104,12 +104,12 @@ if (!params[:user][:openid_url].nil? and params[:user][:openid_url].length > 0)
     @title = t 'user.account.title'
     @tokens = @user.oauth_tokens.find :all, :conditions => 'oauth_tokens.invalidated_at is null and oauth_tokens.authorized_at is not null'
 
-	#The redirect from the OpenID provider reenters here again
+    #The redirect from the OpenID provider reenters here again
     #and we need to pass the parameters through to the 
     #open_id_authentication function
     if params[:open_id_complete]
       openid_verify('', false)
-	  @user.save
+      @user.save
       return
     end
 
@@ -149,18 +149,18 @@ if (!params[:user][:openid_url].nil? and params[:user][:openid_url].length > 0)
         end
       end
 
-	  if (params[:user][:openid_url].length > 0)
-		begin
-		  @norm_openid_url = OpenIdAuthentication.normalize_identifier(params[:user][:openid_url])
-		  if (@norm_openid_url != @user.openid_url)
-			#If the OpenID has changed, we want to check that it is a valid OpenID and one
-			#the user has control over before saving the openID as a password equivalent for
-			#the user.
-			openid_verify(@norm_openid_url, false)
-		  end
-		rescue
-		  flash.now[:error] = t 'user.login.openid invalid'
-		end
+      if (params[:user][:openid_url].length > 0)
+        begin
+          @norm_openid_url = OpenIdAuthentication.normalize_identifier(params[:user][:openid_url])
+          if (@norm_openid_url != @user.openid_url)
+            #If the OpenID has changed, we want to check that it is a valid OpenID and one
+            #the user has control over before saving the openID as a password equivalent for
+            #the user.
+            openid_verify(@norm_openid_url, false)
+          end
+        rescue
+          flash.now[:error] = t 'user.login.openid invalid'
+        end
       end
 
     else
@@ -192,20 +192,20 @@ if (!params[:user][:openid_url].nil? and params[:user][:openid_url].length > 0)
         #e.g. one can simply enter yahoo.com in the login box, i.e. no user specific url
         #only once it comes back from the OpenID provider do we know the unique address for
         #the user.
-		@user = session[:new_usr] unless @user #this is used for account creation when the user is not yet in the database
+        @user = session[:new_usr] unless @user #this is used for account creation when the user is not yet in the database
         @user.openid_url = identity_url
-	  elsif result.missing?
-		mapped_id = openid_specialcase_mapping(openid_url)
-		if mapped_id
-		  openid_verify(mapped_id, account_create)
-		else
-		  flash.now[:error] = t 'user.login.openid missing provider'
-		end
-	  elsif result.invalid?
-		flash.now[:error] = t 'user.login.openid invalid'
-	  else
-		flash.now[:error] = t 'user.login.auth failure'
-	  end
+      elsif result.missing?
+        mapped_id = openid_specialcase_mapping(openid_url)
+        if mapped_id
+          openid_verify(mapped_id, account_create)
+        else
+          flash.now[:error] = t 'user.login.openid missing provider'
+        end
+      elsif result.invalid?
+        flash.now[:error] = t 'user.login.openid invalid'
+      else
+        flash.now[:error] = t 'user.login.auth failure'
+      end
     end
   end
 
@@ -226,7 +226,7 @@ if (!params[:user][:openid_url].nil? and params[:user][:openid_url].length > 0)
         if user
           if user.visible? and user.active?
             session[:user] = user.id
-			session_expires_after 1.month if session[:remember]
+            session_expires_after 1.month if session[:remember]
           else
             user = nil
             flash.now[:error] = t 'user.login.account not active'
@@ -316,9 +316,9 @@ if (!params[:user][:openid_url].nil? and params[:user][:openid_url].length > 0)
     # page, instead send them to the home page
     redirect_to :controller => 'site', :action => 'index' if session[:user]
 
-	@nickname = params['nickname']
+    @nickname = params['nickname']
     @email = params['email']
-	@openID = params['openid']
+    @openID = params['openid']
   end
 
   def login
