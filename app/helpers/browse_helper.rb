@@ -45,7 +45,7 @@ module BrowseHelper
 
   def wikify(type, key, tag, text, wiki)
     my_locale = I18n.locale
-    url = "http://wiki.openstreetmap.org/index.php?title=#{wiki}&uselang=#{my_locale}"
+    url = "http://wiki.openstreetmap.org/wiki/#{wiki}?uselang=#{my_locale}"
     
     if type == "key"
       return '<a href="' + url + '" title="' + h(t('browse.tag_details.wiki_link.key', :key => key)) + '">' + h(text) + '</a>'
