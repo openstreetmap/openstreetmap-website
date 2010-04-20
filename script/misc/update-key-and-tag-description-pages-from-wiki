@@ -60,14 +60,17 @@ my (%feature, %count);
 for my $lang ('', map { "${_}:" } qw[ Pt Fi De It HU Cz Fr RU Pl ]) {
     ok(1, "  Templates for language '$lang'");
 
-    # Key/value pages
-    for my $thing (qw(key value)) {
-        my $Thing = ucfirst $thing;
-        ok(1, "    Getting $thing pages");
-        my $cnt = stick_content_in_hash($thing, "Template:${lang}${Thing}Description", \%feature);
-        ok(1, "    Got $cnt $thing pages");
-        $count{$thing} += $cnt;
-    }
+    # Key pages
+    ok(1, "    Getting key pages");
+    my $cnt = stick_content_in_hash("key", "Template:${lang}KeyDescription", \%feature);
+    ok(1, "    Got $cnt key pages");
+    $count{key} += $cnt;
+
+    # Value pages
+    ok(1, "    Getting value pages");
+    my $cnt = stick_content_in_hash("tag", "Template:${lang}ValueDescription", \%feature);
+    ok(1, "    Got $cnt value pages");
+    $count{value} += $cnt;
 }
 
 ok(1, "Got a total of $count{$_} ${_}s") for qw[ key value ];
