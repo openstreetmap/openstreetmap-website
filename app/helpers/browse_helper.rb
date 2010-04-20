@@ -35,12 +35,11 @@ module BrowseHelper
 private
 
   def wiki_link(type, lookup)
-    wiki_data = YAML.load_file("#{RAILS_ROOT}/config/wiki-tag-and-key-description.yml")
     locale = I18n.locale.to_s
 
-    if page = wiki_data[locale][type][lookup] rescue nil
+    if page = WIKI_PAGES[locale][type][lookup] rescue nil
       url = "http://wiki.openstreetmap.org/wiki/#{page}?uselang=#{locale}"
-    elsif page = wiki_data["en"][type][lookup] rescue nil
+    elsif page = WIKI_PAGES["en"][type][lookup] rescue nil
       url = "http://wiki.openstreetmap.org/wiki/#{page}?uselang=#{locale}"
     end
 
