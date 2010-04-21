@@ -25,7 +25,9 @@ module BrowseHelper
   end
 
   def format_value(key, value)
-    if url = wiki_link("tag", "#{key}=#{value}")
+    if wp = wikipedia_link(key, value)
+      link_to h(wp['title']), wp['url'], :title => t('browse.tag_details.wiki_link.wikipedia', :page => wp['title'])
+    elsif url = wiki_link("tag", "#{key}=#{value}")
       link_to h(value), url, :title => t('browse.tag_details.wiki_link.tag', :key => key, :value => value)
     else
       linkify h(value)
@@ -44,5 +46,35 @@ private
     end
 
     return url
+  end
+
+  def wikipedia_link(key, value)
+    # English Wikipedia by default
+    lang = 'en'
+
+    if key == 'wikipedia' or key =~ /^wikipedia:(\S+)$/
+      mylang = $1
+
+      # Some k/v's are wikipedia=http://en.wikipedia.org/wiki/Full%20URL
+      return nil if value =~ /^http:\/\//
+
+      if mylang
+        lang = mylang
+      # This regex should match Wikipedia language codes, everything
+      # from de to zh-classical
+      elsif value =~ /^([a-z-]{2,12}):(.+)$/
+        lang  = $1
+        # Don't display e.g. "en:Foobar" as the title, just "Foobar"
+        value = $2
+      end
+
+      locale = I18n.locale.to_s
+      return {
+        'url' => "http://#{lang}.wikipedia.org/wiki/#{value}?uselang=#{locale}",
+        'title' => value
+      }
+    else
+      return nil
+    end
   end
 end
