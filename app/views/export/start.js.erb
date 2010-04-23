@@ -1,5 +1,6 @@
 var vectors;
 var box;
+var transform;
 var markerLayer;
 var markerControl;
 
@@ -19,6 +20,13 @@ function startExport() {
   });
   box.handler.callbacks.done = endDrag;
   map.addControl(box);
+
+  transform = new OpenLayers.Control.TransformFeature(vectors, {
+    rotate: false,
+    irregular: true
+  });
+  transform.events.register("transformcomplete", transform, transformComplete);
+  map.addControl(transform);
 
   map.events.register("moveend", map, mapMoved);
   map.events.register("changebaselayer", map, htmlUrlChanged);
@@ -104,6 +112,11 @@ function endDrag(bbox) {
   $("#drag_box").html("<%=j t 'export.start_rjs.manually_select' %>");
 }
 
+function transformComplete(event) {
+  setBounds(event.feature.geometry.bounds);
+  validateControls();
+}
+
 function startMarker() {
   $("#add_marker").html("<%=j t 'export.start_rjs.click_add_marker' %>");
 
@@ -183,6 +196,7 @@ function setBounds(bounds) {
 }
 
 function clearBox() {
+  transform.deactivate();
   vectors.destroyFeatures();
 }
 
@@ -190,6 +204,7 @@ function drawBox(bounds) {
   var feature = new OpenLayers.Feature.Vector(bounds.toGeometry());
 
   vectors.addFeatures(feature);
+  transform.setFeature(feature);
 }
 
 function validateControls() {
