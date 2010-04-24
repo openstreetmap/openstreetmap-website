@@ -215,6 +215,7 @@ class UserController < ApplicationController
     #don't want to duplicate the do block
     #On the other hand it also doesn't matter too much if we ask every time, as the OpenID provider should
     #remember these results, and shouldn't repromt the user for these data each time.
+    user = nil
     authenticate_with_open_id(openid_url, :return_to => request.protocol + request.host_with_port + '/login?referer=' + params[:referer], :optional => [:nickname, :email]) do |result, identity_url, registration|
       if result.successful?
         #We need to use the openid url passed back from the OpenID provider
@@ -227,6 +228,7 @@ class UserController < ApplicationController
           if user.visible? and user.active?
             session[:user] = user.id
             session_expires_after 1.month if session[:remember]
+            return user
           else
             user = nil
             flash.now[:error] = t 'user.login.account not active'
@@ -253,8 +255,7 @@ class UserController < ApplicationController
            end
       end
     end
-
-    user
+    return user
   end
 
   def go_public
@@ -332,7 +333,10 @@ class UserController < ApplicationController
     elsif params[:user]
       if !params[:user][:openid_url].nil? and !params[:user][:openid_url].empty?
         session[:remember] = params[:remember_me]
-        user = open_id_authentication(params[:user][:openid_url])
+        #construct the openid request. This will redirect to the OpenID server to ask for validation
+        #The external OpenID server will then redirect back to the login method and reenters at the top
+        open_id_authentication(params[:user][:openid_url])
+        return
       else
         email_or_display_name = params[:user][:email]
         pass = params[:user][:password]
