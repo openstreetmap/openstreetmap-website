@@ -1,4 +1,5 @@
 #!/usr/bin/env perl
+use 5.010;
 use strict;
 use warnings;
 
@@ -19,19 +20,15 @@ use Test::More 'no_plan';
 
 =head1 NAME
 
-update-wiki-pages - Screen-scrape the wiki for key/value wiki description pages
+update-wiki-pages - Scrape the wiki for key/value wiki description pages
 
 =head1 SYNOPSIS
 
     perl script/misc/update-wiki-pages config/wiki_pages.yml 
 
-=head1 BUGS
+Or with prove(1):
 
-This will break if there are more than 500 key or value pages. Paging
-needs to be implemenented.
-
-That or using a proper API or something (if it's there) or making a
-direct query to the wiki database.
+    prove -e 'perl script/misc/update-wiki-pages' config/wiki_pages.yml
 
 =cut
 
@@ -68,7 +65,7 @@ for my $lang ('', map { "${_}:" } qw[ Pt Fi De It HU Cz Fr RU Pl ]) {
 
     # Value pages
     ok(1, "    Getting value pages");
-    my $cnt = stick_content_in_hash("tag", "Template:${lang}ValueDescription", \%feature);
+    $cnt = stick_content_in_hash("tag", "Template:${lang}ValueDescription", \%feature);
     ok(1, "    Got $cnt value pages");
     $count{value} += $cnt;
 }
