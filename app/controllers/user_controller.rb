@@ -36,13 +36,13 @@ class UserController < ApplicationController
           return 
         end   
       else
-      @user = User.new(params[:user])
+        @user = User.new(params[:user])
 
-      @user.visible = true
-      @user.data_public = true
-      @user.description = "" if @user.description.nil?
-      @user.creation_ip = request.remote_ip
-      @user.languages = request.user_preferred_languages
+        @user.visible = true
+        @user.data_public = true
+        @user.description = "" if @user.description.nil?
+        @user.creation_ip = request.remote_ip
+        @user.languages = request.user_preferred_languages
         #Set the openid_url to nil as for one it is used 
         #to check if the openid could be validated and secondly 
         #to not get dupplicate conflicts for an empty openid  
