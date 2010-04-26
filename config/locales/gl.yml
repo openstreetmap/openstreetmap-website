@@ -81,14 +81,6 @@ gl:
         other: "Ten os seguintes {{count}} camiños:"
       no_bounding_box: Non se seleccionou ningunha caixa de envoltura para este conxunto de cambios.
       show_area_box: Amosar a caixa de zona
-    navigation: 
-      all: 
-        next_changeset_tooltip: Seguinte conxunto de cambios
-        prev_changeset_tooltip: Conxunto de cambios anterior
-      user: 
-        name_changeset_tooltip: Ver as edicións de {{user}}
-        next_changeset_tooltip: Seguinte edición de {{user}}
-        prev_changeset_tooltip: Edición anterior de {{user}}
     common_details: 
       changeset_comment: "Comentario:"
       edited_at: "Editado o:"
@@ -106,6 +98,14 @@ gl:
         relation: Ver a relación nun mapa máis grande
         way: Ver o camiño nun mapa máis grande
       loading: Cargando...
+    navigation: 
+      all: 
+        next_changeset_tooltip: Seguinte conxunto de cambios
+        prev_changeset_tooltip: Conxunto de cambios anterior
+      user: 
+        name_changeset_tooltip: Ver as edicións de {{user}}
+        next_changeset_tooltip: Seguinte edición de {{user}}
+        prev_changeset_tooltip: Edición anterior de {{user}}
     node: 
       download: "{{download_xml_link}}, {{view_history_link}} ou {{edit_link}}"
       download_xml: Descargar en XML
@@ -217,6 +217,18 @@ gl:
       way_history: Historial do camiño
       way_history_title: "Historial co camiño: {{way_name}}"
   changeset: 
+    changeset: 
+      anonymous: Anónimo
+      big_area: (grande)
+      no_comment: (ningún)
+      no_edits: (sen edicións)
+      show_area_box: mostrar o cadro da zona
+      still_editing: (en edición)
+      view_changeset_details: Ollar os detalles do conxunto de cambios
+    changeset_paging_nav: 
+      next: Seguinte &raquo;
+      previous: "&laquo; Anterior"
+      showing_page: Mostrando a páxina {{page}}
     changesets: 
       area: Zona
       comment: Comentario
@@ -238,6 +250,7 @@ gl:
       title_user_bbox: Conxuntos de cambios por {{user}} en {{bbox}}
   diary_entry: 
     diary_comment: 
+      comment_from: Comentario de {{link_user}} o {{comment_created_at}}
       confirm: Confirmar
       hide_link: Agochar este comentario
     diary_entry: 
@@ -248,6 +261,8 @@ gl:
       confirm: Confirmar
       edit_link: Editar esta entrada
       hide_link: Agochar esta entrada
+      posted_by: Publicado por {{link_user}} o {{created}} en {{language_link}}
+      reply_link: Responder a esta entrada
     edit: 
       body: "Corpo:"
       language: "Lingua:"
@@ -256,27 +271,37 @@ gl:
       longitude: "Lonxitude:"
       save_button: Gardar
       subject: "Asunto:"
+      use_map_link: usar o mapa
     location: 
       edit: Editar
       location: "Localización:"
       view: Ver
     view: 
+      leave_a_comment: Deixar un comentario
+      login_to_leave_a_comment: "{{login_link}} para deixar un comentario"
       save_button: Gardar
+      title: Diario de {{user}} | {{title}}
+      user_title: Diario de {{user}}
   export: 
     start: 
       add_marker: Engadir un marcador ao mapa
       area_to_export: Zona a exportar
+      embeddable_html: HTML incorporable
       export_button: Exportar
+      export_details: Os datos do OpenStreetMap están licenciados baixo a <a href="http://creativecommons.org/licenses/by-sa/2.0/deed.gl">licenza Creative Commons recoñecemento compartir igual 2.0</a> .
       format: Formato
       format_to_export: Formato de exportación
       image_size: Tamaño da imaxe
       latitude: "Lat:"
       licence: Licenza
       longitude: "Lon:"
+      manually_select: Seleccionar manualmente outra zona
       mapnik_image: Imaxe de Mapnik
       max: máx.
       options: Opcións
       osm_xml_data: Datos XML do OpenStreetMap
+      output: Saída
+      paste_html: Pegue o código HTML para incluílo na páxina web
       scale: Escala
       too_large: 
         body: Esta zona é grande de máis para ser exportada como datos XML do OpenStreetMap. Amplíe a zona ou escolla unha menor.
@@ -332,12 +357,119 @@ gl:
       suffix_place: ", {{distance}} ao {{direction}} de {{placename}}"
     search_osm_nominatim: 
       prefix: 
+        amenity: 
+          airport: Aeroporto
+          arts_centre: Centro artístico
+          atm: Caixeiro automático
+          auditorium: Auditorio
+          bank: Banco
+          bar: Bar
+          bench: Banco
+          bicycle_parking: Aparcadoiro de bicicletas
+          bicycle_rental: Aluguer de bicicletas
+          brothel: Prostíbulo
+          bus_station: Estación de autobuses
+          cafe: Cafetaría
+          car_rental: Aluguer de automóbiles
+          car_sharing: Aluguer de automóbiles
+          casino: Casino
+          cinema: Cine
+          clinic: Clínica
+          club: Club
+          college: Instituto
+          community_centre: Centro comunitario
+          courthouse: Xulgado
+          crematorium: Crematorio
+          dentist: Dentista
+          dormitory: Residencia universitaria
+          drinking_water: Auga potable
+          driving_school: Escola de condución
+          emergency_phone: Teléfono de emerxencia
+          fast_food: Comida rápida
+          fire_station: Parque de bombeiros
+          fountain: Fonte
+          fuel: Combustible
+          grave_yard: Cemiterio
+          gym: Ximnasio
+          health_centre: Centro de saúde
+          hospital: Hospital
+          hotel: Hotel
+          ice_cream: Xeadaría
+          kindergarten: Xardín de infancia
+          library: Biblioteca
+          market: Mercado
+          marketplace: Praza de mercado
+          nightclub: Club nocturno
+          office: Oficina
+          park: Parque
+          parking: Aparcadoiro
+          pharmacy: Farmacia
+          place_of_worship: Lugar de culto
+          police: Policía
+          post_box: Caixa de correos
+          post_office: Oficina de correos
+          preschool: Preescolar
+          prison: Prisión
+          pub: Pub
+          public_building: Edificio público
+          public_market: Mercado público
+          recycling: Punto de reciclaxe
+          restaurant: Restaurante
+          retirement_home: Residencia de xubilados
+          sauna: Sauna
+          school: Escola
+          shelter: Abeiro
+          shop: Tenda
+          shopping: Comercio
+          social_club: Club social
+          studio: Estudio
+          supermarket: Supermercado
+          telephone: Teléfono público
+          theatre: Teatro
+          toilets: Aseos
+          townhall: Concello
+          university: Universidade
+          vending_machine: Máquina expendedora
+          veterinary: Clínica veterinaria
+          wifi: Acceso WiFi
+          youth_centre: Casa da xuventude
         highway: 
+          bridleway: Pista de cabalos
+          bus_stop: Parada de autobús
+          byway: Camiño secundario
+          construction: Autoestrada en construción
+          cycleway: Pista de bicicletas
+          distance_marker: Indicador quilométrico
           emergency_access_point: Punto de acceso de emerxencia
           footway: Carreiro
+          ford: Vao
+          gate: Porta
+          living_street: Rúa residencial
+          minor: Estrada lateral
+          motorway: Autoestrada
           motorway_junction: Cruce de autovías
+          motorway_link: Enlace de autoestrada
+          path: Camiño
+          pedestrian: Camiño peonil
+          platform: Plataforma
+          primary: Estrada primaria
           primary_link: Estrada principal
+          raceway: Circuíto
+          residential: Residencial
+          road: Estrada
+          secondary: Estrada secundaria
           secondary_link: Estrada secundaria
+          service: Estrada de servizo
+          services: Área de servizo
+          steps: Chanzos
+          stile: Escada
+          tertiary: Estrada terciaria
+          track: Pista
+          trail: Pista
+          trunk: Estrada nacional
+          trunk_link: Estrada nacional
+          unclassified: Estrada sen clasificar
+          unsurfaced: Estrada non pavimentada
         leisure: 
           beach_resort: Balneario
           common: Terreo común
@@ -370,6 +502,7 @@ gl:
           feature: Elemento
           fell: Brañal
           fjord: Fiorde
+          geyser: Géiser
           glacier: Glaciar
           hill: Outeiro
           island: Illa
@@ -380,9 +513,11 @@ gl:
           peak: Pico
           point: Punto
           reef: Arrecife
+          ridge: Crista
           river: Río
           rock: Rocha
           scree: Pedregal
+          scrub: Matogueira
           shoal: Cardume
           spring: Primavera
           strait: Estreito
@@ -416,6 +551,48 @@ gl:
           town: Cidade
           unincorporated_area: Área non incorporada
           village: Vila
+        shop: 
+          apparel: Tenda de roupa
+          art: Tenda de arte
+          bakery: Panadaría
+          bicycle: Tenda de bicicletas
+          books: Libraría
+          butcher: Carnizaría
+          car_repair: Taller mecánico
+          carpet: Tenda de alfombras
+          charity: Tenda benéfica
+          chemist: Farmacia
+          clothes: Tenda de roupa
+          computer: Tenda informática
+          department_store: Gran almacén
+          doityourself: Tenda de bricolaxe
+          estate_agent: Axencia inmobiliaria
+          fashion: Tenda de moda
+          fish: Peixaría
+          florist: Floraría
+          food: Tenda de alimentación
+          gallery: Galería
+          general: Tenda de ultramarinos
+          hairdresser: Perrucaría
+          hardware: Ferraxaría
+          hifi: Hi-Fi
+          jewelry: Xoiaría
+          mall: Centro comercial
+          market: Mercado
+          mobile_phone: Tenda de telefonía móbil
+          motorcycle: Tenda de motocicletas
+          music: Tenda de música
+          optician: Oftalmólogo
+          organic: Tenda de alimentos orgánicos
+          outdoor: Tenda de deportes ao aire libre
+          photo: Tenda de fotografía
+          shoes: Zapataría
+          shopping_centre: Centro comercial
+          sports: Tenda de deportes
+          stationery: Papelaría
+          supermarket: Supermercado
+          toys: Xoguetaría
+          travel_agency: Axencia de viaxes
         tourism: 
           alpine_hut: Cabana alpina
           artwork: Obra de arte
@@ -442,44 +619,136 @@ gl:
     export: Exportar
     export_tooltip: Exportar os datos do mapa
     history: Historial
+    inbox: caixa de entrada ({{count}})
     intro_3_partners: wiki
+    license: 
+      title: Os datos do OpenStreetMap están licenciados baixo a licenza Creative Commons recoñecemento xenérico 2.0
+    logo: 
+      alt_text: Logo do OpenStreetMap
     make_a_donation: 
       text: Facer unha doazón
     news_blog: Blogue de novas
+    shop: Tenda
     sign_up_tooltip: Crear unha conta para editar
+    user_diaries_tooltip: Ollar os diarios do usuario
     view: Ver
     view_tooltip: Ver o mapa
+    welcome_user: Benvido, {{user_link}}
+    welcome_user_link_tooltip: A súa páxina de usuario
   message: 
+    delete: 
+      deleted: Mensaxe borrada
     inbox: 
       date: Data
+      from: De
+      my_inbox: A miña caixa de entrada
+      no_messages_yet: Aínda non ten ningunha mensaxe. Por que non se pon en contacto con algunhas das {{people_mapping_nearby_link}}?
+      outbox: caixa de saída
+      people_mapping_nearby: persoas próximas a vostede
       subject: Asunto
+      title: Caixa de entrada
+      you_have: Ten {{new_count}} mensaxes novas e {{old_count}} vellas
+    mark: 
+      as_read: Mensaxe marcada como lida
+      as_unread: Mensaxe marcada como non lida
     message_summary: 
       delete_button: Borrar
       read_button: Marcar como lido
       reply_button: Responder
       unread_button: Marcar como non lido
     new: 
+      back_to_inbox: Voltar á caixa de entrada
       body: Corpo
+      limit_exceeded: Estivo enviando unha morea de mensaxes ultimamente. Agarde uns intres antes de intentar enviar máis.
+      message_sent: Mensaxe enviada
+      send_button: Enviar
+      send_message_to: Enviarlle unha nova mensaxe a {{name}}
       subject: Asunto
+      title: Enviar unha mensaxe
+    no_such_message: 
+      body: Non hai ningunha mensaxe con esa id.
+      heading: Non se atopou a mensaxe
+      title: Non se atopou a mensaxe
+    no_such_user: 
+      body: Non hai ningún usuario con ese nome.
+      heading: Non se atopou o usuario
+      title: Non se atopou o usuario
     outbox: 
       date: Data
+      inbox: caixa de entrada
+      my_inbox: A miña {{inbox_link}}
+      no_sent_messages: Aínda non enviou ningunha mensaxe. Por que non se pon en contacto con algunhas das {{people_mapping_nearby_link}}?
+      outbox: caixa de saída
+      people_mapping_nearby: persoas próximas a vostede
       subject: Asunto
+      title: Caixa de saída
+      to: Para
+      you_have_sent_messages: Enviou {{count}} mensaxes
     read: 
+      back_to_inbox: Voltar á caixa de entrada
+      back_to_outbox: Voltar á caixa de saída
       date: Data
+      from: De
+      reading_your_messages: Lendo as súas mensaxes
+      reading_your_sent_messages: Lendo as mensaxes enviadas
       reply_button: Responder
       subject: Asunto
+      title: Ler a mensaxe
+      to: Para
+      unread_button: Marcar como non lida
     sent_message_summary: 
       delete_button: Borrar
   notifier: 
+    diary_comment_notification: 
+      hi: "Ola {{to_user}}:"
     email_confirm: 
       subject: "[OpenStreetMap] Confirme o seu enderezo de correo electrónico"
+    email_confirm_html: 
+      greeting: "Ola:"
+    email_confirm_plain: 
+      greeting: "Ola:"
+    gpx_notification: 
+      greeting: "Ola:"
+    lost_password_html: 
+      greeting: "Ola:"
+    lost_password_plain: 
+      greeting: "Ola:"
+    message_notification: 
+      hi: "Ola {{to_user}}:"
+    signup_confirm_html: 
+      greeting: Boas!
+    signup_confirm_plain: 
+      greeting: Boas!
   oauth_clients: 
     edit: 
       submit: Editar
       title: Editar a súa aplicación
+    form: 
+      name: Nome
+      required: Obrigatorio
     index: 
       application: Nome da aplicación
       register_new: Rexistrar a súa aplicación
+      revoke: Revogar!
+    new: 
+      submit: Rexistrar
+      title: Rexistrar unha nova aplicación
+  site: 
+    edit: 
+      user_page_link: páxina de usuario
+    index: 
+      license: 
+        license_name: Creative Commons recoñecemento compartir igual 2.0
+        notice: Baixo a licenza {{license_name}} polo {{project_name}} e os seus colaboradores.
+        project_name: proxecto OpenStreetMap
+      permalink: Ligazón permanente
+      shortlink: Atallo
+    search: 
+      submit_text: Ir
+      where_am_i: Onde estou?
+    sidebar: 
+      close: Pechar
+      search_results: Resultados da procura
   time: 
     formats: 
       friendly: "%e %B %Y ás %H:%M"
@@ -558,6 +827,7 @@ gl:
       my settings: Os meus axustes
       new email address: "Novo enderezo de correo electrónico:"
       new image: Engadir unha imaxe
+      no home location: Non inseriu o seu lugar de orixe.
       preferred languages: "Linguas preferidas:"
       profile description: "Descrición do perfil:"
       public editing: 
@@ -640,12 +910,15 @@ gl:
       add as friend: engadir como amigo
       ago: (hai {{time_in_words_ago}})
       block_history: ver os bloqueos recibidos
+      blocks by me: bloqueos efectuados
+      blocks on me: os meus bloqueos
       confirm: Confirmar
       create_block: bloquear este usuario
       created from: "Creado a partir de:"
       deactivate_user: desactivar este usuario
       delete_user: borrar este usuario
       description: Descrición
+      diary: diario
       edits: edicións
       email address: "Enderezo de correo electrónico:"
       hide_user: agochar este usuario
@@ -653,8 +926,11 @@ gl:
       km away: a {{count}}km de distancia
       m away: a {{count}}m de distancia
       moderator_history: ver os bloqueos dados
+      my diary: o meu diario
       my edits: as miñas edicións
       my settings: os meus axustes
+      nearby users: Outros usuarios próximos
+      new diary entry: nova entrada no diario
       no friends: Aínda non engadiu ningún amigo.
       oauth settings: axustes OAuth
       remove as friend: eliminar como amigo
@@ -672,6 +948,9 @@ gl:
       unhide_user: descubrir este usuario
       user location: Localización do usuario
       your friends: Os seus amigos
+  user_block: 
+    revoke: 
+      revoke: Revogar!
   user_role: 
     filter: 
       already_has_role: O usuario xa ten o rol {{role}}.
