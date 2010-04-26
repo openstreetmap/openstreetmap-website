@@ -2,19 +2,21 @@
 
 <p><%= t 'user.terms.press accept button' %></p>
 
-<p><%= t 'user.terms.legale_select' %>
+<!-- legale is <%= @legale %> -->
 <% form_tag :action => 'terms' do %>
-  <select name="legale">
-    <%= options_for_select([['United Kingdom (default)', 'GB'], ['France', 'FR'], ['Italy', 'IT']], params[:legale]) %>
-    <%= hidden_field_tag('referer', h(params[:referer])) unless params[:referer].nil? %>
-    <%= hidden_field('user', 'email') %>
-    <%= hidden_field('user', 'email_confirmation') %>
-    <%= hidden_field('user', 'display_name') %>
-    <%= hidden_field('user', 'pass_crypt') %>
-    <%= hidden_field('user', 'pass_crypt_confirmation') %>
-    <%= submit_tag(t('user.terms.legale_button')) %>
-  </select>
-<% end %></p>
+  <p><%= t 'user.terms.legale_select' %></p>
+  <% [['france', 'FR'], ['italy', 'IT'], ['rest_of_world', 'GB']].each do |name,legale| %>
+    <%= radio_button_tag 'legale', legale, @legale == legale %>
+    <%= label_tag "legale_#{legale}", t('user.terms.legale_names.' + name) %><br/>
+  <% end %>
+  <%= hidden_field_tag('referer', h(params[:referer])) unless params[:referer].nil? %>
+  <%= hidden_field('user', 'email') %>
+  <%= hidden_field('user', 'email_confirmation') %>
+  <%= hidden_field('user', 'display_name') %>
+  <%= hidden_field('user', 'pass_crypt') %>
+  <%= hidden_field('user', 'pass_crypt_confirmation') %>
+  <%= submit_tag(t('user.terms.legale_button')) %>
+<% end %>
 
 <div id="contributorTerms">
   <p id="first"><%= @text['intro'] %></p>
@@ -62,7 +64,9 @@
     <%= hidden_field('user', 'display_name') %>
     <%= hidden_field('user', 'pass_crypt') %>
     <%= hidden_field('user', 'pass_crypt_confirmation') %>
-    <a href="<%= t 'user.terms.exit_wiki' %>"><%= t 'user.terms.decline' %></a>
-    <%= submit_tag(t('user.terms.button')) %>
+    <div class="left_right_line">
+      <div class="left"><a class="looks_like_button" href="<%= t 'user.terms.exit_wiki' %>"><%= t 'user.terms.decline' %></a></div>
+      <div class="right"><%= submit_tag(t('user.terms.button'), :class => 'float_right') %></div>
+    </div>
   </p>
 <% end %>

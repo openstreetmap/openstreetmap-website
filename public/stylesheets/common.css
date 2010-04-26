@@ -739,3 +739,46 @@ abbr.geo {
 .table1 { 
   background: #fff;
 }
+
+/* rules for styling a link to look like a button to get around the difficulty 
+ * of laying anything out properly in html. */
+
+a.looks_like_button {
+    color: black;
+    background: buttonface;
+    border: 1px solid black;
+    font-size: small;
+    padding: 1px;
+}
+
+/* hack to get left/right alignment on a line working. apparently still works in IE too.
+ * shamelessly stolen from http://www.spartanicus.utvinternet.ie/left_and_right_alignment_using_css.htm
+ */
+div.left_right_line { 
+    text-align:right;
+    margin:1em 0;
+    padding:0;
+    width:80%;
+}
+div.left_right_line div {
+    display:inline;
+    white-space:nowrap
+}
+div.left_right_line div.left {
+    float:left
+}
+#content>div.left_right_line {
+    display:table;
+    width:60%
+}
+#content>div.left_right_line div { 
+    display:table-cell
+}
+#content>div.left_right_line div.left {
+    float:none;
+    text-align:left
+}
+#content>div.left_right_line div.right {
+    text-align:right
+}
+
