@@ -133,6 +133,8 @@ class UserController < ApplicationController
       @user.home_lat = params[:user][:home_lat]
       @user.home_lon = params[:user][:home_lon]
 
+      @user.openid_url = nil if (params[:user][:openid_url].length == 0)
+
       if @user.save
         set_locale
 
