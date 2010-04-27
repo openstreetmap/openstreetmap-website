@@ -1,16 +1,64 @@
+<script type="text/javascript">
+function openid_signin(provider)
+{
+    if (provider == 'google') {
+        document.forms[0].user_openid_url.value="gmail.com";
+        document.forms[0].submit();
+    } else if (provider == 'yahoo') {
+        document.forms[0].user_openid_url.value="yahoo.com";
+        document.forms[0].submit();
+    } else if (provider == 'myopenid') {
+        document.forms[0].user_openid_url.value="myopenid.com";
+        document.forms[0].submit();
+    } else if (provider == 'wordpress') {
+        document.forms[0].user_openid_url.value="wordpress.com";
+        document.forms[0].submit();
+    } else if (provider == 'myspace') {
+        document.forms[0].user_openid_url.value="myspace.com";
+        document.forms[0].submit();
+    } else if (provider == 'openid') {
+        document.forms[0].user_openid_url.value="http://";
+    }
+
+}
+</script> 
+
 <h1><%= t 'user.login.heading' %></h1>
 
 <p><%= t 'user.login.please login', :create_user_link => link_to(t('user.login.create_account'), :controller => 'user', :action => 'new', :referer => params[:referer]) %></p>
 
 <% form_tag :action => 'login' do %>
-<%= hidden_field_tag('referer', h(params[:referer])) %>
-<table id="loginForm">
-  <tr><td class="fieldName"><%= t 'user.login.email or username' %></td><td><%= text_field('user', 'email',{:value => "", :size => 28, :maxlength => 255, :tabindex => 1}) %></td></tr>
-  <tr><td class="fieldName"><%= t 'user.login.password' %></td><td><%= password_field('user', 'password',{:value => "", :size => 28, :maxlength => 255, :tabindex => 2}) %></td><td> <span class="minorNote">(<%= link_to t('user.login.lost password link'), :controller => 'user', :action => 'lost_password' %>)</span></td></tr>
-  <tr><td colspan = "3"><h4><I><%= t 'user.login.alternatively' %></I></h4></td></tr>
-  <tr><td class="fieldName"><%= t 'user.login.openid' %></td><td><%= text_field('user', 'openid_url',{:size => 28, :maxlength => 255, :tabindex => 3}) %></td><td> <span class="minorNote">(<a href="<%= t 'user.account.openid.link' %>" target="_new"><%= t 'user.account.openid.link text' %></a>)</span></td></tr>
-  <tr><td colspan="3">&nbsp;<!--vertical spacer--></td></tr>
-  <tr><td colspan="3">&nbsp;<!--vertical spacer--></td></tr>
-  <tr><td class="fieldName"><label for="remember_me"><%= t 'user.login.remember' %></label></td><td><%= check_box_tag "remember_me", "yes", false, :tabindex => 3 %></td><td align=right><%= submit_tag t('user.login.login_button'), :tabindex => 3 %></td></tr>
-</table>
+    <%= hidden_field_tag('referer', h(params[:referer])) %>
+    <div style="position: relative;">
+        <div class="loginBox">
+            <h3> <%= t 'user.login.username_heading' %></h3>
+            <table id="loginForm" width="100%">
+                <tr><td class="fieldName"><%= t 'user.login.email or username' %></td><td><%= text_field('user', 'email',{:value => "", :size => 28, :maxlength => 255, :tabindex => 1}) %></td></tr>
+                <tr><td class="fieldName"><%= t 'user.login.password' %></td><td><%= password_field('user', 'password',{:value => "", :size => 28, :maxlength => 255, :tabindex => 2}) %></td></tr>
+                <tr><td></td><td> <span class="minorNote">(<%= link_to t('user.login.lost password link'), :controller => 'user', :action => 'lost_password' %>)</span></td></tr>
+            </table>
+        </div>
+        <div style="float:left; width: 40px; padding: 10px;">
+            <P><%= t 'user.login.or' %></P>
+        </div>
+
+        <div class="loginBox">
+            <h3><%= t 'user.login.openid_heading' %></h3>
+            <table id="loginForm" width="100%">
+                <tr><td class="fieldName"><%= t 'user.login.openid' %></td><td><%= text_field('user', 'openid_url',{:size => 28, :maxlength => 255, :tabindex => 3}) %></td></tr><tr><td><td> <span class="minorNote">(<a href="<%= t 'user.account.openid.link' %>" target="_new"><%= t 'user.account.openid.link text' %></a>)</span></td></tr>
+            </table>
+            <a href="javascript: openid_signin('openid');";><%= image_tag "openid_logo.png", :alt => 'foo', :style => "border: solid; border-width: 1px" %></a>
+            <a href="javascript: openid_signin('yahoo');"><%= image_tag "yahoo.gif", :alt => 'foo', :style => "border: solid; border-width: 1px"%></a>
+            <a href="javascript: openid_signin('google');"><%= image_tag "google.gif", :alt => 'foo', :style => "border: solid; border-width: 1px" %></a><b>
+            <a href="javascript: openid_signin('myopenid');";><%= image_tag "myopenid.png", :alt => 'foo', :style => "border: solid; border-width: 1px" %></a>
+            <a href="javascript: openid_signin('wordpress');"><%= image_tag "wordpress.png", :alt => 'foo', :style => "border: solid; border-width: 1px"%></a>
+            <a href="javascript: openid_signin('myspace');"><%= image_tag "myspace.png", :alt => 'foo', :style => "border: solid; border-width: 1px" %></a><b>
+
+        </div>
+        <div style="clear: both">
+            <table id="loginForm">
+                <tr><td class="fieldName"><label for="remember_me"><%= t 'user.login.remember' %></label></td><td><%= check_box_tag "remember_me", "yes", false, :tabindex => 3 %></td><td align=right><%= submit_tag t('user.login.login_button'), :tabindex => 3 %></td></tr>
+            </table>
+        </div>
+    </div>
 <% end %>
