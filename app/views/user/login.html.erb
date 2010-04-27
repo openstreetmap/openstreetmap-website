@@ -38,23 +38,48 @@ function openid_signin(provider)
                 <tr><td></td><td> <span class="minorNote">(<%= link_to t('user.login.lost password link'), :controller => 'user', :action => 'lost_password' %>)</span></td></tr>
             </table>
         </div>
-        <div style="float:left; width: 40px; padding: 10px;">
-            <P><%= t 'user.login.or' %></P>
+        <div style="float:left; width: 20px; padding: 10px;">
         </div>
 
         <div class="loginBox">
             <h3><%= t 'user.login.openid_heading' %></h3>
             <table id="loginForm" width="100%">
-                <tr><td class="fieldName"><%= t 'user.login.openid' %></td><td><%= text_field('user', 'openid_url',{:size => 28, :maxlength => 255, :tabindex => 3}) %></td></tr><tr><td><td> <span class="minorNote">(<a href="<%= t 'user.account.openid.link' %>" target="_new"><%= t 'user.account.openid.link text' %></a>)</span></td></tr>
+                <tr>
+                    <td class="fieldName">
+                        <%= image_tag "openid-16x16.gif", :alt => t('user.login.openid_logo_alt') %>
+                        <%= t 'user.login.openid' %>
+                    </td>
+                    <td><%= text_field('user', 'openid_url',{:size => 28, :maxlength => 255, :tabindex => 3}) %></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <span class="minorNote">
+                            (<a href="<%= t 'user.account.openid.link' %>" target="_new"><%= t 'user.account.openid.link text' %></a>)
+                        </span>
+                    </td>
+                </tr>
             </table>
-            <a href="javascript: openid_signin('openid');";><%= image_tag "openid_logo.png", :alt => 'foo', :style => "border: solid; border-width: 1px" %></a>
-            <a href="javascript: openid_signin('yahoo');"><%= image_tag "yahoo.gif", :alt => 'foo', :style => "border: solid; border-width: 1px"%></a>
-            <a href="javascript: openid_signin('google');"><%= image_tag "google.gif", :alt => 'foo', :style => "border: solid; border-width: 1px" %></a><b>
-            <a href="javascript: openid_signin('myopenid');";><%= image_tag "myopenid.png", :alt => 'foo', :style => "border: solid; border-width: 1px" %></a>
-            <a href="javascript: openid_signin('wordpress');"><%= image_tag "wordpress.png", :alt => 'foo', :style => "border: solid; border-width: 1px"%></a>
-            <a href="javascript: openid_signin('myspace');"><%= image_tag "myspace.png", :alt => 'foo', :style => "border: solid; border-width: 1px" %></a><b>
-
+            <a href="javascript: openid_signin('openid');" title="<%= h(t 'user.login.openid_providers.openid.title') %>">
+                <%= image_tag "openid_logo.png", :alt => t('user.login.openid_providers.openid.title') %>
+            </a>
+            <a href="javascript: openid_signin('yahoo');" title="<%= h(t 'user.login.openid_providers.yahoo.title') %>">
+                <%= image_tag "yahoo.gif", :alt => t('user.login.openid_providers.yahoo.alt') %>
+            </a>
+            <a href="javascript: openid_signin('google');" title="<%= h(t 'user.login.openid_providers.google.title') %>">
+                <%= image_tag "google.gif", :alt => t('user.login.openid_providers.google.alt') %>
+            </a><b>
+            <a href="javascript: openid_signin('myopenid');" title="<%= h(t 'user.login.openid_providers.myopenid.title') %>">
+                <%= image_tag "myopenid.png", :alt => t('user.login.openid_providers.myopenid.alt') %>
+            </a>
+            <a href="javascript: openid_signin('wordpress');" title="<%= h(t 'user.login.openid_providers.wordpress.title') %>">
+                <%= image_tag "wordpress.png", :alt => t('user.login.openid_providers.wordpress.alt') %>
+            </a>
+            <a href="javascript: openid_signin('myspace');" title="<%= h(t 'user.login.openid_providers.myspace.title') %>">
+                <%= image_tag "myspace.png", :alt => t('user.login.openid_providers.myspace.alt') %>
+            </a><b>
         </div>
+
         <div style="clear: both">
             <table id="loginForm">
                 <tr><td class="fieldName"><label for="remember_me"><%= t 'user.login.remember' %></label></td><td><%= check_box_tag "remember_me", "yes", false, :tabindex => 3 %></td><td align=right><%= submit_tag t('user.login.login_button'), :tabindex => 3 %></td></tr>
