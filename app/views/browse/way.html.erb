@@ -2,25 +2,13 @@
 @name = printable_name @way
 @title = t('browse.way.way') + ' | ' + @name
 %>
-<table width="100%">
-  <tr>
-    <td>
-      <h2><%= t'browse.way.way_title', :way_name => h(@name) %></h2>
-    </td>
-    <td>
-      <%= render :partial => "navigation" %>
-    </td>
-  </tr>
-  <tr valign="top">
-    <td>
-      <%= render :partial => "way_details", :object => @way %>
-      <hr />
-      <%= link_to(t('browse.way.download_xml'), :controller => "way", :action => "read") %>
-      | <%= link_to(t('browse.way.view_history'), :action => "way_history") %>
-      <% unless @midnode.nil? %>
-        | <%= link_to(t('browse.way.edit'), :controller => "site", :action => "edit", :way => @way.id, :lat => @midnode.lat, :lon => @midnode.lon, :zoom => 16) %>
-      <% end %>
-    </td>
-    <%= render :partial => "map", :object => @way %>
-  </tr>
-</table>
+<%= render :partial => "navigation" %>
+<h2><%= t'browse.way.way_title', :way_name => h(@name) %></h2>
+<%= render :partial => "map", :object => @way %>
+<%= render :partial => "way_details", :object => @way %>
+<hr />
+<%= link_to(t('browse.way.download_xml'), :controller => "way", :action => "read") %>
+| <%= link_to(t('browse.way.view_history'), :action => "way_history") %>
+<% unless @midnode.nil? %>
+  | <%= link_to(t('browse.way.edit'), :controller => "site", :action => "edit", :way => @way.id, :lat => @midnode.lat, :lon => @midnode.lon, :zoom => 16) %>
+<% end %>
