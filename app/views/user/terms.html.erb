@@ -4,51 +4,25 @@
 
 <!-- legale is <%= @legale %> -->
 <% form_tag :action => 'terms' do %>
-  <p><%= t 'user.terms.legale_select' %></p>
-  <% [['france', 'FR'], ['italy', 'IT'], ['rest_of_world', 'GB']].each do |name,legale| %>
-    <%= radio_button_tag 'legale', legale, @legale == legale %>
-    <%= label_tag "legale_#{legale}", t('user.terms.legale_names.' + name) %><br/>
-  <% end %>
-  <%= hidden_field_tag('referer', h(params[:referer])) unless params[:referer].nil? %>
-  <%= hidden_field('user', 'email') %>
-  <%= hidden_field('user', 'email_confirmation') %>
-  <%= hidden_field('user', 'display_name') %>
-  <%= hidden_field('user', 'pass_crypt') %>
-  <%= hidden_field('user', 'pass_crypt_confirmation') %>
-  <%= submit_tag(t('user.terms.legale_button')) %>
+  <p>
+    <%= t 'user.terms.legale_select' %>
+    <% [['france', 'FR'], ['italy', 'IT'], ['rest_of_world', 'GB']].each do |name,legale| %>
+      <%=
+        radio_button_tag 'legale', legale, @legale == legale,
+          :onchange => remote_function(
+            :before => update_page do |page|
+              page.replace_html 'contributorTerms', image_tag('searching.gif')
+            end,
+            :url => {:legale => legale}
+          )
+      %>
+      <%= label_tag "legale_#{legale}", t('user.terms.legale_names.' + name) %>
+    <% end %>
+  </p>
 <% end %>
 
 <div id="contributorTerms">
-  <p id="first"><%= @text['intro'] %></p>
-  <ol>
-    <li>
-      <p><%= @text['section_1'] %></p>
-    </li>
-    <li>
-      <p><%= @text['section_2'] %></p>
-    </li>
-    <li>
-      <p><%= @text['section_3'] %></p>
-      <p><%= @text['active_defn_1'] %></p>
-      <p><%= @text['active_defn_2'] %></p>
-    </li>
-    <li>
-      <p><%= @text['section_4'] %></p>
-    </li>
-    <li>
-      <p><%= @text['section_5'] %></p>
-    </li>
-    <li>
-      <p><%= @text['section_6'] %></p>
-      <ol>
-        <li><p><%= @text['section_6_1'] %></p></li>
-        <li><p><%= @text['section_6_2'] %></p></li>
-      </ol>
-    </li>
-    <li>
-      <p id="last"><%= @text['section_7'] %></p>
-    </li>
-  </ol>
+  <%= render :partial => "terms" %>
 </div>
 
 <% form_tag :action => 'save' do %>

@@ -25,7 +25,11 @@ class UserController < ApplicationController
     @legale = params[:legale] || OSM.IPToCountry(request.remote_ip) || APP_CONFIG['default_legale']
     @text = OSM.legal_text_for_country(@legale)
 
-    if @user.invalid?
+    if request.xhr?
+      render :update do |page|
+        page.replace_html "contributorTerms", :partial => "terms"
+      end
+    elsif @user.invalid?
       render :action => 'new'
     end
   end
