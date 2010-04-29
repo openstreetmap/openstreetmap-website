@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
 
   has_many :traces, :conditions => { :visible => true }
   has_many :diary_entries, :order => 'created_at DESC'
+  has_many :diary_comments, :order => 'created_at DESC'
   has_many :messages, :foreign_key => :to_user_id, :conditions => { :to_user_visible => true }, :order => 'sent_on DESC'
   has_many :new_messages, :class_name => "Message", :foreign_key => :to_user_id, :conditions => { :to_user_visible => true, :message_read => false }, :order => 'sent_on DESC'
   has_many :sent_messages, :class_name => "Message", :foreign_key => :from_user_id, :conditions => { :from_user_visible => true }, :order => 'sent_on DESC'
@@ -166,4 +167,20 @@ class User < ActiveRecord::Base
     self.save
   end
 
+  ##
+  # return a spam score for a user
+  def spam_score
+    changeset_score = self.changesets.find(:all, :limit => 10).length * 50
+    trace_score = self.traces.find(:all, :limit => 10).length * 50
+    diary_entry_score = self.diary_entries.inject(0) { |s,e| s += OSM.spam_score(e.body) }
+    diary_comment_score = self.diary_comments.inject(0) { |s,e| s += OSM.spam_score(e.body) }
+
+    score = 0
+    score += diary_entry_score / self.diary_entries.length if self.diary_entries.length > 0
+    score += diary_comment_score / self.diary_comments.length if self.diary_comments.length > 0
+    score -= changeset_score
+    score -= trace_score
+
+    return score
+  end
 end
