@@ -106,7 +106,13 @@ cs:
     navigation: 
       all: 
         next_changeset_tooltip: Další sada změn
+        next_node_tooltip: Následující uzel
+        next_relation_tooltip: Následující relace
+        next_way_tooltip: Následující cesta
         prev_changeset_tooltip: Předchozí sada změn
+        prev_node_tooltip: Předchozí uzel
+        prev_relation_tooltip: Předchozí relace
+        prev_way_tooltip: Předchozí cesta
       user: 
         name_changeset_tooltip: Zobrazit úpravy od {{user}}
         next_changeset_tooltip: Další úprava od {{user}}
@@ -195,6 +201,10 @@ cs:
       zoom_or_select: Zvolte větší měřítko nebo vyberte nějakou oblast mapy
     tag_details: 
       tags: "Tagy:"
+      wiki_link: 
+        key: Stránka s popisem značky {{key}} na wiki
+        tag: Stránka s popisem značky {{key}}={{value}} na wiki
+      wikipedia_link: Článek {{page}} na Wikipedii
     timeout: 
       sorry: Promiňte, ale načítání dat {{type}} číslo {{id}} trvalo příliš dlouho.
       type: 
@@ -367,10 +377,15 @@ cs:
         highway: 
           bus_stop: Autobusová zastávka
           gate: Brána
+          residential: Ulice
           secondary: Silnice II. třídy
           steps: Schody
         historic: 
           museum: Muzeum
+        landuse: 
+          cemetery: Hřbitov
+          construction: Staveniště
+          vineyard: Vinice
         leisure: 
           garden: Zahrada
           golf_course: Golfové hřiště
@@ -397,6 +412,7 @@ cs:
           house: Dům
           houses: Budovy
           island: Ostrov
+          islet: Ostrůvek
           locality: Oblast
           municipality: Obecní úřad
           postcode: PSČ
@@ -433,7 +449,15 @@ cs:
       base: 
         cycle_map: Cyklomapa
         noname: Nepojmenované ulice
+    site: 
+      edit_disabled_tooltip: Pro editaci mapy přejděte na větší měřítko
+      edit_tooltip: Upravit mapu
+      edit_zoom_alert: Upravovat mapu můžete jen ve větším přiblížení
+      history_disabled_tooltip: Pro zobrazení editací této oblasti přejděte na větší měřítko
+      history_tooltip: Zobrazit editace této oblasti
+      history_zoom_alert: Zobrazit editace této oblasti můžete jen ve větším přiblížení
   layouts: 
+    copyright: Copyright &amp; licence
     edit: Upravit
     export: Export
     export_tooltip: Exportovat mapová data
@@ -522,13 +546,26 @@ cs:
     sent_message_summary: 
       delete_button: Smazat
   notifier: 
+    email_confirm: 
+      subject: "[OpenStreetMap] Potvrzení vaší e-mailové adresy"
     email_confirm_plain: 
       greeting: Dobrý den,
+    friend_notification: 
+      befriend_them: Můžete si ho/ji také přidat jako přítele na {{befriendurl}}.
+      had_added_you: "{{user}} si vás na OpenStreetMap přidal(a) jako přítele."
+      see_their_profile: Jeho/její profil si můžete prohlédnout na {{userurl}}.
+      subject: "[OpenStreetMap] {{user}} si vás přidal jako přítele"
     lost_password: 
       subject: "[OpenStreetMap] Žádost o nové heslo"
     lost_password_html: 
       click_the_link: Pokud tedy chcete, kliknutím na níže uvedený odkaz získáte nové heslo.
       hopefully_you: Někdo (patrně vy) požádal o vygenerování nového hesla pro uživatele serveru openstreetmap.org s touto e-mailovou adresou.
+    message_notification: 
+      footer1: Také si můžete zprávu přečíst na {{readurl}}
+      footer2: a můžete odpovědět na {{replyurl}}
+      header: "{{from_user}} vám poslal(a) prostřednictvím OpenStreetMap zprávu s předmětem {{subject}}:"
+      hi: Dobrý den, uživateli {{to_user}},
+      subject: "[OpenStreetMap] {{user}} vám poslal novou zprávu"
     signup_confirm_plain: 
       the_wiki_url: http://wiki.openstreetmap.org/wiki/Cs:Beginners_Guide?uselang=cs
       wiki_signup_url: http://wiki.openstreetmap.org/index.php?title=Special:UserLogin&type=signup&returnto=Cs:Main_Page&uselang=cs
@@ -621,6 +658,9 @@ cs:
     sidebar: 
       close: Zavřít
       search_results: Výsledky vyhledávání
+  time: 
+    formats: 
+      friendly: "%e. %m. %Y v %H:%M"
   trace: 
     create: 
       trace_uploaded: Váš GPX soubor byl uložen a čeká na zařazení do databáze. Obvykle to netrvá víc jak půl hodiny. Až bude zařazen, budete informováni emailem.
@@ -729,6 +769,8 @@ cs:
       heading: Potvrzení změny e-mailové adresy
       press confirm button: Pro potvrzení nové e-mailové adresy klikněte na níže zobrazené tlačítko.
       success: Vaše e-mailová adresa byla potvrzena, děkujeme za registraci!
+    filter: 
+      not_an_administrator: K provedení této akce musíte být správce.
     login: 
       account not active: Je mi líto, ale váš uživatelský účet dosud nebyl aktivován.<br />Svůj účet si můžete aktivovat kliknutím na odkaz v potvrzovacím e-mailu.
       auth failure: Je mi líto, ale s uvedenými údaji se nemůžete přihlásit.
@@ -819,6 +861,10 @@ cs:
       user location: Pozice uživatele
       your friends: Vaši přátelé
   user_role: 
+    filter: 
+      already_has_role: Uživatel již roli {{role}} má.
+      doesnt_have_role: Uživatel nemá roli {{role}}.
+      not_a_role: Řetězec „{{role}}“ neoznačuje platnou roli.
     grant: 
       confirm: Potvrdit
     revoke: 
