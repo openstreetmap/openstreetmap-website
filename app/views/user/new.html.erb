@@ -1,3 +1,5 @@
+<%= javascript_include_tag 'openID.js' %>
+
 <h1><%= t 'user.new.heading' %></h1>
 
 <% if Acl.find_by_address(request.remote_ip, :conditions => {:k => "no_account_creation"}) %>
@@ -30,13 +32,19 @@
   <tr><td colspan="2">&nbsp;<!--vertical spacer--></td></tr>
   <tr><td class="fieldName"><%= t 'user.new.password' %></td><td><%= password_field('user', 'pass_crypt',{:size => 30, :maxlength => 255, :tabindex => 4}) %></td></tr>
   <tr><td class="fieldName"><%= t 'user.new.confirm password' %></td><td><%= password_field('user', 'pass_crypt_confirmation',{:size => 30, :maxlength => 255, :tabindex => 5}) %></td></tr>
-  
   <tr><td colspan="2">&nbsp;<!--vertical spacer--></td></tr>
-  <tr><td class="fieldName"><%= t 'user.new.openID' %></td><td><%= text_field('user', 'openid_url',{:size => 50, :maxlength => 255, :tabindex => 6, :value => @openID, :class => "openid_url"}) %></td></tr>
-  <tr><td></td><td><span class="minorNote"><%= t 'user.new.openID description' %></span></td></tr>
-  <tr><td colspan="2">&nbsp;<!--vertical spacer--></td></tr>
+  <tr><td></td><td><span class="minorNote"><a href="javascript:unhideopenID()">Associate an OpenID with your account</a></span></td></tr>
+  <tr id="openID_row-1" style="display: none"><td class="fieldName"><%= t 'user.new.openID' %></td><td><%= text_field('user', 'openid_url',{:size => 50, :maxlength => 255, :tabindex => 6, :value => @openID, :class => "openid_url"}) %></td></tr>
+  <tr id="openID_row-2" style="display: none"><td></td><td><span class="minorNote"><%= t 'user.new.openID description' %></span></td></tr>
+  <tr><td colspan="2" >&nbsp;<!--vertical spacer--></td></tr>
   <tr><td></td><td align="right"><input type="submit" value="<%= t'user.new.signup' %>" tabindex="7"></td></tr>
 </table>
+<% end %>
+
+<% if @openID %>
+<script type="text/javascript">
+unhideopenID();
+</script>
 <% end %>
 
 <%= javascript_include_tag 'https://ethnio.com/remotes/62786' %>
