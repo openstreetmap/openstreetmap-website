@@ -8,7 +8,7 @@ class DiaryEntry < ActiveRecord::Base
   has_many :visible_comments, :class_name => "DiaryComment",
                               :include => :user,
                               :conditions => {
-                                :users => { :visible => true },
+                                :users => { :status => ["active", "confirmed" ] },
                                 :visible => true
                               },
                               :order => "diary_comments.id"

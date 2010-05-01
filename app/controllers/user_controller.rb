@@ -11,8 +11,8 @@ class UserController < ApplicationController
   before_filter :require_allow_read_prefs, :only => [:api_details]
   before_filter :require_allow_read_gpx, :only => [:api_gpx_files]
   before_filter :require_cookies, :only => [:login, :confirm]
-  before_filter :require_administrator, :only => [:activate, :deactivate, :hide, :unhide, :delete]
-  before_filter :lookup_this_user, :only => [:activate, :deactivate, :hide, :unhide, :delete]
+  before_filter :require_administrator, :only => [:activate, :deactivate, :confirm, :hide, :unhide, :delete]
+  before_filter :lookup_this_user, :only => [:activate, :deactivate, :confirm, :hide, :unhide, :delete]
 
   filter_parameter_logging :password, :pass_crypt, :pass_crypt_confirmation
 
@@ -26,7 +26,7 @@ class UserController < ApplicationController
     else
       @user = User.new(params[:user])
 
-      @user.visible = true
+      @user.status = "pending"
       @user.data_public = true
       @user.description = "" if @user.description.nil?
       @user.creation_ip = request.remote_ip
@@ -102,7 +102,7 @@ class UserController < ApplicationController
     @title = t 'user.lost_password.title'
 
     if params[:user] and params[:user][:email]
-      user = User.find_by_email(params[:user][:email], :conditions => {:visible => true})
+      user = User.find_by_email(params[:user][:email], :conditions => {:status => ["pending", "active", "confirmed"]})
 
       if user
         token = user.tokens.create
@@ -127,7 +127,7 @@ class UserController < ApplicationController
         if params[:user]
           @user.pass_crypt = params[:user][:pass_crypt]
           @user.pass_crypt_confirmation = params[:user][:pass_crypt_confirmation]
-          @user.active = true
+          @user.status = "active"
           @user.email_valid = true
 
           if @user.save
@@ -207,7 +207,7 @@ class UserController < ApplicationController
       token = UserToken.find_by_token(params[:confirm_string])
       if token and !token.user.active?
         @user = token.user
-        @user.active = true
+        @user.status = "active"
         @user.email_valid = true
         @user.save!
         referer = token.referer
@@ -232,7 +232,6 @@ class UserController < ApplicationController
         @user = token.user
         @user.email = @user.new_email
         @user.new_email = nil
-        @user.active = true
         @user.email_valid = true
         if @user.save
           flash[:notice] = t 'user.confirm_email.success'
@@ -272,7 +271,7 @@ class UserController < ApplicationController
   def make_friend
     if params[:display_name]
       name = params[:display_name]
-      new_friend = User.find_by_display_name(name, :conditions => {:visible => true})
+      new_friend = User.find_by_display_name(name, :conditions => {:status => ["active", "confirmed"]})
       friend = Friend.new
       friend.user_id = @user.id
       friend.friend_user_id = new_friend.id
@@ -298,7 +297,7 @@ class UserController < ApplicationController
   def remove_friend
     if params[:display_name]
       name = params[:display_name]
-      friend = User.find_by_display_name(name, :conditions => {:visible => true})
+      friend = User.find_by_display_name(name, :conditions => {:status => ["active", "confirmed"]})
       if @user.is_friends_with?(friend)
         Friend.delete_all "user_id = #{@user.id} AND friend_user_id = #{friend.id}"
         flash[:notice] = t 'user.remove_friend.success', :name => friend.display_name
@@ -317,28 +316,35 @@ class UserController < ApplicationController
   ##
   # activate a user, allowing them to log in
   def activate
-    @this_user.update_attributes(:active => true)
+    @this_user.update_attributes(:status => "active")
     redirect_to :controller => 'user', :action => 'view', :display_name => params[:display_name]
   end
 
   ##
   # deactivate a user, preventing them from logging in
   def deactivate
-    @this_user.update_attributes(:active => false)
+    @this_user.update_attributes(:status => "pending")
+    redirect_to :controller => 'user', :action => 'view', :display_name => params[:display_name]
+  end
+
+  ##
+  # confirm a user, overriding any suspension triggered by spam scoring
+  def confirm
+    @this_user.update_attributes(:status => "confirmed")
     redirect_to :controller => 'user', :action => 'view', :display_name => params[:display_name]
   end
 
   ##
   # hide a user, marking them as logically deleted
   def hide
-    @this_user.update_attributes(:visible => false)
+    @this_user.update_attributes(:status => "deleted")
     redirect_to :controller => 'user', :action => 'view', :display_name => params[:display_name]
   end
 
   ##
   # unhide a user, clearing the logically deleted flag
   def unhide
-    @this_user.update_attributes(:visible => true)
+    @this_user.update_attributes(:status => "active")
     redirect_to :controller => 'user', :action => 'view', :display_name => params[:display_name]
   end
 

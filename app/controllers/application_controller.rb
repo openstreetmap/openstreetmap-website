@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
 
   def authorize_web
     if session[:user]
-      @user = User.find(session[:user], :conditions => {:visible => true})
+      @user = User.find(session[:user], :conditions => {:status => ["active", "confirmed"]})
     elsif session[:token]
       @user = User.authenticate(:token => session[:token])
       session[:user] = @user.id
