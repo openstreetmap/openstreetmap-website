@@ -20,8 +20,3 @@ function openid_signin(provider)
     }
 
 }
-
-function unhideopenID() {
-	document.getElementById("openID_row-1").style.display = "";
-	document.getElementById("openID_row-2").style.display = "";
-}
