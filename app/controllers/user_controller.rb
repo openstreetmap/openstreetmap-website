@@ -11,12 +11,12 @@ class UserController < ApplicationController
   before_filter :require_allow_read_prefs, :only => [:api_details]
   before_filter :require_allow_read_gpx, :only => [:api_gpx_files]
   before_filter :require_cookies, :only => [:login, :confirm]
-  before_filter :require_administrator, :only => [:activate, :deactivate, :confirm, :hide, :unhide, :delete]
-  before_filter :lookup_this_user, :only => [:activate, :deactivate, :confirm, :hide, :unhide, :delete]
+  before_filter :require_administrator, :only => [:set_status, :delete]
+  before_filter :lookup_this_user, :only => [:set_status, :delete]
 
   filter_parameter_logging :password, :pass_crypt, :pass_crypt_confirmation
 
-  cache_sweeper :user_sweeper, :only => [:account, :hide, :unhide, :delete]
+  cache_sweeper :user_sweeper, :only => [:account, :set_status, :delete]
 
   def save
     @title = t 'user.new.title'
@@ -314,37 +314,9 @@ class UserController < ApplicationController
   end
 
   ##
-  # activate a user, allowing them to log in
-  def activate
-    @this_user.update_attributes(:status => "active")
-    redirect_to :controller => 'user', :action => 'view', :display_name => params[:display_name]
-  end
-
-  ##
-  # deactivate a user, preventing them from logging in
-  def deactivate
-    @this_user.update_attributes(:status => "pending")
-    redirect_to :controller => 'user', :action => 'view', :display_name => params[:display_name]
-  end
-
-  ##
-  # confirm a user, overriding any suspension triggered by spam scoring
-  def confirm
-    @this_user.update_attributes(:status => "confirmed")
-    redirect_to :controller => 'user', :action => 'view', :display_name => params[:display_name]
-  end
-
-  ##
-  # hide a user, marking them as logically deleted
-  def hide
-    @this_user.update_attributes(:status => "deleted")
-    redirect_to :controller => 'user', :action => 'view', :display_name => params[:display_name]
-  end
-
-  ##
-  # unhide a user, clearing the logically deleted flag
-  def unhide
-    @this_user.update_attributes(:status => "active")
+  # sets a user's status
+  def set_status
+    @this_user.update_attributes(:status => params[:status])
     redirect_to :controller => 'user', :action => 'view', :display_name => params[:display_name]
   end
 
