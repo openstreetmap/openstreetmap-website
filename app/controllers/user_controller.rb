@@ -322,6 +322,10 @@ class UserController < ApplicationController
     @nickname = params['nickname']
     @email = params['email']
     @openID = params['openid']
+	
+    if !params['openid'].nil?
+	  flash.now[:notice] = t 'user.new.openID association'
+	end
   end
 
   def login
