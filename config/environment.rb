@@ -13,6 +13,10 @@ SERVER_URL = ENV['OSM_SERVER_URL'] || 'www.openstreetmap.org'
 # Set the generator
 GENERATOR = ENV['OSM_SERVER_GENERATOR'] || 'OpenStreetMap server'
 
+# Settings for generated emails (e.g. signup confirmation
+EMAIL_FROM = ENV['OSM_EMAIL_FROM'] || 'OpenStreetMap <webmaster@openstreetmap.org>'
+EMAIL_RETURN_PATH = ENV['OSM_EMAIL_RETURN_PATH'] || 'bounces@openstreetmap.org'
+
 # Application constants needed for routes.rb - must go before Initializer call
 API_VERSION = ENV['OSM_API_VERSION'] || '0.6'
 

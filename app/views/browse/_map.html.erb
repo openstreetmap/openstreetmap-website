@@ -1,22 +1,20 @@
 <%= javascript_include_tag '/openlayers/OpenLayers.js' %>
 <%= javascript_include_tag '/openlayers/OpenStreetMap.js' %>
 <%= javascript_include_tag 'map.js' %>
-<td>
-  <div style="width: 250px; margin: auto; text-align: right"">
-    <% if map.instance_of? Changeset or map.visible %>
-      <div id="small_map" style="width:250px; height: 300px; border: solid 1px black">
-      </div>
-      <span id="loading"><%= t 'browse.map.loading' %></span>
-      <a id="area_larger_map" href=""></a>
-      <% unless map.instance_of? Changeset %>
-        <br />
-        <a id="object_larger_map" href=""></a>
-      <% end %>
-    <% else %>
-      <%= t 'browse.map.deleted' %>
-    <% end %>
+<div id="browse_map">
+  <% if map.instance_of? Changeset or map.visible %>
+  <div id="small_map">
   </div>
-</td>
+  <span id="loading"><%= t 'browse.map.loading' %></span>
+  <a id="area_larger_map" href=""></a>
+  <% unless map.instance_of? Changeset %>
+    <br />
+    <a id="object_larger_map" href=""></a>
+  <% end %>
+  <% else %>
+    <%= t 'browse.map.deleted' %>
+  <% end %>
+</div>
 <% if map.instance_of? Changeset or map.visible %>
   <script type="text/javascript">
     OpenLayers.Lang.setCode("<%= I18n.locale.to_s %>");

@@ -3,17 +3,10 @@
 @title = t('browse.way_history.way_history') + ' | ' + @name
 %>
 <h2><%= t'browse.way_history.way_history_title', :way_name => link_to(h(@name), :action => "way", :id => @way.id) %></h2>
-
-<table width="100%">
-  <tr valign="top">
-    <td>
-      <% @way.old_ways.reverse.each do |way| %>
-        <%= render :partial => "way_details", :object => way %>
-        <hr />
-      <% end %>
-      <%= t'browse.way_history.download', :download_xml_link => link_to(t('browse.way_history.download_xml'), :controller => "old_way", :action => "history"), 
-                                          :view_details_link => link_to(t('browse.way_history.view_details'), :action => "way") %>
-    </td>
-    <%= render :partial => "map", :object => @way %>
-  </tr>
-</table>
+<%= render :partial => "map", :object => @way %>
+<% @way.old_ways.reverse.each do |way| %>
+  <%= render :partial => "way_details", :object => way %>
+  <hr />
+<% end %>
+<%= t'browse.way_history.download', :download_xml_link => link_to(t('browse.way_history.download_xml'), :controller => "old_way", :action => "history"), 
+                                    :view_details_link => link_to(t('browse.way_history.view_details'), :action => "way") %>

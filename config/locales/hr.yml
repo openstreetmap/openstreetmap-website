@@ -108,14 +108,6 @@ hr:
         other: "Sadrži slijedećih {{count}} puteva:"
       no_bounding_box: Granični okvir nije pohranjen za ovaj set promjena.
       show_area_box: Prikaži granični okvir
-    changeset_navigation: 
-      all: 
-        next_tooltip: Slijedeći changeset
-        prev_tooltip: Prethodni changeset
-      user: 
-        name_tooltip: "Prikaži promjene korisnika:  {{user}}"
-        next_tooltip: Slijedeća promjena od {{user}}
-        prev_tooltip: Prethodno uredio {{user}}
     common_details: 
       changeset_comment: "Komentar:"
       edited_at: "Uređeno:"
@@ -133,6 +125,14 @@ hr:
         relation: Prikaži relaciju na većoj karti
         way: Prikaži put na većoj karti
       loading: Učitavanje...
+    navigation: 
+      all: 
+        next_changeset_tooltip: Slijedeći changeset
+        prev_changeset_tooltip: Prethodni changeset
+      user: 
+        name_changeset_tooltip: "Prikaži promjene korisnika:  {{user}}"
+        next_changeset_tooltip: Slijedeća promjena od {{user}}
+        prev_changeset_tooltip: Prethodno uredio {{user}}
     node: 
       download: "{{download_xml_link}}, {{view_history_link}} ili {{edit_link}}"
       download_xml: Preuzimanje XML
@@ -321,6 +321,10 @@ hr:
       recent_entries: "Nedavni zapisi u dnevnik:"
       title: Dnevnici korisnika
       user_title: "{{user}}ov dnevnik"
+    location: 
+      edit: Uredi
+      location: "Lokacija:"
+      view: Prikaži
     new: 
       title: Novi zapis u dnevnik
     no_such_entry: 
@@ -336,7 +340,7 @@ hr:
       login: Prijava
       login_to_leave_a_comment: "{{login_link}} da bi ostavili komentar"
       save_button: Spremi
-      title: Korisnički dnevnici | {{user}}
+      title: Blog korisnika {{user}} | {{title}}
       user_title: "{{user}}ov dnevnik"
   export: 
     start: 
@@ -360,6 +364,8 @@ hr:
       output: Izlaz
       paste_html: Zalijepi HTML za ubacivanje na webstranicu
       scale: Mjerilo
+      too_large: 
+        heading: Područje je preveliko
       zoom: Zoom
     start_rjs: 
       add_marker: Dodaj makrker na kartu
@@ -860,7 +866,7 @@ hr:
     export: Izvoz
     export_tooltip: Izvoz podataka karte
     gps_traces: GPS trase
-    gps_traces_tooltip: Upravljanje GPS trasama
+    gps_traces_tooltip: Upravljaj GPS trasama
     help_wiki: Pomoć &amp; Wiki
     help_wiki_tooltip: Pomoć &amp; Wiki-site za projekt
     help_wiki_url: http://wiki.openstreetmap.org/wiki/Hr:Main_Page?uselang=hr
@@ -874,7 +880,7 @@ hr:
       zero: Nema nepročitanih poruka
     intro_1: OpenStreetMap je slobodna, promjenjiva karta cijelog svijeta. Napravili su je ljudi slični tebi.
     intro_2: OpenStreetMap omogućava pregledavanje, uređivanje i korištenje geografskih podataka u suradničkom načinu od bilo gdje sa Zemlje.
-    intro_3: Smještaj OpenStreetMapa je ljubazno podržan od {{ucl}} i {{bytemark}}.
+    intro_3: Smještaj OpenStreetMapa je ljubazno podržan od {{ucl}} i {{bytemark}}. Ostali podržavatelji projekta su navedeni u {{partners}}.
     license: 
       title: OpenStreetMap podaci su objavljeni pod licencom Creative Commons Attribution-Share Alike 2.0 Generic License
     log_in: prijava
@@ -899,7 +905,7 @@ hr:
     user_diaries: Dnevnik
     user_diaries_tooltip: Prikaži korisničke dnevnike
     view: Karta
-    view_tooltip: Prikaži kartu
+    view_tooltip: Pogledaj na karti
     welcome_user: Dobrodošli, {{user_link}}
     welcome_user_link_tooltip: Tvoja korisnička stranica
   message: 
@@ -932,9 +938,12 @@ hr:
       send_message_to: Pošalji novu poruku za {{name}}
       subject: Tema
       title: Pošalji poruku
+    no_such_message: 
+      heading: Nema takve poruke
+      title: Nema takve poruke
     no_such_user: 
-      body: Žao mi je ali ne postoji korisnik ili poruka s tim imenom ili id.
-      heading: Nema takvog korisnika ili poruke
+      body: Nažalost ne postoji korisnik s tim imenom.
+      heading: Nema takvog korisnika
       title: Nema takvog korisnika ili poruke
     outbox: 
       date: Datum
@@ -980,7 +989,7 @@ hr:
       hopefully_you_2: "{{server_url}} na {{new_address}}."
     friend_notification: 
       had_added_you: "{{user}} te je dodao kao prijatelja na OpenStreetMap-u."
-      see_their_profile: Možeš vidjeti njihov profil na {{userurl}} i dodati ih kao prijatelje ako želiš.
+      see_their_profile: Možeš vidjeti njihov profil na {{userurl}}.
       subject: "[OpenStreetMap] {{user}} te je dodao kao prijatelja"
     gpx_notification: 
       and_no_tags: i bez oznaka
@@ -1207,6 +1216,9 @@ hr:
     sidebar: 
       close: Zatvori
       search_results: Rezultazi traženja
+  time: 
+    formats: 
+      friendly: "%e %B %Y u %H:%M"
   trace: 
     create: 
       trace_uploaded: Vaša GPS datoteka je spremljena na server i čeka ubacivanje u bazu. Ovo se obično dogodi za pola sata i prije, a e-mail-om će te dobiti obavijest o završetku.
@@ -1360,6 +1372,8 @@ hr:
       password: "Lozinka:"
       please login: Molimo prijavite se ili {{create_user_link}}.
       title: Prijava
+    logout: 
+      heading: Odjava iz OpenStreetMap
     lost_password: 
       email address: "Email adresa:"
       heading: Zaboravljena lozinka?
@@ -1434,10 +1448,11 @@ hr:
       my edits: moje promjene
       my settings: moje postavke
       my traces: moje trase
-      nearby users: "Okolni korisnici:"
+      nearby users: Drugi korisnici u blizini
       new diary entry: novi unos u dnevnik
       no friends: Nisi dodao niti jednog prijatelja.
       no nearby users: Nema okolnih korisnika koji mapiraju.
+      oauth settings: oauth postavke
       remove as friend: ukloni kao prijatelja
       role: 
         administrator: Ovaj korisnik je administrator
