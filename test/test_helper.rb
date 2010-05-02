@@ -141,6 +141,15 @@ class ActiveSupport::TestCase
   def assert_no_missing_translations(msg="")
     assert_select "span[class=translation_missing]", false, "Missing translation #{msg}"
   end
+
+  def openid_request(openid_request_uri)
+    openid_response = Net::HTTP.get_response(URI.parse(openid_request_uri))
+    openid_response_uri = URI(openid_response['Location'])
+    openid_response_qs = Rack::Utils.parse_query(openid_response_uri.query)
+
+    return openid_response_qs
+  end
+
   
   # Add more helper methods to be used by all tests here...
 end

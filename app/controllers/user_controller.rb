@@ -49,7 +49,7 @@ class UserController < ApplicationController
         @user.openid_url = nil
 
         if (!params[:user][:openid_url].nil? and params[:user][:openid_url].length > 0)
-          if @user.pass_crypt.length == 0 
+          if (@user.pass_crypt.nil? or @user.pass_crypt.length == 0)
             #if the password is empty, but we have a openid 
             #then generate a random passowrd to disable 
             #loging in via password 
