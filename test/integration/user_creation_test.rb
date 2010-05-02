@@ -127,4 +127,28 @@ class UserCreationTest < ActionController::IntegrationTest
     assert_response :success
     assert_template "trace/list.html.erb"
   end
+
+  def test_user_create_openid_success
+    new_email = "newtester-openid@osm.org"
+    display_name = "new_tester-openid"
+    assert_difference('User.count') do
+      assert_difference('ActionMailer::Base.deliveries.size', 1) do
+        post "/user/save",
+          {:user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :openid_url => "http://localhost:1123/john.doe?openid.success=newuser"}}
+        assert_response :redirect
+        res = openid_request(@response.redirected_to)
+        post '/user/save', res
+        assert_response :redirect
+        follow_redirect!
+      end
+    end
+
+    # Check the page
+    assert_response :success
+    assert_template 'login'
+
+    ActionMailer::Base.deliveries.clear
+  end
+
+
 end
