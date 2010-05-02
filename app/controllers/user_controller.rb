@@ -325,7 +325,7 @@ class UserController < ApplicationController
 	
     if !params['openid'].nil?
 	  flash.now[:notice] = t 'user.new.openID association'
-	end
+    end
   end
 
   def login
