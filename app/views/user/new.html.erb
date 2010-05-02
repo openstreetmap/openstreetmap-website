@@ -35,9 +35,10 @@
     <tr id="openid-url"><td class="fieldName"><%= t 'user.new.openID' %></td><td><%= text_field('user', 'openid_url',{:size => 50, :maxlength => 255, :tabindex => 6, :value => @openID, :class => "openid_url"}) %></td></tr>
     <tr id="openid-note"><td></td><td><span class="minorNote"><%= t 'user.new.openID description' %></span></td></tr>
   <% else %>
-    <tr id="openid-prompt"><td></td><td><span class="minorNote"><%= link_to_function('Associate an OpenID with your account') { |page| page.hide 'openid-prompt'; page.show 'openid-url', 'openid-note' } %></span></td></tr>
+    <tr id="openid-prompt"><td></td><td><span class="minorNote"><%= link_to_function(t 'user.new.openID associate') { |page| page.hide 'openid-prompt'; page.show 'openid-url', 'openid-note', 'openid-note-2' } %></span></td></tr>
     <tr id="openid-url" style="display: none"><td class="fieldName"><%= t 'user.new.openID' %></td><td><%= text_field('user', 'openid_url',{:size => 50, :maxlength => 255, :tabindex => 6, :value => @openID, :class => "openid_url"}) %></td></tr>
     <tr id="openid-note" style="display: none"><td></td><td><span class="minorNote"><%= t 'user.new.openID description' %></span></td></tr>
+    <tr id="openid-note-2" style="display: none"><td></td><td><span class="minorNote"><%= t 'user.new.openID nopassword' %></span></td></tr>   
   <% end %>
   <tr><td colspan="2" >&nbsp;<!--vertical spacer--></td></tr>
   <tr><td></td><td align="right"><input type="submit" value="<%= t'user.new.signup' %>" tabindex="7"></td></tr>
