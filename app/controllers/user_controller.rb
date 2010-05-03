@@ -173,8 +173,10 @@ class UserController < ApplicationController
         else
           redirect_to :controller => 'site', :action => 'index'
         end
-       elsif User.authenticate(:username => email_or_display_name, :password => pass, :inactive => true)
+      elsif User.authenticate(:username => email_or_display_name, :password => pass, :pending => true)
         flash.now[:error] = t 'user.login.account not active'
+      elsif User.authenticate(:username => email_or_display_name, :password => pass, :suspended => true)
+        flash.now[:error] = t 'user.login.account suspended'
       else
         flash.now[:error] = t 'user.login.auth failure'
       end

@@ -56,8 +56,11 @@ class User < ActiveRecord::Base
       user = token.user if token
     end
 
-    if user
-      user = nil unless user.visible? and (user.active? or options[:inactive])
+    if user and
+      ( user.status == "deleted" or
+        ( user.status == "pending" and not options[:pending] ) or
+        ( user.status == "suspended" and not options[:suspended] ) )
+      user = nil
     end
 
     token.update_attribute(:expiry, 1.week.from_now) if token and user
