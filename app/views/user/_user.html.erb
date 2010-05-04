@@ -1,0 +1,20 @@
+<% cl = cycle('table0', 'table1') %>
+
+<tr class="<%= cl %>">
+  <td>
+    <%= user_thumbnail(user) %>
+  </td>
+  <td>
+    <p>
+      <%= t 'user.list.summary',
+          :name => h(user.display_name),
+          :ip_address => link_to(user.creation_ip, :ip => user.creation_ip),
+          :date => l(user.creation_time, :format => :friendly)
+      %>
+    </p>
+    <%= htmlize(user.description) %>
+  </td>
+  <td>
+    <%= check_box_tag "user_#{user.id}", "", false, :name => "user[#{user.id}]" %>
+  </td>
+</tr>

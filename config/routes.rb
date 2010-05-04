@@ -166,7 +166,10 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/diary/:language', :controller => 'diary_entry', :action => 'list'
   map.connect '/diary/:language/rss', :controller => 'diary_entry', :action => 'rss'
 
-  
+  # user lists
+  map.connect '/users', :controller => 'user', :action => 'list'
+  map.connect '/users/:status', :controller => 'user', :action => 'list'
+
   # test pages
   map.connect '/test/populate/:table/:from/:count', :controller => 'test', :action => 'populate'
   map.connect '/test/populate/:table/:count', :controller => 'test', :action => 'populate', :from => 1

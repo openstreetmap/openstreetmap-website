@@ -11,7 +11,7 @@ class UserController < ApplicationController
   before_filter :require_allow_read_prefs, :only => [:api_details]
   before_filter :require_allow_read_gpx, :only => [:api_gpx_files]
   before_filter :require_cookies, :only => [:login, :confirm]
-  before_filter :require_administrator, :only => [:set_status, :delete]
+  before_filter :require_administrator, :only => [:set_status, :delete, :list]
   before_filter :lookup_this_user, :only => [:set_status, :delete]
 
   filter_parameter_logging :password, :pass_crypt, :pass_crypt_confirmation
@@ -328,14 +328,43 @@ class UserController < ApplicationController
     @this_user.delete
     redirect_to :controller => 'user', :action => 'view', :display_name => params[:display_name]
   end
+
+  ##
+  # display a list of users matching specified criteria
+  def list
+    if request.post?
+      ids = params[:user].keys.collect { |id| id.to_i }
+
+      User.update_all("status = 'confirmed'", :id => ids) if params[:confirm]
+      User.update_all("status = 'deleted'", :id => ids) if params[:hide]
+    end
+
+    conditions = Hash.new
+    conditions[:status] = params[:status] if params[:status]
+    conditions[:creation_ip] = params[:ip] if params[:ip]
+
+    @user_pages, @users = paginate(:users,
+                                   :conditions => conditions,
+                                   :order => :id,
+                                   :per_page => 50)
+  end
+
 private
+
   ##
   # require that the user is a administrator, or fill out a helpful error message
   # and return them to the user page.
   def require_administrator
-    unless @user.administrator?
+    if @user and not @user.administrator?
       flash[:error] = t('user.filter.not_an_administrator')
-      redirect_to :controller => 'user', :action => 'view', :display_name => params[:display_name]
+
+      if params[:display_name]
+        redirect_to :controller => 'user', :action => 'view', :display_name => params[:display_name]
+      else
+        redirect_to :controller => 'user', :action => 'login', :referer => request.request_uri
+      end
+    elsif not @user
+      redirect_to :controller => 'user', :action => 'login', :referer => request.request_uri
     end
   end
 
