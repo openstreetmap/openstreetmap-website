@@ -89,6 +89,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/', :controller => 'site', :action => 'index'
   map.connect '/edit', :controller => 'site', :action => 'edit'
   map.connect '/copyright', :controller => 'site', :action => 'copyright'
+  map.connect '/copyright/:copyright_locale', :controller => 'site', :action => 'copyright'
   map.connect '/history', :controller => 'changeset', :action => 'list'
   map.connect '/history/feed', :controller => 'changeset', :action => 'list', :format => :atom
   map.connect '/export', :controller => 'site', :action => 'export'

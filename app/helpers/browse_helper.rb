@@ -49,6 +49,9 @@ private
   end
 
   def wikipedia_link(key, value)
+    # Some k/v's are wikipedia=http://en.wikipedia.org/wiki/Full%20URL
+    return nil if value =~ /^http:\/\//
+
     if key == "wikipedia"
       # This regex should match Wikipedia language codes, everything
       # from de to zh-classical
@@ -67,9 +70,6 @@ private
       # Not a wikipedia key!
       return nil
     end
-
-    # Some k/v's are wikipedia=http://en.wikipedia.org/wiki/Full%20URL
-    return nil if value =~ /^http:\/\//
 
     return {
       :url => "http://#{lang}.wikipedia.org/wiki/#{value}?uselang=#{I18n.locale}",
