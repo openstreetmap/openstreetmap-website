@@ -27,7 +27,7 @@ class TraceController < ApplicationController
     # from display name, pick up user id if one user's traces only
     display_name = params[:display_name]
     if target_user.nil? and !display_name.blank?
-      target_user = User.find(:first, :conditions => [ "visible = ? and display_name = ?", true, display_name])
+      target_user = User.find(:first, :conditions => { :status => ["active", "confirmed"], :display_name => display_name })
       if target_user.nil?
         @title = t'trace.no_such_user.title'
         @not_found_user = display_name
