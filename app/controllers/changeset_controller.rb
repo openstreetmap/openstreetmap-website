@@ -255,7 +255,7 @@ class ChangesetController < ApplicationController
     conditions = conditions_nonempty
 
     if params[:display_name]
-      user = User.find_by_display_name(params[:display_name], :conditions => { :visible => true })
+      user = User.find_by_display_name(params[:display_name], :conditions => { :status => ["active", "confirmed"] })
 
       if user 
         if user.data_public? or user == @user
