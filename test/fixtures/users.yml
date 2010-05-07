@@ -2,7 +2,7 @@
 normal_user:
   id: 1
   email: test@openstreetmap.org
-  active: true
+  status: active
   pass_crypt: <%= Digest::MD5.hexdigest('test') %>
   creation_time: "2007-01-01 00:00:00"
   display_name: test
@@ -15,7 +15,7 @@ normal_user:
 public_user:
   id: 2
   email: test@example.com
-  active: true
+  status: active
   pass_crypt: <%= Digest::MD5.hexdigest('test') %>
   creation_time: "2008-05-01 01:23:45"
   display_name: test2
@@ -28,7 +28,7 @@ public_user:
 inactive_user:
   id: 3
   email: inactive@openstreetmap.org
-  active: false
+  status: pending
   pass_crypt: <%= Digest::MD5::hexdigest('test2') %>
   creation_time: "2008-07-01 02:23:45"
   display_name: Inactive User
@@ -41,7 +41,7 @@ inactive_user:
 second_public_user:
   id: 4
   email: public@OpenStreetMap.org
-  active: true
+  status: active
   pass_crypt: <%= Digest::MD5.hexdigest('test') %>
   creation_time: "2008-05-01 01:23:45"
   display_name: pulibc_test2
@@ -54,7 +54,7 @@ second_public_user:
 moderator_user:
   id: 5
   email: moderator@example.com
-  active: true
+  status: active
   pass_crypt: <%= Digest::MD5.hexdigest('test') %>
   creation_time: "2008-05-01 01:23:45"
   display_name: moderator
@@ -63,7 +63,7 @@ moderator_user:
 administrator_user:
   id: 6
   email: administrator@example.com
-  active: true
+  status: active
   pass_crypt: <%= Digest::MD5.hexdigest('test') %>
   creation_time: "2008-05-01 01:23:45"
   display_name: administrator

@@ -3,10 +3,11 @@ class User < ActiveRecord::Base
 
   has_many :traces, :conditions => { :visible => true }
   has_many :diary_entries, :order => 'created_at DESC'
+  has_many :diary_comments, :order => 'created_at DESC'
   has_many :messages, :foreign_key => :to_user_id, :conditions => { :to_user_visible => true }, :order => 'sent_on DESC'
   has_many :new_messages, :class_name => "Message", :foreign_key => :to_user_id, :conditions => { :to_user_visible => true, :message_read => false }, :order => 'sent_on DESC'
   has_many :sent_messages, :class_name => "Message", :foreign_key => :from_user_id, :conditions => { :from_user_visible => true }, :order => 'sent_on DESC'
-  has_many :friends, :include => :befriendee, :conditions => ["users.visible = ?", true]
+  has_many :friends, :include => :befriendee, :conditions => "users.status IN ('active', 'confirmed')"
   has_many :tokens, :class_name => "UserToken"
   has_many :preferences, :class_name => "UserPreference"
   has_many :changesets
@@ -56,8 +57,11 @@ class User < ActiveRecord::Base
       user = token.user if token
     end
 
-    if user
-      user = nil unless user.visible? and (user.active? or options[:inactive])
+    if user and
+      ( user.status == "deleted" or
+        ( user.status == "pending" and not options[:pending] ) or
+        ( user.status == "suspended" and not options[:suspended] ) )
+      user = nil
     end
 
     token.update_attribute(:expiry, 1.week.from_now) if token and user
@@ -107,7 +111,8 @@ class User < ActiveRecord::Base
       bounds = gc.bounds(radius)
       sql_for_distance = gc.sql_for_distance("home_lat", "home_lon")
       nearby = User.find(:all, 
-                         :conditions => ["id != ? AND visible = ? AND data_public = ? AND #{sql_for_distance} <= ?", id, true, true, radius], :order => sql_for_distance, :limit => num)
+                         :conditions => ["id != ? AND status IN (\'active\', \'confirmed\') AND data_public = ? AND #{sql_for_distance} <= ?", id, true, radius],
+                         :order => sql_for_distance, :limit => num)
     else
       nearby = []
     end
@@ -127,6 +132,18 @@ class User < ActiveRecord::Base
       end
     end
     return false
+  end
+
+  ##
+  # returns true if a user is visible
+  def visible?
+    ["pending","active","confirmed"].include? self.status
+  end
+
+  ##
+  # returns true if a user is active
+  def active?
+    ["active","confirmed"].include? self.status
   end
 
   ##
@@ -154,8 +171,9 @@ class User < ActiveRecord::Base
     active_blocks.detect { |b| b.needs_view? }
   end
 
+  ##
+  # delete a user - leave the account but purge most personal data
   def delete
-    self.active = false
     self.display_name = "user_#{self.id}"
     self.description = ""
     self.home_lat = nil
@@ -163,8 +181,24 @@ class User < ActiveRecord::Base
     self.image = nil
     self.email_valid = false
     self.new_email = nil
-    self.visible = false
+    self.status = "deleted"
     self.save
   end
 
+  ##
+  # return a spam score for a user
+  def spam_score
+    changeset_score = self.changesets.find(:all, :limit => 10).length * 50
+    trace_score = self.traces.find(:all, :limit => 10).length * 50
+    diary_entry_score = self.diary_entries.inject(0) { |s,e| s += OSM.spam_score(e.body) }
+    diary_comment_score = self.diary_comments.inject(0) { |s,e| s += OSM.spam_score(e.body) }
+
+    score = OSM.spam_score(self.description) * 2
+    score += diary_entry_score / self.diary_entries.length if self.diary_entries.length > 0
+    score += diary_comment_score / self.diary_comments.length if self.diary_comments.length > 0
+    score -= changeset_score
+    score -= trace_score
+
+    return score.to_i
+  end
 end

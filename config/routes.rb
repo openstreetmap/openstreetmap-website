@@ -104,6 +104,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/user/go_public', :controller => 'user', :action => 'go_public'
   map.connect '/user/reset-password', :controller => 'user', :action => 'reset_password'
   map.connect '/user/forgot-password', :controller => 'user', :action => 'lost_password'
+  map.connect '/user/suspended', :controller => 'user', :action => 'suspended'
 
   map.connect '/index.html', :controller => 'site', :action => 'index'
   map.connect '/edit.html', :controller => 'site', :action => 'edit'
@@ -158,10 +159,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/user/:display_name/diary/:id/hide', :controller => 'diary_entry', :action => 'hide', :id => /\d+/
   map.connect '/user/:display_name/diary/:id/hidecomment/:comment', :controller => 'diary_entry', :action => 'hidecomment', :id => /\d+/, :comment => /\d+/
   map.connect '/user/:display_name/account', :controller => 'user', :action => 'account'
-  map.connect '/user/:display_name/activate', :controller => 'user', :action => 'activate'
-  map.connect '/user/:display_name/deactivate', :controller => 'user', :action => 'deactivate'
-  map.connect '/user/:display_name/hide', :controller => 'user', :action => 'hide'
-  map.connect '/user/:display_name/unhide', :controller => 'user', :action => 'unhide'
+  map.connect '/user/:display_name/set_status', :controller => 'user', :action => 'set_status'
   map.connect '/user/:display_name/delete', :controller => 'user', :action => 'delete'
   map.connect '/diary/new', :controller => 'diary_entry', :action => 'new'
   map.connect '/diary', :controller => 'diary_entry', :action => 'list'
@@ -169,7 +167,10 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/diary/:language', :controller => 'diary_entry', :action => 'list'
   map.connect '/diary/:language/rss', :controller => 'diary_entry', :action => 'rss'
 
-  
+  # user lists
+  map.connect '/users', :controller => 'user', :action => 'list'
+  map.connect '/users/:status', :controller => 'user', :action => 'list'
+
   # test pages
   map.connect '/test/populate/:table/:from/:count', :controller => 'test', :action => 'populate'
   map.connect '/test/populate/:table/:count', :controller => 'test', :action => 'populate', :from => 1
