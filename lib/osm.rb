@@ -7,6 +7,7 @@ module OSM
   require 'xml/libxml'
   require 'digest/md5'
   require 'RMagick'
+  require 'nokogiri'
 
   # The base class for API Errors.
   class APIError < RuntimeError
@@ -508,10 +509,30 @@ module OSM
     return "#{tilesql} AND #{prefix}latitude BETWEEN #{minlat} AND #{maxlat} AND #{prefix}longitude BETWEEN #{minlon} AND #{maxlon}"
   end
 
+  # Return a spam score for a chunk of text
+  def self.spam_score(text)
+    link_count = 0
+    link_size = 0
+
+    doc = Nokogiri::HTML(text)
+
+    if doc.content.length > 0
+      doc.xpath("//a").each do |link|
+        link_count += 1
+        link_size += link.content.length
+      end
+
+      link_proportion = link_size.to_f / doc.content.length.to_f
+    else
+      link_proportion = 0
+    end
+
+    return [link_proportion - 0.2, 0.0].max * 200 + link_count * 20
+  end
+
   def self.legal_text_for_country(country_code)
     file_name = File.join(RAILS_ROOT, "config", "legales", country_code.to_s + ".yml")
     file_name = File.join(RAILS_ROOT, "config", "legales", APP_CONFIG['default_legale'] + ".yml") unless File.exist? file_name
     YAML::load_file(file_name)
   end
-
 end

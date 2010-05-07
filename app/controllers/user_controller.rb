@@ -11,12 +11,12 @@ class UserController < ApplicationController
   before_filter :require_allow_read_prefs, :only => [:api_details]
   before_filter :require_allow_read_gpx, :only => [:api_gpx_files]
   before_filter :require_cookies, :only => [:login, :confirm]
-  before_filter :require_administrator, :only => [:activate, :deactivate, :hide, :unhide, :delete]
-  before_filter :lookup_this_user, :only => [:activate, :deactivate, :hide, :unhide, :delete]
+  before_filter :require_administrator, :only => [:set_status, :delete, :list]
+  before_filter :lookup_this_user, :only => [:set_status, :delete]
 
   filter_parameter_logging :password, :pass_crypt, :pass_crypt_confirmation
 
-  cache_sweeper :user_sweeper, :only => [:account, :hide, :unhide, :delete]
+  cache_sweeper :user_sweeper, :only => [:account, :set_status, :delete]
 
   def terms
     @title = t 'user.new.title'
@@ -44,7 +44,7 @@ class UserController < ApplicationController
     else
       @user = User.new(params[:user])
 
-      @user.visible = true
+      @user.status = "pending"
       @user.data_public = true
       @user.description = "" if @user.description.nil?
       @user.creation_ip = request.remote_ip
@@ -89,9 +89,9 @@ class UserController < ApplicationController
         set_locale
 
         if @user.new_email.nil? or @user.new_email.empty?
-          flash.now[:notice] = t 'user.account.flash update success'
+          flash[:notice] = t 'user.account.flash update success'
         else
-          flash.now[:notice] = t 'user.account.flash update success confirm needed'
+          flash[:notice] = t 'user.account.flash update success confirm needed'
 
           begin
             Notifier.deliver_email_confirm(@user, @user.tokens.create)
@@ -99,6 +99,8 @@ class UserController < ApplicationController
             # Ignore errors sending email
           end
         end
+
+        redirect_to :action => "account", :display_name => @user.display_name
       end
     else
       if flash[:errors]
@@ -121,7 +123,7 @@ class UserController < ApplicationController
     @title = t 'user.lost_password.title'
 
     if params[:user] and params[:user][:email]
-      user = User.find_by_email(params[:user][:email], :conditions => {:visible => true})
+      user = User.find_by_email(params[:user][:email], :conditions => {:status => ["pending", "active", "confirmed"]})
 
       if user
         token = user.tokens.create
@@ -146,7 +148,7 @@ class UserController < ApplicationController
         if params[:user]
           @user.pass_crypt = params[:user][:pass_crypt]
           @user.pass_crypt_confirmation = params[:user][:pass_crypt_confirmation]
-          @user.active = true
+          @user.status = "active"
           @user.email_valid = true
 
           if @user.save
@@ -192,8 +194,10 @@ class UserController < ApplicationController
         else
           redirect_to :controller => 'site', :action => 'index'
         end
-       elsif User.authenticate(:username => email_or_display_name, :password => pass, :inactive => true)
+      elsif User.authenticate(:username => email_or_display_name, :password => pass, :pending => true)
         flash.now[:error] = t 'user.login.account not active'
+      elsif User.authenticate(:username => email_or_display_name, :password => pass, :suspended => true)
+        flash.now[:error] = t 'user.login.account suspended'
       else
         flash.now[:error] = t 'user.login.auth failure'
       end
@@ -226,7 +230,7 @@ class UserController < ApplicationController
       token = UserToken.find_by_token(params[:confirm_string])
       if token and !token.user.active?
         @user = token.user
-        @user.active = true
+        @user.status = "active"
         @user.email_valid = true
         @user.save!
         referer = token.referer
@@ -251,7 +255,6 @@ class UserController < ApplicationController
         @user = token.user
         @user.email = @user.new_email
         @user.new_email = nil
-        @user.active = true
         @user.email_valid = true
         if @user.save
           flash[:notice] = t 'user.confirm_email.success'
@@ -291,7 +294,7 @@ class UserController < ApplicationController
   def make_friend
     if params[:display_name]
       name = params[:display_name]
-      new_friend = User.find_by_display_name(name, :conditions => {:visible => true})
+      new_friend = User.find_by_display_name(name, :conditions => {:status => ["active", "confirmed"]})
       friend = Friend.new
       friend.user_id = @user.id
       friend.friend_user_id = new_friend.id
@@ -317,7 +320,7 @@ class UserController < ApplicationController
   def remove_friend
     if params[:display_name]
       name = params[:display_name]
-      friend = User.find_by_display_name(name, :conditions => {:visible => true})
+      friend = User.find_by_display_name(name, :conditions => {:status => ["active", "confirmed"]})
       if @user.is_friends_with?(friend)
         Friend.delete_all "user_id = #{@user.id} AND friend_user_id = #{friend.id}"
         flash[:notice] = t 'user.remove_friend.success', :name => friend.display_name
@@ -334,30 +337,9 @@ class UserController < ApplicationController
   end
 
   ##
-  # activate a user, allowing them to log in
-  def activate
-    @this_user.update_attributes(:active => true)
-    redirect_to :controller => 'user', :action => 'view', :display_name => params[:display_name]
-  end
-
-  ##
-  # deactivate a user, preventing them from logging in
-  def deactivate
-    @this_user.update_attributes(:active => false)
-    redirect_to :controller => 'user', :action => 'view', :display_name => params[:display_name]
-  end
-
-  ##
-  # hide a user, marking them as logically deleted
-  def hide
-    @this_user.update_attributes(:visible => false)
-    redirect_to :controller => 'user', :action => 'view', :display_name => params[:display_name]
-  end
-
-  ##
-  # unhide a user, clearing the logically deleted flag
-  def unhide
-    @this_user.update_attributes(:visible => true)
+  # sets a user's status
+  def set_status
+    @this_user.update_attributes(:status => params[:status])
     redirect_to :controller => 'user', :action => 'view', :display_name => params[:display_name]
   end
 
@@ -367,14 +349,45 @@ class UserController < ApplicationController
     @this_user.delete
     redirect_to :controller => 'user', :action => 'view', :display_name => params[:display_name]
   end
+
+  ##
+  # display a list of users matching specified criteria
+  def list
+    if request.post?
+      ids = params[:user].keys.collect { |id| id.to_i }
+
+      User.update_all("status = 'confirmed'", :id => ids) if params[:confirm]
+      User.update_all("status = 'deleted'", :id => ids) if params[:hide]
+
+      redirect_to url_for(:status => params[:status], :ip => params[:ip], :page => params[:page])
+    else
+      conditions = Hash.new
+      conditions[:status] = params[:status] if params[:status]
+      conditions[:creation_ip] = params[:ip] if params[:ip]
+
+      @user_pages, @users = paginate(:users,
+                                     :conditions => conditions,
+                                     :order => :id,
+                                     :per_page => 50)
+    end
+  end
+
 private
+
   ##
   # require that the user is a administrator, or fill out a helpful error message
   # and return them to the user page.
   def require_administrator
-    unless @user.administrator?
+    if @user and not @user.administrator?
       flash[:error] = t('user.filter.not_an_administrator')
-      redirect_to :controller => 'user', :action => 'view', :display_name => params[:display_name]
+
+      if params[:display_name]
+        redirect_to :controller => 'user', :action => 'view', :display_name => params[:display_name]
+      else
+        redirect_to :controller => 'user', :action => 'login', :referer => request.request_uri
+      end
+    elsif not @user
+      redirect_to :controller => 'user', :action => 'login', :referer => request.request_uri
     end
   end
 

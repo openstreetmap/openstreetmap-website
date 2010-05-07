@@ -71,7 +71,7 @@ class DiaryEntryController < ApplicationController
 
   def list
     if params[:display_name]
-      @this_user = User.find_by_display_name(params[:display_name], :conditions => { :visible => true })
+      @this_user = User.find_by_display_name(params[:display_name], :conditions => { :status => ["active", "confirmed"] })
 
       if @this_user
         @title = t 'diary_entry.list.user_title', :user => @this_user.display_name
@@ -92,7 +92,7 @@ class DiaryEntryController < ApplicationController
       @title = t 'diary_entry.list.in_language_title', :language => Language.find(params[:language]).english_name
       @entry_pages, @entries = paginate(:diary_entries, :include => :user,
                                         :conditions => {
-                                          :users => { :visible => true },
+                                          :users => { :status => ["active", "confirmed"] },
                                           :visible => true,
                                           :language_code => params[:language]
                                         },
@@ -102,7 +102,7 @@ class DiaryEntryController < ApplicationController
       @title = t 'diary_entry.list.title'
       @entry_pages, @entries = paginate(:diary_entries, :include => :user,
                                         :conditions => {
-                                          :users => { :visible => true },
+                                          :users => { :status => ["active", "confirmed"] },
                                           :visible => true
                                         },
                                         :order => 'created_at DESC',
@@ -114,7 +114,7 @@ class DiaryEntryController < ApplicationController
     request.format = :rss
 
     if params[:display_name]
-      user = User.find_by_display_name(params[:display_name], :conditions => { :visible => true })
+      user = User.find_by_display_name(params[:display_name], :conditions => { :status => ["active", "confirmed"] })
 
       if user
         @entries = DiaryEntry.find(:all, 
@@ -133,7 +133,7 @@ class DiaryEntryController < ApplicationController
     elsif params[:language]
       @entries = DiaryEntry.find(:all, :include => :user,
                                  :conditions => {
-                                   :users => { :visible => true },
+                                   :users => { :status => ["active", "confirmed"] },
                                    :visible => true,
                                    :language_code => params[:language]
                                  },
@@ -145,7 +145,7 @@ class DiaryEntryController < ApplicationController
     else
       @entries = DiaryEntry.find(:all, :include => :user,
                                  :conditions => {
-                                   :users => { :visible => true },
+                                   :users => { :status => ["active", "confirmed"] },
                                    :visible => true
                                  },
                                  :order => 'created_at DESC', 
@@ -157,7 +157,7 @@ class DiaryEntryController < ApplicationController
   end
 
   def view
-    user = User.find_by_display_name(params[:display_name], :conditions => { :visible => true })
+    user = User.find_by_display_name(params[:display_name], :conditions => { :status => ["active", "confirmed"] })
 
     if user
       @entry = DiaryEntry.find(:first, :conditions => {

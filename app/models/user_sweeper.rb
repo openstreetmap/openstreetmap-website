@@ -14,7 +14,7 @@ private
   def expire_cache_for(old_record, new_record)
     if old_record and
         (new_record.nil? or
-         old_record.visible != new_record.visible or
+         old_record.visible? != new_record.visible? or
          old_record.display_name != new_record.display_name)
       old_record.diary_entries.each do |entry|
         expire_action(:controller => 'diary_entry', :action => 'view', :display_name => old_record.display_name, :id => entry.id)

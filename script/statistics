@@ -16,7 +16,7 @@ puts "<h2>OpenStreetMap stats report run at #{start_time.to_s}</h2>"
 
 begin
   ActiveRecord::Base.transaction do
-    user_count = User.count(:conditions => "active = 1")
+    user_count = User.count(:conditions => { :status => ["active", "confirmed", "suspended"] })
     tracepoint_count = Tracepoint.count()
     node_count = Node.count(:conditions => "visible = true")
     way_count = Way.count(:conditions => "visible = true")
