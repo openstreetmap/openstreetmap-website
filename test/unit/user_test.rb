@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require File.dirname(__FILE__) + '/../test_helper'
 
 class UserTest < ActiveSupport::TestCase
@@ -18,7 +19,7 @@ class UserTest < ActiveSupport::TestCase
   
   def test_unique_email
     new_user = User.new(:email => users(:normal_user).email,
-      :active => 1, 
+      :status => "active", 
       :pass_crypt => Digest::MD5.hexdigest('test'),
       :display_name => "new user",
       :data_public => 1,
@@ -29,7 +30,7 @@ class UserTest < ActiveSupport::TestCase
   
   def test_unique_display_name
     new_user = User.new(:email => "tester@openstreetmap.org",
-      :active => 0,
+      :status => "pending",
       :pass_crypt => Digest::MD5.hexdigest('test'),
       :display_name => users(:normal_user).display_name, 
       :data_public => 1,

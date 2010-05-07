@@ -59,19 +59,20 @@
   <% end %>
   <% if @user and @user.administrator? %>
     <br/>
-    <% if @this_user.active? %>
-      <%= link_to t('user.view.deactivate_user'), {:controller => 'user', :action => 'deactivate', :display_name => @this_user.display_name}, {:confirm => t('user.view.confirm')} %>
-    <% else %>
-      <%= link_to t('user.view.activate_user'), {:controller => 'user', :action => 'activate', :display_name => @this_user.display_name}, {:confirm => t('user.view.confirm')} %>
+    <% if ["active", "confirmed"].include? @this_user.status %>
+      <%= link_to t('user.view.deactivate_user'), {:controller => 'user', :action => 'set_status', :status => 'pending', :display_name => @this_user.display_name}, {:confirm => t('user.view.confirm')} %> |
+    <% elsif ["pending"].include? @this_user.status %>
+      <%= link_to t('user.view.activate_user'), {:controller => 'user', :action => 'set_status', :status => 'active', :display_name => @this_user.display_name}, {:confirm => t('user.view.confirm')} %> |
     <% end %>
-    |
-    <% if @this_user.visible? %>
-      <%= link_to t('user.view.hide_user'), {:controller => 'user', :action => 'hide', :display_name => @this_user.display_name}, {:confirm => t('user.view.confirm')} %>
-      |
-      <%= link_to t('user.view.delete_user'), {:controller => 'user', :action => 'delete', :display_name => @this_user.display_name}, {:confirm => t('user.view.confirm')} %>
-    <% else %>
-      <%= link_to t('user.view.unhide_user'), {:controller => 'user', :action => 'unhide', :display_name => @this_user.display_name}, {:confirm => t('user.view.confirm')} %>
+    <% if ["active", "suspended"].include? @this_user.status %>
+      <%= link_to t('user.view.confirm_user'), {:controller => 'user', :action => 'set_status', :status => 'confirmed', :display_name => @this_user.display_name}, {:confirm => t('user.view.confirm')} %> |
     <% end %>
+    <% if ["pending", "active", "confirmed", "suspended"].include? @this_user.status %>
+      <%= link_to t('user.view.hide_user'), {:controller => 'user', :action => 'set_status', :status => 'deleted', :display_name => @this_user.display_name}, {:confirm => t('user.view.confirm')} %> |
+    <% else %>
+      <%= link_to t('user.view.unhide_user'), {:controller => 'user', :action => 'set_status', :status => 'active', :display_name => @this_user.display_name}, {:confirm => t('user.view.confirm')} %> |
+    <% end %>
+    <%= link_to t('user.view.delete_user'), {:controller => 'user', :action => 'delete', :display_name => @this_user.display_name}, {:confirm => t('user.view.confirm')} %>
   <% end %>
 </div>
 
@@ -80,6 +81,8 @@
 <% if @user and @user.administrator? %>
   <p><b><%= t 'user.view.email address' %></b> <%= @this_user.email %></p>  
   <p><b><%= t 'user.view.created from' %></b> <%= @this_user.creation_ip %></p>
+  <p><b><%= t 'user.view.status' %></b> <%= @this_user.status.capitalize %></p>
+  <p><b><%= t 'user.view.spam score' %></b> <%= @this_user.spam_score %></p>
 <% end %>
 
 <h3><%= t 'user.view.description' %></h3>
