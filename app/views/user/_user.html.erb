@@ -7,7 +7,7 @@
   <td>
     <p>
       <%= t 'user.list.summary',
-          :name => h(user.display_name),
+          :name => link_to(h(user.display_name), :action => "view", :display_name => user.display_name),
           :ip_address => link_to(user.creation_ip, :ip => user.creation_ip),
           :date => l(user.creation_time, :format => :friendly)
       %>
