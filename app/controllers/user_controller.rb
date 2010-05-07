@@ -70,9 +70,9 @@ class UserController < ApplicationController
         set_locale
 
         if @user.new_email.nil? or @user.new_email.empty?
-          flash.now[:notice] = t 'user.account.flash update success'
+          flash[:notice] = t 'user.account.flash update success'
         else
-          flash.now[:notice] = t 'user.account.flash update success confirm needed'
+          flash[:notice] = t 'user.account.flash update success confirm needed'
 
           begin
             Notifier.deliver_email_confirm(@user, @user.tokens.create)
@@ -80,6 +80,8 @@ class UserController < ApplicationController
             # Ignore errors sending email
           end
         end
+
+        redirect_to :action => "account", :display_name => @user.display_name
       end
     else
       if flash[:errors]
