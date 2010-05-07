@@ -339,16 +339,18 @@ class UserController < ApplicationController
 
       User.update_all("status = 'confirmed'", :id => ids) if params[:confirm]
       User.update_all("status = 'deleted'", :id => ids) if params[:hide]
+
+      redirect_to url_for(:status => params[:status], :ip => params[:ip], :page => params[:page])
+    else
+      conditions = Hash.new
+      conditions[:status] = params[:status] if params[:status]
+      conditions[:creation_ip] = params[:ip] if params[:ip]
+
+      @user_pages, @users = paginate(:users,
+                                     :conditions => conditions,
+                                     :order => :id,
+                                     :per_page => 50)
     end
-
-    conditions = Hash.new
-    conditions[:status] = params[:status] if params[:status]
-    conditions[:creation_ip] = params[:ip] if params[:ip]
-
-    @user_pages, @users = paginate(:users,
-                                   :conditions => conditions,
-                                   :order => :id,
-                                   :per_page => 50)
   end
 
 private
