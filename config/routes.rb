@@ -104,6 +104,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/user/go_public', :controller => 'user', :action => 'go_public'
   map.connect '/user/reset-password', :controller => 'user', :action => 'reset_password'
   map.connect '/user/forgot-password', :controller => 'user', :action => 'lost_password'
+  map.connect '/user/suspended', :controller => 'user', :action => 'suspended'
 
   map.connect '/index.html', :controller => 'site', :action => 'index'
   map.connect '/edit.html', :controller => 'site', :action => 'edit'
