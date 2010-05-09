@@ -1,0 +1,48 @@
+#!/usr/bin/env ruby
+
+require File.dirname(__FILE__) + '/../config/environment'
+require 'generator'
+
+addresses = User.count(
+  :conditions => {
+    :status => ["suspended", "deleted"],
+    :creation_time => Time.now - 28.days .. Time.now
+  },
+  :group => :creation_ip
+)
+
+addresses.each do |address,count|
+  if count > 2
+    acl = Acl.find(:first, :conditions => {
+      :address => address,
+      :netmask => "255.255.255.255"
+    })
+
+    unless acl
+      Acl.create(
+        :address => address,
+        :netmask => "255.255.255.255",
+        :k => "no_account",
+        :v => "auto_spam_block"
+      )
+
+      puts "Blocked #{address}"
+    end
+  end
+end
+
+acls = Acl.find(:all, :conditions => {
+  :netmask => "255.255.255.255",
+  :k => "no_account_creation",
+  :v => "auto_spam_block"
+})
+
+acls.each do |acl|
+  unless addresses[acl.address]
+    acl.delete
+
+    puts "Unblocked #{acl.address}"
+  end
+end
+
+exit 0
