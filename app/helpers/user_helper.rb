@@ -3,7 +3,7 @@ module UserHelper
     link_to_function(
       image_tag("#{name}.png", :alt => t("user.login.openid_providers.#{name}.alt")),
       nil,
-      :title => t("user.login.openid_providers.#{name}.title")      
+      :title => t("user.login.openid_providers.#{name}.title")
     ) do |page|
       page[:login_form][:user_openid_url][:value] = url
       page[:login_form].submit()

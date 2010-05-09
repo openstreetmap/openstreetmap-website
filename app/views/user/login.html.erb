@@ -3,54 +3,84 @@
 <p><%= t 'user.login.please login', :create_user_link => link_to(t('user.login.create_account'), :controller => 'user', :action => 'new', :referer => params[:referer]) %></p>
 
 <% form_tag({ :action => "login" }, { :id => "login_form" }) do %>
-    <%= hidden_field_tag('referer', h(params[:referer])) %>
-    <div style="position: relative;">
-        <div class="loginBox">
-            <h3> <%= t 'user.login.username_heading' %></h3>
-            <table id="loginForm" width="100%">
-                <tr><td class="fieldName"><%= t 'user.login.email or username' %></td><td><%= text_field('user', 'email',{:value => "", :size => 28, :maxlength => 255, :tabindex => 1}) %></td></tr>
-                <tr><td class="fieldName"><%= t 'user.login.password' %></td><td><%= password_field('user', 'password',{:value => "", :size => 28, :maxlength => 255, :tabindex => 2}) %></td></tr>
-                <tr><td></td><td> <span class="minorNote">(<%= link_to t('user.login.lost password link'), :controller => 'user', :action => 'lost_password' %>)</span></td></tr>
-            </table>
-        </div>
-        <div style="float:left; width: 20px; padding: 10px;">
-        </div>
+  <%= hidden_field_tag('referer', h(params[:referer])) %>
 
-        <div class="loginBox">
-            <h3><%= t 'user.login.openid_heading' %></h3>
-            <table id="loginForm" width="100%">
-                <tr>
-                    <td class="fieldName">
-                        <%= image_tag "openid-16x16.gif", :alt => t('user.login.openid_logo_alt') %>
-                        <%= t 'user.login.openid' %>
-                    </td>
-                    <td><%= text_field('user', 'openid_url',{:size => 28, :maxlength => 255, :tabindex => 3, :class => "openid_url"}) %></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>
-                        <span class="minorNote">
-                            (<a href="<%= t 'user.account.openid.link' %>" target="_new"><%= t 'user.account.openid.link text' %></a>)
-                        </span>
-                    </td>
-                </tr>
-            </table>
-            <%=
-              link_to_function(image_tag("openid_logo.png", :alt => t("user.login.openid_providers.openid.title")), nil, :title => t("user.login.openid_providers.openid.title")) do |page|
-                page[:login_form][:user_openid_url][:value] = "http://"
-              end
-            %>
-            <%= openid_button "yahoo", "yahoo.com" %>
-            <%= openid_button "google", "gmail.com" %>
-            <%= openid_button "myopenid", "myopenid.com" %>
-            <%= openid_button "wordpress", "wordpress.com" %>
-            <%= openid_button "myspace", "myspace.com" %>
-        </div>
+  <div style="position: relative;">
+    <div class="loginBox">
+      <h3><%= t 'user.login.username_heading' %></h3>
+      <table>
+        <tr>
+          <td class="fieldName"><label for="user_email"><%= t 'user.login.email or username' %></label></td>
+          <td><%= text_field(:user, :email, { :value => "", :size => 28, :maxlength => 255, :tabindex => 1 }) %></td>
+        </tr>
+        <tr>
+          <td class="fieldName"><label for="user_password"><%= t 'user.login.password' %></label></td>
+          <td><%= password_field(:user, :password, { :value => "", :size => 28, :maxlength => 255, :tabindex => 2 }) %></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><span class="minorNote">(<%= link_to t('user.login.lost password link'), :controller => 'user', :action => 'lost_password' %>)</span></td>
+        </tr>
+        <tr>
+          <td class="fieldName"><label for="remember_me"><%= t 'user.login.remember' %></label></td>
+          <td><%= check_box_tag "remember_me", "yes", false, :tabindex => 3 %></td>
+        </tr>
+      </table>
 
-        <div style="clear: both">
-            <table id="loginForm">
-                <tr><td class="fieldName"><label for="remember_me"><%= t 'user.login.remember' %></label></td><td><%= check_box_tag "remember_me", "yes", false, :tabindex => 3 %></td><td align=right><%= submit_tag t('user.login.login_button'), :tabindex => 3 %></td></tr>
-            </table>
-        </div>
+      <%= submit_tag t('user.login.login_button'), :tabindex => 4 %>
     </div>
+
+    <div style="float:left; width: 20px; padding: 10px;">
+    </div>
+
+    <div class="loginBox">
+      <h3><%= t 'user.login.openid_heading' %></h3>
+      <div id="openid_buttons">
+        <%=
+          link_to_function(image_tag("openid_logo.png", :alt => t("user.login.openid_providers.openid.title")), nil, :title => t("user.login.openid_providers.openid.title")) do |page|
+            page[:login_form][:user_openid_url].value = "http://"
+            page[:openid_buttons].hide
+            page[:openid_url].show
+            page[:openid_url_hint].show
+            page[:openid_submit].show
+          end
+        %>
+        <%= openid_button "yahoo", "yahoo.com" %>
+        <%= openid_button "google", "gmail.com" %>
+        <%= openid_button "myopenid", "myopenid.com" %>
+        <%= openid_button "wordpress", "wordpress.com" %>
+        <%= openid_button "myspace", "myspace.com" %>
+      </div>
+
+      <table>
+        <tr id="openid_url">
+          <td class="fieldName">
+            <%= image_tag "openid-16x16.gif", :alt => t('user.login.openid_logo_alt') %>
+            <%= t 'user.login.openid' %>
+          </td>
+          <td><%= text_field(:user, :openid_url, { :size => 28, :maxlength => 255, :tabindex => 3, :class => "openid_url" }) %></td>
+        </tr>
+        <tr id="openid_url_hint">
+          <td></td>
+          <td>
+            <span class="minorNote">(<a href="<%= t 'user.account.openid.link' %>" target="_new"><%= t 'user.account.openid.link text' %></a>)</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="fieldName nowrap"><label for="remember_me"><%= t 'user.login.remember' %></label></td>
+          <td width="100%"><%= check_box_tag "remember_me", "yes", false, :tabindex => 5 %></td>
+        </tr>
+      </table>
+
+      <%= submit_tag t('user.login.login_button'), :tabindex => 6, :id => "openid_submit" %>
+    </div>
+  </div>
 <% end %>
+
+<%=
+  update_page_tag do |page|
+    page[:openid_url].hide
+    page[:openid_url_hint].hide
+    page[:openid_submit].hide
+  end
+%>
