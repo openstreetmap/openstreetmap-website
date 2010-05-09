@@ -148,7 +148,7 @@ class UserController < ApplicationController
         if params[:user]
           @user.pass_crypt = params[:user][:pass_crypt]
           @user.pass_crypt_confirmation = params[:user][:pass_crypt_confirmation]
-          @user.status = "active"
+          @user.status = "active" if @user.status == "pending"
           @user.email_valid = true
 
           if @user.save
