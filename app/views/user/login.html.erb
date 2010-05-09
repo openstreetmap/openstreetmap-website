@@ -1,10 +1,8 @@
-<%= javascript_include_tag 'openID.js' %>
-
 <h1><%= t 'user.login.heading' %></h1>
 
 <p><%= t 'user.login.please login', :create_user_link => link_to(t('user.login.create_account'), :controller => 'user', :action => 'new', :referer => params[:referer]) %></p>
 
-<% form_tag :action => 'login' do %>
+<% form_tag({ :action => "login" }, { :id => "login_form" }) do %>
     <%= hidden_field_tag('referer', h(params[:referer])) %>
     <div style="position: relative;">
         <div class="loginBox">
@@ -37,24 +35,16 @@
                     </td>
                 </tr>
             </table>
-            <a href="javascript: openid_signin('openid');" title="<%= h(t 'user.login.openid_providers.openid.title') %>">
-                <%= image_tag "openid_logo.png", :alt => t('user.login.openid_providers.openid.title') %>
-            </a>
-            <a href="javascript: openid_signin('yahoo');" title="<%= h(t 'user.login.openid_providers.yahoo.title') %>">
-                <%= image_tag "yahoo.png", :alt => t('user.login.openid_providers.yahoo.alt') %>
-            </a>
-            <a href="javascript: openid_signin('google');" title="<%= h(t 'user.login.openid_providers.google.title') %>">
-                <%= image_tag "google.png", :alt => t('user.login.openid_providers.google.alt') %>
-            </a>
-            <a href="javascript: openid_signin('myopenid');" title="<%= h(t 'user.login.openid_providers.myopenid.title') %>">
-                <%= image_tag "myopenid.png", :alt => t('user.login.openid_providers.myopenid.alt') %>
-            </a>
-            <a href="javascript: openid_signin('wordpress');" title="<%= h(t 'user.login.openid_providers.wordpress.title') %>">
-                <%= image_tag "wordpress.png", :alt => t('user.login.openid_providers.wordpress.alt') %>
-            </a>
-            <a href="javascript: openid_signin('myspace');" title="<%= h(t 'user.login.openid_providers.myspace.title') %>">
-                <%= image_tag "myspace.png", :alt => t('user.login.openid_providers.myspace.alt') %>
-            </a>
+            <%=
+              link_to_function(image_tag("openid_logo.png", :alt => t("user.login.openid_providers.openid.title")), nil, :title => t("user.login.openid_providers.openid.title")) do |page|
+                page[:login_form][:user_openid_url][:value] = "http://"
+              end
+            %>
+            <%= openid_button "yahoo", "yahoo.com" %>
+            <%= openid_button "google", "gmail.com" %>
+            <%= openid_button "myopenid", "myopenid.com" %>
+            <%= openid_button "wordpress", "wordpress.com" %>
+            <%= openid_button "myspace", "myspace.com" %>
         </div>
 
         <div style="clear: both">
