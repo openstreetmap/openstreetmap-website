@@ -56,7 +56,7 @@ Rails::Initializer.run do |config|
   config.gem 'rmagick', :lib => 'RMagick'
   config.gem 'oauth', :version => '>= 0.3.6'
   config.gem 'httpclient'
-  config.gem 'ruby-openid', :lib => 'openid', :version => '>=2.0.4'
+  config.gem 'ruby-openid', :version => '>= 2.0.4', :lib => 'openid'
   config.gem 'SystemTimer', :version => '>= 1.1.3', :lib => 'system_timer'
   config.gem 'sanitize'
 
