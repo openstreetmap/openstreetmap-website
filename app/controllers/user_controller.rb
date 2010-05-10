@@ -177,18 +177,7 @@ class UserController < ApplicationController
     end
   end
 
-  def openid_specialcase_mapping(openid_url)
-    #Special case gmail.com, as it is pontentially a popular OpenID provider and unlike
-    #yahoo.com, where it works automatically, Google have hidden their OpenID endpoint
-    #somewhere obscure making it less userfriendly.
-    if (openid_url.match(/(.*)gmail.com(\/?)$/) or openid_url.match(/(.*)googlemail.com(\/?)$/) )
-      return 'https://www.google.com/accounts/o8/id'
-    end
-
-    return nil
-  end  
-
-  def openid_verify(openid_url,account_create)
+  def openid_verify(openid_url, account_create)
     authenticate_with_open_id(openid_url) do |result, identity_url|
       if result.successful?
         #We need to use the openid url passed back from the OpenID provider
@@ -199,9 +188,8 @@ class UserController < ApplicationController
         @user = session[:new_usr] unless @user #this is used for account creation when the user is not yet in the database
         @user.openid_url = identity_url
       elsif result.missing?
-        mapped_id = openid_specialcase_mapping(openid_url)
-        if mapped_id
-          openid_verify(mapped_id, account_create)
+        if openid_url = openid_alternate_url(openid_url)
+          openid_verify(openid_url, account_create)
         else
           flash.now[:error] = t 'user.login.openid missing provider'
         end
@@ -211,55 +199,6 @@ class UserController < ApplicationController
         flash.now[:error] = t 'user.login.auth failure'
       end
     end
-  end
-
-  def open_id_authentication(openid_url)
-    #TODO: only ask for nickname and email, if we don't already have a user for that openID, in which case
-    #email and nickname are already filled out. I don't know how to do that with ruby syntax though, as we
-    #don't want to duplicate the do block
-    #On the other hand it also doesn't matter too much if we ask every time, as the OpenID provider should
-    #remember these results, and shouldn't repromt the user for these data each time.
-    user = nil
-    authenticate_with_open_id(openid_url, :return_to => request.protocol + request.host_with_port + '/login?referer=' + params[:referer], :optional => [:nickname, :email]) do |result, identity_url, registration|
-      if result.successful?
-        #We need to use the openid url passed back from the OpenID provider
-        #rather than the one supplied by the user, as these can be different.
-        #e.g. one can simply enter yahoo.com in the login box, i.e. no user specific url
-        #only once it comes back from the OpenID provider do we know the unique address for
-        #the user.
-        user = User.find_by_openid_url(identity_url)
-        if user
-          if user.visible? and user.active?
-            session[:user] = user.id
-            session_expires_after 1.month if session[:remember]
-            return user
-          else
-            user = nil
-            flash.now[:error] = t 'user.login.account not active'
-          end
-        else
-          #We don't have a user registered to this OpenID. Redirect to the create account page
-          #with username and email filled in if they have been given by the OpenID provider through
-          #the simple registration protocol
-          redirect_to :controller => 'user', :action => 'new', :nickname => registration['nickname'], :email => registration['email'], :openid => identity_url
-        end
-      else if result.missing?
-             #Try and apply some heuristics to make common cases more userfriendly
-             mapped_id = openid_specialcase_mapping(openid_url)
-             if mapped_id
-               open_id_authentication(mapped_id)
-             else
-               flash.now[:error] = t 'user.login.openid missing provider'
-             end
-           else if result.invalid?
-                  flash.now[:error] = t 'user.login.openid invalid'
-                else
-                  flash.now[:error] = t 'user.login.auth failure'
-                end
-           end
-      end
-    end
-    return user
   end
 
   def go_public
@@ -331,48 +270,17 @@ class UserController < ApplicationController
   end
 
   def login
-    @title = t 'user.login.title'
+    if request.post?
+      session[:remember_me] ||= params[:remember_me]
+      session[:referer] ||= params[:referer]
 
-    #The redirect from the OpenID provider reenters here again
-    #and we need to pass the parameters through to the 
-    # open_id_authentication function
-    if params[:open_id_complete]
-      user = open_id_authentication('')
-    elsif params[:user]
-      if !params[:user][:openid_url].nil? and !params[:user][:openid_url].empty?
-        session[:remember] = params[:remember_me]
-        #construct the openid request. This will redirect to the OpenID server to ask for validation
-        #The external OpenID server will then redirect back to the login method and reenters at the top
-        open_id_authentication(params[:user][:openid_url])
-        return
+      if using_open_id?(params[:openid_url])
+        openid_authentication(params[:openid_url])
       else
-        email_or_display_name = params[:user][:email]
-        pass = params[:user][:password]
-
-        if user = User.authenticate(:username => email_or_display_name, :password => pass)
-          session[:user] = user.id
-          session_expires_after 1.month if params[:remember_me]
-        elsif User.authenticate(:username => email_or_display_name, :password => pass, :pending => true)
-          flash.now[:error] = t 'user.login.account not active'
-        elsif User.authenticate(:username => email_or_display_name, :password => pass, :suspended => true)
-          flash.now[:error] = t 'user.login.account suspended'
-        else
-          flash.now[:error] = t 'user.login.auth failure'
-        end
+        password_authentication(params[:username], params[:password])
       end
-    end
-
-    if user
-      # The user is logged in, if the referer param exists, redirect
-      # them to that unless they've also got a block on them, in
-      # which case redirect them to the block so they can clear it.
-      if user.blocked_on_view
-        redirect_to user.blocked_on_view, :referrer => params[:referrer]
-      elsif params[:referer]
-        redirect_to params[:referer]
-      else
-        redirect_to :controller => 'site', :action => 'index'
-      end
+    else
+      @title = t 'user.login.title'
     end
   end
 
@@ -545,6 +453,114 @@ class UserController < ApplicationController
   end
 
 private
+
+  ##
+  # handle password authentication
+  def password_authentication(username, password)
+    if user = User.authenticate(:username => username, :password => password)
+      successful_login(user)
+    elsif User.authenticate(:username => username, :password => password, :pending => true)
+      failed_login t('user.login.account not active')
+    elsif User.authenticate(:username => username, :password => password, :suspended => true)
+      failed_login t('user.login.account suspended')
+    else
+      failed_login t('user.login.auth failure')
+    end
+  end
+
+  ##
+  # handle OpenID authentication
+  def openid_authentication(openid_url)
+    # If we don't appear to have a user for this URL then ask the
+    # provider for some extra information to help with signup
+    if openid_url and User.find_by_openid_url(openid_url)
+      optional = nil
+    else
+      optional = [:nickname, :email]
+    end
+
+    # Start the authentication
+    authenticate_with_open_id(openid_url, :optional => optional) do |result, identity_url, registration|
+      if result.successful?
+        # We need to use the openid url passed back from the OpenID provider
+        # rather than the one supplied by the user, as these can be different.
+        #
+        # For example, you can simply enter yahoo.com in the login box rather
+        # than a user specific url. Only once it comes back from the provider
+        # provider do we know the unique address for the user.
+        if user = User.find_by_openid_url(identity_url)
+          case user.status
+            when "pending" then failed_login t('user.login.account not active')
+            when "active", "confirmed" then successful_login(user)
+            when "suspended" then failed_login t('user.login.account suspended')
+            else failed_login t('user.login.auth failure')
+          end
+        else
+          # We don't have a user registered to this OpenID, so redirect
+          # to the create account page with username and email filled
+          # in if they have been given by the OpenID provider through
+          # the simple registration protocol.
+          redirect_to :controller => 'user', :action => 'new', :nickname => registration['nickname'], :email => registration['email'], :openid => identity_url
+        end
+      elsif result.missing?
+        # Try and apply some heuristics to make common cases more user friendly
+        if openid_url = openid_alternate_url(openid_url)
+          openid_authentication(openid_url)
+        else
+          failed_login t('user.login.openid missing provider')
+        end
+      elsif result.invalid?
+        failed_login t('user.login.openid invalid')
+      else
+        failed_login t('user.login.auth failure')
+      end
+    end
+  end
+
+  ##
+  # special case some common OpenID providers by applying heuristics
+  # to try and come up with an alternate URL if the supplied one fails
+  def openid_alternate_url(openid_url)
+    # Special case gmail.com as it is potentially a popular OpenID
+    # provider and, unlike yahoo.com, where it works automatically, Google
+    # have hidden their OpenID endpoint somewhere obscure this making it
+    # somewhat less user friendly.
+    if openid_url.match(/(.*)gmail.com(\/?)$/) or openid_url.match(/(.*)googlemail.com(\/?)$/)
+      return 'https://www.google.com/accounts/o8/id'
+    else
+      return nil
+    end
+  end  
+
+  ##
+  # process a successful login
+  def successful_login(user)
+    session[:user] = user.id
+
+    session_expires_after 1.month if session[:remember_me]
+
+    if user.blocked_on_view
+      redirect_to user.blocked_on_view, :referer => params[:referer]
+    elsif session[:referer]
+      redirect_to session[:referer]
+    else
+      redirect_to :controller => 'site', :action => 'index'
+    end
+
+    session.delete(:remember_me)
+    session.delete(:referer)
+  end
+
+  ##
+  # process a failed login
+  def failed_login(message)
+    flash[:error] = message
+
+    redirect_to :action => 'login', :referer =>  session[:referer]
+
+    session.delete(:remember_me)
+    session.delete(:referer)
+  end
 
   ##
   # require that the user is a administrator, or fill out a helpful error message

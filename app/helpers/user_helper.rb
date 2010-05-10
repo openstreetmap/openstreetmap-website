@@ -9,7 +9,7 @@ module UserHelper
       nil,
       :title => t("user.login.openid_providers.#{name}.title")
     ) do |page|
-      page[:login_form][:user_openid_url][:value] = url
+      page[:login_form][:openid_url][:value] = url
       page[:login_form].submit()
     end
   end
