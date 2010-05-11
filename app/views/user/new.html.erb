@@ -13,12 +13,9 @@
 <p><%= t 'user.new.fill_form' %>
 </p>
 
-<p><%= t 'user.new.license_agreement' %>
-</p>
-
 <%= error_messages_for 'user' %>
 
-<% form_tag :action => 'save' do %>
+<% form_tag :action => 'terms' do %>
 <%= hidden_field_tag('referer', h(params[:referer])) unless params[:referer].nil? %>
 <table id="signupForm">
   <tr><td class="fieldName"><%= t 'user.new.email address' %></td><td><%= text_field('user', 'email',{:size => 50, :maxlength => 255, :tabindex => 1}) %></td></tr>
@@ -32,7 +29,7 @@
   <tr><td class="fieldName"><%= t 'user.new.confirm password' %></td><td><%= password_field('user', 'pass_crypt_confirmation',{:size => 30, :maxlength => 255, :tabindex => 5}) %></td></tr>
   
   <tr><td colspan="2">&nbsp;<!--vertical spacer--></td></tr>
-  <tr><td></td><td align="right"><input type="submit" value="<%= t'user.new.signup' %>" tabindex="6"></td></tr>
+  <tr><td></td><td align="right"><input type="submit" value="<%= t'user.new.continue' %>" tabindex="6"></td></tr>
 </table>
 <% end %>
 

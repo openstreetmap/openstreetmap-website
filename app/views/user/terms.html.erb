@@ -1,0 +1,46 @@
+<h1><%= t 'user.terms.heading' %></h1>
+
+<p><%= t 'user.terms.press accept button' %></p>
+
+<!-- legale is <%= @legale %> -->
+<% form_tag :action => 'terms' do %>
+  <p>
+    <%= t 'user.terms.legale_select' %>
+    <% [['france', 'FR'], ['italy', 'IT'], ['rest_of_world', 'GB']].each do |name,legale| %>
+      <%=
+        radio_button_tag 'legale', legale, @legale == legale,
+          :onchange => remote_function(
+            :before => update_page do |page|
+              page.replace_html 'contributorTerms', image_tag('searching.gif')
+            end,
+            :url => {:legale => legale}
+          )
+      %>
+      <%= label_tag "legale_#{legale}", t('user.terms.legale_names.' + name) %>
+    <% end %>
+  </p>
+<% end %>
+
+<div id="contributorTerms">
+  <%= render :partial => "terms" %>
+</div>
+
+<% form_tag({:action => "save"}, { :id => "termsForm" }) do %>
+  <p>
+    <label for="confirm_pd_checkbox"><%= t 'user.terms.consider_pd' %></label>
+    <%= check_box('user', 'consider_pd') %>
+    <span class="minorNote">(<%= link_to(t('user.terms.consider_pd_why'), t('user.terms.consider_pd_why_url'), :target => :new)%>)</span>
+  </p>
+  <p>
+    <%= hidden_field_tag('referer', h(params[:referer])) unless params[:referer].nil? %>
+    <%= hidden_field('user', 'email') %>
+    <%= hidden_field('user', 'email_confirmation') %>
+    <%= hidden_field('user', 'display_name') %>
+    <%= hidden_field('user', 'pass_crypt') %>
+    <%= hidden_field('user', 'pass_crypt_confirmation') %>
+    <div id="buttons">
+      <%= submit_tag(t('user.terms.decline'), :name => "decline", :id => "decline") %>
+      <%= submit_tag(t('user.terms.agree'), :name => "agree", :id => "agree") %>
+    </div>
+  </p>
+<% end %>
