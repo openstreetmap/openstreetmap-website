@@ -9,16 +9,16 @@ class UserLoginTest < ActionController::IntegrationTest
     assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
     follow_redirect!
     assert_response :success
-    post '/login', {'user[openid_url]' => "http://localhost:1123/john.doe?openid.success=true", :referer => "/browse"}
+    post '/login', {'openid_url' => "http://localhost:1123/john.doe?openid.success=true", :referer => "/browse"}
     assert_response :redirect
 
-	res = openid_request(@response.redirected_to)
-	res2 = post '/login', res
+    res = openid_request(@response.redirected_to)
+    res2 = post '/login', res
 
     assert_response :redirect
     follow_redirect!
-	assert_response :success
-	assert_template 'changeset/list'
+    assert_response :success
+    assert_template 'changeset/list'
   end
 
   def test_login_openid_cancel
@@ -27,14 +27,16 @@ class UserLoginTest < ActionController::IntegrationTest
     assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
     follow_redirect!
     assert_response :success
-    post '/login', {'user[openid_url]' => "http://localhost:1123/john.doe", :referer => "/diary"}
+    post '/login', {'openid_url' => "http://localhost:1123/john.doe", :referer => "/diary"}
     assert_response :redirect
 
-	res = openid_request(@response.redirected_to)
-	post '/login', res
+    res = openid_request(@response.redirected_to)
+    post '/login', res
 
-	assert_response :success
-	assert_template 'login'
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template 'login'
   end
 
   def test_login_openid_invalid_provider
@@ -43,10 +45,12 @@ class UserLoginTest < ActionController::IntegrationTest
     assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
     follow_redirect!
     assert_response :success
-	#Use a different port that doesn't have the OpenID provider running on to test an invalid openID
-    post '/login', {'user[openid_url]' => "http://localhost:1124/john.doe", :referer => "/diary"}
+    #Use a different port that doesn't have the OpenID provider running on to test an invalid openID
+    post '/login', {'openid_url' => "http://localhost:1124/john.doe", :referer => "/diary"}
+    assert_response :redirect
+    follow_redirect!
     assert_response :success
-	assert_template 'login'
+    assert_template 'login'
   end
 
   def test_login_openid_invalid_url
@@ -55,10 +59,12 @@ class UserLoginTest < ActionController::IntegrationTest
     assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
     follow_redirect!
     assert_response :success
-	#Use a url with an invalid protocol to make sure it handles that correctly too
-    post '/login', {'user[openid_url]' => "htt://localhost:1123/john.doe", :referer => "/diary"}
+    #Use a url with an invalid protocol to make sure it handles that correctly too
+    post '/login', {'openid_url' => "htt://localhost:1123/john.doe", :referer => "/diary"}
+    assert_response :redirect
+    follow_redirect!
     assert_response :success
-	assert_template 'login'
+    assert_template 'login'
   end
 
   def test_login_openid_unknown
@@ -67,15 +73,15 @@ class UserLoginTest < ActionController::IntegrationTest
     assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
     follow_redirect!
     assert_response :success
-    post '/login', {'user[openid_url]' => "http://localhost:1123/john.doe?openid.success=true_somethingelse", :referer => "/diary"}
+    post '/login', {'openid_url' => "http://localhost:1123/john.doe?openid.success=true_somethingelse", :referer => "/diary"}
     assert_response :redirect
 
-	res = openid_request(@response.redirected_to)
-	res2 = post '/login', res
+    res = openid_request(@response.redirected_to)
+    res2 = post '/login', res
 
     assert_response :redirect
     follow_redirect!
-	assert_response :success
-	assert_template 'user/new'
+    assert_response :success
+    assert_template 'user/new'
   end
 end

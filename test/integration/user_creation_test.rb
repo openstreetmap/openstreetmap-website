@@ -134,7 +134,7 @@ class UserCreationTest < ActionController::IntegrationTest
     assert_difference('User.count') do
       assert_difference('ActionMailer::Base.deliveries.size', 1) do
         post "/user/save",
-          {:user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :openid_url => "http://localhost:1123/john.doe?openid.success=newuser"}}
+          {:user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :openid_url => "http://localhost:1123/john.doe?openid.success=newuser", :pass_crypt => "", :pass_crypt_confirmation => ""}}
         assert_response :redirect
         res = openid_request(@response.redirected_to)
         post '/user/save', res

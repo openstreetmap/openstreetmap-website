@@ -42,7 +42,7 @@ class UserBlocksTest < ActionController::IntegrationTest
     assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
     follow_redirect!
     assert_response :success
-    post '/login', {'user[email]' => moderator.email, 'user[password]' => "test", :referer => "/blocks/#{block.id}/revoke"}
+    post '/login', {'username' => moderator.email, 'password' => "test", :referer => "/blocks/#{block.id}/revoke"}
     assert_response :redirect
     follow_redirect!
     assert_response :success

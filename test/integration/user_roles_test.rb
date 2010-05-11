@@ -22,7 +22,7 @@ class UserRolesControllerTest < ActionController::IntegrationTest
     assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
     follow_redirect!
     assert_response :success
-    post '/login', {'user[email]' => users(user).email, 'user[password]' => "test", :referer => "/"}
+    post '/login', {'username' => users(user).email, 'password' => "test", :referer => "/"}
     assert_response :redirect
     follow_redirect!
     assert_response :success
@@ -40,7 +40,7 @@ class UserRolesControllerTest < ActionController::IntegrationTest
     assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
     follow_redirect!
     assert_response :success
-    post '/login', {'user[email]' => users(user).email, 'user[password]' => "test", :referer => "/"}
+    post '/login', {'username' => users(user).email, 'password' => "test", :referer => "/"}
     assert_response :redirect
     follow_redirect!
     assert_response :success
