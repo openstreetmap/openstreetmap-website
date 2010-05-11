@@ -40,7 +40,7 @@ class UserController < ApplicationController
     if Acl.find_by_address(request.remote_ip, :conditions => {:k => "no_account_creation"})
       render :action => 'new'
     elsif params[:decline]
-      redirect_to t 'user.terms.declined'
+      redirect_to t('user.terms.declined')
     else
       @user = User.new(params[:user])
 
