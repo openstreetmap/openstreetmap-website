@@ -45,7 +45,6 @@ class UserController < ApplicationController
       session[:referer] = params[:referer]
 
       @user = User.new(params[:user])
-      @user.openid_url = nil
 
       if params[:user][:openid_url] and @user.pass_crypt.empty?
         # We are creating an account with OpenID and no password

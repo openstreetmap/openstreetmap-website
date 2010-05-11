@@ -75,7 +75,7 @@
 
 <%=
   update_page_tag do |page|
-    if params[:openid] 
+    if params[:openid] or (@user and @user.openid_url)
       page[:openid_prompt].hide
     else
       page[:openid_spacer].hide
