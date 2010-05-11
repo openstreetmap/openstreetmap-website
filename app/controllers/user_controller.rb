@@ -24,18 +24,17 @@ class UserController < ApplicationController
     if Acl.find_by_address(request.remote_ip, :conditions => {:k => "no_account_creation"})
       render :action => 'new'
     else
-      #The redirect from the OpenID provider reenters here again 
-      #and we need to pass the parameters through to the  
-      #open_id_authentication function a second time 
       if params[:open_id_complete] 
-        openid_verify('', true) 
-        #We have set the user.openid_url to nil beforehand. If it hasn't 
-        #been set to a new valid openid_url, it means the openid couldn't be validated 
-        if @user.nil? or @user.openid_url.nil? 
-          render :action => 'new' 
-          return 
-        end   
+        # The redirect from the OpenID provider reenters here
+        # again and we need to pass the parameters through to
+        # the open_id_authentication function
+        @user = session.delete(:new_user)
+        openid_verify(nil, @user) do |user|
+          create_user(user)
+        end
       else
+        session[:referer] = params[:referer]
+
         @user = User.new(params[:user])
 
         @user.status = "pending"
@@ -43,59 +42,31 @@ class UserController < ApplicationController
         @user.description = "" if @user.description.nil?
         @user.creation_ip = request.remote_ip
         @user.languages = request.user_preferred_languages
-        #Set the openid_url to nil as for one it is used 
-        #to check if the openid could be validated and secondly 
-        #to not get dupplicate conflicts for an empty openid  
-        @user.openid_url = nil
 
-        if (!params[:user][:openid_url].nil? and params[:user][:openid_url].length > 0)
-          if (@user.pass_crypt.nil? or @user.pass_crypt.length == 0)
-            #if the password is empty, but we have a openid 
-            #then generate a random passowrd to disable 
-            #loging in via password 
-            @user.pass_crypt = ActiveSupport::SecureRandom.base64(16) 
-            @user.pass_crypt_confirmation = @user.pass_crypt 
+        if params[:user][:openid_url] and @user.pass_crypt.empty?
+          # We are creating an account with OpenID and no password
+          # was specified so create a random one
+          @user.pass_crypt = ActiveSupport::SecureRandom.base64(16) 
+          @user.pass_crypt_confirmation = @user.pass_crypt 
+        end
+
+        if @user.valid?
+          if params[:user][:openid_url].nil? or
+             params[:user][:openid_url].empty?
+            # No OpenID so just save
+            create_user(@user)
+          else
+            # Verify OpenID before saving
+            session[:new_user] = @user
+            openid_verify(params[:user][:openid_url], @user)
           end
-          #Validate all of the other fields before
-          #redirecting to the openid provider
-          if !@user.valid?
-            render :action => 'new'
-          else        
-            #TODO: Is it a problem to store the user variable with respect to password safty in the session variables?
-            #Store the user variable in the session for it to be accessible when redirecting back from the openid provider
-            session[:new_usr] = @user
-            begin
-              @norm_openid_url = OpenIdAuthentication.normalize_identifier(params[:user][:openid_url])
-            rescue
-              flash.now[:error] = t 'user.login.openid invalid'
-              render :action => 'new'
-              return
-            end
-            #Verify that the openid provided is valid and that the user is the owner of the id
-            openid_verify(@norm_openid_url, true)
-            #openid_verify can return in two ways:
-            #Either it returns with a redirect to the openid provider who then freshly
-            #redirects back to this url if the openid is valid, or if the openid is not plausible
-            #and no provider for it could be found it just returns
-            #we want to just let the redirect through
-            if response.headers["Location"].nil?
-              render :action => 'new'
-            end
-          end
-          #At this point there was either an error and the page has been rendered,
-          #or there is a redirect to the openid provider and the rest of the method
-          #gets executed whenn this method gets reentered after redirecting back
-          #from the openid provider
-          return
         end
       end
 
-      if @user.save
-        flash[:notice] = t 'user.new.flash create success message'
-        Notifier.deliver_signup_confirm(@user, @user.tokens.create(:referer => params[:referer]))
-        redirect_to :action => 'login'
-      else
-        render :action => 'new'
+      # Render the signup page unless we have already been
+      # redirected or have managed to save the user
+      if response.location.nil? and  @user.new_record?
+        render :action => "new"
       end
     end
   end
@@ -104,16 +75,15 @@ class UserController < ApplicationController
     @title = t 'user.account.title'
     @tokens = @user.oauth_tokens.find :all, :conditions => 'oauth_tokens.invalidated_at is null and oauth_tokens.authorized_at is not null'
 
-    #The redirect from the OpenID provider reenters here again
-    #and we need to pass the parameters through to the 
-    #open_id_authentication function
     if params[:open_id_complete]
-      openid_verify('', false)
-      @user.save
-      return
-    end
-
-    if params[:user] and params[:user][:display_name] and params[:user][:description]
+      # The redirect from the OpenID provider reenters here
+      # again and we need to pass the parameters through to
+      # the open_id_authentication function
+      @user = session.delete(:new_user)
+      openid_verify(nil, @user) do |user|
+        update_user(user)
+      end
+    elsif params[:user] and params[:user][:display_name] and params[:user][:description]
       @user.display_name = params[:user][:display_name]
       @user.new_email = params[:user][:new_email]
 
@@ -133,70 +103,17 @@ class UserController < ApplicationController
       @user.home_lat = params[:user][:home_lat]
       @user.home_lon = params[:user][:home_lon]
 
-      @user.openid_url = nil if (params[:user][:openid_url].length == 0)
+      @user.openid_url = nil if params[:user][:openid_url].empty?
 
-      if @user.save
-        set_locale
-
-        if @user.new_email.nil? or @user.new_email.empty?
-          flash[:notice] = t 'user.account.flash update success'
-        else
-          flash[:notice] = t 'user.account.flash update success confirm needed'
-
-          begin
-            Notifier.deliver_email_confirm(@user, @user.tokens.create)
-          rescue
-            # Ignore errors sending email
-          end
-        end
-
-        redirect_to :action => "account", :display_name => @user.display_name
-      end
-
-      if (params[:user][:openid_url].length > 0)
-        begin
-          @norm_openid_url = OpenIdAuthentication.normalize_identifier(params[:user][:openid_url])
-          if (@norm_openid_url != @user.openid_url)
-            #If the OpenID has changed, we want to check that it is a valid OpenID and one
-            #the user has control over before saving the openID as a password equivalent for
-            #the user.
-            openid_verify(@norm_openid_url, false)
-          end
-        rescue
-          flash.now[:error] = t 'user.login.openid invalid'
-        end
-      end
-
-    else
-      if flash[:errors]
-        flash[:errors].each do |attr,msg|
-          attr = "new_email" if attr == "email"
-          @user.errors.add(attr,msg)
-        end
-      end
-    end
-  end
-
-  def openid_verify(openid_url, account_create)
-    authenticate_with_open_id(openid_url) do |result, identity_url|
-      if result.successful?
-        #We need to use the openid url passed back from the OpenID provider
-        #rather than the one supplied by the user, as these can be different.
-        #e.g. one can simply enter yahoo.com in the login box, i.e. no user specific url
-        #only once it comes back from the OpenID provider do we know the unique address for
-        #the user.
-        @user = session[:new_usr] unless @user #this is used for account creation when the user is not yet in the database
-        @user.openid_url = identity_url
-      elsif result.missing?
-        if openid_url = openid_alternate_url(openid_url)
-          openid_verify(openid_url, account_create)
-        else
-          flash.now[:error] = t 'user.login.openid missing provider'
-        end
-      elsif result.invalid?
-        flash.now[:error] = t 'user.login.openid invalid'
+      if params[:user][:openid_url].length > 0 and
+         params[:user][:openid_url] != @user.openid_url
+        # If the OpenID has changed, we want to check that it is a
+        # valid OpenID and one the user has control over before saving
+        # it as a password equivalent for the user.
+        session[:new_user] = @user
+        openid_verify(params[:user][:openid_url], @user)
       else
-        flash.now[:error] = t 'user.login.auth failure'
+        update_user(@user)
       end
     end
   end
@@ -255,16 +172,13 @@ class UserController < ApplicationController
 
   def new
     @title = t 'user.new.title'
+    @referer = params[:referer] || session[:referer]
 
-    # The user is logged in already, so don't show them the signup
-    # page, instead send them to the home page
-    redirect_to :controller => 'site', :action => 'index' if session[:user]
-
-    @nickname = params['nickname']
-    @email = params['email']
-    @openID = params['openid']
-	
-    if !params['openid'].nil?
+    if session[:user]
+      # The user is logged in already, so don't show them the signup
+      # page, instead send them to the home page
+      redirect_to :controller => 'site', :action => 'index'
+    elsif not params['openid'].nil?
       flash.now[:notice] = t 'user.new.openid association'
     end
   end
@@ -518,6 +432,36 @@ private
   end
 
   ##
+  # verify an OpenID URL
+  def openid_verify(openid_url, user)
+    user.openid_url = openid_url
+
+    authenticate_with_open_id(openid_url) do |result, identity_url|
+      if result.successful?
+        # We need to use the openid url passed back from the OpenID provider
+        # rather than the one supplied by the user, as these can be different.
+        #
+        # For example, you can simply enter yahoo.com in the login box rather
+        # than a user specific url. Only once it comes back from the provider
+        # provider do we know the unique address for the user.
+        user.openid_url = identity_url
+        yield user
+      elsif result.missing?
+        # Try and apply some heuristics to make common cases more user friendly
+        if openid_url = openid_alternate_url(openid_url)
+          openid_verify(openid_url, user)
+        else
+          flash.now[:error] = t 'user.login.openid missing provider'
+        end
+      elsif result.invalid?
+        flash.now[:error] = t 'user.login.openid invalid'
+      else
+        flash.now[:error] = t 'user.login.auth failure'
+      end
+    end
+  end
+
+  ##
   # special case some common OpenID providers by applying heuristics
   # to try and come up with an alternate URL if the supplied one fails
   def openid_alternate_url(openid_url)
@@ -560,6 +504,38 @@ private
 
     session.delete(:remember_me)
     session.delete(:referer)
+  end
+
+  ##
+  # save a new user
+  def create_user(user)
+    if user.save
+      flash[:notice] = t 'user.new.flash create success message'
+
+      Notifier.deliver_signup_confirm(user, user.tokens.create(:referer => session.delete(:referer)))
+
+      redirect_to :action => 'login'
+    end
+  end
+
+  ##
+  # update a user's details
+  def update_user(user)
+    if user.save
+      set_locale
+
+      if user.new_email.nil? or user.new_email.empty?
+        flash.now[:notice] = t 'user.account.flash update success'
+      else
+        flash.now[:notice] = t 'user.account.flash update success confirm needed'
+
+        begin
+          Notifier.deliver_email_confirm(user, user.tokens.create)
+        rescue
+          # Ignore errors sending email
+        end
+      end
+    end
   end
 
   ##
