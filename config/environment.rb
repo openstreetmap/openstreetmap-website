@@ -8,7 +8,7 @@ ENV['RAILS_ENV'] ||= 'production'
 RAILS_GEM_VERSION = '2.3.5' unless defined? RAILS_GEM_VERSION
 
 # Set the server URL
-SERVER_URL = ENV['OSM_SERVER_URL'] || 'contributor_terms.dev.openstreetmap.org'
+SERVER_URL = ENV['OSM_SERVER_URL'] || 'www.openstreetmap.org'
 
 # Set the generator
 GENERATOR = ENV['OSM_SERVER_GENERATOR'] || 'OpenStreetMap server'
