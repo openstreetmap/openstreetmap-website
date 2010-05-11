@@ -18,55 +18,82 @@ class UserController < ApplicationController
 
   cache_sweeper :user_sweeper, :only => [:account, :set_status, :delete]
 
+  def terms
+    @title = t 'user.new.title'
+    @legale = params[:legale] || OSM.IPToCountry(request.remote_ip) || APP_CONFIG['default_legale']
+    @text = OSM.legal_text_for_country(@legale)
+
+    if request.xhr?
+      render :update do |page|
+        page.replace_html "contributorTerms", :partial => "terms"
+      end
+    elsif params[:open_id_complete] 
+      # The redirect from the OpenID provider reenters here
+      # again and we need to pass the parameters through to
+      # the open_id_authentication function
+      @user = session.delete(:new_user)
+
+      openid_verify(nil, @user) do |user|
+      end
+
+      if @user.openid_url.nil? or @user.invalid?
+        render :action => 'new'
+      else
+        render :action => 'terms'
+      end
+    else
+      session[:referer] = params[:referer]
+
+      @user = User.new(params[:user])
+      @user.openid_url = nil
+
+      if params[:user][:openid_url] and @user.pass_crypt.empty?
+        # We are creating an account with OpenID and no password
+        # was specified so create a random one
+        @user.pass_crypt = ActiveSupport::SecureRandom.base64(16) 
+        @user.pass_crypt_confirmation = @user.pass_crypt 
+      end
+
+      if @user.valid?
+        if params[:user][:openid_url].nil? or
+            params[:user][:openid_url].empty?
+          # No OpenID so just move on to the terms
+          render :action => 'terms'
+        else
+          # Verify OpenID before moving on
+          session[:new_user] = @user
+          openid_verify(params[:user][:openid_url], @user)
+        end
+      else
+        # Something is wrong, so rerender the form
+        render :action => 'new'
+      end
+    end
+  end
+
   def save
     @title = t 'user.new.title'
 
     if Acl.find_by_address(request.remote_ip, :conditions => {:k => "no_account_creation"})
       render :action => 'new'
+    elsif params[:decline]
+      redirect_to t('user.terms.declined')
     else
-      if params[:open_id_complete] 
-        # The redirect from the OpenID provider reenters here
-        # again and we need to pass the parameters through to
-        # the open_id_authentication function
-        @user = session.delete(:new_user)
-        openid_verify(nil, @user) do |user|
-          create_user(user)
-        end
+      @user = User.new(params[:user])
+
+      @user.status = "pending"
+      @user.data_public = true
+      @user.description = "" if @user.description.nil?
+      @user.creation_ip = request.remote_ip
+      @user.languages = request.user_preferred_languages
+      @user.terms_agreed = Time.now.getutc
+
+      if @user.save
+        flash[:notice] = t 'user.new.flash create success message'
+        Notifier.deliver_signup_confirm(@user, @user.tokens.create(:referer => session.delete(:referer)))
+        redirect_to :action => 'login'
       else
-        session[:referer] = params[:referer]
-
-        @user = User.new(params[:user])
-
-        @user.status = "pending"
-        @user.data_public = true
-        @user.description = "" if @user.description.nil?
-        @user.creation_ip = request.remote_ip
-        @user.languages = request.user_preferred_languages
-
-        if params[:user][:openid_url] and @user.pass_crypt.empty?
-          # We are creating an account with OpenID and no password
-          # was specified so create a random one
-          @user.pass_crypt = ActiveSupport::SecureRandom.base64(16) 
-          @user.pass_crypt_confirmation = @user.pass_crypt 
-        end
-
-        if @user.valid?
-          if params[:user][:openid_url].nil? or
-             params[:user][:openid_url].empty?
-            # No OpenID so just save
-            create_user(@user)
-          else
-            # Verify OpenID before saving
-            session[:new_user] = @user
-            openid_verify(params[:user][:openid_url], @user)
-          end
-        end
-      end
-
-      # Render the signup page unless we have already been
-      # redirected or have managed to save the user
-      if response.location.nil? and  @user.new_record?
-        render :action => "new"
+        render :action => 'new'
       end
     end
   end
@@ -504,18 +531,6 @@ private
 
     session.delete(:remember_me)
     session.delete(:referer)
-  end
-
-  ##
-  # save a new user
-  def create_user(user)
-    if user.save
-      flash[:notice] = t 'user.new.flash create success message'
-
-      Notifier.deliver_signup_confirm(user, user.tokens.create(:referer => session.delete(:referer)))
-
-      redirect_to :action => 'login'
-    end
   end
 
   ##

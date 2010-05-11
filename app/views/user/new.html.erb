@@ -10,11 +10,9 @@
 
 <p><%= t 'user.new.fill_form' %></p>
 
-<p><%= t 'user.new.license_agreement' %></p>
-
 <%= error_messages_for 'user' %>
 
-<% form_tag :action => 'save' do %>
+<% form_tag :action => 'terms' do %>
   <%= hidden_field_tag('referer', h(@referer)) unless @referer.nil? %>
 
   <table id="signupForm">
@@ -70,7 +68,7 @@
 
     <tr>
       <td></td>
-      <td align="right"><%= submit_tag t('user.new.signup'), :tabindex => 6 %></td>
+      <td align="right"><%= submit_tag t('user.new.continue'), :tabindex => 6 %></td>
     </tr>
   </table>
 <% end %>

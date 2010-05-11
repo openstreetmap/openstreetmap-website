@@ -14,13 +14,13 @@ class UserControllerTest < ActionController::TestCase
       end
       assert_select "body", :count => 1 do
         assert_select "div#content", :count => 1 do
-          assert_select "form[action='/user/save'][method=post]", :count => 1 do
+          assert_select "form[action='/user/terms'][method=post]", :count => 1 do
             assert_select "input[id=user_email]", :count => 1
             assert_select "input[id=user_email_confirmation]", :count => 1
             assert_select "input[id=user_display_name]", :count => 1
             assert_select "input[id=user_pass_crypt][type=password]", :count => 1
             assert_select "input[id=user_pass_crypt_confirmation][type=password]", :count => 1
-            assert_select "input[type=submit][value=Signup]", :count => 1
+            assert_select "input[type=submit][value=Continue]", :count => 1
           end
         end
       end
