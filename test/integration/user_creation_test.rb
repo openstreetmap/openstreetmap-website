@@ -94,8 +94,12 @@ class UserCreationTest < ActionController::IntegrationTest
     referer = "/traces/mine"
     assert_difference('User.count') do
       assert_difference('ActionMailer::Base.deliveries.size', 1) do
-        post_via_redirect "/user/save",
+        post "/user/terms",
         {:user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :pass_crypt => password, :pass_crypt_confirmation => password}, :referer => referer }
+        assert_response :success
+        assert_template 'terms'
+        post_via_redirect "/user/save",
+        {:user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :pass_crypt => password, :pass_crypt_confirmation => password} }
       end
     end
 
@@ -131,13 +135,18 @@ class UserCreationTest < ActionController::IntegrationTest
   def test_user_create_openid_success
     new_email = "newtester-openid@osm.org"
     display_name = "new_tester-openid"
+    password = "testtest"
     assert_difference('User.count') do
       assert_difference('ActionMailer::Base.deliveries.size', 1) do
-        post "/user/save",
+        post "/user/terms",
           {:user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :openid_url => "http://localhost:1123/john.doe?openid.success=newuser", :pass_crypt => "", :pass_crypt_confirmation => ""}}
         assert_response :redirect
         res = openid_request(@response.redirected_to)
-        post '/user/save', res
+        post '/user/terms', res
+        assert_response :success
+        assert_template 'terms'
+        post '/user/save',
+          {:user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :openid_url => "http://localhost:1123/john.doe?openid.success=newuser", :pass_crypt => password, :pass_crypt_confirmation => password}}
         assert_response :redirect
         follow_redirect!
       end
