@@ -471,9 +471,7 @@ module OSM
   def self.IPLocation(ip_address)
     code = OSM.IPToCountry(ip_address)
 
-    unless code.nil?
-      country = Country.find_by_code(code)
-
+    if code and country = Country.find_by_code(code)
       return { :minlon => country.min_lon, :minlat => country.min_lat, :maxlon => country.max_lon, :maxlat => country.max_lat }
     end
 
