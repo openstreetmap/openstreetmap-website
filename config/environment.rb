@@ -89,12 +89,6 @@ Rails::Initializer.run do |config|
   # (create the session table with 'rake db:sessions:create')
   config.action_controller.session_store = :sql_session_store
 
-  # We will use the old style of migrations, rather than the newer
-  # timestamped migrations that were introduced with Rails 2.1, as
-  # it will be confusing to have the numbered and timestamped migrations
-  # together in the same folder.
-  config.active_record.timestamped_migrations = false
-
   # Use SQL instead of Active Record's schema dumper when creating the test database.
   # This is necessary if your schema can't be completely dumped by the schema dumper,
   # like if you have constraints or database-specific column types
