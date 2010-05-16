@@ -2,6 +2,9 @@
 @name = printable_name @relation
 @title = t('browse.relation.relation') + ' | ' + @name
 %>
+<% content_for :head do %>
+<%= stylesheet_link_tag 'browse' %>
+<% end %>
 <%= render :partial => "navigation" %>
 <h2><%= t'browse.relation.relation_title', :relation_name => h(@name) %></h2>
 <%= render :partial => "map", :object => @relation %>

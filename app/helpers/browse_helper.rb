@@ -2,7 +2,7 @@ module BrowseHelper
   def link_to_page(page, page_param)
     return link_to(page, page_param => page)
   end
-  
+
   def printable_name(object, version=false)
     name = t 'printable_name.with_id', :id => object.id.to_s
     if version
@@ -14,6 +14,14 @@ module BrowseHelper
       name = t 'printable_name.with_name',  :name => object.tags['name'].to_s, :id => name
     end
     return name
+  end
+
+  def link_class(type, object)
+    return type + " " + h(icon_tags(object).join(' '))
+  end
+
+  def link_title(object)
+    return h(icon_tags(object).map { |k,v| k + '=' + v }.to_sentence)
   end
 
   def format_key(key)
@@ -35,6 +43,15 @@ module BrowseHelper
   end
 
 private
+
+  ICON_TAGS = [ 
+    "aeroway", "amenity", "barrier", "building", "highway", "landuse",
+    "leisure", "man_made", "natural", "railway", "shop", "tourism", "waterway"
+  ]
+
+  def icon_tags(object)
+    object.tags.find_all { |k,v| ICON_TAGS.include? k }
+  end
 
   def wiki_link(type, lookup)
     locale = I18n.locale.to_s
