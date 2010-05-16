@@ -206,6 +206,7 @@ aln:
     diary_comment: 
       comment_from: Komenti prej {{link_user}} në {{comment_created_at}}
       confirm: Konfirmo
+      hide_link: Mshefe këtë koment
     diary_entry: 
       comment_count: 
         one: 1 koment
@@ -214,6 +215,7 @@ aln:
       confirm: Konfirmoje
       edit_link: Ndryshoje qët shënim
       hide_link: Mshefe qët shënim
+      posted_by: U postu prej {{link_user}} më {{created}} n'{{language_link}}
     edit: 
       language: "Gjuha:"
       location: "Lokacioni:"
@@ -221,12 +223,15 @@ aln:
     list: 
       in_language_title: Shënimet e Ditarit në {{language}}
       newer_entries: Shënimet Ma Të Reja
+      no_entries: Nuk ka shënime në ditar
       older_entries: Shënimet e Vjetra
       user_title: Ditari i {{user}}
     location: 
+      edit: Ndrysho
       location: "Lokacioni:"
       view: Kshyre
     no_such_entry: 
+      body: Me na fal, por nuk ka shënim në ditar ose koment me id {{id}}. Ju lutem shihni drejtshkrimin, ose lidhja që keni kliku asht gabim.
       heading: "Nuk ka shënim me id: {{id}}"
     no_such_user: 
       body: Me na fal, po nuk ka anëtarë me emnin {{user}}. Ju lutem kshyrni shkronjat, ose nashta lidhja që keni trus është gabim.
@@ -236,6 +241,8 @@ aln:
       leave_a_comment: Lene naj koment
       login_to_leave_a_comment: "{{login_link}} për me lon koment"
       save_button: Ruje
+      title: ditari i {{user}} | {{title}}
+      user_title: ditari i {{user}}
   export: 
     start: 
       area_to_export: Zona për Eksport
@@ -272,6 +279,7 @@ aln:
     description: 
       title: 
         geonames: Lokacioni prej <a href="http://www.geonames.org/">GeoNames</a>
+        osm_namefinder: "{{types}} prej <a href=\"http://gazetteer.openstreetmap.org/namefinder/\">OpenStreetMap Namefinder</a>"
         osm_nominatim: Lokacioni prej <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
     direction: 
       east: lindja
@@ -307,6 +315,7 @@ aln:
           cinema: Kinema
           dentist: Mjeku i dhomve
           dormitory: Konvikt
+          driving_school: Auto shkollë
           embassy: Ambasada
           fire_station: Zjarrëfiksat
           hotel: Hotel
@@ -333,6 +342,7 @@ aln:
           museum: Muze
         landuse: 
           military: Zonë Ushtarake
+          park: Park
         leisure: 
           beach_resort: hoteli në plazh
           garden: Kopsht
@@ -370,6 +380,7 @@ aln:
           computer: Shitore e kompjuterave
           gallery: Galeri
           gift: Shitore e Dhuratave
+          pet: Shitore e kafshëve
           travel_agency: Agjenci Turistike
         tourism: 
           artwork: Puna artistike
@@ -441,6 +452,7 @@ aln:
       body: Na vjen keq nuk ka asnjë përdorues me atë emër.
     outbox: 
       date: Data
+      no_sent_messages: Ju nuk keni dërgu asnjë mesazh. Pse nuk po llidheni me disa prej {{people_mapping_nearby_link}}?
       subject: Titulli
       you_have_sent_messages: I ki {{count}} mesazhe të dërgume
     read: 
@@ -468,6 +480,7 @@ aln:
     friend_notification: 
       befriend_them: Ju muni gjithashtu me i shtu ata si shokë tek {{befriendurl}}.
       had_added_you: "{{user}} ju ka shtu juve si një shok në OpenStreetMap."
+      see_their_profile: Ju muni me pa profilin e tyre tek {{userurl}}.
       subject: "[OpenStreetMap] {{user}} ju ka shtu juve si një shok"
     gpx_notification: 
       greeting: Tung,
@@ -526,6 +539,7 @@ aln:
           industrial: Zonë Industriale
           lake: 
             - Liqe
+          military: Zonë Ushtarake
           school: 
             - Shkollë
           unclassified: Udhë e paklasifikume
@@ -736,7 +750,7 @@ aln:
       fill_form: Plotsoni formularin dhe na do t'ja dergojm ni email për me aktivizu.
       flash create success message: Akounti për shfrytëzim u kriju me sukses. Kontrollo emailin tond për konfirmim, dhe ju do t'filloni të hartoni sa hora :-)<br /><br />Po kini parasysh se smuni me u kyç pa e konfirmu.<br /><br />Nqofse përdorni sistem për antispam siguroni që jemi në listën e bardh webmaster@openstreetmap.org sepse na nuk mundemi me ju dërgu emaila pa u kan nqat list.
       heading: Krijo një akount shfrytëzimi
-      license_agreement: Tu kriju një llogari, ju pranoni krejtë të dhanat që i paraqiteni në projektin e OpenStreetMap-it kan me qenë nën licensën <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative Commons (by-sa)</a>.
+      license_agreement: Kur e konfirmoni llogarinë tuaj ju duhet ti pranoni <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">kushtet e kontributit</a>.
       no_auto_account_create: Për momentin spo mujm me ju kriju akount automatikisht.
       not displayed publicly: Nuk u shfaq publikisht (kshyre <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="wiki privacy policy including section on email addresses">privacy policy</a>)
       password: "Fjalekalimi:"
@@ -766,6 +780,12 @@ aln:
       body: "<p>\n  Me na fal, por llogaria juaj automatikisht osht suspendu\n  për shkak të aktivitetit të dyshimt.\n</p>\n<p>\n  Ky vendim së shpejti ka mu rishiku prej një administratori, ose\n  ju muni me kontaktu me <a href=\"mailto:{{webmaster}}\">webmaster-in</a> nëse\n  doni me diskutu ma shumë.\n</p>"
       heading: Llogaria u Suspendu
       title: Llogaria u Suspendu
+    terms: 
+      agree: Pajtohem
+      decline: Mos prano
+      legale_names: 
+        france: Franca
+        italy: Italia
     view: 
       activate_user: aktivizo kët shfrytezues
       add as friend: shtoje si shoq

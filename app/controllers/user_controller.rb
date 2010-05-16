@@ -402,7 +402,8 @@ private
     elsif User.authenticate(:username => username, :password => password, :pending => true)
       failed_login t('user.login.account not active')
     elsif User.authenticate(:username => username, :password => password, :suspended => true)
-      failed_login t('user.login.account suspended')
+      webmaster = link_to t('user.login.webmaster'), "mailto:webmaster@openstreetmap.org"
+      failed_login t('user.login.account suspended', :webmaster => webmaster)
     else
       failed_login t('user.login.auth failure')
     end
@@ -430,10 +431,15 @@ private
         # provider do we know the unique address for the user.
         if user = User.find_by_openid_url(identity_url)
           case user.status
-            when "pending" then failed_login t('user.login.account not active')
-            when "active", "confirmed" then successful_login(user)
-            when "suspended" then failed_login t('user.login.account suspended')
-            else failed_login t('user.login.auth failure')
+            when "pending" then
+              failed_login t('user.login.account not active')
+            when "active", "confirmed" then
+              successful_login(user)
+            when "suspended" then
+              webmaster = link_to t('user.login.webmaster'), "mailto:webmaster@openstreetmap.org"
+              failed_login t('user.login.account suspended', :webmaster => webmaster)
+            else
+              failed_login t('user.login.auth failure')
           end
         else
           # We don't have a user registered to this OpenID, so redirect
