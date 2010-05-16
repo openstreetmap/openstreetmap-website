@@ -16,7 +16,7 @@ module BrowseHelper
     return name
   end
 
-  def css_class(type, object)
+  def link_class(type, object)
     return type + " " + h(icon_tags(object).join(' '))
   end
 
