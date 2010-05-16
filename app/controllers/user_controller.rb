@@ -27,21 +27,7 @@ class UserController < ApplicationController
       render :update do |page|
         page.replace_html "contributorTerms", :partial => "terms"
       end
-    elsif params[:open_id_complete] 
-      # The redirect from the OpenID provider reenters here
-      # again and we need to pass the parameters through to
-      # the open_id_authentication function
-      @user = session.delete(:new_user)
-
-      openid_verify(nil, @user) do |user|
-      end
-
-      if @user.openid_url.nil? or @user.invalid?
-        render :action => 'new'
-      else
-        render :action => 'terms'
-      end
-    else
+    elsif params[:user]
       session[:referer] = params[:referer]
 
       @user = User.new(params[:user])
@@ -66,6 +52,20 @@ class UserController < ApplicationController
       else
         # Something is wrong, so rerender the form
         render :action => 'new'
+      end
+    elsif using_open_id?
+      # The redirect from the OpenID provider reenters here
+      # again and we need to pass the parameters through to
+      # the open_id_authentication function
+      @user = session.delete(:new_user)
+
+      openid_verify(nil, @user) do |user|
+      end
+
+      if @user.openid_url.nil? or @user.invalid?
+        render :action => 'new'
+      else
+        render :action => 'terms'
       end
     end
   end
@@ -101,15 +101,7 @@ class UserController < ApplicationController
     @title = t 'user.account.title'
     @tokens = @user.oauth_tokens.find :all, :conditions => 'oauth_tokens.invalidated_at is null and oauth_tokens.authorized_at is not null'
 
-    if params[:open_id_complete]
-      # The redirect from the OpenID provider reenters here
-      # again and we need to pass the parameters through to
-      # the open_id_authentication function
-      @user = session.delete(:new_user)
-      openid_verify(nil, @user) do |user|
-        update_user(user)
-      end
-    elsif params[:user] and params[:user][:display_name] and params[:user][:description]
+    if params[:user] and params[:user][:display_name] and params[:user][:description]
       @user.display_name = params[:user][:display_name]
       @user.new_email = params[:user][:new_email]
 
@@ -140,6 +132,14 @@ class UserController < ApplicationController
         openid_verify(params[:user][:openid_url], @user)
       else
         update_user(@user)
+      end
+    elsif using_open_id?
+      # The redirect from the OpenID provider reenters here
+      # again and we need to pass the parameters through to
+      # the open_id_authentication function
+      @user = session.delete(:new_user)
+      openid_verify(nil, @user) do |user|
+        update_user(user)
       end
     end
   end
@@ -210,11 +210,11 @@ class UserController < ApplicationController
   end
 
   def login
-    if request.post?
+    if params[:username] or using_open_id?
       session[:remember_me] ||= params[:remember_me]
       session[:referer] ||= params[:referer]
 
-      if using_open_id?(params[:openid_url])
+      if using_open_id?
         openid_authentication(params[:openid_url])
       else
         password_authentication(params[:username], params[:password])
@@ -420,7 +420,7 @@ private
     end
 
     # Start the authentication
-    authenticate_with_open_id(openid_url, :optional => optional) do |result, identity_url, registration|
+    authenticate_with_open_id(openid_expand_url(openid_url), :optional => optional) do |result, identity_url, registration|
       if result.successful?
         # We need to use the openid url passed back from the OpenID provider
         # rather than the one supplied by the user, as these can be different.
@@ -443,12 +443,7 @@ private
           redirect_to :controller => 'user', :action => 'new', :nickname => registration['nickname'], :email => registration['email'], :openid => identity_url
         end
       elsif result.missing?
-        # Try and apply some heuristics to make common cases more user friendly
-        if openid_url = openid_alternate_url(openid_url)
-          openid_authentication(openid_url)
-        else
-          failed_login t('user.login.openid missing provider')
-        end
+        failed_login t('user.login.openid missing provider')
       elsif result.invalid?
         failed_login t('user.login.openid invalid')
       else
@@ -462,7 +457,7 @@ private
   def openid_verify(openid_url, user)
     user.openid_url = openid_url
 
-    authenticate_with_open_id(openid_url) do |result, identity_url|
+    authenticate_with_open_id(openid_expand_url(openid_url)) do |result, identity_url|
       if result.successful?
         # We need to use the openid url passed back from the OpenID provider
         # rather than the one supplied by the user, as these can be different.
@@ -473,12 +468,7 @@ private
         user.openid_url = identity_url
         yield user
       elsif result.missing?
-        # Try and apply some heuristics to make common cases more user friendly
-        if openid_url = openid_alternate_url(openid_url)
-          openid_verify(openid_url, user)
-        else
-          flash.now[:error] = t 'user.login.openid missing provider'
-        end
+        flash.now[:error] = t 'user.login.openid missing provider'
       elsif result.invalid?
         flash.now[:error] = t 'user.login.openid invalid'
       else
@@ -488,17 +478,19 @@ private
   end
 
   ##
-  # special case some common OpenID providers by applying heuristics
-  # to try and come up with an alternate URL if the supplied one fails
-  def openid_alternate_url(openid_url)
-    # Special case gmail.com as it is potentially a popular OpenID
-    # provider and, unlike yahoo.com, where it works automatically, Google
-    # have hidden their OpenID endpoint somewhere obscure this making it
-    # somewhat less user friendly.
-    if openid_url.match(/(.*)gmail.com(\/?)$/) or openid_url.match(/(.*)googlemail.com(\/?)$/)
+  # special case some common OpenID providers by applying heuristics to
+  # try and come up with the correct URL based on what the user entered
+  def openid_expand_url(openid_url)
+    if openid_url.nil?
+      return nil
+    elsif openid_url.match(/(.*)gmail.com(\/?)$/) or openid_url.match(/(.*)googlemail.com(\/?)$/)
+      # Special case gmail.com as it is potentially a popular OpenID
+      # provider and, unlike yahoo.com, where it works automatically, Google
+      # have hidden their OpenID endpoint somewhere obscure this making it
+      # somewhat less user friendly.
       return 'https://www.google.com/accounts/o8/id'
     else
-      return nil
+      return openid_url
     end
   end  
 
