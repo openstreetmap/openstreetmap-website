@@ -17,13 +17,11 @@ module BrowseHelper
   end
 
   def css_class(type, object)
-    css = type + " " + h(object.tags.find_all { |k,v| k == "aeroway" || k == "amenity" || k == "barrier" || k == "building" || k == "highway" || k == "landuse" || k == "leisure" || k == "man_made" || k == "natural" || k == "railway" || k == "shop" || k == "tourism" || k == "waterway" }.join(' '))
-    return css
+    return type + " " + h(icon_tags(object).join(' '))
   end
 
   def link_title(object)
-    title = h(object.tags.map { |k,v| k + '=' + v }.to_sentence)
-    return title
+    return h(icon_tags(object).map { |k,v| k + '=' + v }.to_sentence)
   end
 
   def format_key(key)
@@ -45,6 +43,15 @@ module BrowseHelper
   end
 
 private
+
+  ICON_TAGS = [ 
+    "aeroway", "amenity", "barrier", "building", "highway", "landuse",
+    "leisure", "man_made", "natural", "railway", "shop", "tourism", "waterway"
+  ]
+
+  def icon_tags(object)
+    object.tags.find_all { |k,v| ICON_TAGS.include? k }
+  end
 
   def wiki_link(type, lookup)
     locale = I18n.locale.to_s
