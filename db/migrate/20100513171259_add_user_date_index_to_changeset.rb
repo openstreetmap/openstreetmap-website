@@ -4,6 +4,6 @@ class AddUserDateIndexToChangeset < ActiveRecord::Migration
   end
 
   def self.down
-    remove_index :changesets, [:user_id, :created_at], :name => "changesets_user_id_created_at_idx"
+    remove_index :changesets, :name => "changesets_user_id_created_at_idx"
   end
 end
