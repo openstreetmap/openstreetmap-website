@@ -197,7 +197,8 @@ class UserController < ApplicationController
       elsif User.authenticate(:username => email_or_display_name, :password => pass, :pending => true)
         flash.now[:error] = t 'user.login.account not active'
       elsif User.authenticate(:username => email_or_display_name, :password => pass, :suspended => true)
-        flash.now[:error] = t 'user.login.account suspended'
+        webmaster = link_to t('user.login.webmaster'), "mailto:webmaster@openstreetmap.org"
+        flash.now[:error] = t 'user.login.account suspended', :webmaster => webmaster
       else
         flash.now[:error] = t 'user.login.auth failure'
       end
