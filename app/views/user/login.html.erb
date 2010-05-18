@@ -43,6 +43,7 @@
             page[:openid_url].show
             page[:openid_url_hint].show
             page[:openid_submit].show
+            page[:remember_me_label].removeClassName("nowrap")
           end
         %>
         <%= openid_button "yahoo", "yahoo.com" %>
@@ -66,7 +67,7 @@
           </td>
         </tr>
         <tr>
-          <td class="fieldName nowrap"><label for="remember_me"><%= t 'user.login.remember' %></label></td>
+          <td class="fieldName nowrap" id="remember_me_label"><label for="remember_me"><%= t 'user.login.remember' %></label></td>
           <td width="100%"><%= check_box_tag "remember_me", "yes", false, :tabindex => 5 %></td>
         </tr>
       </table>
