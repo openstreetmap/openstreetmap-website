@@ -11,20 +11,77 @@
 aln: 
   activerecord: 
     attributes: 
+      diary_comment: 
+        body: Organ
       diary_entry: 
         language: Gjuha
+        latitude: Gjerësi
+        longitude: Gjatësi
         title: Titulli
+        user: Përdorues
+      friend: 
+        friend: Mik
+        user: Përdorues
       message: 
+        body: Organ
+        recipient: Marrës
         sender: Dërguesi
         title: Titulli
       trace: 
+        description: Përshkrim
+        latitude: Gjerësi
+        longitude: Gjatësi
         name: Emni
+        public: Publik
+        size: Madhësia
+        user: Përdorues
+        visible: I dukshëm
       user: 
+        active: Aktiv
+        description: Përshkrimi
+        display_name: Emri Display
         email: Email
         languages: Gjuhët
         pass_crypt: Fjalëkalimi
     models: 
+      acl: Lista Access Control
+      changeset: Changeset
+      changeset_tag: Changeset Tag
+      country: Vend
+      diary_comment: Koment Ditari
+      diary_entry: Ditari Hyrja
+      friend: Mik
       language: Gjuha
+      message: Mesazh
+      node: Nyjë
+      node_tag: Nyja Tag
+      notifier: Notifier
+      old_node: Nyja e Vjetër
+      old_node_tag: Tag Nyja e Vjetër
+      old_relation: Raporti i vjetër
+      old_relation_member: Anëtar Vjetër Marrëdhënie
+      old_relation_tag: Tag Vjetër Marrëdhënie
+      old_way: Old Way
+      old_way_node: Nyja e Vjetër Way
+      old_way_tag: Tag Old Way
+      relation: Lidhje
+      relation_member: Raporti Anëtar
+      relation_tag: Raporti Tag
+      session: Sesion
+      trace: Gjurmë
+      tracepoint: Trace Pika
+      tracetag: Trace Tag
+      user: Përdorues
+      user_preference: Përdoruesi Preferencë
+      user_token: Përdoruesi Token
+      way: Mënyrë
+      way_node: Nyja Way
+      way_tag: Rruga Tag
+  application: 
+    require_cookies: 
+      cookies_needed: Ju duket se kanë cookies aftësi të kufizuara - ju lutemi aktivizoni cookies në browserin tuaj para se të vazhdoni.
+    setup_user_auth: 
+      blocked: qasja juaj në API është bllokuar. Ju lutemi të log-in për ndërfaqe web për të mësuar më shumë.
   browse: 
     changeset: 
       changeset: "Ndryshim : {{id}}"
@@ -196,12 +253,36 @@ aln:
       way_history: Historija e Udhës
       way_history_title: "Historija e udhës: {{way_name}}"
   changeset: 
+    changeset: 
+      anonymous: Anonim
+      big_area: (I madh)
+      no_comment: (Asnjë)
+      no_edits: (Nuk ka redaktimet)
+      still_editing: (hala tu ndryshu)
+      view_changeset_details: Shikoni detajet changeset
     changeset_paging_nav: 
+      next: Tjetra »
+      previous: «Previous
       showing_page: Tu e shfaq faqen {{page}}
     changesets: 
+      area: Zonë
+      comment: Koment
       id: ID
+      saved_at: Ruhen në
+      user: Përdorues
     list: 
       description: Ndryshimet ma të fundit
+      description_bbox: Changesets brenda {{bbox}}
+      description_user: Changesets nga {{user}}
+      description_user_bbox: Changesets nga {{user}} në {{bbox}}
+      heading: Changesets
+      heading_bbox: Changesets
+      heading_user: Changesets
+      heading_user_bbox: Changesets
+      title: Changesets
+      title_bbox: Changesets brenda {{bbox}}
+      title_user: Changesets nga {{user}}
+      title_user_bbox: Changesets nga {{user}} në {{bbox}}
   diary_entry: 
     diary_comment: 
       comment_from: Komenti prej {{link_user}} në {{comment_created_at}}
@@ -216,36 +297,64 @@ aln:
       edit_link: Ndryshoje qët shënim
       hide_link: Mshefe qët shënim
       posted_by: U postu prej {{link_user}} më {{created}} n'{{language_link}}
+      reply_link: Përgjigje për këtë term
     edit: 
+      body: "Trupi:"
       language: "Gjuha:"
+      latitude: "Latitude:"
       location: "Lokacioni:"
+      longitude: "Gjatësi:"
+      marker_text: Vendndodhja Ditari hyrje
       save_button: Ruje
+      subject: "Titulli:"
+      title: hyrje Edit ditar
+      use_map_link: Harta e përdorimit
+    feed: 
+      all: 
+        description: shënimeve ditar nga përdoruesit e fundit të OpenStreetMap
+        title: hyra OpenStreetMap ditar
+      language: 
+        description: shënimeve ditar nga përdoruesit e fundit të OpenStreetMap në {{language_name}}
+        title: shënime në ditar OpenStreetMap {{language_name}}
+      user: 
+        description: shënimet e fundit OpenStreetMap ditar nga {{user}}
+        title: hyra OpenStreetMap ditar për {{user}}
     list: 
       in_language_title: Shënimet e Ditarit në {{language}}
+      new: Hyrja e re Ditari
+      new_title: Shkruaj një hyrje e re në ditarin tuaj përdorues
       newer_entries: Shënimet Ma Të Reja
       no_entries: Nuk ka shënime në ditar
       older_entries: Shënimet e Vjetra
+      recent_entries: "shënimet e fundit ditar:"
+      title: ditarë Përdorues &#39;
       user_title: Ditari i {{user}}
     location: 
       edit: Ndrysho
       location: "Lokacioni:"
       view: Kshyre
+    new: 
+      title: Hyrja e re Ditari
     no_such_entry: 
       body: Me na fal, por nuk ka shënim në ditar ose koment me id {{id}}. Ju lutem shihni drejtshkrimin, ose lidhja që keni kliku asht gabim.
       heading: "Nuk ka shënim me id: {{id}}"
+      title: Nuk ka hyrje të tilla ditar
     no_such_user: 
       body: Me na fal, po nuk ka anëtarë me emnin {{user}}. Ju lutem kshyrni shkronjat, ose nashta lidhja që keni trus është gabim.
       heading: Anëtari {{user}} nuk egziston
       title: Nuk ka anëtarë të tillë
     view: 
       leave_a_comment: Lene naj koment
+      login: Hyrje
       login_to_leave_a_comment: "{{login_link}} për me lon koment"
       save_button: Ruje
       title: ditari i {{user}} | {{title}}
       user_title: ditari i {{user}}
   export: 
     start: 
+      add_marker: Shto ni shenues en harte
       area_to_export: Zona për Eksport
+      embeddable_html: HTML e trupzueshme
       export_button: Eksporto
       export_details: T'dhanat e OpenStreetMap jan te licensume nën <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative Commons Attribution-ShareAlike 2.0 license</a>.
       format: Formati
@@ -281,6 +390,12 @@ aln:
         geonames: Lokacioni prej <a href="http://www.geonames.org/">GeoNames</a>
         osm_namefinder: "{{types}} prej <a href=\"http://gazetteer.openstreetmap.org/namefinder/\">OpenStreetMap Namefinder</a>"
         osm_nominatim: Lokacioni prej <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
+      types: 
+        cities: Qytetet
+        places: Places
+        towns: Qytetet
+    description_osm_namefinder: 
+      prefix: "{{distance}} {{direction}} e {{type}}"
     direction: 
       east: lindja
       north: veriu
@@ -310,52 +425,252 @@ aln:
       prefix: 
         amenity: 
           airport: Airoport
+          arts_centre: Art Qendra
           atm: Bankomat
+          bank: Banka
+          bar: Bar
+          bench: Stol
+          brothel: Shtëpi publike
+          bureau_de_change: Byroja Ndryshimi de
+          bus_station: Stacioni i Autobusave
+          cafe: Kafene
+          car_wash: Autolarje
           casino: Kazino
           cinema: Kinema
+          clinic: Klinikë
+          club: Klub
+          college: Kolegj
+          courthouse: Ndërtesë e gjyqit
+          crematorium: Krematorium
           dentist: Mjeku i dhomve
+          doctors: Mjekët
           dormitory: Konvikt
+          drinking_water: Pirja e ujit
           driving_school: Auto shkollë
           embassy: Ambasada
+          emergency_phone: Urgjencës Phone
+          ferry_terminal: Terminali i Trageteve
+          fire_hydrant: Zjarri hydrant
           fire_station: Zjarrëfiksat
+          fountain: Burim
+          fuel: Lëndë djegëse
+          gym: Qendra Kalitje fizike / palestër
+          hall: Sallë
+          health_centre: Qendër e Shëndetësore
+          hospital: Spital
           hotel: Hotel
+          hunting_stand: Gjuetia Stand
           ice_cream: Akullore
+          kindergarten: Kopshti i fëmijëve
+          library: Bibliotekë
+          market: Treg
+          marketplace: Treg
+          nightclub: Night Club
+          nursery: Fidanishte
           office: Zyrë
+          park: Park
+          parking: Parking
           pharmacy: Barnatore
+          place_of_worship: Vendi i Adhurimi
           police: Polici
+          post_office: Zyra Postare
+          preschool: Para-shkollor
           prison: Burg
+          pub: Pijetore
+          public_building: Publike Ndërtimi
+          public_market: Tregu Publik
+          restaurant: Restorant
+          retirement_home: Daljes në pension Home
+          sauna: Saunë
           school: Shkoll
+          shelter: Strehim
+          shop: Shitore
+          shopping: Pazar
+          supermarket: Supermarket
           taxi: Taxi
           telephone: Telefon Publik
           theatre: Teatër
+          toilets: Tualet
           university: Universitet
+          vending_machine: Automat me monedhë
+          veterinary: Kirurgji Veterinare
+          village_hall: Fshati Hall
+          waste_basket: Mbeturinat Shporta
+          wifi: WiFi Hyrje
           youth_centre: Qendër Rinore
+        boundary: 
+          administrative: Administrative kufitare
         building: 
+          apartments: Apartament Blloku
+          block: Ndërtimi Blloku
+          bunker: Bunker
+          chapel: Kishëz
           church: Kishë
+          city_hall: Bashkia
+          commercial: Komercial Ndërtimi
           dormitory: Konvikt
+          entrance: Ndërtimi Hyrja
+          faculty: Fakulteti Ndërtimi
+          farm: Farm Ndërtimi
+          flats: Banesa
+          garage: Garazh
+          hall: Sallë
+          hospital: Spitali Ndërtimi
           hotel: Hotel
+          house: Shpi
+          office: Zyra për ndërtim
+          public: Publike Ndërtimi
+          retail: Shitje me pakicë për ndërtim
+          school: Shkolla Ndërtimi
           shop: Shitore
+          stadium: Stadium
           store: Dyqan
+          terrace: Tarracë
+          tower: Kullë
+          university: Universiteti për ndërtim
+          "yes": Ndërtesë
+        highway: 
+          bridleway: Rruge pa osfallt
+          bus_guideway: Lane udhëzoi Autobuseve
+          bus_stop: Stacion i autobusave
+          byway: Rruge ansore
+          construction: Highway nën ndërtim
+          cycleway: Rruge per biciklla
+          distance_marker: Largësia Marker
+          emergency_access_point: Pike Hyrje e urgjencës
+          footway: Rrugë e kambsorve
+          ford: Fiord
+          gate: Portë
+          motorway: Autostradë
+          motorway_junction: Kryqzim per rruge te motorrave
+          path: Rrugë
+          pedestrian: Rruge per kambsore
+          platform: Platformë
+          primary: Rrugor primar
+          primary_link: Rruge kryesore
+          residential: Banimi
+          road: Rrugë
+          secondary: Rruge dytesore
+          secondary_link: Rruge dytesore
+          service: Rruge sherbimi
+          services: Autostradë Sherbime
+          steps: Hapat
+          stile: Hekur
+          tertiary: Rruge tericiere
+          track: Udhë
+          trail: Shteg
+          unclassified: Paklasifikuara Road
         historic: 
+          archaeological_site: Arkeologjik Faqes
+          battlefield: Fushë beteje
+          boundary_stone: Kufitare Stone
+          building: Ndërtesë
+          castle: Kala
           church: Kisha
           house: Shpi
+          icon: Ikonë
+          manor: Pronë e madhe
+          memorial: Përkujtim
+          mine: Imi
+          monument: Monument
           museum: Muze
+          ruins: Gërmadhe
+          tower: Kullë
+          wayside_cross: Buzë rruge Kryqi
+          wayside_shrine: Buzë rruge tempullin
+          wreck: Mbytet
         landuse: 
+          allotments: Ndarje
+          basin: Pellgut
+          brownfield: Brownfield Toka
+          cemetery: Varrezë
+          commercial: Zona Tregtare
+          conservation: Ruajtjen e
+          construction: Ndërtim
+          farm: Fermë
+          farmland: Bujqësore
+          farmyard: Oborr ferme
+          forest: Pyll
+          grass: Bar
+          greenfield: Greenfield Toka
+          industrial: Zona Industriale
+          landfill: Groposje
+          meadow: Livadh
           military: Zonë Ushtarake
+          mine: Imi
+          mountain: Mal
+          nature_reserve: Natyra Rezervat
           park: Park
+          piste: Piste
+          plaza: Shesh publik
+          quarry: Gurore
+          railway: Hekurudhor
+          recreation_ground: Zbavitje Ground
+          reservoir: Rezervuar
+          retail: Me pakicë
+          village_green: Fshati Green
+          vineyard: Vresht
+          wetland: Ligatinore
+          wood: Druri
         leisure: 
           beach_resort: hoteli në plazh
+          common: Toke e njejte
+          fishing: Zone peshkimi
           garden: Kopsht
+          golf_course: Kurs golfi
+          ice_rink: Patinazh
+          marina: Marine
           miniature_golf: Miniaturë Golf
+          nature_reserve: Rezervat natyror
           park: Park
+          pitch: Fushe e sporteve
+          playground: Shesh lojnash
+          recreation_ground: Toke per zbavitje
+          slipway: Mol
           sports_centre: Qendër Sportive
+          stadium: Stadium
           swimming_pool: Bazen
+          track: Udhe vrapimi
+          water_park: Park uji
         natural: 
+          bay: Gji
+          beach: Pllazh
+          cape: Kep
           cave_entrance: Shpella Hyrja
+          channel: Kanal
+          cliff: Shkamb
+          coastline: Vijë e bregdetit
+          crater: Krater
+          feature: Veçuni
+          fell: Moqal
+          fjord: Fiord
+          geyser: Gejzer
+          glacier: Akullnajë
+          heath: Shkurre
+          hill: Koder
           island: Ishull
+          land: Tokë
+          marsh: Knete
+          moor: Knete
           mud: Baltë
+          peak: Majë
+          point: Pike
+          reef: shkambinj nënujore
+          ridge: Kreshtë
+          river: Lum
+          rock: Gur
+          scree: Rrëpirë me gurë të rrzum
+          scrub: Kaçubë
+          shoal: Cekt
+          spring: Pranverë
+          strait: Ngushticë
           tree: Pemë
+          valley: Lugaje
           volcano: Vullkan
+          water: Ujë
+          wetland: Lagunat
+          wetlands: Lagunat
+          wood: Dru
         place: 
           airport: Aeroport
           city: Qyteti
@@ -366,63 +681,193 @@ aln:
           house: Shtepi
           houses: Shtepi
           island: Ishull
+          islet: Ishull
+          locality: Lokalitet
+          moor: Knete
           municipality: Komuna
           postcode: Post kodi
           region: Regjioni
           sea: Deti
           state: Shteti
+          subdivision: Nenndamje
+          suburb: Periferi
           town: Veni
+          unincorporated_area: Zone e painkorpuruar
           village: Fshati
+        railway: 
+          abandoned: Braktisur hekurudhave
+          construction: Hekurudhave në ndërtim
+          funicular: Me litar hekurudhave
+          halt: Trajnimi Stop
+          historic_station: Stacioni hekurudhor Historike
+          junction: Hekurudhave kryqëzim
+          level_crossing: Kalim në nivel
+          monorail: Hekurudhë me një shinë
+          narrow_gauge: Hekurudhave ngushtë matës
+          platform: Platforma e hekurudhave
+          preserved: Ruhet hekurudhave
+          spur: Hekurudhave nxisë
+          subway: Stacioni i metrosë
+          subway_entrance: Metro Hyrja
+          switch: Hekurudhave Pikët
+          tram: Tramvajëve
+          tram_stop: Tramvaj Stop
         shop: 
+          apparel: Veshmbathje Shop
           bakery: Dyqan buke
+          beauty: Bukuri Shop
+          beverages: Pijet Shop
+          bicycle: Biciklete Shop
           books: Librari
           car: Shitore e Kerreve
+          charity: Bamirësi Shop
+          chemist: Farmacist
+          clothes: Shitore e Teshave
           computer: Shitore e kompjuterave
+          confectionery: Shop pasticerie
+          convenience: Komoditet Shitore
+          copyshop: Copy Shop
+          cosmetics: Kozmetikë Shop
+          department_store: Departamenti Shitore
+          doityourself: Për ta bërë vetë
+          drugstore: Farmaci
+          dry_cleaning: Pastrimi kimik
+          electronics: Elektronikë Shop
+          fashion: Moda Shop
+          fish: Shitore e Peshqve
+          florist: Luleshitës
+          food: Shitore Ushqimore
+          furniture: Mobilje
           gallery: Galeri
+          general: Përgjithshëm Shitore
           gift: Shitore e Dhuratave
+          greengrocer: Shitës frutash
+          grocery: Dyqan ushqimore
+          hairdresser: Floktar
+          insurance: Sigurim
+          jewelry: Bizhuteri Shop
+          laundry: Lavanderi
+          mall: Shëtitore
+          market: Treg
+          mobile_phone: Shop Mobile Phone
+          newsagent: Stendë gazetash
+          optician: Syzabërës
           pet: Shitore e kafshëve
+          salon: Sallon
+          sports: Sport Dyqani
+          supermarket: Supermarket
+          toys: Shitore e Lojnave
           travel_agency: Agjenci Turistike
         tourism: 
+          alpine_hut: Vikendice
           artwork: Puna artistike
+          attraction: Qef
           bed_and_breakfast: Bujtin dhe Mengjes
           cabin: Kabine
           camp_site: Ven per kamping
+          caravan_site: Karavan i faqes
+          chalet: Shpi
+          guest_house: Shpi e musafirve
           hostel: Bujtine
           hotel: Hotel
           information: Informacione
+          lean_to: Strehore
           motel: Motel
           museum: Muze
           picnic_site: Vend per Piknik
+          theme_park: Park i lojnave
           valley: Lugine
+          viewpoint: Pike shikimi
           zoo: Kopsht Zoologjik
         waterway: 
+          boatyard: Kantier detar
+          canal: Kanal
+          dam: Pendë
+          derelict_canal: Kanali i braktisur
+          ditch: Hendek
+          dock: Dok
+          drain: Kullon
+          lock: Bllokoj
+          lock_gate: Mbylle Porta
+          mooring: Ankorim
+          rapids: Pragje të lumit
           river: Lum
+          stream: Lumë
+          water_point: Pika e ujit
+          waterfall: Ujëvarë
+          weir: Pendë
+  javascripts: 
+    map: 
+      base: 
+        cycle_map: Cikli Harta
+        noname: Noname
+    site: 
+      edit_disabled_tooltip: Zoom në hartë për të redaktuar
+      edit_tooltip: Edit Harta
+      edit_zoom_alert: Ju duhet zoom në të redaktoni hartën
+      history_disabled_tooltip: Zoom në për të parë redaktimet për këtë zonë
+      history_tooltip: Shiko redaktimet për këtë zonë
+      history_zoom_alert: Ju duhet zoom in për të parë redaktimet për këtë zonë
   layouts: 
+    copyright: Copyright & License
+    donate: OpenStreetMap Mbështetja nga {{link}} në Fondin Hardware Upgrade.
+    donate_link_text: dhuruar
     edit: Ndrysho
+    export: Eksport
+    export_tooltip: Harta dhënat Eksporti
+    gps_traces: GPS Gjurmët
+    gps_traces_tooltip: Manage gjurmë GPS
+    help_wiki: Ndihmë & Wiki
+    help_wiki_tooltip: Ndihmë & Wiki faqe interneti për projektin
     history: Historia
+    home: shtëpi
+    home_tooltip: Shkoni në shtëpi vend
+    inbox: postë ({{count}})
     inbox_tooltip: 
       one: Kutia jote ka 1 mesazh të palexume
       other: Kutia jote ka {{count}} mesazhe të palexume
       zero: Kutia jote nuk ka asnjë mesazh të palexume
+    intro_1: OpenStreetMap është një hartë e lirë editable e tërë botës. Kjo është bërë nga njerëzit si ju.
     intro_2: OpenStreetMap ta mundëson ty me shiku, ndryshu dhe përdor të dhana gjeografike në një mënyrë bashkëpunuese prej kudo në Tokë.
+    intro_3: OpenStreetMap e pret është i mbështetur mirë nga {{ucl}} dhe {{bytemark}}. mbështetësit e tjerë të projektit janë të shënuara në {{partners}}.
     intro_3_partners: wiki
+    license: 
+      title: Të dhënat OpenStreetMap është i liçensuar nën Creative Commons Attribution-Share njësoj License 2,0 Generic
+    log_in: log in
+    log_in_tooltip: Hyni që me një llogari ekzistuese
     logo: 
       alt_text: logo e OpenStreetMap
+    logout: logout
+    logout_tooltip: Log out
     make_a_donation: 
       text: Bëni një donacion
+      title: OpenStreetMap Mbështetje me një donacion monetar
+    news_blog: Lajme blog
+    news_blog_tooltip: blog Lajmet rreth OpenStreetMap, të dhëna pa pagesë gjeografike, etj
     osm_offline: Baza e të dhanave të OpenStreetMap niher për niher jasht funksioni derisa disa punë themelore po kryhen në bazën e të dhanave.
+    osm_read_only: Baza e të dhënave OpenStreetMap është aktualisht në mënyrë read-only ndërsa thelbësor bazës së të dhënave mirëmbajtjen puna është kryer.
+    shop: Dyqan
+    shop_tooltip: Dyqan me mallra të markës OpenStreetMap
     sign_up: regjistrohu
+    sign_up_tooltip: Krijo një llogari për përpunim
+    sotm: Ejani në Konferencën 2009 OpenStreetMap, Shteti i Harta, 10-12 korrik në Amsterdam!
+    tag_line: Free Harta Wiki Botërore
+    user_diaries: Përdoruesi Diaries
+    user_diaries_tooltip: përdorues ditaret Shiko
     view: Kshyr
     view_tooltip: Kshyre hartën
     welcome_user: Mirë se erdhe, {{user_link}}
+    welcome_user_link_tooltip: përdorues juaj faqe
   license_page: 
     foreign: 
       english_link: origjinal anglisht
       text: Në ni ngjarje të ni konflitkti me faqe e përkthyme dhe {{english_original_link}}, Faqja anglisht ka përparsi
       title: Rreth kti përkthimi
+    legal_babble: " <h2> Copyright </h2>\n<p>\n   OpenStreetMap është <i> dhënat e hapur </ i>, të licencuar sipas <a\n   href = \"http://creativecommons.org/licenses/by-sa/2.0/\"> Creative\n   Commons Attribution-ShareAlike 2,0 </ a licencës> (CC-BY-SA).\n</ P>\n<p>\n  Ju jeni të lirë ta kopjoni, shpërndani, përcjell dhe përshtatur hartat tona\n  dhe të dhënat, për aq kohë sa ju e kreditit OpenStreetMap e saj\n  kontribuesve. Nëse ju ndryshoni ose me ndërtimin e hartave tona ose të dhëna, ju\n  mund të shpërndani rezultat vetëm në bazë të licencës të njëjtën.\n  <Plotë një\n  href = \"http://creativecommons.org/licenses/by-sa/2.0/legalcode\"> ligjore\n  <Kod / a> shpjegon të drejtat tuaja dhe të përgjegjësive.\n</ P>\n\n> <h3> Si të kreditit OpenStreetMap </ h3\n<p>\n  Nëse jeni duke përdorur harta imazhe OpenStreetMap, ne kërkojmë që\n  kreditit tuaj lexon të paktën \"© OpenStreetMap\n  kontribuesit, CC-BY-SA \". Nëse jeni duke përdorur të dhëna vetëm në hartë,\n  ne kerkojme \"Organizimi i të dhënave © kontribuesit OpenStreetMap,\n  CC-BY-SA \".\n</ P>\n<p>\n  Ku të jetë e mundur, duhet të jetë OpenStreetMap hyperlinked në <a\n  href = \"http://www.openstreetmap.org/\"> http://www.openstreetmap.org/ </ a>\n  dhe CC-BY-SA për <a\n  href = \"http://creativecommons.org/licenses/by-sa/2.0/\"> http://creativecommons.org/licenses/by-sa/2.0/ </ a>. Nëse\n  ju jeni duke përdorur një të mesme, ku lidhjet nuk janë të mundshme (p.sh. një\n  shtypura punë), ne ju sugjerojmë lexuesit tuaj të drejtpërdrejtë të\n  www.openstreetmap.org (ndoshta duke zgjeruar\n  'OpenStreetMap' në këtë adresë të plotë) dhe të\n  www.creativecommons.org.\n</ P>\n\n<h3> Gjetja <më shumë / h3>\n<p>\n  Lexo më shumë lidhje me përdorimin e të dhënave tona në <a\n  href = \"http://wiki.openstreetmap.org/wiki/Legal_FAQ\"> Ligjore\n  FAQ </ a>.\n</ P>\n<p>\n  OSM janë kontribuesit kujtoi kurrë për të shtuar të dhënat nga ndonjë\n  Burime copyright (p.sh. Google Maps apo të shtypura harta) pa\n  lejen shprehimisht nga mbajtësit të drejtën e autorit.\n</ P>\n<p>\n  Edhe pse OpenStreetMap është e hapur të dhëna, ne nuk mund të sigurojë një\n  pa-e-ngarkuar hartë API për zhvilluesit e palëve të treta.\n\n  Shiko <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\"> tonë API Perdorimi Politika </ a>,\n  <a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\"> tjegull Perdorimi Politika </ a>\n  dhe <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\"> Nominatim Perdorimi Politika </ a>.\n</ P>\n\n<h3> kontribuesit tona </ h3>\n<p>\n  licencë CC-BY-SA jonë kërkon që ju të \"japin origjinal\n  Author kredi të arsyeshme për të mesëm ose të thotë Ti je\n  shfrytëzuar \". Individuale mappers OSM nuk kërkojnë një\n  kreditit mbi dhe më lart që të \"OpenStreetMap\n  kontribuesit \", por kur të dhënat nga një hartës kombëtare\n  agjenci ose burim kryesor ka qenë i përfshirë në\n  OpenStreetMap, ai mund të jetë e arsyeshme për kredi nga ana e tyre direkt\n  riprodhimin e kreditit e tyre apo duke i lidhur me të në këtë faqe.\n</ P>\n\n<! -\nInformacion për redaktorët faqe\n\nNë vijim lista vetëm ato organizata që kërkojnë pushtet\nsi kusht për të dhënat e tyre duke u përdorur në OpenStreetMap. Kjo nuk është një\nkatalogun e përgjithshme të importit, dhe nuk duhet të përdoret vetëm kur\natribuohet është e nevojshme në përputhje me licencën e importuar\ntë dhënave.\n\nÇdo Futjet këtu duhet të diskutohet me sysadmins OSM parë.\n->\n\nid=\"contributors\"> <ul\n   <li> <strong> Australi </ strong>: Përmban të dhëna të bazuara periferi\n   në Zyra Australiane e Statistikave të dhënave. </ li>\n   <li> <strong> Kanada </ strong>: Përmban të dhëna nga\n   GeoBase ®, GeoGratis (© Departamenti i Natyrore\n   Burimet Kanada), CanVec (Departamenti i Natyrore ©\n   Burimet Kanada), dhe StatCan (Divizioni Gjeografia,\n   Statistika Kanada). </ Li>\n   <li> <strong> Zelanda e Re </ strong>: Përmban të dhëna me burim nga\n   Zelanda e Re Toka e informacionit. Crown Copyright rezervuara. </ Li>\n   <li> <strong> Mbretëria e Bashkuar </ strong>: Përmban të pajisjeve\n   Anketa të dhënat © Crown copyright bazës së të dhënave dhe të drejtë\n   2010. </ Li>\n</> Ul\n\n<p>\n  Përfshirja e të dhënave në OpenStreetMap nuk do të thotë që origjinal\n  dhënave miraton ofrues OpenStreetMap, ofron çdo garanci ose\n  pranon ndonjë përgjegjësi.\n</ P>"
     native: 
       mapping_link: Fillo hatrografimin
       native_link: THIS_LANGUAGE_NAME_HERE verzion
+      text: Ju po shihni versioni në gjuhën shqipe të faqes autorit. Ju mund të shkoni në {{native_link}} të kësaj faqe, ose ju mund të ndaluar leximin në lidhje me të drejtën e autorit dhe {{mapping_link}}
       title: Rreth ksaj faqeje
   message: 
     delete: 
@@ -430,17 +875,27 @@ aln:
     inbox: 
       date: Data
       from: Prej
+      my_inbox: postë e mia
       no_messages_yet: Ju nuk keni asnjë mesazh. Pse nuk po llidheni me disa prej {{people_mapping_nearby_link}}?
+      outbox: Dalje
+      people_mapping_nearby: njerëzit pranë hartës
       subject: Tema
+      title: Inbox
       you_have: I ki {{new_count}} mesazhe të reja dhe {{old_count}} mesazhe të vjetra
+    mark: 
+      as_read: Mesazhi u bo si i lexum
+      as_unread: Mesazhi u bo si i palexum
     message_summary: 
       delete_button: Fshije
       read_button: Bone si të lexume
       reply_button: Ktheje
       unread_button: Bone si të palexume
     new: 
+      back_to_inbox: Kthehu në postë
+      body: Organ
       limit_exceeded: Ju keni dërguar shumë mesazhe kohët e fundit. Ju lutem prisni një kohë para se të dërgoni ndonjë tjetër.
       message_sent: Mesazhi u dërgu
+      send_button: Dërgo
       send_message_to: Qoje një mesazh të ri te {{name}}
       subject: Titulli
       title: Qo mesazh
@@ -450,17 +905,30 @@ aln:
       title: Nuk ka ksi mesazhi
     no_such_user: 
       body: Na vjen keq nuk ka asnjë përdorues me atë emër.
+      heading: S'ka ksi shfrytëzuesi
+      title: S'ka ksi shfrytëzuesi
     outbox: 
       date: Data
+      inbox: postë
+      my_inbox: Im {{inbox_link}}
       no_sent_messages: Ju nuk keni dërgu asnjë mesazh. Pse nuk po llidheni me disa prej {{people_mapping_nearby_link}}?
+      outbox: Dalje
+      people_mapping_nearby: njerëzit pranë hartës
       subject: Titulli
+      title: Dalje
+      to: Te
       you_have_sent_messages: I ki {{count}} mesazhe të dërgume
     read: 
+      back_to_inbox: Kthehu në postë
+      back_to_outbox: Kthehu në Dalje
       date: Data
       from: Prej
       reading_your_messages: Tu i lexu mesazhet e tua
       reading_your_sent_messages: Tu i lexue mesazhet e dërgume
+      reply_button: Përgjigju
+      subject: Titulli
       title: Lexo mesazhin
+      to: Te
       unread_button: Bone si të palexum
       wrong_user: Ju keni hy si `{{user}}' por mesazhi që po doni me lexu nuk u dërgu për ose nga ai anëtar. Ju lutem hyni si anëtari korrekt nëse doni me lexu atë mesazh.
     reply: 
@@ -469,25 +937,51 @@ aln:
       delete_button: Fshij
   notifier: 
     diary_comment_notification: 
+      footer: Ju muni gjithashtu me lexu komentin te {{readurl}} dhe ju muni me komentu te {{commenturl}} apo me u përgjigj te {{replyurl}}
+      header: "{{from_user}} ka komentu në shënimin tond të fundit në ditar tek OpenStreetMap me titullin {{subject}}:"
       hi: Tung {{to_user}},
+      subject: "[OpenStreetMap] {{user}} ka komentu në shënimin tond të ditarit"
     email_confirm: 
       subject: "[OpenStreetMap] Konfirmoje email adresën tonde"
     email_confirm_html: 
       click_the_link: Nëse ky je ti, ju lutem trusni lidhjen e mëposhtme për me konfirmu ndryshimin.
       greeting: Tung,
+      hopefully_you: Dikush (shpresojmë se ju), do të doja të ndryshuar adresën e-mail e tyre gjatë në {{server_url}} në {{new_address}}.
     email_confirm_plain: 
+      click_the_link: Nëse ky je ti, ju lutem trusni lidhjen e mëposhtme për me konfirmu ndryshimin.
       greeting: Tung,
+      hopefully_you_1: Dikush (shpresojmë se ju), do të doja të ndryshuar adresën e tyre të gjatë në adresën
+      hopefully_you_2: "{{server_url}} në {{new_address}}."
     friend_notification: 
       befriend_them: Ju muni gjithashtu me i shtu ata si shokë tek {{befriendurl}}.
       had_added_you: "{{user}} ju ka shtu juve si një shok në OpenStreetMap."
       see_their_profile: Ju muni me pa profilin e tyre tek {{userurl}}.
       subject: "[OpenStreetMap] {{user}} ju ka shtu juve si një shok"
     gpx_notification: 
+      and_no_tags: dhe nuk tags.
+      and_the_tags: "dhe të mëposhtme tags:"
+      failure: 
+        failed_to_import: "nuk arriti të importit. Këtu është gabim:"
+        more_info_1: Më shumë informacion në lidhje me dështimet e importit te re dhe si për të shmangur
+        more_info_2: "ato mund të gjenden në:"
+        subject: "[OpenStreetMap] te re dështimit Import"
       greeting: Tung,
+      success: 
+        loaded_successfully: ngarkuar me sukses me {{trace_points}} nga një jetë e mundur {{possible_points}} piket.
+        subject: "[OpenStreetMap] Import sukses te re"
+      with_description: me përshkrimin e
+      your_gpx_file: Ajo duket si te re dosjen tuaj
+    lost_password: 
+      subject: "[OpenStreetMap] kërkesës Password reset"
     lost_password_html: 
+      click_the_link: Nëse kjo është që ju, ju lutemi klikoni lidhjen më poshtë për të rivendosni fjalëkalimin tuaj.
       greeting: Tung,
+      hopefully_you: Dikush (ndoshta ju) ka kërkuar një fjalëkalim për t&#39;u rivendosur në llogarinë openstreetmap.org këtë adresë email-i.
     lost_password_plain: 
+      click_the_link: Nëse kjo është që ju, ju lutemi klikoni lidhjen më poshtë për të rivendosni fjalëkalimin tuaj.
       greeting: Tung,
+      hopefully_you_1: Dikush (ndoshta ju) ka kërkuar për fjalëkalimin që të rishkruhet në këtë
+      hopefully_you_2: email adresa openstreetmap.org llogari.
     message_notification: 
       footer1: Ju gjithashtu mund të lexoni mesazhet në {{readurl}}
       footer2: dhe ju muni me ju përgjigj tek {{replyurl}}
@@ -498,53 +992,190 @@ aln:
       subject: "[OpenStreetMap] Konfirmoje email adresën tonde"
     signup_confirm_html: 
       click_the_link: Nëse ky je ti, mirë se erdhët! Ju lutem trusni lidhjen e maposhtme për me konfirmu atë llogari dhe lexoni ma shumë informata rreth OpenStreetMap
+      current_user: "Lista e përdoruesve të tanishëm në kategori, në bazë të në botë ku ata janë, është në dispozicion nga <a href=\"http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region\">Kategoria: Users_by_geographical_region</a> ."
+      get_reading: Get lexuar në lidhje me OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Beginners%27_Guide">në wiki</a> , të arrijë me të rejat e fundit nëpërmjet <a href="http://blog.openstreetmap.org/">blog OpenStreetMap</a> ose <a href="http://twitter.com/openstreetmap">Twitter</a> , ose të kërkoni nëpër OpenStreetMap themeluesit Steve Bregu <a href="http://www.opengeodata.org/">OpenGeoData blog</a> për historinë në vazo të projektit, e cila ka <a href="http://www.opengeodata.org/?cat=13">podcast për të dëgjuar</a> gjithashtu!
+      greeting: Hi there!
+      hopefully_you: Dikush (shpresojmë se ju), do të doja të krijuar një llogari të gjatë në
       introductory_video: Ju muni me shiku një {{introductory_video_link}}.
+      more_videos: Ka {{more_videos_link}}.
       more_videos_here: ma shumë video këtu
+      user_wiki_page: "Është e rekomanduar që ju të krijoni një përdorues faqe wiki, i cili përfshin tags kategori duke vënë në dukje se ku je, si për shembull <a href=\"http://wiki.openstreetmap.org/wiki/Category:Users_in_London\">[[Category: Users_in_London]]</a> ."
       video_to_openstreetmap: video e prezantimit të OpenStreetMap
       wiki_signup: Ju mund të dëshironi të <a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page">regjistroheni në OpenStreetMap wiki</a>.
     signup_confirm_plain: 
       blog_and_twitter: "Njoftohu me lajmet ma të fundit nëpërmjet blogut të OpenStreetMap ose Twitter-it:"
       click_the_link_1: Nëse ky je ti, mirë se erdhët! Ju lutem trusni lidhjen e maposhtme për me konfirmu
       click_the_link_2: llogarin tonde dhe lexo ma shumë informata për OpenStreetMap.
+      current_user_1: Lista e përdoruesve të tanishëm në kategori, në bazë të ku në botë
+      current_user_2: "ata janë, është i vlefshëm nga:"
+      greeting: Hi there!
+      hopefully_you: Dikush (shpresojmë se ju), do të doja të krijuar një llogari të gjatë në
       introductory_video: "Këtu ju muni me shiku një video hyrëse për në OpenStreetMap:"
       more_videos: "Ma shumë video keni këtu:"
+      opengeodata: "OpenGeoData.org është blog OpenStreetMap themelues Steve Bregu, dhe ajo ka podcast shumë:"
       the_wiki: "Lexo n'wiki rreth OpenStreetMap:"
+      user_wiki_1: Është e rekomanduar që ju të krijoni një përdorues faqe wiki, i cili përfshin
+      user_wiki_2: "tags kategori duke vënë në dukje se ku je, si për shembull [[Category: Users_in_London]]."
       wiki_signup: "Ti munesh gjithashtu me u regjistru në OpenStreetMap wiki:"
   oauth: 
     oauthorize: 
+      allow_read_gpx: lexoni privat tuaj GPS gjurmë.
+      allow_read_prefs: lexoni preferencat tuaj të përdoruesit.
+      allow_to: "Lejoni klientin të aplikimit:"
+      allow_write_api: modifikimin e hartes.
+      allow_write_diary: krijojnë të hyra ditar, komentet dhe të bëni miq të rinj.
+      allow_write_gpx: GPS upload gjurmë.
+      allow_write_prefs: ndryshuar parapëlqimet tuaj të përdoruesit.
       request_access: Aplikacioni {{app_name}} po kërkon qasje në llogarinë tonde. Ju lutem kshyrne nëse doni që aplikacioni me i pas kto mundësi. Ju muni me zgjedh sa ma shumë ose sa ma pak që të doni.
+    revoke: 
+      flash: Ju keni revokuar shenjë për {{application}}
   oauth_clients: 
     create: 
       flash: Informatat jon regjistru me sukses.
+    destroy: 
+      flash: Shkatërruar kërkesë e klientit regjistrimit
+    edit: 
+      submit: Redaktoj
+      title: Redakto kërkesën tuaj
     form: 
+      allow_read_gpx: lexo privat GPS gjurmë e tyre.
+      allow_read_prefs: lexoni preferencat e tyre të përdoruesit.
       allow_write_api: ndryshoje hartën.
+      allow_write_diary: krijojnë të hyra ditar, komentet dhe të bëni miq të rinj.
+      allow_write_gpx: GPS upload gjurmë.
+      allow_write_prefs: ndryshuar parapëlqimet e tyre të përdoruesit.
+      callback_url: Callback URL
       name: Emni
+      requests: "Kërkesë të drejtat e mëposhtme nga përdoruesit:"
       required: E kërkume
+      support_url: Asistenca URL
+      url: URL Kryesore Aplikimi
+    index: 
+      application: Emri Aplikimi
+      issued_at: Lëshuar në
+      list_tokens: "Argumentet e mëposhtme janë lëshuar për aplikimet në emrin tuaj:"
+      my_apps: Aplikime Klienti im
+      my_tokens: Aplikimet e mia i Autorizuar
+      no_apps: A keni një aplikim që ju do të doja të regjistruar për të përdorur me ne duke përdorur {{oauth}} standarde? Ju duhet të regjistroheni kërkesën tuaj para se ajo mund të bëjë kërkesë OAuth për këtë shërbim.
+      register_new: Regjistroje aplikacionin tond
+      registered_apps: "Ju keni aplikimet e mëposhtme klientit të regjistruar:"
+      revoke: Tërheq!
+      title: Detajet e mia OAuth
     new: 
       submit: Regjistrohu
       title: Regjistroje një aplikacion të ri.
+    not_found: 
+      sorry: Na vjen keq, se {{type}} nuk mund të gjendet.
+    show: 
+      access_url: "URL Qasja Shenjë:"
+      allow_read_gpx: lexo privat GPS gjurmë e tyre.
+      allow_read_prefs: lexoni preferencat e tyre të përdoruesit.
+      allow_write_api: modifikimin e hartes.
+      allow_write_diary: krijojnë të hyra ditar, komentet dhe të bëni miq të rinj.
+      allow_write_gpx: GPS upload gjurmë.
+      allow_write_prefs: ndryshuar parapëlqimet e tyre të përdoruesit.
+      authorize_url: "Authorise URL:"
+      edit: Edit Details
+      key: "Konsumatorit kryesore:"
+      requests: "Kërkuar të drejtat e mëposhtme nga përdoruesit:"
+      secret: "Konsumatorit Sekret:"
+      support_notice: Ne mbështesim HMAC-SHA1 (rekomandohet) si tekst i thjeshtë në mënyrë SSL.
+      title: Detajet OAuth për {{app_name}}
+      url: "URL Kërkesë Shenjë:"
+    update: 
+      flash: Përditësuar më të dhënat e klientit me sukses
   site: 
     edit: 
+      anon_edits_link_text: Find out pse kjo është e rastit.
       flash_player_required: Ju duhet me pas Flash player për me përdor Potlatch, Flash editorin e OpenStreetMap. Ju muni <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">me marr Flash Player nga Adobe.com</a>. <a href="http://wiki.openstreetmap.org/wiki/Editing">Disa mënyra të tjera</a> janë të mundshme për me editu OpenStreetMap.
+      not_public: Ju nuk keni vendosur redaktimet e juaj të jetë publike.
+      not_public_description: Ju nuk mund të redaktoni hartën e nëse ju një gjë të tillë. Ju mund të vendosni redaktimet e tuaja si publik nga {{user_page}} tuaj.
+      potlatch_unsaved_changes: Ju keni para shpëtimit të ndryshimeve. (Për të ruajtur në Potlatch, ju duhet të asnjërën mënyrë e tanishme ose me pikën e, në qoftë se redaktimi në mënyrë të jetojnë, ose klikoni ruani në qoftë se ju keni një buton të shpëtuar.)
+      user_page_link: faqe përdorues
     index: 
       js_1: Ju jeni tuj e përdor naj shfletues që nuk e përkrah JavaScript, ose ju e keni ndalu JavaScript.
+      js_2: OpenStreetMap përdor Java skriptet për planet e saj të rrëshqitshëm.
+      js_3: Ju mund të dëshironi të provoni <a href="http://tah.openstreetmap.org/Browse/">Faqja @ tjegull shfletuesin statike pllaka</a> në qoftë se ju nuk jeni në gjendje të mundësojë JavaScript.
       license: 
         license_name: Creative Commons Attribution-Share Alike 2.0
+        notice: E licencume nëpërmjet {{license_name}} licenca prej {{project_name}} dhe kontribuuesve të tij.
         project_name: Projekti OpenStreetMap
+      permalink: Permalink
+      shortlink: Shortlink
     key: 
+      map_key: Harta kryesor
+      map_key_tooltip: Harta kyç për mapnik vizatimin në këtë nivel zoom
       table: 
         entry: 
+          admin: kufitare administrative
+          allotments: Ndarje
+          apron: 
+            - aeroportit Aeroporti
+            - terminal
+          bridge: Shtresë e jashtme e Zi = urë
+          bridleway: Bridleway
+          brownfield: site Brownfield
+          building: ndërtimin e rëndësishme
+          byway: I parrahur
+          cable: 
+            - teleferik
+            - heqë karrige
+          cemetery: Varrezë
           centre: Qendër Sportive
+          commercial: Zona Tregtare
+          common: 
+            - I përbashkët
+            - livadh
+          construction: Rrugët në ndërtim e sipër
+          cycleway: Cycleway
+          destination: qasje Destinacioni
           farm: Ferm
+          footway: Këmbësore
+          forest: Pyll
+          golf: fushë e golfit
+          heathland: Heathland
           industrial: Zonë Industriale
           lake: 
             - Liqe
+            - rezervuar
           military: Zonë Ushtarake
+          motorway: Autostradë
+          park: Park
+          permissive: qasje tolerant
+          pitch: katran Sport
+          primary: Udhë kryesore
+          private: qasje privat
+          rail: Hekurudhor
+          reserve: rezervë Natyra
+          resident: Zonë Rezidenciale
+          retail: zonë me pakicë
+          runway: 
+            - Aeroporti i pistës
+            - taxiway
           school: 
             - Shkollë
+            - universitet
+          secondary: rrugë e mesme
+          station: Stacion hekurudhor
+          subway: Metro
+          summit: 
+            - Samiti i
+            - pik
+          tourist: tërheqje Turistike
+          track: Udhë
+          tram: 
+            - hekurudhor Lehta
+            - tramvaj
+          trunk: rrugë nacionale
+          tunnel: tunel zorrë thye =
           unclassified: Udhë e paklasifikume
+          unsurfaced: rrugë Unsurfaced
+          wood: Druri
+        heading: Legjenda për z{{zoom_level}}
     search: 
       search: Kërko
+      search_help: "shembuj: &#39;Alkmaar&#39;, &#39;Regent Street, Cambridge&#39;, &#39;CB2 5AQ&#39;, ose &#39;zyrat e postës pranë Lünen&#39; <a href='http://wiki.openstreetmap.org/wiki/Search'>shembuj më shumë ...</a>"
+      submit_text: Shkoj
       where_am_i: Ku jom une?
       where_am_i_title: Përshkruje lokacionin e tanishëm tuj e përdor makinën kërkuese
     sidebar: 
@@ -651,6 +1282,7 @@ aln:
       identifiable: E identifikueshme (shfaqet në listën e të dhanave, pikat i urdhëron me orë)
       private: Private (ndahen vetem si pika anonime të rendituna)
       public: Publike (shfaqet ne listen e të dhanave si e padukshme, pikat e rendituna)
+      trackable: në gjendje për të gjurmuar (ndahet vetëm si anonim, ka urdhëruar pikë me timestamps)
   user: 
     account: 
       current email address: "Email adresa e tanishme:"
@@ -680,6 +1312,7 @@ aln:
         heading: "Ndryshime publike:"
       public editing note: 
         heading: Duke ndryshue publikisht
+        text: Niher për niher ndryshimet e juaja janë anonime dhe njerëzit nuk mund të ju dërgojnë mesazhe apo shohin vendndodhjen tuaj. Për të treguar atë që e keni edituar dhe lejojnë njerëzit të lidhen me ju nëpërmjet internetit, kliko butonin më poshtë. <b> Që nga ndryshimi 0,6 API, vetëm përdoruesit e publikut mund të redaktoni të dhënat hartë </ b>. (<a Href="http://wiki.openstreetmap.org/wiki/Anonymous_edits"> gjeni se pse </ a>). <ul> <li> Adresa juaj e emailit nuk do të zbulohet duke u bërë publik. </ Li > <li> Ky veprim nuk mund të kthehet dhe të gjithë përdoruesit e rinj janë tashmë publik nga default. </ li> </ ul>
       replace image: Ndryshoje imazhin e tanishëm
       return to profile: Kthehu te profili
       save changes button: Ruaj Ndryshimet
@@ -703,6 +1336,7 @@ aln:
       flash success: Gjitha ndryshimet tuja janë publike tash, edhe tash t'lejohet me ndryshue
     list: 
       confirm: Konfirmo Anëtarët e Selektum
+      empty: Asni perputhje e perdoruesve nuk asht gjetun
       heading: Perdoruesit
       hide: Mshefi Perdorust e Zgjedhun
       showing: 
@@ -713,7 +1347,7 @@ aln:
       title: Perdoruesit
     login: 
       account not active: Na vjen keq, akonti juej nuk asht hala aktiv<br /> Ju lutemi klikoni në linkun e dërguem në email për me aktivizu akountin tuej.
-      account suspended: Me na fal, por llogaria juaj u suspendu për shkak të aktivitetit të dyshimt.<br />Ju lutem kontaktoni <a href="mailto:webmaster@openstreetmap.org">webmaster-in</a> nëse doni ta diskutoni këtë
+      account suspended: Me na fal, por llogaria juaj u suspendu për shkak të aktivitetit të dyshimt.<br />Ju lutem kontaktoni {{webmaster}} nëse doni ta diskutoni këtë
       auth failure: Na vjen keq, smunem me ju kyc me ato detaje.
       create_account: krijo ni akount
       email or username: "Email Adresa ose Username:"
@@ -744,6 +1378,7 @@ aln:
       confirm email address: "Konfirmo Adresën e Emailit:"
       confirm password: "Konfirmo fjalëkalimin:"
       contact_webmaster: Ju lutna kontaktoni <a href="mailto:webmaster@openstreetmap.org">webmasterin</a> per më caktu ni akount që të ju krijohet - na do të merremi me kërkesën sa ma shpejt që tjet e mundshme.
+      continue: Vazhdo
       display name: "Emni i pamshem:"
       display name description: Emni jot publik. Ju muni me ndrru ma von në preferencat e tua.
       email address: "Email Adresa:"
@@ -777,15 +1412,21 @@ aln:
     set_home: 
       flash success: Veni i shpis u ruajt me sukses
     suspended: 
-      body: "<p>\n  Me na fal, por llogaria juaj automatikisht osht suspendu\n  për shkak të aktivitetit të dyshimt.\n</p>\n<p>\n  Ky vendim së shpejti ka mu rishiku prej një administratori, ose\n  ju muni me kontaktu me <a href=\"mailto:{{webmaster}}\">webmaster-in</a> nëse\n  doni me diskutu ma shumë.\n</p>"
+      body: "<p>\n  Me na fal, por llogaria juaj automatikisht osht suspendu\n  për shkak të aktivitetit të dyshimt.\n</p>\n<p>\n  Ky vendim së shpejti ka mu rishiku prej një administratori, ose\n  ju muni me kontaktu me {{webmaster}} nëse doni me diskutu ma shumë.\n</p>"
       heading: Llogaria u Suspendu
       title: Llogaria u Suspendu
     terms: 
       agree: Pajtohem
+      consider_pd: Unë e konsideroj kontributet e mia të jenë në domenin publik
+      consider_pd_why: çka o kjo?
       decline: Mos prano
+      heading: rregullat për Pjesëmarrës
       legale_names: 
         france: Franca
         italy: Italia
+        rest_of_world: Shumica e botes
+      legale_select: "Ju lutem zgjidhni vendin tuaj të banimit:"
+      press accept button: Ju lutem lexoni marrëveshjen me poshte dhe shtypni butonin bien dakord për të krijuar llogarinë tuaj.
     view: 
       activate_user: aktivizo kët shfrytezues
       add as friend: shtoje si shoq
@@ -825,6 +1466,9 @@ aln:
           administrator: Banu administrator
           moderator: Banu moderator
         moderator: Ky shfrytëzues asht moderator
+        revoke: 
+          administrator: Riqoje aksesin e administratorit
+          moderator: Riqoje aksesin e moderatorit
       send message: dërgo mesazh
       settings_link_text: ndryshimet
       spam score: "Piket e Badihavgjive:"
@@ -834,21 +1478,94 @@ aln:
       user location: Veni i shfrytëzuesit
       your friends: Shokt e tu
   user_block: 
+    blocks_by: 
+      empty: "{{name}} nuk ka bërë ndonjë blloqe ende."
+      heading: Lista e blloqeve me {{name}}
+      title: Blloqe me {{name}}
+    blocks_on: 
+      empty: "{{name}} nuk është bllokuar akoma."
+      heading: Lista e blloqeve në {{name}}
+      title: Blocks në {{name}}
+    create: 
+      flash: Krijuar një bllok të përdorues {{name}}.
+      try_contacting: Ju lutemi provoni kontaktuar përdorues para se bllokimi i tyre dhe duke u dhënë atyre një kohë të arsyeshme për t&#39;u përgjigjur.
+      try_waiting: Ju lutemi provoni duke i dhënë përdoruesit një kohë të arsyeshme për t&#39;u përgjigjur para se bllokimi i tyre.
+    edit: 
+      back: Shiko të gjitha blloqet e
+      heading: Editimi bllokuar në {{name}}
+      needs_view: A i përdoruesit duhet të identifikoheni për para këtij blloku do të fshihet?
+      period: Sa kohë, duke filluar nga tani, përdoruesi do të bllokohet nga API për.
+      reason: Arsyeja pse {{name}} është bllokuar. Ju lutemi të jetë si të qetë dhe të arsyeshme të jetë e mundur, duke i dhënë sa më shumë hollësi si ju mund të lidhur me situatën. Të ketë parasysh se jo të gjithë përdoruesit e kuptojnë zhargon komunitetit, kështu që ju lutemi provoni të përdorni laymans kushtet.
+      show: Shiko këtë bllok
+      submit: bllok Update
+      title: Editimi bllokuar në {{name}}
     filter: 
+      block_expired: Blloku ka skaduar dhe nuk mund të redaktohen.
+      block_period: Periudha e bllokuar duhet të jetë një nga vlerat selectable në drop-down list.
       not_a_moderator: Ju duhet të jeni moderator për ta kryer atë veprim.
+    helper: 
+      time_future: Përfundon në {{time}}.
+      time_past: Përfundoi {{time}} më parë.
+      until_login: Aktiv deri kur përdoruesi shkrimet in
+    index: 
+      empty: Nuk ka blloqe janë bërë ende.
+      heading: Lista e blloqeve përdorues
+      title: blloqe Përdoruesi
     model: 
       non_moderator_revoke: Duni me kon moderator për me hek një bllokim.
+      non_moderator_update: Duhet të jetë një moderator për të krijuar ose rinovuar një bllok.
     new: 
+      back: Shiko të gjitha blloqet e
+      heading: Krijimi i bllokuar në {{name}}
+      needs_view: Përdoruesi duhet të hyni në para këtij blloku do të pastrohen
+      period: Sa kohë, duke filluar nga tani, përdoruesi do të bllokohet nga API për.
       reason: Arsyja pse {{name}} osht blloku. Ju lutem bëhuni sa më i qet dhe arsyeshëm që osht e mundshme, tu dhon sa ma shumë detaje që muni rreth situatës, tu e mbajt në men që mesazhi munet me u pa prej publikut. Maje në men se jo krejt anëtarët e kuptojn gjuhën e komunitetit, pra ju lutem munoni me përdor terma të mirë.
+      submit: bllok Krijo
+      title: Krijimi i bllokuar në {{name}}
+      tried_contacting: Unë kam kontaktuar me përdorues dhe u kërkoi atyre për të ndaluar.
+      tried_waiting: Unë kam dhënë një sasi të arsyeshme kohore për përdoruesit për t&#39;iu përgjigjur atyre të komunikimit.
+    not_found: 
+      back: Kthehu tek Indeksi
+      sorry: Na vjen keq, blloku përdorues me ID {{id}} nuk mund të gjendet.
     partial: 
       confirm: A jeni i sigurt?
+      creator_name: Krijuesi
+      display_name: Përdoruesi Blocked
+      edit: Redaktoj
+      not_revoked: (Jo revokuar)
+      reason: Arsyeja për bllok
+      revoke: Tërheq!
+      revoker_name: Revokuar nga ana
+      show: Tregoj
       status: Statusi
     period: 
       one: 1 orë
       other: "{{count}} orë"
+    revoke: 
+      confirm: Jeni i sigurt që dëshironi të revokuar kete kategori?
+      flash: Ky bllok është revokuar.
+      heading: Revokimin e bllokuar në {{block_on}} nga {{block_by}}
+      past: Ky bllok u mbyll {{time}} më parë dhe nuk mund të kthehet tani.
+      revoke: Tërheq!
+      time_future: Ky bllok do të përfundojë në {{time}}.
+      title: Revokimin e bllokuar në {{block_on}}
     show: 
+      back: Shiko të gjitha blloqet e
       confirm: A jeni i sigurt?
+      edit: Redaktoj
+      heading: "{{block_on}} bllokuar nga {{block_by}}"
+      needs_view: Shfrytëzuesi duhet të hyni në para këtë bllok do të fshihet.
+      reason: "Arsyeja për bllok:"
+      revoke: Tërheq!
+      revoker: "Revoker:"
+      show: Tregoj
       status: Statusi
+      time_future: Përfundon në {{time}}
+      time_past: Përfundoi {{time}} më parë
+      title: "{{block_on}} bllokuar nga {{block_by}}"
+    update: 
+      only_creator_can_edit: Vetëm moderatori i cili krijoi këtë bllok mund ta redaktojnë.
+      success: Block përditësuar.
   user_role: 
     filter: 
       already_has_role: Shfrytzuesi tashme ka ni rol {{role}}.
