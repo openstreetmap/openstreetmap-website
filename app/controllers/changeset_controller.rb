@@ -12,7 +12,8 @@ class ChangesetController < ApplicationController
   before_filter :check_api_writable, :only => [:create, :update, :delete, :upload, :include]
   before_filter :check_api_readable, :except => [:create, :update, :delete, :upload, :download, :query]
   after_filter :compress_output
-  around_filter :api_call_handle_error
+  around_filter :api_call_handle_error, :except => [:list, :list_user, :list_bbox]
+  around_filter :web_timeout, :only => [:list, :list_user, :list_bbox]
 
   filter_parameter_logging "<osmChange version"
 
