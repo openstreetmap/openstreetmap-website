@@ -5,7 +5,7 @@
 ENV['RAILS_ENV'] ||= 'production'
 
 # Specifies gem version of Rails to use when vendor/rails is not present
-RAILS_GEM_VERSION = '2.3.5' unless defined? RAILS_GEM_VERSION
+RAILS_GEM_VERSION = '2.3.8' unless defined? RAILS_GEM_VERSION
 
 # Set the server URL
 SERVER_URL = ENV['OSM_SERVER_URL'] || 'www.openstreetmap.org'
@@ -80,8 +80,8 @@ Rails::Initializer.run do |config|
   # Make sure the secret is at least 30 characters and all random,
   # no regular words or you'll be exposed to dictionary attacks.
   config.action_controller.session = {
-    :session_key => '_osm_session',
-    :secret      => 'd886369b1e709c61d1f9fcb07384a2b96373c83c01bfc98c6611a9fe2b6d0b14215bb360a0154265cccadde5489513f2f9b8d9e7b384a11924f772d2872c2a1f'
+    :key    => '_osm_session',
+    :secret => 'd886369b1e709c61d1f9fcb07384a2b96373c83c01bfc98c6611a9fe2b6d0b14215bb360a0154265cccadde5489513f2f9b8d9e7b384a11924f772d2872c2a1f'
   }
 
   # Use the database for sessions instead of the cookie-based default,

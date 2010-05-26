@@ -1,11 +1,6 @@
-require 'globalize/i18n/missing_translations_log_handler'
-
-I18n.missing_translations_logger = Logger.new("#{RAILS_ROOT}/log/missing_translations.log")
-I18n.exception_handler = :missing_translations_log_handler
-
 module I18n
   module Backend
-    class Simple
+    module Base
       protected
       alias_method :old_init_translations, :init_translations
       
@@ -18,13 +13,26 @@ module I18n
         friendly = translate('en', 'time.formats.friendly')
 
         available_locales.each do |locale|
-          time_formats = I18n.t('time.formats', :locale => locale)
-
-          unless time_formats.has_key?(:friendly)
+          unless lookup(locale, 'time.formats.friendly')
             store_translations(locale, :time => { :formats => { :friendly => friendly } })
           end
         end
       end
     end
+
+    module PluralizationFallback
+      def pluralize(locale, entry, count)
+        super
+      rescue InvalidPluralizationData => ex
+        raise ex unless ex.entry.has_key?(:other)
+        ex.entry[:other]
+      end
+    end
   end
 end
+
+I18n::Backend::Simple.send(:include, I18n::Backend::Pluralization)
+I18n::Backend::Simple.send(:include, I18n::Backend::PluralizationFallback)
+I18n.load_path << RAILS_ROOT + "/config/pluralizers.rb"
+
+I18n::Backend::Simple.send(:include, I18n::Backend::Fallbacks)
