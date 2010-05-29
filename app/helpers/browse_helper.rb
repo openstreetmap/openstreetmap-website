@@ -17,7 +17,7 @@ module BrowseHelper
   end
 
   def link_class(type, object)
-    return type + " " + h(icon_tags(object).join(' '))
+    return type + " " + h(icon_tags(object).join(' ')) + (object.visible == false ? ' deleted' : '')
   end
 
   def link_title(object)
