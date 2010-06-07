@@ -1,0 +1,40 @@
+<div class="flash"><%%= flash[:notice] %></div>
+<h1>OAuth Client Applications</h1>
+<%% unless @tokens.empty? %>
+<p>The following tokens have been issued to applications in your name</p>
+<table>
+	<tr><th>Application</th><th>Issued</th><th>&nbsp;</th></tr>
+	<%% @tokens.each do |token|%>
+		<%% content_tag_for :tr, token do %>
+			<td><%%= link_to token.client_application.name, token.client_application.url %></td>
+			<td><%%= token.authorized_at %></td>
+			<td>
+				<%% form_tag :controller => 'oauth', :action => 'revoke' do %>
+				<%%= hidden_field_tag 'token', token.token %>
+				<%%= submit_tag "Revoke!" %>
+				<%% end %>
+			</td>
+		<%% end %>
+	<%% end %>
+	
+</table>
+<%% end %>
+<h3>Application Developers</h3>
+<%% if @client_applications.empty? %>
+	<p>
+		Do you have an application you would like to register for use with us using the <a href="http://oauth.net">OAuth</a> standard?
+	</p>
+	<p>
+		You must register your web application before it can make OAuth requests to this service
+	</p>
+<%% else %>
+	<p>
+		You have the following client applications registered:
+	</p>
+	<%% @client_applications.each do |client|%>
+		<%% div_for client do %>
+			<%%= link_to client.name, :action => :show, :id => client.id %>
+		<%% end %>
+	<%% end %>
+<%% end %>
+<h3><%%= link_to "Register your application", :action => :new %></h3>

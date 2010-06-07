@@ -1,0 +1,24 @@
+./script/generate oauth_provider 
+
+This creates an OAuth Provider controller as well as the requisite models.
+
+It requires an authentication framework such as acts_as_authenticated, restful_authentication or restful_open_id_authentication.
+
+If you generated the migration file (true by default), make sure you run
+rake db:migrate
+
+You need to add the following routes to your config/routes.rb file:
+
+map.resources :oauth_clients
+map.oauth '/oauth',:controller=>'oauth',:action=>'index'
+map.authorize '/oauth/authorize',:controller=>'oauth',:action=>'authorize'
+map.request_token '/oauth/request_token',:controller=>'oauth',:action=>'request_token'
+map.access_token '/oauth/access_token',:controller=>'oauth',:action=>'access_token'
+map.test_request '/oauth/test_request',:controller=>'oauth',:action=>'test_request'
+
+include the following in your user.rb
+
+has_many :client_applications
+has_many :tokens, :class_name=>"OauthToken",:order=>"authorized_at desc",:include=>[:client_application]
+
+

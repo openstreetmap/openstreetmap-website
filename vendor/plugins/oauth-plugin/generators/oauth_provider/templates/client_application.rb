@@ -6,6 +6,16 @@ class ClientApplication < ActiveRecord::Base
   validates_uniqueness_of :key
   before_validation_on_create :generate_keys
   
+  def self.find_token(token_key)
+    token = OauthToken.find_by_token(token_key, :include => :client_application)
+    if token && token.authorized?
+      logger.info "Loaded #{token.token} which was authorized by (user_id=#{token.user_id}) on the #{token.authorized_at}"
+      token
+    else
+      nil
+    end
+  end
+  
   def self.verify_request(request, options = {}, &block)
     begin
       signature = OAuth::Signature.build(request, options, &block)
@@ -22,12 +32,8 @@ class ClientApplication < ActiveRecord::Base
     end
   end
   
-  def self.all_permissions
-    PERMISSIONS
-  end
-
   def oauth_server
-    @oauth_server ||= OAuth::Server.new("http://" + SERVER_URL)
+    @oauth_server ||= OAuth::Server.new("http://your.site")
   end
   
   def credentials
@@ -37,20 +43,9 @@ class ClientApplication < ActiveRecord::Base
   def create_request_token
     RequestToken.create :client_application => self
   end
-
-  # the permissions that this client would like from the user
-  def permissions
-    ClientApplication.all_permissions.select { |p| self[p] }
-  end
-
+  
 protected
   
-  # this is the set of permissions that the client can ask for. clients
-  # have to say up-front what permissions they want and when users sign up they
-  # can agree or not agree to each of them.
-  PERMISSIONS = [:allow_read_prefs, :allow_write_prefs, :allow_write_diary,
-                 :allow_write_api, :allow_read_gpx, :allow_write_gpx ]
-
   def generate_keys
     @oauth_client = oauth_server.generate_consumer_credentials
     self.key = @oauth_client.key
