@@ -308,6 +308,8 @@ en:
       description_user: "Changesets by {{user}}"
       description_bbox: "Changesets within {{bbox}}"
       description_user_bbox: "Changesets by {{user}} within {{bbox}}"
+    timeout:
+      sorry: "Sorry, the list of changesets you requested took too long to retrieve."
   diary_entry:
     new:
       title: New Diary Entry
@@ -425,6 +427,7 @@ en:
       suffix_parent: "{{suffix}} ({{parentdistance}} {{parentdirection}} of {{parentname}})"
       suffix_suburb: "{{suffix}}, {{parentname}}"
     search_osm_nominatim:
+      prefix_format: "{{name}}"
       prefix:
         amenity:
           airport: "Airport"
@@ -956,7 +959,7 @@ en:
       english_link: the English original
     native:
       title: About this page
-      text: You are viewing the English version of the copyright page. You can go back to the {{native_link}} of this pag or you can stop reading about copyright and {{mapping_link}}.
+      text: You are viewing the English version of the copyright page. You can go back to the {{native_link}} of this page or you can stop reading about copyright and {{mapping_link}}.
       native_link: THIS_LANGUAGE_NAME_HERE version
       mapping_link: start mapping
     legal_babble: |
@@ -1050,6 +1053,9 @@ en:
           Statistics Canada).</li>
           <li><strong>New Zealand</strong>: Contains data sourced from
           Land Information New Zealand. Crown Copyright reserved.</li>
+          <li><strong>Poland</strong>: Contains data from <a
+          href="http://ump.waw.pl/">UMP-pcPL maps</a>. Copyright
+          UMP-pcPL contributors.</li>
           <li><strong>United Kingdom</strong>: Contains Ordnance
           Survey data &copy; Crown copyright and database right
           2010.</li>
@@ -1500,7 +1506,8 @@ en:
       lost password link: "Lost your password?"
       login_button: "Login"
       account not active: "Sorry, your account is not active yet.<br />Please click on the link in the account confirmation email to activate your account."
-      account suspended: Sorry, your account has been suspended due to suspicious activity.<br />Please contact the <a href="mailto:webmaster@openstreetmap.org">webmaster</a> if you wish to discuss this.
+      account suspended: Sorry, your account has been suspended due to suspicious activity.<br />Please contact the {{webmaster}} if you wish to discuss this.
+      webmaster: webmaster
       auth failure: "Sorry, could not log in with those details."
     logout:
       title: "Logout"
@@ -1548,7 +1555,6 @@ en:
       declined: "http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined"
       decline: "Decline"
       legale_select: "Please select your country of residence:"
-      legale_button: "Go"
       legale_names:
         france: "France"
         italy: "Italy"
@@ -1684,6 +1690,7 @@ en:
     suspended:
       title: Account Suspended
       heading: Account Suspended
+      webmaster: webmaster
       body: |
         <p>
           Sorry, your account has been automatically suspended due to
@@ -1691,8 +1698,7 @@ en:
         </p>
         <p>
           This decision will be reviewed by an administrator shortly, or
-          you may contact the <a href="mailto:{{webmaster}}">webmaster</a> if
-          you wish to discuss this.
+          you may contact the {{webmaster}} if you wish to discuss this.
         </p>
   user_role:
     filter:

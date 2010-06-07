@@ -2,6 +2,7 @@
 # Exported from translatewiki.net
 # Export driver: syck
 # Author: Fryed-peach
+# Author: Higa4
 # Author: Hosiryuhosi
 # Author: Mage Whopper
 # Author: Nazotoko
@@ -115,7 +116,13 @@ ja:
     navigation: 
       all: 
         next_changeset_tooltip: 次の変更セット
+        next_node_tooltip: 次のノード
+        next_relation_tooltip: 次のリレーション
+        next_way_tooltip: 次のウェイ
         prev_changeset_tooltip: 一つ前の変更セット
+        prev_node_tooltip: 前のノード
+        prev_relation_tooltip: 前のリレーション
+        prev_way_tooltip: 前のウェイ
       user: 
         name_changeset_tooltip: "{{user}}による編集を表示"
         next_changeset_tooltip: 次の編集（{{user}}による）
@@ -202,6 +209,12 @@ ja:
       zoom_or_select: ズームアップするか、表示する領域を選択
     tag_details: 
       tags: "タグ:"
+    timeout: 
+      type: 
+        changeset: 変更セット
+        node: ノード
+        relation: リレーション
+        way: ウェイ
     way: 
       download: "{{download_xml_link}}、{{view_history_link}}、または、{{edit_link}}"
       download_xml: XMLダウンロード
@@ -337,6 +350,8 @@ ja:
       output: 出力
       paste_html: 以下の HTML をあなたのサイトに埋め込んでください
       scale: 縮尺
+      too_large: 
+        heading: エリアが大きすぎます
       zoom: ズーム
     start_rjs: 
       add_marker: マーカーを地図に追加する
@@ -458,6 +473,13 @@ ja:
     view_tooltip: 地図を見る
     welcome_user: "{{user_link}} さん、ようこそ。"
     welcome_user_link_tooltip: あなたの個人ページ
+  license_page: 
+    foreign: 
+      english_link: 英語の原文
+      title: この翻訳について
+    native: 
+      mapping_link: マッピングを始める
+      title: このページについて
   message: 
     delete: 
       deleted: メッセージは削除されました
@@ -716,6 +738,10 @@ ja:
       body: "{{user}} という名前のユーザは存在しません。スペルをチェックしてください。もしくはリンク元が誤っています。"
       heading: "{{user}} というユーザは存在しません。"
       title: そのようなユーザは存在しません
+    offline: 
+      message: GPXファイルのストレージとアップロードシステムは現在使用できません。
+    offline_warning: 
+      message: GPXファイルアップロードシステムは現在利用できません
     trace: 
       ago: "{{time_in_words_ago}}前"
       count_points: "{{count}} ポイント"
@@ -746,6 +772,9 @@ ja:
       traces_waiting: あなたは {{count}} のトレースがアップロード待ちになっています。それらのアップロードが終了するまでお待ちください。他のユーザーのアップロードが制限されてしまいます。
     trace_optionals: 
       tags: タグ（複数可）
+    trace_paging_nav: 
+      next: 次へ &raquo;
+      previous: "&laquo; 前へ"
     view: 
       delete_track: このトラックの削除
       description: "詳細:"
@@ -772,14 +801,17 @@ ja:
       trackable: 追跡可能  (匿名でのみ共有されるが、点の順序はタイムスタンプ付きでわかる。)
   user: 
     account: 
+      current email address: 現在の電子メールアドレス：
       email never displayed publicly: （公開しません）
       flash update success: ユーザ情報の更新に成功しました。
       flash update success confirm needed: ユーザ情報の更新に成功しました。登録したメールアドレスのメールを受信して、メールアドレスの確認を行ってください。
       home location: "活動地域:"
+      image: "画像:"
       latitude: "緯度:"
       longitude: "経度:"
       make edits public button: 私の編集を全て公開する
       my settings: 私の設定
+      new image: 画像を追加
       no home location: あなたはまだ活動地域を登録していません。
       preferred languages: "言語設定:"
       profile description: "ユーザ情報の詳細:"
@@ -812,6 +844,8 @@ ja:
       not_an_administrator: この作業を行うには、管理者になる必要があります。
     go_public: 
       flash success: あなたの全ての編集は公開されます。今から編集できます。
+    list: 
+      confirm: 選択したユーザを確認
     login: 
       account not active: 申し訳ありません。あなたのアカウントはまだ有効ではありません。<br />アカウント確認メールに記載されている、アカウントを有効にするリンクをクリックしてください。
       auth failure: 申し訳ありません、以下の理由によりログインできません。
@@ -822,6 +856,7 @@ ja:
       lost password link: パスワードを忘れましたか?
       password: "パスワード:"
       please login: ログインするか、{{create_user_link}}.
+      remember: パスワードを記憶する。
       title: ログイン
     lost_password: 
       email address: "電子メールアドレス:"
@@ -839,6 +874,7 @@ ja:
       confirm email address: "メールアドレスの確認:"
       confirm password: "パスワードの再入力:"
       contact_webmaster: アカウントを作成できるよう、<a href="mailto:webmaster@openstreetmap.org">webmaster</a>に連絡してください。 できるだけ早期に、あなたの希望に対応するように努めます。
+      continue: 続行
       display name: "表示名:"
       email address: "Eメールアドレス:"
       fill_form: 以下のフォームを埋めてください。登録すると、あなたのアカウントを有効化するためにあなたにメールをお送りします。
@@ -869,11 +905,23 @@ ja:
       title: パスワードのリセット
     set_home: 
       flash success: 活動地域を保存しました。
+    suspended: 
+      heading: アカウント保留
+      title: アカウント保留
+    terms: 
+      agree: 同意する
+      consider_pd_why: これは何ですか？
+      legale_names: 
+        france: フランス
+        italy: イタリア
+        rest_of_world: それ以外の国
     view: 
+      activate_user: このユーザーを有効にする
       add as friend: 友達に追加
       ago: （{{time_in_words_ago}} 前）
       confirm: 確認する
       create_block: このユーザーをブロック
+      deactivate_user: このユーザーを無効にする
       delete_user: このユーザーを消す
       description: 詳細
       diary: 日記
@@ -897,11 +945,15 @@ ja:
         administrator: このユーザーは管理者です。
         grant: 
           administrator: 管理者権限を与える
+          moderator: モデレータアクセスを許可
+        moderator: このユーザーはモデレータです
         revoke: 
           administrator: 管理者権限を剥奪する
       send message: メッセージ送信
       settings_link_text: 設定
+      status: "ステータス:"
       traces: トレース
+      unhide_user: このユーザー再表示
       user location: ユーザの位置
       your friends: あなたの友達
   user_block: 

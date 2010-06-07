@@ -216,12 +216,30 @@ class ApplicationController < ActionController::Base
     raise OSM::APIBadMethodError.new(method) unless ok
   end
 
+  ##
+  # wrap an api call in a timeout
   def api_call_timeout
     SystemTimer.timeout_after(APP_CONFIG['api_timeout']) do
       yield
     end
   rescue Timeout::Error
     raise OSM::APITimeoutError
+  end
+
+  ##
+  # wrap a web page in a timeout
+  def web_timeout
+    SystemTimer.timeout_after(APP_CONFIG['web_timeout']) do
+      yield
+    end
+  rescue ActionView::TemplateError => ex
+    if ex.original_exception.is_a?(Timeout::Error)
+      render :action => "timeout"
+    else
+      raise
+    end
+  rescue Timeout::Error
+    render :action => "timeout"
   end
 
   ##

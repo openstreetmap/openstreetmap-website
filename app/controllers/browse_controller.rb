@@ -4,7 +4,7 @@ class BrowseController < ApplicationController
   before_filter :authorize_web  
   before_filter :set_locale 
   before_filter { |c| c.check_database_readable(true) }
-  around_filter :timeout, :except => [:start]
+  around_filter :web_timeout, :except => [:start]
 
   def start 
   end
@@ -85,21 +85,5 @@ class BrowseController < ApplicationController
     @prev = MapBug.find(:first, :order => "id DESC", :conditions => [ "status != 'hidden' AND id < :id", { :id => @bug.id }] )
   rescue ActiveRecord::RecordNotFound
     render :action => "not_found", :status => :not_found
-  end
-
-private
-
-  def timeout
-    SystemTimer.timeout_after(30) do
-      yield
-    end
-  rescue ActionView::TemplateError => ex
-    if ex.original_exception.is_a?(Timeout::Error)
-      render :action => "timeout"
-    else
-      raise
-    end
-  rescue Timeout::Error
-    render :action => "timeout"
   end
 end
