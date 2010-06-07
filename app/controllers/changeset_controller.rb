@@ -12,7 +12,8 @@ class ChangesetController < ApplicationController
   before_filter :check_api_writable, :only => [:create, :update, :delete, :upload, :include]
   before_filter :check_api_readable, :except => [:create, :update, :delete, :upload, :download, :query]
   after_filter :compress_output
-  around_filter :api_call_handle_error
+  around_filter :api_call_handle_error, :except => [:list, :list_user, :list_bbox]
+  around_filter :web_timeout, :only => [:list, :list_user, :list_bbox]
 
   filter_parameter_logging "<osmChange version"
 
@@ -345,7 +346,10 @@ private
       raise OSM::APIBadUserInput.new("Minimum longitude should be less than maximum.") unless bbox[0] <= bbox[2]
       raise OSM::APIBadUserInput.new("Minimum latitude should be less than maximum.") unless bbox[1] <= bbox[3]
       return ['min_lon < ? and max_lon > ? and min_lat < ? and max_lat > ?',
-              bbox[2] * GeoRecord::SCALE, bbox[0] * GeoRecord::SCALE, bbox[3]* GeoRecord::SCALE, bbox[1] * GeoRecord::SCALE]
+              (bbox[2] * GeoRecord::SCALE).to_i,
+              (bbox[0] * GeoRecord::SCALE).to_i,
+              (bbox[3] * GeoRecord::SCALE).to_i,
+              (bbox[1] * GeoRecord::SCALE).to_i]
     else
       return nil
     end

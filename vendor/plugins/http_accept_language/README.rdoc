@@ -2,7 +2,7 @@
 
 A small effort in making a plugin which helps you detect the users preferred language, as sent by the HTTP header.
 
-= Features
+== Features
 
 * Splits the http-header into languages specified by the user
 * Returns empty array if header is illformed.
@@ -12,7 +12,7 @@ A small effort in making a plugin which helps you detect the users preferred lan
 * Gives compatible languages
 See also: http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html
 
-= Example
+== Example
 
   class SomeController < ApplicationController
     def some_action
@@ -24,7 +24,7 @@ See also: http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html
       request.preferred_language_from(available)
       # => 'nl-BE'
       
-      request.user_preferred_language
+      request.user_preferred_languages
       # => [ 'en-GB']
       available = %w{en-US}
       request.compatible_language_from(available)
@@ -32,8 +32,13 @@ See also: http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html
     end
   end
 
-= Changenotes
+== Installation
 
-2009-03-12: Rails 2.3 compatible
+Install the gem <tt>http_accept_language</tt>, require it in your Rails app.
 
-Copyright (c) 2008 Iain Hecker, released under the MIT license
+== Changelog
+
+* 2010-01-05: Gem release
+* 2009-03-12: Rails 2.3 compatible
+
+Copyright (c) 2008-2010 Iain Hecker, released under the MIT license

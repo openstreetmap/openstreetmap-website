@@ -77,7 +77,7 @@ private
 
   def javascript_strings_for_key(key)
     js = ""
-    value = t(key, :locale => "en")
+    value = I18n.t(key, :locale => "en")
 
     if value.is_a?(String)
       js << "i18n_strings['#{key}'] = '" << escape_javascript(t(key)) << "';\n"
