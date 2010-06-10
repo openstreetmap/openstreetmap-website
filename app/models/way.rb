@@ -272,7 +272,6 @@ class Way < ActiveRecord::Base
       self.changeset_id = new_way.changeset_id
       self.changeset = new_way.changeset
 
-      self.tags = []
       self.nds = []
       self.visible = false
       save_with_history!
