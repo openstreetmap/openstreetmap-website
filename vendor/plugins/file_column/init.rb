@@ -8,7 +8,7 @@ require 'file_column_helper'
 require 'validations'
 require 'test_case'
 
-if defined?(ActionRecord::Base)
+if defined?(ActiveRecord::Base)
   ActiveRecord::Base.send(:include, FileColumn)
   ActiveRecord::Base.send(:include, FileColumn::Validations)
 end

@@ -1,4 +1,4 @@
-if defined?(ActionRecord::ConnectionAdaptors::QueryCache)
+if defined?(ActiveRecord::ConnectionAdaptors::QueryCache)
   module ActiveRecord
     module ConnectionAdapters
       module QueryCache

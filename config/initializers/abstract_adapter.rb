@@ -1,4 +1,4 @@
-if defined?(ActionRecord::ConnectionAdaptors::AbstractAdaptor)
+if defined?(ActiveRecord::ConnectionAdaptors::AbstractAdaptor)
   module ActiveRecord
     module ConnectionAdapters
       class AbstractAdapter
