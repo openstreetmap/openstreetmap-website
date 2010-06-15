@@ -51,7 +51,9 @@ Rails::Initializer.run do |config|
   # config.gem "bj"
   # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
   # config.gem "aws-s3", :lib => "aws/s3"
-  config.gem 'composite_primary_keys', :version => '2.2.2'
+  unless  OSM_STATUS == :database_offline
+    config.gem 'composite_primary_keys', :version => '2.2.2'
+  end
   config.gem 'libxml-ruby', :version => '>= 1.1.1', :lib => 'libxml'
   config.gem 'rmagick', :lib => 'RMagick'
   config.gem 'oauth', :version => '>= 0.3.6'
@@ -86,7 +88,9 @@ Rails::Initializer.run do |config|
   # Use the database for sessions instead of the cookie-based default,
   # which shouldn't be used to store highly confidential information
   # (create the session table with 'rake db:sessions:create')
-  config.action_controller.session_store = :sql_session_store
+  unless  OSM_STATUS == :database_offline
+    config.action_controller.session_store = :sql_session_store
+  end
 
   # Use SQL instead of Active Record's schema dumper when creating the test database.
   # This is necessary if your schema can't be completely dumped by the schema dumper,
