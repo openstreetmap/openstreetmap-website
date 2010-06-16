@@ -17,7 +17,7 @@ module BrowseHelper
   end
 
   def link_class(type, object)
-    return type + " " + h(icon_tags(object).join(' '))
+    return type + " " + h(icon_tags(object).join(' ')) + (object.visible == false ? ' deleted' : '')
   end
 
   def link_title(object)
@@ -45,7 +45,7 @@ module BrowseHelper
 private
 
   ICON_TAGS = [ 
-    "aeroway", "amenity", "barrier", "building", "highway", "landuse",
+    "aeroway", "amenity", "barrier", "building", "highway", "historic", "landuse",
     "leisure", "man_made", "natural", "railway", "shop", "tourism", "waterway"
   ]
 
