@@ -8,6 +8,11 @@ require 'file_column_helper'
 require 'validations'
 require 'test_case'
 
-ActiveRecord::Base.send(:include, FileColumn)
-ActionView::Base.send(:include, FileColumnHelper)
-ActiveRecord::Base.send(:include, FileColumn::Validations)
+if defined?(ActiveRecord::Base)
+  ActiveRecord::Base.send(:include, FileColumn)
+  ActiveRecord::Base.send(:include, FileColumn::Validations)
+end
+
+if defined?(ActionView::Base)
+  ActionView::Base.send(:include, FileColumnHelper)
+end

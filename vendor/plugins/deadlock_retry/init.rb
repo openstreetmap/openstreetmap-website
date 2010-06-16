@@ -1,2 +1,5 @@
 require 'deadlock_retry'
-ActiveRecord::Base.send :include, DeadlockRetry
+
+if defined?(ActiveRecord::Base)
+  ActiveRecord::Base.send :include, DeadlockRetry
+end

@@ -18,8 +18,8 @@ class TraceController < ApplicationController
   caches_action :list, :unless => :logged_in?, :layout => false
   caches_action :view, :layout => false
   caches_action :georss, :layout => true
-  cache_sweeper :trace_sweeper, :only => [:create, :edit, :delete, :api_create]
-  cache_sweeper :tracetag_sweeper, :only => [:create, :edit, :delete, :api_create]
+  cache_sweeper :trace_sweeper, :only => [:create, :edit, :delete, :api_create], :unless => OSM_STATUS == :database_offline
+  cache_sweeper :tracetag_sweeper, :only => [:create, :edit, :delete, :api_create], :unless => OSM_STATUS == :database_offline
 
   # Counts and selects pages of GPX traces for various criteria (by user, tags, public etc.).
   #  target_user - if set, specifies the user to fetch traces for.  if not set will fetch all traces
