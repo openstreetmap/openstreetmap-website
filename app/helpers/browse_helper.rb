@@ -56,9 +56,15 @@ private
   def wiki_link(type, lookup)
     locale = I18n.locale.to_s
 
-    if page = WIKI_PAGES[locale][type][lookup] rescue nil
+    # update-wiki-pages does s/ /_/g on keys before saving them, we
+    # have to replace spaces with underscore so we'll link
+    # e.g. `source=Isle of Man Government aerial imagery (2001)' to
+    # the correct page.
+    lookup_us = lookup.tr(" ", "_")
+
+    if page = WIKI_PAGES[locale][type][lookup_us] rescue nil
       url = "http://wiki.openstreetmap.org/wiki/#{page}?uselang=#{locale}"
-    elsif page = WIKI_PAGES["en"][type][lookup] rescue nil
+    elsif page = WIKI_PAGES["en"][type][lookup_us] rescue nil
       url = "http://wiki.openstreetmap.org/wiki/#{page}?uselang=#{locale}"
     end
 
