@@ -4,16 +4,17 @@ class ChangesetController < ApplicationController
   layout 'site'
   require 'xml/libxml'
 
-  before_filter :authorize_web, :only => [:list, :list_user, :list_bbox]
-  before_filter :set_locale, :only => [:list, :list_user, :list_bbox]
+  before_filter :authorize_web, :only => [:list]
+  before_filter :set_locale, :only => [:list]
   before_filter :authorize, :only => [:create, :update, :delete, :upload, :include, :close]
   before_filter :require_allow_write_api, :only => [:create, :update, :delete, :upload, :include, :close]
   before_filter :require_public_data, :only => [:create, :update, :delete, :upload, :include, :close]
   before_filter :check_api_writable, :only => [:create, :update, :delete, :upload, :include]
-  before_filter :check_api_readable, :except => [:create, :update, :delete, :upload, :download, :query]
+  before_filter :check_api_readable, :except => [:create, :update, :delete, :upload, :download, :query, :list]
+  before_filter(:only => [:list]) { |c| c.check_database_readable(true) }
   after_filter :compress_output
-  around_filter :api_call_handle_error, :except => [:list, :list_user, :list_bbox]
-  around_filter :web_timeout, :only => [:list, :list_user, :list_bbox]
+  around_filter :api_call_handle_error, :except => [:list]
+  around_filter :web_timeout, :only => [:list]
 
   filter_parameter_logging "<osmChange version"
 
