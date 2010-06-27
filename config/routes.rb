@@ -109,7 +109,6 @@ ActionController::Routing::Routes.draw do |map|
 
   map.connect '/index.html', :controller => 'site', :action => 'index'
   map.connect '/edit.html', :controller => 'site', :action => 'edit'
-  map.connect '/history.html', :controller => 'changeset', :action => 'list_bbox'
   map.connect '/export.html', :controller => 'site', :action => 'export'
   map.connect '/search.html', :controller => 'way_tag', :action => 'search'
   map.connect '/login.html', :controller => 'user', :action => 'login'

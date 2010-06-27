@@ -44,9 +44,16 @@ module ApplicationHelper
     zoom = zoom || 14
     language = language || request.user_preferred_languages.join(',')
     url = "http://nominatim.openstreetmap.org/reverse?lat=#{lat}&lon=#{lon}&zoom=#{zoom}&accept-language=#{language}"
-    response = REXML::Document.new(Net::HTTP.get(URI.parse(url)))
 
-    if result = response.get_text("reversegeocode/result")
+    begin
+      Timeout::timeout(4) do
+        response = REXML::Document.new(Net::HTTP.get(URI.parse(url)))
+      end
+    rescue Exception
+      response = nil
+    end
+
+    if response and result = response.get_text("reversegeocode/result")
       result.to_s
     else
       "#{number_with_precision(lat, :precision => 3)}, #{number_with_precision(lon, :precision => 3)}"
