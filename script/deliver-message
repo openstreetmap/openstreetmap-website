@@ -10,13 +10,11 @@ if recipient[1] == "c"
   digest = comment.digest
   from = comment.diary_entry.user
   to = comment.user
-  subject = mail.subject
 else
   message = Message.find(recipient[2])
   digest = message.digest
   from = message.recipient
   to = message.sender
-  subject = mail.subject.sub(/\[OpenStreetMap\] */, "")
 end
 
 exit 0 unless recipient[3] == digest[0,6]
@@ -25,7 +23,7 @@ mail = TMail::Mail.parse(STDIN.readlines.join)
 
 message = Message.new(:sender => from, :recipient => to,
                       :sent_on => Time.now.getutc,
-                      :title => subject,
+                      :title => mail.subject.sub(/\[OpenStreetMap\] */, ""),
                       :body => mail.body)
 message.save!
 
