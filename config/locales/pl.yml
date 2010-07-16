@@ -2,6 +2,7 @@
 # Exported from translatewiki.net
 # Export driver: syck
 # Author: BdgwksxD
+# Author: Deejay1
 # Author: Soeb
 # Author: Sp5uhe
 # Author: Wpedzich
@@ -126,11 +127,17 @@ pl:
         node: Zobacz punkt na większej mapie
         relation: Zobacz relację na większej mapie
         way: Pokaż drogę na większej mapie
-      loading: Wczytywanie...
+      loading: Wczytywanie…
     navigation: 
       all: 
         next_changeset_tooltip: Następny zestaw zmian
+        next_node_tooltip: Następny węzeł
+        next_relation_tooltip: Poprzednia relacja
+        next_way_tooltip: Następna droga
         prev_changeset_tooltip: Poprzedni zestaw zmian
+        prev_node_tooltip: Poprzedni węzeł
+        prev_relation_tooltip: Poprzednia relacja
+        prev_way_tooltip: Poprzednia droga
       user: 
         name_changeset_tooltip: Zobacz edycje wykonane przez użytkownika {{user}}
         next_changeset_tooltip: Następna edycja wykonana przez użytkownika {{user}}
@@ -194,7 +201,7 @@ pl:
       history_for_feature: Historia zmian dla [[feature]]
       load_data: Załaduj dane
       loaded_an_area_with_num_features: Załadowano obszar zawierający [[num_features]] obiektów.  Przeglądarki mogą nie radzić sobie z wyświetleniem tej ilości danych -- generalnie działają optymalnie przy wyświetlaniu mniej niż 100 obiektów jednocześnie, w przeciwnym wypadku przeglądarka może działac powoli lub przestać odpowiadać.  Jeśli jesteś pewien że chcesz wyświetlić dane, kliknij przycisk poniżej.
-      loading: Wczytywanie...
+      loading: Wczytywanie
       manually_select: Manualnie wybierz inny obszar
       object_list: 
         api: Pobierz ten obszar z API
@@ -215,10 +222,13 @@ pl:
       private_user: prywatny użytkownika
       show_history: Pokaż zmiany
       unable_to_load_size: "Nie można załadować: prostokąt ograniczający [[bbox_size]] jest zbyt duży (nie może przekraczać {{max_bbox_size}} stopnia)"
-      wait: Moment...
+      wait: Moment…
       zoom_or_select: Przybliż albo wybierz inny obszar mapy
     tag_details: 
       tags: "Znaczniki:"
+      wiki_link: 
+        key: Strona wiki dla etykiety {{key}}
+        tag: Strona wiki dla etykiety {{key}}={{value}}
     timeout: 
       sorry: Niestety, pobranie danych dla {{type}} o identyfikatorze {{id}} trwało zbyt długo.
       type: 
@@ -366,6 +376,8 @@ pl:
       output: Wynik
       paste_html: Użyj podanego kodu HTML, aby umieścić na stronie
       scale: Skala
+      too_large: 
+        heading: Obszar zbyt duży
       zoom: Zoom
     start_rjs: 
       add_marker: Dodaj pinezkę na mapie
@@ -857,9 +869,12 @@ pl:
         cycle_map: Mapa Rowerowa
         noname: BrakNazwy
     site: 
+      edit_tooltip: Edytuje mapę
       edit_zoom_alert: Musisz przybliżyć się, by edytować mape
+      history_tooltip: Wyświetla przeprowadzone edycje dla tego obszaru
       history_zoom_alert: Musisz przybliżyć się, by odczytać historię edycji
   layouts: 
+    copyright: Prawa autorskie i licencja
     donate: Wspomóż Projekt OpenStreetMap {{link}} na Konto Aktualizacji Naszego Sprzętu.
     donate_link_text: dokonując darowizny
     edit: Edycja
@@ -899,7 +914,6 @@ pl:
     shop_tooltip: Sklep z markowymi towarami OpenStreetMap
     sign_up: zarejestruj
     sign_up_tooltip: Załóż konto, aby edytować
-    sotm: Wpadnij na tegoroczną Konferencję OpenStreetMap, The State of the Map, 10-12 Lipca w Amsterdamie!
     tag_line: Swobodna Wiki-Mapa Świata
     user_diaries: Dzienniczki
     user_diaries_tooltip: Przeglądaj dzienniczki użytkownika
@@ -907,6 +921,10 @@ pl:
     view_tooltip: Zobacz mapę
     welcome_user: Witaj, {{user_link}}
     welcome_user_link_tooltip: Strona użytkownika
+  license_page: 
+    foreign: 
+      english_link: oryginalna angielska wersja
+      title: Informacje o tłumaczeniu
   message: 
     delete: 
       deleted: Wiadomość usunięta
@@ -979,6 +997,7 @@ pl:
       greeting: Cześć,
       hopefully_you: Ktoś (prawdopodobnie Ty) chce zmienić adres e-mail w {{server_url}} na {{new_address}}.
     email_confirm_plain: 
+      greeting: Cześć,
       hopefully_you_1: Ktoś (prawdopodobnie Ty sam(a)) chciałby zmienić adres e-mail w serwisie
       hopefully_you_2: "{{server_url}} na {{new_address}}."
     friend_notification: 
@@ -1015,7 +1034,6 @@ pl:
       footer2: możesz odpowiedzieć pod adresem {{replyurl}}
       header: "{{from_user}} wysłał do Ciebie wiadomość z OpenStreetMap o temacie {{subject}}:"
       hi: Witaj {{to_user}},
-      subject: "[OpenStreetMap] Użytkownik {{user}} przysłał nową wiadomość"
     signup_confirm: 
       subject: "[OpenStreetMap] Prośba o potwierdzenie adresu e-mail"
     signup_confirm_html: 
@@ -1064,7 +1082,11 @@ pl:
       required: Wymagane
     index: 
       application: Nazwa aplikacji
+      my_apps: Programy klienckie
+      my_tokens: Zarejestrowane programy
+      no_apps: Czy chcesz zarejestrować programy korzystające ze standardu {{oauth}}? Programy muszą być wcześniej zarejestrowane, nim będzie można skorzystać z zapytań OAuth do tego serwisu.
       revoke: Odwołaj!
+      title: Szczegóły autoryzacji OAuth
     show: 
       edit: Edytuj szczegóły
   site: 
@@ -1272,6 +1294,7 @@ pl:
       flash update success confirm needed: Zaktualizowano profil użytkownika.  Sprawdź czy przyszedł już mail potwierdzający nowy adres mailowy.
       home location: "Lokalizacja domowa:"
       image: "Grafika:"
+      image size hint: (najlepiej sprawdzają się kwadratowe obrazy o rozmiarach przynajmniej 100x100)
       latitude: "Szerokość:"
       longitude: "Długość geograficzna:"
       make edits public button: Niech wszystkie edycje będą publiczne.
@@ -1312,6 +1335,9 @@ pl:
       not_an_administrator: Musisz mieć uprawnienia administratora do wykonania tego działania.
     go_public: 
       flash success: Wszystkie Twoje modyfikacje są od teraz publiczne i jesteś uprawniony/a do edycji.
+    list: 
+      heading: Użytkownicy
+      title: Użytkownicy
     login: 
       account not active: Niestety Twoje konto nie jest jeszcze aktywne.<br />Otwórz link zawarty w mailu potwierdzenia założenia konta aby je aktywować.
       auth failure: Niestety podane dane nie pozwoliły na zalogowanie Cię.
@@ -1322,6 +1348,7 @@ pl:
       lost password link: Zapomniane hasło?
       password: "Hasło:"
       please login: Zaloguj się lub {{create_user_link}}.
+      remember: "Pamiętaj mnie:"
       title: Logowanie
     logout: 
       heading: Wyloguj z OpenStreetMap
@@ -1343,6 +1370,7 @@ pl:
       confirm email address: "Potwierdzenie adresu e-mail:"
       confirm password: "Potwierdzenie hasła:"
       contact_webmaster: Prosimy skontaktuj się z <a href="mailto:webmaster@openstreetmap.org">webmasterem</a> żeby poprosić o stworzenie konta - zajmiemy się Twoim zapytaniem najszybciej jak to możliwe.
+      continue: Kontynuuj
       display name: "Przyjazna nazwa:"
       display name description: Twoja publiczna nazwa użytkownika. Można ją później zmienić w ustawieniach.
       email address: "Adres e-mail:"
@@ -1355,7 +1383,7 @@ pl:
       password: "Hasło:"
       title: Nowe konto
     no_such_user: 
-      body: Niestety nie znaleziono użytkownika o nazwie {{user}}, sprawdź pisownię.  Być może użyłeś(aś) linku który był niepoprawny.
+      body: Niestety nie znaleziono użytkownika o nazwie {{user}}, sprawdź pisownię.  Być może skorzystano z nieprawidłowego odnośnika.
       heading: Użytkownik{{user}} nie istnieje
       title: Nie znaleziono użytkownika
     popup: 
@@ -1375,6 +1403,17 @@ pl:
       title: zresetuj hasło
     set_home: 
       flash success: Nowa lokalizacja domowa zapisana
+    suspended: 
+      heading: Konto zawieszone
+      title: Konto zawieszone
+    terms: 
+      agree: Akceptuję
+      decline: Nie akceptuję
+      legale_names: 
+        france: Francja
+        italy: Włochy
+        rest_of_world: Reszta świata
+      legale_select: "Proszę wybrać kraj zamieszkania:"
     view: 
       activate_user: aktywuj tego użytkownika
       add as friend: dodaj do znajomych
@@ -1418,6 +1457,7 @@ pl:
           moderator: Cofnij dostęp moderatora
       send message: wyślij wiadomość
       settings_link_text: stronie ustawień
+      status: "Stan:"
       traces: ślady
       unhide_user: odkryj tego użytkownika
       user location: Lokalizacja użytkownika

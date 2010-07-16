@@ -16,7 +16,7 @@ class UserController < ApplicationController
 
   filter_parameter_logging :password, :pass_crypt, :pass_crypt_confirmation
 
-  cache_sweeper :user_sweeper, :only => [:account, :set_status, :delete]
+  cache_sweeper :user_sweeper, :only => [:account, :set_status, :delete], :unless => OSM_STATUS == :database_offline
 
   def terms
     @title = t 'user.new.title'

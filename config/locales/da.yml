@@ -46,6 +46,11 @@ da:
       relation: Relation
       user: Bruger
       user_preference: Brugerindstillinger
+  application: 
+    require_cookies: 
+      cookies_needed: Du har tilsyneladende deaktiveret cookies i din browser. Aktiver cookies før du fortsætter.
+    setup_user_auth: 
+      blocked: Din adgang til API'et er blokeret. Log ind på webinterfacet for a finde ud mere.
   browse: 
     changeset: 
       changeset: "Ændringssæt: {{id}}"
@@ -93,7 +98,13 @@ da:
     navigation: 
       all: 
         next_changeset_tooltip: Næste ændringssæt
+        next_node_tooltip: Næste punkt
+        next_relation_tooltip: Næste relation
+        next_way_tooltip: Næste vej
         prev_changeset_tooltip: Forrige ændringssæt
+        prev_node_tooltip: Forrige punkt
+        prev_relation_tooltip: Forrige relation
+        prev_way_tooltip: Forrige vej
       user: 
         name_changeset_tooltip: Vis redigeringer af {{user}}
         next_changeset_tooltip: Næste redigering af {{user}}
@@ -237,6 +248,8 @@ da:
       title_bbox: Ændringssæt inden for {{bbox}}
       title_user: Ændringssæt af {{user}}
       title_user_bbox: Ændringssæt af {{user}} inden for {{bbox}}
+    timeout: 
+      sorry: Desværre tog det for lang tid for at hente den ændringssætliste du har bedt om.
   diary_entry: 
     diary_comment: 
       confirm: Bekræft
@@ -270,6 +283,7 @@ da:
       osmarender_image: Osmarender billede
       scale: Skala
       too_large: 
+        body: Dette område er for stor for at blive eksporteret som OpenStreetMap XML data. Zoom ind eller vælg et mindre område.
         heading: Område for stort
       zoom: Zoom
     start_rjs: 
@@ -283,7 +297,9 @@ da:
   geocoder: 
     description: 
       title: 
+        geonames: Position fra <a href="http://www.geonames.org/">GeoNames</a>
         osm_namefinder: "{{types}} fra <a href=\"http://gazetteer.openstreetmap.org/namefinder/\">OpenStreetMap Namefinder</a>"
+        osm_nominatim: Position fra <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
       types: 
         cities: Storbyer
         places: Steder
@@ -319,12 +335,14 @@ da:
       suffix_parent: "{{suffix}} ({{parentdistance}} {{parentdirection}} for {{parentname}})"
       suffix_place: ", {{distance}} {{direction}} for {{placename}}"
   layouts: 
+    copyright: Ophavsret &amp; Licens
     donate: Støt OpenStreetMap med en {{link}} til Hardware-upgradefonden.
     donate_link_text: donation
     edit: Redigér
     export: Eksporter
     export_tooltip: Eksporter kortdata
     gps_traces: GPS-spor
+    gps_traces_tooltip: Håndter GPS-spor
     help_wiki: Hjælp &amp; Wiki
     help_wiki_tooltip: Hjælp- og Wiki-side for projektet
     help_wiki_url: http://wiki.openstreetmap.org/wiki/Da:Main_Page?uselang=da
@@ -338,7 +356,10 @@ da:
       zero: Din indbakke indeholder ingen ulæste beskeder
     intro_1: OpenStreetMap er et frit redigerbart kort over hele verden. Det er lavet af folk som dig.
     intro_2: OpenStreetMap gør det mulig at vise, redigere og bruge geografiske data på en samarbejdende måde fra hvor som helst på jorden.
-    intro_3: OpenStreetMaps hosting er venligt støttet af {{ucl}} og {{bytemark}}.
+    intro_3: OpenStreetMaps hosting er venligt støttet af {{ucl}} og {{bytemark}}. Andre partnere af projektet er skrivet op i {{partners}}'en.
+    intro_3_partners: wiki
+    license: 
+      title: OpenStreetMap data er licenseret under en Creative Commons Navngivelse-Del på samme vilkår 2.0 Generisk Licens
     log_in: log på
     log_in_tooltip: Log på med din konto
     logo: 
@@ -539,6 +560,7 @@ da:
       latitude: "Breddegrad:"
       longitude: "Længdegrad:"
       my settings: Mine indstillinger
+      new image: Tilføj et billede
       no home location: Du har ikke angivet din hjemmeposition.
       preferred languages: "Foretrukne sprog:"
       public editing: 
@@ -550,11 +572,17 @@ da:
       update home location on click: Opdater hjemmeposition når jeg klikker på kortet?
     confirm: 
       button: Bekræft
+      failure: En konto med denne nøgle er allerede bekræftet.
+      heading: Bekræft en konto.
+      press confirm button: Tryk på "Bekræft"-knappen nedenfor for at aktivere din konto.
+      success: Din konto er bekræftet, tak for din registrering!
     confirm_email: 
       button: Bekræft
       heading: Bekræft ændring af e-mail adresse
     filter: 
       not_an_administrator: Du skal være administrator for at gøre dette.
+    go_public: 
+      flash success: Alle dine redigeringer er nu offentlige, og du har lov til at redigere.
     login: 
       account not active: Din konto er ikke aktiveret endnu.<br />Klik på linket i bekræftelsemailen for at aktivere din konto.
       auth failure: Kunne ikke logge på med disse oplysninger.
@@ -565,12 +593,19 @@ da:
       lost password link: Glemt adgangskode?
       password: "Adgangskode:"
       please login: Log på eller {{create_user_link}}.
+      remember: "Husk tilmeldingsoplysninger:"
       title: Log på
+    logout: 
+      heading: Log af fra OpenStreetMap
+      logout_button: Log af
+      title: Log af
     lost_password: 
       email address: "E-mail-adresse:"
       heading: Glemt adgangskode?
+      help_text: Indtast e-mail-adressen du brugte da du oprettede kontoen. Vi bruger denne adresse for at sende dig en link som du kan bruge til at nulstille din adgangskode.
       new password button: Nulstil adgangskode
       notice email cannot find: Kunne ikke finde din e-mail. Beklager.
+      notice email on way: Synd du har glemt den, men en e-mail er på vej så du kan snart indstille en ny.
       title: Glemt adgangskode
     make_friend: 
       already_a_friend: Du er allerede ven med {{name}}.
@@ -589,6 +624,8 @@ da:
       heading: Brugeren {{user}} findes ikke
       title: Ingen sådan bruger
     popup: 
+      friend: Ven
+      nearby mapper: Bruger i nærheden
       your location: Din position
     reset_password: 
       confirm password: "Bekræft adgangskode:"
@@ -600,9 +637,16 @@ da:
     set_home: 
       flash success: Hjemmeposition gemt
     view: 
+      activate_user: aktiver denne bruger
       add as friend: tilføj som ven
       ago: ({{time_in_words_ago}} siden)
+      block_history: vis tildelte blokeringer
+      blocks by me: blokeringer udført af mig
+      blocks on me: mine blokeringer
       confirm: Bekræft
+      confirm_user: bekræft denne bruger
+      create_block: bloker denne bruger
+      created from: "Oprettet fra:"
       deactivate_user: deaktiver denne bruger
       delete_user: slet denne bruger
       description: Beskrivelse
@@ -610,19 +654,34 @@ da:
       edits: redigeringer
       email address: "E-mail-adresse:"
       hide_user: skjul denne bruger
+      if set location: Hvis du indstiller din position, viser der sig et pænt kort her. Du kan indstille din hjemmeposition på din {{settings_link}}-side.
       km away: "{{count}}km væk"
       m away: "{{count}} m væk"
+      mapper since: "Kortlægger siden:"
+      moderator_history: vis uddelte blokeringer
       my diary: min dagbog
       my edits: mine redigeringer
       my settings: mine indstillinger
       my traces: mine GPS-spor
-      nearby users: "Brugere nær dig:"
+      nearby users: "Andre brugere i nærheden:"
       new diary entry: ny dagbogsoptegnelse
+      no friends: Du har ikke tilføjet nogle venner endnu.
+      no nearby users: Der er ingen andre brugere der har angivet at de kortlægger i nærheden.
+      oauth settings: oauth-indstillinger
       remove as friend: fjern som ven
       role: 
         administrator: Denne bruger er en administrator
+        grant: 
+          administrator: Giv administrator-adgang
+          moderator: Giv moderator-adgang
+        moderator: Denne bruger er en moderator
+        revoke: 
+          administrator: Fjern administrator-adgang
+          moderator: Fjern moderator-adgang
       send message: send besked
       settings_link_text: indstillinger
+      spam score: "Spambedømmelse:"
+      status: "Status:"
       traces: GPS-spor
       unhide_user: stop med at skjule denne bruger
       user location: Brugereposition

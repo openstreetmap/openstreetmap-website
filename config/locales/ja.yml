@@ -75,6 +75,11 @@ ja:
       way: ウェイ
       way_node: ウェイのノード
       way_tag: ウェイのタグ
+  application: 
+    require_cookies: 
+      cookies_needed: ブラウザのクッキーが無効になっているようです。続行する前にブラウザのクッキーをonにしてください。
+    setup_user_auth: 
+      blocked: APIへのアクセスがブロックされました。Web インターフェースからログインし直して詳細を確認してください。
   browse: 
     changeset: 
       changeset: "変更セット: {{id}}"
@@ -209,7 +214,11 @@ ja:
       zoom_or_select: ズームアップするか、表示する領域を選択
     tag_details: 
       tags: "タグ:"
+      wiki_link: 
+        key: Wikiの {{key}} tagについての説明ページ
+        tag: Wikiの  {{key}}={{value}}  についての解説ページ
     timeout: 
+      sorry: 申し訳ありません。{{type}} からのデータ {{id}} は取得するには大き過ぎます。
       type: 
         changeset: 変更セット
         node: ノード
@@ -266,6 +275,8 @@ ja:
       title_bbox: "{{bbox}} 範囲内の変更セット"
       title_user: "{{user}} の変更セット"
       title_user_bbox: "{{bbox}}内の{{user}}による変更セット"
+    timeout: 
+      sorry: 申し訳ありません。あなたが要求した変更セットのリストは大きすぎて取得に失敗しました。
   diary_entry: 
     diary_comment: 
       comment_from: "{{comment_created_at}} {{link_user}} からのコメント"
@@ -301,6 +312,7 @@ ja:
         title: "{{language_name}}のOpenStreetMap 日記エントリー"
       user: 
         description: "{{user}} さんの最近のOpenStreetMap 日記のエントリー"
+        title: "{{user}} さんの最近のOpenStreetMap 日記のエントリー"
     list: 
       in_language_title: "{{language}} の日記項目"
       new: 新規日記入力
@@ -311,6 +323,10 @@ ja:
       recent_entries: "最新の日記項目:"
       title: ユーザの日記
       user_title: "{{user}} の日記"
+    location: 
+      edit: 編集
+      location: "場所:"
+      view: 表示
     new: 
       title: 新しい日記の入力
     no_such_entry: 
@@ -326,7 +342,7 @@ ja:
       login: ログイン
       login_to_leave_a_comment: コメントを書くには{{login_link}}してください。
       save_button: 保存
-      title: ユーザ日記 | {{user}}
+      title: "{{user}}の日記 | {{title}}"
       user_title: "{{user}} の日記"
   export: 
     start: 
@@ -363,6 +379,10 @@ ja:
       view_larger_map: 大きな地図を表示...
   geocoder: 
     description: 
+      title: 
+        geonames: <a href="http://www.geonames.org/">GeoNames</a>からの結果
+        osm_namefinder: <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>からの{{types}}
+        osm_nominatim: <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>からの位置
       types: 
         cities: 都市
         places: 場所
@@ -381,6 +401,7 @@ ja:
       other: 約{{count}}キロメートル
       zero: 1キロメートル以下
     results: 
+      more_results: さらに検索...
       no_results: 見つかりませんでした。
     search: 
       title: 
@@ -388,44 +409,277 @@ ja:
         geonames: <a href="http://www.geonames.org/">GeoNames</a>からの結果
         latlon: <a href="http://openstreetmap.org/">Internal</a>からの結果
         osm_namefinder: <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>からの結果
+        osm_nominatim: <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a> からの結果
         uk_postcode: <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>からの結果
         us_postcode: <a href="http://geocoder.us/">Geocoder.us</a>からの結果
     search_osm_nominatim: 
       prefix: 
         amenity: 
           airport: 空港
+          arts_centre: アートセンター
+          atm: ATM
+          auditorium: 講堂
           bank: 銀行
+          bar: バー (立ち飲み屋)
+          bench: ベンチ
+          bicycle_parking: 駐輪場
+          bicycle_rental: レンタサイクル
+          brothel: 売春宿
+          bus_station: バス停
           car_rental: レンタカー
           car_wash: 洗車
           casino: 賭場
+          cinema: 映画館
+          clinic: クリニック
           college: 大学
+          community_centre: コミュニティセンター
+          courthouse: 裁判所
           dentist: 歯科医
+          dormitory: 寮
+          drinking_water: 飲み水
+          driving_school: 自動車学校
           embassy: 大使館
+          emergency_phone: 緊急電話
+          fast_food: ファストフード
+          ferry_terminal: フェリー乗り場
+          fire_hydrant: 消火栓
+          fire_station: 消防署
+          fountain: 噴水
+          grave_yard: 墓地
+          gym: フィットネスセンター
+          hall: ホール
+          health_centre: 保健所
+          hospital: 病院
           hotel: ホテル
+          ice_cream: アイスクリーム販売店
           kindergarten: 幼稚園
           library: 図書館
+          marketplace: 市場
+          mountain_rescue: 山岳救助
+          nightclub: ナイトクラブ
+          nursery: 保育所
+          nursing_home: 特別養護老人ホーム
+          park: 公園
+          parking: 駐車場
+          pharmacy: 薬局
+          place_of_worship: 神社仏閣
+          police: 警察所
+          post_box: 郵便ポスト
+          prison: 刑務所
           pub: パブ（立ち吞み屋）
+          public_building: 公共建築物
+          public_market: 公設市場
+          restaurant: レストラン
+          retirement_home: 老人ホーム
           sauna: サウナ
           school: 学校
+          shelter: 避難所
           shop: 店舗
+          social_club: 社交クラブ
+          studio: スタジオ
+          supermarket: スーパーマーケット
           taxi: タクシー乗り場
+          telephone: 公衆電話
+          theatre: 劇場
+          toilets: トイレ
+          townhall: 市庁舎
           university: 大学
+          vending_machine: 自動販売機
+          veterinary: 獣医外科
           wifi: WiFiアクセスポイント
+          youth_centre: 青少年センター
+        boundary: 
+          administrative: 行政境界
+        building: 
+          chapel: 礼拝堂
+          church: 教会
+          city_hall: 市役所
+          commercial: 商業ビル
+          dormitory: 寮
+          entrance: ビル入口
+          flats: アパート
+          garage: 車庫
+          hall: ホール
+          hospital: 病院
+          hotel: ホテル
+          house: 住宅
+          industrial: 工業ビル
+          office: オフィスビル
+          public: 公共建築物
+          school: 校舎
+          shop: 店舗
+          stadium: 球技場
+          store: 店舗
+          terrace: テラス
+          tower: 塔
+          train_station: 鉄道駅
+          "yes": 建造物
         highway: 
           bus_stop: バス停
+          byway: 路地
+          cycleway: 自転車道
+          ford: 砦
+          motorway_junction: 高速道路ジャンクション
           steps: 階段
+        historic: 
+          battlefield: 戦場
+          boundary_stone: 境界石
+          building: ビル
+          castle: 城
+          church: 教会
+          house: 住宅
+          icon: アイコン
+          manor: 荘園
+          memorial: 記念碑
+          mine: 鉱山
+          museum: 博物館
+          ruins: 廃墟
+          tower: 塔
+          wreck: 沈没船
+        landuse: 
+          allotments: 家庭菜園
+          cemetery: 墓地
+          commercial: 商業地域
+          construction: 工事中
+          farmland: 農地
+          landfill: 埋め立て地
+          meadow: 牧草地
+          military: 軍用地域
+          mountain: 山
+          park: 公園
+          plaza: 広場
+          quarry: 採石場
+          railway: 鉄道
+          reservoir: 貯水池
+          residential: 住宅街
+          vineyard: Vineyard
+          wetland: 湿地帯
+        leisure: 
+          beach_resort: ビーチリゾート
+          common: 共有地
+          fishing: 釣り場
+          garden: 庭園
+          golf_course: ゴルフ場
+          ice_rink: スケート場
+          marina: マリーナ
+          miniature_golf: ミニチュアゴルフ
+          nature_reserve: 自然保護区
+          park: 公園
+          pitch: 運動場
+          slipway: 造船台
+          sports_centre: スポーツセンター
+          stadium: スタジアム
+          swimming_pool: 水泳用プール
+          track: 陸上競技用トラック
+        natural: 
+          bay: 入り江
+          beach: 砂浜
+          cape: 岬
+          cave_entrance: 洞窟入口
+          channel: 水路
+          cliff: 崖
+          coastline: 海岸線
+          crater: クレーター
+          feature: 地物
+          geyser: 間欠泉
+          glacier: 氷河
+          heath: 荒れ地
+          hill: 丘陵
+          island: 島
+          land: 陸地
+          marsh: 沼地
+          mud: 泥
+          peak: 山頂
+          point: 点
+          reef: 砂州
+          ridge: 海嶺
+          river: 河川
+          rock: 岩場
+          scree: がれ場
+          scrub: 低木林
+          shoal: 浅瀬
+          spring: 泉
+          strait: 海峡
+          tree: 木
+          valley: 谷
+          volcano: 噴火口
+          water: 湖水
+          wetland: 湿地帯
+          wetlands: 湿原
+          wood: 森林
         place: 
           airport: 空港
           city: 市
+          farm: 牧場
+          hamlet: 村
+          houses: 住宅地
+          island: 島
+          islet: 小島
+          locality: 地域
+          municipality: 市町村
+          postcode: Postcode
+          region: 地域
+          sea: 海
+          state: 都道府県・州
+          subdivision: 区分
+          suburb: 郊外
+          town: 町
+          village: 村
+        railway: 
+          disused: 廃線跡
+          funicular: ケーブル鉄道
+          halt: 列車停止
+          level_crossing: 踏切
+          light_rail: ライトレール
+          monorail: モノレール
+          narrow_gauge: 狭軌鉄道
+          platform: 鉄道プラットフォーム
+          station: 鉄道駅
+          subway: 地下鉄駅
+          subway_entrance: 地下鉄駅入口
+          tram: 路面軌道
+          tram_stop: トラム停留所
+        shop: 
+          beauty: 美容室
+          beverages: 飲料ショップ
+          car: 自動車販売店
+          cosmetics: 化粧品販売店
+          electronics: 電気製品販売店
+          greengrocer: 八百屋
+          newsagent: 新聞販売店
+          outdoor: アウトドアショップ
+          pet: ペットショップ
+          shopping_centre: ショッピングセンター
         tourism: 
+          museum: 博物館
           theme_park: テーマパーク
           valley: 谷
           zoo: 動物園
+        waterway: 
+          boatyard: ボートヤード
+          canal: 運河
+          dam: ダム
+          dock: 埠頭
+          lock: 岩場
+          lock_gate: 水門
+          river: 河川
+          riverbank: 川岸
+          stream: 小川
+          water_point: 給水所
+          waterfall: 滝
   javascripts: 
+    map: 
+      base: 
+        noname: 無名
     site: 
+      edit_disabled_tooltip: 編集のために地図を拡大する
+      edit_tooltip: 地図を編集
       edit_zoom_alert: 編集するにはもっと拡大してください
+      history_disabled_tooltip: 編集履歴を参照するにはもっと拡大してください
+      history_tooltip: この範囲の編集履歴を見る
       history_zoom_alert: 編集履歴を参照するにはもっと拡大してください
   layouts: 
+    copyright: 著作権とライセンス
     donate: ハードウェアーアップグレード基金への{{link}} で、OpenStreetMap を支援する。
     donate_link_text: 寄付
     edit: 編集
@@ -446,8 +700,11 @@ ja:
       zero: 受信箱に未読メッセージはありません
     intro_1: OpenStreetMap は自由に編集できる世界地図です。あなたのような人々が作りました。
     intro_2: OpenStreetMap は地球上の誰でも、どこからでもこの共同作業の結果である地図データを編集、閲覧することを可能にしています。
-    intro_3: OpenStreetMap は {{ucl}} と {{bytemark}}.によってホスティングされています。
+    intro_3: OpenStreetMap は {{ucl}} と {{bytemark}}によってホスティングされています。{{partners}} には協賛組織の一覧があります。
+    intro_3_partners: ウィキ
     intro_3_ucl: ユニヴァーシティ・カレッジ・ロンドン (UCL) VR センター
+    license: 
+      title: OpenStreetMapのデータは、クリエイティブコモンズ表示 - 継承2.0一般 でライセンスされています
     log_in: ログイン
     log_in_tooltip: 自分のアカウントでログインする
     logo: 
@@ -465,7 +722,6 @@ ja:
     shop_tooltip: OpenStreetMap ブランドの店舗
     sign_up: 登録
     sign_up_tooltip: 編集できるアカウントを作成する
-    sotm: 2009 OpenStreetMapカンファレンスへ行こう！ The State of the Map,アムステルダムにて７月10-12日開催!
     tag_line: 自由なウィキ世界地図
     user_diaries: ユーザの日記
     user_diaries_tooltip: ユーザの日記を見る
@@ -476,9 +732,11 @@ ja:
   license_page: 
     foreign: 
       english_link: 英語の原文
+      text: 翻訳したページと、{{english_original_link}} の間で競合が発生しました。英語版の内容が優先されるでしょう。
       title: この翻訳について
     native: 
       mapping_link: マッピングを始める
+      text: あなたは英語版の著作権情報のページを閲覧しています。{{native_link}} から戻る事ができます。または {{mapping_link}} からマッピングに戻れます。
       title: このページについて
   message: 
     delete: 
@@ -503,15 +761,20 @@ ja:
     new: 
       back_to_inbox: 受信箱に戻る
       body: 本文
+      limit_exceeded: 短い間隔で大量のメッセージを送っていますね。次を送る前にしばらくお待ちください。
       message_sent: 送信したメッセージ
       send_button: 送信
       send_message_to: "{{name}}に新しいメッセージを送信"
       subject: タイトル
       title: メッセージの送信
+    no_such_message: 
+      body: 申し訳ありません。そのIDのメッセージは存在しないようです。
+      heading: そのようなメッセージはありません
+      title: そのようなメッセージはありません
     no_such_user: 
-      body: そのような名前かIDのついたユーザーやメッセージがありません。
-      heading: そのようなユーザーまたはメッセージは存在しません。
-      title: そのようなユーザーまたはメッセージは存在しません。
+      body: そのような名前のユーザーは存在しません
+      heading: そのようなユーザーは存在しません
+      title: そのようなユーザは存在しません
     outbox: 
       date: 日付
       inbox: 受信箱
@@ -591,29 +854,58 @@ ja:
     oauthorize: 
       allow_read_gpx: あなたの非公開GPSトレースを読み込む。
       allow_read_prefs: あなたの利用者設定を読み込む。
+      allow_to: "クライアントアプリケーションに以下の操作を許可する:"
       allow_write_api: 地図を修正する。
       allow_write_gpx: GPSトレースをアップロードする。
       allow_write_prefs: あなたの利用者設定を変更する。
+      request_access: アプリケーション {{app_name}} たあなたのアカウントへの接続許可を求めています。そのアプリケーションに許可してもよいかどうかを確認してください。複数のアプリケーションに許可を与える事もできます。
+    revoke: 
+      flash: "{{application}} へのトークンを無効にしました。"
   oauth_clients: 
+    create: 
+      flash: 正常に登録完了しました。
+    destroy: 
+      flash: 破棄されたクライアントアプリケーションの登録
     edit: 
       submit: 編集
+      title: アプリケーションの編集
     form: 
+      allow_read_gpx: 非公開GPSトレースを読み込む。
       allow_read_prefs: 利用者設定を読み込む。
       allow_write_api: 地図を修正する。
       allow_write_gpx: GPSトレースをアップロードする。
+      allow_write_prefs: ユーザー設定を変更する。
+      callback_url: コールバックURL
       name: 名前
+      requests: "ユーザからのアクセス許可要求:"
+      required: 必須
+      support_url: サポートURL
+      url: メインアプリケーションのURL
     index: 
       application: アプリケーション
+      issued_at: 発行
+      my_apps: クライアントアプリケーション
       my_tokens: 認証を許可したアプリケーション
+      register_new: アプリケーションの登録
+      revoke: 取消し
+      title: OAuthの詳細
     new: 
       submit: 登録
+      title: 新しいアプリケーションを登録
     show: 
+      access_url: "アクセストークンURL:"
       allow_read_gpx: 非公開GPSトレースを読み込む。
       allow_read_prefs: 利用者設定を読み込む。
       allow_write_api: 地図を修正する。
       allow_write_gpx: GPS トレースをアップロードする。
       allow_write_prefs: 利用者設定を変更する。
+      authorize_url: "承認URL:"
       edit: 詳細の編集
+      key: "コンシューマーキー:"
+      title: "{{app_name}} の OAuth 詳細"
+      url: "リクエストトークンURL:"
+    update: 
+      flash: クライアント情報の更新が正常に終了しました
   site: 
     edit: 
       flash_player_required: OpenStreetMap エディタの Potlatch を使うには、Flash Player が必要です。Flash Player は<a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">Adobe.com</a>からダウンロードできます。OpenStreetMapを編集する<a href="http://wiki.openstreetmap.org/wiki/Ja:Editing">他の方法</a>もあります。
@@ -636,6 +928,7 @@ ja:
       table: 
         entry: 
           admin: 行政境界
+          allotments: 家庭菜園
           apron: 
             - 空港ビル
             - 空港ターミナル
@@ -646,8 +939,11 @@ ja:
           cable: 
             - ケーブル・カー
             - リフト
+          cemetery: 墓地
           centre: スポーツセンター
           commercial: 商業地域
+          common: 
+            1: 牧草地
           construction: 建設中の道路
           cycleway: 自転車道
           destination: 目的通行
@@ -739,6 +1035,7 @@ ja:
       heading: "{{user}} というユーザは存在しません。"
       title: そのようなユーザは存在しません
     offline: 
+      heading: GPXのストレージが利用できません
       message: GPXファイルのストレージとアップロードシステムは現在使用できません。
     offline_warning: 
       message: GPXファイルアップロードシステムは現在利用できません
@@ -775,6 +1072,7 @@ ja:
     trace_paging_nav: 
       next: 次へ &raquo;
       previous: "&laquo; 前へ"
+      showing_page: " {{page}} ページ"
     view: 
       delete_track: このトラックの削除
       description: "詳細:"
@@ -802,15 +1100,18 @@ ja:
   user: 
     account: 
       current email address: 現在の電子メールアドレス：
+      delete image: 現在の画像を削除
       email never displayed publicly: （公開しません）
       flash update success: ユーザ情報の更新に成功しました。
       flash update success confirm needed: ユーザ情報の更新に成功しました。登録したメールアドレスのメールを受信して、メールアドレスの確認を行ってください。
       home location: "活動地域:"
       image: "画像:"
+      keep image: 現在のイメージを保持
       latitude: "緯度:"
       longitude: "経度:"
       make edits public button: 私の編集を全て公開する
       my settings: 私の設定
+      new email address: 新しい電子メールアドレス
       new image: 画像を追加
       no home location: あなたはまだ活動地域を登録していません。
       preferred languages: "言語設定:"
@@ -846,6 +1147,9 @@ ja:
       flash success: あなたの全ての編集は公開されます。今から編集できます。
     list: 
       confirm: 選択したユーザを確認
+      empty: 条件に一致するユーザーが見つかりません
+      hide: 選択したユーザーを隠す
+      title: ユーザー
     login: 
       account not active: 申し訳ありません。あなたのアカウントはまだ有効ではありません。<br />アカウント確認メールに記載されている、アカウントを有効にするリンクをクリックしてください。
       auth failure: 申し訳ありません、以下の理由によりログインできません。
@@ -858,6 +1162,11 @@ ja:
       please login: ログインするか、{{create_user_link}}.
       remember: パスワードを記憶する。
       title: ログイン
+      webmaster: ウェブマスター
+    logout: 
+      heading: OpenStreetMapからログアウトする
+      logout_button: ログアウト
+      title: ログアウト
     lost_password: 
       email address: "電子メールアドレス:"
       heading: パスワードを忘れましたか?
@@ -876,6 +1185,7 @@ ja:
       contact_webmaster: アカウントを作成できるよう、<a href="mailto:webmaster@openstreetmap.org">webmaster</a>に連絡してください。 できるだけ早期に、あなたの希望に対応するように努めます。
       continue: 続行
       display name: "表示名:"
+      display name description: あなたのユーザー名は投稿者として公開されます。これは設定から変更できます。
       email address: "Eメールアドレス:"
       fill_form: 以下のフォームを埋めてください。登録すると、あなたのアカウントを有効化するためにあなたにメールをお送りします。
       flash create success message: ユーザ作成に成功しました。すぐに編集を開始するために電子メールを確認してアカウントを有効にしてください。<br /><br />あなたの指定したアドレスに確認メールが届くまであなたはログインすることはできません。<br /><br />メールボックスでスパムフィルタを使っているときには webmaster@openstreetmap.org からの確認メールを受信できるようホワイトリストを設定してください。
@@ -890,6 +1200,7 @@ ja:
       heading: "{{user}} というユーザは存在しません。"
       title: ユーザが存在しません
     popup: 
+      friend: 友達
       nearby mapper: 周辺のマッパー
       your location: あなたの位置
     remove_friend: 
@@ -910,17 +1221,22 @@ ja:
       title: アカウント保留
     terms: 
       agree: 同意する
+      consider_pd: 私は私の投稿をパブリックドメインとします（著作権、著作隣接権を放棄し、著作人格権の行使を行いません）
       consider_pd_why: これは何ですか？
       legale_names: 
         france: フランス
         italy: イタリア
         rest_of_world: それ以外の国
+      legale_select: "お住まいの国もしくは地域を選択してください:"
+      press accept button: アカウントを作成するにあたり、以下の契約をよく読んで同意される場合にはボタンを押してください。
     view: 
       activate_user: このユーザーを有効にする
       add as friend: 友達に追加
       ago: （{{time_in_words_ago}} 前）
       confirm: 確認する
+      confirm_user: このユーザーを確認する
       create_block: このユーザーをブロック
+      created from: "作成日:"
       deactivate_user: このユーザーを無効にする
       delete_user: このユーザーを消す
       description: 詳細
@@ -936,10 +1252,11 @@ ja:
       my edits: 私の編集
       my settings: ユーザ情報の設定
       my traces: 私のトレース
-      nearby users: "周辺のユーザ:"
+      nearby users: その他の近くのユーザ
       new diary entry: 新しい日記エントリ
       no friends: あなたは誰も友達として登録していません。
-      no nearby users: あなたの活動地域周辺にマッパーはいないようです。
+      no nearby users: あなたの活動地域周辺に他のマッパーはいないようです。
+      oauth settings: OAuth設定
       remove as friend: 友達から削除
       role: 
         administrator: このユーザーは管理者です。
@@ -949,26 +1266,88 @@ ja:
         moderator: このユーザーはモデレータです
         revoke: 
           administrator: 管理者権限を剥奪する
+          moderator: モデレート権限を剥奪する
       send message: メッセージ送信
       settings_link_text: 設定
+      spam score: スパム評価：
       status: "ステータス:"
       traces: トレース
       unhide_user: このユーザー再表示
       user location: ユーザの位置
       your friends: あなたの友達
   user_block: 
+    blocks_by: 
+      empty: "{{name}} は一度もブロックしていません。"
+      heading: "{{name}} によるブロックのリスト"
+      title: "{{name}} が行ったブロック"
+    blocks_on: 
+      empty: "{{name}} は一度もブロックされていません。"
+      heading: "{{name}} のブロックのリスト"
+      title: "{{name}} がされたブロック"
+    create: 
+      flash: ユーザー {{name}} をブロックしました。
+    edit: 
+      heading: "{{name}} のブロックを編集"
+      show: このブロックを閲覧
+      title: "{{name}} のブロックを編集"
+    filter: 
+      block_expired: このブロック期間は既に終了しており、変更できません。
+      block_period: ブロック期間はドロップダウンリストから一つ選択してください。
+      not_a_moderator: その動作にはモデレータ権限が必要です。
+    helper: 
+      time_past: "{{time}} 前に終了しました。"
+    index: 
+      empty: ブロックはまだ行われていません。
+      heading: ユーザーブロックのリスト
+      title: ユーザーブロック
+    model: 
+      non_moderator_revoke: ブロックを解除するにはモデレータ権限が必要です。
+      non_moderator_update: ブロックを編集するにはモデレータ権限が必要です。
+    new: 
+      back: 全てのブロックを表示
+      heading: "{{name}} をブロック"
+      needs_view: ブロックを解除するにはログインし直す必要があります。
+      submit: ブロックする
+      title: "{{name}} をブロック"
+      tried_contacting: ユーザーにそれをやめるよう尋ねました。
+    not_found: 
+      back: 索引に戻る
+      sorry: 申し訳ありません。ユーザーID{{id}} のブロックは見つかりませんでした。
     partial: 
       confirm: 確かですか?
       creator_name: 製作者
       display_name: ブロックされたユーザー
       edit: 編集
       reason: ブロックされた理由
+      revoke: 取消し
       show: 見せる
       status: 状態
     period: "{{count}} 時間"
+    revoke: 
+      confirm: このブロックを取り消してよろしいですか？
+      flash: このブロックは取り消されました。
+      heading: ブロックは {{block_on}} に {{block_by}} によって取り消されました。
+      past: このブロックは {{time}} 前に終了しました。今取り消す事はできません。
+      revoke: 取消し
+      time_future: このブロックは {{time}} に終了します。
+      title: "{{block_on}} のブロックを取消し"
     show: 
+      back: すべてのブロックを表示
       confirm: 確かですか?
       edit: 編集
+      heading: "{{block_on}}  {{block_by}} によってブロックされました"
+      needs_view: ブロックを解除する前に、ログインし直す必要があります。
+      reason: "ブロックの理由:"
+      revoke: 取消し
+      revoker: "取消:"
+      show: 表示
+      status: ステータス
+      time_future: "{{time}} に満了"
+      time_past: "{{time}} 前に終了しました"
+      title: "{{block_on}}  {{block_by}} によってブロックされました"
+    update: 
+      only_creator_can_edit: このブロックを編集するにはモデレータ権限が必要です。
+      success: ブロックを更新しました。
   user_role: 
     grant: 
       confirm: 確認
