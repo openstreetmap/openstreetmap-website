@@ -34,21 +34,24 @@ function createMap(divName, options) {
    var mapnik = new OpenLayers.Layer.OSM.Mapnik(i18n("javascripts.map.base.mapnik"), {
       keyid: "mapnik",
       displayOutsideMaxExtent: true,
-      wrapDateLine: true
+      wrapDateLine: true,
+      layerCode: "M"
    });
    map.addLayer(mapnik);
 
    var osmarender = new OpenLayers.Layer.OSM.Osmarender(i18n("javascripts.map.base.osmarender"), {
       keyid: "osmarender",
       displayOutsideMaxExtent: true,
-      wrapDateLine: true
+      wrapDateLine: true,
+      layerCode: "O"
    });
    map.addLayer(osmarender);
 
    var cyclemap = new OpenLayers.Layer.OSM.CycleMap(i18n("javascripts.map.base.cycle_map"), {
       keyid: "cyclemap",
       displayOutsideMaxExtent: true,
-      wrapDateLine: true
+      wrapDateLine: true,
+      layerCode: "C"
    });
    map.addLayer(cyclemap);
 
@@ -60,15 +63,10 @@ function createMap(divName, options) {
    ], {
       displayOutsideMaxExtent: true,
       wrapDateLine: true,
-      numZoomLevels: 19
+      numZoomLevels: 19,
+      layerCode: "N"
    });
    map.addLayer(noname);
-
-   var maplint = new OpenLayers.Layer.OSM.Maplint(i18n("javascripts.map.overlays.maplint"), {
-      displayOutsideMaxExtent: true,
-      wrapDateLine: true
-   });
-   map.addLayer(maplint);
 
    var numZoomLevels = Math.max(mapnik.numZoomLevels, osmarender.numZoomLevels);
 
@@ -226,39 +224,52 @@ function getEventPosition(event) {
 function getMapLayers() {
    var layerConfig = "";
 
-   for (var layers = map.getLayersBy("isBaseLayer", true), i = 0; i < layers.length; i++) {
-      layerConfig += layers[i] == map.baseLayer ? "B" : "0";
-   }
-
-   for (var layers = map.getLayersBy("isBaseLayer", false), i = 0; i < layers.length; i++) {
-      layerConfig += layers[i].getVisibility() ? "T" : "F";
+   for (var i = 0; i < map.layers.length; i++) {
+      if (map.layers[i].layerCode && map.layers[i].getVisibility()) {
+         layerConfig += map.layers[i].layerCode;
+      }
    }
 
    return layerConfig;
 }
 
 function setMapLayers(layerConfig) {
-   var l = 0;
+   if (layerConfig.charAt(0) == "B" || layerConfig.charAt(0) == "0") {
+      var l = 0;
 
-   for (var layers = map.getLayersBy("isBaseLayer", true), i = 0; i < layers.length; i++) {
-      var c = layerConfig.charAt(l++);
+      for (var layers = map.getLayersBy("isBaseLayer", true), i = 0; i < layers.length; i++) {
+         var c = layerConfig.charAt(l++);
 
-      if (c == "B") {
-         map.setBaseLayer(layers[i]);
+         if (c == "B") {
+            map.setBaseLayer(layers[i]);
+         }
       }
-   }
 
-   while (layerConfig.charAt(l) == "B" || layerConfig.charAt(l) == "0") {
-      l++;
-   }
+      while (layerConfig.charAt(l) == "B" || layerConfig.charAt(l) == "0") {
+         l++;
+      }
 
-   for (var layers = map.getLayersBy("isBaseLayer", false), i = 0; i < layers.length; i++) {
-      var c = layerConfig.charAt(l++);
+      for (var layers = map.getLayersBy("isBaseLayer", false), i = 0; i < layers.length; i++) {
+         var c = layerConfig.charAt(l++);
 
-      if (c == "T") {
-         layers[i].setVisibility(true);
-      } else if(c == "F") {
-         layers[i].setVisibility(false);
+         if (c == "T") {
+            layers[i].setVisibility(true);
+         } else if(c == "F") {
+            layers[i].setVisibility(false);
+         }
+      }
+   } else {
+      for (var i = 0; i < map.layers.length; i++) {
+         if (map.layers[i].layerCode &&
+             layerConfig.indexOf(map.layers[i].layerCode) >= 0) {
+            if (map.layers[i].isBaseLayer) {
+               map.setBaseLayer(map.layers[i]);
+            } else {
+               map.layers[i].setVisibility(true);
+            }
+         } else {
+            map.layers[i].setVisibility(false);
+         }
       }
    }
 }
