@@ -260,15 +260,16 @@ function setMapLayers(layerConfig) {
       }
    } else {
       for (var i = 0; i < map.layers.length; i++) {
-         if (map.layers[i].layerCode &&
-             layerConfig.indexOf(map.layers[i].layerCode) >= 0) {
-            if (map.layers[i].isBaseLayer) {
-               map.setBaseLayer(map.layers[i]);
+         if (map.layers[i].layerCode) {
+            if (layerConfig.indexOf(map.layers[i].layerCode) >= 0) {
+               if (map.layers[i].isBaseLayer) {
+                  map.setBaseLayer(map.layers[i]);
+               } else {
+                   map.layers[i].setVisibility(true);
+               }
             } else {
-               map.layers[i].setVisibility(true);
+               map.layers[i].setVisibility(false);
             }
-         } else {
-            map.layers[i].setVisibility(false);
          }
       }
    }
