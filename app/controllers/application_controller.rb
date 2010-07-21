@@ -250,17 +250,7 @@ class ApplicationController < ActionController::Base
     cache_path = options[:cache_path] || Hash.new
 
     options[:cache_path] = Proc.new do |controller|
-      user = controller.instance_variable_get("@user")
-
-      case
-      when user.nil? then user = :none
-      when user.display_name == controller.params[:display_name] then user = :self
-      when user.administrator? then user = :administrator
-      when user.moderator? then user = :moderator
-      else user = :other
-      end
-
-      cache_path.merge(controller.params).merge(:locale => I18n.locale, :user => user)
+      cache_path.merge(controller.params).merge(:locale => I18n.locale)
     end
 
     actions.push(options)
