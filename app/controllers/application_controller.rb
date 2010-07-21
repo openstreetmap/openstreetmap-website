@@ -261,8 +261,9 @@ class ApplicationController < ActionController::Base
   ##
   # extend expire_action to expire all variants
   def expire_action(options = {})
-    path = ActionCachePath.path_for(self, options, false).gsub('?', '.').gsub(':', '.')
-    expire_fragment(Regexp.new(Regexp.escape(path) + "\\..*"))
+    I18n.available_locales.each do |locale|
+      super options.merge(:locale => locale)
+    end
   end
 
   ##
