@@ -6,13 +6,15 @@
 
 <p>
   <%= rss_link_to :action => 'georss', :display_name => @display_name, :tag => @tag %>
-  <% if @user.nil? or @display_name.nil? or @user.display_name != @display_name %>
+  <% unless_user(@target_user, :span) do %>
     | <%= link_to t('trace.trace_header.see_just_your_traces'), :action => 'mine' %>
   <% end %>
-  <% if @tag or @display_name %>
-    | <%= link_to t('trace.trace_header.see_all_traces'), :controller => 'trace', :action => 'list' %>
-  <% end %>
-  <% if @tag and @user and @user.display_name == @display_name %>
-    | <%= link_to t('trace.trace_header.see_your_traces'), :controller => 'trace', :action => 'mine' %>
+  <% if @tag %>
+    <% if @display_name %>
+      | <%= link_to t('trace.trace_header.see_all_traces'), :controller => 'trace', :action => 'list' %>
+    <% end %>
+    <% if_user(@target_user, :span) do %>
+      | <%= link_to t('trace.trace_header.see_your_traces'), :controller => 'trace', :action => 'mine' %>
+    <% end %>
   <% end %>
 </p>

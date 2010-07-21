@@ -23,10 +23,10 @@ class TraceController < ApplicationController
 
   # Counts and selects pages of GPX traces for various criteria (by user, tags, public etc.).
   #  target_user - if set, specifies the user to fetch traces for.  if not set will fetch all traces
-  def list(target_user = nil, action = "list")
+  def list
     # from display name, pick up user id if one user's traces only
     display_name = params[:display_name]
-    if target_user.nil? and !display_name.blank?
+    if !display_name.blank?
       target_user = User.find(:first, :conditions => { :status => ["active", "confirmed"], :display_name => display_name })
       if target_user.nil?
         @title = t'trace.no_such_user.title'
@@ -103,7 +103,7 @@ class TraceController < ApplicationController
     end
 
     # final helper vars for view
-    @action = action
+    @target_user = target_user
     @display_name = target_user.display_name if target_user
     @all_tags = tagset.values
     @trace = Trace.new(:visibility => default_visibility) if @user
