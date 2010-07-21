@@ -143,6 +143,10 @@ class TraceController < ApplicationController
           logger.info("id is #{@trace.id}")
           flash[:notice] = t 'trace.create.trace_uploaded'
 
+          if @user.traces.count(:conditions => { :inserted => false }) > 4
+            flash[:warning] = t 'trace.trace_header.traces_waiting', :count => @user.traces.count(:conditions => { :inserted => false })
+          end
+
           redirect_to :action => 'mine'
         end
       else

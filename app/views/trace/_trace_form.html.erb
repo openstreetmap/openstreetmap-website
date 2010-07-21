@@ -1,7 +1,3 @@
-<% if @target_user.traces.count(:conditions => ["inserted=?", false]) > 4 %>
-  <p><%= t'trace.trace_header.traces_waiting', :count => @target_user.traces.count(:conditions => ["inserted=?", false]) %></p>
-<% end %>
-
 <% form_for :trace, @trace, :url => { :action => "create" }, :html => { :multipart => true } do |f| %>
 <table>
   <tr><td align="right"><%= t'trace.trace_form.upload_gpx' %></td><td><%= f.file_field :gpx_file, :size => 50, :maxlength => 255 %></td></tr>
