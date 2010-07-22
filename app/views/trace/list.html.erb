@@ -1,5 +1,35 @@
-<%= render :partial => 'trace_header' %>
-<% if_user(@target_user) do %>
-  <%= render :partial => 'trace_form' %>
+<h1><%= h(@title) %></h1>
+
+<% content_for :head do %>
+<%= auto_discovery_link_tag :atom, :action => 'georss', :display_name => @display_name, :tag => @tag %>
 <% end %>
-<%= render :partial => 'trace_list' %>
+
+<p>
+  <%= rss_link_to :action => 'georss', :display_name => @display_name, :tag => @tag %>
+  <% unless_user(@target_user, :span) do %>
+    | <%= link_to t('trace.trace_header.your_traces'), :action => 'mine' %>
+  <% end %>
+  | <%= link_to t('trace.trace_header.upload_trace'), :action => 'create' %>
+  <% if @tag %>
+    <% if @display_name %>
+      | <%= link_to t('trace.trace_header.see_all_traces'), :controller => 'trace', :action => 'list' %>
+    <% end %>
+    <% if_user(@target_user, :span) do %>
+      | <%= link_to t('trace.trace_header.see_your_traces'), :controller => 'trace', :action => 'mine' %>
+    <% end %>
+  <% end %>
+</p>
+
+<%= render :partial => 'trace_paging_nav' %>
+
+<table id="trace_list" cellpadding="3">
+  <tr>
+    <th></th>
+    <th></th>
+  </tr>
+  <%= render :partial => 'trace', :collection => @traces unless @traces.nil? %>
+</table>
+
+<%= render :partial => 'trace_paging_nav' %>
+
+<%= render :partial => 'trace_optionals' %>
