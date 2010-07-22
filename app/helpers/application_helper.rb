@@ -85,8 +85,8 @@ module ApplicationHelper
     url = "http://nominatim.openstreetmap.org/reverse?lat=#{lat}&lon=#{lon}&zoom=#{zoom}&accept-language=#{language}"
 
     begin
-      Timeout::timeout(4) do
-        response = REXML::Document.new(Net::HTTP.get(URI.parse(url)))
+      response = Timeout::timeout(4) do
+        REXML::Document.new(Net::HTTP.get(URI.parse(url)))
       end
     rescue Exception
       response = nil
