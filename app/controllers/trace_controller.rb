@@ -15,8 +15,7 @@ class TraceController < ApplicationController
   before_filter :offline_redirect, :only => [:create, :edit, :delete, :data, :api_data, :api_create]
   around_filter :api_call_handle_error, :only => [:api_details, :api_data, :api_create]
 
-  caches_action :list, :unless => :logged_in?, :layout => false
-  caches_action :view, :layout => false
+  caches_action :list, :view, :layout => false
   caches_action :georss, :layout => true
   cache_sweeper :trace_sweeper, :only => [:create, :edit, :delete, :api_create], :unless => OSM_STATUS == :database_offline
   cache_sweeper :tracetag_sweeper, :only => [:create, :edit, :delete, :api_create], :unless => OSM_STATUS == :database_offline
