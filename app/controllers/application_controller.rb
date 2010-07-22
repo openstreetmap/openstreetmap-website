@@ -249,6 +249,16 @@ class ApplicationController < ActionController::Base
     options = actions.extract_options!
     cache_path = options[:cache_path] || Hash.new
 
+    options[:unless] = case options[:unless]
+                       when NilClass then Array.new
+                       when Array then options[:unless]
+                       else unlessp = [ options[:unless] ]
+                       end
+
+    options[:unless].push(Proc.new do |controller|
+      controller.params.include?(:page)
+    end)
+
     options[:cache_path] = Proc.new do |controller|
       cache_path.merge(controller.params).merge(:locale => I18n.locale)
     end
