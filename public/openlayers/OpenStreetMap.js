@@ -111,31 +111,3 @@ OpenLayers.Layer.OSM.CycleMap = OpenLayers.Class(OpenLayers.Layer.OSM, {
 
     CLASS_NAME: "OpenLayers.Layer.OSM.CycleMap"
 });
-
-/**
- * Class: OpenLayers.Layer.OSM.Maplint
- *
- * Inherits from:
- *  - <OpenLayers.Layer.OSM>
- */
-OpenLayers.Layer.OSM.Maplint = OpenLayers.Class(OpenLayers.Layer.OSM, {
-    /**
-     * Constructor: OpenLayers.Layer.OSM.Maplint
-     *
-     * Parameters:
-     * name - {String}
-     * options - {Object} Hashtable of extra options to tag onto the layer
-     */
-    initialize: function(name, options) {
-        var url = [
-            "http://d.tah.openstreetmap.org/Tiles/maplint/${z}/${x}/${y}.png",
-            "http://e.tah.openstreetmap.org/Tiles/maplint/${z}/${x}/${y}.png",
-            "http://f.tah.openstreetmap.org/Tiles/maplint/${z}/${x}/${y}.png"
-        ];
-        options = OpenLayers.Util.extend({ numZoomLevels: 18, isBaseLayer: false, visibility: false }, options);
-        var newArguments = [name, url, options];
-        OpenLayers.Layer.OSM.prototype.initialize.apply(this, newArguments);
-    },
-
-    CLASS_NAME: "OpenLayers.Layer.OSM.Maplint"
-});

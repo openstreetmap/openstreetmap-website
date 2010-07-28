@@ -104,7 +104,7 @@ class DiffReader
 
     # take the first element and check that it is an osmChange element
     @reader.read
-    raise APIBadUserInput.new("Document element should be 'osmChange'.") if @reader.name != 'osmChange'
+    raise OSM::APIBadUserInput.new("Document element should be 'osmChange'.") if @reader.name != 'osmChange'
 
     result = OSM::API.new.get_xml_doc
     result.root.name = "diffResult"
@@ -185,7 +185,7 @@ class DiffReader
           # delete doesn't have to contain a full payload, according to
           # the wiki docs, so we just extract the things we need.
           new_id = xml['id'].to_i
-          raise API::APIBadXMLError.new(model, xml, "ID attribute is required") if new_id.nil?
+          raise OSM::APIBadXMLError.new(model, xml, "ID attribute is required") if new_id.nil?
 
           # if the ID is a placeholder then map it to the real ID
           model_sym = model.to_s.downcase.to_sym

@@ -107,10 +107,8 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat,objtype,obj
       args[objtype] = objid;
     }
 
-    // This is a hack to omit the default mapnik layer (B000FTF) from
-    // the shortlink. B000FTFT is then the "Object" layer which we get
-    // on /?{node,way,relation}=id
-    if (layers && (layers != "B000FTF") && (layers != "B000FTFT")) {
+    // This is a hack to omit the default mapnik layer from the shortlink.
+    if (layers && layers != "M") {
       args["layers"] = layers;
     }
     else {

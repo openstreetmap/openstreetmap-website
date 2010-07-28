@@ -48,7 +48,7 @@ class Notifier < ActionMailer::Base
   def message_notification(message)
     common_headers message.recipient
     from_header message.sender.display_name, "m", message.id, message.digest
-    subject message.title
+    subject I18n.t('notifier.message_notification.subject_header', :subject => message.title, :locale => locale)
     body :to_user => message.recipient.display_name,
          :from_user => message.sender.display_name,
          :body => message.body,
