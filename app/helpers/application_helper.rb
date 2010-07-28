@@ -40,14 +40,53 @@ module ApplicationHelper
     return js
   end
 
+  def style_rules
+    css = ""
+
+    css << ".hidden { display: none }";
+    css << ".hide_unless_logged_in { display: none }" unless @user;
+    css << ".hide_if_logged_in { display: none }" if @user;
+    css << ".hide_if_user_#{@user.id} { display: none }" if @user;
+    css << ".show_if_user_#{@user.id} { display: inline }" if @user;
+    css << ".hide_unless_administrator { display: none }" unless @user and @user.administrator?;
+
+    return content_tag(:style, css)
+  end
+
+  def if_logged_in(tag = :div, &block)
+    concat(content_tag(tag, capture(&block), :class => "hide_unless_logged_in"))
+  end
+
+  def if_not_logged_in(tag = :div, &block)
+    concat(content_tag(tag, capture(&block), :class => "hide_if_logged_in"))
+  end
+
+  def if_user(user, tag = :div, &block)
+    if user
+      concat(content_tag(tag, capture(&block), :class => "hidden show_if_user_#{user.id}"))
+    end
+  end
+
+  def unless_user(user, tag = :div, &block)
+    if user
+      concat(content_tag(tag, capture(&block), :class => "hide_if_user_#{user.id}"))
+    else
+      concat(content_tag(tag, capture(&block)))
+    end
+  end
+
+  def if_administrator(tag = :div, &block)
+    concat(content_tag(tag, capture(&block), :class => "hide_unless_administrator"))
+  end
+
   def describe_location(lat, lon, zoom = nil, language = nil)
     zoom = zoom || 14
     language = language || request.user_preferred_languages.join(',')
     url = "http://nominatim.openstreetmap.org/reverse?lat=#{lat}&lon=#{lon}&zoom=#{zoom}&accept-language=#{language}"
 
     begin
-      Timeout::timeout(4) do
-        response = REXML::Document.new(Net::HTTP.get(URI.parse(url)))
+      response = Timeout::timeout(4) do
+        REXML::Document.new(Net::HTTP.get(URI.parse(url)))
       end
     rescue Exception
       response = nil

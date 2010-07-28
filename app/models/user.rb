@@ -29,6 +29,8 @@ class User < ActiveRecord::Base
   validates_email_format_of :email
   validates_email_format_of :new_email, :allow_blank => true
   validates_format_of :display_name, :with => /^[^\/;.,?]*$/
+  validates_format_of :display_name, :with => /^\S/, :message => "has leading whitespace"
+  validates_format_of :display_name, :with => /\S$/, :message => "has trailing whitespace"
   validates_numericality_of :home_lat, :allow_nil => true
   validates_numericality_of :home_lon, :allow_nil => true
   validates_numericality_of :home_zoom, :only_integer => true, :allow_nil => true

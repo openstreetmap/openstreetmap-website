@@ -13,6 +13,7 @@
     <%= stylesheet_link_tag 'print', :media => "print" %>
     <%= tag("link", { :rel => "search", :type => "application/opensearchdescription+xml", :title => "OpenStreetMap Search", :href => "/opensearch/osm.xml" }) %>
     <%= tag("meta", { :name => "description", :content => "OpenStreetMap is the free wiki world map." }) %>
+    <%= style_rules %>
     <%= yield :head %>
     <title><%= t 'layouts.project_name.title' %><%= ' | '+ h(@title) if @title %></title>
   </head>
@@ -121,10 +122,6 @@
         <a href="http://blogs.openstreetmap.org/" title="<%= t 'layouts.news_blog_tooltip' %>"><%= t 'layouts.news_blog' %></a><br />
         <a href="<%= t 'layouts.shop_url' %>" title="<%= t 'layouts.shop_tooltip' %>"><%= t 'layouts.shop' %></a><br />
         <%= yield :left_menu %>
-      </div>
-
-      <div id="sotm" class="notice">
-        <%= link_to image_tag("sotm.png", :alt => t('layouts.sotm2010'), :title => t('layouts.sotm2010'), :border => "0"), "http://www.stateofthemap.org/register/" %>
       </div>
 
       <%= yield :optionals %>

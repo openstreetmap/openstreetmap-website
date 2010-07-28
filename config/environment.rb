@@ -89,7 +89,7 @@ Rails::Initializer.run do |config|
   # Use the database for sessions instead of the cookie-based default,
   # which shouldn't be used to store highly confidential information
   # (create the session table with 'rake db:sessions:create')
-  unless  OSM_STATUS == :database_offline
+  unless OSM_STATUS == :database_offline or OSM_STATUS == :database_readonly
     config.action_controller.session_store = :sql_session_store
   end
 

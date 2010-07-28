@@ -8,19 +8,19 @@
 
 <%= render :partial => 'diary_comment', :collection => @entry.visible_comments %>
 
-<% if @user %>
+<% if_logged_in(:div) do %>
+  <h4 id="newcomment"><%= t 'diary_entry.view.leave_a_comment' %></h4>
 
-<h4 id="newcomment"><%= t 'diary_entry.view.leave_a_comment' %></h4>
-<%= error_messages_for 'diary_comment' %>
-<% form_for :diary_comment, @diary_comment, :url => { :action => 'comment' } do |f| %>
-<%= f.text_area :body, :cols => 80, :rows => 5 %>
-<br />
-<br />
-<%= submit_tag t('diary_entry.view.save_button') %>
+  <%= error_messages_for 'diary_comment' %>
+
+  <% form_for :diary_comment, @diary_comment, :url => { :action => 'comment' } do |f| %>
+    <%= f.text_area :body, :cols => 80, :rows => 5 %>
+    <br />
+    <br />
+    <%= submit_tag t('diary_entry.view.save_button') %>
+  <% end %>
 <% end %>
 
-<% else %>
-
-<h4 id="newcomment"><%= t("diary_entry.view.login_to_leave_a_comment", :login_link => link_to(t("diary_entry.view.login"), :controller => 'user', :action => 'login', :referer => request.request_uri)) %></h4>
-
+<% if_not_logged_in(:div) do %>
+  <h4 id="newcomment"><%= t("diary_entry.view.login_to_leave_a_comment", :login_link => link_to(t("diary_entry.view.login"), :controller => 'user', :action => 'login', :referer => request.request_uri)) %></h4>
 <% end %>

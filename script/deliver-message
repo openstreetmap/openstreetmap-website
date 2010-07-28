@@ -23,7 +23,7 @@ mail = TMail::Mail.parse(STDIN.readlines.join)
 
 message = Message.new(:sender => from, :recipient => to,
                       :sent_on => Time.now.getutc,
-                      :title => mail.subject,
+                      :title => mail.subject.sub(/\[OpenStreetMap\] */, ""),
                       :body => mail.body)
 message.save!
 
