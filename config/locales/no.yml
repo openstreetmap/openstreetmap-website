@@ -40,7 +40,7 @@
         display_name: Visningsnavn
         email: E-post
         languages: Språk
-        pass_crypt: "Passord:"
+        pass_crypt: Passord
     models: 
       acl: Tilgangskontrolliste
       changeset: Endringssett
@@ -127,7 +127,13 @@
     navigation: 
       all: 
         next_changeset_tooltip: Neste endringssett
+        next_node_tooltip: Neste node
+        next_relation_tooltip: Neste relasjon
+        next_way_tooltip: Neste vei
         prev_changeset_tooltip: Forrige endringssett
+        prev_node_tooltip: Forrige node
+        prev_relation_tooltip: Forrige relasjon
+        prev_way_tooltip: Forrige vei
       user: 
         name_changeset_tooltip: Vis redigeringer av {{user}}
         next_changeset_tooltip: Neste redigering av {{user}}
@@ -216,6 +222,10 @@
       zoom_or_select: Zoom inn eller velg et område av kartet for visning
     tag_details: 
       tags: "Markelapper:"
+      wiki_link: 
+        key: Wiki-beskrivelsessiden for {{key}}-elementet
+        tag: Wiki-beskrivelsessiden for {{key}}={{value}}-elementet
+      wikipedia_link: Artikkelen {{page}} på Wikipedia
     timeout: 
       sorry: Beklager, data for {{type}} med id {{id}} brukte for lang tid på å hentes.
       type: 
@@ -835,6 +845,14 @@
     view_tooltip: Vis kartet
     welcome_user: Velkommen, {{user_link}}
     welcome_user_link_tooltip: Din brukerside
+  license_page: 
+    foreign: 
+      english_link: den engelske originalen
+      text: I tilfellet av en konflikt mellom denne oversatte siden og {{english_original_link}} har den engelske presedens
+      title: Om denne oversettelsen
+    native: 
+      native_link: Norsk versjon
+      title: Om denne siden
   message: 
     delete: 
       deleted: Melding slettet
@@ -1203,7 +1221,6 @@
       visibility_help: hva betyr dette?
     trace_header: 
       see_all_traces: Se alle spor
-      see_just_your_traces: Se dine spor eller last opp et spor
       see_your_traces: Se alle dine spor
       traces_waiting: Du har {{count}} spor som venter på opplasting. Du bør vurdere å la disse bli ferdig før du laster opp flere spor slik at du ikke blokkerer køa for andre brukere.
     trace_optionals: 
@@ -1286,6 +1303,13 @@
       not_an_administrator: Du må være administrator for å gjøre det.
     go_public: 
       flash success: Alle dine redigeringer er nå offentlig, og du har lov til å redigere.
+    list: 
+      confirm: Bekreft valgte brukere
+      heading: Brukere
+      hide: Skjul valgte brukere
+      summary: "{{name}} opprettet fra {{ip_address}} den {{date}}"
+      summary_no_ip: "{{name}} opprettet {{date}}"
+      title: Brukere
     login: 
       account not active: Beklager,kontoen din er ikke aktivert ennå.<br />Vennligst klikk på lenken i e-posten med kontobekreftelsen for å aktivere kontoen din.
       auth failure: Beklager, kunne ikke logge inn med den informasjonen
@@ -1318,13 +1342,14 @@
       confirm email address: "Bekreft e-postadresse:"
       confirm password: "Bekreft passord:"
       contact_webmaster: Kontakt <a href="mailto:webmaster@openstreetmap.org">webmaster</a> for å opprette en konto. Vi vil prøve å behandle forespørselen så fort som mulig.
+      continue: Fortsett
       display name: "Visningsnavn:"
       display name description: Ditt offentlig fremviste brukernavn. Du kan endre dette senere i innstillingene.
       email address: "E-postadresse:"
       fill_form: Fyll ut skjemaet og vi vil sende deg en e-post for å aktivere kontoen din.
       flash create success message: Bruker ble opprettet. Se etter er en bekreftelsesmelding i e-posten din, og du vil lage kart på null tid :-)<br /><br />Legg merke til at du ikke kan logge inn før du har bekreftet e-postadresssen din.<br /><br />Hvis du bruker en antispam-løsning som krever bekreftelse fra avsender, så må du hvitliste webmaster@openstreetmap.org (siden vi ikke er i stand til å svare på slike forespørsler om bekreftelse).
       heading: Opprett en brukerkonto
-      license_agreement: Ved å opprette en konto, godtar du at alle data du sender inn til OpenStreetMap-prosjektet vil bli (ikke-eksklusivt) lisensiert under <a href="http://creativecommons.org/licenses/by-sa/2.0/">denne Creative Commons-lisensen (by-sa)</a>.
+      license_agreement: Når du bekrefter kontoen din må du godkjenne <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">bidragsytervilkårene</a>.
       no_auto_account_create: Beklageligvis kan vi for øyeblikket ikke opprette en konto for deg automatisk.
       not displayed publicly: Ikke vist offentlig (se <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="Personvernpolitikk for Wiki-en inklusiv avsnitt om e-postadressser">vår personvernpolitikk</a>)
       password: "Passord:"
@@ -1350,6 +1375,17 @@
       title: Nullstill passord
     set_home: 
       flash success: Hjemmelokasjon lagret
+    terms: 
+      agree: Jeg godkjenner
+      consider_pd_why: hva er dette?
+      decline: Avslå
+      heading: Bidragsytervilkårene
+      legale_names: 
+        france: Frankrike
+        italy: Italia
+        rest_of_world: Resten av verden
+      legale_select: "Velg ditt bostedsland:"
+      press accept button: Les avtalen nedenfor og trykk på «Jeg godkjenner»-knappen for å opprette din konto.
     view: 
       activate_user: aktiver denne brukeren
       add as friend: legg til som en venn
@@ -1358,6 +1394,7 @@
       blocks by me: blokkeringer utført av meg
       blocks on me: mine blokkeringer
       confirm: Bekreft
+      confirm_user: bekreft denne brukeren
       create_block: blokker denne brukeren
       created from: "Opprettet fra:"
       deactivate_user: deaktiver denne brukeren
@@ -1393,6 +1430,7 @@
           moderator: fjern moderator-tilgang
       send message: send melding
       settings_link_text: innstillinger
+      status: "Status:"
       traces: spor
       unhide_user: stopp å skjule denne brukeren
       user location: Brukerens posisjon

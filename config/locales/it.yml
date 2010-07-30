@@ -2,6 +2,7 @@
 # Exported from translatewiki.net
 # Export driver: syck
 # Author: Bellazambo
+# Author: Beta16
 # Author: Davalv
 # Author: McDutchie
 it: 
@@ -114,7 +115,13 @@ it:
     navigation: 
       all: 
         next_changeset_tooltip: Gruppo di modifiche successivo
+        next_node_tooltip: Nodo successivo
+        next_relation_tooltip: Relazione successiva
+        next_way_tooltip: Percorso successivo
         prev_changeset_tooltip: Gruppo di modifiche precedente
+        prev_node_tooltip: Nodo precedente
+        prev_relation_tooltip: Relazione precedente
+        prev_way_tooltip: Percorso precedente
       user: 
         name_changeset_tooltip: Visualizza le modifiche di {{user}}
         next_changeset_tooltip: Modifica successiva di {{user}}
@@ -140,8 +147,8 @@ it:
       type: 
         changeset: gruppo di modifiche
         node: nodo
-        relation: relation
-        way: way
+        relation: relazione
+        way: percorso
     paging_nav: 
       of: di
       showing_page: Visualizzata la pagina
@@ -203,6 +210,12 @@ it:
       zoom_or_select: Ingrandire oppure selezionare l'area della mappa che si desidera visualizzare
     tag_details: 
       tags: "Etichette:"
+    timeout: 
+      type: 
+        changeset: gruppo di modifiche
+        node: nodo
+        relation: relazione
+        way: percorso
     way: 
       download: "{{download_xml_link}} oppure {{view_history_link}}"
       download_xml: Scarica XML
@@ -411,6 +424,7 @@ it:
           library: Biblioteca
           mountain_rescue: Soccorso alpino
           nursery: Asilo nido
+          park: Parco
           parking: Parcheggio
           pharmacy: Farmacia
           place_of_worship: Luogo di culto
@@ -454,6 +468,7 @@ it:
           primary: Strada primaria
           primary_link: Strada primaria
           residential: Residenziale
+          road: Strada
           secondary: Strada secondaria
           secondary_link: Strada secondaria
           service: Strada di servizio
@@ -871,6 +886,9 @@ it:
     sidebar: 
       close: Chiudi
       search_results: Risultati della ricerca
+  time: 
+    formats: 
+      friendly: "%e %B %Y alle %H:%M"
   trace: 
     create: 
       trace_uploaded: Il tuo file GPX è stato caricato ed è in attesa del suo inserimento nel database. Questo generalmente accade entro mezz'ora, con il successivo invio al tuo indirizzo di una email di conferma relativo al completamento dell'operazione.
@@ -905,6 +923,8 @@ it:
       body: Spiacenti, non c'è alcun utente con il nome {{user}}. Controllare la digitazione, oppure potrebbe essere che il collegamento che si è seguito sia errato.
       heading: L'utente {{user}} non esiste
       title: Nessun utente
+    offline_warning: 
+      message: Il caricamento dei file GPX non è al momento disponibile
     trace: 
       ago: "{{time_in_words_ago}} fa"
       by: da
@@ -930,11 +950,14 @@ it:
       visibility_help: che cosa significa questo?
     trace_header: 
       see_all_traces: Vedi tutti i tracciati
-      see_just_your_traces: Vedi solo i tuoi tracciati, o carica un tracciato
       see_your_traces: Vedi tutti i tuoi tracciati
       traces_waiting: Ci sono {{count}} tracciati in attesa di caricamento. Si consiglia di aspettare il loro completamento prima di caricarne altri, altrimenti si blocca la lista di attesa per altri utenti.
     trace_optionals: 
       tags: Etichette
+    trace_paging_nav: 
+      next: Successivo &raquo;
+      previous: "&laquo; Precedente"
+      showing_page: Visualizzata la pagina {{page}}
     view: 
       delete_track: Elimina questo tracciato
       description: "Descrizione:"
@@ -965,10 +988,13 @@ it:
       flash update success: Informazioni sull'utente aggiornate con successo.
       flash update success confirm needed: Informazioni sull'utente aggiornate con successo. Controllare la propria email per la conferma del nuovo indirizzo di posta elettronica.
       home location: "Posizione:"
+      image: "Immagine:"
+      keep image: Mantieni l'immagine attuale
       latitude: "Latitudine:"
       longitude: "Longitudine:"
       make edits public button: Rendi pubbliche tutte le mie modifiche
       my settings: Impostazioni personali
+      new image: Aggiungi un'immagine
       no home location: Non si è inserita la propria posizione.
       preferred languages: "Lingua preferita:"
       profile description: "Descrizione del profilo:"
@@ -982,6 +1008,7 @@ it:
       public editing note: 
         heading: Modifica pubblica
         text: Al momento le tue modifiche sono anonime e le persone non possono inviarti messaggi o vedere la tua posizione. Per rendere visibili le tue modifiche e per permettere agli altri utenti di contattarti tramite il sito, clicca sul pulsante sotto. <b>Dalla versione 0.6 delle API, soltanto gli utenti pubblici possono modificare i dati della mappa</b>. (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">scopri perché</a>).<ul><li>Il tuo indirizzo email non sarà reso pubblico.</li><li>Questa decisione non può essere revocata e tutti i nuovi utenti sono ora pubblici in modo predefinito.</li></ul>
+      replace image: Sostituisci l'immagine attuale
       return to profile: Ritorna al profilo
       save changes button: Salva modifiche
       title: Modifica profilo
@@ -1002,6 +1029,9 @@ it:
       not_an_administrator: Bisogna essere amministratori per poter eseguire questa azione.
     go_public: 
       flash success: Tutte le tue modifiche sono ora pubbliche, e hai il permesso di modificare.
+    list: 
+      heading: Utenti
+      title: Utenti
     login: 
       account not active: Spiacenti, il tuo profilo non è ancora attivo.<br />Clicca sul collegamento presente nell'email di conferma per attivare il tuo profilo.
       auth failure: Spiacenti, non si può accedere con questi dettagli.
@@ -1013,6 +1043,10 @@ it:
       password: "Password:"
       please login: Entra o {{create_user_link}}.
       title: Entra
+    logout: 
+      heading: Esci da OpenStreetMap
+      logout_button: Esci
+      title: Esci
     lost_password: 
       email address: "Indirizzo email:"
       heading: Password dimenticata?
@@ -1029,6 +1063,7 @@ it:
       confirm email address: "Conferma indirizzo email:"
       confirm password: "Conferma password:"
       contact_webmaster: Si prega di contattare il <a href="mailto:webmaster@openstreetmap.org">webmaster</a> affinchè faccia in modo di creare un profilo. Tenteremo di soddisfare la richiesta il più rapidamente possibile.
+      continue: Continua
       display name: "Nome visualizzato:"
       display name description: Il proprio nome utente visualizzato pubblicamente. Può essere modificato più tardi nelle preferenze.
       email address: "Indirizzo email:"
@@ -1060,6 +1095,14 @@ it:
       title: reimposta la password
     set_home: 
       flash success: Posizione personale salvata con successo
+    suspended: 
+      heading: Account sospeso
+      title: Account sospeso
+    terms: 
+      legale_names: 
+        france: Francia
+        italy: Italia
+        rest_of_world: Resto del mondo
     view: 
       activate_user: attiva questo utente
       add as friend: aggiungi come amico
