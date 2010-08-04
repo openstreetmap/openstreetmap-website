@@ -1,11 +1,11 @@
 # Setup any specified hard limit on the virtual size of the process
-if APP_CONFIG.include?('hard_memory_limit') and Process.const_defined?(:RLIMIT_AS)
-  Process.setrlimit Process::RLIMIT_AS, APP_CONFIG['hard_memory_limit']*1024*1024, Process::RLIM_INFINITY
+if defined?(HARD_MEMORY_LIMIT) and Process.const_defined?(:RLIMIT_AS)
+  Process.setrlimit Process::RLIMIT_AS, HARD_MEMORY_LIMIT*1024*1024, Process::RLIM_INFINITY
 end
 
 # If we're running under passenger and a soft memory limit is
 # configured then setup some rack middleware to police the limit
-if APP_CONFIG.include?('soft_memory_limit') and defined?(PhusionPassenger)
+if defined?(SOFT_MEMORY_LIMIT) and defined?(PhusionPassenger)
   # Define some rack middleware to police the soft memory limit
   class MemoryLimit
     def initialize(app)
@@ -17,7 +17,7 @@ if APP_CONFIG.include?('soft_memory_limit') and defined?(PhusionPassenger)
       status, headers, body = @app.call(env)
       
       # Restart if we've hit our memory limit
-      if resident_size > APP_CONFIG['soft_memory_limit']
+      if resident_size > SOFT_MEMORY_LIMIT
         Process.kill("USR1", 0)
       end
       

@@ -1,7 +1,7 @@
 <tr>
   <% cl = cycle('table0', 'table1') %>
   <td class="<%= cl %>">
-    <% if OSM_STATUS != :gpx_offline %>
+    <% if STATUS != :gpx_offline %>
       <% if trace.inserted %>
         <a href="<%= url_for :controller => 'trace', :action => 'view', :id => trace.id, :display_name => trace.user.display_name %>"><img src="<%= url_for :controller => 'trace', :action => 'icon', :id => trace.id, :display_name => trace.user.display_name %>" border="0" alt="" /></a>
       <% else %>

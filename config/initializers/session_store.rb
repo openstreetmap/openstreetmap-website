@@ -12,6 +12,6 @@ ActionController::Base.session = {
 # Use the database for sessions instead of the cookie-based default,
 # which shouldn't be used to store highly confidential information
 # (create the session table with "rake db:sessions:create")
-unless OSM_STATUS == :database_offline or OSM_STATUS == :database_readonly
+unless STATUS == :database_offline or STATUS == :database_readonly
   ActionController::Base.session_store = :sql_session_store
 end

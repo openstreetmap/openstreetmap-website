@@ -4,6 +4,6 @@ adapter = Rails.configuration.database_configuration[environment]["adapter"]
 session_class = adapter + "_session"
 
 # Configure SqlSessionStore
-unless  OSM_STATUS == :database_offline
+unless  STATUS == :database_offline
   SqlSessionStore.session_class = session_class.camelize.constantize
 end

@@ -17,8 +17,8 @@ module Quova
   ##
   # Access details for WSDL description
   WSDL_URL="https://webservices.quova.com/OnDemand/GeoPoint/v1/default.asmx?WSDL"
-  WSDL_USER = APP_CONFIG['quova_username']
-  WSDL_PASS = APP_CONFIG['quova_password']
+  WSDL_USER = QUOVA_USERNAME
+  WSDL_PASS = QUOVA_PASSWORD
 
   ##
   # Status codes

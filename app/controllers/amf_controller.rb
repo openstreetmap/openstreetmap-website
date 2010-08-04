@@ -172,7 +172,7 @@ class AmfController < ApplicationController
 
   def amf_handle_error_with_timeout(call,rootobj,rootid)
     amf_handle_error(call,rootobj,rootid) do
-      Timeout::timeout(APP_CONFIG['api_timeout'], OSM::APITimeoutError) do
+      Timeout::timeout(API_TIMEOUT, OSM::APITimeoutError) do
         yield
       end
     end

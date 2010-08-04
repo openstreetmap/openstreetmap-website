@@ -16,13 +16,13 @@ class UserController < ApplicationController
 
   filter_parameter_logging :password, :pass_crypt, :pass_crypt_confirmation
 
-  cache_sweeper :user_sweeper, :only => [:account, :set_status, :delete], :unless => OSM_STATUS == :database_offline
+  cache_sweeper :user_sweeper, :only => [:account, :set_status, :delete], :unless => STATUS == :database_offline
 
   def terms
     @title = t 'user.new.title'
     @user = User.new(params[:user])
 
-    @legale = params[:legale] || OSM.IPToCountry(request.remote_ip) || APP_CONFIG['default_legale']
+    @legale = params[:legale] || OSM.IPToCountry(request.remote_ip) || DEFAULT_LEGALE
     @text = OSM.legal_text_for_country(@legale)
 
     if request.xhr?

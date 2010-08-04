@@ -105,7 +105,7 @@ private
   end
 
   def from_header(name, type, id, digest)
-    if domain = APP_CONFIG['messages_domain']
+    if domain = MESSAGES_DOMAIN
       from quote_address_if_necessary("#{name} <#{type}-#{id}-#{digest[0,6]}@#{domain}>", "utf-8")
     end
   end

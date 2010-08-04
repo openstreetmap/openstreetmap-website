@@ -15,7 +15,7 @@ class MessageController < ApplicationController
     @to_user = User.find_by_display_name(params[:display_name])
     if @to_user
       if params[:message]
-        if @user.sent_messages.count(:conditions => ["sent_on >= ?", Time.now.getutc - 1.hour]) >= APP_CONFIG['max_messages_per_hour']
+        if @user.sent_messages.count(:conditions => ["sent_on >= ?", Time.now.getutc - 1.hour]) >= MAX_MESSAGES_PER_HOUR
           flash[:error] = t 'message.new.limit_exceeded'
         else
           @message = Message.new(params[:message])
