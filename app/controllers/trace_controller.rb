@@ -146,7 +146,7 @@ class TraceController < ApplicationController
             flash[:warning] = t 'trace.trace_header.traces_waiting', :count => @user.traces.count(:conditions => { :inserted => false })
           end
 
-          redirect_to :action => 'mine'
+          redirect_to :action => :list, :display_name => @user.display_name
         end
       else
         @trace = Trace.new({:name => "Dummy",
