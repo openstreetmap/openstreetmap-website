@@ -206,7 +206,7 @@ class TraceController < ApplicationController
         trace.visible = false
         trace.save
         flash[:notice] = t 'trace.delete.scheduled_for_deletion'
-        redirect_to :action => :view, :display_name => @user.display_name, :id => nil
+        redirect_to :action => :list, :display_name => @user.display_name
       else
         render :nothing => true, :status => :bad_request
       end
