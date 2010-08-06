@@ -72,7 +72,6 @@ ActionController::Routing::Routes.draw do |map|
   map.connect "api/#{API_VERSION}/swf/trackpoints", :controller =>'swf', :action =>'trackpoints'
   
   # Data browsing
-  map.connect '/browse', :controller => 'changeset', :action => 'list'
   map.connect '/browse/start', :controller => 'browse', :action => 'start'
   map.connect '/browse/way/:id', :controller => 'browse', :action => 'way', :id => /\d+/
   map.connect '/browse/way/:id/history', :controller => 'browse', :action => 'way_history', :id => /\d+/
@@ -85,7 +84,8 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/user/:display_name/edits', :controller => 'changeset', :action => 'list'
   map.connect '/browse/changesets/feed', :controller => 'changeset', :action => 'list', :format => :atom
   map.connect '/browse/changesets', :controller => 'changeset', :action => 'list'
-  
+  map.connect '/browse', :controller => 'changeset', :action => 'list'
+
   # web site
   map.root :controller => 'site', :action => 'index'
   map.connect '/', :controller => 'site', :action => 'index'
