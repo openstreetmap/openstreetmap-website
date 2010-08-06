@@ -81,8 +81,10 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/browse/relation/:id', :controller => 'browse', :action => 'relation', :id => /\d+/
   map.connect '/browse/relation/:id/history', :controller => 'browse', :action => 'relation_history', :id => /\d+/
   map.changeset '/browse/changeset/:id', :controller => 'browse', :action => 'changeset', :id => /\d+/
-  map.connect '/browse/changesets', :controller => 'changeset', :action => 'list'
+  map.connect '/user/:display_name/edits/feed', :controller => 'changeset', :action => 'list', :format =>:atom
+  map.connect '/user/:display_name/edits', :controller => 'changeset', :action => 'list'
   map.connect '/browse/changesets/feed', :controller => 'changeset', :action => 'list', :format => :atom
+  map.connect '/browse/changesets', :controller => 'changeset', :action => 'list'
   
   # web site
   map.root :controller => 'site', :action => 'index'
@@ -145,27 +147,27 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/trace/:id/edit', :controller => 'trace', :action => 'edit'
   map.connect '/trace/:id/delete', :controller => 'trace', :action => 'delete'
 
-  # user pages
-  map.connect '/user/:display_name', :controller => 'user', :action => 'view'
-  map.connect '/user/:display_name/edits', :controller => 'changeset', :action => 'list'
-  map.connect '/user/:display_name/edits/feed', :controller => 'changeset', :action => 'list', :format =>:atom
-  map.connect '/user/:display_name/make_friend', :controller => 'user', :action => 'make_friend'
-  map.connect '/user/:display_name/remove_friend', :controller => 'user', :action => 'remove_friend'
+  # diary pages
+  map.connect '/diary/new', :controller => 'diary_entry', :action => 'new'
+  map.connect '/user/:display_name/diary/rss', :controller => 'diary_entry', :action => 'rss'
+  map.connect '/diary/:language/rss', :controller => 'diary_entry', :action => 'rss'
+  map.connect '/diary/rss', :controller => 'diary_entry', :action => 'rss'
   map.connect '/user/:display_name/diary', :controller => 'diary_entry', :action => 'list'
+  map.connect '/diary/:language', :controller => 'diary_entry', :action => 'list'
+  map.connect '/diary', :controller => 'diary_entry', :action => 'list'
   map.connect '/user/:display_name/diary/:id', :controller => 'diary_entry', :action => 'view', :id => /\d+/
   map.connect '/user/:display_name/diary/:id/newcomment', :controller => 'diary_entry', :action => 'comment', :id => /\d+/
-  map.connect '/user/:display_name/diary/rss', :controller => 'diary_entry', :action => 'rss'
   map.connect '/user/:display_name/diary/:id/edit', :controller => 'diary_entry', :action => 'edit', :id => /\d+/
   map.connect '/user/:display_name/diary/:id/hide', :controller => 'diary_entry', :action => 'hide', :id => /\d+/
   map.connect '/user/:display_name/diary/:id/hidecomment/:comment', :controller => 'diary_entry', :action => 'hidecomment', :id => /\d+/, :comment => /\d+/
+
+  # user pages
+  map.connect '/user/:display_name', :controller => 'user', :action => 'view'
+  map.connect '/user/:display_name/make_friend', :controller => 'user', :action => 'make_friend'
+  map.connect '/user/:display_name/remove_friend', :controller => 'user', :action => 'remove_friend'
   map.connect '/user/:display_name/account', :controller => 'user', :action => 'account'
   map.connect '/user/:display_name/set_status', :controller => 'user', :action => 'set_status'
   map.connect '/user/:display_name/delete', :controller => 'user', :action => 'delete'
-  map.connect '/diary/new', :controller => 'diary_entry', :action => 'new'
-  map.connect '/diary', :controller => 'diary_entry', :action => 'list'
-  map.connect '/diary/rss', :controller => 'diary_entry', :action => 'rss'
-  map.connect '/diary/:language', :controller => 'diary_entry', :action => 'list'
-  map.connect '/diary/:language/rss', :controller => 'diary_entry', :action => 'rss'
 
   # user lists
   map.connect '/users', :controller => 'user', :action => 'list'
