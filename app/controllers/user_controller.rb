@@ -19,9 +19,6 @@ class UserController < ApplicationController
   cache_sweeper :user_sweeper, :only => [:account, :set_status, :delete], :unless => STATUS == :database_offline
 
   def terms
-    @title = t 'user.new.title'
-    @user = User.new(params[:user])
-
     @legale = params[:legale] || OSM.IPToCountry(request.remote_ip) || DEFAULT_LEGALE
     @text = OSM.legal_text_for_country(@legale)
 
@@ -29,8 +26,19 @@ class UserController < ApplicationController
       render :update do |page|
         page.replace_html "contributorTerms", :partial => "terms"
       end
-    elsif @user.invalid?
-      render :action => 'new'
+    else
+      @title = t 'user.terms.title'
+      @user = User.new(params[:user]) if params[:user]
+
+      if @user
+        if @user.invalid?
+          render :action => :new
+        elsif @user.terms_agreed?
+          redirect_to :action => :account, :display_name => @user.display_name
+        end
+      else
+        redirect_to :action => :login, :referer => request.request_uri
+      end
     end
   end
 
@@ -41,6 +49,16 @@ class UserController < ApplicationController
       render :action => 'new'
     elsif params[:decline]
       redirect_to t('user.terms.declined')
+    elsif @user
+      if !@user.terms_agreed?
+        @user.consider_pd = params[:user][:consider_pd]
+        @user.terms_agreed = Time.now.getutc
+        if @user.save
+          flash[:notice] = t 'user.new.terms accepted'
+        end
+      end
+
+      redirect_to :action => :account, :display_name => @user.display_name
     else
       @user = User.new(params[:user])
 
