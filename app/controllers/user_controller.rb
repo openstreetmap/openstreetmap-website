@@ -206,7 +206,7 @@ class UserController < ApplicationController
         # them to that unless they've also got a block on them, in
         # which case redirect them to the block so they can clear it.
         if user.blocked_on_view
-          redirect_to user.blocked_on_view, :referrer => params[:referrer]
+          redirect_to user.blocked_on_view, :referer => params[:referer]
         elsif params[:referer]
           redirect_to params[:referer]
         else
