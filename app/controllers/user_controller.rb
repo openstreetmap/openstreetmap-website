@@ -220,6 +220,8 @@ class UserController < ApplicationController
       else
         flash.now[:error] = t 'user.login.auth failure'
       end
+    else
+      flash.now[:notice] =  t 'user.login.notice'
     end
   end
 
