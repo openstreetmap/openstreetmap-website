@@ -24,7 +24,7 @@ class UserController < ApplicationController
 
     if request.xhr?
       render :update do |page|
-        page.replace_html "contributorTerms", :partial => "terms"
+        page.replace_html "contributorTerms", :partial => "terms", :locals => { :has_decline => params[:has_decline] }
       end
     else
       @title = t 'user.terms.title'
