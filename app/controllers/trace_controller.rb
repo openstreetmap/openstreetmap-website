@@ -105,7 +105,6 @@ class TraceController < ApplicationController
     @target_user = target_user
     @display_name = target_user.display_name if target_user
     @all_tags = tagset.values
-    @trace = Trace.new(:visibility => default_visibility) if @user
   end
 
   def mine
@@ -130,6 +129,7 @@ class TraceController < ApplicationController
   def create
     if params[:trace]
       logger.info(params[:trace][:gpx_file].class.name)
+
       if params[:trace][:gpx_file].respond_to?(:read)
         begin
           do_create(params[:trace][:gpx_file], params[:trace][:tagstring],
@@ -158,7 +158,10 @@ class TraceController < ApplicationController
         @trace.valid?
         @trace.errors.add(:gpx_file, "can't be blank")
       end
+    else
+      @trace = Trace.new(:visibility => default_visibility)
     end
+
     @title = t 'trace.create.upload_trace'
   end
 
