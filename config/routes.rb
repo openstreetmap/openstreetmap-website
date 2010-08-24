@@ -64,6 +64,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect "api/#{API_VERSION}/gpx/create", :controller => 'trace', :action => 'api_create'
   map.connect "api/#{API_VERSION}/gpx/:id/details", :controller => 'trace', :action => 'api_details'
   map.connect "api/#{API_VERSION}/gpx/:id/data", :controller => 'trace', :action => 'api_data'
+  map.connect "api/#{API_VERSION}/gpx/:id/data.:format", :controller => 'trace', :action => 'api_data'
   
   # AMF (ActionScript) API
   

@@ -292,7 +292,11 @@ class TraceController < ApplicationController
     trace = Trace.find(params[:id])
 
     if trace.public? or trace.user == @user
-      send_file(trace.trace_name, :filename => "#{trace.id}#{trace.extension_name}", :type => trace.mime_type, :disposition => 'attachment')
+      if request.format == Mime::XML
+        send_file(trace.xml_file, :filename => "#{trace.id}.xml", :type => Mime::XML.to_s, :disposition => 'attachment')
+      else
+        send_file(trace.trace_name, :filename => "#{trace.id}#{trace.extension_name}", :type => trace.mime_type, :disposition => 'attachment')
+      end
     else
       render :nothing => true, :status => :forbidden
     end
