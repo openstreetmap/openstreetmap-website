@@ -1,232 +1,233 @@
-ActionController::Routing::Routes.draw do |map|
+OpenStreetMap::Application.routes.draw do
   # API
-  map.connect "api/capabilities", :controller => 'api', :action => 'capabilities'
-  map.connect "api/#{API_VERSION}/capabilities", :controller => 'api', :action => 'capabilities'
+  match 'api/capabilities' => 'api#capabilities'
+  match 'api/0.6/capabilities' => 'api#capabilities'
 
-  map.connect "api/#{API_VERSION}/changeset/create", :controller => 'changeset', :action => 'create'
-  map.connect "api/#{API_VERSION}/changeset/:id/upload", :controller => 'changeset', :action => 'upload', :id => /\d+/
-  map.changeset_download "api/#{API_VERSION}/changeset/:id/download", :controller => 'changeset', :action => 'download', :id => /\d+/
-  map.connect "api/#{API_VERSION}/changeset/:id/expand_bbox", :controller => 'changeset', :action => 'expand_bbox', :id => /\d+/
-  map.changeset_read "api/#{API_VERSION}/changeset/:id", :controller => 'changeset', :action => 'read', :id => /\d+/, :conditions => { :method => :get }
-  map.connect "api/#{API_VERSION}/changeset/:id", :controller => 'changeset', :action => 'update', :id => /\d+/, :conditions => { :method => :put }
-  map.connect "api/#{API_VERSION}/changeset/:id/close", :controller => 'changeset', :action => 'close', :id =>/\d+/
-  map.connect "api/#{API_VERSION}/changesets", :controller => 'changeset', :action => 'query'
-  
-  map.connect "api/#{API_VERSION}/node/create", :controller => 'node', :action => 'create'
-  map.connect "api/#{API_VERSION}/node/:id/ways", :controller => 'way', :action => 'ways_for_node', :id => /\d+/
-  map.connect "api/#{API_VERSION}/node/:id/relations", :controller => 'relation', :action => 'relations_for_node', :id => /\d+/
-  map.connect "api/#{API_VERSION}/node/:id/history", :controller => 'old_node', :action => 'history', :id => /\d+/
-  map.connect "api/#{API_VERSION}/node/:id/:version", :controller => 'old_node', :action => 'version', :id => /\d+/, :version => /\d+/
-  map.connect "api/#{API_VERSION}/node/:id", :controller => 'node', :action => 'read', :id => /\d+/, :conditions => { :method => :get }
-  map.connect "api/#{API_VERSION}/node/:id", :controller => 'node', :action => 'update', :id => /\d+/, :conditions => { :method => :put }
-  map.connect "api/#{API_VERSION}/node/:id", :controller => 'node', :action => 'delete', :id => /\d+/, :conditions => { :method => :delete }
-  map.connect "api/#{API_VERSION}/nodes", :controller => 'node', :action => 'nodes', :id => nil
-  
-  map.connect "api/#{API_VERSION}/way/create", :controller => 'way', :action => 'create'
-  map.connect "api/#{API_VERSION}/way/:id/history", :controller => 'old_way', :action => 'history', :id => /\d+/
-  map.connect "api/#{API_VERSION}/way/:id/full", :controller => 'way', :action => 'full', :id => /\d+/
-  map.connect "api/#{API_VERSION}/way/:id/relations", :controller => 'relation', :action => 'relations_for_way', :id => /\d+/
-  map.connect "api/#{API_VERSION}/way/:id/:version", :controller => 'old_way', :action => 'version', :id => /\d+/, :version => /\d+/
-  map.connect "api/#{API_VERSION}/way/:id", :controller => 'way', :action => 'read', :id => /\d+/, :conditions => { :method => :get }
-  map.connect "api/#{API_VERSION}/way/:id", :controller => 'way', :action => 'update', :id => /\d+/, :conditions => { :method => :put }
-  map.connect "api/#{API_VERSION}/way/:id", :controller => 'way', :action => 'delete', :id => /\d+/, :conditions => { :method => :delete }
-  map.connect "api/#{API_VERSION}/ways", :controller => 'way', :action => 'ways', :id => nil
+  match 'api/0.6/changeset/create' => 'changeset#create'
+  match 'api/0.6/changeset/:id/upload' => 'changeset#upload', :id => /\d+/
+  match 'api/0.6/changeset/:id/download' => 'changeset#download', :as => :changeset_download, :id => /\d+/
+  match 'api/0.6/changeset/:id/expand_bbox' => 'changeset#expand_bbox', :id => /\d+/
+  match 'api/0.6/changeset/:id' => 'changeset#read', :as => :changeset_read, :via => :get, :id => /\d+/
+  match 'api/0.6/changeset/:id' => 'changeset#update', :via => :put, :id => /\d+/
+  match 'api/0.6/changeset/:id/close' => 'changeset#close', :id => /\d+/
+  match 'api/0.6/changesets' => 'changeset#query', :id => nil
 
-  map.connect "api/#{API_VERSION}/relation/create", :controller => 'relation', :action => 'create'
-  map.connect "api/#{API_VERSION}/relation/:id/relations", :controller => 'relation', :action => 'relations_for_relation', :id => /\d+/
-  map.connect "api/#{API_VERSION}/relation/:id/history", :controller => 'old_relation', :action => 'history', :id => /\d+/
-  map.connect "api/#{API_VERSION}/relation/:id/full", :controller => 'relation', :action => 'full', :id => /\d+/
-  map.connect "api/#{API_VERSION}/relation/:id/:version", :controller => 'old_relation', :action => 'version', :id => /\d+/, :version => /\d+/
-  map.connect "api/#{API_VERSION}/relation/:id", :controller => 'relation', :action => 'read', :id => /\d+/, :conditions => { :method => :get }
-  map.connect "api/#{API_VERSION}/relation/:id", :controller => 'relation', :action => 'update', :id => /\d+/, :conditions => { :method => :put }
-  map.connect "api/#{API_VERSION}/relation/:id", :controller => 'relation', :action => 'delete', :id => /\d+/, :conditions => { :method => :delete }
-  map.connect "api/#{API_VERSION}/relations", :controller => 'relation', :action => 'relations', :id => nil
+  match 'api/0.6/node/create' => 'node#create'
+  match 'api/0.6/node/:id/ways' => 'way#ways_for_node', :id => /\d+/
+  match 'api/0.6/node/:id/relations' => 'relation#relations_for_node', :id => /\d+/
+  match 'api/0.6/node/:id/history' => 'old_node#history', :id => /\d+/
+  match 'api/0.6/node/:id/:version' => 'old_node#version', :version => /\d+/, :id => /\d+/
+  match 'api/0.6/node/:id' => 'node#read', :via => :get, :id => /\d+/
+  match 'api/0.6/node/:id' => 'node#update', :via => :put, :id => /\d+/
+  match 'api/0.6/node/:id' => 'node#delete', :via => :delete, :id => /\d+/
+  match 'api/0.6/nodes' => 'node#nodes', :id => nil
 
-  map.connect "api/#{API_VERSION}/map", :controller => 'api', :action => 'map'
-  
-  map.connect "api/#{API_VERSION}/trackpoints", :controller => 'api', :action => 'trackpoints'
+  match 'api/0.6/way/create' => 'way#create'
+  match 'api/0.6/way/:id/history' => 'old_way#history', :id => /\d+/
+  match 'api/0.6/way/:id/full' => 'way#full', :id => /\d+/
+  match 'api/0.6/way/:id/relations' => 'relation#relations_for_way', :id => /\d+/
+  match 'api/0.6/way/:id/:version' => 'old_way#version', :version => /\d+/, :id => /\d+/
+  match 'api/0.6/way/:id' => 'way#read', :via => :get, :id => /\d+/
+  match 'api/0.6/way/:id' => 'way#update', :via => :put, :id => /\d+/
+  match 'api/0.6/way/:id' => 'way#delete', :via => :delete, :id => /\d+/
+  match 'api/0.6/ways' => 'way#ways', :id => nil
 
-  map.connect "api/#{API_VERSION}/changes", :controller => 'api', :action => 'changes'
-  
-  map.connect "api/#{API_VERSION}/search", :controller => 'search', :action => 'search_all'
-  map.connect "api/#{API_VERSION}/ways/search", :controller => 'search', :action => 'search_ways'
-  map.connect "api/#{API_VERSION}/relations/search", :controller => 'search', :action => 'search_relations'
-  map.connect "api/#{API_VERSION}/nodes/search", :controller => 'search', :action => 'search_nodes'
-  
-  map.connect "api/#{API_VERSION}/user/details", :controller => 'user', :action => 'api_details'
-  map.connect "api/#{API_VERSION}/user/preferences", :controller => 'user_preference', :action => 'read', :conditions => { :method => :get }
-  map.connect "api/#{API_VERSION}/user/preferences/:preference_key", :controller => 'user_preference', :action => 'read_one', :conditions => { :method => :get }
-  map.connect "api/#{API_VERSION}/user/preferences", :controller => 'user_preference', :action => 'update', :conditions => { :method => :put }
-  map.connect "api/#{API_VERSION}/user/preferences/:preference_key", :controller => 'user_preference', :action => 'update_one', :conditions => { :method => :put }
-  map.connect "api/#{API_VERSION}/user/preferences/:preference_key", :controller => 'user_preference', :action => 'delete_one', :conditions => { :method => :delete }
-  map.connect "api/#{API_VERSION}/user/gpx_files", :controller => 'user', :action => 'api_gpx_files'
- 
-  map.connect "api/#{API_VERSION}/gpx/create", :controller => 'trace', :action => 'api_create'
-  map.connect "api/#{API_VERSION}/gpx/:id", :controller => 'trace', :action => 'api_read', :id => /\d+/, :conditions => { :method => :get }
-  map.connect "api/#{API_VERSION}/gpx/:id", :controller => 'trace', :action => 'api_update', :id => /\d+/, :conditions => { :method => :put }
-  map.connect "api/#{API_VERSION}/gpx/:id", :controller => 'trace', :action => 'api_delete', :id => /\d+/, :conditions => { :method => :delete }
-  map.connect "api/#{API_VERSION}/gpx/:id/details", :controller => 'trace', :action => 'api_read', :id => /\d+/
-  map.connect "api/#{API_VERSION}/gpx/:id/data", :controller => 'trace', :action => 'api_data', :id => /\d+/
-  map.connect "api/#{API_VERSION}/gpx/:id/data.:format", :controller => 'trace', :action => 'api_data', :id => /\d+/
+  match 'api/0.6/relation/create' => 'relation#create'
+  match 'api/0.6/relation/:id/relations' => 'relation#relations_for_relation', :id => /\d+/
+  match 'api/0.6/relation/:id/history' => 'old_relation#history', :id => /\d+/
+  match 'api/0.6/relation/:id/full' => 'relation#full', :id => /\d+/
+  match 'api/0.6/relation/:id/:version' => 'old_relation#version', :version => /\d+/, :id => /\d+/
+  match 'api/0.6/relation/:id' => 'relation#read', :via => :get, :id => /\d+/
+  match 'api/0.6/relation/:id' => 'relation#update', :via => :put, :id => /\d+/
+  match 'api/0.6/relation/:id' => 'relation#delete', :via => :delete, :id => /\d+/
+  match 'api/0.6/relations' => 'relation#relations'
+
+  match 'api/0.6/map' => 'api#map'
+
+  match 'api/0.6/trackpoints' => 'api#trackpoints'
+
+  match 'api/0.6/changes' => 'api#changes'
+
+  match 'api/0.6/search' => 'search#search_all'
+  match 'api/0.6/ways/search' => 'search#search_ways'
+  match 'api/0.6/relations/search' => 'search#search_relations'
+  match 'api/0.6/nodes/search' => 'search#search_nodes'
+
+  match 'api/0.6/user/details' => 'user#api_details'
+  match 'api/0.6/user/preferences' => 'user_preference#read', :via => :get
+  match 'api/0.6/user/preferences/:preference_key' => 'user_preference#read_one', :via => :get
+  match 'api/0.6/user/preferences' => 'user_preference#update', :via => :put
+  match 'api/0.6/user/preferences/:preference_key' => 'user_preference#update_one', :via => :put
+  match 'api/0.6/user/preferences/:preference_key' => 'user_preference#delete_one', :via => :delete
+  match 'api/0.6/user/gpx_files' => 'user#api_gpx_files'
+
+  match 'api/0.6/gpx/create' => 'trace#api_create'
+  match 'api/0.6/gpx/:id' => 'trace#api_read', :via => :get, :id => /\d+/
+  match 'api/0.6/gpx/:id' => 'trace#api_update', :via => :put, :id => /\d+/
+  match 'api/0.6/gpx/:id' => 'trace#api_delete', :via => :delete, :id => /\d+/
+  match 'api/0.6/gpx/:id/details' => 'trace#api_read', :id => /\d+/
+  match 'api/0.6/gpx/:id/data' => 'trace#api_data'
+  match 'api/0.6/gpx/:id/data.:format' => 'trace#api_data'
   
   # AMF (ActionScript) API
-  
-  map.connect "api/#{API_VERSION}/amf/read", :controller =>'amf', :action =>'amf_read'
-  map.connect "api/#{API_VERSION}/amf/write", :controller =>'amf', :action =>'amf_write'
-  map.connect "api/#{API_VERSION}/swf/trackpoints", :controller =>'swf', :action =>'trackpoints'
-  
+
+  match 'api/0.6/amf/read' => 'amf#amf_read'
+  match 'api/0.6/amf/write' => 'amf#amf_write'
+  match 'api/0.6/swf/trackpoints' => 'swf#trackpoints'
+
   # Data browsing
-  map.connect '/browse/start', :controller => 'browse', :action => 'start'
-  map.connect '/browse/way/:id', :controller => 'browse', :action => 'way', :id => /\d+/
-  map.connect '/browse/way/:id/history', :controller => 'browse', :action => 'way_history', :id => /\d+/
-  map.connect '/browse/node/:id', :controller => 'browse', :action => 'node', :id => /\d+/
-  map.connect '/browse/node/:id/history', :controller => 'browse', :action => 'node_history', :id => /\d+/
-  map.connect '/browse/relation/:id', :controller => 'browse', :action => 'relation', :id => /\d+/
-  map.connect '/browse/relation/:id/history', :controller => 'browse', :action => 'relation_history', :id => /\d+/
-  map.changeset '/browse/changeset/:id', :controller => 'browse', :action => 'changeset', :id => /\d+/
-  map.connect '/user/:display_name/edits/feed', :controller => 'changeset', :action => 'list', :format =>:atom
-  map.connect '/user/:display_name/edits', :controller => 'changeset', :action => 'list'
-  map.connect '/browse/changesets/feed', :controller => 'changeset', :action => 'list', :format => :atom
-  map.connect '/browse/changesets', :controller => 'changeset', :action => 'list'
-  map.connect '/browse', :controller => 'changeset', :action => 'list'
+  match '/browse/start' => 'browse#start'
+  match '/browse/way/:id' => 'browse#way', :id => /\d+/
+  match '/browse/way/:id/history' => 'browse#way_history', :id => /\d+/
+  match '/browse/node/:id' => 'browse#node', :id => /\d+/
+  match '/browse/node/:id/history' => 'browse#node_history', :id => /\d+/
+  match '/browse/relation/:id' => 'browse#relation', :id => /\d+/
+  match '/browse/relation/:id/history' => 'browse#relation_history', :id => /\d+/
+  match '/browse/changeset/:id' => 'browse#changeset', :as => :changeset, :id => /\d+/
+  match '/user/:display_name/edits' => 'changeset#list'
+  match '/user/:display_name/edits/feed' => 'changeset#list', :format => :atom
+  match '/browse/changesets' => 'changeset#list'
+  match '/browse/changesets/feed' => 'changeset#list', :format => :atom
+  match '/browse' => 'changeset#list'
 
   # web site
-  map.root :controller => 'site', :action => 'index'
-  map.connect '/', :controller => 'site', :action => 'index'
-  map.connect '/edit', :controller => 'site', :action => 'edit'
-  map.connect '/copyright', :controller => 'site', :action => 'copyright'
-  map.connect '/copyright/:copyright_locale', :controller => 'site', :action => 'copyright'
-  map.connect '/history', :controller => 'changeset', :action => 'list'
-  map.connect '/history/feed', :controller => 'changeset', :action => 'list', :format => :atom
-  map.connect '/export', :controller => 'site', :action => 'export'
-  map.connect '/login', :controller => 'user', :action => 'login'
-  map.connect '/logout', :controller => 'user', :action => 'logout'
-  map.connect '/offline', :controller => 'site', :action => 'offline'
-  map.connect '/key', :controller => 'site', :action => 'key'
-  map.connect '/user/new', :controller => 'user', :action => 'new'
-  map.connect '/user/terms', :controller => 'user', :action => 'terms'
-  map.connect '/user/save', :controller => 'user', :action => 'save'
-  map.connect '/user/:display_name/confirm/resend', :controller => 'user', :action => 'confirm_resend'
-  map.connect '/user/:display_name/confirm', :controller => 'user', :action => 'confirm'
-  map.connect '/user/confirm', :controller => 'user', :action => 'confirm'
-  map.connect '/user/confirm-email', :controller => 'user', :action => 'confirm_email'
-  map.connect '/user/go_public', :controller => 'user', :action => 'go_public'
-  map.connect '/user/reset-password', :controller => 'user', :action => 'reset_password'
-  map.connect '/user/forgot-password', :controller => 'user', :action => 'lost_password'
-  map.connect '/user/suspended', :controller => 'user', :action => 'suspended'
+  match '/' => 'site#index'
+  match '/edit' => 'site#edit'
+  match '/copyright' => 'site#copyright'
+  match '/copyright/:copyright_locale' => 'site#copyright'
+  match '/history' => 'changeset#list'
+  match '/history/feed' => 'changeset#list', :format => :atom
+  match '/export' => 'site#export'
+  match '/login' => 'user#login'
+  match '/logout' => 'user#logout'
+  match '/offline' => 'site#offline'
+  match '/key' => 'site#key'
+  match '/user/new' => 'user#new'
+  match '/user/terms' => 'user#terms'
+  match '/user/save' => 'user#save'
+  match '/user/:display_name/confirm/resend' => 'user#confirm_resend'
+  match '/user/:display_name/confirm' => 'user#confirm'
+  match '/user/confirm' => 'user#confirm'
+  match '/user/confirm-email' => 'user#confirm_email'
+  match '/user/go_public' => 'user#go_public'
+  match '/user/reset-password' => 'user#reset_password'
+  match '/user/forgot-password' => 'user#lost_password'
+  match '/user/suspended' => 'user#suspended'
 
-  map.connect '/index.html', :controller => 'site', :action => 'index'
-  map.connect '/edit.html', :controller => 'site', :action => 'edit'
-  map.connect '/export.html', :controller => 'site', :action => 'export'
-  map.connect '/login.html', :controller => 'user', :action => 'login'
-  map.connect '/logout.html', :controller => 'user', :action => 'logout'
-  map.connect '/create-account.html', :controller => 'user', :action => 'new'
-  map.connect '/forgot-password.html', :controller => 'user', :action => 'lost_password'
+  match '/index.html' => 'site#index'
+  match '/edit.html' => 'site#edit'
+  match '/export.html' => 'site#export'
+  match '/login.html' => 'user#login'
+  match '/logout.html' => 'user#logout'
+  match '/create-account.html' => 'user#new'
+  match '/forgot-password.html' => 'user#lost_password'
 
   # permalink
-  map.connect '/go/:code', :controller => 'site', :action => 'permalink', :code => /[a-zA-Z0-9_@]+[=-]*/
+  match '/go/:code' => 'site#permalink', :code => /[a-zA-Z0-9_@]+[=-]*/
 
-  # traces  
-  map.connect '/user/:display_name/traces/tag/:tag/page/:page', :controller => 'trace', :action => 'list'
-  map.connect '/user/:display_name/traces/tag/:tag', :controller => 'trace', :action => 'list'
-  map.connect '/user/:display_name/traces/page/:page', :controller => 'trace', :action => 'list'
-  map.connect '/user/:display_name/traces', :controller => 'trace', :action => 'list'
-  map.connect '/user/:display_name/traces/tag/:tag/rss', :controller => 'trace', :action => 'georss'
-  map.connect '/user/:display_name/traces/rss', :controller => 'trace', :action => 'georss'
-  map.connect '/user/:display_name/traces/:id', :controller => 'trace', :action => 'view'
-  map.connect '/user/:display_name/traces/:id/picture', :controller => 'trace', :action => 'picture'
-  map.connect '/user/:display_name/traces/:id/icon', :controller => 'trace', :action => 'icon'
-  map.connect '/traces/tag/:tag/page/:page', :controller => 'trace', :action => 'list'
-  map.connect '/traces/tag/:tag', :controller => 'trace', :action => 'list'
-  map.connect '/traces/page/:page', :controller => 'trace', :action => 'list'
-  map.connect '/traces', :controller => 'trace', :action => 'list'
-  map.connect '/traces/tag/:tag/rss', :controller => 'trace', :action => 'georss'
-  map.connect '/traces/rss', :controller => 'trace', :action => 'georss'
-  map.connect '/traces/mine/tag/:tag/page/:page', :controller => 'trace', :action => 'mine'
-  map.connect '/traces/mine/tag/:tag', :controller => 'trace', :action => 'mine'
-  map.connect '/traces/mine/page/:page', :controller => 'trace', :action => 'mine'
-  map.connect '/traces/mine', :controller => 'trace', :action => 'mine'
-  map.connect '/trace/create', :controller => 'trace', :action => 'create'
-  map.connect '/trace/:id/data', :controller => 'trace', :action => 'data'
-  map.connect '/trace/:id/data.:format', :controller => 'trace', :action => 'data'
-  map.connect '/trace/:id/edit', :controller => 'trace', :action => 'edit'
-  map.connect '/trace/:id/delete', :controller => 'trace', :action => 'delete'
+  # traces
+  match '/user/:display_name/traces/tag/:tag/page/:page' => 'trace#list'
+  match '/user/:display_name/traces/tag/:tag' => 'trace#list'
+  match '/user/:display_name/traces/page/:page' => 'trace#list'
+  match '/user/:display_name/traces' => 'trace#list'
+  match '/user/:display_name/traces/tag/:tag/rss' => 'trace#georss'
+  match '/user/:display_name/traces/rss' => 'trace#georss'
+  match '/user/:display_name/traces/:id' => 'trace#view'
+  match '/user/:display_name/traces/:id/picture' => 'trace#picture'
+  match '/user/:display_name/traces/:id/icon' => 'trace#icon'
+  match '/traces/tag/:tag/page/:page' => 'trace#list'
+  match '/traces/tag/:tag' => 'trace#list'
+  match '/traces/page/:page' => 'trace#list'
+  match '/traces' => 'trace#list'
+  match '/traces/tag/:tag/rss' => 'trace#georss'
+  match '/traces/rss' => 'trace#georss'
+  match '/traces/mine/tag/:tag/page/:page' => 'trace#mine'
+  match '/traces/mine/tag/:tag' => 'trace#mine'
+  match '/traces/mine/page/:page' => 'trace#mine'
+  match '/traces/mine' => 'trace#mine'
+  match '/trace/create' => 'trace#create'
+  match '/trace/:id/data' => 'trace#data'
+  match '/trace/:id/data.:format' => 'trace#data'
+  match '/trace/:id/edit' => 'trace#edit'
+  match '/trace/:id/delete' => 'trace#delete'
 
   # diary pages
-  map.connect '/diary/new', :controller => 'diary_entry', :action => 'new'
-  map.connect '/user/:display_name/diary/rss', :controller => 'diary_entry', :action => 'rss'
-  map.connect '/diary/:language/rss', :controller => 'diary_entry', :action => 'rss'
-  map.connect '/diary/rss', :controller => 'diary_entry', :action => 'rss'
-  map.connect '/user/:display_name/diary', :controller => 'diary_entry', :action => 'list'
-  map.connect '/diary/:language', :controller => 'diary_entry', :action => 'list'
-  map.connect '/diary', :controller => 'diary_entry', :action => 'list'
-  map.connect '/user/:display_name/diary/:id', :controller => 'diary_entry', :action => 'view', :id => /\d+/
-  map.connect '/user/:display_name/diary/:id/newcomment', :controller => 'diary_entry', :action => 'comment', :id => /\d+/
-  map.connect '/user/:display_name/diary/:id/edit', :controller => 'diary_entry', :action => 'edit', :id => /\d+/
-  map.connect '/user/:display_name/diary/:id/hide', :controller => 'diary_entry', :action => 'hide', :id => /\d+/
-  map.connect '/user/:display_name/diary/:id/hidecomment/:comment', :controller => 'diary_entry', :action => 'hidecomment', :id => /\d+/, :comment => /\d+/
+  match '/diary/new' => 'diary_entry#new'
+  match '/user/:display_name/diary/rss' => 'diary_entry#rss', :format => :rss
+  match '/diary/:language/rss' => 'diary_entry#rss', :format => :rss
+  match '/diary/rss' => 'diary_entry#rss', :format => :rss
+  match '/user/:display_name/diary' => 'diary_entry#list'
+  match '/diary/:language' => 'diary_entry#list'
+  match '/diary' => 'diary_entry#list'
+  match '/user/:display_name/diary/:id' => 'diary_entry#view', :id => /\d+/
+  match '/user/:display_name/diary/:id/newcomment' => 'diary_entry#comment', :id => /\d+/
+  match '/user/:display_name/diary/:id/edit' => 'diary_entry#edit', :id => /\d+/
+  match '/user/:display_name/diary/:id/hide' => 'diary_entry#hide', :id => /\d+/
+  match '/user/:display_name/diary/:id/hidecomment/:comment' => 'diary_entry#hidecomment', :id => /\d+/, :comment => /\d+/
 
   # user pages
-  map.connect '/user/:display_name', :controller => 'user', :action => 'view'
-  map.connect '/user/:display_name/make_friend', :controller => 'user', :action => 'make_friend'
-  map.connect '/user/:display_name/remove_friend', :controller => 'user', :action => 'remove_friend'
-  map.connect '/user/:display_name/account', :controller => 'user', :action => 'account'
-  map.connect '/user/:display_name/set_status', :controller => 'user', :action => 'set_status'
-  map.connect '/user/:display_name/delete', :controller => 'user', :action => 'delete'
+  match '/user/:display_name' => 'user#view'
+  match '/user/:display_name/make_friend' => 'user#make_friend'
+  match '/user/:display_name/remove_friend' => 'user#remove_friend'
+  match '/user/:display_name/account' => 'user#account'
+  match '/user/:display_name/set_status' => 'user#set_status'
+  match '/user/:display_name/delete' => 'user#delete'
 
   # user lists
-  map.connect '/users', :controller => 'user', :action => 'list'
-  map.connect '/users/:status', :controller => 'user', :action => 'list'
+  match '/users' => 'user#list'
+  match '/users/:status' => 'user#list'
 
   # test pages
-  map.connect '/test/populate/:table/:from/:count', :controller => 'test', :action => 'populate'
-  map.connect '/test/populate/:table/:count', :controller => 'test', :action => 'populate', :from => 1
+  match '/test/populate/:table/:from/:count' => 'test#populate'
+  match '/test/populate/:table/:count' => 'test#populate', :from => 1
 
   # geocoder
-  map.connect '/geocoder/search', :controller => 'geocoder', :action => 'search'
-  map.connect '/geocoder/search_latlon', :controller => 'geocoder', :action => 'search_latlon'
-  map.connect '/geocoder/search_us_postcode', :controller => 'geocoder', :action => 'search_us_postcode'
-  map.connect '/geocoder/search_uk_postcode', :controller => 'geocoder', :action => 'search_uk_postcode'
-  map.connect '/geocoder/search_ca_postcode', :controller => 'geocoder', :action => 'search_ca_postcode'
-  map.connect '/geocoder/search_osm_namefinder', :controller => 'geocoder', :action => 'search_osm_namefinder'
-  map.connect '/geocoder/search_osm_nominatim', :controller => 'geocoder', :action => 'search_osm_nominatim'
-  map.connect '/geocoder/search_geonames', :controller => 'geocoder', :action => 'search_geonames'
-  map.connect '/geocoder/description', :controller => 'geocoder', :action => 'description'
-  map.connect '/geocoder/description_osm_namefinder', :controller => 'geocoder', :action => 'description_osm_namefinder'
-  map.connect '/geocoder/description_osm_nominatim', :controller => 'geocoder', :action => 'description_osm_nominatim'
-  map.connect '/geocoder/description_geonames', :controller => 'geocoder', :action => 'description_geonames'
+  match '/geocoder/search' => 'geocoder#search'
+  match '/geocoder/search_latlon' => 'geocoder#search_latlon'
+  match '/geocoder/search_us_postcode' => 'geocoder#search_us_postcode'
+  match '/geocoder/search_uk_postcode' => 'geocoder#search_uk_postcode'
+  match '/geocoder/search_ca_postcode' => 'geocoder#search_ca_postcode'
+  match '/geocoder/search_osm_namefinder' => 'geocoder#search_osm_namefinder'
+  match '/geocoder/search_osm_nominatim' => 'geocoder#search_osm_nominatim'
+  match '/geocoder/search_geonames' => 'geocoder#search_geonames'
+  match '/geocoder/description' => 'geocoder#description'
+  match '/geocoder/description_osm_namefinder' => 'geocoder#description_osm_namefinder'
+  match '/geocoder/description_osm_nominatim' => 'geocoder#description_osm_nominatim'
+  match '/geocoder/description_geonames' => 'geocoder#description_geonames'
 
   # export
-  map.connect '/export/start', :controller => 'export', :action => 'start'
-  map.connect '/export/finish', :controller => 'export', :action => 'finish'
+  match '/export/start' => 'export#start'
+  match '/export/finish' => 'export#finish'
 
   # messages
-  map.connect '/user/:display_name/inbox', :controller => 'message', :action => 'inbox'
-  map.connect '/user/:display_name/outbox', :controller => 'message', :action => 'outbox'
-  map.connect '/message/new/:display_name', :controller => 'message', :action => 'new'
-  map.connect '/message/read/:message_id', :controller => 'message', :action => 'read'
-  map.connect '/message/mark/:message_id', :controller => 'message', :action => 'mark'
-  map.connect '/message/reply/:message_id', :controller => 'message', :action => 'reply'
-  map.connect '/message/delete/:message_id', :controller => 'message', :action => 'delete'
+  match '/user/:display_name/inbox' => 'message#inbox'
+  match '/user/:display_name/outbox' => 'message#outbox'
+  match '/message/new/:display_name' => 'message#new'
+  match '/message/read/:message_id' => 'message#read'
+  match '/message/mark/:message_id' => 'message#mark'
+  match '/message/reply/:message_id' => 'message#reply'
+  match '/message/delete/:message_id' => 'message#delete'
 
   # oauth admin pages (i.e: for setting up new clients, etc...)
-  map.resources :oauth_clients, :path_prefix => '/user/:display_name'
-  map.connect '/oauth/revoke', :controller => 'oauth', :action => 'revoke'
-  map.authorize '/oauth/authorize', :controller => 'oauth', :action => 'oauthorize'
-  map.request_token '/oauth/request_token', :controller => 'oauth', :action => 'request_token'
-  map.access_token '/oauth/access_token', :controller => 'oauth', :action => 'access_token'
-  map.test_request '/oauth/test_request', :controller => 'oauth', :action => 'test_request'
+  scope "/user/:display_name" do
+    resources :oauth_clients
+  end
+  match '/oauth/revoke' => 'oauth#revoke'
+  match '/oauth/authorize' => 'oauth#oauthorize', :as => :authorize
+  match '/oauth/request_token' => 'oauth#request_token', :as => :request_token
+  match '/oauth/access_token' => 'oauth#access_token', :as => :access_token
+  match '/oauth/test_request' => 'oauth#test_request', :as => :test_request
 
   # roles and banning pages
-  map.connect '/user/:display_name/role/:role/grant', :controller => 'user_roles', :action => 'grant'
-  map.connect '/user/:display_name/role/:role/revoke', :controller => 'user_roles', :action => 'revoke'
-  map.connect '/user/:display_name/blocks', :controller => 'user_blocks', :action => 'blocks_on'
-  map.connect '/user/:display_name/blocks_by', :controller => 'user_blocks', :action => 'blocks_by'
-  map.connect '/blocks/new/:display_name', :controller => 'user_blocks', :action => 'new'
-  map.resources :user_blocks, :as => 'blocks'
-  map.connect '/blocks/:id/revoke', :controller => 'user_blocks', :action => 'revoke'
+  match '/user/:display_name/role/:role/grant' => 'user_roles#grant'
+  match '/user/:display_name/role/:role/revoke' => 'user_roles#revoke'
+  match '/user/:display_name/blocks' => 'user_blocks#blocks_on'
+  match '/user/:display_name/blocks_by' => 'user_blocks#blocks_by'
+  match '/blocks/new/:display_name' => 'user_blocks#new'
+  resources :user_blocks
+  match '/blocks/:id/revoke' => 'user_blocks#revoke'
 
   # fall through
-  map.connect ':controller/:id/:action'
-  map.connect ':controller/:action'
+  match ':controller/:id/:action' => '#index'
+  match ':controller/:action' => '#index'
 end

@@ -2,6 +2,7 @@
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0"/>
   <%= javascript_strings %>
   <%= javascript_include_tag 'prototype' %>
+  <%= javascript_include_tag 'rails' %>
   <%= javascript_include_tag 'site' %>
   <%= javascript_include_tag 'menu' %>
   <!--[if lt IE 7]><%= javascript_include_tag 'pngfix' %><![endif]--> <!-- thanks, microsoft! -->
@@ -16,5 +17,6 @@
   <%= tag("meta", { :name => "description", :content => "OpenStreetMap is the free wiki world map." }) %>
   <%= style_rules %>
   <%= yield :head %>
+  <%= csrf_meta_tag %>
   <title><%= t 'layouts.project_name.title' %><%= ' | '+ h(@title) if @title %></title>
 </head>

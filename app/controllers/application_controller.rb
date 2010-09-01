@@ -1,6 +1,6 @@
-# Filters added to this controller will be run for all controllers in the application.
-# Likewise, all the methods added will be available for all controllers.
 class ApplicationController < ActionController::Base
+
+  protect_from_forgery
 
   if STATUS == :database_readonly or STATUS == :database_offline
     session :off

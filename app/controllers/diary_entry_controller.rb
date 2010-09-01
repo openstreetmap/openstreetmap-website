@@ -111,8 +111,6 @@ class DiaryEntryController < ApplicationController
   end
 
   def rss
-    request.format = :rss
-
     if params[:display_name]
       user = User.find_by_display_name(params[:display_name], :conditions => { :status => ["active", "confirmed"] })
 
