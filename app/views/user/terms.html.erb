@@ -3,7 +3,7 @@
 <p><%= t 'user.terms.read and accept' %></p>
 
 <!-- legale is <%= @legale %> -->
-<% form_tag :action => 'terms' do %>
+<%= form_tag :action => 'terms' do %>
   <p>
     <%= t 'user.terms.legale_select' %>
     <% [['france', 'FR'], ['italy', 'IT'], ['rest_of_world', 'GB']].each do |name,legale| %>
@@ -25,7 +25,7 @@
   <%= render :partial => "terms" %>
 </div>
 
-<% form_tag({:action => "save"}, { :id => "termsForm" }) do %>
+<%= form_tag({:action => "save"}, { :id => "termsForm" }) do %>
   <p>
     <label for="confirm_pd_checkbox"><%= t 'user.terms.consider_pd' %></label>
     <%= check_box('user', 'consider_pd') %>

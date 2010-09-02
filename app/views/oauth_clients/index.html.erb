@@ -6,11 +6,11 @@
   <tr><th><%= t'oauth_clients.index.application' %></th>
     <th><%= t'oauth_clients.index.issued_at' %></th><th>&nbsp;</th></tr>
   <% @tokens.each do |token|%>
-    <% content_tag_for :tr, token do %>
+    <%= content_tag_for :tr, token do %>
       <td><%= link_to token.client_application.name, token.client_application.url %></td>
       <td><%= token.authorized_at %></td>
       <td>
-	<% form_tag :controller => 'oauth', :action => 'revoke' do %>
+	<%= form_tag :controller => 'oauth', :action => 'revoke' do %>
 	<%= hidden_field_tag 'token', token.token %>
 	<%= submit_tag t('oauth_clients.index.revoke') %>
 	<% end %>
@@ -25,7 +25,7 @@
 <% else %>
 <p><%= t'oauth_clients.index.registered_apps' %></p>
 <% @client_applications.each do |client|%>
-  <% div_for client do %>
+  <%= div_for client do %>
     <%= link_to client.name, :action => :show, :id => client.id %>
   <% end %>
 <% end %>
