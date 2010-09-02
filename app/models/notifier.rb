@@ -1,113 +1,125 @@
 class Notifier < ActionMailer::Base
+  default :from => EMAIL_FROM,
+          :return_path => EMAIL_RETURN_PATH,
+          :auto_submitted => "auto-generated"
+
   def signup_confirm(user, token)
-    common_headers user
-    subject I18n.t('notifier.signup_confirm.subject')
-    body :url => url_for(:host => SERVER_URL,
-                         :controller => "user", :action => "confirm",
-                         :display_name => user.display_name,
-                         :confirm_string => token.token)
+    @locale = user.preferred_language_from(I18n.available_locales)
+    @url = url_for(:host => SERVER_URL,
+                   :controller => "user", :action => "confirm",
+                   :display_name => user.display_name,
+                   :confirm_string => token.token)
+
+    mail :to => user.email,
+         :subject => I18n.t('notifier.signup_confirm.subject', :locale => @locale)
   end
 
   def email_confirm(user, token)
-    common_headers user
-    recipients user.new_email
-    subject I18n.t('notifier.email_confirm.subject')
-    body :address => user.new_email,
-         :url => url_for(:host => SERVER_URL,
-                         :controller => "user", :action => "confirm_email",
-                         :confirm_string => token.token)
+    @locale = user.preferred_language_from(I18n.available_locales)
+    @address = user.new_email
+    @url = url_for(:host => SERVER_URL,
+                   :controller => "user", :action => "confirm_email",
+                   :confirm_string => token.token)
+
+    mail :to => user.new_email,
+         :subject => I18n.t('notifier.email_confirm.subject', :locale => @locale)
   end
 
   def lost_password(user, token)
-    common_headers user
-    subject I18n.t('notifier.lost_password.subject')
-    body :url => url_for(:host => SERVER_URL,
-                         :controller => "user", :action => "reset_password",
-                         :token => token.token)
+    @locale = user.preferred_language_from(I18n.available_locales)
+    @url = url_for(:host => SERVER_URL,
+                   :controller => "user", :action => "reset_password",
+                   :token => token.token)
+
+    mail :to => user.email,
+         :subject => I18n.t('notifier.lost_password.subject', :locale => @locale)
   end
 
   def gpx_success(trace, possible_points)
-    common_headers trace.user
-    subject I18n.t('notifier.gpx_notification.success.subject')
-    body :trace_name => trace.name,
-         :trace_points => trace.size,
-         :trace_description => trace.description,
-         :trace_tags => trace.tags,
-         :possible_points => possible_points
+    @locale = trace.user.preferred_language_from(I18n.available_locales)
+    @trace_name = trace.name
+    @trace_points = trace.size
+    @trace_description = trace.description
+    @trace_tags = trace.tags
+    @possible_points = possible_points
+
+    mail :to => trace.user.email,
+         :subject => I18n.t('notifier.gpx_notification.success.subject', :locale => @locale)
   end
 
   def gpx_failure(trace, error)
-    common_headers trace.user
-    from "webmaster@openstreetmap.org"
-    subject I18n.t('notifier.gpx_notification.failure.subject')
-    body :trace_name => trace.name,
-         :trace_description => trace.description,
-         :trace_tags => trace.tags,
-         :error => error
+    @locale = trace.user.preferred_language_from(I18n.available_locales)
+    @trace_name = trace.name
+    @trace_description = trace.description
+    @trace_tags = trace.tags
+    @error = error
+
+    mail :to => trace.user.email,
+         :subject => I18n.t('notifier.gpx_notification.failure.subject', :locale => @locale)
   end
   
   def message_notification(message)
-    common_headers message.recipient
-    from_header message.sender.display_name, "m", message.id, message.digest
-    subject I18n.t('notifier.message_notification.subject_header', :subject => message.title, :locale => locale)
-    body :to_user => message.recipient.display_name,
-         :from_user => message.sender.display_name,
-         :body => message.body,
-         :title => message.title,
-         :readurl => url_for(:host => SERVER_URL,
-                             :controller => "message", :action => "read",
-                             :message_id => message.id),
-         :replyurl => url_for(:host => SERVER_URL,
-                              :controller => "message", :action => "reply",
-                              :message_id => message.id)
+    @locale = message.recipient.preferred_language_from(I18n.available_locales)
+    @to_user = message.recipient.display_name
+    @from_user = message.sender.display_name
+    @body = message.body
+    @title = message.title
+    @readurl = url_for(:host => SERVER_URL,
+                       :controller => "message", :action => "read",
+                       :message_id => message.id)
+    @replyurl = url_for(:host => SERVER_URL,
+                        :controller => "message", :action => "reply",
+                        :message_id => message.id)
+
+    mail :from => from_address(message.sender.display_name, "m", message.id, message.digest),
+         :to => message.recipient.email,
+         :subject => I18n.t('notifier.message_notification.subject_header', :subject => message.title, :locale => @locale)
   end
 
   def diary_comment_notification(comment)
-    common_headers comment.diary_entry.user
-    from_header comment.user.display_name, "c", comment.id, comment.digest
-    subject I18n.t('notifier.diary_comment_notification.subject', :user => comment.user.display_name, :locale => locale)
-    body :to_user => comment.diary_entry.user.display_name,
-         :from_user => comment.user.display_name,
-         :body => comment.body,
-         :title => comment.diary_entry.title,
-         :readurl => url_for(:host => SERVER_URL,
-                             :controller => "diary_entry",
-                             :action => "view",
-                             :display_name => comment.diary_entry.user.display_name,
-                             :id => comment.diary_entry.id,
-                             :anchor => "comment#{comment.id}"),
-         :commenturl => url_for(:host => SERVER_URL,
-                                :controller => "diary_entry",
-                                :action => "view",
-                                :display_name => comment.diary_entry.user.display_name,
-                                :id => comment.diary_entry.id,
-                                :anchor => "newcomment"),
-         :replyurl => url_for(:host => SERVER_URL,
-                              :controller => "message",
-                              :action => "new",
-                              :display_name => comment.user.display_name,
-                              :title => "Re: #{comment.diary_entry.title}")
+    @locale = comment.diary_entry.user.preferred_language_from(I18n.available_locales)
+    @to_user = comment.diary_entry.user.display_name
+    @from_user = comment.user.display_name
+    @body = comment.body
+    @title = comment.diary_entry.title
+    @readurl = url_for(:host => SERVER_URL,
+                       :controller => "diary_entry",
+                       :action => "view",
+                       :display_name => comment.diary_entry.user.display_name,
+                       :id => comment.diary_entry.id,
+                       :anchor => "comment#{comment.id}")
+    @commenturl = url_for(:host => SERVER_URL,
+                          :controller => "diary_entry",
+                          :action => "view",
+                          :display_name => comment.diary_entry.user.display_name,
+                          :id => comment.diary_entry.id,
+                          :anchor => "newcomment")
+    @replyurl = url_for(:host => SERVER_URL,
+                        :controller => "message",
+                        :action => "new",
+                        :display_name => comment.user.display_name,
+                        :title => "Re: #{comment.diary_entry.title}")
+
+    mail :from => from_address(comment.user.display_name, "c", comment.id, comment.digest),
+         :to =>  comment.diary_entry.user.email,
+         :subject => I18n.t('notifier.diary_comment_notification.subject', :user => comment.user.display_name, :locale => @locale)
   end
 
   def friend_notification(friend)
-    common_headers friend.befriendee
-    subject I18n.t('notifier.friend_notification.subject', :user => friend.befriender.display_name, :locale => locale)
-    body :friend => friend
+    @locale = friend.befriendee.preferred_language_from(I18n.available_locales)
+    @friend = friend
+
+    mail :to => friend.befriendee.email,
+         :subject => I18n.t('notifier.friend_notification.subject', :user => friend.befriender.display_name, :locale => @locale)
   end
 
 private
 
-  def common_headers(recipient)
-    recipients recipient.email
-    locale recipient.preferred_language_from(I18n.available_locales)
-    from EMAIL_FROM
-    headers "return-path" => EMAIL_RETURN_PATH,
-            "Auto-Submitted" => "auto-generated"
-  end
-
-  def from_header(name, type, id, digest)
+  def from_address(name, type, id, digest)
     if domain = MESSAGES_DOMAIN
-      from quote_address_if_necessary("#{name} <#{type}-#{id}-#{digest[0,6]}@#{domain}>", "utf-8")
+      "#{name} <#{type}-#{id}-#{digest[0,6]}@#{domain}>"
+    else
+      EMAIL_FROM
     end
   end
 end

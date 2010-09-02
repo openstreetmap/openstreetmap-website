@@ -9,20 +9,20 @@ ActionMailer::Base.smtp_settings = {
 module ActionMailer
   class Base
     adv_attr_accessor :locale
-  private
-    alias_method :old_render_message, :render_message
 
-    def render_message(method_name, body)
+    def mail_with_locale(*args)
       old_locale= I18n.locale
 
       begin
         I18n.locale = @locale
-        message = old_render_message(method_name, body)
+        message = mail_without_locale(*args)
       ensure
         I18n.locale = old_locale
       end
 
       message
     end
+
+    alias_method_chain :mail, :locale
   end
 end
