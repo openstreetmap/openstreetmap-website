@@ -37,7 +37,7 @@ module ApplicationHelper
     js << javascript_strings_for_key("javascripts")
     js << "</script>\n"
 
-    return js
+    return raw(js)
   end
 
   def style_rules

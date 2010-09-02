@@ -14,7 +14,7 @@
 
     <span id="greeting">
       <% if @user and @user.id %>
-        <span id="full-greeting"><%= t 'layouts.welcome_user', :user_link => (link_to h(@user.display_name), {:controller => 'user', :action => 'view', :display_name => @user.display_name}, :title => t('layouts.welcome_user_link_tooltip')) %></span> 
+        <span id="full-greeting"><%= raw(t 'layouts.welcome_user', :user_link => (link_to h(@user.display_name), {:controller => 'user', :action => 'view', :display_name => @user.display_name}, :title => t('layouts.welcome_user_link_tooltip'))) %></span> 
         <span id="small-greeting"><%= link_to t('layouts.welcome_user_link_tooltip'), {:controller => 'user', :action => 'view', :display_name => @user.display_name} %></span> | 
         <%= yield :greeting %>
         <%= render :partial => "layouts/inbox" %> |
@@ -83,11 +83,11 @@
           <%= t 'layouts.intro_2' %>
         </p>
         <p>
-        <%= t 'layouts.intro_3', 
-              :ucl => link_to(t('layouts.intro_3_ucl'), "http://www.vr.ucl.ac.uk"),
-              :ic => link_to(t('layouts.intro_3_ic'), "http://www.imperial.ac.uk/"),
-              :bytemark => link_to(t('layouts.intro_3_bytemark'), "http://www.bytemark.co.uk"),
-              :partners => link_to(t('layouts.intro_3_partners'), t('layouts.intro_3_partners_url')) %>
+        <%= raw(t 'layouts.intro_3', 
+                  :ucl => link_to(t('layouts.intro_3_ucl'), "http://www.vr.ucl.ac.uk"),
+                  :ic => link_to(t('layouts.intro_3_ic'), "http://www.imperial.ac.uk/"),
+                  :bytemark => link_to(t('layouts.intro_3_bytemark'), "http://www.bytemark.co.uk"),
+                  :partners => link_to(t('layouts.intro_3_partners'), t('layouts.intro_3_partners_url'))) %>
         </p>
       </div>
       <% end %>

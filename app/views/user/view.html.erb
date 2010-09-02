@@ -92,7 +92,7 @@
 <% if @user and @this_user.id == @user.id %>
   <div id="map" class="user_map">
     <% if @this_user.home_lat.nil? or @this_user.home_lon.nil? %>
-      <p id="no_home_location"><%= t 'user.view.if set location', :settings_link => (link_to t('user.view.settings_link_text'), :controller => 'user', :action => 'account', :display_name => @user.display_name) %></p>
+      <p id="no_home_location"><%= raw(t 'user.view.if set location', :settings_link => (link_to t('user.view.settings_link_text'), :controller => 'user', :action => 'account', :display_name => @user.display_name)) %></p>
     <% else %>
       <%= render :partial => 'map', :locals => { :setting_location => false, :show_other_users => true } %>
     <% end %>
