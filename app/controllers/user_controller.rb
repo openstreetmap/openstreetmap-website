@@ -130,7 +130,7 @@ class UserController < ApplicationController
       if @user.save
         flash[:piwik_goal] = PIWIK_SIGNUP_GOAL if defined?(PIWIK_SIGNUP_GOAL)
         flash[:notice] = t 'user.new.flash create success message', :email => @user.email
-        Notifier.deliver_signup_confirm(@user, @user.tokens.create(:referer => session.delete(:referer)))
+        Notifier.signup_confirm(@user, @user.tokens.create(:referer => session.delete(:referer))).deliver
         session[:token] = @user.tokens.create.token
         redirect_to :action => 'login', :referer => params[:referer]
       else
@@ -214,7 +214,7 @@ class UserController < ApplicationController
 
       if user
         token = user.tokens.create
-        Notifier.deliver_lost_password(user, token)
+        Notifier.lost_password(user, token).deliver
         flash[:notice] = t 'user.lost_password.notice email on way'
         redirect_to :action => 'login'
       else
@@ -356,7 +356,7 @@ class UserController < ApplicationController
 
   def confirm_resend
     if user = User.find_by_display_name(params[:display_name])
-      Notifier.deliver_signup_confirm(user, user.tokens.create)
+      Notifier.signup_confirm(user, user.tokens.create).deliver
       flash[:notice] = t 'user.confirm_resend.success', :email => user.email
     else
       flash[:notice] = t 'user.confirm_resend.failure', :name => params[:display_name]
@@ -419,7 +419,7 @@ class UserController < ApplicationController
       unless @user.is_friends_with?(new_friend)
         if friend.save
           flash[:notice] = t 'user.make_friend.success', :name => name
-          Notifier.deliver_friend_notification(friend)
+          Notifier.friend_notification(friend).deliver
         else
           friend.add_error(t('user.make_friend.failed', :name => name))
         end
@@ -653,7 +653,7 @@ private
         flash.now[:notice] = t 'user.account.flash update success confirm needed'
 
         begin
-          Notifier.deliver_email_confirm(user, user.tokens.create)
+          Notifier.email_confirm(user, user.tokens.create).deliver
         rescue
           # Ignore errors sending email
         end
