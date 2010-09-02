@@ -18,6 +18,8 @@ module I18n
               store_translations(locale, :time => { :formats => { :friendly => friendly } })
             end
           end
+
+          @skip_syntax_deprecation = true
         end
       end
     end
