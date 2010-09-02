@@ -97,7 +97,7 @@ module Potlatch
 	  when 'FalseClass'
         0.chr+encodedouble(0)
       else
-        RAILS_DEFAULT_LOGGER.error("Unexpected Ruby type for AMF conversion: "+n.class.to_s)
+        Rails.logger.error("Unexpected Ruby type for AMF conversion: "+n.class.to_s)
       end
     end
 
@@ -130,7 +130,7 @@ module Potlatch
     #				[3] colours, [4] casing, [5] areas, [6] autotags
     #				(all hashes)
     def self.get_presets
-      RAILS_DEFAULT_LOGGER.info("  Message: getpresets")
+      Rails.logger.info("  Message: getpresets")
 
       # Read preset menus
       presets={}
@@ -139,7 +139,7 @@ module Potlatch
       presettype=''
       presetcategory=''
       #	StringIO.open(txt) do |file|
-      File.open("#{RAILS_ROOT}/config/potlatch/presets.txt") do |file|
+      File.open("#{Rails.root}/config/potlatch/presets.txt") do |file|
         file.each_line {|line|
           t=line.chomp
           if (t=~/(\w+)\/(\w+)/) then
@@ -160,7 +160,7 @@ module Potlatch
 
       # Read colours/styling
       colours={}; casing={}; areas={}
-      File.open("#{RAILS_ROOT}/config/potlatch/colours.txt") do |file|
+      File.open("#{Rails.root}/config/potlatch/colours.txt") do |file|
         file.each_line {|line|
           t=line.chomp
           if (t=~/(\w+)\s+([^\s]+)\s+([^\s]+)\s+([^\s]+)/) then
@@ -174,7 +174,7 @@ module Potlatch
 
       # Read relations colours/styling
       relcolours={}; relalphas={}; relwidths={}
-      File.open("#{RAILS_ROOT}/config/potlatch/relation_colours.txt") do |file|
+      File.open("#{Rails.root}/config/potlatch/relation_colours.txt") do |file|
         file.each_line {|line|
           t=line.chomp
           if (t=~/(\w+)\s+([^\s]+)\s+([^\s]+)\s+([^\s]+)/) then
@@ -188,7 +188,7 @@ module Potlatch
 
       # Read POI presets
       icon_list=[]; icon_tags={};
-      File.open("#{RAILS_ROOT}/config/potlatch/icon_presets.txt") do |file|
+      File.open("#{Rails.root}/config/potlatch/icon_presets.txt") do |file|
         file.each_line {|line|
           (icon,tags)=line.chomp.split("\t")
           icon_list.push(icon)
@@ -199,7 +199,7 @@ module Potlatch
       
       # Read auto-complete
       autotags={}; autotags['point']={}; autotags['way']={}; autotags['POI']={};
-      File.open("#{RAILS_ROOT}/config/potlatch/autocomplete.txt") do |file|
+      File.open("#{Rails.root}/config/potlatch/autocomplete.txt") do |file|
         file.each_line {|line|
           t=line.chomp
           if (t=~/^([\w:]+)\/(\w+)\s+(.+)$/) then

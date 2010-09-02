@@ -265,14 +265,14 @@ class AmfController < ApplicationController
     loaded_lang = 'en'
 
     # Load English defaults
-    en = YAML::load(File.open("#{RAILS_ROOT}/config/potlatch/locales/en.yml"))["en"]
+    en = YAML::load(File.open("#{Rails.root}/config/potlatch/locales/en.yml"))["en"]
 
     if lang == 'en'
       return [loaded_lang, en]
     else
       # Use English as a fallback
       begin
-        other = YAML::load(File.open("#{RAILS_ROOT}/config/potlatch/locales/#{lang}.yml"))[lang]
+        other = YAML::load(File.open("#{Rails.root}/config/potlatch/locales/#{lang}.yml"))[lang]
         loaded_lang = lang
       rescue
         other = en
@@ -916,7 +916,7 @@ class AmfController < ApplicationController
   end
 
   def getlocales
-    Dir.glob("#{RAILS_ROOT}/config/potlatch/locales/*").collect { |f| File.basename(f, ".yml") }
+    Dir.glob("#{Rails.root}/config/potlatch/locales/*").collect { |f| File.basename(f, ".yml") }
   end
   
   ##

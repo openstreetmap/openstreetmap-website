@@ -168,7 +168,7 @@ class ActiveSupport::TestCase
       rots_response = Net::HTTP.get_response(URI.parse("http://localhost:1123/"))
     rescue
       # It isn't, so start a new instance.
-      rots = IO.popen(RAILS_ROOT + "/vendor/gems/rots-0.2.1/bin/rots --silent")
+      rots = IO.popen("#{Rails.root}/vendor/gems/rots-0.2.1/bin/rots --silent")
 
       # Wait for up to 30 seconds for the server to start and respond before continuing
       for i in (1 .. 30)

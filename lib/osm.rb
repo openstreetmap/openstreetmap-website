@@ -529,8 +529,8 @@ module OSM
   end
 
   def self.legal_text_for_country(country_code)
-    file_name = File.join(RAILS_ROOT, "config", "legales", country_code.to_s + ".yml")
-    file_name = File.join(RAILS_ROOT, "config", "legales", DEFAULT_LEGALE + ".yml") unless File.exist? file_name
+    file_name = File.join(Rails.root, "config", "legales", country_code.to_s + ".yml")
+    file_name = File.join(Rails.root, "config", "legales", DEFAULT_LEGALE + ".yml") unless File.exist? file_name
     YAML::load_file(file_name)
   end
 end
