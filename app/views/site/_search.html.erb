@@ -55,6 +55,12 @@
     <% end %>
   }
 
+  document.observe("dom:loaded", function () {
+    $("search_form").observe("ajax:before", setSearchViewbox);
+    $("search_form").observe("ajax:loading", startSearch);
+    $("search_form").observe("ajax:complete", endSearch);
+  });
+
   <% if params[:query] %>
   <%= remote_function(:loading => "startSearch()",
                       :url => { :controller => :geocoder, :action => :search, :query => h(params[:query]) }) %>
@@ -68,11 +74,8 @@
     <h1><%= t 'site.search.search' %></h1>
     <div class="search_container">
     <div id="search_field">
-    <% form_remote_tag(:before => "setSearchViewbox()",
-                       :loading => "startSearch()",
-                       :complete => "endSearch()",
-                       :url => { :controller => :geocoder, :action => :search },
-                       :html => { :id => "search_form", :method => "get", :action => url_for(:action => "index") }) do %>
+    <%= form_tag({ :controller => :geocoder, :action => :search },
+                 { :id => "search_form", :remote => true, :method => "get", :action => url_for(:action => "index") }) do %>
       <%= text_field_tag :query, h(params[:query]), :tabindex => "1" %>
       <%= submit_tag t('site.search.submit_text') %>
     <% end %>

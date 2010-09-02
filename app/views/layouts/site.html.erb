@@ -44,11 +44,7 @@
         <li><%= link_to t('layouts.view'), {:controller => 'site', :action => 'index'}, {:id => 'viewanchor', :title => t('layouts.view_tooltip'), :class => viewclass} %></li>
         <li><%= link_to t('layouts.edit') + '&nbsp;&#x25be;', {:controller => 'site', :action => 'edit'}, {:id => 'editanchor', :title => t('javascripts.site.edit_tooltip'), :class => editclass} %></li>
         <li><%= link_to t('layouts.history'), {:controller => 'changeset', :action => 'list' }, {:id => 'historyanchor', :title => t('javascripts.site.history_tooltip'), :class => historyclass} %></li>
-        <% if params['controller'] == 'site' and (params['action'] == 'index' or params['action'] == 'export') %>
-        <li><%= link_to_remote t('layouts.export'), {:url => {:controller => 'export', :action => 'start'}}, {:id => 'exportanchor', :title => t('layouts.export_tooltip'), :class => exportclass, :href => url_for(:controller => 'site', :action => 'export')} %></li>
-        <% else %>
         <li><%= link_to t('layouts.export'), {:controller => 'site', :action => 'export'}, {:id => 'exportanchor', :title => t('layouts.export_tooltip'), :class => exportclass} %></li>
-        <% end %>
         <li><%= link_to t('layouts.gps_traces'), {:controller => 'trace', :action => 'list', :display_name => nil, :tag => nil, :page => nil}, {:id => 'traceanchor', :title => t('layouts.gps_traces_tooltip'), :class => traceclass} %></li>
         <li><%= link_to t('layouts.user_diaries'), {:controller => 'diary_entry', :action => 'list', :display_name => nil}, {:id => 'diaryanchor', :title => t('layouts.user_diaries_tooltip'), :class => diaryclass} %></li>
       </ul>

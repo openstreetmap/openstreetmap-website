@@ -7,15 +7,11 @@
   <% if @more_params %>
     <div id="search_more_<%= @more_params.hash %>">
       <p class="search_results_entry"><%=
-        startSpinner = update_page do |page|
-                         page.replace_html "search_more_#{@more_params.hash}", image_tag("searching.gif", :class => "search_searching")
-                       end
-
-        link_to_remote t('geocoder.results.more_results'),
-          :update => "search_more_#{@more_params.hash}",
-          :before => startSpinner,
-          :url => @more_params
-        %></p>
+        link_to_function(t('geocoder.results.more_results')) do |page|
+          page.replace_html "search_more_#{@more_params.hash}", image_tag("searching.gif", :class => "search_searching")
+          page << remote_function(:update => "search_more_#{@more_params.hash}", :url => raw(url_for(@more_params)))
+        end
+      %></p>
     </div>
   <% end %>
 <% end %>

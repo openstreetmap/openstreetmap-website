@@ -280,7 +280,15 @@ end
     map.setCenter(centre, zoom);
   });
 
-  <% if params[:action] == 'export' %>
-  <%= remote_function :url => { :controller => 'export', :action => 'start' } %>
-  <% end %>
+  document.observe("dom:loaded", function () {
+    $("exportanchor").observe("click", function (e) {
+      <%= remote_function :url => { :controller => 'export', :action => 'start' } %>;
+      Event.stop(e);
+    });
+
+    <% if params[:action] == 'export' %>
+    <%= remote_function :url => { :controller => 'export', :action => 'start' } %>;
+    <% end %>
+  });
+// -->
 </script>
