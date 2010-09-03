@@ -14,7 +14,7 @@ module ApplicationHelper
   end
 
   def html_escape_unicode(text)
-    chars = ActiveSupport::Multibyte::Chars.u_unpack(text).map do |c|
+    chars = ActiveSupport::Multibyte::Unicode.u_unpack(text).map do |c|
       c < 127 ? c.chr : "&##{c.to_s};"
     end
 
