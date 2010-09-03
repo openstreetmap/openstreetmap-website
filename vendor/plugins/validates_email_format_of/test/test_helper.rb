@@ -1,47 +1,40 @@
 $:.unshift(File.dirname(__FILE__) + '/../lib')
+RAILS_ROOT = File.dirname(__FILE__)
 
 require 'rubygems'
-require 'active_record'
-require 'active_record/base'
-
-require 'validates_email_format_of'
-
-ActiveRecord::Base.establish_connection(
-  :adapter  => 'sqlite3',
-  :database => ':memory:')
-
-ActiveRecord::Schema.define(:version => 0) do
-  create_table :users, :force => true do |t|
-    t.column 'email', :string
-  end
-end
-
-class Person < ActiveRecord::Base
-  validates_email_format_of :email, :on => :create, :message => 'fails with custom message', :allow_nil => true
-end
-
 require 'test/unit'
-require 'shoulda'
+require 'active_record'
+require 'active_record/fixtures'
 require "#{File.dirname(__FILE__)}/../init"
 
-class Test::Unit::TestCase #:nodoc:
-  def self.should_allow_values(klass,*good_values)
-    good_values.each do |v|
-      should "allow email to be set to #{v.inspect}" do
-        user = klass.new(:email => v)
-        user.save
-        assert_nil user.errors.on(:email)
-      end
+
+config = YAML::load(IO.read(File.dirname(__FILE__) + '/database.yml'))
+ActiveRecord::Base.logger = Logger.new(File.dirname(__FILE__) + "/debug.log")
+ActiveRecord::Base.establish_connection(config[ENV['DB'] || 'plugin_test'])
+
+load(File.dirname(__FILE__) + "/schema.rb") if File.exist?(File.dirname(__FILE__) + "/schema.rb")
+
+if ActiveSupport.const_defined?(:TestCase)
+  ActiveSupport::TestCase.send(:include, ActiveRecord::TestFixtures)
+  TEST_CASE = ActiveSupport::TestCase
+else
+  TEST_CASE = Test::Unit::TestCase
+end
+
+TEST_CASE.fixture_path = File.dirname(__FILE__) + "/fixtures/"
+$LOAD_PATH.unshift(TEST_CASE.fixture_path)
+
+class TEST_CASE #:nodoc:
+  def create_fixtures(*table_names)
+    if block_given?
+      Fixtures.create_fixtures(TEST_CASE.fixture_path, table_names) { yield }
+    else
+      Fixtures.create_fixtures(TEST_CASE.fixture_path, table_names)
     end
   end
 
-  def self.should_not_allow_values(klass,*bad_values)
-    bad_values.each do |v|
-      should "not allow email to be set to #{v.inspect}" do
-        user = klass.new(:email => v)
-        assert !user.save, "Saved user with email set to \"#{v}\""
-        assert user.errors.on(:email), "There are no errors set on email after being set to \"#{v}\""
-      end
-    end
-  end
+  self.use_transactional_fixtures = false
+  
+  self.use_instantiated_fixtures  = false
 end
+
