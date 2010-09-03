@@ -517,7 +517,7 @@ module FileColumn # :nodoc:
   #
   # FileColumn's storage location is determined in the following way. All
   # files are saved below the so-called "root_path" directory, which defaults to
-  # "RAILS_ROOT/public". For every file_column, you can set a separte "store_dir"
+  # "Rails.root/public". For every file_column, you can set a separte "store_dir"
   # option. It defaults to "model_name/attribute_name".
   # 
   # Files will always be stored in sub-directories of the store_dir path. The
@@ -593,7 +593,7 @@ module FileColumn # :nodoc:
 
     # default options. You can override these with +file_column+'s +options+ parameter
     DEFAULT_OPTIONS = {
-      :root_path => File.join(RAILS_ROOT, "public"),
+      :root_path => File.join(Rails.root, "public"),
       :web_root => "",
       :mime_extensions => MIME_EXTENSIONS,
       :extensions => EXTENSIONS,
