@@ -7,16 +7,21 @@
   <p>
     <%= t 'user.terms.legale_select' %>
     <% [['france', 'FR'], ['italy', 'IT'], ['rest_of_world', 'GB']].each do |name,legale| %>
-      <%=
-        radio_button_tag 'legale', legale, @legale == legale,
-          :onchange => remote_function(
-            :before => update_page do |page|
-              page.replace_html 'contributorTerms', image_tag('searching.gif')
-            end,
-            :url => {:legale => legale}
-          )
-      %>
+      <%= radio_button_tag 'legale', legale, @legale == legale %>
       <%= label_tag "legale_#{legale}", t('user.terms.legale_names.' + name) %>
+      <script type="text/javascript">
+      <!--
+        $("legale_<%= legale %>").observe("change", function () {
+          <%= remote_function(
+                :before => update_page do |page|
+                  page.replace_html 'contributorTerms', image_tag('searching.gif')
+                end,
+                :url => { :legale => legale }
+              )
+          %>
+        });
+      // -->
+      </script>
     <% end %>
   </p>
 <% end %>
