@@ -10,5 +10,5 @@
     <td><%= button_to t('message.message_summary.read_button'), {:controller => 'message', :action => 'mark', :message_id => message_summary.id, :mark => 'read'}, { :onclick => remote_function(:url => {:controller => 'message', :action => 'mark', :message_id => message_summary.id, :mark => 'read'}) + "; return false;" } %></td>
   <% end %>
   <td><%= button_to t('message.message_summary.reply_button'), :controller => 'message', :action => 'reply', :message_id => message_summary.id %></td>
-  <td><%= button_to t('message.message_summary.delete_button'), :controller => 'message', :action => 'delete', :message_id => message_summary.id, :referer => request.request_uri %></td>
+  <td><%= button_to t('message.message_summary.delete_button'), :controller => 'message', :action => 'delete', :message_id => message_summary.id, :referer => request.fullpath %></td>
 </tr>

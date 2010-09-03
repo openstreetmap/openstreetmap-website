@@ -18,9 +18,9 @@
         <span id="small-greeting"><%= link_to t('layouts.welcome_user_link_tooltip'), {:controller => 'user', :action => 'view', :display_name => @user.display_name} %></span> | 
         <%= yield :greeting %>
         <%= render :partial => "layouts/inbox" %> |
-        <%= link_to t('layouts.logout'), {:controller => 'user', :action => 'logout', :session => request.session_options[:id], :referer => request.request_uri}, {:id => 'logoutanchor', :title => t('layouts.logout_tooltip'), :method => :post, :href => url_for(:controller => 'user', :action => 'logout', :referer => request.request_uri)}%>
+        <%= link_to t('layouts.logout'), {:controller => 'user', :action => 'logout', :session => request.session_options[:id], :referer => request.fullpath}, {:id => 'logoutanchor', :title => t('layouts.logout_tooltip'), :method => :post, :href => url_for(:controller => 'user', :action => 'logout', :referer => request.fullpath)}%>
       <% else %>
-        <%= link_to t('layouts.log_in'), {:controller => 'user', :action => 'login', :referer => request.request_uri}, {:id => 'loginanchor', :title => t('layouts.log_in_tooltip')} %> |
+        <%= link_to t('layouts.log_in'), {:controller => 'user', :action => 'login', :referer => request.fullpath}, {:id => 'loginanchor', :title => t('layouts.log_in_tooltip')} %> |
         <%= link_to t('layouts.sign_up'), {:controller => 'user', :action => 'new'}, {:id => 'registeranchor', :title => t('layouts.sign_up_tooltip')} %>
       <% end %>
     </span>

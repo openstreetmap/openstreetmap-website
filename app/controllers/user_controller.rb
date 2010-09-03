@@ -74,7 +74,7 @@ class UserController < ApplicationController
         end
       else
         # Not logged in, so redirect to the login page
-        redirect_to :action => :login, :referer => request.request_uri
+        redirect_to :action => :login, :referer => request.fullpath
       end
     end
   end
@@ -671,10 +671,10 @@ private
       if params[:display_name]
         redirect_to :controller => 'user', :action => 'view', :display_name => params[:display_name]
       else
-        redirect_to :controller => 'user', :action => 'login', :referer => request.request_uri
+        redirect_to :controller => 'user', :action => 'login', :referer => request.fullpath
       end
     elsif not @user
-      redirect_to :controller => 'user', :action => 'login', :referer => request.request_uri
+      redirect_to :controller => 'user', :action => 'login', :referer => request.fullpath
     end
   end
 

@@ -57,7 +57,7 @@ class MessageController < ApplicationController
       render :action => 'new'
     else
       flash[:notice] = t 'message.reply.wrong_user', :user => @user.display_name
-      redirect_to :controller => "user", :action => "login", :referer => request.request_uri
+      redirect_to :controller => "user", :action => "login", :referer => request.fullpath
     end
   rescue ActiveRecord::RecordNotFound
     @title = t'message.no_such_message.title'
@@ -74,7 +74,7 @@ class MessageController < ApplicationController
       @message.save
     else
       flash[:notice] = t 'message.read.wrong_user', :user => @user.display_name
-      redirect_to :controller => "user", :action => "login", :referer => request.request_uri
+      redirect_to :controller => "user", :action => "login", :referer => request.fullpath
     end
   rescue ActiveRecord::RecordNotFound
     @title = t'message.no_such_message.title'

@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
         if params[:referer]
           redirect_to :controller => "user", :action => "terms", :referer => params[:referer]
         else
-          redirect_to :controller => "user", :action => "terms", :referer => request.request_uri
+          redirect_to :controller => "user", :action => "terms", :referer => request.fullpath
         end
       end
     elsif session[:token]
@@ -39,7 +39,7 @@ class ApplicationController < ActionController::Base
   end
 
   def require_user
-    redirect_to :controller => 'user', :action => 'login', :referer => request.request_uri unless @user
+    redirect_to :controller => 'user', :action => 'login', :referer => request.fullpath unless @user
   end
 
   ##
