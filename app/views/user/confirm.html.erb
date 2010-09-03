@@ -6,11 +6,11 @@ $("content").style.display = "none";
 
 <p><%= t 'user.confirm.press confirm button' %></p>
 
-<form id="confirm" method="post">
+<%= form_tag({}, { :id => "confirm" }) do %>
   <input type="display_name" name="confirm_string" value="<%= params[:display_name] %>">
   <input type="hidden" name="confirm_string" value="<%= params[:confirm_string] %>">
   <input type="submit" name="confirm_action" value="<%= t 'user.confirm.button' %>">
-</form>
+<% end %>
 
 <script>
 $("confirm").submit();
