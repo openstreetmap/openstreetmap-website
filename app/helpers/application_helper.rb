@@ -54,29 +54,29 @@ module ApplicationHelper
   end
 
   def if_logged_in(tag = :div, &block)
-    concat(content_tag(tag, capture(&block), :class => "hide_unless_logged_in"))
+    content_tag(tag, capture(&block), :class => "hide_unless_logged_in")
   end
 
   def if_not_logged_in(tag = :div, &block)
-    concat(content_tag(tag, capture(&block), :class => "hide_if_logged_in"))
+    content_tag(tag, capture(&block), :class => "hide_if_logged_in")
   end
 
   def if_user(user, tag = :div, &block)
     if user
-      concat(content_tag(tag, capture(&block), :class => "hidden show_if_user_#{user.id}"))
+      content_tag(tag, capture(&block), :class => "hidden show_if_user_#{user.id}")
     end
   end
 
   def unless_user(user, tag = :div, &block)
     if user
-      concat(content_tag(tag, capture(&block), :class => "hide_if_user_#{user.id}"))
+      content_tag(tag, capture(&block), :class => "hide_if_user_#{user.id}")
     else
-      concat(content_tag(tag, capture(&block)))
+      content_tag(tag, capture(&block))
     end
   end
 
   def if_administrator(tag = :div, &block)
-    concat(content_tag(tag, capture(&block), :class => "hide_unless_administrator"))
+    content_tag(tag, capture(&block), :class => "hide_unless_administrator")
   end
 
   def describe_location(lat, lon, zoom = nil, language = nil)
