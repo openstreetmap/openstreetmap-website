@@ -36,20 +36,10 @@ class User < ActiveRecord::Base
   validates_numericality_of :home_zoom, :only_integer => true, :allow_nil => true
   validates_inclusion_of :preferred_editor, :in => Editors::ALL_EDITORS, :allow_nil => true
 
+  after_initialize :set_creation_time
   before_save :encrypt_password
 
   file_column :image, :magick => { :geometry => "100x100>" }
-
-  def after_initialize
-    self.creation_time = Time.now.getutc unless self.attribute_present?(:creation_time)
-  end
-
-  def encrypt_password
-    if pass_crypt_confirmation
-      self.pass_salt = OSM::make_token(8)
-      self.pass_crypt = OSM::encrypt_password(pass_crypt, pass_salt)
-    end
-  end
 
   def self.authenticate(options)
     if options[:username] and options[:password]
@@ -209,5 +199,18 @@ class User < ActiveRecord::Base
   # return an oauth access token for a specified application
   def access_token(application_key)
     return ClientApplication.find_by_key(application_key).access_token_for_user(self)
+  end
+
+private
+
+  def set_creation_time
+    self.creation_time = Time.now.getutc unless self.attribute_present?(:creation_time)
+  end
+
+  def encrypt_password
+    if pass_crypt_confirmation
+      self.pass_salt = OSM::make_token(8)
+      self.pass_crypt = OSM::encrypt_password(pass_crypt, pass_salt)
+    end
   end
 end

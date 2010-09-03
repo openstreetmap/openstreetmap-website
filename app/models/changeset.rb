@@ -20,6 +20,8 @@ class Changeset < ActiveRecord::Base
   validates_numericality_of :user_id,  :integer_only => true
   validates_numericality_of :num_changes, :integer_only => true, :greater_than_or_equal_to => 0
 
+  before_save :update_closed_at
+
   # over-expansion factor to use when updating the bounding box
   EXPAND = 0.1
 
@@ -191,7 +193,7 @@ class Changeset < ActiveRecord::Base
   # set the auto-close time to be one hour in the future unless
   # that would make it more than 24h long, in which case clip to
   # 24h, as this has been decided is a reasonable time limit.
-  def before_save
+  def update_closed_at
     if self.is_open?
       if (closed_at - created_at) > (MAX_TIME_OPEN - IDLE_TIMEOUT)
         self.closed_at = created_at + MAX_TIME_OPEN

@@ -6,10 +6,7 @@ module GeoRecord
   
   def self.included(base)
     base.extend(ClassMethods)
-  end
-
-  def before_save
-    self.update_tile
+    base.before_save :update_tile
   end
 
   # Is this node within -90 >= latitude >= 90 and -180 >= longitude >= 180
