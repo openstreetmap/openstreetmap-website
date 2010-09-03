@@ -16,8 +16,6 @@ class ChangesetController < ApplicationController
   around_filter :api_call_handle_error, :except => [:list]
   around_filter :web_timeout, :only => [:list]
 
-  filter_parameter_logging "<osmChange version"
-
   # Help methods for checking boundary sanity and area size
   include MapBoundary
 

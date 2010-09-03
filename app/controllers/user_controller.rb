@@ -15,8 +15,6 @@ class UserController < ApplicationController
   before_filter :require_administrator, :only => [:set_status, :delete, :list]
   before_filter :lookup_this_user, :only => [:set_status, :delete]
 
-  filter_parameter_logging :password, :pass_crypt, :pass_crypt_confirmation
-
   cache_sweeper :user_sweeper, :only => [:account, :set_status, :delete]
 
   def terms
