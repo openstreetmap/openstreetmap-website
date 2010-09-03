@@ -3,6 +3,7 @@ ActionMailer::Base.smtp_settings = {
   :address => 'localhost',
   :port => 25, 
   :domain => 'localhost',
+  :enable_starttls_auto => false
 }
 
 # Monkey patch to allow sending of messages in specific locales
