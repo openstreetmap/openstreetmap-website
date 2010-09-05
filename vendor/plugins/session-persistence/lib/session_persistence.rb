@@ -22,8 +22,7 @@ module SessionPersistence
   
   def _persist_session
     if session[session_persistence_key]
-      request.session_options[:expires] = Time.now + session[session_persistence_key]
-      request.session_options[:expire_after] = session[session_persistence_key]
+      env["rack.session.options"][:expire_after] = session[session_persistence_key]
     end
   end
 end
