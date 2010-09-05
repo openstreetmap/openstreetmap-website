@@ -10,6 +10,7 @@ gem 'oauth-plugin', '>= 0.3.14'
 gem 'httpclient'
 gem 'SystemTimer', '>= 1.1.3', :require => 'system_timer'
 gem 'sanitize'
+gem 'rails-i18n-updater'
 
 # Should only load if memcache is in use
 gem 'memcached'
