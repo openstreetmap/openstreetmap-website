@@ -8,7 +8,7 @@ class SpamObserver < ActiveRecord::Observer
     when record.is_a?(DiaryComment): user = record.user
     end
 
-    if user.status == "active" and user.spam_score > APP_CONFIG['spam_threshold']
+    if user.status == "active" and user.spam_score > SPAM_THRESHOLD
       user.update_attributes(:status => "suspended")
     end
   end

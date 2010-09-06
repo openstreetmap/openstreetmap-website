@@ -5,7 +5,7 @@ class UserBlock < ActiveRecord::Base
   belongs_to :creator, :class_name => "User", :foreign_key => :creator_id
   belongs_to :revoker, :class_name => "User", :foreign_key => :revoker_id
   
-  PERIODS = APP_CONFIG['user_block_periods']
+  PERIODS = USER_BLOCK_PERIODS
 
   ##
   # returns true if the block is currently active (i.e: the user can't

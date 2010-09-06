@@ -1,21 +1,25 @@
 module I18n
   module Backend
-    module Base
-      protected
-      alias_method :old_init_translations, :init_translations
+    class Simple
+      module Implementation
+        protected
+        alias_method :old_init_translations, :init_translations
       
-      def init_translations
-        old_init_translations
+        def init_translations
+          old_init_translations
 
-        merge_translations(:nb, translations[:no])
-        translations[:no] = translations[:nb]
+          store_translations(:nb, translations[:no])
+          translations[:no] = translations[:nb]
 
-        friendly = translate('en', 'time.formats.friendly')
+          friendly = translate('en', 'time.formats.friendly')
 
-        available_locales.each do |locale|
-          unless lookup(locale, 'time.formats.friendly')
-            store_translations(locale, :time => { :formats => { :friendly => friendly } })
+          available_locales.each do |locale|
+            unless lookup(locale, 'time.formats.friendly')
+              store_translations(locale, :time => { :formats => { :friendly => friendly } })
+            end
           end
+
+          @skip_syntax_deprecation = true
         end
       end
     end

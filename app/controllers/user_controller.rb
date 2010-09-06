@@ -16,42 +16,15 @@ class UserController < ApplicationController
 
   filter_parameter_logging :password, :pass_crypt, :pass_crypt_confirmation
 
-  cache_sweeper :user_sweeper, :only => [:account, :set_status, :delete], :unless => OSM_STATUS == :database_offline
+  cache_sweeper :user_sweeper, :only => [:account, :set_status, :delete], :unless => STATUS == :database_offline
 
   def terms
-    @title = t 'user.new.title'
-    @legale = params[:legale] || OSM.IPToCountry(request.remote_ip) || APP_CONFIG['default_legale']
+    @legale = params[:legale] || OSM.IPToCountry(request.remote_ip) || DEFAULT_LEGALE
     @text = OSM.legal_text_for_country(@legale)
 
     if request.xhr?
       render :update do |page|
-        page.replace_html "contributorTerms", :partial => "terms"
-      end
-    elsif params[:user]
-      session[:referer] = params[:referer]
-
-      @user = User.new(params[:user])
-
-      if params[:user][:openid_url] and @user.pass_crypt.empty?
-        # We are creating an account with OpenID and no password
-        # was specified so create a random one
-        @user.pass_crypt = ActiveSupport::SecureRandom.base64(16) 
-        @user.pass_crypt_confirmation = @user.pass_crypt 
-      end
-
-      if @user.valid?
-        if params[:user][:openid_url].nil? or
-            params[:user][:openid_url].empty?
-          # No OpenID so just move on to the terms
-          render :action => 'terms'
-        else
-          # Verify OpenID before moving on
-          session[:new_user] = @user
-          openid_verify(params[:user][:openid_url], @user)
-        end
-      else
-        # Something is wrong, so rerender the form
-        render :action => 'new'
+        page.replace_html "contributorTerms", :partial => "terms", :locals => { :has_decline => params[:has_decline] }
       end
     elsif using_open_id?
       # The redirect from the OpenID provider reenters here
@@ -67,6 +40,35 @@ class UserController < ApplicationController
       else
         render :action => 'terms'
       end
+    else
+      session[:referer] = params[:referer]
+
+      @title = t 'user.terms.title'
+      @user = User.new(params[:user]) if params[:user]
+
+      if params[:user][:openid_url] and @user.pass_crypt.empty?
+        # We are creating an account with OpenID and no password
+        # was specified so create a random one
+        @user.pass_crypt = ActiveSupport::SecureRandom.base64(16) 
+        @user.pass_crypt_confirmation = @user.pass_crypt 
+      end
+
+      if @user
+        if @user.invalid?
+          # Something is wrong, so rerender the form
+          render :action => :new
+        elsif @user.terms_agreed?
+          # Already agreed to terms, so just show settings
+          redirect_to :action => :account, :display_name => @user.display_name
+        elsif params[:user][:openid_url]
+          # Verify OpenID before moving on
+          session[:new_user] = @user
+          openid_verify(params[:user][:openid_url], @user)
+        end
+      else
+        # Not logged in, so redirect to the login page
+        redirect_to :action => :login, :referer => request.request_uri
+      end
     end
   end
 
@@ -77,6 +79,16 @@ class UserController < ApplicationController
       render :action => 'new'
     elsif params[:decline]
       redirect_to t('user.terms.declined')
+    elsif @user
+      if !@user.terms_agreed?
+        @user.consider_pd = params[:user][:consider_pd]
+        @user.terms_agreed = Time.now.getutc
+        if @user.save
+          flash[:notice] = t 'user.new.terms accepted'
+        end
+      end
+
+      redirect_to :action => :account, :display_name => @user.display_name
     else
       @user = User.new(params[:user])
 
@@ -220,7 +232,7 @@ class UserController < ApplicationController
         password_authentication(params[:username], params[:password])
       end
     else
-      @title = t 'user.login.title'
+      flash.now[:notice] =  t 'user.login.notice'
     end
   end
 

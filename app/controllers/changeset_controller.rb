@@ -254,67 +254,71 @@ class ChangesetController < ApplicationController
   ##
   # list edits (open changesets) in reverse chronological order
   def list
-    conditions = conditions_nonempty
-
-    if params[:display_name]
-      user = User.find_by_display_name(params[:display_name], :conditions => { :status => ["active", "confirmed"] })
-
-      if user 
-        if user.data_public? or user == @user
-          conditions = cond_merge conditions, ['user_id = ?', user.id]
-        else
-          conditions = cond_merge conditions, ['false']
-        end
-      elsif request.format == :html
-        @title = t 'user.no_such_user.title'
-        @not_found_user = params[:display_name]
-        render :template => 'user/no_such_user', :status => :not_found
-      end
-    end
-
-    if params[:bbox]
-      bbox = params[:bbox]
-    elsif params[:minlon] and params[:minlat] and params[:maxlon] and params[:maxlat]
-      bbox = params[:minlon] + ',' + params[:minlat] + ',' + params[:maxlon] + ',' + params[:maxlat]
-    end
-
-    if bbox
-      conditions = cond_merge conditions, conditions_bbox(bbox)
-      bbox = BoundingBox.from_s(bbox)
-      bbox_link = render_to_string :partial => "bbox", :object => bbox
-    end
-
-    if user
-      user_link = render_to_string :partial => "user", :object => user
-    end
-
-    if user and bbox
-      @title =  t 'changeset.list.title_user_bbox', :user => user.display_name, :bbox => bbox.to_s
-      @heading =  t 'changeset.list.heading_user_bbox', :user => user.display_name, :bbox => bbox.to_s
-      @description = t 'changeset.list.description_user_bbox', :user => user_link, :bbox => bbox_link
-    elsif user
-      @title =  t 'changeset.list.title_user', :user => user.display_name
-      @heading =  t 'changeset.list.heading_user', :user => user.display_name
-      @description = t 'changeset.list.description_user', :user => user_link
-    elsif bbox
-      @title =  t 'changeset.list.title_bbox', :bbox => bbox.to_s
-      @heading =  t 'changeset.list.heading_bbox', :bbox => bbox.to_s
-      @description = t 'changeset.list.description_bbox', :bbox => bbox_link
+    if request.format == :atom and params[:page]
+      redirect_to params.merge({ :page => nil }), :status => :moved_permanently
     else
-      @title =  t 'changeset.list.title'
-      @heading =  t 'changeset.list.heading'
-      @description = t 'changeset.list.description'
+      conditions = conditions_nonempty
+
+      if params[:display_name]
+        user = User.find_by_display_name(params[:display_name], :conditions => { :status => ["active", "confirmed"] })
+        
+        if user 
+          if user.data_public? or user == @user
+            conditions = cond_merge conditions, ['user_id = ?', user.id]
+          else
+            conditions = cond_merge conditions, ['false']
+          end
+        elsif request.format == :html
+          @title = t 'user.no_such_user.title'
+          @not_found_user = params[:display_name]
+          render :template => 'user/no_such_user', :status => :not_found
+        end
+      end
+      
+      if params[:bbox]
+        bbox = params[:bbox]
+      elsif params[:minlon] and params[:minlat] and params[:maxlon] and params[:maxlat]
+        bbox = params[:minlon] + ',' + params[:minlat] + ',' + params[:maxlon] + ',' + params[:maxlat]
+      end
+      
+      if bbox
+        conditions = cond_merge conditions, conditions_bbox(bbox)
+        bbox = BoundingBox.from_s(bbox)
+        bbox_link = render_to_string :partial => "bbox", :object => bbox
+      end
+      
+      if user
+        user_link = render_to_string :partial => "user", :object => user
+      end
+      
+      if user and bbox
+        @title =  t 'changeset.list.title_user_bbox', :user => user.display_name, :bbox => bbox.to_s
+        @heading =  t 'changeset.list.heading_user_bbox', :user => user.display_name, :bbox => bbox.to_s
+        @description = t 'changeset.list.description_user_bbox', :user => user_link, :bbox => bbox_link
+      elsif user
+        @title =  t 'changeset.list.title_user', :user => user.display_name
+        @heading =  t 'changeset.list.heading_user', :user => user.display_name
+        @description = t 'changeset.list.description_user', :user => user_link
+      elsif bbox
+        @title =  t 'changeset.list.title_bbox', :bbox => bbox.to_s
+        @heading =  t 'changeset.list.heading_bbox', :bbox => bbox.to_s
+        @description = t 'changeset.list.description_bbox', :bbox => bbox_link
+      else
+        @title =  t 'changeset.list.title'
+        @heading =  t 'changeset.list.heading'
+        @description = t 'changeset.list.description'
+      end
+
+      @page = (params[:page] || 1).to_i
+      @page_size = 20
+
+      @edits = Changeset.find(:all,
+                              :include => [:user, :changeset_tags],
+                              :conditions => conditions,
+                              :order => "changesets.created_at DESC",
+                              :offset => (@page - 1) * @page_size,
+                              :limit => @page_size)
     end
-
-    @page = (params[:page] || 1).to_i
-    @page_size = 20
-
-    @edits = Changeset.find(:all,
-                            :include => [:user, :changeset_tags],
-                            :conditions => conditions,
-                            :order => "changesets.created_at DESC",
-                            :offset => (@page - 1) * @page_size,
-                            :limit => @page_size)
   end
 
 private

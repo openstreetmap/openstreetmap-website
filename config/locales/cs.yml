@@ -236,6 +236,8 @@ cs:
       anonymous: Anonymní
       big_area: (velká)
       no_comment: (žádný)
+      no_edits: (žádné změny)
+      show_area_box: zobrazit ohraničení oblasti
       still_editing: (stále se upravuje)
       view_changeset_details: Zobrazit detaily sady změn
     changeset_paging_nav: 
@@ -261,7 +263,11 @@ cs:
       title_bbox: Sady změn v {{bbox}}
       title_user: Sady změn uživatele {{user}}
       title_user_bbox: Sady změn uživatele {{user}} v {{bbox}}
+    timeout: 
+      sorry: Omlouváme se, ale vámi požadovaný seznam sad změn se načítal příliš dlouho.
   diary_entry: 
+    diary_comment: 
+      comment_from: Komentář od {{link_user}} z {{comment_created_at}}
     diary_entry: 
       comment_count: 
         few: "{{count}} komentáře"
@@ -271,9 +277,12 @@ cs:
       posted_by: Zapsal {{link_user}} v {{created}} v jazyce {{language_link}}
       reply_link: Odpovědět na tento zápis
     edit: 
+      body: "Text:"
       language: "Jazyk:"
       latitude: "Zeměpisná šířka:"
+      location: "Místo:"
       longitude: "Zeměpisná délka:"
+      marker_text: Místo deníčkového záznamu
       save_button: Uložit
       subject: "Předmět:"
       use_map_link: použít mapu
@@ -283,17 +292,27 @@ cs:
         title: Deníčkové záznamy OpenStreetMap v jazyce {{language_name}}
     list: 
       in_language_title: Deníčkové záznamy v jazyce {{language}}
+      no_entries: Žádné záznamy v deníčku
       recent_entries: "Aktuální deníčkové záznamy:"
       title: Deníčky uživatelů
       user_title: Deníček uživatele {{user}}
+    location: 
+      edit: Upravovat
+      location: "Místo:"
+      view: Zobrazit
+    new: 
+      title: Nový záznam do deníčku
     no_such_user: 
+      body: Lituji, ale uživatel se jménem {{user}} neexistuje. Zkontrolujte překlepy nebo jste možná klikli na chybný odkaz.
       heading: Uživatel {{user}} neexistuje
+      title: Uživatel nenalezen
     view: 
       leave_a_comment: Zanechat komentář
       login: Přihlaste se
       login_to_leave_a_comment: "{{login_link}} k zanechání komentáře"
       save_button: Uložit
       title: Deníček uživatele {{user}} | {{title}}
+      user_title: Deníček uživatele {{user}}
   export: 
     start: 
       add_marker: Přidat do mapy značku
@@ -331,6 +350,7 @@ cs:
       title: 
         geonames: Poloha podle <a href="http://www.geonames.org/">GeoNames</a>
         osm_namefinder: "{{types}} podle <a href=\"http://gazetteer.openstreetmap.org/namefinder/\">OpenStreetMap Namefinder</a>"
+        osm_nominatim: Poloha podle <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
       types: 
         cities: Velkoměsta
         places: Místa
@@ -368,18 +388,36 @@ cs:
     search_osm_nominatim: 
       prefix: 
         amenity: 
+          airport: Letiště
+          bank: Banka
+          cafe: Kavárna
           cinema: Kino
+          crematorium: Krematorium
+          embassy: Velvyslanectví
+          kindergarten: Mateřská škola
+          park: Park
           parking: Parkoviště
           post_office: Pošta
+          retirement_home: Domov důchodců
+          telephone: Telefonní automat
           toilets: Toalety
         building: 
+          city_hall: Radnice
+          entrance: Vstup do objektu
+          hospital: Nemocniční budova
+          stadium: Stadion
+          tower: Věž
           train_station: Železniční stanice
+          "yes": Budova
         highway: 
           bus_stop: Autobusová zastávka
+          construction: Silnice ve výstavbě
           gate: Brána
+          motorway: Dálnice
           residential: Ulice
           secondary: Silnice II. třídy
           steps: Schody
+          unsurfaced: Nezpevněná cesta
         historic: 
           battlefield: Bojiště
           memorial: Památník
@@ -390,6 +428,7 @@ cs:
           cemetery: Hřbitov
           construction: Staveniště
           landfill: Skládka
+          military: Vojenský prostor
           vineyard: Vinice
         leisure: 
           garden: Zahrada
@@ -406,6 +445,7 @@ cs:
           glacier: Ledovec
           hill: Kopec
           island: Ostrov
+          river: Řeka
           tree: Strom
           valley: Údolí
         place: 
@@ -428,15 +468,22 @@ cs:
           town: Město
           village: Vesnice
         railway: 
+          funicular: Lanová dráha
           halt: Železniční zastávka
           level_crossing: Železniční přejezd
           light_rail: Rychlodráha
           monorail: Monorail
           narrow_gauge: Úzkorozchodná dráha
+          spur: Železniční vlečka
           subway: Stanice metra
           subway_entrance: Vstup do metra
+          tram: Tramvajová trať
+          tram_stop: Tramvajová zastávka
         shop: 
+          bakery: Pekařství
           hairdresser: Kadeřnictví
+          jewelry: Klenotnictví
+          optician: Oční optika
         tourism: 
           alpine_hut: Vysokohorská chata
           attraction: Turistická atrakce
@@ -454,6 +501,8 @@ cs:
           valley: Údolí
           viewpoint: Místo s dobrým výhledem
           zoo: Zoo
+        waterway: 
+          river: Řeka
   javascripts: 
     map: 
       base: 
@@ -508,7 +557,6 @@ cs:
     shop_tooltip: Obchod se zbožím s logem OpenStreetMap
     sign_up: zaregistrovat se
     sign_up_tooltip: Vytvořit si uživatelský účet pro editaci
-    sotm2010: Přijeďte na konferenci OpenStreetMap 2010 – Zpráva o stavu mapy, 9.–11. července v Gironě!
     tag_line: Otevřená wiki-mapa světa
     user_diaries: Deníčky
     user_diaries_tooltip: Zobrazit deníčky uživatelů
@@ -543,6 +591,7 @@ cs:
     new: 
       back_to_inbox: Zpět do přijatých zpráv
       body: Text
+      limit_exceeded: V poslední době jste poslali spoustu zpráv. Před dalším rozesíláním chvíli počkejte.
       message_sent: Zpráva odeslána
       send_button: Odeslat
       send_message_to: Poslat novou zprávu uživateli {{name}}
@@ -570,6 +619,9 @@ cs:
       subject: Předmět
       to: Komu
       unread_button: Označit jako nepřečtené
+      wrong_user: Jste přihlášeni jako „{{user}}“, ale zpráva, kterou si chcete přečíst, není ani od, ani pro tohoto uživatele. Pokud si ji chcete přečíst, přihlaste se pod správným účtem.
+    reply: 
+      wrong_user: Jste přihlášeni jako „{{user}}“, ale zpráva, na kterou chcete odpovědět, nebyla poslána tomuto uživateli. Pokud na ni chcete odpovědět, přihlaste se pod správným účtem.
     sent_message_summary: 
       delete_button: Smazat
   notifier: 
@@ -595,6 +647,12 @@ cs:
     signup_confirm_plain: 
       the_wiki_url: http://wiki.openstreetmap.org/wiki/Cs:Beginners_Guide?uselang=cs
       wiki_signup_url: http://wiki.openstreetmap.org/index.php?title=Special:UserLogin&type=signup&returnto=Cs:Main_Page&uselang=cs
+  oauth_clients: 
+    index: 
+      my_apps: Mé klientské aplikace
+      no_apps: Máte nějakou aplikaci používající standard {{oauth}}, která by s námi měla spolupracovat? Aplikaci je potřeba nejdříve zaregistrovat, až poté k nám bude moci posílat OAuth požadavky.
+      register_new: Zaregistrovat aplikaci
+      title: Moje nastavení OAuth
   site: 
     edit: 
       flash_player_required: Pokud chcete používat Potlatch, flashový editor OpenStreetMap, potřebujete přehrávač Flashe. Můžete si <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">stáhnout Flash Player z Adobe.com</a>. Pro editaci OpenStreetMap existuje <a href="http://wiki.openstreetmap.org/wiki/Editing">mnoho dalších možností</a>.
@@ -681,6 +739,7 @@ cs:
       search_help: "příklady: „Příbram“, „Havlíčkova, Plzeň“, „CB2 5AQ“, nebo „post offices near Mělník“ <a href='http://wiki.openstreetmap.org/wiki/Search'>další příklady…</a>"
       submit_text: Hledat
       where_am_i: Kde se nacházím?
+      where_am_i_title: Popsat právě zobrazované místo pomocí vyhledávače
     sidebar: 
       close: Zavřít
       search_results: Výsledky vyhledávání
@@ -734,7 +793,6 @@ cs:
       visibility_help: co tohle znamená?
     trace_header: 
       see_all_traces: Zobrazit všechny GPS záznamy
-      see_just_your_traces: Zobrazit pouze vaše GPS záznamy nebo nahrát nový GPS záznam
       see_your_traces: Zobrazit všechny vaše GPS záznamy
     trace_optionals: 
       tags: Tagy
@@ -763,6 +821,8 @@ cs:
       current email address: "Stávající e-mailová adresa:"
       delete image: Odstranit stávající obrázek
       email never displayed publicly: (nikde se veřejně nezobrazuje)
+      flash update success: Uživatelské údaje byly úspěšně aktualizovány.
+      flash update success confirm needed: Uživatelské údaje byly úspěšně aktualizovány. Zkontrolujte si e-mail, měla by vám přijít výzva k potvrzení nové e-mailové adresy.
       home location: "Poloha domova:"
       image: "Obrázek:"
       image size hint: (nejlépe fungují čtvercové obrázky velikosti nejméně 100×100)
@@ -799,12 +859,14 @@ cs:
       not_an_administrator: K provedení této akce musíte být správce.
     login: 
       account not active: Je mi líto, ale váš uživatelský účet dosud nebyl aktivován.<br />Svůj účet si můžete aktivovat kliknutím na odkaz v potvrzovacím e-mailu.
+      account suspended: Je nám líto, ale váš účet byl pozastaven kvůli podezřelé aktivitě.<br />Pokud to chcete řešit, kontaktujte {{webmaster}}.
       auth failure: Je mi líto, ale s uvedenými údaji se nemůžete přihlásit.
       create_account: vytvořit účet
       email or username: "E-mailová adresa nebo uživatelské jméno:"
       heading: Přihlášení
       login_button: Přihlásit
       lost password link: Ztratili jste heslo?
+      notice: <a href="http://www.osmfoundation.org/wiki/License/We_Are_Changing_The_License">Zjistěte více o nadcházející změně licence OpenStreetMap</a> (<a href="http://wiki.openstreetmap.org/wiki/ODbL/We_Are_Changing_The_License">překlady</a>) (<a href="http://wiki.openstreetmap.org/wiki/Talk:ODbL/Upcoming">diskuse</a>)
       password: "Heslo:"
       please login: Prosím přihlaste se, nebo si můžete {{create_user_link}}.
       remember: "Zapamatuj si mě:"
@@ -828,13 +890,16 @@ cs:
     new: 
       confirm email address: "Potvrdit e-mailovou adresu:"
       confirm password: "Potvrdit heslo:"
+      contact_webmaster: Pokud chcete zařídit založení účtu, kontaktujte <a href="mailto:webmaster@openstreetmap.org">webmastera</a> – pokusíme se vaši žádost vyřídit co možná nejrychleji.
+      continue: Pokračovat
       display name: "Zobrazované jméno:"
-      display name description: Vaše veřejně zobrazované uživatelské jméno. Můžete si později změnit ve svém nastavení.
+      display name description: Vaše veřejně zobrazované uživatelské jméno. Můžete si ho později změnit ve svém nastavení.
       email address: "E-mailová adresa:"
       fill_form: Vyplňte následující formulář a my vám pošleme stručný e-mail, jak si účet aktivovat.
       flash create success message: Uživatel byl úspěšně zaregistrován. Podívejte se do své e-mailové schránky na potvrzovací zprávu a budete tvořit mapy cobydup. :-)<br /><br />Uvědomte si, že dokud nepotvrdíte svou e-mailovou adresu, nebudete se moci přihlásit.<br /><br />Pokud používáte nějaký protispamový systém, který vyžaduje potvrzení, nezapomeňte zařídit výjimku pro webmaster@openstreetmap.org, neboť na žádosti o potvrzení nejsme schopni reagovat.
       heading: Vytvořit uživatelský účet
       license_agreement: Při potvrzení účtu budete muset souhlasit s <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">podmínkami pro přispěvatele</a>.
+      no_auto_account_create: Bohužel za vás momentálně nejsme schopni vytvořit účet automaticky.
       not displayed publicly: Nezobrazuje se veřejně (vizte <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="Pravidla ochrany osobních údajů na wiki, včetně části o e-mailových adresách">pravidla ochrany osobních údajů</a>)
       password: "Heslo:"
       title: Vytvořit účet
@@ -843,6 +908,7 @@ cs:
       heading: Uživatel {{user}} neexistuje
       title: Uživatel nenalezen
     popup: 
+      friend: Přítel
       nearby mapper: Nedaleký uživatel
       your location: Vaše poloha
     remove_friend: 
@@ -858,19 +924,28 @@ cs:
       title: Vyresetovat heslo
     set_home: 
       flash success: Pozice domova byla úspěšně uložena
+    suspended: 
+      body: "<p>\n Je nám líto, ale váš účet byl pozastaven kvůli podezřelé aktivitě.\n</p>\n<p>\n Toto rozhodnutí zanedlouho posoudí nějaký správce, případně\n můžete kontaktovat {{webmaster}}.\n</p>"
+      heading: Účet pozastaven
+      title: Účet pozastaven
+      webmaster: webmastera
     view: 
       add as friend: přidat jako přítele
       ago: (před {{time_in_words_ago}})
+      block_history: zobrazit zablokování
+      blocks by me: zablokování mnou
       blocks on me: moje zablokování
       confirm: Potvrdit
       description: Popis
       diary: deníček
       edits: editace
       email address: "E-mailová adresa:"
+      hide_user: skrýt tohoto uživatele
       if set location: Když si nastavíte svou polohu, objeví se níže hezká mapka atp. Polohu domova si můžete nastavit na stránce {{settings_link}}.
       km away: "{{count}} km"
       m away: "{{count}} m"
       mapper since: "Účastník projektu od:"
+      moderator_history: zobrazit udělená zablokování
       my diary: můj deníček
       my edits: moje editace
       my settings: moje nastavení
@@ -885,6 +960,11 @@ cs:
       traces: záznamy
       user location: Pozice uživatele
       your friends: Vaši přátelé
+  user_block: 
+    blocks_on: 
+      empty: "{{name}} dosud nebyl(a) zablokován(a)."
+      heading: Seznam zablokování uživatele {{name}}
+      title: Zablokování uživatele {{name}}
   user_role: 
     filter: 
       already_has_role: Uživatel již roli {{role}} má.

@@ -15,10 +15,11 @@ class TraceController < ApplicationController
   before_filter :offline_redirect, :only => [:create, :edit, :delete, :data, :api_data, :api_create]
   around_filter :api_call_handle_error, :only => [:api_details, :api_data, :api_create]
 
-  caches_action :list, :view, :layout => false
+  caches_action :list, :unless => :logged_in?, :layout => false
+  caches_action :view, :layout => false
   caches_action :georss, :layout => true
-  cache_sweeper :trace_sweeper, :only => [:create, :edit, :delete, :api_create], :unless => OSM_STATUS == :database_offline
-  cache_sweeper :tracetag_sweeper, :only => [:create, :edit, :delete, :api_create], :unless => OSM_STATUS == :database_offline
+  cache_sweeper :trace_sweeper, :only => [:create, :edit, :delete, :api_create], :unless => STATUS == :database_offline
+  cache_sweeper :tracetag_sweeper, :only => [:create, :edit, :delete, :api_create], :unless => STATUS == :database_offline
 
   # Counts and selects pages of GPX traces for various criteria (by user, tags, public etc.).
   #  target_user - if set, specifies the user to fetch traces for.  if not set will fetch all traces
@@ -105,7 +106,6 @@ class TraceController < ApplicationController
     @target_user = target_user
     @display_name = target_user.display_name if target_user
     @all_tags = tagset.values
-    @trace = Trace.new(:visibility => default_visibility) if @user
   end
 
   def mine
@@ -130,6 +130,7 @@ class TraceController < ApplicationController
   def create
     if params[:trace]
       logger.info(params[:trace][:gpx_file].class.name)
+
       if params[:trace][:gpx_file].respond_to?(:read)
         begin
           do_create(params[:trace][:gpx_file], params[:trace][:tagstring],
@@ -146,7 +147,7 @@ class TraceController < ApplicationController
             flash[:warning] = t 'trace.trace_header.traces_waiting', :count => @user.traces.count(:conditions => { :inserted => false })
           end
 
-          redirect_to :action => 'mine'
+          redirect_to :action => :list, :display_name => @user.display_name
         end
       else
         @trace = Trace.new({:name => "Dummy",
@@ -158,7 +159,10 @@ class TraceController < ApplicationController
         @trace.valid?
         @trace.errors.add(:gpx_file, "can't be blank")
       end
+    else
+      @trace = Trace.new(:visibility => default_visibility)
     end
+
     @title = t 'trace.create.upload_trace'
   end
 
@@ -206,7 +210,7 @@ class TraceController < ApplicationController
         trace.visible = false
         trace.save
         flash[:notice] = t 'trace.delete.scheduled_for_deletion'
-        redirect_to :controller => 'traces', :action => 'mine'
+        redirect_to :action => :list, :display_name => @user.display_name
       else
         render :nothing => true, :status => :bad_request
       end
@@ -292,7 +296,11 @@ class TraceController < ApplicationController
     trace = Trace.find(params[:id])
 
     if trace.public? or trace.user == @user
-      send_file(trace.trace_name, :filename => "#{trace.id}#{trace.extension_name}", :type => trace.mime_type, :disposition => 'attachment')
+      if request.format == Mime::XML
+        send_file(trace.xml_file, :filename => "#{trace.id}.xml", :type => Mime::XML.to_s, :disposition => 'attachment')
+      else
+        send_file(trace.trace_name, :filename => "#{trace.id}#{trace.extension_name}", :type => trace.mime_type, :disposition => 'attachment')
+      end
     else
       render :nothing => true, :status => :forbidden
     end
@@ -395,11 +403,11 @@ private
   end
 
   def offline_warning
-    flash.now[:warning] = t 'trace.offline_warning.message' if OSM_STATUS == :gpx_offline
+    flash.now[:warning] = t 'trace.offline_warning.message' if STATUS == :gpx_offline
   end
 
   def offline_redirect
-    redirect_to :action => :offline if OSM_STATUS == :gpx_offline
+    redirect_to :action => :offline if STATUS == :gpx_offline
   end
 
   def default_visibility

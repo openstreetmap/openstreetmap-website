@@ -1,4 +1,11 @@
-<p id="first"><%= @text['intro'] %></p>
+<p id="first">
+  <%= @text['intro'] %>
+  <% if has_decline %>
+    <%= @text['next_with_decline'] %>
+  <% else %>
+    <%= @text['next_without_decline'] %>
+  <% end %>
+</p>
 <ol>
   <li>
     <p><%= @text['section_1'] %></p>

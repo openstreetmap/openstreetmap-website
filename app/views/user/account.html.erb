@@ -44,6 +44,24 @@
   </tr>
 
   <tr>
+    <td class="fieldName" valign="top"><%= t 'user.account.contributor terms.heading' %></td>
+    <td>
+      <% if @user.terms_agreed? %>
+        <%= t 'user.account.contributor terms.agreed' %>
+        <span class="minorNote">(<a href="<%= t 'user.account.contributor terms.link' %>" target="_new"><%= t 'user.account.contributor terms.link text' %></a>)</span>
+        <br />
+        <% if @user.consider_pd? %>
+          <%= t 'user.account.contributor terms.agreed_with_pd' %>
+        <% end %>
+      <% else %>
+        <%= t 'user.account.contributor terms.not yet agreed' %> <br />
+
+        <%= link_to t('user.account.contributor terms.review link text'), :controller => 'user', :action => 'terms' %>
+      <% end %>
+    </td>
+  </tr>
+
+  <tr>
     <td class="fieldName" valign="top"><%= t 'user.account.profile description' %></td>
     <td><%= f.text_area :description, :rows => '5', :cols => '60' %></td>
   </tr>
