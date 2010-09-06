@@ -63,12 +63,20 @@ gl:
       relation_member: Membro da relación
       relation_tag: Etiqueta da relación
       session: Sesión
+      trace: Pista
+      tracepoint: Punto da pista
+      tracetag: Etiqueta da pista
       user: Usuario
       user_preference: Preferencia do usuario
       user_token: Pase de usuario
       way: Camiño
       way_node: Nodo do camiño
       way_tag: Etiqueta do camiño
+  application: 
+    require_cookies: 
+      cookies_needed: Semella que ten as cookies do navegador desactivadas. Actíveas antes de continuar.
+    setup_user_auth: 
+      blocked: O seu acceso ao API foi bloqueado. Acceda ao sistema para atopar máis información na interface web.
   browse: 
     changeset: 
       changeset: "Conxunto de cambios: {{id}}"
@@ -273,6 +281,8 @@ gl:
       title_bbox: Conxuntos de cambios en {{bbox}}
       title_user: Conxuntos de cambios por {{user}}
       title_user_bbox: Conxuntos de cambios por {{user}} en {{bbox}}
+    timeout: 
+      sorry: Sentímolo, a lista do conxunto de cambios solicitada tardou demasiado tempo en ser recuperada.
   diary_entry: 
     diary_comment: 
       comment_from: Comentario de {{link_user}} o {{comment_created_at}}
@@ -299,16 +309,43 @@ gl:
       subject: "Asunto:"
       title: Editar a entrada do diario
       use_map_link: usar o mapa
+    feed: 
+      all: 
+        description: Entradas recentes no diario dos usuarios do OpenStreetMap
+        title: Entradas no diario do OpenStreetMap
+      language: 
+        description: Entradas recentes no diario dos usuarios do OpenStreetMap en {{language_name}}
+        title: Entradas no diario do OpenStreetMap en {{language_name}}
+      user: 
+        description: Entradas recentes no diario do OpenStreetMap de {{user}}
+        title: Entradas no diario do OpenStreetMap de {{user}}
     list: 
+      in_language_title: Entradas de diario en {{language}}
       new: Nova entrada no diario
+      new_title: Redactar unha nova entrada no seu diario de usuario
+      newer_entries: Entradas máis novas
+      no_entries: Non hai entradas no diario
+      older_entries: Entradas máis vellas
+      recent_entries: "Entradas recentes no diario:"
       title: Diarios de usuarios
       user_title: Diario de {{user}}
     location: 
       edit: Editar
       location: "Localización:"
       view: Ver
+    new: 
+      title: Nova entrada no diario
+    no_such_entry: 
+      body: Non existe ningunha entrada no diario ou comentario co id {{id}}. Comprobe a ortografía ou que a ligazón que seguiu estea ben.
+      heading: "Non hai ningunha entrada co id: {{id}}"
+      title: Non hai tal entrada de diario
+    no_such_user: 
+      body: Non existe ningún usuario co nome "{{user}}". Comprobe a ortografía ou que a ligazón que seguiu estea ben.
+      heading: O usuario "{{user}}" non existe
+      title: Non existe tal usuario
     view: 
       leave_a_comment: Deixar un comentario
+      login: Acceda ao sistema
       login_to_leave_a_comment: "{{login_link}} para deixar un comentario"
       save_button: Gardar
       title: Diario de {{user}} | {{title}}
@@ -400,10 +437,12 @@ gl:
           bicycle_parking: Aparcadoiro de bicicletas
           bicycle_rental: Aluguer de bicicletas
           brothel: Prostíbulo
+          bureau_de_change: Casa de cambio
           bus_station: Estación de autobuses
           cafe: Cafetaría
           car_rental: Aluguer de automóbiles
           car_sharing: Aluguer de automóbiles
+          car_wash: Lavadoiro de coches
           casino: Casino
           cinema: Cine
           clinic: Clínica
@@ -413,20 +452,25 @@ gl:
           courthouse: Xulgado
           crematorium: Crematorio
           dentist: Dentista
+          doctors: Médicos
           dormitory: Residencia universitaria
           drinking_water: Auga potable
           driving_school: Escola de condución
           embassy: Embaixada
           emergency_phone: Teléfono de emerxencia
           fast_food: Comida rápida
+          ferry_terminal: Terminal de transbordadores
+          fire_hydrant: Boca de incendios
           fire_station: Parque de bombeiros
           fountain: Fonte
           fuel: Combustible
           grave_yard: Cemiterio
           gym: Ximnasio
+          hall: Sala de reunións
           health_centre: Centro de saúde
           hospital: Hospital
           hotel: Hotel
+          hunting_stand: Lugar de caza
           ice_cream: Xeadaría
           kindergarten: Xardín de infancia
           library: Biblioteca
@@ -434,6 +478,8 @@ gl:
           marketplace: Praza de mercado
           mountain_rescue: Rescate de montaña
           nightclub: Club nocturno
+          nursery: Parvulario
+          nursing_home: Residencia para a terceira idade
           office: Oficina
           park: Parque
           parking: Aparcadoiro
@@ -447,6 +493,7 @@ gl:
           pub: Pub
           public_building: Edificio público
           public_market: Mercado público
+          reception_area: Zona de recepción
           recycling: Punto de reciclaxe
           restaurant: Restaurante
           retirement_home: Residencia de xubilados
@@ -466,17 +513,36 @@ gl:
           university: Universidade
           vending_machine: Máquina expendedora
           veterinary: Clínica veterinaria
+          village_hall: Concello
+          waste_basket: Cesto do lixo
           wifi: Acceso WiFi
           youth_centre: Casa da xuventude
+        boundary: 
+          administrative: Límite administrativo
         building: 
           apartments: Bloque de apartamentos
+          block: Bloque de edificios
+          bunker: Búnker
+          chapel: Capela
           church: Igrexa
           city_hall: Concello
           commercial: Edificio comercial
+          dormitory: Residencia universitaria
+          entrance: Entrada do edificio
+          faculty: Edificio de facultade
+          farm: Granxa
           flats: Apartamentos
           garage: Garaxe
+          hall: Sala de reunións
+          hospital: Edificio hospitalario
           hotel: Hotel
           house: Casa
+          industrial: Edificio industrial
+          office: Edificio de oficinas
+          public: Edificio público
+          residential: Edificio residencial
+          retail: Edificio comercial
+          school: Edificio escolar
           shop: Tenda
           stadium: Estadio
           store: Comercio
@@ -487,6 +553,7 @@ gl:
           "yes": Construción
         highway: 
           bridleway: Pista de cabalos
+          bus_guideway: Liña de autobuses guiados
           bus_stop: Parada de autobús
           byway: Camiño secundario
           construction: Autoestrada en construción
@@ -504,7 +571,7 @@ gl:
           path: Camiño
           pedestrian: Camiño peonil
           platform: Plataforma
-          primary: Estrada primaria
+          primary: Estrada principal
           primary_link: Estrada principal
           raceway: Circuíto
           residential: Residencial
@@ -524,26 +591,56 @@ gl:
           unsurfaced: Estrada non pavimentada
         historic: 
           archaeological_site: Xacemento arqueolóxico
+          battlefield: Campo de batalla
+          boundary_stone: Marco
           building: Construción
           castle: Castelo
           church: Igrexa
           house: Casa
+          icon: Icona
+          manor: Casa señorial
+          memorial: Memorial
+          mine: Mina
           monument: Monumento
           museum: Museo
           ruins: Ruínas
           tower: Torre
+          wayside_cross: Cruce de camiños
+          wayside_shrine: Santuario no camiño
+          wreck: Pecio
         landuse: 
+          allotments: Hortas
+          basin: Cunca
+          brownfield: Terreo baldío
           cemetery: Cemiterio
+          commercial: Zona comercial
+          conservation: Conservación
           construction: Construción
           farm: Granxa
+          farmland: Terra de labranza
+          farmyard: Curral
           forest: Bosque
+          grass: Herba
+          greenfield: Terreo verde
           industrial: Zona industrial
+          landfill: Recheo
+          meadow: Pradaría
+          military: Zona militar
           mine: Mina
           mountain: Montaña
           nature_reserve: Reserva natural
+          park: Parque
+          piste: Pista
           plaza: Praza
+          quarry: Canteira
           railway: Ferrocarril
+          recreation_ground: Área recreativa
+          reservoir: Encoro
           residential: Zona residencial
+          retail: Zona comercial
+          village_green: Parque municipal
+          vineyard: Viñedo
+          wetland: Pantano
           wood: Madeira
         leisure: 
           beach_resort: Balneario
@@ -579,6 +676,7 @@ gl:
           fjord: Fiorde
           geyser: Géiser
           glacier: Glaciar
+          heath: Breixeira
           hill: Outeiro
           island: Illa
           land: Terra
@@ -626,33 +724,78 @@ gl:
           town: Cidade
           unincorporated_area: Área non incorporada
           village: Vila
+        railway: 
+          abandoned: Vía de tren abandonada
+          construction: Vía ferroviaria en construción
+          disused: Vía ferroviaria en desuso
+          disused_station: Estación de trens en desuso
+          funicular: Vía de funicular
+          halt: Parada de trens
+          historic_station: Estación de trens histórica
+          junction: Unión de vías ferroviarias
+          level_crossing: Paso a nivel
+          light_rail: Metro lixeiro
+          monorail: Monorraíl
+          narrow_gauge: Vía ferroviaria estreita
+          platform: Plataforma ferroviaria
+          preserved: Vía ferroviaria conservada
+          spur: Vía ramificada
+          station: Estación de ferrocarril
+          subway: Estación de metro
+          subway_entrance: Boca de metro
+          switch: Puntos de cambio de vía
+          tram: Vía de tranvías
+          tram_stop: Parada de tranvías
+          yard: Estación de clasificación
         shop: 
+          alcohol: Tenda de licores
           apparel: Tenda de roupa
           art: Tenda de arte
           bakery: Panadaría
+          beauty: Tenda de produtos de beleza
+          beverages: Tenda de bebidas
           bicycle: Tenda de bicicletas
           books: Libraría
           butcher: Carnizaría
           car: Concesionario
+          car_dealer: Concesionario de automóbiles
+          car_parts: Recambios de automóbil
           car_repair: Taller mecánico
           carpet: Tenda de alfombras
           charity: Tenda benéfica
           chemist: Farmacia
           clothes: Tenda de roupa
           computer: Tenda informática
+          confectionery: Pastelaría
+          convenience: Tenda 24 horas
+          copyshop: Tenda de fotocopias
+          cosmetics: Tenda de cosméticos
           department_store: Gran almacén
+          discount: Tenda de descontos
           doityourself: Tenda de bricolaxe
+          drugstore: Farmacia
+          dry_cleaning: Limpeza en seco
+          electronics: Tenda de electrónica
           estate_agent: Axencia inmobiliaria
+          farm: Tenda de produtos agrícolas
           fashion: Tenda de moda
           fish: Peixaría
           florist: Floraría
           food: Tenda de alimentación
+          funeral_directors: Tanatorio
+          furniture: Mobiliario
           gallery: Galería
+          garden_centre: Centro de xardinaría
           general: Tenda de ultramarinos
+          gift: Tenda de agasallos
+          greengrocer: Froitaría
+          grocery: Tenda de alimentación
           hairdresser: Perrucaría
           hardware: Ferraxaría
           hifi: Hi-Fi
+          insurance: Aseguradora
           jewelry: Xoiaría
+          kiosk: Quiosco
           laundry: Lavandaría
           mall: Centro comercial
           market: Mercado
@@ -663,7 +806,9 @@ gl:
           optician: Oftalmólogo
           organic: Tenda de alimentos orgánicos
           outdoor: Tenda de deportes ao aire libre
+          pet: Tenda de mascotas
           photo: Tenda de fotografía
+          salon: Salón de beleza
           shoes: Zapataría
           shopping_centre: Centro comercial
           sports: Tenda de deportes
@@ -671,6 +816,8 @@ gl:
           supermarket: Supermercado
           toys: Xoguetaría
           travel_agency: Axencia de viaxes
+          video: Tenda de vídeos
+          wine: Tenda de licores
         tourism: 
           alpine_hut: Cabana alpina
           artwork: Obra de arte
@@ -693,10 +840,30 @@ gl:
           viewpoint: Miradoiro
           zoo: Zoolóxico
         waterway: 
+          boatyard: Estaleiro
+          canal: Canal
+          connector: Conexión de vía de auga
+          dam: Encoro
+          derelict_canal: Canal abandonado
+          ditch: Cuneta
+          dock: Peirao
+          drain: Sumidoiro
+          lock: Esclusa
+          lock_gate: Esclusa
+          mineral_spring: Fonte mineral
+          mooring: Atraque
+          rapids: Rápidos
           river: Río
+          riverbank: Beira do río
+          stream: Arroio
+          wadi: Uadi
+          water_point: Punto de auga
+          waterfall: Fervenza
+          weir: Vaira
   javascripts: 
     map: 
       base: 
+        cycle_map: Mapa ciclista
         noname: Sen nome
     site: 
       edit_disabled_tooltip: Achegue para editar o mapa
@@ -707,27 +874,47 @@ gl:
       history_zoom_alert: Debe achegarse para ollar as edicións nesta zona
   layouts: 
     copyright: Dereitos de autor e licenza
-    donate_link_text: doazóns
+    donate: Apoie o OpenStreetMap {{link}} ao fondo de actualización de hardware.
+    donate_link_text: doando
     edit: Editar
     export: Exportar
     export_tooltip: Exportar os datos do mapa
+    gps_traces: Pistas GPS
+    gps_traces_tooltip: Xestionar as pistas GPS
     help_wiki: Axuda e wiki
     help_wiki_tooltip: Axuda e sitio wiki do proxecto
     history: Historial
     home: inicio
     home_tooltip: Ir ao meu domicilio
     inbox: caixa de entrada ({{count}})
+    inbox_tooltip: 
+      one: A súa caixa de entrada contén 1 mensaxe sen ler
+      other: A súa caixa de entrada contén {{count}} mensaxes sen ler
+      zero: Non hai mensaxes novas na súa caixa de entrada
+    intro_1: O OpenStreetMap é un mapa libre de todo o mundo que se pode editar. Está feito por xente coma vostede.
+    intro_2: O OpenStreetMap permítelle ver, editar e usar datos xeográficos de xeito colaborativo de calquera lugar do mundo.
+    intro_3: O almacenamento do OpenStreetMap lévano a cabo {{ucl}} e {{bytemark}}. O resto de patrocinadores están listados no {{partners}}.
     intro_3_partners: wiki
     license: 
       title: Os datos do OpenStreetMap están licenciados baixo a licenza Creative Commons recoñecemento xenérico 2.0
+    log_in: rexistro
+    log_in_tooltip: Acceder ao sistema cunha conta existente
     logo: 
       alt_text: Logo do OpenStreetMap
+    logout: saír
+    logout_tooltip: Saír ao anonimato
     make_a_donation: 
       text: Facer unha doazón
       title: Apoie o OpenStreetMap cunha doazón
     news_blog: Blogue de novas
+    news_blog_tooltip: Blogue de noticias sobre o OpenStreetMap, datos xeográficos libres etc.
+    osm_offline: A base de datos do OpenStreetMap atópase desconectada mentres realizamos traballos de mantemento nela.
+    osm_read_only: A base de datos do OpenStreetMap atópase en modo de só lectura mentres realizamos traballos de mantemento nela.
     shop: Tenda
+    shop_tooltip: Tenda de produtos do OpenStreetMap
+    sign_up: rexistrarse
     sign_up_tooltip: Crear unha conta para editar
+    tag_line: O mapa mundial libre
     user_diaries: Diarios de usuario
     user_diaries_tooltip: Ollar os diarios do usuario
     view: Ver
@@ -739,6 +926,7 @@ gl:
       english_link: a orixinal en inglés
       text: En caso de conflito entre esta páxina traducida e {{english_original_link}}, a páxina en inglés prevalecerá
       title: Acerca desta tradución
+    legal_babble: "<h2>Dereitos de autor e licenza</h2>\n<p>\n   O OpenStreetMap é de <i>datos abertos</i> e atópase baixo a licenza <a\n   href=\"http://creativecommons.org/licenses/by-sa/2.0/\">Creative\n   Commons recoñecemento compartir igual 2.0</a> (CC-BY-SA).\n</p>\n<p>\n  Vostede é libre de copiar, distribuír, transmitir e adaptar os nosos mapas\n  e datos, na medida en que acredite o OpenStreetMap e mais os seus\n  colaboradores. Se altera ou constrúe a partir dos nosos mapas ou datos, terá\n  que distribuír o resultado baixo a mesma licenza. O\n  <a href=\"http://creativecommons.org/licenses/by-sa/2.0/legalcode\">texto\n  legal</a> ao completo explica os seus dereitos e responsabilidades.\n</p>\n\n<h3>Como acreditar o OpenStreetMap</h3>\n<p>\n  Se está a empregar imaxes dos mapas do OpenStreetMap, pedímoslle que\n  acredite o traballo con, polo menos: &ldquo;&copy; dos colaboradores do\n  OpenStreetMap, CC-BY-SA&rdquo;. Se tan só emprega datos dos mapas,\n  pedímoslle que inclúa: &ldquo;Datos do mapa &copy; dos colaboradores do OpenStreetMap,\n  CC-BY-SA&rdquo;.\n</p>\n<p>\n  Onde sexa posible, debe haber unha ligazón ao OpenStreetMap cara a <a\n  href=\"http://www.openstreetmap.org/\">http://www.openstreetmap.org/</a>\n  e ao CC-BY-SA cara a <a\n  href=\"http://creativecommons.org/licenses/by-sa/2.0/\">http://creativecommons.org/licenses/by-sa/2.0/</a>. Se\n  fai uso dun medio que non permite as ligazóns (por exemplo, unha\n  obra impresa), suxerimos que dirixa os lectores cara a\n  www.openstreetmap.org (quizais expandindo\n  &ldquo;OpenStreetMap&ldquo; ao enderezo ao completo) e cara a\n  www.creativecommons.org.\n</p>\n\n<h3>Máis información</h3>\n<p>\n  Descubra máis sobre como empregar os nosos datos nas <a\n  href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">preguntas máis frecuentes\n  sobre asuntos legais</a>.\n</p>\n<p>\n  Lembramos aos colaboradores do OSM que nunca engadan datos de\n  fontes con dereitos de autor (por exemplo, o Google Maps ou mapas impresos) sen\n  o permiso explícito dos posuidores deses dereitos.\n</p>\n<p>\n  Malia que o OpenStreetMap é de datos abertos, non podemos proporcionar un\n  mapa API gratuíto aos desenvolvedores.\n\n  Vexa a <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">política de uso do API</a>,\n  a <a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">política de uso de cuadrantes</a>\n  e a <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">política de uso do Nominatim</a>.\n</p>\n\n<h3>Os nosos colaboradores</h3>\n<p>\n  A nosa licenza CC-BY-SA necesita que &ldquo;dea crédito ao autor\n  orixinal de xeito razoable segundo o medio ou medios que estea a\n  utilizar&rdquo;. Os usuarios individuais do OSM non solicitan outro\n  crédito ca &ldquo;colaboradores do OpenStreetMap&rdquo;,\n  pero en caso de inclusión de datos dunha axencia nacional ou\n  outra fonte maior, pode ser razoable acreditalos reproducindo\n  directamente o seu crédito ou ligando cara a el nesta páxina.\n</p>\n\n<!--\nInformación para os editores da páxina\n\nNa seguinte lista aparecen aquelas organizacións que necesitan\nrecoñecemento como condición para que se usen os seus datos no\nOpenStreetMap. Non se trata dun catálogo xeral de importacións,\ne non se debe empregar agás cando o recoñecemento se necesite\npara cumprir coa licenza dos datos importados.\n\nAs adicións deben debaterse primeiro cos administradores do OSM.\n-->\n\n<ul id=\"contributors\">\n    <li><strong>Australia:</strong> Contén datos de barrios baseados\n    nos datos do Australian Bureau of Statistics.</li>\n    <li><strong>Canadá:</strong> Contén datos de\n    GeoBase&reg;, GeoGratis (&copy; Department of Natural\n    Resources Canada), CanVec (&copy; Department of Natural\n    Resources Canada) e StatCan (Geography Division,\n    Statistics Canada).</li>\n    <li><strong>Nova Zelandia:</strong> Contén datos con orixe no\n    Land Information New Zealand. Dereitos de autor da coroa.</li>\n    <li><strong>Polonia:</strong> Contén datos dos <a\n    href=\"http://ump.waw.pl/\">mapas UMP-pcPL</a>. Dereitos de autor\n    dos colaboradores do UMP-pcPL.</li>\n    <li><strong>Reino Unido:</strong> Contén datos da Ordnance\n    Survey &copy; Dereitos de autor da coroa e dereitos da base de datos\n    2010.</li>\n</ul>\n\n<p>\n  A inclusión de datos no OpenStreetMap non implica que o que\n  orixinalmente proporcionou os datos apoie o OpenStreetMap,\n  dea calquera garantía ou acepte calquera responsabilidade.\n</p>"
     native: 
       mapping_link: comezar a contribuír
       native_link: versión en galego
@@ -812,59 +1000,164 @@ gl:
       delete_button: Borrar
   notifier: 
     diary_comment_notification: 
+      footer: Tamén pode ler o comentario en {{readurl}}, comentar en {{commenturl}} ou responder en {{replyurl}}
+      header: "{{from_user}} comentou na súa recente entrada de diario no OpenStreetMap co asunto \"{{subject}}\":"
       hi: "Ola {{to_user}}:"
+      subject: "[OpenStreetMap] {{user}} comentou na súa entrada de diario"
     email_confirm: 
       subject: "[OpenStreetMap] Confirme o seu enderezo de correo electrónico"
     email_confirm_html: 
+      click_the_link: Se este é vostede, prema na seguinte ligazón para confirmar a modificación.
       greeting: "Ola:"
+      hopefully_you: Alguén (probablemente vostede) quere cambiar o seu enderezo de correo electrónico en {{server_url}} a {{new_address}}.
     email_confirm_plain: 
+      click_the_link: Se este é vostede, prema na seguinte ligazón para confirmar a modificación.
       greeting: "Ola:"
+      hopefully_you_1: Alguén (probablemente vostede) quere cambiar o seu enderezo de correo electrónico en
+      hopefully_you_2: "{{server_url}} a {{new_address}}."
+    friend_notification: 
+      befriend_them: Tamén pode engadilo como amigo en {{befriendurl}}.
+      had_added_you: "{{user}} engadiuno como amigo en OpenStreetMap."
+      see_their_profile: Pode ollar o seu perfil en {{userurl}}.
+      subject: "[OpenStreetMap] {{user}} engadiuno como amigo"
     gpx_notification: 
+      and_no_tags: e sen etiquetas.
+      and_the_tags: "e coas seguintes etiquetas:"
+      failure: 
+        failed_to_import: "erro ao importar. Aquí está o erro:"
+        more_info_1: Máis información sobre os erros de importación GPX e como evitalos
+        more_info_2: "pódense atopar en:"
+        subject: "[OpenStreetMap] Importación GPX errónea"
       greeting: "Ola:"
+      success: 
+        loaded_successfully: cargou correctamente {{trace_points}} do máximo de {{possible_points}} puntos posibles.
+        subject: "[OpenStreetMap] Importación GPX correcta"
+      with_description: coa descrición
+      your_gpx_file: Semella que o seu ficheiro GPX
+    lost_password: 
+      subject: "[OpenStreetMap] Solicitude de restablecemento do contrasinal"
     lost_password_html: 
+      click_the_link: Se este é vostede, prema na seguinte ligazón para restablecer o seu contrasinal.
       greeting: "Ola:"
+      hopefully_you: Alguén (probablemente vostede) pediu o restablecemento do contrasinal desta conta de correo electrónico en openstreetmap.org.
     lost_password_plain: 
+      click_the_link: Se este é vostede, prema na seguinte ligazón para restablecer o seu contrasinal.
       greeting: "Ola:"
+      hopefully_you_1: Alguén (probablemente vostede) pediu o restablecemento do contrasinal desta
+      hopefully_you_2: conta de correo electrónico en openstreetmap.org
     message_notification: 
+      footer1: Tamén pode ler a mensaxe en {{readurl}}
+      footer2: e pode responder en {{replyurl}}
+      header: "{{from_user}} envioulle unha mensaxe a través do OpenStreetMap co asunto \"{{subject}}\":"
       hi: "Ola {{to_user}}:"
+    signup_confirm: 
+      subject: "[OpenStreetMap] Confirme o seu enderezo de correo electrónico"
     signup_confirm_html: 
+      click_the_link: Se este é vostede, benvido! Prema na ligazón que aparece a continuación para confirmar a súa conta e obter máis información sobre o OpenStreetMap.
+      current_user: "A lista de todos os usuarios por categorías, baseada segundo a súa localización no mundo, está dispoñible en: <a href=\"http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region\">Category:Users_by_geographical_region</a>."
+      get_reading: Infórmese sobre o OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Beginners%27_Guide">no wiki</a>, póñase ao día das últimas novas a través do <a href="http://blog.openstreetmap.org/">blogue</a> ou o <a href="http://twitter.com/openstreetmap">Twitter</a> do OpenStreetMap ou vaia polo <a href="http://www.opengeodata.org/">blogue OpenGeoData</a> de Steve Coast, o fundador do OpenStreetMap, para ler a pequena historia do proxecto e <a href="http://www.opengeodata.org/?cat=13">escoitar os podcasts</a> tamén!
       greeting: Boas!
+      hopefully_you: Alguén (probablemente vostede) quere crear unha conta en
+      introductory_video: Pode ollar un {{introductory_video_link}}.
+      more_videos: Hai {{more_videos_link}}.
+      more_videos_here: máis vídeos aquí
+      user_wiki_page: Recoméndase crear unha páxina de usuario que inclúa etiquetas de categoría que indiquen a súa localización, como <a href="http://wiki.openstreetmap.org/wiki/Category:Users_in_London">[[Category:Users_in_London]]</a>.
+      video_to_openstreetmap: vídeo introdutorio ao OpenStreetMap
+      wiki_signup: Poida que tamén queira <a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page">crear unha conta no wiki do OpenStreetMap</a>.
     signup_confirm_plain: 
+      blog_and_twitter: "Póñase ao día das últimas novas a través do blogue ou o Twitter do OpenStreetMap:"
+      click_the_link_1: Se este é vostede, benvido! Prema na ligazón que aparece a continuación para confirmar a súa
+      click_the_link_2: conta e obter máis información sobre o OpenStreetMap.
+      current_user_1: A lista de todos os usuarios por categorías, baseada segundo a súa localización no mundo,
+      current_user_2: "está dispoñible en:"
       greeting: Boas!
+      hopefully_you: Alguén (probablemente vostede) quere crear unha conta en
+      introductory_video: "Pode ollar un vídeo introdutorio ao OpenStreetMap aquí:"
+      more_videos: "Hai máis vídeos aquí:"
+      opengeodata: "OpenGeoData.org é o blogue de Steve Coast, o fundador do OpenStreetMap. Tamén ten podcasts:"
+      the_wiki: "Lea máis acerca do OpenStreetMap no wiki:"
+      user_wiki_1: Recoméndase crear unha páxina de usuario que inclúa
+      user_wiki_2: etiquetas de categoría que indiquen a súa localización, como [[Category:Users_in_London]].
+      wiki_signup: "Poida que tamén queira crear unha conta no wiki do OpenStreetMap en:"
+  oauth: 
+    oauthorize: 
+      allow_read_gpx: ler as súas pistas GPS privadas.
+      allow_read_prefs: ler as súas preferencias de usuario.
+      allow_to: "Permitir a aplicación de cliente a:"
+      allow_write_api: modificar o mapa.
+      allow_write_diary: crear entradas de diario, comentarios e facer amigos.
+      allow_write_gpx: cargar pistas GPS.
+      allow_write_prefs: modificar as súas preferencias de usuario.
+      request_access: A aplicación {{app_name}} solicita acceso á súa conta. Comprobe que desexa que a aplicación teña as seguintes capacidades. Pode elixir cantas queira.
+    revoke: 
+      flash: Revogou o pase de {{application}}
   oauth_clients: 
     create: 
       flash: A información rexistrouse correctamente
+    destroy: 
+      flash: Destruíu o rexistro da aplicación de cliente
     edit: 
       submit: Editar
       title: Editar a súa aplicación
     form: 
+      allow_read_gpx: ler as súas pistas GPS privadas.
+      allow_read_prefs: ler as súas preferencias de usuario.
       allow_write_api: modificar o mapa.
+      allow_write_diary: crear entradas de diario, comentarios e facer amigos.
+      allow_write_gpx: cargar pistas GPS.
+      allow_write_prefs: modificar as súas preferencias de usuario.
+      callback_url: URL de retorno
       name: Nome
       requests: "Solicitar os seguintes permisos ao usuario:"
       required: Obrigatorio
+      support_url: URL de apoio
+      url: URL principal da aplicación
     index: 
       application: Nome da aplicación
       issued_at: Publicado o
+      list_tokens: "Os seguintes pases emitíronse ás aplicacións no seu nome:"
       my_apps: As miñas aplicacións de cliente
       my_tokens: As miñas aplicacións rexistradas
+      no_apps: Ten unha aplicación que desexe rexistrar para usar o estándar {{oauth}}? Debe rexistrar a súa aplicación web antes de poder facer solicitudes OAuth neste servizo.
       register_new: Rexistrar a súa aplicación
+      registered_apps: "Ten rexistradas as seguintes aplicacións de cliente:"
       revoke: Revogar!
       title: Os meus datos OAuth
     new: 
       submit: Rexistrar
       title: Rexistrar unha nova aplicación
+    not_found: 
+      sorry: Sentímolo, non se puido atopar este {{type}}.
     show: 
+      access_url: "Acceder ao URL do pase:"
+      allow_read_gpx: ler as súas pistas GPS privadas.
       allow_read_prefs: ler as súas preferencias de usuario.
       allow_write_api: modificar o mapa.
       allow_write_diary: crear entradas de diario, comentarios e facer amigos.
+      allow_write_gpx: cargar pistas GPS.
       allow_write_prefs: modificar as súas preferencias de usuario.
+      authorize_url: "Autorizar o URL:"
       edit: Editar os detalles
+      key: "Clave do consumidor:"
       requests: "Solicitar os seguintes permisos ao usuario:"
+      secret: "Pregunta secreta do consumidor:"
+      support_notice: Soportamos HMAC-SHA1 (recomendado), así como texto sinxelo en modo ssl.
       title: Detalles OAuth para {{app_name}}
+      url: "Solicitar un URL de pase:"
+    update: 
+      flash: Actualizou correctamente a información do cliente
   site: 
     edit: 
+      anon_edits_link_text: Descubra aquí o motivo.
+      flash_player_required: Necesita un reprodutor de Flash para usar o Potlatch, o editor Flash do OpenStreetMap. Pode <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">descargar o reprodutor Flash desde Adobe.com</a>. Hai dispoñibles <a href="http://wiki.openstreetmap.org/wiki/Editing">outras opcións</a> para editar o OpenStreetMap.
+      not_public: Non fixo que as súas edicións fosen públicas.
+      not_public_description: Non pode editar o mapa a menos que o faga. Pode establecer as súas edicións como públicas desde a súa {{user_page}}.
+      potlatch_unsaved_changes: Ten cambios sen gardar. (Para gardar no Potlatch, ten que desmarcar o camiño actual ou o punto, se está a editar no modo en vivo, ou premer sobre o botón "Gardar".)
       user_page_link: páxina de usuario
     index: 
+      js_1: Está a usar un navegador que non soporta o JavaScript ou teno desactivado.
+      js_2: O OpenStreetMap emprega JavaScript para o seu mapa estático e dinámico.
+      js_3: Quizais queira probar o <a href="http://tah.openstreetmap.org/Browse/">navegador estático Tiles@Home</a> se non consegue activar o JavaScript.
       license: 
         license_name: Creative Commons recoñecemento compartir igual 2.0
         notice: Baixo a licenza {{license_name}} polo {{project_name}} e os seus colaboradores.
@@ -872,12 +1165,81 @@ gl:
       permalink: Ligazón permanente
       shortlink: Atallo
     key: 
+      map_key: Lenda do mapa
+      map_key_tooltip: Lenda do renderizador mapnik a este nivel de zoom
       table: 
         entry: 
+          admin: Límite administrativo
+          allotments: Hortas
+          apron: 
+            - Terminal de aeroporto
+            - terminal
+          bridge: Bordo negro = ponte
+          bridleway: Pista de cabalos
+          brownfield: Sitio baldío
+          building: Edificio significativo
+          byway: Camiño secundario
+          cable: 
+            - Teleférico
+            - teleférico
           cemetery: Cemiterio
+          centre: Centro deportivo
+          commercial: Zona comercial
+          common: 
+            - Espazo común
+            - pradaría
+          construction: Estradas en construción
+          cycleway: Pista de bicicletas
+          destination: Acceso a destino
+          farm: Granxa
+          footway: Vía peonil
+          forest: Bosque
+          golf: Campo de golf
+          heathland: Breixeira
+          industrial: Zona industrial
+          lake: 
+            - Lago
+            - encoro
+          military: Zona militar
+          motorway: Autoestrada
+          park: Parque
+          permissive: Acceso limitado
+          pitch: Cancha deportiva
+          primary: Estrada principal
+          private: Acceso privado
+          rail: Ferrocarril
+          reserve: Reserva natural
+          resident: Zona residencial
+          retail: Zona comercial
+          runway: 
+            - Pista do aeroporto
+            - vía de circulación do aeroporto
+          school: 
+            - Escola
+            - universidade
+          secondary: Estrada secundaria
+          station: Estación de ferrocarril
+          subway: Metro
+          summit: 
+            - Cumio
+            - pico
+          tourist: Atracción turística
+          track: Pista
+          tram: 
+            - Metro lixeiro
+            - tranvía
+          trunk: Estrada nacional
+          tunnel: Bordo a raias = túnel
+          unclassified: Estrada sen clasificar
+          unsurfaced: Estrada non pavimentada
+          wood: Bosque
+        heading: Lenda para z{{zoom_level}}
     search: 
+      search: Procurar
+      search_help: "exemplos: \"Santiago de Compostela\", \"rúa Rosalía de Castro, Vigo\" ou \"oficinas postais preto de Mondoñedo\" <a href='http://wiki.openstreetmap.org/wiki/Search'>máis exemplos...</a>"
       submit_text: Ir
       where_am_i: Onde estou?
+      where_am_i_title: Describa a localización actual usando o motor de procuras
     sidebar: 
       close: Pechar
       search_results: Resultados da procura
@@ -885,11 +1247,17 @@ gl:
     formats: 
       friendly: "%e %B %Y ás %H:%M"
   trace: 
+    create: 
+      trace_uploaded: O seu ficheiro GPX foi cargado e está pendente de inserción na base de datos. Isto adoita ocorrer nun período de tempo de media hora. Recibirá un correo electrónico cando remate.
+      upload_trace: Cargar unha pista GPS
+    delete: 
+      scheduled_for_deletion: Pista á espera da súa eliminación
     edit: 
       description: "Descrición:"
       download: descargar
       edit: editar
       filename: "Nome do ficheiro:"
+      heading: Editando a pista "{{name}}"
       map: mapa
       owner: "Propietario:"
       points: "Puntos:"
@@ -897,11 +1265,26 @@ gl:
       start_coord: "Coordenada de inicio:"
       tags: "Etiquetas:"
       tags_help: separadas por comas
+      title: Editando a pista "{{name}}"
       uploaded_at: "Cargado o:"
       visibility: "Visibilidade:"
       visibility_help: que significa isto?
+    list: 
+      public_traces: Pistas GPS públicas
+      public_traces_from: Pistas GPS públicas de {{user}}
+      tagged_with: " etiquetadas con {{tags}}"
+      your_traces: As súas pistas GPS
+    make_public: 
+      made_public: Pista feita pública
     no_such_user: 
+      body: Non existe ningún usuario co nome "{{user}}". Comprobe a ortografía ou que a ligazón que seguiu estea ben.
+      heading: O usuario "{{user}}" non existe
       title: Non existe tal usuario
+    offline: 
+      heading: Almacenamento GPX fóra de liña
+      message: O sistema de carga e almacenamento de ficheiros GPX non está dispoñible.
+    offline_warning: 
+      message: O sistema de carga de ficheiros GPX non está dispoñible
     trace: 
       ago: hai {{time_in_words_ago}}
       by: por
@@ -915,6 +1298,8 @@ gl:
       pending: PENDENTE
       private: PRIVADO
       public: PÚBLICO
+      trace_details: Ollar os detalles da pista
+      trackable: RASTREXABLE
       view_map: Ver o mapa
     trace_form: 
       description: Descrición
@@ -922,18 +1307,29 @@ gl:
       tags: Etiquetas
       tags_help: separadas por comas
       upload_button: Cargar
+      upload_gpx: Cargar un ficheiro GPX
       visibility: Visibilidade
       visibility_help: que significa isto?
+    trace_header: 
+      see_all_traces: Ollar todas as pistas
+      see_your_traces: Ollar todas as súas pistas
+      traces_waiting: Ten {{count}} pistas á espera de ser cargadas. Considere agardar a que remate antes de cargar máis para non bloquear a cola do resto de usuarios.
+      upload_trace: Cargar unha pista
+      your_traces: Ollar só as súas pistas
     trace_optionals: 
       tags: Etiquetas
     trace_paging_nav: 
       next: Seguinte &raquo;
       previous: "&laquo; Anterior"
+      showing_page: Mostrando a páxina "{{page}}"
     view: 
+      delete_track: Borrar esta pista
       description: "Descrición:"
       download: descargar
       edit: editar
+      edit_track: Editar esta pista
       filename: "Nome do ficheiro:"
+      heading: Ollando a pista "{{name}}"
       map: mapa
       none: Ningún
       owner: "Propietario:"
@@ -941,10 +1337,24 @@ gl:
       points: "Puntos:"
       start_coordinates: "Coordenada de inicio:"
       tags: "Etiquetas:"
+      title: Ollando a pista "{{name}}"
+      trace_not_found: Non se atopou a pista!
       uploaded: "Cargado o:"
       visibility: "Visibilidade:"
+    visibility: 
+      identifiable: Identificable (mostrado na lista de pistas e como identificable; puntos ordenados coa data e hora)
+      private: Privado (só compartido como anónimo; puntos desordenados)
+      public: Público (mostrado na lista de pistas e como anónimo; puntos desordenados)
+      trackable: Rastrexable (só compartido como anónimo; puntos ordenados coa data e hora)
   user: 
     account: 
+      contributor terms: 
+        agreed: Aceptou os novos termos do colaborador.
+        agreed_with_pd: Tamén declarou que considera que as súas edicións pertencen ao dominio público.
+        heading: "Termos do colaborador:"
+        link text: que é isto?
+        not yet agreed: Aínda non aceptou os novos termos do colaborador.
+        review link text: Siga esta ligazón para revisar e aceptar os novos termos do colaborador.
       current email address: "Enderezo de correo electrónico actual:"
       delete image: Eliminar a imaxe actual
       email never displayed publicly: (nunca mostrado publicamente)
@@ -952,6 +1362,7 @@ gl:
       flash update success confirm needed: Información de usuario actualizada correctamente. Busque no seu correo electrónico unha mensaxe para confirmar o seu novo enderezo.
       home location: "Lugar de orixe:"
       image: "Imaxe:"
+      image size hint: (as imaxes cadradas de, polo menos, 100x100 funcionan mellor)
       keep image: Manter a imaxe actual
       latitude: "Latitude:"
       longitude: "Lonxitude:"
@@ -971,6 +1382,7 @@ gl:
         heading: "Edición pública:"
       public editing note: 
         heading: Edición pública
+        text: Actualmente, as súas edicións son anónimas e a xente non lle pode enviar mensaxes ou ollar a súa localización. Para mostrar o que editou e permitir que a xente se poña en contacto con vostede mediante a páxina web, prema no botón que aparece a continuación. <b>Desde a migración do API á versión 0.6, tan só os usuarios públicos poden editar os datos do mapa</b> (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">máis información</a>).<ul><li>Os enderezos de correo electrónico non se farán públicos.</li><li>Non é posible reverter esta acción e agora os novos usuarios xa son públicos por defecto.</li></ul>
       replace image: Substituír a imaxe actual
       return to profile: Volver ao perfil
       save changes button: Gardar os cambios
@@ -1004,12 +1416,24 @@ gl:
       summary_no_ip: "{{name}} creado o {{date}}"
       title: Usuarios
     login: 
+      account not active: Sentímolo, a súa conta aínda non está activada.<br />Prema na ligazón que hai no correo de confirmación da conta para activar a súa.
+      account suspended: Sentímolo, a súa conta foi suspendida debido a actividades sospeitosas.<br />Póñase en contacto co {{webmaster}} se quere debatelo.
+      auth failure: Sentímolo, non puido acceder ao sistema con eses datos.
       create_account: cree unha conta
       email or username: "Enderezo de correo electrónico ou nome de usuario:"
+      heading: Rexistro
+      login_button: Acceder ao sistema
       lost password link: Perdeu o seu contrasinal?
+      notice: <a href="http://www.osmfoundation.org/wiki/License/We_Are_Changing_The_License">Máis información acerca do cambio na licenza do OpenStreetMap</a> (<a href="http://wiki.openstreetmap.org/wiki/ODbL/We_Are_Changing_The_License">traducións</a>) (<a href="http://wiki.openstreetmap.org/wiki/Talk:ODbL/Upcoming">conversa</a>)
       password: "Contrasinal:"
       please login: Identifíquese ou {{create_user_link}}.
       remember: "Lembrádeme:"
+      title: Rexistro
+      webmaster: webmaster
+    logout: 
+      heading: Saír do OpenStreetMap
+      logout_button: Saír
+      title: Saír
     lost_password: 
       email address: "Enderezo de correo electrónico:"
       heading: Esqueceu o contrasinal?
@@ -1025,22 +1449,27 @@ gl:
     new: 
       confirm email address: Confirmar o enderezo de correo electrónico
       confirm password: "Confirmar o contrasinal:"
+      contact_webmaster: Póñase en contacto co <a href="mailto:webmaster@openstreetmap.org">webmaster</a> para que cree unha conta por vostede; intentaremos xestionar a solicitude o máis axiña que poidamos.
       continue: Continuar
       display name: "Nome mostrado:"
       display name description: O seu nome de usuario mostrado publicamente. Pode cambialo máis tarde nas preferencias.
       email address: "Enderezo de correo electrónico:"
       fill_form: Encha o formulario e axiña recibirá un correo electrónico coas instrucións para activar a súa conta.
+      flash create success message: O usuario creouse correctamente. Busque unha nota de confirmación no seu correo electrónico e comezará a crear mapas de contado :-)<br /><br />Teña en conta que non poderá acceder ao sistema ata que reciba e confirme o seu enderezo de correo.<br /><br />Se emprega un sistema de bloqueo de spam, asegúrese de incluír webmaster@openstreetmap.org na súa lista branca para poder completar o proceso sen problemas.
       heading: Crear unha conta de usuario
       license_agreement: Cando confirme a súa conta necesitará aceptar os <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">termos do colaborador</a>.
       no_auto_account_create: Por desgraza, arestora non podemos crear automaticamente unha conta para vostede.
+      not displayed publicly: Non mostrado publicamente (véxase a <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="política de protección de datos, incluíndo a sección sobre enderezos de correo">política de protección de datos</a>)
       password: "Contrasinal:"
+      terms accepted: Grazas por aceptar os novos termos do colaborador!
       title: Crear unha conta
     no_such_user: 
       body: Non existe ningún usuario co nome "{{user}}". Comprobe a ortografía ou que a ligazón que seguiu estea ben.
-      heading: O usuario {{user}} non existe
+      heading: O usuario "{{user}}" non existe
       title: Non existe tal usuario
     popup: 
       friend: Amigo
+      nearby mapper: Cartógrafo próximo
       your location: A súa localización
     remove_friend: 
       not_a_friend: "{{name}} non é un dos seus amigos."
@@ -1071,7 +1500,8 @@ gl:
         italy: Italia
         rest_of_world: Resto do mundo
       legale_select: "Seleccione o seu país de residencia:"
-      press accept button: Lea o acordo que aparece a continuación e prema no botón "Acepto" para crear a súa conta.
+      read and accept: Por favor, le o acordo que aparece a continuación e prema sobre o botón "Aceptar" para confirmar que está de acordo cos termos deste acordo para as súas contribucións pasadas e futuras.
+      title: Termos do colaborador
     view: 
       activate_user: activar este usuario
       add as friend: engadir como amigo
@@ -1093,13 +1523,16 @@ gl:
       if set location: Se define a súa localización, aquí aparecerá un mapa. Pode establecer o seu lugar de orixe na súa páxina de {{settings_link}}.
       km away: a {{count}}km de distancia
       m away: a {{count}}m de distancia
+      mapper since: "Cartógrafo desde:"
       moderator_history: ver os bloqueos dados
       my diary: o meu diario
       my edits: as miñas edicións
       my settings: os meus axustes
+      my traces: as miñas pistas
       nearby users: Outros usuarios próximos
       new diary entry: nova entrada no diario
       no friends: Aínda non engadiu ningún amigo.
+      no nearby users: Aínda non hai usuarios que estean situados na súa proximidade.
       oauth settings: axustes OAuth
       remove as friend: eliminar como amigo
       role: 
@@ -1113,7 +1546,9 @@ gl:
           moderator: Revogar o acceso de moderador
       send message: enviar unha mensaxe
       settings_link_text: axustes
+      spam score: "Puntuación do spam:"
       status: "Estado:"
+      traces: pistas
       unhide_user: descubrir este usuario
       user location: Localización do usuario
       your friends: Os seus amigos
@@ -1128,13 +1563,20 @@ gl:
       title: Bloqueos feitos a {{name}}
     create: 
       flash: Bloqueo creado para o usuario {{name}}.
+      try_contacting: Intente poñerse en contacto co usuario antes de bloquealo. Déalle un prazo de tempo razoable para que poida responder.
+      try_waiting: Intente dar ao usuario un prazo razoable para responder antes de bloquealo.
     edit: 
       back: Ollar todos os bloqueos
       heading: Editando o bloqueo de {{name}}
+      needs_view: O usuario ten que acceder ao sistema antes de que o bloqueo sexa retirado?
+      period: Por canto tempo, a partir de agora, o usuario terá bloqueado o uso do API?
+      reason: O motivo polo que bloquea a {{name}}. Permaneza tranquilo e sexa razoable, dando a maior cantidade de detalles sobre a situación. Teña presente que non todos os usuarios entenden o argot da comunidade, de modo que intente utilizar termos comúns.
       show: Ollar este bloqueo
       submit: Actualizar o bloqueo
       title: Editando o bloqueo de {{name}}
     filter: 
+      block_expired: O bloqueo xa caducou. Non se pode editar.
+      block_period: O período de bloqueo debe elixirse de entre os valores presentes na lista despregable.
       not_a_moderator: Cómpre ser un moderador para poder levar a cabo esa acción.
     helper: 
       time_future: Remata en {{time}}.
@@ -1144,11 +1586,19 @@ gl:
       empty: Aínda non se fixo ningún bloqueo.
       heading: Lista de bloqueos de usuario
       title: Bloqueos de usuario
+    model: 
+      non_moderator_revoke: Cómpre ser moderador para revogar un bloqueo.
+      non_moderator_update: Cómpre ser moderador para crear ou actualizar un bloqueo.
     new: 
       back: Ollar todos os bloqueos
       heading: Creando un bloqueo a {{name}}
+      needs_view: O usuario ten que acceder ao sistema antes de que o bloqueo sexa retirado
+      period: Por canto tempo, a partir de agora, o usuario terá bloqueado o uso do API?
+      reason: O motivo polo que bloquea a {{name}}. Permaneza tranquilo e sexa razoable, dando a maior cantidade de detalles sobre a situación e lembrando que a mensaxe será visible publicamente. Teña presente que non todos os usuarios entenden o argot da comunidade, de modo que intente utilizar termos comúns.
       submit: Crear un bloqueo
       title: Creando un bloqueo a {{name}}
+      tried_contacting: Púxenme en contacto co usuario e pedinlle que parase.
+      tried_waiting: Deille ao usuario tempo suficiente para responder ás mensaxes.
     not_found: 
       back: Volver ao índice
       sorry: Non se puido atopar o bloqueo de usuario número {{id}}.
@@ -1168,8 +1618,12 @@ gl:
       other: "{{count}} horas"
     revoke: 
       confirm: Está seguro de querer retirar este bloqueo?
+      flash: Revogouse o bloqueo.
+      heading: Revogando o bloqueo en {{block_on}} por {{block_by}}
       past: Este bloqueo rematou hai {{time}}. Entón, xa non se pode retirar.
       revoke: Revogar!
+      time_future: Este bloqueo rematará en {{time}}.
+      title: Revogando o bloqueo en {{block_on}}
     show: 
       back: Ollar todos os bloqueos
       confirm: Está seguro?

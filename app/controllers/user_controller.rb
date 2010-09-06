@@ -16,21 +16,29 @@ class UserController < ApplicationController
 
   filter_parameter_logging :password, :pass_crypt, :pass_crypt_confirmation
 
-  cache_sweeper :user_sweeper, :only => [:account, :set_status, :delete], :unless => OSM_STATUS == :database_offline
+  cache_sweeper :user_sweeper, :only => [:account, :set_status, :delete], :unless => STATUS == :database_offline
 
   def terms
-    @title = t 'user.new.title'
-    @user = User.new(params[:user])
-
-    @legale = params[:legale] || OSM.IPToCountry(request.remote_ip) || APP_CONFIG['default_legale']
+    @legale = params[:legale] || OSM.IPToCountry(request.remote_ip) || DEFAULT_LEGALE
     @text = OSM.legal_text_for_country(@legale)
 
     if request.xhr?
       render :update do |page|
-        page.replace_html "contributorTerms", :partial => "terms"
+        page.replace_html "contributorTerms", :partial => "terms", :locals => { :has_decline => params[:has_decline] }
       end
-    elsif @user.invalid?
-      render :action => 'new'
+    else
+      @title = t 'user.terms.title'
+      @user = User.new(params[:user]) if params[:user]
+
+      if @user
+        if @user.invalid?
+          render :action => :new
+        elsif @user.terms_agreed?
+          redirect_to :action => :account, :display_name => @user.display_name
+        end
+      else
+        redirect_to :action => :login, :referer => request.request_uri
+      end
     end
   end
 
@@ -41,6 +49,16 @@ class UserController < ApplicationController
       render :action => 'new'
     elsif params[:decline]
       redirect_to t('user.terms.declined')
+    elsif @user
+      if !@user.terms_agreed?
+        @user.consider_pd = params[:user][:consider_pd]
+        @user.terms_agreed = Time.now.getutc
+        if @user.save
+          flash[:notice] = t 'user.new.terms accepted'
+        end
+      end
+
+      redirect_to :action => :account, :display_name => @user.display_name
     else
       @user = User.new(params[:user])
 
@@ -188,7 +206,7 @@ class UserController < ApplicationController
         # them to that unless they've also got a block on them, in
         # which case redirect them to the block so they can clear it.
         if user.blocked_on_view
-          redirect_to user.blocked_on_view, :referrer => params[:referrer]
+          redirect_to user.blocked_on_view, :referer => params[:referer]
         elsif params[:referer]
           redirect_to params[:referer]
         else
@@ -202,6 +220,8 @@ class UserController < ApplicationController
       else
         flash.now[:error] = t 'user.login.auth failure'
       end
+    else
+      flash.now[:notice] =  t 'user.login.notice'
     end
   end
 

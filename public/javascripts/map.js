@@ -244,20 +244,6 @@ function setMapLayers(layerConfig) {
             map.setBaseLayer(layers[i]);
          }
       }
-
-      while (layerConfig.charAt(l) == "B" || layerConfig.charAt(l) == "0") {
-         l++;
-      }
-
-      for (var layers = map.getLayersBy("isBaseLayer", false), i = 0; i < layers.length; i++) {
-         var c = layerConfig.charAt(l++);
-
-         if (c == "T") {
-            layers[i].setVisibility(true);
-         } else if(c == "F") {
-            layers[i].setVisibility(false);
-         }
-      }
    } else {
       for (var i = 0; i < map.layers.length; i++) {
          if (map.layers[i].layerCode) {

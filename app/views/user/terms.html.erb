@@ -1,6 +1,6 @@
 <h1><%= t 'user.terms.heading' %></h1>
 
-<p><%= t 'user.terms.press accept button' %></p>
+<p><%= t 'user.terms.read and accept' %></p>
 
 <!-- legale is <%= @legale %> -->
 <% form_tag :action => 'terms' do %>
@@ -13,7 +13,7 @@
             :before => update_page do |page|
               page.replace_html 'contributorTerms', image_tag('searching.gif')
             end,
-            :url => {:legale => legale}
+            :url => {:legale => legale, :has_decline => params.has_key?(:user)}
           )
       %>
       <%= label_tag "legale_#{legale}", t('user.terms.legale_names.' + name) %>
@@ -22,7 +22,7 @@
 <% end %>
 
 <div id="contributorTerms">
-  <%= render :partial => "terms" %>
+  <%= render :partial => "terms", :locals => { :has_decline =>params.has_key?(:user) }  %>
 </div>
 
 <% form_tag({:action => "save"}, { :id => "termsForm" }) do %>
@@ -33,13 +33,17 @@
   </p>
   <p>
     <%= hidden_field_tag('referer', h(params[:referer])) unless params[:referer].nil? %>
-    <%= hidden_field('user', 'email') %>
-    <%= hidden_field('user', 'email_confirmation') %>
-    <%= hidden_field('user', 'display_name') %>
-    <%= hidden_field('user', 'pass_crypt') %>
-    <%= hidden_field('user', 'pass_crypt_confirmation') %>
+    <% if params[:user] %>
+      <%= hidden_field('user', 'email') %>
+      <%= hidden_field('user', 'email_confirmation') %>
+      <%= hidden_field('user', 'display_name') %>
+      <%= hidden_field('user', 'pass_crypt') %>
+      <%= hidden_field('user', 'pass_crypt_confirmation') %>
+    <% end %>
     <div id="buttons">
-      <%= submit_tag(t('user.terms.decline'), :name => "decline", :id => "decline") %>
+      <% if params[:user] %>
+        <%= submit_tag(t('user.terms.decline'), :name => "decline", :id => "decline") %>
+      <% end %>
       <%= submit_tag(t('user.terms.agree'), :name => "agree", :id => "agree") %>
     </div>
   </p>

@@ -68,7 +68,7 @@
         <% else %>
         <li><%= link_to t('layouts.export'), {:controller => 'site', :action => 'export'}, {:id => 'exportanchor', :title => t('layouts.export_tooltip'), :class => exportclass} %></li>
         <% end %>
-        <li><%= link_to t('layouts.gps_traces'), {:controller => 'trace', :action => 'list'}, {:id => 'traceanchor', :title => t('layouts.gps_traces_tooltip'), :class => traceclass} %></li>
+        <li><%= link_to t('layouts.gps_traces'), {:controller => 'trace', :action => 'list', :display_name => nil}, {:id => 'traceanchor', :title => t('layouts.gps_traces_tooltip'), :class => traceclass} %></li>
         <li><%= link_to t('layouts.user_diaries'), {:controller => 'diary_entry', :action => 'list', :display_name => nil}, {:id => 'diaryanchor', :title => t('layouts.user_diaries_tooltip'), :class => diaryclass} %></li>
       </ul>
     </div>
@@ -100,11 +100,11 @@
       </div>
       <% end %>
 
-      <% if OSM_STATUS == :database_offline or OSM_STATUS == :api_offline %>
+      <% if STATUS == :database_offline or STATUS == :api_offline %>
       <div id="alert">
         <%= t 'layouts.osm_offline' %>
       </div>
-      <% elsif OSM_STATUS == :database_readonly or OSM_STATUS == :api_readonly %>
+      <% elsif STATUS == :database_readonly or STATUS == :api_readonly %>
       <div id="alert">
         <%= t 'layouts.osm_read_only' %>
       </div>

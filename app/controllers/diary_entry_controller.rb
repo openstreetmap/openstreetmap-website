@@ -10,7 +10,7 @@ class DiaryEntryController < ApplicationController
 
   caches_action :list, :view, :layout => false
   caches_action :rss, :layout => true
-  cache_sweeper :diary_sweeper, :only => [:new, :edit, :comment, :hide, :hidecomment], :unless => OSM_STATUS == :database_offline
+  cache_sweeper :diary_sweeper, :only => [:new, :edit, :comment, :hide, :hidecomment], :unless => STATUS == :database_offline
 
   def new
     @title = t 'diary_entry.new.title'

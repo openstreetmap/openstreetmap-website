@@ -5,8 +5,8 @@
 <%= render :partial => 'changesets', :locals => { :showusername => !params.has_key?(:display_name) } %>
 <%= render :partial => 'changeset_paging_nav' %>
 
-<%= atom_link_to params.merge({ :format => :atom }) %>
+<%= atom_link_to params.merge({ :page => nil, :format => :atom }) %>
 
 <% content_for :head do %>
-<%= auto_discovery_link_tag :atom, params.merge({ :format => :atom }) %>
+<%= auto_discovery_link_tag :atom, params.merge({ :page => nil, :format => :atom }) %>
 <% end %>

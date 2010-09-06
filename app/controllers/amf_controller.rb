@@ -172,7 +172,7 @@ class AmfController < ApplicationController
 
   def amf_handle_error_with_timeout(call,rootobj,rootid)
     amf_handle_error(call,rootobj,rootid) do
-      Timeout::timeout(APP_CONFIG['api_timeout'], OSM::APITimeoutError) do
+      Timeout::timeout(API_TIMEOUT, OSM::APITimeoutError) do
         yield
       end
     end
@@ -187,6 +187,11 @@ class AmfController < ApplicationController
       if !user then return -1,"You are not logged in, so Potlatch can't write any changes to the database." end
       unless user.active_blocks.empty? then return -1,t('application.setup_user_auth.blocked') end
 
+      if cstags
+        if !tags_ok(cstags) then return -1,"One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." end
+        cstags = strip_non_xml_chars cstags
+      end
+
       # close previous changeset and add comment
       if closeid
         cs = Changeset.find(closeid.to_i)
@@ -197,6 +202,8 @@ class AmfController < ApplicationController
           cs.save!
         else
           cs.tags['comment']=closecomment
+          # in case closecomment has chars not allowed in xml
+          cs.tags = strip_non_xml_chars cs.tags
           cs.save_with_tags!
         end
       end
@@ -206,7 +213,11 @@ class AmfController < ApplicationController
         cs = Changeset.new
         cs.tags = cstags
         cs.user_id = user.id
-        if !closecomment.empty? then cs.tags['comment']=closecomment end
+        if !closecomment.empty? 
+          cs.tags['comment']=closecomment 
+          # in case closecomment has chars not allowed in xml
+          cs.tags = strip_non_xml_chars cs.tags
+        end
         # smsm1 doesn't like the next two lines and thinks they need to be abstracted to the model more/better
         cs.created_at = Time.now.getutc
         cs.closed_at = cs.created_at + Changeset::IDLE_TIMEOUT

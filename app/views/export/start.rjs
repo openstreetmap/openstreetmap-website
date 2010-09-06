@@ -190,7 +190,7 @@ page << <<EOJ
   function validateControls() {
     var bounds = new OpenLayers.Bounds($("minlon").value, $("minlat").value, $("maxlon").value, $("maxlat").value);
 
-    if (bounds.getWidth() * bounds.getHeight() > #{APP_CONFIG['max_request_area']}) {
+    if (bounds.getWidth() * bounds.getHeight() > #{MAX_REQUEST_AREA}) {
       $("export_osm_too_large").style.display = "block";
     } else {
       $("export_osm_too_large").style.display = "none";
@@ -198,7 +198,7 @@ page << <<EOJ
 
     var max_scale = maxMapnikScale();
 
-    if ($("format_osm").checked && bounds.getWidth() * bounds.getHeight() > #{APP_CONFIG['max_request_area']}) {
+    if ($("format_osm").checked && bounds.getWidth() * bounds.getHeight() > #{MAX_REQUEST_AREA}) {
       $("export_commit").disabled = true;
     } else if ($("format_mapnik").checked && $("mapnik_scale").value < max_scale) {
       $("export_commit").disabled = true;

@@ -529,6 +529,24 @@ class AmfControllerTest < ActionController::TestCase
     
   end
 
+  def test_startchangeset_invalid_xmlchar_comment
+    invalid = "\035\022"
+    comment = "foo#{invalid}bar"
+      
+    amf_content "startchangeset", "/1", ["test@example.com:test", Hash.new, nil, comment, 1]
+    post :amf_write
+    assert_response :success
+    amf_parse_response
+    result = amf_result("/1")
+
+    assert_equal 3, result.size, result.inspect
+    assert_equal 0, result[0]
+    new_cs_id = result[2]
+
+    cs = Changeset.find(new_cs_id)
+    assert_equal "foobar", cs.tags["comment"]
+  end
+
   # ************************************************************
   # AMF Helper functions
 

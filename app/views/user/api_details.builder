@@ -6,6 +6,9 @@ xml.osm("version" => API_VERSION, "generator" => GENERATOR) do
     if @user.description
       xml.tag! "description", @user.description
     end
+    xml.tag! "contributor-terms",
+        :agreed => !!@user.terms_agreed,
+        :pd => !!@user.consider_pd
     if @user.home_lat and @user.home_lon
       xml.tag! "home", :lat => @user.home_lat,
                        :lon => @user.home_lon,

@@ -57,7 +57,7 @@ class GeocoderController < ApplicationController
       render :action => "error"
     else
       @results.push({:lat => lat, :lon => lon,
-                     :zoom => APP_CONFIG['postcode_zoom'],
+                     :zoom => POSTCODE_ZOOM,
                      :name => "#{lat}, #{lon}"})
 
       render :action => "results"
@@ -78,7 +78,7 @@ class GeocoderController < ApplicationController
     unless response.match(/couldn't find this zip/)
       data = response.split(/\s*,\s+/) # lat,long,town,state,zip
       @results.push({:lat => data[0], :lon => data[1],
-                     :zoom => APP_CONFIG['postcode_zoom'],
+                     :zoom => POSTCODE_ZOOM,
                      :prefix => "#{data[2]}, #{data[3]},",
                      :name => data[4]})
     end
@@ -104,7 +104,7 @@ class GeocoderController < ApplicationController
       dataline = response.split(/\n/)[1]
       data = dataline.split(/,/) # easting,northing,postcode,lat,long
       postcode = data[2].gsub(/'/, "")
-      zoom = APP_CONFIG['postcode_zoom'] - postcode.count("#")
+      zoom = POSTCODE_ZOOM - postcode.count("#")
       @results.push({:lat => data[3], :lon => data[4], :zoom => zoom,
                      :name => postcode})
     end
@@ -127,7 +127,7 @@ class GeocoderController < ApplicationController
     if response.get_elements("geodata/error").empty?
       @results.push({:lat => response.get_text("geodata/latt").to_s,
                      :lon => response.get_text("geodata/longt").to_s,
-                     :zoom => APP_CONFIG['postcode_zoom'],
+                     :zoom => POSTCODE_ZOOM,
                      :name => query.upcase})
     end
 
@@ -286,7 +286,7 @@ class GeocoderController < ApplicationController
       name = geoname.get_text("name").to_s
       country = geoname.get_text("countryName").to_s
       @results.push({:lat => lat, :lon => lon,
-                     :zoom => APP_CONFIG['geonames_zoom'],
+                     :zoom => GEONAMES_ZOOM,
                      :name => name,
                      :suffix => ", #{country}"})
     end

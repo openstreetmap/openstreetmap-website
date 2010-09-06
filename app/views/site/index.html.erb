@@ -134,7 +134,7 @@ end
   function mapInit(){
     map = createMap("map");
 
-    <% unless OSM_STATUS == :api_offline or OSM_STATUS == :database_offline %>
+    <% unless STATUS == :api_offline or STATUS == :database_offline %>
       map.dataLayer = new OpenLayers.Layer("<%= I18n.t 'browse.start_rjs.data_layer_name' %>", { "visibility": false });
       map.dataLayer.events.register("visibilitychanged", map.dataLayer, toggleData);
       map.addLayer(map.dataLayer);
