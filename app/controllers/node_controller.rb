@@ -26,7 +26,7 @@ class NodeController < ApplicationController
   def read
     node = Node.find(params[:id])
     if node.visible?
-      response.headers['Last-Modified'] = node.timestamp.rfc822
+      response.last_modified = node.timestamp
       render :text => node.to_xml.to_s, :content_type => "text/xml"
     else
       render :text => "", :status => :gone

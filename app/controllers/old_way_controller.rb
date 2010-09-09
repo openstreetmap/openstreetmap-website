@@ -19,7 +19,7 @@ class OldWayController < ApplicationController
   
   def version
     if old_way = OldWay.where(:id => params[:id], :version => params[:version]).first
-      response.headers['Last-Modified'] = old_way.timestamp.rfc822
+      response.last_modified = old_way.timestamp
 
       doc = OSM::API.new.get_xml_doc
       doc.root << old_way.to_xml_node

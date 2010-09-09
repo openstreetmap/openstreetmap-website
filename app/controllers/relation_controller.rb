@@ -26,7 +26,7 @@ class RelationController < ApplicationController
 
   def read
     relation = Relation.find(params[:id])
-    response.headers['Last-Modified'] = relation.timestamp.rfc822
+    response.last_modified = relation.timestamp
     if relation.visible
       render :text => relation.to_xml.to_s, :content_type => "text/xml"
     else
