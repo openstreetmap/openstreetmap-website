@@ -17,10 +17,10 @@ page << <<EOJ
         sides: 4,
         snapAngle: 90,
         irregular: true,
-        persist: true,
-        callbacks: { done: endDrag }
+        persist: true
       }
     });
+    box.handler.callbacks.done = endDrag;
     map.addControl(box);
 
     map.events.register("moveend", map, mapMoved);
