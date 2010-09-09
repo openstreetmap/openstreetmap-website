@@ -227,7 +227,7 @@ page << <<EOJ
 
   function htmlUrlChanged() {
     var bounds = new OpenLayers.Bounds($("minlon").value, $("minlat").value, $("maxlon").value, $("maxlat").value);
-    var layerName = map.baseLayer.name.toLowerCase();
+    var layerName = map.baseLayer.keyid;
     var url = "http://#{SERVER_URL}/export/embed.html?bbox=" + bounds.toBBOX() + "&layer=" + layerName;
     var markerUrl = "";
 
