@@ -113,7 +113,6 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/index.html', :controller => 'site', :action => 'index'
   map.connect '/edit.html', :controller => 'site', :action => 'edit'
   map.connect '/export.html', :controller => 'site', :action => 'export'
-  map.connect '/search.html', :controller => 'way_tag', :action => 'search'
   map.connect '/login.html', :controller => 'user', :action => 'login'
   map.connect '/logout.html', :controller => 'user', :action => 'logout'
   map.connect '/create-account.html', :controller => 'user', :action => 'new'
