@@ -25,6 +25,9 @@ class Way < ActiveRecord::Base
   validates_numericality_of :id, :on => :update, :integer_only => true
   validates_associated :changeset
 
+  scope :visible, where(:visible => true)
+  scope :invisible, where(:visible => false)
+
   # Read in xml as text and return it's Way object representation
   def self.from_xml(xml, create=false)
     begin

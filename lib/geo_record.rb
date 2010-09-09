@@ -5,7 +5,7 @@ module GeoRecord
   SCALE = 10000000
   
   def self.included(base)
-    base.extend(ClassMethods)
+    base.scope :bbox, lambda { |minlat,minlon,maxlat,maxlon| base.where(OSM.sql_for_area(minlat, minlon, maxlat, maxlon)) }
     base.before_save :update_tile
   end
 
@@ -43,14 +43,6 @@ private
   
   def lat2y(a)
     180/Math::PI * Math.log(Math.tan(Math::PI/4+a*(Math::PI/180)/2))
-  end
-
-  module ClassMethods
-    def find_by_area(minlat, minlon, maxlat, maxlon, options)
-      self.with_scope(:find => {:conditions => OSM.sql_for_area(minlat, minlon, maxlat, maxlon)}) do
-        return self.find(:all, options)
-      end
-    end
   end
 end
 

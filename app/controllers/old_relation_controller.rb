@@ -17,18 +17,15 @@ class OldRelationController < ApplicationController
   end
   
   def version
-    old_relation = OldRelation.find(:first, :conditions => {:id => params[:id], :version => params[:version]} )
-    if old_relation.nil?
-      # (RecordNotFound is not raised with find :first...)
+    if old_relation = OldRelation.where(:id => params[:id], :version => params[:version]).first
+      response.headers['Last-Modified'] = old_relation.timestamp.rfc822
+
+      doc = OSM::API.new.get_xml_doc
+      doc.root << old_relation.to_xml_node
+
+      render :text => doc.to_s, :content_type => "text/xml"
+    else
       render :nothing => true, :status => :not_found
-      return
     end
-    
-    response.headers['Last-Modified'] = old_relation.timestamp.rfc822
-    
-    doc = OSM::API.new.get_xml_doc
-    doc.root << old_relation.to_xml_node
-    
-    render :text => doc.to_s, :content_type => "text/xml"
   end
 end

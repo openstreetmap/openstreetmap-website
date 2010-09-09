@@ -30,6 +30,9 @@ class Node < ActiveRecord::Base
   validate :validate_position
   validates_associated :changeset
 
+  scope :visible, where(:visible => true)
+  scope :invisible, where(:visible => false)
+
   # Sanity check the latitude and longitude and add an error if it's broken
   def validate_position
     errors.add_to_base("Node is not in the world") unless in_world?

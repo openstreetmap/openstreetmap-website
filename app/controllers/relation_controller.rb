@@ -81,8 +81,8 @@ class RelationController < ApplicationController
       
       # next load the relations and the ways.
       
-      relations = Relation.find(relation_ids, :include => [:relation_tags])
-      ways = Way.find(way_ids, :include => [:way_nodes, :way_tags])
+      relations = Relation.where(:id => relation_ids).includes(:relation_tags)
+      ways = Way.where(:id => way_ids).includes(:way_nodes, :way_tags)
       
       # now additionally collect nodes referenced by ways. Note how we 
       # recursively evaluate ways but NOT relations.
@@ -91,7 +91,7 @@ class RelationController < ApplicationController
         way.way_nodes.collect { |way_node| way_node.node_id }
       }
       node_ids += way_node_ids.flatten
-      nodes = Node.find(node_ids.uniq, :include => :node_tags)
+      nodes = Node.where(:id => node_ids.uniq).includes(:node_tags)
       
       # create XML.
       doc = OSM::API.new.get_xml_doc
@@ -157,7 +157,7 @@ class RelationController < ApplicationController
   end
 
   def relations_for_object(objtype)
-    relationids = RelationMember.find(:all, :conditions => ['member_type=? and member_id=?', objtype, params[:id]]).collect { |ws| ws.id[0] }.uniq
+    relationids = RelationMember.where(:member_type => objtype, :member_id => params[:id]).collect { |ws| ws.id[0] }.uniq
 
     doc = OSM::API.new.get_xml_doc
 

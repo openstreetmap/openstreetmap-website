@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
 
   def authorize_web
     if session[:user]
-      @user = User.find(session[:user], :conditions => {:status => ["active", "confirmed", "suspended"]})
+      @user = User.where(:status => ["active", "confirmed", "suspended"]).find(session[:user])
 
       if @user.status == "suspended"
         session.delete(:user)

@@ -20,7 +20,7 @@ class DiaryEntryController < ApplicationController
       @diary_entry.user = @user
 
       if @diary_entry.save
-        default_lang = @user.preferences.find(:first, :conditions => {:k => "diary.default_language"})
+        default_lang = @user.preferences.where(:k => "diary.default_language").first
         if default_lang
           default_lang.v = @diary_entry.language_code
           default_lang.save!
@@ -32,7 +32,7 @@ class DiaryEntryController < ApplicationController
         render :action => 'edit'
       end
     else
-      default_lang = @user.preferences.find(:first, :conditions => {:k => "diary.default_language"})
+      default_lang = @user.preferences.where(:k => "diary.default_language").first
       lang_code = default_lang ? default_lang.v : @user.preferred_language
       @diary_entry = DiaryEntry.new(:language_code => lang_code)
       render :action => 'edit'
@@ -71,7 +71,7 @@ class DiaryEntryController < ApplicationController
 
   def list
     if params[:display_name]
-      @this_user = User.find_by_display_name(params[:display_name], :conditions => { :status => ["active", "confirmed"] })
+      @this_user = User.where(:status => ["active", "confirmed"]).find_by_display_name(params[:display_name])
 
       if @this_user
         @title = t 'diary_entry.list.user_title', :user => @this_user.display_name
@@ -111,17 +111,13 @@ class DiaryEntryController < ApplicationController
   end
 
   def rss
+    @entries = DiaryEntry.includes(:user).order("created_at DESC").limit(20)
+
     if params[:display_name]
-      user = User.find_by_display_name(params[:display_name], :conditions => { :status => ["active", "confirmed"] })
+      user = User.where(:status => ["active", "confirmed"]).find_by_display_name(params[:display_name])
 
       if user
-        @entries = DiaryEntry.find(:all, 
-                                   :conditions => { 
-                                     :user_id => user.id,
-                                     :visible => true 
-                                   },
-                                   :order => 'created_at DESC', 
-                                   :limit => 20)
+        @entries = @entries.where(:user_id => user.id, :visible => true )
         @title = I18n.t('diary_entry.feed.user.title', :user => user.display_name)
         @description = I18n.t('diary_entry.feed.user.description', :user => user.display_name)
         @link = "http://#{SERVER_URL}/user/#{user.display_name}/diary"
@@ -129,25 +125,15 @@ class DiaryEntryController < ApplicationController
         render :nothing => true, :status => :not_found
       end
     elsif params[:language]
-      @entries = DiaryEntry.find(:all, :include => :user,
-                                 :conditions => {
-                                   :users => { :status => ["active", "confirmed"] },
-                                   :visible => true,
-                                   :language_code => params[:language]
-                                 },
-                                 :order => 'created_at DESC', 
-                                 :limit => 20)
+      @entries = @entries.where(:users => { :status => ["active", "confirmed"] },
+                                :visible => true,
+                                :language_code => params[:language])
       @title = I18n.t('diary_entry.feed.language.title', :language_name => Language.find(params[:language]).english_name)
       @description = I18n.t('diary_entry.feed.language.description', :language_name => Language.find(params[:language]).english_name)
       @link = "http://#{SERVER_URL}/diary/#{params[:language]}"
     else
-      @entries = DiaryEntry.find(:all, :include => :user,
-                                 :conditions => {
-                                   :users => { :status => ["active", "confirmed"] },
-                                   :visible => true
-                                 },
-                                 :order => 'created_at DESC', 
-                                 :limit => 20)
+      @entries = @entries.where(:users => { :status => ["active", "confirmed"] },
+                                :visible => true)
       @title = I18n.t('diary_entry.feed.all.title')
       @description = I18n.t('diary_entry.feed.all.description')
       @link = "http://#{SERVER_URL}/diary"
@@ -155,14 +141,12 @@ class DiaryEntryController < ApplicationController
   end
 
   def view
-    user = User.find_by_display_name(params[:display_name], :conditions => { :status => ["active", "confirmed"] })
+    user = User.where(:status => ["active", "confirmed"]).find_by_display_name(params[:display_name])
 
     if user
-      @entry = DiaryEntry.find(:first, :conditions => {
-                                 :id => params[:id],
-                                 :user_id => user.id,
-                                 :visible => true
-                               })
+      @entry = DiaryEntry.where(:id => params[:id],
+                                :user_id => user.id,
+                                :visible => true).first
       if @entry
         @title = t 'diary_entry.view.title', :user => params[:display_name], :title => @entry.title
       else

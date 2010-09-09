@@ -27,7 +27,7 @@ class TraceController < ApplicationController
     # from display name, pick up user id if one user's traces only
     display_name = params[:display_name]
     if !display_name.blank?
-      target_user = User.find(:first, :conditions => { :status => ["active", "confirmed"], :display_name => display_name })
+      target_user = User.where(:status => ["active", "confirmed"], :display_name => display_name).first
       if target_user.nil?
         @title = t'trace.no_such_user.title'
         @not_found_user = display_name
@@ -54,51 +54,43 @@ class TraceController < ApplicationController
     # 4 - user's traces, not logged in as that user = all user's public traces
     if target_user.nil? # all traces
       if @user
-        conditions = ["(gpx_files.visibility in ('public', 'identifiable') OR gpx_files.user_id = ?)", @user.id] #1
+        @traces = Trace.where("visibility IN ('public', 'identifiable') OR user_id = ?", @user.id) #1
       else
-        conditions  = ["gpx_files.visibility in ('public', 'identifiable')"] #2
+        @traces = Trace.where("visibility IN ('public', 'identifiable')") #2
       end
     else
       if @user and @user == target_user
-        conditions = ["gpx_files.user_id = ?", @user.id] #3 (check vs user id, so no join + can't pick up non-public traces by changing name)
+        @traces = Trace.where(:user_id => @user.id) #3 (check vs user id, so no join + can't pick up non-public traces by changing name)
       else
-        conditions = ["gpx_files.visibility in ('public', 'identifiable') AND gpx_files.user_id = ?", target_user.id] #4
+        @traces = Trace.where("visibility IN ('public', 'identifiable') AND user_id = ?", target_user.id) #4
       end
     end
 
     if params[:tag]
       @tag = params[:tag]
 
-      files = Tracetag.find_all_by_tag(params[:tag]).collect { |tt| tt.gpx_id }
+      files = Tracetag.where(:tag => params[:tag]).select(:gpx_id).all
 
       if files.length > 0
-        conditions[0] += " AND gpx_files.id IN (#{files.join(',')})"
-      else
-        conditions[0] += " AND 0 = 1"
+        @traces = @traces.where(:id => files.collect { |tt| tt.gpx_id })
       end
     end
-
-    conditions[0] += " AND gpx_files.visible = ?"
-    conditions << true
 
     @page = (params[:page] || 1).to_i
     @page_size = 20
 
-    @traces = Trace.find(:all,
-                         :include => [:user, :tags],
-                         :conditions => conditions,
-                         :order => "gpx_files.timestamp DESC",
-                         :offset => (@page - 1) * @page_size,
-                         :limit => @page_size)
+    @traces = @traces.where(:visible => true)
+    @traces = @traces.order("timestamp DESC")
+    @traces = @traces.offset((@page - 1) * @page_size)
+    @traces = @traces.limit(@page_size)
+    @traces = @traces.includes(:user, :tags)
 
     # put together SET of tags across traces, for related links
     tagset = Hash.new
-    if @traces
-      @traces.each do |trace|
-        trace.tags.reload if params[:tag] # if searched by tag, ActiveRecord won't bring back other tags, so do explicitly here
-        trace.tags.each do |tag|
-          tagset[tag.tag] = tag.tag
-        end
+    @traces.each do |trace|
+      trace.tags.reload if params[:tag] # if searched by tag, ActiveRecord won't bring back other tags, so do explicitly here
+      trace.tags.each do |tag|
+        tagset[tag.tag] = tag.tag
       end
     end
 
@@ -222,20 +214,19 @@ class TraceController < ApplicationController
   end
 
   def georss
-    conditions = ["gpx_files.visibility in ('public', 'identifiable')"]
+    traces = Trace.where(:visibility => [:public, :identifiable])
 
     if params[:display_name]
-      conditions[0] += " AND users.display_name = ?"
-      conditions << params[:display_name]
+      traces = traces.where(:users => {:display_name => params[:display_name]})
     end
 
     if params[:tag]
-      conditions[0] += " AND EXISTS (SELECT * FROM gpx_file_tags AS gft WHERE gft.gpx_id = gpx_files.id AND gft.tag = ?)"
-      conditions << params[:tag]
+      traces = traces.where("EXISTS (SELECT * FROM gpx_file_tags AS gft WHERE gft.gpx_id = gpx_files.id AND gft.tag = ?)")
     end
 
-    traces = Trace.find(:all, :include => :user, :conditions => conditions,
-                        :order => "timestamp DESC", :limit => 20)
+    traces = traces.order("timestamp DESC")
+    traces = traces.limit(20)
+    traces = traces.includes(:user)
 
     rss = OSM::GeoRSS.new
 
@@ -423,7 +414,7 @@ private
     end
 
     # Finally save the user's preferred privacy level
-    if pref = @user.preferences.find(:first, :conditions => {:k => "gps.trace.visibility"})
+    if pref = @user.preferences.where(:k => "gps.trace.visibility").first
       pref.v = visibility
       pref.save
     else
@@ -441,11 +432,11 @@ private
   end
 
   def default_visibility
-    visibility = @user.preferences.find(:first, :conditions => {:k => "gps.trace.visibility"})
+    visibility = @user.preferences.where(:k => "gps.trace.visibility").first
 
     if visibility
       visibility.v
-    elsif @user.preferences.find(:first, :conditions => {:k => "gps.trace.public", :v => "default"}).nil?
+    elsif @user.preferences.where(:k => "gps.trace.public", :v => "default").first.nil?
       "private"
     else
       "public"

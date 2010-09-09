@@ -15,7 +15,7 @@ class MessageController < ApplicationController
     @to_user = User.find_by_display_name(params[:display_name])
     if @to_user
       if params[:message]
-        if @user.sent_messages.count(:conditions => ["sent_on >= ?", Time.now.getutc - 1.hour]) >= MAX_MESSAGES_PER_HOUR
+        if @user.sent_messages.where("sent_on >= ?", Time.now.getutc - 1.hour).count >= MAX_MESSAGES_PER_HOUR
           flash[:error] = t 'message.new.limit_exceeded'
         else
           @message = Message.new(params[:message])
@@ -103,7 +103,7 @@ class MessageController < ApplicationController
   def mark
     if params[:message_id]
       id = params[:message_id]
-      message = Message.find_by_id(id, :conditions => ["to_user_id = ? or from_user_id = ?", @user.id, @user.id])
+      message = Message.where(:id => id).where("to_user_id = ? OR from_user_id = ?", @user.id, @user.id).first
       if params[:mark] == 'unread'
         message_read = false 
         notice = t 'message.mark.as_unread'
@@ -134,7 +134,7 @@ class MessageController < ApplicationController
   def delete
     if params[:message_id]
       id = params[:message_id]
-      message = Message.find_by_id(id, :conditions => ["to_user_id = ? or from_user_id = ?", @user.id, @user.id])
+      message = Message.where(:id => id).where("to_user_id = ? OR from_user_id = ?", @user.id, @user.id).first
       message.from_user_visible = false if message.sender == @user
       message.to_user_visible = false if message.recipient == @user
       if message.save

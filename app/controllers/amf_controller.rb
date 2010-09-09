@@ -314,7 +314,7 @@ class AmfController < ApplicationController
         relations = sql_find_relations_in_area_and_ways(xmin, ymin, xmax, ymax, ways.collect {|x| x[0]})
       else
         # find the way ids in an area
-        nodes_in_area = Node.find_by_area(ymin, xmin, ymax, xmax, :conditions => ["current_nodes.visible = ?", true], :include => :ways)
+        nodes_in_area = Node.bbox(ymin, xmin, ymax, xmax).visible.includes(:ways)
         ways = nodes_in_area.inject([]) { |sum, node| 
           visible_ways = node.ways.select { |w| w.visible? }
           sum + visible_ways.collect { |w| [w.id,w.version] }
@@ -326,8 +326,8 @@ class AmfController < ApplicationController
         points = nodes_not_used_in_area.collect { |n| [n.id, n.lon, n.lat, n.tags, n.version] }.uniq
 
         # find the relations used by those nodes and ways
-        relations = Relation.find_for_nodes(nodes_in_area.collect { |n| n.id }, :conditions => {:visible => true}) +
-                    Relation.find_for_ways(ways.collect { |w| w[0] }, :conditions => {:visible => true})
+        relations = Relation.nodes(nodes_in_area.collect { |n| n.id }).visible +
+                    Relation.ways(ways.collect { |w| w[0] }).visible
         relations = relations.collect { |relation| [relation.id,relation.version] }.uniq
       end
 
@@ -348,8 +348,8 @@ class AmfController < ApplicationController
       # see /config/application.yml
       check_boundaries(xmin, ymin, xmax, ymax)
 
-      nodes_in_area = Node.find_by_area(ymin, xmin, ymax, xmax, :conditions => ["current_ways.visible = ?", false], :include => :ways_via_history)
-      way_ids = nodes_in_area.collect { |node| node.ways_via_history_ids }.flatten.uniq
+      nodes_in_area = Node.bbox(ymin, xmin, ymax, xmax).joins(:ways_via_history).where(:current_ways => { :visible => false })
+      way_ids = nodes_in_area.collect { |node| node.ways_via_history.invisible.collect { |way| way.id } }.flatten.uniq
 
       [0,'',way_ids]
     end

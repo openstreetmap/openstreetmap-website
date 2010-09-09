@@ -23,6 +23,12 @@ class Relation < ActiveRecord::Base
   validates_numericality_of :changeset_id, :version, :integer_only => true
   validates_associated :changeset
   
+  scope :visible, where(:visible => true)
+  scope :invisible, where(:visible => false)
+  scope :nodes, lambda { |*ids| joins(:relation_members).where(:current_relation_members => { :member_type => "Node", :member_id => ids }) }
+  scope :ways, lambda { |*ids| joins(:relation_members).where(:current_relation_members => { :member_type => "Way", :member_id => ids }) }
+  scope :relations, lambda { |*ids| joins(:relation_members).where(:current_relation_members => { :member_type => "Relation", :member_id => ids }) }
+
   TYPES = ["node", "way", "relation"]
 
   def self.from_xml(xml, create=false)
@@ -147,36 +153,6 @@ class Relation < ActiveRecord::Base
     end
     return el1
   end 
-
-  def self.find_for_nodes(ids, options = {})
-    if ids.empty?
-      return []
-    else
-      self.with_scope(:find => { :joins => "INNER JOIN current_relation_members AS crm ON crm.id = current_relations.id", :conditions => "crm.member_type = 'Node' AND crm.member_id IN (#{ids.join(',')})" }) do
-        return self.find(:all, options)
-      end
-    end
-  end
-
-  def self.find_for_ways(ids, options = {})
-    if ids.empty?
-      return []
-    else
-      self.with_scope(:find => { :joins => "INNER JOIN current_relation_members AS crm ON crm.id = current_relations.id", :conditions => "crm.member_type = 'Way' AND crm.member_id IN (#{ids.join(',')})" }) do
-        return self.find(:all, options)
-      end
-    end
-  end
-
-  def self.find_for_relations(ids, options = {})
-    if ids.empty?
-      return []
-    else
-      self.with_scope(:find => { :joins => "INNER JOIN current_relation_members AS crm ON crm.id = current_relations.id", :conditions => "crm.member_type = 'Relation' AND crm.member_id IN (#{ids.join(',')})" }) do
-        return self.find(:all, options)
-      end
-    end
-  end
 
   # FIXME is this really needed?
   def members

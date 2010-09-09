@@ -80,7 +80,7 @@ class UserController < ApplicationController
   def save
     @title = t 'user.new.title'
 
-    if Acl.find_by_address(request.remote_ip, :conditions => {:k => "no_account_creation"})
+    if Acl.address(request.remote_ip).where(:k => "no_account_creation").exists?
       render :action => 'new'
     elsif params[:decline]
       if @user
@@ -139,7 +139,7 @@ class UserController < ApplicationController
 
   def account
     @title = t 'user.account.title'
-    @tokens = @user.oauth_tokens.find :all, :conditions => 'oauth_tokens.invalidated_at is null and oauth_tokens.authorized_at is not null'
+    @tokens = @user.oauth_tokens.where('oauth_tokens.invalidated_at is null and oauth_tokens.authorized_at is not null')
 
     if params[:user] and params[:user][:display_name] and params[:user][:description]
       @user.display_name = params[:user][:display_name]
@@ -208,7 +208,7 @@ class UserController < ApplicationController
     @title = t 'user.lost_password.title'
 
     if params[:user] and params[:user][:email]
-      user = User.find_by_email(params[:user][:email], :conditions => {:status => ["pending", "active", "confirmed"]})
+      user = User.where(:email => params[:user][:email], :status => ["pending", "active", "confirmed"]).first
 
       if user
         token = user.tokens.create
@@ -410,7 +410,7 @@ class UserController < ApplicationController
   def make_friend
     if params[:display_name]
       name = params[:display_name]
-      new_friend = User.find_by_display_name(name, :conditions => {:status => ["active", "confirmed"]})
+      new_friend = User.where(:display_name => name, :status => ["active", "confirmed"]).first
       friend = Friend.new
       friend.user_id = @user.id
       friend.friend_user_id = new_friend.id
@@ -436,7 +436,7 @@ class UserController < ApplicationController
   def remove_friend
     if params[:display_name]
       name = params[:display_name]
-      friend = User.find_by_display_name(name, :conditions => {:status => ["active", "confirmed"]})
+      friend = User.where(:display_name => name, :status => ["active", "confirmed"]).first
       if @user.is_friends_with?(friend)
         Friend.delete_all "user_id = #{@user.id} AND friend_user_id = #{friend.id}"
         flash[:notice] = t 'user.remove_friend.success', :name => friend.display_name

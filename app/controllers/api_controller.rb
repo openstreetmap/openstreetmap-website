@@ -39,7 +39,7 @@ class ApiController < ApplicationController
     end
 
     # get all the points
-    points = Tracepoint.find_by_area(min_lat, min_lon, max_lat, max_lon, :offset => offset, :limit => TRACEPOINTS_PER_PAGE, :order => "gpx_id DESC, trackid ASC, timestamp ASC" )
+    points = Tracepoint.bbox(min_lat, min_lon, max_lat, max_lon).offset(offset).limit(TRACEPOINTS_PER_PAGE).order("gpx_id DESC, trackid ASC, timestamp ASC")
 
     doc = XML::Document.new
     doc.encoding = XML::Encoding::UTF_8
@@ -145,7 +145,7 @@ class ApiController < ApplicationController
     end
 
     # FIXME um why is this area using a different order for the lat/lon from above???
-    @nodes = Node.find_by_area(min_lat, min_lon, max_lat, max_lon, :conditions => {:visible => true}, :include => :node_tags, :limit => MAX_NUMBER_OF_NODES+1)
+    @nodes = Node.bbox(min_lat, min_lon, max_lat, max_lon).where(:visible => true).includes(:node_tags).limit(MAX_NUMBER_OF_NODES+1)
     # get all the nodes, by tag not yet working, waiting for change from NickB
     # need to be @nodes (instance var) so tests in /spec can be performed
     #@nodes = Node.search(bbox, params[:tag])
@@ -191,7 +191,7 @@ class ApiController < ApplicationController
     nodes_to_fetch = (list_of_way_nodes.uniq - node_ids) - [0]
 
     if nodes_to_fetch.length > 0
-      @nodes += Node.find(nodes_to_fetch, :include => :node_tags)
+      @nodes += Node.includes(:node_tags).find(nodes_to_fetch)
     end
 
     visible_nodes = {}
@@ -213,15 +213,15 @@ class ApiController < ApplicationController
       end
     end 
 
-    relations = Relation.find_for_nodes(visible_nodes.keys, :conditions => {:visible => true}) +
-                Relation.find_for_ways(way_ids, :conditions => {:visible => true})
+    relations = Relation.nodes(visible_nodes.keys).visible +
+                Relation.ways(way_ids).visible
 
     # we do not normally return the "other" partners referenced by an relation, 
     # e.g. if we return a way A that is referenced by relation X, and there's 
     # another way B also referenced, that is not returned. But we do make 
     # an exception for cases where an relation references another *relation*; 
     # in that case we return that as well (but we don't go recursive here)
-    relations += Relation.find_for_relations(relations.collect { |r| r.id }, :conditions => {:visible => true})
+    relations += Relation.relations(relations.collect { |r| r.id }).visible
 
     # this "uniq" may be slightly inefficient; it may be better to first collect and output
     # all node-related relations, then find the *not yet covered* way-related ones etc.
@@ -252,8 +252,7 @@ class ApiController < ApplicationController
        endtime > starttime and endtime - starttime <= 24.hours
       mask = (1 << zoom) - 1
 
-      tiles = Node.count(:conditions => ["timestamp BETWEEN ? AND ?", starttime, endtime],
-                         :group => "maptile_for_point(latitude, longitude, #{zoom})")
+      tiles = Node.where(:timestamp => starttime .. endtime).group("maptile_for_point(latitude, longitude, #{zoom})").count
 
       doc = OSM::API.new.get_xml_doc
       changes = XML::Node.new 'changes'

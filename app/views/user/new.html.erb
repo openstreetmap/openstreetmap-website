@@ -1,6 +1,6 @@
 <h1><%= t 'user.new.heading' %></h1>
 
-<% if Acl.find_by_address(request.remote_ip, :conditions => {:k => "no_account_creation"}) %>
+<% if Acl.address(request.remote_ip).where(:k => "no_account_creation").exists? %>
 
 <p><%= t 'user.new.no_auto_account_create' %></p>
 

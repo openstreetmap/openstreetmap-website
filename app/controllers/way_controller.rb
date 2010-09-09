@@ -60,7 +60,7 @@ class WayController < ApplicationController
   end
 
   def full
-    way = Way.find(params[:id], :include => {:nodes => :node_tags})
+    way = Way.includes(:nodes => :node_tags).find(params[:id])
     
     if way.visible
       changeset_cache = {}
@@ -105,9 +105,7 @@ class WayController < ApplicationController
   # :id parameter. note that this used to return deleted ways as well, but
   # this seemed not to be the expected behaviour, so it was removed.
   def ways_for_node
-    wayids = WayNode.find(:all, 
-                          :conditions => ['node_id = ?', params[:id]]
-                          ).collect { |ws| ws.id[0] }.uniq
+    wayids = WayNode.where(:node_id => params[:id]).collect { |ws| ws.id[0] }.uniq
 
     doc = OSM::API.new.get_xml_doc
 

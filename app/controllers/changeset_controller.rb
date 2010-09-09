@@ -177,9 +177,7 @@ class ChangesetController < ApplicationController
           created << elt.to_xml_node
         else
           # get the previous version from the element history
-          prev_elt = elt.class.find(:first, :conditions => 
-                                    ['id = ? and version = ?',
-                                     elt.id, elt.version])
+          prev_elt = elt.class.where(:id => elt.id, :version => elt.version).first
           unless elt.visible
             # if the element isn't visible then it must have been deleted, so
             # output the *previous* XML

@@ -18,18 +18,15 @@ class OldNodeController < ApplicationController
   end
   
   def version
-    old_node = OldNode.find(:first, :conditions => {:id => params[:id], :version => params[:version]} )
-    if old_node.nil?
-      # (RecordNotFound is not raised with find :first...)
-      render :nothing => true, :status => :not_found
-      return
-    end
-    
-    response.headers['Last-Modified'] = old_node.timestamp.rfc822
-    
-    doc = OSM::API.new.get_xml_doc
-    doc.root << old_node.to_xml_node
+    if old_node = OldNode.where(:id => params[:id], :version => params[:version]).first
+      response.headers['Last-Modified'] = old_node.timestamp.rfc822
 
-    render :text => doc.to_s, :content_type => "text/xml"
+      doc = OSM::API.new.get_xml_doc
+      doc.root << old_node.to_xml_node
+
+      render :text => doc.to_s, :content_type => "text/xml"
+    else
+      render :nothing => true, :status => :not_found
+    end
   end
 end
