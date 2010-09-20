@@ -57,7 +57,7 @@ class OauthController < ApplicationController
           else
             redirect_url = @token.oob? ? @token.client_application.callback_url : @token.callback_url
           end
-          if redirect_url
+          if redirect_url and not redirect_url.empty?
             if @token.oauth10?
               redirect_to "#{redirect_url}?oauth_token=#{@token.token}"
             else
