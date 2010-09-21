@@ -36,7 +36,7 @@ class ChangesetTagTest < ActiveSupport::TestCase
       tag.k = k
       tag.v = "v"
       assert !tag.valid?, "Key #{k} should be too long"
-      assert tag.errors.invalid?(:k)
+      assert tag.errors[:k].any?
     end
   end
   
@@ -47,14 +47,14 @@ class ChangesetTagTest < ActiveSupport::TestCase
       tag.k = "k"
       tag.v = v
       assert !tag.valid?, "Value #{v} should be too long"
-      assert tag.errors.invalid?(:v)
+      assert tag.errors[:v].any?
     end
   end
   
   def test_empty_tag_invalid
     tag = ChangesetTag.new
     assert !tag.valid?, "Empty tag should be invalid"
-    assert tag.errors.invalid?(:id)
+    assert tag.errors[:id].any?
   end
   
   def test_uniqueness

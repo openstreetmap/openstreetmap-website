@@ -8,13 +8,13 @@ class UserTest < ActiveSupport::TestCase
   def test_invalid_with_empty_attributes
     user = User.new
     assert !user.valid?
-    assert user.errors.invalid?(:email)
-    assert user.errors.invalid?(:pass_crypt)
-    assert user.errors.invalid?(:display_name)
-    assert user.errors.invalid?(:email)
-    assert !user.errors.invalid?(:home_lat)
-    assert !user.errors.invalid?(:home_lon)
-    assert !user.errors.invalid?(:home_zoom)
+    assert user.errors[:email].any?
+    assert user.errors[:pass_crypt].any?
+    assert user.errors[:display_name].any?
+    assert user.errors[:email].any?
+    assert !user.errors[:home_lat].any?
+    assert !user.errors[:home_lon].any?
+    assert !user.errors[:home_zoom].any?
   end
   
   def test_unique_email
@@ -25,7 +25,7 @@ class UserTest < ActiveSupport::TestCase
       :data_public => 1,
       :description => "desc")
     assert !new_user.save
-    assert_equal "has already been taken", new_user.errors.on(:email)
+    assert new_user.errors[:email].include?("has already been taken")
   end
   
   def test_unique_display_name
@@ -36,7 +36,7 @@ class UserTest < ActiveSupport::TestCase
       :data_public => 1,
       :description => "desc")
     assert !new_user.save
-    assert_equal "has already been taken", new_user.errors.on(:display_name)
+    assert new_user.errors[:display_name].include?("has already been taken")
   end
   
   def test_email_valid
@@ -93,7 +93,7 @@ class UserTest < ActiveSupport::TestCase
       user = users(:normal_user)
       user.display_name = display_name
       assert !user.valid?, "#{display_name} is valid when it shouldn't be"
-      assert_equal "is invalid", user.errors.on(:display_name)
+      assert user.errors[:display_name].include?("is invalid")
     end
   end
   

@@ -15,9 +15,9 @@ class MessageTest < ActiveSupport::TestCase
   def test_check_empty_message_fails
     message = Message.new
     assert !message.valid?
-    assert message.errors.invalid?(:title)
-    assert message.errors.invalid?(:body)
-    assert message.errors.invalid?(:sent_on)
+    assert message.errors[:title].any?
+    assert message.errors[:body].any?
+    assert message.errors[:sent_on].any?
     assert true, message.message_read
   end
   

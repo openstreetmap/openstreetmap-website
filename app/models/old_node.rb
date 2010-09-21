@@ -17,7 +17,7 @@ class OldNode < ActiveRecord::Base
   belongs_to :changeset
  
   def validate_position
-    errors.add_to_base("Node is not in the world") unless in_world?
+    errors.add(:base, "Node is not in the world") unless in_world?
   end
 
   def self.from_node(node)

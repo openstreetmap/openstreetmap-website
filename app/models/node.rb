@@ -35,7 +35,7 @@ class Node < ActiveRecord::Base
 
   # Sanity check the latitude and longitude and add an error if it's broken
   def validate_position
-    errors.add_to_base("Node is not in the world") unless in_world?
+    errors.add(:base, "Node is not in the world") unless in_world?
   end
 
   #

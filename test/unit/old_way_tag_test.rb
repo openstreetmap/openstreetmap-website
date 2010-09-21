@@ -39,7 +39,7 @@ class WayTagTest < ActiveSupport::TestCase
       tag.k = i
       tag.v = "v"
       assert !tag.valid?, "Key should be too long"
-      assert tag.errors.invalid?(:k)
+      assert tag.errors[:k].any?
     end
   end
   
@@ -51,14 +51,14 @@ class WayTagTest < ActiveSupport::TestCase
       tag.k = "k"
       tag.v = i
       assert !tag.valid?, "Value should be too long"
-      assert tag.errors.invalid?(:v)
+      assert tag.errors[:v].any?
     end
   end
   
   def test_empty_node_tag_invalid
     tag = OldNodeTag.new
     assert !tag.valid?, "Empty tag should be invalid"
-    assert tag.errors.invalid?(:id)
+    assert tag.errors[:id].any?
   end
   
   def test_uniqueness

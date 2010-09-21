@@ -39,7 +39,7 @@ class OldNodeTest < ActiveSupport::TestCase
       tag.k = i
       tag.v = "v", "Key should be too long"
       assert !tag.valid?
-      assert tag.errors.invalid?(:k)
+      assert tag.errors[:k].any?
     end
   end
   
@@ -51,15 +51,15 @@ class OldNodeTest < ActiveSupport::TestCase
       tag.k = "k"
       tag.v = i
       assert !tag.valid?, "Value should be too long"
-      assert tag.errors.invalid?(:v)
+      assert tag.errors[:v].any?
     end
   end
   
   def test_empty_old_node_tag_invalid
     tag = OldNodeTag.new
     assert !tag.valid?, "Empty tag should be invalid"
-    assert tag.errors.invalid?(:id)
-    assert tag.errors.invalid?(:version)
+    assert tag.errors[:id].any?
+    assert tag.errors[:version].any?
   end
   
   def test_uniqueness
