@@ -66,7 +66,10 @@ class AmfController < ApplicationController
       end
 
       bodies=AMF.getint(req)            # Read number of bodies
-      render :content_type => "application/x-amf", :text => proc { |response, output| 
+
+      self.status = :ok
+      self.content_type = Mime::AMF
+      self.response_body = proc { |response, output| 
         a,b=bodies.divmod(256)
         output.write 0.chr+0.chr+0.chr+0.chr+a.chr+b.chr
         bodies.times do                 # Read each body
@@ -114,7 +117,10 @@ class AmfController < ApplicationController
       end
 
       bodies=AMF.getint(req)          # Read number of bodies
-      render :content_type => "application/x-amf", :text => proc { |response, output| 
+
+      self.status = :ok
+      self.content_type = Mime::AMF
+      self.response_body = proc { |response, output| 
         a,b=bodies.divmod(256)
         output.write 0.chr+0.chr+0.chr+0.chr+a.chr+b.chr
         bodies.times do               # Read each body

@@ -577,13 +577,8 @@ class AmfControllerTest < ActionController::TestCase
   # The result is a hash of message_ref => data.
   # The attribute @amf_result is initialised to this hash.
   def amf_parse_response
-    if @response.body.class.to_s == 'Proc'
-      res = StringIO.new()
-      @response.body.call @response, res
-      req = StringIO.new(res.string)
-    else
-      req = StringIO.new(@response.body)
-    end
+    req = StringIO.new(@response.body)
+
     req.read(2)   # version
 
     # parse through any headers
