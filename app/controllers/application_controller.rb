@@ -106,7 +106,7 @@ class ApplicationController < ActionController::Base
   # is optional.
   def setup_user_auth
     # try and setup using OAuth
-    if oauthenticate
+    if Authenticator.new(self, [:token]).allow?
       @user = current_token.user
     else
       username, passwd = get_auth_data # parse from headers
@@ -357,5 +357,9 @@ private
     end 
     return [user, pass] 
   end 
+
+  # override to stop oauth plugin sending errors
+  def invalid_oauth_response
+  end
 
 end
