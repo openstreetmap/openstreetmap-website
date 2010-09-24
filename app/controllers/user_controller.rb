@@ -46,7 +46,7 @@ class UserController < ApplicationController
       @title = t 'user.terms.title'
       @user = User.new(params[:user]) if params[:user]
 
-      if params[:user][:openid_url] and @user.pass_crypt.empty?
+      if params[:user] and params[:user][:openid_url] and @user.pass_crypt.empty?
         # We are creating an account with OpenID and no password
         # was specified so create a random one
         @user.pass_crypt = ActiveSupport::SecureRandom.base64(16) 
@@ -60,7 +60,7 @@ class UserController < ApplicationController
         elsif @user.terms_agreed?
           # Already agreed to terms, so just show settings
           redirect_to :action => :account, :display_name => @user.display_name
-        elsif params[:user][:openid_url]
+        elsif params[:user] and params[:user][:openid_url]
           # Verify OpenID before moving on
           session[:new_user] = @user
           openid_verify(params[:user][:openid_url], @user)
