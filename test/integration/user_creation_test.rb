@@ -159,5 +159,23 @@ class UserCreationTest < ActionController::IntegrationTest
     ActionMailer::Base.deliveries.clear
   end
 
+  def test_user_create_openid_failure
+    new_email = "newtester-openid2@osm.org"
+    display_name = "new_tester-openid2"
+    password = "testtest2"
+    assert_difference('User.count',0) do
+      assert_difference('ActionMailer::Base.deliveries.size',0) do
+        post "/user/terms",
+          {:user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :openid_url => "http://localhost:1123/john.doe?openid.failure=newuser", :pass_crypt => "", :pass_crypt_confirmation => ""}}
+        assert_response :redirect
+        res = openid_request(@response.redirected_to)
+        post '/user/terms', res
+        assert_response :success
+        assert_template 'user/new'
+      end
+    end
+
+    ActionMailer::Base.deliveries.clear
+  end
 
 end
