@@ -25,10 +25,10 @@ page << <<EOJ
         sides: 4,
         snapAngle: 90,
         irregular: true,
-        persist: true,
-        callbacks: { done: endDrag }
+        persist: true
       }
     });
+    browseBoxControl.handler.callbacks.done = endDrag;
     map.addControl(browseBoxControl);
 
     map.events.register("moveend", map, showData);

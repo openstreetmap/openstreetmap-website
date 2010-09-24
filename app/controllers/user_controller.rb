@@ -231,7 +231,7 @@ class UserController < ApplicationController
       else
         password_authentication(params[:username], params[:password])
       end
-    else
+    elsif flash[:notice].nil?
       flash.now[:notice] =  t 'user.login.notice'
     end
   end

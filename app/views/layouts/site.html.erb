@@ -117,7 +117,10 @@
       <% end %>
 
       <div id="left_menu" class="left_menu">
-        <a href="<%= t 'layouts.help_wiki_url' %>" title="<%= t 'layouts.help_wiki_tooltip' %>"><%= t 'layouts.help_wiki' %></a><br />
+        <%= t 'layouts.help_and_wiki',
+            :help => link_to(t('layouts.help'), t('layouts.help_url'), :title => t('layouts.help_title')),
+            :wiki => link_to(t('layouts.wiki'), t('layouts.wiki_url'), :title => t('layouts.wiki_title'))
+        %><br />
         <%= link_to t('layouts.copyright'), {:controller => 'site', :action => 'copyright'} %><br />
         <a href="http://blogs.openstreetmap.org/" title="<%= t 'layouts.news_blog_tooltip' %>"><%= t 'layouts.news_blog' %></a><br />
         <a href="<%= t 'layouts.shop_url' %>" title="<%= t 'layouts.shop_tooltip' %>"><%= t 'layouts.shop' %></a><br />
