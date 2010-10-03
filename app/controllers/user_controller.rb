@@ -427,13 +427,13 @@ private
     # If we don't appear to have a user for this URL then ask the
     # provider for some extra information to help with signup
     if openid_url and User.find_by_openid_url(openid_url)
-      optional = nil
+      required = nil
     else
-      optional = [:nickname, :email]
+      required = [:nickname, :email, "http://axschema.org/namePerson/friendly", "http://axschema.org/contact/email"]
     end
 
     # Start the authentication
-    authenticate_with_open_id(openid_expand_url(openid_url), :optional => optional) do |result, identity_url, registration|
+    authenticate_with_open_id(openid_expand_url(openid_url), :required => required) do |result, identity_url, sreg, ax|
       if result.successful?
         # We need to use the openid url passed back from the OpenID provider
         # rather than the one supplied by the user, as these can be different.
@@ -458,7 +458,9 @@ private
           # to the create account page with username and email filled
           # in if they have been given by the OpenID provider through
           # the simple registration protocol.
-          redirect_to :controller => 'user', :action => 'new', :nickname => registration['nickname'], :email => registration['email'], :openid => identity_url
+          nickname = sreg["nickname"] || ax["http://axschema.org/namePerson/friendly"]
+          email = sreg["email"] || ax["http://axschema.org/contact/email"]
+          redirect_to :controller => 'user', :action => 'new', :nickname => nickname, :email => email, :openid => identity_url
         end
       elsif result.missing?
         failed_login t('user.login.openid missing provider')
