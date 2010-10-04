@@ -247,7 +247,7 @@ class UserController < ApplicationController
   end
 
   def confirm
-    if params[:confirm_action]
+    if request.post?
       token = UserToken.find_by_token(params[:confirm_string])
       if token and !token.user.active?
         @user = token.user
@@ -264,13 +264,14 @@ class UserController < ApplicationController
           redirect_to :action => 'account', :display_name => @user.display_name
         end
       else
-        flash.now[:error] = t 'user.confirm.failure'
+        flash[:error] = t 'user.confirm.failure'
+        redirect_to :action => 'login', :display_name => @user.display_name
       end
     end
   end
 
   def confirm_email
-    if params[:confirm_action]
+    if request.post?
       token = UserToken.find_by_token(params[:confirm_string])
       if token and token.user.new_email?
         @user = token.user
@@ -286,7 +287,8 @@ class UserController < ApplicationController
         session[:user] = @user.id
         redirect_to :action => 'account', :display_name => @user.display_name
       else
-        flash.now[:error] = t 'user.confirm_email.failure'
+        flash[:error] = t 'user.confirm_email.failure'
+        redirect_to :action => 'account', :display_name => @user.display_name
       end
     end
   end
