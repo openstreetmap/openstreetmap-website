@@ -256,15 +256,16 @@ class UserController < ApplicationController
         @user.save!
         referer = token.referer
         token.destroy
-        flash[:notice] = t 'user.confirm.success'
         session[:user] = @user.id
         unless referer.nil?
+          flash[:notice] = t('user.confirm.success')
           redirect_to referer
         else
+          flash[:notice] = t('user.confirm.success') + "<br /><br />" + t('user.confirm.before you start')
           redirect_to :action => 'account', :display_name => @user.display_name
         end
       else
-        flash[:error] = t 'user.confirm.failure'
+        flash[:error] = t('user.confirm.failure')
         redirect_to :action => 'login', :display_name => @user.display_name
       end
     end
