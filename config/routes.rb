@@ -103,6 +103,8 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/user/new', :controller => 'user', :action => 'new'
   map.connect '/user/terms', :controller => 'user', :action => 'terms'
   map.connect '/user/save', :controller => 'user', :action => 'save'
+  map.connect '/user/:display_name/confirm/resend', :controller => 'user', :action => 'confirm_resend'
+  map.connect '/user/:display_name/confirm', :controller => 'user', :action => 'confirm'
   map.connect '/user/confirm', :controller => 'user', :action => 'confirm'
   map.connect '/user/confirm-email', :controller => 'user', :action => 'confirm_email'
   map.connect '/user/go_public', :controller => 'user', :action => 'go_public'
