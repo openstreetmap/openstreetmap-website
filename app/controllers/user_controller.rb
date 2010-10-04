@@ -70,7 +70,7 @@ class UserController < ApplicationController
       @user.terms_agreed = Time.now.getutc
 
       if @user.save
-        flash[:notice] = t 'user.new.flash create success message'
+        flash[:notice] = t 'user.new.flash create success message', :email => @user.email
         Notifier.deliver_signup_confirm(@user, @user.tokens.create(:referer => params[:referer]))
         redirect_to :action => 'login'
       else
