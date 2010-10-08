@@ -23,7 +23,7 @@ module GPX
 
       point = nil
 
-      while reader.read > 0
+      while reader.read
         if reader.node_type == XML::Reader::TYPE_ELEMENT
           if reader.name == "trkpt"
             point = TrkPt.new(@tracksegs, reader["lat"].to_f, reader["lon"].to_f)
