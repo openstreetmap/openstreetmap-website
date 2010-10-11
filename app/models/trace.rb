@@ -149,12 +149,23 @@ class Trace < ActiveRecord::Base
     el1 = XML::Node.new 'gpx_file'
     el1['id'] = self.id.to_s
     el1['name'] = self.name.to_s
-    el1['lat'] = self.latitude.to_s
-    el1['lon'] = self.longitude.to_s
+    el1['lat'] = self.latitude.to_s if self.inserted
+    el1['lon'] = self.longitude.to_s if self.inserted
     el1['user'] = self.user.display_name
     el1['visibility'] = self.visibility
     el1['pending'] = (!self.inserted).to_s
     el1['timestamp'] = self.timestamp.xmlschema
+
+    el2 = XML::Node.new 'description'
+    el2 << self.description
+    el1 << el2
+
+    self.tags.each do |tag|
+      el2 = XML::Node.new('tag')
+      el2 << tag.tag
+      el1 << el2
+    end
+
     return el1
   end
 
