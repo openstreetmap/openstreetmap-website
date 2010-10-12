@@ -32,7 +32,12 @@ class UserController < ApplicationController
 
       if @user
         if @user.invalid?
-          render :action => :new
+          if @user.new_record?
+            render :action => :new
+          else
+            flash[:errors] = @user.errors
+            redirect_to :action => :account, :display_name => @user.display_name
+          end
         elsif @user.terms_agreed?
           redirect_to :action => :account, :display_name => @user.display_name
         end
@@ -123,7 +128,7 @@ class UserController < ApplicationController
     else
       if flash[:errors]
         flash[:errors].each do |attr,msg|
-          attr = "new_email" if attr == "email"
+          attr = "new_email" if attr == "email" and !@user.new_email.nil?
           @user.errors.add(attr,msg)
         end
       end
