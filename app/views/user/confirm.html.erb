@@ -1,10 +1,17 @@
+<script>
+$("content").style.display = "none";
+</script>
+
 <h1><%= t 'user.confirm.heading' %></h1>
 
 <p><%= t 'user.confirm.press confirm button' %></p>
 
-<form method="post">
-<input type="hidden" name="confirm_string" value="<%= params[:confirm_string] %>">
-<input type="submit" name="confirm_action" value="<%= t 'user.confirm.button' %>">
+<form id="confirm" method="post">
+  <input type="display_name" name="confirm_string" value="<%= params[:display_name] %>">
+  <input type="hidden" name="confirm_string" value="<%= params[:confirm_string] %>">
+  <input type="submit" name="confirm_action" value="<%= t 'user.confirm.button' %>">
 </form>
 
-
+<script>
+$("confirm").submit();
+</script>

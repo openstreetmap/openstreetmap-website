@@ -4,22 +4,22 @@ class TraceController < ApplicationController
   before_filter :authorize_web
   before_filter :set_locale
   before_filter :require_user, :only => [:mine, :create, :edit, :delete]
-  before_filter :authorize, :only => [:api_details, :api_data, :api_create]
-  before_filter :check_database_readable, :except => [:api_details, :api_data, :api_create]
-  before_filter :check_database_writable, :only => [:create, :edit, :delete]
-  before_filter :check_api_readable, :only => [:api_details, :api_data]
-  before_filter :check_api_writable, :only => [:api_create]
-  before_filter :require_allow_read_gpx, :only => [:api_details, :api_data]
-  before_filter :require_allow_write_gpx, :only => [:api_create]
+  before_filter :authorize, :only => [:api_create, :api_read, :api_update, :api_delete, :api_data]
+  before_filter :check_database_readable, :except => [:api_read, :api_data]
+  before_filter :check_database_writable, :only => [:create, :edit, :delete, :api_create, :api_update, :api_delete]
+  before_filter :check_api_readable, :only => [:api_read, :api_data]
+  before_filter :check_api_writable, :only => [:api_create, :api_update, :api_delete]
+  before_filter :require_allow_read_gpx, :only => [:api_read, :api_data]
+  before_filter :require_allow_write_gpx, :only => [:api_create, :api_update, :api_delete]
   before_filter :offline_warning, :only => [:mine, :view]
-  before_filter :offline_redirect, :only => [:create, :edit, :delete, :data, :api_data, :api_create]
-  around_filter :api_call_handle_error, :only => [:api_details, :api_data, :api_create]
+  before_filter :offline_redirect, :only => [:create, :edit, :delete, :data, :api_create, :api_delete, :api_data]
+  around_filter :api_call_handle_error, :only => [:api_create, :api_read, :api_update, :api_delete, :api_data]
 
   caches_action :list, :unless => :logged_in?, :layout => false
   caches_action :view, :layout => false
   caches_action :georss, :layout => true
-  cache_sweeper :trace_sweeper, :only => [:create, :edit, :delete, :api_create], :unless => STATUS == :database_offline
-  cache_sweeper :tracetag_sweeper, :only => [:create, :edit, :delete, :api_create], :unless => STATUS == :database_offline
+  cache_sweeper :trace_sweeper, :only => [:create, :edit, :delete, :api_create, :api_update, :api_delete], :unless => STATUS == :database_offline
+  cache_sweeper :tracetag_sweeper, :only => [:create, :edit, :delete, :api_create, :api_update, :api_delete], :unless => STATUS == :database_offline
 
   # Counts and selects pages of GPX traces for various criteria (by user, tags, public etc.).
   #  target_user - if set, specifies the user to fetch traces for.  if not set will fetch all traces
@@ -280,16 +280,48 @@ class TraceController < ApplicationController
     render :nothing => true, :status => :not_found
   end
 
-  def api_details
-    trace = Trace.find(params[:id])
+  def api_read
+    trace = Trace.find(params[:id], :conditions => { :visible => true })
 
     if trace.public? or trace.user == @user
       render :text => trace.to_xml.to_s, :content_type => "text/xml"
     else
       render :nothing => true, :status => :forbidden
     end
-  rescue ActiveRecord::RecordNotFound
-    render :nothing => true, :status => :not_found
+  end
+
+  def api_update
+    trace = Trace.find(params[:id], :conditions => { :visible => true })
+
+    if trace.user == @user
+      new_trace = Trace.from_xml(request.raw_post)
+
+      unless new_trace and new_trace.id == trace.id
+        raise OSM::APIBadUserInput.new("The id in the url (#{trace.id}) is not the same as provided in the xml (#{new_trace.id})")
+      end
+
+      trace.description = new_trace.description
+      trace.tags = new_trace.tags
+      trace.visibility = new_trace.visibility
+      trace.save!
+
+      render :nothing => true, :status => :ok
+    else
+      render :nothing => true, :status => :forbidden
+    end
+  end
+
+  def api_delete
+    trace = Trace.find(params[:id], :conditions => { :visible => true })
+
+    if trace.user == @user
+      trace.visible = false
+      trace.save!
+
+      render :nothing => true, :status => :ok
+    else
+      render :nothing => true, :status => :forbidden
+    end
   end
 
   def api_data
@@ -304,8 +336,6 @@ class TraceController < ApplicationController
     else
       render :nothing => true, :status => :forbidden
     end
-  rescue ActiveRecord::RecordNotFound
-    render :nothing => true, :status => :not_found
   end
 
   def api_create

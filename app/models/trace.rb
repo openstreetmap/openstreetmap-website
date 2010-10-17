@@ -149,13 +149,70 @@ class Trace < ActiveRecord::Base
     el1 = XML::Node.new 'gpx_file'
     el1['id'] = self.id.to_s
     el1['name'] = self.name.to_s
-    el1['lat'] = self.latitude.to_s
-    el1['lon'] = self.longitude.to_s
+    el1['lat'] = self.latitude.to_s if self.inserted
+    el1['lon'] = self.longitude.to_s if self.inserted
     el1['user'] = self.user.display_name
     el1['visibility'] = self.visibility
     el1['pending'] = (!self.inserted).to_s
     el1['timestamp'] = self.timestamp.xmlschema
+
+    el2 = XML::Node.new 'description'
+    el2 << self.description
+    el1 << el2
+
+    self.tags.each do |tag|
+      el2 = XML::Node.new('tag')
+      el2 << tag.tag
+      el1 << el2
+    end
+
     return el1
+  end
+
+  # Read in xml as text and return it's Node object representation
+  def self.from_xml(xml, create=false)
+    begin
+      p = XML::Parser.string(xml)
+      doc = p.parse
+
+      doc.find('//osm/gpx_file').each do |pt|
+        return Trace.from_xml_node(pt, create)
+      end
+
+      raise OSM::APIBadXMLError.new("trace", xml, "XML doesn't contain an osm/gpx_file element.")
+    rescue LibXML::XML::Error, ArgumentError => ex
+      raise OSM::APIBadXMLError.new("trace", xml, ex.message)
+    end
+  end
+
+  def self.from_xml_node(pt, create=false)
+    trace = Trace.new
+    
+    raise OSM::APIBadXMLError.new("trace", pt, "visibility missing") if pt['visibility'].nil?
+    trace.visibility = pt['visibility']
+
+    unless create
+      raise OSM::APIBadXMLError.new("trace", pt, "ID is required when updating.") if pt['id'].nil?
+      trace.id = pt['id'].to_i
+      # .to_i will return 0 if there is no number that can be parsed. 
+      # We want to make sure that there is no id with zero anyway
+      raise OSM::APIBadUserInput.new("ID of trace cannot be zero when updating.") if trace.id == 0
+    end
+
+    # We don't care about the time, as it is explicitly set on create/update/delete
+    # We don't care about the visibility as it is implicit based on the action
+    # and set manually before the actual delete
+    trace.visible = true
+
+    description = pt.find('description').first
+    raise OSM::APIBadXMLError.new("trace", pt, "description missing") if description.nil?
+    trace.description = description.content
+
+    pt.find('tag').each do |tag|
+      trace.tags.build(:tag => tag.content)
+    end
+
+    return trace
   end
 
   def xml_file

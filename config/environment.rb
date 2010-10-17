@@ -20,7 +20,8 @@ Rails::Initializer.run do |config|
   end
   config.gem 'libxml-ruby', :version => '>= 1.1.1', :lib => 'libxml'
   config.gem 'rmagick', :lib => 'RMagick'
-  config.gem 'oauth', :version => '>= 0.3.6'
+  config.gem 'oauth', :version => '>= 0.4.3'
+  config.gem 'oauth-plugin', :version => '0.3.14'
   config.gem 'httpclient'
   config.gem 'SystemTimer', :version => '>= 1.1.3', :lib => 'system_timer'
   config.gem 'sanitize'

@@ -4,6 +4,7 @@ class Notifier < ActionMailer::Base
     subject I18n.t('notifier.signup_confirm.subject')
     body :url => url_for(:host => SERVER_URL,
                          :controller => "user", :action => "confirm",
+                         :display_name => user.display_name,
                          :confirm_string => token.token)
   end
 

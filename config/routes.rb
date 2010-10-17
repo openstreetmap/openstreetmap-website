@@ -62,9 +62,12 @@ ActionController::Routing::Routes.draw do |map|
   map.connect "api/#{API_VERSION}/user/gpx_files", :controller => 'user', :action => 'api_gpx_files'
  
   map.connect "api/#{API_VERSION}/gpx/create", :controller => 'trace', :action => 'api_create'
-  map.connect "api/#{API_VERSION}/gpx/:id/details", :controller => 'trace', :action => 'api_details'
-  map.connect "api/#{API_VERSION}/gpx/:id/data", :controller => 'trace', :action => 'api_data'
-  map.connect "api/#{API_VERSION}/gpx/:id/data.:format", :controller => 'trace', :action => 'api_data'
+  map.connect "api/#{API_VERSION}/gpx/:id", :controller => 'trace', :action => 'api_read', :id => /\d+/, :conditions => { :method => :get }
+  map.connect "api/#{API_VERSION}/gpx/:id", :controller => 'trace', :action => 'api_update', :id => /\d+/, :conditions => { :method => :put }
+  map.connect "api/#{API_VERSION}/gpx/:id", :controller => 'trace', :action => 'api_delete', :id => /\d+/, :conditions => { :method => :delete }
+  map.connect "api/#{API_VERSION}/gpx/:id/details", :controller => 'trace', :action => 'api_read', :id => /\d+/
+  map.connect "api/#{API_VERSION}/gpx/:id/data", :controller => 'trace', :action => 'api_data', :id => /\d+/
+  map.connect "api/#{API_VERSION}/gpx/:id/data.:format", :controller => 'trace', :action => 'api_data', :id => /\d+/
   
   # AMF (ActionScript) API
   
@@ -125,6 +128,8 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/user/new', :controller => 'user', :action => 'new'
   map.connect '/user/terms', :controller => 'user', :action => 'terms'
   map.connect '/user/save', :controller => 'user', :action => 'save'
+  map.connect '/user/:display_name/confirm/resend', :controller => 'user', :action => 'confirm_resend'
+  map.connect '/user/:display_name/confirm', :controller => 'user', :action => 'confirm'
   map.connect '/user/confirm', :controller => 'user', :action => 'confirm'
   map.connect '/user/confirm-email', :controller => 'user', :action => 'confirm_email'
   map.connect '/user/go_public', :controller => 'user', :action => 'go_public'
@@ -135,7 +140,6 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/index.html', :controller => 'site', :action => 'index'
   map.connect '/edit.html', :controller => 'site', :action => 'edit'
   map.connect '/export.html', :controller => 'site', :action => 'export'
-  map.connect '/search.html', :controller => 'way_tag', :action => 'search'
   map.connect '/login.html', :controller => 'user', :action => 'login'
   map.connect '/logout.html', :controller => 'user', :action => 'logout'
   map.connect '/create-account.html', :controller => 'user', :action => 'new'

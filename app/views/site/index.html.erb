@@ -17,12 +17,13 @@
 </noscript>
 
 <div id="map">
-  <div id="permalink">
-    <a href="/" id="permalinkanchor"><%= t 'site.index.permalink' %></a><br/>
-    <a href="/" id="shortlinkanchor"><%= t 'site.index.shortlink' %></a><br/>
-	<a id="ReportBug">Report a problem</a>	
-  </div>
-</div> 
+</div>
+
+<div id="permalink">
+  <a href="/" id="permalinkanchor"><%= t 'site.index.permalink' %></a><br/>
+  <a href="/" id="shortlinkanchor"><%= t 'site.index.shortlink' %></a><br/>
+  <a href="/" id="ReportBug">Report a problem</a>	
+</div>
 
 <div id="attribution">
   <table width="100%">
@@ -41,7 +42,7 @@
 </div>
 
 <%
-if params['mlon'] and params['mlat'] 
+if params['mlon'] and params['mlat']
     marker = true
     mlon = h(params['mlon'])
     mlat = h(params['mlat'])
@@ -69,7 +70,7 @@ if params['minlon'] and params['minlat'] and params['maxlon'] and params['maxlat
     minlat = h(params['minlat'])
     maxlon = h(params['maxlon'])
     maxlat = h(params['maxlat'])
-    box = true if params['box']=="yes" 
+    box = true if params['box']=="yes"
     object_zoom = false
 end
 
@@ -81,14 +82,14 @@ if params['lon'] and params['lat']
     layers = h(params['layers'])
     object_zoom = false
 elsif params['mlon'] and params['mlat']
-    lon = h(params['mlon']) 
+    lon = h(params['mlon'])
     lat = h(params['mlat'])
     zoom =  h(params['zoom'] || '12')
     layers = h(params['layers'])
     object_zoom = false
 elsif cookies.key?("_osm_location")
     lon,lat,zoom,layers = cookies["_osm_location"].split("|")
-elsif @user and !@user.home_lon.nil? and !@user.home_lat.nil? 
+elsif @user and !@user.home_lon.nil? and !@user.home_lat.nil?
     lon =  @user.home_lon
     lat =  @user.home_lat
     zoom = '10'
@@ -102,12 +103,12 @@ else
         maxlon = session[:location][:maxlon]
         maxlat = session[:location][:maxlat]
     else
-        lon =  '-0.1' 
-        lat =  '51.5' 
-        zoom =  h(params['zoom'] || '5') 
+        lon =  '-0.1'
+        lat =  '51.5'
+        zoom =  h(params['zoom'] || '5')
     end
 
-    layers = h(params['layers']) 
+    layers = h(params['layers'])
 end
 %>
 
@@ -261,7 +262,7 @@ end
 
     updatelinks(lonlat.lon, lonlat.lat, zoom, layers, extents.left, extents.bottom, extents.right, extents.top, objtype, objid);
 
-    expiry.setYear(expiry.getFullYear() + 10); 
+    expiry.setYear(expiry.getFullYear() + 10);
     document.cookie = "_osm_location=" + lonlat.lon + "|" + lonlat.lat + "|" + zoom + "|" + layers + "; expires=" + expiry.toGMTString();
   }
 
@@ -273,7 +274,7 @@ end
     content.style.width = document.documentElement.clientWidth - content.offsetLeft - rightMargin;
     content.style.height = document.documentElement.clientHeight - content.offsetTop - bottomMargin;
   }
-  
+
   function resizeMap() {
     var centre = map.getCenter();
     var zoom = map.getZoom();
@@ -297,7 +298,7 @@ end
 
     resizeMap();
   }
-  
+
   mapInit();
 
   window.onload = handleResize;

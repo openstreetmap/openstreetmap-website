@@ -4,7 +4,7 @@ class TraceTest < ActiveSupport::TestCase
   api_fixtures
   
   def test_trace_count
-    assert_equal 4, Trace.count
+    assert_equal 5, Trace.count
   end
   
 end

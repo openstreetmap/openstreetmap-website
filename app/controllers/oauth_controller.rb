@@ -52,9 +52,17 @@ class OauthController < ApplicationController
 
         if any_auth
           @token.authorize!(@user)
-          redirect_url = params[:oauth_callback] || @token.client_application.callback_url
-          if redirect_url
-            redirect_to "#{redirect_url}?oauth_token=#{@token.token}"
+          if @token.oauth10?
+            redirect_url = params[:oauth_callback] || @token.client_application.callback_url
+          else
+            redirect_url = @token.oob? ? @token.client_application.callback_url : @token.callback_url
+          end
+          if redirect_url and not redirect_url.empty?
+            if @token.oauth10?
+              redirect_to "#{redirect_url}?oauth_token=#{@token.token}"
+            else
+              redirect_to "#{redirect_url}?oauth_token=#{@token.token}&oauth_verifier=#{@token.verifier}"
+            end
           else
             render :action => "authorize_success"
           end
