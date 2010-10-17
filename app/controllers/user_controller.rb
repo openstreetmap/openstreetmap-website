@@ -55,8 +55,14 @@ class UserController < ApplicationController
 
       if @user
         if @user.invalid?
-          # Something is wrong, so rerender the form
-          render :action => :new
+          if @user.new_record?
+            # Something is wrong with a new user, so rerender the form
+            render :action => :new
+          else
+            # Error in existing user, so go to account settings
+            flash[:errors] = @user.errors
+            redirect_to :action => :account, :display_name => @user.display_name
+          end
         elsif @user.terms_agreed?
           # Already agreed to terms, so just show settings
           redirect_to :action => :account, :display_name => @user.display_name
@@ -152,6 +158,13 @@ class UserController < ApplicationController
       @user = session.delete(:new_user)
       openid_verify(nil, @user) do |user|
         update_user(user)
+      end
+    else
+      if flash[:errors]
+        flash[:errors].each do |attr,msg|
+          attr = "new_email" if attr == "email" and !@user.new_email.nil?
+          @user.errors.add(attr,msg)
+        end
       end
     end
   end
