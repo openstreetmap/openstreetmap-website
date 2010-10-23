@@ -62,8 +62,12 @@ ActionController::Routing::Routes.draw do |map|
   map.connect "api/#{API_VERSION}/user/gpx_files", :controller => 'user', :action => 'api_gpx_files'
  
   map.connect "api/#{API_VERSION}/gpx/create", :controller => 'trace', :action => 'api_create'
-  map.connect "api/#{API_VERSION}/gpx/:id/details", :controller => 'trace', :action => 'api_details'
-  map.connect "api/#{API_VERSION}/gpx/:id/data", :controller => 'trace', :action => 'api_data'
+  map.connect "api/#{API_VERSION}/gpx/:id", :controller => 'trace', :action => 'api_read', :id => /\d+/, :conditions => { :method => :get }
+  map.connect "api/#{API_VERSION}/gpx/:id", :controller => 'trace', :action => 'api_update', :id => /\d+/, :conditions => { :method => :put }
+  map.connect "api/#{API_VERSION}/gpx/:id", :controller => 'trace', :action => 'api_delete', :id => /\d+/, :conditions => { :method => :delete }
+  map.connect "api/#{API_VERSION}/gpx/:id/details", :controller => 'trace', :action => 'api_read', :id => /\d+/
+  map.connect "api/#{API_VERSION}/gpx/:id/data", :controller => 'trace', :action => 'api_data', :id => /\d+/
+  map.connect "api/#{API_VERSION}/gpx/:id/data.:format", :controller => 'trace', :action => 'api_data', :id => /\d+/
   
   # AMF (ActionScript) API
   
@@ -72,7 +76,6 @@ ActionController::Routing::Routes.draw do |map|
   map.connect "api/#{API_VERSION}/swf/trackpoints", :controller =>'swf', :action =>'trackpoints'
   
   # Data browsing
-  map.connect '/browse', :controller => 'changeset', :action => 'list'
   map.connect '/browse/start', :controller => 'browse', :action => 'start'
   map.connect '/browse/way/:id', :controller => 'browse', :action => 'way', :id => /\d+/
   map.connect '/browse/way/:id/history', :controller => 'browse', :action => 'way_history', :id => /\d+/
@@ -81,9 +84,12 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/browse/relation/:id', :controller => 'browse', :action => 'relation', :id => /\d+/
   map.connect '/browse/relation/:id/history', :controller => 'browse', :action => 'relation_history', :id => /\d+/
   map.changeset '/browse/changeset/:id', :controller => 'browse', :action => 'changeset', :id => /\d+/
-  map.connect '/browse/changesets', :controller => 'changeset', :action => 'list'
+  map.connect '/user/:display_name/edits/feed', :controller => 'changeset', :action => 'list', :format =>:atom
+  map.connect '/user/:display_name/edits', :controller => 'changeset', :action => 'list'
   map.connect '/browse/changesets/feed', :controller => 'changeset', :action => 'list', :format => :atom
-  
+  map.connect '/browse/changesets', :controller => 'changeset', :action => 'list'
+  map.connect '/browse', :controller => 'changeset', :action => 'list'
+
   # web site
   map.root :controller => 'site', :action => 'index'
   map.connect '/', :controller => 'site', :action => 'index'
@@ -100,6 +106,8 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/user/new', :controller => 'user', :action => 'new'
   map.connect '/user/terms', :controller => 'user', :action => 'terms'
   map.connect '/user/save', :controller => 'user', :action => 'save'
+  map.connect '/user/:display_name/confirm/resend', :controller => 'user', :action => 'confirm_resend'
+  map.connect '/user/:display_name/confirm', :controller => 'user', :action => 'confirm'
   map.connect '/user/confirm', :controller => 'user', :action => 'confirm'
   map.connect '/user/confirm-email', :controller => 'user', :action => 'confirm_email'
   map.connect '/user/go_public', :controller => 'user', :action => 'go_public'
@@ -110,7 +118,6 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/index.html', :controller => 'site', :action => 'index'
   map.connect '/edit.html', :controller => 'site', :action => 'edit'
   map.connect '/export.html', :controller => 'site', :action => 'export'
-  map.connect '/search.html', :controller => 'way_tag', :action => 'search'
   map.connect '/login.html', :controller => 'user', :action => 'login'
   map.connect '/logout.html', :controller => 'user', :action => 'logout'
   map.connect '/create-account.html', :controller => 'user', :action => 'new'
@@ -120,52 +127,52 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/go/:code', :controller => 'site', :action => 'permalink', :code => /[a-zA-Z0-9_@]+[=-]*/
 
   # traces  
-  map.connect '/traces', :controller => 'trace', :action => 'list'
-  map.connect '/traces/page/:page', :controller => 'trace', :action => 'list'
-  map.connect '/traces/rss', :controller => 'trace', :action => 'georss'
-  map.connect '/traces/tag/:tag', :controller => 'trace', :action => 'list'
+  map.connect '/user/:display_name/traces/tag/:tag/page/:page', :controller => 'trace', :action => 'list'
+  map.connect '/user/:display_name/traces/tag/:tag', :controller => 'trace', :action => 'list'
+  map.connect '/user/:display_name/traces/page/:page', :controller => 'trace', :action => 'list'
+  map.connect '/user/:display_name/traces', :controller => 'trace', :action => 'list'
+  map.connect '/user/:display_name/traces/tag/:tag/rss', :controller => 'trace', :action => 'georss'
+  map.connect '/user/:display_name/traces/rss', :controller => 'trace', :action => 'georss'
+  map.connect '/user/:display_name/traces/:id', :controller => 'trace', :action => 'view'
+  map.connect '/user/:display_name/traces/:id/picture', :controller => 'trace', :action => 'picture'
+  map.connect '/user/:display_name/traces/:id/icon', :controller => 'trace', :action => 'icon'
   map.connect '/traces/tag/:tag/page/:page', :controller => 'trace', :action => 'list'
+  map.connect '/traces/tag/:tag', :controller => 'trace', :action => 'list'
+  map.connect '/traces/page/:page', :controller => 'trace', :action => 'list'
+  map.connect '/traces', :controller => 'trace', :action => 'list'
   map.connect '/traces/tag/:tag/rss', :controller => 'trace', :action => 'georss'
-  map.connect '/traces/mine', :controller => 'trace', :action => 'mine'
-  map.connect '/traces/mine/page/:page', :controller => 'trace', :action => 'mine'
-  map.connect '/traces/mine/tag/:tag', :controller => 'trace', :action => 'mine'
+  map.connect '/traces/rss', :controller => 'trace', :action => 'georss'
   map.connect '/traces/mine/tag/:tag/page/:page', :controller => 'trace', :action => 'mine'
+  map.connect '/traces/mine/tag/:tag', :controller => 'trace', :action => 'mine'
+  map.connect '/traces/mine/page/:page', :controller => 'trace', :action => 'mine'
+  map.connect '/traces/mine', :controller => 'trace', :action => 'mine'
   map.connect '/trace/create', :controller => 'trace', :action => 'create'
   map.connect '/trace/:id/data', :controller => 'trace', :action => 'data'
   map.connect '/trace/:id/data.:format', :controller => 'trace', :action => 'data'
   map.connect '/trace/:id/edit', :controller => 'trace', :action => 'edit'
   map.connect '/trace/:id/delete', :controller => 'trace', :action => 'delete'
-  map.connect '/user/:display_name/traces', :controller => 'trace', :action => 'list'
-  map.connect '/user/:display_name/traces/page/:page', :controller => 'trace', :action => 'list'
-  map.connect '/user/:display_name/traces/rss', :controller => 'trace', :action => 'georss'
-  map.connect '/user/:display_name/traces/tag/:tag', :controller => 'trace', :action => 'list'
-  map.connect '/user/:display_name/traces/tag/:tag/page/:page', :controller => 'trace', :action => 'list'
-  map.connect '/user/:display_name/traces/tag/:tag/rss', :controller => 'trace', :action => 'georss'
-  map.connect '/user/:display_name/traces/:id', :controller => 'trace', :action => 'view'
-  map.connect '/user/:display_name/traces/:id/picture', :controller => 'trace', :action => 'picture'
-  map.connect '/user/:display_name/traces/:id/icon', :controller => 'trace', :action => 'icon'
 
-  # user pages
-  map.connect '/user/:display_name', :controller => 'user', :action => 'view'
-  map.connect '/user/:display_name/edits', :controller => 'changeset', :action => 'list'
-  map.connect '/user/:display_name/edits/feed', :controller => 'changeset', :action => 'list', :format =>:atom
-  map.connect '/user/:display_name/make_friend', :controller => 'user', :action => 'make_friend'
-  map.connect '/user/:display_name/remove_friend', :controller => 'user', :action => 'remove_friend'
+  # diary pages
+  map.connect '/diary/new', :controller => 'diary_entry', :action => 'new'
+  map.connect '/user/:display_name/diary/rss', :controller => 'diary_entry', :action => 'rss'
+  map.connect '/diary/:language/rss', :controller => 'diary_entry', :action => 'rss'
+  map.connect '/diary/rss', :controller => 'diary_entry', :action => 'rss'
   map.connect '/user/:display_name/diary', :controller => 'diary_entry', :action => 'list'
+  map.connect '/diary/:language', :controller => 'diary_entry', :action => 'list'
+  map.connect '/diary', :controller => 'diary_entry', :action => 'list'
   map.connect '/user/:display_name/diary/:id', :controller => 'diary_entry', :action => 'view', :id => /\d+/
   map.connect '/user/:display_name/diary/:id/newcomment', :controller => 'diary_entry', :action => 'comment', :id => /\d+/
-  map.connect '/user/:display_name/diary/rss', :controller => 'diary_entry', :action => 'rss'
   map.connect '/user/:display_name/diary/:id/edit', :controller => 'diary_entry', :action => 'edit', :id => /\d+/
   map.connect '/user/:display_name/diary/:id/hide', :controller => 'diary_entry', :action => 'hide', :id => /\d+/
   map.connect '/user/:display_name/diary/:id/hidecomment/:comment', :controller => 'diary_entry', :action => 'hidecomment', :id => /\d+/, :comment => /\d+/
+
+  # user pages
+  map.connect '/user/:display_name', :controller => 'user', :action => 'view'
+  map.connect '/user/:display_name/make_friend', :controller => 'user', :action => 'make_friend'
+  map.connect '/user/:display_name/remove_friend', :controller => 'user', :action => 'remove_friend'
   map.connect '/user/:display_name/account', :controller => 'user', :action => 'account'
   map.connect '/user/:display_name/set_status', :controller => 'user', :action => 'set_status'
   map.connect '/user/:display_name/delete', :controller => 'user', :action => 'delete'
-  map.connect '/diary/new', :controller => 'diary_entry', :action => 'new'
-  map.connect '/diary', :controller => 'diary_entry', :action => 'list'
-  map.connect '/diary/rss', :controller => 'diary_entry', :action => 'rss'
-  map.connect '/diary/:language', :controller => 'diary_entry', :action => 'list'
-  map.connect '/diary/:language/rss', :controller => 'diary_entry', :action => 'rss'
 
   # user lists
   map.connect '/users', :controller => 'user', :action => 'list'
@@ -215,9 +222,9 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/user/:display_name/role/:role/revoke', :controller => 'user_roles', :action => 'revoke'
   map.connect '/user/:display_name/blocks', :controller => 'user_blocks', :action => 'blocks_on'
   map.connect '/user/:display_name/blocks_by', :controller => 'user_blocks', :action => 'blocks_by'
+  map.connect '/blocks/new/:display_name', :controller => 'user_blocks', :action => 'new'
   map.resources :user_blocks, :as => 'blocks'
   map.connect '/blocks/:id/revoke', :controller => 'user_blocks', :action => 'revoke'
-  map.connect '/blocks/new/:display_name', :controller => 'user_blocks', :action => 'new'
 
   # fall through
   map.connect ':controller/:id/:action'

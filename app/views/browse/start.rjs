@@ -25,10 +25,10 @@ page << <<EOJ
         sides: 4,
         snapAngle: 90,
         irregular: true,
-        persist: true,
-        callbacks: { done: endDrag }
+        persist: true
       }
     });
+    browseBoxControl.handler.callbacks.done = endDrag;
     map.addControl(browseBoxControl);
 
     map.events.register("moveend", map, showData);
@@ -185,8 +185,8 @@ page << <<EOJ
     var projected = bounds.clone().transform(new OpenLayers.Projection("EPSG:900913"), new OpenLayers.Projection("EPSG:4326"));
     var size = projected.getWidth() * projected.getHeight();
 
-    if (size > #{APP_CONFIG['max_request_area']}) {
-      setStatus(i18n("#{I18n.t('browse.start_rjs.unable_to_load_size', :max_bbox_size => APP_CONFIG['max_request_area'])}", { bbox_size: size }));
+    if (size > #{MAX_REQUEST_AREA}) {
+      setStatus(i18n("#{I18n.t('browse.start_rjs.unable_to_load_size', :max_bbox_size => MAX_REQUEST_AREA)}", { bbox_size: size }));
     } else {
       loadGML("/api/#{API_VERSION}/map?bbox=" + projected.toBBOX());
     }

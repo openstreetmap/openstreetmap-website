@@ -17,10 +17,10 @@ page << <<EOJ
         sides: 4,
         snapAngle: 90,
         irregular: true,
-        persist: true,
-        callbacks: { done: endDrag }
+        persist: true
       }
     });
+    box.handler.callbacks.done = endDrag;
     map.addControl(box);
 
     map.events.register("moveend", map, mapMoved);
@@ -190,7 +190,7 @@ page << <<EOJ
   function validateControls() {
     var bounds = new OpenLayers.Bounds($("minlon").value, $("minlat").value, $("maxlon").value, $("maxlat").value);
 
-    if (bounds.getWidth() * bounds.getHeight() > #{APP_CONFIG['max_request_area']}) {
+    if (bounds.getWidth() * bounds.getHeight() > #{MAX_REQUEST_AREA}) {
       $("export_osm_too_large").style.display = "block";
     } else {
       $("export_osm_too_large").style.display = "none";
@@ -198,7 +198,7 @@ page << <<EOJ
 
     var max_scale = maxMapnikScale();
 
-    if ($("format_osm").checked && bounds.getWidth() * bounds.getHeight() > #{APP_CONFIG['max_request_area']}) {
+    if ($("format_osm").checked && bounds.getWidth() * bounds.getHeight() > #{MAX_REQUEST_AREA}) {
       $("export_commit").disabled = true;
     } else if ($("format_mapnik").checked && $("mapnik_scale").value < max_scale) {
       $("export_commit").disabled = true;
@@ -227,13 +227,13 @@ page << <<EOJ
 
   function htmlUrlChanged() {
     var bounds = new OpenLayers.Bounds($("minlon").value, $("minlat").value, $("maxlon").value, $("maxlat").value);
-    var layerName = map.baseLayer.name.toLowerCase();
-    var url = "http://#{SERVER_URL}/export/embed.html?bbox=" + bounds.toBBOX() + "&layer=" + layerName;
+    var layerName = map.baseLayer.keyid;
+    var url = "http://#{SERVER_URL}/export/embed.html?bbox=" + bounds.toBBOX() + "&amp;layer=" + layerName;
     var markerUrl = "";
 
     if ($("marker_lat").value && $("marker_lon").value) {
-      markerUrl = "&mlat=" + $("marker_lat").value + "&mlon=" + $("marker_lon").value;
-      url += "&marker=" + $("marker_lat").value + "," + $("marker_lon").value;
+      markerUrl = "&amp;mlat=" + $("marker_lat").value + "&amp;mlon=" + $("marker_lon").value;
+      url += "&amp;marker=" + $("marker_lat").value + "," + $("marker_lon").value;
     } 
     
     var html = '<iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+url+'" style="border: 1px solid black"></iframe>';
@@ -248,7 +248,7 @@ page << <<EOJ
     
     var layers = getMapLayers();
 
-    html += '<br /><small><a href="http://#{SERVER_URL}/?lat='+center.lat+'&lon='+center.lon+'&zoom='+zoom+'&layers='+layers+markerUrl+'">'+"#{html_escape_unicode(I18n.t('export.start_rjs.view_larger_map'))}"+'</a></small>';
+    html += '<br /><small><a href="http://#{SERVER_URL}/?lat='+center.lat+'&amp;lon='+center.lon+'&amp;zoom='+zoom+'&amp;layers='+layers+markerUrl+'">'+"#{html_escape_unicode(I18n.t('export.start_rjs.view_larger_map'))}"+'</a></small>';
 
     $("export_html_text").value = html;
 

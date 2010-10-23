@@ -1,2 +1,0 @@
-class OldWayTagController < ApplicationController
-end

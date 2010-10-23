@@ -58,7 +58,7 @@ class Node < ActiveRecord::Base
  
     find_by_area(min_lat, min_lon, max_lat, max_lon,
                     :conditions => {:visible => true},
-                    :limit => APP_CONFIG['max_number_of_nodes']+1)  
+                    :limit => MAX_NUMBER_OF_NODES+1)  
   end
 
   # Read in xml as text and return it's Node object representation

@@ -1,4 +1,21 @@
 standard_settings: &standard_settings
+  # The server URL
+  server_url: "www.openstreetmap.org"
+  # The generator
+  generator: "OpenStreetMap server"
+  # Sender addresses for emails
+  email_from: "OpenStreetMap <webmaster@openstreetmap.org>"
+  email_return_path: "bounces@openstreetmap.org"
+  # API version
+  api_version: "0.6"
+  # Application status - posstible values are:
+  #   :online - online and operating normally
+  #   :api_readonly - site online but API in read-only mode
+  #   :api_offline - site online but API offline
+  #   :database_readonly - database and site in read-only mode
+  #   :database_offline - database offline with site in emergency mode
+  #   :gpx_offline - gpx storage offline
+  status: :online
   # The maximum area you're allowed to request, in square degrees
   max_request_area: 0.25
   # Number of GPS trace/trackpoints returned per-page
@@ -28,7 +45,17 @@ standard_settings: &standard_settings
   spam_threshold: 50
   # Default legale (jurisdiction location) for contributor terms
   default_legale: GB
- 
+  # Memory limits (in Mb)
+  #soft_memory_limit: 512
+  #hard_memory_limit: 2048
+  # Location of GPX traces and images
+  gpx_trace_dir: "/home/osm/traces"
+  gpx_image_dir: "/home/osm/images"
+  # Location of data for file columns
+  #file_column_root: ""
+  # Enable legacy OAuth 1.0 support
+  oauth_10_support: true
+
 development:
   <<: *standard_settings
 

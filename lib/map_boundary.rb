@@ -24,8 +24,8 @@ module MapBoundary
 
     # check the bbox isn't too large
     requested_area = (max_lat-min_lat)*(max_lon-min_lon)
-    if requested_area > APP_CONFIG['max_request_area']
-      raise OSM::APIBadBoundingBox.new("The maximum bbox size is " + APP_CONFIG['max_request_area'].to_s + 
+    if requested_area > MAX_REQUEST_AREA
+      raise OSM::APIBadBoundingBox.new("The maximum bbox size is " + MAX_REQUEST_AREA.to_s + 
         ", and your request was too large. Either request a smaller area, or use planet.osm")
     end
   end

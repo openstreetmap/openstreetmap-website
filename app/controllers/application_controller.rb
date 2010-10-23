@@ -2,7 +2,7 @@
 # Likewise, all the methods added will be available for all controllers.
 class ApplicationController < ActionController::Base
 
-  if OSM_STATUS == :database_readonly or OSM_STATUS == :database_offline
+  if STATUS == :database_readonly or STATUS == :database_offline
     session :off
   end
 
@@ -120,20 +120,20 @@ class ApplicationController < ActionController::Base
   end 
 
   def check_database_readable(need_api = false)
-    if OSM_STATUS == :database_offline or (need_api and OSM_STATUS == :api_offline)
+    if STATUS == :database_offline or (need_api and STATUS == :api_offline)
       redirect_to :controller => 'site', :action => 'offline'
     end
   end
 
   def check_database_writable(need_api = false)
-    if OSM_STATUS == :database_offline or OSM_STATUS == :database_readonly or
-       (need_api and (OSM_STATUS == :api_offline or OSM_STATUS == :api_readonly))
+    if STATUS == :database_offline or STATUS == :database_readonly or
+       (need_api and (STATUS == :api_offline or STATUS == :api_readonly))
       redirect_to :controller => 'site', :action => 'offline'
     end
   end
 
   def check_api_readable
-    if OSM_STATUS == :database_offline or OSM_STATUS == :api_offline
+    if STATUS == :database_offline or STATUS == :api_offline
       response.headers['Error'] = "Database offline for maintenance"
       render :nothing => true, :status => :service_unavailable
       return false
@@ -141,8 +141,8 @@ class ApplicationController < ActionController::Base
   end
 
   def check_api_writable
-    if OSM_STATUS == :database_offline or OSM_STATUS == :database_readonly or
-       OSM_STATUS == :api_offline or OSM_STATUS == :api_readonly
+    if STATUS == :database_offline or STATUS == :database_readonly or
+       STATUS == :api_offline or STATUS == :api_readonly
       response.headers['Error'] = "Database offline for maintenance"
       render :nothing => true, :status => :service_unavailable
       return false
@@ -219,7 +219,7 @@ class ApplicationController < ActionController::Base
   ##
   # wrap an api call in a timeout
   def api_call_timeout
-    SystemTimer.timeout_after(APP_CONFIG['api_timeout']) do
+    SystemTimer.timeout_after(API_TIMEOUT) do
       yield
     end
   rescue Timeout::Error
@@ -229,7 +229,7 @@ class ApplicationController < ActionController::Base
   ##
   # wrap a web page in a timeout
   def web_timeout
-    SystemTimer.timeout_after(APP_CONFIG['web_timeout']) do
+    SystemTimer.timeout_after(WEB_TIMEOUT) do
       yield
     end
   rescue ActionView::TemplateError => ex
@@ -249,18 +249,18 @@ class ApplicationController < ActionController::Base
     options = actions.extract_options!
     cache_path = options[:cache_path] || Hash.new
 
+    options[:unless] = case options[:unless]
+                       when NilClass then Array.new
+                       when Array then options[:unless]
+                       else unlessp = [ options[:unless] ]
+                       end
+
+    options[:unless].push(Proc.new do |controller|
+      controller.params.include?(:page)
+    end)
+
     options[:cache_path] = Proc.new do |controller|
-      user = controller.instance_variable_get("@user")
-
-      case
-      when user.nil? then user = :none
-      when user.display_name == controller.params[:display_name] then user = :self
-      when user.administrator? then user = :administrator
-      when user.moderator? then user = :moderator
-      else user = :other
-      end
-
-      cache_path.merge(controller.params).merge(:locale => I18n.locale, :user => user)
+      cache_path.merge(controller.params).merge(:locale => I18n.locale)
     end
 
     actions.push(options)
@@ -271,8 +271,9 @@ class ApplicationController < ActionController::Base
   ##
   # extend expire_action to expire all variants
   def expire_action(options = {})
-    path = ActionCachePath.path_for(self, options, false).gsub('?', '.').gsub(':', '.')
-    expire_fragment(Regexp.new(Regexp.escape(path) + "\\..*"))
+    I18n.available_locales.each do |locale|
+      super options.merge(:locale => locale)
+    end
   end
 
   ##
