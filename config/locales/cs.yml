@@ -59,6 +59,11 @@ cs:
       way: Cesta
       way_node: Uzel cesty
       way_tag: Tag cesty
+  application: 
+    require_cookies: 
+      cookies_needed: Vypadá to, že máte zakázány cookies – před pokračováním si je v prohlížeči zapněte.
+    setup_user_auth: 
+      blocked: Váš přístup k API byl zablokován. Další informace zjistíte přihlášením do webového rozhraní.
   browse: 
     changeset: 
       changeset: "Sada změn: {{id}}"
@@ -268,12 +273,17 @@ cs:
   diary_entry: 
     diary_comment: 
       comment_from: Komentář od {{link_user}} z {{comment_created_at}}
+      confirm: Potvrdit
+      hide_link: Skrýt tento komentář
     diary_entry: 
       comment_count: 
         few: "{{count}} komentáře"
         one: 1 komentář
         other: "{{count}} komentářů"
       comment_link: Okomentovat tento zápis
+      confirm: Potvrdit
+      edit_link: Upravit tento záznam
+      hide_link: Skrýt tento záznam
       posted_by: Zapsal {{link_user}} {{created}} v jazyce {{language_link}}
       reply_link: Odpovědět na tento zápis
     edit: 
@@ -285,6 +295,7 @@ cs:
       marker_text: Místo deníčkového záznamu
       save_button: Uložit
       subject: "Předmět:"
+      title: Upravit deníčkový záznam
       use_map_link: použít mapu
     feed: 
       all: 
@@ -300,7 +311,9 @@ cs:
       in_language_title: Deníčkové záznamy v jazyce {{language}}
       new: Nový záznam do deníčku
       new_title: Sepsat nový záznam do vašeho uživatelského deníčku
+      newer_entries: Novější záznamy
       no_entries: Žádné záznamy v deníčku
+      older_entries: Starší záznamy
       recent_entries: "Aktuální deníčkové záznamy:"
       title: Deníčky uživatelů
       user_title: Deníček uživatele {{user}}
@@ -310,6 +323,10 @@ cs:
       view: Zobrazit
     new: 
       title: Nový záznam do deníčku
+    no_such_entry: 
+      body: Je mi líto, ale žádný deníčkový záznam či komentář s ID {{id}} neexistuje. Zkontrolujte překlepy nebo jste možná klikli na chybný odkaz.
+      heading: Záznam s ID {{id}} neexistuje
+      title: Deníčkový záznam nenalezen
     no_such_user: 
       body: Lituji, ale uživatel se jménem {{user}} neexistuje. Zkontrolujte překlepy nebo jste možná klikli na chybný odkaz.
       heading: Uživatel {{user}} neexistuje
@@ -407,6 +424,7 @@ cs:
           courthouse: Soud
           crematorium: Krematorium
           dentist: Zubař
+          drinking_water: Pitná voda
           driving_school: Autoškola
           embassy: Velvyslanectví
           ferry_terminal: Přístaviště přívozu
@@ -415,6 +433,7 @@ cs:
           fuel: Čerpací stanice
           grave_yard: Hřbitov
           hospital: Nemocnice
+          hotel: Hotel
           hunting_stand: Posed
           kindergarten: Mateřská škola
           library: Knihovna
@@ -427,6 +446,7 @@ cs:
           post_office: Pošta
           prison: Věznice
           pub: Hospoda
+          public_building: Veřejná budova
           restaurant: Restaurace
           retirement_home: Domov důchodců
           school: Škola
@@ -434,6 +454,7 @@ cs:
           theatre: Divadlo
           toilets: Toalety
           townhall: Radnice
+          veterinary: Veterinární ordinace
         boundary: 
           administrative: Administrativní hranice
         building: 
@@ -611,6 +632,7 @@ cs:
     export: Export
     export_tooltip: Exportovat mapová data
     gps_traces: GPS stopy
+    gps_traces_tooltip: Spravovat GPS stopy
     help: Nápověda
     help_and_wiki: "{{help}} & {{wiki}}"
     help_title: Stránky s nápovědou k tomuto projektu
@@ -698,6 +720,14 @@ cs:
       send_message_to: Poslat novou zprávu uživateli {{name}}
       subject: Předmět
       title: Odeslat zprávu
+    no_such_message: 
+      body: Je mi líto, ale žádná zpráva s tímto ID neexistuje.
+      heading: Zpráva neexistuje
+      title: Zpráva neexistuje
+    no_such_user: 
+      body: Je mi líto, ale žádný uživatel s tímto jménem neexistuje.
+      heading: Uživatel nenalezen
+      title: Uživatel nenalezen
     outbox: 
       date: Datum
       inbox: doručená pošta
@@ -718,6 +748,7 @@ cs:
       reading_your_sent_messages: Čtení odeslaných zpráv
       reply_button: Odpovědět
       subject: Předmět
+      title: Čtení zprávy
       to: Komu
       unread_button: Označit jako nepřečtené
       wrong_user: Jste přihlášeni jako „{{user}}“, ale zpráva, kterou si chcete přečíst, není ani od, ani pro tohoto uživatele. Pokud si ji chcete přečíst, přihlaste se pod správným účtem.
@@ -808,7 +839,12 @@ cs:
       flash: Klientské informace úspěšně aktualizovány
   site: 
     edit: 
+      anon_edits_link_text: Proč to tak je?
       flash_player_required: Pokud chcete používat Potlatch, flashový editor OpenStreetMap, potřebujete přehrávač Flashe. Můžete si <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">stáhnout Flash Player z Adobe.com</a>. Pro editaci OpenStreetMap existuje <a href="http://wiki.openstreetmap.org/wiki/Editing">mnoho dalších možností</a>.
+      not_public: Nenastavili jste své editace jako veřejné.
+      not_public_description: Dokud tak neučiníte, nemůžete editovat mapu. Své editace můžete zveřejnit na {{user_page}}.
+      potlatch_unsaved_changes: Máte neuložené změny. (V Potlatchi odznačte aktuální cestu nebo bod, pokud editujete v živém režimu, nebo klikněte na tlačítko uložit, pokud tam je.)
+      user_page_link: uživatelské stránce
     index: 
       js_1: Buď používáte prohlížeč bez podpory JavaScriptu, nebo máte JavaScript zakázaný.
       js_2: OpenStreetMap používá pro svou interaktivní mapu JavaScript.
@@ -821,7 +857,7 @@ cs:
       shortlink: Krátký odkaz
     key: 
       map_key: Legenda
-      map_key_tooltip: Legenda pro vykreslení mapnikem na této úrovni přiblížení
+      map_key_tooltip: Legenda k mapě
       table: 
         entry: 
           admin: Administrativní hranice
@@ -888,7 +924,6 @@ cs:
           unclassified: Silnice
           unsurfaced: Nezpevněná cesta
           wood: Les
-        heading: Legenda pro z{{zoom_level}}
     search: 
       search: Hledat
       search_help: "příklady: „Příbram“, „Havlíčkova, Plzeň“, „CB2 5AQ“, nebo „post offices near Mělník“ <a href='http://wiki.openstreetmap.org/wiki/Search'>další příklady…</a>"
@@ -1050,13 +1085,15 @@ cs:
       heading: Potvrzení změny e-mailové adresy
       press confirm button: Pro potvrzení nové e-mailové adresy klikněte na níže zobrazené tlačítko.
       success: Vaše e-mailová adresa byla potvrzena, děkujeme za registraci!
+    confirm_resend: 
+      success: Poslali jsme na {{email}} novou potvrzovací zprávu, jakmile potvrdíte svůj účet, budete moci začít tvořit mapy.<br /><br />Pokud používáte nějaký protispamový systém, který vyžaduje potvrzení, nezapomeňte zařídit výjimku pro webmaster@openstreetmap.org, neboť na žádosti o potvrzení nejsme schopni reagovat.
     filter: 
       not_an_administrator: K provedení této akce musíte být správce.
     list: 
       heading: Uživatelé
       title: Uživatelé
     login: 
-      account not active: Je mi líto, ale váš uživatelský účet dosud nebyl aktivován.<br />Svůj účet si můžete aktivovat kliknutím na odkaz v potvrzovacím e-mailu.
+      account not active: Je mi líto, ale váš uživatelský účet dosud nebyl aktivován.<br />Svůj účet si můžete aktivovat kliknutím na odkaz v potvrzovacím e-mailu, případně si <a href="{{reconfirm}}">nechte poslat nový potvrzovací e-mail</a>.
       account suspended: Je nám líto, ale váš účet byl pozastaven kvůli podezřelé aktivitě.<br />Pokud to chcete řešit, kontaktujte {{webmaster}}.
       auth failure: Je mi líto, ale s uvedenými údaji se nemůžete přihlásit.
       create_account: vytvořit účet
@@ -1094,7 +1131,7 @@ cs:
       display name description: Vaše veřejně zobrazované uživatelské jméno. Můžete si ho později změnit ve svém nastavení.
       email address: "E-mailová adresa:"
       fill_form: Vyplňte následující formulář a my vám pošleme stručný e-mail, jak si účet aktivovat.
-      flash create success message: Uživatel byl úspěšně zaregistrován. Podívejte se do své e-mailové schránky na potvrzovací zprávu a budete tvořit mapy cobydup. :-)<br /><br />Uvědomte si, že dokud nepotvrdíte svou e-mailovou adresu, nebudete se moci přihlásit.<br /><br />Pokud používáte nějaký protispamový systém, který vyžaduje potvrzení, nezapomeňte zařídit výjimku pro webmaster@openstreetmap.org, neboť na žádosti o potvrzení nejsme schopni reagovat.
+      flash create success message: Děkujeme za registraci. Na {{email}} jsme poslali potvrzovací zprávu, jakmile potvrdíte svůj účet, budete moci začít tvořit mapy.<br /><br />Pokud používáte nějaký protispamový systém, který vyžaduje potvrzení, nezapomeňte zařídit výjimku pro webmaster@openstreetmap.org, neboť na žádosti o potvrzení nejsme schopni reagovat.
       heading: Vytvořit uživatelský účet
       license_agreement: Při potvrzení účtu budete muset souhlasit s <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">podmínkami pro přispěvatele</a>.
       no_auto_account_create: Bohužel za vás momentálně nejsme schopni vytvořit účet automaticky.
