@@ -8,6 +8,8 @@
 cs: 
   activerecord: 
     attributes: 
+      diary_comment: 
+        body: Text
       diary_entry: 
         language: Jazyk
         latitude: Šířka
@@ -18,9 +20,10 @@ cs:
         friend: Přítel
         user: Uživatel
       message: 
+        body: Text
         recipient: Příjemce
         sender: Odesílatel
-        title: Nadpis
+        title: Předmět
       trace: 
         description: Popis
         latitude: Šířka
@@ -32,6 +35,7 @@ cs:
       user: 
         active: Aktivní
         description: Popis
+        display_name: Zobrazované jméno
         email: E-mail
         languages: Jazyky
         pass_crypt: Heslo
@@ -39,6 +43,8 @@ cs:
       changeset: Sada změn
       changeset_tag: Tag sady změn
       country: Země
+      diary_comment: Komentář k deníčku
+      diary_entry: Deníčkový záznam
       friend: Přítel
       language: Jazyk
       message: Zpráva
@@ -56,6 +62,7 @@ cs:
       relation_member: Člen relace
       relation_tag: Tag relace
       user: Uživatel
+      user_preference: Uživatelské nastavení
       way: Cesta
       way_node: Uzel cesty
       way_tag: Tag cesty
@@ -428,15 +435,18 @@ cs:
           courthouse: Soud
           crematorium: Krematorium
           dentist: Zubař
+          doctors: Lékař
           drinking_water: Pitná voda
           driving_school: Autoškola
           embassy: Velvyslanectví
+          fast_food: Rychlé občerstvení
           ferry_terminal: Přístaviště přívozu
           fire_hydrant: Požární hydrant
           fire_station: Hasičská stanice
           fountain: Fontána
           fuel: Čerpací stanice
           grave_yard: Hřbitov
+          health_centre: Zdravotní středisko
           hospital: Nemocnice
           hotel: Hotel
           hunting_stand: Posed
@@ -444,6 +454,7 @@ cs:
           library: Knihovna
           marketplace: Tržiště
           mountain_rescue: Horská služba
+          nursing_home: Pečovatelský dům
           park: Park
           parking: Parkoviště
           place_of_worship: Náboženský objekt
@@ -464,9 +475,11 @@ cs:
           townhall: Radnice
           vending_machine: Prodejní automat
           veterinary: Veterinární ordinace
+          waste_basket: Odpadkový koš
         boundary: 
           administrative: Administrativní hranice
         building: 
+          church: Kostel
           city_hall: Radnice
           entrance: Vstup do objektu
           garage: Garáž
@@ -525,6 +538,7 @@ cs:
         landuse: 
           allotments: Zahrádkářská kolonie
           cemetery: Hřbitov
+          conservation: Chráněné území
           construction: Staveniště
           landfill: Skládka
           military: Vojenský prostor
@@ -631,7 +645,7 @@ cs:
           attraction: Turistická atrakce
           camp_site: Tábořiště, kemp
           caravan_site: Autokemping
-          chalet: Velká chata
+          chalet: Chalupa
           guest_house: Penzion
           hostel: Hostel
           hotel: Hotel
@@ -801,27 +815,89 @@ cs:
     sent_message_summary: 
       delete_button: Smazat
   notifier: 
+    diary_comment_notification: 
+      footer: Také si můžete komentář přečíst na {{readurl}}, komentovat na {{commenturl}} nebo odpovědět na {{replyurl}}
+      header: "{{from_user}} okomentoval váš nedávný záznam v deníčku na OpenStreetMap s předmětem {{subject}}:"
+      hi: Ahoj, uživateli {{to_user}},
+      subject: "[OpenStreetMap] {{user}} okomentoval váš deníčkový záznam"
     email_confirm: 
       subject: "[OpenStreetMap] Potvrzení vaší e-mailové adresy"
+    email_confirm_html: 
+      click_the_link: Pokud jste to byli vy, potvrďte změnu kliknutím na následující odkaz.
+      greeting: Ahoj,
+      hopefully_you: Někdo (snad vy) požádal o změnu e-mailové adresy na serveru {{server_url}} na {{new_address}}.
     email_confirm_plain: 
-      greeting: Dobrý den,
+      click_the_link: Pokud jste to byli vy, potvrďte změnu kliknutím na následující odkaz.
+      greeting: Ahoj,
+      hopefully_you_1: Někdo (snad vy) požádal o změnu e-mailové adresy na serveru
+      hopefully_you_2: "{{server_url}} na {{new_address}}."
     friend_notification: 
       befriend_them: Můžete si ho/ji také přidat jako přítele na {{befriendurl}}.
       had_added_you: "{{user}} si vás na OpenStreetMap přidal(a) jako přítele."
       see_their_profile: Jeho/její profil si můžete prohlédnout na {{userurl}}.
       subject: "[OpenStreetMap] {{user}} si vás přidal jako přítele"
+    gpx_notification: 
+      and_no_tags: a bez štítků
+      and_the_tags: "a následujícími štítky:"
+      failure: 
+        failed_to_import: "se nepodařilo nahrát. Chybové hlášení následuje:"
+        more_info_1: Další informace o chybách při importu GPX a rady, jak se
+        more_info_2: "jim vyhnout, naleznete na:"
+        subject: "[OpenStreetMap] Neúspěšný import GPX"
+      greeting: Ahoj,
+      success: 
+        loaded_successfully: se úspěšně nahrál s {{trace_points}} z možných {{possible_points}} bodů.
+        subject: "[OpenStreetMap] Úspěšný import GPX"
+      with_description: s popisem
+      your_gpx_file: Vypadá to, že váš GPX soubor
     lost_password: 
       subject: "[OpenStreetMap] Žádost o nové heslo"
     lost_password_html: 
       click_the_link: Pokud tedy chcete, kliknutím na níže uvedený odkaz získáte nové heslo.
+      greeting: Ahoj,
       hopefully_you: Někdo (patrně vy) požádal o vygenerování nového hesla pro uživatele serveru openstreetmap.org s touto e-mailovou adresou.
+    lost_password_plain: 
+      click_the_link: Pokud tedy chcete, kliknutím na níže uvedený odkaz získáte nové heslo.
+      greeting: Ahoj,
+      hopefully_you_1: Někdo (patrně vy) požádal o vygenerování nového hesla pro uživatele
+      hopefully_you_2: serveru openstreetmap.org s touto e-mailovou adresou.
     message_notification: 
       footer1: Také si můžete zprávu přečíst na {{readurl}}
       footer2: a můžete odpovědět na {{replyurl}}
       header: "{{from_user}} vám poslal(a) prostřednictvím OpenStreetMap zprávu s předmětem {{subject}}:"
       hi: Dobrý den, uživateli {{to_user}},
+    signup_confirm: 
+      subject: "[OpenStreetMap] Potvrzení vaší e-mailové adresy"
+    signup_confirm_html: 
+      ask_questions: Libovolné otázky k OpenStreetMap můžete klást na našem <a href="http://help.openstreetmap.org/">webu otázek a odpovědí</a>.
+      click_the_link: Pokud jste to vy, vítejte! Kliknutím na následující odkaz potvrdíte svůj účet, níže se dozvíte další informace o OpenStreetMap.
+      current_user: Seznam existujících uživatelů v kategoriích podle místa bydliště je dostupný v <a href="http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region">kategorii Users by geographical region</a>.
+      get_reading: Přečtěte si něco o OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Cz:Beginners_Guide">na wiki</a>, sledujte aktuální dění na našem <a href="http://blog.openstreetmap.org/">blogu</a> či <a href="http://twitter.com/openstreetmap">Twitteru</a> nebo si projděte blog zakladatele OpenStreetMap Steva Coasta <a href="http://www.opengeodata.org/">OpenGeoData</a> se stručnou historií projektu i ve formě <a href="http://www.opengeodata.org/?cat=13">podcastů</a>!
+      greeting: Ahoj!
+      hopefully_you: Někdo (snad vy) si chce založit účet na
+      introductory_video: Můžete si prohlédnout {{introductory_video_link}}.
+      more_videos: Máme i {{more_videos_link}}.
+      more_videos_here: další videa
+      user_wiki_page: Doporučujeme, abyste si na wiki založili uživatelskou stránku, na které kategoriemi označíte, odkud pocházíte, například <a href="http://wiki.openstreetmap.org/wiki/Category:Users_in_Praha">[[Category:Users in Praha]]</a>.
+      video_to_openstreetmap: úvodní video k OpenStreetMap
+      wiki_signup: Také se můžete chtít <a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Cz:Main_Page&uselang=cs">zaregistrovat na OpenStreetMap wiki</a>.
     signup_confirm_plain: 
+      ask_questions: "Libovolné otázky k OpenStreetMap můžete klást na našem webu otázek a odpovědí:"
+      blog_and_twitter: "Sledujte aktuální dění na našem blogu či Twitteru:"
+      click_the_link_1: Pokud jste to vy, vítejte! Kliknutím na následující odkaz potvrdíte
+      click_the_link_2: svůj účet, níže se dozvíte další informace o OpenStreetMap.
+      current_user_1: Seznam existujících uživatelů v kategoriích podle místa bydliště
+      current_user_2: "je dostupný na:"
+      greeting: Ahoj!
+      hopefully_you: Někdo (snad vy) si chce založit účet na
+      introductory_video: "Můžete si prohlédnout úvodní video k OpenStreetMap:"
+      more_videos: "Další videa najdete na:"
+      opengeodata: "OpenGeoData.org je blog zakladatele OpenStreetMap Steva Coasta, nabízí i podcasty:"
+      the_wiki: "Přečtěte si něco o OpenStreetMap na wiki:"
       the_wiki_url: http://wiki.openstreetmap.org/wiki/Cs:Beginners_Guide?uselang=cs
+      user_wiki_1: Doporučujeme, abyste si na wiki založili uživatelskou stránku, na které
+      user_wiki_2: kategoriemi označíte, odkud pocházíte, například [[Category:Users in Praha]].
+      wiki_signup: "Také se můžete chtít zaregistrovat na OpenStreetMap wiki:"
       wiki_signup_url: http://wiki.openstreetmap.org/index.php?title=Special:UserLogin&type=signup&returnto=Cs:Main_Page&uselang=cs
   oauth: 
     oauthorize: 
@@ -1122,7 +1198,14 @@ cs:
       title: Upravit účet
       update home location on click: Upravit pozici domova při kliknutí na mapu?
     confirm: 
+      already active: Tento uživatelský účet už byl potvrzen.
+      before you start: Víme, že se asi nemůžete dočkat, až začnete mapovat, ale předtím byste mohli chtít v následujícím formuláři vyplnit několik informaci o sobě.
       button: Potvrdit
+      heading: Potvrzení uživatelského účtu
+      press confirm button: Svůj účet aktivujte stisknutím níže zobrazeného tlačítka.
+      reconfirm: Pokud již od registrace uběhl nějaký čas, možná si budete muset <a href="{{reconfirm}}">nechat poslat nový potvrzovací e-mail</a>.
+      success: Účet potvrzen, děkujeme za registraci!
+      unknown token: Zadaný potvrzovací kód neexistuje.
     confirm_email: 
       button: Potvrdit
       failure: Tento kód byl už pro potvrzení e-mailové adresy použit.
@@ -1130,11 +1213,15 @@ cs:
       press confirm button: Pro potvrzení nové e-mailové adresy klikněte na níže zobrazené tlačítko.
       success: Vaše e-mailová adresa byla potvrzena, děkujeme za registraci!
     confirm_resend: 
+      failure: Uživatel {{name}} neexistuje.
       success: Poslali jsme na {{email}} novou potvrzovací zprávu, jakmile potvrdíte svůj účet, budete moci začít tvořit mapy.<br /><br />Pokud používáte nějaký protispamový systém, který vyžaduje potvrzení, nezapomeňte zařídit výjimku pro webmaster@openstreetmap.org, neboť na žádosti o potvrzení nejsme schopni reagovat.
     filter: 
       not_an_administrator: K provedení této akce musíte být správce.
     list: 
       heading: Uživatelé
+      showing: 
+        one: Zobrazuje se stránka {{page}} ({{first_item}} z {{items}})
+        other: Zobrazuje se stránka {{page}} ({{first_item}}–{{last_item}} z {{items}})
       title: Uživatelé
     login: 
       account not active: Je mi líto, ale váš uživatelský účet dosud nebyl aktivován.<br />Svůj účet si můžete aktivovat kliknutím na odkaz v potvrzovacím e-mailu, případně si <a href="{{reconfirm}}">nechte poslat nový potvrzovací e-mail</a>.
