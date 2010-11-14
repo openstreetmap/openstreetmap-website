@@ -33,6 +33,7 @@ class User < ActiveRecord::Base
   validates_numericality_of :home_lat, :allow_nil => true
   validates_numericality_of :home_lon, :allow_nil => true
   validates_numericality_of :home_zoom, :only_integer => true, :allow_nil => true
+  validates_inclusion_of :preferred_editor, :in => Editors::ALL_EDITORS, :allow_nil => true
 
   before_save :encrypt_password
 

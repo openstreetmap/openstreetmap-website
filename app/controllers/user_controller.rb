@@ -109,6 +109,8 @@ class UserController < ApplicationController
       @user.home_lat = params[:user][:home_lat]
       @user.home_lon = params[:user][:home_lon]
 
+      @user.preferred_editor = params[:user][:preferred_editor]
+
       if @user.save
         set_locale
 
