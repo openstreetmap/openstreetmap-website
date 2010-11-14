@@ -19,6 +19,9 @@
 <div id="map">
 </div>
 
+<iframe id="linkloader" style="display: none">
+</iframe>
+
 <div id="permalink">
   <a href="/" id="permalinkanchor"><%= t 'site.index.permalink' %></a><br/>
   <a href="/" id="shortlinkanchor"><%= t 'site.index.shortlink' %></a>
@@ -267,10 +270,32 @@ end
     resizeMap();
   }
 
+  function josmEditHandler() {
+    var extent = getMapExtent();
+
+    $("linkloader").src = "http://127.0.0.1:8111/load_and_zoom?left=" + extent.left + "&top=" + extent.top + "&right=" + extent.right + "&bottom=" + extent.bottom;
+
+    return false;
+  }
+
+  function installEditHandler() {
+    <% if preferred_editor == "josm" %>
+      $("editanchor").onclick =josmEditHandler;
+
+      <% if params[:action] == "edit" %>
+        josmEditHandler();
+      <% end %>
+    <% end %>
+  }
+
   mapInit();
 
   window.onload = handleResize;
   window.onresize = handleResize;
+
+  Event.observe(window, 'load', installEditHandler);
+  Event.observe(window, 'load', handleResize);
+  Event.observe(window, 'resize', handleResize);
 
   <% if params['action'] == 'export' %>
   <%= remote_function :url => { :controller => 'export', :action => 'start' } %>

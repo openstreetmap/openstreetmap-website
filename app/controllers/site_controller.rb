@@ -32,36 +32,40 @@ class SiteController < ApplicationController
   end
 
   def edit
-    session[:token] = @user.tokens.create.token unless session[:token] and UserToken.find_by_token(session[:token])
-    
-    @preferred_editor = @user.preferred_editor || DEFAULT_EDITOR
+    editor = @user.preferred_editor || DEFAULT_EDITOR
 
-    # Decide on a lat lon to initialise potlatch with. Various ways of doing this
-    if params['lon'] and params['lat']
-      @lon = params['lon'].to_f
-      @lat = params['lat'].to_f
-      @zoom = params['zoom'].to_i
-      
-    elsif params['mlon'] and params['mlat'] 
-      @lon = params['mlon'].to_f
-      @lat = params['mlat'].to_f
-      @zoom = params['zoom'].to_i
-      
-    elsif params['gpx']
-      #use gpx id to locate (dealt with below)
-      
-    elsif cookies.key?("_osm_location")
-      @lon, @lat, @zoom, layers = cookies["_osm_location"].split("|")
-      
-    elsif @user and !@user.home_lon.nil? and !@user.home_lat.nil? 
-      @lon = @user.home_lon
-      @lat = @user.home_lat
-      
+    if editor == "josm"
+      render :action => :index
     else
-      #catch all.  Do nothing.  lat=nil, lon=nil
-      #Currently this results in potlatch starting up at 0,0 (Atlantic ocean).
-    end
+      session[:token] = @user.tokens.create.token unless session[:token] and UserToken.find_by_token(session[:token])
 
-    @zoom = '14' if @zoom.nil?
+      # Decide on a lat lon to initialise potlatch with. Various ways of doing this
+      if params['lon'] and params['lat']
+        @lon = params['lon'].to_f
+        @lat = params['lat'].to_f
+        @zoom = params['zoom'].to_i
+
+      elsif params['mlon'] and params['mlat']
+        @lon = params['mlon'].to_f
+        @lat = params['mlat'].to_f
+        @zoom = params['zoom'].to_i
+
+      elsif params['gpx']
+        #use gpx id to locate (dealt with below)
+
+      elsif cookies.key?("_osm_location")
+        @lon, @lat, @zoom, layers = cookies["_osm_location"].split("|")
+
+      elsif @user and !@user.home_lon.nil? and !@user.home_lat.nil?
+        @lon = @user.home_lon
+        @lat = @user.home_lat
+
+      else
+        #catch all.  Do nothing.  lat=nil, lon=nil
+        #Currently this results in potlatch starting up at 0,0 (Atlantic ocean).
+      end
+
+      @zoom = '14' if @zoom.nil?
+    end
   end
 end
