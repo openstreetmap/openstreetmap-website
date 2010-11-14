@@ -37,8 +37,6 @@ class SiteController < ApplicationController
     if editor == "josm"
       render :action => :index
     else
-      session[:token] = @user.tokens.create.token unless session[:token] and UserToken.find_by_token(session[:token])
-
       # Decide on a lat lon to initialise potlatch with. Various ways of doing this
       if params['lon'] and params['lat']
         @lon = params['lon'].to_f

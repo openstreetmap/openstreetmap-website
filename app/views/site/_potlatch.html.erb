@@ -3,6 +3,9 @@
 </div>
 
 <%= javascript_include_tag 'swfobject.js' %>
+
+<% session[:token] = @user.tokens.create.token unless session[:token] and UserToken.find_by_token(session[:token]) %>
+
 <script type="text/javascript" defer="defer">
   var brokenContentSize = $("content").offsetWidth == 0;
   var fo = new SWFObject("/potlatch/potlatch.swf?d="+Math.round(Math.random()*1000), "potlatch", "100%", "100%", "6", "#FFFFFF");
