@@ -77,6 +77,7 @@ class UserController < ApplicationController
       if @user.save
         flash[:notice] = t 'user.new.flash create success message', :email => @user.email
         Notifier.deliver_signup_confirm(@user, @user.tokens.create(:referer => params[:referer]))
+        session[:token] = @user.tokens.create.token
         redirect_to :action => 'login'
       else
         render :action => 'new'
@@ -264,14 +265,29 @@ class UserController < ApplicationController
           user.save!
           referer = token.referer
           token.destroy
-          session[:user] = user.id
 
-          unless referer.nil?
-            flash[:notice] = t('user.confirm.success')
-            redirect_to referer
+          if session[:token] 
+            token = UserToken.find_by_token(session[:token])
+            session.delete(:token)
           else
-            flash[:notice] = t('user.confirm.success') + "<br /><br />" + t('user.confirm.before you start')
-            redirect_to :action => 'account', :display_name => user.display_name
+            token = nil
+          end
+
+          if token.nil? or token.user != user
+            flash[:notice] = t('user.confirm.success')
+            redirect_to :action => :login, :referer => referer
+          else
+            token.destroy
+
+            session[:user] = user.id
+
+            if referer.nil?
+              flash[:notice] = t('user.confirm.success') + "<br /><br />" + t('user.confirm.before you start')
+              redirect_to :action => :account, :display_name => user.display_name
+            else
+              flash[:notice] = t('user.confirm.success')
+              redirect_to referer
+            end
           end
         end
       else
