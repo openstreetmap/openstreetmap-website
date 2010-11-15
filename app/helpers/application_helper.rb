@@ -120,7 +120,9 @@ module ApplicationHelper
   end
 
   def preferred_editor
-    if @user and @user.preferred_editor
+    if params[:editor]
+      params[:editor]
+    elsif @user and @user.preferred_editor
       @user.preferred_editor
     else
       DEFAULT_EDITOR

@@ -32,7 +32,7 @@ class SiteController < ApplicationController
   end
 
   def edit
-    editor = @user.preferred_editor || DEFAULT_EDITOR
+    editor = params[:editor] || @user.preferred_editor || DEFAULT_EDITOR
 
     if editor == "josm"
       render :action => :index

@@ -1,4 +1,3 @@
-
 /*
  * Called as the user scrolls/zooms around to aniplate hrefs of the
  * view tab and various other links
@@ -69,15 +68,54 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat,objtype,obj
     }
   }
 
+  node = $("potlatchanchor");
+  if (node) {
+    var args = new Object();
+    args.editor = "potlatch";
+    args.lat = lat;
+    args.lon = lon;
+    args.zoom = zoom;
+    if (objtype && objid) {
+      args[objtype] = objid;
+    }
+    node.href = setArgs("/edit", args);
+  }
+
+  node = $("potlatch2anchor");
+  if (node) {
+    var args = new Object();
+    args.editor = "potlatch2";
+    args.lat = lat;
+    args.lon = lon;
+    args.zoom = zoom;
+    if (objtype && objid) {
+      args[objtype] = objid;
+    }
+    node.href = setArgs("/edit", args);
+  }
+
+  node = $("josmanchor");
+  if (node) {
+    var args = new Object();
+    args.editor = "josm";
+    args.lat = lat;
+    args.lon = lon;
+    args.zoom = zoom;
+    if (objtype && objid) {
+      args[objtype] = objid;
+    }
+    node.href = setArgs("/edit", args);
+  }
+
   node = $("historyanchor");
   if (node) {
     if (zoom >= 11) {
       var args = new Object();
       //set bbox param from 'extents' object
       if (typeof minlon == "number" &&
-	  typeof minlat == "number" &&
-	  typeof maxlon == "number" &&
-	  typeof maxlat == "number") {
+          typeof minlat == "number" &&
+          typeof maxlon == "number" &&
+          typeof maxlat == "number") {
 
         minlon = Math.round(minlon * decimals) / decimals;
         minlat = Math.round(minlat * decimals) / decimals;
@@ -225,24 +263,24 @@ function makeShortCode(lat, lon, zoom) {
     // z18 so we don't need to care for now.
     var c1 = 0, c2 = 0;
     for (var i = 31; i > 16; --i) {
-	c1 = (c1 << 1) | ((x >> i) & 1);
-	c1 = (c1 << 1) | ((y >> i) & 1);
+        c1 = (c1 << 1) | ((x >> i) & 1);
+        c1 = (c1 << 1) | ((y >> i) & 1);
     }
     for (var i = 16; i > 1; --i) {
-	c2 = (c2 << 1) | ((x >> i) & 1);
-	c2 = (c2 << 1) | ((y >> i) & 1);
+        c2 = (c2 << 1) | ((x >> i) & 1);
+        c2 = (c2 << 1) | ((y >> i) & 1);
     }
     var str = "";
     for (var i = 0; i < Math.ceil((zoom + 8) / 3.0) && i < 5; ++i) {
-	digit = (c1 >> (24 - 6 * i)) & 0x3f;
-	str += char_array.charAt(digit);
+        digit = (c1 >> (24 - 6 * i)) & 0x3f;
+        str += char_array.charAt(digit);
     }
     for (var i = 5; i < Math.ceil((zoom + 8) / 3.0); ++i) {
-	digit = (c2 >> (24 - 6 * (i - 5))) & 0x3f;
-	str += char_array.charAt(digit);
+        digit = (c2 >> (24 - 6 * (i - 5))) & 0x3f;
+        str += char_array.charAt(digit);
     }
     for (var i = 0; i < ((zoom + 8) % 3); ++i) {
-	str += "-";
+        str += "-";
     }
     return str;
 }

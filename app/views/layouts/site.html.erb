@@ -5,6 +5,7 @@
     <%= javascript_strings %>
     <%= javascript_include_tag 'prototype' %>
     <%= javascript_include_tag 'site' %>
+    <%= javascript_include_tag 'menu' %>
     <!--[if lt IE 7]><%= javascript_include_tag 'pngfix' %><![endif]--> <!-- thanks, microsoft! -->
     <%= stylesheet_link_tag 'common' %>
     <!--[if IE]><%= stylesheet_link_tag 'large', :media => "screen" %><![endif]--> <!-- IE is totally broken with CSS media queries -->
@@ -72,6 +73,18 @@
         <li><%= link_to t('layouts.user_diaries'), {:controller => 'diary_entry', :action => 'list', :display_name => nil}, {:id => 'diaryanchor', :title => t('layouts.user_diaries_tooltip'), :class => diaryclass} %></li>
       </ul>
     </div>
+
+    <div id="editmenu">
+      <ul>
+        <% Editors::ALL_EDITORS.each do |editor| %>
+          <li><%= link_to t('layouts.edit_with', :editor => t('user.account.editor.' + editor)), {:controller => 'site', :action => 'edit', :editor => editor}, {:id => editor + 'anchor'} %></li>
+        <% end %>
+      </ul>
+    </div>
+
+    <script type="text/javascript">
+      createMenu("editanchor", "editmenu", 1000);
+    </script>
 
     <div id="left">
 
