@@ -203,4 +203,10 @@ class User < ActiveRecord::Base
 
     return score.to_i
   end
+
+  ##
+  # return an oauth access token for a specified application
+  def access_token(application_key)
+    return ClientApplication.find_by_key(application_key).access_token_for_user(self)
+  end
 end

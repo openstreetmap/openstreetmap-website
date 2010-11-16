@@ -3,6 +3,9 @@
 </div>
 
 <%= javascript_include_tag 'swfobject.js' %>
+
+<% token = @user.access_token(POTLATCH2_KEY) %>
+
 <script type="text/javascript" defer="defer">
   var brokenContentSize = $("content").offsetWidth == 0;
   var fo = new SWFObject("/potlatch2/potlatch2.swf?d="+Math.round(Math.random()*1000), "potlatch", "100%", "100%", "9", "#FFFFFF");
@@ -22,9 +25,13 @@
     if (lat) { fo.addVariable("lat",lat); }
     if (lon) { fo.addVariable("lon",lon); }
     fo.addVariable("zoom",zoom);
-    fo.addVariable("api","/api/<%= API_VERSION %>/");
-    fo.addVariable("policy","/api/crossdomain.xml");
+    fo.addVariable("api","http://<%= SERVER_URL %>/api/<%= API_VERSION %>/");
+    fo.addVariable("policy","http://<%= SERVER_URL %>/api/crossdomain.xml");
     fo.addVariable("connection","XML");
+    fo.addVariable("oauth_token","<%= token.token %>");
+    fo.addVariable("oauth_token_secret","<%= token.secret %>");
+    fo.addVariable("oauth_consumer_key","<%= token.client_application.key %>");
+    fo.addVariable("oauth_consumer_secret","<%= token.client_application.secret %>");
     fo.write("map");
   }
 
