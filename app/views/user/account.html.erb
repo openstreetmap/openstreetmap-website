@@ -68,7 +68,7 @@
 
   <tr>
     <td class="fieldName" valign="top"><%= t 'user.account.preferred editor' %></td>
-    <td><%= f.select :preferred_editor, Editors::ALL_EDITORS.collect { |e| [t('user.account.editor.'+e), e] } %></td>
+    <td><%= f.select :preferred_editor, [[t("editor.default", :name => t("editor.#{DEFAULT_EDITOR}.name")), 'default']] + Editors::ALL_EDITORS.collect { |e| [t("editor.#{e}.description"), e] } %></td>
   </tr>
 
   <tr>
