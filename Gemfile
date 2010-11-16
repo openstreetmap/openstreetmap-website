@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.0'
+gem 'rails', '3.0.3'
 
 gem 'pg'
 gem 'libxml-ruby', '>= 2.0.5', :require => 'libxml'
@@ -16,7 +16,7 @@ gem 'rails-i18n-updater'
 gem 'memcached'
 
 # Should only load if we're not in database offline mode
-gem 'composite_primary_keys', '>= 3.0.0.0'
+gem 'composite_primary_keys', '>= 3.0.0.b3'
 
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators
