@@ -14,12 +14,14 @@ function openMenu(anchor, menu) {
  * Callback called when the mouse enters a menu anchor.
  */
 function enterMenuAnchor(event, anchor, menu, delay) {
-  clearTimeout(menu.timer);
+  if (!anchor.hasClassName("disabled")) {
+    clearTimeout(menu.timer);
 
-  if (delay > 0) {
-    menu.timer = setTimeout(function () { openMenu(anchor, menu) }, delay);
-  } else {
-    openMenu(event, menu);
+    if (delay > 0) {
+      menu.timer = setTimeout(function () { openMenu(anchor, menu) }, delay);
+    } else {
+      openMenu(event, menu);
+    }
   }
 }
 
