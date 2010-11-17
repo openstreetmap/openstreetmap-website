@@ -27,7 +27,7 @@ function enterMenuAnchor(event, anchor, menu, delay) {
  * Callback called when the mouse leaves a menu anchor.
  */
 function leaveMenuAnchor(event, anchor, menu) {
-  var to = event.relatedTarget || event.toElement;
+  var to = event.relatedTarget;
 
   if (to != menu && !to.descendantOf(menu)) {
     menu.style.display = "none";
@@ -40,7 +40,7 @@ function leaveMenuAnchor(event, anchor, menu) {
  * Callback called when the mouse leaves a menu.
  */
 function leaveMenu(event, anchor, menu) {
-  var to = event.relatedTarget || event.toElement;
+  var to = event.relatedTarget;
 
   if (to != anchor && !to.descendantOf(menu)) {
     menu.style.display = "none";
@@ -56,7 +56,7 @@ function createMenu(anchorid, menuid, delay) {
   var anchor = $(anchorid);
   var menu = $(menuid);
 
-  anchor.onmouseover = function (event) { enterMenuAnchor(anchor, anchor, menu, delay) };
-  anchor.onmouseout = function (event) { leaveMenuAnchor(event, anchor, menu) };
-  menu.onmouseout = function (event) { leaveMenu(event, anchor, menu) };
+  anchor.observe("mouseover", function (event) { enterMenuAnchor(anchor, anchor, menu, delay) });
+  anchor.observe("mouseout", function (event) { leaveMenuAnchor(event, anchor, menu) });
+  menu.observe("mouseout", function (event) { leaveMenu(event, anchor, menu) });
 }
