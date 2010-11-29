@@ -51,11 +51,19 @@ class SiteControllerTest < ActionController::TestCase
   # and when they have...
   def test_edit_with_preference
     user = users(:public_user)
+    user.preferred_editor = "potlatch"
+    user.save!
+
+    get(:edit, nil, { 'user' => user.id })
+    assert_response :success
+    assert_template :partial => "_potlatch", :count => 1
+
+    user = users(:public_user)
     user.preferred_editor = "josm"
     user.save!
 
     get(:edit, nil, { 'user' => user.id })
     assert_response :success
-    assert_template :partial => "_josm", :count => 1
+    assert_template "index"
   end    
 end
