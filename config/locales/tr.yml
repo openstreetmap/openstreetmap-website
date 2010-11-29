@@ -33,25 +33,584 @@ tr:
       message: Mesaj
       user: Kullanıcı
   browse: 
+    changeset: 
+      changeset: "Değişiklik takımı: {{id}}"
+      changesetxml: Değişiklik takımı XML
+      download: "{{changeset_xml_link}} veya {{osmchange_xml_link}} indir"
+      feed: 
+        title: Değişiklik takımı {{id}}
+        title_comment: Değişiklik takımı {{id}} - {{comment}}
+      title: Değişiklik takımı
+    changeset_details: 
+      belongs_to: "Ait olduğu değişiklik takımı:"
+      bounding_box: Alan sınırları
+      box: alan
+      closed_at: "Kapanış tarihi:"
+      created_at: "Oluşturma tarihi:"
+      show_area_box: Alan Kutusu Görüntüle
     common_details: 
       changeset_comment: "Yorum:"
+      edited_at: "Düzenleme tarihi:"
+      edited_by: "Düzenleyen:"
+      in_changeset: "Değişiklik takımı içinde:"
+      version: "Sürüm:"
+    map: 
+      deleted: Silindi
+      larger: 
+        area: Alanı büyük haritada görüntüle
+        node: Noktayı büyük haritada görüntüle
+        way: Yolu büyük haritada görüntüle
+      loading: Yükleniyor...
+    navigation: 
+      all: 
+        next_node_tooltip: Sonraki nokta
+        next_way_tooltip: Sonraki yol
+        prev_way_tooltip: Önceki yol
+    node: 
+      download_xml: XML İndir
+      edit: değiştir
+      node: Nokta
+      node_title: "Nokta: {{node_name}}"
+      view_history: geçmişi görüntüle
+    node_details: 
+      coordinates: "Koordinatları:"
+      part_of: "Ortak parça:"
+    node_history: 
+      download_xml: XML indir
+      node_history: Nokta Geçmişi
+      node_history_title: "Nokta geçmişi: {{node_name}}"
+      view_details: ayrıntıları göster
+    not_found: 
+      type: 
+        changeset: değişiklik takımı
+        node: nokta
+        relation: ilişki
+        way: yol
+    paging_nav: 
+      of: toplam
+      showing_page: Gösterilen sayfa
     relation: 
       download: "{{download_xml_link}} veya {{view_history_link}}"
       download_xml: XML indir
+      relation: İlişki
+      relation_title: "Ilişki: {{relation_name}}"
       view_history: Geçmişi görüntüle
+    relation_details: 
+      members: "Elemanlar:"
+      part_of: "Ortak parça:"
+    relation_history: 
+      download: "{{download_xml_link}} veya {{view_details_link}}"
+      download_xml: XML İndir
+      relation_history_title: "İlişki Geçmişi: {{relation_name}}"
+      view_details: ayrıntıları göster
+    relation_member: 
+      entry_role: "{{Type}} {{name}} olarak {{rol}}"
+      type: 
+        node: Nokta
+        relation: İlişki
+        way: Yol
+    start: 
+      manually_select: Fare kullanarak farklı bir alan seç
+      view_data: Geçerli harita alanının verileri görüntüle
     start_rjs: 
       data_frame_title: Veri
+      data_layer_name: Veri
       details: Ayrıntılar
+      drag_a_box: Fare kullanarak harita üzerinde bir alan seç
       edited_by_user_at_timestamp: "[[user]] tarafından düzenlendi ([[timestamp]])"
+      history_for_feature: "[[feature]] (geçmiş)"
+      load_data: Veri Yükle
+      loading: Yükleniyor...
+      manually_select: Fare kullanarak farklı bir alan seç
+      object_list: 
+        api: Bu alanı API'dan al
+        back: Nesne listesine dön
+        details: Ayrıntılar
+        heading: Nesne listesi
+        history: 
+          type: 
+            node: Nokta [[id]]
+            way: Yol [[id]]
+        selected: 
+          type: 
+            node: Nokta [[id]]
+            way: Yol [[id]]
+        type: 
+          node: Nokta
+          way: Yol
       show_history: Geçmişi görüntüle
+      unable_to_load_size: "Yüklenemez: alan boyutu [[bbox_size]] çok büyük ({{max_bbox_size}}'den küçük olması gerekir)"
       wait: Bekleyin...
+      zoom_or_select: Yakınlaştır ya da haritada bir alan seç
+    tag_details: 
+      tags: "Etiketler:"
+      wiki_link: 
+        key: "{{key}} etiketi için Viki açıklaması"
+        tag: "{{key}}={{value}} etiketi için Viki açıklaması"
+      wikipedia_link: "{{page}} hakkında Vikipedi maddesi"
+    timeout: 
+      type: 
+        node: nokta
+        way: yol
+    way: 
+      download: "{{download_xml_link}}, {{view_history_link}} veya {{edit_link}}"
+      download_xml: XML İndir
+      edit: Düzenle
+      view_history: Geçmişi görüntüle
+      way: Yol
+      way_title: "Yol: {{way_name}}"
+    way_details: 
+      nodes: "Noktalar:"
+      part_of: "Ortak parça:"
+    way_history: 
+      download: "{{download_xml_link}} veya {{view_details_link}}"
+      download_xml: XML İndir
+      view_details: ayrıntıları göster
+      way_history: Yol Geçmişi
+      way_history_title: "Yol geçmişi: {{way_name}}"
+  changeset: 
+    changeset: 
+      anonymous: Anonim
+      big_area: (büyük)
+      no_comment: (hiç)
+      no_edits: (düzenleme yok)
+      still_editing: (Hala düzenlemekte)
+    changeset_paging_nav: 
+      next: Sonraki &raquo;
+      previous: "&laquo; Önceki"
+      showing_page: "Gösterilen sayfa: {{page}}"
+    changesets: 
+      area: Alan
+      comment: Yorum
+      user: Kullanıcı
+    list: 
+      description: Son değişiklikler
+  diary_entry: 
+    diary_comment: 
+      comment_from: "{{link_user}} tarafından {{comment_created_at}} tarihindeki yorum"
+      confirm: Onayla
+      hide_link: Bu yorum gizle
+    diary_entry: 
+      comment_link: Bu girdisi yorumla
+      confirm: Onayla
+      edit_link: Bu girdisi düzenle
+      hide_link: Bu girdisi gizle
+      posted_by: "{{link_user}} tarafından {{created}} tarihinde {{language_link}} dilinde gönderildi"
+      reply_link: Bu girdisi yanıtla
+    edit: 
+      body: "Mesaj:"
+      language: "Dil:"
+      latitude: "Enlem:"
+      longitude: "Boylam:"
+      marker_text: Girdisinin konumu
+      save_button: Kaydet
+      subject: "Konu:"
+      title: Günlük girdisi düzenle
+      use_map_link: Haritayı kullanarak belirt
+    location: 
+      edit: Düzenle
+      location: "Konum:"
+      view: Göster
+    new: 
+      title: Yeni Günlük Girdisi
+    view: 
+      leave_a_comment: Yorum yaz
+      login: Giriş
+      login_to_leave_a_comment: Yorum yazmak için {{login_link}}
+      save_button: Kaydet
+      title: "{{user}} (günlük) | {{title}}"
+      user_title: "{{user}} (Günlük)"
+  export: 
+    start: 
+      add_marker: Haritaya bir işaret ekle
+      area_to_export: Dışalım alanı
+      embeddable_html: Gömülebilir HTML
+      export_button: Dışalım
+      export_details: OpenStreetMap veri, <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative Commons Attribution-ShareAlike 2.0 lisansı</a> altında lisanslanmıştır.
+      format: Biçim
+      format_to_export: Dışalım biçimi
+      image_size: Resim Boyutu
+      latitude: "Enlem:"
+      licence: Lisans
+      longitude: "Boylam:"
+      manually_select: Fare kullanarak farklı bir alan seç
+      mapnik_image: Mapnik resim
+      max: maks.
+      options: Seçenekler
+      osm_xml_data: OpenStreetMap XML Veri
+      osmarender_image: Osmarender resim
+      output: Çıktı
+      paste_html: Aşağıdaki HTML kopyalayıp websitesinde yapıştırabilirsin
+      scale: Ölçek
+      too_large: 
+        body: Bu alan OpenStreetMap XML verisi olarak verilmesine kadar büyüktür. Lütfen yakınlaştır veya daha küçük bir alan seç.
+        heading: Alan Çok Büyük
+      zoom: Yakınlaştır
+    start_rjs: 
+      add_marker: Haritaya bir işareti ekle
+      change_marker: İşaretinin konumu değiştir
+      click_add_marker: İşareti eklemek için harita üzerine tıklayınız
+      drag_a_box: Fare kullanarak harita üzerinde bir alan seç
+      export: Dışalım
+      manually_select: Fare kullanarak farklı bir alan seç
+      view_larger_map: Haritayı daha büyük göster
+  geocoder: 
+    description: 
+      title: 
+        geonames: Konum <a href="http://www.geonames.org/">GeoNames</a> tarafından
+        osm_nominatim: Konum <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a> tarafından
+      types: 
+        cities: Büyükşehirler
+        places: Yerler
+        towns: Şehirler
+    direction: 
+      east: doğu
+      north: kuzey
+      north_east: kuzey-doğu
+      north_west: kuzey-batı
+      south: güney
+      south_east: güney-doğu
+      south_west: güney-batı
+      west: batı
+    results: 
+      more_results: Daha fazla sonuç
+      no_results: Sonuç bulunamadı
+    search_osm_nominatim: 
+      prefix: 
+        amenity: 
+          airport: Havaalanı
+          arts_centre: Sanat Merkezi
+          auditorium: Oditoryum
+          bank: Banka
+          bar: Bar
+          brothel: Genelev
+          bureau_de_change: Döviz bürosu
+          bus_station: Otogar
+          cafe: Cafe
+          car_sharing: Araç Paylaşımı
+          cinema: Sinema
+          clinic: Klinik
+          club: Kulüp
+          college: Lise
+          courthouse: Adliye
+          crematorium: Krematoryum
+          drinking_water: İçme Suyu
+          driving_school: Sürücü Kursu
+          emergency_phone: Acil Telefon
+          ferry_terminal: Feribot Terminali
+          fountain: Fıskiye
+          fuel: Petrol ofisi
+          grave_yard: Mezarlık
+          hotel: Hotel
+          hunting_stand: Avcılık Standı
+          ice_cream: Dondurma
+          kindergarten: Kreş
+          market: Pazar yeri
+          park: Park
+          parking: Otopark
+          place_of_worship: İbadethane / Tapınak
+          police: Polis
+          post_office: Postane
+          preschool: Anaokulu
+          pub: Birahane
+          public_building: Kamu Binası
+          recycling: Geri dönüşüm noktası
+          restaurant: Restoran
+          retirement_home: Bakımevi
+          school: Okul
+          shopping: Alışveriş Merkezi
+          social_club: Sosyal kulübü
+          supermarket: Süpermarket
+          telephone: Telefon
+          toilets: Tuvalet
+          townhall: Belediye binası
+          vending_machine: Satış makinesi
+          veterinary: Veteriner
+          youth_centre: Gençlik Merkezi
+        boundary: 
+          administrative: İdari Sınır
+        building: 
+          church: Kilise
+          city_hall: Belediye binası
+          entrance: Bina Girişi
+          faculty: Fakülte Binası
+          farm: Çiftlik Binası
+          hospital: Hastane Binası
+          hotel: Hotel
+          house: Ev
+          industrial: Sınai Bina
+          school: Okul Binası
+          shop: Dükkan
+          stadium: Stadyum
+          store: Mağaza
+          tower: Kule
+          train_station: Gar
+          university: Üniversite Binası
+          "yes": Bina
+        highway: 
+          bridleway: At yürüyüş yolu
+          bus_guideway: Güdümlü otobüs yolu
+          bus_stop: Otobüs durağı
+          construction: İnşaa halinde yolu
+          cycleway: Bisiklet Yolu
+          distance_marker: Mil taşı
+          emergency_access_point: Acil Erişim Noktası
+          footway: Yaya yolu
+          ford: Akarsu geçidi
+          gate: Kapı
+          living_street: Yaşam sokağı
+          motorway: Otoyol
+          motorway_junction: Otoyol Kavşağı
+          motorway_link: Otoyol bağlantısı
+          path: Patika
+          pedestrian: Trafiğe kapalı yolu
+          platform: Peron
+          primary: Devlet Yolu
+          primary_link: Devlet Yolu bağlantısı
+          raceway: Koşu yolu
+          residential: Sokak
+          road: Yol
+          secondary: İl yolu
+          secondary_link: İl yolunun bağlantısı
+          service: Servis Yolu
+          services: Dinleme Tesisi
+          steps: Merdiven
+          stile: Çit basamağı
+          tertiary: Köy arası yolu
+          track: Toprak yolu
+          trail: İz
+          trunk: Bölünmüş anayol
+          trunk_link: Bölünmüş anayol bağlantısı
+          unclassified: Sınıflandırılmamış yolu
+          unsurfaced: Ham yolu
+        historic: 
+          battlefield: Savaş alanı
+          church: Kilise
+          icon: Simge
+          ruins: Harabe
+          wreck: Batık Gemi
+        leisure: 
+          beach_resort: Plajlı tatilköyü
+          miniature_golf: Minyatür Golf
+          sports_centre: Spor Merkezi
+          swimming_pool: Yüzme Havuzu
+        natural: 
+          bay: Koy / körfez
+          beach: Plaj
+          channel: Kanal
+          cliff: Uçurum
+          coastline: Sahil şeridi
+          feature: Özelliği
+          hill: Tepe
+          island: Ada
+          land: Kara
+          marsh: Bataklık
+          moor: Bataklık
+          peak: Tepe / zirve
+          point: Nokta
+          ridge: Sırt
+          scrub: Fundalık
+          spring: Pınar
+          strait: Boğaz
+          tree: Ağaç
+          volcano: Yanardağ
+          water: Su
+          wetland: Sulak alan
+          wetlands: Sulak Alanlar
+          wood: Orman
+        place: 
+          airport: Havaalanı
+          city: Büyükşehir / il merkezi
+          country: Ülke
+          county: İlçe
+          farm: Tarla
+          hamlet: Mezra
+          house: Ev
+          houses: Evler
+          island: Ada
+          islet: Adacık
+          locality: Yer/mevkii
+          municipality: Belediye
+          postcode: Posta kodu
+          region: Bölge
+          sea: Deniz
+          state: İl
+          subdivision: Alt bölümü
+          suburb: Mahalle / Banliyö
+          town: Şehir / ilçe merkezi
+          unincorporated_area: Arazi
+          village: Köy
+        railway: 
+          abandoned: Terkedilmiş Demiryolu
+          construction: Yapım aşamasında Demiryolu
+          disused: Kullanılmayan Demiryolu
+          disused_station: Kullanılmayan Tren İstasyonu
+          halt: Tren Durağı
+          junction: Demiryolu Kavşağı
+          level_crossing: Demiryolu Geçidi
+          platform: Peron
+          station: Tren istasyonu
+          subway: Metro istasyonu
+          subway_entrance: Metro Giriş
+          switch: Demiryolu makası
+          tram: Tramvay
+          tram_stop: Tramvay Durağı
+        tourism: 
+          alpine_hut: Dağ evi
+          artwork: Sanat eseri
+          attraction: Gezelim görelim yeri
+          bed_and_breakfast: Oda Kahvaltı
+          chalet: Dağ evi
+          guest_house: Konuk Evi
+          information: Turist Enformasyon
+          motel: Motel
+          museum: Müze
+          picnic_site: Piknik yeri
+          theme_park: Lunapark
+          valley: Dere/vadi
+          viewpoint: Panoramik view
+          zoo: Hayvanat bahçesi
+        waterway: 
+          canal: Kanal
+  javascripts: 
+    map: 
+      base: 
+        cycle_map: Topoğrafik Haritası
+        noname: Arkaplan Boş
+    site: 
+      edit_disabled_tooltip: Harita düzenlemek için yakınlaştırmak gerek
+      edit_zoom_alert: Harita düzenleyebilmek için yakınlaştırman gerek
+  layouts: 
+    copyright: Telif hakkı & Lisans
+    donate: OpenStreetMap {{link}} ile Donanım Yükseltme Fonu'na destek veriniz.
+    donate_link_text: Bağış
+    edit: Düzenle
+    export: Dışalım
+    export_tooltip: Harita verisinin dışalımı
+    gps_traces: GPS İzleri
+    gps_traces_tooltip: GPS izleri yönet
+    help: Yardım
+    help_title: Projenin yardım sayfaları
+    history: Geçmiş
+    home: Konum
+    home_tooltip: Kendin konuma git
+    intro_1: OpenStreetMap herkese serbest ve ücretsiz senin gibi insanlar tarafından oluşturduğu bir dünya haritasıdır.
+    intro_2: OpenStreetMap dünyanın her köşesinden ortak bir şekilde hariatları görüntülemek, düzenlemek ve serbest kullanmak sağlar.
+    intro_3: OpenStreetMap barındırma servisleri {{ucl}} ve {{bytemark}} çok teşekkür ederiz. Diğer destekçilerimizi {{partners}} listesinde bulunmaktadır.
+    intro_3_bytemark: bytemark
+    intro_3_partners: Viki
+    intro_3_ucl: UCL VR Merkezi
+    license: 
+      title: OpenStreetMap veri Creative Commons Attribution-Share Alike 2.0 Genel Lisans altında lisanslanmıştır
+    log_in: Oturum aç
+    logo: 
+      alt_text: OpenStreetMap logosu
+    logout: Sistemden Çık
+    make_a_donation: 
+      text: Bağışlayınız
+      title: OpenStreetMap para bağışı ile destek verebilirsiniz
+    news_blog: Haber Blogu
+    news_blog_tooltip: OpenStreetMap hakkında haberler, serbest kullanımda coğrafi veriler, v.b.
+    shop: Dükkan
+    shop_tooltip: OpenStreetMap markalı ürünleri
+    sign_up: Kaydol
+    sign_up_tooltip: Düzenleme moduna girmek için bir hesap oluştur
+    tag_line: Serbest Viki Dünya Haritası
+    user_diaries: Kullanıcı Günlükleri
+    view: Görüntüle
+    view_tooltip: Haritayı göster
+    welcome_user: Hoşgeldin, {{user_link}}
+    welcome_user_link_tooltip: Senin kullanıcı sayfan
+    wiki: Viki
+    wiki_title: Projenin viki sayfaları
+  license_page: 
+    native: 
+      mapping_link: harita çizmeye başla
+      native_link: THIS_LANGUAGE_NAME_HERE sürümü
+      title: Sayfa hakkında
+  message: 
+    delete: 
+      deleted: Mesaj silindi
+    inbox: 
+      date: Tarih
+      from: Gönderen
+      my_inbox: Gelen kutusu
+      outbox: Gönderilmiş kutusu
+      people_mapping_nearby: yakın çevredeki haritacılar
+      subject: Konu
+      title: Gelen Kutusu
+      you_have: "{{new_count}} yeni mesaj ve {{old_count}} eski mesaj var"
+    mark: 
+      as_read: Mesaj okundu olarak işaretlendi
+      as_unread: Mesaj okunmadı olarak işaretlendi
+    message_summary: 
+      read_button: Okundu olarak işaretle
+    new: 
+      back_to_inbox: Gelen kutusuna dön
+      body: Mesaj
+      message_sent: Mesaj gönderildi
+      send_button: Gönder
+      send_message_to: "{{name}} adına yeni bir mesaj gönder"
+      subject: Konu
+      title: Mesaj Gönder
+    outbox: 
+      date: Tarih
+      inbox: gelen kutusu
+      my_inbox: Benim {{inbox_link}}
+      outbox: gönderilmiş kutusu
+      people_mapping_nearby: yakın çevredeki haritacılar
+      subject: Konu
+      title: Gönderilmiş Kutusu
+      to: Alıcı
+    read: 
+      back_to_inbox: Gelen kutusuna dön
+      back_to_outbox: Gönderilmiş kutusuna dön
+      date: Tarih
+      from: Gönderen
+      reading_your_messages: Mesajlarını oku
+      reading_your_sent_messages: Gönderilmiş mesajlarını oku
+      reply_button: Yanıtla
+      subject: Konu
+      title: Mesaj oku
+      to: Alıcı
+      unread_button: Okunmadı olarak işaretle
+  site: 
+    edit: 
+      user_page_link: kullanıcı sayfası
+    index: 
+      permalink: Kalıcı Bağlantı
+    key: 
+      map_key_tooltip: Haritanın lejant
+  time: 
+    formats: 
+      friendly: "%e %B %Y saat %H:%M"
   trace: 
+    create: 
+      trace_uploaded: GPX dosya yüklendi ve veritabanına eklemek için bekliyor. Bu işlem genellikle yarım saat içinde gerçekleşir ve tamamlandığında sana bir e-posta gönderiliyor.
+      upload_trace: GPS izi gönder
     edit: 
       description: "Açıklama:"
+      edit: düzenle
+      filename: "Dosya adı:"
       map: harita
+      owner: "Sahibi:"
+      points: "Nokta sayısı:"
       save_button: Değişiklikleri Kaydet
+      start_coord: "Başlangıç koordinat:"
       tags: "Etiketler:"
       tags_help: virgülle ayrılmış
+      uploaded_at: "Gönderme tarihi:"
+      visibility: Görünürlük
+      visibility_help: Bu ne demek?
+    list: 
+      public_traces: Herkese açık GPS izleri
+      public_traces_from: "{{user}} tarafından gelen herkese açık GPS izleri"
+      tagged_with: " {{tags}} ile etiketlendi"
+      your_traces: Senin GPS izleri
+    make_public: 
+      made_public: Iz herkese açık
+    offline_warning: 
+      message: GPX dosya gönderme sistemi şu anda kullanılamıyor
     trace: 
       ago: "{{time_in_words_ago}} önce"
       count_points: "{{count}} puan"
@@ -60,5 +619,183 @@ tr:
       map: harita
       more: daha fazla
       private: ÖZEL
+    trace_form: 
+      description: Açıklama
+      help: Yardım
+      tags: Etiketler
+      tags_help: virgül (,) ile ayrılmış
+      upload_button: Gönder
+      upload_gpx: GPX Dosya Gönder
+      visibility: Görünürlük
+      visibility_help: Bu ne demek?
+    trace_header: 
+      upload_trace: GPS izi gönder
+    trace_optionals: 
+      tags: Etiketler
     trace_paging_nav: 
       previous: "&laquo; Önceki"
+      showing_page: Sayfa {{page}} görüntüleniyor
+    view: 
+      delete_track: Bu izi sil
+      description: "Açıklama:"
+      download: indir
+      edit: düzenle
+      edit_track: Bu iz düzenle
+      filename: "Dosya Adı:"
+      heading: İz {{name}} görüntüleniyor
+      map: harita
+      none: Hiç
+      owner: "Sahibi:"
+      pending: BEKLEMEDE
+      points: "Nokta sayısı:"
+      start_coordinates: "Başlangıç koordinat:"
+      tags: "Etiketler:"
+      title: İz {{name}} görüntüleniyor
+      trace_not_found: İz bulunmadı!
+      uploaded: "Yüklendi:"
+      visibility: "Görünürlük:"
+  user: 
+    account: 
+      contributor terms: 
+        heading: "Katılımcı Şartları:"
+        link text: nemiş bu?
+      current email address: "Geçerli E-posta Adresi:"
+      delete image: Geçerli resim kaldır
+      email never displayed publicly: (asla genel olarak görüntülenir)
+      flash update success: Kullanıcı bilgisi başarıyla güncellendi.
+      flash update success confirm needed: Kullanıcı bilgisi başarıyla güncellendi. Yeni e-posta adresinizi onaylamak için e-mail'inizi lütfen kontrol ediniz.
+      home location: "Konum:"
+      image: "Resim:"
+      image size hint: (100x100 olan kare görüntüleri en iyi görünür)
+      keep image: Geçerli resim dursun
+      latitude: "Enlem:"
+      longitude: "Boylam:"
+      make edits public button: Bütün girdiklerim herkese açık olsun
+      my settings: Profil ayarlarım
+      new email address: "Yeni E-posta Adresi:"
+      new image: Resim ekle
+      no home location: Konumunu girmedin.
+      preferred languages: "Tercih edilen diller (mesela tr,en,de):"
+      profile description: "Profil Açıklaması:"
+      public editing: 
+        disabled link text: neden düzenleyemiyorum?
+        enabled link text: bu da ne?
+        heading: "Herkese açık düzenleme modu:"
+      public editing note: 
+        heading: Herkese açık düzenleme modu
+      replace image: Geçerli resmi değiştir
+      return to profile: Profile dön
+      save changes button: Değişiklikleri Kaydet
+      title: Hesabı düzenle
+      update home location on click: Haritada tıkladığımda konumum güncelleştirilsin mi?
+    confirm: 
+      button: Onayla
+      heading: Kullanıcı hesabı onayla
+    confirm_email: 
+      success: E-posta adresinizi doğrulandı, kaydolduğu için teşekkür ederiz! İyi çalışmaları dileriz!
+    confirm_resend: 
+      success: Yeni bir onay mesajı {{email}} adresine gönderdik. Mesajı onaylar onaylamaz haritacılığı başlayabilirsiniz.<br><br>Eğer onaylama mesajını almadısanız e-postanızın Antispam/Junk/İstenmeyen klasörüne lütfen kontrol ediniz.
+    list: 
+      heading: Kullanıcılar
+      summary_no_ip: "{{name}} {{date}} tarihinde oluşturuldu."
+      title: Kullanıcılar
+    login: 
+      account not active: Üzgünüz, hesabınız henüz aktif değil.<br />Lütfen aldığın onaylama e-postasında ki bağlantı tıkla veya <a href="{{reconfirm}}">yeni bir onaylama e-posta</a> iste.
+      auth failure: Üzgünüz, bu giriş ile oturum açılamadı.
+      create_account: Kayıt ol
+      email or username: "E-posta Adresi veya Kullanıcı Adı:"
+      heading: Giriş
+      login_button: Gir
+      lost password link: Şifren mi unuttun?
+      password: "Şifre:"
+      please login: Lütfen giriş yap veya {{create_user_link}}.
+      remember: "Beni hatırla:"
+      title: Giriş
+    logout: 
+      heading: OpenStreetMap'den çıkış
+      logout_button: Çıkış
+      title: Çıkış
+    lost_password: 
+      email address: "E-posta Adresi:"
+      heading: Şifre mi unuttun?
+      new password button: Şifreyi sıfırla
+      notice email cannot find: "Üzgünüz: bu e-posta adresi bulunamadı."
+      title: Kayıp Şifre
+    make_friend: 
+      success: "{{name}} arkadaş listesinde eklendi."
+    new: 
+      confirm email address: E-posta Adresini Onayla
+      confirm password: "Şifre Onayla:"
+      continue: Devam
+      display name: "Görünen Ad:"
+      display name description: Herkes tarafından görünen ad. Bu adı istediği zaman Ayarları bölümünde değiştirebilirsin.
+      email address: "E-posta Adresi:"
+      heading: Kullanıcı Hesabı Oluştur
+      password: "Şifre:"
+      title: Hesap oluştur
+    no_such_user: 
+      body: Üzgünüz, {{user}} adlı bir kullanıcı yok. Lütfen yazımınızı denetleyin veya tıkladığınız bağlantı belki yanlış idi.
+      heading: "{{user}} adlı bir kullanıcı yok."
+      title: Böyle bir kullanıcı yok
+    popup: 
+      friend: Arkadaş
+      nearby mapper: Komşu haritacı
+      your location: Konumum
+    remove_friend: 
+      success: "{{name}} arkadaş listesinden çıkarıldı."
+    reset_password: 
+      confirm password: "Sifre Onayla:"
+      flash changed: Şifren başarıyla değiştirildi.
+      password: "Şifre:"
+      reset: Şifre Sıfırla
+      title: Şifreyi sıfırla
+    set_home: 
+      flash success: Ev konumu başarıyla kaydedildi
+    suspended: 
+      webmaster: site yönetici
+    terms: 
+      agree: Kabul Et
+      consider_pd_why: bu nedir?
+      decline: Reddet
+      heading: Katılımcı Şartları
+      legale_names: 
+        france: Fransa
+        italy: İtalya
+        rest_of_world: Dünyanın geri kalanı
+      legale_select: "İkamet ettiğiniz ülke seç:"
+      title: Katılımcı Şartları
+    view: 
+      add as friend: arkadaş olarak ekle
+      ago: ({{time_in_words_ago}} önce)
+      block_history: verilen engellemeleri görüntüle
+      blocks on me: yaşadığım engellemeleri
+      confirm: Onayla
+      description: Açıklama
+      diary: günlük
+      edits: düzenlemeleri
+      email address: "E-posta adresi:"
+      hide_user: bu kullanıcı gizle
+      km away: "{{Count}} km uzakta"
+      m away: "{{count}} metre yakında"
+      mapper since: "Haritacılığım başlangıç tarihi:"
+      moderator_history: verilen engellemeleri görüntüle
+      my diary: günlüğüm
+      my edits: benim girdiklerim
+      my settings: benim ayarlarım
+      my traces: benim izlerim
+      nearby users: Yakın çevredeki başka kullanıcılar
+      new diary entry: Yeni günlük girdisi
+      no friends: Henüz herhangi bir arkadaş eklemediniz.
+      no nearby users: Yakın çevredeki herhangi başka kullanıcı henüz yok.
+      oauth settings: OAuth ayarları
+      remove as friend: Arkadaşlıktan çıkar
+      send message: mesaj gönder
+      settings_link_text: ayarları
+      spam score: "Spam puanı:"
+      status: "Durum:"
+      traces: izleri
+      user location: Kullanıcının konumu
+      your friends: Arkadaş listesi
+  user_role: 
+    revoke: 
+      confirm: Onayla
