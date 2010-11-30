@@ -24,6 +24,9 @@
     fo.addParam("base","/potlatch2");
     if (lat) { fo.addVariable("lat",lat); }
     if (lon) { fo.addVariable("lon",lon); }
+    <% if params['gpx'] %>
+    fo.addVariable('gpx' ,'<%= h(params['gpx']) %>');
+    <% end %>
     fo.addVariable("zoom",zoom);
     fo.addVariable("api","http://<%= SERVER_URL %>/api/<%= API_VERSION %>/");
     fo.addVariable("policy","http://<%= SERVER_URL %>/api/crossdomain.xml");

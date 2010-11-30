@@ -49,7 +49,8 @@ class SiteController < ApplicationController
         @zoom = params['zoom'].to_i
 
       elsif params['gpx']
-        #use gpx id to locate (dealt with below)
+        @lon = Trace.find(params['gpx']).longitude
+        @lat = Trace.find(params['gpx']).latitude
 
       elsif cookies.key?("_osm_location")
         @lon, @lat, @zoom, layers = cookies["_osm_location"].split("|")
