@@ -43,6 +43,6 @@
   doSWF(<%= @lat || 'null' %>,<%= @lon || 'null' %>,<%= @zoom %>);
 
   function setPosition(lat, lon, zoom) {
-    doSWF(lat, lon, zoom || 15);
+    $("potlatch").setPosition(lat, lon, Math.max(zoom || 15, 13));
   }
 </script>
