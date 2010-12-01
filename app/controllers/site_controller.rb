@@ -34,7 +34,7 @@ class SiteController < ApplicationController
   def edit
     editor = params[:editor] || @user.preferred_editor || DEFAULT_EDITOR
 
-    if editor == "josm"
+    if editor == "remote"
       render :action => :index
     else
       # Decide on a lat lon to initialise potlatch with. Various ways of doing this

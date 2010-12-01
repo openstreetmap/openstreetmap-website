@@ -270,7 +270,7 @@ end
     resizeMap();
   }
 
-  function josmEditHandler(event) {
+  function remoteEditHandler(event) {
     var extent = getMapExtent();
     var loaded = false;
 
@@ -278,20 +278,20 @@ end
     $("linkloader").src = "http://127.0.0.1:8111/load_and_zoom?left=" + extent.left + "&top=" + extent.top + "&right=" + extent.right + "&bottom=" + extent.bottom;
 
     setTimeout(function () {
-      if (!loaded) alert("<%= t('site.index.josm_failed') %>");
+      if (!loaded) alert("<%= t('site.index.remote_failed') %>");
     }, 1000);
 
     event.stop();
   }
 
   function installEditHandler() {
-    $("josmanchor").observe("click", josmEditHandler);
+    $("remoteanchor").observe("click", remoteEditHandler);
 
-    <% if preferred_editor == "josm" %>
-      $("editanchor").observe("click", josmEditHandler);
+    <% if preferred_editor == "remote" %>
+      $("editanchor").observe("click", remoteEditHandler);
 
       <% if params[:action] == "edit" %>
-        josmEditHandler();
+        remoteEditHandler();
       <% end %>
     <% end %>
   }
