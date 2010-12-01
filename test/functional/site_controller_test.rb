@@ -59,7 +59,7 @@ class SiteControllerTest < ActionController::TestCase
     assert_template :partial => "_potlatch", :count => 1
 
     user = users(:public_user)
-    user.preferred_editor = "josm"
+    user.preferred_editor = "remote"
     user.save!
 
     get(:edit, nil, { 'user' => user.id })
