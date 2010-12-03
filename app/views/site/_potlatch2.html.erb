@@ -37,6 +37,7 @@
     fo.addVariable("oauth_consumer_secret","<%= token.client_application.secret %>");
     fo.addVariable("maximise_function","maximiseMap");
     fo.addVariable("minimise_function","minimiseMap");
+    fo.addVariable("move_function","mapMoved");
     fo.write("map");
   }
 
@@ -44,5 +45,9 @@
 
   function setPosition(lat, lon, zoom) {
     $("potlatch").setPosition(lat, lon, Math.max(zoom || 15, 13));
+  }
+
+  function mapMoved(lon, lat, zoom, minlon, minlat, maxlon, maxlat) {
+    updatelinks(lon, lat, zoom, null, minlon, minlat, maxlon, maxlat);
   }
 </script>
