@@ -117,10 +117,7 @@ way[leisure=marina] :area					{ color: pink; fill-color: pink; fill-opacity: 0.4
 way[leisure=slipway]						{ color: grey; width: 3; casing-color: blue; casing-width: 7; }
 way[leisure=golf_course] :area { color: #44ee22; width: 2; fill-color: #44ee22; fill-opacity: 0.2; set .area_small_name;}
 
-way[embankment=yes]			    { z-index: 6; opacity: 0.5; color: brown; width: eval('_width+16'); dashes: 2, 14; }
-					    { z-index: 5; opacity: 0.5; color: brown; width: eval('_width+24'); dashes: 2, 30; } /* meh, improve this */
-
-way[boundary=administrative]                { color: purple; width: 10; opacity: 0.2; dashes: 12,24; }
+way[boundary=administrative]                { color: purple; width: 2; opacity: 0.2; dashes: 24,4; }
 way[landuse=cemetery]						{ color: #664466; width: 2; fill-color: color: #664466; opacity: 0.2; set .area_small_name;}
 /* Addressing. Nodes with addresses *and* match POIs should have a poi icon, so we put addressing first */
 
@@ -235,11 +232,14 @@ way[tunnel=yes][!waterway]
     { z-index: 4; color: white; width: eval('_width+2'); }
     { z-index: 3; color: black; width: eval('_width+6'); dashes: 4,4; }
 
+way[embankment=yes], way[cutting=yes]
+    { z-index: 8; opacity: 0.5; color: grey; width: eval('_width+5'); dashes: 2, 2; }
+
 /* Oneway */
 way[oneway=yes] { z-index: 15; color: #444444; width: 2; dashes: 15,35; line-style: arrows; }
 
-way[access=private],way[access=no] { z-index: 10; color: red; width: eval('_width+8'); dashes: 2,15;}
-way[access=permissive] { z-index: 10; color: green; width: eval('_width+6'); dashes: 1,7;}
+way[access=private],way[access=no] { z-index: 10; color: red; width: eval('_width+2'); dashes: 2,5;}
+way[access=permissive] { z-index: 10; color: green; width: eval('_width+2'); dashes: 1,3;}
 
 way .area_small_name {text-color: black; font-size: 9; text: name; text-halo: #ffffaa; text-halo-radius: 2; text-position: center;}
 /* Change the road colour based on dynamically set "highlighted" tag (see earlier) */
@@ -254,9 +254,7 @@ way :selected { z-index: 2; width: eval('_width+10'); color: yellow; opacity: 0.
 way :restrictfrom { z-index: -1; width: eval('_width+10'); color: red; opacity: 0.7;}
 way :restrictto { z-index: -1; width: eval('_width+10'); color: blue; opacity: 0.7;}
 /*way !:drawn !:hasTags{ z-index:10; width: 0.5; color: red; }*/
-way !:drawn { z-index:9; width: 2; color: black; dashes: 4,0;} { z-index:10; width: 2; color: #ffff00; dashes: 0, 4, 4, 0;}
- /*IMHO (Steve Bennett), in early testing we want to highlight ways that aren't triggering rules */
-/* way !:drawn { z-index:10; width: 0.5; color: gray; } was like this */
+way !:drawn { z-index:10; width: 1; color: #333333; }
 way :tiger { casing-color: #ff00ff;}
 
 
