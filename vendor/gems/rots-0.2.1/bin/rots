@@ -91,5 +91,9 @@ puts "\x1B[32mRunning OpenID Test server on port 1123\x1B[0m" if server_options[
 begin 
   Rack::Handler::Mongrel.run server, :Port => server_options[:port]
 rescue LoadError
-  Rack::Handler::WEBrick.run server, :Port => server_options[:port]
+  if server_options[:verbose]
+    Rack::Handler::WEBrick.run server, :Port => server_options[:port]
+  else
+    Rack::Handler::WEBrick.run server, :Port => server_options[:port], :AccessLog => [], :Logger => WEBrick::Log::new("/dev/null", 7)
+  end
 end
