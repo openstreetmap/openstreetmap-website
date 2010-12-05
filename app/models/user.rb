@@ -34,6 +34,7 @@ class User < ActiveRecord::Base
   validates_numericality_of :home_lat, :allow_nil => true
   validates_numericality_of :home_lon, :allow_nil => true
   validates_numericality_of :home_zoom, :only_integer => true, :allow_nil => true
+  validates_inclusion_of :preferred_editor, :in => Editors::ALL_EDITORS, :allow_nil => true
 
   before_save :encrypt_password
 
@@ -202,5 +203,11 @@ class User < ActiveRecord::Base
     score -= trace_score
 
     return score.to_i
+  end
+
+  ##
+  # return an oauth access token for a specified application
+  def access_token(application_key)
+    return ClientApplication.find_by_key(application_key).access_token_for_user(self)
   end
 end

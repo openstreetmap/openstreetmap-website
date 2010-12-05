@@ -30,4 +30,41 @@ class SiteController < ApplicationController
   def key
     expires_in 7.days, :public => true
   end
+
+  def edit
+    editor = params[:editor] || @user.preferred_editor || DEFAULT_EDITOR
+
+    if editor == "remote"
+      render :action => :index
+    else
+      # Decide on a lat lon to initialise potlatch with. Various ways of doing this
+      if params['lon'] and params['lat']
+        @lon = params['lon'].to_f
+        @lat = params['lat'].to_f
+        @zoom = params['zoom'].to_i
+
+      elsif params['mlon'] and params['mlat']
+        @lon = params['mlon'].to_f
+        @lat = params['mlat'].to_f
+        @zoom = params['zoom'].to_i
+
+      elsif params['gpx']
+        @lon = Trace.find(params['gpx']).longitude
+        @lat = Trace.find(params['gpx']).latitude
+
+      elsif cookies.key?("_osm_location")
+        @lon, @lat, @zoom, layers = cookies["_osm_location"].split("|")
+
+      elsif @user and !@user.home_lon.nil? and !@user.home_lat.nil?
+        @lon = @user.home_lon
+        @lat = @user.home_lat
+
+      else
+        #catch all.  Do nothing.  lat=nil, lon=nil
+        #Currently this results in potlatch starting up at 0,0 (Atlantic ocean).
+      end
+
+      @zoom = '14' if @zoom.nil?
+    end
+  end
 end

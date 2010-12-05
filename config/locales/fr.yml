@@ -12,6 +12,8 @@
 # Author: Peter17
 # Author: Quentinv57
 # Author: Urhixidur
+# Author: Verdy p
+# Author: Yvecai
 fr: 
   activerecord: 
     attributes: 
@@ -313,7 +315,7 @@ fr:
       longitude: "Longitude:"
       marker_text: Emplacement de l'entrée du journal
       save_button: Sauvegarder
-      subject: "Sujet:"
+      subject: "Objet :"
       title: Modifier l'entrée du journal
       use_map_link: Utiliser la carte
     feed: 
@@ -357,6 +359,17 @@ fr:
       save_button: Enregistrer
       title: Journal de {{user}} | {{title}}
       user_title: Journal de {{user}}
+  editor: 
+    default: Par défaut (actuellement {{name}})
+    josm: 
+      description: JOSM (par extension contrôlée à distance)
+      name: JOSM
+    potlatch: 
+      description: Potlatch 1 (éditeur intégré au navigateur)
+      name: Potlatch 1
+    potlatch2: 
+      description: Potlatch 2 (éditeur intégré au navigateur)
+      name: Potlatch 2
   export: 
     start: 
       add_marker: Ajouter un marqueur à la carte
@@ -679,7 +692,7 @@ fr:
           coastline: Littoral
           crater: Cratère
           feature: Élément
-          fell: Fell
+          fell: Lande
           fjord: Fjord
           geyser: Geyser
           glacier: Glacier
@@ -699,7 +712,7 @@ fr:
           scree: Éboulis
           scrub: Broussailles
           shoal: Haut-fond
-          spring: Cascade
+          spring: Source
           strait: Détroit
           tree: Arbre
           valley: Vallée
@@ -884,6 +897,7 @@ fr:
     donate: Soutenez OpenStreetMap, {{link}} au fond pour améliorer le matériel.
     donate_link_text: participez
     edit: Modifier
+    edit_with: Modifier avec {{editor}}
     export: Exporter
     export_tooltip: Exporter les données de la carte
     gps_traces: Traces GPS
@@ -1116,7 +1130,7 @@ fr:
       allow_read_gpx: lire ses traces GPS privées.
       allow_read_prefs: lire ses préférences utilisateur.
       allow_write_api: modifier la carte.
-      allow_write_diary: créez des entrées dans les journaux, des commentaires et faîtes-vous des amis.
+      allow_write_diary: créez des entrées dans le journal, des commentaires et faites-vous des amis.
       allow_write_gpx: envoyer des traces GPS.
       allow_write_prefs: modifier ses préférences utilisateur.
       callback_url: URL de rappel
@@ -1146,7 +1160,7 @@ fr:
       allow_read_gpx: lire leurs traces GPS privées.
       allow_read_prefs: consulter ses préférences utilisateur.
       allow_write_api: modifier la carte.
-      allow_write_diary: créez des entrées dans le journal, des commentaire et faîtes-vous des amis.
+      allow_write_diary: créez des entrées dans le journal, des commentaires et faites-vous des amis.
       allow_write_gpx: envoi trace GPS.
       allow_write_prefs: modifier ses préférences utilisateur.
       authorize_url: "URL d'autorisation :"
@@ -1163,11 +1177,13 @@ fr:
     edit: 
       anon_edits_link_text: Trouvez pourquoi ici.
       flash_player_required: Vous avez besoin d’un lecteur Flash pour utiliser Potlatch, l’éditeur Flash de OpenStreetMap. Vous pouvez <a href='http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash'>télécharger Flash Player sur le site d’Adobe</a>. <a href='http://wiki.openstreetmap.org/wiki/Editing'>D’autres options</a> sont également disponibles pour modifier OpenStreetMap.
+      no_iframe_support: Votre navigateur ne supporte pas les iframes HTML, qui sont nécessaires pour cette fonctionnalité.
       not_public: Vous n'avez pas réglé vos modifications pour qu'elles soient publiques.
       not_public_description: Vous ne pouvez plus modifier la carte à moins que vous ne rendiez vos modifications publiques. Vous pouvez rendre vos modifications publiques à partir de votre {{user_page}}.
       potlatch_unsaved_changes: Vous avez des modifications non sauvegardées. (Pour sauvegarder dans Potlatch, vous devez dé-sélectionner le way ou le node en cours si vous modifiez en mode direct, ou cliquer sur sauvegarder si vous avez un bouton sauvegarder.)
       user_page_link: page utilisateur
     index: 
+      josm_failed: La modification a échoué - veuillez vous assurer que JOSM est chargé et que l’extension de contrôle à distance est activée
       js_1: Vous utilisez soit un navigateur qui ne supporte pas Javascript soit vous avez désactivé Javascript.
       js_2: OpenStreetMap utilise Javascript pour ses cartes glissantes.
       js_3: Si vous êtes dans l'incapacité d'utiliser Javascript, essayer d'utiliser le <a href='http://tah.openstreetmap.org/Browse/'>navigateur statique de Tiles@Home</a>.
@@ -1179,7 +1195,7 @@ fr:
       shortlink: Lien court
     key: 
       map_key: Légende de la carte
-      map_key_tooltip: Clé pour la carte
+      map_key_tooltip: Légende de la carte
       table: 
         entry: 
           admin: Limite administrative
@@ -1350,7 +1366,7 @@ fr:
       start_coordinates: "Coordonnées de départ :"
       tags: "Balises :"
       title: Affichage de la trace {{name}}
-      trace_not_found: Trace introuvable !
+      trace_not_found: Trace non trouvée !
       uploaded: "Envoyé le :"
       visibility: "Visibilité :"
     visibility: 
@@ -1364,7 +1380,7 @@ fr:
         agreed: Vous avez accepté les nouveaux termes du contributeur.
         agreed_with_pd: Vous avez également déclaré que vous considériez vos modifications comme relevant du domaine public.
         heading: "Termes du contributeur :"
-        link text: Qu'est-ce que c'est ?
+        link text: qu’est-ce que ceci ?
         not yet agreed: Vous n’avez pas encore accepté les nouveaux termes du contributeur.
         review link text: Veuillez suivre ce lien à votre convenance pour examiner et accepter les nouveaux termes du contributeur.
       current email address: "Adresse de courriel actuelle :"
@@ -1383,6 +1399,7 @@ fr:
       new email address: "Nouvelle adresse de courriel :"
       new image: Ajouter une image
       no home location: Vous n'avez pas indiqué l'emplacement de votre domicile.
+      preferred editor: "Éditeur préféré :"
       preferred languages: "Langues préférées :"
       profile description: "Description du profil :"
       public editing: 
@@ -1390,7 +1407,7 @@ fr:
         disabled link text: pourquoi ne puis-je pas modifier ?
         enabled: Activé. Non anonyme et peut modifier les données.
         enabled link: http://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits
-        enabled link text: Qu'est-ce que c'est ?
+        enabled link text: qu’est-ce que ceci ?
         heading: "Modification publique :"
       public editing note: 
         heading: Modification publique
@@ -1466,7 +1483,7 @@ fr:
       success: "{{name}} est à présent votre ami."
     new: 
       confirm email address: "Confirmer l'adresse e-mail :"
-      confirm password: "Confirmer le mot de passe :"
+      confirm password: "Confirmez le mot de passe :"
       contact_webmaster: Veuillez contacter le <a href='mailto:webmaster@openstreetmap.org'>webmaster</a> pour qu'il vous crée un compte - nous essaierons de traiter votre demande le plus rapidement possible.
       continue: Continuer
       display name: "Nom affiché :"
@@ -1493,7 +1510,7 @@ fr:
       not_a_friend: "{{name}} n'est pas parmi vos amis."
       success: "{{name}} a été retiré de vos amis."
     reset_password: 
-      confirm password: "Confirmer le mot de passe :"
+      confirm password: "Confirmez le mot de passe :"
       flash changed: Votre mot de passe a été modifié.
       flash token bad: Vous n'avez pas trouvé ce jeton, avez-vous vérifié l'URL ?
       heading: Réinitialiser le mot de passe de {{user}}
@@ -1510,7 +1527,7 @@ fr:
     terms: 
       agree: J'accepte
       consider_pd: En plus de l’accord ci-dessus, je considère mes contributions comme étant dans le domaine public
-      consider_pd_why: Qu'est-ce que ceci ?
+      consider_pd_why: qu’est-ce que ceci ?
       decline: Décliner
       heading: Termes du contributeur
       legale_names: 
@@ -1624,7 +1641,7 @@ fr:
       confirm: Êtes-vous sûr ?
       creator_name: Créateur
       display_name: Utilisateur Bloqué
-      edit: Éditer
+      edit: Modifier
       not_revoked: (non révoqué)
       reason: Motif du blocage
       revoke: Révoquer !

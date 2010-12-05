@@ -119,6 +119,16 @@ module ApplicationHelper
     end
   end
 
+  def preferred_editor
+    if params[:editor]
+      params[:editor]
+    elsif @user and @user.preferred_editor
+      @user.preferred_editor
+    else
+      DEFAULT_EDITOR
+    end
+  end
+
 private
 
   def javascript_strings_for_key(key)
