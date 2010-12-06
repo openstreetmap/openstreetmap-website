@@ -11,6 +11,7 @@ gem 'httpclient'
 gem 'SystemTimer', '>= 1.1.3', :require => 'system_timer'
 gem 'sanitize'
 gem 'rails-i18n-updater'
+gem 'validates_email_format_of', '>= 1.4.2'
 
 # Should only load if memcache is in use
 gem 'memcached'
