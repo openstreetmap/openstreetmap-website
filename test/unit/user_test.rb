@@ -48,13 +48,13 @@ class UserTest < ActiveSupport::TestCase
     ok.each do |name|
       user = users(:normal_user)
       user.email = name
-      assert user.valid?, user.errors.full_messages
+      assert user.valid?(:save), user.errors.full_messages
     end
     
     bad.each do |name|
       user = users(:normal_user)
       user.email = name
-      assert !user.valid?, "#{name} is valid when it shouldn't be" 
+      assert user.invalid?(:save), "#{name} is valid when it shouldn't be" 
     end
   end
   
