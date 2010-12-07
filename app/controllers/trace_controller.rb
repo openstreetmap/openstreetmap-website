@@ -27,7 +27,7 @@ class TraceController < ApplicationController
     # from display name, pick up user id if one user's traces only
     display_name = params[:display_name]
     if !display_name.blank?
-      target_user = User.where(:status => ["active", "confirmed"], :display_name => display_name).first
+      target_user = User.where("status IN ('active', 'confirmed')").where(:display_name => display_name).first
       if target_user.nil?
         @title = t'trace.no_such_user.title'
         @not_found_user = display_name
@@ -214,7 +214,7 @@ class TraceController < ApplicationController
   end
 
   def georss
-    traces = Trace.where(:visibility => [:public, :identifiable])
+    traces = Trace.where("visibility IN ('public', 'identifiable')")
 
     if params[:display_name]
       traces = traces.where(:users => {:display_name => params[:display_name]})

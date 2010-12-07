@@ -114,7 +114,7 @@ class DiaryEntryController < ApplicationController
     @entries = DiaryEntry.includes(:user).order("created_at DESC").limit(20)
 
     if params[:display_name]
-      user = User.where(:status => ["active", "confirmed"]).find_by_display_name(params[:display_name])
+      user = User.where("status IN ('active', 'confirmed')").find_by_display_name(params[:display_name])
 
       if user
         @entries = @entries.where(:user_id => user.id, :visible => true )
@@ -141,7 +141,7 @@ class DiaryEntryController < ApplicationController
   end
 
   def view
-    user = User.where(:status => ["active", "confirmed"]).find_by_display_name(params[:display_name])
+    user = User.where("status IN ('active', 'confirmed')").find_by_display_name(params[:display_name])
 
     if user
       @entry = DiaryEntry.where(:id => params[:id],
