@@ -133,7 +133,7 @@ class UserCreationTest < ActionController::IntegrationTest
     assert_response :redirect # but it not redirects to /user/<display_name>/traces
     follow_redirect!
     assert_response :success
-    assert_template "trace/list.html.erb"
+    assert_template 'trace/list'
   end
 
   def test_user_create_openid_success
@@ -228,6 +228,6 @@ class UserCreationTest < ActionController::IntegrationTest
     assert_response :redirect # but it not redirects to /user/<display_name>/traces
     follow_redirect!
     assert_response :success
-    assert_template "trace/list.html.erb"
+    assert_template "trace/list"
   end
 end
