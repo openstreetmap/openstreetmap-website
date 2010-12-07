@@ -9,7 +9,7 @@ class UserCreationTest < ActionController::IntegrationTest
 
   def test_create_user_form
     I18n.available_locales.each do |locale|
-      get '/user/new', {}, {"accept_language" => locale.to_s}
+      get '/user/new', {}, {"HTTP_ACCEPT_LANGUAGE" => locale.to_s}
       assert_response :success
       assert_template 'user/new'
     end
@@ -23,7 +23,7 @@ class UserCreationTest < ActionController::IntegrationTest
         assert_difference('ActionMailer::Base.deliveries.size', 0) do
           post '/user/save',
             {:user => { :email => dup_email, :email_confirmation => dup_email, :display_name => display_name, :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest"}},
-            {"accept_language" => localer.to_s}
+            {"HTTP_ACCEPT_LANGUAGE" => localer.to_s}
         end
       end
       assert_response :success
@@ -43,7 +43,7 @@ class UserCreationTest < ActionController::IntegrationTest
         assert_difference('ActionMailer::Base.deliveries.size', 0) do
           post '/user/save',
           {:user => {:email => email, :email_confirmation => email, :display_name => dup_display_name, :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest"}},
-          {"accept_language" => locale.to_s}
+          {"HTTP_ACCEPT_LANGUAGE" => locale.to_s}
         end
       end
       assert_response :success
@@ -62,7 +62,7 @@ class UserCreationTest < ActionController::IntegrationTest
         assert_difference('ActionMailer::Base.deliveries.size', 1) do
           post_via_redirect "/user/save",
             {:user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest"}},
-            {"accept_language" => "#{locale.to_s}"}
+            {"HTTP_ACCEPT_LANGUAGE" => "#{locale.to_s}"}
         end
       end
 
