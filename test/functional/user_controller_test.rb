@@ -59,7 +59,7 @@ class UserControllerTest < ActionController::TestCase
     assert_response :success                                                                       
     assert_template 'new'
     assert_select "div#errorExplanation"
-    assert_select "table#signupForm > tr > td > div[class=fieldWithErrors] > input#user_email"
+    assert_select "table#signupForm > tr > td > div[class=field_with_errors] > input#user_email"
   end
   
   # Check that the user account page will display and contains some relevant
