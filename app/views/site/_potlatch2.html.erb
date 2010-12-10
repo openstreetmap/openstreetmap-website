@@ -28,8 +28,8 @@
     fo.addVariable('gpx' ,'<%= h(params['gpx']) %>');
     <% end %>
     fo.addVariable("zoom",zoom);
-    fo.addVariable("api","/api/<%= API_VERSION %>/");
-    fo.addVariable("policy","/api/crossdomain.xml");
+    fo.addVariable("api","<%= request.protocol + request.host_with_port %>/api/<%= API_VERSION %>/");
+    fo.addVariable("policy","<%= request.protocol + request.host_with_port %>/api/crossdomain.xml");
     fo.addVariable("connection","XML");
     fo.addVariable("oauth_token","<%= token.token %>");
     fo.addVariable("oauth_token_secret","<%= token.secret %>");
