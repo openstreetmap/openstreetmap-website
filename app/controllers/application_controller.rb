@@ -134,8 +134,7 @@ class ApplicationController < ActionController::Base
 
   def check_api_readable
     if STATUS == :database_offline or STATUS == :api_offline
-      response.headers['Error'] = "Database offline for maintenance"
-      render :nothing => true, :status => :service_unavailable
+      report_error "Database offline for maintenance", :service_unavailable
       return false
     end
   end
@@ -143,16 +142,14 @@ class ApplicationController < ActionController::Base
   def check_api_writable
     if STATUS == :database_offline or STATUS == :database_readonly or
        STATUS == :api_offline or STATUS == :api_readonly
-      response.headers['Error'] = "Database offline for maintenance"
-      render :nothing => true, :status => :service_unavailable
+      report_error "Database offline for maintenance", :service_unavailable
       return false
     end
   end
 
   def require_public_data
     unless @user.data_public?
-      response.headers['Error'] = "You must make your edits public to upload new data"
-      render :nothing => true, :status => :forbidden
+      report_error "You must make your edits public to upload new data", :forbidden
       return false
     end
   end
