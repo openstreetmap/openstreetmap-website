@@ -121,6 +121,10 @@ class ActiveSupport::TestCase
     @request.env["HTTP_AUTHORIZATION"] = "Basic %s" % Base64.encode64("#{user}:#{pass}")
   end
 
+  def error_format(format)
+    @request.env["HTTP_X_ERROR_FORMAT"] = format
+  end
+
   def content(c)
     @request.env["RAW_POST_DATA"] = c.to_s
   end

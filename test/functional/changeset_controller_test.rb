@@ -1025,6 +1025,32 @@ EOF
   end
 
   ##
+  # test that the X-Error-Format header works to request XML errors
+  def test_upload_xml_errors
+    basic_authorization users(:public_user).email, "test"
+
+    # try and delete a node that is in use
+    diff = XML::Document.new
+    diff.root = XML::Node.new "osmChange"
+    delete = XML::Node.new "delete"
+    diff.root << delete
+    delete << current_nodes(:node_used_by_relationship).to_xml_node
+
+    # upload it
+    content diff
+    error_format "xml"
+    post :upload, :id => 2
+    assert_response :success, 
+      "failed to return error in XML format"
+
+    # check the returned payload
+    assert_select "osmError[version=#{API_VERSION}][generator=\"OpenStreetMap server\"]", 1
+    assert_select "osmError>status", 1
+    assert_select "osmError>message", 1
+
+  end
+
+  ##
   # when we make some simple changes we get the same changes back from the 
   # diff download.
   def test_diff_download_simple
