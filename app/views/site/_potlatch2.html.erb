@@ -27,6 +27,9 @@
     <% if params['gpx'] %>
     fo.addVariable('gpx' ,'<%= h(params['gpx']) %>');
     <% end %>
+    <% if params['tileurl'] %>
+    fo.addVariable('tileurl' ,'<%= h(params['tileurl']) %>');
+    <% end %>
     fo.addVariable("zoom",zoom);
     fo.addVariable("api","<%= request.protocol + request.host_with_port %>/api/<%= API_VERSION %>/");
     fo.addVariable("policy","<%= request.protocol + request.host_with_port %>/api/crossdomain.xml");
