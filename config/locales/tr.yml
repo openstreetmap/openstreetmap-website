@@ -3,6 +3,7 @@
 # Export driver: syck
 # Author: Alerque
 # Author: Katpatuka
+# Author: SalihB
 tr: 
   activerecord: 
     attributes: 
@@ -47,6 +48,7 @@ tr:
       feed: 
         title: Değişiklik takımı {{id}}
         title_comment: Değişiklik takımı {{id}} - {{comment}}
+      osmchangexml: osmChange XML
       title: Değişiklik takımı
     changeset_details: 
       belongs_to: "Ait olduğu değişiklik takımı:"
@@ -61,11 +63,15 @@ tr:
       edited_by: "Düzenleyen:"
       in_changeset: "Değişiklik takımı içinde:"
       version: "Sürüm:"
+    containing_relation: 
+      entry: İlişki {{relation_name}}
+      entry_role: İlişki {{relation_name}} ({{relation_role}} olarak)
     map: 
       deleted: Silindi
       larger: 
         area: Alanı büyük haritada görüntüle
         node: Noktayı büyük haritada görüntüle
+        relation: İlişki büyük haritada görüntüle
         way: Yolu büyük haritada görüntüle
       loading: Yükleniyor...
     navigation: 
@@ -78,6 +84,10 @@ tr:
         prev_node_tooltip: Önceki nokta
         prev_relation_tooltip: Önceki ilişki
         prev_way_tooltip: Önceki yol
+      user: 
+        name_changeset_tooltip: "{{user}} tarafından düzenlemeleri görüntüle"
+        next_changeset_tooltip: "{{user}} tarafından sonraki düzenleme"
+        prev_changeset_tooltip: "{{user}} tarafından önceki düzenleme"
     node: 
       download: "{{download_xml_link}}, {{view_history_link}} veya {{edit_link}}"
       download_xml: XML İndir
@@ -89,6 +99,7 @@ tr:
       coordinates: "Koordinatları:"
       part_of: "Ortak parça:"
     node_history: 
+      download: "{{download_xml_link}} veya {{view_details_link}}"
       download_xml: XML indir
       node_history: Nokta Geçmişi
       node_history_title: "Nokta geçmişi: {{node_name}}"
@@ -157,10 +168,10 @@ tr:
       wait: Bekleyin...
       zoom_or_select: Yakınlaştır ya da haritada bir alan seç
     tag_details: 
-      tags: "Etiketler:"
+      tags: "Parametreler:"
       wiki_link: 
-        key: "{{key}} etiketi için Viki açıklaması"
-        tag: "{{key}}={{value}} etiketi için Viki açıklaması"
+        key: "{{key}} parametresi için Viki açıklaması"
+        tag: "{{key}}={{value}} parametresi için Viki açıklaması"
       wikipedia_link: "{{page}} hakkında Vikipedi maddesi"
     timeout: 
       type: 
@@ -244,6 +255,7 @@ tr:
       use_map_link: Haritayı kullanarak belirt
     feed: 
       all: 
+        description: OpenStreetMap kullanıcıların en son günlük kayıtları
         title: OpenStreetMap günlük girdileri
       language: 
         description: Kullanıcıların {{language_name}} dillindeki en son günlük girdileri
@@ -276,9 +288,6 @@ tr:
       user_title: "{{user}} (Günlük)"
   editor: 
     default: Varsayılan (kullanılan {{name}})
-    josm: 
-      description: JOSM (uzaktan kumanda eklentisi kullanarak)
-      name: JOSM
     potlatch: 
       description: Potlatch 1 (flash tarayıcı düzenleyici, eski)
       name: Potlatch 1
@@ -288,12 +297,12 @@ tr:
   export: 
     start: 
       add_marker: Haritaya bir işaret ekle
-      area_to_export: Dışalım alanı
+      area_to_export: Çıkartılacak alan
       embeddable_html: Gömülebilir HTML
-      export_button: Dışalım
+      export_button: Çıkart
       export_details: OpenStreetMap veri, <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative Commons Attribution-ShareAlike 2.0 lisansı</a> altında lisanslanmıştır.
       format: Biçim
-      format_to_export: Dışalım biçimi
+      format_to_export: Çıkartma biçimi
       image_size: Resim Boyutu
       latitude: "Enlem:"
       licence: Lisans
@@ -305,7 +314,7 @@ tr:
       osm_xml_data: OpenStreetMap XML Veri
       osmarender_image: Osmarender resim
       output: Çıktı
-      paste_html: Aşağıdaki HTML kopyalayıp websitesinde yapıştırabilirsin
+      paste_html: Yukarıdaki HTML kodu kopyalayıp websitesinde yapıştırabilir
       scale: Ölçek
       too_large: 
         body: Bu alan OpenStreetMap XML verisi olarak verilmesine kadar büyüktür. Lütfen yakınlaştır veya daha küçük bir alan seç.
@@ -316,7 +325,7 @@ tr:
       change_marker: İşaretinin konumu değiştir
       click_add_marker: İşareti eklemek için harita üzerine tıklayınız
       drag_a_box: Fare kullanarak harita üzerinde bir alan seç
-      export: Dışalım
+      export: Çıkart
       manually_select: Fare kullanarak farklı bir alan seç
       view_larger_map: Haritayı daha büyük göster
   geocoder: 
@@ -455,10 +464,12 @@ tr:
           hotel: Hotel
           house: Ev
           industrial: Sınai Bina
+          public: Kamu Binası
           school: Okul Binası
           shop: Dükkan
           stadium: Stadyum
           store: Mağaza
+          terrace: Teras
           tower: Kule
           train_station: Gar
           university: Üniversite Binası
@@ -503,11 +514,41 @@ tr:
           unsurfaced: Ham yolu
         historic: 
           battlefield: Savaş alanı
+          boundary_stone: Sınır Taşı
+          building: Bina
           church: Kilise
           icon: Simge
+          mine: Maden Ocağı
+          museum: Müze
           ruins: Harabe
           tower: Kule
           wreck: Batık Gemi
+        landuse: 
+          allotments: Bostan
+          cemetery: Mezarlık
+          commercial: Ticari Bölge
+          farm: Çiftlik
+          farmland: Tarım arazisi
+          farmyard: Çiftlik avlusu
+          forest: Orman
+          grass: Çim
+          industrial: Sanayi
+          meadow: Çayır
+          military: Askeri Bölge
+          mine: Maden Ocağı
+          mountain: Dağ
+          nature_reserve: Doğa Koruma Alanı
+          park: Park
+          plaza: Meydan
+          quarry: Ocak
+          railway: Demiryolu
+          recreation_ground: Eğlence Parkı
+          reservoir: Baraj Gölü
+          residential: Yerleşim Bölgesi
+          retail: Esnaf
+          vineyard: Bağ
+          wetland: Sulak Alan
+          wood: Orman
         leisure: 
           beach_resort: Plajlı tatilköyü
           fishing: Balıkçılık alanı
@@ -605,12 +646,18 @@ tr:
           tram_stop: Tramvay Durağı
         shop: 
           alcohol: Tekel bayii
+          bicycle: Bisikletçi
           books: Kitap Evi
           butcher: Kasap
           car_repair: Oto tamir
           carpet: Halı Dükkanı
+          clothes: Giysi Dükkanı
           gift: Hediye eşya
+          greengrocer: Manav
+          insurance: Sigorta
           market: Market
+          mobile_phone: Cep Telefonu Dükkanı
+          shoes: Ayakkabı Dükkanı
           shopping_centre: Alışveriş Merkezi
           supermarket: Süpermarket
           travel_agency: Seyahat Acentası
@@ -637,6 +684,12 @@ tr:
           zoo: Hayvanat bahçesi
         waterway: 
           canal: Kanal
+          dam: Baraj
+          river: Nehir
+          riverbank: Irmak kenarı
+          stream: Çay
+          wadi: Vadi
+          waterfall: Şelale
   javascripts: 
     map: 
       base: 
@@ -644,6 +697,7 @@ tr:
         noname: Arkaplan Boş
     site: 
       edit_disabled_tooltip: Harita düzenlemek için yakınlaştırmak gerek
+      edit_tooltip: Haritayı düzenle
       edit_zoom_alert: Harita düzenleyebilmek için yakınlaştırman gerek
   layouts: 
     copyright: Telif hakkı & Lisans
@@ -656,11 +710,12 @@ tr:
     gps_traces: GPS İzleri
     gps_traces_tooltip: GPS izleri yönet
     help: Yardım
+    help_and_wiki: "{{help}} & {{wiki}}"
     help_title: Projenin yardım sayfaları
     history: Geçmiş
     home: Konum
     home_tooltip: Kendin konuma git
-    inbox: gelen kutusu ({{count}})
+    inbox: mesajlar ({{count}})
     intro_1: OpenStreetMap herkese serbest ve ücretsiz senin gibi insanlar tarafından oluşturduğu bir dünya haritasıdır.
     intro_2: OpenStreetMap dünyanın her köşesinden ortak bir şekilde hariatları görüntülemek, düzenlemek ve serbest kullanmak sağlar.
     intro_3: OpenStreetMap barındırma servisleri {{ucl}} ve {{bytemark}} çok teşekkür ederiz. Diğer destekçilerimizi {{partners}} listesinde bulunmaktadır.
@@ -673,6 +728,7 @@ tr:
     logo: 
       alt_text: OpenStreetMap logosu
     logout: Çıkış
+    logout_tooltip: Oturumu kapat
     make_a_donation: 
       text: Bir bağışta bulunun
       title: OpenStreetMap para bağışı ile destek verebilirsiniz
@@ -683,14 +739,17 @@ tr:
     sign_up: Kaydol
     sign_up_tooltip: Düzenleme moduna girmek için bir hesap oluştur
     tag_line: Serbest Viki Dünya Haritası
-    user_diaries: Günlükler
+    user_diaries: Günlük
+    user_diaries_tooltip: Kullanıcı günlükleri görüntüle
     view: Görüntüle
     view_tooltip: Haritayı göster
-    welcome_user: Hoşgeldin, {{user_link}}
+    welcome_user: Merhaba, {{user_link}}
     welcome_user_link_tooltip: Senin kullanıcı sayfan
     wiki: Viki
     wiki_title: Projenin viki sayfaları
   license_page: 
+    foreign: 
+      english_link: İngilizce orijinal
     native: 
       mapping_link: harita çizmeye başla
       native_link: THIS_LANGUAGE_NAME_HERE sürümü
@@ -767,6 +826,8 @@ tr:
       greeting: Merhaba,
       success: 
         subject: "[OpenStreetMap] GPX dosyası başarıyla alındı"
+    lost_password: 
+      subject: "[OpenStreetMap] Şifre sıfırlama isteği"
     lost_password_html: 
       greeting: Merhaba,
     lost_password_plain: 
@@ -792,8 +853,9 @@ tr:
       license: 
         project_name: OpenStreetMap projesi
       permalink: Kalıcı Bağlantı
-      shortlink: Kıpkısa Bağlantı
+      shortlink: Kısa Bağlantı
     key: 
+      map_key: Lejant
       map_key_tooltip: Haritanın lejant
       table: 
         entry: 
@@ -802,6 +864,7 @@ tr:
           apron: 
             - Havaalanı apronu
             - terminal
+          bridge: Siyah kenar = köprü
           bridleway: Binici yolu
           brownfield: Nadas
           building: Önemli yapı
@@ -812,10 +875,15 @@ tr:
           cemetery: Mezarlık
           centre: Spor merkezi
           commercial: Ticari bölge
+          common: 
+            - Çimen
+            - çayır
+          construction: yapım aşamasında yolu
           cycleway: Bisiklet yolu
           farm: Çiftlik
           footway: Yaya yolu
           forest: Orman
+          golf: Golf sahası
           heathland: Fundalık
           industrial: Sanayi bölgesi
           lake: 
@@ -844,10 +912,14 @@ tr:
             - Zirve
             - Dağ
           tourist: Turistik yer
+          track: Toprak yolu
           tram: 
             - Dar raylı demiryolu
             - tramvay
           trunk: Bölünmüş anayol
+          tunnel: çizgili kenar = tünel
+          unclassified: Sınıflandırılmamış yol
+          unsurfaced: Ham yolu
           wood: Orman
     search: 
       search: Ara
@@ -878,6 +950,7 @@ tr:
       start_coord: "Başlangıç koordinat:"
       tags: "Etiketler:"
       tags_help: virgülle ayrılmış
+      title: "{{name}} izisi düzenleniyor"
       uploaded_at: "Gönderme tarihi:"
       visibility: Görünürlük
       visibility_help: Bu ne demek?
@@ -902,6 +975,7 @@ tr:
       more: daha fazla
       pending: BEKLEMEDE
       private: ÖZEL
+      public: KAMU
       trace_details: İz Ayrıntılarını Görüntüle
       view_map: Harita Görüntüle
     trace_form: 
@@ -1037,7 +1111,7 @@ tr:
     reset_password: 
       confirm password: "Sifre Onayla:"
       flash changed: Şifren başarıyla değiştirildi.
-      heading: "{{Kullanıcı}} için şifresini sıfırla"
+      heading: "{{user}} için şifre sıfırla"
       password: "Şifre:"
       reset: Şifre Sıfırla
       title: Şifreyi sıfırla
