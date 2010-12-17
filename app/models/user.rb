@@ -107,7 +107,7 @@ class User < ActiveRecord::Base
     (languages & array.collect { |i| i.to_s }).first
   end
 
-  def nearby(radius = 50, num = 10)
+  def nearby(radius = NEARBY_RADIUS, num = NEARBY_USERS)
     if self.home_lon and self.home_lat 
       gc = OSM::GreatCircle.new(self.home_lat, self.home_lon)
       bounds = gc.bounds(radius)
