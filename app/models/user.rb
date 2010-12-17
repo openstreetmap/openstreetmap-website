@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   has_many :friends, :include => :befriendee, :conditions => "users.status IN ('active', 'confirmed')"
   has_many :tokens, :class_name => "UserToken"
   has_many :preferences, :class_name => "UserPreference"
-  has_many :changesets
+  has_many :changesets, :order => 'created_at DESC'
 
   has_many :client_applications
   has_many :oauth_tokens, :class_name => "OauthToken", :order => "authorized_at desc", :include => [:client_application]

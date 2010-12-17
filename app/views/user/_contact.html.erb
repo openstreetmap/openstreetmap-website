@@ -1,5 +1,5 @@
 <tr>
-  <td rowspan="2">
+  <td rowspan="3">
     <%= user_thumbnail contact %>
   </td>
   <td>
@@ -14,6 +14,20 @@
     <% end %>
   </td>
 </tr>
+<tr>
+  <td>
+    <% changeset = contact.changesets.first %>
+    <% if changeset %>
+      <%= t('user.view.latest edit', :ago => t('user.view.ago', :time_in_words_ago => time_ago_in_words(changeset.created_at))) %>
+      <% comment = changeset.tags['comment'] ? changeset.tags['comment'] : t('changeset.changeset.no_comment') %>
+      "<%= link_to(comment,
+                          {:controller => 'browse', :action => 'changeset', :id => changeset.id},
+                          {:title => t('changeset.changeset.view_changeset_details')})
+      %>"
+    <% else %>
+     <%= t'changeset.changeset.no_edits' %>
+    <% end %>
+  </td>
 <tr>
   <td>
     <%= link_to t('user.view.send message'), :controller => 'message', :action => 'new', :display_name => contact.display_name %>
