@@ -453,11 +453,13 @@ Quick documentation:
         name="Bike lanes" category="Cycle" description="Road has bike lanes within the road surface"
         key="cycleway" layout="horizontal">
       <choice value="no" text="No bike lanes"/>
-      <choice value="lane" text="On-road bike lane" description="Separated by painted line"/>
+      <choice value="lane" text="On-road bike lane" description="Separated by painted line on the road from cars"/>
       <choice value="track" text="Parallel track" description="Separated by kerb or parked cars"/>
       <choice value="opposite_lane" text="Contraflow lane" description="Separated by painted line, and allowing bicycles in both directions in an otherwise one-way street."/>
       <choice value="opposite_track" text="Contraflow track" description="Separated by kerb or parked cars, and allowing bicycles in both directions in an otherwise one-way street."/>
       <choice value="opposite" text="Contraflow unmarked" description="The route may be cycled in the direction opposite of other traffic, but does not have a dedicated lane."/>
+      <choice value="segregated" text="Segregated cycle path" description="A path where cyclists and pedestrians are separated by a painted line or kerb."/>
+      <choice value="shared" text="Shared cycle path" description="A path where cyclists and pedestrians share the full width of the path."/>
       <help>http://wiki.openstreetmap.org/wiki/Key:cycleway</help>
     </input>
   </inputSet>
@@ -2095,6 +2097,10 @@ Quick documentation:
     <point/>
     <tag k="amenity" v="hospital"/>
     <input type="freetext" presence="always" category="" name="name" key="name" description="The Name of it." priority="low"/>
+    <input type="choice" presence="always" category="Hospital" name="Emergency treatment available" key="emergency" description="Are there accident and emergency facilities at this hospital?">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
     <inputSet ref="common"/>
   </feature>
 
