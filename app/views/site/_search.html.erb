@@ -41,7 +41,7 @@
                        :complete => "endSearch()",
                        :url => { :controller => :geocoder, :action => :search },
                        :html => { :method => "get", :action => url_for(:action => "index") }) do %>
-      <%= text_field_tag :query, h(params[:query]) %>
+      <%= text_field_tag :query, h(params[:query]), :tabindex => "1" %>
       <% if params[:action] == 'index' %>
         <%= hidden_field_tag :minlon %>
         <%= hidden_field_tag :minlat %>
