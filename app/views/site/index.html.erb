@@ -66,18 +66,17 @@ if params['node'] or params['way'] or params['relation']
     end
 end
 
+# Decide on a lat lon to initialise the map with. Various ways of doing this
 if params['minlon'] and params['minlat'] and params['maxlon'] and params['maxlat']
     bbox = true
     minlon = h(params['minlon'])
     minlat = h(params['minlat'])
     maxlon = h(params['maxlon'])
     maxlat = h(params['maxlat'])
+    layers = h(params['layers'])
     box = true if params['box']=="yes"
     object_zoom = false
-end
-
-# Decide on a lat lon to initialise the map with. Various ways of doing this
-if params['lon'] and params['lat']
+elsif params['lon'] and params['lat']
     lon =  h(params['lon'])
     lat =  h(params['lat'])
     zoom =  h(params['zoom'] || '5')
