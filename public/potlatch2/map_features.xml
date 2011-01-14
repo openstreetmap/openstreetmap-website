@@ -589,6 +589,10 @@ Quick documentation:
     </input>
   </inputSet>
 
+  <inputSet id="isBuilding">
+    <input type="checkbox" presence="onTagMatch" category="Misc" description="Does this thing also represent one, solid building?" name="Building" key="building"/>
+  </inputSet>
+
   <!-- ************************************************************************
        Roads
        ************************************************************************ -->
@@ -1376,8 +1380,8 @@ Quick documentation:
 
     <area/>
     <tag k="amenity" v="bus_station"/>
-    <tag k="building" v="yes"/>
     <inputSet ref="names"/>
+    <inputSet ref="isBuilding"/>
     <inputSet ref="buildingAddress"/>
     <inputSet ref="common"/>
   </feature>
@@ -1479,7 +1483,7 @@ Quick documentation:
 
     <area/>
     <tag k="amenity" v="school"/>
-    <tag k="building" v="yes"/>
+    <inputSet ref="isBuilding"/>
     <inputSet ref="names"/>
     <inputSet ref="buildingAddress"/>
     <inputSet ref="common"/>
@@ -1497,6 +1501,7 @@ Quick documentation:
     <tag k="amenity" v="college"/>
     <inputSet ref="names"/>
     <inputSet ref="buildingAddress"/>
+    <inputSet ref="isBuilding"/>
     <inputSet ref="common"/>
   </feature>
 
@@ -1511,6 +1516,7 @@ Quick documentation:
     <tag k="amenity" v="university"/>
     <inputSet ref="names"/>
     <inputSet ref="buildingAddress"/>
+    <inputSet ref="isBuilding"/>
     <inputSet ref="common"/>
   </feature>
 
@@ -1524,9 +1530,9 @@ Quick documentation:
 
     <area/>
     <tag k="shop" v="supermarket"/>
-    <tag k="building" v="yes"/>
     <inputSet ref="names"/>
     <inputSet ref="buildingAddress"/>
+    <inputSet ref="isBuilding"/>
     <inputSet ref="common"/>
   </feature>
 
@@ -1540,13 +1546,13 @@ Quick documentation:
 
     <area/>
     <tag k="amenity" v="place_of_worship"/>
-    <tag k="building" v="yes"/>
     <inputSet ref="names"/>
     <inputSet ref="buildingAddress"/>
     <input type="choice" category="Religion" name="Religion" key="religion" description="The religion to which this place of worship belongs.">
       <choice value="christian" text="Christianity (church)"/>
       <choice value="jewish" text="Judaism (synagogue)"/>
     </input>
+    <inputSet ref="isBuilding"/>
     <inputSet ref="common"/>
   </feature>
 
@@ -1576,9 +1582,9 @@ Quick documentation:
 
     <area/>
     <tag k="amenity" v="hospital"/>
-    <tag k="building" v="yes"/>
     <inputSet ref="names"/>
     <inputSet ref="buildingAddress"/>
+    <inputSet ref="isBuilding"/>
     <inputSet ref="common"/>
   </feature>
 
@@ -1595,9 +1601,21 @@ Quick documentation:
     <tag k="tourism" v="museum"/>
     <inputSet ref="names"/>
     <inputSet ref="buildingAddress"/>
+    <inputSet ref="isBuilding"/>
     <inputSet ref="common"/>
   </feature>
 
+  <feature name="Shopping centre">
+    <category>buildings</category>
+    <category>shopping</category>
+    <node/>
+    <area/>
+    <tag k="shop" v="mall"/>
+    <inputSet ref="names"/>
+    <inputSet ref="buildingAddress"/>
+    <inputSet ref="isBuilding"/>
+    <inputSet ref="common"/>
+  </feature>
 
   <feature name="Zoo">
     <category>buildings</category>
@@ -1610,6 +1628,7 @@ Quick documentation:
     <tag k="tourism" v="zoo"/>
     <inputSet ref="names"/>
     <inputSet ref="buildingAddress"/>
+    <inputSet ref="isBuilding"/>
     <inputSet ref="common"/>
   </feature>
 
@@ -1625,6 +1644,7 @@ Quick documentation:
     <tag k="leisure" v="stadium"/>
     <inputSet ref="names"/>
     <inputSet ref="buildingAddress"/>
+    <inputSet ref="isBuilding"/>
     <inputSet ref="common"/>
   </feature>
 
@@ -1637,6 +1657,8 @@ Quick documentation:
     </icon>
 
     <area/>
+    <!-- This should catch all the "building=*" tags in use: yes, hut, house, residential, entrance, apartments, garage, industrial,  garages, service, manufacture, collapsed... 
+         Is this possible? -->
     <!-- <tag k="building" v="*"/> -->
     <tag k="building" v="yes"/>
     <inputSet ref="names"/>
@@ -1658,6 +1680,7 @@ Quick documentation:
     <inputSet ref="names"/>
     <inputSet ref="buildingAddress"/>
     <inputSet ref="pitchSport"/>
+    <inputSet ref="isBuilding"/>
     <inputSet ref="common"/>
   </feature>
 
@@ -3172,6 +3195,19 @@ Quick documentation:
 
 
   <!-- ========= Shops ========= -->
+  <feature name="Supermarket">
+    <category>shopping</category>
+    <icon image="features/pois/shopping_supermarket.n.24.png">
+      ${name}
+    </icon>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:shop%3Dsupermarket</help>
+    <point/>
+    <tag k="shop" v="supermarket"/>
+    <inputSet ref="names"/>
+    <inputSet ref="web"/>
+    <inputSet ref="buildingAddress"/>
+    <inputSet ref="common"/>
+  </feature>
 
   <feature name="Small Convenience Store">
     <category>shopping</category>
@@ -3187,20 +3223,18 @@ Quick documentation:
     <inputSet ref="common"/>
   </feature>
 
-
-  <feature name="Supermarket">
+  <feature name="Bakery">
     <category>shopping</category>
-    <icon image="features/pois/shopping_supermarket.n.24.png">
-      ${name}
-    </icon>
-    <help>http://wiki.openstreetmap.org/wiki/Tag:shop%3Dsupermarket</help>
     <point/>
-    <tag k="shop" v="supermarket"/>
-    <inputSet ref="names"/>
+    <inputSet ref="simpleName"/>
     <inputSet ref="web"/>
     <inputSet ref="buildingAddress"/>
+    <icon image="features/pois/shopping_bakery.n.24.png"/>
+    <tag k="shop" v="bakery"/>
     <inputSet ref="common"/>
   </feature>
+
+
 
 
   <feature name="Alcohol shop">
@@ -3214,17 +3248,6 @@ Quick documentation:
     <inputSet ref="common"/>
   </feature>
 
-
-  <feature name="Bakery">
-    <category>shopping</category>
-    <point/>
-    <inputSet ref="simpleName"/>
-    <inputSet ref="web"/>
-    <inputSet ref="buildingAddress"/>
-    <icon image="features/pois/shopping_bakery.n.24.png"/>
-    <tag k="shop" v="bakery"/>
-    <inputSet ref="common"/>
-  </feature>
 
 
   <feature name="Bike shop">
@@ -3259,6 +3282,17 @@ Quick documentation:
     <inputSet ref="buildingAddress"/>
     <icon image="features/pois/shopping_butcher.n.24.png"/>
     <tag k="shop" v="butcher"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Car sales">
+    <category>shopping</category>
+    <point/>
+    <inputSet ref="simpleName"/>
+    <inputSet ref="web"/>
+    <inputSet ref="buildingAddress"/>
+    <icon image="features/pois/shopping_car.n.24.png"/>
+    <tag k="shop" v="car"/>
     <inputSet ref="common"/>
   </feature>
 
@@ -3319,6 +3353,17 @@ Quick documentation:
     <inputSet ref="buildingAddress"/>
     <icon image="features/pois/shopping_fish.n.24.png"/>
     <tag k="shop" v="fishmonger"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Florist">
+    <category>shopping</category>
+    <point/>
+    <inputSet ref="simpleName"/>
+    <inputSet ref="web"/>
+    <inputSet ref="buildingAddress"/>
+    <icon image="features/pois/flowers.png"/>
+    <tag k="shop" v="florist"/>
     <inputSet ref="common"/>
   </feature>
 
@@ -3391,6 +3436,17 @@ Quick documentation:
     <inputSet ref="buildingAddress"/>
     <icon image="features/pois/shopping_jewelry.n.24.png"/>
     <tag k="shop" v="jewelry"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Kiosk">
+    <category>shopping</category>
+    <point/>
+    <inputSet ref="simpleName"/>
+    <inputSet ref="web"/>
+    <inputSet ref="buildingAddress"/>
+    <icon image="features/pois/shopping_jewelry.n.24.png"/>
+    <tag k="shop" v="kiosk"/>
     <inputSet ref="common"/>
   </feature>
 
@@ -3507,16 +3563,70 @@ Quick documentation:
     <inputSet ref="common"/>
   </feature>
 
-  <!-- boundaries -->
+  <!-- Top 10 boundaries in order of usage on taginfo.openstreetmap.de -->
 
-  <feature name="Administrative Boundary">
+  <feature name="Admin Boundary">
     <category>places</category>
     <line/>
     <icon image="features/pois/poi_boundary_administrative.n.24.png"/>
     <help>http://wiki.openstreetmap.org/wiki/Tag:boundary=administrative</help>
     <tag k="boundary" v="administrative"/>
     <input type="number" minimum="2" maximum="10" presence="always" name="Admin Level" key="admin_level" description="The Administrative level" />
+    <inputSet ref="simpleName"/>
+    <inputSet ref="common"/>
   </feature>
+
+  <feature name="National Park">
+    <category>places</category>
+    <category>natural</category>
+    <line/>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:boundary=national_park</help>
+    <tag k="boundary" v="national_park"/>
+    <inputSet ref="simpleName"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Post Code">
+    <category>places</category>
+    <line/>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:boundary=postal_code</help>
+    <tag k="boundary" v="postal_code"/>
+    <inputSet ref="simpleName"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Protected Area">
+    <category>places</category>
+    <category>natural</category>
+    <line/>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:boundary=protected_area</help>
+    <tag k="boundary" v="protected_area"/>
+    <inputSet ref="simpleName"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Town boundary">
+    <category>places</category>
+    <line/>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:boundary=town</help>
+    <tag k="boundary" v="town"/>
+    <inputSet ref="simpleName"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <!-- boundary=landuse goes here. no idea what it is.-->
+
+  <feature name="Census boundary">
+    <category>places</category>
+    <line/>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:boundary=census</help>
+    <tag k="boundary" v="census"/>
+    <inputSet ref="simpleName"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <!-- next three are marker, postcode_area, administrative. all seem dubious -->
+  
 
   <!-- ************************************************************************
        Relations
