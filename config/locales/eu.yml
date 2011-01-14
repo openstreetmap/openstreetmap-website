@@ -77,6 +77,7 @@ eu:
     node_history: 
       download: "{{download_xml_link}} edo {{view_details_link}}"
       download_xml: XML jaitsi
+      view_details: xehetasunak ikusi
     not_found: 
       type: 
         node: nodo
@@ -88,9 +89,12 @@ eu:
       relation: Erlazio
       relation_title: "{{relation_name}} erlazioa"
       view_history: historia ikusi
+    relation_details: 
+      members: "Kideak:"
     relation_history: 
       download: "{{download_xml_link}} edo {{view_details_link}}"
       download_xml: XML jaitsi
+      view_details: xehetasunak ikusi
     relation_member: 
       type: 
         node: Nodo
@@ -102,6 +106,9 @@ eu:
       details: Xehetasunak
       loading: Kargatzen...
       object_list: 
+        back: Objetu zerrenda erakutsi
+        details: Xehetasunak
+        heading: Objetu zerrenda
         history: 
           type: 
             node: "[[id]]. nodoa"
@@ -113,10 +120,14 @@ eu:
         type: 
           node: Nodo
           way: Bide
+      private_user: erabiltzaile pribatua
       show_history: Historia Ikusi
       wait: Itxoin...
     tag_details: 
       tags: "Etiketak:"
+    timeout: 
+      type: 
+        relation: erlazio
     way: 
       download: "{{download_xml_link}}, {{view_history_link}} edo {{edit_link}}"
       download_xml: XML jaitsi
@@ -226,6 +237,7 @@ eu:
           cinema: Zinema
           clinic: Klinika
           club: Diskoteka
+          college: Kolegioa
           community_centre: Komunitate Zentroa
           courthouse: Epaitegia
           crematorium: Errauste labe
@@ -336,6 +348,8 @@ eu:
         landuse: 
           cemetery: Hilerri
           commercial: Merkataritza Eremua
+          construction: Eraikuntza
+          farm: Baserria
           forest: Baso
           meadow: Larre
           military: Eremu Militarra
@@ -467,6 +481,7 @@ eu:
           alpine_hut: Aterpe alpinoa
           attraction: Atrakzio
           bed_and_breakfast: Ohe eta gosari (B&B)
+          cabin: Kabina
           camp_site: Kanpin
           chalet: Txalet
           guest_house: Aterpe
@@ -496,6 +511,7 @@ eu:
   layouts: 
     edit: Aldatu
     export: Esportatu
+    help: Laguntza
     history: Historia
     home: hasiera
     inbox: sarrera-ontzia ({{count}})
@@ -509,14 +525,17 @@ eu:
     logout_tooltip: Saioa itxi
     make_a_donation: 
       text: Dohaintza egin
-    shop: Denda
     sign_up: izena eman
     view: Ikusi
     view_tooltip: Mapa ikusi
     welcome_user: Ongietorri, {{user_link}}
     welcome_user_link_tooltip: Zure lankide orrialdea
+    wiki: Wikia
   license_page: 
+    foreign: 
+      title: Itzulpen honi buruz
     native: 
+      native_link: Euskara version
       title: Orrialde honi buruz
   message: 
     delete: 
@@ -559,6 +578,8 @@ eu:
   notifier: 
     diary_comment_notification: 
       hi: Kaixo {{to_user}},
+    email_confirm: 
+      subject: "[OpenStreetMap] Baieztatu zure eposta helbidea"
     email_confirm_html: 
       greeting: Kaixo,
     email_confirm_plain: 
@@ -586,6 +607,8 @@ eu:
       submit: Aldatu
     form: 
       name: Izena
+    show: 
+      allow_write_api: mapa aldatu.
   site: 
     edit: 
       user_page_link: Lankide orria
@@ -635,6 +658,9 @@ eu:
       where_am_i: Non nago?
     sidebar: 
       close: Itxi
+  time: 
+    formats: 
+      friendly: "%e %B %Y %H:%M-ean"
   trace: 
     edit: 
       description: "Deskribapen:"
@@ -645,8 +671,10 @@ eu:
       owner: "Jabea:"
       points: "Puntuak:"
       save_button: Aldaketak gorde
+      start_coord: "Koordenatuak hasi:"
       tags: "Etiketak:"
       uploaded_at: "Noiz igota:"
+      visibility: Ikusgarritasuna;
       visibility_help: Zer esan nahi du honek?
     trace: 
       ago: duela {{time_in_words_ago}}
@@ -664,7 +692,9 @@ eu:
       help: Laguntza
       tags: "Etiketak:"
       upload_button: Kargatu
-      visibility: Ikuspen
+      upload_gpx: GPX fitxategi igo
+      visibility: Ikusgarritasuna
+      visibility_help: Zer esan nahi du honek?
     trace_optionals: 
       tags: Etiketak
     trace_paging_nav: 
@@ -676,17 +706,22 @@ eu:
       edit: aldatu
       filename: "Fitxategi-izena:"
       map: mapa
+      none: Ezer
       owner: "Jabea:"
       points: "Puntuak:"
       tags: "Etiketak:"
       uploaded: "Noiz igota:"
-      visibility: "Ikuspen:"
+      visibility: "Ikusgarritasuna:"
   user: 
     account: 
+      contributor terms: 
+        link text: zer da hau?
+      current email address: "Egungo eposta helbidea:"
       image: "Irudia:"
       latitude: "Latitude:"
       longitude: "Longitude:"
       my settings: Nire aukerak
+      preferred languages: "Hobetsitako hizkuntzak:"
       profile description: "Profilaren Deskribapena:"
       public editing: 
         disabled link text: Zergatik ezin dut aldatu?
@@ -713,7 +748,9 @@ eu:
       login_button: Saioa hasi
       lost password link: Pasahitza ahaztu duzu?
       password: "Pasahitza:"
+      remember: "Gogora nazazu:"
       title: Saio-hasiera
+      webmaster: webmaster
     logout: 
       heading: OpenStreetMap-etik saioa itxi
       logout_button: Saioa itxi
@@ -722,10 +759,13 @@ eu:
       email address: "Eposta Helbidea:"
       heading: Pasahitza ahaztuta?
       new password button: Pasahitza berrezarri
+      notice email cannot find: Eposta helbide hori ezin izan dugu aurkitu, barkatu.
       title: Ahaztutako pasahitza
     new: 
       confirm email address: "Eposta Helbidea baieztatu:"
       confirm password: "Pasahitza berretsi:"
+      continue: Jarraitu
+      display name: "Erakusteko izena:"
       email address: "Helbide elektronikoa:"
       heading: Erabiltzaile Kontua sortu
       password: "Pasahitza:"
@@ -742,18 +782,26 @@ eu:
       password: "Pasahitza:"
       reset: Pasahitza berrezarri
       title: Pasahitza berrezarri
+    suspended: 
+      webmaster: webmaster
     terms: 
+      agree: Ados
+      consider_pd_why: zer da hau?
       legale_names: 
         france: Frantzia
         italy: Italy
+      legale_select: "Mesedez bizi zaren herrialdean aukeratu:"
     view: 
       activate_user: erabiltzaile hau gaitu
       add as friend: lagun bezala
       ago: (duela {{time_in_words_ago}})
       confirm: Berretsi
       confirm_user: erabiltzaile hau baieztatu
+      create_block: Erabiltzaile hau blokeatu
       deactivate_user: erabiltzaile hau ezgaitu
+      delete_user: lankide hau ezabatu
       description: Deskribapen
+      diary: egunerokoa
       edits: aldaketak
       email address: "Helbide elektronikoa:"
       hide_user: Erabiltzaile hau ezkutatu
@@ -762,8 +810,14 @@ eu:
       mapper since: "Noiztik mapatzaile:"
       my edits: nire aldaketak
       my settings: nire aukerak
+      remove as friend: lagun bezala kendu
+      role: 
+        administrator: Lankide hau administratzailea da
+        moderator: Lankide hau moderatzailea da
       send message: mezua bidali
+      settings_link_text: hobespenak
       status: "Egoera:"
+      user location: Lankidearen kokapena
       your friends: Zure lagunak
   user_block: 
     partial: 

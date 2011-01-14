@@ -355,6 +355,17 @@ hr:
       save_button: Spremi
       title: Blog korisnika {{user}} | {{title}}
       user_title: "{{user}}ov dnevnik"
+  editor: 
+    default: Zadano (currently {{name}})
+    potlatch: 
+      description: Potlatch 1 (editor unutar web preglednika)
+      name: Potlatch 1
+    potlatch2: 
+      description: Potlatch 2 (editor unutar web preglednika)
+      name: Potlatch 2
+    remote: 
+      description: Remote Control (JOSM ili Merkaartor)
+      name: Remote Control
   export: 
     start: 
       add_marker: Dodaj marker na kartu
@@ -878,16 +889,23 @@ hr:
       history_tooltip: Prikaži izmjene za ovo područje
       history_zoom_alert: Morate zoomirati da bi vidjeli povijest izmjena
   layouts: 
+    community_blogs: Blogovi zajednice
+    community_blogs_title: Blogovi članova OpenStreetMap zajednice
     copyright: Autorska prava &amp; Dozvola
+    documentation: Dokumentacija
+    documentation_title: Dokumentacija za projekt
     donate: Podržite OpenStreetMap sa {{link}} Hardware Upgrade Fond.
     donate_link_text: donacije
     edit: Uredi
+    edit_with: Uredi s {{editor}}
     export: Izvoz
     export_tooltip: Izvoz podataka karte
+    foundation: Zaklada
+    foundation_title: OpenStreetMap zaklada
     gps_traces: GPS trase
     gps_traces_tooltip: Upravljaj GPS trasama
     help: Pomoć
-    help_and_wiki: "{{help}} & {{wiki}}"
+    help_centre: Centar pomoći
     help_title: Stranice pomoći za projekt
     history: Povijest
     home: dom
@@ -914,12 +932,8 @@ hr:
     make_a_donation: 
       text: Donirajte
       title: Podržite Openstreetmap novčanom donacijom
-    news_blog: Novosti - blog
-    news_blog_tooltip: Novosti - blog o OpenStreetMap-u, slobodnim geografskim podacima, itd.
     osm_offline: OpenStreetMap baza podataka je trenutno nedostupna dok se ne završe važni radovi na održavanju.
     osm_read_only: Zbog radova na održavanju baze podataka OpenStreetMapa, istu trenutačno nije moguće mijenjati.
-    shop: Trgovina
-    shop_tooltip: Trgovina sa proizvodima OpenStreetMap marke
     sign_up: otvori račun
     sign_up_tooltip: Otvori korisnički račun za uređivanje
     tag_line: Slobodna wiki karta Svijeta
@@ -1164,8 +1178,10 @@ hr:
     edit: 
       anon_edits_link_text: Otkrij zašto je to slučaj.
       flash_player_required: Trebate Flash player da bi koristili Potlatch, OpenStreetMap Flash editor. Možete <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">preuzeti Abode Flash Player sa Adobe.com</a>. <a href="http://wiki.openstreetmap.org/wiki/Editing">Neke druge mogućnosti</a> su također dostupne za uređivanje OpenStreetMapa.
+      no_iframe_support: Vaš preglednik ne podržava HTML iframes, koji su potrebni za ovu značajku.
       not_public: Niste namjestili vaše promjene da budu javne.
       not_public_description: Ne možete više uređivati kartu dok to ne napravite. Možete namjestiti svoje promjene u javne sa {{user_page}}.
+      potlatch2_unsaved_changes: Neke promjene nisu spremljene. (Da biste spremili u Potlatch 2, trebali bi kliknuti Spremi.)
       potlatch_unsaved_changes: Niste spremili promjene. (Da bi spremili u Potlatchu, morate odznačiti trenutni put ili točku ako uređujete uživo; ili kliknite SPREMI ako imate taj gumb.)
       user_page_link: korisnička stranica
     index: 
@@ -1177,10 +1193,11 @@ hr:
         notice: Licencirano pod {{license_name}} licenca {{project_name}} i njenih suradnika.
         project_name: OpenStreetMap projekt
       permalink: Permalink
+      remote_failed: Uređivanje nije uspjelo - provjerite da li je JOSM ili Merkaartor učitan i da je opcija "remote control" omogućena
       shortlink: Shortlink
     key: 
       map_key: Legenda
-      map_key_tooltip: Legenda Mapnik karte na ovom zoom nivou.
+      map_key_tooltip: Legenda karte
       table: 
         entry: 
           admin: Administrativna granica
@@ -1384,6 +1401,7 @@ hr:
       new email address: "Nova E-mail adresa:"
       new image: Dodajte sliku
       no home location: Niste unjeli lokaciju vašeg doma.
+      preferred editor: "Preferirani editor:"
       preferred languages: "Željeni jezici:"
       profile description: "Opis profila:"
       public editing: 
@@ -1402,16 +1420,23 @@ hr:
       title: Uredi korisnički račun
       update home location on click: Ažuriraj lokaciju doma kada kliknem na kartu?
     confirm: 
+      already active: Ovaj račun je već potvrđen.
+      before you start: Znamo da ste vjerojatno u žurbi za početak mapiranja, ali prije nego što počnete, možda bi željeli ispuniti neke dodatne informacije o sebi u donji obrazac.
       button: Potvrdi
       heading: Potvrdi korisnički  račun
       press confirm button: Pritisni potvrdi da bi aktivirali svoj korisnički račun.
+      reconfirm: Ako je prošlo neko vrijeme otkad ste se prijavili možda će te morati <a href="{{reconfirm}}">poslati sebi novu e-poštu potvrde</a> .
       success: Tvoj račun je potvrđen , hvala na uključenju!
+      unknown token: Izgleda da taj token ne postoji.
     confirm_email: 
       button: Potvrdi
       failure: Email adresa je već potvrđena s ovim token-om.
       heading: Potvrdi promjenu email adrese.
       press confirm button: Pritsni potvrdno dugme ispod i potvrdi novu email adresu.
       success: Potvrđena je vaša email adresa, hvala za priključenje!
+    confirm_resend: 
+      failure: Korisnik {{name}} nije pronađen.
+      success: Poslali smo novu potvrdu na email {{email}} a čim potvrdite svoj račun, moći će te početi mapirati.<br /><br />Ako koristite antispam sustav koji šalje potvrdu zahtjeva, molimo Vas da provjerite je li webmaster@openstreetmap.org na tzv. "whitelisti", jer nismo u mogućnosti odgovarati na potvrde zahtjeva.
     filter: 
       not_an_administrator: Morate biti administrator za izvođenje ovih akcija.
     go_public: 
@@ -1428,19 +1453,24 @@ hr:
       summary_no_ip: "{{name}} napravljeno {{date}}"
       title: Korisnici
     login: 
-      account not active: Žao mi je, vaš korisnički račun još nije aktivan. <br />Klikni na link u informacijama o računu da bi aktivirali račun.
+      account not active: Žao nam je, Vaš korisnički račun još nije aktivan. <br /> Molimo vas da koristite link u e-pošti potvrde da biste aktivirali svoj račun, ili <a href="{{reconfirm}}">zatražiti novu e-poštu potvrde</a> .
       account suspended: Žao nam je, Vaš račun je suspendiran zbog sumnjive aktivnosti. <br /> Molimo kontaktirajte {{webmaster}}, ako želite razgovarati o tome.
+      already got: Već imate OpenStreetMap račun? Molimo, prijavite se.
       auth failure: Žao mi je, ne mogu prijaviti s ovim detaljima.
+      create account minute: Otvorite korisnički račun. To traje samo minutu.
       create_account: otvorite korisnički račun
       email or username: "Email adresa ili korisničko ime:"
       heading: "Prijava:"
       login_button: Prijava
       lost password link: Izgubljena lozinka?
+      new to osm: Novi na OpenStreetMap?
       notice: <a href="http://www.osmfoundation.org/wiki/License/We_Are_Changing_The_License">Saznajte više o dolazećoj promjeni dozvole za OpenStreetMap</a> (<a href="http://wiki.openstreetmap.org/wiki/ODbL/We_Are_Changing_The_License">prijevodi</a>) (<a href="http://wiki.openstreetmap.org/wiki/Talk:ODbL/Upcoming">razgovor</a>)
       password: "Lozinka:"
       please login: Molimo prijavite se ili {{create_user_link}}.
+      register now: Registrirajte se sada
       remember: "Zapamti me:"
       title: Prijava
+      to make changes: Da bi napravili izmjene na OpenStreetMap podacima, morate imati korisnički račun.
       webmaster: webmaster
     logout: 
       heading: Odjava iz OpenStreetMap
@@ -1467,7 +1497,7 @@ hr:
       display name description: Javno prikazano korisničko ime. Možete ga promjeniti i kasnije u postavkama.
       email address: "Email:"
       fill_form: Ispuni formular i i ubrzo će te dobtiti email za aktivaciju korisničkog računa.
-      flash create success message: Korisnik je uspješno napravljen. Provjeri e-mail za potvrdu, i početi ćeš mapirati vrlo brzo :-)<br /><br />Upamtite da se nećeš moći prijaviti dok ne primio potvrdu e-mail adrese.<br /><br />Ako kortstiš antispam system koji šalje potvrde budi siguran da je na whitelisti webmaster@openstreetmap.org as jer nećemo moći odgovoriti na potvrdni zahtjev.
+      flash create success message: Hvala što ste se prijavili! Poslali smo vam e-mail za potvrdu na {{email}}, i čim potvrdite svoj račun možete  mapirati<br /><br />Ako kortstite antispam sustav koji šalje potvrde zahtjeva budite sigurni da je na tzv. "whitelisti" webmaster@openstreetmap.org jer nećemo moći odgovoriti na potvrdni zahtjev.
       heading: Otvori korisnički račun
       license_agreement: Kada potvrdite vaš račun morati će te pristati na <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">uvjete pridonositelja</a> .
       no_auto_account_create: Nažalost nismo u mogućnosti automatski otvarati korisničke račune.
@@ -1534,6 +1564,7 @@ hr:
       hide_user: sakrij ovog korisnika
       if set location: Ako namjestite svoju lokaciju, zgodna karta i stvari će se pojaviti ispod. Možete namjestiti lokaciju vašeg boravišta na {{settings_link}} stranici.
       km away: udaljen {{count}}km
+      latest edit: "Najnovija izmjena {{ago}}:"
       m away: "{{count}}m daleko"
       mapper since: "Maper od:"
       moderator_history: prikaži dane blokade

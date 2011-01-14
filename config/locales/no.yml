@@ -354,6 +354,17 @@
       save_button: Lagre
       title: "{{user}} sin dagbok | {{title}}"
       user_title: Dagboken for {{user}}
+  editor: 
+    default: Standard (nåværende {{name}})
+    potlatch: 
+      description: Potlatch 1 (rediger i nettleseren)
+      name: Potlatch 1
+    potlatch2: 
+      description: Potlatch 2 (rediger i nettleseren)
+      name: Potlatch 2
+    remote: 
+      description: Lokalt installert program (JOSM eller Merkaartor)
+      name: Lokalt installert program
   export: 
     start: 
       add_marker: Legg til en markør på kartet
@@ -426,6 +437,7 @@
         uk_postcode: Resultat fra <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Resultat fra <a href="http://geocoder.us/">Geocoder.us</a>
     search_osm_namefinder: 
+      prefix: "{{type}}"
       suffix_parent: "{{suffix}} ({{parentdistance}} {{parentdirection}} av {{parentname}})"
       suffix_place: ", {{distance}} {{direction}} av {{placename}}"
     search_osm_nominatim: 
@@ -861,11 +873,16 @@
           water_point: Vannpunkt
           waterfall: Foss
           weir: Overløpskant \
+      prefix_format: "{{name}}"
   javascripts: 
     map: 
       base: 
         cycle_map: Sykkelkart
+        mapnik: Mapnik
         noname: IntetNavn
+        osmarender: Osmarender
+      overlays: 
+        maplint: Maplint
     site: 
       edit_disabled_tooltip: Zoom inn for å redigere kartet
       edit_tooltip: Rediger kartet
@@ -874,16 +891,23 @@
       history_tooltip: Vis redigeringer for dette området
       history_zoom_alert: Du må zoome inn for å vise redigeringer i dette området
   layouts: 
+    community_blogs: Fellesskapsblogger
+    community_blogs_title: Blogger fra medlemmene i OpenStreetMap-felleskapet
     copyright: Opphavsrett &amp; lisens
+    documentation: Dokumentasjon
+    documentation_title: Dokumentasjon for prosjektet
     donate: Støtt OpenStreetMap ved {{link}} til Hardware Upgrade Fund (et fond for maskinvareoppgraderinger).
     donate_link_text: donering
     edit: Rediger
+    edit_with: Rediger med {{editor}}
     export: Eksporter
     export_tooltip: Eksporter kartdata
+    foundation: Stiftelse
+    foundation_title: OpenStreetMap stiftelsen
     gps_traces: GPS-spor
     gps_traces_tooltip: Behandle GPS-spor
     help: Hjelp
-    help_and_wiki: "{{help}} & {{wiki}}"
+    help_centre: Brukerstøtte
     help_title: Hjelpenettsted for prosjektet
     history: Historikk
     home: hjem
@@ -908,12 +932,11 @@
     make_a_donation: 
       text: Doner
       title: Støtt OpenStreetMap med en donasjon
-    news_blog: Nyhetsblogg
-    news_blog_tooltip: Nyhetsblogg om OpenStreetMap, frie geografiske data, osv.
     osm_offline: OpenStreetMap databasen er for øyeblikket utilgjengelig mens essensielt vedlikeholdsarbeid utføres.
     osm_read_only: OpenStreetMap databasen er for øyeblikket i kun-lese-modus mens essensielt vedlikeholdsarbeid utføres.
-    shop: Butikk
-    shop_tooltip: Butikk med OpenStreetMap-merkevarer
+    project_name: 
+      h1: OpenStreetMap
+      title: OpenStreetMap
     sign_up: registrer
     sign_up_tooltip: Opprett en konto for redigering
     tag_line: Fritt Wiki-verdenskart
@@ -1053,6 +1076,7 @@
       footer2: og du kan svare til {{replyurl}}
       header: "{{from_user}} har sendt deg en melding gjennom OpenStreetMap med emnet {{subject}}:"
       hi: Hei {{to_user}},
+      subject_header: "[OpenStreetMap] {{subject}}"
     signup_confirm: 
       subject: "[OpenStreetMap] Bekreft din e-postadresse"
     signup_confirm_html: 
@@ -1099,6 +1123,8 @@
   oauth_clients: 
     create: 
       flash: Vellykket registrering av informasjonen
+    destroy: 
+      flash: Ødelagt klientapplikasjonsregistreringen
     edit: 
       submit: Rediger
       title: Rediger ditt programvare
@@ -1151,8 +1177,10 @@
     edit: 
       anon_edits_link_text: Finn ut hvorfor dette er tilfellet.
       flash_player_required: Du trenger en Flash-spiller for å kunne bruke Potlatch, Flasheditoren for OpenStreetMap. Du kan <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">laste ned Flash Player fra Adobe.com</a>. <a href="http://wiki.openstreetmap.org/wiki/Editing">Flere andre alternativ</a> er også tilgjengelig for redigering av OpenStreetMap.
+      no_iframe_support: Nettleseren din støtter ikke HTML iframes som er nødvendig for denne egenskapen.
       not_public: Du har ikke satt dine redigeringer til å være offentlige.
       not_public_description: Du kan ikke lenger redigere kartet om du ikke gjør det. Du kan gjøre dine redigeringer offentlige fra din {{user_page}}.
+      potlatch2_unsaved_changes: Du har endringer som ikke er lagret. (For å lagre i Potlatch 2, må du klikke lagre.)
       potlatch_unsaved_changes: Du har ulagrede endringer. (For å lagre i Potlatch, må du fjerne markeringen av gjeldende vei eller punkt hvis du redigerer i live-modues eller klikke lagre hvis du har en lagreknapp.)
       user_page_link: brukerside
     index: 
@@ -1164,10 +1192,11 @@
         notice: Lisensiert under lisensen {{license_name}} av {{project_name}} og dets bidragsytere.
         project_name: OpenStreetMap-prosjekt
       permalink: Permanent lenke
+      remote_failed: Klarte ikke redigere - forsikre deg at JOSM eller Merkaartor er lastet og fjernkontrollvalget er aktivert
       shortlink: Kort lenke
     key: 
       map_key: Kartforklaring
-      map_key_tooltip: Kartforklaring for Mapnik-visningen på dette zoom-nivået
+      map_key_tooltip: Forklaring for kartet
       table: 
         entry: 
           admin: Administrativ grense
@@ -1371,6 +1400,7 @@
       new email address: "Ny e-postadresse:"
       new image: Legg til et bilde
       no home location: Du har ikke skrevet inn din hjemmelokasjon.
+      preferred editor: Foretrukket redigeringsverktøy
       preferred languages: "Foretrukne språk:"
       profile description: "Profilbeskrivelse:"
       public editing: 
@@ -1382,22 +1412,29 @@
         heading: "Offentlig redigering:"
       public editing note: 
         heading: Offentlig redigering
+        text: For øyeblikket er redigeringene dine anonyme og folk kan ikke sende deg meldinger eller se posisjonen din. For å vise hva du redigerte og tillate folk å kontakte deg gjennom nettsiden, klikk på knappen nedenfor. <b>Siden overgangen til 0.6 API-et, kan kun offentlige brukere redigere kartdata.</b> ( <a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">Finn ut hvorfor</a> ). <ul><li> Din e-postadresse vil ikke bli avslørt ved å bli offentlig. </li><li> Denne handlingen kan ikke omgjøres, og alle nye brukere er nå offentlig tilgjengelig som standard. </li></ul>
       replace image: Erstatt gjeldende bilde
       return to profile: Returner til profil
       save changes button: Lagre endringer
       title: Rediger konto
       update home location on click: Oppdater hjemmelokasjon når jeg klikker på kartet?
     confirm: 
+      already active: Denne kontoen har allerede blitt bekreftet.
+      before you start: Vi vet du sannsynligvis har hastverk med å begynne å lage kart, men før du gjør dette kan du fylle inn litt informasjon om deg selv i skjemaet under.
       button: Bekreft
       heading: Bekreft en brukerkonto
       press confirm button: Klikk bekreftknappen nedenfor for å aktivere kontoen din.
+      reconfirm: Hvis det er en stund siden du registrerte deg kan det hende du må <a href={{reconfirm}}">sende degselv en ny bekreftelsesepost</a>.
       success: Kontoen din er bekreftet - takk for at du registrerte deg.
+      unknown token: Den koden ser ikke ut til å eksistere.
     confirm_email: 
       button: Bekreft
       failure: En e-postadresse er allerede bekreftet med denne nøkkelen.
       heading: Bekreft endring av e-postadresse
       press confirm button: Klikk bekreftknappen nedenfor for å bekrefte din nye e-postadressse.
       success: E-postadressen din er bekreftet - takk for at du registrerte deg.
+    confirm_resend: 
+      failure: Fant ikke brukeren {{name}}.
     filter: 
       not_an_administrator: Du må være administrator for å gjøre det.
     go_public: 
@@ -1414,19 +1451,24 @@
       summary_no_ip: "{{name}} opprettet {{date}}"
       title: Brukere
     login: 
-      account not active: Beklager,kontoen din er ikke aktivert ennå.<br />Vennligst klikk på lenken i e-posten med kontobekreftelsen for å aktivere kontoen din.
+      account not active: Beklager, kontoen din er ikke aktivert ennå.<br />Bruk lenka i kontobekreftelseseposten for å aktivere kontoen din, eller <a href="{{reconfirm}}">be om en ny bekreftelsesepost</a>.
       account suspended: Beklager, kontoen din er deaktivert på grunn av mistenkelig aktivitet.<br />Vennligst kontakt {{webmaster}} hvis du ønsker å diskutere dette.
+      already got: Har du allerede en OpenStreetMap-konto? Logg inn.
       auth failure: Beklager, kunne ikke logge inn med den informasjonen
+      create account minute: Opprett en konto. Det tar bare ett minutt.
       create_account: opprett en konto
       email or username: "E-postadresse eller brukernavn:"
       heading: Logg inn
       login_button: Logg inn
       lost password link: Mistet passordet ditt?
+      new to osm: Ny på OpenStreetMap?
       notice: <a href="http://www.osmfoundation.org/wiki/License/We_Are_Changing_The_License">Finn ut mer om OpenStreetMap sitt kommende bytte av lisens</a> (<a href="http://wiki.openstreetmap.org/wiki/ODbL/We_Are_Changing_The_License">oversettelser</a>) (<a href="http://wiki.openstreetmap.org/wiki/Talk:ODbL/Upcoming">diskusjon</a>)
       password: "Passord:"
       please login: Logg inn eller {{create_user_link}}.
+      register now: Registrer deg nå
       remember: "Huske meg:"
       title: Logg inn
+      to make changes: For å gjøre endringer på OpenStreetMap-data, må du ha en konto.
       webmaster: webmaster
     logout: 
       heading: Logg ut fra OpenStreetMap
@@ -1520,6 +1562,7 @@
       hide_user: skjul denne brukeren
       if set location: Hvis du setter din posisjon, så vil et fint kart og ting vises her. Du kan sette din hjemmeposisjon på din {{settings_link}}-side.
       km away: "{{count}}km unna"
+      latest edit: "Siste redigering {{ago}}:"
       m away: "{{count}}m unna"
       mapper since: "Bruker siden:"
       moderator_history: vis tildelte blokkeringer
