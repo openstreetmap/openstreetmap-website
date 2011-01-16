@@ -277,7 +277,7 @@ end
     $("linkloader").src = "http://127.0.0.1:8111/load_and_zoom?left=" + extent.left + "&top=" + extent.top + "&right=" + extent.right + "&bottom=" + extent.bottom;
 
     setTimeout(function () {
-      if (!loaded) alert("<%= t('site.index.remote_failed') %>");
+      if (!loaded) alert("<%= escape_javascript(t('site.index.remote_failed')) %>");
     }, 1000);
 
     event.stop();
