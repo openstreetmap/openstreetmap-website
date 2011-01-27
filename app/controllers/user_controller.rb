@@ -1,5 +1,6 @@
 class UserController < ApplicationController
-  layout 'site', :except => :api_details
+  layout 'site', :except => [:api_details, :login]
+  layout 'slim', :only => :login
 
   before_filter :authorize, :only => [:api_details, :api_gpx_files]
   before_filter :authorize_web, :except => [:api_details, :api_gpx_files]
