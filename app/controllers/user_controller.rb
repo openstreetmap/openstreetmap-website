@@ -1,5 +1,5 @@
 class UserController < ApplicationController
-  layout 'site', :except => [:api_details]
+  layout :choose_layout
 
   before_filter :authorize, :only => [:api_details, :api_gpx_files]
   before_filter :authorize_web, :except => [:api_details, :api_gpx_files]
@@ -257,7 +257,6 @@ class UserController < ApplicationController
     elsif flash[:notice].nil?
       flash.now[:notice] =  t 'user.login.notice'
     end
-    render :layout => 'slim'
   end
 
   def logout
@@ -496,5 +495,18 @@ private
     @this_user = User.find_by_display_name(params[:display_name])
   rescue ActiveRecord::RecordNotFound
     redirect_to :controller => 'user', :action => 'view', :display_name => params[:display_name] unless @this_user
+  end
+
+  ##
+  # Choose the layout to use. See
+  # https://rails.lighthouseapp.com/projects/8994/tickets/5371-layout-with-onlyexcept-options-makes-other-actions-render-without-layouts
+  def choose_layout
+    if [ 'api_details' ].include? action_name
+      nil
+    elsif [ 'login', 'new', 'terms'].include? action_name
+      'slim'
+    else
+      'site'
+    end
   end
 end
