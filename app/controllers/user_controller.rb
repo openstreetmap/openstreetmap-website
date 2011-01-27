@@ -1,6 +1,5 @@
 class UserController < ApplicationController
-  layout 'site', :except => [:api_details, :login]
-  layout 'slim', :only => :login
+  layout 'site', :except => [:api_details]
 
   before_filter :authorize, :only => [:api_details, :api_gpx_files]
   before_filter :authorize_web, :except => [:api_details, :api_gpx_files]
@@ -258,6 +257,7 @@ class UserController < ApplicationController
     elsif flash[:notice].nil?
       flash.now[:notice] =  t 'user.login.notice'
     end
+    render :layout => 'slim'
   end
 
   def logout
