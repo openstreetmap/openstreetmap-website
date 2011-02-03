@@ -64,9 +64,15 @@ fur:
       belongs_to: "Al è di:"
       closed_at: "Sierât ai:"
       created_at: "Creât ai:"
+      has_nodes: 
+        one: "Al à il grop ca sot:"
+        other: "Al à i {{count}} grops ca sot:"
       has_relations: 
-        one: "Al à la {{count}} relazion ca sot:"
+        one: "Al à la relazion ca sot:"
         other: "Al à lis {{count}} relazions ca sot:"
+      has_ways: 
+        one: "Al à la vie ca sot:"
+        other: "Al à lis {{count}} viis ca sot:"
       show_area_box: Mostre ricuadri de aree
     common_details: 
       changeset_comment: "Coment:"
@@ -81,14 +87,18 @@ fur:
       deleted: Eliminât
       larger: 
         area: Viôt la aree suntune mape plui grande
+        node: Viôt il grop suntune mape plui grande
         relation: Viôt la relazion suntune mape plui grande
+        way: Viôt la vie suntune mape plui grande
       loading: Daûr a cjamâ...
     navigation: 
       all: 
         next_changeset_tooltip: Grup di cambiaments sucessîf
         next_relation_tooltip: Relazion sucessive
         prev_changeset_tooltip: Grup di cambiaments precedent
+        prev_node_tooltip: Grop precedent
         prev_relation_tooltip: Relazion precedente
+        prev_way_tooltip: Vie precedente
       user: 
         name_changeset_tooltip: Vîot i cambiaments di {{user}}
         next_changeset_tooltip: Cambiament sucessîf di {{user}}
@@ -97,6 +107,7 @@ fur:
       download: "{{download_xml_link}}, {{view_history_link}} o {{edit_link}}"
       download_xml: Discjame XML
       edit: cambie
+      node: Grop
       view_history: cjale storic
     node_details: 
       coordinates: "Coordenadis:"
@@ -108,6 +119,7 @@ fur:
     not_found: 
       type: 
         changeset: "Non dal file:"
+        node: grop
         relation: relazion
     paging_nav: 
       of: su
@@ -130,6 +142,7 @@ fur:
     relation_member: 
       entry_role: "{{type}} {{name}} come {{role}}"
       type: 
+        node: Grop
         relation: Relazion
     start: 
       manually_select: Sielç a man une aree divierse
@@ -149,6 +162,8 @@ fur:
         back: Mostre liste dai ogjets
         details: Detais
         heading: di
+        type: 
+          node: Grop
       private_user: utent privât
       show_history: Mostre storic
       wait: Daûr a spietâ...
@@ -158,6 +173,8 @@ fur:
       wikipedia_link: L'articul su {{page}} te Wikipedia
     timeout: 
       type: 
+        changeset: grup di cambiaments
+        node: grop
         relation: relazion
     way: 
       download: "{{download_xml_link}}, {{view_history_link}} o {{edit_link}}"
@@ -261,6 +278,14 @@ fur:
       save_button: Salve
       title: Diari di {{user}} | {{title}}
       user_title: Diari di {{user}}
+  editor: 
+    default: Predeterminât (par cumò {{name}})
+    potlatch: 
+      description: Potlatch 1 (editôr tal sgarfadôr)
+      name: Potlatch 1
+    potlatch2: 
+      description: Potlatch 2 (editôr tal sgarfadôr)
+      name: Potlatch 2
   export: 
     start: 
       add_marker: Zonte un segnalut ae mape
@@ -338,12 +363,15 @@ fur:
           auditorium: Auditori
           bank: Bancje
           bench: Bancjute
+          bicycle_rental: Nauli di bicicletis
           bureau_de_change: Ufizi di cambi
           bus_station: Stazion des corieris
+          car_rental: Nauli di machinis
           car_wash: Lavaç machinis
           casino: Casinò
           cinema: Cine
           clinic: Cliniche
+          community_centre: Centri civic
           dentist: Dentist
           doctors: Dotôrs
           drinking_water: Aghe potabil
@@ -364,6 +392,7 @@ fur:
           police: Polizie
           post_office: Pueste
           prison: Preson
+          pub: Pub
           public_building: Edifici public
           public_market: Marcjât public
           restaurant: Ristorant
@@ -383,11 +412,15 @@ fur:
           chapel: Capele
           church: Glesie
           city_hall: Municipi
+          entrance: Jentrade dal edifici
           house: Cjase
+          industrial: Edifici industriâl
+          public: Edifici public
           shop: Buteghe
           stadium: Stadi
           train_station: Stazion de ferade
           university: Edifici universitari
+          "yes": Edifici
         highway: 
           bus_stop: Fermade autobus
           emergency_access_point: Pont di acès di emergjence
@@ -457,19 +490,23 @@ fur:
           construction: Ferade in costruzion
           disused: Ferade bandonade
           disused_station: Stazion de ferade bandonade
+          halt: Fermade de ferade
           light_rail: Ferade lizere
           station: Stazion de ferade
+          tram_stop: Fermade dal tram
         shop: 
           bakery: Pancôr
           bicycle: Buteghe di bicicletis
           books: Librerie
           butcher: Becjarie
           car_repair: Riparazion di machinis
+          carpet: Buteghe di tapêts
           hairdresser: Piruchîr o barbîr
           insurance: Assicurazion
           laundry: Lavandarie
           market: Marcjât
           optician: Otic
+          pet: Buteghe di animâi
           supermarket: Supermarcjât
           toys: Negozi di zugatui
         tourism: 
@@ -496,15 +533,23 @@ fur:
       history_tooltip: Cjale i cambiaments in cheste aree
       history_zoom_alert: Tu scugnis cressi il zoom par viodi il storic dai cambiaments
   layouts: 
+    community_blogs: Blogs de comunitât
+    community_blogs_title: Blogs di bande dai membris de comunitât OpenStreetMap
     copyright: Copyright &amp; Licence
+    documentation: Documentazion
+    documentation_title: Documentazion dal progjet
     donate: Sosten OpenStreetMap {{link}} al font pal inzornament dal hardware.
     donate_link_text: donant
     edit: Cambie
+    edit_with: Cambie cun {{editor}}
     export: Espuarte
     export_tooltip: Espuarte i dâts de mape
+    foundation: Fondazion
+    foundation_title: La fondazion OpenStreetMap
     gps_traces: Percors GPS
     gps_traces_tooltip: Gjestìs i percors GPS
     help: Jutori
+    help_centre: Jutori
     help_title: Sît di jutori pal progjet
     history: Storic
     home: lûc iniziâl
@@ -639,7 +684,12 @@ fur:
       name: Non
   site: 
     edit: 
+      anon_edits_link_text: Discuvierç parcè che al è cussì.
       flash_player_required: Ti covente un riprodutôr Flash par doprâ Potlatch, l'editôr Flash di OpenStreetMap. Tu puedis <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">discjamâ il Flash Player di Adobe.com</a>. <a href="http://wiki.openstreetmap.org/wiki/Editing">E je cualchi altre opzion</a> par lavorâ su OpenStreetMap.
+      no_iframe_support: Il to sgarfadôr nol supuarte i iframes HTML, che a coventin par cheste funzion.
+      not_public: Tu âs impuestât i tiei cambiaments come no publics.
+      not_public_description: No tu puedis plui cambiâ la mape se tu lu fasis. Tu puedis impuestâ come publics i tiei cambiaments de tô {{user_page}}.
+      potlatch2_unsaved_changes: Tu âs cambiaments no salvâts. (Par salvâ in Potlatch 2, tu scugnis fracâ sul boton pal salvataç)
       potlatch_unsaved_changes: Tu âs cambiaments no salvâts. (Par salvâ in Potlatch, tu varessis di deselezionâ il percors o il pont atuâl, se tu stâs lavorant in modalitât live, o fracâ su Salve se tu viodis un boton Salve.)
       user_page_link: pagjine dal utent
     index: 
@@ -651,6 +701,7 @@ fur:
         notice: Dât fûr sot de licence {{license_name}} di {{project_name}} e i siei utents che a àn contribuît.
         project_name: progjet OpenStreetMap
       permalink: Leam permanent
+      remote_failed: Cambiament falît - siguriti che JOSM o Merkaartor a sedin inviâts e la opzion pal remote control e sedi ativade
       shortlink: Leam curt
     key: 
       map_key: Leiende
@@ -813,6 +864,8 @@ fur:
       success: Tu âs confermât la tô direzion di pueste, graziis par jessiti regjistrât
     confirm_resend: 
       failure: L'utent {{name}} nol è stât cjatât.
+    go_public: 
+      flash success: Ducj i tiei cambiaments a son cumò publics e tu puedis za scomençâ a lavorâ.
     list: 
       heading: Utents
       showing: 
@@ -874,6 +927,7 @@ fur:
         france: France
         italy: Italie
         rest_of_world: Rest dal mont
+      legale_select: "Sielç il stât dulà che tu âs la residences:"
       title: Tiermins par contribuî
     view: 
       add as friend: zonte ai amîs
@@ -892,6 +946,7 @@ fur:
       hide_user: plate chest utent
       if set location: Se tu impuestis la tô locazion, tu viodarâs culì une biele mape e altris informazions. Tu puedis impuestâ il to lûc iniziâl inte pagjine des {{settings_link}}.
       km away: a {{count}}km di distance
+      latest edit: "Ultin cambiament {{ago}}:"
       m away: "{{count}}m di distance"
       mapper since: "Al mape dai:"
       moderator_history: viôt i blocs ricevûts
