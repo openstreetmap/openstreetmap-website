@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.3'
+gem 'rails', '3.0.4'
 
 gem 'pg'
 gem 'libxml-ruby', '>= 2.0.5', :require => 'libxml'
@@ -17,7 +17,7 @@ gem 'validates_email_format_of', '>= 1.4.2'
 gem 'memcached'
 
 # Should only load if we're not in database offline mode
-gem 'composite_primary_keys', '>= 3.0.9'
+gem 'composite_primary_keys', '>= 3.1.1'
 
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators
