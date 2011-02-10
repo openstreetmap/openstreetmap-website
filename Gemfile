@@ -3,6 +3,7 @@ source 'http://rubygems.org'
 gem 'rails', '3.0.4'
 
 gem 'pg'
+gem 'arel', '>= 2.0.8'
 gem 'libxml-ruby', '>= 2.0.5', :require => 'libxml'
 gem 'rmagick', :require => 'RMagick'
 gem 'oauth', '>= 0.4.3'
