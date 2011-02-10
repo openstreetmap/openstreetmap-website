@@ -54,7 +54,18 @@ class DiffReader
         # as the call to @reader.next in the innermost loop will take
         # care of that for us.
         if @reader.node_type == 1 # element
-          yield @reader.name
+          name = @reader.name
+          attributes =  {}
+
+          if @reader.has_attributes?
+            while @reader.move_to_next_attribute == 1
+              attributes[@reader.name] = @reader.value
+            end
+
+            @reader.move_to_element
+          end
+
+          yield name, attributes
         else
           read_or_die
         end
@@ -70,7 +81,7 @@ class DiffReader
   # elements, it would be better to DRY and do this in a block. This
   # could also help with error handling...?
   def with_model
-    with_element do |model_name|
+    with_element do |model_name,model_attributes|
       model = MODELS[model_name]
       raise OSM::APIBadUserInput.new("Unexpected element type #{model_name}, " +
                                      "expected node, way or relation.") if model.nil?
@@ -110,7 +121,7 @@ class DiffReader
     result.root.name = "diffResult"
 
     # loop at the top level, within the <osmChange> element
-    with_element do |action_name|
+    with_element do |action_name,action_attributes|
       if action_name == 'create'
         # create a new element. this code is agnostic of the element type
         # because all the elements support the methods that we're using.
@@ -204,12 +215,23 @@ class DiffReader
           # can a delete have placeholders under any circumstances?
           # if a way is modified, then deleted is that a valid diff?
           new.fix_placeholders!(ids)
-          old.delete_with_history!(new, @changeset.user)
 
           xml_result = XML::Node.new model.to_s.downcase
           # oh, the irony... the "new" element actually contains the "old" ID
           # a better name would have been client/server, but anyway...
           xml_result["old_id"] = new_id.to_s
+
+          if action_attributes["if-unused"]
+            begin
+              old.delete_with_history!(new, @changeset.user)
+            rescue OSM::APIPreconditionFailedError => ex
+              xml_result["new_id"] = old.id.to_s
+              xml_result["new_version"] = old.version.to_s
+            end
+          else
+            old.delete_with_history!(new, @changeset.user)
+          end
+
           result.root << xml_result
         end
 

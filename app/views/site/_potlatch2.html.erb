@@ -1,0 +1,56 @@
+<div id="map">
+  <%= t 'site.edit.flash_player_required' %>
+</div>
+
+<%= javascript_include_tag 'swfobject.js' %>
+
+<% token = @user.access_token(POTLATCH2_KEY) %>
+
+<script type="text/javascript" defer="defer">
+  var brokenContentSize = $("content").offsetWidth == 0;
+  var fo = new SWFObject("<%= asset_path("/potlatch2/potlatch2.swf") %>", "potlatch", "100%", "100%", "9", "#FFFFFF");
+  // 700,600 for fixed size, 100%,100% for resizable
+  var changesaved=true;
+  
+  window.onbeforeunload=function() {
+    if (!changesaved) {
+      return '<%= escape_javascript(t('site.edit.potlatch2_unsaved_changes')) %>';
+    }
+  }
+
+  function markChanged(a) { changesaved=a; }
+
+  function doSWF(lat,lon,zoom) {
+    fo.addParam("base","/potlatch2");
+    if (lat) { fo.addVariable("lat",lat); }
+    if (lon) { fo.addVariable("lon",lon); }
+    <% if params['gpx'] %>
+    fo.addVariable('gpx' ,'<%= h(params['gpx']) %>');
+    <% end %>
+    <% if params['tileurl'] %>
+    fo.addVariable('tileurl' ,'<%= h(params['tileurl']) %>');
+    <% end %>
+    fo.addVariable("zoom",zoom);
+    fo.addVariable("api","<%= request.protocol + request.host_with_port %>/api/<%= API_VERSION %>/");
+    fo.addVariable("policy","<%= request.protocol + request.host_with_port %>/api/crossdomain.xml");
+    fo.addVariable("connection","XML");
+    fo.addVariable("oauth_token","<%= token.token %>");
+    fo.addVariable("oauth_token_secret","<%= token.secret %>");
+    fo.addVariable("oauth_consumer_key","<%= token.client_application.key %>");
+    fo.addVariable("oauth_consumer_secret","<%= token.client_application.secret %>");
+    fo.addVariable("maximise_function","maximiseMap");
+    fo.addVariable("minimise_function","minimiseMap");
+    fo.addVariable("move_function","mapMoved");
+    fo.write("map");
+  }
+
+  doSWF(<%= @lat || 'null' %>,<%= @lon || 'null' %>,<%= @zoom %>);
+
+  function setPosition(lat, lon, zoom) {
+    $("potlatch").setPosition(lat, lon, Math.max(zoom || 15, 13));
+  }
+
+  function mapMoved(lon, lat, zoom, minlon, minlat, maxlon, maxlat) {
+    updatelinks(lon, lat, zoom, null, minlon, minlat, maxlon, maxlat);
+  }
+</script>

@@ -1,6 +1,6 @@
 <% content_for :greeting do %>
 <% if @user and !@user.home_lon.nil? and !@user.home_lat.nil? %>
-  <%= link_to_function t('layouts.home'), "setPosition(#{@user.home_lat}, #{@user.home_lon}, 10)", { :title => t('layouts.home_tooltip') } %> |
+  <%= link_to_function t('layouts.home'), "setPosition(#{@user.home_lat}, #{@user.home_lon}, 15)", { :title => t('layouts.home_tooltip') } %> |
 <% end %>
 <% end %>
 
@@ -18,6 +18,9 @@
 
 <div id="map">
 </div>
+
+<iframe id="linkloader" style="display: none">
+</iframe>
 
 <div id="permalink">
   <a href="/" id="permalinkanchor"><%= t 'site.index.permalink' %></a><br/>
@@ -63,18 +66,17 @@ if params['node'] or params['way'] or params['relation']
     end
 end
 
+# Decide on a lat lon to initialise the map with. Various ways of doing this
 if params['minlon'] and params['minlat'] and params['maxlon'] and params['maxlat']
     bbox = true
     minlon = h(params['minlon'])
     minlat = h(params['minlat'])
     maxlon = h(params['maxlon'])
     maxlat = h(params['maxlat'])
+    layers = h(params['layers'])
     box = true if params['box']=="yes"
     object_zoom = false
-end
-
-# Decide on a lat lon to initialise the map with. Various ways of doing this
-if params['lon'] and params['lat']
+elsif params['lon'] and params['lat']
     lon =  h(params['lon'])
     lat =  h(params['lat'])
     zoom =  h(params['zoom'] || '5')
@@ -267,10 +269,37 @@ end
     resizeMap();
   }
 
+  function remoteEditHandler(event) {
+    var extent = getMapExtent();
+    var loaded = false;
+
+    $("linkloader").observe("load", function () { loaded = true; });
+    $("linkloader").src = "http://127.0.0.1:8111/load_and_zoom?left=" + extent.left + "&top=" + extent.top + "&right=" + extent.right + "&bottom=" + extent.bottom;
+
+    setTimeout(function () {
+      if (!loaded) alert("<%= escape_javascript(t('site.index.remote_failed')) %>");
+    }, 1000);
+
+    event.stop();
+  }
+
+  function installEditHandler() {
+    $("remoteanchor").observe("click", remoteEditHandler);
+
+    <% if preferred_editor == "remote" %>
+      $("editanchor").observe("click", remoteEditHandler);
+
+      <% if params[:action] == "edit" %>
+        remoteEditHandler();
+      <% end %>
+    <% end %>
+  }
+
   mapInit();
 
-  window.onload = handleResize;
-  window.onresize = handleResize;
+  Event.observe(window, "load", installEditHandler);
+  Event.observe(window, "load", handleResize);
+  Event.observe(window, "resize", handleResize);
 
   <% if params['action'] == 'export' %>
   <%= remote_function :url => { :controller => 'export', :action => 'start' } %>

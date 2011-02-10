@@ -498,6 +498,56 @@ EOF
   end
 
   ##
+  # test that a conditional delete of an in use object works.
+  def test_upload_delete_if_unused
+    basic_authorization users(:public_user).email, "test"
+
+    diff = XML::Document.new
+    diff.root = XML::Node.new "osmChange"
+    delete = XML::Node.new "delete"
+    diff.root << delete
+    delete["if-unused"] = ""
+    delete << current_relations(:public_used_relation).to_xml_node
+    delete << current_ways(:used_way).to_xml_node
+    delete << current_nodes(:node_used_by_relationship).to_xml_node
+
+    # upload it
+    content diff
+    post :upload, :id => 2
+    assert_response :success, 
+      "can't do a conditional delete of in use objects: #{@response.body}"
+
+    # check the returned payload
+    assert_select "diffResult[version=#{API_VERSION}][generator=\"OpenStreetMap server\"]", 1
+    assert_select "diffResult>node", 1
+    assert_select "diffresult>way", 1
+    assert_select "diffResult>relation", 1
+
+    # parse the response
+    doc = XML::Parser.string(@response.body).parse
+
+    # check the old IDs are all present and what we expect
+    assert_equal current_nodes(:node_used_by_relationship).id, doc.find("//diffResult/node").first["old_id"].to_i
+    assert_equal current_ways(:used_way).id, doc.find("//diffResult/way").first["old_id"].to_i
+    assert_equal current_relations(:public_used_relation).id, doc.find("//diffResult/relation").first["old_id"].to_i
+
+    # check the new IDs are all present and unchanged
+    assert_equal current_nodes(:node_used_by_relationship).id, doc.find("//diffResult/node").first["new_id"].to_i
+    assert_equal current_ways(:used_way).id, doc.find("//diffResult/way").first["new_id"].to_i
+    assert_equal current_relations(:public_used_relation).id, doc.find("//diffResult/relation").first["new_id"].to_i
+
+    # check the new versions are all present and unchanged
+    assert_equal current_nodes(:node_used_by_relationship).version, doc.find("//diffResult/node").first["new_version"].to_i
+    assert_equal current_ways(:used_way).version, doc.find("//diffResult/way").first["new_version"].to_i
+    assert_equal current_relations(:public_used_relation).version, doc.find("//diffResult/relation").first["new_version"].to_i
+
+    # check that nothing was, in fact, deleted
+    assert_equal true, Node.find(current_nodes(:node_used_by_relationship).id).visible
+    assert_equal true, Way.find(current_ways(:used_way).id).visible
+    assert_equal true, Relation.find(current_relations(:public_used_relation).id).visible
+  end
+
+  ##
   # upload an element with a really long tag value
   def test_upload_invalid_too_long_tag
     basic_authorization users(:public_user).email, "test"
@@ -1022,6 +1072,32 @@ EOF
       assert_response(:success, "should be able to upload " +
                       "empty changeset: " + diff)
     end
+  end
+
+  ##
+  # test that the X-Error-Format header works to request XML errors
+  def test_upload_xml_errors
+    basic_authorization users(:public_user).email, "test"
+
+    # try and delete a node that is in use
+    diff = XML::Document.new
+    diff.root = XML::Node.new "osmChange"
+    delete = XML::Node.new "delete"
+    diff.root << delete
+    delete << current_nodes(:node_used_by_relationship).to_xml_node
+
+    # upload it
+    content diff
+    error_format "xml"
+    post :upload, :id => 2
+    assert_response :success, 
+      "failed to return error in XML format"
+
+    # check the returned payload
+    assert_select "osmError[version=#{API_VERSION}][generator=\"OpenStreetMap server\"]", 1
+    assert_select "osmError>status", 1
+    assert_select "osmError>message", 1
+
   end
 
   ##

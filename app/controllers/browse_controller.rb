@@ -72,8 +72,10 @@ class BrowseController < ApplicationController
     @next = Changeset.find(:first, :order => "id ASC", :conditions => [ "id > :id", { :id => @changeset.id }] ) 
     @prev = Changeset.find(:first, :order => "id DESC", :conditions => [ "id < :id", { :id => @changeset.id }] )
 
-    @next_by_user = Changeset.find(:first, :order => "id ASC", :conditions => [ "id > :id AND user_id = :user_id", {:id => @changeset.id, :user_id => @changeset.user_id }] )
-    @prev_by_user = Changeset.find(:first, :order => "id DESC", :conditions => [ "id < :id AND user_id = :user_id", {:id => @changeset.id, :user_id => @changeset.user_id }] )
+    if @changeset.user.data_public?
+      @next_by_user = Changeset.find(:first, :order => "id ASC", :conditions => [ "id > :id AND user_id = :user_id", { :id => @changeset.id, :user_id => @changeset.user_id }] )
+      @prev_by_user = Changeset.find(:first, :order => "id DESC", :conditions => [ "id < :id AND user_id = :user_id", { :id => @changeset.id, :user_id => @changeset.user_id }] )
+    end
   rescue ActiveRecord::RecordNotFound
     render :action => "not_found", :status => :not_found
   end

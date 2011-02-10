@@ -10,6 +10,8 @@
 # Author: CygnusOlor
 # Author: Grille chompa
 # Author: Holger
+# Author: John07
+# Author: Katpatuka
 # Author: Kghbln
 # Author: Markobr
 # Author: McDutchie
@@ -366,6 +368,17 @@ de:
       save_button: Speichern
       title: "{{user}}s Blog | {{title}}"
       user_title: "{{user}}s Blog"
+  editor: 
+    default: Standard (derzeit {{name}})
+    potlatch: 
+      description: Potlatch 1 (im Browser eingebetteter Editor)
+      name: Potlatch 1
+    potlatch2: 
+      description: Potlatch 2 (im Browser eingebetteter Editor)
+      name: Potlatch 2
+    remote: 
+      description: Remote Control (JOSM oder Merkaartor)
+      name: Remote Control
   export: 
     start: 
       add_marker: Markierung zur Karte hinzufügen
@@ -478,7 +491,7 @@ de:
           ferry_terminal: Fähren-Anlaufstelle
           fire_hydrant: Hydrant
           fire_station: Feuerwehr
-          fountain: Brunnen
+          fountain: Springbrunnen
           fuel: Tankstelle
           grave_yard: Friedhof
           gym: Fitness-Zentrum
@@ -527,7 +540,7 @@ de:
           toilets: WC
           townhall: Rathaus
           university: Universität
-          vending_machine: Automat
+          vending_machine: Selbstbedienungsautomat
           veterinary: Tierarzt
           village_hall: Gemeindezentrum
           waste_basket: Mülleimer
@@ -889,16 +902,23 @@ de:
       history_tooltip: Änderungen für diesen Bereich anzeigen
       history_zoom_alert: Du musst näher heranzoomen, um die Chronik zu sehen
   layouts: 
+    community_blogs: Blogs
+    community_blogs_title: Blogs von Mitwirkenden bei OpenStreetMap
     copyright: Urheberrecht + Lizenz
+    documentation: Dokumentation
+    documentation_title: Projektdokumentation
     donate: Unterstütze die OpenStreetMap-Hardwarespendenaktion durch eine eigene {{link}}.
     donate_link_text: Spende
     edit: Bearbeiten
+    edit_with: Bearbeiten mit {{editor}}
     export: Export
     export_tooltip: Kartendaten exportieren
+    foundation: Stiftung
+    foundation_title: Die „OpenStreetMap Foundation“
     gps_traces: GPS-Tracks
     gps_traces_tooltip: GPS-Tracks verwalten
     help: Hilfe
-    help_and_wiki: "{{help}} + {{wiki}}"
+    help_centre: Hilfezentrale
     help_title: Hilfesite des Projekts
     history: Chronik
     home: Standort
@@ -923,12 +943,8 @@ de:
     make_a_donation: 
       text: Spenden
       title: Unterstütze OpenStreetMap mit einer Geldspende
-    news_blog: Neuigkeiten-Blog
-    news_blog_tooltip: News-Blog über OpenStreetMap, freie geographische Daten, etc.
     osm_offline: Die OpenStreetMap-Datenbank ist im Moment wegen wichtiger Wartungsarbeiten nicht verfügbar.
     osm_read_only: Die OpenStreetMap-Datenbank ist im Moment wegen wichtiger Wartungsarbeiten im „Nur-Lesen-Modus“.
-    shop: Shop
-    shop_tooltip: Shop für Artikel mit OpenStreetMap-Logo
     sign_up: Registrieren
     sign_up_tooltip: Ein Benutzerkonto zum Daten bearbeiten erstellen
     tag_line: Die freie Wiki-Weltkarte
@@ -1075,13 +1091,13 @@ de:
       ask_questions: Du kannst jegliche Fragen zu OpenStreetMap auf unserer Website mit <a href="http://help.openstreetmap.org/">Fragen und Antworten</a> stellen.
       click_the_link: Wenn du das bist, Herzlich Willkommen! Bitte klicke auf den folgenden Link unter dieser Zeile um dein Benutzerkonto zu bestätigen. Lies danach weiter, denn es folgen mehr Informationen über OSM.
       current_user: Ebenso ist <a href="http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region">eine Liste mit allen Benutzern in einer Kategorie</a>, die anzeigt wo diese auf der Welt sind, verfügbar.
-      get_reading: Weitere Informationen über OpenStreetMap findest du in <a href="http://wiki.openstreetmap.org/wiki/DE:Beginners_Guide">unserem Wiki</a>, informiere dich über die neusten Nachrichten über das <a href="http://blog.openstreetmap.org/">OpenStreetMap-Blog</a> oder <a href="http://twitter.com/openstreetmap">Twitter</a>, oder besuche das <a href="http://www.opengeodata.org/">OpenGeoData-Blog</a> von OpenStreetMap-Gründer Steve Coast für die gekürzte Geschichte des Projektes, dort werden auch <a href="http://www.opengeodata.org/?cat=13">Podcasts zum Hören</a> angeboten.
+      get_reading: Auf <a href="http://www.openstreetmap.de/willkommen/">dieser Seite findest du einige nützliche Links und Informationen</a>, die dir den Einstieg erleichtern werden.
       greeting: Hallo!
       hopefully_you: Jemand (hoffentlich du) möchte ein Benutzerkonto erstellen für
       introductory_video: Du kannst dir das {{introductory_video_link}} anschauen.
       more_videos: Darüber hinaus gibt es noch viele weitere {{more_videos_link}}.
       more_videos_here: Videos über OpenStreetMap
-      user_wiki_page: Es wird begrüßt, wenn du eine Wiki-Benutzerseite erstellst. Bitte füge auch ein Kategorie-Tag ein, das deinen Standort anzeigt, zum Beispiel <a href="http://wiki.openstreetmap.org/wiki/Category:Users_in_München">[[Category:Users_in_München]]</a>.
+      user_wiki_page: Es wird begrüßt, wenn du eine Wiki-Benutzerseite erstellst. Bitte füge auch ein Kategorie-Tag ein, das deinen Standort anzeigt, zum Beispiel <a href="http://wiki.openstreetmap.org/wiki/Category:Users_in_Berlin">[[Category:Users_in_Berlin]]</a>.
       video_to_openstreetmap: Einführungsvideo zu OpenStreetMap
       wiki_signup: Im <a href="http://wiki.openstreetmap.org/wiki/Hauptseite">Wiki von OpenStreetMap</a> kannst du dich ebenfalls <a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup">registrieren</a>.
     signup_confirm_plain: 
@@ -1173,8 +1189,10 @@ de:
     edit: 
       anon_edits_link_text: Hier findest du mehr Infos dazu.
       flash_player_required: Du benötigst den Flash Player um Potlatch, den OpenStreetMap-Flash-Editor zu benutzen. <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">Lade den Flash Player von Adobe.com herunter</a>. <a href="http://wiki.openstreetmap.org/wiki/DE:Editing">Einige andere Möglichkeiten</a>, um OpenStreetMap zu editieren, sind hier beschrieben.
+      no_iframe_support: Der Browser unterstützt keine HTML-Inlineframes (iframes), die zur Nutzung dieser Funktion unabdingbar sind.
       not_public: Deine Einstellungen sind auf anonymes Bearbeiten gestellt.
       not_public_description: Du musst deine Einstellungen auf öffentliches Bearbeiten umstellen. Dies kannst du auf deiner {{user_page}} tun.
+      potlatch2_unsaved_changes: Es gibt ungesicherte Änderungen. (Du musst in Potlatch 2 „speichern“ klicken.)
       potlatch_unsaved_changes: Du hast deine Arbeit noch nicht gespeichert. (Um sie in Potlach zu speichern, klicke auf eine leere Fläche bzw. deselektiere den Weg oder Punkt, wenn du im Live-Modus editierst oder klicke auf Speichern, wenn ein Speicherbutton vorhanden ist.)
       user_page_link: Benutzerseite
     index: 
@@ -1186,10 +1204,11 @@ de:
         notice: Lizenziert unter {{license_name}} Lizenz durch das {{project_name}} und seine Mitwirkenden.
         project_name: OpenStreetMap Projekt
       permalink: Permanentlink
+      remote_failed: Das Bearbeiten ist fehlgeschlagen. Stelle sicher, dass JOSM oder Merkaartor gestartet ist und die Remote-Control-Option aktiviert ist.
       shortlink: Shortlink
     key: 
       map_key: Legende
-      map_key_tooltip: Legende für die Mapnik-Karte bei diesem Zoom-Level
+      map_key_tooltip: Legende zur Karte
       table: 
         entry: 
           admin: Landesgrenzen, sonstige Grenzen
@@ -1256,7 +1275,6 @@ de:
           unclassified: Straße
           unsurfaced: Unbefestigte Straße
           wood: Naturwald
-        heading: Legende für Zoomstufe {{zoom_level}}
     search: 
       search: Suchen
       search_help: "Beispiele: „München“, „Heinestraße, Würzburg“, „CB2 5AQ“, oder „post offices near Lünen“ <a href='http://wiki.openstreetmap.org/wiki/Search'>mehr Beispiele …</a>"
@@ -1395,6 +1413,7 @@ de:
       new email address: "Neue E-Mail Adresse:"
       new image: Bild einfügen
       no home location: Du hast noch keinen Standort angegeben.
+      preferred editor: "Bevorzugten Editor:"
       preferred languages: "Bevorzugte Sprachen:"
       profile description: "Profil-Beschreibung:"
       public editing: 
@@ -1413,17 +1432,23 @@ de:
       title: Benutzerkonto bearbeiten
       update home location on click: Standort bei Klick auf die Karte aktualisieren?
     confirm: 
+      already active: Dieses Benutzerkonto wurde bereits bestätigt.
+      before you start: Wir wissen, dass du es kaum erwarten kannst mit dem Kartieren anzufangen, allerdings solltest du vorher noch ein paar Informationen zu dir im unten folgenden Formular angeben.
       button: Bestätigen
-      failure: Ein Benutzeraccount wurde bereits mit diesem Link bestätigt.
       heading: Benutzerkonto bestätigen
       press confirm button: Benutzerkonto aktivieren, indem du auf den Bestätigungsbutton klickst.
-      success: Dein Benutzeraccount wurde bestätigt, danke fürs Registrieren!
+      reconfirm: Sofern seit deiner Registrierung schon etwas Zeit vergangen ist, musst du gegebenenfalls selber <a href="{{reconfirm}}">eine neue Bestätigungs-E-Mail senden</a>.
+      success: "Dein Benutzerkonto wurde bestätigt, danke fürs Registrieren!\n<br /><br />\nAuf <a href=\"http://www.openstreetmap.de/willkommen/\">dieser Seite</a> findest du nützliche Links und Informationen, die dir den Einstieg erleichtern."
+      unknown token: Dieser Token scheint nicht zu existieren.
     confirm_email: 
       button: Bestätigen
       failure: Eine E-Mail-Adresse wurde bereits mit diesem Link bestätigt.
       heading: Änderung der E-Mail-Adresse bestätigen
       press confirm button: Neue E-Mail-Adresse bestätigen, indem du auf den Bestätigungsbutton klickst.
       success: Deine E-Mail-Adresse wurde bestätigt, danke fürs Registrieren!
+    confirm_resend: 
+      failure: Benutzer {{name}} konnte nicht gefunden werden.
+      success: Wir haben eine neue Bestätigungsnachricht an {{email}} gesendet. Sobald du dein Benutzerkonto bestätigt hast, kannst du mit dem Kartieren anfangen.<br /><br />Sofern du ein Antispamsystem nutzt, das selbst Bestätigungen anfordert, musst du <webmaster@openstreetmap.org> auf dessen Positivliste setzten, da wir auf keine Bestätigungsanfragen reagieren können.
     filter: 
       not_an_administrator: Du must ein Administrator sein um das machen zu dürfen
     go_public: 
@@ -1440,19 +1465,24 @@ de:
       summary_no_ip: "{{name}} erstellt am {{date}}"
       title: Benutzer
     login: 
-      account not active: Leider ist dein Benutzerkonto noch nicht aktiv.<br />Bitte aktivierte dein Benutzerkonto, indem du auf den Link in deiner Bestätigungs-E-Mail klickst.
+      account not active: Leider wurde dein Benutzerkonto bislang noch nicht aktiviert.<br />Bitte aktiviere dein Benutzerkonto, indem du auf den Link in deiner Bestätigungs-E-Mail klickst oder <a href="{{reconfirm}}">eine neue Bestätigungs-E-Mail anforderst</a>.
       account suspended: Dein Benutzerkonto wurde aufgrund verdächtiger Aktivitäten gesperrt, um potentiellen Schaden von OpenStreetMap abzuwenden. <br /> Bitte kontaktiere den {{webmaster}}, sofern du diese Angelegenheit klären möchtest.
+      already have: Du hast bereits ein OpenStreetMap-Benutzerkonto? Bitte einloggen.
       auth failure: Sorry, Anmelden mit diesen Daten nicht möglich.
+      create account minute: Erstelle ein Benutzerkonto. Es dauert nur eine Minute.
       create_account: erstelle ein Benutzerkonto
       email or username: "E-Mail-Adresse oder Benutzername:"
       heading: Anmelden
       login_button: Anmelden
       lost password link: Passwort vergessen?
+      new to osm: Neu bei OpenStreetMap?
       notice: <a href="http://wiki.openstreetmap.org/wiki/DE:ODbL/Wir_wechseln_die_Lizenz">Informiere dich über den bevorstehenden Lizenzwechsel bei OpenStreetMap</a> (<a href="http://wiki.openstreetmap.org/wiki/ODbL/We_Are_Changing_The_License">Übersetzungen</a>) (<a href="http://wiki.openstreetmap.org/wiki/Talk:ODbL/Upcoming">Diskussion</a>)
       password: "Passwort:"
       please login: Bitte melde dich an oder {{create_user_link}}.
+      register now: Jetzt registrieren
       remember: "Anmeldedaten merken:"
       title: Anmelden
+      to make changes: Um Datenänderungen bei OpenStreetMap vornehmen zu können, musst Du ein Benutzerkonto haben.
       webmaster: Webmaster
     logout: 
       heading: Von OpenStreetMap abmelden
@@ -1479,9 +1509,9 @@ de:
       display name description: Dein öffentlich angezeigter Benutzername. Er kann später in den Einstellungen geändert werden.
       email address: "E-Mail-Adresse:"
       fill_form: Fülle das Formular aus und dir wird eine kurze E-Mail zur Aktivierung deines Benutzerkontos geschickt.
-      flash create success message: Benutzerkonto wurde erfolgreich erstellt. Ein Bestätigungslink wurde dir per E-Mail zugesendet, bitte bestätige diesen und du kannst mit dem Mappen beginnen.<br /><br />Du kannst dich nicht einloggen bevor du deine E-Mail-Adresse mit dem Bestätigungslink bestätigt hast.<br /><br />Falls du einen Spam-Blocker nutzt, der Bestätigungsanfragen sendet, dann setze bitte webmaster@openstreetmap.org auf deine Whitelist, weil wir auf keine Bestätigungsanfrage antworten können.
+      flash create success message: "\nVielen Dank für deine Registrierung. Wir haben eine Bestätigungsnachricht an {{email}} gesendet. Sobald du dein Benutzerkonto bestätigt hast, kannst du mit dem Kartieren anfangen.<br /><br />Sofern du ein Antispamsystem nutzt, das selbst Bestätigungen anfordert, musst du <webmaster@openstreetmap.org> auf dessen Positivliste setzten, da wir auf keine Bestätigungsanfragen reagieren können."
       heading: Ein Benutzerkonto erstellen
-      license_agreement: Wenn du dein Benutzerkonto bestätigst, musst du auch den <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">Bedigungen für Mitwirkende</a> zustimmen.
+      license_agreement: Wenn du dein Benutzerkonto bestätigst, musst du auch den <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">Bedingungen für Mitwirkende</a> zustimmen.
       no_auto_account_create: Im Moment ist das automatische Erstellen eines Benutzerkontos leider nicht möglich.
       not displayed publicly: Nicht öffentlich sichtbar (<a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy">Datenschutzrichtlinie</a>)
       password: "Passwort:"
@@ -1546,6 +1576,7 @@ de:
       hide_user: Benutzer verstecken
       if set location: Wenn du deinen Standort angegeben hast, erscheint eine Karte am Seitenende. Du kannst deinen Standort in deinen {{settings_link}} ändern.
       km away: "{{count}} km entfernt"
+      latest edit: "Letzte Änderung {{ago}}:"
       m away: "{{count}} m entfernt"
       mapper since: "Mapper seit:"
       moderator_history: Vergebene Sperren anzeigen
