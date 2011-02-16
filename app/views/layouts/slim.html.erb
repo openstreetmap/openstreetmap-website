@@ -18,26 +18,28 @@
     <%= yield :head %>
     <title><%= t 'layouts.project_name.title' %><%= ' | '+ h(@title) if @title %></title>
   </head>
-  <body>
+  <body class="slim">
+    <div id="slim_container">
+      <div id="slim_container_content">
+        <div id="slim_content">
+          <% if flash[:error] %>
+            <div id="error"><%= flash[:error] %></div>
+          <% end %>
+          <% if flash[:warning] %>
+            <div id="warning"><%= flash[:warning] %></div>
+          <% end %>
+          <% if flash[:notice] %>
+            <div id="notice"><%= flash[:notice] %></div>
+          <% end %>
 
-    <div id="slim_content">
-      <% if flash[:error] %>
-        <div id="error"><%= flash[:error] %></div>
-      <% end %>
-      <% if flash[:warning] %>
-        <div id="warning"><%= flash[:warning] %></div>
-      <% end %>
-      <% if flash[:notice] %>
-        <div id="notice"><%= flash[:notice] %></div>
-      <% end %>
+          <%= yield %>
+        </div>
 
-      <%= yield %>
+        <div id="slim_header">
+          <h1><%= image_tag("osm_logo.png", :size => "60x60", :border => 0, :alt => t('layouts.logo.alt_text')) %><%= t 'layouts.project_name.h1' %></h1>
+        </div>
+      </div>
     </div>
-
-    <div id="slim_header">
-      <h1><%= image_tag("osm_logo.png", :size => "60x60", :border => 0, :alt => t('layouts.logo.alt_text')) %><%= t 'layouts.project_name.h1' %></h1>
-    </div>
-
 
 
   </body>
