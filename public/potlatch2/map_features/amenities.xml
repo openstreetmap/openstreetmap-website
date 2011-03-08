@@ -1,0 +1,398 @@
+<featureGroup>
+  <!-- =========== Amenity ============ -->
+
+  <feature name="Fire station">
+    <category>amenity</category>
+    <icon image="features/pois/amenity_firestation2.n.24.png"/>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:amenity%3Dfire_station</help>
+    <point/>
+    <tag k="amenity" v="fire_station"/>
+    <inputSet ref="simpleName" />
+    <inputSet ref="common"/>
+  </feature>
+
+
+  <feature name="Police Station">
+    <category>amenity</category>
+    <icon image="features/pois/amenity_police2.n.24.png"/>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:amenity%3Dpolice</help>
+    <point/>
+    <area/>
+    <tag k="amenity" v="police"/>
+    <inputSet ref="simpleName"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Library">
+    <category>amenity</category>
+    <icon image="features/pois/amenity_library.n.24.png">
+      ${name}
+    </icon>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:amenity%3Dlibrary</help>
+    <point/>
+    <area/>
+    <tag k="amenity" v="library"/>
+    <inputSet ref="simpleName"/>
+    <inputSet ref="common"/>
+  </feature>
+
+
+  <feature name="Hospital">
+    <category>amenity</category>
+    <icon image="features/pois/health_hospital.n.24.png"/>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:amenity%3Dhospital</help>
+    <point/>
+    <area/>
+    <tag k="amenity" v="hospital"/>
+    <inputSet ref="simpleName"/>
+    <input type="choice" presence="always" category="Hospital" name="Emergency treatment available" key="emergency" description="Are there accident and emergency facilities at this hospital?">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <inputSet ref="common"/>
+  </feature>
+
+
+  <feature name="Place of Worship">
+    <category>amenity</category>
+    <icon image="features/pois/place_of_worship_unknown.n.24.png"/>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:amenity%3Dplace_of_worship</help>
+    <point/>
+    <tag k="amenity" v="place_of_worship"/>
+    <inputSet ref="simpleName" />
+    <input type="choice" presence="always" category="" name="Religion" key="religion" description="The religion worshipped here.">
+      <choice value="christian" text="Christianity (church)"/>
+      <choice value="jewish" text="Judaism (synagogue)"/>
+      <choice value="muslim" text="Islam (mosque)"/>
+      <choice value="hindu" text="Hinduism (temple)"/>
+      <choice value="buddhist" text="Buddhism (temple)"/>
+      <choice value="sikh" text="Sikhism (gurdwara)"/>
+      <choice value="shinto" text="Shinto (shrine)"/>
+    </input>
+
+    <input type="freetext" presence="always" category="" name="denomination" key="denomination" description="The denomination of the religion worshiped here." priority="low"/>
+    <inputSet ref="common"/>
+  </feature>
+
+
+  <feature name="ATM">
+    <category>amenity</category>
+    <icon image="features/pois/money_atm.n.24.png"/>
+    <help>http://wiki.openstreetmap.org/wiki/Atm</help>
+    <point/>
+    <tag k="amenity" v="atm"/>
+    <input type="freetext" presence="always" category="Banking" name="Operator" key="operator" description="The organisation that provides this ATM" priority="low"/>
+    <input type="freetext" presence="always" category="Banking" name="Fee" key="fee" description="Is there a charge for using this ATM? If so how much?"/>
+    <inputSet ref="common"/>
+  </feature>
+
+
+  <feature name="Bank">
+    <category>amenity</category>
+    <icon image="features/pois/money_bank2.n.24.png">
+      ${name}
+    </icon>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:amenity%3Dbank</help>
+    <point/>
+    <tag k="amenity" v="bank"/>
+    <inputSet ref="names"/>
+    <inputSet ref="buildingAddress"/>
+    <input type="choice" presence="always" category="Bank" name="Public ATM available" key="atm" description="Is there a public ATM available?">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <inputSet ref="common"/>
+  </feature>
+
+
+  <feature name="Recycling">
+    <category>amenity</category>
+    <icon image="features/pois/amenity_recycling.n.24.png"/>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:amenity%3Drecycling</help>
+    <point/>
+    <tag k="amenity" v="recycling"/>
+    <inputSet ref="common"/>
+  </feature>
+
+
+  <feature name="School">
+    <category>amenity</category>
+    <icon image="features/pois/education_school.n.24.png">
+      ${name}
+    </icon>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:amenity%3Dschool</help>
+    <point/>
+    <tag k="amenity" v="school"/>
+    <inputSet ref="names"/>
+    <inputSet ref="buildingAddress"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Kindergarten">
+    <category>amenity</category>
+    <category>buildings</category>
+    <icon image="features/pois/education_nursery3.n.24.png">
+      ${name}
+    </icon>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:amenity%3Dkindergarten</help>
+    <point/>
+    <tag k="amenity" v="kindergarten"/>
+    <inputSet ref="names"/>
+    <inputSet ref="buildingAddress"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Town hall">
+    <category>amenity</category>
+    <icon image="features/pois/amenity_town_hall.n.24.png">
+      ${name}
+    </icon>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:amenity%3Dtownhall</help>
+    <point/>
+    <tag k="amenity" v="townhall"/>
+    <inputSet ref="names"/>
+    <inputSet ref="buildingAddress"/>
+    <inputSet ref="common"/>
+  </feature>
+
+
+  <feature name="Post Box">
+    <category>amenity</category>
+    <icon image="features/pois/amenity_post_box.n.24.png">
+      ${ref}
+    </icon>
+    <help>http://wiki.openstreetmap.org/wiki/Post_box</help>
+    <point/>
+    <tag k="amenity" v="post_box"/>
+    <input type="freetext" presence="always" category="Naming" name="Ref" key="ref" description="Reference number of the post box"/>
+    <input type="freetext" presence="always" category="Naming" name="Operator" key="operator" description="The provider of the postal service" priority="low"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Post Office">
+    <category>amenity</category>
+    <category>buildings</category>
+    <icon image="features/pois/amenity_post_office.n.24.png">
+      ${name}
+    </icon>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:amenity=post_office</help>
+    <point/>
+    <area/>
+    <tag k="amenity" v="post_office"/>
+    <input type="freetext" presence="always" category="Naming" name="Ref" key="ref" description="Reference number of the post office"/>
+    <input type="freetext" presence="always" category="Naming" name="Operator" key="operator" description="The provider of the postal service" priority="low"/>
+    <inputSet ref="common"/>
+    <inputset ref="simpleName"/>
+  </feature>
+
+  <feature name="Trash/rubbish bin">
+    <category>amenity</category>
+    <icon image="features/pois/amenity_waste_bin.n.24.png">
+      ${ref}
+    </icon>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:amenity=waste_basket</help>
+    <point/>
+    <tag k="amenity" v="waste_basket"/>
+    <inputSet ref="common"/>
+  </feature>
+
+
+  <feature name="Toilets">
+    <category>amenity</category>
+    <icon image="features/pois/amenity_toilets.n.24.png">
+      ${ref}
+    </icon>
+    <point/>
+    <tag k="amenity" v="toilets"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Water fountain">
+    <category>amenity</category>
+    <category>foodanddrink</category>
+    <icon image="features/pois/food_drinkingtap.n.24.png">
+      ${ref}
+    </icon>
+    <point/>
+    <tag k="amenity" v="drinking_water"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Shelter">
+    <category>amenity</category>
+    <icon image="features/pois/accommodation_shelter2.n.24.png">
+      ${name}
+    </icon>    
+    <point/>
+    <area/>
+    <tag k="amenity" v="shelter"/>
+    <inputset ref="names"/>
+    <inputSet ref="common"/>
+  </feature>
+
+
+  <feature name="Barbecue">
+    <category>amenity</category>
+    <icon image="features/pois/tourist_picnic.n.24.png"/>
+    <!-- specific icon needed -->
+    <point/>
+    <tag k="amenity" v="bbq"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Hunting stand">
+    <category>sport</category>
+    <icon image="features/pois/sport_shooting.n.24.png"/>
+    <point/>
+    <tag k="amenity" v="hunting_stand"/>
+    <inputSet ref="common"/>
+    <inputSet ref="names"/>
+  </feature>
+
+
+  <feature name="Park bench">
+    <category>amenity</category>
+    <icon image="features/pois/amenity_bench.n.24.png" />
+    <point/>
+    <tag k="amenity" v="bench"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Public telephone">
+    <category>amenity</category>
+    <icon image="features/pois/amenity_telephone.n.24.png" />
+    <point/>
+    <tag k="amenity" v="telephone"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Emergency phone">
+    <category>amenity</category>
+    <icon image="features/pois/emergency-telephone-24.png" />
+    <!-- icon from http://www.clker.com/clipart-emergency-telephone-blue.html, feel free to (re)move this notice -->
+    <point/>
+    <tag k="amenity" v="emergency_phone"/>
+    <inputSet ref="common"/>
+    <input type="freetext" presence="always" category="Naming" name="Ref" key="ref" description="Reference number of emergency phone."/>    
+  </feature>
+
+
+  <feature name="Swimming pool">
+    <category>amenity</category>
+    <category>sport</category>
+    <icon image="features/pois/sport_swimming_outdoor.n.24.png">
+      ${name}
+    </icon>
+    <point/>
+    <area/>
+    <tag k="amenity" v="swimming_pool"/>
+    <inputSet ref="simpleName"/>    
+    <inputSet ref="common"/>
+
+  </feature>
+
+  <feature name="Fountain">
+    <category>amenity</category>
+    <icon image="features/pois/amenity_fountain2.n.24.png">
+    ${name}
+    </icon>
+    <point/>
+    <tag k="amenity" v="fountain"/>
+    <inputSet ref="common"/>
+    <inputSet ref="simpleName"/>
+  </feature>
+
+  <feature name="Vending machine">
+    <category>amenity</category>
+    <category>foodanddrink</category>
+    <icon image="features/pois/amenity_vendingmachine.png">A vending machine.</icon>
+
+    <point/>
+    <tag k="amenity" v="vending_machine"/>
+    <inputSet ref="common"/>
+    <inputSet ref="simpleName"/>
+    <input type="freetext" presence="always" name="Product" key="vending" description="What is being sold: tickets, food, maps..."/>
+    <input type="operator" presence="always" name="Operator" key="operator" description="Which company provides the service" />
+  </feature>
+
+  <!-- ========= Entertainment ========= -->
+
+  <feature name="Pub">
+    <category>foodanddrink</category>
+    <icon image="features/pois/food_pub.n.24.png">
+      ${name}
+    </icon>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:amenity%3Dpub</help>
+    <point/>
+    <tag k="amenity" v="pub"/>
+    <inputSet ref="names"/>
+    <inputSet ref="web"/>
+    <inputSet ref="buildingAddress"/>
+    <inputSet ref="wifi"/>
+    <inputSet ref="common"/>
+  </feature>
+
+
+  <feature name="Bar">
+    <category>foodanddrink</category>
+    <icon image="features/pois/food_bar.n.24.png">
+      ${name}
+    </icon>
+    <point/>
+    <tag k="amenity" v="bar"/>
+    <inputSet ref="names"/>
+    <inputSet ref="web"/>
+    <inputSet ref="buildingAddress"/>
+    <inputSet ref="wifi"/>
+    <inputSet ref="common"/>
+  </feature>
+
+
+  <feature name="Restaurant">
+    <category>foodanddrink</category>
+    <icon image="features/pois/food_restaurant.n.24.png">
+      ${name}
+    </icon>
+    <point/>
+    <tag k="amenity" v="restaurant"/>
+    <inputSet ref="names"/>
+    <inputSet ref="web"/>
+    <inputSet ref="buildingAddress"/>
+    <inputSet ref="cuisine"/>
+    <inputSet ref="common"/>
+  </feature>
+
+
+  <feature name="Cafe">
+    <category>foodanddrink</category>
+    <icon image="features/pois/food_cafe.n.24.png">
+      ${name}
+    </icon>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:amenity%3Dcafe</help>
+    <point/>
+    <tag k="amenity" v="cafe"/>
+    <inputSet ref="names"/>
+    <inputSet ref="web"/>
+    <inputSet ref="buildingAddress"/>
+    <inputSet ref="cuisine"/>
+    <inputSet ref="wifi"/>
+    <inputSet ref="common"/>
+  </feature>
+
+
+  <feature name="Fast Food">
+    <category>foodanddrink</category>
+    <icon image="features/pois/food_fastfood.n.24.png">
+      ${name}
+    </icon>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:amenity%3Dfast_food</help>
+    <point/>
+    <tag k="amenity" v="fast_food"/>
+    <inputSet ref="names"/>
+    <inputSet ref="web"/>
+    <inputSet ref="buildingAddress"/>
+    <inputSet ref="cuisine"/>
+    <inputSet ref="common"/>
+  </feature>
+
+</featureGroup>

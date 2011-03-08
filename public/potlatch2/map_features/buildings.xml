@@ -1,0 +1,272 @@
+<featureGroup>
+  <feature name="School">
+    <category>buildings</category>
+    <icon image="features/pois/education_school.n.24.png">
+      <b>${name} ${addr:housename}</b><br/>
+      ${addr:housenumber} ${addr:street} ${addr:postcode}
+    </icon>
+
+    <area/>
+    <tag k="amenity" v="school"/>
+    <inputSet ref="isBuilding"/>
+    <inputSet ref="names"/>
+    <inputSet ref="buildingAddress"/>
+    <inputSet ref="common"/>
+  </feature>
+
+
+  <feature name="College">
+    <category>buildings</category>
+    <icon image="features/pois/education_university.n.24.png">
+      <b>${name} ${addr:housename}</b><br/>
+      ${addr:housenumber} ${addr:street} ${addr:postcode}
+    </icon>
+
+    <area/>
+    <tag k="amenity" v="college"/>
+    <inputSet ref="names"/>
+    <inputSet ref="buildingAddress"/>
+    <inputSet ref="isBuilding"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="University">
+    <category>buildings</category>
+    <icon image="features/pois/education_university.n.24.png">
+      <b>${name} ${addr:housename}</b><br/>
+      ${addr:housenumber} ${addr:street} ${addr:postcode}
+    </icon>
+
+    <area/>
+    <tag k="amenity" v="university"/>
+    <inputSet ref="names"/>
+    <inputSet ref="buildingAddress"/>
+    <inputSet ref="isBuilding"/>
+    <inputSet ref="common"/>
+  </feature>
+
+
+  <feature name="Supermarket">
+    <category>buildings</category>
+    <icon image="features/pois/shopping_supermarket.n.24.png">
+      <b>${name} ${addr:housename}</b><br/>
+      ${addr:housenumber} ${addr:street} ${addr:postcode}
+    </icon>
+
+    <area/>
+    <tag k="shop" v="supermarket"/>
+    <inputSet ref="names"/>
+    <inputSet ref="buildingAddress"/>
+    <inputSet ref="isBuilding"/>
+    <inputSet ref="common"/>
+  </feature>
+
+
+  <feature name="Place of worship">
+    <category>buildings</category>
+    <icon image="icons/place_of_worship.png">
+      <b>${name} ${addr:housename}</b><br/>
+      ${addr:housenumber} ${addr:street} ${addr:postcode}
+    </icon>
+
+    <area/>
+    <tag k="amenity" v="place_of_worship"/>
+    <inputSet ref="names"/>
+    <inputSet ref="buildingAddress"/>
+    <!-- sorted in reverse order of popularity in taginfo. -->
+    <input type="choice" category="Religion" name="Religion" key="religion" description="The religion to which this place of worship belongs." presence="always">
+      <choice value="christian" text="Christianity (church)"/>
+      <choice value="muslim" text="Islam (mosque)"/>
+      <choice value="buddhist" text="Buddhist (temple)"/>
+      <choice value="jewish" text="Judaism (synagogue)"/>
+      <choice value="hindu" text="Hindu (temple)"/>
+      <choice value="sikh" text="Sikh (gurdwara)"/>
+      <choice value="spiritualist" text="Spiritualism"/>
+      <choice value="unitarian" text="Unitarianism"/>
+      <choice value="taoist" text="Taoism"/>
+      <choice value="multifaith" text="Multi-faith"/>
+      <choice value="scientologist" text="Scientology"/>
+      <choice value="bahai" text="Bahai"/>
+    </input>
+    <!-- sorted in reverse order of popularity in taginfo. -->
+    <input type="choice" category="Religion" name="Denomination" key="denomination" description="The denomination, or sub-branch of the main religion." presence="always">
+      <choice value="catholic" text="Catholic"/>
+      <choice value="baptist" text="Baptist"/>
+      <choice value="methodist" text="Methodist"/>
+      <choice value="lutheran" text="Lutheran"/>
+      <choice value="protestant" text="Prostant"/>
+      <choice value="orthodox" text="Orthodox"/>
+      <choice value="presbyterian" text="Presbyterian"/>
+      <choice value="anglican" text="Anglican"/>
+      <choice value="roman_catholic" text="Roman Catholic"/>
+      <choice value="evangelical" text="Evangelical"/>
+      <choice value="pentecostal" text="Pentecostal"/>
+      <choice value="mormon" text="Mormon"/>
+      <choice value="sunni" text="Sunni"/>
+      <choice value="jehovahs_witness" text="Jehovah's Witness"/>
+      <!-- duplicate of Anglican? -->
+      <choice value="church_of_england" text="Church of England"/>
+      <choice value="greek_orthodox" text="Greek Orthodox"/>
+      <choice value="new_apostolic" text="New Apostolic"/>
+      <choice value="episcopal" text="Episcopal"/>
+      <choice value="russian_orthodox" text="Russian Orthodox"/>
+      <choice value="adventist" text="Adventist"/>
+      <choice value="seventh_day_adventist" text="Seventh Day Adventist"/>
+      <choice value="united_reformed" text="United Reformed"/>
+      <choice value="reformed" text="Reformed"/>
+      <choice value="iglesia_ni_cristo" text="Iglesia Ni Cristo"/>
+      <choice value="uniting" text="Uniting"/>
+      <choice value="salvation_army" text="Salvation Army"/>
+      <choice value="church_of_scotland" text="Church of Scotland"/>
+      <choice value="quaker" text="Quaker"/>
+      <choice value="scientist" text="Scientist"/>
+      <choice value="shia" text="Shia"/>
+      <choice value="congregational" text="Congregational"/>
+      <choice value="assembly_of_god" text="Assembly of God"/>
+      <choice value="united" text="United"/>
+      <choice value="mennonite" text="Mennonite"/>
+      <choice value="nazarene" text="Nazarene"/>
+      <!-- duplicate of Mormon? -->
+      <choice value="latter_day_saints" text="Latter Day Saints"/>
+      <choice value="dutch_reformed" text="Dutch Reformed"/>
+      <choice value="tibetan" text="Tibetan"/>
+      <choice value="shingon" text="Shingon"/>
+      <choice value="georgian_orthodox" text="Georgian Orthodox"/>
+      <choice value="unitarian" text="Unitarian"/>
+      <choice value="brethren" text="Brethren"/>
+      <choice value="armenian_apostolic" text="Armenian Apostolic"/>
+      <choice value="maronite" text="Maronite"/>
+    </input>
+    <inputSet ref="isBuilding"/>
+    <inputSet ref="common"/>
+  </feature>
+
+
+  <feature name="Public building">
+    <category>buildings</category>
+    <icon image="features/pois/building_generic.png">
+      <b>${name} ${addr:housename}</b><br/>
+      ${addr:housenumber} ${addr:street} ${addr:postcode}
+    </icon>
+
+    <area/>
+    <tag k="amenity" v="public_building"/>
+    <tag k="building" v="yes"/>
+    <inputSet ref="names"/>
+    <inputSet ref="buildingAddress"/>
+    <inputSet ref="common"/>
+  </feature>
+
+
+  <feature name="Hospital">
+    <category>buildings</category>
+    <icon image="features/pois/health_hospital.n.24.png">
+      <b>${name} ${addr:housename}</b><br/>
+      ${addr:housenumber} ${addr:street} ${addr:postcode}
+    </icon>
+
+    <area/>
+    <tag k="amenity" v="hospital"/>
+    <inputSet ref="names"/>
+    <inputSet ref="buildingAddress"/>
+    <inputSet ref="isBuilding"/>
+    <inputSet ref="common"/>
+  </feature>
+
+
+
+  <feature name="Museum">
+    <category>buildings</category>
+    <icon image="features/pois/tourist_museum.n.24.png">
+      <b>${name} ${addr:housename}</b><br/>
+      ${addr:housenumber} ${addr:street} ${addr:postcode}
+    </icon>
+
+    <area/>
+    <tag k="tourism" v="museum"/>
+    <inputSet ref="names"/>
+    <inputSet ref="buildingAddress"/>
+    <inputSet ref="isBuilding"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Shopping centre">
+    <category>buildings</category>
+    <category>shopping</category>
+    <node/>
+    <area/>
+    <tag k="shop" v="mall"/>
+    <inputSet ref="names"/>
+    <inputSet ref="buildingAddress"/>
+    <inputSet ref="isBuilding"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Zoo">
+    <category>buildings</category>
+    <icon image="features/pois/tourist_zoo.n.24.png">
+      <b>${name} ${addr:housename}</b><br/>
+      ${addr:housenumber} ${addr:street} ${addr:postcode}
+    </icon>
+
+    <area/>
+    <tag k="tourism" v="zoo"/>
+    <inputSet ref="names"/>
+    <inputSet ref="buildingAddress"/>
+    <inputSet ref="isBuilding"/>
+    <inputSet ref="common"/>
+  </feature>
+
+
+  <feature name="Stadium">
+    <category>buildings</category>
+    <icon image="icons/tourist_blank.png">
+      <b>${name} ${addr:housename}</b><br/>
+      ${addr:housenumber} ${addr:street} ${addr:postcode}
+    </icon>
+
+    <area/>
+    <tag k="leisure" v="stadium"/>
+    <inputSet ref="names"/>
+    <inputSet ref="buildingAddress"/>
+    <inputSet ref="isBuilding"/>
+    <inputSet ref="common"/>
+  </feature>
+
+
+  <feature name="Building">
+    <category>buildings</category>
+    <icon image="features/pois/building_generic.png">
+      <b>${name} ${addr:housename}</b><br/>
+      ${addr:housenumber} ${addr:street} ${addr:postcode}
+    </icon>
+
+    <area/>
+    <!-- This should catch all the "building=*" tags in use: yes, hut, house, residential, entrance, apartments, garage, industrial,  garages, service, manufacture, collapsed... 
+         Is this possible? -->
+    <!-- <tag k="building" v="*"/> -->
+    <tag k="building" v="yes"/>
+    <inputSet ref="names"/>
+    <inputSet ref="buildingAddress"/>
+    <inputSet ref="common"/>
+  </feature>
+
+
+  <feature name="Sports centre">
+    <category>buildings</category>
+    <icon image="features/pois/sport_leisure_centre.n.24.png">
+      <b>${name} ${addr:housename}</b><br/>
+      ${addr:housenumber} ${addr:street} ${addr:postcode}
+    </icon>
+
+    <area/>
+    <point/>
+    <tag k="leisure" v="sports_centre"/>
+    <inputSet ref="names"/>
+    <inputSet ref="buildingAddress"/>
+    <inputSet ref="pitchSport"/>
+    <inputSet ref="isBuilding"/>
+    <inputSet ref="common"/>
+  </feature>
+</featureGroup>
+  
