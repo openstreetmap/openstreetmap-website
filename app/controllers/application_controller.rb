@@ -199,7 +199,7 @@ class ApplicationController < ActionController::Base
        request.headers['X-Error-Format'].downcase == "xml"
       result = OSM::API.new.get_xml_doc
       result.root.name = "osmError"
-      result.root << (XML::Node.new("status") << interpret_status(status))
+      result.root << (XML::Node.new("status") << "#{Rack::Utils.status_code(status)} #{Rack::Utils::HTTP_STATUS_CODES[status]}")
       result.root << (XML::Node.new("message") << message)
 
       render :text => result.to_s, :content_type => "text/xml"
