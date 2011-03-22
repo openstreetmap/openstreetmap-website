@@ -24,7 +24,7 @@ class UserController < ApplicationController
 
     if request.xhr?
       render :update do |page|
-        page.replace_html "contributorTerms", :partial => "terms", :locals => { :has_decline => params[:has_decline] }
+        page.replace_html "contributorTerms", :partial => "terms"
       end
     else
       @title = t 'user.terms.title'
@@ -53,11 +53,14 @@ class UserController < ApplicationController
     if Acl.find_by_address(request.remote_ip, :conditions => {:k => "no_account_creation"})
       render :action => 'new'
     elsif params[:decline]
+      @user.terms_seen = true
+      @user.save
       redirect_to t('user.terms.declined')
     elsif @user
       if !@user.terms_agreed?
         @user.consider_pd = params[:user][:consider_pd]
         @user.terms_agreed = Time.now.getutc
+        @user.terms_seen = true
         if @user.save
           flash[:notice] = t 'user.new.terms accepted'
         end
@@ -73,7 +76,8 @@ class UserController < ApplicationController
       @user.creation_ip = request.remote_ip
       @user.languages = request.user_preferred_languages
       @user.terms_agreed = Time.now.getutc
-
+      @user.terms_seen = true
+      
       if @user.save
         flash[:notice] = t 'user.new.flash create success message', :email => @user.email
         Notifier.deliver_signup_confirm(@user, @user.tokens.create(:referer => params[:referer]))
@@ -214,10 +218,14 @@ class UserController < ApplicationController
         session[:user] = user.id
         session_expires_after 1.month if params[:remember_me]
 
+        # if the user hasn't seen the contributor terms then redirect them
+        # to that page.
+        if REQUIRE_TERMS_SEEN and not user.terms_seen
+          redirect_to :controller => 'user', :action => 'terms', :referer => params[:referer]
         # The user is logged in, if the referer param exists, redirect
         # them to that unless they've also got a block on them, in
         # which case redirect them to the block so they can clear it.
-        if user.blocked_on_view
+        elsif user.blocked_on_view
           redirect_to user.blocked_on_view, :referer => params[:referer]
         elsif params[:referer]
           redirect_to params[:referer]

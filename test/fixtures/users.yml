@@ -11,6 +11,7 @@ normal_user:
   home_lat: 12.1
   home_lon: 12.1
   home_zoom: 3
+  terms_seen: true
   
 public_user:
   id: 2
@@ -24,6 +25,7 @@ public_user:
   home_lat: 12
   home_lon: 12
   home_zoom: 12
+  terms_seen: true
   
 inactive_user:
   id: 3
@@ -37,6 +39,7 @@ inactive_user:
   home_lat: 123.4
   home_lon: 12.34
   home_zoom: 15
+  terms_seen: true
   
 second_public_user:
   id: 4
@@ -50,6 +53,7 @@ second_public_user:
   home_lat: 89
   home_lon: 87
   home_zoom: 12
+  terms_seen: true
 
 moderator_user:
   id: 5
@@ -59,6 +63,7 @@ moderator_user:
   creation_time: "2008-05-01 01:23:45"
   display_name: moderator
   data_public: true
+  terms_seen: true
 
 administrator_user:
   id: 6
@@ -68,3 +73,14 @@ administrator_user:
   creation_time: "2008-05-01 01:23:45"
   display_name: administrator
   data_public: true
+  terms_seen: true
+
+terms_not_seen_user:
+  id: 7
+  email: not_agreed@example.com
+  status: active
+  pass_crypt: <%= Digest::MD5.hexdigest('test') %>
+  creation_time: "2011-03-22 00:23:45"
+  display_name: not_agreed
+  data_public: true
+  terms_seen: false

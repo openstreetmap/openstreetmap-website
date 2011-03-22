@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class DiaryEntryControllerTest < ActionController::TestCase
-  fixtures :users, :diary_entries, :diary_comments
+  fixtures :users, :diary_entries, :diary_comments, :languages
 
   include ActionView::Helpers::NumberHelper
 
