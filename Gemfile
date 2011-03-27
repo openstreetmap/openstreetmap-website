@@ -18,7 +18,7 @@ gem 'validates_email_format_of', '>= 1.4.5'
 gem 'memcached'
 
 # Should only load if we're not in database offline mode
-gem 'composite_primary_keys', '>= 3.1.4'
+gem 'composite_primary_keys', '>= 3.1.5'
 
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators
