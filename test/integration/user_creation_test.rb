@@ -113,8 +113,10 @@ class UserCreationTest < ActionController::IntegrationTest
     assert_equal register_email.to[0], new_email
     # Check that the confirm account url is correct
     confirm_regex = Regexp.new("/user/redirect_tester/confirm\\?confirm_string=([a-zA-Z0-9]*)")
-    assert_match(confirm_regex, register_email.body)
-    confirm_string = register_email.body.match(confirm_regex)[1]
+    register_email.parts.each do |part|
+      assert_match(confirm_regex, part.body)
+    end
+    confirm_string = register_email.parts[0].body.match(confirm_regex)[1]
 
     # Check the page
     assert_response :success
@@ -208,8 +210,10 @@ class UserCreationTest < ActionController::IntegrationTest
     assert_equal register_email.to[0], new_email
     # Check that the confirm account url is correct
     confirm_regex = Regexp.new("/user/redirect_tester_openid/confirm\\?confirm_string=([a-zA-Z0-9]*)")
-    assert_match(confirm_regex, register_email.body)
-    confirm_string = confirm_regex.match(register_email.body)[1]
+    register_email.parts.each do |part|
+      assert_match(confirm_regex, part.body)
+    end
+    confirm_string = register_email.parts[0].body.match(confirm_regex)[1]
 
     # Check the page
     assert_response :success
