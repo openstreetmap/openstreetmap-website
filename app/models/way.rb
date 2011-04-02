@@ -268,10 +268,9 @@ class Way < ActiveRecord::Base
     Way.transaction do
       self.lock!
       check_consistency(self, new_way, user)
-      rel = RelationMember.find(:first, :joins => :relation,
-                             :conditions => [ "visible = ? AND member_type='Way' and member_id=? ", true, self.id])
-      raise OSM::APIPreconditionFailedError.new("Way #{self.id} still used by relation #{rel.relation.id}.") if rel
-      
+      rels = Relation.joins(:relation_members).where(:visible => true, :current_relation_members => { :member_type => "Way", :member_id => id }).order(:id)
+      raise OSM::APIPreconditionFailedError.new("Way #{self.id} is still used by relations #{rels.collect { |r| r.id }.join(",")}.") unless rels.empty?
+
       self.changeset_id = new_way.changeset_id
       self.changeset = new_way.changeset
 

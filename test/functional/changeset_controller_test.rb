@@ -489,7 +489,7 @@ EOF
     post :upload, :id => 2
     assert_response :precondition_failed, 
       "shouldn't be able to upload a invalid deletion diff: #{@response.body}"
-    assert_equal "Precondition failed: Way 3 still used by relation 1.", @response.body
+    assert_equal "Precondition failed: Way 3 is still used by relations 1.", @response.body
 
     # check that nothing was, in fact, deleted
     assert_equal true, Node.find(current_nodes(:node_used_by_relationship).id).visible

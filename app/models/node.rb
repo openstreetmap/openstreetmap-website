@@ -136,13 +136,11 @@ class Node < ActiveRecord::Base
     Node.transaction do
       self.lock!
       check_consistency(self, new_node, user)
-      way = WayNode.find(:first, :joins => :way, 
-                         :conditions => [ "current_ways.visible = ? AND current_way_nodes.node_id = ?", true, self.id ])
-      raise OSM::APIPreconditionFailedError.new("Node #{self.id} is still used by way #{way.way.id}.") unless way.nil?
+      ways = Way.joins(:way_nodes).where(:visible => true, :current_way_nodes => { :node_id => id }).order(:id)
+      raise OSM::APIPreconditionFailedError.new("Node #{self.id} is still used by ways #{ways.collect { |w| w.id }.join(",")}.") unless ways.empty?
       
-      rel = RelationMember.find(:first, :joins => :relation, 
-                                :conditions => [ "visible = ? AND member_type='Node' and member_id=? ", true, self.id])
-      raise OSM::APIPreconditionFailedError.new("Node #{self.id} is still used by relation #{rel.relation.id}.") unless rel.nil?
+      rels = Relation.joins(:relation_members).where(:visible => true, :current_relation_members => { :member_type => "Node", :member_id => id }).order(:id)
+      raise OSM::APIPreconditionFailedError.new("Node #{self.id} is still used by relations #{rels.collect { |r| r.id }.join(",")}.") unless rels.empty?
 
       self.changeset_id = new_node.changeset_id
       self.tags = {}

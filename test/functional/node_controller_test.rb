@@ -221,14 +221,14 @@ class NodeControllerTest < ActionController::TestCase
     delete :delete, :id => current_nodes(:used_node_1).id
     assert_response :precondition_failed,
        "shouldn't be able to delete a node used in a way (#{@response.body})"
-    assert_equal "Precondition failed: Node 3 is still used by way 1.", @response.body
+    assert_equal "Precondition failed: Node 3 is still used by ways 1,3.", @response.body
 
     # in a relation...
     content(nodes(:node_used_by_relationship).to_xml)
     delete :delete, :id => current_nodes(:node_used_by_relationship).id
     assert_response :precondition_failed,
        "shouldn't be able to delete a node used in a relation (#{@response.body})"
-    assert_match /Precondition failed: Node 5 is still used by relation [13]./, @response.body
+    assert_equal "Precondition failed: Node 5 is still used by relations 1,3.", @response.body
   end
 
   ##
