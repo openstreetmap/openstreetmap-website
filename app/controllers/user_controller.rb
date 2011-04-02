@@ -218,13 +218,14 @@ class UserController < ApplicationController
         session[:user] = user.id
         session_expires_after 1.month if params[:remember_me]
 
-        # if the user hasn't seen the contributor terms then redirect them
-        # to that page.
+        # The user is logged in, so decide where to send them:
+        #
+        # - If they haven't seen the contributor terms, send them there.
+        # - If they have a block on them, show them that.
+        # - If they were referred to the login, send them back there.
+        # - Otherwise, send them to the home page.
         if REQUIRE_TERMS_SEEN and not user.terms_seen
           redirect_to :controller => 'user', :action => 'terms', :referer => params[:referer]
-        # The user is logged in, if the referer param exists, redirect
-        # them to that unless they've also got a block on them, in
-        # which case redirect them to the block so they can clear it.
         elsif user.blocked_on_view
           redirect_to user.blocked_on_view, :referer => params[:referer]
         elsif params[:referer]

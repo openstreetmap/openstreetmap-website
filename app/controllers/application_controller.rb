@@ -99,16 +99,18 @@ class ApplicationController < ActionController::Base
       end
     end
 
-    # check if the user has been banned
-    unless @user.nil? or @user.active_blocks.empty?
-      # NOTE: need slightly more helpful message than this.
-      render :text => t('application.setup_user_auth.blocked'), :status => :forbidden
-    end
-    # if the user hasn't seen the contributor terms then don't
-    # allow editing - they have to go to the web site and see
-    # (but can decline) the CTs to continue.
-    if REQUIRE_TERMS_SEEN
-      unless @user.nil? or @user.terms_seen
+    # have we identified the user?
+    if @user
+      # check if the user has been banned
+      if not  @user.active_blocks.empty?
+        # NOTE: need slightly more helpful message than this.
+        render :text => t('application.setup_user_auth.blocked'), :status => :forbidden
+      end
+
+      # if the user hasn't seen the contributor terms then don't
+      # allow editing - they have to go to the web site and see
+      # (but can decline) the CTs to continue.
+      if REQUIRE_TERMS_SEEN and not @user.terms_seen
         render :text => t('application.setup_user_auth.need_to_see_terms'), :status => :forbidden
       end
     end
