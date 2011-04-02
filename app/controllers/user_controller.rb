@@ -53,9 +53,18 @@ class UserController < ApplicationController
     if Acl.find_by_address(request.remote_ip, :conditions => {:k => "no_account_creation"})
       render :action => 'new'
     elsif params[:decline]
-      @user.terms_seen = true
-      @user.save
-      redirect_to t('user.terms.declined')
+      if @user
+        @user.terms_seen = true
+        @user.save
+
+        if params[:referer]
+          redirect_to params[:referer]
+        else
+          redirect_to :action => :account, :display_name => @user.display_name
+        end
+      else
+        redirect_to t('user.terms.declined')
+      end
     elsif @user
       if !@user.terms_agreed?
         @user.consider_pd = params[:user][:consider_pd]
@@ -66,7 +75,11 @@ class UserController < ApplicationController
         end
       end
 
-      redirect_to :action => :account, :display_name => @user.display_name
+      if params[:referer]
+        redirect_to params[:referer]
+      else
+        redirect_to :action => :account, :display_name => @user.display_name
+      end
     else
       @user = User.new(params[:user])
 
@@ -218,6 +231,8 @@ class UserController < ApplicationController
         session[:user] = user.id
         session_expires_after 1.month if params[:remember_me]
 
+        target = params[:referer] || url_for(:controller => :site, :action => :index)
+
         # The user is logged in, so decide where to send them:
         #
         # - If they haven't seen the contributor terms, send them there.
@@ -225,13 +240,11 @@ class UserController < ApplicationController
         # - If they were referred to the login, send them back there.
         # - Otherwise, send them to the home page.
         if REQUIRE_TERMS_SEEN and not user.terms_seen
-          redirect_to :controller => 'user', :action => 'terms', :referer => params[:referer]
+          redirect_to :controller => :user, :action => :terms, :referer => target
         elsif user.blocked_on_view
-          redirect_to user.blocked_on_view, :referer => params[:referer]
-        elsif params[:referer]
-          redirect_to params[:referer]
+          redirect_to user.blocked_on_view, :referer => target
         else
-          redirect_to :controller => 'site', :action => 'index'
+          redirect_to target
         end
       elsif user = User.authenticate(:username => email_or_display_name, :password => pass, :pending => true)
         flash.now[:error] = t 'user.login.account not active', :reconfirm => url_for(:action => 'confirm_resend', :display_name => user.display_name)
