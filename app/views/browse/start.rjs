@@ -34,6 +34,7 @@ page << <<EOJ
 
     map.events.register("moveend", map, showData);
     map.events.triggerEvent("moveend");
+
     $("browse_hide_areas_box").innerHTML = "#{I18n.t('browse.start_rjs.hide_areas')}";
     $("browse_hide_areas_box").style.display = "inline";
     $("browse_hide_areas_box").onclick = hideAreas;
@@ -60,7 +61,7 @@ page << <<EOJ
 
       if (browseBoxControl) {
     	browseBoxControl.destroy();
-	browseBoxControl = null;
+        browseBoxControl = null;
       }		
 
       if (browseActiveFeature) {
@@ -116,7 +117,9 @@ page << <<EOJ
       $("browse_hide_areas_box").innerHTML = "#{I18n.t('browse.start_rjs.show_areas')}";
       $("browse_hide_areas_box").style.display = "inline";
       $("browse_hide_areas_box").onclick = showAreas;
+
       areasHidden = true;
+
       useMap(true);
   }
 
@@ -124,7 +127,9 @@ page << <<EOJ
       $("browse_hide_areas_box").innerHTML = "#{I18n.t('browse.start_rjs.hide_areas')}";
       $("browse_hide_areas_box").style.display = "inline";
       $("browse_hide_areas_box").onclick = hideAreas;
-      areasHidden = false; 
+
+      areasHidden = false;
+
       useMap(true);
   }
 
@@ -142,7 +147,6 @@ page << <<EOJ
 
     $("browse_select_box").innerHTML = "#{I18n.t('browse.start_rjs.manually_select')}";
     $("browse_select_view").style.display = "inline";
-
   }
 
   function displayFeatureWarning() {
@@ -202,7 +206,7 @@ page << <<EOJ
     }
   }
 
-  function getData(bounds,reload) {
+  function getData(bounds, reload) {
     var projected = bounds.clone().transform(new OpenLayers.Projection("EPSG:900913"), new OpenLayers.Projection("EPSG:4326"));
     var size = projected.getWidth() * projected.getHeight();
 
@@ -213,15 +217,16 @@ page << <<EOJ
     }
   }
 
-  function loadGML(url,reload) {
+  function loadGML(url, reload) {
     setStatus("#{I18n.t('browse.start_rjs.loading')}");
     $("browse_content").innerHTML = "";
 
-    fOptions = {
-      checkTags: true, 
+    var formatOptions = {
+      checkTags: true,
       interestingTagsExclude: ['source','source_ref','source:ref','history','attribution','created_by','tiger:county','tiger:tlid','tiger:upload_uuid']
     };
-    if (areasHidden) fOptions.areaTags = [];
+
+    if (areasHidden) formatOptions.areaTags = [];
 
     if (!browseDataLayer || reload) {
       var style = new OpenLayers.Style();
@@ -238,7 +243,7 @@ page << <<EOJ
 
       browseDataLayer = new OpenLayers.Layer.GML("Data", url, {
         format: OpenLayers.Format.OSM,
-        formatOptions: fOptions,
+        formatOptions: formatOptions,
         maxFeatures: 100,
         requestSuccess: customDataLoader,
         displayInLayerSwitcher: false,
@@ -248,7 +253,6 @@ page << <<EOJ
         })
       });
       browseDataLayer.events.register("loadend", browseDataLayer, dataLoaded );
-
       map.addLayer(browseDataLayer);
             
       browseSelectControl = new OpenLayers.Control.SelectFeature(browseDataLayer, { onSelect: onFeatureSelect });
@@ -258,7 +262,7 @@ page << <<EOJ
       browseSelectControl.activate();
     } else {
       browseDataLayer.destroyFeatures();
-      browseDataLayer.format(fOptions);
+      browseDataLayer.format(formatOptions);
       browseDataLayer.setUrl(url);
     }
 
