@@ -95,9 +95,9 @@ class UserController < ApplicationController
         flash[:notice] = t 'user.new.flash create success message', :email => @user.email
         Notifier.deliver_signup_confirm(@user, @user.tokens.create(:referer => params[:referer]))
         session[:token] = @user.tokens.create.token
-        redirect_to :action => 'login'
+        redirect_to :action => 'login', :referer => params[:referer]
       else
-        render :action => 'new'
+        render :action => 'new', :referer => params[:referer]
       end
     end
   end
