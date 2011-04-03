@@ -1,4 +1,4 @@
-if defined?(ActiveRecord::ConnectionAdaptors::PostgreSQLAdaptor)
+if defined?(ActiveRecord::ConnectionAdapters::PostgreSQLAdapter)
   module ActiveRecord
     module ConnectionAdapters
       class PostgreSQLAdapter
