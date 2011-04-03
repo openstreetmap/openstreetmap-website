@@ -2,6 +2,13 @@ if defined?(ActiveRecord::ConnectionAdaptors::PostgreSQLAdaptor)
   module ActiveRecord
     module ConnectionAdapters
       class PostgreSQLAdapter
+        def supports_disable_referential_integrity?() #:nodoc:
+          version = query("SHOW server_version")[0][0].split('.')
+          (version[0].to_i >= 9 || (version[0].to_i == 8 && version[1].to_i >= 1)) ? true : false
+        rescue
+          return false
+        end
+
         def pk_and_sequence_for(table)
           # First try looking for a sequence with a dependency on the
           # given table's primary key.
