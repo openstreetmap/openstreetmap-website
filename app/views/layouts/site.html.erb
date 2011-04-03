@@ -1,34 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%= I18n.locale %>" lang="<%= I18n.locale %>" dir="<%= t'html.dir' %>">
-  <head>
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0"/>
-    <%= javascript_strings %>
-    <%= javascript_include_tag 'prototype' %>
-    <%= javascript_include_tag 'site' %>
-    <%= javascript_include_tag 'menu' %>
-    <!--[if lt IE 7]><%= javascript_include_tag 'pngfix' %><![endif]--> <!-- thanks, microsoft! -->
-    <%= stylesheet_link_tag 'common' %>
-    <!--[if IE]><%= stylesheet_link_tag 'large', :media => "screen" %><![endif]--> <!-- IE is totally broken with CSS media queries -->
-    <%= stylesheet_link_tag 'small', :media => "only screen and (max-width: 481px)" %>
-    <%= stylesheet_link_tag 'large', :media => "screen and (min-width: 482px)" %> 
-    <%= stylesheet_link_tag 'print', :media => "print" %>
-    <%= tag("link", { :rel => "search", :type => "application/opensearchdescription+xml", :title => "OpenStreetMap Search", :href => "/opensearch/osm.xml" }) %>
-    <%= tag("meta", { :name => "description", :content => "OpenStreetMap is the free wiki world map." }) %>
-    <%= style_rules %>
-    <%= yield :head %>
-    <title><%= t 'layouts.project_name.title' %><%= ' | '+ h(@title) if @title %></title>
-  </head>
+  <%= render :partial => "layouts/head" %>
   <body>
     <div id="content">
-      <% if flash[:error] %>
-        <div id="error"><%= flash[:error] %></div>
-      <% end %>
-      <% if flash[:warning] %>
-        <div id="warning"><%= flash[:warning] %></div>
-      <% end %>
-      <% if flash[:notice] %>
-        <div id="notice"><%= flash[:notice] %></div>
-      <% end %>
+      <%= render :partial => "layouts/flash", :locals => { :flash => flash } %>
 
       <%= yield %>
     </div>
