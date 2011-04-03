@@ -503,7 +503,7 @@ private
   def choose_layout
     if [ 'api_details' ].include? action_name
       nil
-    elsif [ 'login', 'new', 'terms'].include? action_name
+    elsif params[:referer] == url_for(:controller => :oauth, :action => :oauthorize, :only_path => true)
       'slim'
     else
       'site'
