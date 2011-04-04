@@ -199,6 +199,24 @@ class ApplicationController < ActionController::Base
       end
     end
 
+    if request.compatible_language_from(I18n.available_locales).nil?
+      request.user_preferred_languages = request.user_preferred_languages.collect do |pl|
+        pls = [ pl ]
+
+        while pl.match(/^(.*)-[^-]+$/)
+          pls.push($1) if I18n.available_locales.include?($1.to_sym)
+          pl = $1
+        end
+
+        pls
+      end.flatten
+
+      if @user and not request.compatible_language_from(I18n.available_locales).nil?
+        @user.languages = request.user_preferred_languages
+        @user.save        
+      end
+    end
+
     I18n.locale = request.compatible_language_from(I18n.available_locales)
 
     response.headers['Content-Language'] = I18n.locale.to_s
