@@ -10,6 +10,8 @@
 <script type="text/javascript">alert("<%= t 'site.edit.potlatch2_not_configured' %>")</script>
 <% end %>
 
+<% locale = request.compatible_language_from(Potlatch2::LOCALES.keys) %>
+
 <script type="text/javascript" defer="defer">
   var brokenContentSize = $("content").offsetWidth == 0;
   var fo = new SWFObject("<%= asset_path("/potlatch2/potlatch2.swf") %>", "potlatch", "100%", "100%", "9", "#FFFFFF");
@@ -28,6 +30,7 @@
     fo.addParam("base","/potlatch2");
     if (lat) { fo.addVariable("lat",lat); }
     if (lon) { fo.addVariable("lon",lon); }
+    fo.addVariable("locale", "<%= Potlatch2::LOCALES[locale] %>");
     <% if params['gpx'] %>
     fo.addVariable('gpx' ,'<%= h(params['gpx']) %>');
     <% end %>
