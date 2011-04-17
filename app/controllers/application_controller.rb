@@ -111,6 +111,7 @@ class ApplicationController < ActionController::Base
       # allow editing - they have to go to the web site and see
       # (but can decline) the CTs to continue.
       if REQUIRE_TERMS_SEEN and not @user.terms_seen
+        set_locale
         render :text => t('application.setup_user_auth.need_to_see_terms'), :status => :forbidden
       end
     end
