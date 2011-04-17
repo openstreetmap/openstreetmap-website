@@ -104,7 +104,7 @@ class ApplicationController < ActionController::Base
       # check if the user has been banned
       if not  @user.active_blocks.empty?
         # NOTE: need slightly more helpful message than this.
-        render :text => t('application.setup_user_auth.blocked'), :status => :forbidden
+        report_error t('application.setup_user_auth.blocked'), :forbidden
       end
 
       # if the user hasn't seen the contributor terms then don't
@@ -112,7 +112,7 @@ class ApplicationController < ActionController::Base
       # (but can decline) the CTs to continue.
       if REQUIRE_TERMS_SEEN and not @user.terms_seen
         set_locale
-        render :text => t('application.setup_user_auth.need_to_see_terms'), :status => :forbidden
+        report_error t('application.setup_user_auth.need_to_see_terms'), :forbidden
       end
     end
   end
