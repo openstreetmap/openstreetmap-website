@@ -15,6 +15,16 @@ class ApplicationController < ActionController::Base
         session_expires_automatically
 
         redirect_to :controller => "user", :action => "suspended"
+
+        # don't allow access to any auth-requiring part of the site unless
+        # the new CTs have been seen (and accept/decline chosen).
+      elsif !@user.terms_seen and flash[:showing_terms].nil?
+        flash[:notice] = t 'user.terms.you need to accept or decline'
+        if params[:referer]
+          redirect_to :controller => "user", :action => "terms", :referer => params[:referer]
+        else
+          redirect_to :controller => "user", :action => "terms", :referer => request.request_uri
+        end
       end
     elsif session[:token]
       @user = User.authenticate(:token => session[:token])

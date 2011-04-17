@@ -1,6 +1,7 @@
 class UserController < ApplicationController
   layout :choose_layout
 
+  before_filter :disable_terms_redirect, :only => [:terms, :save]
   before_filter :authorize, :only => [:api_details, :api_gpx_files]
   before_filter :authorize_web, :except => [:api_details, :api_gpx_files]
   before_filter :set_locale, :except => [:api_details, :api_gpx_files]
@@ -55,7 +56,10 @@ class UserController < ApplicationController
     elsif params[:decline]
       if @user
         @user.terms_seen = true
-        @user.save
+
+        if @user.save
+          flash[:notice] = t 'user.new.terms declined', :url => t('user.new.terms declined url')
+        end
 
         if params[:referer]
           redirect_to params[:referer]
@@ -510,5 +514,14 @@ private
     else
       'site'
     end
+  end
+
+  ##
+  #
+  def disable_terms_redirect
+    # this is necessary otherwise going to the user terms page, when 
+    # having not agreed already would cause an infinite redirect loop.
+    # it's .now so that this doesn't propagate to other pages.
+    flash.now[:showing_terms] = true
   end
 end
