@@ -1,7 +1,7 @@
 class UserController < ApplicationController
   layout :choose_layout
 
-  before_filter :disable_terms_redirect, :only => [:terms, :save, :logout]
+  before_filter :disable_terms_redirect, :only => [:terms, :save, :logout, :api_details]
   before_filter :authorize, :only => [:api_details, :api_gpx_files]
   before_filter :authorize_web, :except => [:api_details, :api_gpx_files]
   before_filter :set_locale, :except => [:api_details, :api_gpx_files]
