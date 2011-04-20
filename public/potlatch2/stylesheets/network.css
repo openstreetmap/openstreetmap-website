@@ -1,0 +1,35 @@
+/*
+	Potlatch 2 network stylesheet
+
+	This is a variant of the enhanced stylesheet _without_ landuse and similar polygons. The aim is to 
+	prevent such items distracting the mapper and leading to unwanted junctions (and slowing down
+	rendering!).
+	
+*/
+
+@import("stylesheets/core_ways.css");
+@import("stylesheets/core_pois.css");
+
+/* Access */
+
+way[access=private],way[access=no] { z-index: 10; color: red; width: eval('_width+2'); dashes: 2,5;}
+way[access=permissive] { z-index: 10; color: green; width: eval('_width+2'); dashes: 1,3;}
+
+/* Physical */
+
+way[embankment=yes], way[cutting=yes]
+    { z-index: 3; opacity: 0.5; color: grey; width: eval('_width+5'); dashes: 2, 2; }
+
+/* Interactive behaviour */
+
+@import("stylesheets/core_relations.css");
+way .area_small_name {text-color: black; font-size: 9; text: name; text-halo: #ffffaa; text-halo-radius: 2; text-position: center;}
+@import("stylesheets/core_interactive.css");
+
+/* Direction on selected ways */
+
+way[highway][!oneway][junction!=roundabout]:selected,
+way[aerial_way]:selected { z-index: 14; color: #999922; width: 2; dashes: 3,60; line-style: arrows; }
+way[waterway]:selected { z-index: 14; color: #4444CC; width: 2; dashes: 5,60; line-style: arrows; }
+way[railway] :selected{ z-index: 14; color: #999999; width: 3; dashes: 4,92; line-style: arrows; }
+

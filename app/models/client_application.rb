@@ -2,6 +2,7 @@ require 'oauth'
 class ClientApplication < ActiveRecord::Base
   belongs_to :user
   has_many :tokens, :class_name => "OauthToken"
+  has_many :access_tokens
   validates_presence_of :name, :url, :key, :secret
   validates_uniqueness_of :key
   before_validation_on_create :generate_keys
@@ -51,6 +52,20 @@ class ClientApplication < ActiveRecord::Base
     
   def create_request_token
     RequestToken.create :client_application => self, :callback_url => self.token_callback_url
+  end
+
+  def access_token_for_user(user)
+    unless token = access_tokens.find(:first, :conditions => { :user_id => user.id, :invalidated_at => nil })
+      params = { :user => user }
+
+      permissions.each do |p|
+        params[p] = true
+      end
+
+      token = access_tokens.create(params)
+    end
+    
+    token
   end
 
   # the permissions that this client would like from the user

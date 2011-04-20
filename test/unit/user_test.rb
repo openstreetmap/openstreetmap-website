@@ -138,4 +138,15 @@ class UserTest < ActiveSupport::TestCase
     #Friend.delete(friend)
     #assert_equal 0, Friend.count
   end
+
+  def test_user_preferred_editor
+    user = users(:normal_user)
+    assert_equal nil, user.preferred_editor
+    user.preferred_editor = "potlatch"
+    assert_equal "potlatch", user.preferred_editor
+    user.save!
+
+    user.preferred_editor = "invalid_editor"
+    assert_raise(ActiveRecord::RecordInvalid) { user.save! }
+  end
 end

@@ -27,7 +27,7 @@
   <% end %>
     
   <td class="<%= cl %> comment">
-    <% if changeset.tags['comment'] %>
+    <% if changeset.tags['comment'].to_s != '' %>
       <%= linkify(h(changeset.tags['comment'])) %>
     <% else %>
       <%= t'changeset.changeset.no_comment' %>

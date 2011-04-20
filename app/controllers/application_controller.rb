@@ -15,6 +15,16 @@ class ApplicationController < ActionController::Base
         session_expires_automatically
 
         redirect_to :controller => "user", :action => "suspended"
+
+        # don't allow access to any auth-requiring part of the site unless
+        # the new CTs have been seen (and accept/decline chosen).
+      elsif !@user.terms_seen and flash[:showing_terms].nil?
+        flash[:notice] = t 'user.terms.you need to accept or decline'
+        if params[:referer]
+          redirect_to :controller => "user", :action => "terms", :referer => params[:referer]
+        else
+          redirect_to :controller => "user", :action => "terms", :referer => request.request_uri
+        end
       end
     elsif session[:token]
       @user = User.authenticate(:token => session[:token])
@@ -99,10 +109,21 @@ class ApplicationController < ActionController::Base
       end
     end
 
-    # check if the user has been banned
-    unless @user.nil? or @user.active_blocks.empty?
-      # NOTE: need slightly more helpful message than this.
-      render :text => t('application.setup_user_auth.blocked'), :status => :forbidden
+    # have we identified the user?
+    if @user
+      # check if the user has been banned
+      if not  @user.active_blocks.empty?
+        # NOTE: need slightly more helpful message than this.
+        report_error t('application.setup_user_auth.blocked'), :forbidden
+      end
+
+      # if the user hasn't seen the contributor terms then don't
+      # allow editing - they have to go to the web site and see
+      # (but can decline) the CTs to continue.
+      if REQUIRE_TERMS_SEEN and not @user.terms_seen
+        set_locale
+        report_error t('application.setup_user_auth.need_to_see_terms'), :forbidden
+      end
     end
   end
 
@@ -134,8 +155,7 @@ class ApplicationController < ActionController::Base
 
   def check_api_readable
     if STATUS == :database_offline or STATUS == :api_offline
-      response.headers['Error'] = "Database offline for maintenance"
-      render :nothing => true, :status => :service_unavailable
+      report_error "Database offline for maintenance", :service_unavailable
       return false
     end
   end
@@ -143,16 +163,14 @@ class ApplicationController < ActionController::Base
   def check_api_writable
     if STATUS == :database_offline or STATUS == :database_readonly or
        STATUS == :api_offline or STATUS == :api_readonly
-      response.headers['Error'] = "Database offline for maintenance"
-      render :nothing => true, :status => :service_unavailable
+      report_error "Database offline for maintenance", :service_unavailable
       return false
     end
   end
 
   def require_public_data
     unless @user.data_public?
-      response.headers['Error'] = "You must make your edits public to upload new data"
-      render :nothing => true, :status => :forbidden
+      report_error "You must make your edits public to upload new data", :forbidden
       return false
     end
   end
@@ -165,7 +183,18 @@ class ApplicationController < ActionController::Base
   def report_error(message, status = :bad_request)
     # Todo: some sort of escaping of problem characters in the message
     response.headers['Error'] = message
-    render :text => message, :status => status
+
+    if request.headers['X-Error-Format'] and
+       request.headers['X-Error-Format'].downcase == "xml"
+      result = OSM::API.new.get_xml_doc
+      result.root.name = "osmError"
+      result.root << (XML::Node.new("status") << interpret_status(status))
+      result.root << (XML::Node.new("message") << message)
+
+      render :text => result.to_s, :content_type => "text/xml"
+    else
+      render :text => message, :status => status
+    end
   end
   
   def set_locale
@@ -178,6 +207,24 @@ class ApplicationController < ActionController::Base
       elsif !request.user_preferred_languages.empty?
         @user.languages = request.user_preferred_languages
         @user.save
+      end
+    end
+
+    if request.compatible_language_from(I18n.available_locales).nil?
+      request.user_preferred_languages = request.user_preferred_languages.collect do |pl|
+        pls = [ pl ]
+
+        while pl.match(/^(.*)-[^-]+$/)
+          pls.push($1) if I18n.available_locales.include?($1.to_sym)
+          pl = $1
+        end
+
+        pls
+      end.flatten
+
+      if @user and not request.compatible_language_from(I18n.available_locales).nil?
+        @user.languages = request.user_preferred_languages
+        @user.save        
       end
     end
 

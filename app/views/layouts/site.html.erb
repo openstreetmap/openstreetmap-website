@@ -1,33 +1,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%= I18n.locale %>" lang="<%= I18n.locale %>" dir="<%= t'html.dir' %>">
-  <head>
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0"/>
-    <%= javascript_strings %>
-    <%= javascript_include_tag 'prototype' %>
-    <%= javascript_include_tag 'site' %>
-    <!--[if lt IE 7]><%= javascript_include_tag 'pngfix' %><![endif]--> <!-- thanks, microsoft! -->
-    <%= stylesheet_link_tag 'common' %>
-    <!--[if IE]><%= stylesheet_link_tag 'large', :media => "screen" %><![endif]--> <!-- IE is totally broken with CSS media queries -->
-    <%= stylesheet_link_tag 'small', :media => "only screen and (max-width: 481px)" %>
-    <%= stylesheet_link_tag 'large', :media => "screen and (min-width: 482px)" %> 
-    <%= stylesheet_link_tag 'print', :media => "print" %>
-    <%= tag("link", { :rel => "search", :type => "application/opensearchdescription+xml", :title => "OpenStreetMap Search", :href => "/opensearch/osm.xml" }) %>
-    <%= tag("meta", { :name => "description", :content => "OpenStreetMap is the free wiki world map." }) %>
-    <%= style_rules %>
-    <%= yield :head %>
-    <title><%= t 'layouts.project_name.title' %><%= ' | '+ h(@title) if @title %></title>
-  </head>
+  <%= render :partial => "layouts/head" %>
   <body>
+    <div id="small-title">
+      <%= link_to(image_tag("osm_logo.png", :size => "16x16", :border => 0, :alt => t('layouts.logo.alt_text')), :controller => 'site', :action => 'index') %>
+      <h1><%= t 'layouts.project_name.h1' %></h1>
+    </div>
     <div id="content">
-      <% if flash[:error] %>
-        <div id="error"><%= flash[:error] %></div>
-      <% end %>
-      <% if flash[:warning] %>
-        <div id="warning"><%= flash[:warning] %></div>
-      <% end %>
-      <% if flash[:notice] %>
-        <div id="notice"><%= flash[:notice] %></div>
-      <% end %>
+      <%= render :partial => "layouts/flash", :locals => { :flash => flash } %>
 
       <%= yield %>
     </div>
@@ -61,7 +41,7 @@
         diaryclass = 'active' if params['controller'] == 'diary_entry'
         %>
         <li><%= link_to t('layouts.view'), {:controller => 'site', :action => 'index'}, {:id => 'viewanchor', :title => t('layouts.view_tooltip'), :class => viewclass} %></li>
-        <li><%= link_to t('layouts.edit'), {:controller => 'site', :action => 'edit'}, {:id => 'editanchor', :title => t('javascripts.site.edit_tooltip'), :class => editclass} %></li>
+        <li><%= link_to t('layouts.edit') + '&nbsp;&#x25be;', {:controller => 'site', :action => 'edit'}, {:id => 'editanchor', :title => t('javascripts.site.edit_tooltip'), :class => editclass} %></li>
         <li><%= link_to t('layouts.history'), {:controller => 'changeset', :action => 'list' }, {:id => 'historyanchor', :title => t('javascripts.site.history_tooltip'), :class => historyclass} %></li>
         <% if params['controller'] == 'site' and (params['action'] == 'index' or params['action'] == 'export') %>
         <li><%= link_to_remote t('layouts.export'), {:url => {:controller => 'export', :action => 'start'}}, {:id => 'exportanchor', :title => t('layouts.export_tooltip'), :class => exportclass, :href => url_for(:controller => 'site', :action => 'export')} %></li>
@@ -72,6 +52,18 @@
         <li><%= link_to t('layouts.user_diaries'), {:controller => 'diary_entry', :action => 'list', :display_name => nil}, {:id => 'diaryanchor', :title => t('layouts.user_diaries_tooltip'), :class => diaryclass} %></li>
       </ul>
     </div>
+
+    <div id="editmenu">
+      <ul>
+        <% Editors::ALL_EDITORS.each do |editor| %>
+          <li><%= link_to t('layouts.edit_with', :editor => t("editor.#{editor}.description")), {:controller => 'site', :action => 'edit', :editor => editor}, {:id => editor + 'anchor'} %></li>
+        <% end %>
+      </ul>
+    </div>
+
+    <script type="text/javascript">
+      createMenu("editanchor", "editmenu", 1000);
+    </script>
 
     <div id="left">
 
@@ -117,14 +109,18 @@
       <% end %>
 
       <div id="left_menu" class="left_menu">
-        <%= t 'layouts.help_and_wiki',
-            :help => link_to(t('layouts.help'), t('layouts.help_url'), :title => t('layouts.help_title')),
-            :wiki => link_to(t('layouts.wiki'), t('layouts.wiki_url'), :title => t('layouts.wiki_title'))
-        %><br />
-        <%= link_to t('layouts.copyright'), {:controller => 'site', :action => 'copyright'} %><br />
-        <a href="http://blogs.openstreetmap.org/" title="<%= t 'layouts.news_blog_tooltip' %>"><%= t 'layouts.news_blog' %></a><br />
-        <a href="<%= t 'layouts.shop_url' %>" title="<%= t 'layouts.shop_tooltip' %>"><%= t 'layouts.shop' %></a><br />
-        <%= yield :left_menu %>
+        <ul>
+          <li><%= link_to(t('layouts.help_centre'), t('layouts.help_url'), :title => t('layouts.help_title')) %></li>
+          <li><%= link_to(t('layouts.documentation'), t('layouts.wiki_url'), :title => t('layouts.documentation_title')) %></li>
+          <li><%= link_to t('layouts.copyright'), {:controller => 'site', :action => 'copyright'} %></li>
+          <li><a href="http://blogs.openstreetmap.org/" title="<%= t 'layouts.community_blogs_title' %>"><%= t 'layouts.community_blogs' %></a></li>
+          <li><a href="http://www.osmfoundation.org" title="<%= t 'layouts.foundation_title' %>"><%= t 'layouts.foundation' %></a></li>
+          <%= yield :left_menu %>
+        </ul>
+      </div>
+
+      <div id="sotm">
+        <%= link_to image_tag("sotm.png", :alt => t('layouts.sotm2011'), :title => t('layouts.sotm2011'), :border => "0"), "http://stateofthemap.org/register-now/" %>
       </div>
 
       <%= yield :optionals %>

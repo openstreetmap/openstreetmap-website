@@ -1,0 +1,480 @@
+<featureGroup>
+    <feature name="Railway line">
+        <category>transport</category>
+        <icon image="features/railway__rail.png">
+          <font size="14pt">
+            <b>${name}</b>
+          </font>
+        </icon>
+    
+        <line/>
+        <tag k="railway" v="rail"/>
+        <inputSet ref="bridge"/>
+        <inputSet ref="tunnel"/>
+        <inputSet ref="embankment-cutting"/>
+        <inputSet ref="rail-electrification"/>
+        <inputSet ref="rail-usage"/>
+        <inputSet ref="common"/>
+      </feature>
+    
+    
+      <feature name="Railway spur">
+        <category>transport</category>
+        <icon image="features/railway__spur.png">
+          <font size="14pt">
+            <b>${name}</b>
+          </font>
+        </icon>
+    
+        <line/>
+        <tag k="railway" v="rail"/>
+        <tag k="service" v="spur"/>
+        <inputSet ref="common"/>
+      </feature>
+    
+    
+      <feature name="Railway siding">
+        <category>transport</category>
+        <icon image="features/railway__siding.png">
+          <font size="14pt">
+            <b>${name}</b>
+          </font>
+        </icon>
+    
+        <line/>
+        <tag k="railway" v="rail"/>
+        <tag k="service" v="siding"/>
+        <inputSet ref="common"/>
+      </feature>
+    
+    
+      <feature name="Preserved line">
+        <category>transport</category>
+        <icon image="features/railway__preserved.png">
+          <font size="14pt"><b>${name}</b></font>
+        </icon>
+    
+        <line/>
+        <tag k="railway" v="preserved"/>
+        <inputSet ref="common"/>
+      </feature>
+    
+    
+      <feature name="Disused tracks">
+        <category>transport</category>
+        <icon image="features/railway__disused.png">
+          <font size="14pt">
+            <b>${name}</b>
+          </font>
+        </icon>
+    
+        <line/>
+        <tag k="railway" v="disused"/>
+        <inputSet ref="common"/>
+      </feature>
+    
+    
+      <feature name="Old trackbed">
+        <category>transport</category>
+        <icon image="features/railway__abandoned.png">
+          <font size="14pt"><b>${name}</b></font>
+        </icon>
+    
+        <line/>
+        <tag k="railway" v="abandoned"/>
+        <inputSet ref="common"/>
+      </feature>
+    
+    
+      <feature name="Light rail line">
+        <category>transport</category>
+        <icon image="features/railway__light.png">
+          <font size="14pt">
+            <b>${name}</b>
+          </font>
+        </icon>
+    
+        <line/>
+        <tag k="railway" v="light_rail"/>
+        <inputSet ref="bridge"/>
+        <inputSet ref="tunnel"/>
+        <inputset ref="embankment-cutting"/>
+        <inputSet ref="rail-electrification"/>
+        <inputSet ref="common"/>
+      </feature>
+    
+    
+      <feature name="Tram line">
+        <category>transport</category>
+        <icon image="features/railway__tram.png">
+          <font size="14pt"><b>${name}</b></font>
+        </icon>
+    
+        <line/>
+        <tag k="railway" v="tram"/>
+        <input ref="tram-route"/>
+        <inputSet ref="bridge"/>
+        <inputSet ref="tunnel"/>
+        <inputset ref="embankment-cutting"/>
+        <inputSet ref="rail-electrification"/>
+        <inputSet ref="common"/>
+      </feature>
+    
+    
+      <feature name="Subway line">
+        <category>transport</category>
+        <icon image="features/railway__subway.png">
+          <font size="14pt">
+            <b>${name}</b>
+          </font>
+        </icon>
+    
+        <line/>
+        <tag k="railway" v="subway"/>
+        <inputSet ref="bridge"/>
+        <inputSet ref="tunnel"/>
+        <inputset ref="embankment-cutting"/>
+        <inputSet ref="rail-electrification"/>
+        <inputSet ref="common"/>
+      </feature>
+    
+    
+      <feature name="Railway platform">
+        <category>transport</category>
+        <icon image="features/railway__platform.png"/>
+        <line/>
+        <area/>
+        <tag k="railway" v="platform"/>
+        <input type="freetext" presence="onTagMatch" category="Naming" name="Reference" key="ref" description="The number of the platform" priority="low"/>
+        <inputSet ref="common"/>
+      </feature>
+    
+    
+      <feature name="Bus station">
+        <category>transport</category>
+        <icon image="features/amenity__bus_station.png">
+          <b>${name} ${addr:housename}</b><br/>
+          ${addr:housenumber} ${addr:street} ${addr:postcode}
+        </icon>
+    
+        <area/>
+        <tag k="amenity" v="bus_station"/>
+        <inputSet ref="names"/>
+        <inputSet ref="isBuilding"/>
+        <inputSet ref="buildingAddress"/>
+        <inputSet ref="common"/>
+      </feature>
+    
+    
+      <feature name="Airport">
+        <category>transport</category>
+        <icon image="features/aeroway__aerodrome.png" dnd="features/pois/transport_airport.n.24.png"/>
+        <tag k="aeroway" v="aerodrome"/>
+        <area/>
+        <point/>
+        <inputSet ref="names"/>
+        <input type="freetext" presence="always" category="Naming" name="International Air Transport Association (IATA) airport code" key="ref"/>
+        <help>http://wiki.openstreetmap.org/wiki/Key:aeroway</help>
+        <inputSet ref="common"/>
+      </feature>
+    
+    
+      <feature name="Airport terminal">
+        <category>transport</category>
+        <icon image="features/aeroway__terminal.png" dnd="features/pois/transport_airport_terminal.n.24.png"/>
+        <tag k="aeroway" v="terminal"/>
+        <area/>
+        <point/>
+        <inputSet ref="names"/>
+        <help>http://wiki.openstreetmap.org/wiki/Key:aeroway</help>
+        <inputSet ref="common"/>
+      </feature>
+    
+    
+      <feature name="Helipad">
+        <category>transport</category>
+        <icon image="features/aeroway__helipad.png" dnd="features/pois/transport_helicopter_pad.n.24.png"/>
+        <tag k="aeroway" v="helipad"/>
+        <area/>
+        <point/>
+        <inputSet ref="names"/>
+        <help>http://wiki.openstreetmap.org/wiki/Key:aeroway</help>
+        <inputSet ref="common"/>
+      </feature>
+    
+    
+      <feature name="Airport runway">
+        <category>transport</category>
+        <icon image="features/aeroway__runway.png"/>
+        <tag k="aeroway" v="runway"/>
+        <line/>
+        <inputSet ref="names"/>
+        <input type="freetext" presence="always" category="Naming" name="Runway number (01-36)" key="ref"/>
+        <help>http://wiki.openstreetmap.org/wiki/Key:aeroway</help>
+        <inputSet ref="common"/>
+      </feature>
+    
+    
+      <feature name="Airport taxiway">
+        <category>transport</category>
+        <icon image="features/aeroway__taxiway.png"/>
+        <tag k="aeroway" v="taxiway"/>
+        <line/>
+        <inputSet ref="names"/>
+        <input type="freetext" presence="always" category="Naming" name="Taxiway number" key="ref" />
+        <help>http://wiki.openstreetmap.org/wiki/Key:aeroway</help>
+        <inputSet ref="common"/>
+      </feature>
+    
+    
+      <feature name="Airport apron">
+        <category>transport</category>
+        <icon image="features/aeroway__apron.png"/>
+        <tag k="aeroway" v="apron"/>
+        <area/>
+        <inputSet ref="names"/>
+        <help>http://wiki.openstreetmap.org/wiki/Key:aeroway</help>
+        <inputSet ref="common"/>
+      </feature>
+    
+    
+      <feature name="Airport gate">
+        <category>transport</category>
+        <icon image="features/pois/transport_airport_gate.n.24.png"/>
+        <tag k="aeroway" v="gate"/>
+        <point/>
+        <input type="freetext" presence="always" category="Naming" name="Gate number" key="ref"/>
+        <help>http://wiki.openstreetmap.org/wiki/Key:aeroway</help>
+        <inputSet ref="common"/>
+      </feature>
+      
+      
+<feature name="Aerodrome">
+    <category>aeroway</category>
+    <icon image="features/aeroway__aerodrome.png"/>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:aeroway%3Daerodrome</help>
+    <point/>
+    <tag k="aeroway" v="aerodrome"/>
+    <inputSet ref="simpleName"/>
+    <inputSet ref="common"/>
+  </feature>
+
+
+  <feature name="Bus Stop">
+    <category>transport</category>
+    <icon image="features/pois/transport_bus_stop2.n.24.png">
+      ${name} ${local_ref}
+    </icon>
+    <point/>
+    <tag k="highway" v="bus_stop"/>
+    <inputSet ref="buses"/>
+    <inputSet ref="common"/>
+  </feature>
+
+
+  <feature name="Car Parking">
+    <category>transport</category>
+    <icon image="features/amenity__parking.png" dnd="features/pois/transport_parking_car.n.24.png">
+      ${name}
+    </icon>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:amenity%3Dparking</help>
+    <point/>
+    <area/>
+    <tag k="amenity" v="parking"/>
+    <inputSet ref="names"/>
+    <input type="freetext" presence="onTagMatch" category="Naming" name="Operator" key="operator" description="The provider of the postal service" priority="low"/>
+    <input type="number" minimum="0" maximum="99999" stepSize="1" presence="always" category="Parking" name="Capacity" key="capacity" description="The number of cars that can be parked in the car park"/>
+    <inputSet ref="fee"/>
+    <inputSet ref="common"/>
+  </feature>
+
+
+  <feature name="Bicycle Parking">
+    <category>transport</category>
+    <icon image="features/pois/transport_parking_bicycle.n.24.png">
+      ${name} ${capacity}
+    </icon>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:amenity%3Dbicycle_parking</help>
+    <point/>
+    <tag k="amenity" v="bicycle_parking"/>
+    <inputSet ref="names"/>
+    <input type="freetext" presence="onTagMatch" category="Naming" name="Operator" key="operator" description="The provider of the postal service" priority="low"/>
+    <input type="number" minimum="0" maximum="99999" stepSize="1"
+        presence="always" category="Cycle" name="Capacity" key="capacity"
+        description="The number of bicycles that can be parked in the group of bicycle parking racks"/>
+    <inputSet ref="fee"/>
+    <input type="choice" presence="always" category="Cycle" name="Covered" key="covered" description="Is the cycle parking covered, so that the bikes are kept dry?">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <inputSet ref="common"/>
+  </feature>
+
+
+  <feature name="Railway station">
+    <category>transport</category>
+    <icon image="features/pois/transport_train_station.n.24.png">
+      <font size="14pt">
+        <b>${name}</b>
+      </font>
+    </icon>
+
+    <point/>
+    <tag k="railway" v="station"/>
+    <inputSet ref="names"/>
+    <input type="freetext" presence="onTagMatch" category="Naming" name="Reference" key="ref" description="The shortcode/reference for the station" priority="low"/>
+    <input type="freetext" presence="onTagMatch" category="Naming" name="Operator" key="operator" description="The provider of the service" priority="low"/>
+    <inputSet ref="common"/>
+  </feature>
+
+
+  <feature name="Fuel">
+    <category>transport</category>
+    <point/>
+    <inputSet ref="simpleName"/>
+    <icon image="features/pois/transport_fuel.n.24.png"/>
+    <tag k="amenity" v="fuel"/>
+    <input type="freetext" category="Naming" name="Operator" key="operator" description="The provider of the service"/>
+    <input type="choice" category="Fuels" name="Diesel" key="diesel" description="Is diesel fuel sold here?">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" category="Fuels" name="Octane 91" key="diesel" description="Is octane 91 unleaded fuel sold here?">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" category="Fuels" name="Octane 95" key="octane_95" description="Is octane 95 unleaded fuel sold here?">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" category="Fuels" name="Octane 98" key="octane_98" description="Is octane 98 unleaded fuel sold here?">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" category="Fuels" name="Octane 100" key="octane_100" description="Is octane 100 unleaded fuel sold here?">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" category="Fuels" name="Ethanol" key="ethanol" description="Is ethanol sold here?">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" category="Fuels" name="LPG" key="lpg" description="Is LPG (liquid petroleum gas) sold here?">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" category="Fuels" name="Octane 91" key="diesel" description="Is octane 91 unleaded fuel sold here?">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" category="Fuels" name="Bio-diesel" key="biodiesel" description="Is biodiesel unleaded fuel sold here?">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+
+
+    <inputSet ref="common"/>
+  </feature>
+
+
+  <feature name="Bus station">
+    <category>transport</category>
+    <point/>
+    <inputSet ref="simpleName"/>
+    <icon image="features/pois/transport_bus_station.n.24.png"/>
+    <tag k="amenity" v="bus_station"/>
+    <inputSet ref="common"/>
+  </feature>
+
+
+  <feature name="Taxi rank">
+    <category>transport</category>
+    <point/>
+    <inputSet ref="simpleName"/>
+    <icon image="features/pois/transport_taxi_rank.n.24.png"/>
+    <tag k="amenity" v="taxi"/>
+    <inputSet ref="common"/>
+  </feature>
+
+
+  <feature name="Tram stop">
+    <category>transport</category><point/><inputSet ref="simpleName" />
+    <icon image="features/pois/transport_tram_stop.n.24.png"/>
+    <tag k="railway" v="tram_stop"/>
+    <inputSet ref="common"/>
+  </feature>
+
+
+  <feature name="Bicycle rental">
+    <category>transport</category>
+    <point/>
+    <inputSet ref="simpleName"/>
+    <icon image="features/pois/transport_rental_bicycle.n.24.png"/>
+    <tag k="amenity" v="bicycle_rental"/>
+    <inputSet ref="common"/>
+  </feature>
+
+
+  <feature name="Car rental">
+    <category>transport</category>
+    <point/>
+    <inputSet ref="simpleName"/>
+    <icon image="features/pois/transport_rental_car.n.24.png"/>
+    <tag k="amenity" v="car_rental"/>
+    <inputSet ref="common"/>
+  </feature>
+
+
+  <feature name="Ferry Terminal">
+    <category>transport</category>
+    <icon image="features/pois/transport_port.n.24.png"/>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:amenity%3Dferry_terminal</help>
+    <point/>
+    <tag k="amenity" v="ferry_terminal"/>
+    <inputSet ref="simpleName" />
+    <input type="freetext" presence="always" category="" name="Operator" key="operator" description="The operator of the ferry terminal." priority="low"/>
+    <input type="freetext" presence="onTagMatch" category="Cargo" name="Cargo" key="cargo" description="The cargo shipped from here." priority="low"/>
+    <inputSet ref="common"/>
+  </feature>
+
+
+  <!-- public transit routes -->
+  <feature name="Bus Route">
+    <category>transport</category>
+    <icon image="features/route__bus.png">
+      <font size="12pt">
+        ${operator} <b>${ref}</b>
+      </font>
+    </icon>
+
+    <relation/>
+    <tag k="type" v="route"/>
+    <tag k="route" v="bus"/>
+
+    <inputSet ref="route"/>
+    <input type="freetext" presence="always" category="Naming" name="Operator" key="operator" description="The provider of the bus service" priority="low"/>
+    <input type="freetext" presence="always" category="Naming" name="Network" key="network" description="The network of the bus service" priority="low"/>
+    <inputSet ref="common"/>
+  </feature>
+
+
+  <feature name="Tram Route">
+    <category>transport</category>
+    <icon image="features/transport__tram.png">
+      <font size="12pt">
+        ${operator} <b>${reg}</b>
+      </font>
+    </icon>
+
+    <relation/>
+    <tag k="type" v="route"/>
+    <tag k="route" v="tram"/>
+
+    <inputSet ref="route"/>
+    <input type="freetext" presence="always" category="Naming" name="Operator" key="operator" description="The provider of the tram service" priority="low"/>
+    <input type="freetext" presence="always" category="Naming" name="Network" key="network" description="The network of the tram service" priority="low"/>
+    <inputSet ref="common"/>
+  </feature>
+
+      
+</featureGroup>

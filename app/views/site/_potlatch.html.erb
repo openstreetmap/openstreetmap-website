@@ -1,0 +1,43 @@
+<div id="map">
+  <%= t 'site.edit.flash_player_required' %>
+</div>
+
+<%= javascript_include_tag 'swfobject.js' %>
+
+<% session[:token] = @user.tokens.create.token unless session[:token] and UserToken.find_by_token(session[:token]) %>
+
+<script type="text/javascript" defer="defer">
+  var brokenContentSize = $("content").offsetWidth == 0;
+  var fo = new SWFObject("<%= asset_path("/potlatch/potlatch.swf") %>", "potlatch", "100%", "100%", "6", "#FFFFFF");
+  // 700,600 for fixed size, 100%,100% for resizable
+  var changesaved=true;
+  var winie=false; if (document.all && window.print) { winie=true; }
+  
+  window.onbeforeunload=function() {
+    if (!changesaved) {
+      return '<%= escape_javascript(t('site.edit.potlatch_unsaved_changes')) %>';
+    }
+  }
+
+  function markChanged(a) { changesaved=a; }
+
+  function doSWF(lat,lon,sc) {
+    if (sc < 11) sc = 11;
+    fo.addVariable('winie',winie);
+    fo.addVariable('scale',sc);
+    fo.addVariable('token','<%= session[:token] %>');
+    if (lat) { fo.addVariable('lat',lat); }
+    if (lon) { fo.addVariable('long',lon); }
+    <% if params['gpx']     %>fo.addVariable('gpx'     ,'<%= h(params['gpx']    ) %>');<% end %>
+    <% if params['way']     %>fo.addVariable('way'     ,'<%= h(params['way']    ) %>');<% end %>
+    <% if params['node']    %>fo.addVariable('node'    ,'<%= h(params['node']   ) %>');<% end %>
+    <% if params['tileurl'] %>fo.addVariable('custombg','<%= h(params['tileurl']) %>');<% end %>
+    fo.write("map");
+  }
+
+  doSWF(<%= @lat || 'null' %>,<%= @lon || 'null' %>,<%= @zoom %>);
+
+  function setPosition(lat, lon, zoom) {
+    doSWF(lat, lon, zoom || 15);
+  }
+</script>

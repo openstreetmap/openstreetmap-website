@@ -79,6 +79,17 @@ en:
     with_id: "{{id}}"
     with_version: "{{id}}, v{{version}}"
     with_name: "{{name}} ({{id}})"
+  editor:
+    default: "Default (currently {{name}})"
+    potlatch:
+      name: "Potlatch 1"
+      description: "Potlatch 1 (in-browser editor)"
+    potlatch2:
+      name: "Potlatch 2"
+      description: "Potlatch 2 (in-browser editor)"
+    remote:
+      name: "Remote Control"
+      description: "Remote Control (JOSM or Merkaartor)"
   browse:
     changeset:
       title: "Changeset"
@@ -208,6 +219,8 @@ en:
       zoom_or_select: "Zoom in or select an area of the map to view"
       drag_a_box: "Drag a box on the map to select an area"
       manually_select: "Manually select a different area"
+      hide_areas: "Hide areas"
+      show_areas: "Show areas"
       loaded_an_area_with_num_features: "You have loaded an area which contains [[num_features]] features. In general, some browsers may not cope well with displaying this quantity of data. Generally, browsers work best at displaying less than 100 features at a time: doing anything else may make your browser slow/unresponsive. If you are sure you want to display this data, you may do so by clicking the button below."
       load_data: "Load Data"
       unable_to_load_size: "Unable to load: Bounding box size of [[bbox_size]] is too large (must be smaller than {{max_bbox_size}})"
@@ -923,6 +936,7 @@ en:
     gps_traces_tooltip: Manage GPS traces
     user_diaries: User Diaries
     user_diaries_tooltip: View user diaries
+    edit_with: Edit with {{editor}}
     tag_line: The Free Wiki World Map
     intro_1: "OpenStreetMap is a free editable map of the whole world. It is made by people like you."
     intro_2: "OpenStreetMap allows you to view, edit and use geographical data in a collaborative way from anywhere on Earth."
@@ -935,19 +949,21 @@ en:
     osm_read_only: "The OpenStreetMap database is currently in read-only mode while essential database maintenance work is carried out."
     donate: "Support OpenStreetMap by {{link}} to the Hardware Upgrade Fund."
     donate_link_text: donating
-    help_and_wiki: "{{help}} & {{wiki}}"
     help: Help
+    help_centre: Help Centre
     help_url: http://help.openstreetmap.org/
     help_title: Help site for the project
     wiki: Wiki
     wiki_url: http://wiki.openstreetmap.org/
     wiki_title: Wiki site for the project
+    documentation: Documentation
+    documentation_title: Documentation for the project
     copyright: "Copyright &amp; License"
-    news_blog: "News blog"
-    news_blog_tooltip: "News blog about OpenStreetMap, free geographical data, etc."
-    shop: Shop
-    shop_tooltip: Shop with branded OpenStreetMap merchandise
-    shop_url: http://wiki.openstreetmap.org/wiki/Merchandise
+    community_blogs: "Community Blogs"
+    community_blogs_title: "Blogs from members of the OpenStreetMap community"
+    foundation: Foundation
+    foundation_title: The OpenStreetMap Foundation
+    sotm2011: 'Come to the 2011 OpenStreetMap Conference, The State of the Map, September 9-11th in Denver!'
     license:
       alt: CC by-sa 2.0
       title: OpenStreetMap data is licensed under the Creative Commons Attribution-Share Alike 2.0 Generic License
@@ -1054,6 +1070,8 @@ en:
           Resources Canada), CanVec (&copy; Department of Natural
           Resources Canada), and StatCan (Geography Division,
           Statistics Canada).</li>
+          <li><strong>France</strong>: Contains data sourced from
+          Direction Générale des Impôts.</i>
           <li><strong>New Zealand</strong>: Contains data sourced from
           Land Information New Zealand. Crown Copyright reserved.</li>
           <li><strong>Poland</strong>: Contains data from <a
@@ -1237,6 +1255,7 @@ en:
         license_url: "http://creativecommons.org/licenses/by-sa/2.0/"
         project_name: "OpenStreetMap project"
         project_url: "http://openstreetmap.org"
+      remote_failed: "Editing failed - make sure JOSM or Merkaartor is loaded and the remote control option is enabled"
     edit:
       not_public: "You have not set your edits to be public."
       not_public_description: "You can no longer edit the map unless you do so. You can set your edits as public from your {{user_page}}."
@@ -1246,6 +1265,9 @@ en:
       anon_edits_link_text: "Find out why this is the case."
       flash_player_required: 'You need a Flash player to use Potlatch, the OpenStreetMap Flash editor. You can <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">download Flash Player from Adobe.com</a>. <a href="http://wiki.openstreetmap.org/wiki/Editing">Several other options</a> are also available for editing OpenStreetMap.'
       potlatch_unsaved_changes: "You have unsaved changes. (To save in Potlatch, you should deselect the current way or point, if editing in live mode, or click save if you have a save button.)"
+      potlatch2_not_configured: "Potlatch 2 has not been configured - please see http://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2 for more information"
+      potlatch2_unsaved_changes: "You have unsaved changes. (To save in Potlatch 2, you should click save.)"
+      no_iframe_support: "Your browser doesn't support HTML iframes, which are necessary for this feature."
     sidebar:
       search_results: Search Results
       close: Close
@@ -1256,7 +1278,7 @@ en:
       submit_text: "Go"
       search_help: "examples: 'Alkmaar', 'Regent Street, Cambridge', 'CB2 5AQ', or 'post offices near Lünen' <a href='http://wiki.openstreetmap.org/wiki/Search'>more examples...</a>"
     key:
-      map_key: "Map key"
+      map_key: "Map Key"
       map_key_tooltip: "Key for the map"
       table:
         entry:
@@ -1432,6 +1454,7 @@ en:
       cookies_needed: "You appear to have cookies disabled - please enable cookies in your browser before continuing."
     setup_user_auth:
       blocked: "Your access to the API has been blocked. Please log-in to the web interface to find out more."
+      need_to_see_terms: "Your access to the API is temporarily suspended. Please log-in to the web interface to view the Contributor Terms. You do not need to agree, but you must view them."
   oauth:
     oauthorize:
       request_access: "The application {{app_name}} is requesting access to your account. Please check whether you would like the application to have the following capabilities. You may choose as many or as few as you like."
@@ -1510,6 +1533,11 @@ en:
       remember: "Remember me:"
       lost password link: "Lost your password?"
       login_button: "Login"
+      register now: Register now
+      already have: Already have an OpenStreetMap account? Please login.
+      new to osm: New to OpenStreetMap?
+      to make changes: To make changes to the OpenStreetMap data, you must have an account.
+      create account minute: Create an account. It only takes a minute.
       account not active: "Sorry, your account is not active yet.<br />Please use the link in the account confirmation email to activate your account, or <a href=\"{{reconfirm}}\">request a new confirmation email</a>."
       account suspended: Sorry, your account has been suspended due to suspicious activity.<br />Please contact the {{webmaster}} if you wish to discuss this.
       webmaster: webmaster
@@ -1552,6 +1580,8 @@ en:
       continue: Continue
       flash create success message: "Thanks for signing up. We've sent a confirmation note to {{email}} and as soon as you confirm your account you'll be able to get mapping.<br /><br />If you use an antispam system which sends confirmation requests then please make sure you whitelist webmaster@openstreetmap.org as we are unable to reply to any confirmation requests."
       terms accepted: "Thanks for accepting the new contributor terms!"
+      terms declined: "We are sorry that you have decided to not accept the new Contributor Terms. For more information, please see <a href=\"{{url}}\">this wiki page</a>."
+      terms declined url: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
       title: "Contributor terms"
       heading: "Contributor terms"
@@ -1562,6 +1592,7 @@ en:
       agree: Agree
       declined: "http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined"
       decline: "Decline"
+      you need to accept or decline: "Please read and then either accept or decline the new Contributor Terms to continue."
       legale_select: "Please select your country of residence:"
       legale_names:
         france: "France"
@@ -1588,6 +1619,7 @@ en:
       add as friend: add as friend
       mapper since: "Mapper since:"
       ago: "({{time_in_words_ago}} ago)"
+      latest edit: "Latest edit {{ago}}:"
       email address: "Email address:"
       created from: "Created from:"
       status: "Status:"
@@ -1651,6 +1683,7 @@ en:
         link text: "what is this?"
       profile description: "Profile Description:"
       preferred languages: "Preferred Languages:"
+      preferred editor: "Preferred Editor:"
       image: "Image:"
       new image: "Add an image"
       keep image: "Keep the current image"

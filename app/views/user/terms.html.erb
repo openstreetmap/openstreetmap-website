@@ -13,7 +13,7 @@
             :before => update_page do |page|
               page.replace_html 'contributorTerms', image_tag('searching.gif')
             end,
-            :url => {:legale => legale, :has_decline => params.has_key?(:user)}
+            :url => {:legale => legale}
           )
       %>
       <%= label_tag "legale_#{legale}", t('user.terms.legale_names.' + name) %>
@@ -22,7 +22,7 @@
 <% end %>
 
 <div id="contributorTerms">
-  <%= render :partial => "terms", :locals => { :has_decline =>params.has_key?(:user) }  %>
+  <%= render :partial => "terms" %>
 </div>
 
 <% form_tag({:action => "save"}, { :id => "termsForm" }) do %>
@@ -41,9 +41,7 @@
       <%= hidden_field('user', 'pass_crypt_confirmation') %>
     <% end %>
     <div id="buttons">
-      <% if params[:user] %>
-        <%= submit_tag(t('user.terms.decline'), :name => "decline", :id => "decline") %>
-      <% end %>
+      <%= submit_tag(t('user.terms.decline'), :name => "decline", :id => "decline") %>
       <%= submit_tag(t('user.terms.agree'), :name => "agree", :id => "agree") %>
     </div>
   </p>

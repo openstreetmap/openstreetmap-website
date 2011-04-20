@@ -10,6 +10,10 @@ body {
   padding: 0px;
 }
 
+body.slim {
+  background-color: #f0f0f0;
+}
+
 /* Rules for links */
 
 a {
@@ -34,20 +38,22 @@ hr {
 
 #left {
   position: absolute;
-  top: -8px;
-  min-width: 150px;
+  top: 0px;
+  min-width: 170px;
 }
 
 /* Rules for the OpenStreetMap logo in the top left corner */
 
 #logo {
-  width: 150px;
-  min-width: 150px;
-  padding: 10px;
-  margin: 10px;
+  width: 170px;
+  min-width: 170px;
+  padding: 5px;
+  margin: 5px;
   height: 150px;
   background: #fff;
   border: 1px solid #ccd;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
 }
 
 #logo h1 {
@@ -61,16 +67,25 @@ hr {
   margin: 0px;
 }
 
+/* Rules for the site name */
+
+#small-title {
+  display: none;
+}
+
 /* Rules for the introductory text displayed in the left sidebar to new users */
 
 #intro {
   width: 170px;
-  margin: 10px;
+  padding: 5px;
+  margin: 5px;
   border: 1px solid #ccc;
   font-size: 11px;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
 }
 
-#intro p { margin: 10px; }
+#intro p { margin: 5px; }
 
 /*
  * Rules for alert boxes shown in the left sidebar when important
@@ -79,14 +94,16 @@ hr {
  */
 
 #alert {
-  width: 150px;
-  margin: 10px;
-  padding: 10px;
+  width: 170px;
+  margin: 5px;
+  padding: 5px;
   border: 1px solid #ccc;
   background: #d00;
   line-height: 1.2em;
   text-align: left;
   font-size: 14px;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
 }
 
 /*
@@ -96,23 +113,25 @@ hr {
  */
 
 .notice {
-  width: 150px;
-  margin: 10px;
-  padding: 10px;
+  width: 170px;
+  margin: 5px;
+  padding: 5px;
   border: 1px solid #ccc;
   background: #ea0;
   line-height: 1.2em;
   text-align: left;
   font-size: 14px;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
 }
 
 /* Rules for the menu displayed in the left sidebar */
 
 .left_menu {
-  width: 150px;
-  min-width: 150px;
-  margin: 10px;
-  padding: 10px;
+  width: 170px;
+  min-width: 170px;
+  margin: 5px;
+  padding: 5px;
   border: 1px solid #ccc;
   left: 0px;
   background: #ddd;
@@ -120,6 +139,8 @@ hr {
   text-align: Left;
   font-size: 14px;
   font-weight: bold;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
 }
 
 .left_menu td {
@@ -135,8 +156,9 @@ hr {
 }
 
 .left_menu ul {
-  padding-left: 10px;
+  padding-left: 0px;
   margin: 0px;
+  list-style-type: none;
 }
 
 .left_menu li {
@@ -155,8 +177,12 @@ hr {
 /* Rules for SOTM advert */
 
 #sotm {
-  width: 170px;
+  width: 180px;
+  min-width: 180px;
+  margin: 5px;
   padding: 0px;
+  border: 0px;
+  background: #fff;
 }
 
 /*
@@ -166,16 +192,18 @@ hr {
  */
 
 .optionalbox {
-  width: 150px;
-  min-width: 150px;
-  margin: 10px;
-  padding: 10px;
+  width: 170px;
+  min-width: 170px;
+  margin: 5px;
+  padding: 5px;
   border: 1px solid #ccc;
   left: 0px;
   line-height: 1.2em;
   text-align: left;
   font-size: 12px;
   background: #eee;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
 }
 
 .optionalbox h1 {
@@ -206,11 +234,13 @@ hr {
 }
 
 #search_field input[type="text"] {
-  width: 116px;
+  width: 136px;
 }
 
 #search_field input[type="submit"] {
   width: 26px;
+  padding-left: 0px;
+  padding-right: 0px;
 }
 
 .search_help {
@@ -223,14 +253,16 @@ hr {
 /* Rules for donation request box */
 
 .donate {
-  width: 150px;
-  margin: 10px;
-  padding: 10px;
+  width: 170px;
+  margin: 5px;
+  padding: 5px;
   border: 1px solid #ccc;
   background: #cbeea7;
   line-height: 1.2em;
   text-align: center;
   font-size: 14px;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
 }
 
 /* Rules for Creative Commons logo button */
@@ -271,6 +303,10 @@ hr {
   border: 1px solid #ccc;
   text-decoration: none;
   color: #333;
+  border-top-right-radius: 5px;
+  -moz-border-radius-topright: 5px;
+  border-top-left-radius: 5px;
+  -moz-border-radius-topleft: 5px;
 }
 
 #tabnav a:link.active, #tabnav a:visited.active
@@ -342,6 +378,27 @@ hr {
   right: 15px;
   font-size: smaller;
   text-align: right;
+}
+
+/* Rules for edit menu */
+
+#editmenu {
+  display: none;
+  z-index: 10000;
+  position: absolute;
+  background-color: #ffffff;
+  border: 1px solid black;
+}
+
+#editmenu ul {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+#editmenu li {
+  list-style-type: none;
 }
 
 /* Rules for attribution text under the main map shown on printouts */
@@ -500,6 +557,38 @@ hr {
   text-align: left;
 }
 
+#slim_container {
+  width: 100%;
+}
+
+#slim_container_content {
+  max-width: 50em;
+  background-color: #FFFFFF;
+  margin: 10px auto;
+  padding: 3px;
+  border-radius: 25px;
+  -moz-border-radius: 25px;
+  border: 1px solid #e6e6e6;
+}
+
+#slim_content {
+  margin: 10px;
+  margin-top: 90px;
+  max-width: 50em;
+}
+
+#slim_header {
+  margin: 10px;
+  position: absolute;
+  top: 0px;
+}
+
+#slim_header img {
+  vertical-align: middle;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
 /* Rules for the changeset list shown by the history tab etc */
 
 #changeset_list, #keyvalue {
@@ -570,7 +659,7 @@ hr {
 }
 
 #user_list tr {
-  vertical-align: center;
+  vertical-align: middle;
 }
 
 #user_list p {
@@ -583,6 +672,35 @@ hr {
   margin-top: 10px;
 }
 
+/* Rules for the login page */
+
+#login_wrapper div {
+  margin: 5px;
+  padding: 15px;
+  border-radius: 15px;
+  -moz-border-radius: 15px;
+}
+
+#login_wrapper input[type=submit] {
+  float: right;
+}
+
+#login_login {
+  background-color: #f5f5ff;
+  border: 1px solid #f3f3ff;
+  border-radius: 15px;
+  -moz-border-radius: 15px;
+}
+
+#login_login h1 {
+  margin-top: 5px;
+}
+
+#login_signup form.button-to div {
+  margin: 0px;
+  padding: 0px;
+}
+
 /* Rules for the account confirmation page */
 
 div#contributorTerms {
@@ -590,7 +708,11 @@ div#contributorTerms {
   padding: 4px;
   overflow: auto;
   width: 80%;
-  height: 60%;
+  height: 400px;
+}
+
+div#slim_content div#contributorTerms {
+  width: auto;
 }
 
 div#contributorTerms p#first {
@@ -614,6 +736,11 @@ div#contributorTerms img {
 
 form#termsForm {
   width: 80%;
+  margin-bottom: 3em;
+}
+
+div#slim_content form#termsForm {
+  width: auto;
 }
 
 form#termsForm div#buttons {
@@ -684,6 +811,8 @@ form#termsForm input#agree {
   padding: 7px;
   background-color: #fff0f0;
   margin-bottom: 20px;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
 }
 
 #warning {
@@ -691,6 +820,8 @@ form#termsForm input#agree {
   padding: 7px;
   background-color: #fff6f0;
   margin-bottom: 20px;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
 }
 
 #notice {
@@ -698,6 +829,8 @@ form#termsForm input#agree {
   padding: 7px;
   background-color: #f0fff0;
   margin-bottom: 20px;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
 }
 
 /* Rules for highlighting fields with rails validation errors */

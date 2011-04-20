@@ -1,0 +1,343 @@
+<featureGroup>
+  <!-- ************************************************************************
+       Roads
+       ************************************************************************ -->
+
+
+  <feature name="Motorway">
+    <category>roads</category>
+    <icon image="features/highway__motorway.png">
+      <font size="16pt"><b>${ref}</b></font><br/>
+    </icon>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:highway%3Dmotorway</help>
+
+    <line/>
+    <tag k="highway" v="motorway"/>
+
+    <inputSet ref="majorRoad"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Motorway link">
+    <category>roads</category>
+    <icon image="features/highway__motorway_link.png"/>
+    <line/>
+    <tag k="highway" v="motorway_link"/>
+
+    <inputSet ref="majorRoad"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Trunk road">
+    <category>roads</category>
+    <icon image="features/highway__trunk.png">
+      <font size="16pt"><b>${ref}</b></font><br/>
+      <font size="10pt">${name}</font>
+    </icon>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:highway%3Dtrunk</help>
+
+    <line/>
+    <tag k="highway" v="trunk"/>
+
+    <inputSet ref="majorRoad"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Trunk link">
+    <category>roads</category>
+    <icon image="features/highway__trunk_link.png"/>
+    <line/>
+    <tag k="highway" v="trunk_link"/>
+
+    <inputSet ref="majorRoad"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Primary road">
+    <category>roads</category>
+    <icon image="features/highway__primary.png">
+      <font size="16pt"><b>${ref}</b></font><br/>
+      <font size="10pt">${name}</font>
+    </icon>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:highway%3Dprimary</help>
+
+    <line/>
+    <tag k="highway" v="primary"/>
+
+    <inputSet ref="majorRoad"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Primary link">
+    <category>roads</category>
+    <icon image="features/highway__primary_link.png">
+      <font size="16pt"><b>${ref}</b></font><br/>
+      <font size="10pt">${name}</font>
+    </icon>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:highway%3Dprimary_link</help>
+
+    <line/>
+    <tag k="highway" v="primary_link"/>
+
+    <inputSet ref="majorRoad"/>
+    <inputSet ref="common"/>
+  </feature>
+
+
+  <feature name="Secondary road">
+    <category>roads</category>
+    <icon image="features/highway__secondary.png">
+      <font size="16pt"><b>${ref}</b></font><br/>
+      <font size="10pt">${name}</font>
+    </icon>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:highway%3Dsecondary</help>
+
+    <line/>
+    <tag k="highway" v="secondary"/>
+
+    <inputSet ref="majorRoad"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Secondary link">
+    <category>roads</category>
+    <icon image="features/highway__secondary_link.png">
+      <font size="16pt">
+        <b>${ref}</b>
+      </font>
+      <br/>
+      <font size="10pt">${name}</font>
+    </icon>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:highway%3Dsecondary_link</help>
+
+    <line/>
+    <tag k="highway" v="secondary_link"/>
+
+    <inputSet ref="majorRoad"/>
+    <inputSet ref="common"/>
+  </feature>
+
+
+
+  <feature name="Tertiary road">
+    <category>roads</category>
+    <icon image="features/highway__tertiary.png">
+      <font size="14pt"><b>${name}</b></font><br/>
+      <font size="10pt">${ref}</font>
+    </icon>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:highway%3Dtertiary</help>
+
+    <line/>
+    <tag k="highway" v="tertiary"/>
+
+    <inputSet ref="majorRoad"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Tertiary link">
+    <category>roads</category>
+    <icon image="features/highway__tertiary_link.png">
+      <font size="14pt"><b>${name}</b></font><br/>
+      <font size="10pt">${ref}</font>
+    </icon>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:highway%3Dtertiary_link</help>
+
+    <line/>
+    <tag k="highway" v="tertiary_link"/>
+
+    <inputSet ref="majorRoad"/>
+    <inputSet ref="common"/>
+  </feature>
+
+
+  <feature name="Minor road">
+    <category>roads</category>
+    <icon image="features/highway__unclassified.png">
+      <font size="14pt"><b>${name}</b></font>
+    </icon>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:highway%3Dunclassified</help>
+
+    <line/>
+    <tag k="highway" v="unclassified"/>
+
+    <inputSet ref="minorRoad"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Residential road">
+    <category>roads</category>
+    <icon image="features/highway__residential.png">
+      <font size="14pt">
+        <b>${name}</b>
+      </font>
+      <br/>
+      <font size="8pt">${postal_code}</font>
+      <br/>
+    </icon>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:highway%3Dresidential</help>
+
+    <line/>
+    <tag k="highway" v="residential"/>
+
+    <inputSet ref="minorRoad"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Service road">
+    <category>roads</category>
+    <icon image="features/highway__service.png">
+      <font size="14pt"><b>${name}</b></font>
+    </icon>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:highway%3Dservice</help>
+    <description>
+      Access roads
+    </description>
+
+    <line/>
+    <tag k="highway" v="service"/>
+
+    <inputSet ref="minorRoad"/>
+    <input type="choice" presence="always" name="Type of service road" key="service" category="">
+      <choice value="alley" text="Alleyway/laneway"/>
+      <choice value="parking_aisle" text="Parking aisle" description="The path that cars drive on through a parking lot."/>
+      <choice value="driveway" text="Driveway"/>
+      <choice value="drive-through" text="Drive-through" description="For drive-through restaurants, bottle shops etc."/>
+      <choice value="emergency_access" text="Emergency access" description="For firefighters and other emergency services."/>
+    </input>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Unknown road">
+    <category>roads</category>
+    <icon image="features/highway__unknown.png">
+      <font size="10pt">This road has not been given a specific type. It's a road, and that's all that's known.</font>
+    </icon>
+
+    <line/>
+    <tag k="highway" v="road"/>
+
+    <inputSet ref="minorRoad"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Living Street">
+    <category>roads</category>
+    <icon image="features/highway__living_street.png">
+      <font size="14pt"><b>${name}</b></font>
+    </icon>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:highway%3Dliving_street</help>
+
+    <line/>
+    <tag k="highway" v="living_street"/>
+
+    <inputSet ref="minorRoad"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Track">
+    <category>roads</category>
+    <icon image="features/highway__track.png">
+      <font size="14pt"><b>${name}</b></font>
+    </icon>
+
+    <line/>
+    <tag k="highway" v="track"/>
+
+    <inputSet ref="path"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Raceway/racing track">
+    <category>sport</category>
+    <icon>
+      <font size="10pt">A purpose built track for racing motor vehicles.</font>
+    </icon>
+
+    <line/>
+    <area/>
+    <tag k="highway" v="raceway"/>
+
+    <inputSet ref="simpleName"/>
+    <inputSet ref="roadPhysical"/>
+    <inputSet ref="common"/>
+  </feature>
+  
+  
+  <feature name="Turning circle">
+    <category>transport</category>
+    <icon image="features/pois/transport_turning_circle.n.24.png"/>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:highway%3Dturning_circle</help>
+    <point draganddrop="no"/>
+    <tag k="highway" v="turning_circle"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Mini Roundabout">
+    <category>transport</category>
+    <icon image="features/pois/transport_miniroundabout_anticlockwise.n.24.png"/>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:highway%3Dmini_roundabout</help>
+    <point/>
+    <tag k="highway" v="mini_roundabout"/>
+    <inputSet ref="common"/>
+  </feature>
+
+
+  <feature name="Traffic calming">
+    <category>transport</category>
+    <icon image="features/pois/transport_speedbump.n.24.png"/>
+<!--    <help>http://wiki.openstreetmap.org/wiki/Key:traffic_calming</help>-->
+    <point/>
+    <tag k="traffic_calming" v="yes" vmatch="*"/>
+    <input type="choice" key="traffic_calming" name="Obstacle type" category="Traffic calming" presence="onTagMatch">
+      <choice value="yes" text="Unspecified"/>
+      <choice value="bump" text="Short bump" description="A sharp speed bump, typically slowing cars to 15 kph or less."/>
+      <choice value="hump" text="Speed hump" description="A gentler, longer bump, typically slowing cars to 30 kph or less."/>
+      <choice value="cushion" text="Speed cushion" description="A narrow speed bump allowing emergency vehicles and buses to pass without slowing."/>
+      <choice value="table" text="Speed table" description="A very long speed hump allowing the whole wheelbase to rest on top."/>
+      <choice value="chicane" text="Chicane" description="A set of obstacles causing vehicles to weave through."/>
+      <choice value="rumble_strip" text="Rumble strip" description="A series of very small bumps causing vibration or noise."/>
+      <choice value="choker" text="Choker" description="An artificial narrowing of the road."/>
+    </input>
+
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Turn restriction">
+    <category>advanced</category>
+    <help>http://wiki.openstreetmap.org/wiki/Turn_restrictions</help>
+    <relation/>
+    <tag k="type" v="restriction"/>
+    <input type="choice" category="Restrictions" presence="always" name="Type" key="restriction" description="What's the restriction?" layout="horizontal" priority="high">
+      <choice value="no_left_turn"      text="No left turn"/>
+      <choice value="no_right_turn"     text="No right turn"/>
+      <choice value="no_u_turn"         text="No U turns"/>
+      <choice value="no_straight_on"    text="No straight on"/>
+      <choice value="only_left_turn"    text="Left turn only"/>
+      <choice value="only_right_turn"   text="Right turn only"/>
+      <choice value="only_straight_on"  text="Straight on only"/>
+    </input>
+    <input type="choice" category="Restrictions" presence="always" name="Except" key="except" description="Are any vehicles exempt?" layout="horizontal">
+      <choice value="psv"      text="Bus"/>
+      <choice value="bicycle"  text="Bicycle"/>
+      <choice value="motorcar" text="Car"/>
+      <choice value="hgv"      text="HGV"/>
+    </input>
+    <input type="freetext" category="Restrictions" presence="always" name="Start day"  key="day_on"   description="What day of the week does it start?" layout="horizontal" priority="low"/>
+    <input type="freetext" category="Restrictions" presence="always" name="Start time" key="hour_on"  description="What time of day does it start?"     layout="horizontal" priority="low"/>
+    <input type="freetext" category="Restrictions" presence="always" name="End day"    key="day_off"  description="What day of the week does it end?"   layout="horizontal" priority="lowest"/>
+    <input type="freetext" category="Restrictions" presence="always" name="End time"   key="hour_off" description="What time of day does it end?"       layout="horizontal" priority="lowest"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  
+  <!-- Junction nodes (for turn restrictions) -->
+
+  <feature>
+    <point/>
+    <within entity="way" k="highway" minimum="2"/>
+    <inputSet ref="junctionNode"/>
+    <inputSet ref="common"/>
+  </feature>
+  
+  
+</featureGroup>

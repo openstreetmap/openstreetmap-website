@@ -1,5 +1,5 @@
 class OauthController < ApplicationController
-  layout 'site'
+  layout 'slim'
 
   before_filter :authorize_web, :only => [:oauthorize, :revoke]
   before_filter :set_locale, :only => [:oauthorize, :revoke]
