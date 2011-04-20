@@ -41,6 +41,10 @@ standard_settings: &standard_settings
   # Quova authentication details
   #quova_username: ""
   #quova_password: ""
+  # Users to show as being nearby
+  nearby_users: 30
+  # Max radius, in km, for nearby users
+  nearby_radius: 50
   # Spam threshold
   spam_threshold: 50
   # Default legale (jurisdiction location) for contributor terms
@@ -55,12 +59,21 @@ standard_settings: &standard_settings
   #file_column_root: ""
   # Enable legacy OAuth 1.0 support
   oauth_10_support: true
+  # URL of Nominatim instance to use for geocoding
+  nominatim_url: "http://nominatim.openstreetmap.org/"
+  # Default editor
+  default_editor: "potlatch2"
+  # OAuth consumer key for Potlatch 2
+  #potlatch2_key: ""
+  # Whether to require users to view the CTs before continuing to edit...
+  require_terms_seen: false
 
 development:
   <<: *standard_settings
 
 production:
   <<: *standard_settings
+  require_terms_seen: false
 
 test:
   <<: *standard_settings

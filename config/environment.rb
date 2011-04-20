@@ -25,7 +25,10 @@ Rails::Initializer.run do |config|
   config.gem 'httpclient'
   config.gem 'SystemTimer', :version => '>= 1.1.3', :lib => 'system_timer'
   config.gem 'sanitize'
-  config.gem 'i18n', :version => '>= 0.4.1'
+  config.gem 'i18n', :version => '>= 0.5.0'
+  if defined?(MEMCACHE_SERVERS)
+    config.gem 'memcached'
+  end
 
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named

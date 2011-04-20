@@ -18,7 +18,7 @@ if defined?(SOFT_MEMORY_LIMIT) and defined?(PhusionPassenger)
       
       # Restart if we've hit our memory limit
       if resident_size > SOFT_MEMORY_LIMIT
-        Process.kill("USR1", 0)
+        Process.kill("USR1", Process.pid)
       end
       
       # Return the result of this request

@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   has_many :friends, :include => :befriendee, :conditions => "users.status IN ('active', 'confirmed')"
   has_many :tokens, :class_name => "UserToken"
   has_many :preferences, :class_name => "UserPreference"
-  has_many :changesets
+  has_many :changesets, :order => 'created_at DESC'
 
   has_many :client_applications
   has_many :oauth_tokens, :class_name => "OauthToken", :order => "authorized_at desc", :include => [:client_application]
@@ -33,6 +33,7 @@ class User < ActiveRecord::Base
   validates_numericality_of :home_lat, :allow_nil => true
   validates_numericality_of :home_lon, :allow_nil => true
   validates_numericality_of :home_zoom, :only_integer => true, :allow_nil => true
+  validates_inclusion_of :preferred_editor, :in => Editors::ALL_EDITORS, :allow_nil => true
 
   before_save :encrypt_password
 
@@ -106,7 +107,7 @@ class User < ActiveRecord::Base
     (languages & array.collect { |i| i.to_s }).first
   end
 
-  def nearby(radius = 50, num = 10)
+  def nearby(radius = NEARBY_RADIUS, num = NEARBY_USERS)
     if self.home_lon and self.home_lat 
       gc = OSM::GreatCircle.new(self.home_lat, self.home_lon)
       bounds = gc.bounds(radius)
@@ -201,5 +202,11 @@ class User < ActiveRecord::Base
     score -= trace_score
 
     return score.to_i
+  end
+
+  ##
+  # return an oauth access token for a specified application
+  def access_token(application_key)
+    return ClientApplication.find_by_key(application_key).access_token_for_user(self)
   end
 end

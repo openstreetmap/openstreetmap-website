@@ -67,6 +67,11 @@
   </tr>
 
   <tr>
+    <td class="fieldName" valign="top"><%= t 'user.account.preferred editor' %></td>
+    <td><%= f.select :preferred_editor, [[t("editor.default", :name => t("editor.#{DEFAULT_EDITOR}.name")), 'default']] + Editors::ALL_EDITORS.collect { |e| [t("editor.#{e}.description"), e] } %></td>
+  </tr>
+
+  <tr>
     <td class="fieldName" valign="top">
       <%= t 'user.account.image' %>
     </td>
@@ -96,7 +101,7 @@
 
   <tr id="homerow" <% unless @user.home_lat and @user.home_lon %> class="nohome" <%end%> >
     <td class="fieldName"><%= t 'user.account.home location' %></td>
-    <td><em class="message"><%= t 'user.account.no home location' %></em><span class="location"><%= t 'user.account.latitude' %> <%= f.text_field :home_lat, :size => 20, :id => "home_lat" %><%= t 'user.account.longitude' %><%= f.text_field :home_lon, :size => 20, :id => "home_lon" %></span></td>
+    <td><em class="message"><%= t 'user.account.no home location' %></em><span class="location"><%= t 'user.account.latitude' %> <%= f.text_field :home_lat, :size => 20, :id => "home_lat" %> <%= t 'user.account.longitude' %><%= f.text_field :home_lon, :size => 20, :id => "home_lon" %></span></td>
   </tr>
 
   <tr>
@@ -114,7 +119,7 @@
 </table>
 <% end %>
 
-<%= render :partial => 'map' %>
+<%= render :partial => 'map', :locals => { :setting_location => true,  :show_other_users => false } %>
 
 <% unless @user.data_public? %>
 <a name="public"></a>

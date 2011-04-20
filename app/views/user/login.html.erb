@@ -1,14 +1,25 @@
-<h1><%= t 'user.login.heading' %></h1>
+<div id="login_wrapper">
+  <div id="login_login">
+    <h1><%= t 'user.login.heading' %></h1>
 
-<p><%= t 'user.login.please login', :create_user_link => link_to(t('user.login.create_account'), :controller => 'user', :action => 'new', :referer => params[:referer]) %></p>
+    <p><%= t 'user.login.already have' %></p>
 
-<% form_tag :action => 'login' do %>
-<%= hidden_field_tag('referer', h(params[:referer])) %>
-<table id="loginForm">
-  <tr><td class="fieldName"><%= t 'user.login.email or username' %></td><td><%= text_field('user', 'email',{:value => "", :size => 28, :maxlength => 255, :tabindex => 1}) %></td></tr>
-  <tr><td class="fieldName"><%= t 'user.login.password' %></td><td><%= password_field('user', 'password',{:value => "", :size => 28, :maxlength => 255, :tabindex => 2}) %> <span class="minorNote">(<%= link_to t('user.login.lost password link'), :controller => 'user', :action => 'lost_password' %>)</span></td></tr>
-  <tr><td class="fieldName"><label for="remember_me"><%= t 'user.login.remember' %></label></td><td><%= check_box_tag "remember_me", "yes", false, :tabindex => 3 %></td></tr> 
-  <tr><td colspan="2">&nbsp;<!--vertical spacer--></td></tr>
-  <tr><td></td><td align="right"><%= submit_tag t('user.login.login_button'), :tabindex => 3 %></td></tr>
-</table>
-<% end %>
+    <% form_tag :action => 'login' do %>
+      <%= hidden_field_tag('referer', h(params[:referer])) %>
+      <table id="loginForm">
+        <tr><td class="fieldName"><%= t 'user.login.email or username' %></td><td><%= text_field('user', 'email',{:value => "", :size => 28, :maxlength => 255, :tabindex => 1}) %></td></tr>
+        <tr><td class="fieldName"><%= t 'user.login.password' %></td><td><%= password_field('user', 'password',{:value => "", :size => 28, :maxlength => 255, :tabindex => 2}) %> <span class="minorNote">(<%= link_to t('user.login.lost password link'), :controller => 'user', :action => 'lost_password' %>)</span></td></tr>
+        <tr><td class="fieldName"><label for="remember_me"><%= t 'user.login.remember' %></label></td><td><%= check_box_tag "remember_me", "yes", false, :tabindex => 3 %></td></tr>
+      </table>
+      <%= submit_tag t('user.login.login_button'), :tabindex => 3 %>
+    <% end %>
+    <br clear="both">
+  </div>
+  <div id="login_signup">
+    <h2><%= t 'user.login.new to osm' %></h2>
+    <p><%= t 'user.login.to make changes' %></p>
+    <p><%= t 'user.login.create account minute' %></p></p>
+    <p><%= button_to t('user.login.register now'), :action => :new, :referer => params[:referer] %></p>
+    <br clear="both">
+  </div>
+</div>

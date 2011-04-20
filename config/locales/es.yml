@@ -1,7 +1,9 @@
 # Messages for Spanish (Español)
 # Exported from translatewiki.net
-# Export driver: syck
+# Export driver: syck-pecl
 # Author: Crazymadlover
+# Author: Johnarupire
+# Author: Locos epraix
 # Author: McDutchie
 # Author: PerroVerd
 # Author: Peter17
@@ -81,6 +83,7 @@ es:
       cookies_needed: Parece que tienes las cookies deshabilitadas. Por favor, habilita las cookies en tu navegador antes de continuar.
     setup_user_auth: 
       blocked: Su acceso a la API ha sido bloqueado. Por favor, haga login en la interfaz web para obtener más información.
+      need_to_see_terms: Su acceso a la API está temporalmente suspendida. Por favor, accede a la web para ver los Términos de Contribución. No es necesario llegar a un acuerdo, pero debes conocerlos.
   browse: 
     changeset: 
       changeset: Conjunto de cambios {{id}}
@@ -193,6 +196,7 @@ es:
       details: Detalles
       drag_a_box: Arrastre en el mapa para dibujar un Área de encuadre
       edited_by_user_at_timestamp: Editado por [[user]] en [[timestamp]]
+      hide_areas: Ocultar áreas
       history_for_feature: Historial de [[feature]]
       load_data: Cargar datos
       loaded_an_area_with_num_features: Ha cargado un Área que contiene [[num_features]] objetos. Por lo general, algunos navegadores web no aguantan bien el mostrar esta candidad de información vectorial. Generalmente, el funcionamiento Óptimo se da cuando se muestran menos de 100 objetos al mismo tiempo; de otra manera, su navegador puede volverse lento o no responder. Si está seguro de que quiere mostrar todos estos datos, puede hacerlo pulsando el botón que aparece debajo.
@@ -215,6 +219,7 @@ es:
           node: Nodo
           way: Vía
       private_user: usuario privado
+      show_areas: Mostrar áreas
       show_history: Mostrar historial
       unable_to_load_size: "Imposible cargar: El tamaño de la envoltura ([[bbox_size]] es demasiado grande (debe ser menor que {{max_bbox_size}})"
       wait: Espere...
@@ -352,6 +357,17 @@ es:
       save_button: Guardar
       title: Diario de {{user}} | {{title}}
       user_title: Diario de {{user}}
+  editor: 
+    default: Por defecto (en la actualidad {{name}})
+    potlatch: 
+      description: Potlatch 1 (editor en el navegador)
+      name: Potlatch 1
+    potlatch2: 
+      description: Potlatch 2 (editor en el navegador)
+      name: Potlatch 2
+    remote: 
+      description: Control remoto (JOSM o Merkaartor)
+      name: Control remoto
   export: 
     start: 
       add_marker: Añadir chinche en el mapa
@@ -552,7 +568,6 @@ es:
           tower: Torre
           train_station: Estación de tren
           university: Edificio universitario
-          "yes": Edificio
         highway: 
           bridleway: Camino prioritario para peatones y caballos
           bus_guideway: Canal guiado de autobuses
@@ -875,16 +890,23 @@ es:
       history_tooltip: Ver ediciones para este área
       history_zoom_alert: Debe hacer más zoom para ver el histórico de ediciones
   layouts: 
+    community_blogs: Blogs de la comunidad
+    community_blogs_title: Blogs de miembros de la comunidad de OpenStreetMap
     copyright: Copyright y licencia
+    documentation: Documentación
+    documentation_title: Documentación del proyecto
     donate: Apoye a OpenStreetMap {{link}} al Fondo de Actualización de Hardware.
     donate_link_text: donando
     edit: Editar
+    edit_with: Editar con {{editor}}
     export: Exportar
     export_tooltip: Exportar datos del mapa
+    foundation: Fundación
+    foundation_title: La Fundación OpenStreetMap
     gps_traces: Trazas GPS
     gps_traces_tooltip: Gestiona las trazas GPS
     help: Ayuda
-    help_and_wiki: "{{help}} & {{wiki}}"
+    help_centre: Centro de ayuda
     help_title: Sitio de ayuda para el proyecto
     history: Historial
     home: inicio
@@ -909,14 +931,11 @@ es:
     make_a_donation: 
       text: Hacer una donación
       title: Apoye a OpenStreetMap con una donación monetaria
-    news_blog: Blog y noticias
-    news_blog_tooltip: Blog de noticias sobre OpenStreetMap, información geográfica libre, etc.
     osm_offline: La base de datos de OpenStreetMap no está disponible en estos momentos debido a trabajos de mantenimiento.
     osm_read_only: La base de datos de OpenStreetMap se encuentra en modo de sólo lectura debido a trabajos de mantenimiento.
-    shop: Tienda
-    shop_tooltip: Tienda con productos de OpenStreetMap
     sign_up: registrarse
     sign_up_tooltip: Cree una cuenta para editar
+    sotm2011: Ven a la Conferencia de OpenStreetMap 2011, El Estado del Mapa, del 09 al 11 de septiembre en Denver!
     tag_line: El WikiMapaMundi libre
     user_diaries: Diarios de usuario
     user_diaries_tooltip: Ver diarios de usuario
@@ -1159,8 +1178,11 @@ es:
     edit: 
       anon_edits_link_text: Descubra a que se debe
       flash_player_required: Necesita un reproductor de Flash para usar Potlatch, el editor Flash de OpenStreetMap. Puede <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">descargar un reproductor Flash desde Adobe.com</a>. <a href="http://wiki.openstreetmap.org/wiki/Editing">Otras opciones</a> también están disponibles para editar OpenStreetMap.
+      no_iframe_support: Su navegador no soporta iframes HTML, que son necesarios para esta funcionalidad.
       not_public: No has configurado tus ediciones como públicas.
       not_public_description: No puede seguir editando el mapa a menos que lo haga. Puede marcar sus ediciones como públicas desde su {{user_page}}.
+      potlatch2_not_configured: Potlatch 2 no ha sido configurado - por favor ver http://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2 para obtener más información
+      potlatch2_unsaved_changes: Tienes cambios sin guardar. (para guardar en Potlatch 2, haz clic en guardar)
       potlatch_unsaved_changes: Tiene cambios sin guardar. (Para guardarlos en Potlatch, debería deseleccionar la vía o punto actual si está editando en directo, o pulse sobre guardar si aparece un botón de guardar.)
       user_page_link: página de usuario
     index: 
@@ -1172,10 +1194,11 @@ es:
         notice: Bajo la licencia {{license_name}} a nombre de {{project_name}} y sus colaboradores.
         project_name: Proyecto OpenStreetMap
       permalink: Enlace permanente
+      remote_failed: Error de eición - asegúrese que JOSM o Merkaartor están cargados y con la opción de control remoto activada
       shortlink: Atajo
     key: 
       map_key: Leyenda del mapa
-      map_key_tooltip: Leyenda del renderizador mapnik para este nivel de zoom
+      map_key_tooltip: Leyenda del mapa
       table: 
         entry: 
           admin: Límites administrativos
@@ -1242,7 +1265,6 @@ es:
           unclassified: Carretera sin clasificar
           unsurfaced: Carretera sin asfaltar
           wood: Madera
-        heading: Leyenda para z{{zoom_level}}
     search: 
       search: Buscar
       search_help: "ejemplos: 'Soria', 'Calle Mayor, Lugo',  'CB2 5AQ', o 'post offices near Lünen' <a href='http://wiki.openstreetmap.org/wiki/Search'>más ejemplos...</a>"
@@ -1380,6 +1402,7 @@ es:
       new email address: "Nueva dirección de correo electrónico:"
       new image: Añadir una imagen
       no home location: No has introducido tu lugar de origen.
+      preferred editor: "Editor preferido:"
       preferred languages: "Idiomas preferidos:"
       profile description: "Descripción del perfil:"
       public editing: 
@@ -1398,17 +1421,23 @@ es:
       title: Editar cuenta
       update home location on click: ¿Actualizar tu lugar de origen cuando pulses sobre el mapa?
     confirm: 
+      already active: Esta cuenta ya ha sido confirmada.
+      before you start: Sabemos que puedes tiener muchas ganas de comenzar a mapear, pero antes podría gustarte complementar la información sobre ti mismo en el siguiente formulario.
       button: Confirmar
-      failure: Una cuenta de usuario con esta misma credencial de autentificación ya ha sido confirmada
       heading: Confirmar la cuenta de usuario
       press confirm button: Pulse botón de confirmación de abajo para activar su cuenta.
+      reconfirm: Si ha pasado un tiempo desde que te registraste podrías necesitar <a href="{{reconfirm}}"> enviarte un nuevo aviso de confirmación.
       success: ¡Cuenta confirmada, gracias por registrarse!
+      unknown token: Ese símbolo parece no existir.
     confirm_email: 
       button: Confirmar
       failure: La dirección de correo electrónico ha sido confirmada mediante esta credencial de autentificación
       heading: Confirmar el cambio de dirección de correo electrónico
       press confirm button: Pulse botón de confirmación de debajo para confirmar su nueva dirección de correo
       success: Dirección de correo electrónico confirmada. ¡Gracias por registrarse!
+    confirm_resend: 
+      failure: No se ha encontrado el usuario {{name}}
+      success: Te hemos enviado un nuevo aviso de confirmación a {{email}} y tan pronto confirmes tu cuenta podrás comenzar a mapear <br /><br />Si usas un sistema para control de spam que envie solicitudes de confirmación, asegúrese, por favor, de que incluir en tu lista blanca a webmaster@openstreetmap.org ya que no podemos responder a cualquier solicitud de confirmación.
     filter: 
       not_an_administrator: Necesitas ser administrador para ejecutar esta acción.
     go_public: 
@@ -1425,19 +1454,24 @@ es:
       summary_no_ip: "{{name}} creado el {{date}}"
       title: Usuarios
     login: 
-      account not active: Lo sentimos, su cuenta aun no está activa.<br />Por favor siga el enlace que hay en el correo de confirmación de cuenta para activarla.
+      account not active: Lo sentimos, tu cuenta aun no está activa.<br />Por favor usa el enlace que hay en el correo de confirmación para activarla, o <a href="{{reconfirm}}">solicita un nuevo correo de confirmación</a>.
       account suspended: Disculpa, tu cuenta ha sido suspendida debido a actividad sospechosa.<br />por favor contacta al {{webmaster}} si deseas discutir esto.
+      already have: ¿Ya tiene una cuenta de OpenStreetMap? Inicie la sesión.
       auth failure: Lo sentimos. No pudo producirse el acceso con esos datos.
+      create account minute: Cree una cuenta. Sólo se tarda un minuto.
       create_account: crear una cuenta
       email or username: Dirección de correo o nombre de usuario
       heading: Iniciar sesión
       login_button: Iniciar sesión
       lost password link: ¿Ha perdido su contraseña?
+      new to osm: ¿Nuevo en OpenStreetMap?
       notice: <a href="http://www.osmfoundation.org/wiki/License/We_Are_Changing_The_License">Descubre más acerca del próximo cambio de licencia de OpenStreetMap</a> (<a href="http://wiki.openstreetmap.org/wiki/ODbL/We_Are_Changing_The_License">traducciones</a>) (<a href="http://wiki.openstreetmap.org/wiki/Talk:ODbL/Upcoming">discusión</a>)
       password: Contraseña
       please login: Por favor inicie sesión o {{create_user_link}}.
+      register now: Regístrese ahora
       remember: "Recordarme:"
       title: Iniciar sesión
+      to make changes: Para realizar cambios en los datos de OpenStreetMap, debe tener una cuenta.
       webmaster: webmaster
     logout: 
       heading: Salir de OpenStreetMap
@@ -1464,7 +1498,7 @@ es:
       display name description: Tu nombre de usuario público. Puedes cambiarlo más tarde en "preferencias".
       email address: Dirección de correo
       fill_form: Llenar el formulario y te enviaremos un mensaje de correo rápidamente para activar tu cuenta.
-      flash create success message: El usuario ha sido creado con éxito. Revisa tu cuenta de correo electrónico, donde deberás encontrar una nota de confirmación, y estarás colaborando con los mapas en un abrir y cerrar de ojos. :-)<br /><br />Por favor, toma en consideracón que no podrás acceder hasta que hayas recibido la nota y confirmado tu dirección de correo electrónico,.<br /><br />Si utilizas un sistema de bloqueo de correo no deseado que envía solicitudes de confirmación, asegúrate por favor de que incluyas entre tus remitentes seguros a webmaster@openstreetmap.org, puesto que nosotros no podemos responder solicitudes de confirmación.
+      flash create success message: Gracias por registrarte. Te enviamos un correo de confirmación a {{email}} y tan pronto como confirmes tu cuenta podrás estar listo para mapear :-). <br /><br />Por favor, considera que no podrás acceder hasta que hayas recibido el aviso y confirmado tu dirección de correo electrónico,.<br /><br />Si utilizas un sistema de bloqueo de correo no deseado que envía solicitudes de confirmación, asegúrate por favor de que incluyas entre tus remitentes seguros a webmaster@openstreetmap.org, puesto que nosotros no podemos responder solicitudes de confirmación.
       heading: Crear una cuenta de usuario
       license_agreement: Cuando confirmas tu cuenta necesitarás aceptar los <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">términos del contribuyente</a>.
       no_auto_account_create: Desafortunadamente no estamos actualmente habilitados para crear una cuenta para ti automáticamente.
@@ -1531,6 +1565,7 @@ es:
       hide_user: esconder este usuario
       if set location: Si ha configurado su lugar de origen, verá un mapa abajo. Puede configurar su lugar de origen en la página de {{settings_link}}.
       km away: "{{count}} km de distancia"
+      latest edit: "Última edición {{ago}}:"
       m away: "{{count}}m alejado"
       mapper since: "Mapeando desde:"
       moderator_history: ver los bloqueos impuestos
