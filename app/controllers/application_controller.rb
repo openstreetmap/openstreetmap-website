@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
 
         # don't allow access to any auth-requiring part of the site unless
         # the new CTs have been seen (and accept/decline chosen).
-      elsif !@user.terms_seen and flash[:showing_terms].nil?
+      elsif !@user.terms_seen and flash[:skip_terms].nil?
         flash[:notice] = t 'user.terms.you need to accept or decline'
         if params[:referer]
           redirect_to :controller => "user", :action => "terms", :referer => params[:referer]
@@ -120,7 +120,7 @@ class ApplicationController < ActionController::Base
       # if the user hasn't seen the contributor terms then don't
       # allow editing - they have to go to the web site and see
       # (but can decline) the CTs to continue.
-      if REQUIRE_TERMS_SEEN and not @user.terms_seen
+      if REQUIRE_TERMS_SEEN and not @user.terms_seen and flash[:skip_terms].nil?
         set_locale
         report_error t('application.setup_user_auth.need_to_see_terms'), :forbidden
       end
