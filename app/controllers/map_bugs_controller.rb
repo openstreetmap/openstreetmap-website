@@ -206,7 +206,7 @@ class MapBugsController < ApplicationController
   def my_bugs
  
     if params[:display_name] 
-      @user2 = User.find_by_display_name(params[:display_name], :conditions => { :visible => true }) 
+      @user2 = User.find_by_display_name(params[:display_name], :conditions => { :status => ["active", "confirmed"] }) 
  
       if @user2  
         if @user2.data_public? or @user2 == @user 
