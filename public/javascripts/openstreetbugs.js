@@ -396,11 +396,22 @@ OpenLayers.Layer.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Layer.Markers,
 			el1.appendChild(el2);
 			el2 = document.createElement("dd");
 			var inputUsername = document.createElement("input");
-			inputUsername.value = this.username;
+			var inputUsername = document.createElement("input");;
+			if (typeof loginName === 'undefined') {
+		    		inputUsername.value = this.username;
+			} else {
+				inputUsername.value = loginName;
+				inputUsername.setAttribute('disabled','true');
+			}
 			inputUsername.className = "osbUsername";
 			inputUsername.onkeyup = function(){ layer.setUserName(inputUsername.value); };
 			el2.appendChild(inputUsername);
-			el1.appendChild(el2);
+			el3 = document.createElement("a");
+			el3.setAttribute("href","login");
+			el3.className = "hide_if_logged_in";
+			el3.appendChild(document.createTextNode(OpenLayers.i18n("Login")));
+			el2.appendChild(el3)
+			el1.appendChild(el2);			
 
 			el2 = document.createElement("dt");
 			el2.appendChild(document.createTextNode(OpenLayers.i18n("Comment")));
@@ -410,6 +421,7 @@ OpenLayers.Layer.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Layer.Markers,
 			inputComment.setAttribute("cols",40);			
 			el2.appendChild(inputComment);
 			el1.appendChild(el2);
+			
 			el_form.appendChild(el1);
 
 			el1 = document.createElement("ul");
@@ -646,11 +658,22 @@ OpenLayers.Control.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Control, {
 		el2.appendChild(document.createTextNode(OpenLayers.i18n("Nickname")));
 		el1.appendChild(el2);
 		el2 = document.createElement("dd");
-		var inputUsername = document.createElement("input");
-		inputUsername.value = this.osbLayer.username;
+		var inputUsername = document.createElement("input");;
+		if (typeof loginName === 'undefined') {
+		    inputUsername.value = this.osbLayer.username;
+		} else {
+			inputUsername.value = loginName;
+			inputUsername.setAttribute('disabled','true');
+		}		
 		inputUsername.className = "osbUsername";
+		
 		inputUsername.onkeyup = function(){ control.osbLayer.setUserName(inputUsername.value); };
 		el2.appendChild(inputUsername);
+		el3 = document.createElement("a");
+		el3.setAttribute("href","login");
+		el3.className = "hide_if_logged_in";
+		el3.appendChild(document.createTextNode(OpenLayers.i18n("Login")));
+		el2.appendChild(el3);
 		el1.appendChild(el2);
 
 		el2 = document.createElement("dt");
