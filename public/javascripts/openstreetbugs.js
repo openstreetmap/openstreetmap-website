@@ -406,7 +406,8 @@ OpenLayers.Layer.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Layer.Markers,
 			el2.appendChild(document.createTextNode(OpenLayers.i18n("Comment")));
 			el1.appendChild(el2);
 			el2 = document.createElement("dd");
-			var inputComment = document.createElement("input");
+			var inputComment = document.createElement("textarea");
+			inputComment.setAttribute("cols",40);			
 			el2.appendChild(inputComment);
 			el1.appendChild(el2);
 			el_form.appendChild(el1);
@@ -656,7 +657,8 @@ OpenLayers.Control.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Control, {
 		el2.appendChild(document.createTextNode(OpenLayers.i18n("Bug description")));
 		el1.appendChild(el2);
 		el2 = document.createElement("dd");
-		var inputDescription = document.createElement("input");
+		var inputDescription = document.createElement("textarea");
+		inputDescription.setAttribute("cols",40);
 		el2.appendChild(inputDescription);
 		el1.appendChild(el2);
 		el_form.appendChild(el1);
