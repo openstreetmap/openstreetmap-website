@@ -319,9 +319,9 @@ OpenLayers.Layer.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Layer.Markers,
 
 		el1.appendChild(document.createTextNode(" ["));
 		el2 = document.createElement("a");
-		el2.href = "#";
+		el2.href = "/browse/bug/" + id;
 		el2.onclick = function(){ layer.map.setCenter(putAJAXMarker.bugs[id][0].clone().transform(layer.apiProjection, layer.map.getProjectionObject()), 15); };
-		el2.appendChild(document.createTextNode(OpenLayers.i18n("Zoom")));
+		el2.appendChild(document.createTextNode(OpenLayers.i18n("Details")));
 		el1.appendChild(el2);
 		el1.appendChild(document.createTextNode("]"));
 
