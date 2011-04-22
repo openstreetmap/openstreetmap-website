@@ -20,7 +20,7 @@ OpenLayers.Layer.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Layer.Markers,
 	 * The URL of the OpenStreetBugs API.
 	 * @var String
 	*/
-	serverURL : "http://openstreetbugs.schokokeks.org/api/0.1/",
+	serverURL : "/api/0.6/",
 
 	/**
 	 * Associative array (index: bug ID) that is filled with the bugs loaded in this layer
@@ -38,13 +38,13 @@ OpenLayers.Layer.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Layer.Markers,
 	 * The icon to be used for an open bug
 	 * @var OpenLayers.Icon
 	*/
-	iconOpen : new OpenLayers.Icon("http://openstreetbugs.schokokeks.org/client/open_bug_marker.png", new OpenLayers.Size(22, 22), new OpenLayers.Pixel(-11, -11)),
+	iconOpen : new OpenLayers.Icon("/images/open_bug_marker.png", new OpenLayers.Size(22, 22), new OpenLayers.Pixel(-11, -11)),
 
 	/**
 	 * The icon to be used for a closed bug
 	 * @var OpenLayers.Icon
 	*/
-	iconClosed : new OpenLayers.Icon("http://openstreetbugs.schokokeks.org/client/closed_bug_marker.png", new OpenLayers.Size(22, 22), new OpenLayers.Pixel(-11, -11)),
+	iconClosed : new OpenLayers.Icon("/images/closed_bug_marker.png", new OpenLayers.Size(22, 22), new OpenLayers.Pixel(-11, -11)),
 
 	/**
 	 * The projection of the coordinates sent by the OpenStreetBugs API.
@@ -588,7 +588,7 @@ OpenLayers.Control.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Control, {
 	 * The icon to be used for the temporary markers that the “create bug” popup belongs to.
 	 * @var OpenLayers.Icon
 	*/
-	icon : new OpenLayers.Icon("http://openstreetbugs.schokokeks.org/client/icon_error_add.png", new OpenLayers.Size(22, 22), new OpenLayers.Pixel(-11, -11)),
+	icon : new OpenLayers.Icon("/images/icon_error_add.png", new OpenLayers.Size(22, 22), new OpenLayers.Pixel(-11, -11)),
 
 	/**
 	 * An instance of the OpenStreetBugs layer that this control shall be connected to. Is set in the constructor.
