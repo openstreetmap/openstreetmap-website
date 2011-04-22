@@ -468,7 +468,6 @@ OpenLayers.Layer.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Layer.Markers,
 			+ "&name="+encodeURIComponent(this.getUserName())
 			+ "&format=js"
 		);
-		createBugCallBack();
 	},
 
 	/**
@@ -634,6 +633,7 @@ OpenLayers.Control.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Control, {
 	*/
 	click: function(e) {
 		if(!this.map) return true;
+		deactivateControl();
 
 		var control = this;
 		var lonlat = this.map.getLonLatFromViewPortPx(e.xy);
@@ -826,6 +826,11 @@ function osbResponse(error)
 
 putAJAXMarker.layers = [ ];
 putAJAXMarker.bugs = { };
+
+function deactivateControl() { 
+    map.osbControl.deactivate(); 
+    document.getElementById("OpenLayers.Map_18_OpenLayers_Container").style.cursor = "default"; 
+  }
 
 
 /* Translations */
