@@ -15,6 +15,8 @@
  * Even though the OpenStreetBugs API originally does not intend this, you can create multiple instances of this Layer and add them to different maps (or to one single map for whatever crazy reason) without problems.
 */
 
+/** This version has been adapted from the original javascript library to fit the openstreetmap rails_port implementation */
+
 OpenLayers.Layer.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Layer.Markers, {
 	/**
 	 * The URL of the OpenStreetBugs API.
