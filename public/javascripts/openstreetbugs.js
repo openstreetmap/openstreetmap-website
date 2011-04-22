@@ -315,13 +315,13 @@ OpenLayers.Layer.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Layer.Markers,
 		var newContent = document.createElement("div");
 
 		el1 = document.createElement("h3");
-		el1.appendChild(document.createTextNode(closed ? OpenLayers.i18n("Fixed Error") : OpenLayers.i18n("Unresolved Error")));
+		el1.appendChild(document.createTextNode(closed ? i18n("javascripts.osb.Fixed Error") : i18n("javascripts.osb.Unresolved Error")));
 
 		el1.appendChild(document.createTextNode(" ["));
 		el2 = document.createElement("a");
 		el2.href = "/browse/bug/" + id;
 		el2.onclick = function(){ layer.map.setCenter(putAJAXMarker.bugs[id][0].clone().transform(layer.apiProjection, layer.map.getProjectionObject()), 15); };
-		el2.appendChild(document.createTextNode(OpenLayers.i18n("Details")));
+		el2.appendChild(document.createTextNode(i18n("javascripts.osb.Details")));
 		el1.appendChild(el2);
 		el1.appendChild(document.createTextNode("]"));
 
@@ -330,7 +330,7 @@ OpenLayers.Layer.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Layer.Markers,
 			el1.appendChild(document.createTextNode(" ["));
 			el2 = document.createElement("a");
 			el2.href = this.permalinkURL + (this.permalinkURL.indexOf("?") == -1 ? "?" : "&") + "lon="+putAJAXMarker.bugs[id][0].lon+"&lat="+putAJAXMarker.bugs[id][0].lat+"&zoom=15";
-			el2.appendChild(document.createTextNode(OpenLayers.i18n("Permalink")));
+			el2.appendChild(document.createTextNode(i18n("javascripts.osb.Permalink")));
 			el1.appendChild(el2);
 			el1.appendChild(document.createTextNode("]"));
 		}
@@ -359,7 +359,7 @@ OpenLayers.Layer.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Layer.Markers,
 		{
 			el2 = document.createElement("dt");
 			el2.className = (i == 0 ? "osb-description" : "osb-comment");
-			el2.appendChild(document.createTextNode(i == 0 ? OpenLayers.i18n("Description") : OpenLayers.i18n("Comment")));
+			el2.appendChild(document.createTextNode(i == 0 ? i18n("javascripts.osb.Description") : i18n("javascripts.osb.Comment")));
 			el1.appendChild(el2);
 			el2 = document.createElement("dd");
 			el2.className = (i == 0 ? "osb-description" : "osb-comment");
@@ -373,7 +373,7 @@ OpenLayers.Layer.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Layer.Markers,
 			el1 = document.createElement("p");
 			el1.className = "osb-fixed";
 			el2 = document.createElement("em");
-			el2.appendChild(document.createTextNode(OpenLayers.i18n("Has been fixed.")));
+			el2.appendChild(document.createTextNode(i18n("javascripts.osb.Has been fixed.")));
 			el1.appendChild(el2);
 			containerDescription.appendChild(el1);
 		}
@@ -383,7 +383,7 @@ OpenLayers.Layer.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Layer.Markers,
 			el2 = document.createElement("input");
 			el2.setAttribute("type", "button");
 			el2.onclick = function(){ displayChange(); };
-			el2.value = OpenLayers.i18n("Comment/Close");
+			el2.value = i18n("javascripts.osb.Comment/Close");
 			el1.appendChild(el2);
 			containerDescription.appendChild(el1);
 
@@ -392,7 +392,7 @@ OpenLayers.Layer.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Layer.Markers,
 
 			el1 = document.createElement("dl");
 			el2 = document.createElement("dt");
-			el2.appendChild(document.createTextNode(OpenLayers.i18n("Nickname")));
+			el2.appendChild(document.createTextNode(i18n("javascripts.osb.Nickname")));
 			el1.appendChild(el2);
 			el2 = document.createElement("dd");
 			var inputUsername = document.createElement("input");
@@ -409,12 +409,12 @@ OpenLayers.Layer.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Layer.Markers,
 			el3 = document.createElement("a");
 			el3.setAttribute("href","login");
 			el3.className = "hide_if_logged_in";
-			el3.appendChild(document.createTextNode(OpenLayers.i18n("Login")));
+			el3.appendChild(document.createTextNode(i18n("javascripts.osb.Login")));
 			el2.appendChild(el3)
 			el1.appendChild(el2);			
 
 			el2 = document.createElement("dt");
-			el2.appendChild(document.createTextNode(OpenLayers.i18n("Comment")));
+			el2.appendChild(document.createTextNode(i18n("javascripts.osb.Comment")));
 			el1.appendChild(el2);
 			el2 = document.createElement("dd");
 			var inputComment = document.createElement("textarea");
@@ -429,7 +429,7 @@ OpenLayers.Layer.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Layer.Markers,
 			el2 = document.createElement("li");
 			el3 = document.createElement("input");
 			el3.setAttribute("type", "submit");
-			el3.value = OpenLayers.i18n("Add comment");
+			el3.value = i18n("javascripts.osb.Add comment");
 			el2.appendChild(el3);
 			el1.appendChild(el2);
 
@@ -437,7 +437,7 @@ OpenLayers.Layer.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Layer.Markers,
 			el3 = document.createElement("input");
 			el3.setAttribute("type", "button");
 			el3.onclick = function(){ this.form.onsubmit(); layer.closeBug(id); layer.bugs[id].popup.hide(); return false; };
-			el3.value = OpenLayers.i18n("Mark as fixed");
+			el3.value = i18n("javascripts.osb.Mark as fixed");
 			el2.appendChild(el3);
 			el1.appendChild(el2);
 			el_form.appendChild(el1);
@@ -447,7 +447,7 @@ OpenLayers.Layer.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Layer.Markers,
 			el2 = document.createElement("input");
 			el2.setAttribute("type", "button");
 			el2.onclick = function(){ displayDescription(); };
-			el2.value = OpenLayers.i18n("Cancel");
+			el2.value = i18n("javascripts.osb.Cancel");
 			el1.appendChild(el2);
 			containerChange.appendChild(el1);
 		}
@@ -601,7 +601,7 @@ OpenLayers.Control.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Control, {
 	initialize: function(osbLayer, options) {
 		this.osbLayer = osbLayer;
 
-		this.title = OpenLayers.i18n("Create OpenStreetBug");
+		this.title = i18n("javascripts.osb.Create OpenStreetBug");
 
 		OpenLayers.Control.prototype.initialize.apply(this, [ options ]);
 
@@ -647,7 +647,7 @@ OpenLayers.Control.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Control, {
 		var newContent = document.createElement("div");
 		var el1,el2,el3;
 		el1 = document.createElement("h3");
-		el1.appendChild(document.createTextNode(OpenLayers.i18n("Create bug")));
+		el1.appendChild(document.createTextNode(i18n("javascripts.osb.Create bug")));
 		newContent.appendChild(el1);
 
 		var el_form = document.createElement("form");
@@ -655,7 +655,7 @@ OpenLayers.Control.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Control, {
 
 		el1 = document.createElement("dl");
 		el2 = document.createElement("dt");
-		el2.appendChild(document.createTextNode(OpenLayers.i18n("Nickname")));
+		el2.appendChild(document.createTextNode(i18n("javascripts.osb.Nickname")));
 		el1.appendChild(el2);
 		el2 = document.createElement("dd");
 		var inputUsername = document.createElement("input");;
@@ -672,12 +672,12 @@ OpenLayers.Control.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Control, {
 		el3 = document.createElement("a");
 		el3.setAttribute("href","login");
 		el3.className = "hide_if_logged_in";
-		el3.appendChild(document.createTextNode(OpenLayers.i18n("Login")));
+		el3.appendChild(document.createTextNode(i18n("javascripts.osb.Login")));
 		el2.appendChild(el3);
 		el1.appendChild(el2);
 
 		el2 = document.createElement("dt");
-		el2.appendChild(document.createTextNode(OpenLayers.i18n("Bug description")));
+		el2.appendChild(document.createTextNode(i18n("javascripts.osb.Bug description")));
 		el1.appendChild(el2);
 		el2 = document.createElement("dd");
 		var inputDescription = document.createElement("textarea");
@@ -689,7 +689,7 @@ OpenLayers.Control.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Control, {
 		el1 = document.createElement("div");
 		el2 = document.createElement("input");
 		el2.setAttribute("type", "submit");
-		el2.value = OpenLayers.i18n("Create");
+		el2.value = i18n("javascripts.osb.Create");
 		el1.appendChild(el2);
 		el_form.appendChild(el1);
 		newContent.appendChild(el_form);
@@ -770,24 +770,6 @@ OpenLayers.Popup.FramedCloud.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Po
 	CLASS_NAME: "OpenLayers.Popup.FramedCloud.OpenStreetBugs"
 });
 
-/**
- * Necessary improvement to the translate function: Fall back to default language if translated string is not
- * available (see http://trac.openlayers.org/ticket/2308).
-*/
-
-OpenLayers.i18n = OpenLayers.Lang.translate = function(key, context) {
-	var message = OpenLayers.Lang[OpenLayers.Lang.getCode()][key];
-	if(!message)
-	{
-		if(OpenLayers.Lang[OpenLayers.Lang.defaultCode][key])
-			message = OpenLayers.Lang[OpenLayers.Lang.defaultCode][key];
-		else
-			message = key;
-	}
-	if(context)
-		message = OpenLayers.String.format(message, context);
-	return message;
-};
 
 /**
  * This global function is executed by the OpenStreetBugs API getBugs script.
@@ -834,6 +816,8 @@ function deactivateControl() {
 
 
 /* Translations */
+
+/*
 
 OpenLayers.Lang.en = OpenLayers.Util.extend(OpenLayers.Lang.en, {
 	"Fixed Error" : "Fixed Error",
@@ -948,3 +932,4 @@ OpenLayers.Lang.ro = OpenLayers.Util.extend(OpenLayers.Lang.ro, {
 	"Permalink" : "Permalink",
 	"Zoom" : "Zoom"
 });
+*/
