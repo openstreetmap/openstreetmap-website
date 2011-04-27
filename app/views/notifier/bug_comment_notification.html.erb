@@ -1,0 +1,15 @@
+<%= t 'notifier.map_bug_plain.greeting' %>
+
+<% if @owner %>
+<%= t 'notifier.map_bug_plain.your_bug', :commenter => @commenter, :place => @place %>
+<% else %>
+<%= t 'notifier.map_bug_plain.commented_bug', :commenter => @commenter, :place => @place %>
+<% end %>
+
+==
+<%= @comment %>
+==
+
+<%= t 'notifier.map_bug_plain.details', :URL => @bugurl %>
+
+
