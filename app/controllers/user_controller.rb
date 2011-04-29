@@ -1,7 +1,7 @@
 class UserController < ApplicationController
   layout :choose_layout
 
-  before_filter :disable_terms_redirect, :only => [:terms, :save, :logout]
+  before_filter :disable_terms_redirect, :only => [:terms, :save, :logout, :api_details]
   before_filter :authorize, :only => [:api_details, :api_gpx_files]
   before_filter :authorize_web, :except => [:api_details, :api_gpx_files]
   before_filter :set_locale, :except => [:api_details, :api_gpx_files]
@@ -522,6 +522,6 @@ private
     # this is necessary otherwise going to the user terms page, when 
     # having not agreed already would cause an infinite redirect loop.
     # it's .now so that this doesn't propagate to other pages.
-    flash.now[:showing_terms] = true
+    flash.now[:skip_terms] = true
   end
 end
