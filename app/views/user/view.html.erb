@@ -25,6 +25,8 @@
     |
     <%= link_to t('user.view.my traces'), :controller => 'trace', :action=>'mine' %>
     |
+    <%= link_to t('user.view.my bugs'), :controller => 'map_bugs', :action=>'my_bugs' %>
+    |
     <%= link_to t('user.view.my settings'), :controller => 'user', :action => 'account', :display_name => @user.display_name %>
     |
     <%= link_to t('user.view.oauth settings'), :controller => 'oauth_clients', :action => 'index' %>
@@ -42,6 +44,8 @@
     <%= link_to t('user.view.edits'), :controller => 'changeset', :action => 'list', :display_name => @this_user.display_name %>
     |
     <%= link_to t('user.view.traces'), :controller => 'trace', :action => 'view', :display_name => @this_user.display_name %>
+    |
+    <%= link_to t('user.view.bugs'), :controller => 'map_bugs', :action=>'my_bugs' %>
     |
     <% if @user and @user.is_friends_with?(@this_user) %>
       <%= link_to t('user.view.remove as friend'), :controller => 'user', :action => 'remove_friend', :display_name => @this_user.display_name %>

@@ -311,7 +311,18 @@ private
     end
     bug_comment.save; 
     bug.last_changed = t 
-    bug.save 
+    bug.save
+
+	sent_to = Set.new;
+	bug.map_bug_comment.each do | cmt |
+	  if cmt.user
+		unless sent_to.include?(cmt.user)
+          Notifier.deliver_bug_comment_notification(bug_comment, cmt.user) unless cmt.user == @user;
+          sent_to.add(cmt.user);
+        end
+      end
+    end
+	
   end
 
 end
