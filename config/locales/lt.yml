@@ -8,6 +8,8 @@
 lt: 
   activerecord: 
     attributes: 
+      diary_comment: 
+        body: Tekstas
       diary_entry: 
         language: Kalba
         latitude: Platuma
@@ -18,8 +20,10 @@ lt:
         friend: Draugas
         user: Naudotojas
       message: 
+        body: Tekstas
         recipient: Gavėjas
         sender: Siuntėjas
+        title: Antraštė
       trace: 
         description: Aprašymas
         latitude: Platuma
@@ -61,6 +65,9 @@ lt:
       way: Kelias
       way_node: Kelio mazgas
       way_tag: Kelio žyma
+  application: 
+    setup_user_auth: 
+      need_to_see_terms: Jūsų priėjimas prie API laikinai pristabdytas. Jūs turite prisiregistruoti prie tinklo sąsajos ir peržiūrėti talkininkų sąlygas. Jūs neprivalote su jomis sutikti, bet perskaityti - privalote.
   browse: 
     changeset: 
       changeset: "Pakeitimas: {{id}}"
@@ -73,8 +80,20 @@ lt:
       title: Pakeitimas
     changeset_details: 
       belongs_to: "Priklauso:"
+      bounding_box: "Pakeitimo sritis:"
+      box: sritis
       closed_at: "Baigtas:"
       created_at: "Sukurta:"
+      has_nodes: 
+        one: "Pakeitime yra šis {{count}} taškas:"
+        other: "Pakeitime yra šie {{count}} taškai:"
+      has_relations: 
+        one: "Pakeitime yra šis {{count}} ryšys:"
+        other: "Pakeitime yra šie {{count}} ryšiai:"
+      has_ways: 
+        one: "Pakeitime yra šis {{count}} kelias:"
+        other: "Pakeitime yra šie {{count}} keliai:"
+      no_bounding_box: Prie šio pakeitimo sritis nėra nurodyta
     common_details: 
       changeset_comment: "Komentaras:"
       edited_at: "Redagavo:"
@@ -165,6 +184,7 @@ lt:
       hide_areas: Slėpti sritis
       history_for_feature: Istorija apie [[feature]]
       load_data: Kraunami duomenys
+      loaded_an_area_with_num_features: Jūs įkėlėte sritį, kurioje yra [[num_features]] elementų. Dažniausiai naršyklės nelabai gerai susitvarko su tokiu duomenų kiekiu. Paprastai naršyklės kur kas geriau susidoroja, kai elementų yra mažiau nei 100 vienu metu. Bet kokie kiti veiksmai gali stipriai sulėtinti naršyklę. Jei tikrai norite žiūrėti šiuos duomenis, spauskite žemiau esantį mygtuką.
       loading: Kraunama...
       manually_select: Rankiniu būdu pažymėkite kitą teritoriją
       object_list: 
@@ -191,6 +211,9 @@ lt:
       zoom_or_select: Rodymui, pasididinkite vaizdą arba pasižymėkite plotą
     tag_details: 
       tags: "Žymos:"
+      wiki_link: 
+        key: Žymos {{key}} wiki aprašymo puslapis
+        tag: Žymos {{key}}={{value}} wiki aprašymo puslapis
       wikipedia_link: "{{page}} straipsnis Vikipedijoje"
     timeout: 
       sorry: Atsiprašome, bet duomenys objekto su id {{id}} ir tipo {{type}} buvo ištraukiami per ilgai.
@@ -222,6 +245,7 @@ lt:
     changeset: 
       anonymous: Anonimiškas
       big_area: (didelis)
+      no_comment: (nėra)
       no_edits: (nėra pakeitimų)
       still_editing: (vis dar keičia)
       view_changeset_details: Žiūrėti pakeitimo detales
@@ -239,6 +263,7 @@ lt:
       description: Paskutiniai pakeitimai
       description_bbox: Pakeitimai daryti plote {{bbox}}
       description_user: Naudotojo {{user}} pakeitimai
+      description_user_bbox: Naudotojo {{user}} pakeitimai srityje {{bbox}}
       heading: Pakeitimai
       heading_bbox: Pakeitimai
       heading_user: Pakeitimai
@@ -247,14 +272,19 @@ lt:
       title_bbox: Pakeitimai daryti plote {{bbox}}
       title_user: Naudotojo {{user}} pakeitimai
       title_user_bbox: Naudotojo {{user}} pakeitimai daryti plote {{bbox}}
+    timeout: 
+      sorry: Atsiprašome, bet jūsų prašytų pakeitimų ištraukimas užtruko per ilgai.
   diary_entry: 
     diary_comment: 
+      comment_from: Naudotojo {{link_user}} komentaras, parašytas {{comment_created_at}}
+      confirm: Patvirtinti
       hide_link: Slėpti šį komentarą
     diary_entry: 
       comment_count: 
         one: 1 komentaras
         other: "{{count}} komentarai"
       comment_link: Komentuoti šį įrašą
+      confirm: Patvirtinti
       edit_link: Keisti šį įrašą
       hide_link: Slėpti šį įrašą
       posted_by: Parašė {{link_user}}, laikas {{created}}, kalba {{language_link}}
@@ -271,7 +301,11 @@ lt:
       use_map_link: naudoti žemėlapį
     feed: 
       all: 
+        description: Paskutiniai OpenStreetMap naudotojų dienoraščių įrašai
         title: OpenStreetMap dienoraščio įrašai
+      user: 
+        description: Paskutiniai naudotojo {{user}} OpenStreetMap dienoraščio įrašai
+        title: Naudotojo {{user}} OpenStreetMap dienoraščio įrašai
     list: 
       new: Naujas dienoraščio įrašas
       new_title: Sukurti naują jūsų dienoraščio įrašą
@@ -280,9 +314,15 @@ lt:
       older_entries: Senesni įrašai
       recent_entries: "Paskutiniai dienoraščio įrašai:"
       title: Naudotojo dienoraščiai
+      user_title: "{{user}} dienoraštis"
+    location: 
+      edit: Taisyti
+      location: "Vieta:"
+      view: Žiūrėti
     new: 
       title: Naujas dienoraščio įrašas
     no_such_entry: 
+      heading: "Nėra įrašo su id: {{id}}"
       title: Nėra tokio dienoraščio įrašo
     no_such_user: 
       heading: Naudotojas {{user}} neegzistuoja
@@ -291,6 +331,7 @@ lt:
       leave_a_comment: Palikti komentarą
       login: Prisijungti
       save_button: Įrašyti
+      user_title: "{{user}} dienoraštis"
   editor: 
     default: Numatytasis (šiuo metu {{name}})
     potlatch: 
@@ -321,11 +362,13 @@ lt:
       osmarender_image: Osmarender vaizdas
       scale: Mastelis
       too_large: 
+        body: Ši sritis per didelė, kad būtų galima eksportuoti OpenStreetMap XML duomenis. Parinkite mažesnę sritį.
         heading: Per didelis plotas
     start_rjs: 
       add_marker: Pridėti žymeklį žemėlapyje
       change_marker: Keisti žymeklio poziciją
       click_add_marker: Spauskite ant žemėlapio, kad padėtumėte žymeklį
+      drag_a_box: Pažymėkite žemėlapyje norimą plotą
       export: Eksportuoti
       manually_select: Rankiniu būdu parinkti kitą sritį
       view_larger_map: Žiūrėti didesnį žemėlapį
@@ -341,6 +384,15 @@ lt:
     results: 
       more_results: Daugiau rezultatų
       no_results: Daugiau rezultatų nėra
+    search: 
+      title: 
+        ca_postcode: <a href="http://geocoder.ca/">Geocoder.CA</a> rezultatai
+        geonames: <a href="http://www.geonames.org/">GeoNames</a> rezultatai
+        latlon: <a href="http://openstreetmap.org/">Vidiniai</a> rezultatai
+        osm_namefinder: <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a> rezultatai
+        osm_nominatim: <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a> rezultatai
+        uk_postcode: <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a> rezultatai
+        us_postcode: <a href="http://geocoder.us/">Geocoder.us</a> rezultatai
     search_osm_nominatim: 
       prefix: 
         amenity: 
@@ -353,6 +405,7 @@ lt:
           bench: Suoliukas
           bicycle_parking: Dviračių stovėjimo aikštelė
           bicycle_rental: Dviračių nuoma
+          brothel: Viešieji namai
           bus_station: Autobusų stotis
           cafe: Kavinė
           car_rental: Mašinų nuoma
@@ -372,6 +425,7 @@ lt:
           fountain: Fontanas
           fuel: Degalinė
           grave_yard: Kapinės
+          hall: Salė
           hospital: Ligoninė
           hotel: Viešbutis
           ice_cream: Ledai
@@ -398,26 +452,41 @@ lt:
           toilets: Tualetas
           university: Universitetas
           wifi: WiFi prieiga
+          youth_centre: Jaunimo centras
         boundary: 
           administrative: Administracinė riba
         building: 
+          bunker: Bunkeris
+          chapel: Koplyčia
           church: Bažnyčia
+          commercial: Komercinės paskirties pastatas
+          dormitory: Bendrabutis
           entrance: Įėjimas į pastatą
+          garage: Garažas
           hall: Salė
           hospital: Ligoninės pastatas
           hotel: Viešbutis
           house: Namas
           industrial: Pramoninis pastatas
+          office: Biurų pastatas
+          public: Visuomeninis pastatas
+          residential: Gyvenamasis pastatas
+          retail: Mažmeninės prekybos pastatas
+          school: Mokyklos pastatas
           shop: Parduotuvė
           stadium: Stadionas
+          store: Parduotuvė
+          terrace: Terasa
           tower: Bokštas
           train_station: Geležinkelio stotis
           university: Universiteto pastatas
         highway: 
+          bridleway: Žirgų kelias
           bus_stop: Autobusų stotelė
           byway: Keliukas
           construction: Statomas greitkelis
           cycleway: Dviračių takas
+          distance_marker: Nuotolio žymeklis
           footway: Pėsčiųjų takelis
           gate: Vartai
           path: Takelis
@@ -435,13 +504,16 @@ lt:
           church: Bažnyčia
           house: Namas
           mine: Kasykla
+          monument: Paminklas
           museum: Muziejus
           ruins: Griuvėsiai
           tower: Bokštas
           wayside_cross: Pakelės kryžius
         landuse: 
           cemetery: Kapinės
+          commercial: Komercinis plotas
           construction: Statyba
+          farm: Ūkis
           forest: Miškas
           grass: Žolė
           landfill: Sąvartynas
@@ -480,6 +552,7 @@ lt:
           marsh: Pelkė
           peak: Viršūnė
           point: Taškas
+          reef: Rifas
           river: Upė
           rock: Uola
           scrub: Krūmai
@@ -490,18 +563,21 @@ lt:
         place: 
           airport: Oro uostas
           country: Šalis
+          farm: Ūkis
           house: Namas
           houses: Namai
           island: Sala
           postcode: Pašto kodas
           region: Regionas
           sea: Jūra
+          state: Valstija
           town: Miestas
           village: Kaimas
         railway: 
           abandoned: Apleistas geležinkelis
           disused: Nebenaudojamas geležinkelis
           disused_station: Nebenaudojama geležinkelio stotis
+          historic_station: Istorinė geležinkelio stotis
           level_crossing: Pervaža
           narrow_gauge: Siaurukas
           platform: Geležinkelio platforma
@@ -510,17 +586,29 @@ lt:
           subway_entrance: Įėjimas į metro
         shop: 
           bakery: Kepykla
+          bicycle: Dviračių parduotuvė
           books: Knygynas
+          car: Automobilių parduotuvė
+          car_parts: Automobilių dalys
+          car_repair: Automobilių remontas
           carpet: Kilimų parduotuvė
+          clothes: Drabužių parduotuvė
+          computer: Kompiuterių parduotuvė
+          cosmetics: Kosmetikos parduotuvė
           doityourself: Pasidaryk pats
+          drugstore: Vaistinė
           furniture: Baldai
           insurance: Draudimas
           shoes: Batų parduotuvė
           shopping_centre: Prekybos centras
+          sports: Sporto prekių parduotuvė
           toys: Žaislų parduotuvė
           travel_agency: Kelionių agentūra
         tourism: 
+          attraction: Lankytina vieta
           camp_site: Stovyklavietė
+          guest_house: Svečių namai
+          hostel: Hostelis
           hotel: Viešbutis
           information: Informacija
           museum: Muziejus
@@ -539,7 +627,10 @@ lt:
         noname: Gatvės be pavadinimų
     site: 
       edit_tooltip: Redaguoti žemėlapį
+      edit_zoom_alert: Turite priartinti, kad galėtumėte keisti žemėlapį
+      history_disabled_tooltip: Priartinkite, kad matytumėte šios srities pakeitimus
       history_tooltip: Peržiūrėti pakeitimus šioje srityje
+      history_zoom_alert: Turite priartinti vaizdą, kad galėtumėte peržiūrėti srities pakeitimus
   layouts: 
     community_blogs: Dienoraščiai
     community_blogs_title: OpenStreetMap bendruomenės blogai
@@ -563,6 +654,9 @@ lt:
       one: Jūsų dėžutėje yra viena neperskaityta žinutė
       other: Jūsų dėžutėje yra {{count}} neperskaitytos žinutės
       zero: Jūsų dėžutėje nėra neperskaitytų žinučių
+    intro_1: OpenStreetMap yra laisvai prieinamas ir keičiamas pasaulio žemėlapis. Jį kuria žmonės, tokie kaip jūs.
+    intro_2: Su OpenStreetMap galite žiūrėti, keisti ir naudoti geografinius duomenis bendradarbiavimo būdu bet kur žemėje.
+    intro_3: OpenStreetMap hostingą remia {{ucl}} ir {{bytemark}}. Kiti projekto rėmėjai išvardinti {{partners}}.
     intro_3_partners: wiki
     log_in: prisijungti
     log_in_tooltip: Prisijungti prie esamos paskyros
@@ -575,7 +669,8 @@ lt:
       title: Paremkite OpenStreetMap finansiškai
     sign_up: užsiregistruoti
     sign_up_tooltip: Sukurkite paskyrą redagavimui
-    tag_line: Atviras wiki pasaulio žemėlapis
+    sotm2011: Atvykite į 2011 metų OpenStreetMap konferenciją „Žemėlapio būsena“, kuri vyks rugsėjo 9-11 dienomis Denveryje!
+    tag_line: Atviras wiki žemėlapis
     user_diaries: Dienoraščiai
     user_diaries_tooltip: Peržiūrėti naudotojų dienoraščius
     view: Žiūrėti
@@ -589,6 +684,7 @@ lt:
       title: Apie šį vertimą
     native: 
       mapping_link: pradėti žymėjimą
+      native_link: Lietuviška versija
       title: Apie šį puslapį
   message: 
     delete: 
@@ -603,16 +699,22 @@ lt:
       subject: Tema
       title: Gautieji
       you_have: Jūs turite {{new_count}} naujus pranešimus ir {{old_count}} senus
+    mark: 
+      as_read: Pranešimas pažymėtas kaip skaitytas
+      as_unread: Pranešimas pažymėtas kaip neskaitytas
     message_summary: 
       delete_button: Ištrinti
       read_button: Žymėti skaitytu
       reply_button: Atsakyti
       unread_button: Žymėti neskaitytu
     new: 
+      back_to_inbox: Atgal į gautus
+      body: Tekstas
       limit_exceeded: Paskutiniu metu išsiuntėte labai daug žinučių. Prašome šiek tiek palaukti, prieš siunčiant dar daugiau žinučių.
       message_sent: Pranešimas išsiųstas
       send_button: Siųsti
       send_message_to: Siųsti naują žinutę naudotojui {{name}}
+      subject: Tema
       title: Siųsti žinutę
     no_such_message: 
       body: Gaila, bet žinutės su tokiu id nėra.
@@ -624,9 +726,16 @@ lt:
       title: Nėra tokio naudotojo
     outbox: 
       date: Data
+      inbox: gautieji
+      my_inbox: Mano {{inbox_link}}
+      no_sent_messages: Jūs dar negavote nei vienos žinutės. Kodėl gi nesusisiekus su {{people_mapping_nearby_link}}?
+      outbox: išsiųstieji
+      people_mapping_nearby: netoliese žyminčiais naudotojais
+      title: Išsiųstieji
       you_have_sent_messages: Jūs turite {{count}} išsiųstų žinučių
     read: 
       back_to_inbox: Atgal į gautus
+      back_to_outbox: Atgal į išsiųstus
       date: Data
       from: Nuo
       reply_button: Atsakyti
@@ -638,6 +747,7 @@ lt:
       delete_button: Ištrinti
   notifier: 
     diary_comment_notification: 
+      hi: Sveiki, {{to_user}},
       subject: "[OpenStreetMap] {{user}} pakomentavo jūsų dienoraščio įrašą"
     email_confirm: 
       subject: "[OpenStreetMap] Patvirtinkite savo e-pašto adresą"
@@ -647,14 +757,24 @@ lt:
     email_confirm_plain: 
       greeting: Sveiki,
     friend_notification: 
+      befriend_them: "Galite pridėti juos prie draugų: {{befriendurl}}"
       had_added_you: "{{user}} pridėjo jus į savo OpenStreetMap draugų sąrašą."
+      see_their_profile: Galite peržiūrėti jo profilį adresu {{userurl}}.
       subject: "[OpenStreetMap] {{user}} prisidėjo jus kaip draugą"
     gpx_notification: 
+      and_no_tags: neturintis žymų.
+      and_the_tags: "ir tokiomis žymomis:"
       failure: 
+        failed_to_import: "nebuvo sėkmingai importuotas. Štai klaidos pranešimas:"
+        more_info_1: Daugiau informacijos apie GPX importo problemas ir kaip jų išvengti
+        more_info_2: "galima rasti čia:"
         subject: "[OpenStreetMap] Nepavyko įkelti pėdsako (GPX)"
       greeting: Sveiki,
       success: 
+        loaded_successfully: sėkminga įkelta su {{trace_points}} taškų iš galimų {{possible_points}}.
         subject: "[OpenStreetMap] Sėkmingai įkeltas pėdsakas (GPX)"
+      with_description: su aprašymu
+      your_gpx_file: Panašu, kad jūsų GPX failas
     lost_password: 
       subject: "[OpenStreetMap] Slaptažodžio atstatymo prašymas"
     lost_password_html: 
@@ -663,10 +783,14 @@ lt:
       click_the_link: Jei tai jūs, paspauskite žemiau esančią nuorodą, kad iš naujo nustatytumėte slaptažodį.
       greeting: Sveiki,
     message_notification: 
+      footer1: Pranešimą taipogi galite perskaityti adresu {{readurl}}
+      footer2: ir atsakyti galite adresu {{replyurl}}
+      header: "{{from_user}} atsiuntė jums pranešimą per OpenStreetMap su tema „{{subject}}“:"
       hi: Sveiki, {{to_user}},
     signup_confirm: 
       subject: "[OpenStreetMap] Patvirtinkite savo elektroninio pašto adresą"
     signup_confirm_plain: 
+      greeting: Sveiki!
       more_videos: "Daugiau video medžiagos rasite čia:"
   oauth: 
     oauthorize: 
@@ -699,7 +823,7 @@ lt:
       js_2: OpenStreetMap naudoja JavaScript savo 'slidžiam' žemėlapiui
       license: 
         project_name: OpenStreetMap projektas
-      permalink: Nuoroda
+      permalink: Nuoroda į šią vietą
       shortlink: Trumpoji nuoroda
     key: 
       map_key: Sutartiniai ženklai
@@ -845,22 +969,40 @@ lt:
   user: 
     account: 
       contributor terms: 
+        agreed: Jūs sutikote su naujomis talkininkų sąlygomis.
+        agreed_with_pd: Jūs taip pat pareiškėte, kad visi jūsų pakeitimai yra viešo naudojimo.
+        heading: "Talkininkų sąlygos:"
         link text: kas tai?
+        not yet agreed: Jūs dar nesutikote su naujomis talkininkų sąlygomis.
       current email address: "Dabartinis e-pašto adresas:"
+      delete image: Pašalintį dabartinę nuotrauką
       email never displayed publicly: (niekada viešai nerodomas)
       flash update success: Naudotojo informacija sėkmingai atnaujinta.
       home location: Namų pozicija
+      image: "Nuotrauka:"
+      image size hint: (geriausiai atrodo kvadratinės, ne mažesnės nei 100x100 taškų dydžio nuotraukos)
+      keep image: Palikti dabartinę nuotrauką
       latitude: "Platuma:"
       longitude: "Ilguma:"
+      make edits public button: Padaryti visus mano pakeitimus viešais
       my settings: Mano nustatymai
       new email address: "Naujas e-pašto adresas:"
+      new image: Pridėti nuotrauką
       no home location: Jūs neįvedėte savo namų pozicijos
       preferred editor: "Pageidautinas redaktorius:"
       preferred languages: "Pageidautinos kalbos:"
+      profile description: "Profilio aprašymas:"
       public editing: 
+        disabled: Išjungtas ir negali keisti duomenų, visi ankstesni pakeitimai yra anonimiški.
         disabled link text: kodėl aš negaliu redaguoti?
+        enabled: Įjungtas. Nėra anoniminis ir gali keisti duomenis.
+        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: kas tai?
         heading: "Viešas keitimas:"
+      public editing note: 
+        heading: Viešas keitimas
+      replace image: Pakeisti dabartinę nuotrauką
+      return to profile: Grįžti į profilį
       save changes button: Įrašyti pakeitimus
       title: Keisti paskyrą
       update home location on click: Atnaujinti namų poziciją paspaudus ant žemėlapio?
@@ -868,8 +1010,10 @@ lt:
       already active: Ši paskyra jau yra patvirtinta.
       button: Patvirtinti
       heading: Patvirtinti naudotojo paskyrą.
+      press confirm button: Norėdami aktyvuoti savo paskyrą paspauskite žemiau esantį patvirtinimo mygtuką.
       success: Jūsų paskyra patvirtinta. Ačiū už registraciją!
     confirm_email: 
+      button: Patvirtinti
       heading: Patvirtinkite e-pašto adreso pakeitimą
       press confirm button: Spauskite žemiau esantį patvirtinimo mygtuką, kad patvirtintume savo naują e-pašto adresą.
       success: Jūsų e-pašto adresas patvirtintas. Ačiū, kad prisiregistravote!
@@ -877,6 +1021,8 @@ lt:
       failure: Naudotojas {{name}} nerastas.
     filter: 
       not_an_administrator: Norėdami atlikti šį veiksmą, turite būti administratoriumi.
+    go_public: 
+      flash success: Nuo šiol visi jūsų pakeitimai bus vieši ir jums leidžiama keisti.
     list: 
       confirm: Patvirtinti pažymėtus naudotojus
       empty: Nerasta atitinkančių naudotojų
@@ -917,6 +1063,7 @@ lt:
       display name description: Jūsų viešai rodomas naudotojo vardas. Jei norėsite, galėsite jį vėliau pakeisti savo nustatymuose.
       email address: "E-pašto adresas:"
       heading: Sukurti naudotojo paskyrą
+      license_agreement: Kai patvirtinsite savo paskyrą, turėsite sutikti su <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">talkininkų sąlygomis</a>.
       no_auto_account_create: Deja šiuo metu negalime jums automatiškai sukurti paskyros.
       password: "Slaptažodis:"
       title: Sukurti paskyrą
@@ -939,14 +1086,17 @@ lt:
     set_home: 
       flash success: Namų pozicija sėkmingai įrašyta
     suspended: 
+      body: "<p>Atsiprašome, bet jūsų paskyros veikimas buvo pristabdytas dėl įtartinų veiksmų.</p>\n<p>Šį sprendimą netrukus peržiūrės administratoriai arba jūs galite susisiekti su {{webmaster}}, jei norite tai aptarti.</p>"
       heading: Paskyra sustabdyta
       title: Paskyra sustabdyta
     terms: 
       consider_pd_why: kas tai?
+      heading: Talkininkų sąlygos
       legale_names: 
         france: Prancūzija
         italy: Italija
         rest_of_world: Likęs pasaulis
+      title: Talkininkų sąlygos
     view: 
       add as friend: pridėti kaip draugą
       ago: ({{time_in_words_ago}} atgal)
@@ -989,22 +1139,89 @@ lt:
       user location: Naudotojo pozicija
       your friends: Jūsų draugai
   user_block: 
+    blocks_by: 
+      empty: Naudotojas {{name}} dar nieko neužblokavo.
+      heading: Naudotojo {{name}} blokavimų sąrašas
+      title: Naudotojo {{name}} blokavimai
     blocks_on: 
       empty: "{{name}} dar nebuvo apribotas."
       heading: Naudotojo {{name}} apribojimų sąrašas
+      title: Naudotojo {{name}} blokavimai
+    create: 
+      flash: Naudotojas {{name}} užblokuotas.
+      try_contacting: Prieš blokuodami naudotoją pasistenkite su juo susisiekti ir duokite pakankamai laiko jam ar jai atsakyti.
+      try_waiting: Prieš blokuodami naudotoją, duokite jam šiek tiek laiko atsakyti.
+    edit: 
+      back: Peržiūrėti visus blokavimus
+      heading: Keičiamas naudotojo {{name}} blokavimas
+      needs_view: Ar naudotojas turi prisiregistruoti, tam kad šis blokavimas būtų panaikintas?
+      period: Kiek laiko, pradedant nuo šios minutės, naudotojui bus uždrausta naudotis API.
+      show: Peržiūrėti šį blokavimą
+      submit: Atnaujinti blokavimą
+      title: Keičiamas naudotojo {{name}} blokavimas
     filter: 
+      block_expired: Blokavimo laikas jau baigėsi, todėl negali būti keičiamas.
+      block_period: Blokavimo periodo reikšmė turi būti pasirinkta iš iškrentančio sąrašo.
       not_a_moderator: Norėdami atlikti šį veiksmą turite būti moderatoriumi.
+    helper: 
+      time_future: Baigiasi po {{time}}.
+      time_past: Pasibaigė prieš {{time}}
+      until_login: Aktyvus iki naudotojo prisijungimo.
+    index: 
+      empty: Niekas dar nebuvo blokuojamas.
+      heading: Naudotojo blokavimų sąrašas
+    model: 
+      non_moderator_revoke: Norėdami atšaukti blokavimą turite būti moderatoriumi.
+      non_moderator_update: Norėdami sukurti ar atnaujinti blokavimą turite būti moderatoriumi.
+    new: 
+      back: Peržiūrėti visus blokavimus
+      heading: Kuriamas naudotojo {{name}} blokavimas
+      needs_view: Naudotojas turi prisiregistruoti, kad šis blokavimas būtų atšauktas
+      submit: Sukurti blokavimą
+      title: Kuriamas naudotojo {{name}} blokavimas
+      tried_contacting: Aš susisiekiau su naudotoju ir paprašiau, kad jis liautųsi.
+    not_found: 
+      back: Atgal į sąrašą
+      sorry: Atsiprašome, bet naudotojo blokavimas, turintis ID {{id}} nerastas.
     partial: 
       confirm: Ar tikrai?
       creator_name: Kūrėjas
+      display_name: Blokuojamas naudotojas
+      edit: Keisti
+      not_revoked: (neatšauktas)
+      reason: Blokavimo priežastis
+      revoke: Atšaukti!
+      revoker_name: Atšaukė
       show: Rodyti
       status: Būsena
+    period: 
+      one: 1 valanda
+      other: "{{count}} valandos"
+    revoke: 
+      confirm: Ar tikrai norite atšaukti šį blokavimą?
+      flash: Šis blokavimas buvo atšauktas
+      heading: Atšaukiamas naudotojo {{block_on}} blokavimas, sukurtas naudotojo {{block_by}}
+      past: Šis blokavimas baigėsi prieš {{time}}, todėl nebegali būti atšauktas.
+      revoke: Atšaukti!
+      time_future: Šis blokavimas pasibaigs po {{time}}.
+      title: Atšaukiamas naudotojo {{block_on}} blokavimas
     show: 
+      back: Peržiūrėti visus blokavimus
       confirm: Ar tikrai?
+      edit: Keisti
+      heading: Naudotoją {{block_on}} blokuoja {{block_by}}
+      needs_view: Naudotojas turi prisijungti, kad jo blokavimas būtų panaikintas.
+      reason: "Blokavimo priežastis:"
+      revoke: Atšaukti!
+      revoker: "Atšaukėjas:"
       show: Rodyti
       status: Būsena
       time_future: Baigiasi {{time}}
       time_past: Baigėsi {{time}} atgal
+      title: Naudotoją {{block_on}} blokuoja {{block_by}}
+    update: 
+      only_creator_can_edit: Tik šį blokavimą sukūręs moderatorius gali jį keisti.
+      success: Blokavimas atnaujintas.
   user_role: 
     filter: 
       already_has_role: Naudotojas jau turi rolę „{{role}}“.
@@ -1012,6 +1229,7 @@ lt:
       not_a_role: Eilutė „{{role}}“ nėra tinkama rolė.
       not_an_administrator: Tik administratoriai gali valdyti roles, o jūs nesate administratorius.
     grant: 
+      are_you_sure: Ar tikrai norite naudotojui `{{name}}' suteikti rolę `{{role}}'?
       confirm: Patvirtinti
       heading: Patvirtinkite rolės suteikimą
       title: Patvirtinkite rolės suteikimą
