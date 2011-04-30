@@ -161,8 +161,10 @@ end
       map.addControl(map.osbControl);
 		
 	  var lBug = document.getElementById('ReportBug');
+     /* lBug.addEventListener('click',function (e) {
+		map.osbControl.activate(); document.getElementById("OpenLayers.Map_18_OpenLayers_Container").style.cursor = "crosshair" },false); */
       lBug.addEventListener('click',function (e) {
-		map.osbControl.activate(); document.getElementById("OpenLayers.Map_18_OpenLayers_Container").style.cursor = "crosshair" },false);
+		map.osbControl.activate(); map.osbControl.addTemporaryMarker(map.getCenter());},false);
 
      map.events.register("zoomend",map,function () { var zoom = map.getZoom(); var lBug = document.getElementById('ReportBug')
         if (zoom > 11) { lBug.style.visibility = 'visible';} else {lBug.style.visibility = "hidden";}});

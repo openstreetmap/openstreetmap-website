@@ -638,11 +638,15 @@ OpenLayers.Control.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Control, {
 	 * Map clicking event handler. Adds a temporary marker with a popup to the map, the popup contains the form to add a bug.
 	*/
 	click: function(e) {
+		var lonlat = this.map.getLonLatFromViewPortPx(e.xy);
+		this.addTemporaryMarker(lonlat);
+	},
+
+	addTemporaryMarker: function(lonlat) {
 		if(!this.map) return true;
 		deactivateControl();
 
 		var control = this;
-		var lonlat = this.map.getLonLatFromViewPortPx(e.xy);
 		var lonlatApi = lonlat.clone().transform(this.map.getProjectionObject(), this.osbLayer.apiProjection);
 		var feature = new OpenLayers.Feature(this.osbLayer, lonlat, { icon: this.icon.clone(), autoSize: true });
 		feature.popupClass = OpenLayers.Popup.FramedCloud.OpenStreetBugs;
@@ -650,11 +654,39 @@ OpenLayers.Control.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Control, {
 		marker.feature = feature;
 		this.osbLayer.addMarker(marker);
 
+
+		/** Implement a drag and drop for markers */
+		/* TODO: veryfy that the scoping of variables works correctly everywhere */		
+		var dragging = false;
+		var dragFunction = function(e) {
+			map.events.unregister("mouseup",map,dragFunction);
+			lonlat = map.getLonLatFromViewPortPx(e.xy);
+			lonlatApi = lonlat.clone().transform(map.getProjectionObject(), map.osbLayer.apiProjection);
+			marker.moveTo(map.getLayerPxFromViewPortPx(e.xy));
+			marker.popup.moveTo(map.getLayerPxFromViewPortPx(e.xy));			
+			marker.popup.updateRelativePosition();
+			dragging = false;
+			return false;
+		};
+
+		marker.events.register("mouseover", this,
+				function(){ document.getElementById("OpenLayers.Map_18_OpenLayers_Container").style.cursor = "move"; });
+		marker.events.register("mouseout", this,
+				function(){ if (!dragging) {document.getElementById("OpenLayers.Map_18_OpenLayers_Container").style.cursor = "default"; }});
+		marker.events.register("mousedown", this,
+				function() { dragging = true; map.events.register("mouseup",map, dragFunction); return false;});
+		
+
 		var newContent = document.createElement("div");
 		var el1,el2,el3;
 		el1 = document.createElement("h3");
 		el1.appendChild(document.createTextNode(i18n("javascripts.osb.Create bug")));
 		newContent.appendChild(el1);
+		newContent.appendChild(document.createTextNode(i18n("javascripts.osb.draghelp1")));
+		newContent.appendChild(document.createElement("br"));
+		newContent.appendChild(document.createTextNode(i18n("javascripts.osb.draghelp2")));
+		newContent.appendChild(document.createElement("br"));
+		newContent.appendChild(document.createElement("br"));
 
 		var el_form = document.createElement("form");
 
@@ -720,6 +752,7 @@ OpenLayers.Control.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Control, {
 		popup.events.register("close", this, function(){ feature.destroy(); });
 		this.map.addPopup(popup);
 		popup.updateSize();
+		marker.popup = popup;
 	},
 
 	CLASS_NAME: "OpenLayers.Control.OpenStreetBugs"
