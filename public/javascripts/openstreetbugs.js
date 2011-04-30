@@ -294,8 +294,8 @@ OpenLayers.Layer.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Layer.Markers,
 		var marker = feature.createMarker();
 		marker.feature = feature;
 		marker.events.register("click", feature, this.markerClick);
-		marker.events.register("mouseover", feature, this.markerMouseOver);
-		marker.events.register("mouseout", feature, this.markerMouseOut);
+		//marker.events.register("mouseover", feature, this.markerMouseOver);
+		//marker.events.register("mouseout", feature, this.markerMouseOut);
 		this.addMarker(marker);
 
 		this.bugs[id] = feature;
@@ -317,7 +317,7 @@ OpenLayers.Layer.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Layer.Markers,
 		var newContent = document.createElement("div");
 
 		el1 = document.createElement("h3");
-		el1.appendChild(document.createTextNode(closed ? i18n("javascripts.osb.Fixed Error") : i18n("javascripts.osb.Unresolved Error")));
+		el1.appendChild(document.createTextNode(putAJAXMarker.bugs[id][2] ? i18n("javascripts.osb.Fixed Error") : i18n("javascripts.osb.Unresolved Error")));
 
 		el1.appendChild(document.createTextNode(" ["));
 		el2 = document.createElement("a");
@@ -367,6 +367,7 @@ OpenLayers.Layer.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Layer.Markers,
 			el2.className = (i == 0 ? "osb-description" : "osb-comment");
 			el2.appendChild(document.createTextNode(putAJAXMarker.bugs[id][1][i]));
 			el1.appendChild(el2);
+            if (i == 0) { el2 = document.createElement("br"); el1.appendChild(el2);};
 		}
 		containerDescription.appendChild(el1);
 
@@ -375,7 +376,7 @@ OpenLayers.Layer.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Layer.Markers,
 			el1 = document.createElement("p");
 			el1.className = "osb-fixed";
 			el2 = document.createElement("em");
-			el2.appendChild(document.createTextNode(i18n("javascripts.osb.Has been fixed.")));
+			el2.appendChild(document.createTextNode(i18n("javascripts.osb.Has been fixed")));
 			el1.appendChild(el2);
 			containerDescription.appendChild(el1);
 		}
@@ -420,7 +421,9 @@ OpenLayers.Layer.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Layer.Markers,
 			el1.appendChild(el2);
 			el2 = document.createElement("dd");
 			var inputComment = document.createElement("textarea");
-			inputComment.setAttribute("cols",40);			
+			inputComment.setAttribute("cols",40);
+            inputComment.setAttribute("rows",3);
+	
 			el2.appendChild(inputComment);
 			el1.appendChild(el2);
 			
@@ -430,7 +433,8 @@ OpenLayers.Layer.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Layer.Markers,
 			el1.className = "buttons";
 			el2 = document.createElement("li");
 			el3 = document.createElement("input");
-			el3.setAttribute("type", "submit");
+			el3.setAttribute("type", "button");
+            el3.onclick = function(){ this.form.onsubmit(); return false; };
 			el3.value = i18n("javascripts.osb.Add comment");
 			el2.appendChild(el3);
 			el1.appendChild(el2);
@@ -653,7 +657,6 @@ OpenLayers.Control.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Control, {
 		newContent.appendChild(el1);
 
 		var el_form = document.createElement("form");
-		el_form.onsubmit = function() { control.osbLayer.createBug(lonlatApi, inputDescription.value); marker.feature = null; feature.destroy(); return false; };
 
 		el1 = document.createElement("dl");
 		el2 = document.createElement("dt");
@@ -677,6 +680,8 @@ OpenLayers.Control.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Control, {
 		el3.appendChild(document.createTextNode(i18n("javascripts.osb.Login")));
 		el2.appendChild(el3);
 		el1.appendChild(el2);
+		el2 = document.createElement("br");
+        el1.appendChild(el2);
 
 		el2 = document.createElement("dt");
 		el2.appendChild(document.createTextNode(i18n("javascripts.osb.Bug description")));
@@ -684,17 +689,31 @@ OpenLayers.Control.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Control, {
 		el2 = document.createElement("dd");
 		var inputDescription = document.createElement("textarea");
 		inputDescription.setAttribute("cols",40);
+		inputDescription.setAttribute("rows",3);
 		el2.appendChild(inputDescription);
 		el1.appendChild(el2);
 		el_form.appendChild(el1);
 
 		el1 = document.createElement("div");
 		el2 = document.createElement("input");
-		el2.setAttribute("type", "submit");
+		el2.setAttribute("type", "button");
 		el2.value = i18n("javascripts.osb.Create");
+        el2.onclick = function() { control.osbLayer.createBug(lonlatApi, inputDescription.value); marker.feature = null; feature.destroy(); return false; };
+		el1.appendChild(el2);
+		el2 = document.createElement("input");
+		el2.setAttribute("type", "button");
+		el2.value = i18n("javascripts.osb.Cancel");
+		el2.onclick = function(){ feature.destroy(); };
 		el1.appendChild(el2);
 		el_form.appendChild(el1);
 		newContent.appendChild(el_form);
+
+		el2 = document.createElement("hr");
+		el1.appendChild(el2);
+		el2 = document.createElement("a");
+		el2.setAttribute("href","edit");
+		el2.appendChild(document.createTextNode(i18n("javascripts.osb.edityourself")));
+		el1.appendChild(el2);
 
 		feature.data.popupContentHTML = newContent;
 		var popup = feature.createPopup(true);
