@@ -149,7 +149,7 @@ function addObjectToMap(url, zoom, callback) {
    layer.loadGML();
 }
 
-function addBoxToMap(boxbounds) {
+function addBoxToMap(boxbounds, attributes, line) {
    if (!vectors) {
      // Be aware that IE requires Vector layers be initialised on page load, and not under deferred script conditions
      vectors = new OpenLayers.Layer.Vector("Boxes", {
@@ -157,8 +157,16 @@ function addBoxToMap(boxbounds) {
      });
      map.addLayer(vectors);
    }
-   var geometry = boxbounds.toGeometry().transform(epsg4326, map.getProjectionObject());
-   var box = new OpenLayers.Feature.Vector(geometry, {}, {
+
+   var geometry;
+   if (line) {
+     vertices = boxbounds.toGeometry().getVertices();
+     vertices.push( new OpenLayers.Geometry.Point( vertices[0].x, vertices[0].y ) );
+     geometry = new OpenLayers.Geometry.LineString(vertices).transform(epsg4326, map.getProjectionObject());
+   } else {
+     geometry = boxbounds.toGeometry().transform(epsg4326, map.getProjectionObject());
+   }  
+   var box = new OpenLayers.Feature.Vector(geometry, attributes, {
       strokeWidth: 2,
       strokeColor: '#ee9900',
       fillOpacity: 0

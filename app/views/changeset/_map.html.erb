@@ -1,0 +1,74 @@
+<%= javascript_include_tag '/openlayers/OpenLayers.js' %>
+<%= javascript_include_tag '/openlayers/OpenStreetMap.js' %>
+<%= javascript_include_tag 'map.js' %>
+<div id="browse_map_changeset">
+  <div id="small_map">
+  </div>
+  <span id="loading"><%= t 'browse.map.loading' %></span>
+</div>
+<script type="text/javascript">
+  OpenLayers.Lang.setCode("<%= I18n.locale.to_s %>");
+
+  /*
+    This function borrowed from the latest version of OpenLayers.Layer.Vector. OSM is using an older version.
+    http://trac.osgeo.org/openlayers/browser/trunk/openlayers/lib/OpenLayers/Layer/Vector.js
+  */
+  function getFeaturesByAttribute(obj, attrName, attrValue) {
+        var i,
+            feature,    
+            len = obj.features.length,
+            foundFeatures = [];
+        for(i = 0; i < len; i++) {            
+            feature = obj.features[i];
+            if(feature && feature.attributes) {
+                if (feature.attributes[attrName] === attrValue) {
+                    foundFeatures.push(feature);
+                }
+            }
+        }
+        return foundFeatures;
+  }
+  function highlightChangesetMap(name) {
+    getFeaturesByAttribute(vectors,'name',name)[0].style.strokeColor='#ffff55';
+    vectors.redraw(); 
+  } 
+  function unHighlightChangesetMap(name) {
+    getFeaturesByAttribute(vectors,'name',name)[0].style.strokeColor='#ee9900';
+    vectors.redraw(); 
+  }      
+  function init() {
+    var map = createMap("small_map", {
+      controls: [ new OpenLayers.Control.Navigation(), new OpenLayers.Control.PanZoom(), new OpenLayers.Control.PanZoomBar() ]
+    });
+    
+    var bounds = new OpenLayers.Bounds();
+    <%= render :partial => 'changeset_map_add', :collection => @edits unless @edits.nil? %>
+     
+    vectors.events.on({
+      'featureselected': function(feature) {
+         document.getElementById('tr-' + feature.feature.attributes['name']).style.backgroundColor = '#ffff55';
+         feature.feature.style.strokeColor='#ffff00';
+         vectors.redraw();
+       },
+       'featureunselected': function(feature) {
+         document.getElementById('tr-' + feature.feature.attributes['name']).style.backgroundColor = '';
+         feature.feature.style.strokeColor='#ee9900';
+         vectors.redraw();
+       }
+    });
+    var selectControl = new OpenLayers.Control.SelectFeature(vectors,
+      {multiple: false, hover:true});
+    map.addControl(selectControl);
+    selectControl.activate();
+
+    <!-- if bounds were passed, just use those -->
+    <% if ! @bbox.nil? %>
+      bounds = new OpenLayers.Bounds(<%= @bbox %>);
+    <% end %>
+    setMapExtent(bounds);
+
+    $("loading").innerHTML = "";
+  }
+
+  window.onload = init;
+</script>
