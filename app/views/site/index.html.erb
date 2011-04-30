@@ -25,7 +25,7 @@
 <div id="permalink">
   <a href="/" id="permalinkanchor"><%= t 'site.index.permalink' %></a><br/>
   <a href="/" id="shortlinkanchor"><%= t 'site.index.shortlink' %></a><br/>
-  <a href="javascript:void();" id="ReportBug">Report a problem</a>	
+  <a href="javascript:void();" id="ReportBug" class="reportProblem">Report a problem</a>	
 </div>
 
 <div id="attribution">
@@ -162,6 +162,9 @@ end
 	  var lBug = document.getElementById('ReportBug');
       lBug.addEventListener('click',function (e) {
 		map.osbControl.activate(); document.getElementById("OpenLayers.Map_18_OpenLayers_Container").style.cursor = "crosshair" },false);
+
+     map.events.register("zoomend",map,function () { var zoom = map.getZoom(); var lBug = document.getElementById('ReportBug')
+        if (zoom > 11) { lBug.style.visibility = 'visible';} else {lBug.style.visibility = "hidden";}});
 
 
     <% end %>
