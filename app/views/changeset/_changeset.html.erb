@@ -1,7 +1,7 @@
-<tr>
-  <% cl = cycle('table0', 'table1') %>
+<% cl = cycle('table0', 'table1') %>
+<tr class="<%= cl %>" id="tr-changeset-<%= changeset.id%>" onMouseOver="highlightChangesetMap('changeset-<%= changeset.id %>');this.style.backgroundColor='#ffff55';" onMouseOut="unHighlightChangesetMap('changeset-<%= changeset.id %>');this.style.backgroundColor='';">
 
-  <td class="<%= cl %>">
+  <td>
     <%=
       id_link = link_to(changeset.id,
                         {:controller => 'browse', :action => 'changeset', :id => changeset.id},
@@ -10,14 +10,14 @@
     %>
   </td>
 
-  <td class="<%= cl %> date">
+  <td class="date">
     <% if changeset.closed_at > DateTime.now %> <%= t'changeset.changeset.still_editing' %>
     <% else %><%= l changeset.closed_at, :format => :long %><% end %>
   </td>
 
     
   <%if showusername %>  
-    <td class="<%= cl %> user">
+    <td class="user">
     <% if changeset.user.data_public? %>
       <%= link_to h(changeset.user.display_name), :controller => "changeset", :action => "list", :display_name => changeset.user.display_name %>
     <% else %>
@@ -26,7 +26,7 @@
     </td>
   <% end %>
     
-  <td class="<%= cl %> comment">
+  <td class="comment">
     <% if changeset.tags['comment'].to_s != '' %>
       <%= linkify(h(changeset.tags['comment'])) %>
     <% else %>
@@ -34,7 +34,7 @@
     <% end %>
   </td>
 
-  <td class="<%= cl %> area">
+  <td class="area">
     <% if changeset.min_lat.nil? %>
       <%= t'changeset.changeset.no_edits' %>
     <% else %>
