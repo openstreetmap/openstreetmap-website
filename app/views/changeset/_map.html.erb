@@ -2,10 +2,7 @@
 <%= javascript_include_tag '/openlayers/OpenStreetMap.js' %>
 <%= javascript_include_tag 'map.js' %>
 
-<div id="browse_map_changeset">
-  <div id="small_map">
-  </div>
-  <span id="loading"><%= t 'browse.map.loading' %></span>
+<div id="changeset_list_map">
 </div>
 
 <script type="text/javascript">
@@ -30,7 +27,7 @@
   }      
 
   function init() {
-    var map = createMap("small_map", {
+    var map = createMap("changeset_list_map", {
       controls: [
         new OpenLayers.Control.Navigation(),
         new OpenLayers.Control.PanZoom(),
@@ -72,8 +69,6 @@
     <% else %>
       setMapExtent(bounds);
     <% end %>
-
-    $("loading").innerHTML = "";
   }
 
   Event.observe(window, "load", init);
