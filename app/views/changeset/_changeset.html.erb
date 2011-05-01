@@ -1,6 +1,6 @@
 <% cl = cycle('table0', 'table1') %>
-<tr class="<%= cl %>" id="tr-changeset-<%= changeset.id%>" onMouseOver="highlightChangesetMap('changeset-<%= changeset.id %>');this.style.backgroundColor='#ffff55';" onMouseOut="unHighlightChangesetMap('changeset-<%= changeset.id %>');this.style.backgroundColor='';">
 
+<tr class="<%= cl %>" id="tr-changeset-<%= changeset.id%>">
   <td>
     <%=
       id_link = link_to(changeset.id,
@@ -52,3 +52,13 @@
     <% end %>
   </td>
 </tr>
+
+<script type="text/javascript">
+$("tr-changeset-<%= changeset.id%>").observe("mouseover", function() {
+  highlightChangeset("<%= changeset.id %>");
+});
+
+$("tr-changeset-<%= changeset.id%>").observe("mouseout", function() {
+  unHighlightChangeset("<%= changeset.id %>");
+});
+</script>

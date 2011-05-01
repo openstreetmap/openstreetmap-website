@@ -1,74 +1,80 @@
 <%= javascript_include_tag '/openlayers/OpenLayers.js' %>
 <%= javascript_include_tag '/openlayers/OpenStreetMap.js' %>
 <%= javascript_include_tag 'map.js' %>
+
 <div id="browse_map_changeset">
   <div id="small_map">
   </div>
   <span id="loading"><%= t 'browse.map.loading' %></span>
 </div>
+
 <script type="text/javascript">
   OpenLayers.Lang.setCode("<%= I18n.locale.to_s %>");
 
-  /*
-    This function borrowed from the latest version of OpenLayers.Layer.Vector. OSM is using an older version.
-    http://trac.osgeo.org/openlayers/browser/trunk/openlayers/lib/OpenLayers/Layer/Vector.js
-  */
-  function getFeaturesByAttribute(obj, attrName, attrValue) {
-        var i,
-            feature,    
-            len = obj.features.length,
-            foundFeatures = [];
-        for(i = 0; i < len; i++) {            
-            feature = obj.features[i];
-            if(feature && feature.attributes) {
-                if (feature.attributes[attrName] === attrValue) {
-                    foundFeatures.push(feature);
-                }
-            }
-        }
-        return foundFeatures;
-  }
-  function highlightChangesetMap(name) {
-    getFeaturesByAttribute(vectors,'name',name)[0].style.strokeColor='#ffff55';
+  function highlightChangeset(id) {
+    var feature = vectors.getFeatureByFid(id);
+    feature.style.strokeColor = "#ffff55";
+    feature.style.strokeWidth = 4;
     vectors.redraw(); 
+
+    $("tr-changeset-" + id).addClassName("selected");
   } 
-  function unHighlightChangesetMap(name) {
-    getFeaturesByAttribute(vectors,'name',name)[0].style.strokeColor='#ee9900';
+
+  function unHighlightChangeset(id) {
+    var feature = vectors.getFeatureByFid(id);
+    feature.style.strokeColor = "#ee9900";
+    feature.style.strokeWidth = 2;
     vectors.redraw(); 
+
+    $("tr-changeset-" + id).removeClassName("selected");
   }      
+
   function init() {
     var map = createMap("small_map", {
-      controls: [ new OpenLayers.Control.Navigation(), new OpenLayers.Control.PanZoom(), new OpenLayers.Control.PanZoomBar() ]
+      controls: [
+        new OpenLayers.Control.Navigation(),
+        new OpenLayers.Control.PanZoom(),
+        new OpenLayers.Control.PanZoomBar()
+      ]
     });
     
     var bounds = new OpenLayers.Bounds();
-    <%= render :partial => 'changeset_map_add', :collection => @edits unless @edits.nil? %>
+
+    <% @edits.each do |edit| %>
+    var minlon = <%= edit.min_lon / GeoRecord::SCALE.to_f %>;
+    var minlat = <%= edit.min_lat / GeoRecord::SCALE.to_f %>;
+    var maxlon = <%= edit.max_lon / GeoRecord::SCALE.to_f %>;
+    var maxlat = <%= edit.max_lat / GeoRecord::SCALE.to_f %>;
+    var bbox = new OpenLayers.Bounds(minlon, minlat, maxlon, maxlat);
+
+    bounds.extend(bbox);
+    box = addBoxToMap(bbox, "<%= edit.id %>", true);
+    <% end %>
      
     vectors.events.on({
-      'featureselected': function(feature) {
-         document.getElementById('tr-' + feature.feature.attributes['name']).style.backgroundColor = '#ffff55';
-         feature.feature.style.strokeColor='#ffff00';
-         vectors.redraw();
-       },
-       'featureunselected': function(feature) {
-         document.getElementById('tr-' + feature.feature.attributes['name']).style.backgroundColor = '';
-         feature.feature.style.strokeColor='#ee9900';
-         vectors.redraw();
-       }
+      "featureselected": function(feature) {
+        highlightChangeset(feature.feature.fid);
+      },
+      "featureunselected": function(feature) {
+        unHighlightChangeset(feature.feature.fid);
+      }
     });
-    var selectControl = new OpenLayers.Control.SelectFeature(vectors,
-      {multiple: false, hover:true});
+
+    var selectControl = new OpenLayers.Control.SelectFeature(vectors, {
+      multiple: false, 
+      hover: true
+    });
     map.addControl(selectControl);
     selectControl.activate();
 
-    <!-- if bounds were passed, just use those -->
     <% if ! @bbox.nil? %>
-      bounds = new OpenLayers.Bounds(<%= @bbox %>);
+      setMapExtent(new OpenLayers.Bounds(<%= @bbox %>));
+    <% else %>
+      setMapExtent(bounds);
     <% end %>
-    setMapExtent(bounds);
 
     $("loading").innerHTML = "";
   }
 
-  window.onload = init;
+  Event.observe(window, "load", init);
 </script>
