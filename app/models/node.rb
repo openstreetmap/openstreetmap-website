@@ -142,6 +142,7 @@ class Node < ActiveRecord::Base
       raise OSM::APIPreconditionFailedError.new("Node #{self.id} is still used by relation #{rel.relation.id}.") unless rel.nil?
 
       self.changeset_id = new_node.changeset_id
+      self.tags = {}
       self.visible = false
       
       # update the changeset with the deleted position
