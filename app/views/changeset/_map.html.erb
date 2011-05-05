@@ -8,23 +8,31 @@
 <script type="text/javascript">
   OpenLayers.Lang.setCode("<%= I18n.locale.to_s %>");
 
+  var highlight;
+
   function highlightChangeset(id) {
     var feature = vectors.getFeatureByFid(id);
-    feature.style.strokeColor = "#ffff55";
-    feature.style.strokeWidth = 4;
-    vectors.redraw(); 
+    var bounds = feature.geometry.getBounds();
+
+    if ( highlight ) vectors.removeFeatures(highlight);
+
+    highlight = new OpenLayers.Feature.Vector(bounds.toGeometry(), {}, {
+      strokeWidth: 2,
+      strokeColor: "#ee9900",
+      fillColor: "#ffff55",
+      fillOpacity: 0.5
+    });
+
+    vectors.addFeatures(highlight);
 
     $("tr-changeset-" + id).addClassName("selected");
-  } 
+  }
 
   function unHighlightChangeset(id) {
-    var feature = vectors.getFeatureByFid(id);
-    feature.style.strokeColor = "#ee9900";
-    feature.style.strokeWidth = 2;
-    vectors.redraw(); 
+    vectors.removeFeatures(highlight);
 
     $("tr-changeset-" + id).removeClassName("selected");
-  }      
+  }
 
   function init() {
     var map = createMap("changeset_list_map", {
@@ -34,7 +42,7 @@
         new OpenLayers.Control.PanZoomBar()
       ]
     });
-    
+
     var bounds = new OpenLayers.Bounds();
 
     <% @edits.each do |edit| %>
@@ -47,7 +55,7 @@
     bounds.extend(bbox);
     box = addBoxToMap(bbox, "<%= edit.id %>", true);
     <% end %>
-     
+
     vectors.events.on({
       "featureselected": function(feature) {
         highlightChangeset(feature.feature.fid);
@@ -58,7 +66,7 @@
     });
 
     var selectControl = new OpenLayers.Control.SelectFeature(vectors, {
-      multiple: false, 
+      multiple: false,
       hover: true
     });
     map.addControl(selectControl);
