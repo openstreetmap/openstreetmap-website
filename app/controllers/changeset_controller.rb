@@ -312,6 +312,8 @@ class ChangesetController < ApplicationController
       @page = (params[:page] || 1).to_i
       @page_size = 20
 
+      @bbox = bbox
+      
       @edits = Changeset.find(:all,
                               :include => [:user, :changeset_tags],
                               :conditions => conditions,

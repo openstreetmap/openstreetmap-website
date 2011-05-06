@@ -32,12 +32,12 @@ ar:
         latitude: خط العرض
         longitude: خط الطول
         name: الاسم
-        public: عام
+        public: علني
         size: الحجم
         user: المستخدم
         visible: ظاهر
       user: 
-        active: نشط
+        active: فعال
         description: الوصف
         display_name: الاسم الظاهر
         email: البريد الإلكتروني
@@ -47,7 +47,7 @@ ar:
       acl: قائمة تحكم الوصول
       changeset: حزمة التغييرات
       changeset_tag: سمة حزمة التغييرات
-      country: بلد
+      country: البلد/الدولة
       diary_comment: تعليق يومية
       diary_entry: مدخلة يومية
       friend: صديق
@@ -85,12 +85,11 @@ ar:
   browse: 
     changeset: 
       changeset: "حزمة التغييرات: {{id}}"
-      changesetxml: حزمة التغييرات إكس إم إل
+      changesetxml: حزمة التغييرات إكس إم أل
       download: نزّل {{changeset_xml_link}} أو {{osmchange_xml_link}}
       feed: 
         title: حزمة التغييرات {{id}}
         title_comment: حزمة التغييرات {{id}} - {{comment}}
-      osmchangexml: osmChange XML
       title: حزمة التغييرات
     changeset_details: 
       belongs_to: "ينتمي إلى:"
@@ -130,7 +129,7 @@ ar:
         node: اعرض العقدة على خريطة أكبر
         relation: اعرض العلاقة على خريطة أكبر
         way: اعرض الطريق على خريطة أكبر
-      loading: جاري التحميل...
+      loading: يُحمّل...
     navigation: 
       all: 
         next_changeset_tooltip: حزمة التغييرات التالية
@@ -142,9 +141,9 @@ ar:
         prev_relation_tooltip: العلاقة السابقة
         prev_way_tooltip: الطريق السابق
       user: 
-        name_changeset_tooltip: اعرض تعديلات {{user}}
-        next_changeset_tooltip: التعديل التالي بواسطة {{user}}
-        prev_changeset_tooltip: عُدّل سابقًا بواسطة {{user}}
+        name_changeset_tooltip: شاهد تغييرات المستخدم {{user}}
+        next_changeset_tooltip: التغيير التالي من المستخدم {{user}}
+        prev_changeset_tooltip: آخر تغيير من قبل المستخدم {{user}}
     node: 
       download: "{{download_xml_link}}، {{view_history_link}} أو {{edit_link}}"
       download_xml: نزّل إكس إم أل
@@ -201,6 +200,7 @@ ar:
       details: التفاصيل
       drag_a_box: اسحب مربع على الخريطة لاختيار منطقة
       edited_by_user_at_timestamp: عُدّل بواسطة [[user]] في [[timestamp]]
+      hide_areas: إخفاء المناطق
       history_for_feature: تاريخ الــ[[feature]]
       load_data: تحميل البيانات
       loaded_an_area_with_num_features: "لقد قمت بتحميل منطقة تحتوي على [[num_features]] ميّزة. بصفة عامّة، بعض المتصفحات قد لا تتوافق بشكل جيد مع عرض هذه الكمية من البيانات. عمومًا، تعمل المتصفحات بشكل أفضل في عرض أقل من 100 ميّزة في وقت واحد: القيام بأي شيء آخر قد يجعل المتصفح بطيء أو لن يستجيب. إن كنت متأكدًا من أنك ترغب في عرض هذه البيانات، يمكنك القيام بذلك عن طريق النقر على الزر أدناه."
@@ -359,6 +359,10 @@ ar:
       save_button: احفظ
       title: يوميات {{user}} | {{title}}
       user_title: يومية {{user}}
+  editor: 
+    remote: 
+      description: تحكم عن بعد (JOSM أو Merkaartor)
+      name: تحكم عن بعد
   export: 
     start: 
       add_marker: أضف علامة على الخريطة
@@ -883,14 +887,24 @@ ar:
       history_tooltip: اعرض التعديلات في هذه المنطقة
       history_zoom_alert: يجب التكبير لرؤية تاريخ التعديل
   layouts: 
+    community_blogs: مدونات المجتمع
+    community_blogs_title: مدونات لأعضاء من مجتمع خريطة الشارع المفتوحة
     copyright: حقوق النشر والترخيص
+    documentation: التوثيق
+    documentation_title: توثيق المشروع
     donate: ادعم خريطة الشارع المفتوحة ب{{link}} لتمويل ترقية العتاد.
     donate_link_text: التبرع
     edit: عدّل الخريطة
+    edit_with: حرر بإستعمال {{editor}}
     export: صدِّر
     export_tooltip: صدّر بيانات الخريطة
+    foundation: المؤسسة
+    foundation_title: مؤسسة خريطة الشارع المفتوحة
     gps_traces: آثار جي بي أس
     gps_traces_tooltip: عالج آثار جي بي إس
+    help: مساعدة
+    help_centre: مركز المساعدة
+    help_title: موقع المساعدة للمشروع
     history: تاريخ
     home: الصفحة الرئيسية
     home_tooltip: اذهب إلى الصفحة الرئيسية
@@ -927,6 +941,8 @@ ar:
     view_tooltip: اعرض الخريطة
     welcome_user: مرحبًا بك، {{user_link}}
     welcome_user_link_tooltip: صفحة المستخدم الخاصة بك
+    wiki: الويكي
+    wiki_title: موقع الويكي للمشروع
   license_page: 
     foreign: 
       english_link: النص الإنجليزي الأصلي
@@ -1170,7 +1186,7 @@ ar:
       shortlink: وصلة قصيرة
     key: 
       map_key: دليل الخريطة
-      map_key_tooltip: دليل الخريطة لبيانات mapnik في هذا المستوى من التكبير
+      map_key_tooltip: مفتاح الخريطة
       table: 
         entry: 
           admin: حدود إدارية
@@ -1317,6 +1333,8 @@ ar:
       see_all_traces: شاهد كل الآثار
       see_your_traces: شاهد جميع آثارك
       traces_waiting: لديك {{count}} أثر في انتظار التحميل. يرجى مراعاة الانتظار قبل تحميل أكثر من ذلك، بحيث تتجنب إعاقة طابور التحميل لباقي المستخدمين.
+      upload_trace: حمل أثر
+      your_traces: شاهد فقط أثراتك
     trace_optionals: 
       tags: الوسوم
     trace_paging_nav: 
@@ -1407,18 +1425,22 @@ ar:
       heading: المستخدمون
       title: المستخدمون
     login: 
-      account not active: عذرًا، حسابك غير نشط بعد.<br />يرجى النقر على الرابط في تأكيد حساب البريد الإلكتروني لتنشيط حسابك.
       account suspended: عذرًا، لقد عُلّق حسابك بسبب نشاط مشبوه.<br />يرجى الاتصال بالمسؤول عن الموقع ({{webmaster}}) إذا كنت ترغب في مناقشة هذا الأمر.
+      already have: هل لديك حساب لخريطة الشارع المفتوحة ؟ الرجاء الدخول.
       auth failure: آسف، لا يمكن الدخول بتلك التفاصيل.
+      create account minute: أنشئ حساباّ. تحتاج فقط إلى دقيقة.
       create_account: أنشئ حسابًا
       email or username: "عنوان البريد الإلكتروني أو اسم المستخدم:"
       heading: ولوج
       login_button: لُج
       lost password link: أنسيت كلمة المرور؟
+      new to osm: جديد لخريطة الشارع المفتوحة ؟
       password: "كلمة المرور:"
       please login: من فضلك لُج أو {{create_user_link}}.
+      register now: تسجل الآن
       remember: "تذكرني:"
       title: ولوج
+      webmaster: المسؤول عن الموقع
     logout: 
       heading: الخروج من خريطة الشارع المفتوحة
       logout_button: اخرج
@@ -1427,7 +1449,7 @@ ar:
       email address: "عنوان البريد الإلكتروني:"
       heading: أنسيت كلمة المرور؟
       help_text: أدخل عنوان البريد الإلكتروني الذي استخدمته للتسجيل ، وسوف نرسل عليه رابط يمكنك استخدامه لإعادة تعيين كلمة المرور.
-      new password button: إعادة ضبط كلمة المرور
+      new password button: أعد ضبط كلمة السر
       notice email cannot find: تعذّر إيجاد عنوان البريد الإلكتروني، نحن آسفون.
       notice email on way: نأسف لأنك أضعتها :-( ولكن هناك رسالة إلكترونية في طريقها إليك ستمكنك من إعادة تعيينها قريبًا.
       title: نسيان كلمة المرور
@@ -1451,7 +1473,7 @@ ar:
       not displayed publicly: لا يعرض علنًا (انظر <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="ويكي سياسة الخصوصية المتضمنة قسم عن عناوين البريد الإلكتروني">سياسة الخصوصية</a>)
       password: "كلمة المرور:"
       terms accepted: نشكرك على قبول شروط المساهم الجديدة!
-      title: أنشئ حساب
+      title: أنشئ حسابا
     no_such_user: 
       body: عذرًا، لا يوجد مستخدم بالاسم {{user}}. يرجى تدقيق الاسم، أو ربما يكون الرابط الذي تم النقر عليه خاطئ.
       heading: المستخدم {{user}} غير موجود
@@ -1469,8 +1491,8 @@ ar:
       flash token bad: لم نجد هذا النموذج، تحقق من الرابط ربما؟
       heading: إعادة تعيين كلمة المرور {{user}}
       password: "كلمة المرور:"
-      reset: إعادة ضبط كلمة المرور
-      title: إعادة ضبط كلمة المرور
+      reset: أعد ضبط كلمة السر
+      title: إعادة ضبط كلمة السر
     set_home: 
       flash success: موقع المنزل حُفظ بنجاح
     suspended: 

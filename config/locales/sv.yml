@@ -8,6 +8,7 @@
 # Author: Jas
 # Author: Jopparn
 # Author: Liftarn
+# Author: Lokal Profil
 # Author: Luen
 # Author: Magol
 # Author: Per
@@ -190,6 +191,7 @@ sv:
       details: Detaljer
       drag_a_box: Markera ett område på kartan.
       edited_by_user_at_timestamp: Redigerad av [[user]] [[timestamp]]
+      hide_areas: Göm område
       history_for_feature: Historik för [[feature]]
       load_data: Ladda data
       loaded_an_area_with_num_features: Detta område innehåller [[num_features]] objekt. En del webbläsare klarar inte av hantering av sådana stora mängder data. För att inte riskera att datorn ska slöas ner, bör du hålla antalet objekt till 100 eller färre. Om du är säker på att du vill visa datan som det är nu, kan du göra det genom att klicka på knappen nedan.
@@ -212,6 +214,7 @@ sv:
           node: Nod
           way: Väg
       private_user: privat användare
+      show_areas: Visa område
       show_history: Visa historik
       unable_to_load_size: "Kan inte ladda: det omslutande området [[bbox_size]] är för stort (den måste vara mindre än {{max_bbox_size}})"
       wait: Vänta...
@@ -263,9 +266,16 @@ sv:
     list: 
       description: Senaste ändringar
       description_bbox: Changesets inom {{bbox}}
+      description_user: Ändringsset av {{user}}
+      description_user_bbox: Ändringsset av {{user}} inom {{bbox}}
+      heading: Ändringsset
+      heading_bbox: Ändringsset
+      heading_user: Ändringsset
+      heading_user_bbox: Ändringsset
+      title: Ändringsset
       title_bbox: Changesets inom {{bbox}}
-      title_user: Changesets av {{user}}
-      title_user_bbox: Changesets av {{user}} inom {{bbox}}
+      title_user: Ändringsset av {{user}}
+      title_user_bbox: Ändringsset av {{user}} inom {{bbox}}
   diary_entry: 
     diary_comment: 
       comment_from: Kommentar från {{link_user}}, {{comment_created_at}}
@@ -300,6 +310,7 @@ sv:
       newer_entries: Nyare anteckningar
       no_entries: Inga dagboksanteckningar
       older_entries: Äldre anteckningar
+      recent_entries: "Aktuella dagboksanteckningar:"
       title: Användardagböcker
       user_title: "{{user}}s dagbok"
     location: 
@@ -320,6 +331,7 @@ sv:
       login: Inloggning
       login_to_leave_a_comment: "{{login_link}} för att lämna en kommentar"
       save_button: Spara
+      title: "{{user}}s dagbok | {{title}}"
       user_title: Dagbok för {{user}}
   editor: 
     potlatch: 
@@ -499,6 +511,7 @@ sv:
           house: Hus
           industrial: Industribyggnad
           office: Kontorsbyggnad
+          public: Offentlig byggnad
           school: Skolbyggnad
           shop: Affär
           stadium: Stadium
@@ -537,6 +550,7 @@ sv:
           church: Kyrka
           house: Hus
           icon: Ikon
+          manor: Herrgård
           memorial: Minnesmärke
           mine: Gruva
           monument: Monument
@@ -547,20 +561,26 @@ sv:
         landuse: 
           allotments: Kolonilotter
           cemetery: Begravningsplats
+          commercial: Kommersiellt område
           farm: Bondgård
           forest: Skog
           grass: Gräs
           industrial: Industriområde
+          landfill: Soptipp
           meadow: Äng
           military: Militärområde
           mine: Gruva
           mountain: Berg
+          nature_reserve: Naturreservat
           park: Park
+          piste: Pist
+          plaza: Torg
           quarry: Stenbrott
           railway: Järnväg
           reservoir: Reservoar
           residential: Bostadsområde
           vineyard: Vingård
+          wetland: Våtmark
           wood: Skog
         leisure: 
           beach_resort: Badort
@@ -664,6 +684,7 @@ sv:
           tram_stop: Spårvagnshållplats
           yard: Bangård
         shop: 
+          art: Konstaffär
           bakery: Bageri
           beauty: Skönhetssalong
           bicycle: Cykelaffär
@@ -678,6 +699,7 @@ sv:
           chemist: Apotek
           clothes: Klädbutik
           computer: Datorbutik
+          confectionery: Godisbutik
           convenience: Närköp
           cosmetics: Parfymeri
           drugstore: Apotek
@@ -685,17 +707,21 @@ sv:
           electronics: Elektronikbutik
           estate_agent: Egendomsmäklare
           fashion: Modebutik
+          fish: Fiskhandlare
           florist: Blommor
           food: Mataffär
           funeral_directors: Begravningsbyrå
           furniture: Möbler
           gallery: Galleri
           gift: Presentaffär
+          greengrocer: Grönsakshandlare
           grocery: Livsmedelsbutik
           hairdresser: Frisör
+          hardware: Järnhandel
           insurance: Försäkring
           jewelry: Guldsmed
           kiosk: Kiosk
+          laundry: Tvättservice
           mall: Köpcentrum
           market: Marknad
           motorcycle: Motorcykelhandlare
@@ -765,8 +791,10 @@ sv:
     donate: Donera till OpenStreetMap via {{link}} till hårdvaruuppgraderingsfonden.
     donate_link_text: donera
     edit: Redigera
+    edit_with: Redigera med {{editor}}
     export: Exportera
     export_tooltip: Exportera kartdata som bild eller rådata
+    foundation: Stiftelsen
     foundation_title: OpenStreetMap stiftelsen
     gps_traces: GPS-spår
     gps_traces_tooltip: Visa, ladda upp och ändra GPS-spår.
@@ -808,9 +836,11 @@ sv:
     welcome_user: Välkommen {{user_link}}
     welcome_user_link_tooltip: Din användarsida
     wiki: Wiki
+    wiki_title: Wiki-webplats för projektet
   license_page: 
     foreign: 
       english_link: det engelska originalet
+      text: I händelse av en konflikt mellan denna översatta sida och {{english_original_link}} har den engelska texten företräde
       title: Om denna översättning
     native: 
       mapping_link: börja kartlägga
@@ -888,9 +918,12 @@ sv:
       greeting: Hej,
       hopefully_you: Någon (förhoppningsvis du) vill ändra sin e-postadress för {{server_url}} till {{new_address}}.
     email_confirm_plain: 
+      click_the_link: Om det är du, klicka på länken nedan för att bekräfta ändringen.
       greeting: Hej,
+      hopefully_you_2: "{{server_url}} till {{new_address}}."
     friend_notification: 
       had_added_you: "{{user}} har lagt till dig som vän på OpenStreetMap."
+      see_their_profile: Du kan se deras profil på {{userurl}}.
     gpx_notification: 
       and_no_tags: och inga taggar.
       failure: 
@@ -900,6 +933,8 @@ sv:
         subject: "[OpenStreetMap] Lyckades importera GPX"
       with_description: med beskrivningen
       your_gpx_file: Det verkar som om din GPX-fil
+    lost_password: 
+      subject: "[OpenStreetMap] Begäran om återställning av lösenord"
     lost_password_html: 
       greeting: Hej,
     lost_password_plain: 
