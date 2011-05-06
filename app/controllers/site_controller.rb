@@ -64,7 +64,7 @@ class SiteController < ApplicationController
         #Currently this results in potlatch starting up at 0,0 (Atlantic ocean).
       end
 
-      @zoom = '14' if @zoom.nil?
+      @zoom = '17' if @zoom.nil?
     end
   end
 end
