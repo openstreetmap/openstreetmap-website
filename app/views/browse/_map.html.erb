@@ -38,13 +38,15 @@
 
         $("area_larger_map").href = '/?minlon='+minlon+'&minlat='+minlat+'&maxlon='+maxlon+'&maxlat='+maxlat+'&box=yes';
         $("area_larger_map").innerHTML = "<%= t 'browse.map.larger.area' %>";
-      <% else if map.instance_of? MapBug %>
-		$("loading").innerHTML = "";
-		var centre = new OpenLayers.LonLat(<%= map.lon %>, <%= map.lat %>);
-        var zoom = 16;
-        setMapCenter(centre, zoom);
-		marker = addMarkerToMap(centre);
-		$("area_larger_map").href = '/?mlon=<%= map.lon %>&mlat=<%=map.lat %>';
+      <% elsif map.instance_of? MapBug %>
+        var centre = new OpenLayers.LonLat(<%= map.lon %>, <%= map.lat %>);
+
+        setMapCenter(centre, 16);
+        addMarkerToMap(centre);
+
+        $("loading").innerHTML = "";
+
+        $("area_larger_map").href = '/?mlon=<%= map.lon %>&mlat=<%=map.lat %>';
         $("area_larger_map").innerHTML = "<%= t 'browse.map.larger.area' %>";
       <% else %>
         var obj_type = "<%= map.class.name.downcase %>";
@@ -77,7 +79,7 @@
             $("small_map").style.display = "none";
           }
         });
-      <% end end %>
+      <% end %>
     }
 
     window.onload = init;

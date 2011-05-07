@@ -25,7 +25,7 @@
 <div id="permalink">
   <a href="/" id="permalinkanchor"><%= t 'site.index.permalink' %></a><br/>
   <a href="/" id="shortlinkanchor"><%= t 'site.index.shortlink' %></a><br/>
-  <a href="javascript:void();" id="ReportBug" class="reportProblem">Report a problem</a>	
+  <a href="#" id="reportbuganchor">Report a problem</a>	
 </div>
 
 <div id="attribution">
@@ -142,34 +142,23 @@ end
       map.addLayer(map.dataLayer);
 
       map.osbLayer = new OpenLayers.Layer.OpenStreetBugs("OpenStreetBugs", {
-          serverURL : "/api/0.6/",
-          iconOpen : new OpenLayers.Icon("/images/open_bug_marker.png", new OpenLayers.Size(22, 22), new OpenLayers.Pixel(-11, -11)),
-          iconClosed : new OpenLayers.Icon("/images/closed_bug_marker.png", new OpenLayers.Size(22, 22), new OpenLayers.Pixel(-11, -11)),
-          readonly : false,
-          setCookie : false,
-          cookieLifetime : 1000, 
-          cookiePath : "/my/map/", 
-          permalinkURL : "http://www.openstreetmap.org/", 
-          theme : "/stylesheets/openstreetbugs.css",
-          visibility : false 
+          serverURL: "/api/0.6/",
+          iconOpen: new OpenLayers.Icon("<%= image_path "open_bug_marker.png" %>", new OpenLayers.Size(22, 22), new OpenLayers.Pixel(-11, -11)),
+          iconClosed: new OpenLayers.Icon("<%= image_path "closed_bug_marker.png" %>", new OpenLayers.Size(22, 22), new OpenLayers.Pixel(-11, -11)),
+          readonly: false,
+          setCookie: false,
+          permalinkURL: "http://www.openstreetmap.org/",
+          theme: "<%= stylesheet_path "openstreetbugs" %>",
+          visibility: false
       });
-
       map.addLayer(map.osbLayer);
 
       map.osbControl = new OpenLayers.Control.OpenStreetBugs(map.osbLayer); 
-	  
       map.addControl(map.osbControl);
-		
-	  var lBug = document.getElementById('ReportBug');
-     /* lBug.addEventListener('click',function (e) {
-		map.osbControl.activate(); document.getElementById("OpenLayers.Map_18_OpenLayers_Container").style.cursor = "crosshair" },false); */
-      lBug.addEventListener('click',function (e) {
-		map.osbControl.activate(); map.osbControl.addTemporaryMarker(map.getCenter());},false);
 
-     map.events.register("zoomend",map,function () { var zoom = map.getZoom(); var lBug = document.getElementById('ReportBug')
-        if (zoom > 11) { lBug.style.visibility = 'visible';} else {lBug.style.visibility = "hidden";}});
+      $("reportbuganchor").observe("click", addBug);
 
-
+      map.events.register("zoomend", map, allowBugReports);
     <% end %>
 
     <% unless object_zoom %>
@@ -331,6 +320,19 @@ end
         remoteEditHandler();
       <% end %>
     <% end %>
+  }
+
+  function addBug() {
+    map.osbControl.activate();
+    map.osbControl.addTemporaryMarker(map.getCenter());
+  }
+
+  function allowBugReports() { 
+    if (map.getZoom() > 11) {
+      $("reportbuganchor").style.visibility = "visible";
+    } else {
+      $("reportbuganchor").style.visibility = "hidden";
+    }
   }
 
   mapInit();
