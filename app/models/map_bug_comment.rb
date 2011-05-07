@@ -9,4 +9,12 @@ class MapBugComment < ActiveRecord::Base
   validates_uniqueness_of :id
   validates_presence_of :visible
   validates_presence_of :date_created
+
+  def commenter_name
+    if self.commenter_id.nil?
+      self.read_attribute(:commenter_name)
+    else
+      self.user.display_name
+    end
+  end
 end

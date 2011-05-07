@@ -12,14 +12,8 @@ xml.bug("lon" => bug.lon, "lat" => bug.lat) do
     bug.map_bug_comment.each do |comment|
       xml.comment do
         xml.date comment.date_created
-
-        unless comment.commenter_id.nil?
-          xml.uid comment.commenter_id
-          xml.user comment.user.display_name	
-        else
-          xml.user comment.commenter_name
-        end
-
+        xml.uid comment.commenter_id unless comment.commenter_id.nil?
+        xml.user comment.commenter_name
         xml.text comment.comment
       end	
     end
