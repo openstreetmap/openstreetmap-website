@@ -15,196 +15,196 @@ class MapBugsController < ApplicationController
 
   def get_bugs
 
-	# Figure out the bbox
+    # Figure out the bbox
     bbox = params['bbox']
 
     if bbox and bbox.count(',') == 3
       bbox = bbox.split(',')
-	  @min_lon, @min_lat, @max_lon, @max_lat = sanitise_boundaries(bbox)
-	else
-	  #Fallback to old style, this is deprecated and should not be used
-	  raise OSM::APIBadUserInput.new("No l was given") unless params['l']
-	  raise OSM::APIBadUserInput.new("No r was given") unless params['r']
-	  raise OSM::APIBadUserInput.new("No b was given") unless params['b']
-	  raise OSM::APIBadUserInput.new("No t was given") unless params['t']
+      @min_lon, @min_lat, @max_lon, @max_lat = sanitise_boundaries(bbox)
+    else
+      #Fallback to old style, this is deprecated and should not be used
+      raise OSM::APIBadUserInput.new("No l was given") unless params['l']
+      raise OSM::APIBadUserInput.new("No r was given") unless params['r']
+      raise OSM::APIBadUserInput.new("No b was given") unless params['b']
+      raise OSM::APIBadUserInput.new("No t was given") unless params['t']
 
-	  @min_lon = params['l'].to_f
-	  @max_lon = params['r'].to_f
-	  @min_lat = params['b'].to_f
-	  @max_lat = params['t'].to_f
+      @min_lon = params['l'].to_f
+      @max_lon = params['r'].to_f
+      @min_lat = params['b'].to_f
+      @max_lat = params['t'].to_f
     end
-	limit = getLimit
-	conditions = closedCondition
+
+    limit = getLimit
+    conditions = closedCondition
 	
     check_boundaries(@min_lon, @min_lat, @max_lon, @max_lat, :false)
 
-	@bugs = MapBug.find_by_area_no_quadtile(@min_lat, @min_lon, @max_lat, @max_lon, :include => :map_bug_comment, :order => "last_changed DESC", :limit => limit, :conditions => conditions)
+    @bugs = MapBug.find_by_area_no_quadtile(@min_lat, @min_lon, @max_lat, @max_lon, :include => :map_bug_comment, :order => "last_changed DESC", :limit => limit, :conditions => conditions)
 
-	respond_to do |format|
-	  format.html {render :template => 'map_bugs/get_bugs.js', :content_type => "text/javascript"}
-	  format.rss {render :template => 'map_bugs/get_bugs.rss'}
-	  format.js
-	  format.xml {render :template => 'map_bugs/get_bugs.xml'}
-	  format.json { render :json => @bugs.to_json(:methods => [:lat, :lon], :only => [:id, :status, :date_created], :include => { :map_bug_comment => { :only => [:commenter_name, :date_created, :comment]}}) }	  
-#	  format.gpx {render :template => 'map_bugs/get_bugs.gpx'}
-	end
+    respond_to do |format|
+      format.html {render :template => 'map_bugs/get_bugs.js', :content_type => "text/javascript"}
+      format.rss {render :template => 'map_bugs/get_bugs.rss'}
+      format.js
+      format.xml {render :template => 'map_bugs/get_bugs.xml'}
+      format.json { render :json => @bugs.to_json(:methods => [:lat, :lon], :only => [:id, :status, :date_created], :include => { :map_bug_comment => { :only => [:commenter_name, :date_created, :comment]}}) }	  
+#      format.gpx {render :template => 'map_bugs/get_bugs.gpx'}
+    end
   end
 
   def add_bug
-	raise OSM::APIBadUserInput.new("No lat was given") unless params['lat']
-	raise OSM::APIBadUserInput.new("No lon was given") unless params['lon']
-	raise OSM::APIBadUserInput.new("No text was given") unless params['text']
+    raise OSM::APIBadUserInput.new("No lat was given") unless params['lat']
+    raise OSM::APIBadUserInput.new("No lon was given") unless params['lon']
+    raise OSM::APIBadUserInput.new("No text was given") unless params['text']
 
-	lon = params['lon'].to_f
-	lat = params['lat'].to_f
-	comment = params['text']
+    lon = params['lon'].to_f
+    lat = params['lat'].to_f
+    comment = params['text']
 
-	name = "NoName";
-	name = params['name'] if params['name'];
+    name = "NoName"
+    name = params['name'] if params['name']
 
-	#Include in a transaction to ensure that there is always a map_bug_comment for every map_bug
-	MapBug.transaction do
-	  @bug = MapBug.create_bug(lat, lon)
+    #Include in a transaction to ensure that there is always a map_bug_comment for every map_bug
+    MapBug.transaction do
+      @bug = MapBug.create_bug(lat, lon)
 
-
-	  #TODO: move this into a helper function
-	  begin
-		url = "http://nominatim.openstreetmap.org/reverse?lat=" + lat.to_s + "&lon=" + lon.to_s + "&zoom=16" 
-		response = REXML::Document.new(Net::HTTP.get(URI.parse(url))) 
+      #TODO: move this into a helper function
+      begin
+        url = "http://nominatim.openstreetmap.org/reverse?lat=" + lat.to_s + "&lon=" + lon.to_s + "&zoom=16" 
+        response = REXML::Document.new(Net::HTTP.get(URI.parse(url))) 
 		
-		if result = response.get_text("reversegeocode/result") 
-		  @bug.nearby_place = result.to_s 
-		else 
-		  @bug.nearby_place = "unknown"
-		end
-	  rescue Exception => err
-		@bug.nearby_place = "unknown"
-	  end
+        if result = response.get_text("reversegeocode/result") 
+          @bug.nearby_place = result.to_s 
+        else 
+          @bug.nearby_place = "unknown"
+        end
+      rescue Exception => err
+        @bug.nearby_place = "unknown"
+      end
 	  
-	  @bug.save;
-	  add_comment(@bug, comment, name,"opened");
-	end
+      @bug.save
+      add_comment(@bug, comment, name,"opened")
+    end
  
-	render_ok
+    render_ok
   end
 
   def edit_bug
-	raise OSM::APIBadUserInput.new("No id was given") unless params['id']
-	raise OSM::APIBadUserInput.new("No text was given") unless params['text']
+    raise OSM::APIBadUserInput.new("No id was given") unless params['id']
+    raise OSM::APIBadUserInput.new("No text was given") unless params['text']
 
-	name = "NoName";
-	name = params['name'] if params['name'];
+    name = "NoName"
+    name = params['name'] if params['name']
 	
-	id = params['id'].to_i
+    id = params['id'].to_i
 
-	bug = MapBug.find_by_id(id);
-	raise OSM::APINotFoundError unless bug
-	raise OSM::APIAlreadyDeletedError unless bug.visible
+    bug = MapBug.find_by_id(id)
+    raise OSM::APINotFoundError unless bug
+    raise OSM::APIAlreadyDeletedError unless bug.visible
 
-	MapBug.transaction do
-	  bug_comment = add_comment(bug, params['text'], name,"commented");
-	end
+    MapBug.transaction do
+      bug_comment = add_comment(bug, params['text'], name,"commented")
+    end
 
-	render_ok
+    render_ok
   end
 
   def close_bug
-	raise OSM::APIBadUserInput.new("No id was given") unless params['id']
+    raise OSM::APIBadUserInput.new("No id was given") unless params['id']
 	
-	id = params['id'].to_i
-	name = "NoName";
-	name = params['name'] if params['name'];
+    id = params['id'].to_i
+    name = "NoName"
+    name = params['name'] if params['name']
 
-	bug = MapBug.find_by_id(id);
-	raise OSM::APINotFoundError unless bug
-	raise OSM::APIAlreadyDeletedError unless bug.visible
+    bug = MapBug.find_by_id(id)
+    raise OSM::APINotFoundError unless bug
+    raise OSM::APIAlreadyDeletedError unless bug.visible
 
-	MapBug.transaction do
-	  bug.close_bug;
-	  add_comment(bug,:nil,name,"closed")
-	end
+    MapBug.transaction do
+      bug.close_bug
+      add_comment(bug,:nil,name,"closed")
+    end
 
-	render_ok
+    render_ok
   end 
 
 
   def rss
-
-	# Figure out the bbox
+    # Figure out the bbox
     bbox = params['bbox']
 
     if bbox and bbox.count(',') == 3
       bbox = bbox.split(',')
-	  @min_lon, @min_lat, @max_lon, @max_lat = sanitise_boundaries(bbox)
-	else
-	  @min_lon = -180.0
-	  @min_lat = -90.0
-	  @max_lon = 180.0
-	  @max_lat = 90.0
+      @min_lon, @min_lat, @max_lon, @max_lat = sanitise_boundaries(bbox)
+    else
+      @min_lon = -180.0
+      @min_lat = -90.0
+      @max_lon = 180.0
+      @max_lat = 90.0
     end
-	limit = getLimit
-	conditions = closedCondition
-	conditions = cond_merge conditions, [OSM.sql_for_area_no_quadtile(@min_lat, @min_lon, @max_lat, @max_lon)]
+
+    limit = getLimit
+    conditions = closedCondition
+    conditions = cond_merge conditions, [OSM.sql_for_area_no_quadtile(@min_lat, @min_lon, @max_lat, @max_lon)]
 	
     check_boundaries(@min_lon, @min_lat, @max_lon, @max_lat, :false)
 
-	@comments = MapBugComment.find(:all, :limit => limit, :order => "date_created DESC", :joins => :map_bug, :include => :map_bug, :conditions => conditions);
-	render :template => 'map_bugs/rss.rss'
+    @comments = MapBugComment.find(:all, :limit => limit, :order => "date_created DESC", :joins => :map_bug, :include => :map_bug, :conditions => conditions)
+    render :template => 'map_bugs/rss.rss'
   end
 
   def gpx_bugs
-	request.format = :xml
-	get_bugs
+    request.format = :xml
+    get_bugs
   end
-
+  
   def read
-	@bug = MapBug.find(params['id'])
-	raise OSM::APINotFoundError unless @bug
-	raise OSM::APIAlreadyDeletedError unless @bug.visible
-
-	respond_to do |format|
-  	  format.rss
-	  format.xml
-	  format.json { render :json => @bug.to_json(:methods => [:lat, :lon], :only => [:id, :status, :date_created], :include => { :map_bug_comment => { :only => [:commenter_name, :date_created, :comment]}}) }	  
-	end
+    @bug = MapBug.find(params['id'])
+    raise OSM::APINotFoundError unless @bug
+    raise OSM::APIAlreadyDeletedError unless @bug.visible
+    
+    respond_to do |format|
+      format.rss
+      format.xml
+      format.json { render :json => @bug.to_json(:methods => [:lat, :lon], :only => [:id, :status, :date_created], :include => { :map_bug_comment => { :only => [:commenter_name, :date_created, :comment]}}) }	  
+    end
   end
 
   def delete
-	bug = MapBug.find(params['id'])
-	raise OSM::APINotFoundError unless @bug
-	raise OSM::APIAlreadyDeletedError unless @bug.visible
-	MapBug.transaction do
-	  bug.status = "hidden";
-	  bug.save
-	  add_comment(bug,:nil,name,"hidden")
-	end
+    bug = MapBug.find(params['id'])
+    raise OSM::APINotFoundError unless @bug
+    raise OSM::APIAlreadyDeletedError unless @bug.visible
 
-	render :text => "ok\n", :content_type => "text/html" 
+    MapBug.transaction do
+      bug.status = "hidden"
+      bug.save
+      add_comment(bug,:nil,name,"hidden")
+    end
+
+    render :text => "ok\n", :content_type => "text/html" 
   end
 
   def search
-	raise OSM::APIBadUserInput.new("No query string was given") unless params['q']
-	limit = getLimit
-	conditions = closedCondition
-	conditions = cond_merge conditions, ['map_bug_comment.comment ~ ?', params['q']]
+    raise OSM::APIBadUserInput.new("No query string was given") unless params['q']
+    limit = getLimit
+    conditions = closedCondition
+    conditions = cond_merge conditions, ['map_bug_comment.comment ~ ?', params['q']]
 	
-	#TODO: There should be a better way to do this.   CloseConditions are ignored at the moment
+    #TODO: There should be a better way to do this.   CloseConditions are ignored at the moment
 
-	bugs2 = MapBug.find(:all, :limit => limit, :order => "last_changed DESC", :joins => :map_bug_comment, :include => :map_bug_comment,
-						:conditions => conditions)
-	@bugs = bugs2.uniq
-	respond_to do |format|
-	  format.html {render :template => 'map_bugs/get_bugs.js', :content_type => "text/javascript"}
-	  format.rss {render :template => 'map_bugs/get_bugs.rss'}
-	  format.js
-	  format.xml {render :template => 'map_bugs/get_bugs.xml'}
-	  format.json { render :json => @bugs.to_json(:methods => [:lat, :lon], :only => [:id, :status, :date_created], :include => { :map_bug_comment => { :only => [:commenter_name, :date_created, :comment]}}) }
-#	  format.gpx {render :template => 'map_bugs/get_bugs.gpx'}
-	end
+    bugs2 = MapBug.find(:all, :limit => limit, :order => "last_changed DESC", :joins => :map_bug_comment, :include => :map_bug_comment,
+                        :conditions => conditions)
+    @bugs = bugs2.uniq
+    respond_to do |format|
+      format.html {render :template => 'map_bugs/get_bugs.js', :content_type => "text/javascript"}
+      format.rss {render :template => 'map_bugs/get_bugs.rss'}
+      format.js
+      format.xml {render :template => 'map_bugs/get_bugs.xml'}
+      format.json { render :json => @bugs.to_json(:methods => [:lat, :lon], :only => [:id, :status, :date_created], :include => { :map_bug_comment => { :only => [:commenter_name, :date_created, :comment]}}) }
+#      format.gpx {render :template => 'map_bugs/get_bugs.gpx'}
+    end
   end
 
   def my_bugs
- 
     if params[:display_name] 
       @user2 = User.find_by_display_name(params[:display_name], :conditions => { :status => ["active", "confirmed"] }) 
  
@@ -218,29 +218,28 @@ class MapBugsController < ApplicationController
         @title = t 'user.no_such_user.title' 
         @not_found_user = params[:display_name] 
         render :template => 'user/no_such_user', :status => :not_found 
-		return
+        return
       end 
     end
 
-	if @user2 
+    if @user2 
       user_link = render_to_string :partial => "user", :object => @user2 
     end 
-
-	@title =  t 'bugs.user.title_user', :user => @user2.display_name 
+    
+    @title =  t 'bugs.user.title_user', :user => @user2.display_name 
     @heading =  t 'bugs.user.heading_user', :user => @user2.display_name 
     @description = t 'bugs.user.description_user', :user => user_link
-
-	@page = (params[:page] || 1).to_i 
+    
+    @page = (params[:page] || 1).to_i 
     @page_size = 10
 
-	@bugs = MapBug.find(:all, 
-						:include => [:map_bug_comment, {:map_bug_comment => :user}],
-						:joins => :map_bug_comment,
-						:order => "last_changed DESC",
-						:conditions => conditions,
-						:offset => (@page - 1) * @page_size, 
-						:limit => @page_size).uniq
-	
+    @bugs = MapBug.find(:all, 
+                        :include => [:map_bug_comment, {:map_bug_comment => :user}],
+                        :joins => :map_bug_comment,
+                        :order => "last_changed DESC",
+                        :conditions => conditions,
+                        :offset => (@page - 1) * @page_size, 
+                        :limit => @page_size).uniq
   end
 
 private 
@@ -263,66 +262,62 @@ private
     end 
   end 
 
-
-
   def render_ok
-	output_js = :false
-	output_js = :true if params['format'] == "js"
+    output_js = :false
+    output_js = :true if params['format'] == "js"
 
-	if output_js == :true
-	  render :text => "osbResponse();", :content_type => "text/javascript" 
-	else
-	  render :text => "ok " + @bug.id.to_s + "\n", :content_type => "text/html" if @bug
-	  render :text => "ok\n", :content_type => "text/html" unless @bug
-	end
+    if output_js == :true
+      render :text => "osbResponse();", :content_type => "text/javascript" 
+    else
+      render :text => "ok " + @bug.id.to_s + "\n", :content_type => "text/html" if @bug
+      render :text => "ok\n", :content_type => "text/html" unless @bug
+    end
   end
 
   def getLimit
-	limit = 100;
-	limit = params['limit'] if ((params['limit']) && (params['limit'].to_i < 10000) && (params['limit'].to_i > 0))
-	return limit
+    limit = 100
+    limit = params['limit'] if ((params['limit']) && (params['limit'].to_i < 10000) && (params['limit'].to_i > 0))
+    return limit
   end
 
   def closedCondition
-	closed_since = 7 unless params['closed']
-	closed_since = params['closed'].to_i if params['closed']
+    closed_since = 7 unless params['closed']
+    closed_since = params['closed'].to_i if params['closed']
 	
-	if closed_since < 0
-	  conditions = ["status != 'hidden'"]
-	elsif closed_since > 0
-	  conditions = ["((status = 'open') OR ((status = 'closed' ) AND (date_closed > '" + (Time.now - closed_since.days).to_s + "')))"]
-	else
-	  conditions = ["status = 'open'"]
-	end
+    if closed_since < 0
+      conditions = ["status != 'hidden'"]
+    elsif closed_since > 0
+      conditions = ["((status = 'open') OR ((status = 'closed' ) AND (date_closed > '" + (Time.now - closed_since.days).to_s + "')))"]
+    else
+      conditions = ["status = 'open'"]
+    end
 
-	return conditions
+    return conditions
   end
 
   def add_comment(bug, comment, name,event) 
     t = Time.now.getutc 
-    bug_comment = bug.map_bug_comment.create(:date_created => t, :visible => true, :event => event);
-	bug_comment.comment = comment unless comment == :nil
+    bug_comment = bug.map_bug_comment.create(:date_created => t, :visible => true, :event => event)
+    bug_comment.comment = comment unless comment == :nil
     if @user  
       bug_comment.commenter_id = @user.id
-	  bug_comment.commenter_name = @user.display_name
+      bug_comment.commenter_name = @user.display_name
     else  
       bug_comment.commenter_ip = request.remote_ip
-	  bug_comment.commenter_name = name + " (a)"
+      bug_comment.commenter_name = name + " (a)"
     end
-    bug_comment.save; 
+    bug_comment.save 
     bug.last_changed = t 
     bug.save
 
-	sent_to = Set.new;
-	bug.map_bug_comment.each do | cmt |
-	  if cmt.user
-		unless sent_to.include?(cmt.user)
-          Notifier.deliver_bug_comment_notification(bug_comment, cmt.user) unless cmt.user == @user;
-          sent_to.add(cmt.user);
+    sent_to = Set.new
+    bug.map_bug_comment.each do | cmt |
+      if cmt.user
+        unless sent_to.include?(cmt.user)
+          Notifier.deliver_bug_comment_notification(bug_comment, cmt.user) unless cmt.user == @user
+          sent_to.add(cmt.user)
         end
       end
     end
-	
   end
-
 end
