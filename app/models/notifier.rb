@@ -97,11 +97,9 @@ class Notifier < ActionMailer::Base
 
   def bug_comment_notification(bug_comment, recipient)
     common_headers recipient
-    commenter_name = bug_comment.user.display_name if bug_comment.user
-    commenter_name = bug_comment.commenter_name unless bug_comment.user
-	owner = (recipient == bug_comment.map_bug.map_bug_comment[0].user);
-    subject I18n.t('notifier.map_bug_plain.subject_own', :commenter => commenter_name) if owner
-    subject I18n.t('notifier.map_bug_plain.subject_other', :commenter => commenter_name) unless owner
+    owner = (recipient == bug_comment.map_bug.comments.first.user);
+    subject I18n.t('notifier.map_bug_plain.subject_own', :commenter => bug_comment.commenter_name) if owner
+    subject I18n.t('notifier.map_bug_plain.subject_other', :commenter => bug_comment.commenter_name) unless owner
 
     body :bugurl => url_for(:host => SERVER_URL,
                             :controller => "browse",
@@ -110,7 +108,7 @@ class Notifier < ActionMailer::Base
          :place => bug_comment.map_bug.nearby_place,
          :comment => bug_comment.comment,
          :owner => owner,
-         :commenter => commenter_name
+         :commenter => bug_comment.commenter_name
   end
 
 private

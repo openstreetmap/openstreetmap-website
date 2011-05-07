@@ -9,7 +9,7 @@ xml.bug("lon" => bug.lon, "lat" => bug.lat) do
   end
 
   xml.comments do
-    bug.map_bug_comment.each do |comment|
+    bug.comments.each do |comment|
       xml.comment do
         xml.date comment.date_created
         xml.uid comment.commenter_id unless comment.commenter_id.nil?

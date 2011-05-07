@@ -1,7 +1,10 @@
 class MapBug < ActiveRecord::Base
   include GeoRecord
 
-  has_many :map_bug_comment, :foreign_key => :bug_id, :order => :date_created, :conditions => "visible = true and comment is not null"
+  has_many :comments, :class_name => "MapBugComment", 
+                      :foreign_key => :bug_id, 
+                      :order => :date_created, 
+                      :conditions => "visible = true and comment is not null"
 
   validates_presence_of :id, :on => :update
   validates_uniqueness_of :id
@@ -35,7 +38,7 @@ class MapBug < ActiveRecord::Base
   def flatten_comment(separator_char, upto_timestamp = :nil)
     resp = ""
     comment_no = 1
-    self.map_bug_comment.each do |comment|
+    self.comments.each do |comment|
       next if upto_timestamp != :nil and comment.date_created > upto_timestamp
       resp += (comment_no == 1 ? "" : separator_char)
       resp += comment.comment if comment.comment
