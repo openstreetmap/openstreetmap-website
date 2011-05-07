@@ -76,12 +76,6 @@ ActionController::Routing::Routes.draw do |map|
   map.connect "api/#{API_VERSION}/swf/trackpoints", :controller =>'swf', :action =>'trackpoints'
 
   # Map Bugs API  
-  map.connect "api/#{API_VERSION}/bugs/getBugs", :controller => 'map_bugs', :action => 'get_bugs'
-  map.connect "api/#{API_VERSION}/bugs/addPOIexec", :controller => 'map_bugs', :action => 'add_bug'
-  map.connect "api/#{API_VERSION}/bugs/closePOIexec", :controller => 'map_bugs', :action => 'close_bug'
-  map.connect "api/#{API_VERSION}/bugs/editPOIexec", :controller => 'map_bugs', :action => 'edit_bug'
-  map.connect "api/#{API_VERSION}/bugs/getGPX", :controller => 'map_bugs', :action => 'get_bugs', :format => :gpx
-  map.connect "api/#{API_VERSION}/bugs/getRSSfeed", :controller => 'map_bugs', :action => 'rss'
   map.connect "api/#{API_VERSION}/bugs", :controller => 'map_bugs', :action => 'get_bugs'
   map.connect "api/#{API_VERSION}/bugs/search", :controller => 'map_bugs', :action => 'search'
   map.connect "api/#{API_VERSION}/bugs/rss", :controller =>'map_bugs', :action => 'rss'
@@ -90,7 +84,13 @@ ActionController::Routing::Routes.draw do |map|
   map.connect "api/#{API_VERSION}/bug/:id/close", :controller => 'map_bugs', :action => 'close_bug', :id => /\d+/
   map.connect "api/#{API_VERSION}/bug/:id", :controller => 'map_bugs', :action => 'read', :id => /\d+/, :conditions => { :method => :get }
   map.connect "api/#{API_VERSION}/bug/:id", :controller => 'map_bugs', :action => 'delete', :id => /\d+/, :conditions => { :method => :delete }
-  
+  map.connect "api/#{API_VERSION}/bugs/getBugs", :controller => 'map_bugs', :action => 'get_bugs'
+  map.connect "api/#{API_VERSION}/bugs/addPOIexec", :controller => 'map_bugs', :action => 'add_bug'
+  map.connect "api/#{API_VERSION}/bugs/closePOIexec", :controller => 'map_bugs', :action => 'close_bug'
+  map.connect "api/#{API_VERSION}/bugs/editPOIexec", :controller => 'map_bugs', :action => 'edit_bug'
+  map.connect "api/#{API_VERSION}/bugs/getGPX", :controller => 'map_bugs', :action => 'get_bugs', :format => :gpx
+  map.connect "api/#{API_VERSION}/bugs/getRSSfeed", :controller => 'map_bugs', :action => 'rss'
+
   # Data browsing
   map.connect '/browse/start', :controller => 'browse', :action => 'start'
   map.connect '/browse/way/:id', :controller => 'browse', :action => 'way', :id => /\d+/
