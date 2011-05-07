@@ -127,7 +127,6 @@ class MapBugsController < ApplicationController
     render_ok
   end 
 
-
   def rss
     # Figure out the bbox
     bbox = params['bbox']
@@ -145,18 +144,13 @@ class MapBugsController < ApplicationController
     limit = getLimit
     conditions = closedCondition
     conditions = cond_merge conditions, [OSM.sql_for_area_no_quadtile(@min_lat, @min_lon, @max_lat, @max_lon)]
-	
+       
     check_boundaries(@min_lon, @min_lat, @max_lon, @max_lat, :false)
 
     @comments = MapBugComment.find(:all, :limit => limit, :order => "date_created DESC", :joins => :map_bug, :include => :map_bug, :conditions => conditions)
     render :template => 'map_bugs/rss.rss'
   end
 
-  def gpx_bugs
-    request.format = :xml
-    get_bugs
-  end
-  
   def read
     @bug = MapBug.find(params['id'])
     raise OSM::APINotFoundError unless @bug

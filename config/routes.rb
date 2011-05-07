@@ -80,7 +80,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect "api/#{API_VERSION}/bugs/addPOIexec", :controller => 'map_bugs', :action => 'add_bug'
   map.connect "api/#{API_VERSION}/bugs/closePOIexec", :controller => 'map_bugs', :action => 'close_bug'
   map.connect "api/#{API_VERSION}/bugs/editPOIexec", :controller => 'map_bugs', :action => 'edit_bug'
-  map.connect "api/#{API_VERSION}/bugs/getGPX", :controller => 'map_bugs', :action => 'gpx_bugs'
+  map.connect "api/#{API_VERSION}/bugs/getGPX", :controller => 'map_bugs', :action => 'get_bugs', :format => :gpx
   map.connect "api/#{API_VERSION}/bugs/getRSSfeed", :controller => 'map_bugs', :action => 'rss'
   map.connect "api/#{API_VERSION}/bugs", :controller => 'map_bugs', :action => 'get_bugs'
   map.connect "api/#{API_VERSION}/bugs/search", :controller => 'map_bugs', :action => 'search'
