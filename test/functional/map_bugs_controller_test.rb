@@ -79,8 +79,13 @@ class MapBugsControllerTest < ActionController::TestCase
   end
 
   def test_get_bugs_large_area_success
-    get :get_bugs, {:bbox=>'-10,-10,12,12'}
+    get :get_bugs, {:bbox=>'-2.5,-2.5,2.5,2.5'}
     assert_response :success
+  end
+
+  def test_get_bugs_large_area_bad_request
+    get :get_bugs, {:bbox=>'-10,-10,12,12'}
+    assert_response :bad_request
   end
 
   def test_get_bugs_closed_7_success

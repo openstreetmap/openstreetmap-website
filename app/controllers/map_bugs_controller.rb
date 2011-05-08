@@ -37,9 +37,9 @@ class MapBugsController < ApplicationController
     limit = getLimit
     conditions = closedCondition
 	
-    check_boundaries(@min_lon, @min_lat, @max_lon, @max_lat, :false)
+    check_boundaries(@min_lon, @min_lat, @max_lon, @max_lat, MAX_BUG_REQUEST_AREA)
 
-    @bugs = MapBug.find_by_area_no_quadtile(@min_lat, @min_lon, @max_lat, @max_lon, :include => :comments, :order => "last_changed DESC", :limit => limit, :conditions => conditions)
+    @bugs = MapBug.find_by_area(@min_lat, @min_lon, @max_lat, @max_lon, :include => :comments, :order => "last_changed DESC", :limit => limit, :conditions => conditions)
 
     respond_to do |format|
       format.html {render :template => 'map_bugs/get_bugs.js', :content_type => "text/javascript"}
@@ -138,9 +138,9 @@ class MapBugsController < ApplicationController
       bbox = bbox.split(',')
       @min_lon, @min_lat, @max_lon, @max_lat = sanitise_boundaries(bbox)
 
-      conditions = cond_merge conditions, [OSM.sql_for_area_no_quadtile(@min_lat, @min_lon, @max_lat, @max_lon)]
+      check_boundaries(@min_lon, @min_lat, @max_lon, @max_lat, MAX_BUG_REQUEST_AREA)
 
-      check_boundaries(@min_lon, @min_lat, @max_lon, @max_lat, :false)
+      conditions = cond_merge conditions, [OSM.sql_for_area(@min_lat, @min_lon, @max_lat, @max_lon)]
     end
 
     @comments = MapBugComment.find(:all, :limit => limit, :order => "date_created DESC", :joins => :map_bug, :include => :map_bug, :conditions => conditions)
