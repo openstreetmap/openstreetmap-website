@@ -42,7 +42,7 @@ class MapBugsController < ApplicationController
     @bugs = MapBug.find_by_area(@min_lat, @min_lon, @max_lat, @max_lon, :include => :comments, :order => "updated_at DESC", :limit => limit, :conditions => conditions)
 
     respond_to do |format|
-      format.html {render :template => 'map_bugs/get_bugs.js', :content_type => "text/javascript"}
+      format.html {render :template => 'map_bugs/get_bugs.rjs', :content_type => "text/javascript"}
       format.rss {render :template => 'map_bugs/get_bugs.rss'}
       format.js
       format.xml {render :template => 'map_bugs/get_bugs.xml'}
@@ -187,7 +187,7 @@ class MapBugsController < ApplicationController
                         :conditions => conditions)
     @bugs = bugs2.uniq
     respond_to do |format|
-      format.html {render :template => 'map_bugs/get_bugs.js', :content_type => "text/javascript"}
+      format.html {render :template => 'map_bugs/get_bugs.rjs', :content_type => "text/javascript"}
       format.rss {render :template => 'map_bugs/get_bugs.rss'}
       format.js
       format.xml {render :template => 'map_bugs/get_bugs.xml'}

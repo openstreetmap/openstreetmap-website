@@ -1,7 +1,0 @@
-<% if @bugs.empty? %>
-
-<% else %>
-	<% @bugs.each do |bug| %> 
-putAJAXMarker(<%= bug.id.to_s %> , <%= bug.lon.to_s %> , <%= bug.lat.to_s %> , '<%= escape_javascript(bug.flatten_comment("<hr />")) %>', <%= (bug.status=="open"?"0":"1") %> );
-    <% end %>
-<% end %>
