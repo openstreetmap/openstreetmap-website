@@ -226,7 +226,7 @@ class MapBugsController < ApplicationController
     @page_size = 10
 
     @bugs = MapBug.find(:all, 
-                        :include => [:comments, {:comments => :user}],
+                        :include => [:comments, {:comments => :author}],
                         :joins => :comments,
                         :order => "updated_at DESC",
                         :conditions => conditions,
@@ -302,10 +302,10 @@ private
 
     sent_to = Set.new
     bug.comments.each do | cmt |
-      if cmt.user
-        unless sent_to.include?(cmt.user)
-          Notifier.deliver_bug_comment_notification(bug_comment, cmt.user) unless cmt.user == @user
-          sent_to.add(cmt.user)
+      if cmt.author
+        unless sent_to.include?(cmt.author)
+          Notifier.deliver_bug_comment_notification(bug_comment, cmt.author) unless cmt.author == @user
+          sent_to.add(cmt.author)
         end
       end
     end

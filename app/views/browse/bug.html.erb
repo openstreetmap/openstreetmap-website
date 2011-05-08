@@ -34,10 +34,10 @@
        <% end %>
        <tr>
          <th><%= t 'browse.bug.opened_by' %></th>
-         <% if @bug.comments.first.user.nil? %>
-           <td> <%= @bug.comments.first.author_name %> </td>
+         <% if @bug.author.nil? %>
+           <td> <%= @bug.author_name %> </td>
          <% else %>
-           <td><%= link_to h(@bug.comments.first.user.display_name), :controller => "user", :action => "view", :display_name => @bug.comments.first.user.display_name %></td>					
+           <td><%= link_to h(@bug.author_name), :controller => "user", :action => "view", :display_name => @bug.author_name %></td>
          <% end %>
        </tr>
        <tr>

@@ -13,7 +13,7 @@
     <th><%= t'bugs.user.last_changed' %></th>
   </tr>
 <% @bugs.each do |bug| %>
-  <tr<% if bug.comments.first.user != @user2 %> bgcolor="#EEEEEE"<% end %>>
+  <tr<% if bug.author != @user2 %> bgcolor="#EEEEEE"<% end %>>
     <td>
       <% if bug.status == "closed" %>
         <%= image_tag("closed_bug_marker.png", :alt => 'closed') %>
@@ -22,10 +22,10 @@
       <% end %>
     </td>
     <td><%= link_to bug.id.to_s, :controller => "browse", :action => "bug", :id => bug.id %></td>
-    <% if bug.comments.first.user.nil? %> 
-      <td> <%= bug.comments.first.author_name %> </td> 
+    <% if bug.author.nil? %> 
+      <td> <%= bug.author_name %> </td> 
     <% else %> 
-      <td><%= link_to h(bug.comments.first.user.display_name), :controller => "user", :action => "view", :display_name => bug.comments.first.user.display_name %></td>
+      <td><%= link_to h(bug.author_name), :controller => "user", :action => "view", :display_name => bug.author_name %></td>
     <% end %>
     <td> <%= htmlize bug.comments.first.body  %> </td>	
     <td><%= l bug.created_at %></td>

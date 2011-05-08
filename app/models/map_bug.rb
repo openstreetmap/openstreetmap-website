@@ -46,4 +46,20 @@ class MapBug < ActiveRecord::Base
   def visible
     return status != "hidden"
   end
+
+  def author
+    self.comments.first.author
+  end
+
+  def author_ip
+    self.comments.first.author_ip
+  end
+
+  def author_id
+    self.comments.first.author_id
+  end
+
+  def author_name
+    self.comments.first.author_name
+  end
 end

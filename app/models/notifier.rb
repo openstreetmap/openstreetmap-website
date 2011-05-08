@@ -97,7 +97,7 @@ class Notifier < ActionMailer::Base
 
   def bug_comment_notification(bug_comment, recipient)
     common_headers recipient
-    owner = (recipient == bug_comment.map_bug.comments.first.user);
+    owner = (recipient == bug_comment.map_bug.author);
     subject I18n.t('notifier.map_bug_plain.subject_own', :commenter => bug_comment.author_name) if owner
     subject I18n.t('notifier.map_bug_plain.subject_other', :commenter => bug_comment.author_name) unless owner
 

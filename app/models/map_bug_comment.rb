@@ -1,8 +1,8 @@
 class MapBugComment < ActiveRecord::Base
   set_table_name 'map_bug_comment'
 
-  belongs_to :map_bug, :foreign_key => 'bug_id'
-  belongs_to :user, :foreign_key => 'author_id'
+  belongs_to :map_bug, :foreign_key => :bug_id
+  belongs_to :author, :class_name => "User", :foreign_key => :author_id
 
   validates_inclusion_of :event, :in => [ "opened", "closed", "reopened", "commented", "hidden" ]
   validates_presence_of :id, :on => :update
@@ -13,7 +13,7 @@ class MapBugComment < ActiveRecord::Base
     if self.author_id.nil?
       self.read_attribute(:author_name)
     else
-      self.user.display_name
+      self.author.display_name
     end
   end
 end
