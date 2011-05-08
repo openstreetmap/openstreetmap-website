@@ -53,9 +53,15 @@ class ApiControllerTest < ActionController::TestCase
     node = current_nodes(:used_node_1)
     bbox = "#{node.lon},#{node.lat},#{node.lon},#{node.lat}"
     get :map, :bbox => bbox
-    #print @response.body
     assert_response :success, "The map call should have succeeded"
-    assert_select "osm[version='#{API_VERSION}'][generator='#{GENERATOR}']:root:empty", :count => 1
+    assert_select "osm[version='#{API_VERSION}'][generator='#{GENERATOR}']:root", :count => 1 do
+      assert_select "bounds[minlon=#{node.lon}][minlat=#{node.lat}][maxlon=#{node.lon}][maxlat=#{node.lat}]", :count => 1
+      assert_select "node[id=#{node.id}][lat=#{node.lat}][lon=#{node.lon}][version=#{node.version}][changeset=#{node.changeset_id}][visible=#{node.visible}][timestamp=#{node.timestamp.xmlschema}]", :count => 1 do
+        # This should really be more generic
+        assert_select "tag[k='test'][v='yes']"
+      end
+      # Should also test for the ways and relation
+    end
   end
   
   def test_tracepoints
