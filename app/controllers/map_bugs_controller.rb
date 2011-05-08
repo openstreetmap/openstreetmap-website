@@ -128,24 +128,20 @@ class MapBugsController < ApplicationController
   end 
 
   def rss
+    limit = getLimit
+    conditions = closedCondition
+
     # Figure out the bbox
     bbox = params['bbox']
 
     if bbox and bbox.count(',') == 3
       bbox = bbox.split(',')
       @min_lon, @min_lat, @max_lon, @max_lat = sanitise_boundaries(bbox)
-    else
-      @min_lon = -180.0
-      @min_lat = -90.0
-      @max_lon = 180.0
-      @max_lat = 90.0
-    end
 
-    limit = getLimit
-    conditions = closedCondition
-    conditions = cond_merge conditions, [OSM.sql_for_area_no_quadtile(@min_lat, @min_lon, @max_lat, @max_lon)]
-       
-    check_boundaries(@min_lon, @min_lat, @max_lon, @max_lat, :false)
+      conditions = cond_merge conditions, [OSM.sql_for_area_no_quadtile(@min_lat, @min_lon, @max_lat, @max_lon)]
+
+      check_boundaries(@min_lon, @min_lat, @max_lon, @max_lat, :false)
+    end
 
     @comments = MapBugComment.find(:all, :limit => limit, :order => "date_created DESC", :joins => :map_bug, :include => :map_bug, :conditions => conditions)
     render :template => 'map_bugs/rss.rss'
