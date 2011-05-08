@@ -3,8 +3,8 @@ module QuadTile
     require "quad_tile/quad_tile_so"
   rescue MissingSourceFile
     def self.tile_for_point(lat, lon)
-      x = ((lon + 180) * 65535 / 360).round
-      y = ((lat + 90) * 65535 / 180).round
+      x = ((lon.to_f + 180) * 65535 / 360).round
+      y = ((lat.to_f + 90) * 65535 / 180).round
 
       return tile_for_xy(x, y)
     end
