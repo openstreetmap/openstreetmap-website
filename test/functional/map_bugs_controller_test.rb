@@ -15,8 +15,8 @@ class MapBugsControllerTest < ActionController::TestCase
     assert_response :success
     js = @response.body
     assert_match "\"status\":\"open\"", js
-    assert_match "\"comment\":\"This is a comment\"", js
-    assert_match "\"commenter_name\":\"new_tester (a)\"", js
+    assert_match "\"body\":\"This is a comment\"", js
+    assert_match "\"author_name\":\"new_tester (a)\"", js
   end
 
   def test_map_bug_comment_create_success
@@ -30,8 +30,8 @@ class MapBugsControllerTest < ActionController::TestCase
     js = @response.body
     assert_match "\"id\":2", js
     assert_match "\"status\":\"open\"", js
-    assert_match "\"comment\":\"This is an additional comment\"", js
-    assert_match "\"commenter_name\":\"new_tester2 (a)\"", js
+    assert_match "\"body\":\"This is an additional comment\"", js
+    assert_match "\"author_name\":\"new_tester2 (a)\"", js
   end
 
   def test_map_bug_read_success
@@ -167,8 +167,8 @@ class MapBugsControllerTest < ActionController::TestCase
     assert_response :success
     js = @response.body
     assert_match "\"id\":5", js
-    assert_match "\"comment\":\"Valid comment for bug 5\"", js
-    assert_match "\"comment\":\"Another valid comment for bug 5\"", js
-    assert_no_match /\"comment\":\"Spam for bug 5\"/, js
+    assert_match "\"body\":\"Valid comment for bug 5\"", js
+    assert_match "\"body\":\"Another valid comment for bug 5\"", js
+    assert_no_match /\"body\":\"Spam for bug 5\"/, js
   end
 end

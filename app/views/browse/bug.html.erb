@@ -20,29 +20,29 @@
       <table>
         <tr>
           <th><%= t 'browse.bug.created_at' %></th>
-          <td><%= l @bug.date_created %></td>
+          <td><%= l @bug.created_at %></td>
         </tr>  
        <tr>
          <th><%= t 'browse.bug.edited_at' %></th>
-         <td><%= l @bug.last_changed %></td>
+         <td><%= l @bug.updated_at %></td>
        </tr>
        <% if @bug.status == "closed" %>
          <tr>
            <th><%= t 'browse.bug.closed_at' %></th>
-           <td><%= l @bug.date_closed %></td>
+           <td><%= l @bug.closed_at %></td>
          </tr>
        <% end %>
        <tr>
          <th><%= t 'browse.bug.opened_by' %></th>
          <% if @bug.comments.first.user.nil? %>
-           <td> <%= @bug.comments.first.commenter_name %> </td>
+           <td> <%= @bug.comments.first.author_name %> </td>
          <% else %>
            <td><%= link_to h(@bug.comments.first.user.display_name), :controller => "user", :action => "view", :display_name => @bug.comments.first.user.display_name %></td>					
          <% end %>
        </tr>
        <tr>
          <th><%= t 'browse.bug.description' %></th>
-         <td><%= h(@bug.comments.first.comment) %></td>
+         <td><%= h(@bug.comments.first.body) %></td>
        </tr>
        <tr>
          <th><%= t 'browse.node_details.coordinates' %></th>
@@ -63,13 +63,13 @@
           <tr>
             <td>
               <% if bug_comment.user.nil? %>
-                <%= bug_comment.commenter_name %>
+                <%= bug_comment.author_name %>
               <% else %>
                 <%= link_to h(bug_comment.user.display_name), :controller => "user", :action => "view", :display_name => bug_comment.user.display_name %>					
               <% end %>
             </td>
-            <td> <%= h(bug_comment.comment) %> </td>
-            <td> <%= l bug_comment.date_created %> </td>
+            <td> <%= h(bug_comment.body) %> </td>
+            <td> <%= l bug_comment.created_at %> </td>
           </tr>
         <% end %>
       </table>

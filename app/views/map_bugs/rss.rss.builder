@@ -27,16 +27,16 @@ xml.rss("version" => "2.0",
 
         if comment.event == "commented" and not comment.nil?
           description_text += "<b>Comment:</b><br>"
-          description_text += htmlize(comment.comment)
+          description_text += htmlize(comment.body)
           description_text += "<br>"
         end
 
         description_text += "<b>Full bug report:</b><br>"
-        description_text += comment.map_bug.flatten_comment("<br>", comment.date_created)
+        description_text += comment.map_bug.flatten_comment("<br>", comment.created_at)
 
         xml.description description_text 
-        xml.author comment.commenter_name
-        xml.pubDate comment.date_created.to_s(:rfc822)
+        xml.author comment.author_name
+        xml.pubDate comment.created_at.to_s(:rfc822)
         xml.geo :lat, comment.map_bug.lat
         xml.geo :long, comment.map_bug.lon
         xml.georss :point, "#{comment.map_bug.lat} #{comment.map_bug.lon}"

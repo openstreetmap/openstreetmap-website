@@ -12,10 +12,10 @@ xml.item do
   xml.description  htmlize(bug.flatten_comment("<br><br>"))
 
   unless bug.comments.empty?
-    xml.author bug.comments[-1].commenter_name
+    xml.author bug.comments[-1].author_name
   end
 
-  xml.pubDate bug.last_changed.to_s(:rfc822)
+  xml.pubDate bug.updated_at.to_s(:rfc822)
   xml.geo :lat, bug.lat
   xml.geo :long, bug.lon
   xml.georss :point, "#{bug.lat} #{bug.lon}"

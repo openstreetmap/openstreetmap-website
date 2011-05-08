@@ -39,14 +39,14 @@ class MapBugsController < ApplicationController
 	
     check_boundaries(@min_lon, @min_lat, @max_lon, @max_lat, MAX_BUG_REQUEST_AREA)
 
-    @bugs = MapBug.find_by_area(@min_lat, @min_lon, @max_lat, @max_lon, :include => :comments, :order => "last_changed DESC", :limit => limit, :conditions => conditions)
+    @bugs = MapBug.find_by_area(@min_lat, @min_lon, @max_lat, @max_lon, :include => :comments, :order => "updated_at DESC", :limit => limit, :conditions => conditions)
 
     respond_to do |format|
       format.html {render :template => 'map_bugs/get_bugs.js', :content_type => "text/javascript"}
       format.rss {render :template => 'map_bugs/get_bugs.rss'}
       format.js
       format.xml {render :template => 'map_bugs/get_bugs.xml'}
-      format.json { render :json => @bugs.to_json(:methods => [:lat, :lon], :only => [:id, :status, :date_created], :include => { :comments => { :only => [:commenter_name, :date_created, :comment]}}) }	  
+      format.json { render :json => @bugs.to_json(:methods => [:lat, :lon], :only => [:id, :status, :created_at], :include => { :comments => { :only => [:author_name, :created_at, :body]}}) }	  
       format.gpx {render :template => 'map_bugs/get_bugs.gpx'}
     end
   end
@@ -80,9 +80,10 @@ class MapBugsController < ApplicationController
       rescue Exception => err
         @bug.nearby_place = "unknown"
       end
-	  
+
       @bug.save
-      add_comment(@bug, comment, name,"opened")
+
+      add_comment(@bug, comment, name, "opened")
     end
  
     render_ok
@@ -102,7 +103,7 @@ class MapBugsController < ApplicationController
     raise OSM::APIAlreadyDeletedError unless bug.visible
 
     MapBug.transaction do
-      bug_comment = add_comment(bug, params['text'], name,"commented")
+      bug_comment = add_comment(bug, params['text'], name, "commented")
     end
 
     render_ok
@@ -121,7 +122,7 @@ class MapBugsController < ApplicationController
 
     MapBug.transaction do
       bug.close_bug
-      add_comment(bug,:nil,name,"closed")
+      add_comment(bug, :nil, name, "closed")
     end
 
     render_ok
@@ -143,7 +144,7 @@ class MapBugsController < ApplicationController
       conditions = cond_merge conditions, [OSM.sql_for_area(@min_lat, @min_lon, @max_lat, @max_lon)]
     end
 
-    @comments = MapBugComment.find(:all, :limit => limit, :order => "date_created DESC", :joins => :map_bug, :include => :map_bug, :conditions => conditions)
+    @comments = MapBugComment.find(:all, :limit => limit, :order => "created_at DESC", :joins => :map_bug, :include => :map_bug, :conditions => conditions)
     render :template => 'map_bugs/rss.rss'
   end
 
@@ -155,7 +156,7 @@ class MapBugsController < ApplicationController
     respond_to do |format|
       format.rss
       format.xml
-      format.json { render :json => @bug.to_json(:methods => [:lat, :lon], :only => [:id, :status, :date_created], :include => { :comments => { :only => [:commenter_name, :date_created, :comment]}}) }	  
+      format.json { render :json => @bug.to_json(:methods => [:lat, :lon], :only => [:id, :status, :created_at], :include => { :comments => { :only => [:author_name, :created_at, :body]}}) }	  
       format.gpx
     end
   end
@@ -178,11 +179,11 @@ class MapBugsController < ApplicationController
     raise OSM::APIBadUserInput.new("No query string was given") unless params['q']
     limit = getLimit
     conditions = closedCondition
-    conditions = cond_merge conditions, ['map_bug_comment.comment ~ ?', params['q']]
+    conditions = cond_merge conditions, ['map_bug_comment.body ~ ?', params['q']]
 	
     #TODO: There should be a better way to do this.   CloseConditions are ignored at the moment
 
-    bugs2 = MapBug.find(:all, :limit => limit, :order => "last_changed DESC", :joins => :comments, :include => :comments,
+    bugs2 = MapBug.find(:all, :limit => limit, :order => "updated_at DESC", :joins => :comments, :include => :comments,
                         :conditions => conditions)
     @bugs = bugs2.uniq
     respond_to do |format|
@@ -190,7 +191,7 @@ class MapBugsController < ApplicationController
       format.rss {render :template => 'map_bugs/get_bugs.rss'}
       format.js
       format.xml {render :template => 'map_bugs/get_bugs.xml'}
-      format.json { render :json => @bugs.to_json(:methods => [:lat, :lon], :only => [:id, :status, :date_created], :include => { :comments => { :only => [:commenter_name, :date_created, :comment]}}) }
+      format.json { render :json => @bugs.to_json(:methods => [:lat, :lon], :only => [:id, :status, :created_at], :include => { :comments => { :only => [:author_name, :created_at, :body]}}) }
       format.gpx {render :template => 'map_bugs/get_bugs.gpx'}
     end
   end
@@ -201,7 +202,7 @@ class MapBugsController < ApplicationController
  
       if @user2  
         if @user2.data_public? or @user2 == @user 
-          conditions = ['map_bug_comment.commenter_id = ?', @user2.id] 
+          conditions = ['map_bug_comment.author_id = ?', @user2.id] 
         else 
           conditions = ['false'] 
         end 
@@ -227,7 +228,7 @@ class MapBugsController < ApplicationController
     @bugs = MapBug.find(:all, 
                         :include => [:comments, {:comments => :user}],
                         :joins => :comments,
-                        :order => "last_changed DESC",
+                        :order => "updated_at DESC",
                         :conditions => conditions,
                         :offset => (@page - 1) * @page_size, 
                         :limit => @page_size).uniq
@@ -278,7 +279,7 @@ private
     if closed_since < 0
       conditions = ["status != 'hidden'"]
     elsif closed_since > 0
-      conditions = ["((status = 'open') OR ((status = 'closed' ) AND (date_closed > '" + (Time.now - closed_since.days).to_s + "')))"]
+      conditions = ["((status = 'open') OR ((status = 'closed' ) AND (closed_at > '" + (Time.now - closed_since.days).to_s + "')))"]
     else
       conditions = ["status = 'open'"]
     end
@@ -287,18 +288,16 @@ private
   end
 
   def add_comment(bug, comment, name,event) 
-    t = Time.now.getutc 
-    bug_comment = bug.comments.create(:date_created => t, :visible => true, :event => event)
-    bug_comment.comment = comment unless comment == :nil
+    bug_comment = bug.comments.create(:visible => true, :event => event)
+    bug_comment.body = comment unless comment == :nil
     if @user  
-      bug_comment.commenter_id = @user.id
-      bug_comment.commenter_name = @user.display_name
+      bug_comment.author_id = @user.id
+      bug_comment.author_name = @user.display_name
     else  
-      bug_comment.commenter_ip = request.remote_ip
-      bug_comment.commenter_name = name + " (a)"
+      bug_comment.author_ip = request.remote_ip
+      bug_comment.author_name = name + " (a)"
     end
     bug_comment.save 
-    bug.last_changed = t 
     bug.save
 
     sent_to = Set.new
