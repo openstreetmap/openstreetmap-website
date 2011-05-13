@@ -14,7 +14,11 @@
     var feature = vectors.getFeatureByFid(id);
     var bounds = feature.geometry.getBounds();
 
-    if ( highlight ) vectors.removeFeatures(highlight);
+    if (bounds.containsBounds(map.getExtent())) {
+      bounds = map.getExtent().scale(1.1);
+    }
+
+    if (highlight) vectors.removeFeatures(highlight);
 
     highlight = new OpenLayers.Feature.Vector(bounds.toGeometry(), {}, {
       strokeWidth: 2,
