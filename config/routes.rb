@@ -76,19 +76,19 @@ ActionController::Routing::Routes.draw do |map|
   map.connect "api/#{API_VERSION}/swf/trackpoints", :controller =>'swf', :action =>'trackpoints'
 
   # Map Bugs API  
-  map.connect "api/#{API_VERSION}/bugs", :controller => 'map_bugs', :action => 'get_bugs'
+  map.connect "api/#{API_VERSION}/bugs", :controller => 'map_bugs', :action => 'list'
   map.connect "api/#{API_VERSION}/bugs/search", :controller => 'map_bugs', :action => 'search'
   map.connect "api/#{API_VERSION}/bugs/rss", :controller =>'map_bugs', :action => 'rss'
-  map.connect "api/#{API_VERSION}/bug/create", :controller => 'map_bugs', :action => 'add_bug'
-  map.connect "api/#{API_VERSION}/bug/:id/comment", :controller => 'map_bugs', :action => 'edit_bug', :id => /\d+/
-  map.connect "api/#{API_VERSION}/bug/:id/close", :controller => 'map_bugs', :action => 'close_bug', :id => /\d+/
+  map.connect "api/#{API_VERSION}/bug/create", :controller => 'map_bugs', :action => 'create'
+  map.connect "api/#{API_VERSION}/bug/:id/comment", :controller => 'map_bugs', :action => 'update', :id => /\d+/
+  map.connect "api/#{API_VERSION}/bug/:id/close", :controller => 'map_bugs', :action => 'close', :id => /\d+/
   map.connect "api/#{API_VERSION}/bug/:id", :controller => 'map_bugs', :action => 'read', :id => /\d+/, :conditions => { :method => :get }
   map.connect "api/#{API_VERSION}/bug/:id", :controller => 'map_bugs', :action => 'delete', :id => /\d+/, :conditions => { :method => :delete }
-  map.connect "api/#{API_VERSION}/bugs/getBugs", :controller => 'map_bugs', :action => 'get_bugs'
-  map.connect "api/#{API_VERSION}/bugs/addPOIexec", :controller => 'map_bugs', :action => 'add_bug'
-  map.connect "api/#{API_VERSION}/bugs/closePOIexec", :controller => 'map_bugs', :action => 'close_bug'
-  map.connect "api/#{API_VERSION}/bugs/editPOIexec", :controller => 'map_bugs', :action => 'edit_bug'
-  map.connect "api/#{API_VERSION}/bugs/getGPX", :controller => 'map_bugs', :action => 'get_bugs', :format => :gpx
+  map.connect "api/#{API_VERSION}/bugs/getBugs", :controller => 'map_bugs', :action => 'list'
+  map.connect "api/#{API_VERSION}/bugs/addPOIexec", :controller => 'map_bugs', :action => 'create'
+  map.connect "api/#{API_VERSION}/bugs/closePOIexec", :controller => 'map_bugs', :action => 'close'
+  map.connect "api/#{API_VERSION}/bugs/editPOIexec", :controller => 'map_bugs', :action => 'update'
+  map.connect "api/#{API_VERSION}/bugs/getGPX", :controller => 'map_bugs', :action => 'list', :format => :gpx
   map.connect "api/#{API_VERSION}/bugs/getRSSfeed", :controller => 'map_bugs', :action => 'rss'
 
   # Data browsing
@@ -105,7 +105,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/browse/changesets/feed', :controller => 'changeset', :action => 'list', :format => :atom
   map.connect '/browse/changesets', :controller => 'changeset', :action => 'list'
   map.connect '/browse/bug/:id', :controller => 'browse', :action => 'bug', :id => /\d+/
-  map.connect '/user/:display_name/bugs', :controller => 'map_bugs', :action => 'my_bugs'
+  map.connect '/user/:display_name/bugs', :controller => 'map_bugs', :action => 'mine'
   map.connect '/browse', :controller => 'changeset', :action => 'list'
 
   # web site

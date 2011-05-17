@@ -1,20 +1,19 @@
 class MapBugsController < ApplicationController
 
-  layout 'site', :only => [:my_bugs]
+  layout 'site', :only => [:mine]
 
   before_filter :check_api_readable
-  before_filter :authorize_web, :only => [:add_bug, :close_bug, :edit_bug, :delete, :my_bugs]
-  before_filter :check_api_writable, :only => [:add_bug, :close_bug, :edit_bug, :delete]
+  before_filter :authorize_web, :only => [:create, :close, :update, :delete, :mine]
+  before_filter :check_api_writable, :only => [:create, :close, :update, :delete]
   before_filter :require_moderator, :only => [:delete]
-  before_filter :set_locale, :only => [:my_bugs]
+  before_filter :set_locale, :only => [:mine]
   after_filter :compress_output
   around_filter :api_call_handle_error, :api_call_timeout
 
   # Help methods for checking boundary sanity and area size
   include MapBoundary
 
-  def get_bugs
-
+  def list
     # Figure out the bbox
     bbox = params['bbox']
 
@@ -42,16 +41,16 @@ class MapBugsController < ApplicationController
     @bugs = MapBug.find_by_area(@min_lat, @min_lon, @max_lat, @max_lon, :include => :comments, :order => "updated_at DESC", :limit => limit, :conditions => conditions)
 
     respond_to do |format|
-      format.html {render :template => 'map_bugs/get_bugs.rjs', :content_type => "text/javascript"}
-      format.rss {render :template => 'map_bugs/get_bugs.rss'}
+      format.html {render :template => 'map_bugs/list.rjs', :content_type => "text/javascript"}
+      format.rss {render :template => 'map_bugs/list.rss'}
       format.js
-      format.xml {render :template => 'map_bugs/get_bugs.xml'}
+      format.xml {render :template => 'map_bugs/list.xml'}
       format.json { render :json => @bugs.to_json(:methods => [:lat, :lon], :only => [:id, :status, :created_at], :include => { :comments => { :only => [:author_name, :created_at, :body]}}) }	  
-      format.gpx {render :template => 'map_bugs/get_bugs.gpx'}
+      format.gpx {render :template => 'map_bugs/list.gpx'}
     end
   end
 
-  def add_bug
+  def create
     raise OSM::APIBadUserInput.new("No lat was given") unless params['lat']
     raise OSM::APIBadUserInput.new("No lon was given") unless params['lon']
     raise OSM::APIBadUserInput.new("No text was given") unless params['text']
@@ -89,7 +88,7 @@ class MapBugsController < ApplicationController
     render_ok
   end
 
-  def edit_bug
+  def update
     raise OSM::APIBadUserInput.new("No id was given") unless params['id']
     raise OSM::APIBadUserInput.new("No text was given") unless params['text']
 
@@ -109,7 +108,7 @@ class MapBugsController < ApplicationController
     render_ok
   end
 
-  def close_bug
+  def close
     raise OSM::APIBadUserInput.new("No id was given") unless params['id']
 	
     id = params['id'].to_i
@@ -187,16 +186,16 @@ class MapBugsController < ApplicationController
                         :conditions => conditions)
     @bugs = bugs2.uniq
     respond_to do |format|
-      format.html {render :template => 'map_bugs/get_bugs.rjs', :content_type => "text/javascript"}
-      format.rss {render :template => 'map_bugs/get_bugs.rss'}
+      format.html {render :template => 'map_bugs/list.rjs', :content_type => "text/javascript"}
+      format.rss {render :template => 'map_bugs/list.rss'}
       format.js
-      format.xml {render :template => 'map_bugs/get_bugs.xml'}
+      format.xml {render :template => 'map_bugs/list.xml'}
       format.json { render :json => @bugs.to_json(:methods => [:lat, :lon], :only => [:id, :status, :created_at], :include => { :comments => { :only => [:author_name, :created_at, :body]}}) }
-      format.gpx {render :template => 'map_bugs/get_bugs.gpx'}
+      format.gpx {render :template => 'map_bugs/list.gpx'}
     end
   end
 
-  def my_bugs
+  def mine
     if params[:display_name] 
       @user2 = User.find_by_display_name(params[:display_name], :conditions => { :status => ["active", "confirmed"] }) 
  
