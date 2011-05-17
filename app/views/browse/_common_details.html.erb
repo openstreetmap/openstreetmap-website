@@ -1,11 +1,19 @@
 <tr>
-  <th><%= t 'browse.common_details.edited_at' %></th>
+  <% if common_details.visible? %>
+    <th><%= t 'browse.common_details.edited_at' %></th>
+  <% else %>
+    <th><%= t 'browse.common_details.deleted_at' %></th>
+  <% end %>
   <td><%= l common_details.timestamp %></td>
 </tr>
 
 <% if common_details.changeset.user.data_public? %>
   <tr>
-    <th><%= t 'browse.common_details.edited_by' %></th>
+    <% if common_details.visible? %>
+      <th><%= t 'browse.common_details.edited_by' %></th>
+    <% else %>
+      <th><%= t 'browse.common_details.deleted_by' %></th>
+    <% end %>
     <td><%= link_to h(common_details.changeset.user.display_name), :controller => "user", :action => "view", :display_name => common_details.changeset.user.display_name %></td>
   </tr>
 <% end %>

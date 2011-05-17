@@ -6,16 +6,16 @@
 
 <p>
   <%= rss_link_to :action => 'georss', :display_name => @display_name, :tag => @tag %>
-  <% unless_user(@target_user, :span) do %>
-    | <%= link_to t('trace.trace_header.your_traces'), :action => 'mine' %>
-  <% end %>
   | <%= link_to t('trace.trace_header.upload_trace'), :action => 'create' %>
   <% if @tag %>
+    | <%= link_to t('trace.trace_header.see_all_traces'), :controller => 'trace', :action => 'list', :display_name => nil, :tag => nil, :page => nil %>
+    | <%= link_to t('trace.trace_header.see_your_traces'), :action => 'mine', :tag => nil, :page => nil %>
+  <% else %>
     <% if @display_name %>
-      | <%= link_to t('trace.trace_header.see_all_traces'), :controller => 'trace', :action => 'list' %>
+      | <%= link_to t('trace.trace_header.see_all_traces'), :controller => 'trace', :action => 'list', :display_name => nil, :tag => nil, :page => nil %>
     <% end %>
-    <% if_user(@target_user, :span) do %>
-      | <%= link_to t('trace.trace_header.see_your_traces'), :controller => 'trace', :action => 'mine' %>
+    <% unless_user(@target_user, :span) do %>
+      | <%= link_to t('trace.trace_header.see_your_traces'), :action => 'mine', :tag => nil, :page => nil %>
     <% end %>
   <% end %>
 </p>

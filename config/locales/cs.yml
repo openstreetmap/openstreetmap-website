@@ -2,6 +2,8 @@
 # Exported from translatewiki.net
 # Export driver: syck-pecl
 # Author: Bilbo
+# Author: Jkjk
+# Author: Luk
 # Author: Masox
 # Author: Mormegil
 # Author: Mr. Richard Bolla
@@ -53,6 +55,7 @@ cs:
       message: Zpráva
       node: Uzel
       node_tag: Tag uzlu
+      notifier: Oznamovatel
       old_node: Starý uzel
       old_node_tag: Starý tag uzlu
       old_relation: Stará relace
@@ -64,6 +67,7 @@ cs:
       relation: Relace
       relation_member: Člen relace
       relation_tag: Tag relace
+      session: Relace
       trace: Stopa
       tracepoint: Bod stopy
       tracetag: Značka stopy
@@ -78,17 +82,21 @@ cs:
       cookies_needed: Vypadá to, že máte zakázány cookies – před pokračováním si je v prohlížeči zapněte.
     setup_user_auth: 
       blocked: Váš přístup k API byl zablokován. Další informace zjistíte přihlášením do webového rozhraní.
+      need_to_see_terms: Váš přístup k API byl dočasně zablokován. Přihlašte se prosím do webového rozhraní a přečtěte si Podmínky pro přispěvatele. Nemusíte je odsouhlasit, musíte si je ale zobrazit.
   browse: 
     changeset: 
       changeset: "Sada změn: {{id}}"
+      changesetxml: Soubor změn XML
       download: Stáhnout {{changeset_xml_link}} nebo {{osmchange_xml_link}}
       feed: 
         title: Sada změn {{id}}
         title_comment: "Sada změn: {{id}} - {{comment}}"
+      osmchangexml: osmChange XML
       title: Sada změn
     changeset_details: 
       belongs_to: "Patří uživateli:"
       bounding_box: "Rozsah:"
+      box: rám
       closed_at: "Uzavřeno v:"
       created_at: "Vytvořeno v:"
       has_nodes: 
@@ -192,6 +200,7 @@ cs:
       details: Detaily
       drag_a_box: Myší na mapě označte zvolenou oblast
       edited_by_user_at_timestamp: Upravil [[user]] dne [[timestamp]]
+      hide_areas: Schovat oblasti
       history_for_feature: Historie pro [[feature]]
       load_data: Nahrát data
       loaded_an_area_with_num_features: Máte načtenu oblast, která obsahuje [[num_features]] prvků. Některé prohlížeče mohou mít potíže při zobrazování takového množství dat. Obecně fungují prohlížeče nejlépe při zobrazování ne více než sta prvků současně – větší množství může způsobit, že bude prohlížeč reagovat pomalu či vůbec. Pokud jste si jisti, že chcete tato data zobrazit, klikněte na tlačítko níže.
@@ -214,6 +223,7 @@ cs:
           node: Uzel
           way: Cesta
       private_user: anonym
+      show_areas: Zobrazit oblasti
       show_history: Zobrazit historii
       unable_to_load_size: "Nelze načíst: Rozměr [[bbox_size]] je příliš velký (maximum je {{max_bbox_size}})"
       wait: Čekejte...
@@ -380,6 +390,7 @@ cs:
       mapnik_image: Obrázek z Mapniku
       max: max.
       options: Nastavení
+      osm_xml_data: Data OpenStreetMap XML
       osmarender_image: Obrázek z Osmarenderu
       output: Výstup
       paste_html: Ke vložení na stránku použijte toto HTML
@@ -387,6 +398,7 @@ cs:
       too_large: 
         body: Tato oblast je pro export do XML formátu OpenStreetMap příliš velká. Přejděte na větší měřítko nebo zvolte menší oblast.
         heading: Příliš velká oblast
+      zoom: Zoom
     start_rjs: 
       add_marker: Přidat do mapy značku
       change_marker: Změnit umístění značky
@@ -439,8 +451,11 @@ cs:
       prefix: 
         amenity: 
           airport: Letiště
+          arts_centre: Kulturní centrum
           atm: Bankomat
+          auditorium: Posluchárna
           bank: Banka
+          bar: Bar
           bench: Lavička
           bicycle_parking: Parkoviště pro kola
           bicycle_rental: Půjčovna kol
@@ -448,8 +463,15 @@ cs:
           bureau_de_change: Směnárna
           bus_station: Autobusové nádraží
           cafe: Kavárna
+          car_rental: Půjčovna aut
+          car_sharing: Sdílení aut
           car_wash: Automyčka
+          casino: Kasino
           cinema: Kino
+          clinic: Klinika
+          club: Klub
+          college: Vysoká škola
+          community_centre: Komunitní centrum
           courthouse: Soud
           crematorium: Krematorium
           dentist: Zubař
@@ -458,6 +480,7 @@ cs:
           drinking_water: Pitná voda
           driving_school: Autoškola
           embassy: Velvyslanectví
+          emergency_phone: Nouzový telefon
           fast_food: Rychlé občerstvení
           ferry_terminal: Přístaviště přívozu
           fire_hydrant: Požární hydrant
@@ -465,6 +488,8 @@ cs:
           fountain: Fontána
           fuel: Čerpací stanice
           grave_yard: Hřbitov
+          gym: Fitness centrum / tělocvična
+          hall: Sál
           health_centre: Zdravotní středisko
           hospital: Nemocnice
           hotel: Hotel
@@ -472,9 +497,13 @@ cs:
           ice_cream: Zmrzlinárna
           kindergarten: Mateřská škola
           library: Knihovna
+          market: Obchod
           marketplace: Tržiště
           mountain_rescue: Horská služba
+          nightclub: 'Noční klub'
+          nursery: Jesle
           nursing_home: Pečovatelský dům
+          office: Úřad
           park: Park
           parking: Parkoviště
           pharmacy: Lékárna
@@ -482,36 +511,65 @@ cs:
           police: Policie
           post_box: Poštovní schránka
           post_office: Pošta
+          preschool: Mateřská škola
           prison: Věznice
           pub: Hospoda
           public_building: Veřejná budova
+          public_market: Veřejný trh
+          reception_area: Recepce
           recycling: Tříděný odpad
           restaurant: Restaurace
           retirement_home: Domov důchodců
+          sauna: Sauna
           school: Škola
           shelter: Přístřeší
+          shop: Obchod
+          shopping: Nákupní centrum
+          social_club: Společenský klub
           studio: Studio
+          supermarket: Supermarket
+          taxi: Taxi
           telephone: Telefonní automat
           theatre: Divadlo
           toilets: Toalety
           townhall: Radnice
+          university: Univerzita
           vending_machine: Prodejní automat
           veterinary: Veterinární ordinace
+          village_hall: Společenský sál
           waste_basket: Odpadkový koš
+          wifi: Přístupový bod WiFi
+          youth_centre: Centrum pro mládež
         boundary: 
           administrative: Administrativní hranice
         building: 
+          apartments: Bytový dům
+          block: Blok budov
+          bunker: Bunkr
+          chapel: Kaple
           church: Kostel
           city_hall: Radnice
+          commercial: Komerční budova
           dormitory: Kolej
           entrance: Vstup do objektu
+          faculty: Fakultní budova
+          farm: Hospodářská budova
+          flats: Byty
           garage: Garáž
+          hall: Sál
           hospital: Nemocniční budova
+          hotel: Hotel
+          house: Dům
           industrial: Průmyslová budova
           office: Kancelářská budova
           public: Veřejná budova
+          residential: Obytná budova
+          retail: Maloobchodní budova
           school: Školní budova
+          shop: Obchod
           stadium: Stadion
+          store: Obchodní dům
+          terrace: Řadová zástavba
           tower: Věž
           train_station: Železniční stanice
           university: Univerzitní budova
@@ -519,9 +577,11 @@ cs:
           bridleway: Koňská stezka
           bus_guideway: Autobusová dráha
           bus_stop: Autobusová zastávka
+          byway: Účelová komunikace
           construction: Silnice ve výstavbě
           cycleway: Cyklostezka
           distance_marker: Kilometrovník
+          emergency_access_point: Nouzový lokalizační bod
           footway: Chodník
           ford: Brod
           gate: Brána
@@ -537,13 +597,16 @@ cs:
           primary_link: Silnice první třídy
           raceway: Závodní dráha
           residential: Ulice
+          road: Cesta
           secondary: Silnice druhé třídy
           secondary_link: Silnice druhé třídy
           service: Účelová komunikace
           services: Dálniční odpočívadlo
           steps: Schody
+          stile: Schůdky přes ohradu
           tertiary: Silnice třetí třídy
           track: Cesta
+          trail: Stezka
           trunk: Významná silnice
           trunk_link: Významná silnice
           unclassified: Silnice
@@ -553,35 +616,70 @@ cs:
           battlefield: Bojiště
           boundary_stone: Hraniční kámen
           building: Budova
+          castle: Hrad
+          church: Kostel
+          house: Dům
+          icon: Ikona
+          manor: Panství
           memorial: Památník
+          mine: Důl
+          monument: Pomník
           museum: Muzeum
           ruins: Zřícenina
+          tower: Věž
+          wayside_cross: Boží muka
           wayside_shrine: Boží muka
           wreck: Vrak
         landuse: 
           allotments: Zahrádkářská kolonie
+          basin: Vodní nádrž
+          brownfield: Brownfield
           cemetery: Hřbitov
+          commercial: Komerční zóna
           conservation: Chráněné území
           construction: Staveniště
+          farm: Farma
+          farmland: Zemědělská půda
+          farmyard: Dvůr
+          forest: Les
+          grass: Trávník
+          greenfield: Zelená plocha pro výstavbu
+          industrial: Průmyslová zóna
           landfill: Skládka
+          meadow: Louka
           military: Vojenský prostor
+          mine: Důl
           mountain: Hory
+          nature_reserve: Přírodní rezervace
+          park: Park
           piste: Sjezdovka
+          plaza: Náměstí
           quarry: Lom
+          railway: Železnice
+          recreation_ground: Rekreační oblast
           reservoir: Zásobník na vodu
           residential: Rezidenční oblast
+          retail: Maloobchody
+          village_green: Náves
           vineyard: Vinice
           wetland: Mokřad
+          wood: Neudržovaný les
         leisure: 
+          beach_resort: Pobřežní letovisko
+          common: Obecní půda
+          fishing: Rybářská oblast
           garden: Zahrada
           golf_course: Golfové hřiště
           ice_rink: Kluziště
+          marina: Přístav
           miniature_golf: Minigolf
           nature_reserve: Přírodní rezervace
           park: Park
           pitch: Hřiště
           playground: Dětské hřiště
+          recreation_ground: Rekreační oblast
           slipway: Skluzavka
+          sports_centre: Sportovní centrum
           stadium: Stadion
           swimming_pool: Bazén
           track: Běžecká dráha
@@ -591,30 +689,40 @@ cs:
           beach: Pláž
           cape: Mys
           cave_entrance: Vstup do jeskyně
+          channel: Kanál
           cliff: Útes
           coastline: Pobřežní čára
           crater: Kráter
+          feature: Prvek
           fell: See http://wiki.openstreetmap.org/wiki/Tag:natural=fell
           fjord: Fjord
           geyser: Gejzír
           glacier: Ledovec
+          heath: Vřesoviště
           hill: Kopec
           island: Ostrov
           land: Země
           marsh: Mokřina
           moor: Vřesoviště
+          mud: Bahno
           peak: Vrchol
+          point: Bod
           reef: Útes
+          ridge: Hřeben
           river: Řeka
           rock: Skalisko
           scree: Osyp
+          scrub: Rumiště
           shoal: Mělčina
           spring: Pramen
+          strait: Úžina
           tree: Strom
           valley: Údolí
           volcano: Sopka
           water: Vodní plocha
+          wetland: Mokřad
           wetlands: Mokřad
+          wood: Neudržovaný les
         place: 
           airport: Letiště
           city: Velkoměsto
@@ -627,13 +735,16 @@ cs:
           island: Ostrov
           islet: Ostrůvek
           locality: Oblast
+          moor: Bažina
           municipality: Obecní úřad
           postcode: PSČ
           region: Region
           sea: Moře
           state: Stát
+          subdivision: Parcely
           suburb: Městská část
           town: Město
+          unincorporated_area: Nezařazená oblast
           village: Vesnice
         railway: 
           abandoned: Zrušená železniční trať
@@ -642,6 +753,7 @@ cs:
           disused_station: Nepoužívaná železniční stanice
           funicular: Lanová dráha
           halt: Železniční zastávka
+          historic_station: Nádraží historické železnice
           junction: Kolejové rozvětvení
           level_crossing: Železniční přejezd
           light_rail: Rychlodráha
@@ -656,33 +768,84 @@ cs:
           switch: Výhybka
           tram: Tramvajová trať
           tram_stop: Tramvajová zastávka
+          yard: Přednádraží
         shop: 
+          alcohol: Prodej alkoholu
+          apparel: Prodej oděvů
+          art: Prodej umění
           bakery: Pekařství
+          beauty: Salón krásy
+          beverages: Prodej nápojů
           bicycle: Cykloobchod
           books: Knihkupectví
           butcher: Řeznictví
+          car: Prodej automobilů
+          car_dealer: Prodej automobilů
+          car_parts: Prodej autodílů
           car_repair: Autoservis
           carpet: Obchod s koberci
+          charity: Charitativní obchod
+          chemist: Drogerie
+          clothes: Prodej oděvů
+          computer: Prodej počítačů
+          confectionery: Cukrárna
+          convenience: Smíšené zboží
           copyshop: Copycentrum
+          cosmetics: Parfumerie
+          department_store: Obchodní dům
+          discount: Diskontní prodejna
+          doityourself: Obchod pro kutily
+          drugstore: Lékárna
           dry_cleaning: Chemická čistírna
+          electronics: Prodej elektroniky
           estate_agent: Realitní kancelář
+          farm: Prodej zemědělských výrobků
+          fashion: Módní salón
           fish: Rybárna
           florist: Květinářství
           food: Potraviny
           funeral_directors: Pohřební služba
+          furniture: Prodej nábytku
+          gallery: Galerie
+          garden_centre: Zahradnictví
+          general: Smíšení zboží
+          gift: Dárkové zboží, suvenýry
+          greengrocer: Ovoce–zelenina
+          grocery: Prodej potravin
           hairdresser: Kadeřnictví
+          hardware: Železářství
+          hifi: Prodej Hi-Fi elektroniky
+          insurance: Pojišťovna
           jewelry: Klenotnictví
+          kiosk: Kiosek
           laundry: Prádelna
+          mall: Nákupní centrum
+          market: Obchod
+          mobile_phone: Prodej mobilních telefonů
+          motorcycle: Prodej motocyklů
+          music: Prodej hudby
+          newsagent: Novinový stánek
           optician: Oční optika
+          organic: Prodej biopotravin
           outdoor: Outdoorový obchod
+          pet: Prodejna pro chovatele
+          photo: Prodejna foto
+          salon: Salón
           shoes: Obuvnictví
+          shopping_centre: Nákupní centrum
+          sports: Prodejna pro sportovce
+          stationery: Papírnictví
+          supermarket: Supermarket
           toys: Hračkářství
           travel_agency: Cestovní kancelář
+          video: Videopůjčovna, prodej DVD
           wine: Vinárna
         tourism: 
           alpine_hut: Vysokohorská chata
           artwork: Umělecké dílo
           attraction: Turistická atrakce
+          bed_and_breakfast: Ubytování Bed & Breakfast
+          cabin: Chatka
           camp_site: Tábořiště, kemp
           caravan_site: Autokemping
           chalet: Chalupa
@@ -701,16 +864,22 @@ cs:
         waterway: 
           boatyard: Loděnice
           canal: Kanál
+          connector: Propojení vodních cest
           dam: Přehrada
           derelict_canal: Opuštěný kanál
           ditch: Meliorační kanál
+          dock: Dok
+          drain: Odvodňovací kanál
           lock: Zdymadlo
           lock_gate: Vrata plavební komory
+          mineral_spring: Minerální pramen
+          mooring: Kotviště
           rapids: Peřeje
           river: Řeka
           riverbank: Břeh řeky
           stream: Potok
           wadi: Vádí
+          water_point: Vodní bod
           waterfall: Vodopád
           weir: Jez
   javascripts: 
@@ -774,6 +943,7 @@ cs:
     osm_read_only: Databáze OpenStreetMap je momentálně kvůli probíhající neodkladné údržbě pouze pro čtení.
     sign_up: zaregistrovat se
     sign_up_tooltip: Vytvořit si uživatelský účet pro editaci
+    sotm2011: Navštivte konferenci OpenStreetMap 2011 „The State of the Map“ (Stav mapy) od 9. do 11. září v Denveru!
     tag_line: Otevřená wiki-mapa světa
     user_diaries: Deníčky
     user_diaries_tooltip: Zobrazit deníčky uživatelů
@@ -788,7 +958,7 @@ cs:
       english_link: anglickým originálem
       text: V případě rozporů mezi touto přeloženou verzí a {{english_original_link}} má přednost anglická stránka.
       title: O tomto překladu
-    legal_babble: "<h2>Autorská práva a licence</h2>\n<p>\n   OpenStreetMap jsou <i>svobodná data</i>, nabízená za podmínek licence <a href=\"http://creativecommons.org/licenses/by-sa/2.0/deed.cs\">Creative Commons Uveďte autora-Zachovejte licenci 2.0</a> (CC-BY-SA).\n</p>\n<p>\n  Smíte kopírovat, distribuovat, sdělovat veřejnosti a upravovat naše mapy i data, pokud jako zdroj uvedete OpenStreetMap a jeho přispěvatele. Pokud naše mapy nebo data budete upravovat nebo je použijete ve svém díle, musíte výsledek šířit pod stejnou licencí. Vaše práva a povinnosti jsou vysvětleny v plném <a href=\"http://creativecommons.org/licenses/by-sa/2.0/legalcode\">licenčním ujednání</a>.\n</p>\n\n<h3>Jak uvádět OpenStreetMap</h3>\n<p>\n  Pokud používáte obrázky z mapy OpenStreetMap, žádáme, abyste uváděli přinejmenším „© Přispěvatelé OpenStreetMap, CC-BY-SA“. Pokud používáte pouze mapová data, požadujeme „Mapová data © Přispěvatelé OpenStreetMap, CC-BY-SA“.\n</p>\n<p>\n  Pokud je to možné, OpenStreetMap by měl být hypertextový odkaz na <a href=\"http://www.openstreetmap.org/\">http://www.openstreetmap.org/</a> a CC-BY-SA na <a href=\"http://creativecommons.org/licenses/by-sa/2.0/deed.cs\">http://creativecommons.org/licenses/by-sa/2.0/deed.cs</a>. Pokud používáte médium, které odkazy neumožňuje (např. v tištěném díle), navrhujeme, abyste své čtenáře nasměrovali na www.openstreetmap.org (zřejmě doplněním „OpenStreetMap“ do této plné adresy) a www.creativecommons.org.\n</p>\n\n<h3>Další informace</h3>\n<p>\n  O používání našich dat se můžete dočíst více v našem <a href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">Právním FAQ</a>.\n</p>\n<p>\n  Přispěvatelům OSM by nikdy neměli přidávat data ze zdrojů chráněných autorským právem (např. Google Maps či tištěné mapy) bez výslovného svolení držitelů práv.\n</p>\n<p>\n  Přestože OpenStreetMap tvoří svobodná data, nemůžeme zdarma poskytovat třetím stranám mapové API.\n\n  Vizte naše <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">Pravidla použití API</a>, <a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">Pravidla použití dlaždic</a> a <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">Pravidla použití Nominatimu</a>.\n</p>\n\n<h3>Naši přispěvatelé</h3>\n<p>\n  Naše licence CC-BY-SA vyžaduje, abyste „způsobem odpovídajícím danému nosiči a v přiměřené formě uváděli autora“. Jednotliví přispěvatelé nevyžadují uvádění svého autorství nad ono „Přispěvatelé OpenStreetMap“, ale tam, kde byla do OpenStreetMap zahrnuta data národních zeměměřických úřadů či jiných velkých zdrojů, může být přiměřené uznat jejich autorství uvedením jejich označení nebo odkázáním na tuto stránku.\n</p>\n<!--\nInformace pro editory této stránky\n\nNásledující seznamy obsahují pouze ty organizace, které vyžadují uvedení svého autorství jako podmínku použití svých dat v OpenStreetMap. Nejedná se o všeobecný katalog importů a používá se jen v případě nutnosti uvedení autorství kvůli vyhovění licenci importovaných dat.\n\nVeškeré přídavky musí být nejprve prodiskutovány se správci systému OSM.\n-->\n<ul id=\"contributors\">\n    <li><strong>Austrálie</strong>: Obsahuje data předměstí založená na datech Australského statistického úřadu.</li>\n    <li><strong>Kanada</strong>: Obsahuje data z GeoBase&reg;, GeoGratis (&copy; Department of Natural Resources Canada), CanVec (&copy; Department of Natural Resources Canada) a StatCan (Geography Division, Statistics Canada).</li>\n    <li><strong>Nový Zéland</strong>: Obsahuje data pocházející z Land Information New Zealand. Crown Copyright reserved.</li>\n    <li><strong>Polsko</strong>: Obsahuje data z <a href=\"http://ump.waw.pl/\">map UMP-pcPL</a>. Copyright přispěvatelé UMP-pcPL.</li>\n    <li><strong>Spojené království</strong>: Obsahuje data Ordnance Survey &copy; Crown copyright a právo k databázi 2010.</li>\n</ul>\n\n<p>\n  Zahrnutí dat do OpenStreetMap neznamená, že původní poskytovatel dat podporuje OpenStreetMap, nabízí jakoukoli záruku nebo přijímá jakoukoli zodpovědnost.\n</p>"
+    legal_babble: "<h2>Autorská práva a licence</h2>\n<p>\n   OpenStreetMap jsou <i>svobodná data</i>, nabízená za podmínek licence <a href=\"http://creativecommons.org/licenses/by-sa/2.0/deed.cs\">Creative Commons Uveďte autora-Zachovejte licenci 2.0</a> (CC-BY-SA).\n</p>\n<p>\n  Smíte kopírovat, distribuovat, sdělovat veřejnosti a upravovat naše mapy i data, pokud jako zdroj uvedete OpenStreetMap a jeho přispěvatele. Pokud naše mapy nebo data budete upravovat nebo je použijete ve svém díle, musíte výsledek šířit pod stejnou licencí. Vaše práva a povinnosti jsou vysvětleny v plném <a href=\"http://creativecommons.org/licenses/by-sa/2.0/legalcode\">licenčním ujednání</a>.\n</p>\n\n<h3>Jak uvádět OpenStreetMap</h3>\n<p>\n  Pokud používáte obrázky z mapy OpenStreetMap, žádáme, abyste uváděli přinejmenším „© Přispěvatelé OpenStreetMap, CC-BY-SA“. Pokud používáte pouze mapová data, požadujeme „Mapová data © Přispěvatelé OpenStreetMap, CC-BY-SA“.\n</p>\n<p>\n  Pokud je to možné, OpenStreetMap by měl být hypertextový odkaz na <a href=\"http://www.openstreetmap.org/\">http://www.openstreetmap.org/</a> a CC-BY-SA na <a href=\"http://creativecommons.org/licenses/by-sa/2.0/deed.cs\">http://creativecommons.org/licenses/by-sa/2.0/deed.cs</a>. Pokud používáte médium, které odkazy neumožňuje (např. v tištěném díle), navrhujeme, abyste své čtenáře nasměrovali na www.openstreetmap.org (zřejmě rozšířením „OpenStreetMap“ do této plné adresy) a www.creativecommons.org.\n</p>\n\n<h3>Další informace</h3>\n<p>\n  O používání našich dat se můžete dočíst více v našem <a href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">Právním FAQ</a>.\n</p>\n<p>\n  Přispěvatelům OSM připomínáme, že by nikdy neměli přidávat data ze zdrojů chráněných autorským právem (např. Google Maps či tištěné mapy) bez výslovného svolení držitelů práv.\n</p>\n<p>\n  Přestože OpenStreetMap tvoří svobodná data, nemůžeme zdarma poskytovat třetím stranám mapové API.\n\n  Vizte naše <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">Pravidla použití API</a>, <a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">Pravidla použití dlaždic</a> a <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">Pravidla použití Nominatimu</a>.\n</p>\n\n<h3>Naši přispěvatelé</h3>\n<p>\n  Naše licence CC-BY-SA vyžaduje, abyste „způsobem odpovídajícím danému nosiči a v přiměřené formě uváděli autora“. Jednotliví přispěvatelé nevyžadují uvádění svého autorství nad ono „Přispěvatelé OpenStreetMap“, ale tam, kde byla do OpenStreetMap zahrnuta data národních zeměměřických úřadů či jiných velkých zdrojů, může být přiměřené uznat jejich autorství uvedením jejich označení nebo odkázáním na tuto stránku.\n</p>\n<!--\nInformace pro editory této stránky\n\nNásledující seznamy obsahují pouze ty organizace, které vyžadují uvedení svého autorství jako podmínku použití svých dat v OpenStreetMap. Nejedná se o všeobecný katalog importů a používá se jen v případě nutnosti uvedení autorství kvůli vyhovění licenci importovaných dat.\n\nVeškeré přídavky musí být nejprve prodiskutovány se správci systému OSM.\n-->\n<ul id=\"contributors\">\n    <li><strong>Austrálie</strong>: Obsahuje data předměstí založená na datech Australského statistického úřadu.</li>\n    <li><strong>Kanada</strong>: Obsahuje data z GeoBase&reg;, GeoGratis (&copy; Department of Natural Resources Canada), CanVec (&copy; Department of Natural Resources Canada) a StatCan (Geography Division, Statistics Canada).</li>\n    <li><strong>Francie</strong>: Obsahuje data pocházející z Direction Générale des Impôts.</li>\n    <li><strong>Nový Zéland</strong>: Obsahuje data pocházející z Land Information New Zealand. Crown Copyright reserved.</li>\n    <li><strong>Polsko</strong>: Obsahuje data z <a href=\"http://ump.waw.pl/\">map UMP-pcPL</a>. Copyright přispěvatelé UMP-pcPL.</li>\n    <li><strong>Spojené království</strong>: Obsahuje data Ordnance Survey &copy; Crown copyright a právo k databázi 2010.</li>\n</ul>\n\n<p>\n  Zahrnutí dat do OpenStreetMap neznamená, že původní poskytovatel dat podporuje OpenStreetMap, nabízí jakoukoli záruku nebo přijímá jakoukoli zodpovědnost.\n</p>"
     native: 
       mapping_link: začít mapovat
       native_link: českou verzi
@@ -962,6 +1132,9 @@ cs:
       flash: Údaje úspěšně zaregistrovány
     destroy: 
       flash: Registrace klientské aplikace zrušena
+    edit: 
+      submit: Upravit
+      title: Upravit aplikaci
     form: 
       allow_read_gpx: číst jejich soukromé GPS stopy.
       allow_read_prefs: číst jejich uživatelské nastavení.
@@ -992,15 +1165,21 @@ cs:
     not_found: 
       sorry: Je nám líto, ale nepodařilo se najít {{type}}.
     show: 
+      access_url: "URL přístupového tokenu:"
       allow_read_gpx: číst jejich soukromé GPS stopy.
       allow_read_prefs: číst jejich uživatelské nastavení.
       allow_write_api: upravovat mapu.
       allow_write_diary: vytvářet deníčkové záznamy, komentovat a navazovat přátelství.
       allow_write_gpx: nahrávat GPS stopy.
       allow_write_prefs: měnit jejich uživatelské nastavení.
+      authorize_url: "Autorizační URL:"
+      edit: Upravit podrobnosti
+      key: "Uživatelský klíč:"
       requests: "Uživatelé se žádají o následující oprávnění:"
+      secret: "Tajný klíč uživatele:"
       support_notice: Podporujeme HMAC-SHA1 (doporučeno) i prostý text v režimu SSL.
       title: Podrobnosti OAuth pro {{app_name}}
+      url: "URL tokenu požadavku:"
     update: 
       flash: Klientské informace úspěšně aktualizovány
   site: 
@@ -1010,6 +1189,7 @@ cs:
       no_iframe_support: Váš prohlížeč nepodporuje vložené HTML rámy (iframes), které jsou pro tuto funkci nezbytné.
       not_public: Nenastavili jste své editace jako veřejné.
       not_public_description: Dokud tak neučiníte, nemůžete editovat mapu. Své editace můžete zveřejnit na {{user_page}}.
+      potlatch2_not_configured: Potlatch 2 není nakonfigurován – podrobnější informace najdete na http://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2
       potlatch2_unsaved_changes: Máte neuložené změny. (V Potlatch 2 se ukládá kliknutím na tlačítko.)
       potlatch_unsaved_changes: Máte neuložené změny. (V Potlatchi odznačte aktuální cestu nebo bod, pokud editujete v živém režimu, nebo klikněte na tlačítko uložit, pokud tam je.)
       user_page_link: uživatelské stránce
@@ -1237,6 +1417,7 @@ cs:
         disabled: Deaktivováno, nemůže editovat data, všechny předchozí editace jsou anonymní.
         disabled link text: proč nemůžu editovat?
         enabled: Aktivní. Není anonym, smí editovat data.
+        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: co tohle je?
         heading: "Veřejné editace:"
       public editing note: 
@@ -1267,12 +1448,17 @@ cs:
       success: Poslali jsme na {{email}} novou potvrzovací zprávu, jakmile potvrdíte svůj účet, budete moci začít tvořit mapy.<br /><br />Pokud používáte nějaký protispamový systém, který vyžaduje potvrzení, nezapomeňte zařídit výjimku pro webmaster@openstreetmap.org, neboť na žádosti o potvrzení nejsme schopni reagovat.
     filter: 
       not_an_administrator: K provedení této akce musíte být správce.
+    go_public: 
+      flash success: Všechny vaše úpravy jsou nyní veřejné a máte oprávnění k úpravám.
     list: 
       confirm: Potvrdit vybrané uživatele
+      empty: Nebyli nalezeni žádní uživatelé vyhovující podmínkám
       heading: Uživatelé
+      hide: Skrýt vybrané uživatele
       showing: 
         one: Zobrazuje se stránka {{page}} ({{first_item}} z {{items}})
         other: Zobrazuje se stránka {{page}} ({{first_item}}–{{last_item}} z {{items}})
+      summary: "{{name}} vytvořeno {{date}} z {{ip_address}}"
       summary_no_ip: "{{name}} vytvořeno {{date}}"
       title: Uživatelé
     login: 
@@ -1294,6 +1480,7 @@ cs:
       remember: "Zapamatuj si mě:"
       title: Přihlásit se
       to make changes: Pokud chcete upravovat OpenStreetMap, musíte mít uživatelský účet.
+      webmaster: webmaster
     logout: 
       heading: Odhlášení z OpenStreetMap
       logout_button: Odhlásit se
@@ -1326,6 +1513,7 @@ cs:
       not displayed publicly: Nezobrazuje se veřejně (vizte <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="Pravidla ochrany osobních údajů na wiki, včetně části o e-mailových adresách">pravidla ochrany osobních údajů</a>)
       password: "Heslo:"
       terms accepted: Děkujeme za odsouhlasení nových podmínek pro přispěvatele!
+      terms declined: Je nám líto, že jste se rozhodli nepřijmout nové Podmínky pro přispěvatele. Podrobnější informace najdete na <a href="{{url}}">této wikistránce</a>.
       title: Vytvořit účet
     no_such_user: 
       body: Je mi líto, ale uživatel {{user}} neexistuje. Zkontrolujte překlepy nebo jste možná klikli na chybný odkaz.
@@ -1366,6 +1554,7 @@ cs:
       legale_select: "Označte zemi, ve které sídlíte:"
       read and accept: Přečtěte si prosím níže zobrazenou dohodu a klikněte na tlačítko souhlasu, čímž potvrdíte, že přijímáte podmínky této dohody pro stávající i budoucí příspěvky.
       title: Podmínky pro přispěvatele
+      you need to accept or decline: Pro pokračování si prosím přečtětě a přijměte nebo odmítněte nové Podmínky pro přispěvatele.
     view: 
       activate_user: aktivovat tohoto uživatele
       add as friend: přidat jako přítele
@@ -1418,16 +1607,109 @@ cs:
       user location: Pozice uživatele
       your friends: Vaši přátelé
   user_block: 
+    blocks_by: 
+      empty: "{{name}} ještě nikoho nezablokoval."
+      heading: Seznam bloků od {{name}}
+      title: Bloky od {{name}}
     blocks_on: 
       empty: "{{name}} dosud nebyl(a) zablokován(a)."
       heading: Seznam zablokování uživatele {{name}}
       title: Zablokování uživatele {{name}}
+    create: 
+      flash: Uživatel {{name}} zablokován.
+      try_contacting: Zkuste prosím kontaktovat uživatele před tím, než bude blokován, a dát mu přiměřenou dobu na odpověď.
+      try_waiting: Zkuste prosím dát uživateli před zablokováním přiměřenou dobu na odpověď.
+    edit: 
+      back: Zobrazit všechny bloky
+      heading: Úprava bloku na {{name}}
+      needs_view: Potřebuje se uživatel příhlásit před tím, než bude tento blok vymazán?
+      period: Jak dlouho (od nynějška) bude uživatel blokován z užívání API.
+      reason: Důvod, proč je {{name}} blokován. Budtě prosím klidný a rozumný a popište co nejlépe situaci. Mějte na paměti, že ne všichni uživatelé rozumí slangu komunity, zkuste ho tedy v tomto připadě nepoužívat.
+      show: Zobrazit tento blok
+      submit: Aktualizovat blok
+      title: Upravit blok na uživatele {{name}}
+    filter: 
+      block_expired: Tento blok již vypršel, a proto ho nelze upravovat.
+      block_period: Doba bloku musí být jedna z těch, které obsahuje rozevírací seznam.
+      not_a_moderator: K provedení této akce musíte být správce.
+    helper: 
+      time_future: Končí v {{time}}.
+      time_past: Ukončeno před {{time}}.
+      until_login: Aktivní dokud se uživatel nepřihlásí.
+    index: 
+      empty: Ještě nebyl vytvořen žádny blok.
+      heading: Seznam bloků uživatele
+      title: Bloky uživatele
+    model: 
+      non_moderator_revoke: Pro zrušení bloku musíte být moderátorem.
+      non_moderator_update: K vytvoření nebo aktualizaci bloku musíte být moderátorem.
+    new: 
+      back: Zobrazit všechny bloky
+      heading: Vytvoření bloku na uživatele {{name}}
+      needs_view: Aby se blok smazal, uživatel se musí nejprve přihlásit.
+      period: Jak dlouho (odteď) bude přístup uživatel k API zablokován.
+      reason: Důvod, proč je uživatel {{name}} blokován. Buďte prosím maximálně klidní a věcní, poskytněte co nejvíce podrobností o situaci a mějte na paměti, že zpráva bude veřejně viditelná. Nezapomeňte také, že ne všichni uživatelé rozumějí komunitními žargonu, proto zkuste používat terminologii srozumitelnou běžným lidem.
+      submit: Vytvořit blok
+      title: Vytvoření bloku na uživatele {{name}}
+      tried_contacting: Kontaktoval jsem uživatele a požádal ho, aby přestal.
+      tried_waiting: Dejte uživateli přiměřené množství času, aby mohl na tuto komunikaci reagovat.
+    not_found: 
+      back: Zpět na seznam
+      sorry: Uživatelský blok s ID {{id}} bohužel nelze najít.
+    partial: 
+      confirm: Jste si jistý?
+      creator_name: Autor
+      display_name: Zablokovaný uživatel
+      edit: Upravit
+      not_revoked: (nezrušeno)
+      reason: Důvod pro blok
+      revoke: Zrušit !
+      revoker_name: Zrušno
+      show: Zobrazit
+      status: Stav
+    period: 
+      one: 1 hodina
+      other: "{{count}} hodiny"
+    revoke: 
+      confirm: Opravdu chcete zrušit tento blok?
+      flash: Tento blok byl zrušen.
+      heading: Zrušení bloku pro {{block_on}} od {{block_by}}
+      past: Teto blok již skončil před {{time}} a již nemůže být zrušen.
+      revoke: Zrušit !
+      time_future: Tento blok skončí v {{time}}.
+      title: Zrušení bloku pro {{block_on}}
+    show: 
+      back: Zobrazit všechny bloky
+      confirm: Jste si jistý?
+      edit: Upravit
+      heading: "{{block_on}} zablokován uživatelem {{block_by}}"
+      needs_view: Aby se blok smazal, uživatel se musí nejprve přihlásit.
+      reason: "Důvod bloku:"
+      revoke: Zrušit !
+      revoker: "Zrušil:"
+      show: Zobrazit
+      status: Stav
+      time_future: Končí v {{time}}.
+      time_past: Ukončeno před {{time}}
+      title: "{{block_on}} zablokován uživatelem {{block_by}}"
+    update: 
+      only_creator_can_edit: Jen správce, který tento blok vytvořil, ho může upravovat.
+      success: Blok aktualizován.
   user_role: 
     filter: 
       already_has_role: Uživatel již roli {{role}} má.
       doesnt_have_role: Uživatel nemá roli {{role}}.
       not_a_role: Řetězec „{{role}}“ neoznačuje platnou roli.
+      not_an_administrator: Spravovat role mohou pouze administrátoři. Vy administrátor nejste.
     grant: 
+      are_you_sure: Opravdu chtete přidělit roli `{{role}}' uživateli `{{name}}'?
       confirm: Potvrdit
+      fail: Nelze přidělit roli `{{role}}' uživateli `{{name}}'. Zkontrolujte prosím, zda jsou uživatel i role platnými údaji.
+      heading: Potvrdit přidělení role
+      title: Potvrdit přidělení role
     revoke: 
+      are_you_sure: Opravdu chcete odebrat roli `{{role}}' uživateli `{{name}}'?
       confirm: Potvrdit
+      fail: Nelze odebrat roli `{{role}}' uživateli `{{name}}'. Zkontrolujte prosím, zda jsou uživatel i role platnými údaji.
+      heading: Potvrdit odebrání role
+      title: Potvrdit odebrání role

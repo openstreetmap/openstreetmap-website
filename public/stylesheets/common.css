@@ -591,12 +591,23 @@ hr {
 
 /* Rules for the changeset list shown by the history tab etc */
 
-#changeset_list, #keyvalue {
-  width: 100%;
+#changeset_list_container {
+  position: relative;
+}
+
+#changeset_list {
+  width: 50%;
   font-size: small;
   text-align: left;
   border-collapse: collapse;
   border-width: 0px;
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+#changeset_list td {
+  vertical-align: top;
+  padding: 3px;
 }
 
 #changeset_list .date {
@@ -611,8 +622,20 @@ hr {
   white-space: nowrap;
 }
 
-#changeset_list.th {
-  font-weight: bold;
+#changeset_list .selected {
+  background-color: rgb(255, 255, 160);
+  background-color: rgba(255, 255, 85, 0.5);
+}
+
+#changeset_list_map {
+  float: right;
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  right: 0px;
+  width: 49%;
+  min-height: 400px;
+  border: solid 1px black;
 }
 
 /* Rules for the data browser */
@@ -622,6 +645,10 @@ hr {
   width: 250px;
   text-align: center;
   margin-left: 10px;
+}
+
+table.browse_details th {
+  white-space: nowrap;
 }
 
 #browse_map {
