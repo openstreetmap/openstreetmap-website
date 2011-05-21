@@ -1,0 +1,15 @@
+<%= t 'notifier.note_plain.greeting' %>
+
+<% if @owner %>
+<%= t 'notifier.note_plain.your_note', :commenter => @commenter, :place => @place %>
+<% else %>
+<%= t 'notifier.note_plain.commented_note', :commenter => @commenter, :place => @place %>
+<% end %>
+
+==
+<%= @comment %>
+==
+
+<%= t 'notifier.note_plain.details', :URL => @noteurl %>
+
+

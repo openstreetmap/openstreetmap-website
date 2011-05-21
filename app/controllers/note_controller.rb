@@ -1,4 +1,4 @@
-class MapBugsController < ApplicationController
+class NoteController < ApplicationController
 
   layout 'site', :only => [:mine]
 
@@ -36,17 +36,17 @@ class MapBugsController < ApplicationController
     limit = getLimit
     conditions = closedCondition
 	
-    check_boundaries(@min_lon, @min_lat, @max_lon, @max_lat, MAX_BUG_REQUEST_AREA)
+    check_boundaries(@min_lon, @min_lat, @max_lon, @max_lat, MAX_NOTE_REQUEST_AREA)
 
-    @bugs = MapBug.find_by_area(@min_lat, @min_lon, @max_lat, @max_lon, :include => :comments, :order => "updated_at DESC", :limit => limit, :conditions => conditions)
+    @notes = Note.find_by_area(@min_lat, @min_lon, @max_lat, @max_lon, :include => :comments, :order => "updated_at DESC", :limit => limit, :conditions => conditions)
 
     respond_to do |format|
-      format.html {render :template => 'map_bugs/list.rjs', :content_type => "text/javascript"}
-      format.rss {render :template => 'map_bugs/list.rss'}
+      format.html {render :template => 'note/list.rjs', :content_type => "text/javascript"}
+      format.rss {render :template => 'note/list.rss'}
       format.js
-      format.xml {render :template => 'map_bugs/list.xml'}
-      format.json { render :json => @bugs.to_json(:methods => [:lat, :lon], :only => [:id, :status, :created_at], :include => { :comments => { :only => [:author_name, :created_at, :body]}}) }	  
-      format.gpx {render :template => 'map_bugs/list.gpx'}
+      format.xml {render :template => 'note/list.xml'}
+      format.json { render :json => @notes.to_json(:methods => [:lat, :lon], :only => [:id, :status, :created_at], :include => { :comments => { :only => [:author_name, :created_at, :body]}}) }	  
+      format.gpx {render :template => 'note/list.gpx'}
     end
   end
 
@@ -62,9 +62,9 @@ class MapBugsController < ApplicationController
     name = "NoName"
     name = params['name'] if params['name']
 
-    #Include in a transaction to ensure that there is always a map_bug_comment for every map_bug
-    MapBug.transaction do
-      @bug = MapBug.create_bug(lat, lon)
+    #Include in a transaction to ensure that there is always a note_comment for every note
+    Note.transaction do
+      @note = Note.create_bug(lat, lon)
 
       #TODO: move this into a helper function
       begin
@@ -72,17 +72,17 @@ class MapBugsController < ApplicationController
         response = REXML::Document.new(Net::HTTP.get(URI.parse(url))) 
 		
         if result = response.get_text("reversegeocode/result") 
-          @bug.nearby_place = result.to_s 
+          @note.nearby_place = result.to_s 
         else 
-          @bug.nearby_place = "unknown"
+          @note.nearby_place = "unknown"
         end
       rescue Exception => err
-        @bug.nearby_place = "unknown"
+        @note.nearby_place = "unknown"
       end
 
-      @bug.save
+      @note.save
 
-      add_comment(@bug, comment, name, "opened")
+      add_comment(@note, comment, name, "opened")
     end
  
     render_ok
@@ -97,12 +97,12 @@ class MapBugsController < ApplicationController
 	
     id = params['id'].to_i
 
-    bug = MapBug.find_by_id(id)
-    raise OSM::APINotFoundError unless bug
-    raise OSM::APIAlreadyDeletedError unless bug.visible
+    note = Note.find(id)
+    raise OSM::APINotFoundError unless note
+    raise OSM::APIAlreadyDeletedError unless note.visible
 
-    MapBug.transaction do
-      bug_comment = add_comment(bug, params['text'], name, "commented")
+    Note.transaction do
+      add_comment(note, params['text'], name, "commented")
     end
 
     render_ok
@@ -115,13 +115,13 @@ class MapBugsController < ApplicationController
     name = "NoName"
     name = params['name'] if params['name']
 
-    bug = MapBug.find_by_id(id)
-    raise OSM::APINotFoundError unless bug
-    raise OSM::APIAlreadyDeletedError unless bug.visible
+    note = Note.find_by_id(id)
+    raise OSM::APINotFoundError unless note
+    raise OSM::APIAlreadyDeletedError unless note.visible
 
-    MapBug.transaction do
-      bug.close_bug
-      add_comment(bug, :nil, name, "closed")
+    Note.transaction do
+      note.close
+      add_comment(note, :nil, name, "closed")
     end
 
     render_ok
@@ -138,37 +138,37 @@ class MapBugsController < ApplicationController
       bbox = bbox.split(',')
       @min_lon, @min_lat, @max_lon, @max_lat = sanitise_boundaries(bbox)
 
-      check_boundaries(@min_lon, @min_lat, @max_lon, @max_lat, MAX_BUG_REQUEST_AREA)
+      check_boundaries(@min_lon, @min_lat, @max_lon, @max_lat, MAX_NOTE_REQUEST_AREA)
 
       conditions = cond_merge conditions, [OSM.sql_for_area(@min_lat, @min_lon, @max_lat, @max_lon)]
     end
 
-    @comments = MapBugComment.find(:all, :limit => limit, :order => "created_at DESC", :joins => :map_bug, :include => :map_bug, :conditions => conditions)
-    render :template => 'map_bugs/rss.rss'
+    @comments = NoteComment.find(:all, :limit => limit, :order => "created_at DESC", :joins => :note, :include => :note, :conditions => conditions)
+    render :template => 'note/rss.rss'
   end
 
   def read
-    @bug = MapBug.find(params['id'])
-    raise OSM::APINotFoundError unless @bug
-    raise OSM::APIAlreadyDeletedError unless @bug.visible
+    @note = Note.find(params['id'])
+    raise OSM::APINotFoundError unless @note
+    raise OSM::APIAlreadyDeletedError unless @note.visible
     
     respond_to do |format|
       format.rss
       format.xml
-      format.json { render :json => @bug.to_json(:methods => [:lat, :lon], :only => [:id, :status, :created_at], :include => { :comments => { :only => [:author_name, :created_at, :body]}}) }	  
+      format.json { render :json => @note.to_json(:methods => [:lat, :lon], :only => [:id, :status, :created_at], :include => { :comments => { :only => [:author_name, :created_at, :body]}}) }	  
       format.gpx
     end
   end
 
   def delete
-    bug = MapBug.find(params['id'])
-    raise OSM::APINotFoundError unless @bug
-    raise OSM::APIAlreadyDeletedError unless @bug.visible
+    note = note.find(params['id'])
+    raise OSM::APINotFoundError unless note
+    raise OSM::APIAlreadyDeletedError unless note.visible
 
-    MapBug.transaction do
-      bug.status = "hidden"
-      bug.save
-      add_comment(bug,:nil,name,"hidden")
+    Note.transaction do
+      note.status = "hidden"
+      note.save
+      add_comment(note, :nil, name, "hidden")
     end
 
     render :text => "ok\n", :content_type => "text/html" 
@@ -178,20 +178,18 @@ class MapBugsController < ApplicationController
     raise OSM::APIBadUserInput.new("No query string was given") unless params['q']
     limit = getLimit
     conditions = closedCondition
-    conditions = cond_merge conditions, ['map_bug_comment.body ~ ?', params['q']]
+    conditions = cond_merge conditions, ['note_comments.body ~ ?', params['q']]
 	
     #TODO: There should be a better way to do this.   CloseConditions are ignored at the moment
 
-    bugs2 = MapBug.find(:all, :limit => limit, :order => "updated_at DESC", :joins => :comments, :include => :comments,
-                        :conditions => conditions)
-    @bugs = bugs2.uniq
+    @notes = Note.find(:all, :limit => limit, :order => "updated_at DESC", :joins => :comments, :include => :comments, :conditions => conditions).uniq
     respond_to do |format|
-      format.html {render :template => 'map_bugs/list.rjs', :content_type => "text/javascript"}
-      format.rss {render :template => 'map_bugs/list.rss'}
+      format.html {render :template => 'note/list.rjs', :content_type => "text/javascript"}
+      format.rss {render :template => 'note/list.rss'}
       format.js
-      format.xml {render :template => 'map_bugs/list.xml'}
-      format.json { render :json => @bugs.to_json(:methods => [:lat, :lon], :only => [:id, :status, :created_at], :include => { :comments => { :only => [:author_name, :created_at, :body]}}) }
-      format.gpx {render :template => 'map_bugs/list.gpx'}
+      format.xml {render :template => 'note/list.xml'}
+      format.json { render :json => @notes.to_json(:methods => [:lat, :lon], :only => [:id, :status, :created_at], :include => { :comments => { :only => [:author_name, :created_at, :body]}}) }
+      format.gpx {render :template => 'note/list.gpx'}
     end
   end
 
@@ -201,7 +199,7 @@ class MapBugsController < ApplicationController
  
       if @user2  
         if @user2.data_public? or @user2 == @user 
-          conditions = ['map_bug_comment.author_id = ?', @user2.id] 
+          conditions = ['note_comments.author_id = ?', @user2.id] 
         else 
           conditions = ['false'] 
         end 
@@ -217,20 +215,20 @@ class MapBugsController < ApplicationController
       user_link = render_to_string :partial => "user", :object => @user2 
     end 
     
-    @title =  t 'bugs.user.title_user', :user => @user2.display_name 
-    @heading =  t 'bugs.user.heading_user', :user => @user2.display_name 
-    @description = t 'bugs.user.description_user', :user => user_link
+    @title =  t 'note.mine.title', :user => @user2.display_name 
+    @heading =  t 'note.mine.heading', :user => @user2.display_name 
+    @description = t 'note.mine.description', :user => user_link
     
     @page = (params[:page] || 1).to_i 
     @page_size = 10
 
-    @bugs = MapBug.find(:all, 
-                        :include => [:comments, {:comments => :author}],
-                        :joins => :comments,
-                        :order => "updated_at DESC",
-                        :conditions => conditions,
-                        :offset => (@page - 1) * @page_size, 
-                        :limit => @page_size).uniq
+    @notes = Note.find(:all, 
+                       :include => [:comments, {:comments => :author}],
+                       :joins => :comments,
+                       :order => "updated_at DESC",
+                       :conditions => conditions,
+                       :offset => (@page - 1) * @page_size, 
+                       :limit => @page_size).uniq
   end
 
 private 
@@ -260,8 +258,8 @@ private
     if output_js == :true
       render :text => "osbResponse();", :content_type => "text/javascript" 
     else
-      render :text => "ok " + @bug.id.to_s + "\n", :content_type => "text/html" if @bug
-      render :text => "ok\n", :content_type => "text/html" unless @bug
+      render :text => "ok " + @note.id.to_s + "\n", :content_type => "text/html" if @note
+      render :text => "ok\n", :content_type => "text/html" unless @note
     end
   end
 
@@ -286,24 +284,24 @@ private
     return conditions
   end
 
-  def add_comment(bug, comment, name,event) 
-    bug_comment = bug.comments.create(:visible => true, :event => event)
-    bug_comment.body = comment unless comment == :nil
+  def add_comment(note, text, name, event) 
+    comment = note.comments.create(:visible => true, :event => event)
+    comment.body = text unless text == :nil
     if @user  
-      bug_comment.author_id = @user.id
-      bug_comment.author_name = @user.display_name
+      comment.author_id = @user.id
+      comment.author_name = @user.display_name
     else  
-      bug_comment.author_ip = request.remote_ip
-      bug_comment.author_name = name + " (a)"
+      comment.author_ip = request.remote_ip
+      comment.author_name = name + " (a)"
     end
-    bug_comment.save 
-    bug.save
+    comment.save 
+    note.save
 
     sent_to = Set.new
-    bug.comments.each do | cmt |
+    note.comments.each do | cmt |
       if cmt.author
         unless sent_to.include?(cmt.author)
-          Notifier.deliver_bug_comment_notification(bug_comment, cmt.author) unless cmt.author == @user
+          Notifier.deliver_note_comment_notification(note_comment, cmt.author) unless cmt.author == @user
           sent_to.add(cmt.author)
         end
       end

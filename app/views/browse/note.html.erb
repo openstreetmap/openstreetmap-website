@@ -1,0 +1,83 @@
+<table width="100%">
+  <tr>
+    <td width="100%">
+      <h2>
+        <% if @note.status == "closed" %>
+          <%= image_tag("closed_note_marker.png", :alt => 'closed') %>
+          <%= t 'browse.note.closed_title', :note_name => @note.id %>
+        <% else %>
+          <%= image_tag("open_note_marker.png", :alt => 'open') %>
+          <%= t 'browse.note.open_title', :note_name => @note.id %>
+        <% end %>
+      </h2>
+    </td>
+    <td>
+      <%= render :partial => "navigation" %>
+    </td>
+  </tr>
+  <tr valign="top">
+    <td>
+      <table>
+        <tr>
+          <th><%= t 'browse.note.created_at' %></th>
+          <td><%= l @note.created_at %></td>
+        </tr>  
+       <tr>
+         <th><%= t 'browse.note.edited_at' %></th>
+         <td><%= l @note.updated_at %></td>
+       </tr>
+       <% if @note.status == "closed" %>
+         <tr>
+           <th><%= t 'browse.note.closed_at' %></th>
+           <td><%= l @note.closed_at %></td>
+         </tr>
+       <% end %>
+       <tr>
+         <th><%= t 'browse.note.opened_by' %></th>
+         <% if @note.author.nil? %>
+           <td> <%= @note.author_name %> </td>
+         <% else %>
+           <td><%= link_to h(@note.author_name), :controller => "user", :action => "view", :display_name => @note.author_name %></td>
+         <% end %>
+       </tr>
+       <tr>
+         <th><%= t 'browse.note.description' %></th>
+         <td><%= h(@note.comments.first.body) %></td>
+       </tr>
+       <tr>
+         <th><%= t 'browse.node_details.coordinates' %></th>
+         <td><div class="geo"><%= link_to ("<span class='latitude'>#{number_with_delimiter(@note.lat)}</span>, <span class='longitude'>#{number_with_delimiter(@note.lon)}</span>"), {:controller => 'site', :action => 'index', :lat => h(@note.lat), :lon => h(@note.lon), :zoom => "18"} %></div></td>
+       </tr>
+    </table>
+
+    <br />
+
+    <% if @note.comments.length > 1 %>
+      <table>
+        <tr>
+          <th width="20%"> <%= t 'browse.note.comment_by' %></th>
+          <th width="60%"> <%= t 'browse.note.comment' %></th>
+          <th width="20%"> <%= t 'browse.note.date' %></th> 
+        </tr>
+        <% @note.comments[1..-1].each do |comment| %>
+          <tr>
+            <td>
+              <% if comment.author.nil? %>
+                <%= comment.author_name %>
+              <% else %>
+                <%= link_to h(comment.author.display_name), :controller => "user", :action => "view", :display_name => comment.author.display_name %>					
+              <% end %>
+            </td>
+            <td> <%= h(comment.body) %> </td>
+            <td> <%= l comment.created_at %> </td>
+          </tr>
+        <% end %>
+      </table>
+    <% end %>
+	
+    <hr />
+    </td>
+
+    <%= render :partial => "map", :object => @note %>
+  </tr>
+</table>

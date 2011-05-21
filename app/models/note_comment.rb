@@ -1,7 +1,5 @@
-class MapBugComment < ActiveRecord::Base
-  set_table_name 'map_bug_comment'
-
-  belongs_to :map_bug, :foreign_key => :bug_id
+class NoteComment < ActiveRecord::Base
+  belongs_to :note, :foreign_key => :bug_id
   belongs_to :author, :class_name => "User", :foreign_key => :author_id
 
   validates_inclusion_of :event, :in => [ "opened", "closed", "reopened", "commented", "hidden" ]

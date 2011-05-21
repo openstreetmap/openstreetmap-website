@@ -1,8 +1,8 @@
-class MapBug < ActiveRecord::Base
+class Note < ActiveRecord::Base
   include GeoRecord
 
-  has_many :comments, :class_name => "MapBugComment",
-                      :foreign_key => :bug_id,
+  has_many :comments, :class_name => "NoteComment",
+                      :foreign_key => :note_id,
                       :order => :created_at,
                       :conditions => "visible = true AND body IS NOT NULL"
 
@@ -14,13 +14,13 @@ class MapBug < ActiveRecord::Base
   validates_inclusion_of :status, :in => ["open", "closed", "hidden"]
 
   def self.create_bug(lat, lon)
-    bug = MapBug.new(:lat => lat, :lon => lon, :status => "open")
-    raise OSM::APIBadUserInput.new("The node is outside this world") unless bug.in_world?
+    note = Note.new(:lat => lat, :lon => lon, :status => "open")
+    raise OSM::APIBadUserInput.new("The note is outside this world") unless note.in_world?
 
-    return bug
+    return note
   end
 
-  def close_bug
+  def close
     self.status = "closed"
     self.closed_at = Time.now.getutc
 

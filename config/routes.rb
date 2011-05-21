@@ -75,21 +75,21 @@ ActionController::Routing::Routes.draw do |map|
   map.connect "api/#{API_VERSION}/amf/write", :controller =>'amf', :action =>'amf_write'
   map.connect "api/#{API_VERSION}/swf/trackpoints", :controller =>'swf', :action =>'trackpoints'
 
-  # Map Bugs API  
-  map.connect "api/#{API_VERSION}/bugs", :controller => 'map_bugs', :action => 'list'
-  map.connect "api/#{API_VERSION}/bugs/search", :controller => 'map_bugs', :action => 'search'
-  map.connect "api/#{API_VERSION}/bugs/rss", :controller =>'map_bugs', :action => 'rss'
-  map.connect "api/#{API_VERSION}/bug/create", :controller => 'map_bugs', :action => 'create'
-  map.connect "api/#{API_VERSION}/bug/:id/comment", :controller => 'map_bugs', :action => 'update', :id => /\d+/
-  map.connect "api/#{API_VERSION}/bug/:id/close", :controller => 'map_bugs', :action => 'close', :id => /\d+/
-  map.connect "api/#{API_VERSION}/bug/:id", :controller => 'map_bugs', :action => 'read', :id => /\d+/, :conditions => { :method => :get }
-  map.connect "api/#{API_VERSION}/bug/:id", :controller => 'map_bugs', :action => 'delete', :id => /\d+/, :conditions => { :method => :delete }
-  map.connect "api/#{API_VERSION}/bugs/getBugs", :controller => 'map_bugs', :action => 'list'
-  map.connect "api/#{API_VERSION}/bugs/addPOIexec", :controller => 'map_bugs', :action => 'create'
-  map.connect "api/#{API_VERSION}/bugs/closePOIexec", :controller => 'map_bugs', :action => 'close'
-  map.connect "api/#{API_VERSION}/bugs/editPOIexec", :controller => 'map_bugs', :action => 'update'
-  map.connect "api/#{API_VERSION}/bugs/getGPX", :controller => 'map_bugs', :action => 'list', :format => :gpx
-  map.connect "api/#{API_VERSION}/bugs/getRSSfeed", :controller => 'map_bugs', :action => 'rss'
+  # Map notes API
+  map.connect "api/#{API_VERSION}/notes", :controller => 'note', :action => 'list'
+  map.connect "api/#{API_VERSION}/notes/search", :controller => 'note', :action => 'search'
+  map.connect "api/#{API_VERSION}/notes/rss", :controller =>'notes', :action => 'rss'
+  map.connect "api/#{API_VERSION}/note/create", :controller => 'note', :action => 'create'
+  map.connect "api/#{API_VERSION}/note/:id/comment", :controller => 'note', :action => 'update', :id => /\d+/
+  map.connect "api/#{API_VERSION}/note/:id/close", :controller => 'note', :action => 'close', :id => /\d+/
+  map.connect "api/#{API_VERSION}/note/:id", :controller => 'note', :action => 'read', :id => /\d+/, :conditions => { :method => :get }
+  map.connect "api/#{API_VERSION}/note/:id", :controller => 'note', :action => 'delete', :id => /\d+/, :conditions => { :method => :delete }
+  map.connect "api/#{API_VERSION}/notes/getBugs", :controller => 'note', :action => 'list'
+  map.connect "api/#{API_VERSION}/notes/addPOIexec", :controller => 'note', :action => 'create'
+  map.connect "api/#{API_VERSION}/notes/closePOIexec", :controller => 'note', :action => 'close'
+  map.connect "api/#{API_VERSION}/notes/editPOIexec", :controller => 'note', :action => 'update'
+  map.connect "api/#{API_VERSION}/notes/getGPX", :controller => 'note', :action => 'list', :format => :gpx
+  map.connect "api/#{API_VERSION}/notes/getRSSfeed", :controller => 'note', :action => 'rss'
 
   # Data browsing
   map.connect '/browse/start', :controller => 'browse', :action => 'start'
@@ -104,8 +104,8 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/user/:display_name/edits', :controller => 'changeset', :action => 'list'
   map.connect '/browse/changesets/feed', :controller => 'changeset', :action => 'list', :format => :atom
   map.connect '/browse/changesets', :controller => 'changeset', :action => 'list'
-  map.connect '/browse/bug/:id', :controller => 'browse', :action => 'bug', :id => /\d+/
-  map.connect '/user/:display_name/bugs', :controller => 'map_bugs', :action => 'mine'
+  map.connect '/browse/note/:id', :controller => 'browse', :action => 'note', :id => /\d+/
+  map.connect '/user/:display_name/notes', :controller => 'note', :action => 'mine'
   map.connect '/browse', :controller => 'changeset', :action => 'list'
 
   # web site

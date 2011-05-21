@@ -248,7 +248,7 @@ OpenLayers.Layer.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Layer.Markers,
 		if(!bounds) return false;
 		bounds.transform(this.map.getProjectionObject(), this.apiProjection);
 
-		this.apiRequest("bugs"
+		this.apiRequest("notes"
 			+ "?bbox="+this.round(bounds.left, 5)
             + ","+this.round(bounds.bottom, 5)
 		    + ","+this.round(bounds.right, 5)			
@@ -467,7 +467,7 @@ OpenLayers.Layer.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Layer.Markers,
 	 * @param String description
 	*/
 	createBug: function(lonlat, description) {
-		this.apiRequest("bug/create"
+		this.apiRequest("note/create"
 			+ "?lat="+encodeURIComponent(lonlat.lat)
 			+ "&lon="+encodeURIComponent(lonlat.lon)
 			+ "&text="+encodeURIComponent(description)
@@ -482,7 +482,7 @@ OpenLayers.Layer.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Layer.Markers,
 	 * @param String comment
 	*/
 	submitComment: function(id, comment) {
-		this.apiRequest("bug/"+encodeURIComponent(id)+"/comment"
+		this.apiRequest("note/"+encodeURIComponent(id)+"/comment"
 			+ "?text="+encodeURIComponent(comment)
 			+ "&name="+encodeURIComponent(this.getUserName())
 			+ "&format=js"
@@ -494,7 +494,7 @@ OpenLayers.Layer.OpenStreetBugs = new OpenLayers.Class(OpenLayers.Layer.Markers,
 	 * @param Number id
 	*/
 	closeBug: function(id) {
-		this.apiRequest("bug/"+encodeURIComponent(id)+"/close"
+		this.apiRequest("note/"+encodeURIComponent(id)+"/close"
 			+ "?format=js"
 		);
 	},

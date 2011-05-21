@@ -80,11 +80,11 @@ class BrowseController < ApplicationController
     render :action => "not_found", :status => :not_found
   end
 
-  def bug
-    @type = "bug"
-    @bug = MapBug.find(params[:id])
-    @next = MapBug.find(:first, :order => "id ASC", :conditions => [ "status != 'hidden' AND id > :id", { :id => @bug.id }] )
-    @prev = MapBug.find(:first, :order => "id DESC", :conditions => [ "status != 'hidden' AND id < :id", { :id => @bug.id }] )
+  def note
+    @type = "note"
+    @note = Note.find(params[:id])
+    @next = Note.find(:first, :order => "id ASC", :conditions => [ "status != 'hidden' AND id > :id", { :id => @note.id }] )
+    @prev = Note.find(:first, :order => "id DESC", :conditions => [ "status != 'hidden' AND id < :id", { :id => @note.id }] )
   rescue ActiveRecord::RecordNotFound
     render :action => "not_found", :status => :not_found
   end

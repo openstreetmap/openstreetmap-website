@@ -1,0 +1,6 @@
+@notes.each do |note|
+  page.call "putAJAXMarker",
+            note.id, note.lon, note.lat,
+            note.flatten_comment("<hr />"),
+            note.status == "open" ? 0 : 1
+end
