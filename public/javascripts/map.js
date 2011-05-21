@@ -251,6 +251,8 @@ function setMapLayers(layerConfig) {
 
          if (c == "B") {
             map.setBaseLayer(layers[i]);
+         } else {
+            map.layers[i].setVisibility(false);
          }
       }
    } else {
@@ -260,7 +262,7 @@ function setMapLayers(layerConfig) {
                if (map.layers[i].isBaseLayer) {
                   map.setBaseLayer(map.layers[i]);
                } else {
-                   map.layers[i].setVisibility(true);
+                  map.layers[i].setVisibility(true);
                }
             } else {
                map.layers[i].setVisibility(false);
