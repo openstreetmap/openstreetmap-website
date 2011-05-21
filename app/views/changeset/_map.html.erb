@@ -1,0 +1,87 @@
+<%= javascript_include_tag '/openlayers/OpenLayers.js' %>
+<%= javascript_include_tag '/openlayers/OpenStreetMap.js' %>
+<%= javascript_include_tag 'map.js' %>
+
+<div id="changeset_list_map">
+</div>
+
+<script type="text/javascript">
+  OpenLayers.Lang.setCode("<%= I18n.locale.to_s %>");
+
+  var highlight;
+
+  function highlightChangeset(id) {
+    var feature = vectors.getFeatureByFid(id);
+    var bounds = feature.geometry.getBounds();
+
+    if (bounds.containsBounds(map.getExtent())) {
+      bounds = map.getExtent().scale(1.1);
+    }
+
+    if (highlight) vectors.removeFeatures(highlight);
+
+    highlight = new OpenLayers.Feature.Vector(bounds.toGeometry(), {}, {
+      strokeWidth: 2,
+      strokeColor: "#ee9900",
+      fillColor: "#ffff55",
+      fillOpacity: 0.5
+    });
+
+    vectors.addFeatures(highlight);
+
+    $("tr-changeset-" + id).addClassName("selected");
+  }
+
+  function unHighlightChangeset(id) {
+    vectors.removeFeatures(highlight);
+
+    $("tr-changeset-" + id).removeClassName("selected");
+  }
+
+  function init() {
+    var map = createMap("changeset_list_map", {
+      controls: [
+        new OpenLayers.Control.Navigation(),
+        new OpenLayers.Control.PanZoom(),
+        new OpenLayers.Control.PanZoomBar()
+      ]
+    });
+
+    var bounds = new OpenLayers.Bounds();
+
+    <% @edits.each do |edit| %>
+    var minlon = <%= edit.min_lon / GeoRecord::SCALE.to_f %>;
+    var minlat = <%= edit.min_lat / GeoRecord::SCALE.to_f %>;
+    var maxlon = <%= edit.max_lon / GeoRecord::SCALE.to_f %>;
+    var maxlat = <%= edit.max_lat / GeoRecord::SCALE.to_f %>;
+    var bbox = new OpenLayers.Bounds(minlon, minlat, maxlon, maxlat);
+
+    bounds.extend(bbox);
+    box = addBoxToMap(bbox, "<%= edit.id %>", true);
+    <% end %>
+
+    vectors.events.on({
+      "featureselected": function(feature) {
+        highlightChangeset(feature.feature.fid);
+      },
+      "featureunselected": function(feature) {
+        unHighlightChangeset(feature.feature.fid);
+      }
+    });
+
+    var selectControl = new OpenLayers.Control.SelectFeature(vectors, {
+      multiple: false,
+      hover: true
+    });
+    map.addControl(selectControl);
+    selectControl.activate();
+
+    <% if ! @bbox.nil? %>
+      setMapExtent(new OpenLayers.Bounds(<%= @bbox %>));
+    <% else %>
+      setMapExtent(bounds);
+    <% end %>
+  }
+
+  Event.observe(window, "load", init);
+</script>

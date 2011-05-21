@@ -149,7 +149,7 @@ function addObjectToMap(url, zoom, callback) {
    layer.loadGML();
 }
 
-function addBoxToMap(boxbounds) {
+function addBoxToMap(boxbounds, id, outline) {
    if (!vectors) {
      // Be aware that IE requires Vector layers be initialised on page load, and not under deferred script conditions
      vectors = new OpenLayers.Layer.Vector("Boxes", {
@@ -157,12 +157,20 @@ function addBoxToMap(boxbounds) {
      });
      map.addLayer(vectors);
    }
-   var geometry = boxbounds.toGeometry().transform(epsg4326, map.getProjectionObject());
+   var geometry;
+   if (outline) {
+     vertices = boxbounds.toGeometry().getVertices();
+     vertices.push(new OpenLayers.Geometry.Point(vertices[0].x, vertices[0].y));
+     geometry = new OpenLayers.Geometry.LineString(vertices).transform(epsg4326, map.getProjectionObject());
+   } else {
+     geometry = boxbounds.toGeometry().transform(epsg4326, map.getProjectionObject());
+   }
    var box = new OpenLayers.Feature.Vector(geometry, {}, {
       strokeWidth: 2,
       strokeColor: '#ee9900',
       fillOpacity: 0
    });
+   box.fid = id;
 
    vectors.addFeatures(box);
 
@@ -243,6 +251,8 @@ function setMapLayers(layerConfig) {
 
          if (c == "B") {
             map.setBaseLayer(layers[i]);
+         } else {
+            map.layers[i].setVisibility(false);
          }
       }
    } else {
@@ -252,7 +262,7 @@ function setMapLayers(layerConfig) {
                if (map.layers[i].isBaseLayer) {
                   map.setBaseLayer(map.layers[i]);
                } else {
-                   map.layers[i].setVisibility(true);
+                  map.layers[i].setVisibility(true);
                }
             } else {
                map.layers[i].setVisibility(false);

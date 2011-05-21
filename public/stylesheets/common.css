@@ -10,6 +10,10 @@ body {
   padding: 0px;
 }
 
+body.slim {
+  background-color: #f0f0f0;
+}
+
 /* Rules for links */
 
 a {
@@ -61,6 +65,12 @@ hr {
 #logo h2 {
   font-size: 10px;
   margin: 0px;
+}
+
+/* Rules for the site name */
+
+#small-title {
+  display: none;
 }
 
 /* Rules for the introductory text displayed in the left sidebar to new users */
@@ -167,8 +177,12 @@ hr {
 /* Rules for SOTM advert */
 
 #sotm {
-  width: 170px;
+  width: 180px;
+  min-width: 180px;
+  margin: 5px;
   padding: 0px;
+  border: 0px;
+  background: #fff;
 }
 
 /*
@@ -543,14 +557,57 @@ hr {
   text-align: left;
 }
 
+#slim_container {
+  width: 100%;
+}
+
+#slim_container_content {
+  max-width: 50em;
+  background-color: #FFFFFF;
+  margin: 10px auto;
+  padding: 3px;
+  border-radius: 25px;
+  -moz-border-radius: 25px;
+  border: 1px solid #e6e6e6;
+}
+
+#slim_content {
+  margin: 10px;
+  margin-top: 90px;
+  max-width: 50em;
+}
+
+#slim_header {
+  margin: 10px;
+  position: absolute;
+  top: 0px;
+}
+
+#slim_header img {
+  vertical-align: middle;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
 /* Rules for the changeset list shown by the history tab etc */
 
-#changeset_list, #keyvalue {
-  width: 100%;
+#changeset_list_container {
+  position: relative;
+}
+
+#changeset_list {
+  width: 50%;
   font-size: small;
   text-align: left;
   border-collapse: collapse;
   border-width: 0px;
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+#changeset_list td {
+  vertical-align: top;
+  padding: 3px;
 }
 
 #changeset_list .date {
@@ -565,8 +622,20 @@ hr {
   white-space: nowrap;
 }
 
-#changeset_list.th {
-  font-weight: bold;
+#changeset_list .selected {
+  background-color: rgb(255, 255, 160);
+  background-color: rgba(255, 255, 85, 0.5);
+}
+
+#changeset_list_map {
+  float: right;
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  right: 0px;
+  width: 49%;
+  min-height: 400px;
+  border: solid 1px black;
 }
 
 /* Rules for the data browser */
@@ -576,6 +645,10 @@ hr {
   width: 250px;
   text-align: center;
   margin-left: 10px;
+}
+
+table.browse_details th {
+  white-space: nowrap;
 }
 
 #browse_map {
@@ -628,10 +701,6 @@ hr {
 
 /* Rules for the login page */
 
-#login_wrapper {
-  float: left; /* ensures the child divs are the same size, and only as wide as they need to be */
-}
-
 #login_wrapper div {
   margin: 5px;
   padding: 15px;
@@ -644,7 +713,10 @@ hr {
 }
 
 #login_login {
-  background-color: #f0f0f0;
+  background-color: #f5f5ff;
+  border: 1px solid #f3f3ff;
+  border-radius: 15px;
+  -moz-border-radius: 15px;
 }
 
 #login_login h1 {
@@ -667,7 +739,11 @@ div#contributorTerms {
   padding: 4px;
   overflow: auto;
   width: 80%;
-  height: 60%;
+  height: 400px;
+}
+
+div#slim_content div#contributorTerms {
+  width: auto;
 }
 
 div#contributorTerms p#first {
@@ -691,6 +767,11 @@ div#contributorTerms img {
 
 form#termsForm {
   width: 80%;
+  margin-bottom: 3em;
+}
+
+div#slim_content form#termsForm {
+  width: auto;
 }
 
 form#termsForm div#buttons {

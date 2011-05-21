@@ -96,7 +96,7 @@
         <%= t 'user.view.if set location', :settings_link => (link_to t('user.view.settings_link_text'), :controller => 'user', :action => 'account', :display_name => @user.display_name) %>
       </p>
     <% else %>
-      <%= render :partial => 'map' %>
+      <%= render :partial => 'map', :locals => { :setting_location => false, :show_other_users => true } %>
     <% end %>
   </div>
 

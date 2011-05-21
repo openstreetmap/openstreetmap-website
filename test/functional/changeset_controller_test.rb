@@ -1462,6 +1462,14 @@ EOF
     get :query, :closed => 'true'
     assert_response :success, "can't get changesets by closed-ness"
     assert_changesets [3,5,6,7]
+
+    get :query, :closed => 'true', :user => users(:normal_user).id
+    assert_response :success, "can't get changesets by closed-ness and user"
+    assert_changesets [3,6]
+
+    get :query, :closed => 'true', :user => users(:public_user).id
+    assert_response :success, "can't get changesets by closed-ness and user"
+    assert_changesets [7]
   end
 
   ##
@@ -1642,7 +1650,7 @@ EOF
     assert_template "list"
     # Now check that all 20 (or however many were returned) changesets are in the html
     assert_select "h1", :text => "Changesets", :count => 1
-    assert_select "table[id='changeset_list'] tr", :count => changesets.size + 1
+    assert_select "table[id='changeset_list'] tr", :count => changesets.size
     changesets.each do |changeset|
       # FIXME this test needs rewriting - test for table contents
     end

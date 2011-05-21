@@ -1,6 +1,6 @@
 # Messages for Friulian (Furlan)
 # Exported from translatewiki.net
-# Export driver: syck
+# Export driver: syck-pecl
 # Author: Klenje
 fur: 
   activerecord: 
@@ -35,17 +35,24 @@ fur:
         display_name: Non di mostrâ
         email: Pueste eletroniche
         languages: Lenghis
+        pass_crypt: Password
     models: 
       changeset: Grup di cambiaments
+      changeset_tag: Etichete dal grup di cambiaments
       country: Paîs
       diary_comment: Coment dal diari
       diary_entry: Vôs dal diari
       friend: Amì
       language: Lenghe
       message: Messaç
+      node: Grop
+      node_tag: Etichete dal grop
       old_relation: Viere relazion
+      old_relation_member: Membri de relazion vieli
+      old_relation_tag: Etichete viele de relazion
       relation: Relazion
       relation_member: Membri de relazion
+      relation_tag: Etichete de relazion
       session: Session
       trace: Percors
       tracepoint: Pont dal percors
@@ -59,9 +66,12 @@ fur:
       feed: 
         title: Grup di cambiaments {{id}}
         title_comment: Grup di cambiaments {{id}} - {{comment}}
+      osmchangexml: XML in formât osmChange
       title: Grup di cambiaments
     changeset_details: 
       belongs_to: "Al è di:"
+      bounding_box: "Retangul di selezion:"
+      box: retangul
       closed_at: "Sierât ai:"
       created_at: "Creât ai:"
       has_nodes: 
@@ -117,6 +127,7 @@ fur:
       download_xml: Discjame XML
       view_details: cjale i detais
     not_found: 
+      sorry: Nus displâs, nol è stât pussibil cjatâ il {{type}} cun id {{id}}.
       type: 
         changeset: "Non dal file:"
         node: grop
@@ -151,7 +162,9 @@ fur:
       data_frame_title: Dâts
       data_layer_name: Dâts
       details: Detais
+      drag_a_box: Disegne un retangul su la mape par sielzi une aree
       edited_by_user_at_timestamp: Cambiât di [[user]] ai [[timestamp]]
+      hide_areas: Plate areis
       history_for_feature: Storic par [[feature]]
       load_data: Cjame i dâts
       loaded_an_area_with_num_features: "Tu âs cjamât une aree che e conten [[num_features]] carateristichis. In gjenerâl, cualchi sgarfadôr al podarès no rivâ a gjestî ben cheste cuantitât di dâts. I sgarfadôrs par solit a lavorin miôr se a mostrin mancul di 100 carataristichis ae volte: cualsisei altri numar al podarès ralentâ/no fâ plui rispuindi il sgarfadôr. Se tu sês sigûr di volê mostrâ chescj dâts, frache sul boton ca sot."
@@ -165,11 +178,15 @@ fur:
         type: 
           node: Grop
       private_user: utent privât
+      show_areas: Mostre areis
       show_history: Mostre storic
       wait: Daûr a spietâ...
       zoom_or_select: Ingrandìs o sielç la aree de mape che tu vuelis viodi
     tag_details: 
       tags: "Etichetis:"
+      wiki_link: 
+        key: La pagjine de vichi cu la descrizion dal tag {{key}}.
+        tag: La pagjine de vichi cu la descrizion pal tag {{key}}={{value}}
       wikipedia_link: L'articul su {{page}} te Wikipedia
     timeout: 
       type: 
@@ -197,7 +214,7 @@ fur:
       still_editing: (ancjemò in cambiament)
       view_changeset_details: Viôt detais dal grup di cambiaments
     changeset_paging_nav: 
-      next: Successîf &raquo;
+      next: Sucessîf &raquo;
       previous: "&laquo; Precedent"
       showing_page: Daûr a mostrâ la pagjine {{page}}
     changesets: 
@@ -271,6 +288,12 @@ fur:
       view: Viôt
     new: 
       title: Gnove vôs dal diari
+    no_such_entry: 
+      body: No esist une vôs dal diari o un coment cun id {{id}}. Controle par plasê la grafie o che tu vedis seguît il leam just.
+    no_such_user: 
+      body: Nol esist un utent di non {{user}}. Controle par plasê la grafie o che tu vedis seguît il leam just.
+      heading: L'utent {{user}} nol esist
+      title: Utent no cjatât
     view: 
       leave_a_comment: Lasse un coment
       login: Jentre
@@ -286,6 +309,9 @@ fur:
     potlatch2: 
       description: Potlatch 2 (editôr tal sgarfadôr)
       name: Potlatch 2
+    remote: 
+      description: Remote Control (JOSM o Merkaartor)
+      name: Remote Control
   export: 
     start: 
       add_marker: Zonte un segnalut ae mape
@@ -300,6 +326,7 @@ fur:
       longitude: "Lon:"
       manually_select: Sielç a man une aree divierse
       mapnik_image: Figure Mapnik
+      max: max
       options: Opzions
       osm_xml_data: Dâts XML di OpenStreetMap
       osmarender_image: Figure Osmarender
@@ -307,11 +334,14 @@ fur:
       paste_html: Tache l'HTML par inserîlu tal to sît web
       scale: Scjale
       too_large: 
+        body: Cheste aree e je masse grande par espuartâle come dâts XML di OpenStreetMap. Par plasê incrès il zoom o sielç une aree plui piçule.
         heading: La aree e je masse largje
+      zoom: Ingrandiment
     start_rjs: 
       add_marker: Zonte un segnalut ae mape
       change_marker: Cambie la posizion dal segnalut
       click_add_marker: Frache su la mape par zontâ un segn
+      drag_a_box: Disegne un retangul su la mape par sielzi une aree
       export: Espuarte
       manually_select: Sielç a man une aree divierse
       view_larger_map: Viôt une mape plui grande
@@ -359,9 +389,11 @@ fur:
       prefix: 
         amenity: 
           airport: Aeropuart
+          arts_centre: Centri pes arts
           atm: Bancomat
           auditorium: Auditori
           bank: Bancje
+          bar: Bar
           bench: Bancjute
           bicycle_rental: Nauli di bicicletis
           bureau_de_change: Ufizi di cambi
@@ -374,19 +406,24 @@ fur:
           community_centre: Centri civic
           dentist: Dentist
           doctors: Dotôrs
+          dormitory: Dormitori
           drinking_water: Aghe potabil
           driving_school: Scuele guide
           embassy: Ambassade
           emergency_phone: Telefon di emergjence
+          fire_hydrant: Idrant
           fire_station: Stazion dai pompîrs
           fountain: Fontane
           fuel: Stazion di riforniment
+          health_centre: Centri pe salût
           hospital: Ospedâl
+          ice_cream: Gjelato
           kindergarten: Scuelute
           library: Biblioteche
           market: Marcjât
           office: Ufizi
           park: Parc
+          parking: Parcament
           pharmacy: Farmacie
           place_of_worship: Lûc di cult
           police: Polizie
@@ -396,13 +433,17 @@ fur:
           public_building: Edifici public
           public_market: Marcjât public
           restaurant: Ristorant
+          retirement_home: Cjase di polse
           sauna: Saune
           school: Scuele
           shop: Buteghe
+          supermarket: Supermarcjât
+          taxi: Taxi
           telephone: Telefon public
           theatre: Teatri
           townhall: Municipi
           university: Universitât
+          vending_machine: Distributôr automatic
           veterinary: Veterinari
           wifi: Acès a internet WiFi
           youth_centre: Centri zovanîl
@@ -412,26 +453,38 @@ fur:
           chapel: Capele
           church: Glesie
           city_hall: Municipi
+          commercial: Edifici comerciâl
+          dormitory: Dormitori
           entrance: Jentrade dal edifici
+          garage: Garage
+          hospital: Edifici dal ospedâl
+          hotel: Hotel
           house: Cjase
           industrial: Edifici industriâl
           public: Edifici public
+          residential: Edifici residenziâl
+          school: Edifici scolastic
           shop: Buteghe
           stadium: Stadi
+          tower: Tor
           train_station: Stazion de ferade
           university: Edifici universitari
-          "yes": Edifici
         highway: 
           bus_stop: Fermade autobus
+          construction: Strade in costruzion
           emergency_access_point: Pont di acès di emergjence
           raceway: Circuit
+          road: Strade
           steps: Scjalis
+          unsurfaced: Strade no asfaltade
         historic: 
           archaeological_site: Sît archeologic
           battlefield: Cjamp di bataie
+          building: Edifici
           castle: Cjiscjel
           church: Glesie
           house: Cjase
+          icon: Icone
           monument: Monument
           museum: Museu
           tower: Tor
@@ -462,7 +515,9 @@ fur:
           channel: Canâl
           coastline: Litorâl
           crater: Cratêr
+          fjord: Fiort
           glacier: Glaçâr
+          hill: Culine
           island: Isule
           point: Pont
           river: Flum
@@ -501,14 +556,17 @@ fur:
           butcher: Becjarie
           car_repair: Riparazion di machinis
           carpet: Buteghe di tapêts
+          gallery: Galarie di art
           hairdresser: Piruchîr o barbîr
           insurance: Assicurazion
+          jewelry: Buteghe dal oresin
           laundry: Lavandarie
           market: Marcjât
           optician: Otic
           pet: Buteghe di animâi
           supermarket: Supermarcjât
           toys: Negozi di zugatui
+          travel_agency: Agjenzie di viaçs
         tourism: 
           hostel: Ostel
           information: Informazions
@@ -518,6 +576,7 @@ fur:
           zoo: Zoo
         waterway: 
           canal: Canâl
+          dam: Dighe
           ditch: Fuesse
           river: Flum
   javascripts: 
@@ -578,6 +637,7 @@ fur:
     osm_read_only: La base di dâts di OpenStreetMap e je par cumò dome in leture dilunc la esecuzion di lavôrs essenziâi di manutenzion de base di dâts.
     sign_up: regjistriti
     sign_up_tooltip: Cree un profîl par colaborâ
+    sotm2011: Ven ae Conference OpenStreetMap 2011, The State of the Map, dal 9 al 11 di Setembar a Denver!
     tag_line: Il WikiMapeMont libar
     user_diaries: Diaris dai utents
     user_diaries_tooltip: Viôt i diaris dai utents
@@ -620,6 +680,12 @@ fur:
       send_message_to: Mande un gnûf messaç a {{name}}
       subject: Sogjet
       title: Mande messaç
+    no_such_message: 
+      heading: Messaç no cjatât
+      title: Messaç no cjatât
+    no_such_user: 
+      heading: Utent no cjatât
+      title: Utent no cjatât
     outbox: 
       date: Date
       inbox: in jentrade
@@ -682,6 +748,11 @@ fur:
   oauth_clients: 
     form: 
       name: Non
+    index: 
+      application: Non de aplicazion
+    new: 
+      submit: Regjistre
+      title: Regjistre une gnove aplicazion
   site: 
     edit: 
       anon_edits_link_text: Discuvierç parcè che al è cussì.
@@ -775,6 +846,8 @@ fur:
       public_traces_from: Percors GPS publics di {{user}}
       tagged_with: " etichetât cun {{tags}}"
       your_traces: Percors GPS personâi
+    no_such_user: 
+      title: Utent no cjatât
     trace: 
       ago: "{{time_in_words_ago}} fa"
       by: di
@@ -797,9 +870,12 @@ fur:
       upload_button: Cjame
       upload_gpx: "Cjame file GPX:"
       visibility: Visibilitât
+      visibility_help: ce vuelial dî?
     trace_header: 
       see_all_traces: Cjale ducj i percors
       see_your_traces: Cjale ducj i miei percors
+      upload_trace: Cjame un percors
+      your_traces: Viôt dome i tiei percors
     trace_optionals: 
       tags: Etichetis
     trace_paging_nav: 
@@ -828,13 +904,21 @@ fur:
   user: 
     account: 
       contributor terms: 
+        agreed: Tu âs acetât i gnûfs tiermins di contribuzion.
+        agreed_with_pd: Tu âs ancje declarât di considerâ i tiei cambiaments intal Public Domini.
+        heading: "Tiermins par contribuî:"
         link text: ce isal chest?
+        not yet agreed: No tu âs ancjemò acetât i gnûfs tiermins di contribuzion.
+        review link text: Frache par plasê su chest leam par viodi e acetâ i gnûf tiermins par contribuî.
       current email address: "Direzion di pueste eletroniche atuâl:"
+      delete image: Gjave la figure di cumò
       email never displayed publicly: (mai mostrade in public)
       flash update success: Informazions dal utent inzornadis cun sucès.
       flash update success confirm needed: Informazions dal utent inzornadis cun sucès. Controle la tô pueste par confermâ la tô gnove direzion di pueste eletroniche.
       home location: "Lûc iniziâl:"
       image: "Figure:"
+      image size hint: (figuris cuadris di almancul 100x100 a van miôr)
+      keep image: Ten la figure di cumò
       latitude: "Latitudin:"
       longitude: "Longjitudin:"
       make edits public button: Rint publics ducj i miei cambiaments
@@ -842,24 +926,30 @@ fur:
       new email address: "Gnove direzion di pueste:"
       new image: Zonte une figure
       no home location: No tu âs configurât il lûc iniziâl.
+      preferred editor: "Editôr preferît:"
       preferred languages: "Lenghis preferidis:"
       profile description: "Descrizion dal profîl:"
       public editing: 
+        disabled: Disativâts e no si pues cambiâ i dâts, ducj i cambiaments precedents a son anonims.
         disabled link text: parcè no puedio cambiâ?
+        enabled: Ativâts. No anonims e si pues cambiâ i dâts.
         enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: ce isal chest?
+        heading: "Cambiaments publics:"
       replace image: Sostituìs la figure atuâl
       return to profile: Torne al profîl
       save changes button: Salve cambiaments
       title: Modifiche profîl
       update home location on click: Aio di inzornâ il lûc iniziâl cuant che o frachi parsore la mape?
     confirm: 
+      already active: Chest profîl al è za stât confermât.
       button: Conferme
       heading: Conferme di un profîl utent
       press confirm button: Frache il boton Conferme par ativâ il to profîl.
       success: Profîl confermât, graziis par jessiti regjistrât!
     confirm_email: 
       button: Conferme
+      heading: Conferme dal cambiament de direzion email
       press confirm button: Frache sul boton di conferme par confermâ la gnove direzion di pueste.
       success: Tu âs confermât la tô direzion di pueste, graziis par jessiti regjistrât
     confirm_resend: 
@@ -871,17 +961,24 @@ fur:
       showing: 
         one: Pagjine {{page}} ({{first_item}} su {{items}})
         other: Pagjine {{page}} ({{first_item}}-{{last_item}} su {{items}})
+      summary: "{{name}} creât di {{ip_address}} ai {{date}}"
+      summary_no_ip: "{{name}} creât ai {{date}}"
       title: Utents
     login: 
+      already have: Âstu za un profîl su OpenStreetMap? Par plasê doprile par jentrâ.
       auth failure: Nus displâs, ma no si à rivât a jentrâ cun i dâts inserîts.
+      create account minute: Cree un profîl. I vûl dome un minût.
       create_account: cree un profîl
       email or username: "Direzion di pueste eletroniche o non utent:"
       heading: Jentre
       login_button: Jentre
       lost password link: Password pierdude?
+      new to osm: Sêstu gnûf su OpenStreetMap?
       please login: Jentre o {{create_user_link}}.
+      register now: Regjistriti cumò
       remember: Visiti di me
       title: Jentre
+      to make changes: Par cambiâ alc tai dâts di OpenStreetMap, tu scugnis vê un profîl.
     logout: 
       heading: Va fûr di OpenStreetMap
       logout_button: Jes
@@ -889,12 +986,14 @@ fur:
     lost_password: 
       email address: "Direzion di pueste:"
       heading: Âstu pierdût la password?
+      help_text: Scrîf la direzion di pueste eletroniche che tu âs doprât par iscrivîti e ti mandarin un leam par tornâ a impuestâ la tô password.
       title: Password pierdude
     make_friend: 
       already_a_friend: Tu sês za amì di {{name}}.
       success: "{{name}} al è cumò to amì."
     new: 
       confirm email address: "Conferme direzion pueste:"
+      confirm password: "Conferme la password:"
       continue: Va indevant
       display name: "Non di mostrâ:"
       display name description: Il non utent che al vignarà mostrât a ducj. Tu podarâs gambiâlu plui tart tes preferencis.
@@ -903,6 +1002,7 @@ fur:
       flash create success message: Graciis par jessiti regjistrât. Spiete che ti rivedi par pueste il messaç di conferme che o vin mandât a {{email}} e po tu podarâs scomençâ a mapâ intun lamp :-)<br /><br />Se tu dopris un sisteme antispam che al mande richiestis di conferme, siguriti di meti te whitelist webmaster@openstreetmap.org, parcè che no podin rispuindi aes richiestis di conferme.
       heading: Cree un account utent
       license_agreement: Creant un profîl tu scugnis aprovâ i <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">tiermins par contribuî</a>.
+      password: "Password:"
       terms accepted: Graziis par vê acetât i gnûfs tiermins par contribuî!
       title: Cree profîl
     no_such_user: 
@@ -916,10 +1016,18 @@ fur:
     remove_friend: 
       not_a_friend: "{{name}} nol è un dai tiei amîs."
       success: "{{name}} al è stât gjavât dai tiei amîs."
+    reset_password: 
+      confirm password: "Conferme la password:"
+      flash changed: La tô password e je stade cambiade.
+      heading: Azere la password par {{user}}
+      password: "Password:"
+      reset: Azere la password
+      title: Azere la password
     set_home: 
       flash success: Lûc iniziâl salvât cun sucès
     terms: 
       agree: O aceti
+      consider_pd: In plui dal acuardi parsore, jo o consideri i miei contribûts come di Public Domini
       consider_pd_why: ce isal chest?
       decline: No aceti
       heading: Tiermins par contribuî
@@ -968,16 +1076,39 @@ fur:
       your friends: I tiei amîs
   user_block: 
     blocks_by: 
+      heading: Liste dai blocs di {{name}}
       title: Blocs fats di {{name}}
+    edit: 
+      back: Cjale ducj i blocs
+      show: Cjale chest bloc
+      submit: Inzorne bloc
+    index: 
+      title: Blocs dal utent
+    new: 
+      back: Cjale ducj i blocs
+      heading: Cree un bloc par {{name}}
+      submit: Cree bloc
     not_found: 
       back: Torne al somari
     partial: 
       confirm: Sêstu sigûr?
+      creator_name: Creadôr
+      display_name: Utent blocât
+      edit: Cambie
+      not_revoked: (no revocât)
       show: Mostre
       status: Stât
+    period: 
+      one: 1 ore
+      other: "{{count}} oris"
+    revoke: 
+      revoke: Revoche!
     show: 
+      back: Cjale ducj i blocs
       confirm: Sêstu sigûr?
       edit: Cambie
+      reason: "Reson dal bloc:"
+      revoke: Revoche!
       show: Mostre
       status: Stât
   user_role: 

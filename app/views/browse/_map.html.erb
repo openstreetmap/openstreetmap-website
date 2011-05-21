@@ -2,7 +2,7 @@
 <%= javascript_include_tag '/openlayers/OpenStreetMap.js' %>
 <%= javascript_include_tag 'map.js' %>
 <div id="browse_map">
-  <% if map.instance_of? Changeset or map.visible %>
+  <% if map.instance_of? Changeset or (map.instance_of? Node and map.version > 1) or map.visible %>
   <div id="small_map">
   </div>
   <span id="loading"><%= t 'browse.map.loading' %></span>
@@ -15,7 +15,7 @@
     <%= t 'browse.map.deleted' %>
   <% end %>
 </div>
-<% if map.instance_of? Changeset or map.visible %>
+<% if map.instance_of? Changeset or (map.instance_of? Node and map.version > 1) or map.visible %>
   <script type="text/javascript">
     OpenLayers.Lang.setCode("<%= I18n.locale.to_s %>");
 
@@ -41,10 +41,15 @@
       <% else %>
         var obj_type = "<%= map.class.name.downcase %>";
         var obj_id = <%= map.id %>;
+        var obj_version = <%= map.version %>;
+        var obj_visible = <%= map.visible %>;
         var url = "/api/<%= "#{API_VERSION}" %>/<%= map.class.name.downcase %>/<%= map.id %>";
 
         if (obj_type != "node") {
           url += "/full";
+        } else if (!obj_visible) {
+          var previous_version = obj_version - 1;
+          url += "/" + previous_version;
         }
 
         addObjectToMap(url, true, function(extent) {

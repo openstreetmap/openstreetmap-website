@@ -1,34 +1,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%= I18n.locale %>" lang="<%= I18n.locale %>" dir="<%= t'html.dir' %>">
-  <head>
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0"/>
-    <%= javascript_strings %>
-    <%= javascript_include_tag 'prototype' %>
-    <%= javascript_include_tag 'site' %>
-    <%= javascript_include_tag 'menu' %>
-    <!--[if lt IE 7]><%= javascript_include_tag 'pngfix' %><![endif]--> <!-- thanks, microsoft! -->
-    <%= stylesheet_link_tag 'common' %>
-    <!--[if IE]><%= stylesheet_link_tag 'large', :media => "screen" %><![endif]--> <!-- IE is totally broken with CSS media queries -->
-    <%= stylesheet_link_tag 'small', :media => "only screen and (max-width: 481px)" %>
-    <%= stylesheet_link_tag 'large', :media => "screen and (min-width: 482px)" %> 
-    <%= stylesheet_link_tag 'print', :media => "print" %>
-    <%= tag("link", { :rel => "search", :type => "application/opensearchdescription+xml", :title => "OpenStreetMap Search", :href => "/opensearch/osm.xml" }) %>
-    <%= tag("meta", { :name => "description", :content => "OpenStreetMap is the free wiki world map." }) %>
-    <%= style_rules %>
-    <%= yield :head %>
-    <title><%= t 'layouts.project_name.title' %><%= ' | '+ h(@title) if @title %></title>
-  </head>
+  <%= render :partial => "layouts/head" %>
   <body>
+    <div id="small-title">
+      <%= link_to(image_tag("osm_logo.png", :size => "16x16", :border => 0, :alt => t('layouts.logo.alt_text')), :controller => 'site', :action => 'index') %>
+      <h1><%= t 'layouts.project_name.h1' %></h1>
+    </div>
     <div id="content">
-      <% if flash[:error] %>
-        <div id="error"><%= flash[:error] %></div>
-      <% end %>
-      <% if flash[:warning] %>
-        <div id="warning"><%= flash[:warning] %></div>
-      <% end %>
-      <% if flash[:notice] %>
-        <div id="notice"><%= flash[:notice] %></div>
-      <% end %>
+      <%= render :partial => "layouts/flash", :locals => { :flash => flash } %>
 
       <%= yield %>
     </div>
@@ -62,14 +41,14 @@
         diaryclass = 'active' if params['controller'] == 'diary_entry'
         %>
         <li><%= link_to t('layouts.view'), {:controller => 'site', :action => 'index'}, {:id => 'viewanchor', :title => t('layouts.view_tooltip'), :class => viewclass} %></li>
-        <li><%= link_to t('layouts.edit'), {:controller => 'site', :action => 'edit'}, {:id => 'editanchor', :title => t('javascripts.site.edit_tooltip'), :class => editclass} %></li>
+        <li><%= link_to t('layouts.edit') + '&nbsp;&#x25be;', {:controller => 'site', :action => 'edit'}, {:id => 'editanchor', :title => t('javascripts.site.edit_tooltip'), :class => editclass} %></li>
         <li><%= link_to t('layouts.history'), {:controller => 'changeset', :action => 'list' }, {:id => 'historyanchor', :title => t('javascripts.site.history_tooltip'), :class => historyclass} %></li>
         <% if params['controller'] == 'site' and (params['action'] == 'index' or params['action'] == 'export') %>
         <li><%= link_to_remote t('layouts.export'), {:url => {:controller => 'export', :action => 'start'}}, {:id => 'exportanchor', :title => t('layouts.export_tooltip'), :class => exportclass, :href => url_for(:controller => 'site', :action => 'export')} %></li>
         <% else %>
         <li><%= link_to t('layouts.export'), {:controller => 'site', :action => 'export'}, {:id => 'exportanchor', :title => t('layouts.export_tooltip'), :class => exportclass} %></li>
         <% end %>
-        <li><%= link_to t('layouts.gps_traces'), {:controller => 'trace', :action => 'list', :display_name => nil}, {:id => 'traceanchor', :title => t('layouts.gps_traces_tooltip'), :class => traceclass} %></li>
+        <li><%= link_to t('layouts.gps_traces'), {:controller => 'trace', :action => 'list', :display_name => nil, :tag => nil, :page => nil}, {:id => 'traceanchor', :title => t('layouts.gps_traces_tooltip'), :class => traceclass} %></li>
         <li><%= link_to t('layouts.user_diaries'), {:controller => 'diary_entry', :action => 'list', :display_name => nil}, {:id => 'diaryanchor', :title => t('layouts.user_diaries_tooltip'), :class => diaryclass} %></li>
       </ul>
     </div>
@@ -95,6 +74,8 @@
           <h2 class="nowrap"><%= t('layouts.tag_line') %></h2>
         </center>
       </div>
+
+      <%= yield :optionals %>
 
       <% unless @user %>
       <div id="intro">
@@ -140,7 +121,9 @@
         </ul>
       </div>
 
-      <%= yield :optionals %>
+      <div id="sotm">
+        <%= link_to image_tag("sotm.png", :alt => t('layouts.sotm2011'), :title => t('layouts.sotm2011'), :border => "0"), "http://stateofthemap.org/register-now/" %>
+      </div>
 
       <center>
         <div class="donate">

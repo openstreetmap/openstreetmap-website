@@ -1,6 +1,7 @@
 # Messages for Catalan (Català)
 # Exported from translatewiki.net
-# Export driver: syck
+# Export driver: syck-pecl
+# Author: El libre
 # Author: Jmontane
 # Author: Martorell
 # Author: PerroVerd
@@ -126,6 +127,7 @@ ca:
         prev_way_tooltip: Via anterior
       user: 
         name_changeset_tooltip: Visualitza les edicions feter per {{user}}
+        next_changeset_tooltip: Propera edició per {{user}}
         prev_changeset_tooltip: Edició anterior per l'usuari {{user}}
     node: 
       download: "{{download_xml_link}} o {{view_history_link}}"
@@ -183,9 +185,11 @@ ca:
       details: Detalls
       drag_a_box: Marqueu un rectangle al mapa per a seleccionar una àrea
       edited_by_user_at_timestamp: Editat per  [[user]] el [[timestamp]]
+      hide_areas: Oculta les zones
       history_for_feature: Historial per a [[feature]]
       load_data: Carrega dades
       loading: S'està carregant...
+      manually_select: Selecciona manualment una àrea diferent
       object_list: 
         api: Obté aquesta àrea mitjançant l'API
         back: Mostra llista d'objectes
@@ -203,12 +207,16 @@ ca:
           node: Node
           way: Camí
       private_user: usuari privat
+      show_areas: Mostra les zones
       show_history: Mostra l'historial
       wait: Espereu...
       zoom_or_select: Ampliar o seleccionar una àrea del mapa per veure
     tag_details: 
       tags: "Etiquetes:"
-      wikipedia_link: L'article {{pàgina}} a la Viquipèdia
+      wiki_link: 
+        key: La pàgina de descripció del wiki per l'etiqueta {{key}}
+        tag: La pàgina de descripció del wiki per l'etiqueta {{key}}={{value}}
+      wikipedia_link: L'article {{page}} a la Viquipèdia
     timeout: 
       sorry: Hem trigat massa en obtenir les dades pel tipus {{type}} amb identificador {{id}}.
       type: 
@@ -240,14 +248,24 @@ ca:
       anonymous: Anònim
       big_area: (gran)
       no_comment: (cap)
+      no_edits: (Sense edicions)
+      show_area_box: Mostra capsa de l'àrea
+      still_editing: (Encara en edició)
+      view_changeset_details: Veure detalls dels canvis
+    changeset_paging_nav: 
+      next: Següent &raquo;
+      previous: "&laquo; Anterior"
+      showing_page: Mostrant pàgina {{page}}
     changesets: 
       area: Àrea
       comment: Comentari
       id: ID
+      saved_at: Desat a
       user: Usuari
     list: 
       description: Canvis recents
       description_bbox: Conjunt de canvis dins de {{bbox}}
+      description_user: Conjunt de canvis fets per {{user}}
       description_user_bbox: Conjunt de canvis de {{user}} dins de {{bbox}}
       heading: Conjunt de canvis
       heading_bbox: Conjunt de canvis
@@ -259,34 +277,85 @@ ca:
       title_user_bbox: Conjunt de canvis de {{user}} dins de {{bbox}}
   diary_entry: 
     diary_comment: 
+      comment_from: Comentari de {{link_user}} el {{comment_created_at}}
       confirm: Confirmar
+      hide_link: Amaga aquest comentari
     diary_entry: 
+      comment_count: 
+        one: 1 comentari
+        other: "{{count}} comentaris"
+      comment_link: Comenta aquesta entrada
       confirm: Confirmar
+      edit_link: Edita aquesta entrada
+      hide_link: Amaga aquesta entrada
+      posted_by: Publicat per {{link_user}} el {{created}} en {{language_link}}
+      reply_link: Respon a aquesta entrada
     edit: 
       body: "Cos del missatge:"
       language: Idioma
       latitude: "Latitud:"
       location: "Ubicació:"
       longitude: "Longitud:"
+      marker_text: Localització de l'Entrada del Diari
       save_button: Guardar
       subject: "Assumpte:"
+      title: Edita entrada del diari
+      use_map_link: usa el mapa
+    feed: 
+      all: 
+        description: Entrades recents del diari dels usuaris/es d'OpenStreetMap
+        title: Entrades del diari d'OpenStreetMap
+      language: 
+        description: Entrades recents del diari dels usuaris/es d'OpenStreetMap en {{language_name}}
+        title: Entrades del diari d'OpenStreetMap en {{language_name}}
+      user: 
+        description: Entrades recents del diari d'OpenStreetMap per  {{user}}
+        title: Entrades del diari d'OpenStreetMap per  {{user}}
+    list: 
+      in_language_title: Entrades de diari en {{language}}
+      new: Nova Entrada de Diari
+      new_title: Redacta una nova entrada al teu diari d'usuari/a
+      newer_entries: Entrades més Recents
+      no_entries: No hi ha entrades al diari
+      older_entries: Entrades més Antigues
+      recent_entries: "Entrades Recents al diari:"
+      title: Diaris d'usuari/a
+      user_title: Diari de {{user}}
     location: 
       edit: Edita
       location: "Ubicació:"
       view: Veure
+    new: 
+      title: Nova Entrada de Diari
+    no_such_entry: 
+      heading: No hi ha cap entrada amb la id {{id}}
+      title: No hi ha entrada al diari com
+    no_such_user: 
+      heading: L'usuari/a {{user}} no existeix
+      title: Aquest usuari/a no existeix
     view: 
+      leave_a_comment: Deixa un comentari
       login: Accés
+      login_to_leave_a_comment: "{{login_link}} per deixar un comentari"
       save_button: Desa
+      title: Diari de {{user}} | {{title}}
+      user_title: Diari de {{user}}
   editor: 
     default: Predeterminat (actualment {{name}})
     potlatch: 
+      description: Potlatch 1 (editor al navegador)
       name: Potlatch 1
     potlatch2: 
       description: Potlatch 2 (editor al navegador)
       name: Potlatch 2
+    remote: 
+      description: Comandament a distància (JOSM o Merkaartor)
+      name: Control Remot
   export: 
     start: 
+      add_marker: Afegeix un marcador en el mapa
       area_to_export: Àrea a exportar
+      embeddable_html: HTML que es pot incloure
       export_button: Exporta
       export_details: Les dades l'OpenStreetMap són publicades sota el termes de la <a href="http://creativecommons.org/licenses/by-sa/2.0/">llicència Creative Commons Attribution-ShareAlike 2.0</a>.
       format: Format
@@ -295,18 +364,26 @@ ca:
       latitude: "Lat:"
       licence: Llicència
       longitude: "Lon:"
+      manually_select: Selecciona manualment una àrea diferent
       mapnik_image: Imatge de Mapnik
       max: màx
       options: Opcions
       osm_xml_data: OpenStreetMap XML Data
       osmarender_image: Imatge de Osmarender
       output: Sortida
+      paste_html: Enganxa HTML per incloure'l al lloc web
       scale: Escala
       too_large: 
         heading: L'àrea és massa gran
       zoom: Zoom
     start_rjs: 
+      add_marker: Afegeix un marcador al mapa
+      change_marker: Canvia la posició del marcador
+      click_add_marker: Fes clic al mapa per afegir un marcador
+      drag_a_box: Marca un rectangle al mapa per a seleccionar una àrea
       export: Exporta
+      manually_select: Selecciona manualment una àrea diferent
+      view_larger_map: Veure un mapa més gran
   geocoder: 
     description: 
       title: 
@@ -333,6 +410,7 @@ ca:
     search: 
       title: 
         ca_postcode: Resultats de <a href="http://geocoder.ca/">Geocoder.CA</a>
+        geonames: Resultats des de <a href="http://www.geonames.org/">GeoNames</a>
         latlon: Resultats <a href="http://openstreetmap.org/">propis</a>
         osm_namefinder: Resultats de <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>
         osm_nominatim: Resultats de <a href="http://nominatim.openstreetmap.org/">OpenStreetMap nominatim</a>
@@ -345,41 +423,59 @@ ca:
       prefix: 
         amenity: 
           airport: Aeroport
+          arts_centre: Centre d'Art
           atm: Caixer automàtic
           auditorium: Auditori
           bank: Banc
           bar: Bar
           bench: Banc
+          bicycle_parking: Aparcament de Bicicletes
           bicycle_rental: Lloguer de bicicletes
           brothel: Prostíbul
           bureau_de_change: Oficina de canvi
           bus_station: Estació d'autobusos
           cafe: Cafè
           car_rental: Lloguer de cotxes
+          car_sharing: Per Compartir Cotxe
+          car_wash: Rentat de Cotxes
           casino: Casino
           cinema: Cinema
           clinic: Clínica
           club: Club
+          college: Institut
+          community_centre: Centre Comunitari / Centre Cívic
           courthouse: Jutjat
           crematorium: Crematori
           dentist: Dentista
           doctors: Metges
+          dormitory: Residència Universitària
           drinking_water: Aigua potable
           driving_school: Autoescola
           embassy: Ambaixada
           emergency_phone: Telèfon d'emergència
+          fast_food: Menjar ràpid
+          ferry_terminal: Terminal de Ferry
+          fire_hydrant: Boca d'incendi
           fire_station: Parc de bombers
           fountain: Font
           fuel: Gasolinera
           grave_yard: Cementiri
+          gym: Gimnàs
+          hall: Ajuntament
           health_centre: Centre de Salut
           hospital: Hospital
           hotel: Hotel
+          hunting_stand: Club de caça
           ice_cream: Gelat
           kindergarten: Jardí d'infància
           library: Biblioteca
           market: Mercat
+          marketplace: Mercat
+          mountain_rescue: Rescat de Muntanya
           nightclub: Club nocturn
+          nursery: Infantil
+          nursing_home: Llar d'Avis
+          office: Oficina
           park: Parc
           parking: Pàrquing
           pharmacy: Farmàcia
@@ -391,13 +487,18 @@ ca:
           prison: Presó
           pub: Pub
           public_building: Edifici públic
+          public_market: Mercat Públic
+          reception_area: Àrea de recepció
           recycling: Punt de reciclatge
           restaurant: Restaurant
+          retirement_home: Casa de Retirament
           sauna: Sauna
           school: Escola
           shelter: Refugi
           shop: Botiga
+          shopping: Botigues
           social_club: Club social
+          studio: Estudi
           supermarket: Supermercat
           taxi: Taxi
           telephone: Telèfon públic
@@ -405,35 +506,56 @@ ca:
           toilets: Banys
           townhall: Ajuntament
           university: Universitat
+          vending_machine: Màquina expenedora
+          veterinary: Veterinari
+          village_hall: Casa de la Vila
+          waste_basket: Cistella de Residus
           wifi: Accés a internet WiFi
           youth_centre: Centre juvenil
+        boundary: 
+          administrative: Administració de Fronteres
         building: 
           apartments: Bloc d'apartaments
+          block: Edifici en construcció
+          bunker: Búnker
           chapel: Capella
           church: Església
           city_hall: Ajuntament
           commercial: Edifici comercial
+          dormitory: Residència Universitària
+          entrance: Entrada de l'Edifici
           faculty: Edifici facultatiu
+          farm: Instal·lacions agrícoles
           flats: Pisos
           garage: Garatge
+          hall: Ajuntament
           hospital: Edifici hospitalari
           hotel: Hotel
           house: Casa
           industrial: Edifici industrial
+          office: Edifici d'oficines
           public: Edifici públic
+          residential: Edifici residencial
+          retail: Edifici de Venda al detall
           school: Edifici escolar
           shop: Botiga
           stadium: Estadi
           store: Magatzem
+          terrace: Terrassa
           tower: Torre
           train_station: Estació de tren
           university: Edifici universitari
-          "yes": Edifici
         highway: 
+          bridleway: Ferradura
+          bus_guideway: Carril Bus
           bus_stop: Parada d'autobús
+          byway: Ruta segregada
+          construction: Autopista en construcció
           cycleway: Ruta per a bicicletes
+          distance_marker: Marcador de Distància
           emergency_access_point: Accés d'emergència
           footway: Sendera
+          ford: Fiord
           gate: Porta
           path: Camí
           primary_link: Carretera principal

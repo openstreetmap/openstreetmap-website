@@ -1,8 +1,10 @@
 # Messages for Greek (Ελληνικά)
 # Exported from translatewiki.net
-# Export driver: syck
+# Export driver: syck-pecl
 # Author: Consta
 # Author: Crazymadlover
+# Author: Evropi
+# Author: Kiriakos
 # Author: Logictheo
 # Author: Omnipaedista
 el: 
@@ -36,7 +38,8 @@ el:
       user: 
         active: Ενεργό
         description: Περιγραφή
-        display_name: Όνομα
+        display_name: Εμφανιζόμενο όνομα
+        email: Ηλεκτρονικό ταχυδρομείο
         languages: Γλώσσες
     models: 
       acl: Πρόσβαση στη λίστα ελέγχου
@@ -72,6 +75,9 @@ el:
       way: Κατεύθυνση
       way_node: Κατεύθυνση σημείου
       way_tag: Ετικέτα κατεύθυνσης
+  application: 
+    require_cookies: 
+      cookies_needed: Φαίνεται ότι έχετε τα cookies απενεργοποιημένα - παρακαλούμε ενεργοποιήστε τα cookies στο πρόγραμμα περιήγησής σας πριν συνεχίσετε.
   browse: 
     changeset: 
       changeset: "Αλλαγή συλλογης: {{id}}"
@@ -95,9 +101,16 @@ el:
       version: "Εκδοχή:"
     map: 
       deleted: Διαγραφή
+      larger: 
+        area: Δείτε την περιοχή σε μεγαλύτερο χάρτη.
+        node: Προβολή του κόμβου σε μεγαλύτερο χάρτη
+        relation: Δείτε την σχέση σε μεγαλύτερο χάρτη
+        way: Δείτε την διαδρομή σε μεγαλύτερο χάρτη.
       loading: Φόρτωση...
     node: 
       download: "{{download_xml_link}} ή {{view_history_link}}"
+      download_xml: Λήψη XML
+      edit: Τροποποίηστε
       node: Σημείο
       node_title: "Σήμεο: {{node_name}}"
       view_history: Δες ιστορία
@@ -106,11 +119,13 @@ el:
       part_of: "Κομμάτι του:"
     node_history: 
       download: "{{download_xml_link}} ή {{view_details_link}}"
+      download_xml: Λήψη XML
       node_history: Ιστορία σημείου
       view_details: Δες λεπτομέρειες
     not_found: 
       sorry: Συγγνώμη, η {{type}} με την ταυτότητα {{id}}, δε μπορεί να βρεθεί.
       type: 
+        changeset: Αλλαγή πλατώ
         node: Σημείο
         relation: σχέση
         way: Κατεύθηνση
@@ -119,6 +134,7 @@ el:
       showing_page: Δείχνει σελίδα
     relation: 
       download: "{{download_xml_link}} ή {{view_history_link}}"
+      download_xml: Λήψη XML
       relation: Σχέση
       relation_title: "Σχέση: {{relation_name}}"
       view_history: δες ιστορία
@@ -126,9 +142,15 @@ el:
       members: "Μέλη:"
       part_of: "Κομμάτι του:"
     relation_history: 
+      download_xml: Λήψη XML
       relation_history: Ιστορια σχέσης
       relation_history_title: "Ιστορια σχέσης: {{relation_name}}"
       view_details: προβολή λεπτομερειών
+    relation_member: 
+      type: 
+        node: Κόμβος
+        relation: Σχέση
+        way: Διαδρομή
     start: 
       manually_select: Διάλεξε διαφορετική περιοχή δια χειρός
       view_data: Δες στοιχεία για αυτο το χάρτη
@@ -166,8 +188,16 @@ el:
       zoom_or_select: Εστίασε ή διάλεξε περιοχή απο το χάρτη
     tag_details: 
       tags: "Ετικέτες:"
+    timeout: 
+      type: 
+        changeset: Αλλαγή πλατώ
+        node: Κόμβος
+        relation: Σχέση
+        way: Διαδρομή
     way: 
       download: "{{download_xml_link}} ή {{view_history_link}}"
+      download_xml: Λήψη XML
+      edit: Τροποποίηστε
       view_history: δες ιστορία
       way: Κατεύθυνση
       way_title: "Κατεύθυνση: {{way_name}}"
@@ -179,6 +209,7 @@ el:
       part_of: Κομμάτι του
     way_history: 
       download: "{{download_xml_link}} ή {{view_details_link}}"
+      download_xml: Λήψη XML
       view_details: δες λεπτομέρειες
       way_history: Ιστορία κατεύθηνσης
       way_history_title: "Ιστορία κατεύθηνσης: {{way_name}}"
@@ -197,12 +228,16 @@ el:
   diary_entry: 
     diary_comment: 
       comment_from: Σχόλιο απο τον {{link_user}} στις {{comment_created_at}}
+      confirm: Επιβεβαίωση
+      hide_link: Απόκρυψη αυτού του σχολίου
     diary_entry: 
       comment_count: 
         one: 1 σχόλιο
         other: "{{count}} σχόλια"
       comment_link: Σχόλια για τη καταχώρηση
+      confirm: Επιβεβαίωση
       edit_link: Αλλαγή καταχώρησης
+      hide_link: Απόκρυψη αυτής της καταχώρησης
       posted_by: Γράφτηκε απο το χρήστη {{link_user}} στις {{created}} στα {{language_link}}
       reply_link: Απάντηση στη καταχώρηση
     edit: 
@@ -214,10 +249,11 @@ el:
       marker_text: Τοποθεσία καταχώρησης blog
       save_button: Αποθήκευση
       subject: "Θέμα:"
-      title: Άλλαγη καταχώρηση blog
+      title: Επεξεργασία καταχώρησης ημερολογίου
       use_map_link: χρησημοποίησε το χάρτη
     list: 
-      new: Καινούργια καταχώρηση blog
+      in_language_title: Καταχωρήσεις Ημερολογίων στα {{language}}
+      new: Νέα καταχώρηση ημερολογίου
       new_title: Σύνθεση καινούργια καταχώρηση στο blog χρήστη
       newer_entries: Πρόσφατες Καταχωρήσεις
       no_entries: Καμία καταχώρηση blog
@@ -225,21 +261,34 @@ el:
       recent_entries: "Πρόσοφατες καταχωρήσεις blog:"
       title: Blog χρηστών
       user_title: Blog {{user}}
+    location: 
+      edit: Επεξεργασία
+      location: "Τοποθεσία:"
+      view: Προβολή
     new: 
-      title: Καινούργια καταχώρηση blog
+      title: Νέα καταχώρηση ημερολογίου
     no_such_entry: 
-      body: Συγγνώμη, δεν υπάρχει καταχώρηση blog ή σχόλιο με τη ταυτότητα {{id}}. Είναι πιθανό να υπάρχουν ορθογραφικά λάθη ή να είναι λάθος το link.
+      body: Συγγνώμη, δεν υπάρχει καταχώρηση ημερολογίου ή σχόλιο με τη ταυτότητα {{id}}. Είναι πιθανό να υπάρχουν ορθογραφικά λάθη ή να είναι λάθος ο συνδεσμος μέσο του οπίου φτάσατε σε αυτήν την σελίδα.
       heading: "Καμία καταχώρηση με τη ταυτότητα: {{id}}"
     no_such_user: 
-      body: Συγγνώμη, δεν υπάρχει χρήστης με το όνομα {{user}}. Είναι πιθανό να υπάρχουν ορθογραφικά λάθη ή να είναι λάθος το link.
+      body: Συγγνώμη, δεν υπάρχει χρήστης με το όνομα {{user}}. Είναι πιθανό να υπάρχουν ορθογραφικά λάθη ή να είναι λάθος ο σύνδεσμος μέσο του οπίου φτάσατε σε αυτήν την σελίδα.
       heading: Ο χρήστης {{user}} δεν υπάρχει
       title: Άγνωστος χρήστηςr
     view: 
       leave_a_comment: Εγγραφή σχόλιου
+      login: Είσοδος
       login_to_leave_a_comment: "{{login_link}} για εγγραφή σχόλιου"
       save_button: Αποθήκευση
-      title: Blog χρηστών | {{user}}
+      title: το ημερολόγιου το {{user}} | {{title}}
       user_title: Blog {{user}}
+  editor: 
+    default: Προεπιλογή (τώρα είναι το {{name}})
+    potlatch: 
+      description: Potlatch 1 (επεξεργαστής του χάρτη μέσα στο περιηγητή ιστού)
+      name: Potlatch 1
+    potlatch2: 
+      description: Potlatch 2 (επεξεργαστής του χάρτη μέσα στο περιηγητή ιστού)
+      name: Potlatch 2
   export: 
     start: 
       add_marker: Πρόσθεση markerστο χάρτη
@@ -262,8 +311,280 @@ el:
       zoom: Εστίαση
     start_rjs: 
       export: Εξαγωγή
+  geocoder: 
+    description: 
+      title: 
+        geonames: Τοποθεσία από το <a href="http://www.geonames.org/">GeoNames</a>
+      types: 
+        cities: Πόλεις
+        places: Μέρη
+        towns: Μικρές Πόλεις
+    direction: 
+      east: ανατολικά
+      north: βόρεια
+      north_east: βορειοανατολικά
+      north_west: βορειοδυτικά
+      south: νότια
+      south_east: νοτιοανατολικά
+      south_west: νοτιοδυτικά
+      west: δυτικά
+    results: 
+      more_results: Περισσότερα αποτελέσματα
+      no_results: Δεν βρέθηκε κανένα αποτέλεσμα
+    search_osm_nominatim: 
+      prefix: 
+        amenity: 
+          airport: Αεροδρόμιο
+          arts_centre: Κέντρο Τεχνών
+          auditorium: Αμφιθέατρο
+          bank: Τράπεζα
+          bar: Μπαρ
+          bench: Πάγκος
+          brothel: Πορνείο
+          bus_station: Σταθμός Λεωφορείου
+          cafe: Καφετέρια
+          car_rental: Ενοικίαση αυτοκινήτου
+          car_wash: Πλύσιμο Αυτοκινήτων
+          casino: Καζίνο
+          cinema: Κινηματογράφος
+          clinic: Κλινική
+          club: Club
+          college: Κολέγιο
+          courthouse: Δικαστήριο
+          crematorium: Κρεματόριο
+          dentist: Οδοντίατρος
+          doctors: Ιατροί
+          drinking_water: Πόσιμο Νερό
+          driving_school: Σχολή Οδηγών
+          embassy: Πρεσβεία
+          emergency_phone: Τηλέφωνο Έκτακτης Ανάγκης
+          fast_food: Ταχυφαγείο
+          fountain: Συντριβάνι
+          grave_yard: Νεκροταφείο
+          gym: Γυμναστήριο
+          hospital: Νοσοκομείο
+          hotel: Ξενοδοχείο
+          ice_cream: Παγωτό
+          kindergarten: Νηπιαγωγείο
+          library: Βιβλιοθήκη
+          market: Αγορά
+          marketplace: Αγορά
+          nightclub: Night Club
+          office: Γραφείο
+          park: Πάρκο
+          police: Αστυνομία
+          post_box: Ταχυδρομική Θυρίδα
+          post_office: Ταχυδρομείο
+          preschool: Προσχολική Εκπαίδευση
+          prison: Φυλακή
+          pub: Παμπ
+          reception_area: Χώρος Υποδοχής
+          restaurant: Εστιατόριο
+          sauna: Σάουνα
+          school: Σχολείο
+          shop: Κατάστημα
+          studio: Στούντιο
+          supermarket: Σουπερμάρκετ
+          taxi: Ταξί
+          theatre: Θέατρο
+          toilets: Τουαλέτες
+          townhall: Δημαρχείο
+          university: Πανεπιστήμιο
+          veterinary: Κτηνιατρική Χειρουργική
+          wifi: Πρόσβαση WiFi
+          youth_centre: Πολύκεντρο Νεολαίας
+        building: 
+          bunker: Οχυρό
+          chapel: Παρεκκλήσι
+          church: Εκκλησία
+          dormitory: Κοιτώνας
+          flats: Διαμερίσματα
+          garage: Γκαράζ
+          hotel: Ξενοδοχείο
+          house: Σπίτι
+          residential: Πολυκατοικία
+          stadium: Στάδιο
+          tower: Πύργος
+          train_station: Σιδηροδρομικός Σταθμός
+        highway: 
+          bridleway: Μονοπάτι για άλογα
+          bus_stop: Στάση Λεωφορείου
+          footway: Μονοπάτι
+          gate: Πύλη
+          path: Διαδρομή
+          pedestrian: Πεζόδρομιο
+          residential: Κατοικίες
+          road: Δρόμος
+          trail: Διαδρομή
+        historic: 
+          archaeological_site: Αρχαιολογικός Χώρος
+          building: Κτίριο
+          memorial: Μνημόσυνο
+          mine: Ορυχείο
+          monument: Μνημείο
+          museum: Μουσείο
+        landuse: 
+          basin: Λεκανοπέδιο
+          cemetery: Κοιμητήριο
+          commercial: Εμπορική Περιοχή
+          farm: Αγρόκτημα
+          farmland: Αγρόκτημα
+          farmyard: Αγρόκτημα
+          forest: Δάσος
+          grass: Γρασίδι
+          military: Στρατιωτική Περιοχή
+          mine: Ορυχείο
+          mountain: Βουνό
+          park: Πάρκο
+          plaza: Πλατεία
+          quarry: Λατομείο
+          railway: Σιδηρόδρομος
+          residential: Κατοικημένη Περιοχή
+          vineyard: Αμπέλι
+          wood: Μη προσεγμένο δάσος
+        leisure: 
+          fishing: Αλιευτική Περιοχή
+          garden: Κήπος
+          golf_course: Γήπεδο Γκολφ
+          ice_rink: Παγοδρόμιο
+          miniature_golf: Μίνι Γκολφ
+          park: Πάρκο
+          playground: Παιδική Χαρά
+          sports_centre: Αθλητικό Κέντρο
+          stadium: Στάδιο
+          swimming_pool: Πισίνα
+        natural: 
+          beach: Παραλία
+          cape: Ακρωτήριο
+          cave_entrance: Είσοδος Σπηλιάς
+          channel: Κανάλι
+          cliff: Γκρεμός
+          crater: Κρατήρας
+          feature: Χαρακτηριστικό
+          fjord: Φιόρδ
+          glacier: Παγετώνας
+          hill: Λόφος
+          island: Νησί
+          marsh: Βάλτος
+          mud: Λάσπη
+          peak: Κορυφή
+          reef: Ύφαλος
+          river: Ποτάμι
+          rock: Βράχος
+          strait: Πορθμός
+          tree: Δέντρο
+          valley: Κοιλάδα
+          volcano: Ηφαίστειο
+          water: Νερό
+          wetlands: Υγρότοποι
+          wood: Μη προσεγμένο δάσος
+        place: 
+          airport: Αεροδρόμιο
+          city: Πόλη
+          country: Χώρα
+          county: Κομητεία
+          farm: Αγρόκτημα
+          hamlet: Χωριουδάκι
+          house: Σπίτι
+          houses: Σπίτια
+          island: Νησί
+          islet: Νησίδα
+          locality: Τοποθεσία
+          municipality: Δήμος
+          postcode: Ταχυδρομικός Κώδικας
+          region: Περιοχή
+          sea: Θάλασσα
+          state: Πολιτεία
+          subdivision: Υποδιαίρεση
+          suburb: Προάστιο
+          town: Μικρή Πόλη
+          village: Χωριό
+        railway: 
+          abandoned: Εγκαταλελειμμένος Σιδηρόδρομος
+          construction: Σιδηρόδρομος Υπό Κατασκευή
+          disused: Σιδηρόδρομος Εκτός Χρήσης
+          disused_station: Σιδηροδρομικός Σταθμός Εκτός Χρήσης
+          historic_station: Ιστορική Σιδηροδρομικός Σταθμός
+          station: Σιδηροδρομικός Σταθμός
+          subway: Σταθμός Μετρό
+          subway_entrance: Είσοδος Στο Μετρό
+          tram_stop: Στάση Τραμ
+        shop: 
+          bakery: Φούρνος
+          books: Βιβλιοπωλείο
+          butcher: Κρεοπωλείο
+          car_parts: Εξαρτήματα Αυτοκινήτου
+          confectionery: Ζαχαροπλαστική
+          drugstore: Φαρμακείο
+          dry_cleaning: Στεγνό Καθάρισμα
+          fish: Ιχθυοπωλείο
+          florist: Ανθοκομείο
+          greengrocer: Μανάβης
+          hairdresser: Κομμωτήριο
+          insurance: Ασφαλιστική
+          jewelry: Κοσμηματοπωλείο
+          kiosk: Περίπτερο
+          mall: Εμπορικό Κέντρο
+          sports: Κατάστημα Αθλητικών
+          supermarket: Σουπερμάρκετ
+          travel_agency: Ταξιδιωτικό Πρακτορείο
+        tourism: 
+          hotel: Ξενοδοχείο
+          museum: Μουσείο
+        waterway: 
+          boatyard: Ναυπηγείο
+          dam: Φράγμα
+          ditch: Χαντάκι
+          river: Ποτάμι
+          waterfall: Καταράχτης
+  javascripts: 
+    site: 
+      edit_disabled_tooltip: Κάνετε μεγέθυνση για να επεξεργαστείτε το χάρτη
+      edit_tooltip: Επεξεργασία του χάρτη
   layouts: 
+    community_blogs_title: Blogs από τα μέλη της κοινότητας του OpenStreetMap
+    copyright: Πνευματικά δικαιώματα &amp; Άδειας χρήσης
+    documentation: Τεκμηρίωση
+    documentation_title: Τεκμηρίωση για το έργο
+    edit: Επεξεργασία
+    edit_with: Επεξεργασία με {{editor}}
+    export: Εξαγωγή
+    foundation: Ίδρυμα
+    foundation_title: Το Ίδρυμα OpenStreetMap
+    help: Βοήθεια
+    help_centre: Κέντρο Βοήθειας
+    help_title: Ιστοσελίδα βοήθειας για το έργο
+    history: Ιστορικό
     home: κύρια σελίδα
+    inbox: εισερχόμενα ({{count}})
+    intro_1: Ο OpenStreetMap είναι δώρεαν, επεξεργάσιμος χάρτης ολόκληρου του κόσμος. Είναι κατασκευασμένο από ανθρώπους σαν κι εσάς.
+    intro_2: Το OpenStreetMap σάς επιτρέπει να προβάλετε, να επεξεργαστείτε και να χρησιμοποιήσετε τα γεωγραφικά δεδομένα με ένα συνεργατικό τρόπο από οπουδήποτε στη Γη.
+    intro_3_partners: βίκι
+    log_in: είσοδος
+    log_in_tooltip: Σύνδεση με έναν υπάρχοντα λογαριασμό
+    logo: 
+      alt_text: Λογότυπο OpenStreetMap
+    logout: έξοδος
+    logout_tooltip: Έξοδος
+    sign_up: εγγραφή
+    sign_up_tooltip: Δημιουργήστε λογαριασμό για επεξεργασία
+    tag_line: Ο Ελεύθερος Παγκόσμιος Χάρτης Βίκι
+    user_diaries: Ημερολόγια Χρηστών
+    user_diaries_tooltip: Προβολή ημερολογίων χρηστών
+    view: Προβολή
+    view_tooltip: Προβολή του χάρτη
+    welcome_user: Καλώς ορίσατε, {{user_link}}
+    welcome_user_link_tooltip: Η σελίδα χρήστη σας
+    wiki: Βίκι
+    wiki_title: Ιστοσελίδα βίκι για το έργο
+  license_page: 
+    foreign: 
+      title: Σχετικά με αυτή την μετάφραση
+    native: 
+      mapping_link: αρχίστε τη χαρτογράφηση
+      native_link: ελληνική έκδοση
+      text: Προβάλλετε η αγγλική έκδοση της σελίδας πνευματικών δικαιωμάτων. Μπορείτε να επιστρέψετε στην {{native_link}} της σελίδας ή να σταματήσετε να διαβάζετε για τα πνευματικά δικαιώματα και {{mapping_link}}.
+      title: Σχετικά με αυτήν τη σελίδα
   message: 
     message_summary: 
       delete_button: Διαγραφή
@@ -271,36 +592,312 @@ el:
       delete_button: Διαγραφή
   notifier: 
     diary_comment_notification: 
+      footer: Μπορείτε επίσης να διαβάσετε το σχόλιο στο {{readurl}} και μπορείτε να σχολιάσετε στο {{commenturl}} ή να απαντήσετε στο {{replyurl}}
+      header: "Ο χρήστης {{from_user}} έχει σχολιάσει τη πρόσφατη καταχώρηση ημερολόγιου σας στο OpenStreetMap με το θέμα {{subject}}:"
       hi: Γεια {{to_user}},
+      subject: "[OpenStreetMap] Ο χρήστης {{user}} σχολίασε την καταχώριση ημερολογίου σας"
     email_confirm_html: 
       greeting: Γεια,
     email_confirm_plain: 
       greeting: Γεια,
+    friend_notification: 
+      befriend_them: Μπορείτε επίσης να τους προσθέσετε ως φίλους στο {{befriendurl}}.
+      had_added_you: Ο χρήστης {{user}} σας πρόσθεσε ως φίλο στο OpenStreetMap.
+      see_their_profile: Μπορείτε να δείτε το προφίλ τους στο {{userurl}}.
+      subject: "[OpenStreetMap] Ο χρήστης {{user}} σας προσθέσε ως φίλο"
     gpx_notification: 
       greeting: Γεια,
     lost_password_html: 
       greeting: Γεια,
     lost_password_plain: 
       greeting: Γεια,
+    message_notification: 
+      footer1: Μπορείτε επίσης να διαβάσετε το μήνυμα στο {{readurl}}
+      footer2: και μπορείτε να απαντήσετε στο {{replyurl}}
+      header: "Ο χρήστης {{from_user}} σάς έχει στείλει ένα μήνυμα μέσω του OpenStreetMap με θέμα {{subject}}:"
+      hi: Γεια σας {{to_user}},
+    signup_confirm: 
+      subject: "[OpenStreetMap] Επιβεβαιώστε τη διεύθυνση ηλεκτρονικού ταχυδρομείου σας"
+    signup_confirm_html: 
+      greeting: Γεια!
     signup_confirm_plain: 
       greeting: Γεια!
   oauth_clients: 
+    edit: 
+      submit: Επεξεργασία
+      title: Επεξεργασία της αίτησής σας
+    index: 
+      register_new: Εγγραφή αίτησής
+      revoke: Ανάκληση!
     new: 
       submit: Εγγραφή
+  site: 
+    edit: 
+      anon_edits_link_text: Μάθετε γιατί συμβαίνει αυτό.
+      not_public: Δεν έχετε ορίσει τις επεξεργασίες σας να είναι δημόσιες.
+      potlatch2_unsaved_changes: Έχετε μη αποθηκευμένες αλλαγές. (Για να αποθηκεύσετε στο Potlatch 2, πρέπει να κάνετε κλικ στο «Αποθήκευση».)
+      user_page_link: σελίδα χρήστη
+    index: 
+      js_1: Είτε χρησιμοποιείτε πρόγραμμα περιήγησης που δεν υποστηρίζει το JavaScript ή έχετε απενεργοποιήσει το JavaScript.
+      license: 
+        notice: Υπό την άδεια του {{license_name}} άδεια από το {{project_name}} και τους χρήστες του.
+        project_name: έργο OpenStreetMap
+    key: 
+      table: 
+        entry: 
+          bridleway: Μονοπάτι για Άλογα
+          building: Σημαντικό κτίριο
+          cable: 
+            - Τελεφερίκ
+            - τελεφερίκ με καθίσματα
+          cemetery: Κοιμητήριο
+          centre: Αθλητικό Κέντρο
+          commercial: Εμπορική περιοχή
+          common: 
+            1: λιβάδι
+          farm: Αγρόκτημα
+          forest: Δάσος
+          golf: Γήπεδο γκολφ
+          industrial: Βιομηχανική περιοχή
+          lake: 
+            - Λίμνη
+          military: Στρατιωτική περιοχή
+          motorway: Αυτοκινητόδρομος
+          park: Πάρκο
+          permissive: Ανεκτική Πρόσβαση
+          pitch: Γήπεδο Αθλητισμού
+          private: Ιδιωτική πρόσβαση
+          rail: Σιδηρόδρομος
+          resident: Κατοικημένη περιοχή
+          runway: 
+            - Διάδρομος Αεροδρομίου
+          school: 
+            - Σχολείο
+            - πανεπιστήμιο
+          station: Σιδηροδρομικός σταθμός
+          subway: Υπόγειος σιδηρόδρομος
+          summit: 
+            1: κορυφή
+          tourist: Τουριστικό αξιοθέατο
+          tram: 
+            1: τραμ
+          wood: Μη προσεγμένο δάσος
+    search: 
+      search: Αναζήτηση
+      search_help: "παραδείγματα: «Alkmaar», «Regent Street, Cambridge», «CB2 5AQ», ή «ταχυδρομεία κοντά στο Lünen» <a href='http://wiki.openstreetmap.org/wiki/Search'>περισσότερα παραδείγματα...</a>"
+      submit_text: Μετάβαση
+      where_am_i: Πού είμαι;
+    sidebar: 
+      close: Κλείσιμο
+      search_results: Αποτελέσματα Αναζήτησης
   trace: 
     edit: 
+      download: λήψη
       edit: επεξεργασία
+      filename: "Όνομα αρχείου:"
       map: χάρτης
       owner: "Ιδιοκτήτης:"
+      points: "Σημεία:"
       tags_help: οριοθετημένο από τα κόμματα
       visibility: "Ορατότητα:"
       visibility_help: τι σημαίνει αυτό;
     trace: 
+      count_points: "{{count}} σημεία"
+      edit_map: Επεξεργασία Χάρτη
       map: χάρτης
+      private: ΙΔΙΩΤΙΚΟ
+      public: ΔΗΜΟΣΙΟ
     trace_form: 
       description: Περιγραφή
+      help: Βοήθεια
+      tags: Ετικέτες
+      visibility: Ορατότητα
+    trace_optionals: 
+      tags: Ετικέτες
     view: 
+      description: "Περιγραφή:"
+      download: λήψη
+      edit: επεξεργασία
+      filename: "Όνομα αρχείου:"
       map: χάρτης
+      owner: "Ιδιοκτήτης:"
+      tags: "Ετικέτες:"
+      visibility: "Ορατότητα:"
   user: 
-    new: 
+    account: 
+      current email address: "Τωρινή Διεύθυνση ηλεκτρονικού ταχυδρομείου:"
+      image: "Εικόνα:"
+      longitude: "Γεωγραφικό μήκος:"
+      my settings: Οι ρυθμίσεις μου
+      new email address: "Νέα Διεύθυνση ηλεκτρονικού ταχυδρομείου:"
+      new image: Προσθήκη εικόνας
+      preferred editor: "Προτιμώμενο πρόγραμμα Επεξεργασίας:"
+      preferred languages: "Προτιμώμενες γλώσσες:"
+      profile description: "Περιγραφή Λογαριασμού:"
+      public editing: 
+        disabled link text: γιατί δεν μπορώ να επεξεργαστώ τον χάρτη;
+        enabled: Ενεργοποιήθηκε. Δεν είστε πια ανώνυμος και μπορείτε να επεξεργαστείτε δεδομένα.
+        enabled link text: τι είναι αυτό;
+        heading: "Δημόσια επεξεργασία:"
+      save changes button: Αποθήκευση Αλλαγών
+      title: Επεξεργασία λογαριασμού
+    confirm: 
+      already active: Αυτός ο λογαριασμός έχει ήδη επιβεβαιωθεί.
+      button: Επιβεβαίωση
+      heading: Επιβεβαίωση ενός λογαριασμού χρήστη
+      press confirm button: Πατήστε το κουμπί "Επιβεβαίωση" για να ενεργοποιήσετε το λογαριασμό σας.
+      success: Επιβεβαιώθηκε ο λογαριασμός σας, σας ευχαριστούμε για την εγγραφή σας!
+    confirm_email: 
+      button: Επιβεβαίωση
+      failure: Μια διεύθυνση ηλεκτρονικού ταχυδρομείου έχει ήδη επιβεβαιωθεί με αυτό το διακριτικό.
+      heading: Επιβεβαίωση αλλαγής της διεύθυνσης ηλεκτρονικού ταχυδρομείου
+      press confirm button: Πατήστε το κουμπί "Επιβεβαίωση" παρακάτω για να επιβεβαιώσετε τη νέα διεύθυνση ηλεκτρονικού ταχυδρομείου σας.
+      success: Επιβεβαιώθηκε η διεύθυνση ηλεκτρονικού ταχυδρομείου σας, σας ευχαριστούμε για την εγγραφή σας!
+    confirm_resend: 
+      failure: Ο χρήστης {{name}} δεν βρέθηκε.
+    filter: 
+      not_an_administrator: Πρέπει να είστε διαχειριστής για να το κάνετε αυτό.
+    go_public: 
+      flash success: Όλες οι επεξεργασίες σας είναι τώρα δημόσιες και έχετε τη δυνατότητα να επεξεργαστείτε τον χάρτη.
+    list: 
+      confirm: Επιβεβαίωση επιλεγμένων χρηστών
+      heading: Χρήστες
+      hide: Απόκρυψη Επιλεγμένων Χρηστών
+      summary: "{{name}} δημιουργήθηκε από την διεύθυνση IP {{ip_address}} στις {{date}}"
+      summary_no_ip: "{{name}} δημιουργήθηκε στις {{date}}"
+      title: Χρήστες
+    login: 
+      account not active: Λυπόμαστε, ο λογαριασμός σας δεν είναι ενεργός ακόμα.<br />Παρακαλούμε χρησιμοποιήστε το σύνδεσμο στο email επιβεβαίωσης για να ενεργοποιήσετε το λογαριασμό σας, ή <a href="{{reconfirm}}">κάντε αίτηση νέου email επιβεβαίωσης</a>.
+      account suspended: Συγνώμη, ο λογαριασμός σας έχει ανασταλεί λόγω ύποπτης δραστηριότητας.<br />Εάν επιθυμείτε, επικοινωνήστε με τον {{webmaster}} για να το συζητήσουμε αυτό το θέμα.
+      auth failure: Λυπόμαστε, αλλά δεν μπορούσαμε να σας συνδέσουμε με αυτές τις λεπτομέρειες.
+      create account minute: Δημιουργήστε λογαριασμό. Παίρνει μόνο ένα λεπτό.
+      create_account: δημιουργήστε λογαριασμό
+      email or username: "Διεύθυνση ηλεκτρονικού ταχυδρομείου ή Όνομα χρήστη:"
+      heading: Είσοδος
+      login_button: Είσοδος
+      lost password link: Ξεχάσατε τον κωδικό;
+      new to osm: Νέος στο OpenStreetMap;
+      password: "Κωδικός:"
+      please login: Παρακαλούμε συνδεθείτε ή {{create_user_link}}.
+      register now: Εγγραφή
+      remember: "Αποθήκευση:"
+      title: Είσοδος
+      to make changes: Για να κάνετε αλλαγές στα δεδομένα του OpenStreetMap, πρέπει να έχετε λογαριασμό.
+    logout: 
+      heading: Έξοδος από το OpenStreetMap
+      logout_button: Έξοδος
+      title: Έξοδος
+    lost_password: 
       email address: "Διεύθυνση ηλεκτρονικού ταχυδρομείου:"
+      heading: Ξεχάσατε τον κωδικό σας;
+      new password button: Επαναφορά κωδικού
+      notice email cannot find: Λυπόμαστε, δεν βρέθηκε αυτή η διεύθυνση ηλεκτρονικού ταχυδρομείου.
+    make_friend: 
+      already_a_friend: Είστε ήδη φίλοι με τον χρήστη {{name}}.
+      failed: Λυπούμαστε, απέτυχε η προσθήκη του χρήστη {{name}} ως φίλο.
+      success: Ο χρήστης {{name}} είναι τώρα φίλος σας.
+    new: 
+      confirm email address: "Επιβεβαιώση Διεύθυνσης ηλεκτρονικού ταχυδρομείου:"
+      confirm password: "Επιβεβαίωση Κωδικού:"
+      continue: Συνέχεια
+      display name: "Εμφανιζόμενο όνομα:"
+      email address: "Διεύθυνση ηλεκτρονικού ταχυδρομείου:"
+      heading: Δημιουργία Λογαριασμού Χρήστη
+      license_agreement: Όταν επιβεβαιώσετε το λογαριασμό σας, θα πρέπει να συμφωνείσετε με τους <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">όρους συνεισφοράς</a>.
+      password: "Κωδικός:"
+      terms accepted: Σας ευχαριστούμε για την αποδοχή των νέων όρων συνεισφοράς!
+      title: Δημιουργία λογαριασμού
+    no_such_user: 
+      body: Συγγνώμη, δεν υπάρχει χρήστης με το όνομα {{user}}. Είναι πιθανό να υπάρχουν ορθογραφικά λάθη ή να είναι λάθος ο σύνδεσμος μέσο του οπίου φτάσατε σε αυτήν την σελίδα.
+      heading: Ο χρήστης {{user}} δεν υπάρχει
+    popup: 
+      friend: Φίλος
+      nearby mapper: Κοντινός χαρτογράφος
+      your location: Η τοποθεσία σας
+    remove_friend: 
+      not_a_friend: Ο χρήστης {{name}} δεν είναι ένας από τους φίλους σας.
+      success: Ο χρήστης {{name}} καταργήθηκε ως φίλος.
+    reset_password: 
+      confirm password: "Επιβεβαίωση Κωδικού:"
+      flash changed: Ο κωδικός σας έχει αλλάξει.
+      heading: Επαναφορά Κωδικού για τον χρήστη {{user}}
+      password: "Κωδικός:"
+      reset: Επαναφορά Κωδικού
+      title: Επαναφορά κωδικού
+    suspended: 
+      body: "<p>\nΣυγνώμη, ο λογαριασμός σας έχει αυτόματα ανασταλεί λόγω\nύποπτης δραστηριότητας.\n</p>\n<p>\nΗ παρούσα απόφαση θα εξεταστεί από ένα διαχειριστή σύντομα, ή\nμπορείτε να επικοινωνήσετε με τον {{webmaster}} αν θέλετε να το συζητήσετε αυτό το θέμα.\n</p>"
+      heading: Ο Λογαριασμός Ανασταλεί
+      title: Ο Λογαριασμός Ανασταλεί
+    terms: 
+      agree: Συμφωνώ
+      decline: Διαφωνώ
+      heading: Όροι συνεισφοράς
+      legale_names: 
+        france: Γαλλία
+        italy: Ιταλία
+        rest_of_world: Υπόλοιπος κόσμος
+    view: 
+      activate_user: ενεργοποίηση αυτού του λογαριασμού χρήστη
+      add as friend: προσθήκη ως φίλος
+      confirm: Επιβεβαίωση
+      confirm_user: επιβεβαίωση αυτού το χρήστη
+      create_block: φραγή αυτού του χρήστη
+      created from: "Δημιουργήθηκε από:"
+      deactivate_user: απενεργοποίηση αυτού του λογαριασμού χρήστη
+      delete_user: διαγραφή αυτού του χρήστη
+      description: Περιγραφή
+      diary: ημερολόγιο
+      edits: τροποποιήσεις
+      email address: "Διεύθυνση ηλεκτρονικού ταχυδρομείου:"
+      hide_user: απόκρυψη αυτού του χρήστη
+      km away: "{{count}}χλμ μακριά"
+      m away: "{{count}}μ μακριά"
+      mapper since: "Χαρτογράφος από:"
+      my diary: το ημερολόγιό μου
+      my edits: οι επεξεργασίες μου
+      my settings: οι ρυθμίσεις μου
+      new diary entry: νέα καταχώρηση ημερολογίου
+      no friends: Δεν έχετε προσθέσει φίλους ακόμα.
+      no nearby users: Δεν υπάρχουν άλλοι χρήστες που παραδέχονται ότι χαρτογραφούν κοντά σας προς το παρόν.
+      oauth settings: ρυθμίσεις oauth
+      role: 
+        administrator: Αυτός ο χρήστης είναι ο διαχειριστής
+        grant: 
+          administrator: Χορήγηση πρόσβασης διαχειριστή
+          moderator: Χορήγηση πρόσβασης μεσολαβητή
+        moderator: Αυτός ο χρήστης είναι μεσολαβητής
+        revoke: 
+          administrator: Ανάκληση πρόσβασης διαχειριστή
+          moderator: Ανάκληση πρόσβασης μεσολαβητή
+      send message: αποστολή μηνύματος
+      settings_link_text: ρυθμίσεις
+      status: "Κατάσταση:"
+      unhide_user: επανεμφάνιση αυτού του χρήστη
+      user location: Τοποθεσία χρήστη
+      your friends: Οι φίλοι σας
+  user_block: 
+    helper: 
+      time_future: Τελειώνει σε {{time}}.
+      time_past: Τελείωση {{time}} πριν.
+      until_login: Ενεργό έως ότου ο χρήστης συνδεθεί.
+    partial: 
+      confirm: Είστε σίγουροι;
+      creator_name: Δημιουργός
+      edit: Επεξεργασία
+      not_revoked: (δεν έχει ανακληθεί)
+      revoke: Ανάκληση!
+      show: Εμφάνιση
+      status: Κατάσταση
+    revoke: 
+      revoke: Ανάκληση!
+    show: 
+      edit: Επεξεργασία
+      revoke: Ανάκληση!
+      status: Κατάσταση
+      time_future: Τελειώνει σε {{time}}
+      time_past: Τελείωση {{time}} πριν
+  user_role: 
+    grant: 
+      confirm: Επιβεβαίωση
+    revoke: 
+      confirm: Επιβεβαίωση

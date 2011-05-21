@@ -1,6 +1,6 @@
 # Messages for Finnish (Suomi)
 # Exported from translatewiki.net
-# Export driver: syck
+# Export driver: syck-pecl
 # Author: Crt
 # Author: Daeron
 # Author: Nike
@@ -67,6 +67,8 @@ fi:
       trace: Jälki
       tracetag: Jäljen tägi
       user: Käyttäjä
+      user_preference: Käyttäjän asetus
+      user_token: Käyttäjän tunnus
       way: Polku
       way_node: Polun piste
       way_tag: Polun tägi
@@ -187,6 +189,7 @@ fi:
       details: Tarkemmin
       drag_a_box: Valitse alue kartalta hiirellä maalaamalla
       edited_by_user_at_timestamp: Viimeinen muokkaaja [[user]] kello [[timestamp]]
+      hide_areas: Piilota alueet
       history_for_feature: Ominaisuuden [[feature]] historia
       load_data: Lataa tiedot
       loaded_an_area_with_num_features: Olet ladannut alueen, joka sisältää [[num_features]] osiota. Yleensä jotkin selaimet eivät kykene näyttämään tätä määrää dataa. Yleisesti selaimet toimivat parhaiten näyttäessään alle 100 osiota kerrallaan. Muussa tapauksessa selain saattaa tulla hitaaksi tai lakata toimimasta kokonaan. Jos olet varma että haluat näyttää tämän datan, voit tehdä niin napsauttamalla alla olevaa painiketta.
@@ -209,6 +212,7 @@ fi:
           node: Solmu
           way: Polku
       private_user: käyttäjä
+      show_areas: Näytä alueet
       show_history: Näytä historia
       wait: Odota...
       zoom_or_select: Katso pienempää aluetta tai valitse kartalta alue, jonka tiedot haluat
@@ -343,6 +347,17 @@ fi:
       save_button: Tallenna
       title: Käyttäjän {{user}} päiväkirja | {{title}}
       user_title: Käyttäjän {{user}} päiväkirja
+  editor: 
+    default: Oletus (tällä hetkellä {{name}})
+    potlatch: 
+      description: Potlatch 1 (selaineditori)
+      name: Potlatch 1
+    potlatch2: 
+      description: Potlatch 2 (selaineditori)
+      name: Potlatch 2
+    remote: 
+      description: Kauko-ohjaus (JOSM tai Merkaartor)
+      name: Kauko-ohjaus
   export: 
     start: 
       add_marker: Lisää vietävään kartaan kohdemerkki
@@ -365,6 +380,9 @@ fi:
       output: Tulos
       paste_html: Kopioi ja liitä tämä HTML-koodi verkkosivullesi
       scale: Mittakaava
+      too_large: 
+        body: Tämä alue on liian suuri OpenStreetMap XML-tiedoksi tuotavaksi. Lähennä karttaa tai valitse pienempi alue.
+        heading: Liian suuri alue
       zoom: Zoom-taso
     start_rjs: 
       add_marker: Lisää vietävään karttaan kohdemerkki
@@ -412,6 +430,7 @@ fi:
         uk_postcode: Tulokset palvelusta <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Tulokset palvelusta <a href="http://geocoder.us/">Geocoder.us</a>
     search_osm_namefinder: 
+      suffix_parent: "{{suffix}} ({{parentdistance}} {{parentdirection}} kohdasta {{parentname}})"
       suffix_place: ", {{distance}} {{direction}} paikasta {{placename}}"
     search_osm_nominatim: 
       prefix: 
@@ -430,15 +449,21 @@ fi:
           bus_station: Linja-autoasema
           cafe: Kahvila
           car_rental: Autovuokraamo
+          car_sharing: Kimppakyyti
           car_wash: Autopesu
           casino: Kasino
           cinema: Elokuvateatteri
           clinic: Klinikka
+          club: Klubi
+          college: Oppilaitos
+          community_centre: Yhteisökeskus
           courthouse: Oikeustalo
           crematorium: Krematorio
           dentist: Hammaslääkäri
           doctors: Lääkäreitä
+          dormitory: Asuntola
           drinking_water: Juomavesi
+          driving_school: Autokoulu
           embassy: Lähetystö
           emergency_phone: Hätäpuhelin
           fast_food: Pikaruoka
@@ -449,6 +474,7 @@ fi:
           fuel: Polttoaine
           grave_yard: Hautausmaa
           gym: Liikuntakeskus / kuntosali
+          hall: Halli
           health_centre: Terveyskeskus
           hospital: Sairaala
           hotel: Hotelli
@@ -456,12 +482,17 @@ fi:
           ice_cream: Jäätelö
           kindergarten: Päiväkoti
           library: Kirjasto
+          market: Tori
           marketplace: Tori
+          mountain_rescue: Vuoristopelastuspalvelu
           nightclub: Yökerho
+          nursery: Päiväkoti
+          nursing_home: Hoitokoti
           office: Toimisto
           park: Puisto
           parking: Parkkipaikka
           pharmacy: Apteekki
+          place_of_worship: Kirkko
           police: Poliisi
           post_box: Kirjelaatikko
           post_office: Postitoimisto
@@ -469,14 +500,17 @@ fi:
           prison: Vankila
           pub: Pubi
           public_building: Julkinen rakennus
+          public_market: Torikauppa
           reception_area: Vastaanottoalue
           recycling: Kierrätyspaikka
           restaurant: Ravintola
           retirement_home: Vanhainkoti
           sauna: Sauna
           school: Koulu
+          shelter: Väestönsuoja
           shop: Kauppa
           shopping: Ostokset
+          social_club: Sosiaalinen kerho
           studio: Studio
           supermarket: Supermarketti
           taxi: Taksi
@@ -487,6 +521,7 @@ fi:
           university: Yliopisto
           vending_machine: Myyntiautomaatti
           veterinary: Eläinlääkäri
+          village_hall: Kyläkoti
           waste_basket: Roskakori
           wifi: Langaton lähiverkko
           youth_centre: Nuorisokeskus
@@ -494,34 +529,49 @@ fi:
           administrative: Hallinnollinen raja
         building: 
           apartments: Talo
+          block: Rakennusosa
           bunker: Bunkkeri
+          chapel: Kappeli
           church: Kirkko
+          city_hall: Kaupungintalo
+          commercial: Liikerakennus
+          dormitory: Asuntola
+          entrance: Rakennuksen sisäänkäynti
+          faculty: Tiedekunnan rakennus
+          farm: Maatilan rakennus
           flats: Kerrostalo
           garage: Autotalli
+          hall: Halli
           hospital: Sairaalarakennus
           hotel: Hotelli
           house: Talo
+          industrial: Teollisuusrakennus
           office: Toimistorakennus
           public: Julkinen rakennus
           residential: Asuinrakennus
+          retail: Liikerakennus
           school: Koulurakennus
           shop: Kauppa
           stadium: Stadion
+          store: Kauppa
           terrace: Terassi
           tower: Torni
           train_station: Rautatieasema
           university: Yliopistorakennus
-          "yes": Rakennus
         highway: 
+          bridleway: Ratsastuspolku
+          bus_guideway: Ohjattu linja-autokaista
           bus_stop: Bussipysäkki
           byway: Sivutie
           construction: Rakenteilla oleva tie
           cycleway: Pyörätie
           distance_marker: Etäisyysmerkki
+          emergency_access_point: Hätätilapaikka
           footway: Polku
           ford: Kahluupaikka
           gate: Portti
           living_street: Asuinkatu
+          minor: Sivutie
           motorway: Moottoritie
           motorway_junction: Moottoritien liittymä
           motorway_link: Moottoritie
@@ -535,17 +585,28 @@ fi:
           road: Tie
           secondary: Seututie
           secondary_link: Seututie
+          service: Huoltotie
+          services: Moottoritiepalvelut
           steps: Portaat
+          stile: Aidanylitys
           tertiary: Yhdystie
           track: Metsätie
+          trail: Vaelluspolku
           trunk: Valtatie
           trunk_link: Valtatie
+          unclassified: Luokittelematon tie
           unsurfaced: Päällystämätön tie
         historic: 
+          archaeological_site: Arkeologinen kohde
           battlefield: Taistelukenttä
+          boundary_stone: Rajakivi
           building: Rakennus
           castle: Linna
           church: Kirkko
+          house: Talo
+          icon: Ikoni
+          manor: Kartano
+          memorial: Muistomerkki
           mine: Kaivos
           monument: Muistomerkki
           museum: Museo
@@ -553,9 +614,15 @@ fi:
           tower: Torni
           wreck: Hylky
         landuse: 
+          allotments: Siirtolapuutarha
+          basin: Syvänne
           cemetery: Hautausmaa
           commercial: Kaupallinen alue
+          conservation: Suojeltu kohde
           construction: Rakennustyömaa
+          farm: Maatila
+          farmland: Viljelysmaa
+          farmyard: Maatilan piha
           forest: Metsä
           grass: Nurmikko
           industrial: Teollisuusalue
@@ -564,22 +631,33 @@ fi:
           military: Sotilasalue
           mine: Kaivos
           mountain: Vuori
+          nature_reserve: Luonnonsuojelualue
           park: Puisto
+          piste: Latu
+          plaza: Aukio
           quarry: Avolouhos
           railway: Rautatie
+          recreation_ground: Virkistysalue
+          reservoir: Tekojärvi
           residential: Asuinalue
+          retail: Vähittäiskauppa
+          vineyard: Viinitarha
           wetland: Kosteikko
           wood: Metsä
         leisure: 
+          beach_resort: Rantakohde
+          common: Yhteinen maa
           fishing: Kalastusalue
           garden: Puutarha
           golf_course: Golf-kenttä
           ice_rink: Luistelurata
           marina: Huvivenesatama
           miniature_golf: Minigolf
+          nature_reserve: Luonnonsuojelualue
           park: Puisto
           pitch: Urheilukenttä
           playground: Leikkikenttä
+          recreation_ground: Virkistysalue
           slipway: Vesillelaskuramppi
           sports_centre: Urheilukeskus
           stadium: Stadioni
@@ -589,11 +667,13 @@ fi:
         natural: 
           bay: Lahti
           beach: Hiekkaranta
+          cape: Niemi
           cave_entrance: Luolan sisäänkäynti
           channel: Kanava
           cliff: Jyrkänne
           coastline: Rantaviiva
           crater: Kraatteri
+          feature: Erikoispiirre
           fell: Tunturi
           fjord: Vuono
           geyser: Geysir
@@ -602,13 +682,19 @@ fi:
           hill: Mäki
           island: Saari
           land: Maa
+          marsh: Suo
+          moor: Nummi
           mud: Muta
           peak: Huippu
+          point: Niemi
           reef: Riutta
+          ridge: Harju
           river: Joki
           rock: Kivi
           scrub: Pensaikko
+          shoal: Matalikko
           spring: Lähde
+          strait: Salmi
           tree: Puu
           valley: Laakso
           volcano: Tulivuori
@@ -628,19 +714,27 @@ fi:
           island: Saari
           islet: Saareke
           locality: Paikkakunta
+          moor: Nummi
           municipality: Kunta
           postcode: Postinumero
           region: Alue
           sea: Meri
           state: Osavaltio
+          subdivision: Naapurusto
           suburb: Lähiö
           town: Kaupunki
+          unincorporated_area: Ei-liitetty alue
           village: Kylä
         railway: 
           abandoned: Hylätty rautatie
           construction: Rakenteilla oleva rautatie
+          disused: Käyttämätön rautatie
           disused_station: Käytöstä poistunut rautatieasema
+          halt: Junan pysäkki
+          historic_station: Historiallinen juna-asema
+          junction: Rautatien risteys
           level_crossing: Tasoristeys
+          light_rail: Pikaraitiotie
           monorail: Yksikiskoinen raide
           platform: Asemalaituri
           station: Rautatieasema
@@ -727,14 +821,24 @@ fi:
     site: 
       edit_tooltip: Muokkaa karttaa
   layouts: 
+    community_blogs: Yhteisöblogit
+    community_blogs_title: OpenStreetMap-yhteisön jäsenten blogit
     copyright: Tekijänoikeudet ja lisenssit
+    documentation: Ohjeet
+    documentation_title: Projektin ohjeet
     donate: Tue OpenStreetMapia {{link}} laitteistopäivitysrahastoon.
     donate_link_text: lahjoittamalla
     edit: Muokkaa
+    edit_with: Muokkaa {{editor}}:lla
     export: Vienti
     export_tooltip: Karttatiedon vienti
+    foundation: Säätiö
+    foundation_title: OpenStreetMap Foundation
     gps_traces: GPS-jäljet
+    gps_traces_tooltip: Hallitse GPS-jälkiä
     help: Ohje
+    help_centre: Ohjekeskus
+    help_title: Projektin ohjesivusto
     history: Historia
     home: koti
     home_tooltip: Siirry kotisijaintiin
@@ -747,6 +851,8 @@ fi:
     intro_2: Voit selata, muokata ja käyttää yhteistyössä luotua karttatietoa kaikista maailman kolkista.
     intro_3: OpenStreetMapin verkkoliikenteen tarjoavat {{ucl}} ja {{bytemark}}. Muut projektin tukijat on listattu {{partners}}.
     intro_3_partners: wikissä
+    license: 
+      title: OpenStreetMap-tiedot lisensoidaan Creative Commons Attribution-Share Alike 2.0 Generic -lisenssillä
     log_in: kirjaudu sisään
     log_in_tooltip: Kirjaudu sisään tunnuksellasi
     logo: 
@@ -760,19 +866,22 @@ fi:
     osm_read_only: OpenStreetMapin tietokantaan ei toistaiseksi voi lähettää mitään välttämättömien ylläpitotöiden takia.
     sign_up: rekisteröidy
     sign_up_tooltip: Muokkaaminen edellyttää käyttäjätunnusta
+    sotm2011: Tule vuoden 2011 OpenStreetMap-konferenssiin, 9. - 11. syyskuuta Denveriin!
     tag_line: Vapaa wikimaailmankartta
     user_diaries: Päiväkirjamerkinnät
+    user_diaries_tooltip: Näytä käyttäjän päiväkirjat
     view: Kartta
     view_tooltip: Näytä kartta
     welcome_user: Tervetuloa, {{user_link}}
     welcome_user_link_tooltip: Käyttäjäsivusi
     wiki: Wiki
+    wiki_title: Projektin wikisivusto
   license_page: 
     foreign: 
       english_link: englanninenkielisen alkuperäisversion
       text: Siinä tapauksessa, että tämän käännetyn sivun ja {{english_original_link}} välillä on ristiriita englanninkielinen sivu on etusijalla.
       title: Tietoja tästä käännöksestä
-    legal_babble: "<h2>Tekijänoikeus ja lisenssi</h2>\n<p>\nOpenStreetMap on <i>avointa dataa</i>, joka on lisensoitu <a\nhref=\"http://creativecommons.org/licenses/by-sa/2.0/deed.fi/\">\nCreative Commonsin Nimeä-Tarttuva 2.0 Raakaversio</a> -lisenssilllä (CC-BY-SA).\n</p>\n<p>\nVoit kopioida, levittää, välittää ja mukauttaa karttojamme\nja tietojamme, kunhan OpenStreetMap ja sen tekijät mainitaan.\nJos muutat tai kehität karttojamme tai tietoja, voit\njakaa teosta vain saman lisenssin nojalla.\n<a href=\"http://creativecommons.org/licenses/by-sa/2.0/legalcode\">Legal codessa</a>\nkerrotaan oikeutesi ja velvollisuutesi.\n</p>\n\n\n<h3>OpenStreetMapin mainitseminen</h3>\n<p>\nJos käytät OpenStreetMapin karttakuvia, pyydämme että\nmainitset ainakin ”© OpenStreetMapin tekijät, CC-BY-SA”.\nJos käytät vain karttatietoja,\nmainitse ”Karttatiedot © OpenStreetMapin tekijät, CC-BY-SA”.\n</p>\n<p>\nAina kun se on mahdollista, linkitä OpenStreetMap osoitteeseen\n<a href=\"http://www.openstreetmap.org/\">http://www.openstreetmap.org/</a>\nja CC-BY-SA osoitteeseen\n<a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">http://creativecommons.org/licenses/by-sa/2.0/</a>.\nJos hyperlinkit eivät ole mahdollisia (esimerkiksi\ntulostettu työ), suosittelemme, että ohjaat lukijat osoitteisiin\nwww.openstreetmap.org ja\nwww.creativecommons.org.\n</p>\n\n<h3>Lisätietoja</h3>\n<p>\nLue lisää\n<a href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">Legal FAQ:sta</a>.\n</p>\n<p>\nOSM:n tekijöitä muistutetaan, että kopioiminen tekijänoikeuksien alaisista teoksista\n(esimerkiksi Google Maps tai painetut kartat) ilman\ntekijänoikeuden haltijan nimenomaista lupaa on kielletty.\n</p>\n<p>\nVaikka OpenStreetMap on avointa dataa, emme voi tarjota\nmaksutonta karttarajapintaa (API) kolmannen osapuolen kehittäjille.\n\nKatso <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">APIn käyttösäännöt</a>,\n<a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">karttakuvien käyttösäännöt</a>\n<a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">ja Nominatimin käyttösäännöt</a>.\n</p>\n\n<h3>Tekijät</h3>\n<p>\nKäyttämämme CC-BY-SA-lisenssi vaatii ”alkuperäisten tekijöiden\nmainintaa” käyttömediaan ja käyttötapaan sopivalla tavalla.\nYksittäisiä OSM-kartoittajia ei tarvitse mainita muuten kuin \nmaininnalla ”OpenStreetMapin tekijät”. Kun kyseessä on\npaikallinen maanmittauslaitos tai muu merkittävä lähde,\njonka tietoja käytetään OpenStreetMapissa, voi olla\nperusteltua nimetä myös kyseiset tahot suoraan tai viitata\nsiihen tällä sivulla.\n</p>\n\n<!--\nInformation for page editors\n\nThe following lists only those organisations who require attribution\nas a condition of their data being used in OpenStreetMap. It is not a\ngeneral catalogue of imports, and must not be used except when\nattribution is required to comply with the licence of the imported\ndata.\n\nAny additions here must be discussed with OSM sysadmins first.\n-->\n\n<ul id=\"contributors\">\n<li><strong>Australia</strong>: Sisältää lähiötietoja\nAustralian Bureau of Statisticsilta.</li>\n<li><strong>Kanada</strong>: Sisältää tietoja\nGeoBasesta ®, GeoGratisista (© Department of Natural\nResources Canada), CanVecista (© Department of Natural\nResources Canada), ja StatCanista (Geography Division,\nStatistics Canada).</li> \n<li><strong>Uusi-Seelanti</strong>: Sisältää tietoja Land Information New Zealandista. Crown Copyright.\n<li><strong>Puola</strong>: Sisältää tietoja\n<a href=\"http://ump.waw.pl/\">UMP-pcPL-kartoista. Tekijänoikeus\nUMP-pcPL:n tekijät.</li>\n<li><strong>Yhdistyneet kuningaskunnat</strong>: Sisältää Ordnance\nSurveyn keräämiä tietoja © Crown Copyright ja tietokantojen käyttöoikeus\n2010.\n</ul>\n\n\n<p>\nTietojen sisältyminen OpenStreetMapiin ei tarkoita, että tietojen antaja\nottaa kantaa OpenStreetMapiin tai vastuuta tietojen oikeellisuudesta.\n</p>"
+    legal_babble: "<h2>Tekijänoikeus ja lisenssi</h2>\n<p>\nOpenStreetMap on <i>avointa dataa</i>, joka on lisensoitu <a\nhref=\"http://creativecommons.org/licenses/by-sa/2.0/deed.fi/\">\nCreative Commonsin Nimeä-Tarttuva 2.0 Raakaversio</a> -lisenssilllä (CC-BY-SA).\n</p>\n<p>\nVoit kopioida, levittää, välittää ja mukauttaa karttojamme\nja tietojamme, kunhan OpenStreetMap ja sen tekijät mainitaan.\nJos muutat tai kehität karttojamme tai tietoja, voit\njakaa teosta vain saman lisenssin nojalla.\n<a href=\"http://creativecommons.org/licenses/by-sa/2.0/legalcode\">Legal codessa</a>\nkerrotaan oikeutesi ja velvollisuutesi.\n</p>\n\n\n<h3>OpenStreetMapin mainitseminen</h3>\n<p>\nJos käytät OpenStreetMapin karttakuvia, pyydämme että\nmainitset ainakin ”© OpenStreetMapin tekijät, CC-BY-SA”.\nJos käytät vain karttatietoja,\nmainitse ”Karttatiedot © OpenStreetMapin tekijät, CC-BY-SA”.\n</p>\n<p>\nAina kun se on mahdollista, linkitä OpenStreetMap osoitteeseen\n<a href=\"http://www.openstreetmap.org/\">http://www.openstreetmap.org/</a>\nja CC-BY-SA osoitteeseen\n<a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">http://creativecommons.org/licenses/by-sa/2.0/</a>.\nJos hyperlinkit eivät ole mahdollisia (esimerkiksi\ntulostettu työ), suosittelemme, että ohjaat lukijat osoitteisiin\nwww.openstreetmap.org ja\nwww.creativecommons.org.\n</p>\n\n<h3>Lisätietoja</h3>\n<p>\nLue lisää\n<a href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">Legal FAQ:sta</a>.\n</p>\n<p>\nOSM:n tekijöitä muistutetaan, että kopioiminen tekijänoikeuksien alaisista teoksista\n(esimerkiksi Google Maps tai painetut kartat) ilman\ntekijänoikeuden haltijan nimenomaista lupaa on kielletty.\n</p>\n<p>\nVaikka OpenStreetMap on avointa dataa, emme voi tarjota\nmaksutonta karttarajapintaa (API) kolmannen osapuolen kehittäjille.\n\nKatso <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">APIn käyttösäännöt</a>,\n<a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">karttakuvien käyttösäännöt</a>\n<a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">ja Nominatimin käyttösäännöt</a>.\n</p>\n\n<h3>Tekijät</h3>\n<p>\nKäyttämämme CC-BY-SA-lisenssi vaatii ”alkuperäisten tekijöiden\nmainintaa” käyttömediaan ja käyttötapaan sopivalla tavalla.\nYksittäisiä OSM-kartoittajia ei tarvitse mainita muuten kuin \nmaininnalla ”OpenStreetMapin tekijät”. Kun kyseessä on\npaikallinen maanmittauslaitos tai muu merkittävä lähde,\njonka tietoja käytetään OpenStreetMapissa, voi olla\nperusteltua nimetä myös kyseiset tahot suoraan tai viitata\nsiihen tällä sivulla.\n</p>\n\n<!--\nInformation for page editors\n\nThe following lists only those organisations who require attribution\nas a condition of their data being used in OpenStreetMap. It is not a\ngeneral catalogue of imports, and must not be used except when\nattribution is required to comply with the licence of the imported\ndata.\n\nAny additions here must be discussed with OSM sysadmins first.\n-->\n\n<ul id=\"contributors\">\n   <li><strong>Australia</strong>: Sisältää lähiötietoja\n   Australian Bureau of Statisticsilta.</li>\n   <li><strong>Kanada</strong>: Sisältää tietoja\n   GeoBasesta ®, GeoGratisista (© Department of Natural\n   Resources Canada), CanVecista (© Department of Natural\n   Resources Canada), ja StatCanista (Geography Division,\n   Statistics Canada).</li>\n   <li><strong>France</strong>: Contains data sourced from\n   Direction Générale des Impôts.</li>\n   <li><strong>Uusi-Seelanti</strong>: Sisältää tietoja Land Information New Zealandista. Crown Copyright.\n   <li><strong>Puola</strong>: Sisältää tietoja\n   <a href=\"http://ump.waw.pl/\">UMP-pcPL-kartoista</a>. Tekijänoikeus\n   UMP-pcPL:n tekijät.</li>\n   <li><strong>Yhdistyneet kuningaskunnat</strong>: Sisältää Ordnance\n   Surveyn keräämiä tietoja © Crown Copyright ja tietokantojen käyttöoikeus\n   2010.\n</ul>\n\n\n<p>\nTietojen sisältyminen OpenStreetMapiin ei tarkoita, että tietojen antaja\nottaa kantaa OpenStreetMapiin tai vastuuta tietojen oikeellisuudesta.\n</p>"
     native: 
       mapping_link: aloittaa kartoituksen
       native_link: suomenkieliseen versioon
@@ -849,15 +958,22 @@ fi:
     email_confirm_plain: 
       greeting: Hei,
     friend_notification: 
+      befriend_them: Voit myös lisätä lähettäjän ystäväksi osoitteessa {{befriendurl}}.
       had_added_you: Käyttäjä {{user}} lisäsi sinut kaverikseen OpenStreetMap:ssa.
       see_their_profile: Näet hänen tietonsa sivulla {{userurl}}.
       subject: "[OpenStreetMap] {{user}} lisäsi sinut ystäväkseen"
     gpx_notification: 
+      and_no_tags: ja ei tageja.
+      and_the_tags: "ja seuraavat avainsanat:"
       failure: 
+        failed_to_import: "epäonnistui tuoda. Tässä virhe:"
+        more_info_1: Lisätietoja GPX-tuontiongelmista ja miten niitä voi välttää
+        more_info_2: "ne löytyvät osoitteesta:"
         subject: "[OpenStreetMap] GPX-tuonti epäonnistui"
       greeting: Hei,
       success: 
         subject: "[OpenStreetMap] GPX-tuonti onnistui"
+      with_description: kuvauksen kanssa
       your_gpx_file: Näyttää siltä, että GPX-tiedostosi
     lost_password: 
       subject: "[OpenStreetMap] Salasanan vaihtopyyntö"
@@ -866,17 +982,31 @@ fi:
     lost_password_plain: 
       greeting: Hei,
     message_notification: 
+      footer1: Voit lukea viestin myös osoitteessa {{readurl}}
+      footer2: ja voit vastata siihen osoitteessa {{replyurl}}
+      header: "{{from_user}} on lähettänyt sinulle viestin OpenStreetMapin kautta, otsikko {{subject}}:"
       hi: Hei {{to_user}},
     signup_confirm: 
       subject: "[OpenStreetMap] Sähköpostiosoitteen vahvistus"
     signup_confirm_html: 
+      greeting: Hei!
       more_videos_here: lisää videoita täällä
       video_to_openstreetmap: OpenStreetMapin esittelyvideo
     signup_confirm_plain: 
+      ask_questions: "Voit kysyä kysymyksiä OpenStreetMapiin liittyen kysymys-ja-vastaus -sivustollamme:"
+      blog_and_twitter: "Katso viimeisimmät uutiset OpenStreetMap-blogista tai Twitteristä:"
+      click_the_link_1: Jos se olit sinä, tervetuloa! Napsauta linkkiä alla vahvistaaksesi
+      click_the_link_2: tilisi ja lukeaksesi lisätietoja OpenStreetMapista.
+      current_user_1: Luettelo tämänhetkisistä käyttäjistä luokissa, pohjautuen heidän sijaintiin
       greeting: Hei!
+      hopefully_you: Joku (toivottavasti sinä) haluaa luoda tilin
+      introductory_video: "Voit katsoa OpenStreetMap-esittelyvideon täällä:"
       more_videos: "Lisää videoita:"
+      opengeodata: "OpenGeoData.org on OpenStreetMapin perustajan Steve Coastin blogi. Myös podcasteja on saatavissa:"
+      the_wiki: "Lue lisää OpenStreetMapista wikissä:"
       user_wiki_1: On suositeltavaa, että luot käyttäjäsivun, joka sisältää
       user_wiki_2: "sijaintisi ilmoittavan luokka-tagin. Esimerkiksi näin: [[Category:Users_in_London]]."
+      wiki_signup: "Saatat myös haluta rekisteröityä OpenStreetMap-wikiin:"
   oauth: 
     oauthorize: 
       allow_read_gpx: lukea yksityisiä GPS-jälkiäsi
@@ -1167,7 +1297,7 @@ fi:
       email or username: "Sähköpostiosoite tai käyttäjätunnus:"
       heading: Kirjaudu
       login_button: Kirjaudu sisään
-      lost password link: Salasana unohtunut?
+      lost password link: Unohditko salasanasi?
       password: "Salasana:"
       please login: Kirjaudu sisään tai {{create_user_link}}.
       remember: "Muista minut:"
@@ -1177,7 +1307,7 @@ fi:
       title: Kirjaudu ulos
     lost_password: 
       email address: "Sähköpostiosoite:"
-      heading: Salasana unohtunut?
+      heading: Unohditko salasanasi?
       new password button: Lähetä minulle uusi salasana
       notice email cannot find: Antamallasi sähköpostiosoitteella ei löytynyt käyttäjää.
       notice email on way: Antamaasi osoitteeseen lähetettiin ohjeet salasanan uusimiseksi.

@@ -1,6 +1,7 @@
 class UserController < ApplicationController
-  layout 'site', :except => :api_details
+  layout :choose_layout
 
+  before_filter :disable_terms_redirect, :only => [:terms, :save, :logout, :api_details]
   before_filter :authorize, :only => [:api_details, :api_gpx_files]
   before_filter :authorize_web, :except => [:api_details, :api_gpx_files]
   before_filter :set_locale, :except => [:api_details, :api_gpx_files]
@@ -24,7 +25,7 @@ class UserController < ApplicationController
 
     if request.xhr?
       render :update do |page|
-        page.replace_html "contributorTerms", :partial => "terms", :locals => { :has_decline => params[:has_decline] }
+        page.replace_html "contributorTerms", :partial => "terms"
       end
     elsif using_open_id?
       # The redirect from the OpenID provider reenters here
@@ -84,17 +85,36 @@ class UserController < ApplicationController
     if Acl.find_by_address(request.remote_ip, :conditions => {:k => "no_account_creation"})
       render :action => 'new'
     elsif params[:decline]
-      redirect_to t('user.terms.declined')
+      if @user
+        @user.terms_seen = true
+
+        if @user.save
+          flash[:notice] = t 'user.new.terms declined', :url => t('user.new.terms declined url')
+        end
+
+        if params[:referer]
+          redirect_to params[:referer]
+        else
+          redirect_to :action => :account, :display_name => @user.display_name
+        end
+      else
+        redirect_to t('user.terms.declined')
+      end
     elsif @user
       if !@user.terms_agreed?
         @user.consider_pd = params[:user][:consider_pd]
         @user.terms_agreed = Time.now.getutc
+        @user.terms_seen = true
         if @user.save
           flash[:notice] = t 'user.new.terms accepted'
         end
       end
 
-      redirect_to :action => :account, :display_name => @user.display_name
+      if params[:referer]
+        redirect_to params[:referer]
+      else
+        redirect_to :action => :account, :display_name => @user.display_name
+      end
     else
       @user = User.new(params[:user])
 
@@ -104,14 +124,15 @@ class UserController < ApplicationController
       @user.creation_ip = request.remote_ip
       @user.languages = request.user_preferred_languages
       @user.terms_agreed = Time.now.getutc
-
+      @user.terms_seen = true
+      
       if @user.save
         flash[:notice] = t 'user.new.flash create success message', :email => @user.email
         Notifier.deliver_signup_confirm(@user, @user.tokens.create(:referer => session.delete(:referer)))
         session[:token] = @user.tokens.create.token
-        redirect_to :action => 'login'
+        redirect_to :action => 'login', :referer => params[:referer]
       else
-        render :action => 'new'
+        render :action => 'new', :referer => params[:referer]
       end
     end
   end
@@ -581,15 +602,22 @@ private
   # process a successful login
   def successful_login(user)
     session[:user] = user.id
-
     session_expires_after 1.month if session[:remember_me]
 
-    if user.blocked_on_view
-      redirect_to user.blocked_on_view, :referer => params[:referer]
-    elsif session[:referer]
-      redirect_to session[:referer]
+    target = params[:referer] || url_for(:controller => :site, :action => :index)
+
+    # The user is logged in, so decide where to send them:
+    #
+    # - If they haven't seen the contributor terms, send them there.
+    # - If they have a block on them, show them that.
+    # - If they were referred to the login, send them back there.
+    # - Otherwise, send them to the home page.
+    if REQUIRE_TERMS_SEEN and not user.terms_seen
+      redirect_to :controller => :user, :action => :terms, :referer => target
+    elsif user.blocked_on_view
+      redirect_to user.blocked_on_view, :referer => target
     else
-      redirect_to :controller => 'site', :action => 'index'
+      redirect_to target
     end
 
     session.delete(:remember_me)
@@ -650,5 +678,29 @@ private
     @this_user = User.find_by_display_name(params[:display_name])
   rescue ActiveRecord::RecordNotFound
     redirect_to :controller => 'user', :action => 'view', :display_name => params[:display_name] unless @this_user
+  end
+
+  ##
+  # Choose the layout to use. See
+  # https://rails.lighthouseapp.com/projects/8994/tickets/5371-layout-with-onlyexcept-options-makes-other-actions-render-without-layouts
+  def choose_layout
+    oauth_url = url_for(:controller => :oauth, :action => :oauthorize, :only_path => true)
+
+    if [ 'api_details' ].include? action_name
+      nil
+    elsif params[:referer] and URI.parse(params[:referer]).path == oauth_url
+      'slim'
+    else
+      'site'
+    end
+  end
+
+  ##
+  #
+  def disable_terms_redirect
+    # this is necessary otherwise going to the user terms page, when 
+    # having not agreed already would cause an infinite redirect loop.
+    # it's .now so that this doesn't propagate to other pages.
+    flash.now[:skip_terms] = true
   end
 end
