@@ -9,7 +9,7 @@ class UserCreationTest < ActionController::IntegrationTest
       rots_response = Net::HTTP.get_response(URI.parse("http://localhost:1123/"))
     rescue
       # It isn't, so start a new instance.
-      IO.popen(RAILS_ROOT + "/vendor/gems/rots-0.2.1/bin/rots --silent")
+      rots = IO.popen(RAILS_ROOT + "/vendor/gems/rots-0.2.1/bin/rots --silent")
 
       # Wait for up to 30 seconds for the server to start and respond before continuing
       for i in (1 .. 30)
@@ -22,12 +22,13 @@ class UserCreationTest < ActionController::IntegrationTest
 	  # If the connection failed, do nothing and repeat the loop
 	end
       end
-    end
-  end
 
-  def teardown
-    #TODO: The ROTS server needs closing down again at some point,
-    #      but we don't want to do it after every individual test
+      # Arrange to kill the process when we exit - note that we need
+      # to kill it really har due to a bug in ROTS
+      Kernel.at_exit do
+        Process.kill("KILL", rots.pid)
+      end
+    end
   end
 
   def test_create_user_form
