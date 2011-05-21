@@ -102,6 +102,10 @@ Quick documentation:
   <category name="Places" id="places">
   </category>
 
+  <category name="Sport&amp;Leisure" id="sport">
+  </category>
+
+
   <!-- Common input sets -->
 
   <inputSet id="simpleName">
@@ -126,6 +130,9 @@ Quick documentation:
     <input type="freetext" presence="onTagMatch"
         name="Historical Name" category="Naming" priority="low"
         key="old_name" description="The historic or previous name"/>
+    <input type="freetext" presence="onTagMatch"
+        name="Alternative Name" category="Naming" priority="low"
+        key="alt_name" description="An alternative, currently used, name"/>
   </inputSet>
 
   <inputSet id="wifi">
@@ -149,6 +156,7 @@ Quick documentation:
 
   <inputSet id="cuisine">
     <input type="choice" presence="always" name="Cuisine" category="Eating" description="The type of food that they serve" key="cuisine">
+      <!-- The 30 most popular values according to taginfo 23/12/2010 -->
       <choice value="burger" text="Burger"/>
       <choice value="chicken" text="Chicken"/>
       <choice value="chinese" text="Chinese"/>
@@ -156,7 +164,30 @@ Quick documentation:
       <choice value="greek" text="Greek"/>
       <choice value="pizza" text="Pizza"/>
       <choice value="sandwich" text="Sandwich"/>
-      <choice value="sea_food" text="Sea Food"/>
+      <choice value="seafood" text="Sea Food"/>
+      <choice value="regional" text="Regional"/>
+      <choice value="italian" text="Italian"/>
+      <choice value="german" text="German"/>
+      <choice value="kebab" text="Kebab/souvlaki/gyro"/>
+      <choice value="indian" text="Indian"/>
+      <choice value="asian" text="Asian"/>
+      <choice value="mexican" text="Mexican"/>
+      <choice value="thai" text="Thai"/>
+      <choice value="japanese" text="Japanese"/>
+      <choice value="ice_cream" text="Ice-cream"/>
+      <choice value="fish_and_chips" text="Fish &amp; Chips"/>
+      <choice value="turkish" text="Turkish"/>
+      <choice value="french" text="French"/>
+      <choice value="sushi" text="Sushi"/>
+      <choice value="american" text="American"/>
+      <choice value="steak_house" text="Steak House"/>
+      <choice value="international" text="International"/>
+      <choice value="spanish" text="Spanish"/>
+      <choice value="vietnamese" text="Vietnamese"/>
+      <choice value="fish" text="Fish"/>
+      <choice value="bavarian" text="Bavarian"/>
+      <choice value="vegetarian" text="Vegetarian"/>
+
       <help>http://wiki.openstreetmap.org/wiki/Key:cuisine</help>
     </input>
   </inputSet>
@@ -236,6 +267,8 @@ Quick documentation:
     <inputSet ref="bridge"/>
     <inputSet ref="tunnel"/>
     <inputSet ref="embankment-cutting"/>
+    <!-- not sure which category best suits put area=yes -->
+    <input type="checkbox" presence="onTagMatch" category="Restrictions" key="area" name="Open area" description="The way is a large open space, like at a dock, where vehicles can move anywhere within the space, rather than just along the edge." />
   </inputSet>
 
   <inputSet id="roadLanes">
@@ -437,8 +470,9 @@ Quick documentation:
     <input type="choice"
            name="Bicycles permitted" category="Cycle" description="Are bicyles allowed to use this road (regardless of physical suitability)?"
            key="bicycle">
-      <choice value="no" text="Prohibited"/>
+      <choice value="no" text="Prohibited" desciption="Cycling is not allowed. Pushing your bicycle is not allowed either."/>
       <choice value="yes" text="Allowed"/>
+      <choice value="dismount" text="Cyclists dismount" description="Signage states that cyclists should dismount and push their bike for the selected path or road."/>
       <choice value="designated" text="Designated"/>
       <choice value="private" text="Private"/>
       <help>http://wiki.openstreetmap.org/wiki/Key:access</help>
@@ -450,11 +484,13 @@ Quick documentation:
         name="Bike lanes" category="Cycle" description="Road has bike lanes within the road surface"
         key="cycleway" layout="horizontal">
       <choice value="no" text="No bike lanes"/>
-      <choice value="opposite" text="No, but two-way bicycle traffic permitted" description="The route may be cycled in the direction opposite of other traffic, but does not have a dedicated lane. Common in Belgium, Netherlands, Denmark."/>
-      <choice value="lane" text="Standard bike lane" description="Separated by painted line"/>
-      <choice value="track" text="Copenhagen-style bike lane" description="Separated by kerb or parked cars"/>
-      <choice value="opposite_lane" text="Two-way bike lane" description="Separated by painted line, and allowing bicycles in both directions in an otherwise one-way street."/>
-      <choice value="opposite_track" text="Two-way Copenhagen-style bike lane" description="Separated by kerb or parked cars, and allowing bicycles in both directions in an otherwise one-way street."/>
+      <choice value="lane" text="On-road bike lane" description="Separated by painted line on the road from cars"/>
+      <choice value="track" text="Parallel track" description="Separated by kerb or parked cars"/>
+      <choice value="opposite_lane" text="Contraflow lane" description="Separated by painted line, and allowing bicycles in both directions in an otherwise one-way street."/>
+      <choice value="opposite_track" text="Contraflow track" description="Separated by kerb or parked cars, and allowing bicycles in both directions in an otherwise one-way street."/>
+      <choice value="opposite" text="Contraflow unmarked" description="The route may be cycled in the direction opposite of other traffic, but does not have a dedicated lane."/>
+      <choice value="segregated" text="Segregated cycle path" description="A path where cyclists and pedestrians are separated by a painted line or kerb."/>
+      <choice value="shared" text="Shared cycle path" description="A path where cyclists and pedestrians share the full width of the path."/>
       <help>http://wiki.openstreetmap.org/wiki/Key:cycleway</help>
     </input>
   </inputSet>
@@ -551,6 +587,10 @@ Quick documentation:
       <choice value="island" text="Island"/>
       <choice value="islet" text="Islet"/>
     </input>
+  </inputSet>
+
+  <inputSet id="isBuilding">
+    <input type="checkbox" presence="onTagMatch" category="Misc" description="Does this thing also represent one, solid building?" name="Building" key="building"/>
   </inputSet>
 
   <!-- ************************************************************************
@@ -800,6 +840,40 @@ Quick documentation:
     <inputSet ref="common"/>
   </feature>
 
+  <feature name="Raceway/racing track">
+    <category>roads</category>
+    <category>sport</category>
+    <icon>
+      <font size="10pt">A purpose built track for racing motor vehicles.</font>
+    </icon>
+
+    <line/>
+    <area/>
+    <tag k="highway" v="raceway"/>
+
+    <inputSet ref="simpleName"/>
+    <inputSet ref="roadPhysical"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Sports track">
+    <category>roads</category>
+    <category>sport</category>
+    <icon>
+      <font size="10pt">A purpose built track for running, cycling, greyhound racing, horse racing.</font>
+    </icon>
+
+    <line/>
+    <area/>
+    <tag k="leisure" v="track"/>
+
+    <inputSet ref="simpleName"/>
+    <inputSet ref="roadPhysical"/>
+    <inputSet ref="common"/>
+  </feature>
+
+
+
 
   <!-- ************************************************************************
        Paths
@@ -810,11 +884,12 @@ Quick documentation:
     <icon image="features/paths__footway.png">
       ${name} <i>${ref}</i>
     </icon>
-
+    <help>http://wiki.openstreetmap.org/wiki/Tag:highway%3Dfootway</help>
     <line/>
     <tag k="highway" v="footway"/>
     <inputSet ref="path"/>
     <inputSet ref="common"/>
+    <inputset ref="naming"/>
   </feature>
 
   <feature name="Cycle path">
@@ -822,12 +897,28 @@ Quick documentation:
     <icon image="features/paths__bike.png">
       ${name} <i>${ncn_ref} ${rcn_ref} ${lcn_ref} ${ref}</i>
     </icon>
-
+    <help>http://wiki.openstreetmap.org/wiki/Tag:highway%3Dcycleway</help>
     <line/>
     <tag k="highway" v="cycleway"/>
     <inputSet ref="path"/>
     <inputSet ref="common"/>
+    <inputset ref="naming"/>
   </feature>
+
+  <feature name="Generic path">
+    <category>paths</category>
+    <icon >
+      ${name} <i>${ncn_ref} ${rcn_ref} ${lcn_ref} ${ref}</i>
+    </icon>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:highway%3Dpath</help>
+
+    <line/>
+    <tag k="highway" v="path"/>
+    <inputSet ref="path"/>
+    <inputSet ref="common"/>
+    <inputset ref="naming"/>
+  </feature>
+
 
   <feature name="Pedestrian street">
     <category>paths</category>
@@ -849,6 +940,7 @@ Quick documentation:
     </area>
     <inputSet ref="minorRoad"/>
     <inputSet ref="common"/>
+    <inputset ref="naming"/>
   </feature>
 
   <feature name="Bridleway">
@@ -860,6 +952,7 @@ Quick documentation:
     <tag k="highway" v="bridleway"/>
     <inputSet ref="path"/>
     <inputSet ref="common"/>
+    <inputset ref="naming"/>
   </feature>
 
   <feature name="Steps">
@@ -881,6 +974,7 @@ Quick documentation:
 
   <feature name="Park">
     <category>natural</category>
+    <category>sport</category>
     <icon image="icons/natural_blank.png">
       <b>${name}</b>
       <br/>
@@ -893,7 +987,7 @@ Quick documentation:
 
   <feature name="Forest">
     <category>natural</category>
-    <icon image="icons/natural_blank.png"/>
+    <icon image="/features/pois/landuse_coniferous.n.24.png"/>
 
     <area/>
     <tag k="landuse" v="forest"/>
@@ -910,84 +1004,7 @@ Quick documentation:
   </feature>
 
 
-  <!-- ************************************************************************
-       Barrier
-       ************************************************************************ -->
-
-  <feature name="Wall">
-    <category>barrier</category>
-    <icon image="features/barrier_generic.png"/>
-    <icon>
-    </icon>
-    <help>http://wiki.openstreetmap.org/wiki/Tag:barrier%3Dwall</help>
-
-    <line/>
-    <tag k="barrier" v="wall"/>
-    <inputSet ref="common"/>
-  </feature>
-
-  <feature name="Ditch">
-    <category>barrier</category>
-    <icon image="features/barrier_generic.png"/>
-    <icon>
-    </icon>
-    <help>http://wiki.openstreetmap.org/wiki/Tag:barrier%3Dditch</help>
-
-    <line/>
-    <tag k="barrier" v="ditch"/>
-    <inputSet ref="common"/>
-  </feature>
-
-  <feature name="Retaining wall">
-    <category>barrier</category>
-    <icon image="features/barrier_generic.png"/>
-    <icon>
-    </icon>
-    <help>http://wiki.openstreetmap.org/wiki/Tag:barrier%3Dretaining_wall</help>
-
-    <line/>
-    <tag k="barrier" v="retaining_wall"/>
-    <inputSet ref="common"/>
-  </feature>
-
-  <feature name="City wall">
-    <category>barrier</category>
-    <icon image="features/barrier_generic.png"/>
-    <icon>
-    </icon>
-    <help>http://wiki.openstreetmap.org/wiki/Tag:barrier%3Dcity_wall</help>
-
-    <line/>
-    <tag k="barrier" v="city_wall"/>
-    <inputSet ref="common"/>
-  </feature>
-
-
-  <feature name="Fence">
-    <category>barrier</category>
-    <icon image="features/barrier_generic.png"/>
-    <icon>
-    </icon>
-    <help>http://wiki.openstreetmap.org/wiki/Tag:barrier%3Dfence</help>
-
-    <line/>
-    <tag k="barrier" v="fence"/>
-    <inputSet ref="common"/>
-  </feature>
-
-
-  <feature name="Hedge">
-    <category>barrier</category>
-    <icon image="features/barrier_generic.png"/>
-    <icon>
-    </icon>
-    <help>http://wiki.openstreetmap.org/wiki/Tag:barrier%3Dhedge</help>
-
-    <line/>
-    <tag k="barrier" v="hedge"/>
-    <inputSet ref="common"/>
-  </feature>
-
+  
 
 
   <!-- ************************************************************************
@@ -1184,6 +1201,8 @@ Quick documentation:
 
   <feature name="Slipway">
     <category>water</category>
+    <!-- icon from http://www.clker.com/clipart-map-symbols-boat-launch-white.html, feel free to (re)move this notice -->
+    <icon image="features/pois/boat-launch-24.png"/>
     <point />
     <tag k="leisure" v="slipway"/>
     <inputSet ref="names"/>
@@ -1354,15 +1373,15 @@ Quick documentation:
 
   <feature name="Bus station">
     <category>transport</category>
-    <icon image="icons/transport_blank.png">
+    <icon image="/features/pois/transport_bus_station.n.24.png">
       <b>${name} ${addr:housename}</b><br/>
       ${addr:housenumber} ${addr:street} ${addr:postcode}
     </icon>
 
     <area/>
     <tag k="amenity" v="bus_station"/>
-    <tag k="building" v="yes"/>
     <inputSet ref="names"/>
+    <inputSet ref="isBuilding"/>
     <inputSet ref="buildingAddress"/>
     <inputSet ref="common"/>
   </feature>
@@ -1464,7 +1483,7 @@ Quick documentation:
 
     <area/>
     <tag k="amenity" v="school"/>
-    <tag k="building" v="yes"/>
+    <inputSet ref="isBuilding"/>
     <inputSet ref="names"/>
     <inputSet ref="buildingAddress"/>
     <inputSet ref="common"/>
@@ -1480,9 +1499,24 @@ Quick documentation:
 
     <area/>
     <tag k="amenity" v="college"/>
-    <tag k="building" v="yes"/>
     <inputSet ref="names"/>
     <inputSet ref="buildingAddress"/>
+    <inputSet ref="isBuilding"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="University">
+    <category>buildings</category>
+    <icon image="features/pois/education_university.n.24.png">
+      <b>${name} ${addr:housename}</b><br/>
+      ${addr:housenumber} ${addr:street} ${addr:postcode}
+    </icon>
+
+    <area/>
+    <tag k="amenity" v="university"/>
+    <inputSet ref="names"/>
+    <inputSet ref="buildingAddress"/>
+    <inputSet ref="isBuilding"/>
     <inputSet ref="common"/>
   </feature>
 
@@ -1496,9 +1530,9 @@ Quick documentation:
 
     <area/>
     <tag k="shop" v="supermarket"/>
-    <tag k="building" v="yes"/>
     <inputSet ref="names"/>
     <inputSet ref="buildingAddress"/>
+    <inputSet ref="isBuilding"/>
     <inputSet ref="common"/>
   </feature>
 
@@ -1512,13 +1546,73 @@ Quick documentation:
 
     <area/>
     <tag k="amenity" v="place_of_worship"/>
-    <tag k="building" v="yes"/>
     <inputSet ref="names"/>
     <inputSet ref="buildingAddress"/>
-    <input type="choice" category="Religion" name="Religion" key="religion" description="The religion to which this place of worship belongs.">
+    <!-- sorted in reverse order of popularity in taginfo. -->
+    <input type="choice" category="Religion" name="Religion" key="religion" description="The religion to which this place of worship belongs." presence="always">
       <choice value="christian" text="Christianity (church)"/>
+      <choice value="muslim" text="Islam (mosque)"/>
+      <choice value="buddhist" text="Buddhist (temple)"/>
       <choice value="jewish" text="Judaism (synagogue)"/>
+      <choice value="hindu" text="Hindu (temple)"/>
+      <choice value="sikh" text="Sikh (gurdwara)"/>
+      <choice value="spiritualist" text="Spiritualism"/>
+      <choice value="unitarian" text="Unitarianism"/>
+      <choice value="taoist" text="Taoism"/>
+      <choice value="multifaith" text="Multi-faith"/>
+      <choice value="scientologist" text="Scientology"/>
+      <choice value="bahai" text="Bahai"/>
     </input>
+    <!-- sorted in reverse order of popularity in taginfo. -->
+    <input type="choice" category="Religion" name="Denomination" key="denomination" description="The denomination, or sub-branch of the main religion." presence="always">
+      <choice value="catholic" text="Catholic"/>
+      <choice value="baptist" text="Baptist"/>
+      <choice value="methodist" text="Methodist"/>
+      <choice value="lutheran" text="Lutheran"/>
+      <choice value="protestant" text="Prostant"/>
+      <choice value="orthodox" text="Orthodox"/>
+      <choice value="presbyterian" text="Presbyterian"/>
+      <choice value="anglican" text="Anglican"/>
+      <choice value="roman_catholic" text="Roman Catholic"/>
+      <choice value="evangelical" text="Evangelical"/>
+      <choice value="pentecostal" text="Pentecostal"/>
+      <choice value="mormon" text="Mormon"/>
+      <choice value="sunni" text="Sunni"/>
+      <choice value="jehovahs_witness" text="Jehovah's Witness"/>
+      <!-- duplicate of Anglican? -->
+      <choice value="church_of_england" text="Church of England"/>
+      <choice value="greek_orthodox" text="Greek Orthodox"/>
+      <choice value="new_apostolic" text="New Apostolic"/>
+      <choice value="episcopal" text="Episcopal"/>
+      <choice value="russian_orthodox" text="Russian Orthodox"/>
+      <choice value="adventist" text="Adventist"/>
+      <choice value="seventh_day_adventist" text="Seventh Day Adventist"/>
+      <choice value="united_reformed" text="United Reformed"/>
+      <choice value="reformed" text="Reformed"/>
+      <choice value="iglesia_ni_cristo" text="Iglesia Ni Cristo"/>
+      <choice value="uniting" text="Uniting"/>
+      <choice value="salvation_army" text="Salvation Army"/>
+      <choice value="church_of_scotland" text="Church of Scotland"/>
+      <choice value="quaker" text="Quaker"/>
+      <choice value="scientist" text="Scientist"/>
+      <choice value="shia" text="Shia"/>
+      <choice value="congregational" text="Congregational"/>
+      <choice value="assembly_of_god" text="Assembly of God"/>
+      <choice value="united" text="United"/>
+      <choice value="mennonite" text="Mennonite"/>
+      <choice value="nazarene" text="Nazarene"/>
+      <!-- duplicate of Mormon? -->
+      <choice value="latter_day_saints" text="Latter Day Saints"/>
+      <choice value="dutch_reformed" text="Dutch Reformed"/>
+      <choice value="tibetan" text="Tibetan"/>
+      <choice value="shingon" text="Shingon"/>
+      <choice value="georgian_orthodox" text="Georgian Orthodox"/>
+      <choice value="unitarian" text="Unitarian"/>
+      <choice value="brethren" text="Brethren"/>
+      <choice value="armenian_apostolic" text="Armenian Apostolic"/>
+      <choice value="maronite" text="Maronite"/>
+    </input>
+    <inputSet ref="isBuilding"/>
     <inputSet ref="common"/>
   </feature>
 
@@ -1548,43 +1642,12 @@ Quick documentation:
 
     <area/>
     <tag k="amenity" v="hospital"/>
-    <tag k="building" v="yes"/>
     <inputSet ref="names"/>
     <inputSet ref="buildingAddress"/>
+    <inputSet ref="isBuilding"/>
     <inputSet ref="common"/>
   </feature>
 
-
-  <feature name="University">
-    <category>buildings</category>
-    <icon image="features/pois/education_university.n.24.png">
-      <b>${name} ${addr:housename}</b><br/>
-      ${addr:housenumber} ${addr:street} ${addr:postcode}
-    </icon>
-
-    <area/>
-    <tag k="amenity" v="university"/>
-    <tag k="building" v="yes"/>
-    <inputSet ref="names"/>
-    <inputSet ref="buildingAddress"/>
-    <inputSet ref="common"/>
-  </feature>
-
-
-  <feature name="Attraction">
-    <category>buildings</category>
-    <icon image="features/pois/tourist_attraction.n.24.png">
-      <b>${name} ${addr:housename}</b><br/>
-      ${addr:housenumber} ${addr:street} ${addr:postcode}
-    </icon>
-
-    <area/>
-    <tag k="tourism" v="attraction"/>
-    <tag k="building" v="yes"/>
-    <inputSet ref="names"/>
-    <inputSet ref="buildingAddress"/>
-    <inputSet ref="common"/>
-  </feature>
 
 
   <feature name="Museum">
@@ -1596,12 +1659,23 @@ Quick documentation:
 
     <area/>
     <tag k="tourism" v="museum"/>
-    <tag k="building" v="yes"/>
     <inputSet ref="names"/>
     <inputSet ref="buildingAddress"/>
+    <inputSet ref="isBuilding"/>
     <inputSet ref="common"/>
   </feature>
 
+  <feature name="Shopping centre">
+    <category>buildings</category>
+    <category>shopping</category>
+    <node/>
+    <area/>
+    <tag k="shop" v="mall"/>
+    <inputSet ref="names"/>
+    <inputSet ref="buildingAddress"/>
+    <inputSet ref="isBuilding"/>
+    <inputSet ref="common"/>
+  </feature>
 
   <feature name="Zoo">
     <category>buildings</category>
@@ -1612,9 +1686,9 @@ Quick documentation:
 
     <area/>
     <tag k="tourism" v="zoo"/>
-    <tag k="building" v="yes"/>
     <inputSet ref="names"/>
     <inputSet ref="buildingAddress"/>
+    <inputSet ref="isBuilding"/>
     <inputSet ref="common"/>
   </feature>
 
@@ -1630,6 +1704,7 @@ Quick documentation:
     <tag k="leisure" v="stadium"/>
     <inputSet ref="names"/>
     <inputSet ref="buildingAddress"/>
+    <inputSet ref="isBuilding"/>
     <inputSet ref="common"/>
   </feature>
 
@@ -1642,6 +1717,8 @@ Quick documentation:
     </icon>
 
     <area/>
+    <!-- This should catch all the "building=*" tags in use: yes, hut, house, residential, entrance, apartments, garage, industrial,  garages, service, manufacture, collapsed... 
+         Is this possible? -->
     <!-- <tag k="building" v="*"/> -->
     <tag k="building" v="yes"/>
     <inputSet ref="names"/>
@@ -1652,7 +1729,7 @@ Quick documentation:
 
   <feature name="Sports centre">
     <category>buildings</category>
-    <icon >
+    <icon image="features/pois/sport_leisure_centre.n.24.png">
       <b>${name} ${addr:housename}</b><br/>
       ${addr:housenumber} ${addr:street} ${addr:postcode}
     </icon>
@@ -1663,6 +1740,7 @@ Quick documentation:
     <inputSet ref="names"/>
     <inputSet ref="buildingAddress"/>
     <inputSet ref="pitchSport"/>
+    <inputSet ref="isBuilding"/>
     <inputSet ref="common"/>
   </feature>
 
@@ -1731,6 +1809,7 @@ Quick documentation:
 
   <feature name="Marketplace">
     <category>landuse</category>
+    <point />
     <area/>
     <icon image="features/pois/shopping_greengrocer.n.24.png">
       <b>${name}</b>
@@ -1743,6 +1822,7 @@ Quick documentation:
 
   <feature name="Cemetery">
     <category>landuse</category>
+    <point />
     <area/>
     <icon image="features/pois/place_of_worship_unknown3.n.24.png">
       <b>${name}</b>
@@ -1752,6 +1832,17 @@ Quick documentation:
     <inputSet ref="common"/>
   </feature>
 
+  <feature name="Graveyard">
+    <category>landuse</category>
+    <point />
+    <area/>
+    <icon image="features/pois/place_of_worship_unknown3.n.24.png">
+      <b>${name}</b>
+    </icon>
+    <tag k="amenity" v="grave_yard"/>
+    <inputSet ref="simpleName"/>
+    <inputSet ref="common"/>
+  </feature>
 
   <feature name="Quarry">
     <category>landuse</category>
@@ -1787,9 +1878,10 @@ Quick documentation:
 
 
   <feature name="Playground">
-    <category>landuse</category>
+    <category>sport</category>
     <area/>
-    <icon image="features/pois/sport_leisure_centre.n.24.png">
+    <point/>
+    <icon image="features/pois/amenity_playground.n.24.png">
       <b>${name}</b>
     </icon>
     <tag k="leisure" v="playground"/>
@@ -1799,7 +1891,7 @@ Quick documentation:
 
 
   <feature name="Golf course">
-    <category>landuse</category>
+    <category>sport</category>
     <area/>
     <icon  image="features/pois/sport_golf.n.24.png">
       <b>${name}</b>
@@ -1812,6 +1904,7 @@ Quick documentation:
 
   <feature name="Recreation ground">
     <category>landuse</category>
+    <category>sport</category>    
     <area/>
     <icon image="features/pois/sport_leisure_centre.n.24.png">
       <b>${name}</b>
@@ -1875,6 +1968,7 @@ Quick documentation:
 
   <feature name="Sports track">
     <category>landuse</category>
+    <category>sport</category>
     <area/>
     <icon image="features/pois/sport_leisure_centre.n.24.png">
       <b>${name}</b>
@@ -2079,8 +2173,22 @@ Quick documentation:
     <icon image="features/pois/amenity_police2.n.24.png"/>
     <help>http://wiki.openstreetmap.org/wiki/Tag:amenity%3Dpolice</help>
     <point/>
+    <area/>
     <tag k="amenity" v="police"/>
-    <input type="freetext" presence="always" category="" name="name" key="name" description="The Name of it." priority="low"/>
+    <inputSet ref="simpleName"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Library">
+    <category>amenity</category>
+    <icon image="features/pois/amenity_library.n.24.png">
+      ${name}
+    </icon>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:amenity%3Dlibrary</help>
+    <point/>
+    <area/>
+    <tag k="amenity" v="library"/>
+    <inputSet ref="simpleName"/>
     <inputSet ref="common"/>
   </feature>
 
@@ -2090,8 +2198,13 @@ Quick documentation:
     <icon image="features/pois/health_hospital.n.24.png"/>
     <help>http://wiki.openstreetmap.org/wiki/Tag:amenity%3Dhospital</help>
     <point/>
+    <area/>
     <tag k="amenity" v="hospital"/>
     <input type="freetext" presence="always" category="" name="name" key="name" description="The Name of it." priority="low"/>
+    <input type="choice" presence="always" category="Hospital" name="Emergency treatment available" key="emergency" description="Are there accident and emergency facilities at this hospital?">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
     <inputSet ref="common"/>
   </feature>
 
@@ -2171,6 +2284,33 @@ Quick documentation:
     <inputSet ref="common"/>
   </feature>
 
+  <feature name="Kindergarten">
+    <category>amenity</category>
+    <category>buildings</category>
+    <icon image="features/pois/education_nursery3.n.24.png">
+      ${name}
+    </icon>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:amenity%3Dkindergarten</help>
+    <point/>
+    <tag k="amenity" v="kindergarten"/>
+    <inputSet ref="names"/>
+    <inputSet ref="buildingAddress"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Town hall">
+    <category>amenity</category>
+    <icon >
+      ${name}
+    </icon>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:amenity%3Dtownhall</help>
+    <point/>
+    <tag k="amenity" v="townhall"/>
+    <inputSet ref="names"/>
+    <inputSet ref="buildingAddress"/>
+    <inputSet ref="common"/>
+  </feature>
+
 
   <feature name="Post Box">
     <category>amenity</category>
@@ -2185,11 +2325,152 @@ Quick documentation:
     <inputSet ref="common"/>
   </feature>
 
+  <feature name="Post Office">
+    <category>amenity</category>
+    <category>buildings</category>
+    <icon image="features/pois/amenity_post_office.n.24.png">
+      ${name}
+    </icon>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:amenity=post_office</help>
+    <point/>
+    <area/>
+    <tag k="amenity" v="post_office"/>
+    <input type="freetext" presence="always" category="Naming" name="Ref" key="ref" description="Reference number of the post office"/>
+    <input type="freetext" presence="always" category="Naming" name="Operator" key="operator" description="The provider of the postal service" priority="low"/>
+    <inputSet ref="common"/>
+    <inputset ref="simpleName"/>
+  </feature>
+
+  <feature name="Trash/rubbish bin">
+    <category>amenity</category>
+    <icon image="features/pois/amenity_waste_bin.n.24.png">
+      ${ref}
+    </icon>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:amenity=waste_basket</help>
+    <point/>
+    <tag k="amenity" v="waste_basket"/>
+    <inputSet ref="common"/>
+  </feature>
+
+
   <feature name="Toilets">
     <category>amenity</category>
+    <icon image="features/pois/amenity_toilets.n.24.png">
+      ${ref}
+    </icon>
     <point/>
     <tag k="amenity" v="toilets"/>
     <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Water fountain">
+    <category>amenity</category>
+    <category>water</category>
+    <category>foodanddrink</category>
+    <icon image="features/pois/food_drinkingtap.n.24.png">
+      ${ref}
+    </icon>
+    <point/>
+    <tag k="amenity" v="drinking_water"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Shelter">
+    <category>amenity</category>
+    <icon image="features/pois/accommodation_shelter2.n.24.png">
+      ${name}
+    </icon>    
+    <point/>
+    <area/>
+    <tag k="amenity" v="shelter"/>
+    <inputset ref="names"/>
+    <inputSet ref="common"/>
+  </feature>
+
+
+  <feature name="Barbecue">
+    <category>amenity</category>
+    <icon image="features/pois/tourist_picnic.n.24.png"/>
+    <!-- specific icon needed -->
+    <point/>
+    <tag k="amenity" v="bbq"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Hunting stand">
+    <category>amenity</category>
+    <category>sport</category>
+    <!-- icon needed -->
+    <point/>
+    <tag k="amenity" v="hunting_stand"/>
+    <inputSet ref="common"/>
+    <inputSet ref="names"/>
+  </feature>
+
+
+  <feature name="Park bench">
+    <category>amenity</category>
+    <icon image="features/pois/amenity_bench.n.24.png" />
+    <point/>
+    <tag k="amenity" v="bench"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Public telephone">
+    <category>amenity</category>
+    <icon image="features/pois/amenity_telephone.n.24.png" />
+    <point/>
+    <tag k="amenity" v="telephone"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Emergency phone">
+    <category>amenity</category>
+    <icon image="features/pois/emergency-telephone-24.png" />
+    <!-- icon from http://www.clker.com/clipart-emergency-telephone-blue.html, feel free to (re)move this notice -->
+    <point/>
+    <tag k="amenity" v="emergency_phone"/>
+    <inputSet ref="common"/>
+    <input type="freetext" presence="always" category="Naming" name="Ref" key="ref" description="Reference number of emergency phone."/>    
+  </feature>
+
+
+  <feature name="Swimming pool">
+    <category>amenity</category>
+    <category>sport</category>
+    <icon image="features/pois/sport_swimming_outdoor.n.24.png">
+      ${name}
+    </icon>
+    <point/>
+    <area/>
+    <tag k="amenity" v="swimming_pool"/>
+    <inputSet ref="simpleName"/>    
+    <inputSet ref="common"/>
+
+  </feature>
+
+  <feature name="Fountain">
+    <category>amenity</category>
+    <icon image="features/pois/amenity_fountain2.n.24.png">
+    ${name}
+    </icon>
+    <point/>
+    <tag k="amenity" v="fountain"/>
+    <inputSet ref="common"/>
+    <inputSet ref="simpleName"/>
+  </feature>
+
+  <feature name="Vending machine">
+    <category>amenity</category>
+    <category>foodanddrink</category>
+    <icon>A vending machine.</icon>
+    <!-- icon needed -->
+    <point/>
+    <tag k="amenity" v="vending_machine"/>
+    <inputSet ref="common"/>
+    <inputSet ref="simpleName"/>
+    <input type="freetext" presence="always" name="Product" key="vending" description="What is being sold: tickets, food, maps..."/>
+    <input type="operator" presence="always" name="Operator" key="operator" description="Which company provides the service" />
   </feature>
 
 
@@ -2289,20 +2570,19 @@ Quick documentation:
 
 
   <!-- ========= Tourism ========= -->
-
-  <!-- This is a very popular tag, can't be left out -->
   <feature name="Attraction">
     <category>tourism</category>
-    <icon image="icons/tourist_blank.png"/>
-    <point/>
+    <icon image="features/pois/tourist_attraction.n.24.png">
+      <b>${name} ${addr:housename}</b><br/>
+      ${addr:housenumber} ${addr:street} ${addr:postcode}
+    </icon>
+
     <area/>
-    <inputSet ref="simpleName"/>
     <tag k="tourism" v="attraction"/>
+    <inputSet ref="names"/>
+    <inputSet ref="buildingAddress"/>
     <inputSet ref="common"/>
   </feature>
-
-
-
 
   <feature name="Museum">
     <category>tourism</category>
@@ -2427,20 +2707,19 @@ Quick documentation:
     <category>tourism</category>
     <point/>
     <area/>
-    <inputSet ref="simpleName"/>
     <icon image="features/pois/tourist_zoo.n.24.png"/>
     <tag k="tourism" v="zoo"/>
+    <inputSet ref="simpleName"/>
     <inputSet ref="common"/>
   </feature>
 
 
-  <!-- icons needed-->
   <feature name="Information">
     <category>tourism</category>
     <icon image="features/pois/amenity_information.n.24.png"/>
     <point/>
-    <inputSet ref="simpleName"/>
     <tag k="tourism" v="information"/>
+    <inputSet ref="simpleName"/>
     <inputSet ref="common"/>
   </feature>
 
@@ -2659,6 +2938,80 @@ Quick documentation:
 
   <!-- ========= Barriers ========= -->
 
+  <feature name="Wall">
+    <category>barrier</category>
+    <icon image="features/barrier_generic.png"/>
+    <icon>
+    </icon>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:barrier%3Dwall</help>
+
+    <line/>
+    <tag k="barrier" v="wall"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Ditch">
+    <category>barrier</category>
+    <icon image="features/barrier_generic.png"/>
+    <icon>
+    </icon>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:barrier%3Dditch</help>
+
+    <line/>
+    <tag k="barrier" v="ditch"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Retaining wall">
+    <category>barrier</category>
+    <icon image="features/barrier_generic.png"/>
+    <icon>
+    </icon>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:barrier%3Dretaining_wall</help>
+
+    <line/>
+    <tag k="barrier" v="retaining_wall"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="City wall">
+    <category>barrier</category>
+    <icon image="features/barrier_generic.png"/>
+    <icon>
+    </icon>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:barrier%3Dcity_wall</help>
+
+    <line/>
+    <tag k="barrier" v="city_wall"/>
+    <inputSet ref="common"/>
+  </feature>
+
+
+  <feature name="Fence">
+    <category>barrier</category>
+    <icon image="features/barrier_generic.png"/>
+    <icon>
+    </icon>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:barrier%3Dfence</help>
+
+    <line/>
+    <tag k="barrier" v="fence"/>
+    <inputSet ref="common"/>
+  </feature>
+
+
+  <feature name="Hedge">
+    <category>barrier</category>
+    <icon image="features/barrier_generic.png"/>
+    <icon>
+    </icon>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:barrier%3Dhedge</help>
+
+    <line/>
+    <tag k="barrier" v="hedge"/>
+    <inputSet ref="common"/>
+  </feature>
+
   <feature name="Bollard">
     <category>barrier</category>
     <icon image="features/pois/barrier_bollard.n.24.png">
@@ -2763,6 +3116,19 @@ Quick documentation:
     <inputSet ref="common"/>
   </feature>
 
+  <feature name="Wire fence">
+    <!-- no idea, but taginfo says 2700 uses -->
+    <category>barrier</category>
+    <icon image="features/barrier_generic.png"/>
+   
+    <help>http://wiki.openstreetmap.org/wiki/Tag:barrier%3Dwire_fence</help>
+
+    <line/>
+    <tag k="barrier" v="wire_fence"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <!-- **************************************************************** -->
 
   <feature name="Turning circle">
     <category>transport</category>
@@ -2889,6 +3255,19 @@ Quick documentation:
 
 
   <!-- ========= Shops ========= -->
+  <feature name="Supermarket">
+    <category>shopping</category>
+    <icon image="features/pois/shopping_supermarket.n.24.png">
+      ${name}
+    </icon>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:shop%3Dsupermarket</help>
+    <point/>
+    <tag k="shop" v="supermarket"/>
+    <inputSet ref="names"/>
+    <inputSet ref="web"/>
+    <inputSet ref="buildingAddress"/>
+    <inputSet ref="common"/>
+  </feature>
 
   <feature name="Small Convenience Store">
     <category>shopping</category>
@@ -2904,20 +3283,18 @@ Quick documentation:
     <inputSet ref="common"/>
   </feature>
 
-
-  <feature name="Supermarket">
+  <feature name="Bakery">
     <category>shopping</category>
-    <icon image="features/pois/shopping_supermarket.n.24.png">
-      ${name}
-    </icon>
-    <help>http://wiki.openstreetmap.org/wiki/Tag:shop%3Dsupermarket</help>
     <point/>
-    <tag k="shop" v="supermarket"/>
-    <inputSet ref="names"/>
+    <inputSet ref="simpleName"/>
     <inputSet ref="web"/>
     <inputSet ref="buildingAddress"/>
+    <icon image="features/pois/shopping_bakery.n.24.png"/>
+    <tag k="shop" v="bakery"/>
     <inputSet ref="common"/>
   </feature>
+
+
 
 
   <feature name="Alcohol shop">
@@ -2931,17 +3308,6 @@ Quick documentation:
     <inputSet ref="common"/>
   </feature>
 
-
-  <feature name="Bakery">
-    <category>shopping</category>
-    <point/>
-    <inputSet ref="simpleName"/>
-    <inputSet ref="web"/>
-    <inputSet ref="buildingAddress"/>
-    <icon image="features/pois/shopping_bakery.n.24.png"/>
-    <tag k="shop" v="bakery"/>
-    <inputSet ref="common"/>
-  </feature>
 
 
   <feature name="Bike shop">
@@ -2963,7 +3329,7 @@ Quick documentation:
     <inputSet ref="web"/>
     <inputSet ref="buildingAddress"/>
     <icon image="features/pois/shopping_book.n.24.png"/>
-    <tag k="shop" v="book"/>
+    <tag k="shop" v="books"/>
     <inputSet ref="common"/>
   </feature>
 
@@ -2976,6 +3342,17 @@ Quick documentation:
     <inputSet ref="buildingAddress"/>
     <icon image="features/pois/shopping_butcher.n.24.png"/>
     <tag k="shop" v="butcher"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Car sales">
+    <category>shopping</category>
+    <point/>
+    <inputSet ref="simpleName"/>
+    <inputSet ref="web"/>
+    <inputSet ref="buildingAddress"/>
+    <icon image="features/pois/shopping_car.n.24.png"/>
+    <tag k="shop" v="car"/>
     <inputSet ref="common"/>
   </feature>
 
@@ -3036,6 +3413,17 @@ Quick documentation:
     <inputSet ref="buildingAddress"/>
     <icon image="features/pois/shopping_fish.n.24.png"/>
     <tag k="shop" v="fishmonger"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Florist">
+    <category>shopping</category>
+    <point/>
+    <inputSet ref="simpleName"/>
+    <inputSet ref="web"/>
+    <inputSet ref="buildingAddress"/>
+    <icon image="features/pois/flowers.png"/>
+    <tag k="shop" v="florist"/>
     <inputSet ref="common"/>
   </feature>
 
@@ -3108,6 +3496,17 @@ Quick documentation:
     <inputSet ref="buildingAddress"/>
     <icon image="features/pois/shopping_jewelry.n.24.png"/>
     <tag k="shop" v="jewelry"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Kiosk">
+    <category>shopping</category>
+    <point/>
+    <inputSet ref="simpleName"/>
+    <inputSet ref="web"/>
+    <inputSet ref="buildingAddress"/>
+    <icon image="features/pois/shopping_jewelry.n.24.png"/>
+    <tag k="shop" v="kiosk"/>
     <inputSet ref="common"/>
   </feature>
 
@@ -3224,15 +3623,70 @@ Quick documentation:
     <inputSet ref="common"/>
   </feature>
 
-  <!-- boundaries -->
+  <!-- Top 10 boundaries in order of usage on taginfo.openstreetmap.de -->
 
-  <feature name="Administrative Boundary">
+  <feature name="Admin Boundary">
     <category>places</category>
     <line/>
+    <icon image="features/pois/poi_boundary_administrative.n.24.png"/>
     <help>http://wiki.openstreetmap.org/wiki/Tag:boundary=administrative</help>
     <tag k="boundary" v="administrative"/>
     <input type="number" minimum="2" maximum="10" presence="always" name="Admin Level" key="admin_level" description="The Administrative level" />
+    <inputSet ref="simpleName"/>
+    <inputSet ref="common"/>
   </feature>
+
+  <feature name="National Park">
+    <category>places</category>
+    <category>natural</category>
+    <line/>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:boundary=national_park</help>
+    <tag k="boundary" v="national_park"/>
+    <inputSet ref="simpleName"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Post Code">
+    <category>places</category>
+    <line/>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:boundary=postal_code</help>
+    <tag k="boundary" v="postal_code"/>
+    <inputSet ref="simpleName"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Protected Area">
+    <category>places</category>
+    <category>natural</category>
+    <line/>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:boundary=protected_area</help>
+    <tag k="boundary" v="protected_area"/>
+    <inputSet ref="simpleName"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Town boundary">
+    <category>places</category>
+    <line/>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:boundary=town</help>
+    <tag k="boundary" v="town"/>
+    <inputSet ref="simpleName"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <!-- boundary=landuse goes here. no idea what it is.-->
+
+  <feature name="Census boundary">
+    <category>places</category>
+    <line/>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:boundary=census</help>
+    <tag k="boundary" v="census"/>
+    <inputSet ref="simpleName"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <!-- next three are marker, postcode_area, administrative. all seem dubious -->
+  
 
   <!-- ************************************************************************
        Relations

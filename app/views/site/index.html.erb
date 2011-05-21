@@ -1,6 +1,6 @@
 <% content_for :greeting do %>
 <% if @user and !@user.home_lon.nil? and !@user.home_lat.nil? %>
-  <%= link_to_function t('layouts.home'), "setPosition(#{@user.home_lat}, #{@user.home_lon}, 10)", { :title => t('layouts.home_tooltip') } %> |
+  <%= link_to_function t('layouts.home'), "setPosition(#{@user.home_lat}, #{@user.home_lon}, 15)", { :title => t('layouts.home_tooltip') } %> |
 <% end %>
 <% end %>
 
@@ -66,18 +66,17 @@ if params['node'] or params['way'] or params['relation']
     end
 end
 
+# Decide on a lat lon to initialise the map with. Various ways of doing this
 if params['minlon'] and params['minlat'] and params['maxlon'] and params['maxlat']
     bbox = true
     minlon = h(params['minlon'])
     minlat = h(params['minlat'])
     maxlon = h(params['maxlon'])
     maxlat = h(params['maxlat'])
+    layers = h(params['layers'])
     box = true if params['box']=="yes"
     object_zoom = false
-end
-
-# Decide on a lat lon to initialise the map with. Various ways of doing this
-if params['lon'] and params['lat']
+elsif params['lon'] and params['lat']
     lon =  h(params['lon'])
     lat =  h(params['lat'])
     zoom =  h(params['zoom'] || '5')
@@ -278,7 +277,7 @@ end
     $("linkloader").src = "http://127.0.0.1:8111/load_and_zoom?left=" + extent.left + "&top=" + extent.top + "&right=" + extent.right + "&bottom=" + extent.bottom;
 
     setTimeout(function () {
-      if (!loaded) alert("<%= t('site.index.remote_failed') %>");
+      if (!loaded) alert("<%= escape_javascript(t('site.index.remote_failed')) %>");
     }, 1000);
 
     event.stop();

@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   has_many :friends, :include => :befriendee, :conditions => "users.status IN ('active', 'confirmed')"
   has_many :tokens, :class_name => "UserToken"
   has_many :preferences, :class_name => "UserPreference"
-  has_many :changesets
+  has_many :changesets, :order => 'created_at DESC'
 
   has_many :client_applications
   has_many :oauth_tokens, :class_name => "OauthToken", :order => "authorized_at desc", :include => [:client_application]
@@ -108,7 +108,7 @@ class User < ActiveRecord::Base
     (languages & array.collect { |i| i.to_s }).first
   end
 
-  def nearby(radius = 50, num = 10)
+  def nearby(radius = NEARBY_RADIUS, num = NEARBY_USERS)
     if self.home_lon and self.home_lat 
       gc = OSM::GreatCircle.new(self.home_lat, self.home_lon)
       bounds = gc.bounds(radius)

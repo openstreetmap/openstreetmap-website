@@ -8,7 +8,7 @@
 
 <script type="text/javascript" defer="defer">
   var brokenContentSize = $("content").offsetWidth == 0;
-  var fo = new SWFObject("/potlatch2/potlatch2.swf?d="+Math.round(Math.random()*1000), "potlatch", "100%", "100%", "9", "#FFFFFF");
+  var fo = new SWFObject("<%= asset_path("/potlatch2/potlatch2.swf") %>", "potlatch", "100%", "100%", "9", "#FFFFFF");
   // 700,600 for fixed size, 100%,100% for resizable
   var changesaved=true;
   
@@ -27,9 +27,12 @@
     <% if params['gpx'] %>
     fo.addVariable('gpx' ,'<%= h(params['gpx']) %>');
     <% end %>
+    <% if params['tileurl'] %>
+    fo.addVariable('tileurl' ,'<%= h(params['tileurl']) %>');
+    <% end %>
     fo.addVariable("zoom",zoom);
-    fo.addVariable("api","http://<%= SERVER_URL %>/api/<%= API_VERSION %>/");
-    fo.addVariable("policy","http://<%= SERVER_URL %>/api/crossdomain.xml");
+    fo.addVariable("api","<%= request.protocol + request.host_with_port %>/api/<%= API_VERSION %>/");
+    fo.addVariable("policy","<%= request.protocol + request.host_with_port %>/api/crossdomain.xml");
     fo.addVariable("connection","XML");
     fo.addVariable("oauth_token","<%= token.token %>");
     fo.addVariable("oauth_token_secret","<%= token.secret %>");

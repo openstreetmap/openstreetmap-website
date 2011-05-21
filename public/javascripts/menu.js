@@ -11,6 +11,14 @@ function openMenu(anchor, menu) {
 }
 
 /*
+ * Close a menu.
+ */
+function closeMenu(menu) {
+  clearTimeout(menu.timer);
+  menu.style.display = "none";
+}
+
+/*
  * Callback called when the mouse enters a menu anchor.
  */
 function enterMenuAnchor(event, anchor, menu, delay) {
@@ -58,7 +66,9 @@ function createMenu(anchorid, menuid, delay) {
   var anchor = $(anchorid);
   var menu = $(menuid);
 
+  anchor.observe("mouseup", function (event) { closeMenu(menu) });
   anchor.observe("mouseover", function (event) { enterMenuAnchor(anchor, anchor, menu, delay) });
   anchor.observe("mouseout", function (event) { leaveMenuAnchor(event, anchor, menu) });
+  menu.observe("mouseup", function (event) { closeMenu(menu) });
   menu.observe("mouseout", function (event) { leaveMenu(event, anchor, menu) });
 }
