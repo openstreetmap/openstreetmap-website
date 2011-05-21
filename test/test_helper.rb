@@ -183,6 +183,35 @@ class ActiveSupport::TestCase
     assert_select "span[class=translation_missing]", false, "Missing translation #{msg}"
   end
 
+  # Set things up for OpenID testing
+  def openid_setup
+    begin
+      # Test if the ROTS (Ruby OpenID Test Server) is already running
+      rots_response = Net::HTTP.get_response(URI.parse("http://localhost:1123/"))
+    rescue
+      # It isn't, so start a new instance.
+      rots = IO.popen(RAILS_ROOT + "/vendor/gems/rots-0.2.1/bin/rots --silent")
+
+      # Wait for up to 30 seconds for the server to start and respond before continuing
+      for i in (1 .. 30)
+	begin
+	  sleep 1
+	  rots_response = Net::HTTP.get_response(URI.parse("http://localhost:1123/"))
+	  # If the rescue block doesn't fire, ROTS is up and running and we can continue
+	  break
+	rescue
+	  # If the connection failed, do nothing and repeat the loop
+	end
+      end
+
+      # Arrange to kill the process when we exit - note that we need
+      # to kill it really har due to a bug in ROTS
+      Kernel.at_exit do
+        Process.kill("KILL", rots.pid)
+      end
+    end
+  end
+
   def openid_request(openid_request_uri)
     openid_response = Net::HTTP.get_response(URI.parse(openid_request_uri))
     openid_response_uri = URI(openid_response['Location'])

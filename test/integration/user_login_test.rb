@@ -3,6 +3,10 @@ require File.dirname(__FILE__) + '/../test_helper'
 class UserLoginTest < ActionController::IntegrationTest
   fixtures :users
 
+  def setup
+    openid_setup
+  end
+
   def test_login_openid_success
     get '/login'
     assert_response :redirect

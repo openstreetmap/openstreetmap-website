@@ -604,7 +604,7 @@ private
     session[:user] = user.id
     session_expires_after 1.month if session[:remember_me]
 
-    target = params[:referer] || url_for(:controller => :site, :action => :index)
+    target = session[:referer] || url_for(:controller => :site, :action => :index)
 
     # The user is logged in, so decide where to send them:
     #
