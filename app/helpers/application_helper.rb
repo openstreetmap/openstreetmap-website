@@ -50,7 +50,7 @@ module ApplicationHelper
     css << ".show_if_user_#{@user.id} { display: inline }" if @user;
     css << ".hide_unless_administrator { display: none }" unless @user and @user.administrator?;
 
-    return content_tag(:style, css)
+    return content_tag(:style, css, :type => "text/css")
   end
 
   def if_logged_in(tag = :div, &block)
