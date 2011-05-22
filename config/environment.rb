@@ -18,7 +18,7 @@ Rails::Initializer.run do |config|
   unless  STATUS == :database_offline
     config.gem 'composite_primary_keys', :version => '2.2.2'
   end
-  config.gem 'libxml-ruby', :version => '~> 1.1.1', :lib => 'libxml'
+  config.gem 'libxml-ruby', :version => '>= 2.0.5', :lib => 'libxml'
   config.gem 'rmagick', :lib => 'RMagick'
   config.gem 'oauth', :version => '>= 0.4.3'
   config.gem 'oauth-plugin', :version => '0.3.14'
