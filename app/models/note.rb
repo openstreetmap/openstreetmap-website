@@ -4,7 +4,7 @@ class Note < ActiveRecord::Base
   has_many :comments, :class_name => "NoteComment",
                       :foreign_key => :note_id,
                       :order => :created_at,
-                      :conditions => "visible = true AND body IS NOT NULL"
+                      :conditions => { :visible => true }
 
   validates_presence_of :id, :on => :update
   validates_uniqueness_of :id
@@ -71,5 +71,18 @@ class Note < ActiveRecord::Base
   # Return the author name, derived from the first comment
   def author_name
     self.comments.first.author_name
+  end
+
+  # Custom JSON output routine for notes
+  def to_json(options = {})
+    super options.reverse_merge(
+      :methods => [ :lat, :lon ], 
+      :only => [ :id, :status, :created_at ],
+      :include => {
+         :comments => {
+           :only => [ :event, :author_name, :created_at, :body ]
+         }
+      }
+    )
   end
 end

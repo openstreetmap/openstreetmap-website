@@ -5,7 +5,6 @@ class NoteController < ApplicationController
   before_filter :check_api_readable
   before_filter :authorize_web, :only => [:create, :close, :update, :delete, :mine]
   before_filter :check_api_writable, :only => [:create, :close, :update, :delete]
-  before_filter :require_moderator, :only => [:delete]
   before_filter :set_locale, :only => [:mine]
   after_filter :compress_output
   around_filter :api_call_handle_error, :api_call_timeout
@@ -13,57 +12,68 @@ class NoteController < ApplicationController
   # Help methods for checking boundary sanity and area size
   include MapBoundary
 
+  ##
+  # Return a list of notes in a given area
   def list
-    # Figure out the bbox
-    bbox = params['bbox']
+    # Figure out the bbox - we prefer a bbox argument but also
+    # support the old, deprecated, method with four arguments
+    if params[:bbox]
+      raise OSM::APIBadUserInput.new("Invalid bbox") unless params[:bbox].count(",") == 3
 
-    if bbox and bbox.count(',') == 3
-      bbox = bbox.split(',')
-      @min_lon, @min_lat, @max_lon, @max_lat = sanitise_boundaries(bbox)
+      bbox = params[:bbox].split(",")
     else
-      #Fallback to old style, this is deprecated and should not be used
-      raise OSM::APIBadUserInput.new("No l was given") unless params['l']
-      raise OSM::APIBadUserInput.new("No r was given") unless params['r']
-      raise OSM::APIBadUserInput.new("No b was given") unless params['b']
-      raise OSM::APIBadUserInput.new("No t was given") unless params['t']
+      raise OSM::APIBadUserInput.new("No l was given") unless params[:l]
+      raise OSM::APIBadUserInput.new("No r was given") unless params[:r]
+      raise OSM::APIBadUserInput.new("No b was given") unless params[:b]
+      raise OSM::APIBadUserInput.new("No t was given") unless params[:t]
 
-      @min_lon = params['l'].to_f
-      @max_lon = params['r'].to_f
-      @min_lat = params['b'].to_f
-      @max_lat = params['t'].to_f
+      bbox = [ params[:l], params[:b], params[:r], params[:t] ]
     end
 
-    limit = getLimit
-    conditions = closedCondition
-	
+    # Get the sanitised boundaries
+    @min_lon, @min_lat, @max_lon, @max_lat = sanitise_boundaries(bbox)
+
+    # Get any conditions that need to be applied
+    conditions = closed_condition
+
+    # Check that the boundaries are valid
     check_boundaries(@min_lon, @min_lat, @max_lon, @max_lat, MAX_NOTE_REQUEST_AREA)
 
-    @notes = Note.find_by_area(@min_lat, @min_lon, @max_lat, @max_lon, :include => :comments, :order => "updated_at DESC", :limit => limit, :conditions => conditions)
+    # Find the notes we want to return
+    @notes = Note.find_by_area(@min_lat, @min_lon, @max_lat, @max_lon,
+                               :include => :comments, 
+                               :conditions => conditions,
+                               :order => "updated_at DESC", 
+                               :limit => result_limit)
 
+    # Render the result
     respond_to do |format|
-      format.html {render :template => 'note/list.rjs', :content_type => "text/javascript"}
-      format.rss {render :template => 'note/list.rss'}
+      format.html { render :format => :rjs, :content_type => "text/javascript" }
+      format.rss
       format.js
-      format.xml {render :template => 'note/list.xml'}
-      format.json { render :json => @notes.to_json(:methods => [:lat, :lon], :only => [:id, :status, :created_at], :include => { :comments => { :only => [:author_name, :created_at, :body]}}) }	  
-      format.gpx {render :template => 'note/list.gpx'}
+      format.xml
+      format.json { render :json => @notes.to_json }
+      format.gpx
     end
   end
 
+  ##
+  # Create a new note
   def create
-    raise OSM::APIBadUserInput.new("No lat was given") unless params['lat']
-    raise OSM::APIBadUserInput.new("No lon was given") unless params['lon']
-    raise OSM::APIBadUserInput.new("No text was given") unless params['text']
+    # Check the arguments are sane
+    raise OSM::APIBadUserInput.new("No lat was given") unless params[:lat]
+    raise OSM::APIBadUserInput.new("No lon was given") unless params[:lon]
+    raise OSM::APIBadUserInput.new("No text was given") unless params[:text]
 
-    lon = params['lon'].to_f
-    lat = params['lat'].to_f
-    comment = params['text']
+    # Extract the arguments
+    lon = params[:lon].to_f
+    lat = params[:lat].to_f
+    comment = params[:text]
+    name = params[:name]
 
-    name = "NoName"
-    name = params['name'] if params['name']
-
-    #Include in a transaction to ensure that there is always a note_comment for every note
+    # Include in a transaction to ensure that there is always a note_comment for every note
     Note.transaction do
+      # Create the note
       @note = Note.create(:lat => lat, :lon => lon)
       raise OSM::APIBadUserInput.new("The note is outside this world") unless @note.in_world?
 
@@ -81,116 +91,173 @@ class NoteController < ApplicationController
         @note.nearby_place = "unknown"
       end
 
+      # Save the note
       @note.save
 
+      # Add a comment to the note
       add_comment(@note, comment, name, "opened")
     end
- 
+
+    # Send an OK response
     render_ok
   end
 
+  ##
+  # Add a comment to an existing note
   def update
-    raise OSM::APIBadUserInput.new("No id was given") unless params['id']
-    raise OSM::APIBadUserInput.new("No text was given") unless params['text']
+    # Check the arguments are sane
+    raise OSM::APIBadUserInput.new("No id was given") unless params[:id]
+    raise OSM::APIBadUserInput.new("No text was given") unless params[:text]
 
-    name = "NoName"
-    name = params['name'] if params['name']
-	
-    id = params['id'].to_i
+    # Extract the arguments
+    id = params[:id].to_i
+    comment = params[:text]
+    name = params[:name] or "NoName"
 
+    # Find the note and check it is valid
     note = Note.find(id)
     raise OSM::APINotFoundError unless note
     raise OSM::APIAlreadyDeletedError unless note.visible?
 
+    # Add a comment to the note
     Note.transaction do
-      add_comment(note, params['text'], name, "commented")
+      add_comment(note, comment, name, "commented")
     end
 
+    # Send an OK response
     render_ok
   end
 
+  ##
+  # Close a note
   def close
-    raise OSM::APIBadUserInput.new("No id was given") unless params['id']
-	
-    id = params['id'].to_i
-    name = "NoName"
-    name = params['name'] if params['name']
+    # Check the arguments are sane
+    raise OSM::APIBadUserInput.new("No id was given") unless params[:id]
 
+    # Extract the arguments
+    id = params[:id].to_i
+    name = params[:name]
+
+    # Find the note and check it is valid
     note = Note.find_by_id(id)
     raise OSM::APINotFoundError unless note
     raise OSM::APIAlreadyDeletedError unless note.visible?
 
+    # Close the note and add a comment
     Note.transaction do
       note.close
-      add_comment(note, :nil, name, "closed")
+
+      add_comment(note, nil, name, "closed")
     end
 
+    # Send an OK response
     render_ok
   end 
 
+  ##
+  # Get a feed of recent notes and comments
   def rss
-    limit = getLimit
-    conditions = closedCondition
+    # Get any conditions that need to be applied
+    conditions = closed_condition
 
-    # Figure out the bbox
-    bbox = params['bbox']
+    # Process any bbox
+    if params[:bbox]
+      raise OSM::APIBadUserInput.new("Invalid bbox") unless params[:bbox].count(",") == 3
 
-    if bbox and bbox.count(',') == 3
-      bbox = bbox.split(',')
-      @min_lon, @min_lat, @max_lon, @max_lat = sanitise_boundaries(bbox)
+      @min_lon, @min_lat, @max_lon, @max_lat = sanitise_boundaries(params[:bbox].split(','))
 
       check_boundaries(@min_lon, @min_lat, @max_lon, @max_lat, MAX_NOTE_REQUEST_AREA)
 
-      conditions = cond_merge conditions, [OSM.sql_for_area(@min_lat, @min_lon, @max_lat, @max_lon)]
+      conditions = cond_merge conditions, [OSM.sql_for_area(@min_lat, @min_lon, @max_lat, @max_lon, "notes.")]
     end
 
-    @comments = NoteComment.find(:all, :limit => limit, :order => "created_at DESC", :joins => :note, :include => :note, :conditions => conditions)
-    render :template => 'note/rss.rss'
+    # Find the comments we want to return
+    @comments = NoteComment.find(:all, 
+                                 :conditions => conditions,
+                                 :order => "created_at DESC",
+                                 :limit => result_limit,
+                                 :joins => :note, 
+                                 :include => :note)
+
+    # Render the result
+    respond_to do |format|
+      format.rss
+    end
   end
 
+  ##
+  # Read a note
   def read
-    @note = Note.find(params['id'])
+    # Check the arguments are sane
+    raise OSM::APIBadUserInput.new("No id was given") unless params[:id]
+
+    # Find the note and check it is valid
+    @note = Note.find(params[:id])
     raise OSM::APINotFoundError unless @note
     raise OSM::APIAlreadyDeletedError unless @note.visible?
     
+    # Render the result
     respond_to do |format|
-      format.rss
       format.xml
-      format.json { render :json => @note.to_json(:methods => [:lat, :lon], :only => [:id, :status, :created_at], :include => { :comments => { :only => [:author_name, :created_at, :body]}}) }	  
+      format.rss
+      format.json { render :json => @note.to_json }
       format.gpx
     end
   end
 
+  ##
+  # Delete (hide) a note
   def delete
-    note = note.find(params['id'])
+    # Check the arguments are sane
+    raise OSM::APIBadUserInput.new("No id was given") unless params[:id]
+
+    # Extract the arguments
+    id = params[:id].to_i
+    name = params[:name]
+
+    # Find the note and check it is valid
+    note = Note.find(id)
     raise OSM::APINotFoundError unless note
     raise OSM::APIAlreadyDeletedError unless note.visible?
 
+    # Mark the note as hidden
     Note.transaction do
       note.status = "hidden"
       note.save
-      add_comment(note, :nil, name, "hidden")
+
+      add_comment(note, nil, name, "hidden")
     end
 
+    # Render the result
     render :text => "ok\n", :content_type => "text/html" 
   end
 
+  ##
+  # Return a list of notes matching a given string
   def search
-    raise OSM::APIBadUserInput.new("No query string was given") unless params['q']
-    limit = getLimit
-    conditions = closedCondition
-    conditions = cond_merge conditions, ['note_comments.body ~ ?', params['q']]
-	
-    #TODO: There should be a better way to do this.   CloseConditions are ignored at the moment
+    # Check the arguments are sane
+    raise OSM::APIBadUserInput.new("No query string was given") unless params[:q]
 
-    @notes = Note.find(:all, :limit => limit, :order => "updated_at DESC", :joins => :comments, :include => :comments, :conditions => conditions).uniq
+    # Get any conditions that need to be applied
+    conditions = closed_condition
+    conditions = cond_merge conditions, ['note_comments.body ~ ?', params[:q]]
+	
+    # Find the notes we want to return
+    @notes = Note.find(:all, 
+                       :conditions => conditions,
+                       :order => "updated_at DESC",
+                       :limit => result_limit,
+                       :joins => :comments,
+                       :include => :comments)
+
+    # Render the result
     respond_to do |format|
-      format.html {render :template => 'note/list.rjs', :content_type => "text/javascript"}
-      format.rss {render :template => 'note/list.rss'}
+      format.html { render :action => :list, :format => :rjs, :content_type => "text/javascript"}
+      format.rss { render :action => :list }
       format.js
-      format.xml {render :template => 'note/list.xml'}
-      format.json { render :json => @notes.to_json(:methods => [:lat, :lon], :only => [:id, :status, :created_at], :include => { :comments => { :only => [:author_name, :created_at, :body]}}) }
-      format.gpx {render :template => 'note/list.gpx'}
+      format.xml { render :action => :list }
+      format.json { render :json => @notes.to_json }
+      format.gpx { render :action => :list }
     end
   end
 
@@ -252,32 +319,41 @@ private
     end 
   end 
 
+  ##
+  # Render an OK response
   def render_ok
-    output_js = :false
-    output_js = :true if params['format'] == "js"
-
-    if output_js == :true
+    if params[:format] == "js"
       render :text => "osbResponse();", :content_type => "text/javascript" 
     else
-      render :text => "ok " + @note.id.to_s + "\n", :content_type => "text/html" if @note
-      render :text => "ok\n", :content_type => "text/html" unless @note
+      render :text => "ok " + @note.id.to_s + "\n", :content_type => "text/plain" if @note
+      render :text => "ok\n", :content_type => "text/plain" unless @note
     end
   end
 
-  def getLimit
-    limit = 100
-    limit = params['limit'] if ((params['limit']) && (params['limit'].to_i < 10000) && (params['limit'].to_i > 0))
-    return limit
+  ##
+  # Get the maximum number of results to return
+  def result_limit
+    if params[:limit] and params[:limit].to_i > 0 and params[:limit].to_i < 10000
+      params[:limit].to_i
+    else
+      100
+    end
   end
 
-  def closedCondition
-    closed_since = 7 unless params['closed']
-    closed_since = params['closed'].to_i if params['closed']
+  ##
+  # Generate a condition to choose which bugs we want based
+  # on their status and the user's request parameters
+  def closed_condition
+    if params[:closed]
+      closed_since = params[:closed].to_i
+    else
+      closed_since = 7
+    end
 	
     if closed_since < 0
       conditions = ["status != 'hidden'"]
     elsif closed_since > 0
-      conditions = ["((status = 'open') OR ((status = 'closed' ) AND (closed_at > '" + (Time.now - closed_since.days).to_s + "')))"]
+      conditions = ["(status = 'open' OR (status = 'closed' AND closed_at > '#{Time.now - closed_since.days}'))"]
     else
       conditions = ["status = 'open'"]
     end
@@ -285,26 +361,26 @@ private
     return conditions
   end
 
-  def add_comment(note, text, name, event) 
-    comment = note.comments.create(:visible => true, :event => event)
-    comment.body = text unless text == :nil
-    if @user  
-      comment.author_id = @user.id
-      comment.author_name = @user.display_name
-    else  
-      comment.author_ip = request.remote_ip
-      comment.author_name = name + " (a)"
-    end
-    comment.save 
-    note.save
+  ##
+  # Add a comment to a note
+  def add_comment(note, text, name, event)
+    name = "NoName" if name.nil?
 
-    sent_to = Set.new
-    note.comments.each do | cmt |
-      if cmt.author
-        unless sent_to.include?(cmt.author)
-          Notifier.deliver_note_comment_notification(note_comment, cmt.author) unless cmt.author == @user
-          sent_to.add(cmt.author)
-        end
+    attributes = { :visible => true, :event => event, :body => text }
+
+    if @user  
+      attributes[:author_id] = @user.id
+      attributes[:author_name] = @user.display_name
+    else  
+      attributes[:author_ip] = request.remote_ip
+      attributes[:author_name] = name + " (a)"
+    end
+
+    note.comments.create(attributes)
+
+    note.comments.map { |c| c.author }.uniq.each do |user|
+      if user and user != @user
+        Notifier.deliver_note_comment_notification(comment, user)
       end
     end
   end
