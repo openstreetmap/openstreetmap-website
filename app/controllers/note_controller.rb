@@ -64,7 +64,8 @@ class NoteController < ApplicationController
 
     #Include in a transaction to ensure that there is always a note_comment for every note
     Note.transaction do
-      @note = Note.create_bug(lat, lon)
+      @note = Note.create(:lat => lat, :lon => lon)
+      raise OSM::APIBadUserInput.new("The note is outside this world") unless @note.in_world?
 
       #TODO: move this into a helper function
       begin
@@ -99,7 +100,7 @@ class NoteController < ApplicationController
 
     note = Note.find(id)
     raise OSM::APINotFoundError unless note
-    raise OSM::APIAlreadyDeletedError unless note.visible
+    raise OSM::APIAlreadyDeletedError unless note.visible?
 
     Note.transaction do
       add_comment(note, params['text'], name, "commented")
@@ -117,7 +118,7 @@ class NoteController < ApplicationController
 
     note = Note.find_by_id(id)
     raise OSM::APINotFoundError unless note
-    raise OSM::APIAlreadyDeletedError unless note.visible
+    raise OSM::APIAlreadyDeletedError unless note.visible?
 
     Note.transaction do
       note.close
@@ -150,7 +151,7 @@ class NoteController < ApplicationController
   def read
     @note = Note.find(params['id'])
     raise OSM::APINotFoundError unless @note
-    raise OSM::APIAlreadyDeletedError unless @note.visible
+    raise OSM::APIAlreadyDeletedError unless @note.visible?
     
     respond_to do |format|
       format.rss
@@ -163,7 +164,7 @@ class NoteController < ApplicationController
   def delete
     note = note.find(params['id'])
     raise OSM::APINotFoundError unless note
-    raise OSM::APIAlreadyDeletedError unless note.visible
+    raise OSM::APIAlreadyDeletedError unless note.visible?
 
     Note.transaction do
       note.status = "hidden"

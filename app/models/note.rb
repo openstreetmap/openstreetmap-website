@@ -12,21 +12,26 @@ class Note < ActiveRecord::Base
   validates_numericality_of :longitude, :only_integer => true
   validates_presence_of :closed_at if :status == "closed"
   validates_inclusion_of :status, :in => ["open", "closed", "hidden"]
+  validate :validate_position
 
-  def self.create_bug(lat, lon)
-    note = Note.new(:lat => lat, :lon => lon, :status => "open")
-    raise OSM::APIBadUserInput.new("The note is outside this world") unless note.in_world?
-
-    return note
+  # Sanity check the latitude and longitude and add an error if it's broken
+  def validate_position
+    errors.add_to_base("Note is not in the world") unless in_world?
   end
 
+  # Fill in default values for new notes
+  def after_initialize
+    self.status = "open" unless self.attribute_present?(:status)
+  end
+
+  # Close a note
   def close
     self.status = "closed"
     self.closed_at = Time.now.getutc
-
     self.save
   end
 
+  # Return a flattened version of the comments for a note
   def flatten_comment(separator_char, upto_timestamp = :nil)
     resp = ""
     comment_no = 1
@@ -43,22 +48,27 @@ class Note < ActiveRecord::Base
     return resp
   end
 
-  def visible
+  # Check if a note is visible
+  def visible?
     return status != "hidden"
   end
 
+  # Return the author object, derived from the first comment
   def author
     self.comments.first.author
   end
 
+  # Return the author IP address, derived from the first comment
   def author_ip
     self.comments.first.author_ip
   end
 
+  # Return the author id, derived from the first comment
   def author_id
     self.comments.first.author_id
   end
 
+  # Return the author name, derived from the first comment
   def author_name
     self.comments.first.author_name
   end
