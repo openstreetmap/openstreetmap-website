@@ -1,48 +1,24 @@
-es-AR:
+# Spanish as spoken in Perú (es-PE) translations for Rails
+# by Peter Baker (pcbaker@gmail.com)
+# modificado por CCP
+
+es-PE:
   number:
     percentage:
       format:
         delimiter: ","
     currency:
-      format:
+      format: # Nuevos Soles
         format: "%u%n"
-        unit: "$"
-        separator: "."
-        delimiter: ","
-        precision: 2
-        significant: false
-        strip_insignificant_zeros: false
+        unit: "S./"
     format:
       delimiter: ","
       precision: 2
-      significant: false
-      strip_insignificant_zeros: false
       separator: "."
     human:
       format:
         delimiter: ","
-        precision: 3
-        significant: true
-        strip_insignificant_zeros: true
-      storage_units:
-        format: "%n %u"
-        units:
-          byte:
-            one:   "Byte"
-            other: "Bytes"
-          kb: "KB"
-          mb: "MB"
-          gb: "GB"
-          tb: "TB"
-      decimal_units:
-        format: "%n %u"
-        units:
-          unit: ""
-          thousand: "Mil"
-          million: "Millón"
-          billion: "Mil Millones"
-          trillion: "Billón"
-          quadrillion: "Mil Billones"
+      storage_units: [Bytes, KB, MB, GB, TB]
     precision:
       format:
         delimiter: ","
@@ -57,25 +33,19 @@ es-AR:
     day_names: [Domingo, Lunes, Martes, Miércoles, Jueves, Viernes, Sábado]
     month_names: [~, Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre]
     formats:
+      month_and_year: "%B %Y"
+      date_and_day: "%A %d"
       short: "%d de %b"
       default: "%d/%m/%Y"
-      long: "%A, %d de %B de %Y"
+      long: "%A, %d de %B del %Y"
   time:
     formats:
       short: "%d de %b a las %H:%M hrs"
-      default: "%a, %d de %b de %Y a las %H:%M:%S %Z"
-      long: "%A, %d de %B de %Y a las %I:%M %p"
+      short_with_year: "%d %b %Y"
+      default: "%a, %d de %b del %Y a las %H:%M:%S %Z"
+      long: "%A, %d de %B del %Y a las %I:%M %p"
     am: "am"
     pm: "pm"
-
-  support:
-    array:
-      words_connector: ", "
-      two_words_connector: " y "
-      last_word_connector: " y "
-
-    select:
-      prompt: "Por favor selecciona"
 
   datetime:
     distance_in_words:
@@ -110,38 +80,32 @@ es-AR:
       over_x_years:
         one: "más de 1 año"
         other: "más de %{count} años"
-      almost_x_years:
-        one:   "casi 1 año"
-        other: "casi %{count} años"
     prompts:
-      year: 'Año'
-      month: 'Mes'
-      day: 'Día'
       hour: 'Hora'
       minute: 'Minuto'
-      second: 'Segundos'
+      second: 'Segundo'
 
-  helpers:
-    select:
-      prompt: "Por favor selecciona"
+  # Active Record
 
-    submit:
-      create: 'Crear %{model}'
-      update: 'Actualizar %{model}'
-      submit: 'Guardar %{model}'
-
-  errors:
-      format: "%{attribute} %{message}"
-
-      messages: &errors_messages
+  activerecord:
+    errors:
+      template:
+        header:
+          one: "%{model} no pudo guardarse debido a 1 error"
+          other: "%{model} no pudo guardarse debido a %{count} errores"
+        body: "Revise que los siguientes campos sean válidos:"
+      messages:
+        record_invalid: "Falla de validación: %{errors}"
         inclusion: "no está incluído en la lista"
         exclusion: "está reservado"
         invalid: "es inválido"
+        invalid_date: "es una fecha inválida"
         confirmation: "no coincide con la confirmación"
+        accepted: "debe ser aceptado"
         blank: "no puede estar en blanco"
         empty: "no puede estar vacío"
         not_a_number: "no es un número"
-        not_an_integer: "debe ser un entero"
+        taken: "ya ha sido tomado"
         less_than: "debe ser menor que %{count}"
         less_than_or_equal_to: "debe ser menor o igual que %{count}"
         greater_than: "debe ser mayor que %{count}"
@@ -156,22 +120,5 @@ es-AR:
         wrong_length:
           one: "longitud errónea (debe ser de 1 caracter)"
           other: "longitud errónea (debe ser de %{count} caracteres)"
-        accepted: "debe ser aceptado"
         even: "debe ser un número par"
         odd: "debe ser un número non"
-
-  activerecord:
-    errors:
-      template:
-        header:
-          one: "%{model} no pudo guardarse debido a 1 error"
-          other: "%{model} no pudo guardarse debido a %{count} errores"
-        body: "Revise que los siguientes campos sean válidos:"
-
-      messages:
-        taken: "ya ha sido tomado"
-        record_invalid: "La validación falló: %{errors}"
-        <<: *errors_messages
-
-      full_messages:
-        format: "%{attribute} %{message}"
