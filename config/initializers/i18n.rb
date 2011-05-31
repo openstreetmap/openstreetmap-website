@@ -1,9 +1,4 @@
 module I18n
-  original_verbosity = $VERBOSE
-  $VERBOSE = nil
-  INTERPOLATION_PATTERN = /\{\{(\w+)\}\}/
-  $VERBOSE = original_verbosity
-
   module Backend
     class Simple
       module Implementation

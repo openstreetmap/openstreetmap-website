@@ -3,6 +3,7 @@
 # Export driver: syck-pecl
 # Author: Alerque
 # Author: George Animal
+# Author: Gizemb
 # Author: Katpatuka
 # Author: SalihB
 # Author: Szoszv
@@ -40,23 +41,28 @@ tr:
         languages: Diller
         pass_crypt: Şifre
     models: 
+      acl: Erişim Kontrol Listesi
       country: Ülke
+      diary_comment: Günlük Yorumu
+      diary_entry: Günlük Girdisi
       friend: Arkadaş
       language: Dil
       message: Mesaj
       old_way: Eski yol
       old_way_tag: Eski yol etiketi
+      session: Oturum
       user: Kullanıcı
+      user_preference: Kullanıcı Ayarları
       way: Yol
       way_node: Yol Noktası
   browse: 
     changeset: 
-      changeset: "Değişiklik takımı: {{id}}"
+      changeset: "Değişiklik takımı: %{id}"
       changesetxml: Değişiklik takımı XML
-      download: "{{changeset_xml_link}} veya {{osmchange_xml_link}} indir"
+      download: "%{changeset_xml_link} veya %{osmchange_xml_link} indir"
       feed: 
-        title: Değişiklik takımı {{id}}
-        title_comment: Değişiklik takımı {{id}} - {{comment}}
+        title: Değişiklik takımı %{id}
+        title_comment: Değişiklik takımı %{id} - %{comment}
       osmchangexml: osmChange XML
       title: Değişiklik takımı
     changeset_details: 
@@ -68,13 +74,15 @@ tr:
       show_area_box: Alan Kutusu Görüntüle
     common_details: 
       changeset_comment: "Yorum:"
+      deleted_at: "Silinmesi:"
+      deleted_by: "Silen:"
       edited_at: "Düzenleme tarihi:"
       edited_by: "Düzenleyen:"
       in_changeset: "Değişiklik takımı içinde:"
       version: "Sürüm:"
     containing_relation: 
-      entry: İlişki {{relation_name}}
-      entry_role: İlişki {{relation_name}} ({{relation_role}} olarak)
+      entry: İlişki %{relation_name}
+      entry_role: İlişki %{relation_name} (%{relation_role} olarak)
     map: 
       deleted: Silindi
       larger: 
@@ -94,26 +102,27 @@ tr:
         prev_relation_tooltip: Önceki ilişki
         prev_way_tooltip: Önceki yol
       user: 
-        name_changeset_tooltip: "{{user}} tarafından düzenlemeleri görüntüle"
-        next_changeset_tooltip: "{{user}} tarafından sonraki düzenleme"
-        prev_changeset_tooltip: "{{user}} tarafından önceki düzenleme"
+        name_changeset_tooltip: "%{user} tarafından düzenlemeleri görüntüle"
+        next_changeset_tooltip: "%{user} tarafından sonraki düzenleme"
+        prev_changeset_tooltip: "%{user} tarafından önceki düzenleme"
     node: 
-      download: "{{download_xml_link}}, {{view_history_link}} veya {{edit_link}}"
+      download: "%{download_xml_link}, %{view_history_link} veya %{edit_link}"
       download_xml: XML İndir
       edit: değiştir
       node: Nokta
-      node_title: "Nokta: {{node_name}}"
+      node_title: "Nokta: %{node_name}"
       view_history: geçmişi görüntüle
     node_details: 
       coordinates: "Koordinatları:"
       part_of: "Ortak parça:"
     node_history: 
-      download: "{{download_xml_link}} veya {{view_details_link}}"
+      download: "%{download_xml_link} veya %{view_details_link}"
       download_xml: XML indir
       node_history: Nokta Geçmişi
-      node_history_title: "Nokta geçmişi: {{node_name}}"
+      node_history_title: "Nokta geçmişi: %{node_name}"
       view_details: ayrıntıları göster
     not_found: 
+      sorry: Üzgünüm, %{id} numaralı %{type} bulunamadı.
       type: 
         changeset: değişiklik takımı
         node: nokta
@@ -123,22 +132,22 @@ tr:
       of: toplam
       showing_page: Gösterilen sayfa
     relation: 
-      download: "{{download_xml_link}} veya {{view_history_link}}"
+      download: "%{download_xml_link} veya %{view_history_link}"
       download_xml: XML indir
       relation: İlişki
-      relation_title: "Ilişki: {{relation_name}}"
+      relation_title: "Ilişki: %{relation_name}"
       view_history: Geçmişi görüntüle
     relation_details: 
       members: "Elemanlar:"
       part_of: "Ortak parça:"
     relation_history: 
-      download: "{{download_xml_link}} veya {{view_details_link}}"
+      download: "%{download_xml_link} veya %{view_details_link}"
       download_xml: XML İndir
       relation_history: Ilişki Geçmişi
-      relation_history_title: "İlişki Geçmişi: {{relation_name}}"
+      relation_history_title: "İlişki Geçmişi: %{relation_name}"
       view_details: ayrıntıları göster
     relation_member: 
-      entry_role: "{{type}} {{name}}, adı {{role}}"
+      entry_role: "%{type} %{name}, adı %{role}"
       type: 
         node: Nokta
         relation: İlişki
@@ -152,6 +161,7 @@ tr:
       details: Ayrıntılar
       drag_a_box: Fare kullanarak harita üzerinde bir alan seç
       edited_by_user_at_timestamp: "[[user]] tarafından düzenlendi ([[timestamp]])"
+      hide_areas: Bölgeleri gizle
       history_for_feature: "[[feature]] (geçmiş)"
       load_data: Veri Yükle
       loading: Yükleniyor...
@@ -172,16 +182,18 @@ tr:
         type: 
           node: Nokta
           way: Yol
+      private_user: gizli kullanıcı
+      show_areas: Bölgeleri göster
       show_history: Geçmişi görüntüle
-      unable_to_load_size: "Yüklenemiyor: alan boyutu [[bbox_size]] çok büyük - ({{max_bbox_size}}'den küçük olması gerekir)"
+      unable_to_load_size: "Yüklenemiyor: alan boyutu [[bbox_size]] çok büyük - (%{max_bbox_size}'den küçük olması gerekir)"
       wait: Bekleyin...
       zoom_or_select: Yakınlaştır ya da haritada bir alan seç
     tag_details: 
       tags: "Parametreler:"
       wiki_link: 
-        key: "{{key}} parametresi için Viki açıklaması"
-        tag: "{{key}}={{value}} parametresi için Viki açıklaması"
-      wikipedia_link: "{{page}} hakkında Vikipedi maddesi"
+        key: "%{key} parametresi için Viki açıklaması"
+        tag: "%{key}=%{value} parametresi için Viki açıklaması"
+      wikipedia_link: "%{page} hakkında Vikipedi maddesi"
     timeout: 
       type: 
         changeset: değişiklik takımı
@@ -189,21 +201,21 @@ tr:
         relation: ilişki
         way: yol
     way: 
-      download: "{{download_xml_link}}, {{view_history_link}} veya {{edit_link}}"
+      download: "%{download_xml_link}, %{view_history_link} veya %{edit_link}"
       download_xml: XML İndir
       edit: Düzenle
       view_history: Geçmişi görüntüle
       way: Yol
-      way_title: "Yol: {{way_name}}"
+      way_title: "Yol: %{way_name}"
     way_details: 
       nodes: "Noktalar:"
       part_of: "Ortak parça:"
     way_history: 
-      download: "{{download_xml_link}} veya {{view_details_link}}"
+      download: "%{download_xml_link} veya %{view_details_link}"
       download_xml: XML İndir
       view_details: ayrıntıları göster
       way_history: Yol Geçmişi
-      way_history_title: "Yol geçmişi: {{way_name}}"
+      way_history_title: "Yol geçmişi: %{way_name}"
   changeset: 
     changeset: 
       anonymous: Anonim
@@ -216,7 +228,7 @@ tr:
     changeset_paging_nav: 
       next: Sonraki &raquo;
       previous: "&laquo; Önceki"
-      showing_page: "Gösterilen sayfa: {{page}}"
+      showing_page: "Gösterilen sayfa: %{page}"
     changesets: 
       area: Alan
       comment: Yorum
@@ -225,31 +237,31 @@ tr:
       user: Kullanıcı
     list: 
       description: Son değişiklikler
-      description_bbox: "{{bbox}} alanındaki bulunan harita değişiklik setleri"
-      description_user: "{{user}} tarafından değişiklik setleri"
-      description_user_bbox: "{{user}} tarafından {{bbox}} alanındaki değişiklik setleri"
+      description_bbox: "%{bbox} alanındaki bulunan harita değişiklik setleri"
+      description_user: "%{user} tarafından değişiklik setleri"
+      description_user_bbox: "%{user} tarafından %{bbox} alanındaki değişiklik setleri"
       heading: Değişiklik Setleri
       heading_bbox: Değişiklik Setleri
       heading_user: Değişiklik Setleri
       heading_user_bbox: Değişiklik Setleri
       title: Değişiklik Setleri
-      title_bbox: "{{bbox}} alanındaki bulunan harita değişiklik setleri"
-      title_user: "{{user}} tarafından değişiklik setleri"
-      title_user_bbox: "{{user}} tarafından {{bbox}} alanındaki değişiklik setleri"
+      title_bbox: "%{bbox} alanındaki bulunan harita değişiklik setleri"
+      title_user: "%{user} tarafından değişiklik setleri"
+      title_user_bbox: "%{user} tarafından %{bbox} alanındaki değişiklik setleri"
   diary_entry: 
     diary_comment: 
-      comment_from: "{{link_user}} tarafından {{comment_created_at}} tarihindeki yorum"
+      comment_from: "%{link_user} tarafından %{comment_created_at} tarihindeki yorum"
       confirm: Onayla
       hide_link: Bu yorum gizle
     diary_entry: 
       comment_count: 
         one: 1 yorum
-        other: "{{count}} yorum"
+        other: "%{count} yorum"
       comment_link: Bu girdisi yorumla
       confirm: Onayla
       edit_link: Bu girdisi düzenle
       hide_link: Bu girdisi gizle
-      posted_by: "{{link_user}} tarafından {{created}} tarihinde {{language_link}} dilinde gönderildi"
+      posted_by: "%{link_user} tarafından %{created} tarihinde %{language_link} dilinde gönderildi"
       reply_link: Bu girdisi yanıtla
     edit: 
       body: "Mesaj:"
@@ -267,13 +279,13 @@ tr:
         description: OpenStreetMap kullanıcıların en son günlük kayıtları
         title: OpenStreetMap günlük girdileri
       language: 
-        description: Kullanıcıların {{language_name}} dillindeki en son günlük girdileri
-        title: "{{language_name}} dillindeki günlük girdileri"
+        description: Kullanıcıların %{language_name} dillindeki en son günlük girdileri
+        title: "%{language_name} dillindeki günlük girdileri"
       user: 
-        description: "{{user}} tarafından haritacılık konusunda yazdığı en son günlük girdileri"
-        title: "{{user}} tarafından haritacılık konusunda yazdığı günlük girdileri"
+        description: "%{user} tarafından haritacılık konusunda yazdığı en son günlük girdileri"
+        title: "%{user} tarafından haritacılık konusunda yazdığı günlük girdileri"
     list: 
-      in_language_title: "{{language}} dillindeki günlük kayıtları"
+      in_language_title: "%{language} dillindeki günlük kayıtları"
       new: Yeni Günlük Kayıdı
       new_title: Yeni bir kayıt ekle günlüğünde
       newer_entries: Daha yeni kayıtlar
@@ -281,24 +293,30 @@ tr:
       older_entries: Daha eski kayıtlar
       recent_entries: "Son günlük kayıtları:"
       title: Kullanıcıların günlükleri
-      user_title: "{{user}} (Günlük)"
+      user_title: "%{user} (Günlük)"
     location: 
       edit: Düzenle
       location: "Konum:"
       view: Göster
     new: 
       title: Yeni Günlük Girdisi
+    no_such_entry: 
+      body: Üzgünüz, %{id} numaralı bir günlük girdisi ya da yorumu yok. Lütfen harfleri kontrol edin, ya da tıkladığınız link yanlış olabilir.
+      heading: "Bu numaraya sahip giriş yok: %{id}"
+      title: Böyle bir günlük kaydı bulunmuyor
     no_such_user: 
+      body: Üzgünüz, %{user} isminde bir kullanıcı yok. Lütfen yazım denetimi yapınız ya da tıkladığınız link yanlış olabilir.
+      heading: "%{user} adlı bir kullanıcı yok"
       title: Böyle bir kullanıcı yok
     view: 
       leave_a_comment: Yorum yaz
       login: Giriş
-      login_to_leave_a_comment: Yorum yazmak için {{login_link}}
+      login_to_leave_a_comment: Yorum yazmak için %{login_link}
       save_button: Kaydet
-      title: "{{user}} (günlük) | {{title}}"
-      user_title: "{{user}} (Günlük)"
+      title: "%{user} (günlük) | %{title}"
+      user_title: "%{user} (Günlük)"
   editor: 
-    default: Varsayılan (kullanılan {{name}})
+    default: Varsayılan (kullanılan %{name})
     potlatch: 
       description: Potlatch 1 (flash tarayıcı düzenleyici, eski)
       name: Potlatch 1
@@ -352,7 +370,7 @@ tr:
         places: Yerler
         towns: Şehirler
     description_osm_namefinder: 
-      prefix: "{{distance}} {{direction}} - {{type}}"
+      prefix: "%{distance} %{direction} - %{type}"
     direction: 
       east: doğu
       north: kuzey
@@ -364,7 +382,7 @@ tr:
       west: batı
     distance: 
       one: yaklaşık 1km
-      other: yaklaşık {{count}}km
+      other: yaklaşık %{count}km
       zero: 1km'den az
     results: 
       more_results: Daha fazla sonuç
@@ -420,6 +438,7 @@ tr:
           grave_yard: Mezarlık
           gym: Fitness Merkezi / Spor Salonu
           hall: Toplantı salonu
+          health_centre: Sağlık Merkezi
           hospital: Hastane
           hotel: Hotel
           hunting_stand: Avcılık Standı
@@ -472,13 +491,18 @@ tr:
           chapel: Şapel
           church: Kilise
           city_hall: Belediye binası
+          dormitory: Yurt
           entrance: Bina Girişi
           faculty: Fakülte Binası
           farm: Çiftlik Binası
+          flats: Daire
+          garage: Garaj
+          hall: Toplantı Merkezi
           hospital: Hastane Binası
           hotel: Hotel
           house: Ev
           industrial: Sınai Bina
+          office: Ofis Binası
           public: Kamu Binası
           school: Okul Binası
           shop: Dükkan
@@ -569,6 +593,7 @@ tr:
           reservoir: Baraj Gölü
           residential: Yerleşim Bölgesi
           retail: Esnaf
+          village_green: Kırsal Yeşillik
           vineyard: Bağ
           wetland: Sulak Alan
           wood: Orman
@@ -602,6 +627,8 @@ tr:
           crater: Krater
           feature: Özelliği
           fell: Ağaçsız tepe
+          fjord: Haliç
+          geyser: Gayzer
           glacier: Buzul
           heath: Fundalık
           hill: Tepe
@@ -671,29 +698,57 @@ tr:
           tram_stop: Tramvay Durağı
         shop: 
           alcohol: Tekel bayii
+          art: Sanat Galerisi
           bakery: Fırın
+          beauty: Güzellik Salonu
           bicycle: Bisikletçi
           books: Kitap Evi
           butcher: Kasap
+          car: Araba Galerisi
+          car_dealer: Araba Satıcısı
+          car_parts: Araba Parçası Dükkanı
           car_repair: Oto tamir
           carpet: Halı Dükkanı
           chemist: Eczacı
           clothes: Giysi Dükkanı
+          computer: Bilgisayar Mağazası
+          copyshop: Fotokopi Merkezi
+          cosmetics: Kozmetik Mağazası
+          drugstore: Eczane
+          dry_cleaning: Kuru Temizleme
+          electronics: Elektronik Mağazası
           estate_agent: Emlakçı
+          fish: Balık Dükkanı
+          florist: Çiçekçi
+          food: Yiyecek Dükkanı
           furniture: Mobilya
+          gallery: Galeri
+          garden_centre: Bahçe Merkezi
           gift: Hediye eşya
           greengrocer: Manav
           hairdresser: Kuaför
+          hardware: Hırdavatçı
           insurance: Sigorta
           jewelry: Kuyumcu
+          laundry: Çamaşırhane
           mall: Alışveriş merkezi
           market: Market
           mobile_phone: Cep Telefonu Dükkanı
+          motorcycle: Motosiklet Dükkanı
+          music: Müzik Mağazası
           newsagent: Gazete bayii
+          optician: Gözlükçü
+          organic: Organik Yiyecek Dükkanı
+          outdoor: Outdoor Sporları Mağazası
+          pet: Hayvan Mağazası
+          photo: Fotoğrafçı
           shoes: Ayakkabı Dükkanı
           shopping_centre: Alışveriş Merkezi
+          sports: Spor Malzemeleri Mağazası
           supermarket: Süpermarket
+          toys: Oyuncakçı
           travel_agency: Seyahat Acentası
+          video: Video-CD Dükkanı
           wine: Şarap evi
         tourism: 
           alpine_hut: Dağ evi
@@ -719,6 +774,7 @@ tr:
         waterway: 
           canal: Kanal
           dam: Baraj
+          dock: İskele
           drain: Atık su kanalı
           mineral_spring: Maden Suyu
           river: Nehir
@@ -735,16 +791,19 @@ tr:
       edit_disabled_tooltip: Harita düzenlemek için yakınlaştırmak gerek
       edit_tooltip: Haritayı düzenle
       edit_zoom_alert: Harita düzenleyebilmek için yakınlaştırman gerek
+      history_disabled_tooltip: Bu alandaki değişiklikleri görmek için yakınlaştır
+      history_tooltip: Bu alandaki düzenlemeleri göster
+      history_zoom_alert: Bu alandaki düzenlemeleri görmek için yakınlaştırmak gerekiyor
   layouts: 
     community_blogs: Üye Blogları
     community_blogs_title: OpenStreetMap üyelerinin blogları
     copyright: Telif hakkı & Lisans
     documentation: Viki Belgelenmesi
     documentation_title: Harita Projesinin Belgeleme Sistemi
-    donate: OpenStreetMap {{link}} ile Donanım Yükseltme Fonu'na destek veriniz.
+    donate: OpenStreetMap %{link} ile Donanım Yükseltme Fonu'na destek veriniz.
     donate_link_text: Bağış
     edit: Düzenle
-    edit_with: "{{editor}} kullanarak düzenle"
+    edit_with: "%{editor} kullanarak düzenle"
     export: Dışalım
     export_tooltip: Harita verisinin dışalımı
     foundation: Vakıf
@@ -757,14 +816,14 @@ tr:
     history: Geçmiş
     home: konum
     home_tooltip: Kendin konuma git
-    inbox: mesajlar ({{count}})
+    inbox: mesajlar (%{count})
     inbox_tooltip: 
       one: Bir tane okunmamış mesajın var
-      other: "{{count}} okunmamış mesaj var"
+      other: "%{count} okunmamış mesaj var"
       zero: Okunmamış mesajın yok
     intro_1: OpenStreetMap herkese serbest ve ücretsiz senin gibi insanlar tarafından oluşturduğu bir dünya haritasıdır.
     intro_2: OpenStreetMap dünyanın her köşesinden ortak bir şekilde haritaları görüntülemeyi, düzenlemeyi ve serbestçe kullanmayı sağlar.
-    intro_3: OpenStreetMap barındırma servisleri {{ucl}} ve {{bytemark}} çok teşekkür ederiz. Diğer destekçilerimizi {{partners}} listesinde bulunmaktadır.
+    intro_3: OpenStreetMap barındırma servisleri %{ucl} ve %{bytemark} çok teşekkür ederiz. Diğer destekçilerimizi %{partners} listesinde bulunmaktadır.
     intro_3_bytemark: bytemark
     intro_3_partners: Viki
     intro_3_ucl: UCL VR Merkezi
@@ -785,7 +844,7 @@ tr:
     user_diaries_tooltip: Kullanıcı günlükleri görüntüle
     view: Harita
     view_tooltip: Haritayı göster
-    welcome_user: Merhaba, {{user_link}}
+    welcome_user: Merhaba, %{user_link}
     welcome_user_link_tooltip: Senin kullanıcı sayfan
     wiki: Viki
     wiki_title: Projenin viki sayfaları
@@ -808,7 +867,7 @@ tr:
       people_mapping_nearby: yakın çevredeki haritacılar
       subject: Konu
       title: Gelen Kutusu
-      you_have: "{{new_count}} yeni mesaj ve {{old_count}} eski mesaj var"
+      you_have: "%{new_count} yeni mesaj ve %{old_count} eski mesaj var"
     mark: 
       as_read: Mesaj okundu olarak işaretlendi
       as_unread: Mesaj okunmadı olarak işaretlendi
@@ -822,19 +881,27 @@ tr:
       body: Mesaj
       message_sent: Mesaj gönderildi
       send_button: Gönder
-      send_message_to: "{{name}}'ya yeni bir mesaj gönder"
+      send_message_to: "%{name}'ya yeni bir mesaj gönder"
       subject: Konu
       title: Mesaj Gönder
+    no_such_message: 
+      body: Üzgünüz, bu id ile bir mesaj yok.
+      heading: Böyle bir mesaj yok
+      title: Böyle bir mesaj yok
+    no_such_user: 
+      body: Üzgünüz, bu isimde bir kullanıcı yok.
+      heading: Böyle bir kullanıcı yok
+      title: Böyle bir kullanıcı yok
     outbox: 
       date: Tarih
       inbox: gelen kutusu
-      my_inbox: Benim {{inbox_link}}
+      my_inbox: Benim %{inbox_link}
       outbox: gönderilmiş kutusu
       people_mapping_nearby: yakın çevredeki haritacılar
       subject: Konu
       title: Gönderilmiş Kutusu
       to: Alıcı
-      you_have_sent_messages: Gönderilen iletilerin sayısı {{count}}
+      you_have_sent_messages: Gönderilen iletilerin sayısı %{count}
     read: 
       back_to_inbox: Gelen kutusuna dön
       back_to_outbox: Gönderilmiş kutusuna dön
@@ -851,8 +918,8 @@ tr:
       delete_button: Sil
   notifier: 
     diary_comment_notification: 
-      hi: Merhaba {{to_user}},
-      subject: "[OpenStreetMap] günlük kayıdın {{user}} tarafından yorumlandı"
+      hi: Merhaba %{to_user},
+      subject: "[OpenStreetMap] günlük kayıdın %{user} tarafından yorumlandı"
     email_confirm: 
       subject: "[OpenStreetMap] E-posta adresi onaylama mesajı"
     email_confirm_html: 
@@ -860,15 +927,19 @@ tr:
     email_confirm_plain: 
       greeting: Merhaba,
     friend_notification: 
-      had_added_you: Kullanıcı {{user}} seni arkadaş olarak OpenStreetMap'te ekledi.
-      subject: "[OpenStreetMap] kullanıcı {{user}} seni arkadaş olarak ekledi"
+      befriend_them: "%{befriendurl} üzerinden arkadaş olarak da ekleyebilirsiniz."
+      had_added_you: Kullanıcı %{user} seni arkadaş olarak OpenStreetMap'te ekledi.
+      see_their_profile: "%{userurl} üzerinden profillerini görebilirsiniz."
+      subject: "[OpenStreetMap] kullanıcı %{user} seni arkadaş olarak ekledi"
     gpx_notification: 
+      and_no_tags: ve etiket yok.
       failure: 
         failed_to_import: "GPX dosyası alınamadı. Hata bu:"
         subject: "[OpenStreetMap] GPX dosyası maalesef alınamadı"
       greeting: Merhaba,
       success: 
         subject: "[OpenStreetMap] GPX dosyası başarıyla alındı"
+      with_description: açıklamayla beraber
     lost_password: 
       subject: "[OpenStreetMap] Şifre sıfırlama isteği"
     lost_password_html: 
@@ -876,12 +947,14 @@ tr:
     lost_password_plain: 
       greeting: Merhaba,
     message_notification: 
-      hi: Merhaba {{to_user}},
+      footer2: ve %{replyurl} üzerinden cevap verebilirsiniz
+      hi: Merhaba %{to_user},
     signup_confirm: 
       subject: "[OpenStreetMap] e-posta adresi onaylama mesajı"
     signup_confirm_html: 
       greeting: Merhaba!
-      introductory_video: "{{introductory_video_link}} seyretebilirsin."
+      introductory_video: "%{introductory_video_link} seyretebilirsin."
+      more_videos_here: daha fazla video
       video_to_openstreetmap: OpenStreetMap tanıtım filmi
     signup_confirm_plain: 
       greeting: Merhaba!
@@ -889,9 +962,13 @@ tr:
     edit: 
       submit: Değiştir
     form: 
+      allow_write_api: haritayı düzenle.
       name: Isim
+      required: Gerekli
     index: 
       title: OAuth Ayrıntılarım
+    new: 
+      submit: Kayıt ol
   site: 
     edit: 
       user_page_link: kullanıcı sayfası
@@ -989,7 +1066,7 @@ tr:
       download: indir
       edit: düzenle
       filename: "Dosya adı:"
-      heading: "{{name}} izini düzenleniyor"
+      heading: "%{name} izini düzenleniyor"
       map: harita
       owner: "Sahibi:"
       points: "Nokta sayısı:"
@@ -997,14 +1074,14 @@ tr:
       start_coord: "Başlangıç koordinat:"
       tags: "Etiketler:"
       tags_help: virgülle ayrılmış
-      title: "{{name}} izisi düzenleniyor"
+      title: "%{name} izisi düzenleniyor"
       uploaded_at: "Gönderme tarihi:"
       visibility: Görünürlük
       visibility_help: Bu ne demek?
     list: 
       public_traces: Herkese açık GPS izleri
-      public_traces_from: "{{user}} tarafından gelen herkese açık GPS izleri"
-      tagged_with: " {{tags}} ile etiketlendi"
+      public_traces_from: "%{user} tarafından gelen herkese açık GPS izleri"
+      tagged_with: " %{tags} ile etiketlendi"
       your_traces: Senin GPS izleri
     make_public: 
       made_public: Iz herkese açık
@@ -1013,9 +1090,9 @@ tr:
     offline_warning: 
       message: GPX dosya gönderme sistemi şu anda kullanılamıyor
     trace: 
-      ago: "{{time_in_words_ago}} önce"
+      ago: "%{time_in_words_ago} önce"
       by: "yükleyen:"
-      count_points: "{{count}} puan"
+      count_points: "%{count} puan"
       edit: değiştir
       edit_map: Haritayı Düzenle
       identifiable: TANIMLANABİLİR
@@ -1040,13 +1117,12 @@ tr:
       see_all_traces: Tüm izleri görüntüle
       see_your_traces: Bütün kendi izlerini görüntüle
       upload_trace: GPS izi gönder
-      your_traces: Sadece kendi izlerini görüntüle
     trace_optionals: 
       tags: Etiketler
     trace_paging_nav: 
       next: Sonraki &raquo;
       previous: "&laquo; Önceki"
-      showing_page: Sayfa {{page}} görüntüleniyor
+      showing_page: Sayfa %{page} görüntüleniyor
     view: 
       delete_track: Bu izi sil
       description: "Açıklama:"
@@ -1054,7 +1130,7 @@ tr:
       edit: düzenle
       edit_track: Bu iz düzenle
       filename: "Dosya Adı:"
-      heading: İz {{name}} görüntüleniyor
+      heading: İz %{name} görüntüleniyor
       map: harita
       none: Hiç
       owner: "Gönderen:"
@@ -1062,7 +1138,7 @@ tr:
       points: "Nokta sayısı:"
       start_coordinates: "Başlangıç koordinat:"
       tags: "Etiketler:"
-      title: "{{name}} gpx dosyası görüntüleniyor"
+      title: "%{name} gpx dosyası görüntüleniyor"
       trace_not_found: İz bulunmadı!
       uploaded: "Yüklendi:"
       visibility: "Görünürlük:"
@@ -1106,15 +1182,16 @@ tr:
       heading: Kullanıcı hesabı onayla
       success: Hesabın onaylandı, teşekkür ve iyi çalışmaları!<br /><br /><a href="http://wiki.openstreetmap.org/wiki/Tr:Main_Page">Hoşgeldin sayfasında</a> Türkiye'deki harita durumu konusunda bilgi alabilirsin.
     confirm_email: 
+      button: Onayla
       success: E-posta adresinizi doğrulandı, kaydolduğu için teşekkür ederiz! İyi çalışmaları dileriz!
     confirm_resend: 
-      success: Yeni bir onay mesajı {{email}} adresine gönderdik. Mesajı onaylar onaylamaz haritacılığı başlayabilirsiniz.<br><br>Eğer onaylama mesajını almadısanız e-postanızın Antispam/Junk/İstenmeyen klasörüne lütfen kontrol ediniz.
+      success: Yeni bir onay mesajı %{email} adresine gönderdik. Mesajı onaylar onaylamaz haritacılığı başlayabilirsiniz.<br><br>Eğer onaylama mesajını almadısanız e-postanızın Antispam/Junk/İstenmeyen klasörüne lütfen kontrol ediniz.
     list: 
       heading: Kullanıcılar
-      summary_no_ip: "{{name}} {{date}} tarihinde oluşturuldu."
+      summary_no_ip: "%{name} %{date} tarihinde oluşturuldu."
       title: Kullanıcılar
     login: 
-      account not active: Üzgünüz, hesabınız henüz aktif değil.<br />Lütfen aldığın onaylama e-postasında ki bağlantı tıkla veya <a href="{{reconfirm}}">yeni bir onaylama e-posta</a> iste.
+      account not active: Üzgünüz, hesabınız henüz aktif değil.<br />Lütfen aldığın onaylama e-postasında ki bağlantı tıkla veya <a href="%{reconfirm}">yeni bir onaylama e-posta</a> iste.
       already have: Zaten bir OpenStreetMap hesabın var mı? O zaman giriş yapabilirsin...
       auth failure: Üzgünüz, bu giriş ile oturum açılamadı.
       create account minute: Bir hesap oluştur. Bir dakika bile sürmez.
@@ -1125,7 +1202,7 @@ tr:
       lost password link: Şifren mi unuttun?
       new to osm: OpenStreetMap sitesinde yeni misiniz?
       password: "Şifre:"
-      please login: Lütfen giriş yap veya {{create_user_link}}.
+      please login: Lütfen giriş yap veya %{create_user_link}.
       register now: Şimdi kayıt ol
       remember: "Beni hatırla:"
       title: Giriş
@@ -1141,7 +1218,7 @@ tr:
       notice email cannot find: "Üzgünüz: bu e-posta adresi bulunamadı."
       title: Kayıp Şifre
     make_friend: 
-      success: "{{name}} arkadaş listesinde eklendi."
+      success: "%{name} arkadaş listesinde eklendi."
     new: 
       confirm email address: E-posta Adresini Onayla
       confirm password: "Şifre Onayla:"
@@ -1153,19 +1230,19 @@ tr:
       password: "Şifre:"
       title: Hesap oluştur
     no_such_user: 
-      body: Üzgünüz, {{user}} adlı bir kullanıcı yok. Lütfen yazımınızı denetleyin veya tıkladığınız bağlantı belki yanlış idi.
-      heading: "{{user}} adlı bir kullanıcı yok."
+      body: Üzgünüz, %{user} adlı bir kullanıcı yok. Lütfen yazımınızı denetleyin veya tıkladığınız bağlantı belki yanlış idi.
+      heading: "%{user} adlı bir kullanıcı yok."
       title: Böyle bir kullanıcı yok
     popup: 
       friend: Arkadaş
       nearby mapper: Komşu haritacı
       your location: Konumum
     remove_friend: 
-      success: "{{name}} arkadaş listesinden çıkarıldı."
+      success: "%{name} arkadaş listesinden çıkarıldı."
     reset_password: 
       confirm password: "Sifre Onayla:"
       flash changed: Şifren başarıyla değiştirildi.
-      heading: "{{user}} için şifre sıfırla"
+      heading: "%{user} için şifre sıfırla"
       password: "Şifre:"
       reset: Şifre Sıfırla
       title: Şifreyi sıfırla
@@ -1188,7 +1265,7 @@ tr:
       title: Katılımcı Şartları
     view: 
       add as friend: arkadaş olarak ekle
-      ago: ({{time_in_words_ago}} önce)
+      ago: (%{time_in_words_ago} önce)
       block_history: verilen engellemeleri görüntüle
       blocks on me: engellendiklerim
       confirm: Onayla
@@ -1198,8 +1275,8 @@ tr:
       edits: düzenlemeleri
       email address: "E-posta adresi:"
       hide_user: bu kullanıcı gizle
-      km away: "{{count}} km uzak"
-      m away: "{{count}} metre yakın"
+      km away: "%{count} km uzak"
+      m away: "%{count} metre yakın"
       mapper since: "Haritacılığın başlangıç tarihi:"
       moderator_history: verilen engellemeleri görüntüle
       my diary: günlüğüm
@@ -1220,11 +1297,47 @@ tr:
       user location: Kullanıcının konumu
       your friends: Arkadaş listesi
   user_block: 
+    blocks_by: 
+      empty: "%{name} şimdiye kadar hiç bloklamamış."
+      heading: "%{name} tarafından engellenenlerin listesi"
+      title: "%{name} tarafından engellenenler"
     blocks_on: 
-      empty: "{{name}} henüz engellenmiş değil."
-      heading: "{{name}} hakkında engelleme kayıtları"
+      empty: "%{name} henüz engellenmiş değil."
+      heading: "%{name} hakkında engelleme kayıtları"
+      title: "%{name} kişisinin engelleri"
+    helper: 
+      time_future: "%{time} içinde bitecek."
+      time_past: "%{time} önce bitti."
+      until_login: Kullanıcı giriş yapana kadar aktif.
+    partial: 
+      confirm: Emin misin?
+      creator_name: Oluşturan
+      display_name: Engellenmiş kullanıcı
+      edit: Düzenle
+      not_revoked: (iptal edilmemiş)
+      reason: Engelleme sebebi
+      revoke: İptal!
+      revoker_name: İptal eden
+      show: Göster
+    revoke: 
+      confirm: Bu engeli kaldırmak istediğine emin misin?
+      flash: Engel kaldırıldı.
+      revoke: İptal!
+      time_future: Engellenme %{time} içerisinde bitecek.
     show: 
+      back: Tüm engellemeleri göster
+      confirm: Emin misin?
       edit: Değiştir
+      heading: "%{block_on} kişisi %{block_by} tarafından engellendi"
+      needs_view: Engel kaldırılmadan önce kullanıcının giriş yapması gerekiyor.
+      reason: "Engelleme sebebi:"
+      revoke: İptal!
+      revoker: "Geri alan:"
+      show: Göster
+      status: Durum
+      time_future: "%{time} içinde bitecek"
+      time_past: "%{time} önce bitti"
+      title: "%{block_on} kişisi %{block_by} tarafından engellendi"
   user_role: 
     grant: 
       confirm: Onayla
