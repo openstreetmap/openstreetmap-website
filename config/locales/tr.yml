@@ -3,6 +3,7 @@
 # Export driver: syck-pecl
 # Author: Alerque
 # Author: George Animal
+# Author: Gizemb
 # Author: Katpatuka
 # Author: SalihB
 # Author: Szoszv
@@ -40,13 +41,18 @@ tr:
         languages: Diller
         pass_crypt: Şifre
     models: 
+      acl: Erişim Kontrol Listesi
       country: Ülke
+      diary_comment: Günlük Yorumu
+      diary_entry: Günlük Girdisi
       friend: Arkadaş
       language: Dil
       message: Mesaj
       old_way: Eski yol
       old_way_tag: Eski yol etiketi
+      session: Oturum
       user: Kullanıcı
+      user_preference: Kullanıcı Ayarları
       way: Yol
       way_node: Yol Noktası
   browse: 
@@ -68,6 +74,8 @@ tr:
       show_area_box: Alan Kutusu Görüntüle
     common_details: 
       changeset_comment: "Yorum:"
+      deleted_at: "Silinmesi:"
+      deleted_by: "Silen:"
       edited_at: "Düzenleme tarihi:"
       edited_by: "Düzenleyen:"
       in_changeset: "Değişiklik takımı içinde:"
@@ -114,6 +122,7 @@ tr:
       node_history_title: "Nokta geçmişi: {{node_name}}"
       view_details: ayrıntıları göster
     not_found: 
+      sorry: Üzgünüm, {{id}} numaralı {{type}} bulunamadı.
       type: 
         changeset: değişiklik takımı
         node: nokta
@@ -152,6 +161,7 @@ tr:
       details: Ayrıntılar
       drag_a_box: Fare kullanarak harita üzerinde bir alan seç
       edited_by_user_at_timestamp: "[[user]] tarafından düzenlendi ([[timestamp]])"
+      hide_areas: Bölgeleri gizle
       history_for_feature: "[[feature]] (geçmiş)"
       load_data: Veri Yükle
       loading: Yükleniyor...
@@ -172,6 +182,8 @@ tr:
         type: 
           node: Nokta
           way: Yol
+      private_user: gizli kullanıcı
+      show_areas: Bölgeleri göster
       show_history: Geçmişi görüntüle
       unable_to_load_size: "Yüklenemiyor: alan boyutu [[bbox_size]] çok büyük - ({{max_bbox_size}}'den küçük olması gerekir)"
       wait: Bekleyin...
@@ -288,7 +300,13 @@ tr:
       view: Göster
     new: 
       title: Yeni Günlük Girdisi
+    no_such_entry: 
+      body: Üzgünüz, {{id}} numaralı bir günlük girdisi ya da yorumu yok. Lütfen harfleri kontrol edin, ya da tıkladığınız link yanlış olabilir.
+      heading: "Bu numaraya sahip giriş yok: {{id}}"
+      title: Böyle bir günlük kaydı bulunmuyor
     no_such_user: 
+      body: Üzgünüz, {{user}} isminde bir kullanıcı yok. Lütfen yazım denetimi yapınız ya da tıkladığınız link yanlış olabilir.
+      heading: "{{user}} adlı bir kullanıcı yok"
       title: Böyle bir kullanıcı yok
     view: 
       leave_a_comment: Yorum yaz
@@ -420,6 +438,7 @@ tr:
           grave_yard: Mezarlık
           gym: Fitness Merkezi / Spor Salonu
           hall: Toplantı salonu
+          health_centre: Sağlık Merkezi
           hospital: Hastane
           hotel: Hotel
           hunting_stand: Avcılık Standı
@@ -472,13 +491,18 @@ tr:
           chapel: Şapel
           church: Kilise
           city_hall: Belediye binası
+          dormitory: Yurt
           entrance: Bina Girişi
           faculty: Fakülte Binası
           farm: Çiftlik Binası
+          flats: Daire
+          garage: Garaj
+          hall: Toplantı Merkezi
           hospital: Hastane Binası
           hotel: Hotel
           house: Ev
           industrial: Sınai Bina
+          office: Ofis Binası
           public: Kamu Binası
           school: Okul Binası
           shop: Dükkan
@@ -569,6 +593,7 @@ tr:
           reservoir: Baraj Gölü
           residential: Yerleşim Bölgesi
           retail: Esnaf
+          village_green: Kırsal Yeşillik
           vineyard: Bağ
           wetland: Sulak Alan
           wood: Orman
@@ -602,6 +627,8 @@ tr:
           crater: Krater
           feature: Özelliği
           fell: Ağaçsız tepe
+          fjord: Haliç
+          geyser: Gayzer
           glacier: Buzul
           heath: Fundalık
           hill: Tepe
@@ -671,29 +698,57 @@ tr:
           tram_stop: Tramvay Durağı
         shop: 
           alcohol: Tekel bayii
+          art: Sanat Galerisi
           bakery: Fırın
+          beauty: Güzellik Salonu
           bicycle: Bisikletçi
           books: Kitap Evi
           butcher: Kasap
+          car: Araba Galerisi
+          car_dealer: Araba Satıcısı
+          car_parts: Araba Parçası Dükkanı
           car_repair: Oto tamir
           carpet: Halı Dükkanı
           chemist: Eczacı
           clothes: Giysi Dükkanı
+          computer: Bilgisayar Mağazası
+          copyshop: Fotokopi Merkezi
+          cosmetics: Kozmetik Mağazası
+          drugstore: Eczane
+          dry_cleaning: Kuru Temizleme
+          electronics: Elektronik Mağazası
           estate_agent: Emlakçı
+          fish: Balık Dükkanı
+          florist: Çiçekçi
+          food: Yiyecek Dükkanı
           furniture: Mobilya
+          gallery: Galeri
+          garden_centre: Bahçe Merkezi
           gift: Hediye eşya
           greengrocer: Manav
           hairdresser: Kuaför
+          hardware: Hırdavatçı
           insurance: Sigorta
           jewelry: Kuyumcu
+          laundry: Çamaşırhane
           mall: Alışveriş merkezi
           market: Market
           mobile_phone: Cep Telefonu Dükkanı
+          motorcycle: Motosiklet Dükkanı
+          music: Müzik Mağazası
           newsagent: Gazete bayii
+          optician: Gözlükçü
+          organic: Organik Yiyecek Dükkanı
+          outdoor: Outdoor Sporları Mağazası
+          pet: Hayvan Mağazası
+          photo: Fotoğrafçı
           shoes: Ayakkabı Dükkanı
           shopping_centre: Alışveriş Merkezi
+          sports: Spor Malzemeleri Mağazası
           supermarket: Süpermarket
+          toys: Oyuncakçı
           travel_agency: Seyahat Acentası
+          video: Video-CD Dükkanı
           wine: Şarap evi
         tourism: 
           alpine_hut: Dağ evi
@@ -719,6 +774,7 @@ tr:
         waterway: 
           canal: Kanal
           dam: Baraj
+          dock: İskele
           drain: Atık su kanalı
           mineral_spring: Maden Suyu
           river: Nehir
@@ -735,6 +791,9 @@ tr:
       edit_disabled_tooltip: Harita düzenlemek için yakınlaştırmak gerek
       edit_tooltip: Haritayı düzenle
       edit_zoom_alert: Harita düzenleyebilmek için yakınlaştırman gerek
+      history_disabled_tooltip: Bu alandaki değişiklikleri görmek için yakınlaştır
+      history_tooltip: Bu alandaki düzenlemeleri göster
+      history_zoom_alert: Bu alandaki düzenlemeleri görmek için yakınlaştırmak gerekiyor
   layouts: 
     community_blogs: Üye Blogları
     community_blogs_title: OpenStreetMap üyelerinin blogları
@@ -825,6 +884,14 @@ tr:
       send_message_to: "{{name}}'ya yeni bir mesaj gönder"
       subject: Konu
       title: Mesaj Gönder
+    no_such_message: 
+      body: Üzgünüz, bu id ile bir mesaj yok.
+      heading: Böyle bir mesaj yok
+      title: Böyle bir mesaj yok
+    no_such_user: 
+      body: Üzgünüz, bu isimde bir kullanıcı yok.
+      heading: Böyle bir kullanıcı yok
+      title: Böyle bir kullanıcı yok
     outbox: 
       date: Tarih
       inbox: gelen kutusu
@@ -860,15 +927,19 @@ tr:
     email_confirm_plain: 
       greeting: Merhaba,
     friend_notification: 
+      befriend_them: "{{befriendurl}} üzerinden arkadaş olarak da ekleyebilirsiniz."
       had_added_you: Kullanıcı {{user}} seni arkadaş olarak OpenStreetMap'te ekledi.
+      see_their_profile: "{{userurl}} üzerinden profillerini görebilirsiniz."
       subject: "[OpenStreetMap] kullanıcı {{user}} seni arkadaş olarak ekledi"
     gpx_notification: 
+      and_no_tags: ve etiket yok.
       failure: 
         failed_to_import: "GPX dosyası alınamadı. Hata bu:"
         subject: "[OpenStreetMap] GPX dosyası maalesef alınamadı"
       greeting: Merhaba,
       success: 
         subject: "[OpenStreetMap] GPX dosyası başarıyla alındı"
+      with_description: açıklamayla beraber
     lost_password: 
       subject: "[OpenStreetMap] Şifre sıfırlama isteği"
     lost_password_html: 
@@ -876,12 +947,14 @@ tr:
     lost_password_plain: 
       greeting: Merhaba,
     message_notification: 
+      footer2: ve {{replyurl}} üzerinden cevap verebilirsiniz
       hi: Merhaba {{to_user}},
     signup_confirm: 
       subject: "[OpenStreetMap] e-posta adresi onaylama mesajı"
     signup_confirm_html: 
       greeting: Merhaba!
       introductory_video: "{{introductory_video_link}} seyretebilirsin."
+      more_videos_here: daha fazla video
       video_to_openstreetmap: OpenStreetMap tanıtım filmi
     signup_confirm_plain: 
       greeting: Merhaba!
@@ -889,9 +962,13 @@ tr:
     edit: 
       submit: Değiştir
     form: 
+      allow_write_api: haritayı düzenle.
       name: Isim
+      required: Gerekli
     index: 
       title: OAuth Ayrıntılarım
+    new: 
+      submit: Kayıt ol
   site: 
     edit: 
       user_page_link: kullanıcı sayfası
@@ -1040,7 +1117,6 @@ tr:
       see_all_traces: Tüm izleri görüntüle
       see_your_traces: Bütün kendi izlerini görüntüle
       upload_trace: GPS izi gönder
-      your_traces: Sadece kendi izlerini görüntüle
     trace_optionals: 
       tags: Etiketler
     trace_paging_nav: 
@@ -1106,6 +1182,7 @@ tr:
       heading: Kullanıcı hesabı onayla
       success: Hesabın onaylandı, teşekkür ve iyi çalışmaları!<br /><br /><a href="http://wiki.openstreetmap.org/wiki/Tr:Main_Page">Hoşgeldin sayfasında</a> Türkiye'deki harita durumu konusunda bilgi alabilirsin.
     confirm_email: 
+      button: Onayla
       success: E-posta adresinizi doğrulandı, kaydolduğu için teşekkür ederiz! İyi çalışmaları dileriz!
     confirm_resend: 
       success: Yeni bir onay mesajı {{email}} adresine gönderdik. Mesajı onaylar onaylamaz haritacılığı başlayabilirsiniz.<br><br>Eğer onaylama mesajını almadısanız e-postanızın Antispam/Junk/İstenmeyen klasörüne lütfen kontrol ediniz.
@@ -1220,11 +1297,47 @@ tr:
       user location: Kullanıcının konumu
       your friends: Arkadaş listesi
   user_block: 
+    blocks_by: 
+      empty: "{{name}} şimdiye kadar hiç bloklamamış."
+      heading: "{{name}} tarafından engellenenlerin listesi"
+      title: "{{name}} tarafından engellenenler"
     blocks_on: 
       empty: "{{name}} henüz engellenmiş değil."
       heading: "{{name}} hakkında engelleme kayıtları"
+      title: "{{name}} kişisinin engelleri"
+    helper: 
+      time_future: "{{time}} içinde bitecek."
+      time_past: "{{time}} önce bitti."
+      until_login: Kullanıcı giriş yapana kadar aktif.
+    partial: 
+      confirm: Emin misin?
+      creator_name: Oluşturan
+      display_name: Engellenmiş kullanıcı
+      edit: Düzenle
+      not_revoked: (iptal edilmemiş)
+      reason: Engelleme sebebi
+      revoke: İptal!
+      revoker_name: İptal eden
+      show: Göster
+    revoke: 
+      confirm: Bu engeli kaldırmak istediğine emin misin?
+      flash: Engel kaldırıldı.
+      revoke: İptal!
+      time_future: Engellenme {{time}} içerisinde bitecek.
     show: 
+      back: Tüm engellemeleri göster
+      confirm: Emin misin?
       edit: Değiştir
+      heading: "{{block_on}} kişisi {{block_by}} tarafından engellendi"
+      needs_view: Engel kaldırılmadan önce kullanıcının giriş yapması gerekiyor.
+      reason: "Engelleme sebebi:"
+      revoke: İptal!
+      revoker: "Geri alan:"
+      show: Göster
+      status: Durum
+      time_future: "{{time}} içinde bitecek"
+      time_past: "{{time}} önce bitti"
+      title: "{{block_on}} kişisi {{block_by}} tarafından engellendi"
   user_role: 
     grant: 
       confirm: Onayla

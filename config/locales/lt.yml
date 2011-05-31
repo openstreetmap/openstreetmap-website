@@ -101,8 +101,11 @@ lt:
         one: "Pakeitime yra šis {{count}} kelias:"
         other: "Pakeitime yra šie {{count}} keliai:"
       no_bounding_box: Prie šio pakeitimo sritis nėra nurodyta
+      show_area_box: Rodyti teritorijos langelį
     common_details: 
       changeset_comment: "Komentaras:"
+      deleted_at: "Panaikinta:"
+      deleted_by: "Panaikino:"
       edited_at: "Redagavo:"
       edited_by: "Redagavo:"
       in_changeset: "Pakeitime:"
@@ -254,6 +257,7 @@ lt:
       big_area: (didelis)
       no_comment: (nėra)
       no_edits: (nėra pakeitimų)
+      show_area_box: Rodyti teritorijos langelį
       still_editing: (vis dar keičia)
       view_changeset_details: Žiūrėti pakeitimo detales
     changeset_paging_nav: 
@@ -311,10 +315,14 @@ lt:
       all: 
         description: Paskutiniai OpenStreetMap naudotojų dienoraščių įrašai
         title: OpenStreetMap dienoraščio įrašai
+      language: 
+        description: Naujausi dienoraščio įrašai nuo OpenStreetMap naudotojų, {{language_name}}
+        title: OpenStreetMap dienoraščių įrašai {{language_name}}
       user: 
         description: Paskutiniai naudotojo {{user}} OpenStreetMap dienoraščio įrašai
         title: Naudotojo {{user}} OpenStreetMap dienoraščio įrašai
     list: 
+      in_language_title: "Dienoraščio įrašai: {{language}}"
       new: Naujas dienoraščio įrašas
       new_title: Sukurti naują jūsų dienoraščio įrašą
       newer_entries: Naujesni įrašai
@@ -330,14 +338,17 @@ lt:
     new: 
       title: Naujas dienoraščio įrašas
     no_such_entry: 
+      body: Atsiprašome, čia nėra jokio dienoraščio įrašo ar komentaro su šiuo id {{id}}. Pasitikrinkite rašybą, arba nuoroda kurią jūs pasirinkite yra klaidinga.
       heading: "Nėra įrašo su id: {{id}}"
       title: Nėra tokio dienoraščio įrašo
     no_such_user: 
+      body: Atsiprašome, čia nėra jokio naudotojo vardu „{{user}}“. Pasitikrinkite rašybą, arba nuoroda kurią jūs pasirinkite yra klaidinga.
       heading: Naudotojas {{user}} neegzistuoja
       title: Nėra tokio naudotojo
     view: 
       leave_a_comment: Palikti komentarą
       login: Prisijungti
+      login_to_leave_a_comment: "{{login_link}} palikti komentarą"
       save_button: Įrašyti
       title: "{{user}} dienoraštis | {{title}}"
       user_title: "{{user}} dienoraštis"
@@ -420,6 +431,9 @@ lt:
         osm_nominatim: <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a> rezultatai
         uk_postcode: <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a> rezultatai
         us_postcode: <a href="http://geocoder.us/">Geocoder.us</a> rezultatai
+    search_osm_namefinder: 
+      suffix_parent: "{{suffix}} ({{parentdistance}} {{parentdirection}}, {{parentname}}"
+      suffix_place: ", {{distance}}, į {{direction}}, {{placename}}"
     search_osm_nominatim: 
       prefix: 
         amenity: 
@@ -437,12 +451,15 @@ lt:
           bus_station: Autobusų stotis
           cafe: Kavinė
           car_rental: Mašinų nuoma
+          car_sharing: Dalinimosi automobiliu paslauga
           car_wash: Automobilių plovykla
           casino: Kazino
           cinema: Kino teatras
           clinic: Klinika
           club: Klubas
           college: Koledžas
+          community_centre: Bendruomenės centras
+          courthouse: Teismo pastatas
           crematorium: Krematoriumas
           dentist: Dantistas
           doctors: Gydytojai
@@ -450,12 +467,15 @@ lt:
           drinking_water: Geriamas vanduo
           driving_school: Vairavimo mokykla
           embassy: Ambasada
+          emergency_phone: Pagalbos telefonas
           fast_food: Greitas maistas
           ferry_terminal: Keltų terminalas
+          fire_hydrant: Hidrantas
           fire_station: Gaisrinė
           fountain: Fontanas
           fuel: Degalinė
           grave_yard: Kapinės
+          gym: Sveikatingumo centras / sporto salė
           hall: Salė
           health_centre: Sveikatingumo centras
           hospital: Ligoninė
@@ -465,35 +485,51 @@ lt:
           library: Biblioteka
           market: Turgus
           marketplace: Turgavietė
+          mountain_rescue: Pagalba kalnuose
           nightclub: Naktinis klubas
+          nursing_home: Slaugos namai
           office: Biuras
           park: Parkas
           parking: Stovėjimo aikštelė
           pharmacy: Vaistinė
+          place_of_worship: Maldos namai
           police: Policija
           post_box: Pašto dėžutė
           post_office: Paštas
+          preschool: Ikimokyklinis ugdymas
           prison: Kalėjimas
           pub: Aludė
           public_building: Visuomeninis pastatas
+          public_market: Visuomeninis turgus
+          reception_area: Priėmimo zona
+          recycling: Perdirbimo punktas
           restaurant: Restoranas
           retirement_home: Senelių namai
           sauna: Sauna
           school: Mokykla
           shelter: Pastogė
           shop: Parduotuvė
+          shopping: Apsipirkimo vieta
+          social_club: Socialinių reikalų klubas
           studio: Studija
+          supermarket: Prekybos centras
           taxi: Taksi
           telephone: Viešas telefonas
           theatre: Teatras
           toilets: Tualetas
           townhall: Rotušė
           university: Universitetas
+          vending_machine: Vendingas
+          veterinary: Veterinarijos chirurgija
+          village_hall: Nedidelio miestelio valdžios būstinė
+          waste_basket: Atliekų krepšelis
           wifi: WiFi prieiga
           youth_centre: Jaunimo centras
         boundary: 
           administrative: Administracinė riba
         building: 
+          apartments: Gyvenamasis kvartalas
+          block: Pastatų blokas
           bunker: Bunkeris
           chapel: Koplyčia
           church: Bažnyčia
@@ -502,6 +538,7 @@ lt:
           dormitory: Bendrabutis
           entrance: Įėjimas į pastatą
           farm: Ūkio pastatas
+          flats: Butai
           garage: Garažas
           hall: Salė
           hospital: Ligoninės pastatas
@@ -522,31 +559,51 @@ lt:
           university: Universiteto pastatas
         highway: 
           bridleway: Žirgų kelias
+          bus_guideway: Bėginio autobuso linija
           bus_stop: Autobusų stotelė
           byway: Keliukas
           construction: Statomas greitkelis
           cycleway: Dviračių takas
           distance_marker: Nuotolio žymeklis
+          emergency_access_point: Skubios prieigos punktas
           footway: Pėsčiųjų takelis
+          ford: Brasta
           gate: Vartai
           living_street: Gyvenamoji gatvė
+          minor: Šalutinis kelias
+          motorway: Automagistralė
+          motorway_junction: Automagistralės rampa
+          motorway_link: Automagistralinis kelias
           path: Takelis
           pedestrian: Pėsčiųjų kelias
+          platform: Platforma
+          primary: Pirmosios reikšmės kelias
+          primary_link: Pirmosios reikšmės kelias
+          raceway: Lenktynių trasa
+          residential: Gyvenamasis (-oji)
           road: Kelias
+          secondary: Antros reikšmės kelias
           secondary_link: Antros reikšmės kelias
+          service: Privažiuojamasis kelias
+          services: Automagistralės paslaugos
           steps: Laiptai
+          stile: Kopynė
           tertiary: Trečios reikšmės kelias
           track: Vėžės
           trail: Takas
+          trunk: Magistralinis kelias
+          trunk_link: Magistralinis kelias
           unclassified: Neklasifikuotas kelias
           unsurfaced: Kelias be dangos
         historic: 
+          archaeological_site: Archeologinė vieta
           battlefield: Mūšio vieta
           boundary_stone: Ribos akmuo
           building: Pastatas
           castle: Pilis
           church: Bažnyčia
           house: Namas
+          icon: Ikona
           manor: Dvaras
           memorial: Memorialas
           mine: Kasykla
@@ -555,14 +612,17 @@ lt:
           ruins: Griuvėsiai
           tower: Bokštas
           wayside_cross: Pakelės kryžius
+          wayside_shrine: Koplytstulpis
           wreck: Paskendęs laivas
         landuse: 
           allotments: Sodai
           basin: Baseinas
           cemetery: Kapinės
           commercial: Komercinis plotas
+          conservation: Apsaugos zona
           construction: Statyba
           farm: Ūkis
+          farmyard: Ferma
           forest: Miškas
           grass: Žolė
           industrial: Pramoninė zona
@@ -573,20 +633,31 @@ lt:
           mountain: Kalnas
           nature_reserve: Gamtos draustinis
           park: Parkas
+          piste: Slidinėjimo trasa
           quarry: Karjeras
           railway: Geležinkelis
+          recreation_ground: Rekreacinė zona
           reservoir: Rezervuaras
           residential: Gyvenamasis rajonas
+          retail: Mažmeninė prekyba
           vineyard: Vynuogynas
+          wetland: Pelkė
           wood: Medžiai
         leisure: 
+          beach_resort: Pajūrio kurortas
+          common: Bendra žemė
           fishing: Žvejybos zona
           garden: Sodas
           golf_course: Golfo laukas
+          ice_rink: Slidinėjimo vieta (paklojant užšąlantį vandenį)
+          marina: Valčių ir nedidelių laivų prieplauka
+          miniature_golf: Mini golfas
           nature_reserve: Gamtos draustinis
           park: Parkas
           pitch: Sporto aikštė
           playground: Žaidimų aikštelė
+          recreation_ground: Rekreacinis plotas
+          slipway: Slipas
           sports_centre: Sporto centras
           stadium: Stadionas
           swimming_pool: Plaukiojimo baseinas
@@ -597,8 +668,10 @@ lt:
           beach: Paplūdimys
           cave_entrance: Įėjimas į urvą
           channel: Kanalas
+          cliff: Uola
           coastline: Pakrantė
           crater: Krateris
+          feature: Ypatybė
           fjord: Fiordas
           geyser: Geizeris
           glacier: Ledynas
@@ -606,16 +679,25 @@ lt:
           island: Sala
           land: Žemė
           marsh: Pelkė
+          moor: Dažnai užliejama vieta
+          mud: Purvas
           peak: Viršūnė
           point: Taškas
           reef: Rifas
+          ridge: Ketera
           river: Upė
           rock: Uola
+          scree: Skardis
           scrub: Krūmai
+          shoal: Rėva
+          spring: Šaltinis
+          strait: Sąsiauris
           tree: Medis
           valley: Slėnis
           volcano: Ugnikalnis
           water: Vanduo
+          wetland: Pelkė
+          wetlands: Pelkės
           wood: Medžiai
         place: 
           airport: Oro uostas
@@ -623,15 +705,22 @@ lt:
           country: Šalis
           county: Apskritis
           farm: Ūkis
+          hamlet: Kaimelis (Vienkiemis)
           house: Namas
           houses: Namai
           island: Sala
+          islet: Salelė
+          locality: Vietovė
+          moor: Dažnai užliejama vieta
+          municipality: Savivaldybė
           postcode: Pašto kodas
           region: Regionas
           sea: Jūra
           state: Valstija
+          subdivision: Subdivizija
           suburb: Priemiestis
           town: Miestas
+          unincorporated_area: Neįregistruota erdvė
           village: Kaimas
         railway: 
           abandoned: Apleistas geležinkelis
@@ -643,40 +732,67 @@ lt:
           historic_station: Istorinė geležinkelio stotis
           junction: Geležinkelio mazgas
           level_crossing: Pervaža
+          light_rail: Lengvasis geležinkelis
+          monorail: Vienbėgis
           narrow_gauge: Siaurukas
           platform: Geležinkelio platforma
+          preserved: Paveldo geležinkelis
           station: Geležinkelio stotis
           subway: Metro stotis
           subway_entrance: Įėjimas į metro
+          tram: Tramvajus
+          tram_stop: Tramvajaus stotelė
         shop: 
           apparel: Drabužių parduotuvė
           art: Meno parduotuvė
           bakery: Kepykla
+          beauty: Grožio salonas
           beverages: Gėrimų parduotuvė
           bicycle: Dviračių parduotuvė
           books: Knygynas
           butcher: Mėsininkas
           car: Automobilių parduotuvė
+          car_dealer: Prekiautojas automobiliais
           car_parts: Automobilių dalys
           car_repair: Automobilių remontas
           carpet: Kilimų parduotuvė
+          charity: Labdaros parduotuvė
+          chemist: Chemikas
           clothes: Drabužių parduotuvė
           computer: Kompiuterių parduotuvė
+          confectionery: Konditerijos parduotuvė
           cosmetics: Kosmetikos parduotuvė
+          department_store: Universalinė parduotuvė
+          discount: Nukainotų prekių parduotuvė
           doityourself: Pasidaryk pats
           drugstore: Vaistinė
+          dry_cleaning: Sausasis valymas
           electronics: Elektronikos parduotuvė
+          estate_agent: Nekilnojamojo turto agentas
+          farm: Ūkio parduotuvė
+          fashion: Mados parduotuvė
           fish: Žuvies parduotuvė
           florist: Gėlininkas
           food: Maisto parduotuvė
           furniture: Baldai
+          gallery: Galerija
+          garden_centre: Sodo prekės
           gift: Dovanų parduotuvė
+          greengrocer: Daržovių ir vaisių pardavėjas
+          grocery: Gastronomas
+          hairdresser: Kirpykla
+          hardware: Aparatūros parduotuvė
+          hifi: Hi-Fi
           insurance: Draudimas
           jewelry: Juvelyrikos parduotuvė
+          laundry: Skalbykla
+          mall: Prekybos centras
           mobile_phone: Mobiliųjų telefonų parduotuvė
           motorcycle: Motociklų parduotuvė
           music: Muzikos prekių parduotuvė
+          pet: Naminių gyvūnėlių parduotuvė
           photo: Foto prekių parduotuvė
+          salon: Salonas
           shoes: Batų parduotuvė
           shopping_centre: Prekybos centras
           sports: Sporto prekių parduotuvė
@@ -693,12 +809,14 @@ lt:
           motel: Motelis
           museum: Muziejus
           picnic_site: Poilsiavietė
+          valley: Slėnis
           viewpoint: Apžvalgos aikštelė
           zoo: Zoologijos sodas
         waterway: 
           canal: Kanalas
           dam: Užtvanka
           ditch: Griovys
+          dock: Dokas
           drain: Drenažo griovys
           river: Upė
           riverbank: Upės krantas
@@ -945,6 +1063,8 @@ lt:
       register_new: Registruoti jūsų programą
       revoke: Atšaukti!
       title: Mano OAuth duomenys
+    new: 
+      submit: Registruotis
     show: 
       allow_write_gpx: įkelti GPS pėdsakus.
   site: 
@@ -966,13 +1086,16 @@ lt:
           allotments: Sodai
           apron: 
             1: terminalas
-          bridleway: Šunkelis
+          bridleway: Takas galvijams varyti
           building: Didelis pastatas
+          cable: 
+            - Lyno keltuvas
           cemetery: Kapinės
           centre: Sporto centras
           commercial: Komericinis plotas
           common: 
-            1: pieva
+            - Bendras
+            - pieva
           construction: Statomi keliai
           cycleway: Dviračių takas
           farm: Ūkis
@@ -986,11 +1109,14 @@ lt:
           permissive: Leidimo reikalaujantis įvažiavimas
           pitch: Sportinis laukas
           primary: Pirmosios reikšmės kelias
+          private: Privati prieiga
           rail: Geležinkelis
           reserve: Gamtos rezervatas
+          resident: Gyvenamoji zona
           retail: Mažmeninis rajonas
           runway: 
             - Kilimo takas
+            - Riedėjimo takas
           school: 
             - Mokykla
             - universitetas
@@ -1000,6 +1126,10 @@ lt:
           summit: 
             - Viršūnė
             - Viršukalnė
+          tourist: Turistų atrakcija
+          tram: 
+            - Lengvasis geležinkelis
+            - tramvajus
           trunk: Magistralinis kelias (kai kur – greitkelis)
           unclassified: Neklasifikuotas kelias
           unsurfaced: Kelias be dangos
@@ -1017,6 +1147,8 @@ lt:
     create: 
       trace_uploaded: Jūsų GPX pėdsakas įkrautas ir laukia įterpimo į duomenų bazę. Paprastai tai įvyks pusvalandžio bėgyje, o tada jums bus išsiųstas patvirtinimo laiškas.
       upload_trace: Įkelti GPS pėdsaką
+    delete: 
+      scheduled_for_deletion: Trasa, numatyta ištrinimui
     edit: 
       description: "Aprašymas:"
       download: atsisiųsti
@@ -1042,6 +1174,7 @@ lt:
     make_public: 
       made_public: Pėdsakas nuo dabar bus viešas
     no_such_user: 
+      body: Atsiprašome, čia nėra jokio naudotojo vardu „{{user}}“. Pasitikrinkite rašybą, arba nuoroda kurią jūs pasirinkite yra klaidinga.
       heading: Naudotojas „{{user}}“ neegzistuoja
       title: Nėra tokio naudotojo
     offline_warning: 
@@ -1073,7 +1206,6 @@ lt:
       see_all_traces: Rodyti visus pėdsakus
       see_your_traces: Rodyti visus jūsų pėdsakus
       upload_trace: Įkelti pėdsaką
-      your_traces: Rodyti tik jūsų pėdsakus
     trace_optionals: 
       tags: Žymos
     trace_paging_nav: 
@@ -1248,6 +1380,7 @@ lt:
       title: Talkininkų sąlygos
       you need to accept or decline: Prašome perskaityti bei sutikti ar nesutikti su Naujo dalyvio sąlygomis.
     view: 
+      activate_user: aktyvuoti šį naudotoją
       add as friend: pridėti kaip draugą
       ago: ({{time_in_words_ago}} atgal)
       blocks by me: mano sukurti apribojimai

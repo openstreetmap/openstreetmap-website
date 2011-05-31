@@ -14,7 +14,7 @@ ast:
         title: Títulu
         user: Usuariu
       friend: 
-        friend: Collaciu
+        friend: Amigu
         user: Usuariu
       message: 
         body: Cuerpu
@@ -44,7 +44,7 @@ ast:
       country: País
       diary_comment: Comentariu del diariu
       diary_entry: Entrada del diariu
-      friend: Collaciu
+      friend: Amigu
       language: Llingua
       message: Mensaxe
       node: Nodu
@@ -71,6 +71,9 @@ ast:
       way: Vía
       way_node: Nodu de vía
       way_tag: Etiqueta de vía
+  application: 
+    require_cookies: 
+      cookies_needed: Paez que tienes les cookies desactivaes - activa les cookies nel restolador enantes de siguir.
   browse: 
     changeset: 
       changeset: "Conxuntu de cambeos: {{id}}"
@@ -85,11 +88,11 @@ ast:
       belongs_to: "Pertenez a:"
       bounding_box: "Cuadru de llende:"
       box: cuadru
-      closed_at: "Zarrao el:"
-      created_at: "Creao el:"
+      closed_at: "Zarráu el:"
+      created_at: "Creáu el:"
       has_nodes: 
         one: "Tien el nodu darréu:"
-        other: "Tien los nodos {{count}} darréu:"
+        other: "Tien los {{count}} nodos darréu:"
       has_relations: 
         one: "Tien la rellación darréu:"
         other: "Tien les {{count}} rellaciones darréu:"
@@ -100,8 +103,10 @@ ast:
       show_area_box: Ver cuadru d'área
     common_details: 
       changeset_comment: "Comentariu:"
-      edited_at: "Editao el:"
-      edited_by: "Editao por:"
+      deleted_at: "Desaniciáu el:"
+      deleted_by: "Desaniciáu por:"
+      edited_at: "Editáu el:"
+      edited_by: "Editáu por:"
       in_changeset: "Nel conxuntu de cambeos:"
       version: "Versión:"
     containing_relation: 
@@ -562,10 +567,10 @@ ast:
           bus_guideway: Carril bus con guía
           bus_stop: Parada d'autobús
           byway: Camín
-          construction: Carretera'n construcción
+          construction: Carretera en construcción
           cycleway: Sienda ciclista
           distance_marker: Marca de distancia
-          emergency_access_point: Puntu pa llamaes d'emerxencia
+          emergency_access_point: Puntu de llocalización d'emerxencia
           footway: Sienda
           ford: Vau
           gate: Puerta
@@ -578,12 +583,12 @@ ast:
           pedestrian: Vía peatonal
           platform: Andén
           primary: Carretera primaria
-          primary_link: Carretera primaria
+          primary_link: Enllaz de carretera primaria
           raceway: Pista de carreres
           residential: Residencial
           road: Carretera
           secondary: Carretera secundaria
-          secondary_link: Carretera secundaria
+          secondary_link: Enllaz de carretera secundaria
           service: Carretera de serviciu
           services: Servicios n'autopista
           steps: Escaleres
@@ -592,7 +597,7 @@ ast:
           track: Pista
           trail: Camín
           trunk: Carretera nacional
-          trunk_link: Carretera nacional
+          trunk_link: Enllaz de carretera nacional
           unclassified: Carretera ensin clasificar
           unsurfaced: Carretera ensin asfaltar
         historic: 
@@ -615,7 +620,7 @@ ast:
           wayside_shrine: Ermita
           wreck: Naufraxu
         landuse: 
-          allotments: Güertes d'ociu
+          allotments: Güertes recreatives
           basin: Conca
           brownfield: Terrén en derribu
           cemetery: Cementeriu
@@ -648,7 +653,7 @@ ast:
           wetland: Llamuerga
           wood: Viesca
         leisure: 
-          beach_resort: Facilidaes de playa
+          beach_resort: Turismu de playa
           fishing: Área de pesca
           garden: Xardín
           golf_course: Campu de golf
@@ -871,6 +876,10 @@ ast:
     site: 
       edit_disabled_tooltip: Aumenta pa editar el mapa
       edit_tooltip: Editar el mapa
+      edit_zoom_alert: Tienes d'acercate pa editar el mapa
+      history_disabled_tooltip: Aumenta pa ver les ediciones d'esti área
+      history_tooltip: Ver ediciones nesti área
+      history_zoom_alert: Tienes d'aumentar pa ver les ediciones d'esti área
   layouts: 
     community_blogs: Blogues de la Comunidá
     community_blogs_title: Blogues de miembros de la comunidá d'OpenStreetMap
@@ -917,6 +926,7 @@ ast:
       title: Sofita OpenStreetMap con un donativu económicu
     osm_offline: La base de datos d'OpenStreetMap anguaño ta desconectada mentanto se faen trabayos esenciales de mantenimientu de la base de datos.
     osm_read_only: La base de datos d'OpenStreetMap anguaño ta en mou de sólo llectura mentanto se faen trabayos esenciales de mantenimientu de la base de datos.
+    sign_up: dase d'alta
     sign_up_tooltip: Crear una cuenta pa editar
     sotm2011: ¡Ven a la Conferencia OpenStreetMap 2011, The State of the Map, del 9 al 11 de setiembre en Denver!
     tag_line: El wikimapamundi llibre
@@ -939,28 +949,69 @@ ast:
       text: Tas viendo la versión n'inglés de la páxina de copyright. Pues tornar a la {{native_link}} d'esta páxina o pues dexar de lleer sobro'l copyright y {{mapping_link}}.
       title: Tocante a esta páxina
   message: 
+    delete: 
+      deleted: Mensaxe desaniciáu
     inbox: 
       date: Data
       from: De
       my_inbox: El mio buzón
+      no_messages_yet: Entá nun tienes mensaxes. ¿Y si te pones en contautu con {{people_mapping_nearby_link}}?
       outbox: buzón de salida
+      people_mapping_nearby: xente que ta mapeando cerca
       subject: Asuntu
       title: Buzón
       you_have: Tienes {{new_count}} mensaxes nuevos y {{old_count}} mensaxes antiguos
+    mark: 
+      as_read: Mensaxe marcáu como lleíu
+      as_unread: Mensaxe marcáu como non lleíu
+    message_summary: 
+      delete_button: Desaniciar
+      read_button: Marcar como lleíu
+      reply_button: Contestar
+      unread_button: Marcar como non lleíu
+    new: 
+      back_to_inbox: Tornar al buzón d'entrada
+      body: Cuerpu
+      limit_exceeded: Últimamente unviasti abondos mensaxes. Has d'esperar daqué enantes de poder unviar más.
+      message_sent: Mensaxe unviáu
+      send_button: Unviar
+      send_message_to: Unviar un mensaxe nuevu a {{name}}
+      subject: Asuntu
+      title: Unviar mensaxe
+    no_such_message: 
+      body: Nun hai dengún mensaxe con esa id.
+      heading: Esi mensaxe nun esiste
+      title: Esi mensaxe nun esiste
+    no_such_user: 
+      body: Nun hai dengún usuariu con esi nome.
+      heading: Nun esiste l'usuariu
+      title: Nun esiste l'usuariu
     outbox: 
       date: Data
       inbox: buzón
       my_inbox: El mio {{inbox_link}}
+      no_sent_messages: Entá nun unviasti mensaxes. ¿Y si te pones en contautu con {{people_mapping_nearby_link}}?
       outbox: buzón de salida
+      people_mapping_nearby: xente que ta mapeando cerca
       subject: Asuntu
       title: Buzón de salida
       to: Pa
       you_have_sent_messages: Tienes {{count}} mensaxes unviaos
     read: 
+      back_to_inbox: Tornar al buzón d'entrada
+      back_to_outbox: Tornar al buzón de salida
       date: Data
       from: De
+      reading_your_messages: Lleendo los mensaxes
+      reading_your_sent_messages: Lleendo los mensaxes unviaos
+      reply_button: Contestar
       subject: Asuntu
+      title: Lleer el mensaxe
       to: Pa
+      unread_button: Marcar como non lleíu
+      wrong_user: Tas coneutáu como `{{user}}' pero el mensaxe que quies lleer nun s'unvió por o a esi usuariu. Coneuta col usuariu correchu pa contestar.
+    reply: 
+      wrong_user: Tas coneutáu como `{{user}}' pero el mensaxe que quies contestar nun s'unvió a esi usuariu. Coneuta col usuariu correchu pa contestar.
     sent_message_summary: 
       delete_button: Desaniciar
   notifier: 
@@ -1046,8 +1097,56 @@ ast:
       user_wiki_1: S'encamienta que crees una páxina wiki d'usuariu, qu'incluya
       user_wiki_2: etiquetes de categoría pa marcar ú tas, como [[Category:Users_in_London]].
       wiki_signup: "Tamién pue ser que t'interese rexistrate na wiki d'OpenStreetMap en:"
+  oauth: 
+    oauthorize: 
+      allow_read_gpx: lleer les tos traces GPS privaes.
+      allow_read_prefs: lleer les preferencies d'usuariu.
+      allow_to: "Permitir a l'aplicación cliente:"
+      allow_write_api: camudar el mapa.
+      allow_write_diary: crear entraes del diariu, comentarios y facer amigos.
+      allow_write_gpx: xubir traces GPS.
+      allow_write_prefs: camudar les preferencies d'usuariu.
+  oauth_clients: 
+    edit: 
+      submit: Editar
+      title: Editar la to aplicación
+    form: 
+      allow_read_gpx: lleer les sos traces GPS privaes.
+      allow_read_prefs: lleer les preferencies d'usuariu.
+      allow_write_api: camudar el mapa.
+      allow_write_diary: crear entraes del diariu, comentarios y facer amigos.
+      allow_write_gpx: xubir traces GPS.
+      allow_write_prefs: camudar les preferencies d'usuariu.
+      name: Nome
+      requests: "Pidir los permisos darréu al usuariu:"
+      required: Requeríu
+      support_url: URL d'encontu
+      url: URL principal de l'aplicación
+    index: 
+      application: Nome d'aplicación
+      my_apps: Les mios aplicaciones cliente
+      my_tokens: Les mios aplicaciones autorizaes
+      no_apps: ¿Tienes una aplicación que quieras rexistrar pa usar con nós usando l'estándar {{oauth}}? Tienes de rexistrar la to aplicación web enantes de que pueda facer solicitúes OAuth a esti serviciu.
+      register_new: Rexistra la to aplicación
+      registered_apps: "Tienes rexistraes les aplicaciones cliente darréu:"
+      title: Los mios detalles d'OAuth
+    new: 
+      submit: Rexistrar
+      title: Rexistrar una aplicación nueva
+    show: 
+      allow_read_gpx: lleer les sos traces GPS privaes.
+      allow_read_prefs: lleer les preferencies d'usuariu.
+      allow_write_api: camudar el mapa.
+      allow_write_diary: crear entraes del diariu, comentarios y facer amigos.
+      allow_write_gpx: xubir traces GPS.
+      allow_write_prefs: camudar les preferencies d'usuariu.
+      requests: "Pidir los permisos darréu al usuariu:"
+      title: Detalles d'OAuth pa {{app_name}}
   site: 
     index: 
+      js_1: O tas usando un restolador ensin sofitu pa JavaScript, o tienes JavaScript desactiváu.
+      js_2: OpenStreetMap usa JavaScript pal so mapa eslizante.
+      js_3: Seique quieras probar el <a href="http://tah.openstreetmap.org/Browse/">visor de cuadros estáticos Tiles@Home</a> si nun pues activar JavaScript.
       license: 
         license_name: Creative Commons Attribution-Share Alike 2.0
         notice: Llicenciao baxo llicencia {{license_name}} pol {{project_name}} y los sos collaboradores.
@@ -1056,24 +1155,78 @@ ast:
       remote_failed: Falló la edición - asegúrate de tener cargáu JOSM o Merkaartor y de que tea activada la opción de control remotu
       shortlink: Enllaz curtiu
     key: 
+      map_key: Lleenda del mapa
+      map_key_tooltip: Símbolos del mapa
       table: 
         entry: 
+          admin: Llende alministrativa
+          allotments: Güertes recreatives
+          apron: 
+            - Aparcamientu d'aviones
+            - terminal
           bridge: Borde prietu = ponte
+          bridleway: Caleya
+          brownfield: Terrén en derribu
           building: Edificiu destacáu
+          byway: Camín
+          cable: 
+            - Teleféricu
+            - telesilla
+          cemetery: Cementeriu
+          centre: Centru deportivu
+          commercial: Área comercial
+          common: 
+            1: prau
           construction: Carreteres en construcción
+          cycleway: Carril bici
           destination: Accesu pa destín
+          farm: Casería
+          footway: Camín peatonal
+          forest: Área forestal
+          golf: Campu de golf
+          heathland: Berezal
+          industrial: Área industrial
+          lake: 
+            - Llagu
+            - banzáu
+          military: Área militar
+          motorway: Autopista
+          park: Parque
           permissive: Accesu permisivu
+          pitch: Campu deportivu
+          primary: Carretera primaria
           private: Accesu priváu
+          rail: Ferrocarril
+          reserve: Reserva natural
+          resident: Área residencial
+          retail: Área de tiendes
+          runway: 
+            - Pista d'aeropuertu
+            - cai de rodadura
           school: 
             - Escuela
             - universidá
+          secondary: Carretera secundaria
           station: Estación de tren
+          subway: Metro
           summit: 
-            1: picu
+            - Cume
+            - picu
+          track: Pista
+          tram: 
+            - Ferrocarril llixeru
+            - tranvía
+          trunk: Carretera nacional
           tunnel: Borde de rayes = túnel
+          unclassified: Carretera ensin clasificar
+          unsurfaced: Carretera ensin asfaltar
+          wood: Viesca
     search: 
       search: Guetar
-      where_am_i: ¿U toi?
+      search_help: "exemplos: 'Xixón', 'Cai Uría, Uviéu', 'CB2 5AQ', o 'oficines de correos cerca de Llanes' <a href='http://wiki.openstreetmap.org/wiki/Search'>más exemplos...</a>"
+      submit_text: Dir
+      where_am_i: ¿Ú toi?
+      where_am_i_title: Describi el to allugamientu actual usando el motor de gueta
     sidebar: 
       close: Zarrar
       search_results: Resultaos de la gueta
@@ -1146,7 +1299,6 @@ ast:
       see_your_traces: Ver toles tos traces
       traces_waiting: Tienes {{count}} traces esperando pa xubir. Considera esperar a qu'eses terminen enantes de xubir más, col envís de nun bloquiar la cola pa otros usuarios.
       upload_trace: Xubir una traza
-      your_traces: Ver namái les tos traces
     trace_optionals: 
       tags: Etiquetes
     trace_paging_nav: 
@@ -1162,7 +1314,7 @@ ast:
       filename: "Nome del ficheru:"
       heading: Amosando la traza {{name}}
       map: mapa
-      none: Dengunu
+      none: Dengún
       owner: "Propietariu:"
       pending: PENDIENTE
       points: "Puntos:"
@@ -1181,8 +1333,41 @@ ast:
     account: 
       latitude: "Llatitú:"
       longitude: "Llonxitú:"
+      title: Editar la cuenta
+    filter: 
+      not_an_administrator: Has de ser alministrador pa facer esa aición.
     go_public: 
-      flash success: Agora toles ediciones tuyes son públiques, y nun tienes permisu pa editar.
+      flash success: Agora toles ediciones tuyes son públiques, y tienes permisu pa editar.
+    list: 
+      confirm: Confirmar los usuarios esbillaos
+      empty: Non s'atoparon usuarios que concasen
+      heading: Usuarios
+      hide: Anubrir los usuarios esbillaos
+      showing: 
+        one: Amosando la páxina {{page}} ({{first_item}} de {{items}})
+        other: Amosando la páxina {{page}} ({{first_item}}-{{last_item}} de {{items}})
+      summary: "{{name}} creáu dende {{ip_address}} el {{date}}"
+      summary_no_ip: "{{name}} creáu el {{date}}"
+      title: Usuarios
+    login: 
+      already have: ¿Yá tienes una cuenta d'OpenStreetMap? Entra nella, por favor.
+      create account minute: Crea una cuenta. Lleva namái un minutu.
+      create_account: crear una cuenta
+      email or username: "Direición de corréu o nome d'usuariu:"
+      heading: Entrar
+      login_button: Entrar
+      lost password link: ¿Perdisti la contraseña?
+      new to osm: ¿Yes nuevu con OpenStreetMap?
+      password: "Contraseña:"
+      please login: Entrar o {{create_user_link}}.
+      register now: Rexistrate agora
+      remember: "Recordame:"
+      title: Cuenta
+      to make changes: Pa camudar los datos d'OpenStreetMap, has de tener una cuenta.
+    logout: 
+      heading: Colar d'OpenStreetMap
+      logout_button: Colar
+      title: Colar
     lost_password: 
       email address: "Direición de corréu:"
       heading: ¿Escaecisti la contraseña?
@@ -1191,34 +1376,197 @@ ast:
       notice email cannot find: Nun s'alcontró esa direición de corréu.
       notice email on way: Sentimos que la perdieres :-( pero hai un corréu en camín pa que puedas reaniciala ceo.
       title: Contraseña perdida
+    make_friend: 
+      success: "{{name}} agora ye amigu tuyu."
+    new: 
+      confirm email address: "Confirmar direición de corréu:"
+      confirm password: "Confirma la contraseña:"
+      continue: Siguir
+      display name: "Nome a amosar:"
+      display name description: El nome d'usuariu que s'amuesa en público. Pue camudalo más sero nes preferencies.
+      email address: "Direición de corréu:"
+      flash create success message: Gracies por rexistrate. Venimos d'unvia un corréu de confirmación a {{email}} y encuantes confirmes la to cuenta tarás preparáu pa mapear. <br /><br />Si uses un sistema escontra'l corréu puxarra qu'unvía solicitúes de confirmación, asegúrate d'incluir webmaster@openstreetmap.org na llista blanca de remitentes seguros, porque nós nun podemos responder solicitúes de confirmación.
+      heading: Crear una cuenta d'usuariu
+      password: "Contraseña:"
+      terms accepted: ¡Gracies por aceutar les condiciones de collaboración!
+      terms declined: Sentimos que decidieres nun aceutar les Condiciones de Collaboración. Pa más información llei <a href="{{url}}">esta páxina wiki</a>.
+      title: Crear una cuenta
     no_such_user: 
       body: Lo siento, nun hai dengún usuariu col nome {{user}}. Comprueba la escritura o si calcasti nun enllaz enquivocáu, seique.
       heading: L'usuariu {{user}} nun esiste
       title: Nun esiste l'usuariu
+    popup: 
+      friend: Amigu
+      nearby mapper: Mapeador próximu
+      your location: El to allugamientu
+    remove_friend: 
+      not_a_friend: "{{name}} nun ye un de los tos amigos."
+      success: "{{name}} se desanició de los tos amigos."
+    reset_password: 
+      confirm password: "Confirma la contraseña:"
+      flash changed: Se camudó la to contraseña
+      heading: Reaniciar la contraseña de {{user}}
+      password: "Contraseña:"
+      reset: Reaniciar contraseña
+      title: Reaniciar contraseña
+    suspended: 
+      body: "<p>\n  Perdona, pero la to cuenta se suspendió automáticamente por aciu\n  d'actividá sospechosa.\n</p>\n<p>\n  Un alministrador revisará pronto esta decisión, o pues ponete en\n  contautu col {{webmaster}} si quies discutir esto.\n</p>"
+      heading: Cuenta suspendida
+      title: Cuenta suspendida
+      webmaster: webmaster
     terms: 
-      consider_pd_why: ¿Qué ye esto?
+      agree: Aceutar
+      consider_pd: Amás del alcuerdu anterior, considero que les mios collaboraciones pasen a ser Dominiu Públicu
+      consider_pd_why: ¿qué ye esto?
+      decline: Refugar
+      heading: Condiciones de collaboración
       legale_names: 
         france: Francia
         italy: Italia
         rest_of_world: Restu del mundu
+      legale_select: "Seleiciona el to país de residencia:"
+      read and accept: Llei l'alcuerdu de más abaxo y calca nel botón aceutar pa confirmar qu'aceutes les condiciones d'esti alcuerdu pa les tos collaboraciones esistentes y futures.
+      title: Condiciones de collaboración
+      you need to accept or decline: Por favor, llei y aceuta o refuga les nueves Condiciones de Collaboración pa siguir.
     view: 
+      activate_user: activar esti usuariu
+      add as friend: amestar como amigu
+      ago: (hai {{time_in_words_ago}})
+      block_history: ver los bloqueos recibíos
+      blocks by me: bloqueos puestos
+      blocks on me: bloqueos recibíos
+      confirm: Confirmar
+      confirm_user: confirmar esti usuariu
+      create_block: bloquiar esti usuariu
+      created from: "Creáu dende:"
+      deactivate_user: desactivar esti usuariu
+      delete_user: desaniciar esti usuariu
+      description: Descripción
+      diary: diariu
+      edits: ediciones
+      email address: "Direición de corréu:"
+      hide_user: anubrir esti usuariu
+      if set location: Si defines el to allugamientu, equí apaecerá un guapu mapa. Pues conseñar un llugar d'orixe na to páxina de {{settings_link}}.
+      km away: a {{count}}km de distancia
+      latest edit: "Cabera edición {{ago}}:"
+      m away: a {{count}}m de distancia
+      mapper since: "Mapeador dende:"
+      moderator_history: ver los bloqueos puestos
       my diary: el mio diariu
       my edits: les mios ediciones
+      my settings: les mios preferencies
       my traces: les mios traces
+      nearby users: Otros usuarios próximos
       new diary entry: nueva entrada del diariu
+      no friends: Entá nun amestasti dengún amigu.
+      no nearby users: Entá nun hai otros usuarios que tean mapeando cerca de ti.
+      oauth settings: configuración OAuth
+      remove as friend: desaniciar como amigu
+      role: 
+        administrator: Esti usuariu ye alministrador
+        grant: 
+          administrator: Dar accesu d'alministrador
+          moderator: Dar accesu de moderador
+        moderator: Esti usuariu ye moderador
+        revoke: 
+          administrator: Quitar accesu d'alministrador
+          moderator: Quitar accesu de moderador
+      send message: unviar mensaxe
+      settings_link_text: preferencies
+      spam score: "Puntuación de corréu puxarra:"
+      status: "Estáu:"
+      traces: traces
+      unhide_user: amosar esti usuariu
+      user location: Allugamientu del usuariu
+      your friends: Los tos amigos
   user_block: 
+    blocks_by: 
+      empty: "{{name}} entá nun fexo bloqueos."
+      heading: Llista de los bloqueos por {{name}}
+      title: Bloqueos fechos por {{name}}
+    blocks_on: 
+      empty: "{{name}} entá nun foi bloquiáu."
+      heading: Llista de los bloqueos a {{name}}
+      title: Bloqueos fechos a {{name}}
+    create: 
+      flash: Se creó un bloquéu a {{name}}
+      try_contacting: Intenta ponete en contautu col usuariu enantes de bloquialu, y da-y un tiempu razonable pa responder.
+      try_waiting: Procura da-y al usuariu un tiempu razonable pa responder enantes de bloquialu.
+    edit: 
+      back: Ver tolos bloqueos
+      heading: Editando el bloquéu de {{name}}
+      needs_view: ¿Tien de coneutase l'usuariu enantes de que se desanicie esti bloquéu?
+      period: Por cuantu tiempu, dende agora, l'usuariu tendrá torgáu usar la API.
+      reason: El motivu pol que bloquies a {{name}}. Escribi del mou más tranquilu y razonable posible, dando tolos detalles que puedas sobre la situación. Ten en cuenta que non tolos usuarios entienden la xíriga de la comunidá; poro, tenta usar pallabres cencielles.
+      show: Ver esti bloquéu
+      submit: Anovar el bloquéu
+      title: Editando el bloquéu de {{name}}
+    filter: 
+      block_expired: El bloquéu yá caducó y nun se pue editar.
+      block_period: El periodu de bloquéu tien de ser un de los valores presentes na llista estenderexable.
+      not_a_moderator: Has de ser moderador pa facer esa aición.
+    helper: 
+      time_future: Fina en {{time}}.
+      time_past: Finó hai {{time}}.
+      until_login: Activu fasta que'l usuariu anicie sesión.
+    index: 
+      empty: Entá nun se fizo dengún bloquéu.
+      heading: Llista de bloqueos d'usuariu
+      title: Bloqueos d'usuariu
+    model: 
+      non_moderator_update: Has de ser moderador pa crear o anovar un bloque.
+    new: 
+      back: Ver tolos bloqueos
+      heading: Creando un bloquéu a {{name}}
+      needs_view: L'usuariu tien de coneutase enantes de que se desanicie esti bloquéu
+      period: Por cuantu tiempu, dende agora, l'usuariu tendrá torgáu usar la API.
+      reason: El motivu pol que bloquies a {{name}}. Escribi del mou más tranquilu y razonable posible, dando tolos detalles que puedas sobre la situación, y recordando que'l mensaxe se verá públicamente. Ten en cuenta que non tolos usuarios entienden la xíriga de la comunidá; poro, tenta usar pallabres cencielles.
+      submit: Crear un bloquéu
+      title: Creando un bloquéu a {{name}}
+      tried_contacting: Púnxime en contautu col usuariu pa pidíi qu'aparara.
+      tried_waiting: Di-y al usuariu tiempu razonable abondo pa responder a eses comunicaciones.
+    not_found: 
+      back: Tornar al índiz
+      sorry: Lo siento, nun se pudo atopar el bloquéu d'usuariu cola ID {{id}}.
     partial: 
       confirm: ¿Tas seguru?
       creator_name: Creador
       display_name: Usuariu bloquiáu
       edit: Editar
+      not_revoked: (non desaniciáu)
       reason: Motivu del bloquéu
+      revoke: ¡Desaniciar!
+      revoker_name: Desaniciáu por
       show: Amosar
       status: Estáu
+    period: 
+      one: 1 hora
+      other: "{{count}} hores"
+    revoke: 
+      confirm: ¿Seguro que quies desaniciar esti bloquéu?
+      flash: Esti bloquéu se desanició.
+      heading: Desaniciando'l bloquéu a {{block_on}} por {{block_by}}
+      past: Esti bloquéu finó hai {{time}} y nun se pue desaniciar agora.
+      revoke: ¡Desaniciar!
+      time_future: Esti bloquéu finará en {{time}}.
+      title: Desaniciando'l bloquéu a {{block_on}}
     show: 
+      back: Ver tolos bloqueos
+      confirm: ¿Tas seguru?
       edit: Editar
+      heading: "{{block_on}} bloquiáu por {{block_by}}"
+      needs_view: L'usuariu tien de coneutase enantes de que se desanicie esti bloquéu.
+      reason: "Motivu del bloquéu:"
+      revoke: ¡Desaniciar!
+      revoker: "Desaniciador:"
       show: Amosar
       status: Estáu
+      time_future: Fina en {{time}}
+      time_past: Finó hai {{time}}
+      title: "{{block_on}} bloquiáu por {{block_by}}"
+    update: 
+      only_creator_can_edit: Sólo el moderador que creó esti bloquéu pue editalu.
+      success: Bloquéu anováu.
   user_role: 
     filter: 
       already_has_role: L'usuariu yá tien el rol {{role}}.

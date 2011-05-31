@@ -80,7 +80,7 @@ pl:
       way_tag: Tag drogi
   application: 
     require_cookies: 
-      cookies_needed: Wydaje się, że masz wyłączone Cookies - włącz obsługę cookies w twojej przeglądarce przed kontynuacją.
+      cookies_needed: Wydaje się, że masz wyłączoną obsługę ciasteczek (cookies) w swojej przeglądarce internetowej – włącz ją, zanim przejdziesz dalej.
     setup_user_auth: 
       blocked: Twój dostęp do API jest zablokowany. Zaloguj się do interfejsu sieciowego, aby dowiedzieć się więcej.
   browse: 
@@ -90,7 +90,7 @@ pl:
       download: Ściągnij {{changeset_xml_link}} lub {{osmchange_xml_link}}
       feed: 
         title: Zestaw zmian {{id}}
-        title_comment: Zestaw zmian {{id}} - {{comment}}
+        title_comment: Zestaw zmian {{id}} – {{comment}}
       osmchangexml: XML w formacie osmChange
       title: Zestaw zmian
     changeset_details: 
@@ -115,6 +115,8 @@ pl:
       show_area_box: Pokaż obszar prostokątu
     common_details: 
       changeset_comment: "Komentarz:"
+      deleted_at: "Usunięte dnia:"
+      deleted_by: "Usunięte przez:"
       edited_at: "Edytowano:"
       edited_by: "Edytował(a):"
       in_changeset: "W zestawie zmian:"
@@ -198,14 +200,14 @@ pl:
       data_frame_title: Dane
       data_layer_name: Dane
       details: Szczegóły
-      drag_a_box: Zaznacz prostokąt na mapie przeciągnięciem myszki aby wybrać obszar
+      drag_a_box: Zaznacz myszą prostokąt na mapie, aby wybrać obszar
       edited_by_user_at_timestamp: Edytowany przez [[user]] ostatni raz [[timestamp]]
       hide_areas: Ukryj obszary
       history_for_feature: Historia zmian dla [[feature]]
       load_data: Załaduj dane
-      loaded_an_area_with_num_features: Załadowano obszar zawierający [[num_features]] obiektów.  Przeglądarki mogą nie radzić sobie z wyświetleniem tej ilości danych -- generalnie działają optymalnie przy wyświetlaniu mniej niż 100 obiektów jednocześnie, w przeciwnym wypadku przeglądarka może działac powoli lub przestać odpowiadać.  Jeśli jesteś pewien że chcesz wyświetlić dane, kliknij przycisk poniżej.
+      loaded_an_area_with_num_features: Załadowano obszar zawierający [[num_features]] obiektów. Niektóre przeglądarki internetowe mogą nie radzić sobie z wyświetleniem tej ilości danych. Na ogół przeglądarki działają najlepiej przy wyświetlaniu mniej niż 100 obiektów jednocześnie, w przeciwnym przypadku przeglądarka może działać powoli lub przestać odpowiadać. Jeśli jesteś pewien, że chcesz wyświetlić dane, kliknij przycisk poniżej.
       loading: Wczytywanie
-      manually_select: Manualnie wybierz inny obszar
+      manually_select: Ręcznie zaznacz inny obszar
       object_list: 
         api: Pobierz ten obszar z API
         back: Wyświetlanie listy obiektów
@@ -292,6 +294,8 @@ pl:
       title_bbox: Zestawy zmian w {{bbox}}
       title_user: Zestawy zmian utworzone przez użytkownika {{user}}
       title_user_bbox: Zestawy zmian utworzone przez użytkownika {{user}} w {{bbox}}
+    timeout: 
+      sorry: Niestety, pobieranie listy zestawów zmian, którą chciałeś zobaczyć, trwało zbyt długo.
   diary_entry: 
     diary_comment: 
       comment_from: Komentarz od {{link_user}} z {{comment_created_at}}
@@ -393,6 +397,7 @@ pl:
       paste_html: Użyj podanego kodu HTML, aby umieścić na stronie
       scale: Skala
       too_large: 
+        body: Ten obszar jest zbyt duży, aby go wyeksportować jako dane XML OpenStreetMap. Przybliż się lub wybierz mniejszy obszar.
         heading: Obszar zbyt duży
       zoom: Zoom
     start_rjs: 
@@ -455,7 +460,7 @@ pl:
           bench: Ławka
           bicycle_parking: Parking rowerowy
           bicycle_rental: Wypożyczalnia rowerów
-          brothel: Burdel
+          brothel: Dom publiczny
           bureau_de_change: Kantor
           bus_station: Stacja autobusowa
           cafe: Kawiarnia
@@ -471,7 +476,7 @@ pl:
           courthouse: Sąd
           crematorium: Krematorium
           dentist: Gabinet dentystyczny
-          doctors: Doktorzy
+          doctors: Lekarze
           dormitory: Bursa
           drinking_water: Źródło wody pitnej
           driving_school: Nauka jazdy
@@ -489,7 +494,7 @@ pl:
           health_centre: Ośrodek zdrowia
           hospital: Szpital
           hotel: Hotel
-          hunting_stand: Stanowisko strzeleckie
+          hunting_stand: Ambona myśliwska
           ice_cream: Lodziarnia
           kindergarten: Przedszkole
           library: Biblioteka
@@ -533,7 +538,7 @@ pl:
           vending_machine: Automat do sprzedaży
           veterinary: Chirurgia weterynaryjna
           village_hall: Urząd gminy
-          waste_basket: Marnowanie koszyka
+          waste_basket: Kosz na śmieci
           wifi: Dostęp do WiFi
           youth_centre: Centrum młodzieżowe
         boundary: 
@@ -585,17 +590,17 @@ pl:
           minor: Drobna droga
           motorway: Autostrada
           motorway_junction: Skrzyżowanie autostrad
-          motorway_link: Autostrada - dojazd
+          motorway_link: Autostrada – dojazd
           path: Ścieżka
           pedestrian: Droga dla pieszych
           platform: Podwyższenie
           primary: Droga krajowa
-          primary_link: Droga krajowa - dojazd
+          primary_link: Droga krajowa – dojazd
           raceway: Tor wyścigowy
           residential: Droga osiedlowa
           road: Droga
           secondary: Droga wojewódzka
-          secondary_link: Droga wojewódzka - dojazd
+          secondary_link: Droga wojewódzka – dojazd
           service: Droga serwisowa
           services: Usługi autostrady
           steps: Schody
@@ -604,7 +609,7 @@ pl:
           track: Droga gruntowa
           trail: Szlak
           trunk: Droga ekspresowa
-          trunk_link: Droga ekspresowa - dojazd
+          trunk_link: Droga ekspresowa – dojazd
           unclassified: Droga gminna
           unsurfaced: Nierówna droga
         historic: 
@@ -675,7 +680,7 @@ pl:
           playground: Plac zabaw
           recreation_ground: Pole rekreacyjne
           slipway: Pochylnia
-          sports_centre: Centrum sportu
+          sports_centre: Centrum sportowe
           stadium: Stadion
           swimming_pool: Basen
           track: Bieżnia
@@ -740,7 +745,7 @@ pl:
           subdivision: Dzielnica
           suburb: Osiedle
           town: Miasteczko
-          unincorporated_area: Obszar bez osobowości prawnej
+          unincorporated_area: Obszar poza miejscowościami
           village: Wieś
         railway: 
           abandoned: Dawna linia kolejowa
@@ -750,7 +755,7 @@ pl:
           funicular: Kolejka linowa
           halt: Przystanek kolejowy
           historic_station: Historyczna stacja kolejowa
-          junction: Węzeł Kolejowy
+          junction: Węzeł kolejowy
           level_crossing: Przejazd kolejowy
           light_rail: Lekka kolej
           monorail: Kolej jednoszynowa
@@ -764,7 +769,7 @@ pl:
           switch: Zwrotnica
           tram: Linia tramwajowa
           tram_stop: Przystanek tramwajowy
-          yard: Jard kolejowy
+          yard: Stacja postojowa, lokomotywownia
         shop: 
           alcohol: Sklep monopolowy
           apparel: Sklep odzieżowy
@@ -780,12 +785,12 @@ pl:
           car_parts: Sklep z częściami samochodowymi
           car_repair: Naprawa samochodów
           carpet: Sklep z dywanami
-          charity: Sklep miłosny
+          charity: Sklep charytatywny
           chemist: Drogeria
           clothes: Sklep odzieżowy
           computer: Sklep komputerowy
           confectionery: Cukiernia
-          convenience: Sklep z rzeczami wygodnymi
+          convenience: Mały sklep wielobranżowy
           copyshop: Ksero
           cosmetics: Sklep kosmetyczny
           department_store: Dom towarowy
@@ -811,7 +816,7 @@ pl:
           hairdresser: Fryzjernia
           hardware: Sklep ze sprzętem
           hifi: Hi-Fi
-          insurance: Ubezpieczenie
+          insurance: Agent ubezpieczeniowy
           jewelry: Sklep z biżuterią
           kiosk: Kiosk
           laundry: Pralnia
@@ -823,8 +828,8 @@ pl:
           newsagent: Kiosk
           optician: Optyk
           organic: Sklep z produktami organicznymi
-          outdoor: Sklep na wolnym powietrzu
-          pet: Sklep ze zwierzątkami
+          outdoor: Sklep turystyczny
+          pet: Sklep ze zwierzętami
           photo: Sklep fotograficzny
           salon: Salon
           shoes: Sklep obuwniczy
@@ -832,17 +837,17 @@ pl:
           sports: Sklep sportowy
           stationery: Sklep papierniczy
           supermarket: Supermarket
-          toys: Sklep zabawkowy
+          toys: Sklep z zabawkami
           travel_agency: Biuro podróży
           video: Sklep filmowy
           wine: Winiarnia
         tourism: 
-          alpine_hut: Chata Alpejska
+          alpine_hut: Chata alpejska
           artwork: Sztuka
           attraction: Atrakcja turystyczna
-          bed_and_breakfast: Łóżko i Śniadanie
+          bed_and_breakfast: Bed and Breakfast
           cabin: Kabina
-          camp_site: Miejsce na kamping
+          camp_site: Kemping
           caravan_site: Miejsce na przyczepę campingową
           chalet: Schronisko
           guest_house: Pensjonat
@@ -886,7 +891,7 @@ pl:
     site: 
       edit_disabled_tooltip: Powiększ, aby edytować mapę
       edit_tooltip: Edytuje mapę
-      edit_zoom_alert: Musisz przybliżyć się, by edytować mape
+      edit_zoom_alert: Musisz przybliżyć się, by edytować mapę
       history_disabled_tooltip: Powiększ, aby zobaczyć zmiany w tym obszarze
       history_tooltip: Wyświetla przeprowadzone edycje dla tego obszaru
       history_zoom_alert: Musisz przybliżyć się, by odczytać historię edycji
@@ -896,7 +901,7 @@ pl:
     copyright: Prawa autorskie i&nbsp;licencja
     documentation: Dokumentacja
     documentation_title: Dokumentacja projektu
-    donate: Wspomóż Projekt OpenStreetMap {{link}} na Konto Aktualizacji Naszego Sprzętu.
+    donate: Wspomóż projekt OpenStreetMap {{link}} na fundusz rozbudowy sprzętu komputerowego.
     donate_link_text: dokonując darowizny
     edit: Edycja
     edit_with: Edytuj w {{editor}}
@@ -917,8 +922,8 @@ pl:
       one: Twoja skrzynka zawiera jedną nową wiadomość
       other: Twoja skrzynka zawiera  {{count}} nowych wiadomości
       zero: Brak nowych wiadomości
-    intro_1: OpenStreetMap to mapa całego świata którą możesz swobodnie edytować.  Tworzona przez ludzi takich jak Ty.
-    intro_2: OpenStreetMap pozwala oglądać, korzystać, i kolaboratywnie tworzyć dane geograficzne z dowolnego miejsca na Ziemi.
+    intro_1: OpenStreetMap to mapa całego świata, którą możesz swobodnie edytować. Tworzą ją ludzie tacy jak Ty.
+    intro_2: OpenStreetMap pozwala Ci oglądać, wykorzystywać oraz wspólnie tworzyć dane geograficzne z dowolnego miejsca na Ziemi.
     intro_3: Hosting OpenStreetMap jest wspomagany przez {{ucl}} oraz {{bytemark}}. Pozostali wymienieni są na stronie {{partners}}.
     intro_3_partners: wiki
     license: 
@@ -932,8 +937,8 @@ pl:
     make_a_donation: 
       text: Przekaż darowiznę
       title: Wspomóż OpenStreetMap za pomocą darowizny pieniężnej
-    osm_offline: Baza danych OpenStreetMap jest niedostępna na czas ważnych zadań administracyjnych które są w tym momencie wykonywane.
-    osm_read_only: Baza danych OpenStreetMap jest w trybie tylko-do-odczytu na czas ważnych zadań administracyjnych które są w tym momencie wykonywane.
+    osm_offline: Baza danych OpenStreetMap jest niedostępna na czas ważnych zadań administracyjnych, które są w tym momencie wykonywane.
+    osm_read_only: Baza danych OpenStreetMap jest w trybie tylko-do-odczytu na czas ważnych zadań administracyjnych, które są w tym momencie wykonywane.
     sign_up: zarejestruj
     sign_up_tooltip: Załóż konto, aby edytować
     sotm2011: Przybądź na konferencję OpenStreetMap, The State of the Map, 9-11 września w Denver!
@@ -945,6 +950,7 @@ pl:
     welcome_user: Witaj, {{user_link}}
     welcome_user_link_tooltip: Strona użytkownika
     wiki: Wiki
+    wiki_title: Strona Wiki dla projektu
   license_page: 
     foreign: 
       english_link: oryginalna angielska wersja
@@ -986,6 +992,7 @@ pl:
       subject: Temat
       title: Wysyłanie wiadomości
     no_such_message: 
+      body: Niestety, nie ma wiadomości o tym identyfikatorze.
       heading: Nie ma takiej wiadomości
       title: Nie ma takiej wiadomości
     no_such_user: 
@@ -1015,6 +1022,9 @@ pl:
       title: Czytanie wiadomości
       to: Do
       unread_button: Oznacz jako nieprzeczytaną
+      wrong_user: Jesteś zalogowany jako „{{user}}”, ale wiadomość, którą chcesz przeczytać, nie została wysłana przez ani do tego użytkownika. Zaloguj się jako właściwy użytkownik, aby ją przeczytać.
+    reply: 
+      wrong_user: Jesteś zalogowany jako „{{user}}”, ale wiadomość, na którą chcesz odpowiedzieć, nie została wysłana do tego użytkownika. Zaloguj się jako właściwy użytkownik, aby na nią odpowiedzieć.
     sent_message_summary: 
       delete_button: Usuń
   notifier: 
@@ -1030,10 +1040,12 @@ pl:
       greeting: Cześć,
       hopefully_you: Ktoś (prawdopodobnie Ty) chce zmienić adres e-mail w {{server_url}} na {{new_address}}.
     email_confirm_plain: 
+      click_the_link: Jeśli to Ty, kliknij na poniższy link, aby potwierdzić zmianę.
       greeting: Cześć,
       hopefully_you_1: Ktoś (prawdopodobnie Ty sam(a)) chciałby zmienić adres e-mail w serwisie
       hopefully_you_2: "{{server_url}} na {{new_address}}."
     friend_notification: 
+      befriend_them: Możesz również dodać go jako znajomego na {{befriendurl}}.
       had_added_you: "{{user}} dodał(a) Cię jako swojego znajomego na OpenStreetMap."
       see_their_profile: Możesz zobaczyć jego profil na stronie {{userurl}}.
       subject: "[OpenStreetMap] Użytkownik {{user}} dodał Cię jako przyjaciela"
@@ -1056,7 +1068,7 @@ pl:
     lost_password_html: 
       click_the_link: Jeśli to Ty, kliknij na poniższy link, aby zresetować hasło.
       greeting: Witaj,
-      hopefully_you: Ktoś - prawdopodobnie Ty - poprosił w serwisie openstreetmap.org o zresetowanie hasła do konta należącego do tego adresu e-mail.
+      hopefully_you: Ktoś – prawdopodobnie Ty – poprosił o zresetowanie hasła do konta w serwisie openstreetmap.org dla tego adresu e-mail.
     lost_password_plain: 
       click_the_link: Jeśli to ty, kliknij na poniższy link, aby zresetować hasło.
       greeting: Cześć,
@@ -1070,6 +1082,7 @@ pl:
     signup_confirm: 
       subject: "[OpenStreetMap] Prośba o potwierdzenie adresu e-mail"
     signup_confirm_html: 
+      ask_questions: Możesz zadać nurtujące Cię pytania dotyczące OpenStreetMap na <a href="http://help.openstreetmap.org/">naszej stronie pytań i odpowiedzi</a>.
       click_the_link: Jeśli to Ty, witamy!  Kliknij poniższy link żeby potwierdzić Twoje nowe konto i dowiedzieć się więcej o OpenStreetMap.
       current_user: Aktualne listy użytkowników według ich położenia na Ziemi znajdziesz na stronie <a href="http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region">Category:Users_by_geographical_region</a>.
       get_reading: Zacznij czytać o OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Pl:Beginners_Guide">na naszej wiki</a> i na <a href="http://www.opengeodata.org/">blogu opengeodata</a> który ma nawet <a href="http://www.opengeodata.org/?cat=13">podcasty do posłuchania</a>!
@@ -1082,6 +1095,7 @@ pl:
       video_to_openstreetmap: wideo-wprowadzenie do OpenStreetMap
       wiki_signup: Załóż sobie <a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page">konto na wiki projektu OpenStreetMap</a> jeśli chcesz.
     signup_confirm_plain: 
+      ask_questions: "Możesz zadać nurtujące Cię pytania dotyczące OpenStreetMap na naszej stronie pytań i odpowiedzi:"
       blog_and_twitter: "Bądź na bieżąco z wiadomościami poprzez blog OpenStreetMap czy Twitter:"
       click_the_link_1: Jeśli to Ty, witamy!  Kliknij poniższy link żeby potwierdzić
       click_the_link_2: Twoje nowe konto i dowiedzieć się więcej o OpenStreetMap.
@@ -1128,17 +1142,19 @@ pl:
       flash_player_required: Aby korzystać z Potlacza, edytora OpenStreetMap, niezbędna jest wtyczka Flash. Możesz <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">ściągnąć odtwarzacz Flash</a> z Adobe.com.  Możesz również skorzystać z <a href="http://wiki.openstreetmap.org/wiki/Editing">innych dostępnych edytorów</a>, aby edytować OpenStreetMap.
       not_public: Nie wybrałeś(aś) by twoje edycje były publiczne.
       not_public_description: W tym trybie nie można już zmieniać mapy.  Możesz ustawić je na publiczne na Twojej {{user_page}}.
-      potlatch_unsaved_changes: Nie zapisałeś zmian. (Żeby zapisać zmiany w Potlatchu, należy odznaczyć aktualnie zaznaczony obiekt jeśli edytujesz w trybie "na żywo" lub kliknąć Save (Zapisz) jeśli widoczny jest przycisk Save.)
+      potlatch2_not_configured: Potlatch 2 nie został skonfigurowany – aby uzyskać więcej informacji, zobacz http://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2
+      potlatch_unsaved_changes: Masz niezapisane zmiany. (Aby zapisać zmiany w Potlatchu, kliknij przycisk „Zapisz”, bądź też, jeśli edytujesz w trybie „na żywo”, odznacz aktualnie zaznaczony obiekt.)
       user_page_link: stronie użytkownika
     index: 
-      js_1: Prawdopodobnie masz wyłączone javaskrypty lub przeglądarka której używasz ich nie obsługuje.
-      js_2: OpenStreetMap używa JavaScript do wyświetlania mapki slippy map.
-      js_3: Spróbuj <a href="http://tah.openstreetmap.org/Browse/">statycznej przeglądarki Tiles@Home</a> jeśli nie masz możliwości włączyć javaskryptu.
+      js_1: Twoja przeglądarka internetowa nie obsługuje JavaScriptu, bądź też masz wyłączoną jego obsługę.
+      js_2: OpenStreetMap używa JavaScriptu do wyświetlania tej mapy.
+      js_3: Możesz użyć <a href="http://tah.openstreetmap.org/Browse/">statycznej mapy Tiles@Home</a>, jeśli nie możesz włączyć obsługi JavaScriptu.
       license: 
         license_name: Creative Commons Attribution-Share Alike 2.0
         notice: Dostęp na zasadach licencji {{license_name}}, prawa autorskie {{project_name}} i jego uczestników.
         project_name: projektu OpenStreetMap
       permalink: Permalink
+      remote_failed: Edycja nie powiodła się – sprawdź, czy JOSM lub Merkaartor jest uruchomiony i funkcja Remote Control jest włączona
       shortlink: Shortlink
     key: 
       map_key: Legenda
@@ -1290,7 +1306,6 @@ pl:
       see_your_traces: Zobacz wszystkie Twoje ślady
       traces_waiting: Masz w tym momencie {{count}} śladów nadal oczekujących na dodanie.  Prosimy poczekaj aż wgrywanie ich zostanie zakończone przed dodaniem kolejnych aby nie blokować kolejki innym użytkownikom.
       upload_trace: Wyślij ślad
-      your_traces: Wyświetlaj tylko swoje ślady
     trace_optionals: 
       tags: Znaczniki
     trace_paging_nav: 
@@ -1341,6 +1356,7 @@ pl:
       new email address: "Nowy adres e-mail:"
       new image: Dodaj grafikę
       no home location: Nie wpisałeś swojej lokalizacji domowej.
+      preferred editor: "Preferowany edytor:"
       preferred languages: "Preferowane Języki:"
       profile description: "Opis profilu:"
       public editing: 
@@ -1357,9 +1373,10 @@ pl:
       return to profile: Powrót do profilu.
       save changes button: Zapisz zmiany
       title: Zmiana ustawień konta
-      update home location on click: Aktualizować lokalizację kiedy klikam na mapie?
+      update home location on click: Aktualizować lokalizację, kiedy klikam na mapie?
     confirm: 
       already active: To konto zostało potwierdzone.
+      before you start: Wiemy, że prawdopodobnie spieszy Ci się, aby rozpocząć mapowanie, ale zanim to zrobisz, możesz chcieć podać kilka informacji o sobie poniżej.
       button: Potwierdzam
       heading: Potwierdzenie nowego użytkownika
       press confirm button: Użyj poniższego przycisku aby aktywować Twoje konto.
@@ -1378,12 +1395,13 @@ pl:
     go_public: 
       flash success: Wszystkie Twoje modyfikacje są od teraz publiczne i jesteś uprawniony/a do edycji.
     list: 
-      empty: Nie znaleziono pasujących uzytkowników
+      empty: Nie znaleziono pasujących użytkowników
       heading: Użytkownicy
       hide: Ukryj zaznaczonych użytkowników
       title: Użytkownicy
     login: 
       account not active: Niestety Twoje konto nie jest jeszcze aktywne.<br />Otwórz link zawarty w mailu potwierdzenia założenia konta, aby je aktywować lub <a href="{{reconfirm}}">poproś o ponowne przesłanie maila</a>.
+      account suspended: Niestety, Twoje konto zostało zawieszone ze względu na podejrzane działania.<br />Skontaktuj się proszę z {{webmaster}}em, jeśli chcesz to omówić.
       already have: Masz już konto OpenStreetMap? Zaloguj się.
       auth failure: Niestety podane dane nie pozwoliły na zalogowanie Cię.
       create account minute: Utwórz konto. To zajmuje tylko minutę.
@@ -1399,6 +1417,7 @@ pl:
       remember: "Pamiętaj mnie:"
       title: Logowanie
       to make changes: Aby wprowadzać zmiany w OpenStreetMap, musisz mieć konto.
+      webmaster: webmaster
     logout: 
       heading: Wyloguj z OpenStreetMap
       logout_button: Wyloguj
@@ -1418,7 +1437,7 @@ pl:
     new: 
       confirm email address: "Potwierdzenie adresu e-mail:"
       confirm password: "Potwierdzenie hasła:"
-      contact_webmaster: Prosimy skontaktuj się z <a href="mailto:webmaster@openstreetmap.org">webmasterem</a> żeby poprosić o stworzenie konta - zajmiemy się Twoim zapytaniem najszybciej jak to możliwe.
+      contact_webmaster: Skontaktuj się proszę się z <a href="mailto:webmaster@openstreetmap.org">webmasterem</a>, aby utworzyć konto. Postaramy się zająć się Twoją prośbą tak szybko, jak to będzie możliwe.
       continue: Kontynuuj
       display name: "Przyjazna nazwa:"
       display name description: Twoja publiczna nazwa użytkownika. Można ją później zmienić w ustawieniach.
@@ -1433,7 +1452,7 @@ pl:
       title: Nowe konto
     no_such_user: 
       body: Niestety nie znaleziono użytkownika o nazwie {{user}}, sprawdź pisownię.  Być może skorzystano z nieprawidłowego odnośnika.
-      heading: Użytkownik{{user}} nie istnieje
+      heading: Użytkownik {{user}} nie istnieje
       title: Nie znaleziono użytkownika
     popup: 
       friend: Znajomy
@@ -1453,8 +1472,10 @@ pl:
     set_home: 
       flash success: Nowa lokalizacja domowa zapisana
     suspended: 
+      body: "<p>\n  Niestety, Twoje konto zostało zawieszone ze względu na podejrzane działania.\n</p>\n<p>\n  Niniejsza decyzja zostanie poddana przeglądowi przez administratora.\n  Możesz też skontaktować się z {{webmaster}}em, jeśli chcesz to omówić.\n</p>"
       heading: Konto zawieszone
       title: Konto zawieszone
+      webmaster: webmaster
     terms: 
       agree: Akceptuję
       consider_pd: Oprócz powyższych warunków, stwierdzam również, że mój wkład jest w domenie publicznej
@@ -1486,7 +1507,7 @@ pl:
       edits: edycje
       email address: Adres e‐mail
       hide_user: ukryj tego użytkownika
-      if set location: Jeśli ustawisz swoją lokalizacje, pojawi się na tej stronie kolorowa mapka i w ogóle.  Lokalizację możesz podać na Twojej {{settings_link}}.
+      if set location: Jeśli ustawisz swoją lokalizację, pojawi się na tej stronie kolorowa mapka i w ogóle. Lokalizację możesz podać na Twojej {{settings_link}}.
       km away: "{{count}}km stąd"
       latest edit: "Ostatnia edycja {{ago}}:"
       m away: "{{count}}m stąd"
@@ -1513,6 +1534,7 @@ pl:
           moderator: Cofnij dostęp moderatora
       send message: wyślij wiadomość
       settings_link_text: stronie ustawień
+      spam score: "Punktacja spamu:"
       status: "Stan:"
       traces: ślady
       unhide_user: odkryj tego użytkownika

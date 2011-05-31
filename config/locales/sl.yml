@@ -2,6 +2,7 @@
 # Exported from translatewiki.net
 # Export driver: syck-pecl
 # Author: Dbc334
+# Author: Lesko987
 sl: 
   activerecord: 
     attributes: 
@@ -63,6 +64,9 @@ sl:
     changeset: 
       changeset: "Paket sprememb: {{id}}"
       download: Prenesi {{changeset_xml_link}} ali {{osmchange_xml_link}}
+      feed: 
+        title: Paket sprememb {{id}}
+        title_comment: Paket sprememb {{id}} - {{comment}}
       title: Paket sprememb
     changeset_details: 
       belongs_to: "Pripada:"
@@ -83,6 +87,8 @@ sl:
       show_area_box: Prikaži pravokotno področje
     common_details: 
       changeset_comment: "Pripomba:"
+      deleted_at: "Izbrisan ob:"
+      deleted_by: "Izbrisal:"
       edited_at: "Urejeno ob:"
       edited_by: "Uredil:"
       in_changeset: "V paketu sprememb:"
@@ -101,7 +107,13 @@ sl:
     navigation: 
       all: 
         next_changeset_tooltip: Naslednji paket sprememb
+        next_node_tooltip: Naslednje vozlišče
+        next_relation_tooltip: Naslednja relacija
+        next_way_tooltip: Naslednja pot
         prev_changeset_tooltip: Prejšnji paket sprememb
+        prev_node_tooltip: Prejšnje vozlišče
+        prev_relation_tooltip: Prejšnja relacija
+        prev_way_tooltip: Prejšnja pot
       user: 
         name_changeset_tooltip: Prikaz prispevkov uporabnika {{user}}
         next_changeset_tooltip: Naslednji prispevek uporabnika {{user}}
@@ -125,6 +137,7 @@ sl:
     not_found: 
       sorry: Oprostite, {{type}} z ID-jem {{id}} ne obstaja v bazi.
       type: 
+        changeset: Paket sprememb
         node: vozlišče
         relation: relacija
         way: pot
@@ -141,9 +154,11 @@ sl:
       members: "Člani:"
       part_of: "Del:"
     relation_history: 
+      download: "{{download_xml_link}} ali {{view_details_link}}"
       download_xml: Prenesi XML
       relation_history: Zgodovina relacije
       relation_history_title: "Zgodovina relacije: {{relation_name}}"
+      view_details: Ogled podrobnosti
     relation_member: 
       entry_role: "{{type}} {{name}} kot {{role}}"
       type: 
@@ -159,6 +174,7 @@ sl:
       details: Podrobnosti
       drag_a_box: Za izbor področja povlecite pravokotnik na zemljevidu
       edited_by_user_at_timestamp: Uredil [[user]] v [[timestamp]]
+      hide_areas: Skrij področja
       history_for_feature: Zgodovina [[feature]]
       load_data: Naloži podatke
       loaded_an_area_with_num_features: "Naložili ste področje, ki vsebuje [[num_features]] elementov. Nekateri spletni brskalniki ne zmorejo prikaza takšne količine podatkov. Na splošno brskalniki najbolje prikazujejo 100 ali manj elementov hkrati: karkoli drugega lahko upočasni vaš brskalnik ali ga naredi neodzivnega. Če ste prepričani, da želite prikazati vse te podatke, pritisnite na spodnji gumb."
@@ -181,12 +197,23 @@ sl:
           node: Vozlišče
           way: Pot
       private_user: anonimni uporabnik
+      show_areas: Prikaži podrpčja
       show_history: Prikaži zgodovino
       unable_to_load_size: "Ni mogoče naložiti: Pravokotno področje velikosti [[bbox_size]] je preveliko (mora biti manjše od {{max_bbox_size}})"
       wait: Počakajte...
       zoom_or_select: Povečajte zemljevid ali izberite področje za prikaz
     tag_details: 
       tags: "Oznake:"
+      wiki_link: 
+        key: Wiki stran z opisom oznake {{key}}
+        tag: Wiki stran z opisom oznake {{key}}={{value}}
+    timeout: 
+      sorry: Oprostite, podatki za {{type}}, ID {{id}}, ID se predolgo prenašajo.
+      type: 
+        changeset: Paket sprememb
+        node: vozlišče
+        relation: relacija
+        way: pot
     way: 
       download: "{{download_xml_link}}, {{view_history_link}} ali {{edit_link}}"
       download_xml: prenesi XML
@@ -382,48 +409,66 @@ sl:
           auditorium: Avditorij
           bank: Banka
           bench: Klop
+          bicycle_parking: Parkirišče za kolesa
+          bicycle_rental: Izposoja koles
           bureau_de_change: Menjalnica
+          bus_station: Avtobusna postaja
           car_wash: Avtopralnica
           casino: Kazino
           cinema: Kinematograf
           club: Klub
+          courthouse: Sodišče
           crematorium: Krematorij
           dentist: Zobozdravnik
           doctors: Zdravniki
+          drinking_water: Pitna voda
+          embassy: Veleposlaništvo
           fast_food: Hitra hrana
           fire_station: Gasilska postaja
           fountain: Vodomet
+          grave_yard: Pokopališče
           hospital: Bolnišnica
           hotel: Hotel
+          ice_cream: Sladoled
           kindergarten: Vrtec
           library: Knjižnica
           marketplace: Tržnica
           nightclub: 'Nočni klub'
           park: Park
+          pharmacy: Lekarna
           police: Policija
           post_box: Poštni nabiralnik
           post_office: Pošta
+          preschool: Vrtec
           prison: Zapor
           restaurant: Restavracija
           sauna: Savna
           school: Šola
+          shelter: Zaklonišče
           taxi: Taksi
           theatre: Gledališče
           toilets: Stranišča
           university: Univerza
           wifi: Dostop WiFi
+        boundary: 
+          administrative: Upravne meje
         building: 
           church: Cerkev
           city_hall: Mestna hiša
+          commercial: Poslovna zgradba
           garage: Garaža
+          hospital: Bolnišnica
           hotel: Hotel
           house: Hiša
+          school: Šola
           stadium: Stadion
           tower: Stolp
         highway: 
           bus_stop: Avtobusna postaja
+          footway: Pešpot
         historic: 
           battlefield: Bojišče
+          boundary_stone: Mejni kamen
           castle: Grad
           church: Cerkev
           house: Hiša
@@ -437,6 +482,11 @@ sl:
           park: Park
           stadium: Stadion
         natural: 
+          channel: Kanal
+          coastline: Obala
+          fjord: Fjord
+          geyser: Gejzir
+          glacier: Ledenik
           hill: Hrib
           island: Otok
           river: Reka
@@ -453,6 +503,8 @@ sl:
           sea: Morje
           town: Mesto
           village: Vas
+        railway: 
+          construction: Železnica v izgradnji
         shop: 
           books: Knjigarna
           butcher: Mesar
@@ -472,6 +524,14 @@ sl:
         waterway: 
           river: Reka
           wadi: Vadi
+  javascripts: 
+    site: 
+      edit_disabled_tooltip: Povečajte za urejanje zemljevida
+      edit_tooltip: Urejanje zemljevida
+      edit_zoom_alert: Morate povečati za urejanje zemljevida
+      history_disabled_tooltip: Povečajte za ogled urejanj tega področja
+      history_tooltip: Prikaži urejanja za to področje
+      history_zoom_alert: Morate povečati karto za ogled urejanj na tem področju
   layouts: 
     donate: Podprite OpenStreetMap z {{link}} v fond za nadgradnjo strojne opreme.
     donate_link_text: donacijo
@@ -876,11 +936,13 @@ sl:
       please login: Prijavite se ali {{create_user_link}}.
       title: Prijava
     logout: 
+      heading: Odjava iz OpenStreetMap
       logout_button: Odjava
       title: Odjava
     lost_password: 
       email address: "Naslove e-pošte:"
       heading: Ste pozabili geslo?
+      help_text: Vpišite e-poštni naslov s katerim ste se prijavili. Poslali vam bomo povezavo za ponastavitev gesla.
       new password button: Pošlji mi novo geslo
       notice email cannot find: Oprostite, a vnešenega naslova elektronske pošte ni bilo mogoče najti.
       notice email on way: Elektronsko sporočilo z vsemi potrebnimi podatki za nastavitev novega gesla je že na poti.
@@ -916,7 +978,10 @@ sl:
       not_a_friend: Uporabnika {{name}} ni med vašimi prijatelji.
       success: Uporabnika {{name}} ste odstranili izmed svojih prijateljev.
     reset_password: 
+      confirm password: "Potrdite geslo:"
+      flash changed: Vaše geslo je bilo spremenjeno.
       flash token bad: Tega žetona ni bilo mogoče najti.  Predlagamo, da preverite naslov URL.
+      heading: Ponastavi geslo za {{user}}
       password: "Geslo:"
       reset: Ponastavitev gesla
       title: Ponastavitev gesla
@@ -925,6 +990,8 @@ sl:
     suspended: 
       webmaster: skrbnik strani
     terms: 
+      agree: Sprejmi
+      decline: Zavrni
       legale_names: 
         france: Francija
         italy: Italija
