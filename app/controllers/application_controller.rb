@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
       @user = User.find(session[:user], :conditions => {:status => ["active", "confirmed", "suspended"]})
 
       if @user.status == "suspended"
-        session[:user] = nil
+        session.delete(:user)
         session_expires_automatically
 
         redirect_to :controller => "user", :action => "suspended"
