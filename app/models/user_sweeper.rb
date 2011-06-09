@@ -22,6 +22,10 @@ private
         expire_action(:controller => 'diary_entry', :action => 'rss', :language => entry.language_code, :display_name => nil)
       end
 
+      old_record.diary_comments.each do |comment|
+        expire_action(:controller => 'diary_entry', :action => 'view', :display_name => comment.diary_entry.user.display_name, :id => comment.diary_entry.id)
+      end
+
       expire_action(:controller => 'diary_entry', :action => 'list', :language => nil, :display_name => nil)
       expire_action(:controller => 'diary_entry', :action => 'list', :language => nil, :display_name => old_record.display_name)
 
