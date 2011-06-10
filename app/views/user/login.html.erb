@@ -9,7 +9,7 @@
       <p><%= t 'user.login.with username' %></p>
 
       <table id="loginForm">
-        <tr><td class="fieldName"><%= t 'user.login.email or username' %></td><td><%= text_field('user', 'email',{:value => "", :size => 28, :maxlength => 255, :tabindex => 1}) %></td></tr>
+        <tr><td class="fieldName"><%= t 'user.login.email or username' %></td><td><%= text_field('user', 'email',{:value => params[:username], :size => 28, :maxlength => 255, :tabindex => 1}) %></td></tr>
         <tr><td class="fieldName"><%= t 'user.login.password' %></td><td><%= password_field('user', 'password',{:value => "", :size => 28, :maxlength => 255, :tabindex => 2}) %> <span class="minorNote">(<%= link_to t('user.login.lost password link'), :controller => 'user', :action => 'lost_password' %>)</span></td></tr>
         <tr><td class="fieldName"><label for="remember_me"><%= t 'user.login.remember' %></label></td><td><%= check_box_tag "remember_me", "yes", false, :tabindex => 3 %></td></tr>
       </table>

@@ -286,9 +286,9 @@ class UserController < ApplicationController
         if token
           token.destroy
         end
-        session[:token] = nil
+        session.delete(:token)
       end
-      session[:user] = nil
+      session.delete(:user)
       session_expires_automatically
       if params[:referer]
         redirect_to params[:referer]
