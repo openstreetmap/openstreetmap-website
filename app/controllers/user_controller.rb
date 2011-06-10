@@ -67,7 +67,7 @@ class UserController < ApplicationController
         elsif @user.terms_agreed?
           # Already agreed to terms, so just show settings
           redirect_to :action => :account, :display_name => @user.display_name
-        elsif params[:user] and params[:user][:openid_url]
+        elsif params[:user] and not params[:user][:openid_url].empty?
           # Verify OpenID before moving on
           session[:new_user] = @user
           openid_verify(params[:user][:openid_url], @user)
@@ -125,6 +125,7 @@ class UserController < ApplicationController
       @user.languages = request.user_preferred_languages
       @user.terms_agreed = Time.now.getutc
       @user.terms_seen = true
+      @user.openid_url = nil if @user.openid_url.empty?
       
       if @user.save
         flash[:notice] = t 'user.new.flash create success message', :email => @user.email
