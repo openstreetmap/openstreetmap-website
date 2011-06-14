@@ -539,6 +539,10 @@ private
               failed_login t('user.login.auth failure')
           end
         else
+          # Guard against not getting any extension data
+          sreg = Hash.new if sreg.nil?
+          ax = Hash.new if ax.nil?
+
           # We don't have a user registered to this OpenID, so redirect
           # to the create account page with username and email filled
           # in if they have been given by the OpenID provider through
