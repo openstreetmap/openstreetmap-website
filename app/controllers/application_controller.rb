@@ -50,7 +50,7 @@ class ApplicationController < ActionController::Base
     # method, otherwise an OAuth token was used, which has to be checked.
     unless current_token.nil?
       unless current_token.read_attribute(cap)
-        render :text => "OAuth token doesn't have that capability.", :status => :forbidden
+        report_error "OAuth token doesn't have that capability.", :forbidden
         return false
       end
     end
@@ -84,6 +84,11 @@ class ApplicationController < ActionController::Base
   end
   def require_allow_write_api
     require_capability(:allow_write_api)
+
+    if REQUIRE_TERMS_AGREED and @user.terms_agreed.nil?
+      report_error "You must accept the contributor terms before you can edit.", :forbidden
+      return false
+    end
   end
   def require_allow_read_gpx
     require_capability(:allow_read_gpx)
