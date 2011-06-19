@@ -19,13 +19,13 @@
 
       <p><%= t 'user.login.with openid' %></p>
 
-      <table id="login_openid_buttons_wide">
+      <table id="login_openid_buttons">
         <tr>
           <td>
             <%=
-              link_to_function(image_tag("openid_large.png", :alt => t("user.login.openid_providers.openid.title")), nil, :title => t("user.login.openid_providers.openid.title")) do |page|
+              link_to_function(image_tag("openid.png", :alt => t("user.login.openid_providers.openid.title")), nil, :title => t("user.login.openid_providers.openid.title")) do |page|
                 page[:login_form][:openid_url].value = "http://"
-                page[:login_openid_buttons_wide].hide
+                page[:login_openid_buttons].hide
                 page[:login_openid_url].show
                 page[:login_openid_submit].show
               end
@@ -33,33 +33,7 @@
           </td>
           <td><%= openid_button "google", "gmail.com" %></td>
           <td><%= openid_button "yahoo", "me.yahoo.com" %></td>
-        </tr>
-        <tr>
           <td><%= openid_button "myopenid", "myopenid.com" %></td>
-          <td><%= openid_button "wordpress", "wordpress.com" %></td>
-          <td><%= openid_button "aol", "aol.com" %></td>
-        </tr>
-      </table>
-
-      <table id="login_openid_buttons_narrow">
-        <tr>
-          <td>
-            <%=
-              link_to_function(image_tag("openid_large.png", :alt => t("user.login.openid_providers.openid.title")), nil, :title => t("user.login.openid_providers.openid.title")) do |page|
-                page[:login_form][:openid_url].value = "http://"
-                page[:login_openid_buttons_narrow].hide
-                page[:login_openid_url].show
-                page[:login_openid_submit].show
-              end
-            %>
-          </td>
-          <td><%= openid_button "google", "gmail.com" %></td>
-        </tr>
-        <tr>
-          <td><%= openid_button "yahoo", "me.yahoo.com" %></td>
-          <td><%= openid_button "myopenid", "myopenid.com" %></td>
-        </tr>
-        <tr>
           <td><%= openid_button "wordpress", "wordpress.com" %></td>
           <td><%= openid_button "aol", "aol.com" %></td>
         </tr>
