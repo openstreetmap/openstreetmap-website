@@ -3,6 +3,43 @@ require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
 load 'composite_primary_keys/fixtures.rb'
 
+# This monkey patch is to make tests where a rack module alters
+# the response work with rails 2 - it can be dropped when we move
+# to rails 3.
+module ActionController
+  module Integration
+    class Session
+      def process_with_capture(method, path, parameters = nil, headers = nil)
+        status = process_without_capture(method, path, parameters, headers)
+        @controller = ActionController::Base.last_controller
+        @request = @controller.request
+        @response.session = @controller.response.session
+        @response.template = @controller.response.template
+        @response.redirected_to = @response.location
+        status
+      end
+
+      alias_method_chain :process, :capture
+    end
+
+    module ControllerCapture
+      module ClassMethods
+        mattr_accessor :last_controller
+
+        def clear_last_instantiation!
+          self.last_controller = nil
+        end
+
+        def new_with_capture(*args)
+          controller = new_without_capture(*args)
+          self.last_controller ||= controller
+          controller
+        end
+      end
+    end
+  end
+end
+
 class ActiveSupport::TestCase
   # Transactional fixtures accelerate your tests by wrapping each test method
   # in a transaction that's rolled back on completion.  This ensures that the
@@ -145,6 +182,44 @@ class ActiveSupport::TestCase
   def assert_no_missing_translations(msg="")
     assert_select "span[class=translation_missing]", false, "Missing translation #{msg}"
   end
+
+  # Set things up for OpenID testing
+  def openid_setup
+    begin
+      # Test if the ROTS (Ruby OpenID Test Server) is already running
+      rots_response = Net::HTTP.get_response(URI.parse("http://localhost:1123/"))
+    rescue
+      # It isn't, so start a new instance.
+      rots = IO.popen(RAILS_ROOT + "/vendor/gems/rots-0.2.1/bin/rots --silent")
+
+      # Wait for up to 30 seconds for the server to start and respond before continuing
+      for i in (1 .. 30)
+	begin
+	  sleep 1
+	  rots_response = Net::HTTP.get_response(URI.parse("http://localhost:1123/"))
+	  # If the rescue block doesn't fire, ROTS is up and running and we can continue
+	  break
+	rescue
+	  # If the connection failed, do nothing and repeat the loop
+	end
+      end
+
+      # Arrange to kill the process when we exit - note that we need
+      # to kill it really har due to a bug in ROTS
+      Kernel.at_exit do
+        Process.kill("KILL", rots.pid)
+      end
+    end
+  end
+
+  def openid_request(openid_request_uri)
+    openid_response = Net::HTTP.get_response(URI.parse(openid_request_uri))
+    openid_response_uri = URI(openid_response['Location'])
+    openid_response_qs = Rack::Utils.parse_query(openid_response_uri.query)
+
+    return openid_response_qs
+  end
+
   
   # Add more helper methods to be used by all tests here...
 end

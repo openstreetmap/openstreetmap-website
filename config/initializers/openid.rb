@@ -1,0 +1,1 @@
+OpenIdAuthentication.store = :file

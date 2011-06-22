@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
       @user = User.find(session[:user], :conditions => {:status => ["active", "confirmed", "suspended"]})
 
       if @user.status == "suspended"
-        session[:user] = nil
+        session.delete(:user)
         session_expires_automatically
 
         redirect_to :controller => "user", :action => "suspended"
@@ -50,7 +50,7 @@ class ApplicationController < ActionController::Base
     # method, otherwise an OAuth token was used, which has to be checked.
     unless current_token.nil?
       unless current_token.read_attribute(cap)
-        render :text => "OAuth token doesn't have that capability.", :status => :forbidden
+        report_error "OAuth token doesn't have that capability.", :forbidden
         return false
       end
     end
@@ -61,11 +61,14 @@ class ApplicationController < ActionController::Base
   def require_cookies
     if request.cookies["_osm_session"].to_s == ""
       if params[:cookie_test].nil?
+        session[:cookie_test] = true
         redirect_to params.merge(:cookie_test => "true")
         return false
       else
         flash.now[:warning] = t 'application.require_cookies.cookies_needed'
       end
+    else
+      session.delete(:cookie_test)
     end
   end
 
@@ -81,6 +84,11 @@ class ApplicationController < ActionController::Base
   end
   def require_allow_write_api
     require_capability(:allow_write_api)
+
+    if REQUIRE_TERMS_AGREED and @user.terms_agreed.nil?
+      report_error "You must accept the contributor terms before you can edit.", :forbidden
+      return false
+    end
   end
   def require_allow_read_gpx
     require_capability(:allow_read_gpx)

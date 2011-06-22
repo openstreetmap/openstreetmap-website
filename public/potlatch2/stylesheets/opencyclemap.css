@@ -27,17 +27,17 @@ way[highway=primary],way[highway=primary_link],
 way[highway=secondary],way[highway=secondary_link],
 way[highway=tertiary],way[highway=tertiary_link],
 way[highway=residential]                             { text: name; text-color: black; font-size: 7; text-position: line;}*/
-way[highway=motorway],way[highway=motorway_link]    { z-index: 9; color: #bfbfcf; width: 7; casing-color: #506077; casing-width: 9; }
-way[highway=trunk],way[highway=trunk_link]          { z-index: 9; color: #c8d8c8; width: 7; casing-color: #477147; casing-width: 9; }
-way[highway=primary],way[highway=primary_link]      { z-index: 8; color: #d8c8c8; width: 7; casing-color: #8d4346; casing-width: 9; }
-way[highway=secondary],way[highway=secondary_link]  { z-index: 7; color: #eeeec9; width: 7; casing-color: #a37b48; casing-width: 9; }
-way[highway=tertiary],way[highway=unclassified]     { z-index: 6; color: #eeeec9; width: 5; casing-color: #999999; casing-width: 7; }
-way[highway=residential]                            { z-index: 5; color: white; width: 5; casing-color: #999; casing-width: 7; }
-way[highway=service]                                { color: white; width: 3; casing-color: #999; casing-width: 5; }
+way[highway=motorway],way[highway=motorway_link]    { z-index: 9; color: #bfbfcf; width: 7; casing-color: #506077; casing-width: 1; }
+way[highway=trunk],way[highway=trunk_link]          { z-index: 9; color: #c8d8c8; width: 7; casing-color: #477147; casing-width: 1; }
+way[highway=primary],way[highway=primary_link]      { z-index: 8; color: #d8c8c8; width: 7; casing-color: #8d4346; casing-width: 1; }
+way[highway=secondary],way[highway=secondary_link]  { z-index: 7; color: #eeeec9; width: 7; casing-color: #a37b48; casing-width: 1; }
+way[highway=tertiary],way[highway=unclassified]     { z-index: 6; color: #eeeec9; width: 5; casing-color: #999999; casing-width: 1; }
+way[highway=residential]                            { z-index: 5; color: white; width: 5; casing-color: #999; casing-width: 1; }
+way[highway=service]                                { color: white; width: 3; casing-color: #999; casing-width: 1; }
 
 /* Pedestrian precincts need to be treated carefully. Only closed-loops with an explicit
 area=yes tag should be filled. The below doesn't yet work as intended. */
-way[highway=pedestrian] !:area { color: #ddddee; width: 5; casing-color: #555555; casing-width: 6; }
+way[highway=pedestrian] !:area { color: #ddddee; width: 5; casing-color: #555555; casing-width: 1; }
 way[highway=pedestrian] :area  { color: #555555; width: 1; fill-color: #ddddee; fill-opacity: 0.8; }
 
 way[highway=steps]     { color: #be6c6c; width: 2; dashes: 4, 2; }
@@ -107,26 +107,22 @@ node[barrier=cattle_grid] { icon-image: icons/cattle_grid.png; }*/
 	
 /* We can stack styles at different z-index (depth) */
 
-way[railway=rail]
-	{ z-index: 6; color: #444444; width: 5; } 
-	{ z-index: 7; color: white; width: 3; dashes: 12,12; }
+way[railway=rail] { z-index: 6; color: #444444; width: 5; }
+way[railway=rail]::dashes { z-index: 7; color: white; width: 3; dashes: 12,12; }
 way[railway=platform] { color:black; width: 2; }
-way[railway=subway]
-        { z-index: 6; color: #444444; width: 5; }
-        { z-index: 7; color: white; width: 3; dashes: 8,8; }
+way[railway=subway] { z-index: 6; color: #444444; width: 5; }
+way[railway=subway]::dashes { z-index: 7; color: white; width: 3; dashes: 8,8; }
 
 /* Bridge */
-way[bridge=yes], way[bridge=viaduct], way[bridge=suspension]
-    { z-index: 4; color: white; width: eval('_width+3'); }
-    { z-index: 3; color: black; width: eval('_width+6'); }
+way[bridge=yes]::bridge1, way[bridge=viaduct]::bridge1, way[bridge=suspension]::bridge1  { z-index: 4; color: white; width: eval('_width+3'); }
+way[bridge=yes]::bridge2, way[bridge=viaduct]::bridge2, way[bridge=suspension]::bridge2  { z-index: 3; color: black; width: eval('_width+6'); }
     
 /* Tunnel */
-way[tunnel=yes]
-    { z-index: 4; color: white; width: eval('_width+2'); }
-    { z-index: 3; color: black; width: eval('_width+6'); dashes: 4,4; }
+way[tunnel=yes]::tunnel1 { z-index: 4; color: white; width: eval('_width+2'); }
+way[tunnel=yes]::tunnel2 { z-index: 3; color: black; width: eval('_width+6'); dashes: 4,4; }
 
 /* Oneway */
-way[oneway=yes] { z-index: 10; color: #6c70d5; width: 2; dashes: 10,30; line-style: arrows; }
+way[oneway=yes]::arrows { z-index: 10; color: #6c70d5; width: 2; dashes: 10,30; line-style: arrows; }
 
 
 /* Change the road colour based on dynamically set "highlighted" tag (see earlier) */
@@ -136,24 +132,16 @@ way .highlighted { color: pink; }
 /* Interactive editors may choose different behaviour when a user mouses-over or selects
    an object. Potlatch 2 supports these but the stand-alone Halcyon viewer does not */
 
-way :hover	{ z-index: 2; width: eval('_width+10'); color: #ffff99; }
-way :selected { z-index: 2; width: eval('_width+10'); color: yellow; opacity: 0.7;}
-way !:drawn { z-index:10; width: 0.5; color: gray; } 
+@import("stylesheets/core_interactive.css");
 
-node :selectedway { z-index: 9; icon-image: square; icon-width: 8; color: red; casing-color: #cc0000; casing-width: 1;}
-node :hoverway { z-index: 9; icon-image: square; icon-width: 7; color: blue; }
-node !:drawn :poi { z-index: 2; icon-image: circle; icon-width: 3; color: lightsteelblue; casing-color: black; casing-width: 1; }
-node :selected { z-index: 1; icon-image: square; icon-width: eval('_width+10'); color: yellow; }
-node :junction :selectedway { z-index: 8; icon-image: square; icon-width: 12; casing-color: black; casing-width: 1; }
-	
 /* Descendant selectors provide an easy way to style relations: this example means "any way
    which is part of a relation whose type=route". */
 
-relation[type=route] way { z-index: 1; width: 17; color: yellow; opacity: 0.3; }
-relation[type=route][route=bicycle][network=ncn] way { z-index: 1; width: 12; color: red; opacity: 0.3; }
-relation[type=route][route=bicycle][network=rcn] way { z-index: 1; width: 12; color: cyan; opacity: 0.3; }
-relation[type=route][route=bicycle][network=lcn] way { z-index: 1; width: 12; color: blue; opacity: 0.3; }
-relation[type=route][route=bicycle][network=mtb] way { z-index: 1; width: 12; color: #48a448; opacity: 0.3; }
+relation[type=route] way::routeline { z-index: 1; width: 17; color: yellow; opacity: 0.3; }
+relation[type=route][route=bicycle][network=ncn] way::routeline { z-index: 1; width: 12; color: red; opacity: 0.3; }
+relation[type=route][route=bicycle][network=rcn] way::routeline { z-index: 1; width: 12; color: cyan; opacity: 0.3; }
+relation[type=route][route=bicycle][network=lcn] way::routeline { z-index: 1; width: 12; color: blue; opacity: 0.3; }
+relation[type=route][route=bicycle][network=mtb] way::routeline { z-index: 1; width: 12; color: #48a448; opacity: 0.3; }
 
 
 
