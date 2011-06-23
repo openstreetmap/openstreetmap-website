@@ -17,7 +17,7 @@ class UserController < ApplicationController
 
   filter_parameter_logging :password, :pass_crypt, :pass_crypt_confirmation
 
-  cache_sweeper :user_sweeper, :only => [:account, :set_status, :delete], :unless => STATUS == :database_offline
+  cache_sweeper :user_sweeper, :only => [:account, :set_status, :delete]
 
   def terms
     @legale = params[:legale] || OSM.IPToCountry(request.remote_ip) || DEFAULT_LEGALE
