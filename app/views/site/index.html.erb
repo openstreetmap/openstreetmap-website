@@ -95,7 +95,9 @@ elsif @user and !@user.home_lon.nil? and !@user.home_lat.nil?
     lat =  @user.home_lat
     zoom = '10'
 else
-    session[:location] = OSM::IPLocation(request.env['REMOTE_ADDR']) unless session[:location]
+    unless STATUS == :database_readonly or STATUS == :database_offline
+      session[:location] = OSM::IPLocation(request.env['REMOTE_ADDR']) unless session[:location]
+    end
 
     if session[:location]
         bbox = true
