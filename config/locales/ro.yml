@@ -1,6 +1,8 @@
 # Messages for Romanian (Română)
 # Exported from translatewiki.net
-# Export driver: syck
+# Export driver: syck-pecl
+# Author: McDutchie
+# Author: Minisarm
 # Author: Strainu
 ro: 
   activerecord: 
@@ -69,9 +71,12 @@ ro:
       way_tag: Etichetă cale
   browse: 
     changeset: 
-      changeset: "Set de modificări:"
+      changeset: "Set de modificări: %{id}"
       changesetxml: Set de modificări XML
       download: Descarcă %{changeset_xml_link} sau %{osmchange_xml_link}
+      feed: 
+        title_comment: Set de schimbări %{id} - %{comment}
+      osmchangexml: XML osmChange
       title: Set de modificări
     changeset_details: 
       belongs_to: "Aparține lui:"
@@ -84,11 +89,6 @@ ro:
       has_ways: "Are următoarele %{count} căi:"
       no_bounding_box: Nicio cutie împrejmuitoare nu a fost salvată pentru acest set de modificări.
       show_area_box: Afișează cutia zonei
-    navigation: 
-      user: 
-        name_changeset_tooltip: Vezi editările lui %{user}
-        next_changeset_tooltip: Următoarea editare de %{user}
-        prev_changeset_tooltip: Editarea precedentă de %{user}
     common_details: 
       changeset_comment: "Comentariu:"
       edited_at: "Editat la:"
@@ -106,6 +106,20 @@ ro:
         relation: Vizualizare relație pe hartă mai mare
         way: Vizualizare cale pe hartă mai mare
       loading: Se încarcă...
+    navigation: 
+      all: 
+        next_changeset_tooltip: Următorul set de schimbări
+        next_node_tooltip: Următorul nod
+        next_relation_tooltip: Următoarea relație
+        next_way_tooltip: Următoarea cale
+        prev_changeset_tooltip: Setul anterior de schimbări
+        prev_node_tooltip: Nodul anterior
+        prev_relation_tooltip: Relația precedentă
+        prev_way_tooltip: Calea anterioară
+      user: 
+        name_changeset_tooltip: Vezi editările lui %{user}
+        next_changeset_tooltip: Următoarea editare de %{user}
+        prev_changeset_tooltip: Editarea precedentă de %{user}
     node: 
       download: "%{download_xml_link}, %{view_history_link} sau %{edit_link}"
       download_xml: Descărcare XML
@@ -124,6 +138,11 @@ ro:
       view_details: vizualizare detalii
     not_found: 
       sorry: Ne pare rău, dar %{type} cu identificatorul %{id}, nu a putut fi .
+      type: 
+        changeset: set de schimbări
+        node: nod
+        relation: relație
+        way: cale
     paging_nav: 
       of: din
       showing_page: Se afișează pagina
@@ -137,8 +156,11 @@ ro:
       members: "Membrii:"
       part_of: "Parte din:"
     relation_history: 
+      download: "%{download_xml_link} sau %{view_history_link}"
+      download_xml: Descărcare XML
       relation_history: Istoric relații
       relation_history_title: "Istoric relații: %{relation_name}"
+      view_details: vizualizare detalii
     relation_member: 
       entry_role: "%{type} %{name} ca %{role}"
       type: 
@@ -182,6 +204,17 @@ ro:
       zoom_or_select: Măriți sau selectați o zonă a hărții pentru a o vizualiza
     tag_details: 
       tags: "Etichete:"
+      wiki_link: 
+        key: Pagina de pe wiki pentru tagul %{key}
+        tag: Pagina de pe wiki pentru tagul %{key}=%{value}
+      wikipedia_link: Articolul {{page}} pe Wikipedia
+    timeout: 
+      sorry: Ne pare rău, dar durata recepționării datelor pentru %{type} cu id-ul %{id} a fost prea mare.
+      type: 
+        changeset: set de schimbări
+        node: nod
+        relation: relație
+        way: cale
     way: 
       download: "%{download_xml_link}, %{view_history_link} sau %{edit_link}"
       download_xml: Descărcare XML
@@ -192,7 +225,7 @@ ro:
     way_details: 
       also_part_of: 
         one: de asemenea parte din calea %{related_ways}
-        other: de asemenea parte din căile %{related_ways}
+        other: de asemenea parte din căile %{related_ways
       nodes: "Noduri:"
       part_of: "Parte din:"
     way_history: 
@@ -219,19 +252,23 @@ ro:
       user: Utilizator
     list: 
       description: Schimbări recente
+  export: 
+    start: 
+      licence: Licență
+      options: Opțiuni
   geocoder: 
     search_osm_namefinder: 
       prefix: "%{type}"
   message: 
     delete: 
-      deleted: Mesaj şters
+      deleted: Mesaj șters
     message_summary: 
       delete_button: Şterge
     sent_message_summary: 
       delete_button: Şterge
   oauth: 
     oauthorize: 
-      request_access: Aplicaţia %{app_name} cere acces la contul dvs. Vă rugăm să alegeţi care din următoarele capabilităţi le poate avea aplicaţia. Puteţi alege cât de multe sau de puţine doriţi.
+      request_access: Aplicația %{app_name} cere acces la contul dumneavoastră. Vă rugăm să alegeți care din următoarele capabilități le poate avea aplicația. Puteți alege cât de multe sau de puține doriți.
   oauth_clients: 
     edit: 
       submit: Editează
@@ -242,7 +279,7 @@ ro:
       revoke: Revocă!
     new: 
       submit: Înregistrează
-      title: Înregistrează o nouă aplicaţie
+      title: Înregistrare aplicație nouă
     show: 
       allow_write_api: modifică harta.
   printable_name: 
@@ -257,15 +294,28 @@ ro:
     edit: 
       visibility: "Vizibilitate:"
       visibility_help: ce înseamnă asta?
+    no_such_user: 
+      title: Nu există acest utilizator
     trace_form: 
+      description: Descriere
+      tags: Etichete
       tags_help: use commas
+      upload_gpx: Încărcați fișier GPX
       visibility: Vizibilitate
       visibility_help: ce înseamnă asta?
     view: 
+      filename: "Nume fișier:"
+      tags: "Etichete:"
+      uploaded: "Încărcate:"
       visibility: "Vizibilitate:"
   user: 
+    login: 
+      password: "Parolă:"
+    new: 
+      confirm password: "Confirmați parola:"
+      password: "Parolă:"
     reset_password: 
-      confirm password: "Confirmaţi parola:"
+      confirm password: "Confirmați parola:"
       flash changed: Parola dumneavoastră a fost schimbată.
       password: "Parola:"
       reset: Resetează parola

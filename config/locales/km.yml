@@ -1,6 +1,6 @@
 # Messages for Khmer (ភាសាខ្មែរ)
 # Exported from translatewiki.net
-# Export driver: syck
+# Export driver: syck-pecl
 # Author: វ័ណថារិទ្ធ
 km: 
   activerecord: 
@@ -9,6 +9,8 @@ km:
         body: តួ​សេចក្ដី​
       diary_entry: 
         language: ភាសា​
+        latitude: រយៈកម្ពស់
+        longitude: រយៈបណ្ដោយ
         title: ចំណងជើង​
         user: អ្នកប្រើប្រាស់​
       friend: 
@@ -21,15 +23,20 @@ km:
         title: ចំណងជើង​​
       trace: 
         description: បរិយាយ​
+        latitude: រយៈកម្ពស់
+        longitude: រយៈបណ្តោយ
         name: ឈ្មោះ​
         public: សាធារណៈ​
         size: ទំហំ​
         user: អ្នកប្រើប្រាស់​
+        visible: អាចមើលឃើញ
       user: 
         active: សកម្ម​
         description: បរិយាយ​
+        display_name: ​​ឈ្មោះអេក្រង់ (Display name)
         email: អ៊ីម៉ែល​
         languages: ភាសា​
+        pass_crypt: លេខ​សម្ងាត់​
     models: 
       changeset: សំនុំ​បំលាស់ប្តូរ​
       changeset_tag: ស្លាកនៃសំនុំ​បំលាស់ប្តូរ​
@@ -57,24 +64,40 @@ km:
         title: សំនុំ​បំលាស់ប្តូរ​ %{id}
         title_comment: សំនុំ​បំលាស់ប្តូរ​ %{id} - %{comment}
       title: សំនុំ​បំលាស់ប្តូរ​
-    navigation: 
-      all: 
-        next_changeset_tooltip: សំនុំ​បំលាស់ប្តូរ​បន្ទាប់
-        prev_changeset_tooltip: សំនុំ​បំលាស់ប្តូរ​មុន​
-      user: 
-        name_changeset_tooltip: មើលកំណែប្រែ​ដោយ %{user}
-        next_changeset_tooltip: កំណែប្រែ​បន្ទាប់ ដោយ %{user}
-        prev_changeset_tooltip: កំណែប្រែ​មុខ ដោយ %{user}
+    changeset_details: 
+      belongs_to: ជារបស់៖
+      box: ប្រអប់
+      closed_at: បានបិទនៅ៖
+      created_at: បង្កើតនៅ៖
+      show_area_box: បង្ហាញប្រអប់តំបន់
     common_details: 
       changeset_comment: មតិយោបល់​៖
       edited_at: បានកែប្រែនៅ​៖
       edited_by: បានកែប្រែដោយ​​៖
       in_changeset: ក្នុងសំនុំ​បំលាស់ប្តូរ​៖
+      version: កំណែ​៖
     containing_relation: 
       entry: ទំនាក់ទំនង​ %{relation_name}
       entry_role: ទំនាក់ទំនង %{relation_name} (ជា %{relation_role})
     map: 
+      deleted: បានលុប
+      larger: 
+        area: មើលតំបន់នៅលើផែនទីធំជាងនេះ
+        relation: បង្ហាញទំនាក់ទំនងនៅលើផែនទីធំ
+        way: បង្ហាញផ្លូវនៅលើផែនទីធំ
       loading: កំពុងផ្ទុក​...
+    navigation: 
+      all: 
+        next_changeset_tooltip: សំនុំ​បំលាស់ប្តូរ​បន្ទាប់
+        next_relation_tooltip: ទំនាក់ទំនងបន្ទាប់
+        next_way_tooltip: ផ្លូវបន្ទាប់
+        prev_changeset_tooltip: សំនុំ​បំលាស់ប្តូរ​មុន​
+        prev_relation_tooltip: ទំនាក់ទំនង​មុន​
+        prev_way_tooltip: ផ្លូវមុន
+      user: 
+        name_changeset_tooltip: មើលកំណែប្រែ​ដោយ %{user}
+        next_changeset_tooltip: កំណែប្រែ​បន្ទាប់ ដោយ %{user}
+        prev_changeset_tooltip: កំណែប្រែ​មុខ ដោយ %{user}
     node: 
       download: "%{download_xml_link}, %{view_history_link} ឬ %{edit_link}"
       download_xml: ទាញយក XML
@@ -155,15 +178,19 @@ km:
       way_history_title: ប្រវត្តិផ្លូវ​៖ %{way_name}
   changeset: 
     changeset: 
+      big_area: (ធំ)
       no_comment: (គ្មាន​)
       no_edits: (គ្មានកំណែប្រែ​)
       still_editing: (កំពុង​កែប្រែ​)
       view_changeset_details: មើលព័ត៌មានលម្អិតនៃសំនុំ​បំលាស់ប្តូរ​
     changesets: 
+      area: តំបន់
       comment: មតិយោបល់​
+      id: ID
       saved_at: បានរក្សាទុក​នៅ​
       user: អ្នកប្រើប្រាស់​
     list: 
+      description: បំលាស់ប្ដូរថ្មីៗ
       description_bbox: សំនុំ​បំលាស់ប្តូរ​ នៅក្នុង %{bbox}
       description_user: សំនុំ​បំលាស់ប្តូរ​ ដោយ %{user}
       description_user_bbox: សំនុំ​បំលាស់ប្តូរ​ ដោយ %{user} នៅក្នុង %{bbox}
@@ -185,13 +212,28 @@ km:
     edit: 
       body: តួ​សេចក្ដី​៖
       language: ភាសា​៖
+      latitude: រយៈកម្ពស់៖
+      location: ទីតាំង​៖
+      longitude: រយៈបណ្តោយ៖
+      marker_text: ទីតាំងប្រកាសន៍កំណត់ហេតុ
       save_button: រក្សាទុក​
       subject: ប្រធានបទ​៖
+      title: កែប្រែប្រកាសន៍កំណត់ហេតុ
       use_map_link: ប្រើផែនទី​
+    list: 
+      in_language_title: ប្រកាសន៍កំណត់ហេតុជា %{language}
+      new: ប្រកាសន៍កំណត់ហេតុថ្មី
+      newer_entries: ប្រកាសន៍ថ្មីៗ
+      no_entries: គ្មានកំណត់ហេតុទេ
+      older_entries: ប្រកាសន័ចាស់ៗ
+      recent_entries: ប្រកាសន័កំណត់ហេតុថ្មីៗ
+      title: កំណត់ហេតុនៃអ្នកប្រើប្រាស់
+      user_title: កំណត់ហេតុរបស់ %{user}
     view: 
       leave_a_comment: បញ្ចេញមតិយោបល់​
       login_to_leave_a_comment: "%{login_link} ដើម្បីបញ្ចេញមតិយោបល់​"
       save_button: រក្សាទុក​
+      user_title: កំណត់ហេតុរបស់ %{user}
   export: 
     start: 
       area_to_export: ផ្ទៃដើម្បីនាំចេញ​
@@ -228,7 +270,6 @@ km:
     edit: កែប្រែ​
     export: នាំចេញ​
     export_tooltip: នាំចេញ​ទិន្នន័យផែនទី​
-    help_wiki_tooltip: ជំនួយ &amp; តំបន់​វិគីសម្រាប់​គម្រោង​នេះ
     history: ប្រវត្តិ​
     home_tooltip: ទៅទីតាំងដើម​
     inbox: ប្រអប់សំបុត្រ​ (%{count})
@@ -237,7 +278,6 @@ km:
     logout: ចាកចេញ​
     make_a_donation: 
       text: ជួយ​ឧបត្ថម្ភ​
-    news_blog: ប្លក់​ព័ត៌មាន​
     sign_up: ចុះឈ្មោះ​
     tag_line: "ផែនទីពិភពលោក​វិគីសេរី <br/>\n(The Free Wiki World Map)"
     view: មើល​
@@ -285,7 +325,6 @@ km:
       greeting: សួស្ដី,
     message_notification: 
       hi: សួស្ដី %{to_user},
-      subject: "[OpenStreetMap] %{user} បានផ្ញើសារថ្មីមួយ​មកអ្នក​"
     signup_confirm: 
       subject: "[OpenStreetMap] បញ្ជាក់​អាសយដ្ឋាន​អ៊ីមែលរបស់អ្នក​"
     signup_confirm_html: 
@@ -393,7 +432,6 @@ km:
       email or username: អាសយដ្ឋានអ៊ីមែល ឬឈ្មោះអ្នកប្រើប្រាស់​៖
       heading: ឡុកអ៊ីន​
       login_button: ឡុកអ៊ីន​
-      please login: សូម ឡុកអ៊ីន​ ឬ %{create_user_link} ។
       title: ឡុកអ៊ីន​
     make_friend: 
       already_a_friend: អ្នកគឺជាមិត្តជាមួយ %{name} រួចហើយ​។
