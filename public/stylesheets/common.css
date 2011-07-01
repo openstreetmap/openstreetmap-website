@@ -2,6 +2,14 @@
 
 /* Default rules for the body of every page */
 
+html body {
+  text-align: left;
+}
+
+html[dir='rtl'] body {
+  text-align: right;
+}
+
 body {
   font-family: Arial,sans-serif;
   color: #000;
@@ -136,11 +144,15 @@ hr {
   left: 0px;
   background: #ddd;
   line-height: 1.2em;
-  text-align: Left;
   font-size: 14px;
   font-weight: bold;
   border-radius: 5px;
   -moz-border-radius: 5px;
+}
+
+html[dir='rtl'] .left_menu {
+  right: 0;
+  text-align: right;
 }
 
 .left_menu td {
@@ -159,6 +171,10 @@ hr {
   padding-left: 0px;
   margin: 0px;
   list-style-type: none;
+}
+
+html[dir='rtl'] .left_menu ul {
+  padding-right: 0px;
 }
 
 .left_menu li {
@@ -199,7 +215,7 @@ hr {
   border: 1px solid #ccc;
   left: 0px;
   line-height: 1.2em;
-  text-align: left;
+/*  text-align: left; */
   font-size: 12px;
   background: #eee;
   border-radius: 5px;
@@ -283,12 +299,21 @@ hr {
   background: url('../images/tab_bottom.gif') repeat-x bottom;
 }
 
+html[dir='rtl'] #tabnav {
+  padding-left: 0;
+  padding-right: 215px;
+}
+
 #tabnav li
 {
   margin: 0px; 
   padding: 0px;
   display: inline;
   list-style-type: none;
+}
+
+html[dir='rtl'] #tabnav li {
+  float: right;
 }
 
 #tabnav a, #tabnav a:link, #tabnav a:visited 
@@ -339,6 +364,11 @@ hr {
   font-size: 13px;
   line-height: 14px;
   background: url('../images/tab_bottom.gif') repeat-x bottom;
+}
+
+html[dir='rtl'] #greeting {
+  float: left;
+  padding-left: 10px;
 }
 
 .greeting-bar-unread {
@@ -555,6 +585,12 @@ hr {
   bottom: 10px;
   line-height: 1.2em;
   text-align: left;
+}
+
+html[dir='rtl'] #content {
+  margin-right: 190px;
+  left: 10px;
+  text-align: right;
 }
 
 #slim_container {
