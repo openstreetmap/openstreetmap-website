@@ -118,9 +118,9 @@ end
 <%= javascript_include_tag '/openlayers/OpenStreetMap.js' %>
 <%= javascript_include_tag 'map.js' %>
 
+<%= render :partial => 'resize' %>
+
 <script type="text/javascript" defer="defer">
-  <!--
-  var brokenContentSize = $("content").offsetWidth == 0;
   var marker;
   var map;
 
@@ -237,43 +237,6 @@ end
     document.cookie = "_osm_location=" + lonlat.lon + "|" + lonlat.lat + "|" + zoom + "|" + layers + "; expires=" + expiry.toGMTString();
   }
 
-  function resizeContent() {
-    var content = $("content");
-    var rightMargin = parseInt(getStyle(content, "right"));
-    var bottomMargin = parseInt(getStyle(content, "bottom"));
-
-    content.style.width = document.documentElement.clientWidth - content.offsetLeft - rightMargin;
-    content.style.height = document.documentElement.clientHeight - content.offsetTop - bottomMargin;
-  }
-
-  function resizeMap() {
-    var centre = map.getCenter();
-    var zoom = map.getZoom();
-    var sidebar_width = $("sidebar").offsetWidth;
-
-    if (sidebar_width > 0) {
-      sidebar_width = sidebar_width + 5
-    }
-
-    <% if t('html.dir') == "ltr" -%>
-    $("map").style.left = (sidebar_width) + "px";
-    <% else -%>
-    $("map").style.right = (sidebar_width) + "px";
-    <% end -%>
-    $("map").style.width = ($("content").offsetWidth - sidebar_width) + "px";
-    $("map").style.height = ($("content").offsetHeight - 2) + "px";
-
-    map.setCenter(centre, zoom);
-  }
-
-  function handleResize() {
-    if (brokenContentSize) {
-      resizeContent();
-    }
-
-    resizeMap();
-  }
-
   function remoteEditHandler(event) {
     var extent = getMapExtent();
     var loaded = false;
@@ -304,10 +267,17 @@ end
 
   Event.observe(window, "load", installEditHandler);
   Event.observe(window, "load", handleResize);
-  Event.observe(window, "resize", handleResize);
+
+  Event.observe(window, "resize", function() {
+    var centre = map.getCenter();
+    var zoom = map.getZoom();
+
+    handleResize();
+
+    map.setCenter(centre, zoom);
+  });
 
   <% if params['action'] == 'export' %>
   <%= remote_function :url => { :controller => 'export', :action => 'start' } %>
   <% end %>
-// -->
 </script>

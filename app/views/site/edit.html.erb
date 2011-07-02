@@ -18,46 +18,22 @@
 
 <%= render :partial => 'sidebar', :locals => { :onopen => "resizeMap();", :onclose => "resizeMap();" } %>
 <%= render :partial => 'search' %>
+<%= render :partial => 'resize' %>
 
 <%= render :partial => preferred_editor %>
 
 <script type="text/javascript" defer="defer">
-  function resizeContent() {
-    var content = $("content");
-    var rightMargin = parseInt(getStyle(content, "right"));
-    var bottomMargin = parseInt(getStyle(content, "bottom"));
-
-    content.style.width = document.documentElement.clientWidth - content.offsetLeft - rightMargin;
-    content.style.height = document.documentElement.clientHeight - content.offsetTop - bottomMargin;
-  }
-  
-  function resizeMap() {
-    var sidebar_width = $("sidebar").offsetWidth;
-
-    if (sidebar_width > 0) {
-      sidebar_width = sidebar_width + 5
-    }
-
-    $("map").style.left = (sidebar_width) + "px";
-    $("map").style.width = ($("content").offsetWidth - sidebar_width) + "px";
-    $("map").style.height = ($("content").offsetHeight - 2) + "px";
-  }
-
-  function handleResize() {
-    if (brokenContentSize) {
-      resizeContent();
-    }
-
-    resizeMap();
-  }
-
   function maximiseMap() {
     $("left").style.display = "none";
     $("greeting").style.display = "none";
     $("tabnav").style.display = "none";
 
     $("content").style.top = "10px";
+    <% if t('html.dir') == "ltr" -%>
     $("content").style.left = "10px";
+    <% else -%>
+    $("content").style.right = "10px";
+    <% end -%>
 
     handleResize();
   }
@@ -68,14 +44,18 @@
     $("tabnav").style.display = "";
 
     $("content").style.top = "35px";
+    <% if t('html.dir') == "ltr" -%>
     $("content").style.left = "192px";
+    <% else -%>
+    $("content").style.right = "192px";
+    <% end -%>
 
     handleResize();
   }
 
   handleResize();
 
-  window.onload = handleResize;
-  window.onresize = handleResize;
+  Event.observe(window, "load", handleResize);
+  Event.observe(window, "resize", handleResize);
 </script>
 <% end %>
