@@ -33,7 +33,7 @@
   </tr>
 
   <tr>
-    <td class="fieldName" valign="top"><%= t 'user.account.public editing.heading' %></td>
+    <td class="fieldName"><%= t 'user.account.public editing.heading' %></td>
     <td>
       <% if @user.data_public? %>
         <%= t 'user.account.public editing.enabled' %> <span class="minorNote">(<a href="<%= t 'user.account.public editing.enabled link' %>" target="_new"><%= t 'user.account.public editing.enabled link text' %></a>)</span>
@@ -44,7 +44,7 @@
   </tr>
 
   <tr>
-    <td class="fieldName" valign="top"><%= t 'user.account.contributor terms.heading' %></td>
+    <td class="fieldName"><%= t 'user.account.contributor terms.heading' %></td>
     <td>
       <% if @user.terms_agreed? %>
         <%= t 'user.account.contributor terms.agreed' %>
@@ -62,22 +62,22 @@
   </tr>
 
   <tr>
-    <td class="fieldName" valign="top"><%= t 'user.account.profile description' %></td>
+    <td class="fieldName"><%= t 'user.account.profile description' %></td>
     <td><%= f.text_area :description, :rows => '5', :cols => '60' %></td>
   </tr>
 
   <tr>
-    <td class="fieldName" valign="top"><%= t 'user.account.preferred languages' %></td>
+    <td class="fieldName"><%= t 'user.account.preferred languages' %></td>
     <td><%= f.text_field :languages %></td>
   </tr>
 
   <tr>
-    <td class="fieldName" valign="top"><%= t 'user.account.preferred editor' %></td>
+    <td class="fieldName"><%= t 'user.account.preferred editor' %></td>
     <td><%= f.select :preferred_editor, [[t("editor.default", :name => t("editor.#{DEFAULT_EDITOR}.name")), 'default']] + Editors::ALL_EDITORS.collect { |e| [t("editor.#{e}.description"), e] } %></td>
   </tr>
 
   <tr>
-    <td class="fieldName" valign="top">
+    <td class="fieldName">
       <%= t 'user.account.image' %>
     </td>
     <td valign="top">
@@ -119,7 +119,7 @@
   
   <tr>
     <td></td>
-    <td align=right><br/><%= submit_tag t('user.account.save changes button') %></td>
+    <td class="submitButton"><%= submit_tag t('user.account.save changes button') %></td>
   </tr>
 </table>
 <% end %>
