@@ -19,7 +19,7 @@
     <tr valign="top">
       <td class="fieldName"><%= t 'diary_entry.edit.location' -%></td>
       <td>
-        <div id="map" style="border: 1px solid black; position: relative; width : 90%; height : 400px; display: none;"></div>
+        <div id="map"></div>
         <span class="location"><%= t 'diary_entry.edit.latitude' -%> <%= f.text_field :latitude, :size => 20, :id => "latitude" %> <%= t 'diary_entry.edit.longitude' -%> <%= f.text_field :longitude, :size => 20, :id => "longitude" %></span>
         <a href="javascript:openMap()" id="usemap"><%= t 'diary_entry.edit.use_map_link' -%></a>
         <br/><br/>
@@ -28,8 +28,8 @@
     <tr>
       <td></td>
       <td>
-	  <%= submit_tag t('diary_entry.edit.save_button') %>
-	  <%# TODO: button should say 'publish' or 'save changes' depending on new/edit state %>
+        <%= submit_tag t('diary_entry.edit.save_button') %>
+        <%# TODO: button should say 'publish' or 'save changes' depending on new/edit state %>
       </td>
     </tr>
   </table>
@@ -71,8 +71,8 @@
 
     var lonlat = getEventPosition(e);
 
-    document.getElementById('latitude').value = lonlat.lat;
-    document.getElementById('longitude').value = lonlat.lon;
+    $("latitude").value = lonlat.lat;
+    $("longitude").value = lonlat.lon;
 
     if (marker) {
       removeMarkerFromMap(marker);
