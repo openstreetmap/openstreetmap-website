@@ -17,15 +17,14 @@
 </noscript>
 
 <div id="map">
+  <div id="permalink">
+    <a href="/" id="permalinkanchor"><%= t 'site.index.permalink' %></a><br/>
+    <a href="/" id="shortlinkanchor"><%= t 'site.index.shortlink' %></a>
+  </div>
 </div>
 
 <iframe id="linkloader" style="display: none">
 </iframe>
-
-<div id="permalink">
-  <a href="/" id="permalinkanchor"><%= t 'site.index.permalink' %></a><br/>
-  <a href="/" id="shortlinkanchor"><%= t 'site.index.shortlink' %></a>
-</div>
 
 <div id="attribution">
   <table width="100%">
@@ -256,7 +255,11 @@ end
       sidebar_width = sidebar_width + 5
     }
 
+    <% if t('html.dir') == "ltr" -%>
     $("map").style.left = (sidebar_width) + "px";
+    <% else -%>
+    $("map").style.right = (sidebar_width) + "px";
+    <% end -%>
     $("map").style.width = ($("content").offsetWidth - sidebar_width) + "px";
     $("map").style.height = ($("content").offsetHeight - 2) + "px";
 

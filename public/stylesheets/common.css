@@ -2,14 +2,6 @@
 
 /* Default rules for the body of every page */
 
-html body {
-  text-align: left;
-}
-
-html[dir='rtl'] body {
-  text-align: right;
-}
-
 body {
   font-family: Arial,sans-serif;
   color: #000;
@@ -93,7 +85,9 @@ hr {
   -moz-border-radius: 5px;
 }
 
-#intro p { margin: 5px; }
+#intro p {
+  margin: 5px;
+}
 
 /*
  * Rules for alert boxes shown in the left sidebar when important
@@ -108,7 +102,6 @@ hr {
   border: 1px solid #ccc;
   background: #d00;
   line-height: 1.2em;
-  text-align: left;
   font-size: 14px;
   border-radius: 5px;
   -moz-border-radius: 5px;
@@ -127,7 +120,6 @@ hr {
   border: 1px solid #ccc;
   background: #ea0;
   line-height: 1.2em;
-  text-align: left;
   font-size: 14px;
   border-radius: 5px;
   -moz-border-radius: 5px;
@@ -141,7 +133,6 @@ hr {
   margin: 5px;
   padding: 5px;
   border: 1px solid #ccc;
-  left: 0px;
   background: #ddd;
   line-height: 1.2em;
   font-size: 14px;
@@ -150,40 +141,23 @@ hr {
   -moz-border-radius: 5px;
 }
 
-html[dir='rtl'] .left_menu {
-  right: 0;
-  text-align: right;
-}
-
 .left_menu td {
   font-size: 12px;
-  padding-right: 4px;
 }
 
 .left_menu h1 {
   font-style: normal;
   font-size: 15px;
-  padding: 0em 0em 0em 1em;
-  text-align: left;
 }
 
 .left_menu ul {
-  padding-left: 0px;
   margin: 0px;
   list-style-type: none;
-}
-
-html[dir='rtl'] .left_menu ul {
-  padding-right: 0px;
 }
 
 .left_menu li {
   margin: 0px;
   padding: 0px;
-}
-
-.left_menu img {
-  margin: 2px 8px 0px 0px;
 }
 
 .left_menu a {
@@ -213,9 +187,7 @@ html[dir='rtl'] .left_menu ul {
   margin: 5px;
   padding: 5px;
   border: 1px solid #ccc;
-  left: 0px;
   line-height: 1.2em;
-/*  text-align: left; */
   font-size: 12px;
   background: #eee;
   border-radius: 5px;
@@ -235,7 +207,6 @@ html[dir='rtl'] .left_menu ul {
 .whereami {
   line-height: 22px;
   vertical-align: bottom;
-  float: right;
 }
 
 .search_container {
@@ -294,14 +265,8 @@ html[dir='rtl'] .left_menu ul {
 {
   height: 20px;
   margin: 0px;
-  padding-left: 215px;
   padding-top: 5px;
   background: url('../images/tab_bottom.gif') repeat-x bottom;
-}
-
-html[dir='rtl'] #tabnav {
-  padding-left: 0;
-  padding-right: 215px;
 }
 
 #tabnav li
@@ -312,19 +277,13 @@ html[dir='rtl'] #tabnav {
   list-style-type: none;
 }
 
-html[dir='rtl'] #tabnav li {
-  float: right;
-}
-
 #tabnav a, #tabnav a:link, #tabnav a:visited 
 {
-  float: left;
   background: #f3f3f3;
   font-size: 13px;
   line-height: 14px;
   font-weight: bold;
   padding: 2px 10px;
-  margin-right: 4px;
   border: 1px solid #ccc;
   text-decoration: none;
   color: #333;
@@ -356,19 +315,12 @@ html[dir='rtl'] #tabnav li {
 /* Rules for greeting bar in the top right corner */
 
 #greeting {
-  float: right;
   height: 20px;
   margin: 0px;
-  padding-right: 10px;
   padding-top: 5px;
   font-size: 13px;
   line-height: 14px;
   background: url('../images/tab_bottom.gif') repeat-x bottom;
-}
-
-html[dir='rtl'] #greeting {
-  float: left;
-  padding-left: 10px;
 }
 
 .greeting-bar-unread {
@@ -381,7 +333,6 @@ html[dir='rtl'] #greeting {
   z-index: 20000000;
   position: absolute;
   top: 15px;
-  left: 15px
 }
 
 /* Rules for OpenLayers maps */
@@ -391,8 +342,6 @@ html[dir='rtl'] #greeting {
   border: 1px solid black;
   margin: 0px; 
   padding: 0px;
-  left: 0px;
-  right: 2px;
   top: 0px;
   bottom: 0px;
 }
@@ -405,9 +354,7 @@ html[dir='rtl'] #greeting {
   z-index: 10000;
   position: absolute;
   bottom: 15px;
-  right: 15px;
   font-size: smaller;
-  text-align: right;
 }
 
 /* Rules for edit menu */
@@ -446,12 +393,11 @@ html[dir='rtl'] #greeting {
   margin: 0px;
   padding: 0px;
   width: 30%;
-  left: 0px;
   top: 0px;
   bottom: 0px;
 }
 
-#sidebar_content {
+#sidebar #sidebar_content {
   overflow: auto;
   position: absolute;
   font-size: 13px;
@@ -462,7 +408,7 @@ html[dir='rtl'] #greeting {
   right: 0px;
 }
 
-.sidebar_title {
+#sidebar .sidebar_title {
   margin: 0px;
   padding: 3px 6px;
   height: 29px;
@@ -475,21 +421,21 @@ html[dir='rtl'] #greeting {
 /* Rules for the map key which appears in the popout sidebar */
 
 #mapkey h3 {
-    font-size: 110%;
-    font-weight: normal;
-    text-align: center;
+  font-size: 110%;
+  font-weight: normal;
+  text-align: center;
 }
 
 #mapkey .mapkey-table {
-    padding-left: 5px;
-    padding-right: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 #mapkey .mapkey-table-key {
 }
 
 #mapkey .mapkey-table-value {
-    font-size: 90%;
+  font-size: 90%;
 }
 
 /* Rules for search results which appear in the popout sidebar */
@@ -581,16 +527,8 @@ html[dir='rtl'] #greeting {
   padding: 0px;
   margin: 0px;
   position: absolute; 
-  right: 10px;
   bottom: 10px;
   line-height: 1.2em;
-  text-align: left;
-}
-
-html[dir='rtl'] #content {
-  margin-right: 190px;
-  left: 10px;
-  text-align: right;
 }
 
 #slim_container {
@@ -621,7 +559,6 @@ html[dir='rtl'] #content {
 
 #slim_header img {
   vertical-align: middle;
-  margin-right: 5px;
   margin-bottom: 5px;
 }
 
@@ -634,7 +571,6 @@ html[dir='rtl'] #content {
 #changeset_list {
   width: 50%;
   font-size: small;
-  text-align: left;
   border-collapse: collapse;
   border-width: 0px;
   margin-top: 1px;
@@ -664,11 +600,9 @@ html[dir='rtl'] #content {
 }
 
 #changeset_list_map {
-  float: right;
   position: absolute;
   top: 0px;
   bottom: 0px;
-  right: 0px;
   width: 49%;
   min-height: 400px;
   border: solid 1px black;
@@ -677,10 +611,8 @@ html[dir='rtl'] #content {
 /* Rules for the data browser */
 
 #browse_navigation {
-  float: right;
   width: 250px;
   text-align: center;
-  margin-left: 10px;
 }
 
 table.browse_details th {
@@ -688,10 +620,7 @@ table.browse_details th {
 }
 
 #browse_map {
-  float: right;
   width: 250px;
-  text-align: right;
-  margin-left: 10px;
 }
 
 #browse_map #small_map {
@@ -704,7 +633,6 @@ table.browse_details th {
 
 #trace_list {
   font-size: small;
-  text-align: left;
   border-collapse: collapse;
   border-width: 0px;
 }
@@ -731,7 +659,6 @@ table.browse_details th {
 }
 
 #user_list_actions {
-  float: right;
   margin-top: 10px;
 }
 
@@ -742,10 +669,6 @@ table.browse_details th {
   padding: 15px;
   border-radius: 15px;
   -moz-border-radius: 15px;
-}
-
-#login_wrapper input[type=submit] {
-  float: right;
 }
 
 #login_login {
@@ -821,14 +744,6 @@ div#slim_content form#termsForm {
   width: auto;
 }
 
-form#termsForm div#buttons {
-  float: right;
-}
-
-form#termsForm input#agree {
-  margin-left: 50px;
-}
-
 p#contributorGuidance {
   background-color: #f5f5ff;
   border: 1px solid #f3f3ff;
@@ -841,6 +756,12 @@ p#contributorGuidance {
 
 #accountForm td {
   padding-bottom: 10px;
+}
+
+#accountForm .user_map {
+  position: relative;
+  width: 500px;
+  height: 400px; 
 }
 
 #accountImage td {
@@ -857,6 +778,14 @@ p#contributorGuidance {
 
 .nohome .message {
   display: inline !important;
+}
+
+/* Rules for the user view */
+
+#user_details .user_map {
+  position: relative;
+  width: 400px;
+  height: 400px; 
 }
 
 /* Rules for the user map */
@@ -878,6 +807,10 @@ p#contributorGuidance {
   margin-bottom: 0px;
   margin-left: 55px;
   margin-right: 2px;
+}
+
+.user_popup img.user_thumbnail {
+  float: left;
 }
 
 /* Rules for message in/out box page */
@@ -939,9 +872,7 @@ p#contributorGuidance {
 }
 
 #errorExplanation h2 {
-  text-align: left;
   font-weight: bold;
-  padding: 5px 5px 5px 15px;
   font-size: 12px;
   margin: -7px;
   background-color: #c00;
@@ -962,7 +893,6 @@ p#contributorGuidance {
 /* Rules for forms */
 
 .fieldName {
-  text-align: right;
   font-weight: bold;
 }
 
@@ -976,11 +906,6 @@ input[type="text"], input[type="password"], textarea {
 
 input[type="submit"] {
   border: 1px solid black;
-}
-
-input.openid_url { 
-  background: url('../images/openid_input.png') repeat-y left white;
-  padding-left: 16px;
 }
 
 /* Rules for user images */
