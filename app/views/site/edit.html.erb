@@ -22,7 +22,7 @@
 
 <%= render :partial => preferred_editor %>
 
-<script type="text/javascript" defer="defer">
+<script type="text/javascript">
   function maximiseMap() {
     $("left").style.display = "none";
     $("greeting").style.display = "none";
@@ -53,9 +53,8 @@
     handleResize();
   }
 
-  handleResize();
+  document.observe("dom:loaded", handleResize);
 
-  Event.observe(window, "load", handleResize);
   Event.observe(window, "resize", handleResize);
 </script>
 <% end %>

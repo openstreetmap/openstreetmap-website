@@ -120,7 +120,7 @@ end
 
 <%= render :partial => 'resize' %>
 
-<script type="text/javascript" defer="defer">
+<script type="text/javascript">
   var marker;
   var map;
 
@@ -142,8 +142,7 @@ end
         setMapExtent(bbox);
 
         <% if box %>
-          // IE requires Vector layers be initialised on page load, and not under deferred script conditions
-          Event.observe(window, 'load', function() { addBoxToMap(bbox) });
+          Event.observe(window, "load", function() { addBoxToMap(bbox) });
         <% end %>
       <% else %>
         var centre = new OpenLayers.LonLat(<%= lon %>, <%= lat %>);
@@ -174,8 +173,7 @@ end
         url += "/full";
       <% end %>
 
-      // IE requires Vector layers be initialised on page load, and not under deferred script conditions
-      Event.observe(window, 'load', function() { addObjectToMap(url, <%= object_zoom %>) });
+      Event.observe(window, "load", function() { addObjectToMap(url, <%= object_zoom %>) });
     <% end %>
 
     map.events.register("moveend", map, updateLocation);
@@ -263,10 +261,9 @@ end
     <% end %>
   }
 
-  mapInit();
-
-  Event.observe(window, "load", installEditHandler);
-  Event.observe(window, "load", handleResize);
+  document.observe("dom:loaded", mapInit);
+  document.observe("dom:loaded", installEditHandler);
+  document.observe("dom:loaded", handleResize);
 
   Event.observe(window, "resize", function() {
     var centre = map.getCenter();
