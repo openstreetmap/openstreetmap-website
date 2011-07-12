@@ -1643,7 +1643,7 @@ EOF
   ##
   # This should display the last 20 changesets closed.
   def test_list
-    changesets = Changeset.find(:all, :order => "created_at DESC", :conditions => ['min_lat IS NOT NULL'], :limit=> 20)
+    changesets = Changeset.find(:all, :order => "created_at DESC", :conditions => ['num_changes > 0'], :limit=> 20)
     assert changesets.size <= 20
     get :list, {:format => "html"}
     assert_response :success

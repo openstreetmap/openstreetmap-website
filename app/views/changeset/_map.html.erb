@@ -50,6 +50,7 @@
     var bounds = new OpenLayers.Bounds();
 
     <% @edits.each do |edit| %>
+    <% if edit.has_valid_bbox? %>
     var minlon = <%= edit.min_lon / GeoRecord::SCALE.to_f %>;
     var minlat = <%= edit.min_lat / GeoRecord::SCALE.to_f %>;
     var maxlon = <%= edit.max_lon / GeoRecord::SCALE.to_f %>;
@@ -59,6 +60,7 @@
     bounds.extend(bbox);
 
     addBoxToMap(bbox, "<%= edit.id %>", true);
+    <% end %>
     <% end %>
 
     vectors.events.on({
