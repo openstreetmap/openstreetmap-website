@@ -33,6 +33,7 @@
         historyclass = 'geolink bbox minzoom11'
         exportclass = 'geolink llz layers'
         traceclass = ''
+        diaryclass = ''
         viewclass += ' active' if params['controller'] == 'site' and params['action'] == 'index' 
         editclass += ' active' if params['controller'] == 'site' and params['action'] == 'edit' 
         historyclass += ' active' if params['controller'] == 'changeset' and params['action'] == 'list' 
@@ -53,7 +54,7 @@
       </ul>
     </div>
 
-    <div id="editmenu">
+    <div id="editmenu" class="menu">
       <ul>
         <% Editors::ALL_EDITORS.each do |editor| %>
           <li><%= link_to t('layouts.edit_with', :editor => t("editor.#{editor}.description")), {:controller => 'site', :action => 'edit', :editor => editor}, {:id => editor + 'anchor', :class => "geolink llz object"} %></li>
@@ -62,7 +63,7 @@
     </div>
 
     <script type="text/javascript">
-      createMenu("editanchor", "editmenu", 1000);
+      createMenu("editanchor", "editmenu", 1000, "left");
     </script>
 
     <div id="left">

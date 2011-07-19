@@ -1,13 +1,21 @@
 /*
  * Open a menu.
  */
-function openMenu(anchor, menu) {
-  menu.style.display = "block";
+function openMenu(anchor, menu, align) {
+  var offset;
+
+  if (align == "left") {
+    offset = 0;
+  } else if (align == "right") {
+    offset = anchor.getWidth() - menu.getWidth();
+  }
 
   menu.clonePosition(anchor, {
     setLeft: true, setTop: true, setWidth: false, setHeight: false,
-    offsetLeft: 0, offsetTop: anchor.getHeight()
+    offsetLeft: offset, offsetTop: anchor.getHeight()
   });
+
+  menu.style.display = "block";
 }
 
 /*
@@ -21,14 +29,14 @@ function closeMenu(menu) {
 /*
  * Callback called when the mouse enters a menu anchor.
  */
-function enterMenuAnchor(event, anchor, menu, delay) {
+function enterMenuAnchor(event, anchor, menu, delay, align) {
   if (!anchor.hasClassName("disabled")) {
     clearTimeout(menu.timer);
 
     if (delay > 0) {
-      menu.timer = setTimeout(function () { openMenu(anchor, menu) }, delay);
+      menu.timer = setTimeout(function () { openMenu(anchor, menu, align) }, delay);
     } else {
-      openMenu(event, menu);
+      openMenu(event, menu, align);
     }
   }
 }
@@ -62,12 +70,12 @@ function leaveMenu(event, anchor, menu) {
 /*
  * Setup a menu, triggered by hovering over an anchor for a given time.
  */
-function createMenu(anchorid, menuid, delay) {
+function createMenu(anchorid, menuid, delay, align) {
   var anchor = $(anchorid);
   var menu = $(menuid);
 
   anchor.observe("mouseup", function (event) { closeMenu(menu) });
-  anchor.observe("mouseover", function (event) { enterMenuAnchor(anchor, anchor, menu, delay) });
+  anchor.observe("mouseover", function (event) { enterMenuAnchor(anchor, anchor, menu, delay, align) });
   anchor.observe("mouseout", function (event) { leaveMenuAnchor(event, anchor, menu) });
   menu.observe("mouseup", function (event) { closeMenu(menu) });
   menu.observe("mouseout", function (event) { leaveMenu(event, anchor, menu) });
