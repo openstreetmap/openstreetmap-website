@@ -28,17 +28,17 @@
     <div>
       <ul id="tabnav">
         <%
-        viewclass = ''
-        editclass = 'disabled'
-        historyclass = ''
-        exportclass = ''
+        viewclass = 'geolink llz layers'
+        editclass = 'geolink llz object minzoom13 disabled'
+        historyclass = 'geolink bbox minzoom11'
+        exportclass = 'geolink llz layers'
         traceclass = ''
-        viewclass = 'active' if params['controller'] == 'site' and params['action'] == 'index' 
-        editclass = 'active' if params['controller'] == 'site' and params['action'] == 'edit' 
-        historyclass = 'active' if params['controller'] == 'changeset' and params['action'] == 'list' 
-        exportclass = 'active' if params['controller'] == 'site' and params['action'] == 'export'
-        traceclass = 'active' if params['controller'] == 'trace'
-        diaryclass = 'active' if params['controller'] == 'diary_entry'
+        viewclass += ' active' if params['controller'] == 'site' and params['action'] == 'index' 
+        editclass += ' active' if params['controller'] == 'site' and params['action'] == 'edit' 
+        historyclass += ' active' if params['controller'] == 'changeset' and params['action'] == 'list' 
+        exportclass += ' active' if params['controller'] == 'site' and params['action'] == 'export'
+        traceclass += ' active' if params['controller'] == 'trace'
+        diaryclass += ' active' if params['controller'] == 'diary_entry'
         %>
         <li><%= link_to t('layouts.view'), {:controller => 'site', :action => 'index'}, {:id => 'viewanchor', :title => t('layouts.view_tooltip'), :class => viewclass} %></li>
         <li><%= link_to t('layouts.edit') + '&nbsp;&#x25be;', {:controller => 'site', :action => 'edit'}, {:id => 'editanchor', :title => t('javascripts.site.edit_tooltip'), :class => editclass} %></li>
@@ -56,7 +56,7 @@
     <div id="editmenu">
       <ul>
         <% Editors::ALL_EDITORS.each do |editor| %>
-          <li><%= link_to t('layouts.edit_with', :editor => t("editor.#{editor}.description")), {:controller => 'site', :action => 'edit', :editor => editor}, {:id => editor + 'anchor'} %></li>
+          <li><%= link_to t('layouts.edit_with', :editor => t("editor.#{editor}.description")), {:controller => 'site', :action => 'edit', :editor => editor}, {:id => editor + 'anchor', :class => "geolink llz object"} %></li>
         <% end %>
       </ul>
     </div>

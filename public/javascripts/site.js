@@ -9,130 +9,53 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat,objtype,obj
   lat = Math.round(lat * decimals) / decimals;
   lon = Math.round(lon * decimals) / decimals;
 
-  node = $("permalinkanchor");
-  if (node) {
-    var args = getArgs(node.href);
-    args["lat"] = lat;
-    args["lon"] = lon;
-    args["zoom"] = zoom;
-    if (layers) {
-      args["layers"] = layers;
-    }
-    if (objtype && objid) {
-      args[objtype] = objid;
-    }
-    node.href = setArgs(node.href, args);
+  if (minlon) {
+    minlon = Math.round(minlon * decimals) / decimals;
+    minlat = Math.round(minlat * decimals) / decimals;
+    maxlon = Math.round(maxlon * decimals) / decimals;
+    maxlat = Math.round(maxlat * decimals) / decimals;
   }
 
-  node = $("viewanchor");
-  if (node) {
-    var args = getArgs(node.href);
-    args["lat"] = lat;
-    args["lon"] = lon;
-    args["zoom"] = zoom;
-    if (layers) {
-      args["layers"] = layers;
-    }
-    node.href = setArgs(node.href, args);
-  }
+  $$(".geolink").each(function (link) {
+    var args = getArgs(link.href);
 
-  node = $("exportanchor");
-  if (node) {
-    var args = getArgs(node.href);
-    args["lat"] = lat;
-    args["lon"] = lon;
-    args["zoom"] = zoom;
-    if (layers) {
-      args["layers"] = layers;
-    }
-    node.href = setArgs(node.href, args);
-  }
-
-  node = $("editanchor");
-  if (node) {
-    if (zoom >= 13) {
-      var args = new Object();
+    if (link.hasClassName("llz")) {
       args.lat = lat;
       args.lon = lon;
       args.zoom = zoom;
-      if (objtype && objid) {
-        args[objtype] = objid;
-      }
-      node.href = setArgs("/edit", args);
-      node.title = i18n("javascripts.site.edit_tooltip");
-      node.removeClassName("disabled");
-    } else {
-      node.href = 'javascript:alert(i18n("javascripts.site.edit_zoom_alert"));';
-      node.title = i18n("javascripts.site.edit_disabled_tooltip");
-      node.addClassName("disabled");
+    } else if (minlon && link.hasClassName("bbox")) {
+      args.bbox = minlon + "," + minlat + "," + maxlon + "," + maxlat;
     }
-  }
 
-  node = $("potlatchanchor");
-  if (node) {
-    var args = new Object();
-    args.editor = "potlatch";
-    args.lat = lat;
-    args.lon = lon;
-    args.zoom = zoom;
-    if (objtype && objid) {
+    if (layers && link.hasClassName("layers")) {
+      args.layers = layers;
+    }
+
+    if (objtype && link.hasClassName("object")) {
       args[objtype] = objid;
     }
-    node.href = setArgs("/edit", args);
-  }
 
-  node = $("potlatch2anchor");
-  if (node) {
-    var args = new Object();
-    args.editor = "potlatch2";
-    args.lat = lat;
-    args.lon = lon;
-    args.zoom = zoom;
-    if (objtype && objid) {
-      args[objtype] = objid;
+    if (link.hasClassName("minzoom[0-9]+")) {
+      $w(link.className).each(function (classname) {
+        if (match = classname.match(/^minzoom([0-9]+)$/)) {
+          var minzoom = match[1];
+          var name = link.id.replace(/anchor$/, "");
+
+          if (zoom >= minzoom) {
+            link.onclick = null;
+            link.title = i18n("javascripts.site." + name + "_tooltip");
+            link.removeClassName("disabled");
+          } else {
+            link.onclick = function () { alert(i18n("javascripts.site." + name + "_zoom_alert")); return false; };
+            link.title = i18n("javascripts.site." + name + "_disabled_tooltip");
+            link.addClassName("disabled");
+          }
+        }
+      });
     }
-    node.href = setArgs("/edit", args);
-  }
 
-  node = $("josmanchor");
-  if (node) {
-    var args = new Object();
-    args.editor = "josm";
-    args.lat = lat;
-    args.lon = lon;
-    args.zoom = zoom;
-    if (objtype && objid) {
-      args[objtype] = objid;
-    }
-    node.href = setArgs("/edit", args);
-  }
-
-  node = $("historyanchor");
-  if (node) {
-    if (zoom >= 11) {
-      var args = new Object();
-      //set bbox param from 'extents' object
-      if (typeof minlon == "number" &&
-          typeof minlat == "number" &&
-          typeof maxlon == "number" &&
-          typeof maxlat == "number") {
-
-        minlon = Math.round(minlon * decimals) / decimals;
-        minlat = Math.round(minlat * decimals) / decimals;
-        maxlon = Math.round(maxlon * decimals) / decimals;
-        maxlat = Math.round(maxlat * decimals) / decimals;
-        args.bbox = minlon + "," + minlat + "," + maxlon + "," + maxlat;
-      }
-
-      node.href = setArgs("/history", args);
-      node.title = i18n("javascripts.site.history_tooltip");
-      node.removeClassName("disabled");
-    } else {
-      node.href = 'javascript:alert(i18n("javascripts.site.history_zoom_alert"));';
-      node.title = i18n("javascripts.site.history_disabled_tooltip");
-      node.addClassName("disabled");
-    }
-  }
+    link.href = setArgs(link.href, args);
+  });
 
   node = $("shortlinkanchor");
   if (node) {
