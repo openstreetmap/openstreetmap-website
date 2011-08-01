@@ -55,17 +55,6 @@
 
   OpenLayers.Lang.setCode("<%= I18n.locale.to_s %>");
 
-  function init() {
-    var centre = new OpenLayers.LonLat(<%= lon %>, <%= lat %>);
-    var zoom = <%= zoom %>;
-
-    var map = createMap("map");
-
-    setMapCenter(centre, zoom);
-
-    map.events.register("click", map, setLocation);
-  }        
-
   function setLocation( e ) { 
     closeMapPopup();
 
@@ -84,8 +73,15 @@
   function openMap() {
     $("map").style.display = "block";
     $("usemap").style.display = "none";
-  }
 
-  window.onload = init;
+    var centre = new OpenLayers.LonLat(<%= lon %>, <%= lat %>);
+    var zoom = <%= zoom %>;
+
+    var map = createMap("map");
+
+    setMapCenter(centre, zoom);
+
+    map.events.register("click", map, setLocation);
+  }
 // -->
 </script>
