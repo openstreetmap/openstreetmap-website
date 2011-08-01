@@ -35,7 +35,11 @@
   </table>
 <% end %>
 
-<% if @user.home_lat.nil? or @user.home_lon.nil? %>
+<% if @diary_entry.latitude and @diary_entry.longitude %>
+  <% lon = @diary_entry.longitude %>
+  <% lat = @diary_entry.latitude %>
+  <% zoom = '12' %>
+<% elsif @user.home_lat.nil? or @user.home_lon.nil? %>
   <% lon = h(params['lon'] || '-0.1') %>
   <% lat = h(params['lat'] || '51.5') %>
   <% zoom = h(params['zoom'] || '4') %> 
@@ -80,6 +84,10 @@
     var map = createMap("map");
 
     setMapCenter(centre, zoom);
+
+    <% if @diary_entry.latitude and @diary_entry.longitude %>
+    marker = addMarkerToMap(centre, null, "<%= t 'diary_entry.edit.marker_text' -%>");
+    <% end %>
 
     map.events.register("click", map, setLocation);
   }
