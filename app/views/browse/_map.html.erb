@@ -45,14 +45,18 @@
     OpenLayers.Lang.setCode("<%= I18n.locale.to_s %>");
 
     function remoteEditHandler(event, bbox, select) {
+      var left = bbox.left - 0.0001;
+      var top = bbox.top + 0.0001;
+      var right = bbox.right + 0.0001;
+      var bottom = bbox.bottom - 0.0001;
       var loaded = false;
 
       $("linkloader").observe("load", function () { loaded = true; });
 
       if (select) {
-        $("linkloader").src = "http://127.0.0.1:8111/load_and_zoom?left=" + bbox.left + "&top=" + bbox.top + "&right=" + bbox.right + "&bottom=" + bbox.bottom + "&select=" + select;
+        $("linkloader").src = "http://127.0.0.1:8111/load_and_zoom?left=" + left + "&top=" + top + "&right=" + right + "&bottom=" + bottom + "&select=" + select;
       } else {
-        $("linkloader").src = "http://127.0.0.1:8111/load_and_zoom?left=" + bbox.left + "&top=" + bbox.top + "&right=" + bbox.right + "&bottom=" + bbox.bottom;
+        $("linkloader").src = "http://127.0.0.1:8111/load_and_zoom?left=" + left + "&top=" + top + "&right=" + right + "&bottom=" + bottom;
       }
 
       setTimeout(function () {
