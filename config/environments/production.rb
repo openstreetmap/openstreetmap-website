@@ -12,6 +12,11 @@ config.action_view.cache_template_loading            = true
 # See everything in the log (default is :info)
 # config.log_level = :debug
 
+# Use a different log path in production
+if defined?(LOG_PATH)
+  config.log_path = LOG_PATH
+end
+
 # Use a different logger for distributed setups
 # config.logger = SyslogLogger.new
 
