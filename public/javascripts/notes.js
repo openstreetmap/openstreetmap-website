@@ -691,7 +691,8 @@ OpenLayers.Control.Notes = new OpenLayers.Class(OpenLayers.Control, {
 	if(!this.map) return true;
 
 	var control = this;
-	var lonlatApi = lonlat.clone().transform(this.map.getProjectionObject(), this.noteLayer.apiProjection);
+        var map = control.map;
+	var lonlatApi = lonlat.clone().transform(map.getProjectionObject(), this.noteLayer.apiProjection);
 	var feature = new OpenLayers.Feature(this.noteLayer, lonlat, { icon: this.icon.clone(), autoSize: true });
 	feature.popupClass = OpenLayers.Popup.FramedCloud.Notes;
 	var marker = feature.createMarker();
@@ -702,27 +703,33 @@ OpenLayers.Control.Notes = new OpenLayers.Class(OpenLayers.Control, {
 	/** Implement a drag and drop for markers */
 	/* TODO: veryfy that the scoping of variables works correctly everywhere */		
 	var dragging = false;
-	var dragFunction = function(e) {
-	    map.events.unregister("mouseup",map,dragFunction);
+	var dragMove = function(e) {
 	    lonlat = map.getLonLatFromViewPortPx(e.xy);
 	    lonlatApi = lonlat.clone().transform(map.getProjectionObject(), map.noteLayer.apiProjection);
 	    marker.moveTo(map.getLayerPxFromViewPortPx(e.xy));
 	    marker.popup.moveTo(map.getLayerPxFromViewPortPx(e.xy));			
 	    marker.popup.updateRelativePosition();
+	    return false;
+	};
+	var dragComplete = function(e) {
+	    map.events.unregister("mousemove", map, dragMove);
+	    map.events.unregister("mouseup", map, dragComplete);
+            dragMove(e);
 	    dragging = false;
 	    return false;
 	};
 
 	marker.events.register("mouseover", this, function() {
-            control.map.viewPortDiv.style.cursor = "move";
+            map.viewPortDiv.style.cursor = "move";
         });
 	marker.events.register("mouseout", this, function() {
             if (!dragging)
-                control.map.viewPortDiv.style.cursor = "default";
+                map.viewPortDiv.style.cursor = "default";
         });
 	marker.events.register("mousedown", this, function() {
 	    dragging = true;
-            control.map.events.register("mouseup", control.map, dragFunction);
+            map.events.register("mousemove", map, dragMove);
+            map.events.register("mouseup", map, dragComplete);
             return false;
         });
 
@@ -799,7 +806,7 @@ OpenLayers.Control.Notes = new OpenLayers.Class(OpenLayers.Control, {
 	feature.data.popupContentHTML = newContent;
 	var popup = feature.createPopup(true);
 	popup.events.register("close", this, function(){ feature.destroy(); });
-	this.map.addPopup(popup);
+	map.addPopup(popup);
 	popup.updateSize();
 	marker.popup = popup;
     },
