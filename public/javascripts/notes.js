@@ -689,8 +689,7 @@ OpenLayers.Control.Notes = new OpenLayers.Class(OpenLayers.Control, {
     
     addTemporaryMarker: function(lonlat) {
 	if(!this.map) return true;
-	deactivateControl();
-        
+
 	var control = this;
 	var lonlatApi = lonlat.clone().transform(this.map.getProjectionObject(), this.noteLayer.apiProjection);
 	var feature = new OpenLayers.Feature(this.noteLayer, lonlat, { icon: this.icon.clone(), autoSize: true });
@@ -713,15 +712,20 @@ OpenLayers.Control.Notes = new OpenLayers.Class(OpenLayers.Control, {
 	    dragging = false;
 	    return false;
 	};
-        
-	marker.events.register("mouseover", this,
-			       function(){ document.getElementById("OpenLayers.Map_18_OpenLayers_Container").style.cursor = "move"; });
-	marker.events.register("mouseout", this,
-			       function(){ if (!dragging) {document.getElementById("OpenLayers.Map_18_OpenLayers_Container").style.cursor = "default"; }});
-	marker.events.register("mousedown", this,
-			       function() { dragging = true; map.events.register("mouseup",map, dragFunction); return false;});
-	
-        
+
+	marker.events.register("mouseover", this, function() {
+            control.map.viewPortDiv.style.cursor = "move";
+        });
+	marker.events.register("mouseout", this, function() {
+            if (!dragging)
+                control.map.viewPortDiv.style.cursor = "default";
+        });
+	marker.events.register("mousedown", this, function() {
+	    dragging = true;
+            control.map.events.register("mouseup", control.map, dragFunction);
+            return false;
+        });
+
 	var newContent = document.createElement("div");
 	var el1,el2,el3;
 	el1 = document.createElement("h3");
@@ -919,8 +923,3 @@ function osbResponse(error)
 
 putAJAXMarker.layers = [ ];
 putAJAXMarker.notes = { };
-
-function deactivateControl() { 
-    map.noteControl.deactivate(); 
-    document.getElementById("OpenLayers.Map_18_OpenLayers_Container").style.cursor = "default"; 
-}
