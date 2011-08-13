@@ -110,7 +110,97 @@
     <icon image="features/pois/amenity_recycling.n.24.png"/>
     <help>http://wiki.openstreetmap.org/wiki/Tag:amenity%3Drecycling</help>
     <point/>
+    <area/>
     <tag k="amenity" v="recycling"/>
+    <inputSet ref="simpleName"/>
+    <input type="choice" presence="always" category="Recycling" name="Type of facility" key="recycling_type" description="Is this containers in a rural area or at an manned facility?" priority="high">
+      <choice value="container" text="Container"/>
+      <choice value="centre" text="Recycling centre"/>
+    </input>
+    <input type="choice" presence="onTagMatch" category="Recycling" name="Batteries" key="recycling:batteries" description="Small batteries for household appliances" priority="low">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" presence="onTagMatch" category="Recycling" name="Books" key="recycling:books" description="" priority="low">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" presence="onTagMatch" category="Recycling" name="Cans" key="recycling:cans" description="Metal cans and other small metal packaging" priority="low">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" presence="onTagMatch" category="Recycling" name="Cardboard" key="recycling:cardboard" description="I.e. large pieces of packaging" priority="low">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" presence="onTagMatch" category="Recycling" name="Cartons" key="recycling:cartons" description="Packaging for groceries, i.e. milk cartons" priority="low">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" presence="onTagMatch" category="Recycling" name="Clothes" key="recycling:clothes" description="Clothes, including shoes" priority="low">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" presence="onTagMatch" category="Recycling" name="Electrical appliances" key="recycling:electrical_appliances" description="Larger electrical items, i.e. refrigerators, freezers, dishwashers" priority="low">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" presence="onTagMatch" category="Recycling" name="Glass" key="recycling:glass" description="I.e glass sheets" priority="low">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" presence="onTagMatch" category="Recycling" name="Glass bottles" key="recycling:glass_bottles" description="" priority="low">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" presence="onTagMatch" category="Recycling" name="Green waste" key="recycling:green_waste" description="" priority="low">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" presence="onTagMatch" category="Recycling" name="Magazines" key="recycling:magazines" description="Magazines (glossy pages)" priority="low">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" presence="onTagMatch" category="Recycling" name="Newspaper" key="recycling:newspaper" description="" priority="low">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" presence="onTagMatch" category="Recycling" name="Paper" key="recycling:paper" description="" priority="low">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" presence="onTagMatch" category="Recycling" name="Paper packaging" key="recycling:paper_packaging" description="" priority="low">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" presence="onTagMatch" category="Recycling" name="Plastic" key="recycling:plastic" description="" priority="low">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" presence="onTagMatch" category="Recycling" name="Plastic bottles" key="recycling:plastic_bottles" description="" priority="low">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" presence="onTagMatch" category="Recycling" name="Plastic packaging" key="recycling:plastic_packaging" description="" priority="low">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" presence="onTagMatch" category="Recycling" name="Scrap metal" key="recycling:scrap_metal" description="" priority="low">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" presence="onTagMatch" category="Recycling" name="Small appliances" key="recycling:small_appliances" description="Small electrical appliances, i.e. walkman, power adapter, remote control" priority="low">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" presence="onTagMatch" category="Recycling" name="Waste" key="recycling:waste" description="General waste (black bags)" priority="low">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" presence="onTagMatch" category="Recycling" name="Wood" key="recycling:wood" description="" priority="low">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
     <inputSet ref="common"/>
   </feature>
 
@@ -182,7 +272,7 @@
     <input type="freetext" presence="always" category="Naming" name="Ref" key="ref" description="Reference number of the post office"/>
     <input type="freetext" presence="always" category="Naming" name="Operator" key="operator" description="The provider of the postal service" priority="low"/>
     <inputSet ref="common"/>
-    <inputset ref="simpleName"/>
+    <inputSet ref="simpleName"/>
   </feature>
 
   <feature name="Trash/rubbish bin">
@@ -226,7 +316,13 @@
     <point/>
     <area/>
     <tag k="amenity" v="shelter"/>
-    <inputset ref="names"/>
+    <input type="choice" presence="always" name="Type of shelter" key="shelter_type" description="The intended use of the shelter.">
+      <choice value="picnic_shelter" text="Picnic shelter"/>
+      <choice value="public_transport" text="Public transport"/>
+      <choice value="weather_shelter" text="Weather shelter"/>
+      <choice value="wildlife_hide" text="Wildlife hide"/>
+    </input>
+    <inputSet ref="names"/>
     <inputSet ref="common"/>
   </feature>
 
@@ -312,7 +408,7 @@
     <inputSet ref="common"/>
     <inputSet ref="simpleName"/>
     <input type="freetext" presence="always" name="Product" key="vending" description="What is being sold: tickets, food, maps..."/>
-    <input type="operator" presence="always" name="Operator" key="operator" description="Which company provides the service" />
+    <inputSet ref="simpleOperator"/>
   </feature>
 
   <!-- ========= Entertainment ========= -->

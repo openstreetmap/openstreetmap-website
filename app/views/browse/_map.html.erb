@@ -1,23 +1,70 @@
 <%= javascript_include_tag '/openlayers/OpenLayers.js' %>
 <%= javascript_include_tag '/openlayers/OpenStreetMap.js' %>
 <%= javascript_include_tag 'map.js' %>
+
+<iframe id="linkloader" style="display: none">
+</iframe>
+
 <div id="browse_map">
   <% if map.instance_of? Changeset or (map.instance_of? Node and map.version > 1) or map.visible %>
   <div id="small_map">
   </div>
   <span id="loading"><%= t 'browse.map.loading' %></span>
-  <a id="area_larger_map" href=""></a>
+  <%= link_to(t("browse.map.larger.area"), { :controller => :site, :action => :index, :box => "yes" }, { :id => "area_larger_map", :class => "geolink bbox" }) %>
+  <br />
+  <%= link_to(t("browse.map.edit.area"), { :controller => :site, :action => :edit }, { :id => "area_edit", :class => "geolink bbox" }) %>
   <% unless map.instance_of? Changeset %>
     <br />
-    <a id="object_larger_map" href=""></a>
+    <%= link_to("", { :controller => :site, :action => :index }, { :id => "object_larger_map", :class => "geolink object" }) %>
+    <br />
+    <%= link_to("", { :controller => :site, :action => :edit }, { :id => "object_edit", :class => "geolink object" }) %>
   <% end %>
   <% else %>
     <%= t 'browse.map.deleted' %>
   <% end %>
 </div>
+
+<div id="area_edit_menu" class="menu">
+  <ul>
+    <% Editors::ALL_EDITORS.each do |editor| %>
+      <li><%= link_to t('layouts.edit_with', :editor => t("editor.#{editor}.description")), { :controller => :site, :action => :edit, :editor => editor }, { :id => "#{editor}_area_edit", :class => "geolink bbox" } %></li>
+    <% end %>
+  </ul>
+</div>
+
+<div id="object_edit_menu" class="menu">
+  <ul>
+    <% Editors::ALL_EDITORS.each do |editor| %>
+      <li><%= link_to t('layouts.edit_with', :editor => t("editor.#{editor}.description")), { :controller => :site, :action => :edit, :editor => editor }, { :id => "#{editor}_object_edit", :class => "geolink object" } %></li>
+    <% end %>
+  </ul>
+</div>
+
 <% if map.instance_of? Changeset or (map.instance_of? Node and map.version > 1) or map.visible %>
   <script type="text/javascript">
     OpenLayers.Lang.setCode("<%= I18n.locale.to_s %>");
+
+    function remoteEditHandler(event, bbox, select) {
+      var left = bbox.left - 0.0001;
+      var top = bbox.top + 0.0001;
+      var right = bbox.right + 0.0001;
+      var bottom = bbox.bottom - 0.0001;
+      var loaded = false;
+
+      $("linkloader").observe("load", function () { loaded = true; });
+
+      if (select) {
+        $("linkloader").src = "http://127.0.0.1:8111/load_and_zoom?left=" + left + "&top=" + top + "&right=" + right + "&bottom=" + bottom + "&select=" + select;
+      } else {
+        $("linkloader").src = "http://127.0.0.1:8111/load_and_zoom?left=" + left + "&top=" + top + "&right=" + right + "&bottom=" + bottom;
+      }
+
+      setTimeout(function () {
+        if (!loaded) alert("<%= escape_javascript(t('site.index.remote_failed')) %>");
+      }, 1000);
+
+      event.stop();
+    }
 
     function init() {
       var map = createMap("small_map", {
@@ -30,24 +77,37 @@
         var maxlon = <%= map.max_lon / GeoRecord::SCALE.to_f %>;
         var maxlat = <%= map.max_lat / GeoRecord::SCALE.to_f %>;
         var bbox = new OpenLayers.Bounds(minlon, minlat, maxlon, maxlat);
+        var centre = bbox.getCenterLonLat();
 
         setMapExtent(bbox);
         addBoxToMap(bbox);
 
-        $("loading").innerHTML = "";
+        $("loading").style.display = "none";
 
-        $("area_larger_map").href = '/?minlon='+minlon+'&minlat='+minlat+'&maxlon='+maxlon+'&maxlat='+maxlat+'&box=yes';
-        $("area_larger_map").innerHTML = "<%= t 'browse.map.larger.area' %>";
+        $$("#browse_map .geolink").each(function (link) {
+          link.style.display = "inline";
+        });
+
+        $("remote_area_edit").observe("click", function (event) {
+          remoteEditHandler(event, bbox);
+        });
+
+        <% if preferred_editor == "remote" %>
+          $("area_edit").observe("click", function (event) {
+            remoteEditHandler(event, bbox);
+          });
+        <% end %>
+
+        updatelinks(centre.lon, centre.lat, 16, null, minlon, minlat, maxlon, maxlat)
       <% elsif map.instance_of? Note %>
         var centre = new OpenLayers.LonLat(<%= map.lon %>, <%= map.lat %>);
 
         setMapCenter(centre, 16);
         addMarkerToMap(centre);
 
-        $("loading").innerHTML = "";
+        $("loading").style.display = "none";
 
-        $("area_larger_map").href = '/?mlon=<%= map.lon %>&mlat=<%=map.lat %>';
-        $("area_larger_map").innerHTML = "<%= t 'browse.map.larger.area' %>";
+        updatelinks(centre.lon, centre.lat, 16, null, null, null, null, null)
       <% else %>
         var obj_type = "<%= map.class.name.downcase %>";
         var obj_id = <%= map.id %>;
@@ -63,23 +123,45 @@
         }
 
         addObjectToMap(url, true, function(extent) {
-          $("loading").innerHTML = "";
+          $("loading").style.display = "none";
+
+          $$("#browse_map .geolink").each(function (link) {
+            link.style.display = "inline";
+          });
 
           if (extent) {
             extent.transform(map.getProjectionObject(), map.displayProjection);
 
-            $("area_larger_map").href = '/?minlon='+extent.left+'&minlat='+extent.bottom+'&maxlon='+extent.right+'&maxlat='+extent.top;
-            $("area_larger_map").innerHTML = "<%= t 'browse.map.larger.area' %>";
+            var centre = extent.getCenterLonLat();
+
+            $("remote_area_edit").observe("click", function (event) {
+              remoteEditHandler(event, extent);
+            });
+
+            <% if preferred_editor == "remote" %>
+              $("area_edit").observe("click", function (event) {
+                remoteEditHandler(event, extent);
+              });
+            <% end %>
 
             <% unless map.instance_of? Changeset %>
-              $("object_larger_map").href = '/?<%= map.class.to_s.downcase %>=<%= map.id %>';
+              $("remote_object_edit").observe("click", function (event) {
+                remoteEditHandler(event, extent, "<%= map.class.to_s.downcase + map.id.to_s %>");
+              });
+
               $("object_larger_map").innerHTML = "<%= t('browse.map.larger.' + map.class.to_s.downcase) %>";
+              $("object_edit").innerHTML = "<%= t('browse.map.edit.' + map.class.to_s.downcase) %>";
             <% end %>
+
+            updatelinks(centre.lon, centre.lat, 16, null, extent.left, extent.bottom, extent.right, extent.top, "<%= map.class.to_s.downcase %>", <%= map.id %>)
           } else {
             $("small_map").style.display = "none";
           }
         });
       <% end %>
+
+      createMenu("area_edit", "area_edit_menu", 1000, "right");
+      createMenu("object_edit", "object_edit_menu", 1000, "right");
     }
 
     window.onload = init;

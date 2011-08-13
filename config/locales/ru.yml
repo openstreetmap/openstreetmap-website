@@ -110,9 +110,13 @@ ru:
         one: "Содержит %{count} точку:"
         other: "Содержит точки (%{count} шт.):"
       has_relations: 
-        one: "Имеет следующие %{count} отношение:"
-        other: "Имеет следующие %{count} отношений:"
-      has_ways: "Содержит %{count} линий:"
+        few: "Содержит следующие %{count} отношения:"
+        one: "Содержит следующие %{count} отношение:"
+        other: "Содержит следующие %{count} отношений:"
+      has_ways: 
+        few: "Содержит следующие %{count} линии:"
+        one: "Содержит следующую %{count} линию:"
+        other: "Содержит следующие %{count} линий:"
       no_bounding_box: Для этого пакета правок границы не установлены.
       show_area_box: Показать выделенную область
     common_details: 
@@ -229,7 +233,7 @@ ru:
       private_user: частный пользователь
       show_areas: Показать области
       show_history: Показать историю
-      unable_to_load_size: "Загрузка невозможна: размер квадрата [[bbox_size]] слишком большой (должен быть меньше %{max_bbox_size})"
+      unable_to_load_size: Загрузка невозможна. Размер квадрата [[bbox_size]] слишком большой (должен быть меньше %{max_bbox_size})
       wait: Подождите...
       zoom_or_select: Увеличьте или выберите область для просмотра
     tag_details: 
@@ -300,12 +304,13 @@ ru:
       sorry: К сожалению, список пакетов правок, который вы запросили, слишком большой для извлечения.
   diary_entry: 
     diary_comment: 
-      comment_from: Комментарий от %{link_user}, %{comment_created_at}
+      comment_from: Комментарий %{link_user} %{comment_created_at}
       confirm: Подтвердить
       hide_link: Скрыть этот комментарий
     diary_entry: 
       comment_count: 
-        one: 1 комментарий
+        few: "%{count} комментария"
+        one: "%{count} комментарий"
         other: "%{count} комментариев"
       comment_link: Комментировать
       confirm: Подтвердить
@@ -335,7 +340,7 @@ ru:
         description: Последнее дневниковые записи OpenStreetMap для %{user}
         title: Дневниковые записи OpenStreetMap для %{user}
     list: 
-      in_language_title: Дневник записей в %{language}
+      in_language_title: Дневниковые записи на языке %{language}
       new: Новая запись в дневнике
       new_title: Сделать новую запись в своем дневнике
       newer_entries: Более новые записи
@@ -351,11 +356,11 @@ ru:
     new: 
       title: Сделать новую запись в дневнике
     no_such_entry: 
-      body: К сожалению, запись или комментарий с id %{id} не найдены. Проверьте правильность ввода адреса. Возможно, ссылка, по которой вы перешли, неверна.
+      body: К сожалению, записи или комментария с id %{id} не найдено. Проверьте правильность написания. Возможно, ссылка, по которой вы перешли, ошибочна.
       heading: Нет записи с id %{id}
       title: Нет такой дневниковой записи
     no_such_user: 
-      body: К сожалению, пользователь с именем %{user} не найден. Проверьте правильность ввода. Возможно ссылка, по которой вы перешли, неверна.
+      body: К сожалению, пользователь с именем %{user} не найден. Пожалуйста, проверьте правильность ввода. Возможно, ссылка, по которой вы перешли, ошибочна.
       heading: Пользователя %{user} не существует
       title: Нет такого пользователя
     view: 
@@ -432,7 +437,7 @@ ru:
       south_west: юго-западнее
       west: западнее
     distance: 
-      one: около 1 км
+      one: около %{count} км
       other: около %{count} км
       zero: менее 1 км
     results: 
@@ -925,8 +930,9 @@ ru:
     home_tooltip: Показать мой дом
     inbox: входящие (%{count})
     inbox_tooltip: 
-      one: В вашем ящике есть 1 новое сообщение
-      other: В вашем ящике есть %{count} новых сообщен.
+      few: В вашем ящике %{count} новых сообщения
+      one: В вашем ящике %{count} новое сообщение
+      other: В вашем ящике есть %{count} новых сообщений.
       zero: В вашем ящике нет непрочитанных сообщений
     intro_1: OpenStreetMap — это свободно редактируемая карта всего мира. Она сделана такими же людьми, как и вы.
     intro_2: OpenStreetMap позволяет совместно просматривать, изменять и использовать географические данные в любой точке Земли.
@@ -976,7 +982,7 @@ ru:
       date: Дата
       from: От
       my_inbox: Мои входящие
-      no_messages_yet: Нет сообщений. Почему бы не пообщаться с %{people_mapping_nearby_link}?
+      no_messages_yet: У вас пока нет сообщений. Почему бы не пообщаться с %{people_mapping_nearby_link}?
       outbox: исходящие
       people_mapping_nearby: пользователями поблизости
       subject: Тема
@@ -1038,25 +1044,25 @@ ru:
   notifier: 
     diary_comment_notification: 
       footer: Вы можете также прочитать комментарий — %{readurl}, оставить свой — %{commenturl} или ответить — %{replyurl}
-      header: "%{from_user} прокомментировал вашу запись в дневнике на OpenStreetMap с темой %{subject}:"
+      header: "%{from_user} прокомментировал вашу дневниковую запись на OpenStreetMap с темой %{subject}:"
       hi: Привет, %{to_user},
-      subject: "[OpenStreetMap] %{user} оставил комментарий в вашем дневнике"
+      subject: Пользователь [OpenStreetMap] %{user} оставил комментарий в вашем дневнике
     email_confirm: 
       subject: "[OpenStreetMap] Подтвердите ваш адрес электронной почты"
     email_confirm_html: 
       click_the_link: Если это вы, то перейдите по ссылке, расположенной ниже, чтобы подтвердить изменение.
       greeting: Здравствуйте,
-      hopefully_you: "Кто-то (надеемся, что вы) хочет изменить свой адрес электронной почты в %{server_url} на адрес: %{new_address}."
+      hopefully_you: Кто-то (надеемся, что вы) хочет изменить свой адрес электронной почты в %{server_url} на адрес %{new_address}.
     email_confirm_plain: 
       click_the_link: Если это вы, то перейдите по ссылке, расположенной ниже, чтобы подтвердить изменение.
       greeting: Здравствуйте,
       hopefully_you_1: Кто-то (надеемся, что вы) хочет изменить свой адрес электронной почты в
-      hopefully_you_2: "%{server_url} на адрес: %{new_address}."
+      hopefully_you_2: "%{server_url} на адрес %{new_address}."
     friend_notification: 
       befriend_them: Вы также можете добавить их в качестве друзей в %{befriendurl}.
       had_added_you: "%{user} добавил вас в друзья на OpenStreetMap."
       see_their_profile: "Вы можете просмотреть информацию о них по ссылке: %{userurl}."
-      subject: "[OpenStreetMap] %{user} добавил вас в список своих друзей"
+      subject: Пользователь [OpenStreetMap] %{user} добавил вас в список своих друзей
     gpx_notification: 
       and_no_tags: и без меток.
       and_the_tags: "и следующими тегами:"
@@ -1086,7 +1092,7 @@ ru:
     message_notification: 
       footer1: Вы можете также прочитать сообщение — %{readurl}
       footer2: и вы можете ответить на %{replyurl}
-      header: "%{from_user} отправил вам сообщение с темой %{subject} через OpenStreetMap:"
+      header: "Пользователь OpenStreetMap %{from_user} отправил вам сообщение с темой %{subject}:"
       hi: Привет, %{to_user},
     signup_confirm: 
       subject: "[OpenStreetMap] Подтвердите ваш адрес электронной почты"
@@ -1472,10 +1478,8 @@ ru:
     login: 
       account not active: Извините, ваша учётная запись ещё не активирована.<br />Чтобы активировать её, пожалуйста, нажмите на ссылку в отправленном вам письме, или <a href="%{reconfirm}">запросите отправку нового письма-подтверждения</a>.
       account suspended: Извините, ваша учётная запись была приостановлена из-за подозрительной активности.<br />Пожалуйста, свяжитесь с %{webmaster}, если вы хотите выяснить подробности.
-      already have: Уже есть учётная запись OpenStreetMap? Пожалуйста, представьтесь.
       auth failure: Извините, вход с этими именем или паролем невозможен.
-      create account minute: Создать учётную запись. Это займёт не больше минуты.
-      create_account: зарегистрируйтесь
+      create account minute: Создайте учётную запись. Это займёт не больше минуты.
       email or username: "Эл. почта или имя пользователя:"
       heading: Представьтесь
       login_button: Представиться
@@ -1483,7 +1487,6 @@ ru:
       new to osm: Впервые на OpenStreetMap?
       notice: <a href="http://www.osmfoundation.org/wiki/License/We_Are_Changing_The_License">Узнайте больше о предстоящем изменении лицензии OpenStreetMap</a> (<a href="http://wiki.openstreetmap.org/wiki/ODbL/We_Are_Changing_The_License">переводы</a>) (<a href="http://wiki.openstreetmap.org/wiki/Talk:ODbL/Upcoming">обсуждение</a>)
       password: "Пароль:"
-      please login: Пожалуйста, представьтесь или %{create_user_link}.
       register now: Зарегистрируйтесь
       remember: "\nЗапомнить меня:"
       title: Представьтесь
@@ -1582,7 +1585,7 @@ ru:
       edits: правки
       email address: "Адрес Email:"
       hide_user: скрыть этого пользователя
-      if set location: Если вы укажете свое местоположение, карта и дополнительные инструменты появятся ниже. Вы можете установить ваше местоположение на вашей странице %{settings_link}.
+      if set location: Если вы укажете свое местоположение, ниже  появятся карта и дополнительные инструменты. Вы можете установить ваше местоположение на вашей странице %{settings_link}.
       km away: "%{count} км от вас"
       latest edit: "Последняя правка %{ago}:"
       m away: "%{count} м от вас"

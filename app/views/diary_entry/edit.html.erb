@@ -3,7 +3,7 @@
 <%= error_messages_for 'diary_entry' %>
 
 <% form_for :diary_entry do |f| %>
-  <table>
+  <table class="diary_entry">
     <tr valign="top">
       <td class="fieldName"><%= t 'diary_entry.edit.subject' -%></td>
       <td><%= f.text_field :title, :size => 60 %></td>
@@ -19,7 +19,7 @@
     <tr valign="top">
       <td class="fieldName"><%= t 'diary_entry.edit.location' -%></td>
       <td>
-        <div id="map" style="border: 1px solid black; position: relative; width : 90%; height : 400px; display: none;"></div>
+        <div id="map"></div>
         <span class="location"><%= t 'diary_entry.edit.latitude' -%> <%= f.text_field :latitude, :size => 20, :id => "latitude" %> <%= t 'diary_entry.edit.longitude' -%> <%= f.text_field :longitude, :size => 20, :id => "longitude" %></span>
         <a href="javascript:openMap()" id="usemap"><%= t 'diary_entry.edit.use_map_link' -%></a>
         <br/><br/>
@@ -28,14 +28,18 @@
     <tr>
       <td></td>
       <td>
-	  <%= submit_tag t('diary_entry.edit.save_button') %>
-	  <%# TODO: button should say 'publish' or 'save changes' depending on new/edit state %>
+        <%= submit_tag t('diary_entry.edit.save_button') %>
+        <%# TODO: button should say 'publish' or 'save changes' depending on new/edit state %>
       </td>
     </tr>
   </table>
 <% end %>
 
-<% if @user.home_lat.nil? or @user.home_lon.nil? %>
+<% if @diary_entry.latitude and @diary_entry.longitude %>
+  <% lon = @diary_entry.longitude %>
+  <% lat = @diary_entry.latitude %>
+  <% zoom = '12' %>
+<% elsif @user.home_lat.nil? or @user.home_lon.nil? %>
   <% lon = h(params['lon'] || '-0.1') %>
   <% lat = h(params['lat'] || '51.5') %>
   <% zoom = h(params['zoom'] || '4') %> 
@@ -55,24 +59,13 @@
 
   OpenLayers.Lang.setCode("<%= I18n.locale.to_s %>");
 
-  function init() {
-    var centre = new OpenLayers.LonLat(<%= lon %>, <%= lat %>);
-    var zoom = <%= zoom %>;
-
-    var map = createMap("map");
-
-    setMapCenter(centre, zoom);
-
-    map.events.register("click", map, setLocation);
-  }        
-
   function setLocation( e ) { 
     closeMapPopup();
 
     var lonlat = getEventPosition(e);
 
-    document.getElementById('latitude').value = lonlat.lat;
-    document.getElementById('longitude').value = lonlat.lon;
+    $("latitude").value = lonlat.lat;
+    $("longitude").value = lonlat.lon;
 
     if (marker) {
       removeMarkerFromMap(marker);
@@ -84,8 +77,19 @@
   function openMap() {
     $("map").style.display = "block";
     $("usemap").style.display = "none";
-  }
 
-  window.onload = init;
+    var centre = new OpenLayers.LonLat(<%= lon %>, <%= lat %>);
+    var zoom = <%= zoom %>;
+
+    var map = createMap("map");
+
+    setMapCenter(centre, zoom);
+
+    <% if @diary_entry.latitude and @diary_entry.longitude %>
+    marker = addMarkerToMap(centre, null, "<%= t 'diary_entry.edit.marker_text' -%>");
+    <% end %>
+
+    map.events.register("click", map, setLocation);
+  }
 // -->
 </script>

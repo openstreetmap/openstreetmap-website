@@ -5,15 +5,15 @@
 <% form_for :message, :url => { :action => "new", :display_name => @to_user.display_name } do |f| %>
   <table>
     <tr valign="top">
-      <th><%= t'message.new.subject' %></th>
+      <td class="fieldName"><%= t'message.new.subject' %></td>
       <td><%= f.text_field :title, :size => 60, :value => @subject %></td>
     </tr>
     <tr valign="top">
-      <th><%= t'message.new.body' %></th>
+      <td class="fieldName"><%= t'message.new.body' %></td>
       <td><%= f.text_area :body, :cols => 80, :value => @body %></td>
     </tr>
     <tr>
-      <th></th>
+      <td></td>
       <td><%= submit_tag t('message.new.send_button') %></td>
     </tr>
   </table>

@@ -58,6 +58,9 @@ fur:
       tracepoint: Pont dal percors
       user: Utent
       user_preference: Preference utent
+      way: Vie
+      way_node: Grop de vie
+      way_tag: Etichete de vie
   browse: 
     changeset: 
       changeset: "Grup di cambiaments: %{id}"
@@ -86,6 +89,8 @@ fur:
       show_area_box: Mostre ricuadri de aree
     common_details: 
       changeset_comment: "Coment:"
+      deleted_at: "Eliminât ai:"
+      deleted_by: "Eliminât di:"
       edited_at: "Cambiât ai:"
       edited_by: "Cambiât di:"
       in_changeset: "Tal grup di cambiaments:"
@@ -104,13 +109,15 @@ fur:
     navigation: 
       all: 
         next_changeset_tooltip: Grup di cambiaments sucessîf
+        next_node_tooltip: Grop sucessîf
         next_relation_tooltip: Relazion sucessive
+        next_way_tooltip: Vie sucessive
         prev_changeset_tooltip: Grup di cambiaments precedent
         prev_node_tooltip: Grop precedent
         prev_relation_tooltip: Relazion precedente
         prev_way_tooltip: Vie precedente
       user: 
-        name_changeset_tooltip: Vîot i cambiaments di %{user}
+        name_changeset_tooltip: Viôt i cambiaments di %{user}
         next_changeset_tooltip: Cambiament sucessîf di %{user}
         prev_changeset_tooltip: Cambiament precedent di %{user}
     node: 
@@ -118,6 +125,7 @@ fur:
       download_xml: Discjame XML
       edit: cambie
       node: Grop
+      node_title: "Grop: %{node_name}"
       view_history: cjale storic
     node_details: 
       coordinates: "Coordenadis:"
@@ -125,6 +133,8 @@ fur:
     node_history: 
       download: "%{download_xml_link} o %{view_details_link}"
       download_xml: Discjame XML
+      node_history: Storic dal grop
+      node_history_title: "Storic dal grop: %{node_name}"
       view_details: cjale i detais
     not_found: 
       sorry: Nus displâs, nol è stât pussibil cjatâ il %{type} cun id %{id}.
@@ -132,6 +142,7 @@ fur:
         changeset: "Non dal file:"
         node: grop
         relation: relazion
+        way: vie
     paging_nav: 
       of: su
       showing_page: Mostrant la pagjine
@@ -155,6 +166,7 @@ fur:
       type: 
         node: Grop
         relation: Relazion
+        way: Vie
     start: 
       manually_select: Sielç a man une aree divierse
       view_data: Viôt i dâts pe viodude atuâl de mape
@@ -175,8 +187,17 @@ fur:
         back: Mostre liste dai ogjets
         details: Detais
         heading: di
+        history: 
+          type: 
+            node: Grop [[id]]
+            way: Vie [[id]]
+        selected: 
+          type: 
+            node: Grop [[id]]
+            way: Vie [[id]]
         type: 
           node: Grop
+          way: Vie
       private_user: utent privât
       show_areas: Mostre areis
       show_history: Mostre storic
@@ -185,25 +206,34 @@ fur:
     tag_details: 
       tags: "Etichetis:"
       wiki_link: 
-        key: La pagjine de vichi cu la descrizion dal tag %{key}.
-        tag: La pagjine de vichi cu la descrizion pal tag %{key}=%{value}
-      wikipedia_link: L'articul su %{page} te Wikipedia
+        key: La pagjine de vichi cu la descrizion de etichete %{key}.
+        tag: La pagjine de vichi cu la descrizion de etichete %{key}=%{value}
+      wikipedia_link: La vôs su %{page} te Vichipedie
     timeout: 
       type: 
         changeset: grup di cambiaments
         node: grop
         relation: relazion
+        way: vie
     way: 
       download: "%{download_xml_link}, %{view_history_link} o %{edit_link}"
       download_xml: Discjame XML
       edit: cambie
       view_history: cjale storic
+      way: Vie
+      way_title: "Vie: %{way_name}"
     way_details: 
+      also_part_of: 
+        one: ancje part de vie %{related_ways}
+        other: ancje part des viis %{related_ways}
+      nodes: "Grops:"
       part_of: "Part di:"
     way_history: 
       download: "%{download_xml_link} o %{view_details_link}"
       download_xml: Discjame XML
       view_details: cjale i detais
+      way_history: Storic de vie
+      way_history_title: "Storic de vie: %{way_name}"
   changeset: 
     changeset: 
       anonymous: Anonim
@@ -249,7 +279,7 @@ fur:
       confirm: Conferme
       edit_link: Cambie cheste vôs
       hide_link: Plate cheste vôs
-      posted_by: Scrit di %{link_user} ai %{created} par %{language_link}
+      posted_by: Publicât di %{link_user} ai %{created} par %{language_link}
       reply_link: Rispuint a cheste vôs
     edit: 
       body: "Cuarp:"
@@ -290,6 +320,7 @@ fur:
       title: Gnove vôs dal diari
     no_such_entry: 
       body: No esist une vôs dal diari o un coment cun id %{id}. Controle par plasê la grafie o che tu vedis seguît il leam just.
+      title: La vôs dal diari no esist
     no_such_user: 
       body: Nol esist un utent di non %{user}. Controle par plasê la grafie o che tu vedis seguît il leam just.
       heading: L'utent %{user} nol esist
@@ -367,9 +398,9 @@ fur:
       south_west: sud-ovest
       west: ovest
     distance: 
-      one: cirche 1km
-      other: cirche %{count}km
-      zero: mancul di 1km
+      one: cirche 1 Km
+      other: cirche %{count} Km
+      zero: mancul di 1 Km
     results: 
       more_results: Altris risultâts
       no_results: Nissun risultât
@@ -432,6 +463,7 @@ fur:
           pub: Pub
           public_building: Edifici public
           public_market: Marcjât public
+          recycling: Pont pal ricicli
           restaurant: Ristorant
           retirement_home: Cjase di polse
           sauna: Saune
@@ -445,6 +477,7 @@ fur:
           university: Universitât
           vending_machine: Distributôr automatic
           veterinary: Veterinari
+          village_hall: Centri civic
           wifi: Acès a internet WiFi
           youth_centre: Centri zovanîl
         boundary: 
@@ -473,6 +506,7 @@ fur:
           bus_stop: Fermade autobus
           construction: Strade in costruzion
           emergency_access_point: Pont di acès di emergjence
+          pedestrian: Strade pedonâl
           raceway: Circuit
           road: Strade
           steps: Scjalis
@@ -494,12 +528,15 @@ fur:
           construction: In costruzion
           industrial: Aree industriâl
           military: Aree militâr
+          mine: Miniere
+          mountain: Montagne
           nature_reserve: Riserve naturâl
           park: Parc
           railway: Ferade
           residential: Aree residenziâl
           vineyard: Vigne
         leisure: 
+          common: Comugnâi (UK)
           fishing: Riserve par pescjâ
           garden: Zardin
           golf_course: Troi di golf
@@ -510,8 +547,10 @@ fur:
           stadium: Stadi
           swimming_pool: Pissine
           track: Piste pe corse
+          water_park: Parc acuatic
         natural: 
           bay: Rade
+          beach: Splaze
           channel: Canâl
           coastline: Litorâl
           crater: Cratêr
@@ -533,11 +572,15 @@ fur:
           house: Cjase
           houses: Cjasis sparniçadis
           island: Isule
+          islet: Isulute
           locality: Localitât
+          municipality: Comun
           postcode: Codis postâl
           region: Regjon
           sea: Mâr
           state: Stât
+          subdivision: Sotdivision
+          suburb: Cuartîr
           town: Citadine
           village: Vilaç
         railway: 
@@ -546,6 +589,7 @@ fur:
           disused: Ferade bandonade
           disused_station: Stazion de ferade bandonade
           halt: Fermade de ferade
+          level_crossing: Passaç a nivel
           light_rail: Ferade lizere
           station: Stazion de ferade
           tram_stop: Fermade dal tram
@@ -564,6 +608,7 @@ fur:
           market: Marcjât
           optician: Otic
           pet: Buteghe di animâi
+          shoes: Buteghe di scarpis
           supermarket: Supermarcjât
           toys: Negozi di zugatui
           travel_agency: Agjenzie di viaçs
@@ -620,7 +665,7 @@ fur:
       zero: Nol è nissun messaç di lei te pueste in jentrade
     intro_1: OpenStreetMap al è une mape libare e modificabile dal marimont. Al è fat di int come te.
     intro_2: OpenStreetMap al permet a ogni persone su la Tiere di viodi, cambiâ e doprâ i dâts gjeografics intune forme colaborative.
-    intro_3: "L'hosting di OpenStreetMap al è sostignût cun gjenerositât di %{ucl} e %{bytemark}.\nAltris sostegnidôrs a son elencâts te %{partners}."
+    intro_3: "L'hosting di OpenStreetMap al è sostignût cun gjenerositât di %{ucl} e %{bytemark}.\nAltris sostignidôrs a son elencâts te %{partners}."
     intro_3_partners: vichi
     license: 
       title: I dâts di OpenStreetMap a son dâts fûr sot de Creative Commons Attribution-Share Alike 2.0 Generic License
@@ -696,7 +741,7 @@ fur:
       subject: Sogjet
       title: In jessude
       to: A
-      you_have_sent_messages: Tu âs %{count} messaçs inviâts
+      you_have_sent_messages: Tu âs %{count} messaçs in jessude
     read: 
       back_to_inbox: Torne ai messaçs in jentrade
       back_to_outbox: Torne ai messaçs in jessude
@@ -714,7 +759,7 @@ fur:
   notifier: 
     diary_comment_notification: 
       footer: Tu puedis ancje lei il coment su %{readurl} e tu puedis zontâ un coment su %{commenturl} o ben rispuindi su %{replyurl}
-      header: "%{from_user} al à zontât un coment ae tô vos dal diari di OpenStreetMap cun sogjet %{subject}:"
+      header: "%{from_user} al à zontât un coment ae tô vôs dal diari di OpenStreetMap cun sogjet %{subject}:"
       hi: Mandi %{to_user},
       subject: "[OpenStreetMap] %{user} al à zontât un coment ae tô vôs dal diari"
     email_confirm: 
@@ -722,7 +767,7 @@ fur:
     email_confirm_plain: 
       click_the_link: Se tu sês propite tu, par plasê frache sul leam ca sot par confermâ il cambiament.
     friend_notification: 
-      befriend_them: Tu puedis ancje zontâlu/le come amì in %{befriendurl}.
+      befriend_them: Tu puedis ancje zontâlu/le come amì su %{befriendurl}.
       had_added_you: "%{user} ti à zontât come amì su OpenStreetMap."
       see_their_profile: Tu puedis viodi il lôr profîl su %{userurl}.
       subject: "[OpenStreetMap] %{user} ti à zontât come amì su OpenStreetMap."
@@ -731,7 +776,7 @@ fur:
       and_the_tags: "e lis etichetis ca sot:"
       greeting: Mandi,
       success: 
-        loaded_successfully: al sedi stât cjamât cun sucès, cun %{trace_points} suntun totât di %{possible_points} ponts pussibii.
+        loaded_successfully: al sedi stât cjamât cun sucès, cun %{trace_points} suntun totâl di %{possible_points} ponts pussibii.
         subject: "[OpenStreetMap] Impuartazion GPX completade cun sucès"
       with_description: cu la descrizion
       your_gpx_file: Al somee che il to file GPX
@@ -745,11 +790,15 @@ fur:
     signup_confirm_html: 
       hopefully_you: Cualchidun (sperìn propite tu) al vûl creâ une identitât
       introductory_video: Tu puedis viodi un %{introductory_video_link}.
+      more_videos: A son %{more_videos_link}.
+      more_videos_here: altris videos culì
+      video_to_openstreetmap: video di introduzion a OpenStreetMap
   oauth_clients: 
     form: 
       name: Non
     index: 
       application: Non de aplicazion
+      revoke: Revoche!
     new: 
       submit: Regjistre
       title: Regjistre une gnove aplicazion
@@ -782,9 +831,12 @@ fur:
           admin: Confin aministratîf
           apron: 
             1: terminâl
+          bridge: Rie nere = puint
           cemetery: Simiteri
           centre: Centri sportîf
           commercial: Aree comerciâl
+          common: 
+            - Comugnâi
           construction: Stradis in costruzion
           golf: Troi di golf
           industrial: Aree industriâl
@@ -807,6 +859,7 @@ fur:
           tram: 
             - tram
             - tram
+          tunnel: Rie a trats = galarie
           unsurfaced: Strade blancje
     search: 
       search: Cîr
@@ -829,7 +882,7 @@ fur:
       download: discjame
       edit: cambie
       filename: "Non dal file:"
-      heading: Cambiant il percors %{name}
+      heading: Daûr a cambiâ il percors %{name}
       map: mape
       owner: "Paron:"
       points: "Ponts:"
@@ -837,7 +890,7 @@ fur:
       start_coord: "Coordenadis iniziâls:"
       tags: "Etichetis:"
       tags_help: separâts di virgulis
-      title: Cambiant il percors %{name}
+      title: Daûr a cambiâ il percors %{name}
       uploaded_at: "Cjamât ai:"
       visibility: "Visibilitât:"
       visibility_help: ce vuelial dî?
@@ -847,9 +900,10 @@ fur:
       tagged_with: " etichetât cun %{tags}"
       your_traces: Percors GPS personâi
     no_such_user: 
+      heading: L'utent %{user} nol esist
       title: Utent no cjatât
     trace: 
-      ago: "%{time_in_words_ago} fa"
+      ago: "{time_in_words_ago} indaûr"
       by: di
       count_points: "%{count} ponts"
       edit: cambie
@@ -888,7 +942,7 @@ fur:
       edit: cambie
       edit_track: Cambie chest percors
       filename: "Non dal file:"
-      heading: Viodint il percors %{name}
+      heading: Daûr a viodi il percors %{name}
       map: mape
       none: Nissun
       owner: "Paron:"
@@ -896,7 +950,7 @@ fur:
       points: "Ponts:"
       start_coordinates: "Coordenadis iniziâls:"
       tags: "Etichetis:"
-      title: Viodint il percors %{name}
+      title: Daûr a viodi il percors %{name}
       trace_not_found: Percors no cjatât!
       uploaded: "Cjamât ai:"
       visibility: "Visibilitât:"
@@ -964,16 +1018,14 @@ fur:
       summary_no_ip: "%{name} creât ai %{date}"
       title: Utents
     login: 
-      already have: Âstu za un profîl su OpenStreetMap? Par plasê doprile par jentrâ.
       auth failure: Nus displâs, ma no si à rivât a jentrâ cun i dâts inserîts.
       create account minute: Cree un profîl. I vûl dome un minût.
-      create_account: cree un profîl
       email or username: "Direzion di pueste eletroniche o non utent:"
       heading: Jentre
       login_button: Jentre
       lost password link: Password pierdude?
       new to osm: Sêstu gnûf su OpenStreetMap?
-      please login: Jentre o %{create_user_link}.
+      password: "Password:"
       register now: Regjistriti cumò
       remember: Visiti di me
       title: Jentre
@@ -986,6 +1038,7 @@ fur:
       email address: "Direzion di pueste:"
       heading: Âstu pierdût la password?
       help_text: Scrîf la direzion di pueste eletroniche che tu âs doprât par iscrivîti e ti mandarin un leam par tornâ a impuestâ la tô password.
+      new password button: Azere la password
       title: Password pierdude
     make_friend: 
       already_a_friend: Tu sês za amì di %{name}.
@@ -1038,7 +1091,7 @@ fur:
       title: Tiermins par contribuî
     view: 
       add as friend: zonte ai amîs
-      ago: (%{time_in_words_ago} fa)
+      ago: (%{time_in_words_ago} indaûr)
       block_history: viôt i blocs ricevûts
       blocks by me: blocs aplicâts di me
       blocks on me: blocs su di me
@@ -1052,7 +1105,7 @@ fur:
       email address: "Direzion di pueste:"
       hide_user: plate chest utent
       if set location: Se tu impuestis la tô locazion, tu viodarâs culì une biele mape e altris informazions. Tu puedis impuestâ il to lûc iniziâl inte pagjine des %{settings_link}.
-      km away: a %{count}km di distance
+      km away: "%{count}km di distance"
       latest edit: "Ultin cambiament %{ago}:"
       m away: "%{count}m di distance"
       mapper since: "Al mape dai:"
@@ -1069,6 +1122,7 @@ fur:
       remove as friend: gjave dai amîs
       send message: mande messaç
       settings_link_text: impostazions
+      spam score: "Ponts di spam:"
       status: "Stât:"
       traces: percors
       user location: Lûc dal utent
@@ -1081,12 +1135,16 @@ fur:
       back: Cjale ducj i blocs
       show: Cjale chest bloc
       submit: Inzorne bloc
+    helper: 
+      time_past: Finît %{time} indaûr.
     index: 
+      heading: Liste dai blocs dal utent
       title: Blocs dal utent
     new: 
       back: Cjale ducj i blocs
       heading: Cree un bloc par %{name}
       submit: Cree bloc
+      title: Cree un bloc par %{name}
     not_found: 
       back: Torne al somari
     partial: 
@@ -1095,6 +1153,9 @@ fur:
       display_name: Utent blocât
       edit: Cambie
       not_revoked: (no revocât)
+      reason: Reson dal bloc
+      revoke: Revoche!
+      revoker_name: Revocât di
       show: Mostre
       status: Stât
     period: 
@@ -1110,6 +1171,7 @@ fur:
       revoke: Revoche!
       show: Mostre
       status: Stât
+      time_past: Finît %{time} indaûr
   user_role: 
     grant: 
       confirm: Conferme

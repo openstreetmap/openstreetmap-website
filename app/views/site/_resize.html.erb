@@ -1,0 +1,41 @@
+<script type="text/javascript">
+  var brokenContentSize = $("content").offsetWidth == 0;
+
+  function resizeContent() {
+    var content = $("content");
+    var leftMargin = parseInt(getStyle(content, "left"));
+    var rightMargin = parseInt(getStyle(content, "right"));
+    var bottomMargin = parseInt(getStyle(content, "bottom"));
+
+    <% if t('html.dir') == "ltr" -%>
+    content.style.width = document.documentElement.clientWidth - content.offsetLeft - rightMargin;
+    <% else -%>
+    content.style.width = document.documentElement.clientWidth - content.offsetRight - leftMargin;
+    <% end -%>
+    content.style.height = document.documentElement.clientHeight - content.offsetTop - bottomMargin;
+  }
+
+  function resizeMap() {
+    var sidebar_width = $("sidebar").offsetWidth;
+
+    if (sidebar_width > 0) {
+      sidebar_width = sidebar_width + 5
+    }
+
+    <% if t('html.dir') == "ltr" -%>
+    $("map").style.left = (sidebar_width) + "px";
+    <% else -%>
+    $("map").style.right = (sidebar_width) + "px";
+    <% end -%>
+    $("map").style.width = ($("content").offsetWidth - sidebar_width) + "px";
+    $("map").style.height = ($("content").offsetHeight - 2) + "px";
+  }
+
+  function handleResize() {
+    if (brokenContentSize) {
+      resizeContent();
+    }
+
+    resizeMap();
+  }
+</script>

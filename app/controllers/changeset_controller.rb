@@ -446,7 +446,7 @@ private
   # eliminate empty changesets (where the bbox has not been set)
   # this should be applied to all changeset list displays
   def conditions_nonempty()
-    return ['min_lat IS NOT NULL']
+    return ['num_changes > 0']
   end
   
 end

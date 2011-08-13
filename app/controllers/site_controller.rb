@@ -48,6 +48,18 @@ class SiteController < ApplicationController
         @lat = params['mlat'].to_f
         @zoom = params['zoom'].to_i
 
+      elsif params['bbox']
+        bbox = params['bbox'].split(",")
+
+        @lon = ( bbox[0].to_f + bbox[2].to_f ) / 2.0
+        @lat = ( bbox[1].to_f + bbox[3].to_f ) / 2.0
+        @zoom = 16
+
+      elsif params['minlon'] and params['minlat'] and params['maxlon'] and params['maxlat']
+        @lon = ( params['maxlon'].to_f + params['minlon'].to_f ) / 2.0
+        @lat = ( params['maxlat'].to_f + params['minlat'].to_f ) / 2.0
+        @zoom = 16
+
       elsif params['gpx']
         @lon = Trace.find(params['gpx']).longitude
         @lat = Trace.find(params['gpx']).latitude

@@ -98,7 +98,7 @@
         <tag k="railway" v="light_rail"/>
         <inputSet ref="bridge"/>
         <inputSet ref="tunnel"/>
-        <inputset ref="embankment-cutting"/>
+        <inputSet ref="embankment-cutting"/>
         <inputSet ref="rail-electrification"/>
         <inputSet ref="common"/>
       </feature>
@@ -115,7 +115,7 @@
         <input ref="tram-route"/>
         <inputSet ref="bridge"/>
         <inputSet ref="tunnel"/>
-        <inputset ref="embankment-cutting"/>
+        <inputSet ref="embankment-cutting"/>
         <inputSet ref="rail-electrification"/>
         <inputSet ref="common"/>
       </feature>
@@ -133,7 +133,7 @@
         <tag k="railway" v="subway"/>
         <inputSet ref="bridge"/>
         <inputSet ref="tunnel"/>
-        <inputset ref="embankment-cutting"/>
+        <inputSet ref="embankment-cutting"/>
         <inputSet ref="rail-electrification"/>
         <inputSet ref="common"/>
       </feature>
@@ -352,50 +352,78 @@
 
 
   <feature name="Fuel">
-    <category>transport</category>
-    <point/>
-    <inputSet ref="simpleName"/>
-    <icon image="features/pois/transport_fuel.n.24.png"/>
+    <category>transport</category> 
+    <point /> 
+    <inputSet ref="simpleName" /> 
+    <icon image="features/pois/transport_fuel.n.24.png" />
     <tag k="amenity" v="fuel"/>
-    <input type="freetext" category="Naming" name="Operator" key="operator" description="The provider of the service"/>
-    <input type="choice" category="Fuels" name="Diesel" key="diesel" description="Is diesel fuel sold here?">
-      <choice value="yes" text="Yes"/>
-      <choice value="no" text="No"/>
-    </input>
-    <input type="choice" category="Fuels" name="Octane 91" key="diesel" description="Is octane 91 unleaded fuel sold here?">
-      <choice value="yes" text="Yes"/>
-      <choice value="no" text="No"/>
-    </input>
-    <input type="choice" category="Fuels" name="Octane 95" key="octane_95" description="Is octane 95 unleaded fuel sold here?">
-      <choice value="yes" text="Yes"/>
-      <choice value="no" text="No"/>
-    </input>
-    <input type="choice" category="Fuels" name="Octane 98" key="octane_98" description="Is octane 98 unleaded fuel sold here?">
-      <choice value="yes" text="Yes"/>
-      <choice value="no" text="No"/>
-    </input>
-    <input type="choice" category="Fuels" name="Octane 100" key="octane_100" description="Is octane 100 unleaded fuel sold here?">
-      <choice value="yes" text="Yes"/>
-      <choice value="no" text="No"/>
-    </input>
-    <input type="choice" category="Fuels" name="Ethanol" key="ethanol" description="Is ethanol sold here?">
-      <choice value="yes" text="Yes"/>
-      <choice value="no" text="No"/>
-    </input>
-    <input type="choice" category="Fuels" name="LPG" key="lpg" description="Is LPG (liquid petroleum gas) sold here?">
-      <choice value="yes" text="Yes"/>
-      <choice value="no" text="No"/>
-    </input>
-    <input type="choice" category="Fuels" name="Octane 91" key="diesel" description="Is octane 91 unleaded fuel sold here?">
-      <choice value="yes" text="Yes"/>
-      <choice value="no" text="No"/>
-    </input>
-    <input type="choice" category="Fuels" name="Bio-diesel" key="biodiesel" description="Is biodiesel unleaded fuel sold here?">
-      <choice value="yes" text="Yes"/>
-      <choice value="no" text="No"/>
-    </input>
+    <inputSet ref="simpleBrand"/>
+    <inputSet ref="simpleOperator"/>
 
-
+    <input type="choice" category="Fuels" name="Diesel" key="fuel:diesel" description="Is diesel fuel sold here?" priority="low">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" category="Fuels" name="GTL Diesel" key="fuel:GTL_diesel" description="Is GTL diesel fuel sold here?" priority="low">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" category="Fuels" name="HGV Diesel" key="fuel:HGV_diesel" description="Is HGV diesel fuel sold here?" priority="low">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" category="Fuels" name="Biodiesel" key="fuel:biodiesel" description="Is biodiesel unleaded fuel sold here?" priority="low">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" category="Fuels" name="Octane 91" key="fuel:octane_91" description="Is octane 91 unleaded fuel sold here?" priority="low">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" category="Fuels" name="Octane 95" key="fuel:octane_95" description="Is octane 95 unleaded fuel sold here?" priority="low">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" category="Fuels" name="Octane 98" key="fuel:octane_98" description="Is octane 98 unleaded fuel sold here?" priority="low">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" category="Fuels" name="Octane 100" key="fuel:octane_100" description="Is octane 100 unleaded fuel sold here?" priority="low">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" category="Fuels" name="Mixture 1:25" key="fuel:1_25" description="Is mixture 1:25 fuel sold here?" priority="low">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" category="Fuels" name="Mixture 1:50" key="fuel:1_50" description="Is mixture 1:50 fuel sold here?" priority="low">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" category="Fuels" name="E10" key="fuel:e10" description="Is E10 sold here?" priority="low">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" category="Fuels" name="E85" key="fuel:e85" description="Is E85 sold here?" priority="low">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" category="Fuels" name="Biogas" key="fuel:biogas" description="Is biogas sold here?" priority="low">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" category="Fuels" name="CNG" key="fuel:cng" description="Is CNG sold here?" priority="low">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" category="Fuels" name="LPG" key="fuel:lpg" description="Is LPG sold here?" priority="low">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
+    <input type="choice" category="Fuels" name="Electricity" key="fuel:electricity" description="Is it possible to charge an electric car here?" priority="low">
+      <choice value="yes" text="Yes"/>
+      <choice value="no" text="No"/>
+    </input>
     <inputSet ref="common"/>
   </feature>
 

@@ -4,6 +4,9 @@ class ApplicationController < ActionController::Base
 
   if STATUS == :database_readonly or STATUS == :database_offline
     session :off
+
+    def self.cache_sweeper(*sweepers)
+    end
   end
 
   def authorize_web

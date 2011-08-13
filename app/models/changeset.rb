@@ -115,16 +115,21 @@ class Changeset < ActiveRecord::Base
     # nils, just use the bounding box update to write over them.
     @bbox = bbox.zip(array).collect { |a, b| a.nil? ? b : a }
 
-    # FIXME - this looks nasty and violates DRY... is there any prettier
-    # way to do this?
-    @bbox[0] = [-180 * GeoRecord::SCALE, array[0] + EXPAND * (@bbox[0] - @bbox[2])].max if array[0] < @bbox[0]
-    @bbox[1] = [ -90 * GeoRecord::SCALE, array[1] + EXPAND * (@bbox[1] - @bbox[3])].max if array[1] < @bbox[1]
-    @bbox[2] = [ 180 * GeoRecord::SCALE, array[2] + EXPAND * (@bbox[2] - @bbox[0])].min if array[2] > @bbox[2]
-    @bbox[3] = [  90 * GeoRecord::SCALE, array[3] + EXPAND * (@bbox[3] - @bbox[1])].min if array[3] > @bbox[3]
-
-    # update active record. rails 2.1's dirty handling should take care of
-    # whether this object needs saving or not.
-    self.min_lon, self.min_lat, self.max_lon, self.max_lat = @bbox
+    # only try to update the bbox if there is a value for every coordinate
+    # which there will be from the previous line as long as both array and
+    # bbox are all non-nil. 
+    if has_valid_bbox? and array.all?
+      # FIXME - this looks nasty and violates DRY... is there any prettier
+      # way to do this?
+      @bbox[0] = [-180 * GeoRecord::SCALE, array[0] + EXPAND * (@bbox[0] - @bbox[2])].max if array[0] < @bbox[0]
+      @bbox[1] = [ -90 * GeoRecord::SCALE, array[1] + EXPAND * (@bbox[1] - @bbox[3])].max if array[1] < @bbox[1]
+      @bbox[2] = [ 180 * GeoRecord::SCALE, array[2] + EXPAND * (@bbox[2] - @bbox[0])].min if array[2] > @bbox[2]
+      @bbox[3] = [  90 * GeoRecord::SCALE, array[3] + EXPAND * (@bbox[3] - @bbox[1])].min if array[3] > @bbox[3]
+      
+      # update active record. rails 2.1's dirty handling should take care of
+      # whether this object needs saving or not.
+      self.min_lon, self.min_lat, self.max_lon, self.max_lat = @bbox
+    end
   end
 
   ##
