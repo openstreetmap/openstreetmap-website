@@ -10,7 +10,11 @@
   <div id="small_map">
   </div>
   <span id="loading"><%= t 'browse.map.loading' %></span>
+  <% if map.instance_of? Note -%>
+  <%= link_to(t("browse.map.larger.area"), { :controller => :site, :action => :index, :notes => "yes" }, { :id => "area_larger_map", :class => "geolink bbox" }) %>
+  <% else -%>
   <%= link_to(t("browse.map.larger.area"), { :controller => :site, :action => :index, :box => "yes" }, { :id => "area_larger_map", :class => "geolink bbox" }) %>
+  <% end -%>
   <br />
   <%= link_to(t("browse.map.edit.area"), { :controller => :site, :action => :edit }, { :id => "area_edit", :class => "geolink bbox" }) %>
   <% unless map.instance_of? Changeset or map.instance_of? Note %>
