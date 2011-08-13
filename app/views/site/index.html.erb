@@ -20,7 +20,7 @@
   <div id="permalink">
     <a href="/" id="permalinkanchor" class="geolink llz layers object"><%= t 'site.index.permalink' %></a><br/>
     <a href="/" id="shortlinkanchor"><%= t 'site.index.shortlink' %></a>
-    <a href="#" id="reportbuganchor">Report a problem</a>	
+    <a href="#" id="createnoteanchor">Report a problem</a>	
   </div>
 </div>
 
@@ -123,7 +123,7 @@ end
 
 <%= javascript_include_tag '/openlayers/OpenLayers.js' %>
 <%= javascript_include_tag '/openlayers/OpenStreetMap.js' %>
-<%= javascript_include_tag 'openstreetbugs.js' %>
+<%= javascript_include_tag 'notes.js' %>
 <%= javascript_include_tag 'map.js' %>
 
 <%= render :partial => 'resize' %>
@@ -146,24 +146,19 @@ end
       map.dataLayer.events.register("visibilitychanged", map.dataLayer, toggleData);
       map.addLayer(map.dataLayer);
 
-      map.osbLayer = new OpenLayers.Layer.OpenStreetBugs("Notes", {
-          serverURL: "/api/0.6/",
-          iconOpen: new OpenLayers.Icon("<%= image_path "open_note_marker.png" %>", new OpenLayers.Size(22, 22), new OpenLayers.Pixel(-11, -11)),
-          iconClosed: new OpenLayers.Icon("<%= image_path "closed_noe_marker.png" %>", new OpenLayers.Size(22, 22), new OpenLayers.Pixel(-11, -11)),
-          readonly: false,
+      map.noteLayer = new OpenLayers.Layer.Notes("Notes", {
           setCookie: false,
           permalinkURL: "http://www.openstreetmap.org/",
-          theme: "<%= stylesheet_path "openstreetbugs" %>",
           visibility: <%= params[:notes] == "yes" %>
       });
-      map.addLayer(map.osbLayer);
+      map.addLayer(map.noteLayer);
 
-      map.osbControl = new OpenLayers.Control.OpenStreetBugs(map.osbLayer); 
-      map.addControl(map.osbControl);
+      map.noteControl = new OpenLayers.Control.Notes(map.noteLayer); 
+      map.addControl(map.noteControl);
 
-      $("reportbuganchor").observe("click", addBug);
+      $("createnoteanchor").observe("click", addNote);
 
-      map.events.register("zoomend", map, allowBugReports);
+      map.events.register("zoomend", map, allowNoteReports);
     <% end %>
 
     <% unless object_zoom %>
@@ -292,16 +287,16 @@ end
     <% end %>
   }
 
-  function addBug() {
-    map.osbControl.activate();
-    map.osbControl.addTemporaryMarker(map.getCenter());
+  function addNote() {
+    map.noteControl.activate();
+    map.noteControl.addTemporaryMarker(map.getCenter());
   }
 
-  function allowBugReports() { 
+  function allowNoteReports() { 
     if (map.getZoom() > 11) {
-      $("reportbuganchor").style.visibility = "visible";
+      $("createnoteanchor").style.visibility = "visible";
     } else {
-      $("reportbuganchor").style.visibility = "hidden";
+      $("createnoteanchor").style.visibility = "hidden";
     }
   }
 
