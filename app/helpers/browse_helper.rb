@@ -42,6 +42,14 @@ module BrowseHelper
     end
   end
 
+  def note_author(object)
+    if object.author.nil?
+      h(object.author_name)
+    else
+      link_to h(object.author_name), :controller => "user", :action => "view", :display_name => object.author_name
+    end
+  end
+
 private
 
   ICON_TAGS = [ 

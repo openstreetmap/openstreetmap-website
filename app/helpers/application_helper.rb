@@ -129,6 +129,10 @@ module ApplicationHelper
     end
   end
 
+  def friendly_date(date)
+    content_tag(:span, time_ago_in_words(date), :title => l(date, :format => :friendly))
+  end
+
 private
 
   def javascript_strings_for_key(key)

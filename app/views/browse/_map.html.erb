@@ -6,14 +6,14 @@
 </iframe>
 
 <div id="browse_map">
-  <% if map.instance_of? Changeset or (map.instance_of? Node and map.version > 1) or map.visible %>
+  <% if map.instance_of? Changeset or (map.instance_of? Node and map.version > 1) or map.visible? %>
   <div id="small_map">
   </div>
   <span id="loading"><%= t 'browse.map.loading' %></span>
   <%= link_to(t("browse.map.larger.area"), { :controller => :site, :action => :index, :box => "yes" }, { :id => "area_larger_map", :class => "geolink bbox" }) %>
   <br />
   <%= link_to(t("browse.map.edit.area"), { :controller => :site, :action => :edit }, { :id => "area_edit", :class => "geolink bbox" }) %>
-  <% unless map.instance_of? Changeset %>
+  <% unless map.instance_of? Changeset or map.instance_of? Note %>
     <br />
     <%= link_to("", { :controller => :site, :action => :index }, { :id => "object_larger_map", :class => "geolink object" }) %>
     <br />
@@ -40,7 +40,7 @@
   </ul>
 </div>
 
-<% if map.instance_of? Changeset or (map.instance_of? Node and map.version > 1) or map.visible %>
+<% if map.instance_of? Changeset or (map.instance_of? Node and map.version > 1) or map.visible? %>
   <script type="text/javascript">
     OpenLayers.Lang.setCode("<%= I18n.locale.to_s %>");
 
@@ -105,9 +105,25 @@
         setMapCenter(centre, 16);
         addMarkerToMap(centre);
 
+        var bbox = getMapExtent();
+
         $("loading").style.display = "none";
 
-        updatelinks(centre.lon, centre.lat, 16, null, null, null, null, null)
+        $$("#browse_map .geolink").each(function (link) {
+          link.style.display = "inline";
+        });
+
+        $("remote_area_edit").observe("click", function (event) {
+          remoteEditHandler(event, bbox);
+        });
+
+        <% if preferred_editor == "remote" %>
+          $("area_edit").observe("click", function (event) {
+            remoteEditHandler(event, bbox);
+          });
+        <% end %>
+
+        updatelinks(centre.lon, centre.lat, 16, null, bbox.left, bbox.bottom, bbox.right, bbox.top)
       <% else %>
         var obj_type = "<%= map.class.name.downcase %>";
         var obj_id = <%= map.id %>;
