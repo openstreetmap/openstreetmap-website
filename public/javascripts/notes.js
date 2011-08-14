@@ -1,16 +1,16 @@
 /*
-	Dervied from the OpenStreetBugs client, which is available
-	under the following license.
+        Dervied from the OpenStreetBugs client, which is available
+        under the following license.
 
-	This OpenStreetBugs client is free software: you can redistribute it
-	and/or modify it under the terms of the GNU Affero General Public License
-	as published by the Free Software Foundation, either version 3 of the
-	License, or (at your option) any later version.
+        This OpenStreetBugs client is free software: you can redistribute it
+        and/or modify it under the terms of the GNU Affero General Public License
+        as published by the Free Software Foundation, either version 3 of the
+        License, or (at your option) any later version.
 
-	This file is distributed in the hope that it will be useful, but
-	WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-	or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public
-	License <http://www.gnu.org/licenses/> for more details.
+        This file is distributed in the hope that it will be useful, but
+        WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+        or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public
+        License <http://www.gnu.org/licenses/> for more details.
 */
 
 OpenLayers.Layer.Notes = new OpenLayers.Class(OpenLayers.Layer.Markers, {
@@ -42,7 +42,7 @@ OpenLayers.Layer.Notes = new OpenLayers.Class(OpenLayers.Layer.Markers, {
      * @var OpenLayers.Icon
      */
     iconOpen : new OpenLayers.Icon("/images/open_note_marker.png", new OpenLayers.Size(22, 22), new OpenLayers.Pixel(-11, -11)),
-    
+
     /**
      * The icon to be used for a closed note.
      *
@@ -63,34 +63,13 @@ OpenLayers.Layer.Notes = new OpenLayers.Class(OpenLayers.Layer.Markers, {
      * @var Boolean
      */
     readonly : false,
-    
+
     /**
      * When the layer is hidden, all open popups are stored in this
      * array in order to be re-opened again when the layer is made
      * visible again.
      */
     reopenPopups : [ ],
-    
-    /**
-     * The user name will be saved in a cookie if this isn’t set to false.
-     *
-     * @var Boolean
-     */
-    setCookie : true,
-
-    /**
-     * The lifetime of the user name cookie in days.
-     *
-     * @var Number
-     */
-    cookieLifetime : 1000,
-
-    /**
-     * The path where the cookie will be available on this server.
-     *
-     * @var String
-     */
-    cookiePath : null,
 
     /**
      * A URL to append lon=123&lat=123&zoom=123 for the Permalinks.
@@ -109,41 +88,33 @@ OpenLayers.Layer.Notes = new OpenLayers.Class(OpenLayers.Layer.Markers, {
     /**
      * @param String name
      */
-    initialize : function(name, options)
-    {
-	OpenLayers.Layer.Markers.prototype.initialize.apply(this, [ name, OpenLayers.Util.extend({ opacity: 0.7, projection: new OpenLayers.Projection("EPSG:4326") }, options) ]);
-	putAJAXMarker.layers.push(this);
-	this.events.addEventType("markerAdded");
+    initialize: function(name, options) {
+        OpenLayers.Layer.Markers.prototype.initialize.apply(this, [
+            name,
+            OpenLayers.Util.extend({
+                opacity: 0.7,
+                projection: new OpenLayers.Projection("EPSG:4326") }, options)
+        ]);
 
-	this.events.register("visibilitychanged", this, this.updatePopupVisibility);
-	this.events.register("visibilitychanged", this, this.loadNotes);
+        putAJAXMarker.layers.push(this);
+        this.events.addEventType("markerAdded");
 
-	var cookies = document.cookie.split(/;\s*/);
-	for(var i=0; i<cookies.length; i++)
-	{
-	    var cookie = cookies[i].split("=");
-	    if(cookie[0] == "osbUsername")
-	    {
-		this.username = decodeURIComponent(cookie[1]);
-		break;
-	    }
-	}
+        this.events.register("visibilitychanged", this, this.updatePopupVisibility);
+        this.events.register("visibilitychanged", this, this.loadNotes);
 
-	/* Copied from OpenLayers.Map */
-	if(this.theme) {
+        if (this.theme) {
             // check existing links for equivalent url
             var addNode = true;
             var nodes = document.getElementsByTagName('link');
-            for(var i=0, len=nodes.length; i<len; ++i) {
-                if(OpenLayers.Util.isEquivalentUrl(nodes.item(i).href,
-                                                   this.theme)) {
+            for (var i = 0, len = nodes.length; i < len; ++i) {
+                if (OpenLayers.Util.isEquivalentUrl(nodes.item(i).href, this.theme)) {
                     addNode = false;
                     break;
                 }
             }
             // only add a new node if one with an equivalent url hasn't already
             // been added
-            if(addNode) {
+            if (addNode) {
                 var cssNode = document.createElement('link');
                 cssNode.setAttribute('rel', 'stylesheet');
                 cssNode.setAttribute('type', 'text/css');
@@ -154,18 +125,16 @@ OpenLayers.Layer.Notes = new OpenLayers.Class(OpenLayers.Layer.Markers, {
     },
 
     /**
-     * Is automatically called when the layer is added to an
-     * OpenLayers.Map. Initialises the automatic note loading in the
-     * visible bounding box.
+     * Called automatically called when the layer is added to a map.
+     * Initialises the automatic note loading in the visible bounding box.
      */
-    afterAdd : function()
-    {
-	var ret = OpenLayers.Layer.Markers.prototype.afterAdd.apply(this, arguments);
+    afterAdd: function() {
+        var ret = OpenLayers.Layer.Markers.prototype.afterAdd.apply(this, arguments);
 
-	this.map.events.register("moveend", this, this.loadNotes);
-	this.loadNotes();
+        this.map.events.register("moveend", this, this.loadNotes);
+        this.loadNotes();
 
-	return ret;
+        return ret;
     },
 
     /**
@@ -181,81 +150,67 @@ OpenLayers.Layer.Notes = new OpenLayers.Class(OpenLayers.Layer.Markers, {
      *
      * @param String url The URL this.serverURL + url is requested.
      */
-    apiRequest : function(url) {
-	var script = document.createElement("script");
-	script.type = "text/javascript";
-	script.src = this.serverURL + url + "&nocache="+(new Date()).getTime();
-	document.body.appendChild(script);
+    apiRequest: function(url) {
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = this.serverURL + url + "&nocache="+(new Date()).getTime();
+        document.body.appendChild(script);
     },
-    
+
     /**
      * Is automatically called when the visibility of the layer
      * changes. When the layer is hidden, all visible popups are
      * closed and their visibility is saved. When the layer is made
      * visible again, these popups are re-opened.
      */
-    updatePopupVisibility : function()
-    {
-	if(this.getVisibility())
-	{
-	    for(var i=0; i<this.reopenPopups.length; i++)
-		this.reopenPopups[i].show();
-	    this.reopenPopups = [ ];
-	}
-	else
-	{
-	    for(var i=0; i<this.markers.length; i++)
-	    {
-		if(this.markers[i].feature.popup && this.markers[i].feature.popup.visible())
-		{
-		    this.markers[i].feature.popup.hide();
-		    this.reopenPopups.push(this.markers[i].feature.popup);
-		}
-	    }
-	}
+    updatePopupVisibility: function() {
+        if (this.getVisibility()) {
+            for (var i =0 ; i < this.reopenPopups.length; i++)
+                this.reopenPopups[i].show();
+
+            this.reopenPopups = [ ];
+        } else {
+            for (var i = 0; i < this.markers.length; i++) {
+                if (this.markers[i].feature.popup &&
+                    this.markers[i].feature.popup.visible()) {
+                    this.markers[i].feature.popup.hide();
+                    this.reopenPopups.push(this.markers[i].feature.popup);
+                }
+            }
+        }
     },
 
     /**
      * Sets the user name to be used for interactions with OpenStreetMap.
      */
-    setUserName : function(username)
-    {
-	if(this.username == username)
-	    return;
+    setUserName: function(username) {
+        if (this.username == username)
+            return;
 
-	this.username = username;
+        this.username = username;
 
-	if(this.setCookie)
-	{
-	    var cookie = "osbUsername="+encodeURIComponent(username);
-	    if(this.cookieLifetime)
-		cookie += ";expires="+(new Date((new Date()).getTime() + this.cookieLifetime*86400000)).toGMTString();
-	    if(this.cookiePath)
-		cookie += ";path="+this.cookiePath;
-	    document.cookie = cookie;
-	}
+        for (var i = 0; i < this.markers.length; i++) {
+            var popup = this.markers[i].feature.popup;
 
-	for(var i=0; i<this.markers.length; i++)
-	{
-	    if(!this.markers[i].feature.popup) continue;
-	    var els = this.markers[i].feature.popup.contentDom.getElementsByTagName("input");
-	    for(var j=0; j<els.length; j++)
-	    {
-		if(els[j].className != "osbUsername") continue;
-		els[j].value = username;
-	    }
-	}
+            if (popup) {
+                var els = popup.contentDom.getElementsByTagName("input");
+
+                for (var j = 0; j < els.length; j++) {
+                    if (els[j].className == "username")
+                        els[j].value = username;
+                }
+            }
+        }
     },
 
     /**
      * Returns the currently set username or “NoName” if none is set.
      */
-    getUserName : function()
-    {
-	if(this.username)
-	    return this.username;
-	else
-	    return "NoName";
+    getUserName: function() {
+        if(this.username)
+            return this.username;
+        else
+            return "NoName";
     },
 
     /**
@@ -263,20 +218,18 @@ OpenLayers.Layer.Notes = new OpenLayers.Class(OpenLayers.Layer.Markers, {
      * called by an event handler ("moveend" event) that is created in
      * the afterAdd() method.
      */
-    loadNotes : function()
-    {
-	if(!this.getVisibility())
-	    return true;
+    loadNotes: function() {
+        var bounds = this.map.getExtent();
 
-	var bounds = this.map.getExtent();
-	if(!bounds) return false;
-	bounds.transform(this.map.getProjectionObject(), this.apiProjection);
+        if (bounds && this.getVisibility()) {
+            bounds.transform(this.map.getProjectionObject(), this.apiProjection);
 
-	this.apiRequest("notes"
-			+ "?bbox="+this.round(bounds.left, 5)
-                        + ","+this.round(bounds.bottom, 5)
-		        + ","+this.round(bounds.right, 5)			
-			+ ","+this.round(bounds.top, 5));
+            this.apiRequest("notes"
+                            + "?bbox=" + this.round(bounds.left, 5)
+                            + "," + this.round(bounds.bottom, 5)
+                            + "," + this.round(bounds.right, 5)
+                            + "," + this.round(bounds.top, 5));
+        }
     },
 
     /**
@@ -287,10 +240,10 @@ OpenLayers.Layer.Notes = new OpenLayers.Class(OpenLayers.Layer.Markers, {
      * @param Number digits
      * @return Number
      */
-    round : function(number, digits)
-    {
-	var factor = Math.pow(10, digits);
-	return Math.round(number*factor)/factor;
+    round: function(number, digits) {
+        var scale = Math.pow(10, digits);
+
+        return Math.round(number * scale) / scale;
     },
 
     /**
@@ -299,194 +252,214 @@ OpenLayers.Layer.Notes = new OpenLayers.Class(OpenLayers.Layer.Markers, {
      *
      * @param Number id The note ID
      */
-    createMarker: function(id)
-    {
-	if(this.notes[id])
-	{
-	    if(this.notes[id].popup && !this.notes[id].popup.visible())
-		this.setPopupContent(id);
-	    if(this.notes[id].closed != putAJAXMarker.notes[id][2])
-		this.notes[id].destroy();
-	    else
-		return;
-	}
+    createMarker: function(id) {
+        if (this.notes[id]) {
+            if (this.notes[id].popup && !this.notes[id].popup.visible())
+                this.setPopupContent(this.notes[id].popup, id);
 
-	var lonlat = putAJAXMarker.notes[id][0].clone().transform(this.apiProjection, this.map.getProjectionObject());
-	var comments = putAJAXMarker.notes[id][1];
-	var closed = putAJAXMarker.notes[id][2];
-	var feature = new OpenLayers.Feature(this, lonlat, { icon: (closed ? this.iconClosed : this.iconOpen).clone(), autoSize: true });
-	feature.popupClass = OpenLayers.Popup.FramedCloud.Notes;
-	feature.noteId = id;
-	feature.closed = closed;
-        
-	var marker = feature.createMarker();
-	marker.feature = feature;
-	marker.events.register("click", feature, this.markerClick);
-	//marker.events.register("mouseover", feature, this.markerMouseOver);
-	//marker.events.register("mouseout", feature, this.markerMouseOut);
-	this.addMarker(marker);
-        
-	this.notes[id] = feature;
-	this.events.triggerEvent("markerAdded");
+            if (this.notes[id].closed != putAJAXMarker.notes[id][2])
+                this.notes[id].destroy();
+            else
+                return;
+        }
+
+        var lonlat = putAJAXMarker.notes[id][0].clone().transform(this.apiProjection, this.map.getProjectionObject());
+        var comments = putAJAXMarker.notes[id][1];
+        var closed = putAJAXMarker.notes[id][2];
+        var icon = closed ? this.iconClosed : this.iconOpen;
+
+        var feature = new OpenLayers.Feature(this, lonlat, {
+            icon: icon.clone(),
+            autoSize: true
+        });
+        feature.popupClass = OpenLayers.Popup.FramedCloud.Notes;
+        feature.noteId = id;
+        feature.closed = closed;
+        this.notes[id] = feature;
+
+        var marker = feature.createMarker();
+        marker.feature = feature;
+        marker.events.register("click", feature, this.markerClick);
+        //marker.events.register("mouseover", feature, this.markerMouseOver);
+        //marker.events.register("mouseout", feature, this.markerMouseOut);
+        this.addMarker(marker);
+
+        this.events.triggerEvent("markerAdded");
     },
 
     /**
      * Recreates the content of the popup of a marker.
      *
+     * @param OpenLayers.Popup popup
      * @param Number id The note ID
      */
-    setPopupContent: function(id) {
-	if(!this.notes[id].popup)
-	    return;
+    setPopupContent: function(popup, id) {
+        var el1,el2,el3;
+        var layer = this;
 
-	var el1,el2,el3;
-	var layer = this;
-        
-	var newContent = document.createElement("div");
-        
-	el1 = document.createElement("h3");
-	el1.appendChild(document.createTextNode(putAJAXMarker.notes[id][2] ? i18n("javascripts.note.closed") : i18n("javascripts.note.open")));
+        var newContent = document.createElement("div");
 
-	el1.appendChild(document.createTextNode(" ["));
-	el2 = document.createElement("a");
-	el2.href = "/browse/note/" + id;
-	el2.onclick = function(){ layer.map.setCenter(putAJAXMarker.notes[id][0].clone().transform(layer.apiProjection, layer.map.getProjectionObject()), 15); };
-	el2.appendChild(document.createTextNode(i18n("javascripts.note.details")));
-	el1.appendChild(el2);
-	el1.appendChild(document.createTextNode("]"));
-        
-	if(this.permalinkURL)
-	{
-	    el1.appendChild(document.createTextNode(" ["));
-	    el2 = document.createElement("a");
-	    el2.href = this.permalinkURL + (this.permalinkURL.indexOf("?") == -1 ? "?" : "&") + "lon="+putAJAXMarker.notes[id][0].lon+"&lat="+putAJAXMarker.notes[id][0].lat+"&zoom=15";
-	    el2.appendChild(document.createTextNode(i18n("javascripts.note.permalink")));
-	    el1.appendChild(el2);
-	    el1.appendChild(document.createTextNode("]"));
-	}
-	newContent.appendChild(el1);
-        
-	var containerDescription = document.createElement("div");
-	newContent.appendChild(containerDescription);
-        
-	var containerChange = document.createElement("div");
-	newContent.appendChild(containerChange);
-        
-	var displayDescription = function(){
-	    containerDescription.style.display = "block";
-	    containerChange.style.display = "none";
-	    layer.notes[id].popup.updateSize();
-	};
-	var displayChange = function(){
-	    containerDescription.style.display = "none";
-	    containerChange.style.display = "block";
-	    layer.notes[id].popup.updateSize();
-	};
-	displayDescription();
-        
-	el1 = document.createElement("dl");
-	for(var i=0; i<putAJAXMarker.notes[id][1].length; i++)
-	{
-	    el2 = document.createElement("dt");
-	    el2.className = (i == 0 ? "note-description" : "note-comment");
-	    el2.appendChild(document.createTextNode(i == 0 ? i18n("javascripts.note.description") : i18n("javascripts.note.comment")));
-	    el1.appendChild(el2);
-	    el2 = document.createElement("dd");
-	    el2.className = (i == 0 ? "note-description" : "note-comment");
-	    el2.appendChild(document.createTextNode(putAJAXMarker.notes[id][1][i]));
-	    el1.appendChild(el2);
-            if (i == 0) { el2 = document.createElement("br"); el1.appendChild(el2);};
-	}
-	containerDescription.appendChild(el1);
+        el1 = document.createElement("h3");
+        el1.appendChild(document.createTextNode(putAJAXMarker.notes[id][2] ? i18n("javascripts.note.closed") : i18n("javascripts.note.open")));
 
-	if(putAJAXMarker.notes[id][2])
-	{
-	    el1 = document.createElement("p");
-	    el1.className = "note-fixed";
-	    el2 = document.createElement("em");
-	    el2.appendChild(document.createTextNode(i18n("javascripts.note.render_warning")));
-	    el1.appendChild(el2);
-	    containerDescription.appendChild(el1);
-	}
-	else if(!this.readonly)
-	{
-	    el1 = document.createElement("div");
-	    el2 = document.createElement("input");
-	    el2.setAttribute("type", "button");
-	    el2.onclick = function(){ displayChange(); };
-	    el2.value = i18n("javascripts.note.update");
-	    el1.appendChild(el2);
-	    containerDescription.appendChild(el1);
-            
-	    var el_form = document.createElement("form");
-	    el_form.onsubmit = function(){ if(inputComment.value.match(/^\s*$/)) return false; layer.submitComment(id, inputComment.value); layer.hidePopup(id); return false; };
-            
-	    el1 = document.createElement("dl");
-	    el2 = document.createElement("dt");
-	    el2.appendChild(document.createTextNode(i18n("javascripts.note.nickname")));
-	    el1.appendChild(el2);
-	    el2 = document.createElement("dd");
-	    var inputUsername = document.createElement("input");
-	    var inputUsername = document.createElement("input");;
-	    if (typeof loginName === 'undefined') {
-		inputUsername.value = this.username;
-	    } else {
-		inputUsername.value = loginName;
-		inputUsername.setAttribute('disabled','true');
-	    }
-	    inputUsername.className = "osbUsername";
-	    inputUsername.onkeyup = function(){ layer.setUserName(inputUsername.value); };
-	    el2.appendChild(inputUsername);
-	    el3 = document.createElement("a");
-	    el3.setAttribute("href","login");
-	    el3.className = "hide_if_logged_in";
-	    el3.appendChild(document.createTextNode(i18n("javascripts.note.login")));
-	    el2.appendChild(el3)
-	    el1.appendChild(el2);			
-            
-	    el2 = document.createElement("dt");
-	    el2.appendChild(document.createTextNode(i18n("javascripts.note.comment")));
-	    el1.appendChild(el2);
-	    el2 = document.createElement("dd");
-	    var inputComment = document.createElement("textarea");
-	    inputComment.setAttribute("cols",40);
+        el1.appendChild(document.createTextNode(" ["));
+        el2 = document.createElement("a");
+        el2.href = "/browse/note/" + id;
+        el2.onclick = function() {
+            layer.map.setCenter(putAJAXMarker.notes[id][0].clone().transform(layer.apiProjection, layer.map.getProjectionObject()), 15);
+        };
+        el2.appendChild(document.createTextNode(i18n("javascripts.note.details")));
+        el1.appendChild(el2);
+        el1.appendChild(document.createTextNode("]"));
+
+        if (this.permalinkURL) {
+            el1.appendChild(document.createTextNode(" ["));
+            el2 = document.createElement("a");
+            el2.href = this.permalinkURL + (this.permalinkURL.indexOf("?") == -1 ? "?" : "&") + "lon="+putAJAXMarker.notes[id][0].lon+"&lat="+putAJAXMarker.notes[id][0].lat+"&zoom=15";
+            el2.appendChild(document.createTextNode(i18n("javascripts.note.permalink")));
+            el1.appendChild(el2);
+            el1.appendChild(document.createTextNode("]"));
+        }
+        newContent.appendChild(el1);
+
+        var containerDescription = document.createElement("div");
+        newContent.appendChild(containerDescription);
+
+        var containerChange = document.createElement("div");
+        newContent.appendChild(containerChange);
+
+        var displayDescription = function() {
+            containerDescription.style.display = "block";
+            containerChange.style.display = "none";
+            popup.updateSize();
+        };
+        var displayChange = function() {
+            containerDescription.style.display = "none";
+            containerChange.style.display = "block";
+            popup.updateSize();
+        };
+        displayDescription();
+
+        el1 = document.createElement("dl");
+        for (var i = 0; i < putAJAXMarker.notes[id][1].length; i++) {
+            el2 = document.createElement("dt");
+            el2.className = (i == 0 ? "note-description" : "note-comment");
+            el2.appendChild(document.createTextNode(i == 0 ? i18n("javascripts.note.description") : i18n("javascripts.note.comment")));
+            el1.appendChild(el2);
+            el2 = document.createElement("dd");
+            el2.className = (i == 0 ? "note-description" : "note-comment");
+            el2.appendChild(document.createTextNode(putAJAXMarker.notes[id][1][i]));
+            el1.appendChild(el2);
+            if (i == 0) {
+                el2 = document.createElement("br");
+                el1.appendChild(el2);
+            };
+        }
+        containerDescription.appendChild(el1);
+
+        if (putAJAXMarker.notes[id][2]) {
+            el1 = document.createElement("p");
+            el1.className = "note-fixed";
+            el2 = document.createElement("em");
+            el2.appendChild(document.createTextNode(i18n("javascripts.note.render_warning")));
+            el1.appendChild(el2);
+            containerDescription.appendChild(el1);
+        } else if (!this.readonly) {
+            el1 = document.createElement("div");
+            el2 = document.createElement("input");
+            el2.setAttribute("type", "button");
+            el2.onclick = function() {
+                displayChange();
+            };
+            el2.value = i18n("javascripts.note.update");
+            el1.appendChild(el2);
+            containerDescription.appendChild(el1);
+
+            var el_form = document.createElement("form");
+            el_form.onsubmit = function() {
+                if (inputComment.value.match(/^\s*$/))
+                    return false;
+                layer.submitComment(id, inputComment.value);
+                layer.hidePopup(popup);
+                return false;
+            };
+
+            el1 = document.createElement("dl");
+            el2 = document.createElement("dt");
+            el2.appendChild(document.createTextNode(i18n("javascripts.note.nickname")));
+            el1.appendChild(el2);
+            el2 = document.createElement("dd");
+            var inputUsername = document.createElement("input");
+            var inputUsername = document.createElement("input");;
+            if (typeof loginName === "undefined") {
+                inputUsername.value = this.username;
+            } else {
+                inputUsername.value = loginName;
+                inputUsername.setAttribute("disabled", "true");
+            }
+            inputUsername.className = "username";
+            inputUsername.onkeyup = function() {
+                layer.setUserName(inputUsername.value);
+            };
+            el2.appendChild(inputUsername);
+            el3 = document.createElement("a");
+            el3.setAttribute("href", "login");
+            el3.className = "hide_if_logged_in";
+            el3.appendChild(document.createTextNode(i18n("javascripts.note.login")));
+            el2.appendChild(el3)
+            el1.appendChild(el2);
+
+            el2 = document.createElement("dt");
+            el2.appendChild(document.createTextNode(i18n("javascripts.note.comment")));
+            el1.appendChild(el2);
+            el2 = document.createElement("dd");
+            var inputComment = document.createElement("textarea");
+            inputComment.setAttribute("cols",40);
             inputComment.setAttribute("rows",3);
-	    
-	    el2.appendChild(inputComment);
-	    el1.appendChild(el2);
-	    
-	    el_form.appendChild(el1);
-            
-	    el1 = document.createElement("ul");
-	    el1.className = "buttons";
-	    el2 = document.createElement("li");
-	    el3 = document.createElement("input");
-	    el3.setAttribute("type", "button");
-            el3.onclick = function(){ this.form.onsubmit(); return false; };
-	    el3.value = i18n("javascripts.note.add_comment");
-	    el2.appendChild(el3);
-	    el1.appendChild(el2);
 
-	    el2 = document.createElement("li");
-	    el3 = document.createElement("input");
-	    el3.setAttribute("type", "button");
-	    el3.onclick = function(){ this.form.onsubmit(); layer.closeNote(id); layer.notes[id].popup.hide(); return false; };
-	    el3.value = i18n("javascripts.note.close");
-	    el2.appendChild(el3);
-	    el1.appendChild(el2);
-	    el_form.appendChild(el1);
-	    containerChange.appendChild(el_form);
+            el2.appendChild(inputComment);
+            el1.appendChild(el2);
 
-	    el1 = document.createElement("div");
-	    el2 = document.createElement("input");
-	    el2.setAttribute("type", "button");
-	    el2.onclick = function(){ displayDescription(); };
-	    el2.value = i18n("javascripts.note.cancel");
-	    el1.appendChild(el2);
-	    containerChange.appendChild(el1);
-	}
-        
-	this.notes[id].popup.setContentHTML(newContent);
+            el_form.appendChild(el1);
+
+            el1 = document.createElement("ul");
+            el1.className = "buttons";
+            el2 = document.createElement("li");
+            el3 = document.createElement("input");
+            el3.setAttribute("type", "button");
+            el3.onclick = function() {
+                this.form.onsubmit();
+                return false;
+            };
+            el3.value = i18n("javascripts.note.add_comment");
+            el2.appendChild(el3);
+            el1.appendChild(el2);
+
+            el2 = document.createElement("li");
+            el3 = document.createElement("input");
+            el3.setAttribute("type", "button");
+            el3.onclick = function() {
+                this.form.onsubmit();
+                layer.closeNote(id);
+                popup.hide();
+                return false;
+            };
+            el3.value = i18n("javascripts.note.close");
+            el2.appendChild(el3);
+            el1.appendChild(el2);
+            el_form.appendChild(el1);
+            containerChange.appendChild(el_form);
+
+            el1 = document.createElement("div");
+            el2 = document.createElement("input");
+            el2.setAttribute("type", "button");
+            el2.onclick = function(){ displayDescription(); };
+            el2.value = i18n("javascripts.note.cancel");
+            el1.appendChild(el2);
+            containerChange.appendChild(el1);
+        }
+
+        popup.setContentHTML(newContent);
     },
 
     /**
@@ -496,15 +469,14 @@ OpenLayers.Layer.Notes = new OpenLayers.Class(OpenLayers.Layer.Markers, {
      * @param String description
      */
     createNote: function(lonlat, description) {
-	this.apiRequest("note/create"
-			+ "?lat="+encodeURIComponent(lonlat.lat)
-			+ "&lon="+encodeURIComponent(lonlat.lon)
-			+ "&text="+encodeURIComponent(description)
-			+ "&name="+encodeURIComponent(this.getUserName())
-			+ "&format=js"
-		       );
+        this.apiRequest("note/create"
+                        + "?lat=" + encodeURIComponent(lonlat.lat)
+                        + "&lon=" + encodeURIComponent(lonlat.lon)
+                        + "&text=" + encodeURIComponent(description)
+                        + "&name=" + encodeURIComponent(this.getUserName())
+                        + "&format=js");
     },
-    
+
     /**
      * Adds a comment to a note.
      *
@@ -512,11 +484,10 @@ OpenLayers.Layer.Notes = new OpenLayers.Class(OpenLayers.Layer.Markers, {
      * @param String comment
      */
     submitComment: function(id, comment) {
-	this.apiRequest("note/"+encodeURIComponent(id)+"/comment"
-			+ "?text="+encodeURIComponent(comment)
-			+ "&name="+encodeURIComponent(this.getUserName())
-			+ "&format=js"
-		       );
+        this.apiRequest("note/" + encodeURIComponent(id) + "/comment"
+                        + "?text=" + encodeURIComponent(comment)
+                        + "&name=" + encodeURIComponent(this.getUserName())
+                        + "&format=js");
     },
 
     /**
@@ -525,99 +496,102 @@ OpenLayers.Layer.Notes = new OpenLayers.Class(OpenLayers.Layer.Markers, {
      * @param Number id
      */
     closeNote: function(id) {
-	this.apiRequest("note/"+encodeURIComponent(id)+"/close"
-			+ "?format=js"
-		       );
+        this.apiRequest("note/" + encodeURIComponent(id) + "/close"
+                        + "?format=js");
     },
-    
+
     /**
      * Removes the content of a marker popup (to reduce the amount of
      * needed resources).
      *
-     * @param Number id
+     * @param OpenLayers.Popup popup
      */
-    resetPopupContent: function(id) {
-	if(!this.notes[id].popup)
-	    return;
-        
-	this.notes[id].popup.setContentHTML(document.createElement("div"));
+    resetPopupContent: function(popup) {
+        if (popup)
+            popup.setContentHTML(document.createElement("div"));
     },
-    
+
     /**
      * Makes the popup of the given marker visible. Makes sure that
      * the popup content is created if it does not exist yet.
      *
-     * @param Number id
+     * @param OpenLayers.Feature feature
      */
-    showPopup: function(id) {
-	var add = null;
-	if(!this.notes[id].popup)
-	{
-	    add = this.notes[id].createPopup(true);
-	    add.events.register("close", this, function(){ this.resetPopupContent(id); if(this.notes[id].noteClicked) this.notes[id].noteClicked = false; });
-	}
-	else if(this.notes[id].popup.visible())
-	    return;
-        
-	this.setPopupContent(id);
-	if(add)
-	    this.map.addPopup(add);
-	this.notes[id].popup.show();
-	this.notes[id].popup.updateSize();
+    showPopup: function(feature) {
+        var popup = feature.popup;
+
+        if (!popup) {
+            popup = feature.createPopup(true);
+
+            popup.events.register("close", this, function() {
+                this.resetPopupContent(popup);
+            });
+        }
+
+        this.setPopupContent(popup, feature.noteId);
+
+        if (!popup.map)
+            this.map.addPopup(popup);
+
+        popup.updateSize();
+
+        if (!popup.visible())
+            popup.show();
     },
-    
+
     /**
      * Hides the popup of the given marker.
      *
-     * @param Number id
+     * @param OpenLayers.Feature feature
      */
-    hidePopup: function(id) {
-	if(!this.notes[id].popup || !this.notes[id].popup.visible())
-	    return;
-        
-	this.notes[id].popup.hide();
-	this.notes[id].popup.events.triggerEvent("close");
+    hidePopup: function(feature) {
+        if (feature.popup && feature.popup.visible()) {
+            feature.popup.hide();
+            feature.popup.events.triggerEvent("close");
+        }
     },
-    
+
     /**
      * Is run on the “click” event of a marker in the context of its
      * OpenLayers.Feature. Toggles the visibility of the popup.
      */
     markerClick: function(e) {
-	var feature = this; // Context is the feature
-        
-	feature.noteClicked = !feature.noteClicked;
-	if(feature.noteClicked)
-	    feature.layer.showPopup(feature.noteId);
-	else
-	    feature.layer.hidePopup(feature.noteId);
-	OpenLayers.Event.stop(e);
+        var feature = this;
+
+        if (feature.popup && feature.popup.visible())
+            feature.layer.hidePopup(feature);
+        else
+            feature.layer.showPopup(feature);
+
+        OpenLayers.Event.stop(e);
     },
-    
+
     /**
      * Is run on the “mouseover” event of a marker in the context of
      * its OpenLayers.Feature. Makes the popup visible.
      */
     markerMouseOver: function(e) {
-	var feature = this; // Context is the feature
-        
-	feature.layer.showPopup(feature.noteId);
-	OpenLayers.Event.stop(e);
+        var feature = this;
+
+        feature.layer.showPopup(feature);
+
+        OpenLayers.Event.stop(e);
     },
-    
+
     /**
      * Is run on the “mouseout” event of a marker in the context of
      * its OpenLayers.Feature. Hides the popup (if it has not been
      * clicked).
      */
     markerMouseOut: function(e) {
-	var feature = this; // Context is the feature
-        
-	if(!feature.noteClicked)
-	    feature.layer.hidePopup(feature.noteId);
-	OpenLayers.Event.stop(e);
+        var feature = this;
+
+        if (feature.popup && feature.popup.visible())
+            feature.layer.hidePopup(feature);
+
+        OpenLayers.Event.stop(e);
     },
-    
+
     CLASS_NAME: "OpenLayers.Layer.Notes"
 });
 
@@ -649,168 +623,168 @@ OpenLayers.Control.Notes = new OpenLayers.Class(OpenLayers.Control, {
      * @param OpenLayers.Layer.Notes noteLayer The Notes layer that this control will be connected to.
      */
     initialize: function(noteLayer, options) {
-	this.noteLayer = noteLayer;
-        
-	this.title = i18n("javascripts.note.create");
-        
-	OpenLayers.Control.prototype.initialize.apply(this, [ options ]);
-        
-	this.events.register("activate", this, function() {
-	    if(!this.noteLayer.getVisibility())
-		this.noteLayer.setVisibility(true);
-	});
-        
-	this.noteLayer.events.register("visibilitychanged", this, function() {
-	    if(this.active && !this.noteLayer.getVisibility())
-		this.noteLayer.setVisibility(true);
-	});
+        this.noteLayer = noteLayer;
+
+        this.title = i18n("javascripts.note.create");
+
+        OpenLayers.Control.prototype.initialize.apply(this, [ options ]);
+
+        this.events.register("activate", this, function() {
+            if(!this.noteLayer.getVisibility())
+                this.noteLayer.setVisibility(true);
+        });
+
+        this.noteLayer.events.register("visibilitychanged", this, function() {
+            if(this.active && !this.noteLayer.getVisibility())
+                this.noteLayer.setVisibility(true);
+        });
     },
-    
+
     destroy: function() {
-	if (this.handler)
-	    this.handler.destroy();
-	this.handler = null;
-        
-	OpenLayers.Control.prototype.destroy.apply(this, arguments);
+        if (this.handler)
+            this.handler.destroy();
+        this.handler = null;
+
+        OpenLayers.Control.prototype.destroy.apply(this, arguments);
     },
-    
+
     draw: function() {
-	this.handler = new OpenLayers.Handler.Click(this, {'click': this.click}, { 'single': true, 'double': false, 'pixelTolerance': 0, 'stopSingle': false, 'stopDouble': false });
+        this.handler = new OpenLayers.Handler.Click(this, {'click': this.click}, { 'single': true, 'double': false, 'pixelTolerance': 0, 'stopSingle': false, 'stopDouble': false });
     },
-    
+
     /**
      * Map clicking event handler. Adds a temporary marker with a
      * popup to the map, the popup contains the form to add a note.
      */
     click: function(e) {
-	var lonlat = this.map.getLonLatFromViewPortPx(e.xy);
-	this.addTemporaryMarker(lonlat);
+        var lonlat = this.map.getLonLatFromViewPortPx(e.xy);
+        this.addTemporaryMarker(lonlat);
     },
-    
+
     addTemporaryMarker: function(lonlat) {
-	if(!this.map) return true;
+        if(!this.map) return true;
 
-	var control = this;
+        var control = this;
         var map = control.map;
-	var lonlatApi = lonlat.clone().transform(map.getProjectionObject(), this.noteLayer.apiProjection);
-	var feature = new OpenLayers.Feature(this.noteLayer, lonlat, { icon: this.icon.clone(), autoSize: true });
-	feature.popupClass = OpenLayers.Popup.FramedCloud.Notes;
-	var marker = feature.createMarker();
-	marker.feature = feature;
-	this.noteLayer.addMarker(marker);
-        
-        
-	/** Implement a drag and drop for markers */
-	/* TODO: veryfy that the scoping of variables works correctly everywhere */		
-	var dragging = false;
-	var dragMove = function(e) {
-	    lonlat = map.getLonLatFromViewPortPx(e.xy);
-	    lonlatApi = lonlat.clone().transform(map.getProjectionObject(), map.noteLayer.apiProjection);
-	    marker.moveTo(map.getLayerPxFromViewPortPx(e.xy));
-	    marker.popup.moveTo(map.getLayerPxFromViewPortPx(e.xy));			
-	    marker.popup.updateRelativePosition();
-	    return false;
-	};
-	var dragComplete = function(e) {
-	    map.events.unregister("mousemove", map, dragMove);
-	    map.events.unregister("mouseup", map, dragComplete);
-            dragMove(e);
-	    dragging = false;
-	    return false;
-	};
+        var lonlatApi = lonlat.clone().transform(map.getProjectionObject(), this.noteLayer.apiProjection);
+        var feature = new OpenLayers.Feature(this.noteLayer, lonlat, { icon: this.icon.clone(), autoSize: true });
+        feature.popupClass = OpenLayers.Popup.FramedCloud.Notes;
+        var marker = feature.createMarker();
+        marker.feature = feature;
+        this.noteLayer.addMarker(marker);
 
-	marker.events.register("mouseover", this, function() {
+
+        /** Implement a drag and drop for markers */
+        /* TODO: veryfy that the scoping of variables works correctly everywhere */
+        var dragging = false;
+        var dragMove = function(e) {
+            lonlat = map.getLonLatFromViewPortPx(e.xy);
+            lonlatApi = lonlat.clone().transform(map.getProjectionObject(), map.noteLayer.apiProjection);
+            marker.moveTo(map.getLayerPxFromViewPortPx(e.xy));
+            marker.popup.moveTo(map.getLayerPxFromViewPortPx(e.xy));
+            marker.popup.updateRelativePosition();
+            return false;
+        };
+        var dragComplete = function(e) {
+            map.events.unregister("mousemove", map, dragMove);
+            map.events.unregister("mouseup", map, dragComplete);
+            dragMove(e);
+            dragging = false;
+            return false;
+        };
+
+        marker.events.register("mouseover", this, function() {
             map.viewPortDiv.style.cursor = "move";
         });
-	marker.events.register("mouseout", this, function() {
+        marker.events.register("mouseout", this, function() {
             if (!dragging)
                 map.viewPortDiv.style.cursor = "default";
         });
-	marker.events.register("mousedown", this, function() {
-	    dragging = true;
+        marker.events.register("mousedown", this, function() {
+            dragging = true;
             map.events.register("mousemove", map, dragMove);
             map.events.register("mouseup", map, dragComplete);
             return false;
         });
 
-	var newContent = document.createElement("div");
-	var el1,el2,el3;
-	el1 = document.createElement("h3");
-	el1.appendChild(document.createTextNode(i18n("javascripts.note.create_title")));
-	newContent.appendChild(el1);
-	newContent.appendChild(document.createTextNode(i18n("javascripts.note.create_help1")));
-	newContent.appendChild(document.createElement("br"));
-	newContent.appendChild(document.createTextNode(i18n("javascripts.note.create_help2")));
-	newContent.appendChild(document.createElement("br"));
-	newContent.appendChild(document.createElement("br"));
-        
-	var el_form = document.createElement("form");
-        
-	el1 = document.createElement("dl");
-	el2 = document.createElement("dt");
-	el2.appendChild(document.createTextNode(i18n("javascripts.note.nickname")));
-	el1.appendChild(el2);
-	el2 = document.createElement("dd");
-	var inputUsername = document.createElement("input");;
-	if (typeof loginName === 'undefined') {
-	    inputUsername.value = this.noteLayer.username;
-	} else {
-	    inputUsername.value = loginName;
-	    inputUsername.setAttribute('disabled','true');
-	}		
-	inputUsername.className = "osbUsername";
-	
-	inputUsername.onkeyup = function(){ control.noteLayer.setUserName(inputUsername.value); };
-	el2.appendChild(inputUsername);
-	el3 = document.createElement("a");
-	el3.setAttribute("href","login");
-	el3.className = "hide_if_logged_in";
-	el3.appendChild(document.createTextNode(i18n("javascripts.note.login")));
-	el2.appendChild(el3);
-	el1.appendChild(el2);
-	el2 = document.createElement("br");
+        var newContent = document.createElement("div");
+        var el1,el2,el3;
+        el1 = document.createElement("h3");
+        el1.appendChild(document.createTextNode(i18n("javascripts.note.create_title")));
+        newContent.appendChild(el1);
+        newContent.appendChild(document.createTextNode(i18n("javascripts.note.create_help1")));
+        newContent.appendChild(document.createElement("br"));
+        newContent.appendChild(document.createTextNode(i18n("javascripts.note.create_help2")));
+        newContent.appendChild(document.createElement("br"));
+        newContent.appendChild(document.createElement("br"));
+
+        var el_form = document.createElement("form");
+
+        el1 = document.createElement("dl");
+        el2 = document.createElement("dt");
+        el2.appendChild(document.createTextNode(i18n("javascripts.note.nickname")));
         el1.appendChild(el2);
-        
-	el2 = document.createElement("dt");
-	el2.appendChild(document.createTextNode(i18n("javascripts.note.description")));
-	el1.appendChild(el2);
-	el2 = document.createElement("dd");
-	var inputDescription = document.createElement("textarea");
-	inputDescription.setAttribute("cols",40);
-	inputDescription.setAttribute("rows",3);
-	el2.appendChild(inputDescription);
-	el1.appendChild(el2);
-	el_form.appendChild(el1);
-        
-	el1 = document.createElement("div");
-	el2 = document.createElement("input");
-	el2.setAttribute("type", "button");
-	el2.value = i18n("javascripts.note.report");
+        el2 = document.createElement("dd");
+        var inputUsername = document.createElement("input");;
+        if (typeof loginName === 'undefined') {
+            inputUsername.value = this.noteLayer.username;
+        } else {
+            inputUsername.value = loginName;
+            inputUsername.setAttribute('disabled','true');
+        }
+        inputUsername.className = "username";
+
+        inputUsername.onkeyup = function(){ control.noteLayer.setUserName(inputUsername.value); };
+        el2.appendChild(inputUsername);
+        el3 = document.createElement("a");
+        el3.setAttribute("href","login");
+        el3.className = "hide_if_logged_in";
+        el3.appendChild(document.createTextNode(i18n("javascripts.note.login")));
+        el2.appendChild(el3);
+        el1.appendChild(el2);
+        el2 = document.createElement("br");
+        el1.appendChild(el2);
+
+        el2 = document.createElement("dt");
+        el2.appendChild(document.createTextNode(i18n("javascripts.note.description")));
+        el1.appendChild(el2);
+        el2 = document.createElement("dd");
+        var inputDescription = document.createElement("textarea");
+        inputDescription.setAttribute("cols",40);
+        inputDescription.setAttribute("rows",3);
+        el2.appendChild(inputDescription);
+        el1.appendChild(el2);
+        el_form.appendChild(el1);
+
+        el1 = document.createElement("div");
+        el2 = document.createElement("input");
+        el2.setAttribute("type", "button");
+        el2.value = i18n("javascripts.note.report");
         el2.onclick = function() { control.noteLayer.createNote(lonlatApi, inputDescription.value); marker.feature = null; feature.destroy(); return false; };
-	el1.appendChild(el2);
-	el2 = document.createElement("input");
-	el2.setAttribute("type", "button");
-	el2.value = i18n("javascripts.note.cancel");
-	el2.onclick = function(){ feature.destroy(); };
-	el1.appendChild(el2);
-	el_form.appendChild(el1);
-	newContent.appendChild(el_form);
-        
-	el2 = document.createElement("hr");
-	el1.appendChild(el2);
-	el2 = document.createElement("a");
-	el2.setAttribute("href","edit");
-	el2.appendChild(document.createTextNode(i18n("javascripts.note.edityourself")));
-	el1.appendChild(el2);
-        
-	feature.data.popupContentHTML = newContent;
-	var popup = feature.createPopup(true);
-	popup.events.register("close", this, function(){ feature.destroy(); });
-	map.addPopup(popup);
-	popup.updateSize();
-	marker.popup = popup;
+        el1.appendChild(el2);
+        el2 = document.createElement("input");
+        el2.setAttribute("type", "button");
+        el2.value = i18n("javascripts.note.cancel");
+        el2.onclick = function(){ feature.destroy(); };
+        el1.appendChild(el2);
+        el_form.appendChild(el1);
+        newContent.appendChild(el_form);
+
+        el2 = document.createElement("hr");
+        el1.appendChild(el2);
+        el2 = document.createElement("a");
+        el2.setAttribute("href","edit");
+        el2.appendChild(document.createTextNode(i18n("javascripts.note.edityourself")));
+        el1.appendChild(el2);
+
+        feature.data.popupContentHTML = newContent;
+        var popup = feature.createPopup(true);
+        popup.events.register("close", this, function(){ feature.destroy(); });
+        map.addPopup(popup);
+        popup.updateSize();
+        marker.popup = popup;
     },
-    
+
     CLASS_NAME: "OpenLayers.Control.Notes"
 });
 
@@ -824,63 +798,63 @@ OpenLayers.Control.Notes = new OpenLayers.Class(OpenLayers.Control, {
 OpenLayers.Popup.FramedCloud.Notes = new OpenLayers.Class(OpenLayers.Popup.FramedCloud, {
     contentDom : null,
     autoSize : true,
-    
+
     /**
      * See OpenLayers.Popup.FramedCloud.initialize() for
      * parameters. As fourth parameter, pass a DOM node instead of a
      * string.
      */
     initialize: function() {
-	this.displayClass = this.displayClass + " " + this.CLASS_NAME.replace("OpenLayers.", "ol").replace(/\./g, "");
-        
-	var args = new Array(arguments.length);
-	for(var i=0; i<arguments.length; i++)
-	    args[i] = arguments[i];
-        
-	// Unset original contentHTML parameter
-	args[3] = null;
-        
-	var closeCallback = arguments[6];
-        
-	// Add close event trigger to the closeBoxCallback parameter
-	args[6] = function(e){ if(closeCallback) closeCallback(); else this.hide(); OpenLayers.Event.stop(e); this.events.triggerEvent("close"); };
-        
-	OpenLayers.Popup.FramedCloud.prototype.initialize.apply(this, args);
-        
-	this.events.addEventType("close");
-        
-	this.setContentHTML(arguments[3]);
+        this.displayClass = this.displayClass + " " + this.CLASS_NAME.replace("OpenLayers.", "ol").replace(/\./g, "");
+
+        var args = new Array(arguments.length);
+        for(var i=0; i<arguments.length; i++)
+            args[i] = arguments[i];
+
+        // Unset original contentHTML parameter
+        args[3] = null;
+
+        var closeCallback = arguments[6];
+
+        // Add close event trigger to the closeBoxCallback parameter
+        args[6] = function(e){ if(closeCallback) closeCallback(); else this.hide(); OpenLayers.Event.stop(e); this.events.triggerEvent("close"); };
+
+        OpenLayers.Popup.FramedCloud.prototype.initialize.apply(this, args);
+
+        this.events.addEventType("close");
+
+        this.setContentHTML(arguments[3]);
     },
-    
+
     /**
      * Like OpenLayers.Popup.FramedCloud.setContentHTML(), but takes a
      * DOM element as parameter.
      */
     setContentHTML: function(contentDom) {
-	if(contentDom != null)
-	    this.contentDom = contentDom;
-        
-	if(this.contentDiv == null || this.contentDom == null || this.contentDom == this.contentDiv.firstChild)
-	    return;
-        
-	while(this.contentDiv.firstChild)
-	    this.contentDiv.removeChild(this.contentDiv.firstChild);
-        
-	this.contentDiv.appendChild(this.contentDom);
-        
-	// Copied from OpenLayers.Popup.setContentHTML():
-	if(this.autoSize)
-	{
-	    this.registerImageListeners();
-	    this.updateSize();
-	}
+        if(contentDom != null)
+            this.contentDom = contentDom;
+
+        if(this.contentDiv == null || this.contentDom == null || this.contentDom == this.contentDiv.firstChild)
+            return;
+
+        while(this.contentDiv.firstChild)
+            this.contentDiv.removeChild(this.contentDiv.firstChild);
+
+        this.contentDiv.appendChild(this.contentDom);
+
+        // Copied from OpenLayers.Popup.setContentHTML():
+        if(this.autoSize)
+        {
+            this.registerImageListeners();
+            this.updateSize();
+        }
     },
-    
+
     destroy: function() {
-	this.contentDom = null;
-	OpenLayers.Popup.FramedCloud.prototype.destroy.apply(this, arguments);
+        this.contentDom = null;
+        OpenLayers.Popup.FramedCloud.prototype.destroy.apply(this, arguments);
     },
-    
+
     CLASS_NAME: "OpenLayers.Popup.FramedCloud.Notes"
 });
 
@@ -898,14 +872,14 @@ function putAJAXMarker(id, lon, lat, text, closed)
 {
     var comments = text.split(/<hr \/>/);
     for(var i=0; i<comments.length; i++)
-	comments[i] = comments[i].replace(/&quot;/g, "\"").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
+        comments[i] = comments[i].replace(/&quot;/g, "\"").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
     putAJAXMarker.notes[id] = [
-	new OpenLayers.LonLat(lon, lat),
-	comments,
-	closed
+        new OpenLayers.LonLat(lon, lat),
+        comments,
+        closed
     ];
     for(var i=0; i<putAJAXMarker.layers.length; i++)
-	putAJAXMarker.layers[i].createMarker(id);
+        putAJAXMarker.layers[i].createMarker(id);
 }
 
 /**
@@ -922,10 +896,10 @@ function putAJAXMarker(id, lon, lat, text, closed)
 function osbResponse(error)
 {
     if(error)
-	alert("Error: "+error);
-    
+        alert("Error: "+error);
+
     for(var i=0; i<putAJAXMarker.layers.length; i++)
-	putAJAXMarker.layers[i].loadNotes();
+        putAJAXMarker.layers[i].loadNotes();
 }
 
 putAJAXMarker.layers = [ ];
