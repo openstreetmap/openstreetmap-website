@@ -51,6 +51,13 @@ OpenLayers.Layer.Notes = new OpenLayers.Class(OpenLayers.Layer.Markers, {
     iconClosed : new OpenLayers.Icon("/images/closed_note_marker.png", new OpenLayers.Size(22, 22), new OpenLayers.Pixel(-11, -11)),
 
     /**
+     * The icon to be used when adding a new note.
+     *
+     * @var OpenLayers.Icon
+     */
+    iconNew : new OpenLayers.Icon("/images/new_note_marker.png", new OpenLayers.Size(22, 22), new OpenLayers.Pixel(-11, -11)),
+
+    /**
      * The projection of the coordinates sent by the OpenStreetMap API.
      *
      * @var OpenLayers.Projection
@@ -592,86 +599,18 @@ OpenLayers.Layer.Notes = new OpenLayers.Class(OpenLayers.Layer.Markers, {
         OpenLayers.Event.stop(e);
     },
 
-    CLASS_NAME: "OpenLayers.Layer.Notes"
-});
-
-/**
- * An OpenLayers control to create new notes on mouse clicks on the
- * map. Add an instance of this to your map using the
- * OpenLayers.Map.addControl() method and activate() it.
- */
-OpenLayers.Control.Notes = new OpenLayers.Class(OpenLayers.Control, {
-    title : null, // See below because of translation call
-
     /**
-     * The icon to be used for the temporary markers that the “create
-     * note” popup belongs to..
-     *
-     * @var OpenLayers.Icon
+     * Add a new note.
      */
-    icon : new OpenLayers.Icon("/images/icon_note_add.png", new OpenLayers.Size(22, 22), new OpenLayers.Pixel(-11, -11)),
-
-    /**
-     * An instance of the Notes layer that this control shall be
-     * connected to. Is set in the constructor.
-     *
-     * @var OpenLayers.Layer.Notes
-     */
-    noteLayer : null,
-
-    /**
-     * @param OpenLayers.Layer.Notes noteLayer The Notes layer that this control will be connected to.
-     */
-    initialize: function(noteLayer, options) {
-        this.noteLayer = noteLayer;
-
-        this.title = i18n("javascripts.note.create");
-
-        OpenLayers.Control.prototype.initialize.apply(this, [ options ]);
-
-        this.events.register("activate", this, function() {
-            if(!this.noteLayer.getVisibility())
-                this.noteLayer.setVisibility(true);
-        });
-
-        this.noteLayer.events.register("visibilitychanged", this, function() {
-            if(this.active && !this.noteLayer.getVisibility())
-                this.noteLayer.setVisibility(true);
-        });
-    },
-
-    destroy: function() {
-        if (this.handler)
-            this.handler.destroy();
-        this.handler = null;
-
-        OpenLayers.Control.prototype.destroy.apply(this, arguments);
-    },
-
-    draw: function() {
-        this.handler = new OpenLayers.Handler.Click(this, {'click': this.click}, { 'single': true, 'double': false, 'pixelTolerance': 0, 'stopSingle': false, 'stopDouble': false });
-    },
-
-    /**
-     * Map clicking event handler. Adds a temporary marker with a
-     * popup to the map, the popup contains the form to add a note.
-     */
-    click: function(e) {
-        var lonlat = this.map.getLonLatFromViewPortPx(e.xy);
-        this.addTemporaryMarker(lonlat);
-    },
-
-    addTemporaryMarker: function(lonlat) {
-        if(!this.map) return true;
-
-        var control = this;
-        var map = control.map;
-        var lonlatApi = lonlat.clone().transform(map.getProjectionObject(), this.noteLayer.apiProjection);
-        var feature = new OpenLayers.Feature(this.noteLayer, lonlat, { icon: this.icon.clone(), autoSize: true });
+    addNote: function(lonlat) {
+        var layer = this;
+        var map = this.map;
+        var lonlatApi = lonlat.clone().transform(map.getProjectionObject(), this.apiProjection);
+        var feature = new OpenLayers.Feature(this, lonlat, { icon: this.iconNew.clone(), autoSize: true });
         feature.popupClass = OpenLayers.Popup.FramedCloud.Notes;
         var marker = feature.createMarker();
         marker.feature = feature;
-        this.noteLayer.addMarker(marker);
+        this.addMarker(marker);
 
 
         /** Implement a drag and drop for markers */
@@ -727,14 +666,16 @@ OpenLayers.Control.Notes = new OpenLayers.Class(OpenLayers.Control, {
         el2 = document.createElement("dd");
         var inputUsername = document.createElement("input");;
         if (typeof loginName === 'undefined') {
-            inputUsername.value = this.noteLayer.username;
+            inputUsername.value = this.username;
         } else {
             inputUsername.value = loginName;
             inputUsername.setAttribute('disabled','true');
         }
         inputUsername.className = "username";
 
-        inputUsername.onkeyup = function(){ control.noteLayer.setUserName(inputUsername.value); };
+        inputUsername.onkeyup = function() {
+            this.setUserName(inputUsername.value);
+        };
         el2.appendChild(inputUsername);
         el3 = document.createElement("a");
         el3.setAttribute("href","login");
@@ -760,7 +701,12 @@ OpenLayers.Control.Notes = new OpenLayers.Class(OpenLayers.Control, {
         el2 = document.createElement("input");
         el2.setAttribute("type", "button");
         el2.value = i18n("javascripts.note.report");
-        el2.onclick = function() { control.noteLayer.createNote(lonlatApi, inputDescription.value); marker.feature = null; feature.destroy(); return false; };
+        el2.onclick = function() {
+            layer.createNote(lonlatApi, inputDescription.value);
+            marker.feature = null;
+            feature.destroy();
+            return false;
+        };
         el1.appendChild(el2);
         el2 = document.createElement("input");
         el2.setAttribute("type", "button");
@@ -779,13 +725,15 @@ OpenLayers.Control.Notes = new OpenLayers.Class(OpenLayers.Control, {
 
         feature.data.popupContentHTML = newContent;
         var popup = feature.createPopup(true);
-        popup.events.register("close", this, function(){ feature.destroy(); });
+        popup.events.register("close", this, function() {
+            feature.destroy();
+        });
         map.addPopup(popup);
         popup.updateSize();
         marker.popup = popup;
     },
 
-    CLASS_NAME: "OpenLayers.Control.Notes"
+    CLASS_NAME: "OpenLayers.Layer.Notes"
 });
 
 

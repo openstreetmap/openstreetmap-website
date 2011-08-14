@@ -153,9 +153,6 @@ end
       });
       map.addLayer(map.noteLayer);
 
-      map.noteControl = new OpenLayers.Control.Notes(map.noteLayer); 
-      map.addControl(map.noteControl);
-
       $("createnoteanchor").observe("click", addNote);
 
       map.events.register("zoomend", map, allowNoteReports);
@@ -288,7 +285,7 @@ end
   }
 
   function addNote() {
-    map.noteControl.addTemporaryMarker(map.getCenter());
+    map.noteLayer.addNote(map.getCenter());
   }
 
   function allowNoteReports() { 
