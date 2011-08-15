@@ -99,6 +99,7 @@ nds:
       data_frame_title: Daten
       data_layer_name: Daten
       details: Details
+      hide_areas: Rebeden versteken
       history_for_feature: Geschicht för [[feature]]
       loading: An’t Laden...
       object_list: 
@@ -116,8 +117,12 @@ nds:
           node: Knütt
           way: Weg
       private_user: anonym Bruker
+      show_areas: Rebeden wiesen
       show_history: Geschicht wiesen
       wait: Tööv en Stoot...
+    timeout: 
+      type: 
+        way: Weg
     way: 
       download: "%{download_xml_link}, %{view_history_link} oder %{edit_link}"
       download_xml: XML dalladen
@@ -139,7 +144,7 @@ nds:
       no_edits: (keen Ännern)
       still_editing: (noch an’t Ännern)
     changeset_paging_nav: 
-      showing_page: an’t Sied weddergeven
+      showing_page: Sied %{page}
     changesets: 
       area: Rebeed
       comment: Kommentar
@@ -172,6 +177,9 @@ nds:
       recent_entries: Jüngste Dagbook-Indrääg
       title: Bruker-Dagböker
       user_title: "%{user} sien Dagbook"
+    location: 
+      edit: Ännern
+      view: Ankieken
     new: 
       title: Ne’en Dagbook-Indrag
     no_such_entry: 
@@ -204,6 +212,10 @@ nds:
       view_larger_map: Grötter Koort wiesen
   geocoder: 
     description: 
+      title: 
+        geonames: Steed von <a href="http://www.geonames.org/">GeoNames</a>
+        osm_namefinder: "%{types} von <a href=\"http://gazetteer.openstreetmap.org/namefinder/\">OpenStreetMap Namefinder</a>"
+        osm_nominatim: Steed von <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
       types: 
         cities: Städer
         places: Öörd
@@ -224,20 +236,318 @@ nds:
       other: üm un bi %{count} km
       zero: ünner 1 km
     results: 
+      more_results: Mehr
       no_results: nix funnen
     search_osm_namefinder: 
       suffix_parent: "%{suffix} (%{parentdistance} %{parentdirection} von %{parentname})"
       suffix_place: ", %{distance} %{direction} von %{placename}"
+    search_osm_nominatim: 
+      prefix: 
+        amenity: 
+          airport: Flegerhaven
+          arts_centre: Kunstcenter
+          atm: Geldautomaat
+          auditorium: Auditorium
+          bank: Bank
+          bar: Bar
+          bench: Bank
+          bicycle_parking: Rad-Parkplatz
+          brothel: Bordell
+          bureau_de_change: Wesselkontoor
+          cafe: Café
+          car_rental: Auto-Utlehner
+          car_wash: Autowaschstraat
+          casino: Kasino
+          cinema: Kino
+          clinic: Krankenhuus
+          club: Club
+          college: Hoogschool
+          courthouse: Gericht
+          crematorium: Krematorium
+          dentist: Tähndokter
+          doctors: Dokter
+          dormitory: Studentenhuus
+          drinking_water: Drinkwater
+          driving_school: Fohrschool
+          embassy: Baadschop
+          emergency_phone: Noodtelefoon
+          fast_food: Fast Food
+          ferry_terminal: Fährterminal
+          fire_hydrant: Hydrant
+          fire_station: Füürwehr
+          fountain: Fontään
+          fuel: Tanksteed
+          grave_yard: Karkhoff
+          gym: Fitnesscenter
+          hall: Hall
+          hospital: Krankenhuus
+          hotel: Hotel
+          hunting_stand: Hoogstand
+          ice_cream: Iesladen
+          kindergarten: Kinnergoorn
+          library: Bökeree
+          market: Markt
+          marketplace: Marktplatz
+          nightclub: Nachtclub
+          nursery: Kita
+          nursing_home: Pleeghuus
+          office: Kontoor
+          park: Park
+          parking: Parkplatz
+          pharmacy: Avtheek
+          police: Polizei
+          post_box: Postkassen
+          post_office: Postamt
+          preschool: Vörschool
+          prison: Gefängnis
+          pub: Kroog
+          restaurant: Restaurant
+          retirement_home: Olenhuus
+          sauna: Sauna
+          school: School
+          shelter: Schuulruum
+          shop: Laden
+          shopping: Ladens
+          social_club: Sozialvereen
+          studio: Eenkamer-Appartement
+          supermarket: Supermarkt
+          taxi: Taxi
+          theatre: Theater
+          toilets: Toiletten
+          university: Universität
+          village_hall: Gemeendehuus
+          wifi: Wifi-Togang
+          youth_centre: Jöögdcenter
+        building: 
+          apartments: Wahnblock
+          bunker: Bunker
+          chapel: Kapell
+          church: Kark
+          city_hall: Raadhuus
+          dormitory: Studentenhuus
+          farm: Buuree-Bowark
+          flats: Wahnungen
+          garage: Garaasch
+          hall: Hall
+          hospital: Krankenhuus
+          hotel: Hotel
+          house: Huus
+          industrial: Industriebowark
+          public: Apenboor Bowark
+          residential: Wahnhuus
+          school: School-Bowark
+          shop: Laden
+          stadium: Stadion
+          store: Laden
+          terrace: Terrass
+          tower: Toorn
+        highway: 
+          bridleway: Riedpadd
+          bus_stop: Busstopp
+          byway: Siedenweg
+          cycleway: Radweg
+          footway: Footpadd
+          ford: Foord
+          gate: Heck
+          living_street: Wahnstraat
+          minor: Blangenstraat
+          motorway: Autobahn
+          motorway_junction: Autobahnkrüüz
+          motorway_link: Autobahnopfohrt
+          path: Padd
+          pedestrian: Footpadd
+          platform: Plattform
+          raceway: Rennbahn
+          residential: Wahnstraat
+          road: Straat
+          steps: Trepp
+          stile: Stegel
+          track: Feldweg
+          trail: Padd
+        historic: 
+          building: Bowark
+          castle: Slott
+          church: Kark
+          house: Huus
+          memorial: Gedenksteed
+          mine: Mien
+          monument: Monument
+          museum: Museum
+          ruins: Ruinen
+          tower: Toorn
+          wreck: Wrack
+        landuse: 
+          basin: Becken
+          cemetery: Karkhoff
+          farm: Buurhoff
+          farmland: Ackerland
+          farmyard: Buurhoff
+          forest: Woold
+          grass: Gras
+          industrial: Industrierebeed
+          landfill: Deponie
+          meadow: Wisch
+          military: Militärrebeed
+          mine: Mien
+          mountain: Barg
+          park: Park
+          piste: Piste
+          plaza: Platz
+          quarry: Steenkuhl
+          reservoir: Reservoir
+          residential: Wahnrebeed
+          vineyard: Wiengoorn
+          wood: Holt
+        leisure: 
+          common: Buurmeen
+          garden: Goorn
+          golf_course: Golfbahn
+          ice_rink: Iesbahn
+          marina: Jachthaven
+          miniature_golf: Minigolf
+          park: Park
+          playground: Speelplatz
+          slipway: Slipphelling
+          sports_centre: Sportzentrum
+          stadium: Stadion
+          water_park: Waterpark
+        natural: 
+          bay: Bucht
+          beach: Strand
+          cape: Kap
+          cave_entrance: Höhleningang
+          channel: Kanaal
+          coastline: Küstenlien
+          crater: Krater
+          fell: Fjell
+          fjord: Fjord
+          geyser: Geiser
+          glacier: Gletscher
+          heath: Heid
+          hill: lütt Barg
+          island: Eiland
+          land: Land
+          marsh: Moor
+          moor: Moor
+          mud: Mudd
+          peak: Bargtopp
+          reef: Riff
+          ridge: Bargkamm
+          river: Stroom
+          rock: Steen
+          scrub: Krattbusch
+          shoal: Sandbank
+          spring: Born
+          strait: Straat
+          tree: Boom
+          valley: Daal
+          volcano: Vulkaan
+          water: Water
+          wood: Woold
+        place: 
+          airport: Flegerhaven
+          city: Stadt
+          country: Land
+          county: Distrikt
+          farm: Buurhoff
+          hamlet: Drubbel
+          house: Huus
+          houses: Hüüs
+          island: Eiland
+          islet: lütt Eiland
+          moor: Moor
+          municipality: Gemeen
+          sea: See
+          state: Staat
+          suburb: Vöroort
+          town: Stadt
+          village: Dörp
+        railway: 
+          abandoned: Opgeven Iesenbahn
+          funicular: Seelbahn
+          monorail: Monorail
+          tram: Stratenbahn
+          tram_stop: Stratenbahn-Stopp
+        shop: 
+          art: Kunstladen
+          bakery: Bäckeree
+          bicycle: Radladen
+          books: Bookladen
+          butcher: Slachter
+          car: Autohuus
+          car_dealer: Autoverköper
+          car_repair: Autowarksteed
+          chemist: Avtheek
+          computer: Computerladen
+          cosmetics: Kosmetikladen
+          drugstore: Drogeree
+          fish: Fischhöker
+          florist: Blomenladen
+          furniture: Möbelladen
+          gallery: Galerie
+          garden_centre: Goorncenter
+          gift: Geschenkladen
+          greengrocer: Gröönhöker
+          hairdresser: Putzbüdel
+          insurance: Versekerung
+          jewelry: Juwelier
+          kiosk: Kiosk
+          laundry: Wäscheree
+          mall: Inkööpcenter
+          market: Markt
+          motorcycle: Motoorradladen
+          newsagent: Kiosk
+          optician: Optiker
+          photo: Fotoladen
+          salon: Salon
+          shoes: Schohladen
+          supermarket: Supermarkt
+          toys: Speeltüügladen
+        tourism: 
+          alpine_hut: Barghütt
+          artwork: Kunst
+          cabin: Hütt
+          guest_house: Gasthuus
+          hostel: Jöögdharbarg
+          hotel: Hotel
+          motel: Motel
+          museum: Museum
+          valley: Daal
+          zoo: Zoo
+        waterway: 
+          canal: Kanaal
+          dam: Damm
+          derelict_canal: Opgeven Kanaal
+          ditch: Sloot
+          dock: Dock
+          lock: Slüüs
+          lock_gate: Slüsendoor
+          mineral_spring: Mineralborn
+          river: Stroom
+          riverbank: Stroomöver
+          stream: Beek
+          wadi: Wadi
+          waterfall: Waterfall
+          weir: Wehr
   javascripts: 
     map: 
       base: 
+        cycle_map: Radkoort
         noname: KeenNaam
+    site: 
+      edit_tooltip: Koort ännern
   layouts: 
     donate_link_text: Spennen
     edit: Ännern
     export: Export
     export_tooltip: Koortendaten exporteren
+    help: Hülp
+    help_centre: Hülpcenter
     history: Geschicht
+    intro_1: OpenStreetMap is en fre’e, ännerbore Koort von hele Welt, de von Minschen jüst as du tohoopstellt warrt.
+    intro_2: Mit OpenStreetMap kannst du geograafsche Daten op de ganze Welt ankieken, gemeensaam ännern un bruken.
+    intro_3: Dat Hosting von de OpenStreetMap-Servers warrt ünnerstütt von %{ucl}, %{ic} un %{bytemark}. Annere Partners staht op de Sied %{partners}.
+    intro_3_partners: Wiki
     log_in: anmellen
     log_in_tooltip: Mit dien Brukerkonto anmellen
     logo: 
@@ -250,9 +560,13 @@ nds:
     user_diaries: Bruker-Dagböker
     user_diaries_tooltip: Bruker-Dagböker wiesen
     view: ankieken
-    view_tooltip: Koorten ankieken
+    view_tooltip: Koort wiesen
     welcome_user: Willkamen, %{user_link}
     welcome_user_link_tooltip: Dien Brukersied
+    wiki: Wiki
+  license_page: 
+    native: 
+      title: Över disse Sied
   message: 
     delete: 
       deleted: Naricht wegdaan
@@ -304,6 +618,8 @@ nds:
       greeting: Moin,
     message_notification: 
       hi: Moin %{to_user},
+    signup_confirm_html: 
+      greeting: Moin!
     signup_confirm_plain: 
       greeting: Moin!
   oauth_clients: 
@@ -391,10 +707,14 @@ nds:
           wood: Woold
     search: 
       search: Söken
+      search_help: "Bispelen: „Auerk“, „Reeperbahn, Hamborg“, „CB2 5AQ“, oder „post offices near Lünen“ <a href='http://wiki.openstreetmap.org/wiki/Search'>mehr Bispelen…</a>"
       submit_text: Los
       where_am_i: Woneem bün ik?
     sidebar: 
       close: Sluten
+  time: 
+    formats: 
+      friendly: "%e. %B %Y üm %H:%M"
   trace: 
     edit: 
       description: "Beschrieven:"
@@ -439,10 +759,14 @@ nds:
   user: 
     account: 
       email never displayed publicly: (nich apen wiesen)
+      image: "Bild:"
       latitude: "Bredengraad:"
       longitude: "Längengraad:"
       make edits public button: All mien Ännern apen wiesen
+      new image: Bild tofögen
       no home location: Du hest dien Standoort nich angeven.
+      openid: 
+        openid: OpenID
       public editing: 
         disabled link text: Worüm kann ik nix ännern?
         enabled link text: Wat is dat?
@@ -466,6 +790,7 @@ nds:
       failed: Dat hett nich klappt,  %{name} as Fründ totofögen.
       success: "%{name} ist nu dien Fründ."
     new: 
+      continue: Wieder
       display name: "wiest Brukernaam:"
       email address: "E-Mail-Adress:"
       heading: Brukerkonto opstellen
@@ -475,6 +800,7 @@ nds:
       heading: Den Bruker %{user} gifft dat nich
       title: Bruker nich funnen
     popup: 
+      friend: Fründ
       nearby mapper: Koortenmaker in de Neegd
       your location: Dien Standoort
     remove_friend: 
@@ -500,7 +826,7 @@ nds:
       mapper since: "Koortenmaker sied:"
       my diary: mien Dagbook
       my edits: mien Ännern
-      nearby users: "Brukers in de Neegd:"
+      nearby users: Annere Brukers in de Neegd
       new diary entry: Nee Dagbook-Indrag
       remove as friend: as Fründ rutnehmen
       send message: Naricht sennen
@@ -511,4 +837,5 @@ nds:
       show: Wiesen
     show: 
       edit: Ännern
+      show: Wiesen
       status: Status
