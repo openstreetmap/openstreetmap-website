@@ -59,7 +59,7 @@
     <tr>
       <td></td>
       <td>
-        <span id="openid_prompt" class="minorNote"><%= link_to_function(t('user.new.use openid', :logo => openid_logo)) { |page| page.hide 'openid_prompt'; page.show 'openid_spacer', 'openid_field', 'openid_note' } %></span>
+        <span id="openid_prompt" class="minorNote"><%= link_to_function(t('user.new.use openid', :logo => openid_logo), "enableOpenID()") %></span>
         <span id="openid_note" class="minorNote"><%= t 'user.new.openid no password' %></span>
       </td>
     </tr>
@@ -73,17 +73,35 @@
   </table>
 <% end %>
 
-<%=
-  update_page_tag do |page|
-    if params[:openid] or (@user and @user.openid_url and not @user.openid_url.empty?)
-      page[:openid_prompt].hide
-    else
-      page[:openid_spacer].hide
-      page[:openid_field].hide
-      page[:openid_note].hide
-    end
-  end
-%>
+<script type="text/javascript">
+function enableOpenID()
+{
+  $("openid_prompt").hide();
+
+  $("openid_spacer").show();
+  $("openid_field").show();
+  $("openid_note").show();
+
+  $("openid_url").disabled = false;
+}
+
+function disableOpenID()
+{
+  $("openid_prompt").show();
+
+  $("openid_spacer").hide();
+  $("openid_field").hide();
+  $("openid_note").hide();
+
+  $("openid_url").disabled = true;
+}
+
+<% if params[:openid] or (@user and @user.openid_url and not @user.openid_url.empty?) -%>
+enableOpenID();
+<% else -%>
+disableOpenID();
+<% end -%>
+</script>
 
 <%= javascript_include_tag 'https://ethnio.com/remotes/62786' %>
 
