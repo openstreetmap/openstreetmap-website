@@ -16,7 +16,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     #print @response.body
     
     #print @response.to_yaml
-    assert_select "html:root", :count => 1 do
+    assert_select "html", :count => 1 do
       assert_select "head", :count => 1 do
         assert_select "title", :text => /New Diary Entry/, :count => 1
       end
@@ -52,7 +52,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     # Verify that you get a not found error, when you don't pass an id
     get(:edit, nil, {'user' => users(:normal_user).id})
     assert_response :not_found
-    assert_select "html:root", :count => 1 do
+    assert_select "html", :count => 1 do
       assert_select "body", :count => 1 do
         assert_select "div#content", :count => 1 do
           assert_select "h2", :text => "No entry with the id:", :count => 1 
@@ -64,7 +64,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     # user as the person who created the entry
     get(:edit, {:id => diary_entries(:normal_user_entry_1).id}, {'user' => users(:normal_user).id})
     assert_response :success
-    assert_select "html:root", :count => 1 do
+    assert_select "html", :count => 1 do
       assert_select "head", :count => 1 do
         assert_select "title", :text => /Edit diary entry/, :count => 1
       end
@@ -101,7 +101,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     get :view, {:id => diary_entries(:normal_user_entry_1).id, :display_name => 'test'}, {'user' => users(:normal_user).id}
     assert_response :success
     assert_template 'diary_entry/view'
-    assert_select "html:root", :count => 1 do
+    assert_select "html", :count => 1 do
       assert_select "head", :count => 1 do
         assert_select "title", :text => /Users' diaries | /, :count => 1
       end
@@ -124,7 +124,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     get :view, {:id => diary_entries(:normal_user_entry_1).id, :display_name => 'test'}, {'user' => users(:public_user).id}
     assert_response :success
     assert_template 'diary_entry/view'
-    assert_select "html:root", :count => 1 do
+    assert_select "html", :count => 1 do
       assert_select "head", :count => 1 do
         assert_select "title", :text => /Users' diaries | /, :count => 1
       end
@@ -179,7 +179,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
   def test_rss
     get :rss
     assert_response :success, "Should be able to get a diary RSS"
-    assert_select "rss:root", :count => 1 do
+    assert_select "rss", :count => 1 do
       assert_select "channel", :count => 1 do
         assert_select "channel>title", :count => 1
         assert_select "image", :count => 1
