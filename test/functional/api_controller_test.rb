@@ -37,7 +37,7 @@ class ApiControllerTest < ActionController::TestCase
       print @response.body
     end
     assert_response :success, "Expected scucess with the map call"
-    assert_select "osm[version='#{API_VERSION}'][generator='#{GENERATOR}']:root", :count => 1 do
+    assert_select "osm[version='#{API_VERSION}'][generator='#{GENERATOR}']", :count => 1 do
       assert_select "bounds[minlon=#{minlon}][minlat=#{minlat}][maxlon=#{maxlon}][maxlat=#{maxlat}]", :count => 1
       assert_select "node[id=#{node.id}][lat=#{node.lat}][lon=#{node.lon}][version=#{node.version}][changeset=#{node.changeset_id}][visible=#{node.visible}][timestamp=#{node.timestamp.xmlschema}]", :count => 1 do
         # This should really be more generic
@@ -54,7 +54,7 @@ class ApiControllerTest < ActionController::TestCase
     bbox = "#{node.lon},#{node.lat},#{node.lon},#{node.lat}"
     get :map, :bbox => bbox
     assert_response :success, "The map call should have succeeded"
-    assert_select "osm[version='#{API_VERSION}'][generator='#{GENERATOR}']:root", :count => 1 do
+    assert_select "osm[version='#{API_VERSION}'][generator='#{GENERATOR}']", :count => 1 do
       assert_select "bounds[minlon=#{node.lon}][minlat=#{node.lat}][maxlon=#{node.lon}][maxlat=#{node.lat}]", :count => 1
       assert_select "node[id=#{node.id}][lat=#{node.lat}][lon=#{node.lon}][version=#{node.version}][changeset=#{node.changeset_id}][visible=#{node.visible}][timestamp=#{node.timestamp.xmlschema}]", :count => 1 do
         # This should really be more generic
@@ -73,7 +73,7 @@ class ApiControllerTest < ActionController::TestCase
     bbox = "#{minlon},#{minlat},#{maxlon},#{maxlat}"
     get :trackpoints, :bbox => bbox
     assert_response :success
-    assert_select "gpx[version=1.0][creator=OpenStreetMap.org][xmlns=http://www.topografix.com/GPX/1/0]:root", :count => 1 do
+    assert_select "gpx[version=1.0][creator=OpenStreetMap.org][xmlns=http://www.topografix.com/GPX/1/0]", :count => 1 do
       assert_select "trk" do
         assert_select "trkseg"
       end
@@ -89,7 +89,7 @@ class ApiControllerTest < ActionController::TestCase
     bbox = "#{minlon},#{minlat},#{maxlon},#{maxlat}"
     get :trackpoints, :bbox => bbox
     assert_response :success
-    assert_select "gpx[version=1.0][creator=OpenStreetMap.org][xmlns=http://www.topografix.com/GPX/1/0]:root", :count => 1 do
+    assert_select "gpx[version=1.0][creator=OpenStreetMap.org][xmlns=http://www.topografix.com/GPX/1/0]", :count => 1 do
       assert_select "trk", :count => 1 do
         assert_select "trk > trkseg", :count => 2 do |trksegs|
           trksegs.each do |trkseg|
@@ -111,7 +111,7 @@ class ApiControllerTest < ActionController::TestCase
     bbox = "#{minlon},#{minlat},#{maxlon},#{maxlat}"
     get :trackpoints, :bbox => bbox
     assert_response :success
-    assert_select "gpx[version=1.0][creator=OpenStreetMap.org][xmlns=http://www.topografix.com/GPX/1/0]:root", :count => 1 do
+    assert_select "gpx[version=1.0][creator=OpenStreetMap.org][xmlns=http://www.topografix.com/GPX/1/0]", :count => 1 do
       assert_select "trk", :count => 1 do
         assert_select "trk>name", :count => 1
         assert_select "trk>desc", :count => 1
@@ -210,7 +210,7 @@ class ApiControllerTest < ActionController::TestCase
     # changes at the time we have frozen at
     now = Time.now.getutc
     hourago = now - 1.hour
-    assert_select "osm[version='#{API_VERSION}'][generator='#{GENERATOR}']:root", :count => 1 do
+    assert_select "osm[version='#{API_VERSION}'][generator='#{GENERATOR}']", :count => 1 do
       assert_select "changes[starttime='#{hourago.xmlschema}'][endtime='#{now.xmlschema}']", :count => 1
     end
     Timecop.return
@@ -231,7 +231,7 @@ class ApiControllerTest < ActionController::TestCase
       assert_response :success
       # NOTE: there was a test here for the timing, but it was too sensitive to be a good test
       # and it was annoying.
-      assert_select "osm[version='#{API_VERSION}'][generator='#{GENERATOR}']:root", :count => 1 do
+      assert_select "osm[version='#{API_VERSION}'][generator='#{GENERATOR}']", :count => 1 do
         assert_select "changes", :count => 1
       end
     end
@@ -264,7 +264,7 @@ class ApiControllerTest < ActionController::TestCase
   def test_capabilities
     get :capabilities
     assert_response :success
-    assert_select "osm:root[version='#{API_VERSION}'][generator='#{GENERATOR}']", :count => 1 do
+    assert_select "osm[version='#{API_VERSION}'][generator='#{GENERATOR}']", :count => 1 do
       assert_select "api", :count => 1 do
         assert_select "version[minimum=#{API_VERSION}][maximum=#{API_VERSION}]", :count => 1
         assert_select "area[maximum=#{MAX_REQUEST_AREA}]", :count => 1

@@ -8,7 +8,7 @@ class UserControllerTest < ActionController::TestCase
     get :new
     assert_response :success
     
-    assert_select "html:root", :count => 1 do
+    assert_select "html", :count => 1 do
       assert_select "head", :count => 1 do
         assert_select "title", :text => /Create account/, :count => 1
       end
