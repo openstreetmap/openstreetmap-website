@@ -77,12 +77,14 @@ ActionController::Routing::Routes.draw do |map|
 
   # Map notes API
   map.connect "api/#{API_VERSION}/notes", :controller => 'note', :action => 'list'
+  map.connect "api/#{API_VERSION}/notes.:format", :controller => 'note', :action => 'list'
   map.connect "api/#{API_VERSION}/notes/search", :controller => 'note', :action => 'search'
   map.connect "api/#{API_VERSION}/notes/rss", :controller =>'notes', :action => 'rss'
   map.connect "api/#{API_VERSION}/note/create", :controller => 'note', :action => 'create'
   map.connect "api/#{API_VERSION}/note/:id/comment", :controller => 'note', :action => 'update', :id => /\d+/
   map.connect "api/#{API_VERSION}/note/:id/close", :controller => 'note', :action => 'close', :id => /\d+/
   map.connect "api/#{API_VERSION}/note/:id", :controller => 'note', :action => 'read', :id => /\d+/, :conditions => { :method => :get }
+  map.connect "api/#{API_VERSION}/note/:id.:format", :controller => 'note', :action => 'read', :id => /\d+/, :conditions => { :method => :get }
   map.connect "api/#{API_VERSION}/note/:id", :controller => 'note', :action => 'delete', :id => /\d+/, :conditions => { :method => :delete }
   map.connect "api/#{API_VERSION}/notes/getBugs", :controller => 'note', :action => 'list'
   map.connect "api/#{API_VERSION}/notes/addPOIexec", :controller => 'note', :action => 'create'
