@@ -133,6 +133,22 @@ module ApplicationHelper
     content_tag(:span, time_ago_in_words(date), :title => l(date, :format => :friendly))
   end
 
+  def note_author(object, link_options = {})
+    if object.author.nil?
+      h(object.author_name)
+    else
+      link_to h(object.author_name), link_options.merge({:controller => "user", :action => "view", :display_name => object.author_name})
+    end
+  end
+
+  def with_format(format, &block)
+    old_format = @template_format
+    @template_format = format
+    result = block.call
+    @template_format = old_format
+    return result
+  end
+
 private
 
   def javascript_strings_for_key(key)

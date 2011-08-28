@@ -1,6 +1,8 @@
 xml.wpt("lon" => note.lon, "lat" => note.lat) do
-  xml.desc do
-    xml.cdata! note.flatten_comment("<hr />")
+  with_format(:html) do
+    xml.desc do
+      xml.cdata! render(:partial => "description", :object => note, :format => :html)
+    end
   end
 
   xml.extension do
