@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.7'
+gem 'rails', '3.0.9'
 
 gem 'pg'
 gem 'arel', '>= 2.0.9'
