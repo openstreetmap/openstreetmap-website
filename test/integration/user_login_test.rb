@@ -46,7 +46,7 @@ class UserLoginTest < ActionController::IntegrationTest
     post '/login', {'openid_url' => "http://localhost:1123/john.doe?openid.success=true", :referer => "/browse"}
     assert_response :redirect
 
-    res = openid_request(@response.redirected_to)
+    res = openid_request(@response.redirect_url)
     res2 = post '/login', res
 
     assert_response :redirect
@@ -64,7 +64,7 @@ class UserLoginTest < ActionController::IntegrationTest
     post '/login', {'openid_url' => "http://localhost:1123/john.doe", :referer => "/diary"}
     assert_response :redirect
 
-    res = openid_request(@response.redirected_to)
+    res = openid_request(@response.redirect_url)
     post '/login', res
 
     assert_response :redirect
@@ -110,7 +110,7 @@ class UserLoginTest < ActionController::IntegrationTest
     post '/login', {'openid_url' => "http://localhost:1123/john.doe?openid.success=true_somethingelse", :referer => "/diary"}
     assert_response :redirect
 
-    res = openid_request(@response.redirected_to)
+    res = openid_request(@response.redirect_url)
     res2 = post '/login', res
 
     assert_response :redirect

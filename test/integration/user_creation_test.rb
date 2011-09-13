@@ -147,7 +147,7 @@ class UserCreationTest < ActionController::IntegrationTest
         post "/user/terms",
           {:user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :openid_url => "http://localhost:1123/john.doe?openid.success=newuser", :pass_crypt => "", :pass_crypt_confirmation => ""}}
         assert_response :redirect
-        res = openid_request(@response.redirected_to)
+        res = openid_request(@response.redirect_url)
         post '/user/terms', res
         assert_response :success
         assert_template 'terms'
@@ -174,7 +174,7 @@ class UserCreationTest < ActionController::IntegrationTest
         post "/user/terms",
           {:user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :openid_url => "http://localhost:1123/john.doe?openid.failure=newuser", :pass_crypt => "", :pass_crypt_confirmation => ""}}
         assert_response :redirect
-        res = openid_request(@response.redirected_to)
+        res = openid_request(@response.redirect_url)
         post '/user/terms', res
         assert_response :success
         assert_template 'user/new'
