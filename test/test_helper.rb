@@ -3,43 +3,6 @@ require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 load 'composite_primary_keys/fixtures.rb'
 
-# This monkey patch is to make tests where a rack module alters
-# the response work with rails 2 - it can be dropped when we move
-# to rails 3.
-module ActionController
-  module Integration
-    class Session
-      def process_with_capture(method, path, parameters = nil, headers = nil)
-        status = process_without_capture(method, path, parameters, headers)
-        @controller = ActionController::Base.last_controller
-        @request = @controller.request
-        @response.session = @controller.response.session
-        @response.template = @controller.response.template
-        @response.redirected_to = @response.location
-        status
-      end
-
-      alias_method_chain :process, :capture
-    end
-
-    module ControllerCapture
-      module ClassMethods
-        mattr_accessor :last_controller
-
-        def clear_last_instantiation!
-          self.last_controller = nil
-        end
-
-        def new_with_capture(*args)
-          controller = new_without_capture(*args)
-          self.last_controller ||= controller
-          controller
-        end
-      end
-    end
-  end
-end
-
 class ActiveSupport::TestCase
   # Load standard fixtures needed to test API methods
   def self.api_fixtures
