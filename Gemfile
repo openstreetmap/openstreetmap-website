@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.9'
+gem 'rails', '3.0.10'
 
 gem 'pg'
 gem 'arel', '>= 2.0.9'
@@ -19,7 +19,7 @@ gem 'open_id_authentication', '>= 1.0.0'
 #gem 'memcached'
 
 # Should only load if we're not in database offline mode
-gem 'composite_primary_keys', '>= 3.1.6'
+gem 'composite_primary_keys', '= 3.1.10'
 
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators
