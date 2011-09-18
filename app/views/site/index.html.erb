@@ -123,7 +123,6 @@ end
 
 <%= javascript_include_tag '/openlayers/OpenLayers.js' %>
 <%= javascript_include_tag '/openlayers/OpenStreetMap.js' %>
-<%= javascript_include_tag 'notes.js' %>
 <%= javascript_include_tag 'map.js' %>
 
 <%= render :partial => 'resize' %>
@@ -146,12 +145,60 @@ end
       map.dataLayer.events.register("visibilitychanged", map.dataLayer, toggleData);
       map.addLayer(map.dataLayer);
 
-      map.noteLayer = new OpenLayers.Layer.Notes("Notes", {
-          setCookie: false,
-          permalinkURL: "http://www.openstreetmap.org/",
-          visibility: <%= params[:notes] == "yes" %>
+      map.noteLayer = new OpenLayers.Layer.Vector("Notes", {
+          visibility: false,
+          projection: new OpenLayers.Projection("EPSG:4326"),
+          styleMap: new OpenLayers.StyleMap(new OpenLayers.Style({
+              graphicWidth: 22,
+              graphicHeight: 22,
+              graphicOpacity: 0.7,
+              graphicXOffset: -11,
+              graphicYOffset: -11
+          }, {
+              rules: [
+                  new OpenLayers.Rule({
+                      filter: new OpenLayers.Filter.Comparison({
+                          type: OpenLayers.Filter.Comparison.EQUAL_TO,
+                          property: "status",
+                          value: "open"
+                      }),
+                      symbolizer: {
+                          externalGraphic: "<%= image_path 'open_note_marker.png' %>"
+                      }
+                  }),
+                  new OpenLayers.Rule({
+                      filter: new OpenLayers.Filter.Comparison({
+                          type: OpenLayers.Filter.Comparison.EQUAL_TO,
+                          property: "status",
+                          value: "closed"
+                      }),
+                      symbolizer: {
+                          externalGraphic: "<%= image_path 'closed_note_marker.png' %>"
+                      }
+                 })
+              ]
+          })),
+          strategies: [
+              new OpenLayers.Strategy.BBOX()
+          ],
+          protocol: new OpenLayers.Protocol.HTTP({
+              url: "<%= url_for :controller => :note, :action => :list, :format => :json %>",
+              format: new OpenLayers.Format.GeoJSON(),
+              callback: noteCallback
+          })
       });
+      map.noteLayer.events.register("featureselected", map, noteSelected);
+      map.noteLayer.events.register("featureunselected", map, noteUnselected);
       map.addLayer(map.noteLayer);
+
+      var noteControl = new OpenLayers.Control.SelectFeature(map.noteLayer, {
+          autoActivate: true
+      });
+      map.addControl(noteControl);
+
+      <% if params[:notes] == "yes" -%>
+      map.noteLayer.setVisibility(true);
+      <% end -%>
 
       $("createnoteanchor").observe("click", addNote);
 
@@ -282,6 +329,32 @@ end
         remoteEditHandler();
       <% end %>
     <% end %>
+  }
+
+  function noteCallback(scope, response) {
+    for (var f = 0; f < response.features.length; f++) {
+      var feature = response.features[f];
+    }
+  }
+
+  function noteSelected(o) {
+    var feature = o.feature;
+    var location = feature.geometry.getBounds().getCenterLonLat();
+
+    feature.popup = new OpenLayers.Popup.FramedCloud(feature.attributes.id,
+                                                     location, null,
+                                                     "<p>" + feature.attributes.id + "</p>",
+                                                     null, true);
+
+    map.addPopup(feature.popup);
+//    feature.popup.show();
+  }
+
+  function noteUnselected(o) {
+    var feature = o.feature;
+
+    map.removePopup(feature.popup);
+    delete feature.popup;
   }
 
   function addNote() {

@@ -48,9 +48,7 @@ class NoteController < ApplicationController
 
     # Render the result
     respond_to do |format|
-      format.html { render :format => :rjs, :content_type => "text/javascript" }
       format.rss
-      format.js
       format.xml
       format.json
       format.gpx
