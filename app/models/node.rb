@@ -8,7 +8,7 @@ class Node < ActiveRecord::Base
 
   belongs_to :changeset
 
-  has_many :old_nodes, :foreign_key => :id
+  has_many :old_nodes, :foreign_key => :id, :order => :version
 
   has_many :way_nodes
   has_many :ways, :through => :way_nodes
