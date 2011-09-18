@@ -52,7 +52,7 @@ class NoteController < ApplicationController
       format.rss
       format.js
       format.xml
-      format.json { render :json => @notes.to_json }
+      format.json
       format.gpx
     end
   end
@@ -200,7 +200,7 @@ class NoteController < ApplicationController
     respond_to do |format|
       format.xml
       format.rss
-      format.json { render :json => @note.to_json }
+      format.json
       format.gpx
     end
   end
@@ -256,7 +256,7 @@ class NoteController < ApplicationController
       format.rss { render :action => :list }
       format.js
       format.xml { render :action => :list }
-      format.json { render :json => @notes.to_json }
+      format.json { render :action => :list }
       format.gpx { render :action => :list }
     end
   end

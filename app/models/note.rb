@@ -72,17 +72,4 @@ class Note < ActiveRecord::Base
   def author_name
     self.comments.first.author_name
   end
-
-  # Custom JSON output routine for notes
-  def to_json(options = {})
-    super options.reverse_merge(
-      :methods => [ :lat, :lon ], 
-      :only => [ :id, :status, :created_at ],
-      :include => {
-         :comments => {
-           :only => [ :event, :author_name, :created_at, :body ]
-         }
-      }
-    )
-  end
 end
