@@ -1,6 +1,13 @@
 class Trace < ActiveRecord::Base
   set_table_name 'gpx_files'
 
+  belongs_to :user
+  has_many :tags, :class_name => 'Tracetag', :foreign_key => 'gpx_id', :dependent => :delete_all
+  has_many :points, :class_name => 'Tracepoint', :foreign_key => 'gpx_id', :dependent => :delete_all
+
+  scope :visible, where(:visible => true)
+  scope :visible_to, lambda { |u| visible.where("visibility IN ('public', 'identifiable') OR user_id = ?", u) }
+
   validates_presence_of :user_id, :name, :timestamp
   validates_presence_of :description, :on => :create
   validates_length_of :name, :maximum => 255
@@ -8,10 +15,6 @@ class Trace < ActiveRecord::Base
 #  validates_numericality_of :latitude, :longitude
   validates_inclusion_of :inserted, :in => [ true, false ]
   validates_inclusion_of :visibility, :in => ["private", "public", "trackable", "identifiable"]
-
-  belongs_to :user
-  has_many :tags, :class_name => 'Tracetag', :foreign_key => 'gpx_id', :dependent => :delete_all
-  has_many :points, :class_name => 'Tracepoint', :foreign_key => 'gpx_id', :dependent => :delete_all
 
   def destroy
     super
@@ -262,8 +265,8 @@ class Trace < ActiveRecord::Base
     # If there are any existing points for this trace then delete
     # them - we check for existing points first to avoid locking
     # the table in the common case where there aren't any.
-    if Tracepoint.find(:first, :conditions => ['gpx_id = ?', self.id])
-      Tracepoint.delete_all(['gpx_id = ?', self.id])
+    if Tracepoint.where(:gpx_id => self.id).exists?
+      Tracepoint.delete_all(:gpx_id => self.id)
     end
 
     gpx.points do |point|

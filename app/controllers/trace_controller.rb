@@ -272,7 +272,7 @@ class TraceController < ApplicationController
   end
 
   def api_read
-    trace = Trace.find(params[:id], :conditions => { :visible => true })
+    trace = Trace.visible.find(params[:id])
 
     if trace.public? or trace.user == @user
       render :text => trace.to_xml.to_s, :content_type => "text/xml"
@@ -282,7 +282,7 @@ class TraceController < ApplicationController
   end
 
   def api_update
-    trace = Trace.find(params[:id], :conditions => { :visible => true })
+    trace = Trace.visible.find(params[:id])
 
     if trace.user == @user
       new_trace = Trace.from_xml(request.raw_post)
@@ -303,7 +303,7 @@ class TraceController < ApplicationController
   end
 
   def api_delete
-    trace = Trace.find(params[:id], :conditions => { :visible => true })
+    trace = Trace.visible.find(params[:id])
 
     if trace.user == @user
       trace.visible = false

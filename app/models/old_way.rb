@@ -30,7 +30,7 @@ class OldWay < ActiveRecord::Base
     save!
     clear_aggregation_cache
     clear_association_cache
-    @attributes.update(OldWay.find(:first, :conditions => ['id = ? AND timestamp = ?', self.id, self.timestamp], :order => "version desc").instance_variable_get('@attributes'))
+    @attributes.update(OldWay.where('id = ? AND timestamp = ?', self.id, self.timestamp).order("version DESC").first.instance_variable_get('@attributes'))
 
     # ok, you can touch from here on
 
@@ -56,7 +56,7 @@ class OldWay < ActiveRecord::Base
   def nds
     unless @nds
         @nds = Array.new
-        OldWayNode.find(:all, :conditions => ["id = ? AND version = ?", self.id, self.version], :order => "sequence_id").each do |nd|
+        OldWayNode.where("id = ? AND version = ?", self.id, self.version).order(:sequence_id).each do |nd|
             @nds += [nd.node_id]
         end
     end
@@ -66,7 +66,7 @@ class OldWay < ActiveRecord::Base
   def tags
     unless @tags
         @tags = Hash.new
-        OldWayTag.find(:all, :conditions => ["id = ? AND version = ?", self.id, self.version]).each do |tag|
+        OldWayTag.where("id = ? AND version = ?", self.id, self.version).each do |tag|
             @tags[tag.k] = tag.v
         end
     end
@@ -86,11 +86,11 @@ class OldWay < ActiveRecord::Base
 #  has_many :way_tags, :class_name => 'OldWayTag', :foreign_key => 'id'
 
   def old_nodes
-    OldWayNode.find(:all, :conditions => ['id = ? AND version = ?', self.id, self.version])    
+    OldWayNode.where('id = ? AND version = ?', self.id, self.version)
   end
 
   def old_tags
-    OldWayTag.find(:all, :conditions => ['id = ? AND version = ?', self.id, self.version])    
+    OldWayTag.where('id = ? AND version = ?', self.id, self.version)
   end
 
   def to_xml_node
@@ -128,21 +128,21 @@ class OldWay < ActiveRecord::Base
   # (i.e. is it visible? are we actually reverting to an earlier version?)
 
   def get_nodes_undelete
-	points = []
-	self.nds.each do |n|
-	  node=Node.find(n)
-	  points << [node.lon, node.lat, n, node.version, node.tags_as_hash, node.visible]
+    points = []
+    self.nds.each do |n|
+      node = Node.find(n)
+      points << [node.lon, node.lat, n, node.version, node.tags_as_hash, node.visible]
     end
-	points
+    points
   end
   
   def get_nodes_revert(timestamp)
     points=[]
     self.nds.each do |n|
-      oldnode=OldNode.find(:first, :conditions=>['id=? AND timestamp<=?',n,timestamp], :order=>"timestamp DESC")
-      curnode=Node.find(n)
-      id=n; reuse=curnode.visible
-      if oldnode.lat!=curnode.lat or oldnode.lon!=curnode.lon or oldnode.tags!=curnode.tags then
+      oldnode = OldNode.where('id = ? AND timestamp <= ?', n, timestamp).order("timestamp DESC").first
+      curnode = Node.find(n)
+      id = n; reuse = curnode.visible
+      if oldnode.lat != curnode.lat or oldnode.lon != curnode.lon or oldnode.tags != curnode.tags then
         # node has changed: if it's in other ways, give it a new id
         if curnode.ways-[self.id] then id=-1; reuse=false end
       end

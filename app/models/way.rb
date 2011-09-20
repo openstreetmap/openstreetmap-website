@@ -246,7 +246,7 @@ class Way < ActiveRecord::Base
     new_nds = (self.nds - old_nodes).sort.uniq
 
     unless new_nds.empty?
-      db_nds = Node.find(:all, :conditions => { :id => new_nds, :visible => true })
+      db_nds = Node.where(:id => new_nds, :visible => true)
 
       if db_nds.length < new_nds.length
         missing = new_nds - db_nds.collect { |n| n.id }

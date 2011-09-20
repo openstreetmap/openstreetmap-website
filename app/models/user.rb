@@ -43,10 +43,10 @@ class User < ActiveRecord::Base
 
   def self.authenticate(options)
     if options[:username] and options[:password]
-      user = find(:first, :conditions => ["email = ? OR display_name = ?", options[:username], options[:username]])
+      user = where("email = ? OR display_name = ?", options[:username], options[:username]).first
       user = nil if user and user.pass_crypt != OSM::encrypt_password(options[:password], user.pass_salt)
     elsif options[:token]
-      token = UserToken.find(:first, :include => :user, :conditions => ["user_tokens.token = ?", options[:token]])
+      token = UserToken.where(:token => options[:token]).preload(:user).first
       user = token.user if token
     end
 
@@ -91,7 +91,7 @@ class User < ActiveRecord::Base
   end
 
   def preferred_language
-    languages.find { |l| Language.find(:first, :conditions => { :code => l }) }
+    languages.find { |l| Language.exists?(:code => l) }
   end
 
   def preferred_language_from(array)
@@ -103,9 +103,7 @@ class User < ActiveRecord::Base
       gc = OSM::GreatCircle.new(self.home_lat, self.home_lon)
       bounds = gc.bounds(radius)
       sql_for_distance = gc.sql_for_distance("home_lat", "home_lon")
-      nearby = User.find(:all, 
-                         :conditions => ["id != ? AND status IN (\'active\', \'confirmed\') AND data_public = ? AND #{sql_for_distance} <= ?", id, true, radius],
-                         :order => sql_for_distance, :limit => num)
+      nearby = User.where("id != ? AND status IN (\'active\', \'confirmed\') AND data_public = ? AND #{sql_for_distance} <= ?", id, true, radius).order(sql_for_distance).limit(num)
     else
       nearby = []
     end
@@ -181,8 +179,8 @@ class User < ActiveRecord::Base
   ##
   # return a spam score for a user
   def spam_score
-    changeset_score = self.changesets.find(:all, :limit => 10).length * 50
-    trace_score = self.traces.find(:all, :limit => 10).length * 50
+    changeset_score = self.changesets.limit(10).length * 50
+    trace_score = self.traces.limit(10).length * 50
     diary_entry_score = self.diary_entries.inject(0) { |s,e| s += OSM.spam_score(e.body) }
     diary_comment_score = self.diary_comments.inject(0) { |s,e| s += OSM.spam_score(e.body) }
 

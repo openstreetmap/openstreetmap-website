@@ -375,7 +375,7 @@ class AmfController < ApplicationController
         # Ideally we would do ":include => :nodes" here but if we do that
         # then rails only seems to return the first copy of a node when a
         # way includes a node more than once
-        way = Way.find(:first, :conditions => { :id => wayid }, :include => { :nodes => :node_tags })
+        way = Way.where(:id => wayid).preload(:nodes => :node_tags).first
 
         # check case where way has been deleted or doesn't exist
         return [-4, 'way', wayid] if way.nil? or !way.visible
@@ -413,13 +413,13 @@ class AmfController < ApplicationController
     amf_handle_error_with_timeout("'getway_old' #{id}, #{timestamp}", 'way',id) do
       if timestamp == ''
         # undelete
-        old_way = OldWay.find(:first, :conditions => ['visible = ? AND id = ?', true, id], :order => 'version DESC')
+        old_way = OldWay.where(:visible => true, :id => id).order("version DESC").first
         points = old_way.get_nodes_undelete unless old_way.nil?
       else
         begin
           # revert
           timestamp = DateTime.strptime(timestamp.to_s, "%d %b %Y, %H:%M:%S")
-          old_way = OldWay.find(:first, :conditions => ['id = ? AND timestamp <= ?', id, timestamp], :order => 'timestamp DESC')
+          old_way = OldWay.where("id = ? AND timestamp <= ?", id, timestamp).order("timestamp DESC").first
           unless old_way.nil?
             points = old_way.get_nodes_revert(timestamp)
             if !old_way.visible
@@ -515,16 +515,14 @@ class AmfController < ApplicationController
       if !user then return -1,"You must be logged in to search for GPX traces." end
       unless user.active_blocks.empty? then return -1,t('application.setup_user_auth.blocked') end
 
-      gpxs = []
-      if searchterm.to_i>0 then
-        gpx = Trace.find(searchterm.to_i, :conditions => ["visible=? AND (public=? OR user_id=?)",true,true,user.id] )
-        if gpx then
-          gpxs.push([gpx.id, gpx.name, gpx.description])
-        end
+      query = Trace.visible_to(user)
+      if searchterm.to_i > 0 then
+        query = query.where(:id => searchterm.to_i)
       else
-        Trace.find(:all, :limit => 21, :conditions => ["visible=? AND (public=? OR user_id=?) AND MATCH(name) AGAINST (?)",true,true,user.id,searchterm] ).each do |gpx|
-          gpxs.push([gpx.id, gpx.name, gpx.description])
-        end
+        query = query.where("MATCH(name) AGAINST (?)", searchterm).limit(21)
+      end
+      gpxs = query.collect do |gpx|
+        [gpx.id, gpx.name, gpx.description]
       end
       [0,'',gpxs]
     end
@@ -541,7 +539,7 @@ class AmfController < ApplicationController
   
   def getrelation(relid) #:doc:
     amf_handle_error("'getrelation' #{relid}" ,'relation',relid) do
-      rel = Relation.find(:first, :conditions => { :id => relid })
+      rel = Relation.where(:id => relid).first
 
       return [-4, 'relation', relid] if rel.nil? or !rel.visible
       [0, '', relid, rel.tags, rel.members, rel.version]
@@ -554,12 +552,12 @@ class AmfController < ApplicationController
   def findrelations(searchterm)
     rels = []
     if searchterm.to_i>0 then
-      rel = Relation.find(searchterm.to_i)
+      rel = Relation.where(:id => searchterm.to_i).first
       if rel and rel.visible then
         rels.push([rel.id, rel.tags, rel.members, rel.version])
       end
     else
-      RelationTag.find(:all, :limit => 11, :conditions => ["v like ?", "%#{searchterm}%"] ).each do |t|
+      RelationTag.where("v like ?", "%#{searchterm}%").limit(11).each do |t|
         if t.relation.visible then
           rels.push([t.relation.id, t.relation.tags, t.relation.members, t.relation.version])
         end
@@ -838,7 +836,7 @@ class AmfController < ApplicationController
       n = Node.find(id)
       v = n.version
       unless timestamp == ''
-        n = OldNode.find(:first, :conditions => ['id = ? AND timestamp <= ?', id, timestamp], :order => 'timestamp DESC')
+        n = OldNode.where("id = ? AND timestamp <= ?", id, timestamp).order("timestamp DESC").first
       end
 
       if n

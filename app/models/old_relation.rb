@@ -25,7 +25,7 @@ class OldRelation < ActiveRecord::Base
     save!
     clear_aggregation_cache
     clear_association_cache
-    @attributes.update(OldRelation.find(:first, :conditions => ['id = ? AND timestamp = ?', self.id, self.timestamp], :order => "version desc").instance_variable_get('@attributes'))
+    @attributes.update(OldRelation.where('id = ? AND timestamp = ?', self.id, self.timestamp).order("version DESC").first.instance_variable_get('@attributes'))
 
     # ok, you can touch from here on
 
@@ -51,7 +51,7 @@ class OldRelation < ActiveRecord::Base
   def members
     unless @members
         @members = Array.new
-        OldRelationMember.find(:all, :conditions => ["id = ? AND version = ?", self.id, self.version], :order => "sequence_id").each do |m|
+        OldRelationMember.where("id = ? AND version = ?", self.id, self.version).order(:sequence_id).each do |m|
             @members += [[m.type,m.id,m.role]]
         end
     end
@@ -61,7 +61,7 @@ class OldRelation < ActiveRecord::Base
   def tags
     unless @tags
         @tags = Hash.new
-        OldRelationTag.find(:all, :conditions => ["id = ? AND version = ?", self.id, self.version]).each do |tag|
+        OldRelationTag.where("id = ? AND version = ?", self.id, self.version).each do |tag|
             @tags[tag.k] = tag.v
         end
     end
@@ -81,11 +81,11 @@ class OldRelation < ActiveRecord::Base
 #  has_many :relation_tags, :class_name => 'OldRelationTag', :foreign_key => 'id'
 
   def old_members
-    OldRelationMember.find(:all, :conditions => ['id = ? AND version = ?', self.id, self.version], :order => "sequence_id")
+    OldRelationMember.where('id = ? AND version = ?', self.id, self.version).order(:sequence_id)
   end
 
   def old_tags
-    OldRelationTag.find(:all, :conditions => ['id = ? AND version = ?', self.id, self.version])    
+    OldRelationTag.where('id = ? AND version = ?', self.id, self.version)
   end
 
   def to_xml

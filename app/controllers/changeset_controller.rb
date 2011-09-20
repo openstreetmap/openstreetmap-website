@@ -200,20 +200,18 @@ class ChangesetController < ApplicationController
   def query
     # create the conditions that the user asked for. some or all of
     # these may be nil.
-    conditions = conditions_bbox(params['bbox'])
-    conditions = cond_merge conditions, conditions_user(params['user'], params['display_name'])
-    conditions = cond_merge conditions, conditions_time(params['time'])
-    conditions = cond_merge conditions, conditions_open(params['open'])
-    conditions = cond_merge conditions, conditions_closed(params['closed'])
+    changesets = Changeset.scoped
+    changesets = conditions_bbox(changesets, params['bbox'])
+    changesets = conditions_user(changesets, params['user'], params['display_name'])
+    changesets = conditions_time(changesets, params['time'])
+    changesets = conditions_open(changesets, params['open'])
+    changesets = conditions_closed(changesets, params['closed'])
 
     # create the results document
     results = OSM::API.new.get_xml_doc
 
     # add all matching changesets to the XML results document
-    Changeset.find(:all, 
-                   :conditions => conditions, 
-                   :limit => 100,
-                   :order => 'created_at desc').each do |cs|
+    changesets.order("created_at DESC").limit(100).each do |cs|
       results.root << cs.to_xml_node
     end
 
@@ -253,16 +251,16 @@ class ChangesetController < ApplicationController
     if request.format == :atom and params[:page]
       redirect_to params.merge({ :page => nil }), :status => :moved_permanently
     else
-      conditions = conditions_nonempty
+      changesets = conditions_nonempty(Changeset.scoped)
 
       if params[:display_name]
-        user = User.find_by_display_name(params[:display_name], :conditions => { :status => ["active", "confirmed"] })
+        user = User.find_by_display_name(params[:display_name])
         
-        if user 
+        if user and user.active?
           if user.data_public? or user == @user
-            conditions = cond_merge conditions, ['user_id = ?', user.id]
+            changesets = changesets.where(:user_id => user.id)
           else
-            conditions = cond_merge conditions, ['false']
+            changesets = changesets.where("false")
           end
         elsif request.format == :html
           @title = t 'user.no_such_user.title'
@@ -278,7 +276,7 @@ class ChangesetController < ApplicationController
       end
       
       if bbox
-        conditions = cond_merge conditions, conditions_bbox(bbox)
+        changesets = conditions_bbox(changesets, bbox)
         bbox = BoundingBox.from_s(bbox)
         bbox_link = render_to_string :partial => "bbox", :object => bbox
       end
@@ -310,12 +308,7 @@ class ChangesetController < ApplicationController
 
       @bbox = bbox
       
-      @edits = Changeset.find(:all,
-                              :include => [:user, :changeset_tags],
-                              :conditions => conditions,
-                              :order => "changesets.created_at DESC",
-                              :offset => (@page - 1) * @page_size,
-                              :limit => @page_size)
+      @edits = changesets.order("changesets.created_at DESC").offset((@page - 1) * @page_size).limit(@page_size).preload(:user, :changeset_tags)
     end
   end
 
@@ -325,42 +318,28 @@ private
   #------------------------------------------------------------  
 
   ##
-  # merge two conditions
-  def cond_merge(a, b)
-    if a and b
-      a_str = a.shift
-      b_str = b.shift
-      return [ a_str + " AND " + b_str ] + a + b
-    elsif a 
-      return a
-    else b
-      return b
-    end
-  end
-
-  ##
   # if a bounding box was specified then parse it and do some sanity 
   # checks. this is mostly the same as the map call, but without the 
   # area restriction.
-  def conditions_bbox(bbox)
+  def conditions_bbox(changesets, bbox)
     unless bbox.nil?
       raise OSM::APIBadUserInput.new("Bounding box should be min_lon,min_lat,max_lon,max_lat") unless bbox.count(',') == 3
       bbox = sanitise_boundaries(bbox.split(/,/))
       raise OSM::APIBadUserInput.new("Minimum longitude should be less than maximum.") unless bbox[0] <= bbox[2]
       raise OSM::APIBadUserInput.new("Minimum latitude should be less than maximum.") unless bbox[1] <= bbox[3]
-      return ['min_lon < ? and max_lon > ? and min_lat < ? and max_lat > ?',
-              (bbox[2] * GeoRecord::SCALE).to_i,
-              (bbox[0] * GeoRecord::SCALE).to_i,
-              (bbox[3] * GeoRecord::SCALE).to_i,
-              (bbox[1] * GeoRecord::SCALE).to_i]
+      return changesets.where("min_lon < ? and max_lon > ? and min_lat < ? and max_lat > ?",
+                              (bbox[2] * GeoRecord::SCALE).to_i,
+                              (bbox[0] * GeoRecord::SCALE).to_i,
+                              (bbox[3] * GeoRecord::SCALE).to_i,
+                              (bbox[1] * GeoRecord::SCALE).to_i)
     else
-      return nil
+      return changesets
     end
   end
 
   ##
   # restrict changesets to those by a particular user
-  def conditions_user(user, name)
+  def conditions_user(changesets, user, name)
     unless user.nil? and name.nil?
       # shouldn't provide both name and UID
       raise OSM::APIBadUserInput.new("provide either the user ID or display name, but not both") if user and name
@@ -386,15 +365,15 @@ private
         
         raise OSM::APINotFoundError if @user.nil? or @user.id != u.id
       end
-      return ['user_id = ?', u.id]
+      return changesets.where(:user_id => u.id)
     else
-      return nil
+      return changesets
     end
   end
 
   ##
   # restrict changes to those closed during a particular time period
-  def conditions_time(time) 
+  def conditions_time(changesets, time) 
     unless time.nil?
       # if there is a range, i.e: comma separated, then the first is 
       # low, second is high - same as with bounding boxes.
@@ -404,13 +383,13 @@ private
         raise OSM::APIBadUserInput.new("bad time range") if times.size != 2 
 
         from, to = times.collect { |t| DateTime.parse(t) }
-        return ['closed_at >= ? and created_at <= ?', from, to]
+        return changesets.where("closed_at >= ? and created_at <= ?", from, to)
       else
         # if there is no comma, assume its a lower limit on time
-        return ['closed_at >= ?', DateTime.parse(time)]
+        return changesets.where("closed_at >= ?", DateTime.parse(time))
       end
     else
-      return nil
+      return changesets
     end
     # stupid DateTime seems to throw both of these for bad parsing, so
     # we have to catch both and ensure the correct code path is taken.
@@ -424,25 +403,33 @@ private
   # return changesets which are open (haven't been closed yet)
   # we do this by seeing if the 'closed at' time is in the future. Also if we've
   # hit the maximum number of changes then it counts as no longer open.
-  # if parameter 'open' is nill then open and closed changsets are returned
-  def conditions_open(open)
-    return open.nil? ? nil : ['closed_at >= ? and num_changes <= ?', 
-                              Time.now.getutc, Changeset::MAX_ELEMENTS]
+  # if parameter 'open' is nill then open and closed changesets are returned
+  def conditions_open(changesets, open)
+    if open.nil?
+      return changesets
+    else
+      return changesets.where("closed_at >= ? and num_changes <= ?", 
+                              Time.now.getutc, Changeset::MAX_ELEMENTS)
+    end
   end
   
   ##
   # query changesets which are closed
   # ('closed at' time has passed or changes limit is hit)
-  def conditions_closed(closed)
-    return closed.nil? ? nil : ['(closed_at < ? or num_changes > ?)', 
-                                Time.now.getutc, Changeset::MAX_ELEMENTS]
+  def conditions_closed(changesets, closed)
+    if closed.nil?
+      return changesets
+    else
+      return changesets.where("closed_at < ? or num_changes > ?", 
+                              Time.now.getutc, Changeset::MAX_ELEMENTS)
+    end
   end
 
   ##
   # eliminate empty changesets (where the bbox has not been set)
   # this should be applied to all changeset list displays
-  def conditions_nonempty()
-    return ['num_changes > 0']
+  def conditions_nonempty(changesets)
+    return changesets.where("num_changes > 0")
   end
   
 end

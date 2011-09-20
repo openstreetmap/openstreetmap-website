@@ -1,15 +1,17 @@
 require 'oauth'
+
 class ClientApplication < ActiveRecord::Base
   belongs_to :user
   has_many :tokens, :class_name => "OauthToken"
   has_many :access_tokens
+
   validates_presence_of :name, :url, :key, :secret
   validates_uniqueness_of :key
-  before_validation :generate_keys, :on => :create
-  
   validates_format_of :url, :with => /\Ahttp(s?):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/i
   validates_format_of :support_url, :with => /\Ahttp(s?):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/i, :allow_blank=>true
   validates_format_of :callback_url, :with => /\A[a-z][a-z0-9.+-]*:\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/i, :allow_blank=>true
+
+  before_validation :generate_keys, :on => :create
 
   attr_accessor :token_callback_url
   
@@ -55,7 +57,7 @@ class ClientApplication < ActiveRecord::Base
   end
 
   def access_token_for_user(user)
-    unless token = access_tokens.find(:first, :conditions => { :user_id => user.id, :invalidated_at => nil })
+    unless token = access_tokens.valid.where(:user_id => user).first
       params = { :user => user }
 
       permissions.each do |p|
