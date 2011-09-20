@@ -128,6 +128,7 @@ class UserController < ApplicationController
       @user.openid_url = nil if @user.openid_url and @user.openid_url.empty?
       
       if @user.save
+        flash[:piwik_goal] = PIWIK_SIGNUP_GOAL if defined?(PIWIK_SIGNUP_GOAL)
         flash[:notice] = t 'user.new.flash create success message', :email => @user.email
         Notifier.deliver_signup_confirm(@user, @user.tokens.create(:referer => session.delete(:referer)))
         session[:token] = @user.tokens.create.token
