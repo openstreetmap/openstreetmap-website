@@ -139,7 +139,7 @@ class UserController < ApplicationController
 
   def account
     @title = t 'user.account.title'
-    @tokens = @user.oauth_tokens.where('oauth_tokens.invalidated_at is null and oauth_tokens.authorized_at is not null')
+    @tokens = @user.oauth_tokens.authorized
 
     if params[:user] and params[:user][:display_name] and params[:user][:description]
       @user.display_name = params[:user][:display_name]
@@ -208,7 +208,7 @@ class UserController < ApplicationController
     @title = t 'user.lost_password.title'
 
     if params[:user] and params[:user][:email]
-      user = User.where(:email => params[:user][:email], :status => ["pending", "active", "confirmed"]).first
+      user = User.visible.where(:email => params[:user][:email]).first
 
       if user
         token = user.tokens.create
@@ -410,7 +410,7 @@ class UserController < ApplicationController
   def make_friend
     if params[:display_name]
       name = params[:display_name]
-      new_friend = User.where(:display_name => name, :status => ["active", "confirmed"]).first
+      new_friend = User.active.where(:display_name => name).first
       friend = Friend.new
       friend.user_id = @user.id
       friend.friend_user_id = new_friend.id
@@ -436,7 +436,7 @@ class UserController < ApplicationController
   def remove_friend
     if params[:display_name]
       name = params[:display_name]
-      friend = User.where(:display_name => name, :status => ["active", "confirmed"]).first
+      friend = User.active.where(:display_name => name).first
       if @user.is_friends_with?(friend)
         Friend.delete_all "user_id = #{@user.id} AND friend_user_id = #{friend.id}"
         flash[:notice] = t 'user.remove_friend.success', :name => friend.display_name

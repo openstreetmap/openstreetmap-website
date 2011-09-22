@@ -18,6 +18,9 @@ class User < ActiveRecord::Base
   has_many :active_blocks, :class_name => "UserBlock", :conditions => proc { [ "user_blocks.ends_at > :ends_at or user_blocks.needs_view", { :ends_at => Time.now.getutc } ] }
   has_many :roles, :class_name => "UserRole"
 
+  scope :visible, where(:status => ["pending", "active", "confirmed"])
+  scope :active, where(:status => ["active", "confirmed"])
+
   validates_presence_of :email, :display_name
   validates_confirmation_of :email#, :message => ' addresses must match'
   validates_confirmation_of :pass_crypt#, :message => ' must match the confirmation password'

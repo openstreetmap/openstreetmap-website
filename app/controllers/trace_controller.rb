@@ -27,7 +27,7 @@ class TraceController < ApplicationController
     # from display name, pick up user id if one user's traces only
     display_name = params[:display_name]
     if !display_name.blank?
-      target_user = User.where("status IN ('active', 'confirmed')").where(:display_name => display_name).first
+      target_user = User.active.where(:display_name => display_name).first
       if target_user.nil?
         @title = t'trace.no_such_user.title'
         @not_found_user = display_name
@@ -54,15 +54,15 @@ class TraceController < ApplicationController
     # 4 - user's traces, not logged in as that user = all user's public traces
     if target_user.nil? # all traces
       if @user
-        @traces = Trace.where("visibility IN ('public', 'identifiable') OR user_id = ?", @user.id) #1
+        @traces = Trace.visible_to(@user) #1
       else
-        @traces = Trace.where("visibility IN ('public', 'identifiable')") #2
+        @traces = Trace.public #2
       end
     else
       if @user and @user == target_user
-        @traces = Trace.where(:user_id => @user.id) #3 (check vs user id, so no join + can't pick up non-public traces by changing name)
+        @traces = @user.traces #3 (check vs user id, so no join + can't pick up non-public traces by changing name)
       else
-        @traces = Trace.where("visibility IN ('public', 'identifiable') AND user_id = ?", target_user.id) #4
+        @traces = target_user.traces.public #4
       end
     end
 
@@ -79,7 +79,7 @@ class TraceController < ApplicationController
     @page = (params[:page] || 1).to_i
     @page_size = 20
 
-    @traces = @traces.where(:visible => true)
+    @traces = @traces.visible
     @traces = @traces.order("timestamp DESC")
     @traces = @traces.offset((@page - 1) * @page_size)
     @traces = @traces.limit(@page_size)
@@ -214,10 +214,10 @@ class TraceController < ApplicationController
   end
 
   def georss
-    traces = Trace.where("visibility IN ('public', 'identifiable')")
+    traces = Trace.public
 
     if params[:display_name]
-      traces = traces.where(:users => {:display_name => params[:display_name]})
+      traces = traces.joins(:user).where(:users => {:display_name => params[:display_name]})
     end
 
     if params[:tag]
