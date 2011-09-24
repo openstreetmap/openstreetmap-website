@@ -440,7 +440,7 @@ module OSM
       doc = XML::Document.new
       doc.encoding = XML::Encoding::UTF_8
       root = XML::Node.new 'osm'
-      root['version'] = API_VERSION
+      root['version'] = API_VERSION.to_s
       root['generator'] = GENERATOR
       doc.root = root
       return doc
