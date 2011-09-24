@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.10'
+gem 'rails', '3.1.0'
 
 gem 'pg'
 gem 'arel', '>= 2.0.9'
@@ -14,16 +14,25 @@ gem 'sanitize'
 gem 'rails-i18n-updater'
 gem 'validates_email_format_of', '>= 1.5.1'
 gem 'open_id_authentication', '>= 1.1.0'
+gem 'prototype-rails'
 
 # Should only load if memcache is in use
 #gem 'memcached'
 
 # Should only load if we're not in database offline mode
-gem 'composite_primary_keys', '= 3.1.10'
+gem 'composite_primary_keys', '= 4.0.0'
 
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators
 # and rake tasks are available in development mode:
 group :development, :test do
   gem 'timecop'
+end
+
+# Gems used only for assets and not required
+# in production environments by default.
+group :assets do
+  gem 'sass-rails', "  ~> 3.1.0"
+  gem 'coffee-rails', "~> 3.1.0"
+  gem 'uglifier'
 end

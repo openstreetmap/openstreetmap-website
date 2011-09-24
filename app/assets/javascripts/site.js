@@ -1,3 +1,9 @@
+//= require prototype
+//= require prototype_ujs
+//= require effects
+//= require dragdrop
+//= require controls
+
 /*
  * Called as the user scrolls/zooms around to aniplate hrefs of the
  * view tab and various other links
