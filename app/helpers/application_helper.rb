@@ -10,7 +10,7 @@ module ApplicationHelper
   end
 
   def linkify(text)
-    return auto_link(text, :link => :urls, :html => { :rel => "nofollow" })
+    return Rinku.auto_link(text, :urls, tag_options(:rel => "nofollow"))
   end
 
   def html_escape_unicode(text)
