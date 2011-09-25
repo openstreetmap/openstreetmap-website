@@ -208,16 +208,16 @@ class AmfControllerTest < ActionController::TestCase
     # instead of a version number...
     # try to get version 1
     v1 = ways(:way_with_versions_v1)
-    { latest => '', 
-      v1 => v1.timestamp.strftime("%d %b %Y, %H:%M:%S")
-    }.each do |way, t|
-      amf_content "getway_old", "/1", [way.id, t]
+    { latest.id => '', 
+      v1.way_id => v1.timestamp.strftime("%d %b %Y, %H:%M:%S")
+    }.each do |id, t|
+      amf_content "getway_old", "/1", [id, t]
       post :amf_read      
       assert_response :success
       amf_parse_response
       returned_way = amf_result("/1")
       assert_equal 0, returned_way[0]
-      assert_equal way.id, returned_way[2]
+      assert_equal id, returned_way[2]
       # API returns the *latest* version, even for old ways...
       assert_equal latest.version, returned_way[5]
     end
@@ -251,11 +251,11 @@ class AmfControllerTest < ActionController::TestCase
     v1 = ways(:way_with_versions_v1)
     # try to get last visible version of non-existent way
     # try to get specific version of non-existent way
-    [[nil, ''], 
-     [nil, '1 Jan 1970, 00:00:00'], 
-     [v1, (v1.timestamp - 10).strftime("%d %b %Y, %H:%M:%S")]
-    ].each do |way, t|
-      amf_content "getway_old", "/1", [way.nil? ? 0 : way.id, t]
+    [[0, ''], 
+     [0, '1 Jan 1970, 00:00:00'], 
+     [v1.way_id, (v1.timestamp - 10).strftime("%d %b %Y, %H:%M:%S")]
+    ].each do |id, t|
+      amf_content "getway_old", "/1", [id, t]
       post :amf_read
       assert_response :success
       amf_parse_response
@@ -398,7 +398,7 @@ class AmfControllerTest < ActionController::TestCase
     # Finally check that the node that was saved has saved the data correctly 
     # in both the current and history tables
     # First check the current table
-    current_node = Node.find(result[3])
+    current_node = Node.find(result[3].to_i)
     assert_in_delta lat, current_node.lat, 0.00001, "The latitude was not retreieved correctly"
     assert_in_delta lon, current_node.lon, 0.00001, "The longitude was not retreived correctly"
     assert_equal 0, current_node.tags.size, "There seems to be a tag that has been added to the node"
@@ -437,7 +437,7 @@ class AmfControllerTest < ActionController::TestCase
     # Finally check that the node that was saved has saved the data correctly 
     # in both the current and history tables
     # First check the current table
-    current_node = Node.find(result[3])
+    current_node = Node.find(result[3].to_i)
     assert_in_delta lat, current_node.lat, 0.00001, "The latitude was not retreieved correctly"
     assert_in_delta lon, current_node.lon, 0.00001, "The longitude was not retreived correctly"
     assert_equal 2, current_node.tags.size, "There seems to be a tag that has been added to the node"
@@ -483,7 +483,7 @@ class AmfControllerTest < ActionController::TestCase
     # Finally check that the node that was saved has saved the data correctly 
     # in both the current and history tables
     # First check the current table
-    current_node = Node.find(result[3])
+    current_node = Node.find(result[3].to_i)
     assert_equal 1, current_node.tags.size, "There seems to be a tag that has been added to the node"
     assert_equal({ "something" => "foo\t\n\rbar" }, current_node.tags, "tags were not fixed correctly")
     assert_equal result[4], current_node.version, "The version returned, is different to the one returned by the amf"
@@ -541,7 +541,7 @@ class AmfControllerTest < ActionController::TestCase
 
     assert_equal 3, result.size, result.inspect
     assert_equal 0, result[0]
-    new_cs_id = result[2]
+    new_cs_id = result[2].to_i
 
     cs = Changeset.find(new_cs_id)
     assert_equal "foobar", cs.tags["comment"]

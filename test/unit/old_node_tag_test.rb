@@ -11,7 +11,7 @@ class OldNodeTest < ActiveSupport::TestCase
     key = "k"
     (0..255).each do |i|
       tag = OldNodeTag.new
-      tag.id = node_tags(:t1).id
+      tag.node_id = node_tags(:t1).node_id
       tag.version = node_tags(:t1).version
       tag.k = key*i
       tag.v = "v"
@@ -23,7 +23,7 @@ class OldNodeTest < ActiveSupport::TestCase
     val = "v"
     (0..255).each do |i|
       tag = OldNodeTag.new
-      tag.id = node_tags(:t1).id
+      tag.node_id = node_tags(:t1).node_id
       tag.version = node_tags(:t1).version
       tag.k = "k"
       tag.v = val*i
@@ -34,7 +34,7 @@ class OldNodeTest < ActiveSupport::TestCase
   def test_length_key_invalid
     ["k"*256].each do |i|
       tag = OldNodeTag.new
-      tag.id = node_tags(:t1).id
+      tag.node_id = node_tags(:t1).node_id
       tag.version = node_tags(:t1).version
       tag.k = i
       tag.v = "v", "Key should be too long"
@@ -46,7 +46,7 @@ class OldNodeTest < ActiveSupport::TestCase
   def test_length_value_invalid
     ["k"*256].each do |i|
       tag = OldNodeTag.new
-      tag.id = node_tags(:t1).id
+      tag.node_id = node_tags(:t1).node_id
       tag.version = node_tags(:t1).version
       tag.k = "k"
       tag.v = i
@@ -55,16 +55,15 @@ class OldNodeTest < ActiveSupport::TestCase
     end
   end
   
-  def test_empty_old_node_tag_invalid
+  def test_empty_tag_invalid
     tag = OldNodeTag.new
     assert !tag.valid?, "Empty tag should be invalid"
-    assert tag.errors[:id].any?
-    assert tag.errors[:version].any?
+    assert tag.errors[:old_node].any?
   end
   
   def test_uniqueness
     tag = OldNodeTag.new
-    tag.id = node_tags(:t1).id
+    tag.node_id = node_tags(:t1).node_id
     tag.version = node_tags(:t1).version
     tag.k = node_tags(:t1).k
     tag.v = node_tags(:t1).v

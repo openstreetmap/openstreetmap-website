@@ -3,7 +3,7 @@ class Changeset < ActiveRecord::Base
 
   belongs_to :user
 
-  has_many :changeset_tags, :foreign_key => 'id'
+  has_many :changeset_tags
 
   has_many :nodes
   has_many :ways
@@ -177,13 +177,13 @@ class Changeset < ActiveRecord::Base
       self.save!
 
       tags = self.tags
-      ChangesetTag.delete_all(['id = ?', self.id])
+      ChangesetTag.delete_all(:changeset_id => self.id)
 
       tags.each do |k,v|
         tag = ChangesetTag.new
+        tag.changeset_id = self.id
         tag.k = k
         tag.v = v
-        tag.id = self.id
         tag.save!
       end
     end

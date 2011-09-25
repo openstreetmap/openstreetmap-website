@@ -2,8 +2,12 @@ class OldWay < ActiveRecord::Base
   include ConsistencyValidations
   
   set_table_name 'ways'
+  set_primary_keys :way_id, :version
 
   belongs_to :changeset
+
+  has_many :old_nodes, :class_name => 'OldWayNode', :foreign_key => [:way_id, :version]
+  has_many :old_tags, :class_name => 'OldWayTag', :foreign_key => [:way_id, :version]
 
   validates_associated :changeset
   
@@ -12,7 +16,7 @@ class OldWay < ActiveRecord::Base
     old_way.visible = way.visible
     old_way.changeset_id = way.changeset_id
     old_way.timestamp = way.timestamp
-    old_way.id = way.id
+    old_way.way_id = way.id
     old_way.version = way.version
     old_way.nds = way.nds
     old_way.tags = way.tags
@@ -30,7 +34,7 @@ class OldWay < ActiveRecord::Base
     save!
     clear_aggregation_cache
     clear_association_cache
-    @attributes.update(OldWay.where('id = ? AND timestamp = ?', self.id, self.timestamp).order("version DESC").first.instance_variable_get('@attributes'))
+    @attributes.update(OldWay.where(:way_id => self.way_id, :timestamp => self.timestamp).order("version DESC").first.instance_variable_get('@attributes'))
 
     # ok, you can touch from here on
 
@@ -38,7 +42,7 @@ class OldWay < ActiveRecord::Base
       tag = OldWayTag.new
       tag.k = k
       tag.v = v
-      tag.id = self.id
+      tag.way_id = self.way_id
       tag.version = self.version
       tag.save!
     end
@@ -46,7 +50,7 @@ class OldWay < ActiveRecord::Base
     sequence = 1
     self.nds.each do |n|
       nd = OldWayNode.new
-      nd.id = [self.id, self.version, sequence]
+      nd.id = [self.way_id, self.version, sequence]
       nd.node_id = n
       nd.save!
       sequence += 1
@@ -55,20 +59,20 @@ class OldWay < ActiveRecord::Base
 
   def nds
     unless @nds
-        @nds = Array.new
-        OldWayNode.where("id = ? AND version = ?", self.id, self.version).order(:sequence_id).each do |nd|
-            @nds += [nd.node_id]
-        end
+      @nds = Array.new
+      OldWayNode.where(:way_id => self.way_id, :version => self.version).order(:sequence_id).each do |nd|
+        @nds += [nd.node_id]
+      end
     end
     @nds
   end
 
   def tags
     unless @tags
-        @tags = Hash.new
-        OldWayTag.where("id = ? AND version = ?", self.id, self.version).each do |tag|
-            @tags[tag.k] = tag.v
-        end
+      @tags = Hash.new
+      OldWayTag.where(:way_id => self.way_id, :version => self.version).each do |tag|
+        @tags[tag.k] = tag.v
+      end
     end
     @tags = Hash.new unless @tags
     @tags
@@ -82,20 +86,9 @@ class OldWay < ActiveRecord::Base
     @tags = t
   end
 
-#  has_many :way_nodes, :class_name => 'OldWayNode', :foreign_key => 'id'
-#  has_many :way_tags, :class_name => 'OldWayTag', :foreign_key => 'id'
-
-  def old_nodes
-    OldWayNode.where('id = ? AND version = ?', self.id, self.version)
-  end
-
-  def old_tags
-    OldWayTag.where('id = ? AND version = ?', self.id, self.version)
-  end
-
   def to_xml_node
     el1 = XML::Node.new 'way'
-    el1['id'] = self.id.to_s
+    el1['id'] = self.way_id.to_s
     el1['visible'] = self.visible.to_s
     el1['timestamp'] = self.timestamp.xmlschema
     if self.changeset.user.data_public?
@@ -139,12 +132,12 @@ class OldWay < ActiveRecord::Base
   def get_nodes_revert(timestamp)
     points=[]
     self.nds.each do |n|
-      oldnode = OldNode.where('id = ? AND timestamp <= ?', n, timestamp).order("timestamp DESC").first
+      oldnode = OldNode.where('node_id = ? AND timestamp <= ?', n, timestamp).order("timestamp DESC").first
       curnode = Node.find(n)
       id = n; reuse = curnode.visible
       if oldnode.lat != curnode.lat or oldnode.lon != curnode.lon or oldnode.tags != curnode.tags then
         # node has changed: if it's in other ways, give it a new id
-        if curnode.ways-[self.id] then id=-1; reuse=false end
+        if curnode.ways-[self.node_id] then id=-1; reuse=false end
       end
       points << [oldnode.lon, oldnode.lat, id, curnode.version, oldnode.tags_as_hash, reuse]
     end

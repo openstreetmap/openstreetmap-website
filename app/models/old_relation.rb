@@ -2,8 +2,12 @@ class OldRelation < ActiveRecord::Base
   include ConsistencyValidations
   
   set_table_name 'relations'
+  set_primary_keys :relation_id, :version
 
   belongs_to :changeset
+
+  has_many :old_members, :class_name => 'OldRelationMember', :foreign_key => [:relation_id, :version], :order => :sequence_id
+  has_many :old_tags, :class_name => 'OldRelationTag', :foreign_key => [:relation_id, :version]
   
   validates_associated :changeset
 
@@ -12,7 +16,7 @@ class OldRelation < ActiveRecord::Base
     old_relation.visible = relation.visible
     old_relation.changeset_id = relation.changeset_id
     old_relation.timestamp = relation.timestamp
-    old_relation.id = relation.id
+    old_relation.relation_id = relation.id
     old_relation.version = relation.version
     old_relation.members = relation.members
     old_relation.tags = relation.tags
@@ -25,7 +29,7 @@ class OldRelation < ActiveRecord::Base
     save!
     clear_aggregation_cache
     clear_association_cache
-    @attributes.update(OldRelation.where('id = ? AND timestamp = ?', self.id, self.timestamp).order("version DESC").first.instance_variable_get('@attributes'))
+    @attributes.update(OldRelation.where(:relation_id => self.relation_id, :timestamp => self.timestamp).order("version DESC").first.instance_variable_get('@attributes'))
 
     # ok, you can touch from here on
 
@@ -33,14 +37,14 @@ class OldRelation < ActiveRecord::Base
       tag = OldRelationTag.new
       tag.k = k
       tag.v = v
-      tag.id = self.id
+      tag.relation_id = self.relation_id
       tag.version = self.version
       tag.save!
     end
 
     self.members.each_with_index do |m,i|
       member = OldRelationMember.new
-      member.id = [self.id, self.version, i]
+      member.id = [self.relation_id, self.version, i]
       member.member_type = m[0].classify
       member.member_id = m[1]
       member.member_role = m[2]
@@ -50,20 +54,20 @@ class OldRelation < ActiveRecord::Base
 
   def members
     unless @members
-        @members = Array.new
-        OldRelationMember.where("id = ? AND version = ?", self.id, self.version).order(:sequence_id).each do |m|
-            @members += [[m.type,m.id,m.role]]
-        end
+      @members = Array.new
+      OldRelationMember.where(:relation_id => self.relation_id, :version => self.version).order(:sequence_id).each do |m|
+        @members += [[m.type,m.id,m.role]]
+      end
     end
     @members
   end
 
   def tags
     unless @tags
-        @tags = Hash.new
-        OldRelationTag.where("id = ? AND version = ?", self.id, self.version).each do |tag|
-            @tags[tag.k] = tag.v
-        end
+      @tags = Hash.new
+      OldRelationTag.where(:relation_id => self.relation_id, :version => self.version).each do |tag|
+        @tags[tag.k] = tag.v
+      end
     end
     @tags = Hash.new unless @tags
     @tags
@@ -77,17 +81,6 @@ class OldRelation < ActiveRecord::Base
     @tags = t
   end
 
-#  has_many :relation_segments, :class_name => 'OldRelationSegment', :foreign_key => 'id'
-#  has_many :relation_tags, :class_name => 'OldRelationTag', :foreign_key => 'id'
-
-  def old_members
-    OldRelationMember.where('id = ? AND version = ?', self.id, self.version).order(:sequence_id)
-  end
-
-  def old_tags
-    OldRelationTag.where('id = ? AND version = ?', self.id, self.version)
-  end
-
   def to_xml
     doc = OSM::API.new.get_xml_doc
     doc.root << to_xml_node()
@@ -96,7 +89,7 @@ class OldRelation < ActiveRecord::Base
 
   def to_xml_node
     el1 = XML::Node.new 'relation'
-    el1['id'] = self.id.to_s
+    el1['id'] = self.relation_id.to_s
     el1['visible'] = self.visible.to_s
     el1['timestamp'] = self.timestamp.xmlschema
     if self.changeset.user.data_public?

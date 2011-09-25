@@ -7,10 +7,10 @@ class Relation < ActiveRecord::Base
 
   belongs_to :changeset
 
-  has_many :old_relations, :foreign_key => 'id', :order => 'version'
+  has_many :old_relations, :order => 'version'
 
-  has_many :relation_members, :foreign_key => 'id', :order => 'sequence_id'
-  has_many :relation_tags, :foreign_key => 'id'
+  has_many :relation_members, :order => 'sequence_id'
+  has_many :relation_tags
 
   has_many :containing_relation_members, :class_name => "RelationMember", :as => :member
   has_many :containing_relations, :class_name => "Relation", :through => :containing_relation_members, :source => :relation, :extend => ObjectFinder
@@ -348,12 +348,12 @@ class Relation < ActiveRecord::Base
       # if there are left-over tags then they are new and will have to
       # be added.
       tags_changed |= (not tags.empty?)
-      RelationTag.delete_all(:id => self.id)
+      RelationTag.delete_all(:relation_id => self.id)
       self.tags.each do |k,v|
         tag = RelationTag.new
+        tag.relation_id = self.id
         tag.k = k
         tag.v = v
-        tag.id = self.id
         tag.save!
       end
       
@@ -378,10 +378,11 @@ class Relation < ActiveRecord::Base
       # members may be in a different order and i don't feel like implementing
       # a longest common subsequence algorithm to optimise this.
       members = self.members
-      RelationMember.delete_all(:id => self.id)
+      RelationMember.delete_all(:relation_id => self.id)
       members.each_with_index do |m,i|
         mem = RelationMember.new
-        mem.id = [self.id, i]
+        mem.relation_id = self.id
+        mem.sequence_id = i
         mem.member_type = m[0]
         mem.member_id = m[1]
         mem.member_role = m[2]

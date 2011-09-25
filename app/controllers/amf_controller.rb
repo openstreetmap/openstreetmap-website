@@ -413,13 +413,13 @@ class AmfController < ApplicationController
     amf_handle_error_with_timeout("'getway_old' #{id}, #{timestamp}", 'way',id) do
       if timestamp == ''
         # undelete
-        old_way = OldWay.where(:visible => true, :id => id).order("version DESC").first
+        old_way = OldWay.where(:visible => true, :way_id => id).order("version DESC").first
         points = old_way.get_nodes_undelete unless old_way.nil?
       else
         begin
           # revert
           timestamp = DateTime.strptime(timestamp.to_s, "%d %b %Y, %H:%M:%S")
-          old_way = OldWay.where("id = ? AND timestamp <= ?", id, timestamp).order("timestamp DESC").first
+          old_way = OldWay.where("way_id = ? AND timestamp <= ?", id, timestamp).order("timestamp DESC").first
           unless old_way.nil?
             points = old_way.get_nodes_revert(timestamp)
             if !old_way.visible

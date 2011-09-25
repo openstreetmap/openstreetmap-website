@@ -8,12 +8,12 @@ class Node < ActiveRecord::Base
 
   belongs_to :changeset
 
-  has_many :old_nodes, :foreign_key => :id, :order => :version
+  has_many :old_nodes, :order => :version
 
   has_many :way_nodes
   has_many :ways, :through => :way_nodes
 
-  has_many :node_tags, :foreign_key => :id
+  has_many :node_tags
   
   has_many :old_way_nodes
   has_many :ways_via_history, :class_name=> "Way", :through => :old_way_nodes, :source => :way
@@ -289,12 +289,12 @@ class Node < ActiveRecord::Base
 
       # Create a NodeTag
       tags = self.tags
-      NodeTag.delete_all(['id = ?', self.id])
+      NodeTag.delete_all(:node_id => self.id)
       tags.each do |k,v|
         tag = NodeTag.new
+        tag.node_id = self.id
         tag.k = k 
         tag.v = v 
-        tag.id = self.id
         tag.save!
       end 
 

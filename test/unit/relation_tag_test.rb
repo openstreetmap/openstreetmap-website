@@ -11,7 +11,7 @@ class RelationTagTest < ActiveSupport::TestCase
     key = "k"
     (0..255).each do |i|
       tag = RelationTag.new
-      tag.id = 1
+      tag.relation_id = 1
       tag.k = key*i
       tag.v = "v"
       assert tag.valid?
@@ -22,7 +22,7 @@ class RelationTagTest < ActiveSupport::TestCase
     val = "v"
     (0..255).each do |i|
       tag = RelationTag.new
-      tag.id = 1
+      tag.relation_id = 1
       tag.k = "k"
       tag.v = val*i
       assert tag.valid?
@@ -32,7 +32,7 @@ class RelationTagTest < ActiveSupport::TestCase
   def test_length_key_invalid
     ["k"*256].each do |i|
       tag = RelationTag.new
-      tag.id = 1
+      tag.relation_id = 1
       tag.k = i
       tag.v = "v"
       assert !tag.valid?, "Key #{i} should be too long"
@@ -43,7 +43,7 @@ class RelationTagTest < ActiveSupport::TestCase
   def test_length_value_invalid
     ["v"*256].each do |i|
       tag = RelationTag.new
-      tag.id = 1
+      tag.relation_id = 1
       tag.k = "k"
       tag.v = i
       assert !tag.valid?, "Value #{i} should be too long"
@@ -54,12 +54,12 @@ class RelationTagTest < ActiveSupport::TestCase
   def test_empty_tag_invalid
     tag = RelationTag.new
     assert !tag.valid?, "Empty relation tag should be invalid"
-    assert tag.errors[:id].any?
+    assert tag.errors[:relation].any?
   end
   
   def test_uniquness
     tag = RelationTag.new
-    tag.id = current_relation_tags(:t1).id
+    tag.relation_id = current_relation_tags(:t1).relation_id
     tag.k = current_relation_tags(:t1).k
     tag.v = current_relation_tags(:t1).v
     assert tag.new_record?
@@ -84,7 +84,7 @@ class RelationTagTest < ActiveSupport::TestCase
   #   assert_equal 0, RelationTag.count(:conditions => ['v=?', v])
 
   #   # make sure we select a tag on a relation which has more than one tag
-  #   id = current_relations(:multi_tag_relation).id
+  #   id = current_relations(:multi_tag_relation).relation_id
   #   tag = RelationTag.find(:first, :conditions => ["id = ?", id])
   #   tag.v = v
   #   tag.save!

@@ -18,7 +18,7 @@ class OldNodeController < ApplicationController
   end
   
   def version
-    if old_node = OldNode.where(:id => params[:id], :version => params[:version]).first
+    if old_node = OldNode.where(:node_id => params[:id], :version => params[:version]).first
       response.last_modified = old_node.timestamp
 
       doc = OSM::API.new.get_xml_doc

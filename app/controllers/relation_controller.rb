@@ -157,7 +157,7 @@ class RelationController < ApplicationController
   end
 
   def relations_for_object(objtype)
-    relationids = RelationMember.where(:member_type => objtype, :member_id => params[:id]).collect { |ws| ws.id[0] }.uniq
+    relationids = RelationMember.where(:member_type => objtype, :member_id => params[:id]).collect { |ws| ws.relation_id }.uniq
 
     doc = OSM::API.new.get_xml_doc
 

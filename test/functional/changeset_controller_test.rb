@@ -1282,10 +1282,10 @@ EOF
     # FIXME needs more assert_select tests
     assert_select "osmChange[version='#{API_VERSION}'][generator='#{GENERATOR}']" do
       assert_select "create", :count => 5
-      assert_select "create>node[id=#{nodes(:used_node_2).id}][visible=#{nodes(:used_node_2).visible?}][version=#{nodes(:used_node_2).version}]" do
+      assert_select "create>node[id=#{nodes(:used_node_2).node_id}][visible=#{nodes(:used_node_2).visible?}][version=#{nodes(:used_node_2).version}]" do
         assert_select "tag[k=#{node_tags(:t3).k}][v=#{node_tags(:t3).v}]"
       end
-      assert_select "create>node[id=#{nodes(:visible_node).id}]"
+      assert_select "create>node[id=#{nodes(:visible_node).node_id}]"
     end
   end
   

@@ -3,11 +3,8 @@ class OldNode < ActiveRecord::Base
   include ConsistencyValidations
 
   set_table_name 'nodes'
-  
-  # Should probably have the composite primary key set in the model
-  # however there are some weird bugs happening when you do
-  #set_primary_keys :id, :version
-  
+  set_primary_keys :node_id, :version
+
   validates_presence_of :changeset_id, :timestamp
   validates_inclusion_of :visible, :in => [ true, false ]
   validates_numericality_of :latitude, :longitude
@@ -28,7 +25,7 @@ class OldNode < ActiveRecord::Base
     old_node.tags = node.tags
     old_node.timestamp = node.timestamp
     old_node.changeset_id = node.changeset_id
-    old_node.id = node.id
+    old_node.node_id = node.id
     old_node.version = node.version
     return old_node
   end
@@ -41,7 +38,7 @@ class OldNode < ActiveRecord::Base
 
   def to_xml_node
     el1 = XML::Node.new 'node'
-    el1['id'] = self.id.to_s
+    el1['id'] = self.node_id.to_s
     el1['lat'] = self.lat.to_s
     el1['lon'] = self.lon.to_s
     el1['changeset'] = self.changeset.id.to_s
@@ -69,13 +66,13 @@ class OldNode < ActiveRecord::Base
     clear_aggregation_cache
     clear_association_cache
     #ok from here
-    @attributes.update(OldNode.where('id = ? AND timestamp = ? AND version = ?', self.id, self.timestamp, self.version).first.instance_variable_get('@attributes'))
+    @attributes.update(OldNode.where(:node_id => self.node_id, :timestamp => self.timestamp, :version => self.version).first.instance_variable_get('@attributes'))
    
     self.tags.each do |k,v|
       tag = OldNodeTag.new
       tag.k = k
       tag.v = v
-      tag.id = self.id
+      tag.node_id = self.node_id
       tag.version = self.version
       tag.save!
     end
@@ -83,10 +80,10 @@ class OldNode < ActiveRecord::Base
 
   def tags
     unless @tags
-        @tags = Hash.new
-        OldNodeTag.where("id = ? AND version = ?", self.id, self.version).each do |tag|
-            @tags[tag.k] = tag.v
-        end
+      @tags = Hash.new
+      OldNodeTag.where(:node_id => self.node_id, :version => self.version).each do |tag|
+        @tags[tag.k] = tag.v
+      end
     end
     @tags = Hash.new unless @tags
     @tags

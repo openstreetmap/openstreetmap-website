@@ -18,7 +18,7 @@ class OldWayController < ApplicationController
   end
   
   def version
-    if old_way = OldWay.where(:id => params[:id], :version => params[:version]).first
+    if old_way = OldWay.where(:way_id => params[:id], :version => params[:version]).first
       response.last_modified = old_way.timestamp
 
       doc = OSM::API.new.get_xml_doc

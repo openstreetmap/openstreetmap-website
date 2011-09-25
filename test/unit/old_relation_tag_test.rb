@@ -11,7 +11,7 @@ class OldRelationTagTest < ActiveSupport::TestCase
     key = "k"
     (0..255).each do |i|
       tag = OldRelationTag.new
-      tag.id = relation_tags(:t1).id
+      tag.relation_id = relation_tags(:t1).relation_id
       tag.version = 1
       tag.k = key*i
       tag.v = "v"
@@ -23,7 +23,7 @@ class OldRelationTagTest < ActiveSupport::TestCase
     val = "v"
     (0..255).each do |i|
       tag = OldRelationTag.new
-      tag.id = relation_tags(:t1).id
+      tag.relation_id = relation_tags(:t1).relation_id
       tag.version = 1
       tag.k = "k"
       tag.v = val*i
@@ -34,7 +34,7 @@ class OldRelationTagTest < ActiveSupport::TestCase
   def test_length_key_invalid
     ["k"*256].each do |i|
       tag = OldRelationTag.new
-      tag.id = relation_tags(:t1).id
+      tag.relation_id = relation_tags(:t1).relation_id
       tag.version = 1
       tag.k = i
       tag.v = "v"
@@ -46,7 +46,7 @@ class OldRelationTagTest < ActiveSupport::TestCase
   def test_length_value_invalid
     ["k"*256].each do |i|
       tag = OldRelationTag.new
-      tag.id = relation_tags(:t1).id
+      tag.relation_id = relation_tags(:t1).relation_id
       tag.version = 1
       tag.k = "k"
       tag.v = i
@@ -55,15 +55,15 @@ class OldRelationTagTest < ActiveSupport::TestCase
     end
   end
   
-  def test_empty_node_tag_invalid
+  def test_empty_tag_invalid
     tag = OldRelationTag.new
     assert !tag.valid?, "Empty tag should be invalid"
-    assert tag.errors[:id].any?
+    assert tag.errors[:old_relation].any?
   end
   
   def test_uniqueness
     tag = OldRelationTag.new
-    tag.id = relation_tags(:t1).id
+    tag.relation_id = relation_tags(:t1).relation_id
     tag.version = relation_tags(:t1).version
     tag.k = relation_tags(:t1).k
     tag.v = relation_tags(:t1).v

@@ -7,12 +7,12 @@ class Way < ActiveRecord::Base
   
   belongs_to :changeset
 
-  has_many :old_ways, :foreign_key => 'id', :order => 'version'
+  has_many :old_ways, :order => 'version'
 
-  has_many :way_nodes, :foreign_key => 'id', :order => 'sequence_id'
+  has_many :way_nodes, :order => 'sequence_id'
   has_many :nodes, :through => :way_nodes, :order => 'sequence_id'
 
-  has_many :way_tags, :foreign_key => 'id'
+  has_many :way_tags
 
   has_many :containing_relation_members, :class_name => "RelationMember", :as => :member
   has_many :containing_relations, :class_name => "Relation", :through => :containing_relation_members, :source => :relation, :extend => ObjectFinder
@@ -320,17 +320,17 @@ class Way < ActiveRecord::Base
       self.save!
 
       tags = self.tags
-      WayTag.delete_all(['id = ?', self.id])
+      WayTag.delete_all(:way_id => self.id)
       tags.each do |k,v|
         tag = WayTag.new
+        tag.way_id = self.id
         tag.k = k
         tag.v = v
-        tag.id = self.id
         tag.save!
       end
 
       nds = self.nds
-      WayNode.delete_all(['id = ?', self.id])
+      WayNode.delete_all(:way_id => self.id)
       sequence = 1
       nds.each do |n|
         nd = WayNode.new
@@ -358,5 +358,4 @@ class Way < ActiveRecord::Base
       cs.save!
     end
   end
-
 end

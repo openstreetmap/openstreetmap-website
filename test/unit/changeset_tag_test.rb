@@ -11,7 +11,7 @@ class ChangesetTagTest < ActiveSupport::TestCase
     key = "k"
     (0..255).each do |i|
       tag = ChangesetTag.new
-      tag.id = 1
+      tag.changeset_id = 1
       tag.k = key*i
       tag.v = "v"
       assert tag.valid?
@@ -22,7 +22,7 @@ class ChangesetTagTest < ActiveSupport::TestCase
     val = "v"
     (0..255).each do |i|
       tag = ChangesetTag.new
-      tag.id = 1
+      tag.changeset_id = 1
       tag.k = "k"
       tag.v = val*i
       assert tag.valid?
@@ -32,7 +32,7 @@ class ChangesetTagTest < ActiveSupport::TestCase
   def test_length_key_invalid
     ["k"*256].each do |k|
       tag = ChangesetTag.new
-      tag.id = 1
+      tag.changeset_id = 1
       tag.k = k
       tag.v = "v"
       assert !tag.valid?, "Key #{k} should be too long"
@@ -43,7 +43,7 @@ class ChangesetTagTest < ActiveSupport::TestCase
   def test_length_value_invalid
     ["v"*256].each do |v|
       tag = ChangesetTag.new
-      tag.id = 1
+      tag.changeset_id = 1
       tag.k = "k"
       tag.v = v
       assert !tag.valid?, "Value #{v} should be too long"
@@ -54,12 +54,12 @@ class ChangesetTagTest < ActiveSupport::TestCase
   def test_empty_tag_invalid
     tag = ChangesetTag.new
     assert !tag.valid?, "Empty tag should be invalid"
-    assert tag.errors[:id].any?
+    assert tag.errors[:changeset].any?
   end
   
   def test_uniqueness
     tag = ChangesetTag.new
-    tag.id = changeset_tags(:changeset_1_tag_1).id
+    tag.changeset_id = changeset_tags(:changeset_1_tag_1).id
     tag.k = changeset_tags(:changeset_1_tag_1).k
     tag.v = changeset_tags(:changeset_1_tag_1).v
     assert tag.new_record?
