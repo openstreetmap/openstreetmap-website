@@ -2,7 +2,7 @@
 
 <%= error_messages_for 'trace' %>
 
-<%= form_for :trace, @trace, :url => { :action => "create" }, :html => { :multipart => true } do |f| %>
+<%= form_for @trace, :url => { :action => "create" }, :html => { :multipart => true } do |f| %>
 <table>
   <tr><td class="fieldName"><%= t'trace.trace_form.upload_gpx' %></td><td><%= f.file_field :gpx_file, :size => 50, :maxlength => 255 %></td></tr>
   <tr><td class="fieldName"><%= t'trace.trace_form.description' %></td><td><%= f.text_field :description, :size => 50, :maxlength => 255 %></td></tr>
