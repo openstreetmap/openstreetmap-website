@@ -48,7 +48,7 @@ class UserController < ApplicationController
       if params[:user] and params[:user][:openid_url] and @user.pass_crypt.empty?
         # We are creating an account with OpenID and no password
         # was specified so create a random one
-        @user.pass_crypt = ActiveSupport::SecureRandom.base64(16) 
+        @user.pass_crypt = SecureRandom.base64(16) 
         @user.pass_crypt_confirmation = @user.pass_crypt 
       end
 
