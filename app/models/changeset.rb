@@ -54,7 +54,7 @@ class Changeset < ActiveRecord::Base
 
   def self.from_xml(xml, create=false)
     begin
-      p = XML::Parser.string(xml)
+      p = XML::Parser.string(xml, :options => XML::Parser::Options::NOERROR)
       doc = p.parse
 
       doc.find('//osm/changeset').each do |pt|
