@@ -1,3 +1,5 @@
+require 'stringio'
+
 # The Potlatch module provides helper functions for potlatch and its communication with the server
 module Potlatch
 
@@ -119,6 +121,48 @@ module Potlatch
 
   end
 
+  # The Dispatcher class handles decoding a series of RPC calls
+  # from the request, dispatching them, and encoding the response
+  class Dispatcher
+    def initialize(request, &block)
+      # Get stream for request data
+      @request = StringIO.new(request + 0.chr)
+
+      # Skip version indicator and client ID
+      @request.read(2)
+
+      # Skip headers
+      AMF.getint(@request).times do     # Read number of headers and loop
+        AMF.getstring(@request)         #  | skip name
+        req.getc                        #  | skip boolean
+        AMF.getvalue(@request)          #  | skip value
+      end
+
+      # Capture the dispatch routine
+      @dispatch = Proc.new
+    end
+
+    def each(&block)
+      # Read number of message bodies
+      bodies = AMF.getint(@request)
+
+      # Output response header
+      a,b = bodies.divmod(256)
+      yield 0.chr + 0.chr + 0.chr + 0.chr + a.chr + b.chr
+
+      # Process the bodies
+      bodies.times do                     # Read each body
+        name = AMF.getstring(@request)    #  | get message name
+        index = AMF.getstring(@request)   #  | get index in response sequence
+        bytes = AMF.getlong(@request)     #  | get total size in bytes
+        args = AMF.getvalue(@request)     #  | get response (probably an array)
+
+        result = @dispatch.call(name, *args)
+
+        yield AMF.putdata(index, result)
+      end
+    end
+  end
 
   # The Potlatch class is a helper for Potlatch
   class Potlatch

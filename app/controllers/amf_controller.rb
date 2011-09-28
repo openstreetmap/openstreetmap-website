@@ -36,8 +36,6 @@
 # * version conflict when POIs and ways are reverted
 
 class AmfController < ApplicationController
-  require 'stringio'
-
   include Potlatch
 
   # Help methods for checking boundary sanity and area size
@@ -47,55 +45,30 @@ class AmfController < ApplicationController
 
   # Main AMF handlers: process the raw AMF string (using AMF library) and
   # calls each action (private method) accordingly.
-  # ** FIXME: refactor to reduce duplication of code across read/write
   
   def amf_read
     if request.post?
-      req=StringIO.new(request.raw_post+0.chr)# Get POST data as request
-                                              # (cf http://www.ruby-forum.com/topic/122163)
-      req.read(2)                             # Skip version indicator and client ID
-
-      # Parse request
-
-      headers=AMF.getint(req)           # Read number of headers
-      headers.times do                  # Read each header
-        name=AMF.getstring(req)         #  |
-        req.getc                        #  | skip boolean
-        value=AMF.getvalue(req)         #  |
-        header["name"]=value            #  |
-      end
-
-      bodies=AMF.getint(req)            # Read number of bodies
-
       self.status = :ok
       self.content_type = Mime::AMF
-      self.response_body = proc { |response, output| 
-        a,b=bodies.divmod(256)
-        output.write 0.chr+0.chr+0.chr+0.chr+a.chr+b.chr
-        bodies.times do                 # Read each body
-          message=AMF.getstring(req)    #  | get message name
-          index=AMF.getstring(req)      #  | get index in response sequence
-          bytes=AMF.getlong(req)        #  | get total size in bytes
-          args=AMF.getvalue(req)        #  | get response (probably an array)
-          result=''
-          logger.info("Executing AMF #{message}(#{args.join(',')}):#{index}")
+      self.response_body = Dispatcher.new(request.raw_post) do |message,*args|
+        logger.info("Executing AMF #{message}(#{args.join(',')})")
 
-          case message
-            when 'getpresets';        result=AMF.putdata(index,getpresets(*args))
-            when 'whichways';         result=AMF.putdata(index,whichways(*args))
-            when 'whichways_deleted'; result=AMF.putdata(index,whichways_deleted(*args))
-            when 'getway';            result=AMF.putdata(index,getway(args[0].to_i))
-            when 'getrelation';       result=AMF.putdata(index,getrelation(args[0].to_i))
-            when 'getway_old';        result=AMF.putdata(index,getway_old(args[0].to_i,args[1]))
-            when 'getway_history';    result=AMF.putdata(index,getway_history(args[0].to_i))
-            when 'getnode_history';   result=AMF.putdata(index,getnode_history(args[0].to_i))
-            when 'findgpx';           result=AMF.putdata(index,findgpx(*args))
-            when 'findrelations';     result=AMF.putdata(index,findrelations(*args))
-            when 'getpoi';            result=AMF.putdata(index,getpoi(*args))
-          end
-          output.write(result)
+        case message
+          when 'getpresets';        result = getpresets(*args)
+          when 'whichways';         result = whichways(*args)
+          when 'whichways_deleted'; result = whichways_deleted(*args)
+          when 'getway';            result = getway(args[0].to_i)
+          when 'getrelation';       result = getrelation(args[0].to_i)
+          when 'getway_old';        result = getway_old(args[0].to_i,args[1])
+          when 'getway_history';    result = getway_history(args[0].to_i)
+          when 'getnode_history';   result = getnode_history(args[0].to_i)
+          when 'findgpx';           result = findgpx(*args)
+          when 'findrelations';     result = findrelations(*args)
+          when 'getpoi';            result = getpoi(*args)
         end
-      }
+        
+        result
+      end
     else
       render :nothing => true, :status => :method_not_allowed
     end
@@ -103,56 +76,35 @@ class AmfController < ApplicationController
 
   def amf_write
     if request.post?
-      req=StringIO.new(request.raw_post+0.chr)
-      req.read(2)
-      renumberednodes={}              # Shared across repeated putways
-      renumberedways={}               # Shared across repeated putways
-
-      headers=AMF.getint(req)         # Read number of headers
-      headers.times do                # Read each header
-        name=AMF.getstring(req)       #  |
-        req.getc                      #  | skip boolean
-        value=AMF.getvalue(req)       #  |
-        header["name"]=value          #  |
-      end
-
-      bodies=AMF.getint(req)          # Read number of bodies
+      renumberednodes = {}              # Shared across repeated putways
+      renumberedways = {}               # Shared across repeated putways
+      err = false                       # Abort batch on error
 
       self.status = :ok
       self.content_type = Mime::AMF
-      self.response_body = proc { |response, output| 
-        a,b=bodies.divmod(256)
-        output.write 0.chr+0.chr+0.chr+0.chr+a.chr+b.chr
-        bodies.times do               # Read each body
-          message=AMF.getstring(req)  #  | get message name
-          index=AMF.getstring(req)    #  | get index in response sequence
-          bytes=AMF.getlong(req)      #  | get total size in bytes
-          args=AMF.getvalue(req)      #  | get response (probably an array)
-          err=false                   # Abort batch on error
+      self.response_body = Dispatcher.new(request.raw_post) do |message,*args|
+        logger.info("Executing AMF #{message}")
 
-          logger.info("Executing AMF #{message}:#{index}")
-          result=''
-          if err
-            result=[-5,nil]
-          else
-            case message
-              when 'putway';         orn=renumberednodes.dup
-                                     r=putway(renumberednodes,*args)
-                                     r[4]=renumberednodes.reject { |k,v| orn.has_key?(k) }
-                                     if r[0]==0 and r[2] != r[3] then renumberedways[r[2]] = r[3] end
-                                     result=AMF.putdata(index,r)
-              when 'putrelation';    result=AMF.putdata(index,putrelation(renumberednodes, renumberedways, *args))
-              when 'deleteway';      result=AMF.putdata(index,deleteway(*args))
-              when 'putpoi';         r=putpoi(*args)
-                                     if r[0]==0 and r[2] != r[3] then renumberednodes[r[2]] = r[3] end
-                                     result=AMF.putdata(index,r)
-              when 'startchangeset'; result=AMF.putdata(index,startchangeset(*args))
-            end
-            if result[0]==-3 then err=true end    # If a conflict is detected, don't execute any more writes
+        if err
+          result = [-5, nil]
+        else
+          case message
+            when 'putway';         orn = renumberednodes.dup
+                                   result = putway(renumberednodes, *args)
+                                   result[4] = renumberednodes.reject { |k,v| orn.has_key?(k) }
+                                   if result[0] == 0 and result[2] != result[3] then renumberedways[result[2]] = result[3] end
+            when 'putrelation';    result = putrelation(renumberednodes, renumberedways, *args)
+            when 'deleteway';      result = deleteway(*args)
+            when 'putpoi';         result = putpoi(*args)
+                                   if result[0] == 0 and result[2] != result[3] then renumberednodes[result[2]] = result[3] end
+            when 'startchangeset'; result = startchangeset(*args)
           end
-          output.write(result)
+
+          err = true if result[0] == -3  # If a conflict is detected, don't execute any more writes
         end
-      }
+
+        result
+      end
     else
       render :nothing => true, :status => :method_not_allowed
     end
