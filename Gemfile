@@ -16,6 +16,7 @@ gem 'validates_email_format_of', '>= 1.5.1'
 gem 'open_id_authentication', '>= 1.1.0'
 gem 'prototype-rails'
 gem 'rinku', '>= 1.2.2', :require => 'rails_rinku'
+gem 'dynamic_form'
 
 # Should only load if memcache is in use
 #gem 'memcached'
