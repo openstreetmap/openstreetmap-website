@@ -1,8 +1,8 @@
 # Be sure to restart your server when you modify this file.
 
-OpenStreetMap::Application.config.session_store :cookie_store, :key => '_osm_session'
-
-# Use the database for sessions instead of the cookie-based default,
-# which shouldn't be used to store highly confidential information
-# (create the session table with "rails generate session_migration")
-# OpenStreetMap::Application.config.session_store :active_record_store
+if STATUS == :database_offline or STATUS == :database_readonly
+  OpenStreetMap::Application.config.session_store :cookie_store, :key => '_osm_session'
+else
+  ActiveRecord::SessionStore.session_class = ActiveRecord::SessionStore::SqlBypass
+  OpenStreetMap::Application.config.session_store :active_record_store, :key => '_osm_session'
+end
