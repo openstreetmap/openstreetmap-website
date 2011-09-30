@@ -13,7 +13,6 @@
         <inputSet ref="tunnel"/>
         <inputSet ref="embankment-cutting"/>
         <inputSet ref="rail-electrification"/>
-        <inputSet ref="rail-usage"/>
         <inputSet ref="common"/>
       </feature>
     
@@ -145,7 +144,7 @@
         <line/>
         <area/>
         <tag k="railway" v="platform"/>
-        <input type="freetext" presence="onTagMatch" category="Naming" name="Reference" key="ref" description="The number of the platform" priority="low"/>
+        <input type="freetext" presence="onTagMatch" category="Details" name="Reference" key="ref" description="The number of the platform" priority="low"/>
         <inputSet ref="common"/>
       </feature>
     
@@ -159,13 +158,13 @@
     <area/>
     <tag k="amenity" v="car_wash"/>
     <inputSet ref="names"/>
-    <input type="freetext" presence="onTagMatch" category="Naming" name="Operator" key="operator" description="The company/organisation that runs the car wash" priority="low"/>
-    <input type="freetext" presence="onTagMatch" category="Operation" name="Opening hours" key="opening_hours" priority="normal"/>
-    <input type="choice" presence="onTagMatch" category="Operation" name="Self service" key="self_service" priority="low">
+    <input type="freetext" presence="onTagMatch" category="Details" name="Operator" key="operator" description="The company/organisation that runs the car wash" priority="low"/>
+    <input type="freetext" presence="onTagMatch" category="Details" name="Opening hours" key="opening_hours" priority="normal"/>
+    <input type="choice" presence="onTagMatch" category="Details" name="Self service" key="self_service" priority="low">
     	<choice value="yes" text="Yes" />
     	<choice value="no" text="No" />
     </input>
-    <input type="choice" presence="onTagMatch" category="Operation" name="Automated" key="automated" priority="low">
+    <input type="choice" presence="onTagMatch" category="Details" name="Automated" key="automated" priority="low">
     	<choice value="yes" text="Yes" />
     	<choice value="no" text="No" />
     </input>
@@ -196,7 +195,7 @@
         <area/>
         <point/>
         <inputSet ref="names"/>
-        <input type="freetext" presence="always" category="Naming" name="International Air Transport Association (IATA) airport code" key="ref"/>
+        <input type="freetext" presence="always" category="Details" name="International Air Transport Association (IATA) airport code" key="ref"/>
         <help>http://wiki.openstreetmap.org/wiki/Key:aeroway</help>
         <inputSet ref="common"/>
       </feature>
@@ -232,7 +231,7 @@
         <tag k="aeroway" v="runway"/>
         <line/>
         <inputSet ref="names"/>
-        <input type="freetext" presence="always" category="Naming" name="Runway number (01-36)" key="ref"/>
+        <input type="freetext" presence="always" category="Details" name="Runway number (01-36)" key="ref"/>
         <help>http://wiki.openstreetmap.org/wiki/Key:aeroway</help>
         <inputSet ref="common"/>
       </feature>
@@ -244,7 +243,7 @@
         <tag k="aeroway" v="taxiway"/>
         <line/>
         <inputSet ref="names"/>
-        <input type="freetext" presence="always" category="Naming" name="Taxiway number" key="ref" />
+        <input type="freetext" presence="always" category="Details" name="Taxiway number" key="ref" />
         <help>http://wiki.openstreetmap.org/wiki/Key:aeroway</help>
         <inputSet ref="common"/>
       </feature>
@@ -266,7 +265,7 @@
         <icon image="features/pois/transport_airport_gate.n.24.png"/>
         <tag k="aeroway" v="gate"/>
         <point/>
-        <input type="freetext" presence="always" category="Naming" name="Gate number" key="ref"/>
+        <input type="freetext" presence="always" category="Details" name="Gate number" key="ref"/>
         <help>http://wiki.openstreetmap.org/wiki/Key:aeroway</help>
         <inputSet ref="common"/>
       </feature>
@@ -305,7 +304,7 @@
     <area/>
     <tag k="amenity" v="parking"/>
     <inputSet ref="names"/>
-    <input type="freetext" presence="onTagMatch" category="Naming" name="Operator" key="operator" description="The provider of the postal service" priority="low"/>
+    <input type="freetext" presence="onTagMatch" category="Details" name="Operator" key="operator" description="The provider of the postal service" priority="low"/>
     <input type="number" minimum="0" maximum="99999" stepSize="1" presence="always" category="Parking" name="Capacity" key="capacity" description="The number of cars that can be parked in the car park"/>
     <inputSet ref="fee"/>
     <inputSet ref="common"/>
@@ -321,7 +320,7 @@
     <point/>
     <tag k="amenity" v="bicycle_parking"/>
     <inputSet ref="names"/>
-    <input type="freetext" presence="onTagMatch" category="Naming" name="Operator" key="operator" description="The provider of the postal service" priority="low"/>
+    <input type="freetext" presence="onTagMatch" category="Details" name="Operator" key="operator" description="The provider of the postal service" priority="low"/>
     <input type="number" minimum="0" maximum="99999" stepSize="1"
         presence="always" category="Cycle" name="Capacity" key="capacity"
         description="The number of bicycles that can be parked in the group of bicycle parking racks"/>
@@ -345,82 +344,82 @@
     <point/>
     <tag k="railway" v="station"/>
     <inputSet ref="names"/>
-    <input type="freetext" presence="onTagMatch" category="Naming" name="Reference" key="ref" description="The shortcode/reference for the station" priority="low"/>
-    <input type="freetext" presence="onTagMatch" category="Naming" name="Operator" key="operator" description="The provider of the service" priority="low"/>
+    <input type="freetext" presence="onTagMatch" category="Details" name="Reference" key="ref" description="The shortcode/reference for the station" priority="low"/>
+    <input type="freetext" presence="onTagMatch" category="Details" name="Operator" key="operator" description="The provider of the service" priority="low"/>
     <inputSet ref="common"/>
   </feature>
 
 
   <feature name="Fuel">
-    <category>transport</category> 
-    <point /> 
-    <inputSet ref="simpleName" /> 
+    <category>transport</category>
+    <point />
+    <inputSet ref="simpleName" />
     <icon image="features/pois/transport_fuel.n.24.png" />
     <tag k="amenity" v="fuel"/>
     <inputSet ref="simpleBrand"/>
     <inputSet ref="simpleOperator"/>
 
-    <input type="choice" category="Fuels" name="Diesel" key="fuel:diesel" description="Is diesel fuel sold here?" priority="low">
+    <input type="choice" category="Details" name="Diesel" key="fuel:diesel" description="Is diesel fuel sold here?" priority="low">
       <choice value="yes" text="Yes"/>
       <choice value="no" text="No"/>
     </input>
-    <input type="choice" category="Fuels" name="GTL Diesel" key="fuel:GTL_diesel" description="Is GTL diesel fuel sold here?" priority="low">
+    <input type="choice" category="Details" name="GTL Diesel" key="fuel:GTL_diesel" description="Is GTL diesel fuel sold here?" priority="low">
       <choice value="yes" text="Yes"/>
       <choice value="no" text="No"/>
     </input>
-    <input type="choice" category="Fuels" name="HGV Diesel" key="fuel:HGV_diesel" description="Is HGV diesel fuel sold here?" priority="low">
+    <input type="choice" category="Details" name="HGV Diesel" key="fuel:HGV_diesel" description="Is HGV diesel fuel sold here?" priority="low">
       <choice value="yes" text="Yes"/>
       <choice value="no" text="No"/>
     </input>
-    <input type="choice" category="Fuels" name="Biodiesel" key="fuel:biodiesel" description="Is biodiesel unleaded fuel sold here?" priority="low">
+    <input type="choice" category="Details" name="Biodiesel" key="fuel:biodiesel" description="Is biodiesel unleaded fuel sold here?" priority="low">
       <choice value="yes" text="Yes"/>
       <choice value="no" text="No"/>
     </input>
-    <input type="choice" category="Fuels" name="Octane 91" key="fuel:octane_91" description="Is octane 91 unleaded fuel sold here?" priority="low">
+    <input type="choice" category="Details" name="Octane 91" key="fuel:octane_91" description="Is octane 91 unleaded fuel sold here?" priority="low">
       <choice value="yes" text="Yes"/>
       <choice value="no" text="No"/>
     </input>
-    <input type="choice" category="Fuels" name="Octane 95" key="fuel:octane_95" description="Is octane 95 unleaded fuel sold here?" priority="low">
+    <input type="choice" category="Details" name="Octane 95" key="fuel:octane_95" description="Is octane 95 unleaded fuel sold here?" priority="low">
       <choice value="yes" text="Yes"/>
       <choice value="no" text="No"/>
     </input>
-    <input type="choice" category="Fuels" name="Octane 98" key="fuel:octane_98" description="Is octane 98 unleaded fuel sold here?" priority="low">
+    <input type="choice" category="Details" name="Octane 98" key="fuel:octane_98" description="Is octane 98 unleaded fuel sold here?" priority="low">
       <choice value="yes" text="Yes"/>
       <choice value="no" text="No"/>
     </input>
-    <input type="choice" category="Fuels" name="Octane 100" key="fuel:octane_100" description="Is octane 100 unleaded fuel sold here?" priority="low">
+    <input type="choice" category="Details" name="Octane 100" key="fuel:octane_100" description="Is octane 100 unleaded fuel sold here?" priority="low">
       <choice value="yes" text="Yes"/>
       <choice value="no" text="No"/>
     </input>
-    <input type="choice" category="Fuels" name="Mixture 1:25" key="fuel:1_25" description="Is mixture 1:25 fuel sold here?" priority="low">
+    <input type="choice" category="Details" name="Mixture 1:25" key="fuel:1_25" description="Is mixture 1:25 fuel sold here?" priority="low">
       <choice value="yes" text="Yes"/>
       <choice value="no" text="No"/>
     </input>
-    <input type="choice" category="Fuels" name="Mixture 1:50" key="fuel:1_50" description="Is mixture 1:50 fuel sold here?" priority="low">
+    <input type="choice" category="Details" name="Mixture 1:50" key="fuel:1_50" description="Is mixture 1:50 fuel sold here?" priority="low">
       <choice value="yes" text="Yes"/>
       <choice value="no" text="No"/>
     </input>
-    <input type="choice" category="Fuels" name="E10" key="fuel:e10" description="Is E10 sold here?" priority="low">
+    <input type="choice" category="Details" name="E10" key="fuel:e10" description="Is E10 sold here?" priority="low">
       <choice value="yes" text="Yes"/>
       <choice value="no" text="No"/>
     </input>
-    <input type="choice" category="Fuels" name="E85" key="fuel:e85" description="Is E85 sold here?" priority="low">
+    <input type="choice" category="Details" name="E85" key="fuel:e85" description="Is E85 sold here?" priority="low">
       <choice value="yes" text="Yes"/>
       <choice value="no" text="No"/>
     </input>
-    <input type="choice" category="Fuels" name="Biogas" key="fuel:biogas" description="Is biogas sold here?" priority="low">
+    <input type="choice" category="Details" name="Biogas" key="fuel:biogas" description="Is biogas sold here?" priority="low">
       <choice value="yes" text="Yes"/>
       <choice value="no" text="No"/>
     </input>
-    <input type="choice" category="Fuels" name="CNG" key="fuel:cng" description="Is CNG sold here?" priority="low">
+    <input type="choice" category="Details" name="CNG" key="fuel:cng" description="Is CNG sold here?" priority="low">
       <choice value="yes" text="Yes"/>
       <choice value="no" text="No"/>
     </input>
-    <input type="choice" category="Fuels" name="LPG" key="fuel:lpg" description="Is LPG sold here?" priority="low">
+    <input type="choice" category="Details" name="LPG" key="fuel:lpg" description="Is LPG sold here?" priority="low">
       <choice value="yes" text="Yes"/>
       <choice value="no" text="No"/>
     </input>
-    <input type="choice" category="Fuels" name="Electricity" key="fuel:electricity" description="Is it possible to charge an electric car here?" priority="low">
+    <input type="choice" category="Details" name="Electricity" key="fuel:electricity" description="Is it possible to charge an electric car here?" priority="low">
       <choice value="yes" text="Yes"/>
       <choice value="no" text="No"/>
     </input>
@@ -484,7 +483,7 @@
     <tag k="amenity" v="ferry_terminal"/>
     <inputSet ref="simpleName" />
     <input type="freetext" presence="always" category="" name="Operator" key="operator" description="The operator of the ferry terminal." priority="low"/>
-    <input type="freetext" presence="onTagMatch" category="Cargo" name="Cargo" key="cargo" description="The cargo shipped from here." priority="low"/>
+    <input type="freetext" presence="onTagMatch" category="Details" name="Cargo" key="cargo" description="The cargo shipped from here." priority="low"/>
     <inputSet ref="common"/>
   </feature>
 
@@ -503,8 +502,8 @@
     <tag k="route" v="bus"/>
 
     <inputSet ref="route"/>
-    <input type="freetext" presence="always" category="Naming" name="Operator" key="operator" description="The provider of the bus service" priority="low"/>
-    <input type="freetext" presence="always" category="Naming" name="Network" key="network" description="The network of the bus service" priority="low"/>
+    <input type="freetext" presence="always" category="Details" name="Operator" key="operator" description="The provider of the bus service" priority="low"/>
+    <input type="freetext" presence="always" category="Details" name="Network" key="network" description="The network of the bus service" priority="low"/>
     <inputSet ref="common"/>
   </feature>
 
@@ -522,8 +521,8 @@
     <tag k="route" v="tram"/>
 
     <inputSet ref="route"/>
-    <input type="freetext" presence="always" category="Naming" name="Operator" key="operator" description="The provider of the tram service" priority="low"/>
-    <input type="freetext" presence="always" category="Naming" name="Network" key="network" description="The network of the tram service" priority="low"/>
+    <input type="freetext" presence="always" category="Details" name="Operator" key="operator" description="The provider of the tram service" priority="low"/>
+    <input type="freetext" presence="always" category="Details" name="Network" key="network" description="The network of the tram service" priority="low"/>
     <inputSet ref="common"/>
   </feature>
 
