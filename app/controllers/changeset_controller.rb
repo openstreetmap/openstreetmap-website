@@ -4,6 +4,7 @@ class ChangesetController < ApplicationController
   layout 'site'
   require 'xml/libxml'
 
+  skip_before_filter :verify_authenticity_token, :except => [:list]
   before_filter :authorize_web, :only => [:list]
   before_filter :set_locale, :only => [:list]
   before_filter :authorize, :only => [:create, :update, :delete, :upload, :include, :close]

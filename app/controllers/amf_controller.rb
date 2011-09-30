@@ -41,6 +41,7 @@ class AmfController < ApplicationController
   # Help methods for checking boundary sanity and area size
   include MapBoundary
 
+  skip_before_filter :verify_authenticity_token
   before_filter :check_api_writable
 
   # Main AMF handlers: process the raw AMF string (using AMF library) and

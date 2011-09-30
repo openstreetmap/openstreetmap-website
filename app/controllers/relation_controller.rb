@@ -1,6 +1,7 @@
 class RelationController < ApplicationController
   require 'xml/libxml'
 
+  skip_before_filter :verify_authenticity_token
   before_filter :authorize, :only => [:create, :update, :delete]
   before_filter :require_allow_write_api, :only => [:create, :update, :delete]
   before_filter :require_public_data, :only => [:create, :update, :delete]

@@ -1,6 +1,7 @@
 class TraceController < ApplicationController
   layout 'site'
 
+  skip_before_filter :verify_authenticity_token, :only => [:api_create, :api_read, :api_update, :api_delete, :api_data]
   before_filter :authorize_web
   before_filter :set_locale
   before_filter :require_user, :only => [:mine, :create, :edit, :delete]
