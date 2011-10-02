@@ -3,7 +3,12 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   if STATUS == :database_readonly or STATUS == :database_offline
-    session :off
+    after_filter :clear_session
+    wrap_parameters false
+
+    def clear_session
+      session.clear
+    end
 
     def self.cache_sweeper(*sweepers)
     end

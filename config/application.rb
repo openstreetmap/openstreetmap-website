@@ -2,7 +2,15 @@ require File.expand_path('../boot', __FILE__)
 
 require File.expand_path('../preinitializer', __FILE__)
 
+if STATUS == :database_offline
+require "action_controller/railtie"
+require "action_mailer/railtie"
+require "active_resource/railtie"
+require "sprockets/railtie"
+require "rails/test_unit/railtie"
+else
 require 'rails/all'
+end
 
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
@@ -25,7 +33,9 @@ module OpenStreetMap
     # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
 
     # Activate observers that should always be running.
-    config.active_record.observers = :spam_observer
+    unless STATUS == :database_offline
+      config.active_record.observers = :spam_observer
+    end
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
@@ -50,6 +60,8 @@ module OpenStreetMap
     # Use SQL instead of Active Record's schema dumper when creating the test database.
     # This is necessary if your schema can't be completely dumped by the schema dumper,
     # like if you have constraints or database-specific column types
-    config.active_record.schema_format = :sql
+    unless STATUS == :database_offline
+      config.active_record.schema_format = :sql
+    end
   end
 end
