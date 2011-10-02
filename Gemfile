@@ -34,8 +34,8 @@ gem 'SystemTimer', '>= 1.1.3', :require => 'system_timer'
 # Load httpclient for SOAP support for Quova GeoIP queries
 gem 'httpclient'
 
-# Should only load if memcache is in use
-#gem 'memcached'
+# Load memcache in case we are using it
+gem 'memcached'
 
 # Gems needed for running tests
 group :test do
