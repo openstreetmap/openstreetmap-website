@@ -40,3 +40,7 @@ I18n::Backend::Simple.send(:include, I18n::Backend::PluralizationFallback)
 I18n.load_path << "#{Rails.root}/config/pluralizers.rb"
 
 I18n::Backend::Simple.send(:include, I18n::Backend::Fallbacks)
+
+Rails.configuration.after_initialize do
+  I18n.reload!
+end
