@@ -522,7 +522,7 @@ private
     end
 
     # Start the authentication
-    authenticate_with_open_id(openid_expand_url(openid_url), :required => required) do |result, identity_url, sreg, ax|
+    authenticate_with_open_id(openid_expand_url(openid_url), :method => :get, :required => required) do |result, identity_url, sreg, ax|
       if result.successful?
         # We need to use the openid url passed back from the OpenID provider
         # rather than the one supplied by the user, as these can be different.
@@ -570,7 +570,7 @@ private
   def openid_verify(openid_url, user)
     user.openid_url = openid_url
 
-    authenticate_with_open_id(openid_expand_url(openid_url)) do |result, identity_url|
+    authenticate_with_open_id(openid_expand_url(openid_url), :method => :get) do |result, identity_url|
       if result.successful?
         # We need to use the openid url passed back from the OpenID provider
         # rather than the one supplied by the user, as these can be different.
