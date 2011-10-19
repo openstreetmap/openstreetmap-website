@@ -253,6 +253,10 @@ class UserController < ApplicationController
   def new
     @title = t 'user.new.title'
     @referer = params[:referer] || session[:referer]
+    @user = User.new(:email => params[:email],
+                     :email_confirmation => params[:email],
+                     :display_name => params[:nickname],
+                     :openid_url => params[:openid])
 
     if session[:user]
       # The user is logged in already, so don't show them the signup
