@@ -17,9 +17,6 @@ class ChangesetController < ApplicationController
   around_filter :api_call_handle_error, :except => [:list]
   around_filter :web_timeout, :only => [:list]
 
-  # Help methods for checking boundary sanity and area size
-  include MapBoundary
-
   # Helper methods for checking consistency
   include ConsistencyValidations
 
@@ -202,11 +199,11 @@ class ChangesetController < ApplicationController
     # create the conditions that the user asked for. some or all of
     # these may be nil.
     changesets = Changeset.scoped
-    changesets = conditions_bbox(changesets, params['bbox'])
-    changesets = conditions_user(changesets, params['user'], params['display_name'])
-    changesets = conditions_time(changesets, params['time'])
-    changesets = conditions_open(changesets, params['open'])
-    changesets = conditions_closed(changesets, params['closed'])
+    changesets, bbox = conditions_bbox(changesets, params)
+    changesets       = conditions_user(changesets, params['user'], params['display_name'])
+    changesets       = conditions_time(changesets, params['time'])
+    changesets       = conditions_open(changesets, params['open'])
+    changesets       = conditions_closed(changesets, params['closed'])
 
     # create the results document
     results = OSM::API.new.get_xml_doc
@@ -270,15 +267,9 @@ class ChangesetController < ApplicationController
         end
       end
       
-      if params[:bbox]
-        bbox = params[:bbox]
-      elsif params[:minlon] and params[:minlat] and params[:maxlon] and params[:maxlat]
-        bbox = params[:minlon] + ',' + params[:minlat] + ',' + params[:maxlon] + ',' + params[:maxlat]
-      end
-      
+      changesets, bbox = conditions_bbox(changesets, params)
+
       if bbox
-        changesets = conditions_bbox(changesets, bbox)
-        bbox = BoundingBox.from_s(bbox)
         bbox_link = render_to_string :partial => "bbox", :object => bbox
       end
       
@@ -319,22 +310,24 @@ private
   #------------------------------------------------------------  
 
   ##
-  # if a bounding box was specified then parse it and do some sanity 
-  # checks. this is mostly the same as the map call, but without the 
-  # area restriction.
-  def conditions_bbox(changesets, bbox)
-    unless bbox.nil?
-      raise OSM::APIBadUserInput.new("Bounding box should be min_lon,min_lat,max_lon,max_lat") unless bbox.count(',') == 3
-      bbox = sanitise_boundaries(bbox.split(/,/))
-      raise OSM::APIBadUserInput.new("Minimum longitude should be less than maximum.") unless bbox[0] <= bbox[2]
-      raise OSM::APIBadUserInput.new("Minimum latitude should be less than maximum.") unless bbox[1] <= bbox[3]
+  # if a bounding box was specified do some sanity checks.
+  # restrict changesets to those enclosed by a bounding box
+  # we need to return both the changesets and the bounding box
+  def conditions_bbox(changesets, params)
+    if params[:bbox]
+      bbox = BoundingBox.from_bbox_params(params)
+    elsif params[:minlon] and params[:minlat] and params[:maxlon] and params[:maxlat]
+      bbox = BoundingBox.from_lon_lat_params(params)
+    end
+    if  bbox
+      bbox.check_boundaries
+      bbox = bbox.to_scaled
       return changesets.where("min_lon < ? and max_lon > ? and min_lat < ? and max_lat > ?",
-                              (bbox[2] * GeoRecord::SCALE).to_i,
-                              (bbox[0] * GeoRecord::SCALE).to_i,
-                              (bbox[3] * GeoRecord::SCALE).to_i,
-                              (bbox[1] * GeoRecord::SCALE).to_i)
+                              bbox.max_lon.to_i, bbox.min_lon.to_i,
+                              bbox.max_lat.to_i, bbox.min_lat.to_i),
+                              bbox
     else
-      return changesets
+      return changesets, bbox
     end
   end
 

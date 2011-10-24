@@ -506,7 +506,7 @@ class RelationControllerTest < ActionController::TestCase
   def test_tag_modify_bounding_box
     # in current fixtures, relation 5 contains nodes 3 and 5 (node 3
     # indirectly via way 3), so the bbox should be [3,3,5,5].
-    check_changeset_modify([3,3,5,5]) do |changeset_id|
+    check_changeset_modify(BoundingBox.new(3,3,5,5)) do |changeset_id|
       # add a tag to an existing relation
       relation_xml = current_relations(:visible_relation).to_xml
       relation_element = relation_xml.find("//osm/relation").first
@@ -536,7 +536,7 @@ class RelationControllerTest < ActionController::TestCase
      current_ways(:used_way),
      current_ways(:way_with_versions)
     ].each_with_index do |element, version|
-      bbox = element.bbox.collect { |x| x / SCALE }
+      bbox = element.bbox.to_unscaled
       check_changeset_modify(bbox) do |changeset_id|
         relation_xml = Relation.find(relation_id).to_xml
         relation_element = relation_xml.find("//osm/relation").first
@@ -566,7 +566,7 @@ class RelationControllerTest < ActionController::TestCase
   # remove a member from a relation and check the bounding box is 
   # only that element.
   def test_remove_member_bounding_box
-    check_changeset_modify([5,5,5,5]) do |changeset_id|
+    check_changeset_modify(BoundingBox.new(5,5,5,5)) do |changeset_id|
       # remove node 5 (5,5) from an existing relation
       relation_xml = current_relations(:visible_relation).to_xml
       relation_xml.
@@ -769,10 +769,10 @@ OSM
       assert_response :success, "can't re-read changeset for modify test"
       assert_select "osm>changeset", 1, "Changeset element doesn't exist in #{@response.body}"
       assert_select "osm>changeset[id=#{changeset_id}]", 1, "Changeset id=#{changeset_id} doesn't exist in #{@response.body}"
-      assert_select "osm>changeset[min_lon=#{bbox[0].to_f}]", 1, "Changeset min_lon wrong in #{@response.body}"
-      assert_select "osm>changeset[min_lat=#{bbox[1].to_f}]", 1, "Changeset min_lat wrong in #{@response.body}"
-      assert_select "osm>changeset[max_lon=#{bbox[2].to_f}]", 1, "Changeset max_lon wrong in #{@response.body}"
-      assert_select "osm>changeset[max_lat=#{bbox[3].to_f}]", 1, "Changeset max_lat wrong in #{@response.body}"
+      assert_select "osm>changeset[min_lon=#{bbox.min_lon}]", 1, "Changeset min_lon wrong in #{@response.body}"
+      assert_select "osm>changeset[min_lat=#{bbox.min_lat}]", 1, "Changeset min_lat wrong in #{@response.body}"
+      assert_select "osm>changeset[max_lon=#{bbox.max_lon}]", 1, "Changeset max_lon wrong in #{@response.body}"
+      assert_select "osm>changeset[max_lat=#{bbox.max_lat}]", 1, "Changeset max_lat wrong in #{@response.body}"
     end
   end
 

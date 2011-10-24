@@ -9,11 +9,11 @@ module QuadTile
       return tile_for_xy(x, y)
     end
 
-    def self.tiles_for_area(minlat, minlon, maxlat, maxlon)
-      minx = ((minlon + 180) * 65535 / 360).round
-      maxx = ((maxlon + 180) * 65535 / 360).round
-      miny = ((minlat + 90) * 65535 / 180).round
-      maxy = ((maxlat + 90) * 65535 / 180).round
+    def self.tiles_for_area(bbox)
+      minx = ((bbox.min_lon + 180) * 65535 / 360).round
+      maxx = ((bbox.max_lon + 180) * 65535 / 360).round
+      miny = ((bbox.min_lat + 90) * 65535 / 180).round
+      maxy = ((bbox.max_lat + 90) * 65535 / 180).round
       tiles = []
 
       minx.upto(maxx) do |x|
@@ -40,8 +40,8 @@ module QuadTile
       return t
     end
 
-    def self.iterate_tiles_for_area(minlat, minlon, maxlat, maxlon)
-      tiles = tiles_for_area(minlat, minlon, maxlat, maxlon)
+    def self.iterate_tiles_for_area(bbox)
+      tiles = tiles_for_area(bbox)
       first = last = nil
 
       tiles.sort.each do |tile|
@@ -60,11 +60,11 @@ module QuadTile
     end
   end
 
-  def self.sql_for_area(minlat, minlon, maxlat, maxlon, prefix)
+  def self.sql_for_area(bbox, prefix)
     sql = Array.new
     single = Array.new
 
-    iterate_tiles_for_area(minlat, minlon, maxlat, maxlon) do |first,last|
+    iterate_tiles_for_area(bbox) do |first,last|
       if first == last
         single.push(first)
       else

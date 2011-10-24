@@ -205,7 +205,7 @@ class Way < ActiveRecord::Base
   def bbox
     lons = nodes.collect { |n| n.longitude }
     lats = nodes.collect { |n| n.latitude }
-    [ lons.min, lats.min, lons.max, lats.max ]
+    BoundingBox.new(lons.min, lats.min, lons.max, lats.max)
   end
 
   def update_from(new_way, user)

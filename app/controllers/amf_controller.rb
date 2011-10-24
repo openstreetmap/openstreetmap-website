@@ -38,9 +38,6 @@
 class AmfController < ApplicationController
   include Potlatch
 
-  # Help methods for checking boundary sanity and area size
-  include MapBoundary
-
   skip_before_filter :verify_authenticity_token
   before_filter :check_api_writable
 
@@ -265,15 +262,17 @@ class AmfController < ApplicationController
 
       # check boundary is sane and area within defined
       # see /config/application.yml
-      check_boundaries(xmin, ymin, xmax, ymax)
+      bbox = BoundingBox.new(xmin, ymin, xmax, ymax)
+      bbox.check_boundaries
+      bbox.check_size
 
       if POTLATCH_USE_SQL then
-        ways = sql_find_ways_in_area(xmin, ymin, xmax, ymax)
-        points = sql_find_pois_in_area(xmin, ymin, xmax, ymax)
-        relations = sql_find_relations_in_area_and_ways(xmin, ymin, xmax, ymax, ways.collect {|x| x[0]})
+        ways = sql_find_ways_in_area(bbox)
+        points = sql_find_pois_in_area(bbox)
+        relations = sql_find_relations_in_area_and_ways(bbox, ways.collect {|x| x[0]})
       else
         # find the way ids in an area
-        nodes_in_area = Node.bbox(ymin, xmin, ymax, xmax).visible.includes(:ways)
+        nodes_in_area = Node.bbox(bbox).visible.includes(:ways)
         ways = nodes_in_area.inject([]) { |sum, node| 
           visible_ways = node.ways.select { |w| w.visible? }
           sum + visible_ways.collect { |w| [w.id,w.version] }
@@ -305,9 +304,11 @@ class AmfController < ApplicationController
 
       # check boundary is sane and area within defined
       # see /config/application.yml
-      check_boundaries(xmin, ymin, xmax, ymax)
+      bbox = BoundingBox.new(xmin, ymin, xmax, ymax)
+      bbox.check_boundaries
+      bbox.check_size
 
-      nodes_in_area = Node.bbox(ymin, xmin, ymax, xmax).joins(:ways_via_history).where(:current_ways => { :visible => false })
+      nodes_in_area = Node.bbox(bbox).joins(:ways_via_history).where(:current_ways => { :visible => false })
       way_ids = nodes_in_area.collect { |node| node.ways_via_history.invisible.collect { |way| way.id } }.flatten.uniq
 
       [0,'',way_ids]
@@ -904,7 +905,7 @@ class AmfController < ApplicationController
   # ====================================================================
   # Alternative SQL queries for getway/whichways
 
-  def sql_find_ways_in_area(xmin,ymin,xmax,ymax)
+  def sql_find_ways_in_area(bbox)
     sql=<<-EOF
     SELECT DISTINCT current_ways.id AS wayid,current_ways.version AS version
       FROM current_way_nodes
@@ -912,12 +913,12 @@ class AmfController < ApplicationController
     INNER JOIN current_ways  ON current_ways.id =current_way_nodes.id
        WHERE current_nodes.visible=TRUE 
        AND current_ways.visible=TRUE 
-       AND #{OSM.sql_for_area(ymin, xmin, ymax, xmax, "current_nodes.")}
+       AND #{OSM.sql_for_area(bbox, "current_nodes.")}
     EOF
     return ActiveRecord::Base.connection.select_all(sql).collect { |a| [a['wayid'].to_i,a['version'].to_i] }
   end
   
-  def sql_find_pois_in_area(xmin,ymin,xmax,ymax)
+  def sql_find_pois_in_area(bbox)
     pois=[]
     sql=<<-EOF
       SELECT current_nodes.id,current_nodes.latitude*0.0000001 AS lat,current_nodes.longitude*0.0000001 AS lon,current_nodes.version 
@@ -925,7 +926,7 @@ class AmfController < ApplicationController
        LEFT OUTER JOIN current_way_nodes cwn ON cwn.node_id=current_nodes.id 
        WHERE current_nodes.visible=TRUE
        AND cwn.id IS NULL
-       AND #{OSM.sql_for_area(ymin, xmin, ymax, xmax, "current_nodes.")}
+       AND #{OSM.sql_for_area(bbox, "current_nodes.")}
     EOF
     ActiveRecord::Base.connection.select_all(sql).each do |row|
       poitags={}
@@ -937,7 +938,7 @@ class AmfController < ApplicationController
     pois
   end
   
-  def sql_find_relations_in_area_and_ways(xmin,ymin,xmax,ymax,way_ids)
+  def sql_find_relations_in_area_and_ways(bbox,way_ids)
     # ** It would be more Potlatchy to get relations for nodes within ways
     #    during 'getway', not here
     sql=<<-EOF
@@ -945,7 +946,7 @@ class AmfController < ApplicationController
       FROM current_relations cr
       INNER JOIN current_relation_members crm ON crm.id=cr.id 
       INNER JOIN current_nodes cn ON crm.member_id=cn.id AND crm.member_type='Node' 
-       WHERE #{OSM.sql_for_area(ymin, xmin, ymax, xmax, "cn.")}
+       WHERE #{OSM.sql_for_area(bbox, "cn.")}
       EOF
     unless way_ids.empty?
       sql+=<<-EOF

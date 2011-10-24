@@ -44,7 +44,6 @@ class Node < ActiveRecord::Base
   # Also adheres to limitations such as within max_number_of_nodes
   #
   def self.search(bounding_box, tags = {})
-    min_lon, min_lat, max_lon, max_lat = *bounding_box
     # @fixme a bit of a hack to search for only visible nodes
     # couldn't think of another to add to tags condition
     #conditions_hash = tags.merge({ 'visible' => 1 })
@@ -59,9 +58,8 @@ class Node < ActiveRecord::Base
     #end 
     #conditions = keys.join(' AND ')
  
-    find_by_area(min_lat, min_lon, max_lat, max_lon,
-                    :conditions => {:visible => true},
-                    :limit => MAX_NUMBER_OF_NODES+1)  
+    find_by_area(bounding_box, :conditions => {:visible => true},
+                       :limit => MAX_NUMBER_OF_NODES+1)
   end
 
   # Read in xml as text and return it's Node object representation
@@ -121,7 +119,7 @@ class Node < ActiveRecord::Base
   # the bounding box around a node, which is used for determining the changeset's
   # bounding box
   def bbox
-    [ longitude, latitude, longitude, latitude ]
+    BoundingBox.new(longitude, latitude, longitude, latitude)
   end
 
   # Should probably be renamed delete_from to come in line with update

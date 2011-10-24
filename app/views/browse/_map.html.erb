@@ -72,10 +72,11 @@
       });
 
       <% if map.instance_of? Changeset %>
-        var minlon = <%= map.min_lon / GeoRecord::SCALE.to_f %>;
-        var minlat = <%= map.min_lat / GeoRecord::SCALE.to_f %>;
-        var maxlon = <%= map.max_lon / GeoRecord::SCALE.to_f %>;
-        var maxlat = <%= map.max_lat / GeoRecord::SCALE.to_f %>;
+        <% bbox = map.bbox.to_unscaled %>
+        var minlon = <%= bbox.min_lon %>;
+        var minlat = <%= bbox.min_lat %>;
+        var maxlon = <%= bbox.max_lon %>;
+        var maxlat = <%= bbox.max_lat %>;
         var bbox = new OpenLayers.Bounds(minlon, minlat, maxlon, maxlat);
         var centre = bbox.getCenterLonLat();
 

@@ -49,15 +49,16 @@ class SiteController < ApplicationController
         @zoom = params['zoom'].to_i
 
       elsif params['bbox']
-        bbox = params['bbox'].split(",")
+        bbox = BoundingBox.from_bbox_params(params)
 
-        @lon = ( bbox[0].to_f + bbox[2].to_f ) / 2.0
-        @lat = ( bbox[1].to_f + bbox[3].to_f ) / 2.0
+        @lon = bbox.centre_lon
+        @lat = bbox.centre_lat
         @zoom = 16
-
       elsif params['minlon'] and params['minlat'] and params['maxlon'] and params['maxlat']
-        @lon = ( params['maxlon'].to_f + params['minlon'].to_f ) / 2.0
-        @lat = ( params['maxlat'].to_f + params['minlat'].to_f ) / 2.0
+        bbox = BoundingBox.from_lon_lat_params(params)
+
+        @lon = bbox.centre_lon
+        @lat = bbox.centre_lat
         @zoom = 16
 
       elsif params['gpx']

@@ -497,14 +497,12 @@ module OSM
   end
 
   # Return an SQL fragment to select a given area of the globe
-  def self.sql_for_area(minlat, minlon, maxlat, maxlon, prefix = nil)
-    tilesql = QuadTile.sql_for_area(minlat, minlon, maxlat, maxlon, prefix)
-    minlat = (minlat * 10000000).round
-    minlon = (minlon * 10000000).round
-    maxlat = (maxlat * 10000000).round
-    maxlon = (maxlon * 10000000).round
+  def self.sql_for_area(bbox, prefix = nil)
+    tilesql = QuadTile.sql_for_area(bbox, prefix)
+    bbox = bbox.to_scaled
 
-    return "#{tilesql} AND #{prefix}latitude BETWEEN #{minlat} AND #{maxlat} AND #{prefix}longitude BETWEEN #{minlon} AND #{maxlon}"
+    return "#{tilesql} AND #{prefix}latitude BETWEEN #{bbox.min_lat} AND #{bbox.max_lat} " +
+                      "AND #{prefix}longitude BETWEEN #{bbox.min_lon} AND #{bbox.max_lon}"
   end
 
   # Return a spam score for a chunk of text

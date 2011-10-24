@@ -51,10 +51,11 @@
 
     <% @edits.each do |edit| %>
     <% if edit.has_valid_bbox? %>
-    var minlon = <%= edit.min_lon / GeoRecord::SCALE.to_f %>;
-    var minlat = <%= edit.min_lat / GeoRecord::SCALE.to_f %>;
-    var maxlon = <%= edit.max_lon / GeoRecord::SCALE.to_f %>;
-    var maxlat = <%= edit.max_lat / GeoRecord::SCALE.to_f %>;
+    <% bbox = edit.bbox.to_unscaled %>
+    var minlon = <%= bbox.min_lon %>;
+    var minlat = <%= bbox.min_lat %>;
+    var maxlon = <%= bbox.max_lon %>;
+    var maxlat = <%= bbox.max_lat %>;
     var bbox = new OpenLayers.Bounds(minlon, minlat, maxlon, maxlat);
 
     bounds.extend(bbox);
