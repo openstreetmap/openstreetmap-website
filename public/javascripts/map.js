@@ -99,7 +99,7 @@ function addMarkerToMap(position, icon, description) {
 
    if (description) {
       marker.events.register("mouseover", marker, function() { openMapPopup(marker, description) });
-      marker.events.register("mouseout", marker, function() { closeMapPopup() });
+//      marker.events.register("mouseout", marker, function() { closeMapPopup() });
    }
 
    return marker;
