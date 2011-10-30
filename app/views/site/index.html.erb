@@ -43,62 +43,62 @@
 </div>
 
 <%
-if params['mlon'] and params['mlat']
+if params[:mlon] and params[:mlat]
     marker = true
-    mlon = h(params['mlon'])
-    mlat = h(params['mlat'])
+    mlon = params[:mlon].to_f
+    mlat = params[:mlat].to_f
 end
 
-if params['node'] or params['way'] or params['relation']
+if params[:node] or params[:way] or params[:relation]
     object = true
     object_zoom = true
 
-    if params['node']
+    if params[:node]
         object_type = 'node'
-        object_id = h(params['node'])
-    elsif params['way']
+        object_id = params[:node].to_i
+    elsif params[:way]
         object_type = 'way'
-        object_id = h(params['way'])
-    elsif params['relation']
+        object_id = params[:way].to_i
+    elsif params[:relation]
         object_type = 'relation'
-        object_id = h(params['relation'])
+        object_id = params[:relation].to_i
     end
 end
 
 # Decide on a lat lon to initialise the map with. Various ways of doing this
-if params['bbox']
+if params[:bbox]
     bbox = true
-    minlon, minlat, maxlon, maxlat = h(params['bbox']).split(",")
-    layers = h(params['layers'])
-    box = true if params['box']=="yes"
+    minlon, minlat, maxlon, maxlat = params[:bbox].split(",").collect { |c| c.to_i }
+    layers = params[:layers]
+    box = true if params[:box] == "yes"
     object_zoom = false
-elsif params['minlon'] and params['minlat'] and params['maxlon'] and params['maxlat']
+elsif params[:minlon] and params[:minlat] and params[:maxlon] and params[:maxlat]
     bbox = true
-    minlon = h(params['minlon'])
-    minlat = h(params['minlat'])
-    maxlon = h(params['maxlon'])
-    maxlat = h(params['maxlat'])
-    layers = h(params['layers'])
-    box = true if params['box']=="yes"
+    minlon = params[:minlon].to_f
+    minlat = params[:minlat].to_f
+    maxlon = params[:maxlon].to_f
+    maxlat = params[:maxlat].to_f
+    layers = params[:layers]
+    box = true if params[:box]=="yes"
     object_zoom = false
-elsif params['lon'] and params['lat']
-    lon =  h(params['lon'])
-    lat =  h(params['lat'])
-    zoom =  h(params['zoom'] || '5')
-    layers = h(params['layers'])
+elsif params[:lon] and params[:lat]
+    lon =  params[:lon].to_f
+    lat =  params[:lat].to_f
+    zoom =  params.fetch(:zoom, 5).to_i
+    layers = params[:layers]
     object_zoom = false
-elsif params['mlon'] and params['mlat']
-    lon = h(params['mlon'])
-    lat = h(params['mlat'])
-    zoom =  h(params['zoom'] || '12')
-    layers = h(params['layers'])
+elsif params[:mlon] and params[:mlat]
+    lon = params[:mlon].to_f
+    lat = params[:mlat].to_f
+    zoom =  params.fetch(:zoom, 12).to_i
+    layers = params[:layers]
     object_zoom = false
 elsif cookies.key?("_osm_location")
     lon,lat,zoom,layers = cookies["_osm_location"].split("|")
 elsif @user and !@user.home_lon.nil? and !@user.home_lat.nil?
     lon =  @user.home_lon
     lat =  @user.home_lat
-    zoom = '10'
+    zoom = 10
 else
     unless STATUS == :database_readonly or STATUS == :database_offline
       session[:location] = OSM::IPLocation(request.env['REMOTE_ADDR']) unless session[:location]
@@ -111,12 +111,12 @@ else
         maxlon = session[:location][:maxlon]
         maxlat = session[:location][:maxlat]
     else
-        lon =  '-0.1'
-        lat =  '51.5'
-        zoom =  h(params['zoom'] || '5')
+        lon =  -0.1
+        lat =  51.5
+        zoom =  params.fetch(:zoom, 5).to_i
     end
 
-    layers = h(params['layers'])
+    layers = params[:layers]
 end
 %>
 
@@ -154,8 +154,8 @@ end
         var centre = new OpenLayers.LonLat(<%= lon %>, <%= lat %>);
         var zoom = <%= zoom %>;
 
-        <% if params['scale'] and params['scale'].length > 0 then %>
-          zoom = scaleToZoom(<%= params['scale'].to_f() %>);
+        <% if params[:scale] and params[:scale].length > 0 then %>
+          zoom = scaleToZoom(<%= params[:scale].to_f %>);
         <% end %>
 
         setMapCenter(centre, zoom);
@@ -280,7 +280,7 @@ end
     map.setCenter(centre, zoom);
   });
 
-  <% if params['action'] == 'export' %>
+  <% if params[:action] == 'export' %>
   <%= remote_function :url => { :controller => 'export', :action => 'start' } %>
   <% end %>
 </script>
