@@ -68,7 +68,7 @@ end
 # Decide on a lat lon to initialise the map with. Various ways of doing this
 if params[:bbox]
     bbox = true
-    minlon, minlat, maxlon, maxlat = params[:bbox].split(",").collect { |c| c.to_i }
+    minlon, minlat, maxlon, maxlat = params[:bbox].split(",").collect { |c| c.to_f }
     layers = params[:layers]
     box = true if params[:box] == "yes"
     object_zoom = false
