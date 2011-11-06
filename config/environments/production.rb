@@ -35,7 +35,7 @@ OpenStreetMap::Application.configure do
 
   # Use a different log path in production
   if defined?(LOG_PATH)
-    config.log_path = LOG_PATH
+    config.paths["log"] = LOG_PATH
   end
 
   # Use a different logger for distributed setups
