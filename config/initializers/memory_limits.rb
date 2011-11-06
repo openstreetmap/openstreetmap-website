@@ -1,7 +1,7 @@
 # Setup any specified hard limit on the virtual size of the process
-if defined?(HARD_MEMORY_LIMIT) and Process.const_defined?(:RLIMIT_AS)
-  Process.setrlimit Process::RLIMIT_AS, HARD_MEMORY_LIMIT*1024*1024, Process::RLIM_INFINITY
-end
+#if defined?(HARD_MEMORY_LIMIT) and Process.const_defined?(:RLIMIT_AS)
+#  Process.setrlimit Process::RLIMIT_AS, HARD_MEMORY_LIMIT*1024*1024, Process::RLIM_INFINITY
+#end
 
 # If we're running under passenger and a soft memory limit is
 # configured then setup some rack middleware to police the limit
