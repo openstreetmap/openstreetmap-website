@@ -35,6 +35,7 @@ gem 'SystemTimer', '>= 1.1.3', :require => 'system_timer'
 gem 'httpclient'
 
 # Load memcache in case we are using it
+gem 'memcache-client'
 gem 'memcached'
 
 # Gems needed for running tests
