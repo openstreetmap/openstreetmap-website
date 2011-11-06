@@ -3,8 +3,10 @@
 # Export driver: syck-pecl
 # Author: Aleator
 # Author: El libre
+# Author: Jconstanti
 # Author: Jmontane
 # Author: Martorell
+# Author: McDutchie
 # Author: PerroVerd
 # Author: SMP
 # Author: Ssola
@@ -15,7 +17,7 @@ ca:
       diary_comment: 
         body: Cos
       diary_entry: 
-        language: Idioma
+        language: Llengua
         latitude: Latitud
         longitude: Longitud
         title: Títol
@@ -49,7 +51,7 @@ ca:
       changeset: Conjunt de canvis
       changeset_tag: Etiqueta del conjunt de canvis
       country: País
-      diary_comment: Commentari del diari
+      diary_comment: Comentari del diari
       diary_entry: Entrada al diari
       friend: Amic
       language: Idioma
@@ -74,6 +76,7 @@ ca:
       tracetag: Etiqueta del traç
       user: Usuari
       user_preference: Preferències d'usuari
+      user_token: Testimoni d'usuari
       way: Camí
       way_node: Node del camí
       way_tag: Etiqueta del camí
@@ -101,6 +104,7 @@ ca:
       show_area_box: Mostra caixa de l'àrea
     common_details: 
       changeset_comment: "Comentari:"
+      deleted_at: "Eliminat a:"
       deleted_by: "Eliminat per:"
       edited_at: "Editat:"
       edited_by: "Editat per:"
@@ -253,7 +257,7 @@ ca:
       no_edits: (Sense edicions)
       show_area_box: Mostra capsa de l'àrea
       still_editing: (Encara en edició)
-      view_changeset_details: Veure detalls dels canvis
+      view_changeset_details: Mostra els detalls del conjunt de canvis
     changeset_paging_nav: 
       next: Següent &raquo;
       previous: "&laquo; Anterior"
@@ -277,6 +281,8 @@ ca:
       title_bbox: Conjunt de canvis dins de %{bbox}
       title_user: Conjunt de canvis de %{user}
       title_user_bbox: Conjunt de canvis de %{user} dins de %{bbox}
+    timeout: 
+      sorry: La llista de conjunt de canvis que heu sol·licitat ha trigat massa a recuperar-se.
   diary_entry: 
     diary_comment: 
       comment_from: Comentari de %{link_user} el %{comment_created_at}
@@ -287,14 +293,14 @@ ca:
         one: 1 comentari
         other: "%{count} comentaris"
       comment_link: Comenta aquesta entrada
-      confirm: Confirmar
+      confirm: Confirma
       edit_link: Edita aquesta entrada
       hide_link: Amaga aquesta entrada
       posted_by: Publicat per %{link_user} el %{created} en %{language_link}
       reply_link: Respon a aquesta entrada
     edit: 
       body: "Cos del missatge:"
-      language: Idioma
+      language: "Llengua:"
       latitude: "Latitud:"
       location: "Ubicació:"
       longitude: "Longitud:"
@@ -324,9 +330,9 @@ ca:
       title: Diaris d'usuari/a
       user_title: Diari de %{user}
     location: 
-      edit: Edita
+      edit: Modifica
       location: "Ubicació:"
-      view: Veure
+      view: Mostra
     new: 
       title: Nova Entrada de Diari
     no_such_entry: 
@@ -406,6 +412,10 @@ ca:
       south_east: sud-est
       south_west: sud-oest
       west: oest
+    distance: 
+      one: vora 1km
+      other: vora %{count}km
+      zero: menys d'1km
     results: 
       more_results: Més resultats
       no_results: No hi ha resultats
@@ -439,7 +449,7 @@ ca:
           cafe: Cafè
           car_rental: Lloguer de cotxes
           car_sharing: Per Compartir Cotxe
-          car_wash: Rentat de Cotxes
+          car_wash: Rentat de cotxes
           casino: Casino
           cinema: Cinema
           clinic: Clínica
@@ -559,17 +569,24 @@ ca:
           footway: Sendera
           ford: Fiord
           gate: Porta
+          living_street: Carrer habitat
           path: Camí
+          pedestrian: Via Peatonal
+          platform: Perron
+          primary: Carretera Principal
           primary_link: Carretera principal
+          raceway: Vial Ràpid
           residential: Residencial
           road: Carretera
           secondary: Carretera secundària
           secondary_link: Carretera secundària
+          service: Carretera de Servei
           steps: Graons
           stile: Escala per a travessar reixats
           tertiary: Carretera terciària
           trail: Sendera
           unclassified: Carretera sense classificar
+          unsurfaced: Pista sense asfaltar
         historic: 
           archaeological_site: Lloc arqueològic
           battlefield: Camp de batalla
@@ -590,12 +607,18 @@ ca:
           construction: Construcció
           farm: Granja
           forest: Bosc
+          grass: Herba
           industrial: Zona industrial
+          military: Zona Militar
           mine: Mina
           mountain: Muntanya
+          nature_reserve: Reserva Natural
           park: Parc
           plaza: Plaça
           quarry: Pedrera
+          railway: Ferrocarril
+          recreation_ground: Zona d'Esbarjo
+          reservoir: Embassament
           residential: Àrea residencial
           wetland: Aiguamoll
           wood: Fusta
@@ -621,6 +644,7 @@ ca:
           cliff: Cingle
           coastline: Litoral
           crater: Cràter
+          feature: Característica
           fell: Forest
           fjord: Fiord
           geyser: Guèiser
@@ -668,20 +692,33 @@ ca:
           subdivision: Subdivisió
           suburb: Suburbi
           town: Poble
+          unincorporated_area: Àrea no incorporada
           village: Aldea
         railway: 
+          abandoned: Ferrocarril fora de Servei
+          construction: Ferrocarril en Construcció
+          disused_station: Estació de tren tancada
+          historic_station: Estació de tren antiga
+          junction: Cruïlla de tren
           level_crossing: Pas a nivell
           monorail: Monorail
+          platform: Andana
+          station: Estació de tren
           subway: Estació de metro
+          subway_entrance: Accés al Metro
           tram: Tramvia
           tram_stop: Parada de tramvia
         shop: 
+          art: Galeria d'Art
           bakery: Fleca
           bicycle: Tenda de bicicletes
           books: Llibreria
           butcher: Carnisseria
+          car: Venda de Cotxes
+          car_dealer: Compra-venda de cotxes
           car_repair: Reparació d'automòbils
           chemist: Farmàcia
+          estate_agent: Immobiliària
           fish: Peixateria
           florist: Floristeria
           gift: Botiga de regals
@@ -691,6 +728,7 @@ ca:
           mall: Centre comercial
           market: Mercat
           optician: Òptica
+          pet: Botiga d'animals
           shoes: Sabateria
           supermarket: Supermercat
           toys: Botiga de joguines
@@ -730,32 +768,49 @@ ca:
       base: 
         cycle_map: Cycle Map
         noname: NoName
+    site: 
+      edit_disabled_tooltip: Augmenteu el zoom per modificar el mapa
+      edit_tooltip: Modifica el mapa
+      history_tooltip: Mostra les modificacions d'aquesta àrea
   layouts: 
     documentation: Documentació
     donate_link_text: donatius
     edit: Modificació
     export: Exporta
+    export_tooltip: Exporta les dades del mapa
+    foundation: Fundació
     gps_traces: Traces de GPS
+    gps_traces_tooltip: Gestiona registres GPS
     help: Ajuda
+    help_centre: Centre d'ajuda
     history: Historial
     home: Inici
+    home_tooltip: Vés a la posició inicial
+    inbox: safata d'entrada (% {count})
     intro_1: L'OpenStreetMap és un mapa editable i lliure de tot el món. Està fet per gent com vós.
+    intro_2: OpenStreetMap us permet veure, editar i utilitzar informació geogràfica comunitària de qualsevol lloc del planeta
     intro_3_partners: wiki
+    log_in: inicia una sessió
+    log_in_tooltip: Inicia una sessió amb un compte existent
     logo: 
       alt_text: logotip de l'OpenStreetMap
     logout: sortir
     logout_tooltip: Sortir
     make_a_donation: 
-      text: Fer una donació
+      text: Feu una donació
+      title: Ajuda OpenStreetMap amb una donació exonòmica
+    sign_up: registre
+    sign_up_tooltip: Crea un usuari per editar
     user_diaries: DIaris de usuari
+    user_diaries_tooltip: Veure els diaris d'usuari
     view: Veure
-    view_tooltip: Visualitza els mapes
+    view_tooltip: Visualitza el mapa
     welcome_user: Benvingut/da, %{user_link}
     welcome_user_link_tooltip: La teva pàgina d'usuari
   license_page: 
     foreign: 
       english_link: l'original en anglès
-      title: Sobre aquesta traducció
+      title: Quant a la traducció
     native: 
       title: Sobre aquesta pàgina
   message: 
@@ -809,17 +864,29 @@ ca:
       greeting: Hola,
     email_confirm_plain: 
       greeting: Hola,
+    friend_notification: 
+      befriend_them: També el pots afegir com a amic a % {befriendurl}.
+      had_added_you: "% {user} t'ha afegit com a amic a OpenStreetMap."
+      see_their_profile: Pots veure el seu perfil a %{userurl}.
+      subject: "[OpenStreetMap] %{user} t'ha afegit a la llista d'amics"
     gpx_notification: 
+      and_no_tags: i cap etiqueta.
+      and_the_tags: "i les etiquetes següents:"
       greeting: Hola,
     lost_password_html: 
       greeting: Hola,
     lost_password_plain: 
       greeting: Hola,
     message_notification: 
+      footer1: També pots llegir el missatge a %{readurl}
+      footer2: i el pots replicar a %{replyurl}
       hi: Hola %{to_user},
+    signup_confirm: 
+      subject: "[OpenStreetMap] Confirmeu la vostra adreça electrònica"
     signup_confirm_html: 
       more_videos_here: més de vídeos aquí
     signup_confirm_plain: 
+      greeting: Hola, què tal?
       more_videos: "Hi ha més videos aquí:"
   oauth_clients: 
     edit: 
@@ -964,7 +1031,10 @@ ca:
       latitude: "Latitud:"
       longitude: "Longitud:"
       my settings: Preferències
-      new image: Afegir una imatge
+      new image: Afegeix una imatge
+      openid: 
+        link text: què és això?
+      preferred editor: "Editor preferit:"
       preferred languages: "Llengües preferents:"
       profile description: "Descripció del perfil:"
       public editing: 
@@ -977,9 +1047,9 @@ ca:
       save changes button: Desa els canvis
       title: Edita el compte
     confirm: 
-      button: Confirmar
+      button: Confirma
     confirm_email: 
-      button: Confirmar
+      button: Confirma
     go_public: 
       flash success: Ara totes les teves edicions són públiques i ja estàs autoritzat per a editar
     list: 
@@ -991,16 +1061,18 @@ ca:
       login_button: Accés
       lost password link: Heu perdut la contrasenya?
       password: "Contrasenya:"
+      register now: Registreu-vos-hi ara
+      remember: "Recorda'm:"
       title: Accés
       webmaster: webmestre
     logout: 
-      heading: Sortir d'OpenStreetMap
-      logout_button: Sortir
-      title: Sortir
+      heading: Finalitza la sessió d'OpenStreetMap
+      logout_button: Finalitza la sessió
+      title: Finalitza la sessió
     lost_password: 
       email address: "Adreça de correu electrònic:"
       heading: Heu oblidat la contrasenya?
-      new password button: Restablir contrasenya
+      new password button: Restableix la contrasenya
       title: contrasenya perduda
     make_friend: 
       success: "%{name} ara és el vostre amic."
@@ -1021,10 +1093,11 @@ ca:
       flash changed: S'ha canviat la contrasenya.
       heading: Restablir la contrasenya per %{user}
       password: "Contrasenya:"
-      reset: Restablir contrasenya
+      reset: Restableix la contrasenya
       title: Restablir la contrasenya
     terms: 
       agree: D'acord
+      consider_pd_why: què és això?
       decline: Declinar
       legale_names: 
         france: França
@@ -1035,7 +1108,8 @@ ca:
       add as friend: afegir com a amic
       ago: (fa %{time_in_words_ago})
       confirm: Confirmeu
-      create_block: boca aquest usuari
+      confirm_user: confirma aquest usuari
+      create_block: bloca aquest usuari
       created from: "Creat a partir de:"
       deactivate_user: desactiva aquest usuari
       delete_user: Suprimeix aquest usuari
@@ -1063,12 +1137,17 @@ ca:
       user location: Ubicació de l'usuari
       your friends: Els vostres amics
   user_block: 
+    not_found: 
+      back: Torna a l'índex
     partial: 
       confirm: N'esteu segur?
       creator_name: Creador
+      display_name: Usuari blocat
       edit: Edició
+      reason: Motiu del blocatge
+      revoke: Revoca!
       show: Mostra
-      status: Estatus
+      status: Estat
     period: 
       one: 1 hora
       other: "%{count} hores"
@@ -1089,6 +1168,6 @@ ca:
       title: Confirmi la concessió de rol
     revoke: 
       are_you_sure: Esteu segur que voleu revocar el rol `%{role}' de l'usuari `%{name}'?
-      confirm: Confirmar
+      confirm: Confirma
       heading: Confirmar revocació de rol
       title: Confirmar revocació de rol
