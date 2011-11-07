@@ -35,8 +35,9 @@ class ApplicationController < ActionController::Base
         end
       end
     elsif session[:token]
-      @user = User.authenticate(:token => session[:token])
-      session[:user] = @user.id
+      if @user = User.authenticate(:token => session[:token])
+        session[:user] = @user.id
+      end
     end
   rescue Exception => ex
     logger.info("Exception authorizing user: #{ex.to_s}")
