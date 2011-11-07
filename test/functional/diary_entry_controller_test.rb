@@ -6,6 +6,8 @@ class DiaryEntryControllerTest < ActionController::TestCase
   include ActionView::Helpers::NumberHelper
 
   def test_showing_new_diary_entry
+    @request.cookies["_osm_username"] = users(:normal_user).display_name
+
     get :new
     assert_response :redirect
     assert_redirected_to :controller => :user, :action => "login", :referer => "/diary/new"
@@ -39,6 +41,8 @@ class DiaryEntryControllerTest < ActionController::TestCase
   end
   
   def test_editing_diary_entry
+    @request.cookies["_osm_username"] = users(:normal_user).display_name
+
     # Make sure that you are redirected to the login page when you are 
     # not logged in, without and with the id of the entry you want to edit
     get :edit
@@ -119,7 +123,9 @@ class DiaryEntryControllerTest < ActionController::TestCase
         end
       end
     end
-    
+
+    @request.cookies["_osm_username"] = users(:public_user).display_name
+
     # and when not logged in as the user who wrote the entry
     get :view, {:id => diary_entries(:normal_user_entry_1).id, :display_name => 'test'}, {'user' => users(:public_user).id}
     assert_response :success
@@ -148,6 +154,8 @@ class DiaryEntryControllerTest < ActionController::TestCase
   end
   
   def test_edit_diary_entry_i18n
+    @request.cookies["_osm_username"] = users(:normal_user).display_name
+
     get(:edit, {:id => diary_entries(:normal_user_entry_1).id}, {'user' => users(:normal_user).id})
     assert_response :success
     assert_select "span[class=translation_missing]", false, "Missing translation in edit diary entry"
