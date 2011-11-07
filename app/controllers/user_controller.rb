@@ -253,16 +253,21 @@ class UserController < ApplicationController
   def new
     @title = t 'user.new.title'
     @referer = params[:referer] || session[:referer]
-    @user = User.new(:email => params[:email],
-                     :email_confirmation => params[:email],
-                     :display_name => params[:nickname],
-                     :openid_url => params[:openid])
 
-    if session[:user]
+    if @user
       # The user is logged in already, so don't show them the signup
       # page, instead send them to the home page
-      redirect_to :controller => 'site', :action => 'index'
-    elsif not params['openid'].nil?
+      if @referer
+        redirect_to @referer
+      else
+        redirect_to :controller => 'site', :action => 'index'
+      end
+    elsif params.key?(:openid)
+      @user = User.new(:email => params[:email],
+                       :email_confirmation => params[:email],
+                       :display_name => params[:nickname],
+                       :openid_url => params[:openid])
+
       flash.now[:notice] = t 'user.new.openid association'
     end
   end
