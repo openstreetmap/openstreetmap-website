@@ -18,7 +18,10 @@ class ApplicationController < ActionController::Base
     if session[:user]
       @user = User.where(:id => session[:user]).where("status IN ('active', 'confirmed', 'suspended')").first
 
-      if @user.status == "suspended"
+      if @user.display_name != cookies["_osm_username"]
+        reset_session
+        @user = nil
+      elsif @user.status == "suspended"
         session.delete(:user)
         session_expires_automatically
 
@@ -37,10 +40,13 @@ class ApplicationController < ActionController::Base
     elsif session[:token]
       if @user = User.authenticate(:token => session[:token])
         session[:user] = @user.id
+      else
+        reset_session
       end
     end
   rescue Exception => ex
     logger.info("Exception authorizing user: #{ex.to_s}")
+    reset_session
     @user = nil
   end
 

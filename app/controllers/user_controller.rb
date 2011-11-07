@@ -336,6 +336,7 @@ class UserController < ApplicationController
             token.destroy
 
             session[:user] = user.id
+            cookies["_osm_username"] = user.display_name
 
             if referer.nil?
               flash[:notice] = t('user.confirm.success') + "<br /><br />" + t('user.confirm.before you start')
@@ -388,6 +389,7 @@ class UserController < ApplicationController
         end
         token.destroy
         session[:user] = @user.id
+        cookies["_osm_username"] = @user.display_name
         redirect_to :action => 'account', :display_name => @user.display_name
       else
         flash[:error] = t 'user.confirm_email.failure'
@@ -615,6 +617,8 @@ private
   ##
   # process a successful login
   def successful_login(user)
+    cookies["_osm_username"] = user.display_name
+
     session[:user] = user.id
     session_expires_after 1.month if session[:remember_me]
 
