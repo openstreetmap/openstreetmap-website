@@ -40,8 +40,6 @@ class ApplicationController < ActionController::Base
     elsif session[:token]
       if @user = User.authenticate(:token => session[:token])
         session[:user] = @user.id
-      else
-        reset_session
       end
     end
   rescue Exception => ex
