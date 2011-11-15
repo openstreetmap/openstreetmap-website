@@ -6,15 +6,7 @@ module ApplicationHelper
   end
 
   def htmlize(text)
-    logger.info "text safety is #{text.html_safe?}"
-    r = simple_format(text)
-    logger.info "formatted text safety is #{r.html_safe?}"
-    r = sanitize(r)
-    logger.info "sanitised text safety is #{r.html_safe?}"
-    r = linkify(r)
-    logger.info "linkified text safety is #{r.html_safe?}"
-    return r
-#    return linkify(sanitize(simple_format(text)))
+    return linkify(sanitize(simple_format(text)))
   end
 
   def linkify(text)
