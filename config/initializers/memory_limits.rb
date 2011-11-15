@@ -1,5 +1,5 @@
 # Setup any specified hard limit on the virtual size of the process
-if defined?(HARD_MEMORY_LIMIT) and Process.const_defined?(:RLIMIT_AS)
+if defined?(HARD_MEMORY_LIMIT) and defined?(PhusionPassenger) and Process.const_defined?(:RLIMIT_AS)
   Process.setrlimit Process::RLIMIT_AS, HARD_MEMORY_LIMIT*1024*1024, Process::RLIM_INFINITY
 end
 
