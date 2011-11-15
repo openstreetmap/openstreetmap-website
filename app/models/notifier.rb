@@ -62,7 +62,7 @@ class Notifier < ActionMailer::Base
     @locale = message.recipient.preferred_language_from(I18n.available_locales)
     @to_user = message.recipient.display_name
     @from_user = message.sender.display_name
-    @body = message.body
+    @text = message.body
     @title = message.title
     @readurl = url_for(:host => SERVER_URL,
                        :controller => "message", :action => "read",
