@@ -2,7 +2,7 @@ module ApplicationHelper
   require 'rexml/document'
 
   def sanitize(text)
-    Sanitize.clean(text, Sanitize::Config::OSM)
+    Sanitize.clean(text, Sanitize::Config::OSM).html_safe
   end
 
   def htmlize(text)
