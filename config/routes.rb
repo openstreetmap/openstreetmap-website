@@ -84,10 +84,10 @@ OpenStreetMap::Application.routes.draw do
   match '/browse/relation/:id' => 'browse#relation', :id => /\d+/
   match '/browse/relation/:id/history' => 'browse#relation_history', :id => /\d+/
   match '/browse/changeset/:id' => 'browse#changeset', :as => :changeset, :id => /\d+/
-  match '/user/:display_name/edits/feed' => 'changeset#list', :format => :atom
   match '/user/:display_name/edits' => 'changeset#list'
-  match '/browse/changesets/feed' => 'changeset#list', :format => :atom
+  match '/user/:display_name/edits/feed' => 'changeset#list', :format => :atom
   match '/browse/changesets' => 'changeset#list'
+  match '/browse/changesets/feed' => 'changeset#list', :format => :atom
   match '/browse' => 'changeset#list'
 
   # web site
@@ -95,8 +95,8 @@ OpenStreetMap::Application.routes.draw do
   match '/edit' => 'site#edit'
   match '/copyright' => 'site#copyright'
   match '/copyright/:copyright_locale' => 'site#copyright'
-  match '/history/feed' => 'changeset#list', :format => :atom
   match '/history' => 'changeset#list'
+  match '/history/feed' => 'changeset#list', :format => :atom
   match '/export' => 'site#export'
   match '/login' => 'user#login'
   match '/logout' => 'user#logout'
