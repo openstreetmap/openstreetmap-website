@@ -366,6 +366,11 @@ private
     return [user, pass] 
   end 
 
+  # used by oauth plugin to get the current user
+  def current_user
+    @user
+  end
+
   # used by oauth plugin to set the current user
   def current_user=(user)
     @user=user

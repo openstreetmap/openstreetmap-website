@@ -4,6 +4,8 @@ class ClientApplication < ActiveRecord::Base
   belongs_to :user
   has_many :tokens, :class_name => "OauthToken"
   has_many :access_tokens
+  has_many :oauth2_verifiers
+  has_many :oauth_tokens
 
   validates_presence_of :name, :url, :key, :secret
   validates_uniqueness_of :key
@@ -27,15 +29,10 @@ class ClientApplication < ActiveRecord::Base
   def self.verify_request(request, options = {}, &block)
     begin
       signature = OAuth::Signature.build(request, options, &block)
-      logger.info "Signature Base String: #{signature.signature_base_string}"
-      logger.info "Consumer: #{signature.send :consumer_key}"
-      logger.info "Token: #{signature.send :token}"
       return false unless OauthNonce.remember(signature.request.nonce, signature.request.timestamp)
       value = signature.verify
-      logger.info "Signature verification returned: #{value.to_s}"
       value
     rescue OAuth::Signature::UnknownSignatureMethod => e
-      logger.info "ERROR"+e.to_s
       false
     end
   end
@@ -52,8 +49,12 @@ class ClientApplication < ActiveRecord::Base
     @oauth_client ||= OAuth::Consumer.new(key, secret)
   end
     
-  def create_request_token
-    RequestToken.create :client_application => self, :callback_url => self.token_callback_url
+  def create_request_token(params={})
+    params = { :client_application => self, :callback_url => self.token_callback_url }
+    permissions.each do |p|
+      params[p] = true
+    end
+    RequestToken.create(params)
   end
 
   def access_token_for_user(user)
@@ -84,8 +85,7 @@ protected
                  :allow_write_api, :allow_read_gpx, :allow_write_gpx ]
 
   def generate_keys
-    oauth_client = oauth_server.generate_consumer_credentials
-    self.key = oauth_client.key
-    self.secret = oauth_client.secret
+    self.key = OAuth::Helper.generate_key(40)[0,40]
+    self.secret = OAuth::Helper.generate_key(40)[0,40]
   end
 end
