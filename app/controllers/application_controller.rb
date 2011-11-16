@@ -249,6 +249,8 @@ class ApplicationController < ActionController::Base
 
     I18n.locale = request.compatible_language_from(I18n.available_locales)
 
+    logger.info "Selected locale #{I18n.locale} from #{request.user_preferred_languages.inspect}"
+
     response.headers['Content-Language'] = I18n.locale.to_s
   end
 
