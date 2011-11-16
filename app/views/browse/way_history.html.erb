@@ -2,7 +2,7 @@
 @name = printable_name @way
 @title = t('browse.way_history.way_history') + ' | ' + @name
 %>
-<h2><%= t'browse.way_history.way_history_title', :way_name => link_to(h(@name), :action => "way", :id => @way.id) %></h2>
+<h2><%= raw t'browse.way_history.way_history_title', :way_name => link_to(h(@name), :action => "way", :id => @way.id) %></h2>
 <%= render :partial => "map", :object => @way %>
 <% @way.old_ways.reverse.each do |way| %>
   <%= render :partial => "way_details", :object => way %>
