@@ -137,7 +137,7 @@ class OldWay < ActiveRecord::Base
       id = n; reuse = curnode.visible
       if oldnode.lat != curnode.lat or oldnode.lon != curnode.lon or oldnode.tags != curnode.tags then
         # node has changed: if it's in other ways, give it a new id
-        if curnode.ways-[self.node_id] then id=-1; reuse=false end
+        if curnode.ways-[self.way_id] then id=-1; reuse=false end
       end
       points << [oldnode.lon, oldnode.lat, id, curnode.version, oldnode.tags_as_hash, reuse]
     end
