@@ -34,4 +34,44 @@ class OauthController < ApplicationController
     end
     redirect_to :controller => 'oauth_clients', :action => 'index'
   end
+
+protected
+
+  def oauth1_authorize
+    unless @token
+      render :action=>"authorize_failure"
+      return
+    end
+
+    unless @token.invalidated?
+      if request.post?
+        if user_authorizes_token?
+          @token.authorize!(current_user)
+          if @token.oauth10?
+            callback_url = params[:oauth_callback] || @token.client_application.callback_url
+          else
+            callback_url = @token.oob? ? @token.client_application.callback_url : @token.callback_url
+          end
+          @redirect_url = URI.parse(callback_url) unless callback_url.blank?
+
+          unless @redirect_url.to_s.blank?
+            @redirect_url.query = @redirect_url.query.blank? ?
+            "oauth_token=#{@token.token}" :
+              @redirect_url.query + "&oauth_token=#{@token.token}"
+            unless @token.oauth10?
+              @redirect_url.query + "&oauth_verifier=#{@token.verifier}"
+            end
+            redirect_to @redirect_url.to_s
+          else
+            render :action => "authorize_success"
+          end
+        else
+          @token.invalidate!
+          render :action => "authorize_failure"
+        end
+      end
+    else
+      render :action => "authorize_failure"
+    end
+  end
 end
