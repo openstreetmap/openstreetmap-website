@@ -10,8 +10,8 @@
 
 <%= render :partial => 'changeset_paging_nav' %>
 
-<%= atom_link_to params.merge({ :page => nil, :format => :atom }) %>
+<%= atom_link_to params.merge({ :page => nil, :action => :feed }) %>
 
 <% content_for :head do %>
-<%= auto_discovery_link_tag :atom, params.merge({ :page => nil, :format => :atom }) %>
+<%= auto_discovery_link_tag :atom, params.merge({ :page => nil, :action => :feed }) %>
 <% end %>

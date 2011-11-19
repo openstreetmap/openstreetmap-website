@@ -246,8 +246,6 @@ class ChangesetController < ApplicationController
     end
   end
 
-  
-  
   ##
   # list edits (open changesets) in reverse chronological order
   def list
@@ -269,6 +267,7 @@ class ChangesetController < ApplicationController
           @title = t 'user.no_such_user.title'
           @not_found_user = params[:display_name]
           render :template => 'user/no_such_user', :status => :not_found
+          return
         end
       end
 
@@ -312,6 +311,14 @@ class ChangesetController < ApplicationController
       
       @edits = changesets.order("changesets.created_at DESC").offset((@page - 1) * @page_size).limit(@page_size).preload(:user, :changeset_tags)
     end
+
+    render :action => :list
+  end
+
+  ##
+  # list edits as an atom feed
+  def feed
+    list
   end
 
 private
