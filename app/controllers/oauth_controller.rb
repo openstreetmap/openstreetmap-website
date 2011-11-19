@@ -59,7 +59,7 @@ protected
             "oauth_token=#{@token.token}" :
               @redirect_url.query + "&oauth_token=#{@token.token}"
             unless @token.oauth10?
-              @redirect_url.query + "&oauth_verifier=#{@token.verifier}"
+              @redirect_url.query += "&oauth_verifier=#{@token.verifier}"
             end
             redirect_to @redirect_url.to_s
           else
