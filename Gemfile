@@ -7,8 +7,8 @@ gem 'rails', '3.1.3'
 # Require the postgres database driver
 gem 'pg'
 
-# Load prototype support
-gem 'prototype-rails'
+# Load jquery support
+gem 'jquery-rails'
 
 # Load rails plugins
 gem 'rails-i18n-updater'

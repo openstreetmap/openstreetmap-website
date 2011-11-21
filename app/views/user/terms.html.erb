@@ -11,14 +11,9 @@
       <%= label_tag "legale_#{legale}", t('user.terms.legale_names.' + name) %>
       <script type="text/javascript">
       <!--
-        $("legale_<%= legale %>").observe("change", function () {
-          <%= remote_function(
-                :before => update_page do |page|
-                  page.replace_html 'contributorTerms', image_tag('searching.gif')
-                end,
-                :url => { :legale => legale }
-              )
-          %>
+        $("#legale_<%= legale %>").change(function () {
+          $("#contributorTerms").html("<%=j image_tag 'searching.gif' %>");
+          $("#contributorTerms").load("<%= url_for :legale => legale %>");
         });
       // -->
       </script>

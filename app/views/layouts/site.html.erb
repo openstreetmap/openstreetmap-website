@@ -126,12 +126,10 @@
     </div>
 
     <script type="text/javascript">
-    document.observe("dom:loaded", function () {
-      var auth_token = $$("meta[name=csrf-token]")[0].content;
+    $(document).ready(function () {
+      var auth_token = $("meta[name=csrf-token]").attr("content");
 
-      $$("form input[name=authenticity_token]").each(function (input) {
-        input.value = auth_token;
-      });
+      $("form input[name=authenticity_token]").val(auth_token);
     });
     </script>
 

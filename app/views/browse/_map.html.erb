@@ -50,19 +50,19 @@
       var bottom = bbox.bottom - 0.0001;
       var loaded = false;
 
-      $("linkloader").observe("load", function () { loaded = true; });
+      $("#linkloader").load(function () { loaded = true; });
 
       if (select) {
-        $("linkloader").src = "http://127.0.0.1:8111/load_and_zoom?left=" + left + "&top=" + top + "&right=" + right + "&bottom=" + bottom + "&select=" + select;
+        $("#linkloader").attr("src", "http://127.0.0.1:8111/load_and_zoom?left=" + left + "&top=" + top + "&right=" + right + "&bottom=" + bottom + "&select=" + select);
       } else {
-        $("linkloader").src = "http://127.0.0.1:8111/load_and_zoom?left=" + left + "&top=" + top + "&right=" + right + "&bottom=" + bottom;
+        $("#linkloader").attr("src", "http://127.0.0.1:8111/load_and_zoom?left=" + left + "&top=" + top + "&right=" + right + "&bottom=" + bottom);
       }
 
       setTimeout(function () {
-        if (!loaded) alert("<%= escape_javascript(t('site.index.remote_failed')) %>");
+        if (!loaded) alert("<%=j t('site.index.remote_failed') %>");
       }, 1000);
 
-      event.stop();
+      return false;
     }
 
     function init() {
@@ -70,7 +70,7 @@
         controls: [ new OpenLayers.Control.Navigation() ]
       });
 
-      <% if map.instance_of? Changeset %>
+      <% if map.instance_of? Changeset -%>
         <% bbox = map.bbox.to_unscaled %>
         var minlon = <%= bbox.min_lon %>;
         var minlat = <%= bbox.min_lat %>;
@@ -82,29 +82,26 @@
         setMapExtent(bbox);
         addBoxToMap(bbox);
 
-        $("loading").style.display = "none";
+        $("#loading").hide();
+        $("#browse_map .geolink").show();
 
-        $$("#browse_map .geolink").each(function (link) {
-          link.style.display = "inline";
+        $("#remote_area_edit").click(function (event) {
+          return remoteEditHandler(event, bbox);
         });
 
-        $("remote_area_edit").observe("click", function (event) {
-          remoteEditHandler(event, bbox);
+        <% if preferred_editor == "remote" -%>
+        $("#area_edit").click(function (event) {
+          return remoteEditHandler(event, bbox);
         });
+        <% end -%>
 
-        <% if preferred_editor == "remote" %>
-          $("area_edit").observe("click", function (event) {
-            remoteEditHandler(event, bbox);
-          });
-        <% end %>
-
-        updatelinks(centre.lon, centre.lat, 16, null, minlon, minlat, maxlon, maxlat)
-      <% else %>
+        updatelinks(centre.lon, centre.lat, 16, null, minlon, minlat, maxlon, maxlat);
+      <% else -%>
         var obj_type = "<%= map.class.name.downcase %>";
         var obj_id = <%= map.id %>;
         var obj_version = <%= map.version %>;
         var obj_visible = <%= map.visible %>;
-        var url = "/api/<%= "#{API_VERSION}" %>/<%= map.class.name.downcase %>/<%= map.id %>";
+        var url = "/api/<%= API_VERSION %>/<%= map.class.name.downcase %>/<%= map.id %>";
 
         if (obj_type != "node") {
           url += "/full";
@@ -114,42 +111,39 @@
         }
 
         addObjectToMap(url, true, function(extent) {
-          $("loading").style.display = "none";
-
-          $$("#browse_map .geolink").each(function (link) {
-            link.style.display = "inline";
-          });
+          $("#loading").hide();
+          $("#browse_map .geolink").show();
 
           if (extent) {
             extent.transform(map.getProjectionObject(), map.displayProjection);
 
             var centre = extent.getCenterLonLat();
 
-            $("remote_area_edit").observe("click", function (event) {
-              remoteEditHandler(event, extent);
+            $("#remote_area_edit").click(function (event) {
+              return remoteEditHandler(event, extent);
             });
 
-            <% if preferred_editor == "remote" %>
-              $("area_edit").observe("click", function (event) {
-                remoteEditHandler(event, extent);
-              });
-            <% end %>
+            <% if preferred_editor == "remote" -%>
+            $("#area_edit").click(function (event) {
+              return remoteEditHandler(event, extent);
+            });
+            <% end -%>
 
-            <% unless map.instance_of? Changeset %>
-              $("remote_object_edit").observe("click", function (event) {
-                remoteEditHandler(event, extent, "<%= map.class.to_s.downcase + map.id.to_s %>");
-              });
+            <% unless map.instance_of? Changeset -%>
+            $("#remote_object_edit").click(function (event) {
+              return remoteEditHandler(event, extent, "<%= map.class.to_s.downcase + map.id.to_s %>");
+            });
 
-              $("object_larger_map").innerHTML = "<%= t('browse.map.larger.' + map.class.to_s.downcase) %>";
-              $("object_edit").innerHTML = "<%= t('browse.map.edit.' + map.class.to_s.downcase) %>";
-            <% end %>
+            $("#object_larger_map").html("<%=j t('browse.map.larger.' + map.class.to_s.downcase) %>");
+            $("#object_edit").html("<%=j t('browse.map.edit.' + map.class.to_s.downcase) %>");
+            <% end -%>
 
-            updatelinks(centre.lon, centre.lat, 16, null, extent.left, extent.bottom, extent.right, extent.top, "<%= map.class.to_s.downcase %>", <%= map.id %>)
+            updatelinks(centre.lon, centre.lat, 16, null, extent.left, extent.bottom, extent.right, extent.top, "<%= map.class.to_s.downcase %>", <%= map.id %>);
           } else {
-            $("small_map").style.display = "none";
+            $("#small_map").hide();
           }
         });
-      <% end %>
+      <% end -%>
 
       createMenu("area_edit", "area_edit_menu", 1000, "right");
       createMenu("object_edit", "object_edit_menu", 1000, "right");

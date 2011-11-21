@@ -13,7 +13,6 @@
 <% locale = request.compatible_language_from(Potlatch2::LOCALES.keys) || "en" %>
 
 <script type="text/javascript" defer="defer">
-  var brokenContentSize = $("content").offsetWidth == 0;
   var changesaved=true;
   
   window.onbeforeunload=function() {
@@ -64,7 +63,9 @@
   doSWF(<%= @lat || 'null' %>,<%= @lon || 'null' %>,<%= @zoom %>);
 
   function setPosition(lat, lon, zoom) {
-    $("potlatch").setPosition(lat, lon, Math.max(zoom || 15, 13));
+    $("#potlatch").each(function () {
+      this.setPosition(lat, lon, Math.max(zoom || 15, 13));
+    });
   }
 
   function mapMoved(lon, lat, zoom, minlon, minlat, maxlon, maxlat) {

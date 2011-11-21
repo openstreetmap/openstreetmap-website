@@ -6,12 +6,20 @@
   <% end %>
   <% if @more_params %>
     <div id="search_more_<%= @more_params.hash %>">
-      <p class="search_results_entry"><%=
-        link_to_function(t('geocoder.results.more_results')) do |page|
-          page.replace_html "search_more_#{@more_params.hash}", image_tag("searching.gif", :class => "search_searching")
-          page << remote_function(:update => "search_more_#{@more_params.hash}", :url => raw(url_for(@more_params)))
-        end
-      %></p>
+      <p class="search_results_entry">
+        <%= link_to t('geocoder.results.more_results'), "#" %>
+      </p>
+      <%= image_tag "searching.gif", :class => "search_searching" %>
     </div>
+    <script type="text/javascript">
+    $("#search_more_<%= @more_params.hash %> .search_searching").hide();
+
+    $("#search_more_<%= @more_params.hash %> a").click(function () {
+      $("#search_more_<%= @more_params.hash %> .search_results_entry").hide();
+      $("#search_more_<%= @more_params.hash %> .search_searching").show();
+
+      $("#search_more_<%= @more_params.hash %>").load("<%= raw url_for(@more_params) %>");
+    });
+    </script>
   <% end %>
 <% end %>

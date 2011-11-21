@@ -5,7 +5,7 @@ class BrowseControllerTest < ActionController::TestCase
   api_fixtures
 
   def test_start
-    get :start
+    xhr :get, :start
     assert_response :success
   end
   

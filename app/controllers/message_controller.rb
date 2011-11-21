@@ -103,7 +103,7 @@ class MessageController < ApplicationController
   def mark
     if params[:message_id]
       id = params[:message_id]
-      message = Message.where(:id => id).where("to_user_id = ? OR from_user_id = ?", @user.id, @user.id).first
+      @message = Message.where(:id => id).where("to_user_id = ? OR from_user_id = ?", @user.id, @user.id).first
       if params[:mark] == 'unread'
         message_read = false 
         notice = t 'message.mark.as_unread'
@@ -111,15 +111,9 @@ class MessageController < ApplicationController
         message_read = true
         notice = t 'message.mark.as_read'
       end
-      message.message_read = message_read
-      if message.save
-        if request.xhr?
-          render :update do |page|
-            page.replace "inboxanchor", :partial => "layouts/inbox"
-            page.replace "inbox-count", :partial => "message_count"
-            page.replace "inbox-#{message.id}", :partial => "message_summary", :object => message
-          end
-        else
+      @message.message_read = message_read
+      if @message.save
+        if not request.xhr?
           flash[:notice] = notice
           redirect_to :controller => 'message', :action => 'inbox', :display_name => @user.display_name
         end

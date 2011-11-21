@@ -1,8 +1,5 @@
-//= require prototype
-//= require prototype_ujs
-//= require effects
-//= require dragdrop
-//= require controls
+//= require jquery
+//= require jquery_ujs
 
 /*
  * Called as the user scrolls/zooms around to aniplate hrefs of the
@@ -22,50 +19,49 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat,objtype,obj
     maxlat = Math.round(maxlat * decimals) / decimals;
   }
 
-  $$(".geolink").each(function (link) {
+  $(".geolink").each(function (index, link) {
     var args = getArgs(link.href);
 
-    if (link.hasClassName("llz")) {
+    if ($(link).hasClass("llz")) {
       args.lat = lat;
       args.lon = lon;
       args.zoom = zoom;
-    } else if (minlon && link.hasClassName("bbox")) {
+    } else if (minlon && $(link).hasClass("bbox")) {
       args.bbox = minlon + "," + minlat + "," + maxlon + "," + maxlat;
     }
 
-    if (layers && link.hasClassName("layers")) {
+    if (layers && $(link).hasClass("layers")) {
       args.layers = layers;
     }
 
-    if (objtype && link.hasClassName("object")) {
+    if (objtype && $(link).hasClass("object")) {
       args[objtype] = objid;
     }
 
-    if (link.hasClassName("minzoom[0-9]+")) {
-      $w(link.className).each(function (classname) {
-        if (match = classname.match(/^minzoom([0-9]+)$/)) {
-          var minzoom = match[1];
-          var name = link.id.replace(/anchor$/, "");
+    var classes = $(link).attr("class").split(" ");
 
-          if (zoom >= minzoom) {
-            link.onclick = null;
-            link.title = i18n("javascripts.site." + name + "_tooltip");
-            link.removeClassName("disabled");
-          } else {
-            link.onclick = function () { alert(i18n("javascripts.site." + name + "_zoom_alert")); return false; };
-            link.title = i18n("javascripts.site." + name + "_disabled_tooltip");
-            link.addClassName("disabled");
-          }
+    $(classes).each(function (index, classname) {
+      if (match = classname.match(/^minzoom([0-9]+)$/)) {
+        var minzoom = match[1];
+        var name = link.id.replace(/anchor$/, "");
+
+        if (zoom >= minzoom) {
+          $(link).off("click");
+          $(link).attr("title", i18n("javascripts.site." + name + "_tooltip"));
+          $(link).removeClass("disabled");
+        } else {
+          $(link).click(function () { alert(i18n("javascripts.site." + name + "_zoom_alert")); return false; });
+          $(link).attr("title", i18n("javascripts.site." + name + "_disabled_tooltip"));
+          $(link).addClass("disabled");
         }
-      });
-    }
+      }
+    });
 
     link.href = setArgs(link.href, args);
   });
 
-  node = $("shortlinkanchor");
-  if (node) {
-    var args = getArgs(node.href);
+  $("#shortlinkanchor").each(function () {
+    var args = getArgs(this.href);
     var code = makeShortCode(lat, lon, zoom);
     var prefix = shortlinkPrefix();
 
@@ -87,11 +83,11 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat,objtype,obj
     // which encodes lat/lon/zoom. If new URL parameters are added to
     // the main slippy map this needs to be changed.
     if (args["layers"] || args[objtype]) {
-      node.href = setArgs(prefix + "/go/" + code, args);
+      this.href = setArgs(prefix + "/go/" + code, args);
     } else {
-      node.href = prefix + "/go/" + code;
+      this.href = prefix + "/go/" + code;
     }
-  }
+  });
 }
 
 /*

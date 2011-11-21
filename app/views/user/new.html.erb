@@ -76,24 +76,24 @@
 <script type="text/javascript">
 function enableOpenID()
 {
-  $("openid_prompt").hide();
+  $("#openid_prompt").hide();
 
-  $("openid_spacer").show();
-  $("openid_field").show();
-  $("openid_note").show();
+  $("#openid_spacer").show();
+  $("#openid_field").show();
+  $("#openid_note").show();
 
-  $("openid_url").disabled = false;
+  $("#openid_url").prop("disabled", false);
 }
 
 function disableOpenID()
 {
-  $("openid_prompt").show();
+  $("#openid_prompt").show();
 
-  $("openid_spacer").hide();
-  $("openid_field").hide();
-  $("openid_note").hide();
+  $("#openid_spacer").hide();
+  $("#openid_field").hide();
+  $("#openid_note").hide();
 
-  $("openid_url").disabled = true;
+  $("#openid_url").prop("disabled", true);
 }
 
 <% if params[:openid] or (@user and @user.openid_url and not @user.openid_url.empty?) -%>

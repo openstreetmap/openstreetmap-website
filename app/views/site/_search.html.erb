@@ -1,70 +1,43 @@
 <script type="text/javascript">
 <!--
   function describeLocation() {
-    var args = getArgs($("viewanchor").href);
+    var args = getArgs($("#viewanchor").attr("href"));
 
-    <%= remote_function(:loading => "startSearch()",
-                        :url => { :controller => :geocoder, :action => :description },
-                        :with => "'lat=' + args['lat'] + '&lon=' + args['lon'] + '&zoom=' + args['zoom']") %>
+    $("#sidebar_title").html("<%= t 'site.sidebar.search_results' %>");
+    $("#sidebar_content").load("<%= url_for :controller => :geocoder, :action => :description %>", {
+      lat: args["lat"],
+      lon: args["lon"],
+      zoom: args["zoom"]
+    }, openSidebar);
   }
 
-  function setSearchViewbox() {
-    <% if params[:action] == 'index' %>
+  function doSearch(query) {
+    $("#sidebar_title").html("<%= t 'site.sidebar.search_results' %>");
+
+    <% if params[:action] == 'index' -%>
     var extent = getMapExtent();
 
-    var minlon = document.createElement("input");
-    minlon.type = "hidden";
-    minlon.id = "minlon";
-    minlon.name = "minlon";
-    minlon.value = extent.left;
-    $("search_form").appendChild(minlon);
-
-    var minlat = document.createElement("input");
-    minlat.type = "hidden";
-    minlat.id = "minlat";
-    minlat.name = "minlat";
-    minlat.value = extent.bottom;
-    $("search_form").appendChild(minlat);
-
-    var maxlon = document.createElement("input");
-    maxlon.type = "hidden";
-    maxlon.id = "maxlon";
-    maxlon.name = "maxlon";
-    maxlon.value = extent.left;
-    $("search_form").appendChild(maxlon);
-
-    var maxlat = document.createElement("input");
-    maxlat.type = "hidden";
-    maxlat.id = "maxlat";
-    maxlat.name = "maxlat";
-    maxlat.value = extent.bottom;
-    $("search_form").appendChild(maxlat);
-    <% end %>
+    $("#sidebar_content").load("<%= url_for :controller => :geocoder, :action => :search %>", {
+      query: $("#query").val(),
+      minlon: extent.left,
+      minlat: extent.bottom,
+      maxlon: extent.right,
+      maxlat: extent.top
+    }, openSidebar);
+    <% else -%>
+    $("#sidebar_content").load("<%= url_for :controller => :geocoder, :action => :search %>", {
+      query: $("#query").val()
+    }, openSidebar);
+    <% end -%>
   }
 
-  function startSearch() {
-    updateSidebar("<%= t 'site.sidebar.search_results' %>", "");
-  }
+  $(document).ready(function () {
+    $("#search_form").submit(function (event) {
+      doSearch($("#query").val());
 
-  function endSearch() {
-    <% if params[:action] == 'index' %>
-    $("minlon").remove();
-    $("minlat").remove();
-    $("maxlon").remove();
-    $("maxlat").remove();
-    <% end %>
-  }
-
-  document.observe("dom:loaded", function () {
-    $("search_form").observe("ajax:before", setSearchViewbox);
-    $("search_form").observe("ajax:loading", startSearch);
-    $("search_form").observe("ajax:complete", endSearch);
+      return false;
+    });
   });
-
-  <% if params[:query] %>
-  <%= remote_function(:loading => "startSearch()",
-                      :url => { :controller => :geocoder, :action => :search, :query => h(params[:query]) }) %>
-  <% end %>
 // -->
 </script>
 
@@ -74,8 +47,7 @@
     <h1><%= t 'site.search.search' %></h1>
     <div class="search_container">
     <div id="search_field">
-    <%= form_tag({ :controller => :geocoder, :action => :search },
-                 { :id => "search_form", :remote => true, :method => "get", :action => url_for(:action => "index") }) do %>
+    <%= form_tag "#", :id => "search_form" do %>
       <%= text_field_tag :query, h(params[:query]), :tabindex => "1" %>
       <%= submit_tag t('site.search.submit_text') %>
     <% end %>

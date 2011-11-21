@@ -23,9 +23,7 @@ class UserController < ApplicationController
     @text = OSM.legal_text_for_country(@legale)
 
     if request.xhr?
-      render :update do |page|
-        page.replace_html "contributorTerms", :partial => "terms"
-      end
+      render :partial => "terms"
     elsif using_open_id?
       # The redirect from the OpenID provider reenters here
       # again and we need to pass the parameters through to

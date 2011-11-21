@@ -63,8 +63,8 @@
 
     var lonlat = getEventPosition(e);
 
-    $("latitude").value = lonlat.lat;
-    $("longitude").value = lonlat.lon;
+    $("#latitude").val(lonlat.lat);
+    $("#longitude").val(lonlat.lon);
 
     if (marker) {
       removeMarkerFromMap(marker);
@@ -74,8 +74,8 @@
   }
 
   function openMap() {
-    $("map").style.display = "block";
-    $("usemap").style.display = "none";
+    $("#map").show();
+    $("#usemap").hide();
 
     var centre = new OpenLayers.LonLat(<%= lon %>, <%= lat %>);
     var zoom = <%= zoom %>;

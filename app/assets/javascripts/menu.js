@@ -2,20 +2,21 @@
  * Open a menu.
  */
 function openMenu(anchor, menu, align) {
+  var anchorPosition = anchor.offset();
   var offset;
 
   if (align == "left") {
     offset = 0;
   } else if (align == "right") {
-    offset = anchor.getWidth() - menu.getWidth();
+    offset = menu.outerWidth() - anchor.outerWidth();
   }
 
-  menu.clonePosition(anchor, {
-    setLeft: true, setTop: true, setWidth: false, setHeight: false,
-    offsetLeft: offset, offsetTop: anchor.getHeight()
-  });
+  menu.show();
 
-  menu.style.display = "block";
+  menu.offset({
+    top: anchorPosition.top + anchor.outerHeight(),
+    left: anchorPosition.left - offset
+  });
 }
 
 /*
@@ -23,14 +24,14 @@ function openMenu(anchor, menu, align) {
  */
 function closeMenu(menu) {
   clearTimeout(menu.timer);
-  menu.style.display = "none";
+  menu.hide();
 }
 
 /*
  * Callback called when the mouse enters a menu anchor.
  */
 function enterMenuAnchor(event, anchor, menu, delay, align) {
-  if (!anchor.hasClassName("disabled")) {
+  if (!anchor.hasClass("disabled")) {
     clearTimeout(menu.timer);
 
     if (delay > 0) {
@@ -47,8 +48,8 @@ function enterMenuAnchor(event, anchor, menu, delay, align) {
 function leaveMenuAnchor(event, anchor, menu) {
   var to = event.relatedTarget;
 
-  if (to != menu && !to.descendantOf(menu)) {
-    menu.style.display = "none";
+  if (!menu.is(to) && menu.has(to).length == 0) {
+    menu.hide();
   }
 
   clearTimeout(menu.timer);
@@ -60,8 +61,8 @@ function leaveMenuAnchor(event, anchor, menu) {
 function leaveMenu(event, anchor, menu) {
   var to = event.relatedTarget;
 
-  if (to != anchor && !to.descendantOf(menu)) {
-    menu.style.display = "none";
+  if (!anchor.is(to) && menu.has(to).length == 0) {
+    menu.hide();
   }
 
   clearTimeout(menu.timer);
@@ -71,12 +72,12 @@ function leaveMenu(event, anchor, menu) {
  * Setup a menu, triggered by hovering over an anchor for a given time.
  */
 function createMenu(anchorid, menuid, delay, align) {
-  var anchor = $(anchorid);
-  var menu = $(menuid);
+  var anchor = $("#" + anchorid);
+  var menu = $("#" + menuid);
 
-  anchor.observe("mouseup", function (event) { closeMenu(menu) });
-  anchor.observe("mouseover", function (event) { enterMenuAnchor(anchor, anchor, menu, delay, align) });
-  anchor.observe("mouseout", function (event) { leaveMenuAnchor(event, anchor, menu) });
-  menu.observe("mouseup", function (event) { closeMenu(menu) });
-  menu.observe("mouseout", function (event) { leaveMenu(event, anchor, menu) });
+  anchor.mouseup(function (event) { closeMenu(menu) });
+  anchor.mouseover(function (event) { enterMenuAnchor(anchor, anchor, menu, delay, align) });
+  anchor.mouseout(function (event) { leaveMenuAnchor(event, anchor, menu) });
+  menu.mouseup(function (event) { closeMenu(menu) });
+  menu.mouseout(function (event) { leaveMenu(event, anchor, menu) });
 }

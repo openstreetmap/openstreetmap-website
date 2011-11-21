@@ -28,11 +28,6 @@ class GeocoderController < ApplicationController
       @sources.push "osm_nominatim"
       @sources.push "geonames"
     end
-
-    render :update do |page|
-      page.replace_html :sidebar_content, :partial => "search"
-      page.call "openSidebar"
-    end
   end
 
   def search_latlon
@@ -264,9 +259,9 @@ class GeocoderController < ApplicationController
     end
 
     render :action => "results"
-  rescue Exception => ex
-    @error = "Error contacting nominatim.openstreetmap.org: #{ex.to_s}"
-    render :action => "error"
+#  rescue Exception => ex
+#    @error = "Error contacting nominatim.openstreetmap.org: #{ex.to_s}"
+#    render :action => "error"
   end
 
   def search_geonames
@@ -302,11 +297,6 @@ class GeocoderController < ApplicationController
 
     @sources.push({ :name => "osm_nominatim" })
     @sources.push({ :name => "geonames" })
-
-    render :update do |page|
-      page.replace_html :sidebar_content, :partial => "description"
-      page.call "openSidebar"
-    end
   end
 
   def description_osm_namefinder

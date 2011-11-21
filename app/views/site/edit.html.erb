@@ -23,37 +23,36 @@
 
 <script type="text/javascript">
   function maximiseMap() {
-    $("left").style.display = "none";
-    $("greeting").style.display = "none";
-    $("tabnav").style.display = "none";
+    $("#left").hide();
+    $("#greeting").hide();
+    $("#tabnav").hide();
 
-    $("content").style.top = "10px";
+    $("#content").css("top", "10px");
     <% if t('html.dir') == "ltr" -%>
-    $("content").style.left = "10px";
+    $("#content").css("left", "10px");
     <% else -%>
-    $("content").style.right = "10px";
+    $("#content").css("right", "10px");
     <% end -%>
 
     handleResize();
   }
   
   function minimiseMap() {
-    $("left").style.display = "";
-    $("greeting").style.display = "";
-    $("tabnav").style.display = "";
+    $("#left").show();
+    $("#greeting").show();
+    $("#tabnav").show();
 
-    $("content").style.top = "35px";
+    $("#content").css("top", "35px");
     <% if t('html.dir') == "ltr" -%>
-    $("content").style.left = "192px";
+    $("#content").css("left", "192px");
     <% else -%>
-    $("content").style.right = "192px";
+    $("#content").css("right", "192px");
     <% end -%>
 
     handleResize();
   }
 
-  document.observe("dom:loaded", handleResize);
-
-  Event.observe(window, "resize", handleResize);
+  $(document).ready(handleResize);
+  $(window).resize(handleResize);
 </script>
 <% end %>

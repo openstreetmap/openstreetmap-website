@@ -21,12 +21,12 @@
        onclose = null;
     }
 
-    if (options.title) { $("sidebar_title").innerHTML = options.title; }
+    if (options.title) { $("#sidebar_title").html(options.title); }
 
-    if (options.width) { $("sidebar").style.width = options.width; }
-    else { $("sidebar").style.width = "30%"; }
+    if (options.width) { $("#sidebar").width(options.width); }
+    else { $("#sidebar").width("30%"); }
 
-    $("sidebar").style.display = "block";
+    $("#sidebar").css("display", "block");
 
     <%= onopen %>
 
@@ -34,7 +34,7 @@
   }
 
   function closeSidebar() {
-    $("sidebar").style.display = "none";
+    $("#sidebar").css("display", "none");
 
     <%= onclose %>
 
@@ -45,8 +45,8 @@
   }
 
   function updateSidebar(title, content) {
-    $("sidebar_title").innerHTML = title;
-    $("sidebar_content").innerHTML = content;
+    $("#sidebar_title").html(title);
+    $("#sidebar_content").html(content);
   }
 // -->
 </script>

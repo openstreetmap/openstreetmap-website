@@ -5,9 +5,9 @@
   <td class="inbox-subject" bgcolor="<%= this_colour %>"><%= link_to h(message_summary.title), :controller => 'message', :action => 'read', :message_id => message_summary.id  %></td>
   <td class="inbox-sent nowrap" bgcolor="<%= this_colour %>"><%= l message_summary.sent_on, :format => :friendly %></td>
   <% if message_summary.message_read? %>
-    <td><%= button_to t('message.message_summary.unread_button'), {:controller => 'message', :action => 'mark', :message_id => message_summary.id, :mark => 'unread'}, { :onclick => remote_function(:url => {:controller => 'message', :action => 'mark', :message_id => message_summary.id, :mark => 'unread'}) + "; return false;" } %></td>
+    <td><%= button_to t('message.message_summary.unread_button'), {:controller => 'message', :action => 'mark', :message_id => message_summary.id, :mark => 'unread'}, { :remote => true } %></td>
   <% else %>
-    <td><%= button_to t('message.message_summary.read_button'), {:controller => 'message', :action => 'mark', :message_id => message_summary.id, :mark => 'read'}, { :onclick => remote_function(:url => {:controller => 'message', :action => 'mark', :message_id => message_summary.id, :mark => 'read'}) + "; return false;" } %></td>
+    <td><%= button_to t('message.message_summary.read_button'), {:controller => 'message', :action => 'mark', :message_id => message_summary.id, :mark => 'read'}, { :remote => true } %></td>
   <% end %>
   <td><%= button_to t('message.message_summary.reply_button'), :controller => 'message', :action => 'reply', :message_id => message_summary.id %></td>
   <td><%= button_to t('message.message_summary.delete_button'), :controller => 'message', :action => 'delete', :message_id => message_summary.id, :referer => request.fullpath %></td>

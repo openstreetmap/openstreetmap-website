@@ -1,9 +1,0 @@
-<% @sources.each do |source| %>
-  <p class="search_results_heading"><%= raw(t "geocoder.search.title.#{source}") %></p>
-  <div class='search_results_entry' id='<%= "search_#{source}" %>'>
-    <%= image_tag "searching.gif", :class => "search_searching" %>
-  </div>
-  <script type="text/javascript">
-    <%= remote_function(:update => "search_#{source}", :url => raw(url_for(:action => "search_#{source}", :query => @query, :minlat => params[:minlat], :minlon => params[:minlon], :maxlat => params[:maxlat], :maxlon => params[:maxlon]))) %>
-  </script>
-<% end %>

@@ -147,7 +147,7 @@ end
         setMapExtent(bbox);
 
         <% if box %>
-          Event.observe(window, "load", function() { addBoxToMap(bbox) });
+          $(window).load(function() { addBoxToMap(bbox) });
         <% end %>
       <% else %>
         var centre = new OpenLayers.LonLat(<%= lon %>, <%= lat %>);
@@ -176,7 +176,7 @@ end
         url += "/full";
       <% end %>
 
-      Event.observe(window, "load", function() { addObjectToMap(url, <%= object_zoom %>) });
+      $(window).load(function() { addObjectToMap(url, <%= object_zoom %>) });
     <% end %>
 
     map.events.register("moveend", map, updateLocation);
@@ -188,7 +188,7 @@ end
 
   function toggleData() {
     if (map.dataLayer.visibility) {
-      <%= remote_function :url => { :controller => 'browse', :action => 'start' } %>
+      $.ajax({ url: "<%= url_for :controller => :browse, :action => :start %>" });
     } else if (map.dataLayer.active) {
       closeSidebar();
     }
@@ -243,21 +243,21 @@ end
     var extent = getMapExtent();
     var loaded = false;
 
-    $("linkloader").observe("load", function () { loaded = true; });
-    $("linkloader").src = "http://127.0.0.1:8111/load_and_zoom?left=" + extent.left + "&top=" + extent.top + "&right=" + extent.right + "&bottom=" + extent.bottom;
+    $("#linkloader").load(function () { loaded = true; });
+    $("#linkloader").attr("src", "http://127.0.0.1:8111/load_and_zoom?left=" + extent.left + "&top=" + extent.top + "&right=" + extent.right + "&bottom=" + extent.bottom);
 
     setTimeout(function () {
-      if (!loaded) alert("<%= escape_javascript(t('site.index.remote_failed')) %>");
+      if (!loaded) alert("<%=j t('site.index.remote_failed') %>");
     }, 1000);
 
-    event.stop();
+    return false;
   }
 
   function installEditHandler() {
-    $("remoteanchor").observe("click", remoteEditHandler);
+    $("#remoteanchor").click(remoteEditHandler);
 
     <% if preferred_editor == "remote" %>
-      $("editanchor").observe("click", remoteEditHandler);
+      $("#editanchor").click(remoteEditHandler);
 
       <% if params[:action] == "edit" %>
         remoteEditHandler();
@@ -265,11 +265,11 @@ end
     <% end %>
   }
 
-  document.observe("dom:loaded", mapInit);
-  document.observe("dom:loaded", installEditHandler);
-  document.observe("dom:loaded", handleResize);
+  $(document).ready(mapInit);
+  $(document).ready(installEditHandler);
+  $(document).ready(handleResize);
 
-  Event.observe(window, "resize", function() {
+  $(window).resize(function() {
     var centre = map.getCenter();
     var zoom = map.getZoom();
 
@@ -278,14 +278,18 @@ end
     map.setCenter(centre, zoom);
   });
 
-  document.observe("dom:loaded", function () {
-    $("exportanchor").observe("click", function (e) {
-      <%= remote_function :url => { :controller => 'export', :action => 'start' } %>;
+  $(document).ready(function () {
+    $("#exportanchor").click(function (e) {
+      $.ajax({ url: "<%= url_for :controller => :export, :action => :start %>" });
       Event.stop(e);
     });
 
-    <% if params[:action] == 'export' %>
-    <%= remote_function :url => { :controller => 'export', :action => 'start' } %>;
+    <% if params[:action] == 'export' -%>
+    $.ajax({ url: "<%= url_for :controller => :export, :action => :start %>" });
+    <% end -%>
+
+    <% if params[:query] -%>
+    doSearch("<%= params[:query] %>");
     <% end %>
   });
 // -->
