@@ -17,6 +17,7 @@
 # Author: Sertion
 # Author: The real emj
 # Author: WikiPhoenix
+# Author: Zvenzzon
 sv: 
   activerecord: 
     attributes: 
@@ -54,6 +55,8 @@ sv:
         pass_crypt: Lösenord
     models: 
       acl: Tillgångskontrollista (ACL)
+      changeset: Ändringsset
+      changeset_tag: Etikett till ändringsset
       country: Land
       diary_comment: Dagbokskommentar
       diary_entry: Dagbokspost
@@ -245,6 +248,7 @@ sv:
     timeout: 
       sorry: Tyvärr tog data för %{type} med id %{id} för lång tid att hämta.
       type: 
+        changeset: ändringsset
         node: nod
         relation: relation
         way: väg
@@ -273,10 +277,12 @@ sv:
       big_area: (stor)
       no_comment: (ingen)
       no_edits: (inga ändringar)
+      show_area_box: visa område
       still_editing: (redigerar fortfarande)
+      view_changeset_details: Visa detaljer om ändringsset
     changeset_paging_nav: 
       next: Nästa »
-      previous: "« Föregående"
+      previous: « Föregående
       showing_page: Visar sida %{page}
     changesets: 
       area: Area
@@ -297,6 +303,8 @@ sv:
       title_bbox: Changesets inom %{bbox}
       title_user: Ändringsset av %{user}
       title_user_bbox: Ändringsset av %{user} inom %{bbox}
+    timeout: 
+      sorry: Kunde tyvärr inte lista begärda ändringsset. Begäran tog för lång tid att hämta.
   diary_entry: 
     diary_comment: 
       comment_from: Kommentar från %{link_user}, %{comment_created_at}
@@ -313,10 +321,12 @@ sv:
       posted_by: Skrivet av %{link_user} den %{created} på %{language_link}
       reply_link: Svara på denna anteckning
     edit: 
+      body: "Meddelandetext:"
       language: "Språk:"
       latitude: "Latitud:"
       location: "Plats:"
       longitude: "Longitud:"
+      marker_text: Plats för inlägg
       save_button: Spara
       subject: "Ärende:"
       title: Redigera dagboksanteckning
@@ -330,6 +340,7 @@ sv:
         title: Openstreetmap dagboksinlägg på %{language_name}
       user: 
         description: Senaste dagboksinlägg på OpenStreetMap från %{user}
+        title: OpenStreetMap dagboksinlägg för användaren %{user}
     list: 
       in_language_title: Dagböcker på %{language}
       new: Ny dagboksanteckning
@@ -347,6 +358,7 @@ sv:
     new: 
       title: Ny dagboksanteckning
     no_such_entry: 
+      body: Tyvärr finns inget inlägg med id %{id}. Kontrollera stavning eller så är länken du klickade på felaktig.
       heading: "Ingen dagboksanteckning med id: %{id}"
       title: Ingen sådan dagboksanteckning
     no_such_user: 
@@ -513,6 +525,7 @@ sv:
           pub: Pub
           public_building: Offentlig byggnad
           public_market: Marknadsplats
+          reception_area: Reception
           recycling: Återvinningsstation
           restaurant: Restaurang
           retirement_home: Äldreboende
@@ -532,6 +545,7 @@ sv:
           university: Universitet
           vending_machine: Varumaskin
           veterinary: Veterinär
+          village_hall: gemensamhetslokal
           waste_basket: Papperskorg
           wifi: WLAN-accesspunkt
           youth_centre: Ungdomscenter
@@ -539,11 +553,14 @@ sv:
           administrative: Administrativ gräns
         building: 
           apartments: Flerfamiljshus
+          block: Byggblock
           bunker: Bunker
           chapel: Kapell
           church: Kyrka
           city_hall: Rådhus
+          commercial: Kommersiell byggnad
           dormitory: Studenthem
+          entrance: entré
           faculty: Fakultetsbyggnad
           farm: Ekonomibyggnad
           flats: Lägenheter
@@ -554,6 +571,8 @@ sv:
           industrial: Industribyggnad
           office: Kontorsbyggnad
           public: Offentlig byggnad
+          residential: Bostadsbyggnad
+          retail: Affärsbyggnad
           school: Skolbyggnad
           shop: Affär
           stadium: Stadium
@@ -564,10 +583,12 @@ sv:
           university: Universitetsbyggnad
         highway: 
           bridleway: Ridstig
+          bus_guideway: Spårbussväg
           bus_stop: Busshållplats
           byway: Omfartsväg
           construction: Väg under konstruktion
           cycleway: Cykelspår
+          emergency_access_point: Utryckningsplats
           footway: Gångväg
           ford: Vadställe
           gate: Grind
@@ -575,15 +596,25 @@ sv:
           minor: Mindre väg
           motorway: Motorväg
           motorway_junction: Motorvägskorsning
+          motorway_link: Påfart/avfart till motorväg
           path: Stig
           pedestrian: Gågata
           platform: Perrong
+          primary: Riksväg (primär väg)
+          primary_link: Påfart till riksväg
           raceway: Tävlingsbana
           residential: Bostäder
           road: Väg
+          secondary: Länsväg (sekundärväg)
+          secondary_link: Påfart till länsväg
           service: Serviceväg
+          services: Rastplats-väg
           steps: Trappa
+          track: Traktorväg
           trail: Vandringsled
+          trunk: Motortrafikled
+          trunk_link: Påfart till motortrafikled
+          unclassified: Oklassificerad väg
           unsurfaced: Oasfalterad väg
         historic: 
           archaeological_site: Arkeologisk plats
@@ -606,6 +637,7 @@ sv:
           allotments: Kolonilotter
           cemetery: Begravningsplats
           commercial: Kommersiellt område
+          construction: Byggarbetsplats
           farm: Bondgård
           farmland: Jordbruksmark
           farmyard: Gårdstun
@@ -763,6 +795,7 @@ sv:
           funeral_directors: Begravningsbyrå
           furniture: Möbler
           gallery: Galleri
+          garden_centre: Trädgårdshandel
           general: Landhandel
           gift: Presentaffär
           greengrocer: Grönsakshandlare
@@ -782,6 +815,7 @@ sv:
           newsagent: Tidningskiosk
           optician: Optiker
           organic: Ekologiska livsmedelsaffär
+          outdoor: Friluftsbutik
           pet: Djuraffär
           photo: Fotoaffär
           salon: Salong
@@ -818,6 +852,7 @@ sv:
         waterway: 
           boatyard: Båtvarv
           canal: Kanal
+          connector: Förbindelsepunkt för farled
           dam: Damm
           derelict_canal: Nerlagd kanal
           ditch: Dike
@@ -847,6 +882,8 @@ sv:
       history_tooltip: Visa ändringar för detta område
       history_zoom_alert: Du måste zooma in för att kunna se karteringshistorik.
   layouts: 
+    community_blogs: Communitybloggar
+    community_blogs_title: Bloggar från OpenStreetMap-medlemmar
     copyright: Upphovsrätt & licens
     documentation: Dokumentation
     documentation_title: Projektdokumentation
@@ -890,6 +927,7 @@ sv:
     osm_read_only: Det går bara att läsa från OpenStreetMap-databasen just nu, då viktigt underhåll utförs på databasen.
     sign_up: registrera
     sign_up_tooltip: Skapa ett konto för kartering
+    sotm2011: Kom till 2011 års OpenStreetMapkonferens, The State of the Map, 9:e -11:e september i Denver!
     tag_line: Den fria wiki-världskartan
     user_diaries: Användardagböcker
     user_diaries_tooltip: Visa användardagböcker
@@ -972,6 +1010,7 @@ sv:
       delete_button: Radera
   notifier: 
     diary_comment_notification: 
+      header: "%{from_user} har lämnat kommentar till ditt OpenStreetMap dagboksinlägg med rubriken %{subject}:"
       hi: Hej %{to_user},
       subject: "[OpenStreetMap] %{user} kommenterade din dagboksanteckning"
     email_confirm: 
@@ -1026,6 +1065,7 @@ sv:
       more_videos_here: fler videor här
       video_to_openstreetmap: introduktionsvideo om OpenStreetMap
     signup_confirm_plain: 
+      ask_questions: "Du kan ställa valfria frågor om OpenStreetMap på vår frågesida:"
       click_the_link_1: Om detta är du, välkommen! Klicka på länken nedan för att bekräfta ditt
       click_the_link_2: konto och läs vidare för mer information om OpenStreetMap.
       greeting: Hej där!
@@ -1069,6 +1109,7 @@ sv:
       support_notice: Vi stödjer HMAC-SHA1 (rekommenderas) såväl som oformaterad text i SSL-läge.
   site: 
     edit: 
+      anon_edits_link_text: Ta reda på varför det är så.
       flash_player_required: Du måste ha Flash för att kunna använda Potatch, OpenStreetMaps flasheditor. Du kan <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">ladda hem Flash Player från Adobe.com</a>. Det finns <a href="http://wiki.openstreetmap.org/wiki/Editing">flera andra editorer</a> tillgängliga för OpenStreetMap.
       user_page_link: användarsida
     index: 
@@ -1082,6 +1123,7 @@ sv:
       shortlink: Kortlänk
     key: 
       map_key: Kartnyckel
+      map_key_tooltip: Symbolförklaring
       table: 
         entry: 
           admin: Administrativ gräns
@@ -1090,6 +1132,7 @@ sv:
             - Flygplatsterminal
             - terminal
           bridge: Svarta kantar = bro
+          bridleway: Ridstig
           brownfield: Förfallen industritomt
           building: Viktig byggnad
           cable: 
@@ -1103,6 +1146,7 @@ sv:
             - äng
           construction: Vägar som byggs
           cycleway: Cykelväg
+          destination: Förbjuden genomfart
           farm: Bondgård
           footway: Gångväg
           forest: skog
@@ -1115,6 +1159,7 @@ sv:
           military: Militärområde
           motorway: Motorväg
           park: Park
+          permissive: Endast tillträde för behöriga
           pitch: Bollplan
           primary: Riksväg
           private: Privat tillgång
@@ -1228,7 +1273,7 @@ sv:
       tags: Taggar
     trace_paging_nav: 
       next: Nästa »
-      previous: "« Föregående"
+      previous: « Föregående
       showing_page: Visar sida %{page}
     view: 
       delete_track: Radera detta spår
@@ -1250,7 +1295,7 @@ sv:
       uploaded: "Uppladdad den:"
       visibility: "Synlighet:"
     visibility: 
-      identifiable: Indentifierbar (visas i GPS-spårlistan och som identifierbara, ordnade punkter med tidsstämpel)
+      identifiable: Identifierbar (visas i GPS-spårlistan och som ordnade punkter med tidsstämpel)
       private: Privat (spåret delas anonymt och utan ordning)
       public: Publik (visas i GPS-spårlistan och som anonyma punkter utan ordning)
       trackable: Spårbar (delas bara som anonyma ordnade punker med tidsstämpel)
@@ -1258,6 +1303,7 @@ sv:
     account: 
       contributor terms: 
         agreed: Du har godkänt de nya bidragsgivarvillkoren.
+        heading: "Användarvillkor:"
         link text: vad är detta?
         not yet agreed: Du har ännu inte godkänt de nya bidragsgivarvillkoren.
       current email address: "Nuvarande E-postadress:"
@@ -1279,6 +1325,7 @@ sv:
       openid: 
         link text: vad är detta?
         openid: "OpenID:"
+      preferred editor: "Önskat redigeringsprogram:"
       preferred languages: "Föredraget språk:"
       profile description: "Profilbeskrivning:"
       public editing: 
@@ -1297,6 +1344,7 @@ sv:
       title: Redigera konto
       update home location on click: Uppdatera hemplatsen när jag klickar på kartan?
     confirm: 
+      before you start: "Vi vet att du knappt kan bärga dig med att komma igång att börja mappa, men först får du gärna fylla i mer information om dig själv i nedanstående formulär:"
       button: Bekräfta
       heading: Bekräfta ett användarkonto.
       press confirm button: Klicka bekräftelseknappen nedan för att aktivera ditt konto.
@@ -1326,6 +1374,7 @@ sv:
       title: Användare
     login: 
       account not active: Ditt konto är inte aktivterat.<br />Vänligen klicka på länken i e-brevet med kontobekräftelsen för att aktivera ditt konto, eller <a href="%{reconfirm}">begär ett nytt bekräftelsebrev</a>.
+      account suspended: Beklagar, ditt konto har stängts av på grund av misstänkt otillåten aktivitet. <br />Kontakta %{webmaster} om du vill föra en diskussion kring detta.
       auth failure: Kunde inte logga in med de uppgifterna.
       create account minute: Skapa ett konto. Det tar bara en minut.
       email or username: "E-postadress eller användarnamn:"
@@ -1362,6 +1411,8 @@ sv:
       title: Logga in
       to make changes: För att göra ändringar i OpenStreetMaps data måste du ha ett konto.
       webmaster: webmaster
+      with openid: "Du kan även använda ditt OpenID-konto för att logga in:"
+      with username: "Har du redan ett OpenStreetMap konto? Logga in med ditt användarnamn och lösenord:"
     logout: 
       heading: Logga ut från OpenStreetMap
       logout_button: Logga ut
@@ -1396,6 +1447,7 @@ sv:
       openid association: "<p>Ditt OpenID är ännu inte associerad med ett OpenStreetMap konto</p>\n<ul>\n<li>Om du är ny på OpenStreetMap, skapa ett nytt konto med hjälp av formuläret nedan.</li>\n<li>\n   Om du redan har ett konto kan du logga in till ditt konto på vanligt sätt\n   med hjälp av ditt användarnamn och lösenord, för att sedan associera kontot\n   med ditt OpenID i användarinställningarna.\n</li>\n</ul>"
       password: "Lösenord:"
       terms accepted: Tack för att du accepterar de nya vilkoren för bidrag till kartan
+      terms declined: Vi beklagar att du bestämt dig för att inte acceptera de nya användarvillkoren. För mer information, se <a href="%{url}">denna wikisida</a>.
       title: Skapa konto
     no_such_user: 
       body: Det finns ingen användare med namnet %{user}. Kontrollera stavningen eller kanske länken är trasig.
@@ -1459,7 +1511,7 @@ sv:
       moderator_history: visa tilldelade blockeringar
       my diary: min dagbok
       my edits: mina redigeringar
-      my settings: Mina inställningar
+      my settings: mina inställningar
       my traces: mina GPS-spår
       nearby users: Andra användare nära dig
       new diary entry: nytt dagboksinlägg

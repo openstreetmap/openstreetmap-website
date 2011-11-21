@@ -3,6 +3,7 @@
 # Export driver: syck-pecl
 # Author: Aleator
 # Author: El libre
+# Author: Gemmaa
 # Author: Jconstanti
 # Author: Jmontane
 # Author: Martorell
@@ -80,6 +81,12 @@ ca:
       way: Camí
       way_node: Node del camí
       way_tag: Etiqueta del camí
+  application: 
+    require_cookies: 
+      cookies_needed: Sembla tenir les galetes inhabilitats - heu d'habilitar les galetes al seu navegador abans de continuar.
+    setup_user_auth: 
+      blocked: S'ha blocat l'accés a l'API. Si us plau, log-in a la interfície de web per obtenir més informació.
+      need_to_see_terms: L'accés a l'API és temporalment suspeses. Si us plau, log-in a la interfície de web per veure els termes de col. laborador. Vostè no necessita estar d'acord, però cal veure-les.
   browse: 
     changeset: 
       changeset: Conjunt de canvis %{id}
@@ -101,6 +108,7 @@ ca:
       has_ways: 
         one: "Té la següent via:"
         other: "Té les següents %{count} vies:"
+      no_bounding_box: No hi ha bounding box s'ha emmagatzemat per a aquest el conjunt de canvis.
       show_area_box: Mostra caixa de l'àrea
     common_details: 
       changeset_comment: "Comentari:"
@@ -115,6 +123,11 @@ ca:
       entry_role: Relació %{relation_name} (com a  %{relation_role})
     map: 
       deleted: Esborrat
+      edit: 
+        area: Editar àrea
+        node: Editar node
+        relation: Edita la relació
+        way: Edició de manera
       larger: 
         area: Visualitza l'àrea en un mapa més gran
         node: Visualitza el node en un mapa més gran
@@ -194,6 +207,7 @@ ca:
       hide_areas: Oculta les zones
       history_for_feature: Historial per a [[feature]]
       load_data: Carrega dades
+      loaded_an_area_with_num_features: "Heu carregat una àrea que conté trets de [[num_features]]. En general, alguns navegadors poden no fer front també mostrar aquesta quantitat de dades. En general, els navegadors funcionen millor de es mostren trets de menys de 100 a la vegada: fer qualsevol altra cosa pot fer que el seu navegador lent/insensible. Si esteu segurs que voleu visualitzar aquestes dades, pot fer-ho fent clic al botó de sota."
       loading: S'està carregant...
       manually_select: Selecciona manualment una àrea diferent
       object_list: 
@@ -215,6 +229,7 @@ ca:
       private_user: usuari privat
       show_areas: Mostra les zones
       show_history: Mostra l'historial
+      unable_to_load_size: "No es pot carregar: Bounding mida de caixa de [[bbox_size]] és massa gran (ha de ser més petita que % {max_bbox_size})"
       wait: Espereu...
       zoom_or_select: Ampliar o seleccionar una àrea del mapa per veure
     tag_details: 
@@ -260,7 +275,7 @@ ca:
       view_changeset_details: Mostra els detalls del conjunt de canvis
     changeset_paging_nav: 
       next: Següent »
-      previous: "« Anterior"
+      previous: « Anterior
       showing_page: Mostrant pàgina %{page}
     changesets: 
       area: Àrea
@@ -336,9 +351,11 @@ ca:
     new: 
       title: Nova Entrada de Diari
     no_such_entry: 
+      body: Ho sentim, que no hi ha cap entrada del diari o comentari amb l'id % {id}. Si us plau, comproveu l'ortografia, o potser l'enllaç que es fa clic està malament.
       heading: No hi ha cap entrada amb la id %{id}
       title: No hi ha entrada al diari com
     no_such_user: 
+      body: Ho sentim, no hi ha cap usuari amb el nom % (usuari). Si us plau, comproveu l'ortografia, o potser l'enllaç que es fa clic està malament.
       heading: L'usuari/a %{user} no existeix
       title: Aquest usuari/a no existeix
     view: 
@@ -382,6 +399,7 @@ ca:
       paste_html: Enganxa HTML per incloure'l al lloc web
       scale: Escala
       too_large: 
+        body: Aquesta zona és massa gran per exportar com a dades XML de OpenStreetMap. Si us plau entrar ràpidament o seleccioneu una àrea més petita.
         heading: L'àrea és massa gran
       zoom: Zoom
     start_rjs: 
@@ -396,6 +414,7 @@ ca:
     description: 
       title: 
         geonames: Localització des de <a href="http://www.geonames.org/">GeoNames</a>
+        osm_namefinder: "% {tipus} de <a href=\"http://gazetteer.openstreetmap.org/namefinder/\">OpenStreetMap Namefinder</a>"
         osm_nominatim: Localització des de <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
       types: 
         cities: Ciutats
@@ -570,6 +589,10 @@ ca:
           ford: Fiord
           gate: Porta
           living_street: Carrer habitat
+          minor: Camí secundari
+          motorway: L'autopista
+          motorway_junction: L'autopista
+          motorway_link: L'autopista Road
           path: Camí
           pedestrian: Via Peatonal
           platform: Perron
@@ -581,48 +604,72 @@ ca:
           secondary: Carretera secundària
           secondary_link: Carretera secundària
           service: Carretera de Servei
+          services: Serveis en ruta
           steps: Graons
           stile: Escala per a travessar reixats
           tertiary: Carretera terciària
+          track: Pista
           trail: Sendera
-          unclassified: Carretera sense classificar
+          trunk: Autovia de
+          trunk_link: Autovia de
+          unclassified: Sense classificar Road
           unsurfaced: Pista sense asfaltar
         historic: 
           archaeological_site: Lloc arqueològic
           battlefield: Camp de batalla
+          boundary_stone: Pedra de la frontera
           building: Edifici
           castle: Castell
           church: Església
           house: Casa
           icon: Icona
+          manor: Manor
           memorial: Memorial
           mine: Mina
           monument: Monument
           museum: Museu
           ruins: Ruïnes
           tower: Torre
+          wayside_cross: Camí de la creu
+          wayside_shrine: Santuari de carreteres
+          wreck: Wreck
         landuse: 
+          allotments: Horts
+          basin: Conca
+          brownfield: Brownfield terra
           cemetery: Cementiri
           commercial: Zona comercial
+          conservation: Conservació
           construction: Construcció
           farm: Granja
+          farmland: Terres de conreu
+          farmyard: Corral
           forest: Bosc
           grass: Herba
+          greenfield: Greenfield terra
           industrial: Zona industrial
+          landfill: Abocador
+          meadow: Prat
           military: Zona Militar
           mine: Mina
           mountain: Muntanya
           nature_reserve: Reserva Natural
           park: Parc
+          piste: Pista d'aterratge
           plaza: Plaça
           quarry: Pedrera
           railway: Ferrocarril
           recreation_ground: Zona d'Esbarjo
           reservoir: Embassament
           residential: Àrea residencial
+          retail: Al detall
+          village_green: Village Green
+          vineyard: Vinya
           wetland: Aiguamoll
           wood: Fusta
         leisure: 
+          beach_resort: Beach Resort
+          common: Terra comú
           fishing: Àrea de pesca
           garden: Jardí
           golf_course: Camp de golf
@@ -631,9 +678,14 @@ ca:
           miniature_golf: Minigolf
           nature_reserve: Reserva natural
           park: Parc
+          pitch: Camp d'esports
+          playground: Parc infantil
+          recreation_ground: Terra de recreació
+          slipway: Slipway
           sports_centre: Centre esportiu
           stadium: Estadi
           swimming_pool: Piscina
+          track: Pista
           water_park: Parc aquàtic
         natural: 
           bay: Badia
@@ -652,6 +704,8 @@ ca:
           heath: Bruguerar
           hill: Pujol
           island: Illa
+          land: Terra
+          marsh: Marsh
           moor: Amarratge
           mud: Llot
           peak: Pic
@@ -661,6 +715,7 @@ ca:
           river: Riu
           rock: Roca
           scree: Pedregar
+          scrub: Scrub
           shoal: Banc
           spring: Deu
           strait: Estret
@@ -697,42 +752,97 @@ ca:
         railway: 
           abandoned: Ferrocarril fora de Servei
           construction: Ferrocarril en Construcció
+          disused: Ferrocarril en desús
           disused_station: Estació de tren tancada
+          funicular: Funicular Railway
+          halt: Parada de tren
           historic_station: Estació de tren antiga
           junction: Cruïlla de tren
           level_crossing: Pas a nivell
+          light_rail: Tren lleuger
           monorail: Monorail
+          narrow_gauge: Ample ferroviari mètric
           platform: Andana
+          preserved: Conservat ferrocarril
+          spur: Esperó de ferrocarril
           station: Estació de tren
           subway: Estació de metro
           subway_entrance: Accés al Metro
+          switch: Punts de ferrocarril
           tram: Tramvia
           tram_stop: Parada de tramvia
+          yard: Pati de ferrocarril
         shop: 
+          alcohol: De llicència
+          apparel: Roba de la botiga
           art: Galeria d'Art
           bakery: Fleca
+          beauty: Saló de bellesa
+          beverages: Botiga de begudes
           bicycle: Tenda de bicicletes
           books: Llibreria
           butcher: Carnisseria
           car: Venda de Cotxes
           car_dealer: Compra-venda de cotxes
+          car_parts: Peces de cotxes
           car_repair: Reparació d'automòbils
+          carpet: Botiga de catifes
+          charity: Botiga de caritat
           chemist: Farmàcia
+          clothes: Botiga de roba
+          computer: Botiga d'informàtica
+          confectionery: Confiteria botiga
+          convenience: Botiga de conveniència
+          copyshop: Copisteria
+          cosmetics: Botiga Cosmètica
+          department_store: Department Store
+          discount: Botiga d'articles de descompte
+          doityourself: Bricolatge
+          drugstore: Farmàcia
+          dry_cleaning: Tintoreria
+          electronics: Botiga d'electrònica
           estate_agent: Immobiliària
+          farm: Agrobotiga
+          fashion: Botiga de moda
           fish: Peixateria
           florist: Floristeria
+          food: Botiga de menjar
+          funeral_directors: Funeral d'administració
+          furniture: Mobles
+          gallery: Galeria de fotos
+          garden_centre: Centre de jardí
+          general: Magatzem General
           gift: Botiga de regals
+          greengrocer: Greengrocer
+          grocery: Botiga de queviures
           hairdresser: Perruqueria o barberia
+          hardware: Botiga de maquinari
+          hifi: Hi-Fi
+          insurance: Homes For Sale
           jewelry: Joieria
+          kiosk: Quiosc botiga
           laundry: Bugaderia
           mall: Centre comercial
           market: Mercat
+          mobile_phone: Botiga de telèfon mòbil
+          motorcycle: Botiga de motocicletes
+          music: Botiga de música
+          newsagent: Quiosc
           optician: Òptica
+          organic: Botiga d'aliments orgànics
+          outdoor: Botiga exterior
           pet: Botiga d'animals
+          photo: Botiga de foto
+          salon: Sala d'estar
           shoes: Sabateria
+          shopping_centre: Centre comercial
+          sports: Botiga d'esports
+          stationery: Botiga de papereria
           supermarket: Supermercat
           toys: Botiga de joguines
           travel_agency: Agència de viatges
+          video: Video de la botiga
+          wine: De llicència
         tourism: 
           alpine_hut: Cabanya alpina
           artwork: Il·lustració
@@ -755,14 +865,26 @@ ca:
           viewpoint: Mirador
           zoo: Zoològic
         waterway: 
+          boatyard: Drassana
           canal: Canal
+          connector: Connector de Waterway
+          dam: Dam
+          derelict_canal: Hi Canal
           ditch: Séquia
+          dock: No obstant això,
+          drain: De drenatge
+          lock: Pany
+          lock_gate: Porta de panys
+          mineral_spring: Mineral primavera
           mooring: Amarradors
           rapids: Ràpids
           river: Riu
+          riverbank: Riverbank
+          stream: Stream
           wadi: Torrent
           water_point: Punt d'aigua
           waterfall: Cascada
+          weir: Weir
   javascripts: 
     map: 
       base: 
@@ -771,25 +893,43 @@ ca:
     site: 
       edit_disabled_tooltip: Augmenteu el zoom per modificar el mapa
       edit_tooltip: Modifica el mapa
+      edit_zoom_alert: S'ha ampliar editar el mapa
+      history_disabled_tooltip: Amplia per visualitzar les modificacions d'aquesta àrea
       history_tooltip: Mostra les modificacions d'aquesta àrea
+      history_zoom_alert: Vostè ha amplia per visualitzar les modificacions per a aquesta àrea
   layouts: 
+    community_blogs: Blocs de comunitat
+    community_blogs_title: Blogs dels membres de la comunitat OpenStreetMap
+    copyright: Drets d'autor i llicència
     documentation: Documentació
+    documentation_title: Documentació del projecte
+    donate: Suport OpenStreetMap % {enllaç} el fons de rampa de maquinari.
     donate_link_text: donatius
     edit: Modificació
+    edit_with: Edita amb % {editor}
     export: Exporta
     export_tooltip: Exporta les dades del mapa
     foundation: Fundació
+    foundation_title: La Fundació OpenStreetMap
     gps_traces: Traces de GPS
     gps_traces_tooltip: Gestiona registres GPS
     help: Ajuda
     help_centre: Centre d'ajuda
+    help_title: Lloc d'ajuda per al projecte
     history: Historial
     home: Inici
     home_tooltip: Vés a la posició inicial
     inbox: safata d'entrada (% {count})
+    inbox_tooltip: 
+      other: one no llegits = el seu inbox conté 1 message
+      zero: el seu inbox conté cap messages
     intro_1: L'OpenStreetMap és un mapa editable i lliure de tot el món. Està fet per gent com vós.
     intro_2: OpenStreetMap us permet veure, editar i utilitzar informació geogràfica comunitària de qualsevol lloc del planeta
+    intro_3: OpenStreetMap hosting és amable amb el suport de % {ucl}, % {ic} i % {bytemark}. Altres partidaris del projecte s'enumeren en el % {socis}.
+    intro_3_ic: Imperial College de Londres
     intro_3_partners: wiki
+    license: 
+      title: OpenStreetMap dades es concedeix una llicència sota la llicència Creative Commons Reconeixement-Compartir Igual 2.0 genèrica
     log_in: inicia una sessió
     log_in_tooltip: Inicia una sessió amb un compte existent
     logo: 
@@ -799,19 +939,30 @@ ca:
     make_a_donation: 
       text: Feu una donació
       title: Ajuda OpenStreetMap amb una donació exonòmica
+    osm_offline: La base de dades OpenStreetMap està fora de línia, mentre que les actuacions de manteniment essencials de base de dades es porta a terme.
+    osm_read_only: La base de dades OpenStreetMap actualment és en el mode read-only mentre que les actuacions de manteniment essencials de base de dades es porta a terme.
     sign_up: registre
     sign_up_tooltip: Crea un usuari per editar
+    sotm2011: Vine a la conferència de OpenStreetMap de 2011, L'estat del mapa, 9-11 de setembre a Denver!
+    tag_line: El mapa del món de Wiki lliure
     user_diaries: DIaris de usuari
     user_diaries_tooltip: Veure els diaris d'usuari
     view: Veure
     view_tooltip: Visualitza el mapa
     welcome_user: Benvingut/da, %{user_link}
     welcome_user_link_tooltip: La teva pàgina d'usuari
+    wiki: Wikia
+    wiki_title: Lloc web de wiki per al projecte
   license_page: 
     foreign: 
       english_link: l'original en anglès
+      text: En cas de conflicte entre aquesta pàgina traduïda i % {english_original_link}, la pàgina en anglès tindrà prioritat
       title: Quant a la traducció
+    legal_babble: "<h2>Drets d'autor i llicència</h2>\n<p>\n   OpenStreetMap és <i>obrir dades</i>, concedeix una llicència sota el <a\n href=\"http://creativecommons.org/licenses/by-sa/2.0/\">Creative\n   Llicència Commons Attribution-ShareAlike 2.0 (CC-BY-SA).\n<p>\n<p>\n  Vostè és lliure de copiar, distribuir, transmetre i adaptar-se a nostres mapes\n  i les dades, sempre que li doni crèdit OpenStreetMap i la seva\n  col. laboradors. Si alterar o construir sobre els nostres mapes o dades, vostè\n  distribuir el resultat només sota la mateixa llicència. La\n  Full <a\n href=\"http://creativecommons.org/licenses/by-sa/2.0/legalcode\">legal\n  codi explica els seus drets i responsabilitats.\n<p>\n\n<h3>Com a crèdit OpenStreetMap</h3>\n<p>\n  Si està utilitzant imatges de mapa de OpenStreetMap, us preguem que\n  el seu crèdit llegeix com a mínim \"© OpenStreetMap\n  col. laboradors, CC-BY-SA\". Si està utilitzant les dades de mapa només\n  demanem \"mapa dades © OpenStreetMap col·laboradors\n  CC-BY-SA\".\n</p>\n<p>\n  Sempre que sigui possible, OpenStreetMap ha de ser un hipervincle a <a\n href=\"http://www.openstreetmap.org/\">http://www.openstreetmap.org/\n  i CC-BY-SA a <a\n href=\"http://creativecommons.org/licenses/by-sa/2.0/\">http://creativecommons.org/licenses/by-sa/2.0/. Si\n  està utilitzant un mitjà on enllaços no són possibles (per exemple, un\n  treball impresa), us suggerim que directa als seus lectors a\n  www.OpenStreetMap.org (potser per l'ampliació\n  'OpenStreetMap' a aquesta adreça completa) i a\n  www.creativecommons.org.\n<p>\n\n<h3>Saber-ne més</h3>\n<p>\n  Llegiu més informació sobre com utilitzar les nostres dades a les <a\n href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">Legal\n  PREGUNTES MÉS FREQÜENTS.\n<p>\n<p>\n  Col. laboradors OSM se li va recordar mai per afegir les dades des de qualsevol\n  drets d'autor fonts (p. ex. Google Maps o mapes impreses) sense\n  permís explícit dels titulars del copyright.\n</p>\n<p>\n  Encara que OpenStreetMap és oberts les dades, no podem oferir un\n  mapa de Free-of-charge API per a desenvolupadors de tercera festa.\n\n  Consulti la nostra <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">Política d'ús de l'API</a>\n  <a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">Política d'ús de rajoles</a>\n  i <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">política d'ús de Nominatim</a>.\n</p>\n\n<h3>Nostres col. laboradors</h3>\n<p>\n  La nostra llicència CC-BY-SA requereix que \"doni l'Original\n  Autor de crèdit raonable per al suport i mitjà que ets\n  utilització\". No tornis a sol·licitar individuals dibuixants de mapes de OSM un\n  de crèdit més enllà de que a \"OpenStreetMap\n  col. laboradors\", però on les dades des d'un mapatge Nacional\n  Agència o l'altra font important ha estat inclòs en\n  OpenStreetMap, pot ser raonable per crèdit per directament\n  reproduir el seu crèdit o per vincular-hi d'aquesta pàgina.\n</p>\n\n<!--\nInformation for page editors\n\nThe following lists only those organisations who require attribution\nas a condition of their data being used in OpenStreetMap. It is not a\ngeneral catalogue of imports, and must not be used except when\nattribution is required to comply with the licence of the imported\ndata.\n\nAny additions here must be discussed with OSM sysadmins first.\n-->\n\n<ul id=\"contributors\">\n<li><strong>Austràlia</strong>: conté dades suburbi basats\n    en les dades d'Austràlia Oficina d'estadístiques.</li>\n<li><strong>Àustria</strong>: conté dades de\n    <a href=\"http://data.wien.gv.at/\">Stadt Wien</a> sota\n    <a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.de\">CC-BY</a>.</li>\n<li><strong>Canadà</strong>: conté dades de\n    GeoBase ®, GeoGratis (© Departament de Natural\n    Recursos Canadà), CanVec (© Departament de Natural\n    Recursos Canadà) i StatCan (Divisió de Geografia,\n    Canadà de Estadístiques).</li>\n<li><strong>França</strong>: conté dades d'origen de\n    Direcció Générale des Impôts.</li>\n<li><strong>Nova Zelanda</strong>: conté dades d'origen de\n    Informació Nova Zelanda de la terra. Corona de drets d'autor reservat.</li>\n<li><strong>Polònia</strong>: conté dades de mapes de <a\n href=\"http://ump.waw.pl/\">UMP-pcPL. Drets d'autor\n    Col. laboradors de la UMP-pcPL.</a\n></li>\n<li><strong>Regne Unit</strong>: conté cartografia\n    Enquesta dades © Crown copyright i base de dades correcte\n    2010.</li>\n</ul>\n\n<p>\n  Inclusió de dades en OpenStreetMap no implica que l'original\n  el proveïdor de dades recolza OpenStreetMap, proporciona cap garantia, o\n  accepta qualsevol responsabilitat.\n</p></a\n></a\n></a\n></a\n></a\n>"
     native: 
+      mapping_link: Inici d'assignació
+      native_link: Versió THIS_LANGUAGE_NAME_HERE
+      text: Estàs veient la versió anglesa de la pàgina de drets d'autor. Es pot tornar posterior al % {native_link} d'aquesta pàgina o vostè pot deixar de llegir sobre el copyright i % {mapping_link}.
       title: Sobre aquesta pàgina
   message: 
     delete: 
@@ -819,9 +970,16 @@ ca:
     inbox: 
       date: Data
       from: De
+      my_inbox: La meva safata d'entrada
+      no_messages_yet: No tens missatges encara. Per què no entrar en contacte amb alguns dels % {people_mapping_nearby_link}?
       outbox: sortida
+      people_mapping_nearby: Cartografia de prop la gent
       subject: Assumpte
       title: Safata d'entrada
+      you_have: Teniu missatges nous % {new_count} i els missatges antics % {old_count}
+    mark: 
+      as_read: Missatge marcat com a llegits
+      as_unread: Missatge marcat com a no llegit
     message_summary: 
       delete_button: Suprimeix
       read_button: Marca com a llegit
@@ -830,40 +988,65 @@ ca:
     new: 
       back_to_inbox: Tornar a la safata d'entrada
       body: Cos
+      limit_exceeded: He enviat un munt de missatges recentment. Si us plau, espereu una estona abans d'intentar d'enviar qualsevol més.
       message_sent: S'ha enviat el missatge
       send_button: Envia
+      send_message_to: Enviar un missatge nou a % {name}
       subject: Assumpte
       title: Enviar missatge
     no_such_message: 
+      body: Trist que no hi ha cap missatge amb que id.
       heading: No existeix aquest missatge
       title: No existeix aquest missatge
+    no_such_user: 
+      body: Trist que no hi ha cap usuari amb aquest nom.
+      heading: Aquest usuari no
+      title: Aquest usuari no
     outbox: 
       date: Data
       inbox: Entrada
       my_inbox: El meu %{inbox_link}
+      no_sent_messages: Encara no has cap els missatges enviats. Per què no entrar en contacte amb alguns dels % {people_mapping_nearby_link}?
       outbox: sortida
+      people_mapping_nearby: Cartografia de prop la gent
       subject: Assumpte
       title: Sortida
       to: A
+      you_have_sent_messages: Tens % {count} enviar missatges
     read: 
+      back_to_inbox: Torna a la safata d'entrada
+      back_to_outbox: Torna a la safata de sortida
       date: Data
       from: De
+      reading_your_messages: Llegir els missatges
+      reading_your_sent_messages: Llegir els missatges enviats
       reply_button: Respon
       subject: Assumpte
       title: Llegir missatge
       to: Per a
       unread_button: Marca com a no llegit
+      wrong_user: Heu iniciat la sessió com "% {user}", però el missatge que han demanat a llegir a no va ser enviat per o a que l'usuari. Si us plau connecti's com l'usuari correcte per a llegir-lo.
+    reply: 
+      wrong_user: Heu iniciat la sessió com "% {user}", però el missatge que han demanat que respongui a no s'ha enviat a que l'usuari. Si us plau connecti's com l'usuari correcte per a respondre.
     sent_message_summary: 
       delete_button: Suprimeix
   notifier: 
     diary_comment_notification: 
+      footer: També podeu llegir el comentari a les % {readurl} i es pot comentar als % {commenturl} o respondre a les % {replyurl}
+      header: "% {from_user} ha comentat en el seu recent entrada del diari OpenStreetMap amb el tema % {tema}:"
       hi: Hola %{to_user},
+      subject: "[OpenStreetMap] % (usuari), va comentar sobre la seva entrada del diari"
     email_confirm: 
       subject: "[OpenStreetMap] Confirmeu l'adreça de correu"
     email_confirm_html: 
+      click_the_link: Si això és vostè, si us plau, feu clic a l'enllaç sota per confirmar el canvi.
       greeting: Hola,
+      hopefully_you: Algú (esperem que vostè) com canviar la seva adreça d'e-mail % {server_url} % {new_address}.
     email_confirm_plain: 
+      click_the_link: Si això és vostè, si us plau, feu clic a l'enllaç sota per confirmar el canvi.
       greeting: Hola,
+      hopefully_you_1: Algú (esperem que vostè) li agradaria canviar la seva adreça d'e-mail a
+      hopefully_you_2: "% {server_url} % {new_address}."
     friend_notification: 
       befriend_them: També el pots afegir com a amic a % {befriendurl}.
       had_added_you: "% {user} t'ha afegit com a amic a OpenStreetMap."
@@ -872,55 +1055,203 @@ ca:
     gpx_notification: 
       and_no_tags: i cap etiqueta.
       and_the_tags: "i les etiquetes següents:"
+      failure: 
+        failed_to_import: "no es pot importar. Aquí està l'error:"
+        more_info_1: Més informació en relació a GPX d'importació fracassos i com evitar
+        more_info_2: "ells es pot trobar a:"
+        subject: "[OpenStreetMap] Error d'importació de GPX"
       greeting: Hola,
+      success: 
+        loaded_successfully: carregat amb % {trace_points} fora d'un punts possibles % {possible_points}.
+        subject: "[OpenStreetMap] L'èxit de GPX importació"
+      with_description: amb la descripció
+      your_gpx_file: Sembla que el seu arxiu GPX
+    lost_password: 
+      subject: "[OpenStreetMap] Sol. licitud de reinicialització de contrasenya"
     lost_password_html: 
+      click_the_link: Si això és vostè, si us plau, feu clic a l'enllaç de sota per restaurar la seva contrasenya.
       greeting: Hola,
+      hopefully_you: Algú (possiblement vostè) ha demanat per a la contrasenya restaurar el compte de openstreetmap.org d'aquesta adreça de correu electrònic.
     lost_password_plain: 
+      click_the_link: Si això és vostè, si us plau, feu clic a l'enllaç de sota per restaurar la seva contrasenya.
       greeting: Hola,
+      hopefully_you_1: Algú (possiblement vostè) ha demanat per a la contrasenya restaurar en això
+      hopefully_you_2: adreces d'e-mail openstreetmap.org compte.
     message_notification: 
       footer1: També pots llegir el missatge a %{readurl}
       footer2: i el pots replicar a %{replyurl}
+      header: "% {from_user} ha enviat un missatge a través de OpenStreetMap amb el tema % {tema}:"
       hi: Hola %{to_user},
     signup_confirm: 
       subject: "[OpenStreetMap] Confirmeu la vostra adreça electrònica"
     signup_confirm_html: 
-      more_videos_here: més de vídeos aquí
-    signup_confirm_plain: 
+      ask_questions: Pot fer qualsevol pregunta que tingui sobre OpenStreetMap a la nostra <a href="http://help.openstreetmap.org/">pregunta i resposta lloc</a>.
+      click_the_link: Si això és vostè, Benvingut! Si us plau, feu clic a l'enllaç de sota per confirmar que compte i seguiu llegint per obtenir més informació sobre OpenStreetMap
+      current_user: "Una llista d'usuaris actuals en categories, basades en on en el món que són, està disponible des de <a href=\"http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region\">Categoria: Users_by_geographical_region</a>."
+      get_reading: Obtenir de lectura sobre OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Beginners%27_Guide">al wiki</a>, posarà al dia amb les últimes notícies via <a href="http://blog.openstreetmap.org/">OpenStreetMap bloc</a> o <a href="http://twitter.com/openstreetmap">Twitter</a>o navegar a través de OpenStreetMap fundador Steve Costa <a href="http://www.opengeodata.org/">OpenGeoData blog</a> per a la breu història del projecte, que disposa de <a href="http://www.opengeodata.org/?cat=13">podcasts d'escoltar</a> !
       greeting: Hola, què tal?
+      hopefully_you: Algú (esperem que vostè) would com crear un compte per a les
+      introductory_video: Vostè pot veure un % {introductory_video_link}.
+      more_videos: Hi ha % {more_videos_link}.
+      more_videos_here: més de vídeos aquí
+      user_wiki_page: "Es recomana que es crea una pàgina de wiki de l'usuari, que inclou Etiquetes de categoria assenyalant on estàs, com <a href=\"http://wiki.openstreetmap.org/wiki/Category:Users_in_London\">[[Categoria: Users_in_London]]</a>."
+      video_to_openstreetmap: vídeo d'introducció a OpenStreetMap
+      wiki_signup: Vostè també pot <a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page">inscriure s a la wiki OpenStreetMap</a>.
+    signup_confirm_plain: 
+      ask_questions: "Pot fer qualsevol pregunta que tingui sobre OpenStreetMap a les nostres preguntes i lloc de resposta:"
+      blog_and_twitter: "Posarà al dia amb les últimes notícies via el blog de OpenStreetMap o Twitter:"
+      click_the_link_1: Si això és vostè, Benvingut! Si us plau, feu clic a l'enllaç sota per confirmar el seu
+      click_the_link_2: compte i seguiu llegint per obtenir més informació sobre OpenStreetMap.
+      current_user_1: Una llista d'usuaris actuals en categories, basades en on en el món
+      current_user_2: "ells són, està disponible des de:"
+      greeting: Hola, què tal?
+      hopefully_you: Algú (esperem que vostè) would com crear un compte per a les
+      introductory_video: "Podeu veure un vídeo d'introducció a OpenStreetMap aquí:"
       more_videos: "Hi ha més videos aquí:"
+      opengeodata: "OpenGeoData.org és blog fundador OpenStreetMap Steve Costa, i té podcasts també:"
+      the_wiki: "Obtenir llegint sobre OpenStreetMap al wiki:"
+      user_wiki_1: Es recomana que es crea una pàgina de wiki de l'usuari, que inclou
+      user_wiki_2: "Categoria Etiquetes assenyalant on es troba, com [[Categoria: Users_in_London]]."
+      wiki_signup: "Vostè també pot inscriure s a la wiki OpenStreetMap a:"
+  oauth: 
+    oauthorize: 
+      allow_read_gpx: llegir el seu privats traces GPS.
+      allow_read_prefs: llegir les seves preferències d'usuari.
+      allow_to: "Permet la sol·licitud de client per:"
+      allow_write_api: modificar el mapa.
+      allow_write_diary: crear entrades de diari, comentaris i fer amics.
+      allow_write_gpx: carregar traces GPS.
+      allow_write_prefs: modificar les seves preferències d'usuari.
+      request_access: L'aplicació % {app_name} sol·licita accés al seu compte, % (usuari). Si us plau marqui si vostè would com l'aplicació té les següents capacitats. Vostè pot triar tantes o tan poc com vulgui.
+    revoke: 
+      flash: He estat revocat el símbol % {aplicació}
   oauth_clients: 
+    create: 
+      flash: Registrar la informació amb èxit
+    destroy: 
+      flash: Destruït la matrícula d'aplicació de client
     edit: 
       submit: Modificació
+      title: Editar la seva aplicació
     form: 
+      allow_read_gpx: llegir les seves traces GPS privats.
+      allow_read_prefs: llegir les seves preferències d'usuari.
+      allow_write_api: modificar el mapa.
+      allow_write_diary: crear entrades de diari, comentaris i fer amics.
+      allow_write_gpx: carregar traces GPS.
+      allow_write_prefs: modificar les seves preferències d'usuari.
+      callback_url: Resposta d'URL
       name: Nom
+      requests: "Sol·licitar els permisos següents des de l'usuari:"
       required: Requerit
+      support_url: URL de suport
+      url: Principal aplicació URL
+    index: 
+      application: Nom d'aplicació
+      issued_at: Emès A
+      list_tokens: "Les fitxes següents s'han emès per aplicacions en el seu nom:"
+      my_apps: Meves aplicacions de Client
+      my_tokens: Meves aplicacions autoritzada
+      no_apps: Té una aplicació que li agradaria inscriure's per al seu ús amb nosaltres utilitzant l'estàndard % {oauth}? Heu de registrar la seva aplicació web abans que pugui fer peticions OAuth a aquest servei.
+      register_new: Registrar-se l'aplicació
+      registered_apps: "Vostè té les següents aplicacions client registrats:"
+      revoke: Revocar!
+      title: Les meves dades OAuth
+    new: 
+      submit: Registrar-se
+      title: Registrar-se una nova aplicació
+    not_found: 
+      sorry: Ho sento, que no s'ha pogut trobar el que % {tipus}.
+    show: 
+      access_url: "Accés Fitxa URL:"
+      allow_read_gpx: llegir les seves traces GPS privats.
+      allow_read_prefs: llegir les seves preferències d'usuari.
+      allow_write_api: modificar el mapa.
+      allow_write_diary: crear entrades de diari, comentaris i fer amics.
+      allow_write_gpx: carregar traces GPS.
+      allow_write_prefs: modificar les seves preferències d'usuari.
+      authorize_url: "Autoritzar URL:"
+      edit: Editar els detalls
+      key: "Clau de consum:"
+      requests: "Sol·licitar els permisos següents des de l'usuari:"
+      secret: "Secret de consum:"
+      support_notice: Donem suport a HMAC-SHA1 (recomanat), així com text sense format en el mode de ssl.
+      title: OAuth detalls % {app_name}
+      url: "Sol. licitud Token URL:"
+    update: 
+      flash: La informació de client ha actualitzat correctament
   site: 
     edit: 
+      anon_edits_link_text: Esbrinar per què aquest és el cas.
+      flash_player_required: Vostè necessita un intèrpret de flaix per utilitzar Potlatch, l'editor de OpenStreetMap Flash. Vostè pot <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">Descarregar Flash Player des de Adobe.com</a>. També hi ha <a href="http://wiki.openstreetmap.org/wiki/Editing">diverses altres opcions</a> per editar-lo OpenStreetMap.
+      no_iframe_support: El seu navegador no suporta iframes HTML, que són necessàries per a aquest tret.
+      not_public: No ha posat les modificacions per ser públic.
+      not_public_description: Ja no es pot editar el mapa a menys que vostè fer-ho. Pot configurar les modificacions com a públic del seu % {user_page}.
+      potlatch2_not_configured: No s'ha configurat Potlatch 2 - si us plau, veure http://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2 per a més informació
+      potlatch2_unsaved_changes: Vostè té canvis no desats. (D'estalviar en Potlatch 2, hauria de fer clic Salvar.)
+      potlatch_unsaved_changes: Vostè té canvis no desats. (Per salvar a Potlatch, vostè ha desseleccionar la manera actual o punt, si d'edició en mode en viu, o clic Salvar si vostè té un salvar botó.)
       user_page_link: pàgina d'usuari
     index: 
+      js_1: Tampoc està utilitzant un navegador que no suporta JavaScript o té deshabilitat JavaScript.
+      js_2: OpenStreetMap utilitza JavaScript per a la seva mapa slippy.
+      js_3: Pot voler provar el <a href="http://tah.openstreetmap.org/Browse/">navegador mosaic estàtica de Tiles@Home</a> si és incapaç d'activar JavaScript.
       license: 
         license_name: Creative Commons Reconeixement-Compartir Igual 2.0
+        notice: Llicenciat sota la llicència % {license_name} per % {project_name} i els seus contribuents.
         project_name: projecte OpenStreetMap
       permalink: Enllaç permanent
+      remote_failed: Edició ha fallat - assegureu-vos que JOSM o Merkaartor es carrega i l'opció de comandament a distància és habilitat
       shortlink: Enllaç curt
     key: 
+      map_key: Mapa clau
+      map_key_tooltip: Clau per al mapa
       table: 
         entry: 
+          admin: Límits administratius
+          allotments: Horts
           apron: 
-            1: terminal
+            - Davantal de l'Aeroport
+            - terminal
+          bridge: Embolcall negre = bridge
+          bridleway: Bridleway
+          brownfield: Lloc Brownfield
+          building: Edifici significatiu
+          byway: Byway
+          cable: 
+            - Cable car
+            - telecadira
           cemetery: Cementiri
           centre: Centre esportiu
+          commercial: Zona comercial
+          common: 
+            - Comú
+            - Prat
+          construction: Carreteres en construcció
+          cycleway: Cycleway
+          destination: Accés de destinació
           farm: Granja
+          footway: Footway
           forest: Bosc
           golf: Camp de golf
+          heathland: Bruguerar
           industrial: Zona industrial
           lake: 
             - Llac
+            - Embassament
           military: Àrea militar
+          motorway: L'autopista
+          park: Parc
+          permissive: Permissiva accés
+          pitch: Camp d'esports
+          primary: Carretera principal
           private: Accés privat
           rail: Ferrocarril
           reserve: Reserva natural
           resident: Zona residencial
+          retail: Zona de venda al detall
+          runway: 
+            - Pista d'Aeroport
+            - TAXIWAY
           school: 
             - Escola
             - Universitat
@@ -928,13 +1259,24 @@ ca:
           station: Estació de tren
           subway: Metro
           summit: 
-            1: pic
+            - Cimera
+            - pic
+          tourist: Atracció turística
           track: Pista
+          tram: 
+            - Tren lleuger
+            - tramvia
+          trunk: Autovia de
+          tunnel: Carcassa de guions = túnel
+          unclassified: Sense classificar road
+          unsurfaced: Unsurfaced road
           wood: Fusta
     search: 
       search: Cerca
+      search_help: "exemples: 'Alkmaar', 'Regent Street, Cambridge', 'CB2 5AQ' o 'oficines de CORREOS a prop Lünen' <a href='http://wiki.openstreetmap.org/wiki/Search'>més exemples...</a>"
       submit_text: Vés-hi
       where_am_i: On sóc?
+      where_am_i_title: Descriure la localització actual que utilitzen el motor de cerca
     sidebar: 
       close: Tanca
       search_results: Resultats de la cerca
@@ -943,7 +1285,10 @@ ca:
       friendly: "%e %B %Y a les %H.%M"
   trace: 
     create: 
+      trace_uploaded: El seu arxiu GPX s'ha pujat i està pendent d'inserció a la base de dades. Això passarà en general dins d'una mitja hora, i s'enviarà un correu electrònic a vostè en finalitzar.
       upload_trace: Pujar traça de GPS
+    delete: 
+      scheduled_for_deletion: Water programat per a la supressió
     edit: 
       description: "Descripció:"
       download: descàrrega
@@ -963,11 +1308,20 @@ ca:
       visibility_help: Què vol dir això?
     list: 
       public_traces: Traces GPS públiques
+      public_traces_from: Públics traces GPS de % (usuari)
       tagged_with: " etiquetat amb %{tags}"
       your_traces: Les teves traces GPS
+    make_public: 
+      made_public: Water fet públic
     no_such_user: 
+      body: Ho sentim, no hi ha cap usuari amb el nom % (usuari). Si us plau, comproveu l'ortografia, o potser l'enllaç que es fa clic està malament.
       heading: No existeix l'usuari %{user}
       title: No existeix l`usuari
+    offline: 
+      heading: GPX emmagatzematge fora de línia
+      message: Al GPX d'emmagatzematge i carregar sistema d'arxiu no està disponible actualment.
+    offline_warning: 
+      message: El sistema de càrrega de fitxers GPX no està disponible actualment
     trace: 
       ago: fa %{time_in_words_ago}
       by: en
@@ -985,22 +1339,24 @@ ca:
       trackable: RASTREABLE
       view_map: Visualitza el mapa
     trace_form: 
-      description: Descripció
+      description: "Descripció:"
       help: Ajuda
-      tags: Etiquetes
+      tags: "Etiquetes:"
       tags_help: separat per comas
       upload_button: Pujar
-      upload_gpx: Carregar arxiu GPX
-      visibility: Visibilitat
+      upload_gpx: "Carregui l'arxiu GPX:"
+      visibility: "Visibilitat:"
       visibility_help: què significa això?
     trace_header: 
       see_all_traces: Veure totes les traces
       see_your_traces: Veure totes les teves traces
+      traces_waiting: Vostè té % {count} traces d'espera per a carregar. Si us plau consideri espera per a aquests per acabar abans de pujar més, per tal de bloquejar la cua per a altres usuaris.
+      upload_trace: Carregar una traça
     trace_optionals: 
       tags: Etiquetes
     trace_paging_nav: 
       next: Següent »
-      previous: "« Previ"
+      previous: « Previ
       showing_page: Mostrant pàgina %{page}
     view: 
       delete_track: Elimina aquesta traça
@@ -1021,50 +1377,133 @@ ca:
       trace_not_found: No s'ha trobat la traça!
       uploaded: "Pujat el:"
       visibility: "Visibilitat:"
+    visibility: 
+      identifiable: Identifiable (mostrat en llista de traça i com a punts d'identificació, ordenades amb timestamps)
+      private: Privat (només compartit com anònims, desordenada punts)
+      public: Públic (mostrat en llista de traça i com anònims, desordenada punts)
+      trackable: Seguiments (només compartit com punts anònims, ordenades amb timestamps)
   user: 
     account: 
       contributor terms: 
+        agreed: Que han accedit a les noves condicions de col. laborador.
+        agreed_with_pd: Vostè també s'han declarat que consideri les modificacions d'estar en el domini públic.
+        heading: "Col. laborador termes:"
         link text: què és això?
+        not yet agreed: Que han no encara s'ha accedit a les noves condicions de col. laborador.
+        review link text: Si us plau, seguiu aquest enllaç a la seva conveniència de revisar i acceptar els termes de col. laborador nou.
       current email address: "Adreça de correu electrònic actual:"
+      delete image: Treure la imatge actual
       email never displayed publicly: (no es mostrarà mai en públic)
+      flash update success: Informació de l'usuari ha actualitzat correctament.
+      flash update success confirm needed: Informació de l'usuari ha actualitzat correctament. Comprovi el seu e-mail per a una nota per confirmar la seva adreça de correu electrònic nou.
+      home location: "Localització del inici:"
       image: "Imatge:"
+      image size hint: (Plaça imatges com a mínim 100 x 100 treball millor)
+      keep image: Mantenir la imatge actual
       latitude: "Latitud:"
       longitude: "Longitud:"
+      make edits public button: Fer totes les meves modificacions públic
       my settings: Preferències
+      new email address: "Nova adreça d'E-mail:"
       new image: Afegeix una imatge
+      no home location: No heu especificat la ubicació d'origen.
       openid: 
+        link: http://wiki.OpenStreetMap.org/wiki/OpenID
         link text: què és això?
+        openid: "OpenID:"
       preferred editor: "Editor preferit:"
       preferred languages: "Llengües preferents:"
       profile description: "Descripció del perfil:"
       public editing: 
+        disabled: Impossibilitat i no es pot editar les dades, totes les anteriors edicions són anònims.
+        disabled link text: per què no es pot editar?
+        enabled: Permès. No anònims i editar les dades.
         enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: què és això?
         heading: "Edició pública:"
       public editing note: 
         heading: Edició pública
+        text: Actualment les vostres modificacions estan anònims i la gent no pot enviar missatges o veure la vostra ubicació. Per mostrar el que editat i permetre que la gent en contacte amb vostè a través del web, feu clic al botó de sota. <b>Des de canvi de l'API 0.6, només els usuaris públics pot editar les dades de mapa</b>. (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">esbrinar per què</a>).<ul><li>Adreces de correu electrònic no serà revelada per convertir-se en públic.</li><li>Aquesta acció no es pot fer la inversió i els nous usuaris ara són públics per defecte.</li></ul>
+      replace image: Substituir la imatge actual
       return to profile: Torna al perfil
       save changes button: Desa els canvis
       title: Edita el compte
+      update home location on click: Localització de casa d'actualització quan faig clic al mapa?
     confirm: 
+      already active: Aquest compte ja ha estat confirmat.
+      before you start: Sabem que vostè està probablement en una pressa per començar a mapatge, però abans de fer que t'agradaria omplir una mica més informació sobre si mateix en el formulari a continuació.
       button: Confirma
+      heading: Confirmar un compte d'usuari
+      press confirm button: Premeu el botó de confirmar sota per activar el seu compte.
+      reconfirm: Si ha estat una estona ja que s'inscrivia podria necessitar <a href="%{reconfirm}">enviar-se un nou correu electrònic de confirmació</a>.
+      success: Confirmar el seu compte, gràcies per registrar-te!
+      unknown token: Aquesta mostra no sembla que hi ha.
     confirm_email: 
       button: Confirma
+      failure: Una adreça de correu electrònic ja ha estat confirmat amb aquesta fitxa.
+      heading: Confirmar un canvi d'adreça d'e-mail
+      press confirm button: Premeu el botó de confirmar sota per confirmar la seva adreça de correu electrònic nou.
+      success: Confirma l'adreça electrònica, gràcies per registrar-te!
+    confirm_resend: 
+      failure: L'usuari % {name} no s'ha trobat.
+      success: Hem enviat un bitllet de confirmació nou per % {email} i tan aviat com vostè confirmar el seu compte es podrà aconseguir d'assignació.<br><br>Si utilitzeu un sistema que envia les sol·licituds de confirmació llavors si us plau fer segur whitelist webmaster@openstreetmap.org com som capaços de respondre a qualsevol sol·licituds de confirmació.
+    filter: 
+      not_an_administrator: Cal que sigueu administrador per dur a terme aquesta acció.
     go_public: 
       flash success: Ara totes les teves edicions són públiques i ja estàs autoritzat per a editar
     list: 
+      confirm: Confirmar usuaris seleccionats
+      empty: No hi ha usuaris que coincideixin s'ha trobat
       heading: Usuaris
+      hide: Amaga els usuaris seleccionats
+      showing: 
+        one: "mostrant pàgina % {page} (% {first_item} de % {elements}) "
+        other: Mostrant pàgina % {page} ( %{first_item}-% {last_item} de % {elements})
+      summary: "% {name} creat a partir de % {direcciónIP} el % {data}"
+      summary_no_ip: "% {name} creat el % {data}"
       title: Usuaris
     login: 
+      account not active: Ho sentim, el teu compte encara no està actiu.<br>Si us plau utilitzi l'enllaç a l'e-mail de confirmació de compte d'activar el seu compte, o <a href="%{reconfirm}">demanar un nou correu electrònic de confirmació</a>.
+      account suspended: Ho sentim, el seu compte ha estat suspès a causa de l'activitat sospitosa.<br>Si us plau contacti's amb % {webmaster} si vostè desitja discutir això.
+      auth failure: Ho sentim, no pot registrar en amb els detalls.
+      create account minute: Crear un compte. Només es triga un minut.
       email or username: "Adreça de correu o usuari:"
       heading: Accés
       login_button: Accés
       lost password link: Heu perdut la contrasenya?
+      new to osm: Nou a OpenStreetMap?
+      notice: <a href="http://www.osmfoundation.org/wiki/License/We_Are_Changing_The_License">Esbrinar més sobre el canvi de llicència futura de OpenStreetMap</a> (<a href="http://wiki.openstreetmap.org/wiki/ODbL/We_Are_Changing_The_License">traduccions</a>) (<a href="http://wiki.openstreetmap.org/wiki/Talk:ODbL/Upcoming">discussió</a>)
+      openid: "% {logo} OpenID:"
+      openid invalid: Ho sentim, el seu OpenID sembla ser no vàlida
+      openid missing provider: Ho sento, podria no en contacte amb el seu proveïdor d'OpenID
+      openid_logo_alt: Connecti's amb un OpenID
+      openid_providers: 
+        aol: 
+          alt: Connecti's amb un AOL OpenID
+          title: Connecti's amb AOL
+        google: 
+          alt: Connecti's amb un OpenID de Google
+          title: Connecti's amb Google
+        myopenid: 
+          alt: Connecti's amb un myOpenID OpenID
+          title: Connecti's amb myOpenID
+        openid: 
+          alt: Connecti's amb un URL d'OpenID
+          title: Connecti's amb OpenID
+        wordpress: 
+          alt: Connecti's amb un Wordpress OpenID
+          title: Connecti's amb Wordpress
+        yahoo: 
+          alt: Connecti's amb un OpenID Yahoo
+          title: Connecti's amb Yahoo
       password: "Contrasenya:"
       register now: Registreu-vos-hi ara
       remember: "Recorda'm:"
       title: Accés
+      to make changes: Per fer canvis a les dades de OpenStreetMap, ha de tenir un compte.
       webmaster: webmestre
+      with openid: "Alternativament, si us plau utilitzi el seu OpenID per connectar-se:"
+      with username: "Ja teniu un compte de OpenStreetMap? Si us plau connecti's amb el seu nom d'usuari i contrasenya:"
     logout: 
       heading: Finalitza la sessió d'OpenStreetMap
       logout_button: Finalitza la sessió
@@ -1072,41 +1511,85 @@ ca:
     lost_password: 
       email address: "Adreça de correu electrònic:"
       heading: Heu oblidat la contrasenya?
+      help_text: Introduïu l'adreça de correu electrònic que va utilitzar per registrar-se, us enviarem un enllaç a ella que pot utilitzar per restablir la contrasenya.
       new password button: Restableix la contrasenya
+      notice email cannot find: Podria no trobar que l'e-mail adreçar, ho sento.
+      notice email on way: Trist que perdia:-(però un correu electrònic està en camí així pot restaurar això aviat.
       title: contrasenya perduda
     make_friend: 
+      already_a_friend: Que ja són amics amb % {name}.
+      failed: Ho sentim, no afegir % {name} com un amic.
       success: "%{name} ara és el vostre amic."
     new: 
+      confirm email address: "Confirmar adreça de correu electrònic:"
       confirm password: "Confirmeu la contrasenya:"
+      contact_webmaster: Si us plau, contactar amb el <a href="mailto:webmaster@openstreetmap.org">webmaster</a> per organitzar un compte de ser creat - anem a provar i tractar amb la sol. licitud tan aviat com sigui possible.
       continue: Continua
       display name: "Nom en pantalla:"
+      display name description: El vostre usuari mostrat públicament. Això pot canviar més tard en les preferències.
       email address: "Adreça de correu:"
+      fill_form: Ompli el formulari i us enviarem un correu electrònic ràpid per activar el seu compte.
+      flash create success message: Gràcies per registrar-se. Hem enviat un bitllet de confirmació a % {email} i tan aviat com vostè confirmar el seu compte es podrà aconseguir d'assignació.<br><br>Si utilitzeu un sistema que envia les sol·licituds de confirmació llavors si us plau fer segur whitelist webmaster@openstreetmap.org com som capaços de respondre a qualsevol sol·licituds de confirmació.
       heading: Crea un compte d'usuari
+      license_agreement: Quan vostè confirmar el seu compte necessita estar d'acord amb els <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">termes de col. laborador</a>.
+      no_auto_account_create: Per desgràcia no som actualment capaços de crear un compte per a vostè automàticament.
+      not displayed publicly: No mostraran públicament (vegeu la <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="wiki privacy policy including section on email addresses">política de privacitat</a>)
+      openid: "% {logo} OpenID:"
+      openid association: "<p>El seu OpenID encara no està associat a un compte de OpenStreetMap.</p>\n<ul>\n<li>Si sou nous a OpenStreetMap, si us plau, crear un compte nou utilitzant el formulari a continuació.</li>\n<li>\n    Si ja teniu un compte, es pot connectar al seu compte\n    utilitzant el seu nom d'usuari i contrasenya i llavors associat el compte\n    amb el seu OpenID en les seves escenes d'usuari.\n</li>\n</ul>"
+      openid no password: Amb OpenID una contrasenya no és necessària, però algunes eines extres o servidor pot encara necessita un.
       password: "Contrasenya:"
+      terms accepted: Gràcies per a l'acceptació de les condicions de col. laborador nou!
+      terms declined: Lamentem que vostè ha decidit no acceptar els nous termes de col. laborador. Per a més informació, si us plau vegi <a href="%{url}">aquesta pàgina de wiki</a>.
+      title: Crear compte
+      use openid: Alternativament, utilitzi % {logo} OpenID per connectar-se
     no_such_user: 
+      body: Ho sentim, no hi ha cap usuari amb el nom % (usuari). Si us plau, comproveu l'ortografia, o potser l'enllaç que es fa clic està malament.
+      heading: No existeix l'usuari % (usuari)
       title: No existeix aquest usuari
     popup: 
       friend: Amic
+      nearby mapper: L'Assignador proper
       your location: La teva situació
+    remove_friend: 
+      not_a_friend: "% {name} no és un dels seus amics."
+      success: "% {name} s'ha suprimit dels teus amics."
     reset_password: 
       confirm password: "Confirmeu la contrasenya:"
       flash changed: S'ha canviat la contrasenya.
+      flash token bad: No ha trobat que comproven token, l'URL potser?
       heading: Restablir la contrasenya per %{user}
       password: "Contrasenya:"
       reset: Restableix la contrasenya
       title: Restablir la contrasenya
+    set_home: 
+      flash success: Localització de casa desat correctament
+    suspended: 
+      body: "<p>\n  Ho sentim, el seu compte ha estat automàticament suspès a causa de\n  l'activitat sospitosa.\n</p>\n<p>\n  Aquesta decisió serà revisat per un administrador en breu, o\n  es pot contactar amb el % {webmaster} si vostè desitja discutir això.\n</p>"
+      heading: Compte suspès
+      title: Compte suspès
+      webmaster: per a administradors web
     terms: 
       agree: D'acord
+      consider_pd: A més de l'acord de dalt, que considero el meu contribucions d'estar en el domini públic
       consider_pd_why: què és això?
       decline: Declinar
+      guidance: "Informació per ajudar a entendre aquestes condicions: un <a href=\"%{summary}\">resum llegible humà</a> i algunes <a href=\"%{translations}\">traduccions informals</a>"
+      heading: Termes de col. laborador
       legale_names: 
         france: França
         italy: Itàlia
         rest_of_world: Resta del món
+      legale_select: "Si us plau seleccioni el seu país de residència:"
+      read and accept: Si us plau llegeixi l'acord de sota i premeu el botó d'acord per confirmar que vostè accepta els termes d'aquest acord per les seves contribucions existents i futures.
+      title: Termes de col. laborador
+      you need to accept or decline: Si us plau, llegiu i llavors acceptar o disminució de les condicions de col. laborador nou per continuar.
     view: 
       activate_user: activa aquest usuari
       add as friend: afegir com a amic
       ago: (fa %{time_in_words_ago})
+      block_history: veure blocs va rebre
+      blocks by me: blocs per mi
+      blocks on me: blocs en mi
       confirm: Confirmeu
       confirm_user: confirma aquest usuari
       create_block: bloca aquest usuari
@@ -1118,44 +1601,128 @@ ca:
       edits: modificacions
       email address: "Adreça de correu:"
       hide_user: amagar aquest usuari
+      if set location: Si establiu la vostra ubicació, un mapa força i matèria es mostrarà aquí. Podeu configurar la vostra ubicació de casa a la seva pàgina % {settings_link}.
       km away: "%{count}km de distància"
+      latest edit: "Últimes editar % {fa}:"
       m away: "%{count}m de distància"
       mapper since: "Mapejant des de:"
+      moderator_history: veure blocs donats
       my diary: el meu diari
       my edits: les meves edicions
       my settings: les meves preferències
       my traces: les meves traces
       nearby users: Altres usuaris propers
+      new diary entry: Nova entrada del diari
+      no friends: No has afegit cap amics encara.
+      no nearby users: Hi ha altres usuaris que admetre a Cartografia prop encara.
       oauth settings: configuració OAuth
+      remove as friend: Elimina com a amic
       role: 
         administrator: Aquest usuari és administrador
+        grant: 
+          administrator: Concedir accés d'administrador
+          moderator: Concedir accés de moderador
         moderator: Aquest usuari és moderador
+        revoke: 
+          administrator: Revocar l'accés d'administrador
+          moderator: Revocar l'accés de moderador
       send message: enviar missatge
       settings_link_text: preferències
+      spam score: "Spam Puntuació:"
       status: "Estat:"
       traces: traces
+      unhide_user: Inamagui's d'aquest usuari
       user location: Ubicació de l'usuari
       your friends: Els vostres amics
   user_block: 
+    blocks_by: 
+      empty: "% {name} no ha fet cap blocs encara."
+      heading: Llista de blocs % {name}
+      title: Blocs % {name}
+    blocks_on: 
+      empty: "% {name} no ha estat bloquejat encara."
+      heading: Llista de quadres a % {name}
+      title: Blocs en % {name}
+    create: 
+      flash: Crear un bloc a l'usuari % {name}.
+      try_contacting: Si us plau, intentar contactar-se amb l'usuari abans de bloqueig d'ells i donar-los un termini raonable per respondre.
+      try_waiting: Si us plau tracti de donar l'usuari d'un termini raonable per respondre abans de bloqueig d'ells.
+    edit: 
+      back: Veure tots els blocs
+      heading: Bloc d'edició en % {name}
+      needs_view: L'usuari necessita connectar abans d'aquest bloc se suprimiran?
+      period: Quant de temps, a partir d'ara, l'usuari es bloqueja des de l'API per a.
+      reason: La raó per què està sent bloquejat % {name}. Si us plau, ser tan tranquil i tan raonable com sigui possible, donant amb tant detall com sigui possible sobre la situació. Tingueu en compte que no tots els usuaris de comprendre l'argot de la comunitat, així que si us plau, intenti utilitzar termes de l'home comú.
+      show: Veure aquest bloc
+      submit: Bloc d'Actualització
+      title: Bloc d'edició en % {name}
+    filter: 
+      block_expired: El bloc ja ha expirat i no es pot editar.
+      block_period: El període de blocatge ha de ser un dels valors seleccionables de la llista desplegable.
+      not_a_moderator: Vostè necessita ser un moderador per dur a terme aquesta acció.
+    helper: 
+      time_future: Finalitza en % {time}.
+      time_past: Va acabar % {time} fa.
+      until_login: Activa fins que l'usuari es connecta.
+    index: 
+      empty: No hi ha blocs s'han fet encara.
+      heading: Llista de quadres de l'usuari
+      title: Blocs de l'usuari
+    model: 
+      non_moderator_revoke: Ha de ser un moderador per crear o un bloc d'actualització.
+      non_moderator_update: Ha de ser un moderador per crear o un bloc d'actualització.
+    new: 
+      back: Veure tots els blocs
+      heading: Creació de bloc % {name}
+      needs_view: L'usuari necessita connectar abans d'aquest bloc se suprimirà
+      period: Quant de temps, a partir d'ara, l'usuari es bloqueja des de l'API per a.
+      reason: La raó per què està sent bloquejat % {name}. Si us plau, ser tan tranquil i tan raonable com sigui possible, donant amb tant detall com sigui possible sobre la situació, recordant que el missatge serà visible públicament. Tingueu en compte que no tots els usuaris de comprendre l'argot de la comunitat, així que si us plau, intenti utilitzar termes de l'home comú.
+      submit: Crear bloc
+      title: Creació de bloc % {name}
+      tried_contacting: Vaig posar en contacte amb l'usuari i els va demanar d'aturar.
+      tried_waiting: Li he donat una quantitat raonable de temps per a l'usuari per a respondre a aquestes comunicacions.
     not_found: 
       back: Torna a l'índex
+      sorry: Ho sentim, que el bloc de l'usuari amb ID % {id} no s'ha pogut trobar.
     partial: 
       confirm: N'esteu segur?
       creator_name: Creador
       display_name: Usuari blocat
       edit: Edició
+      not_revoked: (no revocat)
       reason: Motiu del blocatge
       revoke: Revoca!
+      revoker_name: Revocat per
       show: Mostra
       status: Estat
     period: 
       one: 1 hora
       other: "%{count} hores"
+    revoke: 
+      confirm: Esteu segur que voleu revocar aquest bloc?
+      flash: Aquest bloc ha estat revocat.
+      heading: Revocació de bloc en % {block_on} % {block_by}
+      past: Aquest bloc va acabar % {time} fa i no pot ser revocat ara.
+      revoke: Revocar!
+      time_future: Aquest bloc va a acabar en % {time}.
+      title: Revocació de bloc en % {block_on}
     show: 
+      back: Veure tots els blocs
       confirm: N'esteu segur?
       edit: Edició
+      heading: "% {block_on} bloquejat per % {block_by}"
+      needs_view: L'usuari ha d'iniciar sessió abans d'aquest bloc se suprimirà.
+      reason: "Raó de bloc:"
+      revoke: Revocar!
+      revoker: "Revoker:"
       show: Mostra
       status: Estat
+      time_future: Finalitza en % {time}
+      time_past: Va acabar % {time} fa
+      title: "% {block_on} bloquejat per % {block_by}"
+    update: 
+      only_creator_can_edit: Només el moderador que ha creat aquest bloc pot editar-lo.
+      success: Bloc d'actualització.
   user_role: 
     filter: 
       already_has_role: L'usuari ja té un rol %{role}.
@@ -1163,11 +1730,14 @@ ca:
       not_a_role: La cadena `%{role}' no és un rol vàlid.
       not_an_administrator: Només els administradors poden realitzar l'administració de rols de usuaris, i vosté no és un administrador.
     grant: 
+      are_you_sure: Esteu segur que voleu concedir el paper "% {paper}" a l'usuari "% {name}"?
       confirm: Confirmar
+      fail: Podria concedeix paper "% {paper}" a l'usuari "% {name}". Si us plau, comproveu que l'usuari i el paper són vàlids.
       heading: Confirmi la concessió de rol
       title: Confirmi la concessió de rol
     revoke: 
       are_you_sure: Esteu segur que voleu revocar el rol `%{role}' de l'usuari `%{name}'?
       confirm: Confirma
+      fail: No s'ha pogut revocar el paper "% {paper}" des de l'usuari "% {name}". Si us plau, comproveu que l'usuari i el paper són vàlids.
       heading: Confirmar revocació de rol
       title: Confirmar revocació de rol
