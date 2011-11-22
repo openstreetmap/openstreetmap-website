@@ -5,17 +5,17 @@ class ChangesetController < ApplicationController
   require 'xml/libxml'
 
   skip_before_filter :verify_authenticity_token, :except => [:list]
-  before_filter :authorize_web, :only => [:list]
-  before_filter :set_locale, :only => [:list]
+  before_filter :authorize_web, :only => [:list, :feed]
+  before_filter :set_locale, :only => [:list, :feed]
   before_filter :authorize, :only => [:create, :update, :delete, :upload, :include, :close]
   before_filter :require_allow_write_api, :only => [:create, :update, :delete, :upload, :include, :close]
   before_filter :require_public_data, :only => [:create, :update, :delete, :upload, :include, :close]
   before_filter :check_api_writable, :only => [:create, :update, :delete, :upload, :include]
-  before_filter :check_api_readable, :except => [:create, :update, :delete, :upload, :download, :query, :list]
-  before_filter(:only => [:list]) { |c| c.check_database_readable(true) }
+  before_filter :check_api_readable, :except => [:create, :update, :delete, :upload, :download, :query, :list, :feed]
+  before_filter(:only => [:list, :feed]) { |c| c.check_database_readable(true) }
   after_filter :compress_output
-  around_filter :api_call_handle_error, :except => [:list]
-  around_filter :web_timeout, :only => [:list]
+  around_filter :api_call_handle_error, :except => [:list, :feed]
+  around_filter :web_timeout, :only => [:list, :feed]
 
   # Helper methods for checking consistency
   include ConsistencyValidations
