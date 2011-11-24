@@ -19,6 +19,7 @@ class ApplicationController < ActionController::Base
       @user = User.where(:id => session[:user]).where("status IN ('active', 'confirmed', 'suspended')").first
 
       if @user.display_name != cookies["_osm_username"]
+        logger.info "Session user '#{@user.display_name}' does not match cookie user '#{cookies['_osm_username']}'"
         reset_session
         @user = nil
       elsif @user.status == "suspended"
