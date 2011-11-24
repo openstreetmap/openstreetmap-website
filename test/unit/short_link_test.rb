@@ -23,4 +23,19 @@ class ShortLinkTest < ActiveSupport::TestCase
       assert max_distance > distance, "Maximum expected error exceeded: #{max_distance} <= #{distance} for (#{lat}, #{lon}, #{zoom})."
     end
   end
+
+  ##
+  # test that links are backwards-compatible, so any old links with 
+  # the deprecated @ characters in them still work properly.
+  def test_deprecated_at_sign
+    cases = [["~v2juONc--", "@v2juONc--"],
+             ["as3I3GpG~-", "as3I3GpG@-"], 
+             ["D~hV--",     "D@hV--"], 
+             ["CO0O~m8--",  "CO0O@m8--"]]
+
+    cases.each do |new_code, old_code|
+      assert_equal ShortLink.decode(old_code), ShortLink.decode(new_code), 
+        "old (#{old_code}) and new (#{new_code}) should decode to the same location."
+    end
+  end
 end

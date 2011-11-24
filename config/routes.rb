@@ -123,7 +123,7 @@ OpenStreetMap::Application.routes.draw do
   match '/forgot-password.html' => 'user#lost_password'
 
   # permalink
-  match '/go/:code' => 'site#permalink', :code => /[a-zA-Z0-9_@]+[=-]*/
+  match '/go/:code' => 'site#permalink', :code => /[a-zA-Z0-9_@~]+[=-]*/
 
   # traces
   match '/user/:display_name/traces/tag/:tag/page/:page' => 'trace#list'

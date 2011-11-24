@@ -204,7 +204,7 @@ function interlace(x, y) {
  * Called to create a short code for the short link.
  */
 function makeShortCode(lat, lon, zoom) {
-    char_array = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_@";
+    char_array = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_~";
     var x = Math.round((lon + 180.0) * ((1 << 30) / 90.0));
     var y = Math.round((lat +  90.0) * ((1 << 30) / 45.0));
     // JavaScript only has to keep 32 bits of bitwise operators, so this has to be
