@@ -160,8 +160,6 @@ end
 
         setMapCenter(centre, zoom);
       <% end %>
-
-      updateLocation();
     <% end %>
 
     <% if !layers.nil? and !layers.empty? %>
@@ -185,6 +183,7 @@ end
     map.events.register("moveend", map, updateLocation);
     map.events.register("changelayer", map, updateLocation);
 
+    updateLocation();
     handleResize();
   }
 
