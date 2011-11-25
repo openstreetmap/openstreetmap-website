@@ -63,7 +63,6 @@
     </script>
 
     <div id="left">
-
       <div id="logo">
         <center>
           <h1><%= t 'layouts.project_name.h1' %></h1>
@@ -125,6 +124,17 @@
         </div>
       </center>
     </div>
+
+    <script type="text/javascript">
+    document.observe("dom:loaded", function () {
+      var auth_token = $$("meta[name=csrf-token]")[0].content;
+
+      $$("form input[name=authenticity_token]").each(function (input) {
+        input.value = auth_token;
+      });
+    }
+    </script>
+
     <% if defined?(PIWIK_LOCATION) and defined?(PIWIK_SITE) -%>
     <%= render :partial => "layouts/piwik" %>
     <% end -%>
