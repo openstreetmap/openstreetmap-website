@@ -18,7 +18,7 @@
   function resizeMap() {
     var sidebar_width = 0 + $("#sidebar:visible").width();
 
-    if (sidebar_width > 0) {
+    if (sidebar_width > 0 && window.width > 641) {
       sidebar_width = sidebar_width + 5
     }
 
@@ -28,7 +28,9 @@
     $("#map").css("right", (sidebar_width) + "px");
     <% end -%>
     $("#map").width($("#content").width() - sidebar_width);
-    $("#map").height($("#content").height() - 2);
+    if (window.width > 641) {
+      $("#map").height($("#content").height() - 2);
+    }
   }
 
   function handleResize() {
