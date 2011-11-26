@@ -16,21 +16,19 @@
   }
 
   function resizeMap() {
-    var sidebar_width = 0 + $("#sidebar:visible").width();
-
-    if (sidebar_width > 0 && window.width > 641) {
-      sidebar_width = sidebar_width + 5
-    }
+    var sidebar_width = 0 + $("#sidebar:visible").outerWidth(true);
+    var left_border = 0 + $("#map").css("border-left-width");
+    var right_border = 0 + $("#map").css("border-right-width");
+    var top_border = 0 + $("#map").css("border-top-width");
+    var bottom_border = 0 + $("#map").css("border-bottom-width");
 
     <% if t('html.dir') == "ltr" -%>
     $("#map").css("left", (sidebar_width) + "px");
     <% else -%>
     $("#map").css("right", (sidebar_width) + "px");
     <% end -%>
-    $("#map").width($("#content").width() - sidebar_width);
-    if (window.width > 641) {
-      $("#map").height($("#content").height() - 2);
-    }
+    $("#map").width($("#content").width() - sidebar_width - left_border - right_border);
+    $("#map").height($("#content").height() - top_border - bottom_border);
   }
 
   function handleResize() {
