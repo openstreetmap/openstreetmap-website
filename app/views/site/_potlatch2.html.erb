@@ -60,7 +60,15 @@
     // 700,600 for fixed size, 100%,100% for resizable
   }
 
+  <% if params[:node] -%>
+  <% bbox = Node.find(params[:node]).bbox.to_unscaled -%>
+  doSWF(<%= bbox.centre_lat %>,<%= bbox.centre_lon %>,16);
+  <% elsif params[:way] -%>
+  <% bbox = Way.find(params[:way]).bbox.to_unscaled -%>
+  doSWF(<%= bbox.centre_lat %>,<%= bbox.centre_lon %>,16);
+  <% else -%>
   doSWF(<%= @lat || 'null' %>,<%= @lon || 'null' %>,<%= @zoom %>);
+  <% end -%>
 
   function setPosition(lat, lon, zoom) {
     $("#potlatch").each(function () {
