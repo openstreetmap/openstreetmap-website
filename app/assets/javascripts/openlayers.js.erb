@@ -37,3 +37,15 @@ OpenLayers.Util.createImage = function(id, px, sz, imgURL, position, border,
     return OpenLayers.Util.origCreateImage(id, px, sz, imgURL, position,
                                            border, opacity, delayDisplay);
 };
+
+OpenLayers.Util.origModifyAlphaImageDiv = OpenLayers.Util.modifyAlphaImageDiv;
+
+OpenLayers.Util.modifyAlphaImageDiv = function(div, id, px, sz, imgURL, 
+                                               position, border, sizing, 
+                                               opacity) {
+    imgURL = OpenLayers.Util.imageURLs[imgURL] || imgURL;
+
+    return OpenLayers.Util.origModifyAlphaImageDiv(div, id, px, sz, imgURL, 
+                                               position, border, sizing, 
+                                                   opacity);
+};
