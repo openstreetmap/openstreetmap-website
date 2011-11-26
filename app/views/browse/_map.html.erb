@@ -134,6 +134,12 @@
               return remoteEditHandler(event, extent, "<%= map.class.to_s.downcase + map.id.to_s %>");
             });
 
+            <% if preferred_editor == "remote" -%>
+            $("#object_edit").click(function (event) {
+              return remoteEditHandler(event, extent, "<%= map.class.to_s.downcase + map.id.to_s %>");
+            });
+            <% end -%>
+
             $("#object_larger_map").html("<%=j t('browse.map.larger.' + map.class.to_s.downcase) %>");
             $("#object_edit").html("<%=j t('browse.map.edit.' + map.class.to_s.downcase) %>");
             <% end -%>
