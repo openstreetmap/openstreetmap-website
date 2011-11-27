@@ -48,6 +48,8 @@ class SearchController < ApplicationController
       nodes = nodes.where(:current_node_tags => { :k => type }) if type
       nodes = nodes.where(:current_node_tags => { :v => value }) if value
       nodes = nodes.limit(100)
+    else
+      nodes = Array.new
     end
 
     # Matching for way tags table
@@ -56,6 +58,8 @@ class SearchController < ApplicationController
       ways = ways.where(:current_way_tags => { :k => type }) if type
       ways = ways.where(:current_way_tags => { :v => value }) if value
       ways = ways.limit(100)
+    else
+      ways = Array.new
     end
 
     # Matching for relation tags table
@@ -64,6 +68,8 @@ class SearchController < ApplicationController
       relations = relations.where(:current_relation_tags => { :k => type }) if type
       relations = relations.where(:current_relation_tags => { :v => value }) if value
       relations = relations.limit(2000)
+    else
+      relations = Array.new
     end
 
     # Fetch any node needed for our ways (only have matching nodes so far)
