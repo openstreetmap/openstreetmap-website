@@ -6,7 +6,11 @@ module Potlatch2
     "en-GB" => "en_GB",
     "fr" => "fr_FR",
     "fr-FR" => "fr_FR",
+    "ja" => "ja_JP",
+    "ja-JP" => "ja_JP",
     "pl" => "pl_PL",
-    "pl-PL" => "pl_PL"
+    "pl-PL" => "pl_PL",
+    "vi" => "vi_VN",
+    "vi-VN" => "vi_VN"
   }
 end
