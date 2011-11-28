@@ -22,13 +22,7 @@
           <% end %>
         </td>
         <td>
-          <%=
-            check_box_tag("user_all", "1", false, :onchange => update_page do |page|
-              @users.each do |user|
-                page << "$('user_#{user.id}').checked = $('user_all').checked;"
-              end
-            end)
-          %>
+          <%= check_box_tag "user_all", "1", false %>
         </td>
       </tr>
       <%= render :partial => 'user', :collection => @users %>
@@ -38,6 +32,12 @@
       <%= submit_tag t('user.list.confirm'), :name => "confirm" %>
       <%= submit_tag t('user.list.hide'), :name => "hide" %>
     </div>
+
+    <script type="text/javascript">
+     $("#user_all").change(function () {
+       $("#user_list input[type=checkbox]").prop("checked", $("#user_all").prop("checked"));
+     });
+    </script>
   <% end %>
 <% else %>
   <p><%= t "user.list.empty" %></p>
