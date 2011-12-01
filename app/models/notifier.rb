@@ -2,6 +2,7 @@ class Notifier < ActionMailer::Base
   default :from => EMAIL_FROM,
           :return_path => EMAIL_RETURN_PATH,
           :auto_submitted => "auto-generated"
+  helper :application
 
   def signup_confirm(user, token)
     @locale = user.preferred_language_from(I18n.available_locales)
