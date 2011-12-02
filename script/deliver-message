@@ -19,7 +19,12 @@ end
 exit 0 unless recipient[3] == digest[0,6]
 
 mail = Mail.new(STDIN.readlines.join)
-body = mail.html_part || mail.text_part
+
+if mail.multipart?
+  body = mail.html_part || mail.text_part
+else
+  body = mail.body
+end
 
 message = Message.new(:sender => from, :recipient => to,
                       :sent_on => mail.date.new_offset(0),
