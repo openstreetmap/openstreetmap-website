@@ -15,31 +15,31 @@
   <% if t('license_page.legal_babble') != t('license_page.legal_babble', :locale => :en) %>
     <h2><%= t 'license_page.native.title' %></h2>
     <p>
-      <%= t 'license_page.native.text',
-              :native_link => link_to(t('license_page.native.native_link'),
-                                          :controller => 'site',
-                                          :action => 'copyright'),
-              :mapping_link => link_to(t('license_page.native.mapping_link'),
-                                          :controller => 'site',
-                                          :action => 'index') %>
+      <%= raw t 'license_page.native.text',
+                  :native_link => link_to(t('license_page.native.native_link'),
+                                              :controller => 'site',
+                                              :action => 'copyright'),
+                  :mapping_link => link_to(t('license_page.native.mapping_link'),
+                                              :controller => 'site',
+                                              :action => 'index') %>
     </p>
     <hr />
   <% end %>
 
-  <%= t('license_page.legal_babble', :locale => :en) %>
+  <%= raw t('license_page.legal_babble', :locale => :en) %>
 <% else %>
   <!-- Maybe note that this page has been translated -->
   <% if t('license_page.legal_babble') != t('license_page.legal_babble', :locale => :en) %>
     <h2><%= t 'license_page.foreign.title' %></h2>
     <p>
-      <%= t 'license_page.foreign.text',
-              :english_original_link => link_to(t('license_page.foreign.english_link'),
-                                                :controller => 'site',
-                                                :action => 'copyright',
-                                                :copyright_locale => 'en') %>
+      <%= raw t 'license_page.foreign.text',
+                  :english_original_link => link_to(t('license_page.foreign.english_link'),
+                                                        :controller => 'site',
+                                                        :action => 'copyright',
+                                                        :copyright_locale => 'en') %>
     </p>
     <hr />
   <% end %>
 
-  <%= raw(t('license_page.legal_babble')) %>
+  <%= raw t('license_page.legal_babble') %>
 <% end %>
