@@ -428,8 +428,8 @@ function loadHistory() {
   this.link.href = "";
   this.link.innerHTML = "<%=j t 'browse.start_rjs.wait' %>";
 
-  new Ajax.Request("/api/<%= API_VERSION %>/" + this.type + "/" + this.feature.osm_id + "/history", {
-    onComplete: OpenLayers.Function.bind(displayHistory, this)
+  $.ajax("/api/<%= API_VERSION %>/" + this.type + "/" + this.feature.osm_id + "/history", {
+    complete: OpenLayers.Function.bind(displayHistory, this)
   });
 
   return false;
