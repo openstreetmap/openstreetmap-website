@@ -78,6 +78,16 @@
 
 <p><b><%= t 'user.view.mapper since' %></b> <%= l @this_user.creation_time, :format => :friendly %> <%= t 'user.view.ago', :time_in_words_ago => time_ago_in_words(@this_user.creation_time) %></p>
 
+<p><b><%= t 'user.view.ct status' %></b>
+<% if not @this_user.terms_agreed.nil? -%>
+<%= t 'user.view.ct accepted', :ago =>time_ago_in_words(@this_user.terms_agreed)  %> 
+<% elsif not @this_user.terms_seen? -%>
+<%= t 'user.view.ct undecided' %>
+<% else -%>
+<%= t 'user.view.ct declined' %>
+<% end -%>
+</p>
+
 <% if @user and @user.administrator? -%>
   <p><b><%= t 'user.view.email address' %></b> <%= @this_user.email %></p>  
   <% unless @this_user.creation_ip.nil? -%>
