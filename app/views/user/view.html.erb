@@ -78,12 +78,14 @@
 
 <p><b><%= t 'user.view.mapper since' %></b> <%= l @this_user.creation_time, :format => :friendly %> <%= t 'user.view.ago', :time_in_words_ago => time_ago_in_words(@this_user.creation_time) %></p>
 
-<% if @user and @user.administrator? %>
+<% if @user and @user.administrator? -%>
   <p><b><%= t 'user.view.email address' %></b> <%= @this_user.email %></p>  
+  <% unless @this_user.creation_ip.nil? -%>
   <p><b><%= t 'user.view.created from' %></b> <%= @this_user.creation_ip %></p>
+  <% end -%>
   <p><b><%= t 'user.view.status' %></b> <%= @this_user.status.capitalize %></p>
   <p><b><%= t 'user.view.spam score' %></b> <%= @this_user.spam_score %></p>
-<% end %>
+<% end -%>
 
 <h3><%= t 'user.view.description' %></h3>
 
