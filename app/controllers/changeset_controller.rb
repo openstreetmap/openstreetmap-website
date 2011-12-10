@@ -174,16 +174,12 @@ class ChangesetController < ApplicationController
           created = XML::Node.new "create"
           created << elt.to_xml_node
         else
-          # get the previous version from the element history
-          prev_elt = elt.class.find([elt.id, elt.version])
           unless elt.visible
-            # if the element isn't visible then it must have been deleted, so
-            # output the *previous* XML
+            # if the element isn't visible then it must have been deleted
             deleted = XML::Node.new "delete"
-            deleted << prev_elt.to_xml_node
+            deleted << elt.to_xml_node
           else
-            # must be a modify, for which we don't need the previous version
-            # yet...
+            # must be a modify
             modified = XML::Node.new "modify"
             modified << elt.to_xml_node
           end
