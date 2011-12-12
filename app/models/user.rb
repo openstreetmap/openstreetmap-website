@@ -24,8 +24,8 @@ class User < ActiveRecord::Base
   validates_presence_of :email, :display_name
   validates_confirmation_of :email#, :message => ' addresses must match'
   validates_confirmation_of :pass_crypt#, :message => ' must match the confirmation password'
-  validates_uniqueness_of :display_name, :allow_nil => true
-  validates_uniqueness_of :email
+  validates_uniqueness_of :display_name, :allow_nil => true, :case_sensitive => false, :if => Proc.new { |u| u.display_name_changed? }
+  validates_uniqueness_of :email, :case_sensitive => false, :if => Proc.new { |u| u.email_changed? }
   validates_uniqueness_of :openid_url, :allow_nil => true
   validates_length_of :pass_crypt, :within => 8..255
   validates_length_of :display_name, :within => 3..255, :allow_nil => true
