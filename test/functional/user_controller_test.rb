@@ -104,6 +104,63 @@ class UserControllerTest < ActionController::TestCase
     assert_select "table#signupForm > tr > td > div[class=field_with_errors] > input#user_display_name"
   end
 
+  def test_user_lost_password
+    # Test fetching the lost password page
+    get :lost_password
+    assert_response :success
+    assert_template :lost_password
+    assert_select "div#notice", false
+
+    # Test resetting using the address as recorded for a user that has an
+    # address which is duplicated in a different case by another user
+    assert_difference('ActionMailer::Base.deliveries.size', 1) do
+      post :lost_password, :user => { :email => users(:normal_user).email }
+    end
+    assert_response :redirect
+    assert_redirected_to :action => :login
+    assert_match /^Sorry you lost it/, flash[:notice]
+    assert_equal users(:normal_user).email, ActionMailer::Base.deliveries.last.to[0]
+
+    # Test resetting using an address that matches a different user
+    # that has the same address in a different case
+    assert_difference('ActionMailer::Base.deliveries.size', 1) do
+      post :lost_password, :user => { :email => users(:normal_user).email.upcase }
+    end
+    assert_response :redirect
+    assert_redirected_to :action => :login
+    assert_match /^Sorry you lost it/, flash[:notice]
+    assert_equal users(:uppercase_user).email, ActionMailer::Base.deliveries.last.to[0]
+
+    # Test resetting using an address that is a case insensitive match
+    # for more than one user but not an exact match for either
+    assert_difference('ActionMailer::Base.deliveries.size', 0) do
+      post :lost_password, :user => { :email => users(:normal_user).email.titlecase }
+    end
+    assert_response :success
+    assert_template :lost_password
+    assert_select "div#error", /^Could not find that email address/
+
+    # Test resetting using the address as recorded for a user that has an
+    # address which is case insensitively unique
+    assert_difference('ActionMailer::Base.deliveries.size', 1) do
+      post :lost_password, :user => { :email => users(:public_user).email }
+    end
+    assert_response :redirect
+    assert_redirected_to :action => :login
+    assert_match /^Sorry you lost it/, flash[:notice]
+    assert_equal users(:public_user).email, ActionMailer::Base.deliveries.last.to[0]
+
+    # Test resetting using an address that matches a user that has the
+    # same (case insensitively unique) address in a different case
+    assert_difference('ActionMailer::Base.deliveries.size', 1) do
+      post :lost_password, :user => { :email => users(:public_user).email.upcase }
+    end
+    assert_response :redirect
+    assert_redirected_to :action => :login
+    assert_match /^Sorry you lost it/, flash[:notice]
+    assert_equal users(:public_user).email, ActionMailer::Base.deliveries.last.to[0]
+  end
+
   def test_user_update
     # Get a user to work with - note that this user deliberately
     # conflicts with uppercase_user in the email and display name
