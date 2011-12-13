@@ -47,9 +47,18 @@ class User < ActiveRecord::Base
   def self.authenticate(options)
     if options[:username] and options[:password]
       user = where("email = ? OR display_name = ?", options[:username], options[:username]).first
+
+      if user.nil?
+        users = where("LOWER(email) = LOWER(?) OR LOWER(display_name) = LOWER(?)", options[:username], options[:username])
+
+        if users.count == 1
+          user = users.first
+        end
+      end
+
       user = nil if user and user.pass_crypt != OSM::encrypt_password(options[:password], user.pass_salt)
     elsif options[:token]
-      token = UserToken.where(:token => options[:token]).preload(:user).first
+      token = UserToken.find_by_token(options[:token])
       user = token.user if token
     end
 
