@@ -186,13 +186,6 @@ class UserController < ApplicationController
       openid_verify(nil, @user) do |user|
         update_user(user)
       end
-    else
-      if flash[:errors]
-        flash[:errors].each do |attr,msg|
-          attr = "new_email" if attr == "email" and !@user.new_email.nil?
-          @user.errors.add(attr,msg)
-        end
-      end
     end
   end
 
@@ -657,16 +650,25 @@ private
     if user.save
       set_locale
 
-      if user.new_email.nil? or user.new_email.empty?
+      if user.new_email.blank?
         flash.now[:notice] = t 'user.account.flash update success'
       else
-        flash.now[:notice] = t 'user.account.flash update success confirm needed'
+        user.email = user.new_email
 
-        begin
-          Notifier.email_confirm(user, user.tokens.create).deliver
-        rescue
-          # Ignore errors sending email
+        if user.valid?
+          flash.now[:notice] = t 'user.account.flash update success confirm needed'
+
+          begin
+            Notifier.email_confirm(user, user.tokens.create).deliver
+          rescue
+            # Ignore errors sending email
+          end
+        else
+          @user.errors.set(:new_email, @user.errors.get(:email))
+          @user.errors.set(:email, [])
         end
+
+        user.reset_email!
       end
     end
   end
