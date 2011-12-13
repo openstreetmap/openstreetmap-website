@@ -166,9 +166,10 @@ class UserController < ApplicationController
         @user.preferred_editor = params[:user][:preferred_editor]
       end
 
-      @user.openid_url = nil if params[:user][:openid_url].empty?
+      @user.openid_url = nil if params[:user][:openid_url].blank?
 
-      if params[:user][:openid_url].length > 0 and
+      if params[:user][:openid_url] and
+         params[:user][:openid_url].length > 0 and
          params[:user][:openid_url] != @user.openid_url
         # If the OpenID has changed, we want to check that it is a
         # valid OpenID and one the user has control over before saving
