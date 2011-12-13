@@ -201,7 +201,15 @@ class UserController < ApplicationController
     @title = t 'user.lost_password.title'
 
     if params[:user] and params[:user][:email]
-      user = User.visible.where(:email => params[:user][:email]).first
+      user = User.visible.find_by_email(params[:user][:email])
+
+      if user.nil?
+        users = User.visible.where("LOWER(email) = LOWER(?)", params[:user][:email])
+
+        if users.count == 1
+          user = users.first
+        end
+      end
 
       if user
         token = user.tokens.create
