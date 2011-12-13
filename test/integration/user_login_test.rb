@@ -7,7 +7,7 @@ class UserLoginTest < ActionController::IntegrationTest
     openid_setup
   end
 
-  def test_login_password_success
+  def test_login_email_password_normal
     user = users(:normal_user)
 
     get '/login'
@@ -15,6 +15,13 @@ class UserLoginTest < ActionController::IntegrationTest
     assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
     follow_redirect!
     assert_response :success
+
+    post '/login', {'username' => user.email, 'password' => "wrong", :referer => "/browse"}
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template 'login'
+
     post '/login', {'username' => user.email, 'password' => "test", :referer => "/browse"}
     assert_response :redirect
     follow_redirect!
@@ -22,7 +29,7 @@ class UserLoginTest < ActionController::IntegrationTest
     assert_template 'changeset/list'
   end
 
-  def test_login_password_fail
+  def test_login_email_password_normal_upcase
     user = users(:normal_user)
 
     get '/login'
@@ -30,11 +37,238 @@ class UserLoginTest < ActionController::IntegrationTest
     assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
     follow_redirect!
     assert_response :success
+
+    post '/login', {'username' => user.email.upcase, 'password' => "wrong", :referer => "/browse"}
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template 'login'
+
+    post '/login', {'username' => user.email.upcase, 'password' => "test", :referer => "/browse"}
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template 'login'
+  end
+
+  def test_login_email_password_normal_titlecase
+    user = users(:normal_user)
+
+    get '/login'
+    assert_response :redirect
+    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
+    follow_redirect!
+    assert_response :success
+
+    post '/login', {'username' => user.email.titlecase, 'password' => "wrong", :referer => "/browse"}
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template 'login'
+
+    post '/login', {'username' => user.email.titlecase, 'password' => "test", :referer => "/browse"}
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template 'login'
+  end
+
+  def test_login_email_password_public
+    user = users(:public_user)
+
+    get '/login'
+    assert_response :redirect
+    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
+    follow_redirect!
+    assert_response :success
+
     post '/login', {'username' => user.email, 'password' => "wrong", :referer => "/browse"}
     assert_response :redirect
     follow_redirect!
     assert_response :success
     assert_template 'login'
+
+    post '/login', {'username' => user.email, 'password' => "test", :referer => "/browse"}
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template 'changeset/list'
+  end
+
+  def test_login_email_password_public_upcase
+    user = users(:public_user)
+
+    get '/login'
+    assert_response :redirect
+    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
+    follow_redirect!
+    assert_response :success
+
+    post '/login', {'username' => user.email.upcase, 'password' => "wrong", :referer => "/browse"}
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template 'login'
+
+    post '/login', {'username' => user.email.upcase, 'password' => "test", :referer => "/browse"}
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template 'changeset/list'
+  end
+
+  def test_login_email_password_public_titlecase
+    user = users(:public_user)
+
+    get '/login'
+    assert_response :redirect
+    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
+    follow_redirect!
+    assert_response :success
+
+    post '/login', {'username' => user.email.titlecase, 'password' => "wrong", :referer => "/browse"}
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template 'login'
+
+    post '/login', {'username' => user.email.titlecase, 'password' => "test", :referer => "/browse"}
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template 'changeset/list'
+  end
+
+  def test_login_username_password_normal
+    user = users(:normal_user)
+
+    get '/login'
+    assert_response :redirect
+    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
+    follow_redirect!
+    assert_response :success
+
+    post '/login', {'username' => user.display_name, 'password' => "wrong", :referer => "/browse"}
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template 'login'
+
+    post '/login', {'username' => user.display_name, 'password' => "test", :referer => "/browse"}
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template 'changeset/list'
+  end
+
+  def test_login_username_password_normal_upcase
+    user = users(:normal_user)
+
+    get '/login'
+    assert_response :redirect
+    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
+    follow_redirect!
+    assert_response :success
+
+    post '/login', {'username' => user.display_name.upcase, 'password' => "wrong", :referer => "/browse"}
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template 'login'
+
+    post '/login', {'username' => user.display_name.upcase, 'password' => "test", :referer => "/browse"}
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template 'login'
+  end
+
+  def test_login_username_password_normal_titlecase
+    user = users(:normal_user)
+
+    get '/login'
+    assert_response :redirect
+    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
+    follow_redirect!
+    assert_response :success
+
+    post '/login', {'username' => user.display_name.titlecase, 'password' => "wrong", :referer => "/browse"}
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template 'login'
+
+    post '/login', {'username' => user.display_name.titlecase, 'password' => "test", :referer => "/browse"}
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template 'login'
+  end
+
+  def test_login_username_password_public
+    user = users(:public_user)
+
+    get '/login'
+    assert_response :redirect
+    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
+    follow_redirect!
+    assert_response :success
+
+    post '/login', {'username' => user.display_name, 'password' => "wrong", :referer => "/browse"}
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template 'login'
+
+    post '/login', {'username' => user.display_name, 'password' => "test", :referer => "/browse"}
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template 'changeset/list'
+  end
+
+  def test_login_username_password_public_upcase
+    user = users(:public_user)
+
+    get '/login'
+    assert_response :redirect
+    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
+    follow_redirect!
+    assert_response :success
+
+    post '/login', {'username' => user.display_name.upcase, 'password' => "wrong", :referer => "/browse"}
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template 'login'
+
+    post '/login', {'username' => user.display_name.upcase, 'password' => "test", :referer => "/browse"}
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template 'changeset/list'
+  end
+
+  def test_login_username_password_public_titlecase
+    user = users(:public_user)
+
+    get '/login'
+    assert_response :redirect
+    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
+    follow_redirect!
+    assert_response :success
+
+    post '/login', {'username' => user.display_name.titlecase, 'password' => "wrong", :referer => "/browse"}
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template 'login'
+
+    post '/login', {'username' => user.display_name.titlecase, 'password' => "test", :referer => "/browse"}
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template 'changeset/list'
   end
 
   def test_login_openid_success
