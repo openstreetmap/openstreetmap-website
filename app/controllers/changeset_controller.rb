@@ -271,17 +271,17 @@ class ChangesetController < ApplicationController
         user = @user
         if user
           friend_ids = []
-		      user.friends.each do |friend|
-		      	friend_user = User.find(friend.friend_user_id)
-		      	if friend_user.data_public?
-			      	friend_ids << friend.friend_user_id
-			     	end
-		      end
-		      if friend_ids.length > 0
-	      		conditions = cond_merge conditions, ['user_id in (?)', friend_ids]
-	        else
+          user.friends.each do |friend|
+            friend_user = User.find(friend.friend_user_id)
+            if friend_user.data_public?
+              friend_ids << friend.friend_user_id
+            end
+          end
+          if friend_ids.length > 0
+            conditions = cond_merge conditions, ['user_id in (?)', friend_ids]
+          else
             conditions = cond_merge conditions, ['false']
-	        end
+          end
         elsif request.format == :html
           @title = t 'user.no_such_user.title'
           render :template => 'user/no_such_user', :status => :not_found
