@@ -11,7 +11,7 @@ class WayTagTest < ActiveSupport::TestCase
     key = "k"
     (0..255).each do |i|
       tag = WayTag.new
-      tag.id = current_way_tags(:t1).id
+      tag.way_id = current_way_tags(:t1).way_id
       tag.k = key*i
       tag.v = current_way_tags(:t1).v
       assert tag.valid?
@@ -22,7 +22,7 @@ class WayTagTest < ActiveSupport::TestCase
     val = "v"
     (0..255).each do |i|
       tag = WayTag.new
-      tag.id = current_way_tags(:t1).id
+      tag.way_id = current_way_tags(:t1).way_id
       tag.k = "k"
       tag.v = val*i
       assert tag.valid?
@@ -32,34 +32,34 @@ class WayTagTest < ActiveSupport::TestCase
   def test_length_key_invalid
     ["k"*256].each do |i|
       tag = WayTag.new
-      tag.id = current_way_tags(:t1).id
+      tag.way_id = current_way_tags(:t1).way_id
       tag.k = i
       tag.v = "v"
       assert !tag.valid?, "Key #{i} should be too long"
-      assert tag.errors.invalid?(:k)
+      assert tag.errors[:k].any?
     end
   end
   
   def test_length_value_invalid
     ["v"*256].each do |i|
       tag = WayTag.new
-      tag.id = current_way_tags(:t1).id
+      tag.way_id = current_way_tags(:t1).way_id
       tag.k = "k"
       tag.v = i
       assert !tag.valid?, "Value #{i} should be too long"
-      assert tag.errors.invalid?(:v)
+      assert tag.errors[:v].any?
     end
   end
   
   def test_empty_tag_invalid
     tag = WayTag.new
     assert !tag.valid?, "Empty way tag should be invalid"
-    assert tag.errors.invalid?(:id)
+    assert tag.errors[:way].any?
   end
   
   def test_uniqueness
     tag = WayTag.new
-    tag.id = current_way_tags(:t1).id
+    tag.way_id = current_way_tags(:t1).way_id
     tag.k = current_way_tags(:t1).k
     tag.v = current_way_tags(:t1).v
     assert tag.new_record?

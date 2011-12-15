@@ -489,7 +489,7 @@ EOF
     post :upload, :id => 2
     assert_response :precondition_failed, 
       "shouldn't be able to upload a invalid deletion diff: #{@response.body}"
-    assert_equal "Precondition failed: Way 3 still used by relation 1.", @response.body
+    assert_equal "Precondition failed: Way 3 is still used by relations 1.", @response.body
 
     # check that nothing was, in fact, deleted
     assert_equal true, Node.find(current_nodes(:node_used_by_relationship).id).visible
@@ -1282,10 +1282,10 @@ EOF
     # FIXME needs more assert_select tests
     assert_select "osmChange[version='#{API_VERSION}'][generator='#{GENERATOR}']" do
       assert_select "create", :count => 5
-      assert_select "create>node[id=#{nodes(:used_node_2).id}][visible=#{nodes(:used_node_2).visible?}][version=#{nodes(:used_node_2).version}]" do
+      assert_select "create>node[id=#{nodes(:used_node_2).node_id}][visible=#{nodes(:used_node_2).visible?}][version=#{nodes(:used_node_2).version}]" do
         assert_select "tag[k=#{node_tags(:t3).k}][v=#{node_tags(:t3).v}]"
       end
-      assert_select "create>node[id=#{nodes(:visible_node).id}]"
+      assert_select "create>node[id=#{nodes(:visible_node).node_id}]"
     end
   end
   
@@ -1643,7 +1643,7 @@ EOF
   ##
   # This should display the last 20 changesets closed.
   def test_list
-    changesets = Changeset.find(:all, :order => "created_at DESC", :conditions => ['min_lat IS NOT NULL'], :limit=> 20)
+    changesets = Changeset.find(:all, :order => "created_at DESC", :conditions => ['num_changes > 0'], :limit=> 20)
     assert changesets.size <= 20
     get :list, {:format => "html"}
     assert_response :success

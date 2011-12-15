@@ -1,59 +1,60 @@
 <script type="text/javascript">
 <!--
-  function startSearch() {
-    updateSidebar("<%= t 'site.sidebar.search_results' %>", "");
-  }
-
   function describeLocation() {
-    var args = getArgs($("viewanchor").href);
+    var args = getArgs($("#viewanchor").attr("href"));
 
-    <%= remote_function(:loading => "startSearch()",
-                        :url => { :controller => :geocoder, :action => :description },
-                        :with => "'lat=' + args['lat'] + '&lon=' + args['lon'] + '&zoom=' + args['zoom']") %>
+    $("#sidebar_title").html("<%= t 'site.sidebar.search_results' %>");
+    $("#sidebar_content").load("<%= url_for :controller => :geocoder, :action => :description %>", {
+      lat: args["lat"],
+      lon: args["lon"],
+      zoom: args["zoom"]
+    }, openSidebar);
   }
 
-  function setSearchViewbox() {
-    <% if params[:action] == 'index' %>
+  function doSearch(query) {
+    $("#sidebar_title").html("<%= t 'site.sidebar.search_results' %>");
+
+    <% if params[:action] == 'index' -%>
     var extent = getMapExtent();
 
-    $("minlon").value = extent.left;
-    $("minlat").value = extent.bottom;
-    $("maxlon").value = extent.right;
-    $("maxlat").value = extent.top;
-    <% end %>
+    $("#sidebar_content").load("<%= url_for :controller => :geocoder, :action => :search %>", {
+      query: $("#query").val(),
+      minlon: extent.left,
+      minlat: extent.bottom,
+      maxlon: extent.right,
+      maxlat: extent.top
+    }, openSidebar);
+    <% else -%>
+    $("#sidebar_content").load("<%= url_for :controller => :geocoder, :action => :search %>", {
+      query: $("#query").val()
+    }, openSidebar);
+    <% end -%>
   }
 
-  <% if params[:query] %>
-  <%= remote_function(:loading => "startSearch()",
-                      :url => { :controller => :geocoder, :action => :search, :query => h(params[:query]) }) %>
-  <% end %>
+  $(document).ready(function () {
+    $("#search_form").submit(function (event) {
+      doSearch($("#query").val());
+
+      return false;
+    });
+  });
 // -->
 </script>
 
-<% content_for "optionals" do %>
+<% content_for :optionals do %>
   <div class="optionalbox">
     <span class="whereami"><a href="javascript:describeLocation()" title="<%= t 'site.search.where_am_i_title' %>"><%= t 'site.search.where_am_i' %></a></span>
     <h1><%= t 'site.search.search' %></h1>
-    <div class="search_form">
+    <div class="search_container">
     <div id="search_field">
-    <% form_remote_tag(:before => "setSearchViewbox()",
-                       :loading => "startSearch()",
-                       :complete => "endSearch()",
-                       :url => { :controller => :geocoder, :action => :search },
-                       :html => { :method => "get", :action => url_for(:action => "index") }) do %>
+    <%= form_tag "#", :id => "search_form" do %>
       <%= text_field_tag :query, h(params[:query]), :tabindex => "1" %>
-      <% if params[:action] == 'index' %>
-        <%= hidden_field_tag :minlon %>
-        <%= hidden_field_tag :minlat %>
-        <%= hidden_field_tag :maxlon %>
-        <%= hidden_field_tag :maxlat %>
-      <% end %>
       <%= submit_tag t('site.search.submit_text') %>
     <% end %>
     </div>
     </div>
     <p class="search_help">
-      <%= t 'site.search.search_help' %>
+      <%= raw(t 'site.search.search_help') %>
     </p>
   </div>
 <% end %>

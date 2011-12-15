@@ -22,9 +22,7 @@ module SessionPersistence
   
   def _persist_session
     if session[session_persistence_key]
-      request.session_options = request.session_options.dup
-      request.session_options[:expire_after] = session[session_persistence_key]
-      request.session_options.freeze
+      env["rack.session.options"][:expire_after] = session[session_persistence_key]
     end
   end
 end

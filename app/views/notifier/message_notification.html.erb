@@ -1,10 +1,12 @@
-<%= t'notifier.message_notification.hi', :to_user => @to_user %> 
+<p><%= t'notifier.message_notification.hi', :to_user => @to_user %></p>
 
-<%= t'notifier.message_notification.header', :from_user => @from_user, :subject => @title %>
+<p><%= raw t'notifier.message_notification.header', :from_user => link_to(@from_user, :host => SERVER_URL, :controller => :user, :action => :view, :display_name => @from_user), :subject => @title %></p>
 
 ==
-<%= @body %>
+<%= htmlize @text %>
 ==
 
-<%= t'notifier.message_notification.footer1', :readurl => @readurl %>
-<%= t'notifier.message_notification.footer2', :replyurl => @replyurl %>
+<p>
+  <%= raw t'notifier.message_notification.footer1', :readurl => link_to(@readurl, @readurl) %>
+  <%= raw t'notifier.message_notification.footer2', :replyurl => link_to(@replyurl, @replyurl) %>
+</p>

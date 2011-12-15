@@ -39,7 +39,7 @@ class UserBlocksTest < ActionController::IntegrationTest
     # revoke the ban
     get '/login'
     assert_response :success
-    post '/login', {'user[email]' => moderator.email, 'user[password]' => "test", :referer => "/blocks/#{block.id}/revoke"}
+    post '/login', {'username' => moderator.email, 'password' => "test", :referer => "/blocks/#{block.id}/revoke"}
     assert_response :redirect
     follow_redirect!
     assert_response :success

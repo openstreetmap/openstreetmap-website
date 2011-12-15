@@ -1,25 +1,81 @@
 <div id="login_wrapper">
+
   <div id="login_login">
     <h1><%= t 'user.login.heading' %></h1>
 
-    <p><%= t 'user.login.already have' %></p>
-
-    <% form_tag :action => 'login' do %>
+    <%= form_tag({ :action => "login" }, { :id => "login_form" }) do %>
       <%= hidden_field_tag('referer', h(params[:referer])) %>
+
+      <p><%= t 'user.login.with username' %></p>
+
       <table id="loginForm">
-        <tr><td class="fieldName"><%= t 'user.login.email or username' %></td><td><%= text_field('user', 'email',{:value => "", :size => 28, :maxlength => 255, :tabindex => 1}) %></td></tr>
-        <tr><td class="fieldName"><%= t 'user.login.password' %></td><td><%= password_field('user', 'password',{:value => "", :size => 28, :maxlength => 255, :tabindex => 2}) %> <span class="minorNote">(<%= link_to t('user.login.lost password link'), :controller => 'user', :action => 'lost_password' %>)</span></td></tr>
+        <tr><td class="fieldName"><%= t 'user.login.email or username' %></td><td><%= text_field_tag "username", params[:username], :size => 28, :maxlength => 255, :tabindex => 1 %></td></tr>
+        <tr><td class="fieldName"><%= t 'user.login.password' %></td><td><%= password_field_tag "password", "", :size => 28, :maxlength => 255, :tabindex => 2 %> <span class="minorNote">(<%= link_to t('user.login.lost password link'), :controller => 'user', :action => 'lost_password' %>)</span></td></tr>
         <tr><td class="fieldName"><label for="remember_me"><%= t 'user.login.remember' %></label></td><td><%= check_box_tag "remember_me", "yes", false, :tabindex => 3 %></td></tr>
       </table>
       <%= submit_tag t('user.login.login_button'), :tabindex => 3 %>
+
+      <br clear="all" />
+
+      <p><%= t 'user.login.with openid' %></p>
+
+      <table id="login_openid_buttons">
+        <tr>
+          <td><%= link_to_function(image_tag("openid.png", :alt => t("user.login.openid_providers.openid.title")), "showOpenidUrl()", :title => t("user.login.openid_providers.openid.title")) %></td>
+          <td><%= openid_button "google", "gmail.com" %></td>
+          <td><%= openid_button "yahoo", "me.yahoo.com" %></td>
+          <td><%= openid_button "myopenid", "myopenid.com" %></td>
+          <td><%= openid_button "wordpress", "wordpress.com" %></td>
+          <td><%= openid_button "aol", "aol.com" %></td>
+        </tr>
+      </table>
+
+      <table>
+        <tr id="login_openid_url">
+          <td class="fieldName nowrap">
+            <%= raw t 'user.login.openid', :logo => openid_logo %>
+          </td>
+          <td>
+            <%= url_field_tag("openid_url", "", { :size => 28, :maxlength => 255, :tabindex => 3, :class => "openid_url" }) %>
+            <span class="minorNote">(<a href="<%= t 'user.account.openid.link' %>" target="_new"><%= t 'user.account.openid.link text' %></a>)</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="fieldName nowrap" id="remember_me_label"><label for="remember_me"><%= t 'user.login.remember' %></label></td>
+          <td width="100%"><%= check_box_tag "remember_me", "yes", false, :tabindex => 5 %></td>
+        </tr>
+      </table>
+
+      <%= submit_tag t('user.login.login_button'), :tabindex => 6, :id => "login_openid_submit" %>
     <% end %>
-    <br clear="both">
+
+    <br clear="all" />
   </div>
+
   <div id="login_signup">
     <h2><%= t 'user.login.new to osm' %></h2>
     <p><%= t 'user.login.to make changes' %></p>
-    <p><%= t 'user.login.create account minute' %></p></p>
+    <p><%= t 'user.login.create account minute' %></p>
     <p><%= button_to t('user.login.register now'), :action => :new, :referer => params[:referer] %></p>
+
     <br clear="both">
   </div>
+
 </div>
+
+<script type="text/javascript">
+function showOpenidUrl() {
+  $("#openid_url").val("http://");
+  $("#login_openid_buttons").hide();
+  $("#login_openid_url").show();
+  $("#login_openid_submit").show();
+}
+
+function submitOpenidUrl(url) {
+  $("#openid_url").val(url);
+  $("#login_form").submit();
+}
+
+$("#login_openid_url").hide();
+$("#login_openid_submit").hide();
+</script>

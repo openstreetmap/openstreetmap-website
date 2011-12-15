@@ -1,6 +1,6 @@
 require 'yaml'
 
-config = YAML.load_file("#{RAILS_ROOT}/config/application.yml")
+config = YAML.load_file(File.expand_path("../application.yml", __FILE__))
 env = ENV['RAILS_ENV'] || 'development'
 
 ENV.each do |key,value|

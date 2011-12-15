@@ -1,31 +1,9 @@
 ENV["RAILS_ENV"] = "test"
-require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
-require 'test_help'
+require File.expand_path('../../config/environment', __FILE__)
+require 'rails/test_help'
 load 'composite_primary_keys/fixtures.rb'
 
 class ActiveSupport::TestCase
-  # Transactional fixtures accelerate your tests by wrapping each test method
-  # in a transaction that's rolled back on completion.  This ensures that the
-  # test database remains unchanged so your fixtures don't have to be reloaded
-  # between every test method.  Fewer database queries means faster tests.
-  #
-  # Read Mike Clark's excellent walkthrough at
-  #   http://clarkware.com/cgi/blosxom/2005/10/24#Rails10FastTesting
-  #
-  # Every Active Record database supports transactions except MyISAM tables
-  # in MySQL.  Turn off transactional fixtures in this case; however, if you
-  # don't care one way or the other, switching from MyISAM to InnoDB tables
-  # is recommended.
-  self.use_transactional_fixtures = false
-
-  # Instantiated fixtures are slow, but give you @david where otherwise you
-  # would need people(:david).  If you don't want to migrate your existing
-  # test cases which use the @david style and don't mind the speed hit (each
-  # instantiated fixtures translates to a database query per test method),
-  # then set this back to true.
-  self.use_instantiated_fixtures  = false
-
-
   # Load standard fixtures needed to test API methods
   def self.api_fixtures
     #print "setting up the api_fixtures"
@@ -145,6 +123,44 @@ class ActiveSupport::TestCase
   def assert_no_missing_translations(msg="")
     assert_select "span[class=translation_missing]", false, "Missing translation #{msg}"
   end
+
+  # Set things up for OpenID testing
+  def openid_setup
+    begin
+      # Test if the ROTS (Ruby OpenID Test Server) is already running
+      rots_response = Net::HTTP.get_response(URI.parse("http://localhost:1123/"))
+    rescue
+      # It isn't, so start a new instance.
+      rots = IO.popen("#{Rails.root}/vendor/gems/rots-0.2.1/bin/rots --silent")
+
+      # Wait for up to 30 seconds for the server to start and respond before continuing
+      for i in (1 .. 30)
+	begin
+	  sleep 1
+	  rots_response = Net::HTTP.get_response(URI.parse("http://localhost:1123/"))
+	  # If the rescue block doesn't fire, ROTS is up and running and we can continue
+	  break
+	rescue
+	  # If the connection failed, do nothing and repeat the loop
+	end
+      end
+
+      # Arrange to kill the process when we exit - note that we need
+      # to kill it really har due to a bug in ROTS
+      Kernel.at_exit do
+        Process.kill("KILL", rots.pid)
+      end
+    end
+  end
+
+  def openid_request(openid_request_uri)
+    openid_response = Net::HTTP.get_response(URI.parse(openid_request_uri))
+    openid_response_uri = URI(openid_response['Location'])
+    openid_response_qs = Rack::Utils.parse_query(openid_response_uri.query)
+
+    return openid_response_qs
+  end
+
   
   # Add more helper methods to be used by all tests here...
 end

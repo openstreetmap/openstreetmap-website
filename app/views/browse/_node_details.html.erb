@@ -4,7 +4,7 @@
 
   <tr>
     <th><%= t 'browse.node_details.coordinates' %></th>
-    <td><div class="geo"><%= link_to ("<span class='latitude'>#{number_with_delimiter(node_details.lat)}</span>, <span class='longitude'>#{number_with_delimiter(node_details.lon)}</span>"), {:controller => 'site', :action => 'index', :lat => h(node_details.lat), :lon => h(node_details.lon), :zoom => "18"} %></div></td>
+    <td><div class="geo"><%= link_to(content_tag(:span, number_with_delimiter(node_details.lat), :class => "latitude") + ", " + content_tag(:span, number_with_delimiter(node_details.lon), :class => "longitude"), {:controller => 'site', :action => 'index', :lat => h(node_details.lat), :lon => h(node_details.lon), :zoom => "18"}) %></div></td>
   </tr>
 
   <% unless node_details.ways.empty? and node_details.containing_relation_members.empty? %>

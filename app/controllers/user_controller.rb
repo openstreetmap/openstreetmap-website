@@ -1,6 +1,7 @@
 class UserController < ApplicationController
   layout :choose_layout
 
+  skip_before_filter :verify_authenticity_token, :only => [:api_details, :api_gpx_files]
   before_filter :disable_terms_redirect, :only => [:terms, :save, :logout, :api_details]
   before_filter :authorize, :only => [:api_details, :api_gpx_files]
   before_filter :authorize_web, :except => [:api_details, :api_gpx_files]
@@ -15,35 +16,62 @@ class UserController < ApplicationController
   before_filter :require_administrator, :only => [:set_status, :delete, :list]
   before_filter :lookup_this_user, :only => [:set_status, :delete]
 
-  filter_parameter_logging :password, :pass_crypt, :pass_crypt_confirmation
-
-  cache_sweeper :user_sweeper, :only => [:account, :set_status, :delete], :unless => STATUS == :database_offline
+  cache_sweeper :user_sweeper, :only => [:account, :set_status, :delete]
 
   def terms
     @legale = params[:legale] || OSM.IPToCountry(request.remote_ip) || DEFAULT_LEGALE
     @text = OSM.legal_text_for_country(@legale)
 
     if request.xhr?
-      render :update do |page|
-        page.replace_html "contributorTerms", :partial => "terms"
+      render :partial => "terms"
+    elsif using_open_id?
+      # The redirect from the OpenID provider reenters here
+      # again and we need to pass the parameters through to
+      # the open_id_authentication function
+      @user = session.delete(:new_user)
+
+      openid_verify(nil, @user) do |user|
+      end
+
+      if @user.openid_url.nil? or @user.invalid?
+        render :action => 'new'
+      else
+        render :action => 'terms'
       end
     else
+      session[:referer] = params[:referer]
+
       @title = t 'user.terms.title'
       @user = User.new(params[:user]) if params[:user]
+
+      if params[:user] and params[:user][:openid_url] and @user.pass_crypt.empty?
+        # We are creating an account with OpenID and no password
+        # was specified so create a random one
+        @user.pass_crypt = SecureRandom.base64(16) 
+        @user.pass_crypt_confirmation = @user.pass_crypt 
+      end
 
       if @user
         if @user.invalid?
           if @user.new_record?
+            # Something is wrong with a new user, so rerender the form
             render :action => :new
           else
+            # Error in existing user, so go to account settings
             flash[:errors] = @user.errors
             redirect_to :action => :account, :display_name => @user.display_name
           end
         elsif @user.terms_agreed?
+          # Already agreed to terms, so just show settings
           redirect_to :action => :account, :display_name => @user.display_name
+        elsif params[:user] and params[:user][:openid_url] and not params[:user][:openid_url].empty?
+          # Verify OpenID before moving on
+          session[:new_user] = @user
+          openid_verify(params[:user][:openid_url], @user)
         end
       else
-        redirect_to :action => :login, :referer => request.request_uri
+        # Not logged in, so redirect to the login page
+        redirect_to :action => :login, :referer => request.fullpath
       end
     end
   end
@@ -51,7 +79,7 @@ class UserController < ApplicationController
   def save
     @title = t 'user.new.title'
 
-    if Acl.find_by_address(request.remote_ip, :conditions => {:k => "no_account_creation"})
+    if Acl.address(request.remote_ip).where(:k => "no_account_creation").exists?
       render :action => 'new'
     elsif params[:decline]
       if @user
@@ -94,10 +122,12 @@ class UserController < ApplicationController
       @user.languages = request.user_preferred_languages
       @user.terms_agreed = Time.now.getutc
       @user.terms_seen = true
+      @user.openid_url = nil if @user.openid_url and @user.openid_url.empty?
       
       if @user.save
+        flash[:piwik_goal] = PIWIK_SIGNUP_GOAL if defined?(PIWIK_SIGNUP_GOAL)
         flash[:notice] = t 'user.new.flash create success message', :email => @user.email
-        Notifier.deliver_signup_confirm(@user, @user.tokens.create(:referer => params[:referer]))
+        Notifier.signup_confirm(@user, @user.tokens.create(:referer => session.delete(:referer))).deliver
         session[:token] = @user.tokens.create.token
         redirect_to :action => 'login', :referer => params[:referer]
       else
@@ -108,7 +138,7 @@ class UserController < ApplicationController
 
   def account
     @title = t 'user.account.title'
-    @tokens = @user.oauth_tokens.find :all, :conditions => 'oauth_tokens.invalidated_at is null and oauth_tokens.authorized_at is not null'
+    @tokens = @user.oauth_tokens.authorized
 
     if params[:user] and params[:user][:display_name] and params[:user][:description]
       @user.display_name = params[:user][:display_name]
@@ -136,29 +166,26 @@ class UserController < ApplicationController
         @user.preferred_editor = params[:user][:preferred_editor]
       end
 
-      if @user.save
-        set_locale
+      @user.openid_url = nil if params[:user][:openid_url].blank?
 
-        if @user.new_email.nil? or @user.new_email.empty?
-          flash[:notice] = t 'user.account.flash update success'
-        else
-          flash[:notice] = t 'user.account.flash update success confirm needed'
-
-          begin
-            Notifier.deliver_email_confirm(@user, @user.tokens.create)
-          rescue
-            # Ignore errors sending email
-          end
-        end
-
-        redirect_to :action => "account", :display_name => @user.display_name
+      if params[:user][:openid_url] and
+         params[:user][:openid_url].length > 0 and
+         params[:user][:openid_url] != @user.openid_url
+        # If the OpenID has changed, we want to check that it is a
+        # valid OpenID and one the user has control over before saving
+        # it as a password equivalent for the user.
+        session[:new_user] = @user
+        openid_verify(params[:user][:openid_url], @user)
+      else
+        update_user(@user)
       end
-    else
-      if flash[:errors]
-        flash[:errors].each do |attr,msg|
-          attr = "new_email" if attr == "email" and !@user.new_email.nil?
-          @user.errors.add(attr,msg)
-        end
+    elsif using_open_id?
+      # The redirect from the OpenID provider reenters here
+      # again and we need to pass the parameters through to
+      # the open_id_authentication function
+      @user = session.delete(:new_user)
+      openid_verify(nil, @user) do |user|
+        update_user(user)
       end
     end
   end
@@ -174,11 +201,19 @@ class UserController < ApplicationController
     @title = t 'user.lost_password.title'
 
     if params[:user] and params[:user][:email]
-      user = User.find_by_email(params[:user][:email], :conditions => {:status => ["pending", "active", "confirmed"]})
+      user = User.visible.find_by_email(params[:user][:email])
+
+      if user.nil?
+        users = User.visible.where("LOWER(email) = LOWER(?)", params[:user][:email])
+
+        if users.count == 1
+          user = users.first
+        end
+      end
 
       if user
         token = user.tokens.create
-        Notifier.deliver_lost_password(user, token)
+        Notifier.lost_password(user, token).deliver
         flash[:notice] = t 'user.lost_password.notice email on way'
         redirect_to :action => 'login'
       else
@@ -217,46 +252,35 @@ class UserController < ApplicationController
 
   def new
     @title = t 'user.new.title'
+    @referer = params[:referer] || session[:referer]
 
-    # The user is logged in already, so don't show them the signup
-    # page, instead send them to the home page
-    redirect_to :controller => 'site', :action => 'index' if session[:user]
+    if @user
+      # The user is logged in already, so don't show them the signup
+      # page, instead send them to the home page
+      if @referer
+        redirect_to @referer
+      else
+        redirect_to :controller => 'site', :action => 'index'
+      end
+    elsif params.key?(:openid)
+      @user = User.new(:email => params[:email],
+                       :email_confirmation => params[:email],
+                       :display_name => params[:nickname],
+                       :openid_url => params[:openid])
+
+      flash.now[:notice] = t 'user.new.openid association'
+    end
   end
 
   def login
-    @title = t 'user.login.title'
+    if params[:username] or using_open_id?
+      session[:remember_me] ||= params[:remember_me]
+      session[:referer] ||= params[:referer]
 
-    if params[:user]
-      email_or_display_name = params[:user][:email]
-      pass = params[:user][:password]
-      user = User.authenticate(:username => email_or_display_name, :password => pass)
-
-      if user
-        session[:user] = user.id
-        session_expires_after 1.month if params[:remember_me]
-
-        target = params[:referer] || url_for(:controller => :site, :action => :index)
-
-        # The user is logged in, so decide where to send them:
-        #
-        # - If they haven't seen the contributor terms, send them there.
-        # - If they have a block on them, show them that.
-        # - If they were referred to the login, send them back there.
-        # - Otherwise, send them to the home page.
-        if REQUIRE_TERMS_SEEN and not user.terms_seen
-          redirect_to :controller => :user, :action => :terms, :referer => target
-        elsif user.blocked_on_view
-          redirect_to user.blocked_on_view, :referer => target
-        else
-          redirect_to target
-        end
-      elsif user = User.authenticate(:username => email_or_display_name, :password => pass, :pending => true)
-        flash.now[:error] = t 'user.login.account not active', :reconfirm => url_for(:action => 'confirm_resend', :display_name => user.display_name)
-      elsif User.authenticate(:username => email_or_display_name, :password => pass, :suspended => true)
-        webmaster = link_to t('user.login.webmaster'), "mailto:webmaster@openstreetmap.org"
-        flash.now[:error] = t 'user.login.account suspended', :webmaster => webmaster
+      if using_open_id?
+        openid_authentication(params[:openid_url])
       else
-        flash.now[:error] = t 'user.login.auth failure'
+        password_authentication(params[:username], params[:password])
       end
     elsif flash[:notice].nil?
       flash.now[:notice] =  t 'user.login.notice'
@@ -272,9 +296,9 @@ class UserController < ApplicationController
         if token
           token.destroy
         end
-        session[:token] = nil
+        session.delete(:token)
       end
-      session[:user] = nil
+      session.delete(:user)
       session_expires_automatically
       if params[:referer]
         redirect_to params[:referer]
@@ -312,6 +336,7 @@ class UserController < ApplicationController
             token.destroy
 
             session[:user] = user.id
+            cookies.permanent["_osm_username"] = user.display_name
 
             if referer.nil?
               flash[:notice] = t('user.confirm.success') + "<br /><br />" + t('user.confirm.before you start')
@@ -340,7 +365,7 @@ class UserController < ApplicationController
 
   def confirm_resend
     if user = User.find_by_display_name(params[:display_name])
-      Notifier.deliver_signup_confirm(user, user.tokens.create)
+      Notifier.signup_confirm(user, user.tokens.create).deliver
       flash[:notice] = t 'user.confirm_resend.success', :email => user.email
     else
       flash[:notice] = t 'user.confirm_resend.failure', :name => params[:display_name]
@@ -364,6 +389,7 @@ class UserController < ApplicationController
         end
         token.destroy
         session[:user] = @user.id
+        cookies.permanent["_osm_username"] = @user.display_name
         redirect_to :action => 'account', :display_name => @user.display_name
       else
         flash[:error] = t 'user.confirm_email.failure'
@@ -396,14 +422,14 @@ class UserController < ApplicationController
   def make_friend
     if params[:display_name]
       name = params[:display_name]
-      new_friend = User.find_by_display_name(name, :conditions => {:status => ["active", "confirmed"]})
+      new_friend = User.active.where(:display_name => name).first
       friend = Friend.new
       friend.user_id = @user.id
       friend.friend_user_id = new_friend.id
       unless @user.is_friends_with?(new_friend)
         if friend.save
           flash[:notice] = t 'user.make_friend.success', :name => name
-          Notifier.deliver_friend_notification(friend)
+          Notifier.friend_notification(friend).deliver
         else
           friend.add_error(t('user.make_friend.failed', :name => name))
         end
@@ -422,7 +448,7 @@ class UserController < ApplicationController
   def remove_friend
     if params[:display_name]
       name = params[:display_name]
-      friend = User.find_by_display_name(name, :conditions => {:status => ["active", "confirmed"]})
+      friend = User.active.where(:display_name => name).first
       if @user.is_friends_with?(friend)
         Friend.delete_all "user_id = #{@user.id} AND friend_user_id = #{friend.id}"
         flash[:notice] = t 'user.remove_friend.success', :name => friend.display_name
@@ -477,6 +503,186 @@ class UserController < ApplicationController
 private
 
   ##
+  # handle password authentication
+  def password_authentication(username, password)
+    if user = User.authenticate(:username => username, :password => password)
+      successful_login(user)
+    elsif user = User.authenticate(:username => username, :password => password, :pending => true)
+      failed_login t('user.login.account not active', :reconfirm => url_for(:action => 'confirm_resend', :display_name => user.display_name))
+    elsif User.authenticate(:username => username, :password => password, :suspended => true)
+      webmaster = link_to t('user.login.webmaster'), "mailto:webmaster@openstreetmap.org"
+      failed_login t('user.login.account suspended', :webmaster => webmaster)
+    else
+      failed_login t('user.login.auth failure')
+    end
+  end
+
+  ##
+  # handle OpenID authentication
+  def openid_authentication(openid_url)
+    # If we don't appear to have a user for this URL then ask the
+    # provider for some extra information to help with signup
+    if openid_url and User.find_by_openid_url(openid_url)
+      required = nil
+    else
+      required = [:nickname, :email, "http://axschema.org/namePerson/friendly", "http://axschema.org/contact/email"]
+    end
+
+    # Start the authentication
+    authenticate_with_open_id(openid_expand_url(openid_url), :method => :get, :required => required) do |result, identity_url, sreg, ax|
+      if result.successful?
+        # We need to use the openid url passed back from the OpenID provider
+        # rather than the one supplied by the user, as these can be different.
+        #
+        # For example, you can simply enter yahoo.com in the login box rather
+        # than a user specific url. Only once it comes back from the provider
+        # provider do we know the unique address for the user.
+        if user = User.find_by_openid_url(identity_url)
+          case user.status
+            when "pending" then
+              failed_login t('user.login.account not active')
+            when "active", "confirmed" then
+              successful_login(user)
+            when "suspended" then
+              webmaster = link_to t('user.login.webmaster'), "mailto:webmaster@openstreetmap.org"
+              failed_login t('user.login.account suspended', :webmaster => webmaster)
+            else
+              failed_login t('user.login.auth failure')
+          end
+        else
+          # Guard against not getting any extension data
+          sreg = Hash.new if sreg.nil?
+          ax = Hash.new if ax.nil?
+
+          # We don't have a user registered to this OpenID, so redirect
+          # to the create account page with username and email filled
+          # in if they have been given by the OpenID provider through
+          # the simple registration protocol.
+          nickname = sreg["nickname"] || ax["http://axschema.org/namePerson/friendly"]
+          email = sreg["email"] || ax["http://axschema.org/contact/email"]
+          redirect_to :controller => 'user', :action => 'new', :nickname => nickname, :email => email, :openid => identity_url
+        end
+      elsif result.missing?
+        failed_login t('user.login.openid missing provider')
+      elsif result.invalid?
+        failed_login t('user.login.openid invalid')
+      else
+        failed_login t('user.login.auth failure')
+      end
+    end
+  end
+
+  ##
+  # verify an OpenID URL
+  def openid_verify(openid_url, user)
+    user.openid_url = openid_url
+
+    authenticate_with_open_id(openid_expand_url(openid_url), :method => :get) do |result, identity_url|
+      if result.successful?
+        # We need to use the openid url passed back from the OpenID provider
+        # rather than the one supplied by the user, as these can be different.
+        #
+        # For example, you can simply enter yahoo.com in the login box rather
+        # than a user specific url. Only once it comes back from the provider
+        # provider do we know the unique address for the user.
+        user.openid_url = identity_url
+        yield user
+      elsif result.missing?
+        flash.now[:error] = t 'user.login.openid missing provider'
+      elsif result.invalid?
+        flash.now[:error] = t 'user.login.openid invalid'
+      else
+        flash.now[:error] = t 'user.login.auth failure'
+      end
+    end
+  end
+
+  ##
+  # special case some common OpenID providers by applying heuristics to
+  # try and come up with the correct URL based on what the user entered
+  def openid_expand_url(openid_url)
+    if openid_url.nil?
+      return nil
+    elsif openid_url.match(/(.*)gmail.com(\/?)$/) or openid_url.match(/(.*)googlemail.com(\/?)$/)
+      # Special case gmail.com as it is potentially a popular OpenID
+      # provider and, unlike yahoo.com, where it works automatically, Google
+      # have hidden their OpenID endpoint somewhere obscure this making it
+      # somewhat less user friendly.
+      return 'https://www.google.com/accounts/o8/id'
+    else
+      return openid_url
+    end
+  end  
+
+  ##
+  # process a successful login
+  def successful_login(user)
+    cookies.permanent["_osm_username"] = user.display_name
+
+    session[:user] = user.id
+    session_expires_after 1.month if session[:remember_me]
+
+    target = session[:referer] || url_for(:controller => :site, :action => :index)
+
+    # The user is logged in, so decide where to send them:
+    #
+    # - If they haven't seen the contributor terms, send them there.
+    # - If they have a block on them, show them that.
+    # - If they were referred to the login, send them back there.
+    # - Otherwise, send them to the home page.
+    if REQUIRE_TERMS_SEEN and not user.terms_seen
+      redirect_to :controller => :user, :action => :terms, :referer => target
+    elsif user.blocked_on_view
+      redirect_to user.blocked_on_view, :referer => target
+    else
+      redirect_to target
+    end
+
+    session.delete(:remember_me)
+    session.delete(:referer)
+  end
+
+  ##
+  # process a failed login
+  def failed_login(message)
+    flash[:error] = message
+
+    redirect_to :action => 'login', :referer =>  session[:referer]
+
+    session.delete(:remember_me)
+    session.delete(:referer)
+  end
+
+  ##
+  # update a user's details
+  def update_user(user)
+    if user.save
+      set_locale
+
+      if user.new_email.blank?
+        flash.now[:notice] = t 'user.account.flash update success'
+      else
+        user.email = user.new_email
+
+        if user.valid?
+          flash.now[:notice] = t 'user.account.flash update success confirm needed'
+
+          begin
+            Notifier.email_confirm(user, user.tokens.create).deliver
+          rescue
+            # Ignore errors sending email
+          end
+        else
+          @user.errors.set(:new_email, @user.errors.get(:email))
+          @user.errors.set(:email, [])
+        end
+
+        user.reset_email!
+      end
+    end
+  end
+
+  ##
   # require that the user is a administrator, or fill out a helpful error message
   # and return them to the user page.
   def require_administrator
@@ -486,10 +692,10 @@ private
       if params[:display_name]
         redirect_to :controller => 'user', :action => 'view', :display_name => params[:display_name]
       else
-        redirect_to :controller => 'user', :action => 'login', :referer => request.request_uri
+        redirect_to :controller => 'user', :action => 'login', :referer => request.fullpath
       end
     elsif not @user
-      redirect_to :controller => 'user', :action => 'login', :referer => request.request_uri
+      redirect_to :controller => 'user', :action => 'login', :referer => request.fullpath
     end
   end
 

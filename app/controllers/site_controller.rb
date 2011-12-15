@@ -48,6 +48,19 @@ class SiteController < ApplicationController
         @lat = params['mlat'].to_f
         @zoom = params['zoom'].to_i
 
+      elsif params['bbox']
+        bbox = BoundingBox.from_bbox_params(params)
+
+        @lon = bbox.centre_lon
+        @lat = bbox.centre_lat
+        @zoom = 16
+      elsif params['minlon'] and params['minlat'] and params['maxlon'] and params['maxlat']
+        bbox = BoundingBox.from_lon_lat_params(params)
+
+        @lon = bbox.centre_lon
+        @lat = bbox.centre_lat
+        @zoom = 16
+
       elsif params['gpx']
         @lon = Trace.find(params['gpx']).longitude
         @lat = Trace.find(params['gpx']).latitude

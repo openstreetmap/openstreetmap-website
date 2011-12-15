@@ -1,3 +1,5 @@
+require 'stringio'
+
 # The Potlatch module provides helper functions for potlatch and its communication with the server
 module Potlatch
 
@@ -97,7 +99,7 @@ module Potlatch
 	  when 'FalseClass'
         0.chr+encodedouble(0)
       else
-        RAILS_DEFAULT_LOGGER.error("Unexpected Ruby type for AMF conversion: "+n.class.to_s)
+        Rails.logger.error("Unexpected Ruby type for AMF conversion: "+n.class.to_s)
       end
     end
 
@@ -119,6 +121,48 @@ module Potlatch
 
   end
 
+  # The Dispatcher class handles decoding a series of RPC calls
+  # from the request, dispatching them, and encoding the response
+  class Dispatcher
+    def initialize(request, &block)
+      # Get stream for request data
+      @request = StringIO.new(request + 0.chr)
+
+      # Skip version indicator and client ID
+      @request.read(2)
+
+      # Skip headers
+      AMF.getint(@request).times do     # Read number of headers and loop
+        AMF.getstring(@request)         #  | skip name
+        req.getc                        #  | skip boolean
+        AMF.getvalue(@request)          #  | skip value
+      end
+
+      # Capture the dispatch routine
+      @dispatch = Proc.new
+    end
+
+    def each(&block)
+      # Read number of message bodies
+      bodies = AMF.getint(@request)
+
+      # Output response header
+      a,b = bodies.divmod(256)
+      yield 0.chr + 0.chr + 0.chr + 0.chr + a.chr + b.chr
+
+      # Process the bodies
+      bodies.times do                     # Read each body
+        name = AMF.getstring(@request)    #  | get message name
+        index = AMF.getstring(@request)   #  | get index in response sequence
+        bytes = AMF.getlong(@request)     #  | get total size in bytes
+        args = AMF.getvalue(@request)     #  | get response (probably an array)
+
+        result = @dispatch.call(name, *args)
+
+        yield AMF.putdata(index, result)
+      end
+    end
+  end
 
   # The Potlatch class is a helper for Potlatch
   class Potlatch
@@ -130,7 +174,7 @@ module Potlatch
     #				[3] colours, [4] casing, [5] areas, [6] autotags
     #				(all hashes)
     def self.get_presets
-      RAILS_DEFAULT_LOGGER.info("  Message: getpresets")
+      Rails.logger.info("  Message: getpresets")
 
       # Read preset menus
       presets={}
@@ -139,7 +183,7 @@ module Potlatch
       presettype=''
       presetcategory=''
       #	StringIO.open(txt) do |file|
-      File.open("#{RAILS_ROOT}/config/potlatch/presets.txt") do |file|
+      File.open("#{Rails.root}/config/potlatch/presets.txt") do |file|
         file.each_line {|line|
           t=line.chomp
           if (t=~/(\w+)\/(\w+)/) then
@@ -160,7 +204,7 @@ module Potlatch
 
       # Read colours/styling
       colours={}; casing={}; areas={}
-      File.open("#{RAILS_ROOT}/config/potlatch/colours.txt") do |file|
+      File.open("#{Rails.root}/config/potlatch/colours.txt") do |file|
         file.each_line {|line|
           t=line.chomp
           if (t=~/(\w+)\s+([^\s]+)\s+([^\s]+)\s+([^\s]+)/) then
@@ -174,7 +218,7 @@ module Potlatch
 
       # Read relations colours/styling
       relcolours={}; relalphas={}; relwidths={}
-      File.open("#{RAILS_ROOT}/config/potlatch/relation_colours.txt") do |file|
+      File.open("#{Rails.root}/config/potlatch/relation_colours.txt") do |file|
         file.each_line {|line|
           t=line.chomp
           if (t=~/(\w+)\s+([^\s]+)\s+([^\s]+)\s+([^\s]+)/) then
@@ -188,7 +232,7 @@ module Potlatch
 
       # Read POI presets
       icon_list=[]; icon_tags={};
-      File.open("#{RAILS_ROOT}/config/potlatch/icon_presets.txt") do |file|
+      File.open("#{Rails.root}/config/potlatch/icon_presets.txt") do |file|
         file.each_line {|line|
           (icon,tags)=line.chomp.split("\t")
           icon_list.push(icon)
@@ -199,7 +243,7 @@ module Potlatch
       
       # Read auto-complete
       autotags={}; autotags['point']={}; autotags['way']={}; autotags['POI']={};
-      File.open("#{RAILS_ROOT}/config/potlatch/autocomplete.txt") do |file|
+      File.open("#{Rails.root}/config/potlatch/autocomplete.txt") do |file|
         file.each_line {|line|
           t=line.chomp
           if (t=~/^([\w:]+)\/(\w+)\s+(.+)$/) then

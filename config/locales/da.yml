@@ -6,6 +6,7 @@
 # Author: Freek
 # Author: Hylle
 # Author: OleLaursen
+# Author: The real emj
 # Author: Winbladh
 da: 
   activerecord: 
@@ -82,12 +83,12 @@ da:
       blocked: Din adgang til API'et er blokeret. Log ind på webinterfacet for a finde ud mere.
   browse: 
     changeset: 
-      changeset: "Ændringssæt: {{id}}"
+      changeset: "Ændringssæt: %{id}"
       changesetxml: XML for ændringssæt
-      download: Hent {{changeset_xml_link}} eller {{osmchange_xml_link}}
+      download: Hent %{changeset_xml_link} eller %{osmchange_xml_link}
       feed: 
-        title: Ændringssæt {{id}}
-        title_comment: Ændringssæt {{id}} - {{comment}}
+        title: Ændringssæt %{id}
+        title_comment: Ændringssæt %{id} - %{comment}
       osmchangexml: osmChange XML
       title: Ændringssæt
     changeset_details: 
@@ -98,26 +99,33 @@ da:
       created_at: "Oprettet:"
       has_nodes: 
         one: "Har følgende punkt:"
-        other: "Har følgende {{count}} punkter:"
+        other: "Har følgende %{count} punkter:"
       has_relations: 
         one: "Har følgende relation:"
-        other: "Har følgende {{count}} relationer:"
+        other: "Har følgende %{count} relationer:"
       has_ways: 
         one: "Har følgende vej:"
-        other: "Har følgende {{count}} veje:"
+        other: "Har følgende %{count} veje:"
       no_bounding_box: Ingen grænse er lagret for dette ændringssæt.
       show_area_box: Vis kasse på et stort kort
     common_details: 
       changeset_comment: "Kommentar:"
+      deleted_at: "Slettet:"
+      deleted_by: "Slettet af:"
       edited_at: "Redigeret:"
       edited_by: "Redigeret af:"
       in_changeset: "I ændringssæt:"
       version: "Version:"
     containing_relation: 
-      entry: Relation {{relation_name}}
-      entry_role: Relation {{relation_name}} (som {{relation_role}})
+      entry: Relation %{relation_name}
+      entry_role: Relation %{relation_name} (som %{relation_role})
     map: 
       deleted: Slettet
+      edit: 
+        area: Rediger område
+        node: Rediger punkt
+        relation: Rediger relation
+        way: Rediger vej
       larger: 
         area: Vis område på større kort
         node: Vis punkt på større kort
@@ -135,27 +143,27 @@ da:
         prev_relation_tooltip: Forrige relation
         prev_way_tooltip: Forrige vej
       user: 
-        name_changeset_tooltip: Vis redigeringer af {{user}}
-        next_changeset_tooltip: Næste ændring af {{user}}
-        prev_changeset_tooltip: Forrige ændring af {{user}}
+        name_changeset_tooltip: Vis redigeringer af %{user}
+        next_changeset_tooltip: Næste ændring af %{user}
+        prev_changeset_tooltip: Forrige ændring af %{user}
     node: 
-      download: "{{download_xml_link}}, {{view_history_link}} eller {{edit_link}}"
+      download: "%{download_xml_link}, %{view_history_link} eller %{edit_link}"
       download_xml: Hent XML
       edit: redigér
       node: Punkt
-      node_title: "Punkt: {{node_name}}"
+      node_title: "Punkt: %{node_name}"
       view_history: vis historik
     node_details: 
       coordinates: "Koordinater:"
       part_of: "Del af:"
     node_history: 
-      download: "{{download_xml_link}} eller {{view_details_link}}"
+      download: "%{download_xml_link} eller %{view_details_link}"
       download_xml: Hent XML
       node_history: Punkthistorik
-      node_history_title: "Punkthistorik: {{node_name}}"
+      node_history_title: "Punkthistorik: %{node_name}"
       view_details: vis detaljer
     not_found: 
-      sorry: Unskyld, {{type}}'en med id {{id}} kan ikke findes.
+      sorry: Unskyld, %{type}'en med id %{id} kan ikke findes.
       type: 
         changeset: ændringssæt
         node: punkt
@@ -165,22 +173,22 @@ da:
       of: af
       showing_page: Viser side
     relation: 
-      download: "{{download_xml_link}} eller {{view_history_link}}"
+      download: "%{download_xml_link} eller %{view_history_link}"
       download_xml: Hent ned XML
       relation: Relation
-      relation_title: "Relation: {{relation_name}}"
+      relation_title: "Relation: %{relation_name}"
       view_history: vis historik
     relation_details: 
       members: "Medlemmer:"
       part_of: "Del af:"
     relation_history: 
-      download: "{{download_xml_link}} eller {{view_details_link}}"
+      download: "%{download_xml_link} eller %{view_details_link}"
       download_xml: Hent XML
       relation_history: Relationshistorik
-      relation_history_title: "Relationshistorik: {{relation_name}}"
+      relation_history_title: "Relationshistorik: %{relation_name}"
       view_details: vis detaljer
     relation_member: 
-      entry_role: "{{type}} {{name}} som {{role}}"
+      entry_role: "%{type} %{name} som %{role}"
       type: 
         node: Punkt
         relation: Relation
@@ -219,41 +227,41 @@ da:
       private_user: privat bruger
       show_areas: Vis områder
       show_history: Vis historik
-      unable_to_load_size: "Kunne ikke indlæse: området [[bbox_size]] er for stort (skal være mindre end {{max_bbox_size}})"
+      unable_to_load_size: "Kunne ikke indlæse: området [[bbox_size]] er for stort (skal være mindre end %{max_bbox_size})"
       wait: Vent...
       zoom_or_select: Zoom ind eller vælg et område af kortet for visning
     tag_details: 
       tags: "Egenskaber:"
       wiki_link: 
-        key: Wikisiden med beskrivelsen af {{key}}
-        tag: Wikisiden med beskrivelsen af {{key}}={{value}}
-      wikipedia_link: Artiklen {{page}} på Wikipedia
+        key: Wikisiden med beskrivelsen af %{key}
+        tag: Wikisiden med beskrivelsen af %{key}=%{value}
+      wikipedia_link: Artiklen %{page} på Wikipedia
     timeout: 
-      sorry: Beklager, data for {{type}} med id {{id}} tog for lang tid at hente
+      sorry: Beklager, data for %{type} med id %{id} tog for lang tid at hente
       type: 
         changeset: ændringssæt
         node: punkt
         relation: relation
         way: vej
     way: 
-      download: "{{download_xml_link}}, {{view_history_link}} eller {{edit_link}}"
+      download: "%{download_xml_link}, %{view_history_link} eller %{edit_link}"
       download_xml: Hent XML
       edit: redigér
       view_history: vis historik
       way: Vej
-      way_title: "Vej: {{way_name}}"
+      way_title: "Vej: %{way_name}"
     way_details: 
       also_part_of: 
-        one: også del af vej {{related_ways}}
-        other: også del af veje {{related_ways}}
+        one: også del af vej %{related_ways}
+        other: også del af veje %{related_ways}
       nodes: "Punkter:"
       part_of: "Del af:"
     way_history: 
-      download: "{{download_xml_link}} eller {{view_details_link}}"
+      download: "%{download_xml_link} eller %{view_details_link}"
       download_xml: Hent XML
       view_details: vis detaljer
       way_history: Vejhistorik
-      way_history_title: "Vejhistorik: {{way_name}}"
+      way_history_title: "Vejhistorik: %{way_name}"
   changeset: 
     changeset: 
       anonymous: Anonym
@@ -264,9 +272,9 @@ da:
       still_editing: (redigerer stadig)
       view_changeset_details: Vis detaljer for ændringssæt
     changeset_paging_nav: 
-      next: Næste &raquo;
-      previous: "&laquo; Forrige"
-      showing_page: Viser side {{page}}
+      next: Næste »
+      previous: « Forrige
+      showing_page: Viser side %{page}
     changesets: 
       area: Område
       comment: Kommentar
@@ -275,33 +283,33 @@ da:
       user: Bruger
     list: 
       description: Seneste ændringer
-      description_bbox: Ændringer inden for {{bbox}}
-      description_user: Ændringssæt af {{user}}
-      description_user_bbox: Ændringssæt af {{user}} inden for {{bbox}}
+      description_bbox: Ændringer inden for %{bbox}
+      description_user: Ændringssæt af %{user}
+      description_user_bbox: Ændringssæt af %{user} inden for %{bbox}
       heading: Ændringssæt
       heading_bbox: Ændringssæt
       heading_user: Ændringssæt
       heading_user_bbox: Ændringssæt
       title: Ændringssæt
-      title_bbox: Ændringssæt inden for {{bbox}}
-      title_user: Ændringssæt af {{user}}
-      title_user_bbox: Ændringssæt af {{user}} inden for {{bbox}}
+      title_bbox: Ændringssæt inden for %{bbox}
+      title_user: Ændringssæt af %{user}
+      title_user_bbox: Ændringssæt af %{user} inden for %{bbox}
     timeout: 
       sorry: Desværre tog det for lang tid for at hente den ændringssætliste du har bedt om.
   diary_entry: 
     diary_comment: 
-      comment_from: Kommentar fra {{link_user}} {{comment_created_at}}
+      comment_from: Kommentar fra %{link_user} %{comment_created_at}
       confirm: Bekræft
       hide_link: Skjul denne kommentar
     diary_entry: 
       comment_count: 
         one: 1 kommentar
-        other: "{{count}} kommentarer"
+        other: "%{count} kommentarer"
       comment_link: Kommentér på dette indlæg
       confirm: Bekræft
       edit_link: Vis dette indlæg
       hide_link: Skjul dette indlæg
-      posted_by: Skrevet af {{link_user}} {{created}} på {{language_link}}
+      posted_by: Skrevet af %{link_user} %{created} på %{language_link}
       reply_link: Svar på dette indlæg
     edit: 
       body: "Indhold:"
@@ -319,13 +327,13 @@ da:
         description: Seneste blogindlæg fra brugere af OpenStreetMap
         title: OpenStreetMap-blogindlæg
       language: 
-        description: Seneste blogindlæg fra brugere af OpenStreetMap på {{language_name}}
-        title: OpenStreetMap-blogindlæg på {{language_name}}
+        description: Seneste blogindlæg fra brugere af OpenStreetMap på %{language_name}
+        title: OpenStreetMap-blogindlæg på %{language_name}
       user: 
-        description: Seneste OpenStreetMap-blogindlæg fra {{user}}
-        title: OpenStreetMap-blogindlæg for {{user}}
+        description: Seneste OpenStreetMap-blogindlæg fra %{user}
+        title: OpenStreetMap-blogindlæg for %{user}
     list: 
-      in_language_title: Blogindlæg på {{language}}
+      in_language_title: Blogindlæg på %{language}
       new: Nyt blogindlæg
       new_title: Skriv et nyt indlæg i din brugerblog
       newer_entries: Nyere indlæg
@@ -333,25 +341,30 @@ da:
       older_entries: Ældre indlæg
       recent_entries: "Seneste blogindlæg:"
       title: Brugerblogs
-      user_title: Blog for {{user}}
+      user_title: Blog for %{user}
     location: 
       edit: Ret
       location: "Sted:"
       view: Vis
     new: 
       title: Nyt blogindlæg
+    no_such_entry: 
+      body: Beklager, fandt ikke et blogindlæg eller en kommentar med id'en %{id}. Kontroller stavningen, eller måske er den henvisning du klikkede på forkert.
+      heading: "Intet indlæg med id'et: %{id}"
+      title: Intet blogindlæg fundet
     no_such_user: 
-      body: Beklager, der findes ingen bruger med dette navn {{user}}. Kontrollér venligst din stavning. Det kan også skyldes et forkert link.
-      heading: Brugeren {{user}} eksisterer ikke
+      body: Beklager, der findes ingen bruger med dette navn %{user}. Kontrollér venligst din stavning. Det kan også skyldes et forkert link.
+      heading: Brugeren %{user} eksisterer ikke
+      title: Ingen bruger fundet
     view: 
       leave_a_comment: Tilføj en kommentar
       login: Log på
-      login_to_leave_a_comment: "{{login_link}} for at kommentere"
+      login_to_leave_a_comment: "%{login_link} for at kommentere"
       save_button: Gem
-      title: "{{user}}'s blog | {{title}}"
-      user_title: "{{user}}'s blog"
+      title: "%{user}'s blog | %{title}"
+      user_title: "%{user}'s blog"
   editor: 
-    default: Foretrukket (i øjeblikket {{name}})
+    default: Foretrukket (i øjeblikket %{name})
     potlatch: 
       description: Potlatch 1 (redigér i browseren)
       name: Potlatch 1
@@ -399,14 +412,14 @@ da:
     description: 
       title: 
         geonames: Position fra <a href="http://www.geonames.org/">GeoNames</a>
-        osm_namefinder: "{{types}} fra <a href=\"http://gazetteer.openstreetmap.org/namefinder/\">OpenStreetMap Namefinder</a>"
+        osm_namefinder: "%{types} fra <a href=\"http://gazetteer.openstreetmap.org/namefinder/\">OpenStreetMap Namefinder</a>"
         osm_nominatim: Position fra <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
       types: 
         cities: Storbyer
         places: Steder
         towns: Byer
     description_osm_namefinder: 
-      prefix: "{{distance}} {{direction}} for {{type}}"
+      prefix: "%{distance} %{direction} for %{type}"
     direction: 
       east: øst
       north: nord
@@ -418,7 +431,7 @@ da:
       west: vest
     distance: 
       one: omkring 1 km
-      other: omkring {{count}}km
+      other: omkring %{count}km
       zero: mindre end 1 km
     results: 
       more_results: Flere resultater
@@ -433,8 +446,8 @@ da:
         uk_postcode: Resultater fra <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Resultater fra <a href="http://geocoder.us/">Geocoder.us</a>
     search_osm_namefinder: 
-      suffix_parent: "{{suffix}} ({{parentdistance}} {{parentdirection}} for {{parentname}})"
-      suffix_place: ", {{distance}} {{direction}} for {{placename}}"
+      suffix_parent: "%{suffix} (%{parentdistance} %{parentdirection} for %{parentname})"
+      suffix_place: ", %{distance} %{direction} for %{placename}"
     search_osm_nominatim: 
       prefix: 
         amenity: 
@@ -885,13 +898,13 @@ da:
   layouts: 
     community_blogs: Blogs fra bidragydere
     community_blogs_title: Blogs fra medlemmer af OpenStreetMap-fællesskabet
-    copyright: Ophavsret &amp; licens
+    copyright: Ophavsret & licens
     documentation: Dokumentation
     documentation_title: Dokumentation for projektet
-    donate: Støt OpenStreetMap med en {{link}} til Hardware-upgradefonden.
+    donate: Støt OpenStreetMap med en %{link} til Hardware-upgradefonden.
     donate_link_text: donation
     edit: Redigér
-    edit_with: Redigér med {{editor}}
+    edit_with: Redigér med %{editor}
     export: Eksporter
     export_tooltip: Eksportér kortdata
     foundation: Fond
@@ -904,14 +917,15 @@ da:
     history: Historik
     home: hjem
     home_tooltip: Gå til hjemmeposition
-    inbox: indbakke ({{count}})
+    inbox: indbakke (%{count})
     inbox_tooltip: 
       one: Din indbakke indeholder 1 ulæst besked
-      other: Din indbakke indeholder {{count}} ulæste beskeder
+      other: Din indbakke indeholder %{count} ulæste beskeder
       zero: Din indbakke indeholder ingen ulæste beskeder
     intro_1: OpenStreetMap er et frit, redigerbart kort over hele verden. Det er lavet af folk som dig.
     intro_2: OpenStreetMap gør det muligt at se, redigere og bruge geografiske data i samarbejde med resten af verden hvor som helst på jorden.
-    intro_3: OpenStreetMaps hosting er venligt støttet af {{ucl}} og {{bytemark}}. Andre partnere af projektet er skrivet op i {{partners}}'en.
+    intro_3: OpenStreetMaps hosting støttes venligst af %{ucl} og %{bytemark}. Andre partnere af projektet er skrevet op i %{partners}'en.
+    intro_3_ic: Imperial College London
     intro_3_partners: wiki
     license: 
       title: OpenStreetMap data er licenseret under en Creative Commons Navngivelse-Del på samme vilkår 2.0 Generisk Licens
@@ -928,25 +942,26 @@ da:
     osm_read_only: OpenStreetMap databasen er for øjeblikket ikke redigerbar på grund af database vedligeholdelse.
     sign_up: opret konto
     sign_up_tooltip: Opret en konto for at kunne redigere
+    sotm2011: Kom til 2011 OpenStreetMap-konferencen, Kortets tilstand, 11.-9. september i Denver!
     tag_line: Det frie Wiki-verdenskort
     user_diaries: Brugerdagbøger
     user_diaries_tooltip: Vis brugerdagbøger
     view: Kort
     view_tooltip: Vis kortet
-    welcome_user: Velkommen, {{user_link}}
+    welcome_user: Velkommen, %{user_link}
     welcome_user_link_tooltip: Din brugerside
     wiki: Wiki
     wiki_title: Wikisite for projektet
   license_page: 
     foreign: 
       english_link: den engelske originaltekst
-      text: I tilfælde af en konflikt mellem denne oversatte side og {{english_original_link}} har den engelske tekst forrang
+      text: I tilfælde af en konflikt mellem denne oversatte side og %{english_original_link} har den engelske tekst forrang
       title: Om denne oversættelse
     legal_babble: "<h2>Ophavsret og licens</h2>\n<p>OpenStreetMap er <i>åben data</i>, licenseret under <a\nhref=\"http://creativecommons.org/licenses/by-sa/2.0/\">Creative\nCommons Attribution-ShareAlike 2.0</a>-licensen (CC-BY-SA).</p>\n\n<p>Du kan frit kopiere, distribuere, overføre og tilpasse vores kort\nog data, så længe du angiver OpenStreetMap og dets\nbidragydere som kilde. Hvis du ændrer eller bygger på vores kort\neller data, må du kun distribuere resultatet under den samme licens. Den\nfulde <a\nhref=\"http://creativecommons.org/licenses/by-sa/2.0/legalcode\">juridiske tekst</a>\nforklarer dine rettigheder og pligter.</p>\n\n<h3>Kildeangivelse og OpenStreetMap</h3>\n<p>Hvis du bruger OpenStreetMaps kortbilleder, anmoder vi om at\ndin kildeangivelse mindst består af &ldquo;&copy; OpenStreetMap-bidragydere,\nCC-BY-SA&rdquo;. Hvis du kun bruger kortdata, anmoder vi om &ldquo;Kortdata\n&copy; OpenStreetMap-bidragydere, CC-BY-SA&rdquo;.</p>\n\n<p>Så vidt muligt bør OpenStreetMap være et hyperlink til\n<a href=\"http://www.openstreetmap.org/\">http://www.openstreetmap.org/</a>\nog CC-BY-SA til \n<a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">http://creativecommons.org/licenses/by-sa/2.0/</a>.\nHvis du bruger et medium hvor hyperlinks ikke er mulige (f.eks. en tryksag), foreslår\nvi at du sender dine læsere til www.openstreetmap.org (måske ved at ændre\n'OpenStreetMap' til denne fulde adresse) og til www.creativecommons.org.</p>\n\n<h3>Læs mere</h3>\n<p>Læs mere om brug af vores data på den\n<a href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">Juridiske FAQ</a>.</p>\n\n<p>OSM-bidragydere bliver mindet om aldrig at tilføje data fra nogen\nophavsretligt beskyttede kilder (f.eks.. Google Maps eller trykte kort) uden\neksplicit tilladelse fra ophavsret-indehaverne.</p>\n\n<p>Selvom OpenStreetMap er åbne data, kan vi ikke levere en\ngratis kort-API til tredjeparts-udviklere.\n\nSe vores <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">politik for API-brug</a>,\n<a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">politik for brug af kortbilleder</a>\nog <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">politik for brug af Nominatim</a>.</p>\n\n<h3>Vores bidragydere</h3>\n\n<p>\nVores CC-BY-SA licens kræver at du &ldquo;giver den oprindelige\nforfatter kredit i rimeligt omfang i forhold til mediet eller de midler\ndu anvender&rdquo;. Individuelle OSM-kortlæggere anmoder ikke om\nkildeangivelse ud over \"OpenStreetMap-bidragydere\", men hvor data\nfra et national kortlægningsagentur eller anden stor kilde er medtaget i\nOpenStreetMap, kan det være rimeligt at kreditere dem ved direkte\nkildeangivelse eller ved at linke til den på denne side.\n</p>\n\n<ul id=\"contributors\">\n<li><strong>Australien</strong>: indeholder forstadsdata baseret\npå data fra Australian Bureau of Statistics.</li>\n<li><strong>Canada</strong>: indeholder data fra\nGeoBase&reg;, GeoGratis (&copy; Department of Natural\n   Resources Canada), CanVec (&copy; Department of Natural\n   Resources Canada) og StatCan (Geography Division,\n   Statistics Canada).</li>\n<li><strong>New Zealand</strong>: indeholder data fra Land Information New Zealand. Crown Copyright reserveret.</li>\n<li><strong>Polen</strong>: indeholder data fra <a\n   href=\"http://ump.waw.pl/\">UMP-pcPL</a>-kort. Ophavsret\n   UMP-pcPL-bidragydere.</li>\n<li><strong>Storbritannien</strong>: indeholder Ordnance\n   Survey data &copy; Crown copyright and database right\n   2010.</li>\n</ul>\n\n<p>\nOptagelse af data i OpenStreetMap indebærer ikke at den oprindelige\ndataudbyder siger god for OpenStreetMap, giver nogen garanti eller\naccepterer nogen form for erstatningspligt.\n</p>"
     native: 
       mapping_link: begynde kortlægningen
       native_link: den danske udgave
-      text: Du kigger på den engelske udgave af ophavsretsiden. Du kan gå tilbage til {{native_link}} af denne side eller du kan holde op med at læse om ophavsret og {{mapping_link}}.
+      text: Du kigger på den engelske udgave af ophavsretsiden. Du kan gå tilbage til %{native_link} af denne side eller du kan holde op med at læse om ophavsret og %{mapping_link}.
       title: Om denne side
   message: 
     delete: 
@@ -955,12 +970,12 @@ da:
       date: Dato
       from: Fra
       my_inbox: Min indbakke
-      no_messages_yet: Du har ingen beskeder endnu. Hvorfor ikke komme i kontakt med nogle af de {{people_mapping_nearby_link}}?
+      no_messages_yet: Du har ingen beskeder endnu. Hvorfor ikke komme i kontakt med nogle af de %{people_mapping_nearby_link}?
       outbox: udbakke
       people_mapping_nearby: folk som kortlægger i nærheden
       subject: Emne
       title: Indbakke
-      you_have: Du har {{new_count}} ny beskeder og {{old_count}} gamle beskeder
+      you_have: Du har %{new_count} ny beskeder og %{old_count} gamle beskeder
     mark: 
       as_read: Besked markeret som læst
       as_unread: Besked markeret som ulæst
@@ -975,7 +990,7 @@ da:
       limit_exceeded: Du har sendt mange beskeder på det sidste. Vent venligst lidt før du forsøger at sende flere.
       message_sent: Besked sendt
       send_button: Send
-      send_message_to: Send en ny besked til {{name}}
+      send_message_to: Send en ny besked til %{name}
       subject: Emne
       title: Send besked
     no_such_message: 
@@ -989,14 +1004,14 @@ da:
     outbox: 
       date: Dato
       inbox: indbakke
-      my_inbox: Min {{inbox_link}}
-      no_sent_messages: Du har ingen sendte beskeder endnu. Hvorfor ikke komme i kontakt med nogle af de {{people_mapping_nearby_link}}?
+      my_inbox: Min %{inbox_link}
+      no_sent_messages: Du har ingen sendte beskeder endnu. Hvorfor ikke komme i kontakt med nogle af de %{people_mapping_nearby_link}?
       outbox: udbakke
       people_mapping_nearby: folk som kortlægger i nærheden
       subject: Emne
       title: Udbakke
       to: Til
-      you_have_sent_messages: Du har sendt {{count}} beskeder
+      you_have_sent_messages: Du har sendt %{count} beskeder
     read: 
       back_to_inbox: Tilbage til indbakke
       back_to_outbox: Tilbage til udbakke
@@ -1013,26 +1028,26 @@ da:
       delete_button: Slet
   notifier: 
     diary_comment_notification: 
-      footer: Du kan også læse kommentaren på {{readurl}}, og du kan kommentere på {{commenturl}} eller svare på {{replyurl}}
-      header: "{{from_user}} har kommenteret på dit nylige OpenStreetMap-blogindlæg med emnet {{subject}}:"
-      hi: Hej {{to_user}},
-      subject: "[OpenStreetMap] {{user}} kommenterede på dit blogindlæg"
+      footer: Du kan også læse kommentaren på %{readurl}, og du kan kommentere på %{commenturl} eller svare på %{replyurl}
+      header: "%{from_user} har kommenteret på dit nylige OpenStreetMap-blogindlæg med emnet %{subject}:"
+      hi: Hej %{to_user},
+      subject: "[OpenStreetMap] %{user} kommenterede på dit blogindlæg"
     email_confirm: 
       subject: "[OpenStreetMap] Bekræft din emailadresse"
     email_confirm_html: 
       click_the_link: Hvis det er dig, skal du klikke på linket nedenfor for at bekræfte ændringen.
       greeting: Hej,
-      hopefully_you: En eller anden (forhåbentlig dig) ønsker at ændre sin emailadresse på {{server_url}} til {{new_address}}.
+      hopefully_you: En eller anden (forhåbentlig dig) ønsker at ændre sin emailadresse på %{server_url} til %{new_address}.
     email_confirm_plain: 
       click_the_link: Hvis det er dig, skal du klikke på linket nedenfor for at bekræfte ændringen.
       greeting: Hej,
       hopefully_you_1: En eller anden (forhåbentlig dig) vil gerne ændre sin emailadresse på
-      hopefully_you_2: "{{server_url}} til {{new_address}}."
+      hopefully_you_2: "%{server_url} til %{new_address}."
     friend_notification: 
-      befriend_them: Du kan tilføje dem som ven også på {{befriendurl}}.
-      had_added_you: "{{user}} har tilføjet dig som ven på OpenStreetMap."
-      see_their_profile: Du kan se deres profil på {{userurl}}.
-      subject: "[OpenStreetMap] {{user}} tilføjede dig som ven"
+      befriend_them: Du kan tilføje dem som ven også på %{befriendurl}.
+      had_added_you: "%{user} har tilføjet dig som ven på OpenStreetMap."
+      see_their_profile: Du kan se deres profil på %{userurl}.
+      subject: "[OpenStreetMap] %{user} tilføjede dig som ven"
     gpx_notification: 
       and_no_tags: og ingen tags.
       and_the_tags: "og de følgende tags:"
@@ -1043,7 +1058,7 @@ da:
         subject: "[OpenStreetMap] GPX-importering mislykkedes"
       greeting: Hej,
       success: 
-        loaded_successfully: indlæst med {{trace_points}} ud af {{possible_points}} mulige punkter.
+        loaded_successfully: indlæst med %{trace_points} ud af %{possible_points} mulige punkter.
         subject: "[OpenStreetMap] GPX-importering lykkedes"
       with_description: med beskrivelsen
       your_gpx_file: Det ser ud til at din GPX-fil
@@ -1059,10 +1074,10 @@ da:
       hopefully_you_1: En eller anden (muligvis dig) har bedt om at adgangskoden skal nulstilles for denne
       hopefully_you_2: email-adresse for openstreetmap.org-konto.
     message_notification: 
-      footer1: Du kan også læse beskeden på {{readurl}}
-      footer2: og du kan svare på {{replyurl}}
-      header: "{{from_user}} har sendt dig en besked gennem OpenStreetMap med emnet {{subject}}:"
-      hi: Hej {{to_user}},
+      footer1: Du kan også læse beskeden på %{readurl}
+      footer2: og du kan svare på %{replyurl}
+      header: "%{from_user} har sendt dig en besked gennem OpenStreetMap med emnet %{subject}:"
+      hi: Hej %{to_user},
     signup_confirm: 
       subject: "[OpenStreetMap] Bekræft din emailadresse"
     signup_confirm_html: 
@@ -1072,8 +1087,8 @@ da:
       get_reading: Du kan læse om OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Beginners%27_Guide">på wikien</a>, følge de seneste nyheder via <a href="http://blog.openstreetmap.org/">OpenStreetMap-bloggen</a> eller <a href="http://twitter.com/openstreetmap">Twitter</a>, eller se OpenStreetMap-stifteren Steve Coasts <a href="http://www.opengeodata.org/">OpenGeoData-blog</a> for en hurtig udgave af projektets historie, endda med <a href="http://www.opengeodata.org/?cat=13">podcasts du kan lytte til</a>!
       greeting: Hejsa!
       hopefully_you: En eller anden (forhåbentlig dig) vil gerne oprette en konto på
-      introductory_video: Du kan se en {{introductory_video_link}}.
-      more_videos: Der er {{more_videos_link}}.
+      introductory_video: Du kan se en %{introductory_video_link}.
+      more_videos: Der er %{more_videos_link}.
       more_videos_here: flere videoer her
       user_wiki_page: Der anbefales du opretter en bruger-wikiside med kategoritags for hvor du er, f.eks. <a href="http://wiki.openstreetmap.org/wiki/Category:Users_in_Denmark">[[Category:Users_in_Denmark]]</a>.
       video_to_openstreetmap: introduktionsvideo til OpenStreetMap
@@ -1084,6 +1099,7 @@ da:
       click_the_link_1: Hvis det er dig, velkommen! Klik på linket nedenfor for at bekræfte din
       click_the_link_2: konto og læs videre for flere oplysninger om OpenStreetMap.
       current_user_1: En liste over nuværende brugere i kategorier baseret på hvor i verden
+      current_user_2: "de er, er tilgængelig fra:"
       greeting: Halløj!
       hopefully_you: En eller anden (forhåbentlig dig) vil gerne oprette en konto på
       introductory_video: "Du kan se en introduktionsvideo til OpenStreetMap her:"
@@ -1095,14 +1111,23 @@ da:
       wiki_signup: "Du kan også tilmelde dig til OpenStreetMap-wikien på:"
   oauth: 
     oauthorize: 
+      allow_read_gpx: læse dine private GPS-spor.
+      allow_read_prefs: læse dine brugerindstillinger.
+      allow_to: "Tillad klient-applikationen at:"
       allow_write_api: tilpas kortet.
+      allow_write_diary: oprette dagbogssider, kommentarer og lave venskaber.
       allow_write_gpx: Upload GPS-spor.
+      allow_write_prefs: ændre dine brugerindstillinger.
   oauth_clients: 
+    edit: 
+      submit: Redigér
+      title: Rediger din applikation
     form: 
       name: Navn
       required: Påkrævet
     new: 
       submit: Registrér
+      title: Registrer en ny applikation
     show: 
       allow_write_api: tilpas kortet.
   site: 
@@ -1110,7 +1135,7 @@ da:
       anon_edits_link_text: Find ud af hvorfor.
       no_iframe_support: Din browser understøtter ikke HTML-iframes som er nødvendige for denne funktion.
       not_public: Du har ikke angivet af dine ændringer skal være offentlige.
-      not_public_description: Du kan ikke længere redigere kortet medmindre du gør dette. Du kan gøre dine ændringer offentlige fra din {{user_page}}.
+      not_public_description: Du kan ikke længere redigere kortet medmindre du gør dette. Du kan gøre dine ændringer offentlige fra din %{user_page}.
       potlatch2_unsaved_changes: Du har ugemte ændringer (for at gemme i Potlatch 2 skal du trykke på gem-knappen).
       potlatch_unsaved_changes: Du har ugemte ændringer (for at gemme i Potlatch skal du afmarkere den nuværende vej eller nuværende punkt hvis du retter i live-tilstand, eller klikke på gem-knappen hvis du har en).
       user_page_link: brugerside
@@ -1119,7 +1144,7 @@ da:
       js_2: OpenStreetMap bruger JavaScript til det interaktive kort.
       js_3: Du kan prøve <a href="http://tah.openstreetmap.org/Browse/">de statiske Tiles@Home kortsider</a> hvis du ikke kan aktivere Javascript.
       license: 
-        notice: Licenseret under {{license_name}}-licensen af {{project_name}} og dets bidragydere.
+        notice: Licenseret under %{license_name}-licensen af %{project_name} og dets bidragydere.
         project_name: OpenStreetMap-projektet
       permalink: Permalink
       remote_failed: Redigering mislykkede - tjek at JOSM eller Merkaartor er startet og fjernbetjening er aktiveret
@@ -1216,7 +1241,7 @@ da:
       download: hent
       edit: redigér
       filename: "Filnavn:"
-      heading: Redigerer spor {{name}}
+      heading: Redigerer spor %{name}
       map: kort
       owner: "Ejer:"
       points: "Punkter:"
@@ -1224,20 +1249,20 @@ da:
       start_coord: "Startkoordinat:"
       tags: "Egenskaber:"
       tags_help: kommasepareret
-      title: Redigerer spor {{name}}
+      title: Redigerer spor %{name}
       uploaded_at: "Indsendt:"
       visibility: "Synlighed:"
       visibility_help: hvad betyder det her?
     list: 
       public_traces: Offentlige GPS-spor
-      public_traces_from: Offentlige GPS-spor fra {{user}}
-      tagged_with: " med egenskaberne {{tags}}"
+      public_traces_from: Offentlige GPS-spor fra %{user}
+      tagged_with: " med egenskaberne %{tags}"
       your_traces: Dine GPS-spor
     make_public: 
       made_public: Spor gjort offentlig
     no_such_user: 
-      body: Beklager, der er ingen bruger med navnet {{user}}. Kontroller stavningen, eller måske er linket du fulgte forkert.
-      heading: Brugeren {{user}} eksisterer ikke
+      body: Beklager, der er ingen bruger med navnet %{user}. Kontroller stavningen, eller måske er linket du fulgte forkert.
+      heading: Brugeren %{user} eksisterer ikke
       title: Ingen bruger fundet
     offline: 
       heading: GPX-lagring ikke tilgængelig
@@ -1245,9 +1270,9 @@ da:
     offline_warning: 
       message: Systemet der håndterer upload af GPX-filer er på nuværende tidspunkt ikke tilgængelig
     trace: 
-      ago: "{{time_in_words_ago}} siden"
+      ago: "%{time_in_words_ago} siden"
       by: af
-      count_points: "{{count}} punkter"
+      count_points: "%{count} punkter"
       edit: redigér
       edit_map: Redigér kort
       identifiable: IDENTIFICERBAR
@@ -1272,15 +1297,14 @@ da:
     trace_header: 
       see_all_traces: Vis alle spor
       see_your_traces: Vis alle dine spor
-      traces_waiting: Du har allerede {{count}} GPS-spor i køen. Overvej at vente på disse før du uploader flere spor for ikke at blokkere køen for andre brugere.
+      traces_waiting: Du har allerede %{count} GPS-spor i køen. Overvej at vente på disse før du uploader flere spor for ikke at blokkere køen for andre brugere.
       upload_trace: Upload et spor
-      your_traces: Vis kun dine spor
     trace_optionals: 
       tags: Egenskaber
     trace_paging_nav: 
-      next: Næste &raquo;
-      previous: "&laquo; Forrige"
-      showing_page: Viser side {{page}}
+      next: Næste »
+      previous: « Forrige
+      showing_page: Viser side %{page}
     view: 
       delete_track: Slet dette spor
       description: "Beskrivelse:"
@@ -1288,7 +1312,7 @@ da:
       edit: redigér
       edit_track: Redigér dette spor
       filename: "Filnavn:"
-      heading: Viser spor {{name}}
+      heading: Viser spor %{name}
       map: kort
       none: Ingen
       owner: "Ejer:"
@@ -1296,7 +1320,7 @@ da:
       points: "Punkter:"
       start_coordinates: "Startkoordinat:"
       tags: "Egenskaber:"
-      title: Viser spor {{name}}
+      title: Viser spor %{name}
       trace_not_found: Spor ikke fundet!
       uploaded: "Uploadet:"
       visibility: "Synlighed:"
@@ -1354,7 +1378,7 @@ da:
       button: Bekræft
       heading: Bekræft en konto.
       press confirm button: Tryk på "Bekræft"-knappen nedenfor for at aktivere din konto.
-      reconfirm: Hvis det er et stykke tid siden du tilmeldte dig bliver du muligvis nødt til at <a href="{{reconfirm}}">sende dig selv en ny bekræftelses-email</a>.
+      reconfirm: Hvis det er et stykke tid siden du tilmeldte dig bliver du muligvis nødt til at <a href="%{reconfirm}">sende dig selv en ny bekræftelses-email</a>.
       success: Din konto er bekræftet, tak for din registrering!
       unknown token: Denne nøgle blev ikke fundet.
     confirm_email: 
@@ -1364,8 +1388,8 @@ da:
       press confirm button: Tryk på bekræft-knappen nedenfor for at bekræfte din nye emailadresse.
       success: Bekræftede din emailadresse, tak fordi du tilmeldte dig!
     confirm_resend: 
-      failure: Bruger {{name}} ikke fundet.
-      success: Vi har sendt en bekræftelses-email til {{email}}, og så snart du har bekræftet din konto, kan du gå i gang med kortlægningen.<br /><br />Hvis du bruger et antispam-system som sender bekræftelsesforespørgsler, så sørg for at du har hvidlistet webmaster@openstreetmap.org da vi ikke kan svare på den slags forespørgsler.
+      failure: Bruger %{name} ikke fundet.
+      success: Vi har sendt en bekræftelses-email til %{email}, og så snart du har bekræftet din konto, kan du gå i gang med kortlægningen.<br /><br />Hvis du bruger et antispam-system som sender bekræftelsesforespørgsler, så sørg for at du har hvidlistet webmaster@openstreetmap.org da vi ikke kan svare på den slags forespørgsler.
     filter: 
       not_an_administrator: Du skal være administrator for at gøre dette.
     go_public: 
@@ -1376,18 +1400,16 @@ da:
       heading: Brugere
       hide: Skjul valgte brugere
       showing: 
-        one: Viser side {{page}} ({{first_item}} af {{items}})
-        other: Viser side {{page}} ({{first_item}}-{{last_item}} af {{items}})
-      summary: "{{name}} oprettet fra {{ip_address}} på {{date}}"
-      summary_no_ip: "{{name}} oprettet på {{date}}"
+        one: Viser side %{page} (%{first_item} af %{items})
+        other: Viser side %{page} (%{first_item}-%{last_item} af %{items})
+      summary: "%{name} oprettet fra %{ip_address} på %{date}"
+      summary_no_ip: "%{name} oprettet på %{date}"
       title: Brugere
     login: 
-      account not active: Din konto er ikke aktiveret endnu.<br />Klik på linket i bekræftelsesemailen for at aktivere din konto eller <a href="{{reconfirm}}">få sendt en ny bekræftelsesemail</a>.
-      account suspended: Beklager, din konto er blevet suspenderet på grund af mistænkelig aktivitet.<br />Kontakt {{webmaster}} hvis du vil diskutere dette.
-      already have: Har du allerede en OpenStreetMap-konto? Log venligst på.
+      account not active: Din konto er ikke aktiveret endnu.<br />Klik på linket i bekræftelsesemailen for at aktivere din konto eller <a href="%{reconfirm}">få sendt en ny bekræftelsesemail</a>.
+      account suspended: Beklager, din konto er blevet suspenderet på grund af mistænkelig aktivitet.<br />Kontakt %{webmaster} hvis du vil diskutere dette.
       auth failure: Kunne ikke logge på med disse oplysninger.
       create account minute: Opret en konto. Det tager kun et minut.
-      create_account: opret en konto
       email or username: "E-mail-adresse eller brugernavn:"
       heading: Log på
       login_button: Log på
@@ -1395,7 +1417,6 @@ da:
       new to osm: Ny på OpenStreetMap?
       notice: <a href="http://www.osmfoundation.org/wiki/License/We_Are_Changing_The_License">Læs mere om OpenStreetMaps kommende licensændring</a> (<a href="http://wiki.openstreetmap.org/wiki/ODbL/We_Are_Changing_The_License">oversættelser</a>) (<a href="http://wiki.openstreetmap.org/wiki/Talk:ODbL/Upcoming">diskussion</a>)
       password: "Adgangskode:"
-      please login: Log på eller {{create_user_link}}.
       register now: Opret nu
       remember: "Husk mig:"
       title: Log på
@@ -1414,9 +1435,9 @@ da:
       notice email on way: Synd du har glemt den, men en e-mail er på vej så du kan snart indstille en ny.
       title: Glemt adgangskode
     make_friend: 
-      already_a_friend: Du er allerede ven med {{name}}.
-      failed: Desværre, kunne ikke tilføje {{name}} som din ven.
-      success: "{{name}} er nu din ven."
+      already_a_friend: Du er allerede ven med %{name}.
+      failed: Desværre, kunne ikke tilføje %{name} som din ven.
+      success: "%{name} er nu din ven."
     new: 
       confirm email address: "Bekræft e-mail-adresse:"
       confirm password: "Bekræft adgangskode:"
@@ -1426,7 +1447,7 @@ da:
       display name description: Dit offentligt synlige brugernavn. Du kan ændre dette senere i indstillingerne.
       email address: "E-mail-adresse:"
       fill_form: Udfyld felterne, og vi sender dig en hurtig email til at aktivere din konto.
-      flash create success message: Tak for din tilmelding. Vi har sendt en bekræftelses-email til {{email}}, og så snart du har bekræftet din konto, kan du gå i gang med kortlægningen.<br /><br />Hvis du bruger et antispam-system som sender bekræftelsesforespørgsler, så sørg for at du har hvidlistet webmaster@openstreetmap.org da vi ikke kan svare på den slags forespørgsler.
+      flash create success message: Tak for din tilmelding. Vi har sendt en bekræftelses-email til %{email}, og så snart du har bekræftet din konto, kan du gå i gang med kortlægningen.<br /><br />Hvis du bruger et antispam-system som sender bekræftelsesforespørgsler, så sørg for at du har hvidlistet webmaster@openstreetmap.org da vi ikke kan svare på den slags forespørgsler.
       heading: Opret konto
       license_agreement: Når du bekræfter din konto, skal du acceptere <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">bidragyder-betingelserne</a>.
       no_auto_account_create: Vi kan desværre ikke oprette en konto automatisk for dig pt.
@@ -1435,28 +1456,28 @@ da:
       terms accepted: Tak for at du accepterer de nye bidragyder-betingelser!
       title: Opret konto
     no_such_user: 
-      body: Der findes desværre ingen bruger ved navn {{user}}. Tjek venligst stavningen, ellers kan linket du trykkede på være forkert.
-      heading: Brugeren {{user}} findes ikke
+      body: Der findes desværre ingen bruger ved navn %{user}. Tjek venligst stavningen, ellers kan linket du trykkede på være forkert.
+      heading: Brugeren %{user} findes ikke
       title: Ingen sådan bruger
     popup: 
       friend: Ven
       nearby mapper: Bruger i nærheden
       your location: Din position
     remove_friend: 
-      not_a_friend: "{{name}} er ikke en af dine venner."
-      success: "{{name}} blev fjernet fra din liste af venner."
+      not_a_friend: "%{name} er ikke en af dine venner."
+      success: "%{name} blev fjernet fra din liste af venner."
     reset_password: 
       confirm password: "Bekræft adgangskode:"
       flash changed: Din adgangskode er ændret.
       flash token bad: Kunne ikke finde denne nøgle, prøv at kontrollere URL'en?
-      heading: Nulstil adgangskode for {{user}}
+      heading: Nulstil adgangskode for %{user}
       password: "Adgangskode:"
       reset: Nulstil adgangskode
       title: Nulstil adgangskode
     set_home: 
       flash success: Hjemmeposition gemt
     suspended: 
-      body: "<p>\n Beklager, din konto er automatisk blevet suspenderet på grund af mistænkelig aktivitet. \n</p>\n<p>\n Denne beslutning vil blive gennemgået af en administrator snarest, eller du kan kontakte {{webmaster}} hvis du ønsker at drøfte det.\n</p>"
+      body: "<p>\n Beklager, din konto er automatisk blevet suspenderet på grund af mistænkelig aktivitet. \n</p>\n<p>\n Denne beslutning vil blive gennemgået af en administrator snarest, eller du kan kontakte %{webmaster} hvis du ønsker at drøfte det.\n</p>"
       heading: Konto suspenderet
       title: Konto suspenderet
       webmaster: webmaster
@@ -1473,10 +1494,11 @@ da:
       legale_select: "Vælg dit bopælsland:"
       read and accept: Læs aftalen nedenfor og tryk på "Accepter" for at bekræfte at du accepterer betingelserne i denne aftale for dine eksisterende og fremtidige bidrag.
       title: Vilkår for bidragydere
+      you need to accept or decline: Læs og godkend eller afvis de nye bidragyder-betingelser for at fortsætte.
     view: 
       activate_user: aktiver denne bruger
       add as friend: tilføj som ven
-      ago: ({{time_in_words_ago}} siden)
+      ago: (%{time_in_words_ago} siden)
       block_history: vis tildelte blokeringer
       blocks by me: blokeringer udført af mig
       blocks on me: mine blokeringer
@@ -1491,10 +1513,10 @@ da:
       edits: ændringer
       email address: "E-mail-adresse:"
       hide_user: skjul denne bruger
-      if set location: Hvis du indstiller din position, viser der sig et pænt kort her. Du kan indstille din hjemmeposition på din {{settings_link}}-side.
-      km away: "{{count}}km væk"
-      latest edit: "Seneste ændring {{ago}}:"
-      m away: "{{count}} m væk"
+      if set location: Hvis du indstiller din position, viser der sig et pænt kort her. Du kan indstille din hjemmeposition på din %{settings_link}-side.
+      km away: "%{count}km væk"
+      latest edit: "Seneste ændring %{ago}:"
+      m away: "%{count} m væk"
       mapper since: "Kortlægger siden:"
       moderator_history: vis uddelte blokeringer
       my diary: min blog
@@ -1529,7 +1551,7 @@ da:
       back: Vis alle blokke
       show: Vis denne blok
     helper: 
-      time_past: Sluttede {{time}} siden.
+      time_past: Sluttede %{time} siden.
     new: 
       back: Vis alle blokke
       submit: Opret blok
@@ -1537,22 +1559,22 @@ da:
       back: Tilbage til indeks
     show: 
       confirm: Er du sikker?
-      time_past: Sluttede {{time}} siden
+      time_past: Sluttede %{time} siden
   user_role: 
     filter: 
-      already_has_role: Brugeren har allerede rollen {{role}}.
-      doesnt_have_role: Brugeren har ikke rollen {{role}}.
-      not_a_role: String'en "{{role}}" er ikke en gyldig rolle.
+      already_has_role: Brugeren har allerede rollen %{role}.
+      doesnt_have_role: Brugeren har ikke rollen %{role}.
+      not_a_role: String'en "%{role}" er ikke en gyldig rolle.
       not_an_administrator: Kun administratorer kan forvalte brugerroller, og du er ikke en administrator.
     grant: 
-      are_you_sure: Er du sikker på du vil tildele rollen "{{role}}" til brugeren "{{name}}"?
+      are_you_sure: Er du sikker på du vil tildele rollen "%{role}" til brugeren "%{name}"?
       confirm: Bekræft
-      fail: Kunne ikke give rollen {{role}} til brugeren {{name}}. Kontroller at brugeren og rollen begge er gyldige.
+      fail: Kunne ikke give rollen %{role} til brugeren %{name}. Kontroller at brugeren og rollen begge er gyldige.
       heading: Bekræft rolletildeling
       title: Bekræft rolletildeling
     revoke: 
-      are_you_sure: Er du sikker på du vil fratage rollen "{{role}}" fra brugeren "{{name}}"?
+      are_you_sure: Er du sikker på du vil fratage rollen "%{role}" fra brugeren "%{name}"?
       confirm: Bekræft
-      fail: Kunne ikke fratage rollen {{role}} fra brugeren {{name}}. Kontroller at brugeren og rollen begge er gyldige.
+      fail: Kunne ikke fratage rollen %{role} fra brugeren %{name}. Kontroller at brugeren og rollen begge er gyldige.
       heading: Bekræft fratagelse af rolle
       title: Bekræft fratagelse af rolle

@@ -1,4 +1,4 @@
-<%= user_image @this_user, :style => "float: right" %>
+<%= user_image @this_user %>
 
 <h2><%= h(@this_user.display_name) %>
 
@@ -41,7 +41,7 @@
     |
     <%= link_to t('user.view.edits'), :controller => 'changeset', :action => 'list', :display_name => @this_user.display_name %>
     |
-    <%= link_to t('user.view.traces'), :controller => 'trace', :action => 'view', :display_name => @this_user.display_name %>
+    <%= link_to t('user.view.traces'), :controller => 'trace', :action => 'list', :display_name => @this_user.display_name %>
     |
     <% if @user and @user.is_friends_with?(@this_user) %>
       <%= link_to t('user.view.remove as friend'), :controller => 'user', :action => 'remove_friend', :display_name => @this_user.display_name %>
@@ -78,23 +78,33 @@
 
 <p><b><%= t 'user.view.mapper since' %></b> <%= l @this_user.creation_time, :format => :friendly %> <%= t 'user.view.ago', :time_in_words_ago => time_ago_in_words(@this_user.creation_time) %></p>
 
-<% if @user and @user.administrator? %>
+<p><b><%= t 'user.view.ct status' %></b>
+<% if not @this_user.terms_agreed.nil? -%>
+<%= t 'user.view.ct accepted', :ago =>time_ago_in_words(@this_user.terms_agreed)  %> 
+<% elsif not @this_user.terms_seen? -%>
+<%= t 'user.view.ct undecided' %>
+<% else -%>
+<%= t 'user.view.ct declined' %>
+<% end -%>
+</p>
+
+<% if @user and @user.administrator? -%>
   <p><b><%= t 'user.view.email address' %></b> <%= @this_user.email %></p>  
+  <% unless @this_user.creation_ip.nil? -%>
   <p><b><%= t 'user.view.created from' %></b> <%= @this_user.creation_ip %></p>
+  <% end -%>
   <p><b><%= t 'user.view.status' %></b> <%= @this_user.status.capitalize %></p>
   <p><b><%= t 'user.view.spam score' %></b> <%= @this_user.spam_score %></p>
-<% end %>
+<% end -%>
 
 <h3><%= t 'user.view.description' %></h3>
 
 <div id="description"><%= htmlize(@this_user.description) %></div>
 
 <% if @user and @this_user.id == @user.id %>
-  <div id="map" class="user_map" style="border: 1px solid black; position: relative; width: 400px; height: 400px; float: right;">
+  <div id="map" class="user_map">
     <% if @this_user.home_lat.nil? or @this_user.home_lon.nil? %>
-      <p style="position: absolute; top: 0; bottom: 0; width: 90%; height: 30%; margin: auto 5%">
-        <%= t 'user.view.if set location', :settings_link => (link_to t('user.view.settings_link_text'), :controller => 'user', :action => 'account', :display_name => @user.display_name) %>
-      </p>
+      <p id="no_home_location"><%= raw(t 'user.view.if set location', :settings_link => (link_to t('user.view.settings_link_text'), :controller => 'user', :action => 'account', :display_name => @user.display_name)) %></p>
     <% else %>
       <%= render :partial => 'map', :locals => { :setting_location => false, :show_other_users => true } %>
     <% end %>

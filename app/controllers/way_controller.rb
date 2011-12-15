@@ -1,6 +1,7 @@
 class WayController < ApplicationController
   require 'xml/libxml'
 
+  skip_before_filter :verify_authenticity_token
   before_filter :authorize, :only => [:create, :update, :delete]
   before_filter :require_allow_write_api, :only => [:create, :update, :delete]
   before_filter :require_public_data, :only => [:create, :update, :delete]
@@ -25,7 +26,7 @@ class WayController < ApplicationController
   def read
     way = Way.find(params[:id])
     
-    response.headers['Last-Modified'] = way.timestamp.rfc822
+    response.last_modified = way.timestamp
     
     if way.visible
       render :text => way.to_xml.to_s, :content_type => "text/xml"
@@ -60,7 +61,7 @@ class WayController < ApplicationController
   end
 
   def full
-    way = Way.find(params[:id], :include => {:nodes => :node_tags})
+    way = Way.includes(:nodes => :node_tags).find(params[:id])
     
     if way.visible
       changeset_cache = {}
@@ -105,9 +106,7 @@ class WayController < ApplicationController
   # :id parameter. note that this used to return deleted ways as well, but
   # this seemed not to be the expected behaviour, so it was removed.
   def ways_for_node
-    wayids = WayNode.find(:all, 
-                          :conditions => ['node_id = ?', params[:id]]
-                          ).collect { |ws| ws.id[0] }.uniq
+    wayids = WayNode.where(:node_id => params[:id]).collect { |ws| ws.id[0] }.uniq
 
     doc = OSM::API.new.get_xml_doc
 

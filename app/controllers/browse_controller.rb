@@ -12,8 +12,8 @@ class BrowseController < ApplicationController
   def relation
     @type = "relation"
     @relation = Relation.find(params[:id])
-    @next = Relation.find(:first, :order => "id ASC", :conditions => [ "visible = true AND id > :id", { :id => @relation.id }] )
-    @prev = Relation.find(:first, :order => "id DESC", :conditions => [ "visible = true AND id < :id", { :id => @relation.id }] )
+    @next = Relation.visible.where("id > ?", @relation.id).order("id ASC").first
+    @prev = Relation.visible.where("id < ?", @relation.id).order("id DESC").first
   rescue ActiveRecord::RecordNotFound
     render :action => "not_found", :status => :not_found
   end
@@ -28,8 +28,8 @@ class BrowseController < ApplicationController
   def way
     @type = "way"
     @way = Way.find(params[:id], :include => [:way_tags, {:changeset => :user}, {:nodes => [:node_tags, {:ways => :way_tags}]}, :containing_relation_members])
-    @next = Way.find(:first, :order => "id ASC", :conditions => [ "visible = true AND id > :id", { :id => @way.id }] )
-    @prev = Way.find(:first, :order => "id DESC", :conditions => [ "visible = true AND id < :id", { :id => @way.id }] )
+    @next = Way.visible.where("id > ?", @way.id).order("id ASC").first
+    @prev = Way.visible.where("id < ?", @way.id).order("id DESC").first
 
     # Used for edit link, takes approx middle node of way
     @midnode = @way.nodes[@way.nodes.length/2]
@@ -47,8 +47,8 @@ class BrowseController < ApplicationController
   def node
     @type = "node"
     @node = Node.find(params[:id])
-    @next = Node.find(:first, :order => "id ASC", :conditions => [ "visible = true AND id > :id", { :id => @node.id }] )
-    @prev = Node.find(:first, :order => "id DESC", :conditions => [ "visible = true AND id < :id", { :id => @node.id }] )
+    @next = Node.visible.where("id > ?", @node.id).order("id ASC").first
+    @prev = Node.visible.where("id < ?", @node.id).order("id DESC").first
   rescue ActiveRecord::RecordNotFound
     render :action => "not_found", :status => :not_found
   end
@@ -69,12 +69,12 @@ class BrowseController < ApplicationController
     @relation_pages, @relations = paginate(:old_relations, :conditions => {:changeset_id => @changeset.id}, :per_page => 20, :parameter => 'relation_page')
       
     @title = "#{I18n.t('browse.changeset.title')} | #{@changeset.id}"
-    @next = Changeset.find(:first, :order => "id ASC", :conditions => [ "id > :id", { :id => @changeset.id }] ) 
-    @prev = Changeset.find(:first, :order => "id DESC", :conditions => [ "id < :id", { :id => @changeset.id }] )
+    @next = Changeset.where("id > ?", @changeset.id).order("id ASC").first
+    @prev = Changeset.where("id < ?", @changeset.id).order("id DESC").first
 
     if @changeset.user.data_public?
-      @next_by_user = Changeset.find(:first, :order => "id ASC", :conditions => [ "id > :id AND user_id = :user_id", { :id => @changeset.id, :user_id => @changeset.user_id }] )
-      @prev_by_user = Changeset.find(:first, :order => "id DESC", :conditions => [ "id < :id AND user_id = :user_id", { :id => @changeset.id, :user_id => @changeset.user_id }] )
+      @next_by_user = Changeset.where("user_id = ? AND id > ?", @changeset.user_id, @changeset.id).order("id ASC").first
+      @prev_by_user = Changeset.where("user_id = ? AND id < ?", @changeset.user_id, @changeset.id).order("id DESC").first
     end
   rescue ActiveRecord::RecordNotFound
     render :action => "not_found", :status => :not_found

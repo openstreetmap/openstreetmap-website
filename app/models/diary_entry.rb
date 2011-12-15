@@ -13,6 +13,8 @@ class DiaryEntry < ActiveRecord::Base
                               },
                               :order => "diary_comments.id"
 
+  scope :visible, where(:visible => true)
+
   validates_presence_of :title, :body
   validates_length_of :title, :within => 1..255
   #validates_length_of :language, :within => 2..5, :allow_nil => false

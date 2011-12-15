@@ -20,6 +20,10 @@ class DiffReader
   def initialize(data, changeset)
     @reader = XML::Reader.string(data)
     @changeset = changeset
+    # document that's (re-)used to handle elements expanded out of the
+    # diff processing stream.
+    @doc = XML::Document.new
+    @doc.root = XML::Node.new("osm")
   end
 
   ##
@@ -85,8 +89,21 @@ class DiffReader
       model = MODELS[model_name]
       raise OSM::APIBadUserInput.new("Unexpected element type #{model_name}, " +
                                      "expected node, way or relation.") if model.nil?
-      yield model, @reader.expand
+      # new in libxml-ruby >= 2, expand returns an element not associated 
+      # with a document. this means that there's no encoding parameter,
+      # which means basically nothing works.
+      expanded = @reader.expand
+
+      # create a new, empty document to hold this expanded node
+      new_node = @doc.import(expanded)
+      @doc.root << new_node
+
+      yield model, new_node
       @reader.next
+
+      # remove element from doc - it will be garbage collected and the
+      # rest of the document is re-used in the next iteration.
+      @doc.root.child.remove!
     end
   end
 

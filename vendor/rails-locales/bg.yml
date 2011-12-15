@@ -1,0 +1,298 @@
+# Full Bulgarian localization for Ruby on Rails 3+
+#
+# extracted from www.termo.bg
+# supported by Samson Behar <master.webmaster.master@gmail.com>
+# supported by Yavor Ivanov, http://github.com/YavorIvanov
+# supported by Andrew Radev, http://github.com/AndrewRadev
+# See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+bg:
+
+  # ===== Rails Specific ===========================================================================
+
+  date:
+    formats:
+      default: "%d.%m.%Y"
+      short: "%d %b"
+      long: "%d %B %Y"
+
+    day_names:
+      - неделя
+      - понеделник
+      - вторник
+      - сряда
+      - четвъртък
+      - петък
+      - събота
+    abbr_day_names:
+      - нед
+      - пон
+      - вт
+      - ср
+      - чет
+      - пет
+      - съб
+
+    # should start with nil cause there is no 0-th month
+    month_names:
+      - ~
+      - януари
+      - февруари
+      - март
+      - април
+      - май
+      - юни
+      - юли
+      - август
+      - септември
+      - октомври
+      - ноември
+      - декември
+    abbr_month_names:
+      - ~
+      - яну.
+      - фев.
+      - март
+      - апр.
+      - май
+      - юни
+      - юли
+      - авг.
+      - сеп.
+      - окт.
+      - ноем.
+      - дек.
+    order:
+      - :day
+      - :month
+      - :year
+
+  time:
+    formats:
+      default: "%a, %d %b %Y, %H:%M:%S %z"
+      short: "%d %b, %H:%M"
+      long: "%d %B %Y, %H:%M"
+    am: "преди обяд"
+    pm: "следобед"
+
+  support:
+    array:
+      words_connector: ", "
+      two_words_connector: " и "
+      last_word_connector: " и "
+
+    select:
+      prompt: "Моля отбележете"
+
+  number:
+    format:
+      separator: ","
+      delimiter: " "
+      precision: 3
+      significant: false
+      strip_insignificant_zeros: false
+
+    currency:
+      format:
+        format: "%n %u"
+        unit: "лв."
+        separator: ","
+        delimiter: " "
+        precision: 2
+        significant: false
+        strip_insignificant_zeros: false
+
+    percentage:
+      format:
+        delimiter: ""
+
+    precision:
+      format:
+        delimiter: ""
+
+    human:
+      format:
+        delimiter: ""
+        precision: 1
+        significant: true
+        strip_insignificant_zeros: true
+      storage_units:
+        # Storage units output formatting.
+        # %u is the storage unit, %n is the number (default: 2 MB)
+        format: "%n %u"
+        units:
+          byte:
+            one:   "Байт"
+            other: "Байта"
+          kb: "КБ"
+          mb: "МБ"
+          gb: "ГБ"
+          tb: "ТБ"
+      decimal_units:
+        format: "%n %u"
+        units:
+          unit: ""
+          thousand: хиляди
+          million: милиона
+          billion: милиарда
+          trillion: трилиона
+          quadrillion: квадрилиона
+
+  datetime:
+    distance_in_words:
+      half_a_minute: "половин минута"
+      less_than_x_seconds:
+        one:   "по-малко от 1 секунда"
+        other: "по-малко от %{count} секунди"
+      x_seconds:
+        one:   "1 секунда"
+        other: "%{count} секунди"
+      less_than_x_minutes:
+        one:   "по-малко от 1 минута"
+        other: "по-малко от %{count} минути"
+      x_minutes:
+        one:   "1 минута"
+        other: "%{count} минути"
+      about_x_hours:
+        one:   "около 1 час"
+        other: "около %{count} часа"
+      x_days:
+        one:   "1 ден"
+        other: "%{count} дни"
+      about_x_months:
+        one:   "около 1 месец"
+        other: "около %{count} месеца"
+      x_months:
+        one:   "1 месец"
+        other: "%{count} месеца"
+      about_x_years:
+        one:   "около 1 година"
+        other: "около %{count} години"
+      over_x_years:
+        one:   "над 1 година"
+        other: "над %{count} години"
+      almost_x_years:
+        one:   "почти 1 година"
+        other: "почти %{count} години"
+    prompts:
+      year:   "Година"
+      month:  "Месец"
+      day:    "Ден"
+      hour:   "Час"
+      minute: "Минута"
+      second: "Секунда"
+
+  helpers:
+    select:
+      prompt: "Моля отбележете"
+
+    submit:
+      create: 'Създай %{model}'
+      update: 'Обнови %{model}'
+      submit: 'Запази %{model}'
+
+  errors:
+    format: "%{attribute} %{message}"
+
+    messages: &errors_messages
+      inclusion: "съдържа непредвидена стойност"
+      exclusion: "съдържа предварително зададена стойност"
+      invalid: "съдържа невярна стойност"
+      confirmation: "не съответства на потвърждението"
+      accepted: "трябва да се потвърди"
+      empty: "не може да е празно"
+      blank: "не може да е без стойност"
+      too_long: "е прекаленo дълго (не може да е повече от %{count} символа)"
+      too_short: "е прекалено късо (не може да бъде по-малко от %{count} символа)"
+      wrong_length: "е с грешна дължина (трябва да е с дължина, равна на %{count} символа)"
+      not_a_number: "не е число"
+      not_an_integer: "не е цяло число"
+      greater_than: "трябва да има стойност, по-голяма от %{count}"
+      greater_than_or_equal_to: "трябва да има стойност, по-голяма или равна на %{count}"
+      equal_to: "трябва да има стойност, равна на %{count}"
+      less_than: "трябва да има стойност, по-малка от %{count}"
+      less_than_or_equal_to: "трябва да има стойност, по-голяма или равна на %{count}"
+      odd: "трябва да е четно"
+      even: "трябва да е нечетно"
+
+  activerecord:
+    errors:
+      template:
+        header:
+          one:    "%{model}: записа е неуспешен заради 1 грешка"
+          other:  "%{model}: записа е неуспешен заради %{count} грешки"
+        body: "Възникнаха проблеми със следните полета:"
+
+      messages:
+        taken: "вече съществува"
+        record_invalid: "имаше грешки: %{errors}"
+        <<: *errors_messages
+
+      full_messages:
+        format: "%{attribute} %{message}"
+
+  # ===== I18n Specific ============================================================================
+
+  i18n:
+    transliterate:
+      rule:
+        а: "a"
+        А: "A"
+        б: "b"
+        Б: "B"
+        в: "v"
+        В: "V"
+        г: "g"
+        Г: "G"
+        д: "d"
+        Д: "D"
+        е: "e"
+        Е: "E"
+        ж: "zh"
+        Ж: "Zh"
+        з: "z"
+        З: "Z"
+        и: "i"
+        И: "I"
+        й: "y"
+        Й: "Y"
+        к: "k"
+        К: "K"
+        л: "l"
+        Л: "L"
+        м: "m"
+        М: "M"
+        н: "n"
+        Н: "N"
+        о: "o"
+        О: "O"
+        п: "p"
+        П: "P"
+        р: "r"
+        Р: "R"
+        с: "s"
+        С: "S"
+        т: "t"
+        Т: "T"
+        у: "u"
+        У: "U"
+        ф: "f"
+        Ф: "F"
+        х: "h"
+        Х: "H"
+        ц: "ts"
+        Ц: "Ts"
+        ч: "ch"
+        Ч: "Ch"
+        ш: "sh"
+        Ш: "Sh"
+        щ: "sht"
+        Щ: "Sht"
+        ъ: "a"
+        Ъ: "A"
+        ь: "y"
+        Ь: "Y"
+        ю: "yu"
+        Ю: "Yu"
+        я: "ya"
+        Я: "Ya"

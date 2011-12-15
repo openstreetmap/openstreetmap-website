@@ -1,6 +1,8 @@
 # Messages for Korean (한국어)
 # Exported from translatewiki.net
-# Export driver: syck
+# Export driver: syck-pecl
+# Author: Freebiekr
+# Author: Wrightbus
 ko: 
   activerecord: 
     attributes: 
@@ -69,18 +71,18 @@ ko:
       way_tag: 길태그
   browse: 
     changeset: 
-      changeset: "변경셋: {{id}}"
+      changeset: "변경셋: %{id}"
       changesetxml: 변경셋 XML
-      download: 내려받기 {{changeset_xml_link}} 혹은 {{osmchange_xml_link}}
+      download: 내려받기 %{changeset_xml_link} 혹은 %{osmchange_xml_link}
       title: 변경셋
     changeset_details: 
       belongs_to: "소속:"
       bounding_box: "경계:"
       closed_at: "종료일:"
       created_at: "생성일:"
-      has_nodes: "는(은) 다음 {{count}} 개의 노드를 가지고 있습니다:"
-      has_relations: "는(은) 다음 {{count}} 개의 관계를 가지고 있습니다:"
-      has_ways: "는(은) 다음 {{count}} 개의 길을 가지고 있습니다:"
+      has_nodes: "는(은) 다음 %{count} 개의 노드를 가지고 있습니다:"
+      has_relations: "는(은) 다음 %{count} 개의 관계를 가지고 있습니다:"
+      has_ways: "는(은) 다음 %{count} 개의 길을 가지고 있습니다:"
       no_bounding_box: 이 변경셋을 위해 저장된 경계가 없습니다.
       show_area_box: 영역 표시
     common_details: 
@@ -88,16 +90,16 @@ ko:
       edited_by: "편집자:"
       version: "버젼:"
     containing_relation: 
-      entry: 관계 {{relation_name}}
-      entry_role: 관계 {{relation_name}} (as {{relation_role}})
+      entry: 관계 %{relation_name}
+      entry_role: 관계 %{relation_name} (as %{relation_role})
     map: 
       deleted: 삭제됨
       loading: 불러 오는 중...
     node: 
-      download: "{{download_xml_link}} or {{view_history_link}}"
+      download: "%{download_xml_link} or %{view_history_link}"
       download_xml: XML 내려받기
       node: 노드
-      node_title: "노드: {{node_name}}"
+      node_title: "노드: %{node_name}"
       view_history: 이력 보기
     node_details: 
       coordinates: "좌표:"
@@ -106,7 +108,7 @@ ko:
       node_history: 노드 이력
       view_details: 세부 사항 표시
     not_found: 
-      sorry: 죄송합니다. {{id}}인 {{type}}를 발견하지 못 했습니다.
+      sorry: 죄송합니다. %{id}인 %{type}를 발견하지 못 했습니다.
       type: 
         node: 노드
         relation: 관계
@@ -114,11 +116,11 @@ ko:
     relation: 
       download_xml: XML 내려받기
       relation: 관계
-      relation_title: "관계: {{relation_name}}"
+      relation_title: "관계: %{relation_name}"
       view_history: 이력 보기
     relation_history: 
       relation_history: 관계 이력
-      relation_history_title: "관계 이력: {{relation_name}}"
+      relation_history_title: "관계 이력: %{relation_name}"
     start: 
       manually_select: 다른 지역 수동 선택
       view_data: 현재 지도 표기로 정보 보기
@@ -149,28 +151,28 @@ ko:
           way: 길
       private_user: 개인 유저
       show_history: 이력 보기
-      unable_to_load_size: "불러 오기 실패: 표시하려는 지역([[bbox_size]])의 설정 박스가 너무 큽니다. {{max_bbox_size}}까지 표시할 수 있습니다."
+      unable_to_load_size: "불러 오기 실패: 표시하려는 지역([[bbox_size]])의 설정 박스가 너무 큽니다. %{max_bbox_size}까지 표시할 수 있습니다."
       wait: 잠시만 기다려 주세요...
       zoom_or_select: 확대 또는 보고 싶은 지도의 지역을 선택하세요
     tag_details: 
       tags: "태그들:"
     way: 
-      download: "{{download_xml_link}} or {{view_history_link}}"
+      download: "%{download_xml_link} or %{view_history_link}"
       download_xml: XML 내려받기
       view_history: 이력 보기
       way: 길
-      way_title: "길이력: {{way_name}}"
+      way_title: "길이력: %{way_name}"
     way_details: 
       also_part_of: 
-        one: "{{related_ways}}의 일부"
-        other: "{{related_ways}}의 일부"
+        one: "%{related_ways}의 일부"
+        other: "%{related_ways}의 일부"
       nodes: "노드:"
       part_of: "포함되는 길:"
     way_history: 
       download_xml: XML 내려받기
       view_details: 세부 사항 표시
       way_history: 길 이력
-      way_history_title: "길 이력: {{way_name}}"
+      way_history_title: "길 이력: %{way_name}"
   changeset: 
     changeset: 
       anonymous: 익명
@@ -186,10 +188,12 @@ ko:
       saved_at: 저장 시간
       user: 사용자
   diary_entry: 
+    diary_comment: 
+      hide_link: 이 댓글 숨기기
     diary_entry: 
       comment_count: 
         one: 댓글 한 개
-        other: 댓글 {{count}} 개
+        other: 댓글 %{count} 개
       comment_link: 이 항목에 댓글 남기기
       edit_link: 이 항목 수정
       reply_link: 이 항목에 답변하기
@@ -205,21 +209,21 @@ ko:
       title: 일지 항목 수정
       use_map_link: 지도 사용
     list: 
-      in_language_title: "{{language}} 일지 항목"
+      in_language_title: "%{language} 일지 항목"
       new: 새 일지 항목
       newer_entries: 다음 항목들
       older_entries: 이전 항목들
       title: 사용자 일지
-      user_title: "{{user}} 일지"
+      user_title: "%{user} 일지"
     new: 
       title: 새 일지 항목
     view: 
       leave_a_comment: 댓들 남기기
       login: 로그인
-      login_to_leave_a_comment: 댓글을 남기려면 로그인해야 합니다. {{login_link}}
+      login_to_leave_a_comment: 댓글을 남기려면 로그인해야 합니다. %{login_link}
       save_button: 저장
-      title: 사용자 일지 | {{user}}
-      user_title: "{{user}} 일지"
+      title: 사용자 일지 | %{user}
+      user_title: "%{user} 일지"
   export: 
     start: 
       area_to_export: 지역 추출
@@ -241,6 +245,15 @@ ko:
       export: 추출
       manually_select: 다른 지역 선택
       view_larger_map: 큰 지도 보기
+  geocoder: 
+    search_osm_nominatim: 
+      prefix: 
+        amenity: 
+          fire_hydrant: 소화전
+        place: 
+          airport: 공항
+        shop: 
+          insurance: 보험
   layouts: 
     donate_link_text: 기부
     edit: 편집
@@ -248,13 +261,11 @@ ko:
     export_tooltip: 맵 정보 추출
     gps_traces: GPS 추적
     gps_traces_tooltip: 추적 설정
-    help_wiki: 도움말 &amp; 위키
-    help_wiki_tooltip: 프로젝트 도움말 &amp; 위키
     history: 이력
-    inbox: 받은 쪽지함 ({{count}})
+    inbox: 받은 쪽지함 (%{count})
     inbox_tooltip: 
       one: 한 개의 읽지 않은 쪽지가 있습니다.
-      other: "{{count}} 개의 읽지 않은 쪽지가 있습니다."
+      other: "%{count} 개의 읽지 않은 쪽지가 있습니다."
       zero: 읽지 않은 쪽지가 없습니다
     log_in: 로그인
     log_in_tooltip: 기존 계정으로 로그인
@@ -262,27 +273,25 @@ ko:
     logout_tooltip: 로그 아웃
     make_a_donation: 
       text: 기부하기
-    news_blog: 새소실 블로그
     osm_offline: 데이터베이스 점검을 위해 OpenStreetMap 의 데이터가 현재 오프라인입니다.
     osm_read_only: 데이터베이스 점검을 위해 OpenStreetMap 의 데이터가 현재 읽기 전용입니다.
-    shop_tooltip: Shop with branded OpenStreetMap
     sign_up: 가입하기
     sign_up_tooltip: 수정가능한 계좌 신규 등록
     user_diaries: 사용자 일지
     user_diaries_tooltip: 사용자 일지 보기
     view: 보기
     view_tooltip: 지도 보기
-    welcome_user: "{{user_link}}님 환영합니다."
+    welcome_user: "%{user_link}님 환영합니다."
   message: 
     inbox: 
       date: 날짜
       my_inbox: 내 쪽지함
-      no_messages_yet: 받은 쪽지가 없습니다. {{people_mapping_nearby_link}}에서 친구를 찾아보세요.
+      no_messages_yet: 받은 쪽지가 없습니다. %{people_mapping_nearby_link}에서 친구를 찾아보세요.
       outbox: 보낸 쪽지함
       people_mapping_nearby: 근처를 지도 입력한 사람들
       subject: 제목
       title: 받은 쪽지함
-      you_have: "{{new_count}} 개의 새 쪽지와 {{old_count}} 개의 읽은 쪽지가 있습니다."
+      you_have: "%{new_count} 개의 새 쪽지와 %{old_count} 개의 읽은 쪽지가 있습니다."
     message_summary: 
       read_button: 읽음으로 표시
       reply_button: 답장
@@ -292,7 +301,7 @@ ko:
       body: 내용
       message_sent: 쪽지가 전송되었습니다.
       send_button: 보내기
-      send_message_to: "{{name}}에게 새 쪽지 보내기"
+      send_message_to: "%{name}에게 새 쪽지 보내기"
       subject: 제목
       title: 새 쪽지
     no_such_user: 
@@ -302,31 +311,30 @@ ko:
     outbox: 
       date: 날짜
       inbox: 받은 편지함
-      no_sent_messages: 받은 쪽지가 없습니다. {{people_mapping_nearby_link}}에서 친구를 찾아보세요.
+      no_sent_messages: 받은 쪽지가 없습니다. %{people_mapping_nearby_link}에서 친구를 찾아보세요.
       outbox: 보낸 편지함
       people_mapping_nearby: 근처를 지도 입력한 사람들
       subject: 제목
       title: 보낸 쪽지함
-      you_have_sent_messages: "{{count}} 개의 쪽지를 보냈습니다."
+      you_have_sent_messages: "%{count} 개의 쪽지를 보냈습니다."
   notifier: 
     diary_comment_notification: 
-      footer: "{{readurl}}에서도 댓글을 확인할 수 있습니다. {{commenturl}}에서 댓글을 남기거나 {{replyurl}}에서 답글을 남길 수 있습니다."
-      header: "{{from_user}} 님이 {{subject}} 제목의 OpenStreetMap 일지 항목에 댓글을 남겼습니다.:"
-      hi: "{{to_user}}님 안녕하세요."
-      subject: "[OpenStreetMap] {{user}} 님이 당신의 일지 항목에 댓글을 남겼습니다."
+      footer: "%{readurl}에서도 댓글을 확인할 수 있습니다. %{commenturl}에서 댓글을 남기거나 %{replyurl}에서 답글을 남길 수 있습니다."
+      header: "%{from_user} 님이 %{subject} 제목의 OpenStreetMap 일지 항목에 댓글을 남겼습니다.:"
+      hi: "%{to_user}님 안녕하세요."
+      subject: "[OpenStreetMap] %{user} 님이 당신의 일지 항목에 댓글을 남겼습니다."
     friend_notification: 
-      had_added_you: "{{user}} 님이 당신을 OpenStreetMap 친구로 추가하였습니다."
-      see_their_profile: "{{userurl}} 에서 프로필을 확인하고 원하면 친구로 등록할 수 있습니다."
-      subject: "[OpenStreetMap] {{user}} 님이 당신을 친구로 추가하였습니다."
+      had_added_you: "%{user} 님이 당신을 OpenStreetMap 친구로 추가하였습니다."
+      see_their_profile: "%{userurl} 에서 프로필을 확인하고 원하면 친구로 등록할 수 있습니다."
+      subject: "[OpenStreetMap] %{user} 님이 당신을 친구로 추가하였습니다."
     gpx_notification: 
       success: 
-        loaded_successfully: "loaded successfully with {{trace_points}} out of a possible\n{{possible_points}} points."
+        loaded_successfully: "loaded successfully with %{trace_points} out of a possible\n%{possible_points} points."
     message_notification: 
-      footer1: "{{readurl}} 에서도 쪽지를 확인할 수 있습니다."
-      footer2: "{{replyurl}} 에서 답장하실 수 있습니다."
-      header: "{{from_user}} 님이 OpenStreetMap을 통해 {{subject}} 쪽지를 보냈습니다."
-      hi: "{{to_user}}님 안녕하세요."
-      subject: "[OpenStreetMap] {{user}}이 새 쪽지를 보냈습니다."
+      footer1: "%{readurl} 에서도 쪽지를 확인할 수 있습니다."
+      footer2: "%{replyurl} 에서 답장하실 수 있습니다."
+      header: "%{from_user} 님이 OpenStreetMap을 통해 %{subject} 쪽지를 보냈습니다."
+      hi: "%{to_user}님 안녕하세요."
   site: 
     edit: 
       potlatch_unsaved_changes: You have unsaved changes. (To save in Potlatch, you should deselect the current way or point, if editing in list mode, or click save if you have a save button.)
@@ -346,3 +354,7 @@ ko:
       title: lost password
     reset_password: 
       title: reset password
+    terms: 
+      legale_names: 
+        france: 프랑스
+        italy: 이탈리아

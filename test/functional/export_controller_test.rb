@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 class ExportControllerTest < ActionController::TestCase
   # Replace this with your real tests.
   def test_start
-    get :start
+    xhr :get, :start
     assert_response :success
     assert_template 'start'
   end

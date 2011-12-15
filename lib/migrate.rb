@@ -198,7 +198,13 @@ module ActiveRecord
         else
           index_type = options
         end
-        quoted_column_names = column_names.map { |e| quote_column_name(e) }.join(", ")
+
+        quoted_column_names = column_names.map { |e| quote_column_name(e) }
+        if Hash === options and options[:lowercase]
+          quoted_column_names = quoted_column_names.map { |e| "LOWER(#{e})" }
+        end
+        quoted_column_names = quoted_column_names.join(", ")
+
         execute "CREATE #{index_type} INDEX #{quote_column_name(index_name)} ON #{quote_table_name(table_name)} USING #{index_method} (#{quoted_column_names})"
       end
     end

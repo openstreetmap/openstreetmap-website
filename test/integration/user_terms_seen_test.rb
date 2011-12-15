@@ -31,7 +31,7 @@ class UserTermsSeenTest < ActionController::IntegrationTest
       get_via_redirect "/login"
       assert_response :success
       assert_template 'user/login'
-      post "/login", {'user[email]' => user.email, 'user[password]' => 'test', :referer => "/"}
+      post "/login", {'username' => user.email, 'password' => 'test', :referer => "/"}
       assert_response :redirect
       # but now we need to look at the terms
       assert_redirected_to "controller" => "user", "action" => "terms", :referer => "/"
@@ -57,7 +57,7 @@ class UserTermsSeenTest < ActionController::IntegrationTest
       get_via_redirect "/login"
       assert_response :success
       assert_template 'user/login'
-      post "/login", {'user[email]' => user.email, 'user[password]' => 'test', :referer => "/"}
+      post "/login", {'username' => user.email, 'password' => 'test', :referer => "/"}
       assert_response :redirect
       # but now we need to look at the terms
       assert_redirected_to "controller" => "user", "action" => "terms", :referer => "/"
@@ -70,7 +70,4 @@ class UserTermsSeenTest < ActionController::IntegrationTest
       assert_redirected_to "controller" => "user", "action" => "terms", :referer => "/traces/mine"
     end
   end
-
 end
-
-    

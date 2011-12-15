@@ -1,6 +1,6 @@
 atom_feed(:language => I18n.locale, :schema_date => 2009,
           :id => url_for(params.merge({ :only_path => false })),
-          :root_url => url_for(params.merge({ :only_path => false, :format => nil })),
+          :root_url => url_for(params.merge({ :action => :list, :format => nil, :only_path => false })),
           "xmlns:georss" => "http://www.georss.org/georss") do |feed|
   feed.title @title
 
@@ -78,15 +78,12 @@ atom_feed(:language => I18n.locale, :schema_date => 2009,
         end
       end
 
-      unless changeset.min_lat.nil?
-        minlon = changeset.min_lon/GeoRecord::SCALE.to_f
-        minlat = changeset.min_lat/GeoRecord::SCALE.to_f
-        maxlon = changeset.max_lon/GeoRecord::SCALE.to_f
-        maxlat = changeset.max_lat/GeoRecord::SCALE.to_f
+      if changeset.has_valid_bbox?
+        bbox = changeset.bbox.to_unscaled
 
         # See http://georss.org/Encodings#Geometry
-        lower_corner = "#{minlat} #{minlon}"
-        upper_corner = "#{maxlat} #{maxlon}"
+        lower_corner = "#{bbox.min_lat} #{bbox.min_lon}"
+        upper_corner = "#{bbox.max_lat} #{bbox.max_lon}"
 
         feed.georss :box, lower_corner + " " + upper_corner
       end

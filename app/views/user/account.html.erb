@@ -1,6 +1,6 @@
 <h2><%= t 'user.account.my settings' %></h2>
 <%= error_messages_for 'user' %>
-<% form_for :user, :html => { :multipart => true } do |f| %>
+<%= form_for :user, :html => { :multipart => true } do |f| %>
 <table id="accountForm">
   <tr>
     <td class="fieldName"><%= t 'user.new.display name' %></td>
@@ -14,7 +14,7 @@
 
   <tr>
     <td class="fieldName"><%= t 'user.account.new email address' %></td>
-    <td><%= f.text_field :new_email, {:size => 50, :maxlength => 255} %> <span class="minorNote"><%= t 'user.account.email never displayed publicly' %></span></td>
+    <td><%= f.email_field :new_email, {:size => 50, :maxlength => 255} %> <span class="minorNote"><%= t 'user.account.email never displayed publicly' %></span></td>
   </tr>
 
   <tr>
@@ -28,7 +28,12 @@
   </tr>
 
   <tr>
-    <td class="fieldName" valign="top"><%= t 'user.account.public editing.heading' %></td>
+    <td class="fieldName" ><%= t 'user.account.openid.openid' %></td>
+    <td><%= f.url_field :openid_url, {:id => "openid_url", :class => "openid_url"} %> <span class="minorNote">(<a href="<%= t 'user.account.openid.link' %>" target="_new"><%= t 'user.account.openid.link text' %></a>)</span></td>
+  </tr>
+
+  <tr>
+    <td class="fieldName"><%= t 'user.account.public editing.heading' %></td>
     <td>
       <% if @user.data_public? %>
         <%= t 'user.account.public editing.enabled' %> <span class="minorNote">(<a href="<%= t 'user.account.public editing.enabled link' %>" target="_new"><%= t 'user.account.public editing.enabled link text' %></a>)</span>
@@ -39,7 +44,7 @@
   </tr>
 
   <tr>
-    <td class="fieldName" valign="top"><%= t 'user.account.contributor terms.heading' %></td>
+    <td class="fieldName"><%= t 'user.account.contributor terms.heading' %></td>
     <td>
       <% if @user.terms_agreed? %>
         <%= t 'user.account.contributor terms.agreed' %>
@@ -57,22 +62,22 @@
   </tr>
 
   <tr>
-    <td class="fieldName" valign="top"><%= t 'user.account.profile description' %></td>
+    <td class="fieldName"><%= t 'user.account.profile description' %></td>
     <td><%= f.text_area :description, :rows => '5', :cols => '60' %></td>
   </tr>
 
   <tr>
-    <td class="fieldName" valign="top"><%= t 'user.account.preferred languages' %></td>
+    <td class="fieldName"><%= t 'user.account.preferred languages' %></td>
     <td><%= f.text_field :languages %></td>
   </tr>
 
   <tr>
-    <td class="fieldName" valign="top"><%= t 'user.account.preferred editor' %></td>
+    <td class="fieldName"><%= t 'user.account.preferred editor' %></td>
     <td><%= f.select :preferred_editor, [[t("editor.default", :name => t("editor.#{DEFAULT_EDITOR}.name")), 'default']] + Editors::ALL_EDITORS.collect { |e| [t("editor.#{e}.description"), e] } %></td>
   </tr>
 
   <tr>
-    <td class="fieldName" valign="top">
+    <td class="fieldName">
       <%= t 'user.account.image' %>
     </td>
     <td valign="top">
@@ -108,13 +113,13 @@
     <td></td>
     <td>
       <p><%= t 'user.account.update home location on click' %> <input type="checkbox" value="1" <% unless @user.home_lat and @user.home_lon %> checked="checked" <% end %> id="updatehome" /> </p>
-      <div id="map" class="user_map" style="border:1px solid black; position:relative; width:500px; height:400px;"></div>
+      <div id="map" class="user_map"></div>
     </td>
   </tr>
   
   <tr>
     <td></td>
-    <td align=right><br/><%= submit_tag t('user.account.save changes button') %></td>
+    <td class="submitButton"><%= submit_tag t('user.account.save changes button') %></td>
   </tr>
 </table>
 <% end %>
@@ -124,7 +129,7 @@
 <% unless @user.data_public? %>
 <a name="public"></a>
 <h2><%= t 'user.account.public editing note.heading' %></h2>
-<%= t 'user.account.public editing note.text' %>
+<%= raw t 'user.account.public editing note.text' %>
   <%= button_to t('user.account.make edits public button'), :action => :go_public %>
 <% end %>
 <br/>

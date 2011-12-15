@@ -6,9 +6,8 @@
 </p>
 <% elsif !@user.data_public? %>
 <p><%= t 'site.edit.not_public' %></p>
-<p><%= t 'site.edit.not_public_description', 
-:user_page => (link_to t('site.edit.user_page_link'), {:controller => 'user', :action => 'account', :display_name => @user.display_name, :anchor => 'public'}) %></p>
-<p><%= t 'site.edit.anon_edits', :link => link_to(t('site.edit.anon_edits_link_text'), t('site.edit.anon_edits_link')) %></p>
+<p><%= raw t 'site.edit.not_public_description', :user_page => (link_to t('site.edit.user_page_link'), {:controller => 'user', :action => 'account', :display_name => @user.display_name, :anchor => 'public'}) %></p>
+<p><%= raw t 'site.edit.anon_edits', :link => link_to(t('site.edit.anon_edits_link_text'), t('site.edit.anon_edits_link')) %></p>
 <% else %>
 <% content_for :greeting do %>
 <% if @user and !@user.home_lon.nil? and !@user.home_lat.nil? %>
@@ -18,64 +17,42 @@
 
 <%= render :partial => 'sidebar', :locals => { :onopen => "resizeMap();", :onclose => "resizeMap();" } %>
 <%= render :partial => 'search' %>
+<%= render :partial => 'resize' %>
 
 <%= render :partial => preferred_editor %>
 
-<script type="text/javascript" defer="defer">
-  function resizeContent() {
-    var content = $("content");
-    var rightMargin = parseInt(getStyle(content, "right"));
-    var bottomMargin = parseInt(getStyle(content, "bottom"));
-
-    content.style.width = document.documentElement.clientWidth - content.offsetLeft - rightMargin;
-    content.style.height = document.documentElement.clientHeight - content.offsetTop - bottomMargin;
-  }
-  
-  function resizeMap() {
-    var sidebar_width = $("sidebar").offsetWidth;
-
-    if (sidebar_width > 0) {
-      sidebar_width = sidebar_width + 5
-    }
-
-    $("map").style.left = (sidebar_width) + "px";
-    $("map").style.width = ($("content").offsetWidth - sidebar_width) + "px";
-    $("map").style.height = ($("content").offsetHeight - 2) + "px";
-  }
-
-  function handleResize() {
-    if (brokenContentSize) {
-      resizeContent();
-    }
-
-    resizeMap();
-  }
-
+<script type="text/javascript">
   function maximiseMap() {
-    $("left").style.display = "none";
-    $("greeting").style.display = "none";
-    $("tabnav").style.display = "none";
+    $("#left").hide();
+    $("#greeting").hide();
+    $("#tabnav").hide();
 
-    $("content").style.top = "10px";
-    $("content").style.left = "10px";
+    $("#content").css("top", "10px");
+    <% if t('html.dir') == "ltr" -%>
+    $("#content").css("left", "10px");
+    <% else -%>
+    $("#content").css("right", "10px");
+    <% end -%>
 
     handleResize();
   }
   
   function minimiseMap() {
-    $("left").style.display = "";
-    $("greeting").style.display = "";
-    $("tabnav").style.display = "";
+    $("#left").show();
+    $("#greeting").show();
+    $("#tabnav").show();
 
-    $("content").style.top = "35px";
-    $("content").style.left = "192px";
+    $("#content").css("top", "35px");
+    <% if t('html.dir') == "ltr" -%>
+    $("#content").css("left", "192px");
+    <% else -%>
+    $("#content").css("right", "192px");
+    <% end -%>
 
     handleResize();
   }
 
-  handleResize();
-
-  window.onload = handleResize;
-  window.onresize = handleResize;
+  $(document).ready(handleResize);
+  $(window).resize(handleResize);
 </script>
 <% end %>
