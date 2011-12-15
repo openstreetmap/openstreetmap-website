@@ -86,6 +86,7 @@ ActionController::Routing::Routes.draw do |map|
   map.changeset '/browse/changeset/:id', :controller => 'browse', :action => 'changeset', :id => /\d+/
   map.connect '/user/:display_name/edits/feed', :controller => 'changeset', :action => 'list', :format =>:atom
   map.connect '/user/:display_name/edits', :controller => 'changeset', :action => 'list'
+  map.connect '/browse/friends', :controller => 'changeset', :action => 'list', :friends => true
   map.connect '/browse/changesets/feed', :controller => 'changeset', :action => 'list', :format => :atom
   map.connect '/browse/changesets', :controller => 'changeset', :action => 'list'
   map.connect '/browse', :controller => 'changeset', :action => 'list'
