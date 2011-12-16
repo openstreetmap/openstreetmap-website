@@ -271,8 +271,7 @@ class ChangesetController < ApplicationController
         if @user
           changesets = changesets.where(:user_id => @user.friend_users.public)
         elsif request.format == :html
-          @title = t 'user.no_such_user.title'
-          render :template => 'user/no_such_user', :status => :not_found
+          require_user
           return
         end
       end
