@@ -273,6 +273,7 @@ class ChangesetController < ApplicationController
         elsif request.format == :html
           @title = t 'user.no_such_user.title'
           render :template => 'user/no_such_user', :status => :not_found
+          return
         end
       end
 
