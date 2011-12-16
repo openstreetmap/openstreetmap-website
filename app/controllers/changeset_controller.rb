@@ -291,7 +291,7 @@ class ChangesetController < ApplicationController
         user_link = render_to_string :partial => "user", :object => user
       end
       
-      if params[:friends] and user
+      if params[:friends] and @user
         @title =  t 'changeset.list.title_friend'
         @heading =  t 'changeset.list.heading_friend'
         @description = t 'changeset.list.description_friend'
