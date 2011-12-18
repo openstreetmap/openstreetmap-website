@@ -83,7 +83,6 @@
       precision: 3
       significant: false
       strip_insignificant_zeros: false
-
     currency:
       format:
         format: "%u%n"
@@ -93,15 +92,12 @@
         precision: 2
         significant: false
         strip_insignificant_zeros: false
-
     percentage:
       format:
         delimiter: ""
-
     precision:
       format:
         delimiter: ""
-
     human:
       format:
         delimiter: ""
@@ -183,7 +179,6 @@
 
   errors:
     format: "%{attribute} %{message}"
-
     messages: &errors_messages
       inclusion: "is not included in the list"
       exclusion: "is reserved"
@@ -210,19 +205,19 @@
       less_than_or_equal_to: "must be less than or equal to %{count}"
       odd: "must be odd"
       even: "must be even"
+      taken: "has already been taken"
+      record_invalid: "Validation failed: %{errors}"
+    template: &errors_template
+      header:
+        one: "1 error prohibited this %{model} from being saved"
+        other: "%{count} errors prohibited this %{model} from being saved"
+      body: "There were problems with the following fields:"
 
   activerecord:
     errors:
-      template:
-        header:
-          one:    "1 error prohibited this %{model} from being saved"
-          other:  "%{count} errors prohibited this %{model} from being saved"
-        body: "There were problems with the following fields:"
-
       messages:
-        taken: "has already been taken"
-        record_invalid: "Validation failed: %{errors}"
         <<: *errors_messages
-
+      template:
+        <<: *errors_template
       full_messages:
         format: "%{attribute} %{message}"
