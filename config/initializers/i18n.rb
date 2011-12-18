@@ -11,16 +11,15 @@ module I18n
           store_translations(:nb, translations[:no])
           translations[:no] = translations[:nb]
 
-          friendly = translate('en', 'time.formats.friendly')
-
-          available_locales.each do |locale|
-            unless lookup(locale, 'time.formats.friendly')
-              store_translations(locale, :time => { :formats => { :friendly => friendly } })
-            end
-          end
-
           @skip_syntax_deprecation = true
         end
+      end
+    end
+
+    module Fallbacks
+      def find_first_string_or_lambda_default(defaults)
+        defaults.each_with_index { |default, ix| return ix if default && !default.is_a?(Symbol) }
+        nil
       end
     end
 
