@@ -59,3 +59,12 @@ OpenLayers.Util.modifyAlphaImageDiv = function(div, id, px, sz, imgURL,
                                                    position, border, sizing, 
                                                    opacity);
 };
+
+OpenLayers.Tile.Image.clear = function() {
+    if (this.imgDiv) {
+        this.hide();
+        if (OpenLayers.Tile.Image.useBlankTile) { 
+            this.imgDiv.src = "<%= asset_path 'img/blank.gif' %>";
+        }    
+    }
+};
