@@ -6,9 +6,12 @@
 # Author: Reza1615
 # Author: Sahim
 # Author: Wayiran
+# Author: ZxxZxxZ
 fa: 
   activerecord: 
     attributes: 
+      diary_comment: 
+        body: بدنه
       diary_entry: 
         language: زبان
         latitude: عرض جغرافیایی
@@ -19,28 +22,45 @@ fa:
         friend: دوست
         user: کاربر
       message: 
+        body: بدنه
+        recipient: گیرنده
+        sender: فرستنده
         title: عنوان
       trace: 
         description: توضیح
         latitude: عرض جغرافیایی
         longitude: طول جغرافیایی
         name: نام
+        public: عمومی
         size: اندازه
         user: کاربر
+        visible: قابل دیدن
       user: 
+        active: فعال
+        description: توضیحات
+        display_name: نام نمایشی
         email: پست الکترونیکی
         languages: زبان ها
         pass_crypt: کلمه عبور
     models: 
+      acl: دسترسی به لیست کنترل
       changeset: مجموعه تغییرات
       country: کشور
       friend: دوست
       language: زبان
       message: پیغام
       node: گره
+      node_tag: تگ گره
       relation: ارتباط
+      session: نشست
+      trace: ردیابی
+      tracepoint: ردیابی نقطه
+      tracetag: ردیابی برچسب
       user: کاربر
+      user_preference: ترجیحات کاربر
       way: راه
+      way_node: گره راه
+      way_tag: برچسب راه
   browse: 
     changeset: 
       changeset: "مجموعه تغییرات: %{id}"
@@ -67,15 +87,22 @@ fa:
       show_area_box: نمایش جعبه منطقه
     common_details: 
       changeset_comment: "نظر:"
+      deleted_at: "حذف‌شده در:"
+      deleted_by: "حذف‌شده توسط:"
       edited_at: "ویرایش در:"
       edited_by: "ویرایش توسط:"
-      in_changeset: "تغییرات در :"
-      version: "نسخه :"
+      in_changeset: "تغییرات در:"
+      version: "نسخه:"
     containing_relation: 
       entry: ارتباطات %{relation_name}
       entry_role: رابطه %{relation_name} (به عنوان %{relation_role})
     map: 
       deleted: حذف
+      edit: 
+        area: ویرایش منطقه
+        node: ویرایش گره
+        relation: ویرایش ارتباط
+        way: ویرایش راه
       larger: 
         area: مشاهده منطقه روی نقشه بزرگتر
         node: مشاهده منطقه روی نقشه بزرگتر
@@ -105,7 +132,7 @@ fa:
       view_history: نمایش تاریخچه
     node_details: 
       coordinates: "مختصات:"
-      part_of: "قسمتی از:"
+      part_of: "بخشی از:"
     node_history: 
       download: "%{download_xml_link} یا %{view_details_link}"
       download_xml: بارگیری XML
@@ -130,7 +157,7 @@ fa:
       view_history: نمایش تاریخچه
     relation_details: 
       members: "اعضا:"
-      part_of: "قسمتی از:"
+      part_of: "بخشی از:"
     relation_history: 
       download: "%{download_xml_link} یا %{view_details_link}"
       download_xml: بارگیری XML
@@ -152,6 +179,7 @@ fa:
       details: جزئیات
       drag_a_box: " جعبه‌ای را روی نقشه برای انتخاب یک منطقه بکشید"
       edited_by_user_at_timestamp: "[[timestamp]] در [[user]] ویرایش توسط"
+      hide_areas: پنهان‌کردن منطقه‌ها
       history_for_feature: "[[feature]] تاریخچه برای"
       load_data: بارگذاری داده ها
       loaded_an_area_with_num_features: "  شما منطقه‌ای را بارگذاری کردید که شامل[[num_features]] می‌شود. به طورکلی بعضی از مرورگرها نمی توانند با این مقدار اطلاعات تصویری کار کنند.کلا مرورگرها برای نمایش اطلاعات کمتر از 100 مورد در زمان  در بهترین وضعیت هستند: و هر میزان دیگر میتواند مرورگر ار کند  یا قفل کند.اگر شما میخواهید این اطلاعات دیده شود دکمه زیر را فشار دهید."
@@ -174,6 +202,7 @@ fa:
           node: گره
           way: راه
       private_user: کاربر شخصی
+      show_areas: نمایش منطقه‌ها
       show_history: نمایش سابقه
       unable_to_load_size: "نمی‌تواند بارگذاری کند: اندازه جعبه ارتباطی [[bbox_size]] خیلی زیاد هست و باید کمتر از %{max_bbox_size} باشد"
       wait: صبر کنید...
@@ -201,24 +230,34 @@ fa:
     way_details: 
       also_part_of: 
         other: "همچنین بخشی از مسیرها %{related_ways} "
-      nodes: "گره ها :"
-      part_of: "قسمتی از:"
+      nodes: "گره‌ها:"
+      part_of: "بخشی از:"
     way_history: 
       download: "%{download_xml_link} یا %{view_details_link}"
       download_xml: بارگیری XML
       view_details: نمایش جزئیات
-      way_history: تاریخچه مسیر
-      way_history_title: "تاریخچه مسیر : %{way_name}"
+      way_history: تاریخچهٔ راه
+      way_history_title: "تاریخچهٔ راه: %{way_name}"
   changeset: 
     changeset: 
       anonymous: گمنام
       big_area: (بزرگ)
+      no_comment: (هیچ)
+      no_edits: (بدون ویرایش)
+      show_area_box: نمایش جعبهٔ منطقه
+      still_editing: (هنوز در حال ویرایش)
     changeset_paging_nav: 
       next: بعدی »
       previous: « قبلی
+      showing_page: نمایش صفحهٔ %{page}
     changesets: 
       area: منطقه
+      comment: توضیح
+      id: شناسه
+      saved_at: ذخیره شد در
       user: کاربر
+    list: 
+      description: تغییرات اخیر
   diary_entry: 
     diary_comment: 
       confirm: تأیید
@@ -227,15 +266,26 @@ fa:
         one: 1 نظر
         other: "%{count} نظر"
       confirm: تأیید
+      edit_link: ویرایش این مطلب
+      hide_link: نهفتن این مطلب
+      reply_link: پاسخ به این پیام
     edit: 
+      body: "بدنه:"
       language: "زبان:"
       latitude: "عرض جغرافیایی:"
+      location: "مکان:"
       longitude: "طول جغرافیایی:"
       save_button: ذخیره
+      subject: "موضوع:"
+      use_map_link: استفاده از نقشه
     location: 
       edit: ویرایش
+      location: "مکان:"
       view: نمایش
+    no_such_user: 
+      title: چنین کاربری وجود ندارد
     view: 
+      leave_a_comment: ارسال نظر
       login: ورود به سیستم
       save_button: ذخیره
   editor: 
@@ -276,12 +326,12 @@ fa:
         heading: منطقه بیش از حد بزرگ
       zoom: بزگ‌نمایی
     start_rjs: 
-      add_marker: اضافه کردن نشانگر به نقشه
+      add_marker: افزودن نشانگر به نقشه
       change_marker: تغییر موقعیت نشانه‌گذار
       click_add_marker: برای اضافه کردن نشانگر بر روی نقشه کلیک کنید
       drag_a_box: " جعبه‌ای را روی نقشه برای انتخاب یک منطقه بکشید"
       export: صدور
-      manually_select: به صورت دستی منطقه دیگری را انتخاب کنید
+      manually_select: به صورت دستی منطقهٔ دیگری را انتخاب کنید
       view_larger_map: نمایش نقشه بزرگتر
   geocoder: 
     description: 
@@ -320,97 +370,218 @@ fa:
       prefix: 
         amenity: 
           airport: فرودگاه
-          atm: عابر بانک
+          arts_centre: هنرکده
+          atm: عابربانک
+          auditorium: سالن
           bank: بانک
+          bar: کافه
           bench: نیمکت
-          brothel: فاحشه خانه
+          bicycle_parking: پارکینگ دوچرخه
+          bicycle_rental: اجارهٔ دوچرخه
+          brothel: فاحشه‌خانه
+          bureau_de_change: دفتر ارز
+          bus_station: ایستگاه اتوبوس
           cafe: کافه
+          car_rental: اجارهٔ خودرو
+          car_sharing: خودروی قرضی
+          car_wash: کارواش
+          casino: کازینو
           cinema: سینما
           clinic: درمانگاه
+          club: باشگاه
+          college: کالج
+          community_centre: مرکز شهر
           courthouse: دادگاه
-          dentist: دندانپزشک
+          crematorium: کوره
+          dentist: دندانپزشکی
+          doctors: پزشکان
           dormitory: خوابگاه دانشجویی
+          drinking_water: آب آشامیدنی
+          driving_school: آموزشگاه رانندگی
           embassy: سفارت
-          fire_station: آتش نشانی
+          emergency_phone: تلفن اضطراری
+          fast_food: فست فود
+          ferry_terminal: ترمینال کشتی
+          fire_hydrant: شیر آتش‌نشانی
+          fire_station: آتش‌نشانی
+          fountain: چشمه
           fuel: پمپ بنزین
+          grave_yard: محوطهٔ گورستان
+          gym: مرکز تناسب اندام / سالن ورزش
+          hall: سالن
+          health_centre: مركز بهداشت
           hospital: بیمارستان
           hotel: هتل
-          ice_cream: بستنی فروشی
+          hunting_stand: ایستگاه شکار
+          ice_cream: بستنی‌فروشی
           kindergarten: کودکستان
           library: کتابخانه
           market: بازار
           marketplace: بازار
+          mountain_rescue: نجات کوهستان
+          nightclub: کلوب شبانه
+          nursery: مهد کودک
+          nursing_home: خانهٔ سالمندان
           office: دفتر
           park: پارک
           parking: پارکینگ
           pharmacy: داروخانه
+          place_of_worship: نیایشگاه
           police: پلیس
           post_box: صندوق پست
           post_office: اداره پست
+          preschool: پیش‌دبستان
           prison: زندان
           pub: میخانه
+          public_building: ساختمان عمومی
+          public_market: بازار عمومی
+          reception_area: محوطه پذیرش
           recycling: بازیافت
           restaurant: رستوران
+          retirement_home: خانهٔ سالمندان
+          sauna: سونا
           school: مدرسه
+          shelter: سایبان
           shop: فروشگاه
+          shopping: خرید
+          social_club: باشگاه اجتماعی
+          studio: استودیو
           supermarket: سوپرمارکت
           taxi: تاکسی
+          telephone: تلفن عمومی
           theatre: تئاتر
           toilets: توالت
-          townhall: شهر داری
+          townhall: شهرداری
           university: دانشگاه
-          waste_basket: سطل اشغال
+          vending_machine: عابربانک
+          veterinary: جراح دامپزشک
+          village_hall: دهداری
+          waste_basket: سطل آشغال
+          wifi: دسترسی وای‌فای
+          youth_centre: مرکز جوانان
+        boundary: 
+          administrative: مرز کشوری
         building: 
+          apartments: بلوک آپارتمان
+          block: بلوک ساختمان
+          bunker: پناهگاه
+          chapel: کلیسا
           church: کلیسا
+          city_hall: سالن شهر
+          commercial: ساختمان تجاری
+          dormitory: خوابگاه دانشجویی
+          entrance: ورودی ساختمان
+          faculty: ساختمان دانشکده
+          farm: ساختمان در مزرعه
+          flats: آپارتمان
           garage: گاراژ
+          hall: سالن
           hospital: ساختمان بیمارستان
           hotel: هتل
           house: خانه
+          industrial: ساختمان صنعتی
+          office: ساختمان اداری
+          public: ساختمان عمومی
+          residential: ساختمان مسکونی
+          retail: معاملات املاک
+          school: ساختمان مدرسه
           shop: فروشگاه
           stadium: ورزشگاه
+          store: فروشگاه
+          terrace: تراس
           tower: برج
+          train_station: ایستگاه راه‌آهن
+          university: ساختمان دانشگاه
         highway: 
           bus_stop: ایستگاه اتوبوس
+          construction: بزرگراه در دست ساخت
+          cycleway: مسیر چرخه
+          distance_marker: نشانگر مسافت
+          emergency_access_point: نقطهٔ دسترسی اضطراری
           footway: پیاده رو
+          ford: فورد
           gate: دروازه
+          minor: جادهٔ فرعی
           motorway: اتوبان
+          motorway_junction: اتصال بزرگراه‌ها
+          motorway_link: بزرگراه
           path: مسیر
           pedestrian: پیاده راه
+          platform: پلت‌فرم
+          primary: جادهٔ اصلی
+          primary_link: جادهٔ اصلی
           residential: مسکونی
           road: جاده
+          secondary: جادهٔ فرعی
+          secondary_link: جادهٔ فرعی
+          services: خدمات بزرگراه‌ها
           steps: پله
+          track: ردیابی
           trunk: بزرگراه
           trunk_link: بزرگراه
+          unclassified: جادهٔ طبقه‌بندی‌نشده
         historic: 
+          archaeological_site: پایگاه باستان‌شناسی
+          battlefield: میدان جنگ
+          boundary_stone: سنگ مرزی
+          building: ساختمان
           castle: قلعه
           church: کلیسا
+          house: خانه
+          icon: نماد
+          memorial: یادبود
+          mine: معدن
+          monument: یادبود
           museum: موزه
+          ruins: خرابه‌ها
           tower: برج
         landuse: 
           cemetery: گورستان
+          commercial: منطقهٔ تجاری
+          construction: ساخت‌وساز
+          farm: مزرعه
           farmland: زمین کشاورزی
+          farmyard: زمین کشاورزی
           forest: جنگل
+          grass: چمن
+          greenfield: فضای سبز
+          industrial: ناحیهٔ صنعتی
+          military: منطقهٔ نظامی
           mine: معدن
           mountain: کوه
           park: پارک
-          railway: ریل
+          railway: راه‌آهن
+          reservoir: مخزن
+          retail: خرده‌فروشی
+          vineyard: تاکستان
+          wetland: تالاب
+          wood: چوب
         leisure: 
-          fishing: نواحی ماهی‌گیری
+          beach_resort: تفریحگاه ساحلی
+          common: سرزمین مشترک
+          fishing: منطقهٔ ماهی‌گیری
           garden: باغ
+          golf_course: زمین گلف
           marina: تفریح‌گاه ساحلی
+          miniature_golf: گلف کوچک
           park: پارک
+          pitch: زمین ورزشی
+          playground: زمین بازی
+          sports_centre: مرکز ورزشی
           stadium: ورزشگاه
           swimming_pool: استخر شنا
+          water_park: پارک آبی
         natural: 
-          bay: خالیج
+          bay: خلیج
           beach: ساحل
           cave_entrance: ورودی غار
           channel: کانال
-          coastline: ساحل
+          coastline: خط ساحلی
           fell: قطع کردن
           glacier: یخچال طبیعی
           hill: تپه
           island: جزیره
+          land: زمین
           moor: دشت
           mud: گل
           peak: قله
@@ -422,6 +593,8 @@ fa:
           valley: دره
           volcano: کوه آتشفشان
           water: اب
+          wetland: تالاب
+          wetlands: تالاب‌ها
           wood: جنگل
         place: 
           airport: فرودگاه
@@ -429,10 +602,13 @@ fa:
           country: کشور
           farm: مزرعه
           house: خانه
+          houses: خانه‌ها
           island: جزیره
           islet: جزیره کوچک
           locality: محل
+          moor: دشت
           postcode: کدپستی
+          region: منطقه
           sea: دریا
           suburb: محله
           town: شهر
@@ -463,28 +639,32 @@ fa:
         waterway: 
           canal: کانال
           dam: سد
+          lock: قفل
           river: رودخانه
           waterfall: ابشار
   html: 
     dir: rtl
-  javascripts: 
-    map: 
-      base: 
-        noname: بینام
   layouts: 
-    copyright: کپی رایت و مجوز
+    copyright: حق تکثیر و مجوز
+    documentation: مستندات
+    documentation_title: مستندات برای پروژه
     edit: ویرایش
     export: صدور
+    foundation_title: بنیاد OpenStreetMap
     help: راهنما
     history: تاریخچه
+    home_tooltip: رفتن به مکان خانگی
     intro_3_partners: ویکی‌
     log_in: ورود به سیستم
+    logo: 
+      alt_text: لوگوی OpenStreetMap
     logout: خروج
     logout_tooltip: خروج از سیستم
     make_a_donation: 
       text: کمک مالی
       title: OpenStreetMap پشتیبانی با اهداء پولی
     sign_up: ثبت نام
+    sign_up_tooltip: ایجاد یک حساب کاربری برای ویرایش
     user_diaries: یادداشت کاربر
     view: نمایش
     view_tooltip: نمایش نقشه
@@ -510,10 +690,22 @@ fa:
       title: صندوق دریافتی
     message_summary: 
       delete_button: حذف
+      read_button: علامت‌گذاری به عنوان خوانده‌شده
       reply_button: پاسخ
+      unread_button: علامت‌گذاری به عنوان خوانده‌شده
     new: 
-      send_button: ارسال
+      back_to_inbox: بازگشت به صندوق پستی
+      body: بدنه
+      message_sent: پیام فرستاده شد
+      send_button: بفرست
+      send_message_to: فرستادن پیام به %{name}
       subject: عنوان
+      title: فرستادن پیام
+    no_such_message: 
+      title: چنین پیغامی وجود ندارد
+    no_such_user: 
+      heading: چنین کاربری وجود ندارد
+      title: چنین کاربری وجود ندارد
     outbox: 
       date: تاریخ
       inbox: صندوق دریافتی
@@ -523,11 +715,14 @@ fa:
       title: صندوق خروجی
       to: به
     read: 
+      back_to_inbox: بازگشت به صندوق پستی
       date: تاریخ
       from: از
+      reading_your_sent_messages: خواندن پیام‌هایی که فرستاده‌اید
       reply_button: پاسخ
       subject: عنوان
       to: به
+      unread_button: علامت‌گذاری به عنوان خوانده‌شده
     sent_message_summary: 
       delete_button: حذف
   notifier: 
@@ -539,12 +734,15 @@ fa:
       greeting: سلام ،
     gpx_notification: 
       greeting: سلام ،
+      with_description: با توضیحات
     lost_password_html: 
       greeting: سلام ،
     lost_password_plain: 
       greeting: سلام ،
     message_notification: 
       hi: سلام %{to_user},
+    signup_confirm_html: 
+      greeting: سلام!
     signup_confirm_plain: 
       greeting: سلام!
   oauth_clients: 
@@ -799,7 +997,7 @@ fa:
     no_such_user: 
       body: با عرض پوزش ، هیچ کاربر با نام %{user} وجود ندارد. لطفا املایی خود نام کاربری را بازبینی کنید یا شاید لینکی که کلیک کردید اشتباه است.
       heading: کاربر %{user} وجود ندارد
-      title: چنین کاربری وجود ندارد.
+      title: چنین کاربری وجود ندارد
     popup: 
       friend: دوست
       nearby mapper: نقشه‌ترسیم کننده در این اطراف
@@ -906,7 +1104,7 @@ fa:
       not_an_administrator: فقط مدیران می توانند نقش مدیریت کاربرها را انجام دهند ، و شما مدیر نیستید.
     grant: 
       are_you_sure: آیا اطمینان دارید که می خواهید نقش '%{role}' از کاربر '%{name}' را  اعطا  کنید؟
-      confirm: تائید
+      confirm: تأیید
       fail: نمی‌توان نقش %{role} کاربر %{name} را اهدا کرد . لطفا از معتبر بودن کاربر و نقش اطمینان حاصل نمایید
       heading: تایید اعطای نقش
       title: تایید اعطای نقش
