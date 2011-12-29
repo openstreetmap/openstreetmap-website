@@ -16,20 +16,6 @@ module I18n
       end
     end
   end
-
-  module Locale
-    class Fallbacks
-      def compute(tags, include_defaults = true, exclude = [])
-        result = Array(tags).collect do |tag|
-          tags = I18n::Locale::Tag.tag(tag).self_and_parents.map! { |t| t.to_sym } - exclude
-          tags.each { |_tag| tags += compute(@map[_tag], false, exclude + tags) if @map[_tag] }
-          tags
-        end.flatten
-        result.push(*defaults) if include_defaults
-        result.uniq.compact
-      end
-    end
-  end
 end
 
 I18n::Backend::Simple.include(I18n::Backend::Pluralization)
@@ -38,7 +24,6 @@ I18n.load_path << "#{Rails.root}/config/pluralizers.rb"
 
 I18n::Backend::Simple.include(I18n::Backend::Fallbacks)
 
-I18n.fallbacks.map("nb" => "no")
 I18n.fallbacks.map("no" => "nb")
 
 Rails.configuration.after_initialize do
