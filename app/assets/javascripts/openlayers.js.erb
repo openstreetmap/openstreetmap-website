@@ -28,43 +28,8 @@ OpenLayers.Util.imageURLs = {
     "img/zoom-world-mini.png": "<%= asset_path 'img/zoom-world-mini.png' %>"
 };
 
-OpenLayers.Util.origCreateDiv = OpenLayers.Util.createDiv;
+OpenLayers.Util.origGetImageLocation = OpenLayers.Util.getImageLocation;
 
-OpenLayers.Util.createDiv = function(id, px, sz, imgURL, position, 
-                                     border, overflow, opacity) {
-    imgURL = OpenLayers.Util.imageURLs[imgURL] || imgURL;
-
-    return OpenLayers.Util.origCreateDiv(id, px, sz, imgURL, position, 
-                                         border, overflow, opacity);
-};
-
-OpenLayers.Util.origCreateImage = OpenLayers.Util.createImage;
-
-OpenLayers.Util.createImage = function(id, px, sz, imgURL, position, border,
-                                       opacity, delayDisplay) {
-    imgURL = OpenLayers.Util.imageURLs[imgURL] || imgURL;
-
-    return OpenLayers.Util.origCreateImage(id, px, sz, imgURL, position,
-                                           border, opacity, delayDisplay);
-};
-
-OpenLayers.Util.origModifyAlphaImageDiv = OpenLayers.Util.modifyAlphaImageDiv;
-
-OpenLayers.Util.modifyAlphaImageDiv = function(div, id, px, sz, imgURL, 
-                                               position, border, sizing, 
-                                               opacity) {
-    imgURL = OpenLayers.Util.imageURLs[imgURL] || imgURL;
-
-    return OpenLayers.Util.origModifyAlphaImageDiv(div, id, px, sz, imgURL, 
-                                                   position, border, sizing, 
-                                                   opacity);
-};
-
-OpenLayers.Tile.Image.clear = function() {
-    if (this.imgDiv) {
-        this.hide();
-        if (OpenLayers.Tile.Image.useBlankTile) { 
-            this.imgDiv.src = "<%= asset_path 'img/blank.gif' %>";
-        }    
-    }
+OpenLayers.Util.getImageLocation = function(image) {
+    return OpenLayers.Util.imageURLs[image] || OpenLayers.Util.origGetImageLocation(image);
 };
