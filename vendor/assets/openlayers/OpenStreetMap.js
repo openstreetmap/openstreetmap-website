@@ -7,7 +7,7 @@ OpenLayers.Util.OSM = {};
  * Constant: MISSING_TILE_URL
  * {String} URL of image to display for missing tiles
  */
-OpenLayers.Util.OSM.MISSING_TILE_URL = "http://www.openstreetmap.org/openlayers/img/404.png";
+OpenLayers.Util.OSM.MISSING_TILE_URL = OpenLayers.Util.getImageLocation("404.png");
 
 /**
  * Property: originalOnImageLoadError
