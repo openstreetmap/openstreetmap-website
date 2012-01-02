@@ -16,7 +16,7 @@ class MoveToInnodb < ActiveRecord::Migration
     }
 
     @@conv_tables.each { |tbl|
-      change_engine (tbl, "InnoDB")
+      change_engine tbl, "InnoDB"
     }
 
     @@ver_tbl.each { |tbl|
