@@ -29,7 +29,7 @@ gem 'rmagick', :require => 'RMagick'
 gem 'sanitize'
 
 # Load SystemTimer for implementing request timeouts
-gem 'SystemTimer', '>= 1.1.3', :require => 'system_timer'
+gem 'SystemTimer', '>= 1.1.3', :require => 'system_timer', :platforms => :ruby_18
 
 # Load httpclient for SOAP support for Quova GeoIP queries
 gem 'httpclient'
