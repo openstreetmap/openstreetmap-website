@@ -55,7 +55,7 @@ class PopulateNodeTagsAndRemove < ActiveRecord::Migration
   end
 
   def self.down
-    raise IrreversibleMigration.new
+    raise ActiveRecord::IrreversibleMigration
 #    add_column :nodes, "tags", :text, :default => "", :null => false
 #    add_column :current_nodes, "tags", :text, :default => "", :null => false
   end

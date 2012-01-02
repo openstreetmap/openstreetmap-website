@@ -82,6 +82,6 @@ class RemoveSegments < ActiveRecord::Migration
   end
 
   def self.down
-    raise IrreversibleMigration.new
+    raise ActiveRecord::IrreversibleMigration
   end
 end
