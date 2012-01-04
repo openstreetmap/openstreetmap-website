@@ -43,9 +43,7 @@ module ActiveRecord
     end
 
     class MysqlAdapter
-      if MysqlAdapter.public_instance_methods(false).include?('native_database_types')
-        alias_method :old_native_database_types, :native_database_types
-      end
+      alias_method :old_native_database_types, :native_database_types
 
       def native_database_types
         types = old_native_database_types
@@ -123,9 +121,7 @@ module ActiveRecord
     end
 
     class PostgreSQLAdapter
-      if PostgreSQLAdapter.public_instance_methods(false).include?('native_database_types')
-        alias_method :old_native_database_types, :native_database_types
-      end
+      alias_method :old_native_database_types, :native_database_types
 
       def native_database_types
         types = old_native_database_types
