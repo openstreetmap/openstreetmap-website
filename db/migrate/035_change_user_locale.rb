@@ -1,4 +1,4 @@
-require 'lib/migrate'
+require 'migrate'
 
 class ChangeUserLocale < ActiveRecord::Migration
   def self.up
