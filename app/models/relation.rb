@@ -7,10 +7,10 @@ class Relation < ActiveRecord::Base
 
   belongs_to :changeset
 
-  has_many :old_relations, :foreign_key => 'id', :order => 'version'
+  has_many :old_relations, :order => 'version'
 
-  has_many :relation_members, :foreign_key => 'id', :order => 'sequence_id'
-  has_many :relation_tags, :foreign_key => 'id'
+  has_many :relation_members, :order => 'sequence_id'
+  has_many :relation_tags
 
   has_many :containing_relation_members, :class_name => "RelationMember", :as => :member
   has_many :containing_relations, :class_name => "Relation", :through => :containing_relation_members, :source => :relation, :extend => ObjectFinder
@@ -23,6 +23,12 @@ class Relation < ActiveRecord::Base
   validates_numericality_of :changeset_id, :version, :integer_only => true
   validates_associated :changeset
   
+  scope :visible, where(:visible => true)
+  scope :invisible, where(:visible => false)
+  scope :nodes, lambda { |*ids| joins(:relation_members).where(:current_relation_members => { :member_type => "Node", :member_id => ids }) }
+  scope :ways, lambda { |*ids| joins(:relation_members).where(:current_relation_members => { :member_type => "Way", :member_id => ids }) }
+  scope :relations, lambda { |*ids| joins(:relation_members).where(:current_relation_members => { :member_type => "Relation", :member_id => ids }) }
+
   TYPES = ["node", "way", "relation"]
 
   def self.from_xml(xml, create=false)
@@ -148,36 +154,6 @@ class Relation < ActiveRecord::Base
     return el1
   end 
 
-  def self.find_for_nodes(ids, options = {})
-    if ids.empty?
-      return []
-    else
-      self.with_scope(:find => { :joins => "INNER JOIN current_relation_members AS crm ON crm.id = current_relations.id", :conditions => "crm.member_type = 'Node' AND crm.member_id IN (#{ids.join(',')})" }) do
-        return self.find(:all, options)
-      end
-    end
-  end
-
-  def self.find_for_ways(ids, options = {})
-    if ids.empty?
-      return []
-    else
-      self.with_scope(:find => { :joins => "INNER JOIN current_relation_members AS crm ON crm.id = current_relations.id", :conditions => "crm.member_type = 'Way' AND crm.member_id IN (#{ids.join(',')})" }) do
-        return self.find(:all, options)
-      end
-    end
-  end
-
-  def self.find_for_relations(ids, options = {})
-    if ids.empty?
-      return []
-    else
-      self.with_scope(:find => { :joins => "INNER JOIN current_relation_members AS crm ON crm.id = current_relations.id", :conditions => "crm.member_type = 'Relation' AND crm.member_id IN (#{ids.join(',')})" }) do
-        return self.find(:all, options)
-      end
-    end
-  end
-
   # FIXME is this really needed?
   def members
     unless @members
@@ -244,8 +220,7 @@ class Relation < ActiveRecord::Base
       self.lock!
       check_consistency(self, new_relation, user)
       # This will check to see if this relation is used by another relation
-      rel = RelationMember.find(:first, :joins => :relation, 
-                                :conditions => [ "visible = ? AND member_type='Relation' and member_id=? ", true, self.id ])
+      rel = RelationMember.joins(:relation).where("visible = ? AND member_type = 'Relation' and member_id = ? ", true, self.id).first
       raise OSM::APIPreconditionFailedError.new("The relation #{new_relation.id} is used in relation #{rel.relation.id}.") unless rel.nil?
 
       self.changeset_id = new_relation.changeset_id
@@ -303,7 +278,7 @@ class Relation < ActiveRecord::Base
         # use reflection to look up the appropriate class
         model = Kernel.const_get(m[0].capitalize)
         # get the element with that ID
-        element = model.find(:first, :conditions =>["id = ?", m[1]])
+        element = model.where(:id => m[1]).first
 
         # and check that it is OK to use.
         unless element and element.visible? and element.preconditions_ok?
@@ -373,12 +348,12 @@ class Relation < ActiveRecord::Base
       # if there are left-over tags then they are new and will have to
       # be added.
       tags_changed |= (not tags.empty?)
-      RelationTag.delete_all(:id => self.id)
+      RelationTag.delete_all(:relation_id => self.id)
       self.tags.each do |k,v|
         tag = RelationTag.new
+        tag.relation_id = self.id
         tag.k = k
         tag.v = v
-        tag.id = self.id
         tag.save!
       end
       
@@ -403,10 +378,11 @@ class Relation < ActiveRecord::Base
       # members may be in a different order and i don't feel like implementing
       # a longest common subsequence algorithm to optimise this.
       members = self.members
-      RelationMember.delete_all(:id => self.id)
+      RelationMember.delete_all(:relation_id => self.id)
       members.each_with_index do |m,i|
         mem = RelationMember.new
-        mem.id = [self.id, i]
+        mem.relation_id = self.id
+        mem.sequence_id = i
         mem.member_type = m[0]
         mem.member_id = m[1]
         mem.member_role = m[2]

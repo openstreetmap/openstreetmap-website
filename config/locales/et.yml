@@ -33,6 +33,7 @@ et:
         visible: Nähtav
       user: 
         description: Kirjeldus
+        display_name: Näita nime
         email: E-posti aadress
         languages: Keeled
         pass_crypt: Parool
@@ -44,14 +45,18 @@ et:
       node: Sõlm
       node_tag: Sõlme silt
       old_node: Vana sõlm
+      old_relation: Vana relatsioon
       old_way: Vana joon
+      relation: Relatsioon
       user: Kasutaja
       way: Joon
       way_node: Joone sõlm
       way_tag: Joone silt
   browse: 
     changeset: 
+      changeset: "Muutustekogu: %{id}"
       download: Laadi %{changeset_xml_link} või %{osmchange_xml_link}
+      title: Muutustekogu
     changeset_details: 
       belongs_to: "Kuulub:"
       box: ala
@@ -59,6 +64,8 @@ et:
       created_at: "Loodud:"
     common_details: 
       changeset_comment: "Kommentaar:"
+      deleted_at: "Kustutamise aeg:"
+      deleted_by: "Kustutaja:"
       edited_at: "Muudetud:"
       edited_by: "Muutja:"
       version: "Versioon:"
@@ -67,6 +74,9 @@ et:
       entry_role: Relatsioon %{relation_name} (kui %{relation_role})
     map: 
       deleted: kustutatud
+      edit: 
+        area: Muuda ala
+        relation: Muuda relatsiooni
       larger: 
         area: Vaata ala suuremal kaardil
         node: Vaata sõlme suuremal kaardil
@@ -75,9 +85,11 @@ et:
       loading: Laen...
     navigation: 
       all: 
+        next_changeset_tooltip: Järgmine muutustekogu
         next_node_tooltip: Järgmine sõlm
         next_relation_tooltip: Järgmine relatsioon
         next_way_tooltip: Järgmine joon
+        prev_changeset_tooltip: Eelmine muutustekogu
         prev_node_tooltip: Eelmine sõlm
         prev_relation_tooltip: Eelmine relatsioon
         prev_way_tooltip: Eelmine joon
@@ -200,8 +212,8 @@ et:
       no_comment: (puudub)
       still_editing: redigeerimine pooleli
     changeset_paging_nav: 
-      next: Järgmine &raquo;
-      previous: "&laquo; Eelmine"
+      next: Järgmine »
+      previous: « Eelmine
       showing_page: Näitan lehekülge %{page}
     changesets: 
       area: Ala
@@ -231,6 +243,7 @@ et:
       use_map_link: kasuta kaarti
     list: 
       new: Uus päeviku sissekanne
+      new_title: Lisa päevikusse uus sissekanne
       newer_entries: Uuemad...
       no_entries: Päevikus pole sissekandeid
       older_entries: Vanemad...
@@ -242,6 +255,7 @@ et:
       location: "Asukoht:"
       view: Vaata
     no_such_user: 
+      body: Kahjuks ei ole meil kasutajat %{user}. Nimes võib olla kirjaviga või link võib olla vigane.
       heading: Kasutajat %{user} ei ole olemas
     view: 
       leave_a_comment: Kommenteeri
@@ -581,7 +595,7 @@ et:
       base: 
         cycle_map: Rattakaart
     site: 
-      edit_disabled_tooltip: Kaardi redigeerimiseks suumi lähemale
+      edit_disabled_tooltip: Kaardi redigeerimiseks suurenda kaarti
       edit_tooltip: Töötle kaarti
       history_tooltip: Vaata tehtud muudatusi
   layouts: 
@@ -590,7 +604,8 @@ et:
     copyright: Autoriõigused ja litsents
     documentation: Dokumentatsioon
     documentation_title: Projekti dokumentatsioon
-    donate_link_text: annetused
+    donate: Toeta OpenStreetMap'i %{link} Riistvara Uuendamise Fondi.
+    donate_link_text: annetades
     edit: Redigeeri
     edit_with: Redigeeri %{editor}-ga
     export: Ekspordi
@@ -640,11 +655,12 @@ et:
       date: Kuupäev
       from: Saatja
       my_inbox: Minu postkast
+      no_messages_yet: Sul ei ole veel sõnumeid. Miks mitte kontakteeruda mõne %{people_mapping_nearby_link}?
       outbox: Saadetud kirjad
-      people_mapping_nearby: lähedalolevad kaardistajad
+      people_mapping_nearby: lähedaloleva kaardistajaga
       subject: Teema
       title: Saabunud kirjad
-      you_have: Sul on %{new_count} uusi sõnumeid ja %{old_count} vanad sõnumid
+      you_have: Sul on %{new_count} uut sõnumit ja %{old_count} vana sõnumit
     mark: 
       as_read: Sõnum on märgitud loetuks
       as_unread: Sõnum on märgitud kui lugemata
@@ -654,24 +670,36 @@ et:
       reply_button: Vasta
       unread_button: Märgi mitteloetuks
     new: 
+      back_to_inbox: Tagasi saabunud kirjade juurde
       body: Sisu
+      limit_exceeded: Sa oled hiljuti saatnud palju sõnumeid. Palun oota mõnda aega enne kui proovid veel sõnumeid saata.
       message_sent: Sõnum saadetud
       send_button: Saada
       send_message_to: Saada kasutajale %{name} uus sõnum
       subject: Teema
       title: Saada sõnum
+    no_such_message: 
+      body: Vabandust kuid sellise id'ga sõnumit ei ole olemas.
+      heading: Sellist sõnumit ei ole olemas
+      title: Sellist sõnumit ei ole olemas
     no_such_user: 
+      body: Vabandust kuid sellise nimega kasutajat ei ole olemas.
       heading: Kasutajat ei leitud
       title: Kasutajat ei leitud
     outbox: 
       date: Kuupäev
       inbox: saabunud kirjad
       my_inbox: "%{inbox_link}"
+      no_sent_messages: Sul ei ole veel saadetud sõnumeid. Miks mitte kontakteeruda mõne %{people_mapping_nearby_link}?
+      outbox: saadetud sõnumid
       people_mapping_nearby: lähedalolevad kaardistajad
       subject: Teema
+      title: Saadetud sõnumid
       to: Kellele
+      you_have_sent_messages: Sul on %{count} saadetud sõnumit
     read: 
       back_to_inbox: Tagasi postkasti
+      back_to_outbox: Tagasi saadetud sõnumite juurde
       date: Kuupäev
       from: Kellelt
       reply_button: Vasta
@@ -722,7 +750,7 @@ et:
     edit: 
       user_page_link: kasutajaleht
     index: 
-      js_1: Sa kas kasutad veebilehitsejat, mis ei toeta JavaScript'i või sa oled JavaScripti' ära keelanud.
+      js_1: Sa kas kasutad veebilehitsejat, mis ei toeta JavaScript'i või sa oled JavaScript'i ära keelanud.
       license: 
         project_name: OpenStreetMap projekt
       permalink: Püsilink
@@ -832,10 +860,13 @@ et:
       edit: redigeeri
       edit_map: Redigeeri kaarti
       more: rohkem
+      pending: OOTEL
+      trace_details: Vaata Jälje Detaile
       view_map: Vaata kaarti
     trace_form: 
       description: Kirjeldus
       help: Abi
+      tags: "Sildid:"
       upload_button: Laadi üles
       upload_gpx: "Laadi GPX-fail üles:"
       visibility: Nähtavus
@@ -845,17 +876,24 @@ et:
     trace_optionals: 
       tags: Sildid
     trace_paging_nav: 
-      next: Järgmine &raquo;
+      next: Järgmine »
+      previous: « Eelmine
+      showing_page: Näitan lehekülge %{page}
     view: 
+      delete_track: Kustuta see jälg
       description: "Kirjeldus:"
       download: laadi alla
       edit: redigeeri
+      edit_track: Muuda seda jälge
       filename: "Failinimi:"
       map: kaardil
+      none: Puuduvad
       owner: "Omanik:"
+      pending: OOTEL
       points: "Punktid:"
       start_coordinates: "Alguskoordinaadid:"
       tags: "Sildid:"
+      trace_not_found: Jälge ei leitud!
       uploaded: "Üles laaditud:"
       visibility: "Nähtavus:"
   user: 
@@ -877,6 +915,10 @@ et:
       new email address: "Uus e-posti aadress:"
       new image: Lisa pilt
       no home location: Sa pole oma kodupaika märkinud.
+      openid: 
+        link: http://wiki.openstreetmap.org/wiki/OpenID
+        link text: mis see on?
+        openid: "OpenID:"
       preferred editor: "Vaikimisi redaktor:"
       preferred languages: "Eelistatud keeled:"
       profile description: "Profiili kirjeldus:"
@@ -914,6 +956,7 @@ et:
       heading: Logi sisse
       login_button: Logi sisse
       lost password link: Salasõna ununes?
+      openid: "%{logo} OpenID:"
       password: "Parool:"
       remember: "Jäta mind meelde:"
       title: Sisselogimise lehekülg
@@ -929,6 +972,7 @@ et:
       title: Unustatud salasõna
     make_friend: 
       already_a_friend: Sa oled kasutajaga %{name} juba sõber.
+      failed: Vabandust, kasutaja %{name} sõbraks lisamine ebaõnnestus.
       success: "%{name} on nüüd Sinu sõber."
     new: 
       confirm email address: "Kinnita e-posti aadress:"
@@ -939,6 +983,7 @@ et:
       email address: "E-posti aadress:"
       fill_form: Täitke vorm ning me saadame teile e-posti konto aktiveerimiseks.
       heading: Loo uus kasutajanimi
+      openid: "%{logo} OpenID:"
       password: "Parool:"
       title: Loo uus konto
     no_such_user: 
@@ -951,6 +996,7 @@ et:
       your location: Sinu asukoht
     remove_friend: 
       not_a_friend: "%{name} ei ole üks sinu sõpradest."
+      success: "%{name} eemaldati sinu sõprade hulgast."
     reset_password: 
       confirm password: "Kinnita parool:"
       flash changed: Sinu parool on muudetud.
@@ -1003,6 +1049,7 @@ et:
       spam score: "Rämpsposti tulemus:"
       status: "Staatus:"
       traces: jäljelogid
+      unhide_user: muuda see kasutaja nähtavaks
       user location: Kasutaja asukoht
       your friends: Sinu sõbrad
   user_block: 

@@ -2,7 +2,7 @@
 
 <%= error_messages_for 'diary_entry' %>
 
-<% form_for :diary_entry do |f| %>
+<%= form_for :diary_entry do |f| %>
   <table class="diary_entry">
     <tr valign="top">
       <td class="fieldName"><%= t 'diary_entry.edit.subject' -%></td>
@@ -14,7 +14,7 @@
     </tr>
     <tr valign="top">
       <td class="fieldName"><%= t 'diary_entry.edit.language' -%></td>
-      <td><%= f.collection_select :language_code, Language.find(:all, :order => :english_name), :code, :name %></td>
+      <td><%= f.collection_select :language_code, Language.order(:english_name), :code, :name %></td>
     </tr>
     <tr valign="top">
       <td class="fieldName"><%= t 'diary_entry.edit.location' -%></td>
@@ -49,8 +49,7 @@
   <% zoom = '12' %>
 <% end %>
 
-<%= javascript_include_tag '/openlayers/OpenLayers.js' %>
-<%= javascript_include_tag '/openlayers/OpenStreetMap.js' %>
+<%= javascript_include_tag 'openlayers.js' %>
 <%= javascript_include_tag 'map.js' %>
 
 <script type="text/javascript">
@@ -64,8 +63,8 @@
 
     var lonlat = getEventPosition(e);
 
-    $("latitude").value = lonlat.lat;
-    $("longitude").value = lonlat.lon;
+    $("#latitude").val(lonlat.lat);
+    $("#longitude").val(lonlat.lon);
 
     if (marker) {
       removeMarkerFromMap(marker);
@@ -75,8 +74,8 @@
   }
 
   function openMap() {
-    $("map").style.display = "block";
-    $("usemap").style.display = "none";
+    $("#map").show();
+    $("#usemap").hide();
 
     var centre = new OpenLayers.LonLat(<%= lon %>, <%= lat %>);
     var zoom = <%= zoom %>;

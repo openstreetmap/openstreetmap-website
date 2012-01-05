@@ -3,9 +3,9 @@ module GeocoderHelper
     html_options = {}
     #html_options[:title] = strip_tags(result[:description]) if result[:description]
     if result[:min_lon] and result[:min_lat] and result[:max_lon] and result[:max_lat]
-      html_options[:href] = "?minlon=#{result[:min_lon]}&minlat=#{result[:min_lat]}&maxlon=#{result[:max_lon]}&maxlat=#{result[:max_lat]}"
+      html_options[:href] = raw("?minlon=#{result[:min_lon]}&minlat=#{result[:min_lat]}&maxlon=#{result[:max_lon]}&maxlat=#{result[:max_lat]}")
     else
-      html_options[:href] = "?mlat=#{result[:lat]}&mlon=#{result[:lon]}&zoom=#{result[:zoom]}"
+      html_options[:href] = raw("?mlat=#{result[:lat]}&mlon=#{result[:lon]}&zoom=#{result[:zoom]}")
     end
 
     html = ""
@@ -19,6 +19,7 @@ module GeocoderHelper
     end
 
     html << result[:suffix] if result[:suffix]
-    return html
+
+    return raw(html)
   end
 end

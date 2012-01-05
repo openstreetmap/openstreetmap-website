@@ -1,4 +1,4 @@
-<h2><%= t'message.outbox.my_inbox', :inbox_link => link_to(t('message.outbox.inbox'), url_for(:controller => "user", :action => "inbox", :id => @user.display_name)) %>/<%= t'message.outbox.outbox' %></h2>
+<h2><%= raw(t'message.outbox.my_inbox', :inbox_link => link_to(t('message.outbox.inbox'), url_for(:controller => "user", :action => "inbox", :id => @user.display_name))) %>/<%= t'message.outbox.outbox' %></h2>
 
 <p><%= t'message.outbox.you_have_sent_messages', :count => @user.sent_messages.size %>
 
@@ -15,5 +15,5 @@
     </table>
   </div>
 <% else %>
-  <div id="messages"><%= t'message.outbox.no_sent_messages', :people_mapping_nearby_link => link_to(t('message.outbox.people_mapping_nearby'), :controller => 'user', :action => 'view', :display_name => @user.display_name) %></div>
+  <div id="messages"><%= raw(t'message.outbox.no_sent_messages', :people_mapping_nearby_link => link_to(t('message.outbox.people_mapping_nearby'), :controller => 'user', :action => 'view', :display_name => @user.display_name)) %></div>
 <% end %>

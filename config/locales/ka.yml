@@ -6,6 +6,8 @@
 ka: 
   activerecord: 
     attributes: 
+      diary_comment: 
+        body: ტექსტი
       diary_entry: 
         language: ენა
         latitude: განედი
@@ -16,6 +18,7 @@ ka:
         friend: მეგობარი
         user: მომხმარებელი
       message: 
+        body: ტექსტი
         recipient: მიმღები
         sender: გამგზავნი
         title: სათაური
@@ -36,14 +39,19 @@ ka:
         languages: ენები
         pass_crypt: პაროლი
     models: 
+      acl: ხელმისაწვდომობის შეზღუდვის სია
       country: ქვეყანა
+      diary_comment: დღიურის კომენტარი
+      diary_entry: დღიურის ჩანაწერი
       friend: მეგობარი
       language: ენა
       message: შეტყობინება
       node: კვანძი
+      notifier: გამაფრთხილებელი
       old_node: ძველი კვანძი
       old_way: ძველი გზა
       old_way_node: ძველი გზის კვანძი
+      session: სესია
       user: მომხმარებელი
       user_preference: მომხმარებლის კონფიგურაცია
       way: გზა
@@ -67,6 +75,7 @@ ka:
     common_details: 
       changeset_comment: "კომენტარი:"
       deleted_at: "წაიშალა:"
+      deleted_by: "წაიშალა:"
       edited_at: "დაარედაქტირა:"
       edited_by: "მომხმარებელი:"
       version: "ვერსია:"
@@ -75,6 +84,9 @@ ka:
       entry_role: ურთიერთობა %{relation_name} (როგორც %{relation_role})
     map: 
       deleted: წაშლილია
+      edit: 
+        area: ტერიტორიის რედაქტირება
+        way: გზის რედაქტირება
       larger: 
         area: რეგიონის ნახვა დიდი ზომის რუკაზე
         node: კვანძის ნახვა დიდი ზომის რუკაზე
@@ -214,11 +226,17 @@ ka:
       user: მომხმარებელი
     list: 
       description: ბოლო ცვლილებები
+      heading: ცვლილებების პაკეტი
+      heading_bbox: ცვლილებების პაკეტი
+      heading_user: ცვლილებების პაკეტი
+      heading_user_bbox: ცვლილებების პაკეტი
       title: ცვლილებების პაკეტი
   diary_entry: 
     diary_comment: 
       confirm: დადასტურება
+      hide_link: ამ კომენტარის დამალვა
     diary_entry: 
+      comment_link: კომენტარი
       confirm: დადასტურება
       edit_link: ჩანაწერის რედაქტირება
       hide_link: ამ ჩანაწერის დამალვა
@@ -230,17 +248,35 @@ ka:
       longitude: "გრძედი:"
       save_button: შენახვა
       subject: "თემა:"
+      title: დღიურის ჩანაწერის რედაქტირება
       use_map_link: რუკაზე ჩვენება
     list: 
+      in_language_title: დღიურის ჩანაწერები %{language}
+      new: დღიურში ახალი ჩანაწერის გაკეთება
+      newer_entries: უახლესი ჩანაწერები
+      no_entries: დღიურში არ არის ჩანაწერები
+      older_entries: ძველი ჩანაწერები
       title: მომხმარებლების დღიურები
+      user_title: "%{user}-ის დღიური"
     location: 
       edit: რედაქტირება
       location: "მდებარეობა:"
       view: იხილეთ
+    new: 
+      title: დღიურში ახალი ჩანაწერის გაკეთება
+    no_such_entry: 
+      heading: "id: %{id}-დან ჩანაწერი არ არის"
+      title: დღიურში ასეთი ჩანაწერი არ არის
+    no_such_user: 
+      heading: მომხმარებელი %{user} არ არსებობს
+      title: ასეთი მომხმარებელი არ არსებობს
     view: 
       leave_a_comment: დატოვეთ კომენტარი
       login: შესვლა
+      login_to_leave_a_comment: "%{login_link}, რათა დატოვოთ კომენტარი"
       save_button: შენახვა
+      title: "%{user}-ის დღიური | %{title}"
+      user_title: "%{user}-ის დღიური"
   editor: 
     default: უპირობოდ (ამჟამად %{name})
     remote: 
@@ -290,6 +326,7 @@ ka:
       south_west: სამხრეთ-დასავლეთი
       west: დასავლეთი
     results: 
+      more_results: მეტი შედეგი
       no_results: შედეგი ვერ მოიძებნა
     search: 
       title: 
@@ -420,6 +457,7 @@ ka:
           shop: მაღაზია
           stadium: სტადიონი
           store: მაღაზია
+          terrace: ტერასა
           tower: კოშკი
           train_station: რკინიგზის სადგური
           university: უნივერსიტეტი
@@ -443,15 +481,24 @@ ka:
           road: გზა
           secondary: მეორადი გზა
           secondary_link: მეორადი გზა
+          steps: საფეხურები
+          tertiary: მესამე კლასის გზა
+          track: ბილიკი
           trail: ბილიკი
+          unclassified: ადგილობრივი გზა
+          unsurfaced: უზედაპირო გზა
         historic: 
+          archaeological_site: არქეოლოგიური გათხრები
           battlefield: ბრძოლის ველი
           boundary_stone: სასაზღვრო ქვა
           building: შენობა
           castle: ციხე-სიმაგრე
           church: ეკლესია
           house: სახლი
+          icon: ხატულა
+          manor: მამული
           memorial: მემორიალი
+          mine: მაღარო
           monument: მონუმენტი
           museum: მუზეუმი
           ruins: ნანგრევები
@@ -463,6 +510,7 @@ ka:
           commercial: კომერციული ტერიტორია
           construction: მშენებლობა
           farm: ფერმა
+          farmland: სავარგული
           forest: ტყე
           grass: ბალახი
           greenfield: ახლადათვისებული ადგილი
@@ -481,12 +529,14 @@ ka:
           residential: საცხოვრებელი ტერიტორია
           village_green: მწვანე სოფელი
           vineyard: ვენახი
+          wetland: ჭარბტენიანი ტერიტორია
           wood: ტყე
         leisure: 
           fishing: სათევზაო ტერიტორია
           garden: ბაღი
           golf_course: გოლფის მოედანი
           ice_rink: ყინულის მოედანი
+          marina: ნავსაყუდელი
           miniature_golf: მინი გოლფი
           nature_reserve: ნაკრძალი
           park: პარკი
@@ -504,6 +554,7 @@ ka:
           cape: კონცხი
           cave_entrance: გამოქვაბულში შესასვლელი
           channel: არხი
+          cliff: ხრამი
           coastline: სანაპირო ზოლი
           crater: კრატერი
           fell: ბორცვი
@@ -514,38 +565,49 @@ ka:
           island: კუნძული
           land: ხმელეთი
           marsh: ჭაობი
+          moor: ტორფნარი
+          mud: ტალახი
           peak: პიკი
+          point: კონცხი
           reef: რიფი
           ridge: ქედი
           river: მდინარე
           rock: კლდე
           scree: კლდეზვავი
           scrub: ბუჩქნარი
+          shoal: თავთხელი
           spring: წყარო
           strait: სრუტე
           tree: ხე
           valley: ველი
           volcano: ვულკანი
           water: წყალი
+          wetland: ჭარბტენიანი ტერიტორია
+          wetlands: ჭარბტენიანი ტერიტორიები
           wood: ტყე
         place: 
           airport: აეროპორტი
           city: ქალაქი
           country: ქვეყანა
           farm: ფერმა
+          hamlet: დასახლება
           house: სახლი
           houses: სახლები
           island: კუნძული
           islet: პატარა კუნძული
+          moor: ტორფნარი
           municipality: მუნიციპალიტეტი
           postcode: საფოსტო ინდექსი
           region: რეგიონი
           sea: ზღვა
           state: შტატი/ოლქი
+          subdivision: ქვედანაყოფი
           suburb: გარეუბანი
           town: დაბა
+          unincorporated_area: თავისუფალი ზონა
           village: სოფელი
         railway: 
+          abandoned: მიტოვებული რკინიგზა
           construction: რკინიგზის რემონტი
           disused: მიტოვებული რკინიგზა
           disused_station: მიტოვებული რკინიგზის სადგური
@@ -583,21 +645,34 @@ ka:
           gallery: გალერეა
           gift: საჩუქრების მაღაზია
           jewelry: საიუველირო მაღაზია
+          kiosk: ჯიხური
           laundry: სამრეცხაო
           market: ბაზარი
           mobile_phone: მობილური ტელეფონების მაღაზია
+          music: მუსიკალური მაღაზია
+          optician: ოპტიკა
           pet: ზოომაღაზია
+          photo: ფოტომაღაზია
           supermarket: სუპერმარკეტი
           toys: სათამაშოების მაღაზია
+          travel_agency: ტურისტული სააგენტო
+          video: ვიდეო მაღაზია
         tourism: 
+          attraction: ატრაქციონი
+          camp_site: ბანაკის ადგილი
+          guest_house: სასტუმრო სახლი
           hostel: ჰოსტელი
           hotel: სასტუმრო
+          information: ინფორმაცია
           motel: მოტელი
+          museum: მუზეუმი
+          picnic_site: საპიკნიკე ადგილი
           theme_park: თემატური პარკი
           valley: ველი
           zoo: ზოოპარკი
         waterway: 
           canal: არხი
+          dam: კაშხალი
           river: მდინარე
           stream: ნაკადული
           waterfall: ჩანჩქერი
@@ -605,7 +680,6 @@ ka:
     map: 
       base: 
         cycle_map: ველოსიპედისტების რუკა
-        noname: უსახელო
     site: 
       edit_disabled_tooltip: რედაქტირებისათვის გაზარდეთ რუკის მასშტაბი
       edit_tooltip: რუკის რედაქტირება
@@ -623,6 +697,9 @@ ka:
     help_centre: დახმარების ცენტრი
     history: ისტორია
     home: სახლი
+    home_tooltip: საწყის მდებარეობაზე დაბრუნება
+    inbox: შემომავალი (%{count})
+    intro_3_partners: ვიკი
     log_in: შესვლა
     logo: 
       alt_text: OpenStreetMap-ის ლოგო
@@ -632,6 +709,8 @@ ka:
       text: პროექტის დახმარება
     sign_up: რეგისტრაცია
     view: იხილეთ
+    view_tooltip: რუკის ხილვა
+    welcome_user: კეთილი იყოს თქვენი მობრძანება, %{user_link}
     welcome_user_link_tooltip: თქვენი მომხმარებლის გვერდი
     wiki: ვიკი
   license_page: 
@@ -685,6 +764,8 @@ ka:
       greeting: გამარჯობა,
     message_notification: 
       hi: გამარჯობა %{to_user},
+    signup_confirm: 
+      subject: "[OpenStreetMap] დაადასტურეთ ელ.ფოსტის მისამართი"
     signup_confirm_html: 
       greeting: გამარჯობა!
     signup_confirm_plain: 

@@ -5,11 +5,8 @@ module GeoRecord
   SCALE = 10000000
   
   def self.included(base)
-    base.extend(ClassMethods)
-  end
-
-  def before_save
-    self.update_tile
+    base.scope :bbox, lambda { |bbox| base.where(OSM.sql_for_area(bbox)) }
+    base.before_save :update_tile
   end
 
   # Is this node within -90 >= latitude >= 90 and -180 >= longitude >= 180
@@ -46,13 +43,5 @@ private
   
   def lat2y(a)
     180/Math::PI * Math.log(Math.tan(Math::PI/4+a*(Math::PI/180)/2))
-  end
-
-  module ClassMethods
-    def find_by_area(minlat, minlon, maxlat, maxlon, options)
-      self.with_scope(:find => {:conditions => OSM.sql_for_area(minlat, minlon, maxlat, maxlon)}) do
-        return self.find(:all, options)
-      end
-    end
   end
 end

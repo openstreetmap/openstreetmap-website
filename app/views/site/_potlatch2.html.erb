@@ -1,5 +1,5 @@
 <div id="map">
-  <%= t 'site.edit.flash_player_required' %>
+  <div id="potlatch"><%= raw t 'site.edit.flash_player_required' %></div>
 </div>
 
 <%= javascript_include_tag 'swfobject.js' %>
@@ -13,9 +13,6 @@
 <% locale = request.compatible_language_from(Potlatch2::LOCALES.keys) || "en" %>
 
 <script type="text/javascript" defer="defer">
-  var brokenContentSize = $("content").offsetWidth == 0;
-  var fo = new SWFObject("<%= asset_path("/potlatch2/potlatch2.swf") %>", "potlatch", "100%", "100%", "9", "#FFFFFF");
-  // 700,600 for fixed size, 100%,100% for resizable
   var changesaved=true;
   
   window.onbeforeunload=function() {
@@ -27,37 +24,56 @@
   function markChanged(a) { changesaved=a; }
 
   function doSWF(lat,lon,zoom) {
-    fo.addParam("base","/potlatch2");
-    if (lat) { fo.addVariable("lat",lat); }
-    if (lon) { fo.addVariable("lon",lon); }
-    fo.addVariable("locale", "<%= Potlatch2::LOCALES[locale] %>");
+    var flashvars = {};
+    if (lat) { flashvars.lat = lat; }
+    if (lon) { flashvars.lon = lon; }
+    flashvars.zoom = zoom;
+    flashvars.locale = "<%= Potlatch2::LOCALES[locale] %>";
     <% if params['gpx'] %>
-    fo.addVariable('gpx' ,'<%= h(params['gpx']) %>');
+    flashvars.gpx = '<%= h(params['gpx']) %>';
     <% end %>
     <% if params['tileurl'] %>
-    fo.addVariable('tileurl' ,'<%= h(params['tileurl']) %>');
+    flashvars.tileurl = '<%= h(params['tileurl']) %>';
     <% end %>
-    fo.addVariable("zoom",zoom);
-    fo.addVariable("api","<%= request.protocol + request.host_with_port %>/api/<%= API_VERSION %>/");
-    fo.addVariable("policy","<%= request.protocol + request.host_with_port %>/api/crossdomain.xml");
-    fo.addVariable("connection","XML");
-    fo.addVariable("show_help","once");
+    flashvars.api = "<%= request.protocol + request.host_with_port %>/api/<%= API_VERSION %>/";
+    flashvars.policy = "<%= request.protocol + request.host_with_port %>/api/crossdomain.xml";
+    flashvars.connection = "XML";
+    flashvars.show_help = "once";
     <% if token %>
-    fo.addVariable("oauth_token","<%= token.token %>");
-    fo.addVariable("oauth_token_secret","<%= token.secret %>");
-    fo.addVariable("oauth_consumer_key","<%= token.client_application.key %>");
-    fo.addVariable("oauth_consumer_secret","<%= token.client_application.secret %>");
+    flashvars.oauth_token = "<%= token.token %>";
+    flashvars.oauth_token_secret = "<%= token.secret %>";
+    flashvars.oauth_consumer_key = "<%= token.client_application.key %>";
+    flashvars.oauth_consumer_secret = "<%= token.client_application.secret %>";
     <% end %>
-    fo.addVariable("maximise_function","maximiseMap");
-    fo.addVariable("minimise_function","minimiseMap");
-    fo.addVariable("move_function","mapMoved");
-    fo.write("map");
+    flashvars.maximise_function = "maximiseMap";
+    flashvars.minimise_function = "minimiseMap";
+    flashvars.move_function = "mapMoved";
+
+    var params = {};
+    params.base = "/potlatch2";
+
+    var attributes = {};
+    attributes.id = "potlatch";
+    attributes.bgcolor = "#FFFFFF";
+
+    swfobject.embedSWF("<%= asset_path("/potlatch2/potlatch2.swf") %>", "potlatch", "100%", "100%", "10.1.85","<%= asset_path("expressInstall.swf") %>", flashvars, params, attributes);
+    // 700,600 for fixed size, 100%,100% for resizable
   }
 
+  <% if params[:node] -%>
+  <% bbox = Node.find(params[:node]).bbox.to_unscaled -%>
+  doSWF(<%= bbox.centre_lat %>,<%= bbox.centre_lon %>,16);
+  <% elsif params[:way] -%>
+  <% bbox = Way.find(params[:way]).bbox.to_unscaled -%>
+  doSWF(<%= bbox.centre_lat %>,<%= bbox.centre_lon %>,16);
+  <% else -%>
   doSWF(<%= @lat || 'null' %>,<%= @lon || 'null' %>,<%= @zoom %>);
+  <% end -%>
 
   function setPosition(lat, lon, zoom) {
-    $("potlatch").setPosition(lat, lon, Math.max(zoom || 15, 13));
+    $("#potlatch").each(function () {
+      this.setPosition(lat, lon, Math.max(zoom || 15, 13));
+    });
   }
 
   function mapMoved(lon, lat, zoom, minlon, minlat, maxlon, maxlat) {

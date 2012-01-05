@@ -17,14 +17,10 @@
   }
 
   function updateMapKey() {
-    var layer = map.baseLayer.keyid;
-    var zoom = map.getZoom();
-
-    <%= remote_function :update => "sidebar_content",
-                        :url => { :action => "key" },
-                        :with => "'layer=' + layer + '&zoom=' + zoom",
-                        :method => :get
-    %>
+    $("#sidebar_content").load("<%= url_for :action => :key %>", {
+      layer: map.baseLayer.keyid,
+      zoom: map.getZoom()
+    });
   }
 </script>
 

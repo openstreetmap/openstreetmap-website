@@ -8,12 +8,12 @@ class Node < ActiveRecord::Base
 
   belongs_to :changeset
 
-  has_many :old_nodes, :foreign_key => :id, :order => :version
+  has_many :old_nodes, :order => :version
 
   has_many :way_nodes
   has_many :ways, :through => :way_nodes
 
-  has_many :node_tags, :foreign_key => :id
+  has_many :node_tags
   
   has_many :old_way_nodes
   has_many :ways_via_history, :class_name=> "Way", :through => :old_way_nodes, :source => :way
@@ -30,9 +30,12 @@ class Node < ActiveRecord::Base
   validate :validate_position
   validates_associated :changeset
 
+  scope :visible, where(:visible => true)
+  scope :invisible, where(:visible => false)
+
   # Sanity check the latitude and longitude and add an error if it's broken
   def validate_position
-    errors.add_to_base("Node is not in the world") unless in_world?
+    errors.add(:base, "Node is not in the world") unless in_world?
   end
 
   #
@@ -41,7 +44,6 @@ class Node < ActiveRecord::Base
   # Also adheres to limitations such as within max_number_of_nodes
   #
   def self.search(bounding_box, tags = {})
-    min_lon, min_lat, max_lon, max_lat = *bounding_box
     # @fixme a bit of a hack to search for only visible nodes
     # couldn't think of another to add to tags condition
     #conditions_hash = tags.merge({ 'visible' => 1 })
@@ -56,9 +58,8 @@ class Node < ActiveRecord::Base
     #end 
     #conditions = keys.join(' AND ')
  
-    find_by_area(min_lat, min_lon, max_lat, max_lon,
-                    :conditions => {:visible => true},
-                    :limit => MAX_NUMBER_OF_NODES+1)  
+    find_by_area(bounding_box, :conditions => {:visible => true},
+                       :limit => MAX_NUMBER_OF_NODES+1)
   end
 
   # Read in xml as text and return it's Node object representation
@@ -118,7 +119,7 @@ class Node < ActiveRecord::Base
   # the bounding box around a node, which is used for determining the changeset's
   # bounding box
   def bbox
-    [ longitude, latitude, longitude, latitude ]
+    BoundingBox.new(longitude, latitude, longitude, latitude)
   end
 
   # Should probably be renamed delete_from to come in line with update
@@ -133,13 +134,11 @@ class Node < ActiveRecord::Base
     Node.transaction do
       self.lock!
       check_consistency(self, new_node, user)
-      way = WayNode.find(:first, :joins => :way, 
-                         :conditions => [ "current_ways.visible = ? AND current_way_nodes.node_id = ?", true, self.id ])
-      raise OSM::APIPreconditionFailedError.new("Node #{self.id} is still used by way #{way.way.id}.") unless way.nil?
+      ways = Way.joins(:way_nodes).where(:visible => true, :current_way_nodes => { :node_id => id }).order(:id)
+      raise OSM::APIPreconditionFailedError.new("Node #{self.id} is still used by ways #{ways.collect { |w| w.id }.join(",")}.") unless ways.empty?
       
-      rel = RelationMember.find(:first, :joins => :relation, 
-                                :conditions => [ "visible = ? AND member_type='Node' and member_id=? ", true, self.id])
-      raise OSM::APIPreconditionFailedError.new("Node #{self.id} is still used by relation #{rel.relation.id}.") unless rel.nil?
+      rels = Relation.joins(:relation_members).where(:visible => true, :current_relation_members => { :member_type => "Node", :member_id => id }).order(:id)
+      raise OSM::APIPreconditionFailedError.new("Node #{self.id} is still used by relations #{rels.collect { |r| r.id }.join(",")}.") unless rels.empty?
 
       self.changeset_id = new_node.changeset_id
       self.tags = {}
@@ -288,12 +287,12 @@ class Node < ActiveRecord::Base
 
       # Create a NodeTag
       tags = self.tags
-      NodeTag.delete_all(['id = ?', self.id])
+      NodeTag.delete_all(:node_id => self.id)
       tags.each do |k,v|
         tag = NodeTag.new
+        tag.node_id = self.id
         tag.k = k 
         tag.v = v 
-        tag.id = self.id
         tag.save!
       end 
 

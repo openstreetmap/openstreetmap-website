@@ -21,15 +21,15 @@ while(true) do
       gpx = trace.import
 
       if gpx.actual_points > 0
-        Notifier::deliver_gpx_success(trace, gpx.actual_points)
+        Notifier.gpx_success(trace, gpx.actual_points).deliver
       else
-        Notifier::deliver_gpx_failure(trace, '0 points parsed ok. Do they all have lat,lng,alt,timestamp?')
+        Notifier.gpx_failure(trace, '0 points parsed ok. Do they all have lat,lng,alt,timestamp?').deliver
         trace.destroy
       end
     rescue Exception => ex
       logger.info ex.to_s
       ex.backtrace.each {|l| logger.info l }
-      Notifier::deliver_gpx_failure(trace, ex.to_s + "\n" + ex.backtrace.join("\n"))
+      Notifier.gpx_failure(trace, ex.to_s + "\n" + ex.backtrace.join("\n")).deliver
       trace.destroy
     end
 

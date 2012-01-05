@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   has_many :new_messages, :class_name => "Message", :foreign_key => :to_user_id, :conditions => { :to_user_visible => true, :message_read => false }, :order => 'sent_on DESC'
   has_many :sent_messages, :class_name => "Message", :foreign_key => :from_user_id, :conditions => { :from_user_visible => true }, :order => 'sent_on DESC'
   has_many :friends, :include => :befriendee, :conditions => "users.status IN ('active', 'confirmed')"
+  has_many :friend_users, :through => :friends, :source => :befriendee
   has_many :tokens, :class_name => "UserToken"
   has_many :preferences, :class_name => "UserPreference"
   has_many :changesets, :order => 'created_at DESC'
@@ -15,14 +16,18 @@ class User < ActiveRecord::Base
   has_many :client_applications
   has_many :oauth_tokens, :class_name => "OauthToken", :order => "authorized_at desc", :include => [:client_application]
 
-  has_many :active_blocks, :class_name => "UserBlock", :conditions => ['user_blocks.ends_at > \'#{Time.now.getutc.xmlschema(5)}\' or user_blocks.needs_view']
+  has_many :active_blocks, :class_name => "UserBlock", :conditions => proc { [ "user_blocks.ends_at > :ends_at or user_blocks.needs_view", { :ends_at => Time.now.getutc } ] }
   has_many :roles, :class_name => "UserRole"
+
+  scope :visible, where(:status => ["pending", "active", "confirmed"])
+  scope :active, where(:status => ["active", "confirmed"])
+  scope :public, where(:data_public => true)
 
   validates_presence_of :email, :display_name
   validates_confirmation_of :email#, :message => ' addresses must match'
   validates_confirmation_of :pass_crypt#, :message => ' must match the confirmation password'
-  validates_uniqueness_of :display_name, :allow_nil => true
-  validates_uniqueness_of :email
+  validates_uniqueness_of :display_name, :allow_nil => true, :case_sensitive => false, :if => Proc.new { |u| u.display_name_changed? }
+  validates_uniqueness_of :email, :case_sensitive => false, :if => Proc.new { |u| u.email_changed? }
   validates_uniqueness_of :openid_url, :allow_nil => true
   validates_length_of :pass_crypt, :within => 8..255
   validates_length_of :display_name, :within => 3..255, :allow_nil => true
@@ -36,27 +41,26 @@ class User < ActiveRecord::Base
   validates_numericality_of :home_zoom, :only_integer => true, :allow_nil => true
   validates_inclusion_of :preferred_editor, :in => Editors::ALL_EDITORS, :allow_nil => true
 
+  after_initialize :set_creation_time
   before_save :encrypt_password
 
   file_column :image, :magick => { :geometry => "100x100>" }
 
-  def after_initialize
-    self.creation_time = Time.now.getutc unless self.attribute_present?(:creation_time)
-  end
-
-  def encrypt_password
-    if pass_crypt_confirmation
-      self.pass_salt = OSM::make_token(8)
-      self.pass_crypt = OSM::encrypt_password(pass_crypt, pass_salt)
-    end
-  end
-
   def self.authenticate(options)
     if options[:username] and options[:password]
-      user = find(:first, :conditions => ["email = ? OR display_name = ?", options[:username], options[:username]])
+      user = where("email = ? OR display_name = ?", options[:username], options[:username]).first
+
+      if user.nil?
+        users = where("LOWER(email) = LOWER(?) OR LOWER(display_name) = LOWER(?)", options[:username], options[:username])
+
+        if users.count == 1
+          user = users.first
+        end
+      end
+
       user = nil if user and user.pass_crypt != OSM::encrypt_password(options[:password], user.pass_salt)
     elsif options[:token]
-      token = UserToken.find(:first, :include => :user, :conditions => ["user_tokens.token = ?", options[:token]])
+      token = UserToken.find_by_token(options[:token])
       user = token.user if token
     end
 
@@ -101,7 +105,7 @@ class User < ActiveRecord::Base
   end
 
   def preferred_language
-    languages.find { |l| Language.find(:first, :conditions => { :code => l }) }
+    languages.find { |l| Language.exists?(:code => l) }
   end
 
   def preferred_language_from(array)
@@ -113,9 +117,7 @@ class User < ActiveRecord::Base
       gc = OSM::GreatCircle.new(self.home_lat, self.home_lon)
       bounds = gc.bounds(radius)
       sql_for_distance = gc.sql_for_distance("home_lat", "home_lon")
-      nearby = User.find(:all, 
-                         :conditions => ["id != ? AND status IN (\'active\', \'confirmed\') AND data_public = ? AND #{sql_for_distance} <= ?", id, true, radius],
-                         :order => sql_for_distance, :limit => num)
+      nearby = User.where("id != ? AND status IN (\'active\', \'confirmed\') AND data_public = ? AND #{sql_for_distance} <= ?", id, true, radius).order(sql_for_distance).limit(num)
     else
       nearby = []
     end
@@ -191,8 +193,8 @@ class User < ActiveRecord::Base
   ##
   # return a spam score for a user
   def spam_score
-    changeset_score = self.changesets.find(:all, :limit => 10).length * 50
-    trace_score = self.traces.find(:all, :limit => 10).length * 50
+    changeset_score = self.changesets.limit(10).length * 50
+    trace_score = self.traces.limit(10).length * 50
     diary_entry_score = self.diary_entries.inject(0) { |s,e| s += OSM.spam_score(e.body) }
     diary_comment_score = self.diary_comments.inject(0) { |s,e| s += OSM.spam_score(e.body) }
 
@@ -209,5 +211,18 @@ class User < ActiveRecord::Base
   # return an oauth access token for a specified application
   def access_token(application_key)
     return ClientApplication.find_by_key(application_key).access_token_for_user(self)
+  end
+
+private
+
+  def set_creation_time
+    self.creation_time = Time.now.getutc unless self.attribute_present?(:creation_time)
+  end
+
+  def encrypt_password
+    if pass_crypt_confirmation
+      self.pass_salt = OSM::make_token(8)
+      self.pass_crypt = OSM::encrypt_password(pass_crypt, pass_salt)
+    end
   end
 end

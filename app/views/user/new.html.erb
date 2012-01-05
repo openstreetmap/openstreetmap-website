@@ -1,6 +1,6 @@
 <h1><%= t 'user.new.heading' %></h1>
 
-<% if Acl.find_by_address(request.remote_ip, :conditions => {:k => "no_account_creation"}) %>
+<% if Acl.address(request.remote_ip).where(:k => "no_account_creation").exists? %>
 
 <p><%= t 'user.new.no_auto_account_create' %></p>
 
@@ -12,28 +12,28 @@
 
 <%= error_messages_for 'user' %>
 
-<% form_tag :action => 'terms' do %>
+<%= form_for :user, :url => { :action => 'terms' } do %>
   <%= hidden_field_tag('referer', h(@referer)) unless @referer.nil? %>
 
   <table id="signupForm">
     <tr>
       <td class="fieldName"><%= t 'user.new.email address' %></td>
-      <td><%= text_field(:user, :email, { :size => 50, :maxlength => 255, :tabindex => 1, :value => params[:email] }) %></td>
+      <td><%= email_field(:user, :email, { :size => 50, :maxlength => 255, :tabindex => 1 }) %></td>
     </tr>
     <tr>
       <td class="fieldName"><%= t 'user.new.confirm email address' %></td>
-      <td><%= text_field(:user, :email_confirmation, { :size => 50, :maxlength => 255, :tabindex => 2, :value => params[:email] }) %></td>
+      <td><%= email_field(:user, :email_confirmation, { :size => 50, :maxlength => 255, :tabindex => 2 }) %></td>
     </tr>
     <tr>
       <td></td>
-      <td><span class="minorNote"><%= t 'user.new.not displayed publicly' %></span></td>
+      <td><span class="minorNote"><%= raw(t 'user.new.not displayed publicly') %></span></td>
     </tr>
 
     <tr><td colspan="2">&nbsp;<!--vertical spacer--></td></tr>
 
     <tr>
       <td class="fieldName"><%= t 'user.new.display name' %></td>
-      <td><%= text_field(:user, :display_name, { :size => 30, :maxlength => 255, :tabindex => 3, :value => params[:nickname] }) %></td></tr>
+      <td><%= text_field(:user, :display_name, { :size => 30, :maxlength => 255, :tabindex => 3 }) %></td></tr>
     <tr>
       <td></td>
       <td><span class="minorNote"><%= t 'user.new.display name description' %></span></td>
@@ -42,8 +42,8 @@
     <tr id="openid_spacer"><td colspan="2">&nbsp;<!--vertical spacer--></td></tr>
 
     <tr id="openid_field">
-      <td class="fieldName"><%= t 'user.new.openid', :logo => openid_logo %></td>
-      <td><%= text_field(:user, :openid_url, { :id => "openid_url", :size => 50, :maxlength => 255, :tabindex => 4, :value => params[:openid], :class => "openid_url" }) %></td>
+      <td class="fieldName"><%= raw t 'user.new.openid', :logo => openid_logo %></td>
+      <td><%= url_field(:user, :openid_url, { :id => "openid_url", :size => 50, :maxlength => 255, :tabindex => 4, :class => "openid_url" }) %></td>
     </tr>
 
     <tr><td colspan="2">&nbsp;<!--vertical spacer--></td></tr>
@@ -59,7 +59,7 @@
     <tr>
       <td></td>
       <td>
-        <span id="openid_prompt" class="minorNote"><%= link_to_function(t('user.new.use openid', :logo => openid_logo), "enableOpenID()") %></span>
+        <span id="openid_prompt" class="minorNote"><%= link_to_function(raw(t('user.new.use openid', :logo => openid_logo)), "enableOpenID()") %></span>
         <span id="openid_note" class="minorNote"><%= t 'user.new.openid no password' %></span>
       </td>
     </tr>
@@ -76,24 +76,24 @@
 <script type="text/javascript">
 function enableOpenID()
 {
-  $("openid_prompt").hide();
+  $("#openid_prompt").hide();
 
-  $("openid_spacer").show();
-  $("openid_field").show();
-  $("openid_note").show();
+  $("#openid_spacer").show();
+  $("#openid_field").show();
+  $("#openid_note").show();
 
-  $("openid_url").disabled = false;
+  $("#openid_url").prop("disabled", false);
 }
 
 function disableOpenID()
 {
-  $("openid_prompt").show();
+  $("#openid_prompt").show();
 
-  $("openid_spacer").hide();
-  $("openid_field").hide();
-  $("openid_note").hide();
+  $("#openid_spacer").hide();
+  $("#openid_field").hide();
+  $("#openid_note").hide();
 
-  $("openid_url").disabled = true;
+  $("#openid_url").prop("disabled", true);
 }
 
 <% if params[:openid] or (@user and @user.openid_url and not @user.openid_url.empty?) -%>

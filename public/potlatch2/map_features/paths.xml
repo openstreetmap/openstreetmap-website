@@ -21,10 +21,10 @@
     <tag k="highway" v="cycleway"/>
     <inputSet ref="path"/>
     <inputSet ref="common"/>
-    <input type="choice" name="Cycleway type" category="Cycle" description="What kind of bike path is this?" key="segregated" presence="onTagMatch" priority="low"> 
-       <choice value="yes" text="Segregated" description="Cyclists and pedestrians are separated by a painted line or kerb." /> 
-       <choice value="no" text="Shared" description="Cyclists and pedestrians share the full width of the path." /> 
-    </input> 
+    <input type="choice" name="Cycleway type" category="Cycle" description="What kind of bike path is this?" key="segregated" presence="onTagMatch" priority="low">
+      <choice value="yes" text="Segregated" description="Cyclists and pedestrians are separated by a painted line or kerb." />
+      <choice value="no" text="Shared" description="Cyclists and pedestrians share the full width of the path." />
+    </input>
   </feature>
 
   <feature name="Pedestrian street">
@@ -69,7 +69,7 @@
     <line/>
     <tag k="highway" v="steps"/>
     <inputSet ref="path"/>
-    <input type="freetext" presence="always" category="Naming" name="Number of steps" key="step_count" description="The number of steps in the way" priority="low"/>
+    <input type="freetext" presence="always" category="Details" name="Number of steps" key="step_count" description="The number of steps in the way" priority="low"/>
     <inputSet ref="common"/>
   </feature>
   
@@ -140,6 +140,31 @@
     <tag k="route" v="bicycle"/>
     <tag k="network" v="lcn"/>
 
+    <inputSet ref="route"/>
+    <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Mountain bike route">
+    <category>paths</category>
+    <icon image="features/route__mtb.png" background="#9f4404" foreground="white">
+      <font size="14pt">
+        <b>${ref}</b>
+      </font>
+      <br/>
+      <font size="12pt">${name}</font>
+    </icon>
+
+    <relation/>
+    <tag k="type" v="route"/>
+    <tag k="route" v="mtb"/>
+
+    <input type="choice" presence="always" category="Details" name="Route type" key="mtb:type" description="What type of route is it?">
+      <choice value="crosscountry" text="Cross-country"/>
+      <choice value="allmountain" text="All-mountain"/>
+      <choice value="freeride" text="Freeride"/>
+      <choice value="downhill" text="Downhill"/>
+      <choice value="trial" text="Trial"/>
+    </input>
     <inputSet ref="route"/>
     <inputSet ref="common"/>
   </feature>

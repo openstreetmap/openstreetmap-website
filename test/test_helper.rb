@@ -1,68 +1,9 @@
 ENV["RAILS_ENV"] = "test"
-require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
-require 'test_help'
+require File.expand_path('../../config/environment', __FILE__)
+require 'rails/test_help'
 load 'composite_primary_keys/fixtures.rb'
 
-# This monkey patch is to make tests where a rack module alters
-# the response work with rails 2 - it can be dropped when we move
-# to rails 3.
-module ActionController
-  module Integration
-    class Session
-      def process_with_capture(method, path, parameters = nil, headers = nil)
-        status = process_without_capture(method, path, parameters, headers)
-        @controller = ActionController::Base.last_controller
-        @request = @controller.request
-        @response.session = @controller.response.session
-        @response.template = @controller.response.template
-        @response.redirected_to = @response.location
-        status
-      end
-
-      alias_method_chain :process, :capture
-    end
-
-    module ControllerCapture
-      module ClassMethods
-        mattr_accessor :last_controller
-
-        def clear_last_instantiation!
-          self.last_controller = nil
-        end
-
-        def new_with_capture(*args)
-          controller = new_without_capture(*args)
-          self.last_controller ||= controller
-          controller
-        end
-      end
-    end
-  end
-end
-
 class ActiveSupport::TestCase
-  # Transactional fixtures accelerate your tests by wrapping each test method
-  # in a transaction that's rolled back on completion.  This ensures that the
-  # test database remains unchanged so your fixtures don't have to be reloaded
-  # between every test method.  Fewer database queries means faster tests.
-  #
-  # Read Mike Clark's excellent walkthrough at
-  #   http://clarkware.com/cgi/blosxom/2005/10/24#Rails10FastTesting
-  #
-  # Every Active Record database supports transactions except MyISAM tables
-  # in MySQL.  Turn off transactional fixtures in this case; however, if you
-  # don't care one way or the other, switching from MyISAM to InnoDB tables
-  # is recommended.
-  self.use_transactional_fixtures = false
-
-  # Instantiated fixtures are slow, but give you @david where otherwise you
-  # would need people(:david).  If you don't want to migrate your existing
-  # test cases which use the @david style and don't mind the speed hit (each
-  # instantiated fixtures translates to a database query per test method),
-  # then set this back to true.
-  self.use_instantiated_fixtures  = false
-
-
   # Load standard fixtures needed to test API methods
   def self.api_fixtures
     #print "setting up the api_fixtures"
@@ -190,7 +131,7 @@ class ActiveSupport::TestCase
       rots_response = Net::HTTP.get_response(URI.parse("http://localhost:1123/"))
     rescue
       # It isn't, so start a new instance.
-      rots = IO.popen(RAILS_ROOT + "/vendor/gems/rots-0.2.1/bin/rots --silent")
+      rots = IO.popen("#{Rails.root}/vendor/gems/rots-0.2.1/bin/rots --silent")
 
       # Wait for up to 30 seconds for the server to start and respond before continuing
       for i in (1 .. 30)

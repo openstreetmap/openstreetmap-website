@@ -440,7 +440,7 @@ module OSM
       doc = XML::Document.new
       doc.encoding = XML::Encoding::UTF_8
       root = XML::Node.new 'osm'
-      root['version'] = API_VERSION
+      root['version'] = API_VERSION.to_s
       root['generator'] = GENERATOR
       doc.root = root
       return doc
@@ -497,15 +497,12 @@ module OSM
   end
 
   # Return an SQL fragment to select a given area of the globe
-  def self.sql_for_area(minlat, minlon, maxlat, maxlon, prefix = nil)
-    tilesql = QuadTile.sql_for_area(minlat, minlon, maxlat, maxlon, prefix)
+  def self.sql_for_area(bbox, prefix = nil)
+    tilesql = QuadTile.sql_for_area(bbox, prefix)
+    bbox = bbox.to_scaled
 
-    minlat = (minlat * 10000000).round
-    minlon = (minlon * 10000000).round
-    maxlat = (maxlat * 10000000).round
-    maxlon = (maxlon * 10000000).round
-
-    return "#{tilesql} AND #{prefix}latitude BETWEEN #{minlat} AND #{maxlat} AND #{prefix}longitude BETWEEN #{minlon} AND #{maxlon}"
+    return "#{tilesql} AND #{prefix}latitude BETWEEN #{bbox.min_lat} AND #{bbox.max_lat} " +
+                      "AND #{prefix}longitude BETWEEN #{bbox.min_lon} AND #{bbox.max_lon}"
   end
 
   # Return a spam score for a chunk of text
@@ -530,8 +527,8 @@ module OSM
   end
 
   def self.legal_text_for_country(country_code)
-    file_name = File.join(RAILS_ROOT, "config", "legales", country_code.to_s + ".yml")
-    file_name = File.join(RAILS_ROOT, "config", "legales", DEFAULT_LEGALE + ".yml") unless File.exist? file_name
+    file_name = File.join(Rails.root, "config", "legales", country_code.to_s + ".yml")
+    file_name = File.join(Rails.root, "config", "legales", DEFAULT_LEGALE + ".yml") unless File.exist? file_name
     YAML::load_file(file_name)
   end
 end

@@ -5,11 +5,11 @@
 <h2><%= h(@title) %></h2>
 
 <% if @this_user %>
-  <% if_user(@this_user) do %>
+  <%= if_user(@this_user) do %>
     <%= link_to image_tag("new.png", :border=>0) + t('diary_entry.list.new'), {:controller => 'diary_entry', :action => 'new'}, {:title => t('diary_entry.list.new_title')} %>
   <% end %>
 <% else %>
-  <% if_logged_in do %>
+  <%= if_logged_in do %>
     <%= link_to image_tag("new.png", :border=>0) + t('diary_entry.list.new'), {:controller => 'diary_entry', :action => 'new'}, {:title => t('diary_entry.list.new_title')} %>
   <% end %>
 <% end %>

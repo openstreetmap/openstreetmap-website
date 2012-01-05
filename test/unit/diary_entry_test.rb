@@ -25,9 +25,8 @@ class DiaryEntryTest < ActiveSupport::TestCase
   end
   
   def diary_entry_valid(attrs, result = true)
-    entry = diary_entries(:normal_user_entry_1).clone
+    entry = DiaryEntry.new(diary_entries(:normal_user_entry_1).attributes)
     entry.attributes = attrs
     assert_equal result, entry.valid?, "Expected #{attrs.inspect} to be #{result}"
-  end
-  
+  end  
 end

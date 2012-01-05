@@ -9,13 +9,11 @@ class OldRelationControllerTest < ActionController::TestCase
   # -------------------------------------
   def test_history
     # check that a visible relations is returned properly
-    get :history, :id => relations(:visible_relation).id
+    get :history, :id => relations(:visible_relation).relation_id
     assert_response :success
 
     # check chat a non-existent relations is not returned
     get :history, :id => 0
     assert_response :not_found
-
   end
-
 end

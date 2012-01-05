@@ -17,8 +17,8 @@ private
 
   def expire_cache_for(record)
     case
-    when record.is_a?(DiaryEntry): entry = record
-    when record.is_a?(DiaryComment): entry = record.diary_entry
+    when record.is_a?(DiaryEntry) then entry = record
+    when record.is_a?(DiaryComment) then entry = record.diary_entry
     end
 
     expire_action(:controller => 'diary_entry', :action => 'view', :display_name => entry.user.display_name, :id => entry.id)

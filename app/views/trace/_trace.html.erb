@@ -25,7 +25,7 @@
     <%= t'trace.trace.by' %> <%=link_to h(trace.user.display_name), {:controller => 'user', :action => 'view', :display_name => trace.user.display_name} %>
     <% if !trace.tags.empty? %>
       <%= t'trace.trace.in' %> 
-      <%= trace.tags.collect { |tag| link_to_tag tag.tag }.join(", ") %>
+      <%= raw(trace.tags.collect { |tag| link_to_tag tag.tag }.join(", ")) %>
     <% end %>
   </td>
 </tr>

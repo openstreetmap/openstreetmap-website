@@ -15,7 +15,7 @@ class MessageController < ApplicationController
     @to_user = User.find_by_display_name(params[:display_name])
     if @to_user
       if params[:message]
-        if @user.sent_messages.count(:conditions => ["sent_on >= ?", Time.now.getutc - 1.hour]) >= MAX_MESSAGES_PER_HOUR
+        if @user.sent_messages.where("sent_on >= ?", Time.now.getutc - 1.hour).count >= MAX_MESSAGES_PER_HOUR
           flash[:error] = t 'message.new.limit_exceeded'
         else
           @message = Message.new(params[:message])
@@ -25,7 +25,7 @@ class MessageController < ApplicationController
 
           if @message.save
             flash[:notice] = t 'message.new.message_sent'
-            Notifier::deliver_message_notification(@message)
+            Notifier.message_notification(@message).deliver
             redirect_to :controller => 'message', :action => 'inbox', :display_name => @user.display_name
           end
         end
@@ -57,7 +57,7 @@ class MessageController < ApplicationController
       render :action => 'new'
     else
       flash[:notice] = t 'message.reply.wrong_user', :user => @user.display_name
-      redirect_to :controller => "user", :action => "login", :referer => request.request_uri
+      redirect_to :controller => "user", :action => "login", :referer => request.fullpath
     end
   rescue ActiveRecord::RecordNotFound
     @title = t'message.no_such_message.title'
@@ -74,7 +74,7 @@ class MessageController < ApplicationController
       @message.save
     else
       flash[:notice] = t 'message.read.wrong_user', :user => @user.display_name
-      redirect_to :controller => "user", :action => "login", :referer => request.request_uri
+      redirect_to :controller => "user", :action => "login", :referer => request.fullpath
     end
   rescue ActiveRecord::RecordNotFound
     @title = t'message.no_such_message.title'
@@ -103,7 +103,7 @@ class MessageController < ApplicationController
   def mark
     if params[:message_id]
       id = params[:message_id]
-      message = Message.find_by_id(id, :conditions => ["to_user_id = ? or from_user_id = ?", @user.id, @user.id])
+      @message = Message.where(:id => id).where("to_user_id = ? OR from_user_id = ?", @user.id, @user.id).first
       if params[:mark] == 'unread'
         message_read = false 
         notice = t 'message.mark.as_unread'
@@ -111,15 +111,9 @@ class MessageController < ApplicationController
         message_read = true
         notice = t 'message.mark.as_read'
       end
-      message.message_read = message_read
-      if message.save
-        if request.xhr?
-          render :update do |page|
-            page.replace "inboxanchor", :partial => "layouts/inbox"
-            page.replace "inbox-count", :partial => "message_count"
-            page.replace "inbox-#{message.id}", :partial => "message_summary", :object => message
-          end
-        else
+      @message.message_read = message_read
+      if @message.save
+        if not request.xhr?
           flash[:notice] = notice
           redirect_to :controller => 'message', :action => 'inbox', :display_name => @user.display_name
         end
@@ -134,7 +128,7 @@ class MessageController < ApplicationController
   def delete
     if params[:message_id]
       id = params[:message_id]
-      message = Message.find_by_id(id, :conditions => ["to_user_id = ? or from_user_id = ?", @user.id, @user.id])
+      message = Message.where(:id => id).where("to_user_id = ? OR from_user_id = ?", @user.id, @user.id).first
       message.from_user_visible = false if message.sender == @user
       message.to_user_visible = false if message.recipient == @user
       if message.save

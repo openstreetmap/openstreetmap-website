@@ -14,7 +14,7 @@
     <% if @display_name %>
       | <%= link_to t('trace.trace_header.see_all_traces'), :controller => 'trace', :action => 'list', :display_name => nil, :tag => nil, :page => nil %>
     <% end %>
-    <% unless_user(@target_user, :span) do %>
+    <%= unless_user(@target_user, :span) do %>
       | <%= link_to t('trace.trace_header.see_your_traces'), :action => 'mine', :tag => nil, :page => nil %>
     <% end %>
   <% end %>

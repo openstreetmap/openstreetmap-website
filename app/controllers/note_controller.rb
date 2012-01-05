@@ -18,33 +18,30 @@ class NoteController < ApplicationController
     # Figure out the bbox - we prefer a bbox argument but also
     # support the old, deprecated, method with four arguments
     if params[:bbox]
-      raise OSM::APIBadUserInput.new("Invalid bbox") unless params[:bbox].count(",") == 3
-
-      bbox = params[:bbox].split(",")
+      bbox = BoundingBox.from_bbox_params(params)
     else
       raise OSM::APIBadUserInput.new("No l was given") unless params[:l]
       raise OSM::APIBadUserInput.new("No r was given") unless params[:r]
       raise OSM::APIBadUserInput.new("No b was given") unless params[:b]
       raise OSM::APIBadUserInput.new("No t was given") unless params[:t]
 
-      bbox = [ params[:l], params[:b], params[:r], params[:t] ]
+      bbox = BoundingBox.from_lrbt_params(params)
     end
 
     # Get the sanitised boundaries
     @min_lon, @min_lat, @max_lon, @max_lat = sanitise_boundaries(bbox)
 
     # Get any conditions that need to be applied
-    conditions = closed_condition
+    notes = closed_condition(Note.scoped)
 
     # Check that the boundaries are valid
-    check_boundaries(@min_lon, @min_lat, @max_lon, @max_lat, MAX_NOTE_REQUEST_AREA)
+    bbox.check_boundaries
+
+    # Check the the bounding box is not too big
+    bbox.check_size(MAX_NOTE_REQUEST_AREA)
 
     # Find the notes we want to return
-    @notes = Note.find_by_area(@min_lat, @min_lon, @max_lat, @max_lon,
-                               :include => :comments, 
-                               :conditions => conditions,
-                               :order => "updated_at DESC", 
-                               :limit => result_limit)
+    @notes = notes.bbox(bbox).order("updated_at DESC").limit(result_limit).preload(:comments)
 
     # Render the result
     respond_to do |format|
@@ -156,26 +153,20 @@ class NoteController < ApplicationController
   # Get a feed of recent notes and comments
   def rss
     # Get any conditions that need to be applied
-    conditions = closed_condition
+    notes = closed_condition(Note.scoped)
 
     # Process any bbox
     if params[:bbox]
-      raise OSM::APIBadUserInput.new("Invalid bbox") unless params[:bbox].count(",") == 3
+      bbox = BoundingBox.from_bbox_params(params)
 
-      @min_lon, @min_lat, @max_lon, @max_lat = sanitise_boundaries(params[:bbox].split(','))
+      bbox.check_boundaries
+      bbox.check_size(MAX_NOTE_REQUEST_AREA)
 
-      check_boundaries(@min_lon, @min_lat, @max_lon, @max_lat, MAX_NOTE_REQUEST_AREA)
-
-      conditions = cond_merge conditions, [OSM.sql_for_area(@min_lat, @min_lon, @max_lat, @max_lon, "notes.")]
+      notes = notes.bbox(bbox)
     end
 
     # Find the comments we want to return
-    @comments = NoteComment.find(:all, 
-                                 :conditions => conditions,
-                                 :order => "created_at DESC",
-                                 :limit => result_limit,
-                                 :joins => :note, 
-                                 :include => :note)
+    @comments = NoteComment.where(:note => notes).order("created_at DESC").limit(result_limit).include(:note)
 
     # Render the result
     respond_to do |format|
@@ -302,21 +293,6 @@ private
   # utility functions below. 
   #------------------------------------------------------------   
  
-  ## 
-  # merge two conditions 
-  # TODO: this is a copy from changeset_controler.rb and should be factored out to share
-  def cond_merge(a, b) 
-    if a and b 
-      a_str = a.shift 
-      b_str = b.shift 
-      return [ a_str + " AND " + b_str ] + a + b 
-    elsif a  
-      return a 
-    else b 
-      return b 
-    end 
-  end 
-
   ##
   # Render an OK response
   def render_ok
@@ -341,7 +317,7 @@ private
   ##
   # Generate a condition to choose which bugs we want based
   # on their status and the user's request parameters
-  def closed_condition
+  def closed_condition(notes)
     if params[:closed]
       closed_since = params[:closed].to_i
     else
@@ -349,14 +325,14 @@ private
     end
 	
     if closed_since < 0
-      conditions = ["status != 'hidden'"]
+      notes = notes.where("status != 'hidden'")
     elsif closed_since > 0
-      conditions = ["(status = 'open' OR (status = 'closed' AND closed_at > '#{Time.now - closed_since.days}'))"]
+      notes = notes.where("(status = 'open' OR (status = 'closed' AND closed_at > '#{Time.now - closed_since.days}'))")
     else
-      conditions = ["status = 'open'"]
+      notes = notes.where("status = 'open'")
     end
 
-    return conditions
+    return notes
   end
 
   ##

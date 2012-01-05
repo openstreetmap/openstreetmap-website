@@ -8,7 +8,7 @@ class ExportController < ApplicationController
 
   #When the user clicks 'Export' we redirect to a URL which generates the export download
   def finish
-    bbox = BoundingBox.new(params[:minlon], params[:minlat], params[:maxlon], params[:maxlat])
+    bbox = BoundingBox.from_lon_lat_params(params)
     format = params[:format]
 
     if format == "osm"

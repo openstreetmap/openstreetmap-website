@@ -1,6 +1,6 @@
 <h2><%= t 'user.account.my settings' %></h2>
 <%= error_messages_for 'user' %>
-<% form_for :user, :html => { :multipart => true } do |f| %>
+<%= form_for :user, :html => { :multipart => true } do |f| %>
 <table id="accountForm">
   <tr>
     <td class="fieldName"><%= t 'user.new.display name' %></td>
@@ -14,7 +14,7 @@
 
   <tr>
     <td class="fieldName"><%= t 'user.account.new email address' %></td>
-    <td><%= f.text_field :new_email, {:size => 50, :maxlength => 255} %> <span class="minorNote"><%= t 'user.account.email never displayed publicly' %></span></td>
+    <td><%= f.email_field :new_email, {:size => 50, :maxlength => 255} %> <span class="minorNote"><%= t 'user.account.email never displayed publicly' %></span></td>
   </tr>
 
   <tr>
@@ -29,7 +29,7 @@
 
   <tr>
     <td class="fieldName" ><%= t 'user.account.openid.openid' %></td>
-    <td><%= f.text_field :openid_url, {:id => "openid_url", :class => "openid_url"} %> <span class="minorNote">(<a href="<%= t 'user.account.openid.link' %>" target="_new"><%= t 'user.account.openid.link text' %></a>)</span></td>
+    <td><%= f.url_field :openid_url, {:id => "openid_url", :class => "openid_url"} %> <span class="minorNote">(<a href="<%= t 'user.account.openid.link' %>" target="_new"><%= t 'user.account.openid.link text' %></a>)</span></td>
   </tr>
 
   <tr>
@@ -129,7 +129,7 @@
 <% unless @user.data_public? %>
 <a name="public"></a>
 <h2><%= t 'user.account.public editing note.heading' %></h2>
-<%= t 'user.account.public editing note.text' %>
+<%= raw t 'user.account.public editing note.text' %>
   <%= button_to t('user.account.make edits public button'), :action => :go_public %>
 <% end %>
 <br/>

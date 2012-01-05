@@ -1,9 +1,14 @@
-# Filters added to this controller will be run for all controllers in the application.
-# Likewise, all the methods added will be available for all controllers.
 class ApplicationController < ActionController::Base
 
+  protect_from_forgery
+
   if STATUS == :database_readonly or STATUS == :database_offline
-    session :off
+    after_filter :clear_session
+    wrap_parameters false
+
+    def clear_session
+      session.clear
+    end
 
     def self.cache_sweeper(*sweepers)
     end
@@ -11,9 +16,13 @@ class ApplicationController < ActionController::Base
 
   def authorize_web
     if session[:user]
-      @user = User.find(session[:user], :conditions => {:status => ["active", "confirmed", "suspended"]})
+      @user = User.where(:id => session[:user]).where("status IN ('active', 'confirmed', 'suspended')").first
 
-      if @user.status == "suspended"
+      if @user.display_name != cookies["_osm_username"]
+        logger.info "Session user '#{@user.display_name}' does not match cookie user '#{cookies['_osm_username']}'"
+        reset_session
+        @user = nil
+      elsif @user.status == "suspended"
         session.delete(:user)
         session_expires_automatically
 
@@ -26,20 +35,22 @@ class ApplicationController < ActionController::Base
         if params[:referer]
           redirect_to :controller => "user", :action => "terms", :referer => params[:referer]
         else
-          redirect_to :controller => "user", :action => "terms", :referer => request.request_uri
+          redirect_to :controller => "user", :action => "terms", :referer => request.fullpath
         end
       end
     elsif session[:token]
-      @user = User.authenticate(:token => session[:token])
-      session[:user] = @user.id
+      if @user = User.authenticate(:token => session[:token])
+        session[:user] = @user.id
+      end
     end
   rescue Exception => ex
     logger.info("Exception authorizing user: #{ex.to_s}")
+    reset_session
     @user = nil
   end
 
   def require_user
-    redirect_to :controller => 'user', :action => 'login', :referer => request.request_uri unless @user
+    redirect_to :controller => 'user', :action => 'login', :referer => request.fullpath unless @user
   end
 
   ##
@@ -106,9 +117,7 @@ class ApplicationController < ActionController::Base
   # is optional.
   def setup_user_auth
     # try and setup using OAuth
-    if oauthenticate
-      @user = current_token.user
-    else
+    if not Authenticator.new(self, [:token]).allow?
       username, passwd = get_auth_data # parse from headers
       # authenticate per-scheme
       if username.nil?
@@ -199,7 +208,7 @@ class ApplicationController < ActionController::Base
        request.headers['X-Error-Format'].downcase == "xml"
       result = OSM::API.new.get_xml_doc
       result.root.name = "osmError"
-      result.root << (XML::Node.new("status") << interpret_status(status))
+      result.root << (XML::Node.new("status") << "#{Rack::Utils.status_code(status)} #{Rack::Utils::HTTP_STATUS_CODES[status]}")
       result.root << (XML::Node.new("message") << message)
 
       render :text => result.to_s, :content_type => "text/xml"
@@ -239,7 +248,7 @@ class ApplicationController < ActionController::Base
       end
     end
 
-    I18n.locale = request.compatible_language_from(I18n.available_locales)
+    I18n.locale = request.compatible_language_from(I18n.available_locales) || I18n.default_locale
 
     response.headers['Content-Language'] = I18n.locale.to_s
   end
@@ -357,5 +366,19 @@ private
     end 
     return [user, pass] 
   end 
+
+  # used by oauth plugin to get the current user
+  def current_user
+    @user
+  end
+
+  # used by oauth plugin to set the current user
+  def current_user=(user)
+    @user=user
+  end
+
+  # override to stop oauth plugin sending errors
+  def invalid_oauth_response
+  end
 
 end

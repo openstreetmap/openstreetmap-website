@@ -4,7 +4,12 @@ module BrowseHelper
   end
 
   def printable_name(object, version=false)
-    name = t 'printable_name.with_id', :id => object.id.to_s
+    if object.id.is_a?(Array)
+      id = object.id[0]
+    else
+      id = object.id
+    end
+    name = t 'printable_name.with_id', :id => id.to_s
     if version
       name = t 'printable_name.with_version', :id => name, :version => object.version.to_s
     end

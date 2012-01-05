@@ -9,7 +9,7 @@ class UserCreationTest < ActionController::IntegrationTest
 
   def test_create_user_form
     I18n.available_locales.each do |locale|
-      get '/user/new', {}, {"accept_language" => locale.to_s}
+      get '/user/new', {}, {"HTTP_ACCEPT_LANGUAGE" => locale.to_s}
       assert_response :success
       assert_template 'user/new'
     end
@@ -23,14 +23,14 @@ class UserCreationTest < ActionController::IntegrationTest
         assert_difference('ActionMailer::Base.deliveries.size', 0) do
           post '/user/save',
             {:user => { :email => dup_email, :email_confirmation => dup_email, :display_name => display_name, :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest"}},
-            {"accept_language" => localer.to_s}
+            {"HTTP_ACCEPT_LANGUAGE" => localer.to_s}
         end
       end
       assert_response :success
       assert_template 'user/new'
       assert_equal response.headers['Content-Language'][0..1], localer.to_s[0..1] unless localer == :root
       assert_select "div#errorExplanation"
-      assert_select "table#signupForm > tr > td > div[class=fieldWithErrors] > input#user_email"
+      assert_select "table#signupForm > tr > td > div[class=field_with_errors] > input#user_email"
       assert_no_missing_translations
     end
   end
@@ -43,13 +43,13 @@ class UserCreationTest < ActionController::IntegrationTest
         assert_difference('ActionMailer::Base.deliveries.size', 0) do
           post '/user/save',
           {:user => {:email => email, :email_confirmation => email, :display_name => dup_display_name, :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest"}},
-          {"accept_language" => locale.to_s}
+          {"HTTP_ACCEPT_LANGUAGE" => locale.to_s}
         end
       end
       assert_response :success
       assert_template 'user/new'
       assert_select "div#errorExplanation"
-      assert_select "table#signupForm > tr > td > div[class=fieldWithErrors] > input#user_display_name"
+      assert_select "table#signupForm > tr > td > div[class=field_with_errors] > input#user_display_name"
       assert_no_missing_translations
     end
   end
@@ -62,7 +62,7 @@ class UserCreationTest < ActionController::IntegrationTest
         assert_difference('ActionMailer::Base.deliveries.size', 1) do
           post_via_redirect "/user/save",
             {:user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest"}},
-            {"accept_language" => "#{locale.to_s}"}
+            {"HTTP_ACCEPT_LANGUAGE" => "#{locale.to_s}"}
         end
       end
 
@@ -113,8 +113,10 @@ class UserCreationTest < ActionController::IntegrationTest
     assert_equal register_email.to[0], new_email
     # Check that the confirm account url is correct
     confirm_regex = Regexp.new("/user/redirect_tester/confirm\\?confirm_string=([a-zA-Z0-9]*)")
-    assert_match(confirm_regex, register_email.body)
-    confirm_string = confirm_regex.match(register_email.body)[1]
+    register_email.parts.each do |part|
+      assert_match(confirm_regex, part.body)
+    end
+    confirm_string = register_email.parts[0].body.match(confirm_regex)[1]
 
     # Check the page
     assert_response :success
@@ -133,7 +135,7 @@ class UserCreationTest < ActionController::IntegrationTest
     assert_response :redirect # but it not redirects to /user/<display_name>/traces
     follow_redirect!
     assert_response :success
-    assert_template "trace/list.html.erb"
+    assert_template 'trace/list'
   end
 
   def test_user_create_openid_success
@@ -145,7 +147,7 @@ class UserCreationTest < ActionController::IntegrationTest
         post "/user/terms",
           {:user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :openid_url => "http://localhost:1123/john.doe?openid.success=newuser", :pass_crypt => "", :pass_crypt_confirmation => ""}}
         assert_response :redirect
-        res = openid_request(@response.redirected_to)
+        res = openid_request(@response.redirect_url)
         post '/user/terms', res
         assert_response :success
         assert_template 'terms'
@@ -172,7 +174,7 @@ class UserCreationTest < ActionController::IntegrationTest
         post "/user/terms",
           {:user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :openid_url => "http://localhost:1123/john.doe?openid.failure=newuser", :pass_crypt => "", :pass_crypt_confirmation => ""}}
         assert_response :redirect
-        res = openid_request(@response.redirected_to)
+        res = openid_request(@response.redirect_url)
         post '/user/terms', res
         assert_response :success
         assert_template 'user/new'
@@ -208,8 +210,10 @@ class UserCreationTest < ActionController::IntegrationTest
     assert_equal register_email.to[0], new_email
     # Check that the confirm account url is correct
     confirm_regex = Regexp.new("/user/redirect_tester_openid/confirm\\?confirm_string=([a-zA-Z0-9]*)")
-    assert_match(confirm_regex, register_email.body)
-    confirm_string = confirm_regex.match(register_email.body)[1]
+    register_email.parts.each do |part|
+      assert_match(confirm_regex, part.body)
+    end
+    confirm_string = register_email.parts[0].body.match(confirm_regex)[1]
 
     # Check the page
     assert_response :success
@@ -228,6 +232,6 @@ class UserCreationTest < ActionController::IntegrationTest
     assert_response :redirect # but it not redirects to /user/<display_name>/traces
     follow_redirect!
     assert_response :success
-    assert_template "trace/list.html.erb"
+    assert_template "trace/list"
   end
 end

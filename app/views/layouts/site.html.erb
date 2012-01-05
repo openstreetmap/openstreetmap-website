@@ -14,13 +14,13 @@
 
     <span id="greeting">
       <% if @user and @user.id %>
-        <span id="full-greeting"><%= t 'layouts.welcome_user', :user_link => (link_to h(@user.display_name), {:controller => 'user', :action => 'view', :display_name => @user.display_name}, :title => t('layouts.welcome_user_link_tooltip')) %></span> 
+        <span id="full-greeting"><%= raw(t 'layouts.welcome_user', :user_link => (link_to h(@user.display_name), {:controller => 'user', :action => 'view', :display_name => @user.display_name}, :title => t('layouts.welcome_user_link_tooltip'))) %></span> 
         <span id="small-greeting"><%= link_to t('layouts.welcome_user_link_tooltip'), {:controller => 'user', :action => 'view', :display_name => @user.display_name} %></span> | 
         <%= yield :greeting %>
         <%= render :partial => "layouts/inbox" %> |
-        <%= link_to t('layouts.logout'), {:controller => 'user', :action => 'logout', :session => request.session_options[:id], :referer => request.request_uri}, {:id => 'logoutanchor', :title => t('layouts.logout_tooltip'), :method => :post, :href => url_for(:controller => 'user', :action => 'logout', :referer => request.request_uri)}%>
+        <%= link_to t('layouts.logout'), {:controller => 'user', :action => 'logout', :session => request.session_options[:id], :referer => request.fullpath}, {:id => 'logoutanchor', :title => t('layouts.logout_tooltip')}%>
       <% else %>
-        <%= link_to t('layouts.log_in'), {:controller => 'user', :action => 'login', :referer => request.request_uri}, {:id => 'loginanchor', :title => t('layouts.log_in_tooltip')} %> |
+        <%= link_to t('layouts.log_in'), {:controller => 'user', :action => 'login', :referer => request.fullpath}, {:id => 'loginanchor', :title => t('layouts.log_in_tooltip')} %> |
         <%= link_to t('layouts.sign_up'), {:controller => 'user', :action => 'new'}, {:id => 'registeranchor', :title => t('layouts.sign_up_tooltip')} %>
       <% end %>
     </span>
@@ -42,13 +42,9 @@
         diaryclass += ' active' if params['controller'] == 'diary_entry'
         %>
         <li><%= link_to t('layouts.view'), {:controller => 'site', :action => 'index'}, {:id => 'viewanchor', :title => t('layouts.view_tooltip'), :class => viewclass} %></li>
-        <li><%= link_to t('layouts.edit') + '&nbsp;&#x25be;', {:controller => 'site', :action => 'edit'}, {:id => 'editanchor', :title => t('javascripts.site.edit_tooltip'), :class => editclass} %></li>
+        <li><%= link_to h(t('layouts.edit')) + '&nbsp;&#x25be;'.html_safe, {:controller => 'site', :action => 'edit'}, {:id => 'editanchor', :title => t('javascripts.site.edit_tooltip'), :class => editclass} %></li>
         <li><%= link_to t('layouts.history'), {:controller => 'changeset', :action => 'list' }, {:id => 'historyanchor', :title => t('javascripts.site.history_tooltip'), :class => historyclass} %></li>
-        <% if params['controller'] == 'site' and (params['action'] == 'index' or params['action'] == 'export') %>
-        <li><%= link_to_remote t('layouts.export'), {:url => {:controller => 'export', :action => 'start'}}, {:id => 'exportanchor', :title => t('layouts.export_tooltip'), :class => exportclass, :href => url_for(:controller => 'site', :action => 'export')} %></li>
-        <% else %>
         <li><%= link_to t('layouts.export'), {:controller => 'site', :action => 'export'}, {:id => 'exportanchor', :title => t('layouts.export_tooltip'), :class => exportclass} %></li>
-        <% end %>
         <li><%= link_to t('layouts.gps_traces'), {:controller => 'trace', :action => 'list', :display_name => nil, :tag => nil, :page => nil}, {:id => 'traceanchor', :title => t('layouts.gps_traces_tooltip'), :class => traceclass} %></li>
         <li><%= link_to t('layouts.user_diaries'), {:controller => 'diary_entry', :action => 'list', :display_name => nil}, {:id => 'diaryanchor', :title => t('layouts.user_diaries_tooltip'), :class => diaryclass} %></li>
       </ul>
@@ -67,7 +63,6 @@
     </script>
 
     <div id="left">
-
       <div id="logo">
         <center>
           <h1><%= t 'layouts.project_name.h1' %></h1>
@@ -87,11 +82,11 @@
           <%= t 'layouts.intro_2' %>
         </p>
         <p>
-        <%= t 'layouts.intro_3', 
-              :ucl => link_to(t('layouts.intro_3_ucl'), "http://www.vr.ucl.ac.uk"),
-              :ic => link_to(t('layouts.intro_3_ic'), "http://www.imperial.ac.uk/"),
-              :bytemark => link_to(t('layouts.intro_3_bytemark'), "http://www.bytemark.co.uk"),
-              :partners => link_to(t('layouts.intro_3_partners'), t('layouts.intro_3_partners_url')) %>
+        <%= raw(t 'layouts.intro_3', 
+                  :ucl => link_to(t('layouts.intro_3_ucl'), "http://www.vr.ucl.ac.uk"),
+                  :ic => link_to(t('layouts.intro_3_ic'), "http://www.imperial.ac.uk/"),
+                  :bytemark => link_to(t('layouts.intro_3_bytemark'), "http://www.bytemark.co.uk"),
+                  :partners => link_to(t('layouts.intro_3_partners'), t('layouts.intro_3_partners_url'))) %>
         </p>
       </div>
       <% end %>
@@ -108,7 +103,7 @@
 
       <% if false %>
       <div id="donate" class="notice">
-        <%= t 'layouts.donate', :link => "<a href=\"http://donate.openstreetmap.org/\">#{t('layouts.donate_link_text')}</a>" %>
+        <%= raw t 'layouts.donate', :link => "<a href=\"http://donate.openstreetmap.org/\">#{t('layouts.donate_link_text')}</a>" %>
       </div>
       <% end %>
 
@@ -123,16 +118,21 @@
         </ul>
       </div>
 
-      <div id="sotm">
-        <%= link_to image_tag("sotm.png", :alt => t('layouts.sotm2011'), :title => t('layouts.sotm2011'), :border => "0"), "http://stateofthemap.org/register-now/" %>
-      </div>
-
       <center>
         <div class="donate">
           <a href="http://donate.openstreetmap.org/" title="<%= h(t('layouts.make_a_donation.title')) %>"><%= h(t('layouts.make_a_donation.text')) %></a>
         </div>
       </center>
     </div>
+
+    <script type="text/javascript">
+    $(document).ready(function () {
+      var auth_token = $("meta[name=csrf-token]").attr("content");
+
+      $("form input[name=authenticity_token]").val(auth_token);
+    });
+    </script>
+
     <% if defined?(PIWIK_LOCATION) and defined?(PIWIK_SITE) -%>
     <%= render :partial => "layouts/piwik" %>
     <% end -%>

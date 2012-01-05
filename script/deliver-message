@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 
 require File.dirname(__FILE__) + '/../config/environment'
-require 'tmail'
 
 exit 0 unless recipient = ARGV[0].match(/^([cm])-(\d+)-(.*)$/)
 
@@ -19,14 +18,20 @@ end
 
 exit 0 unless recipient[3] == digest[0,6]
 
-mail = TMail::Mail.parse(STDIN.readlines.join)
+mail = Mail.new(STDIN.readlines.join)
+
+if mail.multipart?
+  body = mail.html_part || mail.text_part
+else
+  body = mail.body
+end
 
 message = Message.new(:sender => from, :recipient => to,
-                      :sent_on => Time.now.getutc,
+                      :sent_on => mail.date.new_offset(0),
                       :title => mail.subject.sub(/\[OpenStreetMap\] */, ""),
-                      :body => mail.body)
+                      :body => body.decoded)
 message.save!
 
-Notifier::deliver_message_notification(message)
+Notifier.message_notification(message).deliver
 
 exit 0

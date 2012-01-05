@@ -3,7 +3,7 @@ class Changeset < ActiveRecord::Base
 
   belongs_to :user
 
-  has_many :changeset_tags, :foreign_key => 'id'
+  has_many :changeset_tags
 
   has_many :nodes
   has_many :ways
@@ -19,6 +19,8 @@ class Changeset < ActiveRecord::Base
   validates_numericality_of :min_lat, :max_lat, :min_lon, :max_lat, :allow_nil => true, :integer_only => true
   validates_numericality_of :user_id,  :integer_only => true
   validates_numericality_of :num_changes, :integer_only => true, :greater_than_or_equal_to => 0
+
+  before_save :update_closed_at
 
   # over-expansion factor to use when updating the bounding box
   EXPAND = 0.1
@@ -52,7 +54,7 @@ class Changeset < ActiveRecord::Base
 
   def self.from_xml(xml, create=false)
     begin
-      p = XML::Parser.string(xml)
+      p = XML::Parser.string(xml, :options => XML::Parser::Options::NOERROR)
       doc = p.parse
 
       doc.find('//osm/changeset').each do |pt|
@@ -88,21 +90,11 @@ class Changeset < ActiveRecord::Base
   # returns the bounding box of the changeset. it is possible that some
   # or all of the values will be nil, indicating that they are undefined.
   def bbox
-    @bbox ||= [ min_lon, min_lat, max_lon, max_lat ]
+    @bbox ||= BoundingBox.new(min_lon, min_lat, max_lon, max_lat)
   end
 
   def has_valid_bbox?
-    not bbox.include? nil
-  end
-
-  ##
-  # returns area of the changset bbox as a rough comparitive quantity for use of changset displays
-  def area
-     if has_valid_bbox?
-       (max_lon - min_lon) * (max_lat - min_lat)
-     else
-       0
-     end
+    bbox.complete?
   end
 
   ##
@@ -110,26 +102,12 @@ class Changeset < ActiveRecord::Base
   # expand a little bit more in the direction of the expansion, so that
   # further expansions may be unnecessary. this is an optimisation
   # suggested on the wiki page by kleptog.
-  def update_bbox!(array)
-    # ensure that bbox is cached and has no nils in it. if there are any
-    # nils, just use the bounding box update to write over them.
-    @bbox = bbox.zip(array).collect { |a, b| a.nil? ? b : a }
-
-    # only try to update the bbox if there is a value for every coordinate
-    # which there will be from the previous line as long as both array and
-    # bbox are all non-nil. 
-    if has_valid_bbox? and array.all?
-      # FIXME - this looks nasty and violates DRY... is there any prettier
-      # way to do this?
-      @bbox[0] = [-180 * GeoRecord::SCALE, array[0] + EXPAND * (@bbox[0] - @bbox[2])].max if array[0] < @bbox[0]
-      @bbox[1] = [ -90 * GeoRecord::SCALE, array[1] + EXPAND * (@bbox[1] - @bbox[3])].max if array[1] < @bbox[1]
-      @bbox[2] = [ 180 * GeoRecord::SCALE, array[2] + EXPAND * (@bbox[2] - @bbox[0])].min if array[2] > @bbox[2]
-      @bbox[3] = [  90 * GeoRecord::SCALE, array[3] + EXPAND * (@bbox[3] - @bbox[1])].min if array[3] > @bbox[3]
+  def update_bbox!(bbox_update)
+    bbox.expand!(bbox_update, EXPAND)
       
-      # update active record. rails 2.1's dirty handling should take care of
-      # whether this object needs saving or not.
-      self.min_lon, self.min_lat, self.max_lon, self.max_lat = @bbox
-    end
+    # update active record. rails 2.1's dirty handling should take care of
+    # whether this object needs saving or not.
+    self.min_lon, self.min_lat, self.max_lon, self.max_lat = @bbox.to_a if bbox.complete?
   end
 
   ##
@@ -175,13 +153,13 @@ class Changeset < ActiveRecord::Base
       self.save!
 
       tags = self.tags
-      ChangesetTag.delete_all(['id = ?', self.id])
+      ChangesetTag.delete_all(:changeset_id => self.id)
 
       tags.each do |k,v|
         tag = ChangesetTag.new
+        tag.changeset_id = self.id
         tag.k = k
         tag.v = v
-        tag.id = self.id
         tag.save!
       end
     end
@@ -191,7 +169,7 @@ class Changeset < ActiveRecord::Base
   # set the auto-close time to be one hour in the future unless
   # that would make it more than 24h long, in which case clip to
   # 24h, as this has been decided is a reasonable time limit.
-  def before_save
+  def update_closed_at
     if self.is_open?
       if (closed_at - created_at) > (MAX_TIME_OPEN - IDLE_TIMEOUT)
         self.closed_at = created_at + MAX_TIME_OPEN
@@ -235,10 +213,9 @@ class Changeset < ActiveRecord::Base
     el1['closed_at'] = self.closed_at.xmlschema unless is_open?
     el1['open'] = is_open?.to_s
 
-    el1['min_lon'] = (bbox[0].to_f / GeoRecord::SCALE).to_s unless bbox[0].nil?
-    el1['min_lat'] = (bbox[1].to_f / GeoRecord::SCALE).to_s unless bbox[1].nil?
-    el1['max_lon'] = (bbox[2].to_f / GeoRecord::SCALE).to_s unless bbox[2].nil?
-    el1['max_lat'] = (bbox[3].to_f / GeoRecord::SCALE).to_s unless bbox[3].nil?
+    if bbox.complete?
+      bbox.to_unscaled.add_bounds_to(el1, '_')
+    end
 
     # NOTE: changesets don't include the XML of the changes within them,
     # they are just structures for tagging. to get the osmChange of a

@@ -1,34 +1,38 @@
 <script type="text/javascript">
-  var brokenContentSize = $("content").offsetWidth == 0;
+  var brokenContentSize = $("#content").prop("offsetWidth") == 0;
 
   function resizeContent() {
-    var content = $("content");
-    var leftMargin = parseInt(getStyle(content, "left"));
-    var rightMargin = parseInt(getStyle(content, "right"));
-    var bottomMargin = parseInt(getStyle(content, "bottom"));
+    var content = $("#content");
+    var leftMargin = parseInt(content.css("left"));
+    var rightMargin = parseInt(content.css("right"));
+    var bottomMargin = parseInt(content.css("bottom"));
 
     <% if t('html.dir') == "ltr" -%>
-    content.style.width = document.documentElement.clientWidth - content.offsetLeft - rightMargin;
+    content.width($(window).width() - content.prop("offsetLeft") - rightMargin);
     <% else -%>
-    content.style.width = document.documentElement.clientWidth - content.offsetRight - leftMargin;
+    content.width($(window).width() - content.prop("offsetRight") - leftMargin);
     <% end -%>
-    content.style.height = document.documentElement.clientHeight - content.offsetTop - bottomMargin;
+    content.height($(window).height() - content.prop("offsetTop") - bottomMargin);
   }
 
   function resizeMap() {
-    var sidebar_width = $("sidebar").offsetWidth;
-
-    if (sidebar_width > 0) {
-      sidebar_width = sidebar_width + 5
-    }
+    var sidebar_width = 0 + $("#sidebar:visible").outerWidth(true);
+    var left_border = parseFloat($("#map").css("border-left-width"));
+    var right_border = parseFloat($("#map").css("border-right-width"));
+    var top_border = parseFloat($("#map").css("border-top-width"));
+    var bottom_border = parseFloat($("#map").css("border-bottom-width"));
 
     <% if t('html.dir') == "ltr" -%>
-    $("map").style.left = (sidebar_width) + "px";
+    $("#map").css("left", (sidebar_width) + "px");
     <% else -%>
-    $("map").style.right = (sidebar_width) + "px";
+    $("#map").css("right", (sidebar_width) + "px");
     <% end -%>
-    $("map").style.width = ($("content").offsetWidth - sidebar_width) + "px";
-    $("map").style.height = ($("content").offsetHeight - 2) + "px";
+    $("#map").width($("#content").width() - sidebar_width - left_border - right_border);
+    $("#map").height($("#content").height() - top_border - bottom_border);
+
+    <% if params[:controller] == "site" and params[:action] == "index" -%>
+    map.updateSize();
+    <% end -%>
   }
 
   function handleResize() {

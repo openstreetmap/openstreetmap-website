@@ -63,12 +63,12 @@ static VALUE tile_for_point(VALUE self, VALUE lat, VALUE lon)
    return UINT2NUM(xy2tile(x, y));
 }
 
-static VALUE tiles_for_area(VALUE self, VALUE minlat, VALUE minlon, VALUE maxlat, VALUE maxlon)
+static VALUE tiles_for_area(VALUE self, VALUE bbox)
 {
-   unsigned int minx = lon2x(NUM2DBL(minlon));
-   unsigned int maxx = lon2x(NUM2DBL(maxlon));
-   unsigned int miny = lat2y(NUM2DBL(minlat));
-   unsigned int maxy = lat2y(NUM2DBL(maxlat));
+   unsigned int minx = lon2x(NUM2DBL(rb_iv_get(bbox, "@min_lon")));
+   unsigned int maxx = lon2x(NUM2DBL(rb_iv_get(bbox, "@max_lon")));
+   unsigned int miny = lat2y(NUM2DBL(rb_iv_get(bbox, "@min_lat")));
+   unsigned int maxy = lat2y(NUM2DBL(rb_iv_get(bbox, "@max_lat")));
    tilelist_t   tl = tilelist_for_area(minx, miny, maxx, maxy);
    VALUE        tiles = rb_ary_new();
    unsigned int t;
@@ -88,12 +88,12 @@ static VALUE tile_for_xy(VALUE self, VALUE x, VALUE y)
    return UINT2NUM(xy2tile(NUM2UINT(x), NUM2UINT(y)));
 }
 
-static VALUE iterate_tiles_for_area(VALUE self, VALUE minlat, VALUE minlon, VALUE maxlat, VALUE maxlon)
+static VALUE iterate_tiles_for_area(VALUE self, VALUE bbox)
 {
-   unsigned int minx = lon2x(NUM2DBL(minlon));
-   unsigned int maxx = lon2x(NUM2DBL(maxlon));
-   unsigned int miny = lat2y(NUM2DBL(minlat));
-   unsigned int maxy = lat2y(NUM2DBL(maxlat));
+   unsigned int minx = lon2x(NUM2DBL(rb_iv_get(bbox, "@min_lon")));
+   unsigned int maxx = lon2x(NUM2DBL(rb_iv_get(bbox, "@max_lon")));
+   unsigned int miny = lat2y(NUM2DBL(rb_iv_get(bbox, "@min_lat")));
+   unsigned int maxy = lat2y(NUM2DBL(rb_iv_get(bbox, "@max_lat")));
    tilelist_t   tl = tilelist_for_area(minx, miny, maxx, maxy);
 
    if (tl.tilec > 0)
@@ -140,9 +140,9 @@ void Init_quad_tile_so(void)
    VALUE m = rb_define_module("QuadTile");
 
    rb_define_module_function(m, "tile_for_point", tile_for_point, 2);
-   rb_define_module_function(m, "tiles_for_area", tiles_for_area, 4);
+   rb_define_module_function(m, "tiles_for_area", tiles_for_area, 1);
    rb_define_module_function(m, "tile_for_xy", tile_for_xy, 2);
-   rb_define_module_function(m, "iterate_tiles_for_area", iterate_tiles_for_area, 4);
+   rb_define_module_function(m, "iterate_tiles_for_area", iterate_tiles_for_area, 1);
 
    return;
 }

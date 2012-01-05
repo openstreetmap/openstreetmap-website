@@ -41,7 +41,7 @@ class AddChangesets < ActiveRecord::Migration
 
   def self.down
     # It's not easy to generate the user ids from the changesets
-    raise IrreversibleMigration.new
+    raise ActiveRecord::IrreversibleMigration
     #drop_table "changesets"
     #drop_table "changeset_tags"
   end

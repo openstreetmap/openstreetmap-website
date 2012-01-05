@@ -3,7 +3,7 @@
   <div id="login_login">
     <h1><%= t 'user.login.heading' %></h1>
 
-    <% form_tag({ :action => "login" }, { :id => "login_form" }) do %>
+    <%= form_tag({ :action => "login" }, { :id => "login_form" }) do %>
       <%= hidden_field_tag('referer', h(params[:referer])) %>
 
       <p><%= t 'user.login.with username' %></p>
@@ -21,16 +21,7 @@
 
       <table id="login_openid_buttons">
         <tr>
-          <td>
-            <%=
-              link_to_function(image_tag("openid.png", :alt => t("user.login.openid_providers.openid.title")), nil, :title => t("user.login.openid_providers.openid.title")) do |page|
-                page[:login_form][:openid_url].value = "http://"
-                page[:login_openid_buttons].hide
-                page[:login_openid_url].show
-                page[:login_openid_submit].show
-              end
-            %>
-          </td>
+          <td><%= link_to_function(image_tag("openid.png", :alt => t("user.login.openid_providers.openid.title")), "showOpenidUrl()", :title => t("user.login.openid_providers.openid.title")) %></td>
           <td><%= openid_button "google", "gmail.com" %></td>
           <td><%= openid_button "yahoo", "me.yahoo.com" %></td>
           <td><%= openid_button "myopenid", "myopenid.com" %></td>
@@ -42,10 +33,10 @@
       <table>
         <tr id="login_openid_url">
           <td class="fieldName nowrap">
-            <%= t 'user.login.openid', :logo => openid_logo %>
+            <%= raw t 'user.login.openid', :logo => openid_logo %>
           </td>
           <td>
-            <%= text_field_tag("openid_url", "", { :size => 28, :maxlength => 255, :tabindex => 3, :class => "openid_url" }) %>
+            <%= url_field_tag("openid_url", "", { :size => 28, :maxlength => 255, :tabindex => 3, :class => "openid_url" }) %>
             <span class="minorNote">(<a href="<%= t 'user.account.openid.link' %>" target="_new"><%= t 'user.account.openid.link text' %></a>)</span>
           </td>
         </tr>
@@ -72,9 +63,19 @@
 
 </div>
 
-<%=
-  update_page_tag do |page|
-    page[:login_openid_url].hide
-    page[:login_openid_submit].hide
-  end
-%>
+<script type="text/javascript">
+function showOpenidUrl() {
+  $("#openid_url").val("http://");
+  $("#login_openid_buttons").hide();
+  $("#login_openid_url").show();
+  $("#login_openid_submit").show();
+}
+
+function submitOpenidUrl(url) {
+  $("#openid_url").val(url);
+  $("#login_form").submit();
+}
+
+$("#login_openid_url").hide();
+$("#login_openid_submit").hide();
+</script>
