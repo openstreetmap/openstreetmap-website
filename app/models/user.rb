@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   has_many :new_messages, :class_name => "Message", :foreign_key => :to_user_id, :conditions => { :to_user_visible => true, :message_read => false }, :order => 'sent_on DESC'
   has_many :sent_messages, :class_name => "Message", :foreign_key => :from_user_id, :conditions => { :from_user_visible => true }, :order => 'sent_on DESC'
   has_many :friends, :include => :befriendee, :conditions => "users.status IN ('active', 'confirmed')"
+  has_many :friend_users, :through => :friends, :source => :befriendee
   has_many :tokens, :class_name => "UserToken"
   has_many :preferences, :class_name => "UserPreference"
   has_many :changesets, :order => 'created_at DESC'
@@ -20,6 +21,7 @@ class User < ActiveRecord::Base
 
   scope :visible, where(:status => ["pending", "active", "confirmed"])
   scope :active, where(:status => ["active", "confirmed"])
+  scope :public, where(:data_public => true)
 
   validates_presence_of :email, :display_name
   validates_confirmation_of :email#, :message => ' addresses must match'

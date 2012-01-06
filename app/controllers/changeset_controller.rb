@@ -268,26 +268,23 @@ class ChangesetController < ApplicationController
       end
       
       if params[:friends]
-        user = @user
-        if user
-          friend_ids = []
-		      user.friends.each do |friend|
-		      	friend_user = User.find(friend.friend_user_id)
-		      	if friend_user.data_public?
-			      	friend_ids << friend.friend_user_id
-			     	end
-		      end
-		      if friend_ids.length > 0
-	      		conditions = cond_merge conditions, ['user_id in (?)', friend_ids]
-	        else
-            conditions = cond_merge conditions, ['false']
-	        end
+        if @user
+          changesets = changesets.where(:user_id => @user.friend_users.public)
         elsif request.format == :html
-          @title = t 'user.no_such_user.title'
-          render :template => 'user/no_such_user', :status => :not_found
+          require_user
+          return
         end
       end
 
+      if params[:nearby]
+        if @user
+          changesets = changesets.where(:user_id => @user.nearby)
+        elsif request.format == :html
+          require_user
+          return
+        end
+      end
+      
       if params[:bbox]
         bbox = BoundingBox.from_bbox_params(params)
       elsif params[:minlon] and params[:minlat] and params[:maxlon] and params[:maxlat]
@@ -303,10 +300,14 @@ class ChangesetController < ApplicationController
         user_link = render_to_string :partial => "user", :object => user
       end
       
-      if params[:friends] and user
+      if params[:friends] and @user
         @title =  t 'changeset.list.title_friend'
         @heading =  t 'changeset.list.heading_friend'
         @description = t 'changeset.list.description_friend'
+      elsif params[:nearby] and @user
+        @title =  t 'changeset.list.title_nearby'
+        @heading =  t 'changeset.list.heading_nearby'
+        @description = t 'changeset.list.description_nearby'
       elsif user and bbox
         @title =  t 'changeset.list.title_user_bbox', :user => user.display_name, :bbox => bbox.to_s
         @heading =  t 'changeset.list.heading_user_bbox', :user => user.display_name, :bbox => bbox.to_s
