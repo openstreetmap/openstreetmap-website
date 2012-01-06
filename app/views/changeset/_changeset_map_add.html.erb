@@ -1,0 +1,8 @@
+        var minlon = <%= changeset_map_add.min_lon / GeoRecord::SCALE.to_f %>;
+        var minlat = <%= changeset_map_add.min_lat / GeoRecord::SCALE.to_f %>;
+        var maxlon = <%= changeset_map_add.max_lon / GeoRecord::SCALE.to_f %>;
+        var maxlat = <%= changeset_map_add.max_lat / GeoRecord::SCALE.to_f %>;
+        var bbox = new OpenLayers.Bounds(minlon, minlat, maxlon, maxlat);
+
+        bounds.extend(bbox);
+        box = addBoxToMap(bbox, {name: "changeset-<%= changeset_map_add.id %>"}, true);
