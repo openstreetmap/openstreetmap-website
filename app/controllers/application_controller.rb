@@ -286,7 +286,7 @@ class ApplicationController < ActionController::Base
   ##
   # wrap an api call in a timeout
   def api_call_timeout
-    SystemTimer.timeout_after(API_TIMEOUT) do
+    OSM::Timer.timeout(API_TIMEOUT) do
       yield
     end
   rescue Timeout::Error
@@ -296,7 +296,7 @@ class ApplicationController < ActionController::Base
   ##
   # wrap a web page in a timeout
   def web_timeout
-    SystemTimer.timeout_after(WEB_TIMEOUT) do
+    OSM::Timer.timeout(WEB_TIMEOUT) do
       yield
     end
   rescue ActionView::TemplateError => ex

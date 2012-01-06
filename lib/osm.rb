@@ -9,6 +9,13 @@ module OSM
   require 'RMagick'
   require 'nokogiri'
 
+  if defined?(SystemTimer)
+    Timer = SystemTimer
+  else
+    require 'timeout'
+    Timer = Timeout
+  end
+
   # The base class for API Errors.
   class APIError < RuntimeError
     def status
