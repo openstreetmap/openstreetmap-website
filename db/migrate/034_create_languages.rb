@@ -1,4 +1,4 @@
-require 'lib/migrate'
+require 'migrate'
 
 class CreateLanguages < ActiveRecord::Migration
   def self.up
@@ -17,6 +17,6 @@ class CreateLanguages < ActiveRecord::Migration
   end
 
   def self.down
-    raise IrreversibleMigration.new
+    raise ActiveRecord::IrreversibleMigration
   end
 end

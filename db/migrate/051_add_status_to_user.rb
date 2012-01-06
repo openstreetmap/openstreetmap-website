@@ -1,4 +1,4 @@
-require 'lib/migrate'
+require 'migrate'
 
 class AddStatusToUser < ActiveRecord::Migration
   def self.up

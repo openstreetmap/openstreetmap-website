@@ -8,8 +8,9 @@
   <%= stylesheet_link_tag "large-#{t 'html.dir'}", :media => "screen and (min-width: 642px)" %>
   <%= stylesheet_link_tag "print-#{t 'html.dir'}", :media => "print" %>
   <!--[if IE]><%= stylesheet_link_tag "large-#{t 'html.dir'}", :media => "screen" %><![endif]--> <!-- IE is totally broken with CSS media queries -->
+  <%= favicon_link_tag "favicon.ico" %>
   <%= tag("link", { :rel => "publisher", :href => "https://plus.google.com/111953119785824514010" }) %>
-  <%= tag("link", { :rel => "search", :type => "application/opensearchdescription+xml", :title => "OpenStreetMap Search", :href => "/opensearch/osm.xml" }) %>
+  <%= tag("link", { :rel => "search", :type => "application/opensearchdescription+xml", :title => "OpenStreetMap Search", :href => asset_path("osm.xml") }) %>
   <%= tag("meta", { :name => "description", :content => "OpenStreetMap is the free wiki world map." }) %>
   <%= style_rules %>
   <%= yield :head %>
