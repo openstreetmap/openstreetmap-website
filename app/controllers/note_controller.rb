@@ -25,9 +25,6 @@ class NoteController < ApplicationController
       bbox = BoundingBox.from_lrbt_params(params)
     end
 
-    # Get the sanitised boundaries
-    @min_lon, @min_lat, @max_lon, @max_lat = sanitise_boundaries(bbox)
-
     # Get any conditions that need to be applied
     notes = closed_condition(Note.scoped)
 
