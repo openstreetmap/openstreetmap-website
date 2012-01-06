@@ -98,6 +98,34 @@ class DiaryEntryController < ApplicationController
                                         },
                                         :order => 'created_at DESC',
                                         :per_page => 20)
+    elsif params[:friends]
+      if @user
+        @title = t 'diary_entry.list.title_friends'
+        @entry_pages, @entries = paginate(:diary_entries, :include => :user,
+                                          :conditions => {
+                                            :user_id => @user.friend_users.public,
+                                            :visible => true
+                                          },
+                                          :order => 'created_at DESC',
+                                          :per_page => 20)
+      else
+          require_user
+          return     
+      end
+    elsif params[:nearby]
+      if @user
+        @title = t 'diary_entry.list.title_nearby'
+        @entry_pages, @entries = paginate(:diary_entries, :include => :user,
+                                          :conditions => {
+                                            :user_id => @user.nearby,
+                                            :visible => true
+                                          },
+                                          :order => 'created_at DESC',
+                                          :per_page => 20)                                        
+      else
+          require_user
+          return     
+      end                                  
     else
       @title = t 'diary_entry.list.title'
       @entry_pages, @entries = paginate(:diary_entries, :include => :user,
