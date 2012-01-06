@@ -18,6 +18,7 @@ gem 'oauth-plugin', '>= 0.4.0.pre7'
 gem 'open_id_authentication', '>= 1.1.0'
 gem 'validates_email_format_of', '>= 1.5.1'
 gem 'composite_primary_keys', '>= 4.1.1'
+gem 'jsonify-rails'
 
 # Load libxml support for XML parsing and generation
 gem 'libxml-ruby', '>= 2.0.5', :require => 'libxml'
