@@ -455,7 +455,7 @@ module OSM
   end
 
   def self.IPToCountry(ip_address)
-    Timeout::timeout(4) do
+    Timer.timeout(4) do
       ipinfo = Quova::IpInfo.new(ip_address)
 
       if ipinfo.status == Quova::Success then
