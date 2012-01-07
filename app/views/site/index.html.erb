@@ -190,10 +190,10 @@ end
       map.noteLayer.events.register("featureunselected", map, noteUnselected);
       map.addLayer(map.noteLayer);
 
-      var noteControl = new OpenLayers.Control.SelectFeature(map.noteLayer, {
+      map.noteControl = new OpenLayers.Control.SelectFeature(map.noteLayer, {
           autoActivate: true
       });
-      map.addControl(noteControl);
+      map.addControl(map.noteControl);
 
       <% if params[:notes] == "yes" -%>
       map.noteLayer.setVisibility(true);
@@ -339,10 +339,11 @@ end
     var feature = o.feature;
     var location = feature.geometry.getBounds().getCenterLonLat();
 
-    feature.popup = new OpenLayers.Popup.FramedCloud(feature.attributes.id,
-                                                     location, null,
-                                                     "<p>" + feature.attributes.id + "</p>",
-                                                     null, true);
+    feature.popup = new OpenLayers.Popup.FramedCloud(
+      feature.attributes.id, location, null,
+      "<p>" + feature.attributes.id + "</p>",
+      null, true, function (e) { map.noteControl.unselect(feature) }
+    );
 
     map.addPopup(feature.popup);
 //    feature.popup.show();
