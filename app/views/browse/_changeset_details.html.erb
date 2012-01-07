@@ -24,23 +24,21 @@
     <% unless changeset_details.has_valid_bbox? %>
       <td><%= t 'browse.changeset_details.no_bounding_box' %></td>
     <% else
-          minlon = changeset_details.min_lon/GeoRecord::SCALE.to_f
-          minlat = changeset_details.min_lat/GeoRecord::SCALE.to_f
-          maxlon = changeset_details.max_lon/GeoRecord::SCALE.to_f
-          maxlat = changeset_details.max_lat/GeoRecord::SCALE.to_f
+          bbox = changeset_details.bbox.to_unscaled
     %>
       <td>
         <table>
           <tr>
-            <td colspan="3" style="text-align:center"><%=maxlat -%></td>
+            <td colspan="3" style="text-align:center"><%=bbox.max_lat -%></td>
           </tr>
           <tr>
-            <td><%=minlon -%></td>
-            <td>(<a href='/?minlon=<%= minlon %>&minlat=<%= minlat %>&maxlon=<%= maxlon %>&maxlat=<%= maxlat %>&box=yes' title='<%= t 'browse.changeset_details.show_area_box' %>'><%= t 'browse.changeset_details.box' %></a>)</td>
-            <td><%=maxlon -%></td>
+            <td><%=bbox.min_lon -%></td>
+            <td>(<a href='/?minlon=<%= bbox.min_lon %>&minlat=<%= bbox.min_lat %>&maxlon=<%= bbox.max_lon %>&maxlat=<%= bbox.max_lat %>
+                  &box=yes' title='<%= t 'browse.changeset_details.show_area_box' %>'><%= t 'browse.changeset_details.box' %></a>)</td>
+            <td><%=bbox.max_lon -%></td>
           </tr>
           <tr>
-            <td colspan="3" style="text-align:center"><%= minlat -%></td>
+            <td colspan="3" style="text-align:center"><%= bbox.min_lat -%></td>
           </tr>
         </table>
       </td>
@@ -53,7 +51,7 @@
       <td>
         <table cellpadding="0">
           <% @nodes.each do |node| %>
-            <tr><td><%= link_to h(printable_name(node, true)), { :action => "node", :id => node.id.to_s }, :class => link_class('node', node), :title => link_title(node) %></td></tr>
+            <tr><td><%= link_to h(printable_name(node, true)), { :action => "node", :id => node.node_id.to_s }, :class => link_class('node', node), :title => link_title(node) %></td></tr>
           <% end %>
         </table>
       </td>
@@ -67,7 +65,7 @@
       <td>
         <table cellpadding="0">
           <% @ways.each do |way| %>
-          <tr><td><%= link_to h(printable_name(way, true)), { :action => "way", :id => way.id.to_s }, :class => link_class('way', way), :title => link_title(way) %></td></tr>
+          <tr><td><%= link_to h(printable_name(way, true)), { :action => "way", :id => way.way_id.to_s }, :class => link_class('way', way), :title => link_title(way) %></td></tr>
           <% end %>
           <%=
           #render :partial => "containing_relation", :collection => changeset_details.containing_relation_members 
@@ -84,7 +82,7 @@
       <td>
         <table cellpadding="0">
           <% @relations.each do |relation| %>
-          <tr><td><%= link_to h(printable_name(relation, true)), { :action => "relation", :id => relation.id.to_s }, :class => link_class('relation', relation), :title => link_title(relation) %></td></tr>
+          <tr><td><%= link_to h(printable_name(relation, true)), { :action => "relation", :id => relation.relation_id.to_s }, :class => link_class('relation', relation), :title => link_title(relation) %></td></tr>
           <% end %>
         </table>
       </td>

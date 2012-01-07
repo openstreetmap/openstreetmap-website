@@ -297,7 +297,7 @@ class WayControllerTest < ActionController::TestCase
     delete :delete, :id => current_ways(:used_way).id
     assert_response :precondition_failed, 
        "shouldn't be able to delete a way used in a relation (#{@response.body})"
-    assert_equal "Precondition failed: Way 3 still used by relation 1.", @response.body
+    assert_equal "Precondition failed: Way 3 is still used by relations 1.", @response.body
 
     # this won't work since the way never existed
     delete :delete, :id => 0

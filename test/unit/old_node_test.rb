@@ -8,7 +8,7 @@ class OldNodeTest < ActiveSupport::TestCase
   end
 
   def test_node_too_far_north
-	  invalid_node_test(:node_too_far_north)
+    invalid_node_test(:node_too_far_north)
   end
   
   def test_node_north_limit
@@ -48,7 +48,7 @@ class OldNodeTest < ActiveSupport::TestCase
   # the fixture
   def valid_node_test(nod)
     node = nodes(nod)
-    dbnode = Node.find(node.id)
+    dbnode = Node.find(node.node_id)
     assert_equal dbnode.lat, node.latitude.to_f/SCALE
     assert_equal dbnode.lon, node.longitude.to_f/SCALE
     assert_equal dbnode.changeset_id, node.changeset_id
@@ -64,7 +64,7 @@ class OldNodeTest < ActiveSupport::TestCase
   # fixture
   def invalid_node_test(nod)
     node = nodes(nod)
-    dbnode = Node.find(node.id)
+    dbnode = Node.find(node.node_id)
     assert_equal dbnode.lat, node.latitude.to_f/SCALE
     assert_equal dbnode.lon, node.longitude.to_f/SCALE
     assert_equal dbnode.changeset_id, node.changeset_id
@@ -74,6 +74,4 @@ class OldNodeTest < ActiveSupport::TestCase
     #assert_equal node.tile, QuadTile.tile_for_point(nodes(nod).lat, nodes(nod).lon)
     assert_equal false, node.valid?
   end
-  
-
 end

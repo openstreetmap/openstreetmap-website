@@ -1,5 +1,5 @@
 <div id="map">
-  <%= t 'site.edit.flash_player_required' %>
+  <div id="potlatch"><%= raw t 'site.edit.flash_player_required' %></div>
 </div>
 
 <%= javascript_include_tag 'swfobject.js' %>
@@ -7,9 +7,6 @@
 <% session[:token] = @user.tokens.create.token unless session[:token] and UserToken.find_by_token(session[:token]) %>
 
 <script type="text/javascript" defer="defer">
-  var brokenContentSize = $("content").offsetWidth == 0;
-  var fo = new SWFObject("<%= asset_path("/potlatch/potlatch.swf") %>", "potlatch", "100%", "100%", "6", "#FFFFFF");
-  // 700,600 for fixed size, 100%,100% for resizable
   var changesaved=true;
   var winie=false; if (document.all && window.print) { winie=true; }
   
@@ -23,16 +20,26 @@
 
   function doSWF(lat,lon,sc) {
     if (sc < 11) sc = 11;
-    fo.addVariable('winie',winie);
-    fo.addVariable('scale',sc);
-    fo.addVariable('token','<%= session[:token] %>');
-    if (lat) { fo.addVariable('lat',lat); }
-    if (lon) { fo.addVariable('long',lon); }
-    <% if params['gpx']     %>fo.addVariable('gpx'     ,'<%= h(params['gpx']    ) %>');<% end %>
-    <% if params['way']     %>fo.addVariable('way'     ,'<%= h(params['way']    ) %>');<% end %>
-    <% if params['node']    %>fo.addVariable('node'    ,'<%= h(params['node']   ) %>');<% end %>
-    <% if params['tileurl'] %>fo.addVariable('custombg','<%= h(params['tileurl']) %>');<% end %>
-    fo.write("map");
+
+    var flashvars = {};
+    flashvars.winie = winie;
+    flashvars.scale = sc;
+    flashvars.token = '<%= session[:token] %>';
+    if (lat) { flashvars.lat = lat; }
+    if (lon) { flashvars.long = lon; }
+    <% if params['gpx']  %>flashvars.gpx = '<%= h(params['gpx']    ) %>';<% end %>
+    <% if params['way']  %>flashvars.way = '<%= h(params['way']    ) %>';<% end %>
+    <% if params['node'] %>flashvars.node = '<%= h(params['node']   ) %>';<% end %>
+    <% if params['tileurl'] %>flashvars.custombg = '<%= h(params['tileurl']) %>';<% end %>
+
+    var params = {};
+
+    var attributes = {};
+    attributes.id = "potlatch";
+    attributes.bgcolor = "#FFFFFF";
+
+    swfobject.embedSWF("<%= asset_path("/potlatch/potlatch.swf") %>", "potlatch", "100%", "100%", "6","<%= asset_path("expressInstall.swf") %>", flashvars, params, attributes);
+    // 700,600 for fixed size, 100%,100% for resizable
   }
 
   doSWF(<%= @lat || 'null' %>,<%= @lon || 'null' %>,<%= @zoom %>);

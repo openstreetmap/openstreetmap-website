@@ -1,7 +1,7 @@
-<% content_for :greeting do %>
 <% if @user and !@user.home_lon.nil? and !@user.home_lat.nil? %>
-  <%= link_to_function t('layouts.home'), "setPosition(#{@user.home_lat}, #{@user.home_lon}, 15)", { :title => t('layouts.home_tooltip') } %> |
-<% end %>
+  <% content_for :greeting do %>
+    <%= link_to_function t('layouts.home'), "setPosition(#{@user.home_lat}, #{@user.home_lon}, 15)", { :title => t('layouts.home_tooltip') } %> |
+  <% end %>
 <% end %>
 
 <%= render :partial => 'sidebar', :locals => { :onopen => "resizeMap();", :onclose => "resizeMap();" } %>
@@ -17,24 +17,23 @@
 </noscript>
 
 <div id="map">
+  <div id="permalink">
+    <a href="/" id="permalinkanchor" class="geolink llz layers object"><%= t 'site.index.permalink' %></a><br/>
+    <a href="/" id="shortlinkanchor"><%= t 'site.index.shortlink' %></a>
+  </div>
 </div>
 
 <iframe id="linkloader" style="display: none">
 </iframe>
 
-<div id="permalink">
-  <a href="/" id="permalinkanchor"><%= t 'site.index.permalink' %></a><br/>
-  <a href="/" id="shortlinkanchor"><%= t 'site.index.shortlink' %></a>
-</div>
-
 <div id="attribution">
   <table width="100%">
     <tr>
-      <td align="left"><%= t'site.index.license.license_url' %></td>
-      <td align="right"><%= t'site.index.license.project_url' %></td>
+      <td class="attribution_license"><%= t'site.index.license.license_url' %></td>
+      <td class="attribution_project"><%= t'site.index.license.project_url' %></td>
     </tr>
     <tr>
-      <td colspan="2" align="center"><%=
+      <td colspan="2" class="attribution_notice"><%=
         t'site.index.license.notice',
           :license_name => t('site.index.license.license_name'),
           :project_name => t('site.index.license.project_name')
@@ -44,58 +43,66 @@
 </div>
 
 <%
-if params['mlon'] and params['mlat']
+if params[:mlon] and params[:mlat]
     marker = true
-    mlon = h(params['mlon'])
-    mlat = h(params['mlat'])
+    mlon = params[:mlon].to_f
+    mlat = params[:mlat].to_f
 end
 
-if params['node'] or params['way'] or params['relation']
+if params[:node] or params[:way] or params[:relation]
     object = true
     object_zoom = true
 
-    if params['node']
+    if params[:node]
         object_type = 'node'
-        object_id = h(params['node'])
-    elsif params['way']
+        object_id = params[:node].to_i
+    elsif params[:way]
         object_type = 'way'
-        object_id = h(params['way'])
-    elsif params['relation']
+        object_id = params[:way].to_i
+    elsif params[:relation]
         object_type = 'relation'
-        object_id = h(params['relation'])
+        object_id = params[:relation].to_i
     end
 end
 
 # Decide on a lat lon to initialise the map with. Various ways of doing this
-if params['minlon'] and params['minlat'] and params['maxlon'] and params['maxlat']
+if params[:bbox]
     bbox = true
-    minlon = h(params['minlon'])
-    minlat = h(params['minlat'])
-    maxlon = h(params['maxlon'])
-    maxlat = h(params['maxlat'])
-    layers = h(params['layers'])
-    box = true if params['box']=="yes"
+    minlon, minlat, maxlon, maxlat = params[:bbox].split(",").collect { |c| c.to_f }
+    layers = params[:layers]
+    box = true if params[:box] == "yes"
     object_zoom = false
-elsif params['lon'] and params['lat']
-    lon =  h(params['lon'])
-    lat =  h(params['lat'])
-    zoom =  h(params['zoom'] || '5')
-    layers = h(params['layers'])
+elsif params[:minlon] and params[:minlat] and params[:maxlon] and params[:maxlat]
+    bbox = true
+    minlon = params[:minlon].to_f
+    minlat = params[:minlat].to_f
+    maxlon = params[:maxlon].to_f
+    maxlat = params[:maxlat].to_f
+    layers = params[:layers]
+    box = true if params[:box]=="yes"
     object_zoom = false
-elsif params['mlon'] and params['mlat']
-    lon = h(params['mlon'])
-    lat = h(params['mlat'])
-    zoom =  h(params['zoom'] || '12')
-    layers = h(params['layers'])
+elsif params[:lon] and params[:lat]
+    lon =  params[:lon].to_f
+    lat =  params[:lat].to_f
+    zoom =  params.fetch(:zoom, 5).to_i
+    layers = params[:layers]
+    object_zoom = false
+elsif params[:mlon] and params[:mlat]
+    lon = params[:mlon].to_f
+    lat = params[:mlat].to_f
+    zoom =  params.fetch(:zoom, 12).to_i
+    layers = params[:layers]
     object_zoom = false
 elsif cookies.key?("_osm_location")
     lon,lat,zoom,layers = cookies["_osm_location"].split("|")
 elsif @user and !@user.home_lon.nil? and !@user.home_lat.nil?
     lon =  @user.home_lon
     lat =  @user.home_lat
-    zoom = '10'
+    zoom = 10
 else
-    session[:location] = OSM::IPLocation(request.env['REMOTE_ADDR']) unless session[:location]
+    unless STATUS == :database_readonly or STATUS == :database_offline
+      session[:location] = OSM::IPLocation(request.env['REMOTE_ADDR']) unless session[:location]
+    end
 
     if session[:location]
         bbox = true
@@ -104,22 +111,21 @@ else
         maxlon = session[:location][:maxlon]
         maxlat = session[:location][:maxlat]
     else
-        lon =  '-0.1'
-        lat =  '51.5'
-        zoom =  h(params['zoom'] || '5')
+        lon =  -0.1
+        lat =  51.5
+        zoom =  params.fetch(:zoom, 5).to_i
     end
 
-    layers = h(params['layers'])
+    layers = params[:layers]
 end
 %>
 
-<%= javascript_include_tag '/openlayers/OpenLayers.js' %>
-<%= javascript_include_tag '/openlayers/OpenStreetMap.js' %>
+<%= javascript_include_tag 'openlayers.js' %>
 <%= javascript_include_tag 'map.js' %>
 
-<script type="text/javascript" defer="defer">
-  <!--
-  var brokenContentSize = $("content").offsetWidth == 0;
+<%= render :partial => 'resize' %>
+
+<script type="text/javascript">
   var marker;
   var map;
 
@@ -141,21 +147,18 @@ end
         setMapExtent(bbox);
 
         <% if box %>
-          // IE requires Vector layers be initialised on page load, and not under deferred script conditions
-          Event.observe(window, 'load', function() { addBoxToMap(bbox) });
+          $(window).load(function() { addBoxToMap(bbox) });
         <% end %>
       <% else %>
         var centre = new OpenLayers.LonLat(<%= lon %>, <%= lat %>);
         var zoom = <%= zoom %>;
 
-        <% if params['scale'] and params['scale'].length > 0 then %>
-          zoom = scaleToZoom(<%= params['scale'].to_f() %>);
+        <% if params[:scale] and params[:scale].length > 0 then %>
+          zoom = scaleToZoom(<%= params[:scale].to_f %>);
         <% end %>
 
         setMapCenter(centre, zoom);
       <% end %>
-
-      updateLocation();
     <% end %>
 
     <% if !layers.nil? and !layers.empty? %>
@@ -173,19 +176,19 @@ end
         url += "/full";
       <% end %>
 
-      // IE requires Vector layers be initialised on page load, and not under deferred script conditions
-      Event.observe(window, 'load', function() { addObjectToMap(url, <%= object_zoom %>) });
+      $(window).load(function() { addObjectToMap(url, <%= object_zoom %>) });
     <% end %>
 
     map.events.register("moveend", map, updateLocation);
     map.events.register("changelayer", map, updateLocation);
 
+    updateLocation();
     handleResize();
   }
 
   function toggleData() {
     if (map.dataLayer.visibility) {
-      <%= remote_function :url => { :controller => 'browse', :action => 'start' } %>
+      $.ajax({ url: "<%= url_for :controller => :browse, :action => :start %>" });
     } else if (map.dataLayer.active) {
       closeSidebar();
     }
@@ -236,58 +239,25 @@ end
     document.cookie = "_osm_location=" + lonlat.lon + "|" + lonlat.lat + "|" + zoom + "|" + layers + "; expires=" + expiry.toGMTString();
   }
 
-  function resizeContent() {
-    var content = $("content");
-    var rightMargin = parseInt(getStyle(content, "right"));
-    var bottomMargin = parseInt(getStyle(content, "bottom"));
-
-    content.style.width = document.documentElement.clientWidth - content.offsetLeft - rightMargin;
-    content.style.height = document.documentElement.clientHeight - content.offsetTop - bottomMargin;
-  }
-
-  function resizeMap() {
-    var centre = map.getCenter();
-    var zoom = map.getZoom();
-    var sidebar_width = $("sidebar").offsetWidth;
-
-    if (sidebar_width > 0) {
-      sidebar_width = sidebar_width + 5
-    }
-
-    $("map").style.left = (sidebar_width) + "px";
-    $("map").style.width = ($("content").offsetWidth - sidebar_width) + "px";
-    $("map").style.height = ($("content").offsetHeight - 2) + "px";
-
-    map.setCenter(centre, zoom);
-  }
-
-  function handleResize() {
-    if (brokenContentSize) {
-      resizeContent();
-    }
-
-    resizeMap();
-  }
-
   function remoteEditHandler(event) {
     var extent = getMapExtent();
     var loaded = false;
 
-    $("linkloader").observe("load", function () { loaded = true; });
-    $("linkloader").src = "http://127.0.0.1:8111/load_and_zoom?left=" + extent.left + "&top=" + extent.top + "&right=" + extent.right + "&bottom=" + extent.bottom;
+    $("#linkloader").load(function () { loaded = true; });
+    $("#linkloader").attr("src", "http://127.0.0.1:8111/load_and_zoom?left=" + extent.left + "&top=" + extent.top + "&right=" + extent.right + "&bottom=" + extent.bottom);
 
     setTimeout(function () {
-      if (!loaded) alert("<%= escape_javascript(t('site.index.remote_failed')) %>");
+      if (!loaded) alert("<%=j t('site.index.remote_failed') %>");
     }, 1000);
 
-    event.stop();
+    return false;
   }
 
   function installEditHandler() {
-    $("remoteanchor").observe("click", remoteEditHandler);
+    $("#remoteanchor").click(remoteEditHandler);
 
     <% if preferred_editor == "remote" %>
-      $("editanchor").observe("click", remoteEditHandler);
+      $("#editanchor").click(remoteEditHandler);
 
       <% if params[:action] == "edit" %>
         remoteEditHandler();
@@ -295,14 +265,32 @@ end
     <% end %>
   }
 
-  mapInit();
+  $(document).ready(mapInit);
+  $(document).ready(installEditHandler);
+  $(document).ready(handleResize);
 
-  Event.observe(window, "load", installEditHandler);
-  Event.observe(window, "load", handleResize);
-  Event.observe(window, "resize", handleResize);
+  $(window).resize(function() {
+    var centre = map.getCenter();
+    var zoom = map.getZoom();
 
-  <% if params['action'] == 'export' %>
-  <%= remote_function :url => { :controller => 'export', :action => 'start' } %>
-  <% end %>
+    handleResize();
+
+    map.setCenter(centre, zoom);
+  });
+
+  $(document).ready(function () {
+    $("#exportanchor").click(function (e) {
+      $.ajax({ url: "<%= url_for :controller => :export, :action => :start %>" });
+      Event.stop(e);
+    });
+
+    <% if params[:action] == 'export' -%>
+    $.ajax({ url: "<%= url_for :controller => :export, :action => :start %>" });
+    <% end -%>
+
+    <% if params[:query] -%>
+    doSearch("<%= params[:query] %>");
+    <% end %>
+  });
 // -->
 </script>

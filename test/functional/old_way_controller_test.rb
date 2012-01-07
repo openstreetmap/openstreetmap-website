@@ -10,13 +10,13 @@ class OldWayControllerTest < ActionController::TestCase
 
   def test_history_visible
     # check that a visible way is returned properly
-    get :history, :id => ways(:visible_way).id
+    get :history, :id => ways(:visible_way).way_id
     assert_response :success
   end
   
   def test_history_invisible
     # check that an invisible way's history is returned properly
-    get :history, :id => ways(:invisible_way).id
+    get :history, :id => ways(:invisible_way).way_id
     assert_response :success
   end
   

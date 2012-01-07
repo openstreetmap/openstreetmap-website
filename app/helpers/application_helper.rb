@@ -2,7 +2,7 @@ module ApplicationHelper
   require 'rexml/document'
 
   def sanitize(text)
-    Sanitize.clean(text, Sanitize::Config::OSM)
+    Sanitize.clean(text, Sanitize::Config::OSM).html_safe
   end
 
   def htmlize(text)
@@ -10,11 +10,15 @@ module ApplicationHelper
   end
 
   def linkify(text)
-    return auto_link(text, :link => :urls, :html => { :rel => "nofollow" })
+    if text.html_safe?
+      Rinku.auto_link(text, :urls, tag_options(:rel => "nofollow")).html_safe
+    else
+      Rinku.auto_link(text, :urls, tag_options(:rel => "nofollow"))
+    end
   end
 
   def html_escape_unicode(text)
-    chars = ActiveSupport::Multibyte::Chars.u_unpack(text).map do |c|
+    chars = ActiveSupport::Multibyte::Unicode.u_unpack(text).map do |c|
       c < 127 ? c.chr : "&##{c.to_s};"
     end
 
@@ -37,7 +41,7 @@ module ApplicationHelper
     js << javascript_strings_for_key("javascripts")
     js << "</script>\n"
 
-    return js
+    return raw(js)
   end
 
   def style_rules
@@ -50,33 +54,33 @@ module ApplicationHelper
     css << ".show_if_user_#{@user.id} { display: inline }" if @user;
     css << ".hide_unless_administrator { display: none }" unless @user and @user.administrator?;
 
-    return content_tag(:style, css)
+    return content_tag(:style, css, :type => "text/css")
   end
 
   def if_logged_in(tag = :div, &block)
-    concat(content_tag(tag, capture(&block), :class => "hide_unless_logged_in"))
+    content_tag(tag, capture(&block), :class => "hide_unless_logged_in")
   end
 
   def if_not_logged_in(tag = :div, &block)
-    concat(content_tag(tag, capture(&block), :class => "hide_if_logged_in"))
+    content_tag(tag, capture(&block), :class => "hide_if_logged_in")
   end
 
   def if_user(user, tag = :div, &block)
     if user
-      concat(content_tag(tag, capture(&block), :class => "hidden show_if_user_#{user.id}"))
+      content_tag(tag, capture(&block), :class => "hidden show_if_user_#{user.id}")
     end
   end
 
   def unless_user(user, tag = :div, &block)
     if user
-      concat(content_tag(tag, capture(&block), :class => "hide_if_user_#{user.id}"))
+      content_tag(tag, capture(&block), :class => "hide_if_user_#{user.id}")
     else
-      concat(content_tag(tag, capture(&block)))
+      content_tag(tag, capture(&block))
     end
   end
 
   def if_administrator(tag = :div, &block)
-    concat(content_tag(tag, capture(&block), :class => "hide_unless_administrator"))
+    content_tag(tag, capture(&block), :class => "hide_unless_administrator")
   end
 
   def describe_location(lat, lon, zoom = nil, language = nil)
@@ -85,7 +89,7 @@ module ApplicationHelper
     url = "http://nominatim.openstreetmap.org/reverse?lat=#{lat}&lon=#{lon}&zoom=#{zoom}&accept-language=#{language}"
 
     begin
-      response = Timeout::timeout(4) do
+      response = OSM::Timer.timeout(4) do
         REXML::Document.new(Net::HTTP.get(URI.parse(url)))
       end
     rescue Exception

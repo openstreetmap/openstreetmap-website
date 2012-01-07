@@ -3,9 +3,9 @@ class SpamObserver < ActiveRecord::Observer
 
   def after_save(record)
     case
-    when record.is_a?(User): user = record
-    when record.is_a?(DiaryEntry): user = record.user
-    when record.is_a?(DiaryComment): user = record.user
+    when record.is_a?(User) then user = record
+    when record.is_a?(DiaryEntry) then user = record.user
+    when record.is_a?(DiaryComment) then user = record.user
     end
 
     if user.status == "active" and user.spam_score > SPAM_THRESHOLD

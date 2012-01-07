@@ -6,6 +6,8 @@ class DiaryEntryControllerTest < ActionController::TestCase
   include ActionView::Helpers::NumberHelper
 
   def test_showing_new_diary_entry
+    @request.cookies["_osm_username"] = users(:normal_user).display_name
+
     get :new
     assert_response :redirect
     assert_redirected_to :controller => :user, :action => "login", :referer => "/diary/new"
@@ -16,7 +18,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     #print @response.body
     
     #print @response.to_yaml
-    assert_select "html:root", :count => 1 do
+    assert_select "html", :count => 1 do
       assert_select "head", :count => 1 do
         assert_select "title", :text => /New Diary Entry/, :count => 1
       end
@@ -39,6 +41,8 @@ class DiaryEntryControllerTest < ActionController::TestCase
   end
   
   def test_editing_diary_entry
+    @request.cookies["_osm_username"] = users(:normal_user).display_name
+
     # Make sure that you are redirected to the login page when you are 
     # not logged in, without and with the id of the entry you want to edit
     get :edit
@@ -52,7 +56,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     # Verify that you get a not found error, when you don't pass an id
     get(:edit, nil, {'user' => users(:normal_user).id})
     assert_response :not_found
-    assert_select "html:root", :count => 1 do
+    assert_select "html", :count => 1 do
       assert_select "body", :count => 1 do
         assert_select "div#content", :count => 1 do
           assert_select "h2", :text => "No entry with the id:", :count => 1 
@@ -64,7 +68,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     # user as the person who created the entry
     get(:edit, {:id => diary_entries(:normal_user_entry_1).id}, {'user' => users(:normal_user).id})
     assert_response :success
-    assert_select "html:root", :count => 1 do
+    assert_select "html", :count => 1 do
       assert_select "head", :count => 1 do
         assert_select "title", :text => /Edit diary entry/, :count => 1
       end
@@ -78,7 +82,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
             assert_select "input#latitude[name='diary_entry[latitude]']", :count => 1
             assert_select "input#longitude[name='diary_entry[longitude]']", :count => 1
             assert_select "input[name=commit][type=submit][value=Save]", :count => 1
-            assert_select "input", :count => 4
+            assert_select "input", :count => 5
           end
         end
       end
@@ -101,7 +105,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     get :view, {:id => diary_entries(:normal_user_entry_1).id, :display_name => 'test'}, {'user' => users(:normal_user).id}
     assert_response :success
     assert_template 'diary_entry/view'
-    assert_select "html:root", :count => 1 do
+    assert_select "html", :count => 1 do
       assert_select "head", :count => 1 do
         assert_select "title", :text => /Users' diaries | /, :count => 1
       end
@@ -119,12 +123,14 @@ class DiaryEntryControllerTest < ActionController::TestCase
         end
       end
     end
-    
+
+    @request.cookies["_osm_username"] = users(:public_user).display_name
+
     # and when not logged in as the user who wrote the entry
     get :view, {:id => diary_entries(:normal_user_entry_1).id, :display_name => 'test'}, {'user' => users(:public_user).id}
     assert_response :success
     assert_template 'diary_entry/view'
-    assert_select "html:root", :count => 1 do
+    assert_select "html", :count => 1 do
       assert_select "head", :count => 1 do
         assert_select "title", :text => /Users' diaries | /, :count => 1
       end
@@ -148,6 +154,8 @@ class DiaryEntryControllerTest < ActionController::TestCase
   end
   
   def test_edit_diary_entry_i18n
+    @request.cookies["_osm_username"] = users(:normal_user).display_name
+
     get(:edit, {:id => diary_entries(:normal_user_entry_1).id}, {'user' => users(:normal_user).id})
     assert_response :success
     assert_select "span[class=translation_missing]", false, "Missing translation in edit diary entry"
@@ -177,9 +185,9 @@ class DiaryEntryControllerTest < ActionController::TestCase
   end
   
   def test_rss
-    get :rss
+    get :rss, {:format => :rss}
     assert_response :success, "Should be able to get a diary RSS"
-    assert_select "rss:root", :count => 1 do
+    assert_select "rss", :count => 1 do
       assert_select "channel", :count => 1 do
         assert_select "channel>title", :count => 1
         assert_select "image", :count => 1
@@ -189,30 +197,30 @@ class DiaryEntryControllerTest < ActionController::TestCase
   end
   
   def test_rss_language
-    get :rss, {:language => diary_entries(:normal_user_entry_1).language_code}
+    get :rss, {:language => diary_entries(:normal_user_entry_1).language_code, :format => :rss}
     assert_response :success, "Should be able to get a specific language diary RSS"
     assert_select "rss>channel>item", :count => 1 #, "Diary entries should be filtered by language"
   end
   
 #  def test_rss_nonexisting_language
-#    get :rss, {:language => 'xx'}
+#    get :rss, {:language => 'xx', :format => :rss}
 #    assert_response :not_found, "Should not be able to get a nonexisting language diary RSS"
 #  end
 
   def test_rss_language_with_no_entries
-    get :rss, {:language => 'sl'}
+    get :rss, {:language => 'sl', :format => :rss}
     assert_response :success, "Should be able to get a specific language diary RSS"
     assert_select "rss>channel>item", :count => 0 #, "Diary entries should be filtered by language"
   end
 
   def test_rss_user
-    get :rss, {:display_name => users(:normal_user).display_name}
+    get :rss, {:display_name => users(:normal_user).display_name, :format => :rss}
     assert_response :success, "Should be able to get a specific users diary RSS"
     assert_select "rss>channel>item", :count => 2 #, "Diary entries should be filtered by user"
   end
   
   def test_rss_nonexisting_user
-    get :rss, {:display_name => 'fakeUsername76543'}
+    get :rss, {:display_name => 'fakeUsername76543', :format => :rss}
     assert_response :not_found, "Should not be able to get a nonexisting users diary RSS"
   end
 

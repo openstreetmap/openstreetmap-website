@@ -1,4 +1,4 @@
-require 'lib/migrate'
+require 'migrate'
 
 class MoveToInnodb < ActiveRecord::Migration
   @@conv_tables = ['nodes', 'ways', 'way_tags', 'way_nodes',
@@ -16,7 +16,7 @@ class MoveToInnodb < ActiveRecord::Migration
     }
 
     @@conv_tables.each { |tbl|
-      change_engine (tbl, "InnoDB")
+      change_engine tbl, "InnoDB"
     }
 
     @@ver_tbl.each { |tbl|
@@ -42,6 +42,6 @@ class MoveToInnodb < ActiveRecord::Migration
   end
 
   def self.down
-    raise IrreversibleMigration.new
+    raise ActiveRecord::IrreversibleMigration
   end
 end

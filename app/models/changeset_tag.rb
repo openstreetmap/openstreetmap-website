@@ -1,8 +1,10 @@
 class ChangesetTag < ActiveRecord::Base
-  belongs_to :changeset, :foreign_key => 'id'
+  set_primary_keys :changeset_id, :k
 
-  validates_presence_of :id
-  validates_length_of :k, :v, :maximum => 255, :allow_blank => true
-  validates_uniqueness_of :id, :scope => :k
-  validates_numericality_of :id, :only_integer => true
+  belongs_to :changeset
+
+  validates_presence_of :changeset
+  validates_length_of :k, :maximum => 255, :allow_blank => true
+  validates_uniqueness_of :k, :scope => :changeset_id
+  validates_length_of :v, :maximum => 255, :allow_blank => true
 end

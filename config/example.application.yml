@@ -1,4 +1,4 @@
-standard_settings: &standard_settings
+defaults: &defaults
   # The server URL
   server_url: "www.openstreetmap.org"
   # The generator
@@ -57,6 +57,8 @@ standard_settings: &standard_settings
   gpx_image_dir: "/home/osm/images"
   # Location of data for file columns
   #file_column_root: ""
+  # Log file to use
+  #log_path: ""
   # List of memcache servers to use for caching
   #memcache_servers: []
   # Enable legacy OAuth 1.0 support
@@ -69,12 +71,18 @@ standard_settings: &standard_settings
   #potlatch2_key: ""
   # Whether to require users to view the CTs before continuing to edit...
   require_terms_seen: false
+  # Whether to require users to agree to the CTs before editing
+  require_terms_agreed: false
+  # Piwik details
+  #piwik_location: "piwik.openstreetmap.org"
+  #piwik_site: 1
+  #piwik_signup_goal: 1
 
 development:
-  <<: *standard_settings
+  <<: *defaults
 
 production:
-  <<: *standard_settings
+  <<: *defaults
 
 test:
-  <<: *standard_settings
+  <<: *defaults

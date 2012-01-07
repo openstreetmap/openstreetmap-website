@@ -13,8 +13,7 @@ else
 end
 %>
 
-<%= javascript_include_tag '/openlayers/OpenLayers.js' %>
-<%= javascript_include_tag '/openlayers/OpenStreetMap.js' %>
+<%= javascript_include_tag 'openlayers.js' %>
 <%= javascript_include_tag 'map.js' %>
 
 <script type="text/javascript">
@@ -53,7 +52,7 @@ end
       <% nearest = @user.nearby - friends %>
 
       var near_icon = OpenLayers.Marker.defaultIcon();
-      near_icon.url = OpenLayers.Util.getImagesLocation() + "marker-green.png";
+      near_icon.url = OpenLayers.Util.getImageLocation("marker-green.png");
       <% nearest.each do |u| %>
         addMarkerToMap(new OpenLayers.LonLat(
           <%= u.home_lon %>, <%= u.home_lat %>), near_icon.clone(),
@@ -62,7 +61,7 @@ end
       <% end %>
 
       var friend_icon = OpenLayers.Marker.defaultIcon();
-      friend_icon.url = OpenLayers.Util.getImagesLocation() + "marker-blue.png";
+      friend_icon.url = OpenLayers.Util.getImageLocation("marker-blue.png");
       <% friends.each do |u| %>
         addMarkerToMap(new OpenLayers.LonLat(
           <%= u.home_lon %>, <%= u.home_lat %>), friend_icon.clone(),

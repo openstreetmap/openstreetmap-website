@@ -7,12 +7,12 @@ class Way < ActiveRecord::Base
   
   belongs_to :changeset
 
-  has_many :old_ways, :foreign_key => 'id', :order => 'version'
+  has_many :old_ways, :order => 'version'
 
-  has_many :way_nodes, :foreign_key => 'id', :order => 'sequence_id'
+  has_many :way_nodes, :order => 'sequence_id'
   has_many :nodes, :through => :way_nodes, :order => 'sequence_id'
 
-  has_many :way_tags, :foreign_key => 'id'
+  has_many :way_tags
 
   has_many :containing_relation_members, :class_name => "RelationMember", :as => :member
   has_many :containing_relations, :class_name => "Relation", :through => :containing_relation_members, :source => :relation, :extend => ObjectFinder
@@ -24,6 +24,9 @@ class Way < ActiveRecord::Base
   validates_numericality_of :changeset_id, :version, :integer_only => true
   validates_numericality_of :id, :on => :update, :integer_only => true
   validates_associated :changeset
+
+  scope :visible, where(:visible => true)
+  scope :invisible, where(:visible => false)
 
   # Read in xml as text and return it's Way object representation
   def self.from_xml(xml, create=false)
@@ -202,7 +205,7 @@ class Way < ActiveRecord::Base
   def bbox
     lons = nodes.collect { |n| n.longitude }
     lats = nodes.collect { |n| n.latitude }
-    [ lons.min, lats.min, lons.max, lats.max ]
+    BoundingBox.new(lons.min, lats.min, lons.max, lats.max)
   end
 
   def update_from(new_way, user)
@@ -243,7 +246,7 @@ class Way < ActiveRecord::Base
     new_nds = (self.nds - old_nodes).sort.uniq
 
     unless new_nds.empty?
-      db_nds = Node.find(:all, :conditions => { :id => new_nds, :visible => true })
+      db_nds = Node.where(:id => new_nds, :visible => true)
 
       if db_nds.length < new_nds.length
         missing = new_nds - db_nds.collect { |n| n.id }
@@ -265,10 +268,9 @@ class Way < ActiveRecord::Base
     Way.transaction do
       self.lock!
       check_consistency(self, new_way, user)
-      rel = RelationMember.find(:first, :joins => :relation,
-                             :conditions => [ "visible = ? AND member_type='Way' and member_id=? ", true, self.id])
-      raise OSM::APIPreconditionFailedError.new("Way #{self.id} still used by relation #{rel.relation.id}.") if rel
-      
+      rels = Relation.joins(:relation_members).where(:visible => true, :current_relation_members => { :member_type => "Way", :member_id => id }).order(:id)
+      raise OSM::APIPreconditionFailedError.new("Way #{self.id} is still used by relations #{rels.collect { |r| r.id }.join(",")}.") unless rels.empty?
+
       self.changeset_id = new_way.changeset_id
       self.changeset = new_way.changeset
 
@@ -318,17 +320,17 @@ class Way < ActiveRecord::Base
       self.save!
 
       tags = self.tags
-      WayTag.delete_all(['id = ?', self.id])
+      WayTag.delete_all(:way_id => self.id)
       tags.each do |k,v|
         tag = WayTag.new
+        tag.way_id = self.id
         tag.k = k
         tag.v = v
-        tag.id = self.id
         tag.save!
       end
 
       nds = self.nds
-      WayNode.delete_all(['id = ?', self.id])
+      WayNode.delete_all(:way_id => self.id)
       sequence = 1
       nds.each do |n|
         nd = WayNode.new
@@ -356,5 +358,4 @@ class Way < ActiveRecord::Base
       cs.save!
     end
   end
-
 end

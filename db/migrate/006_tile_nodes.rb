@@ -1,4 +1,4 @@
-require 'lib/migrate'
+require 'migrate'
 
 class TileNodes < ActiveRecord::Migration
   def self.upgrade_table(from_table, to_table, model)

@@ -13,6 +13,8 @@ class TraceControllerTest < ActionController::TestCase
 
   # Check that I can get mine
   def test_list_mine
+    @request.cookies["_osm_username"] = users(:public_user).display_name
+
     # First try to get it when not logged in
     get :mine
     assert_redirected_to :controller => 'user', :action => 'login', :referer => '/traces/mine'

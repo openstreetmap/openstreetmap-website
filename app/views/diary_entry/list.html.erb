@@ -1,19 +1,18 @@
 <% if @this_user %>
-<%= user_image @this_user, :style => "float: right" %>
+  <%= user_image @this_user %>
 <% end %>
 
 <h2><%= h(@title) %></h2>
 
 <% if @this_user %>
-  <% if_user(@this_user) do %>
+  <%= if_user(@this_user) do %>
     <%= link_to image_tag("new.png", :border=>0) + t('diary_entry.list.new'), {:controller => 'diary_entry', :action => 'new'}, {:title => t('diary_entry.list.new_title')} %>
   <% end %>
 <% else %>
-  <% if_logged_in do %>
+  <%= if_logged_in do %>
     <%= link_to image_tag("new.png", :border=>0) + t('diary_entry.list.new'), {:controller => 'diary_entry', :action => 'new'}, {:title => t('diary_entry.list.new_title')} %>
   <% end %>
 <% end %>
-
 
 <% if @entries.empty? %>
   <p><%= t 'diary_entry.list.no_entries' %></p>
@@ -35,8 +34,10 @@
   <br />
 <% end %>
 
+<% unless params[:friends] or params[:nearby] -%>
 <%= rss_link_to :action => 'rss', :language => params[:language] %>
 
-<% content_for :head do %>
+<% content_for :head do -%>
 <%= auto_discovery_link_tag :atom, :action => 'rss', :language => params[:language] %>
-<% end %>
+<% end -%>
+<% end -%>

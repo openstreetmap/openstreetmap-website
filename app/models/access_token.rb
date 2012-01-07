@@ -1,5 +1,11 @@
-class AccessToken<OauthToken
-  validates_presence_of :user
+class AccessToken < OauthToken
+  belongs_to :user
+  belongs_to :client_application
+
+  scope :valid, where(:invalidated_at => nil)
+
+  validates_presence_of :user, :secret
+
   before_create :set_authorized_at
   
 protected 

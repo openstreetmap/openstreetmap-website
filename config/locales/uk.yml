@@ -4,6 +4,7 @@
 # Author: AS
 # Author: Andygol
 # Author: Arturyatsko
+# Author: Dim Grits
 # Author: KEL
 # Author: Prima klasy4na
 # Author: Yurkoy
@@ -85,12 +86,12 @@ uk:
       need_to_see_terms: Ваш доступ до API тимчасово призупинено. Будь ласка, увійдіть в систему, через веб-інтерфейс для перегляду Умов Участі. Вам не обов’язково погоджуватись, але ви повинні переглянути їх.
   browse: 
     changeset: 
-      changeset: "Набір змін: {{id}}"
+      changeset: "Набір змін: %{id}"
       changesetxml: XML набір  змін
-      download: Завантажити {{changeset_xml_link}} або {{osmchange_xml_link}}
+      download: Завантажити %{changeset_xml_link} або %{osmchange_xml_link}
       feed: 
-        title: Набір змін {{id}}
-        title_comment: Набір змін {{id}} — {{comment}}
+        title: Набір змін %{id}
+        title_comment: Набір змін %{id} — %{comment}
       osmchangexml: osmChange XML
       title: Набір змін
     changeset_details: 
@@ -100,30 +101,37 @@ uk:
       closed_at: "Закінчено:"
       created_at: "Розпочато:"
       has_nodes: 
-        few: "Містить {{count}} точки:"
-        one: "Містить {{count}} точку:"
-        other: "Містить {{count}} точок:"
+        few: "Містить %{count} точки:"
+        one: "Містить %{count} точку:"
+        other: "Містить %{count} точок:"
       has_relations: 
-        few: "Має наступні {{count}} зв’язки:"
-        one: "Має наступний {{count}} зв’язок:"
-        other: "Має наступні {{count}} зв’язків:"
+        few: "Має наступні %{count} зв’язки:"
+        one: "Має наступний %{count} зв’язок:"
+        other: "Має наступні %{count} зв’язків:"
       has_ways: 
-        few: "Містить {{count}} лінії:"
-        one: "Містить {{count}} лінію:"
-        other: "містить {{count}} ліній:"
+        few: "Містить %{count} лінії:"
+        one: "Містить %{count} лінію:"
+        other: "містить %{count} ліній:"
       no_bounding_box: Для цього набору змін межі не встановлено.
       show_area_box: Показати виділену ділянку
     common_details: 
       changeset_comment: "Коментар:"
+      deleted_at: "Вилучено:"
+      deleted_by: "Вилучив:"
       edited_at: "Змінено:"
       edited_by: "Змінив:"
       in_changeset: "В наборі змін:"
       version: "Версія:"
     containing_relation: 
-      entry: Зв’язок {{relation_name}}
-      entry_role: Зв’язок {{relation_name}} (як {{relation_role}})
+      entry: Зв’язок %{relation_name}
+      entry_role: Зв’язок %{relation_name} (як %{relation_role})
     map: 
       deleted: Вилучено
+      edit: 
+        area: Редагувати область
+        node: Редагувати вузол
+        relation: Редагувати відношення
+        way: Редагувати шлях
       larger: 
         area: Перегляд ділянки на більшій мапі
         node: Перегляд точки на більшій мапі
@@ -141,27 +149,27 @@ uk:
         prev_relation_tooltip: Попередній зв’язок
         prev_way_tooltip: Попередня лінія
       user: 
-        name_changeset_tooltip: Переглянути правки {{user}}
-        next_changeset_tooltip: Наступні зміни {{user}}
-        prev_changeset_tooltip: Попередні зміни {{user}}
+        name_changeset_tooltip: Переглянути правки %{user}
+        next_changeset_tooltip: Наступні зміни %{user}
+        prev_changeset_tooltip: Попередні зміни %{user}
     node: 
-      download: "{{download_xml_link}}, {{view_history_link}} або {{edit_link}}"
+      download: "%{download_xml_link}, %{view_history_link} або %{edit_link}"
       download_xml: Завантажити XML
       edit: правити
       node: Точка
-      node_title: "Точка: {{node_name}}"
+      node_title: "Точка: %{node_name}"
       view_history: перегляд історії
     node_details: 
       coordinates: "Координати:"
       part_of: "Бере участь у:"
     node_history: 
-      download: "{{download_xml_link}} або {{view_details_link}}"
+      download: "%{download_xml_link} або %{view_details_link}"
       download_xml: Завантажити XML
       node_history: Історія Точки
-      node_history_title: "Історія Точки: {{node_name}}"
+      node_history_title: "Історія Точки: %{node_name}"
       view_details: переглянути подробиці
     not_found: 
-      sorry: На жаль,  {{type}} з ідентифікатором {{id}} не знайдено.
+      sorry: На жаль,  %{type} з ідентифікатором %{id} не знайдено.
       type: 
         changeset: набір змін
         node: точка
@@ -171,22 +179,22 @@ uk:
       of: з
       showing_page: Показано сторінку
     relation: 
-      download: "{{download_xml_link}} або {{view_history_link}}"
+      download: "%{download_xml_link} або %{view_history_link}"
       download_xml: Завантажити XML
       relation: Зв’язок
-      relation_title: "Зв’язок: {{relation_name}}"
+      relation_title: "Зв’язок: %{relation_name}"
       view_history: перегляд історії
     relation_details: 
       members: "Учасники:"
       part_of: "Бере участь у:"
     relation_history: 
-      download: "{{download_xml_link}} або {{view_details_link}}"
+      download: "%{download_xml_link} або %{view_details_link}"
       download_xml: Завантажити XML
       relation_history: Історія Зв’язку
-      relation_history_title: "Історія Зв’язку: {{relation_name}}"
+      relation_history_title: "Історія Зв’язку: %{relation_name}"
       view_details: переглянути подробиці
     relation_member: 
-      entry_role: "{{type}} {{name}} як {{role}}"
+      entry_role: "%{type} %{name} як %{role}"
       type: 
         node: Вузол
         relation: Зв’язок
@@ -225,41 +233,41 @@ uk:
       private_user: приватний користувч
       show_areas: Показати ділянки
       show_history: Показати Історію
-      unable_to_load_size: "Неможливо завантажити: розмір ділянки [[bbox_size]] завеликий (повинен бути менше ніж {{max_bbox_size}})"
+      unable_to_load_size: "Неможливо завантажити: розмір ділянки [[bbox_size]] завеликий (повинен бути менше ніж %{max_bbox_size})"
       wait: Зачекайте…
       zoom_or_select: Збільшить масштаб або виберіть ділянку на мапі для перегляду
     tag_details: 
       tags: "Теґи:"
       wiki_link: 
-        key: Сторінка вікі, що описує теґ {{key}}
-        tag: Сторінка вікі, що описує теґ {{key}}={{value}}
-      wikipedia_link: Стаття {{page}} у Вікіпедії
+        key: Сторінка вікі, що описує теґ %{key}
+        tag: Сторінка вікі, що описує теґ %{key}=%{value}
+      wikipedia_link: Стаття %{page} у Вікіпедії
     timeout: 
-      sorry: На жаль, дані для {{type}} з ідентифікатором {{id}}, занадто великі для отримання.
+      sorry: На жаль, дані для %{type} з ідентифікатором %{id}, занадто великі для отримання.
       type: 
         changeset: набір змін
         node: точка
         relation: зв’язок
         way: лінія
     way: 
-      download: "{{download_xml_link}}, {{view_history_link}} або {{edit_link}}"
+      download: "%{download_xml_link}, %{view_history_link} або %{edit_link}"
       download_xml: Завантажити XML
       edit: редагувати
       view_history: переглянути історію
       way: Лінія
-      way_title: "Ліня: {{way_name}}"
+      way_title: "Лінія: %{way_name}"
     way_details: 
       also_part_of: 
-        one: також є частиною лінії {{related_ways}}
-        other: також є частиною ліній {{related_ways}}
+        one: також є частиною лінії %{related_ways}
+        other: також є частиною ліній %{related_ways}
       nodes: "Точки:"
       part_of: "Частина з:"
     way_history: 
-      download: "{{download_xml_link}} або {{view_details_link}}"
+      download: "%{download_xml_link} або %{view_details_link}"
       download_xml: Завантажити XML
       view_details: переглянути подробиці
       way_history: Історія змін лінії
-      way_history_title: "Історія змін лінії: {{way_name}}"
+      way_history_title: "Історія змін лінії: %{way_name}"
   changeset: 
     changeset: 
       anonymous: Анонім
@@ -272,7 +280,7 @@ uk:
     changeset_paging_nav: 
       next: Наступна →
       previous: ← Попередня
-      showing_page: Сторінка {{page}}
+      showing_page: Сторінка %{page}
     changesets: 
       area: Ділянка
       comment: Коментар
@@ -281,34 +289,34 @@ uk:
       user: Користувач
     list: 
       description: Останні зміни
-      description_bbox: Набір змін в межах {{bbox}}
-      description_user: Набір змін користувача {{user}}
-      description_user_bbox: Набір змін користувача {{user}} в межах {{bbox}}
+      description_bbox: Набір змін в межах %{bbox}
+      description_user: Набір змін користувача %{user}
+      description_user_bbox: Набір змін користувача %{user} в межах %{bbox}
       heading: Набір змін
       heading_bbox: Набір змін
       heading_user: Набір змін
       heading_user_bbox: Набір змін
       title: Набір змін
-      title_bbox: Набір змін в межах {{bbox}}
-      title_user: Набір змін користувача {{user}}
-      title_user_bbox: Набір змін користувача {{user}} в межах {{bbox}}
+      title_bbox: Набір змін в межах %{bbox}
+      title_user: Набір змін користувача %{user}
+      title_user_bbox: Набір змін користувача %{user} в межах %{bbox}
     timeout: 
       sorry: На жаль, список наборів змін який ви запросили, потребує багато часу для завантаження.
   diary_entry: 
     diary_comment: 
-      comment_from: Коментар від {{link_user}}, {{comment_created_at}}
+      comment_from: Коментар від %{link_user}, %{comment_created_at}
       confirm: Підтвердити
       hide_link: Приховати цей коментар
     diary_entry: 
       comment_count: 
-        few: "{{count}} коментарі"
-        one: "{{count}} коментар"
-        other: "{{count}} коментарів"
+        few: "%{count} коментарі"
+        one: "%{count} коментар"
+        other: "%{count} коментарів"
       comment_link: Коментувати
       confirm: Підтвердити
       edit_link: Правити цей запис
       hide_link: Приховати цей запис
-      posted_by: "Відправив {{link_user}} {{created}}, мова: {{language_link}}"
+      posted_by: "Відправив %{link_user} %{created}, мова: %{language_link}"
       reply_link: Відповісти
     edit: 
       body: "Текст:"
@@ -326,13 +334,13 @@ uk:
         description: Останні записи щоденника від користувачів OpenStreetMap
         title: Записи щоденника OpenStreetMap
       language: 
-        description: Останні записи щоденника користувачів OpenStreetMap ({{language_name}})
-        title: Записи щоденника OpenStreetMap ({{language_name}})
+        description: Останні записи щоденника користувачів OpenStreetMap (%{language_name})
+        title: Записи щоденника OpenStreetMap (%{language_name})
       user: 
-        description: Останні записи щоденника OpenStreetMap для користувача {{user}}
-        title: Записи щоденника OpenStreetMap для користувача {{user}}
+        description: Останні записи щоденника OpenStreetMap для користувача %{user}
+        title: Записи щоденника OpenStreetMap для користувача %{user}
     list: 
-      in_language_title: Записи щоденника, мова — {{language}}
+      in_language_title: Записи щоденника, мова — %{language}
       new: Нова нотатка у щоденнику
       new_title: Зробити новий запис у своєму щоденнику
       newer_entries: Нові записи
@@ -340,7 +348,7 @@ uk:
       older_entries: Старі записи
       recent_entries: "Останні записи:"
       title: Щоденник
-      user_title: Щоденник користувача {{user}}
+      user_title: Щоденник користувача %{user}
     location: 
       edit: Редагувати
       location: "Місце:"
@@ -348,22 +356,22 @@ uk:
     new: 
       title: Створити новий запис у щоденнику
     no_such_entry: 
-      body: На жаль, запис чи коментар з id {{id}} не знайдені. Перевірте правильність введення адреси. Можливо, посилання, по якому ви перейшли, хибне.
-      heading: Немає запису з id {{id}}
+      body: На жаль, запис чи коментар з id %{id} не знайдені. Перевірте правильність введення адреси. Можливо, посилання, по якому ви перейшли, хибне.
+      heading: Немає запису з id %{id}
       title: Немає такого запису в щоденнику
     no_such_user: 
-      body: На жаль, користувача з ім'ям {{user}} не знайдено. Перевірте правильність введення. Можливо посилання, по якому ви перейшли, хибне.
-      heading: Користувача {{user}} не існує
+      body: На жаль, користувача з ім'ям %{user} не знайдено. Перевірте правильність введення. Можливо посилання, по якому ви перейшли, хибне.
+      heading: Користувача %{user} не існує
       title: Немає такого користувача
     view: 
       leave_a_comment: Лишити коментар
       login: Ввійдіть
-      login_to_leave_a_comment: "{{login_link}}, щоб залишити коментар"
+      login_to_leave_a_comment: "%{login_link}, щоб залишити коментар"
       save_button: Зберегти
-      title: Щоденник користувача {{user}} | {{title}}
-      user_title: Щоденник користувача {{user}}
+      title: Щоденник користувача %{user} | %{title}
+      user_title: Щоденник користувача %{user}
   editor: 
-    default: Типовий (зараз {{name}})
+    default: Типовий (зараз %{name})
     potlatch: 
       description: Потлач 1 (редактор в оглядачі)
       name: Потлач 1
@@ -411,14 +419,14 @@ uk:
     description: 
       title: 
         geonames: Місце знаходження з <a href="http://www.geonames.org/">GeoNames</a>
-        osm_namefinder: "{{types}} з <a href=\"http://gazetteer.openstreetmap.org/namefinder/\">OpenStreetMap Namefinder</a>"
+        osm_namefinder: "%{types} з <a href=\"http://gazetteer.openstreetmap.org/namefinder/\">OpenStreetMap Namefinder</a>"
         osm_nominatim: Місце знаходження з <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
       types: 
         cities: Міста
         places: Місця
         towns: Містечка
     description_osm_namefinder: 
-      prefix: "{{distance}} {{direction}} {{type}}"
+      prefix: "%{distance} %{direction} %{type}"
     direction: 
       east: на схід
       north: на північ
@@ -430,7 +438,7 @@ uk:
       west: на захід
     distance: 
       one: близько 1 км
-      other: близько {{count}} км
+      other: близько %{count} км
       zero: менше ніж 1 км
     results: 
       more_results: Більше результатів
@@ -445,8 +453,8 @@ uk:
         uk_postcode: Результати від <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Результати від <a href="http://geocoder.us/">Geocoder.us</a>
     search_osm_namefinder: 
-      suffix_parent: "{{suffix}} ({{parentdistance}} {{parentdirection}} {{parentname}})"
-      suffix_place: ", {{distance}} {{direction}} від {{placename}}"
+      suffix_parent: "%{suffix} (%{parentdistance} %{parentdirection} %{parentname})"
+      suffix_place: ", %{distance} %{direction} від %{placename}"
     search_osm_nominatim: 
       prefix: 
         amenity: 
@@ -886,7 +894,6 @@ uk:
     map: 
       base: 
         cycle_map: Мапа для велосипедистів
-        noname: БезНазви
     site: 
       edit_disabled_tooltip: Збільшить масштаб для редагування мапи
       edit_tooltip: Редагування мапи
@@ -897,13 +904,13 @@ uk:
   layouts: 
     community_blogs: Блоги спільноти
     community_blogs_title: Блоги членів спільноти OpenStreetMap
-    copyright: Авторські права &amp; Ліцензія
+    copyright: Авторські права & Ліцензія
     documentation: Документація
     documentation_title: Документація проекту
-    donate: Підтримайте OpenStreetMap {{link}} у фонді оновлення обладнання.
+    donate: Підтримайте OpenStreetMap %{link} у фонді оновлення обладнання.
     donate_link_text: пожертвування
     edit: Правка
-    edit_with: Правити у {{editor}}
+    edit_with: Правити у %{editor}
     export: Експорт
     export_tooltip: Експортувати картографічні дані
     foundation: Фонд
@@ -916,16 +923,17 @@ uk:
     history: Історія
     home: додому
     home_tooltip: Показати моє місце знаходження
-    inbox: вхідні ({{count}})
+    inbox: вхідні (%{count})
     inbox_tooltip: 
-      few: У вас {{count}} непрочитаних повідомлення
-      one: У вас {{count}} непрочитане повідомлення
-      other: У вас {{count}} непрочитаних повідомлень
+      few: У вас %{count} непрочитаних повідомлення
+      one: У вас %{count} непрочитане повідомлення
+      other: У вас %{count} непрочитаних повідомлень
       zero: У вас немає непрочитаних повідомлень
     intro_1: OpenStreetMap — це мапа Світу, яку можна вільно редагувати. Вона зроблена такими ж людьми, як і ви.
     intro_2: OpenStreetMap дозволяє спільно переглядати, змінювати і використовувати географічні дані в будь-якій точці Землі.
-    intro_3: Послуги хостингу для OpenStreetMap привітно надають {{ucl}} та {{bytemark}}. Список інших партнерів, що надають підтримку проекту розміщено в {{partners}}.
-    intro_3_bytemark: bytemark
+    intro_3: Послуги хостингу для OpenStreetMap привітно надають %{ucl}, %{ic} та %{bytemark}. Список інших партнерів, що надають підтримку проекту розміщено в %{partners}.
+    intro_3_bytemark: Bytemark Hosting
+    intro_3_ic: Імперський коледж Лондона
     intro_3_partners: вікі
     intro_3_ucl: UCL VR Centre
     license: 
@@ -949,20 +957,20 @@ uk:
     user_diaries_tooltip: Подивитись щоденники
     view: Мапа
     view_tooltip: Переглянути мапу
-    welcome_user: Вітаємо, {{user_link}}
+    welcome_user: Вітаємо, %{user_link}
     welcome_user_link_tooltip: Ваша сторінка користувача
     wiki: Вікі
     wiki_title: Вікі-сайт проекту
   license_page: 
     foreign: 
       english_link: оригіналом англійською
-      text: У разі суперечностей між цим перекладом та {{english_original_link}}, оригінал англійською має перевагу.
+      text: У разі суперечностей між цим перекладом та %{english_original_link}, оригінал англійською має перевагу.
       title: Про цей переклад
-    legal_babble: "<h2>Авторські права та Ліцензування</h2>\n<p>\n   Дані OpenStreetMap є <i>відкрити даними</i>, що ліцензуються на\n   умовах Ліцензії <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">Creative Commons Attribution-ShareAlike 2.0</a> (CC-BY-SA).\n</p>\n<p>\n Ви можете вільно копіювати, поширювати, передавати і адаптувати наші\n мапи і дані, до тих пір, поки ви посилаєтесь на OpenStreetMap та його\n спільноту. Якщо ви змінюєте або щось створюєте на основі нашої мапи\n чи даних, ви повинні розповсюджувати результати під такою ж Ліцензією.\n Повний, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/legalcode\">чинний текст</a> Ліцензії роз’яснює ваші права та обов’язки.\n</p>\n\n<h3>Як вказувати посилання на OpenStreetMap</h3>\n<p>\n  Якщо ви використовуєте зображення мапи OpenStreetMap, ми вимагаємо, щоб ви зазначали, принаймні, &ldquo;&copy; OpenStreetMap\n  contributors, CC-BY-SA&rdquo;. Якщо ви використовуєте тільки картографічні дані, ми вимагаємо наявності &ldquo;Map data &copy; OpenStreetMap contributors, CC-BY-SA&rdquo;.\n</p>\n<p>\n  Будь-де, де це можливо, повинне бути гіпертекстове посилання на OpenStreetMap <a\n  href=\"http://www.openstreetmap.org/\">http://www.openstreetmap.org/</a>\n  та на CC-BY-SA <a\n  href=\"http://creativecommons.org/licenses/by-sa/2.0/\">http://creativecommons.org/licenses/by-sa/2.0/</a>. Якщо ви використовуєте\n  носії де використання гіпертекстових посилань не можливе (наприклад:\n  друковані твори), ми пропонуємо вам направляти ваших читачів\n  безпосередньо до www.openstreetmap.org (можливо, шляхом розширення\n  &lsquo;OpenStreetMap&rsquo; до повної адреси) та до\n  www.creativecommons.org.\n</p>\n\n<h3>Дізнатися більше</h3>\n<p>\n  Дізнайтеся більше про використання наших даних у <a\n  href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">відповідях з правових питань</a>.\n</p>\n<p>\n  Учасники спільноти OSM повинні завжди пам’ятати про те, що\n  забороняється додавати дані з будь-яких захищених авторським правом\n  джерел (наприклад: Google Maps чи друковані мапи) без отримання\n  попередньої згоди правовласників.\n</p>\n<p>\n  Хоча OpenStreetMap містить вільні дані, ми не в змозі надавати\n  безкоштовний API до наших мап стороннім розробникам.\n\n  Дивіться <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">Правила використання API</a>,\n  <a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">Правила використання частин мапи</a>\n  та <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">Правила використання сервісу Nominatim</a>.\n</p>\n\n<h3>З нами співпрацюють</h3>\n<p>\n  Наша Ліцензія CC-BY-SA вимагає від вас &ldquo;вказувати на Автора\n  оригіналу певним чином, відповідно до носія даних, чи умов\n  використання&rdquo;. Окремі члени спільноти OSM не вимагатимуть\n  вказувати більше ніж &ldquo;OpenStreetMap contributors&rdquo;, але\n  якщо дані в OpenStreetMap отримані від національних картографічних\n  агенцій чи інших важливих джерел, можливо має сенс вказати\n  безпосередньо на них, зазначивши їх внесок або додавши посилання на\n  цій сторінці.\n</p>\n\n<!--\nInformation for page editors\n\nThe following lists only those organisations who require attribution\nas a condition of their data being used in OpenStreetMap. It is not a\ngeneral catalogue of imports, and must not be used except when\nattribution is required to comply with the licence of the imported\ndata.\n\nAny additions here must be discussed with OSM sysadmins first.\n-->\n\n<ul id=\"contributors\">\n   <li><strong>Австралія</strong>: дані передмість від Австралійського Бюро Статистики.</li>\n   <li><strong>Канада</strong>: дані від GeoBase&reg;, GeoGratis (&copy; Департамент природних ресурсів Канади), CanVec (&copy; Департамент природних ресурсів Канади), та StatCan (Відділ Географії, Статистичне відомство Канади).</li>\n   <li><strong>Нова Зеландія</strong>: дані отримані з інформації про земельні ресурси Нової Зеландії. Crown Copyright reserved.</li>\n   <li><strong>Польща</strong>: містить дані з <a\n   href=\"http://ump.waw.pl/\">мап UMP-pcPL</a>. Copyright\n   UMP-pcPL contributors.</li>\n   <li><strong>Сполучене Королівство Великобританії</strong>: дані Ordnance\n   Survey &copy; Crown copyright and database right\n   2010.</li>\n</ul>\n\n<p>\n  Включення даних до OpenStreetMap не означає, що постачальник\n  первинних даних якимось чином підтримує OpenStreetMap, чи надає\n  підтримку або будь-які гарантії, або приймає на себе будь-яку\n  відповідальність.\n</p>"
+    legal_babble: "<h2>Авторські права та Ліцензування</h2>\n<p>\n   Дані OpenStreetMap є <i>відкрити даними</i>, що ліцензуються на\n   умовах Ліцензії <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">Creative Commons Attribution-ShareAlike 2.0</a> (CC-BY-SA).\n</p>\n<p>\n Ви можете вільно копіювати, поширювати, передавати і адаптувати наші\n мапи і дані, до тих пір, поки ви посилаєтесь на OpenStreetMap та його\n спільноту. Якщо ви змінюєте або щось створюєте на основі нашої мапи\n чи даних, ви повинні розповсюджувати результати під такою ж Ліцензією.\n Повний, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/legalcode\">чинний текст</a> Ліцензії роз’яснює ваші права та обов’язки.\n</p>\n\n<h3>Як вказувати посилання на OpenStreetMap</h3>\n<p>\n  Якщо ви використовуєте зображення мапи OpenStreetMap, ми вимагаємо, щоб ви зазначали, принаймні, &ldquo;&copy; OpenStreetMap\n  contributors, CC-BY-SA&rdquo;. Якщо ви використовуєте тільки картографічні дані, ми вимагаємо наявності &ldquo;Map data &copy; OpenStreetMap contributors, CC-BY-SA&rdquo;.\n</p>\n<p>\n  Будь-де, де це можливо, повинне бути гіпертекстове посилання на OpenStreetMap <a\n  href=\"http://www.openstreetmap.org/\">http://www.openstreetmap.org/</a>\n  та на CC-BY-SA <a\n  href=\"http://creativecommons.org/licenses/by-sa/2.0/\">http://creativecommons.org/licenses/by-sa/2.0/</a>. Якщо ви використовуєте\n  носії де використання гіпертекстових посилань не можливе (наприклад:\n  друковані твори), ми пропонуємо вам направляти ваших читачів\n  безпосередньо до www.openstreetmap.org (можливо, шляхом розширення\n  &lsquo;OpenStreetMap&rsquo; до повної адреси) та до\n  www.creativecommons.org.\n</p>\n\n<h3>Дізнатися більше</h3>\n<p>\n  Дізнайтеся більше про використання наших даних у <a\n  href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">відповідях з правових питань</a>.\n</p>\n<p>\n  Учасники спільноти OSM повинні завжди пам’ятати про те, що\n  забороняється додавати дані з будь-яких захищених авторським правом\n  джерел (наприклад: Google Maps чи друковані мапи) без отримання\n  попередньої згоди правовласників.\n</p>\n<p>\n  Хоча OpenStreetMap містить вільні дані, ми не в змозі надавати\n  безкоштовний API до наших мап стороннім розробникам.\n\n  Дивіться <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">Правила використання API</a>,\n  <a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">Правила використання частин мапи</a>\n  та <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">Правила використання сервісу Nominatim</a>.\n</p>\n\n<h3>З нами співпрацюють</h3>\n<p>\n  Наша Ліцензія CC-BY-SA вимагає від вас &ldquo;вказувати на Автора\n  оригіналу певним чином, відповідно до носія даних, чи умов\n  використання&rdquo;. Окремі члени спільноти OSM не вимагатимуть\n  вказувати більше ніж &ldquo;OpenStreetMap contributors&rdquo;, але\n  якщо дані в OpenStreetMap отримані від національних картографічних\n  агенцій чи інших важливих джерел, можливо має сенс вказати\n  безпосередньо на них, зазначивши їх внесок або додавши посилання на\n  цій сторінці.\n</p>\n\n<!--\nInformation for page editors\n\nThe following lists only those organisations who require attribution\nas a condition of their data being used in OpenStreetMap. It is not a\ngeneral catalogue of imports, and must not be used except when\nattribution is required to comply with the licence of the imported\ndata.\n\nAny additions here must be discussed with OSM sysadmins first.\n-->\n\n<ul id=\"contributors\">\n   <li><strong>Австралія</strong>: дані передмість від Австралійського Бюро Статистики.</li>\n   <li><strong>Австрія</strong>: дані від\n   <a href=\"http://data.wien.gv.at/\">Stadt Wien</a> на умовах ліцензії\n   <a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.de\">CC-BY</a>.</li>\n   <li><strong>Канада</strong>: дані від GeoBase&reg;, GeoGratis (&copy; Департамент природних ресурсів Канади), CanVec (&copy; Департамент природних ресурсів Канади), та StatCan (Відділ Географії, Статистичне відомство Канади).</li>\n   <li><strong>Нова Зеландія</strong>: дані отримані з інформації про земельні ресурси Нової Зеландії. Crown Copyright reserved.</li>\n   <li><strong>Польща</strong>: містить дані з <a\n   href=\"http://ump.waw.pl/\">мап UMP-pcPL</a>. Copyright\n   UMP-pcPL contributors.</li>\n   <li><strong>Сполучене Королівство Великобританії</strong>: дані Ordnance\n   Survey &copy; Crown copyright and database right\n   2010.</li>\n   <li><strong>Франція</strong>: Дані отримані від Direction Générale des Impôts (Генеральне управління з оподаткування).</li>\n</ul>\n\n<p>\n  Включення даних до OpenStreetMap не означає, що постачальник\n  первинних даних якимось чином підтримує OpenStreetMap, чи надає\n  підтримку або будь-які гарантії, або приймає на себе будь-яку\n  відповідальність.\n</p>"
     native: 
       mapping_link: почати створення мапи
       native_link: української версії
-      text: Ви переглядаєте англійську версію сторінки авторських прав. Ви можете повернутись до {{native_link}} цієї сторінки або можете не читати про авторські права та {{mapping_link}}.
+      text: Ви переглядаєте англійську версію сторінки авторських прав. Ви можете повернутись до %{native_link} цієї сторінки або можете не читати про авторські права та %{mapping_link}.
       title: Про цю сторінку
   message: 
     delete: 
@@ -971,12 +979,12 @@ uk:
       date: Дата
       from: Від
       my_inbox: Мої вхідні
-      no_messages_yet: У вас ще немає повідомлень. Чому б не поспілкуватись з кимось із {{people_mapping_nearby_link}}?
+      no_messages_yet: У вас ще немає повідомлень. Чому б не поспілкуватись з кимось із %{people_mapping_nearby_link}?
       outbox: вихідні
       people_mapping_nearby: користувачів поблизу вас
       subject: Тема
       title: Вхідні
-      you_have: У вас {{new_count}} нових повідомлень і {{old_count}} старих
+      you_have: У вас %{new_count} нових повідомлень і %{old_count} старих
     mark: 
       as_read: Повідомлення позначене як прочитане
       as_unread: Повідомлення позначене як непрочитане
@@ -991,7 +999,7 @@ uk:
       limit_exceeded: Ви нещодавно надіслали багато повідомлень. Почекайте трохи, перш ніж відправляти ще.
       message_sent: Повідомлення надіслано
       send_button: Надіслати
-      send_message_to: Відправити нове повідомлення для {{name}}
+      send_message_to: Відправити нове повідомлення для %{name}
       subject: "Тема:"
       title: Відправити повідомлення
     no_such_message: 
@@ -1005,14 +1013,14 @@ uk:
     outbox: 
       date: Дата
       inbox: вхідні
-      my_inbox: Мої {{inbox_link}}
-      no_sent_messages: У вас немає відправлених повідомлень. Чому б не поспілкуватись з кимось із {{people_mapping_nearby_link}}?
+      my_inbox: Мої %{inbox_link}
+      no_sent_messages: У вас немає відправлених повідомлень. Чому б не поспілкуватись з кимось із %{people_mapping_nearby_link}?
       outbox: вихідні
       people_mapping_nearby: користувачів поблизу вас
       subject: Тема
       title: Вихідні
       to: Кому
-      you_have_sent_messages: Ви відправили {{count}} повідомлень
+      you_have_sent_messages: Ви відправили %{count} повідомлень
     read: 
       back_to_inbox: Назад до вхідних
       back_to_outbox: Назад до вихідних
@@ -1025,33 +1033,33 @@ uk:
       title: Перегляд повідомлення
       to: "Кому:"
       unread_button: Позначити як непрочитане
-      wrong_user: Ви увійшли як `{{user}}', але повідомлення, яке ви хочете прочитати, не було відправлено цим користувачем, чи призначено для цього користувача. Будь ласка, увійдіть під правильним ім'ям користувача, щоб прочитати його.
+      wrong_user: Ви увійшли як `%{user}', але повідомлення, яке ви хочете прочитати, не було відправлено цим користувачем, чи призначено для цього користувача. Будь ласка, увійдіть під правильним ім'ям користувача, щоб прочитати його.
     reply: 
-      wrong_user: Ви увійшли як `{{user}}', але повідомлення, на яке ви хочете відповісти, було відправлено не цьому користувачу. Будь ласка, увійдіть за правильним ім'ям користувача щоб відповісти.
+      wrong_user: Ви увійшли як `%{user}', але повідомлення, на яке ви хочете відповісти, було відправлено не цьому користувачу. Будь ласка, увійдіть за правильним ім'ям користувача щоб відповісти.
     sent_message_summary: 
       delete_button: Вилучити
   notifier: 
     diary_comment_notification: 
-      footer: Ви можете також прочитати коментар — {{readurl}}, залишити свій — {{commenturl}} або відповісти — {{replyurl}}
-      header: "{{from_user}}  прокоментував ваш запис у щоденнику у OpenStreetMap з темою {{subject}}:"
-      hi: Привіт, {{to_user}},
-      subject: "[OpenStreetMap] {{user}} залишив коментар у вашому щоденнику"
+      footer: Ви можете також прочитати коментар — %{readurl}, залишити свій — %{commenturl} або відповісти — %{replyurl}
+      header: "%{from_user}  прокоментував ваш запис у щоденнику у OpenStreetMap з темою %{subject}:"
+      hi: Привіт, %{to_user},
+      subject: "[OpenStreetMap] %{user} залишив коментар у вашому щоденнику"
     email_confirm: 
       subject: "[OpenStreetMap] Підтвердження адреси електронної пошти"
     email_confirm_html: 
       click_the_link: Якщо це ви, клацніть на посиланню, нижче, щоб підтвердити зміни.
       greeting: Привіт,
-      hopefully_you: "Хтось (сподіваємось, що ви) хоче змінити свою адресу електронної пошти в {{server_url}} на адресу: {{new_address}}."
+      hopefully_you: "Хтось (сподіваємось, що ви) хоче змінити свою адресу електронної пошти в %{server_url} на адресу: %{new_address}."
     email_confirm_plain: 
       click_the_link: Якщо це ви, будь ласка, клацніть на посилання нижче, щоб підтвердити зміни.
       greeting: Привіт,
       hopefully_you_1: Хтось (сподіваємось, ви) хоче змінити адресу електронної пошти з
-      hopefully_you_2: "{{server_url}} на адресу: {{new_address}}."
+      hopefully_you_2: "%{server_url} на адресу: %{new_address}."
     friend_notification: 
-      befriend_them: Ви також можете додати їх у якості друзів {{befriendurl}}.
-      had_added_you: "{{user}} додав Вас як друга у OpenStreetMap."
-      see_their_profile: Ви можете побачити їх профіль на {{userurl}}.
-      subject: "[OpenStreetMap] {{user}} додав Вас як друга"
+      befriend_them: Ви також можете додати їх у якості друзів %{befriendurl}.
+      had_added_you: "%{user} додав Вас як друга у OpenStreetMap."
+      see_their_profile: Ви можете побачити їх профіль на %{userurl}.
+      subject: "[OpenStreetMap] %{user} додав Вас як друга"
     gpx_notification: 
       and_no_tags: та без теґів.
       and_the_tags: "та наступними теґами:"
@@ -1062,7 +1070,7 @@ uk:
         subject: "[OpenStreetMap] Збій імпорту GPX"
       greeting: Привіт,
       success: 
-        loaded_successfully: успішно завантажено {{trace_points}} точок з {{possible_points}} можливих.
+        loaded_successfully: успішно завантажено %{trace_points} точок з %{possible_points} можливих.
         subject: "[OpenStreetMap] Імпорт GPX пройшов успішно"
       with_description: з описом
       your_gpx_file: Схоже, що це ваш файл GPX
@@ -1078,10 +1086,10 @@ uk:
       hopefully_you_1: Хтось (можливо, ви) запросив зміну паролю для цієї
       hopefully_you_2: адреси ел.пошти зареєстрованої на openstreetmap.org
     message_notification: 
-      footer1: Ви також можете прочитати повідомлення {{readurl}}
-      footer2: і ви можете відповісти на {{replyurl}}
-      header: "{{from_user}} надіслав вам повідомлення через OpenStreetMap з темою {{subject}}:"
-      hi: Привіт, {{to_user}},
+      footer1: Ви також можете прочитати повідомлення %{readurl}
+      footer2: і ви можете відповісти на %{replyurl}
+      header: "%{from_user} надіслав вам повідомлення через OpenStreetMap з темою %{subject}:"
+      hi: Привіт, %{to_user},
     signup_confirm: 
       subject: "[OpenStreetMap] Підтвердіть вашу адресу електронної пошти"
     signup_confirm_html: 
@@ -1091,8 +1099,8 @@ uk:
       get_reading: Прочитайте про OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Uk:Beginners%27_Guide">у Вікі</a>, дізнайтесь про останні новини у <a href="http://blog.openstreetmap.org/">Блозі OpenStreetMap</a> або <a href="http://twitter.com/openstreetmap">Twitter</a>, чи перегляньте <a href="http://www.opengeodata.org/">OpenGeoData blog</a> — блог засновника OpenStreetMap Стіва Коуста (Steve Coast) у якому змальовано історію розвитку проекту та є підкасти, які також можливо <a href="http://www.opengeodata.org/?cat=13">послухати</a>!
       greeting: Привіт!
       hopefully_you: Хтось (сподіваємось, ви) бажає створити обліковий запис на
-      introductory_video: Ви можете переглянути {{introductory_video_link}}.
-      more_videos: Перегляньте {{more_videos_link}}.
+      introductory_video: Ви можете переглянути %{introductory_video_link}.
+      more_videos: Перегляньте %{more_videos_link}.
       more_videos_here: більше відео тут
       user_wiki_page: "Радимо створити власну вікі-сторінку, включивши до неї теґи категорій, що пояснюють ваше місце знаходження, наприклад: <a href=\"http://wiki.openstreetmap.org/wiki/Category:Users_in_Дніпропетровськ\">[[Category:Users in Дніпропетровськ]]</a>."
       video_to_openstreetmap: відео-вступ до OpenStreetMap
@@ -1124,9 +1132,9 @@ uk:
       allow_write_diary: створювати записи у щоденнику, коментарі та заводити друзів.
       allow_write_gpx: передавати GPS-треки на сервер.
       allow_write_prefs: змінювати ваші налаштування користувача.
-      request_access: Застосунок {{app_name}} намагається отримати доступ до вашого облікового запису. Будь ласка, перевірте чи бажаєте ви, щоб застосунок мав наступні можливості. Ви можете обрати будь-яку кількість.
+      request_access: Застосунок %{app_name} намагається отримати доступ до вашого облікового запису, %{user}. Будь ласка, перевірте чи бажаєте ви, щоб застосунок мав наступні можливості. Ви можете обрати будь-яку кількість.
     revoke: 
-      flash: Ви відкликали маркер для застосунка {{application}}
+      flash: Ви відкликали маркер для застосунка %{application}
   oauth_clients: 
     create: 
       flash: Інформацію успішно зареєстровано
@@ -1154,7 +1162,7 @@ uk:
       list_tokens: "Наступні маркери були випущені для застосунків на ваше ім’я:"
       my_apps: Мої клієнтські застосунки
       my_tokens: Мої автентифіковані застосунки
-      no_apps: Чи є у вас програми, які б ви хотіли зареєструватися для взаємодії з нами через стандарт {{oauth}}? Ви повинні зареєструвати ваш веб-застосунок перед тим, як він зможе зробити OAuth-запит до цієї служби.
+      no_apps: Чи є у вас програми, які б ви хотіли зареєструватися для взаємодії з нами через стандарт %{oauth}? Ви повинні зареєструвати ваш веб-застосунок перед тим, як він зможе зробити OAuth-запит до цієї служби.
       register_new: Зареєструвати ваш застосунок
       registered_apps: "У вас зареєстровані наступні клієнтські застосунки:"
       revoke: Відкликати!
@@ -1163,7 +1171,7 @@ uk:
       submit: Зареєструвати
       title: Зареєструвати новий застосунок
     not_found: 
-      sorry: На жаль, цей тип — {{type}}, не можливо знайти.
+      sorry: На жаль, цей тип — %{type}, не можливо знайти.
     show: 
       access_url: "URL маркер доступу:"
       allow_read_gpx: переглядати його приватні GPS-треки
@@ -1178,7 +1186,7 @@ uk:
       requests: "Запит наступних дозволів з боку користувача:"
       secret: "Секретна фраза абонента:"
       support_notice: Ми підтримуємо HMAC-SHA1 (рекомендується) і звичайний текст в режимі SSL.
-      title: Подробиці OAuth для {{app_name}}
+      title: Подробиці OAuth для %{app_name}
       url: "URL маркеру запита:"
     update: 
       flash: Інформацію клієнта успішно оновлено
@@ -1188,7 +1196,7 @@ uk:
       flash_player_required: Для використання редактора Potlatch потрібний Flash-плеєр. Ви можете <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">завантажити Flash-плеєр з Adobe.com</a>. Існують й <a href="http://wiki.openstreetmap.org/wiki/Uk:Editing">інші можливості</a> для правки в OpenStreetMap.
       no_iframe_support: Ваш оглядач не підтримує фрейми HTML, які необхідні для цієї функції.
       not_public: Ви не зробили свої правки загальнодоступними.
-      not_public_description: "Ви не можете більше анонімно редагувати мапу. Ви можете зробити ваші редагування загальнодоступними тут: {{user_page}}."
+      not_public_description: "Ви не можете більше анонімно редагувати мапу. Ви можете зробити ваші редагування загальнодоступними тут: %{user_page}."
       potlatch2_not_configured: Потлатч 2 не був налаштований — див http://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2 для отримання додаткової інформації
       potlatch2_unsaved_changes: Ви маєте незбережені зміни. (Для збереження в Потлач 2, ви повинні натиснути Зберегти.)
       potlatch_unsaved_changes: Є незбережені зміни. (Для збереження в Potlatch зніміть виділення з колії або точки, якщо редагуєте «вживу», або натисніть кнопку «зберегти», якщо ви в режимі відкладеного збереження.)
@@ -1199,7 +1207,7 @@ uk:
       js_3: Ви можете спробувати <a href "http://tah.openstreetmap.org/Browse/">статичну мапу від Tiles@Home</a>, якщо ви не в змозі включити JavaScript.
       license: 
         license_name: Creative Commons Attribution-Share Alike 2.0
-        notice: Ліцензовано на умовах {{license_name}} проектом  {{project_name}} та його користувачами.
+        notice: Ліцензовано на умовах %{license_name} проектом  %{project_name} та його користувачами.
         project_name: OpenStreetMap
       permalink: Постійне посилання
       remote_failed: Редагування не вдалося — переконайтеся, що JOSM або Merkaartor завантажений та втулок дистанційного керування увімкнений.
@@ -1296,7 +1304,7 @@ uk:
       download: завантажити
       edit: правка
       filename: "Ім’я файлу:"
-      heading: Правка треку {{name}}
+      heading: Правка треку %{name}
       map: мапа
       owner: "Власник:"
       points: "Точок:"
@@ -1304,20 +1312,20 @@ uk:
       start_coord: "Координати початку:"
       tags: "Теґи:"
       tags_help: через кому
-      title: Правка треку {{name}}
+      title: Правка треку %{name}
       uploaded_at: "Завантажено на сервер:"
       visibility: "Видимість:"
       visibility_help: ще це означає?
     list: 
       public_traces: Загальнодоступні GPS-треки
-      public_traces_from: Загальнодоступні GPS треки користувача {{user}}
-      tagged_with: "  позначені {{tags}}"
+      public_traces_from: Загальнодоступні GPS треки користувача %{user}
+      tagged_with: "  позначені %{tags}"
       your_traces: Ваші GPS-треки
     make_public: 
       made_public: Трек зроблено загальнодоступним
     no_such_user: 
-      body: На жаль,  користувача з іменем {{user}}  не існує. Будь ласка, перевірте правильність написання. Можливо посилання, за яким ви перейшли, помилкове.
-      heading: Користувача {{user}} не існує
+      body: На жаль,  користувача з іменем %{user}  не існує. Будь ласка, перевірте правильність написання. Можливо посилання, за яким ви перейшли, помилкове.
+      heading: Користувача %{user} не існує
       title: Немає такого користувача
     offline: 
       heading: Сховище GPX відключено
@@ -1325,9 +1333,9 @@ uk:
     offline_warning: 
       message: Доступ до системи завантаження GPX-файлів на поточний момент відсутній
     trace: 
-      ago: "{{time_in_words_ago}} тому"
+      ago: "%{time_in_words_ago} тому"
       by: "Автор:"
-      count_points: "{{count}} точок"
+      count_points: "%{count} точок"
       edit: правити
       edit_map: Правити Мапу
       identifiable: ІДЕНТИФІКОВУВАНИЙ
@@ -1341,27 +1349,26 @@ uk:
       trackable: ВІДСТЕЖУВАННИЙ
       view_map: Перегляд Мапи
     trace_form: 
-      description: Опис
+      description: "Опис:"
       help: Довідка
       help_url: http://wiki.openstreetmap.org/wiki/Uk:Upload
-      tags: Теґи
+      tags: "Мітки:"
       tags_help: через кому
       upload_button: Завантажити на сервер
-      upload_gpx: Завантажити GPX-файл
-      visibility: Видимість
+      upload_gpx: "Завантажити GPX-файл:"
+      visibility: "Видимість:"
       visibility_help: що це значить?
     trace_header: 
       see_all_traces: Показати всі треки
       see_your_traces: Показати всі ваші треки
-      traces_waiting: "{{count}} з ваших треків очікують завантаження на сервер. Будь ласка, дочекайтесь завершення їх завантаження перед завантаженням на сервер інших треків, що дозволить іншим користувачам також надіслати свої треки."
+      traces_waiting: "%{count} з ваших треків очікують завантаження на сервер. Будь ласка, дочекайтесь завершення їх завантаження перед завантаженням на сервер інших треків, що дозволить іншим користувачам також надіслати свої треки."
       upload_trace: Надіслати GPS-трек на сервер
-      your_traces: Показати тільки мої треки
     trace_optionals: 
       tags: "Теґи:"
     trace_paging_nav: 
       next: Наступна →
       previous: ← Попередня
-      showing_page: Сторінка {{page}}
+      showing_page: Сторінка %{page}
     view: 
       delete_track: Вилучити цей трек
       description: "Опис:"
@@ -1369,7 +1376,7 @@ uk:
       edit: правити
       edit_track: Правити трек
       filename: "Ім’я файлу:"
-      heading: Перегляд треку {{name}}
+      heading: Перегляд треку %{name}
       map: на мапі
       none: Нічого
       owner: "Власник:"
@@ -1377,7 +1384,7 @@ uk:
       points: "Точок:"
       start_coordinates: "Координати початку:"
       tags: "Теґи:"
-      title: Перегляд треку {{name}}
+      title: Перегляд треку %{name}
       trace_not_found: Трек не знайдено!
       uploaded: "Завантажений на сервер:"
       visibility: "Видимість:"
@@ -1411,6 +1418,10 @@ uk:
       new email address: "Нова адреса електронної пошти:"
       new image: Додати зображення
       no home location: Ви не позначили своє основне місце розташування.
+      openid: 
+        link: http://wiki.openstreetmap.org/wiki/Uk:OpenID
+        link text: що це?
+        openid: "OpenID:"
       preferred editor: "Редактор:"
       preferred languages: "Бажані мови:"
       profile description: "Опис профілю:"
@@ -1435,7 +1446,7 @@ uk:
       button: Підтвердити
       heading: Підтвердити обліковий запис користувача
       press confirm button: Натисніть на кнопку підтвердження нижче, щоб активувати ваш профіль.
-      reconfirm: Якщо пройшло достатньо часу з моменту Вашої реєстрації, Вам,  можливо, необхідно <a href="{{reconfirm}}">відправити собі нове підтвердження по електронній пошті</a> .
+      reconfirm: Якщо пройшло достатньо часу з моменту Вашої реєстрації, Вам,  можливо, необхідно <a href="%{reconfirm}">відправити собі нове підтвердження по електронній пошті</a> .
       success: Ваш обліковий запис підтверджено, дякуємо за реєстрацію!
       unknown token: Цей маркер, здається, не існує.
     confirm_email: 
@@ -1445,8 +1456,8 @@ uk:
       press confirm button: Натисніть кнопку підтвердження нижче, щоб підтвердити вашу нову адресу електронної пошти.
       success: Адресу вашої електронної пошти підтверджено, дякуємо за реєстрацію!
     confirm_resend: 
-      failure: Користувача {{name}} не знайдено.
-      success: Користувача успішно зареєстровано. Перевірте вашу електрону пошту ({{email}}) на наявність листа з підтвердженням, натисніть на посилання в ньому та можете негайно починати редагувати мапу :-).<br /><br /> Зауважте, що ви не зможете увійти, доки ви не підтвердите адресу вашої електронної пошти. <br /><br />Якщо ви користуєтесь системою анти-спаму, що надсилає запити на підтвердження, внесіть до «білого» списку адресу webmaster@openstreetmap.org, так як ми не в змозі відповідати на такі запити.
+      failure: Користувача %{name} не знайдено.
+      success: Користувача успішно зареєстровано. Перевірте вашу електрону пошту (%{email}) на наявність листа з підтвердженням, натисніть на посилання в ньому та можете негайно починати редагувати мапу :-).<br /><br /> Зауважте, що ви не зможете увійти, доки ви не підтвердите адресу вашої електронної пошти. <br /><br />Якщо ви користуєтесь системою анти-спаму, що надсилає запити на підтвердження, внесіть до «білого» списку адресу webmaster@openstreetmap.org, так як ми не в змозі відповідати на такі запити.
     filter: 
       not_an_administrator: Тільки адміністратор може виконати цю дію.
     go_public: 
@@ -1457,32 +1468,54 @@ uk:
       heading: Користувачі
       hide: Сховати вибраних користувачів
       showing: 
-        few: Показано {{page}} сторінки ({{first_item}} з {{items}})
-        one: Показано {{page}} сторінку ({{first_item}} з {{items}})
-        other: Показано {{page}} сторінок ({{first_item}}-{{last_item}} з {{items}})
-      summary: "{{name}} зареєстрований з {{ip_address}},  {{date}}"
-      summary_no_ip: "{{name}} зареєстврований {{date}}"
+        few: Показано %{page} сторінки (%{first_item} з %{items})
+        one: Показано %{page} сторінку (%{first_item} з %{items})
+        other: Показано %{page} сторінок (%{first_item}-%{last_item} з %{items})
+      summary: "%{name} зареєстрований з %{ip_address},  %{date}"
+      summary_no_ip: "%{name} зареєстврований %{date}"
       title: Користувачі
     login: 
-      account not active: Вибачте, ваш обліковий запис ще не активовано. <br /> Щоб його активувати, будь ласка, перевірте вашу поштову скриньку та натисніть на посилання в листі з проханням про підтвердження, або <a href="{{reconfirm}}"> запросіть нове підтвердження по електронній пошті</a>.
-      account suspended: На жаль, ваш обліковий запис був заблокований через підозрілу діяльність. <br />Будь ласка, зв'яжіться з {{webmaster}}, якщо ви хочете обговорити це.
-      already have: Вже маєте обліковий запис OpenStreetMap? Будь ласка, Увійдіть.
+      account not active: Вибачте, ваш обліковий запис ще не активовано. <br /> Щоб його активувати, будь ласка, перевірте вашу поштову скриньку та натисніть на посилання в листі з проханням про підтвердження, або <a href="%{reconfirm}"> запросіть нове підтвердження по електронній пошті</a>.
+      account suspended: На жаль, ваш обліковий запис був заблокований через підозрілу діяльність. <br />Будь ласка, зв'яжіться з %{webmaster}, якщо ви хочете обговорити це.
       auth failure: Вибачте, вхід з цими ім'ям або паролем неможливий.
       create account minute: Створити обліковий запис. Це займе всього хвилину.
-      create_account: зареєструйтесь
       email or username: "Ел. пошта або ім'я користувача:"
       heading: Представтесь
       login_button: Увійти
       lost password link: Забули пароль?
       new to osm: Вперше на OpenStreetMap?
       notice: <a href="http://www.osmfoundation.org/wiki/License/We_Are_Changing_The_License">Дізнайтеся більше про майбутні зміни ліцензії OpenStreetMap</a> ( <a href="http://wiki.openstreetmap.org/wiki/ODbL/We_Are_Changing_The_License">переклади</a> ) ( <a href="http://wiki.openstreetmap.org/wiki/Talk:ODbL/Upcoming">обговорення</a> )
+      openid: "%{logo} OpenID:"
+      openid invalid: На жаль, схоже ваш OpenID спотворений
+      openid missing provider: На жаль, не вдається зв’язатись з вашим постачальником OpenID
+      openid_logo_alt: Увійти з допомогою OpenID
+      openid_providers: 
+        aol: 
+          alt: Увійти з AOL OpenID
+          title: Увійти з AOL
+        google: 
+          alt: Увійти з Google OpenID
+          title: Увійти з Google
+        myopenid: 
+          alt: Увійти з myOpenID OpenID
+          title: Увійти з myOpenID
+        openid: 
+          alt: Увійти з допомогою OpenID URL
+          title: Увійти з допомогою OpenID
+        wordpress: 
+          alt: Увійти з Wordpress OpenID
+          title: Увійти з Wordpress
+        yahoo: 
+          alt: Увійти з Yahoo OpenID
+          title: Увійти з Yahoo
       password: "Пароль:"
-      please login: Будь ласка, представтесь або {{create_user_link}}.
       register now: Зареєструйтеся зараз
       remember: "Запам'ятати мене:"
       title: Представтесь
       to make changes: Щоб вносити зміни до даних OpenStreetMap, ви повинні мати обліковий запис.
       webmaster: веб-майстер
+      with openid: "Крім того, для входу ви можете скористатись вашим OpenID:"
+      with username: "Вже є обліковий запис OpenStreetMap? Будь ласка, введіть ваше ім'я користувача та пароль:"
     logout: 
       heading: Вийти з OpenStreetMap
       logout_button: Вийти
@@ -1496,9 +1529,9 @@ uk:
       notice email on way: Шкода, що ви втратили пароль :-( але нічого, скоро прийде лист і ви зможете перевстановити свій пароль.
       title: Відновлення пароля
     make_friend: 
-      already_a_friend: Ви вже товаришуєте з {{name}}.
-      failed: На жаль, {{name}} не вдалось додати до списку друзів.
-      success: Тепер {{name}} є вашим другом.
+      already_a_friend: Ви вже товаришуєте з %{name}.
+      failed: На жаль, %{name} не вдалось додати до списку друзів.
+      success: Тепер %{name} є вашим другом.
     new: 
       confirm email address: "Підтвердити адресу ел. пошти:"
       confirm password: "Повторіть пароль:"
@@ -1508,38 +1541,42 @@ uk:
       display name description: Ваше загальнодоступне ім’я. Ви можете змінити його потім у ваших налаштуваннях.
       email address: "Адреса ел. пошти:"
       fill_form: Заповніть форму, і ми надішлемо вам на електронну пошту листа з інструкцією по активацію вашого облікового запису.
-      flash create success message: Користувача успішно зареєстровано. Перевірте вашу електрону пошту ({{email}}) на наявність листа з підтвердженням, натисніть на посилання в ньому та можете негайно починати редагувати мапу :-).<br /><br /> Зауважте, що ви не зможете увійти, доки ви не підтвердите адресу вашої електронної пошти. <br /><br />Якщо ви користуєтесь системою анти-спаму, що надсилає запити на підтвердження, внесіть до «білого» списку адресу webmaster@openstreetmap.org, так як ми не в змозі відповідати на такі запити.
+      flash create success message: Користувача успішно зареєстровано. Перевірте вашу електрону пошту (%{email}) на наявність листа з підтвердженням, натисніть на посилання в ньому та можете негайно починати редагувати мапу :-).<br /><br /> Зауважте, що ви не зможете увійти, доки ви не підтвердите адресу вашої електронної пошти. <br /><br />Якщо ви користуєтесь системою анти-спаму, що надсилає запити на підтвердження, внесіть до «білого» списку адресу webmaster@openstreetmap.org, так як ми не в змозі відповідати на такі запити.
       heading: Створення облікового запису користувача
       license_agreement: Створюючи обліковий запис ви погоджуєтесь з тим, що всі дані, які надсилаються до Openstreetmap ліцензуються на умовах <a href="http://creativecommons.org/licenses/by-sa/2.0/">ліцензії Creative Commons (by-sa)</a>.
       no_auto_account_create: На жаль, ми в даний час не в змозі створити для вас обліковий запис автоматично.
       not displayed publicly: Не показується загальнодоступно (див. <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="Вікі про політику конфіденційності, включаючи розділ про адреси електронної пошти"> політику конфіденційності</a>)
+      openid: "%{logo} OpenID:"
+      openid association: "<p>Ваш OpenID, ще не пов’язаний з вашим обліковим записом OpenStreetMap.</p>\n<ul>\n<li>Якщо ви новачок в OpenStreetMap, будь ласка, створіть новий обліковий запис, використовуючи форму нижче.</li>\n<li>\n    Якщо у вас вже є обліковий запис, ви можете увійти до нього, \n    використовуючи своє ім'я користувача і пароль, і асоціювати свій обліковий запис\n    з вашим OpenID у налаштуваннях.\n</li>\n</ul>"
+      openid no password: Під час використання OpenID пароль не потрібний, але для деяких додаткових інструментів або серверів він все ще потрібен.
       password: "Пароль:"
       terms accepted: Дякуємо за прийняття нових умов співпраці!
-      terms declined: Нам шкода, що ви вирішили не приймати нові Умови Участі. Для отримання додаткової інформації, будь ласка, перегляньте <a href="{{url}}">цю сторінку</a> .
+      terms declined: Нам шкода, що ви вирішили не приймати нові Умови Участі. Для отримання додаткової інформації, будь ласка, перегляньте <a href="%{url}">цю сторінку</a> .
       title: Реєстрація
+      use openid: Або використовуйте для входу %{logo} OpenID
     no_such_user: 
-      body: Вибачте, немає користувача з ім'ям {{user}}. Будь ласка, перевірте правильність його введення. Можливо, ви перейшли з помилкового посилання.
-      heading: Користувача {{user}} не існує.
+      body: Вибачте, немає користувача з ім'ям %{user}. Будь ласка, перевірте правильність його введення. Можливо, ви перейшли з помилкового посилання.
+      heading: Користувача %{user} не існує.
       title: Немає такого користувача
     popup: 
       friend: Друг
       nearby mapper: Найближчий користувач
       your location: Ваше місце розташування
     remove_friend: 
-      not_a_friend: "{{name}} не є вашим другом."
-      success: "{{name}} вилучений з вашого списку друзів."
+      not_a_friend: "%{name} не є вашим другом."
+      success: "%{name} вилучений з вашого списку друзів."
     reset_password: 
       confirm password: "Підтвердження пароля:"
       flash changed: Ваш пароль було змінено.
       flash token bad: Неможливо знайти такий код підтвердження, перевірте посилання.
-      heading: Перевстановлення пароль для {{user}}
+      heading: Перевстановлення пароль для %{user}
       password: "Пароль:"
       reset: Перевстановити пароль
       title: Перевстановлення пароля
     set_home: 
       flash success: Ваше місце розташування збережено
     suspended: 
-      body: " <p>\n    На жаль, ваш обліковий запис був автоматично заблокований через підозрілу\n    діяльність. \n </p>\n <p>\n    Це рішення буде розглянуто найближчим часом адміністратором, або\n    ви можете зв'язатися з {{webmaster}}, якщо ви хочете обговорити це.\n </p>"
+      body: " <p>\n    На жаль, ваш обліковий запис був автоматично заблокований через підозрілу\n    діяльність. \n </p>\n <p>\n    Це рішення буде розглянуто найближчим часом адміністратором, або\n    ви можете зв'язатися з %{webmaster}, якщо ви хочете обговорити це.\n </p>"
       heading: Обліковий запис заблоковано
       title: Обліковий запис заблоковано
       webmaster: веб-майстер
@@ -1548,6 +1585,7 @@ uk:
       consider_pd: На додаток до зазначеної угоди, я вважаю, що мій внесок є суспільним надбанням
       consider_pd_why: що це?
       decline: Відхилити
+      guidance: "Інформація, яка допоможе зрозуміти ці терміни: <a href=\"%{summary}\">скорочений опис</a> і деякі <a href=\"%{translations}\">неофіційні переклади</a>"
       heading: Умови співпраці
       legale_names: 
         france: Франція
@@ -1560,7 +1598,7 @@ uk:
     view: 
       activate_user: активувати цього користувача
       add as friend: додати до списку друзів
-      ago: ({{time_in_words_ago}} тому)
+      ago: (%{time_in_words_ago} тому)
       block_history: отримані блокування
       blocks by me: заблоковано мною
       blocks on me: мої блокування
@@ -1575,10 +1613,10 @@ uk:
       edits: правки
       email address: "Адреса Е-пошти:"
       hide_user: приховати цього користувача
-      if set location: Якщо ви вкажете своє місце розташування, мапа і додаткові інструменти з'являться нижче. Ви можете встановити ваше місце розташування на вашій сторінці {{settings_link}}.
-      km away: "{{count}} км від вас"
-      latest edit: "Остання правка {{ago}}:"
-      m away: "{{count}} м від вас"
+      if set location: Якщо ви вкажете своє місце розташування, мапа і додаткові інструменти з'являться нижче. Ви можете встановити ваше місце розташування на вашій сторінці %{settings_link}.
+      km away: "%{count} км від вас"
+      latest edit: "Остання правка %{ago}:"
+      m away: "%{count} м від вас"
       mapper since: "Зареєстрований:"
       moderator_history: створені блокування
       my diary: мій щоденник
@@ -1610,33 +1648,33 @@ uk:
       your friends: Ваші друзі
   user_block: 
     blocks_by: 
-      empty: "{{name}} не зробив ще жодного блокування."
-      heading: Перелік блокувань, які наклав {{name}}
-      title: Блокування, що їх наклав {{name}}
+      empty: "%{name} не зробив ще жодного блокування."
+      heading: Перелік блокувань, які наклав %{name}
+      title: Блокування, що їх наклав %{name}
     blocks_on: 
-      empty: "{{name}} жодного разу не був заблокованим."
-      heading: Перелік блокувань користувача {{name}}
-      title: Блокування для {{name}}
+      empty: "%{name} жодного разу не був заблокованим."
+      heading: Перелік блокувань користувача %{name}
+      title: Блокування для %{name}
     create: 
-      flash: "Заблоковано користувача: {{name}}."
+      flash: "Заблоковано користувача: %{name}."
       try_contacting: Будь ласка, спробуйте зв'язатися з користувачем перед блокуванням та надайте йому(їй) достатньо часу для відповіді.
       try_waiting: Будь ласка, спробуйте дати користувачеві розумний період часу, перед тим як блокувати його.
     edit: 
       back: Переглянути всі блокування
-      heading: Правити блокування для {{name}}
+      heading: Правити блокування для %{name}
       needs_view: Дозволити користувачу входити в систему, перш, ніж блокування буде знято?
       period: Як довго, починаючи з поточного моменту, користувач буде заблокований від API.
-      reason: Причина з якої користувача {{name}} було заблоковано. Будь ласка, будьте терпимі і дійте розумно, надаючи користувачеві, як можна більше інформації про ситуацію. Майте на увазі, що не всі користувачі розуміють жаргон спільноти, тому, будь ласка, спробуйте використовувати прості пояснення.
+      reason: Причина з якої користувача %{name} було заблоковано. Будь ласка, будьте терпимі і дійте розумно, надаючи користувачеві, як можна більше інформації про ситуацію. Майте на увазі, що не всі користувачі розуміють жаргон спільноти, тому, будь ласка, спробуйте використовувати прості пояснення.
       show: Переглянути блокування
       submit: Оновити блокування
-      title: Правити блокування для {{name}}
+      title: Правити блокування для %{name}
     filter: 
       block_expired: Блокування вже закінчилось і не може бути змінено.
       block_period: Період блокування повинен бути одним із значень з списку, що розкривається.
       not_a_moderator: Ви повинні бути модератором для виконання цієї дії.
     helper: 
-      time_future: Закінчується  в {{time}}.
-      time_past: Закінчилось {{time}} тому.
+      time_future: Закінчується  в %{time}.
+      time_past: Закінчилось %{time} тому.
       until_login: Активне до тих пір, доки користувача не увійде до системи.
     index: 
       empty: Ще не накладено жодного блокування.
@@ -1647,17 +1685,17 @@ uk:
       non_moderator_update: Потрібно бути модератором, щоб створити або змінити блокування.
     new: 
       back: Показати всі блокування
-      heading: Накладення блокування на {{name}}
+      heading: Накладення блокування на %{name}
       needs_view: Користувачу потрібно спочатку увійти до системи перед тим, як блокування буде знято.
       period: Як довго, починаючи з поточного моменту, користувача буде заблоковано від API.
-      reason: Наведіть пояснення, чому {{name}} заблокований. Будь ласка, будьте толерантні та дійте розумно, надаючи користувачеві, як можна більше інформації про причини блокування, пам'ятаючи, що повідомлення буде видно всім. Пам'ятайте, що не всі користувачі розуміють жаргон, тому користуйтесь для пояснення простою мовою.
+      reason: Наведіть пояснення, чому %{name} заблокований. Будь ласка, будьте толерантні та дійте розумно, надаючи користувачеві, як можна більше інформації про причини блокування, пам'ятаючи, що повідомлення буде видно всім. Пам'ятайте, що не всі користувачі розуміють жаргон, тому користуйтесь для пояснення простою мовою.
       submit: Заблокувати
-      title: Накладання блокування на {{name}}
+      title: Накладання блокування на %{name}
       tried_contacting: Я звертався до користувача з проханням зупинитись.
       tried_waiting: Я дав достатньо часу для користувачу, щоб відреагувати на ці повідомлення.
     not_found: 
       back: Повернутись до переліку
-      sorry: Вибачте, блокування користувача з ID {{id}} не знайдено.
+      sorry: Вибачте, блокування користувача з ID %{id} не знайдено.
     partial: 
       confirm: Ви впевнені?
       creator_name: Автор
@@ -1670,49 +1708,49 @@ uk:
       show: Показати
       status: Стан
     period: 
-      few: "{{count}} години"
-      one: "{{count}} година"
-      other: "{{count}} годин"
+      few: "%{count} години"
+      one: "%{count} година"
+      other: "%{count} годин"
     revoke: 
       confirm: Ви впевнені, що бажаєте зняти це блокування?
       flash: Це блокування було знято.
-      heading: Зняття блокування з {{block_on}}, яке наклав {{block_by}}
-      past: Це блокування закінчилося {{time}} тому і вже не може бути скасовано.
+      heading: Зняття блокування з %{block_on}, яке наклав %{block_by}
+      past: Це блокування закінчилося %{time} тому і вже не може бути скасовано.
       revoke: Зняти блокування!
-      time_future: Це блокування закінчиться в {{time}}.
-      title: Зняти блокування з {{block_on}}
+      time_future: Це блокування закінчиться в %{time}.
+      title: Зняти блокування з %{block_on}
     show: 
       back: Показати всі блокування
       confirm: Ви впевнені?
       edit: Правити
-      heading: "{{block_on}}, заблокував: {{block_by}}"
+      heading: "%{block_on}, заблокував: %{block_by}"
       needs_view: Користувачу потрібну увійти до системи перед тим, як блокування буде знято.
       reason: "Причина блокування:"
       revoke: Розблокувати!
       revoker: "Розблокував:"
       show: Показувати
       status: Стан
-      time_future: Закінчується {{time}}
-      time_past: Закінчилось {{time}} назад
-      title: "{{block_on}}, заблокував: {{block_by}}"
+      time_future: Закінчується %{time}
+      time_past: Закінчилось %{time} назад
+      title: "%{block_on}, заблокував: %{block_by}"
     update: 
       only_creator_can_edit: Тільки модератор, який створив це блокування, може правити його.
       success: Блокування оновлено.
   user_role: 
     filter: 
-      already_has_role: Користувач вже має роль — {{role}}.
-      doesnt_have_role: Користувач не маж ролі {{role}}.
-      not_a_role: Рядок «{{role}}» не є припустимою роллю.
+      already_has_role: Користувач вже має роль — %{role}.
+      doesnt_have_role: Користувач не маж ролі %{role}.
+      not_a_role: Рядок «%{role}» не є припустимою роллю.
       not_an_administrator: Тільки адміністратори можуть керувати ролями користувачів, а ви не є адміністратором.
     grant: 
-      are_you_sure: Ви впевнені, що бажаєте надати роль «{{role}}» користувачу «{{name}}»?
+      are_you_sure: Ви впевнені, що бажаєте надати роль «%{role}» користувачу «%{name}»?
       confirm: Підтвердити
-      fail: Не можливо надати роль «{{role}}» користувачу «{{name}}». Будь ласка, перевірте, що користувач і роль є дійсними.
+      fail: Не можливо надати роль «%{role}» користувачу «%{name}». Будь ласка, перевірте, що користувач і роль є дійсними.
       heading: Підтвердження надання ролі
       title: Підтвердження надання ролі
     revoke: 
-      are_you_sure: Ви впевнені, що хочете відкликати роль «{{role}})» у користувача «{{name}}»?
+      are_you_sure: Ви впевнені, що хочете відкликати роль «%{role})» у користувача «%{name}»?
       confirm: Підтвердити
-      fail: Не вдалося відкликати роль «{{role}}» у користувача «{{name}}». Будь ласка, перевірте, що користувач і роль є дійсними.
+      fail: Не вдалося відкликати роль «%{role}» у користувача «%{name}». Будь ласка, перевірте, що користувач і роль є дійсними.
       heading: Підтвердження відкликання ролі
       title: Підтвердження відкликання ролі

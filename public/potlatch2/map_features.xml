@@ -1,53 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Quick documentation:
-
-<category> the categories that features belong to. This includes both nodes (icons on left) and ways/areas (drop-down list that appears when a way/area is selected)
-  name: Shown in GUI
-  id: internal reference (a feature refers to this with category=xxx)
-
-<feature> a pre-defined group of tags that make up a feature
-  category: [ctext] corresponding to category id
-  icon
-    @image: path to .png file
-    @dnd: path to optional dnd-specific-override .png file
-    @background: colour spec
-    @foreground: colour spec
-    (general html goes here?) Variables substituted with ${ref}
-  help: [ctext] URL, shown as a linked ? icon. Should (?) usually be an OSM wiki page.
-  description: Not currently used?
-  line/point/area: any or all of these are allowed. Determines whether this feature is shown in the corresponding situations. None is equivalent to all three.
-  tag - one or more of these required, defines the tags that make up the feature.
-    @k - key
-    @v - value
-  input
-    @ref=xxx
-  inputSet
-    @ref=xxx
-</feature>
-
-<inputSet>: a reusable group of properties for a feature.
-  @id="internal id"
-  input...
-</inputSet>
-
-<input>
-  @type: choice/freetext/turn/checkbox/slider/route/speed/number - the different types of supported input dialogs.
-  @presence: always/onTagMatch/withCategory - Whether it always appears on the basic page, appears only when the tag is already set, or only ever show on the category page.
-  @category: which tab it appears on
-  @description: mouse-over text
-  @name: The text shown as the label of the property
-  @key: The actual OSM key (tag) that will be saved
-  @priority: highest/high/normal/low/lowest (default=>normal) - controls the order that different features show up in a panel.
-  match: for turn|route inputs, the tags to be considered on the relation as indicating a match.
-    @k: key
-    @v: value
-  icon: see above
-</input>
-
-<include
-  @file="map_features/roads.xml": external file to drop into place here. Include files behave exactly as if written out in full.
-/>
+	See http://wiki.openstreetmap.org/wiki/Potlatch_2/Developer_Documentation/Map_Features for documentation.
+	Files can be included like this: <include file="map_features/roads.xml">
 -->
 
 <mapFeatures>
@@ -85,13 +39,20 @@ Quick documentation:
     <input type="freetext" presence="always" name="Reference number" key="ref" description="A reference number or code used to identify this thing." />
   </inputSet>
 
+   <inputSet id="simpleBrand"> 
+     <input type="freetext" category="Naming" presence="always" name="Brand" key="brand" description="Brand, i.e. Acme"/> 
+   </inputSet> 
+  
+   <inputSet id="simpleOperator"> 
+     <input type="freetext" category="Naming" presence="always" name="Operator" key="operator" description="Operator, i.e. Acme Springfield Ltd"/> 
+   </inputSet> 
 
   <inputSet id="source">
-    <input type="freetext" category="Misc" presence="onTagMatch" name="Source" key="source" description="The primary source of information for this object (GPS, survey, Yahoo, ...)" priority="lowest"/>
+    <input type="freetext" category="Details" presence="onTagMatch" name="Source" key="source" description="The primary source of information for this object (GPS, survey, Yahoo, ...)" priority="lowest"/>
   </inputSet>
 
   <inputSet id="designation">
-    <input type="freetext" category="Misc" presence="onTagMatch" description="Official designation or classification" name="Designation" key="designation"/>
+    <input type="freetext" category="Details" presence="onTagMatch" description="Official designation or classification" name="Designation" key="designation" priority="lowest" />
   </inputSet>
 
   <inputSet id="common">
@@ -101,21 +62,21 @@ Quick documentation:
 
   <inputSet id="names">
     <input type="freetext" presence="always"
-        name="Name" category="Naming" priority="highest"
+        name="Name" category="Details" priority="highest"
         key="name" description="The most common name"/>
     <input type="freetext" presence="onTagMatch"
-        name="International Name" category="Naming"
+        name="International Name" category="Details" subcategory="Additional names"
         key="int_name" description="The internationally recognised name"/>
     <input type="freetext" presence="onTagMatch"
-        name="Historical Name" category="Naming" priority="low"
+        name="Historical Name" category="Details" subcategory="Additional names" priority="low"
         key="old_name" description="The historic or previous name"/>
     <input type="freetext" presence="onTagMatch"
-        name="Alternative Name" category="Naming" priority="low"
+        name="Alternative Name" category="Details" subcategory="Additional names" priority="low"
         key="alt_name" description="An alternative, currently used, name"/>
   </inputSet>
 
   <inputSet id="wifi">
-    <input type="choice" presence="onTagMatch" category="Eating" name="Wifi" key="wifi">
+    <input type="choice" presence="onTagMatch" category="Details" name="Wifi" key="wifi">
       <choice value="free" text="Free"/>
       <choice value="yes" text="Yes"/>
       <choice value="no" text="No"/>
@@ -130,11 +91,11 @@ Quick documentation:
   </inputSet>
 
   <inputSet id="web">
-    <input type="freetext" presence="onTagMatch" category="Web" description="The URL of the website" name="Website" key="website"/>
+    <input type="freetext" presence="onTagMatch" category="Address" description="The URL of the website" name="Website" key="website"/>
   </inputSet>
 
   <inputSet id="cuisine">
-    <input type="choice" presence="always" name="Cuisine" category="Eating" description="The type of food that they serve" key="cuisine">
+    <input type="choice" presence="always" name="Cuisine" category="Details" description="The type of food that they serve" key="cuisine">
       <!-- The 30 most popular values according to taginfo 23/12/2010 -->
       <choice value="burger" text="Burger"/>
       <choice value="chicken" text="Chicken"/>
@@ -216,22 +177,22 @@ Quick documentation:
 
   <inputSet id="roadRefs">
     <input type="freetext" presence="always"
-        name="Reference" category="Naming" priority="high"
+        name="Reference" category="Details" priority="high"
         key="ref" description="The official reference number"/>
     <input type="freetext" presence="onTagMatch"
-        name="International Reference" category="Naming"
+        name="International Reference" category="Details" subcategory="Additional names" 
         key="int_ref" description="The official international reference number"/>
     <input type="freetext" presence="onTagMatch"
-        name="Old Reference" category="Naming" priority="low"
+        name="Old Reference" category="Details" subcategory="Additional names" priority="low"
         key="old_ref" description="The historic or previous reference number"/>
   </inputSet>
 
   <inputSet id="roadPhysical">
     <input type="freetext" presence="onTagMatch"
-        name="Width" category="Physical"
+        name="Width" category="Details" subcategory="Physical" 
         key="width" description="Width of the road" layout="horizontal"/>
     <input type="choice" presence="onTagMatch"
-        name="Surface" category="Physical" description="Type of road surface"
+        name="Surface" category="Details" description="Type of road surface"
         key="surface" layout="horizontal">
       <choice value="unpaved" text="Unpaved" description="Road surface is unsealed"/>
       <choice value="paved" text="Paved" description="Road surface is sealed"/>
@@ -248,31 +209,31 @@ Quick documentation:
     <inputSet ref="tunnel"/>
     <inputSet ref="embankment-cutting"/>
     <!-- not sure which category best suits put area=yes -->
-    <input type="checkbox" presence="onTagMatch" category="Restrictions" key="area" name="Open area" description="The way is a large open space, like at a dock, where vehicles can move anywhere within the space, rather than just along the edge." />
+    <input type="checkbox" presence="onTagMatch" category="Details" subcategory="Physical" key="area" name="Open area" description="The way is a large open space, like at a dock, where vehicles can move anywhere within the space, rather than just along the edge." />
   </inputSet>
 
   <inputSet id="roadLanes">
-    <input presence="onTagMatch" type="number" name="Lanes" category="Physical" description="Total number of lanes, counting both directions"
+    <input presence="onTagMatch" type="number" name="Lanes" category="Details" description="Total number of lanes, counting both directions"
            key="lanes" minimum="1" maximum="10" layout="horizontal"/>
   </inputSet>
 
   <inputSet id="bridge">
     <input type="choice" presence="onTagMatch"
-        name="Bridge" category="Physical" description="Road goes over a bridge"
+        name="Bridge" category="Details" description="Road goes over a bridge"
         key="bridge" layout="horizontal">
       <choice value="yes" text="Generic Bridge" description="Generic bridge -- type unknown"/>
       <choice value="viaduct" text="Viaduct" description="Viaduct"/>
       <choice value="suspension" text="Suspension bridge"/>
     </input>
     <input type="slider" presence="onTagMatch"
-        name="Layer" category="Physical" description="Relative vertical positions (-5 lowest, +5 highest)"
+        name="Layer" category="Details" description="Relative vertical positions (-5 lowest, +5 highest)"
         key="layer" minimum="-5" maximum="5" default="0" snapInterval="1" labels="Lowest,Ground,Highest"
         defaultName="Ground"/>
   </inputSet>
   <inputSet id="tunnel">
     <!-- Not ideal, used for non-roads too. -->  
     <input type="choice" presence="onTagMatch"
-        name="Tunnel" category="Physical" description="Road goes into a tunnel"
+        name="Tunnel" category="Details" subcategory="Physical" description="Road goes into a tunnel"
         key="tunnel" layout="horizontal">
       <choice value="yes" text="Tunnel" description="Generic tunnel"/>
     </input>
@@ -280,12 +241,12 @@ Quick documentation:
 
   <inputSet id="embankment-cutting">
     <input type="choice"
-           name="Embankment" category="Physical" description="Road supported on a raised bed of earth and rock."
+           name="Embankment" category="Details" subcategory="Physical" description="Road supported on a raised bed of earth and rock."
            key="embankment" layout="horizontal">
       <choice value="yes" text="Embankment"/>
     </input>
     <input type="choice"
-           name="Cutting" category="Physical" description="Road carved out of hill on one or both sides."
+           name="Cutting" category="Details" subcategory="Physical" description="Road carved out of hill on one or both sides."
            key="cutting" layout="horizontal">
       <choice value="yes" text="Cutting"/>
     </input>
@@ -293,12 +254,14 @@ Quick documentation:
   </inputSet>
 
   <inputSet id="rail-electrification">
-    <input type="choice" name="Electrified" category="Electrification" description="Is the track electrified (whether by 3rd rail, overhead wires, etc)?"
+    <input type="choice" name="Electrified" category="Details" subcategory="Electrification" description="Is the track electrified (whether by 3rd rail, overhead wires, etc)?"
            key="electrified">
       <choice value="yes" text="Yes"/>
+      <choice value="contact_line" text="Overhead line"/>
+      <choice value="rail" text="Third rail"/>
       <choice value="no" text="No"/>
     </input>
-    <input type="choice" name="Voltage" category="Electrification" description="Nominal voltage of electric wires"
+    <input type="choice" name="Voltage" category="Details" subcategory="Electrification" description="Nominal voltage of electric wires"
            key="voltage" presence="withCategory">
       <choice value="600" text="600V"/>
       <choice value="750" text="750V"/>
@@ -307,7 +270,7 @@ Quick documentation:
       <choice value="15000" text="15kV"/>
       <choice value="25000" text="25kV"/>
     </input>
-    <input type="choice" name="Frequency" category="Electrification" description="Frequency in Hertz of alternating current power supply"
+    <input type="choice" name="Frequency" category="Details" subcategory="Electrification" description="Frequency in Hertz of alternating current power supply"
            key="frequency" presence="withCategory">
       <choice value="0" text="DC"/>
       <choice value="16.67" text="16.67 Hz"/>
@@ -315,16 +278,6 @@ Quick documentation:
       <choice value="25" text="25 Hz"/>
       <choice value="50" text="50 Hz"/>
       <choice value="60" text="60 Hz"/>
-    </input>
-  </inputSet>
-
-  <inputSet id="rail-usage">
-    <input type="choice" name="Usage" category="Usage" description="Main use of the line" key="usage">
-      <choice value="main" text="Main line" description="The principal artery of a rail system."/>
-      <choice value="branch" text="Branch line" description="A secondary line, branching off a main line."/>
-      <choice value="industrial" text="Industrial"/>
-      <choice value="tourism" text="Tourism" />
-      <choice value="military" text="Military"/>
     </input>
   </inputSet>
 
@@ -364,7 +317,7 @@ Quick documentation:
   </inputSet>
 
   <inputSet id="pedestrians">
-    <input type="choice" name="Pedestrians" description="Can pedestrians use this road, including footpaths if any?" category="Walking" key="foot">
+    <input type="choice" name="Pedestrians" description="Can pedestrians use this road, including footpaths if any?" category="Walk" key="foot">
       <choice value="yes" text="Allowed"/>
       <choice value="no" text="Prohibited"/>
       <choice value="designated" text="Designated"/>
@@ -372,8 +325,8 @@ Quick documentation:
   </inputSet>
 
   <inputSet id="naptan">
-    <input type="freetext" presence="onTagMatch" category="Naptan" description="12 character internal Naptan ID" name="Atco Code" key="naptan:AtcoCode"/>
-    <input type="choice" presence="onTagMatch" category="Naptan" description="The eight-point compass bearning" name="Naptan Bearing" key="naptan:Bearing" >
+    <input type="freetext" presence="onTagMatch" category="Transport" description="12 character internal Naptan ID" name="Atco Code" key="naptan:AtcoCode"/>
+    <input type="choice" presence="onTagMatch" category="Transport" description="The eight-point compass bearning" name="Naptan Bearing" key="naptan:Bearing" >
       <choice value="N"  match="N"  text="N"  description=""/>
       <choice value="NE" match="NE" text="NE" description=""/>
       <choice value="E"  match="E"  text="E"  description=""/>
@@ -383,15 +336,15 @@ Quick documentation:
       <choice value="W"  match="W"  text="W"  description=""/>
       <choice value="NW" match="NW" text="NW" description=""/>
     </input>
-    <input type="freetext" presence="onTagMatch" category="Naptan" description="The naptan common name" name="Naptan Common Name (read-only)" key="naptan:CommonName"/>
-    <input type="freetext" presence="onTagMatch" category="Naptan" description="" name="Naptan Indicator (read-only)" key="naptan:Indicator"/>
-    <input type="freetext" presence="onTagMatch" category="Naptan" description="" name="Naptan Street (read-only)" key="naptan:Street"/>
-    <input type="freetext" presence="onTagMatch" category="Naptan" description="Delete this when the details have been verified on-the-ground" name="Naptan Verified?" key="naptan:verified"/>
+    <input type="freetext" presence="onTagMatch" category="Transport" description="The naptan common name" name="Naptan Common Name (read-only)" key="naptan:CommonName"/>
+    <input type="freetext" presence="onTagMatch" category="Transport" description="" name="Naptan Indicator (read-only)" key="naptan:Indicator"/>
+    <input type="freetext" presence="onTagMatch" category="Transport" description="" name="Naptan Street (read-only)" key="naptan:Street"/>
+    <input type="freetext" presence="onTagMatch" category="Transport" description="Delete this when the details have been verified on-the-ground" name="Naptan Verified?" key="naptan:verified"/>
   </inputSet>
 
   <inputSet id="buses">
-    <input type="freetext" presence="always" category="Bus Stop" name="Stop Name" key="name" description="The name of the bus stop"/>
-    <input type="freetext" presence="always" category="Bus Stop" name="Local Ref" key="local_ref" description="The local reference of the stop, usually one or two letters above the main flag, used at bus interchanges, e.g. L, BX"/>
+    <input type="freetext" presence="always" category="Transport" name="Stop Name" key="name" description="The name of the bus stop"/>
+    <input type="freetext" presence="always" category="Transport" name="Local Ref" key="local_ref" description="The local reference of the stop, usually one or two letters above the main flag, used at bus interchanges, e.g. L, BX"/>
     <inputSet ref="naptan"/>
   </inputSet>
 
@@ -444,6 +397,14 @@ Quick documentation:
         <font size="12pt">${name}</font>
       </icon>
     </input>
+    <input type="route" name="Mountain bike route" description="A signposted route for mountain biking." category="Cycle" priority="lowest">
+      <match k="type" v="route"/>
+      <match k="route" v="mtb"/>
+      <icon image="features/route__mtb.png" background="#9f4404" foreground="white">
+        <font size="14pt"><b>${ref}</b></font><br/>
+        <font size="12pt">${name}</font>
+      </icon>
+    </input>
   </inputSet>
 
   <inputSet id="bicycle-permission">
@@ -474,7 +435,7 @@ Quick documentation:
   </inputSet>
 
   <inputSet id="ldp">
-    <input type="route" name="National Walking Route" description="National walking route" category="Walking" priority="normal">
+    <input type="route" name="National Walking Route" description="National walking route" category="Walk" priority="normal">
       <match k="type" v="route"/>
       <match k="route" v="hiking|foot"/>
       <match k="network" v="nwn"/>
@@ -483,7 +444,7 @@ Quick documentation:
         <font size="12pt">${name}</font>
       </icon>
     </input>
-    <input type="route" name="Regional Walking Route" description="Regional walking route" category="Walking" priority="low">
+    <input type="route" name="Regional Walking Route" description="Regional walking route" category="Walk" priority="low">
       <match k="type" v="route"/>
       <match k="route" v="hiking|foot"/>
       <match k="network" v="rwn"/>
@@ -492,7 +453,7 @@ Quick documentation:
         <font size="12pt">${name}</font>
       </icon>
     </input>
-    <input type="route" name="Local Walking Route" description="Local walking route" category="Walking" priority="lowest">
+    <input type="route" name="Local Walking Route" description="Local walking route" category="Walk" priority="lowest">
       <match k="type" v="route"/>
       <match k="route" v="hiking|foot"/>
       <match k="network" v="lwn"/>
@@ -510,13 +471,13 @@ Quick documentation:
 
   <inputSet id="waterways">
     <inputSet ref="simpleName"/>
-    <input type="freetext" presence="always" name="Width" category="Properties" key="width" description="The width in metres"/>
+    <input type="freetext" presence="always" name="Width" category="Details" key="width" description="The width in metres"/>
     <inputSet ref="boatPermissions"/>
   </inputSet>
 <!-- Would be good to have a dedicated 'access' type of input -->
   <!-- all the description fields are identical at the moment for ease of maintenance, should be tailored in future. -->
   <inputSet id="boatPermissions">
-    <input type="choice" name="Boat permission" category="Permission" key="boat" description="Are boats allowed to use this waterway?">
+    <input type="choice" name="Boat permission" category="Restrictions" key="boat" description="Are boats allowed to use this waterway?">
       <choice value="yes" text="Allowed" description="General right of way."/>
       <choice value="no" text="Prohibited" description="No access to the public."/>
       <choice value="permissive" text="Permissive" description="Access permitted through private land."/>
@@ -526,7 +487,7 @@ Quick documentation:
   </inputSet>
 
   <inputSet id="permissions">
-    <input type="choice" name="General access" category="Permission" key="access" description="Is there a general right of access, regardless of mode of transport?">
+    <input type="choice" name="General access" category="Restrictions" key="access" description="Is there a general right of access, regardless of mode of transport?">
       <choice value="yes" text="Allowed" description="General right of way."/>
       <choice value="no" text="Prohibited" description="No access to the public."/>
       <choice value="permissive" text="Permissive" description="Access permitted through private land."/>
@@ -534,7 +495,7 @@ Quick documentation:
       <choice value="designated" text="Designated" description="Permitted, according to signs or specific local laws."/>
     </input>
 
-    <input type="choice" name="Motor vehicles" category="Permission" key="motor_vehicle" description="Are cars and other private vehicles allowed?">
+    <input type="choice" name="Motor vehicles" category="Restrictions" key="motor_vehicle" description="Are cars and other private vehicles allowed?">
       <choice value="yes" text="Allowed" description="General right of way."/>
       <choice value="no" text="Prohibited" description="No access to the public."/>
       <choice value="permissive" text="Permissive" description="Access permitted through private land."/>
@@ -542,7 +503,7 @@ Quick documentation:
       <choice value="designated" text="Designated" description="Permitted, according to signs or specific local laws."/>
     </input>
 
-    <input type="choice" name="Horses" category="Permission" key="horse" description="Are cars and other private vehicles allowed?">
+    <input type="choice" name="Horses" category="Restrictions" key="horse" description="Are cars and other private vehicles allowed?">
       <choice value="yes" text="Allowed" description="General right of way."/>
       <choice value="no" text="Prohibited" description="No access to the public."/>
       <choice value="permissive" text="Permissive" description="Access permitted through private land."/>
@@ -571,11 +532,36 @@ Quick documentation:
   </inputSet>
 
   <inputSet id="isBuilding">
-    <input type="checkbox" presence="onTagMatch" category="Misc" description="Does this thing also represent one, solid building?" name="Building" key="building"/>
+    <input type="choice" presence="withCategory" category="Details" name="Building type, if it is one" key="building">
+      <choice value="yes" text="Generic building"/>
+      <choice value="residential" text="Generic residential"/>
+      <choice value="apartments" text="Big apartments house"/>
+      <choice value="terrace" text="Terraced house"/>
+      <choice value="house" text="Family house"/>
+      <choice value="hut" text="Small hut"/>
+      <choice value="garage" text="A garage"/>
+      <choice value="garages" text="Block of garages"/>
+      <choice value="office" text="Office building"/>
+      <choice value="public" text="Public building"/>
+      <choice value="industrial" text="Generic industrial"/>
+      <choice value="manufacture" text="Manufacture"/>
+      <choice value="warehouse" text="Warehouse"/>
+      <choice value="hangar" text="Hangar"/>
+      <choice value="storage_tank" text="Fluids storage tank"/>
+      <choice value="retail" text="Retail"/>
+      <choice value="supermarket" text="Supermarket"/>
+      <choice value="train_station" text="Train station"/>
+      <choice value="church" text="Church"/>
+      <choice value="school" text="School"/>
+      <choice value="bunker" text="Military bunker"/>
+      <choice value="collapsed" text="Collapsed building"/>
+      <choice value="roof" text="Just a roof"/>
+      <help>http://wiki.openstreetmap.org/wiki/Key:building</help>
+    </input>
   </inputSet>
 
   <inputSet id="powerCables">
-    <input type="choice" name="Cables" key="cables" presence="always" category="Power">
+    <input type="choice" name="Cables" key="cables" presence="always" category="Details">
       <choice value="2" text="2"/>
       <choice value="3" text="3"/>
       <choice value="4" text="4"/>
@@ -584,7 +570,7 @@ Quick documentation:
       <choice value="10" text="10"/>
       <choice value="12" text="12"/>
     </input>
-    <input type="choice" name="Voltage" key="voltage" presence="always" category="Power">
+    <input type="choice" name="Voltage" key="voltage" presence="always" category="Details">
       <!-- choices based on http://osmdoc.com/en/tag/voltage/#values-->
       <choice value="400" text="400 V"/>
       <choice value="600" text="600 V"/>
@@ -602,6 +588,43 @@ Quick documentation:
     </input>
   </inputSet>
 
+  <inputSet id="pitchSport">
+    <input name="Sport" presence="always" category="Details" key="sport" type="choice" description="The sport that is predominantly played here.">
+      <choice value="9pin" text="9 pin bowling"/>
+      <choice value="10pin" text="10 pin bowling"/>
+      <choice value="american_football" text="American football"/>
+      <choice value="archery" text="Archery"/>
+      <choice value="athletics" text="Athletics"/>
+      <choice value="australian_football" text="Australian Rules Football"/>
+      <choice value="baseball" text="Baseball"/>
+      <choice value="basketball" text="Basketball"/>
+      <choice value="beachvolleyball" text="Beach volleyball"/>
+      <choice value="boules" text="Boules/petanque/bocci"/>
+      <choice value="bowls" text="Lawn bowls"/>
+      <choice value="canadian_football" text="Canadian football"/>
+      <choice value="chess" text="Chess"/>
+      <choice value="cricket" text="Cricket"/>
+      <choice value="cricket_nets" text="Cricket nets"/>
+      <choice value="croquet" text="Croquet"/>
+      <choice value="equestrian" text="Equestrian"/>
+      <choice value="gaelic_football" text="Gaelic football"/>
+      <choice value="gymnastics" text="Gymnastics"/>
+      <choice value="team_handball" text="(Team) handball"/>
+      <choice value="hockey" text="(Field) hockey"/>
+      <choice value="korfball" text="Korball"/>
+      <choice value="pelota" text="Pelota"/>
+      <choice value="rugby_league" text="Rugby league"/>
+      <choice value="rugby_union" text="Rugby union"/>
+      <choice value="shooting" text="Shooting"/>
+      <choice value="skating" text="Ice skating"/>
+      <choice value="skateboard" text="Skateboarding"/>
+      <choice value="soccer" text="Soccer/football"/>
+      <choice value="swimming" text="Swimming"/>
+      <choice value="table_tennis" text="Table tennis"/>
+      <choice value="tennis" text="Tennis"/>
+      <choice value="volleyball" text="Volleyball"/>
+    </input>
+  </inputSet>
 
 <!-- Features -->
 
@@ -616,8 +639,8 @@ Quick documentation:
   <include file="map_features/shopping.xml" />  <!-- no clear distinction between this, amenities and buildings -->
   <include file="map_features/amenities.xml" /> <!-- includes cafe, bar... --> 
   <include file="map_features/landuse.xml" />   <!-- includes outdoor leisure/sporting stuff, agriculture, natural. --> 
-  <include file="map_features/buildings.xml" /> <!-- a bit of a dumping ground, includes sports centre, shopping centre, hospital... --> 
   <include file="map_features/man_made.xml" />  
+  <include file="map_features/buildings.xml" /> <!-- a bit of a dumping ground, includes sports centre, shopping centre, hospital... --> 
 
 
   

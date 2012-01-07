@@ -1,4 +1,4 @@
-require 'lib/migrate'
+require 'migrate'
 
 class CreateLanguages < ActiveRecord::Migration
   def self.up
@@ -10,13 +10,13 @@ class CreateLanguages < ActiveRecord::Migration
 
     add_primary_key :languages, [:code]
 
-    Language.load(RAILS_ROOT + "/config/languages.yml")
+    Language.load("#{Rails.root}/config/languages.yml")
 
     add_foreign_key :users, [:locale], :languages, [:code]
     add_foreign_key :diary_entries, [:language_code], :languages, [:code]    
   end
 
   def self.down
-    raise IrreversibleMigration.new
+    raise ActiveRecord::IrreversibleMigration
   end
 end

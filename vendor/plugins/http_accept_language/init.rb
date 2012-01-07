@@ -1,4 +1,6 @@
-if defined?(ActionController::Request)
+if defined?(ActionDispatch::Request)
+  ActionDispatch::Request.send :include, HttpAcceptLanguage
+elsif defined?(ActionController::Request)
   ActionController::Request.send :include, HttpAcceptLanguage
 elsif defined?(ActionController::AbstractRequest)
   ActionController::AbstractRequest.send :include, HttpAcceptLanguage

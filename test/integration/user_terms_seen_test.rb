@@ -11,14 +11,14 @@ class UserTermsSeenTest < ActionController::IntegrationTest
     if REQUIRE_TERMS_SEEN
       user = users(:terms_not_seen_user)
 
-      get "/api/#{API_VERSION}/user/details", nil, auth_header(user.display_name, "test")
+      get "/api/#{API_VERSION}/user/preferences", nil, auth_header(user.display_name, "test")
       assert_response :forbidden
 
       # touch it so that the user has seen the terms
       user.terms_seen = true
       user.save
 
-      get "/api/#{API_VERSION}/user/details", nil, auth_header(user.display_name, "test")
+      get "/api/#{API_VERSION}/user/preferences", nil, auth_header(user.display_name, "test")
       assert_response :success
     end
   end
@@ -31,7 +31,7 @@ class UserTermsSeenTest < ActionController::IntegrationTest
       get_via_redirect "/login"
       assert_response :success
       assert_template 'user/login'
-      post "/login", {'user[email]' => user.email, 'user[password]' => 'test', :referer => "/"}
+      post "/login", {'username' => user.email, 'password' => 'test', :referer => "/"}
       assert_response :redirect
       # but now we need to look at the terms
       assert_redirected_to "controller" => "user", "action" => "terms", :referer => "/"
@@ -57,7 +57,7 @@ class UserTermsSeenTest < ActionController::IntegrationTest
       get_via_redirect "/login"
       assert_response :success
       assert_template 'user/login'
-      post "/login", {'user[email]' => user.email, 'user[password]' => 'test', :referer => "/"}
+      post "/login", {'username' => user.email, 'password' => 'test', :referer => "/"}
       assert_response :redirect
       # but now we need to look at the terms
       assert_redirected_to "controller" => "user", "action" => "terms", :referer => "/"
@@ -70,7 +70,4 @@ class UserTermsSeenTest < ActionController::IntegrationTest
       assert_redirected_to "controller" => "user", "action" => "terms", :referer => "/traces/mine"
     end
   end
-
 end
-
-    

@@ -23,15 +23,4 @@ class OauthTokenTest < ActiveSupport::TestCase
     assert_equal false, tok.authorized?, "Token should now be invalid."
   end
 
-  ##
-  # test that tokens can't be found unless they're authorised
-  def test_find_token
-    tok = client_applications(:oauth_web_app).create_request_token
-    assert_equal false, tok.authorized?, "Token should be created unauthorised."
-    assert_equal nil, OauthToken.find_token(tok.token), "Shouldn't be able to find unauthorised token"
-    tok.authorize!(users(:public_user))
-    assert_equal true, tok.authorized?, "Token should now be authorised."
-    assert_not_equal nil, OauthToken.find_token(tok.token), "Should be able to find authorised token"
-  end
-
 end

@@ -33,9 +33,9 @@
     <%= link_to t('user.view.send message'), :controller => 'message', :action => 'new', :display_name => contact.display_name %>
     |
     <% if @user.is_friends_with?(contact) %>
-      <%= link_to t('user.view.remove as friend'), :controller => 'user', :action => 'remove_friend', :display_name => contact.display_name, :referer => request.request_uri %>
+      <%= link_to t('user.view.remove as friend'), :controller => 'user', :action => 'remove_friend', :display_name => contact.display_name, :referer => request.fullpath %>
     <% else %>
-      <%= link_to t('user.view.add as friend'), :controller => 'user', :action => 'make_friend', :display_name => contact.display_name, :referer => request.request_uri %>
+      <%= link_to t('user.view.add as friend'), :controller => 'user', :action => 'make_friend', :display_name => contact.display_name, :referer => request.fullpath %>
     <% end %>
   </td>
 </tr>

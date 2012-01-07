@@ -1,4 +1,4 @@
-require 'lib/migrate'
+require 'migrate'
 
 class RemoveSegments < ActiveRecord::Migration
   def self.up
@@ -82,6 +82,6 @@ class RemoveSegments < ActiveRecord::Migration
   end
 
   def self.down
-    raise IrreversibleMigration.new
+    raise ActiveRecord::IrreversibleMigration
   end
 end

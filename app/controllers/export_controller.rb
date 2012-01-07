@@ -8,7 +8,7 @@ class ExportController < ApplicationController
 
   #When the user clicks 'Export' we redirect to a URL which generates the export download
   def finish
-    bbox = BoundingBox.new(params[:minlon], params[:minlat], params[:maxlon], params[:maxlat])
+    bbox = BoundingBox.from_lon_lat_params(params)
     format = params[:format]
 
     if format == "osm"
@@ -20,7 +20,7 @@ class ExportController < ApplicationController
       format = params[:mapnik_format]
       scale = params[:mapnik_scale]
 
-      redirect_to "http://tile.openstreetmap.org/cgi-bin/export?bbox=#{bbox}&scale=#{scale}&format=#{format}"
+      redirect_to "http://parent.tile.openstreetmap.org/cgi-bin/export?bbox=#{bbox}&scale=#{scale}&format=#{format}"
 
     elsif format == "osmarender"
       #redirect to the t@h 'MapOf' service

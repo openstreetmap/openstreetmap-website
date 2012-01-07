@@ -1,4 +1,4 @@
-require 'lib/migrate'
+require 'migrate'
 
 class CreateUserRoles < ActiveRecord::Migration
   def self.up

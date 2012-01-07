@@ -1,6 +1,7 @@
 class RelationController < ApplicationController
   require 'xml/libxml'
 
+  skip_before_filter :verify_authenticity_token
   before_filter :authorize, :only => [:create, :update, :delete]
   before_filter :require_allow_write_api, :only => [:create, :update, :delete]
   before_filter :require_public_data, :only => [:create, :update, :delete]
@@ -26,7 +27,7 @@ class RelationController < ApplicationController
 
   def read
     relation = Relation.find(params[:id])
-    response.headers['Last-Modified'] = relation.timestamp.rfc822
+    response.last_modified = relation.timestamp
     if relation.visible
       render :text => relation.to_xml.to_s, :content_type => "text/xml"
     else
@@ -81,8 +82,8 @@ class RelationController < ApplicationController
       
       # next load the relations and the ways.
       
-      relations = Relation.find(relation_ids, :include => [:relation_tags])
-      ways = Way.find(way_ids, :include => [:way_nodes, :way_tags])
+      relations = Relation.where(:id => relation_ids).includes(:relation_tags)
+      ways = Way.where(:id => way_ids).includes(:way_nodes, :way_tags)
       
       # now additionally collect nodes referenced by ways. Note how we 
       # recursively evaluate ways but NOT relations.
@@ -91,7 +92,7 @@ class RelationController < ApplicationController
         way.way_nodes.collect { |way_node| way_node.node_id }
       }
       node_ids += way_node_ids.flatten
-      nodes = Node.find(node_ids.uniq, :include => :node_tags)
+      nodes = Node.where(:id => node_ids.uniq).includes(:node_tags)
       
       # create XML.
       doc = OSM::API.new.get_xml_doc
@@ -157,7 +158,7 @@ class RelationController < ApplicationController
   end
 
   def relations_for_object(objtype)
-    relationids = RelationMember.find(:all, :conditions => ['member_type=? and member_id=?', objtype, params[:id]]).collect { |ws| ws.id[0] }.uniq
+    relationids = RelationMember.where(:member_type => objtype, :member_id => params[:id]).collect { |ws| ws.relation_id }.uniq
 
     doc = OSM::API.new.get_xml_doc
 

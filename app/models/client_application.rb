@@ -1,15 +1,19 @@
 require 'oauth'
+
 class ClientApplication < ActiveRecord::Base
   belongs_to :user
   has_many :tokens, :class_name => "OauthToken"
   has_many :access_tokens
+  has_many :oauth2_verifiers
+  has_many :oauth_tokens
+
   validates_presence_of :name, :url, :key, :secret
   validates_uniqueness_of :key
-  before_validation_on_create :generate_keys
-  
   validates_format_of :url, :with => /\Ahttp(s?):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/i
   validates_format_of :support_url, :with => /\Ahttp(s?):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/i, :allow_blank=>true
-  validates_format_of :callback_url, :with => /\Ahttp(s?):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/i, :allow_blank=>true
+  validates_format_of :callback_url, :with => /\A[a-z][a-z0-9.+-]*:\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/i, :allow_blank=>true
+
+  before_validation :generate_keys, :on => :create
 
   attr_accessor :token_callback_url
   
@@ -25,15 +29,10 @@ class ClientApplication < ActiveRecord::Base
   def self.verify_request(request, options = {}, &block)
     begin
       signature = OAuth::Signature.build(request, options, &block)
-      logger.info "Signature Base String: #{signature.signature_base_string}"
-      logger.info "Consumer: #{signature.send :consumer_key}"
-      logger.info "Token: #{signature.send :token}"
       return false unless OauthNonce.remember(signature.request.nonce, signature.request.timestamp)
       value = signature.verify
-      logger.info "Signature verification returned: #{value.to_s}"
       value
     rescue OAuth::Signature::UnknownSignatureMethod => e
-      logger.info "ERROR"+e.to_s
       false
     end
   end
@@ -50,12 +49,16 @@ class ClientApplication < ActiveRecord::Base
     @oauth_client ||= OAuth::Consumer.new(key, secret)
   end
     
-  def create_request_token
-    RequestToken.create :client_application => self, :callback_url => self.token_callback_url
+  def create_request_token(params={})
+    params = { :client_application => self, :callback_url => self.token_callback_url }
+    permissions.each do |p|
+      params[p] = true
+    end
+    RequestToken.create(params)
   end
 
   def access_token_for_user(user)
-    unless token = access_tokens.find(:first, :conditions => { :user_id => user.id, :invalidated_at => nil })
+    unless token = access_tokens.valid.where(:user_id => user).first
       params = { :user => user }
 
       permissions.each do |p|
@@ -82,8 +85,7 @@ protected
                  :allow_write_api, :allow_read_gpx, :allow_write_gpx ]
 
   def generate_keys
-    oauth_client = oauth_server.generate_consumer_credentials
-    self.key = oauth_client.key
-    self.secret = oauth_client.secret
+    self.key = OAuth::Helper.generate_key(40)[0,40]
+    self.secret = OAuth::Helper.generate_key(40)[0,40]
   end
 end

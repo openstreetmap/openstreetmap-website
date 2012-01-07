@@ -1,8 +1,8 @@
 class OldRelationMember < ActiveRecord::Base
   set_table_name 'relation_members'
+  set_primary_keys :relation_id, :version, :sequence_id
 
-  set_primary_keys :id, :version, :sequence_id
-  belongs_to :relation, :foreign_key=> :id
+  belongs_to :old_relation, :foreign_key => [:relation_id, :version]
   # A bit messy, referring to the current tables, should do for the data browser for now
   belongs_to :member, :polymorphic => true
 end

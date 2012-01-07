@@ -9,7 +9,7 @@ module ShortLink
   # array of 64 chars to encode 6 bits. this is almost like base64 encoding, but
   # the symbolic chars are different, as base64's + and / aren't very 
   # URL-friendly.
-  ARRAY = ('A'..'Z').to_a + ('a'..'z').to_a + ('0'..'9').to_a + ['_','@']
+  ARRAY = ('A'..'Z').to_a + ('a'..'z').to_a + ('0'..'9').to_a + ['_','~']
 
   ##
   # Given a string encoding a location, returns the [lon, lat, z] tuple of that 
@@ -19,6 +19,11 @@ module ShortLink
     y = 0
     z = 0
     z_offset = 0
+
+    # keep support for old shortlinks which use the @ character, now
+    # replaced by the ~ character because twitter is horribly broken
+    # and we can't have that.
+    str.gsub!("@","~")
 
     str.each_char do |c|
       t = ARRAY.index c
