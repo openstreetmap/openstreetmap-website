@@ -299,7 +299,7 @@ class ApplicationController < ActionController::Base
     OSM::Timer.timeout(WEB_TIMEOUT) do
       yield
     end
-  rescue ActionView::TemplateError => ex
+  rescue ActionView::Template::Error => ex
     if ex.original_exception.is_a?(Timeout::Error)
       render :action => "timeout"
     else
