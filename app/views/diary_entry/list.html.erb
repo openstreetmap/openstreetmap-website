@@ -34,8 +34,10 @@
   <br />
 <% end %>
 
+<% unless params[:friends] or params[:nearby] -%>
 <%= rss_link_to :action => 'rss', :language => params[:language] %>
 
-<% content_for :head do %>
+<% content_for :head do -%>
 <%= auto_discovery_link_tag :atom, :action => 'rss', :language => params[:language] %>
-<% end %>
+<% end -%>
+<% end -%>

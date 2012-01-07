@@ -10,8 +10,10 @@
 
 <%= render :partial => 'changeset_paging_nav' %>
 
+<% unless params[:friends] or params[:nearby] -%>
 <%= atom_link_to params.merge({ :page => nil, :action => :feed }) %>
 
-<% content_for :head do %>
+<% content_for :head do -%>
 <%= auto_discovery_link_tag :atom, params.merge({ :page => nil, :action => :feed }) %>
-<% end %>
+<% end -%>
+<% end -%>
