@@ -103,7 +103,7 @@ class DiaryEntryController < ApplicationController
         @title = t 'diary_entry.list.title_friends'
         @entry_pages, @entries = paginate(:diary_entries, :include => :user,
                                           :conditions => {
-                                            :user_id => @user.friend_users.public,
+                                            :user_id => @user.friend_users,
                                             :visible => true
                                           },
                                           :order => 'created_at DESC',
