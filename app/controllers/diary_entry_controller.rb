@@ -8,8 +8,9 @@ class DiaryEntryController < ApplicationController
   before_filter :check_database_writable, :only => [:new, :edit]
   before_filter :require_administrator, :only => [:hide, :hidecomment]
 
-  caches_action :list, :view, :layout => false
+  caches_action :list, :layout => false, :unless => :user_specific_list?
   caches_action :rss, :layout => true
+  caches_action :view, :layout => false
   cache_sweeper :diary_sweeper, :only => [:new, :edit, :comment, :hide, :hidecomment]
 
   def new
@@ -203,5 +204,11 @@ private
       flash[:error] = t('user.filter.not_an_administrator')
       redirect_to :controller => 'diary_entry', :action => 'view', :display_name => params[:id]
     end
+  end
+
+  ##
+  # is this list user specific?
+  def user_specific_list?
+    params[:friends] or params[:nearby]
   end
 end
