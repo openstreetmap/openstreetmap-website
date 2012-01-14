@@ -20,7 +20,7 @@ private
       old_record.diary_entries.each do |entry|
         expire_action(:controller => 'diary_entry', :action => 'view', :display_name => old_record.display_name, :id => entry.id)
         expire_action(:controller => 'diary_entry', :action => 'list', :language => entry.language_code, :display_name => nil)
-        expire_action(:controller => 'diary_entry', :action => 'rss', :language => entry.language_code, :display_name => nil)
+        expire_action(:controller => 'diary_entry', :action => 'rss', :format => :rss, :language => entry.language_code, :display_name => nil)
       end
 
       old_record.diary_comments.each do |comment|
@@ -30,8 +30,8 @@ private
       expire_action(:controller => 'diary_entry', :action => 'list', :language => nil, :display_name => nil)
       expire_action(:controller => 'diary_entry', :action => 'list', :language => nil, :display_name => old_record.display_name)
 
-      expire_action(:controller => 'diary_entry', :action => 'rss', :language => nil, :display_name => nil)
-      expire_action(:controller => 'diary_entry', :action => 'rss', :language => nil, :display_name => old_record.display_name)
+      expire_action(:controller => 'diary_entry', :action => 'rss', :format => :rss, :language => nil, :display_name => nil)
+      expire_action(:controller => 'diary_entry', :action => 'rss', :format => :rss, :language => nil, :display_name => old_record.display_name)
 
       old_record.traces.each do |trace|
         expire_action(:controller => 'trace', :action => 'view', :id => trace.id)
