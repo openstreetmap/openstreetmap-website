@@ -33,8 +33,7 @@
           </tr>
           <tr>
             <td><%=bbox.min_lon -%></td>
-            <td>(<a href='/?minlon=<%= bbox.min_lon %>&minlat=<%= bbox.min_lat %>&maxlon=<%= bbox.max_lon %>&maxlat=<%= bbox.max_lat %>
-                  &box=yes' title='<%= t 'browse.changeset_details.show_area_box' %>'><%= t 'browse.changeset_details.box' %></a>)</td>
+            <td>(<%= link_to t('browse.changeset_details.box'), root_path(:minlon => bbox.min_lon, :minlat => bbox.min_lat, :maxlon => bbox.max_lon, :maxlat => bbox.max_lat, :box => 'yes'), :title => t('browse.changeset_details.show_area_box') %>)</td>
             <td><%=bbox.max_lon -%></td>
           </tr>
           <tr>

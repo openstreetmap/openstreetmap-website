@@ -93,7 +93,7 @@ OpenStreetMap::Application.routes.draw do
   match '/browse' => 'changeset#list'
 
   # web site
-  match '/' => 'site#index'
+  root :to => 'site#index'
   match '/edit' => 'site#edit'
   match '/copyright' => 'site#copyright'
   match '/copyright/:copyright_locale' => 'site#copyright'
