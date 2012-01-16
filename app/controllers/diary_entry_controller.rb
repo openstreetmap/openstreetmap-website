@@ -140,7 +140,7 @@ class DiaryEntryController < ApplicationController
   end
 
   def rss
-    @entries = DiaryEntry.includes(:user).order("created_at DESC").limit(500)
+    @entries = DiaryEntry.includes(:user).order("created_at DESC").limit(20)
 
     if params[:display_name]
       user = User.active.find_by_display_name(params[:display_name])
