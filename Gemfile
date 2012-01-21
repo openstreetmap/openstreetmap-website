@@ -20,6 +20,7 @@ gem 'validates_email_format_of', '>= 1.5.1'
 gem 'composite_primary_keys', '>= 4.1.2'
 gem 'http_accept_language', '>= 1.0.2'
 gem 'paperclip', '~> 2.0'
+gem 'deadlock_retry', '>= 1.1.2'
 
 # Character conversion support for ruby 1.8
 gem 'iconv', :platforms => :ruby_18
