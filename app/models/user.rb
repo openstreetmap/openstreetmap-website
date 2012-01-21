@@ -44,7 +44,9 @@ class User < ActiveRecord::Base
   after_initialize :set_creation_time
   before_save :encrypt_password
 
-  file_column :image, :magick => { :geometry => "100x100>" }
+  has_attached_file :image, :styles => { :thumb => "100x100>" }, 
+    :path => "#{ATTACHMENTS_DIR}/user/image/:id/:filename",
+    :url => "/user/image/:id/:filename"
 
   def self.authenticate(options)
     if options[:username] and options[:password]
