@@ -517,7 +517,7 @@ module OSM
     link_count = 0
     link_size = 0
 
-    doc = Nokogiri::HTML(text)
+    doc = Nokogiri::HTML(Rinku.auto_link(text, :urls))
 
     if doc.content.length > 0
       doc.xpath("//a").each do |link|
