@@ -266,7 +266,7 @@ class ApplicationController < ActionController::Base
       report_error message, :bad_request
     rescue OSM::APIError => ex
       report_error ex.message, ex.status
-    rescue ActionController::UnknownAction => ex
+    rescue AbstractController::ActionNotFound => ex
       raise
     rescue Exception => ex
       logger.info("API threw unexpected #{ex.class} exception: #{ex.message}")
