@@ -512,8 +512,7 @@ private
     elsif user = User.authenticate(:username => username, :password => password, :pending => true)
       failed_login t('user.login.account not active', :reconfirm => url_for(:action => 'confirm_resend', :display_name => user.display_name))
     elsif User.authenticate(:username => username, :password => password, :suspended => true)
-      webmaster = link_to t('user.login.webmaster'), "mailto:webmaster@openstreetmap.org"
-      failed_login t('user.login.account suspended', :webmaster => webmaster)
+      failed_login t('user.login.account is suspended', :webmaster => "mailto:webmaster@openstreetmap.org")
     else
       failed_login t('user.login.auth failure')
     end
@@ -546,8 +545,7 @@ private
             when "active", "confirmed" then
               successful_login(user)
             when "suspended" then
-              webmaster = link_to t('user.login.webmaster'), "mailto:webmaster@openstreetmap.org"
-              failed_login t('user.login.account suspended', :webmaster => webmaster)
+              failed_login t('user.login.account is suspended', :webmaster => "mailto:webmaster@openstreetmap.org")
             else
               failed_login t('user.login.auth failure')
           end
