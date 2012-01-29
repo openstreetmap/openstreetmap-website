@@ -2,7 +2,7 @@
 source 'http://rubygems.org'
 
 # Require rails
-gem 'rails', '3.2.0'
+gem 'rails', '3.2.1'
 
 # Require the postgres database driver
 gem 'pg'
