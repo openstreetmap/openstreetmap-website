@@ -4,6 +4,7 @@
 # Author: Christian List
 # Author: Ebbe
 # Author: Freek
+# Author: Gorbi
 # Author: Hylle
 # Author: OleLaursen
 # Author: The real emj
@@ -55,6 +56,7 @@ da:
       message: Meddelelse
       node: Punk
       node_tag: Punktegenskab
+      notifier: Underret
       old_node: Tidligere punkt
       old_node_tag: Tidligere punktegenskab
       old_relation: Tidligere relation
@@ -81,6 +83,7 @@ da:
       cookies_needed: Du har tilsyneladende deaktiveret cookies i din browser. Aktivér cookies før du fortsætter.
     setup_user_auth: 
       blocked: Din adgang til API'et er blokeret. Log ind på webinterfacet for a finde ud mere.
+      need_to_see_terms: Din adgang til API-et er midlertidig stoppet. Log ind på netsiden for at læse bidragsydervilkårene. Du behøver ikke at godkende vilkårene, men du skal læse dem.
   browse: 
     changeset: 
       changeset: "Ændringssæt: %{id}"
@@ -284,14 +287,17 @@ da:
     list: 
       description: Seneste ændringer
       description_bbox: Ændringer inden for %{bbox}
+      description_friend: Changesets af dine venner
       description_user: Ændringssæt af %{user}
       description_user_bbox: Ændringssæt af %{user} inden for %{bbox}
       heading: Ændringssæt
       heading_bbox: Ændringssæt
+      heading_friend: Changesets
       heading_user: Ændringssæt
       heading_user_bbox: Ændringssæt
       title: Ændringssæt
       title_bbox: Ændringssæt inden for %{bbox}
+      title_friend: Changesets af dine venner
       title_user: Ændringssæt af %{user}
       title_user_bbox: Ændringssæt af %{user} inden for %{bbox}
     timeout: 
@@ -887,6 +893,7 @@ da:
     map: 
       base: 
         cycle_map: Cykelkort
+        transport_map: Transportkort
     site: 
       edit_disabled_tooltip: Zoom ind for at rette kortet
       edit_tooltip: Ret kortet
@@ -974,7 +981,6 @@ da:
       people_mapping_nearby: folk som kortlægger i nærheden
       subject: Emne
       title: Indbakke
-      you_have: Du har %{new_count} ny beskeder og %{old_count} gamle beskeder
     mark: 
       as_read: Besked markeret som læst
       as_unread: Besked markeret som ulæst
@@ -1010,7 +1016,6 @@ da:
       subject: Emne
       title: Udbakke
       to: Til
-      you_have_sent_messages: Du har sendt %{count} beskeder
     read: 
       back_to_inbox: Tilbage til indbakke
       back_to_outbox: Tilbage til udbakke
@@ -1122,13 +1127,19 @@ da:
       submit: Redigér
       title: Rediger din applikation
     form: 
+      allow_write_api: ændre kortet.
       name: Navn
       required: Påkrævet
     new: 
       submit: Registrér
       title: Registrer en ny applikation
     show: 
+      allow_read_prefs: læs deres brugerindstillinger.
       allow_write_api: tilpas kortet.
+      allow_write_gpx: upload GPS-spor.
+      allow_write_prefs: ændre deres brugerindstillinger.
+      authorize_url: "Godkend URL:"
+      edit: Redigér detaljer
   site: 
     edit: 
       anon_edits_link_text: Find ud af hvorfor.
@@ -1143,6 +1154,7 @@ da:
       js_2: OpenStreetMap bruger JavaScript til det interaktive kort.
       js_3: Du kan prøve <a href="http://tah.openstreetmap.org/Browse/">de statiske Tiles@Home kortsider</a> hvis du ikke kan aktivere Javascript.
       license: 
+        license_name: Creative Commons Attribution-Share Alike 2.0
         notice: Licenseret under %{license_name}-licensen af %{project_name} og dets bidragydere.
         project_name: OpenStreetMap-projektet
       permalink: Permalink
@@ -1290,7 +1302,7 @@ da:
       tags: "Mærker:"
       tags_help: kommasepareret
       upload_button: Upload
-      upload_gpx: Upload GPX-fil
+      upload_gpx: "Upload GPX-fil:"
       visibility: "Synlighed:"
       visibility_help: hvad betyder det her?
     trace_header: 
@@ -1353,6 +1365,10 @@ da:
       new email address: "Ny e-mail-adresse:"
       new image: Tilføj et billede
       no home location: Du har ikke angivet din hjemmeposition.
+      openid: 
+        link: http://wiki.openstreetmap.org/wiki/OpenID
+        link text: hvad er dette?
+        openid: "OpenID:"
       preferred editor: "Foretrukket redigeringsprogram:"
       preferred languages: "Foretrukne sprog:"
       profile description: "Profilbeskrivelse:"
@@ -1406,7 +1422,6 @@ da:
       title: Brugere
     login: 
       account not active: Din konto er ikke aktiveret endnu.<br />Klik på linket i bekræftelsesemailen for at aktivere din konto eller <a href="%{reconfirm}">få sendt en ny bekræftelsesemail</a>.
-      account suspended: Beklager, din konto er blevet suspenderet på grund af mistænkelig aktivitet.<br />Kontakt %{webmaster} hvis du vil diskutere dette.
       auth failure: Kunne ikke logge på med disse oplysninger.
       create account minute: Opret en konto. Det tager kun et minut.
       email or username: "E-mail-adresse eller brugernavn:"
@@ -1415,12 +1430,34 @@ da:
       lost password link: Glemt adgangskode?
       new to osm: Ny på OpenStreetMap?
       notice: <a href="http://www.osmfoundation.org/wiki/License/We_Are_Changing_The_License">Læs mere om OpenStreetMaps kommende licensændring</a> (<a href="http://wiki.openstreetmap.org/wiki/ODbL/We_Are_Changing_The_License">oversættelser</a>) (<a href="http://wiki.openstreetmap.org/wiki/Talk:ODbL/Upcoming">diskussion</a>)
+      openid: "%{logo} OpenID:"
+      openid_logo_alt: Log i med et OpenID
+      openid_providers: 
+        aol: 
+          alt: Log ind med et AOL OpenID
+          title: Log ind med AOL
+        google: 
+          alt: Log ind med et Google OpenID
+          title: Log ind med Google
+        myopenid: 
+          alt: Log ind med et myOpenID OpenID
+          title: Log ind med OpenID
+        openid: 
+          alt: Log ind med et OpenID
+          title: Log ind med OpenID
+        wordpress: 
+          alt: Log ind med et Wordpress OpenID
+          title: Log ind med Wordpress
+        yahoo: 
+          alt: Log ind med et Yahoo OpenID
+          title: Log ind med Yahoo
       password: "Adgangskode:"
       register now: Opret nu
       remember: "Husk mig:"
       title: Log på
       to make changes: For at ændre i OpenStreetMaps data skal du have en konto.
-      webmaster: webmaster
+      with openid: "Alternativt kan du bruge din OpenID til at logge ind:"
+      with username: "Har du allerede en OpenStreetMap konto? Log på med dit brugernavn og din adgangskode:"
     logout: 
       heading: Log af fra OpenStreetMap
       logout_button: Log af
@@ -1451,9 +1488,12 @@ da:
       license_agreement: Når du bekræfter din konto, skal du acceptere <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">bidragyder-betingelserne</a>.
       no_auto_account_create: Vi kan desværre ikke oprette en konto automatisk for dig pt.
       not displayed publicly: Vises ikke offentligt (se <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="Privatlivspolitik for wikien inklusiv sektion om emailadresser">privatlivspolitik</a>)
+      openid: "%{logo} OpenID:"
+      openid no password: Med OpenID kræves ikke en adgangskode, men nogle ekstraværktøjer eller en server kan der stadig være brug for.
       password: "Adgangskode:"
       terms accepted: Tak for at du accepterer de nye bidragyder-betingelser!
       title: Opret konto
+      use openid: Alternativt kan du bruge %{logo} OpenID til at logge ind
     no_such_user: 
       body: Der findes desværre ingen bruger ved navn %{user}. Tjek venligst stavningen, ellers kan linket du trykkede på være forkert.
       heading: Brugeren %{user} findes ikke
@@ -1505,12 +1545,17 @@ da:
       confirm_user: bekræft denne bruger
       create_block: bloker denne bruger
       created from: "Oprettet fra:"
+      ct accepted: Accepteret for % {siden} siden
+      ct declined: Afslået
+      ct status: Vilkår for bidragydere
+      ct undecided: Uafklaret
       deactivate_user: deaktiver denne bruger
       delete_user: slet denne bruger
       description: Beskrivelse
       diary: blog
       edits: ændringer
       email address: "E-mail-adresse:"
+      friends_changesets: Gennemse alle changesets af venner
       hide_user: skjul denne bruger
       if set location: Hvis du indstiller din position, viser der sig et pænt kort her. Du kan indstille din hjemmeposition på din %{settings_link}-side.
       km away: "%{count}km væk"
@@ -1549,16 +1594,45 @@ da:
     edit: 
       back: Vis alle blokke
       show: Vis denne blok
+      submit: Opdater blokering
+    filter: 
+      not_a_moderator: Du skal være en moderator for at udføre den handling.
     helper: 
+      time_future: Slutter om %{time}.
       time_past: Sluttede %{time} siden.
+    index: 
+      empty: Ingen blokeringer er blevet udført endnu.
+      heading: Liste over brugerblokeringer
+      title: Brugerblokeringer
     new: 
       back: Vis alle blokke
+      heading: Opretter blokering af %{name}
       submit: Opret blok
+      title: Opretter blokering af %{name}
     not_found: 
       back: Tilbage til indeks
-    show: 
+    partial: 
       confirm: Er du sikker?
+      creator_name: Oprettet af
+      display_name: Blokkeret bruger
+      edit: Redigér
+      reason: Årsag til blokering
+      revoke: Tilbagekald!
+      show: Vis
+      status: Status
+    show: 
+      back: Vis alle blokeringer
+      confirm: Er du sikker?
+      edit: Redigér
+      reason: "Årsag til blokering:"
+      revoke: Tilbagekald!
+      show: Vis
+      status: Status
+      time_future: Slutter om %{time}
       time_past: Sluttede %{time} siden
+    update: 
+      only_creator_can_edit: Kun moderatoren som oprettede denne blokering kan ændre den.
+      success: Blokering opdateret.
   user_role: 
     filter: 
       already_has_role: Brugeren har allerede rollen %{role}.
