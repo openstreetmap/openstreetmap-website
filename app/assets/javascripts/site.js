@@ -72,17 +72,17 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat,objtype,obj
 
     // This is a hack to omit the default mapnik layer from the shortlink.
     if (layers && layers != "M") {
-      args["layers"] = layers;
+      args.layers = layers;
     }
     else {
-      delete args["layers"];
+      delete args.layers;
     }
 
     // Here we're assuming that all parameters but ?layers= and
     // ?{node,way,relation}= can be safely omitted from the shortlink
     // which encodes lat/lon/zoom. If new URL parameters are added to
     // the main slippy map this needs to be changed.
-    if (args["layers"] || args[objtype]) {
+    if (args.layers || args[objtype]) {
       this.href = setArgs(prefix + "/go/" + code, args);
     } else {
       this.href = prefix + "/go/" + code;
@@ -105,7 +105,7 @@ function shortlinkPrefix() {
  * Called to get the arguments from a URL as a hash.
  */
 function getArgs(url) {
-  var args = new Object();
+  var args = {};
   var querystart = url.indexOf("?");
 
   if (querystart >= 0) {
@@ -116,7 +116,7 @@ function getArgs(url) {
         if (match = queryitems[i].match(/^(.*)=(.*)$/)) {
            args[unescape(match[1])] = unescape(match[2]);
         } else {
-           args[unescape(queryitems[i])] = null
+           args[unescape(queryitems[i])] = null;
         }
      }
   }
@@ -128,10 +128,9 @@ function getArgs(url) {
  * Called to set the arguments on a URL from the given hash.
  */
 function setArgs(url, args) {
-   var queryitems = new Array();
+   var queryitems = [];
 
-   for (arg in args)
-   {
+   for (arg in args) {
       if (args[arg] == null) {
          queryitems.push(escape(arg));
       } else {
@@ -167,7 +166,7 @@ function getStyle(el, property) {
  * rails and then later by javascript.
  */
 function i18n(string, keys) {
-  string = i18n_strings[string] || string
+  string = i18n_strings[string] || string;
 
   for (var key in keys) {
     var re_key = '\\[\\[' + key + '\\]\\]';
