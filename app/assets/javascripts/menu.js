@@ -35,7 +35,7 @@ function enterMenuAnchor(event, anchor, menu, delay, align) {
     clearTimeout(menu.timer);
 
     if (delay > 0) {
-      menu.timer = setTimeout(function () { openMenu(anchor, menu, align) }, delay);
+      menu.timer = setTimeout(function () { openMenu(anchor, menu, align); }, delay);
     } else {
       openMenu(event, menu, align);
     }
@@ -48,7 +48,7 @@ function enterMenuAnchor(event, anchor, menu, delay, align) {
 function leaveMenuAnchor(event, anchor, menu) {
   var to = event.relatedTarget;
 
-  if (!menu.is(to) && menu.has(to).length == 0) {
+  if (!menu.is(to) && menu.has(to).length === 0) {
     menu.hide();
   }
 
@@ -61,7 +61,7 @@ function leaveMenuAnchor(event, anchor, menu) {
 function leaveMenu(event, anchor, menu) {
   var to = event.relatedTarget;
 
-  if (!anchor.is(to) && menu.has(to).length == 0) {
+  if (!anchor.is(to) && menu.has(to).length === 0) {
     menu.hide();
   }
 
@@ -75,9 +75,9 @@ function createMenu(anchorid, menuid, delay, align) {
   var anchor = $("#" + anchorid);
   var menu = $("#" + menuid);
 
-  anchor.mouseup(function (event) { closeMenu(menu) });
-  anchor.mouseover(function (event) { enterMenuAnchor(anchor, anchor, menu, delay, align) });
-  anchor.mouseout(function (event) { leaveMenuAnchor(event, anchor, menu) });
-  menu.mouseup(function (event) { closeMenu(menu) });
-  menu.mouseout(function (event) { leaveMenu(event, anchor, menu) });
+  anchor.mouseup(function (event) { closeMenu(menu); });
+  anchor.mouseover(function (event) { enterMenuAnchor(anchor, anchor, menu, delay, align); });
+  anchor.mouseout(function (event) { leaveMenuAnchor(event, anchor, menu); });
+  menu.mouseup(function (event) { closeMenu(menu); });
+  menu.mouseout(function (event) { leaveMenu(event, anchor, menu); });
 }
