@@ -23,7 +23,7 @@ mail = Mail.new(STDIN.readlines.join)
 if mail.multipart?
   body = mail.html_part || mail.text_part
 else
-  body = mail.body
+  body = mail
 end
 
 message = Message.new(:sender => from, :recipient => to,
