@@ -63,5 +63,10 @@ module OpenStreetMap
     unless STATUS == :database_offline
       config.active_record.schema_format = :sql
     end
+
+    # Don't eager load models when the database is offline
+    if STATUS == :database_offline
+      config.paths["app/models"].skip_eager_load!
+    end
   end
 end
