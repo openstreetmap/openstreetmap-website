@@ -15,7 +15,6 @@ addresses.each do |address,count|
   if count > 2
     acl = Acl.find(:first, :conditions => {
       :address => address,
-      :netmask => "255.255.255.255"
     })
 
     unless acl
@@ -32,7 +31,6 @@ addresses.each do |address,count|
 end
 
 acls = Acl.find(:all, :conditions => {
-  :netmask => "255.255.255.255",
   :k => "no_account_creation",
   :v => "auto_spam_block"
 })
