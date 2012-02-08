@@ -1,13 +1,5 @@
 <h1><%= t 'user.new.heading' %></h1>
 
-<% if Acl.address(request.remote_ip).where(:k => "no_account_creation").exists? %>
-
-<p><%= t 'user.new.no_auto_account_create' %></p>
-
-<p><%= t 'user.new.contact_webmaster' %></p>
-
-<% else %>
-
 <p><%= t 'user.new.fill_form' %></p>
 
 <%= error_messages_for 'user' %>
@@ -102,5 +94,3 @@ enableOpenID();
 disableOpenID();
 <% end -%>
 </script>
-
-<% end %>
