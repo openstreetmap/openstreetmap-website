@@ -6,4 +6,12 @@ class Acl < ActiveRecord::Base
       condition = Acl.where("address >> ?", address)
     end
   end
+
+  def self.no_account_creation(address, domain = nil)
+    self.match(address, domain).where(:k => "no_account_creation").exists?
+  end
+
+  def self.no_trace_download(address, domain = nil)
+    self.match(address, domain).where(:k => "no_trace_download").exists?
+  end
 end

@@ -38,7 +38,7 @@ class UserController < ApplicationController
       else
         render :action => 'terms'
       end
-    elsif params[:user] and Acl.match(request.remote_ip, params[:user][:email].split("@").last).where(:k => "no_account_creation").exists?
+    elsif params[:user] and Acl.no_account_creation(request.remote_ip, params[:user][:email].split("@").last)
       render :action => 'blocked'
     else
       session[:referer] = params[:referer]
@@ -112,7 +112,7 @@ class UserController < ApplicationController
       else
         redirect_to :action => :account, :display_name => @user.display_name
       end
-    elsif Acl.match(request.remote_ip, params[:user][:email].split("@").last).where(:k => "no_account_creation").exists?
+    elsif Acl.no_account_creation(request.remote_ip, params[:user][:email].split("@").last)
       render :action => 'blocked'
     else
       @user = User.new(params[:user])
@@ -271,7 +271,7 @@ class UserController < ApplicationController
                        :openid_url => params[:openid])
 
       flash.now[:notice] = t 'user.new.openid association'
-    elsif Acl.match(request.remote_ip).where(:k => "no_account_creation").exists?
+    elsif Acl.no_account_creation(request.remote_ip)
       render :action => 'blocked'
     end
   end

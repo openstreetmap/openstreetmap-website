@@ -163,7 +163,7 @@ class TraceController < ApplicationController
     trace = Trace.find(params[:id])
 
     if trace.visible? and (trace.public? or (@user and @user == trace.user))
-      if Acl.match(request.remote_ip).where(:k => "no_trace_download").exists?
+      if Acl.no_trace_download(request.remote_ip)
         render :nothing => true, :status => :forbidden
       elsif request.format == Mime::XML
         send_file(trace.xml_file, :filename => "#{trace.id}.xml", :type => Mime::XML.to_s, :disposition => 'attachment')
