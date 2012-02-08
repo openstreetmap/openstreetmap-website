@@ -1,14 +1,3 @@
-#ifndef USE_MYSQL
-#ifndef USE_PGSQL
-#error One of USE_MYSQL or USE_PGSQL must be defined
-#endif
-#endif
-
-#ifdef USE_PGSQL
-#ifdef USE_MYSQL
-#error ONLY one of USE_MYSQL and USE_PGSQL should be defined
-#endif
-
 #include <postgres.h>
 #include <fmgr.h>
 
@@ -26,5 +15,3 @@ int xid_to_int4(TransactionId xid)
  *
  * (without all the *s)
  */
-
-#endif

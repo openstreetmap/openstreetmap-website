@@ -1,58 +1,13 @@
 Creating database
 ===================
 
-OSM server uses a database with the following name:
+OSM server uses a Postgres database with the following name:
 
 openstreetmap
 
 You may create it with your preferable client or run next (linux) command:
 
-$ mysql -u <uid> -p
-
-(change <uid> with appropriate username of administrative user eg. root )
-
-> create database openstreetmap default character set utf8;
-> exit
-
-Creating user, password, and access rights
-============================================
-
-$ mysql -u <uid> -p
-
-(change <uid> with appropriate username of administrative user eg. root )
-
-> grant all privileges on openstreetmap.* to 'openstreetmap'@'localhost' identified by 'openstreetmap';
-> flush privileges;
-> exit
-
-Creating functions For MySQL
-==============================
-
-Run this command in the db/functions directory:
-
-$ make libmyosm.so
-
-You might also need to install:
-- mysql client development libraries: 	$ sudo apt-get install libmysqlclient16-dev 
-- ruby development libraries: 		$ sudo apt-get install ruby1.8-dev
-for build to succeed.
-
-Make sure the db/functions directory is on the MySQL server's library
-path and restart the MySQL server. 
-
-On Linux the easiest way to do this is to create /etc/ld.so.conf.d/osm.conf, and place the path to the db/functions directory in it and then run the ldconfig command as root.
-
-On OS X: sudo ln -s /path_to_your_osm_install/sites/rails_port/db/functions/libmyosm.so /usr/local/lib/libmyosm.so
-
-Now create the functions as follows:
-
-$ mysql -u <uid> -p openstreetmap
-
-(change <uid> with appropriate username of administrative user eg. root )
-
-> create function tile_for_point returns integer soname 'libmyosm.so';
-> create function maptile_for_point returns integer soname 'libmyosm.so';
-> exit
+$ createdb openstreetmap
 
 Creating functions for PgSQL
 ==============================
@@ -86,4 +41,4 @@ This will create the db for you
 
 You will need to make sure the database connection is configured in database.yml in config directory
 You might start with example configuration provided: 
-$ cp config/mysql.example.database.yml config/database.yml
+$ cp config/example.database.yml config/database.yml
