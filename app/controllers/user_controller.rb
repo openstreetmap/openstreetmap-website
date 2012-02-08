@@ -38,7 +38,7 @@ class UserController < ApplicationController
       else
         render :action => 'terms'
       end
-    elsif Acl.match(request.remote_ip, params[:user][:email].split("@").last).where(:k => "no_account_creation").exists?
+    elsif params[:user] and Acl.match(request.remote_ip, params[:user][:email].split("@").last).where(:k => "no_account_creation").exists?
       render :action => 'blocked'
     else
       session[:referer] = params[:referer]
