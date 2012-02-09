@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%= I18n.locale %>" lang="<%= I18n.locale %>" dir="<%= t'html.dir' %>">
   <%= render :partial => "layouts/head" %>
-  <body>
+  <body class="<%= params[:controller] %>">
     <div id="small-title">
       <%= link_to(image_tag("osm_logo.png", :size => "16x16", :border => 0, :alt => t('layouts.logo.alt_text')), :controller => 'site', :action => 'index') %>
       <h1><%= t 'layouts.project_name.h1' %></h1>
@@ -64,11 +64,9 @@
 
     <div id="left">
       <div id="logo">
-        <center>
-          <h1><%= t 'layouts.project_name.h1' %></h1>
-          <%= link_to(image_tag("osm_logo.png", :size => "120x120", :border => 0, :alt => t('layouts.logo.alt_text')), :controller => 'site', :action => 'index') %><br/>
-          <h2 class="nowrap"><%= t('layouts.tag_line') %></h2>
-        </center>
+        <%= link_to(image_tag("osm_logo.png", :size => "120x120", :border => 0, :alt => t('layouts.logo.alt_text')), :controller => 'site', :action => 'index') %><br/>
+        <h1><%= t 'layouts.project_name.h1' %></h1>
+        <h2 class="nowrap"><%= t('layouts.tag_line') %></h2>
       </div>
 
       <%= yield :optionals %>
