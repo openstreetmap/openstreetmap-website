@@ -38,6 +38,8 @@ class UserController < ApplicationController
       else
         render :action => 'terms'
       end
+    elsif params[:user] and Acl.no_account_creation(request.remote_ip, params[:user][:email].split("@").last)
+      render :action => 'blocked'
     else
       session[:referer] = params[:referer]
 
@@ -79,9 +81,7 @@ class UserController < ApplicationController
   def save
     @title = t 'user.new.title'
 
-    if Acl.address(request.remote_ip).where(:k => "no_account_creation").exists?
-      render :action => 'new'
-    elsif params[:decline]
+    if params[:decline]
       if @user
         @user.terms_seen = true
 
@@ -112,6 +112,8 @@ class UserController < ApplicationController
       else
         redirect_to :action => :account, :display_name => @user.display_name
       end
+    elsif Acl.no_account_creation(request.remote_ip, params[:user][:email].split("@").last)
+      render :action => 'blocked'
     else
       @user = User.new(params[:user])
 
@@ -269,6 +271,8 @@ class UserController < ApplicationController
                        :openid_url => params[:openid])
 
       flash.now[:notice] = t 'user.new.openid association'
+    elsif Acl.no_account_creation(request.remote_ip)
+      render :action => 'blocked'
     end
   end
 
