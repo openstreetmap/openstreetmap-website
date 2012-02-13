@@ -1,5 +1,5 @@
 class Trace < ActiveRecord::Base
-  set_table_name 'gpx_files'
+  self.table_name = "gpx_files"
 
   belongs_to :user
   has_many :tags, :class_name => 'Tracetag', :foreign_key => 'gpx_id', :dependent => :delete_all

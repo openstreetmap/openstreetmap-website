@@ -3,7 +3,7 @@ class Relation < ActiveRecord::Base
   
   include ConsistencyValidations
   
-  set_table_name 'current_relations'
+  self.table_name = "current_relations"
 
   belongs_to :changeset
 

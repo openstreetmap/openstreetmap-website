@@ -1,6 +1,6 @@
 class WayTag < ActiveRecord::Base
-  set_table_name 'current_way_tags'
-  set_primary_keys :way_id, :k
+  self.table_name = "current_way_tags"
+  self.primary_keys = "way_id", "k"
 
   belongs_to :way
   

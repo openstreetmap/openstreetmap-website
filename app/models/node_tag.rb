@@ -1,6 +1,6 @@
 class NodeTag < ActiveRecord::Base
-  set_table_name 'current_node_tags'
-  set_primary_keys :node_id, :k
+  self.table_name = "current_node_tags"
+  self.primary_keys = "node_id", "k"
 
   belongs_to :node
   

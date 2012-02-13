@@ -4,7 +4,7 @@ class Node < ActiveRecord::Base
   include GeoRecord
   include ConsistencyValidations
 
-  set_table_name 'current_nodes'
+  self.table_name = "current_nodes"
 
   belongs_to :changeset
 

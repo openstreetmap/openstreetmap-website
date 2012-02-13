@@ -3,7 +3,7 @@ class Way < ActiveRecord::Base
   
   include ConsistencyValidations
 
-  set_table_name 'current_ways'
+  self.table_name = "current_ways"
   
   belongs_to :changeset
 
