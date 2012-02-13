@@ -64,6 +64,10 @@ class Way < ActiveRecord::Base
     # and manually set to false before the actual delete.
     way.visible = true
 
+    # Start with no tags
+    way.tags = Hash.new
+
+    # Add in any tags from the XML
     pt.find('tag').each do |tag|
       raise OSM::APIBadXMLError.new("way", pt, "tag is missing key") if tag['k'].nil?
       raise OSM::APIBadXMLError.new("way", pt, "tag is missing value") if tag['v'].nil?
