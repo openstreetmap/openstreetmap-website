@@ -95,8 +95,8 @@ OpenStreetMap::Application.routes.draw do
   # web site
   root :to => 'site#index'
   match '/edit' => 'site#edit'
-  match '/copyright' => 'site#copyright'
   match '/copyright/:copyright_locale' => 'site#copyright'
+  match '/copyright' => 'site#copyright'
   match '/history' => 'changeset#list'
   match '/history/feed' => 'changeset#feed', :format => :atom
   match '/export' => 'site#export'
