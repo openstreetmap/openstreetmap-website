@@ -10,9 +10,9 @@
           { :rel => "license" }) %>
 </p>
 
-<% if I18n.locale == 'en' or params[:copyright_locale] == 'en' %>
+<% if @locale == 'en' %>
   <!-- Maybe ease foreigners back to their native page -->
-  <% if t('license_page.legal_babble') != t('license_page.legal_babble', :locale => :en) %>
+  <% if t('license_page.legal_babble', :locale => I18n.locale) != t('license_page.legal_babble', :locale => :en) %>
     <h2><%= t 'license_page.native.title' %></h2>
     <p>
       <%= raw t 'license_page.native.text',
@@ -25,11 +25,9 @@
     </p>
     <hr />
   <% end %>
-
-  <%= raw t('license_page.legal_babble', :locale => :en) %>
 <% else %>
   <!-- Maybe note that this page has been translated -->
-  <% if t('license_page.legal_babble') != t('license_page.legal_babble', :locale => :en) %>
+  <% if t('license_page.legal_babble', :locale => @locale) != t('license_page.legal_babble', :locale => :en) %>
     <h2><%= t 'license_page.foreign.title' %></h2>
     <p>
       <%= raw t 'license_page.foreign.text',
@@ -40,6 +38,6 @@
     </p>
     <hr />
   <% end %>
-
-  <%= raw t('license_page.legal_babble') %>
 <% end %>
+
+<%= raw t('license_page.legal_babble', :locale => @locale) %>
