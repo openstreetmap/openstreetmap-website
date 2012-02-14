@@ -47,11 +47,10 @@ module HttpAcceptLanguage
   #   request.compatible_language_from I18n.available_locales
   #
   def compatible_language_from(array)
-    user_preferred_languages.map do |x|
-      array.find do |y|
-        y.to_s =~ /^#{Regexp.escape(x.to_s)}(-|$)/
-      end
-    end.compact.first
+    user_preferred_languages.find do |x|
+      array.find { |y| y.to_s == x.to_s } ||
+      array.find { |y| y.to_s =~ /^#{Regexp.escape(x.to_s)}-/ }
+    end
   end
 
 end
