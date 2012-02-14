@@ -80,4 +80,8 @@ class SiteController < ApplicationController
       @zoom = '17' if @zoom.nil?
     end
   end
+
+  def copyright
+    @locale = params[:copyright_locale] || I18n.locale
+  end
 end
