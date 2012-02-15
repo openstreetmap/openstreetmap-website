@@ -1,7 +1,7 @@
 <b><%= link_to h(diary_entry.title), :action => 'view', :display_name => diary_entry.user.display_name, :id => diary_entry.id %></b><br />
 
 <div xml:lang="<%= diary_entry.language_code %>" lang="<%= diary_entry.language_code %>">
-  <%= htmlize(diary_entry.body) %>
+  <%= diary_entry.body.to_html %>
 </div>
 
 <% if diary_entry.latitude and diary_entry.longitude %>

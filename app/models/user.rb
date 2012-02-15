@@ -44,7 +44,7 @@ class User < ActiveRecord::Base
   attr_accessible :display_name, :email, :email_confirmation, :openid_url,
                   :pass_crypt, :pass_crypt_confirmation, :consider_pd
 
-  after_initialize :set_creation_time
+  after_initialize :set_defaults
   before_save :encrypt_password
 
   has_attached_file :image, 
@@ -99,6 +99,10 @@ class User < ActiveRecord::Base
       el1 << home
     end
     return el1
+  end
+
+  def description
+    RichText.new(read_attribute(:description_format), read_attribute(:description))
   end
 
   def languages
@@ -220,8 +224,9 @@ class User < ActiveRecord::Base
 
 private
 
-  def set_creation_time
+  def set_defaults
     self.creation_time = Time.now.getutc unless self.attribute_present?(:creation_time)
+    self.description_format = "markdown" unless self.attribute_present?(:description_format)
   end
 
   def encrypt_password

@@ -20,7 +20,7 @@ xml.rss("version" => "2.0",
         xml.title h(entry.title)
         xml.link url_for(:action => "view", :id => entry.id, :display_name => entry.user.display_name, :only_path => false)
         xml.guid url_for(:action => "view", :id => entry.id, :display_name => entry.user.display_name, :only_path => false)
-        xml.description htmlize(entry.body)
+        xml.description entry.body.to_html
         xml.author entry.user.display_name
         xml.pubDate entry.created_at.to_s(:rfc822)
         xml.comments url_for(:action => "view", :id => entry.id, :display_name => entry.user.display_name, :anchor => "comments", :only_path => false)

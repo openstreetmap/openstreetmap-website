@@ -22,6 +22,9 @@ gem 'http_accept_language', '>= 1.0.2'
 gem 'paperclip', '~> 2.0'
 gem 'deadlock_retry', '>= 1.2.0'
 
+# Markdown formatting support
+gem 'redcarpet'
+
 # Character conversion support for ruby 1.8
 gem 'iconv', :platforms => :ruby_18
 
