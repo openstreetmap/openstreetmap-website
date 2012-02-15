@@ -1,5 +1,6 @@
 //= require jquery
 //= require jquery_ujs
+//= require jquery.autogrowtextarea
 
 /*
  * Called as the user scrolls/zooms around to aniplate hrefs of the
