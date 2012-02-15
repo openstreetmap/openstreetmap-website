@@ -1,14 +1,6 @@
 module ApplicationHelper
   require 'rexml/document'
 
-  def sanitize(text)
-    Sanitize.clean(text, Sanitize::Config::OSM).html_safe
-  end
-
-  def htmlize(text)
-    return linkify(sanitize(simple_format(text)))
-  end
-
   def linkify(text)
     if text.html_safe?
       Rinku.auto_link(text, :urls, tag_options(:rel => "nofollow")).html_safe
