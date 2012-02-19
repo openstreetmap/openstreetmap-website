@@ -1,4 +1,11 @@
 module UserHelper
+
+  # Returns true if this_user (or @this_user) is the currently logged_in user
+  def current_user(this_user = nil)
+    this_user ||= @this_user
+    @user && this_user.id == @user.id 
+  end
+    
   def openid_logo
     image_tag "openid_small.png", :alt => t('user.login.openid_logo_alt'), :class => "openid_logo"
   end

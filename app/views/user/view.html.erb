@@ -1,9 +1,8 @@
 <div id="user_info">
   <div id="profile">
-  <h2><span class="addendum"><%= user_thumbnail @this_user %></span>
+  <h2><%= user_thumbnail @this_user, :class => "profile_image" %>
       <%= h(@this_user.display_name) %>
-  </h2>
-    <% UserRole::ALL_ROLES.each do |role| %>
+      <% UserRole::ALL_ROLES.each do |role| %>
       <% if @user and @user.administrator? %>
         <% if @this_user.has_role? role %>
           <%= link_to(image_tag("roles/#{role}.png", :size => "20x20", :border => 0, :alt => t("user.view.role.revoke.#{role}"), :title => t("user.view.role.revoke.#{role}")), :controller => 'user_roles', :action => 'revoke', :display_name => @this_user.display_name, :role => role) %>
@@ -14,28 +13,25 @@
         <%= image_tag("roles/#{role}.png", :size => "20x20", :border => 0, :alt => t("user.view.role.#{role}"), :title => t("user.view.role.#{role}")) %>
       <% end %>
     <% end %>
+      <span class="addendum"><%= link_to t('user.view.my settings'), :controller => 'user', :action => 'account', :display_name => @user.display_name if current_user %></span>
 
+  </h2>
 
     <div id="description"><%= htmlize(@this_user.description) %></div>
   
   
-  <% if @user and @this_user.id == @user.id %>
     <!-- Displaying user's own profile page -->
-    <br /><%= link_to t('user.view.new diary entry'), :controller => 'diary_entry', :action => 'new', :display_name => @user.display_name %><br />
-    <%= link_to t('user.view.my settings'), :controller => 'user', :action => 'account', :display_name => @user.display_name %><br />
-    <%= link_to t('user.view.blocks on me'), :controller => 'user_blocks', :action => 'blocks_on', :display_name => @user.display_name %>
-    <% if @user and @user.moderator? %>
-      <br /><%= link_to t('user.view.blocks by me'), :controller => 'user_blocks', :action => 'blocks_by', :display_name => @user.display_name %>
-    <% end %>
-  <% else %>
+    <br /><%= link_to image_tag("icons/page_add.png") + " " + t('user.view.new diary entry'), :controller => 'diary_entry', :action => 'new', :display_name => @user.display_name if current_user %><br />
+    
+  <% if @user && !current_user %>
     <!-- Displaying another user's profile page -->
     <br /><%= link_to t('user.view.send message'), :controller => 'message', :action => 'new', :display_name => @this_user.display_name %>
     <% if @user and @user.is_friends_with?(@this_user) %>
       <%= link_to t('user.view.remove as friend'), :controller => 'user', :action => 'remove_friend', :display_name => @this_user.display_name %>
     <% else %>
       <%= link_to t('user.view.add as friend'), :controller => 'user', :action => 'make_friend', :display_name => @this_user.display_name %>
-    <% end %><br />
-    <%= link_to t('user.view.block_history'), :controller => 'user_blocks', :action => 'blocks_on', :display_name => @this_user.display_name %>
+    <% end %>
+
     <% if @this_user.moderator? %>
       <br /><%= link_to t('user.view.moderator_history'), :controller => 'user_blocks', :action => 'blocks_by', :display_name => @this_user.display_name %>
     <% end %>
@@ -45,30 +41,68 @@
   <% end %>  
   </div>
 
-  <div id="stats">
-    <span class='addendum'>joined <%= time_ago_in_words(@this_user.creation_time) %> ago</span><br />
-    <%= contribution_terms_status(@this_user) %><br />
-    <strong><%= @this_user.changesets.count %></strong> <%= link_to t('user.view.edits'), :controller => 'changeset', :action => 'list', :display_name => @this_user.display_name %><br />
+  <div id="stats" class="sidebar_section">
+    <% friends = @this_user.friends.collect { |f| f.befriendee } %>
 
-  <% friends = @this_user.friends.collect { |f| f.befriendee } %>
-  <% if friends.empty? %>
-    <%= t 'user.view.no friends' %>
+    <strong><%= @this_user.changesets.count %></strong> <%= link_to t('user.view.edits'), :controller => 'changeset', :action => 'list', :display_name => @this_user.display_name %>
+  <% if friends.empty? && @user && @this_user.id == @user %>
+    <br /><%= t 'user.view.no friends' %>
   <% else %>
-    <strong><%= friends.count %></strong> <%= link_to "friends", {:controller => 'browse', :action => 'friends'} %>  (<%= link_to 'diaries', {:controller => 'diary', :action => 'friends'} %><br />
-    <table id="friends">
-      <%= render :partial => "contact", :collection => friends if @user && @this_user.id == @user.id %>
-    </table>
+    <br /><strong><%= friends.count %></strong> <%= current_user ? link_to( t('user.popup.friend', :count => friends.count).downcase, {:controller => 'browse', :action => 'friends'}) : t('user.popup.friend', :count => friends.count).downcase %>
   <% end %>
+  
+
+    <br /><span>joined <%= t('user.view.ago', :time_in_words_ago => time_ago_in_words(@this_user.creation_time)) %></span><br />
+    <%= contribution_terms_status(@this_user) %><br />
+
+    <br /><%= link_to t('user.view.block_history'), :controller => 'user_blocks', :action => 'blocks_on', :display_name => @this_user.display_name %>
+
+    <% if @user and @user.moderator? %>
+      <br /><%= link_to t('user.view.blocks by me'), :controller => 'user_blocks', :action => 'blocks_by', :display_name => @user.display_name %>
+    <% end %>
   </div>
+
+  <% if @user and @user.administrator? && !current_user -%>
+    <div id="admin" class="sidebar_section">
+      <strong><%= t 'user.view.email address' %></strong> <%= @this_user.email %><br />
+    <% unless @this_user.creation_ip.nil? -%>
+      <strong><%= t 'user.view.created from' %></strong> <%= @this_user.creation_ip %><br />
+    <% end -%>
+    <strong><%= t 'user.view.status' %></strong> <%= @this_user.status.capitalize %><br />
+    <strong><%= t 'user.view.spam score' %></strong> <%= @this_user.spam_score %><br />
+    <% if ["active", "confirmed"].include? @this_user.status %>
+      <%= link_to t('user.view.deactivate_user'), {:controller => 'user', :action => 'set_status', :status => 'pending', :display_name => @this_user.display_name}, {:confirm => t('user.view.confirm')} %>
+    <% elsif ["pending"].include? @this_user.status %>
+      <%= link_to t('user.view.activate_user'), {:controller => 'user', :action => 'set_status', :status => 'active', :display_name => @this_user.display_name}, {:confirm => t('user.view.confirm')} %>
+    <% end %>
+    <% if ["active", "suspended"].include? @this_user.status %>
+      <br /><%= link_to t('user.view.confirm_user'), {:controller => 'user', :action => 'set_status', :status => 'confirmed', :display_name => @this_user.display_name}, {:confirm => t('user.view.confirm')} %> 
+    <% end %>
+    <% if ["pending", "active", "confirmed", "suspended"].include? @this_user.status %>
+      <br /><%= link_to t('user.view.hide_user'), {:controller => 'user', :action => 'set_status', :status => 'deleted', :display_name => @this_user.display_name}, {:confirm => t('user.view.confirm')} %>
+    <% else %>
+      <%= link_to t('user.view.unhide_user'), {:controller => 'user', :action => 'set_status', :status => 'active', :display_name => @this_user.display_name}, {:confirm => t('user.view.confirm')} %>
+    <% end %>
+    <br /><%= link_to t('user.view.delete_user'), {:controller => 'user', :action => 'delete', :display_name => @this_user.display_name}, {:confirm => t('user.view.confirm')} %>
+  </div>
+  <% end -%>
+
+  <%- if current_user -%>
+  <div id="friends" class="sidebar_section">
+    <ul id="friends">
+      <%= render :partial => "user/contact", :collection => friends, :locals => {:this_user => @this_user} %>
+    </ul>
+    <%= link_to t('t.find friends'), {:controller => "user", :action => "users", :nearby => true} %>
+    | <%= link_to t('diary_entry.list.title_friends', :count => friends.count), {:controller => 'diary', :action => 'friends'} %>
+  </div>
+  <%- end -%>
 </div>
 
 
-
-
 <div id="stream">
-  <% if @user and @this_user.id == @user.id %>
+  <% if current_user %>
 
-  <div id="map" class="user_map">
+  <div id="map" class="user_map" style="<%= "height: 50px" if @this_user.home_lat.nil? or @this_user.home_lon.nil? %>">
     <% if @this_user.home_lat.nil? or @this_user.home_lon.nil? %>
       <p id="no_home_location"><%= raw(t 'user.view.if set location', :settings_link => (link_to t('user.view.settings_link_text'), :controller => 'user', :action => 'account', :display_name => @this_user.display_name)) %></p>
     <% else %>
@@ -84,63 +118,24 @@
     
   <%= render :partial => "user/activities", :locals => {:activities => @this_user.recent_activities } %>
 
+  <%- if current_user && @this_user.recent_activities.blank? -%>
+    <%= raw(word_wrap( t('user.view.start editing'), :line_width => 20)) %> <br />
+    <iframe width="420" height="315" src="http://www.youtube.com/embed/D6pBBK1SHh0" frameborder="0" allowfullscreen></iframe> <br />
+  <%- end -%>
+
   more <%= link_to t('user.view.edits'), :controller => 'changeset', :action => 'list', :display_name => @this_user.display_name %>
-  | <%= link_to t('user.view.diary'), :controller => 'diary_entry', :action => 'list', :display_name => @this_user.display_name unless @this_user.diary_entries.count == 0%> 
-  | <%= link_to t('user.view.traces'), :controller => 'trace', :action => 'list', :display_name => @this_user.display_name %>
+  <%-  unless @this_user.traces.count == 0 -%>
+   | <%= link_to( t('user.view.traces'), :controller => 'trace', :action => 'list', :display_name => @this_user.display_name) %>
+   <%- end -%>
+   <%- unless @this_user.diary_entries.count == 0 -%>
+   | <%= link_to( t('user.view.diary'), :controller => 'diary_entry', :action => 'list', :display_name => @this_user.display_name) %> 
+   <%- end -%>
 
 
 </div>
 
 
-<div id="userinformation">
-
-  <% if @user and @user.administrator? %>
-    <br/>
-    <% if ["active", "confirmed"].include? @this_user.status %>
-      <%= link_to t('user.view.deactivate_user'), {:controller => 'user', :action => 'set_status', :status => 'pending', :display_name => @this_user.display_name}, {:confirm => t('user.view.confirm')} %> |
-    <% elsif ["pending"].include? @this_user.status %>
-      <%= link_to t('user.view.activate_user'), {:controller => 'user', :action => 'set_status', :status => 'active', :display_name => @this_user.display_name}, {:confirm => t('user.view.confirm')} %> |
-    <% end %>
-    <% if ["active", "suspended"].include? @this_user.status %>
-      <%= link_to t('user.view.confirm_user'), {:controller => 'user', :action => 'set_status', :status => 'confirmed', :display_name => @this_user.display_name}, {:confirm => t('user.view.confirm')} %> |
-    <% end %>
-    <% if ["pending", "active", "confirmed", "suspended"].include? @this_user.status %>
-      <%= link_to t('user.view.hide_user'), {:controller => 'user', :action => 'set_status', :status => 'deleted', :display_name => @this_user.display_name}, {:confirm => t('user.view.confirm')} %> |
-    <% else %>
-      <%= link_to t('user.view.unhide_user'), {:controller => 'user', :action => 'set_status', :status => 'active', :display_name => @this_user.display_name}, {:confirm => t('user.view.confirm')} %> |
-    <% end %>
-    <%= link_to t('user.view.delete_user'), {:controller => 'user', :action => 'delete', :display_name => @this_user.display_name}, {:confirm => t('user.view.confirm')} %>
-  <% end %>
-</div>
 
 
 
 
-
-<% if @user and @user.administrator? -%>
-  <p><b><%= t 'user.view.email address' %></b> <%= @this_user.email %></p>  
-  <% unless @this_user.creation_ip.nil? -%>
-  <p><b><%= t 'user.view.created from' %></b> <%= @this_user.creation_ip %></p>
-  <% end -%>
-  <p><b><%= t 'user.view.status' %></b> <%= @this_user.status.capitalize %></p>
-  <p><b><%= t 'user.view.spam score' %></b> <%= @this_user.spam_score %></p>
-<% end -%>
-
-
-<% if @user and @this_user.id == @user.id %>
-
-
-  <% nearby = @this_user.nearby - friends %>  
-
-  <h3><%= t 'user.view.nearby users' %></h3>
-
-  <% if nearby.empty? %>
-    <%= t 'user.view.no nearby users' %>
-  <% else %>
-    <%= link_to t('user.view.nearby_changesets'), {:controller => 'browse', :action => 'nearby'} %><br/>
-    <%= link_to t('user.view.nearby_diaries'), {:controller => 'diary', :action => 'nearby'} %><br/><br/>
-    <table id="nearbyusers">
-      <%= render :partial => "contact", :collection => nearby %>
-    </table>
-  <% end %>
-<% end %>

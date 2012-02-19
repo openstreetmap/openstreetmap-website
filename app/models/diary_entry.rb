@@ -1,4 +1,8 @@
 class DiaryEntry < ActiveRecord::Base
+  # including for #truncate. Makes a similar API for diaries & changesets.
+  include ActionView::Helpers::TextHelper
+
+
   belongs_to :user
   belongs_to :language, :foreign_key => 'language_code'
   
@@ -27,6 +31,6 @@ class DiaryEntry < ActiveRecord::Base
 
   # Determines the best 'summary' of the diary
   def summary
-    self.body[0..50]
+    truncate(self.body, :length => 50)
   end  
 end

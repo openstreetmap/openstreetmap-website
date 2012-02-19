@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   require 'xml/libxml'
 
+
   has_many :traces, :conditions => { :visible => true }
   has_many :diary_entries, :order => 'created_at DESC'
   has_many :diary_comments, :order => 'created_at DESC'
@@ -124,6 +125,11 @@ class User < ActiveRecord::Base
     return nearby
   end
 
+  # Returns array of users who could be your friends but aren't yet
+  def nearby_nonfriends(radius = NEARBY_RADIUS, num = NEARBY_USERS)
+    return self.nearby(radius,num) - self.friend_users
+  end
+
   def distance(nearby_user)
     return OSM::GreatCircle.new(self.home_lat, self.home_lon).distance(nearby_user.home_lat, nearby_user.home_lon)
   end
@@ -242,7 +248,7 @@ public
   end
 
   def recent_activities(limit = 5)
-    (self.recent_changesets + self.diary_entries).sort {|a,b| a.created_at <=> b.created_at}
+    (self.recent_changesets + self.diary_entries).sort {|a,b| b.created_at <=> a.created_at}
   end
 private
 

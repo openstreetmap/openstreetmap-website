@@ -88,6 +88,7 @@ OpenStreetMap::Application.routes.draw do
   match '/user/:display_name/edits/feed' => 'changeset#feed', :format => :atom
   match '/browse/friends' => 'changeset#list', :friends => true
   match '/browse/nearby' => 'changeset#list', :nearby => true
+  match '/browse/users' => 'user#users', :nearby => true
   match '/browse/changesets' => 'changeset#list'
   match '/browse/changesets/feed' => 'changeset#feed', :format => :atom
   match '/browse' => 'changeset#list'
