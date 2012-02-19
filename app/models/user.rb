@@ -213,6 +213,37 @@ class User < ActiveRecord::Base
     return ClientApplication.find_by_key(application_key).access_token_for_user(self)
   end
 
+
+public
+
+  #  Helpers for outputting only public data via JSON
+  cattr_accessor :public_fields
+  @@public_fields = [:id, :display_name]
+
+  alias_method :ar_to_json, :to_json  
+
+  def to_json(options = {})
+    options[:only] = @@public_fields
+    options[:methods] = [:terms_agreed, :terms_seen, :statistics]
+    ar_to_json(options)
+  end
+
+  # Returns a hash of statistics.
+  # Currently this is limited, will extend for usage history.
+  def statistics
+    {
+      :changesets => self.changesets.count,
+      :friends => self.friends.count
+    }
+  end
+
+  def recent_changesets(limit = 5)
+    self.changesets.includes(:changeset_tags).limit(limit)
+  end
+
+  def recent_activities(limit = 5)
+    (self.recent_changesets + self.diary_entries).sort {|a,b| a.created_at <=> b.created_at}
+  end
 private
 
   def set_creation_time

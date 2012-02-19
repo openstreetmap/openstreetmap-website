@@ -5,6 +5,7 @@ class Node < ActiveRecord::Base
   include ConsistencyValidations
 
   set_table_name 'current_nodes'
+  foreign_key 'changeset_id'
 
   belongs_to :changeset
 

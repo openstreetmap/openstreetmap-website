@@ -10,4 +10,14 @@ module UserHelper
       :title => t("user.login.openid_providers.#{name}.title")
     )
   end
+
+  def contribution_terms_status(user)
+    if not @this_user.terms_agreed.nil?
+      return t 'user.view.ct accepted', :ago =>time_ago_in_words(@this_user.terms_agreed)
+    elsif not @this_user.terms_seen?
+      return t 'user.view.ct undecided'
+    else
+      return t 'user.view.ct declined'
+    end
+  end  
 end

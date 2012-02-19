@@ -4,6 +4,7 @@ class Way < ActiveRecord::Base
   include ConsistencyValidations
 
   set_table_name 'current_ways'
+  foreign_key 'changeset_id'
   
   belongs_to :changeset
 

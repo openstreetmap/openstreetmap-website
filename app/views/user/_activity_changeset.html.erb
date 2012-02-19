@@ -1,0 +1,16 @@
+  	<%= image_tag("roles/moderator.png") %>
+  	<h4 class="summary">
+  	<% if activity.tags['comment'].to_s != '' -%>
+      <%= linkify(h(activity.tags['comment'])) %>
+    <% else -%>
+      <%= t'changeset.changeset.no_comment' %>
+    <% end -%>
+  	</h4>
+  	<span class="description"><%= activity.summary %></span>
+	<span class="dtstamp" title="<%= activity.closed_at.iso8601 %>">
+ 	<% if activity.closed_at > DateTime.now -%> 
+ 		<%= link_to( t'changeset.changeset.still_editing', {:controller => 'browse', :action => 'changeset', :id => activity.id } ) %>
+	<% else -%>
+		<%= link_to l( activity.closed_at, :format => :long), {:controller => 'browse', :action => 'changeset', :id => activity.id }  %>
+	<% end -%>
+  	</span>

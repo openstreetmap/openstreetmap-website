@@ -1,0 +1,7 @@
+  	<%= image_tag("new.png") %>
+  	<h4 class="summary"><%= activity.title %></h4>
+  	<span class="description"><%= activity.summary %></span>
+  	<span class="dtstamp" title="<%= activity.created_at.iso8601 %>">
+  		<%= link_to time_ago_in_words(activity.created_at), {:controller => 'diary_entry', :action => 'view', 
+          :display_name => activity.user.display_name, :id => activity.id} %>
+    </span>

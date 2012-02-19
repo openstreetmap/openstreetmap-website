@@ -423,6 +423,10 @@ class UserController < ApplicationController
       @not_found_user = params[:display_name]
       render :action => 'no_such_user', :status => :not_found
     end
+    respond_to do |format|
+      format.html {}
+      format.json { render :json => @this_user.to_json, :content_type => "application/json", :status => 200 }
+    end
   end
 
   def make_friend

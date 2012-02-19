@@ -23,4 +23,10 @@ class DiaryEntry < ActiveRecord::Base
   validates_numericality_of :longitude, :allow_nil => true,
                             :greater_than_or_equal_to => -180, :less_than_or_equal_to => 180
   validates_associated :language
+
+
+  # Determines the best 'summary' of the diary
+  def summary
+    self.body[0..50]
+  end  
 end

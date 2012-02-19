@@ -3,6 +3,8 @@ class Relation < ActiveRecord::Base
   
   include ConsistencyValidations
   
+  foreign_key 'changeset_id'
+
   set_table_name 'current_relations'
 
   belongs_to :changeset

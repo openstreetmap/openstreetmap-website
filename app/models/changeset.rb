@@ -52,6 +52,15 @@ class Changeset < ActiveRecord::Base
     end
   end
 
+  # Determines the best 'summary' of the changeset, either from comments or automatically
+  def summary
+    unless (self.tags['comment'].nil?)
+      return self.tags['comment'].nil?
+    else
+      "#{self.num_changes} modifications made in this changeset."
+    end
+  end
+
   def self.from_xml(xml, create=false)
     begin
       p = XML::Parser.string(xml, :options => XML::Parser::Options::NOERROR)

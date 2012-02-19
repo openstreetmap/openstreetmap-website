@@ -1,11 +1,11 @@
-<b><%= link_to h(diary_entry.title), :action => 'view', :display_name => diary_entry.user.display_name, :id => diary_entry.id %></b><br />
+<h4><%= link_to h(diary_entry.title), :action => 'view', :display_name => diary_entry.user.display_name, :id => diary_entry.id %></h4>
 
 <div xml:lang="<%= diary_entry.language_code %>" lang="<%= diary_entry.language_code %>">
   <%= htmlize(diary_entry.body) %>
 </div>
 
 <% if diary_entry.latitude and diary_entry.longitude %>
-  <%= render :partial => "location", :object => diary_entry %>
+  <%= render :partial => "diary_entry/location", :object => diary_entry %>
   <br />
 <% end %>
 
