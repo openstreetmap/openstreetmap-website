@@ -224,7 +224,7 @@ class TraceController < ApplicationController
     end
 
     if params[:tag]
-      traces = traces.where("EXISTS (SELECT * FROM gpx_file_tags AS gft WHERE gft.gpx_id = gpx_files.id AND gft.tag = ?)")
+      traces = traces.where("EXISTS (SELECT * FROM gpx_file_tags AS gft WHERE gft.gpx_id = gpx_files.id AND gft.tag = ?)", params[:tag])
     end
 
     traces = traces.order("timestamp DESC")
