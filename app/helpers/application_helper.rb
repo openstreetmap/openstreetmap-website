@@ -106,8 +106,8 @@ module ApplicationHelper
   def user_image(user, options = {})
     options[:class] ||= "user_image"
 
-    if user.image
-      image_tag url_for_file_column(user, "image"), options
+    if user.image.file?
+      image_tag user.image.url, options
     else
       image_tag "anon_large.png", options
     end
@@ -116,8 +116,8 @@ module ApplicationHelper
   def user_thumbnail(user, options = {})
     options[:class] ||= "user_thumbnail"
 
-    if user.image
-      image_tag url_for_file_column(user, "image"), options
+    if user.image.file?
+      image_tag user.image.url, options
     else
       image_tag "anon_small.png", options
     end

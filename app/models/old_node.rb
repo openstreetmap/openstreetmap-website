@@ -2,8 +2,8 @@ class OldNode < ActiveRecord::Base
   include GeoRecord
   include ConsistencyValidations
 
-  set_table_name 'nodes'
-  set_primary_keys :node_id, :version
+  self.table_name = "nodes"
+  self.primary_keys = "node_id", "version"
 
   validates_presence_of :changeset_id, :timestamp
   validates_inclusion_of :visible, :in => [ true, false ]

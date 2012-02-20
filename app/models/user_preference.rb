@@ -1,5 +1,6 @@
 class UserPreference < ActiveRecord::Base
-  set_primary_keys :user_id, :k
+  self.primary_keys = "user_id", "k"
+
   belongs_to :user
   
   validates_length_of :k, :within => 1..255

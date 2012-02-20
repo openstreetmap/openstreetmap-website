@@ -1,6 +1,6 @@
 class OldRelationMember < ActiveRecord::Base
-  set_table_name 'relation_members'
-  set_primary_keys :relation_id, :version, :sequence_id
+  self.table_name = "relation_members"
+  self.primary_keys = "relation_id", "version", "sequence_id"
 
   belongs_to :old_relation, :foreign_key => [:relation_id, :version]
   # A bit messy, referring to the current tables, should do for the data browser for now

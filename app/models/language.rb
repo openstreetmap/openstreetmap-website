@@ -1,5 +1,5 @@
 class Language < ActiveRecord::Base
-  set_primary_key :code
+  self.primary_key = "code"
 
   has_many :diary_entries, :foreign_key => 'language'
 

@@ -1,6 +1,6 @@
 class OldRelationTag < ActiveRecord::Base
-  set_table_name 'relation_tags'
-    set_primary_keys :relation_id, :version, :k
+  self.table_name = "relation_tags"
+  self.primary_keys = "relation_id", "version", "k"
 
   belongs_to :old_relation, :foreign_key => [:relation_id, :version]
   
