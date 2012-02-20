@@ -44,9 +44,9 @@ class User < ActiveRecord::Base
   after_initialize :set_creation_time
   before_save :encrypt_password
 
-  has_attached_file :image, :styles => { :thumb => "100x100>" }, 
-    :path => "#{ATTACHMENTS_DIR}/user/image/:id/:filename",
-    :url => "/user/image/:id/:filename"
+  has_attached_file :image, 
+    :default_url => "/assets/:class/:attachment/:style.png",
+    :styles => { :large => "100x100>", :small => "50x50>" }
 
   def self.authenticate(options)
     if options[:username] and options[:password]
