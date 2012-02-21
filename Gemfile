@@ -28,9 +28,6 @@ gem 'iconv', :platforms => :ruby_18
 # Load libxml support for XML parsing and generation
 gem 'libxml-ruby', '>= 2.0.5', :require => 'libxml'
 
-# Load ImageMagick support for user picture resizing
-gem 'rmagick', :require => 'RMagick'
-
 # Load HTML sanitizer
 gem 'sanitize'
 
