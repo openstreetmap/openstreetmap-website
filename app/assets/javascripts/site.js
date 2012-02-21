@@ -45,12 +45,13 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat,objtype,obj
         var minzoom = match[1];
         var name = link.id.replace(/anchor$/, "");
 
+        $(link).off("click.minzoom");
+
         if (zoom >= minzoom) {
-          $(link).off("click");
           $(link).attr("title", i18n("javascripts.site." + name + "_tooltip"));
           $(link).removeClass("disabled");
         } else {
-          $(link).click(function () { alert(i18n("javascripts.site." + name + "_zoom_alert")); return false; });
+          $(link).on("click.minzoom", function () { alert(i18n("javascripts.site." + name + "_zoom_alert")); return false; });
           $(link).attr("title", i18n("javascripts.site." + name + "_disabled_tooltip"));
           $(link).addClass("disabled");
         }
