@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  include SessionPersistence
 
   protect_from_forgery
 
