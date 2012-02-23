@@ -38,8 +38,7 @@ gem 'SystemTimer', '>= 1.1.3', :require => 'system_timer', :platforms => :ruby_1
 gem 'httpclient'
 
 # Load memcache in case we are using it
-gem 'memcache-client'
-gem 'memcached'
+gem 'memcached', '>= 1.4.1'
 
 # Gems needed for running tests
 group :test do
