@@ -6,7 +6,7 @@ class MemCache < Memcached::Rails
   @@connections = []
 
   def initialize(options = {})
-    options.reverse_merge! :binary_protocol => true, :namespace_separator => ":"
+    options.reverse_merge! :namespace_separator => ":"
 
     super(MEMCACHE_SERVERS, options)
 
