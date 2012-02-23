@@ -624,7 +624,7 @@ private
     cookies.permanent["_osm_username"] = user.display_name
 
     session[:user] = user.id
-    session_expires_after 1.month if session[:remember_me]
+    session_expires_after 28.days if session[:remember_me]
 
     target = session[:referer] || url_for(:controller => :site, :action => :index)
 
