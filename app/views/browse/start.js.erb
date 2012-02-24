@@ -155,7 +155,7 @@ function displayFeatureWarning() {
   var div = document.createElement("div");
 
   var p = document.createElement("p");
-  p.appendChild(document.createTextNode(i18n("<%=j t 'browse.start_rjs.loaded_an_area_with_num_features' %>", { num_features: browseFeatureList.length })));
+  p.appendChild(document.createTextNode(I18n.t("javascripts.browse.loaded_an_area_with_num_features", { num_features: browseFeatureList.length })));
   div.appendChild(p);
 
   var input = document.createElement("input");
@@ -211,7 +211,7 @@ function getData(bounds, reload) {
   var size = projected.getWidth() * projected.getHeight();
 
   if (size > <%= MAX_REQUEST_AREA %>) {
-    setStatus(i18n("<%=j t 'browse.start_rjs.unable_to_load_size', :max_bbox_size => MAX_REQUEST_AREA %>", { bbox_size: size }));
+    setStatus(I18n.t("javascripts.browse.unable_to_load_size", { max_bbox_size: <%= MAX_REQUEST_AREA %>, bbox_size: size }));
   } else {
     loadGML("/api/<%= API_VERSION %>/map?bbox=" + projected.toBBOX(), reload);
   }
@@ -453,7 +453,7 @@ function displayHistory(request) {
   table.appendChild(tr);
 
   var heading = document.createElement("td");
-  heading.appendChild(document.createTextNode(i18n("<%=j t 'browse.start_rjs.history_for_feature' %>", { feature: featureNameHistory(this.feature) })));
+  heading.appendChild(document.createTextNode(I18n.t("javascripts.browse.history_for_feature", { feature: featureNameHistory(this.feature) })));
   tr.appendChild(heading);
 
   var td = document.createElement("td");
@@ -474,7 +474,7 @@ function displayHistory(request) {
     var user = nodes[i].getAttribute("user") || "<%=j t 'browse.start_rjs.private_user' %>";
     var timestamp = nodes[i].getAttribute("timestamp");
     var item = document.createElement("li");
-    item.appendChild(document.createTextNode(i18n("<%=j t 'browse.start_rjs.edited_by_user_at_timestamp' %>", { user: user, timestamp: timestamp })));
+    item.appendChild(document.createTextNode(I18n.t("javascripts.browse.edited_by_user_at_timestamp", { user: user, timestamp: timestamp })));
     history.appendChild(item);
   }
   div.appendChild(history);
@@ -514,9 +514,9 @@ function featureNameSelect(feature) {
   } else if (feature.attributes.name) {
     return feature.attributes.name;
   } else if (featureType(feature) == "node") {
-    return i18n("<%=j t 'browse.start_rjs.object_list.selected.type.node' %>", { id: feature.osm_id });
+    return I18n.t("javascripts.browse.node", { id: feature.osm_id });
   } else if (featureType(feature) == "way") {
-    return i18n("<%=j t 'browse.start_rjs.object_list.selected.type.way' %>", { id: feature.osm_id });
+    return I18n.t("javascripts.browse.way", { id: feature.osm_id });
   }
 }
 
@@ -526,9 +526,9 @@ function featureNameHistory(feature) {
   } else if (feature.attributes.name) {
     return feature.attributes.name;
   } else if (featureType(feature) == "node") {
-    return i18n("<%=j t 'browse.start_rjs.object_list.history.type.node' %>", { id: feature.osm_id });
+    return I18n.t("javascripts.browse.node", { id: feature.osm_id });
   } else if (featureType(feature) == "way") {
-    return i18n("<%=j t 'browse.start_rjs.object_list.history.type.way' %>", { id: feature.osm_id });
+    return I18n.t("javascripts.browse.way", { id: feature.osm_id });
   }
 }
 

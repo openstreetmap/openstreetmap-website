@@ -1,5 +1,7 @@
 //= require jquery
 //= require jquery_ujs
+//= require i18n
+//= require i18n/translations
 
 /*
  * Called as the user scrolls/zooms around to aniplate hrefs of the
@@ -48,11 +50,11 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat,objtype,obj
         $(link).off("click.minzoom");
 
         if (zoom >= minzoom) {
-          $(link).attr("title", i18n("javascripts.site." + name + "_tooltip"));
+          $(link).attr("title", I18n.t("javascripts.site." + name + "_tooltip"));
           $(link).removeClass("disabled");
         } else {
-          $(link).on("click.minzoom", function () { alert(i18n("javascripts.site." + name + "_zoom_alert")); return false; });
-          $(link).attr("title", i18n("javascripts.site." + name + "_disabled_tooltip"));
+          $(link).on("click.minzoom", function () { alert(I18n.t("javascripts.site." + name + "_zoom_alert")); return false; });
+          $(link).attr("title", I18n.t("javascripts.site." + name + "_disabled_tooltip"));
           $(link).addClass("disabled");
         }
       }
@@ -157,26 +159,6 @@ function getStyle(el, property) {
   }
 
   return style;
-}
-
-/*
- * Called to interpolate JavaScript variables in strings using a
- * similar syntax to rails I18n string interpolation - the only
- * difference is that [[foo]] is the placeholder syntax instead
- * of {{foo}} which allows the same string to be processed by both
- * rails and then later by javascript.
- */
-function i18n(string, keys) {
-  string = i18n_strings[string] || string;
-
-  for (var key in keys) {
-    var re_key = '\\[\\[' + key + '\\]\\]';
-    var re = new RegExp(re_key, "g");
-
-    string = string.replace(re, keys[key]);
-  }
-
-  return string;
 }
 
 /*
