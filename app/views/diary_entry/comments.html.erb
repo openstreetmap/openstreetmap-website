@@ -1,0 +1,30 @@
+<h1><%= @title%>
+ <%= t('diary_entry.comments.has_commented_on') %>
+</h1>
+<p>
+<% for comment in @comments %>
+<br>
+<table id="comment_list_container" cellpadding="3">
+<tr>
+<td><a href="/user/<%= comment.diary_entry.user.display_name %>/diary/<%= comment.diary_entry.id %>"><%= comment.diary_entry.title %></a> 
+</td>
+<td>
+<span class="date"><%= comment.created_at %></span>
+</td>
+<td>
+<%= comment.body %></td></tr>
+<% end %>
+</table>
+<% if @comment_pages.current.previous %>
+<%= link_to t('diary_entry.comments.previous'), {:page => @comment_pages.current.previous} %>
+<% else %>
+<%= t('diary_entry.comments.previous') %>
+<% end %>
+
+<%= t('diary_entry.comments.showing_page',{:page => @page}) %>
+<% if @comment_pages.current.next %>
+<%= link_to t('diary_entry.comments.next'),{:page => @comment_pages.current.next} %>
+<% else %>
+<%= t('diary_entry.comments.next') %>
+<% end %>
+
