@@ -1,0 +1,23 @@
+<h1><%= @title%>
+ <%= t('diary_entry.comments.has_commented_on',:display_name => @this_user.display_name) %>
+</h1>
+<p>
+<br>
+<table id="comment-list-container">
+<tr><th>Title</th><th>Date</th><th>Comment</th></tr>
+<% for comment in @comments %>
+<tr id="comment-row">
+<td><a href="/user/<%= comment.diary_entry.user.display_name %>/diary/<%= comment.diary_entry.id %>"><%= comment.diary_entry.title %></a> 
+</td>
+<td>
+<span class="date"><%= comment.created_at %></span>
+</td>
+<td>
+<%= htmlize(comment.body) %></td></tr>
+<% end %>
+</table>
+<%= link_to t('diary_entry.comments.older_comments') , { :page => @comment_pages.current.next} if @comment_pages.current.next %>
+<% if @comment_pages.current.next and @comment_pages.current.previous %>
+|
+<% end %>
+<%= link_to t('diary_entry.comments.newer_comments'), { :page => @comment_pages.current.previous } if @comment_pages.current.previous %>
