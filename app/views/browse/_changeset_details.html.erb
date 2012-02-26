@@ -1,32 +1,3 @@
-<% if changeset_details.tags.has_key?('comment') %>
-  <p><%= h changeset_details.tags['comment'] %></p>
-<% end %>
-<small>
-<%= t'by' %>
-<% if changeset_details.user.data_public? %>
-  <%= link_to h(changeset_details.user.display_name),
-    :controller => "user",
-    :action => "view",
-    :display_name => changeset_details.user.display_name %>
-<% else %>
-<i><%= t'changeset.changeset.anonymous' %></i>
-<% end %>
-<% if changeset_details.tags.has_key?('created_by') %>
-  <%= t'with' %> <%= h changeset_details.tags['created_by'] %>
-<% end %>
-<span title='<%= l changeset_details.created_at, :format => :long %>' class="date">
-<%= time_ago_in_words(changeset_details.created_at) %>
-</span>
-<%= t'ago' %> &rarr;
-<% if changeset_details.closed_at > DateTime.now %>
-  <span class="date"><%= t'changeset_details.changeset.still_editing' %></span>
-<% else %>
-  <span title='<%= l changeset_details.closed_at, :format => :long %>' class="date">
-    <%= time_ago_in_words(changeset_details.closed_at) %>
-  </span>
-<% end %>
-</small>
-
 <%= render :partial => "tag_details", :object => changeset_details %>
 
 <table>

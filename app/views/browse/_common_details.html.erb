@@ -1,4 +1,8 @@
 <tr>
+  <th colspan=2><%= t 'browse.common_details.version' %> <%= h(common_details.version) %></th>
+</tr>
+
+<tr>
   <% if common_details.visible? %>
     <th><%= t 'browse.common_details.edited_at' %></th>
   <% else %>
@@ -14,14 +18,12 @@
     <% else %>
       <th><%= t 'browse.common_details.deleted_by' %></th>
     <% end %>
-    <td><%= link_to h(common_details.changeset.user.display_name), :controller => "user", :action => "view", :display_name => common_details.changeset.user.display_name %></td>
+    <td><%= link_to h(common_details.changeset.user.display_name),
+        :controller => "user",
+        :action => "view",
+        :display_name => common_details.changeset.user.display_name %></td>
   </tr>
 <% end %>
-
-<tr>
-  <th><%= t 'browse.common_details.version' %></th>
-  <td><%= h(common_details.version) %></td>
-</tr>
 
 <tr>
   <th><%= t 'browse.common_details.in_changeset' %></th>
@@ -35,4 +37,7 @@
   </tr>
 <% end %>
 
-<%= render :partial => "tag_details", :object => common_details %>
+<tr>
+    <th><%= t 'tags' %>:</th>
+    <td><%= render :partial => "tag_details", :object => common_details %></td>
+</tr>
