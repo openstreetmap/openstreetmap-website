@@ -8,6 +8,7 @@
 <%= render :partial => "navigation" %>
 <h2><%= t'browse.node.node_title', :node_name => @name %></h2>
 <%= render :partial => "map", :object => @node %>
+<h3>Current Version (<%= link_to(t('browse.node.view_history'), :action => "node_history") %>)</h3>
 <%= render :partial => "node_details", :object => @node %>
 <hr />
 <%= raw t'browse.node.download', :download_xml_link => link_to(t('browse.node.download_xml'), :controller => "old_node", :action => "version", :version => @node.version),
