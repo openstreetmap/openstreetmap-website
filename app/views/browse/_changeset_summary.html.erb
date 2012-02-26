@@ -1,0 +1,31 @@
+<% if changeset_summary.tags.has_key?('comment') %>
+  <p><%= h changeset_summary.tags['comment'] %></p>
+<% end %>
+
+<p><small>
+<span title='<%= l changeset_summary.created_at, :format => :long %>' class="date">
+<%= changeset_summary.created_at.to_formatted_s(:short) %>
+</span>
+&rarr;
+<% if changeset_summary.closed_at > DateTime.now %>
+  <span class="date"><%= t'changeset_summary.changeset.still_editing' %></span>
+<% else %>
+  <span title='<%= l changeset_summary.closed_at, :format => :long %>' class="date">
+      <%= t changeset_summary.closed_at.to_formatted_s(:short) %>
+  </span>
+<% end %>
+|
+<%= t'by' %>
+<% if changeset_summary.user.data_public? %>
+  <%= link_to h(changeset_summary.user.display_name),
+    :controller => "user",
+    :action => "view",
+    :display_name => changeset_summary.user.display_name %>
+<% else %>
+<i><%= t'changeset.changeset.anonymous' %></i>
+<% end %>
+
+<% if changeset_summary.tags.has_key?('created_by') %>
+  | <%= t'with' %> <%= h changeset_summary.tags['created_by'] %>
+<% end %>
+</small></p>
