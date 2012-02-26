@@ -3,7 +3,7 @@ class DiaryEntryController < ApplicationController
 
   before_filter :authorize_web
   before_filter :set_locale
-  before_filter :require_user, :only => [:new, :edit, :comment, :hide, :hidecomment,:commented2]
+  before_filter :require_user, :only => [:new, :edit, :comment, :hide, :hidecomment]
   before_filter :check_database_readable
   before_filter :check_database_writable, :only => [:new, :edit]
   before_filter :require_administrator, :only => [:hide, :hidecomment]
@@ -11,7 +11,8 @@ class DiaryEntryController < ApplicationController
   caches_action :list, :layout => false, :unless => :user_specific_list?
   caches_action :rss, :layout => true
   caches_action :view, :layout => false
-  cache_sweeper :diary_sweeper, :only => [:new, :edit, :comment, :hide, :hidecomment]  
+  cache_sweeper :diary_sweeper, :only => [:new, :edit, :comment, :hide, :hidecomment]
+
   def new
     @title = t 'diary_entry.new.title'
 
@@ -194,19 +195,21 @@ class DiaryEntryController < ApplicationController
     comment.update_attributes(:visible => false)
     redirect_to :action => "view", :display_name => comment.diary_entry.user.display_name, :id => comment.diary_entry.id
   end
+
   def comments
-    if @user
+    @this_user = User.active.find_by_display_name(params[:display_name])
+    if @this_user
       @comment_pages,@comments=paginate(:diary_comments,
-                                :conditions=>{:user_id=>@user.id},
-                                :order =>'created_at DESC',
-                                :per_page=>2)
+                                        :conditions => {:user_id => @this_user.id},
+                                        :order => 'created_at DESC',
+                                        :per_page => 20)
       @page = (params[:page] || 1).to_i
     else
-      redirect_to :controller=>'user',  :action=>'login', :referer => request.fullpath
-    end
-
-						
-  end       
+       @title = t'diary_entry.no_such_user.title'
+       @not_found_user = params[:display_name]
+       render :action => 'no_such_user', :status => :not_found
+    end						
+  end  
 private
   ##
   # require that the user is a administrator, or fill out a helpful error message
@@ -222,5 +225,5 @@ private
   # is this list user specific?
   def user_specific_list?
     params[:friends] or params[:nearby]
-  end  
+  end
 end

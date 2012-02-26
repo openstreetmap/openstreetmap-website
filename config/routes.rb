@@ -154,15 +154,14 @@ OpenStreetMap::Application.routes.draw do
   match '/trace/:id/delete' => 'trace#delete'
 
   # diary pages
-
   match '/diary/new' => 'diary_entry#new'
   match '/diary/friends' => 'diary_entry#list', :friends => true
   match '/diary/nearby' => 'diary_entry#list', :nearby => true  
   match '/user/:display_name/diary/rss' => 'diary_entry#rss', :format => :rss
-  match '/diary/comments/:page' =>'diary_entry#comments',:page=>/\d+/
-  match '/diary/comments/' =>'diary_entry#comments'
   match '/diary/:language/rss' => 'diary_entry#rss', :format => :rss
   match '/diary/rss' => 'diary_entry#rss', :format => :rss
+  match '/user/:display_name/diary/comments/:page' =>'diary_entry#comments',:page=>/\d+/
+  match '/user/:display_name/diary/comments/' => 'diary_entry#comments'
   match '/user/:display_name/diary' => 'diary_entry#list'
   match '/diary/:language' => 'diary_entry#list'
   match '/diary' => 'diary_entry#list'
@@ -171,6 +170,7 @@ OpenStreetMap::Application.routes.draw do
   match '/user/:display_name/diary/:id/edit' => 'diary_entry#edit', :id => /\d+/
   match '/user/:display_name/diary/:id/hide' => 'diary_entry#hide', :id => /\d+/
   match '/user/:display_name/diary/:id/hidecomment/:comment' => 'diary_entry#hidecomment', :id => /\d+/, :comment => /\d+/
+
   # user pages
   match '/user/:display_name' => 'user#view'
   match '/user/:display_name/make_friend' => 'user#make_friend'

@@ -136,7 +136,7 @@
       <%= render :partial => "contact", :collection => nearby %>
     </table>
   <% end %>
- <h3>
-  <%= link_to t('user.view.my_comments'), {:controller=>'diary',:action=>'comments'} %><br/>
-</h3>
 <% end %>
+ <h3>
+  <%= link_to t('user.view.comments', :display_name => @this_user.display_name), {:controller => 'diary_entry',:action => 'comments', :display_name => @this_user.display_name} %><br/>
+</h3>

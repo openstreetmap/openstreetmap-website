@@ -1,5 +1,5 @@
-<h1><%= @user.display_name%>
- <%= t('diary_entry.commented.has_commented_on') %>
+<h1><%= @title%>
+ <%= t('diary_entry.comments.has_commented_on') %>
 </h1>
 <p>
 <% for comment in @comments %>
@@ -16,14 +16,15 @@
 <% end %>
 </table>
 <% if @comment_pages.current.previous %>
-<%= link_to t('diary_entry.commented.previous'), {:page=>@comment_pages.current.previous} %>
+<%= link_to t('diary_entry.comments.previous'), {:page => @comment_pages.current.previous} %>
 <% else %>
-<%= t('diary_entry.commented.previous') %>
+<%= t('diary_entry.comments.previous') %>
 <% end %>
 
-<%= t('diary_entry.commented.showing_page',{:page=>@page}) %>
+<%= t('diary_entry.comments.showing_page',{:page => @page}) %>
 <% if @comment_pages.current.next %>
-<%= link_to t('diary_entry.commented.next'),{:page=>@comment_pages.current.next} %>
+<%= link_to t('diary_entry.comments.next'),{:page => @comment_pages.current.next} %>
 <% else %>
-<%= t('diary_entry.commented.next') %>
+<%= t('diary_entry.comments.next') %>
 <% end %>
+
