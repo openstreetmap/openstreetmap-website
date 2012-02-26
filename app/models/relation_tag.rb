@@ -1,6 +1,6 @@
 class RelationTag < ActiveRecord::Base
-  set_table_name 'current_relation_tags'
-  set_primary_keys :relation_id, :k
+  self.table_name = "current_relation_tags"
+  self.primary_keys = "relation_id", "k"
 
   belongs_to :relation
 

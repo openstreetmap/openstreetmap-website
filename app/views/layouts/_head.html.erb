@@ -9,11 +9,12 @@
   <%= stylesheet_link_tag "print-#{t 'html.dir'}", :media => "print" %>
   <!--[if IE]><%= stylesheet_link_tag "large-#{t 'html.dir'}", :media => "screen" %><![endif]--> <!-- IE is totally broken with CSS media queries -->
   <%= favicon_link_tag "favicon.ico" %>
+  <%= favicon_link_tag "osm_logo.png", :rel => "apple-touch-icon", :type => "image/png" %>
   <%= tag("link", { :rel => "publisher", :href => "https://plus.google.com/111953119785824514010" }) %>
   <%= tag("link", { :rel => "search", :type => "application/opensearchdescription+xml", :title => "OpenStreetMap Search", :href => asset_path("osm.xml") }) %>
   <%= tag("meta", { :name => "description", :content => "OpenStreetMap is the free wiki world map." }) %>
   <%= style_rules %>
   <%= yield :head %>
   <%= csrf_meta_tag %>
-  <title><%= t 'layouts.project_name.title' %><%= ' | '+ h(@title) if @title %></title>
+  <title><%= t 'layouts.project_name.title' %><%= ' | '+ @title if @title %></title>
 </head>

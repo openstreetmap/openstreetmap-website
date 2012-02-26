@@ -7,7 +7,7 @@ module ActiveSupport
       return if @level > severity
       message = (message || (block && block.call) || progname).to_s
       time = Time.now
-      message = "[%s.%06d #%d] %s\n" % [time.strftime("%Y-%m-%d %H:%M:%S"), time.usec, $$, message.sub(/^\n+/, "")]
+      message = "[%s.%06d #%d] %s" % [time.strftime("%Y-%m-%d %H:%M:%S"), time.usec, $$, message.sub(/^\n+/, "")]
       old_add(severity, message)
     end
   end

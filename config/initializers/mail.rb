@@ -22,38 +22,4 @@ module Mail
       str
     end
   end
-
-  class Message
-    def decoded_with_text
-      if self.text?
-        decode_body_as_text
-      else
-        decoded_without_text
-      end
-    end
-
-    alias_method_chain :decoded, :text
-
-    def text?
-      has_content_type? ? !!(main_type =~ /^text$/i) : false
-    end
-
-  private
-
-    def decode_body_as_text
-      body_text = body.decoded
-      if charset
-        if RUBY_VERSION < '1.9'
-          require 'iconv'
-          return Iconv.conv("UTF-8//TRANSLIT//IGNORE", charset, body_text)
-        else
-          if encoding = Encoding.find(charset) rescue nil
-            body_text.force_encoding(encoding)
-            return body_text.encode(Encoding::UTF_8)
-          end
-        end
-      end
-      body_text
-    end    
-  end
 end

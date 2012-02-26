@@ -332,9 +332,9 @@ class ChangesetController < ApplicationController
       @bbox = bbox
       
       @edits = changesets.order("changesets.created_at DESC").offset((@page - 1) * @page_size).limit(@page_size).preload(:user, :changeset_tags)
-    end
 
-    render :action => :list
+      render :action => :list
+    end
   end
 
   ##

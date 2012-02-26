@@ -6,7 +6,6 @@ module OSM
   require 'rexml/text'
   require 'xml/libxml'
   require 'digest/md5'
-  require 'RMagick'
   require 'nokogiri'
 
   if defined?(SystemTimer)
