@@ -12,8 +12,16 @@
 
   <td class="date">
     <span class="date">
-      <% if changeset.closed_at > DateTime.now %> <%= t'changeset.changeset.still_editing' %>
-      <% else %><%= l changeset.closed_at, :format => :long %><% end %>
+        <%=
+            if changeset.closed_at > DateTime.now then
+                link_text = t'changeset.changeset.still_editing'
+            else
+                link_text = l changeset.closed_at, :format => :long
+            end
+            link_to(link_text,
+                  {:controller => 'browse', :action => 'changeset', :id => changeset.id},
+                  {:title => t('changeset.changeset.view_changeset_details')})
+        %>
     </span>
     
     <%if showusername %>
