@@ -1,24 +1,35 @@
+<% if changeset_details.tags.has_key?('comment') %>
+  <p><%= h changeset_details.tags['comment'] %></p>
+<% end %>
+<small>
+<%= t'by' %>
+<% if changeset_details.user.data_public? %>
+  <%= link_to h(changeset_details.user.display_name),
+    :controller => "user",
+    :action => "view",
+    :display_name => changeset_details.user.display_name %>
+<% else %>
+<i><%= t'changeset.changeset.anonymous' %></i>
+<% end %>
+<% if changeset_details.tags.has_key?('created_by') %>
+  <%= t'with' %> <%= h changeset_details.tags['created_by'] %>
+<% end %>
+<span title='<%= l changeset_details.created_at, :format => :long %>' class="date">
+<%= time_ago_in_words(changeset_details.created_at) %>
+</span>
+<%= t'ago' %> &rarr;
+<% if changeset_details.closed_at > DateTime.now %>
+  <span class="date"><%= t'changeset_details.changeset.still_editing' %></span>
+<% else %>
+  <span title='<%= l changeset_details.closed_at, :format => :long %>' class="date">
+    <%= time_ago_in_words(changeset_details.closed_at) %>
+  </span>
+<% end %>
+</small>
+
+<%= render :partial => "tag_details", :object => changeset_details %>
+
 <table>
-
-  <tr>
-    <th><%= t 'browse.changeset_details.created_at' %></th>
-    <td><%= l changeset_details.created_at %></td>
-  </tr>
-  
-  <tr>
-    <th><%= t 'browse.changeset_details.closed_at' %></th>
-    <td><%= l changeset_details.closed_at %></td>
-  </tr>
-  
-  <% if changeset_details.user.data_public? %>
-    <tr>
-      <th><%= t 'browse.changeset_details.belongs_to' %></th>
-      <td><%= link_to h(changeset_details.user.display_name), :controller => "user", :action => "view", :display_name => changeset_details.user.display_name %></td>
-    </tr>
-  <% end %>
-  
-  <%= render :partial => "tag_details", :object => changeset_details %>
-
   <tr>
     <th><%= t 'browse.changeset_details.bounding_box' %></th>
     <% unless changeset_details.has_valid_bbox? %>
@@ -26,21 +37,10 @@
     <% else
           bbox = changeset_details.bbox.to_unscaled
     %>
-      <td>
-        <table>
-          <tr>
-            <td colspan="3" style="text-align:center"><%=bbox.max_lat -%></td>
-          </tr>
-          <tr>
-            <td><%=bbox.min_lon -%></td>
-            <td>(<%= link_to t('browse.changeset_details.box'), root_path(:minlon => bbox.min_lon, :minlat => bbox.min_lat, :maxlon => bbox.max_lon, :maxlat => bbox.max_lat, :box => 'yes'), :title => t('browse.changeset_details.show_area_box') %>)</td>
-            <td><%=bbox.max_lon -%></td>
-          </tr>
-          <tr>
-            <td colspan="3" style="text-align:center"><%= bbox.min_lat -%></td>
-          </tr>
-        </table>
-      </td>
+    <td><%= link_to "#{bbox.max_lat},#{bbox.min_lon},#{bbox.max_lon},#{bbox.min_lat}",
+      root_path(:minlon => bbox.min_lon, :minlat => bbox.min_lat, :maxlon => bbox.max_lon, :maxlat => bbox.max_lat, :box => 'yes'),
+      :title => t('browse.changeset_details.show_area_box') %></td>
+    </td>
     <% end %>
   </tr>
 
