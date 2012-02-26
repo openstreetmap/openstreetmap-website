@@ -6,14 +6,25 @@
     <%= form_tag({ :action => "login" }, { :id => "login_form" }) do %>
       <%= hidden_field_tag('referer', h(params[:referer])) %>
 
-      <p><%= t 'user.login.with username' %></p>
+      <p><%= t 'user.login.no account' %> <%= link_to t('user.login.register now'), :action => :new, :referer => params[:referer] %></p>
 
       <table id="loginForm">
         <tr><td class="fieldName"><%= t 'user.login.email or username' %></td><td><%= text_field_tag "username", params[:username], :size => 28, :maxlength => 255, :tabindex => 1 %></td></tr>
         <tr><td class="fieldName"><%= t 'user.login.password' %></td><td><%= password_field_tag "password", "", :size => 28, :maxlength => 255, :tabindex => 2 %> <span class="minorNote">(<%= link_to t('user.login.lost password link'), :controller => 'user', :action => 'lost_password' %>)</span></td></tr>
-        <tr><td class="fieldName"><label for="remember_me"><%= t 'user.login.remember' %></label></td><td><%= check_box_tag "remember_me", "yes", false, :tabindex => 3 %></td></tr>
+        <tr>
+          <td></td>
+          <td><%= check_box_tag "remember_me", "yes", false, :tabindex => 3 %>
+            <label for="remember_me">
+              <%= t 'user.login.remember' %></label>
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>
+            <%= submit_tag t('user.login.login_button'), :tabindex => 4 %>
+          </td>
+        </tr>
       </table>
-      <%= submit_tag t('user.login.login_button'), :tabindex => 3 %>
 
       <br clear="all" />
 
@@ -51,16 +62,6 @@
 
     <br clear="all" />
   </div>
-
-  <div id="login_signup">
-    <h2><%= t 'user.login.new to osm' %></h2>
-    <p><%= t 'user.login.to make changes' %></p>
-    <p><%= t 'user.login.create account minute' %></p>
-    <p><%= button_to t('user.login.register now'), :action => :new, :referer => params[:referer] %></p>
-
-    <br clear="both">
-  </div>
-
 </div>
 
 <script type="text/javascript">
