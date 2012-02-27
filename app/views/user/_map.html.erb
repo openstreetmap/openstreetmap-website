@@ -38,7 +38,7 @@ end
     marker = addMarkerToMap(
       new OpenLayers.LonLat(<%= mlon %>, <%= mlat %>)
       <% if not setting_location %>
-        , null, '<%=escape_javascript(render(:partial => "popup", :object => @user, :locals => { :type => "your location" })) %>'
+          , new OpenLayers.Icon("<%= user_image_url(@user) %>", {x: 100, y:100}, {x:-50,y:-50}) , '<%=escape_javascript(render(:partial => "popup", :object => @user, :locals => { :type => "your location" })) %>'
       <% end %>
     );
     <% end %>

@@ -109,6 +109,16 @@ module ApplicationHelper
     image_tag user.image.url(:large), options
   end
 
+  def user_image_url(user, options = {})
+    options[:class] ||= "user_image"
+
+    if user.image
+      image_path url_for_file_column(user, "image")
+    else
+      image_path "anon_large.png"
+    end
+  end
+
   def user_thumbnail(user, options = {})
     options[:class] ||= "user_thumbnail"
 
