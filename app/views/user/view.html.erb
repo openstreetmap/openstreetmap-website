@@ -33,6 +33,7 @@
     <% if @user and @user.moderator? %>
       | <%= link_to t('user.view.blocks by me'), :controller => 'user_blocks', :action => 'blocks_by', :display_name => @user.display_name %>
     <% end %>
+  | <%= link_to t('user.view.my comments' ), {:controller => 'diary_entry',:action => 'comments', :display_name => @this_user.display_name} %><br/>
   <% else %>
     <!-- Displaying another user's profile page -->
     <%= link_to t('user.view.send message'), :controller => 'message', :action => 'new', :display_name => @this_user.display_name %>
@@ -56,6 +57,7 @@
     <% if @user and @user.moderator? %>
       | <%= link_to t('user.view.create_block'), :controller => 'user_blocks', :action => 'new', :display_name => @this_user.display_name %>
     <% end %>
+  | <%= link_to t('user.view.comments'), {:controller => 'diary_entry',:action => 'comments', :display_name => @this_user.display_name} %><br/>
   <% end %>
   <% if @user and @user.administrator? %>
     <br/>
@@ -137,6 +139,4 @@
     </table>
   <% end %>
 <% end %>
- <h3>
-  <%= link_to t('user.view.comments', :display_name => @this_user.display_name), {:controller => 'diary_entry',:action => 'comments', :display_name => @this_user.display_name} %><br/>
-</h3>
+ 
