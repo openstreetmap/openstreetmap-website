@@ -112,7 +112,8 @@
   <tr>
     <td></td>
     <td>
-      <p><%= t 'user.account.update home location on click' %> <input type="checkbox" value="1" <% unless @user.home_lat and @user.home_lon %> checked="checked" <% end %> id="updatehome" /> </p>
+      <p><%= t 'user.account.update home location on click' %> <input type="checkbox" value="1" <% unless @user.home_lat and @user.home_lon %> checked="checked" <% end %> id="updatehome" />
+      <% if @user.home_lat and @user.home_lon %><span align=right><a href="#map" onClick=locate_user()>center map on my current position</a></span><% end %></p>
       <div id="map" class="user_map"></div>
     </td>
   </tr>
@@ -124,7 +125,8 @@
 </table>
 <% end %>
 
-<%= render :partial => 'map', :locals => { :setting_location => true,  :show_other_users => false } %>
+<a name='map'></a>
+<%= render :partial => 'map', :locals => { :setting_location => true,  :show_other_users => false, :geolocate => true } %>
 
 <% unless @user.data_public? %>
 <a name="public"></a>
