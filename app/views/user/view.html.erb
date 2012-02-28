@@ -89,6 +89,7 @@
 
   <%- if current_user -%>
   <div id="friends" class="sidebar_section">
+    <h3><%= t('user.view.your friends') %> </h3>
     <ul id="friends">
       <%= render :partial => "user/contact", :collection => friends, :locals => {:this_user => @this_user} %>
     </ul>
@@ -114,7 +115,7 @@
   </div>
   <% end %>
 
-  <h3>Recent Activity <%= atom_link_to params.merge({ :page => nil, :action => :feed }) %></h3>
+  <h3>Recent Activity <%= atom_link_to params.merge({ :page => nil, :action => :feed, :controller => :changeset }) %></h3>
     
   <%= render :partial => "user/activities", :locals => {:activities => @this_user.recent_activities } %>
 
