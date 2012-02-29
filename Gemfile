@@ -11,7 +11,7 @@ gem 'pg'
 gem 'jquery-rails'
 
 # Load rails plugins
-gem 'rails-i18n-updater'
+gem 'rails-i18n'
 gem 'dynamic_form'
 gem 'rinku', '>= 1.2.2', :require => 'rails_rinku'
 gem 'oauth-plugin', '>= 0.4.0.pre7'
