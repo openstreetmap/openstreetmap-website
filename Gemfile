@@ -11,7 +11,7 @@ gem 'pg'
 gem 'jquery-rails'
 
 # Load rails plugins
-gem 'rails-i18n-updater'
+gem 'rails-i18n'
 gem 'dynamic_form'
 gem 'rinku', '>= 1.2.2', :require => 'rails_rinku'
 gem 'oauth-plugin', '>= 0.4.0.pre7'
@@ -38,8 +38,7 @@ gem 'SystemTimer', '>= 1.1.3', :require => 'system_timer', :platforms => :ruby_1
 gem 'httpclient'
 
 # Load memcache in case we are using it
-gem 'memcache-client'
-gem 'memcached'
+gem 'memcached', '>= 1.4.1'
 
 # Gems needed for running tests
 group :test do

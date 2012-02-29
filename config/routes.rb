@@ -160,6 +160,8 @@ OpenStreetMap::Application.routes.draw do
   match '/user/:display_name/diary/rss' => 'diary_entry#rss', :format => :rss
   match '/diary/:language/rss' => 'diary_entry#rss', :format => :rss
   match '/diary/rss' => 'diary_entry#rss', :format => :rss
+  match '/user/:display_name/diary/comments/:page' => 'diary_entry#comments', :page => /\d+/
+  match '/user/:display_name/diary/comments/' => 'diary_entry#comments'
   match '/user/:display_name/diary' => 'diary_entry#list'
   match '/diary/:language' => 'diary_entry#list'
   match '/diary' => 'diary_entry#list'
