@@ -15,10 +15,14 @@ end
 
 <%= javascript_include_tag 'openlayers.js' %>
 <%= javascript_include_tag 'map.js' %>
+<% if geolocate then %>
+<%= javascript_include_tag 'geolocate.js' %>
+<% end %>
 
 <script type="text/javascript">
   <!--
   var marker;
+
 
   OpenLayers.Lang.setCode("<%= I18n.locale.to_s %>");
 
@@ -33,6 +37,9 @@ end
     var map = createMap("map");
 
     setMapCenter(centre, zoom);
+<% if geolocate and (@user.home_lat.nil? or @user.home_lon.nil?) then %>
+    locate_user()
+<% end %>
 
     <% if marker %>
     marker = addMarkerToMap(
