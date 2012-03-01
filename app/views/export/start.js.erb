@@ -45,7 +45,6 @@ function startExport() {
 
   $("#format_osm").click(formatChanged);
   $("#format_mapnik").click(formatChanged);
-  $("#format_osmarender").click(formatChanged);
   $("#format_html").click(formatChanged);
 
   $("#mapnik_scale").change(mapnikSizeChanged);
@@ -54,8 +53,6 @@ function startExport() {
 
   if (map.baseLayer.name == "Mapnik") {
     $("#format_mapnik").prop("checked", true);
-  } else if (map.baseLayer.name == "Osmarender") {
-    $("#format_osmarender").prop("checked", true);
   }
 
   formatChanged();
@@ -227,20 +224,6 @@ function validateControls() {
   }
 
   $("#mapnik_max_scale").html(roundScale(max_scale));
-
-  var max_zoom = maxOsmarenderZoom();
-
-  $("#osmarender_zoom option").each(function () {
-    if ($(this).val() > max_zoom) {
-      $(this).prop("disabled", true);
-    } else {
-      $(this).prop("disabled", false);
-    }
-  });
-
-  if ($("#osmarender_zoom option").is(":disabled:selected")) {
-    $("#osmarender_zoom option").filter(":enabled").last().prop("selected", true);
-  }
 }
 
 function htmlUrlChanged() {
@@ -291,15 +274,6 @@ function formatChanged() {
     $("#export_mapnik").hide();
   }
 
-  if ($("#format_osmarender").prop("checked")) {
-    var zoom = Math.min(map.getZoom(), maxOsmarenderZoom());
-
-    $("#osmarender_zoom option[value=" + zoom + "]").prop("selected", true);
-    $("#export_osmarender").show();
-  } else {
-    $("#export_osmarender").hide();
-  }
-
   if ($("#format_html").prop("checked")) {
     $("#export_html").show();
     $("#export_commit").hide();
@@ -332,16 +306,6 @@ function mapnikImageSize(scale) {
 
   return new OpenLayers.Size(Math.round(bounds.getWidth() / scale / 0.00028),
                              Math.round(bounds.getHeight() / scale / 0.00028));
-}
-
-function maxOsmarenderZoom() {
-  var bounds = new OpenLayers.Bounds($("#minlon").val(), $("#minlat").val(), $("#maxlon").val(), $("#maxlat").val());
-  var xzoom = Math.LOG2E * Math.log(2000 * 1.40625 / bounds.getWidth());
-  var ymin = bounds.bottom * Math.PI / 180;
-  var ymax = bounds.top * Math.PI / 180;
-  var yzoom = Math.LOG2E * (Math.log(2000 * 2 * Math.PI) - Math.log(Math.log((Math.tan(ymax) + 1 / Math.cos(ymax)) / (Math.tan(ymin) + 1 / Math.cos(ymin)))))
-
-  return Math.min(Math.floor(Math.min(xzoom, yzoom)), 17);
 }
 
 function roundScale(scale) {
