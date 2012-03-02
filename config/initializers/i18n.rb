@@ -18,10 +18,7 @@ module I18n
   end
 end
 
-I18n::Backend::Simple.include(I18n::Backend::Pluralization)
 I18n::Backend::Simple.include(I18n::Backend::PluralizationFallback)
-I18n.load_path << "#{Rails.root}/config/pluralizers.rb"
-
 I18n::Backend::Simple.include(I18n::Backend::Fallbacks)
 
 I18n.fallbacks.map("no" => "nb")
