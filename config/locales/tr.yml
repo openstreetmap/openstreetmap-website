@@ -2,6 +2,7 @@
 # Exported from translatewiki.net
 # Export driver: syck-pecl
 # Author: Alerque
+# Author: Emperyan
 # Author: George Animal
 # Author: Gizemb
 # Author: Katpatuka
@@ -32,6 +33,7 @@ tr:
         latitude: Enlem
         longitude: Boylam
         name: Ad
+        public: Kamu
         size: Boyut
         user: Kullanıcı
         visible: Görünür
@@ -44,17 +46,20 @@ tr:
         pass_crypt: Şifre
     models: 
       acl: Erişim Kontrol Listesi
+      changeset: Değişiklik Kayıdı
+      changeset_tag: Değişiklik kayıdının etiketi
       country: Ülke
       diary_comment: Günlük Yorumu
       diary_entry: Günlük Girdisi
       friend: Arkadaş
       language: Dil
       message: Mesaj
-      old_way: Eski yol
-      old_way_tag: Eski yol etiketi
+      notifier: Bildir
+      old_way: Eski Yol
+      old_way_tag: Eski Yol Etiketi
       session: Oturum
       user: Kullanıcı
-      user_preference: Kullanıcı Ayarları
+      user_preference: Kullanıcı Tercihleri
       way: Yol
       way_node: Yol Noktası
   browse: 
@@ -245,17 +250,32 @@ tr:
     list: 
       description: Son değişiklikler
       description_bbox: "%{bbox} alanındaki bulunan harita değişiklik setleri"
+      description_friend: Arkadaşların değişiklik kayıtları
+      description_nearby: Yakındaki kullanıcıların değişiklik kayıtları
       description_user: "%{user} tarafından değişiklik setleri"
       description_user_bbox: "%{user} tarafından %{bbox} alanındaki değişiklik setleri"
       heading: Değişiklik Setleri
       heading_bbox: Değişiklik Setleri
+      heading_friend: Değişiklik Kayıtları
+      heading_nearby: Değişiklik Kayıtları
       heading_user: Değişiklik Setleri
       heading_user_bbox: Değişiklik Setleri
       title: Değişiklik Setleri
       title_bbox: "%{bbox} alanındaki bulunan harita değişiklik setleri"
+      title_friend: Arkadaşların değişiklik kayıtları
+      title_nearby: Yakındaki kullanıcıların değişiklik kayıtları
       title_user: "%{user} tarafından değişiklik setleri"
       title_user_bbox: "%{user} tarafından %{bbox} alanındaki değişiklik setleri"
+    timeout: 
+      sorry: Üzgünüz, değişiklik kayıtlarının listelenmesi fazla sürdü.
   diary_entry: 
+    comments: 
+      comment: Yorum
+      has_commented_on: "%{display_name} aşağıdaki günlük girdilerini yorumladı"
+      newer_comments: Daha yeni yorumlar
+      older_comments: Daha eski yorumlar
+      post: Yazı
+      when: Tarih
     diary_comment: 
       comment_from: "%{link_user} tarafından %{comment_created_at} tarihindeki yorum"
       confirm: Onayla
@@ -300,6 +320,8 @@ tr:
       older_entries: Daha eski kayıtlar
       recent_entries: "Son günlük kayıtları:"
       title: Kullanıcıların günlükleri
+      title_friends: Arkadaşlarının günlükleri
+      title_nearby: Yakındaki kullanıcıların günlükleri
       user_title: "%{user} (Günlük)"
     location: 
       edit: Düzenle
@@ -347,11 +369,10 @@ tr:
       licence: Lisans
       longitude: "Boylam:"
       manually_select: Fare kullanarak farklı bir alan seç
-      mapnik_image: Mapnik resim
+      map_image: Harita (varsayılan katmanı gösterir)
       max: maks.
       options: Seçenekler
       osm_xml_data: OpenStreetMap XML Veri
-      osmarender_image: Osmarender resim
       output: Çıktı
       paste_html: Yukarıdaki HTML kodu kopyalayıp websitesinde yapıştırabilir
       scale: Ölçek
@@ -492,7 +513,7 @@ tr:
           veterinary: Veteriner
           village_hall: Köy odası
           waste_basket: Çöp sepeti
-          wifi: WiFi erisim noktası
+          wifi: WiFi erişim
           youth_centre: Gençlik Merkezi
         boundary: 
           administrative: İdari Sınır
@@ -775,7 +796,7 @@ tr:
           guest_house: Konuk Evi
           hostel: Hostel
           hotel: Hotel
-          information: Turist Enformasyon
+          information: Bilgi
           lean_to: Ek binası
           motel: Motel
           museum: Müze
@@ -800,6 +821,8 @@ tr:
     map: 
       base: 
         cycle_map: Topoğrafik Haritası
+        standard: Standart
+        transport_map: Ulaştırma Haritası
     site: 
       edit_disabled_tooltip: Harita düzenlemek için yakınlaştırmak gerek
       edit_tooltip: Haritayı düzenle
@@ -856,7 +879,7 @@ tr:
     sign_up: Kaydol
     sign_up_tooltip: Düzenleme moduna girmek için bir hesap oluştur
     sotm2011: 2011 OpenStreetMap konferans, The State of the Map (Haritanın Durumu), 9-11 Eylül Denver'de!
-    tag_line: Özgür bir Viki Dünya Haritası
+    tag_line: Özgür Viki Dünya Haritası
     user_diaries: Günlük
     user_diaries_tooltip: Kullanıcı günlükleri görüntüle
     view: Harita
@@ -1069,7 +1092,7 @@ tr:
           wood: Orman
     search: 
       search: Ara
-      search_help: "örneğin: 'demirkazık', 'istiklal caddesi, istanbul', '50500', veya 'post office near Lünen' <a href='http://wiki.openstreetmap.org/wiki/Search'>daha fazla örnek...</a>"
+      search_help: "örneğin: 'Beyoğlu', 'İstiklal Caddesi, İstanbul', 'CB2 5AQ' ya da 'Fatih yakınlarında postane' <a href='http://wiki.openstreetmap.org/wiki/Search'>daha fazla örnek...</a>"
       submit_text: Git
       where_am_i: Ben neredeyim?
       where_am_i_title: Arama motoru kullanarak geçerli konumunu tanımlar
@@ -1168,8 +1191,10 @@ tr:
   user: 
     account: 
       contributor terms: 
+        agreed: Yeni katılımcı şartları kabul ettin.
         heading: "Katılımcı Şartları:"
         link text: nemiş bu?
+        not yet agreed: Yeni katılımcı şartları kabul etmedin.
       current email address: "Geçerli E-posta Adresi:"
       delete image: Geçerli resim kaldır
       email never displayed publicly: (asla genel olarak görüntülenir)
@@ -1186,11 +1211,17 @@ tr:
       new email address: "Yeni E-posta Adresi:"
       new image: Resim ekle
       no home location: Konumunu girmedin.
+      openid: 
+        link: http://wiki.openstreetmap.org/wiki/OpenID
+        link text: nemiş bu?
+        openid: "OpenID:"
       preferred editor: "Tercih edilen harita düzenleyici:"
       preferred languages: "Tercih edilen diller (mesela tr,en,de):"
       profile description: "Profil Açıklaması:"
       public editing: 
+        disabled: Devre dışı ve verileri düzenleyemez; önceki düzenlemeleri hepsi anonimdir.
         disabled link text: neden düzenleyemiyorum?
+        enabled: Etkin. Anonim değil ve verileri düzenleyebilir.
         enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: bu da ne?
         heading: "Herkese açık düzenleme modu:"
@@ -1213,6 +1244,9 @@ tr:
       success: Yeni bir onay mesajı %{email} adresine gönderdik. Mesajı onaylar onaylamaz haritacılığı başlayabilirsiniz.<br><br>Eğer onaylama mesajını almadısanız e-postanızın Antispam/Junk/İstenmeyen klasörüne lütfen kontrol ediniz.
     list: 
       heading: Kullanıcılar
+      showing: 
+        one: Sayfa %{page} (%{first_item} - toplam %{items})
+        other: Sayfa %{page} (%{first_item}-%{last_item} - toplam %{items})
       summary_no_ip: "%{name} %{date} tarihinde oluşturuldu."
       title: Kullanıcılar
     login: 
@@ -1224,6 +1258,7 @@ tr:
       login_button: Gir
       lost password link: Şifren mi unuttun?
       new to osm: OpenStreetMap sitesinde yeni misiniz?
+      no account: Hesabın yok mu?
       password: "Şifre:"
       register now: Şimdi kayıt ol
       remember: "Beni hatırla:"
@@ -1249,7 +1284,9 @@ tr:
       display name description: Herkes tarafından görünen ad. Bu adı istediği zaman 'tercihlerim' bölümünde değiştirebilirsin.
       email address: "E-posta Adresi:"
       heading: Kullanıcı Hesabı Oluştur
+      openid: "%{logo} OpenID:"
       password: "Şifre:"
+      terms accepted: Yeni katılımcı şartları kabul ettiğin için teşekkür ederiz!
       title: Hesap oluştur
     no_such_user: 
       body: Üzgünüz, %{user} adlı bir kullanıcı yok. Lütfen yazımınızı denetleyin veya tıkladığınız bağlantı belki yanlış idi.
@@ -1292,30 +1329,45 @@ tr:
       block_history: verilen engellemeleri görüntüle
       blocks by me: engellediklerim
       blocks on me: engellendiklerim
+      comments: yorumlar
       confirm: Onayla
       confirm_user: bu kullanıcıyı onayla
       create_block: Bu kullanıcıyı engelle
+      created from: "Kullanıldı yazılım:"
+      ct accepted: "%{ago} önce kabul etti"
+      ct declined: Reddetti
+      ct status: "Katılımcının şartları:"
+      ct undecided: Kararsız
       deactivate_user: bu kullanıcıyı pasifleştir
       delete_user: bu kullanıcıyı sil
       description: Açıklama
       diary: günlük
       edits: düzenlemeleri
       email address: "E-posta adresi:"
+      friends_changesets: Arkadaşların bütün değişiklik kayıtları görüntüle
+      friends_diaries: Arkadaşların bütün günlük girdileri görüntüle
       hide_user: bu kullanıcı gizle
       km away: "%{count} km uzak"
+      latest edit: "Son değişiklik %{ago}:"
       m away: "%{count} metre yakın"
       mapper since: "Haritacılığın başlangıç tarihi:"
       moderator_history: verilen engellemeleri görüntüle
+      my comments: yorumladıklarım
       my diary: günlüğüm
       my edits: katkılarım
       my settings: tercihlerim
       my traces: GPS izlerim
       nearby users: Yakın çevrede bulunan kullanıcılar
+      nearby_changesets: Yakındaki kullanıcıların bütün değişiklik kayıtları görüntüle
+      nearby_diaries: Yakındaki kullanıcıların bütün günlük girdileri görüntüle
       new diary entry: yeni kayıt
       no friends: Henüz herhangi bir arkadaş eklemediniz.
       no nearby users: Yakın çevredeki herhangi başka kullanıcı henüz yok.
       oauth settings: OAuth ayarları
       remove as friend: Arkadaş listesinden çıkar
+      role: 
+        administrator: Bu kullanıcı bir yönetici dir.
+        moderator: Bu kullanıcı bir moderatör dür.
       send message: mesaj gönder
       settings_link_text: ayarları
       spam score: "Spam puanı:"
@@ -1356,6 +1408,9 @@ tr:
       revoker_name: İptal eden
       show: Göster
       status: Durum
+    period: 
+      one: 1 saat
+      other: "%{count} saat"
     revoke: 
       confirm: Bu engeli kaldırmak istediğine emin misin?
       flash: Engel kaldırıldı.

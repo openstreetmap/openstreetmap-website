@@ -663,6 +663,8 @@ private
     if user.save
       set_locale
 
+      cookies.permanent["_osm_username"] = user.display_name
+
       if user.new_email.blank?
         flash.now[:notice] = t 'user.account.flash update success'
       else

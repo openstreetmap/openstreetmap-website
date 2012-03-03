@@ -24,7 +24,7 @@ function createMap(divName, options) {
       theme: "<%= asset_path 'theme/default/style.css' %>"
    });
 
-   var mapnik = new OpenLayers.Layer.OSM.Mapnik(i18n("javascripts.map.base.mapnik"), {
+   var mapnik = new OpenLayers.Layer.OSM.Mapnik(i18n("javascripts.map.base.standard"), {
       attribution: "",
       keyid: "mapnik",
       displayOutsideMaxExtent: true,
@@ -32,15 +32,6 @@ function createMap(divName, options) {
       layerCode: "M"
    });
    map.addLayer(mapnik);
-
-   var osmarender = new OpenLayers.Layer.OSM.Osmarender(i18n("javascripts.map.base.osmarender"), {
-      attribution: "",
-      keyid: "osmarender",
-      displayOutsideMaxExtent: true,
-      wrapDateLine: true,
-      layerCode: "O"
-   });
-   map.addLayer(osmarender);
 
    var cyclemap = new OpenLayers.Layer.OSM.CycleMap(i18n("javascripts.map.base.cycle_map"), {
       attribution: "Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
@@ -75,11 +66,9 @@ function createMap(divName, options) {
    });
    map.addLayer(mapquest);
 
-   var numZoomLevels = Math.max(mapnik.numZoomLevels, osmarender.numZoomLevels);
-
    markers = new OpenLayers.Layer.Markers("Markers", {
       displayInLayerSwitcher: false,
-      numZoomLevels: numZoomLevels,
+      numZoomLevels: 20,
       maxExtent: new OpenLayers.Bounds(-20037508,-20037508,20037508,20037508),
       maxResolution: 156543,
       units: "m",
