@@ -122,6 +122,9 @@ OpenStreetMap::Application.routes.draw do
   # permalink
   match '/go/:code' => 'site#permalink', :via => :get, :code => /[a-zA-Z0-9_@~]+[=-]*/
 
+  # rich text preview
+  match '/preview/:format' => 'site#preview', :as => :preview
+
   # traces
   match '/user/:display_name/traces/tag/:tag/page/:page' => 'trace#list', :via => :get
   match '/user/:display_name/traces/tag/:tag' => 'trace#list', :via => :get

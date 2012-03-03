@@ -367,7 +367,7 @@ class UserControllerTest < ActionController::TestCase
     assert_template :account
     assert_select "div#errorExplanation", false
     assert_select "div#notice", /^User information updated successfully/
-    assert_select "table#accountForm > tr > td > textarea#user_description", user.description
+    assert_select "table#accountForm > tr > td > div#user_description_container > div#user_description_content > textarea#user_description", user.description
 
     # Changing name to one that exists should fail
     user.display_name = users(:public_user).display_name

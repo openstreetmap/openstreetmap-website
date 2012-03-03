@@ -13,8 +13,8 @@
 
   <%= error_messages_for 'diary_comment' %>
 
-  <%= form_for DiaryComment.new, :url => { :action => 'comment' } do |f| %>
-    <%= f.text_area :body, :cols => 80, :rows => 5 %>
+  <%= form_for :diary_comment, :url => { :action => 'comment' } do |f| %>
+    <%= richtext_area :diary_comment, :body, :cols => 80, :rows => 15 %>
     <br />
     <br />
     <%= submit_tag t('diary_entry.view.save_button') %>

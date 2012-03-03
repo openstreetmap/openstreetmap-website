@@ -54,6 +54,10 @@ class SiteControllerTest < ActionController::TestCase
       { :path => "/go/shortcode", :method => :get },
       { :controller => "site", :action => "permalink", :code => "shortcode" }
     )
+    assert_routing(
+      { :path => "/preview/formatname", :method => :get },
+      { :controller => "site", :action => "preview", :format => "formatname" }
+    )
   end
 
   ## Lets check that we can get all the pages without any errors  
