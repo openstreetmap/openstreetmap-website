@@ -1,6 +1,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.autogrowtextarea
+//= require jquery.timers
 
 /*
  * Called as the user scrolls/zooms around to aniplate hrefs of the
@@ -216,7 +217,14 @@ function previewRichtext(event) {
   var minHeight = editor.outerHeight() - preview.outerHeight() + preview.innerHeight();
 
   editor.hide();
-  preview.load(editor.attr("data-preview-url"), { text: editor.val() });
+  preview.html("");
+  preview.oneTime(500, "loading", function () {
+    preview.addClass("loading");
+  });
+  preview.load(editor.attr("data-preview-url"), { text: editor.val() }, function () {
+    preview.stopTime("loading");
+    preview.removeClass("loading");
+  });
   preview.width(width);
   preview.css("min-height", minHeight + "px");
   preview.show();
