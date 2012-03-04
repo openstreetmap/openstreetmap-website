@@ -334,7 +334,7 @@ class ApplicationController < ActionController::Base
     end)
 
     options[:cache_path] = Proc.new do |controller|
-      cache_path.merge(controller.params).merge(:locale => I18n.locale)
+      cache_path.merge(controller.params).merge(:host => SERVER_URL, :locale => I18n.locale)
     end
 
     actions.push(options)
@@ -346,7 +346,7 @@ class ApplicationController < ActionController::Base
   # extend expire_action to expire all variants
   def expire_action(options = {})
     I18n.available_locales.each do |locale|
-      super options.merge(:locale => locale)
+      super options.merge(:host => SERVER_URL, :locale => locale)
     end
   end
 
