@@ -22,6 +22,6 @@ module Potlatch2
     "sq" => "sq",
     "tr" => "tr",
     "vi" => "vi_VN",
-    "zh" => "zh_VN"
+    "zh" => "zh_CN"
   }
 end
