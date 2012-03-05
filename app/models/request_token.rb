@@ -21,7 +21,7 @@ class RequestToken < OauthToken
         params[p] = read_attribute(p)
       }
 
-      access_token = AccessToken.create(params)
+      access_token = AccessToken.create(params, :without_protection => true)
       invalidate!
       access_token
     end

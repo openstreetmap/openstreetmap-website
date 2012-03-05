@@ -26,10 +26,13 @@ else
   body = mail
 end
 
-message = Message.new(:sender => from, :recipient => to,
-                      :sent_on => mail.date.new_offset(0),
-                      :title => mail.subject.sub(/\[OpenStreetMap\] */, ""),
-                      :body => body.decoded)
+message = Message.new({
+  :sender => from,
+  :recipient => to,
+  :sent_on => mail.date.new_offset(0),
+  :title => mail.subject.sub(/\[OpenStreetMap\] */, ""),
+  :body => body.decoded
+}, :without_protection => true)
 message.save!
 
 Notifier.message_notification(message).deliver

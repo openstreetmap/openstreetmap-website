@@ -11,7 +11,9 @@ class UserRolesController < ApplicationController
   around_filter :setup_nonce
 
   def grant
-    @this_user.roles.create(:role => @role, :granter_id => @user.id)
+    @this_user.roles.create({
+      :role => @role, :granter_id => @user.id
+    }, :without_protection => true)
     redirect_to :controller => 'user', :action => 'view', :display_name => @this_user.display_name
   end
 

@@ -23,4 +23,6 @@ class DiaryEntry < ActiveRecord::Base
   validates_numericality_of :longitude, :allow_nil => true,
                             :greater_than_or_equal_to => -180, :less_than_or_equal_to => 180
   validates_associated :language
+
+  attr_accessible :title, :body, :language_code, :latitude, :longitude
 end
