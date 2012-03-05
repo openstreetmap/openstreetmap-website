@@ -7,7 +7,29 @@ module RichText
     end
   end
 
-  class HTML < String
+  class Base < String
+    def spam_score
+      link_count = 0
+      link_size = 0
+
+      doc = Nokogiri::HTML(to_html)
+
+      if doc.content.length > 0
+        doc.xpath("//a").each do |link|
+          link_count += 1
+          link_size += link.content.length
+        end
+
+        link_proportion = link_size.to_f / doc.content.length.to_f
+      else
+        link_proportion = 0
+      end
+
+      return [link_proportion - 0.2, 0.0].max * 200 + link_count * 20
+    end
+  end
+
+  class HTML < Base
     include ActionView::Helpers::TextHelper
     include ActionView::Helpers::TagHelper
 
@@ -34,7 +56,7 @@ module RichText
     end
   end
 
-  class Markdown < String
+  class Markdown < Base
     def to_html
       html_parser.render(self).html_safe
     end
