@@ -41,6 +41,9 @@ class User < ActiveRecord::Base
   validates_numericality_of :home_zoom, :only_integer => true, :allow_nil => true
   validates_inclusion_of :preferred_editor, :in => Editors::ALL_EDITORS, :allow_nil => true
 
+  attr_accessible :display_name, :email, :email_confirmation, :openid_url,
+                  :pass_crypt, :pass_crypt_confirmation, :consider_pd
+
   after_initialize :set_creation_time
   before_save :encrypt_password
 

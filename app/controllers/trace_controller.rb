@@ -153,7 +153,7 @@ class TraceController < ApplicationController
         @trace.errors.add(:gpx_file, "can't be blank")
       end
     else
-      @trace = Trace.new(:visibility => default_visibility)
+      @trace = Trace.new({:visibility => default_visibility}, :without_protection => true)
     end
 
     @title = t 'trace.create.upload_trace'
@@ -386,7 +386,7 @@ private
       :inserted => true,
       :user => @user,
       :timestamp => Time.now.getutc
-    })
+    }, :without_protection => true)
 
     Trace.transaction do
       begin

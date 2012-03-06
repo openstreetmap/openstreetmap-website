@@ -4,5 +4,7 @@ class Tracetag < ActiveRecord::Base
   validates_format_of :tag, :with => /^[^\/;.,?]*$/
   validates_length_of :tag, :within => 1..255
 
+  attr_accessible :tag
+
   belongs_to :trace, :foreign_key => 'gpx_id'
 end

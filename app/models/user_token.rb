@@ -1,6 +1,8 @@
 class UserToken < ActiveRecord::Base
   belongs_to :user
 
+  attr_accessible :referer
+
   after_initialize :set_defaults
 
 private
