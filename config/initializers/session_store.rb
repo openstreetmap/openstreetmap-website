@@ -31,5 +31,5 @@ if defined?(MEMCACHE_SERVERS)
 
   OpenStreetMap::Application.config.session_store :mem_cache_store, :cache => cache, :key => "_osm_session"
 else
-  OpenStreetMap::Application.config.session_store :cookie_store, :key => '_osm_session'
+  OpenStreetMap::Application.config.session_store :cache_store, :key => '_osm_session'
 end
