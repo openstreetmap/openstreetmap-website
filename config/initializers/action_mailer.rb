@@ -9,10 +9,8 @@ ActionMailer::Base.smtp_settings = {
 # Monkey patch to allow sending of messages in specific locales
 module ActionMailer
   class Base
-    adv_attr_accessor :locale
-
     def mail_with_locale(*args)
-      old_locale= I18n.locale
+      old_locale = I18n.locale
 
       begin
         I18n.locale = @locale

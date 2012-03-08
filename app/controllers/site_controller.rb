@@ -1,5 +1,6 @@
 class SiteController < ApplicationController
   layout 'site', :except => [:key, :permalink]
+  layout false, :only => [:key, :permalink]
 
   before_filter :authorize_web
   before_filter :set_locale
@@ -79,5 +80,9 @@ class SiteController < ApplicationController
 
       @zoom = '17' if @zoom.nil?
     end
+  end
+
+  def copyright
+    @locale = params[:copyright_locale] || I18n.locale
   end
 end

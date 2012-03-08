@@ -81,13 +81,10 @@
       <%= t 'user.account.image' %>
     </td>
     <td valign="top">
-      <% if @user.image.nil? %>
-        <%= hidden_field_tag "image_action", "new" %>
-        <%= t 'user.account.new image' %><br /><%= file_column_field "user", "image" %><br /><span class="minorNote"><%= t 'user.account.image size hint' %></span>
-      <% else %>
+      <% if @user.image.file? %>
         <table id="accountImage">
           <tr>
-            <td rowspan="3" valign="top"><%= image_tag url_for_file_column(@user, "image"), :class => "user_image" %></td>
+            <td rowspan="3" valign="top"><%= user_image @user %></td>
             <td><%= radio_button_tag "image_action", "keep", true %></td>
             <td><%= t 'user.account.keep image' %></td>
           </tr>
@@ -97,9 +94,12 @@
           </tr>
           <tr>
             <td><%= radio_button_tag "image_action", "new" %></td>
-            <td><%= t 'user.account.replace image' %><br /><%= file_column_field "user", "image", :onchange => "$('image_action_new').checked = true" %><br /><span class="minorNote"><%= t 'user.account.image size hint' %></span></td>
+            <td><%= t 'user.account.replace image' %><br /><%= f.file_field :image, :onchange => "$('image_action_new').prop('checked', true)" %><br /><span class="minorNote"><%= t 'user.account.image size hint' %></span></td>
           </tr>
         </table>
+      <% else %>
+        <%= hidden_field_tag "image_action", "new" %>
+        <%= t 'user.account.new image' %><br /><%= f.file_field :image %><br /><span class="minorNote"><%= t 'user.account.image size hint' %></span>
       <% end %>
     </td>
   </tr>

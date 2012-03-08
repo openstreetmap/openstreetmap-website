@@ -1,4 +1,4 @@
-require 'lib/migrate'
+require 'migrate'
 
 class AddRelations < ActiveRecord::Migration
   def self.up

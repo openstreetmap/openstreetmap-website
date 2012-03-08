@@ -1,13 +1,17 @@
 class Acl < ActiveRecord::Base
-  scope :address, lambda { |address| where("#{inet_aton} & netmask = address", address) }
-
-private
-
-  def self.inet_aton
-    if self.connection.adapter_name == "MySQL"
-      "inet_aton(?)"
+  def self.match(address, domain = nil)
+    if domain
+      condition = Acl.where("address >>= ? OR domain = ?", address, domain)
     else
-      "?"
+      condition = Acl.where("address >>= ?", address)
     end
+  end
+
+  def self.no_account_creation(address, domain = nil)
+    self.match(address, domain).where(:k => "no_account_creation").exists?
+  end
+
+  def self.no_trace_download(address, domain = nil)
+    self.match(address, domain).where(:k => "no_trace_download").exists?
   end
 end

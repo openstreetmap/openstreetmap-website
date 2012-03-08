@@ -153,7 +153,7 @@ class TraceController < ApplicationController
         @trace.errors.add(:gpx_file, "can't be blank")
       end
     else
-      @trace = Trace.new(:visibility => default_visibility)
+      @trace = Trace.new({:visibility => default_visibility}, :without_protection => true)
     end
 
     @title = t 'trace.create.upload_trace'
@@ -163,7 +163,9 @@ class TraceController < ApplicationController
     trace = Trace.find(params[:id])
 
     if trace.visible? and (trace.public? or (@user and @user == trace.user))
-      if request.format == Mime::XML
+      if Acl.no_trace_download(request.remote_ip)
+        render :nothing => true, :status => :forbidden
+      elsif request.format == Mime::XML
         send_file(trace.xml_file, :filename => "#{trace.id}.xml", :type => Mime::XML.to_s, :disposition => 'attachment')
       else
         send_file(trace.trace_name, :filename => "#{trace.id}#{trace.extension_name}", :type => trace.mime_type, :disposition => 'attachment')
@@ -222,7 +224,7 @@ class TraceController < ApplicationController
     end
 
     if params[:tag]
-      traces = traces.where("EXISTS (SELECT * FROM gpx_file_tags AS gft WHERE gft.gpx_id = gpx_files.id AND gft.tag = ?)")
+      traces = traces.where("EXISTS (SELECT * FROM gpx_file_tags AS gft WHERE gft.gpx_id = gpx_files.id AND gft.tag = ?)", params[:tag])
     end
 
     traces = traces.order("timestamp DESC")
@@ -384,7 +386,7 @@ private
       :inserted => true,
       :user => @user,
       :timestamp => Time.now.getutc
-    })
+    }, :without_protection => true)
 
     Trace.transaction do
       begin

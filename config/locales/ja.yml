@@ -7,6 +7,7 @@
 # Author: Iwai.masaharu
 # Author: Mage Whopper
 # Author: Miya
+# Author: Nabetaro
 # Author: Nazotoko
 # Author: Schu
 # Author: Wrightbus
@@ -108,6 +109,8 @@ ja:
       show_area_box: 領域範囲表示
     common_details: 
       changeset_comment: "コメント:"
+      deleted_at: "削除日:"
+      deleted_by: "削除者:"
       edited_at: "編集日:"
       edited_by: "編集者:"
       in_changeset: "変更セット:"
@@ -166,6 +169,7 @@ ja:
         relation: リレーション
         way: ウェイ
     paging_nav: 
+      of: 中
       showing_page: ページ表示
     relation: 
       download: "%{download_xml_link} または %{view_history_link}"
@@ -279,14 +283,17 @@ ja:
     list: 
       description: 最新の変更
       description_bbox: "%{bbox} 内の変更セット"
+      description_friend: 友達による変更セット
       description_user: "%{user} による変更セット"
       description_user_bbox: "%{bbox} 範囲内の %{user} の変更セット"
       heading: 変更セット
       heading_bbox: 変更セット
+      heading_friend: 変更セット
       heading_user: 変更セット
       heading_user_bbox: 変更セット
       title: 変更セット
       title_bbox: "%{bbox} 範囲内の変更セット"
+      title_friend: 友達による変更セット
       title_user: "%{user} の変更セット"
       title_user_bbox: "%{bbox}内の%{user}による変更セット"
     timeout: 
@@ -383,15 +390,14 @@ ja:
       licence: ライセンス
       longitude: "経度:"
       manually_select: 別の領域を指定する
-      mapnik_image: Mapnik 画像
       max: 最大
       options: オプション
       osm_xml_data: OSM XMLデータ
-      osmarender_image: Osmarender 画像
       output: 出力
       paste_html: 以下の HTML をあなたのサイトに埋め込んでください
       scale: 縮尺
       too_large: 
+        body: このエリアは OpenStreetMap XML データとしてエクスポートするには大きすぎます。拡大するか、もっと小さなエリアを選択してください。
         heading: エリアが大きすぎます
       zoom: ズーム
     start_rjs: 
@@ -450,9 +456,11 @@ ja:
           bicycle_parking: 駐輪場
           bicycle_rental: レンタサイクル
           brothel: 売春宿
+          bureau_de_change: 両替
           bus_station: バス停
           cafe: 喫茶店
           car_rental: レンタカー
+          car_sharing: カーシェアリング
           car_wash: 洗車
           casino: 賭場
           cinema: 映画館
@@ -481,6 +489,7 @@ ja:
           health_centre: 保健所
           hospital: 病院
           hotel: ホテル
+          hunting_stand: ハンティングスタンド
           ice_cream: アイスクリーム販売店
           kindergarten: 幼稚園
           library: 図書館
@@ -504,6 +513,7 @@ ja:
           public_building: 公共建築物
           public_market: 公設市場
           reception_area: レセプションエリア
+          recycling: リサイクル場所
           restaurant: レストラン
           retirement_home: 老人ホーム
           sauna: サウナ
@@ -522,6 +532,8 @@ ja:
           university: 大学
           vending_machine: 自動販売機
           veterinary: 獣医外科
+          village_hall: 役場
+          waste_basket: ごみ箱
           wifi: WiFiアクセスポイント
           youth_centre: 青少年センター
         boundary: 
@@ -536,6 +548,7 @@ ja:
           commercial: 商業ビル
           dormitory: 寮
           entrance: ビル入口
+          faculty: 学部棟
           farm: 農舎
           flats: アパート
           garage: 車庫
@@ -555,6 +568,7 @@ ja:
           terrace: テラス
           tower: 塔
           train_station: 鉄道駅
+          university: 大学の建物
         highway: 
           bridleway: 乗馬道
           bus_stop: バス停
@@ -721,6 +735,7 @@ ja:
           tram: 路面軌道
           tram_stop: トラム停留所
         shop: 
+          apparel: 服屋
           art: アートショップ
           bakery: パン屋
           beauty: 美容室
@@ -733,9 +748,11 @@ ja:
           car_parts: 自動車部品販売店
           carpet: カーペットショップ
           clothes: 洋服店
+          computer: コンピューターショップ
           cosmetics: 化粧品販売店
           department_store: デパート
           discount: 安売り店
+          doityourself: 日曜大工
           drugstore: ドラッグストア
           dry_cleaning: クリーニング
           electronics: 電気製品販売店
@@ -748,6 +765,7 @@ ja:
           gift: ギフトショップ
           greengrocer: 八百屋
           grocery: 食料品店
+          hairdresser: 美容室
           insurance: 保険
           jewelry: 宝石店
           kiosk: キオスク
@@ -762,7 +780,7 @@ ja:
           organic: 有機食材店
           outdoor: アウトドアショップ
           pet: ペットショップ
-          salon: 美容店
+          salon: サロン
           shoes: 靴屋
           shopping_centre: ショッピングセンター
           sports: スポーツ用品専門店
@@ -774,7 +792,10 @@ ja:
         tourism: 
           artwork: 芸術作品
           attraction: アトラクション
+          bed_and_breakfast: 民宿(B&B)
+          cabin: 山小屋
           camp_site: キャンプ場
+          caravan_site: オートキャンプ場
           chalet: 別荘
           guest_house: 民宿
           hostel: ホステル
@@ -790,6 +811,7 @@ ja:
           canal: 運河
           dam: ダム
           derelict_canal: 遺棄運河
+          ditch: 溝
           dock: 埠頭
           drain: 排水溝
           lock: 岩場
@@ -826,7 +848,7 @@ ja:
     export_tooltip: 地図データのエクスポート
     foundation: 財団法人
     foundation_title: OpenStreetMap 財団法人
-    gps_traces: GPS トレース
+    gps_traces: GPSトレース
     gps_traces_tooltip: トレースの管理
     help: ヘルプ
     help_centre: ヘルプセンター
@@ -842,6 +864,7 @@ ja:
     intro_1: OpenStreetMap は自由に編集できる世界地図です。あなたのような人々が作りました。
     intro_2: OpenStreetMap は地球上の誰でも、どこからでもこの共同作業の結果である地図データを編集、閲覧することを可能にしています。
     intro_3: OpenStreetMap は %{ucl} 、%{ic} 、%{bytemark} によってホスティングされています。%{partners} には協賛組織の一覧があります。
+    intro_3_ic: インペリアル・カレッジ・ロンドン
     intro_3_partners: ウィキ
     intro_3_ucl: ユニヴァーシティ・カレッジ・ロンドン (UCL) VR センター
     license: 
@@ -859,13 +882,15 @@ ja:
     osm_read_only: OpenStreetMap のデータベースはメンテナンスのため一時的に読み込み専用モードになっています。
     sign_up: 登録
     sign_up_tooltip: 編集のためのアカウントを作成
+    sotm2011: 2011年 OpenStreetMap カンファレンス State of the Map は 9月9日-11日 デンバーで開かれます。おいでください!
     tag_line: 自由なウィキ世界地図
-    user_diaries: ユーザの日記
+    user_diaries: 日記
     user_diaries_tooltip: ユーザの日記を見る
     view: 閲覧
     view_tooltip: 地図を見る
     welcome_user: "%{user_link} さん、ようこそ。"
     welcome_user_link_tooltip: あなたの個人ページ
+    wiki: ウィキ
     wiki_title: プロジェクトの Wiki サイト
   license_page: 
     foreign: 
@@ -888,7 +913,6 @@ ja:
       people_mapping_nearby: 近所でマッピングしている人々
       subject: タイトル
       title: 受信箱
-      you_have: あなた宛の新しいメッセージが %{new_count}件、以前のメッセージが　%{old_count}件あります。
     mark: 
       as_read: 既読メッセージ
       as_unread: 未読メッセージ
@@ -924,7 +948,6 @@ ja:
       subject: 件名
       title: 送信箱
       to: 宛先
-      you_have_sent_messages: "%{count}この送信済みメッセージがあります"
     read: 
       back_to_inbox: 受信箱に戻る
       back_to_outbox: 送信箱に戻る
@@ -975,12 +998,14 @@ ja:
       subject: "[OpenStreetMap] パスワードリセットの要求"
     lost_password_html: 
       greeting: こんにちは、
-      hopefully_you: (たぶんあなたがですが、)誰かがこのEメールアドレスの openstreetmap.org アカウントのパスワードをリセットするように頼みました。
+      hopefully_you: 誰か(たぶんあなた)が、このEメールアドレスの openstreetmap.org アカウントに対して、パスワードをリセットするように依頼しました。
     lost_password_plain: 
       greeting: こんにちは、
+      hopefully_you_1: 誰か(たぶんあなた)が、この openstreetmap.org アカウントのEメールアドレスに対する
+      hopefully_you_2: パスワードをリセットするように依頼しました。
     message_notification: 
-      footer1: "% {Readurl} でメッセージを読むこともできます。"
-      footer2: また、% {replyurl} で返信することができます。
+      footer1: "%{readurl} でメッセージを読むこともできます。"
+      footer2: また、%{replyurl} で返信することができます。
       hi: やあ %{to_user}、
     signup_confirm: 
       subject: "[OpenStreetMap] あなたのEメールアドレスの確認"
@@ -1009,7 +1034,7 @@ ja:
       allow_write_prefs: あなたの利用者設定を変更する。
       request_access: アプリケーション %{app_name} があなたのアカウント、%{user} への接続許可を求めています。そのアプリケーションに許可してもよいかどうかを確認してください。複数のアプリケーションに許可を与える事もできます。
     revoke: 
-      flash: "%{application} へのトークンを無効にしました。"
+      flash: "%{application} へのトークンを失効しました。"
   oauth_clients: 
     create: 
       flash: 正常に登録完了しました。
@@ -1031,14 +1056,15 @@ ja:
       support_url: サポートURL
       url: メインアプリケーションのURL
     index: 
-      application: アプリケーション
+      application: アプリケーション名
       issued_at: 発行
       list_tokens: 以下のアプリケーションに対してあなたのユーザー名でトークンが許可されています。
       my_apps: クライアントアプリケーション
       my_tokens: 認証を許可したアプリケーション
       no_apps: OSMのサイトで使用するアプリケーションを新しく %{oauth} で登録するにはOAuthリクエストの前にあらかじめwebから登録しておく必要があります。
       register_new: アプリケーションの登録
-      revoke: 取消し
+      registered_apps: 以下のクライアントアプリケーションを登録しています。
+      revoke: 失効!
       title: OAuthの詳細
     new: 
       submit: 登録
@@ -1053,6 +1079,7 @@ ja:
       authorize_url: "承認URL:"
       edit: 詳細の編集
       key: "コンシューマーキー:"
+      secret: "コンシューマーシークレット:"
       title: "%{app_name} の OAuth 詳細"
       url: "リクエストトークンURL:"
     update: 
@@ -1094,7 +1121,8 @@ ja:
           centre: スポーツセンター
           commercial: 商業地域
           common: 
-            1: 牧草地
+            - 共有地
+            - 牧草地
           construction: 建設中の道路
           cycleway: 自転車道
           destination: 目的通行
@@ -1149,12 +1177,15 @@ ja:
     sidebar: 
       close: 閉じる
       search_results: 検索結果
+  time: 
+    formats: 
+      friendly: "%Y年 %B %e日 %H:%M"
   trace: 
     create: 
       trace_uploaded: GPX ファイルがアップロードされました。データベースへの登録に多少時間がかかります。通常この作業は30分ほどで完了し、そのことをお知らせするメールをあなたに送信します。
       upload_trace: GPS トレースのアップロード
     delete: 
-      scheduled_for_deletion: 削除予定のトラック
+      scheduled_for_deletion: トラックの削除準備を行いました
     edit: 
       description: "詳細:"
       download: ダウンロード
@@ -1179,7 +1210,7 @@ ja:
       tagged_with: "%{tags}でタグ付けされた"
       your_traces: あなたのGPSトレース
     make_public: 
-      made_public: 公開されたトラック
+      made_public: トラックを公開しました
     no_such_user: 
       body: "%{user} という名前のユーザは存在しません。スペルをチェックしてください。もしくはリンク元が誤っています。"
       heading: "%{user} というユーザは存在しません。"
@@ -1246,8 +1277,8 @@ ja:
       visibility: "可視性:"
     visibility: 
       identifiable: 識別可能 (トレースリストに公表していて、常に持ち主を識別可能な状態。点の順序がタイムスタンプ付きでわかる。)
-      private: プライベート (匿名でデータを共有する。点の順序もわからない。)
-      public: パブリック (トレースリストに公表する。匿名の状態では点の順序はわからない。)
+      private: 非公開 (匿名、順不同の点としての共有のみ)
+      public: 公開 (トレースリストに表示する。匿名の状態では点の順序はわからない。)
       trackable: 追跡可能  (匿名でのみ共有されるが、点の順序はタイムスタンプ付きでわかる。)
   user: 
     account: 
@@ -1274,6 +1305,7 @@ ja:
       new image: 画像を追加
       no home location: あなたはまだ活動地域を登録していません。
       openid: 
+        link text: これは何ですか？
         openid: OpenID：
       preferred editor: 優先エディタ：
       preferred languages: "言語設定:"
@@ -1329,6 +1361,7 @@ ja:
       login_button: ログイン
       lost password link: パスワードを忘れましたか?
       new to osm: OpenStreetMapは初めてですか？
+      notice: <a href="http://www.osmfoundation.org/wiki/License/We_Are_Changing_The_License">今後行う OpenStreetMap のライセンス変更についてお読みください</a> (<a href="http://wiki.openstreetmap.org/wiki/JA:ODbL/We_Are_Changing_The_License">翻訳</a>) (<a href="http://wiki.openstreetmap.org/wiki/Talk:ODbL/Upcoming">議論</a>)
       openid: "%{logo} OpenID："
       openid invalid: 申し訳ありません、OpenID は不正な形式と思われます。
       openid missing provider: 申し訳ありません、OpenID プロバイダに接続できませんでした。
@@ -1357,7 +1390,6 @@ ja:
       remember: パスワードを記憶する。
       title: ログイン
       to make changes: OpenStreetMap データを変更するには、アカウントが必要です。
-      webmaster: ウェブマスター
       with username: 既に OpenStreetMap のアカウントをお持ちですか？ ユーザー名とパスワードを入力してログインしてください：
     logout: 
       heading: OpenStreetMapからログアウトする
@@ -1392,6 +1424,7 @@ ja:
       openid: "%{logo} OpenID："
       password: "パスワード:"
       terms accepted: 新しい投稿規約を承諾して頂き、ありがとうございます。
+      terms declined: 新しい投稿規約を承諾して頂けず残念です。詳しい情報は、<a href="%{url}">このウィキページ</a>をごらんください。
       title: アカウント作成
     no_such_user: 
       body: "%{user}. という名前のユーザは存在しません。スペルミスが無いかチェックしてください。もしくはリンク元が間違っています。"
@@ -1422,6 +1455,7 @@ ja:
       consider_pd: 私の投稿をパブリックドメインとします（著作権、著作隣接権を放棄し、著作人格権の行使を行いません）
       consider_pd_why: これは何ですか？
       decline: 拒否
+      guidance: この規約を理解するための情報として、<a href="%{summary}">要約(英語)</a> や <a href="%{translations}">非公式の翻訳</a> をごらんください。
       heading: 投稿規約(Contributor terms)
       legale_names: 
         france: フランス
@@ -1429,6 +1463,7 @@ ja:
         rest_of_world: それ以外の国
       legale_select: "お住まいの国もしくは地域を選択してください:"
       read and accept: 下記の同意書を読み、あなたの既存および将来の投稿のために本同意書の条項を承諾することを確認するために同意ボタンを押してください。
+      title: 投稿規約(Contributor terms)
     view: 
       activate_user: このユーザーを有効にする
       add as friend: 友達に追加
@@ -1437,17 +1472,22 @@ ja:
       confirm_user: このユーザーを確認する
       create_block: このユーザーをブロック
       created from: "作成日:"
+      ct accepted: "%{ago}前に承認"
+      ct declined: 拒否
+      ct status: "投稿規約:"
+      ct undecided: 未決定
       deactivate_user: このユーザーを無効にする
       delete_user: このユーザーを消す
       description: 詳細
       diary: 日記
       edits: 編集
       email address: 電子メールアドレス：
+      friends_changesets: 友達によるすべての変更セットを参照
       hide_user: このユーザーを隠す
       if set location: 活動地域を指定すると、この下に周辺の地図と、近くで活動するマッパーが表示されます。%{settings_link} から設定をしてください。
       km away: 距離 %{count}km
       latest edit: "最終編集 %{ago}:"
-      m away: 距離 %{count}メートル
+      m away: 距離 %{count}m
       mapper since: "マッパー歴:"
       my diary: 私の日記
       my edits: 私の編集

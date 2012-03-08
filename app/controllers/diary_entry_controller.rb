@@ -8,8 +8,9 @@ class DiaryEntryController < ApplicationController
   before_filter :check_database_writable, :only => [:new, :edit]
   before_filter :require_administrator, :only => [:hide, :hidecomment]
 
-  caches_action :list, :view, :layout => false
+  caches_action :list, :layout => false, :unless => :user_specific_list?
   caches_action :rss, :layout => true
+  caches_action :view, :layout => false
   cache_sweeper :diary_sweeper, :only => [:new, :edit, :comment, :hide, :hidecomment]
 
   def new
@@ -98,6 +99,34 @@ class DiaryEntryController < ApplicationController
                                         },
                                         :order => 'created_at DESC',
                                         :per_page => 20)
+    elsif params[:friends]
+      if @user
+        @title = t 'diary_entry.list.title_friends'
+        @entry_pages, @entries = paginate(:diary_entries, :include => :user,
+                                          :conditions => {
+                                            :user_id => @user.friend_users,
+                                            :visible => true
+                                          },
+                                          :order => 'created_at DESC',
+                                          :per_page => 20)
+      else
+          require_user
+          return     
+      end
+    elsif params[:nearby]
+      if @user
+        @title = t 'diary_entry.list.title_nearby'
+        @entry_pages, @entries = paginate(:diary_entries, :include => :user,
+                                          :conditions => {
+                                            :user_id => @user.nearby,
+                                            :visible => true
+                                          },
+                                          :order => 'created_at DESC',
+                                          :per_page => 20)                                        
+      else
+          require_user
+          return     
+      end                                  
     else
       @title = t 'diary_entry.list.title'
       @entry_pages, @entries = paginate(:diary_entries, :include => :user,
@@ -166,6 +195,22 @@ class DiaryEntryController < ApplicationController
     comment.update_attributes(:visible => false)
     redirect_to :action => "view", :display_name => comment.diary_entry.user.display_name, :id => comment.diary_entry.id
   end
+
+  def comments
+    @this_user = User.active.find_by_display_name(params[:display_name])
+
+    if @this_user
+      @comment_pages, @comments = paginate(:diary_comments,
+                                           :conditions => { :user_id => @this_user },
+                                           :order => 'created_at DESC',
+                                           :per_page => 20)
+      @page = (params[:page] || 1).to_i
+    else
+       @title = t'diary_entry.no_such_user.title'
+       @not_found_user = params[:display_name]
+       render :action => 'no_such_user', :status => :not_found
+    end						
+  end  
 private
   ##
   # require that the user is a administrator, or fill out a helpful error message
@@ -175,5 +220,11 @@ private
       flash[:error] = t('user.filter.not_an_administrator')
       redirect_to :controller => 'diary_entry', :action => 'view', :display_name => params[:id]
     end
+  end
+
+  ##
+  # is this list user specific?
+  def user_specific_list?
+    params[:friends] or params[:nearby]
   end
 end

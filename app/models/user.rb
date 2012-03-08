@@ -41,10 +41,15 @@ class User < ActiveRecord::Base
   validates_numericality_of :home_zoom, :only_integer => true, :allow_nil => true
   validates_inclusion_of :preferred_editor, :in => Editors::ALL_EDITORS, :allow_nil => true
 
+  attr_accessible :display_name, :email, :email_confirmation, :openid_url,
+                  :pass_crypt, :pass_crypt_confirmation, :consider_pd
+
   after_initialize :set_creation_time
   before_save :encrypt_password
 
-  file_column :image, :magick => { :geometry => "100x100>" }
+  has_attached_file :image, 
+    :default_url => "/assets/:class/:attachment/:style.png",
+    :styles => { :large => "100x100>", :small => "50x50>" }
 
   def self.authenticate(options)
     if options[:username] and options[:password]
@@ -198,7 +203,7 @@ class User < ActiveRecord::Base
     diary_entry_score = self.diary_entries.inject(0) { |s,e| s += OSM.spam_score(e.body) }
     diary_comment_score = self.diary_comments.inject(0) { |s,e| s += OSM.spam_score(e.body) }
 
-    score = OSM.spam_score(self.description) * 2
+    score = OSM.spam_score(self.description)
     score += diary_entry_score / self.diary_entries.length if self.diary_entries.length > 0
     score += diary_comment_score / self.diary_comments.length if self.diary_comments.length > 0
     score -= changeset_score

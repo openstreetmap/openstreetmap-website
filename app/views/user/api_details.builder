@@ -14,8 +14,8 @@ xml.osm("version" => API_VERSION, "generator" => GENERATOR) do
                        :lon => @user.home_lon,
                        :zoom => @user.home_zoom
     end    
-    if @user.image
-      xml.tag! "img", :href => (url_for_file_column(@user, "image", :absolute => true))
+    if @user.image.file?
+      xml.tag! "img", :href => "http://#{SERVER_URL}#{@user.image.url}"
     end
     if @user.languages
       xml.tag! "languages" do

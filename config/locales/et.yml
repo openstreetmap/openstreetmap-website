@@ -8,6 +8,8 @@
 et: 
   activerecord: 
     attributes: 
+      diary_comment: 
+        body: Sisu
       diary_entry: 
         language: Keel
         latitude: Laiuskraad
@@ -19,7 +21,7 @@ et:
         user: Kasutaja
       message: 
         body: Sisu
-        recipient: Vastuvõtja
+        recipient: Saaja
         sender: Saatja
         title: Teema
       trace: 
@@ -286,11 +288,9 @@ et:
       licence: Litsents
       longitude: "Pikkus:"
       manually_select: Vali käsitsi teine ala
-      mapnik_image: Mapnik'u pilt
       max: maks.
       options: Sätted
       osm_xml_data: OpenStreetMap'i andmed XML kujul
-      osmarender_image: Osmarender'i pilt
       output: Väljund
       paste_html: Kopeeri ja lisa see HTML-kood oma veebilehele.
       scale: Mõõtkava
@@ -299,6 +299,7 @@ et:
         heading: Ala on liiga suur
       zoom: Suurendus
     start_rjs: 
+      add_marker: Lisa kaardile marker
       change_marker: Muuda märgi asukohta
       export: Ekspordi
       view_larger_map: Näita suuremat kaarti
@@ -430,7 +431,7 @@ et:
           living_street: Õueala
           motorway: Kiirtee
           path: Rada
-          pedestrian: Jalakäijatele
+          pedestrian: Jalakäijatele tee
           platform: Platvorm
           road: Tee
           secondary: Tugimaantee
@@ -531,7 +532,11 @@ et:
           town: Linn
           village: Küla
         railway: 
+          abandoned: Ülesvõetud raudtee
+          construction: Ehitusjärgus raudtee
+          funicular: Köisraudtee
           halt: Rongipeatus
+          historic_station: Ajalooline raudteejaam
           junction: Raudtee ülekäigukoht
           level_crossing: Raudtee ülesõidukoht
           narrow_gauge: Kitsarööpmeline raudtee
@@ -554,6 +559,7 @@ et:
           fish: Kalapood
           florist: Lillepood
           food: Toidupood
+          funeral_directors: Matusebüroo
           furniture: Mööbel
           gallery: Galerii
           garden_centre: Aianduskeskus
@@ -561,6 +567,7 @@ et:
           insurance: Kindlustus
           jewelry: Juveelipood
           kiosk: Kiosk
+          market: Turg
           mobile_phone: Mobiiltelefonide pood
           music: Muusikapood
           pet: Lemmikloomapood
@@ -594,6 +601,7 @@ et:
     map: 
       base: 
         cycle_map: Rattakaart
+        transport_map: Transpordikaart
     site: 
       edit_disabled_tooltip: Kaardi redigeerimiseks suurenda kaarti
       edit_tooltip: Töötle kaarti
@@ -654,13 +662,19 @@ et:
     inbox: 
       date: Kuupäev
       from: Saatja
+      messages: Sul on %{new_messages} ja %{old_messages}
       my_inbox: Minu postkast
+      new_messages: 
+        one: "%{count} uus kiri"
+        other: "%{count} uut kirja"
       no_messages_yet: Sul ei ole veel sõnumeid. Miks mitte kontakteeruda mõne %{people_mapping_nearby_link}?
+      old_messages: 
+        one: "%{count} vana kiri"
+        other: "%{count} vana kirja"
       outbox: Saadetud kirjad
       people_mapping_nearby: lähedaloleva kaardistajaga
       subject: Teema
       title: Saabunud kirjad
-      you_have: Sul on %{new_count} uut sõnumit ja %{old_count} vana sõnumit
     mark: 
       as_read: Sõnum on märgitud loetuks
       as_unread: Sõnum on märgitud kui lugemata
@@ -689,6 +703,9 @@ et:
     outbox: 
       date: Kuupäev
       inbox: saabunud kirjad
+      messages: 
+        one: Sul on %{count} saadetud kiri
+        other: Sul on %{count} saadetud kirja
       my_inbox: "%{inbox_link}"
       no_sent_messages: Sul ei ole veel saadetud sõnumeid. Miks mitte kontakteeruda mõne %{people_mapping_nearby_link}?
       outbox: saadetud sõnumid
@@ -696,7 +713,6 @@ et:
       subject: Teema
       title: Saadetud sõnumid
       to: Kellele
-      you_have_sent_messages: Sul on %{count} saadetud sõnumit
     read: 
       back_to_inbox: Tagasi postkasti
       back_to_outbox: Tagasi saadetud sõnumite juurde
@@ -712,6 +728,7 @@ et:
   notifier: 
     diary_comment_notification: 
       hi: Tere, %{to_user}!
+      subject: "[OpenStreetMap] %{user} kommenteeris sinu päeviku sissekannet"
     email_confirm: 
       subject: "[OpenStreetMap] Kinnita oma e-posti aadress"
     email_confirm_html: 
@@ -852,8 +869,10 @@ et:
       visibility: "Nähtavus:"
       visibility_help: Mida see tähendab?
     no_such_user: 
+      heading: Kasutajat %{user} ei eksisteeri
       title: Sellist kasutajat ei ole
     trace: 
+      ago: "%{time_in_words_ago} tagasi"
       count_points: 
         one: "%{count} punkt"
         other: "%{count} punkti"
@@ -872,6 +891,8 @@ et:
       visibility: Nähtavus
       visibility_help: mida see tähendab?
     trace_header: 
+      see_all_traces: Vaata kõiki GPS-radasid
+      see_your_traces: Vaata oma GPS-radasid
       upload_trace: Lisa GPS-rada
     trace_optionals: 
       tags: Sildid
@@ -884,7 +905,7 @@ et:
       description: "Kirjeldus:"
       download: laadi alla
       edit: redigeeri
-      edit_track: Muuda seda jälge
+      edit_track: Muuda seda rada
       filename: "Failinimi:"
       map: kaardil
       none: Puuduvad
@@ -903,7 +924,7 @@ et:
         link text: Mis see on?
       current email address: "Praegune e-posti aadress:"
       delete image: Eemalda praegune pilt
-      email never displayed publicly: (mitte kunagi näidata avalikult)
+      email never displayed publicly: (ei näidata mitte kunagi avalikult)
       flash update success: Kasutaja informatsioon uuendatud edukalt.
       home location: "Kodu asukoht:"
       image: "Pilt:"
@@ -967,6 +988,7 @@ et:
     lost_password: 
       email address: "E-posti aadress:"
       heading: Parool ununenud?
+      help_text: Sisesta e-posti aadress, mida kasutasid registreerumisel. Me saadame sinna lingi, mida saad kasutada oma parooli uuesti seadmiseks.
       new password button: Saada mulle uus salasõna
       notice email cannot find: Seda e-posti aadressi ei leitud.
       title: Unustatud salasõna
@@ -984,7 +1006,7 @@ et:
       fill_form: Täitke vorm ning me saadame teile e-posti konto aktiveerimiseks.
       heading: Loo uus kasutajanimi
       openid: "%{logo} OpenID:"
-      password: "Parool:"
+      password: "Uus parool:"
       title: Loo uus konto
     no_such_user: 
       body: Vabandust kuid kasutajat nimega %{user} pole olemas. Kontrolli sisestatud lingi õigekirja. Võimalik, et link millele sa vajutasid on vigane.
@@ -1021,6 +1043,7 @@ et:
       ago: (%{time_in_words_ago} tagasi)
       confirm: Kinnita
       create_block: blokeeri see kasutaja
+      ct accepted: Vastu võetud %{ago}  tagasi
       delete_user: kustuta see kasutaja
       description: Kirjeldus
       diary: päevik
@@ -1058,8 +1081,9 @@ et:
     filter: 
       not_a_moderator: Selle tegevuse sooritamiseks pead sa olema moderaator.
     helper: 
-      time_future: Lõpeb %{time}.
+      time_future: Lõppeb %{time}.
       time_past: Lõppes %{time} tagasi.
+      until_login: Aktiivne kuni kasutaja logib sisse.
     new: 
       back: Vaata kõiki blokeeringuid
     partial: 
@@ -1076,6 +1100,7 @@ et:
       show: Näita
       status: Olek
       time_future: Lõpeb %{time}
+      time_past: Lõppes %{time} tagasi
   user_role: 
     grant: 
       confirm: Kinnita

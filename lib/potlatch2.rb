@@ -1,17 +1,27 @@
 module Potlatch2
   LOCALES = {
+    "ast" => "ast",
+    "br" => "br",
     "de" => "de_DE",
-    "de-DE" => "de_DE",
     "en" => "en_US",
     "en-GB" => "en_GB",
-    "en-US" => "en_US",
+    "es" => "es_ES",
+    "fi" => "fi",
     "fr" => "fr_FR",
-    "fr-FR" => "fr_FR",
+    "he" => "he",
+    "hsb" => "hsb",
     "ja" => "ja_JP",
-    "ja-JP" => "ja_JP",
+    "mk" => "mk",
+    "ms" => "ms",
+    "nb" => "nb_NO",
+    "nl" => "nl_NL",
+    "nn" => "nn_NO",
+    "no" => "nb_NO",
     "pl" => "pl_PL",
-    "pl-PL" => "pl_PL",
+    "ru" => "ru",
+    "sq" => "sq",
+    "tr" => "tr",
     "vi" => "vi_VN",
-    "vi-VN" => "vi_VN"
+    "zh" => "zh_CN"
   }
 end

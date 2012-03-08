@@ -78,7 +78,7 @@ private
 
   def wikipedia_link(key, value)
     # Some k/v's are wikipedia=http://en.wikipedia.org/wiki/Full%20URL
-    return nil if value =~ /^http:\/\//
+    return nil if value =~ /^https?:\/\//
 
     if key == "wikipedia"
       # This regex should match Wikipedia language codes, everything

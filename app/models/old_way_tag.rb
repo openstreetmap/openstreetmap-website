@@ -1,6 +1,6 @@
 class OldWayTag < ActiveRecord::Base
-  set_table_name 'way_tags'
-  set_primary_keys :way_id, :version, :k
+  self.table_name = "way_tags"
+  self.primary_keys = "way_id", "version", "k"
 
   belongs_to :old_way, :foreign_key => [:way_id, :version]
 

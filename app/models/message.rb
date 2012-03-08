@@ -9,6 +9,8 @@ class Message < ActiveRecord::Base
   validates_inclusion_of :message_read, :in => [ true, false ]
   validates_as_utf8 :title
 
+  attr_accessible :title, :body
+
   def digest
     md5 = Digest::MD5.new
     md5 << from_user_id.to_s

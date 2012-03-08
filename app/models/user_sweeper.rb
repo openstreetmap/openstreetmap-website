@@ -16,11 +16,11 @@ private
         (new_record.nil? or
          old_record.visible? != new_record.visible? or
          old_record.display_name != new_record.display_name or
-         old_record.image != new_record.image)
+         old_record.image.fingerprint != new_record.image.fingerprint)
       old_record.diary_entries.each do |entry|
         expire_action(:controller => 'diary_entry', :action => 'view', :display_name => old_record.display_name, :id => entry.id)
         expire_action(:controller => 'diary_entry', :action => 'list', :language => entry.language_code, :display_name => nil)
-        expire_action(:controller => 'diary_entry', :action => 'rss', :language => entry.language_code, :display_name => nil)
+        expire_action(:controller => 'diary_entry', :action => 'rss', :format => :rss, :language => entry.language_code, :display_name => nil)
       end
 
       old_record.diary_comments.each do |comment|
@@ -30,8 +30,8 @@ private
       expire_action(:controller => 'diary_entry', :action => 'list', :language => nil, :display_name => nil)
       expire_action(:controller => 'diary_entry', :action => 'list', :language => nil, :display_name => old_record.display_name)
 
-      expire_action(:controller => 'diary_entry', :action => 'rss', :language => nil, :display_name => nil)
-      expire_action(:controller => 'diary_entry', :action => 'rss', :language => nil, :display_name => old_record.display_name)
+      expire_action(:controller => 'diary_entry', :action => 'rss', :format => :rss, :language => nil, :display_name => nil)
+      expire_action(:controller => 'diary_entry', :action => 'rss', :format => :rss, :language => nil, :display_name => old_record.display_name)
 
       old_record.traces.each do |trace|
         expire_action(:controller => 'trace', :action => 'view', :id => trace.id)

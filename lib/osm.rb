@@ -6,8 +6,14 @@ module OSM
   require 'rexml/text'
   require 'xml/libxml'
   require 'digest/md5'
-  require 'RMagick'
   require 'nokogiri'
+
+  if defined?(SystemTimer)
+    Timer = SystemTimer
+  else
+    require 'timeout'
+    Timer = Timeout
+  end
 
   # The base class for API Errors.
   class APIError < RuntimeError
@@ -448,7 +454,7 @@ module OSM
   end
 
   def self.IPToCountry(ip_address)
-    Timeout::timeout(4) do
+    Timer.timeout(4) do
       ipinfo = Quova::IpInfo.new(ip_address)
 
       if ipinfo.status == Quova::Success then
@@ -510,7 +516,7 @@ module OSM
     link_count = 0
     link_size = 0
 
-    doc = Nokogiri::HTML(text)
+    doc = Nokogiri::HTML(Rinku.auto_link(text, :urls))
 
     if doc.content.length > 0
       doc.xpath("//a").each do |link|

@@ -4,7 +4,7 @@ class Node < ActiveRecord::Base
   include GeoRecord
   include ConsistencyValidations
 
-  set_table_name 'current_nodes'
+  self.table_name = "current_nodes"
 
   belongs_to :changeset
 
@@ -106,6 +106,10 @@ class Node < ActiveRecord::Base
     # and set manually before the actual delete
     node.visible = true
 
+    # Start with no tags
+    node.tags = Hash.new
+
+    # Add in any tags from the XML
     pt.find('tag').each do |tag|
       raise OSM::APIBadXMLError.new("node", pt, "tag is missing key") if tag['k'].nil?
       raise OSM::APIBadXMLError.new("node", pt, "tag is missing value") if tag['v'].nil?

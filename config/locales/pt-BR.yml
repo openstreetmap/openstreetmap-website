@@ -294,14 +294,20 @@ pt-BR:
     list: 
       description: Alterações recentes
       description_bbox: Conjuntos de alterações em %{bbox}
+      description_friend: Conjuntos de alterações de seus amigos
+      description_nearby: Conjuntos de alterações de usuários próximos
       description_user: Conjuntos de alterações de %{user}
       description_user_bbox: Conjuntos de alterações de %{user} em %{bbox}
       heading: Conjuntos de alterações
       heading_bbox: Conjuntos de alterações
+      heading_friend: Conjuntos de alterações
+      heading_nearby: Conjuntos de alterações
       heading_user: Conjuntos de alterações
       heading_user_bbox: Conjuntos de alterações
       title: Conjuntos de alterações
       title_bbox: Conjuntos de alterações em %{bbox}
+      title_friend: Conjunto de alterações dos seus amigos
+      title_nearby: Conjunto de alterações de usuários próximos
       title_user: Conjuntos de alterações de %{user}
       title_user_bbox: Conjuntos de alterações de %{user} em %{bbox}
     timeout: 
@@ -351,6 +357,8 @@ pt-BR:
       older_entries: Entradas antigas
       recent_entries: "Entradas recentes no Diário:"
       title: Diários dos Usuários
+      title_friends: Diários dos amigos
+      title_nearby: Diários dos usuários próximos
       user_title: Diário de %{user}
     location: 
       edit: Editar
@@ -398,11 +406,9 @@ pt-BR:
       licence: Licença
       longitude: "Lon:"
       manually_select: Selecior área diferente manualmente
-      mapnik_image: Imagem Mapnik
       max: max
       options: Opções
       osm_xml_data: Dados XML OpenStreetMap
-      osmarender_image: Imagem Osmarender
       output: Saída
       paste_html: Cole o HTML para publicar no site
       scale: Escala
@@ -902,9 +908,7 @@ pt-BR:
     map: 
       base: 
         cycle_map: Cycle Map
-        mapnik: Mapnik
         mapquest: MapQuest Open
-        osmarender: Osmarender
         transport_map: Mapa de transporte público
       overlays: 
         maplint: Maplint
@@ -998,13 +1002,17 @@ pt-BR:
     inbox: 
       date: Data
       from: De
+      messages: Você tem %{new_messages} e %{old_messages}
       my_inbox: Minha caixa de entrada
+      new_messages: 
+        other: uma=%{count} nova mensagem
       no_messages_yet: Você ainda não tem mensagens. Por que não entrar em contato com %{people_mapping_nearby_link}?
+      old_messages: 
+        other: uma=%{count} mensagem antiga
       outbox: caixa de saída
       people_mapping_nearby: alguém mapeando por perto
       subject: Assunto
       title: Caixa de Entrada
-      you_have: Você tem %{new_count} mensagens novas e %{old_count} mensagens antigas
     mark: 
       as_read: Mensagem marcada como lida
       as_unread: Mensagem marcada como não lida
@@ -1033,6 +1041,8 @@ pt-BR:
     outbox: 
       date: Data
       inbox: caixa de entrada
+      messages: 
+        other: uma=Você tem %{count} mensagem enviada
       my_inbox: Minha %{inbox_link}
       no_sent_messages: Você ainda não enviou nenhuma mensagem. Porque não entrar em contato com %{people_mapping_nearby_link}?
       outbox: caixa de saída
@@ -1040,7 +1050,6 @@ pt-BR:
       subject: Assunto
       title: Caixa de Saída
       to: Para
-      you_have_sent_messages: Você tem %{count} mensagens enviadas
     read: 
       back_to_inbox: Voltar para a caixa de entrada
       back_to_outbox: Voltar para a caixa de saída
@@ -1507,8 +1516,8 @@ pt-BR:
       summary_no_ip: "%{name} criado em %{date}"
       title: Usuários
     login: 
+      account is suspended: Desculpe, mas sua conta foi suspensa por causa de atividades suspeitas.<br />Por favor contate o <a href="%{webmaster}">webmaster</a> se você deseja discutir isto.
       account not active: Desculpe, sua conta não está ativa ainda.<br />Por favor use o link do e-mail de confirmação para ativar sua conta ou <a href="%{reconfirm}">solicite uma nova confirmação por e-mail</a>.
-      account suspended: Desculpe, mas sua conta foi suspensa por conta de atividade suspeita. <br />Por favor, contate o %{webmaster} se você deseja discutir esta decisão.
       auth failure: Desculpe, impossível entrar com estas informações.
       create account minute: Crie uma conta. Leva apenas um minuto.
       email or username: "Email ou Nome de Usuário:"
@@ -1517,6 +1526,7 @@ pt-BR:
       lost password link: Esqueceu sua senha?
       new to osm: Primeira vez no OpenStreetMap?
       notice: <a href="http://www.osmfoundation.org/wiki/License/We_Are_Changing_The_License">Saiba mais sobre a mudança na licença do OpenStreetMap</a> (<a href="http://wiki.openstreetmap.org/wiki/ODbL/We_Are_Changing_The_License">traduções</a>) (<a href="http://wiki.openstreetmap.org/wiki/Talk:ODbL/Upcoming">discussão</a>)
+      notice_terms: O OpenStreetMap irá trocar sua licença em 1 de Abril de 2012. É tão aberta quanto a atual, mas as informações legais se encaixam melhor em nossa base de dados de mapas. Nós ficaríamos felizes de manter suas contribuições no OpenStreetMap, mas nós apenas poderemos fazer isso se você permitir distribui-la sob a nova licença. Do contrário, teremos que remover suas contribuições da base de dados<br /><br />Por favor faça o login, e tome alguns segundos para revisar e aceitar os novos termos. Muito obrigado!
       openid: "%{logo} OpenID:"
       openid invalid: Desculpe, mas parece que seu OpenID está malformado.
       openid missing provider: Desculpe, não consegui contatar o seu provedor OpenID
@@ -1545,7 +1555,6 @@ pt-BR:
       remember: Lembrar neste computador
       title: Entrar
       to make changes: Para fazer alterações nos dados do OpenStreetMap, você precisa criar uma conta.
-      webmaster: webmaster
       with openid: "Alternativamente use seu OpenID para conectar:"
       with username: "Já tem uma conta no OpenStreetMap? Então por favor faça o login com seu nome de usuário e senha:"
     logout: 
@@ -1640,12 +1649,18 @@ pt-BR:
       confirm_user: confirmar este usuário
       create_block: bloquear este usuário
       created from: "Criado de:"
+      ct accepted: Aceito %{ago} atrás
+      ct declined: Discordo
+      ct status: "Termos do colaborador:"
+      ct undecided: Não decidido
       deactivate_user: desativar este usuário
       delete_user: excluir este usuário
       description: Descrição
       diary: diário
       edits: edições
       email address: "Endereço de email:"
+      friends_changesets: Navegar em todos os conjuntos de alterações dos amigos
+      friends_diaries: Navegar em todas as entradas de diário dos amigos
       hide_user: esconder esse usuário
       if set location: Se você definir a sua localização, um mapa bonito vai aparecer abaixo. Você pode definir sua localização na página de %{settings_link}.
       km away: "%{count}km de distância"
@@ -1658,6 +1673,8 @@ pt-BR:
       my settings: minhas configurações
       my traces: minhas trilhas
       nearby users: Outros usuários próximos
+      nearby_changesets: Navegar em todos os conjuntos de alterações de usuários próximos
+      nearby_diaries: Navegar em todas as entradas de diário dos usuários próximos
       new diary entry: nova entrada de diário
       no friends: Você ainda não adicionou amigos.
       no nearby users: Ainda não há outros usuários mapeando por perto.

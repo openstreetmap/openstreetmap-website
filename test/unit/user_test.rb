@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class UserTest < ActiveSupport::TestCase
   api_fixtures
-  fixtures :friends
+  fixtures :friends, :languages, :user_roles
 
   def test_invalid_with_empty_attributes
     user = User.new
@@ -18,23 +18,27 @@ class UserTest < ActiveSupport::TestCase
   end
   
   def test_unique_email
-    new_user = User.new(:email => users(:normal_user).email,
+    new_user = User.new({
+      :email => users(:normal_user).email,
       :status => "active", 
       :pass_crypt => Digest::MD5.hexdigest('test'),
       :display_name => "new user",
       :data_public => 1,
-      :description => "desc")
+      :description => "desc"
+    }, :without_protection => true)
     assert !new_user.save
     assert new_user.errors[:email].include?("has already been taken")
   end
   
   def test_unique_display_name
-    new_user = User.new(:email => "tester@openstreetmap.org",
+    new_user = User.new({
+      :email => "tester@openstreetmap.org",
       :status => "pending",
       :pass_crypt => Digest::MD5.hexdigest('test'),
       :display_name => users(:normal_user).display_name, 
       :data_public => 1,
-      :description => "desc")
+      :description => "desc"
+    }, :without_protection => true)
     assert !new_user.save
     assert new_user.errors[:display_name].include?("has already been taken")
   end
@@ -148,5 +152,91 @@ class UserTest < ActiveSupport::TestCase
 
     user.preferred_editor = "invalid_editor"
     assert_raise(ActiveRecord::RecordInvalid) { user.save! }
+  end
+
+  def test_visible
+    assert_equal 10, User.visible.count
+    assert_raise ActiveRecord::RecordNotFound do
+      User.visible.find(users(:suspended_user).id)
+    end
+    assert_raise ActiveRecord::RecordNotFound do
+      User.visible.find(users(:deleted_user).id)
+    end
+  end
+
+  def test_active
+    assert_equal 9, User.active.count
+    assert_raise ActiveRecord::RecordNotFound do
+      User.active.find(users(:inactive_user).id)
+    end
+    assert_raise ActiveRecord::RecordNotFound do
+      User.active.find(users(:suspended_user).id)
+    end
+    assert_raise ActiveRecord::RecordNotFound do
+      User.active.find(users(:deleted_user).id)
+    end
+  end
+
+  def test_public
+    assert_equal 11, User.public.count
+    assert_raise ActiveRecord::RecordNotFound do
+      User.public.find(users(:normal_user).id)
+    end
+  end
+
+  def test_languages
+    user = users(:normal_user)
+    assert_equal [ "en" ], user.languages
+    user.languages = [ "de", "fr", "en" ]
+    assert_equal [ "de", "fr", "en" ], user.languages
+    user.languages = [ "fr", "de", "sl" ]
+    assert_equal "de", user.preferred_language
+    assert_equal "de", user.preferred_language_from(["en", "sl", "de", "es"])
+  end
+
+  def test_visible?
+    assert_equal true, users(:inactive_user).visible?
+    assert_equal true, users(:normal_user).visible?
+    assert_equal true, users(:confirmed_user).visible?
+    assert_equal false, users(:suspended_user).visible?
+    assert_equal false, users(:deleted_user).visible?
+  end
+
+  def test_active?
+    assert_equal false, users(:inactive_user).active?
+    assert_equal true, users(:normal_user).active?
+    assert_equal true, users(:confirmed_user).active?
+    assert_equal false, users(:suspended_user).active?
+    assert_equal false, users(:deleted_user).active?
+  end
+
+  def test_moderator?
+    assert_equal false, users(:normal_user).moderator?
+    assert_equal true, users(:moderator_user).moderator?
+  end
+
+  def test_administrator?
+    assert_equal false, users(:normal_user).administrator?
+    assert_equal true, users(:administrator_user).administrator?
+  end
+
+  def test_has_role?
+    assert_equal false, users(:normal_user).has_role?("administrator")
+    assert_equal false, users(:normal_user).has_role?("moderator")
+    assert_equal true, users(:administrator_user).has_role?("administrator")
+    assert_equal true, users(:moderator_user).has_role?("moderator")
+  end
+
+  def test_delete
+    user = users(:normal_user)
+    user.delete
+    assert_equal "user_#{user.id}", user.display_name
+    assert_blank user.description
+    assert_equal nil, user.home_lat
+    assert_equal nil, user.home_lon
+    assert_equal false, user.image.file?
+    assert_equal "deleted", user.status
+    assert_equal false, user.visible?
+    assert_equal false, user.active?
   end
 end

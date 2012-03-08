@@ -319,18 +319,19 @@ en:
       title_bbox: "Changesets within %{bbox}"
       title_user_bbox: "Changesets by %{user} within %{bbox}"
       title_friend: "Changesets by your friends"
-
+      title_nearby: "Changesets by nearby users"
       heading: "Changesets"
       heading_user: "Changesets"
       heading_bbox: "Changesets"
       heading_user_bbox: "Changesets"
       heading_friend: "Changesets"
-
+      heading_nearby: "Changesets"
       description: "Recent changes"
       description_user: "Changesets by %{user}"
       description_bbox: "Changesets within %{bbox}"
       description_user_bbox: "Changesets by %{user} within %{bbox}"
       description_friend: "Changesets by your friends"
+      description_nearby: "Changesets by nearby users"
     timeout:
       sorry: "Sorry, the list of changesets you requested took too long to retrieve."
   diary_entry:
@@ -338,6 +339,8 @@ en:
       title: New Diary Entry
     list:
       title: "Users' diaries"
+      title_friends: "Friends' diaries"
+      title_nearby: "Nearby Users' diaries"
       user_title: "%{user}'s diary"
       in_language_title: "Diary Entries in %{language}"
       new: New Diary Entry
@@ -400,14 +403,21 @@ en:
       all:
         title: "OpenStreetMap diary entries"
         description: "Recent diary entries from users of OpenStreetMap"
+    comments:
+      has_commented_on: "%{display_name} has commented on the following diary entries"
+      post: Post
+      when: When
+      comment: Comment
+      ago: %{ago} ago
+      newer_comments: "Newer Comments"
+      older_comments: "Older Comments"
   export:
     start:
       area_to_export: "Area to Export"
       manually_select: "Manually select a different area"
       format_to_export: "Format to Export"
       osm_xml_data: "OpenStreetMap XML Data"
-      mapnik_image: "Mapnik Image"
-      osmarender_image: "Osmarender Image"
+      map_image: "Map Image (shows standard layer)"
       embeddable_html: "Embeddable HTML"
       licence: "Licence"
       export_details: 'OpenStreetMap data is licensed under the <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative Commons Attribution-ShareAlike 2.0 license</a>.'
@@ -976,7 +986,7 @@ en:
     foundation_title: The OpenStreetMap Foundation
     sotm2011: 'Come to the 2011 OpenStreetMap Conference, The State of the Map, September 9-11th in Denver!'
     license:
-      alt: CC by-sa 2.0
+      alt: CC BY-SA 2.0
       title: OpenStreetMap data is licensed under the Creative Commons Attribution-Share Alike 2.0 Generic License
     make_a_donation:
       title: Support OpenStreetMap with a monetary donation
@@ -997,7 +1007,7 @@ en:
       <p>
          OpenStreetMap is <i>open data</i>, licensed under the <a
          href="http://creativecommons.org/licenses/by-sa/2.0/">Creative
-         Commons Attribution-ShareAlike 2.0</a> licence (CC-BY-SA).
+         Commons Attribution-ShareAlike 2.0</a> licence (CC BY-SA).
       </p>
       <p>
         You are free to copy, distribute, transmit and adapt our maps
@@ -1013,14 +1023,14 @@ en:
       <p>
         If you are using OpenStreetMap map images, we request that
         your credit reads at least &ldquo;&copy; OpenStreetMap
-        contributors, CC-BY-SA&rdquo;. If you are using map data only,
+        contributors, CC BY-SA&rdquo;. If you are using map data only,
         we request &ldquo;Map data &copy; OpenStreetMap contributors,
-        CC-BY-SA&rdquo;.
+        CC BY-SA&rdquo;.
       </p>
       <p>
         Where possible, OpenStreetMap should be hyperlinked to <a
         href="http://www.openstreetmap.org/">http://www.openstreetmap.org/</a>
-        and CC-BY-SA to <a
+        and CC BY-SA to <a
         href="http://creativecommons.org/licenses/by-sa/2.0/">http://creativecommons.org/licenses/by-sa/2.0/</a>. If
         you are using a medium where links are not possible (e.g. a
         printed work), we suggest you direct your readers to
@@ -1051,7 +1061,7 @@ en:
 
       <h3>Our contributors</h3>
       <p>
-        Our CC-BY-SA licence requires you to &ldquo;give the Original
+        Our CC BY-SA licence requires you to &ldquo;give the Original
         Author credit reasonable to the medium or means You are
         utilising&rdquo;. Individual OSM mappers do not request a
         credit over and above that to &ldquo;OpenStreetMap
@@ -1078,7 +1088,7 @@ en:
           on Australian Bureau of Statistics data.</li>
           <li><strong>Austria</strong>: Contains data from
           <a href="http://data.wien.gv.at/">Stadt Wien</a> under
-          <a href="http://creativecommons.org/licenses/by/3.0/at/deed.de">CC-BY</a>.</li>
+          <a href="http://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a>.</li>
           <li><strong>Canada</strong>: Contains data from
           GeoBase&reg;, GeoGratis (&copy; Department of Natural
           Resources Canada), CanVec (&copy; Department of Natural
@@ -1090,7 +1100,12 @@ en:
           Land Information New Zealand. Crown Copyright reserved.</li>
           <li><strong>Poland</strong>: Contains data from <a
           href="http://ump.waw.pl/">UMP-pcPL maps</a>. Copyright
-          UMP-pcPL contributors.</li>
+          UMP-pcPL contributors.
+          <a href="http://wiki.openstreetmap.org/wiki/UMP2OSM_Importing">
+          More about OSM&apos;s use of UMP data</a></li>
+          <li><strong>South Africa</strong>: Contains data sourced from
+          <a href="http://www.ngi.gov.za/">Chief Directorate:
+          National Geo-Spatial Information</a>, State copyright reserved.</li>
           <li><strong>United Kingdom</strong>: Contains Ordnance
           Survey data &copy; Crown copyright and database right
           2010.</li>
@@ -1202,7 +1217,13 @@ en:
       title: "Inbox"
       my_inbox: "My inbox"
       outbox: "outbox"
-      you_have: "You have %{new_count} new messages and %{old_count} old messages"
+      messages: "You have %{new_messages} and %{old_messages}"
+      new_messages:
+        one: "%{count} new message"
+        other: "%{count} new messages"
+      old_messages:
+        one: "%{count} old message"
+        other: "%{count} old messages"
       from: "From"
       subject: "Subject"
       date: "Date"
@@ -1235,7 +1256,9 @@ en:
       my_inbox: "My %{inbox_link}"
       inbox: "inbox"
       outbox: "outbox"
-      you_have_sent_messages: "You have %{count} sent messages"
+      messages:
+        one: "You have %{count} sent message"
+        other: "You have %{count} sent messages"
       to: "To"
       subject: "Subject"
       date: "Date"
@@ -1549,7 +1572,7 @@ en:
       email or username: "Email Address or Username:"
       password: "Password:"
       openid: "%{logo} OpenID:"
-      remember: "Remember me:"
+      remember: "Remember me"
       lost password link: "Lost your password?"
       login_button: "Login"
       register now: Register now
@@ -1558,9 +1581,9 @@ en:
       new to osm: New to OpenStreetMap?
       to make changes: To make changes to the OpenStreetMap data, you must have an account.
       create account minute: Create an account. It only takes a minute.
+      no account: Don't have an account?
       account not active: "Sorry, your account is not active yet.<br />Please use the link in the account confirmation email to activate your account, or <a href=\"%{reconfirm}\">request a new confirmation email</a>."
-      account suspended: Sorry, your account has been suspended due to suspicious activity.<br />Please contact the %{webmaster} if you wish to discuss this.
-      webmaster: webmaster
+      account is suspended: Sorry, your account has been suspended due to suspicious activity.<br />Please contact the <a href="%{webmaster}">webmaster</a> if you wish to discuss this.
       auth failure: "Sorry, could not log in with those details."
       notice: "<a href=\"http://www.osmfoundation.org/wiki/License/We_Are_Changing_The_License\">Find out more about OpenStreetMap's upcoming license change</a> (<a href=\"http://wiki.openstreetmap.org/wiki/ODbL/We_Are_Changing_The_License\">translations</a>) (<a href=\"http://wiki.openstreetmap.org/wiki/Talk:ODbL/Upcoming\">discussion</a>)"
       notice_terms: "OpenStreetMap is moving to a new licence on 1st April 2012. It's just as open as our current one, but the legal bits are much better suited to our map database. We'd love to keep your contributions in OpenStreetMap, but we can only do so if you agree to let us distribute them under the new licence. Otherwise, we'll have to remove them from the database.<br /><br />Please log in, then take a few seconds to review and accept the new terms. Thank you!"
@@ -1666,6 +1689,7 @@ en:
       my traces: my traces
       my notes: my map notes
       my settings: my settings
+      my comments: my comments
       oauth settings: oauth settings
       blocks on me: blocks on me
       blocks by me: blocks by me
@@ -1708,6 +1732,7 @@ en:
           moderator: "Revoke moderator access"
       block_history: "view blocks received"
       moderator_history: "view blocks given"
+      comments: "comments"
       create_block: "block this user"
       activate_user: "activate this user"
       deactivate_user: "deactivate this user"
@@ -1717,6 +1742,9 @@ en:
       delete_user: "delete this user"
       confirm: "Confirm"
       friends_changesets: "Browse all changesets by friends"
+      friends_diaries: "Browse all diary entries by friends"
+      nearby_changesets: "Browse all changesets by nearby users"
+      nearby_diaries: "Browse all diary entries by nearby users"
     popup:
       your location: "Your location"
       nearby mapper: "Nearby mapper"
@@ -1952,8 +1980,7 @@ en:
   javascripts:
     map:
       base:
-        mapnik: Mapnik
-        osmarender: Osmarender
+        standard: Standard
         cycle_map: Cycle Map
         transport_map: Transport Map
         mapquest: MapQuest Open

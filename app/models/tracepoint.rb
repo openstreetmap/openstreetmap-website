@@ -1,7 +1,7 @@
 class Tracepoint < ActiveRecord::Base
   include GeoRecord
 
-  set_table_name 'gps_points'
+  self.table_name = "gps_points"
 
   validates_numericality_of :trackid, :only_integer => true
   validates_numericality_of :latitude, :only_integer => true

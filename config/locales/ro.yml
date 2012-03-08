@@ -28,6 +28,7 @@ ro:
         latitude: Latitudine
         longitude: Longitudine
         name: Nume
+        public: Public
         size: Dimensiune
         user: Utilizator
         visible: Vizibilă
@@ -35,6 +36,7 @@ ro:
         active: Activ
         description: Descriere
         display_name: Afișare nume
+        email: E-mail
         languages: Limbi
         pass_crypt: Parolă
     models: 
@@ -91,6 +93,8 @@ ro:
       show_area_box: Afișează cutia zonei
     common_details: 
       changeset_comment: "Comentariu:"
+      deleted_at: "Șters la:"
+      deleted_by: "Șters de:"
       edited_at: "Editat la:"
       edited_by: "Editat de:"
       in_changeset: "În setul de schimbări:"
@@ -156,7 +160,7 @@ ro:
       members: "Membrii:"
       part_of: "Parte din:"
     relation_history: 
-      download: "%{download_xml_link} sau %{view_history_link}"
+      download: "%{download_xml_link} sau %{view_details_link}"
       download_xml: Descărcare XML
       relation_history: Istoric relații
       relation_history_title: "Istoric relații: %{relation_name}"
@@ -244,26 +248,484 @@ ro:
       still_editing: (încă se editează)
       view_changeset_details: Vizualizare detalii set de schimbări
     changeset_paging_nav: 
-      showing_page: Se afișează pagina
+      next: Următoarea »
+      previous: « Precedenta
+      showing_page: Se afișează pagina %{page}
     changesets: 
       area: Zonă
       comment: Comentariu
+      id: ID
       saved_at: Salvat la
       user: Utilizator
     list: 
       description: Schimbări recente
+  diary_entry: 
+    diary_entry: 
+      comment_count: 
+        one: un comentariu
+        other: "%{count} comentarii"
+    edit: 
+      language: "Limbă:"
+      latitude: "Latitudine:"
+      location: "Locație:"
+      longitude: "Longitudine:"
+      save_button: Salvează
+      subject: "Subiect:"
+    list: 
+      title: Jurnalele utilizatorilor
+      title_friends: Jurnalele prietenilor
+      title_nearby: Jurnalele utilizatorilor aflați în apropiere
+      user_title: Jurnalul utilizatorului %{user}
+    location: 
+      edit: Modificare
+      location: "Locație:"
+      view: Vizualizare
+    view: 
+      login: Autentificare
+      login_to_leave_a_comment: "%{login_link}a este necesară pentru a comenta"
+      save_button: Salvează
+      title: Jurnalul utilizatorului %{user} | %{title}
+      user_title: Jurnalul utilizatorului %{user}
   export: 
     start: 
+      add_marker: Adaugă un marcator pe hartă
+      export_button: Exportare
+      format: Format
+      image_size: Dimensiune imagine
+      latitude: "Lat:"
       licence: Licență
+      longitude: "Long:"
+      max: max
       options: Opțiuni
+      output: Date de ieșire
+      scale: Scară
+      too_large: 
+        heading: Arie prea mare
+      zoom: Zoom
+    start_rjs: 
+      drag_a_box: Trageți cu mouse-ul și creați un dreptunghi pentru a selecta zona hărții
+      export: Exportă
+      manually_select: Selectare manuală a unei alte zone
   geocoder: 
+    description: 
+      title: 
+        osm_namefinder: "%{types} de la <a href=\"http://gazetteer.openstreetmap.org/namefinder/\">OpenStreetMap Namefinder</a>"
+      types: 
+        cities: Orașe
+        places: Locuri
+        towns: Orășele
+    direction: 
+      east: est
+      north: nord
+      north_east: nord-est
+      north_west: nord-vest
+      south: sud
+      south_east: sud-est
+      south_west: sud-vest
+      west: vest
+    distance: 
+      one: circa 1 km
+      other: circa %{count} km
+      zero: mai puțin de 1 km
+    results: 
+      more_results: Mai multe rezultate
+      no_results: Niciun rezultat găsit
+    search: 
+      title: 
+        ca_postcode: Rezultate de la <a href="http://geocoder.ca/">Geocoder.CA</a>
+        geonames: Rezultate de la <a href="http://www.geonames.org/">GeoNames</a>
+        latlon: Rezultate <a href="http://openstreetmap.org/">interne</a>
+        osm_namefinder: Rezultate de la <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>
+        osm_nominatim: Rezultate de la <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
+        uk_postcode: Rezultate de la <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
+        us_postcode: Rezultate de la <a href="http://geocoder.us/">Geocoder.us</a>
     search_osm_namefinder: 
       prefix: "%{type}"
+      suffix_place: ", %{distance} %{direction} de %{placename}"
+    search_osm_nominatim: 
+      prefix: 
+        amenity: 
+          airport: Aeroport
+          arts_centre: Centru de arte
+          atm: Bancomat
+          auditorium: Auditoriu
+          bank: Instituție bancară
+          bar: Bar
+          bench: Bancă
+          bicycle_parking: Parcare de biciclete
+          bicycle_rental: Închiriere de biciclete
+          brothel: Bordel
+          bureau_de_change: Casă de schimb valutar
+          bus_station: Stație de autobuz
+          cafe: Cafenea
+          car_rental: Închiriere de mașini
+          car_wash: Spălătorie auto
+          casino: Cazinou
+          cinema: Cinematograf
+          clinic: Clinică
+          club: Club
+          college: Colegiu
+          courthouse: Tribunal
+          crematorium: Crematoriu
+          dentist: Dentist
+          doctors: Medici
+          drinking_water: Cișmea
+          driving_school: Școală de șoferi
+          embassy: Ambasadă
+          emergency_phone: Telefon de urgență
+          fast_food: Fast-food
+          ferry_terminal: Terminal pentru feriboturi
+          fire_hydrant: Hidrant
+          fire_station: Stație de pompieri
+          fountain: Fântână
+          fuel: Benzinărie
+          grave_yard: Cimitir
+          gym: Sală de fitness / gimnastică
+          health_centre: Centru de sănătate
+          hospital: Spital
+          hotel: Hotel
+          ice_cream: Înghețată
+          kindergarten: Grădiniță
+          library: Bibliotecă
+          market: Piață
+          mountain_rescue: Salvamont
+          nightclub: Club de noapte
+          nursery: Creșă
+          nursing_home: Azil de bătrâni
+          office: Birou
+          park: Parc
+          parking: Parcare
+          pharmacy: Farmacie
+          place_of_worship: Lăcaș de cult
+          police: Poliție
+          post_box: Cutie poștală
+          post_office: Oficiu poștal
+          prison: Închisoare
+          pub: Pub
+          public_building: Clădire publică
+          public_market: Piață publică
+          reception_area: Zonă de recepție
+          recycling: Punct de reciclare
+          restaurant: Restaurant
+          sauna: Saună
+          school: Școală
+          shelter: Adăpost
+          shop: Magazin
+          shopping: Cumpărături
+          studio: Studio
+          supermarket: Supermarket
+          taxi: Taxi
+          telephone: Telefon public
+          theatre: Teatru
+          toilets: Toalete
+          townhall: Primărie
+          university: Universitate
+          veterinary: Medic veterinar
+          waste_basket: Coș de gunoi
+          wifi: Acces WiFi
+          youth_centre: Centru de tineret
+        boundary: 
+          administrative: Graniță administrativă
+        building: 
+          apartments: Bloc de apartamente
+          bunker: Buncăr
+          chapel: Capelă
+          church: Biserică
+          city_hall: Primărie
+          commercial: Clădire comercială
+          entrance: Intrare în clădire
+          flats: Apartamente
+          garage: Garaj
+          hospital: Clădire de spital
+          hotel: Hotel
+          house: Casă
+          industrial: Clădire industrială
+          office: Clădire de birouri
+          public: Clădire publică
+          residential: Clădire rezidențială
+          school: Clădire școlară
+          shop: Magazin
+          stadium: Stadion
+          store: Magazin
+          terrace: Terasă
+          tower: Turn
+          train_station: Gară
+        highway: 
+          bus_guideway: Linie de autobuz ghidată
+          bus_stop: Stație de autobuz
+          emergency_access_point: Punct de acces de urgență
+          footway: Cale pietonală
+          ford: Vad
+          gate: Poartă
+          motorway: Autostradă
+          motorway_junction: Intersecție pe autostradă
+          path: Potecă
+          pedestrian: Cale pietonală
+          platform: Platformă
+          primary: Drum principal
+          raceway: Pistă
+          road: Drum
+          secondary: Drum secundar
+          secondary_link: Drum secundar
+          services: Servicii pe autostradă
+          tertiary: Drum terțiar
+          trail: Potecă
+          unclassified: Drum neclasificat
+        historic: 
+          archaeological_site: Sit arheologic
+          battlefield: Câmp de luptă
+          boundary_stone: Bornă de graniță
+          building: Clădire
+          castle: Castel
+          church: Biserică
+          house: Casă
+          manor: Conac
+          mine: Mină
+          monument: Monument
+          museum: Muzeu
+          ruins: Ruine
+          tower: Turn
+          wreck: Epavă
+        landuse: 
+          basin: Bazin
+          cemetery: Cimitir
+          commercial: Zonă comercială
+          construction: Construcție
+          farm: Fermă
+          farmland: Teren agricol
+          forest: Pădure
+          grass: Iarbă
+          industrial: Zonă industrială
+          landfill: Groapă de gunoi
+          meadow: Luncă
+          military: Zonă militară
+          mine: Mină
+          mountain: Munte
+          nature_reserve: Rezervație naturală
+          park: Parc
+          plaza: Scuar
+          quarry: Carieră
+          railway: Cale ferată
+          recreation_ground: Zonă de recreere
+          reservoir: Rezervor
+          residential: Zonă rezidențială
+          vineyard: Podgorie
+          wood: Pădure
+        leisure: 
+          beach_resort: Stațiune balneară
+          fishing: Zonă de pescuit
+          garden: Grădină
+          golf_course: Teren de golf
+          ice_rink: Patinoar
+          miniature_golf: Minigolf
+          nature_reserve: Rezervație naturală
+          park: Parc
+          pitch: Teren de sport
+          playground: Loc de joacă
+          recreation_ground: Zonă de recreere
+          stadium: Stadion
+          swimming_pool: Bazin de înot
+          track: Pistă de atletism
+          water_park: Parc acvatic
+        natural: 
+          bay: Golf
+          beach: Plajă
+          cape: Cap
+          cave_entrance: Intrare în peșteră
+          channel: Canal
+          cliff: Stâncă
+          coastline: Litoral
+          crater: Crater
+          fjord: Fiord
+          geyser: Gheizer
+          glacier: Ghețar
+          hill: Deal
+          island: Insulă
+          land: Teren
+          marsh: Mlaștină
+          moor: Baltă
+          mud: Noroi
+          peak: Vârf
+          reef: Recif
+          ridge: Creastă
+          river: Râu
+          rock: Rocă
+          scree: Grohotiș
+          scrub: Tufăriș
+          shoal: Banc de nisip
+          spring: Izvor
+          strait: Strâmtoare
+          tree: Copac
+          valley: Vale
+          volcano: Vulcan
+          water: Apă
+          wood: Pădure
+        place: 
+          airport: Aeroport
+          city: Oraș
+          country: Țară
+          county: Județ
+          farm: Fermă
+          hamlet: Cătun
+          house: Casă
+          houses: Case
+          island: Insulă
+          islet: Insuliță
+          locality: Localitate
+          moor: Baltă
+          municipality: Comună
+          postcode: Cod poștal
+          region: Regiune
+          sea: Mare
+          state: Stat
+          subdivision: Subdiviziune
+          suburb: Suburbie
+          town: Orășel
+          unincorporated_area: Zonă neîncorporată
+          village: Sat
+        railway: 
+          abandoned: Cale ferată abandonată
+          construction: Cale ferată în construcție
+          disused: Cale ferată dezafectată
+          disused_station: Gară dezafectată
+          funicular: Funicular
+          historic_station: Gară istorică
+          junction: Nod feroviar
+          level_crossing: Trecere la nivel
+          light_rail: Metrou
+          monorail: Monoșină
+          narrow_gauge: Cale ferată cu ecartament îngust
+          platform: Platformă feroviară
+          station: Gară
+          subway: Stație de metrou
+          subway_entrance: Intrare la metrou
+          tram: Tramvai
+          tram_stop: Stație de tramvai
+          yard: Depou
+        shop: 
+          apparel: Magazin de îmbrăcăminte
+          art: Magazin de artă
+          bakery: Brutărie
+          beauty: Salon de frumusețe
+          beverages: Magazin de băuturi
+          bicycle: Magazin de biciclete
+          books: Librărie
+          butcher: Măcelărie
+          car_parts: Piese auto
+          car_repair: Service auto
+          clothes: Magazin de haine
+          confectionery: Cofetărie
+          cosmetics: Magazin de cosmetice
+          drugstore: Farmacie
+          dry_cleaning: Curățătorie chimică
+          electronics: Magazin de electronice
+          estate_agent: Agent imobiliar
+          fish: Pescărie
+          florist: Florărie
+          food: Alimentară
+          furniture: Mobilier
+          gallery: Galerie
+          grocery: Magazin alimentar
+          hairdresser: Coafor
+          hifi: Hi-Fi
+          insurance: Asigurare
+          jewelry: Bijuterie
+          kiosk: Chioșc
+          laundry: Spălătorie
+          mall: Mall
+          market: Piață
+          newsagent: Chioșc de ziare
+          optician: Optician
+          organic: Magazin de alimente organice
+          salon: Salon de frumusețe
+          shopping_centre: Centru comercial
+          stationery: Magazin de papetărie
+          supermarket: Supermarket
+          toys: Magazin de jucării
+          travel_agency: Agenție de turism
+        tourism: 
+          alpine_hut: Refugiu montan
+          artwork: Operă de artă
+          attraction: Atracție
+          cabin: Cabină
+          camp_site: Loc de campare
+          chalet: Cabană
+          guest_house: Casă de oaspeți
+          hostel: Hotel de tineret
+          hotel: Hotel
+          information: Informații
+          motel: Motel
+          museum: Muzeu
+          theme_park: Parc tematic
+          valley: Vale
+          zoo: Gradină zoologică
+        waterway: 
+          canal: Canal
+          dam: Baraj
+          ditch: Șanț
+          dock: Doc
+          drain: Scurgere
+          lock: Ecluză
+          lock_gate: Poartă de ecluză
+          mooring: Amaraj
+          river: Râu
+          waterfall: Cascadă
+          weir: Stăvilar
+  layouts: 
+    copyright: Drepturi de autor și licență
+    documentation: Documentație
+    documentation_title: Documentație pentru proiect
+    edit: Modificare
+    edit_with: Modificare cu %{editor}
+    help: Ajutor
+    help_centre: Centru de ajutor
+    history: Istoric
+    home: acasă
+    log_in: autentificare
+    log_in_tooltip: Autentificare cu un cont existent
+    logo: 
+      alt_text: Logoul OpenStreetMap
+    logout: închide sesiunea
+    logout_tooltip: Închide sesiunea
+    make_a_donation: 
+      text: Faceți o donație
+    sign_up: înregistrare
+    sign_up_tooltip: Creați un cont pentru editare
+    view: Vizualizare
+    view_tooltip: Vizualizare hartă
+    welcome_user: Bine ați venit, %{user_link}
+    welcome_user_link_tooltip: Pagina dumneavoastră de utilizator
+  license_page: 
+    foreign: 
+      title: Despre această traducere
+    native: 
+      title: Despre această pagină
   message: 
     delete: 
       deleted: Mesaj șters
     message_summary: 
       delete_button: Şterge
+    outbox: 
+      date: Dată
+      inbox: mesaje primite
+      messages: 
+        one: Aveți %{count} mesaj trimis
+        other: Aveți %{count} (de) mesaje trimise
+      my_inbox: Mesajele mele primite
+      outbox: mesaje trimise
+      subject: Subiect
+      title: Mesaje trimise
+      to: Către
+    read: 
+      back_to_inbox: Înapoi la mesaje primite
+      back_to_outbox: Înapoi la mesaje trimise
+      date: Dată
+      from: De la
+      reply_button: Răspunde
+      subject: Subiect
+      title: Citire mesaj
+      to: Către
+      unread_button: Marchează ca necitit
     sent_message_summary: 
       delete_button: Şterge
   oauth: 
@@ -286,10 +748,20 @@ ro:
     with_id: "%{id}"
     with_name: "%{name} (%{id})"
   site: 
+    edit: 
+      user_page_link: pagină de utilizator
     index: 
       license: 
+        license_name: Creative Commons Atribuire și distribuire în condiții identice 2.0
         license_url: http://creativecommons.org/licenses/by-sa/2.0/
+        notice: Distribuit sub licența %{license_name} de către %{project_name} și contribuitorii săi.
+        project_name: proiectul OpenStreetMap
         project_url: http://openstreetmap.org
+      permalink: Legătură permanentă
+      shortlink: Legătură scurtată
+  time: 
+    formats: 
+      friendly: "%e %B %Y la %H:%M"
   trace: 
     edit: 
       visibility: "Vizibilitate:"

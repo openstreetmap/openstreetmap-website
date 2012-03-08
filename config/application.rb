@@ -14,7 +14,7 @@ end
 
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
-  Bundler.require *Rails.groups(:assets => %w(development test))
+  Bundler.require(*Rails.groups(:assets => %w(development test)))
   # If you want your assets lazily compiled in production, use this line
   # Bundler.require(:default, :assets, Rails.env)
 end
@@ -51,17 +51,28 @@ module OpenStreetMap
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password, :pass_crypt, :pass_crypt_confirmation]
 
+    # Use SQL instead of Active Record's schema dumper when creating the database.
+    # This is necessary if your schema can't be completely dumped by the schema dumper,
+    # like if you have constraints or database-specific column types
+    unless STATUS == :database_offline
+      config.active_record.schema_format = :sql
+    end
+
+    # Enforce whitelist mode for mass assignment.
+    # This will create an empty whitelist of attributes available for mass-assignment for all models
+    # in your app. As such, your models will need to explicitly whitelist or blacklist accessible
+    # parameters by using an attr_accessible or attr_protected declaration.
+    config.active_record.whitelist_attributes = true
+
     # Enable the asset pipeline
     config.assets.enabled = true
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
 
-    # Use SQL instead of Active Record's schema dumper when creating the test database.
-    # This is necessary if your schema can't be completely dumped by the schema dumper,
-    # like if you have constraints or database-specific column types
-    unless STATUS == :database_offline
-      config.active_record.schema_format = :sql
+    # Don't eager load models when the database is offline
+    if STATUS == :database_offline
+      config.paths["app/models"].skip_eager_load!
     end
   end
 end

@@ -276,6 +276,15 @@ class ChangesetController < ApplicationController
         end
       end
 
+      if params[:nearby]
+        if @user
+          changesets = changesets.where(:user_id => @user.nearby)
+        elsif request.format == :html
+          require_user
+          return
+        end
+      end
+
       if params[:bbox]
         bbox = BoundingBox.from_bbox_params(params)
       elsif params[:minlon] and params[:minlat] and params[:maxlon] and params[:maxlat]
@@ -295,6 +304,10 @@ class ChangesetController < ApplicationController
         @title =  t 'changeset.list.title_friend'
         @heading =  t 'changeset.list.heading_friend'
         @description = t 'changeset.list.description_friend'
+      elsif params[:nearby] and @user
+        @title = t 'changeset.list.title_nearby'
+        @heading = t 'changeset.list.heading_nearby'
+        @description = t 'changeset.list.description_nearby'
       elsif user and bbox
         @title =  t 'changeset.list.title_user_bbox', :user => user.display_name, :bbox => bbox.to_s
         @heading =  t 'changeset.list.heading_user_bbox', :user => user.display_name, :bbox => bbox.to_s
@@ -319,9 +332,9 @@ class ChangesetController < ApplicationController
       @bbox = bbox
       
       @edits = changesets.order("changesets.created_at DESC").offset((@page - 1) * @page_size).limit(@page_size).preload(:user, :changeset_tags)
-    end
 
-    render :action => :list
+      render :action => :list
+    end
   end
 
   ##

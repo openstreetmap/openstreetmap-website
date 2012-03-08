@@ -1,5 +1,5 @@
 class ChangesetTag < ActiveRecord::Base
-  set_primary_keys :changeset_id, :k
+  self.primary_keys = "changeset_id", "k"
 
   belongs_to :changeset
 

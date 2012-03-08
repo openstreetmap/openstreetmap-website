@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  include SessionPersistence
 
   protect_from_forgery
 
@@ -266,7 +267,7 @@ class ApplicationController < ActionController::Base
       report_error message, :bad_request
     rescue OSM::APIError => ex
       report_error ex.message, ex.status
-    rescue ActionController::UnknownAction => ex
+    rescue AbstractController::ActionNotFound => ex
       raise
     rescue Exception => ex
       logger.info("API threw unexpected #{ex.class} exception: #{ex.message}")
@@ -286,7 +287,7 @@ class ApplicationController < ActionController::Base
   ##
   # wrap an api call in a timeout
   def api_call_timeout
-    SystemTimer.timeout_after(API_TIMEOUT) do
+    OSM::Timer.timeout(API_TIMEOUT) do
       yield
     end
   rescue Timeout::Error
@@ -296,11 +297,17 @@ class ApplicationController < ActionController::Base
   ##
   # wrap a web page in a timeout
   def web_timeout
-    SystemTimer.timeout_after(WEB_TIMEOUT) do
+    OSM::Timer.timeout(WEB_TIMEOUT) do
       yield
     end
-  rescue ActionView::TemplateError => ex
-    if ex.original_exception.is_a?(Timeout::Error)
+  rescue ActionView::Template::Error => ex
+    ex = ex.original_exception
+
+    if ex.is_a?(ActiveRecord::StatementInvalid) and ex.message =~ /^Timeout::Error/
+      ex = Timeout::Error.new
+    end
+
+    if ex.is_a?(Timeout::Error)
       render :action => "timeout"
     else
       raise
@@ -327,7 +334,7 @@ class ApplicationController < ActionController::Base
     end)
 
     options[:cache_path] = Proc.new do |controller|
-      cache_path.merge(controller.params).merge(:locale => I18n.locale)
+      cache_path.merge(controller.params).merge(:host => SERVER_URL, :locale => I18n.locale)
     end
 
     actions.push(options)
@@ -339,7 +346,7 @@ class ApplicationController < ActionController::Base
   # extend expire_action to expire all variants
   def expire_action(options = {})
     I18n.available_locales.each do |locale|
-      super options.merge(:locale => locale)
+      super options.merge(:host => SERVER_URL, :locale => locale)
     end
   end
 

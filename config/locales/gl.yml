@@ -281,14 +281,20 @@ gl:
     list: 
       description: Cambios recentes
       description_bbox: Conxuntos de cambios en %{bbox}
+      description_friend: Conxuntos de cambios dos seus amigos
+      description_nearby: Conxuntos de cambios dos usuarios de lugares próximos
       description_user: Conxuntos de cambios por %{user}
       description_user_bbox: Conxuntos de cambios por %{user} en %{bbox}
       heading: Conxuntos de cambios
       heading_bbox: Conxuntos de cambios
+      heading_friend: Conxuntos de cambios
+      heading_nearby: Conxuntos de cambios
       heading_user: Conxuntos de cambios
       heading_user_bbox: Conxuntos de cambios
       title: Conxuntos de cambios
       title_bbox: Conxuntos de cambios en %{bbox}
+      title_friend: Conxuntos de cambios dos seus amigos
+      title_nearby: Conxuntos de cambios dos usuarios de lugares próximos
       title_user: Conxuntos de cambios por %{user}
       title_user_bbox: Conxuntos de cambios por %{user} en %{bbox}
     timeout: 
@@ -338,6 +344,8 @@ gl:
       older_entries: Entradas máis vellas
       recent_entries: "Entradas recentes no diario:"
       title: Diarios de usuarios
+      title_friends: Diarios de amigos
+      title_nearby: Diarios de usuarios de lugares próximos
       user_title: Diario de %{user}
     location: 
       edit: Editar
@@ -385,11 +393,9 @@ gl:
       licence: Licenza
       longitude: "Lon:"
       manually_select: Seleccionar manualmente outra zona
-      mapnik_image: Imaxe de Mapnik
       max: máx.
       options: Opcións
       osm_xml_data: Datos XML do OpenStreetMap
-      osmarender_image: Imaxe do Osmarender
       output: Saída
       paste_html: Pegue o código HTML para incluílo na páxina web
       scale: Escala
@@ -967,13 +973,19 @@ gl:
     inbox: 
       date: Data
       from: De
+      messages: Ten %{new_messages} e %{old_messages}
       my_inbox: A miña caixa de entrada
+      new_messages: 
+        one: "%{count} mensaxe nova"
+        other: "%{count} mensaxes novas"
       no_messages_yet: Aínda non ten ningunha mensaxe. Por que non se pon en contacto con algunhas das %{people_mapping_nearby_link}?
+      old_messages: 
+        one: "%{count} mensaxe vella"
+        other: "%{count} mensaxes vellas"
       outbox: caixa de saída
       people_mapping_nearby: persoas próximas a vostede
       subject: Asunto
       title: Caixa de entrada
-      you_have: Ten %{new_count} mensaxes novas e %{old_count} vellas
     mark: 
       as_read: Mensaxe marcada como lida
       as_unread: Mensaxe marcada como non lida
@@ -1002,6 +1014,9 @@ gl:
     outbox: 
       date: Data
       inbox: caixa de entrada
+      messages: 
+        one: Vostede enviou %{count} mensaxe
+        other: Vostede enviou %{count} mensaxes
       my_inbox: A miña %{inbox_link}
       no_sent_messages: Aínda non enviou ningunha mensaxe. Por que non se pon en contacto con algunhas das %{people_mapping_nearby_link}?
       outbox: caixa de saída
@@ -1009,7 +1024,6 @@ gl:
       subject: Asunto
       title: Caixa de saída
       to: Para
-      you_have_sent_messages: Enviou %{count} mensaxes
     read: 
       back_to_inbox: Volver á caixa de entrada
       back_to_outbox: Volver á caixa de saída
@@ -1460,8 +1474,8 @@ gl:
       summary_no_ip: "%{name} creado o %{date}"
       title: Usuarios
     login: 
+      account is suspended: Sentímolo, a súa conta foi suspendida debido a actividades sospeitosas.<br />Póñase en contacto co <a href="%{webmaster}">webmaster</a> se quere debatelo.
       account not active: Sentímolo, a súa conta aínda non está activada.<br />Prema na ligazón que hai no correo de confirmación da conta ou <a href="%{reconfirm}">solicite un novo correo de confirmación</a>.
-      account suspended: Sentímolo, a súa conta foi suspendida debido a actividades sospeitosas.<br />Póñase en contacto co %{webmaster} se quere debatelo.
       auth failure: Sentímolo, non puido acceder ao sistema con eses datos.
       create account minute: Crear unha conta. Tan só leva un minuto.
       email or username: "Enderezo de correo electrónico ou nome de usuario:"
@@ -1470,6 +1484,7 @@ gl:
       lost password link: Perdeu o seu contrasinal?
       new to osm: É novo no OpenStreetMap?
       notice: <a href="http://www.osmfoundation.org/wiki/License/We_Are_Changing_The_License">Máis información acerca do cambio na licenza do OpenStreetMap</a> (<a href="http://wiki.openstreetmap.org/wiki/ODbL/We_Are_Changing_The_License">traducións</a>) (<a href="http://wiki.openstreetmap.org/wiki/Talk:ODbL/Upcoming">conversa</a>)
+      notice_terms: OpenStreetMap pasa a usar unha licenza nova o 1 de abril de 2012. É igual de aberta que a actual, pero algunhas partes desta nova licenza acáenlle mellor á nosa base de datos. Gustaríanos manter as súas contribucións, pero unicamente podemos facelo se acepta que as distribuamos baixo esta nova licenza. En caso contrario, teremos que eliminalos da base de datos.<br /><br />Acceda ao sistema, revise con calma e acepte os novos termos. Grazas!
       openid: "%{logo} OpenID:"
       openid invalid: Sentímolo, o seu OpenID semella non estar ben formado
       openid missing provider: Sentímolo, non podemos contactar co seu provedor do OpenID
@@ -1498,7 +1513,6 @@ gl:
       remember: "Lembrádeme:"
       title: Rexistro
       to make changes: Para realizar as modificacións nos datos do OpenStreetMap, cómpre ter unha conta.
-      webmaster: webmaster
       with openid: "Tamén pode usar o seu OpenID para acceder:"
       with username: "Xa ten unha conta no OpenStreetMap? Acceda ao sistema co seu nome de usuario e contrasinal:"
     logout: 
@@ -1591,12 +1605,18 @@ gl:
       confirm_user: confirmar este usuario
       create_block: bloquear este usuario
       created from: "Creado a partir de:"
+      ct accepted: Aceptou hai %{ago}
+      ct declined: Rexeitou
+      ct status: "Termos do colaborador:"
+      ct undecided: Indeciso
       deactivate_user: desactivar este usuario
       delete_user: borrar este usuario
       description: Descrición
       diary: diario
       edits: edicións
       email address: "Enderezo de correo electrónico:"
+      friends_changesets: Explorar todos os conxuntos de cambios dos seus amigos
+      friends_diaries: Explorar todas as entradas de diario dos amigos
       hide_user: agochar este usuario
       if set location: Se define a súa localización, aquí aparecerá un mapa. Pode establecer o seu lugar de orixe na súa páxina de %{settings_link}.
       km away: a %{count}km de distancia
@@ -1609,6 +1629,8 @@ gl:
       my settings: os meus axustes
       my traces: as miñas pistas
       nearby users: Outros usuarios próximos
+      nearby_changesets: Explorar todos os conxuntos de cambios dos usuarios de lugares próximos
+      nearby_diaries: Explorar todas as entradas de diario dos usuarios de lugares próximos
       new diary entry: nova entrada no diario
       no friends: Aínda non engadiu ningún amigo.
       no nearby users: Aínda non hai usuarios que estean situados na súa proximidade.

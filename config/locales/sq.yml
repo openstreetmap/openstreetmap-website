@@ -1,6 +1,7 @@
 # Messages for Albanian (Shqip)
 # Exported from translatewiki.net
 # Export driver: syck-pecl
+# Author: Euriditi
 # Author: Mdupont
 # Author: MicroBoy
 # Author: Mikullovci11
@@ -9,10 +10,38 @@
 sq: 
   activerecord: 
     attributes: 
+      diary_comment: 
+        body: Trupi i mesazhit
+      diary_entry: 
+        language: Gjuha
+        latitude: Gjerësia gjeografike
+        longitude: Gjatësia gjeografike
+        title: Titulli
+        user: Përdoruesi
+      friend: 
+        friend: Mik
+        user: Përdoruesi
       message: 
+        body: Trupi i mesazhit
+        recipient: Marrësi
+        sender: Dërguesi
         title: Titulli
       trace: 
+        description: Përshkrimi
+        latitude: Gjerësia gjeografike
+        longitude: Gjatësia gjeografike
         name: Emri
+        public: Publik
+        size: Madhësia
+        user: Përdoruesi
+        visible: I dukshëm
+      user: 
+        active: Aktiv
+        description: Përshkrimi
+        display_name: Emër i dukshëm
+        email: Email
+        languages: Gjuha
+        pass_crypt: Fjalëkalimi
     models: 
       acl: Qasu në Listën e Kontrollit
       changeset: Ndryshim
@@ -25,9 +54,28 @@ sq:
       message: Porosi
       node: Nyjë
       node_tag: Etiketë nyjë
+      notifier: Lajmëruesi
       old_node: Nyjë e vjetër
       old_node_tag: Etiketë e vjetër e nyjës
       old_relation: Marrëdhënie e vjetër
+      old_relation_member: Anëtar me lidhje të vjetër
+      old_relation_tag: Etiketë relacioni e vjetër
+      old_way: Rrugë e vjetër
+      old_way_node: Nyje rrugore e vjetër
+      old_way_tag: Etiketë rrugore e vjetër
+      relation: Lidhja
+      relation_member: Anëtar me lidhje të vjetër
+      relation_tag: Etiketë lidhjeje
+      session: Seksioni
+      trace: Gjurma
+      tracepoint: Pika e gjurmës
+      tracetag: Etiketa e gjurmës
+      user: Përdoruesi
+      user_preference: Parapëlqimet e përdoruesit
+      user_token: Shenja e përdoruesit
+      way: Rruga
+      way_node: Nyja e rrugës
+      way_tag: Etiketa e rrugës
   browse: 
     changeset: 
       changeset: "Ndryshim : %{id}"
@@ -55,6 +103,8 @@ sq:
       show_area_box: Kqyre Zonen e Barokes
     common_details: 
       changeset_comment: "Komenti :"
+      deleted_at: "Fshirë në:"
+      deleted_by: "Fshirë në:"
       edited_at: "U ndrzshe te:"
       edited_by: "Edituar nga:"
       in_changeset: "En ndryshimin :"
@@ -64,6 +114,11 @@ sq:
       entry_role: Lidhja %{relation_name} (sikur %{relation_role})
     map: 
       deleted: E Fshirë
+      edit: 
+        area: Zona e redaktimit
+        node: Nyja e redaktimit
+        relation: Lidhja e redaktimit
+        way: Ndrysho rrugën
       larger: 
         area: Kqyre zonen n'hart ma t'madhe
         node: Kqyre piken n'hart ma t'madhe
@@ -80,6 +135,13 @@ sq:
         prev_node_tooltip: Pika e kalume
         prev_relation_tooltip: Lidhja e kalume
         prev_way_tooltip: Mnyra e mahershme
+      paging: 
+        all: 
+          next: "%{id} »"
+          prev: « %{id}
+        user: 
+          next: "%{id} »"
+          prev: « %{id}
       user: 
         name_changeset_tooltip: Shiko editimet nga %{user}
         next_changeset_tooltip: Tjetri ndryshim prej %{user}
@@ -126,6 +188,7 @@ sq:
       relation_history_title: "Historija e Lidhjes: %{relation_name}"
       view_details: kqyre n'detaje
     relation_member: 
+      entry: "%{type} %{name}"
       entry_role: "%{type} %{name} asht si %{role}"
       type: 
         node: Pikë
@@ -140,6 +203,7 @@ sq:
       details: Detajet
       drag_a_box: Bone ni kuti n'hart edhe zgedhe zonen
       edited_by_user_at_timestamp: Ndryshuar nga [[user]] në [[timestamp]]
+      hide_areas: Fshih zonat
       history_for_feature: Historija për [[feature]]
       load_data: Zgedhi senet
       loaded_an_area_with_num_features: "Ti e ke marr ni zon qe ka [[num_features]] . E do browsera nuk e qesin fort mir kualitetin e seneve me ta. Browseri duhet me i kallxu ma pak se 100 sene n'tnjejtin vakt: me bo dishka qeter munet me ta kadalsu browserin. Qe je i sigurt nese don mi pa senet, duhesh me kliku n'pull."
@@ -162,6 +226,7 @@ sq:
           node: Pikë
           way: Rruga
       private_user: perdorus privat
+      show_areas: Shfaq zonat
       show_history: Shfaq Historinë
       unable_to_load_size: "Nuk kemi mujt mi shfaq: madhsin e kutis [[bbox_size]] asht shum e madhe (duhet me kan ma e vogel se %{max_bbox_size})"
       wait: Prit...
@@ -198,30 +263,97 @@ sq:
       view_details: kqyre n'detaje
       way_history: Historija e Udhës
       way_history_title: "Historija e udhës: %{way_name}"
+  changeset: 
+    changeset: 
+      anonymous: Anonim
+      big_area: (e madhe)
+      id: "#%{id}"
+      no_comment: (asgjë)
+      no_edits: (asnjë redaktim)
+      show_area_box: Shfaq kutinë e zonës
+      still_editing: (redaktimi po vazhdon ende)
+      view_changeset_details: Shiko detajet e grupit të ndryshimeve
+    changeset_paging_nav: 
+      next: Vazhdo »
+      previous: « Mëparshëm
+      showing_page: Duke shfaqun faqen %{{page}}
+    changesets: 
+      area: Zona
+      comment: Komentoni
+      id: ID
+      saved_at: Ruaje në
+      user: Përdoruesi
+    list: 
+      description: Ndryshime së fundmi
+      description_bbox: Ndryshime brënda %{bbox}
+      description_friend: Ndryshime nga miqtë e tu
+      description_nearby: Ndryshime nga përdorues të zonës
+      description_user: Grupi i ndryshimeve të %{user}
+      description_user_bbox: Ndryshime nga përdoruesi %{user} brënda %{bbox}
+      heading: Grupi i ndryshimeve
+      heading_bbox: Grupi i ndryshimeve
+      heading_friend: Grupi i ndryshimeve
+      heading_nearby: Grupi i ndryshimeve
+      heading_user: Grupi i ndryshimeve
+      heading_user_bbox: Grupi i ndryshimeve
+      title: Grupi i ndryshimeve
+      title_bbox: Ndryshime brënda %{bbox}
+      title_friend: Ndryshime nga miqtë e tu
+      title_nearby: Ndryshime nga përdorues të zonës
+      title_user: Grupi i ndryshimeve të %{user}
+      title_user_bbox: Ndryshime nga përdoruesi %{user} brënda %{bbox}
+    timeout: 
+      sorry: Na vjen keq, lista e grupit të ndryshimeve që u kërkua morri shumë kohë për tu shkarkuar.
   diary_entry: 
+    diary_comment: 
+      confirm: Konfirmo
     diary_entry: 
+      comment_count: 
+        one: 1 koment
+        other: "%{count} komente"
       comment_link: Komento në këtë shënim
       confirm: Konfirmoje
       edit_link: Ndryshoje qët shënim
       hide_link: Mshefe qët shënim
     edit: 
+      body: Trupi i mesazhit
       language: "Gjuha:"
+      latitude: Gjerësia gjeografike
       location: "Lokacioni:"
+      longitude: Gjatësia gjeografike
       save_button: Ruje
+      subject: "Subjekti:"
+      title: Redakto shënimin në ditar
+      use_map_link: përdor hartën
     list: 
+      in_language_title: Hyrje në ditar në %{language}
+      new: Hyrje e re në ditar
+      new_title: Krijo një hyrje të re në ditarin tënd
+      newer_entries: Shënimet e fundit
+      no_entries: Nuk u gjet asnjë hyrje në ditar
       older_entries: Shënimet e Vjetra
+      recent_entries: "Shënime në ditar së fundmi:"
+      title: Ditatët e përdoruesve
+      title_friends: Ditarët e miqve
+      title_nearby: Ditarët e përdoruesve pranë
       user_title: Ditari i %{user}
     location: 
+      edit: Redakto
       location: "Lokacioni:"
       view: Kshyre
+    new: 
+      title: Hyrje e re në ditar
     no_such_entry: 
       heading: "Nuk ka shënim me id: %{id}"
     no_such_user: 
       body: Me na fal, po nuk ka anëtarë me emnin %{user}. Ju lutem kshyrni shkronjat, ose nashta lidhja që keni trus është gabim.
+      heading: Përdoruesi %{user} nuk ekziston
       title: Nuk ka anëtarë të tillë
     view: 
       leave_a_comment: Lene naj koment
+      login: Kyçuni
       save_button: Ruaj
+      user_title: Ditari i %{user}
   editor: 
     default: Default (momentalisht %{name})
     potlatch: 
@@ -235,6 +367,7 @@ sq:
       name: Kontrollë prej së largu
   export: 
     start: 
+      add_marker: Shto shënjues në hartë
       area_to_export: Zona per Eksport
       export_button: Eksporto
       export_details: Të dhënat e OpenStreetMap janë të licencuara nëpërmjet <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative Commons Attribution-ShareAlike 2.0 license</a>.
@@ -245,11 +378,9 @@ sq:
       licence: Licensa
       longitude: "Lon:"
       manually_select: Manualisht zgedhe ni zon te ndryshme
-      mapnik_image: Mapin fotografi
       max: maks
       options: Opcionet
       osm_xml_data: OpenStreetMap XML të dhana
-      osmarender_image: Osamarender fotografi
       output: Outputi
       paste_html: Fute HTML per me ngjit ne web sajt
       scale: Shkallë
@@ -284,17 +415,128 @@ sq:
     search: 
       title: 
         ca_postcode: Rezultatet nga <a href="http://geocoder.ca/">Geocoder.CA</a>
+        geonames: Rezultate nga <a href="http://www.geonames.org/">GeoNames</a>
         us_postcode: Rezultatet nga <a href="http://geocoder.us/">Geocoder.us</a>
+    search_osm_namefinder: 
+      suffix_suburb: "%{suffix}, %{parentname}"
     search_osm_nominatim: 
       prefix: 
         amenity: 
+          airport: Aeroport
+          arts_centre: Qendër arti
+          atm: Bankomat
+          auditorium: Auditor
+          bank: Bankë
+          bar: Lokal
+          bench: Stol
+          bicycle_parking: Parkim biçikletash
+          bicycle_rental: Biçikleta me qera
+          brothel: Shtëpi publike
+          bureau_de_change: Këmbim valute
+          bus_station: Stacion autobuzi
+          cafe: Kafe
+          car_rental: Makina me qera
+          car_sharing: Car Sharing
+          car_wash: Lavazh për makina
+          casino: Kazino
+          cinema: Kinema
+          clinic: Klinikë
+          club: Klub
+          college: Kolegj
+          community_centre: Qendër komunitare
+          courthouse: Gjykatë
+          crematorium: Krematorium
           dentist: Dentist
+          dormitory: Konvikt
+          drinking_water: Ujë i pijshëm
           embassy: Ambasada
+          emergency_phone: Kabinë telefoni për emergjencë
+          fast_food: Ushqim i shpejtë
+          ferry_terminal: Terminal i trageteve
+          fire_hydrant: Pompë zjarrfikse
           fire_station: Zjarrëfiksat
+          fountain: Shatërvan
+          fuel: Stacion karburanti
+          grave_yard: Varrezë
+          gym: Qendër fitness / Palestër
+          hall: Sallë
+          health_centre: Qendër shëndetsore
+          hospital: Spital
+          hotel: Hotel
+          hunting_stand: Vend gjuetie
+          ice_cream: Akullore
+          kindergarten: Kopësht për fëmijë
+          library: Biblioteka
+          market: Market
+          marketplace: Treg
+          mountain_rescue: Forca e shpëtimit në mal
+          nightclub: Klub nate
+          nursery: Çerdhe
+          nursing_home: Çerdhe
+          office: Zyra
+          park: Park
+          parking: Vend parkim
+          pharmacy: Barnatore
+          place_of_worship: Vend kulti
+          police: Policia
+          post_box: Kutia postare
+          post_office: Kutia postare
+          preschool: Cikli para-shkollor
+          prison: Burg
+          pub: Pub
+          public_building: Ndërtesë publike
+          public_market: Treg publik
+          reception_area: Zona e pritjes
+          recycling: Pikë e riciklimit
+          restaurant: Restorant
+          sauna: Sauna
+          school: Shkollë
+          shelter: Strehë
+          shop: Dyqan
+          shopping: Tregtar
+          social_club: Klub shoqëror
+          studio: Studio
+          supermarket: Supermarket
+          taxi: Taksi
+          telephone: Telefon publik
           theatre: Teatër
+          toilets: Banjë publike
+          townhall: Bashkia
           university: Universitet
+          vending_machine: Shitës automatik
+          veterinary: Veterinari
+          village_hall: Komuna
+          waste_basket: Kosh plehrash
+          wifi: Shërbim WiFi
+          youth_centre: Qendër Rinore
+        boundary: 
+          administrative: Kufi administrativ
         building: 
+          apartments: Bllok apartamentesh
+          block: Kompleks me ndërtesa
+          bunker: Bunker
+          chapel: Kishë
+          church: Kishë
+          city_hall: Bashkia
+          commercial: Qendër tregtare
+          dormitory: Konvikt
+          entrance: Hyrje godine
+          faculty: Godinë fakulteti
+          hotel: Hotel
+          house: Shtëpi
+          public: Ndërtesë publike
+          shop: Dyqan
+          stadium: Stadium
           store: Dyqan
+          terrace: Tarracë
+          tower: Kullë
+          train_station: Stacion hekurudhor
+          university: Godinë universitare
+        highway: 
+          bridleway: Rrugë për kalërim
+          ford: Va
+          gate: Portë
+          living_street: Rrugë për këmbësorë
         historic: 
           church: Kisha
           museum: Muze
@@ -334,17 +576,32 @@ sq:
           picnic_site: Vend per Piknik
           valley: Lugine
           zoo: Kopsht zoologjik
+      prefix_format: "%{name}"
   javascripts: 
+    map: 
+      base: 
+        mapquest: MapQuest Open
+      overlays: 
+        maplint: Maplint
     site: 
       edit_tooltip: Edit Harta
   layouts: 
     edit: Redakto
+    help_url: http://help.openstreetmap.org/
+    intro_3_partners_url: http://wiki.openstreetmap.org/wiki/Partners
+    intro_3_ucl: Qendra UCL VR
+    license: 
+      alt: CC by-sa 2.0
     log_in: Kyçuni
     log_in_tooltip: Hyni ne me një llogari ekzistuese
     logout: Ç'kyçu
     logout_tooltip: Ç'kyçu
     make_a_donation: 
       text: Bëni një donacion
+    project_name: 
+      h1: OpenStreetMap
+      title: OpenStreetMap
+    wiki_url: http://wiki.openstreetmap.org/
   license_page: 
     foreign: 
       english_link: orgjianl anglisht
@@ -360,14 +617,11 @@ sq:
     inbox: 
       date: Data
       from: Prej
-      you_have: I ki %{new_count} mesazhe të reja dhe %{old_count} mesazhe të vjetra
     new: 
       limit_exceeded: Ju keni dërguar shumë mesazhe kohët e fundit. Ju lutem prisni një kohë para se të dërgoni ndonjë tjetër.
       title: Qo mesazh
     no_such_user: 
       body: Na vjen keq nuk ka asnjë përdorues me atë emër.
-    outbox: 
-      you_have_sent_messages: I ki %{count} mesazhe të dërgume
     read: 
       reading_your_sent_messages: Tu i lexue mesazhet e dërgume
     sent_message_summary: 
@@ -381,10 +635,13 @@ sq:
     email_confirm_plain: 
       greeting: Tung,
     gpx_notification: 
+      failure: 
+        import_failures_url: http://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       greeting: Tung,
     message_notification: 
       footer1: Ju gjithashtu mund të lexoni mesazhet në %{readurl}
       hi: Tung %{to_user},
+      subject_header: "[OpenStreetMap] %{subject}"
     signup_confirm_html: 
       click_the_link: Nëse ky je ti, mirë se erdhët! Ju lutem trusni lidhjen e maposhtme për me konfirmu atë llogari dhe lexoni ma shumë informata rreth OpenStreetMap
       introductory_video: Ju muni me shiku një %{introductory_video_link}.
@@ -396,14 +653,19 @@ sq:
       click_the_link_2: llogarin tonde dhe lexo ma shumë informata për OpenStreetMap.
       introductory_video: "Këtu ju muni me shiku një video hyrëse për në OpenStreetMap:"
       more_videos: "Ma shumë video keni këtu:"
+      the_wiki_url: http://wiki.openstreetmap.org/wiki/Beginners%27_Guide
       wiki_signup: "Ti munesh gjithashtu me u regjistru në OpenStreetMap wiki:"
+      wiki_signup_url: http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page
   oauth_clients: 
     form: 
       name: Emri
     new: 
       submit: Regjistrohu
+  printable_name: 
+    with_version: "%{id}, v%{version}"
   site: 
     edit: 
+      anon_edits: (%{link})
       flash_player_required: Ju duhet të keni Flash player për ta përdorur Potlatch, Flash editorin e OpenStreetMap. Ju mundeni <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">ta shkarkoni Flash Player nga Adobe.com</a>. <a href="http://wiki.openstreetmap.org/wiki/Editing">Disa mënyra të tjera</a> janë të mundshme për ta edituar OpenStreetMap.
     index: 
       license: 
@@ -444,6 +706,7 @@ sq:
       uploaded_at: "Te ngarkume:"
       visibility: Dukshmenia
       visibility_help: Çka do me than kjo?
+      visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
     list: 
       public_traces: Të dhanat publike të GPS-IT
       public_traces_from: Të dhana publike të GPS-it pej %{user}
@@ -477,14 +740,16 @@ sq:
       trackable: E GJURMUESHME
       view_map: Kshyre Harten
     trace_form: 
-      description: Përshkrimi
+      description: "Përshkrimi:"
       help: Ndihma
-      tags: Etiketat
+      help_url: http://wiki.openstreetmap.org/wiki/Upload
+      tags: "Etiketat:"
       tags_help: Presje e kufizume
       upload_button: Ngarko
-      upload_gpx: Ngarko nje skead GPX
-      visibility: Pamshmeria
+      upload_gpx: "Ngarko një skedar GPX:"
+      visibility: "Dukshmëria:"
       visibility_help: çfarë do të thotë kjo?
+      visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
     trace_header: 
       see_all_traces: Kshyre kejt të dhanat
       see_your_traces: Shikoj kejt të dhanat tuja
@@ -526,6 +791,7 @@ sq:
         agreed: Ju duhet të jeni pajtuar me Kushtet e reja të Kontribuesit.
         agreed_with_pd: Ju gjithashtu keni deklaruar se ju konsideroni që editimet tuaja të jenë në Domenin Publik.
         heading: "Kushtet e Kontribimit:"
+        link: http://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: Çka është kjo?
         not yet agreed: Ju ende nuk jeni pajtuar me Kushtet e reja për Kontribues.
         review link text: Ju lutemi që të përcillni këtë link për të lehtësinë tuaj për të rishikuar dhe pranuar Kuhstet e Kontribuesit.
@@ -636,6 +902,7 @@ sq:
       not displayed publicly: Nuk u shfaq publikisht (see <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="wiki privacy policy including section on email addresses">privacy policy</a>)
       password: "Fjalëkalimi:"
       terms accepted: Faleminderit që keni pranuar kushtet e reja për kontribues!
+      terms declined url: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       title: Krijo llogari
     no_such_user: 
       body: Na vje keq, ska shfrytzues me ket emen %{user}. Ju lutmi kontrolloni shkrimin, ose nashta linku ku keni kliku asht gabim.
@@ -662,7 +929,9 @@ sq:
       agree: Pajtohem
       consider_pd: Përveç marrëveshjes së mësipërme, unë i konsideroj kontributet e mia të jenë në Domenin Publik
       consider_pd_why: çfarë është kjo?
+      consider_pd_why_url: http://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       decline: Nuk e pranoj
+      declined: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       heading: Kushtet e Kontribimit
       legale_names: 
         france: Francë

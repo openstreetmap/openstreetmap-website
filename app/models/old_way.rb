@@ -1,8 +1,8 @@
 class OldWay < ActiveRecord::Base
   include ConsistencyValidations
   
-  set_table_name 'ways'
-  set_primary_keys :way_id, :version
+  self.table_name = "ways"
+  self.primary_keys = "way_id", "version"
 
   belongs_to :changeset
 

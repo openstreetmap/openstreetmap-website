@@ -16,6 +16,8 @@
   }
 
   function resizeMap() {
+    var content_width = $("#content").width();
+    var content_height = $("#content").height();
     var sidebar_width = 0 + $("#sidebar:visible").outerWidth(true);
     var left_border = parseFloat($("#map").css("border-left-width"));
     var right_border = parseFloat($("#map").css("border-right-width"));
@@ -27,8 +29,8 @@
     <% else -%>
     $("#map").css("right", (sidebar_width) + "px");
     <% end -%>
-    $("#map").width($("#content").width() - sidebar_width - left_border - right_border);
-    $("#map").height($("#content").height() - top_border - bottom_border);
+    $("#map").width(content_width - sidebar_width - left_border - right_border);
+    $("#map").height(content_height - top_border - bottom_border);
 
     <% if params[:controller] == "site" and params[:action] == "index" -%>
     map.updateSize();

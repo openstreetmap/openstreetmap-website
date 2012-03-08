@@ -1,8 +1,8 @@
 class OldRelation < ActiveRecord::Base
   include ConsistencyValidations
   
-  set_table_name 'relations'
-  set_primary_keys :relation_id, :version
+  self.table_name = "relations"
+  self.primary_keys = "relation_id", "version"
 
   belongs_to :changeset
 

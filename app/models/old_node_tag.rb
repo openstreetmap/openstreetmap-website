@@ -1,6 +1,6 @@
 class OldNodeTag < ActiveRecord::Base
-  set_table_name 'node_tags'
-  set_primary_keys :node_id, :version, :k
+  self.table_name = "node_tags"
+  self.primary_keys = "node_id", "version", "k"
 
   belongs_to :old_node, :foreign_key => [:node_id, :version]
 

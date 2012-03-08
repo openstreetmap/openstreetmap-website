@@ -42,21 +42,34 @@ way .path              { text:name; text-color: black; text-position: offset; te
 
 way[highway=proposed] { color: #88ffff; width: 6; dashes: 8, 4; }
 way[highway=construction] { color: #ffffbb; width: 6; dashes: 8, 4; casing-color: #0000aa; casing-width: 1; casing-dashes: 8,4;}
-way[construction=rail] { z-index: 6; color: black; width: 5; dashes: 6, 6, 4, 8;}
-way[construction=rail]::inner { z-index: 7; color: white; width: 3; dashes: 6,18; }
 
 /* Railways */
 
 way[railway=rail] { z-index: 6; color: black; width: 5; }
 way[railway=rail]::dashes { z-index: 7; color: white; width: 3; dashes: 12,12; }
 
+way[construction=rail] { z-index: 6; color: black; width: 5; dashes: 6, 6, 4, 8;}
+way[construction=rail]::inner { z-index: 7; color: white; width: 3; dashes: 6,18; }
+
 way[railway=platform] { color:black; width: 2; }
 
 way[railway=subway] { z-index: 6; color: #444444; width: 5; }
 way[railway=subway]::dashes  { z-index: 7; color: white; width: 3; dashes: 8,8; }
 
+way[construction=subway] { z-index: 6; color: #444444; width: 5; dashes: 4, 4; }
+way[construction=subway]::dashes  { z-index: 7; color: white; width: 3; dashes: 4,12;}
+
 way[railway=disused],way[railway=abandoned] { z-index: 6; color: #444400; width: 3; dashes: 17, 2, 5, 0; }
 way[railway=disused]::dashes,way[railway=abandoned]::dashes { z-index: 7; color: #999999; width: 2; dashes: 12,12; }
+
+way[railway=tram]      { z-index: 11; color: #999999; width: 2; casing-color: black; casing-width: 2; }
+way[construction=tram] { z-index: 11; color: #999999; width: 2; casing-color: black; casing-width: 2; dashes: 6, 6; casing-dashes: 6, 6; }
+
+way[railway=light_rail] { z-index: 6; color: black; width: 4; }
+way[railway=light_rail]::dashes { z-index: 7; color: #999999; width: 2; dashes: 8,4; }
+
+way[construction=light_rail] { z-index: 6; color: black; width: 4; dashes: 8, 4, 4, 4; }
+way[construction=light_rail]::dashes { z-index: 7; color: #999999; width: 2; dashes: 8,12; }
 
 /* Waterways */	
 
