@@ -9,9 +9,7 @@ xml.item do
 
   xml.link url_for(:controller => "browse", :action => "note", :id => note.id, :only_path => false)
   xml.guid url_for(:controller => "note", :action => "read", :id => note.id, :only_path => false)
-  with_format(:html) do
-    xml.description render(:partial => "description", :object => note)
-  end
+  xml.description render(:partial => "description", :object => note, :formats => [ :html ])
   xml.author note.author_name
   xml.pubDate note.updated_at.to_s(:rfc822)
   xml.geo :lat, note.lat

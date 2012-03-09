@@ -1,8 +1,6 @@
 xml.wpt("lon" => note.lon, "lat" => note.lat) do
-  with_format(:html) do
-    xml.desc do
-      xml.cdata! render(:partial => "description", :object => note, :format => :html)
-    end
+  xml.desc do
+    xml.cdata! render(:partial => "description", :object => note, :formats => [ :html ])
   end
 
   xml.extension do
