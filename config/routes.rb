@@ -75,22 +75,19 @@ OpenStreetMap::Application.routes.draw do
   match 'api/0.6/swf/trackpoints' => 'swf#trackpoints'
 
   # Map notes API
-  match 'api/0.6/notes' => 'note#list'
-  match 'api/0.6/notes.:format' => 'note#list'
-  match 'api/0.6/notes/search' => 'note#search'
-  match 'api/0.6/notes/rss'  => 'notes#rss'
+  match 'api/0.6/notes' => 'note#list', :format => :xml
+  match 'api/0.6/notes/search' => 'note#search', :format => :xml
+  match 'api/0.6/notes/rss'  => 'note#rss', :format => :rss
   match 'api/0.6/note/create' => 'note#create'
   match 'api/0.6/note/:id/comment' => 'note#update', :id => /\d+/
   match 'api/0.6/note/:id/close' => 'note#close', :id => /\d+/
-  match 'api/0.6/note/:id' => 'note#read', :via => :get, :id => /\d+/
-  match 'api/0.6/note/:id.:format' => 'note#read', :via => :get, :id => /\d+/
+  match 'api/0.6/note/:id' => 'note#read', :via => :get, :id => /\d+/, :format => :xml
   match 'api/0.6/note/:id' => 'note#delete', :via => :delete, :id => /\d+/
-  match 'api/0.6/notes/getBugs' => 'note#list'
   match 'api/0.6/notes/addPOIexec' => 'note#create'
   match 'api/0.6/notes/closePOIexec' => 'note#close'
   match 'api/0.6/notes/editPOIexec' => 'note#update'
   match 'api/0.6/notes/getGPX' => 'note#list', :format => :gpx
-  match 'api/0.6/notes/getRSSfeed' => 'note#rss'
+  match 'api/0.6/notes/getRSSfeed' => 'note#rss', :format => :rss
 
   # Data browsing
   match '/browse/start' => 'browse#start'
