@@ -1,7 +1,20 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class ExportControllerTest < ActionController::TestCase
-  # Replace this with your real tests.
+
+  ##
+  # test all routes which lead to this controller
+  def test_routes
+    assert_routing(
+      { :path => "/export/start", :method => :get },
+      { :controller => "export", :action => "start" }
+    )
+    assert_routing(
+      { :path => "/export/finish", :method => :post },
+      { :controller => "export", :action => "finish" }
+    )
+  end
+
   def test_start
     xhr :get, :start
     assert_response :success

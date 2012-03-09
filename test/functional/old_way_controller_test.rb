@@ -4,6 +4,19 @@ require 'old_way_controller'
 class OldWayControllerTest < ActionController::TestCase
   api_fixtures
 
+  ##
+  # test all routes which lead to this controller
+  def test_routes
+    assert_routing(
+      { :path => "/api/0.6/way/1/history", :method => :get },
+      { :controller => "old_way", :action => "history", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/api/0.6/way/1/2", :method => :get },
+      { :controller => "old_way", :action => "version", :id => "1", :version => "2" }
+    )
+  end
+
   # -------------------------------------
   # Test reading old ways.
   # -------------------------------------

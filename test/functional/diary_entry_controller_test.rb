@@ -5,6 +5,86 @@ class DiaryEntryControllerTest < ActionController::TestCase
 
   include ActionView::Helpers::NumberHelper
 
+  ##
+  # test all routes which lead to this controller
+  def test_routes
+    assert_routing(
+      { :path => "/diary", :method => :get },
+      { :controller => "diary_entry", :action => "list" }
+    )
+    assert_routing(
+      { :path => "/diary/language", :method => :get },
+      { :controller => "diary_entry", :action => "list", :language => "language" }
+    )
+    assert_routing(
+      { :path => "/user/username/diary", :method => :get },
+      { :controller => "diary_entry", :action => "list", :display_name => "username" }
+    )
+    assert_routing(
+      { :path => "/diary/friends", :method => :get },
+      { :controller => "diary_entry", :action => "list", :friends => true }
+    )
+    assert_routing(
+      { :path => "/diary/nearby", :method => :get },
+      { :controller => "diary_entry", :action => "list", :nearby => true }
+    )
+
+    assert_routing(
+      { :path => "/diary/rss", :method => :get },
+      { :controller => "diary_entry", :action => "rss", :format => :rss }
+    )
+    assert_routing(
+      { :path => "/diary/language/rss", :method => :get },
+      { :controller => "diary_entry", :action => "rss", :language => "language", :format => :rss }
+    )
+    assert_routing(
+      { :path => "/user/username/diary/rss", :method => :get },
+      { :controller => "diary_entry", :action => "rss", :display_name => "username", :format => :rss }
+    )
+
+    assert_routing(
+      { :path => "/user/username/diary/comments", :method => :get },
+      { :controller => "diary_entry", :action => "comments", :display_name => "username" }
+    )
+    assert_routing(
+      { :path => "/user/username/diary/comments/1", :method => :get },
+      { :controller => "diary_entry", :action => "comments", :display_name => "username", :page => "1" }
+    )
+
+    assert_routing(
+      { :path => "/diary/new", :method => :get },
+      { :controller => "diary_entry", :action => "new" }
+    )
+    assert_routing(
+      { :path => "/diary/new", :method => :post },
+      { :controller => "diary_entry", :action => "new" }
+    )
+    assert_routing(
+      { :path => "/user/username/diary/1", :method => :get },
+      { :controller => "diary_entry", :action => "view", :display_name => "username", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/user/username/diary/1/edit", :method => :get },
+      { :controller => "diary_entry", :action => "edit", :display_name => "username", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/user/username/diary/1/edit", :method => :post },
+      { :controller => "diary_entry", :action => "edit", :display_name => "username", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/user/username/diary/1/newcomment", :method => :post },
+      { :controller => "diary_entry", :action => "comment", :display_name => "username", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/user/username/diary/1/hide", :method => :post },
+      { :controller => "diary_entry", :action => "hide", :display_name => "username", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/user/username/diary/1/hidecomment/2", :method => :post },
+      { :controller => "diary_entry", :action => "hidecomment", :display_name => "username", :id => "1", :comment => "2" }
+    )
+  end
+
   def test_showing_new_diary_entry
     @request.cookies["_osm_username"] = users(:normal_user).display_name
 
