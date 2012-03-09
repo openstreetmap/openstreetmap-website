@@ -12,6 +12,8 @@ class User < ActiveRecord::Base
   has_many :tokens, :class_name => "UserToken"
   has_many :preferences, :class_name => "UserPreference"
   has_many :changesets, :order => 'created_at DESC'
+  has_many :note_comments, :foreign_key => :author_id
+  has_many :notes, :through => :note_comments
 
   has_many :client_applications
   has_many :oauth_tokens, :class_name => "OauthToken", :order => "authorized_at desc", :include => [:client_application]

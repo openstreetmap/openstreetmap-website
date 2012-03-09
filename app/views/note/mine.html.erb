@@ -1,5 +1,5 @@
 <h1><%= @heading %></h1>
-<p><%= @description %></p>
+<p><%= raw @description %></p>
 
 <%= render :partial => 'notes_paging_nav' %>
 
@@ -12,7 +12,7 @@
     <th><%= t'changeset.changesets.saved_at' %></th>
     <th><%= t'note.mine.last_changed' %></th>
   </tr>
-<% @notes.each do |note| %>
+<% @notes.each do |note| -%>
   <tr<% if note.author != @user2 %> bgcolor="#EEEEEE"<% end %>>
     <td>
       <% if note.status == "closed" %>
@@ -31,7 +31,7 @@
     <td><%= l note.created_at %></td>
     <td><%= l note.updated_at %></td>
   </tr>
-<% end %>
+<% end -%>
 </table>
 
 <%= render :partial => 'notes_paging_nav' %>

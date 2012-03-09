@@ -237,42 +237,24 @@ class NoteController < ApplicationController
     end
   end
 
+  ##
+  # Display a list of notes by a specified user
   def mine
     if params[:display_name] 
-      @user2 = User.find_by_display_name(params[:display_name], :conditions => { :status => ["active", "confirmed"] }) 
- 
-      if @user2  
-        if @user2.data_public? or @user2 == @user 
-          conditions = ['note_comments.author_id = ?', @user2.id] 
-        else 
-          conditions = ['false'] 
-        end 
-      else #if request.format == :html 
+      if @this_user = User.active.find_by_display_name(params[:display_name])
+        @title =  t 'note.mine.title', :user => @this_user.display_name 
+        @heading =  t 'note.mine.heading', :user => @this_user.display_name 
+        @description = t 'note.mine.description', :user => render_to_string(:partial => "user", :object => @this_user)
+        @page = (params[:page] || 1).to_i 
+        @page_size = 10
+        @notes = @this_user.notes.order("updated_at DESC").offset((@page - 1) * @page_size).limit(@page_size).preload(:comments => :author)
+      else
         @title = t 'user.no_such_user.title' 
         @not_found_user = params[:display_name] 
+
         render :template => 'user/no_such_user', :status => :not_found 
-        return
       end 
     end
-
-    if @user2 
-      user_link = render_to_string :partial => "user", :object => @user2 
-    end 
-    
-    @title =  t 'note.mine.title', :user => @user2.display_name 
-    @heading =  t 'note.mine.heading', :user => @user2.display_name 
-    @description = t 'note.mine.description', :user => user_link
-    
-    @page = (params[:page] || 1).to_i 
-    @page_size = 10
-
-    @notes = Note.find(:all, 
-                       :include => [:comments, {:comments => :author}],
-                       :joins => :comments,
-                       :order => "updated_at DESC",
-                       :conditions => conditions,
-                       :offset => (@page - 1) * @page_size, 
-                       :limit => @page_size).uniq
   end
 
 private 
