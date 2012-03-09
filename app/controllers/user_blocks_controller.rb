@@ -39,11 +39,13 @@ class UserBlocksController < ApplicationController
       return
     end
 
-    @user_block = UserBlock.new(:user_id => @this_user.id,
-                                :creator_id => @user.id,
-                                :reason => params[:user_block][:reason],
-                                :ends_at => Time.now.getutc() + @block_period.hours,
-                                :needs_view => params[:user_block][:needs_view])
+    @user_block = UserBlock.new({
+      :user_id => @this_user.id,
+      :creator_id => @user.id,
+      :reason => params[:user_block][:reason],
+      :ends_at => Time.now.getutc() + @block_period.hours,
+      :needs_view => params[:user_block][:needs_view]
+    }, :without_protection => true)
     
     if @user_block.save
       flash[:notice] = t('user_block.create.flash', :name => @this_user.display_name)
@@ -67,7 +69,7 @@ class UserBlocksController < ApplicationController
       
     if @user_block.update_attributes({ :ends_at => Time.now.getutc() + @block_period.hours,
                                        :reason => params[:user_block][:reason],
-                                       :needs_view => params[:user_block][:needs_view] })
+                                       :needs_view => params[:user_block][:needs_view] }, :without_protection => true)
       flash[:notice] = t('user_block.update.success')
       redirect_to(@user_block)
     else
