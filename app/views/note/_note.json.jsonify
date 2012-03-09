@@ -16,6 +16,7 @@ json.properties do
     json.date comment.created_at
     json.uid comment.author_id unless comment.author_id.nil?
     json.user comment.author_name
-    json.text comment.body
+    json.action comment.event
+    json.text comment.body unless comment.body.nil?
   end
 end
