@@ -14,14 +14,11 @@ class Note < ActiveRecord::Base
   validates_inclusion_of :status, :in => ["open", "closed", "hidden"]
   validate :validate_position
 
+  after_initialize :set_defaults
+
   # Sanity check the latitude and longitude and add an error if it's broken
   def validate_position
     errors.add_to_base("Note is not in the world") unless in_world?
-  end
-
-  # Fill in default values for new notes
-  def after_initialize
-    self.status = "open" unless self.attribute_present?(:status)
   end
 
   # Close a note
@@ -71,5 +68,12 @@ class Note < ActiveRecord::Base
   # Return the author name, derived from the first comment
   def author_name
     self.comments.first.author_name
+  end
+
+private
+
+  # Fill in default values for new notes
+  def set_defaults
+    self.status = "open" unless self.attribute_present?(:status)
   end
 end
