@@ -81,7 +81,7 @@ class NoteController < ApplicationController
       end
 
       # Save the note
-      @note.save
+      @note.save!
 
       # Add a comment to the note
       add_comment(@note, comment, name, "opened")
@@ -160,7 +160,7 @@ class NoteController < ApplicationController
     end
 
     # Find the comments we want to return
-    @comments = NoteComment.where(:note => notes).order("created_at DESC").limit(result_limit).include(:note)
+    @comments = NoteComment.where(:note_id => notes).order("created_at DESC").limit(result_limit).preload(:note)
 
     # Render the result
     respond_to do |format|
@@ -222,22 +222,15 @@ class NoteController < ApplicationController
     raise OSM::APIBadUserInput.new("No query string was given") unless params[:q]
 
     # Get any conditions that need to be applied
-    conditions = closed_condition
-    conditions = cond_merge conditions, ['note_comments.body ~ ?', params[:q]]
-	
+    @notes = closed_condition(Note.scoped)
+    @notes = @notes.joins(:comments).where("note_comments.body ~ ?", params[:q])
+
     # Find the notes we want to return
-    @notes = Note.find(:all, 
-                       :conditions => conditions,
-                       :order => "updated_at DESC",
-                       :limit => result_limit,
-                       :joins => :comments,
-                       :include => :comments)
+    @notes = @notes.order("updated_at DESC").limit(result_limit).preload(:comments)
 
     # Render the result
     respond_to do |format|
-      format.html { render :action => :list, :format => :rjs, :content_type => "text/javascript"}
       format.rss { render :action => :list }
-      format.js
       format.xml { render :action => :list }
       format.json { render :action => :list }
       format.gpx { render :action => :list }
