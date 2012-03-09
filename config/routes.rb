@@ -85,8 +85,8 @@ OpenStreetMap::Application.routes.draw do
   match '/browse/changeset/:id' => 'browse#changeset', :via => :get, :as => :changeset, :id => /\d+/
   match '/user/:display_name/edits' => 'changeset#list', :via => :get
   match '/user/:display_name/edits/feed' => 'changeset#feed', :via => :get, :format => :atom
-  match '/browse/friends' => 'changeset#list', :via => :get, :friends => true
-  match '/browse/nearby' => 'changeset#list', :via => :get, :nearby => true
+  match '/browse/friends' => 'changeset#list', :via => :get, :friends => true, :as => "friend_changesets"
+  match '/browse/nearby' => 'changeset#list', :via => :get, :nearby => true, :as => "nearby_changesets"
   match '/browse/changesets' => 'changeset#list', :via => :get
   match '/browse/changesets/feed' => 'changeset#feed', :via => :get, :format => :atom
   match '/browse' => 'changeset#list', :via => :get
@@ -102,7 +102,7 @@ OpenStreetMap::Application.routes.draw do
   match '/login' => 'user#login', :via => [:get, :post]
   match '/logout' => 'user#logout', :via => [:get, :post]
   match '/offline' => 'site#offline', :via => :get
-  match '/key' => 'site#key', :via => :get
+  match '/key' => 'site#key', :via => :post
   match '/user/new' => 'user#new', :via => :get
   match '/user/terms' => 'user#terms', :via => [:get, :post]
   match '/user/save' => 'user#save', :via => :post
@@ -144,13 +144,13 @@ OpenStreetMap::Application.routes.draw do
   match '/traces/mine' => 'trace#mine', :via => :get
   match '/trace/create' => 'trace#create', :via => [:get, :post]
   match '/trace/:id/data' => 'trace#data', :via => :get
-  match '/trace/:id/edit' => 'trace#edit', :via => [:get, :post]
+  match '/trace/:id/edit' => 'trace#edit', :via => [:get, :post, :put]
   match '/trace/:id/delete' => 'trace#delete', :via => :post
 
   # diary pages
   match '/diary/new' => 'diary_entry#new', :via => [:get, :post]
-  match '/diary/friends' => 'diary_entry#list', :friends => true, :via => :get
-  match '/diary/nearby' => 'diary_entry#list', :nearby => true  , :via => :get
+  match '/diary/friends' => 'diary_entry#list', :friends => true, :via => :get, :as => "friend_diaries"
+  match '/diary/nearby' => 'diary_entry#list', :nearby => true, :via => :get, :as => "nearby_diaries"
   match '/user/:display_name/diary/rss' => 'diary_entry#rss', :via => :get, :format => :rss
   match '/diary/:language/rss' => 'diary_entry#rss', :via => :get, :format => :rss
   match '/diary/rss' => 'diary_entry#rss', :via => :get, :format => :rss
@@ -178,7 +178,7 @@ OpenStreetMap::Application.routes.draw do
   match '/users/:status' => 'user#list', :via => [:get, :post]
 
   # geocoder
-  match '/geocoder/search' => 'geocoder#search', :via => :get
+  match '/geocoder/search' => 'geocoder#search', :via => :post
   match '/geocoder/search_latlon' => 'geocoder#search_latlon', :via => :get
   match '/geocoder/search_us_postcode' => 'geocoder#search_us_postcode', :via => :get
   match '/geocoder/search_uk_postcode' => 'geocoder#search_uk_postcode', :via => :get
@@ -186,7 +186,7 @@ OpenStreetMap::Application.routes.draw do
   match '/geocoder/search_osm_namefinder' => 'geocoder#search_osm_namefinder', :via => :get
   match '/geocoder/search_osm_nominatim' => 'geocoder#search_osm_nominatim', :via => :get
   match '/geocoder/search_geonames' => 'geocoder#search_geonames', :via => :get
-  match '/geocoder/description' => 'geocoder#description', :via => :get
+  match '/geocoder/description' => 'geocoder#description', :via => :post
   match '/geocoder/description_osm_namefinder' => 'geocoder#description_osm_namefinder', :via => :get
   match '/geocoder/description_osm_nominatim' => 'geocoder#description_osm_nominatim', :via => :get
   match '/geocoder/description_geonames' => 'geocoder#description_geonames', :via => :get
@@ -196,12 +196,12 @@ OpenStreetMap::Application.routes.draw do
   match '/export/finish' => 'export#finish', :via => :post
 
   # messages
-  match '/user/:display_name/inbox' => 'message#inbox', :via => :get
-  match '/user/:display_name/outbox' => 'message#outbox', :via => :get
+  match '/user/:display_name/inbox' => 'message#inbox', :via => :get, :as => "inbox"
+  match '/user/:display_name/outbox' => 'message#outbox', :via => :get, :as => "outbox"
   match '/message/new/:display_name' => 'message#new', :via => [:get, :post]
   match '/message/read/:message_id' => 'message#read', :via => :get
   match '/message/mark/:message_id' => 'message#mark', :via => :post
-  match '/message/reply/:message_id' => 'message#reply', :via => :get
+  match '/message/reply/:message_id' => 'message#reply', :via => [:get, :post]
   match '/message/delete/:message_id' => 'message#delete', :via => :post
 
   # oauth admin pages (i.e: for setting up new clients, etc...)

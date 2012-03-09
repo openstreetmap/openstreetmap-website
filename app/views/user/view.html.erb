@@ -19,7 +19,7 @@
     <!-- Displaying user's own profile page -->
     <%= link_to t('user.view.my diary'), :controller => 'diary_entry', :action => 'list', :display_name => @user.display_name %>
     |
-    <%= link_to t('user.view.new diary entry'), :controller => 'diary_entry', :action => 'new', :display_name => @user.display_name %>
+    <%= link_to t('user.view.new diary entry'), :controller => 'diary_entry', :action => 'new' %>
     |
     <%= link_to t('user.view.my comments' ), :controller => 'diary_entry', :action => 'comments', :display_name => @this_user.display_name %>
     |
@@ -122,8 +122,8 @@
   <% if friends.empty? %>
     <%= t 'user.view.no friends' %>
   <% else %>
-    <%= link_to t('user.view.friends_changesets'), {:controller => 'browse', :action => 'friends'} %><br/>
-    <%= link_to t('user.view.friends_diaries'), {:controller => 'diary', :action => 'friends'} %><br/><br/>
+    <%= link_to t('user.view.friends_changesets'), friend_changesets_path %><br/>
+    <%= link_to t('user.view.friends_diaries'), friend_diaries_path %><br/><br/>
     <table id="friends">
       <%= render :partial => "contact", :collection => friends %>
     </table>
@@ -134,8 +134,8 @@
   <% if nearby.empty? %>
     <%= t 'user.view.no nearby users' %>
   <% else %>
-    <%= link_to t('user.view.nearby_changesets'), {:controller => 'browse', :action => 'nearby'} %><br/>
-    <%= link_to t('user.view.nearby_diaries'), {:controller => 'diary', :action => 'nearby'} %><br/><br/>
+    <%= link_to t('user.view.nearby_changesets'), nearby_changesets_path %><br/>
+    <%= link_to t('user.view.nearby_diaries'), nearby_diaries_path %><br/><br/>
     <table id="nearbyusers">
       <%= render :partial => "contact", :collection => nearby %>
     </table>

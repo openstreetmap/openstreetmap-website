@@ -43,7 +43,7 @@ class SiteControllerTest < ActionController::TestCase
       { :controller => "site", :action => "offline" }
     )
     assert_routing(
-      { :path => "/key", :method => :get },
+      { :path => "/key", :method => :post },
       { :controller => "site", :action => "key" }
     )
     assert_routing(

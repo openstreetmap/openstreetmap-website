@@ -141,6 +141,10 @@ class TraceControllerTest < ActionController::TestCase
       { :controller => "trace", :action => "edit", :id => "1" }
     )
     assert_routing(
+      { :path => "/trace/1/edit", :method => :put },
+      { :controller => "trace", :action => "edit", :id => "1" }
+    )
+    assert_routing(
       { :path => "/trace/1/delete", :method => :post },
       { :controller => "trace", :action => "delete", :id => "1" }
     )

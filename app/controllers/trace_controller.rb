@@ -187,7 +187,7 @@ class TraceController < ApplicationController
         @trace.tagstring = params[:trace][:tagstring]
         @trace.visibility = params[:trace][:visibility]
         if @trace.save
-          redirect_to :action => 'view'
+          redirect_to :action => 'view', :display_name => @user.display_name
         end
       end
     else
