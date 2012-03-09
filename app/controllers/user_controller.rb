@@ -474,6 +474,7 @@ class UserController < ApplicationController
   # sets a user's status
   def set_status
     @this_user.status = params[:status]
+    @this_user.save
     redirect_to :controller => 'user', :action => 'view', :display_name => params[:display_name]
   end
 
