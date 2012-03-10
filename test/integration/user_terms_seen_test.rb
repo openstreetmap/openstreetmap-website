@@ -39,7 +39,7 @@ class UserTermsSeenTest < ActionController::IntegrationTest
       assert_response :success
 
       # don't agree to the terms, but hit decline
-      post "/user/#{user.display_name}/save", {'decline' => 'decline', 'referer' => '/'}
+      post "/user/save", {'decline' => 'decline', 'referer' => '/'}
       assert_redirected_to "/"
       follow_redirect!
       

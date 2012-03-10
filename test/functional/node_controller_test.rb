@@ -3,6 +3,31 @@ require File.dirname(__FILE__) + '/../test_helper'
 class NodeControllerTest < ActionController::TestCase
   api_fixtures
 
+  ##
+  # test all routes which lead to this controller
+  def test_routes
+    assert_routing(
+      { :path => "/api/0.6/node/create", :method => :put },
+      { :controller => "node", :action => "create" }
+    )
+    assert_routing(
+      { :path => "/api/0.6/node/1", :method => :get },
+      { :controller => "node", :action => "read", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/api/0.6/node/1", :method => :put },
+      { :controller => "node", :action => "update", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/api/0.6/node/1", :method => :delete },
+      { :controller => "node", :action => "delete", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/api/0.6/nodes", :method => :get },
+      { :controller => "node", :action => "nodes" }
+    )
+  end
+
   def test_create
     # cannot read password from fixture as it is stored as MD5 digest
     ## First try with no auth

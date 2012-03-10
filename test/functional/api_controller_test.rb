@@ -18,6 +18,31 @@ class ApiControllerTest < ActionController::TestCase
     # reall reject it, however this is to test to see if the api changes.
   end
 
+  ##
+  # test all routes which lead to this controller
+  def test_routes
+    assert_routing(
+      { :path => "/api/capabilities", :method => :get },
+      { :controller => "api", :action => "capabilities" }
+    )
+    assert_recognizes(
+      { :controller => "api", :action => "capabilities" }, 
+      { :path => "/api/0.6/capabilities", :method => :get }
+    )
+    assert_routing(
+      { :path => "/api/0.6/map", :method => :get },
+      { :controller => "api", :action => "map" }
+    )
+    assert_routing(
+      { :path => "/api/0.6/trackpoints", :method => :get },
+      { :controller => "api", :action => "trackpoints" }
+    )
+    assert_routing(
+      { :path => "/api/0.6/changes", :method => :get },
+      { :controller => "api", :action => "changes" }
+    )
+  end
+
   # -------------------------------------
   # Test reading a bounding box.
   # -------------------------------------

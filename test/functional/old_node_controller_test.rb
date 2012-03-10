@@ -9,6 +9,19 @@ class OldNodeControllerTest < ActionController::TestCase
   #
 
   ##
+  # test all routes which lead to this controller
+  def test_routes
+    assert_routing(
+      { :path => "/api/0.6/node/1/history", :method => :get },
+      { :controller => "old_node", :action => "history", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/api/0.6/node/1/2", :method => :get },
+      { :controller => "old_node", :action => "version", :id => "1", :version => "2" }
+    )
+  end
+
+  ##
   # test the version call by submitting several revisions of a new node
   # to the API and ensuring that later calls to version return the 
   # matching versions of the object.
