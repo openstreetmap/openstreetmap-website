@@ -1,4 +1,4 @@
-class NoteController < ApplicationController
+class NotesController < ApplicationController
 
   layout 'site', :only => [:mine]
 
@@ -11,7 +11,7 @@ class NoteController < ApplicationController
 
   ##
   # Return a list of notes in a given area
-  def list
+  def index
     # Figure out the bbox - we prefer a bbox argument but also
     # support the old, deprecated, method with four arguments
     if params[:bbox]
@@ -93,7 +93,7 @@ class NoteController < ApplicationController
 
   ##
   # Add a comment to an existing note
-  def update
+  def comment
     # Check the arguments are sane
     raise OSM::APIBadUserInput.new("No id was given") unless params[:id]
     raise OSM::APIBadUserInput.new("No text was given") unless params[:text]
@@ -145,7 +145,7 @@ class NoteController < ApplicationController
 
   ##
   # Get a feed of recent notes and comments
-  def rss
+  def feed
     # Get any conditions that need to be applied
     notes = closed_condition(Note.scoped)
 
@@ -170,7 +170,7 @@ class NoteController < ApplicationController
 
   ##
   # Read a note
-  def read
+  def show
     # Check the arguments are sane
     raise OSM::APIBadUserInput.new("No id was given") unless params[:id]
 
@@ -190,7 +190,7 @@ class NoteController < ApplicationController
 
   ##
   # Delete (hide) a note
-  def delete
+  def destroy
     # Check the arguments are sane
     raise OSM::APIBadUserInput.new("No id was given") unless params[:id]
 
@@ -230,10 +230,10 @@ class NoteController < ApplicationController
 
     # Render the result
     respond_to do |format|
-      format.rss { render :action => :list }
-      format.xml { render :action => :list }
-      format.json { render :action => :list }
-      format.gpx { render :action => :list }
+      format.rss { render :action => :index }
+      format.xml { render :action => :index }
+      format.json { render :action => :index }
+      format.gpx { render :action => :index }
     end
   end
 

@@ -39,6 +39,10 @@ class BrowseControllerTest < ActionController::TestCase
       { :path => "/browse/changeset/1", :method => :get },
       { :controller => "browse", :action => "changeset", :id => "1" }
     )
+    assert_routing(
+      { :path => "/browse/note/1", :method => :get },
+      { :controller => "browse", :action => "note", :id => "1" }
+    )
   end
 
   def test_start

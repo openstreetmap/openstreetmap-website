@@ -74,19 +74,25 @@ OpenStreetMap::Application.routes.draw do
   match 'api/0.6/swf/trackpoints' => 'swf#trackpoints', :via => :get
 
   # Map notes API
-  match 'api/0.6/notes' => 'note#list', :format => :xml
-  match 'api/0.6/notes/search' => 'note#search', :format => :xml
-  match 'api/0.6/notes/rss'  => 'note#rss', :format => :rss
-  match 'api/0.6/note/create' => 'note#create'
-  match 'api/0.6/note/:id/comment' => 'note#update', :id => /\d+/
-  match 'api/0.6/note/:id/close' => 'note#close', :id => /\d+/
-  match 'api/0.6/note/:id' => 'note#read', :via => :get, :id => /\d+/, :format => :xml
-  match 'api/0.6/note/:id' => 'note#delete', :via => :delete, :id => /\d+/
-  match 'api/0.6/notes/addPOIexec' => 'note#create'
-  match 'api/0.6/notes/closePOIexec' => 'note#close'
-  match 'api/0.6/notes/editPOIexec' => 'note#update'
-  match 'api/0.6/notes/getGPX' => 'note#list', :format => :gpx
-  match 'api/0.6/notes/getRSSfeed' => 'note#rss', :format => :rss
+  scope "api/0.6" do
+    resources :notes, :except => [ :new, :edit, :update ], :constraints => { :id => /\d+/ }, :defaults => { :format => "xml" } do
+      collection do
+        get 'search'
+        get 'feed', :defaults => { :format => "rss" }
+      end
+
+      member do
+        post 'comment'
+        post 'close'
+      end
+    end
+
+    match 'notes/addPOIexec' => 'notes#create', :via => :post
+    match 'notes/closePOIexec' => 'notes#close', :via => :post
+    match 'notes/editPOIexec' => 'notes#comment', :via => :post
+    match 'notes/getGPX' => 'notes#index', :via => :get, :format => "gpx"
+    match 'notes/getRSSfeed' => 'notes#feed', :via => :get, :format => "rss"
+  end
 
   # Data browsing
   match '/browse/start' => 'browse#start', :via => :get
@@ -100,7 +106,7 @@ OpenStreetMap::Application.routes.draw do
   match '/browse/note/:id' => 'browse#note', :via => :get, :id => /\d+/
   match '/user/:display_name/edits' => 'changeset#list', :via => :get
   match '/user/:display_name/edits/feed' => 'changeset#feed', :via => :get, :format => :atom
-  match '/user/:display_name/notes' => 'note#mine', :via => :get
+  match '/user/:display_name/notes' => 'notes#mine', :via => :get
   match '/browse/friends' => 'changeset#list', :via => :get, :friends => true, :as => "friend_changesets"
   match '/browse/nearby' => 'changeset#list', :via => :get, :nearby => true, :as => "nearby_changesets"
   match '/browse/changesets' => 'changeset#list', :via => :get

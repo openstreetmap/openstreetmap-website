@@ -1,7 +1,121 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class NoteControllerTest < ActionController::TestCase
+class NotesControllerTest < ActionController::TestCase
   fixtures :users, :notes, :note_comments
+
+  ##
+  # test all routes which lead to this controller
+  def test_routes
+    assert_routing(
+      { :path => "/api/0.6/notes", :method => :post },
+      { :controller => "notes", :action => "create", :format => "xml" }
+    )
+    assert_routing(
+      { :path => "/api/0.6/notes/1", :method => :get },
+      { :controller => "notes", :action => "show", :id => "1", :format => "xml" }
+    )
+    assert_recognizes(
+      { :controller => "notes", :action => "show", :id => "1", :format => "xml" },
+      { :path => "/api/0.6/notes/1.xml", :method => :get }
+    )
+    assert_routing(
+      { :path => "/api/0.6/notes/1.rss", :method => :get },
+      { :controller => "notes", :action => "show", :id => "1", :format => "rss" }
+    )
+    assert_routing(
+      { :path => "/api/0.6/notes/1.json", :method => :get },
+      { :controller => "notes", :action => "show", :id => "1", :format => "json" }
+    )
+    assert_routing(
+      { :path => "/api/0.6/notes/1.gpx", :method => :get },
+      { :controller => "notes", :action => "show", :id => "1", :format => "gpx" }
+    )
+    assert_routing(
+      { :path => "/api/0.6/notes/1/comment", :method => :post },
+      { :controller => "notes", :action => "comment", :id => "1", :format => "xml" }
+    )
+    assert_routing(
+      { :path => "/api/0.6/notes/1/close", :method => :post },
+      { :controller => "notes", :action => "close", :id => "1", :format => "xml" }
+    )
+    assert_routing(
+      { :path => "/api/0.6/notes/1", :method => :delete },
+      { :controller => "notes", :action => "destroy", :id => "1", :format => "xml" }
+    )
+
+    assert_routing(
+      { :path => "/api/0.6/notes", :method => :get },
+      { :controller => "notes", :action => "index", :format => "xml" }
+    )
+    assert_recognizes(
+      { :controller => "notes", :action => "index", :format => "xml" },
+      { :path => "/api/0.6/notes.xml", :method => :get }
+    )
+    assert_routing(
+      { :path => "/api/0.6/notes.rss", :method => :get },
+      { :controller => "notes", :action => "index", :format => "rss" }
+    )
+    assert_routing(
+      { :path => "/api/0.6/notes.json", :method => :get },
+      { :controller => "notes", :action => "index", :format => "json" }
+    )
+    assert_routing(
+      { :path => "/api/0.6/notes.gpx", :method => :get },
+      { :controller => "notes", :action => "index", :format => "gpx" }
+    )
+
+    assert_routing(
+      { :path => "/api/0.6/notes/search", :method => :get },
+      { :controller => "notes", :action => "search", :format => "xml" }
+    )
+    assert_recognizes(
+      { :controller => "notes", :action => "search", :format => "xml" },
+      { :path => "/api/0.6/notes/search.xml", :method => :get }
+    )
+    assert_routing(
+      { :path => "/api/0.6/notes/search.rss", :method => :get },
+      { :controller => "notes", :action => "search", :format => "rss" }
+    )
+    assert_routing(
+      { :path => "/api/0.6/notes/search.json", :method => :get },
+      { :controller => "notes", :action => "search", :format => "json" }
+    )
+    assert_routing(
+      { :path => "/api/0.6/notes/search.gpx", :method => :get },
+      { :controller => "notes", :action => "search", :format => "gpx" }
+    )
+
+    assert_routing(
+      { :path => "/api/0.6/notes/feed", :method => :get },
+      { :controller => "notes", :action => "feed", :format => "rss" }
+    )
+
+    assert_recognizes(
+      { :controller => "notes", :action => "create" },
+      { :path => "/api/0.6/notes/addPOIexec", :method => :post }
+    )
+    assert_recognizes(
+      { :controller => "notes", :action => "close" },
+      { :path => "/api/0.6/notes/closePOIexec", :method => :post }
+    )
+    assert_recognizes(
+      { :controller => "notes", :action => "comment" },
+      { :path => "/api/0.6/notes/editPOIexec", :method => :post }
+    )
+    assert_recognizes(
+      { :controller => "notes", :action => "index", :format => "gpx" },
+      { :path => "/api/0.6/notes/getGPX", :method => :get }
+    )
+    assert_recognizes(
+      { :controller => "notes", :action => "feed", :format => "rss" },
+      { :path => "/api/0.6/notes/getRSSfeed", :method => :get }
+    )
+
+    assert_routing(
+      { :path => "/user/username/notes", :method => :get },
+      { :controller => "notes", :action => "mine", :display_name => "username" }
+    )
+  end
 
   def test_note_create_success
     assert_difference('Note.count') do
@@ -12,7 +126,7 @@ class NoteControllerTest < ActionController::TestCase
     assert_response :success
     id = @response.body.sub(/ok/,"").to_i
 
-    get :read, {:id => id, :format => 'json'}
+    get :show, {:id => id, :format => 'json'}
     assert_response :success
     js = ActiveSupport::JSON.decode(@response.body)
     assert_not_nil js
@@ -66,11 +180,11 @@ class NoteControllerTest < ActionController::TestCase
 
   def test_note_comment_create_success
     assert_difference('NoteComment.count') do
-      post :update, {:id => notes(:open_note_with_comment).id, :name => "new_tester2", :text => "This is an additional comment"}
+      post :comment, {:id => notes(:open_note_with_comment).id, :name => "new_tester2", :text => "This is an additional comment"}
     end
     assert_response :success
 
-    get :read, {:id => notes(:open_note_with_comment).id, :format => 'json'}
+    get :show, {:id => notes(:open_note_with_comment).id, :format => 'json'}
     assert_response :success
     js = ActiveSupport::JSON.decode(@response.body)
     assert_not_nil js
@@ -85,22 +199,22 @@ class NoteControllerTest < ActionController::TestCase
 
   def test_note_comment_create_fail
     assert_no_difference('NoteComment.count') do
-      post :update, {:name => "new_tester2", :text => "This is an additional comment"}
+      post :comment, {:name => "new_tester2", :text => "This is an additional comment"}
     end
     assert_response :bad_request
 
     assert_no_difference('NoteComment.count') do
-      post :update, {:id => notes(:open_note_with_comment).id, :name => "new_tester2"}
+      post :comment, {:id => notes(:open_note_with_comment).id, :name => "new_tester2"}
     end
     assert_response :bad_request
 
     assert_no_difference('NoteComment.count') do
-      post :update, {:id => 12345, :name => "new_tester2", :text => "This is an additional comment"}
+      post :comment, {:id => 12345, :name => "new_tester2", :text => "This is an additional comment"}
     end
     assert_response :not_found
 
     assert_no_difference('NoteComment.count') do
-      post :update, {:id => notes(:hidden_note_with_comment).id, :name => "new_tester2", :text => "This is an additional comment"}
+      post :comment, {:id => notes(:hidden_note_with_comment).id, :name => "new_tester2", :text => "This is an additional comment"}
     end
     assert_response :gone
   end
@@ -109,7 +223,7 @@ class NoteControllerTest < ActionController::TestCase
     post :close, {:id => notes(:open_note_with_comment).id}
     assert_response :success
 
-    get :read, {:id => notes(:open_note_with_comment).id, :format => 'json'}
+    get :show, {:id => notes(:open_note_with_comment).id, :format => 'json'}
     assert_response :success
     js = ActiveSupport::JSON.decode(@response.body)
     assert_not_nil js
@@ -134,29 +248,25 @@ class NoteControllerTest < ActionController::TestCase
   end
 
   def test_note_read_success
-#    get :read, {:id => notes(:open_note).id}
-#    assert_response :success      
-#    assert_equal "application/xml", @response.content_type
-
-    get :read, {:id => notes(:open_note).id, :format => "xml"}
+    get :show, {:id => notes(:open_note).id, :format => "xml"}
     assert_response :success
     assert_equal "application/xml", @response.content_type
 
-    get :read, {:id => notes(:open_note).id, :format => "rss"}
+    get :show, {:id => notes(:open_note).id, :format => "rss"}
     assert_response :success
     assert_equal "application/rss+xml", @response.content_type
 
-    get :read, {:id => notes(:open_note).id, :format => "json"}
+    get :show, {:id => notes(:open_note).id, :format => "json"}
     assert_response :success
     assert_equal "application/json", @response.content_type
 
-    get :read, {:id => notes(:open_note).id, :format => "gpx"}
+    get :show, {:id => notes(:open_note).id, :format => "gpx"}
     assert_response :success
     assert_equal "application/gpx+xml", @response.content_type
   end
 
   def test_note_read_hidden_comment
-    get :read, {:id => notes(:note_with_hidden_comment).id, :format => 'json'}
+    get :show, {:id => notes(:note_with_hidden_comment).id, :format => 'json'}
     assert_response :success
     js = ActiveSupport::JSON.decode(@response.body)
     assert_not_nil js
@@ -167,73 +277,73 @@ class NoteControllerTest < ActionController::TestCase
   end
 
   def test_note_read_fail
-    post :read
+    post :show
     assert_response :bad_request
 
-    get :read, {:id => 12345}
+    get :show, {:id => 12345}
     assert_response :not_found
 
-    get :read, {:id => notes(:hidden_note_with_comment).id}
+    get :show, {:id => notes(:hidden_note_with_comment).id}
     assert_response :gone
   end
 
   def test_note_delete_success
-    delete :delete, {:id => notes(:open_note_with_comment).id}
+    delete :destroy, {:id => notes(:open_note_with_comment).id}
     assert_response :success
 
-    get :read, {:id => notes(:open_note_with_comment).id, :format => 'json'}
+    get :show, {:id => notes(:open_note_with_comment).id, :format => 'json'}
     assert_response :gone
   end
 
   def test_note_delete_fail
-    delete :delete
+    delete :destroy
     assert_response :bad_request
 
-    delete :delete, {:id => 12345}
+    delete :destroy, {:id => 12345}
     assert_response :not_found
 
-    delete :delete, {:id => notes(:hidden_note_with_comment).id}
+    delete :destroy, {:id => notes(:hidden_note_with_comment).id}
     assert_response :gone
   end
 
   def test_get_notes_success
-#    get :list, {:bbox => '1,1,1.2,1.2'}
+#    get :index, {:bbox => '1,1,1.2,1.2'}
 #    assert_response :success
 #    assert_equal "text/javascript", @response.content_type
 
-    get :list, {:bbox => '1,1,1.2,1.2', :format => 'rss'}
+    get :index, {:bbox => '1,1,1.2,1.2', :format => 'rss'}
     assert_response :success
     assert_equal "application/rss+xml", @response.content_type
 
-    get :list, {:bbox => '1,1,1.2,1.2', :format => 'json'}
+    get :index, {:bbox => '1,1,1.2,1.2', :format => 'json'}
     assert_response :success
     assert_equal "application/json", @response.content_type
 
-    get :list, {:bbox => '1,1,1.2,1.2', :format => 'xml'}
+    get :index, {:bbox => '1,1,1.2,1.2', :format => 'xml'}
     assert_response :success
     assert_equal "application/xml", @response.content_type
 
-    get :list, {:bbox => '1,1,1.2,1.2', :format => 'gpx'}
+    get :index, {:bbox => '1,1,1.2,1.2', :format => 'gpx'}
     assert_response :success
     assert_equal "application/gpx+xml", @response.content_type
   end
 
   def test_get_notes_large_area
-#    get :list, {:bbox => '-2.5,-2.5,2.5,2.5'}
+#    get :index, {:bbox => '-2.5,-2.5,2.5,2.5'}
 #    assert_response :success
 
-#    get :list, {:l => '-2.5', :b => '-2.5', :r => '2.5', :t => '2.5'}
+#    get :index, {:l => '-2.5', :b => '-2.5', :r => '2.5', :t => '2.5'}
 #    assert_response :success
 
-    get :list, {:bbox => '-10,-10,12,12'}
+    get :index, {:bbox => '-10,-10,12,12'}
     assert_response :bad_request
 
-    get :list, {:l => '-10', :b => '-10', :r => '12', :t => '12'}
+    get :index, {:l => '-10', :b => '-10', :r => '12', :t => '12'}
     assert_response :bad_request
   end
 
   def test_get_notes_closed
-    get :list, {:bbox => '1,1,1.7,1.7', :closed => '7', :format => 'json'}
+    get :index, {:bbox => '1,1,1.7,1.7', :closed => '7', :format => 'json'}
     assert_response :success
     assert_equal "application/json", @response.content_type
     js = ActiveSupport::JSON.decode(@response.body)
@@ -241,7 +351,7 @@ class NoteControllerTest < ActionController::TestCase
     assert_equal "FeatureCollection", js["type"]
     assert_equal 4, js["features"].count
 
-    get :list, {:bbox => '1,1,1.7,1.7', :closed => '0', :format => 'json'}
+    get :index, {:bbox => '1,1,1.7,1.7', :closed => '0', :format => 'json'}
     assert_response :success
     assert_equal "application/json", @response.content_type
     js = ActiveSupport::JSON.decode(@response.body)
@@ -249,7 +359,7 @@ class NoteControllerTest < ActionController::TestCase
     assert_equal "FeatureCollection", js["type"]
     assert_equal 4, js["features"].count
 
-    get :list, {:bbox => '1,1,1.7,1.7', :closed => '-1', :format => 'json'}
+    get :index, {:bbox => '1,1,1.7,1.7', :closed => '-1', :format => 'json'}
     assert_response :success
     assert_equal "application/json", @response.content_type
     js = ActiveSupport::JSON.decode(@response.body)
@@ -259,30 +369,26 @@ class NoteControllerTest < ActionController::TestCase
   end
 
   def test_get_notes_bad_params
-    get :list, {:bbox => '-2.5,-2.5,2.5'}
+    get :index, {:bbox => '-2.5,-2.5,2.5'}
     assert_response :bad_request
 
-    get :list, {:bbox => '-2.5,-2.5,2.5,2.5,2.5'}
+    get :index, {:bbox => '-2.5,-2.5,2.5,2.5,2.5'}
     assert_response :bad_request
 
-    get :list, {:b => '-2.5', :r => '2.5', :t => '2.5'}
+    get :index, {:b => '-2.5', :r => '2.5', :t => '2.5'}
     assert_response :bad_request
 
-    get :list, {:l => '-2.5', :r => '2.5', :t => '2.5'}
+    get :index, {:l => '-2.5', :r => '2.5', :t => '2.5'}
     assert_response :bad_request
 
-    get :list, {:l => '-2.5', :b => '-2.5', :t => '2.5'}
+    get :index, {:l => '-2.5', :b => '-2.5', :t => '2.5'}
     assert_response :bad_request
 
-    get :list, {:l => '-2.5', :b => '-2.5', :r => '2.5'}
+    get :index, {:l => '-2.5', :b => '-2.5', :r => '2.5'}
     assert_response :bad_request
   end
 
   def test_search_success
-#    get :search, {:q => 'note 1'}
-#    assert_response :success
-#    assert_equal "text/javascript", @response.content_type
-
     get :search, {:q => 'note 1', :format => 'xml'}
     assert_response :success
     assert_equal "application/xml", @response.content_type
@@ -306,20 +412,20 @@ class NoteControllerTest < ActionController::TestCase
   end
 
   def test_rss_success
-#    get :rss
-#    assert_response :success
-#    assert_equal "application/rss+xml", @response.content_type
+    get :feed, {:format => 'rss'}
+    assert_response :success
+    assert_equal "application/rss+xml", @response.content_type
 
-#    get :rss, {:bbox=>'1,1,1.2,1.2'}
-#    assert_response :success	
-#    assert_equal "application/rss+xml", @response.content_type
+    get :feed, {:bbox=>'1,1,1.2,1.2', :format => 'rss'}
+    assert_response :success	
+    assert_equal "application/rss+xml", @response.content_type
   end
 
   def test_rss_fail
-    get :rss, {:bbox=>'1,1,1.2'}
+    get :feed, {:bbox=>'1,1,1.2'}
     assert_response :bad_request
 
-    get :rss, {:bbox=>'1,1,1.2,1.2,1.2'}
+    get :feed, {:bbox=>'1,1,1.2,1.2,1.2'}
     assert_response :bad_request
   end
 
