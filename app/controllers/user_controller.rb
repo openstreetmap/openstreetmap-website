@@ -718,7 +718,7 @@ private
   # Choose the layout to use. See
   # https://rails.lighthouseapp.com/projects/8994/tickets/5371-layout-with-onlyexcept-options-makes-other-actions-render-without-layouts
   def choose_layout
-    oauth_url = url_for(:controller => :oauth, :action => :oauthorize, :only_path => true)
+    oauth_url = url_for(:controller => :oauth, :action => :authorize, :only_path => true)
 
     if [ 'api_details' ].include? action_name
       nil
