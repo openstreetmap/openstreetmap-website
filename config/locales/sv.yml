@@ -17,6 +17,7 @@
 # Author: Sannab
 # Author: Sertion
 # Author: The real emj
+# Author: Ufred
 # Author: WikiPhoenix
 # Author: Zvenzzon
 sv: 
@@ -60,12 +61,13 @@ sv:
       changeset_tag: Etikett till ändringsset
       country: Land
       diary_comment: Dagbokskommentar
-      diary_entry: Dagbokspost
+      diary_entry: Dagboksinlägg
       friend: Vän
       language: Språk
       message: Meddelande
       node: Nod
       node_tag: Nodtagg
+      notifier: Meddelande
       old_node: Gammal nod
       old_node_tag: Gammal nodtagg
       old_relation: Gammal relation
@@ -80,8 +82,10 @@ sv:
       session: Session
       trace: Spår
       tracepoint: Spårpunkt
+      tracetag: Spåretikett
       user: Användare
       user_preference: Användarinställningar
+      user_token: Användarnyckel
       way: Sträcka
       way_node: Sträcknod
       way_tag: Vägtagg
@@ -307,6 +311,14 @@ sv:
     timeout: 
       sorry: Kunde tyvärr inte lista begärda ändringsset. Begäran tog för lång tid att hämta.
   diary_entry: 
+    comments: 
+      ago: "% {ago} sedan"
+      comment: Kommentar
+      has_commented_on: "% {display_name} har kommenterat följande dagboksinlägg"
+      newer_comments: Nyare kommentarer
+      older_comments: Äldre kommentarer
+      post: Inlägg
+      when: När
     diary_comment: 
       comment_from: Kommentar från %{link_user}, %{comment_created_at}
       confirm: Bekräfta
@@ -351,6 +363,7 @@ sv:
       older_entries: Äldre anteckningar
       recent_entries: "Aktuella dagboksanteckningar:"
       title: Användardagböcker
+      title_nearby: Närliggande användares dagböcker
       user_title: "%{user}s dagbok"
     location: 
       edit: Redigera
@@ -398,6 +411,7 @@ sv:
       licence: Licens
       longitude: "Lon:"
       manually_select: Välj ett annat område manuellt
+      map_image: Kartbild (visar vanliga lager)
       max: max
       options: Alternativ
       osm_xml_data: OpenStreetMap XML-data
@@ -587,6 +601,7 @@ sv:
           byway: Omfartsväg
           construction: Väg under konstruktion
           cycleway: Cykelspår
+          distance_marker: Avståndsmarkör
           emergency_access_point: Utryckningsplats
           footway: Gångväg
           ford: Vadställe
@@ -609,6 +624,7 @@ sv:
           service: Serviceväg
           services: Rastplats-väg
           steps: Trappa
+          stile: Stätta
           track: Traktorväg
           trail: Vandringsled
           trunk: Motortrafikled
@@ -636,12 +652,14 @@ sv:
           allotments: Kolonilotter
           cemetery: Begravningsplats
           commercial: Kommersiellt område
+          conservation: Skyddat
           construction: Byggarbetsplats
           farm: Bondgård
           farmland: Jordbruksmark
           farmyard: Gårdstun
           forest: Skog
           grass: Gräs
+          greenfield: Outvecklat område
           industrial: Industriområde
           landfill: Soptipp
           meadow: Äng
@@ -654,8 +672,10 @@ sv:
           plaza: Torg
           quarry: Stenbrott
           railway: Järnväg
+          recreation_ground: Rekreationsområde
           reservoir: Reservoar
           residential: Bostadsområde
+          retail: Detaljhandel
           vineyard: Vingård
           wetland: Våtmark
           wood: Skog
@@ -701,6 +721,7 @@ sv:
           moor: Hed
           mud: Lera
           peak: Topp
+          point: Punkt
           reef: Rev
           ridge: Bergskam
           river: Flod
@@ -763,6 +784,7 @@ sv:
           tram_stop: Spårvagnshållplats
           yard: Bangård
         shop: 
+          apparel: Klädbutik
           art: Konstaffär
           bakery: Bageri
           beauty: Skönhetssalong
@@ -787,6 +809,7 @@ sv:
           dry_cleaning: Kemtvätt
           electronics: Elektronikbutik
           estate_agent: Egendomsmäklare
+          farm: Gårdsbutik
           fashion: Modebutik
           fish: Fiskhandlare
           florist: Blommor
@@ -944,6 +967,7 @@ sv:
     native: 
       mapping_link: börja kartlägga
       native_link: Svensk version
+      text: Du tittar på den engelska versionen av sidan om upphovsrätt. Du kan gå tillbaka till % {native_link} på den här sidan eller sluta läsa om upphovsrätt och % {mapping_link}.
       title: Om denna sida
   message: 
     delete: 
@@ -951,8 +975,15 @@ sv:
     inbox: 
       date: Datum
       from: Från
+      messages: Du har %{new_messages} och %{old_messages}
       my_inbox: Min inbox
+      new_messages: 
+        one: "% {count} nytt meddelande"
+        other: "%{count} nya meddelanden"
       no_messages_yet: Du har inga meddelanden ännu. Varför inte ta kontakt med någon %{people_mapping_nearby_link}?
+      old_messages: 
+        one: "% {count} gammalt meddelande"
+        other: "%{count} gamla meddelanden"
       outbox: utbox
       people_mapping_nearby: folk som kartlägger i närheten
       subject: Ärende
@@ -967,6 +998,7 @@ sv:
       unread_button: Markera som oläst
     new: 
       back_to_inbox: Tillbaks till inboxen
+      body: Brödtext
       limit_exceeded: Du har skickat många meddelanden på kort tid.  Var god vänta en stund innan du försöker igen.
       message_sent: Meddelande skickat
       send_button: Skicka
@@ -984,7 +1016,11 @@ sv:
     outbox: 
       date: Datum
       inbox: inbox
+      messages: 
+        one: Du har %{count} skickat meddelande
+        other: Du har %{count} skickade meddelanden
       my_inbox: Min %{inbox_link}
+      no_sent_messages: Du had ing a skickade meddelanden ännu. Varför inte ta kontakt med någon av de  %{people_mapping_nearby_link}?
       outbox: utbox
       people_mapping_nearby: folk som kartlägger i närheten
       subject: Ärende
@@ -1002,10 +1038,13 @@ sv:
       title: Läs meddelande
       to: Till
       unread_button: Markera som oläst
+    reply: 
+      wrong_user: Du är inloggad som '%{user}' men meddelandet du har beth om att besvara skickades inte till den användaren. Logga in som den användaren för att svara.
     sent_message_summary: 
       delete_button: Radera
   notifier: 
     diary_comment_notification: 
+      footer: Du kan också läsa kommentaren på %{readurl} och du kan kommentera på %{commenturl} eller svara på %{replyurl}
       header: "%{from_user} har lämnat kommentar till ditt OpenStreetMap dagboksinlägg med rubriken %{subject}:"
       hi: Hej %{to_user},
       subject: "[OpenStreetMap] %{user} kommenterade din dagboksanteckning"
@@ -1018,6 +1057,7 @@ sv:
     email_confirm_plain: 
       click_the_link: Om det är du, klicka på länken nedan för att bekräfta ändringen.
       greeting: Hej,
+      hopefully_you_1: Någon (förhoppningsvis du) skulle vilja ändra sina e-postadress vid
       hopefully_you_2: "%{server_url} till %{new_address}."
     friend_notification: 
       befriend_them: Du kan också lägga till dem som en vän på %{befriendurl}.
@@ -1034,13 +1074,16 @@ sv:
         subject: "[OpenStreetMap] Misslyckades importera GPX"
       greeting: Hej,
       success: 
+        loaded_successfully: inläst med %{trace_points} av %{possible_points} möjliga punkter.
         subject: "[OpenStreetMap] Lyckades importera GPX"
       with_description: med beskrivningen
       your_gpx_file: Det verkar som om din GPX-fil
     lost_password: 
       subject: "[OpenStreetMap] Begäran om återställning av lösenord"
     lost_password_html: 
+      click_the_link: Om detta är du, klicka på länken nedan för att återställa ditt lösenord.
       greeting: Hej,
+      hopefully_you: Någon (kanske du) har bett att lösenordet för kontot hos openstreetmap.org som tillhör den här e-postadressen återställs.
     lost_password_plain: 
       click_the_link: Om det är du, klicka på länken nedan för att återställa ditt lösenord.
       greeting: Hej,
@@ -1055,18 +1098,30 @@ sv:
       subject: "[OpenStreetMap] Bekräfta din e-postadress"
     signup_confirm_html: 
       ask_questions: Du kan ställa vilken fråga du vill om OpenStreetMap på vår <a href="http://help.openstreetmap.org/">frågor- och svarsida</a>.
+      click_the_link: Om detta är du, Välkommen! Klicka på länken nedan för att bekräfta kontot och läsa vidare för mer information om OpenStreetMap
       get_reading: Kom igång med OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Beginners%27_Guide">på wikin</a>, blir uppdaterad om de senaste nyheterna via <a href="http://blog.openstreetmap.org/">OpenStreetMaps blogg</a> eller <a href="http://twitter.com/openstreetmap">Twitter</a>, eller skumma genom OpenStreetMaps grundare Steve Coasts <a href="http://www.opengeodata.org/">OpenGeoData blog</a> för en kortfattad historisk genomgång, som också har en <a href="http://www.opengeodata.org/?cat=13">poddradio att lyssna på</a>!
       greeting: Hej där!
+      hopefully_you: Någon (förhoppningsvis du) vill skapa ett konto på
+      introductory_video: Du kan titta på en %{introductory_video_link}.
       more_videos: Det finns %{more_videos_link}.
       more_videos_here: fler videoklipp här
       video_to_openstreetmap: introduktionsvideo om OpenStreetMap
+      wiki_signup: Du kan också <a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page">registrera dig på OpenStreetMap-wikin</a>.
     signup_confirm_plain: 
       ask_questions: "Du kan ställa valfria frågor om OpenStreetMap på vår frågesida:"
+      blog_and_twitter: "Håll dig uppdaterad med de sensate nyheterna via OpenStreetMap-bloggen eller Twitter:"
       click_the_link_1: Om detta är du, välkommen! Klicka på länken nedan för att bekräfta ditt
       click_the_link_2: konto och läs vidare för mer information om OpenStreetMap.
+      current_user_1: En lista över aktuella användare i kategorier, baserat på var i världen
+      current_user_2: "de är, finns tillgänglig från:"
       greeting: Hej där!
+      hopefully_you: Någon (förhoppningsvis du) vill skapa ett konto på
+      introductory_video: "Du kan titta på en introduktionsvideo till OpenStreetMap här:"
       more_videos: "Det finns fler filmer här:"
+      opengeodata: "OpenGeoData.org är OpenStreetMap-grundarens Steve Coasts blogg, och den har även podcasts:"
       the_wiki: "Läs mer om OpenStreetMap på wikin:"
+      user_wiki_1: Det rekommenderas att du skapar en användarsida på wikin som innehåller
+      user_wiki_2: "kategorietiketter som visar var du befinner dig, t.ex. [[Category: Users_in_London]]."
       wiki_signup: "Du kan också registrera dig på OpenStreetMap wikin på:"
   oauth: 
     oauthorize: 
@@ -1083,6 +1138,7 @@ sv:
   oauth_clients: 
     edit: 
       submit: Redigera
+      title: Redigera ditt tillägg
     form: 
       allow_write_api: ändra kartan.
       allow_write_gpx: ladda upp GPS-spår.
@@ -1092,21 +1148,33 @@ sv:
     index: 
       application: Applikationsnamn
       issued_at: Utfärdad
+      list_tokens: "Följande token har utfärdats till program i ditt namn:"
+      my_apps: Mina klientprogram
+      my_tokens: Mina auktoriserade program
       register_new: Registrera din applikation
       revoke: Återkalla!
+      title: Mina OAuth-detaljer
     new: 
       submit: Registrera
       title: Registrera ett nytt program
     show: 
+      allow_read_gpx: läs deras privata GPS-spår
+      allow_read_prefs: Läs deras användarinställningar.
       allow_write_api: ändra kartan.
+      allow_write_diary: skapa dagboksinlägg, kommentarer och hitta vänner.
       allow_write_gpx: ladda upp GPS-spår.
+      allow_write_prefs: ändra deras användarinställningar.
       authorize_url: "Godkänn URL:"
       edit: Redigera detaljer
+      requests: "Begär följande behörigheter från användaren:"
       support_notice: Vi stödjer HMAC-SHA1 (rekommenderas) såväl som oformaterad text i SSL-läge.
   site: 
     edit: 
       anon_edits_link_text: Ta reda på varför det är så.
       flash_player_required: Du måste ha Flash för att kunna använda Potatch, OpenStreetMaps flasheditor. Du kan <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">ladda hem Flash Player från Adobe.com</a>. Det finns <a href="http://wiki.openstreetmap.org/wiki/Editing">flera andra editorer</a> tillgängliga för OpenStreetMap.
+      no_iframe_support: Din webbläsare stöder inte HTML iframe, som är nödvändiga för den här funktionen.
+      not_public: Du har into ändrat statusen på dina ändringar till offentliga.
+      potlatch2_unsaved_changes: Du har osparade ändringar. (För att spara i Potlatch 2, bör du klicka på Spara.)
       user_page_link: användarsida
     index: 
       js_1: Du måste ha javascript påslaget, alternativt en webbläsare som stödjer javascript.
@@ -1190,6 +1258,7 @@ sv:
       search_help: "exempel: 'Delsbo', 'Storgatan, Svedala', <a href='http://wiki.openstreetmap.org/wiki/Sv:Search'>Fler exempel..</a>"
       submit_text: Gå
       where_am_i: Var är jag
+      where_am_i_title: Beskriv den aktuella platsen med hjälp av sökmotorn
     sidebar: 
       close: Stäng
       search_results: Sökresultat
