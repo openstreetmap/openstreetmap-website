@@ -63,6 +63,24 @@
                    attribution: attribution
                 });
                 map.addLayer(cyclemap);
+            } else if (args.layer == "transportmap") {
+                var transportmap = new OpenLayers.Layer.OSM.TransportMap("Transport Map", {
+                   displayOutsideMaxExtent: true,
+                   wrapDateLine: true,
+                   attribution: attribution
+                });
+                map.addLayer(transportmap);
+            } else if (args.layer == "mapquest") {
+                var mapquestmap = new OpenLayers.Layer.OSM("MapQuest Open Map", [
+                    "http://otile1.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png",
+                    "http://otile2.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png",
+                    "http://otile3.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png",
+                    "http://otile4.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png"], {
+                   displayOutsideMaxExtent: true,
+                   wrapDateLine: true,
+                   attribution: "Tiles courtesy of <a href='http://www.mapquest.com/' target='_blank'>MapQuest</a> <img src='http://developer.mapquest.com/content/osm/mq_logo.png'>",
+                });
+                map.addLayer(mapquestmap);
             }
 
             if (args.marker) {
