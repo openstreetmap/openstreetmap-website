@@ -26,8 +26,8 @@ end
     var centre = new OpenLayers.LonLat(<%= lon %>, <%= lat %>);
     var zoom = <%= zoom %>;
 
-    <% if params['scale'] and params['scale'].length > 0 then %>
-    zoom = scaleToZoom(<%= params['scale'].to_f() %>);
+    <% if params[:scale] and params[:scale].length > 0 and params[:scale].to_f > 0 then %>
+    zoom = <%= Math.log(360.0 / (params[:scale].to_f * 512.0)) / Math.log(2.0) %>;
     <% end %>
 
     var map = createMap("map");
