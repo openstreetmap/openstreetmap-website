@@ -80,9 +80,9 @@
     selectControl.activate();
 
     <% if ! @bbox.nil? %>
-      setMapExtent(new OpenLayers.Bounds(<%= @bbox %>));
+      map.setExtent(proj(new OpenLayers.Bounds(<%= @bbox %>)));
     <% else %>
-      setMapExtent(bounds);
+      map.setExtent(proj(bounds));
     <% end %>
   }
 
