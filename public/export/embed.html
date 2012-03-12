@@ -42,20 +42,13 @@
 
             var attribution = '(C) <a target="_parent" href="http://www.openstreetmap.org">OpenStreetMap</a> and contributors, <a target="_parent" href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>';
             var args = OpenLayers.Util.getParameters();
-            if (!args.layer || args.layer == "mapnik") {
+            if (!args.layer || args.layer == "mapnik" || args.layer == "osmarender") {
                 var mapnik = new OpenLayers.Layer.OSM.Mapnik("Mapnik", {
                    displayOutsideMaxExtent: true,
                    wrapDateLine: true,
                    attribution: attribution
                 });
                 map.addLayer(mapnik);
-            } else if (args.layer == "osmarender") {
-                var osmarender = new OpenLayers.Layer.OSM.Osmarender("Osmarender", {
-                   displayOutsideMaxExtent: true,
-                   wrapDateLine: true,
-                   attribution: attribution
-                });
-                map.addLayer(osmarender);
             } else if (args.layer == "cyclemap" || args.layer == "cycle map") {
                 var cyclemap = new OpenLayers.Layer.OSM.CycleMap("Cycle Map", {
                    displayOutsideMaxExtent: true,
