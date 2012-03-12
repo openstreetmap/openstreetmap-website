@@ -1,0 +1,156 @@
+function addNoteLayer(map, notesUrl, newNoteControls, minZoom) {
+    var newNotes;
+
+    var noteCallback = function (scope, response) {
+        for (var f = 0; f < response.features.length; f++) {
+            var feature = response.features[f];
+        }
+    };
+
+    var saveNewNotes = function (o) {
+        var layer = o.object;
+        newNotes = layer.getFeaturesByAttribute("status", "new")
+        layer.removeFeatures(newNotes, { silent: true });
+    };
+
+    var restoreNewNotes = function (o) {
+        var layer = o.object;
+        layer.addFeatures(newNotes);
+        newNotes = undefined;
+    };
+
+    var noteSelected = function (o) {
+        var feature = o.feature;
+        var location = feature.geometry.getBounds().getCenterLonLat();
+
+        feature.popup = new OpenLayers.Popup.FramedCloud(
+            feature.attributes.id, location, null,
+            "<p>" + feature.attributes.id + "</p>",
+            null, 
+            feature.attributes.status !== "new",
+            function (e) { map.noteSelector.unselect(feature) }
+        );
+
+        map.addPopup(feature.popup);
+        //    feature.popup.show();
+    };
+
+    var noteUnselected = function (o) {
+        var feature = o.feature;
+
+        map.removePopup(feature.popup);
+
+        delete feature.popup;
+    };
+
+    var allowNoteReports = function () { 
+        if (map.getZoom() > minZoom) {
+            newNoteControls.show();
+        } else {
+            newNoteControls.hide();
+        }
+    };
+
+    var addNote = function () {
+        var lonlat = map.getCenter();
+        var layer = map.noteLayer;
+        var geometry = new OpenLayers.Geometry.Point(lonlat.lon, lonlat.lat);
+        var feature = new OpenLayers.Feature.Vector(geometry, {
+            status: "new"
+        });
+
+        layer.addFeatures(feature);
+        map.noteSelector.unselectAll();
+        map.noteSelector.select(feature);
+        map.noteMover.activate();
+        map.noteLayer.setVisibility(true);
+    };
+
+    map.noteLayer = new OpenLayers.Layer.Vector("Notes", {
+        visibility: false,
+        projection: new OpenLayers.Projection("EPSG:4326"),
+        styleMap: new OpenLayers.StyleMap(new OpenLayers.Style({
+            graphicWidth: 22,
+            graphicHeight: 22,
+            graphicOpacity: 0.7,
+            graphicXOffset: -11,
+            graphicYOffset: -11
+        }, {
+            rules: [
+                new OpenLayers.Rule({
+                    filter: new OpenLayers.Filter.Comparison({
+                        type: OpenLayers.Filter.Comparison.EQUAL_TO,
+                        property: "status",
+                        value: "new"
+                    }),
+                    symbolizer: {
+                        externalGraphic: "<%= image_path 'new_note_marker.png' %>"
+                    }
+                }),
+                new OpenLayers.Rule({
+                    filter: new OpenLayers.Filter.Comparison({
+                        type: OpenLayers.Filter.Comparison.EQUAL_TO,
+                        property: "status",
+                        value: "open"
+                    }),
+                    symbolizer: {
+                        externalGraphic: "<%= image_path 'open_note_marker.png' %>"
+                    }
+                }),
+                new OpenLayers.Rule({
+                    filter: new OpenLayers.Filter.Comparison({
+                        type: OpenLayers.Filter.Comparison.EQUAL_TO,
+                        property: "status",
+                        value: "closed"
+                    }),
+                    symbolizer: {
+                        externalGraphic: "<%= image_path 'closed_note_marker.png' %>"
+                    }
+                })
+            ]
+        })),
+        strategies: [
+            new OpenLayers.Strategy.BBOX()
+        ],
+        protocol: new OpenLayers.Protocol.HTTP({
+            url: notesUrl,
+            format: new OpenLayers.Format.GeoJSON(),
+            callback: noteCallback
+        })
+    });
+
+    map.noteLayer.events.register("beforefeaturesremoved", map, saveNewNotes);
+    map.noteLayer.events.register("featuresremoved", map, restoreNewNotes);
+    map.noteLayer.events.register("featureselected", map, noteSelected);
+    map.noteLayer.events.register("featureunselected", map, noteUnselected);
+
+    map.addLayer(map.noteLayer);
+
+    map.noteSelector = new OpenLayers.Control.SelectFeature(map.noteLayer, {
+        autoActivate: true
+    });
+
+    map.addControl(map.noteSelector);
+
+    map.noteMover = new OpenLayers.Control.DragFeature(map.noteLayer, {
+        onDrag: function (feature, pixel) {
+            feature.popup.lonlat = feature.geometry.getBounds().getCenterLonLat();
+            feature.popup.updatePosition();
+        },
+        featureCallbacks: {
+            over: function (feature) {
+                if (feature.attributes.status === "new") {
+                    map.noteMover.overFeature.apply(map.noteMover, [feature]);
+                }
+            }
+        }
+    });
+
+    map.addControl(map.noteMover);
+
+    newNoteControls.click(addNote);
+
+    map.events.register("zoomend", map, allowNoteReports);
+
+    return map.noteLayer;
+}
