@@ -9,7 +9,7 @@
   <br />
 <% end %>
 
-<%= raw(t 'diary_entry.diary_entry.posted_by', :link_user => (link_to h(diary_entry.user.display_name), :controller => 'user', :action => 'view', :display_name => diary_entry.user.display_name), :created => l(diary_entry.created_at, :format => :friendly), :language_link => (link_to h(diary_entry.language.name), :controller => 'diary_entry', :action => 'list', :language => diary_entry.language_code)) %> 
+<%= raw(t 'diary_entry.diary_entry.posted_by', :link_user => (link_to h(diary_entry.user.display_name), :controller => 'user', :action => 'view', :display_name => diary_entry.user.display_name), :created => l(diary_entry.created_at, :format => :friendly), :language_link => (link_to h(diary_entry.language.name), :controller => 'diary_entry', :action => 'list', :display_name => nil, :language => diary_entry.language_code)) %> 
 
 <% if params[:action] == 'list' %>
   <br />
