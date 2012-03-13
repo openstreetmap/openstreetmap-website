@@ -143,23 +143,6 @@ function setArgs(url, args) {
 }
 
 /*
- * Called to get a CSS property for an element.
- */
-function getStyle(el, property) {
-  var style;
-
-  if (el.currentStyle) {
-    style = el.currentStyle[property];
-  } else if( window.getComputedStyle ) {
-    style = document.defaultView.getComputedStyle(el,null).getPropertyValue(property);
-  } else {
-    style = el.style[property];
-  }
-
-  return style;
-}
-
-/*
  * Called to interpolate JavaScript variables in strings using a
  * similar syntax to rails I18n string interpolation - the only
  * difference is that [[foo]] is the placeholder syntax instead
