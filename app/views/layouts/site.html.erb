@@ -71,19 +71,19 @@
       <%= yield :optionals %>
 
       <% unless @user %>
-      <div id="intro">
+      <div class="sidebar-copy">
         <p>
           <%= t 'layouts.intro_1' %>
         </p>
         <p>
-          <%= t 'layouts.intro_2' %>
-        </p>
-        <p>
-        <%= raw(t 'layouts.intro_3', 
-                  :ucl => link_to(t('layouts.intro_3_ucl'), "http://www.vr.ucl.ac.uk"),
-                  :ic => link_to(t('layouts.intro_3_ic'), "http://www.imperial.ac.uk/"),
-                  :bytemark => link_to(t('layouts.intro_3_bytemark'), "http://www.bytemark.co.uk"),
-                  :partners => link_to(t('layouts.intro_3_partners'), t('layouts.intro_3_partners_url'))) %>
+        <%= raw(t 'layouts.intro_2',
+                :download => link_to(t('layouts.intro_2_download'), "http://planet.openstreetmap.org/"),
+                :use => link_to(t('layouts.intro_2_use'), t('layouts.intro_2_use_url')),
+                :license => link_to(t('layouts.intro_2_license'),
+                                   url_for({:controller => 'site', :action => 'copyright'})),
+                :create_account => link_to(t('layouts.intro_2_create_account'),
+                                   url_for({:controller => 'user', :action => 'new'})))
+        %>
         </p>
       </div>
       <% end %>
@@ -115,12 +115,17 @@
         </ul>
       </div>
 
-      <center>
-        <div class="donate">
-          <a href="http://donate.openstreetmap.org/" title="<%= h(t('layouts.make_a_donation.title')) %>"><%= h(t('layouts.make_a_donation.text')) %></a>
-        </div>
-      </center>
-    </div>
+      <div class="donate">
+        <a href="http://donate.openstreetmap.org/" title="<%= h(t('layouts.make_a_donation.title')) %>"><%= h(t('layouts.make_a_donation.text')) %></a>
+      </div>
+      <div class='sidebar-copy'>
+          <p><%= raw(t 'layouts.partners',
+              :ucl => link_to(t('layouts.partners_ucl'), "http://www.vr.ucl.ac.uk"),
+              :ic => link_to(t('layouts.partners_ic'), "http://www.imperial.ac.uk/"),
+              :bytemark => link_to(t('layouts.partners_bytemark'), "http://www.bytemark.co.uk"),
+              :partners => link_to(t('layouts.partners_partners'), t('layouts.partners_url'))) %>
+          </p>
+      </div>
 
     <script type="text/javascript">
     $(document).ready(function () {
