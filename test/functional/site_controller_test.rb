@@ -10,6 +10,10 @@ class SiteControllerTest < ActionController::TestCase
       { :path => "/", :method => :get },
       { :controller => "site", :action => "index" }
     )
+    assert_routing(
+      { :path => "/", :method => :post },
+      { :controller => "site", :action => "index" }
+    )
     assert_recognizes(
       { :controller => "site", :action => "index" },
       { :path => "/index.html", :method => :get }
