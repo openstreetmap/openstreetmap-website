@@ -125,6 +125,10 @@ module ApplicationHelper
     end
   end
 
+  def scale_to_zoom(scale)
+    Math.log(360.0 / (scale.to_f * 512.0)) / Math.log(2.0)
+  end
+
 private
 
   def javascript_strings_for_key(key)
