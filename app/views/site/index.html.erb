@@ -144,7 +144,7 @@ end
       <% if bbox %>
         var bbox = new OpenLayers.Bounds(<%= minlon %>, <%= minlat %>, <%= maxlon %>, <%= maxlat %>);
 
-        map.setExtent(proj(bbox));
+        map.zoomToExtent(proj(bbox));
 
         <% if box %>
           $(window).load(function() { addBoxToMap(bbox) });
@@ -200,7 +200,7 @@ end
     if (min_lon && min_lat && max_lon && max_lat) {
       var bbox = new OpenLayers.Bounds(min_lon, min_lat, max_lon, max_lat);
 
-      map.setExtent(proj(bbox));
+      map.zoomToExtent(proj(bbox));
     } else {
       setMapCenter(centre, zoom);
     }
