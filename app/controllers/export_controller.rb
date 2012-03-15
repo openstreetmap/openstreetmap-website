@@ -21,15 +21,6 @@ class ExportController < ApplicationController
       scale = params[:mapnik_scale]
 
       redirect_to "http://parent.tile.openstreetmap.org/cgi-bin/export?bbox=#{bbox}&scale=#{scale}&format=#{format}"
-
-    elsif format == "osmarender"
-      #redirect to the t@h 'MapOf' service
-      format = params[:osmarender_format]
-      zoom = params[:osmarender_zoom].to_i
-      width = bbox.slippy_width(zoom).to_i
-      height = bbox.slippy_height(zoom).to_i
-
-      redirect_to "http://tah.openstreetmap.org/MapOf/index.php?long=#{bbox.centre_lon}&lat=#{bbox.centre_lat}&z=#{zoom}&w=#{width}&h=#{height}&format=#{format}"
     end
   end
 end
