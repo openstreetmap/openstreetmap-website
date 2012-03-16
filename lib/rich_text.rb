@@ -73,7 +73,7 @@ module RichText
   private
 
     def html_parser
-      @@html_renderer ||= Redcarpet::Render::XHTML.new({
+      @@html_renderer ||= Renderer.new({
         :filter_html => true, :safe_links_only => true
       })
       @@html_parser ||= Redcarpet::Markdown.new(@@html_renderer, {
@@ -83,6 +83,20 @@ module RichText
 
     def text_parser
       @@text_parser ||= Redcarpet::Markdown.new(Redcarpet::Render::StripDown)
+    end
+
+    class Renderer < Redcarpet::Render::XHTML
+      def link(link, title, alt_text)
+        "<a rel=\"nofollow\" href=\"#{link}\">#{alt_text}</a>"
+      end
+
+      def autolink(link, link_type)
+        if link_type == :email
+          "<a rel=\"nofollow\" href=\"mailto:#{link}\">#{link}</a>"
+        else
+          "<a rel=\"nofollow\" href=\"#{link}\">#{link}</a>"
+        end
+      end 
     end
   end
 
