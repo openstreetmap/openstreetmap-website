@@ -14,11 +14,11 @@ else
   digest = message.digest
   from = message.recipient
   to = message.sender
-
-  message.update_attribute(:message_read, true)
 end
 
 exit 0 unless recipient[3] == digest[0,6]
+
+message.update_attribute(:message_read, true) if message
 
 mail = Mail.new(STDIN.readlines.join)
 
