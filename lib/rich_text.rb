@@ -5,6 +5,7 @@ module RichText
     case format
     when "html"; HTML.new(text || "")
     when "markdown"; Markdown.new(text || "")
+    when "text"; Text.new(text || "")
     else; nil
     end
   end
@@ -29,6 +30,16 @@ module RichText
 
       return [link_proportion - 0.2, 0.0].max * 200 + link_count * 20
     end
+
+  protected
+
+    def linkify(text)
+      if text.html_safe?
+        Rinku.auto_link(text, :urls, tag_options(:rel => "nofollow")).html_safe
+      else
+        Rinku.auto_link(text, :urls, tag_options(:rel => "nofollow"))
+      end
+    end
   end
 
   class HTML < Base
@@ -47,14 +58,6 @@ module RichText
 
     def sanitize(text)
       Sanitize.clean(text, Sanitize::Config::OSM).html_safe
-    end
-
-    def linkify(text)
-      if text.html_safe?
-        Rinku.auto_link(text, :urls, tag_options(:rel => "nofollow")).html_safe
-      else
-        Rinku.auto_link(text, :urls, tag_options(:rel => "nofollow"))
-      end
     end
   end
 
@@ -80,6 +83,18 @@ module RichText
 
     def text_parser
       @@text_parser ||= Redcarpet::Markdown.new(Redcarpet::Render::StripDown)
+    end
+  end
+
+  class Text < Base
+    include ActionView::Helpers::TextHelper
+
+    def to_html
+      linkify(simple_format(ERB::Util.html_escape(self)))
+    end
+
+    def to_text
+      self
     end
   end
 end
