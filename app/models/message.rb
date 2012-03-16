@@ -13,6 +13,29 @@ class Message < ActiveRecord::Base
 
   after_initialize :set_defaults
 
+  def self.from_mail(mail, from, to)
+    if mail.multipart?
+      if mail.text_part
+        body = mail.text_part.decoded
+      elsif mail.html_part
+        body = HTMLEntities.new.decode(Sanitize.clean(mail.html_part.decoded))
+      end
+    elsif mail.text? and mail.sub_type == "html"
+      body = HTMLEntities.new.decode(Sanitize.clean(mail.decoded))
+    else
+      body = mail.decoded
+    end
+
+    message = Message.new({
+      :sender => from,
+      :recipient => to,
+      :sent_on => mail.date.new_offset(0),
+      :title => mail.subject.sub(/\[OpenStreetMap\] */, ""),
+      :body => body,
+      :body_format => "text"
+    }, :without_protection => true)
+  end
+
   def body
     RichText.new(read_attribute(:body_format), read_attribute(:body))
   end
