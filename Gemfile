@@ -31,8 +31,9 @@ gem 'iconv', :platforms => :ruby_18
 # Load libxml support for XML parsing and generation
 gem 'libxml-ruby', '>= 2.0.5', :require => 'libxml'
 
-# Load HTML sanitizer
+# Use for HTML sanitisation
 gem 'sanitize'
+gem 'htmlentities'
 
 # Load SystemTimer for implementing request timeouts
 gem 'SystemTimer', '>= 1.1.3', :require => 'system_timer', :platforms => :ruby_18
