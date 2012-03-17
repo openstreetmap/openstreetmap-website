@@ -39,6 +39,16 @@ COMMENT ON EXTENSION btree_gist IS 'support for indexing common datatypes in GiS
 SET search_path = public, pg_catalog;
 
 --
+-- Name: format_enum; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE format_enum AS ENUM (
+    'html',
+    'markdown'
+);
+
+
+--
 -- Name: gpx_visibility_enum; Type: TYPE; Schema: public; Owner: -
 --
 
