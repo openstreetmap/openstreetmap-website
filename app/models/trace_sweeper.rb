@@ -16,7 +16,6 @@ class TraceSweeper < ActionController::Caching::Sweeper
 private
 
   def expire_cache_for(record)
-    expire_action(:controller => 'trace', :action => 'view', :id => record.id)
     expire_action(:controller => 'trace', :action => 'view', :display_name => record.user.display_name, :id => record.id)
 
     expire_action(:controller => 'trace', :action => 'list', :display_name => nil, :tag => nil)

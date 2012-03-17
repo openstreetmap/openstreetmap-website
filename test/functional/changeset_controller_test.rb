@@ -4,6 +4,79 @@ require 'changeset_controller'
 class ChangesetControllerTest < ActionController::TestCase
   api_fixtures
 
+  ##
+  # test all routes which lead to this controller
+  def test_routes
+    assert_routing(
+      { :path => "/api/0.6/changeset/create", :method => :put },
+      { :controller => "changeset", :action => "create" }
+    )
+    assert_routing(
+      { :path => "/api/0.6/changeset/1/upload", :method => :post },
+      { :controller => "changeset", :action => "upload", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/api/0.6/changeset/1/download", :method => :get },
+      { :controller => "changeset", :action => "download", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/api/0.6/changeset/1/expand_bbox", :method => :post },
+      { :controller => "changeset", :action => "expand_bbox", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/api/0.6/changeset/1", :method => :get },
+      { :controller => "changeset", :action => "read", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/api/0.6/changeset/1", :method => :put },
+      { :controller => "changeset", :action => "update", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/api/0.6/changeset/1/close", :method => :put },
+      { :controller => "changeset", :action => "close", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/api/0.6/changesets", :method => :get },
+      { :controller => "changeset", :action => "query" }
+    )
+    assert_routing(
+      { :path => "/user/name/edits", :method => :get },
+      { :controller => "changeset", :action => "list", :display_name => "name" }
+    )
+    assert_routing(
+      { :path => "/user/name/edits/feed", :method => :get },
+      { :controller => "changeset", :action => "feed", :display_name => "name", :format => :atom }
+    )
+    assert_routing(
+      { :path => "/browse/friends", :method => :get },
+      { :controller => "changeset", :action => "list", :friends => true }
+    )
+    assert_routing(
+      { :path => "/browse/nearby", :method => :get },
+      { :controller => "changeset", :action => "list", :nearby => true }
+    )
+    assert_routing(
+      { :path => "/browse/changesets", :method => :get },
+      { :controller => "changeset", :action => "list" }
+    )
+    assert_routing(
+      { :path => "/browse/changesets/feed", :method => :get },
+      { :controller => "changeset", :action => "feed", :format => :atom }
+    )
+    assert_recognizes(
+      { :controller => "changeset", :action => "list" },
+      { :path => "/browse", :method => :get }
+    )
+    assert_recognizes(
+      { :controller => "changeset", :action => "list" },
+      { :path => "/history", :method => :get }
+    )
+    assert_recognizes(
+      { :controller => "changeset", :action => "feed", :format => :atom },
+      { :path => "/history/feed", :method => :get }
+    )
+  end
+
   # -----------------------
   # Test simple changeset creation
   # -----------------------

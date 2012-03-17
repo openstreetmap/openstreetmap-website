@@ -9,7 +9,7 @@ class SpamObserver < ActiveRecord::Observer
     end
 
     if user.status == "active" and user.spam_score > SPAM_THRESHOLD
-      user.update_attributes(:status => "suspended")
+      user.update_column(:status, "suspended")
     end
   end
 end

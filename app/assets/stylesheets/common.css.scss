@@ -85,11 +85,12 @@ h2 {
 
 /* Rules for the introductory text displayed in the left sidebar to new users */
 
-#intro {
+.sidebar-copy {
   border-top: 1px solid #ccc;
+  padding: 0px 5px;
 }
 
-#intro p {
+.sidebar-copy p {
   margin: 5px;
 }
 
@@ -132,7 +133,7 @@ h2 {
 /* Rules for the menu displayed in the left sidebar */
 
 .left_menu {
-  padding: 5px;
+  padding: 5px 10px;
   margin: 4px 0;
   border-top: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
@@ -154,6 +155,13 @@ h2 {
 .left_menu li {
   margin: 0px;
   padding: 0px;
+}
+
+/* submenus */
+.left_menu ul li ul {
+  font-weight: normal;
+  line-height: 15px;
+  font-size: 12px;
 }
 
 .left_menu a {
@@ -178,7 +186,7 @@ h2 {
  */
 
 .optionalbox {
-  padding: 5px;
+  padding: 5px 10px;
   margin: 4px 0;
   border-top: 1px solid #ccc;
 }
@@ -210,7 +218,7 @@ h2 {
 }
 
 #search_field input[type="text"] {
-  width: 136px;
+  width: 130px;
 }
 
 #search_field input[type="submit"] {
@@ -227,8 +235,8 @@ h2 {
 /* Rules for donation request box */
 
 .donate {
-  width: 155px;
-  margin: 10px 5px;
+  width: 153px;
+  margin: 10px 10px;
   padding: 5px;
   border: 1px solid #ccc;
   background: #cbeea7;
@@ -1031,4 +1039,68 @@ abbr.geo {
 .openid_logo {
   vertical-align: text-bottom;
   border: 0;
+}
+
+/* Rules for rich text editors */
+
+.richtext_container {
+  white-space: nowrap;
+
+  .richtext_content {
+    display: inline-block;
+    vertical-align: top;
+
+    .richtext_preview {
+      display: inline-block;
+      margin-top: 1px;
+      margin-bottom: 1px;
+      border: 4px solid #eee;
+      background-color: #eee;
+      white-space: normal;
+
+      &.loading {
+        background-image: image-url("loading.gif");
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+
+      > :first-child {
+        margin-top: 0px;
+      }
+    }
+  }
+
+  .richtext_help {
+    display: inline-block;
+    vertical-align: top;
+    background-color: #ddd;
+    margin-left: 15px;
+    padding: 5px 10px 10px 10px;
+    font-size: 12px;
+
+    p {
+      margin: 0px;
+    }
+
+    th {
+      vertical-align: top;
+      padding: 0px 15px 0px 0px !important;
+    }
+
+    td {
+      font-family: fixed;
+      line-height: 16px;
+      padding: 0px !important;
+    }
+
+    input.richtext_doedit {
+      margin-top: 5px !important;
+      margin-right: 10px !important;
+    }
+
+    input.richtext_dopreview {
+      margin-top: 5px !important;
+      margin-left: 10px !important;
+    }
+  }
 }

@@ -214,15 +214,15 @@ function validateControls() {
   }
 
   var max_scale = maxMapnikScale();
+  var disabled = true;
 
-  if ($("#format_osm").prop("checked") && bounds.getWidth() * bounds.getHeight() > <%= MAX_REQUEST_AREA %>) {
-    $("#export_commit").prop("disabled", true);
-  } else if ($("#format_mapnik").prop("checked") && $("#mapnik_scale").val() < max_scale) {
-    $("#export_commit").prop("disabled", true);
-  } else {
-    $("#export_commit").prop("disabled", false);
+  if ($("#format_osm").prop("checked")) {
+    disabled = bounds.getWidth() * bounds.getHeight() > <%= MAX_REQUEST_AREA %>;
+  } else if ($("#format_mapnik").prop("checked")) {
+    disabled = $("#mapnik_scale").val() < max_scale;
   }
 
+  $("#export_commit").prop("disabled", disabled);
   $("#mapnik_max_scale").html(roundScale(max_scale));
 }
 

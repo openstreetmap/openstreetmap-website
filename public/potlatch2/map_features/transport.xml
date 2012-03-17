@@ -305,6 +305,15 @@
     <inputSet ref="names"/>
     <input type="freetext" presence="onTagMatch" category="Details" name="Operator" key="operator" description="The provider of the postal service" priority="low"/>
     <input type="number" minimum="0" maximum="99999" stepSize="1" presence="always" category="Parking" name="Capacity" key="capacity" description="The number of cars that can be parked in the car park"/>
+    <input type="choice" presence="always" category="Parking" name="Type" key="parking" priority="high">
+      <choice value="surface" text="Surface (outdoor)" />
+      <choice value="multi-storey" text="Multi-storey" />
+      <choice value="underground" text="Underground" />
+      <choice value="garage" text="Garage" />
+      <choice value="park_and_ride" text="Park-and-ride" />
+      <choice value="garage_boxes" text="Garage boxes" />
+    </input>
+    <input type="freetext" presence="onTagMatch" category="Parking" name="Maximum stay" key="maxstay" description="The maximum permitted duration of parking (eg, 4h)."/>
     <inputSet ref="fee"/>
     <inputSet ref="common"/>
   </feature>

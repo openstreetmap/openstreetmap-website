@@ -144,18 +144,18 @@ end
       <% if bbox %>
         var bbox = new OpenLayers.Bounds(<%= minlon %>, <%= minlat %>, <%= maxlon %>, <%= maxlat %>);
 
-        setMapExtent(bbox);
+        map.zoomToExtent(proj(bbox));
 
         <% if box %>
           $(window).load(function() { addBoxToMap(bbox) });
         <% end %>
       <% else %>
         var centre = new OpenLayers.LonLat(<%= lon %>, <%= lat %>);
+        <% if params[:scale].to_f > 0 then -%>
+        var zoom = <%= scale_to_zoom params[:scale] %>;
+        <% else -%>
         var zoom = <%= zoom %>;
-
-        <% if params[:scale] and params[:scale].length > 0 then %>
-          zoom = scaleToZoom(<%= params[:scale].to_f %>);
-        <% end %>
+        <% end -%>
 
         setMapCenter(centre, zoom);
       <% end %>
@@ -194,36 +194,29 @@ end
     }
   }
 
-  function getPosition() {
-    return getMapCenter();
-  }
-
-  function getZoom() {
-    return getMapZoom();
-  }
-
   function setPosition(lat, lon, zoom, min_lon, min_lat, max_lon, max_lat) {
     var centre = new OpenLayers.LonLat(lon, lat);
 
     if (min_lon && min_lat && max_lon && max_lat) {
       var bbox = new OpenLayers.Bounds(min_lon, min_lat, max_lon, max_lat);
 
-      setMapExtent(bbox);
+      map.zoomToExtent(proj(bbox));
     } else {
       setMapCenter(centre, zoom);
     }
 
-    if (marker)
+    if (marker) {
       removeMarkerFromMap(marker);
+    }
 
     marker = addMarkerToMap(centre, getArrowIcon());
   }
 
   function updateLocation() {
-    var lonlat = getMapCenter();
+    var lonlat = unproj(map.getCenter());
     var zoom = map.getZoom();
     var layers = getMapLayers();
-    var extents = getMapExtent();
+    var extents = unproj(map.getExtent());
     var expiry = new Date();
     var objtype;
     var objid;
@@ -240,7 +233,7 @@ end
   }
 
   function remoteEditHandler(event) {
-    var extent = getMapExtent();
+    var extent = unproj(map.getExtent());
     var loaded = false;
 
     $("#linkloader").load(function () { loaded = true; });

@@ -1,15 +1,14 @@
-<!-- Piwik -->
 <script type="text/javascript">
-var pkBaseURL = (("https:" == document.location.protocol) ? "https://<%= PIWIK_LOCATION %>/" : "http://<%= PIWIK_LOCATION %>/");
-document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
-</script><script type="text/javascript">
-try {
-var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", <%= PIWIK_SITE %>);
-piwikTracker.trackPageView();
-piwikTracker.enableLinkTracking();
+var _paq = _paq || [];
+(function(){ var u="<%= request.protocol %><%= PIWIK_LOCATION %>/";
+_paq.push(['setSiteId', <%= PIWIK_SITE %>]);
+_paq.push(['setTrackerUrl', u+'piwik.php']);
+_paq.push(['trackPageView']);
+_paq.push(['enableLinkTracking']);
 <% if flash[:piwik_goal] -%>
-piwikTracker.trackGoal(<%= flash[:piwik_goal] %>);
+_paq.push(['setSiteId', <%= flash[:piwik_goal] %>);
 <% end -%>
-} catch( err ) {}
-</script><noscript><p><img src="http://<%= PIWIK_LOCATION %>/piwik.php?idsite=<%= PIWIK_SITE %>" style="border:0" alt="" /></p></noscript>
-<!-- End Piwik Tracking Code -->
+var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript'; g.defer=true; g.async=true; g.src=u+'piwik.js';
+s.parentNode.insertBefore(g,s); })();
+</script>
+<noscript><p><img src="<%= request.protocol %><%= PIWIK_LOCATION %>/piwik.php?idsite=<%= PIWIK_SITE %>" style="border:0" alt="" /></p></noscript>

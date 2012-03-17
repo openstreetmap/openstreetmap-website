@@ -3,6 +3,178 @@ require File.dirname(__FILE__) + '/../test_helper'
 class UserControllerTest < ActionController::TestCase
   fixtures :users
   
+  ##
+  # test all routes which lead to this controller
+  def test_routes
+    assert_routing(
+      { :path => "/api/0.6/user/details", :method => :get },
+      { :controller => "user", :action => "api_details" }
+    )
+    assert_routing(
+      { :path => "/api/0.6/user/gpx_files", :method => :get },
+      { :controller => "user", :action => "api_gpx_files" }
+    )
+
+    assert_routing(
+      { :path => "/login", :method => :get },
+      { :controller => "user", :action => "login" }
+    )
+    assert_routing(
+      { :path => "/login", :method => :post },
+      { :controller => "user", :action => "login" }
+    )
+    assert_recognizes(
+      { :controller => "user", :action => "login", :format => "html" },
+      { :path => "/login.html", :method => :get }
+    )
+
+    assert_routing(
+      { :path => "/logout", :method => :get },
+      { :controller => "user", :action => "logout" }
+    )
+    assert_routing(
+      { :path => "/logout", :method => :post },
+      { :controller => "user", :action => "logout" }
+    )
+    assert_recognizes(
+      { :controller => "user", :action => "logout", :format => "html" },
+      { :path => "/logout.html", :method => :get }
+    )
+
+    assert_routing(
+      { :path => "/user/new", :method => :get },
+      { :controller => "user", :action => "new" }
+    )
+    assert_recognizes(
+      { :controller => "user", :action => "new" },
+      { :path => "/create-account.html", :method => :get }
+    )
+
+    assert_routing(
+      { :path => "/user/terms", :method => :get },
+      { :controller => "user", :action => "terms" }
+    )
+    assert_routing(
+      { :path => "/user/terms", :method => :post },
+      { :controller => "user", :action => "terms" }
+    )
+
+    assert_routing(
+      { :path => "/user/save", :method => :post },
+      { :controller => "user", :action => "save" }
+    )
+
+    assert_routing(
+      { :path => "/user/username/confirm", :method => :get },
+      { :controller => "user", :action => "confirm", :display_name => "username" }
+    )
+    assert_routing(
+      { :path => "/user/username/confirm", :method => :post },
+      { :controller => "user", :action => "confirm", :display_name => "username" }
+    )
+    assert_routing(
+      { :path => "/user/username/confirm/resend", :method => :get },
+      { :controller => "user", :action => "confirm_resend", :display_name => "username" }
+    )
+
+    assert_routing(
+      { :path => "/user/confirm", :method => :get },
+      { :controller => "user", :action => "confirm" }
+    )
+    assert_routing(
+      { :path => "/user/confirm", :method => :post },
+      { :controller => "user", :action => "confirm" }
+    )
+    assert_routing(
+      { :path => "/user/confirm-email", :method => :get },
+      { :controller => "user", :action => "confirm_email" }
+    )
+    assert_routing(
+      { :path => "/user/confirm-email", :method => :post },
+      { :controller => "user", :action => "confirm_email" }
+    )
+
+    assert_routing(
+      { :path => "/user/go_public", :method => :post },
+      { :controller => "user", :action => "go_public" }
+    )
+
+    assert_routing(
+      { :path => "/user/forgot-password", :method => :get },
+      { :controller => "user", :action => "lost_password" }
+    )
+    assert_routing(
+      { :path => "/user/forgot-password", :method => :post },
+      { :controller => "user", :action => "lost_password" }
+    )
+    assert_recognizes(
+      { :controller => "user", :action => "lost_password" },
+      { :path => "/forgot-password.html", :method => :get }
+    )
+    assert_routing(
+      { :path => "/user/reset-password", :method => :get },
+      { :controller => "user", :action => "reset_password" }
+    )
+    assert_routing(
+      { :path => "/user/reset-password", :method => :post },
+      { :controller => "user", :action => "reset_password" }
+    )
+
+    assert_routing(
+      { :path => "/user/suspended", :method => :get },
+      { :controller => "user", :action => "suspended" }
+    )
+
+    assert_routing(
+      { :path => "/user/username", :method => :get },
+      { :controller => "user", :action => "view", :display_name => "username" }
+    )
+
+    assert_routing(
+      { :path => "/user/username/account", :method => :get },
+      { :controller => "user", :action => "account", :display_name => "username" }
+    )
+    assert_routing(
+      { :path => "/user/username/account", :method => :post },
+      { :controller => "user", :action => "account", :display_name => "username" }
+    )
+
+    assert_routing(
+      { :path => "/user/username/make_friend", :method => :get },
+      { :controller => "user", :action => "make_friend", :display_name => "username" }
+    )
+    assert_routing(
+      { :path => "/user/username/remove_friend", :method => :get },
+      { :controller => "user", :action => "remove_friend", :display_name => "username" }
+    )
+
+    assert_routing(
+      { :path => "/user/username/set_status", :method => :get },
+      { :controller => "user", :action => "set_status", :display_name => "username" }
+    )
+    assert_routing(
+      { :path => "/user/username/delete", :method => :get },
+      { :controller => "user", :action => "delete", :display_name => "username" }
+    )
+
+    assert_routing(
+      { :path => "/users", :method => :get },
+      { :controller => "user", :action => "list" }
+    )
+    assert_routing(
+      { :path => "/users", :method => :post },
+      { :controller => "user", :action => "list" }
+    )
+    assert_routing(
+      { :path => "/users/status", :method => :get },
+      { :controller => "user", :action => "list", :status => "status" }
+    )
+    assert_routing(
+      { :path => "/users/status", :method => :post },
+      { :controller => "user", :action => "list", :status => "status" }
+    )
+  end
+
   # The user creation page loads
   def test_user_create_view
     get :new
@@ -195,7 +367,7 @@ class UserControllerTest < ActionController::TestCase
     assert_template :account
     assert_select "div#errorExplanation", false
     assert_select "div#notice", /^User information updated successfully/
-    assert_select "table#accountForm > tr > td > textarea#user_description", user.description
+    assert_select "table#accountForm > tr > td > div#user_description_container > div#user_description_content > textarea#user_description", user.description
 
     # Changing name to one that exists should fail
     user.display_name = users(:public_user).display_name

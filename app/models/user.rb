@@ -44,7 +44,7 @@ class User < ActiveRecord::Base
   attr_accessible :display_name, :email, :email_confirmation, :openid_url,
                   :pass_crypt, :pass_crypt_confirmation, :consider_pd
 
-  after_initialize :set_creation_time
+  after_initialize :set_defaults
   before_save :encrypt_password
 
   has_attached_file :image, 
@@ -99,6 +99,10 @@ class User < ActiveRecord::Base
       el1 << home
     end
     return el1
+  end
+
+  def description
+    RichText.new(read_attribute(:description_format), read_attribute(:description))
   end
 
   def languages
@@ -200,10 +204,10 @@ class User < ActiveRecord::Base
   def spam_score
     changeset_score = self.changesets.limit(10).length * 50
     trace_score = self.traces.limit(10).length * 50
-    diary_entry_score = self.diary_entries.inject(0) { |s,e| s += OSM.spam_score(e.body) }
-    diary_comment_score = self.diary_comments.inject(0) { |s,e| s += OSM.spam_score(e.body) }
+    diary_entry_score = self.diary_entries.inject(0) { |s,e| s += e.body.spam_score }
+    diary_comment_score = self.diary_comments.inject(0) { |s,c| s += c.body.spam_score }
 
-    score = OSM.spam_score(self.description)
+    score = self.description.spam_score
     score += diary_entry_score / self.diary_entries.length if self.diary_entries.length > 0
     score += diary_comment_score / self.diary_comments.length if self.diary_comments.length > 0
     score -= changeset_score
@@ -220,8 +224,9 @@ class User < ActiveRecord::Base
 
 private
 
-  def set_creation_time
+  def set_defaults
     self.creation_time = Time.now.getutc unless self.attribute_present?(:creation_time)
+    self.description_format = "markdown" unless self.attribute_present?(:description_format)
   end
 
   def encrypt_password

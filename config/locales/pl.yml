@@ -292,20 +292,30 @@ pl:
     list: 
       description: Ostatnie zmiany
       description_bbox: Zestawy zmian na obszarze %{bbox}
+      description_friend: Zestawy zmian twoich znajomych
+      description_nearby: Zestawy zmian użytkowników znajdujących się w pobliżu
       description_user: Zestawy zmian utworzone przez użytkownika %{user}
       description_user_bbox: Zestawy zmian utworzone przez użytkownika %{user} w %{bbox}
       heading: Zestawy zmian
       heading_bbox: Zestawy zmian
       heading_friend: Zestawy zmian
+      heading_nearby: Zestawy zmian
       heading_user: Zestawy zmian
       heading_user_bbox: Zestawy zmian
       title: Zestawy zmian
       title_bbox: Zestawy zmian w %{bbox}
+      title_friend: Zestawy zmian twoich znajomych
+      title_nearby: Zestawy zmian użytkowników znajdujących się w pobliżu
       title_user: Zestawy zmian utworzone przez użytkownika %{user}
       title_user_bbox: Zestawy zmian utworzone przez użytkownika %{user} w %{bbox}
     timeout: 
       sorry: Niestety, pobieranie listy zestawów zmian, którą chciałeś zobaczyć, trwało zbyt długo.
   diary_entry: 
+    comments: 
+      ago: "%{ago} temu"
+      comment: Komentarz
+      post: Wpis
+      when: Kiedy
     diary_comment: 
       comment_from: Komentarz od %{link_user} z %{comment_created_at}
       confirm: Potwierdź
@@ -350,6 +360,8 @@ pl:
       older_entries: Starsze wpisy
       recent_entries: "Ostatnie wpisy do dziennika:"
       title: Dzienniki użytkowników
+      title_friends: Dzienniki znajomych
+      title_nearby: Dzienniki najbliższych użytkowników
       user_title: Dziennik dla %{user}
     location: 
       edit: Edytuj
@@ -387,7 +399,7 @@ pl:
     start: 
       add_marker: Dodaj pinezkę na mapie
       area_to_export: Obszar do eksportu
-      embeddable_html: HTML do wklejenia
+      embeddable_html: Kod HTML do osadzenia
       export_button: Eksportuj
       export_details: "Dane OpenStreetMap udostępnione są na licencji <a href=\"http://creativecommons.org/licenses/by-sa/2.0/deed.pl\">Creative Commons: uznanie autorstwa, na tych samych warunkach 2.0</a>."
       format: Format
@@ -397,6 +409,7 @@ pl:
       licence: Licencja
       longitude: "Dł:"
       manually_select: Ręcznie zaznacz inny obszar
+      map_image: Plik graficzny (standardowa warstwa)
       max: max
       options: Opcje
       osm_xml_data: Dane XML OpenStreetMap
@@ -894,6 +907,7 @@ pl:
     map: 
       base: 
         cycle_map: Mapa Rowerowa
+        standard: Standard
         transport_map: Transport publiczny
     site: 
       edit_disabled_tooltip: Powiększ, aby edytować mapę
@@ -976,8 +990,19 @@ pl:
     inbox: 
       date: Nadano
       from: Od
+      messages: Masz %{new_messages} i %{old_messages}
       my_inbox: Moja skrzynka odbiorcza
+      new_messages: 
+        few: "%{count} nowe wiadomości"
+        many: "%{count} nowych wiadomości"
+        one: "%{count} nową wiadomość"
+        other: "%{count} nowych wiadomości"
       no_messages_yet: Nie masz jeszcze wiadomości. Może skontaktujesz się z %{people_mapping_nearby_link}?
+      old_messages: 
+        few: "%{count} stare wiadomości"
+        many: "%{count} starych wiadomości"
+        one: "%{count} starą wiadomość"
+        other: "%{count} starych wiadomości"
       outbox: nadawcza
       people_mapping_nearby: użytkownikami z Twojej okolicy
       subject: Temat
@@ -1359,6 +1384,7 @@ pl:
     account: 
       contributor terms: 
         agreed: Zgodziłeś się na nowe warunki uczestnictwa.
+        agreed_with_pd: Zadeklarowałeś, że twoje edycje publikujesz w domenie publicznej.
         heading: "Warunki uczestnictwa:"
         link text: co to jest?
         not yet agreed: Nie zgodziłeś się na nowe warunki uczestnictwa.
@@ -1429,6 +1455,7 @@ pl:
       summary_no_ip: "%{name} utworzony %{date}"
       title: Użytkownicy
     login: 
+      account is suspended: Twoje konto zostało zawieszone ze względu na podejrzaną aktywność.<br />Skontaktuj się z <a href="%{webmaster}">webmasterem</a>, jeśli chcesz przedyskutować blokadę.
       account not active: Niestety Twoje konto nie jest jeszcze aktywne.<br />Otwórz link zawarty w mailu potwierdzenia założenia konta, aby je aktywować lub <a href="%{reconfirm}">poproś o ponowne przesłanie maila</a>.
       auth failure: Niestety podane dane nie pozwoliły na zalogowanie Cię.
       create account minute: Utwórz konto. To zajmuje tylko minutę.
@@ -1437,6 +1464,7 @@ pl:
       login_button: Zaloguj się
       lost password link: Zapomniałeś hasła?
       new to osm: Nowy na OpenStreetMap?
+      no account: Nie masz konta?
       notice: <a href="http://www.osmfoundation.org/wiki/License/We_Are_Changing_The_License">Dowiedz się więcej o nadchodzącej zmianie licencji OpenStreetMap</a> (<a href="http://wiki.openstreetmap.org/wiki/ODbL/We_Are_Changing_The_License">tłumaczenia</a>) (<a href="http://wiki.openstreetmap.org/wiki/Talk:ODbL/Upcoming">dyskusja</a>)
       openid: "%{logo} OpenID:"
       openid invalid: Niestety Twój OpenID wydaje się być nieprawidłowy
@@ -1495,7 +1523,7 @@ pl:
       fill_form: Po wypełnieniu formularza otrzymasz e-mail z instrukcjami dotyczącymi aktywacji konta.
       flash create success message: Rejestracja udana. Sprawdź czy na adres %{email} przyszedł mail potwierdzający, a już za moment będziesz edytować mapę.<br /><br />Jeśli korzystasz z rozwiązania antyspamowego, które prosi nowych nadawców o potwierdzenie, będziesz musiał dodać adres webmaster@openstreetmap.org do znanych adresów, bo nie jesteśmy w stanie odpowiadać na zapytania takich systemów.
       heading: Zakładanie konta
-      license_agreement: Zakładając konto użytkownika wyrażasz zgodę na <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">warunki użytkowania dla edytujących</a>.
+      license_agreement: Zakładając konto użytkownika wyrażasz zgodę na <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">warunki współtworzenia</a>.
       no_auto_account_create: Niestety nie możemy aktualnie stworzyć Ci konta automatycznie.
       not displayed publicly: Informacje nie wyświetlane publicznie (zobacz <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="zasady prywatnością łącznie z sekcją o adresach e-mail na wiki">polityka prywatności</a>)
       openid: "%{logo} OpenID:"
@@ -1543,6 +1571,7 @@ pl:
       legale_select: "Proszę wybrać kraj zamieszkania:"
       read and accept: Prosimy przeczytać umowę zamieszczoną poniżej i nacisnąć "Akceptuję". Klikając ten przycisk akceptujesz warunki umowy.
       title: Warunki współtworzenia
+      you need to accept or decline: Prosimy przeczytać i następnie zaakceptować lub odrzucić nowe warunki współtworzenia, aby kontynuować.
     view: 
       activate_user: aktywuj tego użytkownika
       add as friend: dodaj do znajomych
@@ -1550,6 +1579,7 @@ pl:
       block_history: otrzymane blokady
       blocks by me: nałożone blokady
       blocks on me: otrzymane blokady
+      comments: komentarze
       confirm: Potwierdź
       confirm_user: zatwierdź tego użytkownika
       create_block: zablokuj tego użytkownika
@@ -1572,6 +1602,7 @@ pl:
       m away: "%{count}m stąd"
       mapper since: "Mapuje od:"
       moderator_history: nałożone blokady
+      my comments: moje komentarze
       my diary: mój dziennik
       my edits: moje zmiany
       my settings: moje ustawienia
@@ -1639,9 +1670,11 @@ pl:
       non_moderator_update: Musisz być moderatorem, żeby ustalać i edytować blokady.
     new: 
       back: Zobacz wszystkie blokady
+      heading: Tworzenie blokady użytkownika %{name}
       needs_view: Użytkownik musi się zalogować, zanim blokada zostanie wyczyszczona
       period: Na jak długo od tego momentu użytkownik ma być zablokowany przed dostępem do API.
       submit: Utwórz blokadę
+      title: Tworzenie blokady użytkownika %{name}
       tried_contacting: Skontaktowałem się z użytkownikami i poprosiłem ich o zaprzestanie.
       tried_waiting: Dałem(-am) użytkownikowi  rozsądny czas, aby odpowiedzieć na te komunikaty.
     not_found: 

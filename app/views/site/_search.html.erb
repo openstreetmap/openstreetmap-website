@@ -15,7 +15,7 @@
     $("#sidebar_title").html("<%= t 'site.sidebar.search_results' %>");
 
     <% if params[:action] == 'index' -%>
-    var extent = getMapExtent();
+    var extent = unproj(map.getExtent());
 
     $("#sidebar_content").load("<%= url_for :controller => :geocoder, :action => :search %>", {
       query: $("#query").val(),

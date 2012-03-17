@@ -34,7 +34,6 @@ private
       expire_action(:controller => 'diary_entry', :action => 'rss', :format => :rss, :language => nil, :display_name => old_record.display_name)
 
       old_record.traces.each do |trace|
-        expire_action(:controller => 'trace', :action => 'view', :id => trace.id)
         expire_action(:controller => 'trace', :action => 'view', :display_name => old_record.display_name, :id => trace.id)
 
         trace.tags.each do |tag|

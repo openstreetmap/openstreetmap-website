@@ -32,7 +32,7 @@ class OauthController < ApplicationController
       @token.invalidate!
       flash[:notice] = t('oauth.revoke.flash', :application => @token.client_application.name)
     end
-    redirect_to :controller => 'oauth_clients', :action => 'index'
+    redirect_to oauth_clients_url(:display_name => @token.user.display_name)
   end
 
 protected

@@ -5,6 +5,86 @@ class DiaryEntryControllerTest < ActionController::TestCase
 
   include ActionView::Helpers::NumberHelper
 
+  ##
+  # test all routes which lead to this controller
+  def test_routes
+    assert_routing(
+      { :path => "/diary", :method => :get },
+      { :controller => "diary_entry", :action => "list" }
+    )
+    assert_routing(
+      { :path => "/diary/language", :method => :get },
+      { :controller => "diary_entry", :action => "list", :language => "language" }
+    )
+    assert_routing(
+      { :path => "/user/username/diary", :method => :get },
+      { :controller => "diary_entry", :action => "list", :display_name => "username" }
+    )
+    assert_routing(
+      { :path => "/diary/friends", :method => :get },
+      { :controller => "diary_entry", :action => "list", :friends => true }
+    )
+    assert_routing(
+      { :path => "/diary/nearby", :method => :get },
+      { :controller => "diary_entry", :action => "list", :nearby => true }
+    )
+
+    assert_routing(
+      { :path => "/diary/rss", :method => :get },
+      { :controller => "diary_entry", :action => "rss", :format => :rss }
+    )
+    assert_routing(
+      { :path => "/diary/language/rss", :method => :get },
+      { :controller => "diary_entry", :action => "rss", :language => "language", :format => :rss }
+    )
+    assert_routing(
+      { :path => "/user/username/diary/rss", :method => :get },
+      { :controller => "diary_entry", :action => "rss", :display_name => "username", :format => :rss }
+    )
+
+    assert_routing(
+      { :path => "/user/username/diary/comments", :method => :get },
+      { :controller => "diary_entry", :action => "comments", :display_name => "username" }
+    )
+    assert_routing(
+      { :path => "/user/username/diary/comments/1", :method => :get },
+      { :controller => "diary_entry", :action => "comments", :display_name => "username", :page => "1" }
+    )
+
+    assert_routing(
+      { :path => "/diary/new", :method => :get },
+      { :controller => "diary_entry", :action => "new" }
+    )
+    assert_routing(
+      { :path => "/diary/new", :method => :post },
+      { :controller => "diary_entry", :action => "new" }
+    )
+    assert_routing(
+      { :path => "/user/username/diary/1", :method => :get },
+      { :controller => "diary_entry", :action => "view", :display_name => "username", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/user/username/diary/1/edit", :method => :get },
+      { :controller => "diary_entry", :action => "edit", :display_name => "username", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/user/username/diary/1/edit", :method => :post },
+      { :controller => "diary_entry", :action => "edit", :display_name => "username", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/user/username/diary/1/newcomment", :method => :post },
+      { :controller => "diary_entry", :action => "comment", :display_name => "username", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/user/username/diary/1/hide", :method => :post },
+      { :controller => "diary_entry", :action => "hide", :display_name => "username", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/user/username/diary/1/hidecomment/2", :method => :post },
+      { :controller => "diary_entry", :action => "hidecomment", :display_name => "username", :id => "1", :comment => "2" }
+    )
+  end
+
   def test_showing_new_diary_entry
     @request.cookies["_osm_username"] = users(:normal_user).display_name
 
@@ -42,31 +122,28 @@ class DiaryEntryControllerTest < ActionController::TestCase
   
   def test_editing_diary_entry
     @request.cookies["_osm_username"] = users(:normal_user).display_name
+    entry = diary_entries(:normal_user_entry_1)
 
     # Make sure that you are redirected to the login page when you are 
     # not logged in, without and with the id of the entry you want to edit
-    get :edit
+    get :edit, :display_name => entry.user.display_name, :id => entry.id
     assert_response :redirect
-    assert_redirected_to :controller => :user, :action => "login", :referer => "/diary_entry/edit"
+    assert_redirected_to :controller => :user, :action => "login", :referer => "/user/#{entry.user.display_name}/diary/#{entry.id}/edit"
     
-    get :edit, :id => diary_entries(:normal_user_entry_1).id
-    assert_response :redirect
-    assert_redirected_to :controller => :user, :action => "login", :referer => "/diary_entry/edit"
-    
-    # Verify that you get a not found error, when you don't pass an id
-    get(:edit, nil, {'user' => users(:normal_user).id})
+    # Verify that you get a not found error, when you pass a bogus id
+    get(:edit, {:display_name => entry.user.display_name, :id => 9999}, {'user' => entry.user.id})
     assert_response :not_found
     assert_select "html", :count => 1 do
       assert_select "body", :count => 1 do
         assert_select "div#content", :count => 1 do
-          assert_select "h2", :text => "No entry with the id:", :count => 1 
+          assert_select "h2", :text => "No entry with the id: 9999", :count => 1 
         end
       end
     end
     
     # Now pass the id, and check that you can edit it, when using the same 
     # user as the person who created the entry
-    get(:edit, {:id => diary_entries(:normal_user_entry_1).id}, {'user' => users(:normal_user).id})
+    get(:edit, {:display_name => entry.user.display_name, :id => entry.id}, {'user' => entry.user.id})
     assert_response :success
     assert_select "html", :count => 1 do
       assert_select "head", :count => 1 do
@@ -75,14 +152,16 @@ class DiaryEntryControllerTest < ActionController::TestCase
       assert_select "body", :count => 1 do
         assert_select "div#content", :count => 1 do 
           assert_select "h1", :text => /Edit diary entry/, :count => 1
-          assert_select "form[action='/diary_entry/#{diary_entries(:normal_user_entry_1).id}/edit'][method=post]", :count => 1 do
-            assert_select "input#diary_entry_title[name='diary_entry[title]'][value='#{diary_entries(:normal_user_entry_1).title}']", :count => 1
-            assert_select "textarea#diary_entry_body[name='diary_entry[body]']", :text => diary_entries(:normal_user_entry_1).body, :count => 1
+          assert_select "form[action='/user/#{entry.user.display_name}/diary/#{entry.id}/edit'][method=post]", :count => 1 do
+            assert_select "input#diary_entry_title[name='diary_entry[title]'][value='#{entry.title}']", :count => 1
+            assert_select "textarea#diary_entry_body[name='diary_entry[body]']", :text => entry.body, :count => 1
             assert_select "select#diary_entry_language_code", :count => 1
             assert_select "input#latitude[name='diary_entry[latitude]']", :count => 1
             assert_select "input#longitude[name='diary_entry[longitude]']", :count => 1
             assert_select "input[name=commit][type=submit][value=Save]", :count => 1
-            assert_select "input", :count => 5
+            assert_select "input[name=commit][type=submit][value=Edit]", :count => 1
+            assert_select "input[name=commit][type=submit][value=Preview]", :count => 1
+            assert_select "input", :count => 7
           end
         end
       end
@@ -94,15 +173,15 @@ class DiaryEntryControllerTest < ActionController::TestCase
     new_latitude = "1.1"
     new_longitude = "2.2"
     new_language_code = "en"
-    post(:edit, {:id => diary_entries(:normal_user_entry_1).id, 'commit' => 'save', 
+    post(:edit, {:display_name => entry.user.display_name, :id => entry.id, 'commit' => 'save', 
       'diary_entry'=>{'title' => new_title, 'body' => new_body, 'latitude' => new_latitude,
       'longitude' => new_longitude, 'language_code' => new_language_code} },
-         {'user' => users(:normal_user).id})
+         {'user' => entry.user.id})
     assert_response :redirect
-    assert_redirected_to :action => :view, :id => diary_entries(:normal_user_entry_1).id
+    assert_redirected_to :action => :view, :display_name => entry.user.display_name, :id => entry.id
     
     # Now check that the new data is rendered, when logged in
-    get :view, {:id => diary_entries(:normal_user_entry_1).id, :display_name => 'test'}, {'user' => users(:normal_user).id}
+    get :view, {:display_name => entry.user.display_name, :id => entry.id}, {'user' => entry.user.id}
     assert_response :success
     assert_template 'diary_entry/view'
     assert_select "html", :count => 1 do
@@ -111,7 +190,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
       end
       assert_select "body", :count => 1 do
         assert_select "div#content", :count => 1 do
-          assert_select "h2", :text => /#{users(:normal_user).display_name}'s diary/, :count => 1
+          assert_select "h2", :text => /#{entry.user.display_name}'s diary/, :count => 1
           assert_select "b", :text => /#{new_title}/, :count => 1
           # This next line won't work if the text has been run through the htmlize function
           # due to formatting that could be introduced
@@ -119,7 +198,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
           assert_select "abbr[class=geo][title=#{number_with_precision(new_latitude, :precision => 4)}; #{number_with_precision(new_longitude, :precision => 4)}]", :count => 1
           # As we're not logged in, check that you cannot edit
           #print @response.body
-          assert_select "a[href='/user/#{users(:normal_user).display_name}/diary/#{diary_entries(:normal_user_entry_1).id}/edit']", :text => "Edit this entry", :count => 1
+          assert_select "a[href='/user/#{entry.user.display_name}/diary/#{entry.id}/edit']", :text => "Edit this entry", :count => 1
         end
       end
     end
@@ -127,7 +206,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     @request.cookies["_osm_username"] = users(:public_user).display_name
 
     # and when not logged in as the user who wrote the entry
-    get :view, {:id => diary_entries(:normal_user_entry_1).id, :display_name => 'test'}, {'user' => users(:public_user).id}
+    get :view, {:display_name => entry.user.display_name, :id => entry.id}, {'user' => entry.user.id}
     assert_response :success
     assert_template 'diary_entry/view'
     assert_select "html", :count => 1 do
@@ -143,8 +222,8 @@ class DiaryEntryControllerTest < ActionController::TestCase
           assert_select "p", :text => /#{new_body}/, :count => 1
           assert_select "abbr[class=geo][title=#{number_with_precision(new_latitude, :precision => 4)}; #{number_with_precision(new_longitude, :precision => 4)}]", :count => 1
           # As we're not logged in, check that you cannot edit
-          assert_select "span[class=hidden show_if_user_#{users(:normal_user).id}]", :count => 1 do
-            assert_select "a[href='/user/#{users(:normal_user).display_name}/diary/#{diary_entries(:normal_user_entry_1).id}/edit']", :text => "Edit this entry", :count => 1
+          assert_select "span[class=hidden show_if_user_#{entry.user.id}]", :count => 1 do
+            assert_select "a[href='/user/#{entry.user.display_name}/diary/#{entry.id}/edit']", :text => "Edit this entry", :count => 1
           end
         end
       end
