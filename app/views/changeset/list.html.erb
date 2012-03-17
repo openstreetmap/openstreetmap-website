@@ -1,12 +1,14 @@
 <h1><%= @heading %></h1>
-<% if @edits.size > 1 %>
-  <p><%= raw(@description) %></p>
-<% else %>
-  <%= raw t('changeset.list.empty') %>
-<% end %>
+<p><%= raw(@description) %></p>
 
 <% if @edits.size > 1 %>
   <%= render :partial => 'changeset_paging_nav' %>
+<% else %>
+  <% if @user and @user.id %>
+    <%= raw t('changeset.list.empty_user') %>
+  <% else %>
+    <%= raw t('changeset.list.empty_anon') %>
+  <% end %>
 <% end %>
 
 <div id="changeset_list_container">
