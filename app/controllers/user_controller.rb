@@ -151,7 +151,11 @@ class UserController < ApplicationController
         @user.pass_crypt_confirmation = params[:user][:pass_crypt_confirmation]
       end
 
-      @user.description = params[:user][:description]
+      if params[:user][:description] != @user.description
+        @user.description = params[:user][:description]
+        @user.description_format = "markdown"
+      end
+
       @user.languages = params[:user][:languages].split(",")
 
       case params[:image_action]
