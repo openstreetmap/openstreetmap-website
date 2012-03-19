@@ -51,7 +51,13 @@ class ApplicationController < ActionController::Base
   end
 
   def require_user
-    redirect_to :controller => 'user', :action => 'login', :referer => request.fullpath unless @user
+    unless @user
+      if request.get?
+        redirect_to :controller => 'user', :action => 'login', :referer => request.fullpath
+      else
+        render :nothing => true, :status => :forbidden
+      end
+    end
   end
 
   ##

@@ -169,7 +169,7 @@ OpenStreetMap::Application.routes.draw do
   match '/user/:display_name/diary/:id/hidecomment/:comment' => 'diary_entry#hidecomment', :via => :post, :id => /\d+/, :comment => /\d+/
 
   # user pages
-  match '/user/:display_name' => 'user#view', :via => :get
+  match '/user/:display_name' => 'user#view', :via => :get, :as => "user"
   match '/user/:display_name/make_friend' => 'user#make_friend', :via => :get
   match '/user/:display_name/remove_friend' => 'user#remove_friend', :via => :get
   match '/user/:display_name/account' => 'user#account', :via => [:get, :post]
@@ -223,7 +223,7 @@ OpenStreetMap::Application.routes.draw do
   match '/user/:display_name/role/:role/revoke' => 'user_roles#revoke', :via => [:get, :post]
   match '/user/:display_name/blocks' => 'user_blocks#blocks_on', :via => :get
   match '/user/:display_name/blocks_by' => 'user_blocks#blocks_by', :via => :get
-  match '/blocks/new/:display_name' => 'user_blocks#new', :via => :get
+  match '/blocks/new/:display_name' => 'user_blocks#new', :via => :get, :as => "new_user_block"
   resources :user_blocks
-  match '/blocks/:id/revoke' => 'user_blocks#revoke', :via => [:get, :post]
+  match '/blocks/:id/revoke' => 'user_blocks#revoke', :via => [:get, :post], :as => "revoke_user_block"
 end
