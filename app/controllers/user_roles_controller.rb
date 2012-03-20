@@ -22,6 +22,9 @@ class UserRolesController < ApplicationController
   end
 
   private
+  ##
+  # require that the user is an administrator, or fill out a helpful error message
+  # and return them to theuser page.
   def require_administrator
     unless @user.administrator?
       flash[:error] = t'user_role.filter.not_an_administrator'
@@ -32,9 +35,10 @@ class UserRolesController < ApplicationController
   ##
   # ensure that there is a "this_user" instance variable
   def lookup_this_user
-    @this_user = User.find_by_display_name(params[:display_name])
-  rescue ActiveRecord::RecordNotFound
-    redirect_to :controller => 'user', :action => 'view', :display_name => params[:display_name] unless @this_user
+    unless @this_user = User.find_by_display_name(params[:display_name])
+      @not_found_user = params[:display_name]
+      render :template => 'user/no_such_user', :status => :not_found
+    end
   end
 
   ##

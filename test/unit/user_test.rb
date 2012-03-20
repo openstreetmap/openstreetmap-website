@@ -155,7 +155,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_visible
-    assert_equal 13, User.visible.count
+    assert_equal 14, User.visible.count
     assert_raise ActiveRecord::RecordNotFound do
       User.visible.find(users(:suspended_user).id)
     end
@@ -165,7 +165,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_active
-    assert_equal 12, User.active.count
+    assert_equal 13, User.active.count
     assert_raise ActiveRecord::RecordNotFound do
       User.active.find(users(:inactive_user).id)
     end
@@ -178,7 +178,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_public
-    assert_equal 14, User.public.count
+    assert_equal 15, User.public.count
     assert_raise ActiveRecord::RecordNotFound do
       User.public.find(users(:normal_user).id)
     end
