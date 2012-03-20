@@ -8,7 +8,6 @@ class UserRolesController < ApplicationController
   before_filter :require_valid_role
   before_filter :not_in_role, :only => [:grant]
   before_filter :in_role, :only => [:revoke]
-  around_filter :setup_nonce
 
   def grant
     @this_user.roles.create({
@@ -37,22 +36,6 @@ class UserRolesController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     redirect_to :controller => 'user', :action => 'view', :display_name => params[:display_name] unless @this_user
   end
-
-  ##
-  # the random nonce here which isn't predictable, making an CSRF 
-  # procedure much, much more difficult. setup the nonce. if the given
-  # nonce matches the session nonce then yield into the actual method.
-  # otherwise, just sets up the nonce for the form.
-  def setup_nonce
-    if params[:nonce] and params[:nonce] == session[:nonce]
-      @nonce = params[:nonce]
-      yield
-    else
-      @nonce = OAuth::Helper.generate_nonce
-      session[:nonce] = @nonce
-      render
-    end
-  end    
 
   ##
   # require that the given role is valid. the role is a URL 

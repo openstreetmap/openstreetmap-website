@@ -219,8 +219,8 @@ OpenStreetMap::Application.routes.draw do
   match '/oauth/test_request' => 'oauth#test_request', :as => :test_request
 
   # roles and banning pages
-  match '/user/:display_name/role/:role/grant' => 'user_roles#grant', :via => [:get, :post]
-  match '/user/:display_name/role/:role/revoke' => 'user_roles#revoke', :via => [:get, :post]
+  match '/user/:display_name/role/:role/grant' => 'user_roles#grant', :via => :post, :as => "grant_role"
+  match '/user/:display_name/role/:role/revoke' => 'user_roles#revoke', :via => :post, :as => "revoke_role"
   match '/user/:display_name/blocks' => 'user_blocks#blocks_on', :via => :get
   match '/user/:display_name/blocks_by' => 'user_blocks#blocks_by', :via => :get
   match '/blocks/new/:display_name' => 'user_blocks#new', :via => :get, :as => "new_user_block"

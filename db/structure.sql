@@ -44,7 +44,8 @@ SET search_path = public, pg_catalog;
 
 CREATE TYPE format_enum AS ENUM (
     'html',
-    'markdown'
+    'markdown',
+    'text'
 );
 
 
