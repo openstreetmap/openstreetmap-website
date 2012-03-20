@@ -36,7 +36,7 @@ module RichText
         link_proportion = 0
       end
 
-      return [link_proportion - 0.2, 0.0].max * 200 + link_count * 20
+      return [link_proportion - 0.2, 0.0].max * 200 + link_count * 40
     end
 
   protected

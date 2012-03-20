@@ -207,7 +207,7 @@ class User < ActiveRecord::Base
     diary_entry_score = self.diary_entries.inject(0) { |s,e| s += e.body.spam_score }
     diary_comment_score = self.diary_comments.inject(0) { |s,c| s += c.body.spam_score }
 
-    score = self.description.spam_score
+    score = self.description.spam_score / 4.0
     score += diary_entry_score / self.diary_entries.length if self.diary_entries.length > 0
     score += diary_comment_score / self.diary_comments.length if self.diary_comments.length > 0
     score -= changeset_score
