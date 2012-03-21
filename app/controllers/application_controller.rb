@@ -363,6 +363,14 @@ class ApplicationController < ActionController::Base
   end
 
   ##
+  # ensure that there is a "this_user" instance variable
+  def lookup_this_user
+    unless @this_user = User.active.find_by_display_name(params[:display_name])
+      render_unknown_user params[:display_name]
+    end
+  end
+
+  ##
   # render a "no such user" page
   def render_unknown_user(name)
     @title = t "user.no_such_user.title"

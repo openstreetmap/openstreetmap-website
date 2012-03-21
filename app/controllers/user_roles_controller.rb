@@ -33,14 +33,6 @@ class UserRolesController < ApplicationController
   end
 
   ##
-  # ensure that there is a "this_user" instance variable
-  def lookup_this_user
-    unless @this_user = User.find_by_display_name(params[:display_name])
-      render_unknown_user params[:display_name]
-    end
-  end
-
-  ##
   # require that the given role is valid. the role is a URL 
   # parameter, so should always be present.
   def require_valid_role

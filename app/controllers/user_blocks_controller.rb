@@ -121,14 +121,6 @@ class UserBlocksController < ApplicationController
   end
 
   ##
-  # ensure that there is a "this_user" instance variable
-  def lookup_this_user
-    unless @this_user = User.find_by_display_name(params[:display_name])
-      render_unknown_user params[:display_name]
-    end
-  end
-
-  ##
   # ensure that there is a "user_block" instance variable
   def lookup_user_block
     @user_block = UserBlock.find(params[:id])
