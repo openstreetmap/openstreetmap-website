@@ -362,6 +362,15 @@ class ApplicationController < ActionController::Base
     !@user.nil?
   end
 
+  ##
+  # render a "no such user" page
+  def render_unknown_user(name)
+    @title = t "user.no_such_user.title"
+    @not_found_user = name
+
+    render :template => "user/no_such_user", :status => :not_found
+  end
+  
 private 
 
   # extract authorisation credentials from headers, returns user = nil if none

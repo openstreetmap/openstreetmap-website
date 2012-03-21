@@ -40,8 +40,7 @@ class MessageController < ApplicationController
         end
       end
     else
-      @title = t'message.no_such_user.title'
-      render :action => 'no_such_user', :status => :not_found
+      render_unknown_user params[:display_name]
     end
   end
 

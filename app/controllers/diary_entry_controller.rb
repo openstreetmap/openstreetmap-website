@@ -84,10 +84,7 @@ class DiaryEntryController < ApplicationController
                                           :order => 'created_at DESC',
                                           :per_page => 20)
       else
-        @title = t'diary_entry.no_such_user.title'
-        @not_found_user = params[:display_name]
-
-        render :action => 'no_such_user', :status => :not_found
+        render_unknown_user params[:display_name]
       end
     elsif params[:language]
       @title = t 'diary_entry.list.in_language_title', :language => Language.find(params[:language]).english_name
@@ -178,9 +175,7 @@ class DiaryEntryController < ApplicationController
         render :action => 'no_such_entry', :status => :not_found
       end
     else
-      @not_found_user = params[:display_name]
-
-      render :action => 'no_such_user', :status => :not_found
+      render_unknown_user params[:display_name]
     end
   end
 
@@ -206,9 +201,7 @@ class DiaryEntryController < ApplicationController
                                            :per_page => 20)
       @page = (params[:page] || 1).to_i
     else
-       @title = t'diary_entry.no_such_user.title'
-       @not_found_user = params[:display_name]
-       render :action => 'no_such_user', :status => :not_found
+      render_unknown_user params[:display_name]
     end						
   end  
 private

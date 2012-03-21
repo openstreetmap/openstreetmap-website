@@ -423,9 +423,7 @@ class UserController < ApplicationController
        (@this_user.visible? or (@user and @user.administrator?))
       @title = @this_user.display_name
     else
-      @title = t 'user.no_such_user.title'
-      @not_found_user = params[:display_name]
-      render :action => 'no_such_user', :status => :not_found
+      render_unknown_user params[:display_name]
     end
   end
 

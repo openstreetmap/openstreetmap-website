@@ -36,8 +36,7 @@ class UserRolesController < ApplicationController
   # ensure that there is a "this_user" instance variable
   def lookup_this_user
     unless @this_user = User.find_by_display_name(params[:display_name])
-      @not_found_user = params[:display_name]
-      render :template => 'user/no_such_user', :status => :not_found
+      render_unknown_user params[:display_name]
     end
   end
 
