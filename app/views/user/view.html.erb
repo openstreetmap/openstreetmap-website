@@ -1,18 +1,6 @@
 <%= user_image @this_user %>
 
-<h2><%= h(@this_user.display_name) %>
-
-<% UserRole::ALL_ROLES.each do |role| %>
-  <% if @user and @user.administrator? %>
-    <% if @this_user.has_role? role %>
-      <%= link_to image_tag("roles/#{role}.png", :size => "20x20", :border => 0, :alt => t("user.view.role.revoke.#{role}"), :title => t("user.view.role.revoke.#{role}")), revoke_role_path(:display_name => @this_user.display_name, :role => role), :method => :post, :confirm => t('user_role.revoke.are_you_sure', :name => @this_user.display_name, :role => role) %>
-    <% else %>
-      <%= link_to image_tag("roles/blank_#{role}.png", :size => "20x20", :border => 0, :alt => t("user.view.role.grant.#{role}"), :title => t("user.view.role.grant.#{role}")), grant_role_path(:display_name => @this_user.display_name, :role => role), :method => :post, :confirm => t('user_role.grant.are_you_sure', :name => @this_user.display_name, :role => role) %>
-    <% end %>
-  <% elsif @this_user.has_role? role %>
-    <%= image_tag("roles/#{role}.png", :size => "20x20", :border => 0, :alt => t("user.view.role.#{role}"), :title => t("user.view.role.#{role}")) %>
-  <% end %>
-<% end %></h2>
+<h2><%= @this_user.display_name %><%= role_icons(@this_user) %></h2>
 
 <div id="userinformation">
   <% if @user and @this_user.id == @user.id %>
