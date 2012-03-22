@@ -47,7 +47,7 @@ class MessageController < ApplicationController
     if message.to_user_id == @user.id then
       @body = "On #{message.sent_on} #{message.sender.display_name} wrote:\n\n#{message.body.gsub(/^/, '> ')}" 
       @title = @subject = "Re: #{message.title.sub(/^Re:\s*/, '')}"
-      @to_user = User.find(message.from_user_id)
+      @this_user = User.find(message.from_user_id)
 
       render :action => 'new'
     else
