@@ -23,14 +23,14 @@ class MessageTest < ActiveSupport::TestCase
   end
   
   def test_validating_msgs
-    message = messages(:one)
+    message = messages(:unread_message)
     assert message.valid?
-    massage = messages(:two)
+    massage = messages(:read_message)
     assert message.valid?
   end
   
   def test_invalid_send_recipient
-    message = messages(:one)
+    message = messages(:unread_message)
     message.sender = nil
     message.recipient = nil
     assert !message.valid?
@@ -184,7 +184,7 @@ class MessageTest < ActiveSupport::TestCase
 private
 
   def make_message(char, count)
-    message = messages(:one)
+    message = messages(:unread_message)
     message.title = char * count
     return message
   end

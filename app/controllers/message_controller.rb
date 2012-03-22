@@ -8,7 +8,7 @@ class MessageController < ApplicationController
   before_filter :check_database_readable
   before_filter :check_database_writable, :only => [:new, :reply, :mark]
 
-  # Allow the user to write a new message to another user. This action also 
+  # Allow the user to write a new message to another user. This action also
   # deals with the sending of that message to the other user when the user
   # clicks send.
   # The display_name param is the display name of the user that the message is being sent to.
@@ -29,14 +29,7 @@ class MessageController < ApplicationController
         end
       end
     else
-      if params[:title]
-        # ?title= is set when someone reponds to this user's diary
-        # entry. Then we pre-fill out the subject and the <title>
-        @title = @subject = params[:title]
-      else
-        # The default /message/new/$user view
-        @title = t 'message.new.title'
-      end
+      @title = t 'message.new.title'
     end
   end
 
@@ -45,7 +38,7 @@ class MessageController < ApplicationController
     message = Message.find(params[:message_id])
 
     if message.to_user_id == @user.id then
-      @body = "On #{message.sent_on} #{message.sender.display_name} wrote:\n\n#{message.body.gsub(/^/, '> ')}" 
+      @body = "On #{message.sent_on} #{message.sender.display_name} wrote:\n\n#{message.body.gsub(/^/, '> ')}"
       @title = @subject = "Re: #{message.title.sub(/^Re:\s*/, '')}"
       @this_user = User.find(message.from_user_id)
 
@@ -96,22 +89,19 @@ class MessageController < ApplicationController
 
   # Set the message as being read or unread.
   def mark
-    if params[:message_id]
-      id = params[:message_id]
-      @message = Message.where(:id => id).where("to_user_id = ? OR from_user_id = ?", @user.id, @user.id).first
-      if params[:mark] == 'unread'
-        message_read = false 
-        notice = t 'message.mark.as_unread'
-      else
-        message_read = true
-        notice = t 'message.mark.as_read'
-      end
-      @message.message_read = message_read
-      if @message.save
-        if not request.xhr?
-          flash[:notice] = notice
-          redirect_to :controller => 'message', :action => 'inbox', :display_name => @user.display_name
-        end
+    @message = Message.where("to_user_id = ? OR from_user_id = ?", @user.id, @user.id).find(params[:message_id])
+    if params[:mark] == 'unread'
+      message_read = false
+      notice = t 'message.mark.as_unread'
+    else
+      message_read = true
+      notice = t 'message.mark.as_read'
+    end
+    @message.message_read = message_read
+    if @message.save
+      if not request.xhr?
+        flash[:notice] = notice
+        redirect_to :controller => 'message', :action => 'inbox', :display_name => @user.display_name
       end
     end
   rescue ActiveRecord::RecordNotFound
@@ -121,19 +111,16 @@ class MessageController < ApplicationController
 
   # Delete the message.
   def delete
-    if params[:message_id]
-      id = params[:message_id]
-      message = Message.where(:id => id).where("to_user_id = ? OR from_user_id = ?", @user.id, @user.id).first
-      message.from_user_visible = false if message.sender == @user
-      message.to_user_visible = false if message.recipient == @user
-      if message.save
-        flash[:notice] = t 'message.delete.deleted'
+    message = Message.where("to_user_id = ? OR from_user_id = ?", @user.id, @user.id).find(params[:message_id])
+    message.from_user_visible = false if message.sender == @user
+    message.to_user_visible = false if message.recipient == @user
+    if message.save
+      flash[:notice] = t 'message.delete.deleted'
 
-        if params[:referer]
-          redirect_to params[:referer]
-        else
-          redirect_to :controller => 'message', :action => 'inbox', :display_name => @user.display_name
-        end
+      if params[:referer]
+        redirect_to params[:referer]
+      else
+        redirect_to :controller => 'message', :action => 'inbox', :display_name => @user.display_name
       end
     end
   rescue ActiveRecord::RecordNotFound
