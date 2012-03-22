@@ -87,10 +87,6 @@ class UserBlocksControllerTest < ActionController::TestCase
     assert_template "not_found"
     assert_select "p", "Sorry, the user block with ID 99999 could not be found."
 
-    # Viewing an active block should work
-    get :show, :id => user_blocks(:active_block)
-    assert_response :success
-
     # Viewing an expired block should work
     get :show, :id => user_blocks(:expired_block)
     assert_response :success
@@ -98,6 +94,20 @@ class UserBlocksControllerTest < ActionController::TestCase
     # Viewing a revoked block should work
     get :show, :id => user_blocks(:revoked_block)
     assert_response :success
+
+    # Viewing an active block should work, but shouldn't mark it as seen
+    get :show, :id => user_blocks(:active_block)
+    assert_response :success
+    assert_equal true, UserBlock.find(user_blocks(:active_block).id).needs_view
+
+    # Login as the blocked user
+    session[:user] = users(:blocked_user).id
+    cookies["_osm_username"] = users(:blocked_user).display_name
+
+    # Now viewing it should mark it as seen
+    get :show, :id => user_blocks(:active_block)
+    assert_response :success
+    assert_equal false, UserBlock.find(user_blocks(:active_block).id).needs_view
   end
 
   ##
