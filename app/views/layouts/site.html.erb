@@ -51,6 +51,9 @@
         <% Editors::ALL_EDITORS.each do |editor| %>
           <li><%= link_to t('layouts.edit_with', :editor => t("editor.#{editor}.description")), {:controller => 'site', :action => 'edit', :editor => editor}, {:id => editor + 'anchor', :class => "geolink llz object"} %></li>
         <% end %>
+        <% unless STATUS == :api_offline or STATUS == :database_offline %>
+            <li><%= link_to_function(t('browse.start_rjs.data_layer_name'), 'toggleData()') %></li>
+        <% end %>
       </ul>
     </div>
 
