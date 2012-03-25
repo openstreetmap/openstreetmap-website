@@ -52,6 +52,20 @@
     <inputSet ref="common"/>
   </feature>
 
+  <feature name="Veterinarian">
+    <category>amenity</category>
+    <icon image="features/pois/health_veterinary.n.8E7409.24.png">
+      ${name}
+    </icon>
+    <help>http://wiki.openstreetmap.org/wiki/Tag:amenity%3Dveterinary</help>
+    <point/>
+    <area/>
+    <tag k="amenity" v="veterinary"/>
+    <inputSet ref="names"/>
+    <inputSet ref="web"/>
+    <inputSet ref="buildingAddress"/>
+    <inputSet ref="common"/>
+  </feature>
 
   <feature name="Place of Worship">
     <category>amenity</category>
@@ -73,7 +87,6 @@
     <input type="freetext" presence="always" category="Details" name="denomination" key="denomination" description="The denomination of the religion worshiped here." priority="low"/>
     <inputSet ref="common"/>
   </feature>
-
 
   <feature name="ATM">
     <category>amenity</category>
@@ -315,12 +328,12 @@
     <point/>
     <area/>
     <tag k="amenity" v="shelter"/>
-      <input type="choice" presence="always" name="Type of shelter" key="shelter_type" description="The intended use of the shelter.">
-        <choice value="picnic_shelter" text="Picnic shelter"/>
-        <choice value="public_transport" text="Public transport"/>
-        <choice value="weather_shelter" text="Weather shelter"/>
-        <choice value="wildlife_hide" text="Wildlife hide"/>
-      </input>
+    <input type="choice" presence="always" name="Type of shelter" key="shelter_type" description="The intended use of the shelter.">
+      <choice value="picnic_shelter" text="Picnic shelter"/>
+      <choice value="public_transport" text="Public transport"/>
+      <choice value="weather_shelter" text="Weather shelter"/>
+      <choice value="wildlife_hide" text="Wildlife hide"/>
+    </input>
     <inputSet ref="names"/>
     <inputSet ref="common"/>
   </feature>
@@ -381,8 +394,15 @@
     <point/>
     <area/>
     <tag k="amenity" v="swimming_pool"/>
+    <tag k="sport" v="swimming"/>
     <inputSet ref="simpleName"/>    
     <inputSet ref="common"/>
+    <inputSet ref="permissions"/>
+    <input type="choice" presence="always" name="Indoor" key="covered" description="Indoor or outdoor?">
+      <choice value="yes" text="Indoor"/>
+      <choice value="no" text="Outdoor"/>
+    </input>
+    <input type="freetext" presence="onTagMatch" category="Details" name="Operator" key="operator" description="The organisation that runs the swimming pool." />    
 
   </feature>
 
@@ -489,5 +509,5 @@
     <inputSet ref="cuisine"/>
     <inputSet ref="common"/>
   </feature>
-
+  
 </featureGroup>

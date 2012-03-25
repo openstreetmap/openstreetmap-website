@@ -14,6 +14,8 @@
         <inputSet ref="embankment-cutting"/>
         <inputSet ref="rail-electrification"/>
         <inputSet ref="common"/>
+        <inputSet ref="train-route"/>
+        
       </feature>
     
     
@@ -29,6 +31,7 @@
         <tag k="railway" v="rail"/>
         <tag k="service" v="spur"/>
         <inputSet ref="common"/>
+        <inputSet ref="train-route"/>
       </feature>
     
     
@@ -44,6 +47,7 @@
         <tag k="railway" v="rail"/>
         <tag k="service" v="siding"/>
         <inputSet ref="common"/>
+        <inputSet ref="train-route"/>
       </feature>
     
     
@@ -56,6 +60,7 @@
         <line/>
         <tag k="railway" v="preserved"/>
         <inputSet ref="common"/>
+        <inputSet ref="train-route"/>
       </feature>
     
     
@@ -70,6 +75,7 @@
         <line/>
         <tag k="railway" v="disused"/>
         <inputSet ref="common"/>
+        <inputSet ref="train-route"/>
       </feature>
     
     
@@ -82,6 +88,7 @@
         <line/>
         <tag k="railway" v="abandoned"/>
         <inputSet ref="common"/>
+        <inputSet ref="train-route"/>
       </feature>
     
     
@@ -100,6 +107,8 @@
         <inputSet ref="embankment-cutting"/>
         <inputSet ref="rail-electrification"/>
         <inputSet ref="common"/>
+        <inputSet ref="tram-route"/>
+        <inputSet ref="train-route"/>
       </feature>
     
     
@@ -111,7 +120,7 @@
     
         <line/>
         <tag k="railway" v="tram"/>
-        <input ref="tram-route"/>
+        <inputSet ref="tram-route"/>
         <inputSet ref="bridge"/>
         <inputSet ref="tunnel"/>
         <inputSet ref="embankment-cutting"/>
@@ -135,6 +144,7 @@
         <inputSet ref="embankment-cutting"/>
         <inputSet ref="rail-electrification"/>
         <inputSet ref="common"/>
+        <inputSet ref="train-route"/>
       </feature>
     
     
@@ -356,6 +366,8 @@
     <input type="freetext" presence="onTagMatch" category="Details" name="Operator" key="operator" description="The provider of the service" priority="low"/>
     <input type="number" minimum="1" maximum="99999" stepSize="1" presence="onTagMatch" category="Details" name="Platforms" key="platforms" description="The number of passenger platforms at the station" priority="low"/>
     <inputSet ref="common"/>
+    <inputSet ref="train-route"/>
+    
   </feature>
 
 
@@ -533,6 +545,26 @@
     <input type="freetext" presence="always" category="Details" name="Operator" key="operator" description="The provider of the tram service" priority="low"/>
     <input type="freetext" presence="always" category="Details" name="Network" key="network" description="The network of the tram service" priority="low"/>
     <inputSet ref="common"/>
+  </feature>
+
+  <feature name="Train Route">
+    <category>transport</category>
+    <icon image="features/transport__railway.png">
+      <font size="12pt">
+        ${name|operator} <b>(${ref})</b>
+      </font>
+    </icon>
+
+    <relation/>
+    <tag k="type" v="route"/>
+    <tag k="route" v="train"/>
+    <input type="freetext" presence="always" category="Details" name="Name" priority="high" key="name" description="Official route name"/>
+    <input type="freetext" presence="always" category="Details" name="Reference" priority="high" key="ref" description="The official reference number"/>
+    <input type="freetext" presence="always" category="Details" name="Network" key="network" description="The network of the train service" priority="high"/>
+    <input type="freetext" presence="always" category="Details" name="Operator" key="operator" description="The provider of the train service" priority="low"/>
+    <input type="freetext" presence="onTagMatch" category="Details" name="Colour code" key="colour" description="Official colour designation for the route, if any." priority="low" />
+    <inputSet ref="source"/>
+    <inputSet ref="wheelchair-basic" />
   </feature>
 
       

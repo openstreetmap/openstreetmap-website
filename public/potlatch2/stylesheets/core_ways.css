@@ -6,14 +6,13 @@ way[highway=trunk],way[highway=trunk_link],
 way[highway=primary],way[highway=primary_link],
 way[highway=secondary],way[highway=secondary_link],
 way[highway=tertiary],way[highway=tertiary_link],
-way[highway=residential],way[highway=unclassified]  { text: name; text-color: black; font-size: 10; text-position: line; text-halo-color: white; text-halo-radius: 2; }
-way[highway=motorway],way[highway=motorway_link]    { z-index: 9; color: #809BC0; width: 7; casing-color: black; casing-width: 1; }
-way[highway=trunk],way[highway=trunk_link]          { z-index: 9; color: #7FC97F; width: 7; casing-color: black; casing-width: 1; }
-way[highway=primary],way[highway=primary_link]      { z-index: 8; color: #E46D71; width: 7; casing-color: black; casing-width: 1; }
-way[highway=secondary],way[highway=secondary_link]  { z-index: 7; color: #FDBF6F; width: 7; casing-width: 1; }
-way[highway=tertiary]                               { z-index: 6; color: #FEFECB; width: 5; casing-width: 1; }
+way[highway=residential],way[highway=unclassified]  { text: name; text-color: black; font-size: 12; text-position: offset; text-offset: 10; text-halo-color: white; text-halo-radius: 2; linecap: round; casing-linecap: round }
+way[highway=motorway],way[highway=motorway_link]    { z-index: 9; color: #809BC0; width: 7; casing-color: #1e375a; casing-width: 1; }
+way[highway=trunk],way[highway=trunk_link]          { z-index: 9; color: #7FC97F; width: 7; casing-color: #245424; casing-width: 1; }
+way[highway=primary],way[highway=primary_link]      { z-index: 8; color: #E46D71; width: 7; casing-color: #651316; casing-width: 1; }
+way[highway=secondary],way[highway=secondary_link]  { z-index: 7; color: #FDBF6F; width: 7; casing-color: #b16603; casing-width: 1; }
+way[highway=tertiary],way[highway=tertiary_link]    { z-index: 6; color: #FEFECB; width: 5; casing-color: #626202; casing-width: 1; }
 way[highway=unclassified]                           { z-index: 6; color: #D0D0D0; width: 5; casing-width: 1; }
-way[highway=tertiary_link]                          { z-index: 5; color: #FEFECB; width: 4; casing-width: 1; }
 way[highway=residential]                            { z-index: 5; color: #E8E8E8; width: 5; casing-color: gray; casing-width: 1; }
 way[highway=service][service!=parking_aisle]        { color: white; width: 3; casing-color: gray; casing-width: 1; }
 way[highway=service][service=parking_aisle]         { color: white; width: 1; casing-color: #aaaaaa; casing-width: 1; }
@@ -35,8 +34,7 @@ way[highway=bridleway] { z-index:9; color: #996644; width: 2; dashes: 4, 2, 2, 2
 way[highway=track]     { color: #996644; width: 2; dashes: 4, 2; set .path;}
 way[highway=path]      { color: brown; width: 2; dashes: 2, 2; set .path;}
 way[highway=cycleway]  { color: blue; width: 2; dashes: 4, 2; set .path;}
-way[railway=tram]      { z-index: 11; color: #999999; width: 2; casing-color: black; casing-width: 2; }
-way .path              { text:name; text-color: black; text-position: offset; text-offset: 5;}
+way .path              { text: name; text-color: black; text-position: offset; text-offset: 7; font-size: 12; }
 
 /* Under construction */
 
@@ -45,8 +43,8 @@ way[highway=construction] { color: #ffffbb; width: 6; dashes: 8, 4; casing-color
 
 /* Railways */
 
-way[railway=rail] { z-index: 6; color: black; width: 5; }
-way[railway=rail]::dashes { z-index: 7; color: white; width: 3; dashes: 12,12; }
+way[railway=rail] { z-index: 6; color: black; width: 5; linecap: round; }
+way[railway=rail]::dashes { z-index: 7; color: white; width: 3; dashes: 12,12; linecap: round; }
 
 way[construction=rail] { z-index: 6; color: black; width: 5; dashes: 6, 6, 4, 8;}
 way[construction=rail]::inner { z-index: 7; color: white; width: 3; dashes: 6,18; }
@@ -75,8 +73,8 @@ way[construction=light_rail]::dashes { z-index: 7; color: #999999; width: 2; das
 
 way[waterway=river], 
 way[waterway=canal], 
-way[waterway=stream]   { color: blue; width: 2; text:name; text-color:blue; font-size:9; text-position: offset; text-offset: 7;}
-way[waterway=drain] 			 {color: blue; width: 1; text:name; text-color: blue; text-position: offset; text-offset: 3;}
+way[waterway=stream]   { color: #3434ff; width: 2; text:name; text-color: #3434ff; font-size:9; text-position: offset; text-offset: 7;}
+way[waterway=drain] 			 {color: #3434ff; width: 1; text:name; text-color: #3434ff; text-position: offset; text-offset: 3;}
 way[waterway][tunnel=yes]                {dashes: 8,4;}
 
 /* Aeroways */
@@ -126,11 +124,11 @@ way[leisure=sports_centre] :area { color: #66ddcc; fill-color: #66ddcc; set .are
 /* Physical decoration */
 
 way[bridge=yes]::bridge1, way[bridge=viaduct]::bridge1, way[bridge=suspension]::bridge1 { z-index: 4; color: white; width: eval('_width+3'); }
-way[bridge=yes]::bridge2, way[bridge=viaduct]::bridge2, way[bridge=suspension]::bridge2 { z-index: 3; color: black; width: eval('_width+6'); }
+way[bridge=yes]::bridge2, way[bridge=viaduct]::bridge2, way[bridge=suspension]::bridge2 { z-index: 3; color: #444444; width: eval('_width+6'); }
 way[tunnel=yes][!waterway]::bridge1 { z-index: 4; color: white; width: eval('_width+2'); }
 way[tunnel=yes][!waterway]::bridge2 { z-index: 3; color: black; width: eval('_width+6'); dashes: 4,4; }
 
 /* Attribute decoration */
 
-way[oneway=yes]::arrows, way[junction=roundabout]::arrows { z-index: 15; color: #444444; width: 2; dashes: 15,35; line-style: arrows; }
-way[oneway=-1]::arrows { z-index: 15; color: #444444; width: 2; dashes: 15,35; line-style: arrows-reversed; }
+way[oneway=yes]::arrows, way[junction=roundabout]::arrows { z-index: 15; color: #555555; width: 2; dashes: 10,50; line-style: arrows; }
+way[oneway=-1]::arrows { z-index: 15; color: #555555; width: 2; dashes: 10,50; line-style: arrows-reversed; }

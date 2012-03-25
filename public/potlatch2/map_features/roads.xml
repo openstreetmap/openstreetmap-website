@@ -302,6 +302,28 @@
     <inputSet ref="common"/>
   </feature>
 
+  <feature name="Pedestrian crossing">
+    <category>transport</category>
+    <icon image="features/pois/transport_zebracrossing.n.24.png"/>
+    <point />
+    <within entity="way" k="highway"/>
+    <tag k="highway" v="crossing"/>
+    <input type="choice" key="crossing" name="Type of crossing" presence="always">
+      <choice value="yes" text="Generic" vmatch="unknown" />
+      <choice value="uncontrolled" text="Uncontrolled (no lights)" />
+      <choice value="traffic_signals" text="Traffic lights" />
+      <choice value="island" text="Traffic island" />
+      <choice value="unmarked" text="Unmarked" />
+      <choice value="no" text="None" />
+    </input>
+    <inputSet ref="common"/>
+    <inputSet ref="bicycle-permission"/>
+    <inputSet ref="horse-permission"/>
+    <input type="checkbox" key="supervised" name="Supervised by crossing guard" category="Details" presence="onTagMatch" />
+    <input type="checkbox" key="segregated" name="Horses, pedestrians etc segregated from each other" category="Details" presence="onTagMatch" />
+    <input type="freetext" key="crossing_ref" name="Crossing category reference"  category="Details" presence="onTagMatch" />
+  </feature>
+
   <feature name="Turn restriction">
     <category>advanced</category>
     <help>http://wiki.openstreetmap.org/wiki/Turn_restrictions</help>
@@ -329,13 +351,14 @@
     <inputSet ref="common"/>
   </feature>
 
-  
+    
   <!-- Junction nodes (for turn restrictions) -->
 
-  <feature>
+  <feature name="Intersection">
     <point/>
     <within entity="way" k="highway" minimum="2"/>
     <inputSet ref="junctionNode"/>
+    <inputSet ref="trafficSignals"/>    
     <inputSet ref="common"/>
   </feature>
   

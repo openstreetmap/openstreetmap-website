@@ -48,7 +48,7 @@
    </inputSet> 
 
   <inputSet id="source">
-    <input type="freetext" category="Details" presence="onTagMatch" name="Source" key="source" description="The primary source of information for this object (GPS, survey, Yahoo, ...)" priority="lowest"/>
+    <input type="freetext" category="Details" presence="onTagMatch" name="Source" key="source" description="The primary source of information for this object (GPS, survey, Bing, ...)" priority="lowest"/>
   </inputSet>
 
   <inputSet id="designation">
@@ -142,6 +142,7 @@
     <inputSet ref="cycle"/>
     <inputSet ref="bicycle-lane"/>
     <inputSet ref="bus-route"/>
+    <inputSet ref="tram-route"/>
     <inputSet ref="pedestrians"/>
     <inputSet ref="roadLanes"/>
     <inputSet ref="roadRoundabout"/>
@@ -156,6 +157,7 @@
     <inputSet ref="cycle"/>
     <inputSet ref="bicycle-lane"/>
     <inputSet ref="bus-route"/>
+    <inputSet ref="tram-route"/>
     <inputSet ref="pedestrians"/>
     <inputSet ref="roadLanes"/>
     <inputSet ref="roadRoundabout"/>
@@ -267,6 +269,7 @@
       <choice value="750" text="750V"/>
       <choice value="1500" text="1500V"/>
       <choice value="3000" text="3000V"/>
+      <choice value="12000" text="12kV"/>
       <choice value="15000" text="15kV"/>
       <choice value="25000" text="25kV"/>
     </input>
@@ -313,6 +316,13 @@
     <input type="turn" name="Turn restriction" description="Turn restriction" category="Restrictions" priority="normal" presence="onTagMatch">
       <match k="type" v="restriction"/>
       <role role="via"/>
+    </input>
+  </inputSet>
+  
+  <inputSet id="trafficSignals">
+    <!-- can't add as standalone feature due to current limitations, would conflict with junction node feature -->
+    <input type="choice" key="highway" name="Traffic signals" description="Intersection controlled by traffic lights" category="Restrictions" presence="always">
+      <choice value="traffic_signals" text="Yes"/>
     </input>
   </inputSet>
 
@@ -364,6 +374,16 @@
       <match k="route" v="tram"/>
       <icon image="features/transport__tram.png">
         <font size="12pt">${operator} <b>${ref}</b></font>
+      </icon>
+    </input>
+  </inputSet>
+
+  <inputSet id="train-route">
+    <input type="route" name="Train Route" description="Train route" category="Transport" priority="low" presence="onTagMatch">
+      <match k="type" v="route"/>
+      <match k="route" v="train"/>
+      <icon image="features/transport__railway.png">
+        <font size="12pt">${name|operator} <b>(${ref})</b></font>
       </icon>
     </input>
   </inputSet>
@@ -503,14 +523,18 @@
       <choice value="designated" text="Designated" description="Permitted, according to signs or specific local laws."/>
     </input>
 
-    <input type="choice" name="Horses" category="Restrictions" key="horse" description="Are cars and other private vehicles allowed?">
+    <inputSet ref="hores-permission" />
+
+  </inputSet>
+
+  <inputSet id="horse-permission">
+    <input type="choice" name="Horses" category="Restrictions" key="horse" description="Are horses allowed?">
       <choice value="yes" text="Allowed" description="General right of way."/>
       <choice value="no" text="Prohibited" description="No access to the public."/>
       <choice value="permissive" text="Permissive" description="Access permitted through private land."/>
       <choice value="private" text="Private" description="No access to the public, except individual exceptions."/>
       <choice value="designated" text="Designated" description="Permitted, according to signs or specific local laws."/>
     </input>
-
   </inputSet>
 
   <inputSet id="places">
@@ -582,9 +606,10 @@
       <choice value="35000" text="35 kV"/>
       <choice value="110000" text="110 kV"/>
       <choice value="132000" text="132 kV"/>
-      <choice value="138000" text="238 kV"/>
+      <choice value="138000" text="138 kV"/>
       <choice value="220000" text="220 kV"/>
       <choice value="380000" text="380 kV"/>
+      <choice value="500000" text="500 kV"/>
     </input>
   </inputSet>
 
@@ -625,6 +650,14 @@
       <choice value="volleyball" text="Volleyball"/>
     </input>
   </inputSet>
+  
+  <inputSet id="wheelchair-basic">
+    <input type="choice" name="Wheelchair" key="wheelchair" presence="onTagMatch" category="Details">
+      <choice value="yes" text="Yes: ramps/elevators/etc" />
+      <choice value="no" text="No: inaccessible to wheelchairs" />
+      <choice value="limited" text="Limited accessibility" />
+    </input>
+  </inputSet>      
 
 <!-- Features -->
 
