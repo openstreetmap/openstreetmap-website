@@ -17,7 +17,7 @@ class OldNodeController < ApplicationController
     
     doc = OSM::API.new.get_xml_doc
     
-    visible_nodes = if @user and @user.moderator?
+    visible_nodes = if @user and @user.moderator? and params[:show_redactions] == "true"
                       node.old_nodes
                     else
                       node.old_nodes.unredacted
@@ -31,10 +31,10 @@ class OldNodeController < ApplicationController
   end
   
   def version
-    if @old_node.redacted? and (@user.nil? or not @user.moderator?)
+    if @old_node.redacted? and (@user.nil? or not @user.moderator?) and not params[:show_redactions] == "true"
       render :nothing => true, :status => :forbidden
-    else
 
+    else
       response.last_modified = @old_node.timestamp
       
       doc = OSM::API.new.get_xml_doc
