@@ -135,8 +135,10 @@ end
     map = createMap("map");
 
     <% unless STATUS == :api_offline or STATUS == :database_offline %>
-      map.dataLayer = new OpenLayers.Layer("<%= I18n.t 'browse.start_rjs.data_layer_name' %>", { "visibility": false });
-      map.dataLayer.events.register("visibilitychanged", map.dataLayer, toggleData);
+      map.dataLayer = new OpenLayers.Layer("<%= I18n.t 'browse.start_rjs.data_layer_name' %>", {
+          visibility: false,
+          displayInLayerSwitcher: false
+      });
       map.addLayer(map.dataLayer);
     <% end %>
 
@@ -187,11 +189,7 @@ end
   }
 
   function toggleData() {
-    if (map.dataLayer.visibility) {
-      $.ajax({ url: "<%= url_for :controller => :browse, :action => :start %>" });
-    } else if (map.dataLayer.active) {
-      closeSidebar();
-    }
+    $.ajax({ url: "<%= url_for :controller => :browse, :action => :start %>" });
   }
 
   function getPosition() {
