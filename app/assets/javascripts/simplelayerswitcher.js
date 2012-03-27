@@ -1,4 +1,4 @@
-var Basey = OpenLayers.Class(OpenLayers.Control, {
+var SimpleLayerSwitcher = OpenLayers.Class(OpenLayers.Control, {
     layerStates: null,
     layersDiv: null,
     ascending: true,
@@ -12,8 +12,6 @@ var Basey = OpenLayers.Class(OpenLayers.Control, {
         OpenLayers.Event.stopObservingElement(this.div);
 
         //clear out layers info and unregister their events 
-        this.clearLayersArray("base");
-        this.clearLayersArray("data");
         this.map.events.un({
             "addlayer": this.redraw,
             "changelayer": this.redraw,
@@ -84,23 +82,19 @@ var Basey = OpenLayers.Class(OpenLayers.Control, {
 
         var layers = this.map.layers.slice();
         if (!this.ascending) { layers.reverse(); }
-        for (var i = 0, len = layers.length; i < len; i++) {
+        for (var i = 0; i < layers.length; i++) {
             var layer = layers[i];
             var baseLayer = layer.isBaseLayer;
 
-            if (layer.displayInLayerSwitcher) {
+            if (layer.displayInLayerSwitcher && baseLayer) {
                 var on = (baseLayer) ? (layer == this.map.baseLayer)
                           : layer.getVisibility();
                 var layerElem = document.createElement('a');
                 layerElem.id = this.id + '_input_' + layer.name;
-                // layerElem.name = (baseLayer) ? this.id + '_baseLayers' : layer.name;
                 layerElem.innerHTML = layer.name;
                 layerElem.href = '#';
-                // layerElem.value = layer.name;
 
                 OpenLayers.Element.addClass(layerElem, 'basey');
-                OpenLayers.Element.addClass(layerElem,
-                    'basey-' + (baseLayer ? 'base' : 'over'));
                 OpenLayers.Element.addClass(layerElem,
                     'basey-' + (on ? 'on' : 'off'));
 
@@ -108,9 +102,7 @@ var Basey = OpenLayers.Class(OpenLayers.Control, {
                     layerElem.disabled = true;
                 }
                 var context = {
-                    'layerElem': layerElem,
-                    'layer': layer,
-                    'layerSwitcher': this
+                    'layer': layer
                 };
                 OpenLayers.Event.observe(layerElem, 'mouseup',
                     OpenLayers.Function.bindAsEventListener(
@@ -134,10 +126,6 @@ var Basey = OpenLayers.Class(OpenLayers.Control, {
         OpenLayers.Event.stop(e);
     },
 
-    onLayerClick: function(e) {
-        this.updateMap();
-    },
-
     updateMap: function() {
 
         // set the newly selected base layer
@@ -157,9 +145,7 @@ var Basey = OpenLayers.Class(OpenLayers.Control, {
     },
 
     loadContents: function() {
-
         //configure main div
-
         OpenLayers.Event.observe(this.div, 'mouseup',
             OpenLayers.Function.bindAsEventListener(this.mouseUp, this));
         OpenLayers.Event.observe(this.div, 'click',
@@ -167,11 +153,6 @@ var Basey = OpenLayers.Class(OpenLayers.Control, {
         OpenLayers.Event.observe(this.div, 'mousedown',
             OpenLayers.Function.bindAsEventListener(this.mouseDown, this));
         OpenLayers.Event.observe(this.div, 'dblclick', this.ignoreEvent);
-
-        this.dataLayersDiv = document.createElement('div');
-        OpenLayers.Element.addClass(this.dataLayersDiv, 'dataLayersDiv');
-
-        // this.div.appendChild(this.layersDiv);
     },
 
     ignoreEvent: function(evt) {
@@ -190,5 +171,5 @@ var Basey = OpenLayers.Class(OpenLayers.Control, {
         }
     },
 
-    CLASS_NAME: "Basey"
+    CLASS_NAME: "SimpleLayerSwitcher"
 });
