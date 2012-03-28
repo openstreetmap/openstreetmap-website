@@ -1,10 +1,13 @@
 class OldRelation < ActiveRecord::Base
   include ConsistencyValidations
+  include Redactable
   
   self.table_name = "relations"
   self.primary_keys = "relation_id", "version"
 
   belongs_to :changeset
+  belongs_to :redaction
+  belongs_to :current_relation, :class_name => "Relation", :foreign_key => "relation_id"
 
   has_many :old_members, :class_name => 'OldRelationMember', :foreign_key => [:relation_id, :version], :order => :sequence_id
   has_many :old_tags, :class_name => 'OldRelationTag', :foreign_key => [:relation_id, :version]
@@ -129,5 +132,11 @@ class OldRelation < ActiveRecord::Base
   # Pretend we're not in any relations
   def containing_relation_members
     return []
+  end
+
+  # check whether this element is the latest version - that is,
+  # has the same version as its "current" counterpart.
+  def is_latest_version?
+    current_relation.version == self.version
   end
 end

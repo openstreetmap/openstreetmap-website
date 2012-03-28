@@ -3,6 +3,7 @@ class Node < ActiveRecord::Base
 
   include GeoRecord
   include ConsistencyValidations
+  include NotRedactable
 
   self.table_name = "current_nodes"
 

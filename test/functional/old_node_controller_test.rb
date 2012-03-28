@@ -164,7 +164,121 @@ class OldNodeControllerTest < ActionController::TestCase
     check_current_version(current_nodes(:node_used_by_relationship))
     check_current_version(current_nodes(:node_with_versions))
   end
-  
+
+  ##
+  # test the redaction of an old version of a node, while not being
+  # authorised.
+  def test_redact_node_unauthorised
+    do_redact_node(nodes(:node_with_versions_v3),
+                   redactions(:example))
+    assert_response :unauthorized, "should need to be authenticated to redact."
+  end
+
+  ##
+  # test the redaction of an old version of a node, while being 
+  # authorised as a normal user.
+  def test_redact_node_normal_user
+    basic_authorization(users(:public_user).email, "test")
+
+    do_redact_node(nodes(:node_with_versions_v3),
+                   redactions(:example))
+    assert_response :forbidden, "should need to be moderator to redact."
+  end
+
+  ##
+  # test that, even as moderator, the current version of a node
+  # can't be redacted.
+  def test_redact_node_current_version
+    basic_authorization(users(:moderator_user).email, "test")
+
+    do_redact_node(nodes(:node_with_versions_v4),
+                   redactions(:example))
+    assert_response :forbidden, "shouldn't be OK to redact current version as moderator."
+  end    
+
+  ##
+  # test that redacted nodes aren't visible, regardless of 
+  # authorisation except as moderator...
+  def test_version_redacted
+    node = nodes(:redacted_node_redacted_version)
+
+    get :version, :id => node.node_id, :version => node.version
+    assert_response :forbidden, "Redacted node shouldn't be visible via the version API."
+
+    # not even to a logged-in user
+    basic_authorization(users(:public_user).email, "test")
+    get :version, :id => node.node_id, :version => node.version
+    assert_response :forbidden, "Redacted node shouldn't be visible via the version API, even when logged in."
+  end
+
+  ##
+  # test that redacted nodes aren't visible in the history
+  def test_history_redacted
+    node = nodes(:redacted_node_redacted_version)
+
+    get :history, :id => node.node_id
+    assert_response :success, "Redaction shouldn't have stopped history working."
+    assert_select "osm node[id=#{node.node_id}][version=#{node.version}]", 0, "redacted node #{node.node_id} version #{node.version} shouldn't be present in the history."
+
+    # not even to a logged-in user
+    basic_authorization(users(:public_user).email, "test")
+    get :version, :id => node.node_id, :version => node.version
+    get :history, :id => node.node_id
+    assert_response :success, "Redaction shouldn't have stopped history working."
+    assert_select "osm node[id=#{node.node_id}][version=#{node.version}]", 0, "redacted node #{node.node_id} version #{node.version} shouldn't be present in the history, even when logged in."
+  end
+
+  ##
+  # test the redaction of an old version of a node, while being 
+  # authorised as a moderator.
+  def test_redact_node_moderator
+    node = nodes(:node_with_versions_v3)
+    basic_authorization(users(:moderator_user).email, "test")
+
+    do_redact_node(node, redactions(:example))
+    assert_response :success, "should be OK to redact old version as moderator."
+
+    # check moderator can still see the redacted data
+    get :version, :id => node.node_id, :version => node.version
+    assert_response :success, "After redaction, node should not be gone for moderator."
+    
+    # and when accessed via history
+    get :history, :id => node.node_id
+    assert_response :success, "Redaction shouldn't have stopped history working."
+    assert_select "osm node[id=#{node.node_id}][version=#{node.version}]", 1, "node #{node.node_id} version #{node.version} should still be present in the history for moderators."
+  end
+
+  # testing that if the moderator drops auth, he can't see the
+  # redacted stuff any more.
+  def test_redact_node_is_redacted
+    node = nodes(:node_with_versions_v3)
+    basic_authorization(users(:moderator_user).email, "test")
+
+    do_redact_node(node, redactions(:example))
+    assert_response :success, "should be OK to redact old version as moderator."
+
+    # re-auth as non-moderator
+    basic_authorization(users(:public_user).email, "test")
+
+    # check can't see the redacted data
+    get :version, :id => node.node_id, :version => node.version
+    assert_response :forbidden, "Redacted node shouldn't be visible via the version API."
+    
+    # and when accessed via history
+    get :version, :id => node.node_id, :version => node.version
+    get :history, :id => node.node_id
+    assert_response :success, "Redaction shouldn't have stopped history working."
+    assert_select "osm node[id=#{node.node_id}][version=#{node.version}]", 0, "redacted node #{node.node_id} version #{node.version} shouldn't be present in the history."
+  end
+
+  def do_redact_node(node, redaction)
+    get :version, :id => node.node_id, :version => node.version
+    assert_response :success, "should be able to get version #{node.version} of node #{node.node_id}."
+    
+    # now redact it
+    post :redact, :id => node.node_id, :version => node.version, :redaction => redaction.id
+  end
+
   def check_current_version(node_id)
     # get the current version of the node
     current_node = with_controller(NodeController.new) do
