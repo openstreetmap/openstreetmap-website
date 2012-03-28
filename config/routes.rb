@@ -27,8 +27,8 @@ OpenStreetMap::Application.routes.draw do
   match 'api/0.6/way/:id/history' => 'old_way#history', :via => :get, :id => /\d+/
   match 'api/0.6/way/:id/full' => 'way#full', :via => :get, :id => /\d+/
   match 'api/0.6/way/:id/relations' => 'relation#relations_for_way', :via => :get, :id => /\d+/
+  match 'api/0.6/way/:id/:version/redact' => 'old_way#redact', :via => :post, :version => /\d+/, :id => /\d+/
   match 'api/0.6/way/:id/:version' => 'old_way#version', :via => :get, :id => /\d+/, :version => /\d+/
-  match 'api/0.6/way/:id/:version/redact' => 'old_way#redact', :via => :put, :version => /\d+/, :id => /\d+/
   match 'api/0.6/way/:id' => 'way#read', :via => :get, :id => /\d+/
   match 'api/0.6/way/:id' => 'way#update', :via => :put, :id => /\d+/
   match 'api/0.6/way/:id' => 'way#delete', :via => :delete, :id => /\d+/

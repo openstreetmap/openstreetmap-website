@@ -31,7 +31,7 @@ class OldNodeController < ApplicationController
   end
   
   def version
-    if @old_node.redacted? and (@user.nil? or not @user.moderator?) and not params[:show_redactions] == "true"
+    if @old_node.redacted? and not (@user and @user.moderator? and params[:show_redactions] == "true")
       render :nothing => true, :status => :forbidden
 
     else
