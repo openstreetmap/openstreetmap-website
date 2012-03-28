@@ -1,10 +1,13 @@
 class OldWay < ActiveRecord::Base
   include ConsistencyValidations
-  
+  include Redactable
+
   self.table_name = "ways"
   self.primary_keys = "way_id", "version"
 
   belongs_to :changeset
+  belongs_to :redaction
+  belongs_to :current_way, :class_name => "Way", :foreign_key => "way_id"
 
   has_many :old_nodes, :class_name => 'OldWayNode', :foreign_key => [:way_id, :version]
   has_many :old_tags, :class_name => 'OldWayTag', :foreign_key => [:way_id, :version]
@@ -157,5 +160,11 @@ class OldWay < ActiveRecord::Base
   # Pretend we're not in any relations
   def containing_relation_members
     return []
+  end
+
+  # check whether this element is the latest version - that is,
+  # has the same version as its "current" counterpart.
+  def is_latest_version?
+    current_way.version == self.version
   end
 end

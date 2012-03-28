@@ -1,6 +1,7 @@
 class OldNode < ActiveRecord::Base
   include GeoRecord
   include ConsistencyValidations
+  include Redactable
 
   self.table_name = "nodes"
   self.primary_keys = "node_id", "version"
@@ -12,7 +13,9 @@ class OldNode < ActiveRecord::Base
   validates_associated :changeset
 
   belongs_to :changeset
- 
+  belongs_to :redaction
+  belongs_to :current_node, :class_name => "Node", :foreign_key => "node_id"
+
   def validate_position
     errors.add(:base, "Node is not in the world") unless in_world?
   end
@@ -106,4 +109,10 @@ class OldNode < ActiveRecord::Base
   def containing_relation_members 
     return [] 
   end 
+
+  # check whether this element is the latest version - that is,
+  # has the same version as its "current" counterpart.
+  def is_latest_version?
+    current_node.version == self.version
+  end
 end
