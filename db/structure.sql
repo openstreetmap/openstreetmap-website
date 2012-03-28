@@ -827,38 +827,6 @@ CREATE TABLE schema_migrations (
 
 
 --
--- Name: sessions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE sessions (
-    id integer NOT NULL,
-    session_id character varying(255),
-    data text,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
-);
-
-
---
--- Name: sessions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE sessions_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: sessions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE sessions_id_seq OWNED BY sessions.id;
-
-
---
 -- Name: user_blocks; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1169,13 +1137,6 @@ ALTER TABLE ONLY oauth_tokens ALTER COLUMN id SET DEFAULT nextval('oauth_tokens_
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY sessions ALTER COLUMN id SET DEFAULT nextval('sessions_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE ONLY user_blocks ALTER COLUMN id SET DEFAULT nextval('user_blocks_id_seq'::regclass);
 
 
@@ -1406,14 +1367,6 @@ ALTER TABLE ONLY relation_tags
 
 ALTER TABLE ONLY relations
     ADD CONSTRAINT relations_pkey PRIMARY KEY (relation_id, version);
-
-
---
--- Name: sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY sessions
-    ADD CONSTRAINT sessions_pkey PRIMARY KEY (id);
 
 
 --
@@ -1751,13 +1704,6 @@ CREATE INDEX relations_changeset_id_idx ON relations USING btree (changeset_id);
 --
 
 CREATE INDEX relations_timestamp_idx ON relations USING btree ("timestamp");
-
-
---
--- Name: sessions_session_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX sessions_session_id_idx ON sessions USING btree (session_id);
 
 
 --
@@ -2226,6 +2172,8 @@ INSERT INTO schema_migrations (version) VALUES ('20120208194454');
 INSERT INTO schema_migrations (version) VALUES ('20120214210114');
 
 INSERT INTO schema_migrations (version) VALUES ('20120219161649');
+
+INSERT INTO schema_migrations (version) VALUES ('20120328090602');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 
