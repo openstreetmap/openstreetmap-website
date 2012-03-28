@@ -100,18 +100,26 @@ class OldWay < ActiveRecord::Base
     end
     el1['version'] = self.version.to_s
     el1['changeset'] = self.changeset.id.to_s
-    
-    self.old_nodes.each do |nd| # FIXME need to make sure they come back in the right order
-      e = XML::Node.new 'nd'
-      e['ref'] = nd.node_id.to_s
-      el1 << e
+
+    if self.redacted?
+      el1['redacted'] = self.redaction.title
     end
- 
-    self.old_tags.each do |tag|
-      e = XML::Node.new 'tag'
-      e['k'] = tag.k
-      e['v'] = tag.v
-      el1 << e
+    
+    unless self.redacted? and (@user.nil? or not @user.moderator?)
+      # If a way is redacted and the user isn't a moderator, only show
+      # meta-data from this revision, but no real data.
+      self.old_nodes.each do |nd| # FIXME need to make sure they come back in the right order
+        e = XML::Node.new 'nd'
+        e['ref'] = nd.node_id.to_s
+        el1 << e
+      end
+      
+      self.old_tags.each do |tag|
+        e = XML::Node.new 'tag'
+        e['k'] = tag.k
+        e['v'] = tag.v
+        el1 << e
+      end
     end
     return el1
   end
