@@ -222,7 +222,6 @@ class OldNodeControllerTest < ActionController::TestCase
 
     # not even to a logged-in user
     basic_authorization(users(:public_user).email, "test")
-    get :version, :id => node.node_id, :version => node.version
     get :history, :id => node.node_id
     assert_response :success, "Redaction shouldn't have stopped history working."
     assert_select "osm node[id=#{node.node_id}][version=#{node.version}]", 0, "redacted node #{node.node_id} version #{node.version} shouldn't be present in the history, even when logged in."
@@ -238,14 +237,20 @@ class OldNodeControllerTest < ActionController::TestCase
     do_redact_node(node, redactions(:example))
     assert_response :success, "should be OK to redact old version as moderator."
 
-    # check moderator can still see the redacted data
+    # check moderator can still see the redacted data, when passing
+    # the appropriate flag
     get :version, :id => node.node_id, :version => node.version
-    assert_response :success, "After redaction, node should not be gone for moderator."
+    assert_response :forbidden, "After redaction, node should be gone for moderator, when flag not passed."
+    get :version, :id => node.node_id, :version => node.version, :show_redactions => 'true'
+    assert_response :success, "After redaction, node should not be gone for moderator, when flag passed."
     
     # and when accessed via history
     get :history, :id => node.node_id
     assert_response :success, "Redaction shouldn't have stopped history working."
-    assert_select "osm node[id=#{node.node_id}][version=#{node.version}]", 1, "node #{node.node_id} version #{node.version} should still be present in the history for moderators."
+    assert_select "osm node[id=#{node.node_id}][version=#{node.version}]", 0, "node #{node.node_id} version #{node.version} should not be present in the history for moderators when not passing flag."
+    get :history, :id => node.node_id, :show_redactions => 'true'
+    assert_response :success, "Redaction shouldn't have stopped history working."
+    assert_select "osm node[id=#{node.node_id}][version=#{node.version}]", 1, "node #{node.node_id} version #{node.version} should still be present in the history for moderators when passing flag."
   end
 
   # testing that if the moderator drops auth, he can't see the
@@ -265,7 +270,6 @@ class OldNodeControllerTest < ActionController::TestCase
     assert_response :forbidden, "Redacted node shouldn't be visible via the version API."
     
     # and when accessed via history
-    get :version, :id => node.node_id, :version => node.version
     get :history, :id => node.node_id
     assert_response :success, "Redaction shouldn't have stopped history working."
     assert_select "osm node[id=#{node.node_id}][version=#{node.version}]", 0, "redacted node #{node.node_id} version #{node.version} shouldn't be present in the history."
