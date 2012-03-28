@@ -15,6 +15,10 @@ class OldWayControllerTest < ActionController::TestCase
       { :path => "/api/0.6/way/1/2", :method => :get },
       { :controller => "old_way", :action => "version", :id => "1", :version => "2" }
     )
+    assert_routing(
+      { :path => "/api/0.6/way/1/2/redact", :method => :post },
+      { :controller => "old_way", :action => "redact", :id => "1", :version => "2" }
+    )
   end
 
   # -------------------------------------
