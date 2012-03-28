@@ -160,6 +160,18 @@ class ApplicationController < ActionController::Base
     end 
   end 
 
+  ##
+  # to be used as a before_filter *after* authorize. this checks that
+  # the user is a moderator and, if not, returns a forbidden error.
+  #
+  def authorize_moderator(errormessage="Access restricted to moderators") 
+    # check user is a moderator
+    unless @user.moderator?
+      render :text => errormessage, :status => :forbidden
+      return false
+    end 
+  end 
+
   def check_database_readable(need_api = false)
     if STATUS == :database_offline or (need_api and STATUS == :api_offline)
       redirect_to :controller => 'site', :action => 'offline'
