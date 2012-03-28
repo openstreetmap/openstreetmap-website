@@ -15,6 +15,10 @@ class OldRelationControllerTest < ActionController::TestCase
       { :path => "/api/0.6/relation/1/2", :method => :get },
       { :controller => "old_relation", :action => "version", :id => "1", :version => "2" }
     )
+    assert_routing(
+      { :path => "/api/0.6/relation/1/2/redact", :method => :post },
+      { :controller => "old_relation", :action => "redact", :id => "1", :version => "2" }
+    )
   end
 
   # -------------------------------------
