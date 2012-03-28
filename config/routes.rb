@@ -38,6 +38,7 @@ OpenStreetMap::Application.routes.draw do
   match 'api/0.6/relation/:id/relations' => 'relation#relations_for_relation', :via => :get, :id => /\d+/
   match 'api/0.6/relation/:id/history' => 'old_relation#history', :via => :get, :id => /\d+/
   match 'api/0.6/relation/:id/full' => 'relation#full', :via => :get, :id => /\d+/
+  match 'api/0.6/relation/:id/:version/redact' => 'old_relation#redact', :via => :post, :version => /\d+/, :id => /\d+/
   match 'api/0.6/relation/:id/:version' => 'old_relation#version', :via => :get, :id => /\d+/, :version => /\d+/
   match 'api/0.6/relation/:id' => 'relation#read', :via => :get, :id => /\d+/
   match 'api/0.6/relation/:id' => 'relation#update', :via => :put, :id => /\d+/
