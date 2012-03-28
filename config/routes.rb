@@ -16,7 +16,7 @@ OpenStreetMap::Application.routes.draw do
   match 'api/0.6/node/:id/ways' => 'way#ways_for_node', :via => :get, :id => /\d+/
   match 'api/0.6/node/:id/relations' => 'relation#relations_for_node', :via => :get, :id => /\d+/
   match 'api/0.6/node/:id/history' => 'old_node#history', :via => :get, :id => /\d+/
-  match 'api/0.6/node/:id/:version/redact' => 'old_node#redact', :version => /\d+/, :id => /\d+/
+  match 'api/0.6/node/:id/:version/redact' => 'old_node#redact', :via => :post, :version => /\d+/, :id => /\d+/
   match 'api/0.6/node/:id/:version' => 'old_node#version', :via => :get, :id => /\d+/, :version => /\d+/
   match 'api/0.6/node/:id' => 'node#read', :via => :get, :id => /\d+/
   match 'api/0.6/node/:id' => 'node#update', :via => :put, :id => /\d+/

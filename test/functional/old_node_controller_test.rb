@@ -193,7 +193,7 @@ class OldNodeControllerTest < ActionController::TestCase
 
     do_redact_node(nodes(:node_with_versions_v4),
                    redactions(:example))
-    assert_response :forbidden, "shouldn't be OK to redact current version as moderator."
+    assert_response :bad_request, "shouldn't be OK to redact current version as moderator."
   end    
 
   ##
