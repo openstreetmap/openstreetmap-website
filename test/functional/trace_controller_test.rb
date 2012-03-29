@@ -4,6 +4,152 @@ class TraceControllerTest < ActionController::TestCase
   fixtures :users, :gpx_files
   set_fixture_class :gpx_files => 'Trace'
 
+  ##
+  # test all routes which lead to this controller
+  def test_routes
+    assert_routing(
+      { :path => "/api/0.6/gpx/create", :method => :post },
+      { :controller => "trace", :action => "api_create" }
+    )
+    assert_routing(
+      { :path => "/api/0.6/gpx/1", :method => :get },
+      { :controller => "trace", :action => "api_read", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/api/0.6/gpx/1", :method => :put },
+      { :controller => "trace", :action => "api_update", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/api/0.6/gpx/1", :method => :delete },
+      { :controller => "trace", :action => "api_delete", :id => "1" }
+    )
+    assert_recognizes(
+      { :controller => "trace", :action => "api_read", :id => "1" },
+      { :path => "/api/0.6/gpx/1/details", :method => :get }
+    )
+    assert_routing(
+      { :path => "/api/0.6/gpx/1/data", :method => :get },
+      { :controller => "trace", :action => "api_data", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/api/0.6/gpx/1/data.xml", :method => :get },
+      { :controller => "trace", :action => "api_data", :id => "1", :format => "xml" }
+    )
+
+    assert_routing(
+      { :path => "/traces", :method => :get },
+      { :controller => "trace", :action => "list" }
+    )
+    assert_routing(
+      { :path => "/traces/page/1", :method => :get },
+      { :controller => "trace", :action => "list", :page => "1" }
+    )
+    assert_routing(
+      { :path => "/traces/tag/tagname", :method => :get },
+      { :controller => "trace", :action => "list", :tag => "tagname" }
+    )
+    assert_routing(
+      { :path => "/traces/tag/tagname/page/1", :method => :get },
+      { :controller => "trace", :action => "list", :tag => "tagname", :page => "1" }
+    )
+    assert_routing(
+      { :path => "/user/username/traces", :method => :get },
+      { :controller => "trace", :action => "list", :display_name => "username" }
+    )
+    assert_routing(
+      { :path => "/user/username/traces/page/1", :method => :get },
+      { :controller => "trace", :action => "list", :display_name => "username", :page => "1" }
+    )
+    assert_routing(
+      { :path => "/user/username/traces/tag/tagname", :method => :get },
+      { :controller => "trace", :action => "list", :display_name => "username", :tag => "tagname" }
+    )
+    assert_routing(
+      { :path => "/user/username/traces/tag/tagname/page/1", :method => :get },
+      { :controller => "trace", :action => "list", :display_name => "username", :tag => "tagname", :page => "1" }
+    )
+
+    assert_routing(
+      { :path => "/traces/mine", :method => :get },
+      { :controller => "trace", :action => "mine" }
+    )
+    assert_routing(
+      { :path => "/traces/mine/page/1", :method => :get },
+      { :controller => "trace", :action => "mine", :page => "1" }
+    )
+    assert_routing(
+      { :path => "/traces/mine/tag/tagname", :method => :get },
+      { :controller => "trace", :action => "mine", :tag => "tagname" }
+    )
+    assert_routing(
+      { :path => "/traces/mine/tag/tagname/page/1", :method => :get },
+      { :controller => "trace", :action => "mine", :tag => "tagname", :page => "1" }
+    )
+
+    assert_routing(
+      { :path => "/traces/rss", :method => :get },
+      { :controller => "trace", :action => "georss" }
+    )
+    assert_routing(
+      { :path => "/traces/tag/tagname/rss", :method => :get },
+      { :controller => "trace", :action => "georss", :tag => "tagname" }
+    )
+    assert_routing(
+      { :path => "/user/username/traces/rss", :method => :get },
+      { :controller => "trace", :action => "georss", :display_name => "username" }
+    )
+    assert_routing(
+      { :path => "/user/username/traces/tag/tagname/rss", :method => :get },
+      { :controller => "trace", :action => "georss", :display_name => "username", :tag => "tagname" }
+    )
+
+    assert_routing(
+      { :path => "/user/username/traces/1", :method => :get },
+      { :controller => "trace", :action => "view", :display_name => "username", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/user/username/traces/1/picture", :method => :get },
+      { :controller => "trace", :action => "picture", :display_name => "username", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/user/username/traces/1/icon", :method => :get },
+      { :controller => "trace", :action => "icon", :display_name => "username", :id => "1" }
+    )
+
+    assert_routing(
+      { :path => "/trace/create", :method => :get },
+      { :controller => "trace", :action => "create" }
+    )
+    assert_routing(
+      { :path => "/trace/create", :method => :post },
+      { :controller => "trace", :action => "create" }
+    )
+    assert_routing(
+      { :path => "/trace/1/data", :method => :get },
+      { :controller => "trace", :action => "data", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/trace/1/data.xml", :method => :get },
+      { :controller => "trace", :action => "data", :id => "1", :format => "xml" }
+    )
+    assert_routing(
+      { :path => "/trace/1/edit", :method => :get },
+      { :controller => "trace", :action => "edit", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/trace/1/edit", :method => :post },
+      { :controller => "trace", :action => "edit", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/trace/1/edit", :method => :put },
+      { :controller => "trace", :action => "edit", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/trace/1/delete", :method => :post },
+      { :controller => "trace", :action => "delete", :id => "1" }
+    )
+  end
+
   # Check that the list of changesets is displayed
   def test_list
     get :list

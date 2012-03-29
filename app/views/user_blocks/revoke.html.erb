@@ -1,13 +1,13 @@
 <% @title = t('user_block.revoke.title',
               :block_on => h(@user_block.user.display_name),
               :block_by => h(@user_block.creator.display_name)) %>
-<h1><%= t('user_block.revoke.heading',
-          :block_on => link_to(
-                               h(@user_block.user.display_name),
-                               {:controller => 'user', :action => 'view', :display_name => @user_block.user.display_name}),
-          :block_by => link_to(
-                               h(@user_block.creator.display_name),
-                               {:controller => 'user', :action => 'view', :display_name => @user_block.creator.display_name})) %></h1>
+<h1><%= raw t('user_block.revoke.heading',
+              :block_on => link_to(
+                                   h(@user_block.user.display_name),
+                                   {:controller => 'user', :action => 'view', :display_name => @user_block.user.display_name}),
+              :block_by => link_to(
+                                   h(@user_block.creator.display_name),
+                                   {:controller => 'user', :action => 'view', :display_name => @user_block.creator.display_name})) %></h1>
 
 <% if @user_block.ends_at > Time.now %>
 <p><b>

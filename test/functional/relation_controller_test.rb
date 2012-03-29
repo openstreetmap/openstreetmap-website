@@ -4,6 +4,48 @@ require 'relation_controller'
 class RelationControllerTest < ActionController::TestCase
   api_fixtures
 
+  ##
+  # test all routes which lead to this controller
+  def test_routes
+    assert_routing(
+      { :path => "/api/0.6/relation/create", :method => :put },
+      { :controller => "relation", :action => "create" }
+    )
+    assert_routing(
+      { :path => "/api/0.6/relation/1/full", :method => :get },
+      { :controller => "relation", :action => "full", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/api/0.6/relation/1", :method => :get },
+      { :controller => "relation", :action => "read", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/api/0.6/relation/1", :method => :put },
+      { :controller => "relation", :action => "update", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/api/0.6/relation/1", :method => :delete },
+      { :controller => "relation", :action => "delete", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/api/0.6/relations", :method => :get },
+      { :controller => "relation", :action => "relations" }
+    )
+
+    assert_routing(
+      { :path => "/api/0.6/node/1/relations", :method => :get },
+      { :controller => "relation", :action => "relations_for_node", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/api/0.6/way/1/relations", :method => :get },
+      { :controller => "relation", :action => "relations_for_way", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/api/0.6/relation/1/relations", :method => :get },
+      { :controller => "relation", :action => "relations_for_relation", :id => "1" }
+    )
+  end
+
   # -------------------------------------
   # Test reading relations.
   # -------------------------------------

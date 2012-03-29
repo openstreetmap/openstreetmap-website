@@ -1,25 +1,13 @@
 <%= user_image @this_user %>
 
-<h2><%= h(@this_user.display_name) %>
-
-<% UserRole::ALL_ROLES.each do |role| %>
-  <% if @user and @user.administrator? %>
-    <% if @this_user.has_role? role %>
-      <%= link_to(image_tag("roles/#{role}.png", :size => "20x20", :border => 0, :alt => t("user.view.role.revoke.#{role}"), :title => t("user.view.role.revoke.#{role}")), :controller => 'user_roles', :action => 'revoke', :display_name => @this_user.display_name, :role => role) %>
-    <% else %>
-      <%= link_to(image_tag("roles/blank_#{role}.png", :size => "20x20", :border => 0, :alt => t("user.view.role.grant.#{role}"), :title => t("user.view.role.grant.#{role}")), :controller => 'user_roles', :action => 'grant', :display_name => @this_user.display_name, :role => role) %>
-    <% end %>
-  <% elsif @this_user.has_role? role %>
-    <%= image_tag("roles/#{role}.png", :size => "20x20", :border => 0, :alt => t("user.view.role.#{role}"), :title => t("user.view.role.#{role}")) %>
-  <% end %>
-<% end %></h2>
+<h2><%= @this_user.display_name %><%= role_icons(@this_user) %></h2>
 
 <div id="userinformation">
   <% if @user and @this_user.id == @user.id %>
     <!-- Displaying user's own profile page -->
     <%= link_to t('user.view.my diary'), :controller => 'diary_entry', :action => 'list', :display_name => @user.display_name %>
     |
-    <%= link_to t('user.view.new diary entry'), :controller => 'diary_entry', :action => 'new', :display_name => @user.display_name %>
+    <%= link_to t('user.view.new diary entry'), :controller => 'diary_entry', :action => 'new' %>
     |
     <%= link_to t('user.view.my comments' ), :controller => 'diary_entry', :action => 'comments', :display_name => @this_user.display_name %>
     |
@@ -103,7 +91,7 @@
 
 <h3><%= t 'user.view.description' %></h3>
 
-<div id="description"><%= htmlize(@this_user.description) %></div>
+<div id="description"><%= @this_user.description.to_html %></div>
 
 <% if @user and @this_user.id == @user.id %>
   <div id="map" class="user_map">
@@ -122,8 +110,8 @@
   <% if friends.empty? %>
     <%= t 'user.view.no friends' %>
   <% else %>
-    <%= link_to t('user.view.friends_changesets'), {:controller => 'browse', :action => 'friends'} %><br/>
-    <%= link_to t('user.view.friends_diaries'), {:controller => 'diary', :action => 'friends'} %><br/><br/>
+    <%= link_to t('user.view.friends_changesets'), friend_changesets_path %><br/>
+    <%= link_to t('user.view.friends_diaries'), friend_diaries_path %><br/><br/>
     <table id="friends">
       <%= render :partial => "contact", :collection => friends %>
     </table>
@@ -134,8 +122,8 @@
   <% if nearby.empty? %>
     <%= t 'user.view.no nearby users' %>
   <% else %>
-    <%= link_to t('user.view.nearby_changesets'), {:controller => 'browse', :action => 'nearby'} %><br/>
-    <%= link_to t('user.view.nearby_diaries'), {:controller => 'diary', :action => 'nearby'} %><br/><br/>
+    <%= link_to t('user.view.nearby_changesets'), nearby_changesets_path %><br/>
+    <%= link_to t('user.view.nearby_diaries'), nearby_diaries_path %><br/><br/>
     <table id="nearbyusers">
       <%= render :partial => "contact", :collection => nearby %>
     </table>

@@ -3,6 +3,63 @@ require File.dirname(__FILE__) + '/../test_helper'
 class SiteControllerTest < ActionController::TestCase
   fixtures :users
 
+  ##
+  # test all routes which lead to this controller
+  def test_routes
+    assert_routing(
+      { :path => "/", :method => :get },
+      { :controller => "site", :action => "index" }
+    )
+    assert_routing(
+      { :path => "/", :method => :post },
+      { :controller => "site", :action => "index" }
+    )
+    assert_recognizes(
+      { :controller => "site", :action => "index" },
+      { :path => "/index.html", :method => :get }
+    )
+    assert_routing(
+      { :path => "/edit", :method => :get },
+      { :controller => "site", :action => "edit" }
+    )
+    assert_recognizes(
+      { :controller => "site", :action => "edit", :format => "html" },
+      { :path => "/edit.html", :method => :get }
+    )
+    assert_routing(
+      { :path => "/copyright", :method => :get },
+      { :controller => "site", :action => "copyright" }
+    )
+    assert_routing(
+      { :path => "/copyright/locale", :method => :get },
+      { :controller => "site", :action => "copyright", :copyright_locale => "locale" }
+    )
+    assert_routing(
+      { :path => "/export", :method => :get },
+      { :controller => "site", :action => "export" }
+    )
+    assert_recognizes(
+      { :controller => "site", :action => "export", :format => "html" },
+      { :path => "/export.html", :method => :get }
+    )
+    assert_routing(
+      { :path => "/offline", :method => :get },
+      { :controller => "site", :action => "offline" }
+    )
+    assert_routing(
+      { :path => "/key", :method => :post },
+      { :controller => "site", :action => "key" }
+    )
+    assert_routing(
+      { :path => "/go/shortcode", :method => :get },
+      { :controller => "site", :action => "permalink", :code => "shortcode" }
+    )
+    assert_routing(
+      { :path => "/preview/formatname", :method => :get },
+      { :controller => "site", :action => "preview", :format => "formatname" }
+    )
+  end
+
   ## Lets check that we can get all the pages without any errors  
   # Get the index
   def test_index

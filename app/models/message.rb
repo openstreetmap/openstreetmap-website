@@ -11,6 +11,35 @@ class Message < ActiveRecord::Base
 
   attr_accessible :title, :body
 
+  after_initialize :set_defaults
+
+  def self.from_mail(mail, from, to)
+    if mail.multipart?
+      if mail.text_part
+        body = mail.text_part.decoded
+      elsif mail.html_part
+        body = HTMLEntities.new.decode(Sanitize.clean(mail.html_part.decoded))
+      end
+    elsif mail.text? and mail.sub_type == "html"
+      body = HTMLEntities.new.decode(Sanitize.clean(mail.decoded))
+    else
+      body = mail.decoded
+    end
+
+    message = Message.new({
+      :sender => from,
+      :recipient => to,
+      :sent_on => mail.date.new_offset(0),
+      :title => mail.subject.sub(/\[OpenStreetMap\] */, ""),
+      :body => body,
+      :body_format => "text"
+    }, :without_protection => true)
+  end
+
+  def body
+    RichText.new(read_attribute(:body_format), read_attribute(:body))
+  end
+
   def digest
     md5 = Digest::MD5.new
     md5 << from_user_id.to_s
@@ -19,5 +48,11 @@ class Message < ActiveRecord::Base
     md5 << title
     md5 << body
     md5.hexdigest
+  end
+
+private
+
+  def set_defaults
+    self.body_format = "markdown" unless self.attribute_present?(:body_format)
   end
 end

@@ -11,7 +11,7 @@ gem 'pg'
 gem 'jquery-rails'
 
 # Load rails plugins
-gem 'rails-i18n', ">= 0.5.1"
+gem 'rails-i18n', ">= 0.6.2"
 gem 'dynamic_form'
 gem 'rinku', '>= 1.2.2', :require => 'rails_rinku'
 gem 'oauth-plugin', '>= 0.4.0.pre7'
@@ -22,14 +22,18 @@ gem 'http_accept_language', '>= 1.0.2'
 gem 'paperclip', '~> 2.0'
 gem 'deadlock_retry', '>= 1.2.0'
 
+# Markdown formatting support
+gem 'redcarpet'
+
 # Character conversion support for ruby 1.8
 gem 'iconv', :platforms => :ruby_18
 
 # Load libxml support for XML parsing and generation
 gem 'libxml-ruby', '>= 2.0.5', :require => 'libxml'
 
-# Load HTML sanitizer
+# Use for HTML sanitisation
 gem 'sanitize'
+gem 'htmlentities'
 
 # Load SystemTimer for implementing request timeouts
 gem 'SystemTimer', '>= 1.1.3', :require => 'system_timer', :platforms => :ruby_18

@@ -39,6 +39,17 @@ COMMENT ON EXTENSION btree_gist IS 'support for indexing common datatypes in GiS
 SET search_path = public, pg_catalog;
 
 --
+-- Name: format_enum; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE format_enum AS ENUM (
+    'html',
+    'markdown',
+    'text'
+);
+
+
+--
 -- Name: gpx_visibility_enum; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -437,7 +448,8 @@ CREATE TABLE diary_comments (
     body text NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    visible boolean DEFAULT true NOT NULL
+    visible boolean DEFAULT true NOT NULL,
+    body_format format_enum DEFAULT 'html'::format_enum NOT NULL
 );
 
 
@@ -474,7 +486,8 @@ CREATE TABLE diary_entries (
     latitude double precision,
     longitude double precision,
     language_code character varying(255) DEFAULT 'en'::character varying NOT NULL,
-    visible boolean DEFAULT true NOT NULL
+    visible boolean DEFAULT true NOT NULL,
+    body_format format_enum DEFAULT 'html'::format_enum NOT NULL
 );
 
 
@@ -634,7 +647,8 @@ CREATE TABLE messages (
     message_read boolean DEFAULT false NOT NULL,
     to_user_id bigint NOT NULL,
     to_user_visible boolean DEFAULT true NOT NULL,
-    from_user_visible boolean DEFAULT true NOT NULL
+    from_user_visible boolean DEFAULT true NOT NULL,
+    body_format format_enum DEFAULT 'html'::format_enum NOT NULL
 );
 
 
@@ -813,38 +827,6 @@ CREATE TABLE schema_migrations (
 
 
 --
--- Name: sessions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE sessions (
-    id integer NOT NULL,
-    session_id character varying(255),
-    data text,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
-);
-
-
---
--- Name: sessions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE sessions_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: sessions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE sessions_id_seq OWNED BY sessions.id;
-
-
---
 -- Name: user_blocks; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -857,7 +839,8 @@ CREATE TABLE user_blocks (
     needs_view boolean DEFAULT false NOT NULL,
     revoker_id bigint,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    reason_format format_enum DEFAULT 'html'::format_enum NOT NULL
 );
 
 
@@ -984,7 +967,8 @@ CREATE TABLE users (
     preferred_editor character varying(255),
     terms_seen boolean DEFAULT false NOT NULL,
     openid_url character varying(255),
-    image_fingerprint character varying(255)
+    image_fingerprint character varying(255),
+    description_format format_enum DEFAULT 'html'::format_enum NOT NULL
 );
 
 
@@ -1048,140 +1032,133 @@ CREATE TABLE ways (
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE acls ALTER COLUMN id SET DEFAULT nextval('acls_id_seq'::regclass);
+ALTER TABLE ONLY acls ALTER COLUMN id SET DEFAULT nextval('acls_id_seq'::regclass);
 
 
 --
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE changesets ALTER COLUMN id SET DEFAULT nextval('changesets_id_seq'::regclass);
+ALTER TABLE ONLY changesets ALTER COLUMN id SET DEFAULT nextval('changesets_id_seq'::regclass);
 
 
 --
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE client_applications ALTER COLUMN id SET DEFAULT nextval('client_applications_id_seq'::regclass);
+ALTER TABLE ONLY client_applications ALTER COLUMN id SET DEFAULT nextval('client_applications_id_seq'::regclass);
 
 
 --
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE countries ALTER COLUMN id SET DEFAULT nextval('countries_id_seq'::regclass);
+ALTER TABLE ONLY countries ALTER COLUMN id SET DEFAULT nextval('countries_id_seq'::regclass);
 
 
 --
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE current_nodes ALTER COLUMN id SET DEFAULT nextval('current_nodes_id_seq'::regclass);
+ALTER TABLE ONLY current_nodes ALTER COLUMN id SET DEFAULT nextval('current_nodes_id_seq'::regclass);
 
 
 --
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE current_relations ALTER COLUMN id SET DEFAULT nextval('current_relations_id_seq'::regclass);
+ALTER TABLE ONLY current_relations ALTER COLUMN id SET DEFAULT nextval('current_relations_id_seq'::regclass);
 
 
 --
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE current_ways ALTER COLUMN id SET DEFAULT nextval('current_ways_id_seq'::regclass);
+ALTER TABLE ONLY current_ways ALTER COLUMN id SET DEFAULT nextval('current_ways_id_seq'::regclass);
 
 
 --
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE diary_comments ALTER COLUMN id SET DEFAULT nextval('diary_comments_id_seq'::regclass);
+ALTER TABLE ONLY diary_comments ALTER COLUMN id SET DEFAULT nextval('diary_comments_id_seq'::regclass);
 
 
 --
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE diary_entries ALTER COLUMN id SET DEFAULT nextval('diary_entries_id_seq'::regclass);
+ALTER TABLE ONLY diary_entries ALTER COLUMN id SET DEFAULT nextval('diary_entries_id_seq'::regclass);
 
 
 --
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE friends ALTER COLUMN id SET DEFAULT nextval('friends_id_seq'::regclass);
+ALTER TABLE ONLY friends ALTER COLUMN id SET DEFAULT nextval('friends_id_seq'::regclass);
 
 
 --
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE gpx_file_tags ALTER COLUMN id SET DEFAULT nextval('gpx_file_tags_id_seq'::regclass);
+ALTER TABLE ONLY gpx_file_tags ALTER COLUMN id SET DEFAULT nextval('gpx_file_tags_id_seq'::regclass);
 
 
 --
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE gpx_files ALTER COLUMN id SET DEFAULT nextval('gpx_files_id_seq'::regclass);
+ALTER TABLE ONLY gpx_files ALTER COLUMN id SET DEFAULT nextval('gpx_files_id_seq'::regclass);
 
 
 --
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE messages ALTER COLUMN id SET DEFAULT nextval('messages_id_seq'::regclass);
+ALTER TABLE ONLY messages ALTER COLUMN id SET DEFAULT nextval('messages_id_seq'::regclass);
 
 
 --
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE oauth_nonces ALTER COLUMN id SET DEFAULT nextval('oauth_nonces_id_seq'::regclass);
+ALTER TABLE ONLY oauth_nonces ALTER COLUMN id SET DEFAULT nextval('oauth_nonces_id_seq'::regclass);
 
 
 --
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE oauth_tokens ALTER COLUMN id SET DEFAULT nextval('oauth_tokens_id_seq'::regclass);
+ALTER TABLE ONLY oauth_tokens ALTER COLUMN id SET DEFAULT nextval('oauth_tokens_id_seq'::regclass);
 
 
 --
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE sessions ALTER COLUMN id SET DEFAULT nextval('sessions_id_seq'::regclass);
+ALTER TABLE ONLY user_blocks ALTER COLUMN id SET DEFAULT nextval('user_blocks_id_seq'::regclass);
 
 
 --
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE user_blocks ALTER COLUMN id SET DEFAULT nextval('user_blocks_id_seq'::regclass);
+ALTER TABLE ONLY user_roles ALTER COLUMN id SET DEFAULT nextval('user_roles_id_seq'::regclass);
 
 
 --
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE user_roles ALTER COLUMN id SET DEFAULT nextval('user_roles_id_seq'::regclass);
+ALTER TABLE ONLY user_tokens ALTER COLUMN id SET DEFAULT nextval('user_tokens_id_seq'::regclass);
 
 
 --
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE user_tokens ALTER COLUMN id SET DEFAULT nextval('user_tokens_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
+ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
 
 
 --
@@ -1390,14 +1367,6 @@ ALTER TABLE ONLY relation_tags
 
 ALTER TABLE ONLY relations
     ADD CONSTRAINT relations_pkey PRIMARY KEY (relation_id, version);
-
-
---
--- Name: sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY sessions
-    ADD CONSTRAINT sessions_pkey PRIMARY KEY (id);
 
 
 --
@@ -1735,13 +1704,6 @@ CREATE INDEX relations_changeset_id_idx ON relations USING btree (changeset_id);
 --
 
 CREATE INDEX relations_timestamp_idx ON relations USING btree ("timestamp");
-
-
---
--- Name: sessions_session_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX sessions_session_id_idx ON sessions USING btree (session_id);
 
 
 --
@@ -2207,7 +2169,11 @@ INSERT INTO schema_migrations (version) VALUES ('20120208122334');
 
 INSERT INTO schema_migrations (version) VALUES ('20120208194454');
 
+INSERT INTO schema_migrations (version) VALUES ('20120214210114');
+
 INSERT INTO schema_migrations (version) VALUES ('20120219161649');
+
+INSERT INTO schema_migrations (version) VALUES ('20120328090602');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 

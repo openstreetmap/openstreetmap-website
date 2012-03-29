@@ -41,7 +41,10 @@ will be a better place to start.
 Anybody hacking on the code is welcome to join the
 [rails-dev](http://lists.openstreetmap.org/listinfo/rails-dev) mailing
 list where other people hacking on the code hang out and will be happy
-to help with any problems you may encounter.
+to help with any problems you may encounter. If you are looking for a
+project to help out with, please take a look at the list of 
+[Top Ten Tasks](http://wiki.openstreetmap.org/wiki/Top_Ten_Tasks) that
+EWG maintains on the wiki.
 
 There are also weekly IRC meetings, at 1800 GMT on Mondays in #osm-ewg on
 the OFTC network where questions can be asked and ideas discussed. For more 

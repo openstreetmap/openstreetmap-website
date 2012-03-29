@@ -260,9 +260,7 @@ class ChangesetController < ApplicationController
             changesets = changesets.where("false")
           end
         elsif request.format == :html
-          @title = t 'user.no_such_user.title'
-          @not_found_user = params[:display_name]
-          render :template => 'user/no_such_user', :status => :not_found
+          render_unknown_user params[:display_name]
           return
         end
       end

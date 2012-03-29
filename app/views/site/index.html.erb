@@ -12,7 +12,6 @@
   <div id="noscript">
     <p><%= t 'site.index.js_1' %></p>
     <p><%= t 'site.index.js_2' %></p>
-    <p><%= t 'site.index.js_3' %></p>
   </div>
 </noscript>
 
@@ -135,8 +134,10 @@ end
     map = createMap("map");
 
     <% unless STATUS == :api_offline or STATUS == :database_offline %>
-      map.dataLayer = new OpenLayers.Layer("<%= I18n.t 'browse.start_rjs.data_layer_name' %>", { "visibility": false });
-      map.dataLayer.events.register("visibilitychanged", map.dataLayer, toggleData);
+      map.dataLayer = new OpenLayers.Layer("<%= I18n.t 'browse.start_rjs.data_layer_name' %>", {
+          visibility: false,
+          displayInLayerSwitcher: false
+      });
       map.addLayer(map.dataLayer);
     <% end %>
 
@@ -144,18 +145,18 @@ end
       <% if bbox %>
         var bbox = new OpenLayers.Bounds(<%= minlon %>, <%= minlat %>, <%= maxlon %>, <%= maxlat %>);
 
-        setMapExtent(bbox);
+        map.zoomToExtent(proj(bbox));
 
         <% if box %>
           $(window).load(function() { addBoxToMap(bbox) });
         <% end %>
       <% else %>
         var centre = new OpenLayers.LonLat(<%= lon %>, <%= lat %>);
+        <% if params[:scale].to_f > 0 then -%>
+        var zoom = <%= scale_to_zoom params[:scale] %>;
+        <% else -%>
         var zoom = <%= zoom %>;
-
-        <% if params[:scale] and params[:scale].length > 0 then %>
-          zoom = scaleToZoom(<%= params[:scale].to_f %>);
-        <% end %>
+        <% end -%>
 
         setMapCenter(centre, zoom);
       <% end %>
@@ -186,20 +187,8 @@ end
     handleResize();
   }
 
-  function toggleData() {
-    if (map.dataLayer.visibility) {
-      $.ajax({ url: "<%= url_for :controller => :browse, :action => :start %>" });
-    } else if (map.dataLayer.active) {
-      closeSidebar();
-    }
-  }
-
-  function getPosition() {
-    return getMapCenter();
-  }
-
-  function getZoom() {
-    return getMapZoom();
+  function showData() {
+    $.ajax({ url: "<%= url_for :controller => :browse, :action => :start %>" });
   }
 
   function setPosition(lat, lon, zoom, min_lon, min_lat, max_lon, max_lat) {
@@ -208,22 +197,23 @@ end
     if (min_lon && min_lat && max_lon && max_lat) {
       var bbox = new OpenLayers.Bounds(min_lon, min_lat, max_lon, max_lat);
 
-      setMapExtent(bbox);
+      map.zoomToExtent(proj(bbox));
     } else {
       setMapCenter(centre, zoom);
     }
 
-    if (marker)
+    if (marker) {
       removeMarkerFromMap(marker);
+    }
 
     marker = addMarkerToMap(centre, getArrowIcon());
   }
 
   function updateLocation() {
-    var lonlat = getMapCenter();
+    var lonlat = unproj(map.getCenter());
     var zoom = map.getZoom();
     var layers = getMapLayers();
-    var extents = getMapExtent();
+    var extents = unproj(map.getExtent());
     var expiry = new Date();
     var objtype;
     var objid;
@@ -240,7 +230,7 @@ end
   }
 
   function remoteEditHandler(event) {
-    var extent = getMapExtent();
+    var extent = unproj(map.getExtent());
     var loaded = false;
 
     $("#linkloader").load(function () { loaded = true; });

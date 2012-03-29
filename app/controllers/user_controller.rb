@@ -7,8 +7,8 @@ class UserController < ApplicationController
   before_filter :authorize_web, :except => [:api_details, :api_gpx_files]
   before_filter :set_locale, :except => [:api_details, :api_gpx_files]
   before_filter :require_user, :only => [:account, :go_public, :make_friend, :remove_friend]
-  before_filter :check_database_readable, :except => [:api_details, :api_gpx_files]
-  before_filter :check_database_writable, :only => [:login, :new, :account, :go_public, :make_friend, :remove_friend]
+  before_filter :check_database_readable, :except => [:login, :api_details, :api_gpx_files]
+  before_filter :check_database_writable, :only => [:new, :account, :go_public, :make_friend, :remove_friend]
   before_filter :check_api_readable, :only => [:api_details, :api_gpx_files]
   before_filter :require_allow_read_prefs, :only => [:api_details]
   before_filter :require_allow_read_gpx, :only => [:api_gpx_files]
@@ -151,7 +151,11 @@ class UserController < ApplicationController
         @user.pass_crypt_confirmation = params[:user][:pass_crypt_confirmation]
       end
 
-      @user.description = params[:user][:description]
+      if params[:user][:description] != @user.description
+        @user.description = params[:user][:description]
+        @user.description_format = "markdown"
+      end
+
       @user.languages = params[:user][:languages].split(",")
 
       case params[:image_action]
@@ -419,9 +423,7 @@ class UserController < ApplicationController
        (@this_user.visible? or (@user and @user.administrator?))
       @title = @this_user.display_name
     else
-      @title = t 'user.no_such_user.title'
-      @not_found_user = params[:display_name]
-      render :action => 'no_such_user', :status => :not_found
+      render_unknown_user params[:display_name]
     end
   end
 
@@ -473,7 +475,8 @@ class UserController < ApplicationController
   ##
   # sets a user's status
   def set_status
-    @this_user.update_attributes(:status => params[:status])
+    @this_user.status = params[:status]
+    @this_user.save
     redirect_to :controller => 'user', :action => 'view', :display_name => params[:display_name]
   end
 
@@ -717,7 +720,7 @@ private
   # Choose the layout to use. See
   # https://rails.lighthouseapp.com/projects/8994/tickets/5371-layout-with-onlyexcept-options-makes-other-actions-render-without-layouts
   def choose_layout
-    oauth_url = url_for(:controller => :oauth, :action => :oauthorize, :only_path => true)
+    oauth_url = url_for(:controller => :oauth, :action => :authorize, :only_path => true)
 
     if [ 'api_details' ].include? action_name
       nil

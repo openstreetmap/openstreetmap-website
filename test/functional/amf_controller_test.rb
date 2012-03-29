@@ -5,6 +5,19 @@ include Potlatch
 class AmfControllerTest < ActionController::TestCase
   api_fixtures
 
+  ##
+  # test all routes which lead to this controller
+  def test_routes
+    assert_routing(
+      { :path => "/api/0.6/amf/read", :method => :post },
+      { :controller => "amf", :action => "amf_read" }
+    )
+    assert_routing(
+      { :path => "/api/0.6/amf/write", :method => :post },
+      { :controller => "amf", :action => "amf_write" }
+    )
+  end
+
   def test_getway
     # check a visible way
     id = current_ways(:visible_way).id

@@ -45,66 +45,58 @@ class AmfController < ApplicationController
   # calls each action (private method) accordingly.
   
   def amf_read
-    if request.post?
-      self.status = :ok
-      self.content_type = Mime::AMF
-      self.response_body = Dispatcher.new(request.raw_post) do |message,*args|
-        logger.info("Executing AMF #{message}(#{args.join(',')})")
+    self.status = :ok
+    self.content_type = Mime::AMF
+    self.response_body = Dispatcher.new(request.raw_post) do |message,*args|
+      logger.info("Executing AMF #{message}(#{args.join(',')})")
 
-        case message
-          when 'getpresets';        result = getpresets(*args)
-          when 'whichways';         result = whichways(*args)
-          when 'whichways_deleted'; result = whichways_deleted(*args)
-          when 'getway';            result = getway(args[0].to_i)
-          when 'getrelation';       result = getrelation(args[0].to_i)
-          when 'getway_old';        result = getway_old(args[0].to_i,args[1])
-          when 'getway_history';    result = getway_history(args[0].to_i)
-          when 'getnode_history';   result = getnode_history(args[0].to_i)
-          when 'findgpx';           result = findgpx(*args)
-          when 'findrelations';     result = findrelations(*args)
-          when 'getpoi';            result = getpoi(*args)
-        end
-        
-        result
+      case message
+        when 'getpresets';        result = getpresets(*args)
+        when 'whichways';         result = whichways(*args)
+        when 'whichways_deleted'; result = whichways_deleted(*args)
+        when 'getway';            result = getway(args[0].to_i)
+        when 'getrelation';       result = getrelation(args[0].to_i)
+        when 'getway_old';        result = getway_old(args[0].to_i,args[1])
+        when 'getway_history';    result = getway_history(args[0].to_i)
+        when 'getnode_history';   result = getnode_history(args[0].to_i)
+        when 'findgpx';           result = findgpx(*args)
+        when 'findrelations';     result = findrelations(*args)
+        when 'getpoi';            result = getpoi(*args)
       end
-    else
-      render :nothing => true, :status => :method_not_allowed
+        
+      result
     end
   end
 
   def amf_write
-    if request.post?
-      renumberednodes = {}              # Shared across repeated putways
-      renumberedways = {}               # Shared across repeated putways
-      err = false                       # Abort batch on error
+    renumberednodes = {}              # Shared across repeated putways
+    renumberedways = {}               # Shared across repeated putways
+    err = false                       # Abort batch on error
 
-      self.status = :ok
-      self.content_type = Mime::AMF
-      self.response_body = Dispatcher.new(request.raw_post) do |message,*args|
-        logger.info("Executing AMF #{message}")
+    self.status = :ok
+    self.content_type = Mime::AMF
+    self.response_body = Dispatcher.new(request.raw_post) do |message,*args|
+      logger.info("Executing AMF #{message}")
 
-        if err
-          result = [-5, nil]
-        else
-          case message
-            when 'putway';         orn = renumberednodes.dup
-                                   result = putway(renumberednodes, *args)
-                                   result[4] = renumberednodes.reject { |k,v| orn.has_key?(k) }
-                                   if result[0] == 0 and result[2] != result[3] then renumberedways[result[2]] = result[3] end
-            when 'putrelation';    result = putrelation(renumberednodes, renumberedways, *args)
-            when 'deleteway';      result = deleteway(*args)
-            when 'putpoi';         result = putpoi(*args)
-                                   if result[0] == 0 and result[2] != result[3] then renumberednodes[result[2]] = result[3] end
-            when 'startchangeset'; result = startchangeset(*args)
-          end
-
-          err = true if result[0] == -3  # If a conflict is detected, don't execute any more writes
+      if err
+        result = [-5, nil]
+      else
+        case message
+          when 'putway';         orn = renumberednodes.dup
+                                 result = putway(renumberednodes, *args)
+                                 result[4] = renumberednodes.reject { |k,v| orn.has_key?(k) }
+                                 if result[0] == 0 and result[2] != result[3] then renumberedways[result[2]] = result[3] end
+          when 'putrelation';    result = putrelation(renumberednodes, renumberedways, *args)
+          when 'deleteway';      result = deleteway(*args)
+          when 'putpoi';         result = putpoi(*args)
+                                 if result[0] == 0 and result[2] != result[3] then renumberednodes[result[2]] = result[3] end
+          when 'startchangeset'; result = startchangeset(*args)
         end
 
-        result
+        err = true if result[0] == -3  # If a conflict is detected, don't execute any more writes
       end
-    else
-      render :nothing => true, :status => :method_not_allowed
+
+      result
     end
   end
 

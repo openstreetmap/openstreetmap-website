@@ -85,4 +85,8 @@ class SiteController < ApplicationController
   def copyright
     @locale = params[:copyright_locale] || I18n.locale
   end
+
+  def preview
+    render :text => RichText.new(params[:format], params[:text]).to_html
+  end
 end

@@ -1,15 +1,15 @@
 <% @title = t 'user_block.edit.title', :name => h(@user_block.user.display_name) %>
-<h1><%= t('user_block.edit.title',
-          :name => link_to(
-                           h(@user_block.user.display_name),
-                           {:controller => 'user', :action => 'view', :display_name => @user_block.user.display_name})) %></h1>
+<h1><%= raw t('user_block.edit.title',
+              :name => link_to(
+                               h(@user_block.user.display_name),
+                               {:controller => 'user', :action => 'view', :display_name => @user_block.user.display_name})) %></h1>
 
 <%= form_for(@user_block) do |f| %>
   <%= f.error_messages %>
 
   <p>
     <%= f.label :reason, t('user_block.edit.reason', :name => h(@user_block.user.display_name)) %><br />
-    <%= f.text_area :reason, :cols => 80, :rows => 5 %>
+    <%= richtext_area :user_block, :reason, :cols => 80, :rows => 20, :format => @user_block.reason_format %>
   </p>
   <p>
     <%= label_tag 'user_block_period', t('user_block.edit.period') %><br />

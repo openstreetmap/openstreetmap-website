@@ -2,7 +2,32 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class UserPreferenceControllerTest < ActionController::TestCase
   fixtures :users, :user_preferences
-  
+
+  ##
+  # test all routes which lead to this controller
+  def test_routes
+    assert_routing(
+      { :path => "/api/0.6/user/preferences", :method => :get },
+      { :controller => "user_preference", :action => "read" }
+    )
+    assert_routing(
+      { :path => "/api/0.6/user/preferences", :method => :put },
+      { :controller => "user_preference", :action => "update" }
+    )
+    assert_routing(
+      { :path => "/api/0.6/user/preferences/key", :method => :get },
+      { :controller => "user_preference", :action => "read_one", :preference_key => "key" }
+    )
+    assert_routing(
+      { :path => "/api/0.6/user/preferences/key", :method => :put },
+      { :controller => "user_preference", :action => "update_one", :preference_key => "key" }
+    )
+    assert_routing(
+      { :path => "/api/0.6/user/preferences/key", :method => :delete },
+      { :controller => "user_preference", :action => "delete_one", :preference_key => "key" }
+    )
+  end
+
   def test_read
     # first try without auth
     get :read
@@ -21,5 +46,4 @@ class UserPreferenceControllerTest < ActionController::TestCase
       end
     end
   end
-
 end

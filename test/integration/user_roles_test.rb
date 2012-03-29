@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class UserRolesControllerTest < ActionController::IntegrationTest
+class UserRolesTest < ActionController::IntegrationTest
   fixtures :users, :user_roles
 
   test "grant" do
@@ -16,6 +16,8 @@ class UserRolesControllerTest < ActionController::IntegrationTest
     check_fail(:revoke, :administrator_user, :moderator)
   end
 
+private
+
   def check_fail(action, user, role)
     get '/login'
     assert_response :redirect
@@ -27,8 +29,7 @@ class UserRolesControllerTest < ActionController::IntegrationTest
     follow_redirect!
     assert_response :success
 
-    get "/user/#{users(:second_public_user).display_name}/role/#{role}/#{action}"
-    assert_response :redirect
+    post "/user/#{users(:second_public_user).display_name}/role/#{role}/#{action}"
     assert_redirected_to :controller => 'user', :action => 'view', :display_name => users(:second_public_user).display_name
 
     reset!
@@ -45,10 +46,7 @@ class UserRolesControllerTest < ActionController::IntegrationTest
     follow_redirect!
     assert_response :success
 
-    get "/user/#{users(:second_public_user).display_name}/role/#{role}/#{action}"
-    assert_response :success
-    post "/user/#{users(:second_public_user).display_name}/role/#{role}/#{action}", {:confirm => "yes", :nonce => session[:nonce]}
-    assert_response :redirect
+    post "/user/#{users(:second_public_user).display_name}/role/#{role}/#{action}"
     assert_redirected_to :controller => 'user', :action => 'view', :display_name => users(:second_public_user).display_name
 
     reset!

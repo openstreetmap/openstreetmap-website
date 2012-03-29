@@ -51,7 +51,13 @@ class ApplicationController < ActionController::Base
   end
 
   def require_user
-    redirect_to :controller => 'user', :action => 'login', :referer => request.fullpath unless @user
+    unless @user
+      if request.get?
+        redirect_to :controller => 'user', :action => 'login', :referer => request.fullpath
+      else
+        render :nothing => true, :status => :forbidden
+      end
+    end
   end
 
   ##
@@ -356,6 +362,23 @@ class ApplicationController < ActionController::Base
     !@user.nil?
   end
 
+  ##
+  # ensure that there is a "this_user" instance variable
+  def lookup_this_user
+    unless @this_user = User.active.find_by_display_name(params[:display_name])
+      render_unknown_user params[:display_name]
+    end
+  end
+
+  ##
+  # render a "no such user" page
+  def render_unknown_user(name)
+    @title = t "user.no_such_user.title"
+    @not_found_user = name
+
+    render :template => "user/no_such_user", :status => :not_found
+  end
+  
 private 
 
   # extract authorisation credentials from headers, returns user = nil if none

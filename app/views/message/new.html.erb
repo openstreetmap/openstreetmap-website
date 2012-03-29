@@ -1,8 +1,8 @@
-<h2><%= raw(t'message.new.send_message_to', :name => link_to(h(@to_user.display_name), {:controller => 'user', :action => 'view', :display_name => @to_user.display_name})) %></h2>
+<h2><%= raw(t'message.new.send_message_to', :name => link_to(h(@this_user.display_name), {:controller => 'user', :action => 'view', :display_name => @this_user.display_name})) %></h2>
 
 <%= error_messages_for 'message' %>
 
-<%= form_for :message, :url => { :action => "new", :display_name => @to_user.display_name } do |f| %>
+<%= form_for :message, :url => { :action => "new", :display_name => @this_user.display_name } do |f| %>
   <table>
     <tr valign="top">
       <td class="fieldName"><%= t'message.new.subject' %></td>
@@ -10,7 +10,7 @@
     </tr>
     <tr valign="top">
       <td class="fieldName"><%= t'message.new.body' %></td>
-      <td><%= f.text_area :body, :cols => 80, :value => @body %></td>
+      <td><%= richtext_area :message, :body, :cols => 80, :value => @body %></td>
     </tr>
     <tr>
       <td></td>

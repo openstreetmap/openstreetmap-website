@@ -4,7 +4,7 @@ class UserBlocksController < ApplicationController
   before_filter :authorize_web
   before_filter :set_locale
   before_filter :require_user, :only => [:new, :create, :edit, :update, :revoke]
-  before_filter :require_moderator, :only => [:create, :update, :revoke]
+  before_filter :require_moderator, :only => [:new, :create, :edit, :update, :revoke]
   before_filter :lookup_this_user, :only => [:new, :create, :blocks_on, :blocks_by]
   before_filter :lookup_user_block, :only => [:show, :edit, :update, :revoke]
   before_filter :require_valid_params, :only => [:create, :update]
@@ -34,44 +34,43 @@ class UserBlocksController < ApplicationController
   end
 
   def create
-    unless @valid_params 
-      redirect_to :action => "new"
-      return
-    end
-
-    @user_block = UserBlock.new(:user_id => @this_user.id,
-                                :creator_id => @user.id,
-                                :reason => params[:user_block][:reason],
-                                :ends_at => Time.now.getutc() + @block_period.hours,
-                                :needs_view => params[:user_block][:needs_view])
+    if @valid_params 
+      @user_block = UserBlock.new({
+        :user_id => @this_user.id,
+        :creator_id => @user.id,
+        :reason => params[:user_block][:reason],
+        :ends_at => Time.now.getutc() + @block_period.hours,
+        :needs_view => params[:user_block][:needs_view]
+      }, :without_protection => true)
     
-    if @user_block.save
-      flash[:notice] = t('user_block.create.flash', :name => @this_user.display_name)
-      redirect_to @user_block
+      if @user_block.save
+        flash[:notice] = t('user_block.create.flash', :name => @this_user.display_name)
+        redirect_to @user_block
+      else
+        render :action => "new"
+      end
     else
-      render :action => "new"
+      redirect_to new_user_block_path(:display_name => params[:display_name])
     end
   end
 
   def update  
-    unless @valid_params 
-      redirect_to :action => "edit"
-      return
-    end
-
-    if @user_block.creator_id != @user.id
-      flash[:error] = t('user_block.update.only_creator_can_edit')
-      redirect_to :action => "edit"
-      return
-    end
-      
-    if @user_block.update_attributes({ :ends_at => Time.now.getutc() + @block_period.hours,
-                                       :reason => params[:user_block][:reason],
-                                       :needs_view => params[:user_block][:needs_view] })
-      flash[:notice] = t('user_block.update.success')
-      redirect_to(@user_block)
+    if @valid_params 
+      if @user_block.creator_id != @user.id
+        flash[:error] = t('user_block.update.only_creator_can_edit')
+        redirect_to :action => "edit"
+      elsif @user_block.update_attributes({
+              :ends_at => Time.now.getutc() + @block_period.hours,
+              :reason => params[:user_block][:reason],
+              :needs_view => params[:user_block][:needs_view]
+            }, :without_protection => true)
+        flash[:notice] = t('user_block.update.success')
+        redirect_to(@user_block)
+      else
+        render :action => "edit"
+      end
     else
-      render :action => "edit"
+      redirect_to edit_user_block_path(:id => params[:id])
     end
   end
 
@@ -112,17 +111,13 @@ class UserBlocksController < ApplicationController
   # and return them to the blocks index.
   def require_moderator
     unless @user.moderator?
-      flash[:error] = t('user_block.filter.not_a_moderator')
-      redirect_to :action => 'index'
+      if request.get?
+        flash[:error] = t('user_block.filter.not_a_moderator')
+        redirect_to :action => 'index'
+      else
+        render :nothing => true, :status => :forbidden
+      end
     end
-  end
-
-  ##
-  # ensure that there is a "this_user" instance variable
-  def lookup_this_user
-    @this_user = User.find_by_display_name(params[:display_name])
-  rescue ActiveRecord::RecordNotFound
-    redirect_to :controller => 'user', :action => 'view', :display_name => params[:display_name] unless @this_user
   end
 
   ##

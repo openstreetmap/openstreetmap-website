@@ -1,5 +1,7 @@
 //= require jquery
 //= require jquery_ujs
+//= require jquery.autogrowtextarea
+//= require jquery.timers
 
 /*
  * Called as the user scrolls/zooms around to aniplate hrefs of the
@@ -143,23 +145,6 @@ function setArgs(url, args) {
 }
 
 /*
- * Called to get a CSS property for an element.
- */
-function getStyle(el, property) {
-  var style;
-
-  if (el.currentStyle) {
-    style = el.currentStyle[property];
-  } else if( window.getComputedStyle ) {
-    style = document.defaultView.getComputedStyle(el,null).getPropertyValue(property);
-  } else {
-    style = el.style[property];
-  }
-
-  return style;
-}
-
-/*
  * Called to interpolate JavaScript variables in strings using a
  * similar syntax to rails I18n string interpolation - the only
  * difference is that [[foo]] is the placeholder syntax instead
@@ -221,3 +206,64 @@ function makeShortCode(lat, lon, zoom) {
     }
     return str;
 }
+
+/*
+ * Click handler to switch a rich text control to preview mode
+ */
+function previewRichtext(event) {
+  var editor = $(this).parents(".richtext_container").find("textarea");
+  var preview = $(this).parents(".richtext_container").find(".richtext_preview");
+  var width = editor.outerWidth() - preview.outerWidth() + preview.innerWidth();
+  var minHeight = editor.outerHeight() - preview.outerHeight() + preview.innerHeight();
+
+  if (preview.contents().length == 0) {
+    preview.oneTime(500, "loading", function () {
+      preview.addClass("loading");
+    });
+
+    preview.load(editor.attr("data-preview-url"), { text: editor.val() }, function () {
+      preview.stopTime("loading");
+      preview.removeClass("loading");
+    });
+  }
+
+  editor.hide();
+  preview.width(width);
+  preview.css("min-height", minHeight + "px");
+  preview.show();
+
+  $(this).siblings(".richtext_doedit").prop("disabled", false);
+  $(this).prop("disabled", true);
+
+  event.preventDefault();
+}
+
+/*
+ * Click handler to switch a rich text control to edit mode
+ */
+function editRichtext(event) {
+  var editor = $(this).parents(".richtext_container").find("textarea");
+  var preview = $(this).parents(".richtext_container").find(".richtext_preview");
+
+  preview.hide();
+  editor.show();
+
+  $(this).siblings(".richtext_dopreview").prop("disabled", false);
+  $(this).prop("disabled", true);
+
+  event.preventDefault();
+}
+
+/*
+ * Setup any rich text controls
+ */
+$(document).ready(function () {
+  $(".richtext_preview").hide();
+  $(".richtext_content textarea").change(function () { 
+    $(this).parents(".richtext_container").find(".richtext_preview").empty();
+  });
+  $(".richtext_doedit").prop("disabled", true);
+  $(".richtext_dopreview").prop("disabled", false);
+  $(".richtext_doedit").click(editRichtext);
+  $(".richtext_dopreview").click(previewRichtext);
+});

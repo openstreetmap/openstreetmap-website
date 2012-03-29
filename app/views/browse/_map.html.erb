@@ -79,7 +79,7 @@
         var bbox = new OpenLayers.Bounds(minlon, minlat, maxlon, maxlat);
         var centre = bbox.getCenterLonLat();
 
-        setMapExtent(bbox);
+        map.zoomToExtent(proj(bbox));
         addBoxToMap(bbox);
 
         $("#loading").hide();

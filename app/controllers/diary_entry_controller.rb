@@ -4,6 +4,7 @@ class DiaryEntryController < ApplicationController
   before_filter :authorize_web
   before_filter :set_locale
   before_filter :require_user, :only => [:new, :edit, :comment, :hide, :hidecomment]
+  before_filter :lookup_this_user, :only => [:view, :comments]
   before_filter :check_database_readable
   before_filter :check_database_writable, :only => [:new, :edit]
   before_filter :require_administrator, :only => [:hide, :hidecomment]
@@ -84,10 +85,7 @@ class DiaryEntryController < ApplicationController
                                           :order => 'created_at DESC',
                                           :per_page => 20)
       else
-        @title = t'diary_entry.no_such_user.title'
-        @not_found_user = params[:display_name]
-
-        render :action => 'no_such_user', :status => :not_found
+        render_unknown_user params[:display_name]
       end
     elsif params[:language]
       @title = t 'diary_entry.list.in_language_title', :language => Language.find(params[:language]).english_name
@@ -167,20 +165,12 @@ class DiaryEntryController < ApplicationController
   end
 
   def view
-    user = User.active.find_by_display_name(params[:display_name])
-
-    if user
-      @entry = user.diary_entries.visible.where(:id => params[:id]).first
-      if @entry
-        @title = t 'diary_entry.view.title', :user => params[:display_name], :title => @entry.title
-      else
-        @title = t 'diary_entry.no_such_entry.title', :id => params[:id]
-        render :action => 'no_such_entry', :status => :not_found
-      end
+    @entry = @this_user.diary_entries.visible.where(:id => params[:id]).first
+    if @entry
+      @title = t 'diary_entry.view.title', :user => params[:display_name], :title => @entry.title
     else
-      @not_found_user = params[:display_name]
-
-      render :action => 'no_such_user', :status => :not_found
+      @title = t 'diary_entry.no_such_entry.title', :id => params[:id]
+      render :action => 'no_such_entry', :status => :not_found
     end
   end
 
@@ -197,19 +187,11 @@ class DiaryEntryController < ApplicationController
   end
 
   def comments
-    @this_user = User.active.find_by_display_name(params[:display_name])
-
-    if @this_user
-      @comment_pages, @comments = paginate(:diary_comments,
-                                           :conditions => { :user_id => @this_user },
-                                           :order => 'created_at DESC',
-                                           :per_page => 20)
-      @page = (params[:page] || 1).to_i
-    else
-       @title = t'diary_entry.no_such_user.title'
-       @not_found_user = params[:display_name]
-       render :action => 'no_such_user', :status => :not_found
-    end						
+    @comment_pages, @comments = paginate(:diary_comments,
+                                         :conditions => { :user_id => @this_user },
+                                         :order => 'created_at DESC',
+                                         :per_page => 20)
+    @page = (params[:page] || 1).to_i
   end  
 private
   ##

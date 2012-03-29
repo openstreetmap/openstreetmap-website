@@ -4,6 +4,43 @@ require 'browse_controller'
 class BrowseControllerTest < ActionController::TestCase
   api_fixtures
 
+  ##
+  # test all routes which lead to this controller
+  def test_routes
+    assert_routing(
+      { :path => "/browse/start", :method => :get },
+      { :controller => "browse", :action => "start" }
+    )
+    assert_routing(
+      { :path => "/browse/node/1", :method => :get },
+      { :controller => "browse", :action => "node", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/browse/node/1/history", :method => :get },
+      { :controller => "browse", :action => "node_history", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/browse/way/1", :method => :get },
+      { :controller => "browse", :action => "way", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/browse/way/1/history", :method => :get },
+      { :controller => "browse", :action => "way_history", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/browse/relation/1", :method => :get },
+      { :controller => "browse", :action => "relation", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/browse/relation/1/history", :method => :get },
+      { :controller => "browse", :action => "relation_history", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/browse/changeset/1", :method => :get },
+      { :controller => "browse", :action => "changeset", :id => "1" }
+    )
+  end
+
   def test_start
     xhr :get, :start
     assert_response :success

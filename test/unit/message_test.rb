@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require File.dirname(__FILE__) + '/../test_helper'
 
 class MessageTest < ActiveSupport::TestCase
@@ -22,14 +23,14 @@ class MessageTest < ActiveSupport::TestCase
   end
   
   def test_validating_msgs
-    message = messages(:one)
+    message = messages(:unread_message)
     assert message.valid?
-    massage = messages(:two)
+    massage = messages(:read_message)
     assert message.valid?
   end
   
   def test_invalid_send_recipient
-    message = messages(:one)
+    message = messages(:unread_message)
     message.sender = nil
     message.recipient = nil
     assert !message.valid?
@@ -81,8 +82,109 @@ class MessageTest < ActiveSupport::TestCase
     end
   end  
 
+  def test_from_mail_plain
+    mail = Mail.new do
+      from "from@example.com"
+      to "to@example.com"
+      subject "Test message"
+      date Time.now
+      content_type 'text/plain; charset=utf-8'
+      body "This is a test & a message"
+    end
+    message = Message.from_mail(mail, users(:normal_user), users(:public_user))
+    assert_equal users(:normal_user), message.sender
+    assert_equal users(:public_user), message.recipient
+    assert_equal mail.date, message.sent_on
+    assert_equal "Test message", message.title
+    assert_equal "This is a test & a message", message.body
+    assert_equal "text", message.body_format
+  end
+
+  def test_from_mail_html
+    mail = Mail.new do
+      from "from@example.com"
+      to "to@example.com"
+      subject "Test message"
+      date Time.now
+      content_type 'text/html; charset=utf-8'
+      body "<p>This is a <b>test</b> &amp; a message</p>"
+    end
+    message = Message.from_mail(mail, users(:normal_user), users(:public_user))
+    assert_equal users(:normal_user), message.sender
+    assert_equal users(:public_user), message.recipient
+    assert_equal mail.date, message.sent_on
+    assert_equal "Test message", message.title
+    assert_match /^ *This is a test & a message *$/, message.body
+    assert_equal "text", message.body_format
+  end
+
+  def test_from_mail_multipart
+    mail = Mail.new do
+      from "from@example.com"
+      to "to@example.com"
+      subject "Test message"
+      date Time.now
+
+      text_part do
+        content_type 'text/plain; charset=utf-8'
+        body "This is a test & a message in text format"
+      end
+
+      html_part do
+        content_type 'text/html; charset=utf-8'
+        body "<p>This is a <b>test</b> &amp; a message in HTML format</p>"
+      end
+    end
+    message = Message.from_mail(mail, users(:normal_user), users(:public_user))
+    assert_equal users(:normal_user), message.sender
+    assert_equal users(:public_user), message.recipient
+    assert_equal mail.date, message.sent_on
+    assert_equal "Test message", message.title
+    assert_equal "This is a test & a message in text format", message.body
+    assert_equal "text", message.body_format
+
+    mail = Mail.new do
+      from "from@example.com"
+      to "to@example.com"
+      subject "Test message"
+      date Time.now
+
+      html_part do
+        content_type 'text/html; charset=utf-8'
+        body "<p>This is a <b>test</b> &amp; a message in HTML format</p>"
+      end
+    end
+    message = Message.from_mail(mail, users(:normal_user), users(:public_user))
+    assert_equal users(:normal_user), message.sender
+    assert_equal users(:public_user), message.recipient
+    assert_equal mail.date, message.sent_on
+    assert_equal "Test message", message.title
+    assert_match /^ *This is a test & a message in HTML format *$/, message.body
+    assert_equal "text", message.body_format
+  end
+
+  def test_from_mail_prefix
+    mail = Mail.new do
+      from "from@example.com"
+      to "to@example.com"
+      subject "[OpenStreetMap] Test message"
+      date Time.now
+      content_type 'text/plain; charset=utf-8'
+      body "This is a test & a message"
+    end
+    message = Message.from_mail(mail, users(:normal_user), users(:public_user))
+    assert_equal users(:normal_user), message.sender
+    assert_equal users(:public_user), message.recipient
+    assert_equal mail.date, message.sent_on
+    assert_equal "Test message", message.title
+    assert_equal "This is a test & a message", message.body
+    assert_equal "text", message.body_format
+  end
+
+private
+
   def make_message(char, count)
-    message = messages(:one)
+    message = messages(:unread_message)
     message.title = char * count
     return message
   end
@@ -93,5 +195,4 @@ class MessageTest < ActiveSupport::TestCase
     response = message.class.find(message.id) # stand by for some über-generalisation...
     assert_equal char * count, response.title, "message with #{count} #{char} chars (i.e. #{char.length*count} bytes) fails"
   end
-
 end
