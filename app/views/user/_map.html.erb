@@ -15,9 +15,6 @@ end
 
 <%= javascript_include_tag 'openlayers.js' %>
 <%= javascript_include_tag 'map.js' %>
-<% if geolocate then %>
-<%= javascript_include_tag 'geolocate.js' %>
-<% end %>
 
 <script type="text/javascript">
   <!--
@@ -38,7 +35,7 @@ end
 
     setMapCenter(centre, zoom);
 <% if geolocate and (@user.home_lat.nil? or @user.home_lon.nil?) then %>
-    locate_user()
+    centerMapAtCurrentPosition()
 <% end %>
 
     <% if marker %>

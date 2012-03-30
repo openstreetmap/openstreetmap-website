@@ -113,7 +113,7 @@
     <td></td>
     <td>
       <p><%= t 'user.account.update home location on click' %> <input type="checkbox" value="1" <% unless @user.home_lat and @user.home_lon %> checked="checked" <% end %> id="updatehome" />
-      <% if @user.home_lat and @user.home_lon %><span align=right><a href="#map" onClick=locate_user()>center map on my current position</a></span><% end %></p>
+      <% if @user.home_lat and @user.home_lon %><span align=right><%= link_to_function "center map on my current position" , "centerMapAtCurrentPosition()", :href => "#map" %></a></span><% end %></p>
       <div id="map" class="user_map"></div>
     </td>
   </tr>
