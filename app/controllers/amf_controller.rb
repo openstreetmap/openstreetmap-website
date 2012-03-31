@@ -359,13 +359,13 @@ class AmfController < ApplicationController
     amf_handle_error_with_timeout("'getway_old' #{id}, #{timestamp}", 'way',id) do
       if timestamp == ''
         # undelete
-        old_way = OldWay.where(:visible => true, :way_id => id).order("version DESC").first
+        old_way = OldWay.where(:visible => true, :way_id => id, :redaction_id => nil).order("version DESC").first
         points = old_way.get_nodes_undelete unless old_way.nil?
       else
         begin
           # revert
           timestamp = DateTime.strptime(timestamp.to_s, "%d %b %Y, %H:%M:%S")
-          old_way = OldWay.where("way_id = ? AND timestamp <= ?", id, timestamp).order("timestamp DESC").first
+          old_way = OldWay.where("way_id = ? AND timestamp <= ? AND redaction_id is NULL", id, timestamp).order("timestamp DESC").first
           unless old_way.nil?
             points = old_way.get_nodes_revert(timestamp)
             if !old_way.visible
@@ -403,7 +403,7 @@ class AmfController < ApplicationController
       # Find list of revision dates for way and all constituent nodes
       revdates=[]
       revusers={}
-      Way.find(wayid).old_ways.collect do |a|
+      Way.find(wayid).old_ways.unredacted.collect do |a|
         revdates.push(a.timestamp)
         unless revusers.has_key?(a.timestamp.to_i) then revusers[a.timestamp.to_i]=change_user(a) end
         a.nds.each do |n|
