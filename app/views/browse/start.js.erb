@@ -32,7 +32,7 @@ function startBrowse() {
   browseBoxControl.handler.callbacks.done = endDrag;
   map.addControl(browseBoxControl);
 
-  map.events.register("moveend", map, showData);
+  map.events.register("moveend", map, updateData);
   map.events.triggerEvent("moveend");
 
   $("#browse_select_box").click(startDrag);
@@ -42,7 +42,7 @@ function startBrowse() {
   $("#browse_hide_areas_box").click(hideAreas);
 }
 
-function showData() {
+function updateData() {
   if (browseMode == "auto") {
     if (map.getZoom() >= 15) {
         useMap(false);
@@ -77,7 +77,7 @@ function stopBrowse() {
     } 
 
     map.dataLayer.setVisibility(false);
-    map.events.unregister("moveend", map, showData);
+    map.events.unregister("moveend", map, updateData);
   }    
 }
 
