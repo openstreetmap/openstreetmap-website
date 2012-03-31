@@ -229,4 +229,7 @@ OpenStreetMap::Application.routes.draw do
   match '/blocks/new/:display_name' => 'user_blocks#new', :via => :get, :as => "new_user_block"
   resources :user_blocks
   match '/blocks/:id/revoke' => 'user_blocks#revoke', :via => [:get, :post], :as => "revoke_user_block"
+
+  # redactions
+  resources :redactions
 end

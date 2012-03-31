@@ -1,0 +1,16 @@
+<% @title = t('redaction.show.title') %>
+<h1><%= t('redaction.show.heading', :title => @redaction.title) %></h1>
+
+<p>
+  <b><%= t 'redaction.show.user' %></b>
+  <%= link_to(h(@redaction.user.display_name), {:controller => 'user', :action => 'view', :display_name => @redaction.user.display_name}) %>
+</p>
+<p>
+  <b><%= t 'redaction.show.description' %></b>
+  <%= @redaction.description.to_html %>
+</p>
+
+<% if @user and @user.moderator? %>
+<%= link_to t('redaction.show.edit'), edit_redaction_path(@redaction) %>
+<%= button_to(t('redaction.show.destroy'), @redaction, :confirm => t('redaction.show.confirm'), :method => "delete", :remote => true) %>
+<% end %>

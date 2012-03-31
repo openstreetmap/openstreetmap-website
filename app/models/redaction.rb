@@ -8,7 +8,13 @@
 # displayed linked from the redacted records.
 #
 class Redaction < ActiveRecord::Base
-  has_many :nodes
-  has_many :ways
-  has_many :relations
+  belongs_to :user
+
+  has_many :old_nodes
+  has_many :old_ways
+  has_many :old_relations
+
+  def description
+    RichText.new(read_attribute(:description_format), read_attribute(:description))
+  end
 end
