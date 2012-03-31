@@ -112,6 +112,20 @@ class ApplicationController < ActionController::Base
   end
 
   ##
+  # require that the user is a moderator, or fill out a helpful error message
+  # and return them to the blocks index.
+  def require_moderator
+    unless @user.moderator?
+      if request.get?
+        flash[:error] = t('application.require_moderator.not_a_moderator')
+        redirect_to :action => 'index'
+      else
+        render :nothing => true, :status => :forbidden
+      end
+    end
+  end
+
+  ##
   # sets up the @user object for use by other methods. this is mostly called
   # from the authorize method, but can be called elsewhere if authorisation
   # is optional.

@@ -20,7 +20,7 @@ class CreateRedactions < ActiveRecord::Migration
       remove_foreign_key tbl, [:redaction_id], :redactions, [:id]
       remove_column tbl, :redaction_id
     end
-    
+
     drop_table :redactions
   end
 end
