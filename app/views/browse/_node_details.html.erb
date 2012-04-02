@@ -1,5 +1,5 @@
 <% if node_details.redacted? %>
-<p><%= raw t 'browse.redacted.message', :type => t('browse.redacted.type.node'), :redaction_link => link_to(node_details.redaction) %></p>
+<p><%= raw t 'browse.redacted.message', :type => t('browse.redacted.type.node'), :redaction_link => link_to(t('browse.redacted.redaction', :id => node_details.redaction.id), node_details.redaction), :version => node_details.version %></p>
 <% else %>
 <table class="browse_details" id="<%= node_details.version %>">
 
