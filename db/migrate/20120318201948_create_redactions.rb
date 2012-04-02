@@ -11,6 +11,8 @@ class CreateRedactions < ActiveRecord::Migration
       t.timestamps
     end
 
+    add_foreign_key :redactions, [:user_id], :users, [:id]
+
     [:nodes, :ways, :relations].each do |tbl|
       add_column tbl, :redaction_id, :bigint, :null => true
       add_foreign_key tbl, [:redaction_id], :redactions, [:id]
@@ -23,6 +25,8 @@ class CreateRedactions < ActiveRecord::Migration
       remove_column tbl, :redaction_id
     end
     
+    remove_foreign_key :redactions, [:user_id], :users, [:id]
+
     drop_table :redactions
   end
 end
