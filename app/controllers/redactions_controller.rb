@@ -19,7 +19,7 @@ class RedactionsController < ApplicationController
      
   def create
     @redaction = Redaction.new
-    @redaction.user_id = @user.id
+    @redaction.user = @user
     @redaction.title = params[:redaction][:title]
     @redaction.description = params[:redaction][:description]
     # didn't see this come in from the form - maybe i'm doing something
