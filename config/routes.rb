@@ -16,6 +16,7 @@ OpenStreetMap::Application.routes.draw do
   match 'api/0.6/node/:id/ways' => 'way#ways_for_node', :via => :get, :id => /\d+/
   match 'api/0.6/node/:id/relations' => 'relation#relations_for_node', :via => :get, :id => /\d+/
   match 'api/0.6/node/:id/history' => 'old_node#history', :via => :get, :id => /\d+/
+  match 'api/0.6/node/:id/:version/redact' => 'old_node#redact', :via => :post, :version => /\d+/, :id => /\d+/
   match 'api/0.6/node/:id/:version' => 'old_node#version', :via => :get, :id => /\d+/, :version => /\d+/
   match 'api/0.6/node/:id' => 'node#read', :via => :get, :id => /\d+/
   match 'api/0.6/node/:id' => 'node#update', :via => :put, :id => /\d+/
@@ -26,6 +27,7 @@ OpenStreetMap::Application.routes.draw do
   match 'api/0.6/way/:id/history' => 'old_way#history', :via => :get, :id => /\d+/
   match 'api/0.6/way/:id/full' => 'way#full', :via => :get, :id => /\d+/
   match 'api/0.6/way/:id/relations' => 'relation#relations_for_way', :via => :get, :id => /\d+/
+  match 'api/0.6/way/:id/:version/redact' => 'old_way#redact', :via => :post, :version => /\d+/, :id => /\d+/
   match 'api/0.6/way/:id/:version' => 'old_way#version', :via => :get, :id => /\d+/, :version => /\d+/
   match 'api/0.6/way/:id' => 'way#read', :via => :get, :id => /\d+/
   match 'api/0.6/way/:id' => 'way#update', :via => :put, :id => /\d+/
@@ -36,6 +38,7 @@ OpenStreetMap::Application.routes.draw do
   match 'api/0.6/relation/:id/relations' => 'relation#relations_for_relation', :via => :get, :id => /\d+/
   match 'api/0.6/relation/:id/history' => 'old_relation#history', :via => :get, :id => /\d+/
   match 'api/0.6/relation/:id/full' => 'relation#full', :via => :get, :id => /\d+/
+  match 'api/0.6/relation/:id/:version/redact' => 'old_relation#redact', :via => :post, :version => /\d+/, :id => /\d+/
   match 'api/0.6/relation/:id/:version' => 'old_relation#version', :via => :get, :id => /\d+/, :version => /\d+/
   match 'api/0.6/relation/:id' => 'relation#read', :via => :get, :id => /\d+/
   match 'api/0.6/relation/:id' => 'relation#update', :via => :put, :id => /\d+/
@@ -226,4 +229,7 @@ OpenStreetMap::Application.routes.draw do
   match '/blocks/new/:display_name' => 'user_blocks#new', :via => :get, :as => "new_user_block"
   resources :user_blocks
   match '/blocks/:id/revoke' => 'user_blocks#revoke', :via => [:get, :post], :as => "revoke_user_block"
+
+  # redactions
+  resources :redactions
 end

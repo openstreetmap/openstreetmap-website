@@ -195,6 +195,13 @@ en:
     paging_nav:
       showing_page: "Showing page"
       of: "of"
+    redacted:
+      redaction: "Redaction %{id}"
+      message: "Version %{version} of this %{type} cannot be shown as it has been redacted. Please see %{redaction_link} for details."
+      type:
+        node: "node"
+        way: "way"
+        relation: "relation"
     relation_details:
       members: "Members:"
       part_of: "Part of:"
@@ -1516,6 +1523,8 @@ en:
   application:
     require_cookies:
       cookies_needed: "You appear to have cookies disabled - please enable cookies in your browser before continuing."
+    require_moderator:
+      not_a_moderator: "You need to be a moderator to perform that action."      
     setup_user_auth:
       blocked: "Your access to the API has been blocked. Please log-in to the web interface to find out more."
       need_to_see_terms: "Your access to the API is temporarily suspended. Please log-in to the web interface to view the Contributor Terms. You do not need to agree, but you must view them."
@@ -1915,7 +1924,6 @@ en:
       back: "View all blocks"
       needs_view: "Does the user need to log in before this block will be cleared?"
     filter:
-      not_a_moderator: "You need to be a moderator to perform that action."
       block_expired: "The block has already expired and cannot be edited."
       block_period: "The blocking period must be one of the values selectable in the drop-down list."
     create:
@@ -1993,3 +2001,34 @@ en:
       history_tooltip: View edits for this area
       history_disabled_tooltip: Zoom in to view edits for this area
       history_zoom_alert: You must zoom in to view edits for this area
+  redaction:
+    edit:
+      description: "Description"
+      heading: "Edit redaction"
+      submit: "Save redaction"
+      title: "Edit redaction"
+    index:
+      empty: "No redactions to show."
+      heading: "List of redactions"
+      title: "List of redactions"
+    new:
+      description: "Description"
+      heading: "Enter information for new redaction"
+      submit: "Create redaction"
+      title: "Creating new redaction"
+    show:
+      description: "Description"
+      heading: "Showing redaction \"%{title}\""
+      title: "Showing redaction"
+      user: "Creator:"
+      edit: "Edit this redaction."
+      destroy: "Remove this redaction"
+      confirm: "Are you sure?"
+    create:
+      flash: "Redaction created."
+    update:
+      flash: "Changes saved."
+    destroy:
+      not_empty: "Redaction is not empty. Please un-redact all versions belonging to this redaction before destroying it."
+      flash: "Redaction destroyed."
+      error: "There was an error destroying this redaction."

@@ -6,7 +6,7 @@ class WayTest < ActiveSupport::TestCase
   # Check that we have the correct number of currnet ways in the db
   # This will need to updated whenever the current_ways.yml is updated
   def test_db_count
-    assert_equal 5, Way.count
+    assert_equal 6, Way.count
   end
   
   def test_bbox

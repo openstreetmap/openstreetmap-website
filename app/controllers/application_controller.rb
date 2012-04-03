@@ -112,6 +112,20 @@ class ApplicationController < ActionController::Base
   end
 
   ##
+  # require that the user is a moderator, or fill out a helpful error message
+  # and return them to the blocks index.
+  def require_moderator
+    unless @user.moderator?
+      if request.get?
+        flash[:error] = t('application.require_moderator.not_a_moderator')
+        redirect_to :action => 'index'
+      else
+        render :nothing => true, :status => :forbidden
+      end
+    end
+  end
+
+  ##
   # sets up the @user object for use by other methods. this is mostly called
   # from the authorize method, but can be called elsewhere if authorisation
   # is optional.
@@ -156,6 +170,18 @@ class ApplicationController < ActionController::Base
       # no auth, the user does not exist or the password was wrong
       response.headers["WWW-Authenticate"] = "Basic realm=\"#{realm}\"" 
       render :text => errormessage, :status => :unauthorized
+      return false
+    end 
+  end 
+
+  ##
+  # to be used as a before_filter *after* authorize. this checks that
+  # the user is a moderator and, if not, returns a forbidden error.
+  #
+  def authorize_moderator(errormessage="Access restricted to moderators") 
+    # check user is a moderator
+    unless @user.moderator?
+      render :text => errormessage, :status => :forbidden
       return false
     end 
   end 

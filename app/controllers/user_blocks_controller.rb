@@ -107,20 +107,6 @@ class UserBlocksController < ApplicationController
 
   private
   ##
-  # require that the user is a moderator, or fill out a helpful error message
-  # and return them to the blocks index.
-  def require_moderator
-    unless @user.moderator?
-      if request.get?
-        flash[:error] = t('user_block.filter.not_a_moderator')
-        redirect_to :action => 'index'
-      else
-        render :nothing => true, :status => :forbidden
-      end
-    end
-  end
-
-  ##
   # ensure that there is a "user_block" instance variable
   def lookup_user_block
     @user_block = UserBlock.find(params[:id])

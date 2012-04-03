@@ -143,10 +143,11 @@ class ChangesetController < ApplicationController
   def download
     changeset = Changeset.find(params[:id])
     
-    # get all the elements in the changeset and stick them in a big array.
-    elements = [changeset.old_nodes, 
-                changeset.old_ways, 
-                changeset.old_relations].flatten
+    # get all the elements in the changeset which haven't been redacted
+    # and stick them in a big array.
+    elements = [changeset.old_nodes.unredacted, 
+                changeset.old_ways.unredacted, 
+                changeset.old_relations.unredacted].flatten
     
     # sort the elements by timestamp and version number, as this is the 
     # almost sensible ordering available. this would be much nicer if 

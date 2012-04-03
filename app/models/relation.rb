@@ -2,7 +2,8 @@ class Relation < ActiveRecord::Base
   require 'xml/libxml'
   
   include ConsistencyValidations
-  
+  include NotRedactable
+
   self.table_name = "current_relations"
 
   belongs_to :changeset
