@@ -68,7 +68,7 @@ class RedactionsController < ApplicationController
     else
       if @redaction.destroy
         flash[:notice] = t('redaction.destroy.flash')
-        redirect_to :index
+        redirect_to :redactions
       else
         flash[:error] = t('redaction.destroy.error')
         redirect_to @redaction
