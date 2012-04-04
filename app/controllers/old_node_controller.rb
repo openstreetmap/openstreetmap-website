@@ -6,8 +6,7 @@ class OldNodeController < OldController
     @old_element = OldNode.find([params[:id], params[:version]])
   end
 
-  def lookup_old_elements_via_current
-    node = Node.find(params[:id])
-    @elements = node.old_nodes
+  def lookup_old_element_versions
+    @elements = OldNode.where(:node_id => params[:id]).order(:version)
   end
 end

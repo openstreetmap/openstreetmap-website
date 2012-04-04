@@ -14,9 +14,14 @@ class OldController < ApplicationController
   after_filter :compress_output
   around_filter :api_call_handle_error, :api_call_timeout
   before_filter :lookup_old_element, :except => [ :history ]
-  before_filter :lookup_old_elements_via_current, :only => [ :history ]
+  before_filter :lookup_old_element_versions, :only => [ :history ]
 
   def history
+    # the .where() method used in the lookup_old_element_versions
+    # call won't throw an error if no records are found, so we have 
+    # to do that ourselves.
+    raise OSM::APINotFoundError.new if @elements.empty?
+
     doc = OSM::API.new.get_xml_doc
     
     visible_elements = if show_redactions?

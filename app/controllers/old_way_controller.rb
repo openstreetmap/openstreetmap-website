@@ -6,8 +6,7 @@ class OldWayController < OldController
     @old_element = OldWay.find([params[:id], params[:version]])
   end
 
-  def lookup_old_elements_via_current
-    way = Way.find(params[:id])
-    @elements = way.old_ways
+  def lookup_old_element_versions
+    @elements = OldWay.where(:way_id => params[:id]).order(:version)
   end
 end
