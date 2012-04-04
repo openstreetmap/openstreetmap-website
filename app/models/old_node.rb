@@ -45,16 +45,15 @@ class OldNode < ActiveRecord::Base
   def to_xml_node
     el1 = XML::Node.new 'node'
     el1['id'] = self.node_id.to_s
-    unless self.redacted? and (@user.nil? or not @user.moderator?)
-      self.tags.each do |k,v|
-        el2 = XML::Node.new('tag')
-        el2['k'] = k.to_s
-        el2['v'] = v.to_s
-        el1 << el2
-      end
-      el1['lat'] = self.lat.to_s
-      el1['lon'] = self.lon.to_s
+
+    self.tags.each do |k,v|
+      el2 = XML::Node.new('tag')
+      el2['k'] = k.to_s
+      el2['v'] = v.to_s
+      el1 << el2
     end
+    el1['lat'] = self.lat.to_s
+    el1['lon'] = self.lon.to_s
     
     el1['changeset'] = self.changeset.id.to_s
     if self.changeset.user.data_public?
@@ -62,14 +61,12 @@ class OldNode < ActiveRecord::Base
       el1['uid'] = self.changeset.user.id.to_s
     end
 
-    
-
     el1['visible'] = self.visible.to_s
     el1['timestamp'] = self.timestamp.xmlschema
     el1['version'] = self.version.to_s
-    if self.redacted?
-      el1['redacted'] = self.redaction.id.to_s
-    end
+    
+    el1['redacted'] = self.redaction.id.to_s if self.redacted?
+
     return el1
   end
 

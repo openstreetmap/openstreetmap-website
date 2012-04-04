@@ -105,25 +105,21 @@ class OldRelation < ActiveRecord::Base
     el1['version'] = self.version.to_s
     el1['changeset'] = self.changeset_id.to_s
     
-    if self.redacted?
-      el1['redacted'] = self.redaction.id.to_s
+    el1['redacted'] = self.redaction.id.to_s if self.redacted?
+    
+    self.old_members.each do |member|
+      e = XML::Node.new 'member'
+      e['type'] = member.member_type.to_s.downcase
+      e['ref'] = member.member_id.to_s # "id" is considered uncool here as it should be unique in XML
+      e['role'] = member.member_role.to_s
+      el1 << e
     end
     
-    unless self.redacted? and (@user.nil? or not @user.moderator?)
-      self.old_members.each do |member|
-        e = XML::Node.new 'member'
-        e['type'] = member.member_type.to_s.downcase
-        e['ref'] = member.member_id.to_s # "id" is considered uncool here as it should be unique in XML
-        e['role'] = member.member_role.to_s
-        el1 << e
-      end
- 
-      self.old_tags.each do |tag|
-        e = XML::Node.new 'tag'
-        e['k'] = tag.k
-        e['v'] = tag.v
-        el1 << e
-      end
+    self.old_tags.each do |tag|
+      e = XML::Node.new 'tag'
+      e['k'] = tag.k
+      e['v'] = tag.v
+      el1 << e
     end
 
     return el1
