@@ -13,14 +13,17 @@ module BrowseHelper
     if version
       name = t 'printable_name.with_version', :id => name, :version => object.version.to_s
     end
-    # stop here if redacted to avoid giving away redacted version tags.
-    return name if object.redacted?
 
-    if object.tags.include? "name:#{I18n.locale}"
-      name = t 'printable_name.with_name',  :name => object.tags["name:#{I18n.locale}"].to_s, :id => name
-    elsif object.tags.include? 'name'
-      name = t 'printable_name.with_name',  :name => object.tags['name'].to_s, :id => name
+    # don't look at object tags if redacted, so as to avoid giving 
+    # away redacted version tag information.
+    unless object.redacted?
+      if object.tags.include? "name:#{I18n.locale}"
+        name = t 'printable_name.with_name',  :name => object.tags["name:#{I18n.locale}"].to_s, :id => name
+      elsif object.tags.include? 'name'
+        name = t 'printable_name.with_name',  :name => object.tags['name'].to_s, :id => name
+      end
     end
+
     return name
   end
 
