@@ -50,8 +50,7 @@ class OldController < ApplicationController
     redaction_id = params['redaction']
     unless redaction_id.nil?
       # if a redaction ID was specified, then set this element to
-      # be redacted in that redaction. (TODO: check that the
-      # user doing the redaction owns the redaction object too)
+      # be redacted in that redaction.
       redaction = Redaction.find(redaction_id.to_i)
       @old_element.redact!(redaction)
       
