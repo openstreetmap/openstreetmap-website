@@ -120,7 +120,7 @@ class ApplicationController < ActionController::Base
 
   ##
   # require that the user is a moderator, or fill out a helpful error message
-  # and return them to the blocks index.
+  # and return them to the index for the controller this is wrapped from.
   def require_moderator
     unless @user.moderator?
       if request.get?
@@ -185,6 +185,10 @@ class ApplicationController < ActionController::Base
   # to be used as a before_filter *after* authorize. this checks that
   # the user is a moderator and, if not, returns a forbidden error.
   #
+  # NOTE: this isn't a very good way of doing it - it duplicates logic
+  # from require_moderator - but what we really need to do is a fairly
+  # drastic refactoring based on :format and respond_to? but not a 
+  # good idea to do that in this branch.
   def authorize_moderator(errormessage="Access restricted to moderators") 
     # check user is a moderator
     unless @user.moderator?
