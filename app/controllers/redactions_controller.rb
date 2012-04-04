@@ -22,9 +22,7 @@ class RedactionsController < ApplicationController
     @redaction.user = @user
     @redaction.title = params[:redaction][:title]
     @redaction.description = params[:redaction][:description]
-    # didn't see this come in from the form - maybe i'm doing something
-    # wrong, or markdown is the only thing supported at the moment?
-    @redaction.description_format = 'markdown'
+    # note that the description format will default to 'markdown'
 
     if @redaction.save
       flash[:notice] = t('redaction.create.flash')
@@ -42,14 +40,8 @@ class RedactionsController < ApplicationController
      
   def update
     # note - don't update the user ID
-    
-    if params[:redaction][:title] and params[:redaction][:title] != @redaction.title
-      @redaction.title = params[:redaction][:title]
-    end
-
-    if params[:redaction][:description] and params[:redaction][:description] != @redaction.description
-      @redaction.description = params[:redaction][:description]
-    end
+    @redaction.title = params[:redaction][:title]
+    @redaction.description = params[:redaction][:description]
 
     if @redaction.save
       flash[:notice] = t('redaction.update.flash')
