@@ -105,7 +105,7 @@ class OldWay < ActiveRecord::Base
     el1['changeset'] = self.changeset.id.to_s
 
     if self.redacted?
-      el1['redacted'] = self.redaction.title
+      el1['redacted'] = self.redaction.id.to_s
     end
     
     unless self.redacted? and (@user.nil? or not @user.moderator?)
