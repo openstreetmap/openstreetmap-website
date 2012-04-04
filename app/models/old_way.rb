@@ -146,7 +146,7 @@ class OldWay < ActiveRecord::Base
   def get_nodes_revert(timestamp)
     points=[]
     self.nds.each do |n|
-      oldnode = OldNode.where('node_id = ? AND timestamp <= ? AND redaction_id is NULL', n, timestamp).order("timestamp DESC").first
+      oldnode = OldNode.where('node_id = ? AND timestamp <= ?', n, timestamp).unredacted.order("timestamp DESC").first
       curnode = Node.find(n)
       id = n; reuse = curnode.visible
       if oldnode.lat != curnode.lat or oldnode.lon != curnode.lon or oldnode.tags != curnode.tags then
