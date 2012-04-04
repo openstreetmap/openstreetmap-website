@@ -68,7 +68,7 @@ class OldNode < ActiveRecord::Base
     el1['timestamp'] = self.timestamp.xmlschema
     el1['version'] = self.version.to_s
     if self.redacted?
-      el1['redacted'] = self.redaction.title
+      el1['redacted'] = self.redaction.id.to_s
     end
     return el1
   end
