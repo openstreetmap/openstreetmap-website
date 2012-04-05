@@ -11,6 +11,10 @@
 </p>
 
 <% if @user and @user.moderator? %>
-<%= link_to t('redaction.show.edit'), edit_redaction_path(@redaction) %>
-<%= button_to(t('redaction.show.destroy'), @redaction, :confirm => t('redaction.show.confirm'), :method => "delete", :remote => true) %>
+<table>
+<tr>
+<td><%= button_to t('redaction.show.edit'), edit_redaction_path(@redaction), :method => :get %></td>
+<td><%= button_to t('redaction.show.destroy'), @redaction, :confirm => t('redaction.show.confirm'), :method => "delete", :remote => true %></td>
+</tr>
+</table>
 <% end %>

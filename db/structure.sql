@@ -101,7 +101,7 @@ CREATE TYPE user_status_enum AS ENUM (
 
 CREATE FUNCTION maptile_for_point(bigint, bigint, integer) RETURNS integer
     LANGUAGE c STRICT
-    AS '/srv/www/master.osm.compton.nu/db/functions/libpgosm.so', 'maptile_for_point';
+    AS '/srv/www/redaction.osm.compton.nu/db/functions/libpgosm.so', 'maptile_for_point';
 
 
 --
@@ -110,7 +110,7 @@ CREATE FUNCTION maptile_for_point(bigint, bigint, integer) RETURNS integer
 
 CREATE FUNCTION tile_for_point(integer, integer) RETURNS bigint
     LANGUAGE c STRICT
-    AS '/srv/www/master.osm.compton.nu/db/functions/libpgosm.so', 'tile_for_point';
+    AS '/srv/www/redaction.osm.compton.nu/db/functions/libpgosm.so', 'tile_for_point';
 
 
 --
@@ -119,7 +119,7 @@ CREATE FUNCTION tile_for_point(integer, integer) RETURNS bigint
 
 CREATE FUNCTION xid_to_int4(xid) RETURNS integer
     LANGUAGE c IMMUTABLE STRICT
-    AS '/srv/www/master.osm.compton.nu/db/functions/libpgosm.so', 'xid_to_int4';
+    AS '/srv/www/redaction.osm.compton.nu/db/functions/libpgosm.so', 'xid_to_int4';
 
 
 SET default_tablespace = '';
@@ -218,8 +218,8 @@ CREATE TABLE client_applications (
     key character varying(50),
     secret character varying(50),
     user_id integer,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     allow_read_prefs boolean DEFAULT false NOT NULL,
     allow_write_prefs boolean DEFAULT false NOT NULL,
     allow_write_diary boolean DEFAULT false NOT NULL,
@@ -696,7 +696,7 @@ CREATE TABLE nodes (
     "timestamp" timestamp without time zone NOT NULL,
     tile bigint NOT NULL,
     version bigint NOT NULL,
-    redaction_id integer
+    redaction_id bigint
 );
 
 
@@ -708,8 +708,8 @@ CREATE TABLE oauth_nonces (
     id integer NOT NULL,
     nonce character varying(255),
     "timestamp" integer,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -745,8 +745,8 @@ CREATE TABLE oauth_tokens (
     secret character varying(50),
     authorized_at timestamp without time zone,
     invalidated_at timestamp without time zone,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     allow_read_prefs boolean DEFAULT false NOT NULL,
     allow_write_prefs boolean DEFAULT false NOT NULL,
     allow_write_diary boolean DEFAULT false NOT NULL,
@@ -788,7 +788,9 @@ CREATE TABLE redactions (
     title character varying(255),
     description text,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    user_id bigint NOT NULL,
+    description_format format_enum DEFAULT 'markdown'::format_enum NOT NULL
 );
 
 
@@ -847,7 +849,7 @@ CREATE TABLE relations (
     "timestamp" timestamp without time zone NOT NULL,
     version bigint NOT NULL,
     visible boolean DEFAULT true NOT NULL,
-    redaction_id integer
+    redaction_id bigint
 );
 
 
@@ -872,8 +874,8 @@ CREATE TABLE user_blocks (
     ends_at timestamp without time zone NOT NULL,
     needs_view boolean DEFAULT false NOT NULL,
     revoker_id bigint,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     reason_format format_enum DEFAULT 'html'::format_enum NOT NULL
 );
 
@@ -915,8 +917,8 @@ CREATE TABLE user_preferences (
 CREATE TABLE user_roles (
     id integer NOT NULL,
     user_id bigint NOT NULL,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     role user_role_enum NOT NULL,
     granter_id bigint NOT NULL
 );
@@ -998,9 +1000,9 @@ CREATE TABLE users (
     status user_status_enum DEFAULT 'pending'::user_status_enum NOT NULL,
     terms_agreed timestamp without time zone,
     consider_pd boolean DEFAULT false NOT NULL,
+    openid_url character varying(255),
     preferred_editor character varying(255),
     terms_seen boolean DEFAULT false NOT NULL,
-    openid_url character varying(255),
     description_format format_enum DEFAULT 'html'::format_enum NOT NULL,
     image_fingerprint character varying(255)
 );
@@ -1059,7 +1061,7 @@ CREATE TABLE ways (
     "timestamp" timestamp without time zone NOT NULL,
     version bigint NOT NULL,
     visible boolean DEFAULT true NOT NULL,
-    redaction_id integer
+    redaction_id bigint
 );
 
 
@@ -2072,6 +2074,14 @@ ALTER TABLE ONLY oauth_tokens
 
 
 --
+-- Name: redactions_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY redactions
+    ADD CONSTRAINT redactions_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+--
 -- Name: relation_members_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2250,6 +2260,8 @@ INSERT INTO schema_migrations (version) VALUES ('20120219161649');
 INSERT INTO schema_migrations (version) VALUES ('20120318201948');
 
 INSERT INTO schema_migrations (version) VALUES ('20120328090602');
+
+INSERT INTO schema_migrations (version) VALUES ('20120404205604');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 
