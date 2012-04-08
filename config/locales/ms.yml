@@ -74,6 +74,8 @@ ms:
   application: 
     require_cookies: 
       cookies_needed: Nampaknya cookies anda belum dihidupkan - sila hidupkan cookies dalam pelayar anda, kemudian sambung.
+    require_moderator: 
+      not_a_moderator: Anda perlu menjadi penyelia untuk melakukan tindakan itu.
     setup_user_auth: 
       blocked: Akses anda kepada API telah disekat. Sila log masuk ke dalam antaramuka web untuk mengetahui lebih lanjut.
       need_to_see_terms: Akses anda kepada API digantung buat sementara waktu. Sila log masuk ke dalam antaramuka web untuk melihat Terma-Terma Penyumbang. Anda tidak semestinya harus bersetuju, tetapi mesti membacanya.
@@ -162,6 +164,13 @@ ms:
     paging_nav: 
       of: daripada
       showing_page: Memaparkan laman
+    redacted: 
+      message_html: Versi %{version} %{type} ini tidak boleh ditunjukkan kerana ia telah diredaksi. Sila lihat %{redaction_link} untuk perincian.
+      redaction: Redaksi %{id}
+      type: 
+        node: nod
+        relation: hubungan
+        way: jalan
     relation: 
       download: "%{download_xml_link} atau %{view_history_link}"
       download_xml: Muat Turun XML
@@ -188,7 +197,7 @@ ms:
       view_data: Lihat data untuk paparan peta semasa
     start_rjs: 
       data_frame_title: Data
-      data_layer_name: Data
+      data_layer_name: Telusuri Data Peta
       details: Butiran
       drag_a_box: Seretkan petak di atas peta untuk memilih kawasan
       edited_by_user_at_timestamp: Disunting oleh [[user]] pada [[timestamp]]
@@ -356,10 +365,6 @@ ms:
       body: Maaf, tiada catatan atau komen diari dengan id %{id}. Sila semak ejaan anda, atau mungkin pautan yang anda klik itu tidak betul.
       heading: "Tiada catatan dengan id: %{id}"
       title: Catatan diari ini tidak wujud
-    no_such_user: 
-      body: Maaf, tiada pengguna dengan nama %{user}. Sila semak ejaan anda, atau mungkin pautan yang anda klik itu tidak betul.
-      heading: Pengguna %{user} tidak wujud
-      title: Pengguna ini tidak wujud
     view: 
       leave_a_comment: Tinggalkan komen
       login: Log masuk
@@ -453,16 +458,28 @@ ms:
       suffix_place: ", %{distance} ke %{direction} dari %{placename}"
     search_osm_nominatim: 
       prefix: 
+        aeroway: 
+          aerodrome: Padang Terbang
+          apron: Apron
+          gate: Pintu
+          helipad: Helipad
+          runway: Landasan Kapal Terbang
+          taxiway: Jalan Rayap
+          terminal: Terminal
         amenity: 
+          WLAN: Capaian WiFi
           airport: Lapangan Terbang
           arts_centre: Pusat Seni
+          artwork: Karya Seni
           atm: ATM
           auditorium: Auditorium
           bank: Bank
           bar: Kedai Arak
+          bbq: BBQ
           bench: Bangku
           bicycle_parking: Letak Basikal
           bicycle_rental: Sewa Basikal
+          biergarten: Taman Bir
           brothel: Rumah Pelacuran
           bureau_de_change: Pengurup Wang
           bus_station: Stesen Bas
@@ -471,6 +488,7 @@ ms:
           car_sharing: Kongsi Kereta
           car_wash: Cuci Kereta
           casino: Kasino
+          charging_station: Stesen Cas
           cinema: Pawagam
           clinic: Klinik
           club: Kelab
@@ -489,6 +507,7 @@ ms:
           ferry_terminal: Terminal Feri
           fire_hydrant: Pili Bomba
           fire_station: Balai Bomba
+          food_court: Medan Selera
           fountain: Air Pancutan
           fuel: Minyak
           grave_yard: Perkuburan
@@ -529,9 +548,12 @@ ms:
           shelter: Perteduhan
           shop: Kedai
           shopping: Beli-Belah
+          shower: Pancuran
+          social_centre: Pusat Sosial
           social_club: Kelab Sosial
           studio: Studio
           supermarket: Pasar Raya
+          swimming_pool: Kolam Renang
           taxi: Teksi
           telephone: Telefon Awam
           theatre: Teater
@@ -546,37 +568,17 @@ ms:
           youth_centre: Pusat Belia
         boundary: 
           administrative: Sempadan Pentadbiran
+          census: Sempadan Banci
+          national_park: Taman Negara
+          protected_area: Kawasan Terlindung
+        bridge: 
+          aqueduct: Akueduk
+          suspension: Jambatan Gantung
+          swing: Jambatan Ayun
+          viaduct: Jejambat
+          "yes": Jambatan
         building: 
-          apartments: Blok Rumah Pangsa
-          block: Blok Bangunan
-          bunker: Bunker
-          chapel: Gereja Kecil
-          church: Gereja
-          city_hall: Dewan Bandaraya
-          commercial: Bangunan Perdagangan
-          dormitory: Asrama
-          entrance: Pintu Masuk Bangunan
-          faculty: Bangunan Fakulti
-          farm: Bangunan Ladang
-          flats: Rumah Pangsa
-          garage: Garaj
-          hall: Dewan
-          hospital: Bangunan Hospital
-          hotel: Hotel
-          house: Rumah
-          industrial: Bangunan Industri
-          office: Bangunan Pejabat
-          public: Bangunan Awam
-          residential: Bangunan Perumahan
-          retail: Bangunan Peruncitan
-          school: Bangunan Sekolah
-          shop: Kedai
-          stadium: Stadium
-          store: Gedung
-          terrace: Teres
-          tower: Menara
-          train_station: Stesen Keretapi
-          university: Bangunan Universiti
+          "yes": Bangunan
         highway: 
           bridleway: Lorong Kuda
           bus_guideway: Lorong Bas Berpandu
@@ -584,12 +586,11 @@ ms:
           byway: Jalan Kecil
           construction: Lebuhraya dalam Pembinaan
           cycleway: Lorong Basikal
-          distance_marker: Penanda Jarak
           emergency_access_point: Titik Capaian Kecemasan
           footway: Lorong Pejalan Kaki
           ford: Harungan
-          gate: Pintu Besar
           living_street: Jalan Masyarakat
+          milestone: Batu Tanda Jalan
           minor: Jalan Sampingan
           motorway: Lebuhraya
           motorway_junction: Simpang Lebuhraya
@@ -601,14 +602,17 @@ ms:
           primary_link: Jalan Utama
           raceway: Jalan Lumba
           residential: Perumahan
+          rest_area: Kawasan Rehat
           road: Jalan Raya
           secondary: Jalan Sekunder
           secondary_link: Jalan Sekunder
           service: Jalan Perkhidmatan
           services: Perkhidmatan Lebuhraya
+          speed_camera: Kamera Kelajuan
           steps: Tangga
           stile: Tangga Pagar
           tertiary: Jalan Tertier
+          tertiary_link: Jalan Tertier
           track: Laluan
           trail: Denai
           trunk: Jalan Utama
@@ -622,6 +626,7 @@ ms:
           building: Bangunan
           castle: Istana
           church: Gereja
+          fort: Kubu
           house: Rumah
           icon: Patung
           manor: Manor
@@ -646,6 +651,7 @@ ms:
           farmland: Tanah Ladang
           farmyard: Laman Ladang
           forest: Hutan
+          garages: Garaj
           grass: Rumput
           greenfield: Tanah Tak Terbangun
           industrial: Kawasan Perindustrian
@@ -653,25 +659,28 @@ ms:
           meadow: Padang Rumput
           military: Kawasan Tentera
           mine: Lombong
-          mountain: Gunung
           nature_reserve: Cagar Alam
+          orchard: Dusun
           park: Taman
           piste: Padang Luncur Ais
-          plaza: Plaza
           quarry: Kuari
           railway: Landasan Keretapi
           recreation_ground: Tempat Berekreasi
           reservoir: Takungan
+          reservoir_watershed: Kawasan Tadahan Air Takungan
           residential: Kawasan Perumahan
           retail: Peruncitan
+          road: Kawasan Jalan Raya
           village_green: Padang Kampung
           vineyard: Ladang Anggur
           wetland: Tanah Lembap
           wood: Hutan Kecil
         leisure: 
           beach_resort: Peranginan Pantai
+          bird_hide: Kurungan Burung
           common: Tanah Awam
           fishing: Tempat Memancing
+          fitness_station: Pusat Kesihatan
           garden: Kebun
           golf_course: Padang Golf
           ice_rink: Gelanggang Ais
@@ -682,12 +691,17 @@ ms:
           pitch: Padang Sukan
           playground: Taman Permainan
           recreation_ground: Tempat Berekreasi
+          sauna: Sauna
           slipway: Landasan Kapal
           sports_centre: Pusat Sukan
           stadium: Stadium
           swimming_pool: Kolam Renang
           track: Balapan Lumba Lari
           water_park: Taman Air
+        military: 
+          airfield: Lapangan Terbang Tentera
+          barracks: Tangsi
+          bunker: Bunker
         natural: 
           bay: Teluk
           beach: Pantai
@@ -695,11 +709,12 @@ ms:
           cave_entrance: Liang Gua
           channel: Alur
           cliff: Cenuram
-          coastline: Garis Pinggir Laut
           crater: Kawah
+          dune: Gumuk
           feature: Rupa Muka
           fell: Fell
           fjord: Fjord
+          forest: Hutan
           geyser: Geiser
           glacier: Glasier
           heath: Kerangas
@@ -719,6 +734,7 @@ ms:
           scrub: Belukar
           shoal: Beting
           spring: Mata Air
+          stone: Batu
           strait: Selat
           tree: Pokok
           valley: Lembah
@@ -727,6 +743,19 @@ ms:
           wetland: Tanah Lembap
           wetlands: Tanah Lembap
           wood: Hutan Kecil
+        office: 
+          accountant: Juruakaun
+          architect: Jurubina
+          company: Syarikat
+          employment_agency: Agensi Pekerjaan
+          estate_agent: Ejen Hartanah
+          government: Pejabat Kerajaan
+          insurance: Pejabat Insurans
+          lawyer: Peguam
+          ngo: Pejabat Badan Bukan Kerajaan
+          telecommunication: Pejabat Telekomunikasi
+          travel_agent: Agensi Pelancongan
+          "yes": Pejabat
         place: 
           airport: Lapangan Terbang
           city: Bandar
@@ -738,6 +767,7 @@ ms:
           houses: Rumah-Rumah
           island: Pulau
           islet: Anak Pulau
+          isolated_dwelling: Kediaman Terpencil
           locality: Lokaliti
           moor: Mur
           municipality: Perbandaran
@@ -761,6 +791,7 @@ ms:
           junction: Simpang Landasan Keretapi
           level_crossing: Lintasan Keretapi Rata
           light_rail: Rel Ringan
+          miniature: Landasan Mini
           monorail: Monorel
           narrow_gauge: Landasan Keretapi Sempit
           platform: Platform Keretapi
@@ -775,7 +806,7 @@ ms:
           yard: Laman Keretapi
         shop: 
           alcohol: Kedai Arak Tanpa Lesen
-          apparel: Kedai Busana
+          antiques: Kedai Antik
           art: Kedai Seni
           bakery: Kedai Roti
           beauty: Kedai Kecantikan
@@ -784,7 +815,6 @@ ms:
           books: Kedai Buku
           butcher: Kedai Daging
           car: Kedai Kereta
-          car_dealer: Peniaga Kereta
           car_parts: Alat Ganti Kereta
           car_repair: Baiki Kereta
           carpet: Kedai Permaidani
@@ -799,7 +829,6 @@ ms:
           department_store: Gedung Serbaneka
           discount: Kedai Diskaun
           doityourself: DIY
-          drugstore: Kedai Ubat
           dry_cleaning: Kedai Cuci Kering
           electronics: Kedai Elektronik
           estate_agent: Ejen Hartanah
@@ -865,7 +894,10 @@ ms:
           valley: Lembah
           viewpoint: Sudut Pandangan
           zoo: Taman Haiwan
+        tunnel: 
+          "yes": Terowong
         waterway: 
+          artificial: Jalan Air Buatan
           boatyard: Limbungan Bot
           canal: Terusan
           connector: Penyambung Jalan Air
@@ -901,6 +933,7 @@ ms:
       history_tooltip: Lihat suntingan bagi kawasan ini
       history_zoom_alert: Anda mesti mengezum dekat untuk melihat suntingan bagi kawasan ini
   layouts: 
+    community: Komuniti
     community_blogs: Blog Komuniti
     community_blogs_title: Blog-blog ahli komuniti OpenStreetMap
     copyright: Hak Cipta &amp; Lesen
@@ -928,11 +961,11 @@ ms:
       other: Peti masuk anda mengandungi %{count} pesanan yang belum dibaca
       zero: Peti masuk anda tidak mengandungi sebarang pesanan yang belum dibaca
     intro_1: OpenStreetMap ialah peta seluruh dunia yang boleh disunting. Ia dihasilkan oleh insan-insan seperti anda.
-    intro_2: OpenStreetMap membolehkan anda untuk melihat, menyunting dan menggunakan data geografi secara kolaborasi dari mana-mana di atas muka Bumi.
-    intro_3: Pengehosan OpenStreetMap disokong dengan sepenuh hati oleh %{ucl}, %{ic} dan %{bytemark}. Penyokong-penyokong projek yang lain tersenarai dalam %{partners}.
-    intro_3_ic: Imperial College London
-    intro_3_partners: wiki
-    intro_3_ucl: Pusat VR UCL
+    intro_2_create_account: Buka akaun pengguna
+    intro_2_download: dimuat turun
+    intro_2_html: Data ini boleh %{download} dan %{use} dengan percuma di bawah %{license}nya. %{create_account} untuk memperbaiki peta ini.
+    intro_2_license: lesen terbuka
+    intro_2_use: digunakan
     license: 
       title: Data OpenStreetMap dilesenkan di bawah lesen Creative Commons Pengiktirafan-PerkongsianSerupa 2.0 Umum
     log_in: log masuk
@@ -946,6 +979,11 @@ ms:
       title: Sokonglah OpenStreetMap dengan dermaan dalam bentuk wang
     osm_offline: Pangkalan data OpenStreetMap kini diputuskan sambungannya sementara kerja penyelenggaran mustahak dilangsungkan.
     osm_read_only: Pangkalan data OpenStreetMap sekarang ditetapkan pada mod baca sahaja sementara kerja penyelenggaran mustahak dilangsungkan.
+    partners_bytemark: Bytemark Hosting
+    partners_html: Pengehosan disokong oleh %{ucl}, %{ic} dan %{bytemark}, serta %{partners} yang lain.
+    partners_ic: Imperial College London
+    partners_partners: rakan-rakan kongsi
+    partners_ucl: Pusat VR UCL
     sign_up: daftar diri
     sign_up_tooltip: Buka akaun untuk menyunting
     sotm2011: "-"
@@ -963,7 +1001,7 @@ ms:
       english_link: teks asal bahasa Inggeris
       text: Sekiranya terdapat percanggahan antara halaman yang diterjemah ini dengan %{english_original_link}, maka versi bahasa Inggeris itu akan diberi keutamaan
       title: Perihal terjemahan ini
-    legal_babble: "<h2>Hak Cipta dan Lesen</h2>\n<p>\n   OpenStreetMap merupakan <i>data terbuka</i> yang dilesenkan di bawah lesen <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">Pengiktirafan-PerkongsianSerupa 2.0</a> (CC-BY-SA).\n</p>\n<p>\n  Anda diberi kebebasan untuk menyalin, mengedarkan, memancarkan dan mengubah suai peta-peta dan data kami asalkan anda memberikan penghargaan kepada OpenStreetMap dan para penyumbangnya. Sekiranya anda mengubah atau menokok tambah peta-peta atau data kami, anda boleh mengedarkan hasilnya di bawah lesen yang sama sahaja. <a href=\"http://creativecommons.org/licenses/by-sa/2.0/legalcode\">Hukum undang-undang</a> yang penuh ini menjelaskan hak-hak dan tanggungjawab anda.\n</p>\n\n<h3>Cara memberikan penghargaan kepada OpenStreetMap</h3>\n<p>\n  Sekiranya anda menggunakan imej-imej peta OpenStreetMap map images, kami memohon supaya penghargaan anda menyatakan sekurang-kurangnya yang berikut: &ldquo;&copy; para penyumbang OpenStreetMap, CC-BY-SA&rdquo;. Jika anda menggunakan data peta sahaja, kami memohon &ldquo;Data peta &copy; penyumbang OpenStreetMap, CC-BY-SA&rdquo;.\n</p>\n<p>\n  Di mana mungkin, OpenStreetMap sewajarnya dihiperpautkan dengan <a href=\"http://www.openstreetmap.org/\">http://www.openstreetmap.org/</a> dan CC-BY-SA dengan <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">http://creativecommons.org/licenses/by-sa/2.0/</a>. Jika anda menggunakan bahantara yang tidak membolehkan pautan (cth. hasil cetakan), kami mencadangkan agar anda melencongkan para pembaca anda kepada www.openstreetmap.org (mungkin dengan mengembangkan &lsquo;OpenStreetMap&rsquo; kepada alamat penuh ini) dan juga www.creativecommons.org.\n</p>\n\n<h3>Mengetahui lebih lanjut</h3>\n<p>\n  Baca lebih lanjut tentang penggunaan data kami di <a href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">Soalan Lazim Undang-Undang</a>.\n</p>\n<p>\n  Para penyumbang OSM diingatkan supaya tidak sesekali menambahkan data dari mana-mana sumber yang berhak cipta (cth. Google Maps atau peta cetakan) tanpa kebenaran yang tersurat daripada pemegang hak cipta.\n</p>\n<p>\n  Sungguhpun OpenStreetMap merupakan data terbuka, namun kami tidak boleh menyediakan API peta yang percuma untuk pemaju pihak ketiga.\n\n  Bacalah <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">Dasar Penggunaan API</a>, <a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">Dasar Penggunaan Jubin</a> dan <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">Dasar Penggunaan Nominatim</a> kami.\n</p>\n\n<h3>Penyumbang kami</h3>\n<p>\n  Lesen CC-BY-SA kami mengehendaki anda untuk &ldquo;memberikan penghargaan Pengarang Asal yang berpatutan dengan bahantara atau kaedah yang Anda sedang gunakan&rdquo;. Setiap seorang pemeta OSM tidak memohon penghargaan yang melebihi penghargaan kepada &ldquo;para penyumbang OpenStreetMap&rdquo;, tetapi seandainya data daripada agensi pemetaan kebangsaan atau sebarang sumber utama yang lain telah disertakan dalam OpenStreetMap, maka adalah wajar untuk memberikan penghargaan kepadanya dengan terus mengeluarkan semula penghargaannya atau membubuh pautan kepadanya dalam laman ini.\n</p>\n\n<!--\nMakluman untuk penyunting halaman\n\nSenarai berikut hanya menyertakan pihak-pihak yang memerlukan atribusi sebagai syarat penggunaan data di OpenStreetMap. Ia bukan katalog import am dan tidak boleh digunakan melainkan apabila atribusi diperlukan untuk mematuhi lesen data yang diimport itu.\n\nSebarang tambahan di sini mesti dibincangkan dengan penyelia sistem OSM terlebih dahulu.\n-->\n\n<ul id=\"contributors\">\n    <li><strong>Australia</strong>: Mengandungi data subbandar berasaskan data Australian Bureau of Statistics.</li>\n    <li><strong>Austria</strong>: Mengandungi data daripada <a href=\"http://data.wien.gv.at/\">Stadt Wien</a> di bawah <a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.de\">CC-BY</a>.</li>\n    <li><strong>Kanada</strong>: Mengandungi data daripada GeoBase&reg;, GeoGratis (&copy; Department of Natural Resources Canada), CanVec (&copy; Department of Natural Resources Canada), and StatCan (Geography Division, Statistics Canada).</li>\n    <li><strong>New Zealand</strong>: Mengandungi data yang disumberkan daripada Land Information New Zealand. Crown Copyright reserved.</li>\n    <li><strong>Perancis</strong>: Mengandungi data yang disumberkan daripada Direction Générale des Impôts.</li>\n    <li><strong>Poland</strong>: Mengandungi data daripada <a href=\"http://ump.waw.pl/\">peta-peta UMP-pcPL</a>. Hak cipta penyumbang UMP-pcPL.</li>\n    <li><strong>United Kingdom</strong>: Mengandungi data Ordnance Survey data &copy; Crown copyright and database right 2010.</li>\n</ul>\n\n<p>\n  Penyertaan data dalam OpenStreetMap tidak bermaksud bahawa pembekal data asal menyokong OpenStreetMap, menyediakan sebarang waranti, atau menerima sebarang tanggungan.\n</p>"
+    legal_babble: "<h2>Hak Cipta dan Lesen</h2>\n<p>\n   OpenStreetMap merupakan <i>data terbuka</i> yang dilesenkan di bawah lesen <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">Pengiktirafan-PerkongsianSerupa 2.0</a> (CC BY-SA).\n</p>\n<p>\n  Anda diberi kebebasan untuk menyalin, mengedarkan, memancarkan dan mengubah suai peta-peta dan data kami asalkan anda memberikan penghargaan kepada OpenStreetMap dan para penyumbangnya. Sekiranya anda mengubah atau menokok tambah peta-peta atau data kami, anda boleh mengedarkan hasilnya di bawah lesen yang sama sahaja. <a href=\"http://creativecommons.org/licenses/by-sa/2.0/legalcode\">Hukum undang-undang</a> yang penuh ini menjelaskan hak-hak dan tanggungjawab anda.\n</p>\n\n<h3>Cara memberikan penghargaan kepada OpenStreetMap</h3>\n<p>\n  Sekiranya anda menggunakan imej-imej peta OpenStreetMap map images, kami memohon supaya penghargaan anda menyatakan sekurang-kurangnya yang berikut: &ldquo;&copy; para penyumbang OpenStreetMap, CC BY-SA&rdquo;. Jika anda menggunakan data peta sahaja, kami memohon &ldquo;Data peta &copy; penyumbang OpenStreetMap, CC BY-SA&rdquo;.\n</p>\n<p>\n  Di mana mungkin, OpenStreetMap sewajarnya dihiperpautkan dengan <a href=\"http://www.openstreetmap.org/\">http://www.openstreetmap.org/</a> dan CC BY-SA dengan <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">http://creativecommons.org/licenses/by-sa/2.0/</a>. Jika anda menggunakan bahantara yang tidak membolehkan pautan (cth. hasil cetakan), kami mencadangkan agar anda melencongkan para pembaca anda kepada www.openstreetmap.org (mungkin dengan mengembangkan &lsquo;OpenStreetMap&rsquo; kepada alamat penuh ini) dan juga www.creativecommons.org.\n</p>\n\n<h3>Mengetahui lebih lanjut</h3>\n<p>\n  Baca lebih lanjut tentang penggunaan data kami di <a href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">Soalan Lazim Undang-Undang</a>.\n</p>\n<p>\n  Para penyumbang OSM diingatkan supaya tidak sesekali menambahkan data dari mana-mana sumber yang berhak cipta (cth. Google Maps atau peta cetakan) tanpa kebenaran yang tersurat daripada pemegang hak cipta.\n</p>\n<p>\n  Sungguhpun OpenStreetMap merupakan data terbuka, namun kami tidak boleh menyediakan API peta yang percuma untuk pemaju pihak ketiga.\n\n  Bacalah <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">Dasar Penggunaan API</a>, <a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">Dasar Penggunaan Jubin</a> dan <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">Dasar Penggunaan Nominatim</a> kami.\n</p>\n\n<h3>Penyumbang kami</h3>\n<p>\n  Lesen CC BY-SA kami mengehendaki anda untuk &ldquo;memberikan penghargaan Pengarang Asal yang berpatutan dengan bahantara atau kaedah yang Anda sedang gunakan&rdquo;. Setiap seorang pemeta OSM tidak memohon penghargaan yang melebihi penghargaan kepada &ldquo;para penyumbang OpenStreetMap&rdquo;, tetapi seandainya data daripada agensi pemetaan kebangsaan atau sebarang sumber utama yang lain telah disertakan dalam OpenStreetMap, maka adalah wajar untuk memberikan penghargaan kepadanya dengan terus mengeluarkan semula penghargaannya atau membubuh pautan kepadanya dalam laman ini.\n</p>\n\n<!--\nMakluman untuk penyunting halaman\n\nSenarai berikut hanya menyertakan pihak-pihak yang memerlukan atribusi sebagai syarat penggunaan data di OpenStreetMap. Ia bukan katalog import am dan tidak boleh digunakan melainkan apabila atribusi diperlukan untuk mematuhi lesen data yang diimport itu.\n\nSebarang tambahan di sini mesti dibincangkan dengan penyelia sistem OSM terlebih dahulu.\n-->\n\n<ul id=\"contributors\">\n   <li><strong>Afrika Selatan</strong>: Mengandungi data yang disumberkan daripada\n   <a href=\"http://www.ngi.gov.za/\">Pejabat Ketua Pengarah:\n   National Geo-Spatial Information</a>, Hak cipta kerajaan dipelihara.</li>\n    <li><strong>Australia</strong>: Mengandungi data subbandar berasaskan data Australian Bureau of Statistics.</li>\n    <li><strong>Austria</strong>: Mengandungi data daripada <a href=\"http://data.wien.gv.at/\">Stadt Wien</a> (di bawah <a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.de\">CC BY</a>) dan <a href=\"http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm\">Land Vorarlberg.</a>.</li>\n    <li><strong>Belanda</strong>: Mendandungi data &copy; AND, 2007\n   (<a href=\"http://www.and.com\">www.and.com</a>)</li>\n    <li><strong>Kanada</strong>: Mengandungi data daripada GeoBase&reg;, GeoGratis (&copy; Department of Natural Resources Canada), CanVec (&copy; Department of Natural Resources Canada), and StatCan (Geography Division, Statistics Canada).</li>\n    <li><strong>New Zealand</strong>: Mengandungi data yang disumberkan daripada Land Information New Zealand. Crown Copyright reserved.</li>\n    <li><strong>Perancis</strong>: Mengandungi data yang disumberkan daripada Direction Générale des Impôts.</li>\n    <li><strong>Poland</strong>: Mengandungi data daripada <a href=\"http://ump.waw.pl/\">peta-peta UMP-pcPL</a>. Hak cipta penyumbang UMP-pcPL.\n<a href=\"http://wiki.openstreetmap.org/wiki/UMP2OSM_Importing\">\n   Maklumat lanjut mengenai penggunaan data UMP oleh OSM&</a></li>\n    <li><strong>United Kingdom</strong>: Mengandungi data Ordnance Survey data &copy; Crown copyright and database right 2010.</li>\n</ul>\n\n<p>\n  Penyertaan data dalam OpenStreetMap tidak bermaksud bahawa pembekal data asal menyokong OpenStreetMap, menyediakan sebarang waranti, atau menerima sebarang tanggungan.\n</p>"
     native: 
       mapping_link: mula membuat peta
       native_link: versi Bahasa Melayu
@@ -1005,10 +1043,6 @@ ms:
       body: Maaf, tiada pesanan dengan ID ini.
       heading: Pesanan ini tidak wujud
       title: Pesanan ini tidak wujud
-    no_such_user: 
-      body: Maaf, tiada pengguna yang bernama sedemikian.
-      heading: Pengguna ini tidak wujud
-      title: Pengguna ini tidak wujud
     outbox: 
       date: Tarikh
       inbox: Peti masuk
@@ -1187,6 +1221,37 @@ ms:
       url: "URL Token Permohonan:"
     update: 
       flash: Maklumat klien berjaya dikemaskinikan
+  redaction: 
+    create: 
+      flash: Redaksi dicipta.
+    destroy: 
+      error: Ralat terjadi ketika menghapuskan redaksi ini.
+      flash: Redaksi dihapuskan.
+      not_empty: Redaksi tidak kosong. Sila nyahredaksi semua versi yang tergolong dalam redaksi ini sebelum memusnahkannya.
+    edit: 
+      description: Keterangan
+      heading: Sunting redaksi
+      submit: Simpan redaksi
+      title: Sunting redaksi
+    index: 
+      empty: Tiada redaksi.
+      heading: Senarai redaksi
+      title: Senarai redaksi
+    new: 
+      description: Keterangan
+      heading: Isikan maklumat untuk redaksi baru
+      submit: Cipta redaksi
+      title: Mencipta redaksi baru
+    show: 
+      confirm: Adakah anda pasti?
+      description: "Keterangan:"
+      destroy: Buang redaksi ini
+      edit: Sunting redaksi ini
+      heading: Memaparkan redaksi "%{title}"
+      title: Memaparkan redaksi
+      user: "Pencipta:"
+    update: 
+      flash: Perubahan disimpan.
   site: 
     edit: 
       anon_edits_link_text: Ketahuilah sebab jadinya begini.
@@ -1201,7 +1266,6 @@ ms:
     index: 
       js_1: Anda sedang menggunakan pelayar web yang tidak menyokong JavaScript, ataupun anda tidak menghidupkan JavaScript.
       js_2: OpenStreetMap menggunakan JavaScript untuk peta licinnya.
-      js_3: Apa kata anda cuba <a href="http://tah.openstreetmap.org/Browse/">pelayar jubin statik Tiles@Home</a> seandainya anda tidak dapat menghidupkan JavaScript.
       license: 
         license_name: Pengiktirafan-PerkongsianSerupa 2.0
         notice: Dilesenkan di bawah lesen %{license_name} oleh %{project_name} dan para penyumbangnya.
@@ -1278,6 +1342,23 @@ ms:
           unclassified: Jalan tidak terkelas
           unsurfaced: Jalan tanpa turapan
           wood: Hutan kecil
+    markdown_help: 
+      alt: Teks alt
+      first: Perkara pertama
+      heading: Judul
+      headings: Judul
+      image: Gambar
+      link: Pautan
+      ordered: Senarai tertib
+      second: Perkara kedua
+      subheading: Judul kecil
+      text: Teks
+      title_html: Dihuraikan dengan <a href="http://daringfireball.net/projects/markdown/">Markdown</a>
+      unordered: Senarai tak tertib
+      url: URL
+    richtext_area: 
+      edit: Sunting
+      preview: Pralihat
     search: 
       search: Cari
       search_help: "cth: 'Alkmaar', 'Regent Street, Cambridge', 'CB2 5AQ', atau 'post offices near Lünen' <a href='http://wiki.openstreetmap.org/wiki/Search'>banyak lagi contoh...</a>"
@@ -1320,10 +1401,6 @@ ms:
       your_traces: Jejak GPS anda
     make_public: 
       made_public: Jejak diumumkan
-    no_such_user: 
-      body: Maaf, tiada pengguna dengan nama %{user}. Sila semak ejaan anda, atau mungkin pautan yang anda klik itu tidak betul.
-      heading: Pengguna %{user} tidak wujud
-      title: Pengguna ini tidak wujud
     offline: 
       heading: Storan GPX di Luar Talian
       message: Sistem storan dan muat naik fail GPX kini tidak boleh digunakan.
@@ -1677,7 +1754,6 @@ ms:
     filter: 
       block_expired: Sekatan ini sudah luput dan tidak boleh disunting.
       block_period: Tempoh sekatan mestilah salah satu nilai yang boleh dipilih dalam senarai juntai bawah ini.
-      not_a_moderator: Anda perlu menjadi penyelia untuk melakukan tindakan itu.
     helper: 
       time_future: Berakhir dalam masa %{time}.
       time_past: Berakhir %{time} lalu.

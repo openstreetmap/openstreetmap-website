@@ -76,6 +76,8 @@ vi:
   application: 
     require_cookies: 
       cookies_needed: Hình như đã tắt cookie. Xin hãy bật lên chức năng cookie trong trình duyệt để tiếp tục.
+    require_moderator: 
+      not_a_moderator: Chỉ có các điều hành viên được phép thực hiện tác vụ đó.
     setup_user_auth: 
       blocked: Bạn bị chặn không được truy cập qua API. Vui lòng đăng nhập vào giao diện Web để biết chi tiết.
       need_to_see_terms: Bạn tạm không có quyền truy cập API. Xin vui lòng đăng nhập giao diện Web để đọc các Điều khoản Đóng góp. Bạn không cần phải chấp nhận các điều khoản nhưng ít nhất phải đọc chúng.
@@ -170,6 +172,13 @@ vi:
     paging_nav: 
       of: trong
       showing_page: Đang hiện trang
+    redacted: 
+      message_html: Không thể xem phiên bản %{version} của %{type} này vì nó đã bị ẩn. Xin vui lòng xem chi tiết tại %{redaction_link}.
+      redaction: Dãy ẩn %{id}
+      type: 
+        node: nốt
+        relation: quan hệ
+        way: lối
     relation: 
       download: "%{download_xml_link} hoặc %{view_history_link}"
       download_xml: Tải về XML
@@ -196,12 +205,12 @@ vi:
       view_data: Xem dữ liệu của phần bản đồ đang xem
     start_rjs: 
       data_frame_title: Dữ liệu
-      data_layer_name: Dữ liệu
+      data_layer_name: Xem Dữ liệu Bản đồ
       details: Chi tiết
       drag_a_box: Kéo hộp trên bản đồ để chọn vùng
       edited_by_user_at_timestamp: Được sửa đổi bởi [[user]] lúc [[timestamp]]
       hide_areas: Ẩn các khu vực
-      history_for_feature: Lịch sử [[feature]]
+      history_for_feature: Lịch sử [[đối tượng]]
       load_data: Tải Dữ liệu
       loaded_an_area_with_num_features: "Bạn đã tải vùng chứa [[num_features]] nét. Một số trình duyệt không hiển thị nổi nhiều dữ liệu như thế. Nói chung, trình duyệt hoạt động tốt khi nào chỉ có 100 nét cùng lúc: hơn thì trình duyệt sẽ chậm chạp. Nếu bạn chắc chắn muốn xem dữ liệu này, hãy bấm nút ở dưới."
       loading: Đang tải…
@@ -366,10 +375,6 @@ vi:
       body: Rất tiếc, không có mục hoặc bình luận trong nhật ký với ID %{id}. Xin hãy kiểm tra chính tả, hoặc có lẽ bạn đã theo một liên kết sai.
       heading: "Không có mục với ID: %{id}"
       title: Mục nhật ký không tồn tại
-    no_such_user: 
-      body: Rất tiếc, không có người dùng với tên %{user}. Xin hãy kiểm tra chính tả, hoặc có lẽ bạn đã theo một liên kết sai.
-      heading: Người dùng %{user} không tồn tại
-      title: Người dùng không tồn tại
     view: 
       leave_a_comment: Bình luận
       login: Đăng nhập
@@ -463,16 +468,28 @@ vi:
       suffix_place: ", %{distance} về phía %{direction} của %{placename}"
     search_osm_nominatim: 
       prefix: 
+        aeroway: 
+          aerodrome: Sân bay
+          apron: Sân Đậu Máy bay
+          gate: Cổng
+          helipad: Sân bay Trực thăng
+          runway: Đường băng
+          taxiway: Đường lăn
+          terminal: Nhà ga Sân bay
         amenity: 
-          airport: Sân bay
+          WLAN: Điểm Truy cập Wi-Fi
+          airport: Phi trường
           arts_centre: Trung tâm Nghệ thuật
+          artwork: Tác phẩm Nghệ thuật
           atm: Máy Rút tiền Tự động
           auditorium: Phòng hội họp
           bank: Ngân hàng
-          bar: Quán Rượu
+          bar: Quán rượu
+          bbq: Bếp Nướng Ngoài trời
           bench: Ghế
           bicycle_parking: Chỗ Đậu Xe đạp
           bicycle_rental: Chỗ Mướn Xe đạp
+          biergarten: Quán rượu Ngoài trời
           brothel: Nhà chứa
           bureau_de_change: Tiệm Đổi tiền
           bus_station: Trạm Xe buýt
@@ -481,6 +498,7 @@ vi:
           car_sharing: Chia sẻ Xe cộ
           car_wash: Tiệm Rửa Xe
           casino: Sòng bạc
+          charging_station: Trạm Sạc Pin
           cinema: Rạp phim
           clinic: Phòng khám
           club: Câu lạc bộ
@@ -499,6 +517,7 @@ vi:
           ferry_terminal: Trạm Phà
           fire_hydrant: Vòi nước Máy
           fire_station: Trạm Cứu hỏa
+          food_court: Khu Ẩm thực
           fountain: Vòi nước
           fuel: Cây xăng
           grave_yard: Nghĩa địa
@@ -539,9 +558,12 @@ vi:
           shelter: Nơi Trú ẩn
           shop: Tiệm
           shopping: Tiệm
+          shower: Vòi tắm
+          social_centre: Hội trường
           social_club: Câu lạc bộ Xã hội
           studio: Studio
           supermarket: Siêu thị
+          swimming_pool: Hồ tắm
           taxi: Taxi
           telephone: Điện thoại Công cộng
           theatre: Nhà hát
@@ -556,37 +578,17 @@ vi:
           youth_centre: Trung tâm Thanh niên
         boundary: 
           administrative: Biên giới Hành chính
+          census: Biên giới Điều tra Dân số
+          national_park: Vườn quốc gia
+          protected_area: Khu bảo tồn
+        bridge: 
+          aqueduct: Cống nước
+          suspension: Cầu Treo
+          swing: Cầu Quay
+          viaduct: Cầu Cạn
+          "yes": Cầu
         building: 
-          apartments: Khối Căn hộ
-          block: Khối cao ốc
-          bunker: Boong ke
-          chapel: Nhà nguyện
-          church: Nhà thờ
-          city_hall: Trụ sở Thành phố
-          commercial: Tòa nhà Thương mại
-          dormitory: Ký túc xá
-          entrance: Cửa vào
-          faculty: Tòa nhà Trường học
-          farm: Công trình Nông trại
-          flats: Khu chung cư
-          garage: Ga ra
-          hall: Hội trường
-          hospital: Tòa nhà Bệnh viện
-          hotel: Khách sạn
-          house: Nhà ở
-          industrial: Tòa nhà Công nghiệp
-          office: Tòa nhà Văn phòng
-          public: Tòa nhà Công cộng
-          residential: Nhà ở
-          retail: Tòa nhà Cửa hàng
-          school: Nhà trường
-          shop: Tiệm
-          stadium: Sân vận động
-          store: Tiệm
-          terrace: Thềm
-          tower: Tháp
-          train_station: Nhà ga
-          university: Tòa nhà Đại học
+          "yes": Tòa nhà
         highway: 
           bridleway: Đường Cưỡi ngựa
           bus_guideway: Làn đường Dẫn Xe buýt
@@ -594,12 +596,11 @@ vi:
           byway: Đường mòn Đa mốt
           construction: Đường Đang Xây
           cycleway: Đường Xe đạp
-          distance_marker: Cây số
           emergency_access_point: Địa điểm Truy nhập Khẩn cấp
           footway: Đường bộ
           ford: Khúc Sông Cạn
-          gate: Cổng
           living_street: Đường Hàng xóm
+          milestone: Mốc
           minor: Đường Nhỏ
           motorway: Đường Cao tốc
           motorway_junction: Ngã tư Đường Cao tốc
@@ -611,14 +612,17 @@ vi:
           primary_link: Đường Chính
           raceway: Đường đua
           residential: Đường Nhà ở
+          rest_area: Trạm Nghỉ Dọc đường
           road: Đường
           secondary: Đường Lớn
           secondary_link: Đường Lớn
           service: Đường phụ
           services: Dịch vụ Dọc đường Cao tốc
+          speed_camera: Máy chụp hình Tốc độ
           steps: Cầu thang
           stile: Cửa xoay
           tertiary: Đường Lớn
+          tertiary_link: Đường Lớn
           track: Đường mòn
           trail: Đường mòn
           trunk: Xa lộ
@@ -632,6 +636,7 @@ vi:
           building: Tòa nhà
           castle: Lâu đài
           church: Nhà thờ
+          fort: Pháo đài
           house: Nhà ở
           icon: Thánh tượng
           manor: Trang viên
@@ -656,6 +661,7 @@ vi:
           farmland: Trại
           farmyard: Sân Trại
           forest: Rừng Trồng Cây
+          garages: Ga ra
           grass: Cỏ
           greenfield: Cánh đồng Xanh
           industrial: Khu vực Công nghiệp
@@ -663,25 +669,28 @@ vi:
           meadow: Đồng cỏ
           military: Khu vực Quân sự
           mine: Mỏ
-          mountain: Núi
           nature_reserve: Khu Bảo tồn Thiên niên
+          orchard: Vườn Cây
           park: Công viên
           piste: Đường Trượt tuyết
-          plaza: Quảng trường
           quarry: Mỏ Đá
           railway: Đường sắt
           recreation_ground: Sân chơi
           reservoir: Bể nước
+          reservoir_watershed: Lưu vực Hồ Nhân tạo
           residential: Khu vực Nhà ở
           retail: Khu vực Buôn bán
+          road: Đất của con Đường
           village_green: Sân Làng
           vineyard: Vườn Nho
           wetland: Đầm lầy
           wood: Rừng
         leisure: 
           beach_resort: Khu Nghỉ mát Ven biển
+          bird_hide: Căn nhà Quan sát Chim
           common: Đất Công
           fishing: Hồ Đánh cá
+          fitness_station: Trạm Thể dục
           garden: Vườn
           golf_course: Sân Golf
           ice_rink: Sân băng
@@ -692,12 +701,17 @@ vi:
           pitch: Bãi Thể thao
           playground: Sân chơi
           recreation_ground: Sân Giải trí
+          sauna: Nhà Tắm hơi
           slipway: Bến tàu
           sports_centre: Trung tâm Thể thao
           stadium: Sân vận động
           swimming_pool: Hồ Bơi
           track: Đường Chạy
           water_park: Công viên Nước
+        military: 
+          airfield: Sân bay Không quân
+          barracks: Trại Lính
+          bunker: Boong ke
         natural: 
           bay: Vịnh
           beach: Bãi biển
@@ -705,11 +719,12 @@ vi:
           cave_entrance: Cửa vào Hang
           channel: Eo biển
           cliff: Vách đá
-          coastline: Bờ biển
           crater: Miệng Núi
+          dune: Cồn cát
           feature: Đối tượng Thiên nhiên
           fell: Đồi đá
           fjord: Vịnh hẹp
+          forest: Rừng
           geyser: Mạch nước Phun
           glacier: Sông băng
           heath: Bãi Hoang
@@ -729,6 +744,7 @@ vi:
           scrub: Đất Bụi rậm
           shoal: Bãi cạn
           spring: Suối
+          stone: Đá
           strait: Eo biển
           tree: Cây
           valley: Thung lũng
@@ -737,8 +753,21 @@ vi:
           wetland: Đầm lầy
           wetlands: Đầm lầy
           wood: Rừng
+        office: 
+          accountant: Kế toán viên
+          architect: Kiến trúc sư
+          company: Công ty
+          employment_agency: Trung tâm Tuyển dụng
+          estate_agent: Văn phòng Bất động sản
+          government: Văn phòng Chính phủ
+          insurance: Văn phòng Bảo hiểm
+          lawyer: Luật sư
+          ngo: Văn phòng Tổ chức Phi chính phủ
+          telecommunication: Văn phòng Viễn thông
+          travel_agent: Văn phòng Du lịch
+          "yes": Văn phòng
         place: 
-          airport: Sân bay
+          airport: Phi trường
           city: Thành phố
           country: Quốc gia
           county: Quận hạt
@@ -748,6 +777,7 @@ vi:
           houses: Dãy Nhà
           island: Đảo
           islet: Đảo Nhỏ
+          isolated_dwelling: Chỗ ở Cô đơn
           locality: Địa phương
           moor: Truông
           municipality: Đô thị
@@ -771,6 +801,7 @@ vi:
           junction: Ga Đầu mối
           level_crossing: Điểm giao Đường sắt
           light_rail: Đường sắt Nhẹ
+          miniature: Đường sắt Nhỏ
           monorail: Đường Một Ray
           narrow_gauge: Đường sắt Khổ hẹp
           platform: Ke ga
@@ -785,7 +816,7 @@ vi:
           yard: Sân ga
         shop: 
           alcohol: Tiệm Rượu
-          apparel: Tiệm May mặc
+          antiques: Tiệm Đồ cổ
           art: Tiệm Nghệ phẩm
           bakery: Tiệm Bánh
           beauty: Tiệm Mỹ phẩm
@@ -794,7 +825,6 @@ vi:
           books: Tiệm Sách
           butcher: Tiệm Thịt
           car: Tiệm Xe hơi
-          car_dealer: Cửa hàng Xe hơi
           car_parts: Phụ tùng Xe hơi
           car_repair: Tiệm Sửa Xe
           carpet: Tiệm Thảm
@@ -809,7 +839,6 @@ vi:
           department_store: Cửa hàng Bách hóa
           discount: Cửa hàng Giảm giá
           doityourself: Tiệm Ngũ kim
-          drugstore: Nhà thuốc
           dry_cleaning: Hấp tẩy
           electronics: Tiệm Thiết bị Điện tử
           estate_agent: Văn phòng Bất động sản
@@ -875,7 +904,10 @@ vi:
           valley: Thung lũng
           viewpoint: Thắng cảnh
           zoo: Vườn thú
+        tunnel: 
+          "yes": Đường hầm
         waterway: 
+          artificial: Dòng nước Nhân tạo
           boatyard: Bãi Thuyền
           canal: Kênh
           connector: Đường thủy Nối
@@ -913,7 +945,8 @@ vi:
       history_tooltip: Xem danh sách sửa đổi trong khu vực này
       history_zoom_alert: Hãy phóng to hơn để xem lịch sử sửa đổi
   layouts: 
-    community_blogs: Blog của Cộng đồng
+    community: Cộng đồng
+    community_blogs: Các Blog của Cộng đồng
     community_blogs_title: Các blog của thành viên cộng đồng OpenStreetMap
     copyright: Bản quyền & Giấy phép
     documentation: Tài liệu
@@ -940,12 +973,12 @@ vi:
       other: Hộp thư của bạn có %{count} thư chưa đọc
       zero: Hộp thư của bạn không có thư chưa đọc
     intro_1: OpenStreetMap là bản đồ thế giới nguồn mở, do những người như bạn vẽ.
-    intro_2: OpenStreetMap cho phép xem, sửa đổi, và sử dụng dữ liệu địa lý một cách cộng tác ở mọi nơi trên thế giới.
-    intro_3: OpenStreetMap hoạt động nhờ sự hỗ trợ hosting của %{ucl}, %{ic}, và %{bytemark}. Các nhà bảo trợ khác được liệt kê tại %{partners}.
-    intro_3_ic: Đại học Hoàng gia Luân Đôn
-    intro_3_partners: wiki
-    intro_3_partners_url: http://wiki.openstreetmap.org/wiki/Partners?uselang=vi
-    intro_3_ucl: Trung tâm VR tại UCL
+    intro_2_create_account: Mở tài khoản mới
+    intro_2_download: tải về
+    intro_2_html: Bạn được phép %{download} và %{use} theo %{license}. Hãy %{create_account} để cải tiến bản đồ.
+    intro_2_license: giấy phép mở
+    intro_2_use: sử dụng
+    intro_2_use_url: http://wiki.openstreetmap.org/wiki/Using_OpenStreetMap?uselang=vi
     license: 
       alt: CC BY-SA 2.0
       title: Dữ liệu OpenStreetMap được phát hành theo Giấy phép Creative Commons Ghi công–Chia sẻ tương tự 2.0 Chung
@@ -960,10 +993,16 @@ vi:
       title: Quyên góp tiền để hỗ trợ OpenStreetMap
     osm_offline: Cơ sở dữ liệu OpenStreetMap đang ngoại tuyến trong lúc đang thực hiện những công việc bảo quản cơ sở dữ liệu cần thiết.
     osm_read_only: Cơ sở dữ liệu OpenStreetMap đang bị khóa không được sửa đổi trong lúc đang thực hiện những công việc bảo quản cơ sở dữ liệu cần thiết.
+    partners_bytemark: Bytemark Hosting
+    partners_html: Dịch vụ nhờ sự hỗ trợ hosting của %{ucl}, %{ic}, và %{bytemark}, cũng như %{partners} khác.
+    partners_ic: Đại học Hoàng gia Luân Đôn
+    partners_partners: các công ty bảo vệ
+    partners_ucl: Trung tâm VR tại UCL
+    partners_url: http://wiki.openstreetmap.org/wiki/Partners?uselang=vi
     sign_up: đăng ký
     sign_up_tooltip: Mở tài khoản để sửa đổi
     sotm2011: Mời tham dự Hội nghị OpenStreetMap 2011, Tình trạng Bản đồ, 9–11 tháng 9 tại Denver!
-    tag_line: Bản đồ Wiki của Thế giới Mở
+    tag_line: Bản đồ Thế giới trên Wiki Mở
     user_diaries: Nhật ký Cá nhân
     user_diaries_tooltip: Đọc các nhật ký cá nhân
     view: Xem
@@ -978,7 +1017,7 @@ vi:
       english_link: nguyên bản tiếng Anh
       text: Trong trường hợp có xung đột giữa trang dịch và trang %{english_original_link}, trang tiếng Anh sẽ được ưu tiên
       title: Thông tin về bản dịch này
-    legal_babble: "<h2>Bản quyền và Giấy phép</h2>\n<p>\n   OpenStreetMap là <i>dữ liệu mở</i> được phát hành theo giấy phép <a href=\"http://creativecommons.org/licenses/by-sa/2.0/deed.vi\">Creative Commons Ghi công–Chia sẻ tương tự 2.0</a> (CC BY-SA).\n</p>\n<p>\n  Bạn được tự do sao chép, phân phối, truyền, và tạo ra các tác phẩm phái sinh từ các bản đồ và dữ liệu của chúng ta, miễn là bạn ghi công OpenStreetMap và những người đóng góp vào nó. Nếu bạn sửa đổi hoặc tạo sản phẩm dựa trên các bản đồ và dữ liệu của chúng tôi, bạn chỉ được phép phân phối kết quả theo cùng giấy phép. <a href=\"http://creativecommons.org/licenses/by-sa/2.0/legalcode\">mã pháp lý</a> đầy đủ giải thích các quyền và trách nhiệm của bạn.\n</p>\n\n<h3>Cách ghi công OpenStreetMap</h3>\n<p>\n  Nếu bạn đang sử dụng các hình ảnh bản đồ OpenStreetMap, chúng tôi yêu cầu rằng lời ghi công của bạn ít nhất đề “© những người đóng góp vào OpenStreetMap, CC BY-SA”. Nếu bạn chỉ đang sử dụng dữ liệu bản đồ, chúng tôi xin câu “Dữ liệu © những người đóng góp vào OpenStreetMap, CC BY-SA”.\n</p>\n<p>\n  Lúc nào có thể, “OpenStreetMap” nên có liên kết đến <a href=\"http://www.openstreetmap.org/\">http://www.openstreetmap.org/</a> và “CC BY-SA” đến <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">http://creativecommons.org/licenses/by-sa/2.0/</a>. Nếu bạn đang sử dụng phương tiện không cho phép đặt liên kết (thí dụ trong tác phẩm in giấy), chúng tôi gợi ý chỉ các độc giả đến www.openstreetmap.org (có lẽ bằng cách mở rộng “OpenStreetMap” trở thành địa chỉ đầy đủ này) và đến www.creativecommons.org.\n</p>\n\n<h3>Tìm hiểu thêm</h3>\n<p>\n  Hãy đọc thêm chi tiết về việc sử dụng dữ liệu của chúng tôi trong <a href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ?uselang=vi\">Hỏi đáp Pháp lý</a>.\n</p>\n<p>\n  Những người đóng góp vào OSM được khuyên không bao giờ bổ sung dữ liệu từ những nguồn có bản quyền (chẳng hạn Bản đồ Google hoặc các bản đồ trên giấy) trước khi người hay công ty giữ bản quyền cho phép rõ ràng.\n</p>\n<p>\n  Tuy OpenStreetMap là dữ liệu mở, nhưng chúng tôi không thể cung cấp API miễn phí để cho những nhà phát triển bên thứ ba truy cập bản đồ. Hãy xem <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy?uselang=vi\">Quy định Sử dụng API</a>, <a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy?uselang=vi\">Quy định Sử dụng Hình ảnh Bản đồ</a>, và <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim?uselang=vi#Usage_Policy\">Quy định Sử dụng Nominatim</a>.\n</p>\n\n<h3>Những người đóng góp vào đây</h3>\n<p>\n  Giấy phép CC BY-SA của chúng tôi bắt bạn phải “ghi công Tác giả Đầu tiên bằng cách hợp với phương tiện Bạn đang sử dụng”. Những cá nhân vẽ bản đồ OSM không yêu cầu lời ghi công dứt khoát hơn “những người đóng góp vào OpenStreetMap”, nhưng trong những trường hợp dữ liệu của cơ quan khảo sát quốc gia hoặc nguồn lớn khác đã được nhập vào OpenStreetMap, có thể có lý ghi công nguồn này bằng cách ghi công họ thẳng hoặc đặt liên kết đến trang này.\n</p>\n\n<!--\nThông tin cho những người giữ gìn trang này\n\nSau đây chỉ là những tổ chức có điều khoản bắt phải ghi công họ trước khi OpenStreetMap nhập dữ liệu của họ được. Đây không phải là tập hợp thông tin đầy đủ về các lượt nhập. Phần này chỉ có được sử dụng khi nào cần thiết để tuân theo các điều khoản trong giấy phép của dữ liệu được nhập.\n\nTrước khi bổ sung vào phần này, hãy thảo luận với các quản lý viên hệ thống của OSM.\n-->\n\n<ul id=\"contributors\">\n   <li><strong>Áo</strong>: Bao gồm dữ liệu từ <a href=\"http://data.wien.gv.at/\">Tiểu bang Viên</a> theo <a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.vi\">CC BY</a>.</li>\n   <li><strong>Ba Lan</strong>: Bao gồm dữ liệu từ các <a\n   href=\"http://ump.waw.pl/\">bản đồ UMP-pcPL</a>. Bản quyền những người đóng góp UMP-pcPL. Xem thêm chi tiết về <a href=\"http://wiki.openstreetmap.org/wiki/Pl:UMP2OSM/Import?uselang=vi\">cách sử dụng dữ liệu UMP tại OpenStreetMap</a>.</li></li>\n   <li><strong>Canada</strong>: Bao gồm dữ liệu từ GeoBase®, GeoGratis (© Bộ Tài nguyên Canada), CanVec (© Bộ Tài nguyên Canada), và StatCan (Sở Địa lý, Statistics Canada).</li>\n   <li><strong>Nam Phi</strong>: Bao gồm dữ liệu từ <a href=\"http://www.ngi.gov.za/\">Tổng cục: Thông tin Không gian địa lý Quốc gia</a>, bản quyền nhà nước được bảo lưu.</li>\n   <li><strong>New Zealand</strong>: Bao gồm dữ liệu bắt nguồn từ Land Information New Zealand. Bản quyền Crown Copyright được bảo lưu.</li>\n   <li><strong>Pháp</strong>: Bao gồm dữ liệu từ Sở thuế Pháp (<i lang=\"fr\" xml:lang=\"fr\">Direction générale des Impôts</i>).</li>\n   <li><strong>Úc</strong>: Bao gồm dữ liệu về ngoại ô dựa trên dữ liệu của Cục Thống kê Úc.</li>\n   <li><strong>Vương quốc Anh</strong>: Bao gồm dữ liệu Ordnance Survey © bản quyền Crown Copyright và quyền cơ sở dữ liệu 2010.</li>\n</ul>\n\n<p>\n  Việc bao gồm dữ liệu trong OpenStreetMap không ngụ ý rằng nhà cung cấp dữ liệu đầu tiên ủng hộ OpenStreetMap, biện hộ sự chính xác của nó, hoặc nhận trách nhiệm pháp lý nào.\n</p>"
+    legal_babble: "<h2>Bản quyền và Giấy phép</h2>\n<p>\n   OpenStreetMap là <i>dữ liệu mở</i> được phát hành theo giấy phép <a href=\"http://creativecommons.org/licenses/by-sa/2.0/deed.vi\">Creative Commons Ghi công–Chia sẻ tương tự 2.0</a> (CC BY-SA).\n</p>\n<p>\n  Bạn được tự do sao chép, phân phối, truyền, và tạo ra các tác phẩm phái sinh từ các bản đồ và dữ liệu của chúng ta, miễn là bạn ghi công OpenStreetMap và những người đóng góp vào nó. Nếu bạn sửa đổi hoặc tạo sản phẩm dựa trên các bản đồ và dữ liệu của chúng tôi, bạn chỉ được phép phân phối kết quả theo cùng giấy phép. <a href=\"http://creativecommons.org/licenses/by-sa/2.0/legalcode\">mã pháp lý</a> đầy đủ giải thích các quyền và trách nhiệm của bạn.\n</p>\n\n<h3>Cách ghi công OpenStreetMap</h3>\n<p>\n  Nếu bạn đang sử dụng các hình ảnh bản đồ OpenStreetMap, chúng tôi yêu cầu rằng lời ghi công của bạn ít nhất đề “© những người đóng góp vào OpenStreetMap, CC BY-SA”. Nếu bạn chỉ đang sử dụng dữ liệu bản đồ, chúng tôi xin câu “Dữ liệu © những người đóng góp vào OpenStreetMap, CC BY-SA”.\n</p>\n<p>\n  Lúc nào có thể, “OpenStreetMap” nên có liên kết đến <a href=\"http://www.openstreetmap.org/\">http://www.openstreetmap.org/</a> và “CC BY-SA” đến <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">http://creativecommons.org/licenses/by-sa/2.0/</a>. Nếu bạn đang sử dụng phương tiện không cho phép đặt liên kết (thí dụ trong tác phẩm in giấy), chúng tôi gợi ý chỉ các độc giả đến www.openstreetmap.org (có lẽ bằng cách mở rộng “OpenStreetMap” trở thành địa chỉ đầy đủ này) và đến www.creativecommons.org.\n</p>\n\n<h3>Tìm hiểu thêm</h3>\n<p>\n  Hãy đọc thêm chi tiết về việc sử dụng dữ liệu của chúng tôi trong <a href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ?uselang=vi\">Hỏi đáp Pháp lý</a>.\n</p>\n<p>\n  Những người đóng góp vào OSM được khuyên không bao giờ bổ sung dữ liệu từ những nguồn có bản quyền (chẳng hạn Bản đồ Google hoặc các bản đồ trên giấy) trước khi người hay công ty giữ bản quyền cho phép rõ ràng.\n</p>\n<p>\n  Tuy OpenStreetMap là dữ liệu mở, nhưng chúng tôi không thể cung cấp API miễn phí để cho những nhà phát triển bên thứ ba truy cập bản đồ. Hãy xem <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy?uselang=vi\">Quy định Sử dụng API</a>, <a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy?uselang=vi\">Quy định Sử dụng Hình ảnh Bản đồ</a>, và <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim?uselang=vi#Usage_Policy\">Quy định Sử dụng Nominatim</a>.\n</p>\n\n<h3>Những người đóng góp vào đây</h3>\n<p>\n  Giấy phép CC BY-SA của chúng tôi bắt bạn phải “ghi công Tác giả Đầu tiên bằng cách hợp với phương tiện Bạn đang sử dụng”. Những cá nhân vẽ bản đồ OSM không yêu cầu lời ghi công dứt khoát hơn “những người đóng góp vào OpenStreetMap”, nhưng trong những trường hợp dữ liệu của cơ quan khảo sát quốc gia hoặc nguồn lớn khác đã được nhập vào OpenStreetMap, có thể có lý ghi công nguồn này bằng cách ghi công họ thẳng hoặc đặt liên kết đến trang này.\n</p>\n\n<!--\nThông tin cho những người giữ gìn trang này\n\nSau đây chỉ là những tổ chức có điều khoản bắt phải ghi công họ trước khi OpenStreetMap nhập dữ liệu của họ được. Đây không phải là tập hợp thông tin đầy đủ về các lượt nhập. Phần này chỉ có được sử dụng khi nào cần thiết để tuân theo các điều khoản trong giấy phép của dữ liệu được nhập.\n\nTrước khi bổ sung vào phần này, hãy thảo luận với các quản lý viên hệ thống của OSM.\n-->\n\n<ul id=\"contributors\">\n   <li><strong>Áo</strong>: Bao gồm dữ liệu từ <a href=\"http://data.wien.gv.at/\">Bang Viên</a> (theo <a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.vi\">CC BY</a>) và <a href=\"http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm\">Bang Vorarlberg</a>.</li>\n   <li><strong>Ba Lan</strong>: Bao gồm dữ liệu từ các <a\n   href=\"http://ump.waw.pl/\">bản đồ UMP-pcPL</a>. Bản quyền những người đóng góp UMP-pcPL. Xem thêm chi tiết về <a href=\"http://wiki.openstreetmap.org/wiki/Pl:UMP2OSM/Import?uselang=vi\">cách sử dụng dữ liệu UMP tại OpenStreetMap</a>.</li></li>\n   <li><strong>Canada</strong>: Bao gồm dữ liệu từ GeoBase®, GeoGratis (© Bộ Tài nguyên Canada), CanVec (© Bộ Tài nguyên Canada), và StatCan (Sở Địa lý, Statistics Canada).</li>\n   <li><strong>Hà Lan</strong>: Bao gồm dữ liệu © 2007 AND (<a href=\"http://www.and.com\">www.and.com</a>)</li>\n   <li><strong>Nam Phi</strong>: Bao gồm dữ liệu từ <a href=\"http://www.ngi.gov.za/\">Tổng cục: Thông tin Không gian địa lý Quốc gia</a>, bản quyền nhà nước được bảo lưu.</li>\n   <li><strong>New Zealand</strong>: Bao gồm dữ liệu bắt nguồn từ Land Information New Zealand. Bản quyền Crown Copyright được bảo lưu.</li>\n   <li><strong>Pháp</strong>: Bao gồm dữ liệu từ Sở thuế Pháp (<i lang=\"fr\" xml:lang=\"fr\">Direction générale des Impôts</i>).</li>\n   <li><strong>Úc</strong>: Bao gồm dữ liệu về ngoại ô dựa trên dữ liệu của Cục Thống kê Úc.</li>\n   <li><strong>Vương quốc Anh</strong>: Bao gồm dữ liệu Ordnance Survey © bản quyền Crown Copyright và quyền cơ sở dữ liệu 2010.</li>\n</ul>\n\n<p>\n  Việc bao gồm dữ liệu trong OpenStreetMap không ngụ ý rằng nhà cung cấp dữ liệu đầu tiên ủng hộ OpenStreetMap, biện hộ sự chính xác của nó, hoặc nhận trách nhiệm pháp lý nào.\n</p>"
     native: 
       mapping_link: bắt đầu vẽ bản đồ
       native_link: bản dịch tiếng Việt
@@ -1020,10 +1059,6 @@ vi:
       body: Rất tiếc, không có thư nào với ID đó.
       heading: Thư không tồn tại
       title: Thư không tồn tại
-    no_such_user: 
-      body: Rất tiếc, không có người dùng với tên đó.
-      heading: Người dùng không tồn tại
-      title: Người dùng không tồn tại
     outbox: 
       date: Ngày
       inbox: thư đến
@@ -1205,6 +1240,33 @@ vi:
       url: "URL của Dấu Yêu cầu:"
     update: 
       flash: Đã cập nhật thông tin trình khách thành công
+  redaction: 
+    create: 
+      flash: Các phiên bản đã được ẩn.
+    edit: 
+      description: Miêu tả
+      heading: Sửa đổi dãy ẩn
+      submit: Lưu dãy ẩn
+      title: Sửa đổi dãy ẩn
+    index: 
+      empty: Không có dãy ẩn để xem.
+      heading: Danh sách dãy ẩn
+      title: Danh sách dãy ẩn
+    new: 
+      description: Miêu tả
+      heading: Ghi thông tin của dãy ẩn mới
+      submit: Ẩn dãy phiên bản
+      title: Đang ẩn dãy phiên bản
+    show: 
+      confirm: Bạn có chắc không?
+      description: "Miêu tả:"
+      destroy: Xóa dãy ẩn này
+      edit: Sửa đổi dãy ẩn này
+      heading: Đang xem dãy ẩn “%{title}”
+      title: Đang xem dãy ẩn
+      user: "Người ẩn:"
+    update: 
+      flash: Các thay đổi đã được lưu.
   site: 
     edit: 
       anon_edits_link_text: Tại sao vậy?
@@ -1219,7 +1281,6 @@ vi:
     index: 
       js_1: Hoặc trình duyệt của bạn không hỗ trợ JavaScript, hoặc bạn đã tắt JavaScript.
       js_2: OpenStreetMap sử dụng JavaScript cho chức năng bản đồ trơn.
-      js_3: Bạn vẫn có thể sử dụng <a href="http://tah.openstreetmap.org/Browse/">bản đồ tĩnh Tiles@Home</a> nếu không bật lên JavaScript được.
       license: 
         license_name: Creative Commons Ghi công–Chia sẻ tương tự 2.0
         notice: "%{project_name} và những người đóng góp cho phép sử dụng theo giấy phép %{license_name}."
@@ -1244,7 +1305,7 @@ vi:
           byway: Đường mòn đa mốt
           cable: 
             - Đường xe cáp
-            - ski lift
+            - thang kéo trượt tuyết
           cemetery: Nghĩa địa
           centre: Trung tâm thể thao
           commercial: Khu vực thương mại
@@ -1276,7 +1337,7 @@ vi:
           retail: Khu vực buôn bán
           runway: 
             - Đường băng
-            - đường lăn
+            - đường băng
           school: 
             - Trường học
             - đại học
@@ -1296,6 +1357,23 @@ vi:
           unclassified: Đường không phân loại
           unsurfaced: Đường không lát
           wood: Rừng
+    markdown_help: 
+      alt: Văn bản thay thế
+      first: Khoản mục đầu tiên
+      heading: Đề mục
+      headings: Đề mục
+      image: Hình ảnh
+      link: Liên kết
+      ordered: Danh sách đánh số
+      second: Khoản mục sau
+      subheading: Đề mục con
+      text: Văn bản
+      title_html: Trang trí dùng cú pháp <a href="http://daringfireball.net/projects/markdown/">Markdown</a>
+      unordered: Danh sách không đánh số
+      url: URL
+    richtext_area: 
+      edit: Sửa đổi
+      preview: Xem trước
     search: 
       search: Tìm kiếm
       search_help: "thí dụ: “Hoa Thịnh Đốn”, “Hai Bà Trưng, Hà Nội”, “CB2 5AQ”, hoặc “bưu điện gần Tân Sơn Nhất” – <a href=\"http://wiki.openstreetmap.org/wiki/Search?uselang=vi\">thêm thí dụ…</a>"
@@ -1339,10 +1417,6 @@ vi:
       your_traces: Tuyến đường GPS của bạn
     make_public: 
       made_public: Tuyến đường được phát hành công khai
-    no_such_user: 
-      body: Rất tiếc, không có người dùng nào với tên %{user}. Xin hãy kiểm tra chính tả, hoặc có lẽ bạn đã theo một liên kết sai.
-      heading: Người dùng %{user} không tồn tại
-      title: Người dùng không tồn tại
     offline: 
       heading: Kho GPX Ngoại tuyến
       message: Hệ thống lưu giữ và tải lên tập tin GPX tạm ngừng hoạt động.
@@ -1702,7 +1776,6 @@ vi:
     filter: 
       block_expired: Không thể sửa đổi tác vụ cấm này vì nó đã hết hạn.
       block_period: Thời hạn cấm phải là một trong những giá trị từ danh sách kéo xuống.
-      not_a_moderator: Chỉ có các điều hành viên được phép thực hiện tác vụ đó.
     helper: 
       time_future: Hết hạn %{time}.
       time_past: Đã hết hạn cách đây %{time}.

@@ -8,7 +8,9 @@
 # Author: Luckas Blade
 # Author: Malafaya
 # Author: McDutchie
+# Author: Rsbarbosa
 # Author: SandroHc
+# Author: Waldir
 pt: 
   activerecord: 
     attributes: 
@@ -45,13 +47,38 @@ pt:
         languages: Idiomas
         pass_crypt: Palavra-chave
     models: 
+      changeset: Conjunto de alterações
+      changeset_tag: Categoria do conjunto de alterações
       country: País
+      diary_comment: Comentário diário
+      diary_entry: Entrada de diário
       friend: Amigo
       language: Idioma
       message: Mensagem
+      node: Nó
+      node_tag: Categoria do Nó
       notifier: Notificador
+      old_node: Nó antigo
+      old_node_tag: Categoria do Nó antigo
+      old_relation: Relação Antiga
+      old_relation_member: Membro da Relação Antiga
+      old_relation_tag: Categoria da Relação Antiga
+      old_way: Via antiga
+      old_way_node: Nó de via antiga
+      old_way_tag: Categoria da via antiga
+      relation: Relação
+      relation_member: Membros da relação
+      relation_tag: Categoria da relação
       session: Sessão
+      trace: Trilho
+      tracepoint: Ponto do Trilho
+      tracetag: Categoria do Trilho
       user: Utilizador
+      user_preference: Preferência do utilizador
+      user_token: Símbolo do Utilizador
+      way: Via
+      way_node: Nó da via
+      way_tag: Categoria da via
   browse: 
     changeset: 
       changeset: "Conjunto de mudanças: %{id}"
@@ -60,12 +87,17 @@ pt:
       feed: 
         title: Conjunto de mudanças %{id}
         title_comment: Conjunto de mudanças %{id} - %{comment}
+      osmchangexml: osmChange XML
       title: Conjunto de mudanças
     changeset_details: 
       belongs_to: "Pertence a:"
+      bounding_box: "Área delimitadora:"
       box: caixa
       closed_at: "Fechado em:"
       created_at: "Criado em:"
+      has_nodes: 
+        one: "tem o seguinte %{count} nó:"
+        other: "Tem os seguintes %{count} nós:"
       has_relations: 
         one: "Tem a seguinte %{count} relação:"
         other: "Tem as seguintes %{count} relações:"
@@ -75,6 +107,8 @@ pt:
       show_area_box: Mostrar Caixa de Área
     common_details: 
       changeset_comment: "Comentário:"
+      deleted_at: "Eliminada às:"
+      deleted_by: Eliminada por
       edited_at: "Editado em:"
       edited_by: "Editado por:"
       in_changeset: "No conjunto de mudanças:"
@@ -84,6 +118,11 @@ pt:
       entry_role: Relação %{relation_name} (como %{relation_role})
     map: 
       deleted: Apagado
+      edit: 
+        area: Editar área
+        node: Editar o nó
+        relation: Editar relação
+        way: Editar via
       larger: 
         area: Ver área num mapa maior
         node: Ver trajecto num mapa maior
@@ -98,6 +137,7 @@ pt:
         next_way_tooltip: Próximo caminho
         prev_changeset_tooltip: Anterior conjunto de mudanças
         prev_node_tooltip: Nó anterior
+        prev_relation_tooltip: Relação anterior
         prev_way_tooltip: Trajecto anterior
       user: 
         name_changeset_tooltip: Ver edições de %{user}
@@ -117,6 +157,7 @@ pt:
       download: "%{download_xml_link} ou %{view_details_link}"
       download_xml: Baixar XML
       node_history: Nenhum Histórico
+      node_history_title: "Histórico do ponto: %{node_name}"
       view_details: ver detalhes
     not_found: 
       sorry: Lamentamos, não foi possível encontrar o %{type} com o id %{id}.
@@ -223,6 +264,17 @@ pt:
       user: Utilizador
     list: 
       description: Mudanças recentes
+      description_bbox: Conjunto de alterações em %{bbox}
+      description_friend: Alterações efectuadas pelos seus amigos
+      description_nearby: Alterações efectuadas por utilizadores das redondezas
+      description_user: Conjunto de alterações efectuadas por %{user}
+      description_user_bbox: Conjunto de alterações efectuadas por %{user} na área %{bbox}
+      heading: Conjunto de mudanças
+      heading_bbox: Conjunto de mudanças
+      heading_friend: Conjunto de alterações
+      heading_nearby: Conjunto de alterações
+      heading_user: Conjunto de mudanças
+      heading_user_bbox: Conjunto de alterações
   diary_entry: 
     diary_comment: 
       comment_from: Comentário de %{link_user} em %{comment_created_at}
@@ -243,10 +295,20 @@ pt:
       save_button: Salvar
       subject: "Assunto:"
       use_map_link: usar mapa
+    list: 
+      in_language_title: Entradas no Diário em %{language}
+      new: Nova Entrada no Diário
+      new_title: Adicionar entrada ao diário
+      title: Diário dos utilizadores
+      title_friends: Diários dos amigos
+      title_nearby: Diários dos utilizadores das redondezas
+      user_title: Diário de %{user}
     location: 
       edit: Editar
       location: "Localização:"
       view: Ver
+    new: 
+      title: Nova entrada no diário
     view: 
       login: Entrar
       save_button: Salvar
@@ -347,20 +409,8 @@ pt:
           university: Universidade
           wifi: Acesso WiFi
         building: 
-          apartments: Bloco de apartamentos
-          chapel: Capela
-          church: Igreja
-          city_hall: Câmara Municipal
-          garage: Garagem
-          hotel: Hotel
-          house: Casa
-          shop: Loja
-          stadium: Estádio
-          store: Loja
-          terrace: Terraço
-          tower: Torre
+          "yes": Edifício
         highway: 
-          gate: Porta
           road: Estrada
           secondary_link: Estrada Secundária
           steps: Passos
@@ -386,7 +436,6 @@ pt:
           meadow: Pradaria
           military: Área militar
           mine: Mina
-          mountain: Montanha
           park: Parque
         leisure: 
           fishing: Área de Pesca
@@ -407,7 +456,6 @@ pt:
           cape: Cabo
           cave_entrance: Entrada de gruta
           channel: Canal
-          coastline: Litoral
           geyser: Geiser
           island: Ilha
           land: Terra
@@ -481,7 +529,6 @@ pt:
     edit: Editar
     export: Exportar
     history: Histórico
-    intro_3_partners: wiki
     log_in: entrar
     logout: sair
     logout_tooltip: Sair
