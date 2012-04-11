@@ -359,13 +359,13 @@ class AmfController < ApplicationController
     amf_handle_error_with_timeout("'getway_old' #{id}, #{timestamp}", 'way',id) do
       if timestamp == ''
         # undelete
-        old_way = OldWay.where(:visible => true, :way_id => id).order("version DESC").first
+        old_way = OldWay.where(:visible => true, :way_id => id).unredacted.order("version DESC").first
         points = old_way.get_nodes_undelete unless old_way.nil?
       else
         begin
           # revert
           timestamp = DateTime.strptime(timestamp.to_s, "%d %b %Y, %H:%M:%S")
-          old_way = OldWay.where("way_id = ? AND timestamp <= ?", id, timestamp).order("timestamp DESC").first
+          old_way = OldWay.where("way_id = ? AND timestamp <= ?", id, timestamp).unredacted.order("timestamp DESC").first
           unless old_way.nil?
             points = old_way.get_nodes_revert(timestamp)
             if !old_way.visible
@@ -403,11 +403,11 @@ class AmfController < ApplicationController
       # Find list of revision dates for way and all constituent nodes
       revdates=[]
       revusers={}
-      Way.find(wayid).old_ways.collect do |a|
+      Way.find(wayid).old_ways.unredacted.collect do |a|
         revdates.push(a.timestamp)
         unless revusers.has_key?(a.timestamp.to_i) then revusers[a.timestamp.to_i]=change_user(a) end
         a.nds.each do |n|
-          Node.find(n).old_nodes.collect do |o|
+          Node.find(n).old_nodes.unredacted.collect do |o|
             revdates.push(o.timestamp)
             unless revusers.has_key?(o.timestamp.to_i) then revusers[o.timestamp.to_i]=change_user(o) end
           end
@@ -436,7 +436,7 @@ class AmfController < ApplicationController
 
   def getnode_history(nodeid) #:doc:
     begin 
-      history = Node.find(nodeid).old_nodes.reverse.collect do |old_node|
+      history = Node.find(nodeid).old_nodes.unredacted.reverse.collect do |old_node|
         [old_node.timestamp.succ.strftime("%d %b %Y, %H:%M:%S")] + change_user(old_node)
       end
       return ['node', nodeid, history]
@@ -782,7 +782,7 @@ class AmfController < ApplicationController
       n = Node.find(id)
       v = n.version
       unless timestamp == ''
-        n = OldNode.where("id = ? AND timestamp <= ?", id, timestamp).order("timestamp DESC").first
+        n = OldNode.where("node_id = ? AND timestamp <= ?", id, timestamp).unredacted.order("timestamp DESC").first
       end
 
       if n

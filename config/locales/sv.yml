@@ -18,6 +18,7 @@
 # Author: Sertion
 # Author: The real emj
 # Author: Ufred
+# Author: VickyC
 # Author: WikiPhoenix
 # Author: Zvenzzon
 sv: 
@@ -298,14 +299,20 @@ sv:
     list: 
       description: Senaste ändringar
       description_bbox: Changesets inom %{bbox}
+      description_friend: Changesets av dina vänner
+      description_nearby: Changesets av närliggande användare
       description_user: Ändringsset av %{user}
       description_user_bbox: Ändringsset av %{user} inom %{bbox}
       heading: Ändringsset
       heading_bbox: Ändringsset
+      heading_friend: Changesets
+      heading_nearby: Changesets
       heading_user: Ändringsset
       heading_user_bbox: Ändringsset
       title: Ändringsset
       title_bbox: Changesets inom %{bbox}
+      title_friend: Changesets av dina vänner
+      title_nearby: Changesets av närliggande användare
       title_user: Ändringsset av %{user}
       title_user_bbox: Ändringsset av %{user} inom %{bbox}
     timeout: 
@@ -363,6 +370,7 @@ sv:
       older_entries: Äldre anteckningar
       recent_entries: "Aktuella dagboksanteckningar:"
       title: Användardagböcker
+      title_friends: Vänners dagböcker
       title_nearby: Närliggande användares dagböcker
       user_title: "%{user}s dagbok"
     location: 
@@ -375,10 +383,6 @@ sv:
       body: Tyvärr finns inget inlägg med id %{id}. Kontrollera stavning eller så är länken du klickade på felaktig.
       heading: "Ingen dagboksanteckning med id: %{id}"
       title: Ingen sådan dagboksanteckning
-    no_such_user: 
-      body: Det finns ingen användare med namnet %{user}. Kontrollera din stavning, eller kanske det är länken du klickade på som är fel.
-      heading: Användaren %{user} finns inte
-      title: Ingen sådan användare
     view: 
       leave_a_comment: Lämna en kommentar
       login: Inloggning
@@ -403,7 +407,7 @@ sv:
       area_to_export: Yta som ska exporteras
       embeddable_html: Inbäddad HTML
       export_button: Exportera
-      export_details: Data från OpenStreetMap är licenscerat som <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative Commons Attribution-ShareAlike 2.0</a>.
+      export_details: Data från OpenStreetMap har gjorts tillgänglig under licensen <a href="http://creativecommons.org/licenses/by-sa/2.0/deed.sv">Creative Commons Erkännande-DelaLika 2.0</a>.
       format: "Format:"
       format_to_export: Format för export
       image_size: "Bildstorlek:"
@@ -472,16 +476,28 @@ sv:
       suffix_place: ", %{distance} %{direction} om %{placename}"
     search_osm_nominatim: 
       prefix: 
+        aeroway: 
+          aerodrome: Flygplats
+          apron: Ramp
+          gate: Gate
+          helipad: Helikopterplatta
+          runway: Landningsbana
+          taxiway: Taxibana
+          terminal: Terminal
         amenity: 
+          WLAN: WiFi-åtkomst
           airport: Flygplats
           arts_centre: Konstcenter
+          artwork: Konstverk
           atm: Bankomat
           auditorium: Auditorium
           bank: Bank
           bar: Bar
+          bbq: BBQ
           bench: Bänk
           bicycle_parking: Cykelparkering
           bicycle_rental: Cykeluthyrning
+          biergarten: Ölträdgård
           brothel: Bordell
           bureau_de_change: Växlingskontor
           bus_station: Busstation
@@ -490,10 +506,12 @@ sv:
           car_sharing: Bilpool
           car_wash: Biltvätt
           casino: Kasino
+          charging_station: Laddningsstation
           cinema: Biograf
           clinic: Klinik
           club: Klubb
           college: Gymnasium
+          community_centre: Användarcenter
           courthouse: Tingshus
           crematorium: Krematorium
           dentist: Tandläkare
@@ -507,6 +525,7 @@ sv:
           ferry_terminal: Färjeterminal
           fire_hydrant: Brandpost
           fire_station: Brandstation
+          food_court: Food Court
           fountain: Fontän
           fuel: Bränsle
           grave_yard: Begravningsplats
@@ -547,9 +566,12 @@ sv:
           shelter: Hydda
           shop: Affär
           shopping: Handel
+          shower: Dusch
+          social_centre: Nöjescenter
           social_club: Social klubb
           studio: Studio
           supermarket: Stormarknad
+          swimming_pool: Simbassäng
           taxi: Taxi
           telephone: Telefonkiosk
           theatre: Teater
@@ -560,40 +582,20 @@ sv:
           veterinary: Veterinär
           village_hall: gemensamhetslokal
           waste_basket: Papperskorg
-          wifi: WLAN-accesspunkt
+          wifi: WiFi-åtkomst
           youth_centre: Ungdomscenter
         boundary: 
           administrative: Administrativ gräns
+          national_park: Nationalpark
+          protected_area: Skyddat område
+        bridge: 
+          aqueduct: Akvedukt
+          suspension: Hängbro
+          swing: Svängbro
+          viaduct: Viadukt
+          "yes": Bro
         building: 
-          apartments: Flerfamiljshus
-          block: Byggblock
-          bunker: Bunker
-          chapel: Kapell
-          church: Kyrka
-          city_hall: Rådhus
-          commercial: Kommersiell byggnad
-          dormitory: Studenthem
-          entrance: entré
-          faculty: Fakultetsbyggnad
-          farm: Ekonomibyggnad
-          flats: Lägenheter
-          garage: Garage
-          hospital: Sjukhusbyggnad
-          hotel: Hotell
-          house: Hus
-          industrial: Industribyggnad
-          office: Kontorsbyggnad
-          public: Offentlig byggnad
-          residential: Bostadsbyggnad
-          retail: Affärsbyggnad
-          school: Skolbyggnad
-          shop: Affär
-          stadium: Stadium
-          store: Affär
-          terrace: Terass
-          tower: Torn
-          train_station: Järnvägsstation
-          university: Universitetsbyggnad
+          "yes": Byggnad
         highway: 
           bridleway: Ridstig
           bus_guideway: Spårbussväg
@@ -601,12 +603,11 @@ sv:
           byway: Omfartsväg
           construction: Väg under konstruktion
           cycleway: Cykelspår
-          distance_marker: Avståndsmarkör
           emergency_access_point: Utryckningsplats
           footway: Gångväg
           ford: Vadställe
-          gate: Grind
           living_street: Gårdsgata
+          milestone: Milstolpe
           minor: Mindre väg
           motorway: Motorväg
           motorway_junction: Motorvägskorsning
@@ -618,13 +619,16 @@ sv:
           primary_link: Påfart till riksväg
           raceway: Tävlingsbana
           residential: Bostäder
+          rest_area: Rastplats
           road: Väg
           secondary: Länsväg (sekundärväg)
           secondary_link: Påfart till länsväg
           service: Serviceväg
           services: Rastplats-väg
+          speed_camera: Trafiksäkerhetskamera
           steps: Trappa
           stile: Stätta
+          tertiary_link: Landsväg
           track: Traktorväg
           trail: Vandringsled
           trunk: Motortrafikled
@@ -638,6 +642,7 @@ sv:
           building: Byggnad
           castle: Slott
           church: Kyrka
+          fort: Fort
           house: Hus
           icon: Ikon
           manor: Herrgård
@@ -647,9 +652,13 @@ sv:
           museum: Museum
           ruins: Ruin
           tower: Torn
+          wayside_cross: Landmärke
+          wayside_shrine: Vägkants-helgedom
           wreck: Vrak
         landuse: 
           allotments: Kolonilotter
+          basin: Bassin
+          brownfield: Outvecklat område
           cemetery: Begravningsplats
           commercial: Kommersiellt område
           conservation: Skyddat
@@ -658,6 +667,7 @@ sv:
           farmland: Jordbruksmark
           farmyard: Gårdstun
           forest: Skog
+          garages: Garage
           grass: Gräs
           greenfield: Outvecklat område
           industrial: Industriområde
@@ -665,24 +675,28 @@ sv:
           meadow: Äng
           military: Militärområde
           mine: Gruva
-          mountain: Berg
           nature_reserve: Naturreservat
+          orchard: Plantering
           park: Park
           piste: Pist
-          plaza: Torg
           quarry: Stenbrott
           railway: Järnväg
           recreation_ground: Rekreationsområde
           reservoir: Reservoar
+          reservoir_watershed: Dammbyggnad
           residential: Bostadsområde
           retail: Detaljhandel
+          road: Vägområde
+          village_green: Landsbypark
           vineyard: Vingård
           wetland: Våtmark
           wood: Skog
         leisure: 
           beach_resort: Badort
+          bird_hide: Fågelnäste
           common: Allmänning
           fishing: Fiskevatten
+          fitness_station: Gym
           garden: Trädgård
           golf_course: Golfbana
           ice_rink: Isrink
@@ -693,12 +707,17 @@ sv:
           pitch: Idrottsplan
           playground: Lekplats
           recreation_ground: Rekreationsområde
+          sauna: Bastu
           slipway: Stapelbädd
           sports_centre: Sporthall
           stadium: Stadium
           swimming_pool: Simbassäng
           track: Löparbana
           water_park: Vattenpark
+        military: 
+          airfield: Militärt flygfält
+          barracks: Kaserner
+          bunker: Bunker
         natural: 
           bay: Bukt
           beach: Strand
@@ -706,11 +725,12 @@ sv:
           cave_entrance: Grottmynning
           channel: Kanal
           cliff: Klippa
-          coastline: Kustlinje
           crater: Krater
+          dune: Sanddyn
           feature: Funktioner
           fell: Fjäll
           fjord: Fjord
+          forest: Skog
           geyser: Gejser
           glacier: Glaciär
           heath: Ljunghed
@@ -730,6 +750,7 @@ sv:
           scrub: Buskskog
           shoal: Sandbank
           spring: Källa
+          stone: Sten
           strait: Sund
           tree: Träd
           valley: Dal
@@ -738,6 +759,19 @@ sv:
           wetland: Våtmark
           wetlands: Våtmark
           wood: Skog
+        office: 
+          accountant: Revisor
+          architect: Arkitekt
+          company: Företag
+          employment_agency: Bemanningsföretag
+          estate_agent: Fastighetsmäklare
+          government: Statligt kontor
+          insurance: Försäkringskassa
+          lawyer: Advokat
+          ngo: Icke-statligt kontor
+          telecommunication: Telefonbolag
+          travel_agent: Resebyrå
+          "yes": Kontor
         place: 
           airport: Flygplats
           city: Stad
@@ -749,6 +783,7 @@ sv:
           houses: Hus
           island: Ö
           islet: Holme
+          isolated_dwelling: Enslig bostad
           locality: Läge
           moor: Hed
           municipality: Kommun
@@ -770,7 +805,9 @@ sv:
           halt: Tågstopp
           historic_station: Historisk Järnvägsstation
           junction: Järnvägsknutpunkt
+          level_crossing: Plankorsning
           light_rail: Spårvagn
+          miniature: Miniatyrjärnväg
           monorail: Enspårsbana
           narrow_gauge: Smalspårsjärnväg
           platform: Tågperrong
@@ -784,15 +821,16 @@ sv:
           tram_stop: Spårvagnshållplats
           yard: Bangård
         shop: 
-          apparel: Klädbutik
+          alcohol: Systembolag
+          antiques: Antikviteter
           art: Konstaffär
           bakery: Bageri
           beauty: Skönhetssalong
+          beverages: Dryckesbutik
           bicycle: Cykelaffär
           books: Bokhandel
           butcher: Slaktare
           car: Bilhandlare
-          car_dealer: Bilförsäljare
           car_parts: Bildelar
           car_repair: Bilverkstad
           carpet: Mattaffär
@@ -802,10 +840,11 @@ sv:
           computer: Datorbutik
           confectionery: Godisbutik
           convenience: Närköp
+          copyshop: Kopieringsfirma
           cosmetics: Parfymeri
           department_store: Varuhus
+          discount: Lågprisbutik
           doityourself: Gör-det-själv
-          drugstore: Apotek
           dry_cleaning: Kemtvätt
           electronics: Elektronikbutik
           estate_agent: Egendomsmäklare
@@ -871,7 +910,10 @@ sv:
           valley: Dal
           viewpoint: Utsiktspunkt
           zoo: Djurpark
+        tunnel: 
+          "yes": Tunnel
         waterway: 
+          artificial: Artificiellt vattendrag
           boatyard: Båtvarv
           canal: Kanal
           connector: Förbindelsepunkt för farled
@@ -889,6 +931,7 @@ sv:
           riverbank: Älvbank
           stream: Ström
           wadi: Uttorkad flod
+          water_point: Vattenpunkt
           waterfall: Vattenfall
           weir: Överfallsvärn
   javascripts: 
@@ -903,6 +946,7 @@ sv:
       history_tooltip: Visa ändringar för detta område
       history_zoom_alert: Du måste zooma in för att kunna se karteringshistorik.
   layouts: 
+    community: Användare
     community_blogs: Communitybloggar
     community_blogs_title: Bloggar från OpenStreetMap-medlemmar
     copyright: Upphovsrätt & licens
@@ -930,11 +974,14 @@ sv:
       other: Du har %{count} olästa meddelanden
       zero: Du har inga olästa meddelanden.
     intro_1: Openstreetmap är en fri redigeringsbar karta av hela världen, den görs av folk precis som du.
-    intro_2: Openstreetmap låter dig i samarbete med andra visa, ändra på och använda geografisk data från hela världen.
-    intro_3: OpenStreetMaps serverplats stöds av %{ucl}, %{ic} och %{bytemark}. Andra som stödjer projektet listas i %{partners}.
-    intro_3_partners: wiki
+    intro_2_create_account: Skapa ett användarkonto
+    intro_2_download: ladda ner
+    intro_2_html: Informationen är fri att %{download} och %{use} under dess %{license}. %{create_account} för att förbättra kartan.
+    intro_2_license: Öppna licens
+    intro_2_use: använda
+    intro_2_use_url: http://wiki.OpenStreetMap.org/wiki/Using_OpenStreetMap
     license: 
-      title: Openstreetmap datat licensieras som Creative Commons Attribution-Share Alike 2.0 Generic License.
+      title: Data från OpenStreetMap har gjorts tillgänglig under licensen Creative Commons Erkännande-Dela Lika 2.0 Generisk.
     log_in: logga in
     log_in_tooltip: Logga in med ditt konto
     logo: 
@@ -946,6 +993,12 @@ sv:
       title: Stöd OpenStreetMap med en monetär donation
     osm_offline: OpenStreetMap-databasen är inte tillgänglig just nu, då databasunderhåll pågår.
     osm_read_only: Det går bara att läsa från OpenStreetMap-databasen just nu, då viktigt underhåll utförs på databasen.
+    partners_bytemark: Bytemark Hosting
+    partners_html: Hosting via %{ucl}, %{ic} och %{bytemark}, med flera %{partners}.
+    partners_ic: Imperial College London
+    partners_partners: partners
+    partners_ucl: UCL VR Center
+    partners_url: http://wiki.openstreetmap.org/wiki/Partners
     sign_up: registrera
     sign_up_tooltip: Skapa ett konto för kartering
     sotm2011: Kom till 2011 års OpenStreetMapkonferens, The State of the Map, 9:e -11:e september i Denver!
@@ -963,7 +1016,7 @@ sv:
       english_link: det engelska originalet
       text: I händelse av en konflikt mellan denna översatta sida och %{english_original_link} har den engelska texten företräde
       title: Om denna översättning
-    legal_babble: "<h2>Upphovsrätt och licens</h2>\n<p>\n   OpenStreetMap är <i>Öppen data</i>, licensierad under <a\n   href=\"http://creativecommons.org/licenses/by-sa/2.0/\">Creative\n   Commons Attribution-ShareAlike 2.0</a> licence (CC-BY-SA).\n</p>\n<p>\n  Du är fri att kopiera, distribuera, överföra och anpassa våra kartor\n  och data, så länge du hänvisar till OpenStreetMap och dess\n  bidragsgivare. Om du ändrar eller bygger på våra kartor eller data kan du\n  distribuera resultatet endast under samma licens. Den\n  fullständig<a\n  href=\"http://creativecommons.org/licenses/by-sa/2.0/legalcode\">juridiska texten</a> förklarar dina rättigheter och skyldigheter.\n</a!n!></p>\n\n<h3>Hur du hänvisar till OpenStreetMap</h3>\n<p>\n  Om du använder OpenStreetMaps kartbilder begär vi att\n  din hänvisning inehåller minst &ldquo;&copy; OpenStreetMap\n  contributors, CC-BY-SA&rdquo;. Om du enbart använder kartdata\n  begär vi &ldquo;Map data &copy; OpenStreetMap contributors,\n  CC-BY-SA&rdquo;.\n</p>\n<p>\n  Om möjligt bör OpenStreetMap bli länkat till <a\n  href=\"http://www.openstreetmap.org/\">http://www.openstreetmap.org/</a>\n  och CC-av-SA till <a\n  href=\"http://creativecommons.org/licenses/by-sa/2.0/\">http://creativecommons.org/licenses/by-sa/2.0/</a>. Om\n  du använder ett medium där länkar inte är möjligt (t.ex. ett\n  tryckt arbete), föreslår vi att du hänvisar läsarna till\n  www.openstreetmap.org (kanske genom att expandera\n  &lsquo;OpenStreetMap&rsquo; till dess fullständiga adress) och till\n  www.creativecommons.org.\n</p>\n\n<h3>Hitta mer</h3>\n<p>\n  Läs mer om hur du använder vår data på vår <a\n  href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">juridiska\n  FAQ</a>.\n<p>\n  OSM bidragsgivare påminns att aldrig att lägga till data från några\n  upphovsrättsskyddade källor (t.ex. Google Maps eller tryckta kartor) utan\n  uttryckligt tillstånd från upphovsrättsinnehavarna.\n</p>\n<p>\n  Även om OpenStreetMap är öppna data, vi kan inte tillhandahålla ett\n  gratis kart-API för tredjepartsutvecklare.\n\n  Se vår <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">Policy för användning API</a>,\n  <a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">Policy för användning av Kartbilder (Tiles)</a>\n  och <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">Policyn för Nominatim-användning</a>.\n</p>\n\n<h3>Våra bidragsgivare</h3>\n<p>\n  Vår CC-av-SA-licens kräver att du &ldquo;ge ursprunglig\n  författaren kredit rimliga för det medium eller syfte du \n  utnyttja\". Enskilda OSM-kartografer begär inte en kredit utöver &ldquo;OpenStreetMap\n  contributors&rdquo;, men där data från en nationell kartläggningsbyrån eller annan viktig källa har inkluderats i\n  OpenStreetMap kan det vara rimligt att kreditera dem genom att direkt\n  lägga till deras kredit eller genom att länkning till det på den här sidan.\n</p>\n\n<!--\nInformation for page editors\n\nThe following lists only those organisations who require attribution\nas a condition of their data being used in OpenStreetMap. It is not a\ngeneral catalogue of imports, and must not be used except when\nattribution is required to comply with the licence of the imported\ndata.\n\nAny additions here must be discussed with OSM sysadmins first.\n-->\n\n<ul id=\"contributors\">\n   <li><strong>Australien</strong>: innehåller förortsdata baserade på australiska statistiska data.</li>\n   <li><strong>Österrike</strong>: innehåller data från <a href=\"http://data.wien.gv.at/\">Stadt Wien</a> under\n    <a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.de\">CC-BY</a>.</li>\n   <li><strong>Kanada</strong>: innehåller data från GeoBase&reg;, GeoGratis (&copy; Department of Natural\n    Resources Canada), CanVec (&copy; Department of Natural\n    Resources Canada) och StatCan (Geography Division, Statistics Canada.</li>\n   <li><strong>Frankrike</strong>: innehåller data från Direction Générale des Impôts.</li>\n   <li><strong>Nya Zeeland</strong>: innehåller data från Land Information New Zealand. Crown Copyright reserved.</li>\n   <li><strong>Polen</strong>: innehåller data från <a\n    href=\"http://ump.waw.pl/\">UMP-pcPL kartor</a>. Copyright UMP-pcPL contributors.</</li>\n   <li><strong>Storbritanien</strong>: innehåller Ordnance Survey data &copy; Crown copyright and database right 2010.</li>\n</ul>\n\n<p>\n  Införandet av uppgifter i OpenStreetMap innebär inte att ursprungligt\n  databidragare stöder OpenStreetMap, ger garanti eller\n  accepterar något ansvar.\n</p>"
+    legal_babble: "<h2>Upphovsrätt och licens</h2>\n<p>\n   OpenStreetMap är <i>Öppen data</i>, gjord tillgänglig under licensen<a\n   href=\"http://creativecommons.org/licenses/by-sa/2.0/\">Creative\n   Commons Erkännande-DelaLika 2.0</a> (CC BY-SA).\n</p>\n<p>\n  Du är fri att kopiera, distribuera, överföra och anpassa våra kartor\n  och data, så länge du hänvisar till OpenStreetMap och dess\n  bidragsgivare. Om du ändrar eller bygger på våra kartor eller data kan du\n  distribuera resultatet endast under samma licens. Den\n  fullständig<a\n  href=\"http://creativecommons.org/licenses/by-sa/2.0/legalcode\">juridiska texten</a> förklarar dina rättigheter och skyldigheter.\n</a!n!></p>\n\n<h3>Hur du hänvisar till OpenStreetMap</h3>\n<p>\n  Om du använder OpenStreetMaps kartbilder begär vi att\n  din hänvisning inehåller minst &ldquo;&copy; OpenStreetMap\n  contributors, CC BY-SA&rdquo;. Om du enbart använder kartdata\n  begär vi &ldquo;Map data &copy; OpenStreetMap contributors,\n  CC BY-SA&rdquo;.\n</p>\n<p>\n  Om möjligt bör OpenStreetMap bli länkat till <a\n  href=\"http://www.openstreetmap.org/\">http://www.openstreetmap.org/</a>\n  och CC BY-SA till <a\n  href=\"http://creativecommons.org/licenses/by-sa/2.0/\">http://creativecommons.org/licenses/by-sa/2.0/</a>. Om\n  du använder ett medium där länkar inte är möjligt (t.ex. ett\n  tryckt arbete), föreslår vi att du hänvisar läsarna till\n  www.openstreetmap.org (kanske genom att expandera\n  &lsquo;OpenStreetMap&rsquo; till dess fullständiga adress) och till\n  www.creativecommons.org.\n</p>\n\n<h3>Hitta mer</h3>\n<p>\n  Läs mer om hur du använder vår data på vår <a\n  href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">juridiska\n  FAQ</a>.\n<p>\n  OSM bidragsgivare påminns att aldrig att lägga till data från några\n  upphovsrättsskyddade källor (t.ex. Google Maps eller tryckta kartor) utan\n  uttryckligt tillstånd från upphovsrättsinnehavarna.\n</p>\n<p>\n  Även om OpenStreetMap är öppna data, kan vi inte tillhandahålla ett\n  gratis kart-API för tredjepartsutvecklare.\n\n  Se vår <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">Policy för användning API</a>,\n  <a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">Policy för användning av Kartbilder (Tiles)</a>\n  och <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">Policyn för Nominatim-användning</a>.\n</p>\n\n<h3>Våra bidragsgivare</h3>\n<p>\n  Vår CC BY-SA-licens kräver att du &ldquo;ge ursprunglig\n  författaren erkännande rimliga för det medium eller syfte du \n  utnyttja\". Enskilda OSM-kartografer begär inte en kredit utöver &ldquo;OpenStreetMap\n  contributors&rdquo;, men där data från en nationell kartläggningsbyrån eller annan viktig källa har inkluderats i\n  OpenStreetMap kan det vara rimligt att kreditera dem genom att direkt\n  lägga till deras kredit eller genom att länkning till det på den här sidan.\n</p>\n\n<!--\nInformation for page editors\n\nThe following lists only those organisations who require attribution\nas a condition of their data being used in OpenStreetMap. It is not a\ngeneral catalogue of imports, and must not be used except when\nattribution is required to comply with the licence of the imported\ndata.\n\nAny additions here must be discussed with OSM sysadmins first.\n-->\n\n<ul id=\"contributors\">\n   <li><strong>Australien</strong>: innehåller förortsdata baserade på australiska statistiska data.</li>\n   <li><strong>Österrike</strong>: innehåller data från <a href=\"http://data.wien.gv.at/\">Stadt Wien</a> under\n    <a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.de\">CC BY</a>.</li>\n   <li><strong>Kanada</strong>: innehåller data från GeoBase&reg;, GeoGratis (&copy; Department of Natural\n    Resources Canada), CanVec (&copy; Department of Natural\n    Resources Canada) och StatCan (Geography Division, Statistics Canada.</li>\n   <li><strong>Frankrike</strong>: innehåller data från Direction Générale des Impôts.</li>\n   <li><strong>Nya Zeeland</strong>: innehåller data från Land Information New Zealand. Crown Copyright reserved.</li>\n   <li><strong>Polen</strong>: innehåller data från <a\n    href=\"http://ump.waw.pl/\">UMP-pcPL kartor</a>. Copyright UMP-pcPL contributors.\n    <a href=\"http://wiki.openstreetmap.org/wiki/UMP2OSM_Importing\">\n    Mer om OSM&apos;s användande av UMP data</a></li>\n    <li><strong>Sydafrika</strong>: innehåller data från\n    <a href=\"http://www.ngi.gov.za/\">Chief Directorate:\n    National Geo-Spatial Information</a>, State copyright reserved.</li>\n   <li><strong>Storbritanien</strong>: innehåller Ordnance Survey data &copy; Crown copyright and database right 2010.</li>\n</ul>\n\n<p>\n  Införandet av uppgifter i OpenStreetMap innebär inte att ursprungligt\n  databidragare stöder OpenStreetMap, ger garanti eller\n  accepterar något ansvar.\n</p>"
     native: 
       mapping_link: börja kartlägga
       native_link: Svensk version
@@ -1009,10 +1062,6 @@ sv:
       body: Det finns inget meddelande med det ID-et.
       heading: Inget sådant meddelande
       title: Inget sådant meddelande
-    no_such_user: 
-      body: Tyvärr finns ingen användare med det namnet.
-      heading: Ingen sådan användare
-      title: Ingen sådan användare
     outbox: 
       date: Datum
       inbox: inbox
@@ -1038,6 +1087,7 @@ sv:
       title: Läs meddelande
       to: Till
       unread_button: Markera som oläst
+      wrong_user: Du är inloggad som '%{user}' men meddelandet du har bett om att få läsa skickades inte till eller av den användaren. Logga in som korrekt användare för att läsa det..
     reply: 
       wrong_user: Du är inloggad som '%{user}' men meddelandet du har beth om att besvara skickades inte till den användaren. Logga in som den användaren för att svara.
     sent_message_summary: 
@@ -1166,24 +1216,31 @@ sv:
       allow_write_prefs: ändra deras användarinställningar.
       authorize_url: "Godkänn URL:"
       edit: Redigera detaljer
+      key: "Konsumentnyckel:"
       requests: "Begär följande behörigheter från användaren:"
+      secret: "Konsumenthemlighet:"
       support_notice: Vi stödjer HMAC-SHA1 (rekommenderas) såväl som oformaterad text i SSL-läge.
+      title: OAuth-detaljer för %{app_name}
   site: 
     edit: 
       anon_edits_link_text: Ta reda på varför det är så.
       flash_player_required: Du måste ha Flash för att kunna använda Potatch, OpenStreetMaps flasheditor. Du kan <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">ladda hem Flash Player från Adobe.com</a>. Det finns <a href="http://wiki.openstreetmap.org/wiki/Editing">flera andra editorer</a> tillgängliga för OpenStreetMap.
       no_iframe_support: Din webbläsare stöder inte HTML iframe, som är nödvändiga för den här funktionen.
       not_public: Du har into ändrat statusen på dina ändringar till offentliga.
+      not_public_description: Du kan inte längre redigera kartan om du inte gör det. Du kan göra dina redigeringar offentliga från din %{user_page}.
+      potlatch2_not_configured: Potlatch 2 har inte konfigurerats - se http://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2 för mer information
       potlatch2_unsaved_changes: Du har osparade ändringar. (För att spara i Potlatch 2, bör du klicka på Spara.)
+      potlatch_unsaved_changes: Du har osparade ändringar. (För att spara i Potlatch, bör du avmarkera den nuvarande vägen eller markeringen om du redigerar i realtidsläge, eller klicka på Spara om du har en Spara-knapp.)
       user_page_link: användarsida
     index: 
       js_1: Du måste ha javascript påslaget, alternativt en webbläsare som stödjer javascript.
       js_2: OpentStreetMap använder javascript för slippymapen
-      js_3: Du kan prova <a href="http://tah.openstreetmap.org/Browse/">Tiles@Home statiska kartan</a> om du inte kan använda javascript.
       license: 
         license_name: Creative Commons Erkännande-DelaLika 2.0
+        notice: Licensierat under licensen %{license_name} av %{project_name} och dess bidragsgivare..
         project_name: OpenStreetMap-projektet
       permalink: Permanent länk
+      remote_failed: Redigering misslyckades - kontrollera att JOSM eller Merkaartor är inläst och fjärrkontrollsalternativet är aktiverat
       shortlink: Kortlänk
     key: 
       map_key: Kartnyckel
@@ -1199,6 +1256,7 @@ sv:
           bridleway: Ridstig
           brownfield: Förfallen industritomt
           building: Viktig byggnad
+          byway: Förbifart
           cable: 
             - stollift
             - stollift
@@ -1295,10 +1353,6 @@ sv:
       your_traces: Dina GPS-spår
     make_public: 
       made_public: Spår offentliggjort
-    no_such_user: 
-      body: Det fanns ingen användare med namnet %{user}. Kontrollera stavningen, och om länken du klickade på var korrekt.
-      heading: Användaren %{user} finns inte
-      title: Ingen sådan användare
     offline: 
       heading: GPX förvaring är offlien
       message: GPX-uppladdningssystemet är för närvarande inte tillgängligt.

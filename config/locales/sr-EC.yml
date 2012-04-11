@@ -146,6 +146,13 @@ sr-EC:
         prev_node_tooltip: Претходни чвор
         prev_relation_tooltip: Претходни однос
         prev_way_tooltip: Претходна путања
+      paging: 
+        all: 
+          next: "%{id} »"
+          prev: « %{id}
+        user: 
+          next: "%{id} »"
+          prev: « %{id}
       user: 
         name_changeset_tooltip: Погледај измене корисника %{user}
         next_changeset_tooltip: Следећа измена корисника %{user}
@@ -192,6 +199,7 @@ sr-EC:
       relation_history_title: "Историја односа: %{relation_name}"
       view_details: погледај детаље
     relation_member: 
+      entry: "%{type} %{name}"
       entry_role: "%{type} %{name} као %{role}"
       type: 
         node: Чвор
@@ -270,6 +278,7 @@ sr-EC:
     changeset: 
       anonymous: Анонимно
       big_area: (велико)
+      id: бр. %{id}
       no_comment: (нема коментара)
       no_edits: (нема измена)
       show_area_box: погледај оквир подручја
@@ -307,6 +316,14 @@ sr-EC:
     timeout: 
       sorry: Жао нам је, али списак измена који сте захтевали је предугачак.
   diary_entry: 
+    comments: 
+      ago: пре %{ago}
+      comment: Коментар
+      has_commented_on: "%{display_name} је прокоментарисао следеће уносе у дневнику"
+      newer_comments: Новији коментари
+      older_comments: Старији коментари
+      post: Постави
+      when: Када
     diary_comment: 
       comment_from: Коментар корисника %{link_user} у %{comment_created_at}
       confirm: Потврди
@@ -364,10 +381,6 @@ sr-EC:
       body: Жао нам је, али нема уноса у дневнику или коментар с ИБ %{id}. Проверите исправност уписа или везе коју сте кликнули.
       heading: "Нема уноса с ИБ: %{id}"
       title: Нема таквог уноса у дневнику
-    no_such_user: 
-      body: Жао нам је, али нема корисника с именом %{user}. Проверите исправност уписа или везе коју сте кликнули.
-      heading: Корисник %{user} не постоји
-      title: Нема таквог корисника
     view: 
       leave_a_comment: Оставите коментар
       login: Пријавите се
@@ -400,6 +413,7 @@ sr-EC:
       licence: Лиценца
       longitude: "ГД:"
       manually_select: Ручно изаберите друго подручје
+      map_image: Слика мапе (приказује стандардни слој)
       max: највише
       options: Могућности
       osm_xml_data: Опенстритмап XML подаци
@@ -458,18 +472,31 @@ sr-EC:
     search_osm_namefinder: 
       suffix_parent: "%{suffix} (%{parentdistance} %{parentdirection} од %{parentname})"
       suffix_place: ", %{distance} %{direction} од %{placename}"
+      suffix_suburb: "%{suffix}, %{parentname}"
     search_osm_nominatim: 
       prefix: 
+        aeroway: 
+          aerodrome: Аеродром
+          apron: Рампа
+          gate: Капија
+          helipad: Хелиодром
+          runway: Писта
+          taxiway: Рулна стаза
+          terminal: Терминал
         amenity: 
+          WLAN: Бежични интернет
           airport: Аеродром
           arts_centre: Уметнички центар
+          artwork: Уметничко дело
           atm: Банкомат
           auditorium: Дворана
           bank: Банка
           bar: Бар
+          bbq: Роштиљ
           bench: Клупа
           bicycle_parking: Бициклистички паркинг
           bicycle_rental: Изнајмљивање бицикла
+          biergarten: Пивска башта
           brothel: Јавна кућа
           bureau_de_change: Мењачница
           bus_station: Аутобуска станица
@@ -478,6 +505,7 @@ sr-EC:
           car_sharing: Заједничко коришћење аутомобила
           car_wash: Ауто-перионица
           casino: Казино
+          charging_station: Напојна станица
           cinema: Биоскоп
           clinic: Клиника
           club: Клуб
@@ -496,6 +524,7 @@ sr-EC:
           ferry_terminal: Скела
           fire_hydrant: Хидрант
           fire_station: Ватрогасна станица
+          food_court: Штандови за брзу храну
           fountain: Фонтана
           fuel: Бензинска пумпа
           grave_yard: Гробље
@@ -536,9 +565,12 @@ sr-EC:
           shelter: Склониште
           shop: Продавница
           shopping: Трговачки центар
+          shower: Туш
+          social_centre: Социјални центар
           social_club: Друштвени клуб
           studio: Студио
           supermarket: Супермаркет
+          swimming_pool: Базен
           taxi: Такси
           telephone: Телефонска говорница
           theatre: Позориште
@@ -553,37 +585,17 @@ sr-EC:
           youth_centre: Дом омладине
         boundary: 
           administrative: Административна граница
+          census: Пописна граница
+          national_park: Национални парк
+          protected_area: Заштићено подручје
+        bridge: 
+          aqueduct: Аквадукт
+          suspension: Висећи мост
+          swing: Вртешки мост
+          viaduct: Вијадукт
+          "yes": Мост
         building: 
-          apartments: Стамбени блок
-          block: Блок зграда
-          bunker: Бункер
-          chapel: Капела
-          church: Црква
-          city_hall: Градска скупштина
-          commercial: Пословна зграда
-          dormitory: Студентски дом
-          entrance: Улаз у зграду
-          faculty: Зграда факултета
-          farm: Зграда фарме
-          flats: Станови
-          garage: Гаража
-          hall: Хала
-          hospital: Болница
-          hotel: Хотел
-          house: Кућа
-          industrial: Индустријска зграда
-          office: Пословница
-          public: Јавна зграда
-          residential: Стамбена зграда
-          retail: Малопродајна радња
-          school: Школа
-          shop: Продавница
-          stadium: Стадион
-          store: Продавница
-          terrace: Тераса
-          tower: Торањ
-          train_station: Железничка станица
-          university: Универзитетска зграда
+          "yes": Зграда
         highway: 
           bridleway: Коњичка стаза
           bus_guideway: Аутобуска трака
@@ -591,12 +603,11 @@ sr-EC:
           byway: Пречица
           construction: Ауто-пут у изградњи
           cycleway: Бициклистичка стаза
-          distance_marker: Ознака удаљености
           emergency_access_point: Излаз за случај опасности
           footway: Пешачка стаза
           ford: Газ
-          gate: Капија
           living_street: Улица смиреног промета
+          milestone: Миљоказ
           minor: Другоразредни пут
           motorway: Ауто-пут
           motorway_junction: Петља
@@ -608,14 +619,17 @@ sr-EC:
           primary_link: Главни пут
           raceway: Тркачка стаза
           residential: Улица
+          rest_area: Одмаралиште
           road: Пут
           secondary: Споредни пут
           secondary_link: Споредни пут
           service: Сервисни пут
           services: Услуге на ауто-путу
+          speed_camera: Фото-радар
           steps: Степенице
           stile: Прелаз преко ограде
           tertiary: Локални пут
+          tertiary_link: Локални пут
           track: Макадам
           trail: Стаза
           trunk: Магистрални пут
@@ -629,6 +643,7 @@ sr-EC:
           building: Зграда
           castle: Дворац
           church: Црква
+          fort: Утврђивање
           house: Кућа
           icon: Икона
           manor: Племићко имање
@@ -653,6 +668,7 @@ sr-EC:
           farmland: Поље
           farmyard: Фарма
           forest: Шума
+          garages: Гаража
           grass: Трава
           greenfield: Зелено поље
           industrial: Индустријско подручје
@@ -660,25 +676,28 @@ sr-EC:
           meadow: Ливада
           military: Војно подручје
           mine: Рудник
-          mountain: Планина
           nature_reserve: Резерват природе
+          orchard: Воћњак
           park: Парк
           piste: Скијашка стаза
-          plaza: Шеталиште
           quarry: Каменолом
           railway: Железничка пруга
           recreation_ground: Рекреацијско подручје
           reservoir: Резервоар
+          reservoir_watershed: Акумулациона вододелница
           residential: Стамбено подручје
           retail: Малопродаја
+          road: Путно подручје
           village_green: Сеоско поље
           vineyard: Виноград
           wetland: Мочвара
           wood: Шума
         leisure: 
           beach_resort: Морско одмаралиште
+          bird_hide: Склониште за птице
           common: Општинско земљиште
           fishing: Риболовно подручје
+          fitness_station: Технички преглед
           garden: Башта
           golf_course: Голф терен
           ice_rink: Клизалиште
@@ -689,6 +708,7 @@ sr-EC:
           pitch: Спортско игралиште
           playground: Игралиште
           recreation_ground: Рекреацијско подручје
+          sauna: Сауна
           slipway: Навоз
           sports_centre: Спортски центар
           stadium: Стадион
@@ -702,7 +722,6 @@ sr-EC:
           cave_entrance: Улаз у пећину
           channel: Канал
           cliff: Литица
-          coastline: Обала
           crater: Кратер
           feature: Обележје
           fell: Брдо
@@ -782,7 +801,6 @@ sr-EC:
           yard: Ранжирна станица
         shop: 
           alcohol: Трговина пићем
-          apparel: Трговина одећом
           art: Атеље
           bakery: Пекара
           beauty: Парфимерија
@@ -791,7 +809,6 @@ sr-EC:
           books: Књижара
           butcher: Месара
           car: Ауто-кућа
-          car_dealer: Ауто-дилер
           car_parts: Ауто-делови
           car_repair: Ауто-сервис
           carpet: Продавница тепиха
@@ -806,7 +823,6 @@ sr-EC:
           department_store: Робна кућа
           discount: Дисконт
           doityourself: Уради сам
-          drugstore: Дрогерија
           dry_cleaning: Хемијско чишћење
           electronics: Електронска опрема
           estate_agent: Агент за некретнине
@@ -893,12 +909,18 @@ sr-EC:
           water_point: Тачка водотока
           waterfall: Водопад
           weir: Брана
+      prefix_format: "%{name}"
+  html: 
+    dir: ltr
   javascripts: 
     map: 
       base: 
         cycle_map: Бициклистичка мапа
         mapquest: Мапквест опен
-        transport_map: Саобраћајна карта
+        standard: Стандардна
+        transport_map: Саобраћајна мапа
+      overlays: 
+        maplint: Маплинт
     site: 
       edit_disabled_tooltip: Увећајте приказ да бисте уредили мапу
       edit_tooltip: Уредите мапу
@@ -925,6 +947,7 @@ sr-EC:
     help: Помоћ
     help_centre: Центар за помоћ
     help_title: Страница помоћи за пројекат
+    help_url: http://help.openstreetmap.org/
     history: Историја
     home: дом
     home_tooltip: Иди на локацију дома
@@ -933,12 +956,12 @@ sr-EC:
       one: Ваше сандуче садржи једну непрочитану поруку
       other: Ваше сандуче садржи %{count} непрочитане поруке
       zero: Ваше сандуче не садржи непрочитане поруке
-    intro_1: Опенстритмап је слободна карта целог света. Сачињавају је корисници као што сте ви.
-    intro_2: Опенстритмап вам омогућава да прегледате, уређујете и користите географске податке с било ког места на земљи.
-    intro_3: Одржавање Опенстритмапа подржава %{ucl}, %{ic} и %{bytemark}. Остале присталице пројекта су на списку %{partners}.
-    intro_3_ic: Лондонски краљевски колеџ
-    intro_3_partners: вики
+    intro_1: Опенстритмап је слободна мапа целог света. Сачињавају је корисници као што сте ви.
+    intro_2_download: преузимање
+    intro_2_license: отворена лиценца
+    intro_2_use: употреба
     license: 
+      alt: CC BY-SA 2.0
       title: Подаци Опенстритмапа су објављени под лиценцом Кријејтив комонс Ауторство-Делити под истим условима 2.0
     log_in: пријави ме
     log_in_tooltip: Пријавите се с постојећим налогом
@@ -951,6 +974,11 @@ sr-EC:
       title: Подржите Опенстритмап новчаним прилогом
     osm_offline: База података Опенстритмапа је тренутно недоступна док се не заврше важни радови на одржавању.
     osm_read_only: Због радова на одржавању базе података Опенстритмапа, исту тренутно није могуће мењати.
+    partners_html: Хостинг подржава %{ucl}, %{ic} и %{bytemark}, као и други %{partners}.
+    partners_ucl: VR центар UCL-а
+    project_name: 
+      h1: Опенстритмап
+      title: Опенстритмап
     sign_up: отвори налог
     sign_up_tooltip: Отворите налог да бисте уређивали
     sotm2011: Дођите на Конференцију Опенстритмапа 2011, Стање мапе, од 9. до 11. септембра  у Денверу!
@@ -963,6 +991,7 @@ sr-EC:
     welcome_user_link_tooltip: Ваша корисничка страница
     wiki: вики
     wiki_title: Вики странице пројекта
+    wiki_url: http://wiki.openstreetmap.org/wiki/Sr:Main_Page?uselang=sr-ec
   license_page: 
     foreign: 
       english_link: енглеског оригинала
@@ -1014,10 +1043,6 @@ sr-EC:
       body: Нажалост, нема поруке с тим ИБ.
       heading: Нема такве поруке
       title: Нема такве поруке
-    no_such_user: 
-      body: Нажалост, не постоји корисник с тим именом.
-      heading: Нема таквог корисника
-      title: Нема таквог корисника
     outbox: 
       date: Датум
       inbox: примљене
@@ -1067,14 +1092,15 @@ sr-EC:
       hopefully_you_2: "%{server_url} на %{new_address}."
     friend_notification: 
       befriend_them: Можете га/је додати и као пријатеља на %{befriendurl}.
-      had_added_you: "%{user} вас додаде као пријатеља на Опенстритмапу."
+      had_added_you: "%{user} вас је додао као пријатеља на Опенстритмапу."
       see_their_profile: Можете видети његов/њен профил на %{userurl}.
-      subject: "[OpenStreetMap] %{user} вас додаде као пријатеља"
+      subject: "[Опенстритмап] %{user} вас је додао као пријатеља"
     gpx_notification: 
       and_no_tags: и без ознака.
       and_the_tags: "и са следећим ознакама:"
       failure: 
         failed_to_import: "Увоз није успео. Грешка:"
+        import_failures_url: http://wiki.openstreetmap.org/wiki/GPX_Import_Failures?uselang=sr-ec
         more_info_1: Више о неуспелом GPX увозу и како то избећи
         more_info_2: "може се наћи на:"
         subject: "[OpenStreetMap] GPX увоз није успео"
@@ -1100,6 +1126,7 @@ sr-EC:
       footer2: и можете одговорити на %{replyurl}
       header: "%{from_user} вам посла поруку преко Опенстритмапа под насловом %{subject}:"
       hi: Поздрав, %{to_user},
+      subject_header: "[Опенстритмап] – %{subject}"
     signup_confirm: 
       subject: "[OpenStreetMap] Потврдите вашу е-адресу"
     signup_confirm_html: 
@@ -1128,9 +1155,11 @@ sr-EC:
       more_videos: "Више видео-снимака можете наћи овде:"
       opengeodata: "OpenGeoData.org је блог Стива Коста, оснивача Опенстритмапа:"
       the_wiki: "Прочитајте више о Опенстритмапу на викију:"
+      the_wiki_url: http://wiki.openstreetmap.org/wiki/Sr:Beginners'_guide?uselang=sr-ec
       user_wiki_1: Препоручујемо вам да направите корисничку страницу која укључује
       user_wiki_2: ознаке категорија које означавају одакле сте, као на пример [[Category:Users_in_London]].
       wiki_signup: "Можете и отворити налог на нашем викију:"
+      wiki_signup_url: http://wiki.openstreetmap.org/index.php?title=Special:UserLogin&type=signup&returnto=MK%3AMain_Page&uselang=sr-ec
   oauth: 
     oauthorize: 
       allow_read_gpx: чита ваше приватне ГПС трагове.
@@ -1198,8 +1227,11 @@ sr-EC:
       url: "Адреса захтевног новчића:"
     update: 
       flash: Подаци о клијенту су успешно ажурирани
+  printable_name: 
+    with_version: "%{id}, вер. %{version}"
   site: 
     edit: 
+      anon_edits: (%{link})
       anon_edits_link_text: Сазнајте зашто је то случај.
       flash_player_required: Потребан вам је флеш плејер да бисте користили уређивач мапа. Преузмите га <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">одавде</a>. Доступне су и <a href="http://wiki.openstreetmap.org/wiki/Editing">неке друге могућности</a> за уређивање Опенстритмапа.
       no_iframe_support: Ваш прегледач не подржава HTML iframes, а они су потребни за ову могућност.
@@ -1212,7 +1244,6 @@ sr-EC:
     index: 
       js_1: Користите прегледач који не подржава јаваскрипт или сте га онемогућили.
       js_2: Опенстритмап користи јаваскрипт за приказивање мапа.
-      js_3: Пробајте <a href="http://tah.openstreetmap.org/Browse/">Tiles@Home, прегледач статичних плочица</a> ако не можете да омогућите јаваскрипт.
       license: 
         license_name: Кријејтив комонс Ауторство-Делити под истим условима 2.0
         notice: Објављено под лиценцом %{license_name} од %{project_name} и њених сарадника.
@@ -1324,6 +1355,7 @@ sr-EC:
       uploaded_at: "Отпремљено:"
       visibility: "Видљивост:"
       visibility_help: шта ово значи?
+      visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces?uselang=sr-ec
     list: 
       public_traces: Јавни ГПС трагови
       public_traces_from: Јавни ГПС трагови корисника %{user}
@@ -1331,10 +1363,6 @@ sr-EC:
       your_traces: Ваши ГПС трагови
     make_public: 
       made_public: Јавни траг
-    no_such_user: 
-      body: Жао нам је, али не постоји корисник с именом %{user}. Проверите исправност уписа или везе коју сте кликнули.
-      heading: Корисник %{user} не постоји
-      title: Нема таквог корисника
     offline: 
       heading: GPX остава је ван мреже
       message: GPX остава и отпремање тренутно нису доступни.
@@ -1359,12 +1387,14 @@ sr-EC:
     trace_form: 
       description: "Опис:"
       help: Помоћ
+      help_url: http://wiki.openstreetmap.org/wiki/Upload?uselang=sr-ec
       tags: "Ознаке:"
       tags_help: раздвојено запетама
       upload_button: Отпреми
       upload_gpx: "Отпреми GPX датотеку:"
       visibility: "Видљивост:"
       visibility_help: шта ово значи?
+      visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces?uselang=sr-ec
     trace_header: 
       see_all_traces: Погледај све трагове
       see_your_traces: Погледај своје трагове
@@ -1406,6 +1436,7 @@ sr-EC:
         agreed: Прихватили сте нове услове уређивања.
         agreed_with_pd: Такође се слажете да ваше измене буду у јавном власништву.
         heading: "Услови уређивања:"
+        link: http://www.osmfoundation.org/wiki/License/Contributor_Terms?uselang=sr-ec
         link text: шта је ово?
         not yet agreed: Нисте прихватили нове услове уређивања.
         review link text: Пратите ову везу да бисте прегледали и прихватили нове услове уређивања.
@@ -1490,6 +1521,7 @@ sr-EC:
       login_button: Пријави ме
       lost password link: Заборавили сте лозинку?
       new to osm: Нови сте на сајту?
+      no account: Немате налог?
       notice: <a href="http://www.osmfoundation.org/wiki/License/We_Are_Changing_The_License">Сазнајте више о предстојећој измени лиценце</a> (<a href="http://wiki.openstreetmap.org/wiki/ODbL/We_Are_Changing_The_License">преводи</a>) (<a href="http://wiki.openstreetmap.org/wiki/Talk:ODbL/Upcoming">разговор</a>)
       notice_terms: Опенстритмап добија нову лиценцу 1. априла 2012. Ова лиценца је отворена исто као и садашња, али правни детаљи су много погоднији нашој картографској бази. Са задовољством би задржали ваше доприносе на Опенстритмапу, али ово је могуће само ако прихватите да они буду објављени под условима нове лиценце. У супротном, мораћемо да их уклонимо из базе.<br /><br />Пријавите се, прочитајте услове и видите да ли се слажете с њима. Хвала!
       openid: "%{logo} OpenID:"
@@ -1558,6 +1590,7 @@ sr-EC:
       password: "Лозинка:"
       terms accepted: Хвала вам што прихватате нове услове уређивања.
       terms declined: Жао нам је што сте одлучили да не прихватите нове услове уређивања. Погледајте <a href="%{url}">ову страницу</a> за више информација.
+      terms declined url: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=sr-ec
       title: Отварање налога
       use openid: Резервни начин је да користите %{logo} OpenID
     no_such_user: 
@@ -1566,7 +1599,7 @@ sr-EC:
       title: Нема таквог корисника
     popup: 
       friend: Пријатељ
-      nearby mapper: Оближњи мапер
+      nearby mapper: Оближњи картограф
       your location: Ваша локација
     remove_friend: 
       not_a_friend: "%{name} није ваш пријатељ."
@@ -1590,7 +1623,9 @@ sr-EC:
       agree: Прихвати
       consider_pd: Према горенаведеном уговору, сматрам да моји доприноси припадају јавном власништву
       consider_pd_why: шта је ово?
+      consider_pd_why_url: http://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain?uselang=sr-ec
       decline: Одбаци
+      declined: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=sr-ec
       guidance: "Подаци који ће вам помоћи да разумете ове услове: <a href=\"%{summary}\">кратак опис</a> и неки <a href=\"%{translations}\">неформални преводи</a>"
       heading: Услови уређивања
       legale_names: 
@@ -1608,6 +1643,7 @@ sr-EC:
       block_history: погледај добијене блокаде
       blocks by me: моја блокирања
       blocks on me: блокирања на мене
+      comments: коментари
       confirm: Потврди
       confirm_user: потврди овог корисника
       create_block: блокирај овог корисника
@@ -1629,8 +1665,9 @@ sr-EC:
       km away: удаљено %{count} км
       latest edit: "Последња измена пре %{ago}:"
       m away: удаљено %{count} м
-      mapper since: "Мапер од:"
+      mapper since: "Картограф од:"
       moderator_history: погледај дате блокаде
+      my comments: моји коментари
       my diary: мој дневник
       my edits: моје измене
       my settings: моје поставке
@@ -1685,7 +1722,6 @@ sr-EC:
     filter: 
       block_expired: Блокада је већ истекла и не може се уређивати.
       block_period: Период блокаде мора бити једна од вредности из падајућег списка.
-      not_a_moderator: Треба да будете модератор да бисте извршили ову радњу.
     helper: 
       time_future: Завршава се у %{time}.
       time_past: Завршено пре %{time}.

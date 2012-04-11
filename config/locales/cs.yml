@@ -2,12 +2,14 @@
 # Exported from translatewiki.net
 # Export driver: syck-pecl
 # Author: Bilbo
+# Author: Jezevec
 # Author: Jkjk
 # Author: Kuvaly
 # Author: Luk
 # Author: Masox
 # Author: Mormegil
 # Author: Mr. Richard Bolla
+# Author: Tchoř
 # Author: Veritaslibero
 cs: 
   activerecord: 
@@ -309,6 +311,14 @@ cs:
     timeout: 
       sorry: Omlouváme se, ale vámi požadovaný seznam sad změn se načítal příliš dlouho.
   diary_entry: 
+    comments: 
+      ago: před %{ago}
+      comment: Komentář
+      has_commented_on: "%{display_name} okomentoval následující záznamy v deníčku"
+      newer_comments: Novější komentáře
+      older_comments: Starší komentáře
+      post: Záznam
+      when: Kdy
     diary_comment: 
       comment_from: Komentář od %{link_user} z %{comment_created_at}
       confirm: Potvrdit
@@ -367,10 +377,6 @@ cs:
       body: Je mi líto, ale žádný deníčkový záznam či komentář s ID %{id} neexistuje. Zkontrolujte překlepy nebo jste možná klikli na chybný odkaz.
       heading: Záznam s ID %{id} neexistuje
       title: Deníčkový záznam nenalezen
-    no_such_user: 
-      body: Lituji, ale uživatel se jménem %{user} neexistuje. Zkontrolujte překlepy nebo jste možná klikli na chybný odkaz.
-      heading: Uživatel %{user} neexistuje
-      title: Uživatel nenalezen
     view: 
       leave_a_comment: Zanechat komentář
       login: Přihlaste se
@@ -403,6 +409,7 @@ cs:
       licence: Licence
       longitude: "Délka:"
       manually_select: Ručně vybrat jinou oblast
+      map_image: Obrázek mapy (zobrazuje standardní vrstvu)
       max: max.
       options: Nastavení
       osm_xml_data: Data OpenStreetMap XML
@@ -464,9 +471,19 @@ cs:
       suffix_suburb: "%{parentname} - %{suffix}"
     search_osm_nominatim: 
       prefix: 
+        aeroway: 
+          aerodrome: Letiště
+          apron: Odbavovací plocha
+          gate: Letištní brána
+          helipad: Heliport
+          runway: Dráha
+          taxiway: Pojezdová dráha
+          terminal: Terminál
         amenity: 
+          WLAN: Přístup k WiFi
           airport: Letiště
           arts_centre: Kulturní centrum
+          artwork: Umělecké dílo
           atm: Bankomat
           auditorium: Posluchárna
           bank: Banka
@@ -482,6 +499,7 @@ cs:
           car_sharing: Sdílení aut
           car_wash: Automyčka
           casino: Kasino
+          charging_station: Nabíjecí stanice
           cinema: Kino
           clinic: Klinika
           club: Klub
@@ -540,9 +558,11 @@ cs:
           shelter: Přístřeší
           shop: Obchod
           shopping: Nákupní centrum
+          shower: Sprchy
           social_club: Společenský klub
           studio: Studio
           supermarket: Supermarket
+          swimming_pool: Bazén
           taxi: Taxi
           telephone: Telefonní automat
           theatre: Divadlo
@@ -557,37 +577,16 @@ cs:
           youth_centre: Centrum pro mládež
         boundary: 
           administrative: Administrativní hranice
+          national_park: Národní park
+          protected_area: Chráněná oblast
+        bridge: 
+          aqueduct: Akvadukt
+          suspension: Visutý most
+          swing: Otočný most
+          viaduct: Viadukt
+          "yes": Most
         building: 
-          apartments: Bytový dům
-          block: Blok budov
-          bunker: Bunkr
-          chapel: Kaple
-          church: Kostel
-          city_hall: Radnice
-          commercial: Komerční budova
-          dormitory: Kolej
-          entrance: Vstup do objektu
-          faculty: Fakultní budova
-          farm: Hospodářská budova
-          flats: Byty
-          garage: Garáž
-          hall: Sál
-          hospital: Nemocniční budova
-          hotel: Hotel
-          house: Dům
-          industrial: Průmyslová budova
-          office: Kancelářská budova
-          public: Veřejná budova
-          residential: Obytná budova
-          retail: Maloobchodní budova
-          school: Školní budova
-          shop: Obchod
-          stadium: Stadion
-          store: Obchodní dům
-          terrace: Řadová zástavba
-          tower: Věž
-          train_station: Železniční stanice
-          university: Univerzitní budova
+          "yes": Budova
         highway: 
           bridleway: Koňská stezka
           bus_guideway: Autobusová dráha
@@ -595,11 +594,9 @@ cs:
           byway: Účelová komunikace
           construction: Silnice ve výstavbě
           cycleway: Cyklostezka
-          distance_marker: Kilometrovník
           emergency_access_point: Nouzový lokalizační bod
           footway: Chodník
           ford: Brod
-          gate: Brána
           living_street: Obytná zóna
           minor: Vedlejší silnice
           motorway: Dálnice
@@ -617,9 +614,11 @@ cs:
           secondary_link: Silnice druhé třídy
           service: Účelová komunikace
           services: Dálniční odpočívadlo
+          speed_camera: Radar
           steps: Schody
           stile: Schůdky přes ohradu
           tertiary: Silnice třetí třídy
+          tertiary_link: Silnice třetí třídy
           track: Cesta
           trail: Stezka
           trunk: Významná silnice
@@ -633,6 +632,7 @@ cs:
           building: Budova
           castle: Hrad
           church: Kostel
+          fort: Pevnost
           house: Dům
           icon: Ikona
           manor: Panství
@@ -657,6 +657,7 @@ cs:
           farmland: Zemědělská půda
           farmyard: Dvůr
           forest: Les
+          garages: Garáže
           grass: Trávník
           greenfield: Zelená plocha pro výstavbu
           industrial: Průmyslová zóna
@@ -664,11 +665,10 @@ cs:
           meadow: Louka
           military: Vojenský prostor
           mine: Důl
-          mountain: Hory
           nature_reserve: Přírodní rezervace
+          orchard: Ovocný sad
           park: Park
           piste: Sjezdovka
-          plaza: Náměstí
           quarry: Lom
           railway: Železnice
           recreation_ground: Rekreační oblast
@@ -693,12 +693,17 @@ cs:
           pitch: Hřiště
           playground: Dětské hřiště
           recreation_ground: Rekreační oblast
+          sauna: Sauna
           slipway: Skluzavka
           sports_centre: Sportovní centrum
           stadium: Stadion
           swimming_pool: Bazén
           track: Běžecká dráha
           water_park: Aquapark
+        military: 
+          airfield: Vojenské letiště
+          barracks: Kasárna
+          bunker: Bunkr
         natural: 
           bay: Záliv
           beach: Pláž
@@ -706,11 +711,12 @@ cs:
           cave_entrance: Vstup do jeskyně
           channel: Kanál
           cliff: Útes
-          coastline: Pobřežní čára
           crater: Kráter
+          dune: Duna
           feature: Prvek
           fell: See http://wiki.openstreetmap.org/wiki/Tag:natural=fell
           fjord: Fjord
+          forest: Les
           geyser: Gejzír
           glacier: Ledovec
           heath: Vřesoviště
@@ -738,6 +744,10 @@ cs:
           wetland: Mokřad
           wetlands: Mokřad
           wood: Neudržovaný les
+        office: 
+          estate_agent: Realitní kancelář
+          lawyer: Právnická kancelář
+          travel_agent: Cestovní kancelář
         place: 
           airport: Letiště
           city: Velkoměsto
@@ -749,6 +759,7 @@ cs:
           houses: Budovy
           island: Ostrov
           islet: Ostrůvek
+          isolated_dwelling: Samota
           locality: Oblast
           moor: Bažina
           municipality: Obecní úřad
@@ -772,6 +783,7 @@ cs:
           junction: Kolejové rozvětvení
           level_crossing: Železniční přejezd
           light_rail: Rychlodráha
+          miniature: Zahradní železnice
           monorail: Monorail
           narrow_gauge: Úzkorozchodná dráha
           platform: Železniční nástupiště
@@ -786,7 +798,7 @@ cs:
           yard: Přednádraží
         shop: 
           alcohol: Prodej alkoholu
-          apparel: Prodej oděvů
+          antiques: Starožitnosti
           art: Prodej umění
           bakery: Pekařství
           beauty: Salón krásy
@@ -795,7 +807,6 @@ cs:
           books: Knihkupectví
           butcher: Řeznictví
           car: Prodej automobilů
-          car_dealer: Prodej automobilů
           car_parts: Prodej autodílů
           car_repair: Autoservis
           carpet: Obchod s koberci
@@ -810,7 +821,6 @@ cs:
           department_store: Obchodní dům
           discount: Diskontní prodejna
           doityourself: Obchod pro kutily
-          drugstore: Lékárna
           dry_cleaning: Chemická čistírna
           electronics: Prodej elektroniky
           estate_agent: Realitní kancelář
@@ -876,7 +886,10 @@ cs:
           valley: Údolí
           viewpoint: Místo s dobrým výhledem
           zoo: Zoo
+        tunnel: 
+          "yes": Tunel
         waterway: 
+          artificial: Umělý vodní kanál/průplav
           boatyard: Loděnice
           canal: Kanál
           connector: Propojení vodních cest
@@ -902,6 +915,7 @@ cs:
       base: 
         cycle_map: Cyklomapa
         mapquest: MapQuest Open
+        standard: Standardní
         transport_map: Dopravní mapa
     site: 
       edit_disabled_tooltip: Pro editaci mapy přejděte na větší měřítko
@@ -911,6 +925,7 @@ cs:
       history_tooltip: Zobrazit editace této oblasti
       history_zoom_alert: Zobrazit editace této oblasti můžete jen ve větším přiblížení
   layouts: 
+    community: Komunita
     community_blogs: Komunitní blogy
     community_blogs_title: Blogy členů komunity OpenStreetMap
     copyright: Copyright & licence
@@ -939,12 +954,11 @@ cs:
       other: Ve schránce máte %{count} nepřečtených zpráv
       zero: Nemáte žádné nepřečtené zprávy
     intro_1: OpenStreetMap je svobodná editovatelná mapa celého světa. Tvoří ji lidé jako vy.
-    intro_2: OpenStreetMap vám umožňuje společně si prohlížet, upravovat a používat geografická data z libovolného místa na Zemi.
-    intro_3: Hosting OpenStreetMap laskavě poskytují %{ucl}, %{ic} a %{bytemark}. Další partneři projektu jsou uvedeni na %{partners}.
-    intro_3_bytemark: Bytemark Hosting
-    intro_3_ic: Imperial College London
-    intro_3_partners: wiki
-    intro_3_ucl: středisko VR UCL
+    intro_2_create_account: si založíte uživatelský účet
+    intro_2_download: stáhnout
+    intro_2_html: Data si můžete volně %{download} a %{use} pod %{license}. Mapu můžete vylepšit, pokud %{create_account}.
+    intro_2_license: svobodnou licencí
+    intro_2_use: používat
     license: 
       title: Data OpenStreetMap jsou k dispozici pod licencí Creative Commons Uveďte autora-Zachovejte licenci 2.0 Generic
     log_in: přihlásit se
@@ -958,6 +972,11 @@ cs:
       title: Podpořte OpenStreetMap finančním příspěvkem
     osm_offline: Databáze OpenStreetMap je momentálně kvůli probíhající neodkladné údržbě mimo provoz.
     osm_read_only: Databáze OpenStreetMap je momentálně kvůli probíhající neodkladné údržbě pouze pro čtení.
+    partners_bytemark: Bytemark Hosting
+    partners_html: Hosting podporují %{ucl}, %{ic} a %{bytemark} a další %{partners}.
+    partners_ic: Imperial College London
+    partners_partners: partneři
+    partners_ucl: středisko VR UCL
     sign_up: zaregistrovat se
     sign_up_tooltip: Vytvořit si uživatelský účet pro editaci
     sotm2011: Navštivte konferenci OpenStreetMap 2011 „The State of the Map“ (Stav mapy) od 9. do 11. září v Denveru!
@@ -976,7 +995,7 @@ cs:
       english_link: anglickým originálem
       text: V případě rozporů mezi touto přeloženou verzí a %{english_original_link} má přednost anglická stránka.
       title: O tomto překladu
-    legal_babble: "<h2>Autorská práva a licence</h2>\n<p>\n   OpenStreetMap jsou <i>svobodná data</i>, nabízená za podmínek licence <a href=\"http://creativecommons.org/licenses/by-sa/2.0/deed.cs\">Creative Commons Uveďte autora-Zachovejte licenci 2.0</a> (CC-BY-SA).\n</p>\n<p>\n  Smíte kopírovat, distribuovat, sdělovat veřejnosti a upravovat naše mapy i data, pokud jako zdroj uvedete OpenStreetMap a jeho přispěvatele. Pokud naše mapy nebo data budete upravovat nebo je použijete ve svém díle, musíte výsledek šířit pod stejnou licencí. Vaše práva a povinnosti jsou vysvětleny v plném <a href=\"http://creativecommons.org/licenses/by-sa/2.0/legalcode\">licenčním ujednání</a>.\n</p>\n\n<h3>Jak uvádět OpenStreetMap</h3>\n<p>\n  Pokud používáte obrázky z mapy OpenStreetMap, žádáme, abyste uváděli přinejmenším „© Přispěvatelé OpenStreetMap, CC-BY-SA“. Pokud používáte pouze mapová data, požadujeme „Mapová data © Přispěvatelé OpenStreetMap, CC-BY-SA“.\n</p>\n<p>\n  Pokud je to možné, OpenStreetMap by měl být hypertextový odkaz na <a href=\"http://www.openstreetmap.org/\">http://www.openstreetmap.org/</a> a CC-BY-SA na <a href=\"http://creativecommons.org/licenses/by-sa/2.0/deed.cs\">http://creativecommons.org/licenses/by-sa/2.0/deed.cs</a>. Pokud používáte médium, které odkazy neumožňuje (např. v tištěném díle), navrhujeme, abyste své čtenáře nasměrovali na www.openstreetmap.org (zřejmě rozšířením „OpenStreetMap“ do této plné adresy) a www.creativecommons.org.\n</p>\n\n<h3>Další informace</h3>\n<p>\n  O používání našich dat se můžete dočíst více v našem <a href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">Právním FAQ</a>.\n</p>\n<p>\n  Přispěvatelům OSM připomínáme, že by nikdy neměli přidávat data ze zdrojů chráněných autorským právem (např. Google Maps či tištěné mapy) bez výslovného svolení držitelů práv.\n</p>\n<p>\n  Přestože OpenStreetMap tvoří svobodná data, nemůžeme zdarma poskytovat třetím stranám mapové API.\n\n  Vizte naše <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">Pravidla použití API</a>, <a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">Pravidla použití dlaždic</a> a <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">Pravidla použití Nominatimu</a>.\n</p>\n\n<h3>Naši přispěvatelé</h3>\n<p>\n  Naše licence CC-BY-SA vyžaduje, abyste „způsobem odpovídajícím danému nosiči a v přiměřené formě uváděli autora“. Jednotliví přispěvatelé nevyžadují uvádění svého autorství nad ono „Přispěvatelé OpenStreetMap“, ale tam, kde byla do OpenStreetMap zahrnuta data národních zeměměřických úřadů či jiných velkých zdrojů, může být přiměřené uznat jejich autorství uvedením jejich označení nebo odkázáním na tuto stránku.\n</p>\n<!--\nInformace pro editory této stránky\n\nNásledující seznamy obsahují pouze ty organizace, které vyžadují uvedení svého autorství jako podmínku použití svých dat v OpenStreetMap. Nejedná se o všeobecný katalog importů a používá se jen v případě nutnosti uvedení autorství kvůli vyhovění licenci importovaných dat.\n\nVeškeré přídavky musí být nejprve prodiskutovány se správci systému OSM.\n-->\n<ul id=\"contributors\">\n    <li><strong>Austrálie</strong>: Obsahuje data předměstí založená na datech Australského statistického úřadu.</li>\n    <li><strong>Francie</strong>: Obsahuje data pocházející z Direction Générale des Impôts.</li>\n    <li><strong>Kanada</strong>: Obsahuje data z GeoBase&reg;, GeoGratis (&copy; Department of Natural Resources Canada), CanVec (&copy; Department of Natural Resources Canada) a StatCan (Geography Division, Statistics Canada).</li>\n    <li><strong>Nový Zéland</strong>: Obsahuje data pocházející z Land Information New Zealand. Crown Copyright reserved.</li>\n    <li><strong>Polsko</strong>: Obsahuje data z <a href=\"http://ump.waw.pl/\">map UMP-pcPL</a>. Copyright přispěvatelé UMP-pcPL.</li>\n    <li><strong>Rakousko</strong>: Obsahuje data od <a href=\"http://data.wien.gv.at/\">města Vídně</a> pod <a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.de\">CC-BY</a>.</li>\n    <li><strong>Spojené království</strong>: Obsahuje data Ordnance Survey &copy; Crown copyright a právo k databázi 2010.</li>\n</ul>\n\n<p>\n  Zahrnutí dat do OpenStreetMap neznamená, že původní poskytovatel dat podporuje OpenStreetMap, nabízí jakoukoli záruku nebo přijímá jakoukoli zodpovědnost.\n</p>"
+    legal_babble: "<h2>Autorská práva a licence</h2>\n<p>\n   OpenStreetMap jsou <i>svobodná data</i>, nabízená za podmínek licence <a href=\"http://creativecommons.org/licenses/by-sa/2.0/deed.cs\">Creative Commons Uveďte autora-Zachovejte licenci 2.0</a> (CC BY-SA).\n</p>\n<p>\n  Smíte kopírovat, distribuovat, sdělovat veřejnosti a upravovat naše mapy i data, pokud jako zdroj uvedete OpenStreetMap a jeho přispěvatele. Pokud naše mapy nebo data budete upravovat nebo je použijete ve svém díle, musíte výsledek šířit pod stejnou licencí. Vaše práva a povinnosti jsou vysvětleny v plném <a href=\"http://creativecommons.org/licenses/by-sa/2.0/legalcode\">licenčním ujednání</a>.\n</p>\n\n<h3>Jak uvádět OpenStreetMap</h3>\n<p>\n  Pokud používáte obrázky z mapy OpenStreetMap, žádáme, abyste uváděli přinejmenším „© Přispěvatelé OpenStreetMap, CC BY-SA“. Pokud používáte pouze mapová data, požadujeme „Mapová data © Přispěvatelé OpenStreetMap, CC BY-SA“.\n</p>\n<p>\n  Pokud je to možné, OpenStreetMap by měl být hypertextový odkaz na <a href=\"http://www.openstreetmap.org/\">http://www.openstreetmap.org/</a> a CC BY-SA na <a href=\"http://creativecommons.org/licenses/by-sa/2.0/deed.cs\">http://creativecommons.org/licenses/by-sa/2.0/deed.cs</a>. Pokud používáte médium, které odkazy neumožňuje (např. v tištěném díle), navrhujeme, abyste své čtenáře nasměrovali na www.openstreetmap.org (zřejmě rozšířením „OpenStreetMap“ do této plné adresy) a www.creativecommons.org.\n</p>\n\n<h3>Další informace</h3>\n<p>\n  O používání našich dat se můžete dočíst více v našem <a href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">Právním FAQ</a>.\n</p>\n<p>\n  Přispěvatelům OSM připomínáme, že by nikdy neměli přidávat data ze zdrojů chráněných autorským právem (např. Google Maps či tištěné mapy) bez výslovného svolení držitelů práv.\n</p>\n<p>\n  Přestože OpenStreetMap tvoří svobodná data, nemůžeme zdarma poskytovat třetím stranám mapové API.\n\n  Vizte naše <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">Pravidla použití API</a>, <a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">Pravidla použití dlaždic</a> a <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">Pravidla použití Nominatimu</a>.\n</p>\n\n<h3>Naši přispěvatelé</h3>\n<p>\n  Naše licence CC BY-SA vyžaduje, abyste „způsobem odpovídajícím danému nosiči a v přiměřené formě uváděli autora“. Jednotliví přispěvatelé nevyžadují uvádění svého autorství nad ono „Přispěvatelé OpenStreetMap“, ale tam, kde byla do OpenStreetMap zahrnuta data národních zeměměřických úřadů či jiných velkých zdrojů, může být přiměřené uznat jejich autorství uvedením jejich označení nebo odkázáním na tuto stránku.\n</p>\n<!--\nInformace pro editory této stránky\n\nNásledující seznamy obsahují pouze ty organizace, které vyžadují uvedení svého autorství jako podmínku použití svých dat v OpenStreetMap. Nejedná se o všeobecný katalog importů a používá se jen v případě nutnosti uvedení autorství kvůli vyhovění licenci importovaných dat.\n\nVeškeré přídavky musí být nejprve prodiskutovány se správci systému OSM.\n-->\n<ul id=\"contributors\">\n    <li><strong>Austrálie</strong>: Obsahuje data předměstí založená na datech Australského statistického úřadu.</li>\n    <li><strong>Francie</strong>: Obsahuje data pocházející z Direction Générale des Impôts.</li>\n    <li><strong>Jihoafrická republika</strong>: Obsahuje data pocházející z <a href=\"http://www.ngi.gov.za/\">Chief Directorate: National Geo-Spatial Information</a>, State copyright reserved.</li>\n    <li><strong>Kanada</strong>: Obsahuje data z GeoBase&reg;, GeoGratis (&copy; Department of Natural Resources Canada), CanVec (&copy; Department of Natural Resources Canada) a StatCan (Geography Division, Statistics Canada).</li>\n    <li><strong>Nový Zéland</strong>: Obsahuje data pocházející z Land Information New Zealand. Crown Copyright reserved.</li>\n    <li><strong>Polsko</strong>: Obsahuje data z <a href=\"http://ump.waw.pl/\">map UMP-pcPL</a>. Copyright přispěvatelé UMP-pcPL. <a href=\"http://wiki.openstreetmap.org/wiki/UMP2OSM_Importing\">Více o využití dat UMP na OSM</a></li>\n    <li><strong>Rakousko</strong>: Obsahuje data od <a href=\"http://data.wien.gv.at/\">města Vídně</a> pod <a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.de\">CC BY</a>.</li>\n    <li><strong>Spojené království</strong>: Obsahuje data Ordnance Survey &copy; Crown copyright a právo k databázi 2010.</li>\n</ul>\n\n<p>\n  Zahrnutí dat do OpenStreetMap neznamená, že původní poskytovatel dat podporuje OpenStreetMap, nabízí jakoukoli záruku nebo přijímá jakoukoli zodpovědnost.\n</p>"
     native: 
       mapping_link: začít mapovat
       native_link: českou verzi
@@ -1024,10 +1043,6 @@ cs:
       body: Je mi líto, ale žádná zpráva s tímto ID neexistuje.
       heading: Zpráva neexistuje
       title: Zpráva neexistuje
-    no_such_user: 
-      body: Je mi líto, ale žádný uživatel s tímto jménem neexistuje.
-      heading: Uživatel nenalezen
-      title: Uživatel nenalezen
     outbox: 
       date: Datum
       inbox: doručená pošta
@@ -1225,7 +1240,6 @@ cs:
     index: 
       js_1: Buď používáte prohlížeč bez podpory JavaScriptu, nebo máte JavaScript zakázaný.
       js_2: OpenStreetMap používá pro svou interaktivní mapu JavaScript.
-      js_3: Pokud nemůžete JavaScript zapnout, můžete vyzkoušet <a href="http://tah.openstreetmap.org/Browse/">statický prohlížeč Tiles@Home</a>.
       license: 
         license_name: Creative Commons Uveďte autora-Zachovejte licenci 2.0 Generic
         notice: Nabízeno pod licencí %{license_name}, vytvořeno přispěvateli %{project_name}.
@@ -1344,10 +1358,6 @@ cs:
       your_traces: Vaše GPS stopy
     make_public: 
       made_public: Stopa zveřejněna
-    no_such_user: 
-      body: Lituji, ale uživatel %{user} neexistuje. Zkontrolujte překlepy nebo jste možná klikli na chybný odkaz.
-      heading: Uživatel %{user} neexistuje
-      title: Uživatel nenalezen
     offline: 
       heading: GPX úložiště offline
       message: Úložiště GPX souborů a systém pro nahrávání jsou momentálně mimo provoz.
@@ -1504,6 +1514,7 @@ cs:
       login_button: Přihlásit
       lost password link: Ztratili jste heslo?
       new to osm: Jste na OpenStreetMap noví?
+      no account: Nemáte účet?
       notice: <a href="http://www.osmfoundation.org/wiki/License/We_Are_Changing_The_License">Zjistěte více o nadcházející změně licence OpenStreetMap</a> (<a href="http://wiki.openstreetmap.org/wiki/ODbL/We_Are_Changing_The_License">překlady</a>) (<a href="http://wiki.openstreetmap.org/wiki/Talk:ODbL/Upcoming">diskuse</a>)
       notice_terms: OpenStreetMap přechází 1. dubna 2012 na novou licenci. Je stejně otevřená jako ta stávající, ale právní řešení je pro naší mapovou databázi mnohem vhodnější. Velice rádi bychom v OpenStreetMap zachovali vaše příspěvky, to ale můžeme jen v případě, že svolíte k jejich šíření pod novou licencí. V opačném případě je budeme muset z databáze odstranit.<br /><br />Prosíme, přihlaste se a věnujte chvilku k přečtení a odsouhlasení nových podmínek. Děkujeme!
       openid: "%{logo} OpenID:"
@@ -1530,7 +1541,7 @@ cs:
           alt: Přihlášení pomocí Yahoo OpenID
           title: Přihlášení pomocí Yahoo
       password: "Heslo:"
-      register now: Zaregistrovat se
+      register now: Zaregistrujte se
       remember: "Zapamatuj si mě:"
       title: Přihlásit se
       to make changes: Pokud chcete upravovat OpenStreetMap, musíte mít uživatelský účet.
@@ -1624,6 +1635,7 @@ cs:
       block_history: zobrazit zablokování
       blocks by me: zablokování mnou
       blocks on me: moje zablokování
+      comments: komentáře
       confirm: Potvrdit
       confirm_user: potvrdit tohoto uživatele
       create_block: blokovat tohoto uživatele
@@ -1647,6 +1659,7 @@ cs:
       m away: "%{count} m"
       mapper since: "Účastník projektu od:"
       moderator_history: zobrazit udělená zablokování
+      my comments: moje komentáře
       my diary: můj deníček
       my edits: moje editace
       my settings: moje nastavení
@@ -1701,7 +1714,6 @@ cs:
     filter: 
       block_expired: Tento blok již vypršel, a proto ho nelze upravovat.
       block_period: Doba bloku musí být jedna z těch, které obsahuje rozevírací seznam.
-      not_a_moderator: K provedení této akce musíte být správce.
     helper: 
       time_future: Končí v %{time}.
       time_past: Ukončeno před %{time}.

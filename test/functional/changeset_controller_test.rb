@@ -1747,6 +1747,22 @@ EOF
     assert_template 'user/no_such_user'
   end
   
+  ##
+  # check that the changeset download for a changeset with a redacted
+  # element in it doesn't contain that element.
+  def test_diff_download_redacted
+    changeset_id = changesets(:public_user_first_change).id
+
+    get :download, :id => changeset_id
+    assert_response :success
+
+    assert_select "osmChange", 1
+    # this changeset contains node 17 in versions 1 & 2, but 1 should
+    # be hidden.
+    assert_select "osmChange node[id=17]", 1
+    assert_select "osmChange node[id=17][version=1]", 0
+  end
+
   #------------------------------------------------------------
   # utility functions
   #------------------------------------------------------------

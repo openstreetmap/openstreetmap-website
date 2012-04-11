@@ -4,7 +4,7 @@ class RelationTest < ActiveSupport::TestCase
   api_fixtures
   
   def test_relation_count
-    assert_equal 6, Relation.count
+    assert_equal 8, Relation.count
   end
   
   def test_from_xml_no_id

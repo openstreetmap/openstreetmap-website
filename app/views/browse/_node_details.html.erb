@@ -1,3 +1,6 @@
+<% if node_details.redacted? %>
+<p><%= t 'browse.redacted.message_html', :type => t('browse.redacted.type.node'), :redaction_link => link_to(t('browse.redacted.redaction', :id => node_details.redaction.id), node_details.redaction), :version => node_details.version %></p>
+<% else %>
 <table class="browse_details" id="<%= node_details.version %>">
 
   <%= render :partial => "common_details", :object => node_details %>
@@ -22,3 +25,4 @@
   <% end %>
 
 </table>
+<% end %>

@@ -54,9 +54,11 @@ tr:
       friend: Arkadaş
       language: Dil
       message: Mesaj
+      node: Nokta
       notifier: Bildir
       old_way: Eski Yol
       old_way_tag: Eski Yol Etiketi
+      relation: İlişki
       session: Oturum
       user: Kullanıcı
       user_preference: Kullanıcı Tercihleri
@@ -143,6 +145,9 @@ tr:
     paging_nav: 
       of: toplam
       showing_page: Gösterilen sayfa
+    redacted: 
+      type: 
+        node: nokta
     relation: 
       download: "%{download_xml_link} veya %{view_history_link}"
       download_xml: XML indir
@@ -169,7 +174,7 @@ tr:
       view_data: Geçerli harita alanının verileri görüntüle
     start_rjs: 
       data_frame_title: Veri
-      data_layer_name: Veri
+      data_layer_name: Harita Verisi Gözat
       details: Ayrıntılar
       drag_a_box: Fare kullanarak harita üzerinde bir alan seç
       edited_by_user_at_timestamp: "[[user]] tarafından düzenlendi ([[timestamp]])"
@@ -333,10 +338,6 @@ tr:
       body: Üzgünüz, %{id} numaralı bir günlük girdisi ya da yorumu yok. Lütfen harfleri kontrol edin, ya da tıkladığınız link yanlış olabilir.
       heading: "Bu numaraya sahip giriş yok: %{id}"
       title: Böyle bir günlük kaydı bulunmuyor
-    no_such_user: 
-      body: Üzgünüz, %{user} isminde bir kullanıcı yok. Lütfen yazım denetimi yapınız ya da tıkladığınız link yanlış olabilir.
-      heading: "%{user} adlı bir kullanıcı yok"
-      title: Böyle bir kullanıcı yok
     view: 
       leave_a_comment: Yorum yaz
       login: Giriş
@@ -426,6 +427,10 @@ tr:
         us_postcode: <a href="http://geocoder.us/">Geocoder.us</a>'dan sonuçları
     search_osm_nominatim: 
       prefix: 
+        aeroway: 
+          aerodrome: Havaalanı
+          helipad: Helikopter alanı
+          runway: Uçak pisti
         amenity: 
           airport: Havaalanı
           arts_centre: Sanat Merkezi
@@ -518,31 +523,7 @@ tr:
         boundary: 
           administrative: İdari Sınır
         building: 
-          apartments: Apartman
-          chapel: Şapel
-          church: Kilise
-          city_hall: Belediye binası
-          dormitory: Yurt
-          entrance: Bina Girişi
-          faculty: Fakülte Binası
-          farm: Çiftlik Binası
-          flats: Daire
-          garage: Garaj
-          hall: Toplantı Merkezi
-          hospital: Hastane Binası
-          hotel: Hotel
-          house: Ev
-          industrial: Sınai Bina
-          office: Ofis Binası
-          public: Kamu Binası
-          school: Okul Binası
-          shop: Dükkan
-          stadium: Stadyum
-          store: Mağaza
-          terrace: Teras
-          tower: Kule
-          train_station: Gar
-          university: Üniversite Binası
+          "yes": Bina
         highway: 
           bridleway: At yürüyüş yolu
           bus_guideway: Güdümlü otobüs yolu
@@ -550,11 +531,9 @@ tr:
           byway: Yan yolu
           construction: İnşaa halinde yolu
           cycleway: Bisiklet Yolu
-          distance_marker: Mil taşı
           emergency_access_point: Acil Erişim Noktası
           footway: Yaya yolu
           ford: Akarsu geçidi
-          gate: Kapı
           living_street: Yaşam sokağı
           minor: Ufak yol
           motorway: Otoyol
@@ -614,10 +593,8 @@ tr:
           meadow: Çayır
           military: Askeri Bölge
           mine: Maden Ocağı
-          mountain: Dağ
           nature_reserve: Doğa Koruma Alanı
           park: Park
-          plaza: Meydan
           quarry: Ocak
           railway: Demiryolu
           recreation_ground: Eğlence Parkı
@@ -654,7 +631,6 @@ tr:
           cave_entrance: Mağara girişi
           channel: Kanal
           cliff: Uçurum
-          coastline: Sahil şeridi
           crater: Krater
           feature: Özelliği
           fell: Ağaçsız tepe
@@ -736,7 +712,6 @@ tr:
           books: Kitap Evi
           butcher: Kasap
           car: Araba Galerisi
-          car_dealer: Araba Satıcısı
           car_parts: Araba Parçası Dükkanı
           car_repair: Oto tamir
           carpet: Halı Dükkanı
@@ -746,7 +721,6 @@ tr:
           copyshop: Fotokopi Merkezi
           cosmetics: Kozmetik Mağazası
           discount: İndirimli Ürünler Mağazası
-          drugstore: Eczane
           dry_cleaning: Kuru Temizleme
           electronics: Elektronik Mağazası
           estate_agent: Emlakçı
@@ -823,6 +797,7 @@ tr:
     map: 
       base: 
         cycle_map: Topoğrafik Haritası
+        mapquest: MapQuest Open
         standard: Standart
         transport_map: Ulaştırma Haritası
     site: 
@@ -833,6 +808,7 @@ tr:
       history_tooltip: Bu alandaki düzenlemeleri göster
       history_zoom_alert: Bu alandaki düzenlemeleri görmek için yakınlaştırmak gerekiyor
   layouts: 
+    community: Topluluk
     community_blogs: Üye Blogları
     community_blogs_title: OpenStreetMap üyelerinin blogları
     copyright: Telif hakkı & Lisans
@@ -860,11 +836,11 @@ tr:
       other: "%{count} okunmamış mesaj var"
       zero: Okunmamış mesajın yok
     intro_1: OpenStreetMap herkese serbest ve ücretsiz senin gibi insanlar tarafından oluşturduğu bir dünya haritasıdır.
-    intro_2: OpenStreetMap dünyanın her köşesinden ortak bir şekilde haritaları görüntülemeyi, düzenlemeyi ve serbestçe kullanmayı sağlar.
-    intro_3: OpenStreetMap barındırma servisleri %{ucl}, %{ic} ve %{bytemark} çok teşekkür ederiz. Diğer destekçilerimizi %{partners} listesinde bulunmaktadır.
-    intro_3_bytemark: bytemark
-    intro_3_partners: Viki
-    intro_3_ucl: UCL VR Merkezi
+    intro_2_create_account: hesabı oluşturunuz
+    intro_2_download: indirmesi
+    intro_2_html: "%{license} olan verilerinin %{download} ve %{use} tamamen serbesttir. Harita geliştirmek için bir %{create_account}."
+    intro_2_license: Kamuya açık lisansı
+    intro_2_use: kullanması
     license: 
       title: OpenStreetMap veri Creative Commons Attribution-Share Alike 2.0 Genel Lisans altında lisanslanmıştır
     log_in: Oturum aç
@@ -878,6 +854,11 @@ tr:
       title: OpenStreetMap para bağışı ile destek verebilirsiniz
     osm_offline: OpenStreetMap veritabanı bakım çalışmaları yürütüldüğü için veritabanı şu anda çevrimdışıdır.
     osm_read_only: OpenStreetMap veritabanı bakım çalışmaları yürütüldüğü için veritabanı şu anda sadece okunur durumdadır.
+    partners_bytemark: Bytemark Hosting
+    partners_html: Barındırma hizmeti, %{ucl}, %{ic}, %{bytemark} ve diğer %{partners} tarafından desteklenmektedir.
+    partners_ic: Imperial College London
+    partners_partners: ortaklar
+    partners_ucl: UCL VR Centre
     sign_up: Kaydol
     sign_up_tooltip: Düzenleme moduna girmek için bir hesap oluştur
     sotm2011: 2011 OpenStreetMap konferans, The State of the Map (Haritanın Durumu), 9-11 Eylül Denver'de!
@@ -929,10 +910,6 @@ tr:
       body: Üzgünüz, bu id ile bir mesaj yok.
       heading: Böyle bir mesaj yok
       title: Böyle bir mesaj yok
-    no_such_user: 
-      body: Üzgünüz, bu isimde bir kullanıcı yok.
-      heading: Böyle bir kullanıcı yok
-      title: Böyle bir kullanıcı yok
     outbox: 
       date: Tarih
       inbox: gelen kutusu
@@ -1018,6 +995,7 @@ tr:
       edit: Ayrıntıları Düzenle
   site: 
     edit: 
+      anon_edits: (%{link})
       user_page_link: kullanıcı sayfası
     index: 
       js_2: OpenStreetMap harita gösterim için JavaScript kullanıyor.
@@ -1132,9 +1110,8 @@ tr:
       your_traces: Senin GPS izleri
     make_public: 
       made_public: Iz herkese açık
-    no_such_user: 
-      heading: "%{user} kullanıcısı mevcut değil"
-      title: Böyle bir kullanıcı yok
+    offline: 
+      heading: GPX Yükleme Servisi Çevrimdışı
     offline_warning: 
       message: GPX dosya gönderme sistemi şu anda kullanılamıyor
     trace: 
@@ -1153,13 +1130,13 @@ tr:
       trace_details: İz Ayrıntılarını Görüntüle
       view_map: Harita Görüntüle
     trace_form: 
-      description: Açıklama
+      description: Tanıtım
       help: Yardım
-      tags: Etiketler
+      tags: "Etiketler:"
       tags_help: virgül (,) ile ayrılmış
       upload_button: Gönder
-      upload_gpx: GPX Dosya Gönder
-      visibility: Görünürlük
+      upload_gpx: "GPX Dosyası Gönder:"
+      visibility: "Görünürlük:"
       visibility_help: Bu ne demek?
     trace_header: 
       see_all_traces: Tüm izleri görüntüle
@@ -1262,6 +1239,9 @@ tr:
       lost password link: Şifren mi unuttun?
       new to osm: OpenStreetMap sitesinde yeni misiniz?
       no account: Hesabın yok mu?
+      openid_providers: 
+        openid: 
+          title: OpenID kullanarak oturum aç
       password: "Şifre:"
       register now: Şimdi kayıt ol
       remember: "Beni hatırla:"

@@ -74,6 +74,8 @@ hsb:
   application: 
     require_cookies: 
       cookies_needed: Zda so, zo maš placki znjemóžnjene - prošu zmóžń placki w swojim wobhladowaku, prjedy hač pokročuješ.
+    require_moderator: 
+      not_a_moderator: Dyrbiš moderator być, zo by móhł tutu akciju wuwjesć.
     setup_user_auth: 
       blocked: Twój přistup k API je so blokował. Prošu přizjew so do webpowjercha, zo by wjace zhonił.
       need_to_see_terms: Twój přistup na API je nachwilu wusadźeny. Prošu přizjew so k webpowjerchej, zo by sej wuměnjenja za sobuskutkowacych wobhladał. Njetrjebaš přezjedny być, dyrbiš sej je jenož wobhladać.
@@ -174,6 +176,13 @@ hsb:
     paging_nav: 
       of: wot
       showing_page: Pokazuje so strona
+    redacted: 
+      message_html: Wersija %{version} tutoho %{type}a njeda so pokazać, dokelž je so hižo redigowała. Prošu, hlej %{redaction_link} za podronosće.
+      redaction: Redakcija %{id}
+      type: 
+        node: suk
+        relation: relacija
+        way: puć
     relation: 
       download: "%{download_xml_link} abo %{view_history_link}"
       download_xml: XML sćahnyć
@@ -200,7 +209,7 @@ hsb:
       view_data: Daty za aktualny kartowy napohlad pokazać
     start_rjs: 
       data_frame_title: Daty
-      data_layer_name: Daty
+      data_layer_name: Kartowe daty přepytać
       details: Podrobnosće
       drag_a_box: Ramik na kartu ćahnyć, zo by so wobłuk wubrał
       edited_by_user_at_timestamp: Wobdźěłany wot wužiwarja [[user]] dnja [[timestamp]]
@@ -374,10 +383,6 @@ hsb:
       body: Wodaj, dźenikowy zapisk abo komentar z id %{id} njeeksistuje. Prošu skontroluj swój prawopis abo snano je wotkaz, na kotryž sy kliknył, je njepłaćiwy.
       heading: Žadyn zapisk z id %{id}
       title: Dźenikowy zapisk njeeksistuje
-    no_such_user: 
-      body: Wodaj, wužiwar z mjenom %{user} njeje. Prošu skontroluj prawopis abo snano wotkaz, na kotryž sy kliknył, je njepłaćiwy.
-      heading: Wužiwar %{user} njeeksistuje
-      title: Wužiwar njeeksistuje
     view: 
       leave_a_comment: Spisaj komentar
       login: Přizjew so
@@ -471,16 +476,28 @@ hsb:
       suffix_place: ", %{distance} %{direction} z %{placename}"
     search_osm_nominatim: 
       prefix: 
+        aeroway: 
+          aerodrome: Lětanišćo
+          apron: Lětanske předpolo
+          gate: Wrota
+          helipad: Helikoptrowe přizemišćo
+          runway: Startowa a přizemjenska čara
+          taxiway: Lětadłowa jězdnja
+          terminal: Terminal
         amenity: 
+          WLAN: WLAN-přistup
           airport: Lětanišćo
           arts_centre: Kulturny centrum
+          artwork: Wuměłska twórba
           atm: Bankomat
           auditorium: Awditorij
           bank: Banka
           bar: Bara
+          bbq: Grilowanišćo
           bench: Ławka
           bicycle_parking: Wotstajenišćo za kolesa
           bicycle_rental: Wupožcowarnja za kolesa
+          biergarten: Piwowa zahroda
           brothel: Bordel
           bureau_de_change: Měnjernja
           bus_station: Busowe dwórnišćo
@@ -489,6 +506,7 @@ hsb:
           car_sharing: Centrala za sobujěducych
           car_wash: Awtomyjernja
           casino: Kazino
+          charging_station: Napjelnjenska stacija
           cinema: Kino
           clinic: Klinika
           club: Klub
@@ -507,6 +525,7 @@ hsb:
           ferry_terminal: Přewozny přistaw
           fire_hydrant: Wohnjowy hydrant
           fire_station: Wohnjostraža
+          food_court: Food Court
           fountain: Studnja
           fuel: Tankownja
           grave_yard: Kěrchow
@@ -547,9 +566,12 @@ hsb:
           shelter: Podstup
           shop: Wobchod
           shopping: Nakup
+          shower: Duša
+          social_centre: Socialne srjedźišćo
           social_club: Towarstwo
           studio: Studijo
           supermarket: Superwiki
+          swimming_pool: Płuwanišćo
           taxi: Taksijowe zastanišćo
           telephone: Zjawny telefon
           theatre: Dźiwadło
@@ -564,37 +586,17 @@ hsb:
           youth_centre: Centrum za młodostnych
         boundary: 
           administrative: Zarjadniska hranica
+          census: Mjeza ludličenskeho wobwoda
+          national_park: Narodny park
+          protected_area: Škitane pasmo
+        bridge: 
+          aqueduct: Akwedukt
+          suspension: Wisaty móst
+          swing: Wobwjertny móst
+          viaduct: Wiadukt
+          "yes": Móst
         building: 
-          apartments: Bydlenski blok
-          block: Bydlenski blok
-          bunker: Bunker
-          chapel: Kapałka
-          church: Cyrkej
-          city_hall: Radnica
-          commercial: Wobchodniske twarjenje
-          dormitory: Studentski internat
-          entrance: Twarjenjowy zachod
-          faculty: Fakultowe twarjenje
-          farm: Hospodarske twarjenje
-          flats: Bydlenja
-          garage: Garaža
-          hall: Hala
-          hospital: Chorownja
-          hotel: Hotel
-          house: Dom
-          industrial: Industrijowe twarjenje
-          office: Běrowowe twarjenje
-          public: Zjawne twarjenje
-          residential: Bydlenske twarjenje
-          retail: Priwatne twarjenje
-          school: Šulske twarjenje
-          shop: Wobchod
-          stadium: Stadion
-          store: Wobchod
-          terrace: Terasa
-          tower: Wěža
-          train_station: Dwórnišćo
-          university: Uniwersitne twarjenje
+          "yes": Twarjenje
         highway: 
           bridleway: Jěchanski puć
           bus_guideway: Trolejbusowy milinowód
@@ -602,12 +604,11 @@ hsb:
           byway: Pódlanski puć
           construction: Dróha so twari
           cycleway: Kolesowarska šćežka
-          distance_marker: Kilometernik
           emergency_access_point: Přijimarnja njezbožow
           footway: Pućik
           ford: Bród
-          gate: Wrota
           living_street: Hasa z pomjeńšenym wobchadom
+          milestone: Kilometrowy kamjeń
           minor: Pódlanska hasa
           motorway: Awtodróha
           motorway_junction: Awtodróhowe křižnišćo
@@ -619,14 +620,17 @@ hsb:
           primary_link: Dróha prěnjeho rjada
           raceway: Pista
           residential: Bydlenska hasa
+          rest_area: Wotpočnišćo
           road: Dróha
           secondary: Dróha druheho rjada
           secondary_link: Dróha druheho rjada
           service: Dróha za přidróžnych
           services: Awtodróhowy wotpočny hosćenc
+          speed_camera: Błyskadło
           steps: Schodźenki
           stile: Płótne stupadło
           tertiary: Dróha třećeho rjada
+          tertiary_link: Dróha třećeho rjada
           track: Pólny puć
           trail: Šćežka
           trunk: Dalokodróha
@@ -640,6 +644,7 @@ hsb:
           building: Twarjenje
           castle: Hród
           church: Cyrkej
+          fort: Fort
           house: Dom
           icon: Ikona
           manor: Knježi dwór
@@ -664,6 +669,7 @@ hsb:
           farmland: Pola
           farmyard: Statok
           forest: Wužitny lěs
+          garages: Awtowa porjedźernja
           grass: Trawa
           greenfield: Njewobtwarjena zemja
           industrial: Industrijowa kónčina
@@ -671,25 +677,28 @@ hsb:
           meadow: Łuka
           military: Wojerska kónčina
           mine: Podkopki
-          mountain: Hora
           nature_reserve: Přirodoškitne pasmo
+          orchard: Sadowa zahroda
           park: Park
           piste: Pista
-          plaza: Naměsto
           quarry: Skała
           railway: Železnica
           recreation_ground: Wočerstwjenska krajina
           reservoir: Zběranski basenk
+          reservoir_watershed: Wódny rozwod reservoira
           residential: Bydlenski wobwod
           retail: Wobchody
+          road: Dróhowe pasmo
           village_green: Nawjes
           vineyard: Winicy
           wetland: Łučina
           wood: Lěs
         leisure: 
           beach_resort: Mórske kupjele
+          bird_hide: Ptači schow
           common: Gmejnski kraj
           fishing: Rybnišćo
+          fitness_station: Fitnesowy center
           garden: Zahroda
           golf_course: Golfownišćo
           ice_rink: Smykanišćo
@@ -700,12 +709,17 @@ hsb:
           pitch: Sportnišćo
           playground: Hrajkanišćo
           recreation_ground: Wočerstwjenišćo
+          sauna: Sawna
           slipway: Helling
           sports_centre: Sportowy centrum
           stadium: Stadion
           swimming_pool: Swimmingpool
           track: Běhanišćo
           water_park: Wodowy park
+        military: 
+          airfield: Wojerske lětanišćo
+          barracks: Kaserna
+          bunker: Bunker
         natural: 
           bay: Zaliw
           beach: Přibrjóh
@@ -713,11 +727,12 @@ hsb:
           cave_entrance: Prózdnjeński zachod
           channel: Kanal
           cliff: Wuskała
-          coastline: Pobrjóžna linija
           crater: Krater
+          dune: Nawěw
           feature: Funkcija
           fell: Fjeld
           fjord: Fjord
+          forest: Lěs
           geyser: Geiser
           glacier: Lodowc
           heath: Hola
@@ -737,6 +752,7 @@ hsb:
           scrub: Kerki
           shoal: Niłčina, pěsčišćo
           spring: Žórło
+          stone: Kamjeń
           strait: Mórska wužina
           tree: Štom
           valley: Doł
@@ -745,6 +761,19 @@ hsb:
           wetland: Łučina
           wetlands: Łučiny
           wood: Lěs
+        office: 
+          accountant: Knihiwjedniski běrow
+          architect: Architektny běrow
+          company: Zawod
+          employment_agency: Dźěłowy zarjad
+          estate_agent: Wikowar z imobilijemi
+          government: Zarjad
+          insurance: Zawěsćenski běrow
+          lawyer: Běrow prawiznika
+          ngo: Běrow njeknježerstwoweje organizacije
+          telecommunication: Póst
+          travel_agent: Pućowanski běrow
+          "yes": Běrow
         place: 
           airport: Lětanišćo
           city: Wulkoměsto
@@ -756,6 +785,7 @@ hsb:
           houses: Domy
           island: Kupa
           islet: Kupka
+          isolated_dwelling: Jednotliwe bydło
           locality: Sydlišćo
           moor: Bahno
           municipality: Gmejna
@@ -779,6 +809,7 @@ hsb:
           junction: Železniske křižnišćo
           level_crossing: Železniski přechod
           light_rail: Měšćanska železnica
+          miniature: Miniaturna železnica
           monorail: Jednokolijowa železnica
           narrow_gauge: Wuskokolijata železnica
           platform: Železniske nastupišćo
@@ -793,7 +824,7 @@ hsb:
           yard: Ranžěrowanske dwórnišćo
         shop: 
           alcohol: Wobchod za spirituozy
-          apparel: Drastowy wobchod
+          antiques: Wobchod starožitnosćow
           art: Wuměłski wobchod
           bakery: Pjekarnja
           beauty: Kosmetikowy salon
@@ -802,7 +833,6 @@ hsb:
           books: Kniharnja
           butcher: Rěznik
           car: Awtosalon
-          car_dealer: Wikowar awtow
           car_parts: Awtowe narunanki
           car_repair: Awtowa porjedźernja
           carpet: Přestrjencowy wobchod
@@ -817,7 +847,6 @@ hsb:
           department_store: Kupnica
           discount: Wobchod za tunje artikle
           doityourself: Paslerska potrjeba
-          drugstore: Drogerija
           dry_cleaning: Čisćernja
           electronics: Wobchod za elektroniku
           estate_agent: Makler z imobilijemi
@@ -883,7 +912,10 @@ hsb:
           valley: Doł
           viewpoint: Wuhladnišćo
           zoo: Coo
+        tunnel: 
+          "yes": Tunl
         waterway: 
+          artificial: Kumštna wodowa dróha
           boatyard: Łódźnica
           canal: Kanal
           connector: Zwisk mjez wódnymi pućemi
@@ -919,6 +951,7 @@ hsb:
       history_tooltip: Změny za tutón wobłuk pokazać
       history_zoom_alert: Dyrbiš powjetšić, zo by wobdźěłowansku historiju widźał
   layouts: 
+    community: Zhromadźenstwo
     community_blogs: Blogi zhromadźenstwa
     community_blogs_title: Blogi čłonow zhromadźenstwa OpenStreetMap
     copyright: Awtorske prawo a licenca
@@ -948,10 +981,12 @@ hsb:
       two: Twój póstowy kašćik wobsahuje %{count} njepřečitanej powěsći
       zero: Twój póstowy kašćik žane njepřečitane powěsće njewobsahuje.
     intro_1: OpenStreetMap je swobodna wobdźěłujomna karta cyłeho swěta. Bu za ludźi kaž wy wutworjena.
-    intro_2: OpenStreetMap ći dowola geografiske daty na zhromadne wašnje wot něhdźe na zemi pokazać, wobdźěłać a wužiwać.
-    intro_3: Hospodowanje OpenStreetMap so přećelnje wot %{ucl}, %{ic} a %{bytemark} podpěruje. Dalši podpěraćeljo projekta su w %{partners} nalistowani.
-    intro_3_ic: Imperial College London
-    intro_3_partners: wiki
+    intro_2_create_account: Załož wužiwarske konto
+    intro_2_download: sćahnyć
+    intro_2_html: Móžeš daty darmo %{download} a pod %{license} %{use}.  %{create_account}, zo by kartu polěpšił.
+    intro_2_license: zjawnej licencu
+    intro_2_use: wužiwać
+    intro_2_use_url: http://wiki.openstreetmap.org/wiki/Using_OpenStreetMap
     license: 
       alt: CC by-sa 2.0
       title: Daty OpenStreetMap licencuja so pod licencu Creative Commons Attribution-Share Alike 2.0 Generic
@@ -966,6 +1001,12 @@ hsb:
       title: OpenStreetMap z pjenježnym darom podpěrać
     osm_offline: Datowa banka OpenStreetMap je tuchwilu offline, dokelž so wažne wobhladowankse dźěła na datowej bance přewjedu.
     osm_read_only: Datowa banka OpenStreetMap je tuchwilu jenož čitajomna, dokelž so wažne wothladowanske dźěła na datowej bance přewjedu.
+    partners_bytemark: Bytemark Hosting
+    partners_html: Hostowanje so wot %{ucl}, %{ic}, %{bytemark} a druhich %{partners} podpěruje.
+    partners_ic: Imperial College London
+    partners_partners: partnerow
+    partners_ucl: z UCL VR Centre
+    partners_url: http://wiki.openstreetmap.org/wiki/Partners
     sign_up: registrować
     sign_up_tooltip: Konto za wobdźěłowanje załožić
     sotm2011: Dojědźće do konferency OpenStreetMap 2011, "The State of the Map", 9. - 11. septembra w Denverje!
@@ -983,7 +1024,7 @@ hsb:
       english_link: jendźelskim originalom
       text: W padźe konflikta mjez přełoženej stronje a %{english_original_link}, jendźelska strona dyrbi prioritatu měć
       title: Wo tutym přełožku
-    legal_babble: "<h2>Awtorske prawo a licenca</h2>\n<p> \nOpenStreetMap wobsteji ze <i>zjawnych datow</i>, licencowanych pod licencu <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">Creative Commons Attribution-ShareAlike 2.0</a> (CC BY-SA).\n</p>\n<p>\nMóžeš naše karty a daty kopěrować, rozdźělić, přenjesć a přiměrić, tak dołho kaž OpenStreetMap a jich sobuskutkowacych naspominaš. Jeli změniš naše karty abo daty abo zepěraš so na nje, móžeš wuslědk jenož pod samsnej licencu rozdźělić. Dospołny <a href=\"http://creativecommons.org/licenses/by-sa/2.0/legalcode\">prawniski kod</a> wujasnja twoje prawa a zamołwitosće.</p>\n\n<h3>Kak awtorstwo OpenStreetMap naspomnić</h3>\n<p>\nJeli kartowe wobrazy z OpenStreetMap wužiwaš, žadamy sej, zo znajmjeńša podawaš &ldquo;&copy; OpenStreetMap a sobuskutkowacych, CC BY-SA&rdquo;. Jeli jenož kartowe daty wužiwaš, dyrbiš &ldquo;kartowe daty &copy; OpenStreetMap a sobuskutkowacych, CC BY-SA&rdquo; podać.\n</p>\n<p>Hdźež je móžno, OpenStreetMap měł wotkaz do <a href=\"http://www.openstreetmap.org/\">http://www.openstreetmap.org/</a> a CC BY-SA do <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">http://creativecommons.org/licenses/by-sa/2.0/</a> měć. Jeli medij wužiwaš, hdźež wotkazy móžno njejsu (na př. wućišćane dźěło), namjetujemy, zo pokazuješ swojich čitarjow na www.openstreetmap.org a na www.creativecommons.org.\n</p>\n\n<h3>Dalše informacije</h3>\n<p>\nČitaj wjace wo wužiwanju našich datow <a href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">Huste prawniske prašenja</a>.\n</p>\n<p>\nSobuskutkowacych OSM namołwjamy, zo ženje daty ze žórłow, kotrež su přez awtorske prawo škitane (na př. z Google Maps abo z wućišćanych kartow) bjez wurazneje dowolnosće awtorow  njepřidawaja.</p>\n<p>\nHačrunjež OpenStreetMap wobsteji ze zjawnych datow, njemóžemy darmotny kartowy API za wuwiwarjow třećich poskićić. \n\nHlej naše <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">prawidła za wužiwanje API</a>, <a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">Prawidła za wužiwanje polow</a> a <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">Prawidła za wužiwanje Nominatim</a>. </p> \n\n<h3>Naši sobuskutkowacy</h3>\n<p>\nNaša licenca CC BY-SA žada sej, zo &ldquo;daš prěnjotnemu awtorej dźak přiměrjeny medijej abo srědkej, kotryž wužiwaš&rdquo;. Jednotliwi kartěrowarjo OSM nježadaja sej přidatne dźakprajenje k &ldquo;sobuskutkowarjam OpenStreetMap&rdquo;, ale hdyž so daty z narodneho kartěrowanskeho předewzaća abo z druheho wuznamneho žórła w OpenStreetMap zapřijimaja, je přiměrjene, jim přez direktne přewzaće jich dźakprajenja abo přez wotkazowanje na njo na tutej stronje dźak prajić.\n</p>\n\n<!--\nInformation for page editors\n\nThe following lists only those organisations who require attribution as a condition of their data being used in OpenStreetMap. It is not a general catalogue of imports, and must not be used except when attribution is required to comply with the licence of the imported data.\n\nAny additions here must be discussed with OSM sysadmins first.\n-->\n \n<ul id=\"contributors\">\n   <li><strong>Awstralska</strong>: Wobsahuje předměšćanske daty na zakładźe datow Awstralskeho  zarjada za statistiku (Australian Bureau of Statistics).</li>\n  <li><strong>Awstriska</strong>: Wobsahuje daty z <a href=\"http://data.wien.gv.at/\">Stadt Wien</a> pod <a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.de\">CC BY</a>.</li>\n <li><strong>Kanada</strong>: Wobsahuje daty z GeoBase&reg;, GeoGratis (&copy; Department of Natural Resources Canada), CanVec (&copy; Department of Natural Resources Canada), a StatCan (Geography Division, Statistics Canada).</li>\n <li><strong>Francoska</strong>: Wobsahuje daty z Direction Générale des Impôts.</li>\n <li><strong>Nowoseelandska</strong>: Wobsahuje daty ze žórłow wot Land Information New Zealand. Awtorske prawo wuměnjene.</li> \n <li><strong>Pólska</strong>: Wobsahuje daty z <a\n   href=\"http://ump.waw.pl/\">UMP-pcPL maps</a>. Awtorske prawo sobuskutkowacych UMP-pcPL. \n   <a href=\"http://wiki.openstreetmap.org/wiki/UMP2OSM_Importing\">\n   Wjace wo wužiwanju UMP-datow w OSM</a></li>\n   <li><strong>South Africa</strong>: Wobsahuje daty z <a href=\"http://www.ngi.gov.za/\">Chief Directorate:\n   National Geo-Spatial Information</a>, Statne awtorske prawo wuměnjene.</li>\n   <li><strong>United Kingdom</strong>: Wobsahuje daty z Ordnance\n   Survey &copy; Crown copyright and database right\n   2010.</li></li>\n <li><strong>Zjednoćene kralestwo</strong>: Wobsahuje daty z Ordnance Survey (Zarjadniske krajměrjenstwo) &copy; Awtorske prawo a prawo za datowe banki 2010.</li>\n</ul>\n\n<p>\nZapřijimanje datow do OpenStreetMap njerěka, zo poskićowar originalnych datow OpenStreetMap připóznawa, někajku garantiju dodawa abo rukowanje přewozmje.\n</p>"
+    legal_babble: "<h2>Awtorske prawo a licenca</h2>\n<p> \nOpenStreetMap wobsteji ze <i>zjawnych datow</i>, licencowanych pod licencu <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">Creative Commons Attribution-ShareAlike 2.0</a> (CC BY-SA).\n</p>\n<p>\nMóžeš naše karty a daty kopěrować, rozdźělić, přenjesć a přiměrić, tak dołho kaž OpenStreetMap a jich sobuskutkowacych naspominaš. Jeli změniš naše karty abo daty abo zepěraš so na nje, móžeš wuslědk jenož pod samsnej licencu rozdźělić. Dospołny <a href=\"http://creativecommons.org/licenses/by-sa/2.0/legalcode\">prawniski kod</a> wujasnja twoje prawa a zamołwitosće.</p>\n\n<h3>Kak awtorstwo OpenStreetMap naspomnić</h3>\n<p>\nJeli kartowe wobrazy z OpenStreetMap wužiwaš, žadamy sej, zo znajmjeńša podawaš &ldquo;&copy; OpenStreetMap a sobuskutkowacych, CC BY-SA&rdquo;. Jeli jenož kartowe daty wužiwaš, dyrbiš &ldquo;kartowe daty &copy; OpenStreetMap a sobuskutkowacych, CC BY-SA&rdquo; podać.\n</p>\n<p>Hdźež je móžno, OpenStreetMap měł wotkaz do <a href=\"http://www.openstreetmap.org/\">http://www.openstreetmap.org/</a> a CC BY-SA do <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">http://creativecommons.org/licenses/by-sa/2.0/</a> měć. Jeli medij wužiwaš, hdźež wotkazy móžno njejsu (na př. wućišćane dźěło), namjetujemy, zo pokazuješ swojich čitarjow na www.openstreetmap.org a na www.creativecommons.org.\n</p>\n\n<h3>Dalše informacije</h3>\n<p>\nČitaj wjace wo wužiwanju našich datow <a href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">Huste prawniske prašenja</a>.\n</p>\n<p>\nSobuskutkowacych OSM namołwjamy, zo ženje daty ze žórłow, kotrež su přez awtorske prawo škitane (na př. z Google Maps abo z wućišćanych kartow) bjez wurazneje dowolnosće awtorow  njepřidawaja.</p>\n<p>\nHačrunjež OpenStreetMap wobsteji ze zjawnych datow, njemóžemy darmotny kartowy API za wuwiwarjow třećich poskićić. \n\nHlej naše <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">prawidła za wužiwanje API</a>, <a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">Prawidła za wužiwanje polow</a> a <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">Prawidła za wužiwanje Nominatim</a>. </p> \n\n<h3>Naši sobuskutkowacy</h3>\n<p>\nNaša licenca CC BY-SA žada sej, zo &ldquo;daš prěnjotnemu awtorej dźak přiměrjeny medijej abo srědkej, kotryž wužiwaš&rdquo;. Jednotliwi kartěrowarjo OSM nježadaja sej přidatne dźakprajenje k &ldquo;sobuskutkowarjam OpenStreetMap&rdquo;, ale hdyž so daty z narodneho kartěrowanskeho předewzaća abo z druheho wuznamneho žórła w OpenStreetMap zapřijimaja, je přiměrjene, jim přez direktne přewzaće jich dźakprajenja abo přez wotkazowanje na njo na tutej stronje dźak prajić.\n</p>\n\n<!--\nInformation for page editors\n\nThe following lists only those organisations who require attribution as a condition of their data being used in OpenStreetMap. It is not a general catalogue of imports, and must not be used except when attribution is required to comply with the licence of the imported data.\n\nAny additions here must be discussed with OSM sysadmins first.\n-->\n \n<ul id=\"contributors\">\n   <li><strong>Awstralska</strong>: Wobsahuje předměšćanske daty na zakładźe datow Awstralskeho  zarjada za statistiku (Australian Bureau of Statistics).</li>\n  <li><strong>Awstriska</strong>: Wobsahuje daty z <a href=\"http://data.wien.gv.at/\">Stadt Wien</a> (pod <a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.de\">CC BY</a>)\na <a href=\"http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm\">Land Vorarlberg.</a></li>\n <li><strong>Francoska</strong>: Wobsahuje daty z Direction Générale des Impôts.</li>\n<li><strong>Južna Afrika</strong>: Wobsahuje daty z <a href=\"http://www.ngi.gov.za/\">Chief Directorate:\n   National Geo-Spatial Information</a>, Statne awtorske prawo wuměnjene.</li>\n <li><strong>Kanada</strong>: Wobsahuje daty z GeoBase&reg;, GeoGratis (&copy; Department of Natural Resources Canada), CanVec (&copy; Department of Natural Resources Canada), a StatCan (Geography Division, Statistics Canada).</li>\n<li><strong>Nižozemska</strong>: Wobsahuje daty &copy; AND data, 2007\n   (<a href=\"http://www.and.com\">www.and.com</a>)</li>\n <li><strong>Nowoseelandska</strong>: Wobsahuje daty ze žórłow wot Land Information New Zealand. Awtorske prawo wuměnjene.</li> \n <li><strong>Pólska</strong>: Wobsahuje daty z <a\n   href=\"http://ump.waw.pl/\">UMP-pcPL maps</a>. Awtorske prawo sobuskutkowacych UMP-pcPL. \n   <a href=\"http://wiki.openstreetmap.org/wiki/UMP2OSM_Importing\">\n   Wjace wo wužiwanju UMP-datow w OSM</a></li>      \n <li><strong>Zjednoćene kralestwo</strong>: Wobsahuje daty z Ordnance Survey (Zarjadniske krajměrjenstwo) &copy; Awtorske prawo a prawo za datowe banki 2010.</li>\n</ul>\n\n<p>\nZapřijimanje datow do OpenStreetMap njerěka, zo poskićowar originalnych datow OpenStreetMap připóznawa, někajku garantiju dodawa abo rukowanje přewozmje.\n</p>"
     native: 
       mapping_link: kartěrowanje započeć
       native_link: hornjoserbskej wersiji
@@ -1029,10 +1070,6 @@ hsb:
       body: Bohužel powěsć z tutym ID njeje.
       heading: Powěsć njeeksistuje
       title: Powěsć njeeksistuje
-    no_such_user: 
-      body: Bohužel wužiwar z tym mjenom njeeksistuje.
-      heading: Wužiwar njeeksistuje
-      title: Wužiwar njeeksistuje
     outbox: 
       date: Datum
       inbox: póstowy kašćik
@@ -1213,6 +1250,37 @@ hsb:
       url: URL za naprašowanski token
     update: 
       flash: Klientowe informacije wuspěšnje zaktualizowane
+  redaction: 
+    create: 
+      flash: Redakcija je so wutworiła.
+    destroy: 
+      error: Při hašenju tuteje redakcije je zmylk wustupił.
+      flash: Redakcija je so zhašała.
+      not_empty: Redakcija njeje prózdna. Prošu wotstroń wšě wersije tuteje redakcije, prjedy hač ju zhašeš.
+    edit: 
+      description: Wopisanje
+      heading: Redakciju wobdźěłać
+      submit: Redakciju składować
+      title: Redakciju wobdźěłać
+    index: 
+      empty: Žane redakcije njejsu.
+      heading: Lisćina redakcijow
+      title: Lisćina redakcijow
+    new: 
+      description: Wopisanje
+      heading: Informacije za nowu redakciju zapodać
+      submit: Redakciju wutworić
+      title: Nowa redakcija so wutworja
+    show: 
+      confirm: Sy sej wěsty?
+      description: "Wopisanje:"
+      destroy: Tutu redakciju wotstronić
+      edit: Tutu redakciju wobdźěłać
+      heading: Redakcija "%{title}" so pokazuje
+      title: Redakcija so pokazuje
+      user: "Tworićel:"
+    update: 
+      flash: Změny składowane.
   site: 
     edit: 
       anon_edits_link_text: Zwěsćić, čehoždla je tomu tak.
@@ -1227,7 +1295,6 @@ hsb:
     index: 
       js_1: Pak wužiwaš wobhladowak, kotryž JavaScript njepodpěruje, pak sy JavaScript znjemóžnił.
       js_2: OpenStreetMap JavaScript za slippy map wužiwa.
-      js_3: Móžeš <a href="http://tah.openstreetmap.org/Browse/">wobhladowak Tiles@Home</a> wužiwać, jeli njemóžeš JavaScript znóžnić.
       license: 
         license_name: Creative Commons Attribution-Share Alike 2.0
         notice: Licencowany pod licencu %{license_name} přez %{project_name} a jeho sobuskutkowacych.
@@ -1304,6 +1371,23 @@ hsb:
           unclassified: Njeklasifikowana dróha
           unsurfaced: Njewobtwjerdźena dróha
           wood: Lěs
+    markdown_help: 
+      alt: Alternatiwny tekst
+      first: Prěni element
+      heading: Nadpis
+      headings: Nadpisy
+      image: Wobraz
+      link: Wotkaz
+      ordered: Čisłowana lisćina
+      second: Druhi element
+      subheading: Podnapis
+      text: Tekst
+      title_html: Z <a href="http://daringfireball.net/projects/markdown/">Markdown</a> analyzowany
+      unordered: Naličenje
+      url: URL
+    richtext_area: 
+      edit: Wobdźěłać
+      preview: Přehlad
     search: 
       search: Pytać
       search_help: "přikłady: 'Alkmaar', 'Regent Street, Cambridge', 'CB2 5AQ', abo 'post offices near Lünen' <a href='http://wiki.openstreetmap.org/wiki/Search'>dalše přikłady...</a>"
@@ -1315,7 +1399,7 @@ hsb:
       search_results: Pytanske wuslědki
   time: 
     formats: 
-      friendly: "%e %B %Y %H:%M"
+      friendly: "%e. %B %Y %H:%M"
   trace: 
     create: 
       trace_uploaded: Twoja GPX-dataja je so nahrała a čaka na zasunjenje do datoweje banki. To so zwjetša za poł hodźiny stawa a po dokónčenju budźe so ći e-mejl słać.
@@ -1346,10 +1430,6 @@ hsb:
       your_traces: Twoje GPS-ćěrje
     make_public: 
       made_public: Čara wozjewjena
-    no_such_user: 
-      body: Wodaj, wužiwar z mjneom %{user} njeeksistuje. Prošu skontroluj swój prawopis abo snano wotkaz, na kotryž sy kliknył, je njepłaćiwy.
-      heading: Wužiwar %{user} njeeksistuje
-      title: Wužiwar njeeksistuje
     offline: 
       heading: Składowanje offline GPX
       message: Składowanje a nahrawanski system GPX-datajow tuchwilu k dispoziciji steji.
@@ -1703,7 +1783,6 @@ hsb:
     filter: 
       block_expired: Blokowanje je hižo spadnjene a njeda so wobdźěłać.
       block_period: Doba blokowanja dyrbi jedna z hódnotow być, kotrež hodźa so z padaceho menija wubrać.
-      not_a_moderator: Dyrbiš moderator być, zo by móhł tutu akciju wuwjesć.
     helper: 
       time_future: Kónči so %{time}.
       time_past: Je so před %{time} skónčiło.

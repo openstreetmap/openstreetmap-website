@@ -51,6 +51,8 @@ class ActiveSupport::TestCase
     set_fixture_class :gpx_file_tags => 'Tracetag'
 
     fixtures :client_applications
+    
+    fixtures :redactions
   end
 
   ##

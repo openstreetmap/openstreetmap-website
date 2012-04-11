@@ -96,6 +96,8 @@ de:
   application: 
     require_cookies: 
       cookies_needed: Es scheint als hättest du Cookies ausgeschaltet. Bitte aktiviere Cookies bevor du weiter gehst.
+    require_moderator: 
+      not_a_moderator: Du musst Moderator sein, um diese Aktion durchführen zu können.
     setup_user_auth: 
       blocked: Dein Zugriff auf die API wurde gesperrt. Bitte melde dich auf der Web-Oberfläche an, um mehr zu erfahren.
       need_to_see_terms: Dein Zugriff auf die API wurde vorübergehend ausgesetzt. Bitte melde Dich in Deinem Benutzerkonto an, um die „Bedingungen für Mitwirkende“ einzusehen. Du musst nicht einverstanden sein, aber Du musst sie gesehen haben.
@@ -190,6 +192,13 @@ de:
     paging_nav: 
       of: von
       showing_page: Zeige Seite
+    redacted: 
+      message_html: "Version %{version} dieses %{type}s kann nicht angezeigt werden. Weitere Informationen sind hier angegeben: %{redaction_link}."
+      redaction: Ausgabe %{id}
+      type: 
+        node: Knoten
+        relation: Relation
+        way: Weg
     relation: 
       download: "%{download_xml_link} oder %{view_history_link}"
       download_xml: XML herunterladen
@@ -216,7 +225,7 @@ de:
       view_data: Daten des aktuellen Kartenausschnitts anzeigen
     start_rjs: 
       data_frame_title: Daten
-      data_layer_name: Daten
+      data_layer_name: Kartendaten durchsuchen
       details: Details
       drag_a_box: Einen Rahmen über die Karte aufziehen, um einen Bereich auszuwählen
       edited_by_user_at_timestamp: Bearbeitet von [[user]] am [[timestamp]]
@@ -386,10 +395,6 @@ de:
       body: Wir konnten leider keinen Blogeintrag oder Kommentar mit der Nummer %{id} finden. Du hast dich möglicherweise vertippt oder du bist einem ungültigem Link gefolgt.
       heading: Kein Blogeintrag mit der Nummer %{id}
       title: Blogeintrag nicht gefunden
-    no_such_user: 
-      body: Wir konnten leider keinen Benutzer mit dem Namen %{user} finden. Du hast dich möglicherweise vertippt oder du bist einem ungültigem Link gefolgt.
-      heading: Der Benutzer %{user} existiert nicht
-      title: Benutzer nicht gefunden
     view: 
       leave_a_comment: Schreibe einen Kommentar
       login: Anmelden
@@ -483,16 +488,28 @@ de:
       suffix_place: ", %{distance} %{direction} von %{placename}"
     search_osm_nominatim: 
       prefix: 
+        aeroway: 
+          aerodrome: Flugplatz
+          apron: Flugvorfeld
+          gate: Flugsteig
+          helipad: Hubschrauberlandeplatz
+          runway: Start- und Landebahn
+          taxiway: Rollbahn
+          terminal: Terminal
         amenity: 
+          WLAN: WLAN-Zugangspunkt
           airport: Flughafen
           arts_centre: Kunstcenter
+          artwork: Kunstwerk
           atm: Geldautomat
           auditorium: Hörsaal
           bank: Bank
           bar: Bar
+          bbq: Grillplatz
           bench: Bank
           bicycle_parking: Fahrrad-Stellplatz
           bicycle_rental: Fahrradverleih
+          biergarten: Biergarten
           brothel: Bordell
           bureau_de_change: Wechselstube
           bus_station: Busbahnhof
@@ -501,6 +518,7 @@ de:
           car_sharing: Carsharing
           car_wash: Autowaschanlage
           casino: Casino
+          charging_station: Ladestation
           cinema: Kino
           clinic: Krankenhaus
           club: Club
@@ -519,6 +537,7 @@ de:
           ferry_terminal: Fähren-Anlaufstelle
           fire_hydrant: Hydrant
           fire_station: Feuerwehr
+          food_court: Food-Court
           fountain: Springbrunnen
           fuel: Tankstelle
           grave_yard: Friedhof
@@ -559,9 +578,12 @@ de:
           shelter: Unterkunft
           shop: Geschäft
           shopping: Einkaufszentrum
+          shower: Dusche
+          social_centre: Sozialzentrum
           social_club: Geselligkeitsverein
           studio: Studio
           supermarket: Supermarkt
+          swimming_pool: Schwimmbad
           taxi: Taxi
           telephone: Telefonzelle
           theatre: Theater
@@ -572,41 +594,21 @@ de:
           veterinary: Tierarzt
           village_hall: Gemeindezentrum
           waste_basket: Mülleimer
-          wifi: WiFi-Zugang
+          wifi: WLAN-Zugangspunkt
           youth_centre: Jugendhaus
         boundary: 
           administrative: Verwaltungsgrenze
+          census: Grenze des Volkszählungsgebiets
+          national_park: Nationalpark
+          protected_area: Schutzgebiet
+        bridge: 
+          aqueduct: Aquädukt
+          suspension: Hängebrücke
+          swing: Drehbrücke
+          viaduct: Viadukt
+          "yes": Brücke
         building: 
-          apartments: Wohnblock
-          block: Gebäudeblock
-          bunker: Bunker
-          chapel: Kapelle
-          church: Kirche
-          city_hall: Rathaus
-          commercial: Gewerbegebäude
-          dormitory: Studentenwohnheim
-          entrance: Eingang
-          faculty: Ausbildungsgebäude
-          farm: Bauernhof
-          flats: Wohnungen
-          garage: Garage
-          hall: Halle
-          hospital: Spital
-          hotel: Hotel
-          house: Haus
-          industrial: Industriegebäude
-          office: Bürogebäude
-          public: Öffentliches Gebäude
-          residential: Wohngebäude
-          retail: Einzelhandelsgebäude
-          school: Schulgebäude
-          shop: Geschäft
-          stadium: Stadion
-          store: Geschäft
-          terrace: Terrasse
-          tower: Turm
-          train_station: Bahnhof
-          university: Universitätsgebäude
+          "yes": Gebäude
         highway: 
           bridleway: Reitweg
           bus_guideway: Busspur
@@ -614,12 +616,11 @@ de:
           byway: Seitenweg
           construction: Straße im Bau
           cycleway: Radweg
-          distance_marker: Kilometerstein
           emergency_access_point: Notrufpunkt
           footway: Fußweg
           ford: Furt
-          gate: Gatter
           living_street: Spielstraße
+          milestone: Meilenstein
           minor: Nebenstraße
           motorway: Autobahn
           motorway_junction: Autobahnkreuz
@@ -631,14 +632,17 @@ de:
           primary_link: Primärauffahrt
           raceway: Rennweg
           residential: Wohnstraße
+          rest_area: Rastplatz
           road: Straße
           secondary: Landstraße
           secondary_link: Landstraße
           service: Anliegerstraße
           services: Autobahnraststätte
+          speed_camera: Blitzer
           steps: Treppe
           stile: Zaunübertritt
           tertiary: Tertiärstraße
+          tertiary_link: Tertiärstraße
           track: Feldweg
           trail: Pfad
           trunk: Fernverkehrsstraße
@@ -652,6 +656,7 @@ de:
           building: Historisches Gebäude
           castle: Schloss
           church: Kirche
+          fort: Fort
           house: Historisches Haus
           icon: Zeichen
           manor: Gut
@@ -676,6 +681,7 @@ de:
           farmland: Ackerland
           farmyard: Hof
           forest: Wald
+          garages: Autoreparaturwerkstatt
           grass: Wiese
           greenfield: unbebaute Fläche
           industrial: Industriegebiet
@@ -683,25 +689,28 @@ de:
           meadow: Wiese
           military: Militärgebiet
           mine: Mine
-          mountain: Berg
           nature_reserve: Naturschutzgebiet
+          orchard: Obstgarten
           park: Park
           piste: Piste
-          plaza: Plaza
           quarry: Steinbruch
           railway: Eisenbahn
           recreation_ground: Freizeitgebiet
           reservoir: Reservoir
+          reservoir_watershed: Reservoir-Einzugsgebiet
           residential: Siedlung
           retail: Einzelhandel
+          road: Straßengebiet
           village_green: Dorfwiese
           vineyard: Weingut
           wetland: Feuchtgebiet
           wood: Wald
         leisure: 
           beach_resort: Badeort
+          bird_hide: Vogelversteck
           common: Gemeindeland
           fishing: Fischereigrund
+          fitness_station: Fitnessstudio
           garden: Garten
           golf_course: Golfplatz
           ice_rink: Eislaufplatz
@@ -712,12 +721,17 @@ de:
           pitch: Sportplatz
           playground: Spielplatz
           recreation_ground: Freizeitbereich
+          sauna: Sauna
           slipway: Gleitbahn
           sports_centre: Sportzentrum
           stadium: Stadion
           swimming_pool: Schwimmbad
           track: Rennstrecke
           water_park: Wasserpark
+        military: 
+          airfield: Militärflugplatz
+          barracks: Kaserne
+          bunker: Bunker
         natural: 
           bay: Bucht
           beach: Strand
@@ -725,11 +739,12 @@ de:
           cave_entrance: Höhleneingang
           channel: Kanal
           cliff: Klippe
-          coastline: Küstenlinie
           crater: Krater
+          dune: Düne
           feature: Merkmal
           fell: Kahler Berg
           fjord: Fjord
+          forest: Wald
           geyser: Geysir
           glacier: Gletscher
           heath: Heide
@@ -749,6 +764,7 @@ de:
           scrub: Busch
           shoal: Untiefe
           spring: Quelle
+          stone: Findling
           strait: Straße
           tree: Baum
           valley: Tal
@@ -757,10 +773,23 @@ de:
           wetland: Feuchtgebiet
           wetlands: Feuchtgebiet
           wood: Wald
+        office: 
+          accountant: Buchhaltungsbüro
+          architect: Architekturbüro
+          company: Unternehmen
+          employment_agency: Arbeitsamt
+          estate_agent: Imobilienhändler
+          government: Amt
+          insurance: Krankenversicherungsbüro
+          lawyer: Rechtsanwaltsbüro
+          ngo: NGO-Büro
+          telecommunication: Postamt
+          travel_agent: Reisebüro
+          "yes": Büro
         place: 
           airport: Flughafen
           city: Stadt
-          country: Land
+          country: Staat
           county: Bezirk
           farm: Gehöft
           hamlet: Weiler
@@ -768,6 +797,7 @@ de:
           houses: Häuser
           island: Insel
           islet: Inselchen
+          isolated_dwelling: Einzeln stehende Behausung
           locality: Ortschaft
           moor: Moor
           municipality: Gemeinde
@@ -791,6 +821,7 @@ de:
           junction: Bahnknotenpunkt
           level_crossing: Eisenbahnkreuzung
           light_rail: Straßenbahn
+          miniature: Miniatureisenbahn
           monorail: Einschienenbahn
           narrow_gauge: Schmalspurbahn
           platform: Bahnsteig
@@ -805,7 +836,7 @@ de:
           yard: Rangierbahnhof
         shop: 
           alcohol: Spirituosenladen
-          apparel: Bekleidungsgeschäft
+          antiques: Antiquitätengeschäft
           art: Kunstladen
           bakery: Bäckerei
           beauty: Parfümerie
@@ -814,7 +845,6 @@ de:
           books: Buchgeschäft
           butcher: Metzgerei
           car: Autohaus
-          car_dealer: Autohaus
           car_parts: Autoteilehändler
           car_repair: Autowerkstatt
           carpet: Teppichladen
@@ -829,7 +859,6 @@ de:
           department_store: Kaufhaus
           discount: Diskontladen
           doityourself: Baumarkt
-          drugstore: Drogerie
           dry_cleaning: Textilreinigung
           electronics: Elektronikgeschäft
           estate_agent: Imobilienhändler
@@ -895,7 +924,10 @@ de:
           valley: Tal
           viewpoint: Aussichtspunkt
           zoo: Zoo
+        tunnel: 
+          "yes": Tunnel
         waterway: 
+          artificial: Künstliche Wasserstraße
           boatyard: Werft
           canal: Kanal
           connector: Wasserstraßenverbindung
@@ -931,6 +963,7 @@ de:
       history_tooltip: Änderungen für diesen Bereich anzeigen
       history_zoom_alert: Du musst näher heranzoomen, um die Chronik zu sehen
   layouts: 
+    community: Gemeinschaft
     community_blogs: Blogs
     community_blogs_title: Blogs von Mitwirkenden bei OpenStreetMap
     copyright: Urheberrecht + Lizenz
@@ -958,10 +991,12 @@ de:
       other: Dein Posteingang enthält %{count} ungelesene Nachrichten
       zero: Dein Posteingang enthält keine ungelesenen Nachrichten
     intro_1: OpenStreetMap ist eine freie, editierbare Karte der gesamten Welt, die von Menschen wie dir erstellt wird.
-    intro_2: OpenStreetMap ermöglicht es geographische Daten gemeinschaftlich von überall auf der Welt anzuschauen und zu bearbeiten.
-    intro_3: Das Hosting der OpenStreetMap-Server wird freundlicherweise von %{ucl}, %{ic} und %{bytemark} unterstützt. Weitere Unterstützer sind im %{partners} aufgelistet.
-    intro_3_ic: Imperial College London
-    intro_3_partners: Wiki
+    intro_2_create_account: Erstelle ein Benutzerkonto
+    intro_2_download: heruntergeladen
+    intro_2_html: Die Daten können gemäß der entsprechenden %{license} frei %{download} und %{use} werden. %{create_account}, um die Karte zu verbessern.
+    intro_2_license: Freien Lizenz
+    intro_2_use: genutzt
+    intro_2_use_url: http://wiki.openstreetmap.org/wiki/DE:Using_OpenStreetMap
     license: 
       title: Daten von OpenStreetMap stehen unter der „Creative Commons Attribution-Share Alike 2.0 Generic“-Lizenz
     log_in: Anmelden
@@ -975,11 +1010,17 @@ de:
       title: Unterstütze OpenStreetMap mit einer Geldspende
     osm_offline: Die OpenStreetMap-Datenbank ist im Moment wegen wichtiger Wartungsarbeiten nicht verfügbar.
     osm_read_only: Die OpenStreetMap-Datenbank ist im Moment wegen wichtiger Wartungsarbeiten im „Nur-Lesen-Modus“.
+    partners_bytemark: Bytemark Hosting
+    partners_html: Das Hosting wird %{ucl}, %{ic}, %{bytemark} sowie von anderen %{partners} unterstützt.
+    partners_ic: dem Imperial College London
+    partners_partners: Partnern
+    partners_ucl: vom UCL VR Centre
+    partners_url: http://wiki.openstreetmap.org/wiki/Partners
     sign_up: Registrieren
     sign_up_tooltip: Ein Benutzerkonto zum Daten bearbeiten erstellen
     sotm2011: Besuche die OpenStreetMap-Konferenz 201 „The State of the Map“ vom 9. bis 11. September in Denver!
     tag_line: Die freie Wiki-Weltkarte
-    user_diaries: Blogs
+    user_diaries: Benutzer-Blogs
     user_diaries_tooltip: Benutzer-Blogs lesen
     view: Karte
     view_tooltip: Karte anzeigen
@@ -1039,10 +1080,6 @@ de:
       body: Leider gibt es keine Nachricht mit dieser ID.
       heading: Nachricht nicht vorhanden
       title: Nachricht nicht vorhanden
-    no_such_user: 
-      body: Leider gibt es kein Benutzer mit diesem Namen.
-      heading: Benutzer nicht gefunden
-      title: Benutzer nicht gefunden
     outbox: 
       date: Datum
       inbox: Posteingang
@@ -1225,6 +1262,37 @@ de:
       url: "Tokenanfrage-URL:"
     update: 
       flash: Client-Informationen erfolgreich aktualisiert
+  redaction: 
+    create: 
+      flash: Ausgabe wurde erstellt.
+    destroy: 
+      error: Beim Löschen dieser Ausgabe ist ein Fehler aufgetreten.
+      flash: Ausgabe wurde gelöscht.
+      not_empty: Die Ausgabe ist nicht leer. Bitte entferne alle Versionen dieser Ausgabe, bevor du sie löschst.
+    edit: 
+      description: Beschreibung
+      heading: Ausgabe bearbeiten
+      submit: Ausgabe speichern
+      title: Ausgabe bearbeiten
+    index: 
+      empty: Es ist nichts zum Ausgeben vorhanden.
+      heading: Liste der Ausgaben
+      title: Liste der Ausgaben
+    new: 
+      description: Beschreibung
+      heading: Informationenen für eine neue Ausgabe eingeben
+      submit: Ausgabe erstellen
+      title: Eine neue Ausgabe erstellen
+    show: 
+      confirm: Bist du sicher?
+      description: "Beschreibung:"
+      destroy: Diese Ausgabe löschen
+      edit: Diese Ausgabe bearbeiten
+      heading: Ausgabe „%{title}“ wird angezeigt
+      title: Eine Ausgabe anzeigen
+      user: "Urheber:"
+    update: 
+      flash: Änderungen wurden gespeichert.
   site: 
     edit: 
       anon_edits_link_text: Hier findest du mehr Infos dazu.
@@ -1239,7 +1307,6 @@ de:
     index: 
       js_1: Dein Browser unterstützt kein JavaScript oder du hast es deaktiviert.
       js_2: OpenStreetMap nutzt JavaScript für die Kartendarstellung.
-      js_3: Solltest bei dir kein JavaScript möglich sein, kannst du auf der <a href="http://tah.openstreetmap.org/Browse/">Tiles@Home Website</a> eine Version ohne JavaScript benutzen.
       license: 
         license_name: Creative Commons „Namensnennung, Weitergabe unter gleichen Bedingungen 2.0“
         notice: Lizenziert unter %{license_name} Lizenz durch das %{project_name} und seine Mitwirkenden.
@@ -1296,7 +1363,7 @@ de:
           retail: Einkaufszentrum
           runway: 
             - Start- und Landebahn
-            - Rollweg
+            - Rollbahn
           school: 
             - Schule
             - Universität
@@ -1316,6 +1383,23 @@ de:
           unclassified: Straße
           unsurfaced: Unbefestigte Straße
           wood: Naturwald
+    markdown_help: 
+      alt: Alternativer Text
+      first: Erstes Element
+      heading: Überschrift
+      headings: Überschriften
+      image: Bild
+      link: Link
+      ordered: Nummerierte Liste
+      second: Zweites Element
+      subheading: Untergeordnete Überschrift
+      text: Text
+      title_html: Analysiert mit <a href="http://daringfireball.net/projects/markdown/">Markdown</a>
+      unordered: Aufgezählte Liste
+      url: URL
+    richtext_area: 
+      edit: Bearbeiten
+      preview: Vorschau
     search: 
       search: Suchen
       search_help: "Beispiele: „München“, „Heinestraße, Würzburg“, „CB2 5AQ“, oder „post offices near Lünen“ <a href='http://wiki.openstreetmap.org/wiki/Search'>mehr Beispiele …</a>"
@@ -1358,10 +1442,6 @@ de:
       your_traces: Eigene GPS-Tracks
     make_public: 
       made_public: veröffentlichter Track
-    no_such_user: 
-      body: Entschuldige, wir konnten keinen Benutzer mit dem Namen %{user} finden. Du hast dich möglicherweise vertippt, oder du bist einem ungültigem Link gefolgt.
-      heading: Der Benutzer %{user} existiert nicht
-      title: Benutzer nicht gefunden
     offline: 
       heading: GPX Speicher Offline
       message: Das Upload-System und der Speicher für GPX-Dateien ist derzeit nicht verfügbar
@@ -1716,7 +1796,6 @@ de:
     filter: 
       block_expired: Die Sperre kann nicht bearbeitet werden, da die Sperrdauer bereits abgelaufen ist.
       block_period: Die Sperrdauer muss einem der Werte aus der Drop-Down-Liste entsprechen.
-      not_a_moderator: Du musst Moderator sein um diese Aktion durchzuführen.
     helper: 
       time_future: Endet in %{time}.
       time_past: Endete vor %{time}

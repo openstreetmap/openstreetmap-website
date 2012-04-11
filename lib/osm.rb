@@ -268,6 +268,19 @@ module OSM
     end
   end
 
+  ##
+  # raised when someone tries to redact a current version of
+  # an element - only historical versions can be redacted.
+  class APICannotRedactError < APIError
+    def status
+      :bad_request
+    end
+
+    def to_s
+      "Cannot redact current version of element, only historical versions may be redacted."
+    end
+  end
+
   # Helper methods for going to/from mercator and lat/lng.
   class Mercator
     include Math

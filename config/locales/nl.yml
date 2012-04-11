@@ -81,6 +81,8 @@ nl:
   application: 
     require_cookies: 
       cookies_needed: U hebt cookies waarschijnlijk uitgeschakeld in uw browser. Schakel cookies in voordat u verder gaat.
+    require_moderator: 
+      not_a_moderator: U moet moderator zijn om die handeling uit te kunnen voeren.
     setup_user_auth: 
       blocked: Uw toegang tot de API is geblokkeerd. Meld u opnieuw aan in de webinterface om meer te weten te komen.
       need_to_see_terms: Uw toegang tot de API is tijdelijk opgeschort. Meld u aan in de webinterface om de Voorwaarden voor Bijdragen te bekijken. U hoeft ze niet te onderschijven, maar moet ze wel gezien hebben.
@@ -175,6 +177,13 @@ nl:
     paging_nav: 
       of: van
       showing_page: Bezig met weergeven van pagina
+    redacted: 
+      message_html: Versie %{version} van dit element van het type %{type} kan niet weergegeven worden omdat deze na redigering geblokkeerd is. Zie %{redaction_link} voor details.
+      redaction: Redigering %{id}
+      type: 
+        node: node
+        relation: relatie
+        way: weg
     relation: 
       download: "%{download_xml_link} of %{view_history_link}"
       download_xml: XML downloaden
@@ -201,7 +210,7 @@ nl:
       view_data: Gegevens voor de huidige kaartweergave weergeven
     start_rjs: 
       data_frame_title: Gegevens
-      data_layer_name: Gegevens
+      data_layer_name: Kaartgegevens verkennen
       details: Gegevens
       drag_a_box: Teken een rechthoek op de kaart om een gebied te selecteren
       edited_by_user_at_timestamp: Bewerkt door [[user]] op [[timestamp]]
@@ -371,10 +380,6 @@ nl:
       body: Er is geen dagboekbericht of opmerking met het id %{id}. Controleer de spelling, of misschien is de verwijzing waarop u geklikt hebt onjuist.
       heading: Een bericht met id %{id} bestaat niet
       title: Het opgevraagde dagboekbericht bestaat niet
-    no_such_user: 
-      body: Er is geen gebruiker met de naam %{user}. Controleer de spelling, of misschien is de verwijzing waarop u geklikt hebt onjuist.
-      heading: De gebruiker %{user} bestaat niet
-      title: Deze gebruiker bestaat niet
     view: 
       leave_a_comment: Opmerking achterlaten
       login: aanmelden
@@ -468,16 +473,28 @@ nl:
       suffix_place: ", %{distance} %{direction} van %{placename}"
     search_osm_nominatim: 
       prefix: 
+        aeroway: 
+          aerodrome: Luchtvaartterrein
+          apron: Platform
+          gate: Gate
+          helipad: Helikopterplatform
+          runway: Start-en landingsbaan
+          taxiway: Taxibaan
+          terminal: Terminal
         amenity: 
+          WLAN: Wifi-toegang
           airport: Luchthaven
           arts_centre: Kunstcollectief
+          artwork: Kunst
           atm: Geldautomaat
           auditorium: Auditorium
           bank: Bank
           bar: Bar
+          bbq: BBQ
           bench: Bankje
           bicycle_parking: Fietsenstalling
           bicycle_rental: Fietsverhuur
+          biergarten: Biertuin
           brothel: Bordeel
           bureau_de_change: Wisselkantoor
           bus_station: Busstation
@@ -486,6 +503,7 @@ nl:
           car_sharing: Autodelen
           car_wash: Autowasstraat
           casino: Casino
+          charging_station: Laadstation
           cinema: Bioscoop
           clinic: Kliniek
           club: Club
@@ -504,6 +522,7 @@ nl:
           ferry_terminal: Veerterminal
           fire_hydrant: Brandkraan
           fire_station: Brandweer
+          food_court: Foodcourt
           fountain: Fontein
           fuel: Brandstof
           grave_yard: Begraafplaats
@@ -544,9 +563,12 @@ nl:
           shelter: Beschutting
           shop: Winkel
           shopping: Winkelen
+          shower: Douche
+          social_centre: Sociaal centrum
           social_club: Sociale club
           studio: Eenkamerappartement
           supermarket: Supermarkt
+          swimming_pool: Zwembad
           taxi: Taxi
           telephone: Openbare telefoon
           theatre: Theater
@@ -561,37 +583,17 @@ nl:
           youth_centre: Jeugdcentrum
         boundary: 
           administrative: Administratieve grens
+          census: Volkstellingsgrens
+          national_park: Nationaal park
+          protected_area: Beschermd gebied
+        bridge: 
+          aqueduct: Aquaduct
+          suspension: Hangbrug
+          swing: Draaibrug
+          viaduct: Viaduct
+          "yes": Brug
         building: 
-          apartments: Appartementen
-          block: Bouwblok
-          bunker: Bunker
-          chapel: Kapel
-          church: Kerk
-          city_hall: Gemeentehuis
-          commercial: Commercieel gebouw
-          dormitory: Studentenhuis
-          entrance: Ingang
-          faculty: Faculteitsgebouw
-          farm: Agrarisch gebouw
-          flats: Flats
-          garage: Garage
-          hall: Hal
-          hospital: Ziekenhuis
-          hotel: Hotel
-          house: Huis
-          industrial: Industrieel gebouw
-          office: Kantoorgebouw
-          public: Openbaar gebouw
-          residential: Woningen
-          retail: Winkelpand
-          school: Schoolgebouw
-          shop: Winkel
-          stadium: Stadion
-          store: Winkel
-          terrace: Terras
-          tower: Toren
-          train_station: Spoorwegstation
-          university: Universiteitsgebouw
+          "yes": Gebouw
         highway: 
           bridleway: Ruiterpad
           bus_guideway: Vrijliggende busbaan
@@ -599,12 +601,11 @@ nl:
           byway: Onverharde weg
           construction: Snelweg in aanbouw
           cycleway: Fietspad
-          distance_marker: Afstandsmarkering
           emergency_access_point: Noodafslag
           footway: Voetpad
           ford: Voorde
-          gate: Slagboom
           living_street: Woonerf
+          milestone: Mijlpaal
           minor: Lokale weg
           motorway: Autosnelweg
           motorway_junction: Autosnelwegknooppunt
@@ -616,14 +617,17 @@ nl:
           primary_link: Primaire weg
           raceway: Racecircuit
           residential: Woonerf
+          rest_area: Rustplaats
           road: Weg
           secondary: Secundaire weg
           secondary_link: Secundaire weg
           service: Parallelweg
           services: Autosnelwegdienstverlening
+          speed_camera: Snelheidscamera
           steps: Trap
           stile: Overstap
           tertiary: Tertiaire weg
+          tertiary_link: Tertiaire weg
           track: Pad
           trail: Pad
           trunk: Autosnelweg
@@ -637,6 +641,7 @@ nl:
           building: Gebouw
           castle: Kasteel
           church: Kerk
+          fort: Fort
           house: Huis
           icon: Icoon
           manor: Landgoed
@@ -661,6 +666,7 @@ nl:
           farmland: Gecultiveerd areaal
           farmyard: Boerenerf
           forest: Bos
+          garages: Garages
           grass: Gras
           greenfield: Stadsgroen
           industrial: Industrieel gebied
@@ -668,25 +674,28 @@ nl:
           meadow: Weide
           military: Miltair gebied
           mine: Mijn
-          mountain: Berg
           nature_reserve: Natuurreservaat
+          orchard: Boomgaard
           park: Park
           piste: Piste
-          plaza: Plein
           quarry: Steengroeve
           railway: Spoor
           recreation_ground: Recreatiegebied
           reservoir: Reservoir
+          reservoir_watershed: Overloopgebied
           residential: Woonwijk
           retail: Winkels
+          road: Weggebied
           village_green: Stadsgroen
           vineyard: Wijngaard
           wetland: Moeras
           wood: Hout
         leisure: 
           beach_resort: Badplaats
+          bird_hide: Nestplaats
           common: Meent
           fishing: Visgrond
+          fitness_station: Fitnessstation
           garden: Tuin
           golf_course: Golfbaan
           ice_rink: IJsbaan
@@ -697,12 +706,17 @@ nl:
           pitch: Sportveld
           playground: Speelplaats
           recreation_ground: Recreatiegebied
+          sauna: Sauna
           slipway: Trailerhelling
           sports_centre: Sportcentrum
           stadium: Stadion
           swimming_pool: Zwembad
           track: Atletiekbaan
           water_park: Waterspeelpark
+        military: 
+          airfield: Militair vliegveld
+          barracks: Kazerne
+          bunker: Bunker
         natural: 
           bay: Baai
           beach: Strand
@@ -710,11 +724,12 @@ nl:
           cave_entrance: Grotingang
           channel: Kanaal
           cliff: Klif
-          coastline: Kustlijn
           crater: Krater
+          dune: Duin
           feature: Bezienswaardigheid
           fell: Fjell
           fjord: Fjord
+          forest: Bos
           geyser: Geiser
           glacier: Gletsjer
           heath: Heide
@@ -734,6 +749,7 @@ nl:
           scrub: Struikgewas
           shoal: Zandbank
           spring: Bron
+          stone: Steen
           strait: Zeeëngte
           tree: Boom
           valley: Vallei
@@ -742,6 +758,19 @@ nl:
           wetland: Moeras
           wetlands: Moeras
           wood: Bos
+        office: 
+          accountant: Boekhouder
+          architect: Architect
+          company: Bedrijf
+          employment_agency: Bureau voor werkgelegenheid
+          estate_agent: Makelaar
+          government: Overheidskantoor
+          insurance: Verzekeringskantoor
+          lawyer: Advocaat
+          ngo: NGO-kantoor
+          telecommunication: Telecommunicatiekantoor
+          travel_agent: Reisbureau
+          "yes": Kantoor
         place: 
           airport: Luchthaven
           city: Stad
@@ -753,6 +782,7 @@ nl:
           houses: Huizen
           island: Eiland
           islet: Eilandje
+          isolated_dwelling: Geïsoleerde woning
           locality: Plaats
           moor: Veen
           municipality: Gemeente
@@ -776,6 +806,7 @@ nl:
           junction: Spoorwegkruising
           level_crossing: Spoorwegovergang
           light_rail: Lightrail
+          miniature: Miniatuur spoorweg
           monorail: Monorail
           narrow_gauge: Smalspoor
           platform: Spoorwegplatform
@@ -790,7 +821,7 @@ nl:
           yard: Rangeerterrein
         shop: 
           alcohol: Slijterij
-          apparel: Kledingwinkel
+          antiques: Antiek
           art: Kunstwinkel
           bakery: Bakkerij
           beauty: Schoonheidssalon
@@ -799,7 +830,6 @@ nl:
           books: Boekenwinkel
           butcher: Slagerij
           car: Automaterialenwinkel
-          car_dealer: Autodealer
           car_parts: Autoonderdelen
           car_repair: Autogarage
           carpet: Tapijtzaak
@@ -814,7 +844,6 @@ nl:
           department_store: Warenhuis
           discount: Discountwinkel
           doityourself: Doe-het-zelf-winkel
-          drugstore: Drogisterij
           dry_cleaning: Stomerij
           electronics: Elektronicawinkel
           estate_agent: Makelaar
@@ -880,7 +909,10 @@ nl:
           valley: Vallei
           viewpoint: Bijzonder uitzicht
           zoo: Dierentuin
+        tunnel: 
+          "yes": Tunnel
         waterway: 
+          artificial: Kunstmatige waterweg
           boatyard: Scheepswerf
           canal: Kanaal
           connector: Waterverbinding
@@ -916,6 +948,7 @@ nl:
       history_tooltip: Bewerkingen voor dit gebied bekijken
       history_zoom_alert: U moet inzoomen om de kaart te bewerkingsgeschiedenis te bekijken
   layouts: 
+    community: Gemeenschap
     community_blogs: Gemeenschapsblogs
     community_blogs_title: Blogs van leden van de OpenStreetMap-gemeenschap
     copyright: Auteursrechten & licentie
@@ -943,10 +976,12 @@ nl:
       other: Uw Postvak IN bevat %{count} ongelezen berichten
       zero: Uw Postvak IN bevat geen nieuwe berichten
     intro_1: OpenStreetMap is een vrij bewerkbare kaart van de hele wereld. Hij wordt gemaakt door mensen zoals u.
-    intro_2: Met OpenStreetMap kunt u geografische gegevens van de hele aarde bekijken, samen bewerken en gebruiken.
-    intro_3: De hosting van OpenStreetMap wordt ondersteund door %{ucl}, %{ic} en %{bytemark}. Andere partners van het project zijn opgenomen in de pagina %{partners}
-    intro_3_ic: Imperial College London
-    intro_3_partners: wiki
+    intro_2_create_account: Maak een gebruiker aan
+    intro_2_download: downloaden
+    intro_2_html: De gegevens zijn vrij te %{download} en te %{use} onder de %{license}. %{create_account} om de kaart te verbeteren.
+    intro_2_license: open licentie
+    intro_2_use: gebruiken
+    intro_2_use_url: http://wiki.openstreetmap.org/wiki/Using_OpenStreetMap
     license: 
       title: Gegevens van OpenStreetMap zijn beschikbaar onder de licentie Creative Commons Naamsvermelding-Gelijk delen 2.0 Generiek
     log_in: aanmelden
@@ -960,6 +995,11 @@ nl:
       title: Steun OpenStreetMap met een donatie
     osm_offline: De OpenStreetMap-database is op het moment niet beschikbaar wegens het uitvoeren van onderhoudswerkzaamheden.
     osm_read_only: De OpenStreetMap-database kan op het moment niet gewijzigd worden wegens het uitvoeren van onderhoudswerkzaamheden.
+    partners_bytemark: Bytemark Hosting
+    partners_html: De hosting wordt ondersteund door %{ucl}, %{ic} en %{bytemark}, en andere %{partners}.
+    partners_ic: Imperial College London
+    partners_partners: partners
+    partners_ucl: het UCL VR Centre
     sign_up: registreren
     sign_up_tooltip: Gebruiker voor bewerken aanmaken
     sotm2011: Kom naar de OpenStreetMap-conferentie 2011, de staat van de kaart, 9-11 september in Denver!
@@ -977,7 +1017,7 @@ nl:
       english_link: Engelstalige origineel
       text: In het geval deze taalversie en het %{english_original_link} elkaar tegenspreken, hebben de bepalingen op de Engelstalige pagina voorrang.
       title: Over deze vertaling
-    legal_babble: "<h2>Auteursrechten en licentie</h2>\n<p>\n   OpenStreetMap is <i>open data</i>, gelicenceerd onder de licentie <a\n   href=\"http://creativecommons.org/licenses/by-sa/2.0/\">Creative\n   Commons Naamsvermelding-Gelijk delen 2.0</a> (CC-BY-SA).\n</p>\n<p>\n  Het staat u vrij onze kaarten en gegevens te kopieren, te distribueren,\n  weer te geven en aan te passen, zo lang als u OpenStreetMap en haar\n  auteurs vermeldt. Als u onze kaarten of gegevens wijzigt of erop verder bouwt,\n  mag u de resultaten onder dezelfde licentie distribueren. In de\n  volledige <a\n  href=\"http://creativecommons.org/licenses/by-sa/2.0/legalcode\">juridische\n  tekst</a> worden uw rechten en verantwoordelijkheden uitgelegd.\n</p>\n\n<h3>Hoe OpenStreetMap te vermelden</h3>\n<p>\n  Als u kaartmateriaal van OpenStreetMap gebruikt, vragen we u als\n  naamsvermelding tenminste op te nemen &ldquo;&copy; OpenStreetMap-auteurs, CC-BY-SA&rdquo;.\n  Als u alleen kaartgegevens gebruikt, vragen we u te vermelden\n  &ldquo;Kaartgegevens &copy; OpenStreetMap-auteurs,\n  CC-BY-SA&rdquo;.\n</p>\n<p>\n  Waar mogelijk moet u verwijzen naar OpenStreetMap met een hyperlink naar <a\n  href=\"http://www.openstreetmap.org/\">http://www.openstreetmap.org/</a>\n  en CC-BY-SA naar <a\n  href=\"http://creativecommons.org/licenses/by-sa/2.0/\">http://creativecommons.org/licenses/by-sa/2.0/</a>. Als\n  u een medium gebruikt waarin u niet met hyperlinks kunt verwijzen (bijvoorbeeld in\n  drukwerk), dan verzoeken we u uw lezers te verwijzen naar \n  www.openstreetmap.org (wellicht door \n  &lsquo;OpenStreetMap&rsquo; uit te schrijven als het complete webadres) en naar\n  www.creativecommons.org.\n</p>\n\n<h3>Meer informatie</h3>\n<p>\n  U kunt meer lezen over onze gegevens in de <a\n  href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">Veel gestelde juridische\n  vragen</a>.\n</p>\n<p>\n  OSM-auteurs worden er continu aan herinnerd nooit gebruik te maken van enige\n  auteursrechtelijk beschermde bron (zoals bijvoorbeeld Google Maps of gedrukte kaarten) zonder\n  expliciete toestemming van de auteursrechthebbenden.\n</p>\n<p>\n  Hoewel OpenStreetMap open data is, kunnen we niet om niet een kaart-API\n  ter beschikking stellen voor ontwikkelaars van derde partijen.\n\n  Zie ons <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">API-gebruiksbeleid</a>,\n  <a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">Kaartgebruikbeleid</a>\n  en <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">Nominatimgebruiksbeleid</a>.\n</p>\n\n<h3>Onze gegevensleveranciers</h3>\n<p>\n  Door onze CC-BY-SA-licentie moet u &ldquo;de Originele auteur\n  vermelden op een redelijke wijze voor het door U gebruikte medium&rdquo;.\n  Individuele OSM-mappers vragen niet om meer vermelding dan\n  &ldquo;OpenStreetMap-auteurs&rdquo;, maar daar waar gegevens van\n  een nationaal kaartenbureau afkomstig zijn of van een andere belangrijke\n  bron, en opgenomen in OpenStreetMap, kan het redelijk zijn om\n  die bron direct te vermelden of door naar deze pagina te verwijzen.\n</p>\n\n<!--\nInformatie voor paginabewerkers\n\nIn de volgende lijst zijn alleen organisaties opgenomen die\nvermelding vereisen bij opname van hun gegevens in OpenStreetMap.\nHet is geen algeheel overzicht van geïmporteerde gegevens en mag\nniet gebruikt worden, tenzij naamsvermelding verplicht is om te\nvoldoen aan de licentie van de geïmporteerde gegevens.\n\nToevoegingen op deze plaats moeten eerst met OSM-beheerders\noverlegd worden.\n-->\n\n<ul id=\"contributors\">\n   <li><strong>Australië</strong>: Bevat wijkgegevens\n   gebaseerd op gegevens van het Australian Bureau of Statistics.</li>\n   <li><strong>Austria</strong>: Bevat gegevens van de\n   <a href=\"http://data.wien.gv.at/\">Stad Wenen</a> onder\n   <a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.de\">CC-BY</a>.</li>\n   <li><strong>Canada</strong>: Bevat gegevens van\n   GeoBase&reg;, GeoGratis (&copy; Department of Natural\n   Resources Canada), CanVec (&copy; Department of Natural\n   Resources Canada), en StatCan (Geography Division,\n   Statistics Canada).</li>\n  <li><strong>Polen</strong>: Bevat gegevens van <a\n   href=\"http://ump.waw.pl/\">UMP-pcPL maps</a>. Auteursrechten\n   UMP-pcPL-deelnemers.</li>\n   <a href=\"http://wiki.openstreetmap.org/wiki/UMP2OSM_Importing\">\n   Meer over hoe OSM UMP-gegevens gebruikt</a></li>\n   <li><strong>Zuid-Afrika</strong>: Bevat gegevens afkomstig uit\n   <a href=\"http://www.ngi.gov.za/\">Chief Directorate:\n   National Geo-Spatial Information</a>, auteursrechten voor de Staat voorbehouden.</li>\n   <li><strong>Frankrijk</strong>: Bevat gegevens van\n   Direction Générale des Impôts.</li>\n   <li><strong>Nieuw-Zeeland</strong>: Bevat gegevens van\n   Land Information New Zealand. Crown Copyright voorbehouden.</li>\n   <li><strong>Verenigd Koninkrijk</strong>: Bevat gegevens van\n   de Ordnance Survey &copy; Crown Copyright en  databaserechten\n   2010.</li>\n</ul>\n\n<p>\n  Opname van gegevens in OpenStreetMap betekent niet dat de originele\n  gegevensverstrekker OpenStreetMap ondersteunt, enige vorm van garantie geeft, of\n  aansprakelijkheid aanvaardt.\n</p>"
+    legal_babble: "<h2>Auteursrechten en licentie</h2>\n<p>\n   OpenStreetMap is <i>open data</i>, gelicenceerd onder de licentie <a\n   href=\"http://creativecommons.org/licenses/by-sa/2.0/\">Creative\n   Commons Naamsvermelding-Gelijk delen 2.0</a> (CC-BY-SA).\n</p>\n<p>\n  Het staat u vrij onze kaarten en gegevens te kopieren, te distribueren,\n  weer te geven en aan te passen, zo lang als u OpenStreetMap en haar\n  auteurs vermeldt. Als u onze kaarten of gegevens wijzigt of erop verder bouwt,\n  mag u de resultaten onder dezelfde licentie distribueren. In de\n  volledige <a\n  href=\"http://creativecommons.org/licenses/by-sa/2.0/legalcode\">juridische\n  tekst</a> worden uw rechten en verantwoordelijkheden uitgelegd.\n</p>\n\n<h3>Hoe OpenStreetMap te vermelden</h3>\n<p>\n  Als u kaartmateriaal van OpenStreetMap gebruikt, vragen we u als\n  naamsvermelding tenminste op te nemen &ldquo;&copy; OpenStreetMap-auteurs, CC-BY-SA&rdquo;.\n  Als u alleen kaartgegevens gebruikt, vragen we u te vermelden\n  &ldquo;Kaartgegevens &copy; OpenStreetMap-auteurs,\n  CC-BY-SA&rdquo;.\n</p>\n<p>\n  Waar mogelijk moet u verwijzen naar OpenStreetMap met een hyperlink naar <a\n  href=\"http://www.openstreetmap.org/\">http://www.openstreetmap.org/</a>\n  en CC-BY-SA naar <a\n  href=\"http://creativecommons.org/licenses/by-sa/2.0/\">http://creativecommons.org/licenses/by-sa/2.0/</a>. Als\n  u een medium gebruikt waarin u niet met hyperlinks kunt verwijzen (bijvoorbeeld in\n  drukwerk), dan verzoeken we u uw lezers te verwijzen naar \n  www.openstreetmap.org (wellicht door \n  &lsquo;OpenStreetMap&rsquo; uit te schrijven als het complete webadres) en naar\n  www.creativecommons.org.\n</p>\n\n<h3>Meer informatie</h3>\n<p>\n  U kunt meer lezen over onze gegevens in de <a\n  href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">Veel gestelde juridische\n  vragen</a>.\n</p>\n<p>\n  OSM-auteurs worden er continu aan herinnerd nooit gebruik te maken van enige\n  auteursrechtelijk beschermde bron (zoals bijvoorbeeld Google Maps of gedrukte kaarten) zonder\n  expliciete toestemming van de auteursrechthebbenden.\n</p>\n<p>\n  Hoewel OpenStreetMap open data is, kunnen we niet om niet een kaart-API\n  ter beschikking stellen voor ontwikkelaars van derde partijen.\n\n  Zie ons <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">API-gebruiksbeleid</a>,\n  <a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">Kaartgebruikbeleid</a>\n  en <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">Nominatimgebruiksbeleid</a>.\n</p>\n\n<h3>Onze gegevensleveranciers</h3>\n<p>\n  Door onze CC-BY-SA-licentie moet u &ldquo;de Originele auteur\n  vermelden op een redelijke wijze voor het door U gebruikte medium&rdquo;.\n  Individuele OSM-mappers vragen niet om meer vermelding dan\n  &ldquo;OpenStreetMap-auteurs&rdquo;, maar daar waar gegevens van\n  een nationaal kaartenbureau afkomstig zijn of van een andere belangrijke\n  bron, en opgenomen in OpenStreetMap, kan het redelijk zijn om\n  die bron direct te vermelden of door naar deze pagina te verwijzen.\n</p>\n\n<!--\nInformatie voor paginabewerkers\n\nIn de volgende lijst zijn alleen organisaties opgenomen die\nvermelding vereisen bij opname van hun gegevens in OpenStreetMap.\nHet is geen algeheel overzicht van geïmporteerde gegevens en mag\nniet gebruikt worden, tenzij naamsvermelding verplicht is om te\nvoldoen aan de licentie van de geïmporteerde gegevens.\n\nToevoegingen op deze plaats moeten eerst met OSM-beheerders\noverlegd worden.\n-->\n\n<ul id=\"contributors\">\n   <li><strong>Australië</strong>: Bevat wijkgegevens\n   gebaseerd op gegevens van het Australian Bureau of Statistics.</li>\n   <li><strong>Austria</strong>: Bevat gegevens van de\n   <a href=\"http://data.wien.gv.at/\">Stad Wenen</a> (onder\n   <a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.de\">CC-BY</a>) en <a href=\"http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm\">Land Vorarlberg.</a></li>.</li>\n   <li><strong>Canada</strong>: Bevat gegevens van\n   GeoBase&reg;, GeoGratis (&copy; Department of Natural\n   Resources Canada), CanVec (&copy; Department of Natural\n   Resources Canada), en StatCan (Geography Division,\n   Statistics Canada).</li>\n  <li><strong>Polen</strong>: Bevat gegevens van <a\n   href=\"http://ump.waw.pl/\">UMP-pcPL maps</a>. Auteursrechten\n   UMP-pcPL-deelnemers.</li>\n   <a href=\"http://wiki.openstreetmap.org/wiki/UMP2OSM_Importing\">\n   Meer over hoe OSM UMP-gegevens gebruikt</a></li>\n   <li><strong>Zuid-Afrika</strong>: Bevat gegevens afkomstig uit\n   <a href=\"http://www.ngi.gov.za/\">Chief Directorate:\n   National Geo-Spatial Information</a>, auteursrechten voor de Staat voorbehouden.</li>\n   <li><strong>Frankrijk</strong>: Bevat gegevens van\n   Direction Générale des Impôts.</li>\n   <li><strong>Nederland</strong>: Bevat &copy; Gegevens van AND, 2007\n   (<a href=\"http://www.and.com\">www.and.com</a>)</li>\n   <li><strong>Nieuw-Zeeland</strong>: Bevat gegevens van\n   Land Information New Zealand. Crown Copyright voorbehouden.</li>\n   <li><strong>Verenigd Koninkrijk</strong>: Bevat gegevens van\n   de Ordnance Survey &copy; Crown Copyright en  databaserechten\n   2010.</li>\n</ul>\n\n<p>\n  Opname van gegevens in OpenStreetMap betekent niet dat de originele\n  gegevensverstrekker OpenStreetMap ondersteunt, enige vorm van garantie geeft, of\n  aansprakelijkheid aanvaardt.\n</p>"
     native: 
       mapping_link: gaan mappen
       native_link: Nederlandstalige versie
@@ -1023,10 +1063,6 @@ nl:
       body: Er is geen bericht met dat ID.
       heading: Bericht bestaat niet
       title: Dat bericht bestaat niet
-    no_such_user: 
-      body: Er is geen gebruiker die naam.
-      heading: Deze gebruiker bestaat niet
-      title: Deze gebruiker bestaat niet
     outbox: 
       date: Datum
       inbox: Postvak IN
@@ -1207,6 +1243,37 @@ nl:
       url: "URL voor tokenverzoek:"
     update: 
       flash: De informatie voor de client is bijgewerkt
+  redaction: 
+    create: 
+      flash: Redigering aangemaakt.
+    destroy: 
+      error: Er is een fout opgetreden tijdens het verwijderen van de redigering.
+      flash: De redigering is vernietigd.
+      not_empty: De redigering is niet leeg. Herstel alle versies die bij deze redigering betrokken zijn voordat u die vernietigt.
+    edit: 
+      description: Beschrijving
+      heading: Redigering bewerken
+      submit: Redigering opslaan
+      title: Redigering bewerken
+    index: 
+      empty: Geen weer te geven redigeringen.
+      heading: Lijst met redigeringen
+      title: Lijst met redigeringen
+    new: 
+      description: Beschrijving
+      heading: Gegevens voor nieuwe redigering invoeren
+      submit: Redigering maken
+      title: Aanmaak van een nieuwe redigering
+    show: 
+      confirm: Weet u het zeker?
+      description: "Beschrijving:"
+      destroy: Redigering verwijderen
+      edit: Redigering bewerken
+      heading: U bekijkt de redigering "%{title}"
+      title: U bekijkt een redigering
+      user: "Maker:"
+    update: 
+      flash: De wijzigingen zijn opgeslagen.
   site: 
     edit: 
       anon_edits_link_text: Lees waarom dit het geval is.
@@ -1221,7 +1288,6 @@ nl:
     index: 
       js_1: U gebruikt een browser die JavaScript niet ondersteunt, of u hebt JavaScript uitgeschakeld.
       js_2: OpenStreetMap gebruikt JavaScript voor de slippy-kaart.
-      js_3: Gebruik de <a href="http://tah.openstreetmap.org/Browse/">Tiles@Home statische tilebrowser</a> als u niet de mogelijkheid hebt om JavaScript aan te zetten.
       license: 
         license_name: Creative Commons Naamsvermelding-Gelijk delen 2.0
         notice: Gelicenseerd onder de %{license_name} licentie door het %{project_name} en zijn bijdragers.
@@ -1298,6 +1364,23 @@ nl:
           unclassified: Ongeclassificeerde weg
           unsurfaced: Onverharde weg
           wood: Bos
+    markdown_help: 
+      alt: Alternatieve tekst
+      first: Eerste item
+      heading: Kopje
+      headings: Kopjes
+      image: Afbeelding
+      link: Verwijzing
+      ordered: Geordende lijst
+      second: Tweede item
+      subheading: Onderkop
+      text: Tekst
+      title_html: Verwerkt met <a href="http://daringfireball.net/projects/markdown/">Markdown</a>
+      unordered: Ongeordende lijst
+      url: URL
+    richtext_area: 
+      edit: Bewerken
+      preview: Voorvertoning
     search: 
       search: Zoeken
       search_help: "voorbeelden: 'Brugge', 'Spui, Amsterdam', '1234 AA', of 'post offices near Leuven' (<a href='http://wiki.openstreetmap.org/wiki/Search'>meer voorbeelden...</a>)."
@@ -1340,10 +1423,6 @@ nl:
       your_traces: Uw GPS-tracks
     make_public: 
       made_public: Trace openbaar gemaakt
-    no_such_user: 
-      body: Sorry, er is geen gebruiker %{user}. Controleer de spelling, of misschien is de verwijzing waarop u geklikt hebt onjuist.
-      heading: De gebruiker %{user} bestaat niet
-      title: Deze gebruiker bestaat niet
     offline: 
       heading: De opslag van GPX-bestanden is niet beschikbaar
       message: Het systeem voor het opslaan en uploaden van GPX-bestanden is op het moment niet beschikbaar.
@@ -1698,7 +1777,6 @@ nl:
     filter: 
       block_expired: De blokkade is al vervallen en kan niet bijgewerkt worden.
       block_period: De duur van de blokkade moet een van de waarden in het menu zijn.
-      not_a_moderator: U moet moderator zijn om die handeling uit te kunnen voeren.
     helper: 
       time_future: Vervalt over %{time}.
       time_past: "%{time} geleden vervallen."
