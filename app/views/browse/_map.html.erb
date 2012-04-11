@@ -11,12 +11,12 @@
   <span id="loading"><%= t 'browse.map.loading' %></span>
   <%= link_to(t("browse.map.larger.area"), { :controller => :site, :action => :index, :box => "yes" }, { :id => "area_larger_map", :class => "geolink bbox" }) %>
   <br />
-  <%= link_to(h(t("browse.map.edit.area")) + '<span class="arrow">&#x25be;</span>'.html_safe, { :controller => :site, :action => :edit }, { :id => "area_edit", :class => "geolink bbox" }) %>
+  <%= link_to(h(t("browse.map.edit.area")) + content_tag(:span, "▾", :class => "menuicon"), { :controller => :site, :action => :edit }, { :id => "area_edit", :class => "geolink bbox" }) %>
   <% unless map.instance_of? Changeset %>
     <br />
-    <%= link_to("", { :controller => :site, :action => :index }, { :id => "object_larger_map", :class => "geolink object" }) %>
+    <%= link_to(t("browse.map.larger." + map.class.to_s.downcase), { :controller => :site, :action => :index }, { :id => "object_larger_map", :class => "geolink object" }) %>
     <br />
-    <%= link_to(h("")  + '<span class="arrow">&#x25be;</span>'.html_safe, { :controller => :site, :action => :edit }, { :id => "object_edit", :class => "geolink object" }) %>
+    <%= link_to(h(t("browse.map.edit." + map.class.to_s.downcase)) + content_tag(:span, "▾", :class => "menuicon"), { :controller => :site, :action => :edit }, { :id => "object_edit", :class => "geolink object" }) %>
   <% end %>
   <% else %>
     <%= t 'browse.map.deleted' %>
@@ -110,6 +110,9 @@
           url += "/" + previous_version;
         }
 
+        $("#object_larger_map").hide();
+        $("#object_edit").hide();
+
         addObjectToMap(url, true, function(extent) {
           $("#loading").hide();
           $("#browse_map .geolink").show();
@@ -129,7 +132,6 @@
             });
             <% end -%>
 
-            <% unless map.instance_of? Changeset -%>
             $("#remote_object_edit").click(function (event) {
               return remoteEditHandler(event, extent, "<%= map.class.to_s.downcase + map.id.to_s %>");
             });
@@ -140,9 +142,8 @@
             });
             <% end -%>
 
-            $("#object_larger_map").html("<%=j t('browse.map.larger.' + map.class.to_s.downcase) %>");
-            $("#object_edit").html("<%=j t('browse.map.edit.' + map.class.to_s.downcase) %>");
-            <% end -%>
+            $("#object_larger_map").show();
+            $("#object_edit").show();
 
             updatelinks(centre.lon, centre.lat, 16, null, extent.left, extent.bottom, extent.right, extent.top, "<%= map.class.to_s.downcase %>", <%= map.id %>);
           } else {

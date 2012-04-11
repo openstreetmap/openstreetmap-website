@@ -23,25 +23,25 @@ function openMenu(anchor, menu, align) {
  * Setup a menu, triggered by hovering over an anchor for a given time.
  */
 function createMenu(anchorid, menuid, align) {
-  var $anchor = $("#" + anchorid),
-      $arrow = $("#" + anchorid + ' .arrow'),
-      $menu = $("#" + menuid),
-      $page = $(':not(#' + menuid + ', #' + anchorid + ')');
+  var $anchor = $("#" + anchorid);
+  var $arrow = $("#" + anchorid + " .menuicon");
+  var $menu = $("#" + menuid);
+  var $page = $(":not(#" + menuid + ", #" + anchorid + ")");
 
   function hide() {
     $menu.hide();
-    $page.unbind('click', hide);
+    $page.off("click", hide);
   }
 
   $arrow.click(function(e) {
-      e.stopPropagation();
-      e.preventDefault();
-      if ($menu.is(':visible')) {
-          $menu.hide();
-          $page.unbind('click', hide);
-      } else {
-          openMenu($anchor, $menu.show(), 'left');
-          $page.bind('click', hide);
-      }
+    e.stopPropagation();
+    e.preventDefault();
+    if ($menu.is(":visible")) {
+      $menu.hide();
+      $page.off("click", hide);
+    } else {
+      openMenu($anchor, $menu.show(), align);
+      $page.on("click", hide);
+    }
   });
 }
