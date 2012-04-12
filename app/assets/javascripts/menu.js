@@ -34,14 +34,16 @@ function createMenu(anchorid, menuid, align) {
   }
 
   $arrow.click(function(e) {
-    e.stopPropagation();
-    e.preventDefault();
-    if ($menu.is(":visible")) {
-      $menu.hide();
-      $page.off("click", hide);
-    } else {
-      openMenu($anchor, $menu.show(), align);
-      $page.on("click", hide);
+    if ($anchor.is(":not(.disabled)")) {
+      e.stopPropagation();
+      e.preventDefault();
+      if ($menu.is(":visible")) {
+        $menu.hide();
+        $page.off("click", hide);
+      } else {
+        openMenu($anchor, $menu.show(), align);
+        $page.on("click", hide);
+      }
     }
   });
 }
