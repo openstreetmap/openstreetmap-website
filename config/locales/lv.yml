@@ -80,6 +80,8 @@ lv:
   application: 
     require_cookies: 
       cookies_needed: Izskatā, ka jums cookies ir atslēgti, pirms turpināt, lūdzu, ieslēdziet tos savā pārlūkprogrammā.
+    require_moderator: 
+      not_a_moderator: Tev nepieciešams būt moderatoram, lai izpildītu šo darbību.
     setup_user_auth: 
       blocked: Tev ir liegta piekļuve API. Lūdzu autorizējies mājaslapas interfeisā, lai uzzinātu vairāk.
       need_to_see_terms: Tava piekļuve API un laiku pārtraukta. Lūdzu autorizējies mājaslapas interfeisā, lai apskatītu Veidotāju Noteikumus. Tev nevajag piekrist, bet tev tie ir jāapskata.
@@ -165,7 +167,7 @@ lv:
       node_history_title: "Punkta vēsture: %{node_name}"
       view_details: skatīt sīkāku informāciju
     not_found: 
-      sorry: Atvainojiet, % {tipa} ar id % {id} nevarēja atrast.
+      sorry: Atvainojiet, %{type} ar id %{id} nevarēja atrast.
       type: 
         changeset: izmaiņu kopa
         node: punkts
@@ -174,6 +176,13 @@ lv:
     paging_nav: 
       of: 'no'
       showing_page: Rāda lapu
+    redacted: 
+      message_html: Versija %{version} no šī %{type} nevar tikt parādīta, jo tika rediģēta. Lūdzu apskati %{redaction_link} priekš papildus informācijas.
+      redaction: Redakcijas %{id}
+      type: 
+        node: punkts
+        relation: relācija
+        way: ceļš
     relation: 
       download: "%{download_xml_link} vai %{view_history_link}"
       download_xml: Lejupielādēt XML
@@ -200,7 +209,7 @@ lv:
       view_data: Skatīt datus pašreizējā kartes skatā
     start_rjs: 
       data_frame_title: Dati
-      data_layer_name: Dati
+      data_layer_name: Pārlūkot kartes datus
       details: Sīkāka informācija
       drag_a_box: Uzvelciet rāmi uz kartes, lai izvēlētos apgabalu
       edited_by_user_at_timestamp: Rediģēja [[user]] [[timestamp]]
@@ -239,7 +248,7 @@ lv:
         tag: Birkas %{key}=%{value} viki lapa
       wikipedia_link: "%{page} šķirklis Vikipēdijā"
     timeout: 
-      sorry: Diemžēl dati % {tips} ar id % {id}, prasīja pārāk daudz laika, lai ielādētu.
+      sorry: Diemžēl dati %{type} ar id %{id}, prasīja pārāk daudz laika, lai ielādētu.
       type: 
         changeset: izmaiņu kopa
         node: punkts
@@ -1007,7 +1016,7 @@ lv:
       english_link: angliskais oriģināls
       text: Gadījumā, ja šī tulkotā lapa ir nesaskaņā ar %{english_original_link}, vērā jāņem un jāvadās no angliskās lapas
       title: Par šo tulkojumu
-    legal_babble: "<h2>Autortiesības un Licence</h2>\n<p>\n   OpenStreetMap ir <i>atvērti dati</i>, licencēti zem <a\n   href=\"http://creativecommons.org/licenses/by-sa/2.0/\">Creative\n   Commons Attribution-ShareAlike 2.0</a> licences (CC BY-SA).\n</p>\n<p>\n  Tu vari kopēt, izplatīt, nosūtīt un adaptēt mūsu kartes\n  un datus, kamēr tu atsaucies uz OpenStreetMap un tās\n  veidotājiem. Ja tu maini vai veido uz mūsu kartēm, tu\n  vari izplatīt rezultātu tikai zem tās pašas licences. Pilns\n  <a\n  href=\"http://creativecommons.org/licenses/by-sa/2.0/legalcode\">juridiskais kods</a> izskaidro tavas tiesības un pienākumus.\n</p>\n\n<h3>Kā atsaukties uz OpenStreetMap</h3>\n<p>\n  Ja Tu lieto OpenStreetMap kartes bildes, mēs pieprasām ka\n  tava atsaucē ir vismaz &ldquo;&copy; OpenStreetMap\n  veidotāji, CC BY-SA&rdquo;. Ja tu izmanto tikai kartes datus,\n  mēs pieprasām &ldquo;Kartes dati &copy; OpenStreetMap veidotāji,\n  CC BY-SA&rdquo;.\n</p>\n<p>\n  Kur iespējams, OpenStreetMap vajadzētu būt iesaitētam uz <a\n  href=\"http://www.openstreetmap.org/\">http://www.openstreetmap.org/</a>\n  un CC BY-SA uz <a\n  href=\"http://creativecommons.org/licenses/by-sa/2.0/\">http://creativecommons.org/licenses/by-sa/2.0/</a>. Ja\n  tu lieto mediju, kur saites nav iespējamas (piem. \n  printēts darbs), mēs iesakām pārsūtīt savus lasītājus uz\n  www.openstreetmap.org (piemēram paplašinot\n  &lsquo;OpenStreetMap&rsquo; uz pilno adresi) un uz\n  www.creativecommons.org.\n</p>\n\n<h3>Uzzināt vairāk</h3>\n<p>\n  Lasi vairāk par mūsu datu izmantošanu <a\n  href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">Juridiskajā\n  FAQ</a>.\n</p>\n<p>\n  OSM veidotājiem tiek atgādināts nievietot datus no\n  ar autortiesībām aizsargātām vietām (piem. Google Maps vai drukātas kartes) bez\n  skaidri izteiktas atļaujas no autortiesību turētājiem.\n</p>\n<p>\n  Lai arī OpenStreetMap ir atvērti dati, mēs nevaram piedāvāt\n  bezmaksas karšu API trešo pušu izstrādātājiem.\n\n  Skatīt mūsu <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">API Lietošanas Politiku</a>,\n  <a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">Flīžu Lietošanas Politiku</a>\n  and <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">Nominatim L:ietošanas Politiku</a>.\n</p>\n\n<h3>Mūsu veidotāji</h3>\n<p>\n  Mūsu CC BY-SA licence pieprasa tev &ldquo;dot Oriģinālajam\n  Autoram atsauci saprātīgu līdz vidēju vai veidu, ka Tu lieto\n  &rdquo;. Individuāli OSM kartētāji nepieprasa\n  atsauci pāri &ldquo;OpenStreetMap\n  veidotāji&rdquo;, bet, kur dati no nacionālas kartēšanas aģentūras\n  vai cita nopietna avota ir iekļauti iekš\n  OpenStreetMap, varētu būt saprātīgi uz viņiem atsaukties tieši\n  reproducējot viņu atsauci vai iesaitējot uz šo lapu.\n</p>\n\n<!--\nInformation for page editors\n\nThe following lists only those organisations who require attribution\nas a condition of their data being used in OpenStreetMap. It is not a\ngeneral catalogue of imports, and must not be used except when\nattribution is required to comply with the licence of the imported\ndata.\n\nAny additions here must be discussed with OSM sysadmins first.\n-->\n\n<ul id=\"contributors\">\n    <li><strong>Austrālija</strong>: Ietver pilsētu datus no\n    Australian Bureau of Statistics data.</li>\n    <li><strong>Austrija</strong>: Ietver datus no\n    <a href=\"http://data.wien.gv.at/\">Stadt Wien</a> zem\n    <a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.de\">CC BY</a>.</li>\n    <li><strong>Kanāda</strong>: Ietver datus no\n    GeoBase&reg;, GeoGratis (&copy; Department of Natural\n    Resources Canada), CanVec (&copy; Department of Natural\n    Resources Canada), un StatCan (Geography Division,\n    Statistics Canada).</li>\n    <li><strong>Francija</strong>: Ietver datus no\n    Direction Générale des Impôts.</li>\n    <li><strong>Jaunzēlande</strong>: Ietver datus no\n    Land Information New Zealand. Crown Copyright reserved.</li>\n    <li><strong>Polija</strong>: Ietver datus no <a\n    href=\"http://ump.waw.pl/\">UMP-pcPL kartes</a>. Autortiesības\n    UMP-pcPL veidotāji.\n    <a href=\"http://wiki.openstreetmap.org/wiki/UMP2OSM_Importing\">\n    Vairāk par OSM&apos; UMP datu lietojumu</a></li>\n    <li><strong>Dienvidāfrika</strong>: Ietver datus no\n    <a href=\"http://www.ngi.gov.za/\">Chief Directorate:\n    National Geo-Spatial Information</a>, State copyright reserved.</li>\n    <li><strong>Apvienotā Karaliste</strong>: Satur Ordnance\n    Survey datus &copy; Crown copyright and database right\n    2010.</li>\n</ul>\n\n<p>\n  Datu ievietošana OpenStreetMap nenozīmē ka oriģinālais\n  datu avots sniedz atbalstu OpenStreetMap, dod garantiju, vai\n  pieņem jebkādu atbildību.\n</p>"
+    legal_babble: "<h2>Autortiesības un Licence</h2>\n<p>\n   OpenStreetMap ir <i>atvērti dati</i>, licencēti zem <a\n   href=\"http://creativecommons.org/licenses/by-sa/2.0/\">Creative\n   Commons Attribution-ShareAlike 2.0</a> licences (CC BY-SA).\n</p>\n<p>\n  Tu vari kopēt, izplatīt, nosūtīt un adaptēt mūsu kartes\n  un datus, kamēr tu atsaucies uz OpenStreetMap un tās\n  veidotājiem. Ja tu maini vai veido uz mūsu kartēm, tu\n  vari izplatīt rezultātu tikai zem tās pašas licences. Pilns\n  <a\n  href=\"http://creativecommons.org/licenses/by-sa/2.0/legalcode\">juridiskais kods</a> izskaidro tavas tiesības un pienākumus.\n</p>\n\n<h3>Kā atsaukties uz OpenStreetMap</h3>\n<p>\n  Ja Tu lieto OpenStreetMap kartes bildes, mēs pieprasām ka\n  tava atsaucē ir vismaz &ldquo;&copy; OpenStreetMap\n  veidotāji, CC BY-SA&rdquo;. Ja tu izmanto tikai kartes datus,\n  mēs pieprasām &ldquo;Kartes dati &copy; OpenStreetMap veidotāji,\n  CC BY-SA&rdquo;.\n</p>\n<p>\n  Kur iespējams, OpenStreetMap vajadzētu būt iesaitētam uz <a\n  href=\"http://www.openstreetmap.org/\">http://www.openstreetmap.org/</a>\n  un CC BY-SA uz <a\n  href=\"http://creativecommons.org/licenses/by-sa/2.0/\">http://creativecommons.org/licenses/by-sa/2.0/</a>. Ja\n  tu lieto mediju, kur saites nav iespējamas (piem. \n  printēts darbs), mēs iesakām pārsūtīt savus lasītājus uz\n  www.openstreetmap.org (piemēram paplašinot\n  &lsquo;OpenStreetMap&rsquo; uz pilno adresi) un uz\n  www.creativecommons.org.\n</p>\n\n<h3>Uzzināt vairāk</h3>\n<p>\n  Lasi vairāk par mūsu datu izmantošanu <a\n  href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">Juridiskajā\n  FAQ</a>.\n</p>\n<p>\n  OSM veidotājiem tiek atgādināts nievietot datus no\n  ar autortiesībām aizsargātām vietām (piem. Google Maps vai drukātas kartes) bez\n  skaidri izteiktas atļaujas no autortiesību turētājiem.\n</p>\n<p>\n  Lai arī OpenStreetMap ir atvērti dati, mēs nevaram piedāvāt\n  bezmaksas karšu API trešo pušu izstrādātājiem.\n\n  Skatīt mūsu <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">API Lietošanas Politiku</a>,\n  <a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">Flīžu Lietošanas Politiku</a>\n  and <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">Nominatim L:ietošanas Politiku</a>.\n</p>\n\n<h3>Mūsu veidotāji</h3>\n<p>\n  Mūsu CC BY-SA licence pieprasa tev &ldquo;dot Oriģinālajam\n  Autoram atsauci saprātīgu līdz vidēju vai veidu, ka Tu lieto\n  &rdquo;. Individuāli OSM kartētāji nepieprasa\n  atsauci pāri &ldquo;OpenStreetMap\n  veidotāji&rdquo;, bet, kur dati no nacionālas kartēšanas aģentūras\n  vai cita nopietna avota ir iekļauti iekš\n  OpenStreetMap, varētu būt saprātīgi uz viņiem atsaukties tieši\n  reproducējot viņu atsauci vai iesaitējot uz šo lapu.\n</p>\n\n<!--\nInformation for page editors\n\nThe following lists only those organisations who require attribution\nas a condition of their data being used in OpenStreetMap. It is not a\ngeneral catalogue of imports, and must not be used except when\nattribution is required to comply with the licence of the imported\ndata.\n\nAny additions here must be discussed with OSM sysadmins first.\n-->\n\n<ul id=\"contributors\">\n    <li><strong>Austrālija</strong>: Ietver pilsētu datus no\n    Australian Bureau of Statistics data.</li>\n    <li><strong>Austrija</strong>: Ietver datus no\n    <a href=\"http://data.wien.gv.at/\">Stadt Wien</a> (zem\n    <a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.de\">CC BY</a>).</li>\n    <li><strong>Kanāda</strong>: Ietver datus no\n    GeoBase&reg;, GeoGratis (&copy; Department of Natural\n    Resources Canada), CanVec (&copy; Department of Natural\n    Resources Canada), un StatCan (Geography Division,\n    Statistics Canada).</li>\n    <li><strong>Francija</strong>: Ietver datus no\n    Direction Générale des Impôts.</li>\n<li><strong>Nīderlande</strong>: Satur &copy; AND data, 2007\n(<a href=\"http://www.and.com\">www.and.com</a>)</li>\n    <li><strong>Jaunzēlande</strong>: Ietver datus no\n    Land Information New Zealand. Crown Copyright reserved.</li>\n    <li><strong>Polija</strong>: Ietver datus no <a\n    href=\"http://ump.waw.pl/\">UMP-pcPL kartes</a>. Autortiesības\n    UMP-pcPL veidotāji.\n    <a href=\"http://wiki.openstreetmap.org/wiki/UMP2OSM_Importing\">\n    Vairāk par OSM&apos; UMP datu lietojumu</a></li>\n    <li><strong>Dienvidāfrika</strong>: Ietver datus no\n    <a href=\"http://www.ngi.gov.za/\">Chief Directorate:\n    National Geo-Spatial Information</a>, State copyright reserved.</li>\n    <li><strong>Apvienotā Karaliste</strong>: Satur Ordnance\n    Survey datus &copy; Crown copyright and database right\n    2010.</li>\n</ul>\n\n<p>\n  Datu ievietošana OpenStreetMap nenozīmē ka oriģinālais\n  datu avots sniedz atbalstu OpenStreetMap, dod garantiju, vai\n  pieņem jebkādu atbildību.\n</p>"
     native: 
       mapping_link: sākt kartēt
       native_link: latviskā versija
@@ -1233,6 +1242,37 @@ lv:
       url: "Pieprasījuma pilnvaru URL:"
     update: 
       flash: Klienta informācija atjaunināta veiksmīgi
+  redaction: 
+    create: 
+      flash: Redakcija izveidota.
+    destroy: 
+      error: Iznīcinot šo redakciju, radās kļūda.
+      flash: Redakcija iznīcināta.
+      not_empty: Redakcija nav tukša. Lūdzu at-rediģē visas versijas, kuras pieder šai redakcijai, pirms tu viņu iznīcini.
+    edit: 
+      description: Apraksts
+      heading: Labot redakciju
+      submit: Saglabāt redakciju
+      title: Labot redakciju
+    index: 
+      empty: Nav redakciju, ko parādīt.
+      heading: Redakciju saraksts
+      title: Redakciju saraksts
+    new: 
+      description: Apraksts
+      heading: Ievadi informāciju jaunajai redakcijai
+      submit: Izveidot redakciju
+      title: Jaunas redakcijas veidošana
+    show: 
+      confirm: Vai esat pārliecināts?
+      description: "Apraksts:"
+      destroy: 'Noņemt šo redakciju'
+      edit: Labot šo redakciju
+      heading: Rāda redakciju "%{title}"
+      title: Rāda redakciju
+      user: "Veidotājs:"
+    update: 
+      flash: Izmaiņas ir saglabātas.
   site: 
     edit: 
       anon_edits_link_text: Uzzini, kāpēc tā notiek.
@@ -1323,6 +1363,23 @@ lv:
           unclassified: Neklasificēts ceļš
           unsurfaced: Ceļš bez seguma
           wood: Pirmatnējs mežs
+    markdown_help: 
+      alt: Alt teksts
+      first: Pirmais vienums
+      heading: Virsraksts
+      headings: Virsraksti
+      image: Attēls
+      link: Saite
+      ordered: Sakārtots saraksts
+      second: Otrais vienums
+      subheading: Apakšvirsraksts
+      text: Teksts
+      title_html: Parsēts ar <a href="http://daringfireball.net/projects/markdown/">Markdown</a>
+      unordered: Nesakārtots saraksts
+      url: URL
+    richtext_area: 
+      edit: Labot
+      preview: Priekšskatījums
     search: 
       search: Meklēt
       search_help: "piemēri: 'Valmiera', 'Mazā kalna iela, Rīga', 'LV-1010' vai 'post offices near Liepāja' <a href='http://wiki.openstreetmap.org/wiki/Search'>vairāk piemēru...</a>"
