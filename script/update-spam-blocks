@@ -18,11 +18,11 @@ addresses.each do |address,count|
     })
 
     unless acl
-      Acl.create(
+      Acl.create({
         :address => address,
         :k => "no_account_creation",
         :v => "auto_spam_block"
-      )
+      }, :without_protection => true)
 
       puts "Blocked #{address}"
     end
