@@ -26,7 +26,7 @@ class GeocoderController < ApplicationController
       @sources.push "osm_nominatim"
     else
       @sources.push "osm_nominatim"
-      @sources.push "geonames"
+      @sources.push "geonames" if defined?(GEONAMES_USERNAME)
     end
   end
 
@@ -272,7 +272,7 @@ class GeocoderController < ApplicationController
     @results = Array.new
 
     # ask geonames.org
-    response = fetch_xml("http://ws.geonames.org/search?q=#{escape_query(query)}&maxRows=20")
+    response = fetch_xml("http://api.geonames.org/search?q=#{escape_query(query)}&maxRows=20&username=#{GEONAMES_USERNAME}")
 
     # parse the response
     response.elements.each("geonames/geoname") do |geoname|
