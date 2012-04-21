@@ -11,8 +11,11 @@
 # Author: McDutchie
 # Author: Nemo bis
 # Author: Od1n
+# Author: Paolopoz
 # Author: Raoli
 # Author: Rippitippi
+# Author: Simone
+# Author: SimoneSVC
 # Author: ZioNicco
 it: 
   activerecord: 
@@ -86,6 +89,8 @@ it:
   application: 
     require_cookies: 
       cookies_needed: Pare che tu abbia i cookie non abilitati - abilita i cookie nel tuo browser prima di continuare.
+    require_moderator: 
+      not_a_moderator: Devi essere un moderatore per eseguire questa operazione.
     setup_user_auth: 
       blocked: Il tuo accesso alle API è stato bloccato. Si prega di fare log-in all'interfaccia web per saperne di più.
       need_to_see_terms: Il tuo accesso alle API è temporaneamente sospeso. Si prega di accedere all'interfaccia web per visualizzare i termini di contribuzione. Non c'è bisogno che tu aderisca, però è necessario che tu li legga.
@@ -174,6 +179,13 @@ it:
     paging_nav: 
       of: di
       showing_page: Visualizzata la pagina
+    redacted: 
+      message_html: La versione %{version} di questo %{type} non può essere mostrata in quanto è stata redatta. Per favore, fai riferimento a %{redaction_link} per i dettagli.
+      redaction: Redazione %{id}
+      type: 
+        node: nodo
+        relation: relazione
+        way: percorso
     relation: 
       download: "%{download_xml_link} oppure %{view_history_link}"
       download_xml: Scarica XML
@@ -200,7 +212,7 @@ it:
       view_data: Mostra i dati per la visualizzazione attuale della mappa
     start_rjs: 
       data_frame_title: Dati
-      data_layer_name: Dati
+      data_layer_name: Esplora Dati Mappa
       details: Dettagli
       drag_a_box: Tracciare un riquadro sulla mappa per selezionare un'area
       edited_by_user_at_timestamp: Modificato da [[user]] il [[timestamp]]
@@ -308,6 +320,10 @@ it:
     comments: 
       ago: "%{ago} fa"
       comment: Commento
+      has_commented_on: "% {display_name} ha commentato le seguenti voci di diario"
+      newer_comments: Commenti più recenti
+      older_comments: Commenti più vecchi
+      post: Scrivi
       when: Quando
     diary_comment: 
       comment_from: Commento di %{link_user} il %{comment_created_at}
@@ -398,6 +414,7 @@ it:
       licence: Licenza
       longitude: "Lon:"
       manually_select: Seleziona manualmente un'area differente
+      map_image: Immagine Mappa (mostra livello standard)
       max: max
       options: Opzioni
       osm_xml_data: Dati XML OpenStreetMap
@@ -459,19 +476,27 @@ it:
     search_osm_nominatim: 
       prefix: 
         aeroway: 
+          aerodrome: Aerodromo
+          apron: Grembiule
           gate: Gate aeroportuale
+          helipad: Elisuperficie
+          runway: Pista
+          taxiway: Pista di rullaggio
           terminal: Terminal aeroportuale
         amenity: 
           WLAN: Punto di accesso WiFi
           airport: Aeroporto
           arts_centre: Centro d'arte
+          artwork: Opera d'arte
           atm: Cassa automatica
           auditorium: Auditorium
           bank: Banca
           bar: Bar
+          bbq: Barbecue
           bench: Panchina
           bicycle_parking: Parcheggio per biciclette
           bicycle_rental: Noleggio biciclette
+          biergarten: Birreria all'aperto
           brothel: Bordello
           bureau_de_change: Cambia valute
           bus_station: Stazione degli autobus
@@ -480,6 +505,7 @@ it:
           car_sharing: Car Sharing
           car_wash: Autolavaggio
           casino: Casinò
+          charging_station: Stazione di ricarica
           cinema: Cinema
           clinic: Clinica
           club: Club
@@ -498,6 +524,7 @@ it:
           ferry_terminal: Terminal traghetti
           fire_hydrant: Pompa antincendio
           fire_station: Vigili del fuoco
+          food_court: Food Court
           fountain: Fontana
           fuel: Stazione di rifornimento
           grave_yard: Cimitero
@@ -578,6 +605,7 @@ it:
           footway: Percorso pedonale
           ford: Guado
           living_street: Strada pedonale
+          milestone: Pietra miliare
           minor: Strada secondaria
           motorway: Autostrada/tangenziale
           motorway_junction: Svincolo
@@ -589,14 +617,17 @@ it:
           primary_link: Strada principale
           raceway: Pista
           residential: Strada residenziale
+          rest_area: Area di Sosta
           road: Strada generica
           secondary: Strada di importanza regionale
           secondary_link: Strada secondaria
           service: Strada di servizio
           services: Stazione di servizio
+          speed_camera: Autovelox fissi
           steps: Scala
           stile: Scaletta
           tertiary: Strada di importanza locale
+          tertiary_link: Strada di importanza locale
           track: Strada forestale o agricola
           trail: Percorso escursionistico
           trunk: Superstrada
@@ -635,6 +666,7 @@ it:
           farmland: Terreno agricolo
           farmyard: Aia
           forest: Foresta
+          garages: Garage
           grass: Prato
           greenfield: Area da adibire a costruzioni
           industrial: Zona Industriale
@@ -643,6 +675,7 @@ it:
           military: Zona militare
           mine: Miniera
           nature_reserve: Riserva naturale
+          orchard: Frutteto
           park: Parco
           piste: Piste
           quarry: Cava
@@ -651,12 +684,14 @@ it:
           reservoir: Riserva idrica
           residential: Area Residenziale
           retail: Negozi
+          road: Area della sede stradale
           village_green: Parco urbano
           vineyard: Vigneto
           wetland: Zona umida
           wood: Bosco
         leisure: 
           beach_resort: Stabilimento balneare
+          bird_hide: Osservatorio Camuffato
           common: Area comune (UK)
           fishing: Riserva di pesca
           garden: Giardino
@@ -677,6 +712,7 @@ it:
           track: Pista da corsa
           water_park: Parco acquatico
         military: 
+          airfield: Aeroporto militare
           barracks: Caserma
           bunker: Bunker
         natural: 
@@ -711,6 +747,7 @@ it:
           scrub: Boscaglia
           shoal: Secca
           spring: Sorgente
+          stone: Pietra
           strait: Stretto
           tree: Albero
           valley: Valle
@@ -721,11 +758,16 @@ it:
           wood: Bosco
         office: 
           architect: Architetto
+          company: Azienda
           employment_agency: Agenzia di lavoro
+          estate_agent: Agente immobiliare
           government: Ufficio governativo
+          insurance: Agenzia di assicurazione
           lawyer: Avvocato
+          ngo: Ufficio di una ONG (Organizzazione Non Governativa)
           telecommunication: Ufficio di telecomunicazioni
           travel_agent: Agenzia di viaggi
+          "yes": Ufficio
         place: 
           airport: Aeroporto
           city: Città
@@ -737,6 +779,7 @@ it:
           houses: Gruppo di case
           island: Isola
           islet: Isoletta
+          isolated_dwelling: Case sparse
           locality: Località (luogo con nome, non popolato)
           moor: Molo
           municipality: Comune
@@ -774,6 +817,7 @@ it:
           yard: Zona di manovra ferroviaria
         shop: 
           alcohol: Alcolici
+          antiques: Antiquario
           art: Negozio d'arte
           bakery: Panetteria
           beauty: Prodotti cosmetici
@@ -861,7 +905,10 @@ it:
           valley: Valle
           viewpoint: Punto panoramico
           zoo: Zoo
+        tunnel: 
+          "yes": Galleria
         waterway: 
+          artificial: Corso d'acqua artificiale
           boatyard: Cantiere nautico
           canal: Canale
           connector: Canale connettore
@@ -897,6 +944,7 @@ it:
       history_tooltip: Visualizza le modifiche per quest'area
       history_zoom_alert: Devi ingrandire per vedere la cronologia delle modifiche
   layouts: 
+    community: Comunità
     community_blogs: Blog della comunità
     community_blogs_title: Blog dei membri della comunità OpenStreetMap
     copyright: Copyright e Licenza
@@ -925,7 +973,10 @@ it:
       zero: La tua posta in arrivo non contiene alcun messaggio non letto
     intro_1: OpenStreetMap è una mappa liberamente modificabile dell'intero pianeta. E' fatta da persone come te.
     intro_2_create_account: Crea un account utente
-    intro_2_download: scarica
+    intro_2_download: scaricati
+    intro_2_html: I dati possono essere %{download} liberamente e %{use} in accordo alla %{license}. %{create_account} per aiutare a migliorare la mappa.
+    intro_2_license: licenza libera
+    intro_2_use: utilizzati
     license: 
       title: I dati di OpenStreetMap sono distribuiti secondo la licenza Creative Commons Attribution-Share Alike 2.0 Generic
     log_in: entra
@@ -939,6 +990,11 @@ it:
       title: Aiuta OpenStreetMap con una donazione in denaro
     osm_offline: Il database di OpenStreetMap è al momento non in linea per pemettere lo svolgimento di alcuni lavori essenziali su di esso.
     osm_read_only: Il database di OpenStreetMap è al momento in modalità sola-lettura per pemettere lo svolgimento di alcuni lavori essenziali su di esso.
+    partners_bytemark: Bytemark Hosting
+    partners_html: L'hostin è supportato da %{ucl}, %{ic}, %{bytemark} e da altri %{partners}.
+    partners_ic: Imperial College (Londra)
+    partners_partners: partner
+    partners_ucl: UCL VR Centre
     sign_up: iscriviti
     sign_up_tooltip: Crea un profilo utente per apportare modifiche
     sotm2011: Vieni alla conferenza di OpenStreetMap 2011, The State of the Map, il 9-11 Settembre a Denver!
@@ -1182,6 +1238,21 @@ it:
       url: "URL del token di richiesta:"
     update: 
       flash: Aggiornate con successo le informazioni sul client
+  redaction: 
+    create: 
+      flash: La redazione è stata creata.
+    edit: 
+      description: Descrizione
+      heading: Modifica Redazione
+    index: 
+      heading: Lista Redazioni
+    new: 
+      description: Descrizione
+    show: 
+      confirm: Sei sicuro?
+      edit: Modifica questa redazione
+    update: 
+      flash: Modifiche salvate.
   site: 
     edit: 
       anon_edits_link_text: Leggi il perché.
@@ -1272,6 +1343,18 @@ it:
           unclassified: Strada minore
           unsurfaced: Strada non pavimentata
           wood: Bosco
+    markdown_help: 
+      alt: Testo alternativo
+      heading: Intestazione
+      headings: Intestazioni
+      image: Immagine
+      link: Collegamento
+      text: Testo
+      title_html: Analizzato con <a href="http://daringfireball.net/projects/markdown/">Markdown</a>
+      url: URL
+    richtext_area: 
+      edit: Modifica
+      preview: Anteprima
     search: 
       search: Cerca
       search_help: "esempi: 'Trieste', 'Via Dante Alighieri, Trieste', 'CB2 5AQ', oppure 'post offices near Trieste' <a href='http://wiki.openstreetmap.org/wiki/Search'>altri esempi...</a>"
@@ -1292,7 +1375,7 @@ it:
       scheduled_for_deletion: Tracciato in attesa di essere eliminato
     edit: 
       description: "Descrizione:"
-      download: scarica
+      download: scaricati
       edit: modifica
       filename: "Nome file:"
       heading: Modifica al tracciato %{name}
@@ -1497,7 +1580,7 @@ it:
           title: Accedi con Yahoo
       password: "Password:"
       register now: Registrati ora
-      remember: "Ricordati di me:"
+      remember: Ricordati di me
       title: Entra
       to make changes: Per apportare modifiche ai dati di OpenStreetMap, è necessario disporre di un account.
       with openid: "In alternativa utilizza il tuo OpenID per entrare:"

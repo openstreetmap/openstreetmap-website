@@ -81,6 +81,8 @@ nn:
   application: 
     require_cookies: 
       cookies_needed: Du ser ut til å ha deaktivert informasjonskapsler. Aktivar informasjonskapsler i nettleseren din før du held fram.
+    require_moderator: 
+      not_a_moderator: Du må vere ein moderator for å utføre den handlinga.
     setup_user_auth: 
       blocked: Tilgjenget ditt til API-eit er blokkert. Logg inn på nettstaden for å finne ut meir.
       need_to_see_terms: Tilgjenget ditt til API-eit er mellombels stoppa. Logg inn på nettsiden for å lese bidragsytervilkårene. Du treng ikkje godta vilkåra, men du må lese dei.
@@ -182,6 +184,13 @@ nn:
     paging_nav: 
       of: av
       showing_page: Viser side
+    redacted: 
+      message_html: Versjon %{version} av denne %{type} kan ikkje visast fordi den er blitt maskert. Sjå %{redaction_link} for detaljar.
+      redaction: Maskering %{id}
+      type: 
+        node: noden
+        relation: relasjonen
+        way: vegen
     relation: 
       download: "%{download_xml_link} eller %{view_history_link}"
       download_xml: Last ned XML
@@ -209,7 +218,7 @@ nn:
       view_data: Vis data for gjeldande kartvising
     start_rjs: 
       data_frame_title: Data
-      data_layer_name: Data
+      data_layer_name: Kartdata
       details: Detaljar
       drag_a_box: Dra ein boks på kartet for å velje eit område
       edited_by_user_at_timestamp: Redigert av [[user]],  [[timestamp]]
@@ -1263,6 +1272,37 @@ nn:
     with_id: "%{id}"
     with_name: "%{name} (%{id})"
     with_version: "%{id}, v%{version}"
+  redaction: 
+    create: 
+      flash: Maskering oppretta.
+    destroy: 
+      error: Det var ein feil med å ødelege denne maskeringa.
+      flash: Maskering ødelagd.
+      not_empty: Maskeringa er ikkje tom. Avmasker alle versjonar som høyrer til denne maskeringa før du ødeleger den.
+    edit: 
+      description: Skildring
+      heading: Rediger maskering
+      submit: Lagre markering
+      title: Rediger relasjon
+    index: 
+      empty: Ingen maskeringar å vise.
+      heading: Liste over maskeringar
+      title: Liste over maskeringar
+    new: 
+      description: Skildring
+      heading: Legg inn informasjon for ein ny maskering
+      submit: Lag maskering
+      title: Lagar ein ny maskering
+    show: 
+      confirm: Er du sikker?
+      description: "Skildring:"
+      destroy: Fjern denne maskeringa
+      edit: Endre denne maskeringa
+      heading: Visar maskering "%{title}"
+      title: Visar maskering
+      user: "Oppretta av:"
+    update: 
+      flash: Endringar lagra.
   site: 
     edit: 
       anon_edits: (%{link})
@@ -1357,6 +1397,23 @@ nn:
           unclassified: Uklassifisert veg
           unsurfaced: Veg utan dekke
           wood: Ved
+    markdown_help: 
+      alt: Alternativ tekst
+      first: Første punkt
+      heading: Overskrifter
+      headings: Overskrifter
+      image: Bilete
+      link: Lekje
+      ordered: Sortert liste
+      second: Andre punkt
+      subheading: Underoverskrifter
+      text: Tekst
+      title_html: Tolka med <a href="http://daringfireball.net/projects/markdown/">Markdown</a>
+      unordered: Usortert liste
+      url: URL
+    richtext_area: 
+      edit: Endre
+      preview: Førehandsvising
     search: 
       search: Søk
       search_help: "Døme: 'Lindesnes', 'Karl Johans gate', 'Sør-Trøndelag' og <a href='http://wiki.openstreetmap.org/wiki/Search'>fleire ...</a>"

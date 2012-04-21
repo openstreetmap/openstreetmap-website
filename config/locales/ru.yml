@@ -13,6 +13,7 @@
 # Author: Express2000
 # Author: Ezhick
 # Author: G0rn
+# Author: Ignatus
 # Author: Kaganer
 # Author: Komzpa
 # Author: Lockal
@@ -95,6 +96,8 @@ ru:
   application: 
     require_cookies: 
       cookies_needed: Похоже, что у вас выключены куки. Пожалуйста, включите куки в вашем браузере, прежде чем продолжить.
+    require_moderator: 
+      not_a_moderator: Чтобы выполнить это действие, нужно быть модератором.
     setup_user_auth: 
       blocked: Ваш доступ к API заблокирован. Пожалуйста, войдите через веб-интерфейсе, чтобы узнать подробности.
       need_to_see_terms: Ваш доступ к API временно приостановлен. Пожалуйста войдите через веб-интерфейс для просмотра условий участия. Вам не обязательно соглашаться, но вы должны просмотреть их.
@@ -191,6 +194,11 @@ ru:
     paging_nav: 
       of: из
       showing_page: Показана страница
+    redacted: 
+      type: 
+        node: точка
+        relation: отношение
+        way: линия
     relation: 
       download: "%{download_xml_link} или %{view_history_link}"
       download_xml: Скачать XML
@@ -217,7 +225,7 @@ ru:
       view_data: Посмотреть данные для текущего вида
     start_rjs: 
       data_frame_title: Данные
-      data_layer_name: Данные
+      data_layer_name: Просмотр данных карты
       details: Подробности
       drag_a_box: Для выбора области растяните рамку по карте
       edited_by_user_at_timestamp: Изменил [[user]] в [[timestamp]]
@@ -1030,7 +1038,7 @@ ru:
       english_link: английского оригинала
       text: В случае конфликта между этой переведённой страницей и %{english_original_link}, английская страница должна иметь приоритет
       title: Об этом переводе
-    legal_babble: "<h2> Авторские права и лицензирование</h2>\n<p>OpenStreetMap — это <i>открытые данные</i> доступные по лицензии <a href=\"http://creativecommons.org/licenses/by-sa/2.0/deed.ru\">Creative Commons Attribution-ShareAlike 2.0</a> (CC-BY-SA). \n</p>\n\n<p>Вы можете свободно копировать, распространять, передавать и дорабатывать наши карты и данные до тех пор, пока вы ссылаетесь на OpenStreetMap и его сообщество. Если вы изменяете или берёте наши карты за основу, то вы должны распространять результат только по такой же лицензии. Полный <a href=\"http://creativecommons.org/licenses/by-sa/2.0/legalcode\">юридический текст лицензии</a> (<a href=\"http://ru.wikisource.org/wiki/Creative_Commons_Attribution-ShareAlike_2.0_Generic\">перевод на русский язык</a>) разъясняет ваши права и обязанности.\n</p>\n\n<h3>Как сослаться на OpenStreetMap</h3>\n<p>Если вы используете изображения карт OpenStreetMap, мы требуем, чтобы вы указывали, по крайней мере, «© Участники OpenStreetMap, CC-BY-SA». Если вы используете только картографические данные, мы требуем наличия указания «Картографические данные © Участники OpenStreetMap, CC-BY-SA». \n</p>\n<p>Где это возможно, текст «OpenStreetMap» должен быть гиперссылкой на <a href=\"http://www.openstreetmap.org/\">http://www.openstreetmap.org/</a>, «CC-BY-SA» — на <a href=\"http://creativecommons.org/licenses/by-sa/2.0/deed.ru\">http://creativecommons.org/licenses/by-sa/2.0/deed.ru</a>. Если вы используете носители, где гиперссылки невозможны (например, печатная работа), мы предлагаем вам направлять ваших читателей непосредственно к www.openstreetmap.org (возможно, расширяя «OpenStreetMap» до полного адреса) и к www.creativecommons.org. \n</p>\n\n<h3>Узнайте больше</h3>\n<p>Прочитайте больше об использовании наших данных на странице <a href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ?uselang=ru\">ответов на юридические вопросы</a>. \n</p>\n<p>Участники сообщества OSM должны всегда помнить о том, что запрещается добавлять данные из любых защищенных авторским правом источников (например, с Google Maps или печатных карт) без явного предварительного согласия правообладателей. \n</p>\n<p>Хотя OpenStreetMap — открытые данные, мы не в состоянии предоставлять бесплатный API к нашим картам для сторонних разработчиков. См. <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">Правила использования API</a>, <a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">Правила использования частей карты</a> и <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">Правила использования службы Nominatim</a> . \n</p>\n\n<h3>Кто вносит вклад в наш проект</h3>\n<p>Наша лицензия CC-BY-SA требует от вас «указывать авторство Автора Оригинала разумно в средстве или способах, которые Вы используете». Индивидуальные картографы OSM не требуют указания авторства больше, чем строчкой «участники OpenStreetMap», но в OpenStreetMap есть данные, полученные от национальных картографических агентств или других существенных источников, поэтому возможно имеет смысл указать непосредственно на них, как на источник, или добавить ссылку на эту страницу. \n</p>\n\n<!-- Информация для редактирующих страницу. Ниже перечислены только те организации, которые требуют ссылки на своё авторство в качестве условий использования их данных в OpenStreetMap. Это не общий каталог импортируемых данных, список не должен использоваться за исключением случаев, когда указание авторства требуется условиями лицензии на импортируемые данные.\n\nЛюбые дополнения должны быть в первую очередь обсуждены с системными администраторами OSM. -->\n\n<ul id=\"contributors\">\n<li><strong>Австралия.</strong> Данные пригородов от Австралийского бюро статистики. </li>\n<li><strong>Австрия.</strong> Данные <a href=\"http://data.wien.gv.at/\">города Вена</a> на условиях <a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.de\">CC-BY</a>.</li>\n<li><strong>Канада.</strong> Данные от GeoBase ®, GeoGratis (© Департамент природных ресурсов Канады), CanVec (© Департамент природных ресурсов Канады) и StatCan (Отдел Географии, Статистическое ведомство Канады).</li>\n<li><strong>Франция</strong>: Данные от Главного налогового управления.</i>\n<li><strong>Новая Зеландия.</strong> Данные из сведений о земельных ресурсах Новой Зеландии. Crown Copyright reserved. </li>\n\n\n<li><strong>Польша</strong>: Данные с <a\n   href=\"http://ump.waw.pl/\">карт UMP-pcPL</a>. Copyright участники UMP-pcPL.\n   <a href=\"http://wiki.openstreetmap.org/wiki/UMP2OSM_Importing\">\n   Подробнее об использовании данных UMP проектом OSM</a></li>\n   <li><strong>ЮАР</strong>: Данные из\n   <a href=\"http://www.ngi.gov.za/\">Chief Directorate:\n   National Geo-Spatial Information</a>, State copyright reserved.</li>\n<li><strong>Великобритания.</strong> Данные Ordnance Survey © Crown copyright и права на базы данных 2010.</li>\n</ul>\n\n<p>\nВключение данных в OpenStreetMap не означает, что поставщик первичных данных каким-либо образом поддерживает OpenStreetMap, предоставляет гарантии или принимает на себя какую-любую ответственность. \n</p>"
+    legal_babble: "<h2> Авторские права и лицензирование</h2>\n<p>OpenStreetMap — это <i>открытые данные</i> доступные по лицензии <a href=\"http://creativecommons.org/licenses/by-sa/2.0/deed.ru\">Creative Commons Attribution-ShareAlike 2.0</a> (CC-BY-SA). \n</p>\n\n<p>Вы можете свободно копировать, распространять, передавать и дорабатывать наши карты и данные до тех пор, пока вы ссылаетесь на OpenStreetMap и его сообщество. Если вы изменяете или берёте наши карты за основу, то вы должны распространять результат только по такой же лицензии. Полный <a href=\"http://creativecommons.org/licenses/by-sa/2.0/legalcode\">юридический текст лицензии</a> (<a href=\"http://ru.wikisource.org/wiki/Creative_Commons_Attribution-ShareAlike_2.0_Generic\">перевод на русский язык</a>) разъясняет ваши права и обязанности.\n</p>\n\n<h3>Как сослаться на OpenStreetMap</h3>\n<p>Если вы используете изображения карт OpenStreetMap, мы требуем, чтобы вы указывали, по крайней мере, «© Участники OpenStreetMap, CC-BY-SA». Если вы используете только картографические данные, мы требуем наличия указания «Картографические данные © Участники OpenStreetMap, CC-BY-SA». \n</p>\n<p>Где это возможно, текст «OpenStreetMap» должен быть гиперссылкой на <a href=\"http://www.openstreetmap.org/\">http://www.openstreetmap.org/</a>, «CC-BY-SA» — на <a href=\"http://creativecommons.org/licenses/by-sa/2.0/deed.ru\">http://creativecommons.org/licenses/by-sa/2.0/deed.ru</a>. Если вы используете носители, где гиперссылки невозможны (например, печатная работа), мы предлагаем вам направлять ваших читателей непосредственно к www.openstreetmap.org (возможно, расширяя «OpenStreetMap» до полного адреса) и к www.creativecommons.org. \n</p>\n\n<h3>Узнайте больше</h3>\n<p>Прочитайте больше об использовании наших данных на странице <a href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ?uselang=ru\">ответов на юридические вопросы</a>. \n</p>\n<p>Участники сообщества OSM должны всегда помнить о том, что запрещается добавлять данные из любых защищенных авторским правом источников (например, с Google Maps или печатных карт) без явного предварительного согласия правообладателей. \n</p>\n<p>Хотя OpenStreetMap — открытые данные, мы не в состоянии предоставлять бесплатный API к нашим картам для сторонних разработчиков. См. <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">Правила использования API</a>, <a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">Правила использования частей карты</a> и <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">Правила использования службы Nominatim</a> . \n</p>\n\n<h3>Кто вносит вклад в наш проект</h3>\n<p>Наша лицензия CC-BY-SA требует от вас «указывать авторство Автора Оригинала разумно в средстве или способах, которые Вы используете». Индивидуальные картографы OSM не требуют указания авторства больше, чем строчкой «участники OpenStreetMap», но в OpenStreetMap есть данные, полученные от национальных картографических агентств или других существенных источников, поэтому возможно имеет смысл указать непосредственно на них, как на источник, или добавить ссылку на эту страницу. \n</p>\n\n<!-- Информация для редактирующих страницу. Ниже перечислены только те организации, которые требуют ссылки на своё авторство в качестве условий использования их данных в OpenStreetMap. Это не общий каталог импортируемых данных, список не должен использоваться за исключением случаев, когда указание авторства требуется условиями лицензии на импортируемые данные.\n\nЛюбые дополнения должны быть в первую очередь обсуждены с системными администраторами OSM. -->\n\n<ul id=\"contributors\">\n<li><strong>Австралия.</strong> Данные пригородов от Австралийского бюро статистики. </li>\n<li><strong>Австрия.</strong> Данные <a href=\"http://data.wien.gv.at/\">города Вена</a> (на условиях <a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.de\">CC-BY</a>)\nи <a href=\"http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm\">земли Форарльберга.</a></li>\n<li><strong>Канада.</strong> Данные от GeoBase ®, GeoGratis (© Департамент природных ресурсов Канады), CanVec (© Департамент природных ресурсов Канады) и StatCan (Отдел Географии, Статистическое ведомство Канады).</li>\n<li><strong>Франция</strong>: Данные от Главного налогового управления.</i>\n<li><strong>Нидерланды</strong>: Contains &copy; AND data, 2007 (<a href=\"http://www.and.com\">www.and.com</a>)</li>\n<li><strong>Новая Зеландия.</strong> Данные из сведений о земельных ресурсах Новой Зеландии. Crown Copyright reserved. </li>\n\n\n<li><strong>Польша</strong>: Данные с <a\n   href=\"http://ump.waw.pl/\">карт UMP-pcPL</a>. Copyright участники UMP-pcPL.\n   <a href=\"http://wiki.openstreetmap.org/wiki/UMP2OSM_Importing\">\n   Подробнее об использовании данных UMP проектом OSM</a></li>\n   <li><strong>ЮАР</strong>: Данные из\n   <a href=\"http://www.ngi.gov.za/\">Chief Directorate:\n   National Geo-Spatial Information</a>, State copyright reserved.</li>\n<li><strong>Великобритания.</strong> Данные Ordnance Survey © Crown copyright и права на базы данных 2010.</li>\n</ul>\n\n<p>\nВключение данных в OpenStreetMap не означает, что поставщик первичных данных каким-либо образом поддерживает OpenStreetMap, предоставляет гарантии или принимает на себя какую-любую ответственность. \n</p>"
     native: 
       mapping_link: начать картографирование
       native_link: русской версии
@@ -1250,6 +1258,33 @@ ru:
       url: "URL маркера запроса:"
     update: 
       flash: Клиентская информация успешно обновлена
+  redaction: 
+    create: 
+      flash: Редакция создана.
+    edit: 
+      description: Описание
+      heading: Редактировать исправление
+      submit: Сохранить исправление
+      title: Редактировать исправление
+    index: 
+      empty: Нет исправлений для показа.
+      heading: Список исправлений
+      title: Список исправлений
+    new: 
+      description: Описание
+      heading: Введите информацию для нового исправления
+      submit: Создание исправления
+      title: Создание нового исправления
+    show: 
+      confirm: Вы уверены?
+      description: "Описание:"
+      destroy: Удалить это исправление
+      edit: Редактировать это исправление
+      heading: Отображение исправления «%{title}»
+      title: Отображение исправления
+      user: "Создано:"
+    update: 
+      flash: Изменения сохранены.
   site: 
     edit: 
       anon_edits_link_text: Выяснить, в чём дело.
@@ -1340,6 +1375,23 @@ ru:
           unclassified: Дорога местного значения
           unsurfaced: Грунтовая дорога
           wood: Роща
+    markdown_help: 
+      alt: Альтернативный текст
+      first: Первый элемент
+      heading: Заголовок
+      headings: Заголовки
+      image: Изображение
+      link: Ссылка
+      ordered: Упорядоченный список
+      second: Второй элемент
+      subheading: Подзаголовок
+      text: Текст
+      title_html: Разобрано с посощью <a href="http://daringfireball.net/projects/markdown/">Markdown</a>
+      unordered: Неупорядоченный список
+      url: URL
+    richtext_area: 
+      edit: Изменить
+      preview: Предпросмотр
     search: 
       search: Поиск
       search_help: "Примеры: «Рыбинск», «Ростов-на-Дону», «1, Красная площадь, Москва», «кафе рядом с Арбат», «стоянки Петергоф», «банкоматы Крещатик», «Regent Street, Cambridge» или «CB2 5AQ» (<a href=http://wiki.openstreetmap.org/wiki/RU:Search?uselang=ru>больше примеров</a>)."
