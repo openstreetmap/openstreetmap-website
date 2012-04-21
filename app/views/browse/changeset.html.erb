@@ -3,10 +3,12 @@
 <% end %>
 <%= render :partial => "navigation" %>
 <h2><%= t 'browse.changeset.changeset', :id => @changeset.id %></h2>
+<%= render :partial => "changeset_summary", :object => @changeset %>
 <% if @changeset.has_valid_bbox? %>
 <%= render :partial => "map", :object => @changeset %>
 <% end %>
 <%= render :partial => "changeset_details", :object => @changeset %>
 <hr />
-<%= raw t 'browse.changeset.download', :changeset_xml_link => link_to(t('browse.changeset.changesetxml'), :controller => "changeset", :action => "read"), 
-                                       :osmchange_xml_link => link_to(t('browse.changeset.osmchangexml'), :controller => "changeset", :action => "download") %>
+<%= raw t 'browse.changeset.download',
+    :changeset_xml_link => link_to(t('browse.changeset.changesetxml'), :controller => "changeset", :action => "read"), 
+    :osmchange_xml_link => link_to(t('browse.changeset.osmchangexml'), :controller => "changeset", :action => "download") %>
