@@ -11,12 +11,12 @@
   <span id="loading"><%= t 'browse.map.loading' %></span>
   <%= link_to(t("browse.map.larger.area"), { :controller => :site, :action => :index, :box => "yes" }, { :id => "area_larger_map", :class => "geolink bbox" }) %>
   <br />
-  <%= link_to(t("browse.map.edit.area"), { :controller => :site, :action => :edit }, { :id => "area_edit", :class => "geolink bbox" }) %>
+  <%= link_to(h(t("browse.map.edit.area")) + '<span class="arrow">&#x25be;</span>'.html_safe, { :controller => :site, :action => :edit }, { :id => "area_edit", :class => "geolink bbox" }) %>
   <% unless map.instance_of? Changeset %>
     <br />
     <%= link_to("", { :controller => :site, :action => :index }, { :id => "object_larger_map", :class => "geolink object" }) %>
     <br />
-    <%= link_to("", { :controller => :site, :action => :edit }, { :id => "object_edit", :class => "geolink object" }) %>
+    <%= link_to(h("")  + '<span class="arrow">&#x25be;</span>'.html_safe, { :controller => :site, :action => :edit }, { :id => "object_edit", :class => "geolink object" }) %>
   <% end %>
   <% else %>
     <%= t 'browse.map.deleted' %>
@@ -151,8 +151,8 @@
         });
       <% end -%>
 
-      createMenu("area_edit", "area_edit_menu", 1000, "right");
-      createMenu("object_edit", "object_edit_menu", 1000, "right");
+      createMenu("area_edit", "area_edit_menu", "right");
+      createMenu("object_edit", "object_edit_menu", "right");
     }
 
     window.onload = init;
