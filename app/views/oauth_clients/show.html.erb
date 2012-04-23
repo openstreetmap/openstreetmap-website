@@ -24,4 +24,9 @@
 
 <p><%= t'oauth_clients.show.support_notice' %></p>
 
-<p><%= link_to t('oauth_clients.show.edit'), edit_oauth_client_url(@client_application.user.display_name, @client_application) %></p>
+<table>
+<tr>
+<td><%= button_to t('oauth_clients.show.edit'), edit_oauth_client_path(@client_application.user.display_name, @client_application), :method => :get %></td>
+<td><%= button_to t('oauth_clients.show.delete'), oauth_client_path(@client_application.user.display_name, @client_application), :method => :delete, :confirm => t('oauth_clients.show.confirm') %></td>
+</tr>
+</table>
