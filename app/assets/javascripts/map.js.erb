@@ -7,21 +7,22 @@ var popup;
 function createMap(divName, options) {
    options = options || {};
 
+   OpenLayers.ImgPath = "<%= asset_path 'theme/custom/img/' %>";
+
    map = new OpenLayers.Map(divName, {
       controls: options.controls || [
          new OpenLayers.Control.ArgParser(),
          new OpenLayers.Control.Attribution(),
          new SimpleLayerSwitcher(),
          new OpenLayers.Control.Navigation(),
-         new OpenLayers.Control.PanZoom(),
-         new OpenLayers.Control.PanZoomBar(),
-         new OpenLayers.Control.ScaleLine({geodesic: true})
+         new OkayPanZoom(),
+         new OpenLayers.Control.ScaleLine({ geodesic: true })
       ],
       units: "m",
       maxResolution: 156543.0339,
       numZoomLevels: 20,
       displayProjection: new OpenLayers.Projection("EPSG:4326"),
-      theme: "<%= asset_path 'theme/default/style.css' %>"
+      theme: "<%= asset_path 'theme/custom/style.css' %>"
    });
 
    var mapnik = new OpenLayers.Layer.OSM.Mapnik(i18n("javascripts.map.base.standard"), {
