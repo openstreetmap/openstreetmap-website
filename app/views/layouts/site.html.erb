@@ -101,8 +101,6 @@
 
       <div id="left_menu" class="left_menu">
         <ul>
-          <%= yield :left_menu %>
-          <li><%= link_to t('layouts.gps_traces'), {:controller => 'trace', :action => 'list', :display_name => nil, :tag => nil, :page => nil}, {:id => 'traceanchor', :title => t('layouts.gps_traces_tooltip') } %></li>
           <li><%= t'layouts.help' %>
               <ul>
               <li><%= link_to(t('layouts.help_centre'), t('layouts.help_url'), :title => t('layouts.help_title')) %></li>
@@ -123,6 +121,8 @@
               }) %></li>
               </ul>
           </li>
+          <li><%= link_to t('layouts.gps_traces'), {:controller => 'trace', :action => 'list', :display_name => nil, :tag => nil, :page => nil}, {:id => 'traceanchor', :title => t('layouts.gps_traces_tooltip') } %></li>
+          <%= yield :left_menu %>
         </ul>
       </div>
 
