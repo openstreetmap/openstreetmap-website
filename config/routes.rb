@@ -2,6 +2,7 @@ OpenStreetMap::Application.routes.draw do
   # API
   match 'api/capabilities' => 'api#capabilities', :via => :get
   match 'api/0.6/capabilities' => 'api#capabilities', :via => :get
+  match 'api/0.6/permissions' => 'api#permissions', :via => :get
 
   match 'api/0.6/changeset/create' => 'changeset#create', :via => :put
   match 'api/0.6/changeset/:id/upload' => 'changeset#upload', :via => :post, :id => /\d+/
