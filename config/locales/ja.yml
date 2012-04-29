@@ -59,7 +59,7 @@ ja:
       language: 言語
       message: メッセージ
       node: ノード
-      node_tag: ノード タグ
+      node_tag: ノードのタグ
       notifier: 通知
       old_node: 古いノード
       old_node_tag: 古いノードのタグ
@@ -75,7 +75,7 @@ ja:
       session: セッション
       trace: トレース
       tracepoint: トレース ポイント
-      tracetag: トレースタグ
+      tracetag: トレース タグ
       user: ユーザ
       user_preference: ユーザ設定
       user_token: ユーザ トークン
@@ -85,8 +85,10 @@ ja:
   application: 
     require_cookies: 
       cookies_needed: ブラウザのクッキーが無効になっているようです。続行する前にブラウザのクッキーをonにしてください。
+    require_moderator: 
+      not_a_moderator: その動作にはモデレータ権限が必要です。
     setup_user_auth: 
-      blocked: APIへのアクセスがブロックされました。Web インターフェースからログインし直して詳細を確認してください。
+      blocked: APIへのアクセスがブロックされました。Web インターフェイスからログインし直して詳細を確認してください。
   browse: 
     changeset: 
       changeset: 変更セット：%{id}
@@ -127,10 +129,10 @@ ja:
         relation: リレーションを編集
         way: ウェイを編集
       larger: 
-        area: この範囲を大きい地図で見る
-        node: このノードを大きいマップで見る
+        area: 範囲を大きい地図で表示
+        node: ノードを大きい地図で表示
         relation: このリレーションを大きい地図で見る
-        way: このウェイを大きい地図で見る
+        way: ウェイを大きい地図で表示
       loading: 読み込み中...
     navigation: 
       all: 
@@ -173,6 +175,8 @@ ja:
       of: 中
       showing_page: ページ表示
     redacted: 
+      message_html: この %{type} の %{version} 版は、改訂されたため表示できません。詳細は %{redaction_link} をご覧ください。
+      redaction: 改訂 %{id}
       type: 
         node: ノード
         relation: リレーション
@@ -187,7 +191,7 @@ ja:
       members: "メンバー:"
       part_of: "次の一部:"
     relation_history: 
-      download: "%{download_xml_link}、または、%{view_details_link}"
+      download: "%{download_xml_link} または %{view_details_link}"
       download_xml: XML をダウンロード
       relation_history: 関連の履歴
       relation_history_title: "リレーションの履歴: %{relation_name}"
@@ -277,8 +281,8 @@ ja:
       still_editing: （まだ編集中です）
       view_changeset_details: 変更セットの詳細表示
     changeset_paging_nav: 
-      next: 旧 »
-      previous: « 新
+      next: 次へ »
+      previous: « 前へ
       showing_page: ページ %{page} 表示中
     changesets: 
       area: 領域
@@ -290,6 +294,7 @@ ja:
       description: 最近の変更
       description_bbox: "%{bbox} 内の変更セット"
       description_friend: 友達による変更セット
+      description_nearby: 周辺のユーザによる変更セット
       description_user: "%{user} による変更セット"
       description_user_bbox: "%{bbox} 範囲内の %{user} の変更セット"
       heading: 変更セット
@@ -301,6 +306,7 @@ ja:
       title: 変更セット
       title_bbox: "%{bbox} 範囲内の変更セット"
       title_friend: 友達による変更セット
+      title_nearby: 周辺のユーザによる変更セット
       title_user: "%{user} の変更セット"
       title_user_bbox: "%{bbox} 内の %{user} による変更セット"
     timeout: 
@@ -313,6 +319,7 @@ ja:
       newer_comments: 新しいコメント
       older_comments: 古いコメント
       post: 投稿
+      when: 日時
     diary_comment: 
       comment_from: "%{comment_created_at} %{link_user} からのコメント"
       confirm: 確認
@@ -329,7 +336,7 @@ ja:
       reply_link: このエントリに返信
     edit: 
       body: "本文:"
-      language: "言語:"
+      language: 言語：
       latitude: "緯度:"
       location: "地域:"
       longitude: "経度:"
@@ -358,6 +365,7 @@ ja:
       recent_entries: "最近の日記エントリ:"
       title: ユーザの日記
       title_friends: 友達の日記
+      title_nearby: 周辺のユーザの日記
       user_title: "%{user} の日記"
     location: 
       edit: 編集
@@ -392,7 +400,7 @@ ja:
       add_marker: 地図にマーカーを追加する
       area_to_export: エクスポートする範囲
       embeddable_html: 埋め込みHTML
-      export_button: 出力
+      export_button: エクスポート
       export_details: OpenStreetMap のデータは <a href="http://creativecommons.org/licenses/by-sa/2.0/">クリエイティブコモンズ 表示-継承 2.0 (Creative Commons Attribution-ShareAlike 2.0)</a>.によって提供されています。
       format: "ファイル形式:"
       format_to_export: エクスポートするファイル形式
@@ -406,7 +414,7 @@ ja:
       options: オプション
       osm_xml_data: OSM XMLデータ
       output: 出力
-      paste_html: 以下の HTML をあなたのサイトに埋め込んでください
+      paste_html: 以下の HTML をあなたのサイトに貼り付けてください
       scale: 縮尺
       too_large: 
         body: このエリアは OpenStreetMap XML データとしてエクスポートするには大きすぎます。拡大するか、もっと小さなエリアを選択してください。
@@ -415,10 +423,10 @@ ja:
     start_rjs: 
       add_marker: マーカーを地図に追加する
       change_marker: マーカーの位置を変更する
-      click_add_marker: マーカーを追加する位置をクリックしてください。
-      drag_a_box: 指定したい範囲でマウスをドラッグしてください。
-      export: 出力
-      manually_select: 別の範囲を指定する
+      click_add_marker: マーカーを追加する位置をクリック
+      drag_a_box: 地図の選択したい範囲をマウスをドラッグしてください
+      export: エクスポート
+      manually_select: 別の範囲を手動選択
       view_larger_map: 大きな地図を表示...
   geocoder: 
     description: 
@@ -444,7 +452,7 @@ ja:
       other: 約%{count}キロメートル
       zero: 1キロメートル以下
     results: 
-      more_results: さらに検索...
+      more_results: その他の結果
       no_results: 見つかりませんでした。
     search: 
       title: 
@@ -455,11 +463,14 @@ ja:
         osm_nominatim: <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a> からの結果
         uk_postcode: <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>からの結果
         us_postcode: <a href="http://geocoder.us/">Geocoder.us</a>からの結果
+    search_osm_namefinder: 
+      suffix_parent: "%{suffix}（%{parentname} から%{parentdirection}に %{parentdistance}）"
+      suffix_place: "%{placename} から%{direction}に %{distance}"
     search_osm_nominatim: 
       prefix: 
         aeroway: 
           aerodrome: 飛行場
-          apron: エプロン
+          apron: エプロン（空港ランプ）
           gate: 門
           helipad: ヘリポート
           runway: 滑走路
@@ -469,6 +480,7 @@ ja:
           WLAN: WiFiアクセスポイント
           airport: 空港
           arts_centre: アートセンター
+          artwork: 芸術作品
           atm: ATM
           auditorium: 講堂
           bank: 銀行
@@ -546,6 +558,7 @@ ja:
           shelter: 避難所
           shop: 店舗
           shopping: ショッピング
+          shower: シャワー
           social_centre: 社会センター
           social_club: 社交クラブ
           studio: スタジオ
@@ -565,8 +578,11 @@ ja:
           youth_centre: 青少年センター
         boundary: 
           administrative: 行政境界
+          census: 国勢調査の境界
           national_park: 国立公園
         bridge: 
+          suspension: 吊り橋
+          swing: 旋回橋
           "yes": 橋
         building: 
           "yes": 建造物
@@ -584,6 +600,7 @@ ja:
           motorway: 高速道路
           motorway_junction: 高速道路ジャンクション
           path: パス
+          pedestrian: 歩行者用通路
           platform: プラットフォーム
           primary: 幹線道路
           primary_link: 幹線道路
@@ -591,6 +608,7 @@ ja:
           secondary: 一般道路
           secondary_link: 一般道路
           service: 取付道路
+          speed_camera: 高速度カメラ
           steps: 階段
           tertiary: 周辺道路
           trunk: 国道
@@ -707,6 +725,7 @@ ja:
           wetlands: 湿原
           wood: 森林
         office: 
+          accountant: 会計
           insurance: 保険事務所
           lawyer: 弁護士
           ngo: NGO オフィス
@@ -716,7 +735,7 @@ ja:
           airport: 空港
           city: 市
           country: 国
-          county: 郡
+          county: 国
           farm: 牧場
           hamlet: 村
           house: 住宅
@@ -766,6 +785,7 @@ ja:
           car_repair: 自動車修理
           carpet: カーペット店
           charity: チャリティ ショップ
+          chemist: 化学者
           clothes: 洋服店
           computer: コンピューターショップ
           convenience: コンビニエンス ストア
@@ -828,6 +848,8 @@ ja:
           theme_park: テーマパーク
           valley: 谷
           zoo: 動物園
+        tunnel: 
+          "yes": トンネル
         waterway: 
           boatyard: ボートヤード
           canal: 運河
@@ -909,6 +931,7 @@ ja:
     osm_offline: OpenStreetMap のデータベースはメンテナンスのため一時的に停止しています。
     osm_read_only: OpenStreetMap のデータベースはメンテナンスのため一時的に読み込み専用モードになっています。
     partners_bytemark: バイトマーク ホスティング
+    partners_html: ホスティング支援：%{ucl}、%{ic}、%{bytemark}、その他の%{partners}
     partners_ic: インペリアル カレッジ ロンドン
     partners_partners: パートナー
     partners_ucl: UCL VR センター
@@ -958,9 +981,9 @@ ja:
       as_unread: 未読メッセージ
     message_summary: 
       delete_button: 削除
-      read_button: 既読に設定
+      read_button: 既読にする
       reply_button: 返信
-      unread_button: 未読に設定
+      unread_button: 未読にする
     new: 
       back_to_inbox: 受信箱に戻る
       body: 本文
@@ -980,7 +1003,7 @@ ja:
       messages: 
         one: "%{count} 件の送信済みメッセージがあります"
         other: "%{count} 件の送信済みメッセージがあります"
-      my_inbox: わたしの %{inbox_link}
+      my_inbox: 私の%{inbox_link}
       no_sent_messages: 送信したメッセージはまだありません。%{people_mapping_nearby_link}とお近づきになってはいかがですか?
       outbox: 送信箱
       people_mapping_nearby: 近所でマッピングしている人々
@@ -998,7 +1021,7 @@ ja:
       subject: タイトル
       title: メッセージを読む
       to: 宛先
-      unread_button: 未読に設定
+      unread_button: 未読にする
     sent_message_summary: 
       delete_button: 削除
   notifier: 
@@ -1011,6 +1034,7 @@ ja:
     email_confirm_html: 
       click_the_link: これがあなたであれば、以下のリンクをクリックして変更を確認してください。
       greeting: こんにちは、
+      hopefully_you: 誰か（おそらくあなた）が %{server_url} で、メールアドレスを %{new_address} に変更しようとしています。
     email_confirm_plain: 
       click_the_link: この要求を出したのがあなたなら、下のリンクをクリックして、変更の認証をしてください。
       greeting: こんにちは。
@@ -1048,6 +1072,7 @@ ja:
     message_notification: 
       footer1: "%{readurl} でメッセージを読むこともできます。"
       footer2: また、%{replyurl} で返信することができます。
+      header: "%{from_user} さんが OpenStreetMap であなたに、件名 %{subject} でメッセージを送信しました："
       hi: やあ %{to_user} さん、
     signup_confirm: 
       subject: "[OpenStreetMap] あなたのメール アドレスの確認"
@@ -1070,11 +1095,12 @@ ja:
   oauth: 
     oauthorize: 
       allow_read_gpx: あなたの非公開GPSトレースを読み込む。
-      allow_read_prefs: あなたの利用者設定を読み込む。
+      allow_read_prefs: あなたのユーザ設定を読み込みます。
       allow_to: "クライアントアプリケーションに以下の操作を許可する:"
-      allow_write_api: 地図を修正する。
+      allow_write_api: 地図を修正します。
+      allow_write_diary: 日記エントリを作成したり、コメントしたり、友達を作ったりします。
       allow_write_gpx: GPSトレースをアップロードする。
-      allow_write_prefs: あなたの利用者設定を変更する。
+      allow_write_prefs: あなたのユーザ設定を変更します。
       request_access: アプリケーション %{app_name} があなたのアカウント、%{user} への接続許可を求めています。そのアプリケーションに許可してもよいかどうかを確認してください。複数のアプリケーションに許可を与える事もできます。
     revoke: 
       flash: "%{application} へのトークンを失効しました。"
@@ -1124,7 +1150,7 @@ ja:
       allow_write_gpx: GPS トレースをアップロードします。
       allow_write_prefs: 利用者設定を変更します。
       authorize_url: "承認 URL:"
-      edit: 詳細の編集
+      edit: 詳細を編集
       key: "コンシューマ キー:"
       requests: "ユーザが以下の許可をリクエストしています:"
       secret: "コンシューマ シークレット:"
@@ -1135,15 +1161,21 @@ ja:
   redaction: 
     edit: 
       description: 説明
+    new: 
+      description: 説明
     show: 
       confirm: よろしいですか?
+      description: 説明：
       user: "作成者:"
     update: 
       flash: 変更を保存しました。
   site: 
     edit: 
       flash_player_required: OpenStreetMap エディタの Potlatch を使うには、Flash Player が必要です。Flash Player は<a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">Adobe.com</a>からダウンロードできます。OpenStreetMapを編集する<a href="http://wiki.openstreetmap.org/wiki/Ja:Editing">他の方法</a>もあります。
+      no_iframe_support: あなたのブラウザーは、この機能に必須の HTML iframe に未対応です。
       not_public: あなたの編集結果を公開できません。
+      potlatch2_not_configured: Potlatch 2 が設定されていません - 詳細情報はこちらをご覧ください：http://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2
+      potlatch2_unsaved_changes: 保存していない変更があります。（Potlatch 2 で保存するには、保存をクリックする必要があります。）
       potlatch_unsaved_changes: You have unsaved changes. (To save in Potlatch, you should deselect the current way or point, if editing in list mode, or click save if you have a save button.)
       user_page_link: ユーザページ
     index: 
@@ -1167,10 +1199,11 @@ ja:
             - 空港ターミナル
           bridge: 黒枠 = 橋梁
           bridleway: 馬道
+          brownfield: Brownfield サイト（廃工場地域）
           building: 重要建造物
           byway: 路地
           cable: 
-            - ケーブル・カー
+            - ケーブルカー
             - リフト
           cemetery: 墓地
           centre: スポーツセンター
@@ -1223,12 +1256,28 @@ ja:
           unclassified: 未分類の道路
           unsurfaced: 未舗装道路
           wood: 森林
+    markdown_help: 
+      alt: 代替テキスト
+      first: 最初の項目
+      heading: 見出し
+      headings: 見出し
+      image: 画像
+      link: リンク
+      ordered: 順序付きリスト
+      second: 2 番目の項目
+      subheading: 小見出し
+      text: テキスト
+      unordered: 順序なしリスト
+      url: URL
+    richtext_area: 
+      edit: 編集
+      preview: プレビュー
     search: 
       search: 検索
-      search_help: "例: '名古屋城'、'名寄市'、'New York'、'皇居' など <a href='http://wiki.openstreetmap.org/wiki/Search'>他の例…</a>"
+      search_help: "例: '名古屋城'、'名寄市'、'New York'、'皇居' など <a href='http://wiki.openstreetmap.org/wiki/Search'>その他の例...</a>"
       submit_text: 行く
       where_am_i: いまどこ?
-      where_am_i_title: サーチエンジンを使って現在の場所を記述する
+      where_am_i_title: 検索エンジンを使用して現在の場所を記述
     sidebar: 
       close: 閉じる
       search_results: 検索結果
@@ -1250,10 +1299,10 @@ ja:
       map: 地図
       owner: "アップロードしたユーザ:"
       points: "ポイント数:"
-      save_button: 変更を保存する
+      save_button: 変更を保存
       start_coord: "開始座標:"
       tags: "タグ:"
-      tags_help: コンマ区切り
+      tags_help: カンマ区切り
       title: トレース %{name} を編集
       uploaded_at: "アップロード日時:"
       visibility: "可視性:"
@@ -1290,14 +1339,14 @@ ja:
       help: ヘルプ
       help_url: http://wiki.openstreetmap.org/wiki/Ja:Upload
       tags: タグ：
-      tags_help: コンマ区切り
+      tags_help: カンマ区切り
       upload_button: アップロード
       upload_gpx: GPXファイルのアップロード：
       visibility: 可視性：
       visibility_help: これはどういう意味？
       visibility_help_url: http://wiki.openstreetmap.org/wiki/Ja:Visibility_of_GPS_traces
     trace_header: 
-      see_all_traces: 全てのトレースを見る
+      see_all_traces: すべてのトレースを見る
       see_your_traces: あなたのトレースを全て見る
       traces_waiting: あなたの %{count} 件のトレースがアップロード待ち中です。これらのアップロードの完了までお待ちください。他のユーザのアップロードが制限されてしまいます。
       upload_trace: トレースをアップロード
@@ -1477,10 +1526,12 @@ ja:
       fill_form: 以下のフォームを埋めてください。登録すると、あなたのアカウントを有効化するためにあなたにメールをお送りします。
       flash create success message: "%{email} に確認メッセージを送信しました。メールを確認してアカウントを有効にし次第、編集を開始できます。<br /><br />あなたの指定したアドレスに確認メールが届くまであなたはログインすることはできません。メールボックスでスパムフィルタを使っているときには webmaster@openstreetmap.org からの確認メールを受信できるようホワイトリストを設定してください。"
       heading: ユーザ アカウントを作成
-      license_agreement: アカウントを確認するときには <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">contributor terms</a> に同意する必要があります。。
+      license_agreement: アカウントを確認するときには <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">contributor terms</a> に同意する必要があります。
       no_auto_account_create: 残念ながら、現在、自動ではアカウントを作成できません。
       not displayed publicly: 非公開です。（詳細は <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy"  title="wiki privacy policy including section on email addresses">プライバシー ポリシー</a>を御覧下さい）
       openid: "%{logo} OpenID："
+      openid association: "<p>あなたの OpenID は、まだ OpenStreetMap のどのアカウントとも関連付けられていません。</p>\n<ul>\n  <li>OpenStreetMap が初めての場合は、下のフォームで新規アカウントを作成してください。</li>\n  <li>\n    既にアカウントを持っている場合は、あなたのユーザー名とパスワードでログインしてください。\n    ログイン後、ユーザ設定であなたの OpenID と関連付けることができます。\n  </li>\n</ul>"
+      openid no password: OpenID ではパスワードは不要ですが、特殊なツール/サーバーでは必要な場合があります。
       password: "パスワード:"
       terms accepted: 新しい投稿規約に同意いただき、ありがとうございます!
       terms declined: 新しい投稿規約に同意いただけず残念です。詳しい情報は、<a href="%{url}">このウィキページ</a>をご覧ください。
@@ -1544,7 +1595,7 @@ ja:
       ct undecided: 未決定
       deactivate_user: このユーザを無効にする
       delete_user: このユーザを削除
-      description: 詳細
+      description: 説明
       diary: 日記
       edits: 編集
       email address: "メール アドレス:"
@@ -1562,7 +1613,9 @@ ja:
       my edits: 私の編集
       my settings: 設定
       my traces: 私のトレース
-      nearby users: その他の近くのユーザ
+      nearby users: 周辺のその他のユーザ
+      nearby_changesets: ユーザーの周辺のすべての変更セットを参照
+      nearby_diaries: ユーザの周辺のすべての日記エントリを参照
       new diary entry: 新しい日記エントリ
       no friends: あなたは誰も友達として登録されていません。
       no nearby users: あなたの活動地域周辺に他のマッパーはいないようです。
@@ -1620,7 +1673,7 @@ ja:
       back: 全てのブロックを表示
       heading: "%{name} をブロック"
       needs_view: ブロックを解除するにはログインし直す必要があります。
-      submit: ブロックする
+      submit: ブロックを作成
       title: "%{name} をブロック"
       tried_contacting: ユーザに連絡し、それらをやめるよう依頼しました。
     not_found: 
