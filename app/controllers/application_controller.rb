@@ -399,7 +399,10 @@ class ApplicationController < ActionController::Base
     @title = t "user.no_such_user.title"
     @not_found_user = name
 
-    render :template => "user/no_such_user", :status => :not_found
+    respond_to do |format|
+      format.html { render :template => "user/no_such_user", :status => :not_found }
+      format.all { render :nothing => true, :status => :not_found }
+    end
   end
   
 private 

@@ -260,7 +260,7 @@ class ChangesetController < ApplicationController
           else
             changesets = changesets.where("false")
           end
-        elsif request.format == :html
+        else
           render_unknown_user params[:display_name]
           return
         end
