@@ -54,10 +54,12 @@ lt:
       message: Žinutė
       node: Taškas
       node_tag: Taško žyma
+      notifier: Pranešti
       old_node: Ankstesnis taškas
       old_node_tag: Ankstesnio taško žyma
       old_relation: Ankstesnis ryšys
       old_relation_member: Ankstesnio ryšio narys
+      old_relation_tag: Seno ryšio žyma
       old_way: Ankstesnis kelias
       old_way_node: Ankstesnio kelio taškas
       old_way_tag: Ankstesnio kelio žyma
@@ -70,6 +72,7 @@ lt:
       tracetag: Pėdsako žyma
       user: Naudotojas
       user_preference: Naudotojo nustatymai
+      user_token: Vartotojo ženklas
       way: Kelias
       way_node: Kelio mazgas
       way_tag: Kelio žyma
@@ -170,6 +173,13 @@ lt:
     paging_nav: 
       of: iš
       showing_page: Rodomas puslapis
+    redacted: 
+      message_html: Versijos "%{version}" tipas %{type} negali būti rodomas, kai jis buvo redaguotas. Žiūrėkite %{redaction_link} dėl išsamesnės informacijos.
+      redaction: Redakcija % {id}
+      type: 
+        node: taškas
+        relation: ryšys
+        way: kelias
     relation: 
       download: "%{download_xml_link} arba %{view_history_link}"
       download_xml: Atsisiųsti XML
@@ -282,10 +292,14 @@ lt:
     list: 
       description: Paskutiniai pakeitimai
       description_bbox: Pakeitimai daryti plote %{bbox}
+      description_friend: Jūsų draugų pakeitimai
+      description_nearby: Netoliese esančių naudotojų pakeitimai
       description_user: Naudotojo %{user} pakeitimai
       description_user_bbox: Naudotojo %{user} pakeitimai srityje %{bbox}
       heading: Pakeitimai
       heading_bbox: Pakeitimai
+      heading_friend: Pakeitimai
+      heading_nearby: Pakeitimai
       heading_user: Pakeitimai
       heading_user_bbox: Pakeitimai
       title: Pakeitimai
@@ -298,6 +312,9 @@ lt:
       sorry: Atsiprašome, bet jūsų prašytų pakeitimų ištraukimas užtruko per ilgai.
   diary_entry: 
     comments: 
+      ago: prieš %{ago}
+      comment: Komentuoti
+      has_commented_on: "%{display_name} pakomentavo vieno iš jūsų dienoraščio įrašų."
       newer_comments: Naujesni komentarai
       older_comments: Senesni komentarai
     diary_comment: 
@@ -447,19 +464,27 @@ lt:
     search_osm_nominatim: 
       prefix: 
         aeroway: 
+          aerodrome: Aerodromas
+          apron: Oro uosto aikštelė
           gate: Vartai
+          helipad: Sraigtasparnių aikštelė
           runway: Pakilimo takas
+          taxiway: Riedėjimo takas
+          terminal: Terminalas
         amenity: 
           WLAN: WiFi prieiga
           airport: Oro uostas
           arts_centre: Menų centras
+          artwork: Meno dirbiniai
           atm: Bankomatas
           auditorium: Auditorija
           bank: Bankas
           bar: Baras
+          bbq: BBQ
           bench: Suoliukas
           bicycle_parking: Dviračių stovėjimo aikštelė
           bicycle_rental: Dviračių nuoma
+          biergarten: Alaus sodas
           brothel: Viešieji namai
           bureau_de_change: Valiutos keitimo punktas
           bus_station: Autobusų stotis
@@ -468,6 +493,7 @@ lt:
           car_sharing: Dalinimosi automobiliu paslauga
           car_wash: Automobilių plovykla
           casino: Kazino
+          charging_station: Įkrovimo stotis
           cinema: Kino teatras
           clinic: Klinika
           club: Klubas
@@ -486,6 +512,7 @@ lt:
           ferry_terminal: Keltų terminalas
           fire_hydrant: Hidrantas
           fire_station: Gaisrinė
+          food_court: Savitarnos kavinė
           fountain: Fontanas
           fuel: Degalinė
           grave_yard: Kapinės
@@ -502,6 +529,7 @@ lt:
           marketplace: Turgavietė
           mountain_rescue: Pagalba kalnuose
           nightclub: Naktinis klubas
+          nursery: Seselės kabinetas
           nursing_home: Slaugos namai
           office: Biuras
           park: Parkas
@@ -526,6 +554,7 @@ lt:
           shop: Parduotuvė
           shopping: Apsipirkimo vieta
           shower: Dušas
+          social_centre: Socialinių reikalų centras
           social_club: Socialinių reikalų klubas
           studio: Studija
           supermarket: Prekybos centras
@@ -544,8 +573,13 @@ lt:
           youth_centre: Jaunimo centras
         boundary: 
           administrative: Administracinė riba
+          census: Gyventojų surašymo teritorijos riba
+          national_park: Nacionalinis parkas
           protected_area: Saugoma teritorija
         bridge: 
+          aqueduct: Akvedukas
+          suspension: Kabantis tiltas
+          swing: Siūbuojantis tiltas
           viaduct: Viadukas
           "yes": Tiltas
         building: 
@@ -561,6 +595,7 @@ lt:
           footway: Pėsčiųjų takelis
           ford: Brasta
           living_street: Gyvenamoji gatvė
+          milestone: Etapinis ženklas
           minor: Šalutinis kelias
           motorway: Automagistralė
           motorway_junction: Automagistralės rampa
@@ -582,6 +617,7 @@ lt:
           steps: Laiptai
           stile: Kopynė
           tertiary: Trečios reikšmės kelias
+          tertiary_link: Trečios reikšmės kelias
           track: Vėžės
           trail: Takas
           trunk: Magistralinis kelias
@@ -611,35 +647,45 @@ lt:
         landuse: 
           allotments: Sodai
           basin: Baseinas
+          brownfield: „Rudasis laukas“
           cemetery: Kapinės
           commercial: Komercinis plotas
           conservation: Apsaugos zona
           construction: Statyba
           farm: Ūkis
+          farmland: Fermos žemės
           farmyard: Ferma
           forest: Miškas
+          garages: Garažai
           grass: Žolė
+          greenfield: „Žaliasis laukas“
           industrial: Pramoninė zona
           landfill: Sąvartynas
           meadow: Pieva
           military: Karinė zona
           mine: Kasykla
           nature_reserve: Gamtos draustinis
+          orchard: Sodai
           park: Parkas
           piste: Slidinėjimo trasa
           quarry: Karjeras
           railway: Geležinkelis
           recreation_ground: Rekreacinė zona
           reservoir: Rezervuaras
+          reservoir_watershed: Vandens rezervuaras
           residential: Gyvenamasis rajonas
           retail: Mažmeninė prekyba
+          road: Kelio zona
+          village_green: Gyvenvietės žalioji zona
           vineyard: Vynuogynas
           wetland: Pelkė
           wood: Medžiai
         leisure: 
           beach_resort: Pajūrio kurortas
+          bird_hide: paukščių stebėjimo vieta
           common: Bendra žemė
           fishing: Žvejybos zona
+          fitness_station: Fitneso vieta
           garden: Sodas
           golf_course: Golfo laukas
           ice_rink: Slidinėjimo vieta (paklojant užšąlantį vandenį)
@@ -657,17 +703,26 @@ lt:
           swimming_pool: Plaukiojimo baseinas
           track: Bėgimo takelis
           water_park: Vandens parkas
+        military: 
+          airfield: Karinis aerodromas
+          barracks: Kareivinės
+          bunker: Bunkeris
         natural: 
           bay: Įlanka
           beach: Paplūdimys
+          cape: Kyšulys
           cave_entrance: Įėjimas į urvą
           channel: Kanalas
           cliff: Uola
           crater: Krateris
+          dune: Kopa
           feature: Ypatybė
+          fell: Kalnuota vieta
           fjord: Fiordas
+          forest: Miškas
           geyser: Geizeris
           glacier: Ledynas
+          heath: Dykynė
           hill: Kalva
           island: Sala
           land: Žemė
@@ -684,6 +739,7 @@ lt:
           scrub: Krūmai
           shoal: Rėva
           spring: Šaltinis
+          stone: Akmuo
           strait: Sąsiauris
           tree: Medis
           valley: Slėnis
@@ -692,6 +748,19 @@ lt:
           wetland: Pelkė
           wetlands: Pelkės
           wood: Medžiai
+        office: 
+          accountant: Buhalteris
+          architect: Architektas
+          company: Bendrovė
+          employment_agency: Įdarbinimo agentūra
+          estate_agent: Nekilnojamojo turto agentas
+          government: Vyriausybinė tarnyba
+          insurance: Draudimo įstaiga
+          lawyer: Advokatas
+          ngo: NGO įstaiga
+          telecommunication: Telekomunikacijų tarnyba
+          travel_agent: Kelionių agentūra
+          "yes": Biuras
         place: 
           airport: Oro uostas
           city: Miestas
@@ -703,6 +772,7 @@ lt:
           houses: Namai
           island: Sala
           islet: Salelė
+          isolated_dwelling: Izoliuota gyvenamoji zona
           locality: Vietovė
           moor: Dažnai užliejama vieta
           municipality: Savivaldybė
@@ -726,16 +796,22 @@ lt:
           junction: Geležinkelio mazgas
           level_crossing: Pervaža
           light_rail: Lengvasis geležinkelis
+          miniature: Miniatiūrinis geležinkelis
           monorail: Vienbėgis
           narrow_gauge: Siaurukas
           platform: Geležinkelio platforma
           preserved: Paveldo geležinkelis
+          spur: Geležinkelio atsišakojimas
           station: Geležinkelio stotis
           subway: Metro stotis
           subway_entrance: Įėjimas į metro
+          switch: Geležinkelio punktai
           tram: Tramvajus
           tram_stop: Tramvajaus stotelė
+          yard: Geležinkelio kiemas
         shop: 
+          alcohol: Licencijuotos parduotuvės
+          antiques: Antikvariniai daiktai
           art: Meno parduotuvė
           bakery: Kepykla
           beauty: Grožio salonas
@@ -753,6 +829,7 @@ lt:
           computer: Kompiuterių parduotuvė
           confectionery: Konditerijos parduotuvė
           convenience: Parduotuvė
+          copyshop: Kanceliarinių prekių parduotuvė
           cosmetics: Kosmetikos parduotuvė
           department_store: Universalinė parduotuvė
           discount: Nukainotų prekių parduotuvė
@@ -765,9 +842,11 @@ lt:
           fish: Žuvies parduotuvė
           florist: Gėlininkas
           food: Maisto parduotuvė
+          funeral_directors: Laidotuvių direktoriai
           furniture: Baldai
           gallery: Galerija
           garden_centre: Sodo prekės
+          general: Bendroji parduotuvė
           gift: Dovanų parduotuvė
           greengrocer: Daržovių ir vaisių pardavėjas
           grocery: Gastronomas
@@ -783,20 +862,28 @@ lt:
           mobile_phone: Mobiliųjų telefonų parduotuvė
           motorcycle: Motociklų parduotuvė
           music: Muzikos prekių parduotuvė
+          newsagent: Spaudos pardavėjas
           optician: Optikas
           organic: Ekologiškų maisto produktų parduotuvė
+          outdoor: Lauko parduotuvė
           pet: Naminių gyvūnėlių parduotuvė
           photo: Foto prekių parduotuvė
           salon: Salonas
           shoes: Batų parduotuvė
           shopping_centre: Prekybos centras
           sports: Sporto prekių parduotuvė
+          stationery: Raštinės reikmenys
           supermarket: Prekybos centras
           toys: Žaislų parduotuvė
           travel_agency: Kelionių agentūra
           video: Video parduotuvė
+          wine: Licencijuota parduotuvė
         tourism: 
+          alpine_hut: Kalnų trobelė
+          artwork: Meno dirbiniai
           attraction: Lankytina vieta
+          bed_and_breakfast: Nakvynės namai (viešbutis)
+          cabin: Kabina
           camp_site: Stovyklavietė
           caravan_site: Kemperių aikštelė
           chalet: Trobelė
@@ -807,6 +894,7 @@ lt:
           motel: Motelis
           museum: Muziejus
           picnic_site: Poilsiavietė
+          theme_park: Nuotykių parkas
           valley: Slėnis
           viewpoint: Apžvalgos aikštelė
           zoo: Zoologijos sodas
@@ -827,6 +915,8 @@ lt:
     map: 
       base: 
         cycle_map: Dviračių žemėlapis
+        standard: Standartinis
+        transport_map: Transporto žemėlapis
     site: 
       edit_disabled_tooltip: Norėdami redaguoti, priartinkite
       edit_tooltip: Redaguoti žemėlapį
@@ -1095,6 +1185,37 @@ lt:
       title: OAuth informacija programai %{app_name}
     update: 
       flash: Kliento informacija sėkmingai atnaujinta
+  redaction: 
+    create: 
+      flash: Redakcija sukurta.
+    destroy: 
+      error: Įvyko klaida, naikinant redakciją.
+      flash: Redakcija sunaikinta.
+      not_empty: Redakcija nėra tuščia.  Prašome atšaukti visas versijas, galiojančias šiai redakcijai, prieš ją sunaikinant.
+    edit: 
+      description: Aprašymas
+      heading: Keisti redakciją
+      submit: Išsaugoti redakciją
+      title: Keisti redakciją
+    index: 
+      empty: Nėra jokių redakcijų
+      heading: Redakcijų sąrašas
+      title: Redakcijų sąrašas
+    new: 
+      description: Aprašymas
+      heading: Įrašykite naujos redakcijos informaciją
+      submit: Kurti redakciją
+      title: Sukurti naują redakciją
+    show: 
+      confirm: Ar esate tikra(s)?
+      description: "Aprašymas:"
+      destroy: Pašalinti šią redakciją
+      edit: Redaguoti šią redakciją
+      heading: Rodoma redakcija "%{title}"
+      title: Redakcijos rodymas
+      user: "Kūrėjas:"
+    update: 
+      flash: Pakeitimai išsaugoti.
   site: 
     edit: 
       anon_edits_link_text: Sužinokite, kodėl taip yra.
@@ -1179,6 +1300,9 @@ lt:
     sidebar: 
       close: Uždaryti
       search_results: Paieškos rezultatai
+  time: 
+    formats: 
+      friendly: "%Y m. %B %e d., %H:%M"
   trace: 
     create: 
       trace_uploaded: Jūsų GPX pėdsakas įkrautas ir laukia įterpimo į duomenų bazę. Paprastai tai įvyks pusvalandžio bėgyje, o tada jums bus išsiųstas patvirtinimo laiškas.
@@ -1348,15 +1472,25 @@ lt:
       login_button: Prisijungti
       lost password link: Pamiršote slaptažodį?
       new to osm: Nesusipažinę su OpenStreetMap?
+      no account: Neturite savo paskyros?
       openid: "%{logo} OpenID:"
       openid_logo_alt: Prisijunkite su OpenID
       openid_providers: 
+        aol: 
+          alt: Prisijungti su Yahoo OpenID
+          title: Prisijungti su AOL
         google: 
           alt: Prisijungti su Google OpenID
           title: Prisijungti su Google
+        myopenid: 
+          alt: Prisijungti su myOpenID OpenID
+          title: Prisijungti su OpenID
         openid: 
           alt: Prisijungti su savo OpenID URL
           title: Prisijungti su OpenID
+        wordpress: 
+          alt: Prisijungti su Wordpress OpenID
+          title: Prisijungti su Wordpress
         yahoo: 
           alt: Prisijungti su Yahoo OpenID
           title: Prisijungti su Yahoo

@@ -192,7 +192,7 @@ sv:
       showing_page: Visar sida
     redacted: 
       message_html: Version %{version} av denna %{type} kan inte visas då den har tagits bort. Se %{redaction_link} för detaljer.
-      redaction: Bortredigering % {id}
+      redaction: Redaktering %{id}
       type: 
         node: nod
         relation: relation
@@ -627,23 +627,24 @@ sv:
           pedestrian: Gågata
           platform: Perrong
           primary: Riksväg (primär väg)
-          primary_link: Påfart till riksväg
+          primary_link: På-/avfart till primär väg (riksväg)
           raceway: Tävlingsbana
           residential: Bostäder
           rest_area: Rastplats
           road: Väg
           secondary: Länsväg (sekundärväg)
-          secondary_link: Påfart till länsväg
+          secondary_link: På-/avfart till sekundär väg (större länsväg)
           service: Serviceväg
           services: Rastplats-väg
           speed_camera: Trafiksäkerhetskamera
           steps: Trappa
           stile: Stätta
+          tertiary: Landsväg
           tertiary_link: Landsväg
           track: Traktorväg
           trail: Vandringsled
           trunk: Motortrafikled
-          trunk_link: Påfart till motortrafikled
+          trunk_link: På-/avfart till stamväg/motortrafikled
           unclassified: Oklassificerad väg
           unsurfaced: Oasfalterad väg
         historic: 
@@ -949,6 +950,8 @@ sv:
     map: 
       base: 
         cycle_map: Cykelkarta
+        standard: Standard
+        transport_map: Transportkarta
     site: 
       edit_disabled_tooltip: Zooma in för att redigera kartan
       edit_tooltip: Redigera kartan
@@ -1256,8 +1259,34 @@ sv:
     update: 
       flash: Uppdaterade klientinformationen framgångsrikt
   redaction: 
+    create: 
+      flash: Redaktering skapad.
+    destroy: 
+      error: Det uppstod ett fel när redakteringen skulle förstöras.
+      flash: Redaktering förstörd.
+      not_empty: Redakteringen är inte tom. Avredaktera alla versioner som tillhör denna redaktering innan den förstörs.
+    edit: 
+      description: Beskrivning
+      heading: Redigera redaktering
+      submit: Spara redaktering
+      title: Redigera redaktering
+    index: 
+      empty: Inga bortredigeringar att visa.
+    new: 
+      description: Beskrivning
+      heading: Ange information för ny redaktering
+      submit: Skapa redaktering
+      title: Skapa ny redaktering
     show: 
       confirm: Är du säker?
+      description: "Beskrivning:"
+      destroy: Ta bort denna redaktering
+      edit: Redigera denna redaktering
+      heading: Visa redaktering "%{title}"
+      title: Visa redaktering
+      user: "Skapad av:"
+    update: 
+      flash: Ändringarna sparade.
   site: 
     edit: 
       anon_edits_link_text: Ta reda på varför det är så.
@@ -1310,7 +1339,7 @@ sv:
           footway: Gångväg
           forest: Kulturskog
           golf: Golfbana
-          heathland: Hed
+          heathland: hed
           industrial: Industriellt område
           lake: 
             - Sjö
@@ -1320,7 +1349,7 @@ sv:
           park: Park
           permissive: Endast tillträde för behöriga
           pitch: Bollplan
-          primary: Riksväg
+          primary: Primär väg (riksväg)
           private: Privat tillgång
           rail: Järnväg
           reserve: Naturreservat
@@ -1332,7 +1361,7 @@ sv:
           school: 
             - Skola
             - universitet
-          secondary: Länsväg
+          secondary: Sekundär väg (större länsväg)
           station: Järnvägsstation
           subway: Tunnelbana
           summit: 
@@ -1343,7 +1372,7 @@ sv:
           tram: 
             - Snabbspårväg
             - spårväg
-          trunk: Motortrafikled
+          trunk: Nationell stamväg/motortrafikled
           tunnel: Streckade kanter = tunnel
           unclassified: Oklassificerad väg
           unsurfaced: Oasfalterad väg
@@ -1535,6 +1564,7 @@ sv:
       success: E-postadressen är bekräftad. Tack för att du registrerade dig!
     confirm_resend: 
       failure: Användaren %{name} hittades inte.
+      success: Vi har skickat ett nytt bekräftelsemeddelande till %{email} och så snart du bekräftat ditt konto kommer du kunna börja kartlägga.<br><br>Om du använder ett antispamsystem som skickar bekräftelsebegäranden se till att du vitlistar webmaster@openstreetmap.org då vi inte kan svara på några sådana begäranden.
     filter: 
       not_an_administrator: Du måste vara administratör för att få göra det.
     go_public: 
@@ -1653,6 +1683,7 @@ sv:
     set_home: 
       flash success: Hemposition sparad
     suspended: 
+      body: "<p>\n  Ditt konto har tyvärr stängts av på grund av\n  tvivelaktig aktivitet.\n</p>\n<p>\n  Detta beslut kommer granskas av en administratör inom kort, eller\n  så kan du kontakta %{webmaster} om vill diskutera saken.\n</p>"
       heading: Kontot avstängt
       title: Kontot avstängt
       webmaster: Webbmaster
@@ -1734,16 +1765,45 @@ sv:
       your friends: Dina vänner
   user_block: 
     blocks_by: 
+      empty: "%{name} har inge gjort några blockeringar än."
+      heading: Lista blockeringar av %{name}
       title: Blockeringar av %{name}
+    blocks_on: 
+      empty: "%{name} har inte blockerats än."
+      heading: Lista blockeringar på %{name}
     create: 
       flash: Skapat en blockering av användare %{name}.
       try_contacting: Försök att kontakta användarenoch ge användaren tid att svara innan du blockerar .
+      try_waiting: Försök att ge användaren en rimlig svarstid innan denna blockeras.
+    edit: 
+      back: Visa alla blockeringar
+      heading: Redigera blockering på %{name}
+      needs_view: Behöver användaren logga in innan blockeringen upphör?
+      show: Visa denna blockering
+      submit: Uppdatera blockering
+      title: Redigera blockering på %{name}
+    filter: 
+      block_expired: Blockeringen har redan upphört att gälla och kan inte redigeras.
+      block_period: Blockeringsperioden måste ha ett av värdena i rullgardinslistan.
     helper: 
       time_future: Slutar om %{time}.
     index: 
       empty: Inga blockeringar har gjorts ännu.
       heading: Lista över blockerade användare
       title: Användarblockeringar
+    model: 
+      non_moderator_revoke: Måste vara en moderator för att återkalla en blockering.
+      non_moderator_update: Måste vara en moderator för att skapa eller uppdatera en blockering.
+    new: 
+      back: Visa alla blockeringar
+      heading: Skapa blockering på %{name}
+      needs_view: Användaren måste logga in innan blockeringen kommer att upphöra.
+      period: Hur lång tid, från och med nu, användaren ska vara blockerad från API.
+      reason: Anledning till varför %{name} blockeras. Var så lugn och resonabel som möjligt, ge så så många detaljer som du kan om situationen med vetskapen att meddelandet kommer vara offentligt i bakhuvudet. Tänk på att inte alla användare förstår community-jargongen, så försök att använda lekmannatermer.
+      submit: Skapa blockering
+      title: Skapa blockering på %{name}
+      tried_contacting: Jag har kontaktat användaren och bett honom sluta.
+      tried_waiting: Jag har gett en rimlig tidsfrist för användaren att svara på dessa meddelanden.
     not_found: 
       back: Tillbaka till index
     partial: 
@@ -1780,6 +1840,7 @@ sv:
       time_future: Upphör om %{time}
       time_past: Slutade %{time} sedan
     update: 
+      only_creator_can_edit: Bara moderatorn som skapade denna blockering kan redigera den.
       success: Blockering uppdaterad.
   user_role: 
     filter: 
