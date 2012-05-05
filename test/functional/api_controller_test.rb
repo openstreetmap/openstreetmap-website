@@ -30,6 +30,10 @@ class ApiControllerTest < ActionController::TestCase
       { :path => "/api/0.6/capabilities", :method => :get }
     )
     assert_routing(
+      { :path => "/api/0.6/permissions", :method => :get },
+      { :controller => "api", :action => "permissions" }
+    )
+    assert_routing(
       { :path => "/api/0.6/map", :method => :get },
       { :controller => "api", :action => "map" }
     )
