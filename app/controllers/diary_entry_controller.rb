@@ -176,13 +176,13 @@ class DiaryEntryController < ApplicationController
 
   def hide
     entry = DiaryEntry.find(params[:id])
-    entry.update_attributes(:visible => false)
+    entry.update_attributes({:visible => false}, :without_protection => true)
     redirect_to :action => "list", :display_name => entry.user.display_name
   end
 
   def hidecomment
     comment = DiaryComment.find(params[:comment])
-    comment.update_attributes(:visible => false)
+    comment.update_attributes({:visible => false}, :without_protection => true)
     redirect_to :action => "view", :display_name => comment.diary_entry.user.display_name, :id => comment.diary_entry.id
   end
 
