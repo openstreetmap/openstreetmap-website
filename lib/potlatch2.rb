@@ -19,6 +19,7 @@ module Potlatch2
     "hsb" => "hsb",
     "hu" => "hu",
     "ia" => "ia",
+    "it" => "it_IT",
     "ja" => "ja_JP",
     "ka" => "ka",
     "lb" => "lb",
