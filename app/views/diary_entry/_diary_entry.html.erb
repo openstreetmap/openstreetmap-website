@@ -23,7 +23,7 @@
   | <%= link_to t('diary_entry.diary_entry.edit_link'), :action => 'edit', :display_name => diary_entry.user.display_name, :id => diary_entry.id %>
 <% end %>
 <%= if_administrator(:span) do %>
-  | <%= link_to t('diary_entry.diary_entry.hide_link'), {:action => 'hide', :display_name => diary_entry.user.display_name, :id => diary_entry.id}, {:confirm => t('diary_entry.diary_entry.confirm')} %>
+  | <%= link_to t('diary_entry.diary_entry.hide_link'), {:action => 'hide', :display_name => diary_entry.user.display_name, :id => diary_entry.id}, {:method => :post, :confirm => t('diary_entry.diary_entry.confirm')} %>
 <% end %>
 
 <br />
