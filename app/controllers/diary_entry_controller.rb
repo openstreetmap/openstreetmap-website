@@ -188,7 +188,10 @@ class DiaryEntryController < ApplicationController
 
   def comments
     @comment_pages, @comments = paginate(:diary_comments,
-                                         :conditions => { :user_id => @this_user },
+                                         :conditions => { 
+                                           :user_id => @this_user,
+                                           :visible => true
+                                         },
                                          :order => 'created_at DESC',
                                          :per_page => 20)
     @page = (params[:page] || 1).to_i
