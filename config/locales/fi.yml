@@ -179,6 +179,11 @@ fi:
     paging_nav: 
       of: " /"
       showing_page: Nykyinen sivu
+    redacted: 
+      type: 
+        node: piste
+        relation: relaatio
+        way: polku
     relation: 
       download: "%{download_xml_link} tai %{view_history_link}"
       download_xml: Lataa XML
@@ -205,7 +210,7 @@ fi:
       view_data: Näytä tiedot nykyisestä karttanäkymästä
     start_rjs: 
       data_frame_title: Tiedot
-      data_layer_name: Data
+      data_layer_name: Katso karttadataa
       details: Tarkemmin
       drag_a_box: Valitse alue kartalta hiirellä maalaamalla
       edited_by_user_at_timestamp: Viimeinen muokkaaja [[user]] kello [[timestamp]]
@@ -1260,6 +1265,7 @@ fi:
             - terminaali
           bridge: Musta kehys = silta
           bridleway: Ratsastustie
+          brownfield: Purettujen rakennusten alue
           building: Merkittävä rakennus
           byway: Sivutie
           cable: 
@@ -1324,6 +1330,7 @@ fi:
       url: Osoite
     richtext_area: 
       edit: Muokkaa
+      preview: Esikatselu
     search: 
       search: Haku
       search_help: "esim.: 'Munkkivuori', 'Karttatie, Oulu' tai 'post offices near Helsinki' <a href='http://wiki.openstreetmap.org/wiki/Search'>lisää esimerkkejä...</a> (englanniksi)"
@@ -1473,6 +1480,7 @@ fi:
       title: Asetusten muokkaus
       update home location on click: Aktivoi kodin sijainnin päivitys karttaa napsautettaessa?
     confirm: 
+      already active: Tämä tunnus on jo vahvistettu.
       button: Vahvista
       heading: Vahvista käyttäjätunnuksen luominen
       press confirm button: Aktivoi uusi käyttäjätunnuksesi valitsemalla Vahvista.
@@ -1483,6 +1491,8 @@ fi:
       heading: Vahvista sähköpostiosoitteen muutos
       press confirm button: Varmenna sähköpostiosoitteesi valitsemalla Vahvista.
       success: Sähköpostiosoite on vahvistettu. Kiitos liittymisestä!
+    confirm_resend: 
+      failure: Käyttäjää %{name} ei löytynyt.
     filter: 
       not_an_administrator: Tähän toimintoon tarvitaan ylläpitäjän oikeudet.
     go_public: 
@@ -1492,17 +1502,18 @@ fi:
       hide: Piilota valitut käyttäjät
       title: Käyttäjät
     login: 
-      account not active: Käyttäjätunnustasi ei ole vielä aktivoitu.<br />Aktivoi käyttäjätunnuksesi napsauttamalla sähköpostitse saamaasi vahvistuslinkkiä.
+      account not active: Käyttäjätunnustasi ei ole vielä aktivoitu.<br />Aktivoi käyttäjätunnuksesi napsauttamalla sähköpostitse saamaasi vahvistuslinkkiä, tai <a href="%{reconfirm}">pyydä uusi varmistusviesti</a>.
       auth failure: Kirjautuminen epäonnistui.
       create account minute: Luo käyttäjätunnus. Se kestää vain hetken.
       email or username: "Sähköpostiosoite tai käyttäjätunnus:"
       heading: Kirjaudu
       login_button: Kirjaudu sisään
       lost password link: Unohditko salasanasi?
-      new to osm: Uusi OpenStreetMapin käyttäjä?
+      new to osm: Oletko uusi OpenStreetMapin käyttäjä?
       no account: Eikö sinulla vielä ole käyttäjätunnusta?
       notice: <a href="http://www.osmfoundation.org/wiki/License/We_Are_Changing_The_License">Lisätietoja tulevasta OpenStreetMapin lisenssinmuutoksesta</a> (<a href="http://wiki.openstreetmap.org/wiki/ODbL/We_Are_Changing_The_License">käännetyt versiot</a>) (<a href="http://wiki.openstreetmap.org/wiki/Talk:ODbL/Upcoming">keskustelu</a>)
-      openid missing provider: OpenID-palvelimeen ei voida muodostaa yhteyttä
+      openid invalid: Valitettavasti OpenID-tunnuksesi vaikuttaa olevan virheellinen.
+      openid missing provider: Yhteyden muodostaminen OpenID-palvelimeen epäonnistui
       openid_logo_alt: Kirjaudu sisään OpenID-tunnuksella
       openid_providers: 
         aol: 
@@ -1599,6 +1610,7 @@ fi:
         france: Ranska
         italy: Italia
         rest_of_world: Muu maailma
+      legale_select: "Ole hyvä ja valitse asuinmaasi:"
       read and accept: Lue alla oleva sopimus ja varmista, että hyväksyt sopimuksen ehdot nykyisille ja tuleville muokkauksillesi valitsemalla »Hyväksyn».
       title: Osallistujaehdot
     view: 
@@ -1608,6 +1620,7 @@ fi:
       block_history: näytä estot
       blocks by me: tekemäni estot
       blocks on me: saadut estot
+      comments: kommentit
       confirm: Vahvista
       create_block: estä tämä käyttäjä
       ct accepted: Hyväksytty %{ago} sitten
@@ -1617,17 +1630,21 @@ fi:
       diary: päiväkirja
       edits: muokkaukset
       email address: "Sähköpostiosoite:"
+      friends_changesets: Selaa kaikkia ystävien muutoskokoelmia
       hide_user: piilota käyttäjä
       if set location: Jos määrittelet sijaintisi, alle ilmestyy nätti kartta. Voit määritellä sijaintisi %{settings_link}.
       km away: "%{count} kilometrin päässä"
+      latest edit: "Viimeisin muutos %{ago}:"
       m away: "%{count} metrin päässä"
       mapper since: "Liittyi palveluun:"
       moderator_history: näytä tehdyt estot
+      my comments: omat kommentit
       my diary: oma päiväkirja
       my edits: omat muokkaukset
       my settings: asetukset
       my traces: omat jäljet
       nearby users: Muut lähialueen käyttäjät
+      nearby_changesets: Selaa kaikkia läheisten käyttäjien muutoskokoelmia
       new diary entry: uusi päiväkirjamerkintä
       no friends: Sinulla ei ole vielä kavereita.
       no nearby users: Valitun sijainnin lähellä ei ole tiedossa muita käyttäjiä.

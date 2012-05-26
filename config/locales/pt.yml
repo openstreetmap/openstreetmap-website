@@ -3,6 +3,7 @@
 # Export driver: syck-pecl
 # Author: Crazymadlover
 # Author: Giro720
+# Author: Gmare
 # Author: Hamilton Abreu
 # Author: Indech
 # Author: Luckas Blade
@@ -83,36 +84,36 @@ pt:
     changeset: 
       changeset: "Conjunto de mudanças: %{id}"
       changesetxml: Conjunto de mudanças XML
-      download: Download de %{changeset_xml_link} ou %{osmchange_xml_link}
+      download: Descarregar %{changeset_xml_link} ou %{osmchange_xml_link}
       feed: 
         title: Conjunto de mudanças %{id}
         title_comment: Conjunto de mudanças %{id} - %{comment}
       osmchangexml: osmChange XML
       title: Conjunto de mudanças
     changeset_details: 
-      belongs_to: "Pertence a:"
+      belongs_to: "Feito por:"
       bounding_box: "Área delimitadora:"
       box: caixa
       closed_at: "Fechado em:"
       created_at: "Criado em:"
       has_nodes: 
-        one: "tem o seguinte %{count} nó:"
-        other: "Tem os seguintes %{count} nós:"
+        one: "tem %{count} nó:"
+        other: "Tem %{count} nós:"
       has_relations: 
-        one: "Tem a seguinte %{count} relação:"
-        other: "Tem as seguintes %{count} relações:"
+        one: "Tem %{count} relação:"
+        other: "Tem %{count} relações:"
       has_ways: 
-        one: "tem o seguinte %{count} trajecto:"
-        other: "Tem os seguintes %{count} trajectos:"
+        one: "tem %{count} trajecto:"
+        other: "Tem %{count} trajectos:"
       show_area_box: Mostrar Caixa de Área
     common_details: 
       changeset_comment: "Comentário:"
       deleted_at: "Eliminada às:"
-      deleted_by: Eliminada por
+      deleted_by: "Eliminada por:"
       edited_at: "Editado em:"
       edited_by: "Editado por:"
       in_changeset: "No conjunto de mudanças:"
-      version: Versão
+      version: "Versão:"
     containing_relation: 
       entry: Relação %{relation_name}
       entry_role: Relação %{relation_name} (como %{relation_role})
@@ -145,7 +146,7 @@ pt:
         prev_changeset_tooltip: Edição anterior por %{user}
     node: 
       download: "%{download_xml_link}, %{view_history_link} ou %{edit_link}"
-      download_xml: Baixar XML
+      download_xml: Descarregar XML
       edit: editar
       node: Nó
       node_title: "Nó: %{node_name}"
@@ -155,7 +156,7 @@ pt:
       part_of: "Parte de:"
     node_history: 
       download: "%{download_xml_link} ou %{view_details_link}"
-      download_xml: Baixar XML
+      download_xml: Descarregar XML
       node_history: Nenhum Histórico
       node_history_title: "Histórico do ponto: %{node_name}"
       view_details: ver detalhes
@@ -173,6 +174,7 @@ pt:
       type: 
         node: nó
         relation: relação
+        way: linha
     relation: 
       download: "%{download_xml_link} ou %{view_history_link}"
       download_xml: Download XML
@@ -181,7 +183,7 @@ pt:
       view_history: ver histórico
     relation_details: 
       members: "Membros:"
-      part_of: "Parte de:"
+      part_of: "Faz parte de:"
     relation_history: 
       download: "%{download_xml_link} ou %{view_details_link}"
       download_xml: Download XML
@@ -200,6 +202,7 @@ pt:
       details: Detalhes
       drag_a_box: Arraste uma seleção no mapa para escolher uma área
       edited_by_user_at_timestamp: Editado pelo [[user]] em [[timestamp]]
+      hide_areas: Ocultar áreas
       history_for_feature: Histórico de [[feature]]
       load_data: Carregar Dados
       loading: A carregar...
@@ -220,6 +223,7 @@ pt:
           node: Nenhum
           way: Trajeto
       private_user: usuário privativo
+      show_areas: Mostrar áreas
       show_history: Mostrar Histórico
       unable_to_load_size: "Não foi possível carregar: O tamanho da caixa de [[bbox_size]] é muito grande (deve ser menor que %{max_bbox_size})"
       wait: Espere...
@@ -239,7 +243,7 @@ pt:
         way: trajecto
     way: 
       download: "%{download_xml_link}, %{view_history_link} ou %{edit_link}"
-      download_xml: Baixar XML
+      download_xml: Descarregar XML
       edit: editar
       view_history: ver histórico
       way: Trajeto
@@ -261,9 +265,11 @@ pt:
       anonymous: Anónimo
       big_area: (grande)
       no_comment: (nenhum)
+      still_editing: (ainda a editar)
     changeset_paging_nav: 
       next: Seguinte »
       previous: « Anterior
+      showing_page: Mostrando página %{page}
     changesets: 
       area: Área
       comment: Comentário
@@ -286,6 +292,8 @@ pt:
   diary_entry: 
     comments: 
       comment: Comentário
+      has_commented_on: "%{display_name} comentou nas seguintes entradas de diários"
+      post: Entrada
       when: Quando
     diary_comment: 
       comment_from: Comentário de %{link_user} em %{comment_created_at}
@@ -295,8 +303,12 @@ pt:
       comment_count: 
         one: 1 comentário
         other: "%{count} comentários"
+      comment_link: Comentar esta entrada
       confirm: Confirmar
+      edit_link: Editar esta entrada
       hide_link: Ocultar esta entrada
+      posted_by: Colocado por %{link_user} a %{created} em %{language_link}
+      reply_link: Responder a esta entrada
     edit: 
       body: "Mensagem:"
       language: "Idioma:"
@@ -305,11 +317,16 @@ pt:
       longitude: "Longitude:"
       save_button: Salvar
       subject: "Assunto:"
+      title: Editar entrada do diário
       use_map_link: usar mapa
     list: 
       in_language_title: Entradas no Diário em %{language}
       new: Nova Entrada no Diário
       new_title: Adicionar entrada ao diário
+      newer_entries: Entradas Recentes
+      no_entries: Diário sem entradas
+      older_entries: Entradas Mais Antigas
+      recent_entries: "Entradas recentes no diário:"
       title: Diário dos utilizadores
       title_friends: Diários dos amigos
       title_nearby: Diários dos utilizadores das redondezas
@@ -320,8 +337,14 @@ pt:
       view: Ver
     new: 
       title: Nova entrada no diário
+    no_such_entry: 
+      body: Desculpe, não há nenhuma entrada de diário ou comentário com o identificador (ID) % {id}. Por favor, verifique a ortografia, caso contrário a ligação está errada ou deixou de existir.
+      heading: Não existe a entrada com o identificador (ID) %{id}
+      title: Esta entrada de diário não existe
     view: 
+      leave_a_comment: Deixar um comentário
       login: Entrar
+      login_to_leave_a_comment: "%{login_link} para deixar um comentário"
       save_button: Salvar
   editor: 
     default: Padrão (actualmente %{name})
@@ -336,22 +359,34 @@ pt:
       name: Controlo Remoto
   export: 
     start: 
+      add_marker: Adicionar um ponto de interesse no mapa
+      area_to_export: Área a exportar
+      embeddable_html: HTML (mostrar o mapa interativo noutros sites)
       export_button: Exportar
+      export_details: Os dados do OpenStreetMap encontram-se sob a <a href="http://creativecommons.org/licenses/by-sa/2.0/deed.pt">licença Creative Commons Atribuição - CompartilhaIgual 2.0 (CC BY-SA 2.0)</a>.
       format: Formato
+      format_to_export: Formato da exportação
       image_size: Tamanho da Imagem
       latitude: "Lat:"
       licence: Licença
       longitude: "Lon:"
+      map_image: Imagem
       max: máx
       options: Opções
       osm_xml_data: OpenStreetMap XML Data
       output: Saída
+      paste_html: Copie e cole o código num site para mostrar o mapa interativo nesse site
       scale: Escala
       too_large: 
         heading: Área Muito Grande
       zoom: Zoom
     start_rjs: 
+      add_marker: Adicionar um ponto de interesse no mapa
+      change_marker: Alterar posição do ponto de interesse
+      click_add_marker: Clique no mapa para adicionar um ponto de interesse
+      drag_a_box: Clique e arraste no mapa para escolher uma área
       export: Exportar
+      manually_select: Escolher manualmente uma área diferente
   geocoder: 
     description: 
       types: 
@@ -389,15 +424,23 @@ pt:
       prefix: 
         aeroway: 
           aerodrome: Aeródromo
+          apron: Plataforma de estacionamento
+          gate: Porta
+          helipad: Heliponto
+          runway: Pista de Aterragem e Descolagem
+          taxiway: Via de circulação
+          terminal: Terminal
         amenity: 
           WLAN: Acesso WiFi
           airport: Aeroporto
+          arts_centre: Centro Artístico
           atm: Multibanco
           auditorium: Auditório
           bank: Banco
           bar: Bar
           bbq: Churrasqueira
           bench: Banco
+          bicycle_parking: Estacionamento de bicicletas
           bicycle_rental: Aluguer de bicicletas
           brothel: Bordel
           bureau_de_change: Casa de câmbio
@@ -444,6 +487,7 @@ pt:
           pharmacy: Farmácia
           place_of_worship: Lugar de Oração
           police: Polícia
+          post_box: Marco de Correio
           post_office: Correios
           preschool: Pré-escola
           prison: Prisão
@@ -470,21 +514,28 @@ pt:
           university: Universidade
           vending_machine: Máquina de venda automática
           veterinary: Clínica veterinária
+          waste_basket: Caixote do Lixo
           wifi: Acesso WiFi
         boundary: 
+          administrative: Fronteira Administrativa
           national_park: Parque Nacional
           protected_area: Área protegida
         bridge: 
           aqueduct: Aqueduto
+          viaduct: Viaduto
           "yes": Ponte
         building: 
           "yes": Edifício
         highway: 
           bridleway: Pista de cavalos
           bus_stop: Paragem de Autocarro
+          construction: Auto-Estrada em Construção
           emergency_access_point: Ponto de acesso de emergência
           footway: Caminho pedestre
           ford: Vau
+          motorway: Auto-Estrada
+          motorway_junction: Saída de Auto-Estrada
+          motorway_link: Auto-Estrada
           path: Caminho
           pedestrian: Via pedonal
           primary: Estrada principal
@@ -499,8 +550,11 @@ pt:
           steps: Passos
           stile: Escada
           tertiary: Estrada terciária
+          tertiary_link: Estrada Terciária (Municipal)
           track: Trilho
           trail: Trilha
+          trunk: Via Rápida / Itinerário Principal / Itinerário Complementar
+          trunk_link: Via Rápida / Itinerário Principal / Itinerário Complementar
           unclassified: Estrada não classificada
           unsurfaced: Estrada não pavimentada
         historic: 
@@ -520,6 +574,7 @@ pt:
           wreck: Destroços
         landuse: 
           allotments: Lotes
+          basin: Bacia
           cemetery: Cemitério
           commercial: Área comercial
           conservation: Conservação
@@ -527,6 +582,7 @@ pt:
           farm: Quinta
           farmland: Terreno agrícola
           forest: Floresta
+          garages: Garagens
           grass: Erva
           greenfield: Terreno urbanizável
           industrial: Área industrial
@@ -559,6 +615,7 @@ pt:
           playground: Parque
           recreation_ground: Área recreativa
           sauna: Sauna
+          slipway: Rampa para barcos
           sports_centre: Centro Desportivo
           stadium: Estádio
           swimming_pool: Piscina
@@ -598,8 +655,14 @@ pt:
           volcano: Vulcão
           water: Água
         office: 
+          accountant: Contabilista
+          architect: Arquiteto
+          company: Empresa
+          insurance: Agência de Seguros
           lawyer: Advogado
           ngo: Escritório de ONG
+          travel_agent: Agência de Viagens
+          "yes": Escritório
         place: 
           airport: Aeroporto
           city: Cidade
@@ -612,6 +675,7 @@ pt:
           island: Ilha
           islet: Ilhota
           locality: Localidade
+          postcode: Código postal
           region: Região
           sea: Mar
           state: Estado
@@ -620,28 +684,56 @@ pt:
           town: Cidade
           village: Vila
         railway: 
+          construction: Ferrovia em construção
           funicular: Funicular
+          level_crossing: Passagem de Nível
+          platform: Plataforma ferroviária
+          spur: Pequeno Ramal Ferroviário
+          station: Estação Ferroviária
+          subway: Estação de Metropolitano
+          subway_entrance: Entrada para Estação de Metropolitano
+          yard: Pátio de Manobras Ferroviário
         shop: 
           antiques: Antiguidades
           bakery: Padaria
+          beauty: Loja de Produtos de Beleza
+          bicycle: Loja de Bicicletas
           books: Livraria
           butcher: Talho
           car: Oficina
           car_repair: Oficina
+          chemist: Drogaria
+          clothes: Loja de Roupas
           computer: Loja de informática
+          confectionery: Confeitaria
+          convenience: Loja de Conveniência
+          copyshop: Centro de Cópias
           cosmetics: Loja de cosméticos
           doityourself: Bricolage
+          dry_cleaning: Limpeza a Seco
           electronics: Loja de electrónica
+          fish: Peixaria
           florist: Florista
+          furniture: Mobiliário
+          gallery: Galeria
+          hairdresser: Cabeleireiro(a)
           hifi: Hi-Fi
           jewelry: Joalharia
+          kiosk: Quiosque
           laundry: Lavandaria
+          mall: Centro Comercial
           market: Mercado
+          mobile_phone: Loja de Telemóveis
           music: Loja de música
+          optician: Oftalmologista
           pet: Loja de animais
           shoes: Sapataria
           shopping_centre: Centro Comercial
+          sports: Loja de Artigos Desportivos
+          stationery: Papelaria
           supermarket: Supermercado
+          toys: Loja de Brinquedos
+          travel_agency: Agência de Viagens
         tourism: 
           attraction: Atracção
           cabin: Cabana
@@ -658,31 +750,62 @@ pt:
         waterway: 
           canal: Canal
           dam: Barragem
+          ditch: Vala
           dock: Doca
+          drain: Vala de drenagem
           rapids: Rápidos
           river: Rio
+          riverbank: Margem de rio
+          stream: Ribeiro
+          waterfall: Queda de água
+          weir: Represa
   javascripts: 
+    map: 
+      base: 
+        standard: Padrão
     site: 
       edit_tooltip: Editar o mapa
   layouts: 
     community: Comunidade
     community_blogs: Blogues da Comunidade
+    copyright: Licença e Direitos de Autor
     documentation: Documentação
     donate_link_text: doação
     edit: Editar
     edit_with: Editar com %{editor}
     export: Exportar
+    foundation: Fundação
     foundation_title: A Fundação OpenStreetMap
+    gps_traces: Trilhos GPS
+    gps_traces_tooltip: Gerir os trilhos GPS
     help: Ajuda
+    help_centre: Centro de Ajuda
     history: Histórico
+    inbox: caixa de entrada (%{count})
+    inbox_tooltip: 
+      one: A sua caixa de entrada contém 1 mensagem por ler
+      other: A sua caixa de entrada contém %{count} mensagens por ler
+      zero: A sua caixa de entrada não contém mensagens por ler
     log_in: entrar
+    logo: 
+      alt_text: Logotipo do OpenStreetMap
     logout: sair
     logout_tooltip: Sair
     make_a_donation: 
+      text: Fazer um Donativo
       title: Suporte o OpenStreetMap com um donativo monetário
+    partners_bytemark: Bytemark Hosting
+    partners_html: O alojamento é fornecido por %{ucl}, %{ic} e %{bytemark}, e outros %{partners}.
+    partners_ic: Imperial College London
     partners_partners: parceiros
+    partners_ucl: o UCL VR Centre
     sign_up: registar-se
+    tag_line: O Mapa Wiki do Mundo Livre
+    user_diaries: Diários de Utilizadores
+    user_diaries_tooltip: Ver diários dos utilizadores
     view: Ver
+    welcome_user: Bem vindo, %{user_link}
+    welcome_user_link_tooltip: A sua página de utilizador
     wiki: Wiki
   license_page: 
     foreign: 
@@ -698,23 +821,49 @@ pt:
     inbox: 
       date: Data
       from: De
+      messages: Tem %{new_messages} e %{old_messages}
       my_inbox: Minha caixa de entrada
+      new_messages: 
+        one: "%{count} mensagem nova"
+        other: "%{count} mensagens novas"
       no_messages_yet: Ainda não tens mensagens. Por que não entrar em contacto com alguns da %{people_mapping_nearby_link}?
+      old_messages: 
+        one: "%{count} mensagem antiga"
+        other: "%{count} mensagens antigas"
       outbox: caixa de saída
       subject: Assunto
       title: Caixa de Entrada
+    mark: 
+      as_read: Mensagem marcada como lida
+      as_unread: Mensagem marcada como não lida
     message_summary: 
       delete_button: Apagar
       read_button: Marcar como lido
       reply_button: Responder
       unread_button: Marcar como não lida
     new: 
+      back_to_inbox: Voltar à caixa de entrada
+      body: Mensagem
+      limit_exceeded: Enviou muitas mensagens recentemente. Por favor aguarde e envie mais tarde.
+      message_sent: Mensagem enviada
       send_button: Enviar
+      send_message_to: Enviar uma nova mensagem para %{name}
       subject: Assunto
       title: Enviar mensagem
+    no_such_message: 
+      body: Desculpe, não existe nenhuma mensagem com esse identificador (ID).
+      heading: Esta mensagem não existe.
+      title: Esta mensagem não existe
     outbox: 
       date: Data
+      inbox: caixa de entrada
+      messages: 
+        one: Tem %{count} mensagem enviada
+        other: Tem %{count} mensagens enviadas
+      my_inbox: A minha %{inbox_link}
+      outbox: caixa de saída
       subject: Assunto
+      title: Caixa de saída
       to: Para
     read: 
       back_to_inbox: Voltar para a caixa de entrada
@@ -723,6 +872,7 @@ pt:
       from: De
       reading_your_messages: Lendo mensagem
       reading_your_sent_messages: Lendo as mensagens enviadas
+      reply_button: Responder
       subject: Assunto
       title: Ler mensagem
       to: Para
@@ -736,16 +886,47 @@ pt:
     email_confirm_plain: 
       greeting: Olá,
     gpx_notification: 
+      and_no_tags: e sem etiquetas.
+      and_the_tags: "e com as seguintes etiquetas:"
       greeting: Olá,
     lost_password_html: 
       greeting: Olá,
     lost_password_plain: 
       greeting: Olá,
+  oauth: 
+    oauthorize: 
+      allow_read_gpx: ler os meus trilhos GPS privados.
+      allow_read_prefs: ler as minhas preferências de utilizador.
+      allow_to: "Dar permissão ao programa para:"
+      allow_write_api: alterar o mapa.
+      allow_write_diary: criar entradas no diário, comentários e adicionar amigos.
+      allow_write_gpx: enviar trilhos GPS.
+      allow_write_prefs: alterar as minhas preferências.
   oauth_clients: 
     edit: 
       submit: Editar
     form: 
+      allow_read_gpx: ler os trilhos GPS privados do utilizador.
+      allow_read_prefs: ler as preferências do utilizador.
+      allow_write_api: alterar o mapa.
+      allow_write_diary: criar entradas no diário, comentários e adicionar amigos.
+      allow_write_gpx: enviar trilhos GPS.
+      allow_write_prefs: alterar as preferências do utilizador.
       name: Nome
+      requests: "Pedir as seguintes permissões do utilizador:"
+      required: obrigatório
+      url: URL do programa principal
+    index: 
+      application: Nome do Programa
+      issued_at: Emitido em
+      list_tokens: "Os seguintes tokens forem emitidos a programas em seu nome:"
+      my_apps: Meus programas
+      my_tokens: Meus programas autorizados
+      no_apps: Tem um programa que queira registar para ser utilizado com o OpenStreetMap utilizando o %{oauth}? Tem de registar o programa para poder fazer solicitações OAuth.
+      register_new: Registar um programa
+      registered_apps: "Tem os seguintes programas registados:"
+      revoke: Anular!
+      title: Minhas preferências do OAuth
     show: 
       confirm: Tem a certeza?
   redaction: 
@@ -756,7 +937,14 @@ pt:
       description: "Descrição:"
       user: "Criador:"
   site: 
+    index: 
+      js_1: Está a usar um navegador de Internet que não suporta JavaScript ou tem o JavaScript desativado.
+      js_2: É necessário ter o JavaScript ativado para visualizar mapas no OpenStreetMap.
+      permalink: Ligação permanente
+      shortlink: Ligação curta
     key: 
+      map_key: Legenda do Mapa
+      map_key_tooltip: Legenda do mapa
       table: 
         entry: 
           admin: Fronteira administrativa
@@ -767,54 +955,76 @@ pt:
           cemetery: Cemitério
           centre: Centro desportivo
           commercial: Área comercial
+          construction: Estradas em construção
           cycleway: Ciclovia
           destination: Acesso a destino
           farm: Quinta
           forest: Floresta
+          golf: Campo de golfe
+          industrial: Área industrial
           lake: 
             - Lago
           military: Área militar
+          motorway: Auto-Estrada
           park: Parque
+          primary: Estrada Primária (Nacional)
+          rail: Ferrovia
           reserve: Reserva natural
+          resident: Área residencial
           school: 
             - Escola
             - universidade
+          secondary: Estrada Secundária (Regional)
+          station: Estação ferroviária
+          subway: Metropolitano
+          tourist: Atração turística
+          tram: 
+            1: elétrico
+          trunk: Via Rápida / Itinerário Principal / Itinerário Complementar
     markdown_help: 
       first: Primeiro item
       second: Segundo item
     richtext_area: 
       edit: Editar
+    search: 
+      search: Pesquisar
+      search_help: "exemplos: 'Coimbra', 'Rua da Atalaia, Faro', 'EN501', or 'Estação ferroviária perto de Lisboa' <a href='http://wiki.openstreetmap.org/wiki/Nominatim'>mais exemplos...</a>"
+      submit_text: Ir
+      where_am_i: Onde estou?
+      where_am_i_title: Pesquisa a localização atual do mapa
     sidebar: 
       close: Fechar
+      search_results: Resultados da Pesquisa
   time: 
     formats: 
       friendly: "%e %B %Y às %H:%M"
   trace: 
     create: 
-      upload_trace: Carregar um Caminho de GPS
+      trace_uploaded: O seu ficheiro GPX (GPS) foi enviado e está a aguardar a inclusão na base de dados. Normalmente este processo dura cerca de uma hora. Quando for incluído na base de dados será enviado um email a informá-lo.
+      upload_trace: Carregar um Trilho GPS
     edit: 
       description: "Descrição:"
-      download: baixar
+      download: descarregar
       edit: editar
       filename: "Nome do ficheiro:"
-      heading: A editar caminho %{name}
+      heading: A editar o trilho %{name}
       map: mapa
       owner: "Proprietário:"
       points: "Pontos:"
       save_button: Gravar Mudanças
       start_coord: "Coordenada de início:"
       tags: "Marcações:"
-      title: Editando caminho %{name}
+      title: A editar o trilho %{name}
       uploaded_at: "Mandado em:"
       visibility: "Visibilidade:"
       visibility_help: o que significa isso?
     list: 
-      public_traces: Caminhos GPS públicos
-      public_traces_from: Caminhos GPS públicos do utilizador %{user}
+      public_traces: Trilhos GPS públicos
+      public_traces_from: Trilhos GPS públicos do utilizador %{user}
       tagged_with: " etiquetado como %{tags}"
-      your_traces: Os seus caminhos GPS
+      your_traces: Os seus trilhos GPS
     make_public: 
-      made_public: Caminho tornado público
+      made_public: Trilho tornado público
     offline_warning: 
       message: O sistema de carregamento de ficheiros GPX está actualmente indisponível
     trace: 
@@ -830,7 +1040,7 @@ pt:
       pending: PENDENTE
       private: PRIVADO
       public: PÚBLICO
-      trace_details: Ver Detalhes do Caminho
+      trace_details: Ver Detalhes do Trilho
       trackable: CONTROLÁVEL
       view_map: Ver Mapa
     trace_form: 
@@ -841,10 +1051,10 @@ pt:
       upload_gpx: "Carregar Ficheiro GPX:"
       visibility: "Visibilidade:"
     trace_header: 
-      see_all_traces: Ver todos os caminhos
-      see_your_traces: Ver todos os teus caminhos
-      traces_waiting: Tu tens %{count} caminhos esperando pelo carregamento. Por favor, considera em esperar por esses carregamentos terminares antes de enviares mais, de modo a não bloquear a fila para outros utilizadores.
-      upload_trace: Carregar caminho
+      see_all_traces: Ver todos os trilhos
+      see_your_traces: Ver todos os meus trilhos
+      traces_waiting: Tem %{count} trilhos a serem colocados na base de dados. Por favor, antes de enviar mais trilhos aguarde um pouco para terminar a inclusão dos trilhos enviados, de modo a não bloquear a fila para outros utilizadores.
+      upload_trace: Carregar trilho GPS
     trace_optionals: 
       tags: Etiquetas
     trace_paging_nav: 
@@ -852,13 +1062,13 @@ pt:
       previous: « Anterior
       showing_page: Mostrando página %{page}
     view: 
-      delete_track: Apagar este caminho
+      delete_track: Eliminar este trilho
       description: "Descrição:"
       download: download
       edit: editar
-      edit_track: Editar este caminho
+      edit_track: Editar este trilho
       filename: "Nome do ficheiro:"
-      heading: Vendo o caminho %{name}
+      heading: A ver o trilho %{name}
       map: mapa
       none: Nenhum
       owner: "Proprietário:"
@@ -866,14 +1076,14 @@ pt:
       points: "Pontos:"
       start_coordinates: "Coordenada de início:"
       tags: "Etiquetas:"
-      title: Vendo o caminho %{name}
-      trace_not_found: Caminho não encontrado
+      title: A ver o trilho %{name}
+      trace_not_found: Não foi encontrado o trilho!
       uploaded: "Carregado:"
       visibility: "Visibilidade:"
     visibility: 
-      identifiable: Identificável (mostrado na lista de caminhos e como identificável, pontos ordenados com data e hora)
+      identifiable: Identificável (mostrado na lista de trilhos GPS e identificável, pontos ordenados com data e hora)
       private: Privado (só partilhado como anónimo, pontos não ordenados)
-      public: Público (mostrado na lista de caminhos como anónimo, pontos não ordenados)
+      public: Público (mostrado na lista de trilhos GPS como anónimo, pontos não ordenados)
       trackable: Controlável (apenas compartilhada como anónimo, pontos ordenados com data e hora)
   user: 
     account: 
@@ -941,6 +1151,7 @@ pt:
       register now: Registar-se agora
       remember: "Lembrar-me:"
       title: Autenticar-se
+      with username: "Já tem uma conta no OpenStreetMap? Por favor introduza o nome de utilizador e a palavra-passe:"
     logout: 
       heading: Sair do OpenStreetMap
       logout_button: Sair
@@ -999,11 +1210,17 @@ pt:
       activate_user: activar este utilizador
       add as friend: adicionar aos amigos
       ago: (%{time_in_words_ago} atrás)
+      blocks by me: bloqueados por mim
+      blocks on me: bloqueios sobre mim
       comments: comentários
       confirm: Confirmar
       confirm_user: confirmar esse utilizador
       create_block: bloquear este utilizador
       created from: "Criado em:"
+      ct accepted: Aceitou há %{ago}
+      ct declined: Rejeitou
+      ct status: "Termos do Contribuidor:"
+      ct undecided: Indeciso
       deactivate_user: desactivar este utilizador
       delete_user: eliminar este utilizador
       description: Descrição
@@ -1014,11 +1231,15 @@ pt:
       km away: "%{count}km de distância"
       latest edit: "Última edição %{ago}:"
       m away: "%{count}m de distância"
+      mapper since: "Mapeando desde:"
+      my comments: meus comentários
       my diary: meu diário
       my edits: as minhas edições
       my settings: as minhas configurações
-      new diary entry: nova entrada no de diário
+      my traces: meus trilhos
+      new diary entry: adicionar entrada no meu dirário
       no friends: Ainda não adicionou nenhum amigo.
+      oauth settings: configurações do OAuth
       remove as friend: remover amigo
       role: 
         administrator: Este utilizador é administrador
@@ -1026,11 +1247,14 @@ pt:
       send message: enviar mensagem
       settings_link_text: configurações
       status: "Estado:"
-      traces: caminhos
+      traces: trilhos
       unhide_user: descobrir este utilizador
       user location: Localização do utilizador
       your friends: Os seus amigos
   user_block: 
+    blocks_on: 
+      empty: "%{name} nunca foi bloqueado(a)."
+      heading: Lista de bloqueios de %{name}
     partial: 
       confirm: Tem a certeza?
       creator_name: Criador
