@@ -423,7 +423,7 @@ class AmfController < ApplicationController
       # Remove any elements where 2 seconds doesn't elapse before next one
       revdates.delete_if { |d| revdates.include?(d+1) or revdates.include?(d+2) }
       # Collect all in one nested array
-      revdates.collect! {|d| [d.succ.strftime("%d %b %Y, %H:%M:%S")] + revusers[d.to_i] }
+      revdates.collect! {|d| [(d + 1).strftime("%d %b %Y, %H:%M:%S")] + revusers[d.to_i] }
       revdates.uniq!
 
       return ['way', wayid, revdates]
@@ -437,7 +437,7 @@ class AmfController < ApplicationController
   def getnode_history(nodeid) #:doc:
     begin 
       history = Node.find(nodeid).old_nodes.unredacted.reverse.collect do |old_node|
-        [old_node.timestamp.succ.strftime("%d %b %Y, %H:%M:%S")] + change_user(old_node)
+        [(old_node.timestamp + 1).strftime("%d %b %Y, %H:%M:%S")] + change_user(old_node)
       end
       return ['node', nodeid, history]
     rescue ActiveRecord::RecordNotFound

@@ -8,18 +8,20 @@ module Potlatch
     
     # Return two-byte integer
     def self.getint(s) 
-      s.getc*256+s.getc
+      s.getbyte*256+s.getbyte
     end
 
     # Return four-byte long
     def self.getlong(s) 
-      ((s.getc*256+s.getc)*256+s.getc)*256+s.getc
+      ((s.getbyte*256+s.getbyte)*256+s.getbyte)*256+s.getbyte
     end
 
     # Return string with two-byte length 
     def self.getstring(s) 
-      len=s.getc*256+s.getc
-      s.read(len)
+      len=s.getbyte*256+s.getbyte
+      str=s.read(len)
+      str.force_encoding("UTF-8") if str.respond_to?("force_encoding")
+      str
     end
 
     # Return eight-byte double-precision float 
@@ -45,23 +47,23 @@ module Potlatch
         if (key=='') then break end
         arr[key]=getvalue(s)
       end
-      s.getc		# skip the 9 'end of object' value
+      s.getbyte		# skip the 9 'end of object' value
       arr
     end
 
     # Parse and get value
     def self.getvalue(s) 
-      case s.getc
+      case s.getbyte
       when 0;	return getdouble(s)			# number
-      when 1;	return s.getc				# boolean
+      when 1;	return s.getbyte			# boolean
       when 2;	return getstring(s)			# string
       when 3;	return getobject(s)			# object/hash
-      when 5;	return nil					# null
-      when 6;	return nil					# undefined
-      when 8;	s.read(4)					# mixedArray
-        return getobject(s)			#  |
-      when 10;return getarray(s)			# array
-      else;	return nil					# error
+      when 5;	return nil				# null
+      when 6;	return nil				# undefined
+      when 8;	s.read(4)				# mixedArray
+                return getobject(s)			#  |
+      when 10;  return getarray(s)			# array
+      else;	return nil				# error
       end
     end
 
@@ -134,7 +136,7 @@ module Potlatch
       # Skip headers
       AMF.getint(@request).times do     # Read number of headers and loop
         AMF.getstring(@request)         #  | skip name
-        req.getc                        #  | skip boolean
+        req.getbyte                     #  | skip boolean
         AMF.getvalue(@request)          #  | skip value
       end
 

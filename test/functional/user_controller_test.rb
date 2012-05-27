@@ -212,7 +212,7 @@ class UserControllerTest < ActionController::TestCase
     register_email = ActionMailer::Base.deliveries.first
   
     assert_equal register_email.to[0], new_email
-    assert_match /#{@url}/, register_email.body
+    assert_match /#{@url}/, register_email.body.to_s
 
     # Check the page
     assert_redirected_to :action => 'login', :referer => nil

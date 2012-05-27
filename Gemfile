@@ -4,6 +4,9 @@ source 'http://rubygems.org'
 # Require rails
 gem 'rails', '3.2.3'
 
+# Require things which have moved to gems in ruby 1.9
+gem 'bigdecimal', :platforms => :ruby_19
+
 # Require the postgres database driver
 gem 'pg'
 
@@ -47,6 +50,7 @@ gem 'memcached', '>= 1.4.1'
 # Gems needed for running tests
 group :test do
   gem 'timecop'
+  gem 'minitest', :platforms => :ruby_19
 end
 
 # Gems needed for compiling assets

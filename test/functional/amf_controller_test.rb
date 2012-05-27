@@ -295,11 +295,10 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal latest.id, history[1] 
     # We use dates rather than version numbers here, because you might
     # have moved a node within a way (i.e. way version not incremented).
-    # The timestamp is +1 (timestamp.succ) because we say "give me the
-    # revision of 15:33:02", but that might actually include changes at
-    # 15:33:02.457.
-    assert_equal latest.timestamp.succ.strftime("%d %b %Y, %H:%M:%S"), history[2].first[0]
-    assert_equal oldest.timestamp.succ.strftime("%d %b %Y, %H:%M:%S"), history[2].last[0]
+    # The timestamp is +1 because we say "give me the revision of 15:33:02",
+    # but that might actually include changes at 15:33:02.457.
+    assert_equal (latest.timestamp + 1).strftime("%d %b %Y, %H:%M:%S"), history[2].first[0]
+    assert_equal (oldest.timestamp + 1).strftime("%d %b %Y, %H:%M:%S"), history[2].last[0]
   end
 
   def test_getway_history_nonexistent
@@ -331,10 +330,10 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal history[1], latest.id,
       'second element should be the input node ID'
     assert_equal history[2].first[0], 
-      latest.timestamp.succ.strftime("%d %b %Y, %H:%M:%S"),
+      (latest.timestamp + 1).strftime("%d %b %Y, %H:%M:%S"),
       'first element in third element (array) should be the latest version'
     assert_equal history[2].last[0], 
-      nodes(:node_with_versions_v1).timestamp.succ.strftime("%d %b %Y, %H:%M:%S"),
+      (nodes(:node_with_versions_v1).timestamp + 1).strftime("%d %b %Y, %H:%M:%S"),
       'last element in third element (array) should be the initial version'
   end
 

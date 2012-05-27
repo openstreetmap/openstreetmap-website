@@ -104,7 +104,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
       end
       assert_select "body", :count => 1 do
         assert_select "div#content", :count => 1 do
-          assert_select "h1", "New Diary Entry", :count => 1
+          assert_select "h1", :text => "New Diary Entry", :count => 1
           # We don't care about the layout, we just care about the form fields
           # that are available
           assert_select "form[action='/diary/new']", :count => 1 do

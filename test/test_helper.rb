@@ -7,7 +7,7 @@ class ActiveSupport::TestCase
   # Load standard fixtures needed to test API methods
   def self.api_fixtures
     #print "setting up the api_fixtures"
-    fixtures :users, :changesets, :changeset_tags
+    fixtures :users, :user_roles, :changesets, :changeset_tags
 
     fixtures :current_nodes, :nodes
     set_fixture_class :current_nodes => 'Node'

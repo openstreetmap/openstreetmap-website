@@ -52,7 +52,7 @@ class UserTest < ActiveSupport::TestCase
     ok.each do |name|
       user = users(:normal_user)
       user.email = name
-      assert user.valid?(:save), user.errors.full_messages
+      assert user.valid?(:save), user.errors.full_messages.join(",")
     end
     
     bad.each do |name|

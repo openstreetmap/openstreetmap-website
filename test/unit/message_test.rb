@@ -19,7 +19,7 @@ class MessageTest < ActiveSupport::TestCase
     assert message.errors[:title].any?
     assert message.errors[:body].any?
     assert message.errors[:sent_on].any?
-    assert true, message.message_read
+    assert !message.message_read
   end
   
   def test_validating_msgs
@@ -75,6 +75,9 @@ class MessageTest < ActiveSupport::TestCase
         # its OK to accept invalid UTF-8 as long as we return it unmodified.
         db_msg = msg.class.find(msg.id)
         assert_equal char, db_msg.title, "Database silently truncated message title"
+
+      rescue ArgumentError => ex
+        assert_equal ex.to_s, "invalid byte sequence in UTF-8"
 
       rescue ActiveRecord::RecordInvalid
         # because we only test invalid sequences it is OK to barf on them
