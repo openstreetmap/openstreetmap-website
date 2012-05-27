@@ -34,6 +34,7 @@ module Potlatch2
     "no" => "nb_NO",
     "pl" => "pl_PL",
     "pt" => "pt_PT",
+    "pt-BR" => "pt_BR",
     "ru" => "ru",
     "rue" => "rue",
     "sk" => "sk",
