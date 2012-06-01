@@ -8,7 +8,7 @@ module UserHelper
       image_tag("#{name}.png", :alt => t("user.login.openid_providers.#{name}.alt")),
       "#",
       :class => "openid_button", "data-url" => url,
-      :title => t("user.login.openid_providers.#{name}.title"),
+      :title => t("user.login.openid_providers.#{name}.title")
     )
   end
 end
