@@ -44,7 +44,13 @@
 
   doSWF(<%= @lat || 'null' %>,<%= @lon || 'null' %>,<%= @zoom %>);
 
-  function setPosition(lat, lon, zoom) {
-    doSWF(lat, lon, zoom || 15);
-  }
+  $(document).ready(function () {
+    $("body").on("click", "a.set_position", function () {
+      var lat = parseFloat($(this).attr("data-lat"));
+      var lon = parseFloat($(this).attr("data-lon"));
+      var zoom = parseInt($(this).attr("data-zoom"));
+
+      doSWF(lat, lon, zoom || 15);
+    });
+  });
 </script>

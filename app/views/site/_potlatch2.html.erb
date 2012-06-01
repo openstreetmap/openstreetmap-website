@@ -73,11 +73,17 @@
   doSWF(<%= @lat || 'null' %>,<%= @lon || 'null' %>,<%= @zoom %>);
   <% end -%>
 
-  function setPosition(lat, lon, zoom) {
-    $("#potlatch").each(function () {
-      this.setPosition(lat, lon, Math.max(zoom || 15, 13));
+  $(document).ready(function () {
+    $("body").on("click", "a.set_position", function () {
+      var lat = parseFloat($(this).attr("data-lat"));
+      var lon = parseFloat($(this).attr("data-lon"));
+      var zoom = parseInt($(this).attr("data-zoom"));
+
+      $("#potlatch").each(function () {
+        this.setPosition(lat, lon, Math.max(zoom || 15, 13));
+      });
     });
-  }
+  });
 
   function mapMoved(lon, lat, zoom, minlon, minlat, maxlon, maxlat) {
     updatelinks(lon, lat, zoom, null, minlon, minlat, maxlon, maxlat);
