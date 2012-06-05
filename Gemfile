@@ -25,6 +25,9 @@ gem 'http_accept_language', '>= 1.0.2'
 gem 'paperclip', '~> 2.0'
 gem 'deadlock_retry', '>= 1.2.0'
 
+# Browser detection support
+gem 'browser'
+
 # Markdown formatting support
 gem 'redcarpet'
 
