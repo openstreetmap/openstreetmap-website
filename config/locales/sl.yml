@@ -75,6 +75,8 @@ sl:
   application: 
     require_cookies: 
       cookies_needed: Izgleda imate onemogočene piškotke - prosim omogočite jih v vašem brskalniku preden nadaljujete.
+    require_moderator: 
+      not_a_moderator: Morate biti moderator za izvedbo tega dejanja.
     setup_user_auth: 
       blocked: Vaš dostop do API je bil blokiran. Prosimo, prijavite se na spletno stran, če želite izvedeti več.
       need_to_see_terms: Vaš dostop do API, je začasno prekinjen. Prosimo, prijavite se na spletno stran in si oglejte pogoje "Contributor Terms". Ni se vam treba strinjati, vendar si jih morate ogledati.
@@ -95,20 +97,22 @@ sl:
       closed_at: "Zaključen:"
       created_at: "Ustvarjen:"
       has_nodes: 
-        one: "Vsebuje naslednje %{count} vozlišče:"
-        other: "Vsebuje naslednjih %{count} vozlišč:"
+        few: "Vsebuje %{count} vozlišča:"
+        one: "Vsebuje %{count} vozlišče:"
+        other: "Vsebuje %{count} vozlišč:"
+        two: "Vsebuje %{count} vozlišči:"
       has_relations: 
-        few: "Vsebuje naslednje %{count} zveze:"
-        one: "Vsebuje naslednjo zvezo:"
-        other: "Vsebuje naslednjih %{count} zvez:"
-        two: "Vsebuje naslednji zvezi:"
+        few: "Vsebuje %{count} zveze:"
+        one: "Vsebuje %{count} zvezo:"
+        other: "Vsebuje %{count} zvez:"
+        two: "Vsebuje %{count} zvezi:"
       has_ways: 
-        one: "Vsebuje naslednjo %{count} pot:"
-        other: "Vsebuje naslednjih %{count} poti:"
+        one: "Vsebuje %{count} pot:"
+        other: "Vsebuje %{count} poti:"
       no_bounding_box: Ta paket nima določenega pravokotnega področja.
       show_area_box: Prikaži pravokotno področje
     common_details: 
-      changeset_comment: "Pripomba:"
+      changeset_comment: "Komentar:"
       deleted_at: "Izbrisan ob:"
       deleted_by: "Izbrisal:"
       edited_at: "Urejeno ob:"
@@ -323,8 +327,10 @@ sl:
       hide_link: Skrij ta komentar
     diary_entry: 
       comment_count: 
+        few: "%{count} komentarje"
         one: "%{count} komentar"
         other: "%{count} komentarjev"
+        two: "%{count} komentarja"
       comment_link: Komentiraj ta vnos
       confirm: Potrdi
       edit_link: Uredi ta vnos
@@ -447,9 +453,9 @@ sl:
       south_west: jugozahodno
       west: zahodno
     distance: 
-      one: približno %{count} km
+      one: približno en km
       other: približno %{count} km
-      zero: manj kot 1 km
+      zero: manj kot en km
     results: 
       more_results: Več zadetkov
       no_results: Ni zadetkov
@@ -574,6 +580,8 @@ sl:
           youth_centre: Mladinski center
         boundary: 
           administrative: Upravne meje
+          national_park: Nacionalni Park
+          protected_area: Zavarovano območje
         bridge: 
           viaduct: Viadukt
           "yes": Most
@@ -648,6 +656,7 @@ sl:
           farmland: Kmetijsko zemljišče
           farmyard: Vrt
           forest: Gozd
+          garages: Garaže
           grass: Travnik
           greenfield: Pripravljeno za gradbišče
           industrial: Industrijska cona
@@ -656,6 +665,7 @@ sl:
           military: Vojaško območje
           mine: Minsko polje
           nature_reserve: Naravni rezervat
+          orchard: Sadovnjak
           park: Park
           piste: Proga
           quarry: Dnevni kop
@@ -682,12 +692,17 @@ sl:
           pitch: Športno igrišče
           playground: Otroško igrišče
           recreation_ground: Rekreacijsko območje
+          sauna: Savna
           slipway: Rampa
           sports_centre: Športni center
           stadium: Stadion
           swimming_pool: Bazen
           track: Tekaška proga
           water_park: Vodni park
+        military: 
+          airfield: Vojaško letališče
+          barracks: Vojašnica
+          bunker: Bunker
         natural: 
           bay: Zaliv
           beach: Obala
@@ -861,6 +876,8 @@ sl:
           valley: Dolina
           viewpoint: Razgledna točka
           zoo: Živalski vrt
+        tunnel: 
+          "yes": Predor
         waterway: 
           boatyard: Ladjedelnica
           canal: Prekop
@@ -886,6 +903,8 @@ sl:
     map: 
       base: 
         cycle_map: Kolesarska karta
+        standard: Privzeta karta
+        transport_map: Transportna karta
     site: 
       edit_disabled_tooltip: Povečajte za urejanje zemljevida
       edit_tooltip: Urejanje zemljevida
@@ -894,6 +913,7 @@ sl:
       history_tooltip: Prikaži urejanja za to področje
       history_zoom_alert: Morate povečati karto za ogled urejanj na tem področju
   layouts: 
+    community: Skupnost
     community_blogs: Blogi skupnosti
     community_blogs_title: Blogi članov skupnosti OpenStreetMap
     copyright: Avtorske pravice & licenca
@@ -917,10 +937,17 @@ sl:
     home_tooltip: Prikaži domači kraj
     inbox: prejeto (%{count})
     inbox_tooltip: 
-      one: Prejeli ste %{count} novo sporočilo
-      other: Prejeli ste %{count} novih sporočil
-      zero: Niste prejeli novih spročil
+      few: Prejeli ste %{count} nova sporočila.
+      one: Prejeli ste %{count} novo sporočilo.
+      other: Prejeli ste %{count} novih sporočil.
+      two: Prejeli ste %{count} novi sporočili.
+      zero: Niste prejeli novih spročil.
     intro_1: OpenStreetMap je prost zemljevid sveta, ki ga urejajo ljudje, kot ste Vi.
+    intro_2_create_account: Ustvarite uporabniški račun
+    intro_2_download: prenesejo
+    intro_2_html: Podatki se lahko brezplačno %{download} in %{use} po %{license}. %{create_account} in izboljšajte zemljevid.
+    intro_2_license: odprti licenci
+    intro_2_use: uporabijo
     license: 
       title: Podatki OpenStreetMap so licencirani v skladu z Creative Commons Attribution-Share Alike 2.0 Generic License
     log_in: prijava
@@ -934,6 +961,11 @@ sl:
       title: Podprite OpenStreetMap z denarnim prispevkom
     osm_offline: Baza OpenStreetMap zaradi izvajanja nujnih vzdrževalnih del trenutno ni dostopna.
     osm_read_only: Baza OpenStreetMap je zaradi izvajanja nujnih vzdrževalnih del trenutno dostopna le za branje.
+    partners_bytemark: Bytemark Hosting
+    partners_html: Gostovanje podpira %{ucl}, %{ic} in %{bytemark}, ter ostali %{partners}.
+    partners_ic: Imperial College v Londonu
+    partners_partners: partnerji
+    partners_ucl: UCL VR Center
     sign_up: ustvari račun
     sign_up_tooltip: Ustvarite si nov uporabniški račun za urejanje
     sotm2011: Pridite konferenco OpenStreetMap 2011, stanje karte, 9-11 September v Denverju!
@@ -953,7 +985,7 @@ sl:
       title: O tem prevodu
     native: 
       mapping_link: začnete kartirati
-      native_link: Slovensko verzija
+      native_link: Slovensko verzijo
       text: Berete angleško različico avtorskih strani. Lahko se vrnete na %{native_link} te strani, ali se lahko ustavite branje o avtorskih pravicah in %{mapping_link}.
       title: O tej strani
   message: 
@@ -962,8 +994,19 @@ sl:
     inbox: 
       date: Datum
       from: Od
+      messages: Imate %{new_messages} in %{old_messages}.
       my_inbox: Moja prejeta
+      new_messages: 
+        few: "%{count} nova sporočila"
+        one: "%{count} novo sporočilo"
+        other: "%{count} novih sporočil"
+        two: "%{count} novi sporočili"
       no_messages_yet: Prejeli niste še nobenih sporočil. Zakaj ne bi stopili v stik z %{people_mapping_nearby_link}?
+      old_messages: 
+        few: "%{count} stara sporočila"
+        one: "%{count} staro sporočilo"
+        other: "%{count} starih sporočil"
+        two: "%{count} stari sporočili"
       outbox: poslana pošta
       people_mapping_nearby: ljudmi, ki kartirajo blizu vas
       subject: Zadeva
@@ -992,6 +1035,11 @@ sl:
     outbox: 
       date: Datum
       inbox: prejeta
+      messages: 
+        few: Imate %{count} poslana sporočila
+        one: Imate %{count} poslano sporočilo
+        other: Imate %{count} poslanih sporočil
+        two: Imate %{count} poslani sporočili
       my_inbox: Moja %{inbox_link}
       no_sent_messages: Poslali niste še nobenih sporočil. Zakaj ne bi stopili v stik z %{people_mapping_nearby_link}?
       outbox: poslana pošta
@@ -1157,6 +1205,8 @@ sl:
       allow_write_gpx: nalaganje sledi GPS.
       allow_write_prefs: spreminjanje uporabniških nastavitev.
       authorize_url: "URL za potrditev zahteve:"
+      confirm: Ali ste prepričani?
+      delete: Izbriši odjemalca
       edit: Urejanje podrobnosti
       key: "Uporabnikov ključ:"
       requests: "Zahteva dovoljenja za naslednje dostope do uporabnikovih podatkov:"
@@ -1168,6 +1218,37 @@ sl:
       flash: Informacije odjemalca uspešno posodobljene
   printable_name: 
     with_version: "%{id}, %{version}. različica"
+  redaction: 
+    create: 
+      flash: Redakcija ustvarjena.
+    destroy: 
+      error: Prišlo je do napake, ob uničevanju te redakcije.
+      flash: Redakcija uničena.
+      not_empty: Redakcija ni prazna. Prosim od-revidirajte vse različice, ki pripadajo tej redakciji preden jo uničite.
+    edit: 
+      description: Opis
+      heading: Uredi redakcijo
+      submit: Shrani redakcijo
+      title: Uredi redakcijo
+    index: 
+      empty: Ni redakcije za pokazati.
+      heading: Seznam redakcij
+      title: Seznam redakcij
+    new: 
+      description: Opis
+      heading: Vnesite informacije za novo redakcijo
+      submit: Ustvarite redakcijo
+      title: Ustvarite novo redakcijo
+    show: 
+      confirm: Ali ste prepričani?
+      description: "Opis:"
+      destroy: Odstrani to redakcijo
+      edit: Uredi to redakcijo
+      heading: Prikazujem redakcijo "%{title}"
+      title: Prikazujem redakcijo
+      user: "Ustvarjalec:"
+    update: 
+      flash: Spremembe shranjene.
   site: 
     edit: 
       anon_edits_link_text: Pojasnilo zakaj je temu tako.
@@ -1258,6 +1339,20 @@ sl:
           unclassified: Ostale ceste izven naselij
           unsurfaced: Neasfaltirana cesta
           wood: Pragozd
+    markdown_help: 
+      alt: Dodatno besedilo
+      first: Prvi element
+      heading: Poglavje
+      headings: Poglavja
+      image: Slika
+      link: Povezava
+      ordered: Urejen seznam
+      second: Drugi element
+      subheading: Podpoglavje
+      text: Besedilo
+      title_html: Obdelano z <a href="http://daringfireball.net/projects/markdown/">Markdown</a>
+      unordered: Neurejen seznam
+      url: URL
     richtext_area: 
       edit: Uredi
       preview: Predogled
@@ -1443,12 +1538,13 @@ sl:
       heading: Uporabniki
       hide: Skrij izbrane uporabnike
       showing: 
-        one: Prikazujem stran %{page} (%{first_item} od %{items})
-        other: Prikazujem stran %{page} (%{first_item}-%{last_item} od %{items})
+        one: Stran %{page} (%{first_item} od %{items})
+        other: Stran %{page} (%{first_item}-%{last_item} od %{items})
       summary: "%{name} ustvarjen iz %{ip_address} dne %{date}"
       summary_no_ip: "%{name} ustvarjen dne %{date}"
       title: Uporabniki
     login: 
+      account is suspended: Žal je bil vaš račun ustavljen zaradi sumljive aktivnosti.<br>Prosimo, obrnite se na <a href="%{webmaster}">webmaster</a>, če želite o tem razpravljati.
       account not active: Oprostite, vaš uporabniški račun še ni aktiven.<br />Za aktivacijo prosimo uporabite povezavo, ki ste jo prejeli v elektronskem sporočilu za potrditev uporabniškega računa, ali <a href="%{reconfirm}">zahtevajte novo potrditveno elektronsko sporočilo</a>.
       auth failure: Oprostite, prijava s temi podatki ni uspela.
       create account minute: Naredite si račun. To vam bo vzelo le minuto.
@@ -1457,7 +1553,9 @@ sl:
       login_button: Prijava
       lost password link: Ste pozabili geslo?
       new to osm: Ste novi na OpenStreetMap?
+      no account: Še nimate uporabniškega računa?
       notice: <a href="http://www.osmfoundation.org/wiki/License/We_Are_Changing_The_License">Preberite več o prihajajoči spremembi licence na OpenStreetMap </a> (<a href="http://wiki.openstreetmap.org/wiki/ODbL/We_Are_Changing_The_License">prevodi</a>) (<a href="http://wiki.openstreetmap.org/wiki/Talk:ODbL/Upcoming">razprava</a>)
+      notice_terms: OpenStreetMap prehaja na novo licenciranje dne 1. April 2012. Ta licenca je enako odprta kot sedanja, a pravni del je bolj prilagojen naši bazi. Radi bi obdržali vaše prispevke v OpenStreetMap, vendar lahko to storimo le, če se strinjate, da jih delimo po pogojih nove licence. Sicer jih bomo morali izbrisati iz baze.<br /><br />Prosimo prijavite se in si vzamite nekaj sekund, da pregledate in sprejmete nove pogoje. Hvala!
       openid: "%{logo} OpenID:"
       openid invalid: Oprostite, vaš OpenID ni pravilen
       openid missing provider: Žal se ni bilo mogoče obrniti na ponudnika OpenID
@@ -1574,10 +1672,15 @@ sl:
       block_history: poglej prejete blokade
       blocks by me: moje blokade
       blocks on me: blokade mene
+      comments: komentarji
       confirm: Potrdi
       confirm_user: potrdi uporabnika
       create_block: blokiraj uporabnika
       created from: "Ustvarjen iz:"
+      ct accepted: "Sprejeto pred: %{ago}"
+      ct declined: Zavrnjeni
+      ct status: "Pogoji sodelovanja:"
+      ct undecided: Neodločen
       deactivate_user: dezaktiviraj uporabnika
       delete_user: izbriši uporabnika
       description: Opis
@@ -1593,6 +1696,7 @@ sl:
       m away: oddaljen %{count} m
       mapper since: "Kartograf od:"
       moderator_history: poglej dane blokade
+      my comments: moji komentarji
       my diary: moj dnevnik
       my edits: moji prispevki
       my settings: moje nastavitve
@@ -1683,8 +1787,10 @@ sl:
       show: Prikaži
       status: Stanje
     period: 
+      few: "%{count} ure"
       one: 1 ura
       other: "%{count} ur"
+      two: "%{count} uri"
     revoke: 
       confirm: Ste prepričani, da želite preklicati blokado?
       flash: Ta blokada je bila preklicana.
