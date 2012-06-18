@@ -1,6 +1,6 @@
 module GeocoderHelper
   def result_to_html(result)
-    html_options = { :class => "set_position" }
+    html_options = { :class => "set_position", :data => {} }
 
     if result[:min_lon] and result[:min_lat] and result[:max_lon] and result[:max_lat]
       url = "?minlon=#{result[:min_lon]}&minlat=#{result[:min_lat]}&maxlon=#{result[:max_lon]}&maxlat=#{result[:max_lat]}"
@@ -9,7 +9,7 @@ module GeocoderHelper
     end
 
     result.each do |key,value|
-      html_options["data-#{key.to_s.tr('_', '-')}"] = value
+      html_options[:data][key.to_s.tr('_', '-')] = value
     end
 
     html = ""
