@@ -76,10 +76,9 @@ class UserBlocksControllerTest < ActionController::TestCase
   # test the show action
   def test_show
     # Viewing a block should fail when no ID is given
-    get :show
-    assert_response :not_found
-    assert_template "not_found"
-    assert_select "p", "Sorry, the user block with ID  could not be found."
+    assert_raise ActionController::RoutingError do
+      get :show
+    end
 
     # Viewing a block should fail when a bogus ID is given
     get :show, :id => 99999
@@ -185,10 +184,9 @@ class UserBlocksControllerTest < ActionController::TestCase
     end
 
     # We should get an error if no user is specified
-    get :edit
-    assert_response :not_found
-    assert_template "not_found"
-    assert_select "p", "Sorry, the user block with ID  could not be found."
+    assert_raise ActionController::RoutingError do
+      get :edit
+    end
 
     # We should get an error if the user doesn't exist
     get :edit, :id => 99999
@@ -260,7 +258,7 @@ class UserBlocksControllerTest < ActionController::TestCase
   # test the update action
   def test_update
     # Not logged in yet, so updating a block should fail
-    put :update
+    put :update, :id => user_blocks(:active_block).id
     assert_response :forbidden
 
     # Login as a normal user
@@ -268,7 +266,7 @@ class UserBlocksControllerTest < ActionController::TestCase
     cookies["_osm_username"] = users(:public_user).display_name
 
     # Check that normal users can't update blocks
-    put :update
+    put :update, :id => user_blocks(:active_block).id
     assert_response :forbidden
 
     # Login as the wrong moderator
@@ -313,10 +311,9 @@ class UserBlocksControllerTest < ActionController::TestCase
     assert_equal "Vandalism", b.reason
 
     # We should get an error if no block ID is specified
-    put :update
-    assert_response :not_found
-    assert_template "not_found"
-    assert_select "p", "Sorry, the user block with ID  could not be found."
+    assert_raise ActionController::RoutingError do
+      put :update
+    end
 
     # We should get an error if the block doesn't exist
     put :update, :id => 99999
@@ -361,10 +358,9 @@ class UserBlocksControllerTest < ActionController::TestCase
     assert_in_delta Time.now, b.ends_at, 1
 
     # We should get an error if no block ID is specified
-    get :revoke
-    assert_response :not_found
-    assert_template "not_found"
-    assert_select "p", "Sorry, the user block with ID  could not be found."
+    assert_raise ActionController::RoutingError do
+      get :revoke
+    end
 
     # We should get an error if the block doesn't exist
     get :revoke, :id => 99999
@@ -377,10 +373,9 @@ class UserBlocksControllerTest < ActionController::TestCase
   # test the blocks_on action
   def test_blocks_on
     # Asking for a list of blocks with no user name should fail
-    get :blocks_on
-    assert_response :not_found
-    assert_template "user/no_such_user"
-    assert_select "h2", "The user  does not exist"
+    assert_raise ActionController::RoutingError do
+      get :blocks_on
+    end
 
     # Asking for a list of blocks with a bogus user name should fail
     get :blocks_on, :display_name => "non_existent_user"
@@ -416,10 +411,9 @@ class UserBlocksControllerTest < ActionController::TestCase
   # test the blocks_by action
   def test_blocks_by
     # Asking for a list of blocks with no user name should fail
-    get :blocks_by
-    assert_response :not_found
-    assert_template "user/no_such_user"
-    assert_select "h2", "The user  does not exist"
+    assert_raise ActionController::RoutingError do
+      get :blocks_by
+    end
 
     # Asking for a list of blocks with a bogus user name should fail
     get :blocks_by, :display_name => "non_existent_user"

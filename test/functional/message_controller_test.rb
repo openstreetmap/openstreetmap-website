@@ -90,12 +90,6 @@ class MessageControllerTest < ActionController::TestCase
     assert_equal "Test message body", m.body
     assert_equal "markdown", m.body_format
 
-    # Asking to send a message with no user name should fail
-    get :new
-    assert_response :not_found
-    assert_template "user/no_such_user"
-    assert_select "h2", "The user  does not exist"
-
     # Asking to send a message with a bogus user name should fail
     get :new, :display_name => "non_existent_user"
     assert_response :not_found
@@ -135,9 +129,9 @@ class MessageControllerTest < ActionController::TestCase
     end
 
     # Asking to reply to a message with no ID should fail
-    get :reply
-    assert_response :not_found
-    assert_template "no_such_message"
+    assert_raise ActionController::RoutingError do
+      get :reply
+    end
 
     # Asking to reply to a message with a bogus ID should fail
     get :reply, :message_id => 99999
@@ -182,9 +176,9 @@ class MessageControllerTest < ActionController::TestCase
     assert_equal true, Message.find(messages(:unread_message).id).message_read
 
     # Asking to read a message with no ID should fail
-    get :read
-    assert_response :not_found
-    assert_template "no_such_message"
+    assert_raise ActionController::RoutingError do
+      get :read
+    end
 
     # Asking to read a message with a bogus ID should fail
     get :read, :message_id => 99999
@@ -285,9 +279,9 @@ class MessageControllerTest < ActionController::TestCase
     assert_equal false, Message.find(messages(:unread_message).id).message_read
 
     # Asking to mark a message with no ID should fail
-    post :mark
-    assert_response :not_found
-    assert_template "no_such_message"
+    assert_raise ActionController::RoutingError do
+      post :mark
+    end
 
     # Asking to mark a message with a bogus ID should fail
     post :mark, :message_id => 99999
@@ -332,9 +326,9 @@ class MessageControllerTest < ActionController::TestCase
     assert_equal true, m.to_user_visible
 
     # Asking to delete a message with no ID should fail
-    post :delete
-    assert_response :not_found
-    assert_template "no_such_message"
+    assert_raise ActionController::RoutingError do
+      post :delete
+    end
 
     # Asking to delete a message with a bogus ID should fail
     post :delete, :message_id => 99999

@@ -235,7 +235,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
   def test_edit_diary_entry_i18n
     @request.cookies["_osm_username"] = users(:normal_user).display_name
 
-    get(:edit, {:id => diary_entries(:normal_user_entry_1).id}, {'user' => users(:normal_user).id})
+    get :edit, {:display_name => users(:normal_user).display_name, :id => diary_entries(:normal_user_entry_1).id}, {'user' => users(:normal_user).id}
     assert_response :success
     assert_select "span[class=translation_missing]", false, "Missing translation in edit diary entry"
   end
