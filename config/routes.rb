@@ -169,16 +169,16 @@ OpenStreetMap::Application.routes.draw do
   match '/user/:display_name/diary/:id' => 'diary_entry#view', :via => :get, :id => /\d+/
   match '/user/:display_name/diary/:id/newcomment' => 'diary_entry#comment', :via => :post, :id => /\d+/
   match '/user/:display_name/diary/:id/edit' => 'diary_entry#edit', :via => [:get, :post], :id => /\d+/
-  match '/user/:display_name/diary/:id/hide' => 'diary_entry#hide', :via => :post, :id => /\d+/
-  match '/user/:display_name/diary/:id/hidecomment/:comment' => 'diary_entry#hidecomment', :via => :post, :id => /\d+/, :comment => /\d+/
+  match '/user/:display_name/diary/:id/hide' => 'diary_entry#hide', :via => :post, :id => /\d+/, :as => :hide_diary_entry
+  match '/user/:display_name/diary/:id/hidecomment/:comment' => 'diary_entry#hidecomment', :via => :post, :id => /\d+/, :comment => /\d+/, :as => :hide_diary_comment
 
   # user pages
   match '/user/:display_name' => 'user#view', :via => :get, :as => "user"
   match '/user/:display_name/make_friend' => 'user#make_friend', :via => :get
   match '/user/:display_name/remove_friend' => 'user#remove_friend', :via => :get
   match '/user/:display_name/account' => 'user#account', :via => [:get, :post]
-  match '/user/:display_name/set_status' => 'user#set_status', :via => :get
-  match '/user/:display_name/delete' => 'user#delete', :via => :get
+  match '/user/:display_name/set_status' => 'user#set_status', :via => :get, :as => :set_status_user
+  match '/user/:display_name/delete' => 'user#delete', :via => :get, :as => :delete_user
 
   # user lists
   match '/users' => 'user#list', :via => [:get, :post]
