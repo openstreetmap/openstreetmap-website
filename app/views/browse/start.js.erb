@@ -35,6 +35,8 @@ function startBrowse() {
   map.events.register("moveend", map, updateData);
   map.events.triggerEvent("moveend");
 
+  $("#browse_select_view").click(useMap);
+
   $("#browse_select_box").click(startDrag);
 
   $("#browse_hide_areas_box").html("<%=j t 'browse.start_rjs.hide_areas' %>");
@@ -132,8 +134,6 @@ function showAreas() {
 
   useMap(true);
 }
-
-$("#browse_select_view").click(useMap);
 
 function endDrag(bbox) {
   var bounds = bbox.getBounds();
