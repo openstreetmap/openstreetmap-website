@@ -1,34 +1,4 @@
 /**
- * Namespace: Util.OSM
- */
-OpenLayers.Util.OSM = {};
-
-/**
- * Constant: MISSING_TILE_URL
- * {String} URL of image to display for missing tiles
- */
-OpenLayers.Util.OSM.MISSING_TILE_URL = OpenLayers.Util.getImagesLocation() + "404.png";
-
-/**
- * Property: originalOnImageLoadError
- * {Function} Original onImageLoadError function.
- */
-OpenLayers.Util.OSM.originalOnImageLoadError = OpenLayers.Util.onImageLoadError;
-
-/**
- * Function: onImageLoadError
- */
-OpenLayers.Util.onImageLoadError = function() {
-    if (this.src.match(/^http:\/\/[abc]\.[a-z]+\.openstreetmap\.org\//)) {
-        this.src = OpenLayers.Util.OSM.MISSING_TILE_URL;
-    } else if (this.src.match(/^http:\/\/[def]\.tah\.openstreetmap\.org\//)) {
-        // do nothing - this layer is transparent
-    } else {
-        OpenLayers.Util.OSM.originalOnImageLoadError;
-    }
-};
-
-/**
  * Class: OpenLayers.Layer.OSM.Mapnik
  *
  * Inherits from:
