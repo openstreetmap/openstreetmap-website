@@ -149,59 +149,42 @@ function endDrag(bbox) {
   $("#browse_select_view").show();
 }
 
-function displayFeatureWarning() {
+function displayFeatureWarning(count, callback) {
   clearStatus();
 
   var div = document.createElement("div");
 
   var p = document.createElement("p");
-  p.appendChild(document.createTextNode(i18n("<%=j t 'browse.start_rjs.loaded_an_area_with_num_features' %>", { num_features: browseFeatureList.length })));
+  p.appendChild(document.createTextNode(i18n("<%=j t 'browse.start_rjs.loaded_an_area_with_num_features' %>", { num_features: count })));
   div.appendChild(p);
 
   var input = document.createElement("input");
   input.type = "submit";
   input.value = "<%=j t 'browse.start_rjs.load_data' %>";
-  input.onclick = loadFeatureList;
+  input.onclick = callback;
   div.appendChild(input); 
 
   $("#browse_content").html("");
   $("#browse_content").append(div);
 }
 
-function loadFeatureList() {
-  browseDataLayer.addFeatures(browseFeatureList);
-  browseDataLayer.events.triggerEvent("loadend");
-
-  browseFeatureList = []; 
-
-  return false;
-}    
-
-function customDataLoader(request) {
-  if (this.map.dataLayer.active) {
+function customDataLoader(resp, options) {
+  if (map.dataLayer.active) {
+    var request = resp.priv;
     var doc = request.responseXML;
 
     if (!doc || !doc.documentElement) {
       doc = request.responseText;
     }
 
-    var options = {};
+    resp.features = this.format.read(doc);
 
-    OpenLayers.Util.extend(options, this.formatOptions);
-
-    if (this.map && !this.projection.equals(this.map.getProjectionObject())) {
-      options.externalProjection = this.projection;
-      options.internalProjection = this.map.getProjectionObject();
-    }    
-
-    var gml = this.format ? new this.format(options) : new OpenLayers.Format.GML(options);
-
-    browseFeatureList = gml.read(doc);
-
-    if (!this.maxFeatures || browseFeatureList.length <= this.maxFeatures) {
-      loadFeatureList();
+    if (!this.maxFeatures || resp.features.length <= this.maxFeatures) {
+      options.callback.call(options.scope, resp);
     } else {
-      displayFeatureWarning();
+      displayFeatureWarning(resp.features.length, function () {
+        options.callback.call(options.scope, resp);
+      });
     }
   }
 }
@@ -213,11 +196,11 @@ function getData(bounds, reload) {
   if (size > <%= MAX_REQUEST_AREA %>) {
     setStatus(i18n("<%=j t 'browse.start_rjs.unable_to_load_size', :max_bbox_size => MAX_REQUEST_AREA %>", { bbox_size: size }));
   } else {
-    loadGML("/api/<%= API_VERSION %>/map?bbox=" + projected.toBBOX(), reload);
+    loadData("/api/<%= API_VERSION %>/map?bbox=" + projected.toBBOX(), reload);
   }
 }
 
-function loadGML(url, reload) {
+function loadData(url, reload) {
   setStatus("<%=j t 'browse.start_rjs.loading' %>");
 
   $("#browse_content").empty();
@@ -242,11 +225,17 @@ function loadGML(url, reload) {
 
     if (browseDataLayer) browseDataLayer.destroyFeatures();
 
-    browseDataLayer = new OpenLayers.Layer.GML("Data", url, {
-      format: OpenLayers.Format.OSM,
-      formatOptions: formatOptions,
-      maxFeatures: <%= @max_features %>,
-      requestSuccess: customDataLoader,
+    browseDataLayer = new OpenLayers.Layer.Vector("Data", {
+      strategies: [ 
+        new OpenLayers.Strategy.Fixed()
+      ],
+      protocol: new OpenLayers.Protocol.HTTP({
+        url: url,
+        format: new OpenLayers.Format.OSM(formatOptions),
+        maxFeatures: <%= @max_features %>,
+        handleRead: customDataLoader
+      }),
+      projection: new OpenLayers.Projection("EPSG:4326"),
       displayInLayerSwitcher: false,
       styleMap: new OpenLayers.StyleMap({
         'default': style,
@@ -263,8 +252,7 @@ function loadGML(url, reload) {
     browseSelectControl.activate();
   } else {
     browseDataLayer.destroyFeatures();
-    browseDataLayer.format(formatOptions);
-    browseDataLayer.setUrl(url);
+    browseDataLayer.refresh({ url: url });
   }
 
   browseActiveFeature = null;

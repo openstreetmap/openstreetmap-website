@@ -98,8 +98,14 @@ function addMarkerToMap(position, icon, description) {
 }
 
 function addObjectToMap(url, zoom, callback) {
-   var layer = new OpenLayers.Layer.GML("Objects", url, {
-      format: OpenLayers.Format.OSM,
+   var layer = new OpenLayers.Layer.Vector("Objects", {
+      strategies: [ 
+          new OpenLayers.Strategy.Fixed()
+      ],
+      protocol: new OpenLayers.Protocol.HTTP({
+          url: url,
+          format: new OpenLayers.Format.OSM()
+      }),
       style: {
           strokeColor: "blue",
           strokeWidth: 3,
@@ -137,8 +143,6 @@ function addObjectToMap(url, zoom, callback) {
    });
 
    map.addLayer(layer);
-
-   layer.loadGML();
 }
 
 function addBoxToMap(boxbounds, id, outline) {
