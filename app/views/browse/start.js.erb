@@ -149,13 +149,13 @@ function endDrag(bbox) {
   $("#browse_select_view").show();
 }
 
-function displayFeatureWarning(count, callback) {
+function displayFeatureWarning(count, limit, callback) {
   clearStatus();
 
   var div = document.createElement("div");
 
   var p = document.createElement("p");
-  p.appendChild(document.createTextNode(i18n("<%=j t 'browse.start_rjs.loaded_an_area_with_num_features' %>", { num_features: count })));
+  p.appendChild(document.createTextNode(i18n("<%=j t 'browse.start_rjs.loaded_an_area_with_num_features' %>", { num_features: count, max_features: limit })));
   div.appendChild(p);
 
   var input = document.createElement("input");
@@ -182,7 +182,7 @@ function customDataLoader(resp, options) {
     if (!this.maxFeatures || resp.features.length <= this.maxFeatures) {
       options.callback.call(options.scope, resp);
     } else {
-      displayFeatureWarning(resp.features.length, function () {
+      displayFeatureWarning(resp.features.length, this.maxFeatures, function () {
         options.callback.call(options.scope, resp);
       });
     }
