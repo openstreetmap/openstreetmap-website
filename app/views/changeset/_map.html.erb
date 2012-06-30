@@ -37,7 +37,7 @@
     $("#tr-changeset-" + id).removeClass("selected");
   }
 
-  function init() {
+  $(document).ready(function () {
     var map = createMap("changeset_list_map", {
       controls: [
         new OpenLayers.Control.Navigation(),
@@ -84,7 +84,5 @@
     <% else %>
       map.zoomToExtent(proj(bounds));
     <% end %>
-  }
-
-  Event.observe(window, "load", init);
+  });
 </script>
