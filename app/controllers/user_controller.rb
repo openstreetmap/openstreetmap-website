@@ -143,55 +143,24 @@ class UserController < ApplicationController
     @tokens = @user.oauth_tokens.authorized
 
     if params[:user] and params[:user][:display_name] and params[:user][:description]
-      @user.display_name = params[:user][:display_name]
-      @user.new_email = params[:user][:new_email]
-
-      if params[:user][:pass_crypt].length > 0 or params[:user][:pass_crypt_confirmation].length > 0
-        @user.pass_crypt = params[:user][:pass_crypt]
-        @user.pass_crypt_confirmation = params[:user][:pass_crypt_confirmation]
-      end
-
-      if params[:user][:description] != @user.description
-        @user.description = params[:user][:description]
-        @user.description_format = "markdown"
-      end
-
-      @user.languages = params[:user][:languages].split(",")
-
-      case params[:image_action]
-        when "new" then @user.image = params[:user][:image]
-        when "delete" then @user.image = nil
-      end
-
-      @user.home_lat = params[:user][:home_lat]
-      @user.home_lon = params[:user][:home_lon]
-
-      if params[:user][:preferred_editor] == "default"
-        @user.preferred_editor = nil
-      else
-        @user.preferred_editor = params[:user][:preferred_editor]
-      end
-
-      @user.openid_url = nil if params[:user][:openid_url].blank?
-
       if params[:user][:openid_url] and
          params[:user][:openid_url].length > 0 and
          params[:user][:openid_url] != @user.openid_url
         # If the OpenID has changed, we want to check that it is a
         # valid OpenID and one the user has control over before saving
         # it as a password equivalent for the user.
-        session[:new_user] = @user
+        session[:new_user_settings] = params
         openid_verify(params[:user][:openid_url], @user)
       else
-        update_user(@user)
+        update_user(@user, params)
       end
     elsif using_open_id?
       # The redirect from the OpenID provider reenters here
       # again and we need to pass the parameters through to
       # the open_id_authentication function
-      @user = session.delete(:new_user)
+      settings = session.delete(:new_user_settings)
       openid_verify(nil, @user) do |user|
-        update_user(user)
+        update_user(user, settings)
       end
     end
   end
@@ -662,7 +631,38 @@ private
 
   ##
   # update a user's details
-  def update_user(user)
+  def update_user(user, params)
+    user.display_name = params[:user][:display_name]
+    user.new_email = params[:user][:new_email]
+
+    if params[:user][:pass_crypt].length > 0 or params[:user][:pass_crypt_confirmation].length > 0
+      user.pass_crypt = params[:user][:pass_crypt]
+      user.pass_crypt_confirmation = params[:user][:pass_crypt_confirmation]
+    end
+
+    if params[:user][:description] != user.description
+      user.description = params[:user][:description]
+      user.description_format = "markdown"
+    end
+
+    user.languages = params[:user][:languages].split(",")
+
+    case params[:image_action]
+    when "new" then user.image = params[:user][:image]
+    when "delete" then user.image = nil
+    end
+
+    user.home_lat = params[:user][:home_lat]
+    user.home_lon = params[:user][:home_lon]
+
+    if params[:user][:preferred_editor] == "default"
+      user.preferred_editor = nil
+    else
+      user.preferred_editor = params[:user][:preferred_editor]
+    end
+
+    user.openid_url = nil if params[:user][:openid_url].blank?
+
     if user.save
       set_locale
 
