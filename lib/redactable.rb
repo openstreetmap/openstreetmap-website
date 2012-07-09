@@ -11,12 +11,13 @@ module Redactable
     not self.redaction.nil?
   end
 
-  def redact!(redaction)
+  def redact!(redaction, mode = nil)
     # check that this version isn't the current version
     raise OSM::APICannotRedactError.new if self.is_latest_version?
 
     # make the change
     self.redaction = redaction
+    self.redaction_mode = mode
     self.save!
   end
 end

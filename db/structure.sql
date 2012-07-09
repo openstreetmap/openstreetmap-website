@@ -696,7 +696,8 @@ CREATE TABLE nodes (
     "timestamp" timestamp without time zone NOT NULL,
     tile bigint NOT NULL,
     version bigint NOT NULL,
-    redaction_id integer
+    redaction_id integer,
+    redaction_mode character varying(255)
 );
 
 
@@ -849,7 +850,8 @@ CREATE TABLE relations (
     "timestamp" timestamp without time zone NOT NULL,
     version bigint NOT NULL,
     visible boolean DEFAULT true NOT NULL,
-    redaction_id integer
+    redaction_id integer,
+    redaction_mode character varying(255)
 );
 
 
@@ -1061,7 +1063,8 @@ CREATE TABLE ways (
     "timestamp" timestamp without time zone NOT NULL,
     version bigint NOT NULL,
     visible boolean DEFAULT true NOT NULL,
-    redaction_id integer
+    redaction_id integer,
+    redaction_mode character varying(255)
 );
 
 
@@ -2262,6 +2265,8 @@ INSERT INTO schema_migrations (version) VALUES ('20120318201948');
 INSERT INTO schema_migrations (version) VALUES ('20120328090602');
 
 INSERT INTO schema_migrations (version) VALUES ('20120404205604');
+
+INSERT INTO schema_migrations (version) VALUES ('20120709113205');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 
