@@ -201,8 +201,10 @@ class Node < ActiveRecord::Base
   def to_xml_node(changeset_cache = {}, user_display_name_cache = {})
     el1 = XML::Node.new 'node'
     el1['id'] = self.id.to_s
-    el1['lat'] = self.lat.to_s
-    el1['lon'] = self.lon.to_s
+
+    # Future versions of the API should remove the lat/lon when deleted.
+    el1['lat'] = self.visible? ? self.lat.to_s : "0"
+    el1['lon'] = self.visible? ? self.lon.to_s : "0"
     el1['version'] = self.version.to_s
     el1['changeset'] = self.changeset_id.to_s
 

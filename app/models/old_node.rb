@@ -52,8 +52,10 @@ class OldNode < ActiveRecord::Base
       el2['v'] = v.to_s
       el1 << el2
     end
-    el1['lat'] = self.lat.to_s
-    el1['lon'] = self.lon.to_s
+
+    # Future versions of the API should remove the lat/lon when deleted.
+    el1['lat'] = self.visible? ? self.lat.to_s : "0"
+    el1['lon'] = self.visible? ? self.lon.to_s : "0"
     
     el1['changeset'] = self.changeset.id.to_s
     if self.changeset.user.data_public?
