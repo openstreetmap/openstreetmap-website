@@ -259,6 +259,17 @@ class OldNodeControllerTest < ActionController::TestCase
     assert_select "osm node[id=#{node.node_id}][version=#{node.version}]", 1, "node #{node.node_id} version #{node.version} should still be present in the history for moderators when passing flag."
   end
 
+  ##
+  # test that a moderator can optionally pass a mode
+  # to the redaction
+  def test_redact_node_with_mode
+    node = nodes(:node_with_versions_v3)
+    basic_authorization(users(:moderator_user).email, "test")
+
+    do_redact_node_with_mode(node, redactions(:example), "hidden")
+    assert_response :success, "should be OK to redact old version with a mode."
+  end
+
   # testing that if the moderator drops auth, he can't see the
   # redacted stuff any more.
   def test_redact_node_is_redacted
@@ -287,6 +298,14 @@ class OldNodeControllerTest < ActionController::TestCase
     
     # now redact it
     post :redact, :id => node.node_id, :version => node.version, :redaction => redaction.id
+  end
+
+  def do_redact_node_with_mode(node, redaction, mode)
+    get :version, :id => node.node_id, :version => node.version
+    assert_response :success, "should be able to get version #{node.version} of node #{node.node_id}."
+
+    # now redact it, with a mode
+    post :redact, :id => node.node_id, :version => node.version, :redaction => redaction.id, :mode => mode
   end
 
   def check_current_version(node_id)

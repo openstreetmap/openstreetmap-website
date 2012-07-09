@@ -57,12 +57,12 @@ class OldController < ApplicationController
       # if a redaction ID was specified, then set this element to
       # be redacted in that redaction.
       redaction = Redaction.find(redaction_id.to_i)
-      @old_element.redact!(redaction)
+      @old_element.redact!(redaction,params['mode'])
       
     else
       # if no redaction ID was provided, then this is an unredact
       # operation.
-      @old_element.redact!(nil)
+      @old_element.redact!(nil,nil)
     end
     
     # just return an empty 200 OK for success

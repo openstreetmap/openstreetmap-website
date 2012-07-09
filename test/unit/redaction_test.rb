@@ -33,4 +33,14 @@ class RedactionTest < ActiveSupport::TestCase
     assert_equal(true, n.redacted?, "Expected node to be redacted after redact! call.")
   end
 
+  def test_can_set_mode
+    n = nodes(:node_with_versions_v3)
+    r = redactions(:example)
+    m = "hidden"
+    assert_equal(nil, n.redaction_mode, "Expected node not to have a redaction mode already.")
+    assert_nothing_raised(OSM::APICannotRedactError) do
+      n.redact!(r, m)
+    end
+    assert_equal(m, n.redaction_mode, "Expected node to be redacted with a mode.")
+  end
 end
