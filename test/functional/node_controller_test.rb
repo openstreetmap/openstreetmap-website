@@ -231,9 +231,9 @@ class NodeControllerTest < ActionController::TestCase
     assert @response.body.to_i > current_nodes(:public_visible_node).version,
        "delete request should return a new version number for node"
 
-    # this won't work since the node is already deleted
-    content(nodes(:invisible_node).to_xml)
-    delete :delete, :id => current_nodes(:invisible_node).id
+    # deleting the same node twice doesn't work
+    content(nodes(:public_visible_node).to_xml)
+    delete :delete, :id => current_nodes(:public_visible_node).id
     assert_response :gone
 
     # this won't work since the node never existed
