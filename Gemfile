@@ -17,7 +17,7 @@ gem 'jquery-rails'
 gem 'rails-i18n', ">= 0.6.3"
 gem 'dynamic_form'
 gem 'rinku', '>= 1.2.2', :require => 'rails_rinku'
-gem 'openstreetmap-oauth-plugin', '>= 0.4.0.1', :require => 'oauth-plugin'
+gem 'oauth-plugin', '>= 0.4.1', :require => 'oauth-plugin'
 gem 'open_id_authentication', '>= 1.1.0'
 gem 'validates_email_format_of', '>= 1.5.1'
 gem 'composite_primary_keys', '>= 5.0.8'
