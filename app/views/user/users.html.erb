@@ -1,0 +1,11 @@
+  <h3><%= t 'user.view.nearby users' %></h3>
+  <%- nearby = @user.nearby_nonfriends -%>
+  <% if nearby.empty? %>
+    <%= t 'user.view.no nearby users' %>
+  <% else %>
+    <%= link_to t('user.view.nearby_changesets'), {:controller => 'browse', :action => 'nearby'} %><br/>
+    <%= link_to t('user.view.nearby_diaries'), {:controller => 'diary', :action => 'nearby'} %><br/><br/>
+    <ul id="nearbyusers">
+      <%= render :partial => "user/contact", :collection => nearby, :locals => {:this_user => @user} %>
+    </ul>
+  <% end %>

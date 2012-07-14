@@ -14,7 +14,7 @@ class UserController < ApplicationController
   before_filter :require_allow_read_gpx, :only => [:api_gpx_files]
   before_filter :require_cookies, :only => [:login, :confirm]
   before_filter :require_administrator, :only => [:set_status, :delete, :list]
-  before_filter :lookup_this_user, :only => [:set_status, :delete]
+  before_filter :lookup_this_user, :only => [:set_status, :delete, :users]
 
   cache_sweeper :user_sweeper, :only => [:account, :set_status, :delete]
 
@@ -394,6 +394,15 @@ class UserController < ApplicationController
     else
       render_unknown_user params[:display_name]
     end
+    respond_to do |format|
+      format.html {}
+      format.json { render :json => @this_user.to_json, :content_type => "application/json", :status => 200 }
+    end
+  end
+
+  # Get a list of nearby users that can become friends
+  def users
+    @this_user = User.find_by_display_name(params[:display_name])
   end
 
   def make_friend

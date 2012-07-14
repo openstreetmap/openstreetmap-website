@@ -94,6 +94,7 @@ OpenStreetMap::Application.routes.draw do
   match '/browse/changesets' => 'changeset#list', :via => :get
   match '/browse/changesets/feed' => 'changeset#feed', :via => :get, :format => :atom
   match '/browse' => 'changeset#list', :via => :get
+  match '/browse/users' => 'user#users', :nearby => true
 
   # web site
   root :to => 'site#index', :via => [:get, :post]
