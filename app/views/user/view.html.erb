@@ -1,16 +1,38 @@
+<% friends = @this_user.friends.collect { |f| f.befriendee } %>
+
 <div id="user_info">
   <div id="profile">
   <h2><%= user_thumbnail @this_user, :class => "profile_image" %>
       <%= h(@this_user.display_name) %><%= role_icons(@this_user) %>
-      <span class="addendum"><%= link_to t('user.view.my settings'), :controller => 'user', :action => 'account', :display_name => @user.display_name if current_user %></span>
+      <span class="addendum">
+      	<%= link_to t('user.view.my settings'), :controller => 'user', :action => 'account', :display_name => @user.display_name if current_user %>
+
+      	<%- if current_user -%>
+    		| <%= link_to t('t.find friends'), {:controller => "user", :action => "users", :nearby => true} %>
+    		| <%= link_to t('diary_entry.list.title_friends', :count => friends.count), {:as => 'friend_changesets'} %>
+  		<%- end -%>
+  		
+  		| <%= link_to t('user.view.block_history'), :controller => 'user_blocks', :action => 'blocks_on', :display_name => @this_user.display_name %>
+	    <% if @user and @user.moderator? %>
+    	  | <%= link_to t('user.view.blocks by me'), :controller => 'user_blocks', :action => 'blocks_by', :display_name => @user.display_name %>
+    	<% end %>
+    	<br />
+    	<strong><%= @this_user.changesets.count %></strong> <%= link_to t('user.view.edits'), :controller => 'changeset', :action => 'list', :display_name => @this_user.display_name %>
+  		<% if friends.empty? && @user && @this_user.id == @user %>
+    	| <%= t 'user.view.no friends' %>
+  		<% else %>
+    	| <strong><%= friends.count %></strong> <%= current_user ? link_to( t('user.popup.friend', :count => friends.count).downcase, {:as => 'friend_changesets'}) : t('user.popup.friend', :count => friends.count).downcase %>
+  		<% end %>
+    	| <span>joined <%= t('user.view.ago', :time_in_words_ago => time_ago_in_words(@this_user.creation_time)) %></span> |
+    	<%= contribution_terms_status(@this_user) %><br />
+      </span>
   </h2>
 
-    <div id="description"><%= @this_user.description %></div>
-  
-  
+  <div id="description"><%= @this_user.description %></div>
+
     <!-- Displaying user's own profile page -->
     <br /><%= link_to image_tag("icons/page_add.png") + " " + t('user.view.new diary entry'), :controller => 'diary_entry', :action => 'new', :display_name => @user.display_name if current_user %><br />
-    
+
   <% if @user && !current_user %>
     <!-- Displaying another user's profile page -->
     <br /><%= link_to t('user.view.send message'), :controller => 'message', :action => 'new', :display_name => @this_user.display_name %>
@@ -28,27 +50,6 @@
       <br /><%= link_to t('user.view.create_block'), :controller => 'user_blocks', :action => 'new', :display_name => @this_user.display_name %>
     <% end %>
   <% end %>  
-  </div>
-
-  <div id="stats" class="sidebar_section">
-    <% friends = @this_user.friends.collect { |f| f.befriendee } %>
-
-    <strong><%= @this_user.changesets.count %></strong> <%= link_to t('user.view.edits'), :controller => 'changeset', :action => 'list', :display_name => @this_user.display_name %>
-  <% if friends.empty? && @user && @this_user.id == @user %>
-    <br /><%= t 'user.view.no friends' %>
-  <% else %>
-    <br /><strong><%= friends.count %></strong> <%= current_user ? link_to( t('user.popup.friend', :count => friends.count).downcase, {:as => 'friend_changesets'}) : t('user.popup.friend', :count => friends.count).downcase %>
-  <% end %>
-  
-
-    <br /><span>joined <%= t('user.view.ago', :time_in_words_ago => time_ago_in_words(@this_user.creation_time)) %></span><br />
-    <%= contribution_terms_status(@this_user) %><br />
-
-    <br /><%= link_to t('user.view.block_history'), :controller => 'user_blocks', :action => 'blocks_on', :display_name => @this_user.display_name %>
-
-    <% if @user and @user.moderator? %>
-      <br /><%= link_to t('user.view.blocks by me'), :controller => 'user_blocks', :action => 'blocks_by', :display_name => @user.display_name %>
-    <% end %>
   </div>
 
   <% if @user and @user.administrator? && !current_user -%>
@@ -76,33 +77,6 @@
   </div>
   <% end -%>
 
-  <%- if current_user -%>
-  <div id="friends" class="sidebar_section">
-    <h3><%= t('user.view.your friends') %> </h3>
-    <ul id="friends">
-      <%= render :partial => "user/contact", :collection => friends, :locals => {:this_user => @this_user} %>
-    </ul>
-    <%= link_to t('t.find friends'), {:controller => "user", :action => "users", :nearby => true} %>
-    | <%= link_to t('diary_entry.list.title_friends', :count => friends.count), {:as => 'friend_changesets'} %>
-  </div>
-  <%- end -%>
-</div>
-
-
-<div id="stream">
-  <% if current_user %>
-  <div id="map" class="user_map" style="<%= "height: 50px" if @this_user.home_lat.nil? or @this_user.home_lon.nil? %>">
-    <% if @this_user.home_lat.nil? or @this_user.home_lon.nil? %>
-      <p id="no_home_location"><%= raw(t 'user.view.if set location', :settings_link => (link_to t('user.view.settings_link_text'), :controller => 'user', :action => 'account', :display_name => @this_user.display_name)) %></p>
-    <% else %>
-        <%= render :partial => 'map', :locals => {
-            :setting_location => false,
-            :show_other_users => true
-        } %>
-    <% end %>
-  </div>
-  <% end %>
-
   <h3>Recent Activity <%= atom_link_to params.merge({ :page => nil, :action => :feed, :controller => :changeset }) %></h3>
     
   <%= render :partial => "user/activities", :locals => {:activities => @this_user.recent_activities } %>
@@ -120,5 +94,26 @@
    | <%= link_to( t('user.view.diary'), :controller => 'diary_entry', :action => 'list', :display_name => @this_user.display_name) %> 
    <%- end -%>
 
+</div>
 
+<div id="usermap">
+  <% if current_user %>
+  <div id="map" class="user_map" style="<%= "height: 50px" if @this_user.home_lat.nil? or @this_user.home_lon.nil? %>">
+    <% if @this_user.home_lat.nil? or @this_user.home_lon.nil? %>
+      <p id="no_home_location"><%= raw(t 'user.view.if set location', :settings_link => (link_to t('user.view.settings_link_text'), :controller => 'user', :action => 'account', :display_name => @this_user.display_name)) %></p>
+    <% else %>
+        <%= render :partial => 'map', :locals => {
+            :setting_location => false,
+            :show_other_users => true
+        } %>
+    <% end %>
+  </div>
+  <% end %>
+  
+  <div id="friends" class="sidebar_section">
+    		<h3><%= t('user.view.your friends') %> </h3>
+    		<ul id="friends">
+      			<%= render :partial => "user/contact", :collection => friends, :locals => {:this_user => @this_user} %>
+    		</ul>
+    		</div>
 </div>

@@ -1,16 +1,27 @@
-    <%- activity_link = {:controller => 'browse', :action => 'changeset', :id => activity.id } %>
+<%- activity_link = {:controller => 'browse', :action => 'changeset', :id => activity.id } %>
+
+<div class="activity_body">
   	<span class="summary">
-  	<% if activity.tags['comment'].to_s != '' -%>
-      <%= link_to image_tag("icons/map_edit.png", :class => "activity_image") + linkify(h(activity.tags['comment'])), activity_link %>
-    <% else -%>
-      <%= link_to( image_tag("icons/map_edit.png", :class => "activity_image") + t('changeset.changeset.no_comment'), activity_link) %>
-    <% end -%>
+  	<%= image_tag("icons/map_edit.png") %>
+	<% if @user == activity.activity_actor %>
+    You
+    <% else %>
+    <%= link_to activity.activity_actor.display_name, {:controller => 'user', :action => 'view', :display_name => activity.activity_actor.display_name} %>
+    <% end %>
+	made
+	<%= link_to linkify(activity.num_changes.to_s)  + ' changes', activity_link %>
   	</span>
-  	<span class="description"><%= activity.summary %></span>
+  	
+  	<div class="activity_info">
 	<span class="dtstamp addendum" title="<%= activity.closed_at.iso8601 %>">
  	<% if activity.closed_at > DateTime.now -%> 
  		<%= t'changeset.changeset.still_editing' %>
 	<% else -%>
 		<%= t('user.view.ago', :time_in_words_ago => time_ago_in_words(activity.closed_at))  %>
 	<% end -%>
-  	</span>
+	<% if activity.bbox %>|
+	<%= link_to "show map", :controller => "site", :action => "index", :class => "activity_link", :minlon => activity.bbox.min_lon, :minlat => activity.bbox.min_lat, :maxlon => activity.bbox.max_lon, :maxlat => activity.bbox.max_lat, :box => "yes" %>
+	<% end %>
+	</span>
+  	</div>
+</div>

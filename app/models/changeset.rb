@@ -61,6 +61,10 @@ class Changeset < ActiveRecord::Base
     end
   end
 
+  def activity_actor
+    return self.user
+  end
+
   def self.from_xml(xml, create=false)
     begin
       p = XML::Parser.string(xml, :options => XML::Parser::Options::NOERROR)

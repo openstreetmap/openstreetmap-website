@@ -256,9 +256,12 @@ public
     self.changesets.includes(:changeset_tags).limit(limit)
   end
 
-  def recent_activities(limit = 5)
-    (self.recent_changesets + self.diary_entries).sort {|a,b| b.created_at <=> a.created_at}
+  def recent_activities(limit = 10)
+    nearby_changesets = []
+    self.nearby.each {|user| nearby_changesets += user.recent_changesets.to_a}
+    (self.recent_changesets + self.diary_entries + nearby_changesets).sort {|a,b| b.created_at <=> a.created_at}[0..limit - 1]
   end
+
 private
 
   def set_defaults
