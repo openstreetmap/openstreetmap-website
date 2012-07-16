@@ -65,6 +65,24 @@ class Changeset < ActiveRecord::Base
     return self.user
   end
 
+  # Returns a list of nodes that represent city/town/village that is nearby the center of changeset's bounding box.
+  def related_places(radius = 5)
+    bb = self.bbox.to_unscaled
+
+    gc = OSM::GreatCircle.new(bb.centre_lat, bb.centre_lon)
+    sql_for_distance = gc.sql_for_distance_scaled('latitude', 'longitude')
+
+    sql=<<-EOF
+    SELECT n.*, #{sql_for_distance} AS distance
+      FROM current_nodes n
+      INNER JOIN current_node_tags tag_place ON (tag_place.node_id = n.id AND tag_place.k = 'place' AND tag_place.v IN ('city', 'village', 'town'))
+    WHERE n.visible=TRUE AND
+      #{sql_for_distance} < #{radius}
+    ORDER BY distance
+    EOF
+    return Node.find_by_sql(sql)
+  end
+
   def self.from_xml(xml, create=false)
     begin
       p = XML::Parser.string(xml, :options => XML::Parser::Options::NOERROR)
