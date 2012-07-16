@@ -1,4 +1,5 @@
 <% friends = @this_user.friends.collect { |f| f.befriendee } %>
+<% nearby = @this_user.nearby - friends %>
 
 <div id="user_info">
   <div id="profile">
@@ -8,7 +9,6 @@
       	<%= link_to t('user.view.my settings'), :controller => 'user', :action => 'account', :display_name => @user.display_name if current_user %>
 
       	<%- if current_user -%>
-    		| <%= link_to t('t.find friends'), {:controller => "user", :action => "users", :nearby => true} %>
     		| <%= link_to t('diary_entry.list.title_friends', :count => friends.count), {:as => 'friend_changesets'} %>
   		<%- end -%>
   		
@@ -109,11 +109,25 @@
     <% end %>
   </div>
   <% end %>
-  
+
   <div id="friends" class="sidebar_section">
-    		<h3><%= t('user.view.your friends') %> </h3>
-    		<ul id="friends">
-      			<%= render :partial => "user/contact", :collection => friends, :locals => {:this_user => @this_user} %>
-    		</ul>
-    		</div>
+    <h3><%= t('user.view.your friends') %> </h3>
+    <% if friends.empty? %>
+      <%= t 'user.view.no friends' %>
+    <% else %>
+    <ul id="friends">
+        <%= render :partial => "user/contact", :collection => friends, :locals => {:this_user => @this_user} %>
+    </ul>
+    <% end %>
+  </div>
+
+  <h3><%= t 'user.view.nearby users' %></h3>
+
+  <% if nearby.empty? %>
+    <%= t 'user.view.no nearby users' %>
+  <% else %>
+    <table id="nearbyusers">
+      <%= render :partial => "contact", :collection => nearby %>
+    </table>
+  <% end %>
 </div>

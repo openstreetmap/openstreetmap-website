@@ -3,9 +3,9 @@
 
     <div>
     <%= link_to h(contact.display_name), :controller => 'user', :action => 'view',  :display_name => contact.display_name, :class => "fn" %>
-    <% if this_user.home_lon and this_user.home_lat and contact.home_lon and contact.home_lat %>
+    <% if @this_user.home_lon and @this_user.home_lat and contact.home_lon and contact.home_lat %>
     <span class="addendum">
-      <% distance = this_user.distance(contact) %>
+      <% distance = @this_user.distance(contact) %>
       <% if distance < 1 %>
         (<%= t 'user.view.m away', :count => (distance * 1000).round %>)
       <% else %>
