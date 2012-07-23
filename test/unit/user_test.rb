@@ -81,12 +81,12 @@ class UserTest < ActiveSupport::TestCase
     # Due to sanitisation in the view some of these that you might not 
     # expact are allowed
     # However, would they affect the xml planet dumps?
-    ok = [ "Name", "'me", "he\"", "#ping", "<hr>", "*ho", "\"help\"@", 
+    ok = [ "Name", "'me", "he\"", "<hr>", "*ho", "\"help\"@", 
            "vergrößern", "ルシステムにも対応します", "輕觸搖晃的遊戲" ]
     # These need to be 3 chars in length, otherwise the length test above
     # should be used.
     bad = [ "<hr/>", "test@example.com", "s/f", "aa/", "aa;", "aa.",
-            "aa,", "aa?", "/;.,?", "も対応します/" ]
+            "aa,", "aa?", "/;.,?", "も対応します/", "#ping" ]
     ok.each do |display_name|
       user = users(:normal_user)
       user.display_name = display_name

@@ -33,7 +33,7 @@ class User < ActiveRecord::Base
   validates_length_of :display_name, :within => 3..255, :allow_nil => true
   validates_email_format_of :email, :if => Proc.new { |u| u.email_changed? }
   validates_email_format_of :new_email, :allow_blank => true, :if => Proc.new { |u| u.new_email_changed? }
-  validates_format_of :display_name, :with => /^[^\/;.,?%]*$/, :if => Proc.new { |u| u.display_name_changed? }
+  validates_format_of :display_name, :with => /^[^\/;.,?%#]*$/, :if => Proc.new { |u| u.display_name_changed? }
   validates_format_of :display_name, :with => /^\S/, :message => "has leading whitespace", :if => Proc.new { |u| u.display_name_changed? }
   validates_format_of :display_name, :with => /\S$/, :message => "has trailing whitespace", :if => Proc.new { |u| u.display_name_changed? }
   validates_numericality_of :home_lat, :allow_nil => true
