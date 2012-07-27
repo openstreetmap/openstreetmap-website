@@ -517,7 +517,7 @@ private
         if user = User.find_by_openid_url(identity_url)
           case user.status
             when "pending" then
-              failed_login t('user.login.account not active')
+              failed_login t('user.login.account not active', :reconfirm => url_for(:action => 'confirm_resend', :display_name => user.display_name))
             when "active", "confirmed" then
               successful_login(user)
             when "suspended" then
