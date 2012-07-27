@@ -233,6 +233,7 @@ private
     if pass_crypt_confirmation
       self.pass_salt = OSM::make_token(8)
       self.pass_crypt = OSM::encrypt_password(pass_crypt, pass_salt)
+      self.pass_crypt_confirmation = nil
     end
   end
 end
