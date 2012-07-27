@@ -76,7 +76,7 @@ class User < ActiveRecord::Base
       user = nil
     end
 
-    token.update_attribute(:expiry, 1.week.from_now) if token and user
+    token.update_column(:expiry, 1.week.from_now) if token and user
 
     return user
   end 
