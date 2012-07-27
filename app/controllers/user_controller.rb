@@ -534,8 +534,8 @@ private
           # to the create account page with username and email filled
           # in if they have been given by the OpenID provider through
           # the simple registration protocol.
-          nickname = sreg["nickname"] || ax["http://axschema.org/namePerson/friendly"]
-          email = sreg["email"] || ax["http://axschema.org/contact/email"]
+          nickname = sreg["nickname"] || ax["http://axschema.org/namePerson/friendly"].first
+          email = sreg["email"] || ax["http://axschema.org/contact/email"].first
           redirect_to :controller => 'user', :action => 'new', :nickname => nickname, :email => email, :openid => identity_url
         end
       elsif result.missing?
