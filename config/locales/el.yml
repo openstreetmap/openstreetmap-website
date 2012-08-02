@@ -5,6 +5,7 @@
 # Author: Consta
 # Author: Crazymadlover
 # Author: Evropi
+# Author: Geraki
 # Author: Kiriakos
 # Author: Logictheo
 # Author: Omnipaedista
@@ -86,7 +87,6 @@ el:
     changeset: 
       changeset: "Ομάδα αλλαγών: %{id}"
       changesetxml: Ομάδας αλλαγών XML
-      download: Λήψη %{changeset_xml_link} ή %{osmchange_xml_link}
       feed: 
         title: Ομάδα αλλαγών %{id}
         title_comment: Ομάδα αλλαγών %{id} - %{comment}
@@ -144,7 +144,6 @@ el:
         next_changeset_tooltip: Επόμενη επεξεργασία από τον %{user}
         prev_changeset_tooltip: Προηγούμενη επεξεργασία από τον %{user}
     node: 
-      download: "%{download_xml_link}, %{view_history_link} ή %{edit_link}"
       download_xml: Λήψη XML
       edit: επεξεργασία
       node: Κόμβος
@@ -154,7 +153,6 @@ el:
       coordinates: "Συντεταγμένες:"
       part_of: "Κομμάτι του:"
     node_history: 
-      download: "%{download_xml_link} ή %{view_details_link}"
       download_xml: Λήψη XML
       node_history: Ιστορικό Κόμβου
       node_history_title: "Ιστορικό Κόμβου: %{node_name}"
@@ -175,7 +173,6 @@ el:
         relation: σχέση
         way: διαδρομή
     relation: 
-      download: "%{download_xml_link} ή %{view_history_link}"
       download_xml: Λήψη XML
       relation: Σχέση
       relation_title: "Σχέση: %{relation_name}"
@@ -184,7 +181,6 @@ el:
       members: "Μέλη:"
       part_of: "Μέρος του:"
     relation_history: 
-      download: "%{download_xml_link} ή %{view_details_link}"
       download_xml: Λήψη XML
       relation_history: Ιστορικό Σχέσης
       relation_history_title: "Ιστορικό σχέσης: %{relation_name}"
@@ -200,14 +196,14 @@ el:
       view_data: Προβολή δεδομένων για την τρέχουσα προβολή χάρτη
     start_rjs: 
       data_frame_title: Δεδομένα
-      data_layer_name: Δεδομένα
+      data_layer_name: Περιήγηση Δεδομένων Χάρτη
       details: Λεπτομέρειες
       drag_a_box: Σύρε ένα πλαίσιο στο χάρτη για να επιλέξεις μια περιοχή
       edited_by_user_at_timestamp: Επεξεργάστηκε από τον [[user]] στις [[timestamp]]
       hide_areas: Απόκρυψη περιοχών
       history_for_feature: Ιστορικό για [[feature]]
       load_data: Φόρτωση δεδομένων
-      loaded_an_area_with_num_features: "Έχεις φορτώσει μια περιοχή που περιέχει [[num_features]] χαρακτηριστικά. Γενικά, μερικοί browsers μπορεί να μην αντέχουν να δείξουν τόσα πολλά στοιχεία. Γενικά, οι browsers δουλεύουν καλύτερα δείχνοντας λιγότερα από 100 χαρακτηριστικά τη φορά: με οτιδήποτε άλλο ο browser μπορεί να γίνει αργός ή να μην αντιδρά. Αν είσαι σίγουρος ότι θες να δεις αυτά τα δεδομένα, κάνε κλικ στο επόμενο κουμπί."
+      loaded_an_area_with_num_features: "Έχεις φορτώσει μια περιοχή που περιέχει [[num_features]] χαρακτηριστικά. Γενικά, μερικοί browsers μπορεί να μην αντέχουν να δείξουν τόσα πολλά στοιχεία. Γενικά, οι browsers δουλεύουν καλύτερα δείχνοντας λιγότερα από [[max_features]] χαρακτηριστικά τη φορά: με οτιδήποτε άλλο ο browser μπορεί να γίνει αργός ή να μην αντιδρά. Αν είσαι σίγουρος ότι θες να δεις αυτά τα δεδομένα, κάνε κλικ στο παρακάτω κουμπί."
       loading: Φόρτωση...
       manually_select: Χειροκίνητη επιλογή διαφορετικής περιοχής
       object_list: 
@@ -246,7 +242,6 @@ el:
         relation: σχέση
         way: Διαδρομή
     way: 
-      download: "%{download_xml_link}, %{view_history_link} ή %{edit_link}"
       download_xml: Λήψη XML
       edit: επεξεργασία
       view_history: Προβολή ιστορικού
@@ -259,7 +254,6 @@ el:
       nodes: "Κόμβοι:"
       part_of: "Μέρος του:"
     way_history: 
-      download: "%{download_xml_link} ή %{view_details_link}"
       download_xml: Λήψη XML
       view_details: Προβολή λεπτομερειών
       way_history: Ιστορικό Διαδρομής
@@ -308,6 +302,7 @@ el:
     comments: 
       ago: "%{ago} πριν"
       comment: Σχόλιο
+      has_commented_on: Ο {display_name} % έχει σχολιάσει στις ακόλουθες καταχωρήσεις στο ημερολόγιο
       newer_comments: Νεότερα Σχόλια
       older_comments: Παλαιότερα Σχόλια
       post: Καταχώρηση
@@ -401,6 +396,7 @@ el:
       licence: Άδεια
       longitude: "Γεω. Μη.:"
       manually_select: Χειροκίνητη επιλογή διαφορετικής περιοχής
+      map_image: Εικόνα Χάρτη (δείχνει τυπικό επίπεδο)
       max: μεγ
       options: Επιλογές
       osm_xml_data: Δεδομένα OpenStreetMap XML
@@ -460,7 +456,15 @@ el:
       suffix_place: ", %{distance} %{direction} από %{placename}"
     search_osm_nominatim: 
       prefix: 
+        aeroway: 
+          aerodrome: Αεροδρόμιο
+          gate: Πύλη
+          helipad: Ελικοδρόμιο
+          runway: Διάδρομος
+          taxiway: Τροχόδρομος
+          terminal: Τερματικός σταθμός
         amenity: 
+          WLAN: Πρόσβαση WiFi
           airport: Αεροδρόμιο
           arts_centre: Κέντρο Τεχνών
           atm: ATM
@@ -535,6 +539,7 @@ el:
           shelter: Καταφύγιο
           shop: Κατάστημα
           shopping: Αγορές
+          social_centre: Κοινωνικό κέντρο
           studio: Στούντιο
           supermarket: Σουπερμάρκετ
           swimming_pool: Πισίνα
@@ -551,9 +556,12 @@ el:
           youth_centre: Κέντρο Νεολαίας
         boundary: 
           administrative: Διοικητικό Όριο
+          census: Όριο απογραφής
           national_park: Εθνικό πάρκο
           protected_area: Προστατευόμενη Περιοχή
         bridge: 
+          aqueduct: Υδραγωγείο
+          suspension: Κρεμαστή Γέφυρα
           "yes": Γέφυρα
         building: 
           "yes": Κτίριο
@@ -564,6 +572,7 @@ el:
           emergency_access_point: Σημείο Πρόσβασης Έκτακτης Ανάγκης
           footway: Μονοπάτι
           ford: Κοιτόστρωση
+          milestone: Ορόσημο
           motorway: Αυτοκινητόδρομος
           motorway_junction: Διασταύρωση Αυτοκινητόδρομου
           motorway_link: Αυτοκινητόδρομος
@@ -574,14 +583,18 @@ el:
           primary_link: Κύρια Οδός
           raceway: Αυτοκινητοδρόμιο
           residential: Κατοικίες
+          rest_area: Περιοχή Ανάπαυσης
           road: Δρόμος
           secondary: Δευτερεύουσα Οδός
           secondary_link: Δευτερεύουσα Οδός
+          service: Δρόμος Εξυπηρέτησης
           services: Υπηρεσίες Αυτοκινητοδρόμου
           speed_camera: Κάμερα ταχύτητας
           steps: Σκαλοπάτια
+          stile: Στήλη
           track: Χωματόδρομος
-          trail: Διαδρομή
+          trail: Μονοπάτι
+          trunk_link: Εθνική Οδός
           unclassified: Αταξινόμητη Οδός
           unsurfaced: Δρόμος χωρίς Επίστρωση
         historic: 
@@ -599,8 +612,10 @@ el:
           museum: Μουσείο
           ruins: Ερείπια
           tower: Πύργος
+          wayside_shrine: Εκκλησάκι δρόμου
           wreck: Ναυάγιο
         landuse: 
+          allotments: Λαχανόκηποι
           basin: Λεκανοπέδιο
           cemetery: Κοιμητήριο
           commercial: Εμπορική Περιοχή
@@ -609,6 +624,7 @@ el:
           farmland: Γεωργική γη
           farmyard: Αγρόκτημα
           forest: Δάσος
+          garages: Κλειστοί χώροι στάθμευσης
           grass: Γρασίδι
           industrial: Βιομηχανική Περιοχή
           landfill: Χωματερή
@@ -618,6 +634,7 @@ el:
           nature_reserve: Φυσικό Καταφύγιο
           orchard: Περιβόλι
           park: Πάρκο
+          piste: Πίστα σκι
           quarry: Λατομείο
           railway: Σιδηρόδρομος
           recreation_ground: Χώρος Αναψυχής
@@ -629,21 +646,27 @@ el:
         leisure: 
           beach_resort: Παραθαλάσσιο θέρετρο
           bird_hide: Καταφύγιο Πουλιών
+          common: Κοινόχρηστη γη
           fishing: Αλιευτική Περιοχή
           garden: Κήπος
           golf_course: Γήπεδο Γκολφ
           ice_rink: Παγοδρόμιο
           marina: Μαρίνα
           miniature_golf: Μίνι Γκολφ
+          nature_reserve: Φυσικό Καταφύγιο
           park: Πάρκο
+          pitch: Γήπεδο Αθλητισμού
           playground: Παιδική Χαρά
           recreation_ground: Χώρος Αναψυχής
           sauna: Σάουνα
+          slipway: Γλίστρα
           sports_centre: Αθλητικό Κέντρο
           stadium: Στάδιο
           swimming_pool: Πισίνα
         military: 
+          airfield: Στρατιωτικό αεροδρόμιο
           barracks: Στρατώνας
+          bunker: Οχυρό
         natural: 
           bay: Κόλπος
           beach: Παραλία
@@ -669,6 +692,8 @@ el:
           river: Ποτάμι
           rock: Βράχος
           scrub: Θαμνότοπος
+          spring: Πηγή
+          stone: Πέτρα
           strait: Πορθμός
           tree: Δέντρο
           valley: Κοιλάδα
@@ -681,8 +706,13 @@ el:
           accountant: Λογιστής
           architect: Αρχιτέκτονας
           company: Εταιρεία
+          employment_agency: Οργανισμός Απασχόλησης
+          estate_agent: Κτηματομεσιτικό γραφείο
           lawyer: Δικηγόρος
+          ngo: Γραφείο ΜΚΟ
+          telecommunication: Γραφείο τηλεπικοινωνιών
           travel_agent: Ταξιδιωτικό Πρακτορείο
+          "yes": Γραφείο
         place: 
           airport: Αεροδρόμιο
           city: Πόλη
@@ -694,7 +724,9 @@ el:
           houses: Σπίτια
           island: Νησί
           islet: Νησίδα
+          isolated_dwelling: Απομονωμένη οικεία
           locality: Τοποθεσία
+          moor: Δέστρα
           municipality: Δήμος
           postcode: Ταχυδρομικός Κώδικας
           region: Περιοχή
@@ -713,6 +745,7 @@ el:
           historic_station: Ιστορική Σιδηροδρομικός Σταθμός
           junction: Σιδηροδρομικός Κόμβος
           level_crossing: Ισόπεδη Διάβαση
+          light_rail: Ελαφρύ τρένο
           narrow_gauge: Σιδηρόδρομος Στενής Τροχιάς
           station: Σιδηροδρομικός Σταθμός
           subway: Σταθμός Μετρό
@@ -848,15 +881,15 @@ el:
     partners_ucl: UCL VR Centre
     sign_up: εγγραφή
     sign_up_tooltip: Δημιουργήστε λογαριασμό για επεξεργασία
-    tag_line: Ο Ελεύθ. Παγκ. Χάρτης Βίκι
+    tag_line: O Ελεύθερος Wiki Παγκόσμιος Χάρτης
     user_diaries: Ημερολόγια Χρηστών
     user_diaries_tooltip: Προβολή ημερολογίων χρηστών
     view: Προβολή
     view_tooltip: Προβολή του χάρτη
     welcome_user: Καλώς ορίσατε, %{user_link}
     welcome_user_link_tooltip: Η προσωπική σας σελίδα
-    wiki: Βίκι
-    wiki_title: Ιστοσελίδα βίκι για το έργο
+    wiki: Wiki
+    wiki_title: Ιστοσελίδα wiki για το έργο
   license_page: 
     foreign: 
       english_link: της πρωτότυπης Αγγλικής
@@ -1155,8 +1188,6 @@ el:
     trace_optionals: 
       tags: Ετικέτες
     trace_paging_nav: 
-      next: Επόμενο »
-      previous: « Προηγούμενο
       showing_page: Εμφάνιση σελίδας %{page}
     view: 
       delete_track: Διαγραφή αυτού του ίχνους

@@ -105,7 +105,6 @@ de:
     changeset: 
       changeset: "Änderungssatz: %{id}"
       changesetxml: Änderungssatz-XML
-      download: Als %{changeset_xml_link} oder %{osmchange_xml_link} herunterladen.
       feed: 
         title: "Änderungssatz: %{id}"
         title_comment: Änderungssatz %{id} - %{comment}
@@ -167,9 +166,8 @@ de:
         next_changeset_tooltip: Nächste Änderung von %{user}
         prev_changeset_tooltip: Vorherige Änderung von %{user}
     node: 
-      download: "%{download_xml_link}, %{view_history_link} oder %{edit_link}"
       download_xml: XML herunterladen
-      edit: Bearbeiten
+      edit: Knoten bearbeiten
       node: Knoten
       node_title: "Knoten: %{node_name}"
       view_history: Chronik anzeigen
@@ -177,11 +175,10 @@ de:
       coordinates: "Koordinaten:"
       part_of: "Teil von:"
     node_history: 
-      download: "%{download_xml_link} oder %{view_details_link}"
       download_xml: XML herunterladen
       node_history: Knoten-Chronik
       node_history_title: "Knoten-Chronik: %{node_name}"
-      view_details: Detailseite anzeigen
+      view_details: Einzelheiten ansehen
     not_found: 
       sorry: "%{type} mit der Nummer %{id} konnte leider nicht gefunden werden. Du hast dich möglicherweise vertippt oder bist einem ungültigem Link gefolgt."
       type: 
@@ -200,7 +197,6 @@ de:
         relation: Relation
         way: Weg
     relation: 
-      download: "%{download_xml_link} oder %{view_history_link}"
       download_xml: XML herunterladen
       relation: Relation
       relation_title: "Relation: %{relation_name}"
@@ -209,11 +205,10 @@ de:
       members: "Mitglieder:"
       part_of: "Mitglied von:"
     relation_history: 
-      download: "%{download_xml_link} oder %{view_details_link}"
       download_xml: XML herunterladen
       relation_history: Relations-Chronik
       relation_history_title: "Relations-Chronik: %{relation_name}"
-      view_details: Details anzeigen
+      view_details: Einzelheiten anzeigen
     relation_member: 
       entry_role: "%{type} %{name} als %{role}"
       type: 
@@ -232,7 +227,7 @@ de:
       hide_areas: Gebiete ausblenden
       history_for_feature: Chronik für [[feature]]
       load_data: Daten laden
-      loaded_an_area_with_num_features: Du hast einen Bereich geladen, der [[num_features]] Elemente enthält. Manche Browser haben Probleme bei der Darstellung einer so großen Datenmenge. Normalerweise ist es am besten, nur weniger als 100 Elemente zu betrachten; alles andere macht deinen Browser langsam bzw. lässt ihn nicht mehr auf Eingaben reagieren. Wenn du sicher bist, dass du diese Daten darstellen willst, klicke auf „Daten laden“ unten.
+      loaded_an_area_with_num_features: Du hast einen Bereich geladen, der [[num_features]] Elemente enthält. Manche Browser haben Probleme bei der Darstellung einer solch großen Datenmenge. Normalerweise ist es am besten, nur weniger als [[max_features]] Elemente zu betrachten. Alles andere macht deinen Browser langsam bzw. lässt ihn nicht mehr auf Eingaben reagieren. Sofern du dir sicher bist, dass du dir diese Daten anzeigen lassen möchtest, klicke unten auf „Daten laden“.
       loading: Lade …
       manually_select: Einen anderen Kartenausschnitt manuell auswählen
       object_list: 
@@ -271,9 +266,8 @@ de:
         relation: die Relation
         way: den Weg
     way: 
-      download: "%{download_xml_link}, %{view_history_link} oder %{edit_link}"
       download_xml: Als XML herunterladen
-      edit: Bearbeiten
+      edit: Weg bearbeiten
       view_history: Chronik anzeigen
       way: Weg
       way_title: "Weg: %{way_name}"
@@ -284,9 +278,8 @@ de:
       nodes: "Knoten:"
       part_of: "Teil von:"
     way_history: 
-      download: "%{download_xml_link} oder %{view_details_link}"
       download_xml: Als XML herunterladen
-      view_details: Detailseite anzeigen
+      view_details: Einzelheiten anzeigen
       way_history: Wege-Chronik
       way_history_title: "Chronik des Wegs: %{way_name}"
   changeset: 
@@ -315,6 +308,8 @@ de:
       description_nearby: Änderungssätze von Benutzern in der Nähe
       description_user: Letzte Änderungen von %{user}
       description_user_bbox: Letzte Änderungen von %{user} in %{bbox}
+      empty_anon_html: Bislang wurden keine Bearbeitungen gemacht.
+      empty_user_html: Bislang hast du noch keine Bearbeitungen gemacht. Lies die <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.3'>Anleitung für Einsteiger</a> für Informationen hierzu.
       heading: Änderungssätze
       heading_bbox: Änderungssätze
       heading_friend: Änderungssätze
@@ -1438,6 +1433,7 @@ de:
       visibility: "Sichtbarkeit:"
       visibility_help: Was heißt das?
     list: 
+      empty_html: Bislang ist hier noch nichts vorhanden. <a href='%{upload_link}'>Lade eine neue Spur hoch</a> oder informiere dich auf folgender <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>Wikiseite</a> über das Aufzeichnen von GPS-Spuren.
       public_traces: Öffentliche GPS-Tracks
       public_traces_from: Öffentliche GPS-Tracks von %{user}
       tagged_with: " gekennzeichnet mit %{tags}"
@@ -1483,8 +1479,8 @@ de:
     trace_optionals: 
       tags: Tags
     trace_paging_nav: 
-      next: nächste
-      previous: vorherige
+      newer: Neuere Spuren
+      older: Ältere Spuren
       showing_page: Seite %{page}
     view: 
       delete_track: Diesen Track löschen
@@ -1827,11 +1823,14 @@ de:
       creator_name: Urheber
       display_name: Gesperrter Benutzer
       edit: Bearbeiten
+      next: Nächste »
       not_revoked: (nicht aufgehoben)
+      previous: « Vorige
       reason: Grund der Sperre
       revoke: Aufheben!
       revoker_name: Aufgehoben von
       show: Anzeigen
+      showing_page: Seite %{page}
       status: Status
     period: 
       one: 1 Stunde
