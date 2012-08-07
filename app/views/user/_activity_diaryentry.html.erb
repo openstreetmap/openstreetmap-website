@@ -1,0 +1,9 @@
+  	<div>
+  		<%- activity_link = {:controller => 'diary_entry', :action => 'view', 
+	          :display_name => activity.user.display_name, :id => activity.id} -%>
+	  	<span class="summary"><%= link_to image_tag("icons/page.png", :class => "activity_image") + activity.title, activity_link %></span> <br />
+	  	<span class="description"><%= activity.summary %></span>
+	  	<span class="dtstamp addendum" title="<%= activity.created_at.iso8601 %>">
+	  		<%= link_to t('user.view.ago', :time_in_words_ago => time_ago_in_words(activity.created_at)), activity_link %>
+	    </span>
+    </div>

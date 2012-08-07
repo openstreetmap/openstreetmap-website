@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   require 'xml/libxml'
 
+
   has_many :traces, :conditions => { :visible => true }
   has_many :diary_entries, :order => 'created_at DESC'
   has_many :diary_comments, :order => 'created_at DESC'
@@ -133,6 +134,11 @@ class User < ActiveRecord::Base
     return nearby
   end
 
+  # Returns array of users who could be your friends but aren't yet
+  def nearby_nonfriends(radius = NEARBY_RADIUS, num = NEARBY_USERS)
+    return self.nearby(radius,num) - self.friend_users
+  end
+
   def distance(nearby_user)
     return OSM::GreatCircle.new(self.home_lat, self.home_lon).distance(nearby_user.home_lat, nearby_user.home_lon)
   end
@@ -220,6 +226,40 @@ class User < ActiveRecord::Base
   # return an oauth access token for a specified application
   def access_token(application_key)
     return ClientApplication.find_by_key(application_key).access_token_for_user(self)
+  end
+
+
+public
+
+  #  Helpers for outputting only public data via JSON
+  cattr_accessor :public_fields
+  @@public_fields = [:id, :display_name]
+
+  alias_method :ar_to_json, :to_json  
+
+  def to_json(options = {})
+    options[:only] = @@public_fields
+    options[:methods] = [:terms_agreed, :terms_seen, :statistics]
+    ar_to_json(options)
+  end
+
+  # Returns a hash of statistics.
+  # Currently this is limited, will extend for usage history.
+  def statistics
+    {
+      :changesets => self.changesets.count,
+      :friends => self.friends.count
+    }
+  end
+
+  def recent_changesets(limit = 5)
+    self.changesets.includes(:changeset_tags).limit(limit)
+  end
+
+  def recent_activities(limit = 10)
+    nearby_changesets = []
+    self.nearby.each {|user| nearby_changesets += user.recent_changesets.to_a}
+    (self.recent_changesets + self.diary_entries + nearby_changesets).sort {|a,b| b.created_at <=> a.created_at}[0..limit - 1]
   end
 
 private

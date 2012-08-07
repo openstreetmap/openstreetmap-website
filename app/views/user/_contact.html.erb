@@ -1,35 +1,41 @@
-<tr>
-  <td rowspan="3">
-    <%= user_thumbnail contact %>
-  </td>
-  <td>
-    <%= link_to h(contact.display_name), :controller => 'user', :action => 'view',  :display_name => contact.display_name %>
+<li class="vcard">
+    <%= user_thumbnail contact, :class => "profile_image" %>
+
+    <div>
+    <%= link_to h(contact.display_name), :controller => 'user', :action => 'view',  :display_name => contact.display_name, :class => "fn" %>
     <% if @this_user.home_lon and @this_user.home_lat and contact.home_lon and contact.home_lat %>
+    <span class="addendum">
       <% distance = @this_user.distance(contact) %>
       <% if distance < 1 %>
         (<%= t 'user.view.m away', :count => (distance * 1000).round %>)
       <% else %>
         (<%= t 'user.view.km away', :count => distance.round %>)
       <% end %>
-    <% end %>
-  </td>
-</tr>
-<tr>
-  <td>
+    </span>
+    <% end %> 
+    <br />
     <% changeset = contact.changesets.first %>
     <% if changeset %>
-      <%= t('user.view.latest edit', :ago => t('user.view.ago', :time_in_words_ago => time_ago_in_words(changeset.created_at))) %>
+      
       <% comment = changeset.tags['comment'].to_s != '' ? changeset.tags['comment'] : t('changeset.changeset.no_comment') %>
+
       "<%= link_to(comment,
                           {:controller => 'browse', :action => 'changeset', :id => changeset.id},
                           {:title => t('changeset.changeset.view_changeset_details')})
       %>"
+      <span class="addendum"><%= t('user.view.ago', :time_in_words_ago => time_ago_in_words(changeset.created_at)) %></span>
     <% else %>
      <%= t'changeset.changeset.no_edits' %>
     <% end %>
-  </td>
-<tr>
-  <td>
+
+    <% diary = contact.diary_entries.first %>
+    <% if diary %>
+      <br />  
+      <%= link_to(diary.title, {:controller => 'diary_entry', :action => 'view', :id => diary.id}) %>
+      <span class="addendum"><%= t('user.view.ago', :time_in_words_ago => time_ago_in_words(diary.created_at)) %></span>
+    <% end %>
+
+    <br />
     <%= link_to t('user.view.send message'), :controller => 'message', :action => 'new', :display_name => contact.display_name %>
     |
     <% if @user.is_friends_with?(contact) %>
@@ -37,5 +43,5 @@
     <% else %>
       <%= link_to t('user.view.add as friend'), :controller => 'user', :action => 'make_friend', :display_name => contact.display_name, :referer => request.fullpath %>
     <% end %>
-  </td>
-</tr>
+    </div>
+</li>

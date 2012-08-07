@@ -365,6 +365,11 @@ module OSM
     def sql_for_distance(lat_field, lon_field)
       "6372.795 * 2 * asin(sqrt(power(sin((radians(#{lat_field}) - #{@lat}) / 2), 2) + cos(#{@lat}) * cos(radians(#{lat_field})) * power(sin((radians(#{lon_field}) - #{@lon})/2), 2)))"
     end
+
+    # get the SQL to use to calculate distance (assumes that lat_field and lon_field contain scaled integers)
+    def sql_for_distance_scaled(lat_field, lon_field)
+      "6372.795 * 2 * asin(sqrt(power(sin((radians(#{lat_field} / #{GeoRecord::SCALE}.0) - #{@lat}) / 2), 2) + cos(#{@lat}) * cos(radians(#{lat_field} / #{GeoRecord::SCALE}.0)) * power(sin((radians(#{lon_field} / #{GeoRecord::SCALE}.0) - #{@lon})/2), 2)))"
+    end
   end
 
   class GeoRSS
