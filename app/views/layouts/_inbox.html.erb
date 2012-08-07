@@ -1,7 +1,13 @@
-<%= link_to raw(t('layouts.inbox',
-    :count => @user.new_messages.size > 0 ? "<span class='count-number'>#{@user.new_messages.size}</span>" : '')),
-    {
-        :action => 'inbox',
-        :display_name => @user.display_name,
-        :controller => 'message'
-    }, { :id => 'inboxanchor' } %>
+<%=
+  link_to(
+    t("layouts.inbox_html",
+      :count => @user.new_messages.size > 0 ?
+                content_tag(
+                  :span, @user.new_messages.size, :class => "count-number"
+                ) :
+                ""
+    ),
+    inbox_path(:display_name => @user.display_name),
+    :id => "inboxanchor"
+  )
+%>
