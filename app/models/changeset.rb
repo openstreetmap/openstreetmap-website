@@ -1,7 +1,7 @@
 class Changeset < ActiveRecord::Base
   require 'xml/libxml'
 
-  belongs_to :user
+  belongs_to :user, :counter_cache => true
 
   has_many :changeset_tags
 

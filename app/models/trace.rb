@@ -1,7 +1,7 @@
 class Trace < ActiveRecord::Base
   self.table_name = "gpx_files"
 
-  belongs_to :user
+  belongs_to :user, :counter_cache => true
   has_many :tags, :class_name => 'Tracetag', :foreign_key => 'gpx_id', :dependent => :delete_all
   has_many :points, :class_name => 'Tracepoint', :foreign_key => 'gpx_id', :dependent => :delete_all
 
