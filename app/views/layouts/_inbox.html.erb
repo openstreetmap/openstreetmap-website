@@ -1,6 +1,7 @@
-<a id='inboxanchor'
-    href='<%= url_for(:action => 'inbox',
+<%= link_to raw(t('layouts.inbox',
+    :count => @user.new_messages.size > 0 ? "<span class='count-number'>#{@user.new_messages.size}</span>" : '')),
+    {
+        :action => 'inbox',
         :display_name => @user.display_name,
-        :controller => 'message') %>'><%= raw(t('layouts.inbox',
-        :count => @user.new_messages.size > 0 ? "<span class='count-number'>#{@user.new_messages.size}</span>" : ''
-     )) %></a>
+        :controller => 'message'
+    }, { :id => 'inboxanchor' } %>
