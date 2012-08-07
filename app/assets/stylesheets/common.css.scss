@@ -86,12 +86,16 @@ h2 {
 /* Rules for the introductory text displayed in the left sidebar to new users */
 
 .sidebar-copy {
-  border-top: 1px solid #ccc;
-  padding: 0px 5px;
+  padding: 0px 10px;
 }
 
 .sidebar-copy p {
-  margin: 5px;
+  margin: 5px 0;
+}
+
+.sidebar-copy.intro {
+  margin-top: -1px;
+  border-top: 1px solid #ccc;
 }
 
 /*
@@ -141,7 +145,6 @@ h2 {
   padding: 5px 10px;
   margin: 4px 0;
   border-top: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
   line-height: 20px;
   font-size: 14px;
   font-weight: bold;
@@ -193,7 +196,6 @@ h2 {
 .optionalbox {
   padding: 5px 10px;
   margin: 4px 0;
-  border-top: 1px solid #ccc;
 }
 
 .optionalbox h1 {
@@ -207,8 +209,6 @@ h2 {
 /* Rules for the search box */
 
 .whereami {
-  line-height: 20px;
-  vertical-align: bottom;
 }
 
 #search_field form {
@@ -217,19 +217,52 @@ h2 {
   padding: 0px;
 }
 
+#search_field {
+  position:relative;
+}
+
 #search_field input[type="text"] {
-  width: 130px;
+  width: 165px;
+  padding: 5px;
+  font-size: 14px;
+  line-height: 15px;
+  height: 25px;
+  box-shadow: inset #DDD 0px 1px 3px;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+}
+
+#search_field input[type="text"]:focus {
+  outline: none;
+  border: 1px solid #000;
 }
 
 #search_field input[type="submit"] {
-  width: 26px;
+  width: 15px;
+  height: 15px;
+  border:0;
+  text-indent:-1000px;
   padding-left: 0px;
   padding-right: 0px;
+  background: url(sprite.png);
+  position:absolute;
+  right:2px;
+  top:5px;
+  cursor:pointer;
 }
 
 .search_help {
-  margin-top: 2px;
-  margin-bottom: 0px;
+  margin:0;
+}
+
+.deemphasize {
+  color: #999;
+}
+
+.deemphasize a {
+  color: #7092FF;
 }
 
 /* Rules for donation request box */
@@ -238,13 +271,17 @@ h2 {
   width: 153px;
   margin: 10px 10px;
   padding: 5px;
-  border: 1px solid #ccc;
+  border: 1px solid #AED1A0;
   background: #cbeea7;
   line-height: 20px;
   text-align: center;
   font-size: 14px;
-  border-radius: 5px;
-  -moz-border-radius: 5px;
+  border-radius: 2px;
+  -moz-border-radius: 2px;
+}
+
+.donate a {
+  color:#222;
 }
 
 /* Rules for Creative Commons logo button */
@@ -1016,7 +1053,7 @@ input[type="email"],
 input[type="url"],
 input[type="password"],
 textarea {
-  border: 1px solid #888;
+  border: 1px solid #ccc;
 }
 
 /* Rules for user images */
