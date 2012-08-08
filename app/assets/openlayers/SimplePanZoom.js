@@ -195,7 +195,7 @@ OpenLayers.Control.SimplePanZoom = OpenLayers.Class(OpenLayers.Control.PanZoom, 
         
         // this is the background image
         var div = document.createElement('div');
-        div.className = 'button';
+        div.className = 'button olButton';
         div.id = 'zoombar';
         this.zoombarDiv = div;
         
@@ -240,7 +240,7 @@ OpenLayers.Control.SimplePanZoom = OpenLayers.Class(OpenLayers.Control.PanZoom, 
             var levels = evt.buttonXY.y / this.zoomStopHeight;
             if (this.forceFixedZoomLevel || !this.map.fractionalZoom) {
                 levels = Math.floor(levels);
-            }    
+            } 
             var zoom = (this.map.getNumZoomLevels() - 1) - levels; 
             zoom = Math.min(Math.max(zoom, 0), this.map.getNumZoomLevels() - 1);
             this.map.zoomTo(zoom);
@@ -292,7 +292,7 @@ OpenLayers.Control.SimplePanZoom = OpenLayers.Class(OpenLayers.Control.PanZoom, 
      * visual location
      *
      * Parameters:
-     * evt - {<OpenLayers.Event>} 
+     * evt - {<OpenLayers.Event>}
      */
     zoomBarDrag: function(evt) {
         if (this.mouseDragStart !== null) {
@@ -309,21 +309,21 @@ OpenLayers.Control.SimplePanZoom = OpenLayers.Class(OpenLayers.Control.PanZoom, 
             OpenLayers.Event.stop(evt);
         }
     },
-    
+
     /*
      * Method: zoomBarUp
      * Perform cleanup when a mouseup event is received -- discover new zoom
      * level and switch to it.
      *
      * Parameters:
-     * evt - {<OpenLayers.Event>} 
+     * evt - {<OpenLayers.Event>}
      */
     zoomBarUp: function(evt) {
         if (!OpenLayers.Event.isLeftClick(evt) && evt.type !== "touchend") {
             return;
         }
         if (this.mouseDragStart) {
-            this.div.style.cursor="";
+            this.div.style.cursor = "";
             this.map.events.un({
                 "touchmove": this.passEventToSlider,
                 "mouseup": this.passEventToSlider,
@@ -331,14 +331,8 @@ OpenLayers.Control.SimplePanZoom = OpenLayers.Class(OpenLayers.Control.PanZoom, 
                 scope: this
             });
             var zoomLevel = this.map.zoom;
-            if (!this.forceFixedZoomLevel && this.map.fractionalZoom) {
-                zoomLevel += this.deltaY/this.zoomStopHeight;
-                zoomLevel = Math.min(Math.max(zoomLevel, 0), 
-                                     this.map.getNumZoomLevels() - 1);
-            } else {
-                zoomLevel += this.deltaY/this.zoomStopHeight;
-                zoomLevel = Math.max(Math.round(zoomLevel), 0);      
-            }
+            zoomLevel += this.deltaY/this.zoomStopHeight;
+            zoomLevel = Math.max(Math.round(zoomLevel), 0);
             this.map.zoomTo(zoomLevel);
             this.mouseDragStart = null;
             this.zoomStart = null;
@@ -346,17 +340,16 @@ OpenLayers.Control.SimplePanZoom = OpenLayers.Class(OpenLayers.Control.PanZoom, 
             OpenLayers.Event.stop(evt);
         }
     },
-    
+
     /*
     * Method: moveZoomBar
     * Change the location of the slider to match the current zoom level.
     */
     moveZoomBar:function() {
-        var newTop = 
-            ((this.map.getNumZoomLevels()-1) - this.map.getZoom()) * 
+        var newTop =
+            ((this.map.getNumZoomLevels()-1) - this.map.getZoom()) *
             this.zoomStopHeight + this.startTop;
         this.slider.style.top = newTop + "px";
-    },    
-    
+    },
     CLASS_NAME: "OpenLayers.Control.SimplePanZoom"
 });
