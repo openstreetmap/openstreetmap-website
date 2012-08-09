@@ -11,6 +11,12 @@ module UserHelper
     image_tag user.image.url(:small), options
   end
 
+  def user_thumbnail_tiny(user, options = {})
+    options[:class] ||= "user_thumbnail_tiny"
+
+    image_tag user.image.url(:small), options
+  end
+
   def openid_logo
     image_tag "openid_small.png", :alt => t('user.login.openid_logo_alt'), :class => "openid_logo"
   end
