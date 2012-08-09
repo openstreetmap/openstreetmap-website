@@ -2,9 +2,11 @@
 # Exported from translatewiki.net
 # Export driver: syck-pecl
 # Author: Alluk.
+# Author: Centerlink
 # Author: Crt
 # Author: Daeron
 # Author: Lliehu
+# Author: Nemo bis
 # Author: Nike
 # Author: Olli
 # Author: Ramilehti
@@ -85,6 +87,8 @@ fi:
   application: 
     require_cookies: 
       cookies_needed: Selaimen evästeet on otettu pois päältä - salli evästeiden käyttö selaimessasi ennen jatkamista.
+    require_moderator: 
+      not_a_moderator: Tämän toiminnon suorittamiseksi sinun on oltava ylläpitäjä.
     setup_user_auth: 
       blocked: Pääsysi APIin on estetty. Lisätietoja saat kirjautumalla web-käyttöliittymään.
       need_to_see_terms: API:n käyttöoikeutesi on tilapäisesti hyllytetty. Kirjaudu sisään verkkokäyttöliittymään nähdäksesi osallistujien ehdot. Niihin ei tarvitse suostua, mutta ne täytyy lukea.
@@ -177,6 +181,8 @@ fi:
       of: " /"
       showing_page: Nykyinen sivu
     redacted: 
+      message_html: Tämän %{type}-tyypin versiota ei voi näyttää koska se on laitostettu. Katso lisätietoja %{redaction_link}.
+      redaction: Laitos %{id}
       type: 
         node: piste
         relation: relaatio
@@ -293,6 +299,8 @@ fi:
       description_nearby: Lähellä olevien käyttäjien muutoskokoelmat
       description_user: Käyttäjän %{user} muutoskokoelmat
       description_user_bbox: Käyttäjän %{user} muutoskokoelmat %{bbox} sisällä
+      empty_anon_html: Muutoksia ei ole vielä tehty
+      empty_user_html: Et ole tehnyt vielä mitään muutoksia. Lisätietoja kartan muokkaamisesta saa <a href='http://wiki.openstreetmap.org/wiki/Fi:Beginners_Guide_1.3'>Aloittelijan oppaasta</a>.
       heading: Muutoskokoelmat
       heading_bbox: Muutoskokoelmat
       heading_friend: Muutoskokoelmat
@@ -962,7 +970,6 @@ fi:
     history: Historia
     home: kotipaikka
     home_tooltip: Siirry kotipaikkaan
-    inbox: viestit (%{count})
     inbox_tooltip: 
       one: Sinulla on yksi lukematon viesti.
       other: Sinulla on %{count} lukematonta viestiä.
@@ -993,7 +1000,6 @@ fi:
     partners_ucl: UCL VR Centre
     sign_up: rekisteröidy
     sign_up_tooltip: Muokkaaminen edellyttää käyttäjätunnusta
-    sotm2011: Tule vuoden 2011 OpenStreetMap-konferenssiin, 9. - 11. syyskuuta Denveriin!
     tag_line: Vapaa wikimaailmankartta
     user_diaries: Päiväkirjamerkinnät
     user_diaries_tooltip: Näytä käyttäjän päiväkirjat
@@ -1008,7 +1014,26 @@ fi:
       english_link: englanninenkielisen alkuperäisversion
       text: Jos tämän käännetyn sivun ja %{english_original_link} välillä on eroja, englanninkielinen sivu on aina etusijalla.
       title: Tietoja tästä käännöksestä
-    legal_babble: "<h2>Tekijänoikeus ja lisenssi</h2>\n<p>\nOpenStreetMapin sisältö on <i>avointa tietoa</i>, joka on lisensoitu <a\nhref=\"http://creativecommons.org/licenses/by-sa/2.0/deed.fi/\">\nCreative Commonsin Nimeä-Tarttuva 2.0 Raakaversio</a> -lisenssilllä (CC BY-SA).\n</p>\n<p>\nKarttojamme ja tietojamme voi kopioida, levittää, välittää ja mukauttaa, \nkunhan OpenStreetMap ja sen tekijät mainitaan.\nJos muutat tai kehität karttojamme tai tietoja, voit\njakaa teosta vain saman lisenssin nojalla.\n<a href=\"http://creativecommons.org/licenses/by-sa/2.0/legalcode\">Legal codessa</a>\nkerrotaan oikeutesi ja velvollisuutesi.\n</p>\n\n\n<h3>OpenStreetMapin mainitseminen</h3>\n<p>\nJos käytät OpenStreetMapin karttakuvia, pyydämme että\nmainitset ainakin ”© OpenStreetMapin tekijät, CC BY-SA”.\nJos käytät vain karttatietoja,\nmainitse ”Karttatiedot © OpenStreetMapin tekijät, CC BY-SA”.\n</p>\n<p>\nAina kun se on mahdollista, linkitä OpenStreetMap osoitteeseen\n<a href=\"http://www.openstreetmap.org/\">http://www.openstreetmap.org/</a>\nja CC BY-SA osoitteeseen\n<a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">http://creativecommons.org/licenses/by-sa/2.0/</a>.\nJos hyperlinkit eivät ole mahdollisia (esimerkiksi\ntulostettu työ), suosittelemme, että ohjaat lukijat osoitteisiin\nwww.openstreetmap.org ja\nwww.creativecommons.org.\n</p>\n\n<h3>Lisätietoja</h3>\n<p>\nLue lisää\n<a href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">Legal FAQ:sta</a>.\n</p>\n<p>\nOSM:n tekijöitä muistutetaan, että kopioiminen tekijänoikeuksien alaisista teoksista\n(esimerkiksi Google Maps tai painetut kartat) ilman\ntekijänoikeuden haltijan nimenomaista lupaa on kielletty.\n</p>\n<p>\nVaikka OpenStreetMap on avointa dataa, emme voi tarjota\nmaksutonta karttarajapintaa (API) kolmannen osapuolen kehittäjille.\n\nKatso <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">APIn käyttösäännöt</a>,\n<a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">karttakuvien käyttösäännöt</a>\n<a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">ja Nominatimin käyttösäännöt</a>.\n</p>\n\n<h3>Tekijät</h3>\n<p>\nKäyttämämme CC BY-SA-lisenssi vaatii ”alkuperäisten tekijöiden\nmainintaa” käyttömediaan ja käyttötapaan sopivalla tavalla.\nYksittäisiä OSM-kartoittajia ei tarvitse mainita muuten kuin \nmaininnalla ”OpenStreetMapin tekijät”. Kun kyseessä on\npaikallinen maanmittauslaitos tai muu merkittävä lähde,\njonka tietoja käytetään OpenStreetMapissa, voi olla\nperusteltua nimetä myös kyseiset tahot suoraan tai viitata\nsiihen tällä sivulla.\n</p>\n\n<!--\nInformation for page editors\n\nThe following lists only those organisations who require attribution\nas a condition of their data being used in OpenStreetMap. It is not a\ngeneral catalogue of imports, and must not be used except when\nattribution is required to comply with the licence of the imported\ndata.\n\nAny additions here must be discussed with OSM sysadmins first.\n-->\n\n<ul id=\"contributors\">\n   <li><strong>Australia</strong>: Sisältää lähiötietoja\n   Australian Bureau of Statisticsilta.</li>\n   <li><strong>Kanada</strong>: Sisältää tietoja\n   GeoBasesta ®, GeoGratisista (© Department of Natural\n   Resources Canada), CanVecista (© Department of Natural\n   Resources Canada), ja StatCanista (Geography Division,\n   Statistics Canada).</li>\n   <li><strong>France</strong>: Contains data sourced from\n   Direction Générale des Impôts.</li>\n   <li><strong>Uusi-Seelanti</strong>: Sisältää tietoja Land Information New Zealandista. Crown Copyright.\n   <li><strong>Puola</strong>: Sisältää tietoja\n   <a href=\"http://ump.waw.pl/\">UMP-pcPL-kartoista</a>. Tekijänoikeus\n   UMP-pcPL:n tekijät.</li>\n   <li><strong>Yhdistyneet kuningaskunnat</strong>: Sisältää Ordnance\n   Surveyn keräämiä tietoja © Crown Copyright ja tietokantojen käyttöoikeus\n   2010.\n</ul>\n\n\n<p>\nTietojen sisältyminen OpenStreetMapiin ei tarkoita, että tietojen antaja\nottaa kantaa OpenStreetMapiin tai vastuuta tietojen oikeellisuudesta.\n</p>"
+    legal_babble: 
+      contributors_au_html: "<strong>Australia</strong>: Sisältää lähiötietoja\n   Australian Bureau of Statisticsilta."
+      contributors_ca_html: "<strong>Kanada</strong>: Sisältää tietoja\n   GeoBasesta ®, GeoGratisista (© Department of Natural\n   Resources Canada), CanVecista (© Department of Natural\n   Resources Canada), ja StatCanista (Geography Division,\n   Statistics Canada)."
+      contributors_footer_2_html: "Tietojen sisältyminen OpenStreetMapiin ei tarkoita, että tietojen antaja\nottaa kantaa OpenStreetMapiin tai vastuuta tietojen oikeellisuudesta."
+      contributors_fr_html: "<strong>France</strong>: Contains data sourced from\n   Direction Générale des Impôts."
+      contributors_gb_html: "<strong>Yhdistyneet kuningaskunnat</strong>: Sisältää Ordnance\n   Surveyn keräämiä tietoja © Crown Copyright ja tietokantojen käyttöoikeus\n   2010."
+      contributors_intro_html: "Käyttämämme CC BY-SA-lisenssi vaatii ”alkuperäisten tekijöiden\nmainintaa” käyttömediaan ja käyttötapaan sopivalla tavalla.\nYksittäisiä OSM-kartoittajia ei tarvitse mainita muuten kuin \nmaininnalla ”OpenStreetMapin tekijät”. Kun kyseessä on\npaikallinen maanmittauslaitos tai muu merkittävä lähde,\njonka tietoja käytetään OpenStreetMapissa, voi olla\nperusteltua nimetä myös kyseiset tahot suoraan tai viitata\nsiihen tällä sivulla."
+      contributors_nz_html: "<strong>Uusi-Seelanti</strong>: Sisältää tietoja Land Information New Zealandista. Crown Copyright."
+      contributors_pl_html: "<strong>Puola</strong>: Sisältää tietoja\n   <a href=\"http://ump.waw.pl/\">UMP-pcPL-kartoista</a>. Tekijänoikeus\n   UMP-pcPL:n tekijät."
+      contributors_title_html: Tekijät
+      credit_1_html: "Jos käytät OpenStreetMapin karttakuvia, pyydämme että\nmainitset ainakin ”© OpenStreetMapin tekijät, CC BY-SA”.\nJos käytät vain karttatietoja,\nmainitse ”Karttatiedot © OpenStreetMapin tekijät, CC BY-SA”."
+      credit_2_html: "Aina kun se on mahdollista, linkitä OpenStreetMap osoitteeseen\n<a href=\"http://www.openstreetmap.org/\">http://www.openstreetmap.org/</a>\nja CC BY-SA osoitteeseen\n<a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">http://creativecommons.org/licenses/by-sa/2.0/</a>.\nJos hyperlinkit eivät ole mahdollisia (esimerkiksi\ntulostettu työ), suosittelemme, että ohjaat lukijat osoitteisiin\nwww.openstreetmap.org ja\nwww.creativecommons.org."
+      credit_title_html: OpenStreetMapin mainitseminen
+      intro_1_html: "OpenStreetMapin sisältö on <i>avointa tietoa</i>, joka on lisensoitu <a\nhref=\"http://creativecommons.org/licenses/by-sa/2.0/deed.fi/\">\nCreative Commonsin Nimeä-Tarttuva 2.0 Raakaversio</a> -lisenssilllä (CC BY-SA)."
+      intro_2_html: "Karttojamme ja tietojamme voi kopioida, levittää, välittää ja mukauttaa, \nkunhan OpenStreetMap ja sen tekijät mainitaan.\nJos muutat tai kehität karttojamme tai tietoja, voit\njakaa teosta vain saman lisenssin nojalla.\n<a href=\"http://creativecommons.org/licenses/by-sa/2.0/legalcode\">Legal codessa</a>\nkerrotaan oikeutesi ja velvollisuutesi."
+      more_1_html: "Lue lisää\n<a href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">Legal FAQ:sta</a>."
+      more_2_html: "OSM:n tekijöitä muistutetaan, että kopioiminen tekijänoikeuksien alaisista teoksista\n(esimerkiksi Google Maps tai painetut kartat) ilman\ntekijänoikeuden haltijan nimenomaista lupaa on kielletty."
+      more_3_html: "Vaikka OpenStreetMap on avointa dataa, emme voi tarjota\nmaksutonta karttarajapintaa (API) kolmannen osapuolen kehittäjille.\n\nKatso <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">APIn käyttösäännöt</a>,\n<a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">karttakuvien käyttösäännöt</a>\n<a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">ja Nominatimin käyttösäännöt</a>."
+      more_title_html: Lisätietoja
+      title_html: Tekijänoikeus ja lisenssi
     native: 
       mapping_link: aloittaa kartoituksen
       native_link: suomenkielinen versio
@@ -1192,6 +1217,7 @@ fi:
       allow_write_diary: päiväkirjamerkintöjen luominen ja kommentointi sekä kaveripyynnöt.
       allow_write_gpx: GPS-jälkien tallentaminen.
       allow_write_prefs: käyttäjäasetusten muuttaminen.
+      callback_url: Takaisinsoiton verkko-osoite
       name: Nimi
       requests: "Sovellus pyytää käyttäjältä seuraavia tietoja:"
       required: vaadittu
@@ -1218,6 +1244,7 @@ fi:
       allow_write_gpx: tallentaa GPS-jälkiä
       allow_write_prefs: muokata heidän käyttäjäasetuksiaan
       confirm: Oletko varma?
+      delete: Poista asiakas
       edit: Muokkaa yksityiskohtia
       key: "Kuluttajan avain:"
       requests: "Pyydetään seuraavia oikeuksia käyttäjältä:"
@@ -1228,13 +1255,34 @@ fi:
     update: 
       flash: Sovelluksen tiedot on päivitetty.
   redaction: 
+    create: 
+      flash: Laitos luotu.
+    destroy: 
+      error: Laitosta tuhottaessa tapahtui virhe.
+      flash: Laitos tuhottu.
+      not_empty: Laitos ei ole tyhjä. Poista laitostiedot kaikista tähän laitokseen liittyvistä versioista ennen sen tuhoamista.
     edit: 
       description: Kuvaus
+      heading: Muokkaa laitosta
+      submit: Tallenna laitos
+      title: Muokkaa laitosta
+    index: 
+      empty: Ei ole näytettävää laitosta
+      heading: Laitosten luettelo
+      title: Laitosten luettelo
     new: 
       description: Kuvaus
+      heading: Kirjoita tietoja uudesta laitoksesta
+      submit: Luo laitos
+      title: Luodaan uusi laitos
     show: 
       confirm: Oletko varma?
       description: "Kuvaus:"
+      destroy: Poista tämä laitos
+      edit: Muokkaa tätä laitosta
+      heading: Näytetään laitos "%{title}"
+      title: Näytetään laitos
+      user: "Luoja:"
     update: 
       flash: Muutokset on tallennettu.
   site: 
@@ -1380,6 +1428,7 @@ fi:
       visibility: "Näkyvyys:"
       visibility_help: mitä tämä tarkoittaa?
     list: 
+      empty_html: Sivu on tyhjä. <a href='%{upload_link}'>Lähetä uusi GPS-jälki</a> tai lue lisätietoja GPS-jälkien keräämisestä <a href='http://wiki.openstreetmap.org/wiki/Fi:Beginners_Guide_1.2'>wikisivulta</a>.
       public_traces: Julkiset GPS-jäljet
       public_traces_from: Käyttäjän %{user} julkiset GPS-jäljet
       tagged_with: ", joilla on tunniste %{tags}"
@@ -1426,6 +1475,8 @@ fi:
     trace_optionals: 
       tags: Tunnisteet
     trace_paging_nav: 
+      newer: Uudet jäljet
+      older: Vanhat jäljet
       showing_page: Sivu %{page}
     view: 
       delete_track: Poista tämä jälki
@@ -1515,6 +1566,8 @@ fi:
     go_public: 
       flash success: Kaikki tekemäsi muokkaukset ovat nyt julkisia.
     list: 
+      confirm: Vahvista valitut käyttäjät
+      empty: Käyttäjiä ei löytynyt.
       heading: Käyttäjät
       hide: Piilota valitut käyttäjät
       title: Käyttäjät
@@ -1617,6 +1670,8 @@ fi:
       title: Salasanan vaihto
     set_home: 
       flash success: Kodin sijainnin tallennus onnistui
+    suspended: 
+      webmaster: webmaster
     terms: 
       agree: Hyväksyn
       consider_pd: Edellisen sopimuksen lisäksi katson lisäyksieni olevan Public Domainissa
@@ -1740,11 +1795,14 @@ fi:
       creator_name: Tekijä
       display_name: Estetty käyttäjä
       edit: Muokkaa
+      next: Seuraava »
       not_revoked: (ei kumottu)
+      previous: « Edellinen
       reason: Eston syy
       revoke: Estä!
       revoker_name: Eston tehnyt
       show: Näytä
+      showing_page: Näytetään sivu %{page}
       status: Tila
     period: 
       one: 1 tunti

@@ -5,6 +5,7 @@
 # Author: Jose1711
 # Author: Kusavica
 # Author: Lesny skriatok
+# Author: Nemo bis
 # Author: Rudko
 # Author: Teslaton
 # Author: Vladolc
@@ -80,6 +81,8 @@ sk:
   application: 
     require_cookies: 
       cookies_needed: Zdá sa, že máte zakázané cookies – povoľte prosím cookies vo vašom prehliadači a následne pokračujte.
+    require_moderator: 
+      not_a_moderator: Pre vykonanie tejto akcie musíte byť moderátor.
     setup_user_auth: 
       blocked: Váš prístup do API bol zablokovaný. Prosím prihláste sa na webové rozhranie pre zistenie viac informácií.
       need_to_see_terms: Váš prístup k API je dočasne pozastavený. Prosím prihláste do webového rozhrania a prečítajte si Podmienky prispievania. Nie je nutné ich odsúhlasiť, musíte si ich ale zobraziť.
@@ -148,10 +151,10 @@ sk:
         prev_changeset_tooltip: Predošlá úprava používateľa %{user}
     node: 
       download_xml: Stiahnuť XML
-      edit: upraviť
+      edit: Upraviť bod
       node: Bod
       node_title: "Bod: %{node_name}"
-      view_history: zobraziť históriu
+      view_history: Zobraziť históriu
     node_details: 
       coordinates: "Súradnice:"
       part_of: "Časť z:"
@@ -159,7 +162,7 @@ sk:
       download_xml: Stiahnuť XML
       node_history: História bodu
       node_history_title: "História bodu: %{node_name}"
-      view_details: zobraziť detaily
+      view_details: Zobraziť detaily
     not_found: 
       sorry: Ľutujeme, %{type} s id %{id} nebolo možné nájsť.
       type: 
@@ -179,7 +182,7 @@ sk:
       download_xml: Stiahnuť XML
       relation: Relácia
       relation_title: "Relácia: %{relation_name}"
-      view_history: zobraziť históriu
+      view_history: Zobraziť históriu
     relation_details: 
       members: "Členovia:"
       part_of: "Časť z:"
@@ -187,7 +190,7 @@ sk:
       download_xml: Stiahnuť XML
       relation_history: História relácie
       relation_history_title: "História relácie: %{relation_name}"
-      view_details: zobraziť detaily
+      view_details: Zobraziť detaily
     relation_member: 
       entry_role: "%{type} %{name} ako %{role}"
       type: 
@@ -206,7 +209,7 @@ sk:
       hide_areas: Skryť oblasti
       history_for_feature: História pre [[feature]]
       load_data: Načítať údaje
-      loaded_an_area_with_num_features: Máte načítanú oblasť, ktorá obsahuje [[num_features]] zložiek. Niektoré prehliadače môžu mať problémy so zobrazením takého množstva dát, viac než približne 100 položiek ich môže spomaliť až zablokovať. Pokiaľ ste si istý, že chcete dáta zobraziť, kliknite na tlačítko nižšie.
+      loaded_an_area_with_num_features: Máte načítanú oblasť, ktorá obsahuje [[num_features]] zložiek. Niektoré prehliadače môžu mať problémy so zobrazením takého množstva dát, viac než približne [[max_features]] položiek ich môže spomaliť až zablokovať. Pokiaľ ste si istý, že chcete dáta zobraziť, kliknite na tlačítko nižšie.
       loading: Nahrávanie...
       manually_select: Manuálne vybrať inú oblasť
       object_list: 
@@ -246,8 +249,8 @@ sk:
         way: cesta
     way: 
       download_xml: Stiahnuť XML
-      edit: upraviť
-      view_history: zobraziť históriu
+      edit: Upraviť cestu
+      view_history: Zobraziť históriu
       way: Cesta
       way_title: "Cesta: %{way_name}"
     way_details: 
@@ -258,7 +261,7 @@ sk:
       part_of: "Súčasť:"
     way_history: 
       download_xml: Stiahnuť XML
-      view_details: zobraziť detaily
+      view_details: Zobraziť detaily
       way_history: História cesty
       way_history_title: "História Cesty: %{way_name}"
   changeset: 
@@ -287,6 +290,8 @@ sk:
       description_nearby: Sady zmien používateľov v okolí
       description_user: Zmenové súbory používateľa %{user}
       description_user_bbox: Zmenové súbory používateľa %{user} v %{bbox}
+      empty_anon_html: Zatiaľ bez úprav
+      empty_user_html: Zdá sa, že ste zatiaľ nevykonali žiadne úpravy. Ak chete začať, pozrite si <a href='http://wiki.openstreetmap.org/wiki/Sk:Beginners%27_guide'>Príručku pre začiatočníkov</a>.
       heading: Sady zmien
       heading_bbox: Sady zmien
       heading_friend: Sady zmien
@@ -473,6 +478,7 @@ sk:
           WLAN: Wi-Fi prístup
           airport: Letisko
           arts_centre: Kultúrne stredisko
+          artwork: Umelecké dielo
           atm: Bankomat
           auditorium: Auditórium
           bank: Banka
@@ -669,8 +675,10 @@ sk:
           railway: Železnica
           recreation_ground: Rekreačná oblasť
           reservoir: Zásobník na vodu
+          reservoir_watershed: Povodie nádrže
           residential: Residential Area (Obytná oblasť)
           retail: Retail (Obchodná zóna)
+          road: Cesty
           village_green: Verejná zeleň
           vineyard: Vinica
           wetland: Mokrina
@@ -680,6 +688,7 @@ sk:
           bird_hide: Vtáčia pozorovateľňa
           common: Verejné priestranstvo
           fishing: Rybolov (športový)
+          fitness_station: Fitnes zastávka
           garden: Záhrada
           golf_course: Golfové ihrisko
           ice_rink: Umelé klzisko
@@ -953,7 +962,6 @@ sk:
     history: História
     home: domov
     home_tooltip: Prejsť na domovské miesto
-    inbox: správy (%{count})
     inbox_tooltip: 
       few: V schránke máte %{count} neprečítané správy
       one: V schránke máte 1 neprečítanú správu
@@ -1001,10 +1009,33 @@ sk:
       english_link: anglickým originálom
       text: V prípade rozporu mezi touto preloženou verziou a %{english_original_link} má anglická stránka prednosť
       title: O tomto preklade
-    legal_babble: "<h2>Autorské práva a licencie</h2>\n<p>\n   OpenStreetMap sú <em>slobodné dáta</em>, ponúkaná za podmienok licencie <a href=\"http://creativecommons.org/licenses/by-sa/2.0/deed.cs\">Creative Commons Uveďte autora – Zachovajte licenciu 2.0</a> (CC BY-SA).\n</p>\n<p>\n  Môžete kopírovať, distribuovať, oznamovať verejnosti a upravovať naše mapy aj dáta, pokiaľ ako zdroj uvediete „<em>OpenStreetMap a jeho prispievatelia</em>“. Ak naše mapy alebo dáta budete upravovať alebo ich použijete vo svojom diele, musíte výsledné dielo šíriť pod rovnakou licenciou. Vaše práva a povinnosti sú vysvetlené v <a href=\"http://creativecommons.org/licenses/by-sa/2.0/legalcode\">plnom znení licenčnej zmluvy</a>.\n</p>\n\n<h3>Ako uvádzať OpenStreetMap</h3>\n<p>\n  Ak používate obrázky z mapy OpenStreetMap, žiadame, aby ste uvádzali aspoň „<em>© Prispievatelia OpenStreetMap, CC BY-SA</em>“. Ak používate iba mapové dáta, požadujeme „<em>Mapové dáta © Prispievatelia OpenStreetMap, CC BY-SA</em>“.\n</p>\n<p>\n  Ak je to možné, mal byť text <em>OpenStreetMap</em> uvedený ako hypertextový odkaz na <a href=\"http://www.openstreetmap.org/\">http://www.openstreetmap.org/</a> a <em>CC BY-SA</em> na <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">http://creativecommons.org/licenses/by-sa/2.0/</a>. Ak používate médium, ktoré odkazy neumožňuje (napr. v tlačenom diele), navrhujeme, aby ste svojho čitateľa nasmerovali na www.openstreetmap.org (zrejme doplnením <em>OpenStreetMap</em> o túto internetovú adresu) a analogicky <em>CC BY-SA</em> na www.creativecommons.org.\n</p>\n\n<h3>Ďalšie informácie</h3>\n<p>\n  O používaní našich dát sa môžete dočítať viac v našich <a href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">Často kladených právnych otázkach</a>.\n</p>\n<p>\n  Prispievateľom OSM pripomíname, že by nikdy nemali pridávať dáta zo zdrojov chránených autorským právom (napr. Google Maps či tlačené mapy) bez výslovného súhlasu držiteľov práv.\n</p>\n<p>\n  Hoci OpenStreetMap tvorí slobodné dáta, nemôžeme zadarmo poskytovať tretím stranám mapové API.\n\n  Pozrite naše <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">Pravidlá použitia API</a>, <a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">Pravidlá použitia mapových dlaždíc</a> a <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">Pravidlá použitia nástroja Nominatim</a>.\n</p>\n\n<h3>Naši prispievatelia</h3>\n<p>\n  Naša CC BY-SA licencia vyžaduje, aby ste „spôsobom zodpovedajúcim danému nosiču a v primeranej forme uvádzali autora“. Jednotliví prispievatelia nevyžadujú uvádzanie svojho autorstva nad rámec onoho „Prispievatelia OpenStreetMap“, ale tam, kde boli do OpenStreetMap zahrnuté dáta národných geografických inštitúcií či iných veľkých zdrojov, môže byť primerané uznať ich autorstvo uvedením ich názvu alebo hypertextovým odkazom na túto stránku.\n</p>\n<!--\nInformácie pre editorov tejto stránky:\n\nNasledujúce zoznamy obsahujú iba tie organizácie, ktoré vyžadujú uvedenie svojho autorstva ako podmienku použitia svojich dát v OpenStreetMap. Nejedná sa o všeobecný katalóg importov a používa sa len v prípade nutnosti uvedenia autorstva kvôli vyhovenie licenciu importovaných dát.\n\nKaždé doplnenie treba najprv prediskutovať so správcami systému OSM.\n-->\n<ul id=\"contributors\">\n    <li><strong>Austrália</strong>: Obsahuje dáta predmestí založené na dátach Austrálskeho štatistického úradu.</li>\n    <li><strong>Francúzsko</strong>: Obsahuje dáta pochádzajúce z Direction Générale des impôts.</li>\n    <li><strong>Juhoafrická republika</strong>: Obsahuje dáta pochádzajúce z <a href=\"http://www.ngi.gov.za/\">Chief Directorate: National Geo-Spatial Information</a>, State copyright reserved.</li>\n    <li><strong>Kanada</strong>: Obsahuje dáta z GeoBase ®, GeoGratis (© Department of Natural Resources Canada), CanVec (© Department of Natural Resources Canada) a StatCan (Geography Division, Statistics Canada).</li>\n    <li><strong>Nový Zéland</strong>: Obsahuje dáta pochádzajúce z Land Information New Zealand. Crown Copyright reserved.</li>\n    <li><strong>Poľsko</strong>: Obsahuje dáta z <a href=\"http://ump.waw.pl/\">máp UMP-pcPL</a>. Copyright prispievatelia UMP-pcPL. <a href=\"http://wiki.openstreetmap.org/wiki/UMP2OSM_Importing\">Viac o využití dát UMP na OSM</a>.</li>\n    <li><strong>Rakúsko</strong>: Obsahuje dáta od <a href=\"http://data.wien.gv.at/\">mesta Viedeň</a> pod licenciou <a href = \"http:// creativecommons.org/licenses/by/3.0/at/deed.de \">CC BY</a>.</li>\n    <li><strong>Spojené kráľovstvo</strong>: Obsahuje dáta Ordnance Survey © Crown copyright a právo k databáze 2010.</li>\n</ul>\n\n<p>\n  Zahrnutie dát do OpenStreetMap neznamená, že pôvodný poskytovateľ dát podporuje OpenStreetMap, ponúka akúkoľvek záruku, alebo prijíma akúkoľvek zodpovednosť.\n</p>"
+    legal_babble: 
+      contributors_at_html: "<strong>Rakúsko</strong>: Obsahuje dáta od <a href=\"http://data.wien.gv.at/\">mesta Viedeň</a> pod licenciou <a href = \"http:// creativecommons.org/licenses/by/3.0/at/deed.de \">CC BY</a>."
+      contributors_au_html: "<strong>Austrália</strong>: Obsahuje dáta predmestí založené na dátach Austrálskeho štatistického úradu."
+      contributors_ca_html: "<strong>Kanada</strong>: Obsahuje dáta z GeoBase ®, GeoGratis (© Department of Natural Resources Canada), CanVec (© Department of Natural Resources Canada) a StatCan (Geography Division, Statistics Canada)."
+      contributors_footer_1_html: "Podrobnosti o týchto a ďalších zdrojoch, ktoré boli použité pre vylepšenie OpenStreetMap, nájdete na <a\nhref=\"http://wiki.openstreetmap.org/wiki/Contributors\">stránke Contributors</a> na OpenStreetMap wiki."
+      contributors_footer_2_html: "  Zahrnutie dát do OpenStreetMap neznamená, že pôvodný poskytovateľ dát podporuje OpenStreetMap, ponúka akúkoľvek záruku, alebo prijíma akúkoľvek zodpovednosť."
+      contributors_fr_html: "<strong>Francúzsko</strong>: Obsahuje dáta pochádzajúce z Direction Générale des impôts."
+      contributors_gb_html: "<strong>Spojené kráľovstvo</strong>: Obsahuje dáta Ordnance Survey © Crown copyright a právo k databáze 2010."
+      contributors_intro_html: "  Naša CC BY-SA licencia vyžaduje, aby ste „spôsobom zodpovedajúcim danému nosiču a v primeranej forme uvádzali autora“. Jednotliví prispievatelia nevyžadujú uvádzanie svojho autorstva nad rámec onoho „Prispievatelia OpenStreetMap“, ale tam, kde boli do OpenStreetMap zahrnuté dáta národných geografických inštitúcií či iných veľkých zdrojov, môže byť primerané uznať ich autorstvo uvedením ich názvu alebo hypertextovým odkazom na túto stránku."
+      contributors_nz_html: "<strong>Nový Zéland</strong>: Obsahuje dáta pochádzajúce z Land Information New Zealand. Crown Copyright reserved."
+      contributors_pl_html: "<strong>Poľsko</strong>: Obsahuje dáta z <a href=\"http://ump.waw.pl/\">máp UMP-pcPL</a>. Copyright prispievatelia UMP-pcPL. <a href=\"http://wiki.openstreetmap.org/wiki/UMP2OSM_Importing\">Viac o využití dát UMP na OSM</a>."
+      contributors_title_html: Naši prispievatelia
+      contributors_za_html: "<strong>Juhoafrická republika</strong>: Obsahuje dáta pochádzajúce z <a href=\"http://www.ngi.gov.za/\">Chief Directorate: National Geo-Spatial Information</a>, State copyright reserved."
+      credit_1_html: "  Ak používate obrázky z mapy OpenStreetMap, žiadame, aby ste uvádzali aspoň „<em>© Prispievatelia OpenStreetMap, CC BY-SA</em>“. Ak používate iba mapové dáta, požadujeme „<em>Mapové dáta © Prispievatelia OpenStreetMap, CC BY-SA</em>“."
+      credit_2_html: "  Ak je to možné, mal byť text <em>OpenStreetMap</em> uvedený ako hypertextový odkaz na <a href=\"http://www.openstreetmap.org/\">http://www.openstreetmap.org/</a> a <em>CC BY-SA</em> na <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">http://creativecommons.org/licenses/by-sa/2.0/</a>. Ak používate médium, ktoré odkazy neumožňuje (napr. v tlačenom diele), navrhujeme, aby ste svojho čitateľa nasmerovali na www.openstreetmap.org (zrejme doplnením <em>OpenStreetMap</em> o túto internetovú adresu) a analogicky <em>CC BY-SA</em> na www.creativecommons.org."
+      credit_title_html: Ako uvádzať OpenStreetMap
+      intro_1_html: "   OpenStreetMap sú <em>slobodné dáta</em>, ponúkaná za podmienok licencie <a href=\"http://creativecommons.org/licenses/by-sa/2.0/deed.cs\">Creative Commons Uveďte autora – Zachovajte licenciu 2.0</a> (CC BY-SA)."
+      intro_2_html: "  Môžete kopírovať, distribuovať, oznamovať verejnosti a upravovať naše mapy aj dáta, pokiaľ ako zdroj uvediete „<em>OpenStreetMap a jeho prispievatelia</em>“. Ak naše mapy alebo dáta budete upravovať alebo ich použijete vo svojom diele, musíte výsledné dielo šíriť pod rovnakou licenciou. Vaše práva a povinnosti sú vysvetlené v <a href=\"http://creativecommons.org/licenses/by-sa/2.0/legalcode\">plnom znení licenčnej zmluvy</a>."
+      more_1_html: "  O používaní našich dát sa môžete dočítať viac v našich <a href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">Často kladených právnych otázkach</a>."
+      more_2_html: "  Prispievateľom OSM pripomíname, že by nikdy nemali pridávať dáta zo zdrojov chránených autorským právom (napr. Google Maps či tlačené mapy) bez výslovného súhlasu držiteľov práv."
+      more_3_html: "  Hoci OpenStreetMap tvorí slobodné dáta, nemôžeme zadarmo poskytovať tretím stranám mapové API.\n\n  Pozrite naše <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">Pravidlá použitia API</a>, <a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">Pravidlá použitia mapových dlaždíc</a> a <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">Pravidlá použitia nástroja Nominatim</a>."
+      more_title_html: Ďalšie informácie
+      title_html: Autorské práva a licencie
     native: 
       mapping_link: začať mapovať
       native_link: slovenskú verziu
+      text: Pozeráte si anglickú verziu stránky o autorských právach. Môžete sa vrátiť na %{native_link} stránky alebo si prestať čítať o copyrightoch a %{mapping_link}.
       title: O tejto stránke
   message: 
     delete: 
@@ -1221,6 +1252,7 @@ sk:
       allow_write_prefs: upraviť svoje užívateľské nastavenia.
       authorize_url: "Authorise URL:"
       confirm: Ste si istý?
+      delete: Odstrániť klienta
       edit: Upraviť detaily
       key: "Consumer Key:"
       requests: "Žiadam nasledujúce oprávnenia od používateľa:"
@@ -1331,8 +1363,13 @@ sk:
       first: Prvá položka
       heading: Nadpis
       headings: Nadpisy
+      image: Obrázok
       link: Odkaz
+      ordered: Číslovaný zoznam
+      second: Druhá položka
       subheading: Podnadpis
+      text: Text
+      title_html: Používa sa syntax <a href="http://daringfireball.net/projects/markdown/">Markdown</a>
       unordered: Neusporiadaný zoznam
       url: URL
     richtext_area: 
@@ -1374,6 +1411,7 @@ sk:
       visibility: "Viditeľnosť:"
       visibility_help: čo má toto znamenať?
     list: 
+      empty_html: Nič tu zatiaľ nie je. <a href='%{upload_link}'>Nahrajte novú stopu</a>, alebo si niečo o GPS stopách prečítajte na <a href='http://wiki.openstreetmap.org/wiki/Sk:Beginners_Guide_1.2'>wiki</a>.
       public_traces: Verejné GPS stopy
       public_traces_from: Verejné GPS stopy od %{user}
       tagged_with: označený s %{tags}
@@ -1418,6 +1456,8 @@ sk:
     trace_optionals: 
       tags: Tagy
     trace_paging_nav: 
+      newer: Novšie stopy
+      older: Staršie stopy
       showing_page: Strana %{page}
     view: 
       delete_track: Vymazať túto stopu
