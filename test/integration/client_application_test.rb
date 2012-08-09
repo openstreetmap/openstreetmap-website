@@ -17,6 +17,9 @@ class ClientApplicationTest < ActionController::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template 'user/view'
+    get '/user/test2/account'
+    assert_response :success
+    assert_template 'user/account'
 
     # check that the form to allow new client application creations exists
     assert_in_body do
