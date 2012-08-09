@@ -6,23 +6,25 @@
   <% if @user and @this_user.id == @user.id %>
     <!-- Displaying user's own profile page -->
     <%= link_to t('user.view.my edits'), :controller => 'changeset', :action => 'list', :display_name => @user.display_name %>
-    <span class='count-number'><%= number_with_delimiter(@this_user.changesets.size) %></span>
+    <span class='count-number'><%= number_with_delimiter(@user.changesets.size) %></span>
     |
     <%= link_to t('user.view.my traces'), :controller => 'trace', :action=>'mine' %>
-    <span class='count-number'><%= number_with_delimiter(@this_user.traces.size) %></span>
+    <span class='count-number'><%= number_with_delimiter(@user.traces.size) %></span>
     |
     <%= link_to t('user.view.my diary'), :controller => 'diary_entry', :action => 'list', :display_name => @user.display_name %>
     |
-    <%= link_to t('user.view.my comments' ), :controller => 'diary_entry', :action => 'comments', :display_name => @this_user.display_name %>
+    <%= link_to t('user.view.my comments' ), :controller => 'diary_entry', :action => 'comments', :display_name => @user.display_name %>
     |
     <%= link_to t('user.view.my settings'), :controller => 'user', :action => 'account', :display_name => @user.display_name %>
-    <% if @user.active_blocks.count > 0 %>
+    <% if @user.blocks.exists? %>
       |
       <%= link_to t('user.view.blocks on me'), :controller => 'user_blocks', :action => 'blocks_on', :display_name => @user.display_name %>
-      <span class='count-number'><%= number_with_delimiter(@this_user.active_blocks.count) %></span>
+      <span class='count-number'><%= number_with_delimiter(@user.blocks.active.size) %></span>
     <% end %>
-    <% if @user and @user.moderator? %>
-      | <%= link_to t('user.view.blocks by me'), :controller => 'user_blocks', :action => 'blocks_by', :display_name => @user.display_name %>
+    <% if @user and @user.moderator? and @user.blocks_created.exists? %>
+      |
+      <%= link_to t('user.view.blocks by me'), :controller => 'user_blocks', :action => 'blocks_by', :display_name => @user.display_name %>
+      <span class='count-number'><%= number_with_delimiter(@user.blocks_created.active.size) %></span>
     <% end %>
   <% else %>
     <%= link_to t('user.view.edits'), :controller => 'changeset', :action => 'list', :display_name => @this_user.display_name %>
@@ -41,10 +43,15 @@
     <% else %>
       <%= link_to t('user.view.add as friend'), :controller => 'user', :action => 'make_friend', :display_name => @this_user.display_name %>
     <% end %>
-    |
-    <%= link_to t('user.view.block_history'), :controller => 'user_blocks', :action => 'blocks_on', :display_name => @this_user.display_name %>
-    <% if @this_user.moderator? %>
-      | <%= link_to t('user.view.moderator_history'), :controller => 'user_blocks', :action => 'blocks_by', :display_name => @this_user.display_name %>
+    <% if @this_user.blocks.exists? %>
+      |
+      <%= link_to t('user.view.block_history'), :controller => 'user_blocks', :action => 'blocks_on', :display_name => @this_user.display_name %>
+      <span class='count-number'><%= number_with_delimiter(@this_user.blocks.active.size) %></span>
+    <% end %>
+    <% if @this_user.moderator? and @this_user.blocks_created.exists? %>
+      |
+      <%= link_to t('user.view.moderator_history'), :controller => 'user_blocks', :action => 'blocks_by', :display_name => @this_user.display_name %>
+      <span class='count-number'><%= number_with_delimiter(@this_user.blocks_created.active.size) %></span>
     <% end %>
     <% if @user and @user.moderator? %>
       | <%= link_to t('user.view.create_block'), :controller => 'user_blocks', :action => 'new', :display_name => @this_user.display_name %>

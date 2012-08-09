@@ -146,7 +146,7 @@ class ApplicationController < ActionController::Base
     # have we identified the user?
     if @user
       # check if the user has been banned
-      if not  @user.active_blocks.empty?
+      if @user.blocks.active.exists?
         # NOTE: need slightly more helpful message than this.
         report_error t('application.setup_user_auth.blocked'), :forbidden
       end

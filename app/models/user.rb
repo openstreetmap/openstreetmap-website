@@ -16,7 +16,10 @@ class User < ActiveRecord::Base
   has_many :client_applications
   has_many :oauth_tokens, :class_name => "OauthToken", :order => "authorized_at desc", :include => [:client_application]
 
-  has_many :active_blocks, :class_name => "UserBlock", :conditions => proc { [ "user_blocks.ends_at > :ends_at or user_blocks.needs_view", { :ends_at => Time.now.getutc } ] }
+  has_many :blocks, :class_name => "UserBlock"
+  has_many :blocks_created, :class_name => "UserBlock", :foreign_key => :creator_id
+  has_many :blocks_revoked, :class_name => "UserBlock", :foreign_key => :revoker_id
+
   has_many :roles, :class_name => "UserRole"
 
   scope :visible, where(:status => ["pending", "active", "confirmed"])
@@ -182,7 +185,7 @@ class User < ActiveRecord::Base
   # returns the first active block which would require users to view 
   # a message, or nil if there are none.
   def blocked_on_view
-    active_blocks.detect { |b| b.needs_view? }
+    blocks.active.detect { |b| b.needs_view? }
   end
 
   ##
