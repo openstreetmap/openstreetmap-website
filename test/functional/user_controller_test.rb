@@ -437,12 +437,88 @@ class UserControllerTest < ActionController::TestCase
   
   # Check that the user account page will display and contains some relevant
   # information for the user
-  def test_view_user_account
+  def test_user_view_account
+    # Test a non-existent user
     get :view, {:display_name => "unknown"}
     assert_response :not_found
     
+    # Test a normal user
     get :view, {:display_name => "test"}
     assert_response :success
+    assert_select "div#userinformation" do
+      assert_select "a[href=/user/test/edits]", 1
+      assert_select "a[href=/user/test/traces]", 1
+      assert_select "a[href=/user/test/diary]", 1
+      assert_select "a[href=/user/test/diary/comments]", 1
+      assert_select "a[href=/user/test/account]", 0
+      assert_select "a[href=/user/test/blocks]", 0
+      assert_select "a[href=/user/test/blocks_by]", 0
+      assert_select "a[href=/blocks/new/test]", 0
+    end
+    
+    # Test a user who has been blocked
+    get :view, {:display_name => "blocked"}
+    assert_response :success
+    assert_select "div#userinformation" do
+      assert_select "a[href=/user/blocked/edits]", 1
+      assert_select "a[href=/user/blocked/traces]", 1
+      assert_select "a[href=/user/blocked/diary]", 1
+      assert_select "a[href=/user/blocked/diary/comments]", 1
+      assert_select "a[href=/user/blocked/account]", 0
+      assert_select "a[href=/user/blocked/blocks]", 1
+      assert_select "a[href=/user/blocked/blocks_by]", 0
+      assert_select "a[href=/blocks/new/blocked]", 0
+    end
+    
+    # Test a moderator who has applied blocks
+    get :view, {:display_name => "moderator"}
+    assert_response :success
+    assert_select "div#userinformation" do
+      assert_select "a[href=/user/moderator/edits]", 1
+      assert_select "a[href=/user/moderator/traces]", 1
+      assert_select "a[href=/user/moderator/diary]", 1
+      assert_select "a[href=/user/moderator/diary/comments]", 1
+      assert_select "a[href=/user/moderator/account]", 0
+      assert_select "a[href=/user/moderator/blocks]", 0
+      assert_select "a[href=/user/moderator/blocks_by]", 1
+      assert_select "a[href=/blocks/new/moderator]", 0
+    end
+
+    # Login as a normal user
+    session[:user] = users(:normal_user).id
+    cookies["_osm_username"] = users(:normal_user).display_name
+
+    # Test the normal user
+    get :view, {:display_name => "test"}
+    assert_response :success
+    assert_select "div#userinformation" do
+      assert_select "a[href=/user/test/edits]", 1
+      assert_select "a[href=/traces/mine]", 1
+      assert_select "a[href=/user/test/diary]", 1
+      assert_select "a[href=/user/test/diary/comments]", 1
+      assert_select "a[href=/user/test/account]", 1
+      assert_select "a[href=/user/test/blocks]", 0
+      assert_select "a[href=/user/test/blocks_by]", 0
+      assert_select "a[href=/blocks/new/test]", 0
+    end
+
+    # Login as a moderator
+    session[:user] = users(:moderator_user).id
+    cookies["_osm_username"] = users(:moderator_user).display_name
+
+    # Test the normal user
+    get :view, {:display_name => "test"}
+    assert_response :success
+    assert_select "div#userinformation" do
+      assert_select "a[href=/user/test/edits]", 1
+      assert_select "a[href=/user/test/traces]", 1
+      assert_select "a[href=/user/test/diary]", 1
+      assert_select "a[href=/user/test/diary/comments]", 1
+      assert_select "a[href=/user/test/account]", 0
+      assert_select "a[href=/user/test/blocks]", 0
+      assert_select "a[href=/user/test/blocks_by]", 0
+      assert_select "a[href=/blocks/new/test]", 1
+    end
   end
   
   def test_user_api_details
