@@ -174,8 +174,8 @@ OpenStreetMap::Application.routes.draw do
 
   # user pages
   match '/user/:display_name' => 'user#view', :via => :get, :as => "user"
-  match '/user/:display_name/make_friend' => 'user#make_friend', :via => :post
-  match '/user/:display_name/remove_friend' => 'user#remove_friend', :via => :post
+  match '/user/:display_name/make_friend' => 'user#make_friend', :via => [:get, :post], :as => "make_friend"
+  match '/user/:display_name/remove_friend' => 'user#remove_friend', :via => [:get, :post], :as => "remove_friend"
   match '/user/:display_name/account' => 'user#account', :via => [:get, :post]
   match '/user/:display_name/set_status' => 'user#set_status', :via => :get, :as => :set_status_user
   match '/user/:display_name/delete' => 'user#delete', :via => :get, :as => :delete_user

@@ -41,9 +41,9 @@
     <%= link_to t('user.view.comments'), :controller => 'diary_entry', :action => 'comments', :display_name => @this_user.display_name %>
     |
     <% if @user and @user.is_friends_with?(@this_user) %>
-      <%= link_to t('user.view.remove as friend'), :controller => 'user', :action => 'remove_friend', :display_name => @this_user.display_name, :method => :post %>
+      <%= link_to t('user.view.remove as friend'), remove_friend_path(:display_name => @this_user.display_name), :method => :post %>
     <% else %>
-      <%= link_to t('user.view.add as friend'), :controller => 'user', :action => 'make_friend', :display_name => @this_user.display_name, :method => :post %>
+      <%= link_to t('user.view.add as friend'), make_friend_path(:display_name => @this_user.display_name), :method => :post %>
     <% end %>
     <% if @this_user.blocks.exists? %>
       |

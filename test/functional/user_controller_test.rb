@@ -140,8 +140,16 @@ class UserControllerTest < ActionController::TestCase
     )
 
     assert_routing(
+      { :path => "/user/username/make_friend", :method => :get },
+      { :controller => "user", :action => "make_friend", :display_name => "username" }
+    )
+    assert_routing(
       { :path => "/user/username/make_friend", :method => :post },
       { :controller => "user", :action => "make_friend", :display_name => "username" }
+    )
+    assert_routing(
+      { :path => "/user/username/remove_friend", :method => :get },
+      { :controller => "user", :action => "remove_friend", :display_name => "username" }
     )
     assert_routing(
       { :path => "/user/username/remove_friend", :method => :post },

@@ -1,0 +1,7 @@
+<h1><%= t "user.make_friend.heading", :user => @new_friend.display_name %></h1>
+<%= form_tag do %>
+  <% if params[:referer] -%>
+  <%= hidden_field_tag("referer", params[:referer]) %>
+  <% end -%>
+  <%= submit_tag t("user.make_friend.button") %>
+<% end %>
