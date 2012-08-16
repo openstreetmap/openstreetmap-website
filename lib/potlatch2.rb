@@ -14,6 +14,7 @@ module Potlatch2
     "en-GB" => "en_GB",
     "el" => "el",
     "es" => "es_ES",
+    "et" => "et",
     "fa" => "fa",
     "fi" => "fi",
     "fr" => "fr_FR",
