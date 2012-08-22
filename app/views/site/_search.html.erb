@@ -15,7 +15,7 @@
     $("#sidebar_title").html("<%= t 'site.sidebar.search_results' %>");
 
     <% if params[:action] == 'index' -%>
-    var extent = getMapExtent();
+    var extent = unproj(map.getExtent());
 
     $("#sidebar_content").load("<%= url_for :controller => :geocoder, :action => :search %>", {
       query: $("#query").val(),
@@ -43,18 +43,17 @@
 
 <% content_for :optionals do %>
   <div class="optionalbox">
-    <span class="whereami"><a href="javascript:describeLocation()" title="<%= t 'site.search.where_am_i_title' %>"><%= t 'site.search.where_am_i' %></a></span>
-    <h1><%= t 'site.search.search' %></h1>
     <div class="search_container">
     <div id="search_field">
     <%= form_tag "#", :id => "search_form" do %>
-      <%= text_field_tag :query, h(params[:query]), :tabindex => "1" %>
       <%= submit_tag t('site.search.submit_text') %>
+      <%= text_field_tag :query, h(params[:query]), :tabindex => "1", :placeholder => t('site.search.search') %>
     <% end %>
     </div>
     </div>
-    <p class="search_help">
+    <p class='search_help deemphasize'>
       <%= raw(t 'site.search.search_help') %>
+      <span class="whereami"><a href="javascript:describeLocation()" title="<%= t 'site.search.where_am_i_title' %>"><%= t 'site.search.where_am_i' %></a></span>
     </p>
   </div>
 <% end %>

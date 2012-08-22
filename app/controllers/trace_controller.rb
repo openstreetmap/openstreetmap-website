@@ -30,9 +30,7 @@ class TraceController < ApplicationController
     if !display_name.blank?
       target_user = User.active.where(:display_name => display_name).first
       if target_user.nil?
-        @title = t'trace.no_such_user.title'
-        @not_found_user = display_name
-        render :action => 'no_such_user', :status => :not_found
+        render_unknown_user display_name
         return
       end
     end

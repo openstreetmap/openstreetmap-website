@@ -2,6 +2,7 @@
 # Exported from translatewiki.net
 # Export driver: syck-pecl
 # Author: Grille chompa
+# Author: Hooshmand.hasannia
 # Author: Huji
 # Author: Leyth
 # Author: Reza1615
@@ -54,6 +55,7 @@ fa:
       node: گره
       node_tag: تگ گره
       notifier: آگاه‌گردان
+      old_way: راه قدیمی
       relation: ارتباط
       session: نشست
       trace: ردیابی
@@ -68,7 +70,6 @@ fa:
     changeset: 
       changeset: "مجموعه تغییرات: %{id}"
       changesetxml: مجموعه تغییرات XML
-      download: بارگیری %{changeset_xml_link} یا %{osmchange_xml_link}
       feed: 
         title: مجموعه تغییرات %{id}
         title_comment: مجموعه تغییرات %{id} - %{comment}
@@ -127,7 +128,6 @@ fa:
         next_changeset_tooltip: "%{user} ویرایش بعدی توسط"
         prev_changeset_tooltip: "%{user} قبلی ویرایش توسط"
     node: 
-      download: "%{download_xml_link}، %{view_history_link} یا %{edit_link}"
       download_xml: بارگیری XML
       edit: ویرایش
       node: گره
@@ -137,7 +137,6 @@ fa:
       coordinates: "مختصات:"
       part_of: "بخشی از:"
     node_history: 
-      download: "%{download_xml_link} یا %{view_details_link}"
       download_xml: بارگیری XML
       node_history: تاریخچه منطقه
       node_history_title: "تاریخچه منطقه: %{node_name}"
@@ -153,7 +152,6 @@ fa:
       of: از
       showing_page: صفحه نمایش
     relation: 
-      download: "%{download_xml_link} یا %{view_history_link}"
       download_xml: بارگیری XML
       relation: ارتباط
       relation_title: "ارتباطات: %{relation_name}"
@@ -162,7 +160,6 @@ fa:
       members: "اعضا:"
       part_of: "بخشی از:"
     relation_history: 
-      download: "%{download_xml_link} یا %{view_details_link}"
       download_xml: بارگیری XML
       relation_history: تاریخچه ارتباطات
       relation_history_title: "تاریخچه ارتباطات: %{relation_name}"
@@ -224,7 +221,6 @@ fa:
         relation: ارتباط
         way: راه
     way: 
-      download: "%{download_xml_link}، %{view_history_link} یا %{edit_link}"
       download_xml: بارگیری XML
       edit: ویرایش
       view_history: نمایش تاریخچه
@@ -236,7 +232,6 @@ fa:
       nodes: "گره‌ها:"
       part_of: "بخشی از:"
     way_history: 
-      download: "%{download_xml_link} یا %{view_details_link}"
       download_xml: بارگیری XML
       view_details: نمایش جزئیات
       way_history: تاریخچهٔ راه
@@ -262,6 +257,9 @@ fa:
     list: 
       description: تغییرات اخیر
   diary_entry: 
+    comments: 
+      newer_comments: نظرات جدیدتر
+      older_comments: نظرات قدیمی‌تر
     diary_comment: 
       confirm: تأیید
     diary_entry: 
@@ -285,8 +283,6 @@ fa:
       edit: ویرایش
       location: "مکان:"
       view: نمایش
-    no_such_user: 
-      title: چنین کاربری وجود ندارد
     view: 
       leave_a_comment: ارسال نظر
       login: ورود به سیستم
@@ -311,7 +307,7 @@ fa:
       export_details: اطلاعات نقشه‌باز‌شهری تحت مجوز <a href="http://creativecommons.org/licenses/by-sa/2.0/">  کریتیو کانز اشتراک‌یکسان 2 است
       format: قالب
       format_to_export: قالب برای خروجی‌سازی
-      image_size: اندازه تصویر
+      image_size: اندازهٔ تصویر
       latitude: "عرض:"
       licence: اجازه‌نامه
       longitude: "طول:"
@@ -355,6 +351,9 @@ fa:
       one: تقریباً 1کیلومتر
       other: تقریباً %{count}کیلومتر
       zero: کمتر از 1کیلومتر
+    results: 
+      more_results: نتایج بیشتر
+      no_results: نتیجه‌ای پیدا نشد
     search: 
       title: 
         ca_postcode: نتایج <a href="http://geocoder.ca/">Geocoder.CA</a>
@@ -369,9 +368,15 @@ fa:
       suffix_place: ", %{distance} %{direction} %{placename}"
     search_osm_nominatim: 
       prefix: 
+        aeroway: 
+          gate: ورودی
+          runway: باند
+          terminal: پایانه
         amenity: 
+          WLAN: دسترسی به وای‌فای
           airport: فرودگاه
           arts_centre: هنرکده
+          artwork: اثر هنری
           atm: عابربانک
           auditorium: سالن
           bank: بانک
@@ -448,6 +453,7 @@ fa:
           social_club: باشگاه اجتماعی
           studio: استودیو
           supermarket: سوپرمارکت
+          swimming_pool: استخر شنا
           taxi: تاکسی
           telephone: تلفن عمومی
           theatre: تئاتر
@@ -462,46 +468,20 @@ fa:
           youth_centre: مرکز جوانان
         boundary: 
           administrative: مرز کشوری
+          national_park: پارک ملی
+          protected_area: منطقه حفاظت‌شده
+        bridge: 
+          "yes": پل
         building: 
-          apartments: بلوک آپارتمان
-          block: بلوک ساختمان
-          bunker: پناهگاه
-          chapel: کلیسا
-          church: کلیسا
-          city_hall: سالن شهر
-          commercial: ساختمان تجاری
-          dormitory: خوابگاه دانشجویی
-          entrance: ورودی ساختمان
-          faculty: ساختمان دانشکده
-          farm: ساختمان در مزرعه
-          flats: آپارتمان
-          garage: گاراژ
-          hall: سالن
-          hospital: ساختمان بیمارستان
-          hotel: هتل
-          house: خانه
-          industrial: ساختمان صنعتی
-          office: ساختمان اداری
-          public: ساختمان عمومی
-          residential: ساختمان مسکونی
-          retail: معاملات املاک
-          school: ساختمان مدرسه
-          shop: فروشگاه
-          stadium: ورزشگاه
-          store: فروشگاه
-          terrace: تراس
-          tower: برج
-          train_station: ایستگاه راه‌آهن
-          university: ساختمان دانشگاه
+          "yes": ساختمان
         highway: 
           bus_stop: ایستگاه اتوبوس
           construction: بزرگراه در دست ساخت
-          cycleway: مسیر چرخه
-          distance_marker: نشانگر مسافت
+          cycleway: مسیر دوچرخه
           emergency_access_point: نقطهٔ دسترسی اضطراری
           footway: پیاده رو
           ford: فورد
-          gate: دروازه
+          living_street: خیابان محل سکونت
           minor: جادهٔ فرعی
           motorway: اتوبان
           motorway_junction: اتصال بزرگراه‌ها
@@ -512,10 +492,12 @@ fa:
           primary: جادهٔ اصلی
           primary_link: جادهٔ اصلی
           residential: مسکونی
+          rest_area: استراحتگاه
           road: جاده
           secondary: جادهٔ فرعی
           secondary_link: جادهٔ فرعی
           services: خدمات بزرگراه‌ها
+          speed_camera: دوربین کنترل سرعت
           steps: پله
           track: ردیابی
           trunk: بزرگراه
@@ -547,12 +529,14 @@ fa:
           grass: چمن
           greenfield: فضای سبز
           industrial: ناحیهٔ صنعتی
+          meadow: علفزار
           military: منطقهٔ نظامی
           mine: معدن
-          mountain: کوه
+          orchard: باغ
           park: پارک
           railway: راه‌آهن
           reservoir: مخزن
+          residential: منطقهٔ مسکونی
           retail: خرده‌فروشی
           vineyard: تاکستان
           wetland: تالاب
@@ -561,6 +545,7 @@ fa:
           beach_resort: تفریحگاه ساحلی
           common: سرزمین مشترک
           fishing: منطقهٔ ماهی‌گیری
+          fitness_station: ایستگاه تناسب اندام
           garden: باغ
           golf_course: زمین گلف
           marina: تفریح‌گاه ساحلی
@@ -572,13 +557,18 @@ fa:
           stadium: ورزشگاه
           swimming_pool: استخر شنا
           water_park: پارک آبی
+        military: 
+          airfield: فرودگاه نظامی
+          barracks: پادگان
         natural: 
           bay: خلیج
           beach: ساحل
           cave_entrance: ورودی غار
           channel: کانال
-          coastline: خط ساحلی
+          cliff: صخره
+          dune: ریگ روان
           fell: قطع کردن
+          forest: جنگل
           glacier: یخچال طبیعی
           hill: تپه
           island: جزیره
@@ -593,6 +583,7 @@ fa:
           river: رود خانه
           rock: صخره
           spring: بهار
+          stone: سنگ
           strait: تنگه
           tree: درخت
           valley: دره
@@ -601,6 +592,16 @@ fa:
           wetland: تالاب
           wetlands: تالاب‌ها
           wood: جنگل
+        office: 
+          architect: معمار
+          company: شرکت
+          government: دفتر دولتی
+          insurance: دفتر بیمه
+          lawyer: وکیل
+          ngo: دفتر سازمان غیر دولتی
+          telecommunication: دفتر مخابرات
+          travel_agent: آژانس مسافرتی
+          "yes": دفتر
         place: 
           airport: فرودگاه
           city: شهر بزرگ
@@ -641,7 +642,6 @@ fa:
           subway_entrance: ورودی مترو
           tram: تراموای
         shop: 
-          apparel: فروشگاه پوشاک
           art: فروشگاه لوازم هنری
           bakery: نانوایی
           beauty: فروشگاه لوازم آرایشی
@@ -660,7 +660,12 @@ fa:
           greengrocer: سبزی فروش
           kiosk: کیوسک
           laundry: خشکشویی
+          mall: بازار
           market: بازار
+          mobile_phone: فروشگاه تلفن همراه
+          motorcycle: فروشگاه موتورسیکلت
+          organic: فروشگاه مواد غذایی ارگانیک
+          pet: فروشگاه حیوانات خانگی
           supermarket: سوپرمارکت
           toys: اسباب‌بازی‌فروشی
           travel_agency: آژانس مسافرتی
@@ -679,10 +684,13 @@ fa:
           museum: موزه
           valley: دره
           zoo: باغ وحش
+        tunnel: 
+          "yes": تونل
         waterway: 
           canal: کانال
           dam: سد
           lock: قفل
+          mineral_spring: چشمهٔ آب معدنی
           river: رودخانه
           waterfall: ابشار
   html: 
@@ -691,13 +699,22 @@ fa:
     copyright: حق تکثیر و مجوز
     documentation: مستندات
     documentation_title: مستندات برای پروژه
+    donate_link_text: حمایت مالی
     edit: ویرایش
+    edit_with: با {editor} % ویرایش کن
     export: صدور
+    foundation: بنیاد
     foundation_title: بنیاد OpenStreetMap
     help: راهنما
+    help_centre: مرکز کمک
+    help_title: سایت راهنما برای پروژه
     history: تاریخچه
+    home: خانه
     home_tooltip: رفتن به مکان خانگی
-    intro_3_partners: ویکی‌
+    intro_2_create_account: ایجاد حساب کاربری
+    intro_2_download: بارگیری
+    intro_2_license: مجوز آزاد
+    intro_2_use: استفاده کن
     log_in: ورود به سیستم
     logo: 
       alt_text: لوگوی OpenStreetMap
@@ -706,13 +723,17 @@ fa:
     make_a_donation: 
       text: کمک مالی
       title: OpenStreetMap پشتیبانی با اهداء پولی
+    partners_ic: کالج سلطنتی لندن
     sign_up: ثبت نام
     sign_up_tooltip: ایجاد یک حساب کاربری برای ویرایش
+    tag_line: ویکی رایگان نقشهٔ جهان
     user_diaries: یادداشت کاربر
     view: نمایش
     view_tooltip: نمایش نقشه
     welcome_user: خوش آمدید، %{user_link}
+    welcome_user_link_tooltip: صفحهٔ کاربری شما
     wiki: ویکی‌
+    wiki_title: سایت ویکی برای پروژه
   license_page: 
     foreign: 
       english_link: اصل انگلیسی
@@ -746,9 +767,6 @@ fa:
       title: فرستادن پیام
     no_such_message: 
       title: چنین پیغامی وجود ندارد
-    no_such_user: 
-      heading: چنین کاربری وجود ندارد
-      title: چنین کاربری وجود ندارد
     outbox: 
       date: تاریخ
       inbox: صندوق دریافتی
@@ -859,10 +877,6 @@ fa:
       your_traces: آثار جی‌پی‌اس شما
     make_public: 
       made_public: رسم‌کردن عمومی
-    no_such_user: 
-      body: شرمند کاربری با نام %{user} وجود ندارد. لطفا اسم کاربر را از نو وارد کنید  یا ممکن است لینکی را که شما انتخاب کرده‌اید اشتباه باشد
-      heading: کاربر %{user} وجود ندارد
-      title: چنین کاربری وجود ندارد
     offline: 
       heading: ذخیره بدون اینترنت جی‌پی‌اس
       message: ذخیره جی‌پی‌اس و بارگذاری سامانه غیرقابل دسترس می‌باشد
@@ -900,8 +914,6 @@ fa:
     trace_optionals: 
       tags: برچسب‌ها
     trace_paging_nav: 
-      next: بعدی »
-      previous: « قبلی
       showing_page: نمایش صفحه %{page}
     view: 
       delete_track: حذف این رهگیری
@@ -990,14 +1002,14 @@ fa:
     list: 
       confirm: تایید کاربران انتخاب شده
       empty: هیچ کاربر مشابهی یافت نشد
-      heading: کاربرها
+      heading: کاربران
       hide: پنهان کردن کاربران انتخاب شده
       showing: 
         one: "نمایش صفحه %{page} (%{first_item} از %{items}) "
         other: " نمایش صفحه صفحه %{page} (%{first_item}-%{last_item} از %{items})"
       summary: "%{name} ایجاد شده از %{ip_address} در %{date}"
       summary_no_ip: "  %{name}در  %{date} ایجاد شد"
-      title: کاربرها
+      title: کاربران
     login: 
       email or username: "رایانامه یا نام کاربری:"
       heading: ورود به سیستم

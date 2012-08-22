@@ -37,12 +37,12 @@
     $("#tr-changeset-" + id).removeClass("selected");
   }
 
-  function init() {
+  $(document).ready(function () {
     var map = createMap("changeset_list_map", {
       controls: [
         new OpenLayers.Control.Navigation(),
-        new OpenLayers.Control.PanZoom(),
-        new OpenLayers.Control.PanZoomBar()
+        new OpenLayers.Control.Zoom(),
+        new OpenLayers.Control.SimplePanZoom()
       ]
     });
 
@@ -80,11 +80,9 @@
     selectControl.activate();
 
     <% if ! @bbox.nil? %>
-      setMapExtent(new OpenLayers.Bounds(<%= @bbox %>));
+      map.zoomToExtent(proj(new OpenLayers.Bounds(<%= @bbox %>)));
     <% else %>
-      setMapExtent(bounds);
+      map.zoomToExtent(proj(bounds));
     <% end %>
-  }
-
-  Event.observe(window, "load", init);
+  });
 </script>

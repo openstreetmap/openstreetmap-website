@@ -10,6 +10,10 @@ class SiteControllerTest < ActionController::TestCase
       { :path => "/", :method => :get },
       { :controller => "site", :action => "index" }
     )
+    assert_routing(
+      { :path => "/", :method => :post },
+      { :controller => "site", :action => "index" }
+    )
     assert_recognizes(
       { :controller => "site", :action => "index" },
       { :path => "/index.html", :method => :get }
@@ -49,6 +53,10 @@ class SiteControllerTest < ActionController::TestCase
     assert_routing(
       { :path => "/go/shortcode", :method => :get },
       { :controller => "site", :action => "permalink", :code => "shortcode" }
+    )
+    assert_routing(
+      { :path => "/preview/formatname", :method => :get },
+      { :controller => "site", :action => "preview", :format => "formatname" }
     )
   end
 

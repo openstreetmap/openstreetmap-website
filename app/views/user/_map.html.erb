@@ -24,11 +24,11 @@ end
 
   function init(){
     var centre = new OpenLayers.LonLat(<%= lon %>, <%= lat %>);
+    <% if params[:scale].to_f > 0 then -%>
+    var zoom = <%= scale_to_zoom params[:scale] %>;
+    <% else -%>
     var zoom = <%= zoom %>;
-
-    <% if params['scale'] and params['scale'].length > 0 then %>
-    zoom = scaleToZoom(<%= params['scale'].to_f() %>);
-    <% end %>
+    <% end -%>
 
     var map = createMap("map");
 

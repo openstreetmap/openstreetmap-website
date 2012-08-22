@@ -13,20 +13,34 @@ module BrowseHelper
     if version
       name = t 'printable_name.with_version', :id => name, :version => object.version.to_s
     end
-    if object.tags.include? "name:#{I18n.locale}"
-      name = t 'printable_name.with_name',  :name => object.tags["name:#{I18n.locale}"].to_s, :id => name
-    elsif object.tags.include? 'name'
-      name = t 'printable_name.with_name',  :name => object.tags['name'].to_s, :id => name
+
+    # don't look at object tags if redacted, so as to avoid giving 
+    # away redacted version tag information.
+    unless object.redacted?
+      if object.tags.include? "name:#{I18n.locale}"
+        name = t 'printable_name.with_name',  :name => object.tags["name:#{I18n.locale}"].to_s, :id => name
+      elsif object.tags.include? 'name'
+        name = t 'printable_name.with_name',  :name => object.tags['name'].to_s, :id => name
+      end
     end
+
     return name
   end
 
   def link_class(type, object)
-    return type + " " + h(icon_tags(object).join(' ')) + (object.visible == false ? ' deleted' : '')
+    if object.redacted?
+      type + " deleted"
+    else
+      type + " " + h(icon_tags(object).join(' ')) + (object.visible == false ? ' deleted' : '')
+    end
   end
 
   def link_title(object)
-    return h(icon_tags(object).map { |k,v| k + '=' + v }.to_sentence)
+    if object.redacted?
+      ""
+    else
+      h(icon_tags(object).map { |k,v| k + '=' + v }.to_sentence)
+    end
   end
 
   def format_key(key)

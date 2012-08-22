@@ -51,7 +51,7 @@
     <tr>
       <td></td>
       <td>
-        <span id="openid_prompt" class="minorNote"><%= link_to_function(raw(t('user.new.use openid', :logo => openid_logo)), "enableOpenID()") %></span>
+        <span id="openid_prompt" class="minorNote"><%= link_to raw(t("user.new.use openid", :logo => openid_logo)), "#", :id => "openid_enable" %></span>
         <span id="openid_note" class="minorNote"><%= t 'user.new.openid no password' %></span>
       </td>
     </tr>
@@ -88,9 +88,13 @@ function disableOpenID()
   $("#openid_url").prop("disabled", true);
 }
 
-<% if params[:openid] or (@user and @user.openid_url and not @user.openid_url.empty?) -%>
-enableOpenID();
-<% else -%>
-disableOpenID();
-<% end -%>
+$(document).ready(function () {
+  $("#openid_enable").click(enableOpenID);
+
+  <% if params[:openid] or (@user and @user.openid_url and not @user.openid_url.empty?) -%>
+  enableOpenID();
+  <% else -%>
+  disableOpenID();
+  <% end -%>
+});
 </script>

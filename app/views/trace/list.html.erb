@@ -20,16 +20,20 @@
   <% end %>
 </p>
 
-<%= render :partial => 'trace_paging_nav' %>
+<% if @traces.size > 0 %>
+  <%= render :partial => 'trace_paging_nav' %>
 
-<table id="trace_list" cellpadding="3">
-  <tr>
-    <th></th>
-    <th></th>
-  </tr>
-  <%= render :partial => 'trace', :collection => @traces unless @traces.nil? %>
-</table>
+  <table id="trace_list" cellpadding="3">
+    <tr>
+      <th></th>
+      <th></th>
+    </tr>
+    <%= render :partial => 'trace', :collection => @traces unless @traces.nil? %>
+  </table>
 
-<%= render :partial => 'trace_paging_nav' %>
+  <%= render :partial => 'trace_paging_nav' %>
+<% else %>
+  <p><%= t 'trace.list.empty_html', :upload_link => trace_create_path %></p>
+<% end %>
 
 <%= render :partial => 'trace_optionals' %>

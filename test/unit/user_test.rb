@@ -52,7 +52,7 @@ class UserTest < ActiveSupport::TestCase
     ok.each do |name|
       user = users(:normal_user)
       user.email = name
-      assert user.valid?(:save), user.errors.full_messages
+      assert user.valid?(:save), user.errors.full_messages.join(",")
     end
     
     bad.each do |name|
@@ -81,12 +81,12 @@ class UserTest < ActiveSupport::TestCase
     # Due to sanitisation in the view some of these that you might not 
     # expact are allowed
     # However, would they affect the xml planet dumps?
-    ok = [ "Name", "'me", "he\"", "#ping", "<hr>", "*ho", "\"help\"@", 
+    ok = [ "Name", "'me", "he\"", "<hr>", "*ho", "\"help\"@", 
            "vergrößern", "ルシステムにも対応します", "輕觸搖晃的遊戲" ]
     # These need to be 3 chars in length, otherwise the length test above
     # should be used.
     bad = [ "<hr/>", "test@example.com", "s/f", "aa/", "aa;", "aa.",
-            "aa,", "aa?", "/;.,?", "も対応します/" ]
+            "aa,", "aa?", "/;.,?", "も対応します/", "#ping" ]
     ok.each do |display_name|
       user = users(:normal_user)
       user.display_name = display_name
@@ -155,7 +155,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_visible
-    assert_equal 10, User.visible.count
+    assert_equal 14, User.visible.count
     assert_raise ActiveRecord::RecordNotFound do
       User.visible.find(users(:suspended_user).id)
     end
@@ -165,7 +165,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_active
-    assert_equal 9, User.active.count
+    assert_equal 13, User.active.count
     assert_raise ActiveRecord::RecordNotFound do
       User.active.find(users(:inactive_user).id)
     end
@@ -178,7 +178,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_public
-    assert_equal 11, User.public.count
+    assert_equal 15, User.public.count
     assert_raise ActiveRecord::RecordNotFound do
       User.public.find(users(:normal_user).id)
     end

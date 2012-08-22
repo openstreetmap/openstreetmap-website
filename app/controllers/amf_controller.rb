@@ -133,7 +133,7 @@ class AmfController < ApplicationController
     amf_handle_error("'startchangeset'",nil,nil) do
       user = getuser(usertoken)
       if !user then return -1,"You are not logged in, so Potlatch can't write any changes to the database." end
-      unless user.active_blocks.empty? then return -1,t('application.setup_user_auth.blocked') end
+      if user.blocks.active.exists? then return -1,t('application.setup_user_auth.blocked') end
       if REQUIRE_TERMS_AGREED and user.terms_agreed.nil? then return -1,"You must accept the contributor terms before you can edit." end
 
       if cstags
@@ -359,13 +359,13 @@ class AmfController < ApplicationController
     amf_handle_error_with_timeout("'getway_old' #{id}, #{timestamp}", 'way',id) do
       if timestamp == ''
         # undelete
-        old_way = OldWay.where(:visible => true, :way_id => id).order("version DESC").first
+        old_way = OldWay.where(:visible => true, :way_id => id).unredacted.order("version DESC").first
         points = old_way.get_nodes_undelete unless old_way.nil?
       else
         begin
           # revert
           timestamp = DateTime.strptime(timestamp.to_s, "%d %b %Y, %H:%M:%S")
-          old_way = OldWay.where("way_id = ? AND timestamp <= ?", id, timestamp).order("timestamp DESC").first
+          old_way = OldWay.where("way_id = ? AND timestamp <= ?", id, timestamp).unredacted.order("timestamp DESC").first
           unless old_way.nil?
             points = old_way.get_nodes_revert(timestamp)
             if !old_way.visible
@@ -403,11 +403,11 @@ class AmfController < ApplicationController
       # Find list of revision dates for way and all constituent nodes
       revdates=[]
       revusers={}
-      Way.find(wayid).old_ways.collect do |a|
+      Way.find(wayid).old_ways.unredacted.collect do |a|
         revdates.push(a.timestamp)
         unless revusers.has_key?(a.timestamp.to_i) then revusers[a.timestamp.to_i]=change_user(a) end
         a.nds.each do |n|
-          Node.find(n).old_nodes.collect do |o|
+          Node.find(n).old_nodes.unredacted.collect do |o|
             revdates.push(o.timestamp)
             unless revusers.has_key?(o.timestamp.to_i) then revusers[o.timestamp.to_i]=change_user(o) end
           end
@@ -423,7 +423,7 @@ class AmfController < ApplicationController
       # Remove any elements where 2 seconds doesn't elapse before next one
       revdates.delete_if { |d| revdates.include?(d+1) or revdates.include?(d+2) }
       # Collect all in one nested array
-      revdates.collect! {|d| [d.succ.strftime("%d %b %Y, %H:%M:%S")] + revusers[d.to_i] }
+      revdates.collect! {|d| [(d + 1).strftime("%d %b %Y, %H:%M:%S")] + revusers[d.to_i] }
       revdates.uniq!
 
       return ['way', wayid, revdates]
@@ -436,8 +436,8 @@ class AmfController < ApplicationController
 
   def getnode_history(nodeid) #:doc:
     begin 
-      history = Node.find(nodeid).old_nodes.reverse.collect do |old_node|
-        [old_node.timestamp.succ.strftime("%d %b %Y, %H:%M:%S")] + change_user(old_node)
+      history = Node.find(nodeid).old_nodes.unredacted.reverse.collect do |old_node|
+        [(old_node.timestamp + 1).strftime("%d %b %Y, %H:%M:%S")] + change_user(old_node)
       end
       return ['node', nodeid, history]
     rescue ActiveRecord::RecordNotFound
@@ -459,7 +459,7 @@ class AmfController < ApplicationController
     amf_handle_error_with_timeout("'findgpx'" ,nil,nil) do
       user = getuser(usertoken)
       if !user then return -1,"You must be logged in to search for GPX traces." end
-      unless user.active_blocks.empty? then return -1,t('application.setup_user_auth.blocked') end
+      if user.blocks.active.exists? then return -1,t('application.setup_user_auth.blocked') end
 
       query = Trace.visible_to(user)
       if searchterm.to_i > 0 then
@@ -523,7 +523,7 @@ class AmfController < ApplicationController
     amf_handle_error("'putrelation' #{relid}" ,'relation',relid)  do
       user = getuser(usertoken)
       if !user then return -1,"You are not logged in, so the relation could not be saved." end
-      unless user.active_blocks.empty? then return -1,t('application.setup_user_auth.blocked') end
+      if user.blocks.active.exists? then return -1,t('application.setup_user_auth.blocked') end
       if REQUIRE_TERMS_AGREED and user.terms_agreed.nil? then return -1,"You must accept the contributor terms before you can edit." end
 
       if !tags_ok(tags) then return -1,"One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." end
@@ -613,7 +613,7 @@ class AmfController < ApplicationController
   
       user = getuser(usertoken)
       if !user then return -1,"You are not logged in, so the way could not be saved." end
-      unless user.active_blocks.empty? then return -1,t('application.setup_user_auth.blocked') end
+      if user.blocks.active.exists? then return -1,t('application.setup_user_auth.blocked') end
       if REQUIRE_TERMS_AGREED and user.terms_agreed.nil? then return -1,"You must accept the contributor terms before you can edit." end
 
       if pointlist.length < 2 then return -2,"Server error - way is only #{points.length} points long." end
@@ -722,7 +722,7 @@ class AmfController < ApplicationController
     amf_handle_error("'putpoi' #{id}", 'node',id) do
       user = getuser(usertoken)
       if !user then return -1,"You are not logged in, so the point could not be saved." end
-      unless user.active_blocks.empty? then return -1,t('application.setup_user_auth.blocked') end
+      if user.blocks.active.exists? then return -1,t('application.setup_user_auth.blocked') end
       if REQUIRE_TERMS_AGREED and user.terms_agreed.nil? then return -1,"You must accept the contributor terms before you can edit." end
 
       if !tags_ok(tags) then return -1,"One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." end
@@ -782,7 +782,7 @@ class AmfController < ApplicationController
       n = Node.find(id)
       v = n.version
       unless timestamp == ''
-        n = OldNode.where("id = ? AND timestamp <= ?", id, timestamp).order("timestamp DESC").first
+        n = OldNode.where("node_id = ? AND timestamp <= ?", id, timestamp).unredacted.order("timestamp DESC").first
       end
 
       if n
@@ -807,7 +807,7 @@ class AmfController < ApplicationController
     amf_handle_error("'deleteway' #{way_id}" ,'way', way_id) do
       user = getuser(usertoken)
       unless user then return -1,"You are not logged in, so the way could not be deleted." end
-      unless user.active_blocks.empty? then return -1,t('application.setup_user_auth.blocked') end
+      if user.blocks.active.exists? then return -1,t('application.setup_user_auth.blocked') end
       if REQUIRE_TERMS_AGREED and user.terms_agreed.nil? then return -1,"You must accept the contributor terms before you can edit." end
       
       way_id = way_id.to_i

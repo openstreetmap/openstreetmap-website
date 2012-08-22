@@ -7,6 +7,11 @@ class BrowseController < ApplicationController
   around_filter :web_timeout, :except => [:start]
 
   def start 
+    @max_features = case
+                    when browser.ie? && browser.version.to_i < 8 then 100
+                    when browser.ie? && browser.version.to_i < 9 then 500
+                    else 2000
+                    end
   end
   
   def relation

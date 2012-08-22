@@ -1,14 +1,6 @@
 module ApplicationHelper
   require 'rexml/document'
 
-  def sanitize(text)
-    Sanitize.clean(text, Sanitize::Config::OSM).html_safe
-  end
-
-  def htmlize(text)
-    return linkify(sanitize(simple_format(text)))
-  end
-
   def linkify(text)
     if text.html_safe?
       Rinku.auto_link(text, :urls, tag_options(:rel => "nofollow")).html_safe
@@ -83,38 +75,6 @@ module ApplicationHelper
     content_tag(tag, capture(&block), :class => "hide_unless_administrator")
   end
 
-  def describe_location(lat, lon, zoom = nil, language = nil)
-    zoom = zoom || 14
-    language = language || request.user_preferred_languages.join(',')
-    url = "http://nominatim.openstreetmap.org/reverse?lat=#{lat}&lon=#{lon}&zoom=#{zoom}&accept-language=#{language}"
-
-    begin
-      response = OSM::Timer.timeout(4) do
-        REXML::Document.new(Net::HTTP.get(URI.parse(url)))
-      end
-    rescue Exception
-      response = nil
-    end
-
-    if response and result = response.get_text("reversegeocode/result")
-      result.to_s
-    else
-      "#{number_with_precision(lat, :precision => 3)}, #{number_with_precision(lon, :precision => 3)}"
-    end
-  end
-
-  def user_image(user, options = {})
-    options[:class] ||= "user_image"
-
-    image_tag user.image.url(:large), options
-  end
-
-  def user_thumbnail(user, options = {})
-    options[:class] ||= "user_thumbnail"
-
-    image_tag user.image.url(:small), options
-  end
-
   def preferred_editor
     if params[:editor]
       params[:editor]
@@ -122,6 +82,28 @@ module ApplicationHelper
       @user.preferred_editor
     else
       DEFAULT_EDITOR
+    end
+  end
+
+  def scale_to_zoom(scale)
+    Math.log(360.0 / (scale.to_f * 512.0)) / Math.log(2.0)
+  end
+
+  def richtext_area(object_name, method, options = {})
+    id = "#{object_name.to_s}_#{method.to_s}"
+    format = options.delete(:format) || "markdown"
+
+    content_tag(:div, :id => "#{id}_container", :class => "richtext_container") do
+      output_buffer << content_tag(:div, :id => "#{id}_content", :class => "richtext_content") do
+        output_buffer << text_area(object_name, method, options.merge("data-preview-url" => preview_url(:format => format)))
+        output_buffer << content_tag(:div, "", :id => "#{id}_preview", :class => "richtext_preview")
+      end
+
+      output_buffer << content_tag(:div, :id => "#{id}_help", :class => "richtext_help") do
+        output_buffer << render("site/#{format}_help")
+        output_buffer << submit_tag(I18n.t("site.richtext_area.edit"), :id => "#{id}_doedit", :class => "richtext_doedit", :disabled => true)
+        output_buffer << submit_tag(I18n.t("site.richtext_area.preview"), :id => "#{id}_dopreview", :class => "richtext_dopreview")
+      end
     end
   end
 

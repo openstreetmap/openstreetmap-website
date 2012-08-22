@@ -4,7 +4,7 @@ module ActiveSupport
     alias_method :old_add, :add
 
     def add(severity, message = nil, progname = nil, &block)
-      return if @level > severity
+      return if self.level > severity
       message = (message || (block && block.call) || progname).to_s
       time = Time.now
       message = "[%s.%06d #%d] %s" % [time.strftime("%Y-%m-%d %H:%M:%S"), time.usec, $$, message.sub(/^\n+/, "")]

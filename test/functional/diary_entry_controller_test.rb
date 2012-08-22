@@ -104,7 +104,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
       end
       assert_select "body", :count => 1 do
         assert_select "div#content", :count => 1 do
-          assert_select "h1", "New Diary Entry", :count => 1
+          assert_select "h1", :text => "New Diary Entry", :count => 1
           # We don't care about the layout, we just care about the form fields
           # that are available
           assert_select "form[action='/diary/new']", :count => 1 do
@@ -159,7 +159,9 @@ class DiaryEntryControllerTest < ActionController::TestCase
             assert_select "input#latitude[name='diary_entry[latitude]']", :count => 1
             assert_select "input#longitude[name='diary_entry[longitude]']", :count => 1
             assert_select "input[name=commit][type=submit][value=Save]", :count => 1
-            assert_select "input", :count => 5
+            assert_select "input[name=commit][type=submit][value=Edit]", :count => 1
+            assert_select "input[name=commit][type=submit][value=Preview]", :count => 1
+            assert_select "input", :count => 7
           end
         end
       end
@@ -188,7 +190,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
       end
       assert_select "body", :count => 1 do
         assert_select "div#content", :count => 1 do
-          assert_select "h2", :text => /#{entry.user.display_name}'s diary/, :count => 1
+          assert_select "h2", :text => /#{entry.user.display_name}&#x27;s diary/, :count => 1
           assert_select "b", :text => /#{new_title}/, :count => 1
           # This next line won't work if the text has been run through the htmlize function
           # due to formatting that could be introduced
@@ -213,7 +215,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
       end
       assert_select "body", :count => 1 do
         assert_select "div#content", :count => 1 do
-          assert_select "h2", :text => /#{users(:normal_user).display_name}'s diary/, :count => 1
+          assert_select "h2", :text => /#{users(:normal_user).display_name}&#x27;s diary/, :count => 1
           assert_select "b", :text => /#{new_title}/, :count => 1
           # This next line won't work if the text has been run through the htmlize function
           # due to formatting that could be introduced
@@ -233,7 +235,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
   def test_edit_diary_entry_i18n
     @request.cookies["_osm_username"] = users(:normal_user).display_name
 
-    get(:edit, {:id => diary_entries(:normal_user_entry_1).id}, {'user' => users(:normal_user).id})
+    get :edit, {:display_name => users(:normal_user).display_name, :id => diary_entries(:normal_user_entry_1).id}, {'user' => users(:normal_user).id}
     assert_response :success
     assert_select "span[class=translation_missing]", false, "Missing translation in edit diary entry"
   end

@@ -1,9 +1,10 @@
-# Messages for Traditional Chinese (‪中文(繁體)‬)
+# Messages for Traditional Chinese (‪中文（繁體）‬)
 # Exported from translatewiki.net
 # Export driver: syck-pecl
 # Author: Anakmalaysia
 # Author: Mmyangfl
 # Author: Pesder
+# Author: Simon Shek
 # Author: Wrightbus
 zh-TW: 
   activerecord: 
@@ -84,7 +85,6 @@ zh-TW:
     changeset: 
       changeset: 變更組合：
       changesetxml: 變更組合 XML
-      download: 下載 %{changeset_xml_link} 或 %{osmchange_xml_link}
       feed: 
         title: 變更組合 %{id}
         title_comment: 變更組合 %{id} - %{comment}
@@ -139,7 +139,6 @@ zh-TW:
         next_changeset_tooltip: 下一個 %{user} 的編輯
         prev_changeset_tooltip: 上一個 %{user} 的編輯
     node: 
-      download: "%{download_xml_link} 或 %{view_history_link}"
       download_xml: 下載 XML
       edit: 編輯
       node: 節點
@@ -149,7 +148,6 @@ zh-TW:
       coordinates: 坐標：
       part_of: 部分：
     node_history: 
-      download: "%{download_xml_link} 或 %{view_details_link}"
       download_xml: 下載 XML
       node_history: 節點歷史
       node_history_title: 節點歷史： %{node_name}
@@ -165,7 +163,6 @@ zh-TW:
       of: ／
       showing_page: 正在顯示頁面
     relation: 
-      download: "%{download_xml_link} 或 %{view_history_link}"
       download_xml: 下載 XML
       relation: 關係
       relation_title: 關係： %{relation_name}
@@ -174,7 +171,6 @@ zh-TW:
       members: 成員：
       part_of: 部分：
     relation_history: 
-      download: "%{download_xml_link} 或 %{view_details_link}"
       download_xml: 下載 XML
       relation_history: 關係歷史
       relation_history_title: 關係歷史： %{relation_name}
@@ -190,7 +186,7 @@ zh-TW:
       view_data: 目前地圖檢視的檢視資料
     start_rjs: 
       data_frame_title: 資料
-      data_layer_name: 資料
+      data_layer_name: 流覽地圖資料
       details: 詳細資訊
       drag_a_box: 在地圖上拖曳出一個方塊來選擇一個區域
       edited_by_user_at_timestamp: 由 [[user]] 於 [[timestamp]] 編輯
@@ -236,7 +232,6 @@ zh-TW:
         relation: 關係
         way: 路徑
     way: 
-      download: "%{download_xml_link} 或 %{view_history_link}"
       download_xml: 下載 XML
       edit: 編輯
       view_history: 檢視歷史
@@ -249,7 +244,6 @@ zh-TW:
       nodes: 節點：
       part_of: 部分：
     way_history: 
-      download: "%{download_xml_link} 或 %{view_details_link}"
       download_xml: 下載 XML
       view_details: 檢視詳細資訊
       way_history: 路徑歷史
@@ -258,7 +252,7 @@ zh-TW:
     changeset: 
       anonymous: 匿名
       big_area: (大)
-      no_comment: (沒有)
+      no_comment: (無)
       no_edits: (沒有編輯)
       show_area_box: 顯示區域方塊
       still_editing: (尚在編輯)
@@ -344,10 +338,6 @@ zh-TW:
       body: 抱歉，沒有日記項目或評論的 id 是 %{id}。請檢查您的拼字，或者可能是按到錯誤的連結。
       heading: 沒有項目的 id 為： %{id}
       title: 沒有這個日記項目
-    no_such_user: 
-      body: 抱歉，沒有名為 %{user} 的使用者。請檢查您的拼字，或者可能是按到錯誤的連結。
-      heading: 使用者 %{user} 不存在
-      title: 沒有這個使用者
     view: 
       leave_a_comment: 留下評論
       login: 登入
@@ -355,6 +345,8 @@ zh-TW:
       save_button: 儲存
       title: "%{user} 的日記 | %{title}"
       user_title: "%{user}的日記"
+  editor: 
+    default: 預設 (目前 %{name})
   export: 
     start: 
       add_marker: 在地圖加上標記
@@ -429,6 +421,9 @@ zh-TW:
       suffix_place: ", %{direction} %{distance} ／ %{placename}"
     search_osm_nominatim: 
       prefix: 
+        aeroway: 
+          helipad: 直升機停機坪
+          runway: 跑道
         amenity: 
           airport: 機場
           atm: ATM
@@ -455,21 +450,23 @@ zh-TW:
           library: 圖書館
           nightclub: 夜總會
           office: 辦公室
+          park: 公園
           pharmacy: 藥房
           place_of_worship: 宗教場所
           police: 警察
           post_box: 郵箱
           post_office: 郵局
           prison: 監獄
+          pub: 酒吧
+          public_building: 公共建築
           sauna: 桑拿
           school: 學校
           supermarket: 超級市場
+          swimming_pool: 游泳池
           taxi: 出租車
           telephone: 公共電話
           toilets: 洗手間
           university: 大學
-        building: 
-          church: 教堂
         historic: 
           museum: 博物館
         landuse: 
@@ -477,7 +474,6 @@ zh-TW:
           military: 軍事區
           reservoir: 水庫
         natural: 
-          coastline: 海岸線
           volcano: 火山
         place: 
           airport: 機場
@@ -564,15 +560,11 @@ zh-TW:
     history: 歷史
     home: 家
     home_tooltip: 移至家位置
-    inbox: 收件匣 (%{count})
     inbox_tooltip: 
       one: 您的收件匣有 1 個未閱讀的訊息
       other: 您的收件匣有 %{count} 個未閱讀的訊息
       zero: 您的收件匣沒有未閱讀的訊息
     intro_1: OpenStreetMap 是一個自由、可編輯的全世界地圖。它是由像您這樣的人所製作的。
-    intro_2: OpenStreetMap 讓您可以從地球上的任何地方以合作的方式檢視、編輯與使用地圖資料。
-    intro_3: OpenStreetMap 的主機是由 %{ucl} 和 %{bytemark} 大力支援的。這個專案的其他支持者都列在 %{partners}。
-    intro_3_partners: wiki
     license: 
       title: OpenStreetMap 資料是以創用 CC 姓名標示-相同方式分享 2.0 通用條款授權
     log_in: 登入
@@ -640,10 +632,6 @@ zh-TW:
       body: 抱歉，並沒有這個 id 的訊息。
       heading: 沒有這個訊息
       title: 沒有這個訊息
-    no_such_user: 
-      body: 抱歉沒有這個名字的使用者。
-      heading: 沒有這個使用者
-      title: 沒有這個使用者
     outbox: 
       date: 日期
       inbox: 收件匣
@@ -832,12 +820,11 @@ zh-TW:
     index: 
       js_1: 您使用不支援 JavaScript 的瀏覽器，或者停用了 JavaScript。
       js_2: OpenStreetMap 使用 JavaScript 讓地圖更平順。
-      js_3: 如果您無法啟用 JavaScript，可以試試 <a href="http://tah.openstreetmap.org/Browse/">Tiles@Home 靜態拼貼瀏覽器</a>。
       license: 
         license_name: 創用 CC 姓名標示-相同方式分享 2.0
         notice: 由 %{project_name} 和它的貢獻者依 %{license_name} 條款授權。
         project_name: OpenStreetMap 計畫
-      permalink: 靜態連結
+      permalink: 永久鏈接
       remote_failed: 編輯失敗 - 請確定已載入 JOSM 或 Merkaartor 並啟用遠端控制選項
       shortlink: 簡短連結
     key: 
@@ -940,10 +927,6 @@ zh-TW:
       your_traces: 您的 GPS 軌跡
     make_public: 
       made_public: 軌跡標記為公開
-    no_such_user: 
-      body: 抱歉，沒有名為 %{user} 的使用者。請檢查您的拼字，或者可能是按到錯誤的連結。
-      heading: 使用者 %{user} 不存在
-      title: 沒有這個使用者
     offline: 
       heading: GPX 離線儲存
       message: GPX 檔案儲存，上傳系統目前無法使用。
@@ -982,8 +965,6 @@ zh-TW:
     trace_optionals: 
       tags: 標籤
     trace_paging_nav: 
-      next: 下一頁 »
-      previous: « 上一頁
       showing_page: 顯示頁面 %{page}
     view: 
       delete_track: 刪除這個軌跡
@@ -1199,7 +1180,7 @@ zh-TW:
       role: 
         administrator: 這個使用者是管理者
       send message: 傳送訊息
-      settings_link_text: 設定值
+      settings_link_text: 設定
       spam score: 垃圾郵件分數：
       status: 狀態：
       traces: 軌跡

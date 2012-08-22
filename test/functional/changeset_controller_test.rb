@@ -172,8 +172,12 @@ class ChangesetControllerTest < ActionController::TestCase
   # check that a changeset that doesn't exist returns an appropriate message
   def test_read_not_found
     [0, -32, 233455644, "afg", "213"].each do |id|
-      get :read, :id => id
-      assert_response :not_found, "should get a not found"
+      begin
+        get :read, :id => id
+        assert_response :not_found, "should get a not found"
+      rescue ActionController::RoutingError => ex
+        assert_match /No route matches/, ex.to_s
+      end
     end
   end
   
@@ -234,15 +238,23 @@ class ChangesetControllerTest < ActionController::TestCase
     
     # First try to do it with no auth
     cs_ids.each do |id|
-      put :close, :id => id
-      assert_response :unauthorized, "Shouldn't be able close the non-existant changeset #{id}, when not authorized"
+      begin
+        put :close, :id => id
+        assert_response :unauthorized, "Shouldn't be able close the non-existant changeset #{id}, when not authorized"
+      rescue ActionController::RoutingError => ex
+        assert_match /No route matches/, ex.to_s
+      end
     end
     
     # Now try with auth
     basic_authorization users(:public_user).email, "test"
     cs_ids.each do |id|
-      put :close, :id => id
-      assert_response :not_found, "The changeset #{id} doesn't exist, so can't be closed"
+      begin
+        put :close, :id => id
+        assert_response :not_found, "The changeset #{id} doesn't exist, so can't be closed"
+      rescue ActionController::RoutingError => ex
+        assert_match /No route matches/, ex.to_s
+      end
     end
   end
 
@@ -1746,7 +1758,56 @@ EOF
     assert_response :not_found
     assert_template 'user/no_such_user'
   end
+      
+  ##
+  # This should display the last 20 changesets closed.
+  def test_feed
+    changesets = Changeset.find(:all, :order => "created_at DESC", :conditions => ['num_changes > 0'], :limit=> 20)
+    assert changesets.size <= 20
+    get :feed, {:format => "atom"}
+    assert_response :success
+    assert_template "list"
+    # Now check that all 20 (or however many were returned) changesets are in the html
+    assert_select "feed", :count => 1
+    assert_select "entry", :count => changesets.size
+    changesets.each do |changeset|
+      # FIXME this test needs rewriting - test for feed contents
+    end
+  end
+
+  ##
+  # Checks the display of the user changesets feed
+  def test_feed_user
+    user = users(:public_user)
+    get :feed, {:format => "atom", :display_name => user.display_name}
+    assert_response :success
+    assert_template "changeset/_user"
+    ## FIXME need to add more checks to see which if edits are actually shown if your data is public
+  end
+
+  ##
+  # Check the not found of the user changesets feed
+  def test_feed_user_not_found
+    get :feed, {:format => "atom", :display_name => "Some random user"}
+    assert_response :not_found
+  end
   
+  ##
+  # check that the changeset download for a changeset with a redacted
+  # element in it doesn't contain that element.
+  def test_diff_download_redacted
+    changeset_id = changesets(:public_user_first_change).id
+
+    get :download, :id => changeset_id
+    assert_response :success
+
+    assert_select "osmChange", 1
+    # this changeset contains node 17 in versions 1 & 2, but 1 should
+    # be hidden.
+    assert_select "osmChange node[id=17]", 1
+    assert_select "osmChange node[id=17][version=1]", 0
+  end
+
   #------------------------------------------------------------
   # utility functions
   #------------------------------------------------------------

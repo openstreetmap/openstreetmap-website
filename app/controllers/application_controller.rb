@@ -4,13 +4,6 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   if STATUS == :database_readonly or STATUS == :database_offline
-    after_filter :clear_session
-    wrap_parameters false
-
-    def clear_session
-      session.clear
-    end
-
     def self.cache_sweeper(*sweepers)
     end
   end
@@ -51,7 +44,13 @@ class ApplicationController < ActionController::Base
   end
 
   def require_user
-    redirect_to :controller => 'user', :action => 'login', :referer => request.fullpath unless @user
+    unless @user
+      if request.get?
+        redirect_to :controller => 'user', :action => 'login', :referer => request.fullpath
+      else
+        render :nothing => true, :status => :forbidden
+      end
+    end
   end
 
   ##
@@ -113,6 +112,20 @@ class ApplicationController < ActionController::Base
   end
 
   ##
+  # require that the user is a moderator, or fill out a helpful error message
+  # and return them to the index for the controller this is wrapped from.
+  def require_moderator
+    unless @user.moderator?
+      if request.get?
+        flash[:error] = t('application.require_moderator.not_a_moderator')
+        redirect_to :action => 'index'
+      else
+        render :nothing => true, :status => :forbidden
+      end
+    end
+  end
+
+  ##
   # sets up the @user object for use by other methods. this is mostly called
   # from the authorize method, but can be called elsewhere if authorisation
   # is optional.
@@ -133,7 +146,7 @@ class ApplicationController < ActionController::Base
     # have we identified the user?
     if @user
       # check if the user has been banned
-      if not  @user.active_blocks.empty?
+      if @user.blocks.active.exists?
         # NOTE: need slightly more helpful message than this.
         report_error t('application.setup_user_auth.blocked'), :forbidden
       end
@@ -157,6 +170,22 @@ class ApplicationController < ActionController::Base
       # no auth, the user does not exist or the password was wrong
       response.headers["WWW-Authenticate"] = "Basic realm=\"#{realm}\"" 
       render :text => errormessage, :status => :unauthorized
+      return false
+    end 
+  end 
+
+  ##
+  # to be used as a before_filter *after* authorize. this checks that
+  # the user is a moderator and, if not, returns a forbidden error.
+  #
+  # NOTE: this isn't a very good way of doing it - it duplicates logic
+  # from require_moderator - but what we really need to do is a fairly
+  # drastic refactoring based on :format and respond_to? but not a 
+  # good idea to do that in this branch.
+  def authorize_moderator(errormessage="Access restricted to moderators") 
+    # check user is a moderator
+    unless @user.moderator?
+      render :text => errormessage, :status => :forbidden
       return false
     end 
   end 
@@ -356,6 +385,26 @@ class ApplicationController < ActionController::Base
     !@user.nil?
   end
 
+  ##
+  # ensure that there is a "this_user" instance variable
+  def lookup_this_user
+    unless @this_user = User.active.find_by_display_name(params[:display_name])
+      render_unknown_user params[:display_name]
+    end
+  end
+
+  ##
+  # render a "no such user" page
+  def render_unknown_user(name)
+    @title = t "user.no_such_user.title"
+    @not_found_user = name
+
+    respond_to do |format|
+      format.html { render :template => "user/no_such_user", :status => :not_found }
+      format.all { render :nothing => true, :status => :not_found }
+    end
+  end
+  
 private 
 
   # extract authorisation credentials from headers, returns user = nil if none

@@ -1,10 +1,11 @@
-# Messages for Simplified Chinese (‪中文(简体)‬)
+# Messages for Simplified Chinese (‪中文（简体）‬)
 # Exported from translatewiki.net
 # Export driver: syck-pecl
 # Author: Anakmalaysia
 # Author: Hydra
 # Author: Liangent
 # Author: Mmyangfl
+# Author: Nemo bis
 # Author: PhiLiP
 # Author: Shizhao
 # Author: Xiaomingyan
@@ -87,7 +88,6 @@ zh-CN:
     changeset: 
       changeset: 修改集合：%{id}
       changesetxml: 修改集合 XML
-      download: 下载%{changeset_xml_link} 或 %{osmchange_xml_link}
       feed: 
         title: 修改集合 %{id}
         title_comment: 修改集合 %{id} - %{comment}
@@ -105,7 +105,7 @@ zh-CN:
       no_bounding_box: 没有为该修改集合所储存的限定窗口。
       show_area_box: 显示区域窗口
     common_details: 
-      changeset_comment: 注释：
+      changeset_comment: 评论：
       deleted_at: 删除于：
       deleted_by: 删除由：
       edited_at: 编辑于：
@@ -150,7 +150,6 @@ zh-CN:
         next_changeset_tooltip: 下一个 %{user} 的编辑
         prev_changeset_tooltip: 上一个 %{user} 的编辑
     node: 
-      download: "%{download_xml_link}、%{view_history_link}或%{edit_link}"
       download_xml: 下载 XML
       edit: 编辑
       node: 节点
@@ -160,7 +159,6 @@ zh-CN:
       coordinates: 坐标：
       part_of: 部分：
     node_history: 
-      download: "%{download_xml_link} 或%{view_details_link}"
       download_xml: 下载 XML
       node_history: 节点历史
       node_history_title: 节点历史：%{node_name}
@@ -175,8 +173,12 @@ zh-CN:
     paging_nav: 
       of: /
       showing_page: 显示页面
+    redacted: 
+      type: 
+        node: 节点
+        relation: 关系
+        way: 路径
     relation: 
-      download: "%{download_xml_link} 或%{view_history_link}"
       download_xml: 下载 XML
       relation: 关系
       relation_title: 关系：%{relation_name}
@@ -185,7 +187,6 @@ zh-CN:
       members: 成员：
       part_of: 部分：
     relation_history: 
-      download: "%{download_xml_link} 或%{view_details_link}"
       download_xml: 下载 XML
       relation_history: 关系历史
       relation_history_title: 关系历史：%{relation_name}
@@ -202,14 +203,14 @@ zh-CN:
       view_data: 查看当前地图视图中的数据
     start_rjs: 
       data_frame_title: 数据
-      data_layer_name: 数据
+      data_layer_name: 浏览地图数据
       details: 详细信息
       drag_a_box: 通过拖曳窗口来选择区域
       edited_by_user_at_timestamp: 由 [[user]] 于 [[timestamp]] 编辑
       hide_areas: 隐藏区域
       history_for_feature: 历史 [[feature]]
       load_data: 加载数据
-      loaded_an_area_with_num_features: 您已经选择了包含 [[num_features]] 项特征的区域。通常，有些浏览器无法正常显示这么多的数据。一般而言，浏览器一次显示 100 个以下特征时效果最好；超过这个数量会使您的浏览器变慢/无响应。如果确定要显示这个数据，请按下面的按钮。
+      loaded_an_area_with_num_features: 您已选择了包含 [[num_features]] 项特征的区域。通常，有些浏览器无法正常显示这么多的数据。一般而言，浏览器一次显示少于 [[max_features]] 项特征时效果最好：执行其他任务会使您的浏览器变慢/无响应。如果确定要显示这些数据，请按下面的按钮。
       loading: 载入中...
       manually_select: 手动选择一个不同区域
       object_list: 
@@ -248,7 +249,6 @@ zh-CN:
         relation: 关系
         way: 路径
     way: 
-      download: "%{download_xml_link}，%{view_history_link}或%{edit_link}"
       download_xml: 下载 XML
       edit: 编辑
       view_history: 查看历史
@@ -259,7 +259,6 @@ zh-CN:
       nodes: 节点：
       part_of: 部分：
     way_history: 
-      download: "%{download_xml_link} 或者%{view_details_link}"
       download_xml: 下载 XML
       view_details: 查看详细信息
       way_history: 路径历史
@@ -280,7 +279,7 @@ zh-CN:
       showing_page: 显示第 %{page} 页
     changesets: 
       area: 区域
-      comment: 注释
+      comment: 评论
       id: ID
       saved_at: 保存时间
       user: 用户
@@ -371,10 +370,6 @@ zh-CN:
       body: 对不起，没有 id 为 %{id} 的日记条目或者评论。请检查拼写，或者您点击的链接有误。
       heading: 关于此 id：%{id} 没有条目
       title: 没有这个日记条目
-    no_such_user: 
-      body: 对不起，没有名为 %{user} 的用户。请检查拼写，或者您点击的链接有误。
-      heading: 用户 %{user} 不存在
-      title: 没有这个用户
     view: 
       leave_a_comment: 留下评论
       login: 登录
@@ -470,16 +465,28 @@ zh-CN:
       suffix_suburb: "%{suffix}，%{parentname}"
     search_osm_nominatim: 
       prefix: 
+        aeroway: 
+          aerodrome: 机场
+          apron: 机坪
+          gate: 门
+          helipad: 直升机停机坪
+          runway: 跑道
+          taxiway: 滑行道
+          terminal: 航站楼
         amenity: 
+          WLAN: WiFi 接入
           airport: 机场
           arts_centre: 艺术中心
+          artwork: 艺术品
           atm: 自动取款机(ATM)
           auditorium: 礼堂
           bank: 银行
           bar: 酒吧
+          bbq: 烧烤
           bench: 长凳
           bicycle_parking: 自行车停车
           bicycle_rental: 自行车租赁
+          biergarten: 啤酒花园
           brothel: 妓院
           bureau_de_change: 货币兑换
           bus_station: 公交主站
@@ -488,6 +495,7 @@ zh-CN:
           car_sharing: 汽车共享
           car_wash: 洗车
           casino: 赌场
+          charging_station: 充电站
           cinema: 电影院
           clinic: 诊所
           club: 俱乐部
@@ -506,6 +514,7 @@ zh-CN:
           ferry_terminal: 轮渡码头
           fire_hydrant: 消防栓
           fire_station: 消防局
+          food_court: 食阁
           fountain: 喷泉
           fuel: 燃料
           grave_yard: 墓地
@@ -546,9 +555,12 @@ zh-CN:
           shelter: 庇护所
           shop: 商店
           shopping: 购物
+          shower: 淋浴
+          social_centre: 社区中心
           social_club: 社交俱乐部
           studio: 工作室
           supermarket: 超市
+          swimming_pool: 游泳池
           taxi: 出租车
           telephone: 公共电话
           theatre: 剧院
@@ -563,37 +575,17 @@ zh-CN:
           youth_centre: 青少年中心
         boundary: 
           administrative: 行政区边界
+          census: 人口普查边界
+          national_park: 国家公园
+          protected_area: 保护区
+        bridge: 
+          aqueduct: 输水管道
+          suspension: 悬索桥
+          swing: 索桥
+          viaduct: 高架桥
+          "yes": 桥
         building: 
-          apartments: 公寓楼
-          block: 建筑楼
-          bunker: 碉堡
-          chapel: 教堂
-          church: 教堂
-          city_hall: 市政厅
-          commercial: 商业建筑物
-          dormitory: 宿舍
-          entrance: 建筑入口
-          faculty: 师资队伍建设
-          farm: 农场建筑物
-          flats: 公寓
-          garage: 车库
-          hall: 小山
-          hospital: 医院建筑物
-          hotel: 酒店
-          house: 房屋
-          industrial: 工业建筑物
-          office: 办公楼
-          public: 公共建筑物
-          residential: 住宅建筑物
-          retail: 零售建筑物
-          school: 学校建筑物
-          shop: 商店
-          stadium: 体育场
-          store: 商店
-          terrace: 阳台
-          tower: 塔
-          train_station: 火车站
-          university: 大学建筑物
+          "yes": 建筑物
         highway: 
           bridleway: 马道
           bus_guideway: 导轨公交专用道
@@ -601,12 +593,11 @@ zh-CN:
           byway: 非机动车道(英国)
           construction: 在建道路
           cycleway: 单车径
-          distance_marker: 距离标记
           emergency_access_point: 紧急接入点
           footway: 步行道
           ford: 浅滩
-          gate: 门
           living_street: 生活街道
+          milestone: 里程碑
           minor: 次要道路
           motorway: 高速公路
           motorway_junction: 高速公路连接线
@@ -618,18 +609,21 @@ zh-CN:
           primary_link: 一级道路
           raceway: 滚道
           residential: 住宅
+          rest_area: 休息区
           road: 道路
           secondary: 二级公路
           secondary_link: 二级公路
           service: 服务道路
           services: 高速公路服务区
+          speed_camera: 超速照相机
           steps: 楼梯
           stile: 跨越围栏的台阶
           tertiary: 三级道路
+          tertiary_link: 三级道路
           track: 辙迹
           trail: 轨迹
-          trunk: 主干道路
-          trunk_link: 主干道路
+          trunk: 快速道路
+          trunk_link: 快速道路
           unclassified: 未分类道路
           unsurfaced: 无铺面道路
         historic: 
@@ -639,6 +633,7 @@ zh-CN:
           building: 建筑物
           castle: 城堡
           church: 教堂
+          fort: 堡
           house: 房屋
           icon: 圣像画
           manor: 庄园
@@ -663,6 +658,7 @@ zh-CN:
           farmland: 农田
           farmyard: 农家庭院
           forest: 森林
+          garages: 车库
           grass: 草地
           greenfield: 绿色地带
           industrial: 工业区
@@ -670,25 +666,28 @@ zh-CN:
           meadow: 草甸
           military: 军事区
           mine: 矿区
-          mountain: 山
           nature_reserve: 自然保护区
+          orchard: 果园
           park: 公园
           piste: 滑雪场
-          plaza: 广场
           quarry: 采石场
           railway: 铁路
           recreation_ground: 游乐场
           reservoir: 水库
+          reservoir_watershed: 库区
           residential: 住宅区
           retail: 零售
+          road: 道路面积
           village_green: 绿色村庄
           vineyard: 葡萄园
           wetland: 湿地
           wood: 林
         leisure: 
           beach_resort: 海滩度假村
+          bird_hide: 鸟隐藏
           common: 公共土地
           fishing: 垂钓区
+          fitness_station: 健身站
           garden: 花园
           golf_course: 高尔夫球场
           ice_rink: 冰场
@@ -699,12 +698,17 @@ zh-CN:
           pitch: 体育场
           playground: 游乐场
           recreation_ground: 游乐场
+          sauna: 桑拿
           slipway: 船入水滑道
           sports_centre: 体育馆
           stadium: 体育场
           swimming_pool: 游泳池
           track: 赛道
           water_park: 水上乐园
+        military: 
+          airfield: 军用机场
+          barracks: 军营
+          bunker: 碉堡
         natural: 
           bay: 海湾
           beach: 海滩
@@ -712,11 +716,12 @@ zh-CN:
           cave_entrance: 洞口
           channel: 海峡
           cliff: 悬崖
-          coastline: 海岸线
           crater: 火山口
+          dune: 沙丘
           feature: 特征
           fell: 下跌
           fjord: 峡湾
+          forest: 森林
           geyser: 喷泉
           glacier: 冰川
           heath: 荒地
@@ -736,6 +741,7 @@ zh-CN:
           scrub: 灌木
           shoal: 浅滩
           spring: 泉
+          stone: 商店
           strait: 海峡
           tree: 树
           valley: 山谷
@@ -744,6 +750,18 @@ zh-CN:
           wetland: 湿地
           wetlands: 湿地
           wood: 林
+        office: 
+          accountant: 会计事务所
+          company: 公司
+          employment_agency: 职业中介
+          estate_agent: 房产中介
+          government: 政府办事处
+          insurance: 保险
+          lawyer: 律师事务所
+          ngo: 非政府组织办事处
+          telecommunication: 电信办公室
+          travel_agent: 旅行社
+          "yes": 办公室
         place: 
           airport: 机场
           city: 城市
@@ -755,6 +773,7 @@ zh-CN:
           houses: 房屋
           island: 岛
           islet: 屿
+          isolated_dwelling: 独立的住宅
           locality: 地区
           moor: 系泊
           municipality: 都市
@@ -778,6 +797,7 @@ zh-CN:
           junction: 铁路枢纽
           level_crossing: 平交道口
           light_rail: 轻轨
+          miniature: 微型铁路
           monorail: 单轨
           narrow_gauge: 窄轨铁路
           platform: 站台
@@ -792,7 +812,7 @@ zh-CN:
           yard: 铁路货场
         shop: 
           alcohol: 无许可证
-          apparel: 服装店
+          antiques: 古玩店
           art: 艺术品店
           bakery: 面包店
           beauty: 美容店
@@ -801,7 +821,6 @@ zh-CN:
           books: 书店
           butcher: 屠宰
           car: 车店
-          car_dealer: 汽车销售
           car_parts: 汽车零件
           car_repair: 汽车维修
           carpet: 地毯店
@@ -816,7 +835,6 @@ zh-CN:
           department_store: 百货商店
           discount: 折扣精品店
           doityourself: DIY
-          drugstore: 药店
           dry_cleaning: 干洗
           electronics: 电子产品商店
           estate_agent: 房产中介
@@ -882,7 +900,10 @@ zh-CN:
           valley: 谷
           viewpoint: 景点
           zoo: 动物园
+        tunnel: 
+          "yes": 隧道
         waterway: 
+          artificial: 运河
           boatyard: 船坞
           canal: 运河
           connector: 航道连接器
@@ -923,12 +944,13 @@ zh-CN:
       history_tooltip: 查看对此区域的编辑
       history_zoom_alert: 您必须先放大才能编辑此区域
   layouts: 
+    community: 社区
     community_blogs: 社区博客
     community_blogs_title: OpenStreetMap 社区成员的博客
     copyright: 版权及许可
     documentation: 文档
     documentation_title: 该项目的文档
-    donate: 给硬件升级基金%{link}以支持 OpenStreetMap。
+    donate: 给硬件升级基金会%{link}以支持 OpenStreetMap。
     donate_link_text: 捐款
     edit: 编辑
     edit_with: 使用 %{editor} 编辑
@@ -945,19 +967,16 @@ zh-CN:
     history: 历史
     home: 主页
     home_tooltip: 回到主页位置
-    inbox: 收件箱(%{count})
     inbox_tooltip: 
       one: 您的收件箱有 1 封未读消息
       other: 您的收件箱有 %{count} 封未读消息
       zero: 您的收件箱中没有未读消息
-    intro_1: OpenStreetMap 是一个可供自由编辑的世界地图，它是由像您这样的用户创造的
-    intro_2: OpenStreetMap 允许您查看，编辑或者使用世界各地的地理数据来帮助您。
-    intro_3: OpenStreetMap 的主机是由%{ucl}、%{ic}和 %{bytemark}大力支持的。这个项目的其他支持者都列在%{partners}中。
-    intro_3_bytemark: Bytemark 虚拟主机
-    intro_3_ic: 英国伦敦帝国学院
-    intro_3_partners: 维基
-    intro_3_partners_url: http://wiki.openstreetmap.org/wiki/Partners
-    intro_3_ucl: 伦敦大学学院 VR 中心
+    intro_1: OpenStreetMap 是一个可供自由编辑的世界地图，它是由像您这样的用户创造的。
+    intro_2_create_account: 创建用户帐户
+    intro_2_download: 下载
+    intro_2_html: 数据可以免费%{download}，并依据%{license}%{use}。%{create_account}以改善地图。
+    intro_2_license: 开放许可协议
+    intro_2_use: 使用
     license: 
       alt: 知识共享 署名-相同方式共享 2.0
       title: OpenStreetMap 数据是以知识共享 署名-相同方式共享 2.0 通用许可授权
@@ -972,6 +991,11 @@ zh-CN:
       title: 捐款支持 OpenStreetMap
     osm_offline: OpenStreetMap 的数据库目前离线中，直到必要的数据库维护工作完成为止。
     osm_read_only: OpenStreetMap 数据库目前处于只读模式中，数据库的维护工作正在进行中。
+    partners_bytemark: Bytemark 主机
+    partners_html: 主机由%{ucl}、%{ic}、%{bytemark}和其他%{partners}所支持。
+    partners_ic: 英国伦敦帝国学院
+    partners_partners: 合作伙伴
+    partners_ucl: 伦敦大学学院 VR 中心
     project_name: 
       h1: OpenStreetMap
       title: OpenStreetMap
@@ -992,7 +1016,14 @@ zh-CN:
       english_link: 英文原文
       text: 这个翻译页面和%{english_original_link}在事件上有冲突时，以英文页面为准
       title: 关于这个翻译
-    legal_babble: "<h2>版权和许可</h2>\n<p>\n   OpenStreetMap 是<i>开放数据</i>的，采用<a\n   href=\"http://creativecommons.org/licenses/by-sa/2.0/\">知识\n   共享 署名-相同方式共享 2.0</a>协议(CC-BY-SA)授权。\n</p>\n<p>\n  您可以自由地复制、发行、传播和创作演绎我们的地图\n  和数据，只要您信任 OpenStreetMap 和它的\n  贡献者。如果您改变、转换或者以我们的地图或数据为基础进行创作，您\n  只能采用与本协议相同的许可协议发布您的作品。完整\n  的<a\n  href=\"http://creativecommons.org/licenses/by-sa/2.0/legalcode\">法律\n  文本</a>阐明了您的权利和义务。\n</p>\n\n<h3>How to credit OpenStreetMap</h3>\n<p>\n  If you are using OpenStreetMap map images, we request that\n  your credit reads at least &ldquo;&copy; OpenStreetMap\n  contributors, CC-BY-SA&rdquo;. If you are using map data only,\n  we request &ldquo;Map data &copy; OpenStreetMap contributors,\n  CC-BY-SA&rdquo;.\n</p>\n<p>\n  Where possible, OpenStreetMap should be hyperlinked to <a\n  href=\"http://www.openstreetmap.org/\">http://www.openstreetmap.org/</a>\n  and CC-BY-SA to <a\n  href=\"http://creativecommons.org/licenses/by-sa/2.0/\">http://creativecommons.org/licenses/by-sa/2.0/</a>. If\n  you are using a medium where links are not possible (e.g. a\n  printed work), we suggest you direct your readers to\n  www.openstreetmap.org (perhaps by expanding\n  &lsquo;OpenStreetMap&rsquo; to this full address) and to\n  www.creativecommons.org.\n</p>\n\n<h3>了解更多</h3>\n<p>\n  阅读更多关于使用我们数据的 <a\n  href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">常见\n  法律问题</a>。\n</p>\n<p>\n  OSM contributors are reminded never to add data from any\n  copyrighted sources (e.g. Google Maps or printed maps) without\n  explicit permission from the copyright holders.\n</p>\n<p>\n  虽然 OpenStreetMap 是开放数据的，我们无法为\n  第三方开发者提供一个免费的地图 API。\n\n  请参阅我们的 <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">API 使用政策</a>、\n  <a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">拼贴使用政策</a>\n  和 <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">Nominatim 使用政策</a>。\n</p>\n\n<h3>我们的贡献者</h3>\n<p>\n  Our CC-BY-SA licence requires you to &ldquo;give the Original\n  Author credit reasonable to the medium or means You are\n  utilising&rdquo;. Individual OSM mappers do not request a\n  credit over and above that to &ldquo;OpenStreetMap\n  contributors&rdquo;, but where data from a national mapping\n  agency or other major source has been included in\n  OpenStreetMap, it may be reasonable to credit them by directly\n  reproducing their credit or by linking to it on this page.\n</p>\n\n<!--\n致页面编辑者的信息\n\nThe following lists only those organisations who require attribution\nas a condition of their data being used in OpenStreetMap. It is not a\ngeneral catalogue of imports, and must not be used except when\nattribution is required to comply with the licence of the imported\ndata.\n\n在这里添加任何东西，必须首先与 OSM 系统管理员讨论。\n-->\n\n<ul id=\"contributors\">\n    <li><strong>澳大利亚</strong>：Contains suburb data based\n    on Australian Bureau of Statistics data.</li>\n    <li><strong>奥地利</strong>：包含来自于 \n    <a href=\"http://data.wien.gv.at/\">Stadt Wien</a> 基于 \n    <a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.de\">CC-BY</a> 授权的数据。</li>\n    <li><strong>加拿大</strong>：Contains data from\n    GeoBase&reg;, GeoGratis (&copy; Department of Natural\n    Resources Canada), CanVec (&copy; Department of Natural\n    Resources Canada), and StatCan (Geography Division,\n    Statistics Canada).</li>\n    <li><strong>法国</strong>：Contains data sourced from\n    Direction Générale des Impôts.</li>\n    <li><strong>新西兰</strong>：Contains data sourced from\n    Land Information New Zealand. Crown Copyright reserved.</li>\n    <li><strong>波兰</strong>：Contains data from <a\n    href=\"http://ump.waw.pl/\">UMP-pcPL maps</a>. Copyright\n    UMP-pcPL contributors.</li>\n    <li><strong>英国</strong>：Contains Ordnance\n    Survey data &copy; Crown copyright and database right\n    2010.</li>\n</ul>\n\n<p>\n  Inclusion of data in OpenStreetMap does not imply that the original\n  data provider endorses OpenStreetMap, provides any warranty, or\n  accepts any liability.\n</p>"
+    legal_babble: 
+      contributors_title_html: 我们的贡献者
+      intro_1_html: "   OpenStreetMap 是<i>开放数据</i>的，采用<a\n   href=\"http://creativecommons.org/licenses/by-sa/2.0/\">知识\n   共享 署名-相同方式共享 2.0</a>协议(CC BY-SA)授权。"
+      intro_2_html: "  您可以自由地复制、发行、传播和创作演绎我们的地图\n  和数据，只要您信任 OpenStreetMap 和它的\n  贡献者。如果您改变、转换或者以我们的地图或数据为基础进行创作，您\n  只能采用与本协议相同的许可协议发布您的作品。完整\n  的<a\n  href=\"http://creativecommons.org/licenses/by-sa/2.0/legalcode\">法律\n  文本</a>阐明了您的权利和义务。"
+      more_1_html: "  阅读更多关于使用我们数据的 <a\n  href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">常见\n  法律问题</a>。"
+      more_3_html: "  虽然 OpenStreetMap 是开放数据的，我们无法为\n  第三方开发者提供一个免费的地图 API。\n\n  请参阅我们的 <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">API 使用政策</a>、\n  <a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">瓦片使用政策</a>\n  和 <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">Nominatim 使用政策</a>。"
+      more_title_html: 了解更多
+      title_html: 版权和许可
     native: 
       mapping_link: 开始制图
       native_link: 简体中文版
@@ -1024,7 +1055,7 @@ zh-CN:
     new: 
       back_to_inbox: 返回收件箱
       body: 主体
-      limit_exceeded: 您刚刚发送了很多消息。在尝试发送其他消息之前请稍等一会儿。
+      limit_exceeded: 您刚发送了很多消息。在尝试发送其他消息之前，请稍等一会儿。
       message_sent: 已发送消息
       send_button: 发送
       send_message_to: 发送新消息给 %{name}
@@ -1034,10 +1065,6 @@ zh-CN:
       body: 对不起，没有具有该 id 的消息。
       heading: 没有此消息
       title: 没有此消息
-    no_such_user: 
-      body: 对不起，没有使用该名称的用户。
-      heading: 没有此用户
-      title: 没有此用户
     outbox: 
       date: 日期
       inbox: 收件箱
@@ -1104,7 +1131,7 @@ zh-CN:
       with_description: 带有描述
       your_gpx_file: 看起来像是您的 GPX 文件
     lost_password: 
-      subject: "[OpenStreetMap] 密码重设请求"
+      subject: "[OpenStreetMap] 密码重置请求"
     lost_password_html: 
       click_the_link: 如果这是您，请点击下面的链接重置您的密码。
       greeting: 您好，
@@ -1130,18 +1157,18 @@ zh-CN:
       greeting: 您好！
       hopefully_you: 某人(希望是您)想要建立一个账户
       introductory_video: 您可以观看一部%{introductory_video_link}。
-      more_videos: 这里有更多%{more_videos_link}。
-      more_videos_here: 有更多的影片
+      more_videos: 这里有%{more_videos_link}。
+      more_videos_here: 更多的影片
       user_wiki_page: 推荐您创立一个用户维基页面，它包括分类标签，用来提醒您所在位置，例如 <a href="http://wiki.openstreetmap.org/wiki/Category:Users_in_London">[[Category:Users_in_London]]</a>。
-      video_to_openstreetmap: 关于 OpenStreetMap 的介绍影片
+      video_to_openstreetmap: OpenStreetMap 的介绍片
       wiki_signup: 您可能也想要<a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page">注册到 OpenStreetMap 维基</a>。
     signup_confirm_plain: 
       ask_questions: 您可以在我们的问答站点问关于 OpenStreetMap 的任何问题：
       blog_and_twitter: 通过 OpenStreetMap 的博客或 Twitter 以了解最新消息：
       click_the_link_1: 如果这是您，欢迎您！请点击下面的链接来确认您的
       click_the_link_2: 帐户，并阅读更多 OpenStreetMap 的信息。
-      current_user_1: 一个当前不同分类的用户列表，他们是基于所在地理位置来分类
-      current_user_2: 来自于：
+      current_user_1: 一个基于所在位置分类的当前用户列表
+      current_user_2: 在此：
       greeting: 您好！
       hopefully_you: 某人(希望是您)希望创建一个账号
       introductory_video: 您可以在这里观看 OpenStreetMap 的介绍视频：
@@ -1150,7 +1177,7 @@ zh-CN:
       the_wiki: 在维基上阅读 OpenStreetMap 的介绍：
       the_wiki_url: http://wiki.openstreetmap.org/wiki/Beginners%27_Guide
       user_wiki_1: 推荐您创建一个维基的用户页，它包括
-      user_wiki_2: 分类标签表明您的位置，例如 [[Category:Users_in_London]]。
+      user_wiki_2: 分类标签以表明您的位置，例如 [[Category:Users_in_London]]。
       wiki_signup: 您可能也想在 OpenStreetMap 维基上注册：
       wiki_signup_url: http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page
   oauth: 
@@ -1211,6 +1238,7 @@ zh-CN:
       allow_write_gpx: 上传 GPS 轨迹。
       allow_write_prefs: 修改他们的用户首选项。
       authorize_url: 授权 URL：
+      confirm: 您确定吗？
       edit: 编辑详细信息
       key: 用户键：
       requests: 要向用户要求下列权限：
@@ -1224,6 +1252,17 @@ zh-CN:
     with_id: "%{id}"
     with_name: "%{name} (%{id})"
     with_version: "%{id}，版本 %{version}"
+  redaction: 
+    edit: 
+      description: 说明
+    new: 
+      description: 说明
+    show: 
+      confirm: 您确定吗？
+      description: 说明：
+      user: "创建者:"
+    update: 
+      flash: 更改已保存。
   site: 
     edit: 
       anon_edits: (%{link})
@@ -1240,7 +1279,6 @@ zh-CN:
     index: 
       js_1: 您或许正在使用不支持 JavaScript 的浏览器，或许您禁用了 JavaScript。
       js_2: OpenStreetMap 使用 JavaScript 让地图更平滑。
-      js_3: 如果您无法启用 JavaScript，可以尝试 <a href="http://tah.openstreetmap.org/Browse/">Tiles@Home 静态拼贴浏览器</a>。
       license: 
         license_name: 知识共享 署名-相同方式共享 2.0
         license_url: http://creativecommons.org/licenses/by-sa/2.0/
@@ -1306,18 +1344,35 @@ zh-CN:
           station: 火车站
           subway: 地铁
           summit: 
-            - 首脑会议
+            - 山峰
             - 高峰
           tourist: 旅游景点
           track: 辙迹
           tram: 
             - 轻轨
             - 电车
-          trunk: 主干道路
+          trunk: 快速道路
           tunnel: 虚线套管 = 隧道
           unclassified: 未分类道路
           unsurfaced: 无铺面道路
           wood: 林
+    markdown_help: 
+      alt: 替代文本
+      first: 第一项
+      heading: 标题
+      headings: 标题
+      image: 图像
+      link: 链接
+      ordered: 有序列表
+      second: 第二项
+      subheading: 副标题
+      text: 文本
+      title_html: 按照 <a href="http://daringfireball.net/projects/markdown/">Markdown</a> 来解析
+      unordered: 无序列表
+      url: URL
+    richtext_area: 
+      edit: 编辑
+      preview: 预览
     search: 
       search: 搜索
       search_help: 例如：'Alkmaar'，'Regent Street, Cambridge'，'CB2 5AQ'，或 'post offices near Lünen' <a href='http://wiki.openstreetmap.org/wiki/Search'>更多例子...</a>
@@ -1329,7 +1384,7 @@ zh-CN:
       search_results: 搜索结果
   time: 
     formats: 
-      friendly: "%Y 年%B %e 日 %H:%M"
+      friendly: "%Y 年 %B %e 日 %H:%M"
   trace: 
     create: 
       trace_uploaded: 您的 GPX 文件已经被上传，正等待被输入数据库。这通常在半小时之内，当上传结束后会发邮件通知您。
@@ -1361,10 +1416,6 @@ zh-CN:
       your_traces: 您的 GPS 轨迹
     make_public: 
       made_public: 公开化路径
-    no_such_user: 
-      body: 对不起，没有名为 %{user} 的用户。请查看您的拼写，或者可能您点击有误。
-      heading: 用户 %{user} 不存在
-      title: 没有此用户
     offline: 
       heading: GPX 脱机存储
       message: GPX 文件存储和上传系统当前不可用。
@@ -1405,8 +1456,6 @@ zh-CN:
     trace_optionals: 
       tags: 标签
     trace_paging_nav: 
-      next: 下一页 »
-      previous: « 上一页
       showing_page: 显示第 %{page} 页
     view: 
       delete_track: 删除这条轨迹
@@ -1563,10 +1612,10 @@ zh-CN:
     lost_password: 
       email address: 电子邮件地址：
       heading: 忘记密码?
-      help_text: 输入您的电子邮件地址来注册，我们会寄出链接给它，而您可以用它来重设密码。
-      new password button: 发送新密码
+      help_text: 输入您的电子邮件地址来注册，我们会寄出链接给它，这样您就可以用它来重置密码。
+      new password button: 重置密码
       notice email cannot find: 对不起，无法找到邮箱。
-      notice email on way: 对不起您的密码丢失 ：-( 但是您可以根据发送的邮件重设密码。
+      notice email on way: 对不起，您忘记了密码 :-( 但是邮件正在发送，一会您就可以重置它。
       title: 丢失密码
     make_friend: 
       already_a_friend: 您已经和 %{name} 是朋友了。
@@ -1650,7 +1699,7 @@ zh-CN:
       confirm_user: 确认此用户
       create_block: 阻止此用户
       created from: 建立于：
-      ct accepted: 于%{ago}以前接受
+      ct accepted: 于%{ago}之前接受
       ct declined: 已拒绝
       ct status: 贡献者条款：
       ct undecided: 未决定
@@ -1667,7 +1716,7 @@ zh-CN:
       km away: "%{count} 公里之外"
       latest edit: 上次编辑于%{ago}：
       m away: "%{count} 米之外"
-      mapper since: 成为制图者于：
+      mapper since: 成为制图者：
       moderator_history: 查看封禁来自
       my comments: 我的评论
       my diary: 我的日记
@@ -1724,7 +1773,6 @@ zh-CN:
     filter: 
       block_expired: 这个封禁已经过期，并且不能再编辑。
       block_period: 封禁时期必须是在下拉菜单中可选择的数值之一。
-      not_a_moderator: 您必须是管理员才能执行该操作。
     helper: 
       time_future: 结束于 %{time}。
       time_past: "%{time}前已结束。"

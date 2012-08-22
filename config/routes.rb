@@ -2,6 +2,7 @@ OpenStreetMap::Application.routes.draw do
   # API
   match 'api/capabilities' => 'api#capabilities', :via => :get
   match 'api/0.6/capabilities' => 'api#capabilities', :via => :get
+  match 'api/0.6/permissions' => 'api#permissions', :via => :get
 
   match 'api/0.6/changeset/create' => 'changeset#create', :via => :put
   match 'api/0.6/changeset/:id/upload' => 'changeset#upload', :via => :post, :id => /\d+/
@@ -16,6 +17,7 @@ OpenStreetMap::Application.routes.draw do
   match 'api/0.6/node/:id/ways' => 'way#ways_for_node', :via => :get, :id => /\d+/
   match 'api/0.6/node/:id/relations' => 'relation#relations_for_node', :via => :get, :id => /\d+/
   match 'api/0.6/node/:id/history' => 'old_node#history', :via => :get, :id => /\d+/
+  match 'api/0.6/node/:id/:version/redact' => 'old_node#redact', :via => :post, :version => /\d+/, :id => /\d+/
   match 'api/0.6/node/:id/:version' => 'old_node#version', :via => :get, :id => /\d+/, :version => /\d+/
   match 'api/0.6/node/:id' => 'node#read', :via => :get, :id => /\d+/
   match 'api/0.6/node/:id' => 'node#update', :via => :put, :id => /\d+/
@@ -26,6 +28,7 @@ OpenStreetMap::Application.routes.draw do
   match 'api/0.6/way/:id/history' => 'old_way#history', :via => :get, :id => /\d+/
   match 'api/0.6/way/:id/full' => 'way#full', :via => :get, :id => /\d+/
   match 'api/0.6/way/:id/relations' => 'relation#relations_for_way', :via => :get, :id => /\d+/
+  match 'api/0.6/way/:id/:version/redact' => 'old_way#redact', :via => :post, :version => /\d+/, :id => /\d+/
   match 'api/0.6/way/:id/:version' => 'old_way#version', :via => :get, :id => /\d+/, :version => /\d+/
   match 'api/0.6/way/:id' => 'way#read', :via => :get, :id => /\d+/
   match 'api/0.6/way/:id' => 'way#update', :via => :put, :id => /\d+/
@@ -36,6 +39,7 @@ OpenStreetMap::Application.routes.draw do
   match 'api/0.6/relation/:id/relations' => 'relation#relations_for_relation', :via => :get, :id => /\d+/
   match 'api/0.6/relation/:id/history' => 'old_relation#history', :via => :get, :id => /\d+/
   match 'api/0.6/relation/:id/full' => 'relation#full', :via => :get, :id => /\d+/
+  match 'api/0.6/relation/:id/:version/redact' => 'old_relation#redact', :via => :post, :version => /\d+/, :id => /\d+/
   match 'api/0.6/relation/:id/:version' => 'old_relation#version', :via => :get, :id => /\d+/, :version => /\d+/
   match 'api/0.6/relation/:id' => 'relation#read', :via => :get, :id => /\d+/
   match 'api/0.6/relation/:id' => 'relation#update', :via => :put, :id => /\d+/
@@ -114,7 +118,7 @@ OpenStreetMap::Application.routes.draw do
   match '/browse' => 'changeset#list', :via => :get
 
   # web site
-  root :to => 'site#index', :via => :get
+  root :to => 'site#index', :via => [:get, :post]
   match '/edit' => 'site#edit', :via => :get
   match '/copyright/:copyright_locale' => 'site#copyright', :via => :get
   match '/copyright' => 'site#copyright', :via => :get
@@ -143,6 +147,9 @@ OpenStreetMap::Application.routes.draw do
 
   # permalink
   match '/go/:code' => 'site#permalink', :via => :get, :code => /[a-zA-Z0-9_@~]+[=-]*/
+
+  # rich text preview
+  match '/preview/:format' => 'site#preview', :as => :preview
 
   # traces
   match '/user/:display_name/traces/tag/:tag/page/:page' => 'trace#list', :via => :get
@@ -184,16 +191,16 @@ OpenStreetMap::Application.routes.draw do
   match '/user/:display_name/diary/:id' => 'diary_entry#view', :via => :get, :id => /\d+/
   match '/user/:display_name/diary/:id/newcomment' => 'diary_entry#comment', :via => :post, :id => /\d+/
   match '/user/:display_name/diary/:id/edit' => 'diary_entry#edit', :via => [:get, :post], :id => /\d+/
-  match '/user/:display_name/diary/:id/hide' => 'diary_entry#hide', :via => :post, :id => /\d+/
-  match '/user/:display_name/diary/:id/hidecomment/:comment' => 'diary_entry#hidecomment', :via => :post, :id => /\d+/, :comment => /\d+/
+  match '/user/:display_name/diary/:id/hide' => 'diary_entry#hide', :via => :post, :id => /\d+/, :as => :hide_diary_entry
+  match '/user/:display_name/diary/:id/hidecomment/:comment' => 'diary_entry#hidecomment', :via => :post, :id => /\d+/, :comment => /\d+/, :as => :hide_diary_comment
 
   # user pages
-  match '/user/:display_name' => 'user#view', :via => :get
-  match '/user/:display_name/make_friend' => 'user#make_friend', :via => :get
-  match '/user/:display_name/remove_friend' => 'user#remove_friend', :via => :get
+  match '/user/:display_name' => 'user#view', :via => :get, :as => "user"
+  match '/user/:display_name/make_friend' => 'user#make_friend', :via => [:get, :post], :as => "make_friend"
+  match '/user/:display_name/remove_friend' => 'user#remove_friend', :via => [:get, :post], :as => "remove_friend"
   match '/user/:display_name/account' => 'user#account', :via => [:get, :post]
-  match '/user/:display_name/set_status' => 'user#set_status', :via => :get
-  match '/user/:display_name/delete' => 'user#delete', :via => :get
+  match '/user/:display_name/set_status' => 'user#set_status', :via => :get, :as => :set_status_user
+  match '/user/:display_name/delete' => 'user#delete', :via => :get, :as => :delete_user
 
   # user lists
   match '/users' => 'user#list', :via => [:get, :post]
@@ -220,11 +227,11 @@ OpenStreetMap::Application.routes.draw do
   # messages
   match '/user/:display_name/inbox' => 'message#inbox', :via => :get, :as => "inbox"
   match '/user/:display_name/outbox' => 'message#outbox', :via => :get, :as => "outbox"
-  match '/message/new/:display_name' => 'message#new', :via => [:get, :post]
-  match '/message/read/:message_id' => 'message#read', :via => :get
-  match '/message/mark/:message_id' => 'message#mark', :via => :post
-  match '/message/reply/:message_id' => 'message#reply', :via => [:get, :post]
-  match '/message/delete/:message_id' => 'message#delete', :via => :post
+  match '/message/new/:display_name' => 'message#new', :via => [:get, :post], :as => "new_message"
+  match '/message/read/:message_id' => 'message#read', :via => :get, :as => "read_message"
+  match '/message/mark/:message_id' => 'message#mark', :via => :post, :as => "mark_message"
+  match '/message/reply/:message_id' => 'message#reply', :via => [:get, :post], :as => "reply_message"
+  match '/message/delete/:message_id' => 'message#delete', :via => :post, :as => "delete_message"
 
   # oauth admin pages (i.e: for setting up new clients, etc...)
   scope "/user/:display_name" do
@@ -238,11 +245,14 @@ OpenStreetMap::Application.routes.draw do
   match '/oauth/test_request' => 'oauth#test_request', :as => :test_request
 
   # roles and banning pages
-  match '/user/:display_name/role/:role/grant' => 'user_roles#grant', :via => [:get, :post]
-  match '/user/:display_name/role/:role/revoke' => 'user_roles#revoke', :via => [:get, :post]
+  match '/user/:display_name/role/:role/grant' => 'user_roles#grant', :via => :post, :as => "grant_role"
+  match '/user/:display_name/role/:role/revoke' => 'user_roles#revoke', :via => :post, :as => "revoke_role"
   match '/user/:display_name/blocks' => 'user_blocks#blocks_on', :via => :get
   match '/user/:display_name/blocks_by' => 'user_blocks#blocks_by', :via => :get
-  match '/blocks/new/:display_name' => 'user_blocks#new', :via => :get
+  match '/blocks/new/:display_name' => 'user_blocks#new', :via => :get, :as => "new_user_block"
   resources :user_blocks
-  match '/blocks/:id/revoke' => 'user_blocks#revoke', :via => [:get, :post]
+  match '/blocks/:id/revoke' => 'user_blocks#revoke', :via => [:get, :post], :as => "revoke_user_block"
+
+  # redactions
+  resources :redactions
 end

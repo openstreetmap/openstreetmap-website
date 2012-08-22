@@ -1,0 +1,19 @@
+<% @title = t 'redaction.edit.title' %>
+<h1><%= t 'redaction.edit.heading' %></h1>
+
+<%= form_for(@redaction) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :title, t('redaction.edit.title') %><br />
+    <%= f.text_field :title %>
+  </p>
+  <p>
+    <%= f.label :description, t('redaction.edit.description') %><br />
+    <%= richtext_area :redaction, :description, :cols => 80, :rows => 20, :format => @redaction.description_format %>
+  </p>
+  <p>
+    <%= f.submit t('redaction.edit.submit') %>
+  </p>
+<% end %>
+

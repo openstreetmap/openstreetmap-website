@@ -6,7 +6,6 @@ module OSM
   require 'rexml/text'
   require 'xml/libxml'
   require 'digest/md5'
-  require 'nokogiri'
 
   if defined?(SystemTimer)
     Timer = SystemTimer
@@ -269,6 +268,19 @@ module OSM
     end
   end
 
+  ##
+  # raised when someone tries to redact a current version of
+  # an element - only historical versions can be redacted.
+  class APICannotRedactError < APIError
+    def status
+      :bad_request
+    end
+
+    def to_s
+      "Cannot redact current version of element, only historical versions may be redacted."
+    end
+  end
+
   # Helper methods for going to/from mercator and lat/lng.
   class Mercator
     include Math
@@ -509,27 +521,6 @@ module OSM
 
     return "#{tilesql} AND #{prefix}latitude BETWEEN #{bbox.min_lat} AND #{bbox.max_lat} " +
                       "AND #{prefix}longitude BETWEEN #{bbox.min_lon} AND #{bbox.max_lon}"
-  end
-
-  # Return a spam score for a chunk of text
-  def self.spam_score(text)
-    link_count = 0
-    link_size = 0
-
-    doc = Nokogiri::HTML(Rinku.auto_link(text, :urls))
-
-    if doc.content.length > 0
-      doc.xpath("//a").each do |link|
-        link_count += 1
-        link_size += link.content.length
-      end
-
-      link_proportion = link_size.to_f / doc.content.length.to_f
-    else
-      link_proportion = 0
-    end
-
-    return [link_proportion - 0.2, 0.0].max * 200 + link_count * 20
   end
 
   def self.legal_text_for_country(country_code)

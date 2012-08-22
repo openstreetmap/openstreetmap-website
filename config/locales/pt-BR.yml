@@ -1,12 +1,16 @@
-# Messages for Brazilian Portuguese (Português do Brasil)
+# Messages for Brazilian Portuguese (português do Brasil)
 # Exported from translatewiki.net
 # Export driver: syck-pecl
 # Author: BraulioBezerra
 # Author: Diego Queiroz
+# Author: Fmca
 # Author: Giro720
+# Author: Gmare
 # Author: Luckas Blade
+# Author: Nemo bis
 # Author: Nighto
 # Author: Rodrigo Avila
+# Author: 555
 pt-BR: 
   activerecord: 
     attributes: 
@@ -79,6 +83,8 @@ pt-BR:
   application: 
     require_cookies: 
       cookies_needed: Parece que você está com os <i>cookies</i> não habilitados - por favor habilite os <i>cookies</i> no seu browser antes de continuar.
+    require_moderator: 
+      not_a_moderator: Você precisa ser um moderador para realizar essa ação.
     setup_user_auth: 
       blocked: Seu acesso à API foi bloqueado. Por favor, acesse a interface web para saber de mais detalhes.
       need_to_see_terms: O seu acesso à API está temporariamente suspenso. Por favor, faça o login na interface web para ler os Termos do Colaborador. Você não precisa concordar, mas você deve vê-los.
@@ -86,7 +92,6 @@ pt-BR:
     changeset: 
       changeset: "Alterações: %{id}"
       changesetxml: XML do conjunto de alterações
-      download: Baixar %{changeset_xml_link} ou %{osmchange_xml_link}
       feed: 
         title: Conjunto de mudanças %{id}
         title_comment: Conjunto de mudanças %{id} - %{comment}
@@ -155,7 +160,6 @@ pt-BR:
         next_changeset_tooltip: Editado posteriormente por %{user}
         prev_changeset_tooltip: Editado anteriormente por %{user}
     node: 
-      download: "%{download_xml_link}, %{view_history_link} ou %{edit_link}"
       download_xml: Baixar XML
       edit: editar
       node: Ponto
@@ -165,7 +169,6 @@ pt-BR:
       coordinates: "Coordenadas:"
       part_of: "Parte de:"
     node_history: 
-      download: "%{download_xml_link} ou %{view_details_link}"
       download_xml: Baixar XML
       node_history: Histórico do ponto
       node_history_title: "Histórico do ponto: %{node_name}"
@@ -180,8 +183,12 @@ pt-BR:
     paging_nav: 
       of: de
       showing_page: Exibindo página
+    redacted: 
+      type: 
+        node: nó
+        relation: relação
+        way: caminho
     relation: 
-      download: "%{download_xml_link} ou %{view_history_link}"
       download_xml: Baixar XML
       relation: Relação
       relation_title: "Relação: %{relation_name}"
@@ -190,7 +197,6 @@ pt-BR:
       members: "Membros:"
       part_of: "Parte de:"
     relation_history: 
-      download: "%{download_xml_link} ou %{view_details_link}"
       download_xml: Baixar XML
       relation_history: Histórico de Relação
       relation_history_title: "Histórico da Relação: %{relation_name}"
@@ -203,11 +209,11 @@ pt-BR:
         relation: Relação
         way: Caminho
     start: 
-      manually_select: Selecione uma área diferente manualmente
+      manually_select: Selecionar manualmente uma área diferente
       view_data: Ver dados para do mapa em visualização atual
     start_rjs: 
       data_frame_title: Dados
-      data_layer_name: Dados
+      data_layer_name: Navegar nos Dados do Mapa
       details: Detalhes
       drag_a_box: Clique e arraste para selecionar uma área no mapa
       edited_by_user_at_timestamp: Editado por [[user]] at [[timestamp]]
@@ -216,7 +222,7 @@ pt-BR:
       load_data: Carregar dados
       loaded_an_area_with_num_features: Você carregou uma área que contém [[num_features]] pontos com características. Alguns navegadores podem não conseguir exibir todos estes dados. Geralmente, navegadores trabalham melhor exibindo um conjunto de menos de 100 características por vez, ultrapassar isso pode deixá-lo lento ou travá-lo. Se você tem certeza que deseja exibir estes dados, clique no botão abaixo.
       loading: Carregando...
-      manually_select: Selecione uma área diferente manualmente
+      manually_select: Selecionar manualmente uma área diferente
       object_list: 
         api: Obter esta área através da API
         back: Exibir lista de objetos
@@ -253,7 +259,6 @@ pt-BR:
         relation: relação
         way: caminho
     way: 
-      download: "%{download_xml_link}, %{view_history_link} ou %{edit_link}"
       download_xml: Baixar XML
       edit: editar
       view_history: ver histórico
@@ -266,7 +271,6 @@ pt-BR:
       nodes: "Pontos:"
       part_of: "Parte de:"
     way_history: 
-      download: "%{download_xml_link} ou %{view_details_link}"
       download_xml: Baixar XML
       view_details: ver detalhes
       way_history: Histórico de caminho
@@ -306,13 +310,21 @@ pt-BR:
       heading_user_bbox: Conjuntos de alterações
       title: Conjuntos de alterações
       title_bbox: Conjuntos de alterações em %{bbox}
-      title_friend: Conjunto de alterações dos seus amigos
-      title_nearby: Conjunto de alterações de usuários próximos
+      title_friend: Conjuntos de alterações dos seus amigos
+      title_nearby: Conjuntos de alterações de usuários próximos
       title_user: Conjuntos de alterações de %{user}
       title_user_bbox: Conjuntos de alterações de %{user} em %{bbox}
     timeout: 
       sorry: Desculpe. A lista de conjuntos de alterações que você solicitou está demorando muito tempo para ser recuperada.
   diary_entry: 
+    comments: 
+      ago: "%{ago} atrás"
+      comment: Comentário
+      has_commented_on: "%{display_name} comentou nestas entradas de diário"
+      newer_comments: Comentários Recentes
+      older_comments: Comentários Antigos
+      post: Postar
+      when: Quando
     diary_comment: 
       comment_from: Comentário de %{link_user} em %{comment_created_at}
       confirm: Confirmar
@@ -370,10 +382,6 @@ pt-BR:
       body: Desculpe, não há entrada no diário ou comentário com o id %{id}. Por favor, verifique se digitou corretamente, ou talvez o link que clicou esteja errado.
       heading: "Não há entrada no diário com o id: %{id}"
       title: Entrada de diário inexistente
-    no_such_user: 
-      body: Desculpe, não há usuário com o nome %{user}. Por favor, verifique se digitou corretamente, ou talvez o link que clicou esteja errado.
-      heading: O usuário %{user} não existe
-      title: Usuário inexistente
     view: 
       leave_a_comment: Deixe um comentário
       login: Entrar
@@ -398,14 +406,15 @@ pt-BR:
       area_to_export: Área a exportar
       embeddable_html: HTML para embutir
       export_button: Exportar
-      export_details: Os dados do OpenStreetMap estão licenciados sob a <a href="http://creativecommons.org/licenses/by-sa/2.0/deed.pt">Creative Commons Atribuição - Compartilhamento pela mesma Licença 2.0 Genérica (CC-BYSA-2.0)</a>.
+      export_details: Os dados do OpenStreetMap estão licenciados sob a <a href="http://creativecommons.org/licenses/by-sa/2.0/deed.pt">Creative Commons Atribuição - Compartilhamento pela mesma Licença 2.0 Genérica (CC BY-SA 2.0)</a>.
       format: Formato
       format_to_export: Formato a Exportar
       image_size: Tamanho da Imagem
       latitude: "Lat:"
       licence: Licença
       longitude: "Lon:"
-      manually_select: Selecior área diferente manualmente
+      manually_select: Selecionar manualmente uma área diferente
+      map_image: Imagem do Mapa (mostra a camada padrão)
       max: max
       options: Opções
       osm_xml_data: Dados XML OpenStreetMap
@@ -468,16 +477,28 @@ pt-BR:
       suffix_suburb: "%{suffix}, %{parentname}"
     search_osm_nominatim: 
       prefix: 
+        aeroway: 
+          aerodrome: Aeródromo
+          apron: Aeroportuário
+          gate: Portão
+          helipad: Heliponto
+          runway: Pista
+          taxiway: Pista de manobras
+          terminal: Terminal
         amenity: 
+          WLAN: Acesso WiFi
           airport: Aeroporto
           arts_centre: Centro de Arte
+          artwork: Obra de Arte
           atm: Caixa automático
           auditorium: Auditório
           bank: Banco
           bar: Bar
+          bbq: Churrascaria
           bench: Banco (de praça)
           bicycle_parking: Estacionamento de bicicletas
           bicycle_rental: Aluguel de bicicletas
+          biergarten: Beer Garden
           brothel: Bordel
           bureau_de_change: Casa de câmbio
           bus_station: Estação de Ônibus/Rodoviária
@@ -486,6 +507,7 @@ pt-BR:
           car_sharing: Aluguel de Carro
           car_wash: Lava-Carros
           casino: Cassino
+          charging_station: Estação de carga
           cinema: Cinema
           clinic: Clínica
           club: Clube
@@ -504,6 +526,7 @@ pt-BR:
           ferry_terminal: Terminal de barca
           fire_hydrant: Hidrante
           fire_station: Corpo de bombeiros
+          food_court: Praça de Alimentação
           fountain: Fonte
           fuel: Combustível
           grave_yard: Cemitério
@@ -544,9 +567,12 @@ pt-BR:
           shelter: Refúgio
           shop: Loja
           shopping: Shopping
+          shower: Chuveiro
+          social_centre: Centro social
           social_club: Clube social
           studio: Estúdio
           supermarket: Supermercado
+          swimming_pool: Piscina
           taxi: Táxi
           telephone: Telefone público
           theatre: Teatro
@@ -557,41 +583,21 @@ pt-BR:
           veterinary: Clínica veterinária
           village_hall: Salão de vila
           waste_basket: Lata de lixo
-          wifi: Ponto de Acesso WiFi
+          wifi: Acesso Wi-Fi
           youth_centre: Centro juvenil
         boundary: 
           administrative: Limite Administrativo
+          census: Limite de censo
+          national_park: Parque Nacional
+          protected_area: Área protegida
+        bridge: 
+          aqueduct: Aqueduto
+          suspension: Ponte pênsil
+          swing: Ponte giratória
+          viaduct: Viaduto
+          "yes": Ponte
         building: 
-          apartments: Bloco de apartamentos
-          block: Bloco de Prédios
-          bunker: Bunker
-          chapel: Capela
-          church: Igreja
-          city_hall: Prefeitura
-          commercial: Edifício comercial
-          dormitory: Dormitório
-          entrance: Entrada de edifício
-          faculty: Prédio de Faculdade
-          farm: Paiol
-          flats: Apartamentos
-          garage: Garagem
-          hall: Salão
-          hospital: Hospital
-          hotel: Hotel
-          house: Casa
-          industrial: Edifício industrial
-          office: Edifício de escritórios
-          public: Edifício público
-          residential: Edifício residencial
-          retail: Prédio de Varejo
-          school: Edifício escolar
-          shop: Loja
-          stadium: Estádio
-          store: Loja
-          terrace: Terraço
-          tower: Torre
-          train_station: Estação de Trem
-          university: Edifício Universitário
+          "yes": Edifício
         highway: 
           bridleway: Pista para cavalos
           bus_guideway: Corredor de ônibus
@@ -599,12 +605,11 @@ pt-BR:
           byway: Trilha larga
           construction: Estrada em construção
           cycleway: Ciclovia
-          distance_marker: Marcador de quilometragem
           emergency_access_point: Acesso de emergência
           footway: Caminho
           ford: Travessia de rio
-          gate: Portão
           living_street: Rua residencial
+          milestone: Marco
           minor: Estrada Secundária
           motorway: Rodovia expressa
           motorway_junction: Trevo de Acesso
@@ -616,14 +621,17 @@ pt-BR:
           primary_link: Via Primária
           raceway: Pista de corrida
           residential: Residencial
+          rest_area: Área de descanso
           road: Estrada
           secondary: Via Secundária
           secondary_link: Via Secundária
           service: Rua de serviço
           services: Serviços de autoestrada
+          speed_camera: Radar
           steps: Degraus
           stile: Escada de cerca
           tertiary: Via terciária
+          tertiary_link: Via terciária
           track: Trilha
           trail: Trilha
           trunk: Via de entroncamento
@@ -637,6 +645,7 @@ pt-BR:
           building: Edifício
           castle: Castelo
           church: Igreja
+          fort: Forte
           house: Casa histórica
           icon: Ícone
           manor: Terra arrendada
@@ -661,6 +670,7 @@ pt-BR:
           farmland: Área cultivada
           farmyard: Curral
           forest: Floresta
+          garages: Garagens
           grass: Gramado
           greenfield: Espaço Verde
           industrial: Área industrial
@@ -668,25 +678,28 @@ pt-BR:
           meadow: Gramado
           military: Área militar
           mine: Mina
-          mountain: Montanha
           nature_reserve: Reserva Natural
+          orchard: Pomar
           park: Parque
           piste: Pista de ski
-          plaza: Praça
           quarry: Pedreira
           railway: Terreno de ferrovia
           recreation_ground: Área recreacional
           reservoir: Represa ou Reservatório de Água
+          reservoir_watershed: Barragem
           residential: Área residencial
           retail: Varejo
+          road: Área de estrada
           village_green: Parque municipal
           vineyard: Vinhedo
           wetland: Pântano / Mangue
           wood: Madeira
         leisure: 
           beach_resort: Balneário
+          bird_hide: Observatório de pássaros
           common: Terreno comum
           fishing: Área de pesca
+          fitness_station: Academia de ginástica
           garden: Jardim
           golf_course: Campo de Golf
           ice_rink: Rinque de patinação no gelo
@@ -697,12 +710,17 @@ pt-BR:
           pitch: Campo esportivo
           playground: Playground
           recreation_ground: Área recreativa
+          sauna: Sauna
           slipway: Rampa de barco
           sports_centre: Centro Esportivo
           stadium: Estádio
           swimming_pool: Piscina
           track: Pista de corrida
           water_park: Parque aquático
+        military: 
+          airfield: Aeródromo militar
+          barracks: Quartel
+          bunker: Bunker
         natural: 
           bay: Baía
           beach: Praia
@@ -710,11 +728,12 @@ pt-BR:
           cave_entrance: Entrada de Gruta
           channel: Canal
           cliff: Penhasco
-          coastline: Litoral
           crater: Cratera
+          dune: Duna
           feature: Recurso natural
           fell: Colina
           fjord: Fiorde
+          forest: Floresta
           geyser: Gêiser
           glacier: Geleira
           heath: Charneca
@@ -734,6 +753,7 @@ pt-BR:
           scrub: Arbusto
           shoal: Barra
           spring: Nascente
+          stone: Pedra
           strait: Estreito
           tree: Árvore
           valley: Vale
@@ -742,6 +762,19 @@ pt-BR:
           wetland: Pântano / Mangue
           wetlands: Pântano
           wood: Madeira
+        office: 
+          accountant: Contabilista
+          architect: Arquiteto
+          company: Empresa
+          employment_agency: Agência de emprego
+          estate_agent: Agente imobiliário
+          government: Escritório governamental
+          insurance: Seguradora
+          lawyer: Advogado
+          ngo: ONG (Escritório)
+          telecommunication: Escritório de telecomunicações
+          travel_agent: Agência de viagens
+          "yes": Escritório
         place: 
           airport: Aeroporto
           city: Cidade
@@ -753,6 +786,7 @@ pt-BR:
           houses: Casas
           island: Ilha
           islet: Ilhota
+          isolated_dwelling: Moradia isolada
           locality: Localidade
           moor: Pântano
           municipality: Municipalidade
@@ -776,6 +810,7 @@ pt-BR:
           junction: Cruzamento de ferrovia
           level_crossing: Passagem em nível
           light_rail: Trem metropolitano
+          miniature: Linhas ferroviárias para miniaturas
           monorail: Monotrilho
           narrow_gauge: Ferrovia estreita
           platform: Plataforma de trem
@@ -790,7 +825,7 @@ pt-BR:
           yard: Estação de classificação
         shop: 
           alcohol: Loja de bebidas alcoolicas
-          apparel: Loja de roupa
+          antiques: Antiguidades
           art: Loja de artigos de arte
           bakery: Padaria
           beauty: Salão de Beleza
@@ -799,7 +834,6 @@ pt-BR:
           books: Livraria
           butcher: Açougue
           car: Loja de carros
-          car_dealer: Concessionária de automóveis
           car_parts: Autopeças
           car_repair: Oficina mecânica
           carpet: Loja de tapetes
@@ -814,7 +848,6 @@ pt-BR:
           department_store: Loja de departamentos
           discount: Loja de descontos
           doityourself: Faça você mesmo
-          drugstore: Drogaria
           dry_cleaning: Lavagem a seco
           electronics: Loja de Eletrônicos
           estate_agent: Imobiliária
@@ -861,7 +894,7 @@ pt-BR:
           wine: Loja de vinhos
         tourism: 
           alpine_hut: Cabana alpina
-          artwork: Ilustração
+          artwork: Obra de Arte
           attraction: Atração
           bed_and_breakfast: Cama e café da manhã
           cabin: Cabana
@@ -872,7 +905,7 @@ pt-BR:
           hostel: Abrigo
           hotel: Hotel
           information: Informações
-          lean_to: Inclinado Para
+          lean_to: Abrigo
           motel: Motel
           museum: Museu
           picnic_site: Área de Piquenique
@@ -880,7 +913,10 @@ pt-BR:
           valley: Vale
           viewpoint: Mirador
           zoo: Zoológico
+        tunnel: 
+          "yes": Túnel
         waterway: 
+          artificial: Via fluvial artificial
           boatyard: Estaleiro
           canal: Canal
           connector: Eclusa
@@ -909,6 +945,7 @@ pt-BR:
       base: 
         cycle_map: Cycle Map
         mapquest: MapQuest Open
+        standard: Padrão
         transport_map: Mapa de transporte público
       overlays: 
         maplint: Maplint
@@ -920,6 +957,7 @@ pt-BR:
       history_tooltip: Veja as edições desta área
       history_zoom_alert: Você deve aumentar o zoom para ver o histórico de edição
   layouts: 
+    community: Comunidade
     community_blogs: Blogs da Comunidade
     community_blogs_title: Blogs de membros da comunidade OpenStreetMap
     copyright: Direitos Autorais & Licença
@@ -942,26 +980,23 @@ pt-BR:
     history: Histórico
     home: início
     home_tooltip: Ir para a sua localização
-    inbox: caixa de entrada (%{count})
     inbox_tooltip: 
       one: 1 Nova mensagem na sua caixa de entrada
       other: Sua caixa de entrada tem %{count} mensagens não lidas
       zero: Sem novas mensagens na sua caixa de entrada
     intro_1: O OpenStreetMap é um mapa livre e editável do mundo todo. Ele é feito por pessoas como você.
-    intro_2: O OpenStreetMap permite visualizar, editar e usar dados geográficos de maneira colaborativa de qualquer lugar do mundo.
-    intro_3: A hospedagem do OpenStreetMap é cedida gentilmente por %{ucl}, %{ic} e %{bytemark}. Outros apoiadores do projeto estão listados no %{partners}.
-    intro_3_bytemark: bytemark
-    intro_3_ic: Imperial College de Londres
-    intro_3_partners: wiki
-    intro_3_partners_url: http://wiki.openstreetmap.org/wiki/Partners?uselang=pt-br
-    intro_3_ucl: UCL VR Centre
+    intro_2_create_account: Criar uma conta de usuário
+    intro_2_download: baixar
+    intro_2_html: Os dados são livres para %{download} e %{use} sob sua %{license}. %{create_account} para melhorar o mapa.
+    intro_2_license: licença aberta
+    intro_2_use: usar
     license: 
       alt: CC by-sa 2.0
       title: Os dados do OpenStreetMaps estão licenciados na Licença Creative Commons Atribuição-Compartilhamento pela Mesma Licença 2.0 Genérica
     log_in: entrar
     log_in_tooltip: Entrar com uma conta existente
     logo: 
-      alt_text: OpenStreetMap logo
+      alt_text: Logotipo do OpenStreetMap
     logout: sair
     logout_tooltip: Sair
     make_a_donation: 
@@ -969,12 +1004,16 @@ pt-BR:
       title: Ajude o OpenStreetMap com uma doação monetária
     osm_offline: A base de dados do OpenStreetMap está off-line devido a operações de manutenção.
     osm_read_only: A base de dados do OpenStreetMap está em modo somente leitura devido a operações de manutenção.
+    partners_bytemark: Alojamento Bytemark
+    partners_html: Hospedagem é suportada por %{ucl}, %{ic}, %{bytemark}, e outros %{partners}.
+    partners_ic: Imperial College de Londres
+    partners_partners: parceiros
+    partners_ucl: UCL VR Centre
     project_name: 
       h1: OpenStreetMap
       title: OpenStreetMap
     sign_up: registrar
     sign_up_tooltip: Criar uma conta para editar
-    sotm2011: Venha para a Conferência OpenStreetMap 2011, The State of the Map, de 9 a 11 de setembro em Denver!
     tag_line: O Wiki de Mapas Livres
     user_diaries: Diários de Usuário
     user_diaries_tooltip: Ver os diários dos usuários
@@ -982,7 +1021,7 @@ pt-BR:
     view_tooltip: Veja o mapa
     welcome_user: Bem vindo, %{user_link}
     welcome_user_link_tooltip: Sua Página de usuário
-    wiki: Wikia
+    wiki: Wiki
     wiki_title: Site wiki para o projeto
     wiki_url: http://wiki.openstreetmap.org/wiki/Pt-br:Main_Page
   license_page: 
@@ -990,7 +1029,27 @@ pt-BR:
       english_link: o original em Inglês
       text: Caso haja um conflito entre esta tradução e %{english_original_link}, a página em Inglês terá precedência
       title: Sobre esta tradução
-    legal_babble: "<h2>Direitos Autorais e Licença</h2>\n<p>\n   O OpenStreetMap possui <i>dados abertos</i>, licenciados sob a licença <a\n   href=\"http://creativecommons.org/licenses/by-sa/2.0/\">Creative\n   Commons Atribuição-Compartilhamento pela mesma Licença 2.0</a> (CC-BY-SA).\n</p>\n<p>\n  Você está livre para copiar, distribuir, transmitir e adaptar nossos mapas\n  e dados, desde que você dê crédito ao OpenStreetMap e seus\n  colaboradores. Se você alterar ou criar sobre nossos mapas ou dados, você\n  deve distribuir os resultados apenas sobre a mesma licença. A\n  <a\n  href=\"http://creativecommons.org/licenses/by-sa/2.0/legalcode\">licença\n  jurídica</a> explica seus direitos e responsabilidades.\n</p>\n\n<h3>Como dar crédito ao OpenStreetMap</h3>\n<p>\n  Se você usar as imagens dos mapas do OpenStreetMap, nós pedimos que\n  os créditos apareçam como &ldquo;&copy; OpenStreetMap\n  contributors, CC-BY-SA&rdquo;. Se você estiver usando apenas os dados dos mapas,\n  nós pedimos que os créditos apareçam como &ldquo;Map data &copy; OpenStreetMap contributors,\n  CC-BY-SA&rdquo;.\n</p>\n<p>\n  Onde for possível, um link para o OpenStreetMap deve direcionar para <a\n  href=\"http://www.openstreetmap.org/\">http://www.openstreetmap.org/</a>\n  e a licença CC-BY-SA para <a\n  href=\"http://creativecommons.org/licenses/by-sa/2.0/\">http://creativecommons.org/licenses/by-sa/2.0/</a>. Se\n  você estiver usando uma mídia que não pode conter links (ex.: um\n  trabalho impresso), sugerimos que você direcione seus leitores para \n  www.openstreetmap.org (talvez por expandir\n  &lsquo;OpenStreetMap&rsquo; para este endereço completo) e para \n  www.creativecommons.org.\n</p>\n\n<h3>Descobrir mais</h3>\n<p>\n  Leia mais sobre o uso de nossos dados no <a\n  href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">Legal\n  FAQ</a>.\n</p>\n<p>\n  Os colaboradores do OSM são lembrados de nunca adicionar dados de quaisquer\n  fontes sob copyright (ex.: Google Maps ou mapas impressos) sem\n  permissão explícita dos detentores dos direitos atorais.\n</p>\n<p>\n  Embora o OpenStreetMap tenha dados abertos, nós não podemos prover uma\n  API de mapas livre de encargos para desenvolvedores de terceiros.\n\n  Veja nossa <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">Política de uso da API</a>,\n  <a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">Política de Uso de Imagens</a>\n  e <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">Política de Uso do Nominatim</a>.\n</p>\n\n<h3>Nossos colaboradores</h3>\n<p>\n  A nossa licença CC-BY-SA requer que você &ldquo;dê crédito ao \n  Autor Original de forma equivalente à mídia ou meios que Você\n  está utilizando&rdquo;. Mapeadores individuais do OSM não solicitam \n  crédito além do &ldquo;OpenStreetMap\n  contributors&rdquo;, mas quando os dados vem de uma agência \n  nacional de mapeamento, ou de outra fonte superior, a ser incluída\n  no OpenStreetMap, é razoável creditá-la por reproduzir diretamente \n  os seus créditos ou por fazer links para eles nesta página.\n</p>\n\n<!--\nInformações para editores desta página\n\nA lista a seguir mostra apenas as organizações que solicitaram atribuição\ncomo condição para terem seus dados usados no OpenStreetMap. Este não é um \ncatálogo geral de importações, e não deve ser usado como tal, exceto quando a \natribuição é solicitada para obedecer à licença dos dados importados.\n\nQuaisquer adições devem primeiro ser discutidas pelos administradores do OSM.\n-->\n\n<ul id=\"contributors\">\n   <li><strong>Austrália</strong>: Contém dados do subúrbio baseado\n   nos dados do Australian Bureau of Statistics.</li>\n   <li><strong>Áustria</strong>: Contém dados do \n   <a href=\"http://data.wien.gv.at/\">Stadt Wien</a> sob licença\n   <a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.pt_BR\">CC-BY</a>.</li>\n   <li><strong>Canadá</strong>: Contém dados do\n   GeoBase&reg;, GeoGratis (&copy; Departamento de Recursos\n   Naturais do Canadá), CanVec (&copy; Departamento de Recursos\n   Naturais do Canadá), and StatCan (Divisão de Geografia e \n   Estatística do Canada).</li>\n   <li><strong>França</strong>: Contém dados da\n   Direction Générale des Impôts.</li>\n   <li><strong>Nova Zelândia</strong>: Contém dados do \n   Land Information New Zealand. Crown Copyright reserved.</li>\n   <li><strong>Polônia</strong>: Contém dados do <a\n   href=\"http://ump.waw.pl/\">UMP-pcPL maps</a>. Copyright Colaboradores do\n   UMP-pcPL.</li>\n   <li><strong>Reino Unido</strong>: Contém Ordnance\n   Survey data &copy; Crown copyright and database right\n   2010.</li>\n</ul>\n\n<p>\n  A inclusão de dados no OpenStreetMap não implica em endosso do provedor dos dados \n  ao OpenStreetMap, nem em qualquer garantia, ou\n  aceitação de qualquer responsabilidade.\n</p>"
+    legal_babble: 
+      contributors_at_html: "<strong>Áustria</strong>: Contém dados do \n   <a href=\"http://data.wien.gv.at/\">Stadt Wien</a> (sob licença\n   <a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.pt_BR\">CC BY</a>) e <a href=\"http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm\">Land Vorarlberg.</a>."
+      contributors_au_html: "<strong>Austrália</strong>: Contém dados do subúrbio baseado\n   nos dados do Australian Bureau of Statistics."
+      contributors_ca_html: "<strong>Canadá</strong>: Contém dados do\n   GeoBase&reg;, GeoGratis (&copy; Departamento de Recursos\n   Naturais do Canadá), CanVec (&copy; Departamento de Recursos\n   Naturais do Canadá), and StatCan (Divisão de Geografia e \n   Estatística do Canada)."
+      contributors_footer_1_html: "  A inclusão de dados no OpenStreetMap não implica em endosso do provedor dos dados \n  ao OpenStreetMap, nem em qualquer garantia, ou\n  aceitação de qualquer responsabilidade."
+      contributors_fr_html: "<strong>França</strong>: Contém dados da\n   Direction Générale des Impôts."
+      contributors_gb_html: "<strong>Reino Unido</strong>: Contém Ordnance\n   Survey data &copy; Crown copyright and database right\n   2010."
+      contributors_intro_html: "  A nossa licença CC BY-SA requer que você &ldquo;dê crédito ao \n  Autor Original de forma equivalente à mídia ou meios que Você\n  está utilizando&rdquo;. Mapeadores individuais do OSM não solicitam \n  crédito além do &ldquo;OpenStreetMap\n  contributors&rdquo;, mas quando os dados vem de uma agência \n  nacional de mapeamento, ou de outra fonte superior, a ser incluída\n  no OpenStreetMap, é razoável creditá-la por reproduzir diretamente \n  os seus créditos ou por fazer links para eles nesta página."
+      contributors_nz_html: "<strong>Nova Zelândia</strong>: Contém dados do \n   Land Information New Zealand. Crown Copyright reserved."
+      contributors_pl_html: "<strong>Polônia</strong>: Contém dados do <a\n   href=\"http://ump.waw.pl/\">UMP-pcPL maps</a>. Copyright Colaboradores do\n   UMP-pcPL."
+      contributors_title_html: Nossos colaboradores
+      credit_1_html: "  Se você usar as imagens dos mapas do OpenStreetMap, nós pedimos que\n  os créditos apareçam como &ldquo;&copy; OpenStreetMap\n  contributors, CC BY-SA&rdquo;. Se você estiver usando apenas os dados dos mapas,\n  nós pedimos que os créditos apareçam como &ldquo;Map data &copy; OpenStreetMap contributors,\n  CC BY-SA&rdquo;."
+      credit_2_html: "  Onde for possível, um link para o OpenStreetMap deve direcionar para <a\n  href=\"http://www.openstreetmap.org/\">http://www.openstreetmap.org/</a>\n  e a licença CC BY-SA para <a\n  href=\"http://creativecommons.org/licenses/by-sa/2.0/\">http://creativecommons.org/licenses/by-sa/2.0/</a>. Se\n  você estiver usando uma mídia que não pode conter links (ex.: um\n  trabalho impresso), sugerimos que você direcione seus leitores para \n  www.openstreetmap.org (talvez por expandir\n  &lsquo;OpenStreetMap&rsquo; para este endereço completo) e para \n  www.creativecommons.org."
+      credit_title_html: Como dar crédito ao OpenStreetMap
+      intro_1_html: "   O OpenStreetMap possui <i>dados abertos</i>, licenciados sob a licença <a\n   href=\"http://creativecommons.org/licenses/by-sa/2.0/\">Creative\n   Commons Atribuição-Compartilhamento pela mesma Licença 2.0</a> (CC BY-SA)."
+      intro_2_html: "  Você está livre para copiar, distribuir, transmitir e adaptar nossos mapas\n  e dados, desde que você dê crédito ao OpenStreetMap e seus\n  colaboradores. Se você alterar ou criar sobre nossos mapas ou dados, você\n  deve distribuir os resultados apenas sobre a mesma licença. A\n  <a\n  href=\"http://creativecommons.org/licenses/by-sa/2.0/legalcode\">licença\n  jurídica</a> explica seus direitos e responsabilidades."
+      more_1_html: "  Leia mais sobre o uso de nossos dados no <a\n  href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">Legal\n  FAQ</a>."
+      more_2_html: "  Os colaboradores do OSM são lembrados de nunca adicionar dados de quaisquer\n  fontes sob copyright (ex.: Google Maps ou mapas impressos) sem\n  permissão explícita dos detentores dos direitos atorais."
+      more_3_html: "  Embora o OpenStreetMap tenha dados abertos, nós não podemos prover uma\n  API de mapas livre de encargos para desenvolvedores de terceiros.\n\n  Veja nossa <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">Política de uso da API</a>,\n  <a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">Política de Uso de Imagens</a>\n  e <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">Política de Uso do Nominatim</a>."
+      more_title_html: Descobrir mais
+      title_html: Direitos Autorais e Licença
     native: 
       mapping_link: começar a mapear
       native_link: Versão em Português do Brasil
@@ -1005,10 +1064,12 @@ pt-BR:
       messages: Você tem %{new_messages} e %{old_messages}
       my_inbox: Minha caixa de entrada
       new_messages: 
-        other: uma=%{count} nova mensagem
+        one: "%{count} nova mensagem"
+        other: "%{count} novas mensagens"
       no_messages_yet: Você ainda não tem mensagens. Por que não entrar em contato com %{people_mapping_nearby_link}?
       old_messages: 
-        other: uma=%{count} mensagem antiga
+        one: "%{count} mensagem antiga"
+        other: "%{count} mensagens antigas"
       outbox: caixa de saída
       people_mapping_nearby: alguém mapeando por perto
       subject: Assunto
@@ -1025,7 +1086,7 @@ pt-BR:
       back_to_inbox: Voltar para a caixa de entrada
       body: Mensagem
       limit_exceeded: Você enviou muitas mensagens recentemente. Por favor espere um momento antes de tentar enviar mais.
-      message_sent: Mensage enviada
+      message_sent: Mensagem enviada
       send_button: Enviar
       send_message_to: Enviar uma nova mensagem para %{name}
       subject: Assunto
@@ -1034,15 +1095,12 @@ pt-BR:
       body: Desculpe, mas não existe uma mensagem com este id.
       heading: Esta mensagem não existe
       title: Esta mensagem não existe
-    no_such_user: 
-      body: Desculpe, mas não existe usuário com este nome.
-      heading: Este usuário não existe
-      title: Este usuário não existe
     outbox: 
       date: Data
       inbox: caixa de entrada
       messages: 
-        other: uma=Você tem %{count} mensagem enviada
+        one: Você tem %{count} mensagem enviada
+        other: Você tem %{count} mensagens enviadas
       my_inbox: Minha %{inbox_link}
       no_sent_messages: Você ainda não enviou nenhuma mensagem. Porque não entrar em contato com %{people_mapping_nearby_link}?
       outbox: caixa de saída
@@ -1116,7 +1174,7 @@ pt-BR:
       hopefully_you_1: Alguém (possivelmente você) pediu uma nova senha
       hopefully_you_2: para a conta no openstreetmap.org ligada a este e-mail.
     message_notification: 
-      footer1: Você pode ser a mensagem em %{readurl}
+      footer1: Você pode ler a mensagem em %{readurl}
       footer2: e pode respondê-la em %{replyurl}
       header: "%{from_user} enviou uma mensagem pelo OpenStreetMap para você com o assunto %{subject}:"
       hi: Olá %{to_user},
@@ -1212,6 +1270,8 @@ pt-BR:
       allow_write_gpx: enviar trilhas de GPS.
       allow_write_prefs: modificar suas preferências de usuário.
       authorize_url: "URL de autorização:"
+      confirm: Você tem certeza?
+      delete: Excluir Cliente
       edit: Editar detalhes
       key: Chave de Consumidor
       requests: "Pedindo as seguintes permissões ao usuário:"
@@ -1225,6 +1285,23 @@ pt-BR:
     with_id: "%{id}"
     with_name: "%{name} (%{id})"
     with_version: "%{id}, v%{version}"
+  redaction: 
+    edit: 
+      description: Descrição
+      heading: Editar redação
+      submit: Salvar redação
+      title: Editar redação
+    index: 
+      empty: Nenhuma redação para mostrar.
+      heading: Lista de redações
+      title: Lista de redações
+    new: 
+      description: Descrição
+      heading: Digite informações para a nova redação
+      submit: Criar redação
+      title: Criando uma nova redação
+    show: 
+      description: "Descrição:"
   site: 
     edit: 
       anon_edits: (%{link})
@@ -1241,7 +1318,6 @@ pt-BR:
     index: 
       js_1: Você está usando um navegador sem suporte a JavaScript, ou está com o JavaScript desativado.
       js_2: O OpenStreetMap usa JavaScript para a navegação dos mapas.
-      js_3: Você pode tentar o <a href="http://tah.openstreetmap.org/Browse/">navegador estático Tiles@Home</a> se não for possível ativar o JavaScript.
       license: 
         license_name: Creative Commons de Atribuição-Compartilhamento pela Mesma Licença 2.0
         license_url: http://creativecommons.org/licenses/by-sa/2.0/
@@ -1271,7 +1347,7 @@ pt-BR:
             - Elevador de Cadeiras
           cemetery: Cemitério
           centre: Centro de Esportes/Ginásio
-          commercial: Área Commercial (Escritórios)
+          commercial: Área Comercial (Escritórios)
           common: 
             - Área pública
             - Vegetação rasteira
@@ -1320,6 +1396,23 @@ pt-BR:
           unclassified: Via Sem Classificação Administrativa
           unsurfaced: Via Não Pavimentada
           wood: Reserva Florestal
+    markdown_help: 
+      alt: Texto alternativo
+      first: Primeiro item
+      heading: Título de seção
+      headings: Títulos de seções
+      image: Imagem
+      link: Link
+      ordered: Lista ordenada
+      second: Segundo item
+      subheading: Subtítulo
+      text: Texto
+      title_html: Analisado com <a href="http://daringfireball.net/projects/markdown/">Markdown</a>
+      unordered: Lista não ordenada
+      url: URL
+    richtext_area: 
+      edit: Editar
+      preview: Pré-visualizar
     search: 
       search: Buscar
       search_help: "exemplos: 'Brasília', 'Av. Paulista, São Paulo', ou 'hospitals near Belo Horizonte'. <a href='http://wiki.openstreetmap.org/wiki/Pt-br:Search'>mais exemplos...</a>"
@@ -1363,10 +1456,6 @@ pt-BR:
       your_traces: Suas Trilhas de GPS
     make_public: 
       made_public: Trilha publicada
-    no_such_user: 
-      body: Perdão, não há usuário com o nome %{user}. Por favor, cheque sua ortografia, ou talvez o link que você clicou está errado.
-      heading: O usuário %{user} não existe
-      title: Usuário não encontrado
     offline: 
       heading: O armazenamento de GPX está offline
       message: O sistema de armazenamento e envio de arquivos GPX está atualmente indisponível.
@@ -1384,7 +1473,7 @@ pt-BR:
       more: mais
       pending: PENDENTE
       private: PRIVADO
-      public: PUBLICO
+      public: PÚBLICO
       trace_details: Ver detalhes da trilha
       trackable: RASTREÁVEL
       view_map: Ver Mapa
@@ -1407,8 +1496,6 @@ pt-BR:
     trace_optionals: 
       tags: Etiquetas
     trace_paging_nav: 
-      next: Seguinte »
-      previous: « Anterior
       showing_page: Mostrando página %{page}
     view: 
       delete_track: Apague esta trilha
@@ -1428,11 +1515,11 @@ pt-BR:
       title: Visualizando trilha %{name}
       trace_not_found: Trilha não encontrada!
       uploaded: "Enviado em:"
-      visibility: "Vsibilidade:"
+      visibility: "Visibilidade:"
     visibility: 
       identifiable: Identificável (mostrado na lista como pontos identificáveis, ordenados e com informação de tempo)
       private: Privado (compartilhado apenas como pontos anônimos e não ordenados)
-      public: Pública (apresentado na lista como pontos anônimos e desordenados)
+      public: Pública (apresentado na lista como pontos anônimos e não ordenados)
       trackable: Acompanhável (compartilhada anonimamente como pontos ordenados com informação de tempo)
   user: 
     account: 
@@ -1525,6 +1612,7 @@ pt-BR:
       login_button: Entrar
       lost password link: Esqueceu sua senha?
       new to osm: Primeira vez no OpenStreetMap?
+      no account: Não possui uma conta?
       notice: <a href="http://www.osmfoundation.org/wiki/License/We_Are_Changing_The_License">Saiba mais sobre a mudança na licença do OpenStreetMap</a> (<a href="http://wiki.openstreetmap.org/wiki/ODbL/We_Are_Changing_The_License">traduções</a>) (<a href="http://wiki.openstreetmap.org/wiki/Talk:ODbL/Upcoming">discussão</a>)
       notice_terms: O OpenStreetMap irá trocar sua licença em 1 de Abril de 2012. É tão aberta quanto a atual, mas as informações legais se encaixam melhor em nossa base de dados de mapas. Nós ficaríamos felizes de manter suas contribuições no OpenStreetMap, mas nós apenas poderemos fazer isso se você permitir distribui-la sob a nova licença. Do contrário, teremos que remover suas contribuições da base de dados<br /><br />Por favor faça o login, e tome alguns segundos para revisar e aceitar os novos termos. Muito obrigado!
       openid: "%{logo} OpenID:"
@@ -1582,7 +1670,7 @@ pt-BR:
       display name description: Seu nome de usuário disponível publicamente. Você pode mudá-lo posteriormente nas preferências.
       email address: "Endereço de Email:"
       fill_form: Preencha o formulário e lhe enviaremos um email rapidamente para ativar sua conta.
-      flash create success message: Obrigado por se cadastrar. Nós mandamos uma confirmação para %{email} e assim que você confirmar sua conta você poderá começar a mapear.<br /><br />Se você usa um sistema antispam que envia pedido de confirmação assegure-se que você adicionou o endereço webmaster@openstreetmap.org à sua Lista Branca, já que nós não conseguimos responder a nenhum pedido de confirmação.
+      flash create success message: Obrigado por se cadastrar. Nós mandamos uma confirmação para %{email} e assim que você confirmar sua conta você poderá começar a mapear.<br /><br />Se você usa um sistema antispam que envia pedido de confirmação assegure-se que você adicionou o endereço webmaster@openstreetmap.org à sua lista de e-mails confiáveis, já que nós não conseguimos responder a nenhum pedido de confirmação.
       heading: Criar uma nova conta de usuário
       license_agreement: Quando você confirmar sua conta, você precisará concordar com os <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">Termos de Colaborador</a>.
       no_auto_account_create: Infelizmente não foi possível criar uma conta para você automaticamente.
@@ -1640,11 +1728,12 @@ pt-BR:
       you need to accept or decline: Por favor leia e, em seguida, aceite ou recuse os novos Termos do Colaborador para continuar.
     view: 
       activate_user: ativar este usuário
-      add as friend: adicionar como amigos
+      add as friend: adicionar como amigo
       ago: (%{time_in_words_ago} atrás)
       block_history: ver bloqueios recebidos
-      blocks by me: bloqueios em mim
+      blocks by me: bloqueios por mim
       blocks on me: bloqueios sobre mim
+      comments: comentários
       confirm: Confirmar
       confirm_user: confirmar este usuário
       create_block: bloquear este usuário
@@ -1668,6 +1757,7 @@ pt-BR:
       m away: "%{count}m de distância"
       mapper since: "Mapeador desde:"
       moderator_history: ver bloqueios aplicados
+      my comments: meus comentários
       my diary: meu diário
       my edits: minhas edições
       my settings: minhas configurações
@@ -1722,7 +1812,6 @@ pt-BR:
     filter: 
       block_expired: O bloqueio já expirou e não pode mais ser editado.
       block_period: O período de bloqueio deve ser um dos valores selecionáveis na lista.
-      not_a_moderator: Você precisa ser um moderador para tomar essa ação.
     helper: 
       time_future: Termina em %{time}.
       time_past: Terminou há %{time}
@@ -1756,7 +1845,7 @@ pt-BR:
       reason: Razão para o bloqueio
       revoke: Cancelar!
       revoker_name: Retirado por
-      show: Mostrar
+      show: Exibir
       status: Status
     period: 
       one: uma hora
@@ -1778,7 +1867,7 @@ pt-BR:
       reason: "Razão do bloqueio:"
       revoke: Cancelar!
       revoker: "Quem retirou:"
-      show: Mostrar
+      show: Exibir
       status: Status
       time_future: Termina em %{time}
       time_past: Terminou há %{time}

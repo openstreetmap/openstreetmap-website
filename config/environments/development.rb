@@ -23,11 +23,15 @@ OpenStreetMap::Application.configure do
   config.action_dispatch.best_standards_support = :builtin
 
   # Raise exception on mass assignment protection for Active Record models
-  config.active_record.mass_assignment_sanitizer = :strict
+  unless STATUS == :database_offline
+    config.active_record.mass_assignment_sanitizer = :strict
+  end
 
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)
-  config.active_record.auto_explain_threshold_in_seconds = 0.5
+  unless STATUS == :database_offline
+    config.active_record.auto_explain_threshold_in_seconds = 0.5
+  end
 
   # Do not compress assets
   config.assets.compress = false

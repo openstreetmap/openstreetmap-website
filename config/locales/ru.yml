@@ -1,22 +1,29 @@
-# Messages for Russian (Русский)
+# Messages for Russian (русский)
 # Exported from translatewiki.net
 # Export driver: syck-pecl
 # Author: AOleg
 # Author: Aleksandr Dezhin
 # Author: Amire80
+# Author: Andrewsh
 # Author: Calibrator
 # Author: Chilin
+# Author: DCamer
 # Author: Dr&mx
 # Author: Eleferen
 # Author: EugeneZelenko
 # Author: Express2000
 # Author: Ezhick
 # Author: G0rn
+# Author: Ignatus
+# Author: Kaganer
 # Author: Komzpa
 # Author: Lockal
 # Author: MaxSem
+# Author: Mechano
+# Author: Nemo bis
 # Author: TarzanASG
 # Author: Yuri Nazarov
+# Author: Zverik
 # Author: Александр Сигачёв
 # Author: Сrower
 ru: 
@@ -91,6 +98,8 @@ ru:
   application: 
     require_cookies: 
       cookies_needed: Похоже, что у вас выключены куки. Пожалуйста, включите куки в вашем браузере, прежде чем продолжить.
+    require_moderator: 
+      not_a_moderator: Чтобы выполнить это действие, нужно быть модератором.
     setup_user_auth: 
       blocked: Ваш доступ к API заблокирован. Пожалуйста, войдите через веб-интерфейсе, чтобы узнать подробности.
       need_to_see_terms: Ваш доступ к API временно приостановлен. Пожалуйста войдите через веб-интерфейс для просмотра условий участия. Вам не обязательно соглашаться, но вы должны просмотреть их.
@@ -98,7 +107,6 @@ ru:
     changeset: 
       changeset: "Пакет правок: %{id}"
       changesetxml: XML пакета правок
-      download: Загрузить %{changeset_xml_link} или %{osmchange_xml_link}
       feed: 
         title: Пакет правок %{id}
         title_comment: Пакет правок %{id} — %{comment}
@@ -111,16 +119,17 @@ ru:
       closed_at: "Закрыт:"
       created_at: "Создан:"
       has_nodes: 
+        few: "Содержит %{count} точки:"
         one: "Содержит %{count} точку:"
-        other: "Содержит точки (%{count} шт.):"
+        other: "Содержит %{count} точек:"
       has_relations: 
         few: "Содержит следующие %{count} отношения:"
         one: "Содержит следующие %{count} отношение:"
         other: "Содержит следующие %{count} отношений:"
       has_ways: 
-        few: "Содержит следующие %{count} линии:"
-        one: "Содержит следующую %{count} линию:"
-        other: "Содержит следующие %{count} линий:"
+        few: "Содержит %{count} линии:"
+        one: "Содержит %{count} линию:"
+        other: "Содержит %{count} линий:"
       no_bounding_box: Для этого пакета правок границы не установлены.
       show_area_box: Показать выделенную область
     common_details: 
@@ -162,7 +171,6 @@ ru:
         next_changeset_tooltip: Следующая правка %{user}
         prev_changeset_tooltip: Предыдущая правка %{user}
     node: 
-      download: "%{download_xml_link}, %{view_history_link} или %{edit_link}"
       download_xml: Скачать XML
       edit: править
       node: Точка
@@ -172,7 +180,6 @@ ru:
       coordinates: "Координаты:"
       part_of: "Участвует в:"
     node_history: 
-      download: "%{download_xml_link} или %{view_details_link}"
       download_xml: Скачать XML
       node_history: История точки
       node_history_title: "История точки: %{node_name}"
@@ -187,8 +194,14 @@ ru:
     paging_nav: 
       of: из
       showing_page: Показана страница
+    redacted: 
+      message_html: Версия %{version} этого %{type} не может быть показана как он отредактированнаям. Пожалуйста, смотрите %{redaction_link} для получение дополнительной информации.
+      redaction: Редакция %{id}
+      type: 
+        node: точка
+        relation: отношение
+        way: линия
     relation: 
-      download: "%{download_xml_link} или %{view_history_link}"
       download_xml: Скачать XML
       relation: Отношение
       relation_title: "Отношение: %{relation_name}"
@@ -197,7 +210,6 @@ ru:
       members: "Участники:"
       part_of: "Участвует в:"
     relation_history: 
-      download: "%{download_xml_link} или %{view_details_link}"
       download_xml: Скачать XML
       relation_history: История отношения
       relation_history_title: "История отношения: %{relation_name}"
@@ -213,14 +225,14 @@ ru:
       view_data: Посмотреть данные для текущего вида
     start_rjs: 
       data_frame_title: Данные
-      data_layer_name: Данные
+      data_layer_name: Просмотр данных карты
       details: Подробности
       drag_a_box: Для выбора области растяните рамку по карте
       edited_by_user_at_timestamp: Изменил [[user]] в [[timestamp]]
       hide_areas: Скрыть области
       history_for_feature: История [[feature]]
       load_data: Загрузить данные
-      loaded_an_area_with_num_features: Вы загрузили область, которая содержит [[num_features]] объектов. Некоторые браузеры могут не справиться с отображением такого количества данных. Обычно браузеры лучше всего обрабатывают до 100 объектов одновременно. Загрузка большего числа может замедлить ваш браузер или привести к зависанию. Если вы всё равно хотите отобразить эти данные, нажмите на кнопку ниже.
+      loaded_an_area_with_num_features: Вы загрузили область, которая содержит [[num_features]] объектов. Некоторые браузеры могут не справиться с отображением такого количества данных. Обычно браузеры могут обрабатывать до [[max_features]] объектов. Загрузка большего числа может замедлить ваш браузер или привести к его зависанию. Если вы всё равно хотите отобразить эти данные, нажмите на кнопку ниже.
       loading: Загрузка...
       manually_select: Выделить другую область
       object_list: 
@@ -259,7 +271,6 @@ ru:
         relation: отношения
         way: линии
     way: 
-      download: "%{download_xml_link}, %{view_history_link} или %{edit_link}"
       download_xml: Скачать XML
       edit: править
       view_history: посмотреть историю
@@ -272,7 +283,6 @@ ru:
       nodes: "Точки:"
       part_of: "Участвует в:"
     way_history: 
-      download: "%{download_xml_link} или %{view_details_link}"
       download_xml: Скачать XML
       view_details: подробнее
       way_history: История правок линии
@@ -303,6 +313,7 @@ ru:
       description_nearby: Наборы правок соседних участников
       description_user: Пакеты правок пользователя %{user}
       description_user_bbox: Пакеты правок пользователя %{user} в рамке, охватывающей координаты %{bbox}
+      empty_anon_html: Пока правок ещё нет
       heading: Пакеты правок
       heading_bbox: Пакеты правок
       heading_friend: Пакеты правок
@@ -384,10 +395,6 @@ ru:
       body: К сожалению, записи или комментария с id %{id} не найдено. Проверьте правильность написания. Возможно, ссылка, по которой вы перешли, ошибочна.
       heading: Нет записи с id %{id}
       title: Нет такой дневниковой записи
-    no_such_user: 
-      body: К сожалению, пользователь с именем %{user} не найден. Пожалуйста, проверьте правильность ввода. Возможно, ссылка, по которой вы перешли, ошибочна.
-      heading: Пользователя %{user} не существует
-      title: Нет такого пользователя
     view: 
       leave_a_comment: Оставить комментарий
       login: Представиться
@@ -473,7 +480,7 @@ ru:
         geonames: Результаты от <a href="http://www.geonames.org/">GeoNames</a>
         latlon: <a href="http://openstreetmap.org/">Внутренние результаты</a>
         osm_namefinder: Результаты от <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>
-        osm_nominatim: Результаты, полученые из <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
+        osm_nominatim: Результаты, полученные из <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
         uk_postcode: Результаты от <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Результаты от <a href="http://geocoder.us/">Geocoder.us</a>
     search_osm_namefinder: 
@@ -481,16 +488,28 @@ ru:
       suffix_place: ", %{distance} %{direction} %{placename}"
     search_osm_nominatim: 
       prefix: 
+        aeroway: 
+          aerodrome: Аэродром
+          apron: Перрон
+          gate: Выход на посадку
+          helipad: Вертолётная площадка
+          runway: Взлётно-посадочная полоса
+          taxiway: Рулёжная дорожка
+          terminal: Терминал
         amenity: 
+          WLAN: WiFi доступ
           airport: Аэропорт
           arts_centre: Дом искусств
+          artwork: Произведения искусства
           atm: Банкомат
           auditorium: Аудитория
           bank: Банк
           bar: Бар
+          bbq: Барбекю
           bench: Скамья
           bicycle_parking: Велопарковка
           bicycle_rental: Прокат велосипедов
+          biergarten: Пивная на открытом воздухе
           brothel: Бордель
           bureau_de_change: Обмен валют
           bus_station: Автобусная станция
@@ -499,6 +518,7 @@ ru:
           car_sharing: Каршаринг
           car_wash: Автомойка
           casino: Казино
+          charging_station: Станция зарядки электромобилей
           cinema: Кинотеатр
           clinic: Поликлиника
           club: Клуб
@@ -517,10 +537,11 @@ ru:
           ferry_terminal: Паромная станция
           fire_hydrant: Пожарный гидрант
           fire_station: Пожарная охрана
+          food_court: Фаст-фуд
           fountain: Фонтан
           fuel: Заправка
           grave_yard: Место захоронения
-          gym: Тренажёрный зал / Фитнес-центр
+          gym: Фитнес-центр / Тренажёрный зал
           hall: Холл
           health_centre: Оздоровительный центр
           hospital: Госпиталь
@@ -557,9 +578,12 @@ ru:
           shelter: Укрытие
           shop: Магазин
           shopping: Торговый центр
+          shower: Душ
+          social_centre: Общественный центр
           social_club: Сообщество
           studio: Студия
           supermarket: Супермаркет
+          swimming_pool: Бассейн
           taxi: Такси
           telephone: Телефон
           theatre: Театр
@@ -570,41 +594,21 @@ ru:
           veterinary: Ветеринарная клиника
           village_hall: Усадьба
           waste_basket: Мусорка
-          wifi: Wi-Fi-доступ
+          wifi: WiFi-доступ
           youth_centre: Молодёжный центр
         boundary: 
           administrative: Административная граница
+          census: Граница переписного участка
+          national_park: Национальный парк
+          protected_area: Охраняемый район
+        bridge: 
+          aqueduct: Акведук
+          suspension: Висячий мост
+          swing: Разводной мост
+          viaduct: Виадук
+          "yes": Мост
         building: 
-          apartments: Многоквартирный дом
-          block: Ряд зданий
-          bunker: Бункер
-          chapel: Часовня
-          church: Церковь
-          city_hall: Мэрия
-          commercial: Офисное здание
-          dormitory: Общежитие
-          entrance: Вход в здание
-          faculty: Факультетское здание
-          farm: Ферма
-          flats: Квартиры
-          garage: Гараж
-          hall: Холл
-          hospital: Здание больницы
-          hotel: Гостиница
-          house: Дом
-          industrial: Промышленное здание
-          office: Офисное здание
-          public: Общественное здание
-          residential: Жилой дом
-          retail: Здание на продажу
-          school: Здание школы
-          shop: Магазин
-          stadium: Стадион
-          store: Магазин
-          terrace: Ряд жилых домов
-          tower: Башня
-          train_station: трамвайная остановка
-          university: Университет
+          "yes": Здание
         highway: 
           bridleway: Конный путь
           bus_guideway: Автобусная полоса-рельс
@@ -612,12 +616,11 @@ ru:
           byway: Закоулок
           construction: Ремонт дороги
           cycleway: Велодорожка
-          distance_marker: Километровый столб
           emergency_access_point: Пункт первой помощи
           footway: Тротуар
           ford: Брод
-          gate: Ворота
           living_street: Жилая улица
+          milestone: Километровый столб
           minor: Второстепенная дорога
           motorway: Автомагистраль
           motorway_junction: Перекрёсток
@@ -629,14 +632,17 @@ ru:
           primary_link: Главная дорога
           raceway: Гоночная трасса
           residential: Улица обычная
+          rest_area: Зона отдыха
           road: Дорога
           secondary: Второстепенная дорога
           secondary_link: Примыкающая дорога
           service: Подъездная дорога
           services: Придорожный сервис
+          speed_camera: Камера по контролю скорости
           steps: Ступеньки
           stile: Турникет
           tertiary: Дорога третьего класса
+          tertiary_link: Дорога третьего класса
           track: Неофициальная грунтовка
           trail: Тропа
           trunk: Трасса
@@ -650,6 +656,7 @@ ru:
           building: Здание
           castle: Крепость
           church: Церковь
+          fort: Форт
           house: Дом
           icon: Икона
           manor: Поместье
@@ -674,6 +681,7 @@ ru:
           farmland: Сельхозугодья
           farmyard: Сельхоздворы
           forest: Дикий лес
+          garages: Гаражи
           grass: Трава
           greenfield: Неосвоенная территория
           industrial: Промзона
@@ -681,25 +689,28 @@ ru:
           meadow: Луг
           military: Военная зона
           mine: Шахта
-          mountain: Гора
           nature_reserve: Заповедник
+          orchard: Фруктовый сад
           park: Парк
           piste: Лыжня
-          plaza: Открытая площадка
           quarry: Карьер
           railway: Железная дорога
           recreation_ground: Зона отдыха
-          reservoir: водохранилище
+          reservoir: Водохранилище
+          reservoir_watershed: Водохранилище водораздел
           residential: Жилой район
           retail: Торговая территория
+          road: Зона дорожной сети
           village_green: Зелёная деревня
           vineyard: Виноградник
           wetland: Заболоченность
           wood: Обслуживаемый лес
         leisure: 
           beach_resort: Пляж с насаждениями
+          bird_hide: Засидка (пункт скрытого наблюдения за птицами)
           common: Альменда
           fishing: Рыбалка
+          fitness_station: Фитнес-станция
           garden: Сад
           golf_course: Поле для гольфа
           ice_rink: Каток
@@ -710,24 +721,30 @@ ru:
           pitch: Спортивный газон
           playground: Детская игровая площадка
           recreation_ground: Зона отдыха
+          sauna: Сауна
           slipway: Эллинг
           sports_centre: Спортивный центр
           stadium: Стадион
           swimming_pool: Бассейн
           track: Спортивная дорожка
           water_park: Аквапарк
+        military: 
+          airfield: Военный аэродром
+          barracks: Казармы
+          bunker: Бункер
         natural: 
           bay: Залив
           beach: Пляж
           cape: Мыс
           cave_entrance: Вход в пещеру
           channel: Канал
-          cliff: обрыв
-          coastline: Береговая линия
+          cliff: Обрыв
           crater: Кратер
+          dune: Дюна
           feature: Природный объект
           fell: Холм
           fjord: Фьорд
+          forest: Лес
           geyser: Гейзер
           glacier: Ледник
           heath: Пустошь
@@ -747,6 +764,7 @@ ru:
           scrub: Кустарник
           shoal: Мелководье
           spring: Родник
+          stone: Камень
           strait: Пролив
           tree: Дерево
           valley: Долина
@@ -755,6 +773,19 @@ ru:
           wetland: Заболоченная территория
           wetlands: Заболоченные земли
           wood: Естественный лес
+        office: 
+          accountant: Бухгалтер
+          architect: Архитектор
+          company: Компания
+          employment_agency: Агентство занятости
+          estate_agent: Агент по продаже недвижимости
+          government: Государственное управление
+          insurance: Страховое бюро
+          lawyer: Юрист
+          ngo: Офис НКО
+          telecommunication: Офис телекоммуникационной компании
+          travel_agent: Туристическое агентство
+          "yes": Офисы
         place: 
           airport: Аэропорт
           city: Город
@@ -766,6 +797,7 @@ ru:
           houses: Дома
           island: Остров
           islet: Маленький остров
+          isolated_dwelling: Отдельный дом-ферма
           locality: Заброшенная деревня, урочище, необитаемая местность
           moor: Торфяник
           municipality: Муниципалитет
@@ -789,6 +821,7 @@ ru:
           junction: Стрелка ж/д
           level_crossing: Железнодорожный переезд
           light_rail: Легкорельсовый ж/д транспорт
+          miniature: Мини железная дорога (Miniature Rail)
           monorail: Монорельс
           narrow_gauge: Узкоколейка
           platform: Железнодорожная платформа
@@ -803,7 +836,7 @@ ru:
           yard: Депо
         shop: 
           alcohol: Винный магазин
-          apparel: Магазин одежды
+          antiques: Антиквариат
           art: Художественный салон
           bakery: Булочная
           beauty: Салон красоты
@@ -811,13 +844,12 @@ ru:
           bicycle: Веломагазин
           books: Книжный магазин
           butcher: Мясная лавка
-          car: Автосалон
-          car_dealer: Автомобильный дилер
-          car_parts: Автозапчасти
+          car: Продажа и ремонт автомобилей
+          car_parts: Автомагазин
           car_repair: Автомастерская
           carpet: Ковры
           charity: Секонд-хэнд
-          chemist: м-н бытовой химии
+          chemist: Магазин бытовой химии
           clothes: Магазин одежды
           computer: Компьютерный магазин
           confectionery: Кондитерская
@@ -826,8 +858,7 @@ ru:
           cosmetics: Косметика
           department_store: Универсам
           discount: Магазин распродаж
-          doityourself: Сделай сам
-          drugstore: Аптека
+          doityourself: Магазин типа «Сделай сам» (DIY — Do-It-Yourself)
           dry_cleaning: Химчистка
           electronics: Магазин электротоваров
           estate_agent: Продажа недвижимости
@@ -861,7 +892,7 @@ ru:
           organic: Продуктовый магазин
           outdoor: Открытый рынок
           pet: Зоомагазин
-          photo: фотомагазин
+          photo: Фотомагазин
           salon: Салон
           shoes: Обувной магазин
           shopping_centre: Торговый центр
@@ -879,7 +910,7 @@ ru:
           bed_and_breakfast: Полупансион
           cabin: Каюта
           camp_site: Лагерь
-          caravan_site: Стоянка для домиков на колёсах
+          caravan_site: Стоянка для домов на колёсах
           chalet: Шале
           guest_house: Домик для гостей
           hostel: Хостел
@@ -893,7 +924,10 @@ ru:
           valley: Долина
           viewpoint: Смотровая площадка
           zoo: Зоопарк
+        tunnel: 
+          "yes": Туннель
         waterway: 
+          artificial: Искусственный водный путь
           boatyard: Верфь
           canal: Канал
           connector: Слияние рек
@@ -931,10 +965,11 @@ ru:
       history_tooltip: Просмотр правок в этой области
       history_zoom_alert: Необходимо увеличить масштаб карты, чтобы увидеть историю правок
   layouts: 
+    community: Сообщество
     community_blogs: Блоги сообщества
     community_blogs_title: Блоги членов сообщества OpenStreetMap
-    copyright: Авторское право и лицензия
-    documentation: Документация
+    copyright: Лицензия и авторы
+    documentation: О проекте
     documentation_title: Документация по проекту
     donate: Поддержите OpenStreetMap %{link} в Фонд обновления оборудования.
     donate_link_text: пожертвованиями
@@ -942,29 +977,28 @@ ru:
     edit_with: Править с помощью %{editor}
     export: Экспорт
     export_tooltip: Экспортировать данные карты
-    foundation: Фонд
+    foundation: Фонд OpenStreetMap
     foundation_title: Фонд OpenStreetMap
     gps_traces: GPS-треки
     gps_traces_tooltip: Работать с GPS треками
     help: Помощь
-    help_centre: Справочный центр
+    help_centre: Центр помощи (англ.)
     help_title: Сайт помощи проекта
     history: История
     home: домой
     home_tooltip: Показать мой дом
-    inbox: входящие (%{count})
     inbox_tooltip: 
       few: В вашем ящике %{count} новых сообщения
       one: В вашем ящике %{count} новое сообщение
       other: В вашем ящике есть %{count} новых сообщений.
       zero: В вашем ящике нет непрочитанных сообщений
-    intro_1: OpenStreetMap — это свободная и доступная для редактирования карта всего мира. Она сделана такими же людьми, как и вы.
-    intro_2: OpenStreetMap позволяет вам просматривать, редактировать и в духе сотрудничества использовать географические данные о любой точке Земли.
-    intro_3: Услуги хостинга для OpenStreetMap любезно предоставлены %{ucl}, %{ic} и %{bytemark}. Другие сторонники проекта перечислены в %{partners}.
-    intro_3_ic: Имперским колледжом Лондона
-    intro_3_partners: вики
-    intro_3_partners_url: http://wiki.openstreetmap.org/wiki/Partners?uselang=ru
-    intro_3_ucl: UCL VR Centre
+    intro_1: OpenStreetMap — это свободная карта всего мира, созданная такими же людьми, как и вы.
+    intro_2_create_account: Создайте учётную запись
+    intro_2_download: скачивания
+    intro_2_html: Все данные являются свободными для %{download}, %{use} и предоставляются по %{license}. %{create_account} для улучшения карты.
+    intro_2_license: свободной лицензии
+    intro_2_use: использования
+    intro_2_use_url: http://wiki.openstreetmap.org/wiki/RU:Using_OpenStreetMap
     license: 
       alt: CC BY-SA 2.0
       title: Данные OpenStreetMap доступны по лицензии Creative Commons Attribution-Share Alike 2.0 Generic
@@ -976,19 +1010,23 @@ ru:
     logout_tooltip: Выйти
     make_a_donation: 
       text: Поддержать проект
-      title: Поддержка OpenStreetMap денежно-кредитным пожертвованием
+      title: Поддержите OpenStreetMap денежным пожертвованием
     osm_offline: База данных OpenStreetMap в данный момент не доступна, так как проводится необходимое техническое обслуживание.
     osm_read_only: База данных OpenStreetMap в данный момент доступна только для чтения, так как проводится необходимое техническое обслуживание.
+    partners_bytemark: Bytemark Hosting
+    partners_html: Хостинг поддерживается %{ucl}, %{ic} и %{bytemark}, а также другими %{partners}.
+    partners_ic: Имперским колледжем Лондона
+    partners_partners: партнёрами
+    partners_ucl: UCL VR Centre
     sign_up: регистрация
     sign_up_tooltip: Создать учётную запись для редактирования
-    sotm2011: Приезжайте на конференцию OpenStreetMap 2011 «The State of the Map», 9-11 сентября, Денвер!
     tag_line: Свободная вики-карта мира
-    user_diaries: Дневники
-    user_diaries_tooltip: Посмотреть дневники
+    user_diaries: Дневники участников
+    user_diaries_tooltip: Посмотреть дневники участников
     view: Карта
     view_tooltip: Посмотреть карту
     welcome_user: Добро пожаловать, %{user_link}
-    welcome_user_link_tooltip: Ваша страница пользователя
+    welcome_user_link_tooltip: Ваша персональная страница
     wiki: Вики
     wiki_title: Вики-сайт проекта
     wiki_url: http://wiki.openstreetmap.org/wiki/RU:%D0%97%D0%B0%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F_%D1%81%D1%82%D1%80%D0%B0%D0%BD%D0%B8%D1%86%D0%B0?uselang=ru
@@ -997,7 +1035,28 @@ ru:
       english_link: английского оригинала
       text: В случае конфликта между этой переведённой страницей и %{english_original_link}, английская страница должна иметь приоритет
       title: Об этом переводе
-    legal_babble: "<h2> Авторские права и лицензирование</h2>\n<p>OpenStreetMap — это <i>открытые данные</i> доступные по лицензии <a href=\"http://creativecommons.org/licenses/by-sa/2.0/deed.ru\">Creative Commons Attribution-ShareAlike 2.0</a> (CC-BY-SA). \n</p>\n\n<p>Вы можете свободно копировать, распространять, передавать и дорабатывать наши карты и данные до тех пор, пока вы ссылаетесь на OpenStreetMap и его сообщество. Если вы изменяете или берёте наши карты за основу, то вы должны распространять результат только по такой же лицензии. Полный <a href=\"http://creativecommons.org/licenses/by-sa/2.0/legalcode\">юридический текст лицензии</a> (<a href=\"http://ru.wikisource.org/wiki/Creative_Commons_Attribution-ShareAlike_2.0_Generic\">перевод на русский язык</a>) разъясняет ваши права и обязанности.\n</p>\n\n<h3>Как сослаться на OpenStreetMap</h3>\n<p>Если вы используете изображения карт OpenStreetMap, мы требуем, чтобы вы указывали, по крайней мере, «© Участники OpenStreetMap, CC-BY-SA». Если вы используете только картографические данные, мы требуем наличия указания «Картографические данные © Участники OpenStreetMap, CC-BY-SA». \n</p>\n<p>Где это возможно текст «OpenStreetMap» должен быть гиперссылкой на <a href=\"http://www.openstreetmap.org/\">http://www.openstreetmap.org/</a>, «CC-BY-SA» - на <a href=\"http://creativecommons.org/licenses/by-sa/2.0/deed.ru\">http://creativecommons.org/licenses/by-sa/2.0/deed.ru</a>. Если вы используете носители, где гиперссылки невозможны (например, печатная работа), мы предлагаем вам направлять ваших читателей непосредственно к www.openstreetmap.org (возможно, расширяя «OpenStreetMap» до полного адреса) и к www.creativecommons.org. \n</p>\n\n<h3>Узнайте больше</h3>\n<p>Прочитайте больше об использовании наших данных на странице <a href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ?uselang=ru\">ответов на юридические вопросы</a>. \n</p>\n<p>Участники сообщества OSM должны всегда помнить о том, что запрещается добавлять данные из любых защищенных авторским правом источников (например, с Google Maps или печатных карт) без явного предварительного согласия правообладателей. \n</p>\n<p>Хотя OpenStreetMap - открытые данные, мы не в состоянии предоставлять бесплатный API к нашим картам для сторонних разработчиков. См. <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">Правила использования API</a>, <a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">Правила использования частей карты</a> и <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">Правила использования службы Nominatim</a> . \n</p>\n\n<h3>Кто вносит вклад в наш проект</h3>\n<p>Наша лицензия CC-BY-SA требует от вас «указывать авторство Автора Оригинала разумно в средстве или способах, которые Вы используете». Индивидуальные картографы OSM не требуют указания авторства больше, чем строчкой «участники OpenStreetMap», но в OpenStreetMap есть данные, полученные от национальных картографических агентств или других существенных источников, поэтому возможно имеет смысл указать непосредственно на них, как на источник, или добавить ссылку на эту страницу. \n</p>\n\n<!-- Информация для редактирующих страницу. Ниже перечислены только те организации, которые требуют ссылки на своё авторство в качестве условий использования их данных в OpenStreetMap. Это не общий каталог импортируемых данных, список не должен использоваться за исключением случаев, когда указание авторства требуется условиями лицензии на импортируемые данные.\n\nЛюбые дополнения должны быть в первую очередь обсуждены с системными администраторами OSM. -->\n\n<ul id=\"contributors\">\n<li><strong>Австралия.</strong> Данные пригородов от Австралийского бюро статистики. </li>\n<li><strong>Австрия.</strong> Данные <a href=\"http://data.wien.gv.at/\">города Вена</a> на условиях <a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.de\">CC-BY</a>.</li>\n<li><strong>Канада.</strong> Данные от GeoBase ®, GeoGratis (© Департамент природных ресурсов Канады), CanVec (© Департамент природных ресурсов Канады) и StatCan (Отдел Географии, Статистическое ведомство Канады).</li>\n<li><strong>Франция</strong>: Данные от Главного налогового управления.</i>\n<li><strong>Новая Зеландия.</strong> Данные из сведений о земельных ресурсах Новой Зеландии. Crown Copyright reserved. </li>\n\n\n<li><strong>Польша</strong>: Данные с <a\n   href=\"http://ump.waw.pl/\">карт UMP-pcPL</a>. Copyright участники UMP-pcPL.\n   <a href=\"http://wiki.openstreetmap.org/wiki/UMP2OSM_Importing\">\n   Подробнее об использовании данных UMP проектом OSM</a></li>\n   <li><strong>ЮАР</strong>: Данные из\n   <a href=\"http://www.ngi.gov.za/\">Chief Directorate:\n   National Geo-Spatial Information</a>, State copyright reserved.</li>\n<li><strong>Великобритания.</strong> Данные Ordnance Survey © Crown copyright и права на базы данных 2010.</li>\n</ul>\n\n<p>\nВключение данных в OpenStreetMap не означает, что поставщик первичных данных каким-либо образом поддерживает OpenStreetMap, предоставляет гарантии или принимает на себя какую-любую ответственность. \n</p>"
+    legal_babble: 
+      contributors_at_html: "<strong>Австрия.</strong> Данные <a href=\"http://data.wien.gv.at/\">города Вена</a> (на условиях <a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.de\">CC BY</a>), а также земель <a href=\"http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm\">Форарльберга</a> и\n   Тироля (на условиях <a href=\"http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/\">CC-BY AT с дополнениями</a>)."
+      contributors_au_html: <strong>Австралия.</strong> Данные пригородов от Австралийского бюро статистики.
+      contributors_ca_html: <strong>Канада.</strong> Данные от GeoBase ®, GeoGratis (© Департамент природных ресурсов Канады), CanVec (© Департамент природных ресурсов Канады) и StatCan (Отдел Географии, Статистическое ведомство Канады).
+      contributors_footer_2_html: Включение данных в OpenStreetMap не означает, что поставщик первичных данных каким-либо образом поддерживает OpenStreetMap, предоставляет гарантии или принимает на себя какую-любую ответственность.
+      contributors_fr_html: "<strong>Франция</strong>: Данные от Главного налогового управления."
+      contributors_gb_html: <strong>Великобритания.</strong> Данные Ordnance Survey © Crown copyright и права на базы данных 2010.
+      contributors_intro_html: Наша лицензия CC BY-SA требует от вас «указывать авторство Автора Оригинала разумно в средстве или способах, которые Вы используете». Индивидуальные картографы OSM не требуют указания авторства больше, чем строчкой «участники OpenStreetMap», но в OpenStreetMap есть данные, полученные от национальных картографических агентств или других существенных источников, поэтому возможно имеет смысл указать непосредственно на них, как на источник, или добавить ссылку на эту страницу.
+      contributors_nl_html: "<strong>Нидерланды</strong>: Contains &copy; AND data, 2007 (<a href=\"http://www.and.com\">www.and.com</a>)"
+      contributors_nz_html: <strong>Новая Зеландия.</strong> Данные из сведений о земельных ресурсах Новой Зеландии. Crown Copyright reserved.
+      contributors_pl_html: "<strong>Польша</strong>: Данные с <a\n   href=\"http://ump.waw.pl/\">карт UMP-pcPL</a>. Copyright участники UMP-pcPL.\n   <a href=\"http://wiki.openstreetmap.org/wiki/UMP2OSM_Importing\">\n   Подробнее об использовании данных UMP проектом OSM</a></li>\n   <li><strong>ЮАР</strong>: Данные из\n   <a href=\"http://www.ngi.gov.za/\">Chief Directorate:\n   National Geo-Spatial Information</a>, State copyright reserved."
+      contributors_title_html: Кто вносит вклад в наш проект
+      credit_1_html: Если вы используете изображения карт OpenStreetMap, мы требуем, чтобы вы указывали, по крайней мере, «© Участники OpenStreetMap, CC BY-SA». Если вы используете только картографические данные, мы требуем наличия указания «Картографические данные © Участники OpenStreetMap, CC BY-SA».
+      credit_2_html: Где это возможно, текст «OpenStreetMap» должен быть гиперссылкой на <a href="http://www.openstreetmap.org/">http://www.openstreetmap.org/</a>, «CC BY-SA» — на <a href="http://creativecommons.org/licenses/by-sa/2.0/deed.ru">http://creativecommons.org/licenses/by-sa/2.0/deed.ru</a>. Если вы используете носители, где гиперссылки невозможны (например, печатная работа), мы предлагаем вам направлять ваших читателей непосредственно к www.openstreetmap.org (возможно, расширяя «OpenStreetMap» до полного адреса) и к www.creativecommons.org.
+      credit_title_html: Как сослаться на OpenStreetMap
+      intro_1_html: OpenStreetMap — это <i>открытые данные</i> доступные по лицензии <a href="http://creativecommons.org/licenses/by-sa/2.0/deed.ru">Creative Commons Attribution-ShareAlike 2.0</a> (CC BY-SA).
+      intro_2_html: Вы можете свободно копировать, распространять, передавать и дорабатывать наши карты и данные до тех пор, пока вы ссылаетесь на OpenStreetMap и его сообщество. Если вы изменяете или берёте наши карты за основу, то вы должны распространять результат только по такой же лицензии. Полный <a href="http://creativecommons.org/licenses/by-sa/2.0/legalcode">юридический текст лицензии</a> (<a href="http://ru.wikisource.org/wiki/Creative_Commons_Attribution-ShareAlike_2.0_Generic">перевод на русский язык</a>) разъясняет ваши права и обязанности.
+      more_1_html: Прочитайте больше об использовании наших данных на странице <a href="http://wiki.openstreetmap.org/wiki/Legal_FAQ?uselang=ru">ответов на юридические вопросы</a>.
+      more_2_html: Участники сообщества OSM должны всегда помнить о том, что запрещается добавлять данные из любых защищенных авторским правом источников (например, с Google Maps или печатных карт) без явного предварительного согласия правообладателей.
+      more_3_html: Хотя OpenStreetMap — открытые данные, мы не в состоянии предоставлять бесплатный API к нашим картам для сторонних разработчиков. См. <a href="http://wiki.openstreetmap.org/wiki/API_usage_policy">Правила использования API</a>, <a href="http://wiki.openstreetmap.org/wiki/Tile_usage_policy">Правила использования частей карты</a> и <a href="http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy">Правила использования службы Nominatim</a> .
+      more_title_html: Узнайте больше
+      title_html: Авторские права и лицензирование
     native: 
       mapping_link: начать картографирование
       native_link: русской версии
@@ -1037,10 +1096,6 @@ ru:
       body: "\nИзвините, но сообщения с таким ID нет."
       heading: "\nНет такого сообщения"
       title: "\nНет такого сообщения"
-    no_such_user: 
-      body: Извините, пользователя с таким именем нет.
-      heading: Нет такого пользователя
-      title: Нет такого пользователя
     outbox: 
       date: Дата
       inbox: входящие
@@ -1147,7 +1202,7 @@ ru:
       hopefully_you: Кто-то (надеемся, что вы) хотел создать учетную запись на
       introductory_video: "Вы можете посмотреть ознакомительное видео об OpenStreetMap здесь:"
       more_videos: "Здесь ещё больше видео:"
-      opengeodata: "OpenGeoData.org — это блог основателя OpenStreetMap Стива Коста (Steve Coast) и там также можно найти подкасты:"
+      opengeodata: "OpenGeoData.org — это блог основателя OpenStreetMap Стива Коста (Steve Coast) и там же можно найти подкасты:"
       the_wiki: "Почитать об OpenStreetMap в вики:"
       the_wiki_url: http://wiki.openstreetmap.org/wiki/RU:Beginners%27_guide?uselang=ru
       user_wiki_1: Рекомендуется создать свою пользовательскую вики-страницу, включив в неё
@@ -1212,6 +1267,8 @@ ru:
       allow_write_gpx: передавать GPS-треки на сервер.
       allow_write_prefs: изменять их пользовательские настройки.
       authorize_url: "Авторизующий URL:"
+      confirm: Вы уверены?
+      delete: Удаление клиента
       edit: Изменить подробности
       key: "Потребительский ключ:"
       requests: "Запрос следующих разрешений со стороны пользователя:"
@@ -1221,6 +1278,37 @@ ru:
       url: "URL маркера запроса:"
     update: 
       flash: Клиентская информация успешно обновлена
+  redaction: 
+    create: 
+      flash: Редакция создана.
+    destroy: 
+      error: Произошла ошибка при уничтожении этой редакции.
+      flash: Редакция уничтожена.
+      not_empty: Редакция не пуста. Пожалуйста, откатите все версии, принадлежащие к этой редакции перед удалением.
+    edit: 
+      description: Описание
+      heading: Редактировать исправление
+      submit: Сохранить исправление
+      title: Редактировать исправление
+    index: 
+      empty: Нет исправлений для показа.
+      heading: Список исправлений
+      title: Список исправлений
+    new: 
+      description: Описание
+      heading: Введите информацию для нового исправления
+      submit: Создание исправления
+      title: Создание нового исправления
+    show: 
+      confirm: Вы уверены?
+      description: "Описание:"
+      destroy: Удалить это исправление
+      edit: Редактировать это исправление
+      heading: Отображение исправления «%{title}»
+      title: Отображение исправления
+      user: "Создано:"
+    update: 
+      flash: Изменения сохранены.
   site: 
     edit: 
       anon_edits_link_text: Выяснить, в чём дело.
@@ -1235,10 +1323,9 @@ ru:
     index: 
       js_1: Вы используете браузер, в котором не поддерживается или отключен JavaScript.
       js_2: OpenStreetMap использует JavaScript для отображения карт.
-      js_3: Вы можете попробовать <a href="http://tah.openstreetmap.org/Browse/">статичную карту от Tiles@Home</a>, если вы не можете включить JavaScript.
       license: 
         license_name: Creative Commons Attribution-Share Alike 2.0
-        notice: Лицензировано на условиях %{license_name} проектом %{project_name} и теми, кто вносил в него вклад.
+        notice: Лицензировано на условиях %{license_name} проектом %{project_name} и его участниками, вносившими свой вклад.
         project_name: OpenStreetMap
       permalink: Постоянная ссылка
       remote_failed: Редактирование не удалось. Убедитесь, что JOSM или Merkaartor загружены и включена настройка дистанционного управления
@@ -1312,10 +1399,27 @@ ru:
           unclassified: Дорога местного значения
           unsurfaced: Грунтовая дорога
           wood: Роща
+    markdown_help: 
+      alt: Альтернативный текст
+      first: Первый элемент
+      heading: Заголовок
+      headings: Заголовки
+      image: Изображение
+      link: Ссылка
+      ordered: Упорядоченный список
+      second: Второй элемент
+      subheading: Подзаголовок
+      text: Текст
+      title_html: Разобрано с помощью <a href="http://daringfireball.net/projects/markdown/">Markdown</a>
+      unordered: Неупорядоченный список
+      url: URL
+    richtext_area: 
+      edit: Изменить
+      preview: Предпросмотр
     search: 
       search: Поиск
-      search_help: "примеры: «Рыбинск», «Ростов-на-Дону», «1, Красная площадь, Москва», «кафе рядом с Арбат», «стоянки в Петергоф», «банкоматы около Крещатик», «Regent Street, Cambridge» или «CB2 5AQ» (<a href=http://wiki.openstreetmap.org/wiki/RU:Search?uselang=ru>больше примеров</a>.<br />Улучшенный русскоязычный поиск: <a href=http://openstreetmap.ru/#layer=S>OSM Россия</a> и <a href=http://openstreetmap.by/?lang=ru>OSM Беларусь</a>.<br />Проложить маршрут на карте: <a href=http://openstreetmap.by/?lang=ru>OSM Беларусь</a>, <a href=http://www.yournavigation.org/>YourNavigation</a>, <a href=http://maps.cloudmade.com/>CloudMade Maps</a> и <a href=http://open.mapquest.com/>MapQuest Open</a>."
-      submit_text: "?"
+      search_help: "Примеры: «Рыбинск», «Ростов-на-Дону», «1, Красная площадь, Москва», «кафе рядом с Арбат», «стоянки Петергоф», «банкоматы Крещатик», «Regent Street, Cambridge» или «CB2 5AQ» (<a href=http://wiki.openstreetmap.org/wiki/RU:Search?uselang=ru>больше примеров</a>)."
+      submit_text: Перейти
       where_am_i: Где я?
       where_am_i_title: Опишите ваше местоположение, воспользовавшись инструментом поиска
     sidebar: 
@@ -1355,10 +1459,6 @@ ru:
       your_traces: Ваши GPS-треки
     make_public: 
       made_public: Трек сделан общедоступным
-    no_such_user: 
-      body: Извините, пользователя с именем %{user} не существует. Пожалуйста, проверьте правильность написания. Возможно ссылка, по которой вы пришли, неверна.
-      heading: Пользователя %{user} не существует
-      title: Нет такого пользователя
     offline: 
       heading: GPX хранилище отключено
       message: Хранилище GPX файлов и система их загрузки в настоящий момент недоступна.
@@ -1399,8 +1499,6 @@ ru:
     trace_optionals: 
       tags: "Теги:"
     trace_paging_nav: 
-      next: Следующая →
-      previous: ← Предыдущая
       showing_page: Показывается страница %{page}
     view: 
       delete_track: Удалить этот трек
@@ -1577,7 +1675,7 @@ ru:
       fill_form: Заполните форму, и мы вышлем вам на электронную почту письмо с инструкцией по активации.
       flash create success message: Спасибо за регистрацию. Мы выслали письмо с подтверждением на адрес %{email} и как только вы подтвердите вашу учётную запись, вы можете начать работать с картами.<br /><br />Если вы используете антиспам, посылающий запросы на подтверждение, внесите адрес webmaster@openstreetmap.org в ваш белый список, так как мы не можем отвечать на такие запросы.
       heading: Создание учётной записи
-      license_agreement: Когда вы подтверждаете вашу учётную запись, вам необходимо согласиться с <a href="http://wiki.openstreetmap.org/wiki/RU:Open_Database_License/Contributor_Terms?uselang=ru">условиями сотрудничества</a>.
+      license_agreement: Для подтверждения своей учётной записи вам необходимо согласиться с <a href="http://wiki.openstreetmap.org/wiki/RU:Open_Database_License/Contributor_Terms?uselang=ru">условиями сотрудничества</a>.
       no_auto_account_create: К сожалению, сейчас мы не можем автоматически создать для вас учётную запись.
       not displayed publicly: Не отображается публично (см. <a href="http://wiki.openstreetmap.org/index.php?title=Privacy_Policy&uselang=ru" title="вики политика конфиденциальности включая часть про адрес эл. почты">политику конфиденциальности</a>)
       openid: "%{logo} OpenID:"
@@ -1715,7 +1813,6 @@ ru:
     filter: 
       block_expired: Блокирование уже закончилось и не может быть отредактировано.
       block_period: Время блокирования должно быть выбрано из значений,  рвзворачивающегося списка.
-      not_a_moderator: Вам нужно быть модератором, чтобы выполнить это действие.
     helper: 
       time_future: Заканчивается в %{time}.
       time_past: Закончилось %{time} назад.
@@ -1745,7 +1842,9 @@ ru:
       creator_name: Автор
       display_name: Заблокированный пользователь
       edit: Править
+      next: Следующая →
       not_revoked: (не разблокирован)
+      previous: ← Предыдущая
       reason: Причина блокирования
       revoke: Разблокировать!
       revoker_name: Разблокировал

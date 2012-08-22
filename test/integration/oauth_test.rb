@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class OAuthTest < ActionController::IntegrationTest
-  fixtures :users, :client_applications
+  fixtures :users, :client_applications, :gpx_files
 
   include OAuth::Helper
 
@@ -45,6 +45,17 @@ class OAuthTest < ActionController::IntegrationTest
     assert_nil token.invalidated_at
     assert_allowed token, [ :allow_read_prefs ]
 
+    signed_get "/api/0.6/user/preferences", :consumer => client, :token => token
+    assert_response :success
+
+    post "/oauth/revoke", :token => token.token
+    assert_redirected_to oauth_clients_url(token.user.display_name)
+    token = OauthToken.find_by_token(token.token)
+    assert_not_nil token.invalidated_at
+
+    signed_get "/api/0.6/user/preferences", :consumer => client, :token => token
+    assert_response :unauthorized
+
     signed_get "/oauth/request_token", :consumer => client
     assert_response :success
     token = parse_token(response)
@@ -78,6 +89,17 @@ class OAuthTest < ActionController::IntegrationTest
     assert_not_nil token.authorized_at
     assert_nil token.invalidated_at
     assert_allowed token, [ :allow_write_api, :allow_read_gpx ]
+
+    signed_get "/api/0.6/gpx/2", :consumer => client, :token => token
+    assert_response :success
+
+    post "/oauth/revoke", :token => token.token
+    assert_redirected_to oauth_clients_url(token.user.display_name)
+    token = OauthToken.find_by_token(token.token)
+    assert_not_nil token.invalidated_at
+
+    signed_get "/api/0.6/gpx/2", :consumer => client, :token => token
+    assert_response :unauthorized
   end
 
   def test_oauth10_desktop_app
@@ -119,6 +141,17 @@ class OAuthTest < ActionController::IntegrationTest
     assert_not_nil token.authorized_at
     assert_nil token.invalidated_at
     assert_allowed token, [ :allow_read_prefs ]
+
+    signed_get "/api/0.6/user/preferences", :consumer => client, :token => token
+    assert_response :success
+
+    post "/oauth/revoke", :token => token.token
+    assert_redirected_to oauth_clients_url(token.user.display_name)
+    token = OauthToken.find_by_token(token.token)
+    assert_not_nil token.invalidated_at
+
+    signed_get "/api/0.6/user/preferences", :consumer => client, :token => token
+    assert_response :unauthorized
   end
 
   def test_oauth10a_web_app
@@ -167,6 +200,17 @@ class OAuthTest < ActionController::IntegrationTest
     assert_nil token.invalidated_at
     assert_allowed token, [ :allow_read_prefs ]
 
+    signed_get "/api/0.6/user/preferences", :consumer => client, :token => token
+    assert_response :success
+
+    post "/oauth/revoke", :token => token.token
+    assert_redirected_to oauth_clients_url(token.user.display_name)
+    token = OauthToken.find_by_token(token.token)
+    assert_not_nil token.invalidated_at
+
+    signed_get "/api/0.6/user/preferences", :consumer => client, :token => token
+    assert_response :unauthorized
+
     signed_get "/oauth/request_token",
       :consumer => client,
       :oauth_callback => "http://another.web.app.org/callback"
@@ -206,6 +250,17 @@ class OAuthTest < ActionController::IntegrationTest
     assert_not_nil token.authorized_at
     assert_nil token.invalidated_at
     assert_allowed token, [ :allow_write_api, :allow_read_gpx ]
+
+    signed_get "/api/0.6/gpx/2", :consumer => client, :token => token
+    assert_response :success
+
+    post "/oauth/revoke", :token => token.token
+    assert_redirected_to oauth_clients_url(token.user.display_name)
+    token = OauthToken.find_by_token(token.token)
+    assert_not_nil token.invalidated_at
+
+    signed_get "/api/0.6/gpx/2", :consumer => client, :token => token
+    assert_response :unauthorized
   end
 
   def test_oauth10a_desktop_app
@@ -255,6 +310,17 @@ class OAuthTest < ActionController::IntegrationTest
     assert_not_nil token.authorized_at
     assert_nil token.invalidated_at
     assert_allowed token, [ :allow_read_prefs ]
+
+    signed_get "/api/0.6/user/preferences", :consumer => client, :token => token
+    assert_response :success
+
+    post "/oauth/revoke", :token => token.token
+    assert_redirected_to oauth_clients_url(token.user.display_name)
+    token = OauthToken.find_by_token(token.token)
+    assert_not_nil token.invalidated_at
+
+    signed_get "/api/0.6/user/preferences", :consumer => client, :token => token
+    assert_response :unauthorized
   end
 
 private

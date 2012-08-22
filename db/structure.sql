@@ -39,6 +39,17 @@ COMMENT ON EXTENSION btree_gist IS 'support for indexing common datatypes in GiS
 SET search_path = public, pg_catalog;
 
 --
+-- Name: format_enum; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE format_enum AS ENUM (
+    'html',
+    'markdown',
+    'text'
+);
+
+
+--
 -- Name: gpx_visibility_enum; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -461,7 +472,8 @@ CREATE TABLE diary_comments (
     body text NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    visible boolean DEFAULT true NOT NULL
+    visible boolean DEFAULT true NOT NULL,
+    body_format format_enum DEFAULT 'html'::format_enum NOT NULL
 );
 
 
@@ -498,7 +510,8 @@ CREATE TABLE diary_entries (
     latitude double precision,
     longitude double precision,
     language_code character varying(255) DEFAULT 'en'::character varying NOT NULL,
-    visible boolean DEFAULT true NOT NULL
+    visible boolean DEFAULT true NOT NULL,
+    body_format format_enum DEFAULT 'html'::format_enum NOT NULL
 );
 
 
@@ -658,7 +671,8 @@ CREATE TABLE messages (
     message_read boolean DEFAULT false NOT NULL,
     to_user_id bigint NOT NULL,
     to_user_visible boolean DEFAULT true NOT NULL,
-    from_user_visible boolean DEFAULT true NOT NULL
+    from_user_visible boolean DEFAULT true NOT NULL,
+    body_format format_enum DEFAULT 'html'::format_enum NOT NULL
 );
 
 
@@ -705,7 +719,8 @@ CREATE TABLE nodes (
     visible boolean NOT NULL,
     "timestamp" timestamp without time zone NOT NULL,
     tile bigint NOT NULL,
-    version bigint NOT NULL
+    version bigint NOT NULL,
+    redaction_id integer
 );
 
 
@@ -861,6 +876,40 @@ ALTER SEQUENCE oauth_tokens_id_seq OWNED BY oauth_tokens.id;
 
 
 --
+-- Name: redactions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE redactions (
+    id integer NOT NULL,
+    title character varying(255),
+    description text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    user_id bigint NOT NULL,
+    description_format format_enum DEFAULT 'markdown'::format_enum NOT NULL
+);
+
+
+--
+-- Name: redactions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE redactions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: redactions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE redactions_id_seq OWNED BY redactions.id;
+
+
+--
 -- Name: relation_members; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -895,7 +944,8 @@ CREATE TABLE relations (
     changeset_id bigint NOT NULL,
     "timestamp" timestamp without time zone NOT NULL,
     version bigint NOT NULL,
-    visible boolean DEFAULT true NOT NULL
+    visible boolean DEFAULT true NOT NULL,
+    redaction_id integer
 );
 
 
@@ -906,38 +956,6 @@ CREATE TABLE relations (
 CREATE TABLE schema_migrations (
     version character varying(255) NOT NULL
 );
-
-
---
--- Name: sessions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE sessions (
-    id integer NOT NULL,
-    session_id character varying(255),
-    data text,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
-);
-
-
---
--- Name: sessions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE sessions_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: sessions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE sessions_id_seq OWNED BY sessions.id;
 
 
 --
@@ -953,7 +971,8 @@ CREATE TABLE user_blocks (
     needs_view boolean DEFAULT false NOT NULL,
     revoker_id bigint,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    reason_format format_enum DEFAULT 'html'::format_enum NOT NULL
 );
 
 
@@ -1080,7 +1099,10 @@ CREATE TABLE users (
     openid_url character varying(255),
     preferred_editor character varying(255),
     terms_seen boolean DEFAULT false NOT NULL,
-    image_fingerprint character varying(255)
+    image_fingerprint character varying(255),
+    description_format format_enum DEFAULT 'html'::format_enum NOT NULL,
+    changesets_count integer DEFAULT 0 NOT NULL,
+    traces_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1136,7 +1158,8 @@ CREATE TABLE ways (
     changeset_id bigint NOT NULL,
     "timestamp" timestamp without time zone NOT NULL,
     version bigint NOT NULL,
-    visible boolean DEFAULT true NOT NULL
+    visible boolean DEFAULT true NOT NULL,
+    redaction_id integer
 );
 
 
@@ -1263,7 +1286,7 @@ ALTER TABLE ONLY oauth_tokens ALTER COLUMN id SET DEFAULT nextval('oauth_tokens_
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY sessions ALTER COLUMN id SET DEFAULT nextval('sessions_id_seq'::regclass);
+ALTER TABLE ONLY redactions ALTER COLUMN id SET DEFAULT nextval('redactions_id_seq'::regclass);
 
 
 --
@@ -1495,6 +1518,14 @@ ALTER TABLE ONLY oauth_tokens
 
 
 --
+-- Name: redactions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY redactions
+    ADD CONSTRAINT redactions_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: relation_members_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1516,14 +1547,6 @@ ALTER TABLE ONLY relation_tags
 
 ALTER TABLE ONLY relations
     ADD CONSTRAINT relations_pkey PRIMARY KEY (relation_id, version);
-
-
---
--- Name: sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY sessions
-    ADD CONSTRAINT sessions_pkey PRIMARY KEY (id);
 
 
 --
@@ -1892,13 +1915,6 @@ CREATE INDEX relations_timestamp_idx ON relations USING btree ("timestamp");
 
 
 --
--- Name: sessions_session_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX sessions_session_id_idx ON sessions USING btree (session_id);
-
-
---
 -- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2190,6 +2206,14 @@ ALTER TABLE ONLY nodes
 
 
 --
+-- Name: nodes_redaction_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY nodes
+    ADD CONSTRAINT nodes_redaction_id_fkey FOREIGN KEY (redaction_id) REFERENCES redactions(id);
+
+
+--
 -- Name: note_comments_author_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2222,6 +2246,14 @@ ALTER TABLE ONLY oauth_tokens
 
 
 --
+-- Name: redactions_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY redactions
+    ADD CONSTRAINT redactions_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+--
 -- Name: relation_members_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2243,6 +2275,14 @@ ALTER TABLE ONLY relation_tags
 
 ALTER TABLE ONLY relations
     ADD CONSTRAINT relations_changeset_id_fkey FOREIGN KEY (changeset_id) REFERENCES changesets(id);
+
+
+--
+-- Name: relations_redaction_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY relations
+    ADD CONSTRAINT relations_redaction_id_fkey FOREIGN KEY (redaction_id) REFERENCES redactions(id);
 
 
 --
@@ -2326,6 +2366,14 @@ ALTER TABLE ONLY ways
 
 
 --
+-- Name: ways_redaction_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY ways
+    ADD CONSTRAINT ways_redaction_id_fkey FOREIGN KEY (redaction_id) REFERENCES redactions(id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
@@ -2381,7 +2429,17 @@ INSERT INTO schema_migrations (version) VALUES ('20120208122334');
 
 INSERT INTO schema_migrations (version) VALUES ('20120208194454');
 
+INSERT INTO schema_migrations (version) VALUES ('20120214210114');
+
 INSERT INTO schema_migrations (version) VALUES ('20120219161649');
+
+INSERT INTO schema_migrations (version) VALUES ('20120318201948');
+
+INSERT INTO schema_migrations (version) VALUES ('20120328090602');
+
+INSERT INTO schema_migrations (version) VALUES ('20120404205604');
+
+INSERT INTO schema_migrations (version) VALUES ('20120808231205');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 

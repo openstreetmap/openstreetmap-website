@@ -18,7 +18,10 @@ class User < ActiveRecord::Base
   has_many :client_applications
   has_many :oauth_tokens, :class_name => "OauthToken", :order => "authorized_at desc", :include => [:client_application]
 
-  has_many :active_blocks, :class_name => "UserBlock", :conditions => proc { [ "user_blocks.ends_at > :ends_at or user_blocks.needs_view", { :ends_at => Time.now.getutc } ] }
+  has_many :blocks, :class_name => "UserBlock"
+  has_many :blocks_created, :class_name => "UserBlock", :foreign_key => :creator_id
+  has_many :blocks_revoked, :class_name => "UserBlock", :foreign_key => :revoker_id
+
   has_many :roles, :class_name => "UserRole"
 
   scope :visible, where(:status => ["pending", "active", "confirmed"])
@@ -35,7 +38,7 @@ class User < ActiveRecord::Base
   validates_length_of :display_name, :within => 3..255, :allow_nil => true
   validates_email_format_of :email, :if => Proc.new { |u| u.email_changed? }
   validates_email_format_of :new_email, :allow_blank => true, :if => Proc.new { |u| u.new_email_changed? }
-  validates_format_of :display_name, :with => /^[^\/;.,?]*$/, :if => Proc.new { |u| u.display_name_changed? }
+  validates_format_of :display_name, :with => /^[^\/;.,?%#]*$/, :if => Proc.new { |u| u.display_name_changed? }
   validates_format_of :display_name, :with => /^\S/, :message => "has leading whitespace", :if => Proc.new { |u| u.display_name_changed? }
   validates_format_of :display_name, :with => /\S$/, :message => "has trailing whitespace", :if => Proc.new { |u| u.display_name_changed? }
   validates_numericality_of :home_lat, :allow_nil => true
@@ -46,7 +49,7 @@ class User < ActiveRecord::Base
   attr_accessible :display_name, :email, :email_confirmation, :openid_url,
                   :pass_crypt, :pass_crypt_confirmation, :consider_pd
 
-  after_initialize :set_creation_time
+  after_initialize :set_defaults
   before_save :encrypt_password
 
   has_attached_file :image, 
@@ -78,7 +81,7 @@ class User < ActiveRecord::Base
       user = nil
     end
 
-    token.update_attribute(:expiry, 1.week.from_now) if token and user
+    token.update_column(:expiry, 1.week.from_now) if token and user
 
     return user
   end 
@@ -101,6 +104,10 @@ class User < ActiveRecord::Base
       el1 << home
     end
     return el1
+  end
+
+  def description
+    RichText.new(read_attribute(:description_format), read_attribute(:description))
   end
 
   def languages
@@ -180,7 +187,7 @@ class User < ActiveRecord::Base
   # returns the first active block which would require users to view 
   # a message, or nil if there are none.
   def blocked_on_view
-    active_blocks.detect { |b| b.needs_view? }
+    blocks.active.detect { |b| b.needs_view? }
   end
 
   ##
@@ -202,10 +209,10 @@ class User < ActiveRecord::Base
   def spam_score
     changeset_score = self.changesets.limit(10).length * 50
     trace_score = self.traces.limit(10).length * 50
-    diary_entry_score = self.diary_entries.inject(0) { |s,e| s += OSM.spam_score(e.body) }
-    diary_comment_score = self.diary_comments.inject(0) { |s,e| s += OSM.spam_score(e.body) }
+    diary_entry_score = self.diary_entries.inject(0) { |s,e| s += e.body.spam_score }
+    diary_comment_score = self.diary_comments.inject(0) { |s,c| s += c.body.spam_score }
 
-    score = OSM.spam_score(self.description)
+    score = self.description.spam_score / 4.0
     score += diary_entry_score / self.diary_entries.length if self.diary_entries.length > 0
     score += diary_comment_score / self.diary_comments.length if self.diary_comments.length > 0
     score -= changeset_score
@@ -222,14 +229,16 @@ class User < ActiveRecord::Base
 
 private
 
-  def set_creation_time
+  def set_defaults
     self.creation_time = Time.now.getutc unless self.attribute_present?(:creation_time)
+    self.description_format = "markdown" unless self.attribute_present?(:description_format)
   end
 
   def encrypt_password
     if pass_crypt_confirmation
       self.pass_salt = OSM::make_token(8)
       self.pass_crypt = OSM::encrypt_password(pass_crypt, pass_salt)
+      self.pass_crypt_confirmation = nil
     end
   end
 end

@@ -7,8 +7,8 @@ class UserController < ApplicationController
   before_filter :authorize_web, :except => [:api_details, :api_gpx_files]
   before_filter :set_locale, :except => [:api_details, :api_gpx_files]
   before_filter :require_user, :only => [:account, :go_public, :make_friend, :remove_friend]
-  before_filter :check_database_readable, :except => [:api_details, :api_gpx_files]
-  before_filter :check_database_writable, :only => [:login, :new, :account, :go_public, :make_friend, :remove_friend]
+  before_filter :check_database_readable, :except => [:login, :api_details, :api_gpx_files]
+  before_filter :check_database_writable, :only => [:new, :account, :confirm, :confirm_email, :lost_password, :reset_password, :go_public, :make_friend, :remove_friend]
   before_filter :check_api_readable, :only => [:api_details, :api_gpx_files]
   before_filter :require_allow_read_prefs, :only => [:api_details]
   before_filter :require_allow_read_gpx, :only => [:api_gpx_files]
@@ -143,51 +143,24 @@ class UserController < ApplicationController
     @tokens = @user.oauth_tokens.authorized
 
     if params[:user] and params[:user][:display_name] and params[:user][:description]
-      @user.display_name = params[:user][:display_name]
-      @user.new_email = params[:user][:new_email]
-
-      if params[:user][:pass_crypt].length > 0 or params[:user][:pass_crypt_confirmation].length > 0
-        @user.pass_crypt = params[:user][:pass_crypt]
-        @user.pass_crypt_confirmation = params[:user][:pass_crypt_confirmation]
-      end
-
-      @user.description = params[:user][:description]
-      @user.languages = params[:user][:languages].split(",")
-
-      case params[:image_action]
-        when "new" then @user.image = params[:user][:image]
-        when "delete" then @user.image = nil
-      end
-
-      @user.home_lat = params[:user][:home_lat]
-      @user.home_lon = params[:user][:home_lon]
-
-      if params[:user][:preferred_editor] == "default"
-        @user.preferred_editor = nil
-      else
-        @user.preferred_editor = params[:user][:preferred_editor]
-      end
-
-      @user.openid_url = nil if params[:user][:openid_url].blank?
-
       if params[:user][:openid_url] and
          params[:user][:openid_url].length > 0 and
          params[:user][:openid_url] != @user.openid_url
         # If the OpenID has changed, we want to check that it is a
         # valid OpenID and one the user has control over before saving
         # it as a password equivalent for the user.
-        session[:new_user] = @user
+        session[:new_user_settings] = params
         openid_verify(params[:user][:openid_url], @user)
       else
-        update_user(@user)
+        update_user(@user, params)
       end
     elsif using_open_id?
       # The redirect from the OpenID provider reenters here
       # again and we need to pass the parameters through to
       # the open_id_authentication function
-      @user = session.delete(:new_user)
+      settings = session.delete(:new_user_settings)
       openid_verify(nil, @user) do |user|
-        update_user(user)
+        update_user(user, settings)
       end
     end
   end
@@ -419,54 +392,60 @@ class UserController < ApplicationController
        (@this_user.visible? or (@user and @user.administrator?))
       @title = @this_user.display_name
     else
-      @title = t 'user.no_such_user.title'
-      @not_found_user = params[:display_name]
-      render :action => 'no_such_user', :status => :not_found
+      render_unknown_user params[:display_name]
     end
   end
 
   def make_friend
-    if params[:display_name]
-      name = params[:display_name]
-      new_friend = User.active.where(:display_name => name).first
-      friend = Friend.new
-      friend.user_id = @user.id
-      friend.friend_user_id = new_friend.id
-      unless @user.is_friends_with?(new_friend)
-        if friend.save
-          flash[:notice] = t 'user.make_friend.success', :name => name
-          Notifier.friend_notification(friend).deliver
-        else
-          friend.add_error(t('user.make_friend.failed', :name => name))
-        end
-      else
-        flash[:warning] = t 'user.make_friend.already_a_friend', :name => name
-      end
+    @new_friend = User.find_by_display_name(params[:display_name])
 
-      if params[:referer]
-        redirect_to params[:referer]
-      else
-        redirect_to :controller => 'user', :action => 'view'
+    if @new_friend
+      if request.post?
+        friend = Friend.new
+        friend.user_id = @user.id
+        friend.friend_user_id = @new_friend.id
+        unless @user.is_friends_with?(@new_friend)
+          if friend.save
+            flash[:notice] = t 'user.make_friend.success', :name => @new_friend.display_name
+            Notifier.friend_notification(friend).deliver
+          else
+            friend.add_error(t('user.make_friend.failed', :name => @new_friend.display_name))
+          end
+        else
+          flash[:warning] = t 'user.make_friend.already_a_friend', :name => @new_friend.display_name
+        end
+
+        if params[:referer]
+          redirect_to params[:referer]
+        else
+          redirect_to :controller => 'user', :action => 'view'
+        end
       end
+    else
+      render_unknown_user params[:display_name]
     end
   end
 
   def remove_friend
-    if params[:display_name]
-      name = params[:display_name]
-      friend = User.active.where(:display_name => name).first
-      if @user.is_friends_with?(friend)
-        Friend.delete_all "user_id = #{@user.id} AND friend_user_id = #{friend.id}"
-        flash[:notice] = t 'user.remove_friend.success', :name => friend.display_name
-      else
-        flash[:error] = t 'user.remove_friend.not_a_friend', :name => friend.display_name
-      end
+    @friend = User.find_by_display_name(params[:display_name])
 
-      if params[:referer]
-        redirect_to params[:referer]
-      else
-        redirect_to :controller => 'user', :action => 'view'
+    if @friend
+      if request.post?
+        if @user.is_friends_with?(@friend)
+          Friend.delete_all "user_id = #{@user.id} AND friend_user_id = #{@friend.id}"
+          flash[:notice] = t 'user.remove_friend.success', :name => @friend.display_name
+        else
+          flash[:error] = t 'user.remove_friend.not_a_friend', :name => @friend.display_name
+        end
+
+        if params[:referer]
+          redirect_to params[:referer]
+        else
+          redirect_to :controller => 'user', :action => 'view'
+        end
       end
+    else
+      render_unknown_user params[:display_name]
     end
   end
 
@@ -546,7 +525,7 @@ private
         if user = User.find_by_openid_url(identity_url)
           case user.status
             when "pending" then
-              failed_login t('user.login.account not active')
+              failed_login t('user.login.account not active', :reconfirm => url_for(:action => 'confirm_resend', :display_name => user.display_name))
             when "active", "confirmed" then
               successful_login(user)
             when "suspended" then
@@ -563,8 +542,8 @@ private
           # to the create account page with username and email filled
           # in if they have been given by the OpenID provider through
           # the simple registration protocol.
-          nickname = sreg["nickname"] || ax["http://axschema.org/namePerson/friendly"]
-          email = sreg["email"] || ax["http://axschema.org/contact/email"]
+          nickname = sreg["nickname"] || ax["http://axschema.org/namePerson/friendly"].first
+          email = sreg["email"] || ax["http://axschema.org/contact/email"].first
           redirect_to :controller => 'user', :action => 'new', :nickname => nickname, :email => email, :openid => identity_url
         end
       elsif result.missing?
@@ -660,7 +639,38 @@ private
 
   ##
   # update a user's details
-  def update_user(user)
+  def update_user(user, params)
+    user.display_name = params[:user][:display_name]
+    user.new_email = params[:user][:new_email]
+
+    if params[:user][:pass_crypt].length > 0 or params[:user][:pass_crypt_confirmation].length > 0
+      user.pass_crypt = params[:user][:pass_crypt]
+      user.pass_crypt_confirmation = params[:user][:pass_crypt_confirmation]
+    end
+
+    if params[:user][:description] != user.description
+      user.description = params[:user][:description]
+      user.description_format = "markdown"
+    end
+
+    user.languages = params[:user][:languages].split(",")
+
+    case params[:image_action]
+    when "new" then user.image = params[:user][:image]
+    when "delete" then user.image = nil
+    end
+
+    user.home_lat = params[:user][:home_lat]
+    user.home_lon = params[:user][:home_lon]
+
+    if params[:user][:preferred_editor] == "default"
+      user.preferred_editor = nil
+    else
+      user.preferred_editor = params[:user][:preferred_editor]
+    end
+
+    user.openid_url = nil if params[:user][:openid_url].blank?
+
     if user.save
       set_locale
 

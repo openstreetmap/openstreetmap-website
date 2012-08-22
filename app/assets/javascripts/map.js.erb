@@ -11,17 +11,15 @@ function createMap(divName, options) {
       controls: options.controls || [
          new OpenLayers.Control.ArgParser(),
          new OpenLayers.Control.Attribution(),
-         new OpenLayers.Control.LayerSwitcher(),
+         new SimpleLayerSwitcher(),
          new OpenLayers.Control.Navigation(),
-         new OpenLayers.Control.PanZoom(),
-         new OpenLayers.Control.PanZoomBar(),
+         new OpenLayers.Control.Zoom(),
+         new OpenLayers.Control.SimplePanZoom(),
          new OpenLayers.Control.ScaleLine({geodesic: true})
       ],
-      units: "m",
-      maxResolution: 156543.0339,
       numZoomLevels: 20,
       displayProjection: new OpenLayers.Projection("EPSG:4326"),
-      theme: "<%= asset_path 'theme/default/style.css' %>"
+      theme: "<%= asset_path 'theme/openstreetmap/style.css' %>"
    });
 
    var mapnik = new OpenLayers.Layer.OSM.Mapnik(i18n("javascripts.map.base.standard"), {
@@ -69,9 +67,6 @@ function createMap(divName, options) {
    markers = new OpenLayers.Layer.Markers("Markers", {
       displayInLayerSwitcher: false,
       numZoomLevels: 20,
-      maxExtent: new OpenLayers.Bounds(-20037508,-20037508,20037508,20037508),
-      maxResolution: 156543,
-      units: "m",
       projection: "EPSG:900913"
    });
    map.addLayer(markers);
@@ -81,27 +76,35 @@ function createMap(divName, options) {
 
 function getArrowIcon() {
    var size = new OpenLayers.Size(25, 22);
-   var offset = new OpenLayers.Pixel(-30, -27);
+   var offset = new OpenLayers.Pixel(-22, -20);
    var icon = new OpenLayers.Icon("<%= asset_path 'arrow.png' %>", size, offset);
 
    return icon;
 }
 
 function addMarkerToMap(position, icon, description) {
-   var marker = new OpenLayers.Marker(position.clone().transform(epsg4326, map.getProjectionObject()), icon);
+   var marker = new OpenLayers.Marker(proj(position), icon);
 
    markers.addMarker(marker);
 
    if (description) {
-      marker.events.register("mouseover", marker, function() { openMapPopup(marker, description) });
+       marker.events.register("mouseover", marker, function() {
+           openMapPopup(marker, description);
+       });
    }
 
    return marker;
 }
 
 function addObjectToMap(url, zoom, callback) {
-   var layer = new OpenLayers.Layer.GML("Objects", url, {
-      format: OpenLayers.Format.OSM,
+   var layer = new OpenLayers.Layer.Vector("Objects", {
+      strategies: [ 
+          new OpenLayers.Strategy.Fixed()
+      ],
+      protocol: new OpenLayers.Protocol.HTTP({
+          url: url,
+          format: new OpenLayers.Format.OSM()
+      }),
       style: {
           strokeColor: "blue",
           strokeWidth: 3,
@@ -139,8 +142,6 @@ function addObjectToMap(url, zoom, callback) {
    });
 
    map.addLayer(layer);
-
-   layer.loadGML();
 }
 
 function addBoxToMap(boxbounds, id, outline) {
@@ -155,9 +156,9 @@ function addBoxToMap(boxbounds, id, outline) {
    if (outline) {
      vertices = boxbounds.toGeometry().getVertices();
      vertices.push(new OpenLayers.Geometry.Point(vertices[0].x, vertices[0].y));
-     geometry = new OpenLayers.Geometry.LineString(vertices).transform(epsg4326, map.getProjectionObject());
+     geometry = proj(new OpenLayers.Geometry.LineString(vertices));
    } else {
-     geometry = boxbounds.toGeometry().transform(epsg4326, map.getProjectionObject());
+     geometry = proj(boxbounds.toGeometry());
    }
    var box = new OpenLayers.Feature.Vector(geometry, {}, {
       strokeWidth: 2,
@@ -197,27 +198,19 @@ function removeBoxFromMap(box){
    vectors.removeFeature(box);
 }
 
-function getMapCenter() {
-   return map.getCenter().clone().transform(map.getProjectionObject(), epsg4326);
+function proj(x) {
+    return x.clone().transform(epsg4326, map.getProjectionObject());
+}
+
+function unproj(x) {
+    return x.clone().transform(map.getProjectionObject(), epsg4326);
 }
 
 function setMapCenter(center, zoom) {
-   zoom = parseInt(zoom);
+   zoom = parseInt(zoom, 10);
    var numzoom = map.getNumZoomLevels();
    if (zoom >= numzoom) zoom = numzoom - 1;
-   map.setCenter(center.clone().transform(epsg4326, map.getProjectionObject()), zoom);
-}
-
-function setMapExtent(extent) {
-   map.zoomToExtent(extent.clone().transform(epsg4326, map.getProjectionObject()));
-}
-
-function getMapExtent() {
-   return map.getExtent().clone().transform(map.getProjectionObject(), epsg4326);
-}
-
-function getMapZoom() {
-   return map.getZoom();
+   map.setCenter(proj(center), zoom);
 }
 
 function getEventPosition(event) {
@@ -264,8 +257,4 @@ function setMapLayers(layerConfig) {
          }
       }
    }
-}
-
-function scaleToZoom(scale) {
-   return Math.log(360.0/(scale * 512.0)) / Math.log(2.0);
 }
