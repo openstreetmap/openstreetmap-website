@@ -2,40 +2,36 @@ $(document).ready(function () {
   var map = createMap("map");
 
   if (OSM.home) {
-    setMapCenter(new OpenLayers.LonLat(OSM.home.lon, OSM.home.lat), 12);
+    map.setView([OSM.home.lat, OSM.home.lon], 12);
   } else {
-    setMapCenter(new OpenLayers.LonLat(0, 0), 0);
+    map.setView([0, 0], 0);
   }
 
   if ($("#map").hasClass("set_location")) {
     var marker;
 
     if (OSM.home) {
-      marker = addMarkerToMap(new OpenLayers.LonLat(OSM.home.lon, OSM.home.lat));
+      marker = addMarkerToMap([OSM.home.lat, OSM.home.lon]);
     }
 
-    map.events.register("click", map, function (e) {
+    map.on("click", function (e) {
       if ($('#updatehome').is(':checked')) {
-        var lonlat = getEventPosition(e);
-
         $('#homerow').removeClass();
-        $('#home_lat').val(lonlat.lat);
-        $('#home_lon').val(lonlat.lon);
+        $('#home_lat').val(e.latlng.lat);
+        $('#home_lon').val(e.latlng.lng);
 
         if (marker) {
           removeMarkerFromMap(marker);
         }
 
-        marker = addMarkerToMap(lonlat);
+        marker = addMarkerToMap(e.latlng);
       }
     });
   } else {
     $("[data-user]").each(function () {
       var user = $(this).data('user');
       if (user.lon && user.lat) {
-        var icon = OpenLayers.Marker.defaultIcon();
-        icon.url = OpenLayers.Util.getImageLocation(user.icon);
-        addMarkerToMap(new OpenLayers.LonLat(user.lon, user.lat), icon, user.description);
+        addMarkerToMap([user.lat, user.lon], L.icon({iconUrl: user.icon}), user.description);
       }
     });
   }

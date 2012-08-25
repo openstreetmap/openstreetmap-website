@@ -4,7 +4,9 @@
 //= require jquery.timers
 //= require jquery.cookie
 //= require augment
-//= require openlayers
+//= require leaflet
+//= require leaflet.osm
+//= require leaflet.draw
 //= require i18n/translations
 //= require osm
 //= require piwik

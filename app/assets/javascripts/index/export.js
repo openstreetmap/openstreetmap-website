@@ -11,37 +11,13 @@ $(document).ready(function () {
   }
 
   function startExport(sidebarHtml) {
-    var vectors,
-        box,
-        transform,
-        markerLayer,
-        markerControl;
+    var marker, rectangle;
 
-    vectors = new OpenLayers.Layer.Vector("Vector Layer", {
-      displayInLayerSwitcher: false
-    });
-    map.addLayer(vectors);
+    var drawHandler = new L.Rectangle.Draw(map, {title: I18n.t('export.start_rjs.drag_a_box')});
+    map.on('draw:rectangle-created', endDrag);
 
-    box = new OpenLayers.Control.DrawFeature(vectors, OpenLayers.Handler.RegularPolygon, {
-      handlerOptions: {
-        sides: 4,
-        snapAngle: 90,
-        irregular: true,
-        persist: true
-      }
-    });
-    box.handler.callbacks.done = endDrag;
-    map.addControl(box);
-
-    transform = new OpenLayers.Control.TransformFeature(vectors, {
-      rotate: false,
-      irregular: true
-    });
-    transform.events.register("transformcomplete", transform, transformComplete);
-    map.addControl(transform);
-
-    map.events.register("moveend", map, mapMoved);
-    map.events.register("changebaselayer", map, htmlUrlChanged);
+    map.on("moveend", mapMoved);
+    map.on("layeradd layerremove", htmlUrlChanged);
 
     $("#sidebar_title").html(I18n.t('export.start_rjs.export'));
     $("#sidebar_content").html(sidebarHtml);
@@ -58,12 +34,12 @@ $(document).ready(function () {
 
     openSidebar();
 
-    if (map.baseLayer.name == "Mapnik") {
+    if (map.hasLayer(layers[0].layer)) {
       $("#format_mapnik").prop("checked", true);
     }
 
+    setBounds(map.getBounds());
     formatChanged();
-    setBounds(map.getExtent());
 
     $("body").removeClass("site-index").addClass("site-export");
 
@@ -72,23 +48,30 @@ $(document).ready(function () {
 
       clearBox();
       clearMarker();
-      map.events.unregister("moveend", map, mapMoved);
-      map.events.unregister("changebaselayer", map, htmlUrlChanged);
-      map.removeLayer(vectors);
+
+      map.off("moveend", mapMoved);
+      map.off("layeradd layerremove", htmlUrlChanged);
+      map.off('draw:rectangle-created', endDrag);
+
+      drawHandler.disable();
     });
 
-    function getMercatorBounds() {
-      var bounds = new OpenLayers.Bounds($("#minlon").val(), $("#minlat").val(),
-                                         $("#maxlon").val(), $("#maxlat").val());
+    function getBounds() {
+      return L.latLngBounds(L.latLng($("#minlat").val(), $("#minlon").val()),
+                            L.latLng($("#maxlat").val(), $("#maxlon").val()));
+    }
 
-      return proj(bounds);
+    function getMercatorBounds() {
+      var bounds = getBounds();
+      return L.bounds(L.CRS.EPSG3857.project(bounds.getSouthWest()),
+                      L.CRS.EPSG3857.project(bounds.getNorthEast()));
     }
 
     function boundsChanged() {
-      var bounds = getMercatorBounds();
+      var bounds = getBounds();
 
-      map.events.unregister("moveend", map, mapMoved);
-      map.zoomToExtent(bounds);
+      map.off("moveend", mapMoved);
+      map.fitBounds(bounds);
 
       clearBox();
       drawBox(bounds);
@@ -101,16 +84,15 @@ $(document).ready(function () {
       $("#drag_box").html(I18n.t('export.start_rjs.drag_a_box'));
 
       clearBox();
-      box.activate();
-    };
+      drawHandler.enable();
+    }
 
-    function endDrag(bbox) {
-      var bounds = bbox.getBounds();
+    function endDrag(e) {
+      var bounds = e.rect.getBounds();
 
-      map.events.unregister("moveend", map, mapMoved);
+      map.off("moveend", mapMoved);
       setBounds(bounds);
       drawBox(bounds);
-      box.deactivate();
       validateControls();
 
       $("#drag_box").html(I18n.t('export.start_rjs.manually_select'));
@@ -124,41 +106,27 @@ $(document).ready(function () {
     function startMarker() {
       $("#add_marker").html(I18n.t('export.start_rjs.click_add_marker'));
 
-      if (!markerLayer) {
-        markerLayer = new OpenLayers.Layer.Vector("",{
-          displayInLayerSwitcher: false,
-          style: {
-            externalGraphic: OpenLayers.Util.getImageLocation("marker.png"),
-            graphicXOffset: -10.5,
-            graphicYOffset: -25,
-            graphicWidth: 21,
-            graphicHeight: 25
-          }
-        });
-        map.addLayer(markerLayer);
-
-        markerControl = new OpenLayers.Control.DrawFeature(markerLayer, OpenLayers.Handler.Point);
-        map.addControl(markerControl);
-
-        markerLayer.events.on({ "featureadded": endMarker });
-      }
-
-      markerLayer.destroyFeatures();
-      markerControl.activate();
+      map.on("click", endMarker);
 
       return false;
     }
 
     function endMarker(event) {
-      markerControl.deactivate();
+      map.off("click", endMarker);
 
       $("#add_marker").html(I18n.t('export.start_rjs.change_marker'));
       $("#marker_inputs").show();
 
-      var geom = unproj(event.feature.geometry);
+      var latlng = event.latlng;
 
-      $("#marker_lon").val(geom.x.toFixed(5));
-      $("#marker_lat").val(geom.y.toFixed(5));
+      if (marker) {
+        map.removeLayer(marker);
+      }
+
+      marker = L.marker(latlng).addTo(map);
+
+      $("#marker_lon").val(latlng.lng.toFixed(5));
+      $("#marker_lat").val(latlng.lat.toFixed(5));
 
       htmlUrlChanged();
     }
@@ -168,49 +136,45 @@ $(document).ready(function () {
       $("#marker_inputs").hide();
       $("#add_marker").html(I18n.t('export.start_rjs.add_marker'));
 
-      if (markerLayer) {
-        markerControl.destroy();
-        markerLayer.destroy();
-        markerLayer = null;
-        markerControl = null;
+      if (marker) {
+        map.removeLayer(marker);
       }
     }
 
     function mapMoved() {
-      setBounds(map.getExtent());
+      setBounds(map.getBounds());
       validateControls();
     }
 
     function setBounds(bounds) {
       var toPrecision = zoomPrecision(map.getZoom());
 
-      bounds = unproj(bounds);
-
-      $("#minlon").val(toPrecision(bounds.left));
-      $("#minlat").val(toPrecision(bounds.bottom));
-      $("#maxlon").val(toPrecision(bounds.right));
-      $("#maxlat").val(toPrecision(bounds.top));
+      $("#minlon").val(toPrecision(bounds.getWestLng()));
+      $("#minlat").val(toPrecision(bounds.getSouthLat()));
+      $("#maxlon").val(toPrecision(bounds.getEastLng()));
+      $("#maxlat").val(toPrecision(bounds.getNorthLat()));
 
       mapnikSizeChanged();
       htmlUrlChanged();
     }
 
     function clearBox() {
-      transform.deactivate();
-      vectors.destroyFeatures();
+      if (rectangle) {
+        map.removeLayer(rectangle);
+      }
+      rectangle = null;
     }
 
     function drawBox(bounds) {
-      var feature = new OpenLayers.Feature.Vector(bounds.toGeometry());
-
-      vectors.addFeatures(feature);
-      transform.setFeature(feature);
+      rectangle = L.rectangle(bounds);
+      rectangle.addTo(map);
     }
 
     function validateControls() {
-      var bounds = new OpenLayers.Bounds($("#minlon").val(), $("#minlat").val(), $("#maxlon").val(), $("#maxlat").val());
+      var bounds = getBounds();
 
-      if (bounds.getWidth() * bounds.getHeight() > OSM.MAX_REQUEST_AREA) {
+      var tooLarge = bounds.getSize() > OSM.MAX_REQUEST_AREA;
+      if (tooLarge) {
         $("#export_osm_too_large").show();
       } else {
         $("#export_osm_too_large").hide();
@@ -220,7 +184,7 @@ $(document).ready(function () {
       var disabled = true;
 
       if ($("#format_osm").prop("checked")) {
-        disabled = bounds.getWidth() * bounds.getHeight() > OSM.MAX_REQUEST_AREA;
+        disabled = tooLarge;
       } else if ($("#format_mapnik").prop("checked")) {
         disabled = $("#mapnik_scale").val() < max_scale;
       }
@@ -230,8 +194,9 @@ $(document).ready(function () {
     }
 
     function htmlUrlChanged() {
-      var bounds = new OpenLayers.Bounds($("#minlon").val(), $("#minlat").val(), $("#maxlon").val(), $("#maxlat").val());
-      var layerName = map.baseLayer.keyid;
+      var bounds = getBounds();
+      var layerName = getMapBaseLayer().keyid;
+
       var url = "http://" + OSM.SERVER_URL + "/export/embed.html?bbox=" + bounds.toBBOX() + "&amp;layer=" + layerName;
       var markerUrl = "";
 
@@ -243,9 +208,9 @@ $(document).ready(function () {
       var html = '<iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+url+'" style="border: 1px solid black"></iframe>';
 
       // Create "larger map" link
-      var center = bounds.getCenterLonLat();
+      var center = bounds.getCenter();
 
-      var zoom = map.getZoomForExtent(proj(bounds));
+      var zoom = map.getBoundsZoom(bounds);
 
       var layers = getMapLayers();
 
@@ -257,7 +222,7 @@ $(document).ready(function () {
         escaped.push(c < 127 ? text.charAt(i) : "&#" + c + ";");
       }
 
-      html += '<br /><small><a href="http://' + OSM.SERVER_URL + '/?lat='+center.lat+'&amp;lon='+center.lon+'&amp;zoom='+zoom+'&amp;layers='+layers+markerUrl+'">'+escaped.join("")+'</a></small>';
+      html += '<br /><small><a href="http://' + OSM.SERVER_URL + '/?lat='+center.lat+'&amp;lon='+center.lng+'&amp;zoom='+zoom+'&amp;layers='+layers+markerUrl+'">'+escaped.join("")+'</a></small>';
 
       $("#export_html_text").val(html);
 
@@ -276,7 +241,7 @@ $(document).ready(function () {
       }
 
       if ($("#format_mapnik").prop("checked")) {
-        $("#mapnik_scale").val(roundScale(map.getScale()));
+//        $("#mapnik_scale").val(roundScale(map.getScale()));
         $("#export_mapnik").show();
 
         mapnikSizeChanged();
@@ -306,8 +271,8 @@ $(document).ready(function () {
     function mapnikImageSize(scale) {
       var bounds = getMercatorBounds();
 
-      return new OpenLayers.Size(Math.round(bounds.getWidth() / scale / 0.00028),
-                                 Math.round(bounds.getHeight() / scale / 0.00028));
+      return {w: Math.round(bounds.getWidth() / scale / 0.00028),
+              h: Math.round(bounds.getHeight() / scale / 0.00028)};
     }
 
     function roundScale(scale) {

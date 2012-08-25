@@ -1,265 +1,192 @@
-var epsg4326 = new OpenLayers.Projection("EPSG:4326");
+// Leaflet extensions
+L.LatLngBounds.include({
+  getSouthLat: function () {
+    return this._southWest.lat;
+  },
+
+  getWestLng: function () {
+    return this._southWest.lng;
+  },
+
+  getNorthLat: function () {
+    return this._northEast.lat;
+  },
+
+  getEastLng: function () {
+    return this._northEast.lng;
+  },
+
+  toBBOX: function () {
+    var decimal = 6;
+    var mult = Math.pow(10, decimal);
+    var xmin = Math.round(this.getWestLng() * mult) / mult;
+    var ymin = Math.round(this.getSouthLat() * mult) / mult;
+    var xmax = Math.round(this.getEastLng() * mult) / mult;
+    var ymax = Math.round(this.getNorthLat() * mult) / mult;
+    return xmin + "," + ymin + "," + xmax + "," + ymax;
+  },
+
+  getSize: function () {
+    return (this._northEast.lat - this._southWest.lat) *
+           (this._northEast.lng - this._southWest.lng);
+  }
+});
+
+L.Bounds.include({
+  getWidth: function () {
+   return this.max.x - this.min.x;
+  },
+
+  getHeight: function () {
+   return this.max.y - this.min.y;
+  }
+});
+
 var map;
-var markers;
-var vectors;
-var popup;
 
-function createMap(divName, options) {
-   options = options || {};
+var layers = [
+  {
+    urlTemplate: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    attribution: "",
+    keyid: "mapnik",
+    layerCode: "M",
+    name: I18n.t("javascripts.map.base.standard")
+  },
+  {
+    urlTemplate: 'http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png',
+    attribution: "Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
+    keyid: "cyclemap",
+    layerCode: "C",
+    name: I18n.t("javascripts.map.base.cycle_map")
+  },
+  {
+    urlTemplate: 'http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png',
+    attribution: "Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
+    keyid: "transportmap",
+    layerCode: "T",
+    name: I18n.t("javascripts.map.base.transport_map")
+  },
+  {
+    urlTemplate: 'http://otile{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png',
+    subdomains: '1234',
+    attribution: "Tiles courtesy of <a href='http://www.mapquest.com/' target='_blank'>MapQuest</a> <img src='http://developer.mapquest.com/content/osm/mq_logo.png'>",
+    keyid: "mapquest",
+    layerCode: "Q",
+    name: I18n.t("javascripts.map.base.mapquest")
+  }
+];
 
-   map = new OpenLayers.Map(divName, {
-      controls: options.controls || [
-         new OpenLayers.Control.ArgParser(),
-         new OpenLayers.Control.Attribution(),
-         new SimpleLayerSwitcher(),
-         new OpenLayers.Control.Navigation(),
-         new OpenLayers.Control.Zoom(),
-         new OpenLayers.Control.SimplePanZoom(),
-         new OpenLayers.Control.ScaleLine({geodesic: true})
-      ],
-      numZoomLevels: 20,
-      displayProjection: new OpenLayers.Projection("EPSG:4326"),
-      theme: "<%= asset_path 'theme/openstreetmap/style.css' %>"
-   });
+function createMap(divName) {
+  map = L.map(divName);
 
-   var mapnik = new OpenLayers.Layer.OSM.Mapnik(I18n.t("javascripts.map.base.standard"), {
-      attribution: "",
-      keyid: "mapnik",
-      displayOutsideMaxExtent: true,
-      wrapDateLine: true,
-      layerCode: "M"
-   });
-   map.addLayer(mapnik);
+  map.attributionControl.setPrefix(''); // For tmcw
 
-   var cyclemap = new OpenLayers.Layer.OSM.CycleMap(I18n.t("javascripts.map.base.cycle_map"), {
-      attribution: "Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
-      keyid: "cyclemap",
-      displayOutsideMaxExtent: true,
-      wrapDateLine: true,
-      layerCode: "C"
-   });
-   map.addLayer(cyclemap);
+  var layersControl = L.control.layers().addTo(map);
 
-   var transportmap = new OpenLayers.Layer.OSM.TransportMap(I18n.t("javascripts.map.base.transport_map"), {
-      attribution: "Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
-      keyid: "transportmap",
-      displayOutsideMaxExtent: true,
-      wrapDateLine: true,
-      layerCode: "T"
-   });
-   map.addLayer(transportmap);
+  for (var i = 0; i < layers.length; i++) {
+    layers[i].layer = L.tileLayer(layers[i].urlTemplate, layers[i]);
+    if (i == 0) {
+      layers[i].layer.addTo(map);
+    }
+    layersControl.addBaseLayer(layers[i].layer, layers[i].name);
+  }
 
-   var mapquest = new OpenLayers.Layer.OSM(I18n.t("javascripts.map.base.mapquest"), [
-      "http://otile1.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png",
-      "http://otile2.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png",
-      "http://otile3.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png",
-      "http://otile4.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png"
-   ], {
-      attribution: "Tiles courtesy of <a href='http://www.mapquest.com/' target='_blank'>MapQuest</a> <img src='http://developer.mapquest.com/content/osm/mq_logo.png'>",
-      keyid: "mapquest",
-      displayOutsideMaxExtent: true,
-      wrapDateLine: true,
-      numZoomLevels: 19,
-      layerCode: "Q"
-   });
-   map.addLayer(mapquest);
+  $("#" + divName).on("resized", function () {
+    map.invalidateSize();
+  });
 
-   markers = new OpenLayers.Layer.Markers("Markers", {
-      displayInLayerSwitcher: false,
-      numZoomLevels: 20,
-      projection: "EPSG:900913"
-   });
-   map.addLayer(markers);
-
-   map.dataLayer = new OpenLayers.Layer(I18n.t('browse.start_rjs.data_layer_name'), {
-     visibility: false,
-     displayInLayerSwitcher: false
-   });
-   map.addLayer(map.dataLayer);
-
-   $("#" + divName).on("resized", function () {
-     map.updateSize();
-   });
-
-   return map;
+  return map;
 }
 
 function getArrowIcon() {
-   var size = new OpenLayers.Size(25, 22);
-   var offset = new OpenLayers.Pixel(-22, -20);
-   var icon = new OpenLayers.Icon("<%= asset_path 'arrow.png' %>", size, offset);
-
-   return icon;
+  return L.icon({
+    iconUrl: <%= asset_path('arrow.png').to_json %>,
+    iconSize: [25, 22],
+    iconAnchor: [22, 20]
+  });
 }
 
 function addMarkerToMap(position, icon, description) {
-   var marker = new OpenLayers.Marker(proj(position), icon);
+  var marker = L.marker(position, icon ? {icon: icon} : null).addTo(map);
 
-   markers.addMarker(marker);
+  if (description) {
+    marker.bindPopup(description);
+  }
 
-   if (description) {
-       marker.events.register("mouseover", marker, function() {
-           openMapPopup(marker, description);
-       });
-   }
+  return marker;
+}
 
-   return marker;
+function removeMarkerFromMap(marker) {
+  map.removeLayer(marker);
 }
 
 function addObjectToMap(object, zoom, callback) {
-   var layer = new OpenLayers.Layer.Vector("Objects", {
-      strategies: [ 
-          new OpenLayers.Strategy.Fixed()
-      ],
-      protocol: new OpenLayers.Protocol.HTTP({
-          url: OSM.apiUrl(object),
-          format: new OpenLayers.Format.OSM()
-      }),
-      style: {
+  $.ajax({
+    url: OSM.apiUrl(object),
+    dataType: "xml",
+    success: function (xml) {
+      var layer = new L.OSM(xml, {
+        style: {
           strokeColor: "blue",
           strokeWidth: 3,
           strokeOpacity: 0.5,
           fillOpacity: 0.2,
           fillColor: "lightblue",
           pointRadius: 6
-      },
-      projection: new OpenLayers.Projection("EPSG:4326"),
-      displayInLayerSwitcher: false
-   });
+        }
+      });
 
-   layer.events.register("loadend", layer, function() {
-      var extent;
+      var bounds = layer.getBounds();
 
-      if (this.features.length) {
-         extent = this.features[0].geometry.getBounds();
-
-         for (var i = 1; i < this.features.length; i++) {
-            extent.extend(this.features[i].geometry.getBounds());
-         }
-
-         if (zoom) {
-            if (extent) {
-               this.map.zoomToExtent(extent);
-            } else {
-               this.map.zoomToMaxExtent();
-            }
-         }
+      if (zoom) {
+        map.fitBounds(bounds);
       }
 
       if (callback) {
-         callback(extent);
+        callback(bounds);
       }
-   });
 
-   map.addLayer(layer);
+      layer.addTo(map);
+    }
+  });
 }
 
-function addBoxToMap(boxbounds, id, outline) {
-   if (!vectors) {
-     // Be aware that IE requires Vector layers be initialised on page load, and not under deferred script conditions
-     vectors = new OpenLayers.Layer.Vector("Boxes", {
-        displayInLayerSwitcher: false
-     });
-     map.addLayer(vectors);
-   }
-   var geometry;
-   if (outline) {
-     vertices = boxbounds.toGeometry().getVertices();
-     vertices.push(new OpenLayers.Geometry.Point(vertices[0].x, vertices[0].y));
-     geometry = proj(new OpenLayers.Geometry.LineString(vertices));
-   } else {
-     geometry = proj(boxbounds.toGeometry());
-   }
-   var box = new OpenLayers.Feature.Vector(geometry, {}, {
-      strokeWidth: 2,
-      strokeColor: '#ee9900',
-      fillOpacity: 0
-   });
-   box.fid = id;
+function addBoxToMap(bounds) {
+  var box = L.rectangle(bounds, {
+    weight: 2,
+    color: '#e90',
+    fillOpacity: 0
+  });
 
-   vectors.addFeatures(box);
+  box.addTo(map);
 
-   return box;
+  return box;
 }
 
-function openMapPopup(marker, description) {
-   closeMapPopup();
-
-   popup = new OpenLayers.Popup.FramedCloud("popup", marker.lonlat, null,
-                                            description, marker.icon, true);
-   popup.setBackgroundColor("#E3FFC5");
-   map.addPopup(popup);
-
-   return popup;
-}
-
-function closeMapPopup() {
-   if (popup) {
-      map.removePopup(popup);
-   }
-}
-
-function removeMarkerFromMap(marker){
-   markers.removeMarker(marker);
-}
-
-function proj(x) {
-    return x.clone().transform(epsg4326, map.getProjectionObject());
-}
-
-function unproj(x) {
-    return x.clone().transform(map.getProjectionObject(), epsg4326);
-}
-
-function setMapCenter(center, zoom) {
-   zoom = parseInt(zoom, 10);
-   var numzoom = map.getNumZoomLevels();
-   if (zoom >= numzoom) zoom = numzoom - 1;
-   map.setCenter(proj(center), zoom);
-}
-
-function getEventPosition(event) {
-   return unproj(map.getLonLatFromViewPortPx(event.xy));
+function getMapBaseLayer() {
+  for (var i = 0; i < layers.length; i++) {
+    if (map.hasLayer(layers[i].layer)) {
+      return layers[i];
+    }
+  }
 }
 
 function getMapLayers() {
-   var layerConfig = "";
+  for (var i = 0; i < layers.length; i++) {
+    if (map.hasLayer(layers[i].layer)) {
+      return layers[i].layerCode;
+    }
+  }
 
-   for (var i = 0; i < map.layers.length; i++) {
-      if (map.layers[i].layerCode && map.layers[i].getVisibility()) {
-         layerConfig += map.layers[i].layerCode;
-      }
-   }
-
-   return layerConfig;
+  return "";
 }
 
 function setMapLayers(layerConfig) {
-   if (layerConfig.charAt(0) == "B" || layerConfig.charAt(0) == "0") {
-      var l = 0;
-
-      for (var layers = map.getLayersBy("isBaseLayer", true), i = 0; i < layers.length; i++) {
-         var c = layerConfig.charAt(l++);
-
-         if (c == "B") {
-            map.setBaseLayer(layers[i]);
-         } else {
-            map.layers[i].setVisibility(false);
-         }
-      }
-   } else {
-      for (var i = 0; i < map.layers.length; i++) {
-         if (map.layers[i].layerCode) {
-            if (layerConfig.indexOf(map.layers[i].layerCode) >= 0) {
-               if (map.layers[i].isBaseLayer) {
-                  map.setBaseLayer(map.layers[i]);
-               } else {
-                  map.layers[i].setVisibility(true);
-               }
-            } else if (!map.layers[i].isBaseLayer) {
-               map.layers[i].setVisibility(false);
-            }
-         }
-      }
-   }
+  for (var i = 0; i < layers.length; i++) {
+    if (~layerConfig.indexOf(layers[i].layerCode)) {
+      map.addLayer(layers[i].layer);
+    } else {
+      map.removeLayer(layers[i].layer);
+    }
+  }
 }
