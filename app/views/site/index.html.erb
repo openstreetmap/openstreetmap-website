@@ -6,7 +6,7 @@
 
 <% unless STATUS == :api_offline or STATUS == :database_offline -%>
   <% content_for :editmenu do -%>
-    <li><%= link_to t("browse.start_rjs.data_layer_name"), "#", :id => "show_data" %></li>
+    <li><%= link_to t("browse.start_rjs.data_layer_name"), { :controller => :browse, :action => :start }, :data => { :remote => true } %></li>
   <% end -%>
 <% end -%>
 
@@ -192,10 +192,6 @@ end
   }
 
   $(document).ready(function () {
-    $("#show_data").click(function () {
-      $.ajax({ url: "<%= url_for :controller => :browse, :action => :start %>" });
-    });
-
     $("body").on("click", "a.set_position", function () {
       var lat = parseFloat($(this).attr("data-lat"));
       var lon = parseFloat($(this).attr("data-lon"));
