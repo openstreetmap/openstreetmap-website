@@ -9,14 +9,6 @@ module ApplicationHelper
     end
   end
 
-  def html_escape_unicode(text)
-    chars = ActiveSupport::Multibyte::Unicode.u_unpack(text).map do |c|
-      c < 127 ? c.chr : "&##{c.to_s};"
-    end
-
-    return chars.join("")
-  end
-
   def rss_link_to(*args)
     return link_to(image_tag("RSS.gif", :size => "16x16", :border => 0), Hash[*args], { :class => "rsssmall" });
   end
