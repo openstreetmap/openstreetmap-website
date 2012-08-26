@@ -11,11 +11,11 @@ var areasHidden = false;
 OpenLayers.Feature.Vector.style['default'].strokeWidth = 3;
 OpenLayers.Feature.Vector.style['default'].cursor = "pointer";
     
-function startBrowse() {
+function startBrowse(sidebarHtml) {
   map.dataLayer.active = true;
 
-  $("#sidebar_title").html("<%=j t 'browse.start_rjs.data_frame_title' %>");
-  $("#sidebar_content").html("<%=j render :partial => "sidebar" %>");
+  $("#sidebar_title").html(I18n.t('browse.start_rjs.data_frame_title'));
+  $("#sidebar_content").html(sidebarHtml);
 
   openSidebar({ onclose: stopBrowse });
 
@@ -39,7 +39,7 @@ function startBrowse() {
 
   $("#browse_select_box").click(startDrag);
 
-  $("#browse_hide_areas_box").html("<%=j t 'browse.start_rjs.hide_areas' %>");
+  $("#browse_hide_areas_box").html(I18n.t('browse.start_rjs.hide_areas'));
   $("#browse_hide_areas_box").show();
   $("#browse_hide_areas_box").click(hideAreas);
 }
@@ -49,7 +49,7 @@ function updateData() {
     if (map.getZoom() >= 15) {
         useMap(false);
     } else {
-        setStatus("<%=j t 'browse.start_rjs.zoom_or_select' %>");
+        setStatus(I18n.t('browse.start_rjs.zoom_or_select'));
     }    
   }
 }
@@ -84,7 +84,7 @@ function stopBrowse() {
 }
 
 function startDrag() {
-  $("#browse_select_box").html("<%=j t 'browse.start_rjs.drag_a_box' %>");
+  $("#browse_select_box").html(I18n.t('browse.start_rjs.drag_a_box'));
 
   browseBoxControl.activate();
 
@@ -116,7 +116,7 @@ function useMap(reload) {
 }
 
 function hideAreas() {
-  $("#browse_hide_areas_box").html("<%=j t 'browse.start_rjs.show_areas' %>");
+  $("#browse_hide_areas_box").html(I18n.t('browse.start_rjs.show_areas'));
   $("#browse_hide_areas_box").show();
   $("#browse_hide_areas_box").click(showAreas);
 
@@ -126,7 +126,7 @@ function hideAreas() {
 }
 
 function showAreas() {
-  $("#browse_hide_areas_box").html("<%=j t 'browse.start_rjs.hide_areas' %>");
+  $("#browse_hide_areas_box").html(I18n.t('browse.start_rjs.hide_areas'));
   $("#browse_hide_areas_box").show();
   $("#browse_hide_areas_box").click(hideAreas);
 
@@ -145,7 +145,7 @@ function endDrag(bbox) {
 
   browseMode = "manual";  
 
-  $("#browse_select_box").html("<%=j t 'browse.start_rjs.manually_select' %>");
+  $("#browse_select_box").html(I18n.t('browse.start_rjs.manually_select'));
   $("#browse_select_view").show();
 }
 
@@ -160,7 +160,7 @@ function displayFeatureWarning(count, limit, callback) {
 
   var input = document.createElement("input");
   input.type = "submit";
-  input.value = "<%=j t 'browse.start_rjs.load_data' %>";
+  input.value = I18n.t('browse.start_rjs.load_data');
   input.onclick = callback;
   div.appendChild(input); 
 
@@ -193,15 +193,15 @@ function getData(bounds, reload) {
   var projected = bounds.clone().transform(new OpenLayers.Projection("EPSG:900913"), new OpenLayers.Projection("EPSG:4326"));
   var size = projected.getWidth() * projected.getHeight();
 
-  if (size > <%= MAX_REQUEST_AREA %>) {
-    setStatus(I18n.t("browse.start_rjs.unable_to_load_size", { max_bbox_size: <%= MAX_REQUEST_AREA %>, bbox_size: size }));
+  if (size > OSM.MAX_REQUEST_AREA) {
+    setStatus(I18n.t("browse.start_rjs.unable_to_load_size", { max_bbox_size: OSM.MAX_REQUEST_AREA, bbox_size: size }));
   } else {
-    loadData("/api/<%= API_VERSION %>/map?bbox=" + projected.toBBOX(), reload);
+    loadData("/api/" + OSM.API_VERSION + "/map?bbox=" + projected.toBBOX(), reload);
   }
 }
 
 function loadData(url, reload) {
-  setStatus("<%=j t 'browse.start_rjs.loading' %>");
+  setStatus(I18n.t('browse.start_rjs.loading'));
 
   $("#browse_content").empty();
 
@@ -225,6 +225,16 @@ function loadData(url, reload) {
 
     if (browseDataLayer) browseDataLayer.destroyFeatures();
 
+    var maxFeatures = 2000;
+
+    /*@cc_on
+      if (navigator.appVersion < 8) {
+        maxFeatures = 100;
+      } else if (navigator.appVersion < 9) {
+        maxFeatures = 500;
+      }
+    @*/
+
     browseDataLayer = new OpenLayers.Layer.Vector("Data", {
       strategies: [ 
         new OpenLayers.Strategy.Fixed()
@@ -232,7 +242,7 @@ function loadData(url, reload) {
       protocol: new OpenLayers.Protocol.HTTP({
         url: url,
         format: new OpenLayers.Format.OSM(formatOptions),
-        maxFeatures: <%= @max_features %>,
+        maxFeatures: maxFeatures,
         handleRead: customDataLoader
       }),
       projection: new OpenLayers.Projection("EPSG:4326"),
@@ -266,7 +276,7 @@ function dataLoaded() {
 
     var heading = document.createElement("p");
     heading.className = "browse_heading";
-    heading.appendChild(document.createTextNode("<%=j t 'browse.start_rjs.object_list.heading' %>"));
+    heading.appendChild(document.createTextNode(I18n.t('browse.start_rjs.object_list.heading')));
     browseObjectList.appendChild(heading);
 
     var list = document.createElement("ul");
@@ -296,7 +306,7 @@ function dataLoaded() {
 
     var link = document.createElement("a");
     link.href = this.protocol.url;
-    link.appendChild(document.createTextNode("<%=j t 'browse.start_rjs.object_list.api' %>"));
+    link.appendChild(document.createTextNode(I18n.t('browse.start_rjs.object_list.api')));
     browseObjectList.appendChild(link);
 
     $("#browse_content").html(browseObjectList); 
@@ -356,7 +366,7 @@ function onFeatureSelect(feature) {
   var link = document.createElement("a");
   link.href = "#";
   link.onclick = loadObjectList;
-  link.appendChild(document.createTextNode("<%=j t 'browse.start_rjs.object_list.back' %>"));
+  link.appendChild(document.createTextNode(I18n.t('browse.start_rjs.object_list.back')));
   div.appendChild(link);
 
   var table = document.createElement("table");
@@ -378,7 +388,7 @@ function onFeatureSelect(feature) {
   var type = featureType(feature);
   var link = document.createElement("a");   
   link.href = "/browse/" + type + "/" + feature.osm_id;
-  link.appendChild(document.createTextNode("<%=j t 'browse.start_rjs.object_list.details' %>"));
+  link.appendChild(document.createTextNode(I18n.t('browse.start_rjs.object_list.details')));
   td.appendChild(link);
 
   var div = document.createElement("div");
@@ -401,7 +411,7 @@ function onFeatureSelect(feature) {
         
   var link = document.createElement("a");   
   link.href =  "/browse/" + type + "/" + feature.osm_id + "/history";
-  link.appendChild(document.createTextNode("<%=j t 'browse.start_rjs.show_history' %>"));
+  link.appendChild(document.createTextNode(I18n.t('browse.start_rjs.show_history')));
   link.onclick = OpenLayers.Function.bind(loadHistory, {
     type: type, feature: feature, link: link
   });
@@ -414,9 +424,9 @@ function onFeatureSelect(feature) {
 
 function loadHistory() {
   this.link.href = "";
-  this.link.innerHTML = "<%=j t 'browse.start_rjs.wait' %>";
+  this.link.innerHTML = I18n.t('browse.start_rjs.wait');
 
-  $.ajax("/api/<%= API_VERSION %>/" + this.type + "/" + this.feature.osm_id + "/history", {
+  $.ajax("/api/" + OSM.API_VERSION + "/" + this.type + "/" + this.feature.osm_id + "/history", {
     complete: OpenLayers.Function.bind(displayHistory, this)
   });
 
@@ -450,7 +460,7 @@ function displayHistory(request) {
 
   var link = document.createElement("a");   
   link.href = "/browse/" + this.type + "/" + this.feature.osm_id + "/history";
-  link.appendChild(document.createTextNode("<%=j t 'browse.start_rjs.details' %>"));
+  link.appendChild(document.createTextNode(I18n.t('browse.start_rjs.details')));
   td.appendChild(link);
 
   var div = document.createElement("div");
@@ -459,7 +469,7 @@ function displayHistory(request) {
   var nodes = doc.getElementsByTagName(this.type);
   var history = document.createElement("ul");  
   for (var i = nodes.length - 1; i >= 0; i--) {
-    var user = nodes[i].getAttribute("user") || "<%=j t 'browse.start_rjs.private_user' %>";
+    var user = nodes[i].getAttribute("user") || I18n.t('browse.start_rjs.private_user');
     var timestamp = nodes[i].getAttribute("timestamp");
     var item = document.createElement("li");
     item.appendChild(document.createTextNode(I18n.t("browse.start_rjs.edited_by_user_at_timestamp", { user: user, timestamp: timestamp })));
@@ -480,15 +490,16 @@ function featureType(feature) {
 
 function featureTypeName(feature) {
   if (featureType(feature) == "node") {
-    return "<%=j t 'browse.start_rjs.object_list.type.node' %>";
+    return I18n.t('browse.start_rjs.object_list.type.node');
   } else if (featureType(feature) == "way") {
-    return "<%=j t 'browse.start_rjs.object_list.type.way' %>";
+    return I18n.t('browse.start_rjs.object_list.type.way');
   }
 }
 
 function featureName(feature) {
-  if (feature.attributes['name:<%= I18n.locale %>']) {
-    return feature.attributes['name:<%= I18n.locale %>'];
+  var lang = $('html').attr('lang');
+  if (feature.attributes['name:' + lang]) {
+    return feature.attributes['name:' + lang];
   } else if (feature.attributes.name) {
     return feature.attributes.name;
   } else {
@@ -497,8 +508,9 @@ function featureName(feature) {
 }
 
 function featureNameSelect(feature) {
-  if (feature.attributes['name:<%= I18n.locale %>']) {
-    return feature.attributes['name:<%= I18n.locale %>'];
+  var lang = $('html').attr('lang');
+  if (feature.attributes['name:' + lang]) {
+    return feature.attributes['name:' + lang];
   } else if (feature.attributes.name) {
     return feature.attributes.name;
   } else if (featureType(feature) == "node") {
@@ -509,8 +521,9 @@ function featureNameSelect(feature) {
 }
 
 function featureNameHistory(feature) {
-  if (feature.attributes['name:<%= I18n.locale %>']) {
-    return feature.attributes['name:<%= I18n.locale %>'];
+  var lang = $('html').attr('lang');
+  if (feature.attributes['name:' + lang]) {
+    return feature.attributes['name:' + lang];
   } else if (feature.attributes.name) {
     return feature.attributes.name;
   } else if (featureType(feature) == "node") {
@@ -530,4 +543,4 @@ function clearStatus() {
   $("#browse_status").hide();
 }
 
-startBrowse();
+startBrowse("<%=j render :partial => "sidebar" %>");
