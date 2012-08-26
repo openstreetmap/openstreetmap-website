@@ -225,6 +225,11 @@ function loadData(url, reload) {
 
     if (browseDataLayer) browseDataLayer.destroyFeatures();
 
+    /*
+     * Modern browsers are quite happy showing far more than 100 features in
+     * the data browser, so increase the limit to 2000 by default, but keep
+     * it restricted to 500 for IE8 and 100 for older IEs.
+     */
     var maxFeatures = 2000;
 
     /*@cc_on

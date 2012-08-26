@@ -29,9 +29,6 @@ gem 'i18n-js', '>= 3.0.0.rc2'
 # We need ruby-openid 2.2.0 or later for ruby 1.9 support
 gem 'ruby-openid', '>= 2.2.0'
 
-# Browser detection support
-gem 'browser'
-
 # Markdown formatting support
 gem 'redcarpet'
 
