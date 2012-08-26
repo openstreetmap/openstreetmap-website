@@ -4,6 +4,7 @@
 //= require jquery.timers
 //= require i18n/translations
 //= require globals
+//= require export
 
 /*
  * Called as the user scrolls/zooms around to aniplate hrefs of the
