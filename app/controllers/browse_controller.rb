@@ -7,6 +7,7 @@ class BrowseController < ApplicationController
   around_filter :web_timeout, :except => [:start]
 
   def start 
+    render :partial => "sidebar"
   end
   
   def relation

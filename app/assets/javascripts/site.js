@@ -2,7 +2,9 @@
 //= require jquery_ujs
 //= require jquery.autogrowtextarea
 //= require jquery.timers
+//= require openlayers
 //= require globals
+//= require browse
 //= require export
 
 /*
