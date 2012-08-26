@@ -1,6 +1,7 @@
 ENV["RAILS_ENV"] = "test"
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
+require 'capybara/rails'
 load 'composite_primary_keys/fixtures.rb'
 
 class ActiveSupport::TestCase

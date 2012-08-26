@@ -18,7 +18,7 @@ class ExportControllerTest < ActionController::TestCase
   def test_start
     xhr :get, :start
     assert_response :success
-    assert_template 'start'
+    assert_template 'export/_sidebar'
   end
   
   def test_finish_osm

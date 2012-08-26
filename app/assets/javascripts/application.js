@@ -2,6 +2,12 @@
 //= require jquery_ujs
 //= require jquery.autogrowtextarea
 //= require jquery.timers
+//= require openlayers
+//= require globals
+//= require browse
+//= require export
+//= require map
+//= require menu
 
 /*
  * Called as the user scrolls/zooms around to aniplate hrefs of the

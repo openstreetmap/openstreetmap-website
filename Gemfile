@@ -28,9 +28,6 @@ gem 'deadlock_retry', '>= 1.2.0'
 # We need ruby-openid 2.2.0 or later for ruby 1.9 support
 gem 'ruby-openid', '>= 2.2.0'
 
-# Browser detection support
-gem 'browser'
-
 # Markdown formatting support
 gem 'redcarpet'
 
@@ -57,6 +54,7 @@ gem 'memcached', '>= 1.4.1'
 group :test do
   gem 'timecop'
   gem 'minitest', :platforms => :ruby_19
+  gem 'capybara'
 end
 
 # Gems needed for compiling assets
