@@ -330,5 +330,3 @@ function mapnikSizeChanged() {
 
   validateControls();
 }
-
-startExport("<%=j render :partial => "sidebar" %>");

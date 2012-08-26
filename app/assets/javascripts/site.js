@@ -3,6 +3,7 @@
 //= require jquery.autogrowtextarea
 //= require jquery.timers
 //= require globals
+//= require export
 
 /*
  * Called as the user scrolls/zooms around to aniplate hrefs of the

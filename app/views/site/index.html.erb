@@ -285,12 +285,14 @@ end
 
   $(document).ready(function () {
     $("#exportanchor").click(function (e) {
-      $.ajax({ url: "<%= url_for :controller => :export, :action => :start %>" });
+      $.ajax({ url: "<%= url_for :controller => :export, :action => :start %>", success: function (sidebarHtml) {
+        startExport(sidebarHtml);
+      }});
       e.preventDefault();
     });
 
     <% if params[:action] == 'export' -%>
-    $.ajax({ url: "<%= url_for :controller => :export, :action => :start %>" });
+    $("#exportanchor").click();
     <% end -%>
 
     <% if params[:query] -%>
