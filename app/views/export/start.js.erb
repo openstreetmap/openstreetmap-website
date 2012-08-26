@@ -4,7 +4,7 @@ var transform;
 var markerLayer;
 var markerControl;
 
-function startExport() {
+function startExport(sidebarHtml) {
   vectors = new OpenLayers.Layer.Vector("Vector Layer", {
     displayInLayerSwitcher: false
   });
@@ -31,8 +31,8 @@ function startExport() {
   map.events.register("moveend", map, mapMoved);
   map.events.register("changebaselayer", map, htmlUrlChanged);
 
-  $("#sidebar_title").html("<%=j t 'export.start_rjs.export' %>");
-  $("#sidebar_content").html("<%=j render :partial => "sidebar" %>");
+  $("#sidebar_title").html(I18n.t('export.start_rjs.export'));
+  $("#sidebar_content").html(sidebarHtml);
 
   $("#maxlat").change(boundsChanged);
   $("#minlon").change(boundsChanged);
@@ -91,7 +91,7 @@ function boundsChanged() {
 }
 
 function startDrag() {
-  $("#drag_box").html("<%=j t 'export.start_rjs.drag_a_box' %>");
+  $("#drag_box").html(I18n.t('export.start_rjs.drag_a_box'));
 
   clearBox();
   box.activate();
@@ -106,7 +106,7 @@ function endDrag(bbox) {
   box.deactivate();
   validateControls();
 
-  $("#drag_box").html("<%=j t 'export.start_rjs.manually_select' %>");
+  $("#drag_box").html(I18n.t('export.start_rjs.manually_select'));
 }
 
 function transformComplete(event) {
@@ -115,7 +115,7 @@ function transformComplete(event) {
 }
 
 function startMarker() {
-  $("#add_marker").html("<%=j t 'export.start_rjs.click_add_marker' %>");
+  $("#add_marker").html(I18n.t('export.start_rjs.click_add_marker'));
 
   if (!markerLayer) {
     markerLayer = new OpenLayers.Layer.Vector("",{
@@ -145,7 +145,7 @@ function startMarker() {
 function endMarker(event) {
   markerControl.deactivate();
 
-  $("#add_marker").html("<%=j t 'export.start_rjs.change_marker' %>");
+  $("#add_marker").html(I18n.t('export.start_rjs.change_marker'));
   $("#marker_inputs").show();
 
   var epsg4326 = new OpenLayers.Projection("EPSG:4326");
@@ -162,7 +162,7 @@ function clearMarker() {
   $("#marker_lon").val("");
   $("#marker_lat").val("");
   $("#marker_inputs").hide();
-  $("#add_marker").html("<%=j t 'export.start_rjs.add_marker' %>");
+  $("#add_marker").html(I18n.t('export.start_rjs.add_marker'));
 
   if (markerLayer) {
     markerControl.destroy();
@@ -207,7 +207,7 @@ function drawBox(bounds) {
 function validateControls() {
   var bounds = new OpenLayers.Bounds($("#minlon").val(), $("#minlat").val(), $("#maxlon").val(), $("#maxlat").val());
 
-  if (bounds.getWidth() * bounds.getHeight() > <%= MAX_REQUEST_AREA %>) {
+  if (bounds.getWidth() * bounds.getHeight() > OSM.MAX_REQUEST_AREA) {
     $("#export_osm_too_large").show();
   } else {
     $("#export_osm_too_large").hide();
@@ -217,7 +217,7 @@ function validateControls() {
   var disabled = true;
 
   if ($("#format_osm").prop("checked")) {
-    disabled = bounds.getWidth() * bounds.getHeight() > <%= MAX_REQUEST_AREA %>;
+    disabled = bounds.getWidth() * bounds.getHeight() > OSM.MAX_REQUEST_AREA;
   } else if ($("#format_mapnik").prop("checked")) {
     disabled = $("#mapnik_scale").val() < max_scale;
   }
@@ -229,7 +229,7 @@ function validateControls() {
 function htmlUrlChanged() {
   var bounds = new OpenLayers.Bounds($("#minlon").val(), $("#minlat").val(), $("#maxlon").val(), $("#maxlat").val());
   var layerName = map.baseLayer.keyid;
-  var url = "http://<%= SERVER_URL %>/export/embed.html?bbox=" + bounds.toBBOX() + "&amp;layer=" + layerName;
+  var url = "http://" + OSM.SERVER_URL + "/export/embed.html?bbox=" + bounds.toBBOX() + "&amp;layer=" + layerName;
   var markerUrl = "";
 
   if ($("#marker_lat").val() && $("#marker_lon").val()) {
@@ -249,7 +249,15 @@ function htmlUrlChanged() {
 
   var layers = getMapLayers();
 
-  html += '<br /><small><a href="http://<%= SERVER_URL %>/?lat='+center.lat+'&amp;lon='+center.lon+'&amp;zoom='+zoom+'&amp;layers='+layers+markerUrl+'">'+"<%= html_escape_unicode(I18n.t('export.start_rjs.view_larger_map')) %>"+'</a></small>';
+  var text = I18n.t('export.start_rjs.view_larger_map');
+  var escaped = [];
+
+  for (var i = 0; i < text.length; ++i) {
+    var c = text.charCodeAt(i);
+    escaped.push(c < 127 ? text.charAt(i) : "&#" + c + ";");
+  }
+
+  html += '<br /><small><a href="http://' + OSM.SERVER_URL + '/?lat='+center.lat+'&amp;lon='+center.lon+'&amp;zoom='+zoom+'&amp;layers='+layers+markerUrl+'">'+escaped.join("")+'</a></small>';
 
   $("#export_html_text").val(html);
 
@@ -323,4 +331,4 @@ function mapnikSizeChanged() {
   validateControls();
 }
 
-startExport();
+startExport("<%=j render :partial => "sidebar" %>");
