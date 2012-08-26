@@ -6,7 +6,7 @@
 
 <% unless STATUS == :api_offline or STATUS == :database_offline -%>
   <% content_for :editmenu do -%>
-    <li><%= link_to t("browse.start_rjs.data_layer_name"), "#", :id => "show_data" %></li>
+    <li><%= link_to t("browse.start_rjs.data_layer_name"), { :controller => :browse, :action => :start }, :id => "show_data" %></li>
   <% end -%>
 <% end -%>
 
@@ -125,7 +125,6 @@ else
 end
 %>
 
-<%= javascript_include_tag 'openlayers.js' %>
 <%= javascript_include_tag 'map.js' %>
 
 <%= render :partial => 'resize' %>
@@ -192,8 +191,11 @@ end
   }
 
   $(document).ready(function () {
-    $("#show_data").click(function () {
-      $.ajax({ url: "<%= url_for :controller => :browse, :action => :start %>" });
+    $("#show_data").click(function (e) {
+      $.ajax({ url: $(this).attr('href'), success: function (sidebarHtml) {
+        startBrowse(sidebarHtml);
+      }});
+      e.preventDefault();
     });
 
     $("body").on("click", "a.set_position", function () {

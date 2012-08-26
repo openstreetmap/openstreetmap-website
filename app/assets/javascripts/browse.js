@@ -542,5 +542,3 @@ function clearStatus() {
   $("#browse_status").html("");
   $("#browse_status").hide();
 }
-
-startBrowse("<%=j render :partial => "sidebar" %>");
