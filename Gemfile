@@ -54,6 +54,7 @@ gem 'memcached', '>= 1.4.1'
 group :test do
   gem 'timecop'
   gem 'minitest', :platforms => :ruby_19
+  gem 'capybara'
 end
 
 # Gems needed for compiling assets
