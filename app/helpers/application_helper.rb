@@ -31,6 +31,7 @@ module ApplicationHelper
     js << "<script type='text/javascript'>\n"
     js << "i18n_strings = new Array();\n"
     js << javascript_strings_for_key("javascripts")
+    js << javascript_strings_for_key("export.start_rjs")
     js << "</script>\n"
 
     return raw(js)
