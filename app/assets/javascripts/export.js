@@ -277,6 +277,8 @@ function startExport(sidebarHtml) {
     if ($("#format_mapnik").prop("checked")) {
       $("#mapnik_scale").val(roundScale(map.getScale()));
       $("#export_mapnik").show();
+
+      mapnikSizeChanged();
     } else {
       $("#export_mapnik").hide();
     }
