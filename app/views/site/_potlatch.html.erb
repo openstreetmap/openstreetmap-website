@@ -42,7 +42,8 @@
     // 700,600 for fixed size, 100%,100% for resizable
   }
 
-  doSWF(<%= @lat || 'null' %>,<%= @lon || 'null' %>,<%= @zoom %>);
+  var params = OSM.mapParams();
+  doSWF(params.lat, params.lon, params.zoom || 17);
 
   $(document).ready(function () {
     $("body").on("click", "a.set_position", function () {
