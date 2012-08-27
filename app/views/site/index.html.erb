@@ -43,129 +43,45 @@
   </table>
 </div>
 
-<%
-if params[:mlon] and params[:mlat]
-    marker = true
-    mlon = params[:mlon].to_f
-    mlat = params[:mlat].to_f
-end
-
-if params[:node] or params[:way] or params[:relation]
-    object = true
-    object_zoom = true
-
-    if params[:node]
-        object_type = 'node'
-        object_id = params[:node].to_i
-    elsif params[:way]
-        object_type = 'way'
-        object_id = params[:way].to_i
-    elsif params[:relation]
-        object_type = 'relation'
-        object_id = params[:relation].to_i
-    end
-end
-
-# Decide on a lat lon to initialise the map with. Various ways of doing this
-if params[:bbox]
-    bbox = true
-    minlon, minlat, maxlon, maxlat = params[:bbox].split(",").collect { |c| c.to_f }
-    layers = params[:layers]
-    box = true if params[:box] == "yes"
-    object_zoom = false
-elsif params[:minlon] and params[:minlat] and params[:maxlon] and params[:maxlat]
-    bbox = true
-    minlon = params[:minlon].to_f
-    minlat = params[:minlat].to_f
-    maxlon = params[:maxlon].to_f
-    maxlat = params[:maxlat].to_f
-    layers = params[:layers]
-    box = true if params[:box]=="yes"
-    object_zoom = false
-elsif params[:lon] and params[:lat]
-    lon =  params[:lon].to_f
-    lat =  params[:lat].to_f
-    zoom =  params.fetch(:zoom, 5).to_i
-    layers = params[:layers]
-    object_zoom = false
-elsif params[:mlon] and params[:mlat]
-    lon = params[:mlon].to_f
-    lat = params[:mlat].to_f
-    zoom =  params.fetch(:zoom, 12).to_i
-    layers = params[:layers]
-    object_zoom = false
-elsif cookies.key?("_osm_location")
-    lon,lat,zoom,layers = cookies["_osm_location"].split("|")
-elsif @user and !@user.home_lon.nil? and !@user.home_lat.nil?
-    lon =  @user.home_lon
-    lat =  @user.home_lat
-    zoom = 10
-else
-    unless STATUS == :database_readonly or STATUS == :database_offline
-      session[:location] = OSM::IPLocation(request.env['REMOTE_ADDR']) unless session[:location]
-    end
-
-    if session[:location]
-        bbox = true
-        minlon = session[:location][:minlon]
-        minlat = session[:location][:minlat]
-        maxlon = session[:location][:maxlon]
-        maxlat = session[:location][:maxlat]
-    else
-        lon =  -0.1
-        lat =  51.5
-        zoom =  params.fetch(:zoom, 5).to_i
-    end
-
-    layers = params[:layers]
-end
-%>
-
 <script type="text/javascript">
   var marker;
   var map;
+  var params = OSM.mapParams();
 
   function mapInit(){
     map = createMap("map");
 
-    <% unless object_zoom %>
-      <% if bbox %>
-        var bbox = new OpenLayers.Bounds(<%= minlon %>, <%= minlat %>, <%= maxlon %>, <%= maxlat %>);
+    if (!params.object_zoom) {
+      if (params.bbox) {
+        var bbox = new OpenLayers.Bounds(params.minlon, params.minlat, params.maxlon, params.maxlat);
 
         map.zoomToExtent(proj(bbox));
 
-        <% if box %>
+        if (params.box) {
           $(window).load(function() { addBoxToMap(bbox) });
-        <% end %>
-      <% else %>
-        var centre = new OpenLayers.LonLat(<%= lon %>, <%= lat %>);
-        <% if params[:scale].to_f > 0 then -%>
-        var zoom = <%= scale_to_zoom params[:scale] %>;
-        <% else -%>
-        var zoom = <%= zoom %>;
-        <% end -%>
+        }
+      } else {
+        setMapCenter(new OpenLayers.LonLat(params.lon, params.lat), params.zoom);
+      }
+    }
 
-        setMapCenter(centre, zoom);
-      <% end %>
-    <% end %>
+    if (params.layers) {
+      setMapLayers(params.layers);
+    }
 
-    <% if !layers.nil? and !layers.empty? %>
-      setMapLayers("<%= layers %>");
-    <% end %>
+    if (params.marker) {
+      marker = addMarkerToMap(new OpenLayers.LonLat(params.mlon, params.mlat));
+    }
 
-    <% if marker %>
-      marker = addMarkerToMap(new OpenLayers.LonLat(<%= mlon %>, <%= mlat %>));
-    <% end %>
+    if (params.object) {
+      var url = "/api/" + OSM.API_VERSION + "/" + params.object_type + "/" + params.object_id;
 
-    <% if object %>
-      var url = "/api/<%= "#{API_VERSION}" %>/<%= object_type %>/<%= object_id %>";
-
-      <% if object_type != "node" %>
+      if (params.object_type != "node") {
         url += "/full";
-      <% end %>
+      }
 
-      $(window).load(function() { addObjectToMap(url, <%= object_zoom %>) });
-    <% end %>
+      $(window).load(function() { addObjectToMap(url, params.object_zoom) });
+    }
 
     map.events.register("moveend", map, updateLocation);
     map.events.register("changelayer", map, updateLocation);
@@ -216,15 +132,8 @@ end
     var layers = getMapLayers();
     var extents = unproj(map.getExtent());
     var expiry = new Date();
-    var objtype;
-    var objid;
 
-    <% if object %>
-      objtype = "<%= object_type %>";
-      objid = <%= object_id %>;
-    <% end %>
-
-    updatelinks(lonlat.lon, lonlat.lat, zoom, layers, extents.left, extents.bottom, extents.right, extents.top, objtype, objid);
+    updatelinks(lonlat.lon, lonlat.lat, zoom, layers, extents.left, extents.bottom, extents.right, extents.top, params.object_type, params.object_id);
 
     expiry.setYear(expiry.getFullYear() + 10);
     $.cookie("_osm_location", [lonlat.lon, lonlat.lat, zoom, layers].join("|"), {expires: expiry});
