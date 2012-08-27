@@ -1,5 +1,5 @@
 class BrowseController < ApplicationController
-  layout 'site'
+  layout 'site', :except => [ :start ]
 
   before_filter :authorize_web  
   before_filter :set_locale 
@@ -7,7 +7,6 @@ class BrowseController < ApplicationController
   around_filter :web_timeout, :except => [:start]
 
   def start 
-    render :partial => "sidebar"
   end
   
   def relation

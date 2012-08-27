@@ -4,7 +4,6 @@ class ExportController < ApplicationController
   before_filter :set_locale
 
   def start
-    render :partial => "sidebar"
   end
 
   #When the user clicks 'Export' we redirect to a URL which generates the export download
