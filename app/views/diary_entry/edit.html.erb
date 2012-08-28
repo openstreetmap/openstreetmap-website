@@ -35,20 +35,6 @@
   </table>
 <% end %>
 
-<% if @diary_entry.latitude and @diary_entry.longitude %>
-  <% lon = @diary_entry.longitude %>
-  <% lat = @diary_entry.latitude %>
-  <% zoom = '12' %>
-<% elsif @user.home_lat.nil? or @user.home_lon.nil? %>
-  <% lon = h(params['lon'] || '-0.1') %>
-  <% lat = h(params['lat'] || '51.5') %>
-  <% zoom = h(params['zoom'] || '4') %> 
-<% else %>
-  <% lon = @user.home_lon %>
-  <% lat = @user.home_lat %>
-  <% zoom = '12' %>
-<% end %>
-
 <script type="text/javascript">
   <!--
   var marker;
@@ -72,8 +58,8 @@
     $("#map").show();
     $("#usemap").hide();
 
-    var centre = new OpenLayers.LonLat(<%= lon %>, <%= lat %>);
-    var zoom = <%= zoom %>;
+    var centre = new OpenLayers.LonLat(<%= @lon %>, <%= @lat %>);
+    var zoom = <%= @zoom %>;
 
     var map = createMap("map");
 
