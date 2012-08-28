@@ -254,3 +254,20 @@ $(document).ready(function () {
   $(".richtext_doedit").click(editRichtext);
   $(".richtext_dopreview").click(previewRichtext);
 });
+
+/*
+ * Forms which have been cached by rails may have he wrong
+ * authenticity token, so patch up any forms with the correct
+ * token taken from the page header.
+ */
+$(document).ready(function () {
+  var auth_token = $("meta[name=csrf-token]").attr("content");
+  $("form input[name=authenticity_token]").val(auth_token);
+});
+
+/*
+ * Enable auto expansion for all text areas
+ */
+$(document).ready(function () {
+  $("textarea").autoGrow();
+});
