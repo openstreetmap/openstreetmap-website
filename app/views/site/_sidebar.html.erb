@@ -2,7 +2,7 @@
   <table class="sidebar_title" width="100%">
     <tr>
       <td id="sidebar_title"><% t 'site.sidebar.search_results' %></td>
-      <td id="sidebar_close"><a href="javascript:closeSidebar()"><%= t 'site.sidebar.close' %></a></td>
+      <td id="sidebar_close"><a class="sidebar_close" href="#"><%= t 'site.sidebar.close' %></a></td>
     </tr>
   </table>
   <div id="sidebar_content">
@@ -33,7 +33,7 @@
     onclose = options.onclose;
   }
 
-  function closeSidebar() {
+  $(".sidebar_close").click(function (e) {
     $("#sidebar").css("display", "none");
 
     <%= onclose %>
@@ -42,7 +42,9 @@
        onclose();
        onclose = null;
     }
-  }
+
+    e.preventDefault();
+  });
 
   function updateSidebar(title, content) {
     $("#sidebar_title").html(title);
