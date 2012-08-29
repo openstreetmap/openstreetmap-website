@@ -2,10 +2,10 @@
 //= require jquery_ujs
 //= require jquery.autogrowtextarea
 //= require jquery.timers
+//= require augment
 //= require openlayers
 //= require i18n/translations
 //= require globals
-//= require compat
 //= require browse
 //= require export
 //= require map
