@@ -1,16 +1,18 @@
 <script type="text/javascript">
 $(document).ready(function () {
-  var updateMapKey = function () {
-    $("#sidebar_content").load("<%= url_for :action => :key %>", {
-      layer: map.baseLayer.keyid,
-      zoom: map.getZoom()
-    });
-  }
+  $("#open_map_key").click(function (e) {
+    var url = $(this).attr('href'),
+        title = $(this).text();
 
-  $("#open_map_key").click(function () {
+    function updateMapKey() {
+      $("#sidebar_content").load(url, {
+        layer: map.baseLayer.keyid,
+        zoom: map.getZoom()
+      });
+    }
+
     updateMapKey();
-
-    openSidebar({ title: "<%= t('site.key.map_key') %>" });
+    openSidebar({ title: title });
 
     $("#sidebar").one("closed", function () {
       map.events.unregister("zoomend", map, updateMapKey);
@@ -19,10 +21,12 @@ $(document).ready(function () {
 
     map.events.register("zoomend", map, updateMapKey);
     map.events.register("changelayer", map, updateMapKey);
+
+    e.preventDefault();
   });
 });
 </script>
 
 <% content_for :left_menu do %>
-  <li><%= link_to t("site.key.map_key"), "#", :id => "open_map_key", :title => t("site.key.map_key_tooltip") %></li>
+  <li><%= link_to t("site.key.map_key"), {:action => :key}, :id => "open_map_key", :title => t("site.key.map_key_tooltip") %></li>
 <% end %>
