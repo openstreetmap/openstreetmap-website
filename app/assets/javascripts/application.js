@@ -9,6 +9,7 @@
 //= require browse
 //= require export
 //= require map
+//= require key
 //= require menu
 //= require sidebar
 
