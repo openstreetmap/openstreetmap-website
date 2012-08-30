@@ -11,14 +11,6 @@
 //= require map
 //= require menu
 
-if ( !Array.prototype.forEach ) {
-  Array.prototype.forEach = function(fn, scope) {
-    for(var i = 0, len = this.length; i < len; ++i) {
-      fn.call(scope || this, this[i], i, this);
-    }
-  }
-}
-
 /*
  * Called as the user scrolls/zooms around to aniplate hrefs of the
  * view tab and various other links
