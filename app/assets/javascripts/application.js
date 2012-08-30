@@ -12,22 +12,29 @@
 //= require menu
 //= require sidebar
 
+function zoomPrecision(zoom) {
+    var decimals = Math.pow(10, Math.floor(zoom/3));
+    return function(x) {
+         return Math.round(x * decimals) / decimals;
+    };
+}
+
 /*
  * Called as the user scrolls/zooms around to aniplate hrefs of the
  * view tab and various other links
  */
 function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat,objtype,objid) {
-  var decimals = Math.pow(10, Math.floor(zoom/3));
+  var toPrecision = zoomPrecision(zoom);
   var node;
 
-  lat = Math.round(lat * decimals) / decimals;
-  lon = Math.round(lon * decimals) / decimals;
+  lat = toPrecision(lat);
+  lon = toPrecision(lon);
 
   if (minlon) {
-    minlon = Math.round(minlon * decimals) / decimals;
-    minlat = Math.round(minlat * decimals) / decimals;
-    maxlon = Math.round(maxlon * decimals) / decimals;
-    maxlat = Math.round(maxlat * decimals) / decimals;
+    minlon = toPrecision(minlon);
+    minlat = toPrecision(minlat);
+    maxlon = toPrecision(maxlon);
+    maxlat = toPrecision(maxlat);
   }
 
   $(".geolink").each(function (index, link) {
