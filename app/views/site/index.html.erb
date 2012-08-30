@@ -128,14 +128,6 @@ end
   function mapInit(){
     map = createMap("map");
 
-    <% unless STATUS == :api_offline or STATUS == :database_offline %>
-      map.dataLayer = new OpenLayers.Layer("<%= I18n.t 'browse.start_rjs.data_layer_name' %>", {
-          visibility: false,
-          displayInLayerSwitcher: false
-      });
-      map.addLayer(map.dataLayer);
-    <% end %>
-
     <% unless object_zoom %>
       <% if bbox %>
         var bbox = new OpenLayers.Bounds(<%= minlon %>, <%= minlat %>, <%= maxlon %>, <%= maxlat %>);

@@ -71,6 +71,12 @@ function createMap(divName, options) {
    });
    map.addLayer(markers);
 
+   map.dataLayer = new OpenLayers.Layer(I18n.t('browse.start_rjs.data_layer_name'), {
+     visibility: false,
+     displayInLayerSwitcher: false
+   });
+   map.addLayer(map.dataLayer);
+
    $("#" + divName).on("resized", function () {
      map.updateSize();
    });
