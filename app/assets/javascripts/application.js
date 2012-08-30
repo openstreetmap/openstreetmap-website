@@ -10,6 +10,7 @@
 //= require export
 //= require map
 //= require menu
+//= require sidebar
 
 /*
  * Called as the user scrolls/zooms around to aniplate hrefs of the
