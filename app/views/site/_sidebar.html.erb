@@ -28,7 +28,7 @@
 
     $("#sidebar").css("display", "block");
 
-    <%= onopen %>
+    $("#sidebar").trigger("opened");
 
     onclose = options.onclose;
   }
@@ -36,7 +36,7 @@
   $(".sidebar_close").click(function (e) {
     $("#sidebar").css("display", "none");
 
-    <%= onclose %>
+    $("#sidebar").trigger("closed");
 
     if (onclose) {
        onclose();
