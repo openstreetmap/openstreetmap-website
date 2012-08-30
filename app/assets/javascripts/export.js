@@ -1,9 +1,11 @@
 function startExport(sidebarHtml) {
-  var vectors;
-  var box;
-  var transform;
-  var markerLayer;
-  var markerControl;
+  var vectors,
+      box,
+      transform,
+      markerLayer,
+      markerControl,
+      epsg4326 = new OpenLayers.Projection("EPSG:4326"),
+      epsg900913 = new OpenLayers.Projection("EPSG:900913");
 
   vectors = new OpenLayers.Layer.Vector("Vector Layer", {
     displayInLayerSwitcher: false
@@ -34,18 +36,13 @@ function startExport(sidebarHtml) {
   $("#sidebar_title").html(I18n.t('export.start_rjs.export'));
   $("#sidebar_content").html(sidebarHtml);
 
-  $("#maxlat").change(boundsChanged);
-  $("#minlon").change(boundsChanged);
-  $("#maxlon").change(boundsChanged);
-  $("#minlat").change(boundsChanged);
+  $("#maxlat,#minlon,#maxlon,#minlat").change(boundsChanged);
 
   $("#drag_box").click(startDrag);
 
   $("#add_marker").click(startMarker);
 
-  $("#format_osm").click(formatChanged);
-  $("#format_mapnik").click(formatChanged);
-  $("#format_html").click(formatChanged);
+  $("#format_osm,#format_mapnik,#format_html").click(formatChanged);
 
   $("#mapnik_scale").change(mapnikSizeChanged);
 
@@ -72,12 +69,15 @@ function startExport(sidebarHtml) {
     map.removeLayer(vectors);
   }
 
-  function boundsChanged() {
-    var epsg4326 = new OpenLayers.Projection("EPSG:4326");
+  function getMercatorBounds() {
     var bounds = new OpenLayers.Bounds($("#minlon").val(), $("#minlat").val(),
                                        $("#maxlon").val(), $("#maxlat").val());
 
-    bounds.transform(epsg4326, map.getProjectionObject());
+    return bounds.transform(epsg4326, epsg900913);
+  }
+
+  function boundsChanged() {
+    var bounds = getMercatorBounds();
 
     map.events.unregister("moveend", map, mapMoved);
     map.zoomToExtent(bounds);
@@ -147,8 +147,6 @@ function startExport(sidebarHtml) {
     $("#add_marker").html(I18n.t('export.start_rjs.change_marker'));
     $("#marker_inputs").show();
 
-    var epsg4326 = new OpenLayers.Projection("EPSG:4326");
-    var epsg900913 = new OpenLayers.Projection("EPSG:900913");
     var geom = event.feature.geometry.clone().transform(epsg900913, epsg4326);
 
     $("#marker_lon").val(geom.x.toFixed(5));
@@ -158,8 +156,7 @@ function startExport(sidebarHtml) {
   }
 
   function clearMarker() {
-    $("#marker_lon").val("");
-    $("#marker_lat").val("");
+    $("#marker_lon,#marker_lat").val("");
     $("#marker_inputs").hide();
     $("#add_marker").html(I18n.t('export.start_rjs.add_marker'));
 
@@ -177,15 +174,14 @@ function startExport(sidebarHtml) {
   }
 
   function setBounds(bounds) {
-    var epsg4326 = new OpenLayers.Projection("EPSG:4326");
-    var decimals = Math.pow(10, Math.floor(map.getZoom() / 3));
+    var toPrecision = zoomPrecision(map.getZoom());
 
     bounds = bounds.clone().transform(map.getProjectionObject(), epsg4326);
 
-    $("#minlon").val(Math.round(bounds.left * decimals) / decimals);
-    $("#minlat").val(Math.round(bounds.bottom * decimals) / decimals);
-    $("#maxlon").val(Math.round(bounds.right * decimals) / decimals);
-    $("#maxlat").val(Math.round(bounds.top * decimals) / decimals);
+    $("#minlon").val(toPrecision(bounds.left));
+    $("#minlat").val(toPrecision(bounds.bottom));
+    $("#maxlon").val(toPrecision(bounds.right));
+    $("#maxlat").val(toPrecision(bounds.top));
 
     mapnikSizeChanged();
     htmlUrlChanged();
@@ -240,8 +236,6 @@ function startExport(sidebarHtml) {
 
     // Create "larger map" link
     var center = bounds.getCenterLonLat();
-    var epsg4326 = new OpenLayers.Projection("EPSG:4326");
-    var epsg900913 = new OpenLayers.Projection("EPSG:900913");
 
     bounds.transform(epsg4326, epsg900913);
     var zoom = map.getZoomForExtent(bounds);
@@ -297,21 +291,13 @@ function startExport(sidebarHtml) {
   }
 
   function maxMapnikScale() {
-    var bounds = new OpenLayers.Bounds($("#minlon").val(), $("#minlat").val(), $("#maxlon").val(), $("#maxlat").val());
-    var epsg4326 = new OpenLayers.Projection("EPSG:4326");
-    var epsg900913 = new OpenLayers.Projection("EPSG:900913");
-
-    bounds.transform(epsg4326, epsg900913);
+    var bounds = getMercatorBounds();
 
     return Math.floor(Math.sqrt(bounds.getWidth() * bounds.getHeight() / 0.3136));
   }
 
   function mapnikImageSize(scale) {
-    var bounds = new OpenLayers.Bounds($("#minlon").val(), $("#minlat").val(), $("#maxlon").val(), $("#maxlat").val());
-    var epsg4326 = new OpenLayers.Projection("EPSG:4326");
-    var epsg900913 = new OpenLayers.Projection("EPSG:900913");
-
-    bounds.transform(epsg4326, epsg900913);
+    var bounds = getMercatorBounds();
 
     return new OpenLayers.Size(Math.round(bounds.getWidth() / scale / 0.00028),
                                Math.round(bounds.getHeight() / scale / 0.00028));
