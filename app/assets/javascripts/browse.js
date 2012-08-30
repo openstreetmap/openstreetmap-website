@@ -17,7 +17,7 @@ function startBrowse(sidebarHtml) {
   $("#sidebar_title").html(I18n.t('browse.start_rjs.data_frame_title'));
   $("#sidebar_content").html(sidebarHtml);
 
-  openSidebar({ onclose: stopBrowse });
+  openSidebar();
 
   var vectors = new OpenLayers.Layer.Vector();
     
@@ -53,7 +53,7 @@ function startBrowse(sidebarHtml) {
     }
   }
 
-  function stopBrowse() {
+  $("#sidebar").one("closed", function () {
     if (map.dataLayer.active) {
       map.dataLayer.active = false;
 
@@ -80,7 +80,7 @@ function startBrowse(sidebarHtml) {
       map.dataLayer.setVisibility(false);
       map.events.unregister("moveend", map, updateData);
     }
-  }
+  });
 
   function startDrag() {
     $("#browse_select_box").html(I18n.t('browse.start_rjs.drag_a_box'));

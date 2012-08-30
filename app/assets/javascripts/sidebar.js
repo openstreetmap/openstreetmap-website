@@ -1,40 +1,24 @@
-var openSidebar;
+function openSidebar(options) {
+  options = options || {};
 
-(function () {
-  var onclose;
+  $("#sidebar").trigger("closed");
 
-  openSidebar = function(options) {
-    options = options || {};
+  if (options.title) { $("#sidebar_title").html(options.title); }
 
-    if (onclose) {
-      onclose();
-      onclose = null;
-    }
+  if (options.width) { $("#sidebar").width(options.width); }
+  else { $("#sidebar").width("30%"); }
 
-    if (options.title) { $("#sidebar_title").html(options.title); }
+  $("#sidebar").css("display", "block");
 
-    if (options.width) { $("#sidebar").width(options.width); }
-    else { $("#sidebar").width("30%"); }
+  $("#sidebar").trigger("opened");
+};
 
-    $("#sidebar").css("display", "block");
+$(document).ready(function () {
+  $(".sidebar_close").click(function (e) {
+    $("#sidebar").css("display", "none");
 
-    $("#sidebar").trigger("opened");
+    $("#sidebar").trigger("closed");
 
-    onclose = options.onclose;
-  };
-
-  $(document).ready(function () {
-    $(".sidebar_close").click(function (e) {
-      $("#sidebar").css("display", "none");
-
-      $("#sidebar").trigger("closed");
-
-      if (onclose) {
-        onclose();
-        onclose = null;
-      }
-
-      e.preventDefault();
-    });
+    e.preventDefault();
   });
-})();
+});

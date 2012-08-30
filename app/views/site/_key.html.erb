@@ -7,17 +7,14 @@ $(document).ready(function () {
     });
   }
 
-  var closeMapKey = function () {
-    map.events.unregister("zoomend", map, updateMapKey);
-    map.events.unregister("changelayer", map, updateMapKey);
-  }
-
   $("#open_map_key").click(function () {
     updateMapKey();
 
-    openSidebar({ 
-      title: "<%= t('site.key.map_key') %>",
-      onclose: closeMapKey
+    openSidebar({ title: "<%= t('site.key.map_key') %>" });
+
+    $("#sidebar").one("closed", function () {
+      map.events.unregister("zoomend", map, updateMapKey);
+      map.events.unregister("changelayer", map, updateMapKey);
     });
 
     map.events.register("zoomend", map, updateMapKey);

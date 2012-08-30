@@ -46,7 +46,7 @@ function startExport(sidebarHtml) {
 
   $("#mapnik_scale").change(mapnikSizeChanged);
 
-  openSidebar({ onclose: stopExport });
+  openSidebar();
 
   if (map.baseLayer.name == "Mapnik") {
     $("#format_mapnik").prop("checked", true);
@@ -58,7 +58,7 @@ function startExport(sidebarHtml) {
   $("#viewanchor").removeClass("active");
   $("#exportanchor").addClass("active");
 
-  function stopExport() {
+  $("#sidebar").one("closed", function () {
     $("#viewanchor").addClass("active");
     $("#exportanchor").removeClass("active");
 
@@ -67,7 +67,7 @@ function startExport(sidebarHtml) {
     map.events.unregister("moveend", map, mapMoved);
     map.events.unregister("changebaselayer", map, htmlUrlChanged);
     map.removeLayer(vectors);
-  }
+  });
 
   function getMercatorBounds() {
     var bounds = new OpenLayers.Bounds($("#minlon").val(), $("#minlat").val(),
