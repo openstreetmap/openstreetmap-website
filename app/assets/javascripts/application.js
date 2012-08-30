@@ -10,6 +10,7 @@
 //= require export
 //= require map
 //= require menu
+//= require sidebar
 
 if ( !Array.prototype.forEach ) {
   Array.prototype.forEach = function(fn, scope) {
