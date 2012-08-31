@@ -4,13 +4,25 @@ $(document).ready(function () {
         title = $(this).text();
 
     function updateMapKey() {
-      $("#sidebar_content").load(url, {
-        layer: map.baseLayer.keyid,
-        zoom: map.getZoom()
+      var mapLayer = map.baseLayer.keyid,
+          mapZoom = map.getZoom();
+
+      $(".mapkey-table-entry").each(function () {
+        var entryLayer = $(this).attr("data-layer"),
+            entryZoomMin = parseInt($(this).attr("data-zoom-min")),
+            entryZoomMax = parseInt($(this).attr("data-zoom-max"));
+
+        if (mapLayer == entryLayer &&
+            mapZoom >= entryZoomMin && mapZoom <= entryZoomMax) {
+          $(this).show();
+        } else {
+          $(this).hide();
+        }
       });
     }
 
-    updateMapKey();
+    $("#sidebar_content").load(url, updateMapKey);
+
     openSidebar({ title: title });
 
     $("#sidebar").one("closed", function () {

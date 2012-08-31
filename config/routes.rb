@@ -106,7 +106,7 @@ OpenStreetMap::Application.routes.draw do
   match '/login' => 'user#login', :via => [:get, :post]
   match '/logout' => 'user#logout', :via => [:get, :post]
   match '/offline' => 'site#offline', :via => :get
-  match '/key' => 'site#key', :via => :post
+  match '/key' => 'site#key', :via => :get
   match '/user/new' => 'user#new', :via => :get
   match '/user/terms' => 'user#terms', :via => [:get, :post]
   match '/user/save' => 'user#save', :via => :post
