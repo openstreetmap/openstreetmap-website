@@ -6,6 +6,7 @@
 //= require openlayers
 //= require i18n/translations
 //= require globals
+//= require piwik
 //= require browse
 //= require export
 //= require map
