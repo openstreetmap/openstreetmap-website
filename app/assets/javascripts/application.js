@@ -13,6 +13,7 @@
 //= require key
 //= require menu
 //= require sidebar
+//= require richtext
 
 function zoomPrecision(zoom) {
     var decimals = Math.pow(10, Math.floor(zoom/3));
@@ -200,67 +201,6 @@ function makeShortCode(lat, lon, zoom) {
     }
     return str;
 }
-
-/*
- * Click handler to switch a rich text control to preview mode
- */
-function previewRichtext(event) {
-  var editor = $(this).parents(".richtext_container").find("textarea");
-  var preview = $(this).parents(".richtext_container").find(".richtext_preview");
-  var width = editor.outerWidth() - preview.outerWidth() + preview.innerWidth();
-  var minHeight = editor.outerHeight() - preview.outerHeight() + preview.innerHeight();
-
-  if (preview.contents().length == 0) {
-    preview.oneTime(500, "loading", function () {
-      preview.addClass("loading");
-    });
-
-    preview.load(editor.attr("data-preview-url"), { text: editor.val() }, function () {
-      preview.stopTime("loading");
-      preview.removeClass("loading");
-    });
-  }
-
-  editor.hide();
-  preview.width(width);
-  preview.css("min-height", minHeight + "px");
-  preview.show();
-
-  $(this).siblings(".richtext_doedit").prop("disabled", false);
-  $(this).prop("disabled", true);
-
-  event.preventDefault();
-}
-
-/*
- * Click handler to switch a rich text control to edit mode
- */
-function editRichtext(event) {
-  var editor = $(this).parents(".richtext_container").find("textarea");
-  var preview = $(this).parents(".richtext_container").find(".richtext_preview");
-
-  preview.hide();
-  editor.show();
-
-  $(this).siblings(".richtext_dopreview").prop("disabled", false);
-  $(this).prop("disabled", true);
-
-  event.preventDefault();
-}
-
-/*
- * Setup any rich text controls
- */
-$(document).ready(function () {
-  $(".richtext_preview").hide();
-  $(".richtext_content textarea").change(function () { 
-    $(this).parents(".richtext_container").find(".richtext_preview").empty();
-  });
-  $(".richtext_doedit").prop("disabled", true);
-  $(".richtext_dopreview").prop("disabled", false);
-  $(".richtext_doedit").click(editRichtext);
-  $(".richtext_dopreview").click(previewRichtext);
-});
 
 /*
  * Forms which have been cached by rails may have he wrong
