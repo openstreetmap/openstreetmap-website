@@ -14,6 +14,7 @@
 //= require menu
 //= require sidebar
 //= require richtext
+//= require resize
 
 function zoomPrecision(zoom) {
     var decimals = Math.pow(10, Math.floor(zoom/3));
