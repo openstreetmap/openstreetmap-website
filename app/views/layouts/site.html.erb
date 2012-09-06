@@ -3,7 +3,7 @@
   <%= render :partial => "layouts/head" %>
   <body class="<%= params[:controller] %> <%= params[:controller] %>-<%= params[:action] %>">
     <div id="small-title">
-      <%= link_to(image_tag("osm_logo.png", :size => "16x16", :border => 0, :alt => t('layouts.logo.alt_text')), :controller => 'site', :action => 'index') %>
+      <%= link_to(image_tag("osm_logo.png", :size => "16x16", :border => 0, :alt => t('layouts.logo.alt_text')), root_path) %>
       <h1><%= t 'layouts.project_name.h1' %></h1>
     </div>
     <div id="content" class="<%= params[:controller] %>_<%= params[:action] %>">
@@ -13,47 +13,35 @@
     <div id='top-bar'>
       <span id="greeting">
          <% if @user and @user.id %>
-           <span id="full-greeting"><%= raw(t 'layouts.welcome_user', :user_link => (link_to h(@user.display_name), {:controller => 'user', :action => 'view', :display_name => @user.display_name}, :title => t('layouts.welcome_user_link_tooltip'))) %></span> 
-           <span id="small-greeting"><%= link_to t('layouts.welcome_user_link_tooltip'), {:controller => 'user', :action => 'view', :display_name => @user.display_name} %></span> | 
+           <span id="full-greeting"><%= raw(t 'layouts.welcome_user', :user_link => (link_to h(@user.display_name), user_path(:display_name => @user.display_name), :title => t('layouts.welcome_user_link_tooltip'))) %></span> 
+           <span id="small-greeting"><%= link_to t('layouts.welcome_user_link_tooltip'), user_path(:display_name => @user.display_name) %></span> | 
            <%= yield :greeting %>
            <%= render :partial => "layouts/inbox" %> |
-           <%= link_to t('layouts.logout'), {:controller => 'user', :action => 'logout', :session => request.session_options[:id], :referer => request.fullpath}, {:id => 'logoutanchor', :title => t('layouts.logout_tooltip')}%>
+           <%= link_to t('layouts.logout'), logout_path(:session => request.session_options[:id], :referer => request.fullpath), {:id => 'logoutanchor', :title => t('layouts.logout_tooltip')}%>
          <% else %>
-           <%= link_to t('layouts.log_in'), {:controller => 'user', :action => 'login', :referer => request.fullpath}, {:id => 'loginanchor', :title => t('layouts.log_in_tooltip')} %> |
-           <%= link_to t('layouts.sign_up'), {:controller => 'user', :action => 'new'}, {:id => 'registeranchor', :title => t('layouts.sign_up_tooltip')} %>
+           <%= link_to t('layouts.log_in'), login_path(:referer => request.fullpath), {:id => 'loginanchor', :title => t('layouts.log_in_tooltip')} %> |
+           <%= link_to t('layouts.sign_up'), user_new_path, {:id => 'registeranchor', :title => t('layouts.sign_up_tooltip')} %>
          <% end %>
       </span>
       <ul id="tabnav">
-        <li><%= link_to t('layouts.view'), {
-          :controller => 'site',
-          :action => 'index'
-        }, {
+        <li><%= link_to t('layouts.view'), root_path, {
           :id => 'viewanchor',
           :title => t('layouts.view_tooltip'),
           :class => 'geolink llz layers'
         } %></li>
-        <li><%= link_to h(t('layouts.edit')) + content_tag(:span, "▾", :class => "menuicon"), {
-          :controller => 'site',
-          :action => 'edit'
-        }, {
+        <li><%= link_to h(t('layouts.edit')) + content_tag(:span, "▾", :class => "menuicon"), edit_path, {
           :id => 'editanchor',
           :title => t('javascripts.site.edit_tooltip'),
           :data => { :minzoom => 13 },
           :class => 'geolink llz object disabled'
         } %></li>
-        <li><%= link_to t('layouts.history'), {
-          :controller => 'changeset',
-          :action => 'list'
-        }, {
+        <li><%= link_to t('layouts.history'), browse_changesets_path, {
           :id => 'historyanchor',
           :data => { :minzoom => 11 },
           :title => t('javascripts.site.history_tooltip'),
           :class => 'geolink bbox'
         } %></li>
-        <li><%= link_to t('layouts.export'), {
-          :controller => 'site',
-          :action => 'export'
-        }, {
+        <li><%= link_to t('layouts.export'), export_path, {
           :id => 'exportanchor',
           :title => t('layouts.export_tooltip'),
           :class => 'geolink llz layers'
@@ -64,11 +52,8 @@
       <ul>
         <% Editors::ALL_EDITORS.each do |editor| %>
           <li><%= link_to t('layouts.edit_with',
-            :editor => t("editor.#{editor}.description")), {
-            :controller => 'site',
-            :action => 'edit',
-            :editor => editor
-          }, {
+            :editor => t("editor.#{editor}.description")),
+            edit_path(:editor => editor), {
             :id => editor + 'anchor',
             :class => "geolink llz object"
           } %></li>
@@ -84,8 +69,7 @@
         <%= link_to(image_tag("osm_logo.png",
           :size => "120x120",
           :alt => t('layouts.logo.alt_text')),
-          :controller => 'site',
-          :action => 'index') %><br/>
+          root_path) %><br/>
         <h1><%= t 'layouts.project_name.h1' %></h1>
         <h2 class="nowrap"><%= t('layouts.tag_line') %></h2>
       </div>
@@ -97,10 +81,8 @@
         <%= t 'layouts.intro_2_html',
           :download => link_to(t('layouts.intro_2_download'), "http://planet.openstreetmap.org/"),
           :use => link_to(t('layouts.intro_2_use'), t('layouts.intro_2_use_url')),
-          :license => link_to(t('layouts.intro_2_license'),
-            url_for({:controller => 'site', :action => 'copyright'})),
-          :create_account => link_to(t('layouts.intro_2_create_account'),
-            url_for({:controller => 'user', :action => 'new'}))
+          :license => link_to(t('layouts.intro_2_license'), copyright_path),
+          :create_account => link_to(t('layouts.intro_2_create_account'), user_new_path)
         %>
         </p>
       </div>
@@ -125,29 +107,19 @@
             <ul>
             <li><%= link_to(t('layouts.help_centre'), t('layouts.help_url'), :title => t('layouts.help_title')) %></li>
             <li><%= link_to(t('layouts.documentation'), t('layouts.wiki_url'), :title => t('layouts.documentation_title')) %></li>
-            <li><%= link_to t('layouts.copyright'), {:controller => 'site', :action => 'copyright'} %></li>
+            <li><%= link_to t('layouts.copyright'), copyright_path %></li>
             </ul>
           </li>
           <li><%= t'layouts.community' %>
             <ul>
             <li><a href="http://blogs.openstreetmap.org/" title="<%= t 'layouts.community_blogs_title' %>"><%= t 'layouts.community_blogs' %></a></li>
             <li><a href="http://www.osmfoundation.org" title="<%= t 'layouts.foundation_title' %>"><%= t 'layouts.foundation' %></a></li>
-            <li><%= link_to(t('layouts.user_diaries'), {
-              :controller => 'diary_entry',
-              :action => 'list',
-              :display_name => nil
-            }, {
+            <li><%= link_to(t('layouts.user_diaries'), diary_path, {
               :title => t('layouts.user_diaries_tooltip')
             }) %></li>
             </ul>
           </li>
-          <li><%= link_to t('layouts.gps_traces'), {
-            :controller => 'trace',
-            :action => 'list',
-            :display_name => nil,
-            :tag => nil,
-            :page => nil
-          }, {
+          <li><%= link_to t('layouts.gps_traces'), traces_path, {
             :id => 'traceanchor',
             :title => t('layouts.gps_traces_tooltip')
           } %></li>
