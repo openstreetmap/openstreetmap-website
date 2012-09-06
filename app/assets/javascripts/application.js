@@ -58,15 +58,10 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat,objtype,obj
       args[objtype] = objid;
     }
 
-    var classes = $(link).attr("class").split(" ");
-
-    $(classes).each(function (index, classname) {
-      if (match = classname.match(/^minzoom([0-9]+)$/)) {
-        var minzoom = match[1];
+    var minzoom = $(link).data('minzoom');
+    if (minzoom) {
         var name = link.id.replace(/anchor$/, "");
-
         $(link).off("click.minzoom");
-
         if (zoom >= minzoom) {
           $(link).attr("title", I18n.t("javascripts.site." + name + "_tooltip"));
           $(link).removeClass("disabled");
@@ -75,8 +70,7 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat,objtype,obj
           $(link).attr("title", I18n.t("javascripts.site." + name + "_disabled_tooltip"));
           $(link).addClass("disabled");
         }
-      }
-    });
+    }
 
     link.href = setArgs(link.href, args);
   });
