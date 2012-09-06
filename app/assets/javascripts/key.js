@@ -8,12 +8,10 @@ $(document).ready(function () {
           mapZoom = map.getZoom();
 
       $(".mapkey-table-entry").each(function () {
-        var entryLayer = $(this).attr("data-layer"),
-            entryZoomMin = parseInt($(this).attr("data-zoom-min")),
-            entryZoomMax = parseInt($(this).attr("data-zoom-max"));
+        var data = $(this).data();
 
-        if (mapLayer == entryLayer &&
-            mapZoom >= entryZoomMin && mapZoom <= entryZoomMax) {
+        if (mapLayer == data.layer &&
+            mapZoom >= data.zoomMin && mapZoom <= data.zoomMax) {
           $(this).show();
         } else {
           $(this).hide();

@@ -49,7 +49,7 @@ $(document).ready(function () {
         preview.addClass("loading");
       });
 
-      preview.load(editor.attr("data-preview-url"), { text: editor.val() }, function () {
+      preview.load(editor.data("previewUrl"), { text: editor.val() }, function () {
         preview.stopTime("loading");
         preview.removeClass("loading");
       });
