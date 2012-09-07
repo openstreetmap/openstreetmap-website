@@ -55,12 +55,10 @@ function startExport(sidebarHtml) {
   formatChanged();
   setBounds(map.getExtent());
 
-  $("#viewanchor").removeClass("active");
-  $("#exportanchor").addClass("active");
+  $("body").removeClass("site-index").addClass("site-export");
 
   $("#sidebar").one("closed", function () {
-    $("#viewanchor").addClass("active");
-    $("#exportanchor").removeClass("active");
+    $("body").removeClass("site-export").addClass("site-index");
 
     clearBox();
     clearMarker();
