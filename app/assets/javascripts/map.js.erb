@@ -71,6 +71,10 @@ function createMap(divName, options) {
    });
    map.addLayer(markers);
 
+   $("#" + divName).on("resized", function () {
+     map.updateSize();
+   });
+
    return map;
 }
 
