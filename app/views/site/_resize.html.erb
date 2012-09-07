@@ -35,10 +35,7 @@
     <% end -%>
     $("#map").width(content_width - sidebar_width - left_border - right_border);
     $("#map").height(content_height - top_border - bottom_border);
-
-    <% if params[:controller] == "site" and params[:action] == "index" -%>
-    map.updateSize();
-    <% end -%>
+    $("#map").trigger("resized");
   }
 
   function handleResize() {
