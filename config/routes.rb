@@ -102,7 +102,7 @@ OpenStreetMap::Application.routes.draw do
   match '/copyright' => 'site#copyright', :via => :get
   match '/history' => 'changeset#list', :via => :get
   match '/history/feed' => 'changeset#feed', :via => :get, :format => :atom
-  match '/export' => 'site#export', :via => :get
+  match '/export' => 'site#index', :export => true, :via => :get
   match '/login' => 'user#login', :via => [:get, :post]
   match '/logout' => 'user#logout', :via => [:get, :post]
   match '/offline' => 'site#offline', :via => :get

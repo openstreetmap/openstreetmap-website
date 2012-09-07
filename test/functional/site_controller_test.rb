@@ -36,10 +36,10 @@ class SiteControllerTest < ActionController::TestCase
     )
     assert_routing(
       { :path => "/export", :method => :get },
-      { :controller => "site", :action => "export" }
+      { :controller => "site", :action => "index", :export => true }
     )
     assert_recognizes(
-      { :controller => "site", :action => "export", :format => "html" },
+      { :controller => "site", :action => "index", :export => true, :format => "html" },
       { :path => "/export.html", :method => :get }
     )
     assert_routing(
@@ -74,14 +74,6 @@ class SiteControllerTest < ActionController::TestCase
     get :edit
     # Should be redirected
     assert_redirected_to :controller => :user, :action => 'login', :referer => "/edit"
-  end
-  
-  # Get the export page
-  def test_export
-    get :export
-    assert_response :success
-    assert_template 'index'
-    assert_site_partials
   end
   
   # Offline page
