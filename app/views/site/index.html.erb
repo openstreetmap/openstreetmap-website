@@ -99,21 +99,15 @@
     });
 
     $("body").on("click", "a.set_position", function () {
-      var lat = parseFloat($(this).attr("data-lat"));
-      var lon = parseFloat($(this).attr("data-lon"));
-      var zoom = parseInt($(this).attr("data-zoom"));
-      var min_lon = parseFloat($(this).attr("data-min-lon"));
-      var min_lat = parseFloat($(this).attr("data-min-lat"));
-      var max_lon = parseFloat($(this).attr("data-max-lon"));
-      var max_lat = parseFloat($(this).attr("data-max-lat"));
-      var centre = new OpenLayers.LonLat(lon, lat);
+      var data = $(this).data();
+      var centre = new OpenLayers.LonLat(data.lon, data.lat);
 
-      if (min_lon && min_lat && max_lon && max_lat) {
-        var bbox = new OpenLayers.Bounds(min_lon, min_lat, max_lon, max_lat);
+      if (data.minLon && data.minLat && data.maxLon && data.maxLat) {
+        var bbox = new OpenLayers.Bounds(data.minLon, data.minLat, data.maxLon, data.maxLat);
 
         map.zoomToExtent(proj(bbox));
       } else {
-        setMapCenter(centre, zoom);
+        setMapCenter(centre, data.zoom);
       }
 
       if (marker) {

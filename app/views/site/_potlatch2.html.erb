@@ -72,12 +72,10 @@
 
   $(document).ready(function () {
     $("body").on("click", "a.set_position", function () {
-      var lat = parseFloat($(this).attr("data-lat"));
-      var lon = parseFloat($(this).attr("data-lon"));
-      var zoom = parseInt($(this).attr("data-zoom"));
+      var data = $(this).data();
 
       $("#potlatch").each(function () {
-        this.setPosition(lat, lon, Math.max(zoom || 15, 13));
+        this.setPosition(data.lat, data.lon, Math.max(data.zoom || 15, 13));
       });
     });
   });

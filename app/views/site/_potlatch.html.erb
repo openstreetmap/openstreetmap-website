@@ -51,11 +51,9 @@
 
   $(document).ready(function () {
     $("body").on("click", "a.set_position", function () {
-      var lat = parseFloat($(this).attr("data-lat"));
-      var lon = parseFloat($(this).attr("data-lon"));
-      var zoom = parseInt($(this).attr("data-zoom"));
+      var data = $(this).data();
 
-      doSWF(lat, lon, zoom || 15);
+      doSWF(data.lat, data.lon, data.zoom || 15);
     });
   });
 </script>
