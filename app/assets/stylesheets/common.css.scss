@@ -488,7 +488,14 @@ body.site-export #tabnav a#exportanchor {
   height: 29px;
   font-size: 14px;
   line-height: 15px;
-  background: #bbb;
+  background: #eee;
+}
+
+#sidebar h3 {
+  margin: 0px;
+  padding: 2px 5px;
+  border-bottom: 1px solid #ccc;
+  font-weight: bold;
 }
 
 /* Rules for the map key which appears in the popout sidebar */
@@ -555,15 +562,10 @@ body.site-export #tabnav a#exportanchor {
 
 /* Rules for export information which appears in the popout sidebar */
 
-.export_heading {
-  margin: 0px;
-  padding: 2px 5px;
-  border-bottom: 1px solid #ccc;
-  font-weight: bold;
-}
 
 .export_bounds {
   width: 100%;
+  display:none;
   text-align: center;
 }
 
@@ -571,30 +573,35 @@ body.site-export #tabnav a#exportanchor {
   margin: 5px;
 }
 
-.export_details {
-  padding: 2px 6px;
-}
-
-#export_osm {
-  display: none;
-}
-
-#export_mapnik {
-  display: none;
-}
-
-#export_osmarender {
-  display: none;
-}
-
-.export_hint {
-  padding: 0px 12px;
-  font-style: italic;
-}
-
 .export_buttons {
-  width: 100%;
-  text-align: center;
+    border-bottom:1px solid #ccc;
+    background:#eee;
+}
+.export_buttons div {
+    padding: 5px;
+    &.selected {
+        background: #cbeea7;
+    }
+}
+
+.export_details {
+    padding: 10px;
+}
+
+#export_html_text {
+    width:95%;
+}
+
+#export_options {
+    #mapnik, #html, #osm {
+        display:none;
+    }
+}
+
+#export_options.mapnik #mapnik,
+#export_options.html #html,
+#export_options.osm #osm {
+    display:block;
 }
 
 /* Rules for the main content area */
