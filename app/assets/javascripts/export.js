@@ -30,30 +30,19 @@ function startExport(sidebarHtml) {
   transform.events.register("transformcomplete", transform, transformComplete);
   map.addControl(transform);
 
-  map.events.register("moveend", map, mapMoved);
+  openSidebar();
+
   map.events.register("changebaselayer", map, htmlUrlChanged);
 
   $("#sidebar_title").html(I18n.t('export.start_rjs.export'));
   $("#sidebar_content").html(sidebarHtml);
-
   $("#maxlat,#minlon,#maxlon,#minlat").change(boundsChanged);
-
-  $("#drag_box").click(startDrag);
-
-  $("#add_marker").click(startMarker);
-
   $("#format_osm,#format_mapnik,#format_html").click(formatChanged);
-
+  $("#format_html").click();
+  $("#add_marker").click(startMarker);
   $("#mapnik_scale").change(mapnikSizeChanged);
 
-  openSidebar();
-
-  if (map.baseLayer.name == "Mapnik") {
-    $("#format_mapnik").prop("checked", true);
-  }
-
-  formatChanged();
-  setBounds(map.getExtent());
+  setBounds();
 
   $("body").removeClass("site-index").addClass("site-export");
 
@@ -62,14 +51,13 @@ function startExport(sidebarHtml) {
 
     clearBox();
     clearMarker();
-    map.events.unregister("moveend", map, mapMoved);
     map.events.unregister("changebaselayer", map, htmlUrlChanged);
     map.removeLayer(vectors);
   });
 
   function getMercatorBounds() {
     var bounds = new OpenLayers.Bounds($("#minlon").val(), $("#minlat").val(),
-                                       $("#maxlon").val(), $("#maxlat").val());
+        $("#maxlon").val(), $("#maxlat").val());
 
     return bounds.transform(epsg4326, epsg900913);
   }
@@ -77,7 +65,6 @@ function startExport(sidebarHtml) {
   function boundsChanged() {
     var bounds = getMercatorBounds();
 
-    map.events.unregister("moveend", map, mapMoved);
     map.zoomToExtent(bounds);
 
     clearBox();
@@ -87,23 +74,14 @@ function startExport(sidebarHtml) {
     mapnikSizeChanged();
   }
 
-  function startDrag() {
-    $("#drag_box").html(I18n.t('export.start_rjs.drag_a_box'));
-
-    clearBox();
-    box.activate();
-  };
-
   function endDrag(bbox) {
     var bounds = bbox.getBounds();
 
-    map.events.unregister("moveend", map, mapMoved);
+    clearBox();
     setBounds(bounds);
     drawBox(bounds);
     box.deactivate();
     validateControls();
-
-    $("#drag_box").html(I18n.t('export.start_rjs.manually_select'));
   }
 
   function transformComplete(event) {
@@ -166,33 +144,33 @@ function startExport(sidebarHtml) {
     }
   }
 
-  function mapMoved() {
-    setBounds(map.getExtent());
-    validateControls();
-  }
-
   function setBounds(bounds) {
     var toPrecision = zoomPrecision(map.getZoom());
 
-    bounds = bounds.clone().transform(map.getProjectionObject(), epsg4326);
+    if (!bounds) {
+        bounds = map.getExtent().clone().scale(0.8).transform(map.getProjectionObject(), epsg4326);
+    } else {
+        bounds = bounds.clone().transform(map.getProjectionObject(), epsg4326);
+    }
 
     $("#minlon").val(toPrecision(bounds.left));
     $("#minlat").val(toPrecision(bounds.bottom));
     $("#maxlon").val(toPrecision(bounds.right));
     $("#maxlat").val(toPrecision(bounds.top));
+    drawBox(proj(bounds));
 
     mapnikSizeChanged();
     htmlUrlChanged();
   }
 
   function clearBox() {
-    transform.deactivate();
     vectors.destroyFeatures();
   }
 
   function drawBox(bounds) {
     var feature = new OpenLayers.Feature.Vector(bounds.toGeometry());
-
+    transform.deactivate();
+    vectors.removeAllFeatures();
     vectors.addFeatures(feature);
     transform.setFeature(feature);
   }
@@ -248,7 +226,10 @@ function startExport(sidebarHtml) {
       escaped.push(c < 127 ? text.charAt(i) : "&#" + c + ";");
     }
 
-    html += '<br /><small><a href="http://' + OSM.SERVER_URL + '/?lat='+center.lat+'&amp;lon='+center.lon+'&amp;zoom='+zoom+'&amp;layers='+layers+markerUrl+'">'+escaped.join("")+'</a></small>';
+    html += '<br /><small><a href="http://' + OSM.SERVER_URL + '/?lat=' +
+        center.lat + '&amp;lon=' + center.lon + '&amp;zoom=' + zoom +
+        '&amp;layers=' + layers + markerUrl + '">' + escaped.join("") +
+        '</a></small>';
 
     $("#export_html_text").val(html);
 
@@ -258,32 +239,16 @@ function startExport(sidebarHtml) {
   }
 
   function formatChanged() {
-    $("#export_commit").show();
+    $('.export_details div').attr('class', '');
+    $(this).parent().attr('class', 'selected');
+    $('#export_options').attr('class', $("input[name=format]:checked").val());
 
-    if ($("#format_osm").prop("checked")) {
-      $("#export_osm").show();
-    } else {
-      $("#export_osm").hide();
-    }
+    // legacy
+    $("#mapnik_scale").val(roundScale(map.getScale()));
+    $("#export_mapnik").show();
 
-    if ($("#format_mapnik").prop("checked")) {
-      $("#mapnik_scale").val(roundScale(map.getScale()));
-      $("#export_mapnik").show();
-
-      mapnikSizeChanged();
-    } else {
-      $("#export_mapnik").hide();
-    }
-
-    if ($("#format_html").prop("checked")) {
-      $("#export_html").show();
-      $("#export_commit").hide();
-      $("#export_html_text").prop("selected", true);
-    } else {
-      $("#export_html").hide();
-
-      clearMarker();
-    }
+    mapnikSizeChanged();
+    clearMarker();
 
     validateControls();
   }
