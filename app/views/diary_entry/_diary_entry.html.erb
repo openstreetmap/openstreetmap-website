@@ -18,10 +18,11 @@
 <% end %>
 
 <%= if_user(diary_entry.user, :span) do %>
-  | <%= link_to t('diary_entry.diary_entry.edit_link'), :action => 'edit', :display_name => diary_entry.user.display_name, :id => diary_entry.id %>
+  <% if params[:action] == 'list' %>|<% end %>
+  <%= link_to t('diary_entry.diary_entry.edit_link'), :action => 'edit', :display_name => diary_entry.user.display_name, :id => diary_entry.id %>
 <% end %>
-
 <%= if_administrator(:span) do %>
-  | <%= link_to t('diary_entry.diary_entry.hide_link'), hide_diary_entry_path(:display_name => diary_entry.user.display_name, :id => diary_entry.id), :method => :post, :data => { :confirm => t('diary_entry.diary_entry.confirm') } %>
+  <br />
+  <%= link_to t('diary_entry.diary_entry.hide_link'), hide_diary_entry_path(:display_name => diary_entry.user.display_name, :id => diary_entry.id), :method => :post, :data => { :confirm => t('diary_entry.diary_entry.confirm') } %>
 <% end %>
 </div>
