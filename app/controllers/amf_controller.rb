@@ -133,7 +133,7 @@ class AmfController < ApplicationController
     amf_handle_error("'startchangeset'",nil,nil) do
       user = getuser(usertoken)
       if !user then return -1,"You are not logged in, so Potlatch can't write any changes to the database." end
-      unless user.active_blocks.empty? then return -1,t('application.setup_user_auth.blocked') end
+      if user.blocks.active.exists? then return -1,t('application.setup_user_auth.blocked') end
       if REQUIRE_TERMS_AGREED and user.terms_agreed.nil? then return -1,"You must accept the contributor terms before you can edit." end
 
       if cstags
@@ -459,7 +459,7 @@ class AmfController < ApplicationController
     amf_handle_error_with_timeout("'findgpx'" ,nil,nil) do
       user = getuser(usertoken)
       if !user then return -1,"You must be logged in to search for GPX traces." end
-      unless user.active_blocks.empty? then return -1,t('application.setup_user_auth.blocked') end
+      if user.blocks.active.exists? then return -1,t('application.setup_user_auth.blocked') end
 
       query = Trace.visible_to(user)
       if searchterm.to_i > 0 then
@@ -523,7 +523,7 @@ class AmfController < ApplicationController
     amf_handle_error("'putrelation' #{relid}" ,'relation',relid)  do
       user = getuser(usertoken)
       if !user then return -1,"You are not logged in, so the relation could not be saved." end
-      unless user.active_blocks.empty? then return -1,t('application.setup_user_auth.blocked') end
+      if user.blocks.active.exists? then return -1,t('application.setup_user_auth.blocked') end
       if REQUIRE_TERMS_AGREED and user.terms_agreed.nil? then return -1,"You must accept the contributor terms before you can edit." end
 
       if !tags_ok(tags) then return -1,"One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." end
@@ -613,7 +613,7 @@ class AmfController < ApplicationController
   
       user = getuser(usertoken)
       if !user then return -1,"You are not logged in, so the way could not be saved." end
-      unless user.active_blocks.empty? then return -1,t('application.setup_user_auth.blocked') end
+      if user.blocks.active.exists? then return -1,t('application.setup_user_auth.blocked') end
       if REQUIRE_TERMS_AGREED and user.terms_agreed.nil? then return -1,"You must accept the contributor terms before you can edit." end
 
       if pointlist.length < 2 then return -2,"Server error - way is only #{points.length} points long." end
@@ -722,7 +722,7 @@ class AmfController < ApplicationController
     amf_handle_error("'putpoi' #{id}", 'node',id) do
       user = getuser(usertoken)
       if !user then return -1,"You are not logged in, so the point could not be saved." end
-      unless user.active_blocks.empty? then return -1,t('application.setup_user_auth.blocked') end
+      if user.blocks.active.exists? then return -1,t('application.setup_user_auth.blocked') end
       if REQUIRE_TERMS_AGREED and user.terms_agreed.nil? then return -1,"You must accept the contributor terms before you can edit." end
 
       if !tags_ok(tags) then return -1,"One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." end
@@ -807,7 +807,7 @@ class AmfController < ApplicationController
     amf_handle_error("'deleteway' #{way_id}" ,'way', way_id) do
       user = getuser(usertoken)
       unless user then return -1,"You are not logged in, so the way could not be deleted." end
-      unless user.active_blocks.empty? then return -1,t('application.setup_user_auth.blocked') end
+      if user.blocks.active.exists? then return -1,t('application.setup_user_auth.blocked') end
       if REQUIRE_TERMS_AGREED and user.terms_agreed.nil? then return -1,"You must accept the contributor terms before you can edit." end
       
       way_id = way_id.to_i

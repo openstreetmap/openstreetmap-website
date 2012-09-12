@@ -397,47 +397,55 @@ class UserController < ApplicationController
   end
 
   def make_friend
-    if params[:display_name]
-      name = params[:display_name]
-      new_friend = User.active.where(:display_name => name).first
-      friend = Friend.new
-      friend.user_id = @user.id
-      friend.friend_user_id = new_friend.id
-      unless @user.is_friends_with?(new_friend)
-        if friend.save
-          flash[:notice] = t 'user.make_friend.success', :name => name
-          Notifier.friend_notification(friend).deliver
-        else
-          friend.add_error(t('user.make_friend.failed', :name => name))
-        end
-      else
-        flash[:warning] = t 'user.make_friend.already_a_friend', :name => name
-      end
+    @new_friend = User.find_by_display_name(params[:display_name])
 
-      if params[:referer]
-        redirect_to params[:referer]
-      else
-        redirect_to :controller => 'user', :action => 'view'
+    if @new_friend
+      if request.post?
+        friend = Friend.new
+        friend.user_id = @user.id
+        friend.friend_user_id = @new_friend.id
+        unless @user.is_friends_with?(@new_friend)
+          if friend.save
+            flash[:notice] = t 'user.make_friend.success', :name => @new_friend.display_name
+            Notifier.friend_notification(friend).deliver
+          else
+            friend.add_error(t('user.make_friend.failed', :name => @new_friend.display_name))
+          end
+        else
+          flash[:warning] = t 'user.make_friend.already_a_friend', :name => @new_friend.display_name
+        end
+
+        if params[:referer]
+          redirect_to params[:referer]
+        else
+          redirect_to :controller => 'user', :action => 'view'
+        end
       end
+    else
+      render_unknown_user params[:display_name]
     end
   end
 
   def remove_friend
-    if params[:display_name]
-      name = params[:display_name]
-      friend = User.active.where(:display_name => name).first
-      if @user.is_friends_with?(friend)
-        Friend.delete_all "user_id = #{@user.id} AND friend_user_id = #{friend.id}"
-        flash[:notice] = t 'user.remove_friend.success', :name => friend.display_name
-      else
-        flash[:error] = t 'user.remove_friend.not_a_friend', :name => friend.display_name
-      end
+    @friend = User.find_by_display_name(params[:display_name])
 
-      if params[:referer]
-        redirect_to params[:referer]
-      else
-        redirect_to :controller => 'user', :action => 'view'
+    if @friend
+      if request.post?
+        if @user.is_friends_with?(@friend)
+          Friend.delete_all "user_id = #{@user.id} AND friend_user_id = #{@friend.id}"
+          flash[:notice] = t 'user.remove_friend.success', :name => @friend.display_name
+        else
+          flash[:error] = t 'user.remove_friend.not_a_friend', :name => @friend.display_name
+        end
+
+        if params[:referer]
+          redirect_to params[:referer]
+        else
+          redirect_to :controller => 'user', :action => 'view'
+        end
       end
+    else
+      render_unknown_user params[:display_name]
     end
   end
 

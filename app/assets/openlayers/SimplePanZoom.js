@@ -135,6 +135,7 @@ OpenLayers.Control.SimplePanZoom = OpenLayers.Class(OpenLayers.Control.PanZoom, 
             this._removeZoomBar();
         }  
         this.draw();
+        this.moveZoomBar();
     },
     
     /**

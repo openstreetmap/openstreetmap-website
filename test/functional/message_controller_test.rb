@@ -101,32 +101,33 @@ class MessageControllerTest < ActionController::TestCase
   # test the reply action
   def test_reply
     # Check that the message reply page requires us to login
-    get :reply, :message_id => messages(:read_message).id
-    assert_redirected_to login_path(:referer => reply_message_path(:message_id => messages(:read_message).id))
+    get :reply, :message_id => messages(:unread_message).id
+    assert_redirected_to login_path(:referer => reply_message_path(:message_id => messages(:unread_message).id))
 
     # Login as the wrong user
     session[:user] = users(:second_public_user).id
     cookies["_osm_username"] = users(:second_public_user).display_name
 
     # Check that we can't reply to somebody else's message
-    get :reply, :message_id => messages(:read_message).id
-    assert_redirected_to login_path(:referer => reply_message_path(:message_id => messages(:read_message).id))
+    get :reply, :message_id => messages(:unread_message).id
+    assert_redirected_to login_path(:referer => reply_message_path(:message_id => messages(:unread_message).id))
     assert_equal "You are logged in as `pulibc_test2' but the message you have asked to reply to was not sent to that user. Please login as the correct user in order to reply.", flash[:notice]
 
     # Login as the right user
-    session[:user] = users(:normal_user).id
-    cookies["_osm_username"] = users(:normal_user).display_name
+    session[:user] = users(:public_user).id
+    cookies["_osm_username"] = users(:public_user).display_name
 
     # Check that the message reply page loads
-    get :reply, :message_id => messages(:read_message).id
+    get :reply, :message_id => messages(:unread_message).id
     assert_response :success
     assert_template "new"
-    assert_select "title", "OpenStreetMap | Re: test message 2"
-    assert_select "form[action='#{new_message_path(:display_name => users(:public_user).display_name)}']", :count => 1 do
-      assert_select "input#message_title[value='Re: test message 2']", :count => 1
+    assert_select "title", "OpenStreetMap | Re: test message 1"
+    assert_select "form[action='#{new_message_path(:display_name => users(:normal_user).display_name)}']", :count => 1 do
+      assert_select "input#message_title[value='Re: test message 1']", :count => 1
       assert_select "textarea#message_body", :count => 1
       assert_select "input[type='submit'][value='Send']", :count => 1
     end
+    assert_equal true, Message.find(messages(:unread_message).id).message_read
 
     # Asking to reply to a message with no ID should fail
     assert_raise ActionController::RoutingError do

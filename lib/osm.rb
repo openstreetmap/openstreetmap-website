@@ -460,6 +460,9 @@ module OSM
       root = XML::Node.new 'osm'
       root['version'] = API_VERSION.to_s
       root['generator'] = GENERATOR
+      root['copyright'] = COPYRIGHT_OWNER
+      root['attribution'] = ATTRIBUTION_URL
+      root['license'] =  LICENSE_URL
       doc.root = root
       return doc
     end

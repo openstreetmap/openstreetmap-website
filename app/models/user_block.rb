@@ -10,6 +10,12 @@ class UserBlock < ActiveRecord::Base
   PERIODS = USER_BLOCK_PERIODS
 
   ##
+  # scope to match active blocks
+  def self.active
+    self.where("needs_view or ends_at > ?", Time.now.getutc)
+  end
+
+  ##
   # return a renderable version of the reason text.
   def reason
     RichText.new(read_attribute(:reason_format), read_attribute(:reason))

@@ -190,7 +190,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
       end
       assert_select "body", :count => 1 do
         assert_select "div#content", :count => 1 do
-          assert_select "h2", :text => /#{entry.user.display_name}'s diary/, :count => 1
+          assert_select "h2", :text => /#{entry.user.display_name}&#x27;s diary/, :count => 1
           assert_select "b", :text => /#{new_title}/, :count => 1
           # This next line won't work if the text has been run through the htmlize function
           # due to formatting that could be introduced
@@ -215,7 +215,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
       end
       assert_select "body", :count => 1 do
         assert_select "div#content", :count => 1 do
-          assert_select "h2", :text => /#{users(:normal_user).display_name}'s diary/, :count => 1
+          assert_select "h2", :text => /#{users(:normal_user).display_name}&#x27;s diary/, :count => 1
           assert_select "b", :text => /#{new_title}/, :count => 1
           # This next line won't work if the text has been run through the htmlize function
           # due to formatting that could be introduced

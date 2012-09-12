@@ -102,11 +102,11 @@ OpenStreetMap::Application.routes.draw do
   match '/copyright' => 'site#copyright', :via => :get
   match '/history' => 'changeset#list', :via => :get
   match '/history/feed' => 'changeset#feed', :via => :get, :format => :atom
-  match '/export' => 'site#export', :via => :get
+  match '/export' => 'site#index', :export => true, :via => :get
   match '/login' => 'user#login', :via => [:get, :post]
   match '/logout' => 'user#logout', :via => [:get, :post]
   match '/offline' => 'site#offline', :via => :get
-  match '/key' => 'site#key', :via => :post
+  match '/key' => 'site#key', :via => :get
   match '/user/new' => 'user#new', :via => :get
   match '/user/terms' => 'user#terms', :via => [:get, :post]
   match '/user/save' => 'user#save', :via => :post
@@ -174,8 +174,8 @@ OpenStreetMap::Application.routes.draw do
 
   # user pages
   match '/user/:display_name' => 'user#view', :via => :get, :as => "user"
-  match '/user/:display_name/make_friend' => 'user#make_friend', :via => :get
-  match '/user/:display_name/remove_friend' => 'user#remove_friend', :via => :get
+  match '/user/:display_name/make_friend' => 'user#make_friend', :via => [:get, :post], :as => "make_friend"
+  match '/user/:display_name/remove_friend' => 'user#remove_friend', :via => [:get, :post], :as => "remove_friend"
   match '/user/:display_name/account' => 'user#account', :via => [:get, :post]
   match '/user/:display_name/set_status' => 'user#set_status', :via => :get, :as => :set_status_user
   match '/user/:display_name/delete' => 'user#delete', :via => :get, :as => :delete_user

@@ -37,6 +37,7 @@ class DiaryEntryController < ApplicationController
       default_lang = @user.preferences.where(:k => "diary.default_language").first
       lang_code = default_lang ? default_lang.v : @user.preferred_language
       @diary_entry = DiaryEntry.new(:language_code => lang_code)
+      set_map_location
       render :action => 'edit'
     end
   end
@@ -47,11 +48,11 @@ class DiaryEntryController < ApplicationController
 
     if @user != @diary_entry.user
       redirect_to :controller => 'diary_entry', :action => 'view', :id => params[:id]
-    elsif params[:diary_entry]
-      if @diary_entry.update_attributes(params[:diary_entry])
-        redirect_to :controller => 'diary_entry', :action => 'view', :id => params[:id]
-      end
+    elsif params[:diary_entry] and @diary_entry.update_attributes(params[:diary_entry])
+      redirect_to :controller => 'diary_entry', :action => 'view', :id => params[:id]
     end
+
+    set_map_location
   rescue ActiveRecord::RecordNotFound
     render :action => "no_such_entry", :status => :not_found
   end
@@ -211,5 +212,23 @@ private
   # is this list user specific?
   def user_specific_list?
     params[:friends] or params[:nearby]
+  end
+
+  ##
+  # decide on a location for the diary entry map
+  def set_map_location
+    if @diary_entry.latitude and @diary_entry.longitude
+      @lon = @diary_entry.longitude
+      @lat = @diary_entry.latitude
+      @zoom = 12
+    elsif @user.home_lat.nil? or @user.home_lon.nil?
+      @lon = params[:lon] || -0.1
+      @lat = params[:lat] || 51.5
+      @zoom = params[:zoom] || 4
+    else
+      @lon = @user.home_lon
+      @lat = @user.home_lat
+      @zoom = 12
+    end
   end
 end

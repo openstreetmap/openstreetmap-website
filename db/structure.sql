@@ -1004,7 +1004,9 @@ CREATE TABLE users (
     terms_seen boolean DEFAULT false NOT NULL,
     openid_url character varying(255),
     description_format format_enum DEFAULT 'html'::format_enum NOT NULL,
-    image_fingerprint character varying(255)
+    image_fingerprint character varying(255),
+    changesets_count integer DEFAULT 0 NOT NULL,
+    traces_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -2262,6 +2264,8 @@ INSERT INTO schema_migrations (version) VALUES ('20120318201948');
 INSERT INTO schema_migrations (version) VALUES ('20120328090602');
 
 INSERT INTO schema_migrations (version) VALUES ('20120404205604');
+
+INSERT INTO schema_migrations (version) VALUES ('20120808231205');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 
