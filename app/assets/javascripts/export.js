@@ -239,7 +239,7 @@ function startExport(sidebarHtml) {
   }
 
   function formatChanged() {
-    $('.export_details div').attr('class', '');
+    $('.export_buttons div').attr('class', '');
     $(this).parent().attr('class', 'selected');
     $('#export_options').attr('class', $("input[name=format]:checked").val());
 
