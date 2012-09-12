@@ -198,6 +198,7 @@ class User < ActiveRecord::Base
     self.image = nil
     self.email_valid = false
     self.new_email = nil
+    self.openid_url = nil
     self.status = "deleted"
     self.save
   end

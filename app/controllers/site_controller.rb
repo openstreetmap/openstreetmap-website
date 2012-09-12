@@ -6,10 +6,6 @@ class SiteController < ApplicationController
   before_filter :set_locale
   before_filter :require_user, :only => [:edit]
 
-  def export
-    render :action => 'index'
-  end
-
   def permalink
     lon, lat, zoom = ShortLink::decode(params[:code])
     new_params = params.clone
