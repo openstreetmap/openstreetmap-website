@@ -311,6 +311,7 @@ ko:
       confirm: 확인
       edit_link: 이 항목 수정
       hide_link: 이 항목 숨기기
+      posted_by: "%{link_user} 사용자가 %{language_link}에서 %{created}에 게시함"
       reply_link: 이 항목에 답변하기
     edit: 
       body: "내용:"
@@ -388,7 +389,7 @@ ko:
       manually_select: 다른 지역 선택
       map_image: 지도 그림 (표준 레이어 보이기)
       max: 최대
-      options: 선택사항
+      options: 설정
       osm_xml_data: OpenStreetMap XML 데이터
       output: 출력
       paste_html: HTML을 붙여 넣어 웹사이트에 포함시키기
@@ -407,10 +408,16 @@ ko:
       view_larger_map: 큰 지도 보기
   geocoder: 
     description: 
+      title: 
+        geonames: <a href="http://www.geonames.org/">GeoNames</a>에서 위치
+        osm_namefinder: <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>에서 %{types}
+        osm_nominatim: <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>에서 위치
       types: 
         cities: 도시
         places: 장소
         towns: 마을
+    description_osm_namefinder: 
+      prefix: "%{type}의 %{distance} %{direction}"
     direction: 
       east: 동
       north: 북
@@ -454,6 +461,7 @@ ko:
           bench: 벤치
           bicycle_parking: 자전거 주차
           bicycle_rental: 자전거 대여
+          biergarten: 비어 가든
           bus_station: 버스 정류장
           cafe: 카페
           car_wash: 세차장
@@ -512,6 +520,7 @@ ko:
           school: 학교
           shelter: 쉼터
           shop: 상점
+          shopping: 상점
           shower: 샤워
           social_club: 사교 클럽
           studio: 스튜디오
@@ -539,6 +548,7 @@ ko:
           "yes": 건물
         highway: 
           bus_stop: 버스 정류장
+          emergency_access_point: 긴급 접근 지점
         historic: 
           building: 건물
           church: 교회
@@ -583,6 +593,7 @@ ko:
           glacier: 빙하
           hill: 언덕
           island: 섬
+          point: 지점
           river: 강
           spring: 온천
           strait: 해협
@@ -613,18 +624,21 @@ ko:
           town: 탑
           village: 마을
         railway: 
+          halt: 기차 정지
           light_rail: 경전철
           monorail: 모노레일
           narrow_gauge: 협궤 철도
           station: 철도역
           subway: 지하철역
           subway_entrance: 지하철 입구
+          switch: 철도 분기
         shop: 
           antiques: 골동품 상점
           bakery: 제과점
           bicycle: 자전거 상점
           books: 서점
           butcher: 정육점
+          car: 자동차 상점
           car_parts: 자동차 부품 상점
           car_repair: 자동차 정비소
           clothes: 의류 상점
@@ -634,6 +648,10 @@ ko:
           cosmetics: 화장품 상점
           department_store: 백화점
           dry_cleaning: 드라이 클리닝
+          electronics: 전자 제품 상점
+          farm: 농장 가게
+          fish: 생선 가게
+          food: 음식 가게
           furniture: 가구
           gallery: 갤러리
           general: 일반 상점
@@ -642,28 +660,37 @@ ko:
           insurance: 보험
           jewelry: 보석 가게
           laundry: 세탁소
+          mall: 몰
           market: 시장
           mobile_phone: 휴대 전화 상점
           music: 음악 상점
           optician: 안경점
           organic: 유기농 식품 상점
+          outdoor: 아웃도어 상점
+          pet: 애완 가게
+          photo: 사진관
           shoes: 신발 가게
           sports: 스포츠 상점
           supermarket: 수퍼마켓
           toys: 장난감 가게
+          video: 비디오 가게
         tourism: 
+          bed_and_breakfast: 민박(잠자기와 아침 식사)
           guest_house: 게스트 하우스
           hostel: 호스텔
           hotel: 호텔
           information: 안내소
           motel: 모텔
           museum: 박물관
+          theme_park: 테마 파크
+          viewpoint: 관점
           zoo: 동물원
         tunnel: 
           "yes": 터널
         waterway: 
           dam: 댐
           river: 강
+          water_point: 급수소
           waterfall: 폭포
   javascripts: 
     map: 
@@ -672,8 +699,12 @@ ko:
         standard: 표준
         transport_map: 교통 지도
     site: 
+      edit_disabled_tooltip: 지도를 편집하려면 확대
       edit_tooltip: 지도 편집
+      edit_zoom_alert: 지도를 편집하려면 확대해야 합니다.
+      history_disabled_tooltip: 이 지역에 대한 편집을 보려면 확대
       history_tooltip: 이 지역에 대한 편집 보기
+      history_zoom_alert: 이 지역에 대한 편집을 보려면 확대하야 합니다
   layouts: 
     community: 커뮤니티
     community_blogs: 커뮤니티 블로그
@@ -697,6 +728,7 @@ ko:
     history: 역사
     home: 집
     home_tooltip: 집 위치로 가기
+    inbox_html: 받은 쪽지 %{count}개
     inbox_tooltip: 
       one: 읽지 않은 쪽지 한 개가 있습니다.
       other: 읽지 않은 쪽지 %{count}개가 있습니다.
@@ -707,8 +739,6 @@ ko:
     intro_2_html: 데이터는 %{license} 하에 무료로 %{download}와 %{use}합니다. 지도를 개선하려면 %{create_account}.
     intro_2_license: 오픈 라이선스
     intro_2_use: 이용
-    license: 
-      alt: CC BY-SA 2.0
     log_in: 로그인
     log_in_tooltip: 기존 계정으로 로그인
     logo: 
@@ -741,6 +771,8 @@ ko:
     foreign: 
       english_link: 영어 원본
       title: 이 번역에 대한 정보
+    legal_babble: 
+      title_html: 저작권 및 라이선스
     native: 
       mapping_link: 매핑 시작
       native_link: THIS_LANGUAGE_NAME_HERE 버전
@@ -781,6 +813,7 @@ ko:
       subject: 제목
       title: 새 쪽지
     no_such_message: 
+      body: 죄송합니다 해당 id로 된 메시지가 없습니다.
       heading: 메시지가 없습니다.
       title: 메시지가 없습니다.
     outbox: 
@@ -830,10 +863,11 @@ ko:
       and_no_tags: 태그가 없습니다.
       and_the_tags: "다음 태그가 있습니다:"
       failure: 
+        failed_to_import: "가져오기에 실패했습니다. 오류는 다음과 같습니다:"
         subject: "[OpenStreetMap] GPX 가져오기 실패"
       greeting: 안녕하세요,
       success: 
-        loaded_successfully: 가능한 %{possible_points} 포인트 중 %{trace_points} 포인트를 성공적으로 불러왔습니다.
+        loaded_successfully: 가능한 %{possible_points} 지점 중 %{trace_points} 지점을 성공적으로 불러왔습니다.
         subject: "[OpenStreetMap] GPX 가져오기 성공"
       with_description: 설명과 함께
       your_gpx_file: GPX 파일 같아 보이고
@@ -853,18 +887,24 @@ ko:
     signup_confirm_html: 
       greeting: 안녕하세요!
       more_videos: "%{more_videos_link}이 있습니다."
-      more_videos_here: 여기에 더 많은 동영상
+      more_videos_here: 여기에 더 많은 동영상이 있습니다
       video_to_openstreetmap: OpenStreetMap 소개 동영상
     signup_confirm_plain: 
       blog_and_twitter: "OpenStreetMap 블로그 또는 트위터를 통해 최신 뉴스 보기:"
       greeting: 안녕하세요!
+      more_videos: "여기에 더 많은 동영상이 있습니다:"
       the_wiki: "위키에서 OpenStreetMap에 대하여 읽기:"
   oauth: 
     oauthorize: 
+      allow_read_gpx: 사용자가 비공개 GPS 추적을 읽습니다.
+      allow_write_api: 사용자가 지도를 수정합니다.
       allow_write_gpx: 사용자가 GPS 추적을 올립니다.
+    revoke: 
+      flash: "%{application}에 대한 토큰을 철회했습니다"
   oauth_clients: 
     edit: 
       submit: 편집
+      title: 어플리케이션 편집
     form: 
       allow_write_api: 사용자가 지도를 수정합니다.
       allow_write_gpx: 사용자가 GPS 추적을 올립니다.
@@ -876,23 +916,31 @@ ko:
     index: 
       application: 어플리케이션 이름
       register_new: 어플리케이션 등록
+      revoke: 철회!
+    new: 
+      submit: 등록
     show: 
+      allow_read_gpx: 사용자가 비공개 GPS 추적을 읽습니다.
       allow_write_api: 사용자가 지도를 수정합니다.
       allow_write_gpx: 사용자가 GPS 추적을 올립니다.
       confirm: 확실합니까?
   redaction: 
+    edit: 
+      description: 설명
+    new: 
+      description: 설명
     show: 
       confirm: 확실합니까?
+      description: "설명:"
+      user: "만든이:"
+    update: 
+      flash: 바뀜을 저장했습니다.
   site: 
     edit: 
-      potlatch_unsaved_changes: 바뀜 사항을 저장하지 않았습니다. (Potlatch에 저장하려면 라이브 모드에서 편집하는 경우, 현재의 방식이나 포인트를 선택을 해제하거나 저장 버튼이 있다면 저장을 클릭해야 합니다.)
+      potlatch_unsaved_changes: 바뀜 사항을 저장하지 않았습니다. (Potlatch에 저장하려면 라이브 모드에서 편집하는 경우, 현재의 방식이나 지점을 선택을 해제하거나 저장 버튼이 있다면 저장을 클릭해야 합니다.)
       user_page_link: 사용자 문서
     index: 
       js_1: 자바스크립트를 지원하지 않는 브라우저이거나, 자바스크립트가 활성화 되어 있지 않습니다.
-      license: 
-        license_name: 크리에이티브 커먼즈 저작자표시-동일조건변경허락 2.0
-        notice: "%{project_name}와 기여자에 의해 %{license_name} 라이선스하에 라이선스합니다."
-        project_name: OpenStreetMap 프로젝트
       permalink: 고유링크
       shortlink: 짧은링크
     key: 
@@ -923,6 +971,18 @@ ko:
             - 제출
           wood: 산림
     markdown_help: 
+      alt: 대체 텍스트
+      first: 첫째 항목
+      heading: 문단 제목
+      headings: 문단 제목
+      image: 그림
+      link: 링크
+      ordered: 순서 있는 목록
+      second: 둘째 항목
+      subheading: 하위 문단 제목
+      text: 텍스트
+      title_html: <a href="http://daringfireball.net/projects/markdown/">Markdown</a>으로 파서함
+      unordered: 순서 없는 목록
       url: URL
     richtext_area: 
       edit: 편집
@@ -947,12 +1007,13 @@ ko:
       download: 다운로드
       edit: 편집
       filename: "파일 이름:"
-      heading: 경로 편집 %{name}
+      heading: "%{name} 경로 편집"
       map: 지도
       owner: "소유자:"
+      points: "지점:"
       save_button: 바뀐 사항 저장
       tags: "태그:"
-      title: 경로 편집 %{name}
+      title: "%{name} 경로 편집"
       uploaded_at: "올려짐:"
       visibility_help: 이게 무슨 의미입니까?
     list: 
@@ -964,9 +1025,9 @@ ko:
     offline: 
       heading: GPX 저장소 오프라인
     trace: 
-      ago: "% {time_in_words_ago} 전"
+      ago: "%{time_in_words_ago} 전"
       by: 사용자
-      count_points: "% {count} 포인트"
+      count_points: "%{count} 지점"
       edit: 편집
       edit_map: 지도 편집
       in: 위치
@@ -979,13 +1040,18 @@ ko:
       help: 도움말
       tags: "태그:"
       upload_button: 올리기
-      upload_gpx: "GPX 파일 업로드:"
+      upload_gpx: "GPX 파일 올리기:"
+      visibility_help: 이게 무슨 의미입니까?
     trace_header: 
       see_all_traces: 모든 추적 보기
       see_your_traces: 내 추적 보기
       upload_trace: 추적 올리기
     trace_optionals: 
       tags: 태그
+    trace_paging_nav: 
+      newer: 다음 추적
+      older: 이전 추적
+      showing_page: 페이지 %{page}개 보임
     view: 
       delete_track: 이 추적 삭제
       description: "설명:"
@@ -993,27 +1059,39 @@ ko:
       edit: 편집
       edit_track: 이 추적 편집
       filename: "파일 이름:"
+      heading: "%{name} 경로 보기"
       map: 지도
       none: 없음
       owner: "소유자:"
       pending: 보류 중
-      points: "포인트:"
+      points: "지점:"
       tags: "태그:"
+      title: "%{name} 경로 보기"
       trace_not_found: 추적을 찾을 수 없습니다!
       uploaded: "올려짐:"
+    visibility: 
+      identifiable: 식별 가능 (식별 가능한 추적 목록 보임, 시간 기록으로 정렬한 지점)
+      private: 비공개 (익명으로만 공유, 정렬하지 않은 지점)
+      public: 공개 (익명으로 추적 목록 보임, 정렬하지 않은 지점)
+      trackable: 추적 가능 (익명으로만 공유, 시간 기록으로 정렬한 지점)
   user: 
     account: 
       contributor terms: 
+        heading: "기여자 약관:"
         link text: 이게 뭐죠?
       current email address: "현재 이메일 주소:"
       delete image: 현재 이미지 제거
+      email never displayed publicly: (절대 공개하지 않습니다)
+      home location: "대문 위치:"
       image: "그림:"
       keep image: 현재 이미지를 유지
       latitude: "위도:"
       longitude: "경도:"
+      make edits public button: 내 편집을 공개하기
       my settings: 내 설정
       new email address: "새 이메일 주소:"
       new image: 그림 추가
+      no home location: 대문 위치를 입력하지 않았습니다.
       openid: 
         link text: 이게 뭐죠?
         openid: "OpenID:"
@@ -1032,6 +1110,7 @@ ko:
       return to profile: 프로필로 돌아가기
       save changes button: 바뀐 사항 저장
       title: 계정 편집
+      update home location on click: 지도에서 클릭하면 대문 위지로 업데이트할까요?
     confirm: 
       button: 확인
       heading: 사용자 계정 확인
@@ -1158,11 +1237,16 @@ ko:
       nearby_diaries: 인근 사용자의 모든 일지 항목 찾아보기
       new diary entry: 새 일지 항목
       remove as friend: 친구 제거
+      role: 
+        revoke: 
+          administrator: 관리자 접근 철회
+          moderator: 운영자 접근 철회
       send message: 메시지 보내기
       settings_link_text: 설정
       spam score: "스팸 점수:"
       status: "상태:"
       traces: 발자취
+      unhide_user: 이 사용자를 숨기기 취소
       your friends: 내 친구
   user_block: 
     blocks_by: 
@@ -1181,18 +1265,38 @@ ko:
       submit: 차단 만들기
     partial: 
       confirm: 확실합니까?
+      creator_name: 만든이
       display_name: 차단된 사용자
       edit: 편집
       next: 다음 »
+      not_revoked: (철회하지 않음)
       previous: « 이전
+      reason: 차단 이유
+      revoke: 철회!
+      revoker_name: 철회자
       show: 보기
       showing_page: 페이지 %{page}개 보임
+      status: 상태
     period: 
       one: 1시간
       other: "%{count}시간"
+    revoke: 
+      confirm: 이 차단을 철회하겠습니까?
+      flash: 이 차단을 철회했습니다.
+      heading: "%{block_by}에 의해 %{block_on}에 차단 철회함"
+      past: 이 차단은 %{time} 전에 끝났고 지금 철회할 수 없습니다.
+      revoke: 철회!
+      title: "%{block_on}에 차단 철회함"
     show: 
+      back: 모든 차단 보기
       confirm: 확실합니까?
       edit: 편집
+      needs_view: 차단 해제하기 전에 다시 로그인해야합니다.
+      reason: "차단 이유:"
+      revoke: 철회!
+      revoker: "철회:"
+      show: 보기
+      status: 상태
     update: 
       success: 차단이 업데이트되었습니다.
   user_role: 
@@ -1200,3 +1304,5 @@ ko:
       confirm: 확인
     revoke: 
       confirm: 확인
+      heading: 역할 철회 확인
+      title: 역할 철회 확인
