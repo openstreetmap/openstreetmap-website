@@ -2,6 +2,7 @@
 //= require jquery_ujs
 //= require jquery.autogrowtextarea
 //= require jquery.timers
+//= require jquery.cookie
 //= require augment
 //= require openlayers
 //= require i18n/translations
