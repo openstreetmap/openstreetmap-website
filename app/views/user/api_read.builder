@@ -12,6 +12,21 @@ xml.osm("version" => API_VERSION, "generator" => GENERATOR) do
     if @this_user.image.file?
       xml.tag! "img", :href => "http://#{SERVER_URL}#{@this_user.image.url}"
     end
+    xml.tag! "roles" do
+      @this_user.roles.each do |role|
+        xml.tag! role.role
+      end
+    end
+    xml.tag! "changesets", :count => @this_user.changesets.size
+    xml.tag! "traces", :count => @this_user.traces.size
+    xml.tag! "blocks" do
+      xml.tag! "received", :count => @this_user.blocks.size,
+                           :active => @this_user.blocks.active.size
+      if @this_user.moderator?
+        xml.tag! "issued", :count => @this_user.blocks_created.size,
+                           :active => @this_user.blocks_created.active.size
+      end
+    end
     if @user && @user == @this_user
       if @this_user.home_lat and @this_user.home_lon
         xml.tag! "home", :lat => @this_user.home_lat,
