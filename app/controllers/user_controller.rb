@@ -1,20 +1,22 @@
 class UserController < ApplicationController
   layout :choose_layout
 
-  skip_before_filter :verify_authenticity_token, :only => [:api_details, :api_gpx_files]
+  skip_before_filter :verify_authenticity_token, :only => [:api_read, :api_details, :api_gpx_files]
   before_filter :disable_terms_redirect, :only => [:terms, :save, :logout, :api_details]
   before_filter :authorize, :only => [:api_details, :api_gpx_files]
-  before_filter :authorize_web, :except => [:api_details, :api_gpx_files]
-  before_filter :set_locale, :except => [:api_details, :api_gpx_files]
+  before_filter :authorize_web, :except => [:api_read, :api_details, :api_gpx_files]
+  before_filter :set_locale, :except => [:api_read, :api_details, :api_gpx_files]
   before_filter :require_user, :only => [:account, :go_public, :make_friend, :remove_friend]
-  before_filter :check_database_readable, :except => [:login, :api_details, :api_gpx_files]
+  before_filter :check_database_readable, :except => [:login, :api_read, :api_details, :api_gpx_files]
   before_filter :check_database_writable, :only => [:new, :account, :confirm, :confirm_email, :lost_password, :reset_password, :go_public, :make_friend, :remove_friend]
-  before_filter :check_api_readable, :only => [:api_details, :api_gpx_files]
+  before_filter :check_api_readable, :only => [:api_read, :api_details, :api_gpx_files]
   before_filter :require_allow_read_prefs, :only => [:api_details]
   before_filter :require_allow_read_gpx, :only => [:api_gpx_files]
   before_filter :require_cookies, :only => [:login, :confirm]
   before_filter :require_administrator, :only => [:set_status, :delete, :list]
-  before_filter :lookup_this_user, :only => [:set_status, :delete]
+  around_filter :api_call_handle_error, :only => [:api_read, :api_details, :api_gpx_files]
+  before_filter :lookup_user_by_id, :only => [:api_read]
+  before_filter :lookup_user_by_name, :only => [:set_status, :delete]
 
   cache_sweeper :user_sweeper, :only => [:account, :set_status, :delete]
 
@@ -373,6 +375,15 @@ class UserController < ApplicationController
     end
   end
 
+  def api_read
+    render :nothing => true, :status => :gone unless @this_user.visible?
+  end
+
+  def api_details
+    @this_user = @user
+    render :action => :api_read
+  end
+
   def api_gpx_files
     doc = OSM::API.new.get_xml_doc
     @user.traces.each do |trace|
@@ -714,7 +725,13 @@ private
 
   ##
   # ensure that there is a "this_user" instance variable
-  def lookup_this_user
+  def lookup_user_by_id
+    @this_user = User.find(params[:id])
+  end
+
+  ##
+  # ensure that there is a "this_user" instance variable
+  def lookup_user_by_name
     @this_user = User.find_by_display_name(params[:display_name])
   rescue ActiveRecord::RecordNotFound
     redirect_to :controller => 'user', :action => 'view', :display_name => params[:display_name] unless @this_user

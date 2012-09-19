@@ -7,6 +7,10 @@ class UserControllerTest < ActionController::TestCase
   # test all routes which lead to this controller
   def test_routes
     assert_routing(
+      { :path => "/api/0.6/user/1", :method => :get },
+      { :controller => "user", :action => "api_read", :id => "1" }
+    )
+    assert_routing(
       { :path => "/api/0.6/user/details", :method => :get },
       { :controller => "user", :action => "api_details" }
     )
@@ -520,7 +524,29 @@ class UserControllerTest < ActionController::TestCase
       assert_select "a[href=/blocks/new/test]", 1
     end
   end
-  
+
+  def test_user_api_read
+    # check that a visible user is returned properly
+    get :api_read, :id => users(:normal_user).id
+    assert_response :success
+
+    # check that we aren't revealing private information
+    assert_select "home", false
+    assert_select "languages", false
+
+    # check that a suspended user is not returned
+    get :api_read, :id => users(:suspended_user).id
+    assert_response :gone
+
+    # check that a deleted user is not returned
+    get :api_read, :id => users(:deleted_user).id
+    assert_response :gone
+
+    # check that a non-existent user is not returned
+    get :api_read, :id => 0
+    assert_response :not_found
+  end
+
   def test_user_api_details
     get :api_details
     assert_response :unauthorized
