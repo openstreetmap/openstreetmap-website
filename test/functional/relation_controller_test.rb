@@ -751,6 +751,31 @@ OSM
     end
   end
 
+  ##
+  # remove all the members from a relation. the result is pretty useless, but
+  # still technically valid.
+  def test_remove_all_members 
+    check_changeset_modify(BoundingBox.new(3,3,5,5)) do |changeset_id|
+      relation_xml = current_relations(:visible_relation).to_xml
+      relation_xml.
+        find("//osm/relation/member").
+        each {|m| m.remove!}
+      
+      # update changeset ID to point to new changeset
+      update_changeset(relation_xml, changeset_id)
+      
+      # upload the change
+      content relation_xml
+      put :update, :id => current_relations(:visible_relation).id
+      assert_response :success, "can't update relation for remove all members test"
+      checkrelation = Relation.find(current_relations(:visible_relation).id)
+      assert_not_nil(checkrelation, 
+                     "uploaded relation not found in database after upload")
+      assert_equal(0, checkrelation.members.length,
+                   "relation contains members but they should have all been deleted")
+    end
+  end
+  
   # ============================================================
   # utility functions
   # ============================================================

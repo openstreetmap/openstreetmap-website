@@ -77,6 +77,12 @@ class Relation < ActiveRecord::Base
       relation.add_tag_keyval(tag['k'], tag['v'])
     end
 
+    # need to initialise the relation members array explicitly, as if this
+    # isn't done for a new relation then @members attribute will be nil, 
+    # and the members will be loaded from the database instead of being 
+    # empty, as intended.
+    relation.members = Array.new
+
     pt.find('member').each do |member|
       #member_type = 
       logger.debug "each member"
