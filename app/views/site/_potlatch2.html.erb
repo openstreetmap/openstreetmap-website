@@ -69,8 +69,12 @@
   <% elsif params[:way] -%>
   <% bbox = Way.find(params[:way]).bbox.to_unscaled -%>
   doSWF(<%= bbox.centre_lat %>,<%= bbox.centre_lon %>,16);
+  <% elsif params[:gpx] -%>
+  <% trace = Trace.find(params[:gpx]) -%>
+  doSWF(<%= trace.latitude %>,<%= trace.longitude %>,16);
   <% else -%>
-  doSWF(<%= @lat || 'null' %>,<%= @lon || 'null' %>,<%= @zoom %>);
+  var params = OSM.mapParams();
+  doSWF(params.lat, params.lon, params.zoom || 17);
   <% end -%>
 
   $(document).ready(function () {

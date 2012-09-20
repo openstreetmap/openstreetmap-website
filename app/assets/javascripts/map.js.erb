@@ -22,7 +22,7 @@ function createMap(divName, options) {
       theme: "<%= asset_path 'theme/openstreetmap/style.css' %>"
    });
 
-   var mapnik = new OpenLayers.Layer.OSM.Mapnik(i18n("javascripts.map.base.standard"), {
+   var mapnik = new OpenLayers.Layer.OSM.Mapnik(I18n.t("javascripts.map.base.standard"), {
       attribution: "",
       keyid: "mapnik",
       displayOutsideMaxExtent: true,
@@ -31,7 +31,7 @@ function createMap(divName, options) {
    });
    map.addLayer(mapnik);
 
-   var cyclemap = new OpenLayers.Layer.OSM.CycleMap(i18n("javascripts.map.base.cycle_map"), {
+   var cyclemap = new OpenLayers.Layer.OSM.CycleMap(I18n.t("javascripts.map.base.cycle_map"), {
       attribution: "Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
       keyid: "cyclemap",
       displayOutsideMaxExtent: true,
@@ -40,7 +40,7 @@ function createMap(divName, options) {
    });
    map.addLayer(cyclemap);
 
-   var transportmap = new OpenLayers.Layer.OSM.TransportMap(i18n("javascripts.map.base.transport_map"), {
+   var transportmap = new OpenLayers.Layer.OSM.TransportMap(I18n.t("javascripts.map.base.transport_map"), {
       attribution: "Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
       keyid: "transportmap",
       displayOutsideMaxExtent: true,
@@ -49,7 +49,7 @@ function createMap(divName, options) {
    });
    map.addLayer(transportmap);
 
-   var mapquest = new OpenLayers.Layer.OSM(i18n("javascripts.map.base.mapquest"), [
+   var mapquest = new OpenLayers.Layer.OSM(I18n.t("javascripts.map.base.mapquest"), [
       "http://otile1.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png",
       "http://otile2.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png",
       "http://otile3.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png",
@@ -70,6 +70,16 @@ function createMap(divName, options) {
       projection: "EPSG:900913"
    });
    map.addLayer(markers);
+
+   map.dataLayer = new OpenLayers.Layer(I18n.t('browse.start_rjs.data_layer_name'), {
+     visibility: false,
+     displayInLayerSwitcher: false
+   });
+   map.addLayer(map.dataLayer);
+
+   $("#" + divName).on("resized", function () {
+     map.updateSize();
+   });
 
    return map;
 }

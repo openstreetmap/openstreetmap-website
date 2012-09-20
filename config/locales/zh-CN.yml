@@ -151,7 +151,7 @@ zh-CN:
         prev_changeset_tooltip: 上一个 %{user} 的编辑
     node: 
       download_xml: 下载 XML
-      edit: 编辑
+      edit: 编辑节点
       node: 节点
       node_title: 节点：%{node_name}
       view_history: 查看历史
@@ -206,11 +206,11 @@ zh-CN:
       data_layer_name: 浏览地图数据
       details: 详细信息
       drag_a_box: 通过拖曳窗口来选择区域
-      edited_by_user_at_timestamp: 由 [[user]] 于 [[timestamp]] 编辑
+      edited_by_user_at_timestamp: 由 %{user} 于 %{timestamp} 编辑
       hide_areas: 隐藏区域
-      history_for_feature: 历史 [[feature]]
+      history_for_feature: 历史 %{feature}
       load_data: 加载数据
-      loaded_an_area_with_num_features: 您已选择了包含 [[num_features]] 项特征的区域。通常，有些浏览器无法正常显示这么多的数据。一般而言，浏览器一次显示少于 [[max_features]] 项特征时效果最好：执行其他任务会使您的浏览器变慢/无响应。如果确定要显示这些数据，请按下面的按钮。
+      loaded_an_area_with_num_features: 您已选择了包含 %{num_features} 项特征的区域。通常，有些浏览器无法正常显示这么多的数据。一般而言，浏览器一次显示少于 %{max_features} 项特征时效果最好：执行其他任务会使您的浏览器变慢/无响应。如果确定要显示这些数据，请按下面的按钮。
       loading: 载入中...
       manually_select: 手动选择一个不同区域
       object_list: 
@@ -220,19 +220,19 @@ zh-CN:
         heading: 对象列表
         history: 
           type: 
-            node: 节点 [[id]]
-            way: 路径 [[id]]
+            node: 节点 %{id}
+            way: 路径 %{id}
         selected: 
           type: 
-            node: 节点 [[id]]
-            way: 路径 [[id]]
+            node: 节点 %{id}
+            way: 路径 %{id}
         type: 
           node: 节点
           way: 路径
       private_user: 个人用户
       show_areas: 显示区域
       show_history: 显示历史
-      unable_to_load_size: 无法读取：限定窗口的大小 [[bbox_size]] 过大(需小于 %{max_bbox_size})
+      unable_to_load_size: 无法读取：限定窗口的大小 %{bbox_size} 过大(需小于 %{max_bbox_size})
       wait: 等待中...
       zoom_or_select: 放大或选择查看一个地图区域
     tag_details: 
@@ -250,7 +250,7 @@ zh-CN:
         way: 路径
     way: 
       download_xml: 下载 XML
-      edit: 编辑
+      edit: 编辑路径
       view_history: 查看历史
       way: 路径
       way_title: 路径：%{way_name}
@@ -290,6 +290,8 @@ zh-CN:
       description_nearby: 附近用户的修改集合
       description_user: "%{user} 的修改集合"
       description_user_bbox: "%{user} 在 %{bbox} 内的修改集合"
+      empty_anon_html: 尚未编辑
+      empty_user_html: 看起来您尚未编辑。若要开始，请参考<a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.3'>初学者指南</a>。
       heading: 修改集合
       heading_bbox: 修改集合
       heading_friend: 修改集合
@@ -967,6 +969,7 @@ zh-CN:
     history: 历史
     home: 主页
     home_tooltip: 回到主页位置
+    inbox_html: 收件箱 %{count}
     inbox_tooltip: 
       one: 您的收件箱有 1 封未读消息
       other: 您的收件箱有 %{count} 封未读消息
@@ -977,9 +980,6 @@ zh-CN:
     intro_2_html: 数据可以免费%{download}，并依据%{license}%{use}。%{create_account}以改善地图。
     intro_2_license: 开放许可协议
     intro_2_use: 使用
-    license: 
-      alt: 知识共享 署名-相同方式共享 2.0
-      title: OpenStreetMap 数据是以知识共享 署名-相同方式共享 2.0 通用许可授权
     log_in: 登录
     log_in_tooltip: 使用现有帐户登录
     logo: 
@@ -1021,7 +1021,6 @@ zh-CN:
       intro_1_html: "   OpenStreetMap 是<i>开放数据</i>的，采用<a\n   href=\"http://creativecommons.org/licenses/by-sa/2.0/\">知识\n   共享 署名-相同方式共享 2.0</a>协议(CC BY-SA)授权。"
       intro_2_html: "  您可以自由地复制、发行、传播和创作演绎我们的地图\n  和数据，只要您信任 OpenStreetMap 和它的\n  贡献者。如果您改变、转换或者以我们的地图或数据为基础进行创作，您\n  只能采用与本协议相同的许可协议发布您的作品。完整\n  的<a\n  href=\"http://creativecommons.org/licenses/by-sa/2.0/legalcode\">法律\n  文本</a>阐明了您的权利和义务。"
       more_1_html: "  阅读更多关于使用我们数据的 <a\n  href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">常见\n  法律问题</a>。"
-      more_3_html: "  虽然 OpenStreetMap 是开放数据的，我们无法为\n  第三方开发者提供一个免费的地图 API。\n\n  请参阅我们的 <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">API 使用政策</a>、\n  <a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">瓦片使用政策</a>\n  和 <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">Nominatim 使用政策</a>。"
       more_title_html: 了解更多
       title_html: 版权和许可
     native: 
@@ -1280,10 +1279,7 @@ zh-CN:
       js_1: 您或许正在使用不支持 JavaScript 的浏览器，或许您禁用了 JavaScript。
       js_2: OpenStreetMap 使用 JavaScript 让地图更平滑。
       license: 
-        license_name: 知识共享 署名-相同方式共享 2.0
         license_url: http://creativecommons.org/licenses/by-sa/2.0/
-        notice: 由 %{project_name}和它的贡献者基于%{license_name} 协议授权。
-        project_name: OpenStreetMap 项目
         project_url: http://openstreetmap.org
       permalink: 固定链接
       remote_failed: 编辑失败 - 请确保已加载 JOSM 或 Merkaartor 并启用了远程控制
@@ -1410,6 +1406,7 @@ zh-CN:
       visibility_help: 这是什么意思？
       visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
     list: 
+      empty_html: 尚无轨迹。<a href='%{upload_link}'>上传新轨迹</a>或在<a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>维基页面</a>上了解 GPS 轨迹。
       public_traces: 公开的 GPS 轨迹
       public_traces_from: "%{user} 的公开 GPS 轨迹"
       tagged_with: " 标记为 %{tags}"
@@ -1573,8 +1570,6 @@ zh-CN:
       lost password link: 找回密码?
       new to osm: 第一次来到 OpenStreetMap？
       no account: 还没有帐户？
-      notice: <a href="http://www.osmfoundation.org/wiki/License/We_Are_Changing_The_License">了解有关 OpenStreetMap 即将更换许可协议的信息</a> (<a href="http://wiki.openstreetmap.org/wiki/ODbL/We_Are_Changing_The_License">翻译</a>) (<a href="http://wiki.openstreetmap.org/wiki/Talk:ODbL/Upcoming">讨论</a>)
-      notice_terms: OpenStreetMap 将于 2012 年 4 月 1 日更换到新的许可。这和当前的许可一样开放，但法律地位更适合我们的地图数据库。我们很乐意在 OpenStreetMap 保留您的贡献，但我们只能在您同意让我们根据新的许可证分发时，才能这么做。否则，我们将不得不从数据库中删除您的贡献。<br><br>请登录，然后花几秒钟查看并接受新的条款。谢谢！
       openid: "%{logo} OpenID："
       openid invalid: 对不起，您的 OpenID 格式似乎不正确
       openid missing provider: 对不起，无法联系您的 OpenID 提供者
@@ -1619,7 +1614,9 @@ zh-CN:
       title: 丢失密码
     make_friend: 
       already_a_friend: 您已经和 %{name} 是朋友了。
+      button: 添加为好友
       failed: 对不起，未能添加 %{name} 为朋友。
+      heading: 将 %{user} 加为好友？
       success: "%{name} 现在是您的朋友。"
     new: 
       confirm email address: 确认邮箱：
@@ -1653,6 +1650,8 @@ zh-CN:
       nearby mapper: 附近用户
       your location: 您的位置
     remove_friend: 
+      button: 删除好友
+      heading: 删除 %{user} 为好友？
       not_a_friend: "%{name} 不是您的朋友。"
       success: "%{name} 已从您的朋友中删除。"
     reset_password: 
@@ -1691,7 +1690,7 @@ zh-CN:
       activate_user: 启用该用户
       add as friend: 添加为好友
       ago: (%{time_in_words_ago}之前)
-      block_history: 查看接受的封禁
+      block_history: 接受的封禁
       blocks by me: 被我所封禁
       blocks on me: 对我的封禁
       comments: 注释
@@ -1717,7 +1716,7 @@ zh-CN:
       latest edit: 上次编辑于%{ago}：
       m away: "%{count} 米之外"
       mapper since: 成为制图者：
-      moderator_history: 查看封禁来自
+      moderator_history: 执行封禁者
       my comments: 我的评论
       my diary: 我的日记
       my edits: 我的编辑
@@ -1802,11 +1801,14 @@ zh-CN:
       creator_name: 创建者
       display_name: 已封禁的用户
       edit: 编辑
+      next: 下一页 »
       not_revoked: (不撤销)
+      previous: « 上一页
       reason: 封禁的原因
       revoke: 撤销！
       revoker_name: 撤销由
       show: 显示
+      showing_page: 显示第 %{page} 页
       status: 状态
     period: 
       one: 1 小时

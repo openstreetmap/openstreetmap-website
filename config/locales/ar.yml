@@ -83,6 +83,8 @@ ar:
   application: 
     require_cookies: 
       cookies_needed: يبدو أن الكوكيز عندك معطلة - يرجى تفعيل الكوكيز في متصفحك قبل المتابعة.
+    require_moderator: 
+      not_a_moderator: عليك أن تكون وسيط لتنفيذ هذا الإجراء
     setup_user_auth: 
       blocked: لقد تم عرقلة وصولك إلى الـ API. يرجى تسجيل الدخول من صفحة الموقع لمعرفة المزيد.
   browse: 
@@ -118,6 +120,7 @@ ar:
     common_details: 
       changeset_comment: "التعليق:"
       deleted_at: "حذف في:"
+      deleted_by: "تم الحذف من:"
       edited_at: "عُدّل في:"
       edited_by: "عُدّل بواسطة:"
       in_changeset: "في حزمة التغييرات:"
@@ -127,6 +130,11 @@ ar:
       entry_role: العلاقة %{relation_name} (كــ %{relation_role})
     map: 
       deleted: تم الحذف
+      edit: 
+        area: حرّر مساحة
+        node: حرّر عقدة
+        relation: حرّر علاقة
+        way: حرّر طريق
       larger: 
         area: اعرض المنطقة على خريطة أكبر
         node: اعرض العقدة على خريطة أكبر
@@ -152,7 +160,7 @@ ar:
       edit: تعديل العقدة
       node: عقدة
       node_title: "عقدة: %{node_name}"
-      view_history: اعرض التاريخ
+      view_history: شاهد الخط الزمني
     node_details: 
       coordinates: "إحداثيات:"
       part_of: "جزء من:"
@@ -160,7 +168,7 @@ ar:
       download_xml: نزّل إكس إم أل
       node_history: تاريخ العقدة
       node_history_title: "تاريخ العقدة: %{node_name}"
-      view_details: اعرض التفاصيل
+      view_details: شاهد  التفاصيل
     not_found: 
       sorry: عفوًا، لم يتم العثور على %{type} بالمعرّف %{id}.
       type: 
@@ -171,11 +179,17 @@ ar:
     paging_nav: 
       of: من
       showing_page: إظهار الصفحة
+    redacted: 
+      redaction: التنقيح %{id}
+      type: 
+        node: العقدة
+        relation: علاقة
+        way: طريق
     relation: 
       download_xml: نزّل إكس إم إل
       relation: العلاقة
       relation_title: "العلاقة: %{relation_name}"
-      view_history: اعرض التاريخ
+      view_history: شاهد الخط الزمني
     relation_details: 
       members: "الأعضاء:"
       part_of: "جزء من:"
@@ -183,7 +197,7 @@ ar:
       download_xml: نزّل إكس إم أل
       relation_history: تاريخ العلاقة
       relation_history_title: "تاريخ العلاقة: %{relation_name}"
-      view_details: اعرض التفاصيل
+      view_details: شاهد التفاصيل
     relation_member: 
       entry_role: "%{type} %{name} كــ %{role}"
       type: 
@@ -198,11 +212,11 @@ ar:
       data_layer_name: تصفح بيانات الخريطة
       details: التفاصيل
       drag_a_box: اسحب مربع على الخريطة لاختيار منطقة
-      edited_by_user_at_timestamp: عُدّل بواسطة [[user]] في [[timestamp]]
+      edited_by_user_at_timestamp: عُدّل بواسطة %{user} في %{timestamp}
       hide_areas: إخفاء المناطق
-      history_for_feature: تاريخ الــ[[feature]]
+      history_for_feature: تاريخ الــ%{feature}
       load_data: تحميل البيانات
-      loaded_an_area_with_num_features: "لقد قمت بتحميل منطقة تحتوي على [[num_features]] ميّزة. بصفة عامّة، بعض المتصفحات قد لا تتوافق بشكل جيد مع عرض هذه الكمية من البيانات. عمومًا، تعمل المتصفحات بشكل أفضل في عرض أقل من 100 ميّزة في وقت واحد: القيام بأي شيء آخر قد يجعل المتصفح بطيء أو لن يستجيب. إن كنت متأكدًا من أنك ترغب في عرض هذه البيانات، يمكنك القيام بذلك عن طريق النقر على الزر أدناه."
+      loaded_an_area_with_num_features: "لقد قمت بتحميل منطقة تحتوي على %{num_features} ميّزة. بصفة عامّة، بعض المتصفحات قد لا تتوافق بشكل جيد مع عرض هذه الكمية من البيانات. عمومًا، تعمل المتصفحات بشكل أفضل في عرض أقل من 100 ميّزة في وقت واحد: القيام بأي شيء آخر قد يجعل المتصفح بطيء أو لن يستجيب. إن كنت متأكدًا من أنك ترغب في عرض هذه البيانات، يمكنك القيام بذلك عن طريق النقر على الزر أدناه."
       loading: جاري التحميل...
       manually_select: اختر يدويًا منطقة أخرى
       object_list: 
@@ -212,23 +226,24 @@ ar:
         heading: قائمة الكائنات
         history: 
           type: 
-            node: عقدة [[id]]
-            way: طريق [[id]]
+            node: عقدة %{id}
+            way: طريق %{id}
         selected: 
           type: 
-            node: عقدة [[id]]
-            way: طريق [[id]]
+            node: عقدة %{id}
+            way: طريق %{id}
         type: 
           node: عقدة
           way: طريق
       private_user: مستخدم الخاص
       show_areas: أظهر المناطق
       show_history: أظهر التاريخ
-      unable_to_load_size: "غير قادر على التحميل: حجم مربع الإحاطة [[bbox_size]] كبير جدًا (يجب أن يكون أصغر من %{max_bbox_size})"
+      unable_to_load_size: "غير قادر على التحميل: حجم مربع الإحاطة %{bbox_size} كبير جدًا (يجب أن يكون أصغر من %{max_bbox_size})"
       wait: انتظر...
       zoom_or_select: قم بالتكبير أو اختر منطقة من الخريطة لعرضها
     tag_details: 
       tags: "الوسوم:"
+      wikipedia_link: الـ%{page} مقالة على ويكيبيديا
     timeout: 
       sorry: عذرًا، بيانات %{type} بالمعرّف %{id} استغرقت وقتًا طويلا للاسترداد.
       type: 
@@ -239,7 +254,7 @@ ar:
     way: 
       download_xml: نزّل إكس إم إل
       edit: تعديل الطريق
-      view_history: اعرض التاريخ
+      view_history: شاهد الخط الزمني
       way: طريق
       way_title: "طريق: %{way_name}"
     way_details: 
@@ -251,7 +266,7 @@ ar:
       part_of: "جزء من:"
     way_history: 
       download_xml: نزّل إكس إم إل
-      view_details: اعرض التفاصيل
+      view_details: شاهد  التفاصيل
       way_history: تاريخ الطريق
       way_history_title: "تاريخ الطريق: %{way_name}"
   changeset: 
@@ -276,17 +291,33 @@ ar:
     list: 
       description: التغييرات الحديثة
       description_bbox: حزم التغييرات داخل %{bbox}
+      description_friend: حزم التغييرات من قبل أصدقائك
+      description_nearby: حزم التغييرات من قبل المسخدمين في المقربة
       description_user: حزم التغييرات بواسطة %{user}
       description_user_bbox: حزم التغييرات بواسطة %{user} داخل %{bbox}
+      empty_anon_html: لا يوجد تغييرات حتى الآن
+      empty_user_html: يبدو أنك لم تقم بأي تغييرات حتى الآن. للبدء بالعمل، أنظر إلى <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.3'>دليل المبتدئين</a>.
       heading: حزم التغييرات
       heading_bbox: حزم التغييرات
+      heading_friend: حزم التغييرات
+      heading_nearby: حزم التغييرات
       heading_user: حزم التغييرات
       heading_user_bbox: حزم التغييرات
       title: حزم التغييرات
       title_bbox: حزم التغييرات داخل %{bbox}
+      title_friend: حزم التغييرات بواسطة أصدقائك
       title_user: حزم التغييرات بواسطة %{user}
       title_user_bbox: حزم التغييرات بواسطة %{user} داخل %{bbox}
+    timeout: 
+      sorry: عذراً، لقد إستمرت لائحة حزم التغييرات اللتي طلبتها وقتاً طويلاً للسحب.
   diary_entry: 
+    comments: 
+      ago: "%{ago} سابقاً"
+      comment: التعليق
+      has_commented_on: "%{display_name} علّق على مدخلات اليومية التالية"
+      newer_comments: التعليقات الجديدة
+      older_comments: التعليقات القديمة
+      when: متى
     diary_comment: 
       comment_from: تعليق من %{link_user}  في %{comment_created_at}
       confirm: أكّد
@@ -334,6 +365,8 @@ ar:
       older_entries: المدخلات الأقدم
       recent_entries: "المدخلات اليومية الحديثة:"
       title: يوميات المستخدمين
+      title_friends: يوميات الأصدقاء
+      title_nearby: يوميات/مفكرات المستخدمين في المقبرة
       user_title: يومية %{user}
     location: 
       edit: تعديل
@@ -353,6 +386,13 @@ ar:
       title: يوميات %{user} | %{title}
       user_title: يومية %{user}
   editor: 
+    default: الغيابي (حالياً %{name})
+    potlatch: 
+      description: Potlatch 1 (محرّر ضمن المتصفح)
+      name: Potlatch 1
+    potlatch2: 
+      description: Potlatch 2 (محرّر ضمن المتصفح)
+      name: Potlatch 2
     remote: 
       description: تحكم عن بعد (JOSM أو Merkaartor)
       name: تحكم عن بعد
@@ -430,16 +470,27 @@ ar:
       suffix_place: ، %{distance} %{direction} من %{placename}
     search_osm_nominatim: 
       prefix: 
+        aeroway: 
+          aerodrome: المطار
+          gate: البوابة
+          helipad: منصة مروحية
+          runway: مدرج إقلاع
+          taxiway: مدرج المناورات
+          terminal: صالة مطار
         amenity: 
+          WLAN: نقطة إتصال لاسلكية
           airport: مطار
           arts_centre: مركز فني/ثقافي
+          artwork: عمل فني
           atm: صراف آلي
           auditorium: قاعة محاضرات
           bank: مصرف
           bar: حانة
+          bbq: مشوى
           bench: مقعد
           bicycle_parking: موقف دراجات
           bicycle_rental: تأجير دراجة
+          biergarten: حديقة البيرة
           brothel: بيت دعارة
           bureau_de_change: مكتب صرافة
           bus_station: محطة حافلات
@@ -448,6 +499,7 @@ ar:
           car_sharing: مشاركة سيارات
           car_wash: غسيل سيارات
           casino: نادي قمار
+          charging_station: محطة تعبئة
           cinema: سينما
           clinic: عيادة
           club: نادي
@@ -506,9 +558,12 @@ ar:
           shelter: ملجأ
           shop: متجر/دكان/حانوت
           shopping: التسوق
+          shower: غسيل بالدش
+          social_centre: مركز إجتماعي
           social_club: نادي اجتماعي
           studio: ستوديو
           supermarket: سوبرماركت
+          swimming_pool: مسبح
           taxi: سيارة أجرة
           telephone: هاتف عمومي
           theatre: مسرح
@@ -519,10 +574,15 @@ ar:
           veterinary: جراحة بيطرية
           village_hall: مبنى/دار القرية
           waste_basket: سلة نفايات
-          wifi: نقطة اتصال لاسلكية واي فاي
+          wifi: نقطة إتصال لاسلكية
           youth_centre: مركز نشاطات للشباب
         boundary: 
           administrative: حدود إدارية
+          national_park: محمية وطنية
+          protected_area: منطقة محمية
+        bridge: 
+          suspension: جسر معلق
+          "yes": جسر
         building: 
           "yes": مبنى
         highway: 
@@ -547,11 +607,13 @@ ar:
           primary_link: طريق أولي
           raceway: حلبة سباق
           residential: طريق سكني
+          rest_area: منطقة إستراحة
           road: طريق
           secondary: طريق ثانوي
           secondary_link: طريق ثانوي
           service: طريق خدمة
           services: خدمات الطرق السريعة
+          speed_camera: كاميرا كشف السرعة
           steps: درج
           stile: مرقى لعبور جدار
           tertiary: طريق فرعي
@@ -568,6 +630,7 @@ ar:
           building: مبنى
           castle: قلعة
           church: كنيسة
+          fort: حصن
           house: منزل
           icon: أيقونة
           manor: عزبة
@@ -592,6 +655,7 @@ ar:
           farmland: أرض زراعية
           farmyard: فناء مزرعة
           forest: غابة
+          garages: مرائب
           grass: عشب
           greenfield: حقول خضراء
           industrial: منطقة صناعية
@@ -600,6 +664,7 @@ ar:
           military: منطقة عسكرية
           mine: منجم
           nature_reserve: محمية طبيعية
+          orchard: بستان
           park: منتزه
           piste: منطقة تزحلق
           quarry: كسّارة
@@ -614,8 +679,10 @@ ar:
           wood: حرج
         leisure: 
           beach_resort: شاطئ منتجع
+          bird_hide: مخبئ طيور
           common: أرض مشاع
           fishing: منطقة صيد سمك
+          fitness_station: مركز اللياقة البدنية
           garden: حديقة
           golf_course: ملعب غولف
           ice_rink: حلبة تزلج على الجليد
@@ -626,12 +693,17 @@ ar:
           pitch: ملعب رياضي
           playground: ملعب
           recreation_ground: ميدان ألعاب
+          sauna: حمّام بخاري حار
           slipway: مزلقة
           sports_centre: مركز رياضي
           stadium: مدرج ألعاب رياضية
           swimming_pool: بركة سباحة
           track: مضمار سباق
           water_park: منتزه ألعاب مائية
+        military: 
+          airfield: منطقة عسكرية
+          barracks: ثكنات
+          bunker: دشمة
         natural: 
           bay: خليج
           beach: شاطئ
@@ -640,9 +712,11 @@ ar:
           channel: قناة
           cliff: جرف
           crater: فوهة بركان
+          dune: كثيب
           feature: ميزة
           fell: منحدر
           fjord: مضيق بحري
+          forest: غابة
           geyser: نافورة ماء حار
           glacier: نهر/بحر جليدي
           heath: أرض بور
@@ -662,6 +736,7 @@ ar:
           scrub: أشجار منخفضة
           shoal: مياه ضحلة
           spring: نبع
+          stone: حجر
           strait: مضيق جبلي
           tree: شجرة
           valley: وادي
@@ -670,6 +745,19 @@ ar:
           wetland: أرض رطبة
           wetlands: أراضي رطبة
           wood: حرج
+        office: 
+          accountant: محاسب
+          architect: مهندس معماري
+          company: شركة
+          employment_agency: وكالة توظيف
+          estate_agent: سمسار مباني
+          government: دائرة حكومية
+          insurance: مكتب شركة تأمين
+          lawyer: محامي
+          ngo: مكتب منظمة غير حكومية
+          telecommunication: مكتب شركة إتصالات
+          travel_agent: وكيل سفريات
+          "yes": مكتب
         place: 
           airport: مطار
           city: مدينة
@@ -681,6 +769,7 @@ ar:
           houses: منازل
           island: جزيرة
           islet: جزيرة صغيرة
+          isolated_dwelling: سكن منعزل
           locality: محلة
           moor: أرض جرداء
           municipality: البلدية
@@ -697,7 +786,7 @@ ar:
           abandoned: سكة حديد مهجورة
           construction: سكة حديدية تحت الإنشاء
           disused: سكة حديد مهجورة
-          disused_station: محطة سكة حديد مهجورة
+          disused_station: محطة سكة حديدية مهجورة
           funicular: سكة حديدية معلقة
           halt: موقف قطار
           historic_station: محطة سكة حديد تاريخية
@@ -805,7 +894,10 @@ ar:
           valley: وادي
           viewpoint: موقع كاشف
           zoo: حديقة حيوانات
+        tunnel: 
+          "yes": نفق
         waterway: 
+          artificial: مجرى ماء إصطناعي
           boatyard: حوض سفن
           canal: قناة
           connector: قناة مائية
@@ -832,11 +924,12 @@ ar:
     map: 
       base: 
         cycle_map: خريطة للدراجات
+        transport_map: خريطة تنقلات
     site: 
       edit_disabled_tooltip: قم بالتكبير لتحرير الخريطة
       edit_tooltip: عدّل الخريطة
       edit_zoom_alert: يجب عليك التكبير لتعديل الخريطة
-      history_disabled_tooltip: قم بالتكبير لعرض التعديلات في هذه المنطقة
+      history_disabled_tooltip: إستعمل المقربة لعرض التغييرات في هذه المساحة
       history_tooltip: اعرض التعديلات في هذه المنطقة
       history_zoom_alert: يجب التكبير لرؤية تاريخ التعديل
   layouts: 
@@ -861,6 +954,7 @@ ar:
     history: تاريخ
     home: الصفحة الرئيسية
     home_tooltip: اذهب إلى الصفحة الرئيسية
+    inbox_html: البريد الوارد
     inbox_tooltip: 
       few: صندوق بريدك يحوي %{count} رسائل غير مقروءة
       one: صندوق بريدك يحوي رسالة واحدة غير مقروءة
@@ -868,8 +962,9 @@ ar:
       two: صندوق بريدك يحوي رسالتين غير مقروءتين
       zero: صندوق بريدك لا يحوي رسائل غير مقروءة
     intro_1: خريطة الشارع المفتوحة هي خريطة للعالم كله قابلة للتحرير حرة ومجانية. قام بإنشائها أشخاص مثلك.
-    license: 
-      title: بيانات خريطة الشارع المفتوحة مرخصة تحت رخصة المشاع الإبداعي، النسبة، نسخة 2.0
+    intro_2_create_account: أنشئ حساب مستخدم
+    intro_2_download: نزّل
+    intro_2_use: إستعمل
     log_in: تسجيل الدخول
     log_in_tooltip: سجّل الدخول مع حساب موجود
     logo: 
@@ -881,6 +976,8 @@ ar:
       title: ادعم خريطة الشارع المفتوحة بهبة نقدية
     osm_offline: حاليًا قاعدة بيانات خريطة الشارع المفتوحة مغلقة بينما يتم الانتهاء من أعمال الصيانة الأساسية لقاعدة البيانات.
     osm_read_only: حاليًا قاعدة بيانات خريطة الشارع المفتوحة في وضع القراءة بينما يتم الانتهاء من أعمال الصيانة الأساسية لقاعدة البيانات.
+    partners_html: الضيافة مدعومة من %{ucl}, %{ic} و %{bytemark}, و %{partners} آخرون.
+    partners_partners: الشركاء
     sign_up: أنشئ حسابًا
     sign_up_tooltip: أنشئ حسابًا كي تستطيع المساهمة
     tag_line: ويكي خريطة العالم الحرة
@@ -896,6 +993,8 @@ ar:
     foreign: 
       english_link: النص الإنجليزي الأصلي
       title: حول هذه الترجمة
+    legal_babble: 
+      title_html: حقوق النشر والترخيص
     native: 
       mapping_link: إبدأ التخطيط
       native_link: النسخة العربية
@@ -906,6 +1005,7 @@ ar:
     inbox: 
       date: التاريخ
       from: من
+      messages: لديك %{new_messages} و %{old_messages}
       my_inbox: الوارد
       no_messages_yet: لا يوجد لديك رسائل بعد. لماذا لا تقوم بالاتصال مع بعض %{people_mapping_nearby_link}؟
       outbox: الصادر
@@ -1099,6 +1199,8 @@ ar:
       allow_write_gpx: ارفع آثار جي بي إس.
       allow_write_prefs: تعديل تفضيلاته.
       authorize_url: "رابط التصريح:"
+      confirm: هل أنت متأكد؟
+      delete: أمحي الزبون
       edit: عدّل التفاصيل
       key: "مفتاح المستهلك:"
       requests: "طلب الصلاحيات التالية من المستخدم:"
@@ -1108,6 +1210,17 @@ ar:
       url: "رابط طلب النموذج:"
     update: 
       flash: تم تحديث معلومات العميل بنجاح
+  redaction: 
+    edit: 
+      description: الوصف
+    new: 
+      description: الوصف
+    show: 
+      confirm: هل أنت متأكد؟
+      description: "الوصف:"
+      user: "المنشئ:"
+    update: 
+      flash: تمّ حفظ التغييرات.
   site: 
     edit: 
       anon_edits_link_text: ابحث عن السبب لماذا هو هذا الحال.
@@ -1119,10 +1232,6 @@ ar:
     index: 
       js_1: أنت إما تستخدم متصفح لا يدعم جافا سكريبت، أو أنك عطلت استعمال جافا سكريبت.
       js_2: خريطة الشارع المفتوحة تستخدم جافا سكريبت لخريطتها المنزلقة.
-      license: 
-        license_name: المشاع الإبداعي، النسبة، نسخة 2.0
-        notice: مرخص بموجب رخصة %{license_name} بواسطة %{project_name} ومساهميه.
-        project_name: مشروع خريطة الشارع المفتوحة
       permalink: وصلة دائمة
       shortlink: وصلة قصيرة
     key: 
@@ -1194,6 +1303,18 @@ ar:
           unclassified: طريق غير مصنّف
           unsurfaced: طريق غير معبد
           wood: غابة
+    markdown_help: 
+      alt: النص البديل
+      first: البند الأول
+      image: الصورة
+      link: الوصلة
+      ordered: لائحة مرتبة
+      second: البند الثاني
+      text: النص
+      unordered: لائحة غير مرتبة
+    richtext_area: 
+      edit: حرّر
+      preview: شاهد
     search: 
       search: بحث
       search_help: "أمثلة: 'الحرية'، 'شارع الحمراء, بيروت'، 'مدرسة, القاهرة' <a href='http://http://wiki.openstreetmap.org/wiki/Ar:Search?uselang=ar'>المزيد من الأمثلة...</a>"
@@ -1274,6 +1395,8 @@ ar:
     trace_optionals: 
       tags: الوسوم
     trace_paging_nav: 
+      newer: الآثار الحديثة
+      older: الآثار القديمة
       showing_page: إظهار الصفحة %{page}
     view: 
       delete_track: احذف هذا الأثر
@@ -1323,6 +1446,10 @@ ar:
       new email address: "عنوان البريد الإلكتروني الجديد:"
       new image: أضف صورة
       no home location: لم تدخل موقع منزلك.
+      openid: 
+        link: http://wiki.openstreetmap.org/wiki/OpenID
+        link text: ما هذا ؟
+        openid: "OpenID:"
       preferred editor: "المحرر المفضل:"
       preferred languages: "اللغات المفضّلة:"
       profile description: "وصف الملف الشخصي:"
@@ -1359,6 +1486,7 @@ ar:
     list: 
       empty: لا سجلات مطابقة تم العثور عليها!
       heading: المستخدمون
+      hide: إخفاء المستخدمين المحددين
       title: المستخدمون
     login: 
       auth failure: آسف، لا يمكن الدخول بتلك التفاصيل.
@@ -1368,6 +1496,7 @@ ar:
       login_button: تسجيل الدخول
       lost password link: أنسيت كلمة المرور؟
       new to osm: جديد لخريطة الشارع المفتوحة ؟
+      no account: ليس لديك حسابا ؟
       password: "كلمة السر:"
       register now: تسجل الآن
       remember: "تذكرني:"
@@ -1386,6 +1515,7 @@ ar:
       title: نسيان كلمة المرور
     make_friend: 
       already_a_friend: حاليًا أنت و %{name} أصدقاء.
+      button: أضف كصديق
       failed: عفوًا، تعذر إضافة %{name} كصديق.
       success: "%{name} الآن صديقك."
     new: 
@@ -1443,6 +1573,7 @@ ar:
         rest_of_world: بقية العالم
       legale_select: "الرجاء اختيار بلد الإقامة:"
       read and accept: يرجى قراءة الاتفاقية أدناه والضغط على زر الموافقة لتأكيد قبول شروط هذا الاتفاق على مشاركاتك الموجودة حاليًا والمستقبلية.
+      title: "شروط المساهم:"
     view: 
       activate_user: نشّط هذا المستخدم
       add as friend: أضف كصديق
@@ -1450,27 +1581,38 @@ ar:
       block_history: اعرض العرقلات الواصلة
       blocks by me: العرقلات بواسطتي
       blocks on me: العرقلات علي
+      comments: التعليقات
       confirm: أكّد
       confirm_user: تأكيد هذا المستخدم
       create_block: امنع هذا المستخدم
       created from: "أُنشىء من:"
+      ct accepted: مقبول %{ago} سابقاً
+      ct declined: مرفوض
+      ct status: "شروط المساهم:"
+      ct undecided: متردد
       deactivate_user: احذف هذا المستخدم
       delete_user: احذف هذا المستخدم
       description: الوصف
       diary: يومية
       edits: مساهمات
       email address: "عنوان البريد الإلكتروني:"
+      friends_changesets: تصفح كل حزم التغييرات من قبل الأصدقاء
+      friends_diaries: تصفح جميع مدخلات مدونات الأصدقاء
       hide_user: اخفِ هذا المستخدم
       if set location: إن قمت بتعيين موقعك، خريطة وأشياء جميلة سوف تظهر أدناه. يمكنك تحديد موقع منزلك من صفحة %{settings_link}.
       km away: على بعد %{count}كم
+      latest edit: "آخر تغيير %{ago}:"
       m away: على بعد %{count}متر
       mapper since: "مُخطط منذ:"
       moderator_history: اعرض العرقلات المعطاة
+      my comments: تعليقاتي
       my diary: يوميتي
       my edits: مساهماتي
       my settings: إعداداتي
       my traces: آثاري
       nearby users: "مستخدمين أيضًا بالجوار:"
+      nearby_changesets: تصفح كل حزم التغييرات من قبل المستخدمين في المقربة
+      nearby_diaries: تصفح جميع مدخلات مدونات المستخدمين في المقربة
       new diary entry: مدخلة يومية جديدة
       no friends: لم تقم بإضافة أي أصدقاء بعد.
       no nearby users: لا يوجد بعد المزيد من المستخدمين أفصحوا عن تخطيطهم بالجوار.
@@ -1546,11 +1688,14 @@ ar:
       creator_name: المنشئ
       display_name: مستخدم مُعرقل
       edit: تعديل
+      next: التالي »
       not_revoked: (لم تلغ)
+      previous: « السابق
       reason: السبب العرقلة
       revoke: ابطل!
       revoker_name: مُبطل بواسطة
       show: اعرض
+      showing_page: جاري عرض الصفحة %{page}
       status: الحالة
     period: 
       few: "%{count} ساعات"

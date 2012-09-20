@@ -38,6 +38,8 @@ class MessageController < ApplicationController
     message = Message.find(params[:message_id])
 
     if message.to_user_id == @user.id then
+      message.update_attribute(:message_read, true)
+
       @body = "On #{message.sent_on} #{message.sender.display_name} wrote:\n\n#{message.body.gsub(/^/, '> ')}"
       @title = @subject = "Re: #{message.title.sub(/^Re:\s*/, '')}"
       @this_user = User.find(message.from_user_id)
