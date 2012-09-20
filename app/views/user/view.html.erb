@@ -78,17 +78,6 @@
   <% end %>
 </div>
 
-
-
-<% if @user and @user.administrator? -%>
-  <p><b><%= t 'user.view.email address' %></b> <%= @this_user.email %></p>  
-  <% unless @this_user.creation_ip.nil? -%>
-  <p><b><%= t 'user.view.created from' %></b> <%= @this_user.creation_ip %></p>
-  <% end -%>
-  <p><b><%= t 'user.view.status' %></b> <%= @this_user.status.capitalize %></p>
-  <p><b><%= t 'user.view.spam score' %></b> <%= @this_user.spam_score %></p>
-<% end -%>
-
 <div id="description"><%= @this_user.description.to_html %></div>
 
 <p class='deemphasize'><small>
@@ -104,6 +93,15 @@
 <% end -%>
 </small>
 </p>
+
+<% if @user and @user.administrator? -%>
+  <p><b><%= t 'user.view.email address' %></b> <%= @this_user.email %></p>  
+  <% unless @this_user.creation_ip.nil? -%>
+  <p><b><%= t 'user.view.created from' %></b> <%= @this_user.creation_ip %></p>
+  <% end -%>
+  <p><b><%= t 'user.view.status' %></b> <%= @this_user.status.capitalize %></p>
+  <p><b><%= t 'user.view.spam score' %></b> <%= @this_user.spam_score %></p>
+<% end -%>
 
 <% if @user and @this_user.id == @user.id %>
   <div id="map" class="user_map">
