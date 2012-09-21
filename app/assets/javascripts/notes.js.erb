@@ -1,4 +1,4 @@
-function addNoteLayer(map, notesUrl, newNoteControls, minZoom) {
+function addNoteLayer(map, notesUrl, newNoteControls, newNoteForm, minZoom) {
   var newNotes;
 
   var noteCallback = function (scope, response) {
@@ -22,17 +22,69 @@ function addNoteLayer(map, notesUrl, newNoteControls, minZoom) {
   var noteSelected = function (o) {
     var feature = o.feature;
     var location = feature.geometry.getBounds().getCenterLonLat();
+    var content;
+    var close;
+
+    if (feature.attributes.status === "new") {
+      var form = newNoteForm.clone();
+      form.removeClass("hidden");
+      content = form.html();
+      close = false;
+    } else {
+      content = "<p>" + feature.attributes.id + "</p>";
+      close = true;
+    };
 
     feature.popup = new OpenLayers.Popup.FramedCloud(
-      feature.attributes.id, location, null,
-      "<p>" + feature.attributes.id + "</p>",
-      null, 
-      feature.attributes.status !== "new",
+      feature.attributes.id, location, null, content, null, close,
       function (e) { map.noteSelector.unselect(feature) }
     );
 
     map.addPopup(feature.popup);
     // feature.popup.show();
+
+    $(feature.popup.contentDiv).find("textarea").autoGrow();
+
+    $(feature.popup.contentDiv).find("input#note-submit").click(function (e) {
+      var location = unproj(feature.geometry.getBounds().getCenterLonLat());
+      var form = $(e.target).parents("form").first();
+
+      $.ajax(form.prop("action"), {
+        type: form.prop("method"),
+        data: {
+          lon: location.lon,
+          lat: location.lat,
+          text: form.find("textarea#comment").val()
+        },
+        success: function (data) {
+          map.noteSelector.unselect(feature);
+
+          feature.attributes.status = "open";
+          feature.attributes.id = data;
+
+          map.noteLayer.drawFeature(feature);
+
+          map.noteMover.deactivate();
+        }
+      });
+
+      e.preventDefault();
+    });
+
+    $(feature.popup.contentDiv).find("input#note-cancel").click(function (e) {
+      feature.attributes.status = "cancelled";
+
+      map.noteSelector.unselect(feature);
+      map.noteLayer.removeFeatures(feature);
+
+      feature.destroy();
+
+      map.noteMover.deactivate();
+
+      e.preventDefault();
+    });
+
+    feature.popup.updateSize();
   };
 
   var noteUnselected = function (o) {

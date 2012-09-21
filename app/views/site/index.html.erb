@@ -45,6 +45,8 @@
   </table>
 </div>
 
+<div id="new-note" class="hidden"><%= render :partial => "notes/new" %></div>
+
 <script type="text/javascript">
   var marker;
   var map;
@@ -64,7 +66,7 @@
       });
       map.addLayer(map.dataLayer);
 
-      map.noteLayer = addNoteLayer(map, "<%= notes_url :format => 'json' %>", $("#createnoteanchor"), 11);
+      map.noteLayer = addNoteLayer(map, "<%= notes_url :format => 'json' %>", $("#createnoteanchor"), $("#new-note"), 11);
 
       <% if params[:notes] == "yes" -%>
       map.noteLayer.setVisibility(true);
