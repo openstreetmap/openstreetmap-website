@@ -39,6 +39,21 @@ class SiteController < ApplicationController
 
     if editor == "remote"
       render :action => :index
+      return
+    end
+
+    if params[:node]
+      bbox = Node.find(params[:node]).bbox.to_unscaled
+      @lat = bbox.centre_lat
+      @lon = bbox.centre_lon
+    elsif params[:way]
+      bbox = Way.find(params[:way]).bbox.to_unscaled
+      @lat = bbox.centre_lat
+      @lon = bbox.centre_lon
+    elsif params[:gpx]
+      trace = Trace.find(params[:gpx])
+      @lat = trace.latitude
+      @lon = trace.longitude
     end
   end
 
