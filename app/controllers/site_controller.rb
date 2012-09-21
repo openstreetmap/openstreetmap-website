@@ -51,7 +51,7 @@ class SiteController < ApplicationController
       @lat = bbox.centre_lat
       @lon = bbox.centre_lon
     elsif params[:gpx]
-      trace = Trace.find(params[:gpx])
+      trace = Trace.visible_to(@user).find(params[:gpx])
       @lat = trace.latitude
       @lon = trace.longitude
     end
