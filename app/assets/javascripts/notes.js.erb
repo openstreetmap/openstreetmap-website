@@ -13,6 +13,17 @@ function addNoteLayer(map, notesUrl, newNoteControls, newNoteForm, minZoom) {
     newNotes = undefined;
   };
 
+  var describeNote = function (n) {
+    var description = "<h2>Note " + n.id + "</h2>";
+
+    n.comments.forEach(function (c) {
+      description += "<p><small class='deemphasize'>" + c.action + " by ";
+      description += c.user + " at " + c.date + "</small><br/>" + c.text + "</p>";
+    });
+
+    return description;
+  }
+
   var noteSelected = function (o) {
     var feature = o.feature;
     var location = feature.geometry.getBounds().getCenterLonLat();
@@ -25,7 +36,7 @@ function addNoteLayer(map, notesUrl, newNoteControls, newNoteForm, minZoom) {
       content = form.html();
       close = false;
     } else {
-      content = "<p>" + feature.attributes.id + "</p>";
+      content = describeNote(feature.attributes);
       close = true;
     };
 
