@@ -1,12 +1,6 @@
 function addNoteLayer(map, notesUrl, newNoteControls, newNoteForm, minZoom) {
   var newNotes;
 
-  var noteCallback = function (scope, response) {
-    for (var f = 0; f < response.features.length; f++) {
-      var feature = response.features[f];
-    }
-  };
-
   var saveNewNotes = function (o) {
     var layer = o.object;
     newNotes = layer.getFeaturesByAttribute("status", "new")
@@ -167,8 +161,7 @@ function addNoteLayer(map, notesUrl, newNoteControls, newNoteForm, minZoom) {
     ],
     protocol: new OpenLayers.Protocol.HTTP({
       url: notesUrl,
-      format: new OpenLayers.Format.GeoJSON(),
-      callback: noteCallback
+      format: new OpenLayers.Format.GeoJSON()
     })
   });
 
