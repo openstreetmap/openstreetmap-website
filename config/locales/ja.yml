@@ -294,6 +294,8 @@ ja:
       description_nearby: 周辺のユーザによる変更セット
       description_user: "%{user} による変更セット"
       description_user_bbox: "%{bbox} 範囲内の %{user} の変更セット"
+      empty_anon_html: まだ編集が行われていません
+      empty_user_html: まだ何も編集していないようですね。<a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.3'>初心者ガイド</a> をチェックして始めましょう。
       heading: 変更セット
       heading_bbox: 変更セット
       heading_friend: 変更セット
@@ -398,7 +400,7 @@ ja:
       area_to_export: エクスポートする範囲
       embeddable_html: 埋め込みHTML
       export_button: エクスポート
-      export_details: OpenStreetMap のデータは <a href="http://creativecommons.org/licenses/by-sa/2.0/">クリエイティブコモンズ 表示-継承 2.0 (Creative Commons Attribution-ShareAlike 2.0)</a>.によって提供されています。
+      export_details: OpenStreetMap のデータは<a href="http://opendatacommons.org/licenses/odbl/1.0/"Open Data Commons Open Database License</a> (ODbL) の下にライセンスされています。
       format: "ファイル形式:"
       format_to_export: エクスポートするファイル形式
       image_size: 画像サイズ：
@@ -429,7 +431,6 @@ ja:
     description: 
       title: 
         geonames: <a href="http://www.geonames.org/">GeoNames</a>からの結果
-        osm_namefinder: <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>からの%{types}
         osm_nominatim: <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>からの位置
       types: 
         cities: 都市
@@ -456,13 +457,9 @@ ja:
         ca_postcode: <a href="http://geocoder.ca/">Geocoder.CA</a>からの結果
         geonames: <a href="http://www.geonames.org/">GeoNames</a>からの結果
         latlon: <a href="http://openstreetmap.org/">Internal</a>からの結果
-        osm_namefinder: <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>からの結果
         osm_nominatim: <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a> からの結果
         uk_postcode: <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>からの結果
         us_postcode: <a href="http://geocoder.us/">Geocoder.us</a>からの結果
-    search_osm_namefinder: 
-      suffix_parent: "%{suffix}（%{parentname} から%{parentdirection}に %{parentdistance}）"
-      suffix_place: "%{placename} から%{direction}に %{distance}"
     search_osm_nominatim: 
       prefix: 
         aeroway: 
@@ -577,6 +574,7 @@ ja:
           administrative: 行政境界
           census: 国勢調査の境界
           national_park: 国立公園
+          protected_area: 保護された領域
         bridge: 
           aqueduct: 水道橋
           suspension: 吊り橋
@@ -592,6 +590,7 @@ ja:
           byway: 路地
           construction: 建設中の高速道路
           cycleway: 自転車道
+          emergency_access_point: 緊急アクセスポイント
           footway: 歩道
           ford: 砦
           living_street: 住宅街
@@ -922,6 +921,7 @@ ja:
     history: 履歴
     home: ホーム
     home_tooltip: ホームに戻る
+    inbox_html: 受信箱 %{count}
     inbox_tooltip: 
       one: 受信箱には１通の未読メッセージがあります
       other: 受信箱には %{count} 通の未読メッセージがあります
@@ -964,6 +964,9 @@ ja:
       english_link: 英語の原文
       text: 翻訳したページと、%{english_original_link} の間で競合が発生しました。英語版の内容が優先されるでしょう。
       title: この翻訳について
+    legal_babble: 
+      credit_title_html: OpenStreetMap のクレジット表記の仕方
+      title_html: 著作権とライセンス
     native: 
       mapping_link: マッピングを開始
       native_link: THIS_LANGUAGE_NAME_HERE バージョン
@@ -1172,6 +1175,7 @@ ja:
       allow_write_prefs: ユーザ設定を変更します。
       authorize_url: "承認 URL:"
       confirm: よろしいですか?
+      delete: クライアントを削除
       edit: 詳細を編集
       key: "コンシューマ キー:"
       requests: "ユーザが以下の許可をリクエストしています:"
@@ -1182,13 +1186,24 @@ ja:
     update: 
       flash: クライアント情報の更新が正常に終了しました
   redaction: 
+    create: 
+      flash: 改訂が作成されました。
+    destroy: 
+      error: この改訂の破壊中にエラーがありました。
+      flash: 改訂は破壊されました。
+      not_empty: 改訂が空ではありません。破壊する前にこの改訂に属する全てのバージョンを再改訂してください。
     edit: 
       description: 説明
     new: 
       description: 説明
+      title: 新しい改訂を作成中
     show: 
       confirm: よろしいですか?
       description: 説明：
+      destroy: この改訂を削除
+      edit: この改訂を編集
+      heading: 改訂 "%{title}" を表示中
+      title: 改訂を表示中
       user: "作成者:"
     update: 
       flash: 変更を保存しました。
@@ -1204,6 +1219,8 @@ ja:
     index: 
       js_1: JavaScriptをサポートしていないブラウザを使用しているか、JavaScriptを使用不可に設定しています。
       js_2: OpenStreetMapは、地図表示にJavaScriptを使用しています。
+      license: 
+        license_url: http://openstreetmap.org/copyright
       permalink: パーマリンク
       remote_failed: 編集に失敗しました - JOSM または Merkaartor がロードされており、リモート制御オプションが有効になっていることを確認してください。
       shortlink: ショートリンク
@@ -1532,7 +1549,9 @@ ja:
       title: パスワードを忘れた
     make_friend: 
       already_a_friend: あなたは %{name} と既に友達です。
+      button: 友達に追加
       failed: "%{name} を友達と登録できませんでした。"
+      heading: "%{user} を友達に追加しますか?"
       success: "%{name} はあなたの友達になりました。"
     new: 
       confirm email address: "メール アドレスの確認:"
@@ -1603,7 +1622,7 @@ ja:
       activate_user: このユーザを有効にする
       add as friend: 友達に追加
       ago: （%{time_in_words_ago}前）
-      block_history: 受信したブロックを表示
+      block_history: 受信したブロック
       blocks by me: 私によるブロック
       blocks on me: 私へのブロック
       comments: コメント
@@ -1629,7 +1648,7 @@ ja:
       latest edit: "最終編集 %{ago}:"
       m away: 距離 %{count}m
       mapper since: "マッパー歴:"
-      moderator_history: 与えられたブロックを表示
+      moderator_history: 与えられたブロック
       my comments: 私のコメント
       my diary: 私の日記
       my edits: 私の編集
@@ -1719,6 +1738,7 @@ ja:
       revoke: 取り消す!
       revoker_name: "取り消し者:"
       show: 表示する
+      showing_page: "%{page} ページを表示中"
       status: 状態
     period: "%{count} 時間"
     revoke: 

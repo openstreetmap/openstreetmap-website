@@ -78,6 +78,7 @@ et:
       deleted: kustutatud
       edit: 
         area: Muuda ala
+        node: Muuda sõlme
         relation: Muuda relatsiooni
       larger: 
         area: Vaata ala suuremal kaardil
@@ -122,6 +123,10 @@ et:
     paging_nav: 
       of: " /"
       showing_page: Näitan lehte
+    redacted: 
+      type: 
+        node: sõlm
+        relation: relatsioon
     relation: 
       download_xml: Laadi XML
       relation: relatsioon
@@ -253,6 +258,7 @@ et:
       older_entries: Vanemad...
       recent_entries: "Hiljutised päeviku sissekanded:"
       title: Kasutajate päevikud
+      title_friends: Sõprade päevikud
       user_title: Kasutaja %{user} päevik
     location: 
       edit: muuda
@@ -284,7 +290,7 @@ et:
       area_to_export: Eksporditav ala
       embeddable_html: Põimitav HTML
       export_button: Ekspordi
-      export_details: OpenStreetMapi andmed on avaldatud <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative Commons Attribution-ShareAlike 2.0 litsentsi</a> tingimustel.
+      export_details: OpenStreetMap'i andmed on avaldatud <a href="http://opendatacommons.org/licenses/odbl/1.0/">Open Data Commons Open Database litsentsi</a> tingimustel.
       format: "Vorming:"
       format_to_export: Eksporditav vorming
       image_size: Pildi suurus
@@ -329,12 +335,9 @@ et:
       title: 
         ca_postcode: <a href="http://geocoder.ca/">Geocoder.CA</a> tulemused
         geonames: <a href="http://www.geonames.org/">GeoNames</a>i tulemused
-        osm_namefinder: <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMapi Namefinder</a>i tulemused
         osm_nominatim: <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>i tulemused
         uk_postcode: " <a href=\"http://www.npemap.org.uk/\">NPEMap / FreeThe Postcode</a> tulemused"
         us_postcode: <a href="http://geocoder.us/">Geocoder.us</a> tulemused
-    search_osm_namefinder: 
-      suffix_place: ", %{distance} %{direction} kohast %{placename}"
     search_osm_nominatim: 
       prefix: 
         aeroway: 
@@ -632,6 +635,7 @@ et:
     foundation: Sihtasutus
     foundation_title: OpenStreetMapi Sihtasutus
     gps_traces: GPS rajad
+    gps_traces_tooltip: Halda GPS radasid
     help: Juhend
     help_title: Projekti abiinfo
     history: Ajalugu
@@ -641,6 +645,7 @@ et:
       one: Sul on üks lugemata sõnum
       other: Sul on %{count} lugemata sõnumit
       zero: Sul ei ole lugemata sõnumeid
+    intro_1: OpenStreetMap on vaba, kogu maailma hõlmav kaart, mille on loonud inimesed, nagu sina.
     intro_2_create_account: loo oma konto
     intro_2_html: Andmeid võib olemasoleva %{license} alusel tasuta %{download} ja %{use}. Kaardi täiendamiseks %{create_account}.
     log_in: logi sisse
@@ -654,6 +659,7 @@ et:
       title: Toeta OpenStreetMapi rahaliselt
     sign_up: registreeru
     sign_up_tooltip: Redigeerimiseks loo omale konto
+    sotm2012: Tule 2012 OpenStreetMapi konverentsile The State of the Map 6.-8. septembril Tokyos!
     tag_line: Vaba viki-maailmakaart
     user_diaries: Kasutajate päevikud
     user_diaries_tooltip: Vaata kasutajate päevikuid
@@ -766,14 +772,28 @@ et:
   oauth_clients: 
     edit: 
       submit: Redigeeri
-      title: Redigeeri oma avaldust
+      title: Redigeeri oma rakendust
     form: 
+      allow_read_gpx: lugeda enda privaatseid GPS-radasid.
+      allow_read_prefs: Lugeda oma kasutajaeelistusi.
+      allow_write_api: muuta kaarti
+      allow_write_diary: luua päeviku sissekandeid, kommenteerida ja saada sõpradeks.
+      allow_write_prefs: Muuta oma kasutajaeelistusi.
       name: Nimi
+      requests: "Kasutajalt nõutakse järgmisi õiguseid:"
+      required: Nõutav
+      url: Põhirakenduse URL
     index: 
-      application: Avalduse nimi
+      application: Rakenduse nimi
+      issued_at: Väljastatud
+      list_tokens: "Järgmised turvamärgid on rakendustele väljastatud sinu nime all:"
+      my_apps: Minu kliendirakendused
+      no_apps: Kas omad rakendust, mida soovid siin kasutamiseks registreerida, kasutades %(oauth) standardit? Selleks tuleb kõigepealt registreerida oma veebirakendus enne kui see saab teostada OAuth päringuid antud teenusele.
+      register_new: Registreeri oma rakendus
+      revoke: Tühista!
     new: 
       submit: Registreeri
-      title: Registreeri uus avaldus
+      title: Registreeri uus rakendus
   site: 
     edit: 
       user_page_link: kasutajaleht
@@ -894,6 +914,9 @@ et:
       uploaded_at: "Üles laaditud:"
       visibility: "Nähtavus:"
       visibility_help: Mida see tähendab?
+    list: 
+      public_traces: Avalikud GPS rajad
+      your_traces: Sinu GPS rajad
     trace: 
       ago: "%{time_in_words_ago} tagasi"
       count_points: 
@@ -975,6 +998,7 @@ et:
       return to profile: Tagasi profiili juurde
       save changes button: Salvesta muudatused
       title: Redigeeri kasutajakontot
+      update home location on click: Kas uuendan kodu asukohta kui ma klõpsan kaardil?
     confirm: 
       already active: See konto on juba kinnitatud.
       button: Kinnita
@@ -1071,6 +1095,7 @@ et:
       confirm: Kinnita
       create_block: blokeeri see kasutaja
       ct accepted: Vastu võetud %{ago}  tagasi
+      ct status: "Kaastöötingimused:"
       delete_user: kustuta see kasutaja
       description: Kirjeldus
       diary: päevik
@@ -1115,6 +1140,8 @@ et:
     partial: 
       confirm: Oled Sa kindel?
       edit: Redigeeri
+      next: Järgmine »
+      previous: « Eelmine
       reason: Blokeerimise põhjus
       show: Näita
     show: 
