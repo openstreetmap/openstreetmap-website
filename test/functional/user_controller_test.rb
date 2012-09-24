@@ -531,6 +531,7 @@ class UserControllerTest < ActionController::TestCase
     assert_response :success
 
     # check that we aren't revealing private information
+    assert_select "contributor-terms[pd]", false
     assert_select "home", false
     assert_select "languages", false
 

@@ -6,9 +6,12 @@ xml.osm("version" => API_VERSION, "generator" => GENERATOR) do
     if @this_user.description
       xml.tag! "description", @this_user.description
     end
-    xml.tag! "contributor-terms",
-        :agreed => !!@this_user.terms_agreed,
-        :pd => !!@this_user.consider_pd
+    if @user && @user == @this_user
+      xml.tag! "contributor-terms", :agreed => !!@this_user.terms_agreed,
+                                    :pd => !!@this_user.consider_pd
+    else
+      xml.tag! "contributor-terms", :agreed => !!@this_user.terms_agreed
+    end
     if @this_user.image.file?
       xml.tag! "img", :href => "http://#{SERVER_URL}#{@this_user.image.url}"
     end
