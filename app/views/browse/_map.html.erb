@@ -3,18 +3,54 @@
 
 <div id="browse_map">
   <% if map.instance_of? Changeset or (map.instance_of? Node and map.version > 1) or map.visible %>
-  <div id="small_map">
-  </div>
+  <%
+     if map.instance_of? Changeset
+       bbox = map.bbox.to_unscaled
+       data = {
+         :type   => "changeset",
+         :id     => map.id,
+         :minlon => bbox.min_lon,
+         :minlat => bbox.min_lat,
+         :maxlon => bbox.max_lon,
+         :maxlat => bbox.max_lat
+       }
+     else
+       data = {
+         :type    => map.class.name.downcase,
+         :id      => map.id,
+         :version => map.version,
+         :visible => map.visible
+       }
+     end
+  %>
+  <%= content_tag "div", "", :id => "small_map", :data => data %>
   <span id="loading"><%= t 'browse.map.loading' %></span>
-  <%= link_to(t("browse.map.larger.area"), { :controller => :site, :action => :index, :box => "yes" }, { :id => "area_larger_map", :class => "geolink bbox" }) %>
+
+  <%= link_to t("browse.map.larger.area"),
+              root_path(:box => "yes"),
+              :id => "area_larger_map",
+              :class => "geolink bbox" %>
   <br />
-  <%= link_to(h(t("browse.map.edit.area")) + content_tag(:span, "▾", :class => "menuicon"), { :controller => :site, :action => :edit }, { :id => "area_edit", :class => "geolink bbox" }) %>
+  <%= link_to h(t("browse.map.edit.area")) + content_tag(:span, "▾", :class => "menuicon"),
+              edit_path,
+              :id => "area_edit",
+              :data => { :editor => preferred_editor },
+              :class => "geolink bbox" %>
+
   <% unless map.instance_of? Changeset %>
     <br />
-    <%= link_to(t("browse.map.larger." + map.class.to_s.downcase), { :controller => :site, :action => :index }, { :id => "object_larger_map", :class => "geolink object" }) %>
+    <%= link_to t("browse.map.larger." + map.class.to_s.downcase),
+                root_path,
+                :id => "object_larger_map",
+                :class => "geolink object" %>
     <br />
-    <%= link_to(h(t("browse.map.edit." + map.class.to_s.downcase)) + content_tag(:span, "▾", :class => "menuicon"), { :controller => :site, :action => :edit }, { :id => "object_edit", :class => "geolink object" }) %>
+    <%= link_to h(t("browse.map.edit." + map.class.to_s.downcase)) + content_tag(:span, "▾", :class => "menuicon"),
+                edit_path,
+                :id => "object_edit",
+                :data => { :editor => preferred_editor },
+                :class => "geolink object" %>
   <% end %>
+
   <% else %>
     <%= t 'browse.map.deleted' %>
   <% end %>
@@ -23,7 +59,10 @@
 <div id="area_edit_menu" class="menu">
   <ul>
     <% Editors::ALL_EDITORS.each do |editor| %>
-      <li><%= link_to t('layouts.edit_with', :editor => t("editor.#{editor}.description")), { :controller => :site, :action => :edit, :editor => editor }, { :id => "#{editor}_area_edit", :class => "geolink bbox" } %></li>
+      <li><%= link_to t('layouts.edit_with', :editor => t("editor.#{editor}.description")),
+                      edit_path(:editor => editor),
+                      :data => {:editor => editor},
+                      :class => "geolink bbox" %></li>
     <% end %>
   </ul>
 </div>
@@ -31,7 +70,10 @@
 <div id="object_edit_menu" class="menu">
   <ul>
     <% Editors::ALL_EDITORS.each do |editor| %>
-      <li><%= link_to t('layouts.edit_with', :editor => t("editor.#{editor}.description")), { :controller => :site, :action => :edit, :editor => editor }, { :id => "#{editor}_object_edit", :class => "geolink object" } %></li>
+      <li><%= link_to t('layouts.edit_with', :editor => t("editor.#{editor}.description")),
+                      edit_path(:editor => editor),
+                      :data => {:editor => editor},
+                      :class => "geolink object" %></li>
     <% end %>
   </ul>
 </div>
@@ -54,7 +96,7 @@
       }
 
       setTimeout(function () {
-        if (!loaded) alert("<%=j t('site.index.remote_failed') %>");
+        if (!loaded) alert(I18n.t('site.index.remote_failed'));
       }, 1000);
 
       return false;
@@ -65,13 +107,9 @@
         controls: [ new OpenLayers.Control.Navigation() ]
       });
 
-      <% if map.instance_of? Changeset -%>
-        <% bbox = map.bbox.to_unscaled %>
-        var minlon = <%= bbox.min_lon %>;
-        var minlat = <%= bbox.min_lat %>;
-        var maxlon = <%= bbox.max_lon %>;
-        var maxlat = <%= bbox.max_lat %>;
-        var bbox = new OpenLayers.Bounds(minlon, minlat, maxlon, maxlat);
+      var params = $("#small_map").data();
+      if (params.type == "changeset") {
+        var bbox = new OpenLayers.Bounds(params.minlon, params.minlat, params.maxlon, params.maxlat);
         var centre = bbox.getCenterLonLat();
 
         map.zoomToExtent(proj(bbox));
@@ -80,28 +118,18 @@
         $("#loading").hide();
         $("#browse_map .geolink").show();
 
-        $("#remote_area_edit").click(function (event) {
+        $("a[data-editor=remote]").click(function (event) {
           return remoteEditHandler(event, bbox);
         });
 
-        <% if preferred_editor == "remote" -%>
-        $("#area_edit").click(function (event) {
-          return remoteEditHandler(event, bbox);
-        });
-        <% end -%>
+        updatelinks(centre.lon, centre.lat, 16, null, params.minlon, params.minlat, params.maxlon, params.maxlat);
+      } else {
+        var url = "/api/" + OSM.API_VERSION + "/" + params.type + "/" + params.id;
 
-        updatelinks(centre.lon, centre.lat, 16, null, minlon, minlat, maxlon, maxlat);
-      <% else -%>
-        var obj_type = "<%= map.class.name.downcase %>";
-        var obj_id = <%= map.id %>;
-        var obj_version = <%= map.version %>;
-        var obj_visible = <%= map.visible %>;
-        var url = "/api/<%= API_VERSION %>/<%= map.class.name.downcase %>/<%= map.id %>";
-
-        if (obj_type != "node") {
+        if (params.type != "node") {
           url += "/full";
-        } else if (!obj_visible) {
-          var previous_version = obj_version - 1;
+        } else if (!params.visible) {
+          var previous_version = params.version - 1;
           url += "/" + previous_version;
         }
 
@@ -117,35 +145,23 @@
 
             var centre = extent.getCenterLonLat();
 
-            $("#remote_area_edit").click(function (event) {
+            $("a.bbox[data-editor=remote]").click(function (event) {
               return remoteEditHandler(event, extent);
             });
 
-            <% if preferred_editor == "remote" -%>
-            $("#area_edit").click(function (event) {
-              return remoteEditHandler(event, extent);
+            $("a.object[data-editor=remote]").click(function (event) {
+              return remoteEditHandler(event, extent, params.type + params.id);
             });
-            <% end -%>
-
-            $("#remote_object_edit").click(function (event) {
-              return remoteEditHandler(event, extent, "<%= map.class.to_s.downcase + map.id.to_s %>");
-            });
-
-            <% if preferred_editor == "remote" -%>
-            $("#object_edit").click(function (event) {
-              return remoteEditHandler(event, extent, "<%= map.class.to_s.downcase + map.id.to_s %>");
-            });
-            <% end -%>
 
             $("#object_larger_map").show();
             $("#object_edit").show();
 
-            updatelinks(centre.lon, centre.lat, 16, null, extent.left, extent.bottom, extent.right, extent.top, "<%= map.class.to_s.downcase %>", <%= map.id %>);
+            updatelinks(centre.lon, centre.lat, 16, null, extent.left, extent.bottom, extent.right, extent.top, params.type, params.id);
           } else {
             $("#small_map").hide();
           }
         });
-      <% end -%>
+      }
 
       createMenu("area_edit", "area_edit_menu", "right");
       createMenu("object_edit", "object_edit_menu", "right");
