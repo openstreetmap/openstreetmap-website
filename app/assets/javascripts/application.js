@@ -9,10 +9,7 @@
 //= require globals
 //= require params
 //= require piwik
-//= require browse
-//= require export
 //= require map
-//= require key
 //= require menu
 //= require sidebar
 //= require richtext
