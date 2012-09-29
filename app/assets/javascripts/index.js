@@ -1,9 +1,7 @@
-var marker;
-var map;
-var params = OSM.mapParams();
-
-function mapInit(){
-  map = createMap("map");
+$(document).ready(function () {
+  var marker;
+  var params = OSM.mapParams();
+  var map = createMap("map");
 
   if (!params.object_zoom) {
     if (params.bbox) {
@@ -42,9 +40,7 @@ function mapInit(){
 
   updateLocation();
   handleResize();
-}
 
-$(document).ready(function () {
   $("#show_data").click(function (e) {
     $.ajax({ url: $(this).attr('href'), success: function (sidebarHtml) {
       startBrowse(sidebarHtml);
@@ -72,57 +68,49 @@ $(document).ready(function () {
 
     return false;
   });
-});
 
-function updateLocation() {
-  var lonlat = unproj(map.getCenter());
-  var zoom = map.getZoom();
-  var layers = getMapLayers();
-  var extents = unproj(map.getExtent());
-  var expiry = new Date();
+  function updateLocation() {
+    var lonlat = unproj(map.getCenter());
+    var zoom = map.getZoom();
+    var layers = getMapLayers();
+    var extents = unproj(map.getExtent());
+    var expiry = new Date();
 
-  updatelinks(lonlat.lon, lonlat.lat, zoom, layers, extents.left, extents.bottom, extents.right, extents.top, params.object_type, params.object_id);
+    updatelinks(lonlat.lon, lonlat.lat, zoom, layers, extents.left, extents.bottom, extents.right, extents.top, params.object_type, params.object_id);
 
-  expiry.setYear(expiry.getFullYear() + 10);
-  $.cookie("_osm_location", [lonlat.lon, lonlat.lat, zoom, layers].join("|"), {expires: expiry});
-}
+    expiry.setYear(expiry.getFullYear() + 10);
+    $.cookie("_osm_location", [lonlat.lon, lonlat.lat, zoom, layers].join("|"), {expires: expiry});
+  }
 
-function remoteEditHandler(event) {
-  var extent = unproj(map.getExtent());
-  var loaded = false;
+  function remoteEditHandler(event) {
+    var extent = unproj(map.getExtent());
+    var loaded = false;
 
-  $("#linkloader").load(function () { loaded = true; });
-  $("#linkloader").attr("src", "http://127.0.0.1:8111/load_and_zoom?left=" + extent.left + "&top=" + extent.top + "&right=" + extent.right + "&bottom=" + extent.bottom);
+    $("#linkloader").load(function () { loaded = true; });
+    $("#linkloader").attr("src", "http://127.0.0.1:8111/load_and_zoom?left=" + extent.left + "&top=" + extent.top + "&right=" + extent.right + "&bottom=" + extent.bottom);
 
-  setTimeout(function () {
-    if (!loaded) alert(I18n.t('site.index.remote_failed'));
-  }, 1000);
+    setTimeout(function () {
+      if (!loaded) alert(I18n.t('site.index.remote_failed'));
+    }, 1000);
 
-  return false;
-}
+    return false;
+  }
 
-function installEditHandler() {
   $("a[data-editor=remote]").click(remoteEditHandler);
 
   if (OSM.preferred_editor == "remote" && $('body').hasClass("site-edit")) {
     remoteEditHandler();
   }
-}
 
-$(document).ready(mapInit);
-$(document).ready(installEditHandler);
-$(document).ready(handleResize);
+  $(window).resize(function() {
+    var centre = map.getCenter();
+    var zoom = map.getZoom();
 
-$(window).resize(function() {
-  var centre = map.getCenter();
-  var zoom = map.getZoom();
+    handleResize();
 
-  handleResize();
+    map.setCenter(centre, zoom);
+  });
 
-  map.setCenter(centre, zoom);
-});
-
-$(document).ready(function () {
   $("#exportanchor").click(function (e) {
     $.ajax({ url: $(this).data('url'), success: function (sidebarHtml) {
       startExport(sidebarHtml);
