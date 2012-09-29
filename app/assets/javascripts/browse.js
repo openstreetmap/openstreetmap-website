@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  function remoteEditHandler(event, bbox, select) {
+  function remoteEditHandler(bbox, select) {
     var left = bbox.left - 0.0001;
     var top = bbox.top + 0.0001;
     var right = bbox.right + 0.0001;
@@ -36,8 +36,8 @@ $(document).ready(function () {
     $("#loading").hide();
     $("#browse_map .geolink").show();
 
-    $("a[data-editor=remote]").click(function (event) {
-      return remoteEditHandler(event, bbox);
+    $("a[data-editor=remote]").click(function () {
+      return remoteEditHandler(bbox);
     });
 
     updatelinks(centre.lon, centre.lat, 16, null, params.minlon, params.minlat, params.maxlon, params.maxlat);
@@ -63,12 +63,12 @@ $(document).ready(function () {
 
         var centre = extent.getCenterLonLat();
 
-        $("a.bbox[data-editor=remote]").click(function (event) {
-          return remoteEditHandler(event, extent);
+        $("a.bbox[data-editor=remote]").click(function () {
+          return remoteEditHandler(extent);
         });
 
-        $("a.object[data-editor=remote]").click(function (event) {
-          return remoteEditHandler(event, extent, params.type + params.id);
+        $("a.object[data-editor=remote]").click(function () {
+          return remoteEditHandler(extent, params.type + params.id);
         });
 
         $("#object_larger_map").show();
