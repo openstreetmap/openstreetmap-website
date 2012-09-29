@@ -86,7 +86,6 @@ class SiteControllerTest < ActionController::TestCase
   
   def assert_site_partials(count = 1)
     assert_template :partial => '_search', :count => count
-    assert_template :partial => '_key', :count => count
     assert_template :partial => '_sidebar', :count => count
   end
 
