@@ -1,3 +1,7 @@
+//= require index/browse
+//= require index/export
+//= require index/key
+
 $(document).ready(function () {
   var marker;
   var params = OSM.mapParams();
