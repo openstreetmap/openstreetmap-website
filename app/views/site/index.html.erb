@@ -141,22 +141,18 @@
     $("#linkloader").attr("src", "http://127.0.0.1:8111/load_and_zoom?left=" + extent.left + "&top=" + extent.top + "&right=" + extent.right + "&bottom=" + extent.bottom);
 
     setTimeout(function () {
-      if (!loaded) alert("<%=j t('site.index.remote_failed') %>");
+      if (!loaded) alert(I18n.t('site.index.remote_failed'));
     }, 1000);
 
     return false;
   }
 
   function installEditHandler() {
-    $("#remoteanchor").click(remoteEditHandler);
+    $("a[data-editor=remote]").click(remoteEditHandler);
 
-    <% if preferred_editor == "remote" %>
-      $("#editanchor").click(remoteEditHandler);
-
-      <% if params[:action] == "edit" %>
-        remoteEditHandler();
-      <% end %>
-    <% end %>
+    if (OSM.preferred_editor == "remote" && $('body').hasClass("site-edit")) {
+      remoteEditHandler();
+    }
   }
 
   $(document).ready(mapInit);
@@ -174,19 +170,20 @@
 
   $(document).ready(function () {
     $("#exportanchor").click(function (e) {
-      $.ajax({ url: "<%= url_for :controller => :export, :action => :start %>", success: function (sidebarHtml) {
+      $.ajax({ url: $(this).data('url'), success: function (sidebarHtml) {
         startExport(sidebarHtml);
       }});
       e.preventDefault();
     });
 
-    <% if params[:export] -%>
-    $("#exportanchor").click();
-    <% end -%>
+    if (window.location.pathname == "/export") {
+      $("#exportanchor").click();
+    }
 
-    <% if params[:query] -%>
-    doSearch("<%= params[:query] %>");
-    <% end %>
+    var query;
+    if (query = getArgs(window.location.toString()).query) {
+      doSearch(query);
+    }
   });
 // -->
 </script>

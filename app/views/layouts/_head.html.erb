@@ -29,6 +29,8 @@
     <% if session[:location] %>
     OSM.location = <%= session[:location].to_json.html_safe %>;
     <% end %>
+
+    OSM.preferred_editor = <%= preferred_editor.to_json.html_safe %>;
   </script>
   <title><%= t 'layouts.project_name.title' %><%= ' | '+ @title if @title %></title>
 </head>

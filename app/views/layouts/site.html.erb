@@ -32,7 +32,7 @@
         <li><%= link_to h(t('layouts.edit')) + content_tag(:span, "▾", :class => "menuicon"), edit_path, {
           :id => 'editanchor',
           :title => t('javascripts.site.edit_tooltip'),
-          :data => { :minzoom => 13 },
+          :data => { :minzoom => 13, :editor => preferred_editor },
           :class => 'geolink llz object disabled'
         } %></li>
         <li><%= link_to t('layouts.history'), browse_changesets_path, {
@@ -44,6 +44,7 @@
         <li><%= link_to t('layouts.export'), export_path, {
           :id => 'exportanchor',
           :title => t('layouts.export_tooltip'),
+          :data => { :url => url_for(:controller => :export, :action => :start) },
           :class => 'geolink llz layers'
         } %></li>
       </ul>
@@ -54,7 +55,7 @@
           <li><%= link_to t('layouts.edit_with',
             :editor => t("editor.#{editor}.description")),
             edit_path(:editor => editor), {
-            :id => editor + 'anchor',
+            :data => { :editor => editor },
             :class => "geolink llz object"
           } %></li>
         <% end %>
