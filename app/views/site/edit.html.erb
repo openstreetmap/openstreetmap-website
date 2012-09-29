@@ -22,11 +22,11 @@
     $("#tabnav").hide();
 
     $("#content").css("top", "0px");
-    <% if t('html.dir') == "ltr" -%>
-    $("#content").css("left", "0px");
-    <% else -%>
-    $("#content").css("right", "0px");
-    <% end -%>
+    if ($("html").attr("dir") == "ltr") {
+      $("#content").css("left", "0px");
+    } else {
+      $("#content").css("right", "0px");
+    }
 
     handleResize();
   }
@@ -37,11 +37,11 @@
     $("#tabnav").show();
 
     $("#content").css("top", "30px");
-    <% if t('html.dir') == "ltr" -%>
-    $("#content").css("left", "185px");
-    <% else -%>
-    $("#content").css("right", "185px");
-    <% end -%>
+    if ($("html").attr("dir") == "ltr") {
+      $("#content").css("left", "185px");
+    } else {
+      $("#content").css("right", "185px");
+    }
 
     handleResize();
   }
