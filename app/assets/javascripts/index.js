@@ -126,8 +126,22 @@ $(document).ready(function () {
     $("#exportanchor").click();
   }
 
-  var query;
-  if (query = getArgs(window.location.toString()).query) {
-    doSearch(query);
+  $("#search_form").submit(function () {
+    var extent = unproj(map.getExtent());
+
+    $("#sidebar_title").html(I18n.t('site.sidebar.search_results'));
+    $("#sidebar_content").load($(this).attr("action"), {
+      query: $("#query").val(),
+      minlon: extent.left,
+      minlat: extent.bottom,
+      maxlon: extent.right,
+      maxlat: extent.top
+    }, openSidebar);
+
+    return false;
+  });
+
+  if ($("#query").val()) {
+    $("#search_form").submit();
   }
 });
