@@ -85,7 +85,7 @@ class MessageControllerTest < ActionController::TestCase
     m = Message.find(3)
     assert_equal users(:normal_user).id, m.from_user_id
     assert_equal users(:public_user).id, m.to_user_id
-    assert_in_delta Time.now, m.sent_on, 1
+    assert_in_delta Time.now, m.sent_on, 2
     assert_equal "Test Message", m.title
     assert_equal "Test message body", m.body
     assert_equal "markdown", m.body_format
