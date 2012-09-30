@@ -1,12 +1,5 @@
 module I18n
   module Backend
-    module Fallbacks
-      def find_first_string_or_lambda_default(defaults)
-        defaults.each_with_index { |default, ix| return ix if default && !default.is_a?(Symbol) }
-        nil
-      end
-    end
-
     module PluralizationFallback
       def pluralize(locale, entry, count)
         super
