@@ -1,10 +1,10 @@
 # Description
 
-This is the Rails port, the [Ruby on Rails](http://rubyonrails.org/)
+This is the [Ruby on Rails](http://rubyonrails.org/)
 application that powers [OpenStreetMap](http://www.openstreetmap.org).
 
-The Rails port provides almost all the services which are available 
-on the OpenStreetMap site, including:
+It provides most of the services which are available
+on the OpenStreetMap site:
 
 * The web site itself, including the edit pages.
 * The editing [API](http://wiki.openstreetmap.org/wiki/API_v0.6).
@@ -13,20 +13,14 @@ on the OpenStreetMap site, including:
   user-to-user messaging.
 * GPX uploads, browsing and API.
 
-There are some non-Rails services which the site includes, for 
-example; tiles, geocoding, GPX file loading. There are also some
-utilities which provide other services on the OpenStreetMap site,
-or improve its function, but are not integrated with the Rails 
-port, for example; Osmosis, CGImap.
+Some other parts of the site functionality, like tiles, geocoding,
+and GPX file loading, are provided by
+external code, like [Osmosis](http://wiki.openstreetmap.org/wiki/Osmosis) and
+[CGImap](http://wiki.openstreetmap.org/wiki/Cgimap).
 
-# License
+# Getting Started
 
-This software is licensed under the [GNU General Public License 2.0](http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt),
-a copy of which can be found in the LICENSE file.
-
-# Running it
-
-You can find documentation on [how to setup and
+You can find [documentation on how to setup and
 run](http://wiki.openstreetmap.org/wiki/The_Rails_Port) the software
 on the OpenStreetMap wiki.
 
@@ -40,16 +34,15 @@ will be a better place to start.
 
 Anybody hacking on the code is welcome to join the
 [rails-dev](http://lists.openstreetmap.org/listinfo/rails-dev) mailing
-list where other people hacking on the code hang out and will be happy
+list, where other people hacking on the code hang out and will be happy
 to help with any problems you may encounter. If you are looking for a
-project to help out with, please take a look at the list of 
-[Top Ten Tasks](http://wiki.openstreetmap.org/wiki/Top_Ten_Tasks) that
-EWG maintains on the wiki.
+project to help out with, please take a look at the list of
+[Top Ten Tasks](http://wiki.openstreetmap.org/wiki/Top_Ten_Tasks) list maintained
+by the Engineering Working Group.
 
 There are also weekly IRC meetings, at 1800 GMT on Mondays in #osm-ewg on
-the OFTC network where questions can be asked and ideas discussed. For more 
-information, please see [the EWG page]
-(http://www.osmfoundation.org/wiki/Engineering_Working_Group#Meetings). You can
+the OFTC network where questions can be asked and ideas discussed. For more
+information, please see [the EWG page](http://www.osmfoundation.org/wiki/Engineering_Working_Group#Meetings). You can
 join the channel using your favourite IRC client or [irc.openstreetmap.org](http://irc.openstreetmap.org/).
 
 ## Rails
@@ -63,10 +56,11 @@ helpful as a reference.
 ## Coding style
 
 When writing code it is generally a good idea to try and match your
-formatting to hat of any existing code in the same file, or to other
+formatting to that of any existing code in the same file, or to other
 similar files if you are writing new code. Consistency of layout is
 far more important that the layout itself as it makes reading code
-much easier.
+much easier. Using [JSHint](http://www.jshint.com/) is recommended for
+Javascript code.
 
 One golden rule of formatting -- please don't use tabs in your code
 as they will cause the file to be formatted differently for different
@@ -75,7 +69,7 @@ people depending on how they have their editor configured.
 ## Testing
 
 Having a good suite of tests is very important to the stability and
-maintainability of any code base. The tests in the Rails port code are
+maintainability of any code base. The tests in the osm-website code are
 by no means complete, but they are extensive, and must continue to be
 so with any new functionality which is written. Tests are also useful
 in giving others confidence in the code you've written, and can
@@ -107,7 +101,7 @@ and why it should be the way it is.
 When you submit patches, the project maintainer has to read them and
 understand them. This is difficult enough at the best of times, and
 misunderstanding patches can lead to them being more difficult to
-merge. To help wit this, when submitting you should:
+merge. To help with this, when submitting you should:
 
 * Split up large patches into smaller units of functionality.
 * Keep your commit messages relevant to the changes in each individual
@@ -133,3 +127,7 @@ and send the details to the [rails-dev](http://lists.openstreetmap.org/listinfo/
 list or generate patches with `git format-patch` and send them to the
 [rails-dev](http://lists.openstreetmap.org/listinfo/rails-dev) list.
 
+# License
+
+This software is licensed under the [GNU General Public License 2.0](http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt),
+a copy of which can be found in the LICENSE file.
