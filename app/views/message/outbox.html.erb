@@ -3,17 +3,21 @@
 <p><%= t'message.outbox.messages', :count => @user.sent_messages.size %></p>
 
 <% if @user.sent_messages.size > 0 %>
-  <div id="messages">
-    <table class="messages">
+  <table class="messages">
+    <thead>
       <tr>
-        <th><%= t'message.outbox.to' %></th>
-        <th><%= t'message.outbox.subject' %></th>
-        <th><%= t'message.outbox.date' %></th>
+        <th><%= t'message.inbox.from' %></th>
+        <th><%= t'message.inbox.subject' %></th>
+        <th><%= t'message.inbox.date' %></th>
+        <th></th>
+        <th></th>
         <th></th>
       </tr>
+    </thead>
+    <tbody>
       <%= render :partial => "sent_message_summary", :collection => @user.sent_messages %>
-    </table>
-  </div>
+    </tbody>
+  </table>
 <% else %>
-  <div id="messages"><%= raw(t'message.outbox.no_sent_messages', :people_mapping_nearby_link => link_to(t('message.outbox.people_mapping_nearby'), :controller => 'user', :action => 'view', :display_name => @user.display_name)) %></div>
+  <div class="messages"><%= raw(t'message.outbox.no_sent_messages', :people_mapping_nearby_link => link_to(t('message.outbox.people_mapping_nearby'), :controller => 'user', :action => 'view', :display_name => @user.display_name)) %></div>
 <% end %>
