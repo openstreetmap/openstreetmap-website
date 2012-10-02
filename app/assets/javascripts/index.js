@@ -17,7 +17,7 @@ $(document).ready(function () {
       map.zoomToExtent(proj(bbox));
 
       if (params.box) {
-        $(window).load(function() { addBoxToMap(bbox) });
+        addBoxToMap(bbox);
       }
     } else {
       setMapCenter(new OpenLayers.LonLat(params.lon, params.lat), params.zoom);
@@ -39,7 +39,7 @@ $(document).ready(function () {
       url += "/full";
     }
 
-    $(window).load(function() { addObjectToMap(url, params.object_zoom) });
+    addObjectToMap(url, params.object_zoom);
   }
 
   handleResize();
