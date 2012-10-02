@@ -7,6 +7,9 @@ $(document).ready(function () {
   var params = OSM.mapParams();
   var map = createMap("map");
 
+  map.events.register("moveend", map, updateLocation);
+  map.events.register("changelayer", map, updateLocation);
+
   if (!params.object_zoom) {
     if (params.bbox) {
       var bbox = new OpenLayers.Bounds(params.minlon, params.minlat, params.maxlon, params.maxlat);
@@ -39,10 +42,6 @@ $(document).ready(function () {
     $(window).load(function() { addObjectToMap(url, params.object_zoom) });
   }
 
-  map.events.register("moveend", map, updateLocation);
-  map.events.register("changelayer", map, updateLocation);
-
-  updateLocation();
   handleResize();
 
   $("#show_data").click(function (e) {
