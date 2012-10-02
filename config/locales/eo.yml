@@ -1,11 +1,13 @@
 # Messages for Esperanto (Esperanto)
 # Exported from translatewiki.net
 # Export driver: syck-pecl
+# Author: Airon90
 # Author: Cfoucher
 # Author: Lucas
 # Author: LyzTyphone
 # Author: Michawiki
 # Author: Petrus Adamus
+# Author: Timsk
 # Author: Yekrats
 eo: 
   activerecord: 
@@ -44,12 +46,15 @@ eo:
       changeset_tag: Etikedo de ŝanĝaro
       country: Lando
       diary_comment: Ĵurnala komento
+      diary_entry: Ĵurnala ero
       friend: Amiko
       language: Lingvo
       message: Mesaĝo
       node: Nodo
-      node_tag: Nodetikedo
+      node_tag: Etikedo de nodo
+      notifier: Atentigilo
       old_node: Malnova nodo
+      old_node_tag: Etikedo de malnova nodo
       old_relation: Malnova rilato
       old_way: Malnova vojo
       relation: Rilato
@@ -91,6 +96,8 @@ eo:
       show_area_box: Montri la skatolon de la areo
     common_details: 
       changeset_comment: "Komento:"
+      deleted_at: "Forigita je:"
+      deleted_by: "Forigita fare de:"
       edited_at: "Redaktita je:"
       edited_by: "Redaktita de:"
       in_changeset: "En ŝanĝaro:"
@@ -100,6 +107,11 @@ eo:
       entry_role: Rilato %{relation_name} (kiel %{relation_role})
     map: 
       deleted: Forviŝita
+      edit: 
+        area: Redakti areon
+        node: Redakti nodon
+        relation: Redakti rilaton
+        way: Redakti vojon
       larger: 
         area: Vidi la areon en pli granda mapo
         node: Vidi la nodon en pli granda mapo
@@ -109,7 +121,13 @@ eo:
     navigation: 
       all: 
         next_changeset_tooltip: Sekvanta ŝanĝaro
+        next_node_tooltip: Sekva nodo
+        next_relation_tooltip: Sekva rilato
+        next_way_tooltip: Sekva vojo
         prev_changeset_tooltip: Antaŭa ŝanĝaro
+        prev_node_tooltip: Antaŭa nodo
+        prev_relation_tooltip: Antaŭa rilato
+        prev_way_tooltip: Antaŭa vojo
       user: 
         name_changeset_tooltip: Vidi redaktojn el %{user}
         next_changeset_tooltip: Sekvanta redakto de %{user}
@@ -262,6 +280,15 @@ eo:
       save_button: Konservi
       title: Uzantĵurnaloj | %{user}
       user_title: Ĵurnalo de %{user}
+  editor: 
+    potlatch: 
+      description: Potlatch 1 (redaktilo en TTT-legilo)
+      name: Potlatch 1
+    potlatch2: 
+      description: Potlatch 2 (redaktilo en TTT-legilo)
+      name: Potlatch 2
+    remote: 
+      name: Teleregilo
   export: 
     start: 
       add_marker: Aldoni markon al la mapo
@@ -291,14 +318,11 @@ eo:
     description: 
       title: 
         geonames: Loko el <a href="http://www.geonames.org/">GeoNames</a>
-        osm_namefinder: "%{types} el <a href=\"http://gazetteer.openstreetmap.org/namefinder/\">OpenStreetMap Namefinder</a>"
         osm_nominatim: Loko el <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
       types: 
         cities: Grandurboj
         places: Lokoj
         towns: Urboj
-    description_osm_namefinder: 
-      prefix: "%{distance} %{direction} de %{type}"
     direction: 
       east: oriento
       north: nordo
@@ -319,13 +343,9 @@ eo:
         ca_postcode: Rezultoj el <a href="http://geocoder.ca/">Geocoder.CA</a>
         geonames: Rezultoj el <a href="http://www.geonames.org/">GeoNames</a>
         latlon: Rezultoj el <a href="http://openstreetmap.org/">Internal</a>
-        osm_namefinder: Rezultoj el <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>
         osm_nominatim: Rezultoj el <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
         uk_postcode: Rezultoj el <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Rezultoj el <a href="http://geocoder.us/">Geocoder.us</a>
-    search_osm_namefinder: 
-      suffix_parent: "%{suffix} (%{parentdistance} %{parentdirection} de %{parentname})"
-      suffix_place: ", %{distance} %{direction} de %{placename}"
   layouts: 
     donate: Subtenu OpenStreetMap %{link} al Fonduso de Ĝisdatigo de Aparataro.
     donate_link_text: donacante
@@ -337,13 +357,10 @@ eo:
     history: Historio
     home: hejmo
     home_tooltip: Iri al hejmloko
-    inbox: leterkesto (%{count})
     inbox_tooltip: 
       one: Via leterkesto enhavas 1 nelegitan mesaĝon
       other: Via leterkesto enhavas %{count} nelegitajn mesaĝojn
       zero: Via leterkesto ne enhavas nelegitajn mesaĝojn
-    license: 
-      title: Datenoj de OpenStreetMap estas disponeblaj laŭ la permesilo Krea Komunaĵo Atribuite-Samkondiĉe 2.0 Ĝenerala
     log_in: ensaluti
     log_in_tooltip: Ensaluti kun ekzistanta konto
     logo: 
@@ -447,10 +464,6 @@ eo:
   site: 
     edit: 
       user_page_link: uzantpaĝo
-    index: 
-      license: 
-        license_name: Creative Commons Atribuite-Samkondiĉe 2.0
-        project_name: projekto OpenStreetMap
     key: 
       map_key: Klarigo de signoj
       table: 
@@ -507,6 +520,9 @@ eo:
     sidebar: 
       close: Fermi
       search_results: Serĉrezultoj
+  time: 
+    formats: 
+      friendly: "%e %B %Y je %H:%M"
   trace: 
     create: 
       trace_uploaded: Via GPX dosiero estis alŝutita kaj atendas enkonduko en la datumbason. Tiu ĝenerale okazas antaŭ duonhoro, kaj retletero estos sendita al vi je finaĵo.
