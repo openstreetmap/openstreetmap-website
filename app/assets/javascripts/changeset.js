@@ -1,34 +1,34 @@
-var highlight;
+$(document).ready(function () {
+  var highlight;
 
-function highlightChangeset(id) {
-  var feature = vectors.getFeatureByFid(id);
-  var bounds = feature.geometry.getBounds();
+  function highlightChangeset(id) {
+    var feature = vectors.getFeatureByFid(id);
+    var bounds = feature.geometry.getBounds();
 
-  if (bounds.containsBounds(map.getExtent())) {
-    bounds = map.getExtent().scale(1.1);
+    if (bounds.containsBounds(map.getExtent())) {
+      bounds = map.getExtent().scale(1.1);
+    }
+
+    if (highlight) vectors.removeFeatures(highlight);
+
+    highlight = new OpenLayers.Feature.Vector(bounds.toGeometry(), {}, {
+      strokeWidth: 2,
+      strokeColor: "#ee9900",
+      fillColor: "#ffff55",
+      fillOpacity: 0.5
+    });
+
+    vectors.addFeatures(highlight);
+
+    $("#tr-changeset-" + id).addClass("selected");
   }
 
-  if (highlight) vectors.removeFeatures(highlight);
+  function unHighlightChangeset(id) {
+    vectors.removeFeatures(highlight);
 
-  highlight = new OpenLayers.Feature.Vector(bounds.toGeometry(), {}, {
-    strokeWidth: 2,
-    strokeColor: "#ee9900",
-    fillColor: "#ffff55",
-    fillOpacity: 0.5
-  });
+    $("#tr-changeset-" + id).removeClass("selected");
+  }
 
-  vectors.addFeatures(highlight);
-
-  $("#tr-changeset-" + id).addClass("selected");
-}
-
-function unHighlightChangeset(id) {
-  vectors.removeFeatures(highlight);
-
-  $("#tr-changeset-" + id).removeClass("selected");
-}
-
-$(document).ready(function () {
   var map = createMap("changeset_list_map", {
     controls: [
       new OpenLayers.Control.Navigation(),
@@ -72,4 +72,12 @@ $(document).ready(function () {
   } else {
     map.zoomToExtent(proj(bounds));
   }
+
+  $("[data-changeset]").mouseover(function() {
+    highlightChangeset($(this).data("changeset").id);
+  });
+
+  $("[data-changeset]").mouseout(function() {
+    unHighlightChangeset($(this).data("changeset").id);
+  });
 });
