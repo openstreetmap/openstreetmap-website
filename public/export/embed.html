@@ -40,21 +40,18 @@
             var args = OpenLayers.Util.getParameters();
             if (!args.layer || args.layer == "mapnik" || args.layer == "osmarender") {
                 var mapnik = new OpenLayers.Layer.OSM.Mapnik("Mapnik", {
-                   displayOutsideMaxExtent: true,
                    wrapDateLine: true,
                    attribution: attribution
                 });
                 map.addLayer(mapnik);
             } else if (args.layer == "cyclemap" || args.layer == "cycle map") {
                 var cyclemap = new OpenLayers.Layer.OSM.CycleMap("Cycle Map", {
-                   displayOutsideMaxExtent: true,
                    wrapDateLine: true,
                    attribution: attribution
                 });
                 map.addLayer(cyclemap);
             } else if (args.layer == "transportmap") {
                 var transportmap = new OpenLayers.Layer.OSM.TransportMap("Transport Map", {
-                   displayOutsideMaxExtent: true,
                    wrapDateLine: true,
                    attribution: attribution
                 });
@@ -65,7 +62,6 @@
                     "http://otile2.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png",
                     "http://otile3.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png",
                     "http://otile4.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png"], {
-                   displayOutsideMaxExtent: true,
                    wrapDateLine: true,
                    attribution: "Tiles courtesy of <a href='http://www.mapquest.com/' target='_blank'>MapQuest</a> <img src='http://developer.mapquest.com/content/osm/mq_logo.png'>"
                 });
