@@ -121,10 +121,6 @@
           :description => render(:partial => "popup", :object => @user, :locals => {:type => "your location"})
         }
       }
-
-      if params[:scale].to_f > 0 then
-        data[:zoom] = scale_to_zoom params[:scale]
-      end
     %>
     <%= content_tag "div", "", :id => "map", :class => "user_map", :data => data %>
   <% end %>

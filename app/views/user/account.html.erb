@@ -123,15 +123,11 @@
       <%
          home = @user.home_lat && @user.home_lon
          data = {
-           :lon => @user.home_lon || params['lon'] || 0,
-           :lat => @user.home_lat || params['lat'] || 20,
-           :zoom => home ? 12 : params['zoom'] || 1,
+           :lon => @user.home_lon || 0,
+           :lat => @user.home_lat || 20,
+           :zoom => home ? 12 : 1,
            :marker => !!home
          }
-
-         if params[:scale].to_f > 0 then
-          data[:zoom] = scale_to_zoom params[:scale]
-         end
       %>
       <%= content_tag "div", "", :id => "map", :class => "user_map set_location", :data => data %>
     </td>
