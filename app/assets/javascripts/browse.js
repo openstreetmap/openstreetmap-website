@@ -42,19 +42,16 @@ $(document).ready(function () {
 
     updatelinks(centre.lon, centre.lat, 16, null, params.minlon, params.minlat, params.maxlon, params.maxlat);
   } else {
-    var url = "/api/" + OSM.API_VERSION + "/" + params.type + "/" + params.id;
-
-    if (params.type != "node") {
-      url += "/full";
-    } else if (!params.visible) {
-      var previous_version = params.version - 1;
-      url += "/" + previous_version;
-    }
-
     $("#object_larger_map").hide();
     $("#object_edit").hide();
 
-    addObjectToMap(url, true, function(extent) {
+    var object = {type: params.type, id: params.id};
+
+    if (!params.visible) {
+      object.version = params.version - 1;
+    }
+
+    addObjectToMap(object, true, function(extent) {
       $("#loading").hide();
       $("#browse_map .geolink").show();
 

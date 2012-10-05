@@ -8,6 +8,18 @@ OSM = {
   SERVER_URL:       <%= SERVER_URL.to_json %>,
   API_VERSION:      <%= API_VERSION.to_json %>,
 
+  apiUrl: function (object) {
+    var url = "/api/" + OSM.API_VERSION + "/" + object.type + "/" + object.id;
+
+    if (object.type != "node") {
+      url += "/full";
+    } else if (object.version) {
+      url += "/" + object.version;
+    }
+
+    return url;
+  },
+
   mapParams: function (search) {
     var params = {}, mapParams = {}, loc;
 

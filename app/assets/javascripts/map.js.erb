@@ -106,13 +106,13 @@ function addMarkerToMap(position, icon, description) {
    return marker;
 }
 
-function addObjectToMap(url, zoom, callback) {
+function addObjectToMap(object, zoom, callback) {
    var layer = new OpenLayers.Layer.Vector("Objects", {
       strategies: [ 
           new OpenLayers.Strategy.Fixed()
       ],
       protocol: new OpenLayers.Protocol.HTTP({
-          url: url,
+          url: OSM.apiUrl(object),
           format: new OpenLayers.Format.OSM()
       }),
       style: {
