@@ -113,16 +113,14 @@
       <%= javascript_include_tag "user" %>
     <% end %>
     <%
-      data = {
+      user_data = {
         :lon => @user.home_lon,
         :lat => @user.home_lat,
-        :zoom => 12,
-        :marker => {
-          :description => render(:partial => "popup", :object => @user, :locals => {:type => "your location"})
-        }
+        :icon => "marker.png",
+        :description => render(:partial => "popup", :object => @user, :locals => {:type => "your location"})
       }
     %>
-    <%= content_tag "div", "", :id => "map", :class => "user_map", :data => data %>
+    <%= content_tag "div", "", :id => "map", :class => "user_map", :data => {:user => user_data} %>
   <% end %>
 
   <% friends = @this_user.friends.collect { |f| f.befriendee } %>

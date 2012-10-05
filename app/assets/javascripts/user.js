@@ -1,14 +1,17 @@
 $(document).ready(function () {
-  var params = $("#map").data();
   var map = createMap("map");
 
-  setMapCenter(new OpenLayers.LonLat(params.lon, params.lat), params.zoom);
+  if (OSM.home) {
+    setMapCenter(new OpenLayers.LonLat(OSM.home.lon, OSM.home.lat), 12);
+  } else {
+    setMapCenter(new OpenLayers.LonLat(0, 0), 0);
+  }
 
   if ($("#map").hasClass("set_location")) {
     var marker;
 
-    if (params.marker) {
-      marker = addMarkerToMap(new OpenLayers.LonLat(params.lon, params.lat));
+    if (OSM.home) {
+      marker = addMarkerToMap(new OpenLayers.LonLat(OSM.home.lon, OSM.home.lat));
     }
 
     map.events.register("click", map, function (e) {
@@ -27,8 +30,6 @@ $(document).ready(function () {
       }
     });
   } else {
-    addMarkerToMap(new OpenLayers.LonLat(params.lon, params.lat), null, params.marker.description);
-
     $("[data-user]").each(function () {
       var user = $(this).data('user');
       if (user.lon && user.lat) {

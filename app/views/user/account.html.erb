@@ -120,16 +120,7 @@
       <% content_for :head do %>
         <%= javascript_include_tag "user" %>
       <% end %>
-      <%
-         home = @user.home_lat && @user.home_lon
-         data = {
-           :lon => @user.home_lon || 0,
-           :lat => @user.home_lat || 20,
-           :zoom => home ? 12 : 1,
-           :marker => !!home
-         }
-      %>
-      <%= content_tag "div", "", :id => "map", :class => "user_map set_location", :data => data %>
+      <%= content_tag "div", "", :id => "map", :class => "user_map set_location" %>
     </td>
   </tr>
   
