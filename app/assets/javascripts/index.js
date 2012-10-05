@@ -38,13 +38,6 @@ $(document).ready(function () {
 
   handleResize();
 
-  $("#show_data").click(function (e) {
-    $.ajax({ url: $(this).attr('href'), success: function (sidebarHtml) {
-      startBrowse(sidebarHtml);
-    }});
-    e.preventDefault();
-  });
-
   $("body").on("click", "a.set_position", function () {
     var data = $(this).data();
     var centre = new OpenLayers.LonLat(data.lon, data.lat);
