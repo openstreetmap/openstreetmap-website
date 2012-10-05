@@ -104,13 +104,30 @@
 <% end -%>
 
 <% if @user and @this_user.id == @user.id %>
-  <div id="map" class="user_map">
-    <% if @this_user.home_lat.nil? or @this_user.home_lon.nil? %>
+  <% if @this_user.home_lat.nil? or @this_user.home_lon.nil? %>
+    <div id="map" class="user_map">
       <p id="no_home_location"><%= raw(t 'user.view.if set location', :settings_link => (link_to t('user.view.settings_link_text'), :controller => 'user', :action => 'account', :display_name => @user.display_name)) %></p>
-    <% else %>
-      <%= render :partial => 'map', :locals => { :setting_location => false, :show_other_users => true } %>
+    </div>
+  <% else %>
+    <% content_for :head do %>
+      <%= javascript_include_tag "user" %>
     <% end %>
-  </div>
+    <%
+      data = {
+        :lon => @user.home_lon,
+        :lat => @user.home_lat,
+        :zoom => 12,
+        :marker => {
+          :description => render(:partial => "popup", :object => @user, :locals => {:type => "your location"})
+        }
+      }
+
+      if params[:scale].to_f > 0 then
+        data[:zoom] = scale_to_zoom params[:scale]
+      end
+    %>
+    <%= content_tag "div", "", :id => "map", :class => "user_map", :data => data %>
+  <% end %>
 
   <% friends = @this_user.friends.collect { |f| f.befriendee } %>
   <% nearby = @this_user.nearby - friends %>
@@ -123,7 +140,7 @@
     <%= link_to t('user.view.friends_changesets'), friend_changesets_path %><br/>
     <%= link_to t('user.view.friends_diaries'), friend_diaries_path %><br/><br/>
     <table id="friends">
-      <%= render :partial => "contact", :collection => friends %>
+      <%= render :partial => "contact", :collection => friends, :locals => {:type => "friend"} %>
     </table>
   <% end %>
 
@@ -135,7 +152,7 @@
     <%= link_to t('user.view.nearby_changesets'), nearby_changesets_path %><br/>
     <%= link_to t('user.view.nearby_diaries'), nearby_diaries_path %><br/><br/>
     <table id="nearbyusers">
-      <%= render :partial => "contact", :collection => nearby %>
+      <%= render :partial => "contact", :collection => nearby, :locals => {:type => "nearby mapper"} %>
     </table>
   <% end %>
 <% end %>
