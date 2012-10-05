@@ -117,7 +117,23 @@
     <td></td>
     <td>
       <p><%= t 'user.account.update home location on click' %> <input type="checkbox" value="1" <% unless @user.home_lat and @user.home_lon %> checked="checked" <% end %> id="updatehome" /> </p>
-      <div id="map" class="user_map"></div>
+      <% content_for :head do %>
+        <%= javascript_include_tag "user" %>
+      <% end %>
+      <%
+         home = @user.home_lat && @user.home_lon
+         data = {
+           :lon => @user.home_lon || params['lon'] || 0,
+           :lat => @user.home_lat || params['lat'] || 20,
+           :zoom => home ? 12 : params['zoom'] || 1,
+           :marker => !!home
+         }
+
+         if params[:scale].to_f > 0 then
+          data[:zoom] = scale_to_zoom params[:scale]
+         end
+      %>
+      <%= content_tag "div", "", :id => "map", :class => "user_map set_location", :data => data %>
     </td>
   </tr>
   
@@ -127,8 +143,6 @@
   </tr>
 </table>
 <% end %>
-
-<%= render :partial => 'map', :locals => { :setting_location => true,  :show_other_users => false } %>
 
 <% unless @user.data_public? %>
 <a name="public"></a>
