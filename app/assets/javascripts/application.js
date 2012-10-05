@@ -6,8 +6,7 @@
 //= require augment
 //= require openlayers
 //= require i18n/translations
-//= require globals
-//= require params
+//= require osm
 //= require piwik
 //= require map
 //= require menu
