@@ -12,6 +12,7 @@
     <span class='count-number'><%= number_with_delimiter(@user.traces.size) %></span>
     |
     <%= link_to t('user.view.my diary'), :controller => 'diary_entry', :action => 'list', :display_name => @user.display_name %>
+    <span class='count-number'><%= number_with_delimiter(@user.diary_entries.size) %></span>
     |
     <%= link_to t('user.view.my comments' ), :controller => 'diary_entry', :action => 'comments', :display_name => @user.display_name %>
     |
@@ -37,6 +38,7 @@
     <%= link_to t('user.view.send message'), :controller => 'message', :action => 'new', :display_name => @this_user.display_name %>
     |
     <%= link_to t('user.view.diary'), :controller => 'diary_entry', :action => 'list', :display_name => @this_user.display_name %>
+    <span class='count-number'><%= number_with_delimiter(@this_user.diary_entries.size) %></span>
     |
     <%= link_to t('user.view.comments'), :controller => 'diary_entry', :action => 'comments', :display_name => @this_user.display_name %>
     |
@@ -95,7 +97,7 @@
 </p>
 
 <% if @user and @user.administrator? -%>
-  <p><b><%= t 'user.view.email address' %></b> <%= @this_user.email %></p>  
+  <p><b><%= t 'user.view.email address' %></b> <%= @this_user.email %></p>
   <% unless @this_user.creation_ip.nil? -%>
   <p><b><%= t 'user.view.created from' %></b> <%= @this_user.creation_ip %></p>
   <% end -%>
