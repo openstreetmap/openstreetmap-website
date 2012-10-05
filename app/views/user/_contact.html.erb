@@ -1,7 +1,15 @@
 <tr>
-  <td rowspan="3">
+  <%
+     user_data = {
+       :lon => contact.home_lon,
+       :lat => contact.home_lat,
+       :icon => type == "friend" ? "marker-blue.png" : "marker-green.png",
+       :description => render(:partial => "popup", :object => contact, :locals => {:type => type})
+     }
+  %>
+  <%= content_tag "td", :rowspan => 3, :data => {:user => user_data} do %>
     <%= user_thumbnail contact %>
-  </td>
+  <% end %>
   <td>
     <%= link_to h(contact.display_name), :controller => 'user', :action => 'view',  :display_name => contact.display_name %>
     <% if @this_user.home_lon and @this_user.home_lat and contact.home_lon and contact.home_lat %>
