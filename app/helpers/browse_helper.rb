@@ -97,7 +97,7 @@ private
     if key == "wikipedia"
       # This regex should match Wikipedia language codes, everything
       # from de to zh-classical
-      if value =~ /^([a-z-]{2,12}):(.+)$/
+      if value =~ /^([a-z-]{2,12}):(.+)$/i
         # Value is <lang>:<title> so split it up
         # Note that value is always left as-is, see: https://trac.openstreetmap.org/ticket/4315
         lang  = $1
