@@ -33,13 +33,7 @@ $(document).ready(function () {
   }
 
   if (params.object) {
-    var url = "/api/" + OSM.API_VERSION + "/" + params.object_type + "/" + params.object_id;
-
-    if (params.object_type != "node") {
-      url += "/full";
-    }
-
-    addObjectToMap(url, params.object_zoom);
+    addObjectToMap({type: params.object_type, id: params.object_id}, params.object_zoom);
   }
 
   handleResize();
