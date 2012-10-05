@@ -71,7 +71,7 @@ $(document).ready(function () {
         $("#object_larger_map").show();
         $("#object_edit").show();
 
-        updatelinks(centre.lon, centre.lat, 16, null, extent.left, extent.bottom, extent.right, extent.top, params.type, params.id);
+        updatelinks(centre.lon, centre.lat, 16, null, extent.left, extent.bottom, extent.right, extent.top, object);
       } else {
         $("#small_map").hide();
       }

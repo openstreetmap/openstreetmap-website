@@ -73,7 +73,7 @@ $(document).ready(function () {
     var extents = unproj(map.getExtent());
     var expiry = new Date();
 
-    updatelinks(lonlat.lon, lonlat.lat, zoom, layers, extents.left, extents.bottom, extents.right, extents.top, params.object.type, params.object.id);
+    updatelinks(lonlat.lon, lonlat.lat, zoom, layers, extents.left, extents.bottom, extents.right, extents.top, params.object);
 
     expiry.setYear(expiry.getFullYear() + 10);
     $.cookie("_osm_location", [lonlat.lon, lonlat.lat, zoom, layers].join("|"), {expires: expiry});
