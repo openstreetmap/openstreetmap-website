@@ -44,18 +44,14 @@ OSM = {
     }
 
     if (params.node || params.way || params.relation) {
-      mapParams.object = true;
       mapParams.object_zoom = true;
 
       if (params.node) {
-        mapParams.object_type = 'node';
-        mapParams.object_id = parseInt(params.node);
+        mapParams.object = {type: 'node', id: parseInt(params.node)};
       } else if (params.way) {
-        mapParams.object_type = 'way';
-        mapParams.object_id = parseInt(params.way);
+        mapParams.object = {type: 'way', id: parseInt(params.way)};
       } else if (params.relation) {
-        mapParams.object_type = 'relation';
-        mapParams.object_id = parseInt(params.relation);
+        mapParams.object = {type: 'relation', id: parseInt(params.relation)};
       }
     }
 

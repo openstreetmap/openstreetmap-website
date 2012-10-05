@@ -33,7 +33,7 @@ $(document).ready(function () {
   }
 
   if (params.object) {
-    addObjectToMap({type: params.object_type, id: params.object_id}, params.object_zoom);
+    addObjectToMap(params.object, params.object_zoom);
   }
 
   handleResize();
@@ -73,7 +73,7 @@ $(document).ready(function () {
     var extents = unproj(map.getExtent());
     var expiry = new Date();
 
-    updatelinks(lonlat.lon, lonlat.lat, zoom, layers, extents.left, extents.bottom, extents.right, extents.top, params.object_type, params.object_id);
+    updatelinks(lonlat.lon, lonlat.lat, zoom, layers, extents.left, extents.bottom, extents.right, extents.top, params.object.type, params.object.id);
 
     expiry.setYear(expiry.getFullYear() + 10);
     $.cookie("_osm_location", [lonlat.lon, lonlat.lat, zoom, layers].join("|"), {expires: expiry});
