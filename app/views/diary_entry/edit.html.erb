@@ -19,7 +19,7 @@
     <tr valign="top">
       <td class="fieldName"><%= t 'diary_entry.edit.location' -%></td>
       <td>
-        <div id="map"></div>
+        <%= content_tag "div", "", :id => "map", :data => {:lat => @lat, :lon => @lon, :zoom => @zoom} %>
         <span class="location"><%= t 'diary_entry.edit.latitude' -%> <%= f.text_field :latitude, :size => 20, :id => "latitude" %> <%= t 'diary_entry.edit.longitude' -%> <%= f.text_field :longitude, :size => 20, :id => "longitude" %></span>
         <a href="javascript:openMap()" id="usemap"><%= t 'diary_entry.edit.use_map_link' -%></a>
         <br/><br/>
@@ -51,23 +51,22 @@
       removeMarkerFromMap(marker);
     }
 
-    marker = addMarkerToMap(lonlat, null, "<%= t 'diary_entry.edit.marker_text' -%>");
+    marker = addMarkerToMap(lonlat, null, I18n.t('diary_entry.edit.marker_text'));
   }
 
   function openMap() {
     $("#map").show();
     $("#usemap").hide();
 
-    var centre = new OpenLayers.LonLat(<%= @lon %>, <%= @lat %>);
-    var zoom = <%= @zoom %>;
-
+    var params = $("#map").data();
+    var centre = new OpenLayers.LonLat(params.lon, params.lat);
     var map = createMap("map");
 
-    setMapCenter(centre, zoom);
+    setMapCenter(centre, params.zoom);
 
-    <% if @diary_entry.latitude and @diary_entry.longitude %>
-    marker = addMarkerToMap(centre, null, "<%= t 'diary_entry.edit.marker_text' -%>");
-    <% end %>
+    if ($("#latitude").val() && $("#longitude").val()) {
+      marker = addMarkerToMap(centre, null, I18n.t('diary_entry.edit.marker_text'));
+    }
 
     map.events.register("click", map, setLocation);
   }
