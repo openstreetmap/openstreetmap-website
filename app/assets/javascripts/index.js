@@ -108,17 +108,6 @@ $(document).ready(function () {
     map.setCenter(centre, zoom);
   });
 
-  $("#exportanchor").click(function (e) {
-    $.ajax({ url: $(this).data('url'), success: function (sidebarHtml) {
-      startExport(sidebarHtml);
-    }});
-    e.preventDefault();
-  });
-
-  if (window.location.pathname == "/export") {
-    $("#exportanchor").click();
-  }
-
   $("#search_form").submit(function () {
     var extent = unproj(map.getExtent());
 
