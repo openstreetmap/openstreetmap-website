@@ -1,4 +1,4 @@
-function init(){
+$(document).ready(function () {
   var params = $("#map").data();
   var map = createMap("map");
 
@@ -14,12 +14,12 @@ function init(){
     map.events.register("click", map, function (e) {
       closeMapPopup();
 
-      if (document.getElementById('updatehome').checked) {
+      if ($('#updatehome').is(':checked')) {
         var lonlat = getEventPosition(e);
 
-        document.getElementById('homerow').className = '';
-        document.getElementById('home_lat').value = lonlat.lat;
-        document.getElementById('home_lon').value = lonlat.lon;
+        $('#homerow').removeClass();
+        $('#home_lat').val(lonlat.lat);
+        $('#home_lon').val(lonlat.lon);
 
         if (marker) {
           removeMarkerFromMap(marker);
@@ -40,6 +40,4 @@ function init(){
       }
     });
   }
-}
-
-window.onload = init;
+});
