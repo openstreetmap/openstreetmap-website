@@ -12,8 +12,6 @@ $(document).ready(function () {
     }
 
     map.events.register("click", map, function (e) {
-      closeMapPopup();
-
       if ($('#updatehome').is(':checked')) {
         var lonlat = getEventPosition(e);
 
