@@ -99,7 +99,7 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat,object) {
     // ?{node,way,relation}= can be safely omitted from the shortlink
     // which encodes lat/lon/zoom. If new URL parameters are added to
     // the main slippy map this needs to be changed.
-    if (args.layers || args[object.type]) {
+    if (args.layers || object) {
       this.href = setArgs(prefix + "/go/" + code, args);
     } else {
       this.href = prefix + "/go/" + code;
