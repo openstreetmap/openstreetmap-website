@@ -14,7 +14,7 @@ module BrowseHelper
       name = t 'printable_name.with_version', :id => name, :version => object.version.to_s
     end
 
-    # don't look at object tags if redacted, so as to avoid giving 
+    # don't look at object tags if redacted, so as to avoid giving
     # away redacted version tag information.
     unless object.redacted?
       if object.tags.include? "name:#{I18n.locale}"
@@ -63,7 +63,7 @@ module BrowseHelper
 
 private
 
-  ICON_TAGS = [ 
+  ICON_TAGS = [
     "aeroway", "amenity", "barrier", "building", "highway", "historic", "landuse",
     "leisure", "man_made", "natural", "railway", "shop", "tourism", "waterway"
   ]
@@ -97,10 +97,10 @@ private
     if key == "wikipedia"
       # This regex should match Wikipedia language codes, everything
       # from de to zh-classical
-      if value =~ /^([a-z-]{2,12}):(.+)$/
+      if value =~ /^([a-z-]{2,12}):(.+)$/i
         # Value is <lang>:<title> so split it up
+        # Note that value is always left as-is, see: https://trac.openstreetmap.org/ticket/4315
         lang  = $1
-        value = $2
       else
         # Value is <title> so default to English Wikipedia
         lang = 'en'
