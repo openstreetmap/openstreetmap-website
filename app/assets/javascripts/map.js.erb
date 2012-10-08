@@ -219,7 +219,7 @@ function setMapCenter(center, zoom) {
 }
 
 function getEventPosition(event) {
-   return map.getLonLatFromViewPortPx(event.xy).clone().transform(map.getProjectionObject(), epsg4326);
+   return unproj(map.getLonLatFromViewPortPx(event.xy));
 }
 
 function getMapLayers() {

@@ -100,7 +100,7 @@ $(document).ready(function () {
 
     function useMap(reload) {
       var bounds = map.getExtent();
-      var projected = bounds.clone().transform(map.getProjectionObject(), epsg4326);
+      var projected = unproj(bounds);
 
       if (!browseBounds || !browseBounds.containsBounds(projected)) {
         var center = bounds.getCenterLonLat();
@@ -144,7 +144,7 @@ $(document).ready(function () {
 
     function endDrag(bbox) {
       var bounds = bbox.getBounds();
-      var projected = bounds.clone().transform(map.getProjectionObject(), epsg4326);
+      var projected = unproj(bounds);
 
       browseBoxControl.deactivate();
       browseBounds = projected;
@@ -197,7 +197,7 @@ $(document).ready(function () {
     }
 
     function getData(bounds, reload) {
-      var projected = bounds.clone().transform(new OpenLayers.Projection("EPSG:900913"), new OpenLayers.Projection("EPSG:4326"));
+      var projected = unproj(bounds);
       var size = projected.getWidth() * projected.getHeight();
 
       if (size > OSM.MAX_REQUEST_AREA) {
