@@ -15,9 +15,7 @@ $(document).ready(function () {
         box,
         transform,
         markerLayer,
-        markerControl,
-        epsg4326 = new OpenLayers.Projection("EPSG:4326"),
-        epsg900913 = new OpenLayers.Projection("EPSG:900913");
+        markerControl;
 
     vectors = new OpenLayers.Layer.Vector("Vector Layer", {
       displayInLayerSwitcher: false
@@ -83,7 +81,7 @@ $(document).ready(function () {
       var bounds = new OpenLayers.Bounds($("#minlon").val(), $("#minlat").val(),
                                          $("#maxlon").val(), $("#maxlat").val());
 
-      return bounds.transform(epsg4326, epsg900913);
+      return proj(bounds);
     }
 
     function boundsChanged() {
@@ -157,7 +155,7 @@ $(document).ready(function () {
       $("#add_marker").html(I18n.t('export.start_rjs.change_marker'));
       $("#marker_inputs").show();
 
-      var geom = event.feature.geometry.clone().transform(epsg900913, epsg4326);
+      var geom = unproj(event.feature.geometry);
 
       $("#marker_lon").val(geom.x.toFixed(5));
       $("#marker_lat").val(geom.y.toFixed(5));
@@ -186,7 +184,7 @@ $(document).ready(function () {
     function setBounds(bounds) {
       var toPrecision = zoomPrecision(map.getZoom());
 
-      bounds = bounds.clone().transform(map.getProjectionObject(), epsg4326);
+      bounds = unproj(bounds);
 
       $("#minlon").val(toPrecision(bounds.left));
       $("#minlat").val(toPrecision(bounds.bottom));
@@ -247,8 +245,7 @@ $(document).ready(function () {
       // Create "larger map" link
       var center = bounds.getCenterLonLat();
 
-      bounds.transform(epsg4326, epsg900913);
-      var zoom = map.getZoomForExtent(bounds);
+      var zoom = map.getZoomForExtent(proj(bounds));
 
       var layers = getMapLayers();
 
