@@ -1,3 +1,7 @@
+//= require templates/browse/feature
+//= require templates/browse/feature_list
+//= require templates/browse/feature_history
+
 $(document).ready(function () {
   $("#show_data").click(function (e) {
     $.ajax({ url: $(this).attr('href'), success: function (sidebarHtml) {
@@ -284,67 +288,47 @@ $(document).ready(function () {
       if (this.map.dataLayer.active) {
         clearStatus();
 
-        browseObjectList = document.createElement("div");
-
-        var heading = document.createElement("p");
-        heading.className = "browse_heading";
-        heading.appendChild(document.createTextNode(I18n.t('browse.start_rjs.object_list.heading')));
-        browseObjectList.appendChild(heading);
-
-        var list = document.createElement("ul");
-
+        var features = [];
         for (var i = 0; i < this.features.length; i++) {
           var feature = this.features[i];
-
-          // Type, for linking
-          var type = featureType(feature);
-          var typeName = featureTypeName(feature);
-          var li = document.createElement("li");
-          li.appendChild(document.createTextNode(typeName + " "));
-
-          // Link, for viewing in the tab
-          var link = document.createElement("a");
-          link.href =  "/browse/" + type + "/" + feature.osm_id;
-          var name = featureName(feature);
-          link.appendChild(document.createTextNode(name));
-          link.feature = feature;
-          link.onclick = OpenLayers.Function.bind(viewFeatureLink, link);
-          li.appendChild(link);
-
-          list.appendChild(li);
+          features.push({
+            typeName: featureTypeName(feature),
+            url: "/browse/" + featureType(feature) + "/" + feature.osm_id,
+            name: featureName(feature),
+            id: feature.id
+          });
         }
 
-        browseObjectList.appendChild(list);
+        browseObjectList = $(JST["templates/browse/feature_list"]({
+          features: features,
+          url: this.protocol.url
+        }))[0];
 
-        var link = document.createElement("a");
-        link.href = this.protocol.url;
-        link.appendChild(document.createTextNode(I18n.t('browse.start_rjs.object_list.api')));
-        browseObjectList.appendChild(link);
-
-        $("#browse_content").html(browseObjectList);
+        loadObjectList();
       }
     }
 
     function viewFeatureLink() {
-      var layer = this.feature.layer;
+      var feature = browseDataLayer.getFeatureById($(this).data("feature-id"));
+      var layer = feature.layer;
 
       for (var i = 0; i < layer.selectedFeatures.length; i++) {
         var f = layer.selectedFeatures[i];
         layer.drawFeature(f, layer.styleMap.createSymbolizer(f, "default"));
       }
 
-      onFeatureSelect(this.feature);
+      onFeatureSelect(feature);
 
       if (browseMode != "auto") {
-        map.setCenter(this.feature.geometry.getBounds().getCenterLonLat());
+        map.setCenter(feature.geometry.getBounds().getCenterLonLat());
       }
 
       return false;
     }
 
     function loadObjectList() {
-      $("#browse_content").empty();
-      $("#browse_content").append(browseObjectList);
+      $("#browse_content").html(browseObjectList);
+      $("#browse_content").find("a[data-feature-id]").click(viewFeatureLink);
 
       return false;
     }
@@ -370,126 +354,51 @@ $(document).ready(function () {
         $("#browse_content").empty();
       }
 
-      // Create a link back to the object list
-      var div = document.createElement("div");
-      div.style.textAlign = "center";
-      div.style.marginBottom = "20px";
-      $("#browse_content").append(div);
-      var link = document.createElement("a");
-      link.href = "#";
-      link.onclick = loadObjectList;
-      link.appendChild(document.createTextNode(I18n.t('browse.start_rjs.object_list.back')));
-      div.appendChild(link);
+      $("#browse_content").html(JST["templates/browse/feature"]({
+        name: featureNameSelect(feature),
+        url: "/browse/" + featureType(feature) + "/" + feature.osm_id,
+        attributes: feature.attributes
+      }));
 
-      var table = document.createElement("table");
-      table.width = "100%";
-      table.className = "browse_heading";
-      $("#browse_content").append(table);
-
-      var tr = document.createElement("tr");
-      table.appendChild(tr);
-
-      var heading = document.createElement("td");
-      heading.appendChild(document.createTextNode(featureNameSelect(feature)));
-      tr.appendChild(heading);
-
-      var td = document.createElement("td");
-      td.align = "right";
-      tr.appendChild(td);
-
-      var type = featureType(feature);
-      var link = document.createElement("a");
-      link.href = "/browse/" + type + "/" + feature.osm_id;
-      link.appendChild(document.createTextNode(I18n.t('browse.start_rjs.object_list.details')));
-      td.appendChild(link);
-
-      var div = document.createElement("div");
-      div.className = "browse_details";
-
-      $("#browse_content").append(div);
-
-      // Now the list of attributes
-      var ul = document.createElement("ul");
-      for (var key in feature.attributes) {
-        var li = document.createElement("li");
-        var b = document.createElement("b");
-        b.appendChild(document.createTextNode(key));
-        li.appendChild(b);
-        li.appendChild(document.createTextNode(": " + feature.attributes[key]));
-        ul.appendChild(li);
-      }
-
-      div.appendChild(ul);
-
-      var link = document.createElement("a");
-      link.href =  "/browse/" + type + "/" + feature.osm_id + "/history";
-      link.appendChild(document.createTextNode(I18n.t('browse.start_rjs.show_history')));
-      link.onclick = OpenLayers.Function.bind(loadHistory, {
-        type: type, feature: feature, link: link
-      });
-
-      div.appendChild(link);
+      $("#browse_content").find("a.browse_show_list").click(loadObjectList);
+      $("#browse_content").find("a.browse_show_history").click(loadHistory);
 
       // Stash the currently drawn feature
       browseActiveFeature = feature;
     }
 
     function loadHistory() {
-      this.link.href = "";
-      this.link.innerHTML = I18n.t('browse.start_rjs.wait');
+      $(this).attr("href", "").text(I18n.t('browse.start_rjs.wait'));
 
-      $.ajax("/api/" + OSM.API_VERSION + "/" + this.type + "/" + this.feature.osm_id + "/history", {
-        complete: OpenLayers.Function.bind(displayHistory, this)
+      var feature = browseActiveFeature;
+
+      $.ajax({
+        url: "/api/" + OSM.API_VERSION + "/" + featureType(feature) + "/" + feature.osm_id + "/history",
+        success: function (xml) {
+          if (browseActiveFeature != feature || $("#browse_content").firstChild == browseObjectList) {
+            return;
+          }
+
+          $(this).remove();
+
+          var history = [];
+          var nodes = xml.getElementsByTagName(featureType(feature));
+          for (var i = nodes.length - 1; i >= 0; i--) {
+            history.push({
+              user: nodes[i].getAttribute("user") || I18n.t('browse.start_rjs.private_user'),
+              timestamp: nodes[i].getAttribute("timestamp")
+            });
+          }
+
+          $("#browse_content").append(JST["templates/browse/feature_history"]({
+            name: featureNameHistory(feature),
+            url: "/browse/" + featureType(feature) + "/" + feature.osm_id,
+            history: history
+          }));
+        }.bind(this)
       });
 
       return false;
-    }
-
-    function displayHistory(request) {
-      if (browseActiveFeature.osm_id != this.feature.osm_id || $("#browse_content").firstChild == browseObjectList)  {
-          return false;
-      }
-
-      this.link.parentNode.removeChild(this.link);
-
-      var doc = request.responseXML;
-
-      var table = document.createElement("table");
-      table.width = "100%";
-      table.className = "browse_heading";
-      $("#browse_content").append(table);
-
-      var tr = document.createElement("tr");
-      table.appendChild(tr);
-
-      var heading = document.createElement("td");
-      heading.appendChild(document.createTextNode(I18n.t("browse.start_rjs.history_for_feature", { feature: featureNameHistory(this.feature) })));
-      tr.appendChild(heading);
-
-      var td = document.createElement("td");
-      td.align = "right";
-      tr.appendChild(td);
-
-      var link = document.createElement("a");
-      link.href = "/browse/" + this.type + "/" + this.feature.osm_id + "/history";
-      link.appendChild(document.createTextNode(I18n.t('browse.start_rjs.details')));
-      td.appendChild(link);
-
-      var div = document.createElement("div");
-      div.className = "browse_details";
-
-      var nodes = doc.getElementsByTagName(this.type);
-      var history = document.createElement("ul");
-      for (var i = nodes.length - 1; i >= 0; i--) {
-        var user = nodes[i].getAttribute("user") || I18n.t('browse.start_rjs.private_user');
-        var timestamp = nodes[i].getAttribute("timestamp");
-        var item = document.createElement("li");
-        item.appendChild(document.createTextNode(I18n.t("browse.start_rjs.edited_by_user_at_timestamp", { user: user, timestamp: timestamp })));
-        history.appendChild(item);
-      }
-      div.appendChild(history);
-
-      $("#browse_content").append(div);
     }
 
     function featureType(feature) {
