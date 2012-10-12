@@ -107,14 +107,7 @@ $(document).ready(function () {
     remoteEditHandler();
   }
 
-  $(window).resize(function() {
-    var centre = map.getCenter();
-    var zoom = map.getZoom();
-
-    handleResize();
-
-    map.setCenter(centre, zoom);
-  });
+  $(window).resize(handleResize);
 
   $("#search_form").submit(function () {
     var bounds = map.getBounds();

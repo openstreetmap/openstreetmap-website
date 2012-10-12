@@ -212,7 +212,7 @@ $(document).ready(function () {
       onSelect(layer);
 
       if (browseMode != "auto") {
-        map.setCenter(layer.getBounds().getCenter());
+        map.panTo(layer.getBounds().getCenter());
       }
 
       return false;
