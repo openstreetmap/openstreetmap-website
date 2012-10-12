@@ -12,7 +12,7 @@ $(document).ready(function () {
 
   map.attributionControl.setPrefix(permalinks);
 
-  map.on("moveend layeradd layerremove", updateLocation);
+  map.on("moveend baselayerchange", updateLocation);
 
   if (!params.object_zoom) {
     if (params.bbox) {

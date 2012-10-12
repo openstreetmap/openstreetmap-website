@@ -26,9 +26,9 @@ $(document).ready(function () {
     openSidebar({ title: title });
 
     $("#sidebar").one("closed", function () {
-      map.off("zoomend layeradd layerremove", updateMapKey);
+      map.off("zoomend baselayerchange", updateMapKey);
     });
 
-    map.on("zoomend layeradd layerremove", updateMapKey);
+    map.on("zoomend baselayerchange", updateMapKey);
   });
 });

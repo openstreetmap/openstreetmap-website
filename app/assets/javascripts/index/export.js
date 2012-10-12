@@ -17,7 +17,7 @@ $(document).ready(function () {
     map.on('draw:rectangle-created', endDrag);
 
     map.on("moveend", mapMoved);
-    map.on("layeradd layerremove", htmlUrlChanged);
+    map.on("baselayerchange", htmlUrlChanged);
 
     $("#sidebar_title").html(I18n.t('export.start_rjs.export'));
     $("#sidebar_content").html(sidebarHtml);
@@ -50,7 +50,7 @@ $(document).ready(function () {
       clearMarker();
 
       map.off("moveend", mapMoved);
-      map.off("layeradd layerremove", htmlUrlChanged);
+      map.off("baselayerchange", htmlUrlChanged);
       map.off('draw:rectangle-created', endDrag);
 
       drawHandler.disable();
