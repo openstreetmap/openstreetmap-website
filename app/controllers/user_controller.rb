@@ -663,8 +663,15 @@ private
     user.languages = params[:user][:languages].split(",")
 
     case params[:image_action]
-    when "new" then user.image = params[:user][:image]
-    when "delete" then user.image = nil
+    when "new" then
+      user.image = params[:user][:image]
+      user.use_gravatar = false
+    when "delete" then
+      user.image = nil
+      user.use_gravatar = false
+    when "gravatar" then
+      user.image = nil
+      user.use_gravatar = true
     end
 
     user.home_lat = params[:user][:home_lat]
@@ -677,7 +684,6 @@ private
     end
 
     user.openid_url = nil if params[:user][:openid_url].blank?
-    user.use_gravatar = (params[:user][:use_gravatar] == '1')
 
     if user.save
       set_locale
