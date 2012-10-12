@@ -8,10 +8,7 @@ $(document).ready(function () {
   var params = OSM.mapParams();
   var map = createMap("map");
 
-  // https://github.com/CloudMade/Leaflet/issues/1063
-  map.on('load', function () {
-    L.control.scale().addTo(map);
-  });
+  L.control.scale().addTo(map);
 
   map.attributionControl.setPrefix(permalinks);
 

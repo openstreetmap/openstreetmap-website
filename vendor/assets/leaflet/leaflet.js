@@ -822,11 +822,10 @@ L.DomUtil = {
 
 	getScaleString: function (scale, origin) {
 
-		var preTranslateStr = L.DomUtil.getTranslateString(origin),
-			scaleStr = ' scale(' + scale + ') ',
-			postTranslateStr = L.DomUtil.getTranslateString(origin.multiplyBy(-1));
+		var preTranslateStr = L.DomUtil.getTranslateString(origin.add(origin.multiplyBy(-1 * scale))),
+		    scaleStr = ' scale(' + scale + ') ';
 
-		return preTranslateStr + scaleStr + postTranslateStr;
+		return preTranslateStr + scaleStr;
 	},
 
 	setPosition: function (el, point, disable3D) { // (HTMLElement, Point[, Boolean])
@@ -1347,16 +1346,10 @@ L.Map = L.Class.extend({
             layer.on('load', this._onTileLayerLoad, this);
 		}
 
-		var onMapLoad = function () {
+		this.whenReady(function () {
 			layer.onAdd(this);
 			this.fire('layeradd', {layer: layer});
-		};
-
-		if (this._loaded) {
-			onMapLoad.call(this);
-		} else {
-			this.on('load', onMapLoad, this);
-		}
+		}, this);
 
 		return this;
 	},
@@ -1789,6 +1782,15 @@ L.Map = L.Class.extend({
 			clearTimeout(this._clearTileBgTimer);
 			this._clearTileBgTimer = setTimeout(L.Util.bind(this._clearTileBg, this), 500);
 		}
+	},
+
+	whenReady: function (callback, context) {
+		if (this._loaded) {
+			callback.call(context || this, this);
+		} else {
+			this.on('load', callback, context);
+		}
+		return this;
 	},
 
 
@@ -2898,10 +2900,7 @@ L.Marker = L.Class.extend({
 	onRemove: function (map) {
 		this._removeIcon();
 
-		// TODO move to Marker.Popup.js
-		if (this.closePopup) {
-			this.closePopup();
-		}
+		this.fire('remove');
 
 		map.off({
 			'viewreset': this.update,
@@ -2920,9 +2919,7 @@ L.Marker = L.Class.extend({
 
 		this.update();
 
-		if (this._popup) {
-			this._popup.setLatLng(latlng);
-		}
+		this.fire('move', { latlng: this._latlng });
 	},
 
 	setZIndexOffset: function (offset) {
@@ -3416,7 +3413,10 @@ L.Marker.include({
 		options = L.Util.extend({offset: anchor}, options);
 
 		if (!this._popup) {
-			this.on('click', this.openPopup, this);
+			this
+				.on('click', this.openPopup, this)
+				.on('remove', this.closePopup, this)
+				.on('move', this._movePopup, this);
 		}
 
 		this._popup = new L.Popup(options, this)
@@ -3428,9 +3428,16 @@ L.Marker.include({
 	unbindPopup: function () {
 		if (this._popup) {
 			this._popup = null;
-			this.off('click', this.openPopup);
+			this
+				.off('click', this.openPopup)
+				.off('remove', this.closePopup)
+				.off('move', this._movePopup);
 		}
 		return this;
+	},
+
+	_movePopup: function (e) {
+		this._popup.setLatLng(e.latlng);
 	}
 });
 
@@ -3692,6 +3699,8 @@ L.Path = L.Class.extend({
 			this._fill = null;
 		}
 
+		this.fire('remove');
+
 		map.off({
 			'viewreset': this.projectLatlngs,
 			'moveend': this._updatePath
@@ -3848,19 +3857,11 @@ L.Path = L.Path.extend({
 		}
 
 		this._fireMouseEvent(e);
-
-		if (this.hasEventListeners(e.type)) {
-			L.DomEvent.stopPropagation(e);
-		}
 	},
 
 	_fireMouseEvent: function (e) {
 		if (!this.hasEventListeners(e.type)) {
 			return;
-		}
-
-		if (e.type === 'contextmenu') {
-			L.DomEvent.preventDefault(e);
 		}
 
 		var map = this._map,
@@ -3874,6 +3875,11 @@ L.Path = L.Path.extend({
 			containerPoint: containerPoint,
 			originalEvent: e
 		});
+
+		if (e.type === 'contextmenu') {
+			L.DomEvent.preventDefault(e);
+		}
+		L.DomEvent.stopPropagation(e);
 	}
 });
 
@@ -3963,11 +3969,23 @@ L.Path.include({
 
 		this._popup.setContent(content);
 
-		if (!this._openPopupAdded) {
-			this.on('click', this._openPopup, this);
-			this._openPopupAdded = true;
+		if (!this._popupHandlersAdded) {
+			this
+				.on('click', this._openPopup, this)
+				.on('remove', this._closePopup, this);
+			this._popupHandlersAdded = true;
 		}
 
+		return this;
+	},
+
+	unbindPopup: function () {
+		if (this._popup) {
+			this._popup = null;
+			this
+				.off('click', this.openPopup)
+				.off('remove', this.closePopup);
+		}
 		return this;
 	},
 
@@ -3986,6 +4004,10 @@ L.Path.include({
 	_openPopup: function (e) {
 		this._popup.setLatLng(e.latlng);
 		this._map.openPopup(this._popup);
+	},
+
+	_closePopup: function () {
+		this._popup._close();
 	}
 });
 
@@ -6302,16 +6324,20 @@ L.Handler.MarkerDrag = L.Handler.extend({
 	},
 
 	_onDrag: function (e) {
+		var marker = this._marker,
+			shadow = marker._shadow,
+			iconPos = L.DomUtil.getPosition(marker._icon),
+			latlng = marker._map.layerPointToLatLng(iconPos);
+
 		// update shadow position
-		var iconPos = L.DomUtil.getPosition(this._marker._icon);
-		if (this._marker._shadow) {
-			L.DomUtil.setPosition(this._marker._shadow, iconPos);
+		if (shadow) {
+			L.DomUtil.setPosition(shadow, iconPos);
 		}
 
-		this._marker._latlng = this._marker._map.layerPointToLatLng(iconPos);
+		marker._latlng = latlng;
 
-		this._marker
-			.fire('move')
+		marker
+			.fire('move', { latlng: latlng })
 			.fire('drag');
 	},
 
@@ -6831,7 +6857,7 @@ L.Control.Scale = L.Control.extend({
 		this._addScales(options, className, container);
 
 		map.on(options.updateWhenIdle ? 'moveend' : 'move', this._update, this);
-		this._update();
+		map.whenReady(this._update, this);
 
 		return container;
 	},
@@ -7101,17 +7127,25 @@ L.Control.Layers = L.Control.extend({
 	_onInputClick: function () {
 		var i, input, obj,
 			inputs = this._form.getElementsByTagName('input'),
-			inputsLen = inputs.length;
+			inputsLen = inputs.length,
+			baseLayer;
 
 		for (i = 0; i < inputsLen; i++) {
 			input = inputs[i];
 			obj = this._layers[input.layerId];
 
-			if (input.checked) {
-				this._map.addLayer(obj.layer, !obj.overlay);
-			} else {
+			if (input.checked && !this._map.hasLayer(obj.layer)) {
+				this._map.addLayer(obj.layer);
+				if (!obj.overlay) {
+					baseLayer = obj.layer;
+				}
+			} else if (!input.checked && this._map.hasLayer(obj.layer)) {
 				this._map.removeLayer(obj.layer);
 			}
+		}
+
+		if (baseLayer) {
+			this._map.fire('baselayerchange', {layer: baseLayer});
 		}
 	},
 
@@ -7425,11 +7459,6 @@ L.Map.include(!L.DomUtil.TRANSITION ? {} : {
 			tileBg = this._tileBg;
 
 		clearTimeout(this._clearTileBgTimer);
-
-		//dumb FireFox hack, I have no idea why this magic zero translate fixes the scale transition problem
-		if (L.Browser.gecko || window.opera || L.Browser.ie3d) {
-			tileBg.style[transform] += ' translate(0,0)';
-		}
 
 		L.Util.falseFn(tileBg.offsetWidth); //hack to make sure transform is updated before running animation
 
