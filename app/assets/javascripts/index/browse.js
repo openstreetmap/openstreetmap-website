@@ -52,8 +52,7 @@ $(document).ready(function () {
     $("#browse_select_box").click(startDrag);
 
     $("#browse_hide_areas_box").html(I18n.t('browse.start_rjs.hide_areas'));
-    $("#browse_hide_areas_box").show();
-    $("#browse_hide_areas_box").click(hideAreas);
+    $("#browse_hide_areas_box").toggle(hideAreas, showAreas);
 
     function updateData() {
       if (browseMode == "auto") {
@@ -128,8 +127,6 @@ $(document).ready(function () {
 
     function hideAreas() {
       $("#browse_hide_areas_box").html(I18n.t('browse.start_rjs.show_areas'));
-      $("#browse_hide_areas_box").show();
-      $("#browse_hide_areas_box").click(showAreas);
 
       areasHidden = true;
 
@@ -138,8 +135,6 @@ $(document).ready(function () {
 
     function showAreas() {
       $("#browse_hide_areas_box").html(I18n.t('browse.start_rjs.hide_areas'));
-      $("#browse_hide_areas_box").show();
-      $("#browse_hide_areas_box").click(hideAreas);
 
       areasHidden = false;
 
