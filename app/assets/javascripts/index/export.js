@@ -61,6 +61,16 @@ $(document).ready(function () {
                             L.latLng($("#maxlat").val(), $("#maxlon").val()));
     }
 
+    function getScale() {
+      var bounds = map.getBounds(),
+        centerLat = bounds.getCenter().lat,
+        halfWorldMeters = 6378137 * Math.PI * Math.cos(centerLat * Math.PI / 180),
+        meters = halfWorldMeters * (bounds.getNorthEast().lng - bounds.getSouthWest().lng) / 180,
+        pixelsPerMeter = map.getSize().x / meters,
+        metersPerPixel = 1 / (92 * 39.3701);
+      return Math.round(1 / (pixelsPerMeter * metersPerPixel));
+    }
+
     function getMercatorBounds() {
       var bounds = getBounds();
       return L.bounds(L.CRS.EPSG3857.project(bounds.getSouthWest()),
@@ -241,7 +251,7 @@ $(document).ready(function () {
       }
 
       if ($("#format_mapnik").prop("checked")) {
-//        $("#mapnik_scale").val(roundScale(map.getScale()));
+        $("#mapnik_scale").val(getScale());
         $("#export_mapnik").show();
 
         mapnikSizeChanged();
