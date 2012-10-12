@@ -88,7 +88,7 @@
       <% if @user.image.file? %>
         <table id="accountImage">
           <tr>
-            <td rowspan="3" valign="top"><%= user_image @user %></td>
+            <td rowspan="3" valign="top"><%= user_image @user, :ignore_gravatar => true %></td>
             <td><%= radio_button_tag "image_action", "keep", true %></td>
             <td><%= t 'user.account.keep image' %></td>
           </tr>
@@ -108,6 +108,11 @@
     </td>
   </tr>
 
+  <tr>
+    <td class="fieldName"><%= t 'user.account.gravatar.gravatar' %></td>
+    <td><%= f.check_box :use_gravatar %> <span class="minorNote">(<a href="<%= t 'user.account.gravatar.link' %>" target="_new"><%= t 'user.account.gravatar.link text' %></a>)</span></td>
+  </tr>
+
   <tr id="homerow" <% unless @user.home_lat and @user.home_lon %> class="nohome" <%end%> >
     <td class="fieldName"><%= t 'user.account.home location' %></td>
     <td><em class="message"><%= t 'user.account.no home location' %></em><span class="location"><%= t 'user.account.latitude' %> <%= f.text_field :home_lat, :size => 20, :id => "home_lat" %> <%= t 'user.account.longitude' %><%= f.text_field :home_lon, :size => 20, :id => "home_lon" %></span></td>
@@ -123,7 +128,7 @@
       <%= content_tag "div", "", :id => "map", :class => "user_map set_location" %>
     </td>
   </tr>
-  
+
   <tr>
     <td></td>
     <td class="submitButton"><%= submit_tag t('user.account.save changes button') %></td>
