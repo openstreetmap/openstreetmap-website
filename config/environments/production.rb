@@ -61,6 +61,7 @@ OpenStreetMap::Application.configure do
   config.assets.precompile += %w( large-ltr.css small-ltr.css print-ltr.css )
   config.assets.precompile += %w( large-rtl.css small-rtl.css print-rtl.css )
   config.assets.precompile += %w( browse.css theme/openstreetmap/style.css )
+  config.assets.precompile += %w( leaflet.css leaflet.ie.css leaflet.draw.css leaflet.draw.ie.css )
 
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
