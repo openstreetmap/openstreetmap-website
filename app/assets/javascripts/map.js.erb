@@ -76,12 +76,18 @@ var layers = [
   }
 ];
 
-function createMap(divName) {
-  map = L.map(divName);
+function createMap(divName, options) {
+  map = L.map(divName, options);
 
-  map.attributionControl.setPrefix(''); // For tmcw
+  if (map.attributionControl) {
+    map.attributionControl.setPrefix(''); // For tmcw
+  }
 
-  var layersControl = L.control.layers().addTo(map);
+  var layersControl = L.control.layers();
+
+  if (!options || options.layerControl !== false) {
+    layersControl.addTo(map);
+  }
 
   for (var i = 0; i < layers.length; i++) {
     layers[i].layer = L.tileLayer(layers[i].urlTemplate, layers[i]);

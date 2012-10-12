@@ -21,7 +21,11 @@ $(document).ready(function () {
     return false;
   }
 
-  var map = createMap("small_map");
+  var map = createMap("small_map", {
+    layerControl: false,
+    zoomControl: false,
+    attributionControl: false
+  });
 
   var params = $("#small_map").data();
   if (params.type == "changeset") {
