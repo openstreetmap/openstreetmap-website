@@ -51,8 +51,8 @@ class UserController < ApplicationController
       if params[:user] and params[:user][:openid_url] and @user.pass_crypt.empty?
         # We are creating an account with OpenID and no password
         # was specified so create a random one
-        @user.pass_crypt = SecureRandom.base64(16) 
-        @user.pass_crypt_confirmation = @user.pass_crypt 
+        @user.pass_crypt = SecureRandom.base64(16)
+        @user.pass_crypt_confirmation = @user.pass_crypt
       end
 
       if @user
@@ -127,7 +127,7 @@ class UserController < ApplicationController
       @user.terms_agreed = Time.now.getutc
       @user.terms_seen = true
       @user.openid_url = nil if @user.openid_url and @user.openid_url.empty?
-      
+
       if @user.save
         flash[:piwik_goal] = PIWIK_SIGNUP_GOAL if defined?(PIWIK_SIGNUP_GOAL)
         flash[:notice] = t 'user.new.flash create success message', :email => @user.email
@@ -299,7 +299,7 @@ class UserController < ApplicationController
           referer = token.referer
           token.destroy
 
-          if session[:token] 
+          if session[:token]
             token = UserToken.find_by_token(session[:token])
             session.delete(:token)
           else
@@ -603,7 +603,7 @@ private
     else
       return openid_url
     end
-  end  
+  end
 
   ##
   # process a successful login
@@ -663,8 +663,15 @@ private
     user.languages = params[:user][:languages].split(",")
 
     case params[:image_action]
-    when "new" then user.image = params[:user][:image]
-    when "delete" then user.image = nil
+    when "new" then
+      user.image = params[:user][:image]
+      user.image_use_gravatar = false
+    when "delete" then
+      user.image = nil
+      user.image_use_gravatar = false
+    when "gravatar" then
+      user.image = nil
+      user.image_use_gravatar = true
     end
 
     user.home_lat = params[:user][:home_lat]
@@ -755,7 +762,7 @@ private
   ##
   #
   def disable_terms_redirect
-    # this is necessary otherwise going to the user terms page, when 
+    # this is necessary otherwise going to the user terms page, when
     # having not agreed already would cause an infinite redirect loop.
     # it's .now so that this doesn't propagate to other pages.
     flash.now[:skip_terms] = true

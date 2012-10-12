@@ -45,12 +45,13 @@ class User < ActiveRecord::Base
   validates_inclusion_of :preferred_editor, :in => Editors::ALL_EDITORS, :allow_nil => true
 
   attr_accessible :display_name, :email, :email_confirmation, :openid_url,
-                  :pass_crypt, :pass_crypt_confirmation, :consider_pd
+                  :pass_crypt, :pass_crypt_confirmation, :consider_pd,
+                  :image_use_gravatar
 
   after_initialize :set_defaults
   before_save :encrypt_password
 
-  has_attached_file :image, 
+  has_attached_file :image,
     :default_url => "/assets/:class/:attachment/:style.png",
     :styles => { :large => "100x100>", :small => "50x50>" }
 
@@ -82,7 +83,7 @@ class User < ActiveRecord::Base
     token.update_column(:expiry, 1.week.from_now) if token and user
 
     return user
-  end 
+  end
 
   def to_xml
     doc = OSM::API.new.get_xml_doc
@@ -125,7 +126,7 @@ class User < ActiveRecord::Base
   end
 
   def nearby(radius = NEARBY_RADIUS, num = NEARBY_USERS)
-    if self.home_lon and self.home_lat 
+    if self.home_lon and self.home_lat
       gc = OSM::GreatCircle.new(self.home_lat, self.home_lon)
       bounds = gc.bounds(radius)
       sql_for_distance = gc.sql_for_distance("home_lat", "home_lon")
@@ -182,7 +183,7 @@ class User < ActiveRecord::Base
   end
 
   ##
-  # returns the first active block which would require users to view 
+  # returns the first active block which would require users to view
   # a message, or nil if there are none.
   def blocked_on_view
     blocks.active.detect { |b| b.needs_view? }
