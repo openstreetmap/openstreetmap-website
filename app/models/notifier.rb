@@ -6,11 +6,17 @@ class Notifier < ActionMailer::Base
 
   def signup_confirm(user, token)
     @locale = user.preferred_language_from(I18n.available_locales)
-    @url = url_for(:host => SERVER_URL,
-                   :controller => "user", :action => "confirm",
-                   :display_name => user.display_name,
-                   :confirm_string => token.token)
-
+    
+    # If we are passed an email address verification token, create the return
+    # address for account activation. Otherwiese the email has already been verified e.g. through a
+    # trusted openID provider and the account is active
+    if token
+      @url = url_for(:host => SERVER_URL,
+                     :controller => "user", :action => "confirm",
+                     :display_name => user.display_name,
+                     :confirm_string => token.token)
+    end
+      
     mail :to => user.email,
          :subject => I18n.t('notifier.signup_confirm.subject', :locale => @locale)
   end
