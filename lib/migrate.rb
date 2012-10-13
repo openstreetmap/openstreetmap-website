@@ -134,10 +134,6 @@ module ActiveRecord
       def rename_index(table_name, old_name, new_name)
         execute "ALTER INDEX #{quote_table_name(old_name)} RENAME TO #{quote_table_name(new_name)}"
       end
-
-      def rename_sequence(table_name, old_name, new_name)
-        execute "ALTER SEQUENCE #{quote_table_name(old_name)} RENAME TO #{quote_table_name(new_name)}"
-      end
     end
   end
 end

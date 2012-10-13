@@ -6,7 +6,6 @@ class RenameBugsToNotes < ActiveRecord::Migration
     rename_enumeration "map_bug_event_enum", "note_event_enum"
 
     rename_table :map_bugs, :notes
-    rename_sequence :notes, "map_bugs_id_seq", "notes_id_seq"
     rename_index :notes, "map_bugs_pkey", "notes_pkey"
     rename_index :notes, "map_bugs_changed_idx", "notes_updated_at_idx"
     rename_index :notes, "map_bugs_created_idx", "notes_created_at_idx"
@@ -19,7 +18,6 @@ class RenameBugsToNotes < ActiveRecord::Migration
 
     rename_table :map_bug_comment, :note_comments
     rename_column :note_comments, :bug_id, :note_id
-    rename_sequence :note_comments, "map_bug_comment_id_seq", "note_comments_id_seq"
     rename_index :note_comments, "map_bug_comment_pkey", "note_comments_pkey"
     rename_index :note_comments, "map_bug_comment_id_idx", "note_comments_note_id_idx"
 
@@ -34,7 +32,6 @@ class RenameBugsToNotes < ActiveRecord::Migration
     rename_index :note_comments, "note_comments_note_id_idx", "map_bug_comment_id_idx"
     rename_index :notes, "note_comments_pkey", "map_bug_comment_pkey"
     rename_column :note_comments, :note_id, :bug_id
-    rename_sequence :note_comments, "note_comments_id_seq", "map_bug_comment_id_seq"
     rename_table :note_comments, :map_bug_comment
 
     rename_column :map_bug_comment, :author_id, :commenter_id
@@ -46,7 +43,6 @@ class RenameBugsToNotes < ActiveRecord::Migration
     rename_index :notes, "notes_created_at_idx", "map_bugs_created_idx"
     rename_index :notes, "notes_updated_at_idx", "map_bugs_changed_idx"
     rename_index :notes, "notes_pkey", "map_bugs_pkey"
-    rename_sequence :notes, "notes_id_seq", "map_bugs_id_seq"
     rename_table :notes, :map_bugs
 
     rename_enumeration "note_event_enum", "map_bug_event_enum"
