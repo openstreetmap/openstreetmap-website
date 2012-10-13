@@ -1,3 +1,6 @@
+//= require templates/notes/show
+//= require templates/notes/new
+
 $(document).ready(function () {
   var params = OSM.mapParams();
   var newNotes;
@@ -14,36 +17,35 @@ $(document).ready(function () {
     newNotes = undefined;
   }
 
-  function describeNote(n) {
-    var description = "<h2>Note " + n.id + "</h2>";
-
-    n.comments.forEach(function (c) {
-      description += "<p><small class='deemphasize'>" + c.action + " by ";
-      description += c.user + " at " + c.date + "</small><br/>" + c.text + "</p>";
-    });
-
-    return description;
-  }
-
   function noteSelected(o) {
     var feature = o.feature;
     var location = feature.geometry.getBounds().getCenterLonLat();
     var content;
-    var close;
+    var onClose;
 
     if (feature.attributes.status === "new") {
-      var form = $("#new-note").clone();
-      form.removeClass("hidden");
-      content = form.html();
-      close = false;
+      content = JST["templates/notes/new"]();
+
+      onClose = function (e) {
+        feature.attributes.status = "cancelled";
+
+        map.noteSelector.unselect(feature);
+        map.noteLayer.removeFeatures(feature);
+
+        feature.destroy();
+
+        map.noteMover.deactivate();
+      };
     } else {
-      content = describeNote(feature.attributes);
-      close = true;
+      content = JST["templates/notes/show"]({ note: feature.attributes });
+
+      onClose = function (e) {
+        map.noteSelector.unselect(feature)
+      };
     };
 
     feature.popup = new OpenLayers.Popup.FramedCloud(
-      feature.attributes.id, location, null, content, null, close,
-      function (e) { map.noteSelector.unselect(feature) }
+      feature.attributes.id, location, null, content, null, true, onClose
     );
 
     map.addPopup(feature.popup);
@@ -51,16 +53,18 @@ $(document).ready(function () {
 
     $(feature.popup.contentDiv).find("textarea").autoGrow();
 
-    $(feature.popup.contentDiv).find("input#note-submit").click(function (e) {
+    $(feature.popup.contentDiv).find("input#note-add").click(function (e) {
       var location = unproj(feature.geometry.getBounds().getCenterLonLat());
-      var form = $(e.target).parents("form").first();
+      var form = e.target.form;
 
-      $.ajax(form.prop("action"), {
-        type: form.prop("method"),
+      e.preventDefault();
+
+      $.ajax($("#createnoteanchor").attr("href"), {
+        type: "POST",
         data: {
           lon: location.lon,
           lat: location.lat,
-          text: form.find("textarea#comment").val()
+          text: $(form.comment).val()
         },
         success: function (data) {
           map.noteSelector.unselect(feature);
@@ -73,19 +77,6 @@ $(document).ready(function () {
           map.noteMover.deactivate();
         }
       });
-
-      e.preventDefault();
-    });
-
-    $(feature.popup.contentDiv).find("input#note-cancel").click(function (e) {
-      feature.attributes.status = "cancelled";
-
-      map.noteSelector.unselect(feature);
-      map.noteLayer.removeFeatures(feature);
-
-      feature.destroy();
-
-      map.noteMover.deactivate();
 
       e.preventDefault();
     });
