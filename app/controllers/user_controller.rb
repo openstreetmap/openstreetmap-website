@@ -127,16 +127,16 @@ class UserController < ApplicationController
         # valid OpenID and one the user has control over before saving
         # it as a password equivalent for the user.
         session[:new_user_settings] = params
-        openid_verify(params[:user][:openid_url], @user)
+        federated_verify(params[:user][:openid_url], @user)
       else
         update_user(@user, params)
       end
-    elsif using_open_id?
+    elsif using_federated_login?
       # The redirect from the OpenID provider reenters here
       # again and we need to pass the parameters through to
       # the open_id_authentication function
       settings = session.delete(:new_user_settings)
-      openid_verify(nil, @user) do |user|
+      federated_verify(nil, @user) do |user|
         update_user(user, settings)
       end
     end
@@ -214,7 +214,7 @@ class UserController < ApplicationController
       # the open_id_authentication function
       @user = session.delete(:new_user)
 
-      openid_verify(nil, @user) do |user, verified_email|
+      federated_verify(nil, @user) do |user, verified_email|
         user.status = "active" if user.email == verified_email
       end
 
@@ -265,7 +265,7 @@ class UserController < ApplicationController
       elsif @user.openid_url.present?
         # Verify OpenID before moving on
         session[:new_user] = @user
-        openid_verify(@user.openid_url, @user)
+        federated_verify(@user.openid_url, @user)
       else
         # Save the user record
         session[:new_user] = @user
@@ -275,12 +275,12 @@ class UserController < ApplicationController
   end
 
   def login
-    if params[:username] or using_open_id?
+    if params[:username] or using_federated_login?
       session[:remember_me] ||= params[:remember_me]
       session[:referer] ||= params[:referer]
 
-      if using_open_id?
-        openid_authentication(params[:openid_url])
+      if using_federated_login?
+        federated_authentication(params[:openid_url])
       else
         password_authentication(params[:username], params[:password])
       end
@@ -519,9 +519,57 @@ private
     end
   end
 
+  def using_federated_login?(identity_url = params[:openid_url]) #:doc:
+    using_open_id? || params[:code] || params[:error]
+  end
+
+  def federated_authentication(identity_url)
+    auth_method = session.delete(:federated_auth_method)
+    if (params[:error] && params[:error_description])
+      failed_login(params[:error_description])
+    elsif ((params[:code] && (auth_method == 'facebook')) || (identity_url && identity_url.match(/#facebook#:\/\/(.*)/)))
+      facebook_authentication()
+    elsif ((params[:code] && (auth_method == 'mslive')) || (identity_url && identity_url.match(/#live#:\/\/(.*)/)))
+      mslive_authentication()
+    else
+      openid_authentication(identity_url)
+    end
+
+  end
+
+  def facebook_authentication()
+    if params[:code]
+      consumer = OAuth2::Client.new(FACEBOOK_APP_ID,FACEBOOK_APP_SHARED_SECRET, :site => 'https://graph.facebook.com', :token_url => '/oauth/access_token')
+      access_token = consumer.auth_code.get_token(params[:code], {:redirect_uri => "#{request.protocol}#{request.host_with_port}#{request.fullpath}", :parse => :query})
+      user_info = access_token.get('/me').parsed
+      identity_url = "#facebook#://" + user_info["id"]
+      login_with_identity_url(identity_url, user_info["name"], user_info["email"])
+    else
+      session[:federated_auth_method] = 'facebook'
+      consumer = OAuth2::Client.new(FACEBOOK_APP_ID,FACEBOOK_APP_SHARED_SECRET, :site => 'https://graph.facebook.com', :token_url => '/oauth/access_token')      
+      redirect_to consumer.auth_code.authorize_url(:scope => 'email', :redirect_uri => "#{request.protocol}#{request.host_with_port}#{request.fullpath}")
+    end
+  end
+
+  def mslive_authentication()
+    if params[:code]
+      consumer = OAuth2::Client.new(LIVE_APP_ID,LIVE_APP_SHARED_SECRET, :site => 'https://login.live.com/', :authorize_url => '/oauth20_authorize.srf', :token_url => '/oauth20_token.srf')
+      access_token = consumer.auth_code.get_token(params[:code], {:redirect_uri => session.delete(:federated_redirect_url), :parse => :json})
+      user_info = access_token.get('https://apis.live.net/v5.0/me').parsed
+      identity_url = "#live#://" + user_info["id"]
+      login_with_identity_url(identity_url, user_info["name"], user_info["emails"]["preferred"])
+    else
+      session[:federated_auth_method] = 'mslive'
+      session[:federated_redirect_url] = "#{request.protocol}#{request.host_with_port}#{request.fullpath}"
+      consumer = OAuth2::Client.new(LIVE_APP_ID,LIVE_APP_SHARED_SECRET, :site => 'https://login.live.com/', :authorize_url => '/oauth20_authorize.srf', :token_url => '/oauth20_token.srf')
+      redirect_to consumer.auth_code.authorize_url(:scope => 'wl.basic, wl.signin, wl.emails', :redirect_uri => session[:federated_redirect_url])
+    end
+  end
+
   ##
   # handle OpenID authentication
   def openid_authentication(openid_url)
+    #logger.debug "OpenID_authentication" + openid_url
     # If we don't appear to have a user for this URL then ask the
     # provider for some extra information to help with signup
     if openid_url and User.find_by_openid_url(openid_url)
@@ -533,6 +581,14 @@ private
     # Start the authentication
     authenticate_with_open_id(openid_expand_url(openid_url), :method => :get, :required => required) do |result, identity_url, sreg, ax|
       if result.successful?
+        # Guard against not getting any extension data
+        sreg = Hash.new if sreg.nil?
+        ax = Hash.new if ax.nil?
+        ax["http://axschema.org/namePerson/friendly"] = [] if ax["http://axschema.org/namePerson/friendly"].nil?
+        ax["http://axschema.org/contact/email"] = [] if ax["http://axschema.org/contact/email"].nil?
+        nickname = sreg["nickname"] || ax["http://axschema.org/namePerson/friendly"].first
+        email = sreg["email"] || ax["http://axschema.org/contact/email"].first
+        
         # We need to use the openid url passed back from the OpenID provider
         # rather than the one supplied by the user, as these can be different.
         #
@@ -571,6 +627,57 @@ private
       else
         failed_login t('user.login.auth failure')
       end
+    end
+  end
+
+  def federated_verify(identity_url, user)
+    auth_method = session.delete(:federated_auth_method)
+    if (params[:error] && params[:error_description] && auth_method)
+      flash.now[:error] = params[:error_description]
+    elsif ((params[:code] && (auth_method == 'facebook')) || (identity_url && (identity_url.match(/#facebook#:\/\/(.*)/))))
+      facebook_verify(identity_url, user) do |user,verified_email|
+        yield user, verified_email
+      end
+    elsif ((params[:code] && (auth_method == 'mslive')) || (identity_url && (identity_url.match(/#live#:\/\/(.*)/))))
+      mslive_verify(identity_url, user) do |user,verified_email|
+        yield user, verified_email
+      end
+    else
+      openid_verify(identity_url, user) do |user,verified_email|
+        yield user, verified_email
+      end   
+    end    
+  end
+
+  def facebook_verify(identity_url, user)
+    if params[:code]
+      consumer = OAuth2::Client.new(FACEBOOK_APP_ID,FACEBOOK_APP_SHARED_SECRET, :site => 'https://graph.facebook.com', :token_url => '/oauth/access_token')
+      access_token = consumer.auth_code.get_token(params[:code], {:redirect_uri => "#{request.protocol}#{request.host_with_port}#{request.fullpath}", :parse => :query})
+      user_info = access_token.get('/me').parsed
+      identity_url = "#facebook#://" + user_info["id"]
+      user.openid_url = identity_url
+      yield user, user_info["email"]
+    else
+      session[:federated_auth_method] = 'facebook'
+      consumer = OAuth2::Client.new(FACEBOOK_APP_ID,FACEBOOK_APP_SHARED_SECRET, :site => 'https://graph.facebook.com', :token_url => '/oauth/access_token')
+      redirect_to consumer.auth_code.authorize_url(:scope => 'email', :redirect_uri => "#{request.protocol}#{request.host_with_port}#{request.fullpath}")
+    end
+  end
+
+  def mslive_verify(identity_url, user)
+    if params[:code]
+      consumer = OAuth2::Client.new(LIVE_APP_ID,LIVE_APP_SHARED_SECRET, :site => 'https://login.live.com/', :authorize_url => '/oauth20_authorize.srf', :token_url => '/oauth20_token.srf')
+      access_token = consumer.auth_code.get_token(params[:code], {:redirect_uri => session.delete(:federated_redirect_url) , :parse => :json})
+      user_info = access_token.get('https://apis.live.net/v5.0/me').parsed
+      identity_url = "#live#://" + user_info["id"]
+      user.openid_url = identity_url
+      #Windows live accounts don't guarantee emails to be verified, so don't return a verified email address
+      yield user, nil
+    else
+      session[:federated_auth_method] = 'mslive'
+      session[:federated_redirect_url] = "#{request.protocol}#{request.host_with_port}#{request.fullpath}"
+      consumer = OAuth2::Client.new(LIVE_APP_ID,LIVE_APP_SHARED_SECRET, :site => 'https://login.live.com/', :authorize_url => '/oauth20_authorize.srf', :token_url => '/oauth20_token.srf')
+      redirect_to consumer.auth_code.authorize_url(:scope => 'wl.basic, wl.signin, wl.emails', :redirect_uri => session[:federated_redirect_url])
     end
   end
 
@@ -632,6 +739,26 @@ private
   def openid_email_verified(openid_url)
     openid_url.match(/https:\/\/www.google.com\/accounts\/o8\/id?(.*)/) or
     openid_url.match(/https:\/\/me.yahoo.com\/(.*)/)
+  end
+
+  def login_with_identity_url(identity_url, tentative_name, tentative_email)    
+    if user = User.find_by_openid_url(identity_url) 
+      case user.status
+      when "pending" then
+        failed_login t('user.login.account not active', :reconfirm => url_for(:action => 'confirm_resend', :display_name => user.display_name))
+      when "active", "confirmed" then
+        successful_login(user)
+      when "suspended" then
+        failed_login t('user.login.account is suspended', :webmaster => "mailto:webmaster@openstreetmap.org")
+      else
+        failed_login t('user.login.auth failure')
+      end
+    else
+      # We don't have a user registered to this identity_url, so redirect
+      # to the create account page with username and email filled
+      # in if they have been given by the identity provider.
+      redirect_to :controller => 'user', :action => 'new', :nickname => tentative_name, :email => tentative_email, :openid => identity_url
+    end
   end
 
   ##
