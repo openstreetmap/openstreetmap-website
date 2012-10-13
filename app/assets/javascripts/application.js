@@ -13,7 +13,6 @@
 //= require sidebar
 //= require richtext
 //= require resize
-//= require notes
 
 function zoomPrecision(zoom) {
     var decimals = Math.pow(10, Math.floor(zoom/3));

@@ -1,6 +1,7 @@
 //= require index/browse
 //= require index/export
 //= require index/key
+//= require index/notes
 
 $(document).ready(function () {
   var marker;
