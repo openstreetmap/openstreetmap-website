@@ -128,12 +128,26 @@ class UserController < ApplicationController
       @user.terms_seen = true
       @user.openid_url = nil if @user.openid_url and @user.openid_url.empty?
 
+      if (session[:openid_verified])
+        openid_verified = session.delete(:openid_verified)
+        if (openid_verified[:identity_url]) and (openid_verified[:identity_url] == @user.openid_url) and (openid_verified[:email]) and (openid_verified[:email] ==  @user.email)
+          # if we have an email from an OpenID provider that we trust to have verified the email for us, then activate the account directly
+          # without doing our own email verification.
+          @user.status = "active"
+        end
+      end
+
       if @user.save
         flash[:piwik_goal] = PIWIK_SIGNUP_GOAL if defined?(PIWIK_SIGNUP_GOAL)
         flash[:notice] = t 'user.new.flash create success message', :email => @user.email
-        Notifier.signup_confirm(@user, @user.tokens.create(:referer => session.delete(:referer))).deliver
-        session[:token] = @user.tokens.create.token
-        redirect_to :action => 'login', :referer => params[:referer]
+        if @user.status == "active"
+          Notifier.signup_confirm(@user, nil).deliver
+          successful_login(@user)
+        else
+          Notifier.signup_confirm(@user, @user.tokens.create(:referer => session.delete(:referer))).deliver
+          session[:token] = @user.tokens.create.token
+          redirect_to :action => 'login', :referer => params[:referer]
+        end
       else
         render :action => 'new', :referer => params[:referer]
       end
@@ -551,6 +565,9 @@ private
           # the simple registration protocol.
           nickname = sreg["nickname"] || ax["http://axschema.org/namePerson/friendly"].first
           email = sreg["email"] || ax["http://axschema.org/contact/email"].first
+
+          # Check if the openID is from a "trusted" OpenID provider and thus provides a verified email address
+          session[:openid_verified] = openid_email_verified(identity_url, email)
           redirect_to :controller => 'user', :action => 'new', :nickname => nickname, :email => email, :openid => identity_url
         end
       elsif result.missing?
@@ -603,6 +620,20 @@ private
     else
       return openid_url
     end
+  end
+
+  def openid_email_verified(openid_url, email)
+    # OpenID providers Google and Yahoo are guaranteed to return (if at all) an email address that has been verified by
+    # them already. So we can trust the email addresses to be valid and own by the user without having to verify them our
+    # selves.
+    # Store the email in the session to compare agains the user set email address during account creation.
+    openid_verified = Hash.new
+    openid_verified[:identity_url] = openid_url
+    if openid_url.match(/https:\/\/www.google.com\/accounts\/o8\/id?(.*)/) or openid_url.match(/https:\/\/me.yahoo.com\/(.*)/)
+        openid_verified[:email] = email
+    end
+    return openid_verified
+    
   end
 
   ##
