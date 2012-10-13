@@ -9,6 +9,7 @@
 # Author: Hylle
 # Author: Nemo bis
 # Author: OleLaursen
+# Author: Peter Alberti
 # Author: The real emj
 # Author: Winbladh
 da: 
@@ -177,6 +178,8 @@ da:
       of: af
       showing_page: Viser side
     redacted: 
+      message_html: Version %{version} af denne %{type} kan ikke vises, da den er omarbejdet. Se venligst %{redaction_link} for detaljer.
+      redaction: Omarbejdelse %{id}
       type: 
         node: punkt
         relation: relation
@@ -399,7 +402,7 @@ da:
       area_to_export: Område som skal eksporteres
       embeddable_html: HTML der kan indlejres
       export_button: Eksportér
-      export_details: OpenStreetMaps data er licenseret under <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative Commons Attribution-ShareAlike 2.0</a>-licensen.
+      export_details: OpenStreetMaps data er licenseret under <a href="http://opendatacommons.org/licenses/odbl/1.0/">Open Data Commons Open Database License</a> (ODbL).
       format: Format
       format_to_export: Format for eksport
       image_size: "Billedestørrelse:"
@@ -430,14 +433,11 @@ da:
     description: 
       title: 
         geonames: Position fra <a href="http://www.geonames.org/">GeoNames</a>
-        osm_namefinder: "%{types} fra <a href=\"http://gazetteer.openstreetmap.org/namefinder/\">OpenStreetMap Namefinder</a>"
         osm_nominatim: Position fra <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
       types: 
         cities: Storbyer
         places: Steder
         towns: Byer
-    description_osm_namefinder: 
-      prefix: "%{distance} %{direction} for %{type}"
     direction: 
       east: øst
       north: nord
@@ -459,13 +459,9 @@ da:
         ca_postcode: Resultater fra <a href="http://geocoder.ca/">Geocoder.CA</a>
         geonames: Resultater fra <a href="http://www.geonames.org/">GeoNames</a>
         latlon: Resultater fra <a href="http://openstreetmap.org/">interne</a>
-        osm_namefinder: Resultater fra <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>
         osm_nominatim: Resultater fra <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
         uk_postcode: Resultater fra <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Resultater fra <a href="http://geocoder.us/">Geocoder.us</a>
-    search_osm_namefinder: 
-      suffix_parent: "%{suffix} (%{parentdistance} %{parentdirection} for %{parentname})"
-      suffix_place: ", %{distance} %{direction} for %{placename}"
     search_osm_nominatim: 
       prefix: 
         aeroway: 
@@ -489,6 +485,7 @@ da:
           bench: Bænk
           bicycle_parking: Cykelparkering
           bicycle_rental: Cykeludlejning
+          biergarten: Udendørs øludskænkning
           brothel: Bordel
           bureau_de_change: Vekselkontor
           bus_station: Busstation
@@ -516,6 +513,7 @@ da:
           ferry_terminal: Færgeterminal
           fire_hydrant: Brandhane
           fire_station: Brandstation
+          food_court: Food Court
           fountain: Springvand
           fuel: Benzinstation
           grave_yard: Kirkegård
@@ -557,6 +555,7 @@ da:
           shop: Forretning
           shopping: Indkøb
           shower: Brusebad
+          social_centre: Socialcenter
           social_club: Social klub
           studio: Studie
           supermarket: Supermarked
@@ -674,6 +673,7 @@ da:
           railway: Jernbane
           recreation_ground: Idrætsplads
           reservoir: Reservoir
+          reservoir_watershed: Vandreservoir
           residential: Boligområde
           retail: Detailhandel
           road: Vejområde
@@ -686,6 +686,7 @@ da:
           bird_hide: Fugleskjul
           common: Fælles arealer
           fishing: Fiskeområde
+          fitness_station: Udendørs fitness udstyr
           garden: Have
           golf_course: Golfbane
           ice_rink: Skøjtebane
@@ -772,6 +773,7 @@ da:
           houses: Huse
           island: Ø
           islet: Holm
+          isolated_dwelling: Enlig bolig
           locality: Sted
           moor: Hede
           municipality: Kommune
@@ -987,6 +989,7 @@ da:
     partners_ucl: UCL VR centret
     sign_up: opret konto
     sign_up_tooltip: Opret en konto for at kunne redigere
+    sotm2012: Kom til den amerikanske 2012 OpenStreetMap-konference, Kortets tilstand USA, 13.-14. oktober i Portland, Oregon!
     tag_line: Det frie Wiki-verdenskort
     user_diaries: Brugerblogs
     user_diaries_tooltip: Vis brugerblogs
@@ -1007,19 +1010,23 @@ da:
       contributors_footer_1_html: "For yderligere oplysninger om disse og andre kilder, der er blevet brugt for at hjælpe med at forbedre OpenStreetMap, se venligst <a\nhref=\"http://wiki.openstreetmap.org/wiki/Contributors\">siden med bidragydere</a> på OpenStreetMap Wiki."
       contributors_footer_2_html: "Optagelse af data i OpenStreetMap indebærer ikke at den oprindelige\ndataudbyder siger god for OpenStreetMap, giver nogen garanti eller\naccepterer nogen form for erstatningspligt."
       contributors_fr_html: "<strong>Frankrig</strong>: Indeholder data fra\nDirection Générale des Impôts."
-      contributors_gb_html: "<strong>Storbritannien</strong>: indeholder Ordnance\nSurvey data &copy; Crown copyright and database right\n2010."
-      contributors_intro_html: "Vores CC BY-SA licens kræver at du &ldquo;giver den oprindelige\nforfatter kredit i rimeligt omfang i forhold til mediet eller de midler\ndu anvender&rdquo;. Individuelle OSM-kortlæggere anmoder ikke om\nkildeangivelse ud over &ldquo;OpenStreetMap-bidragydere&rdquo;, men hvor data\nfra et national kortlægningsagentur eller anden stor kilde er medtaget i\nOpenStreetMap, kan det være rimeligt at kreditere dem ved direkte\nkildeangivelse eller ved at linke til den på denne side."
+      contributors_gb_html: "<strong>Storbritannien</strong>: indeholder Ordnance\nSurvey data &copy; Crown copyright and database right\n2010-12."
+      contributors_intro_html: "Vores bidragydere er tusinder af individer. Vi medtager også\n åbent licenseret data fra nationale kortlægningsagenturer\n og andre kilder, blandt dem:"
       contributors_nl_html: "<strong>Holland</strong>: Indeholder &copy; AND data, 2007\n(<a href=\"http://www.and.com\">www.and.com</a>)"
       contributors_nz_html: "<strong>New Zealand</strong>: Indeholder data fra \nLand Information New Zealand. Crown Copyright reserveret."
       contributors_title_html: Vores bidragydere
       contributors_za_html: "<strong>Syd Afrika</strong>: Indeholder data fra\n<a href=\"http://www.ngi.gov.za/\">Chief Directorate:\nNational Geo-Spatial Information</a>, State copyright reserveret."
-      credit_1_html: "Hvis du bruger OpenStreetMaps kortbilleder, anmoder vi om at\ndin kildeangivelse mindst består af &ldquo;&copy; OpenStreetMap-bidragydere,\nCC BY-SA&rdquo;. Hvis du kun bruger kortdata, anmoder vi om &ldquo;Kortdata\n&copy; OpenStreetMap-bidragydere, CC BY-SA&rdquo;."
-      credit_2_html: "Så vidt muligt bør OpenStreetMap være et hyperlink til\n<a href=\"http://www.openstreetmap.org/\">http://www.openstreetmap.org/</a>\nog CC BY-SA til \n<a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">http://creativecommons.org/licenses/by-sa/2.0/</a>.\nHvis du bruger et medium hvor hyperlinks ikke er mulige (f.eks. en tryksag), foreslår\nvi at du sender dine læsere til www.openstreetmap.org (måske ved at ændre\n&lsquo;OpenStreetMap&rsquo; til denne fulde adresse) og til www.creativecommons.org."
+      credit_1_html: Vi kræver at din kildeangivelse mindst består af &ldquo;&copy; OpenStreetMap-bidragyderer&rdquo;..
+      credit_2_html: "Du skal også gøre det klart, at dataene er tilgængelige under Open \nDatabase License, og hvis du bruger vores kort fliser, at kartografi er\n licenseret som CC-BY-SA. Du kan gøre dette ved at linke til\n<a href=\"http://www.openstreetmap.org/copyright\">denne side om ophavsret</a>. \nAlternativt, og som et krav, hvis du distribuerer OSM i en\n dataform, kan du navngive og oprette et hyperlink direkte til licenserne. I medier\n hvor hyperlinks ikke er mulig (f.eks. trykte værker), foreslår vi, at du\n henviser dine læsere til openstreetmap.org (måske ved at udvide\n'OpenStreetMap' til denne fuld adresse), til opendatacommons.org, og\n hvis relevant, til creativecommons.org."
       credit_title_html: Kildeangivelse og OpenStreetMap
+      infringement_1_html: "OSM-bidragydere bliver mindet om aldrig at tilføje data fra nogen\nophavsretligt beskyttede kilder (f.eks. Google Maps eller trykte kort) uden\neksplicit tilladelse fra ophavsret-indehaverne."
+      infringement_2_html: "Hvis du mener, at ophavsretligt beskyttet materiale uberettiget er\n føjet til OpenStreetMap databasen eller dette websted, bedes du følge\n vores <a href=\"http://www.osmfoundation.org/wiki/License/Takedown_procedure\">procedure til fjernelse a materiale</a> eller udfyld formular direkte på vores\n<a href=\"http://dmca.openstreetmap.org/\">on-line side</a>."
+      infringement_title_html: Krænkelse af ophavsretten
       intro_1_html: "OpenStreetMap er <i>åben data</i>, licenseret under <a\nhref=\"http://creativecommons.org/licenses/by-sa/2.0/\">Creative\nCommons Attribution-ShareAlike 2.0</a>-licensen (CC BY-SA)."
-      intro_2_html: "Du kan frit kopiere, distribuere, overføre og tilpasse vores kort\nog data, så længe du angiver OpenStreetMap og dets\nbidragydere som kilde. Hvis du ændrer eller bygger på vores kort\neller data, må du kun distribuere resultatet under den samme licens. Den\nfulde <a\nhref=\"http://creativecommons.org/licenses/by-sa/2.0/legalcode\">juridiske tekst</a>\nforklarer dine rettigheder og pligter."
-      more_1_html: "Læs mere om brug af vores data på den\n<a href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">Juridiske FAQ</a>."
-      more_2_html: "OSM-bidragydere bliver mindet om aldrig at tilføje data fra nogen\nophavsretligt beskyttede kilder (f.eks.. Google Maps eller trykte kort) uden\neksplicit tilladelse fra ophavsret-indehaverne."
+      intro_2_html: "Du kan frit kopiere, distribuere, overføre og tilpasse vores data, \nså længe du angiver OpenStreetMap og dets\nbidragydere som kilde. Hvis du ændrer eller bygger på vores\ndata, må du kun distribuere resultatet under den samme licens. Den\nfulde <a\nhref=\"http://opendatacommons.org/licenses/odbl/1.0/\">juridiske tekst</a>\nforklarer dine rettigheder og pligter."
+      intro_3_html: "Kartografi i vores kort, og vores dokumentation er\n licenseret under <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">Creative\nCommons Attribution-ShareAlike 2.0</a>-licensen (CC-BY-SA)."
+      more_1_html: "Læs mere om brug af vores data, og hvordan du kreditere os, på den <a\nhref=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">juridiske\nFAQ</a>."
+      more_2_html: "Selvom OpenStreetMap er åbne data, kan vi ikke levere en\ngratis kort-API til tredjeparts-udviklere.\n\nSe vores <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">politik for API-brug</a>,\n<a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">politik for brug af kortbilleder</a>\nog <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">politik for brug af Nominatim</a>."
       more_title_html: Læs mere
       title_html: Ophavsret og licens
     native: 
@@ -1207,9 +1214,11 @@ da:
       allow_write_diary: oprette blogindlæg, kommentarer og lave venskaber.
       allow_write_gpx: upload GPS-spor.
       allow_write_prefs: ændre deres brugerindstillinger.
+      callback_url: Callback URL
       name: Navn
       requests: "Anmod brugeren om følgende tilladelser:"
       required: Påkrævet
+      support_url: Support URL
       url: Programmets hovedadresse
     index: 
       application: Programnavn
@@ -1228,6 +1237,7 @@ da:
     not_found: 
       sorry: Beklager, men %{type} kunne ikke findes.
     show: 
+      access_url: "Access Token URL:"
       allow_read_gpx: læse deres private GPS-spor.
       allow_read_prefs: læs deres brugerindstillinger.
       allow_write_api: tilpas kortet.
@@ -1243,16 +1253,37 @@ da:
       secret: "Forbrugerhemmelighed:"
       support_notice: Vi understøtter HMAC-SHA1 (anbefales) og almindelig tekst i SSL-tilstand.
       title: OAuth detaljer for %{app_name}
+      url: "Request Token URL:"
     update: 
       flash: Opdateret klientoplysninger
   redaction: 
+    create: 
+      flash: Omarbejdelse oprettet.
+    destroy: 
+      error: Der opstod en fejl under sletning af denne omarbejdelse.
+      flash: Omarbejdelse slettet.
+      not_empty: Omarbejdelse er ikke tom. Venligst fjern omarbejdelsen af alle versioner der tilhører denne omarbejdelse, før du sletter den.
     edit: 
       description: Beskrivelse
+      heading: Rediger omarbejdelse
+      submit: Gem omarbejdelse
+      title: Rediger omarbejdelse
+    index: 
+      empty: Ingen omarbejdelser at vise.
+      heading: Liste over omarbejdelser
+      title: Liste over omarbejdelser
     new: 
       description: Beskrivelse
+      heading: Angiv oplysninger om ny omarbejdelse
+      submit: Opret omarbejdelse
+      title: Opretter ny omarbejdelse
     show: 
       confirm: Er du sikker?
       description: "Beskrivelse:"
+      destroy: Fjern denne omarbejdelse
+      edit: Rediger denne omarbejdelse
+      heading: Viser omarbejdelse "%{title}"
+      title: Viser omarbejdelse
       user: "Oprettet af:"
     update: 
       flash: Ændringer gemt.
@@ -1270,6 +1301,8 @@ da:
     index: 
       js_1: Du bruger enten en browser som ikke understøtter Javascript, eller du har deaktiveret Javascript.
       js_2: OpenStreetMap bruger JavaScript til det interaktive kort.
+      license: 
+        copyright: Ophavsret tilhører OpenStreetMap og bidragsydere, under en open license
       permalink: Permalink
       remote_failed: Redigering mislykkede - tjek at JOSM eller Merkaartor er startet og fjernbetjening er aktiveret
       shortlink: Kort link
@@ -1602,7 +1635,9 @@ da:
       title: Glemt adgangskode
     make_friend: 
       already_a_friend: Du er allerede ven med %{name}.
+      button: Tilføj som en ven
       failed: Desværre, kunne ikke tilføje %{name} som din ven.
+      heading: Tilføj %{user} som en ven?
       success: "%{name} er nu din ven."
     new: 
       confirm email address: "Bekræft e-mail-adresse:"
@@ -1635,6 +1670,8 @@ da:
       nearby mapper: Bruger i nærheden
       your location: Din position
     remove_friend: 
+      button: Fjern som en ven
+      heading: Fjern %{user} som en ven?
       not_a_friend: "%{name} er ikke en af dine venner."
       success: "%{name} blev fjernet fra din liste af venner."
     reset_password: 

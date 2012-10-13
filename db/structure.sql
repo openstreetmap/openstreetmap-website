@@ -1102,7 +1102,8 @@ CREATE TABLE users (
     description_format format_enum DEFAULT 'html'::format_enum NOT NULL,
     image_fingerprint character varying(255),
     changesets_count integer DEFAULT 0 NOT NULL,
-    traces_count integer DEFAULT 0 NOT NULL
+    traces_count integer DEFAULT 0 NOT NULL,
+    diary_entries_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -2440,6 +2441,8 @@ INSERT INTO schema_migrations (version) VALUES ('20120328090602');
 INSERT INTO schema_migrations (version) VALUES ('20120404205604');
 
 INSERT INTO schema_migrations (version) VALUES ('20120808231205');
+
+INSERT INTO schema_migrations (version) VALUES ('20121005195010');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 

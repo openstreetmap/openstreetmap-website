@@ -14,6 +14,7 @@
     <%= link_to t('user.view.my notes'), :controller => 'note', :action=> 'mine' %>
     |
     <%= link_to t('user.view.my diary'), :controller => 'diary_entry', :action => 'list', :display_name => @user.display_name %>
+    <span class='count-number'><%= number_with_delimiter(@user.diary_entries.size) %></span>
     |
     <%= link_to t('user.view.my comments' ), :controller => 'diary_entry', :action => 'comments', :display_name => @user.display_name %>
     |
@@ -41,6 +42,7 @@
     <%= link_to t('user.view.send message'), :controller => 'message', :action => 'new', :display_name => @this_user.display_name %>
     |
     <%= link_to t('user.view.diary'), :controller => 'diary_entry', :action => 'list', :display_name => @this_user.display_name %>
+    <span class='count-number'><%= number_with_delimiter(@this_user.diary_entries.size) %></span>
     |
     <%= link_to t('user.view.comments'), :controller => 'diary_entry', :action => 'comments', :display_name => @this_user.display_name %>
     |
@@ -99,7 +101,7 @@
 </p>
 
 <% if @user and @user.administrator? -%>
-  <p><b><%= t 'user.view.email address' %></b> <%= @this_user.email %></p>  
+  <p><b><%= t 'user.view.email address' %></b> <%= @this_user.email %></p>
   <% unless @this_user.creation_ip.nil? -%>
   <p><b><%= t 'user.view.created from' %></b> <%= @this_user.creation_ip %></p>
   <% end -%>
@@ -108,13 +110,24 @@
 <% end -%>
 
 <% if @user and @this_user.id == @user.id %>
-  <div id="map" class="user_map">
-    <% if @this_user.home_lat.nil? or @this_user.home_lon.nil? %>
+  <% if @this_user.home_lat.nil? or @this_user.home_lon.nil? %>
+    <div id="map" class="user_map">
       <p id="no_home_location"><%= raw(t 'user.view.if set location', :settings_link => (link_to t('user.view.settings_link_text'), :controller => 'user', :action => 'account', :display_name => @user.display_name)) %></p>
-    <% else %>
-      <%= render :partial => 'map', :locals => { :setting_location => false, :show_other_users => true } %>
+    </div>
+  <% else %>
+    <% content_for :head do %>
+      <%= javascript_include_tag "user" %>
     <% end %>
-  </div>
+    <%
+      user_data = {
+        :lon => @user.home_lon,
+        :lat => @user.home_lat,
+        :icon => "marker.png",
+        :description => render(:partial => "popup", :object => @user, :locals => {:type => "your location"})
+      }
+    %>
+    <%= content_tag "div", "", :id => "map", :class => "user_map", :data => {:user => user_data} %>
+  <% end %>
 
   <% friends = @this_user.friends.collect { |f| f.befriendee } %>
   <% nearby = @this_user.nearby - friends %>
@@ -127,7 +140,7 @@
     <%= link_to t('user.view.friends_changesets'), friend_changesets_path %><br/>
     <%= link_to t('user.view.friends_diaries'), friend_diaries_path %><br/><br/>
     <table id="friends">
-      <%= render :partial => "contact", :collection => friends %>
+      <%= render :partial => "contact", :collection => friends, :locals => {:type => "friend"} %>
     </table>
   <% end %>
 
@@ -139,7 +152,7 @@
     <%= link_to t('user.view.nearby_changesets'), nearby_changesets_path %><br/>
     <%= link_to t('user.view.nearby_diaries'), nearby_diaries_path %><br/><br/>
     <table id="nearbyusers">
-      <%= render :partial => "contact", :collection => nearby %>
+      <%= render :partial => "contact", :collection => nearby, :locals => {:type => "nearby mapper"} %>
     </table>
   <% end %>
 <% end %>

@@ -106,13 +106,13 @@ function addMarkerToMap(position, icon, description) {
    return marker;
 }
 
-function addObjectToMap(url, zoom, callback) {
+function addObjectToMap(object, zoom, callback) {
    var layer = new OpenLayers.Layer.Vector("Objects", {
       strategies: [ 
           new OpenLayers.Strategy.Fixed()
       ],
       protocol: new OpenLayers.Protocol.HTTP({
-          url: url,
+          url: OSM.apiUrl(object),
           format: new OpenLayers.Format.OSM()
       }),
       style: {
@@ -196,16 +196,11 @@ function openMapPopup(marker, description) {
 function closeMapPopup() {
    if (popup) {
       map.removePopup(popup);
-      delete popup;
    }
 }
 
 function removeMarkerFromMap(marker){
    markers.removeMarker(marker);
-}
-
-function removeBoxFromMap(box){
-   vectors.removeFeature(box);
 }
 
 function proj(x) {
@@ -224,7 +219,7 @@ function setMapCenter(center, zoom) {
 }
 
 function getEventPosition(event) {
-   return map.getLonLatFromViewPortPx(event.xy).clone().transform(map.getProjectionObject(), epsg4326);
+   return unproj(map.getLonLatFromViewPortPx(event.xy));
 }
 
 function getMapLayers() {

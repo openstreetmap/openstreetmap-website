@@ -1,7 +1,7 @@
 class DiaryEntry < ActiveRecord::Base
-  belongs_to :user
+  belongs_to :user, :counter_cache => true
   belongs_to :language, :foreign_key => 'language_code'
-  
+
   has_many :comments, :class_name => "DiaryComment",
                       :include => :user,
                       :order => "diary_comments.id"

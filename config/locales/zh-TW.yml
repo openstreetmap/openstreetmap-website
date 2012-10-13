@@ -1,4 +1,4 @@
-# Messages for Traditional Chinese (‪中文（繁體）‬)
+# Messages for Traditional Chinese (中文（繁體）‎)
 # Exported from translatewiki.net
 # Export driver: syck-pecl
 # Author: Anakmalaysia
@@ -78,6 +78,8 @@ zh-TW:
   application: 
     require_cookies: 
       cookies_needed: 您似乎已停用 cookies - 請在瀏覽器中啟用 cookies，然後繼續。
+    require_moderator: 
+      not_a_moderator: 您需要一個管理者來執行該動作。
     setup_user_auth: 
       blocked: 您對 API 的存取已經被阻擋了。請登入網頁介面以了解更多資訊。
       need_to_see_terms: 我們已暫時中止您存取API的權限，請登入網頁介面查閱貢獻者條款，您不需要同意有關條款，但必須查閱全部。
@@ -423,14 +425,11 @@ zh-TW:
     description: 
       title: 
         geonames: 位置來自 <a href="http://www.geonames.org/">GeoNames</a>
-        osm_namefinder: "%{types} 來自 <a href=\"http://gazetteer.openstreetmap.org/namefinder/\">OpenStreetMap Namefinder</a>"
         osm_nominatim: 來自 <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a> 的位置
       types: 
         cities: 城市
         places: 地區
         towns: 鄉鎮
-    description_osm_namefinder: 
-      prefix: "%{distance} %{direction} ／ %{type}"
     direction: 
       east: 東方
       north: 北方
@@ -452,13 +451,9 @@ zh-TW:
         ca_postcode: 來自<a href="http://geocoder.ca/">Geocoder.CA</a>的結果
         geonames: 來自<a href="http://www.geonames.org/">GeoNames</a>的結果
         latlon: 來自<a href="http://openstreetmap.org/">內部</a>的結果
-        osm_namefinder: 來自<a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>的結果
         osm_nominatim: 來自 <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a> 的結果
         uk_postcode: 來自<a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>的結果
         us_postcode: 來自<a href="http://geocoder.us/">Geocoder.us</a>的結果
-    search_osm_namefinder: 
-      suffix_parent: "%{suffix} (%{parentdistance} %{parentdirection} ／ %{parentname})"
-      suffix_place: ", %{direction} %{distance} ／ %{placename}"
     search_osm_nominatim: 
       prefix: 
         aeroway: 
@@ -571,6 +566,11 @@ zh-TW:
         waterway: 
           dam: 水壩
   javascripts: 
+    map: 
+      base: 
+        cycle_map: Cycle Map
+        standard: 標準
+        transport_map: Transport Map
     site: 
       edit_disabled_tooltip: 拉近以編輯地圖
       edit_tooltip: 編輯地圖
@@ -630,6 +630,7 @@ zh-TW:
     partners_ucl: 倫敦大學學院 VR 中心
     sign_up: 註冊
     sign_up_tooltip: 建立一個帳號以便能編輯
+    sotm2012: 歡迎參加九月六日至八日在東京舉辦的 2012 OpenStreetMap 會議，The State of the Map！
     tag_line: 自由的 Wiki 世界地圖
     user_diaries: 日記
     user_diaries_tooltip: 檢視日記
@@ -803,7 +804,7 @@ zh-TW:
       allow_write_diary: 建立日記、註解和設定朋友。
       allow_write_gpx: 上傳 GPS 軌跡。
       allow_write_prefs: 修改您的使用者偏好設定。
-      request_access: 應用程式 %{app_name} 要求存取您的帳號。請確定您要讓此應用程式使用下列功能。您可以依自己的意思選擇。
+      request_access: 應用程式 %{app_name} 要求存取您的帳號，%{user}。請確定您要讓此應用程式使用下列功能。您可以依自己的意思選擇。
     revoke: 
       flash: 您已經註銷 %{application} 的記號。
   oauth_clients: 
@@ -861,6 +862,9 @@ zh-TW:
       url: 要求記號 URL：
     update: 
       flash: 更新客戶端資訊成功
+  redaction: 
+    edit: 
+      description: 描述
   site: 
     edit: 
       anon_edits_link_text: 了解為什麼這很重要。
@@ -936,14 +940,19 @@ zh-TW:
           unsurfaced: 無鋪面道路
           wood: 樹木
     markdown_help: 
+      alt: 替代文字
       first: 第一項
       heading: 標題
       headings: 標題
+      image: 圖片
+      link: 連結
       ordered: 有序清單
       second: 第二項
       subheading: 副標題
+      text: 文字
       title_html: 以 <a href="http://daringfireball.net/projects/markdown/">Markdown</a> 解析
       unordered: 無序清單
+      url: URL
     richtext_area: 
       edit: 編輯
       preview: 預覽
@@ -983,6 +992,7 @@ zh-TW:
       visibility: 可見性：
       visibility_help: 這是什麼意思？
     list: 
+      empty_html: 還沒有軌跡。<a href='%{upload_link}'>上傳新的軌跡</a>或在 <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>wiki 頁面</a>上瞭解更多有關 GPS 軌跡的資訊。
       public_traces: 公開 GPS 軌跡
       public_traces_from: "%{user} 的公開 GPS 軌跡"
       tagged_with: " 標籤為 %{tags}"
@@ -1011,13 +1021,13 @@ zh-TW:
       trackable: 可追蹤
       view_map: 檢視地圖
     trace_form: 
-      description: 描述
+      description: 描述：
       help: 求助
-      tags: 標籤
+      tags: 標籤：
       tags_help: 以逗點分隔
       upload_button: 上傳
-      upload_gpx: 上傳 GPX 檔案
-      visibility: 可見性
+      upload_gpx: 上傳 GPX 檔案：
+      visibility: 可見性：
       visibility_help: 這是什麼意思？
     trace_header: 
       see_all_traces: 查看所有的軌跡
@@ -1027,6 +1037,8 @@ zh-TW:
     trace_optionals: 
       tags: 標籤
     trace_paging_nav: 
+      newer: 較新軌跡
+      older: 較舊軌跡
       showing_page: 顯示頁面 %{page}
     view: 
       delete_track: 刪除這個軌跡
@@ -1075,6 +1087,10 @@ zh-TW:
       new email address: 新的電子郵件位址：
       new image: 加入圖片
       no home location: 您尚未輸入家的位置。
+      openid: 
+        link: HTTP://wiki.openstreetmap.org/wiki/OpenID
+        link text: 這是什麼？
+        openid: OpenID：
       preferred languages: 偏好的語言：
       profile description: 個人檔案描述：
       public editing: 
@@ -1133,6 +1149,10 @@ zh-TW:
       no account: 還沒有帳號嗎？
       openid invalid: 很抱歉，您的 OpenID 格式似乎不正確
       openid missing provider: 很抱歉，無法聯繫您的 OpenID 提供者
+      openid_providers: 
+        aol: 
+          alt: 使用 AOL OpenID 登入
+          title: 使用 AOL 登入
       password: 密碼：
       register now: 立即註冊
       remember: 記住我：
@@ -1154,7 +1174,9 @@ zh-TW:
       title: 遺失密碼
     make_friend: 
       already_a_friend: 您已經是 %{name} 的朋友了。
+      button: 加入朋友
       failed: 抱歉，無法將 %{name} 加入為朋友。
+      heading: 將 %{user} 加為朋友？
       success: "%{name} 現在成為您的朋友。"
     new: 
       confirm email address: 確認電子郵件位址：
@@ -1170,9 +1192,12 @@ zh-TW:
       license_agreement: 當您確認您的帳號，您需要同意<a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">貢獻者條款</a> 。
       no_auto_account_create: 很不幸的我們現在無法自動為您建立帳號。
       not displayed publicly: 不要公開顯示 (請看 <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="wiki privacy policy including section on email addresses">隱私權政策</a>)
+      openid: "%{logo} OpenID："
+      openid no password: 使用 OpenID 時密碼不是必需的，但可能仍需要一些額外的工具或伺服器。
       password: 密碼：
       terms accepted: 感謝您接受新的貢獻條款！
       title: 建立帳號
+      use openid: 或者，使用 %{logo} OpenID 登入
     no_such_user: 
       body: 抱歉，沒有名為 %{user} 的使用者。請檢查您的拼字，或者可能是按到錯誤的連結。
       heading: 使用者 %{user} 不存在
@@ -1182,6 +1207,8 @@ zh-TW:
       nearby mapper: 附近的製圖者
       your location: 您的位置
     remove_friend: 
+      button: 移除朋友
+      heading: 將 %{user} 從朋友移除？
       not_a_friend: "%{name} 並不在您的朋友裡。"
       success: "%{name} 已從您的朋友中移除。"
     reset_password: 
@@ -1198,6 +1225,7 @@ zh-TW:
       body: "<p>\n對不起，您的帳戶已因可疑\n活動被自動暫停。 \n</p>\n<p>\n這項決定將在短期內由管理員審核，或是如果你想討論這一點\n，可以聯絡%{webmaster}。 \n</p>"
       heading: 帳號已暫停
       title: 帳號已暫停
+      webmaster: 網站管理員
     terms: 
       agree: 同意
       consider_pd: 除了上述協議，我同意將我的貢獻授權為公共領域
@@ -1217,10 +1245,15 @@ zh-TW:
       block_history: 檢視接收到的區塊
       blocks by me: 被我所阻擋
       blocks on me: 對我的阻擋
+      comments: 評論
       confirm: 確認
       confirm_user: 確認這個使用者
       create_block: 阻擋這個使用者
       created from: 建立於：
+      ct accepted: 於 %{ago} 前接受
+      ct declined: 已拒絕
+      ct status: 貢獻者條款：
+      ct undecided: 未決定
       deactivate_user: 停用這個使用者
       delete_user: 刪除這個使用者
       description: 描述
@@ -1234,6 +1267,7 @@ zh-TW:
       m away: "%{count} 公尺遠"
       mapper since: 成為製圖者於：
       moderator_history: 檢視阻擋來自
+      my comments: 我的評論
       my diary: 我的日記
       my edits: 我的編輯
       my settings: 我的設定值
@@ -1246,6 +1280,7 @@ zh-TW:
       remove as friend: 移除朋友
       role: 
         administrator: 這個使用者是管理者
+        moderator: 此使用者是一個管理者
       send message: 傳送訊息
       settings_link_text: 設定
       spam score: 垃圾郵件分數：
@@ -1305,11 +1340,14 @@ zh-TW:
       creator_name: 創造者
       display_name: 被阻擋的使用者
       edit: 編輯
+      next: 下一頁 »
       not_revoked: (不註銷)
+      previous: « 上一頁
       reason: 阻擋的理由
       revoke: 註銷！
       revoker_name: 提出註銷者
       show: 顯示
+      showing_page: 顯示頁面 %{page}
       status: 狀態
     period: 
       one: 1 小時

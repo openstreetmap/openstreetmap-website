@@ -117,7 +117,10 @@
     <td></td>
     <td>
       <p><%= t 'user.account.update home location on click' %> <input type="checkbox" value="1" <% unless @user.home_lat and @user.home_lon %> checked="checked" <% end %> id="updatehome" /> </p>
-      <div id="map" class="user_map"></div>
+      <% content_for :head do %>
+        <%= javascript_include_tag "user" %>
+      <% end %>
+      <%= content_tag "div", "", :id => "map", :class => "user_map set_location" %>
     </td>
   </tr>
   
@@ -127,8 +130,6 @@
   </tr>
 </table>
 <% end %>
-
-<%= render :partial => 'map', :locals => { :setting_location => true,  :show_other_users => false } %>
 
 <% unless @user.data_public? %>
 <a name="public"></a>

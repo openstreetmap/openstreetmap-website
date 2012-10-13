@@ -30,9 +30,6 @@ class BrowseController < ApplicationController
     @way = Way.find(params[:id], :include => [:way_tags, {:changeset => :user}, {:nodes => [:node_tags, {:ways => :way_tags}]}, :containing_relation_members])
     @next = Way.visible.where("id > ?", @way.id).order("id ASC").first
     @prev = Way.visible.where("id < ?", @way.id).order("id DESC").first
-
-    # Used for edit link, takes approx middle node of way
-    @midnode = @way.nodes[@way.nodes.length/2]
   rescue ActiveRecord::RecordNotFound
     render :action => "not_found", :status => :not_found
   end

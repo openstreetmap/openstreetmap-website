@@ -40,6 +40,7 @@ module Potlatch2
     "pl" => "pl_PL",
     "pt" => "pt_PT",
     "pt-BR" => "pt_BR",
+    "ro" => "ro",
     "ru" => "ru",
     "rue" => "rue",
     "sk" => "sk",

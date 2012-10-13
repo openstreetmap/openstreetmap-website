@@ -57,13 +57,15 @@ OpenStreetMap::Application.routes.draw do
   match 'api/0.6/relations/search' => 'search#search_relations', :via => :get
   match 'api/0.6/nodes/search' => 'search#search_nodes', :via => :get
 
+  match 'api/0.6/user/:id' => 'user#api_read', :via => :get, :id => /\d+/
   match 'api/0.6/user/details' => 'user#api_details', :via => :get
+  match 'api/0.6/user/gpx_files' => 'user#api_gpx_files', :via => :get
+
   match 'api/0.6/user/preferences' => 'user_preference#read', :via => :get
   match 'api/0.6/user/preferences/:preference_key' => 'user_preference#read_one', :via => :get
   match 'api/0.6/user/preferences' => 'user_preference#update', :via => :put
   match 'api/0.6/user/preferences/:preference_key' => 'user_preference#update_one', :via => :put
   match 'api/0.6/user/preferences/:preference_key' => 'user_preference#delete_one', :via => :delete
-  match 'api/0.6/user/gpx_files' => 'user#api_gpx_files', :via => :get
 
   match 'api/0.6/gpx/create' => 'trace#api_create', :via => :post
   match 'api/0.6/gpx/:id' => 'trace#api_read', :via => :get, :id => /\d+/

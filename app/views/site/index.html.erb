@@ -1,18 +1,20 @@
-<% if @user and !@user.home_lon.nil? and !@user.home_lat.nil? %>
-  <% content_for :greeting do %>
-    <%= link_to t("layouts.home"), "#", :class => "set_position", :data => { :lat => @user.home_lat, :lon => @user.home_lon, :zoom => 15 }, :title => t("layouts.home_tooltip") %> |
-  <% end %>
+<% content_for :head do %>
+  <%= javascript_include_tag "index" %>
 <% end %>
 
 <% unless STATUS == :api_offline or STATUS == :database_offline -%>
   <% content_for :editmenu do -%>
-    <li><%= link_to t("browse.start_rjs.notes_layer_name"), "#", :id => "show_notes" %></li>
+    <li><%= link_to t("browse.start_rjs.notes_layer_name"), notes_url(:format => :json), :id => "show_notes" %></li>
     <li><%= link_to t("browse.start_rjs.data_layer_name"), { :controller => :browse, :action => :start }, :id => "show_data" %></li>
   <% end -%>
 <% end -%>
 
+<% content_for :left_menu do %>
+  <li><%= link_to t("site.key.map_key"), {:action => :key}, :id => "open_map_key", :title => t("site.key.map_key_tooltip") %></li>
+<% end %>
+
+<%= render :partial => 'home_link' %>
 <%= render :partial => 'sidebar' %>
-<%= render :partial => 'key' %>
 <%= render :partial => 'search' %>
 
 <noscript>
@@ -46,179 +48,3 @@
 </div>
 
 <div id="new-note" class="hidden"><%= render :partial => "notes/new" %></div>
-
-<script type="text/javascript">
-  var marker;
-  var map;
-  var params = OSM.mapParams();
-
-  <% if @user %>
-    var loginName = "<%= @user.display_name %>"
-  <% end %>
-
-  function mapInit(){
-    map = createMap("map");
-
-    <% unless STATUS == :api_offline or STATUS == :database_offline %>
-      map.dataLayer = new OpenLayers.Layer("<%= I18n.t 'browse.start_rjs.data_layer_name' %>", {
-          visibility: false,
-          displayInLayerSwitcher: false
-      });
-      map.addLayer(map.dataLayer);
-
-      map.noteLayer = addNoteLayer(map, "<%= notes_url :format => 'json' %>", $("#createnoteanchor"), $("#new-note"), 11);
-
-      <% if params[:notes] == "yes" -%>
-      map.noteLayer.setVisibility(true);
-      <% end -%>
-    <% end %>
-
-    if (!params.object_zoom) {
-      if (params.bbox) {
-        var bbox = new OpenLayers.Bounds(params.minlon, params.minlat, params.maxlon, params.maxlat);
-
-        map.zoomToExtent(proj(bbox));
-
-        if (params.box) {
-          $(window).load(function() { addBoxToMap(bbox) });
-        }
-      } else {
-        setMapCenter(new OpenLayers.LonLat(params.lon, params.lat), params.zoom);
-      }
-    }
-
-    if (params.layers) {
-      setMapLayers(params.layers);
-    }
-
-    if (params.marker) {
-      marker = addMarkerToMap(new OpenLayers.LonLat(params.mlon, params.mlat));
-    }
-
-    if (params.object) {
-      var url = "/api/" + OSM.API_VERSION + "/" + params.object_type + "/" + params.object_id;
-
-      if (params.object_type != "node") {
-        url += "/full";
-      }
-
-      $(window).load(function() { addObjectToMap(url, params.object_zoom) });
-    }
-
-    map.events.register("moveend", map, updateLocation);
-    map.events.register("changelayer", map, updateLocation);
-
-    updateLocation();
-    handleResize();
-  }
-
-  $(document).ready(function () {
-    $("#show_notes").click(function () {
-      map.noteLayer.setVisibility(true);
-    });
-
-    $("#show_data").click(function (e) {
-      $.ajax({ url: $(this).attr('href'), success: function (sidebarHtml) {
-        startBrowse(sidebarHtml);
-      }});
-      e.preventDefault();
-    });
-
-    $("body").on("click", "a.set_position", function () {
-      var lat = parseFloat($(this).attr("data-lat"));
-      var lon = parseFloat($(this).attr("data-lon"));
-      var zoom = parseInt($(this).attr("data-zoom"));
-      var min_lon = parseFloat($(this).attr("data-min-lon"));
-      var min_lat = parseFloat($(this).attr("data-min-lat"));
-      var max_lon = parseFloat($(this).attr("data-max-lon"));
-      var max_lat = parseFloat($(this).attr("data-max-lat"));
-      var centre = new OpenLayers.LonLat(lon, lat);
-
-      if (min_lon && min_lat && max_lon && max_lat) {
-        var bbox = new OpenLayers.Bounds(min_lon, min_lat, max_lon, max_lat);
-
-        map.zoomToExtent(proj(bbox));
-      } else {
-        setMapCenter(centre, zoom);
-      }
-
-      if (marker) {
-        removeMarkerFromMap(marker);
-      }
-
-      marker = addMarkerToMap(centre, getArrowIcon());
-
-      return false;
-    });
-  });
-
-  function updateLocation() {
-    var lonlat = unproj(map.getCenter());
-    var zoom = map.getZoom();
-    var layers = getMapLayers();
-    var extents = unproj(map.getExtent());
-    var expiry = new Date();
-
-    updatelinks(lonlat.lon, lonlat.lat, zoom, layers, extents.left, extents.bottom, extents.right, extents.top, params.object_type, params.object_id);
-
-    expiry.setYear(expiry.getFullYear() + 10);
-    $.cookie("_osm_location", [lonlat.lon, lonlat.lat, zoom, layers].join("|"), {expires: expiry});
-  }
-
-  function remoteEditHandler(event) {
-    var extent = unproj(map.getExtent());
-    var loaded = false;
-
-    $("#linkloader").load(function () { loaded = true; });
-    $("#linkloader").attr("src", "http://127.0.0.1:8111/load_and_zoom?left=" + extent.left + "&top=" + extent.top + "&right=" + extent.right + "&bottom=" + extent.bottom);
-
-    setTimeout(function () {
-      if (!loaded) alert("<%=j t('site.index.remote_failed') %>");
-    }, 1000);
-
-    return false;
-  }
-
-  function installEditHandler() {
-    $("#remoteanchor").click(remoteEditHandler);
-
-    <% if preferred_editor == "remote" %>
-      $("#editanchor").click(remoteEditHandler);
-
-      <% if params[:action] == "edit" %>
-        remoteEditHandler();
-      <% end %>
-    <% end %>
-  }
-
-  $(document).ready(mapInit);
-  $(document).ready(installEditHandler);
-  $(document).ready(handleResize);
-
-  $(window).resize(function() {
-    var centre = map.getCenter();
-    var zoom = map.getZoom();
-
-    handleResize();
-
-    map.setCenter(centre, zoom);
-  });
-
-  $(document).ready(function () {
-    $("#exportanchor").click(function (e) {
-      $.ajax({ url: "<%= url_for :controller => :export, :action => :start %>", success: function (sidebarHtml) {
-        startExport(sidebarHtml);
-      }});
-      e.preventDefault();
-    });
-
-    <% if params[:export] -%>
-    $("#exportanchor").click();
-    <% end -%>
-
-    <% if params[:query] -%>
-    doSearch("<%= params[:query] %>");
-    <% end %>
-  });
-// -->
-</script>
