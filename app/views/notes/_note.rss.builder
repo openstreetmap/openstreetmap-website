@@ -7,8 +7,8 @@ xml.item do
     xml.title t('note.rss.new', :place => note.nearby_place)
   end
 
-  xml.link url_for(:controller => "browse", :action => "note", :id => note.id, :only_path => false)
-  xml.guid url_for(:controller => "note", :action => "read", :id => note.id, :only_path => false)
+  xml.link browse_note_url(note)
+  xml.guid note_url(note)
   xml.description render(:partial => "description", :object => note, :formats => [ :html ])
   xml.author note.author_name
   xml.pubDate note.updated_at.to_s(:rfc822)
