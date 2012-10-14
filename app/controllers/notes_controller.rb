@@ -87,8 +87,11 @@ class NotesController < ApplicationController
       add_comment(@note, comment, name, "opened")
     end
 
-    # Send an OK response
-    render_ok
+    # Return a copy of the new note
+    respond_to do |format|
+      format.xml { render :action => :show }
+      format.json { render :action => :show }
+    end
   end
 
   ##
@@ -104,17 +107,20 @@ class NotesController < ApplicationController
     name = params[:name] or "NoName"
 
     # Find the note and check it is valid
-    note = Note.find(id)
-    raise OSM::APINotFoundError unless note
-    raise OSM::APIAlreadyDeletedError unless note.visible?
+    @note = Note.find(id)
+    raise OSM::APINotFoundError unless @note
+    raise OSM::APIAlreadyDeletedError unless @note.visible?
 
     # Add a comment to the note
     Note.transaction do
-      add_comment(note, comment, name, "commented")
+      add_comment(@note, comment, name, "commented")
     end
 
-    # Send an OK response
-    render_ok
+    # Return a copy of the updated note
+    respond_to do |format|
+      format.xml { render :action => :show }
+      format.json { render :action => :show }
+    end
   end
 
   ##
@@ -128,19 +134,22 @@ class NotesController < ApplicationController
     name = params[:name]
 
     # Find the note and check it is valid
-    note = Note.find_by_id(id)
-    raise OSM::APINotFoundError unless note
-    raise OSM::APIAlreadyDeletedError unless note.visible?
+    @note = Note.find_by_id(id)
+    raise OSM::APINotFoundError unless @note
+    raise OSM::APIAlreadyDeletedError unless @note.visible?
 
     # Close the note and add a comment
     Note.transaction do
-      note.close
+      @note.close
 
-      add_comment(note, nil, name, "closed")
+      add_comment(@note, nil, name, "closed")
     end
 
-    # Send an OK response
-    render_ok
+    # Return a copy of the updated note
+    respond_to do |format|
+      format.xml { render :action => :show }
+      format.json { render :action => :show }
+    end
   end 
 
   ##
