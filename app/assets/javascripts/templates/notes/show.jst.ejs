@@ -2,7 +2,7 @@
 <% note.comments.forEach(function (comment) { %>
 <p>
   <small class="deemphasize">
-    <%- I18n.t('javascripts.notes.show.comment', {
+    <%- I18n.t('javascripts.notes.show.event', {
        action: comment.action, user: comment.user, time: comment.date
     }) %>
   </small>
@@ -10,3 +10,11 @@
   <%- comment.text %>
 </p>
 <% }) %>
+<% if (note.status == "open") { %>
+<form action="#">
+  <textarea name="text" cols="40" rows="5"></textarea>
+  <br/>
+  <input type="submit" name="close" value="<%- I18n.t('javascripts.notes.show.close') %>" id="note-close">
+  <input type="submit" name="comment" value="<%- I18n.t('javascripts.notes.show.comment') %>" id="note-comment">
+</form>
+<% } %>
