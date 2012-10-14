@@ -30,8 +30,7 @@ $(document).ready(function () {
       success: function (data) {
         map.noteSelector.unselect(feature);
 
-        feature.attributes.status = "open";
-        feature.attributes.id = data;
+        feature.attributes = data.properties;
 
         map.noteLayer.drawFeature(feature);
 
