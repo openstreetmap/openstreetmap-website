@@ -131,6 +131,7 @@ class NotesController < ApplicationController
 
     # Extract the arguments
     id = params[:id].to_i
+    comment = params[:text]
     name = params[:name]
 
     # Find the note and check it is valid
@@ -142,7 +143,7 @@ class NotesController < ApplicationController
     Note.transaction do
       @note.close
 
-      add_comment(@note, nil, name, "closed")
+      add_comment(@note, comment, name, "closed")
     end
 
     # Return a copy of the updated note
