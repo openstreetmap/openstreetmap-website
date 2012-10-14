@@ -7,6 +7,9 @@ end
 
 json.properties do
   json.id note.id
+  json.url note_url(note, :format => params[:format])
+  json.comment_url comment_note_url(note, :format => params[:format])
+  json.close_url close_note_url(note, :format => params[:format])
   json.date_created note.created_at
   json.nearby  note.nearby_place
   json.status note.status
