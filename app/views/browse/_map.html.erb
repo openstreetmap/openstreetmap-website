@@ -2,7 +2,7 @@
 </iframe>
 
 <div id="browse_map">
-  <% if map.instance_of? Changeset or (map.instance_of? Node and map.version > 1) or map.visible %>
+  <% if map.instance_of? Changeset or (map.instance_of? Node and map.version > 1) or map.visible? %>
 
   <% content_for :head do %>
     <%= javascript_include_tag "browse" %>
@@ -23,7 +23,7 @@
        data = {
          :type => "note",
          :lon  => map.lon,
-         :lon  => map.lat
+         :lat  => map.lat
        }
      else
        data = {
@@ -39,7 +39,7 @@
 
   <% if map.instance_of? Note -%>
     <%= link_to t("browse.map.larger.area"),
-                root_path(:note => "yes"),
+                root_path(:notes => "yes"),
                 :id => "area_larger_map",
                 :class => "geolink bbox" %>
   <% else -%>

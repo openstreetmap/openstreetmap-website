@@ -47,7 +47,7 @@ $(document).ready(function () {
     setMapCenter(centre, 16);
     addMarkerToMap(centre);
 
-    var bbox = getMapExtent();
+    var bbox = unproj(map.getExtent());
 
     $("#loading").hide();
     $("#browse_map .geolink").show();

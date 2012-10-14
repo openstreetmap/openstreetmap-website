@@ -11,18 +11,18 @@
 
   <tr>
     <th><%= t "browse.note.opened" %></th>
-    <td><%= t "browse.note.at_by", :when => friendly_date(@note.created_at), :user => note_author(@note) %></td>
+    <td><%= t "browse.note.at_by_html", :when => friendly_date(@note.created_at), :user => note_author(@note) %></td>
   </tr>  
 
   <% if @note.status == "closed" %>
     <tr>
       <th><%= t "browse.note.closed" %></th>
-      <td><%= t "browse.note.at_by", :when => friendly_date(@note.closed_at), :user => note_author(@note.comments.last) %></td>
+      <td><%= t "browse.note.at_by_html", :when => friendly_date(@note.closed_at), :user => note_author(@note.comments.last) %></td>
     </tr>  
   <% elsif @note.comments.length > 1 %>
     <tr>
       <th><%= t "browse.note.last_modified" %></th>
-      <td><%= t "browse.note.at_by", :when => friendly_date(@note.updated_at), :user => note_author(@note.comments.last) %></td>
+      <td><%= t "browse.note.at_by_html", :when => friendly_date(@note.updated_at), :user => note_author(@note.comments.last) %></td>
     </tr>  
   <% end %>
 
@@ -33,7 +33,7 @@
 
   <tr>
     <th><%= t "browse.node_details.coordinates" %></th>
-    <td><div class="geo"><%= link_to ("<span class='latitude'>#{number_with_delimiter(@note.lat)}</span>, <span class='longitude'>#{number_with_delimiter(@note.lon)}</span>"), {:controller => 'site', :action => 'index', :lat => h(@note.lat), :lon => h(@note.lon), :zoom => "18"} %></div></td>
+    <td><div class="geo"><%= link_to ("<span class='latitude'>#{number_with_delimiter(@note.lat)}</span>, <span class='longitude'>#{number_with_delimiter(@note.lon)}</span>".html_safe), {:controller => 'site', :action => 'index', :lat => h(@note.lat), :lon => h(@note.lon), :zoom => "18"} %></div></td>
   </tr>
 
   <% if @note.comments.length > 1 %>
@@ -46,7 +46,7 @@
               <td>
                 <%= h(comment.body) %>
                 <br />
-                <span class="by"><%= t "browse.note.at_by", :when => friendly_date(comment.created_at), :user => note_author(comment) %></span>
+                <span class="by"><%= t "browse.note.at_by_html", :when => friendly_date(comment.created_at), :user => note_author(comment) %></span>
               </td>
             </tr>
           <% end %>
