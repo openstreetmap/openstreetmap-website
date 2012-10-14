@@ -17,6 +17,47 @@ $(document).ready(function () {
     newNotes = undefined;
   }
 
+  function createNote(feature, form) {
+    var location = unproj(feature.geometry.getBounds().getCenterLonLat());
+
+    $.ajax($("#createnoteanchor").attr("href"), {
+      type: "POST",
+      data: {
+        lon: location.lon,
+        lat: location.lat,
+        text: $(form.comment).val()
+      },
+      success: function (data) {
+        map.noteSelector.unselect(feature);
+
+        feature.attributes.status = "open";
+        feature.attributes.id = data;
+
+        map.noteLayer.drawFeature(feature);
+
+        map.noteMover.deactivate();
+      }
+    });
+  }
+
+  function updateNote(feature, form, close) {
+    var url = close ? feature.attributes.close_url : feature.attributes.comment_url;
+
+    $.ajax(url, {
+      type: "POST",
+      data: {
+        text: $(form.text).val()
+      },
+      success: function (data) {
+        map.noteSelector.unselect(feature)
+        
+        feature.attributes = data.properties;
+        
+        map.noteSelector.select(feature)
+      }
+    });
+  }
+
   function noteSelected(o) {
     var feature = o.feature;
     var location = feature.geometry.getBounds().getCenterLonLat();
@@ -64,69 +105,21 @@ $(document).ready(function () {
     });
 
     $(feature.popup.contentDiv).find("input#note-add").click(function (e) {
-      var location = unproj(feature.geometry.getBounds().getCenterLonLat());
-      var form = e.target.form;
-
       e.preventDefault();
 
-      $.ajax($("#createnoteanchor").attr("href"), {
-        type: "POST",
-        data: {
-          lon: location.lon,
-          lat: location.lat,
-          text: $(form.comment).val()
-        },
-        success: function (data) {
-          map.noteSelector.unselect(feature);
-
-          feature.attributes.status = "open";
-          feature.attributes.id = data;
-
-          map.noteLayer.drawFeature(feature);
-
-          map.noteMover.deactivate();
-        }
-      });
+      createNote(feature, e.target.form);
     });
 
     $(feature.popup.contentDiv).find("input#note-comment").click(function (e) {
-      var form = e.target.form;
-
       e.preventDefault();
 
-      $.ajax(feature.attributes.comment_url, {
-        type: "POST",
-        data: {
-          text: $(form.text).val()
-        },
-        success: function (data) {
-          map.noteSelector.unselect(feature)
-
-          feature.attributes = data.properties;
-
-          map.noteSelector.select(feature)
-        }
-      });
+      updateNote(feature, e.target.form, false);
     });
 
     $(feature.popup.contentDiv).find("input#note-close").click(function (e) {
-      var form = e.target.form;
-
       e.preventDefault();
 
-      $.ajax(feature.attributes.close_url, {
-        type: "POST",
-        data: {
-          text: $(form.text).val()
-        },
-        success: function (data) {
-          map.noteSelector.unselect(feature)
-
-          feature.attributes = data.properties;
-
-          map.noteSelector.select(feature)
-        }
-      });
+      updateNote(feature, e.target.form, true);
     });
 
     feature.popup.updateSize();
