@@ -1,8 +1,10 @@
-<h2>Note <%- note.id %></h2>
+<h2><%- I18n.t('javascripts.notes.show.title', { id: note.id }) %></h2>
 <% note.comments.forEach(function (comment) { %>
 <p>
   <small class="deemphasize">
-    <%- comment.action %> by <%- comment.user %> at <%- comment.date %>
+    <%- I18n.t('javascripts.notes.show.comment', {
+       action: comment.action, user: comment.user, time: comment.date
+    }) %>
   </small>
   <br/>
   <%- comment.text %>
