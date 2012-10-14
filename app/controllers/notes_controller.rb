@@ -319,11 +319,11 @@ private
       attributes[:author_name] = name + " (a)"
     end
 
-    note.comments.create(attributes, :without_protection => true)
+    comment = note.comments.create(attributes, :without_protection => true)
 
     note.comments.map { |c| c.author }.uniq.each do |user|
       if user and user != @user
-        Notifier.deliver_note_comment_notification(comment, user)
+        Notifier.note_comment_notification(comment, user).deliver
       end
     end
   end

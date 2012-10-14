@@ -1,15 +1,13 @@
-<%= t 'notifier.note_plain.greeting' %>
+<p><%= t 'notifier.note_comment_notification.greeting' %></p>
 
 <% if @owner %>
-<%= t 'notifier.note_plain.your_note', :commenter => @commenter, :place => @place %>
+<p><%= t 'notifier.note_comment_notification.your_note', :commenter => @commenter, :place => @place %></p>
 <% else %>
-<%= t 'notifier.note_plain.commented_note', :commenter => @commenter, :place => @place %>
+<p><%= t 'notifier.note_comment_notification.commented_note', :commenter => @commenter, :place => @place %></p>
 <% end %>
 
 ==
-<%= @comment %>
+<%= @comment.to_html %>
 ==
 
-<%= t 'notifier.note_plain.details', :URL => @noteurl %>
-
-
+<p><%= raw t 'notifier.note_comment_notification.details', :url => link_to(@noteurl, @noteurl) %></p>

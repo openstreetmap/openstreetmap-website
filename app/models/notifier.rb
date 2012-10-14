@@ -115,19 +115,17 @@ class Notifier < ActionMailer::Base
   end
 
   def note_comment_notification(comment, recipient)
-    common_headers recipient
-    owner = (recipient == comment.note.author);
-    subject I18n.t('notifier.note_plain.subject_own', :commenter => comment.author_name) if owner
-    subject I18n.t('notifier.note_plain.subject_other', :commenter => comment.author_name) unless owner
+    @locale = recipient.preferred_language_from(I18n.available_locales)
+    @noteurl = browse_note_url(comment.note, :host => SERVER_URL)
+    @place = comment.note.nearby_place
+    @comment = RichText::Text.new(comment.body)
+    @owner = recipient == comment.note.author
+    @commenter = comment.author_name
 
-    body :nodeurl => url_for(:host => SERVER_URL,
-                             :controller => "browse",
-                             :action => "note",
-                             :id => comment.note_id),
-         :place => comment.note.nearby_place,
-         :comment => comment.body,
-         :owner => owner,
-         :commenter => comment.author_name
+    subject = I18n.t('notifier.note_comment_notification.subject_own', :commenter => comment.author_name) if @owner
+    subject = I18n.t('notifier.note_comment_notification.subject_other', :commenter => comment.author_name) unless @owner
+
+    mail :to => recipient.email, :subject => subject
   end
 
 private
