@@ -18,4 +18,9 @@ class NoteComment < ActiveRecord::Base
       self.author.display_name
     end
   end
+
+  # Return the comment text
+  def body
+    RichText.new("text", read_attribute(:body))
+  end
 end

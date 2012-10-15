@@ -118,7 +118,7 @@ class Notifier < ActionMailer::Base
     @locale = recipient.preferred_language_from(I18n.available_locales)
     @noteurl = browse_note_url(comment.note, :host => SERVER_URL)
     @place = comment.note.nearby_place
-    @comment = RichText::Text.new(comment.body)
+    @comment =comment.body
     @owner = recipient == comment.note.author
     @commenter = comment.author_name
 
