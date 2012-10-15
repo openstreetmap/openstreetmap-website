@@ -46,29 +46,28 @@ var map;
 
 var layers = [
   {
-    urlTemplate: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    class: L.OSM.Mapnik,
     attribution: "",
     keyid: "mapnik",
     layerCode: "M",
     name: I18n.t("javascripts.map.base.standard")
   },
   {
-    urlTemplate: 'http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png',
+    class: L.OSM.CycleMap,
     attribution: "Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
     keyid: "cyclemap",
     layerCode: "C",
     name: I18n.t("javascripts.map.base.cycle_map")
   },
   {
-    urlTemplate: 'http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png',
+    class: L.OSM.TransportMap,
     attribution: "Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
     keyid: "transportmap",
     layerCode: "T",
     name: I18n.t("javascripts.map.base.transport_map")
   },
   {
-    urlTemplate: 'http://otile{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png',
-    subdomains: '1234',
+    class: L.OSM.MapQuestOpen,
     attribution: "Tiles courtesy of <a href='http://www.mapquest.com/' target='_blank'>MapQuest</a> <img src='http://developer.mapquest.com/content/osm/mq_logo.png'>",
     keyid: "mapquest",
     layerCode: "Q",
@@ -90,7 +89,7 @@ function createMap(divName, options) {
   }
 
   for (var i = 0; i < layers.length; i++) {
-    layers[i].layer = L.tileLayer(layers[i].urlTemplate, layers[i]);
+    layers[i].layer = new (layers[i].class)(layers[i]);
     if (i == 0) {
       layers[i].layer.addTo(map);
     }
