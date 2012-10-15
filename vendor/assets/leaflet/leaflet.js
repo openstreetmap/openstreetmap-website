@@ -903,10 +903,10 @@ L.LatLng.prototype = {
 		return margin <= L.LatLng.MAX_MARGIN;
 	},
 
-	toString: function () { // -> String
+	toString: function (precision) { // -> String
 		return 'LatLng(' +
-				L.Util.formatNum(this.lat) + ', ' +
-				L.Util.formatNum(this.lng) + ')';
+				L.Util.formatNum(this.lat, precision) + ', ' +
+				L.Util.formatNum(this.lng, precision) + ')';
 	},
 
 	// Haversine distance formula, see http://en.wikipedia.org/wiki/Haversine_formula
@@ -940,7 +940,8 @@ L.latLng = function (a, b, c) { // (LatLng) or ([Number, Number]) or (Number, Nu
 	}
 	return new L.LatLng(a, b, c);
 };
- 
+
+
 
 /*
  * L.LatLngBounds represents a rectangular area on the map in geographical coordinates.
@@ -4958,13 +4959,11 @@ L.Circle = L.Path.extend({
 	},
 
 	getBounds: function () {
-		var map = this._map,
-			delta = this._radius * Math.cos(Math.PI / 4),
-			point = map.project(this._latlng),
-			swPoint = new L.Point(point.x - delta, point.y + delta),
-			nePoint = new L.Point(point.x + delta, point.y - delta),
-			sw = map.unproject(swPoint),
-			ne = map.unproject(nePoint);
+		var lngRadius = this._getLngRadius(),
+			latRadius = (this._mRadius / 40075017) * 360,
+			latlng = this._latlng,
+			sw = new L.LatLng(latlng.lat - latRadius, latlng.lng - lngRadius),
+			ne = new L.LatLng(latlng.lat + latRadius, latlng.lng + lngRadius);
 
 		return new L.LatLngBounds(sw, ne);
 	},
@@ -4996,11 +4995,14 @@ L.Circle = L.Path.extend({
 		return this._mRadius;
 	},
 
-	_getLngRadius: function () {
-		var equatorLength = 40075017,
-			hLength = equatorLength * Math.cos(L.LatLng.DEG_TO_RAD * this._latlng.lat);
+	// TODO Earth hardcoded, move into projection code!
 
-		return (this._mRadius / hLength) * 360;
+	_getLatRadius: function () {
+		return (this._mRadius / 40075017) * 360;
+	},
+
+	_getLngRadius: function () {
+		return this._getLatRadius() / Math.cos(L.LatLng.DEG_TO_RAD * this._latlng.lat);
 	},
 
 	_checkIfEmpty: function () {
@@ -6948,7 +6950,6 @@ L.control.scale = function (options) {
 };
 
 
-
 L.Control.Layers = L.Control.extend({
 	options: {
 		collapsed: true,
@@ -7086,7 +7087,7 @@ L.Control.Layers = L.Control.extend({
 	// IE7 bugs out if you create a radio dynamically, so you have to do it this hacky way (see http://bit.ly/PqYLBe)
 	_createRadioElement: function (name, checked) {
 
-		var radioHtml = '<input type="radio" name="' + name + '"';
+		var radioHtml = '<input type="radio" class="leaflet-control-layers-selector" name="' + name + '"';
 		if (checked) {
 			radioHtml += ' checked="checked"';
 		}
@@ -7106,6 +7107,7 @@ L.Control.Layers = L.Control.extend({
 		if (obj.overlay) {
 			input = document.createElement('input');
 			input.type = 'checkbox';
+			input.className = 'leaflet-control-layers-selector';
 			input.defaultChecked = checked;
 		} else {
 			input = this._createRadioElement('leaflet-base-layers', checked);
@@ -7115,7 +7117,8 @@ L.Control.Layers = L.Control.extend({
 
 		L.DomEvent.on(input, 'click', this._onInputClick, this);
 
-		var name = document.createTextNode(' ' + obj.name);
+		var name = document.createElement('span');
+		name.innerHTML = ' ' + obj.name;
 
 		label.appendChild(input);
 		label.appendChild(name);
