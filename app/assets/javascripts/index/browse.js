@@ -18,7 +18,7 @@ $(document).ready(function () {
     var browseObjectList;
     var areasHidden = false;
 
-    var dataLayer = new L.OSM(null, {
+    var dataLayer = new L.OSM.DataLayer(null, {
       styles: {
         way: {
           weight: 3,
@@ -38,7 +38,7 @@ $(document).ready(function () {
     dataLayer.addTo(map);
 
     dataLayer.isWayArea = function () {
-      return !areasHidden && L.OSM.prototype.isWayArea.apply(this, arguments);
+      return !areasHidden && L.OSM.DataLayer.prototype.isWayArea.apply(this, arguments);
     };
 
     var drawHandler = new L.Rectangle.Draw(map, {title: I18n.t('browse.start_rjs.drag_a_box')});

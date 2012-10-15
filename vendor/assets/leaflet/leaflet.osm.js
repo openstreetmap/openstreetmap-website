@@ -1,4 +1,44 @@
-L.OSM = L.FeatureGroup.extend({
+L.OSM = {};
+
+L.OSM.TileLayer = L.TileLayer.extend({
+  options: {
+    url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    attribution: '© <a target="_parent" href="http://www.openstreetmap.org">OpenStreetMap</a> and contributors, under an <a target="_parent" href="http://www.openstreetmap.org/copyright">open license</a>'
+  },
+
+  initialize: function (options) {
+    options = L.Util.setOptions(this, options);
+    L.TileLayer.prototype.initialize.call(this, options.url);
+  }
+});
+
+L.OSM.Mapnik = L.OSM.TileLayer.extend({
+  options: {
+    url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+  }
+});
+
+L.OSM.CycleMap = L.OSM.TileLayer.extend({
+  options: {
+    url: 'http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png'
+  }
+});
+
+L.OSM.TransportMap = L.OSM.TileLayer.extend({
+  options: {
+    url: 'http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png'
+  }
+});
+
+L.OSM.MapQuestOpen = L.OSM.TileLayer.extend({
+  options: {
+    url: 'http://otile{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png',
+    subdomains: '1234',
+    attribution: "Tiles courtesy of <a href='http://www.mapquest.com/' target='_blank'>MapQuest</a> <img src='http://developer.mapquest.com/content/osm/mq_logo.png'>"
+  }
+});
+
+L.OSM.DataLayer = L.FeatureGroup.extend({
   options: {
     areaTags: ['area', 'building', 'leisure', 'tourism', 'ruins', 'historic', 'landuse', 'military', 'natural', 'sport'],
     uninterestingTags: ['source', 'source_ref', 'source:ref', 'history', 'attribution', 'created_by', 'tiger:county', 'tiger:tlid', 'tiger:upload_uuid'],
