@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class MemCache < Memcached::Rails
   DEFAULT_OPTIONS = Memcached::DEFAULTS.merge(Memcached::Rails::DEFAULTS)
 

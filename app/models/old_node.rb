@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class OldNode < ActiveRecord::Base
   include GeoRecord
   include ConsistencyValidations

@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class AddEditorPreferenceToUser < ActiveRecord::Migration
   def self.up
     add_column :users, :preferred_editor, :string

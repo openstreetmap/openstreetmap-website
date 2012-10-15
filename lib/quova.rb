@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 ##
 # Load required libraries
 require 'soap/wsdlDriver'

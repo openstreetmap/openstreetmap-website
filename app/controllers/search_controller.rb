@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class SearchController < ApplicationController
   # Support searching for nodes, ways, or all
   # Can search by tag k, v, or both (type->k,value->v)

@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class AddTermsSeenToUser < ActiveRecord::Migration
   def self.up
     add_column :users, :terms_seen, :boolean, :null => false, :default => false

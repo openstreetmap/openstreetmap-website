@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class AddDiaryCreationIndexes < ActiveRecord::Migration
   def self.up
     add_index :diary_entries, [:created_at], :name => "diary_entry_created_at_index"

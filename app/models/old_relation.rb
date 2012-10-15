@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class OldRelation < ActiveRecord::Base
   include ConsistencyValidations
   

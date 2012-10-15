@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class AddContributorTermsToUser < ActiveRecord::Migration
   def self.up
     add_column :users, :terms_agreed, :datetime

@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class OldWayNode < ActiveRecord::Base
   self.table_name = "way_nodes"
   self.primary_keys = "way_id", "version", "sequence_id"

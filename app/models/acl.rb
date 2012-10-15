@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class Acl < ActiveRecord::Base
   def self.match(address, domain = nil)
     if domain

@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # The ChangesetController is the RESTful interface to Changeset objects
 
 class ChangesetController < ApplicationController

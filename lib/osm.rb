@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # The OSM module provides support functions for OSM.
 module OSM
 

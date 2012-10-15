@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class AddSenderVisibleToMessage < ActiveRecord::Migration
   def self.up
     rename_column :messages, :visible, :to_user_visible

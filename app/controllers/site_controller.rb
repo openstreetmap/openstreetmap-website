@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class SiteController < ApplicationController
   layout 'site', :except => [:key, :permalink]
   layout false, :only => [:key, :permalink]

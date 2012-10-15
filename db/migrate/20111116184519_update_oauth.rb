@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class UpdateOauth < ActiveRecord::Migration
   def up
     add_column :oauth_tokens, :scope, :string

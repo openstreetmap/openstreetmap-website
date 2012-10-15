@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 ##
 # Redaction represents a record associated with a particular
 # action on the database to hide revisions from the history

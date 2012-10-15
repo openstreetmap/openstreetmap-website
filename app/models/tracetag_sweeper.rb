@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class TracetagSweeper < ActionController::Caching::Sweeper
   observe Tracetag
 

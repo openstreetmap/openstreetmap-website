@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class ExportController < ApplicationController
 
   before_filter :authorize_web

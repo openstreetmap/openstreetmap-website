@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class Oauth2Token < AccessToken
   attr_accessor :state
 

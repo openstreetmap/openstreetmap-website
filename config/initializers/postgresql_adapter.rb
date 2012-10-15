@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 if defined?(ActiveRecord::ConnectionAdapters::PostgreSQLAdapter)
   module ActiveRecord
     module ConnectionAdapters

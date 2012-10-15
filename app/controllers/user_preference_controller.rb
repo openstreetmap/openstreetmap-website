@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # Update and read user preferences, which are arbitrayr key/val pairs
 class UserPreferenceController < ApplicationController
   skip_before_filter :verify_authenticity_token

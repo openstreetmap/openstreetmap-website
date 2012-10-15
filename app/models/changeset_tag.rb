@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class ChangesetTag < ActiveRecord::Base
   self.primary_keys = "changeset_id", "k"
 

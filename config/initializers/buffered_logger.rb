@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # Hack BufferedLogger to add timestamps to messages
 module ActiveSupport
   class BufferedLogger

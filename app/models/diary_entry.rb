@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class DiaryEntry < ActiveRecord::Base
   belongs_to :user, :counter_cache => true
   belongs_to :language, :foreign_key => 'language_code'

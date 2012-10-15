@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require File.dirname(__FILE__) + '/../test_helper'
 require 'stringio'
 include Potlatch
@@ -59,10 +61,10 @@ class AmfControllerTest < ActionController::TestCase
 
   def test_whichways
     node = current_nodes(:used_node_1)
-    minlon = node.lon-0.1
-    minlat = node.lat-0.1
-    maxlon = node.lon+0.1
-    maxlat = node.lat+0.1
+    minlon = node.lon - 0.1
+    minlat = node.lat - 0.1
+    maxlon = node.lon + 0.1
+    maxlat = node.lat + 0.1
     amf_content "whichways", "/1", [minlon, minlat, maxlon, maxlat]
     post :amf_read
     assert_response :success
@@ -113,8 +115,8 @@ class AmfControllerTest < ActionController::TestCase
   ##
   # checks that too-large a bounding box will not be served.
   def test_whichways_toobig
-    bbox = [-0.1,-0.1,1.1,1.1]
-    check_bboxes_are_bad [bbox] do |map,bbox|
+    bbox = [-0.1, -0.1, 1.1, 1.1]
+    check_bboxes_are_bad [bbox] do |map, bbox|
       assert_boundary_error map, " The server said: The maximum bbox size is 0.25, and your request was too large. Either request a smaller area, or use planet.osm"
     end
   end
@@ -125,7 +127,7 @@ class AmfControllerTest < ActionController::TestCase
   #
   # NOTE: the controller expands the bbox by 0.01 in each direction!
   def test_whichways_badlat
-    bboxes = [[0,0.1,0.1,0], [-0.1,80,0.1,70], [0.24,54.35,0.25,54.33]]
+    bboxes = [[0, 0.1, 0.1, 0], [-0.1, 80, 0.1, 70], [0.24, 54.35, 0.25, 54.33]]
     check_bboxes_are_bad bboxes do |map, bbox|
       assert_boundary_error map, " The server said: The minimum latitude must be less than the maximum latitude, but it wasn't", bbox.inspect
     end
@@ -136,7 +138,7 @@ class AmfControllerTest < ActionController::TestCase
   #
   # NOTE: the controller expands the bbox by 0.01 in each direction!
   def test_whichways_badlon
-    bboxes = [[80,-0.1,70,0.1], [54.35,0.24,54.33,0.25]]
+    bboxes = [[80, -0.1, 70, 0.1], [54.35, 0.24, 54.33, 0.25]]
     check_bboxes_are_bad bboxes do |map, bbox|
       assert_boundary_error map, " The server said: The minimum longitude must be less than the maximum longitude, but it wasn't", bbox.inspect
     end
@@ -144,10 +146,10 @@ class AmfControllerTest < ActionController::TestCase
 
   def test_whichways_deleted
     node = current_nodes(:used_node_1)
-    minlon = node.lon-0.1
-    minlat = node.lat-0.1
-    maxlon = node.lon+0.1
-    maxlat = node.lat+0.1
+    minlon = node.lon - 0.1
+    minlat = node.lat - 0.1
+    maxlon = node.lon + 0.1
+    maxlat = node.lat + 0.1
     amf_content "whichways_deleted", "/1", [minlon, minlat, maxlon, maxlat]
     post :amf_read
     assert_response :success
@@ -167,7 +169,7 @@ class AmfControllerTest < ActionController::TestCase
   end
 
   def test_whichways_deleted_toobig
-    bbox = [-0.1,-0.1,1.1,1.1]
+    bbox = [-0.1, -0.1, 1.1, 1.1]
     amf_content "whichways_deleted", "/1", bbox
     post :amf_read
     assert_response :success
@@ -428,8 +430,8 @@ class AmfControllerTest < ActionController::TestCase
     # This node has some tags
     tnd = Node.new
     # create a node with random lat/lon
-    lat = rand(100)-50 + rand
-    lon = rand(100)-50 + rand
+    lat = rand(100) - 50 + rand
+    lon = rand(100) - 50 + rand
     # normal user has a changeset open
     changeset = changesets(:public_user_first_change)
     
@@ -471,12 +473,12 @@ class AmfControllerTest < ActionController::TestCase
     # This node has no tags
     nd = Node.new
     # create a node with random lat/lon
-    lat = rand(100)-50 + rand
-    lon = rand(100)-50 + rand
+    lat = rand(100) - 50 + rand
+    lon = rand(100) - 50 + rand
     # normal user has a changeset open
     changeset = changesets(:public_user_first_change)
     
-    mostly_invalid = (0..31).to_a.map {|i| i.chr}.join
+    mostly_invalid = (0..31).to_a.map { |i| i.chr }.join
     tags = { "something" => "foo#{mostly_invalid}bar" }
       
     amf_content "putpoi", "/1", ["test@example.com:test", changeset.id, nil, nil, lon, lat, tags, nil]
@@ -506,8 +508,8 @@ class AmfControllerTest < ActionController::TestCase
     # This node has no tags
     nd = Node.new
     # create a node with random lat/lon
-    lat = rand(100)-50 + rand
-    lon = rand(100)-50 + rand
+    lat = rand(100) - 50 + rand
+    lon = rand(100) - 50 + rand
     # normal user has a changeset open
     changeset = changesets(:public_user_first_change)
     
@@ -526,19 +528,19 @@ class AmfControllerTest < ActionController::TestCase
   end
       
   def test_putpoi_delete_valid
-    
+    skip 'FIXME: Empty test.'
   end
   
   def test_putpoi_delete_already_deleted
-    
+    skip 'FIXME: Empty test.'
   end
   
   def test_putpoi_delete_not_found
-    
+    skip 'FIXME: Empty test.'
   end
   
   def test_putpoi_invalid_latlon
-    
+    skip 'FIXME: Empty test.'
   end
 
   def test_startchangeset_invalid_xmlchar_comment
@@ -572,11 +574,11 @@ class AmfControllerTest < ActionController::TestCase
   # Encode the AMF message to invoke "target" with parameters as
   # the passed data. The ref is used to retrieve the results.
   def amf_content(target, ref, data)
-    a,b=1.divmod(256)
+    a, b = 1.divmod(256)
     c = StringIO.new()
-    c.write 0.chr+0.chr   # version 0
-    c.write 0.chr+0.chr   # n headers
-    c.write a.chr+b.chr   # n bodies
+    c.write 0.chr + 0.chr   # version 0
+    c.write 0.chr + 0.chr   # n headers
+    c.write a.chr + b.chr   # n bodies
     c.write AMF.encodestring(target)
     c.write AMF.encodestring(ref)
     c.write [-1].pack("N")
@@ -594,21 +596,21 @@ class AmfControllerTest < ActionController::TestCase
     req.read(2)   # version
 
     # parse through any headers
-	headers=AMF.getint(req)					# Read number of headers
-	headers.times do						# Read each header
-	  name=AMF.getstring(req)				#  |
-	  req.getc				   				#  | skip boolean
-	  value=AMF.getvalue(req)				#  |
-	end
+  headers = AMF.getint(req)         # Read number of headers
+  headers.times do            # Read each header
+    name = AMF.getstring(req)       #  |
+    req.getc                  #  | skip boolean
+    value = AMF.getvalue(req)       #  |
+  end
 
     # parse through responses
     results = {}
-    bodies=AMF.getint(req)					# Read number of bodies
-	bodies.times do							# Read each body
-	  message=AMF.getstring(req)			#  | get message name
-	  index=AMF.getstring(req)				#  | get index in response sequence
-	  bytes=AMF.getlong(req)				#  | get total size in bytes
-	  args=AMF.getvalue(req)				#  | get response (probably an array)
+    bodies = AMF.getint(req)          # Read number of bodies
+  bodies.times do             # Read each body
+    message = AMF.getstring(req)      #  | get message name
+    index = AMF.getstring(req)        #  | get index in response sequence
+    bytes = AMF.getlong(req)          #  | get total size in bytes
+    args = AMF.getvalue(req)          #  | get response (probably an array)
       results[message] = args
     end
     @amf_result = results

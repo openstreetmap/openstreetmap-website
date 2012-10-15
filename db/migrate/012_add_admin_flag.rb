@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class AddAdminFlag < ActiveRecord::Migration
   def self.up
     add_column "users", "administrator", :boolean, :default => false, :null => false

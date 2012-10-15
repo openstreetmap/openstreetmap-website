@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 module UserBlocksHelper
   ##
   # returns a translated string representing the status of the 

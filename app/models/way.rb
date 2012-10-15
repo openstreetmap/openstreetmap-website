@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class Way < ActiveRecord::Base
   require 'xml/libxml'
   

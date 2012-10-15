@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require 'migrate'
 
 class AlterUserRolesAndBlocks < ActiveRecord::Migration

@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 namespace 'db' do
   desc 'Adds a version number to the nodes table'
   task :node_version  do

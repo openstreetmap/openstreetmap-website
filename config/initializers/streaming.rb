@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # Hack ActionController::DataStreaming to allow streaming from a file handle
 module ActionController
   module DataStreaming

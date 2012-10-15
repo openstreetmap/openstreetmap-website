@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class AddRefererToUserToken < ActiveRecord::Migration
   def self.up
     add_column :user_tokens, :referer, :text

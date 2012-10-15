@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class UserSweeper < ActionController::Caching::Sweeper
   observe User
 

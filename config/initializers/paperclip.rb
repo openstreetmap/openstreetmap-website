@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 module Paperclip
   class AssetUrlGenerator < UrlGenerator
     include Sprockets::Helpers::IsolatedHelper

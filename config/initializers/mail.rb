@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 module Mail
   class Ruby18
     def Ruby18.b_value_decode(str)

@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 OpenStreetMap::Application.routes.draw do
   # API
   match 'api/capabilities' => 'api#capabilities', :via => :get

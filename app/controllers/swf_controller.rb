@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class SwfController < ApplicationController
 	skip_before_filter :verify_authenticity_token
 	before_filter :check_api_readable

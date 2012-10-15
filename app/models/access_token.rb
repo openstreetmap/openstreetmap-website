@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class AccessToken < OauthToken
   belongs_to :user
   belongs_to :client_application

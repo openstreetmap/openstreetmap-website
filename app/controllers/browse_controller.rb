@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class BrowseController < ApplicationController
   layout 'site', :except => [ :start ]
 

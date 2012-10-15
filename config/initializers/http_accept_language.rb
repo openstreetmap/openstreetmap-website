@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 #
 # Monkey patch HttpAcceptLanguage pending integration of
 # https://github.com/iain/http_accept_language/pull/6

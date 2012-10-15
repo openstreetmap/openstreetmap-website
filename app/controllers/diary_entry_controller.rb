@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class DiaryEntryController < ApplicationController
   layout 'site', :except => :rss
 

@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class WayController < ApplicationController
   require 'xml/libxml'
 

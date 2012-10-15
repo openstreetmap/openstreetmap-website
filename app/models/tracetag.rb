@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class Tracetag < ActiveRecord::Base
   self.table_name = "gpx_file_tags"
 

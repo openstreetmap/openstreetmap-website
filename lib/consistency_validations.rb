@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 module ConsistencyValidations
   # Generic checks that are run for the updates and deletes of
   # node, ways and relations. This code is here to avoid duplication, 

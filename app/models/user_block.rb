@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class UserBlock < ActiveRecord::Base
   validate :moderator_permissions
 

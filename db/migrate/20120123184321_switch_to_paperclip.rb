@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class SwitchToPaperclip < ActiveRecord::Migration
   def up
     rename_column :users, :image, :image_file_name

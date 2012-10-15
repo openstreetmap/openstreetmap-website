@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class OldWayTag < ActiveRecord::Base
   self.table_name = "way_tags"
   self.primary_keys = "way_id", "version", "k"

@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class AddChangesetIndexes < ActiveRecord::Migration
   def self.up
     add_index "nodes", ["changeset_id"], :name => "nodes_changeset_id_idx"

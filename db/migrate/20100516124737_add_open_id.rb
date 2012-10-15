@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class AddOpenId < ActiveRecord::Migration
   def self.up
     add_column :users, :openid_url, :string 

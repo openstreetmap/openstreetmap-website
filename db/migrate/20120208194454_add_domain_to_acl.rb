@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class AddDomainToAcl < ActiveRecord::Migration
   def up
     add_column :acls, :domain, :string

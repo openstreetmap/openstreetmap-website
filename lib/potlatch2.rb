@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 module Potlatch2
   LOCALES = {
     "ar" => "ar",

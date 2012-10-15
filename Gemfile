@@ -54,7 +54,10 @@ gem 'memcached', '>= 1.4.1'
 # Gems needed for running tests
 group :test do
   gem 'timecop'
+  gem 'faker'
   gem 'minitest', :platforms => :ruby_19
+  gem 'minitest-capybara'
+  gem 'simplecov', :require => false
 end
 
 # Gems needed for compiling assets

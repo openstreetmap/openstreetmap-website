@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class RenameIds < ActiveRecord::Migration
   def change
     rename_column :changeset_tags, :id, :changeset_id
