@@ -27,7 +27,7 @@
     <% else %> 
       <td><%= link_to h(note.author_name), :controller => "user", :action => "view", :display_name => note.author_name %></td>
     <% end %>
-    <td> <%= htmlize note.comments.first.body  %> </td>	
+    <td> <%= note.comments.first.body.to_html  %> </td>	
     <td><%= l note.created_at %></td>
     <td><%= l note.updated_at %></td>
   </tr>
