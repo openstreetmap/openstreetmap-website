@@ -12,8 +12,8 @@ xml.osm("version" => API_VERSION, "generator" => GENERATOR) do
     else
       xml.tag! "contributor-terms", :agreed => !!@this_user.terms_agreed
     end
-    if @this_user.image.file?
-      xml.tag! "img", :href => "http://#{SERVER_URL}#{@this_user.image.url}"
+    if @this_user.image.file? or @this_user.image_use_gravatar
+      xml.tag! "img", :href => user_image_url(@this_user, :size => 256)
     end
     xml.tag! "roles" do
       @this_user.roles.each do |role|
@@ -35,7 +35,7 @@ xml.osm("version" => API_VERSION, "generator" => GENERATOR) do
         xml.tag! "home", :lat => @this_user.home_lat,
                          :lon => @this_user.home_lon,
                          :zoom => @this_user.home_zoom
-      end    
+      end
       if @this_user.languages
         xml.tag! "languages" do
           @this_user.languages.split(",") { |lang| xml.tag! "lang", lang }
