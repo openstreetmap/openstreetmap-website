@@ -31,6 +31,14 @@ module UserHelper
     end
   end
 
+  def user_image_url(user, options = {})
+    if user.use_gravatar
+      user_gravatar_url(user, options)
+    else
+      "http://#{SERVER_URL}#{image_path(user.image.url)}"
+    end
+  end
+
   # OpenID support
 
   def openid_logo
@@ -52,7 +60,8 @@ module UserHelper
   def user_gravatar_url(user, options = {})
     options = {:size => 80}.merge! options
     hash = Digest::MD5::hexdigest(user.email.downcase)
-    url = "http://www.gravatar.com/avatar/#{hash}.jpg?s=#{options[:size]}"
+    default_image_url = "http://#{SERVER_URL}#{image_path("users/images/large.png")}"
+    url = "http://www.gravatar.com/avatar/#{hash}.jpg?s=#{options[:size]}&d=#{u(default_image_url)}"
   end
 
   def user_gravatar_tag(user, options = {})
