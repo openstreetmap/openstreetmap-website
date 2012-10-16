@@ -4,7 +4,7 @@ module UserHelper
   def user_image(user, options = {})
     options[:class] ||= "user_image"
 
-    if user.use_gravatar
+    if user.image_use_gravatar
       user_gravatar_tag(user, options)
     else
       image_tag user.image.url(:large), options
@@ -14,7 +14,7 @@ module UserHelper
   def user_thumbnail(user, options = {})
     options[:class] ||= "user_thumbnail"
 
-    if user.use_gravatar
+    if user.image_use_gravatar
       user_gravatar_tag(user, options)
     else
       image_tag user.image.url(:small), options
@@ -24,7 +24,7 @@ module UserHelper
   def user_thumbnail_tiny(user, options = {})
     options[:class] ||= "user_thumbnail_tiny"
 
-    if user.use_gravatar
+    if user.image_use_gravatar
       user_gravatar_tag(user, options)
     else
       image_tag user.image.url(:small), options
@@ -32,7 +32,7 @@ module UserHelper
   end
 
   def user_image_url(user, options = {})
-    if user.use_gravatar
+    if user.image_use_gravatar
       user_gravatar_url(user, options)
     else
       "http://#{SERVER_URL}#{image_path(user.image.url)}"

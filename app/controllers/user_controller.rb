@@ -665,13 +665,13 @@ private
     case params[:image_action]
     when "new" then
       user.image = params[:user][:image]
-      user.use_gravatar = false
+      user.image_use_gravatar = false
     when "delete" then
       user.image = nil
-      user.use_gravatar = false
+      user.image_use_gravatar = false
     when "gravatar" then
       user.image = nil
-      user.use_gravatar = true
+      user.image_use_gravatar = true
     end
 
     user.home_lat = params[:user][:home_lat]

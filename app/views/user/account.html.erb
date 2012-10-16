@@ -89,7 +89,7 @@
         <% if @user.image.file? %>
         <tr>
           <td rowspan="4" valign="top"><%= user_image @user %></td>
-          <td><%= radio_button_tag "image_action", "keep", !@user.use_gravatar %></td>
+          <td><%= radio_button_tag "image_action", "keep", !@user.image_use_gravatar %></td>
           <td><%= t 'user.account.keep image' %></td>
         </tr>
         <tr>
@@ -103,12 +103,12 @@
         <% else %>
         <tr>
           <td rowspan="2" valign="top"><%= user_image @user %></td>
-          <td><%= radio_button_tag "image_action", "new", !@user.use_gravatar %></td>
+          <td><%= radio_button_tag "image_action", "new", !@user.image_use_gravatar %></td>
           <td><%= t 'user.account.new image' %> <%= f.file_field :image %><br /><span class="minorNote"><%= t 'user.account.image size hint' %></span></td>
         </tr>
         <% end %>
         <tr>
-          <td><%= radio_button_tag "image_action", "gravatar", @user.use_gravatar %></td>
+          <td><%= radio_button_tag "image_action", "gravatar", @user.image_use_gravatar %></td>
           <td><%= t 'user.account.gravatar.gravatar' %> <span class="minorNote">(<a href="<%= t 'user.account.gravatar.link' %>" target="_new"><%= t 'user.account.gravatar.link text' %></a>)</span></td>
         </tr>
       </table>
