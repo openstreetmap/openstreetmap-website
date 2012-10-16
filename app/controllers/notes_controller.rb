@@ -3,8 +3,8 @@ class NotesController < ApplicationController
   layout 'site', :only => [:mine]
 
   before_filter :check_api_readable
-  before_filter :authorize_web, :only => [:create, :close, :update, :delete, :mine]
-  before_filter :check_api_writable, :only => [:create, :close, :update, :delete]
+  before_filter :authorize_web, :only => [:create, :comment, :close, :destroy, :mine]
+  before_filter :check_api_writable, :only => [:create, :comment, :close, :destroy]
   before_filter :set_locale, :only => [:mine]
   after_filter :compress_output
   around_filter :api_call_handle_error, :api_call_timeout
