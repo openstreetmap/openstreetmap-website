@@ -20,6 +20,8 @@ $(document).ready(function () {
   function createNote(feature, form) {
     var location = unproj(feature.geometry.getBounds().getCenterLonLat());
 
+    $(form).find("input[type=submit]").prop("disabled", true);
+
     $.ajax($("#createnoteanchor").attr("href"), {
       type: "POST",
       data: {
@@ -41,6 +43,8 @@ $(document).ready(function () {
 
   function updateNote(feature, form, close) {
     var url = close ? feature.attributes.close_url : feature.attributes.comment_url;
+
+    $(form).find("input[type=submit]").prop("disabled", true);
 
     $.ajax(url, {
       type: "POST",
