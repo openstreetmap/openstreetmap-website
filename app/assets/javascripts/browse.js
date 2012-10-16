@@ -56,7 +56,7 @@ $(document).ready(function () {
       $("#browse_map .geolink").show();
 
       if (extent) {
-        extent.transform(map.getProjectionObject(), map.displayProjection);
+        extent = unproj(extent);
 
         var centre = extent.getCenterLonLat();
 
