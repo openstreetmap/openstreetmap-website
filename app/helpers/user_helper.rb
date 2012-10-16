@@ -58,10 +58,10 @@ module UserHelper
 
   # See http://en.gravatar.com/site/implement/images/ for details.
   def user_gravatar_url(user, options = {})
-    options = {:size => 80}.merge! options
+    size = options[:size] || 100
     hash = Digest::MD5::hexdigest(user.email.downcase)
     default_image_url = "http://#{SERVER_URL}#{image_path("users/images/large.png")}"
-    url = "http://www.gravatar.com/avatar/#{hash}.jpg?s=#{options[:size]}&d=#{u(default_image_url)}"
+    url = "http://www.gravatar.com/avatar/#{hash}.jpg?s=#{size}&d=#{u(default_image_url)}"
   end
 
   def user_gravatar_tag(user, options = {})
