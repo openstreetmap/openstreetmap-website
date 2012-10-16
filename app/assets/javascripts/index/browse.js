@@ -154,10 +154,6 @@ $(document).ready(function () {
 
       setStatus(I18n.t('browse.start_rjs.loading'));
 
-      $("#browse_content").empty();
-      dataLayer.clearLayers();
-      selectedLayer = null;
-
       var url = "/api/" + OSM.API_VERSION + "/map?bbox=" + browseBounds.toBBOX();
 
       /*
@@ -179,6 +175,10 @@ $(document).ready(function () {
         url: url,
         success: function (xml) {
           clearStatus();
+
+          $("#browse_content").empty();
+          dataLayer.clearLayers();
+          selectedLayer = null;
 
           dataLayer.addData(xml);
 
