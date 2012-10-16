@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 if defined?(MEMCACHE_SERVERS)
   require "openid/store/memcache"
 

@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class SpamObserver < ActiveRecord::Observer
   observe User, DiaryEntry, DiaryComment
 

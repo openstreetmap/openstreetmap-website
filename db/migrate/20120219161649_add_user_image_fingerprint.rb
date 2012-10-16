@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class AddUserImageFingerprint < ActiveRecord::Migration
   def up
     add_column :users, :image_fingerprint, :string, :null => true

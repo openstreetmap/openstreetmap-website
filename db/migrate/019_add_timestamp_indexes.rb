@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class AddTimestampIndexes < ActiveRecord::Migration
   def self.up
     add_index :current_ways, :timestamp, :name => :current_ways_timestamp_idx

@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class AddGpxIndexes < ActiveRecord::Migration
   def self.up
     add_index "gpx_files", ["user_id"], :name => "gpx_files_user_id_idx"

@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class DiaryComment < ActiveRecord::Base
   belongs_to :user
   belongs_to :diary_entry

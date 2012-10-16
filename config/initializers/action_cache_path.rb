@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 module ActionController
   module Caching
     module Actions

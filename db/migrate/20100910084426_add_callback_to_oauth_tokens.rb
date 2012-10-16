@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class AddCallbackToOauthTokens < ActiveRecord::Migration
   def self.up
     add_column :oauth_tokens, :callback_url, :string

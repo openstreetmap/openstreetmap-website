@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class Notifier < ActionMailer::Base
   default :from => EMAIL_FROM,
           :return_path => EMAIL_RETURN_PATH,

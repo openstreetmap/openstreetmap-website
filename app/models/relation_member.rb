@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class RelationMember < ActiveRecord::Base
   self.table_name = "current_relation_members"
   self.primary_keys = "relation_id", "sequence_id"

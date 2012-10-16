@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 ##
 # DiffReader reads OSM diffs and applies them to the database.
 #

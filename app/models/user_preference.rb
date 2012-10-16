@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class UserPreference < ActiveRecord::Base
   self.primary_keys = "user_id", "k"
 

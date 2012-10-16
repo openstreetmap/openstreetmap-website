@@ -1,3 +1,7 @@
+# encoding: utf-8
+
+require 'simplecov' if ENV['COVERAGE']
+
 ENV["RAILS_ENV"] = "test"
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
@@ -137,14 +141,14 @@ class ActiveSupport::TestCase
 
       # Wait for up to 30 seconds for the server to start and respond before continuing
       for i in (1 .. 30)
-	begin
-	  sleep 1
-	  rots_response = Net::HTTP.get_response(URI.parse("http://localhost:1123/"))
-	  # If the rescue block doesn't fire, ROTS is up and running and we can continue
-	  break
-	rescue
-	  # If the connection failed, do nothing and repeat the loop
-	end
+        begin
+          sleep 1
+          rots_response = Net::HTTP.get_response(URI.parse("http://localhost:1123/"))
+          # If the rescue block doesn't fire, ROTS is up and running and we can continue
+          break
+        rescue
+          # If the connection failed, do nothing and repeat the loop
+        end
       end
 
       # Arrange to kill the process when we exit - note that we need

@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class OldRelationTag < ActiveRecord::Base
   self.table_name = "relation_tags"
   self.primary_keys = "relation_id", "version", "k"

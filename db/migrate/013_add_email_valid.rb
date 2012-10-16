@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class AddEmailValid < ActiveRecord::Migration
   def self.up
     add_column "users", "email_valid", :boolean, :default => false, :null => false

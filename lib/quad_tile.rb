@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 module QuadTile
   begin
     require "quad_tile/quad_tile_so"

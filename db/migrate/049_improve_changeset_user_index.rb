@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class ImproveChangesetUserIndex < ActiveRecord::Migration
   def self.up
     add_index :changesets, [:user_id, :id], :name => "changesets_user_id_id_idx"

@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # The NodeController is the RESTful interface to Node objects
 
 class NodeController < ApplicationController

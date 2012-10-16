@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class CreateOauthTables < ActiveRecord::Migration
   def self.up
     create_table :client_applications do |t|

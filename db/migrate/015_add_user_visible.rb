@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class AddUserVisible < ActiveRecord::Migration
   def self.up
     add_column "users", "visible", :boolean, :default => true, :null => false

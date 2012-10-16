@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class AddCounterCaches < ActiveRecord::Migration
   def self.up
     add_column :users, :changesets_count, :integer, :null => false, :default => 0

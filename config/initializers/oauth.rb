@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require 'oauth/rack/oauth_filter'
 
 Rails.configuration.middleware.use OAuth::Rack::OAuthFilter

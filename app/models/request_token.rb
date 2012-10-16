@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class RequestToken < OauthToken
 
   attr_accessor :provided_oauth_verifier

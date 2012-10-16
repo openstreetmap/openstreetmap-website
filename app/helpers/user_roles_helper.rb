@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 module UserRolesHelper
   def role_icons(user)
     UserRole::ALL_ROLES.reduce("".html_safe) { |s,r| s + " " + role_icon(user, r) }

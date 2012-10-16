@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 ##
 # Encodes and decodes locations from Morton-coded "quad tile" strings. Each
 # variable-length string encodes to a precision of one pixel per tile (roughly,

@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class Language < ActiveRecord::Base
   self.primary_key = "code"
 

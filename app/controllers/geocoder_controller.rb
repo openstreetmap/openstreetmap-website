@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class GeocoderController < ApplicationController
   require 'uri'
   require 'net/http'

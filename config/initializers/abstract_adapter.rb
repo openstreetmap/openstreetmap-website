@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 if defined?(ActiveRecord::ConnectionAdaptors::AbstractAdapter)
   module ActiveRecord
     module ConnectionAdapters

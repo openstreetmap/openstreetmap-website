@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # Load presets
 POTLATCH_PRESETS = Potlatch::Potlatch.get_presets()
 

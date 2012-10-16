@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class AddVisibleToDiaries < ActiveRecord::Migration
   def self.up
     add_column :diary_entries, :visible, :boolean, :null => false, :default => true

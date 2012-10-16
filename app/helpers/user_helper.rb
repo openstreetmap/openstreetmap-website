@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 module UserHelper
   def user_image(user, options = {})
     options[:class] ||= "user_image"

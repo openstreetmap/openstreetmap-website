@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # Configure ActionMailer SMTP settings
 ActionMailer::Base.smtp_settings = {
   :address => 'localhost',

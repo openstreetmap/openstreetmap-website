@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require 'yaml'
 
 config = YAML.load_file(File.expand_path("../application.yml", __FILE__))

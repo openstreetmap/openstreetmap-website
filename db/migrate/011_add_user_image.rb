@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class AddUserImage < ActiveRecord::Migration
   def self.up
     add_column "users", "image", :text

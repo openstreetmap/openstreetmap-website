@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class DiarySweeper < ActionController::Caching::Sweeper
   observe DiaryComment, DiaryEntry
 

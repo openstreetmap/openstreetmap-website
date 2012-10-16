@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class Node < ActiveRecord::Base
   require 'xml/libxml'
 

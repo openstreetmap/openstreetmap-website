@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class BoundingBox
   attr_reader :min_lon, :min_lat, :max_lon, :max_lat
 

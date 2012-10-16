@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class OldNodeTag < ActiveRecord::Base
   self.table_name = "node_tags"
   self.primary_keys = "node_id", "version", "k"

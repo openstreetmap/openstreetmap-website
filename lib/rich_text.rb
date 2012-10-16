@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 module RichText
   def self.new(format, text)
     case format

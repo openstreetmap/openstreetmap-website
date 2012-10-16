@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class Tracepoint < ActiveRecord::Base
   include GeoRecord
 

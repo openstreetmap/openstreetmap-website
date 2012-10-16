@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class AddCreationIp < ActiveRecord::Migration
   def self.up
     add_column "users", "creation_ip", :string

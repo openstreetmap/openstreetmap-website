@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 module GeocoderHelper
   def result_to_html(result)
     html_options = { :class => "set_position", :data => {} }

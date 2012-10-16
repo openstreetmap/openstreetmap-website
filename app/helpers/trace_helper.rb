@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 module TraceHelper
   def link_to_tag(tag)
     if @action == "mine"

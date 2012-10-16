@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class ChangeDiaryEntriesLanguage < ActiveRecord::Migration
   def self.up
     remove_column "diary_entries", "language"

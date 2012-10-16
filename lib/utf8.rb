@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 module UTF8
   ##
   # Checks that a string is valid UTF-8 by trying to convert it to UTF-8
