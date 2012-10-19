@@ -159,28 +159,36 @@ $(document).ready(function () {
           dataLayer.clearLayers();
           selectedLayer = null;
 
-          dataLayer.addData(xml);
+          var features = dataLayer.buildFeatures(xml);
 
-          layersById = {};
-          var features = [];
+          function addFeatures() {
+            dataLayer.addData(features);
 
-          dataLayer.eachLayer(function (layer) {
-            var feature = layer.feature;
-            layersById[feature.id] = layer;
-            features.push({
-              typeName: featureTypeName(feature),
-              url: "/browse/" + feature.type + "/" + feature.id,
-              name: featureName(feature),
-              id: feature.id
+            layersById = {};
+
+            dataLayer.eachLayer(function (layer) {
+              var feature = layer.feature;
+              layersById[feature.id] = layer;
+              $.extend(feature, {
+                typeName: featureTypeName(feature),
+                url: "/browse/" + feature.type + "/" + feature.id,
+                name: featureName(feature)
+              });
             });
-          });
 
-          browseObjectList = $(JST["templates/browse/feature_list"]({
-            features: features,
-            url: url
-          }))[0];
+            browseObjectList = $(JST["templates/browse/feature_list"]({
+              features: features,
+              url: url
+            }))[0];
 
-          loadObjectList();
+            loadObjectList();
+          }
+
+          if (features.length < maxFeatures) {
+            addFeatures();
+          } else {
+            displayFeatureWarning(features.length, maxFeatures, addFeatures);
+          }
         }
       });
     }

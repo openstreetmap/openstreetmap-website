@@ -55,40 +55,54 @@ L.OSM.DataLayer = L.FeatureGroup.extend({
     }
   },
 
-  addData: function (xml) {
-    var nodes = L.OSM.getNodes(xml),
-         ways = L.OSM.getWays(xml);
+  addData: function (features) {
+    if (!(features instanceof Array)) {
+      features = this.buildFeatures(features);
+    }
 
-    for (var i = 0; i < ways.length; i++) {
-      var way = ways[i],
-        latLngs = new Array(way.nodes.length);
+    for (var i = 0; i < features.length; i++) {
+      var feature = features[i], layer;
 
-      for (var j = 0; j < way.nodes.length; j++) {
-        latLngs[j] = nodes[way.nodes[j]].latLng;
-      }
-
-      var layer;
-
-      if (this.isWayArea(way)) {
-        latLngs.pop(); // Remove last == first.
-        layer = L.polygon(latLngs, this.options.styles.area);
+      if (feature.type === "node") {
+        layer = L.circleMarker(feature.latLng, this.options.styles.node);
       } else {
-        layer = L.polyline(latLngs, this.options.styles.way);
+        var latLngs = new Array(feature.nodes.length);
+
+        for (var j = 0; j < feature.nodes.length; j++) {
+          latLngs[j] = feature.nodes[j].latLng;
+        }
+
+        if (this.isWayArea(feature)) {
+          latLngs.pop(); // Remove last == first.
+          layer = L.polygon(latLngs, this.options.styles.area);
+        } else {
+          layer = L.polyline(latLngs, this.options.styles.way);
+        }
       }
 
       layer.addTo(this);
-      layer.feature = way;
+      layer.feature = feature;
     }
+  },
+
+  buildFeatures: function (xml) {
+    var features = [],
+      nodes = L.OSM.getNodes(xml),
+      ways = L.OSM.getWays(xml, nodes);
 
     for (var node_id in nodes) {
       var node = nodes[node_id];
       if (this.interestingNode(node)) {
-        var layer = L.circleMarker(node.latLng, this.options.styles.node);
-
-        layer.addTo(this);
-        layer.feature = node;
+        features.push(node);
       }
     }
+
+    for (var i = 0; i < ways.length; i++) {
+      var way = ways[i];
+      features.push(way);
+    }
+
+    return features;
   },
 
   isWayArea: function (way) {
@@ -136,7 +150,7 @@ L.Util.extend(L.OSM, {
     return result;
   },
 
-  getWays: function (xml) {
+  getWays: function (xml, nodes) {
     var result = [];
 
     var ways = xml.getElementsByTagName("way");
@@ -151,7 +165,7 @@ L.Util.extend(L.OSM, {
       };
 
       for (var j = 0; j < nds.length; j++) {
-        way_object.nodes[j] = nds[j].getAttribute("ref");
+        way_object.nodes[j] = nodes[nds[j].getAttribute("ref")];
       }
 
       result.push(way_object);
