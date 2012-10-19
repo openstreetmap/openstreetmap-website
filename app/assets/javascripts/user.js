@@ -1,5 +1,8 @@
 $(document).ready(function () {
-  var map = createMap("map");
+  var map = createMap("map", {
+    zoomControl: true,
+    panZoomControl: false
+  });
 
   if (OSM.home) {
     map.setView([OSM.home.lat, OSM.home.lon], 12);

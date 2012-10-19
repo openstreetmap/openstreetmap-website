@@ -23,7 +23,7 @@ $(document).ready(function () {
 
   var map = createMap("small_map", {
     layerControl: false,
-    zoomControl: false,
+    panZoomControl: false,
     attributionControl: false
   });
 

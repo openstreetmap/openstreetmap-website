@@ -76,15 +76,22 @@ var layers = [
 ];
 
 function createMap(divName, options) {
-  map = L.map(divName, options);
+  options = $.extend({zoomControl: false, panZoomControl: true, layerControl: true}, options);
+
+  map = L.map(divName, $.extend({}, options, {panControl: false, zoomsliderControl: false, maxZoom: 18}));
 
   if (map.attributionControl) {
     map.attributionControl.setPrefix(''); // For tmcw
   }
 
+  if (options.panZoomControl) {
+    new L.Control.Pan().addTo(map);
+    new L.Control.Zoomslider({stepHeight: 7}).addTo(map);
+  }
+
   var layersControl = L.control.layers();
 
-  if (!options || options.layerControl !== false) {
+  if (options.layerControl) {
     layersControl.addTo(map);
   }
 
