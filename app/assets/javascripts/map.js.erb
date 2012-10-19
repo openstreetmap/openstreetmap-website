@@ -46,28 +46,28 @@ var map;
 
 var layers = [
   {
-    class: L.OSM.Mapnik,
+    klass: L.OSM.Mapnik,
     attribution: "",
     keyid: "mapnik",
     layerCode: "M",
     name: I18n.t("javascripts.map.base.standard")
   },
   {
-    class: L.OSM.CycleMap,
+    klass: L.OSM.CycleMap,
     attribution: "Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
     keyid: "cyclemap",
     layerCode: "C",
     name: I18n.t("javascripts.map.base.cycle_map")
   },
   {
-    class: L.OSM.TransportMap,
+    klass: L.OSM.TransportMap,
     attribution: "Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
     keyid: "transportmap",
     layerCode: "T",
     name: I18n.t("javascripts.map.base.transport_map")
   },
   {
-    class: L.OSM.MapQuestOpen,
+    klass: L.OSM.MapQuestOpen,
     attribution: "Tiles courtesy of <a href='http://www.mapquest.com/' target='_blank'>MapQuest</a> <img src='http://developer.mapquest.com/content/osm/mq_logo.png'>",
     keyid: "mapquest",
     layerCode: "Q",
@@ -89,7 +89,7 @@ function createMap(divName, options) {
   }
 
   for (var i = 0; i < layers.length; i++) {
-    layers[i].layer = new (layers[i].class)(layers[i]);
+    layers[i].layer = new (layers[i].klass)(layers[i]);
     if (i == 0) {
       layers[i].layer.addTo(map);
     }
