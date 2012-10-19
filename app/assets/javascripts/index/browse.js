@@ -11,7 +11,6 @@ $(document).ready(function () {
   });
 
   function startBrowse(sidebarHtml) {
-    var browseMode = "auto";
     var browseBounds;
     var layersById;
     var selectedLayer;
@@ -41,8 +40,11 @@ $(document).ready(function () {
       return !areasHidden && L.OSM.DataLayer.prototype.isWayArea.apply(this, arguments);
     };
 
-    var drawHandler = new L.Rectangle.Draw(map, {title: I18n.t('browse.start_rjs.drag_a_box')});
-    map.on('draw:rectangle-created', endDrag);
+    var locationFilter = new L.LocationFilter({
+      enableButton: false,
+      adjustButton: false,
+      onChange: getData
+    }).addTo(map);
 
     $("#sidebar_title").html(I18n.t('browse.start_rjs.data_frame_title'));
     $("#sidebar_content").html(sidebarHtml);
@@ -52,15 +54,19 @@ $(document).ready(function () {
     map.on("moveend", updateData);
     updateData();
 
-    $("#browse_select_view").click(useMap);
+    $("#browse_filter_toggle").toggle(enableFilter, disableFilter);
 
     $("#browse_hide_areas_box").html(I18n.t('browse.start_rjs.hide_areas'));
     $("#browse_hide_areas_box").toggle(hideAreas, showAreas);
 
     function updateData() {
-      if (browseMode == "auto") {
+      if (!locationFilter.isEnabled()) {
         if (map.getZoom() >= 15) {
-          useMap();
+          var bounds = map.getBounds();
+          if (!browseBounds || !browseBounds.contains(bounds)) {
+            browseBounds = bounds;
+            getData();
+          }
         } else {
           setStatus(I18n.t('browse.start_rjs.zoom_or_select'));
         }
@@ -69,60 +75,32 @@ $(document).ready(function () {
 
     $("#sidebar").one("closed", function () {
       map.removeLayer(dataLayer);
+      map.removeLayer(locationFilter);
       map.off("moveend", updateData);
-      map.off('draw:rectangle-created', endDrag);
-      drawHandler.disable();
     });
 
-    $("#browse_select_box").click(function () {
-      $("#browse_select_box").html(I18n.t('browse.start_rjs.drag_a_box'));
+    function enableFilter() {
+      $("#browse_filter_toggle").html(I18n.t('browse.start_rjs.view_data'));
+      locationFilter.enable();
+      getData();
+    }
 
-      drawHandler.enable();
-
-      return false;
-    });
-
-    function useMap() {
-      var bounds = map.getBounds();
-
-      if (!browseBounds || !browseBounds.contains(bounds)) {
-        browseBounds = bounds;
-        browseMode = "auto";
-
-        getData();
-
-        $("#browse_select_view").hide();
-      }
-
-      return false;
+    function disableFilter() {
+      $("#browse_filter_toggle").html(I18n.t('browse.start_rjs.manually_select'));
+      locationFilter.disable();
+      getData();
     }
 
     function hideAreas() {
       $("#browse_hide_areas_box").html(I18n.t('browse.start_rjs.show_areas'));
-
       areasHidden = true;
-
       getData();
     }
 
     function showAreas() {
       $("#browse_hide_areas_box").html(I18n.t('browse.start_rjs.hide_areas'));
-
       areasHidden = false;
-
       getData();
-    }
-
-    function endDrag(e) {
-      browseBounds = e.rect.getBounds();
-      browseMode = "manual";
-
-      getData();
-
-      $("#browse_select_box").html(I18n.t('browse.start_rjs.manually_select'));
-      $("#browse_select_view").show();
-
-      drawHandler.disable();
     }
 
     function displayFeatureWarning(count, limit, callback) {
@@ -145,7 +123,8 @@ $(document).ready(function () {
     }
 
     function getData() {
-      var size = browseBounds.getSize();
+      var bounds = locationFilter.isEnabled() ? locationFilter.getBounds() : map.getBounds();
+      var size = bounds.getSize();
 
       if (size > OSM.MAX_REQUEST_AREA) {
         setStatus(I18n.t("browse.start_rjs.unable_to_load_size", { max_bbox_size: OSM.MAX_REQUEST_AREA, bbox_size: size }));
@@ -154,7 +133,7 @@ $(document).ready(function () {
 
       setStatus(I18n.t('browse.start_rjs.loading'));
 
-      var url = "/api/" + OSM.API_VERSION + "/map?bbox=" + browseBounds.toBBOX();
+      var url = "/api/" + OSM.API_VERSION + "/map?bbox=" + bounds.toBBOX();
 
       /*
        * Modern browsers are quite happy showing far more than 100 features in
@@ -211,7 +190,7 @@ $(document).ready(function () {
 
       onSelect(layer);
 
-      if (browseMode != "auto") {
+      if (locationFilter.isEnabled()) {
         map.panTo(layer.getBounds().getCenter());
       }
 

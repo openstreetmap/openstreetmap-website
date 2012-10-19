@@ -11,10 +11,13 @@ $(document).ready(function () {
   }
 
   function startExport(sidebarHtml) {
-    var marker, rectangle;
+    var marker;
 
-    var drawHandler = new L.Rectangle.Draw(map, {title: I18n.t('export.start_rjs.drag_a_box')});
-    map.on('draw:rectangle-created', endDrag);
+    var locationFilter = new L.LocationFilter({
+      enableButton: false,
+      adjustButton: false,
+      onChange: filterChanged
+    }).addTo(map);
 
     map.on("moveend", mapMoved);
     map.on("baselayerchange", htmlUrlChanged);
@@ -24,7 +27,7 @@ $(document).ready(function () {
 
     $("#maxlat,#minlon,#maxlon,#minlat").change(boundsChanged);
 
-    $("#drag_box").click(startDrag);
+    $("#drag_box").click(enableFilter);
 
     $("#add_marker").click(startMarker);
 
@@ -46,14 +49,11 @@ $(document).ready(function () {
     $("#sidebar").one("closed", function () {
       $("body").removeClass("site-export").addClass("site-index");
 
-      clearBox();
+      map.removeLayer(locationFilter);
       clearMarker();
 
       map.off("moveend", mapMoved);
       map.off("baselayerchange", htmlUrlChanged);
-      map.off('draw:rectangle-created', endDrag);
-
-      drawHandler.disable();
     });
 
     function getBounds() {
@@ -80,36 +80,22 @@ $(document).ready(function () {
     function boundsChanged() {
       var bounds = getBounds();
 
-      map.off("moveend", mapMoved);
       map.fitBounds(bounds);
 
-      clearBox();
-      drawBox(bounds);
+      enableFilter();
+      locationFilter.setBounds(bounds);
 
       validateControls();
       mapnikSizeChanged();
     }
 
-    function startDrag() {
-      $("#drag_box").html(I18n.t('export.start_rjs.drag_a_box'));
-
-      clearBox();
-      drawHandler.enable();
+    function enableFilter() {
+      $("#drag_box").hide();
+      locationFilter.enable();
     }
 
-    function endDrag(e) {
-      var bounds = e.rect.getBounds();
-
-      map.off("moveend", mapMoved);
-      setBounds(bounds);
-      drawBox(bounds);
-      validateControls();
-
-      $("#drag_box").html(I18n.t('export.start_rjs.manually_select'));
-    }
-
-    function transformComplete(event) {
-      setBounds(event.feature.geometry.bounds);
+    function filterChanged() {
+      setBounds(locationFilter.getBounds());
       validateControls();
     }
 
@@ -152,8 +138,10 @@ $(document).ready(function () {
     }
 
     function mapMoved() {
-      setBounds(map.getBounds());
-      validateControls();
+      if (!locationFilter.isEnabled()) {
+        setBounds(map.getBounds());
+        validateControls();
+      }
     }
 
     function setBounds(bounds) {
@@ -166,18 +154,6 @@ $(document).ready(function () {
 
       mapnikSizeChanged();
       htmlUrlChanged();
-    }
-
-    function clearBox() {
-      if (rectangle) {
-        map.removeLayer(rectangle);
-      }
-      rectangle = null;
-    }
-
-    function drawBox(bounds) {
-      rectangle = L.rectangle(bounds);
-      rectangle.addTo(map);
     }
 
     function validateControls() {

@@ -6,7 +6,7 @@
 //= require augment
 //= require leaflet
 //= require leaflet.osm
-//= require leaflet.draw
+//= require leaflet.locationfilter
 //= require i18n/translations
 //= require osm
 //= require piwik
