@@ -42,9 +42,10 @@ $(document).ready(function () {
 
     var locationFilter = new L.LocationFilter({
       enableButton: false,
-      adjustButton: false,
-      onChange: getData
+      adjustButton: false
     }).addTo(map);
+
+    locationFilter.on("change", getData);
 
     $("#sidebar_title").html(I18n.t('browse.start_rjs.data_frame_title'));
     $("#sidebar_content").html(sidebarHtml);
@@ -77,6 +78,7 @@ $(document).ready(function () {
       map.removeLayer(dataLayer);
       map.removeLayer(locationFilter);
       map.off("moveend", updateData);
+      locationFilter.off("change", getData);
     });
 
     function enableFilter() {

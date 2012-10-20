@@ -16,8 +16,9 @@ $(document).ready(function () {
     var locationFilter = new L.LocationFilter({
       enableButton: false,
       adjustButton: false,
-      onChange: filterChanged
     }).addTo(map);
+
+    locationFilter.on("change", filterChanged);
 
     map.on("moveend", mapMoved);
     map.on("baselayerchange", htmlUrlChanged);
@@ -54,6 +55,7 @@ $(document).ready(function () {
 
       map.off("moveend", mapMoved);
       map.off("baselayerchange", htmlUrlChanged);
+      locationFilter.off("change", filterChanged);
     });
 
     function getBounds() {
