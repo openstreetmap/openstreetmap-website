@@ -13,8 +13,8 @@
     <div id='top-bar'>
       <span id="greeting">
          <% if @user and @user.id %>
-           <span id="full-greeting"><%= raw(t 'layouts.welcome_user', :user_link => (link_to h(@user.display_name), user_path(:display_name => @user.display_name), :title => t('layouts.welcome_user_link_tooltip'))) %></span> 
-           <span id="small-greeting"><%= link_to t('layouts.welcome_user_link_tooltip'), user_path(:display_name => @user.display_name) %></span> | 
+           <span id="full-greeting"><%= raw(t 'layouts.welcome_user', :user_link => (link_to h(@user.display_name), user_path(:display_name => @user.display_name), :title => t('layouts.welcome_user_link_tooltip'))) %></span>
+           <span id="small-greeting"><%= link_to t('layouts.welcome_user_link_tooltip'), user_path(:display_name => @user.display_name) %></span> |
            <%= yield :greeting %>
            <%= render :partial => "layouts/inbox" %> |
            <%= link_to t('layouts.logout'), logout_path(:session => request.session_options[:id], :referer => request.fullpath), {:id => 'logoutanchor', :title => t('layouts.logout_tooltip')}%>
@@ -29,7 +29,7 @@
           :title => t('layouts.view_tooltip'),
           :class => 'geolink llz layers'
         } %></li>
-        <li><%= link_to h(t('layouts.edit')) + content_tag(:span, "▾", :class => "menuicon"), edit_path, {
+        <li><%= link_to h(t('layouts.edit')) + content_tag(:span, "", :class => "menuicon"), edit_path, {
           :id => 'editanchor',
           :title => t('javascripts.site.edit_tooltip'),
           :data => { :minzoom => 13, :editor => preferred_editor },
@@ -127,9 +127,9 @@
           <%= yield :left_menu %>
         </ul>
       </div>
-      <div class="donate">
-        <a href="http://donate.openstreetmap.org/" title="<%= h(t('layouts.make_a_donation.title')) %>"><%= h(t('layouts.make_a_donation.text')) %></a>
-      </div>
+      <a title="<%= h(t('layouts.make_a_donation.title')) %>" href="http://donate.openstreetmap.org/" class="donate">
+        <p><%= h(t('layouts.make_a_donation.text')) %></p>
+      </a>
       <div class='sidebar-copy'>
         <p class='deemphasize'><%= t 'layouts.partners_html',
           :ucl => link_to(t('layouts.partners_ucl'), "http://www.vr.ucl.ac.uk"),
