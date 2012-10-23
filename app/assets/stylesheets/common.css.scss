@@ -48,7 +48,8 @@ h2 {
 
 #left {
   position: absolute;
-  top: 0px;
+  top: 30px;
+  bottom: 0;
   width: 185px;
   font-size: 11px;
   line-height: 12px;
@@ -60,8 +61,8 @@ h2 {
   width: 170px;
   min-width: 170px;
   padding: 5px;
+  margin: auto;
   text-align: center;
-  margin: 25px 0 5px 0;
 }
 
 #logo img {
@@ -94,7 +95,7 @@ h2 {
 /* Rules for the introductory text displayed in the left sidebar to new users */
 
 .sidebar-copy {
-  padding: 0px 10px;
+  padding: 5px 10px;
 }
 
 .sidebar-copy p {
@@ -257,15 +258,15 @@ h2 {
   text-indent:-1000px;
   padding-left: 0px;
   padding-right: 0px;
-  background: url(sprite.png);
+  background: url(sprite.png) 0 0 no-repeat;
   position:absolute;
-  right:2px;
-  top:5px;
+  right:4px;
+  top:6px;
   cursor:pointer;
 }
 
 .search_help {
-  margin:0;
+  margin:5px 0 0;
 }
 
 .deemphasize {
@@ -279,6 +280,7 @@ h2 {
 /* Rules for donation request box */
 
 .donate {
+  display: block;
   width: 153px;
   margin: 10px 10px;
   padding: 5px;
@@ -289,11 +291,17 @@ h2 {
   font-size: 14px;
   border-radius: 2px;
   -moz-border-radius: 2px;
-}
-
-.donate a {
   color:#222;
 }
+
+.donate:hover {
+  background: #9ed485;
+}
+
+.donate p {
+    margin: 0;
+}
+
 
 /* Rules for Creative Commons logo button */
 
@@ -305,8 +313,11 @@ h2 {
 /* Rules for tabbed navigation bar */
 
 #top-bar {
+  position: absolute;
+  top: 0;
   border-bottom: 1px solid #ccc;
   height: 29px;
+  background: white;
 }
 
 #tabnav {
@@ -335,6 +346,11 @@ h2 {
   -o-transition: color 200ms ease-in;
   transition: color 200ms ease-in;
 }
+
+#tabnav a:hover {
+  background-color:#cbeea7;
+}
+
 
 body.site-index #tabnav a#viewanchor,
 body.site-edit #tabnav a#editanchor,
@@ -424,16 +440,41 @@ body.site-export #tabnav a#exportanchor {
   padding: 5px;
 }
 
+div.olControlZoom a {
+  margin: 0 !important;
+}
+
+div.olControlZoom a.olControlZoomIn {
+    border-bottom: 0;
+}
+
+.site-index #map .SimpleLayerSwitcher,
+.site-index #map .olControlSimplePanZoom,
+.site-export #map .olControlSimplePanZoom,
+.site-export #map .SimpleLayerSwitcher {
+  top: 40px !important;
+}
+
 /* Rules for edit menu */
 
+#tabnav #editanchor {
+  padding-right: 19px;
+}
+
 .menuicon {
-  padding: 5px;
+  position: absolute;
+  width: 10px;
+  padding: 0 3px;
+  margin-left: 3px;
+  height: 29px;
+  top: 0;
+  background: url(sprite.png) 3px -24px no-repeat;
 
   &:hover {
-    background: #eee;
-    text-decoration: none !important;
+    background-color: #9ed485;
   }
 }
+.disabled .menuicon { background-position:-27px -24px; }
 
 .menu {
   display: none;
@@ -472,7 +513,7 @@ body.site-export #tabnav a#exportanchor {
 #sidebar {
   display: none;
   position: absolute;
-  margin: 0px;
+  margin: 30px 0px 0px 0px;
   padding: 0px;
   width: 30%;
   top: 0px;
@@ -496,7 +537,7 @@ body.site-export #tabnav a#exportanchor {
   height: 29px;
   font-size: 14px;
   line-height: 15px;
-  background: #bbb;
+  background: #ccc;
 }
 
 /* Rules for the map key which appears in the popout sidebar */
@@ -608,17 +649,22 @@ body.site-export #tabnav a#exportanchor {
 /* Rules for the main content area */
 
 #content {
-  padding: 10px;
-  margin: 0px;
-  position: absolute;
-  bottom: 0px;
+  padding: 20px;
+  margin: 30px 0 0 0;
+}
+
+.site-edit #content {
+  border: 0px;
+  padding: 0px;
 }
 
 .site-index #content,
-.site-edit #content,
 .site-export #content {
+  margin-top: 0;
   border: 0px;
   padding: 0px;
+  position: fixed;
+  left: 0; right: 0; top: 0; bottom: 0;
 }
 
 #slim_container {
@@ -677,6 +723,11 @@ body.site-export #tabnav a#exportanchor {
 }
 
 /* Rules for the edit page */
+
+.site-edit #content {
+  position: absolute;
+  left: 0; right: 0; top: 0; bottom: 0;
+}
 
 .site-edit #map {
   position: absolute;
@@ -924,7 +975,7 @@ p#contributorGuidance {
 #accountForm .user_map {
   position: relative;
   width: 500px;
-  height: 400px; 
+  height: 400px;
   border: 1px solid #ccc;
 }
 
@@ -964,7 +1015,7 @@ p#contributorGuidance {
 .user-view .user_map {
   position: relative;
   width: 400px;
-  height: 400px; 
+  height: 400px;
   border: 1px solid #ccc;
 }
 
@@ -994,7 +1045,7 @@ p#contributorGuidance {
   padding-bottom: 3px;
   margin-top: 0px;
   margin-bottom: 0px;
-  margin-left: 55px;
+  margin-left: 60px;
   margin-right: 2px;
 }
 
