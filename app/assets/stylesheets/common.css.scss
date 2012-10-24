@@ -48,7 +48,8 @@ h2 {
 
 #left {
   position: absolute;
-  top: 0px;
+  top: 30px;
+  bottom: 0;
   width: 185px;
   font-size: 11px;
   line-height: 12px;
@@ -62,7 +63,7 @@ h2 {
   min-width: 170px;
   padding: 5px;
   text-align: center;
-  margin: 25px auto 5px auto;
+  margin: auto;
 }
 
 #logo img {
@@ -322,8 +323,11 @@ h2 {
 /* Rules for tabbed navigation bar */
 
 #top-bar {
-  border-bottom: 1px solid #ccc;
+  position: absolute;
+  top: 0;
   height: 29px;
+  border-bottom: 1px solid #ccc;
+  background: white;
 }
 
 #tabnav {
@@ -441,6 +445,13 @@ body.site-export #tabnav a#exportanchor {
   padding: 5px;
 }
 
+.site-index #map .SimpleLayerSwitcher,
+.site-index #map .olControlSimplePanZoom,
+.site-export #map .SimpleLayerSwitcher,
+.site-export #map .olControlSimplePanZoom {
+  top: 40px !important;
+}
+
 /* Rules for edit menu */
 
 .menuicon {
@@ -489,7 +500,7 @@ body.site-export #tabnav a#exportanchor {
 #sidebar {
   display: none;
   position: absolute;
-  margin: 0px;
+  margin: 30px 0px 0px 0px;
   padding: 0px;
   width: 30%;
   top: 0px;
@@ -513,7 +524,7 @@ body.site-export #tabnav a#exportanchor {
   height: 29px;
   font-size: 14px;
   line-height: 15px;
-  background: #bbb;
+  background: #ccc;
 }
 
 /* Rules for the map key which appears in the popout sidebar */
@@ -625,16 +636,23 @@ body.site-export #tabnav a#exportanchor {
 /* Rules for the main content area */
 
 #content {
-  padding: 10px;
-  margin: 0px;
-  position: absolute;
-  bottom: 0px;
+  padding: 20px;
+  margin: 30px 0px 0px 0px;
+}
+
+.site-edit #content {
+  border: 0px;
+  padding: 0px;
 }
 
 .site-index #content,
-.site-edit #content,
 .site-export #content {
-  border: 0px;
+  position: fixed;
+  margin-top: 0px;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
   padding: 0px;
 }
 
