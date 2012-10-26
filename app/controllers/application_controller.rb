@@ -278,7 +278,7 @@ class ApplicationController < ActionController::Base
       end
     end
 
-    I18n.locale = request.compatible_language_from(I18n.available_locales) || I18n.default_locale
+    I18n.locale = params[:locale] || request.compatible_language_from(I18n.available_locales) || I18n.default_locale
 
     response.headers['Content-Language'] = I18n.locale.to_s
   end
