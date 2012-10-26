@@ -1,6 +1,5 @@
-<%= user_image @this_user %>
-
 <div id="userinformation">
+  <%= user_image @this_user %>
   <h2><%= @this_user.display_name %><%= role_icons(@this_user) %></h2>
   <% if @user and @this_user.id == @user.id %>
     <!-- Displaying user's own profile page -->
@@ -82,7 +81,7 @@
 
   <p class='deemphasize'><small>
   <%= t 'user.view.mapper since' %> <%= l @this_user.creation_time.to_date, :format => :long %>
-  /
+  <br>
   <%= t 'user.view.ct status' %>
   <% if not @this_user.terms_agreed.nil? -%>
   <%= t 'user.view.ct accepted', :ago =>time_ago_in_words(@this_user.terms_agreed)  %>
@@ -134,6 +133,7 @@
     <%= t 'user.view.no friends' %>
   <% else %>
     <%= link_to t('user.view.friends_changesets'), friend_changesets_path %>
+    |
     <%= link_to t('user.view.friends_diaries'), friend_diaries_path %>
     <div id="friends-container">
       <%= render :partial => "contact", :collection => friends, :locals => {:type => "friend"} %>
@@ -148,6 +148,7 @@
     <%= t 'user.view.no nearby users' %>
   <% else %>
     <%= link_to t('user.view.nearby_changesets'), nearby_changesets_path %>
+    |
     <%= link_to t('user.view.nearby_diaries'), nearby_diaries_path %>
     <table id="nearbyusers">
       <%= render :partial => "contact", :collection => nearby, :locals => {:type => "nearby mapper"} %>
