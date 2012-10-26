@@ -158,11 +158,12 @@ hr {
 /* Rules for the OpenStreetMap logo in the top left corner */
 
 #logo {
+  display: block;
   width: 170px;
   min-width: 170px;
   padding: 5px;
   text-align: center;
-  margin: 25px 0 5px 0;
+  margin: 25px auto 5px auto;
 }
 
 #logo img {
@@ -195,7 +196,7 @@ hr {
 /* Rules for the introductory text displayed in the left sidebar to new users */
 
 .sidebar-copy {
-  padding: 0px 10px;
+  padding: 5px 10px;
 }
 
 .sidebar-copy p {
@@ -251,38 +252,34 @@ hr {
 /* Rules for the menu displayed in the left sidebar */
 
 .left_menu {
+  margin: 0;
   padding: 5px 10px;
-  margin: 4px 0;
+  line-height: 15px;
+  font-size: 12px;
+  list-style-type: none;
+  border-bottom: 1px solid #ccc;
   border-top: 1px solid #ccc;
-  line-height: 20px;
-  font-size: 14px;
-  font-weight: bold;
-}
-
-.left_menu h1 {
-  font-style: normal;
-  font-size: 15px;
 }
 
 .left_menu ul {
-  margin: 0px;
-  list-style-type: none;
+  padding: 0;
+  margin: 0;
 }
 
 .left_menu li {
-  margin: 0px;
-  padding: 0px;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
 }
 
-/* submenus */
-.left_menu ul li ul {
-  font-weight: normal;
-  line-height: 15px;
+.left_menu h4 {
+  padding: 5px 0 5px 0;
   font-size: 12px;
+  margin: 0;
 }
 
-.left_menu a {
-  color: #000;
+.left_menu li:last-child h4 {
+  padding-top: 0;
 }
 
 /* Rules for SOTM advert */
@@ -307,7 +304,7 @@ hr {
 
 .optionalbox {
   padding: 5px 10px;
-  margin: 4px 0;
+  margin: 5px 0;
 }
 
 .optionalbox h1 {
@@ -324,7 +321,7 @@ hr {
 }
 
 #search_field form {
-  width: 100%;
+  width: 165px;
   margin: 0px;
   padding: 0px;
 }
@@ -335,7 +332,6 @@ hr {
 
 #search_field input[type="text"] {
   width: 165px;
-  padding: 5px;
   font-size: 14px;
   line-height: 15px;
   height: 25px;
@@ -354,19 +350,20 @@ hr {
 #search_field input[type="submit"] {
   width: 15px;
   height: 15px;
-  border:0;
-  text-indent:-1000px;
+  border: 0px;
+  text-indent: -1000px;
+  overflow: hidden;
+  text-transform: capitalize;
   padding-left: 0px;
   padding-right: 0px;
   background: url(sprite.png);
-  position:absolute;
-  right:2px;
-  top:5px;
-  cursor:pointer;
+  position: absolute;
+  top: 5px;
+  cursor: pointer;
 }
 
 .search_help {
-  margin:0;
+  margin: 5px 0 0 0;
 }
 
 .deemphasize {
@@ -380,8 +377,10 @@ hr {
 /* Rules for donation request box */
 
 .donate {
+  display: block;
+  position: relative;
   width: 153px;
-  margin: 10px 10px;
+  margin: 10px 10px 0px 10px;
   padding: 5px;
   border: 1px solid #AED1A0;
   background: #cbeea7;
@@ -390,10 +389,28 @@ hr {
   font-size: 14px;
   border-radius: 2px;
   -moz-border-radius: 2px;
+  color: #222;
 }
 
-.donate a {
-  color:#222;
+.donate:hover {
+  background: #9ed485;
+  text-decoration: none;
+}
+
+.donate p {
+  text-indent: 20px;
+  margin: 0;
+}
+
+.donate .donate-icon {
+  width: 15px;
+  height: 15px;
+  border: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  background: url(sprite.png) 0 -30px no-repeat;
+  position: absolute;
+  top: 8px;
 }
 
 /* Rules for Creative Commons logo button */
@@ -517,6 +534,14 @@ body.site-export #tabnav a#exportanchor {
 
 #permalink a {
   padding: 5px;
+}
+
+div.olControlZoom a {
+  margin: 0 !important;
+}
+
+div.olControlZoom a.olControlZoomIn {
+    border-bottom: 0;
 }
 
 /* Rules for edit menu */
