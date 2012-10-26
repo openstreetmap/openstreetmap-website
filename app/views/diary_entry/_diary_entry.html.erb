@@ -1,6 +1,13 @@
-<b><%= link_to h(diary_entry.title), :action => 'view', :display_name => diary_entry.user.display_name, :id => diary_entry.id %></b><br />
+<div class='diary_post'>
+  <div class='post_heading clearfix'>
+    <% if @this_user %>
+    <% else %>
+      <%= user_thumbnail diary_entry.user %>
+    <% end %>
 
-<div xml:lang="<%= diary_entry.language_code %>" lang="<%= diary_entry.language_code %>">
+    <h3><%= link_to h(diary_entry.title), :action => 'view', :display_name => diary_entry.user.display_name, :id => diary_entry.id %></h3>
+  </div>
+  <div xml:lang="<%= diary_entry.language_code %>" lang="<%= diary_entry.language_code %>">
   <%= diary_entry.body.to_html %>
 </div>
 
@@ -9,7 +16,7 @@
   <br />
 <% end %>
 
-<%= raw(t 'diary_entry.diary_entry.posted_by', :link_user => (link_to h(diary_entry.user.display_name), :controller => 'user', :action => 'view', :display_name => diary_entry.user.display_name), :created => l(diary_entry.created_at, :format => :friendly), :language_link => (link_to h(diary_entry.language.name), :controller => 'diary_entry', :action => 'list', :display_name => nil, :language => diary_entry.language_code)) %> 
+<small class='deemphasize'><%= raw(t 'diary_entry.diary_entry.posted_by', :link_user => (link_to h(diary_entry.user.display_name), :controller => 'user', :action => 'view', :display_name => diary_entry.user.display_name), :created => l(diary_entry.created_at, :format => :friendly), :language_link => (link_to h(diary_entry.language.name), :controller => 'diary_entry', :action => 'list', :display_name => nil, :language => diary_entry.language_code)) %></small>
 
 <% if params[:action] == 'list' %>
   <br />
@@ -26,5 +33,4 @@
   | <%= link_to t('diary_entry.diary_entry.hide_link'), hide_diary_entry_path(:display_name => diary_entry.user.display_name, :id => diary_entry.id), :method => :post, :data => { :confirm => t('diary_entry.diary_entry.confirm') } %>
 <% end %>
 
-<br />
-<hr />
+</div>

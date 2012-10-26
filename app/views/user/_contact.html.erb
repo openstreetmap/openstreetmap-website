@@ -1,4 +1,4 @@
-<tr>
+<div class='friend'>
   <%
      user_data = {
        :lon => contact.home_lon,
@@ -10,7 +10,7 @@
   <%= content_tag "td", :rowspan => 3, :data => {:user => user_data} do %>
     <%= user_thumbnail contact %>
   <% end %>
-  <td>
+  <div>
     <%= link_to h(contact.display_name), :controller => 'user', :action => 'view',  :display_name => contact.display_name %>
     <% if @this_user.home_lon and @this_user.home_lat and contact.home_lon and contact.home_lat %>
       <% distance = @this_user.distance(contact) %>
@@ -20,10 +20,8 @@
         (<%= t 'user.view.km away', :count => distance.round %>)
       <% end %>
     <% end %>
-  </td>
-</tr>
-<tr>
-  <td>
+  </div>
+  <div>
     <% changeset = contact.changesets.first %>
     <% if changeset %>
       <%= t('user.view.latest edit', :ago => t('user.view.ago', :time_in_words_ago => time_ago_in_words(changeset.created_at))) %>
@@ -35,10 +33,8 @@
     <% else %>
      <%= t'changeset.changeset.no_edits' %>
     <% end %>
-  </td>
-</tr>
-<tr>
-  <td>
+  </div>
+  <div>
     <%= link_to t('user.view.send message'), :controller => 'message', :action => 'new', :display_name => contact.display_name %>
     |
     <% if @user.is_friends_with?(contact) %>
@@ -46,5 +42,5 @@
     <% else %>
       <%= link_to t('user.view.add as friend'), make_friend_path(:display_name => contact.display_name, :referer => request.fullpath), :method => :post %>
     <% end %>
-  </td>
-</tr>
+  </div>
+</div>

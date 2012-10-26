@@ -1,10 +1,69 @@
 /* Styles common to large and small screens */
 
+/* Minimal CSS reset */
+
+html, body, ul, ol, li, form, fieldset, legend, h1, h2, h3, h4, h5, h6, p
+{
+  margin: 0;
+  padding: 0;
+  font-size:100%;
+}
+
+fieldset,img { border: 0; }
+
+legend { color: #000; }
+
+sup { vertical-align: text-top; }
+
+sub { vertical-align: text-bottom; }
+
+table
+{
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+li { list-style: none; }
+
+caption, th, td
+{
+  text-align: left;
+  vertical-align: top;
+  font-weight: normal;
+}
+
+input,
+select,
+textarea,
+body { font: 14px/20px "Helvetica Neue",Arial,sans-serif; }
+
+abbr, acronym
+{
+  border-bottom: .1em dotted;
+  cursor: help;
+}
+
+/*
+** Markup free clearing
+** Details: http://www.positioniseverything.net/easyclearing.html
+*/
+
+.clearfix:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+  }
+
+.clearfix { display: inline-block; }
+
 /* Default rules for the body of every page */
 
 body {
   font-family: 'Helvetica Neue',Arial,sans-serif;
   font-size: 14px;
+  line-height: 21px;
   line-height: 20px;
   color: #222;
   background-color: #fff;
@@ -14,6 +73,56 @@ body {
 
 body.slim {
   background-color: #f0f0f0;
+}
+
+h1 {
+  font-size: 47px;
+  line-height: 63px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-size: 32px;
+  line-height: 42px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+h3 {
+  font-size: 21px;
+  line-height: 21px;
+  margin-top: 10px;
+  margin-bottom: 0px;
+}
+
+h4,h5,h6 {
+  font-size: 14px;
+  line-height: 21px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+p, ul {
+  margin-bottom: 20px;
+}
+
+p > img {
+  margin-top: 20px;
+  max-width: 100%;
+}
+
+small, aside {
+  font-size: 12px;
+}
+
+h1:first-child,
+h2:first-child,
+h3:first-child,
+h4:first-child,
+h5:first-child,
+h6:first-child {
+  margin-top: 0;
 }
 
 /* Rules for links */
@@ -34,14 +143,6 @@ hr {
   background-color: #ccc;
   color: #ccc;
   height: 1px;
-}
-
-/* Default rules for headings */
-
-h2 {
-  margin: 5px 0;
-  font-size: 25px;
-  line-height: 30px;
 }
 
 /* Rules for the whole left sidebar, including the logo */
@@ -367,7 +468,7 @@ body.site-export #tabnav a#exportanchor {
 .count-number {
   padding: 2px 5px;
   border-radius: 3px;
-  background: #eee;
+  background: #d7d7ff;
   margin: 0 2px;
   font-size: 11px;
   color: #333;
@@ -395,12 +496,6 @@ body.site-export #tabnav a#exportanchor {
 }
 
 /* Rules for OpenLayers maps */
-
-#map {
-  margin: 0px;
-  border: 0px;
-  padding: 0px;
-}
 
 .olControlAttribution {
   bottom: 15px !important;
@@ -502,8 +597,6 @@ body.site-export #tabnav a#exportanchor {
 /* Rules for the map key which appears in the popout sidebar */
 
 #mapkey h3 {
-  font-size: 110%;
-  font-weight: normal;
   text-align: center;
 }
 
@@ -608,7 +701,7 @@ body.site-export #tabnav a#exportanchor {
 /* Rules for the main content area */
 
 #content {
-  padding: 10px;
+  padding: 20px;
   margin: 0px;
   position: absolute;
   bottom: 0px;
@@ -695,7 +788,7 @@ body.site-export #tabnav a#exportanchor {
 
 #changeset_list {
   width: 50%;
-  font-size: small;
+  font-size: 10px;
   border-collapse: collapse;
   border-width: 0px;
   margin-top: 1px;
@@ -729,8 +822,8 @@ body.site-export #tabnav a#exportanchor {
   top: 0px;
   bottom: 0px;
   width: 49%;
-  min-height: 400px;
-  border: solid 1px black;
+  min-height: 398px;
+  border: solid 1px #ccc;
 }
 
 /* Rules for the data browser */
@@ -761,7 +854,7 @@ table.browse_details th {
 /* Rules for the trace list shown by the traces tab etc */
 
 #trace_list {
-  font-size: small;
+  font-size: 10px;
   border-collapse: collapse;
   border-width: 0px;
 }
@@ -791,11 +884,40 @@ table.browse_details th {
   color: red;
 }
 
+/* Rules for the user profile page */
+
+#userinformation {
+  padding: 20px;
+  background: #F4F4FF;
+  margin-bottom: 20px;
+  min-height: 100px;
+
+  h2 {
+    margin-bottom: 10px;
+    line-height: 100%;
+  }
+
+  p { margin-bottom: 10px;}
+
+}
+
+.activity-block {
+  margin-bottom: 20px;
+
+  > a { display: block;}
+
+}
+
+.friend { margin: 10px 0;
+
+  img { margin-right: 20px;}
+}
+
 /* Rules for the user list */
 
 #user_list {
+  font-size: 10px;
   width: 100%;
-  font-size: small;
 }
 
 #user_list tr {
@@ -811,12 +933,33 @@ table.browse_details th {
   margin-top: 10px;
 }
 
+/* Rules for the diary list page */
+
+.new_post_icon {
+  margin-right: 5px;
+}
+
+.diary_post {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #ccc;
+}
+
+.post_heading {
+  margin-bottom: 20px;
+
+  h3 {
+    margin-top: 0;
+    float: left;
+    }
+}
+
 /* Rules for the new diary entry page */
 
 .diary_entry div#map {
   position: relative;
   width: 90%;
-  height: 400px;
+  height: 398px;
   border: 1px solid #ccc;
   display: none;
 }
@@ -864,11 +1007,12 @@ table#login_openid_buttons {
 /* Rules for the account confirmation page */
 
 div#contributorTerms {
-  border: 1px solid black;
-  padding: 4px;
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin-bottom: 20px;
   overflow: auto;
   width: 95%;
-  height: 400px;
+  height: 398px;
 }
 
 div#slim_content div#contributorTerms {
@@ -924,7 +1068,7 @@ p#contributorGuidance {
 #accountForm .user_map {
   position: relative;
   width: 500px;
-  height: 400px; 
+  height: 400px;
   border: 1px solid #ccc;
 }
 
@@ -963,8 +1107,8 @@ p#contributorGuidance {
 
 .user-view .user_map {
   position: relative;
-  width: 400px;
-  height: 400px; 
+  width: 50%;
+  height: 398px;
   border: 1px solid #ccc;
 }
 
@@ -1143,8 +1287,10 @@ textarea {
 img.user_image {
   max-width: 100px;
   max-height: 100px;
+  margin: 20px;
   border: 1px solid #ccc;
 }
+
 
 img.user_thumbnail {
   max-width: 50px;
@@ -1153,8 +1299,8 @@ img.user_thumbnail {
 }
 
 img.user_thumbnail_tiny {
-  max-width: 25px;
-  max-height: 25px;
+  max-width: 24px;
+  max-height: 24px;
   border: 1px solid #ccc;
 }
 

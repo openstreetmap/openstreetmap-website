@@ -1,25 +1,28 @@
 <% if @this_user %>
   <%= user_image @this_user %>
+  <% else %>
+  <%= image_tag('diary_icon.png', :class => 'diary_entry-view user_image') %>
 <% end %>
 
-<h2><%= h(@title) %></h2>
+<div id="userinformation">
+  <h2><%= h(@title) %></h2>
 
-<% if @this_user %>
-  <%= if_user(@this_user) do %>
-    <%= link_to image_tag("new.png", :border=>0) + t('diary_entry.list.new'), {:controller => 'diary_entry', :action => 'new'}, {:title => t('diary_entry.list.new_title')} %>
+  <% if @this_user %>
+    <%= if_user(@this_user) do %>
+      <%= link_to image_tag("new.png", :class => "new_post_icon", :border=>0) + t('diary_entry.list.new'), {:controller => 'diary_entry', :action => 'new'}, {:title => t('diary_entry.list.new_title')} %>
+    <% end %>
+  <% else %>
+    <%= if_logged_in do %>
+      <%= link_to image_tag("new.png", :class => "new_post_icon", :border=>0) + t('diary_entry.list.new'), {:controller => 'diary_entry', :action => 'new'}, {:title => t('diary_entry.list.new_title')} %>
+    <% end %>
   <% end %>
-<% else %>
-  <%= if_logged_in do %>
-    <%= link_to image_tag("new.png", :border=>0) + t('diary_entry.list.new'), {:controller => 'diary_entry', :action => 'new'}, {:title => t('diary_entry.list.new_title')} %>
-  <% end %>
-<% end %>
 
-<% if @entries.empty? %>
-  <p><%= t 'diary_entry.list.no_entries' %></p>
-<% else %>
-  <p><%= t 'diary_entry.list.recent_entries' %></p>
+</div>
 
-  <hr />
+  <% if @entries.empty? %>
+    <h4><%= t 'diary_entry.list.no_entries' %></h4>
+  <% else %>
+    <h4><%= t 'diary_entry.list.recent_entries' %></h4>
 
   <% if @this_user %>
     <%= render :partial => 'diary_entry', :collection => @entries %>
