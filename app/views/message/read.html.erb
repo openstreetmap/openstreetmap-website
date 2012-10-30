@@ -1,8 +1,10 @@
-<div class='text-content'>
-<% if @user == @message.recipient %>
+<div class='content-heading'>
+    <% if @user == @message.recipient %>
 
     <h2><%= h(@message.title) %></h2>
+</div>
 
+<div class='content-body'>
     <div class='info-line'>
         <%= user_thumbnail_tiny @message.sender %>
         <%= link_to h(@message.sender.display_name), :controller => 'user', :action => 'view', :display_name => @message.sender.display_name %></td>

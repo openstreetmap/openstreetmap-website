@@ -99,7 +99,6 @@ p, ul {
 }
 
 p > img {
-  margin-top: 20px;
   max-width: 100%;
 }
 
@@ -413,11 +412,11 @@ hr {
 /* Rules for tabbed navigation bar */
 
 #top-bar {
-  position: absolute;
-  top: 0;
+  position: relative;
   height: 29px;
   border-bottom: 1px solid #ccc;
   background: white;
+  z-index: 100;
 }
 
 #tabnav {
@@ -734,16 +733,7 @@ div.olControlZoom a.olControlZoomIn {
 
 /* Rules for the main content area */
 
-#content {
-  padding: 0px;
-  margin: 30px 0 0 0;
-}
-
-.site-edit #content {
-  border: 0;
-  padding: 0;
-}
-
+.site-edit #content,
 .site-index #content,
 .site-export #content {
   position: fixed;
@@ -806,8 +796,6 @@ div.olControlZoom a.olControlZoomIn {
 
 /* Rules for text content pages */
 
-.text-content { padding: 20px;}
-
 .wide-table {
   width: 100%;
 }
@@ -858,7 +846,7 @@ div.olControlZoom a.olControlZoomIn {
 
 #changeset_list_map {
   position: absolute;
-  right: 0;
+  right: 20px;
   height: 100%;
   width: 45%;
   min-height: 398px;
@@ -1203,9 +1191,7 @@ p#contributorGuidance {
 
 .messages {
   width: 100%;
-  border-collapse: collapse;
-  border-spacing: 0px;
-  border-width: 0px;
+  border: 1px solid #ddd;
 }
 
 .messages tbody tr {
@@ -1251,7 +1237,6 @@ p#contributorGuidance {
 
 .flash {
     padding: 20px;
-    margin-bottom: 20px;
 
   &#error {
     background-color: #ff7070;

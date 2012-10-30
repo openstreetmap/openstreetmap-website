@@ -1,8 +1,11 @@
+<div class='content-heading'>
 <h2><%= t 'user.account.my settings' %></h2>
 
 <%= link_to t('user.account.return to profile'), :controller => 'user', :action => 'view', :display_name => @user.display_name %> |
 <%= link_to t('user.view.oauth settings'), :controller => 'oauth_clients', :action => 'index' %>
+</div>
 
+<div class='content-body'>
 <%= error_messages_for 'user' %>
 <%= form_for :user, :html => { :multipart => true } do |f| %>
 <table id="accountForm">
@@ -147,3 +150,4 @@
 <%= raw t 'user.account.public editing note.text' %>
   <%= button_to t('user.account.make edits public button'), :action => :go_public %>
 <% end %>
+</div>

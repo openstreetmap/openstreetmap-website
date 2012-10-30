@@ -6,10 +6,6 @@
       <%= link_to(image_tag("osm_logo.png", :size => "16x16", :alt => t('layouts.logo.alt_text')), root_path) %>
       <h1><%= t 'layouts.project_name.h1' %></h1>
     </div>
-    <div id="content">
-      <%= render :partial => "layouts/flash", :locals => { :flash => flash } %>
-      <%= yield %>
-    </div>
     <div id='top-bar'>
       <span id="greeting">
          <% if @user and @user.id %>
@@ -140,6 +136,10 @@
           :partners => link_to(t('layouts.partners_partners'), t('layouts.partners_url')) %>
         </p>
       </div>
+    </div>
+    <div id="content">
+      <%= render :partial => "layouts/flash", :locals => { :flash => flash } %>
+      <%= yield %>
     </div>
     <% if defined?(PIWIK_LOCATION) and defined?(PIWIK_SITE) -%>
     <noscript><p><img src="<%= request.protocol %><%= PIWIK_LOCATION %>/piwik.php?idsite=<%= PIWIK_SITE %>" style="border:0" alt="" /></p></noscript>
