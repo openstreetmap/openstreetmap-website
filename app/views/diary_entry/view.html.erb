@@ -1,6 +1,5 @@
-<%= user_image @entry.user %>
-
-<div id="userinformation">
+<div class="page-heading" id="userinformation" >
+  <%= user_image @entry.user %>
   <h2><%= link_to t('diary_entry.view.user_title', :user => h(@entry.user.display_name)), :action => :list %></h2>
 </div>
 
@@ -17,8 +16,6 @@
 
   <%= form_for :diary_comment, :url => { :action => 'comment' } do |f| %>
     <%= richtext_area :diary_comment, :body, :cols => 80, :rows => 15 %>
-    <br />
-    <br />
     <%= submit_tag t('diary_entry.view.save_button') %>
   <% end %>
 <% end %>

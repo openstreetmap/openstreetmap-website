@@ -74,14 +74,7 @@ body.slim {
   background-color: #f0f0f0;
 }
 
-h1 {
-  font-size: 47px;
-  line-height: 63px;
-  margin-top: 10px;
-  margin-bottom: 20px;
-}
-
-h2 {
+h1, h2 {
   font-size: 32px;
   line-height: 42px;
   margin-top: 10px;
@@ -124,6 +117,33 @@ h6:first-child {
   margin-top: 0;
 }
 
+.column-1 {
+  width: 50%;
+  margin-bottom: 20px;
+}
+
+.small_icon {
+  vertical-align: middle;
+}
+
+/* Rules for page headers */
+
+.page-heading {
+  position: relative;
+  padding: 20px;
+  background: #F4F4FF;
+  margin-bottom: 20px;
+
+  h1, h2 {
+    margin-bottom: 10px;
+    line-height: 100%;
+  }
+
+  p {
+    margin-top: 10px;
+    margin-bottom: 0px;
+  }
+}
 /* Rules for links */
 
 a {
@@ -304,14 +324,6 @@ hr {
 .optionalbox {
   padding: 5px 10px;
   margin: 5px 0;
-}
-
-.optionalbox h1 {
-  font-size: 14px;
-  font-weight: bold;
-  line-height: 20px;
-  margin: 0px;
-  vertical-align: bottom;
 }
 
 /* Rules for the search box */
@@ -593,31 +605,44 @@ div.olControlZoom a.olControlZoomIn {
   position: absolute;
   margin: 0px;
   padding: 0px;
-  width: 30%;
+  width: 33.3333%;
   top: 0px;
   bottom: 0px;
 }
 
-#sidebar #sidebar_content {
-  overflow: auto;
+#sidebar .sidebar_heading {
+  position: relative;
+  margin: 0;
+  height: 20px;
+  padding: 20px;
+  background: #F4F4FF;
+}
+
+#sidebar h3 {
+  margin: 0;
+}
+
+#sidebar_close {
   position: absolute;
-  font-size: 13px;
-  line-height: 15px;
-  top: 29px;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
+  height: 20px;
+  top: 0px; bottom: 0;
+  margin: auto;
+  right: 20px;
 }
 
-#sidebar .sidebar_title {
-  margin: 0px;
-  padding: 3px 6px 4px 6px;
-  height: 29px;
-  font-size: 14px;
-  line-height: 15px;
-  background: #bbb;
+#sidebar #sidebar_content {
+  position: absolute;
+  bottom: 0;
+  top: 60px;
+  width: 100%;
+  overflow: auto;
 }
 
+#sidebar_content h4 {
+  border-bottom: 1px solid #ddd;
+  padding: 0 20px 10px 20px;
+  margin-bottom: 20px;
+}
 /* Rules for the map key which appears in the popout sidebar */
 
 #mapkey h3 {
@@ -625,18 +650,20 @@ div.olControlZoom a.olControlZoomIn {
 }
 
 #mapkey .mapkey-table {
-  padding-left: 5px;
-  padding-right: 5px;
+  margin: 20px;
+  border-collapse: separate;
+  font-size: 12px;
+}
+
+.mapkey-table tr td {
+  vertical-align: middle;
+  text-indent: 10px;
 }
 
 #mapkey .mapkey-table-key img {
   display: block;
   margin-left: auto;
   margin-right: auto;
-}
-
-#mapkey .mapkey-table-value {
-  font-size: 90%;
 }
 
 /* Rules for search results which appear in the popout sidebar */
@@ -670,7 +697,7 @@ div.olControlZoom a.olControlZoomIn {
   margin: 0px;
   padding: 3px 6px;
   border: 1px solid #ccc;
-  background: #ddd;
+  background: #f8f8ff;
 }
 
 .browse_details {
@@ -679,13 +706,6 @@ div.olControlZoom a.olControlZoomIn {
 }
 
 /* Rules for export information which appears in the popout sidebar */
-
-.export_heading {
-  margin: 0px;
-  padding: 2px 5px;
-  border-bottom: 1px solid #ccc;
-  font-weight: bold;
-}
 
 .export_bounds {
   width: 100%;
@@ -697,7 +717,7 @@ div.olControlZoom a.olControlZoomIn {
 }
 
 .export_details {
-  padding: 2px 6px;
+  padding: 0 20px;
 }
 
 #export_osm {
@@ -808,20 +828,12 @@ div.olControlZoom a.olControlZoomIn {
 
 #changeset_list_container {
   position: relative;
-}
-
-#changeset_list {
-  width: 50%;
-  font-size: 10px;
-  border-collapse: collapse;
-  border-width: 0px;
-  margin-top: 1px;
-  margin-bottom: 1px;
+  margin-bottom: 20px;
 }
 
 #changeset_list td {
   vertical-align: top;
-  padding: 3px;
+  padding: 5px;
 }
 
 #changeset_list .date {
@@ -842,12 +854,13 @@ div.olControlZoom a.olControlZoomIn {
 }
 
 #changeset_list_map {
+  width: 45%;
   position: absolute;
-  top: 0px;
-  bottom: 0px;
-  width: 49%;
+  right: 0;
+  height: 100%;
   min-height: 398px;
-  border: solid 1px #ccc;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
 }
 
 /* Rules for the data browser */
@@ -867,8 +880,8 @@ table.browse_details th {
 
 #browse_map #small_map {
   width: 250px;
-  height: 300px;
-  border: solid 1px black;
+  height: 298px;
+  border: solid 1px #ccc;
 }
 
 #browse_map .geolink {
@@ -911,29 +924,19 @@ table.browse_details th {
 /* Rules for the user profile page */
 
 #userinformation {
-  position: relative;
-  padding: 20px;
-  background: #F4F4FF;
-  margin-bottom: 20px;
-  min-height: 100px;
+    min-height: 100px;
 
-  h2 {
-    margin-bottom: 10px;
-    line-height: 100%;
+  .profile-description {
+    width: 100%;
+    clear: both;
   }
 
-  p {
-    margin-bottom: 10px;
-  }
-  small {
-    position: absolute;
-    top: 20px;
+  .deemphasize {
+    margin: 0;
   }
 }
 
 .activity-block {
-  margin-bottom: 20px;
-  width: 45%;
 
   h3 {
     margin-bottom: 10px;
@@ -985,11 +988,16 @@ table.browse_details th {
   border-top: 1px solid #ccc;
 }
 
+.page-heading .hide_unless_logged_in { // hacky selector, better to just add a new class to this div
+  display: inline;
+}
+
 .post_heading {
   margin-bottom: 20px;
 
   h3 {
     margin-top: 0;
+    margin-bottom: 0;
     float: left;
     }
 }
@@ -1250,7 +1258,7 @@ p#contributorGuidance {
   }
 
   &#notice {
-    background-color: #9ed485;
+    background-color: #CBEEA7;
   }
 }
 
@@ -1319,6 +1327,7 @@ img.user_image {
   max-width: 100px;
   max-height: 100px;
   border: 1px solid #ccc;
+  margin-bottom: 20px;
 }
 
 img.user_thumbnail {
@@ -1355,7 +1364,7 @@ abbr.geo {
 /* Rules for doing distinct colour of alternate table rows */
 
 .table0 {
-  background: #f6f6f6;
+  background: #F4F4FF;
 }
 
 .table1 {
@@ -1401,8 +1410,8 @@ abbr.geo {
   .richtext_help {
     display: inline-block;
     vertical-align: top;
-    background-color: #ddd;
-    padding: 5px 10px 10px 10px;
+    background-color: #f8f8ff;
+    padding: 20px;
     font-size: 12px;
 
     p {

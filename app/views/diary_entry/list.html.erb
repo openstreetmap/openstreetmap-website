@@ -1,10 +1,12 @@
-<div id="userinformation">
+<div <% if @this_user %>id="userinformation"<% end %> class='page-heading'>
   <% if @this_user %>
     <%= user_image @this_user %>
-    <% else %>
-    <%= image_tag('diary_icon.png', :class => 'diary_entry-view user_image') %>
   <% end %>
   <h2><%= h(@title) %></h2>
+
+  <% unless params[:friends] or params[:nearby] -%>
+  <%= rss_link_to :action => 'rss', :language => params[:language] %>
+  |
 
   <% if @this_user %>
     <%= if_user(@this_user) do %>
@@ -33,11 +35,7 @@
   <% if @entry_pages.current.next and @entry_pages.current.previous %>|<% end %>
   <%= link_to t('diary_entry.list.newer_entries'), { :page => @entry_pages.current.previous, :language => params[:language] } if @entry_pages.current.previous %>
 
-  <br />
 <% end %>
-
-<% unless params[:friends] or params[:nearby] -%>
-<%= rss_link_to :action => 'rss', :language => params[:language] %>
 
 <% content_for :head do -%>
 <%= auto_discovery_link_tag :atom, :action => 'rss', :language => params[:language] %>
