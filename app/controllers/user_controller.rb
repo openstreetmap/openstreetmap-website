@@ -32,12 +32,14 @@ class UserController < ApplicationController
       # the open_id_authentication function
       @user = session.delete(:new_user)
 
-      openid_verify(nil, @user) do |user|
+      openid_verify(nil, @user) do |user,verified_email|
+        user.status = "active" if user.email == verified_email
       end
 
       if @user.openid_url.nil? or @user.invalid?
         render :action => 'new'
       else
+        session[:new_user] = @user
         render :action => 'terms'
       end
     elsif params[:user] and Acl.no_account_creation(request.remote_ip, params[:user][:email].split("@").last)
@@ -56,6 +58,8 @@ class UserController < ApplicationController
       end
 
       if @user
+        @user.status = "pending"
+
         if @user.invalid?
           if @user.new_record?
             # Something is wrong with a new user, so rerender the form
@@ -72,6 +76,9 @@ class UserController < ApplicationController
           # Verify OpenID before moving on
           session[:new_user] = @user
           openid_verify(params[:user][:openid_url], @user)
+        elsif @user.new_record?
+          # Save the user record
+          session[:new_user] = @user
         end
       else
         # Not logged in, so redirect to the login page
@@ -114,42 +121,40 @@ class UserController < ApplicationController
       else
         redirect_to :action => :account, :display_name => @user.display_name
       end
-    elsif Acl.no_account_creation(request.remote_ip, params[:user][:email].split("@").last)
-      render :action => 'blocked'
     else
-      @user = User.new(params[:user])
+      @user = session.delete(:new_user)
 
-      @user.status = "pending"
-      @user.data_public = true
-      @user.description = "" if @user.description.nil?
-      @user.creation_ip = request.remote_ip
-      @user.languages = request.user_preferred_languages
-      @user.terms_agreed = Time.now.getutc
-      @user.terms_seen = true
-      @user.openid_url = nil if @user.openid_url and @user.openid_url.empty?
-
-      if (session[:openid_verified])
-        openid_verified = session.delete(:openid_verified)
-        if (openid_verified[:identity_url]) and (openid_verified[:identity_url] == @user.openid_url) and (openid_verified[:email]) and (openid_verified[:email] ==  @user.email)
-          # if we have an email from an OpenID provider that we trust to have verified the email for us, then activate the account directly
-          # without doing our own email verification.
-          @user.status = "active"
-        end
-      end
-
-      if @user.save
-        flash[:piwik_goal] = PIWIK_SIGNUP_GOAL if defined?(PIWIK_SIGNUP_GOAL)
-        flash[:notice] = t 'user.new.flash create success message', :email => @user.email
-        if @user.status == "active"
-          Notifier.signup_confirm(@user, nil).deliver
-          successful_login(@user)
-        else
-          Notifier.signup_confirm(@user, @user.tokens.create(:referer => session.delete(:referer))).deliver
-          session[:token] = @user.tokens.create.token
-          redirect_to :action => 'login', :referer => params[:referer]
-        end
+      if Acl.no_account_creation(request.remote_ip, @user.email.split("@").last)
+        render :action => 'blocked'
       else
-        render :action => 'new', :referer => params[:referer]
+        @user.data_public = true
+        @user.description = "" if @user.description.nil?
+        @user.creation_ip = request.remote_ip
+        @user.languages = request.user_preferred_languages
+        @user.terms_agreed = Time.now.getutc
+        @user.terms_seen = true
+        @user.openid_url = nil if @user.openid_url and @user.openid_url.empty?
+
+        if @user.save
+          flash[:piwik_goal] = PIWIK_SIGNUP_GOAL if defined?(PIWIK_SIGNUP_GOAL)
+
+          if @user.status == "active"
+            flash[:notice] = t 'user.new.flash welcome', :email => @user.email
+
+            Notifier.signup_confirm(@user, nil).deliver
+
+            successful_login(@user)
+          else
+            flash[:notice] = t 'user.new.flash create success message', :email => @user.email
+            session[:token] = @user.tokens.create.token
+
+            Notifier.signup_confirm(@user, @user.tokens.create(:referer => session.delete(:referer))).deliver
+
+            redirect_to :action => 'login', :referer => params[:referer]
+          end
+        else
+          render :action => 'new', :referer => params[:referer]
+        end
       end
     end
   end
@@ -566,8 +571,6 @@ private
           nickname = sreg["nickname"] || ax["http://axschema.org/namePerson/friendly"].first
           email = sreg["email"] || ax["http://axschema.org/contact/email"].first
 
-          # Check if the openID is from a "trusted" OpenID provider and thus provides a verified email address
-          session[:openid_verified] = openid_email_verified(identity_url, email)
           redirect_to :controller => 'user', :action => 'new', :nickname => nickname, :email => email, :openid => identity_url
         end
       elsif result.missing?
@@ -585,8 +588,18 @@ private
   def openid_verify(openid_url, user)
     user.openid_url = openid_url
 
-    authenticate_with_open_id(openid_expand_url(openid_url), :method => :get) do |result, identity_url|
+    authenticate_with_open_id(openid_expand_url(openid_url), :method => :get, :required => [:email, "http://axschema.org/contact/email"]) do |result, identity_url, sreg, ax|
       if result.successful?
+        # Do we trust the emails this provider returns?
+        if openid_email_verified(identity_url)
+          # Guard against not getting any extension data
+          sreg = Hash.new if sreg.nil?
+          ax = Hash.new if ax.nil?
+
+          # Get the verified email
+          verified_email = sreg["email"] || ax["http://axschema.org/contact/email"].first
+        end
+
         # We need to use the openid url passed back from the OpenID provider
         # rather than the one supplied by the user, as these can be different.
         #
@@ -594,7 +607,7 @@ private
         # than a user specific url. Only once it comes back from the provider
         # provider do we know the unique address for the user.
         user.openid_url = identity_url
-        yield user
+        yield user, verified_email
       elsif result.missing?
         flash.now[:error] = t 'user.login.openid missing provider'
       elsif result.invalid?
@@ -622,18 +635,12 @@ private
     end
   end
 
-  def openid_email_verified(openid_url, email)
-    # OpenID providers Google and Yahoo are guaranteed to return (if at all) an email address that has been verified by
-    # them already. So we can trust the email addresses to be valid and own by the user without having to verify them our
-    # selves.
-    # Store the email in the session to compare agains the user set email address during account creation.
-    openid_verified = Hash.new
-    openid_verified[:identity_url] = openid_url
-    if openid_url.match(/https:\/\/www.google.com\/accounts\/o8\/id?(.*)/) or openid_url.match(/https:\/\/me.yahoo.com\/(.*)/)
-        openid_verified[:email] = email
-    end
-    return openid_verified
-    
+  ##
+  # check if we trust an OpenID provider to return a verified
+  # email, so that we can skpi verifying it ourselves
+  def openid_email_verified(openid_url)
+    openid_url.match(/https:\/\/www.google.com\/accounts\/o8\/id?(.*)/) or
+    openid_url.match(/https:\/\/me.yahoo.com\/(.*)/)
   end
 
   ##

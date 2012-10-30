@@ -21,7 +21,7 @@ class UserCreationTest < ActionController::IntegrationTest
       display_name = "#{localer.to_s}_new_tester"
       assert_difference('User.count', 0) do
         assert_difference('ActionMailer::Base.deliveries.size', 0) do
-          post '/user/save',
+          post '/user/terms',
             {:user => { :email => dup_email, :email_confirmation => dup_email, :display_name => display_name, :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest"}},
             {"HTTP_ACCEPT_LANGUAGE" => localer.to_s}
         end
@@ -41,7 +41,7 @@ class UserCreationTest < ActionController::IntegrationTest
       email = "#{locale.to_s}_new_tester"
       assert_difference('User.count', 0) do
         assert_difference('ActionMailer::Base.deliveries.size', 0) do
-          post '/user/save',
+          post '/user/terms',
           {:user => {:email => email, :email_confirmation => email, :display_name => dup_display_name, :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest"}},
           {"HTTP_ACCEPT_LANGUAGE" => locale.to_s}
         end
@@ -58,10 +58,20 @@ class UserCreationTest < ActionController::IntegrationTest
     I18n.available_locales.each do |locale|
       new_email = "#{locale.to_s}newtester@osm.org"
       display_name = "#{locale.to_s}_new_tester"
+
+      assert_difference('User.count', 0) do
+        assert_difference('ActionMailer::Base.deliveries.size', 0) do
+          post "/user/terms",
+            {:user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest"}}
+          end
+      end
+
+      assert_response :success
+      assert_template 'user/terms'
+
       assert_difference('User.count') do
         assert_difference('ActionMailer::Base.deliveries.size', 1) do
-          post_via_redirect "/user/save",
-            {:user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest"}},
+          post_via_redirect "/user/save", {},
             {"HTTP_ACCEPT_LANGUAGE" => "#{locale.to_s}"}
         end
       end

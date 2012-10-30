@@ -216,7 +216,13 @@ class UserControllerTest < ActionController::TestCase
     display_name = "new_tester"
     assert_difference('User.count') do
       assert_difference('ActionMailer::Base.deliveries.size') do
-        post :save, {:user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest"}}
+        session[:new_user] = User.new({
+          :status => "pending", :display_name => display_name,
+          :email => new_email, :email_confirmation => new_email, 
+          :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest"
+        }, :without_protection => true)
+
+        post :save
       end
     end
       
@@ -237,7 +243,13 @@ class UserControllerTest < ActionController::TestCase
     display_name = "new_tester"
     assert_difference('User.count', 0) do
       assert_difference('ActionMailer::Base.deliveries.size', 0) do
-        post :save, :user => { :email => email, :email_confirmation => email, :display_name => display_name, :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest"}
+        session[:new_user] = User.new({
+          :status => "pending", :display_name => display_name,
+          :email => email, :email_confirmation => email, 
+          :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest"
+        }, :without_protection => true)
+
+        post :save
       end
     end
     assert_response :success                                                                       
@@ -251,7 +263,13 @@ class UserControllerTest < ActionController::TestCase
     display_name = "new_tester"
     assert_difference('User.count', 0) do
       assert_difference('ActionMailer::Base.deliveries.size', 0) do
-        post :save, :user => { :email => email, :email_confirmation => email, :display_name => display_name, :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest"}
+        session[:new_user] = User.new({
+          :status => "pending", :display_name => display_name,
+          :email => email, :email_confirmation => email, 
+          :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest"
+        }, :without_protection => true)
+
+        post :save
       end
     end
     assert_response :success                                                                       
@@ -265,7 +283,13 @@ class UserControllerTest < ActionController::TestCase
     display_name = users(:public_user).display_name
     assert_difference('User.count', 0) do
       assert_difference('ActionMailer::Base.deliveries.size', 0) do
-        post :save, :user => { :email => email, :email_confirmation => email, :display_name => display_name, :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest"}
+        session[:new_user] = User.new({
+          :status => "pending", :display_name => display_name,
+          :email => email, :email_confirmation => email, 
+          :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest"
+        }, :without_protection => true)
+
+        post :save
       end
     end
     assert_response :success                                                                       
@@ -279,7 +303,13 @@ class UserControllerTest < ActionController::TestCase
     display_name = users(:public_user).display_name.upcase
     assert_difference('User.count', 0) do
       assert_difference('ActionMailer::Base.deliveries.size', 0) do
-        post :save, :user => { :email => email, :email_confirmation => email, :display_name => display_name, :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest"}
+        session[:new_user] = User.new({
+          :status => "pending", :display_name => display_name,
+          :email => email, :email_confirmation => email, 
+          :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest"
+        }, :without_protection => true)
+
+        post :save
       end
     end
     assert_response :success                                                                       
