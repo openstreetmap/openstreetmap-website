@@ -2,8 +2,7 @@
 
 /* Minimal CSS reset */
 
-html, body, ul, ol, li, form, fieldset, legend, h1, h2, h3, h4, h5, h6, p
-{
+html, body, ul, ol, li, form, fieldset, legend, h1, h2, h3, h4, h5, h6, p {
   margin: 0;
   padding: 0;
   font-size:100%;
@@ -25,8 +24,7 @@ table
 
 li { list-style: none; }
 
-caption, th, td
-{
+caption, th, td {
   text-align: left;
   vertical-align: top;
   font-weight: normal;
@@ -37,8 +35,7 @@ select,
 textarea,
 body { font: 14px/20px "Helvetica Neue",Arial,sans-serif; }
 
-abbr, acronym
-{
+abbr, acronym {
   border-bottom: .1em dotted;
   cursor: help;
 }
@@ -56,7 +53,9 @@ abbr, acronym
   visibility: hidden;
   }
 
-.clearfix { display: inline-block; }
+.clearfix {
+  display: inline-block;
+}
 
 /* Default rules for the body of every page */
 
@@ -168,7 +167,8 @@ hr {
 
 #left {
   position: absolute;
-  top: 0px;
+  top: 30px;
+  bottom: 0;
   width: 185px;
   font-size: 11px;
   line-height: 12px;
@@ -182,7 +182,7 @@ hr {
   min-width: 170px;
   padding: 5px;
   text-align: center;
-  margin: 25px auto 5px auto;
+  margin: auto;
 }
 
 #logo img {
@@ -328,9 +328,6 @@ hr {
 
 /* Rules for the search box */
 
-.whereami {
-}
-
 #search_field form {
   width: 165px;
   margin: 0px;
@@ -434,8 +431,11 @@ hr {
 /* Rules for tabbed navigation bar */
 
 #top-bar {
-  border-bottom: 1px solid #ccc;
+  position: absolute;
+  top: 0;
   height: 29px;
+  border-bottom: 1px solid #ccc;
+  background: white;
 }
 
 #tabnav {
@@ -555,6 +555,13 @@ div.olControlZoom a.olControlZoomIn {
     border-bottom: 0;
 }
 
+.site-index #map .SimpleLayerSwitcher,
+.site-index #map .olControlSimplePanZoom,
+.site-export #map .olControlSimplePanZoom,
+.site-export #map .SimpleLayerSwitcher {
+  top: 40px !important;
+}
+
 /* Rules for edit menu */
 
 .menuicon {
@@ -603,7 +610,7 @@ div.olControlZoom a.olControlZoomIn {
 #sidebar {
   display: none;
   position: absolute;
-  margin: 0px;
+  margin: 30px 0px 0px 0px;
   padding: 0px;
   width: 33.3333%;
   top: 0px;
@@ -643,6 +650,7 @@ div.olControlZoom a.olControlZoomIn {
   padding: 0 20px 10px 20px;
   margin-bottom: 20px;
 }
+
 /* Rules for the map key which appears in the popout sidebar */
 
 #mapkey h3 {
@@ -746,14 +754,19 @@ div.olControlZoom a.olControlZoomIn {
 
 #content {
   padding: 20px;
-  margin: 0px;
-  position: absolute;
-  bottom: 0px;
+  margin: 30px 0 0 0;
+}
+
+.site-edit #content {
+  border: 0;
+  padding: 0;
 }
 
 .site-index #content,
-.site-edit #content,
 .site-export #content {
+  position: fixed;
+  margin-top: 0;
+  left: 0; right: 0; top: 0; bottom: 0;
   border: 0px;
   padding: 0px;
 }
@@ -796,16 +809,8 @@ div.olControlZoom a.olControlZoomIn {
 }
 
 /* Rules for the home page */
-
+.site-export #map,
 .site-index #map {
-  position: absolute;
-  top: 0px;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
-}
-
-.site-export #map {
   position: absolute;
   top: 0px;
   bottom: 0px;
@@ -836,14 +841,8 @@ div.olControlZoom a.olControlZoomIn {
   padding: 5px;
 }
 
-#changeset_list .date {
-  white-space: nowrap;
-}
-
-#changeset_list .user {
-  white-space: nowrap;
-}
-
+#changeset_list .date,
+#changeset_list .user,
 #changeset_list .area {
   white-space: nowrap;
 }
@@ -854,10 +853,10 @@ div.olControlZoom a.olControlZoomIn {
 }
 
 #changeset_list_map {
-  width: 45%;
   position: absolute;
   right: 0;
   height: 100%;
+  width: 45%;
   min-height: 398px;
   border: 1px solid #ccc;
   margin-bottom: 20px;
@@ -936,11 +935,8 @@ table.browse_details th {
   }
 }
 
-.activity-block {
-
-  h3 {
-    margin-bottom: 10px;
-  }
+.activity-block h3 {
+  margin-bottom: 10px;
 }
 
 .contact-activity {
@@ -1167,7 +1163,7 @@ p#contributorGuidance {
   bottom: 0px;
   width: 90%;
   height: 30%;
-  margin: auto 5%
+  margin: auto 5%;
 }
 
 /* Rules for the user map */
