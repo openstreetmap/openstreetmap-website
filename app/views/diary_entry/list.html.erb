@@ -1,4 +1,4 @@
-<div <% if @this_user %>id="userinformation"<% end %> class='page-heading'>
+<div <% if @this_user %>id="userinformation"<% end %> class='content-heading'>
   <% if @this_user %>
     <%= user_image @this_user %>
   <% end %>
@@ -20,6 +20,7 @@
 
 </div>
 
+<div class='content-body'>
   <% if @entries.empty? %>
     <h4><%= t 'diary_entry.list.no_entries' %></h4>
   <% else %>
@@ -35,9 +36,10 @@
   <% if @entry_pages.current.next and @entry_pages.current.previous %>|<% end %>
   <%= link_to t('diary_entry.list.newer_entries'), { :page => @entry_pages.current.previous, :language => params[:language] } if @entry_pages.current.previous %>
 
-<% end %>
+  <% end %>
 
-<% content_for :head do -%>
-<%= auto_discovery_link_tag :atom, :action => 'rss', :language => params[:language] %>
-<% end -%>
-<% end -%>
+  <% content_for :head do -%>
+  <%= auto_discovery_link_tag :atom, :action => 'rss', :language => params[:language] %>
+  <% end -%>
+  <% end -%>
+</div>

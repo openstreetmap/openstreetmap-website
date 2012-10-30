@@ -1,4 +1,4 @@
-<div class='page-heading'>
+<div class='content-heading'>
   <h1><%= h(@title) %></h1>
   <span><%= raw(@description) %></span>
   |
@@ -17,24 +17,26 @@
   <% end %>
 </div>
 
-<% content_for :head do %>
-<%= auto_discovery_link_tag :atom, :action => 'georss', :display_name => @display_name, :tag => @tag %>
-<% end %>
+<div class='content-body'>
+  <% content_for :head do %>
+  <%= auto_discovery_link_tag :atom, :action => 'georss', :display_name => @display_name, :tag => @tag %>
+  <% end %>
 
-<% if @traces.size > 0 %>
-  <%= render :partial => 'trace_paging_nav' %>
+  <% if @traces.size > 0 %>
+    <%= render :partial => 'trace_paging_nav' %>
 
-  <table id="trace_list" cellpadding="3">
-    <tr>
-      <th></th>
-      <th></th>
-    </tr>
-    <%= render :partial => 'trace', :collection => @traces unless @traces.nil? %>
-  </table>
+    <table id="trace_list" cellpadding="3">
+      <tr>
+        <th></th>
+        <th></th>
+      </tr>
+      <%= render :partial => 'trace', :collection => @traces unless @traces.nil? %>
+    </table>
 
-  <%= render :partial => 'trace_paging_nav' %>
-<% else %>
-  <h4><%= t 'trace.list.empty_html', :upload_link => trace_create_path %></h4>
-<% end %>
+    <%= render :partial => 'trace_paging_nav' %>
+  <% else %>
+    <h4><%= t 'trace.list.empty_html', :upload_link => trace_create_path %></h4>
+  <% end %>
 
-<%= render :partial => 'trace_optionals' %>
+  <%= render :partial => 'trace_optionals' %>
+</div>
