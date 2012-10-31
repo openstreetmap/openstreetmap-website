@@ -2,7 +2,10 @@
 @name = printable_name @node
 @title = t('browse.node_history.node_history') + ' | ' + @name
 %>
-<h2><%= raw t'browse.node_history.node_history_title', :node_name => link_to(h(@name), :action => "node", :id => @node.id) %></h2>
+<% content_for :heading do %>
+  <h2><%= raw t'browse.node_history.node_history_title', :node_name => link_to(h(@name), :action => "node", :id => @node.id) %></h2>
+<% end %>
+
 <% if @node.visible -%>
 <%= render :partial => "map", :object => @node %>
 <% end -%>

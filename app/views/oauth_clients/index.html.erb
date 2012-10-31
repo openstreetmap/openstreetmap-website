@@ -1,38 +1,36 @@
-<div class='content-heading'>
-<h1><%= t'oauth_clients.index.title' %></h1>
-</div>
+<% content_for :heading do %>
+  <h1><%= t'oauth_clients.index.title' %></h1>
+<% end %>
 
-<div class='content-body'>
-  <% unless @tokens.empty? %>
-  <h3><%= t'oauth_clients.index.my_tokens' %></h3>
-  <p><%= t'oauth_clients.index.list_tokens' %></p>
-  <table>
-    <tr><th><%= t'oauth_clients.index.application' %></th>
-      <th><%= t'oauth_clients.index.issued_at' %></th><th>&nbsp;</th></tr>
-    <% @tokens.each do |token|%>
-      <%= content_tag_for :tr, token do %>
-        <td><%= link_to token.client_application.name, token.client_application.url %></td>
-        <td><%= token.authorized_at %></td>
-        <td>
-  	<%= form_tag :controller => 'oauth', :action => 'revoke' do %>
-  	<%= hidden_field_tag 'token', token.token %>
-  	<%= submit_tag t('oauth_clients.index.revoke') %>
-  	<% end %>
-        </td>
-      <% end %>
-    <% end %>
-  </table>
-  <% end %>
-  <h3><%= t'oauth_clients.index.my_apps' %></h3>
-  <% if @client_applications.empty? %>
-  <p><%= raw(t('oauth_clients.index.no_apps', :oauth => "<a href=\"http://oauth.net\">OAuth</a>")) %></p>
-  <% else %>
-  <p><%= t'oauth_clients.index.registered_apps' %></p>
-  <% @client_applications.each do |client|%>
-    <%= div_for client do %>
-      <%= link_to client.name, :action => :show, :id => client.id %>
+<% unless @tokens.empty? %>
+<h3><%= t'oauth_clients.index.my_tokens' %></h3>
+<p><%= t'oauth_clients.index.list_tokens' %></p>
+<table>
+  <tr><th><%= t'oauth_clients.index.application' %></th>
+    <th><%= t'oauth_clients.index.issued_at' %></th><th>&nbsp;</th></tr>
+  <% @tokens.each do |token|%>
+    <%= content_tag_for :tr, token do %>
+      <td><%= link_to token.client_application.name, token.client_application.url %></td>
+      <td><%= token.authorized_at %></td>
+      <td>
+	<%= form_tag :controller => 'oauth', :action => 'revoke' do %>
+	<%= hidden_field_tag 'token', token.token %>
+	<%= submit_tag t('oauth_clients.index.revoke') %>
+	<% end %>
+      </td>
     <% end %>
   <% end %>
+</table>
+<% end %>
+<h3><%= t'oauth_clients.index.my_apps' %></h3>
+<% if @client_applications.empty? %>
+<p><%= raw(t('oauth_clients.index.no_apps', :oauth => "<a href=\"http://oauth.net\">OAuth</a>")) %></p>
+<% else %>
+<p><%= t'oauth_clients.index.registered_apps' %></p>
+<% @client_applications.each do |client|%>
+  <%= div_for client do %>
+    <%= link_to client.name, :action => :show, :id => client.id %>
   <% end %>
-  <h3><%= link_to t('oauth_clients.index.register_new'), :action => :new %></h3>
-</div>
+<% end %>
+<% end %>
+<h3><%= link_to t('oauth_clients.index.register_new'), :action => :new %></h3>

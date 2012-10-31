@@ -2,7 +2,11 @@
 <%= stylesheet_link_tag 'browse' %>
 <% end %>
 <%= render :partial => "navigation" %>
-<h2><%= t 'browse.changeset.changeset', :id => @changeset.id %></h2>
+
+<% content_for :heading do %>
+  <h2><%= t 'browse.changeset.changeset', :id => @changeset.id %></h2>
+<% end %>
+
 <% if @changeset.has_valid_bbox? %>
 <%= render :partial => "map", :object => @changeset %>
 <% end %>

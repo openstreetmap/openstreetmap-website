@@ -1,8 +1,7 @@
-<div class='content-heading'>
-<h2><%= raw(t'message.outbox.my_inbox', :inbox_link => link_to(t('message.outbox.inbox'), inbox_path(@user.display_name))) %>/<%= t'message.outbox.outbox' %></h2>
-</div>
+<% content_for :heading do %>
+  <h2><%= raw(t'message.outbox.my_inbox', :inbox_link => link_to(t('message.outbox.inbox'), inbox_path(@user.display_name))) %>/<%= t'message.outbox.outbox' %></h2>
+<% end %>
 
-<div class='content-body'>
 <h4><%= t'message.outbox.messages', :count => @user.sent_messages.size %></h4>
 
 <% if @user.sent_messages.size > 0 %>
@@ -22,4 +21,3 @@
 <% else %>
   <div class="messages"><%= raw(t'message.outbox.no_sent_messages', :people_mapping_nearby_link => link_to(t('message.outbox.people_mapping_nearby'), :controller => 'user', :action => 'view', :display_name => @user.display_name)) %></div>
 <% end %>
-</div>

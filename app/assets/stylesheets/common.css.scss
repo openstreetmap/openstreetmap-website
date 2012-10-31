@@ -447,10 +447,10 @@ hr {
   transition: color 200ms ease-in;
 }
 
-body.site-index #tabnav a#viewanchor,
-body.site-edit #tabnav a#editanchor,
-body.changeset-list #tabnav a#historyanchor,
-body.site-export #tabnav a#exportanchor {
+.site-index #tabnav a#viewanchor,
+.site-edit #tabnav a#editanchor,
+.changeset-list #tabnav a#historyanchor,
+.site-export #tabnav a#exportanchor {
   border-bottom: 1px solid #aaa;
   background: #9ed485;
   color: #000;
@@ -473,6 +473,14 @@ body.site-export #tabnav a#exportanchor {
 #tabnav a:link:hover.disabled:hover,
 #tabnav a:visited:hover.disabled:hover {
   text-decoration: none;
+}
+
+.site-edit #top-bar,
+.site-index #top-bar,
+.site-export #top-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
 }
 
 .count-number {
@@ -537,13 +545,6 @@ div.olControlZoom a.olControlZoomIn {
     border-bottom: 0;
 }
 
-.site-index #map .SimpleLayerSwitcher,
-.site-index #map .olControlSimplePanZoom,
-.site-export #map .olControlSimplePanZoom,
-.site-export #map .SimpleLayerSwitcher {
-  top: 40px !important;
-}
-
 /* Rules for edit menu */
 
 .menuicon {
@@ -592,7 +593,7 @@ div.olControlZoom a.olControlZoomIn {
 #sidebar {
   display: none;
   position: absolute;
-  margin: 30px 0px 0px 0px;
+  margin: 0px;
   padding: 0px;
   width: 33.3333%;
   top: 0px;
@@ -734,14 +735,18 @@ div.olControlZoom a.olControlZoomIn {
 
 /* Rules for the main content area */
 
+#content {
+  padding: 20px;
+  position: relative;
+}
+
 .site-edit #content,
 .site-index #content,
 .site-export #content {
   position: fixed;
-  margin-top: 0;
-  left: 0; right: 0; top: 0; bottom: 0;
-  border: 0px;
-  padding: 0px;
+  padding: 0;
+  left: 185px; right: 0; top: 30px; bottom: 0;
+  border-left: 1px solid #ccc;
 }
 
 #slim_container {
@@ -791,10 +796,6 @@ div.olControlZoom a.olControlZoomIn {
   }
 }
 
-.content-body {
-  padding: 20px;
-}
-
 /* Rules for text content pages */
 
 .wide-table {
@@ -824,9 +825,8 @@ div.olControlZoom a.olControlZoomIn {
 
 /* Rules for the changeset list shown by the history tab etc */
 
-#changeset_list_container {
-  position: relative;
-  margin-bottom: 20px;
+#changeset_list {
+  width: 100%;
 }
 
 #changeset_list td {
@@ -979,7 +979,14 @@ table.browse_details th {
   margin-top: 20px;
   padding-top: 20px;
   border-top: 1px solid #ccc;
+
+  &:first-child {
+    margin-top: 0;
+    border-top: 0;
+    padding-top: 0;
+  }
 }
+
 
 .content-heading .hide_unless_logged_in { // hacky selector, better to just add a new class to this div
   display: inline;
@@ -1007,23 +1014,6 @@ table.browse_details th {
 
 /* Rules for the login page */
 
-#login_wrapper div {
-  margin: 5px;
-  padding: 15px;
-  border-radius: 15px;
-  -moz-border-radius: 15px;
-}
-
-#login_login {
-  background-color: #f5f5ff;
-  border: 1px solid #f3f3ff;
-  border-radius: 15px;
-  -moz-border-radius: 15px;
-}
-
-#login_login h1 {
-  margin-top: 5px;
-}
 
 table#login_openid_buttons {
   padding-bottom: 10px;
@@ -1093,6 +1083,7 @@ p#contributorGuidance {
   border: 1px solid #f3f3ff;
   border-radius: 15px;
   -moz-border-radius: 15px;
+  margin-top: 20px;
   padding: 10px;
 }
 
@@ -1201,6 +1192,10 @@ p#contributorGuidance {
 
 .messages .inbox-row {
   background: #f8f8ff;
+}
+
+.messages .inbox-row-unread {
+  background:#CBEEA7;
 }
 
 .messages tr td,

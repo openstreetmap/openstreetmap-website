@@ -2,7 +2,11 @@
 @name = printable_name @relation
 @title = t('browse.relation_history.relation_history') + ' | ' + @name
 %>
-<h2><%= raw t'browse.relation_history.relation_history_title', :relation_name => link_to(h(@name), :action => "relation", :id => @relation.id) %></h2>
+
+<% content_for :heading do %>
+  <h2><%= raw t'browse.relation_history.relation_history_title', :relation_name => link_to(h(@name), :action => "relation", :id => @relation.id) %></h2>
+<% end %>
+
 <%= render :partial => "map", :object => @relation %>
 <% @relation.old_relations.reverse.each do |relation| %>
   <%= render :partial => "relation_details", :object => relation %>

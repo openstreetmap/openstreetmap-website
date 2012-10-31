@@ -137,9 +137,16 @@
         </p>
       </div>
     </div>
-    <div id="content">
+    <div class="wrapper">
       <%= render :partial => "layouts/flash", :locals => { :flash => flash } %>
-      <%= yield %>
+      <% if content_for? :heading %>
+      <div class="content-heading">
+        <%= yield :heading %>
+      </div>
+      <% end %>
+      <div id="content">
+        <%= yield %>
+      </div>
     </div>
     <% if defined?(PIWIK_LOCATION) and defined?(PIWIK_SITE) -%>
     <noscript><p><img src="<%= request.protocol %><%= PIWIK_LOCATION %>/piwik.php?idsite=<%= PIWIK_SITE %>" style="border:0" alt="" /></p></noscript>

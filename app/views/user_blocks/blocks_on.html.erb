@@ -1,6 +1,7 @@
 <% @title = t('user_block.blocks_on.title', :name => h(@this_user.display_name)) %>
-<h1><%= raw(t('user_block.blocks_on.heading', :name => link_to(h(@this_user.display_name), {:controller => 'user', :action => 'view', :display_name => @this_user.display_name}))) %></h1>
-
+<% content_for :heading do %>
+  <h1><%= raw(t('user_block.blocks_on.heading', :name => link_to(h(@this_user.display_name), {:controller => 'user', :action => 'view', :display_name => @this_user.display_name}))) %></h1>
+<% end %>
 <% unless @user_blocks.empty? %>
 <%= render :partial => 'blocks', :locals => { :show_revoke_link => (@user and @user.moderator?), :show_user_name => false, :show_creator_name => true } %>
 <% else %>

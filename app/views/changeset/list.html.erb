@@ -2,15 +2,16 @@
   <%= javascript_include_tag "changeset" %>
 <% end -%>
 
-<div class='content-heading'>
+<% content_for :heading do %>
+
   <h1><%= @heading %></h1>
   <span><%= raw(@description) %></span>
-  |
-  <% unless params[:friends] or params[:nearby] -%>
-  <%= atom_link_to params.merge({ :page => nil, :action => :feed }) %>
-</div>
 
-<div id='changeset_list_container' class='content-body'>
+  <% unless params[:friends] or params[:nearby] -%>
+    | <%= atom_link_to params.merge({ :page => nil, :action => :feed }) %>
+  <% end -%>
+
+<% end %>
 
   <%= render :partial => 'map' %>
 
@@ -28,9 +29,7 @@
 <% else %>
   <p><%= t('changeset.list.empty_anon_html') %></p>
 <% end %>
-</div>
 
 <% content_for :head do -%>
 <%= auto_discovery_link_tag :atom, params.merge({ :page => nil, :action => :feed }) %>
-<% end -%>
 <% end -%>
