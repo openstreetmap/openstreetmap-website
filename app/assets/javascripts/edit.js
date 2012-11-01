@@ -1,7 +1,6 @@
 function maximiseMap() {
   $("#left").hide();
-  $("#greeting").hide();
-  $("#tabnav").hide();
+  $("#top-bar").hide();
 
   $("#content").css("top", "0px");
   if ($("html").attr("dir") == "ltr") {
@@ -15,8 +14,7 @@ function maximiseMap() {
 
 function minimiseMap() {
   $("#left").show();
-  $("#greeting").show();
-  $("#tabnav").show();
+  $("#top-bar").show();
 
   $("#content").css("top", "30px");
   if ($("html").attr("dir") == "ltr") {
