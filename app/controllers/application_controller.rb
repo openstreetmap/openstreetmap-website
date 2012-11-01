@@ -243,7 +243,7 @@ class ApplicationController < ActionController::Base
 
       render :text => result.to_s, :content_type => "text/xml"
     else
-      render :text => message, :status => status
+      render :text => message + "\n", :status => status
     end
   end
   
