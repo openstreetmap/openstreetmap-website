@@ -71,7 +71,14 @@ $(document).ready(function () {
         $("#object_edit").show();
 
         var centre = extent.getCenter();
-        updatelinks(centre.lng, centre.lat, 16, null, extent.left, extent.bottom, extent.right, extent.top, object);
+        updatelinks(centre.lng,
+                    centre.lat,
+                    16, null,
+                    extent.getWestLng(),
+                    extent.getSouthLat(),
+                    extent.getEastLng(),
+                    extent.getNorthLat(),
+                    object);
       } else {
         $("#small_map").hide();
       }
