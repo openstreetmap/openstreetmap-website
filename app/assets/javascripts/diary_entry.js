@@ -6,10 +6,11 @@ $(document).ready(function () {
     $("#longitude").val(e.latlng.lng);
 
     if (marker) {
-      removeMarkerFromMap(marker);
+      map.removeLayer(marker);
     }
 
-    marker = addMarkerToMap(e.latlng, null, I18n.t('diary_entry.edit.marker_text'));
+    marker = L.marker(e.latlng).addTo(map)
+      .bindPopup(I18n.t('diary_entry.edit.marker_text'));
   }
 
   $("#usemap").click(function (e) {
@@ -25,7 +26,8 @@ $(document).ready(function () {
     map.setView(centre, params.zoom);
 
     if ($("#latitude").val() && $("#longitude").val()) {
-      marker = addMarkerToMap(centre, null, I18n.t('diary_entry.edit.marker_text'));
+      marker = L.marker(centre).addTo(map)
+        .bindPopup(I18n.t('diary_entry.edit.marker_text'));
     }
 
     map.on("click", setLocation);

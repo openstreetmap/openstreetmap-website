@@ -120,20 +120,6 @@ function getArrowIcon() {
   });
 }
 
-function addMarkerToMap(position, icon, description) {
-  var marker = L.marker(position, icon ? {icon: icon} : null).addTo(map);
-
-  if (description) {
-    marker.bindPopup(description);
-  }
-
-  return marker;
-}
-
-function removeMarkerFromMap(marker) {
-  map.removeLayer(marker);
-}
-
 function addObjectToMap(object, zoom, callback) {
   $.ajax({
     url: OSM.apiUrl(object),

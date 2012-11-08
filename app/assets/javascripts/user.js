@@ -14,7 +14,7 @@ $(document).ready(function () {
     var marker;
 
     if (OSM.home) {
-      marker = addMarkerToMap([OSM.home.lat, OSM.home.lon]);
+      marker = L.marker([OSM.home.lat, OSM.home.lon]).addTo(map);
     }
 
     map.on("click", function (e) {
@@ -24,17 +24,18 @@ $(document).ready(function () {
         $('#home_lon').val(e.latlng.lng);
 
         if (marker) {
-          removeMarkerFromMap(marker);
+          map.removeLayer(marker);
         }
 
-        marker = addMarkerToMap(e.latlng);
+        marker = L.marker(e.latlng).addTo(map);
       }
     });
   } else {
     $("[data-user]").each(function () {
       var user = $(this).data('user');
       if (user.lon && user.lat) {
-        addMarkerToMap([user.lat, user.lon], L.icon({iconUrl: user.icon}), user.description);
+        L.marker([user.lat, user.lon], {icon: L.icon({iconUrl: user.icon})}).addTo(map)
+          .bindPopup(user.description);
       }
     });
   }
