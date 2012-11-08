@@ -92,7 +92,7 @@ L.OSM.DataLayer = L.FeatureGroup.extend({
 
     for (var node_id in nodes) {
       var node = nodes[node_id];
-      if (this.interestingNode(node)) {
+      if (this.interestingNode(node, ways)) {
         features.push(node);
       }
     }
@@ -119,9 +119,22 @@ L.OSM.DataLayer = L.FeatureGroup.extend({
     return false;
   },
 
-  interestingNode: function (node) {
+  interestingNode: function (node, ways) {
+    var used = false;
+
+    for (var i = 0; i < ways.length; i++) {
+      if (ways[i].nodes.indexOf(node) >= 0) {
+        used = true;
+        break;
+      }
+    }
+
+    if (!used) {
+      return true;
+    }
+
     for (var key in node.tags) {
-      if (!~this.options.uninterestingTags.indexOf(key)) {
+      if (this.options.uninterestingTags.indexOf(key) < 0) {
         return true;
       }
     }
