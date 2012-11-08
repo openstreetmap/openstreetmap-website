@@ -120,6 +120,14 @@ function getArrowIcon() {
   });
 }
 
+function getUserIcon(url) {
+  return L.icon({
+    iconUrl: url || <%= asset_path('marker-red.png').to_json %>,
+    iconSize: [21, 25],
+    iconAnchor: [12, 27]
+  });
+}
+
 function addObjectToMap(object, zoom, callback) {
   $.ajax({
     url: OSM.apiUrl(object),
