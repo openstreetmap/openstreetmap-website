@@ -83,6 +83,7 @@ $(document).ready(function () {
 
     function enableFilter() {
       $("#browse_filter_toggle").html(I18n.t('browse.start_rjs.view_data'));
+      locationFilter.setBounds(map.getBounds().pad(-0.2));
       locationFilter.enable();
       getData();
     }

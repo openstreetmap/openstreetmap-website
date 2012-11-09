@@ -15,7 +15,7 @@ $(document).ready(function () {
 
     var locationFilter = new L.LocationFilter({
       enableButton: false,
-      adjustButton: false,
+      adjustButton: false
     }).addTo(map);
 
     locationFilter.on("change", filterChanged);
@@ -83,15 +83,18 @@ $(document).ready(function () {
       var bounds = getBounds();
 
       map.fitBounds(bounds);
-
-      enableFilter();
       locationFilter.setBounds(bounds);
 
+      enableFilter();
       validateControls();
       mapnikSizeChanged();
     }
 
     function enableFilter() {
+      if (!locationFilter.getBounds().isValid()) {
+        locationFilter.setBounds(map.getBounds().pad(-0.2));
+      }
+
       $("#drag_box").hide();
       locationFilter.enable();
     }
