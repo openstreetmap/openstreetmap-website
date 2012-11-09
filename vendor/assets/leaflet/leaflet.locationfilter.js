@@ -115,7 +115,10 @@ L.LocationFilter = L.Class.extend({
     onAdd: function(map) {
         this._map = map;
         this._layer = new L.LayerGroup();
-        this._initializeButtonContainer();
+
+        if (this.options.enableButton || this.options.adjustButton) {
+            this._initializeButtonContainer();
+        }
 
         if (this.options.enable) {
             this.enable();
@@ -124,7 +127,9 @@ L.LocationFilter = L.Class.extend({
 
     onRemove: function(map) {
         this.disable();
-        this._buttonContainer.removeFrom(map);
+        if (this._buttonContainer) {
+            this._buttonContainer.removeFrom(map);
+        }
     },
 
     /* Get the current filter bounds */
@@ -137,8 +142,10 @@ L.LocationFilter = L.Class.extend({
         this._ne = bounds.getNorthEast();
         this._sw = bounds.getSouthWest();
         this._se = bounds.getSouthEast();
-        this._draw();
-        this.fire("change", {bounds: bounds});
+        if (this.isEnabled()) {
+            this._draw();
+            this.fire("change", {bounds: bounds});
+        }
     },
 
     isEnabled: function() {
@@ -371,7 +378,9 @@ L.LocationFilter = L.Class.extend({
             
 
         // Update buttons
-        this._buttonContainer.addClass("enabled");
+        if (this._buttonContainer) {
+            this._buttonContainer.addClass("enabled");
+        }
 
         if (this._enableButton) {
             this._enableButton.setText(this.options.enableButton.disableText);
@@ -415,7 +424,9 @@ L.LocationFilter = L.Class.extend({
         }
 
         // Update buttons
-        this._buttonContainer.removeClass("enabled");
+        if (this._buttonContainer) {
+            this._buttonContainer.removeClass("enabled");
+        }
 
         if (this._enableButton) {
             this._enableButton.setText(this.options.enableButton.enableText);
@@ -477,8 +488,6 @@ L.LocationFilter = L.Class.extend({
             }).addTo(this._buttonContainer);
         }
 
-        if (this.options.enableButton || this.options.adjustButton) {
-          this._buttonContainer.addTo(this._map);
-        }
+        this._buttonContainer.addTo(this._map);
     }
 });
