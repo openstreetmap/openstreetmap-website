@@ -60,7 +60,7 @@ $(document).ready(function () {
       map.removeLayer(marker);
     }
 
-    marker = L.marker(centre, {icon: getArrowIcon()}).addTo(map);
+    marker = L.marker(centre).addTo(map);
   });
 
   function updateLocation() {
