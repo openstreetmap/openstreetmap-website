@@ -22,15 +22,17 @@ $(document).ready(function () {
   }
 
   var map = createMap("small_map", {
-    controls: [ new OpenLayers.Control.Navigation() ]
+    layerControl: false,
+    panZoomControl: false,
+    attributionControl: false
   });
 
   var params = $("#small_map").data();
   if (params.type == "changeset") {
-    var bbox = new OpenLayers.Bounds(params.minlon, params.minlat, params.maxlon, params.maxlat);
-    var centre = bbox.getCenterLonLat();
+    var bbox = L.latLngBounds([params.minlat, params.minlon],
+                              [params.maxlat, params.maxlon]);
 
-    map.zoomToExtent(proj(bbox));
+    map.fitBounds(bbox);
     addBoxToMap(bbox);
 
     $("#loading").hide();
@@ -40,7 +42,8 @@ $(document).ready(function () {
       return remoteEditHandler(bbox);
     });
 
-    updatelinks(centre.lon, centre.lat, 16, null, params.minlon, params.minlat, params.maxlon, params.maxlat);
+    var centre = bbox.getCenter();
+    updatelinks(centre.lng, centre.lat, 16, null, params.minlon, params.minlat, params.maxlon, params.maxlat);
   } else {
     $("#object_larger_map").hide();
     $("#object_edit").hide();
@@ -56,10 +59,6 @@ $(document).ready(function () {
       $("#browse_map .geolink").show();
 
       if (extent) {
-        extent = unproj(extent);
-
-        var centre = extent.getCenterLonLat();
-
         $("a.bbox[data-editor=remote]").click(function () {
           return remoteEditHandler(extent);
         });
@@ -71,7 +70,15 @@ $(document).ready(function () {
         $("#object_larger_map").show();
         $("#object_edit").show();
 
-        updatelinks(centre.lon, centre.lat, 16, null, extent.left, extent.bottom, extent.right, extent.top, object);
+        var centre = extent.getCenter();
+        updatelinks(centre.lng,
+                    centre.lat,
+                    16, null,
+                    extent.getWestLng(),
+                    extent.getSouthLat(),
+                    extent.getEastLng(),
+                    extent.getNorthLat(),
+                    object);
       } else {
         $("#small_map").hide();
       }

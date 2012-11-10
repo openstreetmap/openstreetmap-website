@@ -1,0 +1,24 @@
+folder 'vendor/assets' do
+  folder 'leaflet' do
+    from 'https://github.com/CloudMade/Leaflet.git' do
+      file 'leaflet.css',    'dist/leaflet.css'
+      file 'leaflet.ie.css', 'dist/leaflet.ie.css'
+      file 'leaflet.js',     'dist/leaflet-src.js'
+      folder 'images', 'dist/images'
+    end
+
+    from 'https://github.com/jfirebaugh/leaflet-locationfilter.git', :branch => 'osm' do
+      file 'leaflet.locationfilter.css', 'src/locationfilter.css'
+      file 'leaflet.locationfilter.js',  'src/locationfilter.js'
+      folder 'img', 'src/img'
+    end
+
+    file 'leaflet.pan.js',  'https://raw.github.com/kartena/Leaflet.Pancontrol/master/src/L.Control.Pan.js'
+    file 'leaflet.zoom.js', 'https://raw.github.com/kartena/Leaflet.zoomslider/master/src/L.Control.Zoomslider.js'
+    # CSS and sprite image are our own
+
+    from 'https://github.com/jfirebaugh/leaflet-osm.git' do
+      file 'leaflet.osm.js', 'leaflet-osm.js'
+    end
+  end
+end
