@@ -6,5 +6,6 @@ rvm:
 before_script:
   - psql -c 'create database rails_port_test;' -U postgres
   - psql -c "create user osm_test with superuser password 'osm_test';" -U postgres
+  - psql -d osm_test -c 'CREATE EXTENSION btree_gist;' -U osm_test
   - cp config/example.application.yml config/application.yml
   - cp config/example.database.yml config/database.yml
