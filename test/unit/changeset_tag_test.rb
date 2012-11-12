@@ -59,7 +59,7 @@ class ChangesetTagTest < ActiveSupport::TestCase
   
   def test_uniqueness
     tag = ChangesetTag.new
-    tag.changeset_id = changeset_tags(:changeset_1_tag_1).id
+    tag.changeset_id = changeset_tags(:changeset_1_tag_1).changeset_id
     tag.k = changeset_tags(:changeset_1_tag_1).k
     tag.v = changeset_tags(:changeset_1_tag_1).v
     assert tag.new_record?
