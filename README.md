@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/erictheise/openstreetmap-website.png)](https://travis-ci.org/erictheise/openstreetmap-website)
+
 # Description
 
 This is the Rails port, the [Ruby on Rails](http://rubyonrails.org/)
