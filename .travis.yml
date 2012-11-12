@@ -5,6 +5,6 @@ rvm:
   - "1.9.3"
 before_script:
   - psql -c 'create database rails_port_test;' -U postgres
-  - psql -c "create role osm_test with superuser password 'osm_test';" -U postgres
+  - psql -c "create user osm_test with superuser password 'osm_test';" -U postgres
   - cp config/example.application.yml config/application.yml
   - cp config/example.database.yml config/database.yml
