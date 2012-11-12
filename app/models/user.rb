@@ -207,8 +207,8 @@ class User < ActiveRecord::Base
   ##
   # return a spam score for a user
   def spam_score
-    changeset_score = self.changesets.limit(10).length * 50
-    trace_score = self.traces.limit(10).length * 50
+    changeset_score = self.changesets.size * 50
+    trace_score = self.traces.size * 50
     diary_entry_score = self.diary_entries.inject(0) { |s,e| s += e.body.spam_score }
     diary_comment_score = self.diary_comments.inject(0) { |s,c| s += c.body.spam_score }
 
