@@ -2,21 +2,21 @@
 
   <h4><%= t'export.start.area_to_export' %></h4>
 
-  <div class="export_bounds">
-    <%= text_field_tag('maxlat', nil, :size => 10, :class => "export_bound") %>
-    <br/>
-    <%= text_field_tag('minlon', nil, :size => 10, :class => "export_bound") %>
-    <%= text_field_tag('maxlon', nil, :size => 10, :class => "export_bound") %>
-    <br/>
-    <%= text_field_tag('minlat', nil, :size => 10, :class => "export_bound") %>
-    <p class="export_hint">
-      <a id="drag_box" href="#"><%= t'export.start.manually_select' %></a>
-    </p>
+  <div class="export_bounds inner">
+    <div class='export_area_inputs'>
+      <%= text_field_tag('maxlat', nil, :size => 10, :class => "export_bound") %>
+      <br/>
+      <%= text_field_tag('minlon', nil, :size => 10, :class => "export_bound") %>
+      <%= text_field_tag('maxlon', nil, :size => 10, :class => "export_bound") %>
+      <br/>
+      <%= text_field_tag('minlat', nil, :size => 10, :class => "export_bound") %>
+    </div>
+      <a id="drag_box" class='export_hint button' href="#"><%= t'export.start.manually_select' %></a>
   </div>
 
   <h4><%= t'export.start.format_to_export' %></h4>
 
-  <div class="export_details">
+  <div class="export_details inner">
     <p>
       <%= radio_button_tag("format", "osm") %> <%= t'export.start.osm_xml_data' %>
       <br/>
@@ -29,14 +29,14 @@
   <div id="export_osm">
     <h4><%= t'export.start.licence' %></h4>
 
-    <div class="export_details">
+    <div class="export_details inner">
       <p><%= raw t'export.start.export_details' %></p>
     </div>
 
     <div  id="export_osm_too_large">
       <h4><%= t'export.start.too_large.heading' %></h4>
 
-      <div class="export_details">
+      <div class="export_details inner">
         <p><%= t'export.start.too_large.body' %></p>
       </div>
     </div>
@@ -45,7 +45,7 @@
   <div id="export_mapnik">
     <h4><%= t'export.start.options' %></h4>
 
-    <div class="export_details">
+    <div class="export_details inner">
       <p><%= t'export.start.format' %> <%= select_tag("mapnik_format", options_for_select([["PNG", "png"], ["JPEG", "jpeg"], ["SVG", "svg"], ["PDF", "pdf"]], "png")) %></p>
       <p><%= t'export.start.scale' %> 1 : <%= text_field_tag("mapnik_scale", nil, :size => 8) %> <span class="export_hint">(<%= t'export.start.max' %> 1 : <span id="mapnik_max_scale"></span>)</span></p>
       <p><%= t'export.start.image_size' %> <span id="mapnik_image_width"></span> x <span id="mapnik_image_height"></span></p>
@@ -55,8 +55,8 @@
   <div id="export_html">
     <h4><%= t'export.start.options' %></h4>
 
-    <div class="export_details">
-      <p><a id="add_marker" href="#"><%= t'export.start.add_marker' %></a></p>
+    <div class="export_details inner">
+      <p><a id="add_marker" class='button' href="#"><%= t'export.start.add_marker' %></a></p>
       <p id="marker_inputs" style="display:none">
         <%= t'export.start.latitude' %> <input type="text" id="marker_lat" size="9" />
         <%= t'export.start.longitude' %> <input type="text" id="marker_lon" size="9" />
@@ -65,7 +65,7 @@
 
     <h4><%= t'export.start.output' %></h4>
 
-    <div class="export_details">
+    <div class="export_details inner">
       <p><input type="text" id="export_html_text" style="width:95%" /></p>
       <p><%= t'export.start.paste_html' %></p>
     </div>

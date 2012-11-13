@@ -40,21 +40,16 @@ abbr, acronym {
   cursor: help;
 }
 
-/*
-** Markup free clearing
-** Details: http://www.positioniseverything.net/easyclearing.html
-*/
+/* Micro Clearfix | Details: http://nicolasgallagher.com/micro-clearfix-hack/ */
+
+.clearfix:before,
+.clearfix:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
 
 .clearfix:after {
-  content: ".";
-  display: block;
-  height: 0;
-  clear: both;
-  visibility: hidden;
-  }
-
-.clearfix {
-  display: inline-block;
+    clear: both;
 }
 
 /* Default rules for the body of every page */
@@ -73,11 +68,19 @@ body.slim {
   background-color: #f0f0f0;
 }
 
+h1, h2, h3 {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
 h1, h2 {
   font-size: 32px;
   line-height: 42px;
-  margin-top: 10px;
-  margin-bottom: 20px;
+}
+
+#content h2 {
+  font-size: 24px;
+  line-height: 32px;
 }
 
 h3 {
@@ -115,6 +118,15 @@ h6:first-child {
   margin-top: 0;
 }
 
+#content ul,
+#content ol {
+  margin-bottom: 20px;
+  font-style: italic;
+  margin-left: 20px;
+}
+#content ul li { list-style: disc;}
+#content ol li { list-style: decimal;}
+
 .column-1 {
   width: 50%;
   margin-bottom: 20px;
@@ -148,8 +160,8 @@ hr {
 
 #left {
   position: absolute;
-  top: 30px;
-  bottom: 0;
+  height: 100%;
+  float: left;
   width: 185px;
   font-size: 11px;
   line-height: 12px;
@@ -162,7 +174,7 @@ hr {
   display: block;
   width: 170px;
   min-width: 170px;
-  padding: 5px;
+  padding: 10px 5px 5px;
   text-align: center;
   margin: auto;
 }
@@ -415,6 +427,7 @@ hr {
 #top-bar {
   position: relative;
   height: 29px;
+  margin-left: 185px;
   border-bottom: 1px solid #ccc;
   background: white;
   z-index: 100;
@@ -537,13 +550,6 @@ hr {
   padding: 5px;
 }
 
-.site-index #map .SimpleLayerSwitcher,
-.site-index #map .olControlSimplePanZoom,
-.site-export #map .SimpleLayerSwitcher,
-.site-export #map .olControlSimplePanZoom {
-  top: 40px !important;
-}
-
 /* Rules for edit menu */
 
 .menuicon {
@@ -592,7 +598,7 @@ hr {
 #sidebar {
   display: none;
   position: absolute;
-  margin: 30px 0px 0px 0px;
+  margin: 0px;
   padding: 0px;
   width: 33.3333%;
   top: 0px;
@@ -630,7 +636,8 @@ hr {
 #sidebar_content h4 {
   border-bottom: 1px solid #ddd;
   padding: 0 20px 10px 20px;
-  margin-bottom: 20px;
+  margin-top: 10px;
+  margin-bottom: 0;
 }
 
 /* Rules for the map key which appears in the popout sidebar */
@@ -683,32 +690,28 @@ hr {
 
 /* Rules for data browser information which appears in the popout sidebar */
 
-.browse_heading {
-  margin: 0px;
-  padding: 3px 6px;
-  border: 1px solid #ccc;
-  background: #f8f8ff;
+.browse_status {
+  display: none;
 }
 
 .browse_details {
-  margin: 0px;
-  padding: 0px 6px;
+  padding: 0px 20px;
 }
 
 /* Rules for export information which appears in the popout sidebar */
 
 .export_bounds {
-  width: 100%;
   text-align: center;
+}
+
+.export_area_inputs {
+  margin-bottom: 10px;
 }
 
 .export_bound {
   margin: 5px;
 }
 
-.export_details {
-  padding: 0 20px;
-}
 
 #export_osm {
   display: none;
@@ -720,11 +723,6 @@ hr {
 
 #export_osmarender {
   display: none;
-}
-
-.export_hint {
-  padding: 0px 12px;
-  font-style: italic;
 }
 
 .export_buttons {
@@ -988,6 +986,13 @@ table.browse_details th {
     border-top: 0;
     padding-top: 0;
   }
+  h1, h2 {
+    font-size: 21px;
+    line-height: 21px;
+  }
+  small.deemphasize {
+    display: block;
+  }
 }
 
 
@@ -998,23 +1003,52 @@ table.browse_details th {
 .post_heading {
   margin-bottom: 20px;
 
-  h3 {
+  h2 {
     margin-top: 0;
     margin-bottom: 0;
     float: left;
-    }
+    font-size: 24px;
+    line-height: 32px;
+  }
 }
 
 /* Rules for the new diary entry page */
 
-.diary_entry div#map {
+.diary_entry {
+
+  div#map {
   position: relative;
   width: 90%;
   height: 398px;
   border: 1px solid #ccc;
   display: none;
-}
+  }
 
+  #newcomment {
+    border-top: 1px solid #ccc;
+    padding-top: 20px;
+    margin-top: 20px;
+  }
+
+  .diary-comment {
+    margin-top: 20px;
+
+    &:first-child {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #ccc;
+    }
+    p {
+      margin-left: 70px;
+      margin-bottom: 10px;
+    }
+  }
+
+ .comment-heading {
+    margin-bottom: 0;
+    margin-top: 0;
+ }
+}
 /* Rules for the login page */
 
 
@@ -1070,11 +1104,6 @@ div#contributorTerms img {
   margin-left: auto;
   margin-right: auto;
   margin-top: 10%;
-}
-
-form#termsForm {
-  width: 95%;
-  margin-bottom: 3em;
 }
 
 div#slim_content form#termsForm {
@@ -1319,6 +1348,7 @@ img.user_image {
 }
 
 img.user_thumbnail {
+  margin-right: 20px;
   max-width: 50px;
   max-height: 100px;
   border: 1px solid #ccc;
@@ -1349,6 +1379,38 @@ abbr.geo {
   top: 4px;
 }
 
+/* Utility for managing inner content areas */
+
+.inner { padding: 20px;}
+#sidebar .inner { padding: 10px 20px;}
+
+/* Utility for general button styles */
+
+a.button {
+  display: block;
+  padding: 5px;
+  min-width: 120px;
+  margin-bottom: 10px;
+  color: white;
+  background: #7092FF;
+  text-align: center;
+  border-radius: 2px;
+  -moz-border-radius: 2px;
+  &:hover {
+    background: blue;
+    text-decoration: none;
+  }
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+a.button.submit {
+  background-color: #cbeea7;
+  &:hover {
+    background-color: #9ed485;
+  }
+}
 /* Rules for doing distinct colour of alternate table rows */
 
 .table0 {
@@ -1410,6 +1472,9 @@ abbr.geo {
       vertical-align: top;
     }
 
+    table > thead th {
+      font-weight: bold;
+    }
     td {
       font-family: fixed;
       line-height: 16px;
