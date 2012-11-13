@@ -106,7 +106,8 @@ module Potlatch
     end
 
     # Encode string with two-byte length
-    def self.encodestring(n) 
+    def self.encodestring(n)
+      n=n.dup.force_encoding("ASCII-8BIT") if n.respond_to?("force_encoding")
       a,b=n.size.divmod(256)
       a.chr+b.chr+n
     end

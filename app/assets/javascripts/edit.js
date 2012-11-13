@@ -1,13 +1,12 @@
 function maximiseMap() {
   $("#left").hide();
-  $("#greeting").hide();
-  $("#tabnav").hide();
+  $("#top-bar").hide();
 
   $("#content").css("top", "0px");
   if ($("html").attr("dir") == "ltr") {
-    $("#content").css("left", "0px");
+    $("#content").css("margin-left", "0px");
   } else {
-    $("#content").css("right", "0px");
+    $("#content").css("margin-right", "0px");
   }
 
   handleResize();
@@ -15,14 +14,13 @@ function maximiseMap() {
 
 function minimiseMap() {
   $("#left").show();
-  $("#greeting").show();
-  $("#tabnav").show();
+  $("#top-bar").show();
 
   $("#content").css("top", "30px");
   if ($("html").attr("dir") == "ltr") {
-    $("#content").css("left", "185px");
+    $("#content").css("margin-left", "185px");
   } else {
-    $("#content").css("right", "185px");
+    $("#content").css("margin-right", "185px");
   }
 
   handleResize();

@@ -23,7 +23,7 @@ OSM = {
   mapParams: function (search) {
     var params = {}, mapParams = {}, loc;
 
-    search = (search || window.location.search).replace('?', '').split('&');
+    search = (search || window.location.search).replace('?', '').split(/&|;/);
 
     for (var i = 0; i < search.length; ++i) {
       var pair = search[i],

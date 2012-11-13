@@ -2,7 +2,7 @@
 source 'http://rubygems.org'
 
 # Require rails
-gem 'rails', '3.2.8'
+gem 'rails', '3.2.9'
 
 # Require things which have moved to gems in ruby 1.9
 gem 'bigdecimal', :platforms => :ruby_19
