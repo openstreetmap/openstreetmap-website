@@ -6,25 +6,25 @@
   <%= render :partial => "common_details", :object => relation_details %>
 
   <% unless relation_details.relation_members.empty? %>
-    <tr valign="top">
+    <tr class='table-section'>
       <th><%= t'browse.relation_details.members' %></th>
       <td>
-        <table cellpadding="0">
+        <table>
           <%= render :partial => "relation_member", :collection => relation_details.relation_members %>
         </table>
       </td>
-    </tr>   
+    </tr>
   <% end %>
 
   <% unless relation_details.containing_relation_members.empty? %>
-    <tr valign="top">
+    <tr class='table-section'>
       <th><%= t'browse.relation_details.part_of' %></th>
       <td>
-        <table cellpadding="0">
+        <table>
           <%= render :partial => "containing_relation", :collection => relation_details.containing_relation_members %>
         </table>
       </td>
-    </tr>      
+    </tr>
   <% end %>
 
 </table>

@@ -24,9 +24,9 @@ table
 
 li { list-style: none; }
 
-caption, th, td {
+caption {
   text-align: left;
-  vertical-align: top;
+  vertical-align: middle;
   font-weight: normal;
 }
 
@@ -44,8 +44,8 @@ abbr, acronym {
 
 .clearfix:before,
 .clearfix:after {
-    content: " "; /* 1 */
-    display: table; /* 2 */
+    content: " ";
+    display: table;
 }
 
 .clearfix:after {
@@ -154,6 +154,28 @@ hr {
   background-color: #ccc;
   color: #ccc;
   height: 1px;
+}
+
+/* General styles for tables */
+
+table {
+  margin-bottom: 20px;
+  th, td {
+    padding: 5px;
+    line-height: 20px;
+    text-align: left;
+  }
+  th {
+    font-weight: bold;
+    vertical-align: top;
+  }
+  td {
+    vertical-align: middle;
+  }
+  tr.table-section {
+    border-top: 1px solid #ccc;
+    margin-top: 20px !important;
+  }
 }
 
 /* Rules for the whole left sidebar, including the logo */
@@ -652,11 +674,6 @@ hr {
   font-size: 12px;
 }
 
-.mapkey-table tr td {
-  vertical-align: middle;
-  text-indent: 10px;
-}
-
 #mapkey .mapkey-table-key img {
   display: block;
   margin-left: auto;
@@ -789,6 +806,9 @@ hr {
   h1, h2 {
     margin-bottom: 10px;
     line-height: 100%;
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 
   p {
@@ -933,8 +953,11 @@ table.browse_details th {
   }
 }
 
-.activity-block h3 {
-  margin-bottom: 10px;
+.activity-block {
+  float: left;
+  h3 {
+    margin-bottom: 10px;
+  }
 }
 
 .contact-activity {
@@ -1079,16 +1102,7 @@ div#contributorTerms {
   padding: 20px;
   margin-bottom: 20px;
   overflow: auto;
-  width: 95%;
   height: 398px;
-}
-
-div#slim_content div#contributorTerms {
-  width: auto;
-}
-
-div#contributorTerms p#first {
-  margin-top: 0px;
 }
 
 div#contributorTerms p#last {
@@ -1111,10 +1125,9 @@ div#slim_content form#termsForm {
 }
 
 p#contributorGuidance {
-  background-color: #f5f5ff;
-  border: 1px solid #f3f3ff;
-  border-radius: 15px;
-  -moz-border-radius: 15px;
+  background-color: #f4f4ff;
+  border-radius: 3px;
+  -moz-border-radius: 3px;
   margin-top: 20px;
   padding: 10px;
 }
@@ -1240,6 +1253,7 @@ p#contributorGuidance {
 }
 
 .info-line {
+  margin-bottom: 20px;
   border-bottom: 1px solid #ccc;
   padding: 5px 0px 4px 0px;
 }
