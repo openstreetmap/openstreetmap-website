@@ -28,14 +28,13 @@
        }
      end
   %>
-  <%= content_tag "div", "", :id => "small_map", :data => data %>
+  <%= content_tag "div", "", :id => "small_map", :class => "content_map", :data => data %>
   <span id="loading"><%= t 'browse.map.loading' %></span>
 
   <%= link_to t("browse.map.larger.area"),
               root_path(:box => "yes"),
               :id => "area_larger_map",
               :class => "geolink bbox" %>
-  <br />
   <%= link_to h(t("browse.map.edit.area")) + content_tag(:span, "▾", :class => "menuicon"),
               edit_path,
               :id => "area_edit",
@@ -43,12 +42,10 @@
               :class => "geolink bbox" %>
 
   <% unless map.instance_of? Changeset %>
-    <br />
     <%= link_to t("browse.map.larger." + map.class.to_s.downcase),
                 root_path,
                 :id => "object_larger_map",
                 :class => "geolink object" %>
-    <br />
     <%= link_to h(t("browse.map.edit." + map.class.to_s.downcase)) + content_tag(:span, "▾", :class => "menuicon"),
                 edit_path,
                 :id => "object_edit",

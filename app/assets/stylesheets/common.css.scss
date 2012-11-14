@@ -172,10 +172,6 @@ table {
   td {
     vertical-align: middle;
   }
-  tr.table-section {
-    border-top: 1px solid #ccc;
-    margin-top: 20px !important;
-  }
 }
 
 /* Rules for the whole left sidebar, including the logo */
@@ -715,6 +711,9 @@ table {
   padding: 0px 20px;
 }
 
+/* disable padding when details are shown in full-page mode */
+.column-1 .browse_details { padding: 0;}
+
 /* Rules for export information which appears in the popout sidebar */
 
 .export_bounds {
@@ -817,13 +816,18 @@ table {
   }
 }
 
-/* Rules for text content pages */
+/* Rules for small maps in content areas */
 
-.wide-table {
-  width: 100%;
+.content_map {
+  position: relative;
+  width: 45%;
+  height: 398px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
 }
 
 /* Rules for the home page */
+
 .site-export #map,
 .site-index #map {
   position: absolute;
@@ -850,20 +854,16 @@ table {
   width: 100%;
 }
 
-#changeset_list td {
-  vertical-align: top;
-  padding: 5px;
-}
-
-#changeset_list .date,
-#changeset_list .user,
-#changeset_list .area {
-  white-space: nowrap;
-}
 
 #changeset_list .selected {
   background-color: rgb(255, 255, 160);
   background-color: rgba(255, 255, 85, 0.5);
+}
+
+.browse-section {
+    border-top: 1px solid #ccc;
+    margin-top: 20px;
+    padding-top: 20px;
 }
 
 #changeset_list_map {
@@ -879,22 +879,6 @@ table {
 /* Rules for the data browser */
 
 #browse_navigation {
-  width: 250px;
-  text-align: center;
-}
-
-table.browse_details th {
-  white-space: nowrap;
-}
-
-#browse_map {
-  width: 250px;
-}
-
-#browse_map #small_map {
-  width: 250px;
-  height: 298px;
-  border: solid 1px #ccc;
 }
 
 #browse_map .geolink {
@@ -1181,14 +1165,6 @@ p#contributorGuidance {
 }
 
 /* Rules for the user view */
-
-.user-view .user_map {
-  position: relative;
-  width: 45%;
-  height: 398px;
-  border: 1px solid #ccc;
-  margin-bottom: 20px;
-}
 
 .user-view .user_map p#no_home_location {
   position: absolute;

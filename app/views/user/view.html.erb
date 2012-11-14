@@ -108,7 +108,7 @@
 
   <% if @user and @this_user.id == @user.id %>
     <% if @this_user.home_lat.nil? or @this_user.home_lon.nil? %>
-      <div id="map" class="user_map">
+      <div id="map" class="content_map">
         <p id="no_home_location"><%= raw(t 'user.view.if set location', :settings_link => (link_to t('user.view.settings_link_text'), :controller => 'user', :action => 'account', :display_name => @user.display_name)) %></p>
       </div>
     <% else %>
@@ -123,7 +123,7 @@
           :description => render(:partial => "popup", :object => @user, :locals => {:type => "your location"})
         }
       %>
-      <%= content_tag "div", "", :id => "map", :class => "user_map", :data => {:user => user_data} %>
+      <%= content_tag "div", "", :id => "map", :class => "content_map", :data => {:user => user_data} %>
     <% end %>
 
     <% friends = @this_user.friends.collect { |f| f.befriendee } %>

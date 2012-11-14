@@ -1,16 +1,15 @@
 <% content_for :head do %>
 <%= stylesheet_link_tag 'browse' %>
 <% end %>
-<%= render :partial => "navigation" %>
 
 <% content_for :heading do %>
   <h2><%= t 'browse.changeset.changeset', :id => @changeset.id %></h2>
+  <%= render :partial => "navigation" %>
 <% end %>
 
 <% if @changeset.has_valid_bbox? %>
 <%= render :partial => "map", :object => @changeset %>
 <% end %>
 <%= render :partial => "changeset_details", :object => @changeset %>
-<hr />
 <%= link_to(t('browse.changeset.changesetxml'), :controller => "changeset", :action => "read") %>
 | <%= link_to(t('browse.changeset.osmchangexml'), :controller => "changeset", :action => "download") %>

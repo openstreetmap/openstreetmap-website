@@ -7,11 +7,14 @@
 <% end %>
 
 <% if @node.visible -%>
-<%= render :partial => "map", :object => @node %>
+  <%= render :partial => "map", :object => @node %>
 <% end -%>
-<% @node.old_nodes.reverse.each do |node| %>
-  <%= render :partial => "node_details", :object => node %>
-  <hr />
-<% end %>
+
+<div class='column-1'>
+  <% @node.old_nodes.reverse.each do |node| %>
+    <%= render :partial => "node_details", :object => node %>
+  <% end %>
+<div class='column-1'>
+
 <%= link_to(t('browse.node_history.download_xml'), :controller => "old_node", :action => "history") %>
 | <%= link_to(t('browse.node_history.view_details'), :action => "node") %>
