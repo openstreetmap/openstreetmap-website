@@ -20,13 +20,13 @@ $(document).ready(function () {
 
     vectors.addFeatures(highlight);
 
-    $("#tr-changeset-" + id).addClass("selected");
+    $("#changeset-" + id).addClass("selected");
   }
 
   function unHighlightChangeset(id) {
     vectors.removeFeatures(highlight);
 
-    $("#tr-changeset-" + id).removeClass("selected");
+    $("#changeset-" + id).removeClass("selected");
   }
 
   var map = createMap("changeset_list_map", {

@@ -118,15 +118,6 @@ h6:first-child {
   margin-top: 0;
 }
 
-#content ul,
-#content ol {
-  margin-bottom: 20px;
-  font-style: italic;
-  margin-left: 20px;
-}
-#content ul li { list-style: disc;}
-#content ol li { list-style: decimal;}
-
 .column-1 {
   width: 50%;
   margin-bottom: 20px;
@@ -621,18 +612,25 @@ table {
   width: 33.3333%;
   top: 0px;
   bottom: 0px;
-}
 
-#sidebar .sidebar_heading {
-  position: relative;
-  margin: 0;
-  height: 20px;
-  padding: 20px;
-  background: #F4F4FF;
-}
+  .sidebar_heading {
+    position: relative;
+    margin: 0;
+    height: 20px;
+    padding: 20px;
+    background: #F4F4FF;
+  }
 
-#sidebar h3 {
-  margin: 0;
+  h3 {
+    margin: 0;
+  }
+
+  ul {
+    margin-bottom: 0;
+    li {
+      margin-bottom: 5px;
+    }
+  }
 }
 
 #sidebar_close {
@@ -643,21 +641,20 @@ table {
   right: 20px;
 }
 
-#sidebar #sidebar_content {
+#sidebar_content {
   position: absolute;
   bottom: 0;
   top: 60px;
   width: 100%;
   overflow: auto;
-}
 
-#sidebar_content h4 {
-  border-bottom: 1px solid #ddd;
-  padding: 0 20px 10px 20px;
-  margin-top: 10px;
-  margin-bottom: 0;
+  h4 {
+    border-bottom: 1px solid #ddd;
+    padding: 0 20px 10px 20px;
+    margin-top: 10px;
+    margin-bottom: 0;
+  }
 }
-
 /* Rules for the map key which appears in the popout sidebar */
 
 #mapkey h3 {
@@ -703,16 +700,29 @@ table {
 
 /* Rules for data browser information which appears in the popout sidebar */
 
-.browse_status {
-  display: none;
+#browse_content {
+  position: relative;
+  .browse_show_list.button {
+    position: absolute;
+    left: 20px;
+    right: 20px;
+    bottom: -50px;
+    margin-bottom: 0;
+  }
+  a.more-details {
+    position: absolute;
+    right: 20px;
+    top: 0;
+  }
 }
 
 .browse_details {
-  padding: 0px 20px;
+  position: relative;
 }
 
-/* disable padding when details are shown in full-page mode */
-.column-1 .browse_details { padding: 0;}
+.browse_status {
+  display: none;
+}
 
 /* Rules for export information which appears in the popout sidebar */
 
@@ -728,15 +738,8 @@ table {
   margin: 5px;
 }
 
-
-#export_osm {
-  display: none;
-}
-
-#export_mapnik {
-  display: none;
-}
-
+#export_osm,
+#export_mapnik,
 #export_osmarender {
   display: none;
 }
@@ -1000,8 +1003,19 @@ table {
   small.deemphasize {
     display: block;
   }
+  ul,
+  ol {
+    margin-bottom: 20px;
+    margin-left: 20px;
+    font-style: italic;
+  }
+  ul li {
+    list-style: disc;
+  }
+  ol li {
+    list-style: decimal;
+  }
 }
-
 
 .content-heading .hide_unless_logged_in { // hacky selector, better to just add a new class to this div
   display: inline;
@@ -1371,8 +1385,11 @@ abbr.geo {
 
 /* Utility for managing inner content areas */
 
-.inner { padding: 20px;}
-#sidebar .inner { padding: 10px 20px;}
+.inner22 { padding: 20px;}
+
+.inner12 { padding: 10px 20px;}
+
+.inner02 { padding: 0 20px;}
 
 /* Utility for general button styles */
 
