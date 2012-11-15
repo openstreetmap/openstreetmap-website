@@ -23,12 +23,6 @@ table {
 
 li { list-style: none; }
 
-caption {
-  text-align: left;
-  vertical-align: middle;
-  font-weight: normal;
-}
-
 input,
 select,
 textarea,
@@ -70,6 +64,7 @@ body.slim {
 h1, h2, h3 {
   margin-top: 10px;
   margin-bottom: 20px;
+  font-weight: bold;
 }
 
 h1, h2 {
@@ -94,6 +89,7 @@ h4,h5,h6 {
   line-height: 21px;
   margin-top: 10px;
   margin-bottom: 20px;
+  font-weight: bold;
 }
 
 p, ul {
@@ -717,6 +713,9 @@ table {
     right: 20px;
     top: 0;
   }
+  ul li {
+    margin-bottom: 0;
+  }
 }
 
 .browse_details {
@@ -832,6 +831,12 @@ table {
   margin-bottom: 20px;
 }
 
+.content_map #small_map {
+  height: 100%;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
 /* Rules for the home page */
 
 .site-export #map,
@@ -880,6 +885,9 @@ table {
     border-top: 1px solid #ccc;
     margin-top: 20px;
     padding-top: 20px;
+    &:first-child {
+      margin-top: 0;
+    }
 }
 
 #changeset_list_map {
@@ -895,11 +903,12 @@ table {
 
 /* Rules for the data browser */
 
-#browse_navigation {
-}
-
 #browse_map .geolink {
   display: none;
+}
+
+#browse_map .secondary-actions {
+  margin-bottom: 10px;
 }
 
 /* Rules for the trace list shown by the traces tab etc */
@@ -939,20 +948,16 @@ table {
 
 #userinformation {
   min-height: 100px;
-
   h2 {
     margin-top: 0;
   }
-
   .user-description {
     width: 100%;
     clear: both;
   }
-
   .userinformation-inner {
     float: left;
   }
-
   .deemphasize {
     margin: 0;
   }
@@ -1406,12 +1411,17 @@ abbr.geo {
   top: 4px;
 }
 
-/* General styles for action lists */
+/* General styles for action lists / subnavs / pager navs */
 
 ul.secondary-actions {
   font-style: normal;
   margin-left: 0;
   margin-bottom: 0;
+  &.pager {
+    display: inline-block;
+    margin-right: 60px;
+    margin-bottom: 20px;
+  }
   &.opposite {
     position: absolute;
     right: 0;

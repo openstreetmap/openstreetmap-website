@@ -1,21 +1,23 @@
 <div class='column-1'>
 
-  <div>
-    <h4><%= t 'browse.changeset_details.created_at' %></h4>
-    <p><%= l changeset_details.created_at %></p>
-  </div>
-
-  <div>
-    <h4><%= t 'browse.changeset_details.closed_at' %></h4>
-    <p><%= l changeset_details.closed_at %></p>
-  </div>
-
-  <% if changeset_details.user.data_public? %>
+  <div class='browse-section'>
     <div>
-      <h4><%= t 'browse.changeset_details.belongs_to' %></h4>
-      <p><%= link_to h(changeset_details.user.display_name), :controller => "user", :action => "view", :display_name => changeset_details.user.display_name %></p>
+      <h4><%= t 'browse.changeset_details.created_at' %></h4>
+      <p><%= l changeset_details.created_at %></p>
     </div>
-  <% end %>
+
+    <div>
+      <h4><%= t 'browse.changeset_details.closed_at' %></h4>
+      <p><%= l changeset_details.closed_at %></p>
+    </div>
+
+    <% if changeset_details.user.data_public? %>
+      <div>
+        <h4><%= t 'browse.changeset_details.belongs_to' %></h4>
+        <p><%= link_to h(changeset_details.user.display_name), :controller => "user", :action => "view", :display_name => changeset_details.user.display_name %></p>
+      </div>
+    <% end %>
+  </div>
 
   <%= render :partial => "tag_details", :object => changeset_details %>
 

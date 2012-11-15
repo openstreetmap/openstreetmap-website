@@ -1,38 +1,39 @@
-<div>
-  <% if common_details.visible? %>
-    <h4><%= t 'browse.common_details.edited_at' %></h4>
-  <% else %>
-    <h4><%= t 'browse.common_details.deleted_at' %></h4>
-  <% end %>
-  <p><%= l common_details.timestamp %></p>
-</div>
-
-<% if common_details.changeset.user.data_public? %>
+<div class='browse-section'>
   <div>
     <% if common_details.visible? %>
-      <h4><%= t 'browse.common_details.edited_by' %></h4>
+      <h4><%= t 'browse.common_details.edited_at' %></h4>
     <% else %>
-      <h4><%= t 'browse.common_details.deleted_by' %></h4>
+      <h4><%= t 'browse.common_details.deleted_at' %></h4>
     <% end %>
-    <p><%= link_to h(common_details.changeset.user.display_name), :controller => "user", :action => "view", :display_name => common_details.changeset.user.display_name %></p>
+    <p><%= l common_details.timestamp %></p>
   </div>
-<% end %>
 
-<div>
-  <h4><%= t 'browse.common_details.version' %></h4>
-  <p><%= h(common_details.version) %></p>
-</div>
+  <% if common_details.changeset.user.data_public? %>
+    <div>
+      <% if common_details.visible? %>
+        <h4><%= t 'browse.common_details.edited_by' %></h4>
+      <% else %>
+        <h4><%= t 'browse.common_details.deleted_by' %></h4>
+      <% end %>
+      <p><%= link_to h(common_details.changeset.user.display_name), :controller => "user", :action => "view", :display_name => common_details.changeset.user.display_name %></p>
+    </div>
+  <% end %>
 
-<div>
-  <h4><%= t 'browse.common_details.in_changeset' %></h4>
-  <p><%= link_to common_details.changeset_id, :action => :changeset, :id => common_details.changeset_id %></p>
-</div>
-
-<% if common_details.changeset.tags['comment'] %>
   <div>
-    <h4><%= t 'browse.common_details.changeset_comment' %></h4>
-    <p><%= linkify(h(common_details.changeset.tags['comment'])) %></p>
+    <h4><%= t 'browse.common_details.version' %></h4>
+    <p><%= h(common_details.version) %></p>
   </div>
-<% end %>
 
+  <div>
+    <h4><%= t 'browse.common_details.in_changeset' %></h4>
+    <p><%= link_to common_details.changeset_id, :action => :changeset, :id => common_details.changeset_id %></p>
+  </div>
+
+  <% if common_details.changeset.tags['comment'] %>
+    <div>
+      <h4><%= t 'browse.common_details.changeset_comment' %></h4>
+      <p><%= linkify(h(common_details.changeset.tags['comment'])) %></p>
+    </div>
+  <% end %>
+</div>
 <%= render :partial => "tag_details", :object => common_details %>

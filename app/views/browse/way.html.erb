@@ -8,15 +8,16 @@
 
 <% content_for :heading do %>
   <h2><%= t'browse.way.way_title', :way_name => @name %></h2>
-  <%= render :partial => "navigation" %>
+  <ul class='secondary-actions clearfix'>
+    <li><%= link_to(t('browse.way.download_xml'), :controller => "way", :action => "read") %></li>
+    <li><%= link_to(t('browse.way.view_history'), :action => "way_history") %></li>
+    <li><%= link_to(t('browse.way.edit'), :controller => "site", :action => "edit", :way => @way.id) %></li>
+  </ul>
 <% end %>
 
+<%= render :partial => "navigation" %>
 <%= render :partial => "map", :object => @way %>
 
 <div class='column-1'>
   <%= render :partial => "way_details", :object => @way %>
 </div>
-
-<%= link_to(t('browse.way.download_xml'), :controller => "way", :action => "read") %>
-| <%= link_to(t('browse.way.view_history'), :action => "way_history") %>
-| <%= link_to(t('browse.way.edit'), :controller => "site", :action => "edit", :way => @way.id) %>
