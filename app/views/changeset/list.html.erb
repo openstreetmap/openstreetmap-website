@@ -5,11 +5,15 @@
 <% content_for :heading do %>
 
   <h1><%= @heading %></h1>
-  <span><%= raw(@description) %></span>
+  <ul class='secondary-actions clearfix'>
+    <li><%= raw(@description) %></li>
 
-  <% unless params[:friends] or params[:nearby] -%>
-    | <%= atom_link_to params.merge({ :page => nil, :action => :feed }) %>
-  <% end -%>
+    <% unless params[:friends] or params[:nearby] -%>
+      <li>
+        <%= atom_link_to params.merge({ :page => nil, :action => :feed }) %>
+      </li>
+    <% end -%>
+  </ul>
 
 <% end %>
 

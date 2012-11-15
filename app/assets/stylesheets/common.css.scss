@@ -856,12 +856,22 @@ table {
 
 #changeset_list {
   width: 100%;
-}
-
-
-#changeset_list .selected {
-  background-color: rgb(255, 255, 160);
-  background-color: rgba(255, 255, 85, 0.5);
+  ul {
+    padding: 10px;
+    margin-bottom: 0px;
+    .deemphasize {
+      margin-bottom: 5px;
+    }
+    .date,
+    .user {
+      border-left: 1px solid #ccc;
+      padding-left: 5px;
+    }
+  }
+  .selected {
+    background-color: rgb(255, 255, 160);
+    background-color: rgba(255, 255, 85, 0.5);
+  }
 }
 
 .browse-section {
@@ -873,11 +883,12 @@ table {
 #changeset_list_map {
   position: absolute;
   right: 20px;
-  height: 100%;
+  bottom: 20px;
+  top: 20px;
   width: 45%;
   min-height: 398px;
+  max-height: 588px;
   border: 1px solid #ccc;
-  margin-bottom: 20px;
 }
 
 /* Rules for the data browser */
@@ -1450,11 +1461,13 @@ a.button.submit {
 }
 /* Rules for doing distinct colour of alternate table rows */
 
-.table0 {
+.table0,
+.item0 {
   background: #F4F4FF;
 }
 
-.table1 {
+.table1,
+.item1 {
   background: #fff;
 }
 
