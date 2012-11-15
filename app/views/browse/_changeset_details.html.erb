@@ -26,19 +26,13 @@
     <% unless changeset_details.has_valid_bbox? %>
     <p><%= t 'browse.changeset_details.no_bounding_box' %></p>
     <% else bbox = changeset_details.bbox.to_unscaled %>
-        <table>
-          <tr>
-            <td colspan="3"><%=bbox.max_lat -%></td>
-          </tr>
-          <tr>
-            <td><%=bbox.min_lon -%></td>
-            <td>(<%= link_to t('browse.changeset_details.box'), root_path(:minlon => bbox.min_lon, :minlat => bbox.min_lat, :maxlon => bbox.max_lon, :maxlat => bbox.max_lat, :box => 'yes'), :title => t('browse.changeset_details.show_area_box') %>)</td>
-            <td><%=bbox.max_lon -%></td>
-          </tr>
-          <tr>
-            <td colspan="3"><%= bbox.min_lat -%></td>
-          </tr>
-        </table>
+        <div class='bbox'>
+            <div class='max_lat'><%=bbox.max_lat -%></div>
+            <div class='min_lon'><%=bbox.min_lon -%></div>
+            <div class='box'>(<%= link_to t('browse.changeset_details.box'), root_path(:minlon => bbox.min_lon, :minlat => bbox.min_lat, :maxlon => bbox.max_lon, :maxlat => bbox.max_lat, :box => 'yes'), :title => t('browse.changeset_details.show_area_box') %>)</div>
+            <div class='max_lon'><%=bbox.max_lon -%></div>
+            <div class='min_lat'><%= bbox.min_lat -%></div>
+        </div>
     <% end %>
   </div>
 
