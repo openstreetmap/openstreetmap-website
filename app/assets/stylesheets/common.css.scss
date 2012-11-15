@@ -16,8 +16,7 @@ sup { vertical-align: text-top; }
 
 sub { vertical-align: text-bottom; }
 
-table
-{
+table {
   border-collapse: collapse;
   border-spacing: 0;
 }
@@ -132,10 +131,9 @@ h6:first-child {
 a {
   color: #00f;
   text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 /* Rules for horizontal lines */
@@ -990,6 +988,7 @@ table {
 /* Rules for the diary list page */
 
 .diary_post {
+  position: relative;
   margin-top: 20px;
   padding-top: 20px;
   border-top: 1px solid #ccc;
@@ -1181,15 +1180,14 @@ p#contributorGuidance {
   margin-top: 15px;
 }
 
+.content_map.settings_map {
+  float: none;
+  width: 50%;
+}
 /* Rules for the user view */
 
-.user-view .user_map p#no_home_location {
-  position: absolute;
-  top: 0px;
-  bottom: 0px;
-  width: 90%;
-  height: 30%;
-  margin: auto 5%;
+.user-view p#no_home_location {
+  margin: 20px;
 }
 
 /* Rules for the user map */
@@ -1326,6 +1324,10 @@ p#contributorGuidance {
 
 /* Rules for forms */
 
+.submitButton {
+  text-align: center;
+}
+
 .fieldName {
   vertical-align: top;
   font-weight: bold;
@@ -1384,6 +1386,31 @@ abbr.geo {
 .rsssmall {
   position: relative;
   top: 4px;
+}
+
+/* General styles for action lists */
+
+ul.secondary-actions {
+  font-style: normal;
+  margin-left: 0;
+  margin-bottom: 0;
+  &.opposite {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
+  li {
+    border-left: 1px solid #222;
+    padding-left: 5px;
+    float: left;
+    display: block;
+    margin-right: 5px;
+    list-style: none;
+    &:first-child {
+      border-left: 0;
+      padding-left: 0;
+    }
+  }
 }
 
 /* Utility for managing inner content areas */
