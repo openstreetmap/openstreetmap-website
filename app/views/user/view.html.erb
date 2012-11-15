@@ -1,154 +1,157 @@
 <% content_for :heading do %>
   <div id='userinformation'>
     <%= user_image @this_user %>
-    <h2><%= @this_user.display_name %><%= role_icons(@this_user) %></h2>
-    <% if @user and @this_user.id == @user.id %>
-      <!-- Displaying user's own profile page -->
-      <ul class='secondary-actions clearfix'>
-        <li>
-          <%= link_to t('user.view.my edits'), :controller => 'changeset', :action => 'list', :display_name => @user.display_name %>
-          <span class='count-number'><%= number_with_delimiter(@user.changesets.size) %></span>
-        </li>
-        <li>
-          <%= link_to t('user.view.my traces'), :controller => 'trace', :action=>'mine' %>
-          <span class='count-number'><%= number_with_delimiter(@user.traces.size) %></span>
-        </li>
-        <li>
-          <%= link_to t('user.view.my diary'), :controller => 'diary_entry', :action => 'list', :display_name => @user.display_name %>
-          <span class='count-number'><%= number_with_delimiter(@user.diary_entries.size) %></span>
-        </li>
-        <li>
-          <%= link_to t('user.view.my comments' ), :controller => 'diary_entry', :action => 'comments', :display_name => @user.display_name %>
-        </li>
-        <li>
-          <%= link_to t('user.view.my settings'), :controller => 'user', :action => 'account', :display_name => @user.display_name %>
-        </li>
-
-        <% if @user.blocks.exists? %>
+    <div class='userinformation-inner'>
+      <h2><%= @this_user.display_name %><%= role_icons(@this_user) %></h2>
+      <% if @user and @this_user.id == @user.id %>
+        <!-- Displaying user's own profile page -->
+        <ul class='secondary-actions clearfix'>
           <li>
-            <%= link_to t('user.view.blocks on me'), :controller => 'user_blocks', :action => 'blocks_on', :display_name => @user.display_name %>
-            <span class='count-number'><%= number_with_delimiter(@user.blocks.active.size) %></span>
+            <%= link_to t('user.view.my edits'), :controller => 'changeset', :action => 'list', :display_name => @user.display_name %>
+            <span class='count-number'><%= number_with_delimiter(@user.changesets.size) %></span>
           </li>
-        <% end %>
-
-        <% if @user and @user.moderator? and @user.blocks_created.exists? %>
           <li>
-            <%= link_to t('user.view.blocks by me'), :controller => 'user_blocks', :action => 'blocks_by', :display_name => @user.display_name %>
-            <span class='count-number'><%= number_with_delimiter(@user.blocks_created.active.size) %></span>
+            <%= link_to t('user.view.my traces'), :controller => 'trace', :action=>'mine' %>
+            <span class='count-number'><%= number_with_delimiter(@user.traces.size) %></span>
           </li>
-        <% end %>
+          <li>
+            <%= link_to t('user.view.my diary'), :controller => 'diary_entry', :action => 'list', :display_name => @user.display_name %>
+            <span class='count-number'><%= number_with_delimiter(@user.diary_entries.size) %></span>
+          </li>
+          <li>
+            <%= link_to t('user.view.my comments' ), :controller => 'diary_entry', :action => 'comments', :display_name => @user.display_name %>
+          </li>
+          <li>
+            <%= link_to t('user.view.my settings'), :controller => 'user', :action => 'account', :display_name => @user.display_name %>
+          </li>
 
-      </ul>
-
-      <% else %>
-
-      <ul class='secondary-actions clearfix'>
-
-        <li>
-          <%= link_to t('user.view.edits'), :controller => 'changeset', :action => 'list', :display_name => @this_user.display_name %>
-          <span class='count-number'><%= number_with_delimiter(@this_user.changesets.size) %></span>
-        </li>
-        <li>
-          <%= link_to t('user.view.traces'), :controller => 'trace', :action => 'list', :display_name => @this_user.display_name %>
-          <span class='count-number'><%= number_with_delimiter(@this_user.traces.size) %></span>
-        </li>
-
-        <!-- Displaying another user's profile page -->
-
-        <li>
-          <%= link_to t('user.view.send message'), :controller => 'message', :action => 'new', :display_name => @this_user.display_name %>
-        </li>
-        <li>
-          <%= link_to t('user.view.diary'), :controller => 'diary_entry', :action => 'list', :display_name => @this_user.display_name %>
-          <span class='count-number'><%= number_with_delimiter(@this_user.diary_entries.size) %></span>
-        </li>
-        <li>
-          <%= link_to t('user.view.comments'), :controller => 'diary_entry', :action => 'comments', :display_name => @this_user.display_name %>
-        </li>
-        <li>
-          <% if @user and @user.is_friends_with?(@this_user) %>
-            <%= link_to t('user.view.remove as friend'), remove_friend_path(:display_name => @this_user.display_name), :method => :post %>
-          <% else %>
-            <%= link_to t('user.view.add as friend'), make_friend_path(:display_name => @this_user.display_name), :method => :post %>
+          <% if @user.blocks.exists? %>
+            <li>
+              <%= link_to t('user.view.blocks on me'), :controller => 'user_blocks', :action => 'blocks_on', :display_name => @user.display_name %>
+              <span class='count-number'><%= number_with_delimiter(@user.blocks.active.size) %></span>
+            </li>
           <% end %>
-        </li>
 
-        <% if @this_user.blocks.exists? %>
+          <% if @user and @user.moderator? and @user.blocks_created.exists? %>
+            <li>
+              <%= link_to t('user.view.blocks by me'), :controller => 'user_blocks', :action => 'blocks_by', :display_name => @user.display_name %>
+              <span class='count-number'><%= number_with_delimiter(@user.blocks_created.active.size) %></span>
+            </li>
+          <% end %>
+
+        </ul>
+
+        <% else %>
+
+        <ul class='secondary-actions clearfix'>
+
           <li>
-            <%= link_to t('user.view.block_history'), :controller => 'user_blocks', :action => 'blocks_on', :display_name => @this_user.display_name %>
-            <span class='count-number'><%= number_with_delimiter(@this_user.blocks.active.size) %></span>
+            <%= link_to t('user.view.edits'), :controller => 'changeset', :action => 'list', :display_name => @this_user.display_name %>
+            <span class='count-number'><%= number_with_delimiter(@this_user.changesets.size) %></span>
           </li>
-        <% end %>
-
-        <% if @this_user.moderator? and @this_user.blocks_created.exists? %>
           <li>
-            <%= link_to t('user.view.moderator_history'), :controller => 'user_blocks', :action => 'blocks_by', :display_name => @this_user.display_name %>
-            <span class='count-number'><%= number_with_delimiter(@this_user.blocks_created.active.size) %></span>
+            <%= link_to t('user.view.traces'), :controller => 'trace', :action => 'list', :display_name => @this_user.display_name %>
+            <span class='count-number'><%= number_with_delimiter(@this_user.traces.size) %></span>
           </li>
-        <% end %>
 
-        <% if @user and @user.moderator? %>
+          <!-- Displaying another user's profile page -->
+
           <li>
-          <%= link_to t('user.view.create_block'), :controller => 'user_blocks', :action => 'new', :display_name => @this_user.display_name %>
+            <%= link_to t('user.view.send message'), :controller => 'message', :action => 'new', :display_name => @this_user.display_name %>
           </li>
-        <% end %>
-
-      </ul>
-
-    <% end %>
-
-    <% if @user and @user.administrator? %>
-
-      <ul class='secondary-actions clearfix'>
-        <% if ["active", "confirmed"].include? @this_user.status %>
           <li>
-            <%= link_to t('user.view.deactivate_user'), set_status_user_path(:status => 'pending', :display_name => @this_user.display_name), :data => { :confirm => t('user.view.confirm') } %>
+            <%= link_to t('user.view.diary'), :controller => 'diary_entry', :action => 'list', :display_name => @this_user.display_name %>
+            <span class='count-number'><%= number_with_delimiter(@this_user.diary_entries.size) %></span>
           </li>
-        <% elsif ["pending"].include? @this_user.status %>
           <li>
-            <%= link_to t('user.view.activate_user'), set_status_user_path(:status => 'active', :display_name => @this_user.display_name), :data => { :confirm => t('user.view.confirm') } %>
+            <%= link_to t('user.view.comments'), :controller => 'diary_entry', :action => 'comments', :display_name => @this_user.display_name %>
           </li>
-        <% end %>
+          <li>
+            <% if @user and @user.is_friends_with?(@this_user) %>
+              <%= link_to t('user.view.remove as friend'), remove_friend_path(:display_name => @this_user.display_name), :method => :post %>
+            <% else %>
+              <%= link_to t('user.view.add as friend'), make_friend_path(:display_name => @this_user.display_name), :method => :post %>
+            <% end %>
+          </li>
 
-        <% if ["active", "suspended"].include? @this_user.status %>
-          <li>
-            <%= link_to t('user.view.confirm_user'), set_status_user_path(:status => 'confirmed', :display_name => @this_user.display_name), :data => { :confirm => t('user.view.confirm') } %>
-          </li>
-        <% end %>
-          <li>
-            <% if ["pending", "active", "confirmed", "suspended"].include? @this_user.status %>
-              <%= link_to t('user.view.hide_user'), set_status_user_path(:status => 'deleted', :display_name => @this_user.display_name), :data => { :confirm => t('user.view.confirm') } %>
-          <% else %>
-            <%= link_to t('user.view.unhide_user'), set_status_user_path(:status => 'active', :display_name => @this_user.display_name), :data => { :confirm => t('user.view.confirm') } %>
-          </li>
-        <% end %>
-        <li>
-          <%= link_to t('user.view.delete_user'), delete_user_path(:display_name => @this_user.display_name), :data => { :confirm => t('user.view.confirm') } %>
-        </li>
-      </ul>
+          <% if @this_user.blocks.exists? %>
+            <li>
+              <%= link_to t('user.view.block_history'), :controller => 'user_blocks', :action => 'blocks_on', :display_name => @this_user.display_name %>
+              <span class='count-number'><%= number_with_delimiter(@this_user.blocks.active.size) %></span>
+            </li>
+          <% end %>
+
+          <% if @this_user.moderator? and @this_user.blocks_created.exists? %>
+            <li>
+              <%= link_to t('user.view.moderator_history'), :controller => 'user_blocks', :action => 'blocks_by', :display_name => @this_user.display_name %>
+              <span class='count-number'><%= number_with_delimiter(@this_user.blocks_created.active.size) %></span>
+            </li>
+          <% end %>
+
+          <% if @user and @user.moderator? %>
+            <li>
+            <%= link_to t('user.view.create_block'), :controller => 'user_blocks', :action => 'new', :display_name => @this_user.display_name %>
+            </li>
+          <% end %>
+
+        </ul>
 
       <% end %>
 
-    <p class='deemphasize'>
-      <small>
-        <%= t 'user.view.mapper since' %> <%= l @this_user.creation_time.to_date, :format => :long %>
-        |
-        <%= t 'user.view.ct status' %>
-        <% if not @this_user.terms_agreed.nil? -%>
-        <%= t 'user.view.ct accepted', :ago =>time_ago_in_words(@this_user.terms_agreed)  %>
-        <% elsif not @this_user.terms_seen? -%>
-        <%= t 'user.view.ct undecided' %>
-        <% else -%>
-        <%= t 'user.view.ct declined' %>
-        <% end -%>
-      </small>
-    </p>
+      <% if @user and @user.administrator? %>
 
-    <div class='profile-description'><%= @this_user.description.to_html %></div>
+        <ul class='secondary-actions clearfix'>
+          <% if ["active", "confirmed"].include? @this_user.status %>
+            <li>
+              <%= link_to t('user.view.deactivate_user'), set_status_user_path(:status => 'pending', :display_name => @this_user.display_name), :data => { :confirm => t('user.view.confirm') } %>
+            </li>
+          <% elsif ["pending"].include? @this_user.status %>
+            <li>
+              <%= link_to t('user.view.activate_user'), set_status_user_path(:status => 'active', :display_name => @this_user.display_name), :data => { :confirm => t('user.view.confirm') } %>
+            </li>
+          <% end %>
+
+          <% if ["active", "suspended"].include? @this_user.status %>
+            <li>
+              <%= link_to t('user.view.confirm_user'), set_status_user_path(:status => 'confirmed', :display_name => @this_user.display_name), :data => { :confirm => t('user.view.confirm') } %>
+            </li>
+          <% end %>
+            <li>
+              <% if ["pending", "active", "confirmed", "suspended"].include? @this_user.status %>
+                <%= link_to t('user.view.hide_user'), set_status_user_path(:status => 'deleted', :display_name => @this_user.display_name), :data => { :confirm => t('user.view.confirm') } %>
+            <% else %>
+              <%= link_to t('user.view.unhide_user'), set_status_user_path(:status => 'active', :display_name => @this_user.display_name), :data => { :confirm => t('user.view.confirm') } %>
+            </li>
+          <% end %>
+          <li>
+            <%= link_to t('user.view.delete_user'), delete_user_path(:display_name => @this_user.display_name), :data => { :confirm => t('user.view.confirm') } %>
+          </li>
+        </ul>
+
+        <% end %>
+
+      <p class='deemphasize'>
+        <small>
+          <%= t 'user.view.mapper since' %> <%= l @this_user.creation_time.to_date, :format => :long %>
+          |
+          <%= t 'user.view.ct status' %>
+          <% if not @this_user.terms_agreed.nil? -%>
+          <%= t 'user.view.ct accepted', :ago =>time_ago_in_words(@this_user.terms_agreed)  %>
+          <% elsif not @this_user.terms_seen? -%>
+          <%= t 'user.view.ct undecided' %>
+          <% else -%>
+          <%= t 'user.view.ct declined' %>
+          <% end -%>
+        </small>
+      </p>
+    </div>
+
+    <div class='user-description'><%= @this_user.description.to_html %></div>
+
   </div>
 <% end %>
 
-<% if @user and @user.administrator? -%>
+  <% if @user and @user.administrator? -%>
     <p><b><%= t 'user.view.email address' %></b> <%= @this_user.email %></p>
     <% unless @this_user.creation_ip.nil? -%>
     <p><b><%= t 'user.view.created from' %></b> <%= @this_user.creation_ip %></p>
@@ -186,9 +189,10 @@
     <% if friends.empty? %>
       <%= t 'user.view.no friends' %>
     <% else %>
-      <%= link_to t('user.view.friends_changesets'), friend_changesets_path %>
-      |
-      <%= link_to t('user.view.friends_diaries'), friend_diaries_path %>
+      <ul class='secondary-actions clearfix'>
+        <li><%= link_to t('user.view.friends_changesets'), friend_changesets_path %></li>
+        <li><%= link_to t('user.view.friends_diaries'), friend_diaries_path %></li>
+      </ul>
       <div id="friends-container">
         <%= render :partial => "contact", :collection => friends, :locals => {:type => "friend"} %>
       </div>
@@ -201,12 +205,13 @@
     <% if nearby.empty? %>
       <%= t 'user.view.no nearby users' %>
     <% else %>
-      <%= link_to t('user.view.nearby_changesets'), nearby_changesets_path %>
-      |
-      <%= link_to t('user.view.nearby_diaries'), nearby_diaries_path %>
-      <table id="nearbyusers">
+      <ul class='secondary-actions clearfix'>
+        <li><%= link_to t('user.view.nearby_changesets'), nearby_changesets_path %></li>
+        <li><%= link_to t('user.view.nearby_diaries'), nearby_diaries_path %></li>
+      </ul>
+      <div id="nearbyusers">
         <%= render :partial => "contact", :collection => nearby, :locals => {:type => "nearby mapper"} %>
-      </table>
+      </div>
     <% end %>
   </div>
 <% end %>

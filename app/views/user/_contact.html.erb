@@ -11,7 +11,7 @@
     <%= user_thumbnail contact %>
   <% end %>
   <div class='activity-details'>
-    <p>
+    <p class='deemphasize'>
       <%= link_to h(contact.display_name), :controller => 'user', :action => 'view',  :display_name => contact.display_name %>
       <% if @this_user.home_lon and @this_user.home_lat and contact.home_lon and contact.home_lat %>
         <% distance = @this_user.distance(contact) %>
@@ -35,14 +35,16 @@
        <%= t'changeset.changeset.no_edits' %>
       <% end %>
     </p>
-    <p>
-      <%= link_to t('user.view.send message'), :controller => 'message', :action => 'new', :display_name => contact.display_name %>
-      |
-      <% if @user.is_friends_with?(contact) %>
-        <%= link_to t('user.view.remove as friend'), remove_friend_path(:display_name => contact.display_name, :referer => request.fullpath), :method => :post %>
-      <% else %>
-        <%= link_to t('user.view.add as friend'), make_friend_path(:display_name => contact.display_name, :referer => request.fullpath), :method => :post %>
+
+    <ul class='secondary-actions clearfix deemphasize'>
+      <li><%= link_to t('user.view.send message'), :controller => 'message', :action => 'new', :display_name => contact.display_name %></li>
+      <li>
+        <% if @user.is_friends_with?(contact) %>
+          <%= link_to t('user.view.remove as friend'), remove_friend_path(:display_name => contact.display_name, :referer => request.fullpath), :method => :post %>
+        <% else %>
+          <%= link_to t('user.view.add as friend'), make_friend_path(:display_name => contact.display_name, :referer => request.fullpath), :method => :post %>
       <% end %>
-    </p>
+      </li>
+    </ul>
   </div>
 </div>
