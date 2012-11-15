@@ -4,6 +4,10 @@
                 :name => link_to(
                                  h(@user_block.user.display_name),
                                  {:controller => 'user', :action => 'view', :display_name => @user_block.user.display_name})) %></h1>
+  <ul class='secondary-actions clearfix'>
+    <li><%= link_to t('user_block.edit.show'), @user_block %></li>
+    <li><%= link_to t('user_block.edit.back'), user_blocks_path %></li>
+  </ul>
 <% end %>
 
 <%= form_for(@user_block) do |f| %>
@@ -25,6 +29,3 @@
     <%= f.submit t('user_block.edit.submit') %>
   </p>
 <% end %>
-
-<%= link_to t('user_block.edit.show'), @user_block %> |
-<%= link_to t('user_block.edit.back'), user_blocks_path %>
