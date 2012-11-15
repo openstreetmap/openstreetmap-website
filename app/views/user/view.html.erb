@@ -149,16 +149,19 @@
     <div class='user-description'><%= @this_user.description.to_html %></div>
 
   </div>
-<% end %>
 
   <% if @user and @user.administrator? -%>
-    <p><b><%= t 'user.view.email address' %></b> <%= @this_user.email %></p>
-    <% unless @this_user.creation_ip.nil? -%>
-    <p><b><%= t 'user.view.created from' %></b> <%= @this_user.creation_ip %></p>
-    <% end -%>
-    <p><b><%= t 'user.view.status' %></b> <%= @this_user.status.capitalize %></p>
-    <p><b><%= t 'user.view.spam score' %></b> <%= @this_user.spam_score %></p>
+    <div class='admin-user-info deemphasize'>
+      <small><b><%= t 'user.view.email address' %></b> <%= @this_user.email %></small>
+      <% unless @this_user.creation_ip.nil? -%>
+        <small><b><%= t 'user.view.created from' %></b> <%= @this_user.creation_ip %></small>
+      <% end -%>
+      <small><b><%= t 'user.view.status' %></b> <%= @this_user.status.capitalize %></small>
+      <small><b><%= t 'user.view.spam score' %></b> <%= @this_user.spam_score %></small>
+    </div>
   <% end -%>
+
+<% end %>
 
   <% if @user and @this_user.id == @user.id %>
     <% if @this_user.home_lat.nil? or @this_user.home_lon.nil? %>
