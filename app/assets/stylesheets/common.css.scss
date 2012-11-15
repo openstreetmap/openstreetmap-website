@@ -559,6 +559,8 @@ table {
 
 .menuicon {
   padding: 5px;
+  font-weight: normal;
+  line-height: 18px;
 
   &:hover {
     background: #eee;
@@ -866,9 +868,6 @@ table {
   ul {
     padding: 10px;
     margin-bottom: 0px;
-    .deemphasize {
-      margin-bottom: 5px;
-    }
     .date,
     .user {
       border-left: 1px solid #ccc;
@@ -881,15 +880,6 @@ table {
   }
 }
 
-.browse-section {
-    border-top: 1px solid #ccc;
-    margin-top: 20px;
-    padding-top: 20px;
-    &:first-child {
-      margin-top: 0;
-    }
-}
-
 #changeset_list_map {
   position: absolute;
   right: 20px;
@@ -897,11 +887,30 @@ table {
   top: 20px;
   width: 45%;
   min-height: 398px;
-  max-height: 588px;
+  max-height: 598px;
   border: 1px solid #ccc;
 }
 
 /* Rules for the data browser */
+
+.browse-section {
+    border-top: 1px solid #ccc;
+    margin-top: 20px;
+    padding-top: 20px;
+    &:first-child {
+      margin-top: 0;
+    }
+    p, ul {
+      margin-left: 33.3333%;
+    }
+    h4, p {
+      margin-bottom: 10px;
+    }
+    h4 {
+      float: left;
+      width: 33.3333%;
+    }
+}
 
 #browse_map .geolink {
   display: none;
@@ -1077,7 +1086,7 @@ table {
   }
 
   .diary-comment {
-    margin-top: 20px;
+    margin-top: 10px;
 
     &:first-child {
       margin-top: 20px;
@@ -1439,9 +1448,15 @@ ul.secondary-actions {
       padding-left: 0;
     }
   }
-  .hidden li {
+  .hidden li,
+  .hide_unless_logged_in li {
     border-left: 1px solid #222;
     padding-left: 5px;
+    }
+  .hidden:first-child li,
+  .hide_unless_logged_in:first-child li {
+    border-left: 0;
+    padding-left: 0;
   }
 }
 
