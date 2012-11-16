@@ -83,18 +83,18 @@
       </div>
     </div>
     <div id='top-bar'>
-      <span id="greeting">
+      <ul class='secondary-actions' id="greeting">
          <% if @user and @user.id %>
-           <span id="full-greeting"><%= raw(t 'layouts.welcome_user', :user_link => (link_to h(@user.display_name), user_path(:display_name => @user.display_name), :title => t('layouts.welcome_user_link_tooltip'))) %></span>
-           <span id="small-greeting"><%= link_to t('layouts.welcome_user_link_tooltip'), user_path(:display_name => @user.display_name) %></span> |
-           <%= yield :greeting %>
-           <%= render :partial => "layouts/inbox" %> |
+           <li id="full-greeting"><%= raw(t 'layouts.welcome_user', :user_link => (link_to h(@user.display_name), user_path(:display_name => @user.display_name), :title => t('layouts.welcome_user_link_tooltip'))) %></li>
+           <li id="small-greeting"><%= link_to t('layouts.welcome_user_link_tooltip'), user_path(:display_name => @user.display_name) %></li>
+           <li><%= yield :greeting %></li>
+           <li><%= render :partial => "layouts/inbox" %><li>
            <%= link_to t('layouts.logout'), logout_path(:session => request.session_options[:id], :referer => request.fullpath), {:id => 'logoutanchor', :title => t('layouts.logout_tooltip')}%>
          <% else %>
-           <%= link_to t('layouts.log_in'), login_path(:referer => request.fullpath), {:id => 'loginanchor', :title => t('layouts.log_in_tooltip')} %> |
-           <%= link_to t('layouts.sign_up'), user_new_path, {:id => 'registeranchor', :title => t('layouts.sign_up_tooltip')} %>
+           <li><%= link_to t('layouts.log_in'), login_path(:referer => request.fullpath), {:id => 'loginanchor', :title => t('layouts.log_in_tooltip')} %></li>
+           <li><%= link_to t('layouts.sign_up'), user_new_path, {:id => 'registeranchor', :title => t('layouts.sign_up_tooltip')} %></li>
          <% end %>
-      </span>
+      </ul>
       <ul id="tabnav">
         <li><%= link_to t('layouts.view'), root_path, {
           :id => 'viewanchor',

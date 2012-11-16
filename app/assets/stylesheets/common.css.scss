@@ -148,7 +148,6 @@ table {
   th, td {
     padding: 5px;
     line-height: 20px;
-    text-align: left;
   }
   th {
     font-weight: bold;
@@ -164,7 +163,6 @@ table {
 #left {
   position: absolute;
   height: 100%;
-  float: left;
   width: 185px;
   font-size: 11px;
   line-height: 12px;
@@ -180,10 +178,6 @@ table {
   padding: 10px 5px 5px;
   text-align: center;
   margin: auto;
-}
-
-#logo img {
-  border: 0px;
 }
 
 #logo h1 {
@@ -203,10 +197,6 @@ table {
 
 #small-title {
   display: none;
-}
-
-#small-title img {
-  border: 0px;
 }
 
 /* Rules for the introductory text displayed in the left sidebar to new users */
@@ -275,6 +265,10 @@ table {
   border-top: 1px solid #ccc;
 }
 
+.left_menu img {
+  margin: 10px 0px;
+}
+
 .left_menu ul {
   padding: 0;
   margin: 0;
@@ -325,8 +319,6 @@ table {
 
 #search_field form {
   width: 165px;
-  margin: 0px;
-  padding: 0px;
 }
 
 #search_field {
@@ -335,6 +327,7 @@ table {
 
 #search_field input[type="text"] {
   width: 165px;
+  padding: 3px;
   font-size: 14px;
   line-height: 15px;
   height: 25px;
@@ -357,8 +350,6 @@ table {
   text-indent: -1000px;
   overflow: hidden;
   text-transform: capitalize;
-  padding-left: 0px;
-  padding-right: 0px;
   background: image-url("sprite.png");
   position: absolute;
   top: 5px;
@@ -384,7 +375,6 @@ table {
   display: block;
   position: relative;
   width: 153px;
-  margin: 10px 10px 0px 10px;
   padding: 5px;
   border: 1px solid #AED1A0;
   background: #cbeea7;
@@ -410,8 +400,6 @@ table {
   width: 15px;
   height: 15px;
   border: 0px;
-  padding-left: 0px;
-  padding-right: 0px;
   background: image-url("sprite.png") 0 -30px no-repeat;
   position: absolute;
   top: 8px;
@@ -420,8 +408,7 @@ table {
 /* Rules for Creative Commons logo button */
 
 #cclogo {
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin: 10px 0;
 }
 
 /* Rules for tabbed navigation bar */
@@ -429,31 +416,33 @@ table {
 #top-bar {
   position: relative;
   height: 29px;
-  margin-left: 185px;
   border-bottom: 1px solid #ccc;
   background: white;
   z-index: 100;
 }
 
+.site-edit #top-bar,
+.site-index #top-bar,
+.site-export #top-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+}
+
 #tabnav {
-  padding: 0;
-  margin: 0;
+  height: 29px;
+  margin-bottom:0;
   overflow:hidden;
 }
 
 #tabnav li {
-  margin: 0px;
-  padding: 0px;
   display: inline;
-  list-style-type: none;
 }
 
 #tabnav a, #tabnav a:link, #tabnav a:visited {
   background: #fff;
-  font-size: 14px;
-  line-height: 19px;
   font-weight: bold;
-  padding: 5px 10px;
+  padding: 3px 10px;
   text-decoration: none;
   color: #333;
   -webkit-transition: color 200ms ease-in;
@@ -490,13 +479,37 @@ table {
   text-decoration: none;
 }
 
-.site-edit #top-bar,
-.site-index #top-bar,
-.site-export #top-bar {
-  position: fixed;
-  left: 0;
-  right: 0;
+/* Rules for edit menu */
+
+.menuicon {
+  padding: 5px;
+  font-weight: normal;
+
+  &:hover {
+    background: #eee;
+  }
 }
+
+.menu {
+  display: none;
+  z-index: 10000;
+  position: absolute;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-top: 0px;
+}
+
+.menu ul {
+  margin: 0;
+}
+
+.menu li {
+  padding: 5px;
+  border-top: 1px solid #eee;
+  white-space: nowrap;
+}
+
+/* Utility for styling notification numbers */
 
 .count-number {
   padding: 2px 5px;
@@ -510,10 +523,8 @@ table {
 /* Rules for greeting bar in the top right corner */
 
 #greeting {
+  padding-top: 3px;
   height: 28px;
-  margin: 0px;
-  font-size: 13px;
-  line-height: 28px;
 }
 
 .greeting-bar-unread {
@@ -544,47 +555,10 @@ table {
   right: 0px;
   padding: 5px;
   background:#fff;
-  text-align: right;
-  font-size: 12px;
 }
 
 #permalink a {
   padding: 5px;
-}
-
-/* Rules for edit menu */
-
-.menuicon {
-  padding: 5px;
-  font-weight: normal;
-  line-height: 18px;
-
-  &:hover {
-    background: #eee;
-    text-decoration: none !important;
-  }
-}
-
-.menu {
-  display: none;
-  z-index: 10000;
-  position: absolute;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-top: 0px;
-}
-
-.menu ul {
-  margin: 0px;
-  padding: 0px;
-}
-
-.menu li {
-  padding: 5px;
-  margin: 0px;
-  list-style-type: none;
-  border-top: 1px solid #eee;
-  white-space: nowrap;
 }
 
 /* Rules for attribution text under the main map shown on printouts */
@@ -602,24 +576,19 @@ table {
 #sidebar {
   display: none;
   position: absolute;
-  margin: 0px;
-  padding: 0px;
   width: 33.3333%;
   top: 0px;
   bottom: 0px;
 
   .sidebar_heading {
     position: relative;
-    margin: 0;
     height: 20px;
     padding: 20px;
     background: #F4F4FF;
   }
-
   h3 {
     margin: 0;
   }
-
   ul {
     margin-bottom: 0;
     li {
@@ -636,7 +605,6 @@ table {
   height: 20px;
   top: 0px; bottom: 0;
   margin: auto;
-  right: 20px;
 }
 
 #sidebar_content {
@@ -645,12 +613,11 @@ table {
   top: 60px;
   width: 100%;
   overflow: auto;
-
   h4 {
-    border-bottom: 1px solid #ddd;
     padding: 0 20px 10px 20px;
     margin-top: 10px;
     margin-bottom: 0;
+    border-bottom: 1px solid #ddd;
   }
 }
 /* Rules for the map key which appears in the popout sidebar */
@@ -660,10 +627,8 @@ table {
 }
 
 #mapkey .mapkey-table {
-  margin: 20px;
+  padding: 20px;
   border-collapse: separate;
-  font-size: 12px;
-  width: auto;
 }
 
 #mapkey .mapkey-table-key img {
@@ -710,7 +675,6 @@ table {
   }
   a.more-details {
     position: absolute;
-    right: 20px;
     top: 0;
   }
   ul li {
@@ -763,8 +727,7 @@ table {
 .site-export #content {
   position: fixed;
   padding: 0;
-  left: 185px; right: 0; top: 30px; bottom: 0;
-  border-left: 1px solid #ccc;
+  top: 30px; bottom: 0;
 }
 
 .site-edit #content {
@@ -866,21 +829,14 @@ table {
   ul {
     padding: 10px;
     margin-bottom: 0px;
-    .date,
-    .user {
-      border-left: 1px solid #ccc;
-      padding-left: 5px;
-    }
   }
   .selected {
     background-color: rgb(255, 255, 160);
-    background-color: rgba(255, 255, 85, 0.5);
   }
 }
 
 #changeset_list_map {
   position: absolute;
-  right: 20px;
   bottom: 20px;
   top: 20px;
   width: 45%;
@@ -892,22 +848,18 @@ table {
 /* Rules for the data browser */
 
 .browse-section {
-    border-top: 1px solid #ccc;
-    margin-top: 20px;
-    padding-top: 20px;
-    &:first-child {
-      margin-top: 0;
-    }
-    p, ul, .bbox {
-      margin-left: 33.3333%;
-    }
-    h4, p {
-      margin-bottom: 10px;
-    }
-    h4 {
-      float: left;
-      width: 33.3333%;
-    }
+  border-top: 1px solid #ccc;
+  margin-top: 20px;
+  padding-top: 20px;
+  &:first-child {
+    margin-top: 0;
+  }
+  h4, p {
+    margin-bottom: 10px;
+  }
+  h4 {
+    width: 33.3333%;
+  }
 }
 
 .bbox {
@@ -919,19 +871,10 @@ table {
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  .max_lon,
-  .min_lon,
-  .box {
-    float: left;
-  }
-
   .max_lat,
   .min_lat {
     margin-left: auto;
     margin-right: auto;
-  }
-  .min_lat {
-    clear: left;
   }
 }
 
@@ -987,44 +930,48 @@ table {
     width: 100%;
     clear: both;
   }
-  .userinformation-inner {
-    float: left;
-  }
   .deemphasize {
     margin: 0;
   }
 }
 
-.admin-user-info {
-  small {
-    margin-bottom: 10px;
-    display: inline;
-    margin-right: 20px;
-  }
+.admin-user-info small {
+  margin-bottom: 10px;
+  display: inline;
 }
 
-.activity-block {
-  float: left;
-  h3 {
-    margin-bottom: 10px;
-  }
+.activity-block h3 {
+  margin-bottom: 10px;
 }
 
 .contact-activity {
   margin-top: 20px;
   width: 100%;
-
-  img {
-    margin-right: 20px;
-  }
 }
 
-.activity-details {
-  margin-left: 72px;
-
-  p {
+.activity-details p {
   margin: 0;
-  }
+}
+
+.user-view p#no_home_location {
+  margin: 20px;
+}
+
+/* Rules for the user map */
+
+.user_map .olControlSimplePanZoom {
+  display: none;
+}
+
+.user_map .olControlZoom {
+  display: block;
+}
+
+/* Rules for user popups on maps */
+
+.user_popup p {
+  font-size: 12px;
+  margin-bottom: 0;
 }
 
 /* Rules for the user list */
@@ -1070,7 +1017,6 @@ table {
   ul,
   ol {
     margin-bottom: 20px;
-    margin-left: 20px;
     font-style: italic;
   }
   ul li {
@@ -1087,11 +1033,9 @@ table {
 
 .post_heading {
   margin-bottom: 20px;
-
   h2 {
     margin-top: 0;
     margin-bottom: 0;
-    float: left;
     font-size: 24px;
     line-height: 32px;
   }
@@ -1100,53 +1044,50 @@ table {
 /* Rules for the new diary entry page */
 
 .diary_entry {
-
   #map {
-  position: relative;
-  width: 90%;
-  height: 398px;
-  border: 1px solid #ccc;
-  display: none;
-  margin-bottom: 20px;
+    position: relative;
+    width: 90%;
+    height: 398px;
+    border: 1px solid #ccc;
+    display: none;
+    margin-bottom: 20px;
   }
-
   #newcomment {
     border-top: 1px solid #ccc;
     padding-top: 20px;
     margin-top: 20px;
   }
-
   .diary-comment {
     margin-top: 10px;
-
     &:first-child {
       margin-top: 20px;
       padding-top: 20px;
       border-top: 1px solid #ccc;
     }
     p {
-      margin-left: 70px;
       margin-bottom: 10px;
     }
   }
-
- .comment-heading {
+  .comment-heading {
     margin-bottom: 0;
     margin-top: 0;
  }
 }
-/* Rules for the login page */
 
+/* Rules for the diary comment page */
+
+.comments-table td {
+  vertical-align: top;
+}
+
+/* Rules for the login page */
 
 table#login_openid_buttons {
   padding-bottom: 10px;
 }
 
 #login_openid_buttons td {
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding: 5px 10px;
 }
 
 #login_openid_buttons img {
@@ -1178,9 +1119,7 @@ div#contributorTerms ol {
 
 div#contributorTerms img {
   display: block;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 10%;
+  margin: 20px auto inherit auto;
 }
 
 div#slim_content form#termsForm {
@@ -1207,8 +1146,8 @@ p#contributorGuidance {
 
 #accountForm .user_map {
   position: relative;
-  width: 500px;
-  height: 400px;
+  width: 498px;
+  height: 398px;
   border: 1px solid #ccc;
 }
 
@@ -1217,10 +1156,8 @@ p#contributorGuidance {
     vertical-align: top;
     margin-top: 3px;
   }
-
   table {
     display: inline-block;
-
     td {
       padding-bottom: 0px;
     }
@@ -1246,34 +1183,6 @@ p#contributorGuidance {
 .content_map.settings_map {
   float: none;
   width: 50%;
-}
-/* Rules for the user view */
-
-.user-view p#no_home_location {
-  margin: 20px;
-}
-
-/* Rules for the user map */
-
-.user_map .olControlSimplePanZoom {
-  display: none;
-}
-
-.user_map .olControlZoom {
-  display: block;
-}
-
-/* Rules for user popups on maps */
-
-.user_popup p {
-  font-size: 12px;
-  margin-left: 60px;
-  margin-bottom: 0;
-}
-
-.user_popup img.user_thumbnail {
-  float: left;
-  margin-right: 10px;
 }
 
 /* Rules for message in/out box page */
@@ -1306,8 +1215,8 @@ p#contributorGuidance {
 
 .info-line {
   margin-bottom: 20px;
-  border-bottom: 1px solid #ccc;
   padding: 5px 0px 4px 0px;
+  border-bottom: 1px solid #ccc;
 }
 
 .info-line form,
@@ -1317,10 +1226,6 @@ p#contributorGuidance {
 
 .info-line .user_thumbnail_tiny {
   vertical-align: middle;
-}
-
-.right {
-  float: right;
 }
 
 .inbox-row-unread .inbox-mark-unread {
@@ -1349,7 +1254,7 @@ p#contributorGuidance {
 
 .field_with_errors {
   padding: 2px;
-  background-color: red;
+  background-color: #ff7070;
   display: table;
 }
 
@@ -1357,9 +1262,8 @@ p#contributorGuidance {
 
 #errorExplanation {
   width: 400px;
-  border: 2px solid red;
-  padding: 7px;
-  padding-bottom: 12px;
+  border: 2px solid #ff7070;
+  padding: 10px;
   margin-bottom: 20px;
   background-color: #f0f0f0;
 }
@@ -1367,7 +1271,7 @@ p#contributorGuidance {
 #errorExplanation h2 {
   font-weight: bold;
   font-size: 12px;
-  margin: -7px;
+  margin: -10px;
   background-color: #c00;
   color: #fff;
 }
@@ -1380,7 +1284,7 @@ p#contributorGuidance {
 
 #errorExplanation ul li {
   font-size: 12px;
-  list-style: square;
+  list-style: disc;
 }
 
 /* Rules for forms */
@@ -1397,7 +1301,7 @@ p#contributorGuidance {
 }
 
 .minorNote {
-  font-size: 0.8em;
+  font-size: 12px;
 }
 
 input[type="text"],
@@ -1418,7 +1322,6 @@ img.user_image {
 }
 
 img.user_thumbnail {
-  margin-right: 20px;
   max-width: 50px;
   max-height: 100px;
   border: 1px solid #ccc;
@@ -1453,39 +1356,14 @@ abbr.geo {
 
 ul.secondary-actions {
   font-style: normal;
-  margin-left: 0;
   margin-bottom: 0;
   &.pager {
     display: inline-block;
-    margin-right: 60px;
     margin-bottom: 20px;
   }
-  &.opposite {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-  }
   li {
-    border-left: 1px solid #222;
-    padding-left: 5px;
-    float: left;
     display: block;
-    margin-right: 5px;
     list-style: none;
-    &:first-child {
-      border-left: 0;
-      padding-left: 0;
-    }
-  }
-  .hidden li,
-  .hide_unless_logged_in li {
-    border-left: 1px solid #222;
-    padding-left: 5px;
-    }
-  .hidden:first-child li,
-  .hide_unless_logged_in:first-child li {
-    border-left: 0;
-    padding-left: 0;
   }
 }
 
@@ -1547,23 +1425,19 @@ a.button.submit {
 
 .richtext_container {
   white-space: nowrap;
-
   .richtext_content {
     display: inline-block;
     vertical-align: top;
-
     .richtext_preview {
       display: inline-block;
       padding: 20px;
       background-color: #f4f4ff;
       white-space: normal;
-
       &.loading {
         background-image: image-url("loading.gif");
         background-repeat: no-repeat;
         background-position: center;
       }
-
       > :first-child {
         margin-top: 0px;
       }
@@ -1575,29 +1449,22 @@ a.button.submit {
     vertical-align: top;
     background-color: #f8f8ff;
     padding: 20px;
-    font-size: 12px;
-
     p {
       margin: 0px;
     }
-
     th {
       vertical-align: top;
     }
-
     table > thead th {
       font-weight: bold;
     }
     td {
-      font-family: fixed;
       line-height: 16px;
       padding: 0px !important;
     }
-
     input.richtext_doedit {
       margin-top: 5px !important;
     }
-
     input.richtext_dopreview {
       margin-top: 5px !important;
     }

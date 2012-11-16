@@ -10,31 +10,18 @@ html body {
   margin-left: 5px;
 }
 
+/* General styles for tables */
+
+table th,
+table td  {
+    text-align: right;
+}
+
 /* Rules for the left sidebar */
 
-#left { float: right;}
-
-/* Rules for the menu displayed in the left sidebar */
-
-.left_menu {
-  right: 0px;
-}
-
-.left_menu td {
-  padding-left: 4px;
-}
-
-.left_menu h1 {
-  text-align: right;
-  padding: 0em 1em 0em 0em;
-}
-
-.left_menu ul {
-  padding-right: 0px;
-}
-
-.left_menu img {
-  margin: 2px 0px 0px 8px;
+#left {
+  border-left: 1px solid #ccc;
+  float: right;
 }
 
 /*
@@ -50,15 +37,15 @@ html body {
 
 /* Rules for the search box */
 
-#search_field input[type="text"] {
-  padding: 2px 5px 2px 0px;
-}
-
 #search_field input[type="submit"] {
   left: 4px;
 }
 
 /* Rules for donation request box */
+
+.donate {
+  margin: 10px 10px 0px 10px;
+}
 
 .donate .donate-icon {
   right: 17px;
@@ -107,27 +94,29 @@ html body {
   border-left: 1px solid #ccc;
 }
 
-#sidebar #sidebar_title {
-  text-align: right;
+#sidebar_close {
+  left: 20px;
 }
 
-#sidebar #sidebar_close {
-  text-align: left;
+/* Rules for data browser information which appears in the popout sidebar */
+
+#browse_content a.more-details {
+    left: 20px;
 }
 
 /* Rules for the main content area */
-
-.wrapper {
-  border-right: 1px solid #ccc;
-  margin-right: 185px;
-  text-align: right;
-}
 
 .site-edit #content,
 .site-index #content,
 .site-export #content {
   left: 0; right: 185px;
-  border-right:1px solid #ccc
+  border-right: 1px solid #ccc;
+}
+
+.wrapper {
+  margin-right: 185px;
+  border-right: 1px solid #ccc;
+  text-align: right;
 }
 
 #slim_header img {
@@ -137,7 +126,7 @@ html body {
 /* Rules for small maps in content areas */
 
 .content_map {
-  float: right;
+  float: left;
 }
 
 /* Rules for the copyright page */
@@ -149,7 +138,11 @@ html body {
 /* Rules for the changeset list shown by the history tab etc */
 
 #changeset_list {
-  text-align: right;
+  .date,
+  .user {
+    border-right: 1px solid #ccc;
+    padding-right: 5px;
+  }
 }
 
 #changeset_list_map {
@@ -158,9 +151,24 @@ html body {
 
 /* Rules for the data browser */
 
-#browse_navigation {
-  float: left;
-  margin-right: 10px;
+.browse-section {
+  p, ul, .bbox {
+      margin-left: 33.3333%;
+    }
+  h4 {
+    float: right;
+  }
+}
+
+.bbox {
+  .max_lon,
+  .min_lon,
+  .box {
+    float: right;
+  }
+  .min_lat {
+    clear: right;
+  }
 }
 
 /* Rules for the trace list shown by the traces tab etc */
@@ -169,26 +177,50 @@ html body {
   text-align: right;
 }
 
-/* Rules for the diary list page */
+/* Rules for the user profile page */
 
-.diary_entry-list img.user_image {
+#userinformation .userinformation-inner {
   float: right;
+}
+
+.admin-user-info small {
   margin-left: 20px;
 }
+
+.activity-block {
+  float: right;
+}
+
+.activity-details {
+  margin-right: 72px;
+}
+
+/* Rules for the diary list */
 
 .diary_entry-list img.user_thumbnail {
   float: right;
 }
 
-.post_heading h3 {
+/* Rules for the diary list page */
+
+.diary_post {
+  ul,
+  ol {
+    margin-left: 20px;
+  }
+}
+
+.post_heading h2 {
   float: right;
+}
+
+/* Rules for the new diary entry page */
+
+.diary-comment p {
+  margin-right: 70px;
 }
 
 /* Rules for the diary entry view */
-
-.diary_entry-view img.user_image {
-  float: right;
-}
 
 .diary_entry-view img.user_thumbnail {
   float: left;
@@ -212,15 +244,26 @@ form#termsForm input#agree {
 
 /* Rules for the user view */
 
-img.user_image {
-  float: right;
-  margin-left: 20px;
-}
-
 .user-view .user_thumbnail {
   float: right;
 }
 
+/* Rules for user popups on maps */
+
+.user_popup p {
+  margin-right: 60px;
+}
+
+.user_popup img.user_thumbnail {
+  float: right;
+  margin-left: 10px;
+}
+
+/* Rules for message in/out box page */
+
+.right {
+  float: left;
+}
 
 /* Rules for rails validation error boxes */
 
@@ -238,6 +281,46 @@ img.user_image {
 input.openid_url {
   background: image-url('openid_input.png') repeat-y right white;
   padding-right: 16px;
+}
+
+/* Rules for user images */
+
+img.user_image {
+  float: right;
+  margin-left: 20px;
+}
+
+img.user_thumbnail {
+  margin-left: 20px;
+}
+
+/* General styles for action lists / subnavs / pager navs */
+
+ul.secondary-actions {
+  margin-right: 0;
+  &.pager {
+    margin-left: 60px;
+  }
+  li {
+    border-right: 1px solid #222;
+    padding-right: 5px;
+    float: right;
+    margin-left: 5px;
+    &:first-child {
+      border-right: 0;
+      padding-right: 0;
+    }
+  }
+  .hidden li,
+  .hide_unless_logged_in li {
+    border-right: 1px solid #222;
+    padding-right: 5px;
+    }
+  .hidden:first-child li,
+  .hide_unless_logged_in:first-child li {
+    border-right: 0;
+    padding-right: 0;
+  }
 }
 
 /* Rules for rich text editors */
