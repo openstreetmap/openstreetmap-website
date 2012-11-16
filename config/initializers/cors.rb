@@ -8,6 +8,7 @@ require "rack/cors"
 Rails.configuration.middleware.use Rack::Cors do
   allow do
     origins "*"
+    resource "/oauth/*", :headers => :any, :methods => [:get, :post]
     resource "/api/*", :headers => :any, :methods => [:get, :post, :put, :delete]
   end
 end
