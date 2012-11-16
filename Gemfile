@@ -13,6 +13,9 @@ gem 'pg'
 # Load jquery support
 gem 'jquery-rails'
 
+# Load R2 for RTL conversion
+gem 'r2'
+
 # Load rails plugins
 gem 'rails-i18n', ">= 0.6.3"
 gem 'dynamic_form'
