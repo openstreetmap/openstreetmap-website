@@ -34,7 +34,7 @@ $(document).ready(function () {
   }
 
   if (params.marker) {
-    marker = L.marker([params.mlat, params.mlon]).addTo(map);
+    marker = L.marker([params.mlat, params.mlon], {icon: getUserIcon()}).addTo(map);
   }
 
   if (params.object) {
@@ -60,7 +60,7 @@ $(document).ready(function () {
       map.removeLayer(marker);
     }
 
-    marker = L.marker(centre).addTo(map);
+    marker = L.marker(centre, {icon: getUserIcon()}).addTo(map);
   });
 
   function updateLocation() {
