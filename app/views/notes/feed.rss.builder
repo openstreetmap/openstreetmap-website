@@ -27,7 +27,7 @@ xml.rss("version" => "2.0",
 
         if comment.event == "commented" and not comment.nil?
           description_text += "<b>Comment:</b><br>"
-          description_text += htmlize(comment.body)
+          description_text += comment.body.to_html
           description_text += "<br>"
         end
 
