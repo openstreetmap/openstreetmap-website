@@ -10,6 +10,7 @@ body {
   background-color: #fff;
   margin: 0px;
   padding: 0px;
+  text-align: left;
 }
 
 body.slim {
@@ -53,6 +54,7 @@ h2 {
   width: 185px;
   font-size: 11px;
   line-height: 12px;
+  border-right: 1px solid #ccc;
 }
 
 /* Rules for the OpenStreetMap logo in the top left corner */
@@ -152,6 +154,7 @@ h2 {
 /* Rules for the menu displayed in the left sidebar */
 
 .left_menu {
+  left: 0px;
   margin: 0;
   padding: 5px 10px;
   line-height: 15px;
@@ -203,8 +206,10 @@ h2 {
  */
 
 .optionalbox {
+  left: 0px;
   padding: 5px 10px;
   margin: 5px 0;
+  text-align: left;
 }
 
 .optionalbox h1 {
@@ -227,7 +232,7 @@ h2 {
 }
 
 #search_field {
-  position:relative;
+  position: relative;
 }
 
 #search_field input[type="text"] {
@@ -235,6 +240,7 @@ h2 {
   font-size: 14px;
   line-height: 15px;
   height: 25px;
+  padding: 2px 0px 2px 5px;
   box-shadow: inset #DDD 0px 1px 3px;
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -259,6 +265,7 @@ h2 {
   background: image-url("sprite.png");
   position: absolute;
   top: 5px;
+  right: 4px;
   cursor: pointer;
 }
 
@@ -311,6 +318,7 @@ h2 {
   background: image-url("sprite.png") 0 -30px no-repeat;
   position: absolute;
   top: 8px;
+  left: 17px;
 }
 
 /* Rules for Creative Commons logo button */
@@ -325,6 +333,8 @@ h2 {
 #top-bar {
   position: absolute;
   top: 0;
+  left: 185px;
+  right: 0;
   height: 29px;
   border-bottom: 1px solid #ccc;
   background: white;
@@ -344,11 +354,13 @@ h2 {
 }
 
 #tabnav a, #tabnav a:link, #tabnav a:visited {
+  float: left;
   background: #fff;
   font-size: 14px;
   line-height: 19px;
   font-weight: bold;
   padding: 5px 10px;
+  margin-right: 1px;
   text-decoration: none;
   color: #333;
   -webkit-transition: color 200ms ease-in;
@@ -397,8 +409,10 @@ body.site-export #tabnav a#exportanchor {
 /* Rules for greeting bar in the top right corner */
 
 #greeting {
+  float: right;
   height: 28px;
   margin: 0px;
+  padding-right: 10px;
   font-size: 13px;
   line-height: 28px;
 }
@@ -413,6 +427,7 @@ body.site-export #tabnav a#exportanchor {
   z-index: 20000000;
   position: absolute;
   top: 15px;
+  left: 15px;
 }
 
 /* Rules for OpenLayers maps */
@@ -450,6 +465,11 @@ body.site-export #tabnav a#exportanchor {
 .site-export #map .SimpleLayerSwitcher,
 .site-export #map .olControlSimplePanZoom {
   top: 40px !important;
+}
+
+.site-index #map .olControlScaleLine,
+.site-export #map .olControlScaleLine {
+  left: 10px !important;
 }
 
 /* Rules for edit menu */
@@ -491,8 +511,16 @@ body.site-export #tabnav a#exportanchor {
   display: none;
 }
 
+.attribution_license {
+  text-align: left;
+}
+
 .attribution_notice {
   text-align: center;
+}
+
+.attribution_project {
+  text-align: right;
 }
 
 /* Rules for the popout map sidebar */
@@ -502,9 +530,11 @@ body.site-export #tabnav a#exportanchor {
   position: absolute;
   margin: 30px 0px 0px 0px;
   padding: 0px;
+  border-right: 1px solid #ccc;
   width: 30%;
   top: 0px;
   bottom: 0px;
+  left: 0px;
 }
 
 #sidebar #sidebar_content {
@@ -525,6 +555,14 @@ body.site-export #tabnav a#exportanchor {
   font-size: 14px;
   line-height: 15px;
   background: #ccc;
+}
+
+#sidebar #sidebar_title {
+  text-align: left;
+}
+
+#sidebar #sidebar_close {
+  text-align: right;
 }
 
 /* Rules for the map key which appears in the popout sidebar */
@@ -637,7 +675,9 @@ body.site-export #tabnav a#exportanchor {
 
 #content {
   padding: 20px;
-  margin: 30px 0px 0px 0px;
+  margin: 30px 0px 0px 185px;
+  border-left: 1px solid #ccc;
+  text-align: left;
 }
 
 .site-edit #content,
@@ -685,6 +725,7 @@ body.site-export #tabnav a#exportanchor {
 #slim_header img {
   vertical-align: middle;
   margin-bottom: 5px;
+  margin-right: 5px;
 }
 
 /* Rules for text content pages */
@@ -735,6 +776,7 @@ body.site-export #tabnav a#exportanchor {
   border-width: 0px;
   margin-top: 1px;
   margin-bottom: 1px;
+  text-align: left;
 }
 
 #changeset_list td {
@@ -761,8 +803,10 @@ body.site-export #tabnav a#exportanchor {
 
 #changeset_list_map {
   position: absolute;
+  float: right;
   top: 0px;
   bottom: 0px;
+  right: 0px;
   width: 49%;
   min-height: 400px;
   border: solid 1px black;
@@ -771,7 +815,9 @@ body.site-export #tabnav a#exportanchor {
 /* Rules for the data browser */
 
 #browse_navigation {
+  float: right;
   width: 250px;
+  margin-left: 10px;
   text-align: center;
 }
 
@@ -780,7 +826,10 @@ table.browse_details th {
 }
 
 #browse_map {
+  float: right;
   width: 250px;
+  text-align: right;
+  margin-left: 10px;
 }
 
 #browse_map #small_map {
@@ -799,6 +848,7 @@ table.browse_details th {
   font-size: small;
   border-collapse: collapse;
   border-width: 0px;
+  text-align: right;
 }
 
 #trace_list .trace_summary {
@@ -843,7 +893,28 @@ table.browse_details th {
 }
 
 #user_list_actions {
+  float: right;
   margin-top: 10px;
+}
+
+/* Rules for the diary list */
+
+.diary_entry-list img.user_image {
+  float: right;
+}
+
+.diary_entry-list img.user_thumbnail {
+  float: right;
+}
+
+/* Rules for the diary entry view */
+
+.diary_entry-view img.user_image {
+  float: right;
+}
+
+.diary_entry-view img.user_thumbnail {
+  float: right;
 }
 
 /* Rules for the new diary entry page */
@@ -934,6 +1005,14 @@ form#termsForm {
   margin-bottom: 3em;
 }
 
+form#termsForm div#buttons {
+  float: right;
+}
+
+form#termsForm input#agree {
+  margin-left: 50px;
+}
+
 div#slim_content form#termsForm {
   width: auto;
 }
@@ -996,7 +1075,12 @@ p#contributorGuidance {
 
 /* Rules for the user view */
 
+.user-view img.user_image {
+  float: right;
+}
+
 .user-view .user_map {
+  float: right;
   position: relative;
   width: 400px;
   height: 400px;
@@ -1136,9 +1220,11 @@ p#contributorGuidance {
 #errorExplanation h2 {
   font-weight: bold;
   font-size: 12px;
+  padding: 5px 5px 5px 15px;
   margin: -7px;
   background-color: #c00;
   color: #fff;
+  text-align: left;
 }
 
 #errorExplanation p {
@@ -1159,6 +1245,11 @@ p#contributorGuidance {
   font-weight: bold;
   font-size: 12px;
   line-height: 20px;
+  text-align: right;
+}
+
+.submitButton {
+  text-align: right;
 }
 
 .minorNote {
@@ -1171,6 +1262,11 @@ input[type="url"],
 input[type="password"],
 textarea {
   border: 1px solid #ccc;
+}
+
+input.openid_url {
+  background: image-url('openid_input.png') repeat-y left white;
+  padding-left: 16px;
 }
 
 /* Rules for user images */
@@ -1262,6 +1358,7 @@ abbr.geo {
     display: inline-block;
     vertical-align: top;
     background-color: #ddd;
+    margin-left: 15px;
     padding: 5px 10px 10px 10px;
     font-size: 12px;
 
@@ -1271,9 +1368,12 @@ abbr.geo {
 
     th {
       vertical-align: top;
+      text-align: left;
+      padding: 0px 15px 0px 0px !important;
     }
 
     td {
+      text-align: left;
       font-family: fixed;
       line-height: 16px;
       padding: 0px !important;
@@ -1281,10 +1381,12 @@ abbr.geo {
 
     input.richtext_doedit {
       margin-top: 5px !important;
+      margin-right: 10px !important;
     }
 
     input.richtext_dopreview {
       margin-top: 5px !important;
+      margin-left: 10px !important;
     }
   }
 }
