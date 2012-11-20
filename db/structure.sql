@@ -1103,7 +1103,8 @@ CREATE TABLE users (
     image_fingerprint character varying(255),
     changesets_count integer DEFAULT 0 NOT NULL,
     traces_count integer DEFAULT 0 NOT NULL,
-    diary_entries_count integer DEFAULT 0 NOT NULL
+    diary_entries_count integer DEFAULT 0 NOT NULL,
+    image_use_gravatar boolean DEFAULT true NOT NULL
 );
 
 
@@ -2443,6 +2444,8 @@ INSERT INTO schema_migrations (version) VALUES ('20120404205604');
 INSERT INTO schema_migrations (version) VALUES ('20120808231205');
 
 INSERT INTO schema_migrations (version) VALUES ('20121005195010');
+
+INSERT INTO schema_migrations (version) VALUES ('20121012044047');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 

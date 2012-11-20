@@ -84,27 +84,37 @@
     <td class="fieldName">
       <%= t 'user.account.image' %>
     </td>
-    <td valign="top">
-      <% if @user.image.file? %>
-        <table id="accountImage">
-          <tr>
-            <td rowspan="3" valign="top"><%= user_image @user %></td>
-            <td><%= radio_button_tag "image_action", "keep", true %></td>
-            <td><%= t 'user.account.keep image' %></td>
-          </tr>
-          <tr>
-            <td><%= radio_button_tag "image_action", "delete" %></td>
-            <td><%= t 'user.account.delete image' %></td>
-          </tr>
-          <tr>
-            <td><%= radio_button_tag "image_action", "new" %></td>
-            <td><%= t 'user.account.replace image' %><br /><%= f.file_field :image, :onchange => "$('image_action_new').prop('checked', true)" %><br /><span class="minorNote"><%= t 'user.account.image size hint' %></span></td>
-          </tr>
-        </table>
-      <% else %>
-        <%= hidden_field_tag "image_action", "new" %>
-        <%= t 'user.account.new image' %><br /><%= f.file_field :image %><br /><span class="minorNote"><%= t 'user.account.image size hint' %></span>
-      <% end %>
+    <td class="accountImage">
+      <%= user_image @user %>
+      <table>
+        <% if @user.image.file? %>
+        <tr>
+          <td><%= radio_button_tag "image_action", "keep", !@user.image_use_gravatar %></td>
+          <td><%= t 'user.account.keep image' %></td>
+        </tr>
+        <% end %>
+        <% if @user.image.file? || @user.image_use_gravatar? %>
+        <tr>
+          <td><%= radio_button_tag "image_action", "delete" %></td>
+          <td><%= t 'user.account.delete image' %></td>
+        </tr>
+        <% end %>
+        <% if @user.image.file? %>
+        <tr>
+          <td><%= radio_button_tag "image_action", "new" %></td>
+          <td><%= t 'user.account.replace image' %><br /><%= f.file_field :image, :onchange => "$('#image_action_new').prop('checked', true)" %><br /><span class="minorNote"><%= t 'user.account.image size hint' %></span></td>
+        </tr>
+        <% else %>
+        <tr>
+          <td><%= radio_button_tag "image_action", "new" %></td>
+          <td><%= t 'user.account.new image' %><br /><%= f.file_field :image, :onchange => "$('#image_action_new').prop('checked', true)" %><br /><span class="minorNote"><%= t 'user.account.image size hint' %></span></td>
+        </tr>
+        <% end %>
+        <tr>
+          <td><%= radio_button_tag "image_action", "gravatar", @user.image_use_gravatar %></td>
+          <td><%= t 'user.account.gravatar.gravatar' %> <span class="minorNote">(<a href="<%= t 'user.account.gravatar.link' %>" target="_new"><%= t 'user.account.gravatar.link text' %></a>)</span></td>
+        </tr>
+      </table>
     </td>
   </tr>
 
@@ -123,7 +133,7 @@
       <%= content_tag "div", "", :id => "map", :class => "user_map set_location" %>
     </td>
   </tr>
-  
+
   <tr>
     <td></td>
     <td class="submitButton"><%= submit_tag t('user.account.save changes button') %></td>

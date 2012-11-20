@@ -3,6 +3,8 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery
 
+  before_filter :fetch_body
+
   if STATUS == :database_readonly or STATUS == :database_offline
     def self.cache_sweeper(*sweepers)
     end
@@ -278,7 +280,7 @@ class ApplicationController < ActionController::Base
       end
     end
 
-    I18n.locale = request.compatible_language_from(I18n.available_locales) || I18n.default_locale
+    I18n.locale = params[:locale] || request.compatible_language_from(I18n.available_locales) || I18n.default_locale
 
     response.headers['Content-Language'] = I18n.locale.to_s
   end
@@ -404,7 +406,20 @@ class ApplicationController < ActionController::Base
       format.all { render :nothing => true, :status => :not_found }
     end
   end
-  
+
+  ##
+  # Unfortunately if a PUT or POST request that has a body fails to
+  # read it then Apache will sometimes fail to return the response it
+  # is given to the client properly, instead erroring:
+  #
+  #   https://issues.apache.org/bugzilla/show_bug.cgi?id=44782
+  #
+  # To work round this we call rewind on the body here, which is added
+  # as a filter, to force it to be fetched from Apache into a file.
+  def fetch_body
+    request.body.rewind
+  end
+
 private 
 
   # extract authorisation credentials from headers, returns user = nil if none

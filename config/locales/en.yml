@@ -379,7 +379,8 @@ en:
       comment_link: Comment on this entry
       reply_link: Reply to this entry
       comment_count:
-        one: 1 comment
+        zero: No comments
+        one: "%{count} comment"
         other: "%{count} comments"
       edit_link: Edit this entry
       hide_link: Hide this entry
@@ -1035,22 +1036,22 @@ en:
         code</a> explains your rights and responsibilities.
       intro_3_html: |
         The cartography in our map tiles, and our documentation, are
-        licensed under the <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative 
+        licensed under the <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative
         Commons Attribution-ShareAlike 2.0</a> license (CC-BY-SA).
       credit_title_html: How to credit OpenStreetMap
       credit_1_html: |
-        We require that you use the credit &ldquo;&copy; OpenStreetMap 
+        We require that you use the credit &ldquo;&copy; OpenStreetMap
         contributors&rdquo;.
       credit_2_html: |
-        You must also make it clear that the data is available under the Open 
-        Database License, and if using our map tiles, that the cartography is 
-        licensed as CC-BY-SA. You may do this by linking to 
-        <a href="http://www.openstreetmap.org/copyright">this copyright page</a>. 
-        Alternatively, and as a requirement if you are distributing OSM in a 
-        data form, you can name and link directly to the license(s). In media 
-        where links are not possible (e.g. printed works), we suggest you 
-        direct your readers to openstreetmap.org (perhaps by expanding 
-        'OpenStreetMap' to this full address), to opendatacommons.org, and 
+        You must also make it clear that the data is available under the Open
+        Database License, and if using our map tiles, that the cartography is
+        licensed as CC-BY-SA. You may do this by linking to
+        <a href="http://www.openstreetmap.org/copyright">this copyright page</a>.
+        Alternatively, and as a requirement if you are distributing OSM in a
+        data form, you can name and link directly to the license(s). In media
+        where links are not possible (e.g. printed works), we suggest you
+        direct your readers to openstreetmap.org (perhaps by expanding
+        'OpenStreetMap' to this full address), to opendatacommons.org, and
         if relevant, to creativecommons.org.
       credit_3_html: |
         For a browsable electronic map, the credit should appear in the corner of the map.
@@ -1118,10 +1119,10 @@ en:
         copyrighted sources (e.g. Google Maps or printed maps) without
         explicit permission from the copyright holders.
       infringement_2_html: |
-        If you believe that copyrighted material has been inappropriately 
-        added to the OpenStreetMap database or this site, please refer 
-        to our <a href="http://www.osmfoundation.org/wiki/License/Takedown_procedure">takedown 
-        procedure</a> or file directly at our 
+        If you believe that copyrighted material has been inappropriately
+        added to the OpenStreetMap database or this site, please refer
+        to our <a href="http://www.osmfoundation.org/wiki/License/Takedown_procedure">takedown
+        procedure</a> or file directly at our
         <a href="http://dmca.openstreetmap.org/">on-line filing page</a>.
   notifier:
     diary_comment_notification:
@@ -1156,13 +1157,12 @@ en:
         subject: "[OpenStreetMap] GPX Import success"
         loaded_successfully: loaded successfully with %{trace_points} out of a possible %{possible_points} points.
     signup_confirm:
-      subject: "[OpenStreetMap] Confirm your email address"
-    signup_confirm_plain:
+      subject: "[OpenStreetMap] Welcome to OpenStreetMap"
       greeting: "Hi there!"
-      hopefully_you: "Someone (hopefully you) would like to create an account over at"
-      # next two translations run-on : please word wrap appropriately
-      click_the_link_1: "If this is you, welcome! Please click the link below to confirm your"
-      click_the_link_2: "account and read on for more information about OpenStreetMap."
+      created: "Someone (hopefully you) just created an account at %{site_url}."
+      confirm: "Before we do anything else, we need to confirm that this request came from you, so if it did then please click the link below to confirm your account:"
+      welcome: "We would like to welcome you and provide you with some additional information to get you started."
+    signup_confirm_plain:
       introductory_video: "You can watch an introductory video to OpenStreetMap here:"
       more_videos: "There are more videos here:"
       the_wiki: "Get reading about OpenStreetMap on the wiki:"
@@ -1172,15 +1172,9 @@ en:
       ask_questions: "You can ask any questions you may have about OpenStreetMap at our question and answer site:"
       wiki_signup: "You may also want to sign up to the OpenStreetMap wiki at:"
       wiki_signup_url: "http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page"
-      # next four translations are in pairs : please word wrap appropriately
-      user_wiki_1: "It is recommended that you create a user wiki page, which includes"
-      user_wiki_2: "category tags noting where you are, such as [[Category:Users_in_London]]."
-      current_user_1: "A list of current users in categories, based on where in the world"
-      current_user_2: "they are, is available from:"
+      user_wiki_page: "It is recommended that you create a user wiki page, which includes category tags noting where you are, such as [[Category:Users_in_London]]."
+      current_user: "A list of current users in categories, based on where in the world they are, is available from:"
     signup_confirm_html:
-      greeting: "Hi there!"
-      hopefully_you: "Someone (hopefully you) would like to create an account over at"
-      click_the_link: "If this is you, welcome! Please click the link below to confirm that account and read on for more information about OpenStreetMap"
       introductory_video: "You can watch an %{introductory_video_link}."
       video_to_openstreetmap: "introductory video to OpenStreetMap"
       more_videos: "There are %{more_videos_link}."
@@ -1674,6 +1668,7 @@ en:
           </li>
         </ul>
       continue: Continue
+      flash welcome: "Thanks for signing up. We've sent a welcome message to %{email} with some hints on getting started."
       flash create success message: "Thanks for signing up. We've sent a confirmation note to %{email} and as soon as you confirm your account you'll be able to get mapping.<br /><br />If you use an antispam system which sends confirmation requests then please make sure you whitelist webmaster@openstreetmap.org as we are unable to reply to any confirmation requests."
       terms accepted: "Thanks for accepting the new contributor terms!"
       terms declined: "We are sorry that you have decided to not accept the new Contributor Terms. For more information, please see <a href=\"%{url}\">this wiki page</a>."
@@ -1798,6 +1793,10 @@ en:
       preferred languages: "Preferred Languages:"
       preferred editor: "Preferred Editor:"
       image: "Image:"
+      gravatar:
+        gravatar: "Use Gravatar"
+        link: "http://wiki.openstreetmap.org/wiki/Gravatar"
+        link text: "what is this?"
       new image: "Add an image"
       keep image: "Keep the current image"
       delete image: "Remove the current image"

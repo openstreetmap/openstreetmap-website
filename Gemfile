@@ -2,7 +2,7 @@
 source 'http://rubygems.org'
 
 # Require rails
-gem 'rails', '3.2.8'
+gem 'rails', '3.2.9'
 
 # Require things which have moved to gems in ruby 1.9
 gem 'bigdecimal', :platforms => :ruby_19
@@ -12,6 +12,9 @@ gem 'pg'
 
 # Load jquery support
 gem 'jquery-rails'
+
+# Load R2 for RTL conversion
+gem 'r2'
 
 # Load rails plugins
 gem 'rails-i18n', ">= 0.6.3"
@@ -25,6 +28,7 @@ gem 'http_accept_language', '>= 1.0.2'
 gem 'paperclip', '~> 2.0'
 gem 'deadlock_retry', '>= 1.2.0'
 gem 'i18n-js', '>= 3.0.0.rc2'
+gem 'rack-cors'
 gem 'jsonify-rails'
 
 # We need ruby-openid 2.2.0 or later for ruby 1.9 support

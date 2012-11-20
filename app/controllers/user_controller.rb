@@ -32,12 +32,14 @@ class UserController < ApplicationController
       # the open_id_authentication function
       @user = session.delete(:new_user)
 
-      openid_verify(nil, @user) do |user|
+      openid_verify(nil, @user) do |user,verified_email|
+        user.status = "active" if user.email == verified_email
       end
 
       if @user.openid_url.nil? or @user.invalid?
         render :action => 'new'
       else
+        session[:new_user] = @user
         render :action => 'terms'
       end
     elsif params[:user] and Acl.no_account_creation(request.remote_ip, params[:user][:email].split("@").last)
@@ -51,11 +53,13 @@ class UserController < ApplicationController
       if params[:user] and params[:user][:openid_url] and @user.pass_crypt.empty?
         # We are creating an account with OpenID and no password
         # was specified so create a random one
-        @user.pass_crypt = SecureRandom.base64(16) 
-        @user.pass_crypt_confirmation = @user.pass_crypt 
+        @user.pass_crypt = SecureRandom.base64(16)
+        @user.pass_crypt_confirmation = @user.pass_crypt
       end
 
       if @user
+        @user.status = "pending"
+
         if @user.invalid?
           if @user.new_record?
             # Something is wrong with a new user, so rerender the form
@@ -72,6 +76,9 @@ class UserController < ApplicationController
           # Verify OpenID before moving on
           session[:new_user] = @user
           openid_verify(params[:user][:openid_url], @user)
+        elsif @user.new_record?
+          # Save the user record
+          session[:new_user] = @user
         end
       else
         # Not logged in, so redirect to the login page
@@ -114,28 +121,40 @@ class UserController < ApplicationController
       else
         redirect_to :action => :account, :display_name => @user.display_name
       end
-    elsif Acl.no_account_creation(request.remote_ip, params[:user][:email].split("@").last)
-      render :action => 'blocked'
     else
-      @user = User.new(params[:user])
+      @user = session.delete(:new_user)
 
-      @user.status = "pending"
-      @user.data_public = true
-      @user.description = "" if @user.description.nil?
-      @user.creation_ip = request.remote_ip
-      @user.languages = request.user_preferred_languages
-      @user.terms_agreed = Time.now.getutc
-      @user.terms_seen = true
-      @user.openid_url = nil if @user.openid_url and @user.openid_url.empty?
-      
-      if @user.save
-        flash[:piwik_goal] = PIWIK_SIGNUP_GOAL if defined?(PIWIK_SIGNUP_GOAL)
-        flash[:notice] = t 'user.new.flash create success message', :email => @user.email
-        Notifier.signup_confirm(@user, @user.tokens.create(:referer => session.delete(:referer))).deliver
-        session[:token] = @user.tokens.create.token
-        redirect_to :action => 'login', :referer => params[:referer]
+      if Acl.no_account_creation(request.remote_ip, @user.email.split("@").last)
+        render :action => 'blocked'
       else
-        render :action => 'new', :referer => params[:referer]
+        @user.data_public = true
+        @user.description = "" if @user.description.nil?
+        @user.creation_ip = request.remote_ip
+        @user.languages = request.user_preferred_languages
+        @user.terms_agreed = Time.now.getutc
+        @user.terms_seen = true
+        @user.openid_url = nil if @user.openid_url and @user.openid_url.empty?
+
+        if @user.save
+          flash[:piwik_goal] = PIWIK_SIGNUP_GOAL if defined?(PIWIK_SIGNUP_GOAL)
+
+          if @user.status == "active"
+            flash[:notice] = t 'user.new.flash welcome', :email => @user.email
+
+            Notifier.signup_confirm(@user, nil).deliver
+
+            successful_login(@user)
+          else
+            flash[:notice] = t 'user.new.flash create success message', :email => @user.email
+            session[:token] = @user.tokens.create.token
+
+            Notifier.signup_confirm(@user, @user.tokens.create(:referer => session.delete(:referer))).deliver
+
+            redirect_to :action => 'login', :referer => params[:referer]
+          end
+        else
+          render :action => 'new', :referer => params[:referer]
+        end
       end
     end
   end
@@ -299,7 +318,7 @@ class UserController < ApplicationController
           referer = token.referer
           token.destroy
 
-          if session[:token] 
+          if session[:token]
             token = UserToken.find_by_token(session[:token])
             session.delete(:token)
           else
@@ -551,6 +570,7 @@ private
           # the simple registration protocol.
           nickname = sreg["nickname"] || ax["http://axschema.org/namePerson/friendly"].first
           email = sreg["email"] || ax["http://axschema.org/contact/email"].first
+
           redirect_to :controller => 'user', :action => 'new', :nickname => nickname, :email => email, :openid => identity_url
         end
       elsif result.missing?
@@ -568,8 +588,18 @@ private
   def openid_verify(openid_url, user)
     user.openid_url = openid_url
 
-    authenticate_with_open_id(openid_expand_url(openid_url), :method => :get) do |result, identity_url|
+    authenticate_with_open_id(openid_expand_url(openid_url), :method => :get, :required => [:email, "http://axschema.org/contact/email"]) do |result, identity_url, sreg, ax|
       if result.successful?
+        # Do we trust the emails this provider returns?
+        if openid_email_verified(identity_url)
+          # Guard against not getting any extension data
+          sreg = Hash.new if sreg.nil?
+          ax = Hash.new if ax.nil?
+
+          # Get the verified email
+          verified_email = sreg["email"] || ax["http://axschema.org/contact/email"].first
+        end
+
         # We need to use the openid url passed back from the OpenID provider
         # rather than the one supplied by the user, as these can be different.
         #
@@ -577,7 +607,7 @@ private
         # than a user specific url. Only once it comes back from the provider
         # provider do we know the unique address for the user.
         user.openid_url = identity_url
-        yield user
+        yield user, verified_email
       elsif result.missing?
         flash.now[:error] = t 'user.login.openid missing provider'
       elsif result.invalid?
@@ -603,7 +633,15 @@ private
     else
       return openid_url
     end
-  end  
+  end
+
+  ##
+  # check if we trust an OpenID provider to return a verified
+  # email, so that we can skpi verifying it ourselves
+  def openid_email_verified(openid_url)
+    openid_url.match(/https:\/\/www.google.com\/accounts\/o8\/id?(.*)/) or
+    openid_url.match(/https:\/\/me.yahoo.com\/(.*)/)
+  end
 
   ##
   # process a successful login
@@ -663,8 +701,15 @@ private
     user.languages = params[:user][:languages].split(",")
 
     case params[:image_action]
-    when "new" then user.image = params[:user][:image]
-    when "delete" then user.image = nil
+    when "new" then
+      user.image = params[:user][:image]
+      user.image_use_gravatar = false
+    when "delete" then
+      user.image = nil
+      user.image_use_gravatar = false
+    when "gravatar" then
+      user.image = nil
+      user.image_use_gravatar = true
     end
 
     user.home_lat = params[:user][:home_lat]
@@ -755,7 +800,7 @@ private
   ##
   #
   def disable_terms_redirect
-    # this is necessary otherwise going to the user terms page, when 
+    # this is necessary otherwise going to the user terms page, when
     # having not agreed already would cause an infinite redirect loop.
     # it's .now so that this doesn't propagate to other pages.
     flash.now[:skip_terms] = true

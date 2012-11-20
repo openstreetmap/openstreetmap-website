@@ -88,6 +88,14 @@ module ApplicationHelper
     end
   end
 
+  def dir
+    if dir = params[:dir]
+      dir == "rtl" ? "rtl" : "ltr"
+    else
+      I18n.t("html.dir")
+    end
+  end
+
   def friendly_date(date)
     content_tag(:span, time_ago_in_words(date), :title => l(date, :format => :friendly))
   end

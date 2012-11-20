@@ -89,8 +89,10 @@ ca:
   application: 
     require_cookies: 
       cookies_needed: Sembla que teniu les galetes inhabilitades - habiliteu les galetes al navegador abans de continuar.
+    require_moderator: 
+      not_a_moderator: Heu de ser un moderador per dur a terme aquesta acció
     setup_user_auth: 
-      blocked: S'ha blocat l'accés a l'API. Si us plau, log-in a la interfície de web per obtenir més informació.
+      blocked: El vostre accés a l'API ha estat blocat. Si us plau, connecteu-vos a la interfície web per obtenir més informació.
       need_to_see_terms: L'accés a l'API és temporalment suspeses. Si us plau, log-in a la interfície de web per veure els termes de col. laborador. Vostè no necessita estar d'acord, però cal veure-les.
   browse: 
     changeset: 
@@ -158,10 +160,10 @@ ca:
         prev_changeset_tooltip: Edició anterior de %{user}
     node: 
       download_xml: Baixa l'XML
-      edit: modificació
+      edit: Modifica el node
       node: Node
       node_title: "Node: %{node_name}"
-      view_history: visualitza l'historial
+      view_history: Mostra l'historial
     node_details: 
       coordinates: "Coordenades:"
       part_of: "Part de:"
@@ -169,7 +171,7 @@ ca:
       download_xml: Baixa l'XML
       node_history: Historial del node
       node_history_title: "Historial del node: %{node_name}"
-      view_details: visualitza els detalls
+      view_details: Mostra els detalls
     not_found: 
       sorry: Ho sentim, no s'ha trobat el %{type} amb l'id %{id}.
       type: 
@@ -181,12 +183,17 @@ ca:
       of: de
       showing_page: S'està mostrant pàgina
     redacted: 
+      message_html: La versió %{version} d'aquest %{type} no pot ser mostrada com ha estat redactada. Si us plau, vegeu  %{redaction_link} per més detalls.
       redaction: Redacció %{id}
+      type: 
+        node: node
+        relation: relació
+        way: via
     relation: 
       download_xml: Baixa l'XML
       relation: Relació
       relation_title: "Relació: %{relation_name}"
-      view_history: visualitza l'historial
+      view_history: Mostra l'historial
     relation_details: 
       members: "Membres:"
       part_of: "Part de:"
@@ -206,14 +213,14 @@ ca:
       view_data: Visualitza la informació per a la vista del mapa actual
     start_rjs: 
       data_frame_title: Informació
-      data_layer_name: Informació
+      data_layer_name: Explora les dades del mapa
       details: Detalls
       drag_a_box: Marqueu un rectangle al mapa per a seleccionar una àrea
       edited_by_user_at_timestamp: Editat per  %{user} el %{timestamp}
       hide_areas: Oculta les zones
       history_for_feature: Historial per a %{feature}
       load_data: Carrega dades
-      loaded_an_area_with_num_features: "Heu carregat una àrea que conté %{num_features} característiques. En general, alguns navegadors no poden fer front a mostrar aquesta quantitat de dades. En general, els navegadors funcionen millor mostrant menys de 100 característiques a la vegada: fer una altre cosa pot fer que el seu navegador esdevingui lent o que no respongui. Si esteu segurs que voleu visualitzar aquestes dades, pot fer-ho fent clic al botó de sota."
+      loaded_an_area_with_num_features: "Heu carregat una àrea que conté %{num_features} elements. En general, els navegadors no poden mostrar una quantitat tant gran de dades, funcionen millor mostrant menys de 100 elements a la vegada: el fet de voler que es mostri una quantitat més gran pot fer que el vostre navegador esdevingui lent o que deixi de respondre. Si esteu segur que voleu mostrar aquestes dades, podeu fer-ho fent clic sobre el botó de sota."
       loading: S'està carregant...
       manually_select: Selecciona manualment una àrea diferent
       object_list: 
@@ -253,8 +260,8 @@ ca:
         way: via
     way: 
       download_xml: Descarrega XML
-      edit: modificació
-      view_history: visualitza l'històric
+      edit: Modifica via
+      view_history: Mostra l'historial
       way: Via
       way_title: "Via: %{way_name}"
     way_details: 
@@ -265,7 +272,7 @@ ca:
       part_of: "Part de:"
     way_history: 
       download_xml: Descarrega XML
-      view_details: visualitza els detalls
+      view_details: Mostra els detalls
       way_history: Historial de la via
       way_history_title: "Historial de la via: %{way_name}"
   changeset: 
@@ -294,6 +301,8 @@ ca:
       description_nearby: Conjunts de canvis d'usuaris propers
       description_user: Conjunt de canvis fets per %{user}
       description_user_bbox: Conjunt de canvis de %{user} dins de %{bbox}
+      empty_anon_html: Encara no ha estat feta cap modificació
+      empty_user_html: Sembla que encara no heu fet cap modificació. Per començar feu un cop d'ull a la <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.3'>Guia d'iniciació </a>.
       heading: Conjunt de canvis
       heading_bbox: Conjunt de canvis
       heading_friend: Conjunts de canvis
@@ -312,8 +321,11 @@ ca:
     comments: 
       ago: fa %{ago}
       comment: Comentari
+      has_commented_on: "%{display_name} ha comentat les següents entrades del diari"
       newer_comments: Comentaris recents
       older_comments: Comentaris antics
+      post: Publicar
+      when: Quan
     diary_comment: 
       comment_from: Comentari de %{link_user} el %{comment_created_at}
       confirm: Confirma
@@ -395,7 +407,7 @@ ca:
       area_to_export: Àrea a exportar
       embeddable_html: HTML que es pot incloure
       export_button: Exporta
-      export_details: Les dades l'OpenStreetMap són publicades sota el termes de la <a href="http://creativecommons.org/licenses/by-sa/2.0/">llicència Creative Commons Attribution-ShareAlike 2.0</a>.
+      export_details: Les dades d'OpenStreetMap són publicades sota el termes de la <a href="http://creativecommons.org/licenses/by-sa/2.0/">llicència Creative Commons Attribution-ShareAlike 2.0</a>.
       format: Format
       format_to_export: Format d'exportació
       image_size: Mida de la imatge
@@ -403,6 +415,7 @@ ca:
       licence: Llicència
       longitude: "Lon:"
       manually_select: Selecciona manualment una àrea diferent
+      map_image: Imatge de mapa (mostra una capa estàndard)
       max: màx
       options: Opcions
       osm_xml_data: OpenStreetMap XML Data
@@ -468,13 +481,16 @@ ca:
           WLAN: Punt d'accés WiFi
           airport: Aeroport
           arts_centre: Centre d'Art
+          artwork: Obra d'art
           atm: Caixer automàtic
           auditorium: Auditori
           bank: Banc
           bar: Bar
+          bbq: barbacoa
           bench: Banc
           bicycle_parking: Aparcament de bicicletes
           bicycle_rental: Lloguer de bicicletes
+          biergarten: Cervesseria a l'aire lliure
           brothel: Prostíbul
           bureau_de_change: Oficina de canvi
           bus_station: Estació d'autobusos
@@ -483,6 +499,7 @@ ca:
           car_sharing: Compartició de cotxes
           car_wash: Rentat de cotxes
           casino: Casino
+          charging_station: Estació de recàrrega
           cinema: Cinema
           clinic: Clínica
           club: Club
@@ -562,6 +579,7 @@ ca:
           youth_centre: Centre juvenil
         boundary: 
           administrative: Administració de Fronteres
+          census: Límit censal
           national_park: Parc Nacional
           protected_area: Zona protegida
         bridge: 
@@ -601,12 +619,13 @@ ca:
           secondary_link: Carretera secundària
           service: Carretera de Servei
           services: Serveis en ruta
+          speed_camera: Radar
           steps: Graons
           stile: Escala per a travessar reixats
           tertiary: Carretera terciària
           tertiary_link: Carretera terciària
           track: Pista
-          trail: Sendera
+          trail: Sendera o corriol
           trunk: Autovia de
           trunk_link: Autovia de
           unclassified: Sense classificar Road
@@ -659,9 +678,10 @@ ca:
           railway: Ferrocarril
           recreation_ground: Zona d'Esbarjo
           reservoir: Embassament
+          reservoir_watershed: Embassament de conca
           residential: Àrea residencial
           retail: Al detall
-          village_green: Village Green
+          village_green: Zona verda
           vineyard: Vinya
           wetland: Aiguamoll
           wood: Fusta
@@ -670,6 +690,7 @@ ca:
           bird_hide: Aguait
           common: Terra comú
           fishing: Àrea de pesca
+          fitness_station: Centre de fitness
           garden: Jardí
           golf_course: Camp de golf
           ice_rink: Pista de patinatge sobre gel
@@ -688,6 +709,7 @@ ca:
           track: Pista
           water_park: Parc aquàtic
         military: 
+          airfield: Aeroport militar
           barracks: Caserna
           bunker: Búnquer
         natural: 
@@ -741,6 +763,7 @@ ca:
           insurance: Oficina d'assegurances
           lawyer: Advocat
           ngo: Oficina d'una ONG
+          telecommunication: Oficina de telecomunicacions
           travel_agent: Agència de viatges
           "yes": Oficina
         place: 
@@ -793,6 +816,7 @@ ca:
           yard: Pati de ferrocarril
         shop: 
           alcohol: De llicència
+          antiques: Antiquari
           art: Galeria d'Art
           bakery: Fleca
           beauty: Saló de bellesa
@@ -941,14 +965,17 @@ ca:
     history: Historial
     home: Inici
     home_tooltip: Vés a la posició inicial
+    inbox_html: rebut %{count}
     inbox_tooltip: 
       one: Teniu 1 missatge sense llegir
       other: Teniu %{count} missatges sense llegir
       zero: No teniu cap missatge sense llegir
     intro_1: L'OpenStreetMap és un mapa editable i lliure de tot el món. Està fet per gent com vós.
     intro_2_create_account: Crea un compte d'usuari
-    intro_2_download: baixada
+    intro_2_download: baixades
     intro_2_html: Les dades poden ser  %{download} i %{use} lliurement sota la seva %{license}. %{create_account} per millorar el mapa.
+    intro_2_license: llicència oberta
+    intro_2_use: utilitzades
     log_in: inicia una sessió
     log_in_tooltip: Inicia una sessió amb un compte existent
     logo: 
@@ -960,6 +987,11 @@ ca:
       title: Ajudeu l'OpenStreetMap amb una donació econòmica
     osm_offline: La base de dades OpenStreetMap és fora de línia, mentre es fan actuacions de manteniment necessàries.
     osm_read_only: La base de dades OpenStreetMap actualment és en el mode read-only mentre que les actuacions de manteniment essencials de base de dades es porta a terme.
+    partners_bytemark: Allotjament Bytemark
+    partners_html: L'allotjament és a càrrec de %{ucl}, %{ic}, %{bytemark}, i d'altres %{partners}.
+    partners_ic: Imperial College Londres
+    partners_partners: socis
+    partners_ucl: el Centre UCL VR
     sign_up: registre
     sign_up_tooltip: Crea un usuari per editar
     tag_line: El mapa wiki lliure mundial
@@ -977,21 +1009,32 @@ ca:
       text: En cas de conflicte entre aquesta pàgina traduïda i %{english_original_link}, la pàgina en anglès tindrà prioritat
       title: Quant a la traducció
     legal_babble: 
+      attribution_example: 
+        alt: Exemple de com atribuir OpenStreetMap a una pàgina web
+        title: Exemple d'atribució
       contributors_at_html: "<strong>Àustria</strong>: conté dades de\n    <a href=\"http://data.wien.gv.at/\">Stadt Wien</a> sota\n    <a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.de\">CC BY</a>."
       contributors_ca_html: "<strong>Canadà</strong>: conté dades de\n    GeoBase ®, GeoGratis (© Departament de Natural\n    Recursos Canadà), CanVec (© Departament de Natural\n    Recursos Canadà) i StatCan (Divisió de Geografia,\n    Canadà de Estadístiques)."
+      contributors_footer_1_html: "Per a més detalls sobre aquesta i d'altres fonts que han estat utilitzades per millorar els mapes d'OpenStreetMap, si us plau, vegeu al wiki d'OSM la pàgina dedicada als <a\nhref=\"http://wiki.openstreetmap.org/wiki/Contributors\">Col·laboradors</a>"
       contributors_footer_2_html: "Inclusió de dades en OpenStreetMap no implica que l'original\n  el proveïdor de dades recolza OpenStreetMap, proporciona cap garantia, o\n  accepta qualsevol responsabilitat."
       contributors_fr_html: "<strong>França</strong>: conté dades d'origen de\n    Direcció Générale des Impôts."
-      contributors_gb_html: "<strong>Regne Unit</strong>: conté cartografia\n    Enquesta dades © Crown copyright i base de dades correcte\n    2010."
-      contributors_intro_html: "La nostra llicència CC BY-SA requereix que \"doni l'Original\n  Autor de crèdit raonable per al suport i mitjà que ets\n  utilització\". No tornis a sol·licitar individuals dibuixants de mapes de OSM un\n  de crèdit més enllà de que a \"OpenStreetMap\n  col. laboradors\", però on les dades des d'un mapatge Nacional\n  Agència o l'altra font important ha estat inclòs en\n  OpenStreetMap, pot ser raonable per crèdit per directament\n  reproduir el seu crèdit o per vincular-hi d'aquesta pàgina."
+      contributors_gb_html: "<strong>Regne Unit</strong>: conté dades del\nOrdnance Survey &copy; Drets d'autor de la Corona i de la base de dades\n2010-12."
+      contributors_intro_html: "Els nostres col·laboradors són milers de persones. També incloem dades amb llicència oberta de les agències públiques de cartografia i d'altres fonts, entre elles:"
+      contributors_nl_html: "<strong>Països Baixos</strong>: Conté &copy; dades d'Automotive Navigation Data (AND), 2007 (<a href=\"http://www.and.com\">www.and.com</a>)"
       contributors_nz_html: "<strong>Nova Zelanda</strong>: conté dades d'origen de\n    Informació Nova Zelanda de la terra. Corona de drets d'autor reservat."
       contributors_title_html: Nostres col. laboradors
-      credit_1_html: "Si està utilitzant imatges de mapa de OpenStreetMap, us preguem que\n  el seu crèdit llegeix com a mínim \"© OpenStreetMap\n  col. laboradors, CC BY-SA\". Si està utilitzant les dades de mapa només\n  demanem \"mapa dades © OpenStreetMap col·laboradors\n  CC BY-SA\"."
-      credit_2_html: "Sempre que sigui possible, OpenStreetMap ha de ser un hipervincle a <a\n href=\"http://www.openstreetmap.org/\">http://www.openstreetmap.org/\n  i CC BY-SA a <a\n href=\"http://creativecommons.org/licenses/by-sa/2.0/\">http://creativecommons.org/licenses/by-sa/2.0/. Si\n  està utilitzant un mitjà on enllaços no són possibles (per exemple, un\n  treball impresa), us suggerim que directa als seus lectors a\n  www.OpenStreetMap.org (potser per l'ampliació\n  'OpenStreetMap' a aquesta adreça completa) i a\n  www.creativecommons.org."
+      contributors_za_html: "<strong>Sud-àfrica</strong>: conté dades del\n<a href=\"http://www.ngi.gov.za/\">Chief Directorate:\nNational Geo-Spatial Information</a>, drets d'autor reservat per l'estat."
+      credit_1_html: "Exigim que l'atribució de drets d'autor sigui &ldquo;&copy; Col·laboradors d'OpenStreetMap\n&rdquo;."
+      credit_2_html: També heu de deixar clar que les dades són disponibles sota llicència obereta, i si s'utilitzen les nostres tessel·les de mapes, que la cartografia és llicenciada com CC-BY-SA. Podeu fer això enllaçant a <a href="http://www.openstreetmap.org/copyright">aquest pàgina de copyright</a>. D'altra banda, i com a requisit obligatori si voleu distribuir OSM en forma de dades en brut, podeu citar i enllaçar directament a la llicència. En el cas d'utilitzar suports on els enllaços d'hipertext no són possibles (per exemple, obres impreses), us suggerim d'adreçar els lectors a openstreetmap.org (potser indicant l'adreça completa d'OpenStreetMap), a opendatacommons.org i si s'escau, a creativecommons.org.
+      credit_3_html: "En el cas d'un mapa electrònic navegable, els crèdits han d'aparèixer a la cantonada del mapa.\nPer exemple:"
       credit_title_html: Com a crèdit OpenStreetMap
+      infringement_1_html: Recordem als col·laboradors d'OSM que mai s'han d'afegir dades de qualsevol font amb drets d'autor registrats (com Google Maps o mapes impresos per exemple) sense tenir una autorització explícita dels titulars dels drets d'autor.
+      infringement_2_html: Si penseu que hi ha material protegit per drets d'autor que ha estat afegit a la base de dades d'OpenStreetMap o a aquest web, si us plau aneu a la pàgina web dedicada al <a href="http://www.osmfoundation.org/wiki/License/Takedown_procedure">Procediment per eliminar dades protegides pels drets d'autor</a> o empleneu aquest <a href="http://dmca.openstreetmap.org/">formulari en línia.</a>.
+      infringement_title_html: Violació dels drets d'autor
       intro_1_html: "OpenStreetMap és <i>obrir dades</i>, concedeix una llicència sota el <a\n href=\"http://creativecommons.org/licenses/by-sa/2.0/\">Creative\n   Llicència Commons Attribution-ShareAlike 2.0 (CC BY-SA)."
-      intro_2_html: "Vostè és lliure de copiar, distribuir, transmetre i adaptar-se a nostres mapes\n  i les dades, sempre que li doni crèdit OpenStreetMap i la seva\n  col. laboradors. Si alterar o construir sobre els nostres mapes o dades, vostè\n  distribuir el resultat només sota la mateixa llicència. La\n  Full <a\n href=\"http://creativecommons.org/licenses/by-sa/2.0/legalcode\">legal\n  codi explica els seus drets i responsabilitats."
-      more_1_html: "Llegiu més informació sobre com utilitzar les nostres dades a les <a\n href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">Legal\n  PREGUNTES MÉS FREQÜENTS."
-      more_2_html: "Col. laboradors OSM se li va recordar mai per afegir les dades des de qualsevol\n  drets d'autor fonts (p. ex. Google Maps o mapes impreses) sense\n  permís explícit dels titulars del copyright."
+      intro_2_html: "Sou lliure de copiar, distribuir, comunicar públicament i fer-ne obres \nderivades de les nostres dades, sempre que atribuïu els crèdits a \nOpenStreetMap i els seus col·laboradors. Si modifiqueu o utilitzeu les\nnostres dades fer fer obres derivades, només podreu distribuir l'obra \nresultant amb la mateixa llicència. Aquest \n<a href=\"http://opendatacommons.org/licenses/odbl/1.0/\">text legal\ncode</a> sencer que explica detalladament els vostres drets i responsabbilitats."
+      intro_3_html: "La cartografia de les nostres tessel·les i la nostra documentació són ofertes\nsota llicència <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">Text de la llicència de Creative Commons Reconeixement-Compartir Igual 2.0</a>(CC-BY-SA)."
+      more_1_html: "Llegiu més informació sobre com utilitzar les nostres dades a les <a\nhref=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">Preguntes\nFreqüents sobre legalitat</a>."
+      more_2_html: Encara que les dades d'OpenStreetMap són dades obertes, no podem oferir una API gratuïta per als desenvolupadors de terceres parts. Vegeu la <a href="http://wiki.openstreetmap.org/wiki/API_usage_policy">Política d'ús de l'API</a>, la <a href="http://wiki.openstreetmap.org/wiki/Tile_usage_policy">Política d'ús de les tessel·les</a> i la <a href="http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy">Política d'ús de Nominatim</a>.
       more_title_html: Saber-ne més
       title_html: Drets d'autor i llicència
     native: 
@@ -1064,7 +1107,7 @@ ca:
       title: Llegeix el missatge
       to: Per a
       unread_button: Marca com a no llegit
-      wrong_user: Heu iniciat la sessió com "%{user}", però el missatge que han demanat a llegir a no va ser enviat o dirigit a aquest usuari. Si us plau connecti's com l'usuari correcte per a llegir-lo.
+      wrong_user: Heu iniciat la sessió com a "%{user}", però el missatge que proveu de llegir a no va ser enviat o adreçat a aquest usuari. Si us plau connecteu-vos com l'usuari correcte per poder llegir-ho.
     reply: 
       wrong_user: Heu iniciat la sessió com "%{user}", però el missatge que han demanat de respondre a no s'ha enviat a aquest usuari. Si us plau connecti's com l'usuari correcte per a respondre.
     sent_message_summary: 
@@ -1122,14 +1165,15 @@ ca:
       header: "%{from_user} ha enviat un missatge a través de OpenStreetMap amb el tema %{subject}:"
       hi: Hola %{to_user},
     signup_confirm: 
-      subject: "[OpenStreetMap] Confirmeu la vostra adreça electrònica"
+      confirm: "Primer de tot hem de confirmar que aquesta petició ha estat feta per vostè, si ha estat així, si us plau, premeu sobre el següent enllaç per tal confirmar la vostra petició de creació del compte d'usuari:"
+      created: Algú (esperem que hagi estat vostè) acaba de crear un compte a %{site_url}.
+      greeting: Hola!
+      subject: "[OpenStreetMap] Benvinguts a OpenStreetMap"
+      welcome: Volem donar-vos la benvinguda i oferir-vos informació addicional que us ajudarà a començar.
     signup_confirm_html: 
       ask_questions: Podeu fer qualsevol pregunta que tingueu sobre l'OpenStreetMap al nostre <a href="http://help.openstreetmap.org/">lloc de preguntes i respostes</a>.
-      click_the_link: Si això és vostè, Benvingut! Si us plau, feu clic a l'enllaç de sota per confirmar que compte i seguiu llegint per obtenir més informació sobre OpenStreetMap
       current_user: "Una llista d'usuaris actuals en categories, basades en on en el món que són, està disponible des de <a href=\"http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region\">Categoria: Users_by_geographical_region</a>."
       get_reading: Obtenir de lectura sobre OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Beginners%27_Guide">al wiki</a>, posarà al dia amb les últimes notícies via <a href="http://blog.openstreetmap.org/">OpenStreetMap bloc</a> o <a href="http://twitter.com/openstreetmap">Twitter</a>o navegar a través de OpenStreetMap fundador Steve Costa <a href="http://www.opengeodata.org/">OpenGeoData blog</a> per a la breu història del projecte, que disposa de <a href="http://www.opengeodata.org/?cat=13">podcasts d'escoltar</a> !
-      greeting: Hola, què tal?
-      hopefully_you: Algú (esperem que vostè) would com crear un compte per a les
       introductory_video: Podeu veure un %{introductory_video_link}.
       more_videos: Hi ha %{more_videos_link}.
       more_videos_here: més de vídeos aquí
@@ -1139,18 +1183,12 @@ ca:
     signup_confirm_plain: 
       ask_questions: "Pot fer qualsevol pregunta que tingui sobre OpenStreetMap a les nostres preguntes i lloc de resposta:"
       blog_and_twitter: "Posarà al dia amb les últimes notícies via el blog de OpenStreetMap o Twitter:"
-      click_the_link_1: Si això és vostè, Benvingut! Si us plau, feu clic a l'enllaç sota per confirmar el seu
-      click_the_link_2: compte i seguiu llegint per obtenir més informació sobre OpenStreetMap.
-      current_user_1: Una llista d'usuaris actuals en categories, basades en on en el món
-      current_user_2: "ells són, està disponible des de:"
-      greeting: Hola, què tal?
-      hopefully_you: Algú (creiem que vós mateix) vol crear un compte per a les
+      current_user: "Una llista dels usuaris classificats en base al lloc on són està disponible a:"
       introductory_video: "Podeu veure un vídeo d'introducció a OpenStreetMap aquí:"
       more_videos: "Hi ha més videos aquí:"
       opengeodata: "OpenGeoData.org és blog fundador OpenStreetMap Steve Costa, i té podcasts també:"
       the_wiki: "Obtenir llegint sobre OpenStreetMap al wiki:"
-      user_wiki_1: Es recomana que es crea una pàgina de wiki de l'usuari, que inclou
-      user_wiki_2: "Categoria Etiquetes assenyalant on es troba, com [[Categoria: Users_in_London]]."
+      user_wiki_page: Us recomanem de crear una pàgina wiki d'usuari, amb etiquetes de categoria que indiquin on sou, com per exemple [[Category:Users_in_Barcelona].
       wiki_signup: "Vostè també pot inscriure s a la wiki OpenStreetMap a:"
   oauth: 
     oauthorize: 
@@ -1211,6 +1249,7 @@ ca:
       allow_write_prefs: modificar les seves preferències d'usuari.
       authorize_url: "Autoritza URL:"
       confirm: N'esteu segur?
+      delete: Suprimeix client
       edit: Edita els detalls
       key: "Clau de consum:"
       requests: "Sol·licitar els permisos següents des de l'usuari:"
@@ -1221,28 +1260,54 @@ ca:
     update: 
       flash: La informació de client ha actualitzat correctament
   redaction: 
+    create: 
+      flash: Redacció creada
+    destroy: 
+      error: Ha hagut un error en suprimir aquesta redacció.
+      flash: Redacció suprimida
+      not_empty: La redacció no és buida. Si us plau, desfeu totes les versions que pertanyen a aquesta redacció abans de destruir-la.
     edit: 
       description: Descripció
+      heading: Modifica la redacció
+      submit: Desa la redacció
+      title: Modifica la redacció
+    index: 
+      empty: No hi ha redaccions a mostrar.
+      heading: Llista de redaccions
+      title: Llista de redaccions
     new: 
       description: Descripció
+      heading: Introduïu informació per una nova redacció
+      submit: Crea una redacció
+      title: Creant una nova redacció
     show: 
+      confirm: N'esteu segur?
+      description: "Descripció:"
+      destroy: Suprimeix aquesta redacció
+      edit: Modifica aquesta redacció
+      heading: Mostrant la redacció "%{title}"
+      title: Mostrant la redacció
       user: "Autor:"
+    update: 
+      flash: Modificacions desades
   site: 
     edit: 
       anon_edits_link_text: Esbrina perquè aquest és el cas.
       flash_player_required: Necessiteu intèrpret de Flash per utilitzar el Potlatch, l'editor de l'OpenStreetMap. Podeu <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">baixar el pluguin de Flash des del web Adobe.com</a>. També hi ha <a href="http://wiki.openstreetmap.org/wiki/Editing">altres opcions</a> per editar l'OpenStreetMap.
       no_iframe_support: El navegador no suporta iframes HTML, que són necessàries per a aquesta funcionalitat.
-      not_public: No ha posat les modificacions per ser públic.
-      not_public_description: Ja no es pot editar el mapa a menys que vostè fer-ho. Pot configurar les modificacions com a públic del seu %{user_page}.
+      not_public: No heu fet les configuracions necessàries per tal que les vostres modificacions siguin públiques.
+      not_public_description: Ja no podeu modificar el mapa a menys que feu públics els vostres canvis. Podeu configurar les modificacions com a públiques a la vostra %{user_page}.
       potlatch2_not_configured: No s'ha configurat el Potlatch 2 - vegeu http://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2 per a més informació
       potlatch2_unsaved_changes: Teniu canvis sense desar. (Per desar els canvis al Potlatch 2, heu de fer clic a "desa".)
       potlatch_unsaved_changes: Teniu canvis sense desar. (Per desar els canvis al Potlatch, heu de desseleccionar la via o el punt actual, si esteu en l'edicó en viu, o fer clic a "desa", si teniu un botó "desa".)
       user_page_link: pàgina d'usuari
     index: 
       js_1: Tampoc està utilitzant un navegador que no suporta JavaScript o té deshabilitat JavaScript.
-      js_2: L'OpenStreetMap utilitza JavaScript per al mapa slippy.
+      js_2: L'OpenStreetMap utilitza JavaScript per al mapa lliscant.
+      license: 
+        copyright: Copyright d'OpenStreetMap i els seus col·laboradors sota llicència oberta
       permalink: Enllaç permanent
-      remote_failed: Edició ha fallat - assegureu-vos que JOSM o Merkaartor es carrega i l'opció de comandament a distància és habilitat
+      remote_failed: L'edició ha fallat - assegureu-vos que JOSM o Merkaartor ha estat carregat i que l'opció de comandament a distància ha estat habilitatada
       shortlink: Enllaç curt
     key: 
       map_key: Llegenda
@@ -1255,7 +1320,7 @@ ca:
             - Davantal de l'Aeroport
             - terminal
           bridge: Embolcall negre = bridge
-          bridleway: Bridleway
+          bridleway: Camí de ferradura
           brownfield: Lloc Brownfield
           building: Edifici significatiu
           byway: Byway
@@ -1301,7 +1366,7 @@ ca:
           station: Estació de tren
           subway: Metro
           summit: 
-            - Cimera
+            - Cim
             - pic
           tourist: Atracció turística
           track: Pista
@@ -1316,8 +1381,20 @@ ca:
     markdown_help: 
       alt: Text alternatiu
       first: Primer element
+      heading: Encapçalament
+      headings: Encapçalaments
       image: Imatge
+      link: Enllaç
+      ordered: Llista ordenada
+      second: Segon element
+      subheading: Subencapçalament
       text: Text
+      title_html: Analitzat amb <a href="http://daringfireball.net/projects/markdown/">Markdown</a>
+      unordered: Llista sense ordenar
+      url: URL
+    richtext_area: 
+      edit: Modifica
+      preview: Previsualització
     search: 
       search: Cerca
       search_help: "exemples: 'Alkmaar', 'Regent Street, Cambridge', 'CB2 5AQ' o 'oficines de correus a prop Lünen' <a href='http://wiki.openstreetmap.org/wiki/Search'>més exemples...</a>"
@@ -1335,7 +1412,7 @@ ca:
       trace_uploaded: El seu arxiu GPX s'ha pujat i està pendent d'inserció a la base de dades. Això passarà en general dins d'una mitja hora, i s'enviarà un correu electrònic a vostè en finalitzar.
       upload_trace: Pujar traça de GPS
     delete: 
-      scheduled_for_deletion: Water programat per a la supressió
+      scheduled_for_deletion: Track programat per a ser suprimit
     edit: 
       description: "Descripció:"
       download: descàrrega
@@ -1348,21 +1425,22 @@ ca:
       save_button: Guardar canvis
       start_coord: "Coordenada d'inici:"
       tags: "Etiquetes:"
-      tags_help: separat per comas
+      tags_help: separat per comes
       title: Editant traça %{name}
       uploaded_at: "Pujat a:"
       visibility: "Visibilitat:"
       visibility_help: Què vol dir això?
     list: 
+      empty_html: Aquí encara no hi ha res. <a href='%{upload_link}'>Pujeu un nou track</a> o apreneu més sobre els tracks GPS a la <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>pàgina wiki</a>.
       public_traces: Traces GPS públiques
-      public_traces_from: Públics traces GPS de %{user}
+      public_traces_from: Tracks GPS públics de %{user}
       tagged_with: " etiquetat amb %{tags}"
-      your_traces: Les vosres traces GPS
+      your_traces: Les vostres traces GPS
     make_public: 
       made_public: Water fet públic
     offline: 
       heading: GPX emmagatzematge fora de línia
-      message: Al GPX d'emmagatzematge i carregar sistema d'arxiu no està disponible actualment.
+      message: L'emmagatzematge i el sistema de pujada de fitxers GPX no són operatius actualment.
     offline_warning: 
       message: El sistema de càrrega de fitxers GPX no està disponible actualment
     trace: 
@@ -1377,9 +1455,9 @@ ca:
       more: mes
       pending: PENDENT
       private: PRIVAT
-      public: PUBLIC
+      public: PÚBLIC
       trace_details: Mostra els detalls de la traça
-      trackable: RASTREABLE
+      trackable: RASTREJABLE
       view_map: Visualitza el mapa
     trace_form: 
       description: "Descripció:"
@@ -1398,6 +1476,8 @@ ca:
     trace_optionals: 
       tags: Etiquetes
     trace_paging_nav: 
+      newer: Tracks més recents
+      older: Tracks més antics
       showing_page: S'està mostrant pàgina %{page}
     view: 
       delete_track: Elimina aquesta traça
@@ -1412,7 +1492,7 @@ ca:
       owner: "Propietari:"
       pending: PENDENT
       points: "Punts:"
-      start_coordinates: "coordenada de inici:"
+      start_coordinates: "coordenada d'inici:"
       tags: "Etiquetes:"
       title: S'està mostrant la traça %{name}
       trace_not_found: No s'ha trobat la traça!
@@ -1420,7 +1500,7 @@ ca:
       visibility: "Visibilitat:"
     visibility: 
       identifiable: Identifiable (mostrat en llista de traça i com a punts d'identificació, ordenades amb timestamps)
-      private: Privat (només compartit com anònims, desordenada punts)
+      private: Privat (només compartit com anònim, el punts són desordenats)
       public: Públic (mostrat en llista de traça i com anònims, desordenada punts)
       trackable: Seguiments (només compartit com punts anònims, ordenades amb timestamps)
   user: 
@@ -1437,6 +1517,10 @@ ca:
       email never displayed publicly: (no es mostrarà mai en públic)
       flash update success: Informació de l'usuari ha actualitzat correctament.
       flash update success confirm needed: Informació de l'usuari ha actualitzat correctament. Comprovi el seu e-mail per a una nota per confirmar la seva adreça de correu electrònic nou.
+      gravatar: 
+        gravatar: Usar Gravatar
+        link: http://wiki.openstreetmap.org/wiki/Gravatar
+        link text: què és això?
       home location: "Ubicació inicial:"
       image: "Imatge:"
       image size hint: (Plaça imatges com a mínim 100 x 100 treball millor)
@@ -1572,6 +1656,7 @@ ca:
       email address: "Adreça de correu:"
       fill_form: Ompliu el formulari i us enviarem un correu electrònic per activar el vostre compte.
       flash create success message: Gràcies per registrar-se. Hem enviat un bitllet de confirmació a %{email} i tan aviat com vostè confirmar el seu compte es podrà aconseguir d'assignació.<br><br>Si utilitzeu un sistema que envia les sol·licituds de confirmació llavors si us plau fer segur whitelist webmaster@openstreetmap.org com som capaços de respondre a qualsevol sol·licituds de confirmació.
+      flash welcome: Gràcies per enregistar-vos. Us hem enviat un missatge de benvinguda a %{email} amb alguns consells sobre com començar.
       heading: Crea un compte d'usuari
       license_agreement: Quan confirmeu el compte, heu d'acceptar els <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">termes de col·laboracio</a>.
       no_auto_account_create: No us podem crear automàticament un compte.
@@ -1631,7 +1716,7 @@ ca:
       activate_user: activa aquest usuari
       add as friend: afegeix com a amic
       ago: (fa %{time_in_words_ago})
-      block_history: mostra els blocs rebuts
+      block_history: blocs rebuts
       blocks by me: blocs per mi
       blocks on me: blocs en mi
       comments: comentaris
@@ -1657,7 +1742,8 @@ ca:
       latest edit: "Última edició %{ago}:"
       m away: "%{count}m de distància"
       mapper since: "Mapejant des de:"
-      moderator_history: mostra els blocs donats
+      moderator_history: blocs donats
+      my comments: els meus comentaris
       my diary: el meu diari
       my edits: les meves edicions
       my settings: les meves preferències
