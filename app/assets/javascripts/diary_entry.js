@@ -9,7 +9,7 @@ $(document).ready(function () {
       map.removeLayer(marker);
     }
 
-    marker = L.marker(e.latlng).addTo(map)
+    marker = L.marker(e.latlng, {icon: getUserIcon()}).addTo(map)
       .bindPopup(I18n.t('diary_entry.edit.marker_text'));
   }
 
@@ -26,7 +26,7 @@ $(document).ready(function () {
     map.setView(centre, params.zoom);
 
     if ($("#latitude").val() && $("#longitude").val()) {
-      marker = L.marker(centre).addTo(map)
+      marker = L.marker(centre, {icon: getUserIcon()}).addTo(map)
         .bindPopup(I18n.t('diary_entry.edit.marker_text'));
     }
 
