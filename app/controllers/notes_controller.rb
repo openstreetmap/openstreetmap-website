@@ -66,20 +66,6 @@ class NotesController < ApplicationController
       @note = Note.create(:lat => lat, :lon => lon)
       raise OSM::APIBadUserInput.new("The note is outside this world") unless @note.in_world?
 
-      #TODO: move this into a helper function
-      begin
-        url = "http://nominatim.openstreetmap.org/reverse?lat=" + lat.to_s + "&lon=" + lon.to_s + "&zoom=16" 
-        response = REXML::Document.new(Net::HTTP.get(URI.parse(url))) 
-		
-        if result = response.get_text("reversegeocode/result") 
-          @note.nearby_place = result.to_s 
-        else 
-          @note.nearby_place = "unknown"
-        end
-      rescue Exception => err
-        @note.nearby_place = "unknown"
-      end
-
       # Save the note
       @note.save!
 

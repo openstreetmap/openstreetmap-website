@@ -9,13 +9,16 @@ xml.rss("version" => "2.0",
     xml.link url_for(:controller => "site", :action => "index", :only_path => false)
 
     @comments.each do |comment|
+      location_string = Rails.cache.fetch("location_description_#{comment.note.lat}_#{comment.note.lon}_#{locale}") do
+        describe_location comment.note.lat, comment.note.lon, 14, locale
+      end
       xml.item do
         if comment.event == "closed"
-          xml.title t('note.rss.closed', :place => comment.note.nearby_place)	
+          xml.title t('note.rss.closed', :place => location_string)	
         elsif comment.event == "commented"
-          xml.title t('note.rss.comment', :place => comment.note.nearby_place)
+          xml.title t('note.rss.comment', :place => location_string)
         elsif comment.event == "opened"
-          xml.title t('note.rss.new', :place => comment.note.nearby_place)
+          xml.title t('note.rss.new', :place => location_string)
         else
           xml.title "unknown event"
         end
