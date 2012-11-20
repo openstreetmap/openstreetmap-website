@@ -120,13 +120,23 @@ class NotesControllerTest < ActionController::TestCase
   def test_note_create_success
     assert_difference('Note.count') do
       assert_difference('NoteComment.count') do
-        post :create, {:lat => -1.0, :lon => -1.0, :name => "new_tester", :text => "This is a comment"}
+        post :create, {:lat => -1.0, :lon => -1.0, :name => "new_tester", :text => "This is a comment", :format => "json"}
       end
     end
     assert_response :success
-    id = @response.body.sub(/ok/,"").to_i
+    js = ActiveSupport::JSON.decode(@response.body)
+    assert_not_nil js
+    assert_equal "Feature", js["type"]
+    assert_equal "Point", js["geometry"]["type"]
+    assert_equal [-1.0, -1.0], js["geometry"]["coordinates"]
+    assert_equal "open", js["properties"]["status"]
+    assert_equal 1, js["properties"]["comments"].count
+    assert_equal "opened", js["properties"]["comments"].last["action"]
+    assert_equal "This is a comment", js["properties"]["comments"].last["text"]
+    assert_equal "new_tester (a)", js["properties"]["comments"].last["user"]
+    id = js["properties"]["id"]
 
-    get :show, {:id => id, :format => 'json'}
+    get :show, {:id => id, :format => "json"}
     assert_response :success
     js = ActiveSupport::JSON.decode(@response.body)
     assert_not_nil js
@@ -180,11 +190,20 @@ class NotesControllerTest < ActionController::TestCase
 
   def test_note_comment_create_success
     assert_difference('NoteComment.count') do
-      post :comment, {:id => notes(:open_note_with_comment).id, :name => "new_tester2", :text => "This is an additional comment"}
+      post :comment, {:id => notes(:open_note_with_comment).id, :name => "new_tester2", :text => "This is an additional comment", :format => "json"}
     end
     assert_response :success
+    js = ActiveSupport::JSON.decode(@response.body)
+    assert_not_nil js
+    assert_equal "Feature", js["type"]
+    assert_equal notes(:open_note_with_comment).id, js["properties"]["id"]
+    assert_equal "open", js["properties"]["status"]
+    assert_equal 3, js["properties"]["comments"].count
+    assert_equal "commented", js["properties"]["comments"].last["action"]
+    assert_equal "This is an additional comment", js["properties"]["comments"].last["text"]
+    assert_equal "new_tester2 (a)", js["properties"]["comments"].last["user"]
 
-    get :show, {:id => notes(:open_note_with_comment).id, :format => 'json'}
+    get :show, {:id => notes(:open_note_with_comment).id, :format => "json"}
     assert_response :success
     js = ActiveSupport::JSON.decode(@response.body)
     assert_not_nil js
@@ -220,10 +239,7 @@ class NotesControllerTest < ActionController::TestCase
   end
 
   def test_note_close_success
-    post :close, {:id => notes(:open_note_with_comment).id}
-    assert_response :success
-
-    get :show, {:id => notes(:open_note_with_comment).id, :format => 'json'}
+    post :close, {:id => notes(:open_note_with_comment).id, :text => "This is a close comment", :format => "json"}
     assert_response :success
     js = ActiveSupport::JSON.decode(@response.body)
     assert_not_nil js
@@ -232,7 +248,19 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal "closed", js["properties"]["status"]
     assert_equal 3, js["properties"]["comments"].count
     assert_equal "closed", js["properties"]["comments"].last["action"]
-    assert_equal nil, js["properties"]["comments"].last["text"]
+    assert_equal "This is a close comment", js["properties"]["comments"].last["text"]
+    assert_equal "NoName (a)", js["properties"]["comments"].last["user"]
+
+    get :show, {:id => notes(:open_note_with_comment).id, :format => "json"}
+    assert_response :success
+    js = ActiveSupport::JSON.decode(@response.body)
+    assert_not_nil js
+    assert_equal "Feature", js["type"]
+    assert_equal notes(:open_note_with_comment).id, js["properties"]["id"]
+    assert_equal "closed", js["properties"]["status"]
+    assert_equal 3, js["properties"]["comments"].count
+    assert_equal "closed", js["properties"]["comments"].last["action"]
+    assert_equal "This is a close comment", js["properties"]["comments"].last["text"]
     assert_equal "NoName (a)", js["properties"]["comments"].last["user"]
   end
 
@@ -266,7 +294,7 @@ class NotesControllerTest < ActionController::TestCase
   end
 
   def test_note_read_hidden_comment
-    get :show, {:id => notes(:note_with_hidden_comment).id, :format => 'json'}
+    get :show, {:id => notes(:note_with_hidden_comment).id, :format => "json"}
     assert_response :success
     js = ActiveSupport::JSON.decode(@response.body)
     assert_not_nil js
@@ -277,9 +305,6 @@ class NotesControllerTest < ActionController::TestCase
   end
 
   def test_note_read_fail
-    post :show
-    assert_response :bad_request
-
     get :show, {:id => 12345}
     assert_response :not_found
 
@@ -296,9 +321,6 @@ class NotesControllerTest < ActionController::TestCase
   end
 
   def test_note_delete_fail
-    delete :destroy
-    assert_response :bad_request
-
     delete :destroy, {:id => 12345}
     assert_response :not_found
 
@@ -412,31 +434,31 @@ class NotesControllerTest < ActionController::TestCase
   end
 
   def test_rss_success
-    get :feed, {:format => 'rss'}
+    get :feed, {:format => "rss"}
     assert_response :success
     assert_equal "application/rss+xml", @response.content_type
 
-    get :feed, {:bbox=>'1,1,1.2,1.2', :format => 'rss'}
+    get :feed, {:bbox => "1,1,1.2,1.2", :format => "rss"}
     assert_response :success	
     assert_equal "application/rss+xml", @response.content_type
   end
 
   def test_rss_fail
-    get :feed, {:bbox=>'1,1,1.2'}
+    get :feed, {:bbox => "1,1,1.2"}
     assert_response :bad_request
 
-    get :feed, {:bbox=>'1,1,1.2,1.2,1.2'}
+    get :feed, {:bbox => "1,1,1.2,1.2,1.2"}
     assert_response :bad_request
   end
 
   def test_user_notes_success
-    get :mine, {:display_name=>'test'}
+    get :mine, {:display_name => "test"}
     assert_response :success
 
-    get :mine, {:display_name=>'pulibc_test2'}
+    get :mine, {:display_name => "pulibc_test2"}
     assert_response :success
 
-    get :mine, {:display_name=>'non-existent'}
+    get :mine, {:display_name => "non-existent"}
     assert_response :not_found	
   end
 end
