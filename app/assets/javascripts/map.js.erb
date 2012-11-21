@@ -83,7 +83,7 @@ function createMap(divName, options) {
   map = L.map(divName, $.extend({}, options, {panControl: false, zoomsliderControl: false, maxZoom: 18}));
 
   if (map.attributionControl) {
-    map.attributionControl.setPrefix(''); // For tmcw
+    map.attributionControl.setPrefix('');
   }
 
   if (options.panZoomControl) {
@@ -99,11 +99,10 @@ function createMap(divName, options) {
 
   for (var i = 0; i < layers.length; i++) {
     layers[i].layer = new (layers[i].klass)(layers[i]);
-    if (i == 0) {
-      layers[i].layer.addTo(map);
-    }
     layersControl.addBaseLayer(layers[i].layer, layers[i].name);
   }
+
+  layers[0].layer.addTo(map);
 
   $("#" + divName).on("resized", function () {
     map.invalidateSize();
@@ -186,7 +185,7 @@ function getMapLayers() {
 
 function setMapLayers(layerConfig) {
   for (var i = 0; i < layers.length; i++) {
-    if (~layerConfig.indexOf(layers[i].layerCode)) {
+    if (layerConfig.indexOf(layers[i].layerCode) >= 0) {
       map.addLayer(layers[i].layer);
     } else {
       map.removeLayer(layers[i].layer);

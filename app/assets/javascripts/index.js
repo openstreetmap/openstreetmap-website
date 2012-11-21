@@ -115,10 +115,10 @@ $(document).ready(function () {
     $("#sidebar_title").html(I18n.t('site.sidebar.search_results'));
     $("#sidebar_content").load($(this).attr("action"), {
       query: $("#query").val(),
-      minlon: bounds.getSouthWest().lng,
-      minlat: bounds.getSouthWest().lat,
-      maxlon: bounds.getNorthEast().lng,
-      maxlat: bounds.getNorthEast().lat
+      minlon: bounds.getWestLng(),
+      minlat: bounds.getSouthLat(),
+      maxlon: bounds.getEastLng(),
+      maxlat: bounds.getNorthLat()
     }, openSidebar);
 
     return false;
