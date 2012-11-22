@@ -7295,6 +7295,7 @@ L.Control.Layers = L.Control.extend({
 
 		this._layers = {};
 		this._lastZIndex = 0;
+		this._handlingClick = false;
 
 		for (var i in baseLayers) {
 			if (baseLayers.hasOwnProperty(i)) {
@@ -7313,7 +7314,17 @@ L.Control.Layers = L.Control.extend({
 		this._initLayout();
 		this._update();
 
+		map
+		    .on('layeradd', this._update, this)
+		    .on('layerremove', this._update, this);
+
 		return this._container;
+	},
+
+	onRemove: function (map) {
+		map
+		    .off('layeradd', this._update)
+		    .off('layerremove', this._update);
 	},
 
 	addBaseLayer: function (layer, name) {
@@ -7395,7 +7406,7 @@ L.Control.Layers = L.Control.extend({
 	},
 
 	_update: function () {
-		if (!this._container) {
+		if (!this._container || this._handlingClick) {
 			return;
 		}
 
@@ -7466,6 +7477,8 @@ L.Control.Layers = L.Control.extend({
 		    inputsLen = inputs.length,
 		    baseLayer;
 
+		this._handlingClick = true;
+
 		for (i = 0; i < inputsLen; i++) {
 			input = inputs[i];
 			obj = this._layers[input.layerId];
@@ -7483,6 +7496,8 @@ L.Control.Layers = L.Control.extend({
 		if (baseLayer) {
 			this._map.fire('baselayerchange', {layer: baseLayer});
 		}
+
+		this._handlingClick = false;
 	},
 
 	_expand: function () {
