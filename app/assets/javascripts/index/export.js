@@ -38,7 +38,7 @@ $(document).ready(function () {
 
     openSidebar();
 
-    if (map.hasLayer(layers[0].layer)) {
+    if (getMapBaseLayer().keyid == "mapnik") {
       $("#format_mapnik").prop("checked", true);
     }
 
