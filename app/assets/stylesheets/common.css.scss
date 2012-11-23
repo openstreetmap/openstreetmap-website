@@ -430,19 +430,12 @@ body.site-export #tabnav a#exportanchor {
   left: 15px;
 }
 
-/* Rules for OpenLayers maps */
+/* Rules for Leaflet maps */
 
 #map {
   margin: 0px;
   border: 0px;
   padding: 0px;
-}
-
-.olControlAttribution {
-  bottom: 15px !important;
-  left: 0px !important;
-  right: 0px !important;
-  text-align: center;
 }
 
 #permalink {
@@ -460,11 +453,13 @@ body.site-export #tabnav a#exportanchor {
   padding: 5px;
 }
 
-.site-index #map .SimpleLayerSwitcher,
-.site-index #map .olControlSimplePanZoom,
-.site-export #map .SimpleLayerSwitcher,
-.site-export #map .olControlSimplePanZoom {
+.site-index .leaflet-top,
+.site-export .leaflet-top {
   top: 40px !important;
+
+  .leaflet-control {
+    margin-top: 0px !important;
+  }
 }
 
 .site-index #map .olControlScaleLine,
@@ -1098,15 +1093,20 @@ p#contributorGuidance {
 
 /* Rules for the user map */
 
-.user_map .olControlSimplePanZoom {
+.user_map .leaflet-control-pan,
+.user_map .leaflet-control-zoomslider {
   display: none;
 }
 
-.user_map .olControlZoom {
+.user_map .leaflet-control-zoom {
   display: block;
 }
 
 /* Rules for user popups on maps */
+
+.user_popup {
+  min-width: 200px;
+}
 
 .user_popup p {
   padding-top: 3px;

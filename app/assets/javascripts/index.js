@@ -3,24 +3,29 @@
 //= require index/key
 
 $(document).ready(function () {
+  var permalinks = $("#permalink").html();
   var marker;
   var params = OSM.mapParams();
   var map = createMap("map");
 
-  map.events.register("moveend", map, updateLocation);
-  map.events.register("changelayer", map, updateLocation);
+  L.control.scale().addTo(map);
+
+  map.attributionControl.setPrefix(permalinks);
+
+  map.on("moveend baselayerchange", updateLocation);
 
   if (!params.object_zoom) {
     if (params.bbox) {
-      var bbox = new OpenLayers.Bounds(params.minlon, params.minlat, params.maxlon, params.maxlat);
+      var bbox = L.latLngBounds([params.minlat, params.minlon],
+                                [params.maxlat, params.maxlon]);
 
-      map.zoomToExtent(proj(bbox));
+      map.fitBounds(bbox);
 
       if (params.box) {
         addBoxToMap(bbox);
       }
     } else {
-      setMapCenter(new OpenLayers.LonLat(params.lon, params.lat), params.zoom);
+      map.setView([params.lat, params.lon], params.zoom);
     }
   }
 
@@ -29,7 +34,7 @@ $(document).ready(function () {
   }
 
   if (params.marker) {
-    marker = addMarkerToMap(new OpenLayers.LonLat(params.mlon, params.mlat));
+    marker = L.marker([params.mlat, params.mlon], {icon: getUserIcon()}).addTo(map);
   }
 
   if (params.object) {
@@ -38,46 +43,56 @@ $(document).ready(function () {
 
   handleResize();
 
-  $("body").on("click", "a.set_position", function () {
+  $("body").on("click", "a.set_position", function (e) {
+    e.preventDefault();
+
     var data = $(this).data();
-    var centre = new OpenLayers.LonLat(data.lon, data.lat);
+    var centre = L.latLng(data.lat, data.lon);
 
     if (data.minLon && data.minLat && data.maxLon && data.maxLat) {
-      var bbox = new OpenLayers.Bounds(data.minLon, data.minLat, data.maxLon, data.maxLat);
-
-      map.zoomToExtent(proj(bbox));
+      map.fitBounds([[data.minLat, data.minLon],
+                     [data.maxLat, data.maxLon]]);
     } else {
-      setMapCenter(centre, data.zoom);
+      map.setView(centre, data.zoom);
     }
 
     if (marker) {
-      removeMarkerFromMap(marker);
+      map.removeLayer(marker);
     }
 
-    marker = addMarkerToMap(centre, getArrowIcon());
-
-    return false;
+    marker = L.marker(centre, {icon: getUserIcon()}).addTo(map);
   });
 
   function updateLocation() {
-    var lonlat = unproj(map.getCenter());
+    var center = map.getCenter();
     var zoom = map.getZoom();
     var layers = getMapLayers();
-    var extents = unproj(map.getExtent());
+    var extents = map.getBounds();
+
+    updatelinks(center.lng,
+                center.lat,
+                zoom,
+                layers,
+                extents.getWestLng(),
+                extents.getSouthLat(),
+                extents.getEastLng(),
+                extents.getNorthLat(),
+                params.object);
+
     var expiry = new Date();
-
-    updatelinks(lonlat.lon, lonlat.lat, zoom, layers, extents.left, extents.bottom, extents.right, extents.top, params.object);
-
     expiry.setYear(expiry.getFullYear() + 10);
-    $.cookie("_osm_location", [lonlat.lon, lonlat.lat, zoom, layers].join("|"), {expires: expiry});
+    $.cookie("_osm_location", [center.lng, center.lat, zoom, layers].join("|"), {expires: expiry});
   }
 
-  function remoteEditHandler(event) {
-    var extent = unproj(map.getExtent());
+  function remoteEditHandler() {
+    var extent = map.getBounds();
     var loaded = false;
 
     $("#linkloader").load(function () { loaded = true; });
-    $("#linkloader").attr("src", "http://127.0.0.1:8111/load_and_zoom?left=" + extent.left + "&top=" + extent.top + "&right=" + extent.right + "&bottom=" + extent.bottom);
+    $("#linkloader").attr("src", "http://127.0.0.1:8111/load_and_zoom?left=" + extent.getWestLng()
+                                                                   + "&bottom=" + extent.getSouthLat()
+                                                                   + "&right=" + extent.getEastLng()
+                                                                   + "&top=" + extent.getNorthLat());
 
     setTimeout(function () {
       if (!loaded) alert(I18n.t('site.index.remote_failed'));
@@ -92,25 +107,18 @@ $(document).ready(function () {
     remoteEditHandler();
   }
 
-  $(window).resize(function() {
-    var centre = map.getCenter();
-    var zoom = map.getZoom();
-
-    handleResize();
-
-    map.setCenter(centre, zoom);
-  });
+  $(window).resize(handleResize);
 
   $("#search_form").submit(function () {
-    var extent = unproj(map.getExtent());
+    var bounds = map.getBounds();
 
     $("#sidebar_title").html(I18n.t('site.sidebar.search_results'));
     $("#sidebar_content").load($(this).attr("action"), {
       query: $("#query").val(),
-      minlon: extent.left,
-      minlat: extent.bottom,
-      maxlon: extent.right,
-      maxlat: extent.top
+      minlon: bounds.getWestLng(),
+      minlat: bounds.getSouthLat(),
+      maxlon: bounds.getEastLng(),
+      maxlat: bounds.getNorthLat()
     }, openSidebar);
 
     return false;

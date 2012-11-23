@@ -1,10 +1,12 @@
 $(document).ready(function () {
   $("#open_map_key").click(function (e) {
+    e.preventDefault();
+
     var url = $(this).attr('href'),
         title = $(this).text();
 
     function updateMapKey() {
-      var mapLayer = map.baseLayer.keyid,
+      var mapLayer = getMapBaseLayer().keyid,
           mapZoom = map.getZoom();
 
       $(".mapkey-table-entry").each(function () {
@@ -24,13 +26,9 @@ $(document).ready(function () {
     openSidebar({ title: title });
 
     $("#sidebar").one("closed", function () {
-      map.events.unregister("zoomend", map, updateMapKey);
-      map.events.unregister("changelayer", map, updateMapKey);
+      map.off("zoomend baselayerchange", updateMapKey);
     });
 
-    map.events.register("zoomend", map, updateMapKey);
-    map.events.register("changelayer", map, updateMapKey);
-
-    e.preventDefault();
+    map.on("zoomend baselayerchange", updateMapKey);
   });
 });
