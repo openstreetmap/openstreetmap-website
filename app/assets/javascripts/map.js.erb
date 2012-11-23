@@ -184,11 +184,16 @@ function getMapLayers() {
 }
 
 function setMapLayers(layerConfig) {
+  var foundLayer = false;
   for (var i = 0; i < layers.length; i++) {
     if (layerConfig.indexOf(layers[i].layerCode) >= 0) {
       map.addLayer(layers[i].layer);
+      foundLayer = true;
     } else {
       map.removeLayer(layers[i].layer);
     }
+  }
+  if (!foundLayer) {
+    map.addLayer(layers[0].layer);
   }
 }
