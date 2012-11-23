@@ -70,7 +70,7 @@ L.Control.Zoomslider = L.Control.extend({
 
 	_createButton: function (html, title, className, container, fn, context) {
 		var link = L.DomUtil.create('a', className, container);
-		// link.innerHTML = html;
+		link.innerHTML = html;
 		link.href = '#';
 		link.title = title;
 
