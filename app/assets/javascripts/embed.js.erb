@@ -26,7 +26,10 @@ window.onload = function () {
   }
 
   if (args.marker) {
-    L.marker(args.marker).addTo(map);
+    L.marker(args.marker, {icon: L.icon({
+      iconUrl: <%= asset_path('images/marker-icon.png').to_json %>,
+      shadowUrl: <%= asset_path('images/marker-shadow.png').to_json %>
+    })}).addTo(map);
   }
 
   if (args.bbox) {
