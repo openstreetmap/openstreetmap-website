@@ -3,6 +3,8 @@ class ExportController < ApplicationController
   before_filter :authorize_web
   before_filter :set_locale
 
+  caches_page :embed
+
   def start
   end
 
@@ -22,5 +24,8 @@ class ExportController < ApplicationController
 
       redirect_to "http://parent.tile.openstreetmap.org/cgi-bin/export?bbox=#{bbox}&scale=#{scale}&format=#{format}"
     end
+  end
+
+  def embed
   end
 end
