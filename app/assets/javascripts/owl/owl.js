@@ -2,58 +2,81 @@
 //= require templates/history
 
 var owlLayer;
-var owlRectangles = [];
+var owlObjectLayers = [];
+var initialized = false;
 
 // Gather (distinct) changesets from all tiles.
 function extractChangesets(data) {
   var result = {};
   for (var i = 0; i < data.length; i++) {
-    for (var j = 0; j < data[i].length; j++) {
-      result[data[i][j].id] = data[i][j];
-    }
+    result[data[i].id] = data[i];
   }
   return result;
 }
 
-function initOwlLayer() {
-  owlLayer = new L.TileLayer.Data('http://owl.osm.org/api/changesets/{z}/{x}/{y}.json?limit=5');
-
-  owlLayer.on('load', function(e) {
-    if (!owlLayer) { return; }
-    removeRectangles();
-    var changesets = extractChangesets(owlLayer.data());
-    $.each(changesets, function (index, value) {
-      if (!value.tile_bbox) {
-        return;
-      }
-      var bounds = [[value.tile_bbox[1], value.tile_bbox[0]], [value.tile_bbox[3], [value.tile_bbox[2]]]];
-      owlRectangles.push(L.rectangle(bounds, {
-          changeset_id: value.id,
-          color: 'black',
-          opacity: 1,
-          weight: 1,
-          fillColor: 'red',
-          fillOpacity: 0.25}).addTo(map));
-    });
-    $("#sidebar_content").html(JST["templates/history"]({
-      changesets: changesets
-    }));
+// Add bounding boxes and point markers for changesets.
+function addObjectLayers(data) {
+  $.each(data, function (index, value) {
+    if (!value.tile_bbox) { return; }
+    if (value.tile_bbox[1] == value.tile_bbox[3] && value.tile_bbox[0] == value.tile_bbox[2]) {
+      owlObjectLayers.push(L.marker([value.tile_bbox[1], value.tile_bbox[0]]).addTo(map));
+    } else {
+      owlObjectLayers.push(L.rectangle([[value.tile_bbox[1], value.tile_bbox[0]], [value.tile_bbox[3], value.tile_bbox[2]]],
+        {
+        color: 'black',
+        opacity: 1,
+        weight: 1,
+        fillColor: 'red',
+        fillOpacity: 0.25}).addTo(map));
+    }
   });
+}
 
-  owlLayer.addTo(map);
+function initOwlLayer() {
+  if (initialized) {
+    console.log('already');
+    return;
+  }
+  initialized = true;
+  //owlLayer = new L.TileLayer.Data('http://owl.osm.org/api/changesets/{z}/{x}/{y}.json?limit=5');
+  removeObjectLayers();
+  //map.on('moveend', refreshHistoryData);
+  map.on('moveend', refreshHistoryData);
 }
 
 function destroyOwlLayer() {
-  removeRectangles();
-  map.removeLayer(owlLayer);
+  //map.off('moveend', refreshHistoryData);
+  map.off('moveend', refreshHistoryData);
+  removeObjectLayers();
+  //map.removeLayer(owlLayer);
   owlLayer = null;
+  initialized = false;
 }
 
-function removeRectangles() {
-  $.each(owlRectangles, function (index, rect) {
-    map.removeLayer(rect);
+function refreshHistoryData() {
+  console.log('refresh');
+  $.ajax({
+    url: getUrlForTilerange(),
+    dataType: 'jsonp',
+    success: function(data) {
+      console.log('success');
+      removeObjectLayers();
+      var changesets = extractChangesets(data);
+      addObjectLayers(data);
+      $("#sidebar_content").html(JST["templates/history"]({
+        changesets: changesets
+      }));
+    },
+    error: function() {
+    }
   });
-  owlRectangles = [];
+}
+
+function removeObjectLayers() {
+  $.each(owlObjectLayers, function (index, layer) {
+    map.removeLayer(layer);
+  });
+  owlObjectLayers = [];
 }
 
 function loadHistoryForCurrentViewport() {
@@ -69,8 +92,8 @@ function getUrlForTilerange() {
       Math.floor(bounds.max.x / 256),
       Math.floor(bounds.max.y / 256));
 
-  return 'http://owl.osm.org/api/changesets/'
+  return OSM.OWL_API_URL + 'changesets/'
       + map.getZoom() + '/'
       + nwTilePoint.x + '/' + nwTilePoint.y + '/'
-      + seTilePoint.x + '/' + seTilePoint.y + '.atom';
+      + seTilePoint.x + '/' + seTilePoint.y + '.json?limit=20';
 }
