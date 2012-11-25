@@ -1,6 +1,7 @@
 //= require index/browse
 //= require index/export
 //= require index/key
+//= require owl/owl
 
 $(document).ready(function () {
   var permalinks = $("#permalink").html();
@@ -127,4 +128,14 @@ $(document).ready(function () {
   if ($("#query").val()) {
     $("#search_form").submit();
   }
+
+  // Setup History tab.
+  $("a[id=historyanchor]").click(function (e) {
+    openSidebar({title: I18n.t('site.sidebar.history')});
+    $("a[class=sidebar_close]").click(function (e) {
+      destroyOwlLayer();
+    });
+    loadHistoryForCurrentViewport();
+    return false;
+  });
 });
