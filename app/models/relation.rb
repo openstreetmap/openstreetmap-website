@@ -135,25 +135,11 @@ class Relation < ActiveRecord::Base
     end
 
     self.relation_members.each do |member|
-      p=0
-      if visible_members
-        # if there is a list of visible members then use that to weed out deleted segments
-        if visible_members[member.member_type][member.member_id]
-          p=1
-        end
-      else
-        # otherwise, manually go to the db to check things
-        if member.member.visible?
-          p=1
-        end
-      end
-      if p
-        e = XML::Node.new 'member'
-        e['type'] = member.member_type.downcase
-        e['ref'] = member.member_id.to_s 
-        e['role'] = member.member_role
-        el1 << e
-       end
+      e = XML::Node.new 'member'
+      e['type'] = member.member_type.downcase
+      e['ref'] = member.member_id.to_s
+      e['role'] = member.member_role
+      el1 << e
     end
 
     self.relation_tags.each do |tag|
