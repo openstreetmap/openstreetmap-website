@@ -105,7 +105,7 @@ class Relation < ActiveRecord::Base
     return doc
   end
 
-  def to_xml_node(visible_members = nil, changeset_cache = {}, user_display_name_cache = {})
+  def to_xml_node(changeset_cache = {}, user_display_name_cache = {})
     el1 = XML::Node.new 'relation'
     el1['id'] = self.id.to_s
     el1['visible'] = self.visible.to_s

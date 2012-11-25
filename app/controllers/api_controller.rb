@@ -203,7 +203,7 @@ class ApiController < ApplicationController
     # this "uniq" may be slightly inefficient; it may be better to first collect and output
     # all node-related relations, then find the *not yet covered* way-related ones etc.
     relations.uniq.each do |relation|
-      doc.root << relation.to_xml_node(nil, changeset_cache, user_display_name_cache)
+      doc.root << relation.to_xml_node(changeset_cache, user_display_name_cache)
     end
 
     response.headers["Content-Disposition"] = "attachment; filename=\"map.osm\""
