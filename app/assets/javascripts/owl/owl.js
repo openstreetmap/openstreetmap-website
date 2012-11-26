@@ -7,15 +7,6 @@ var initialized = false;
 var pageSize = 20;
 var currentOffset = 0;
 
-// Gather (distinct) changesets from all tiles.
-function extractChangesets(data) {
-  var result = {};
-  for (var i = 0; i < data.length; i++) {
-    result[data[i].id] = data[i];
-  }
-  return result;
-}
-
 // Add bounding boxes and point markers for changesets.
 function addObjectLayers(changesets) {
   $.each(changesets, function (index, changeset) {
@@ -24,8 +15,7 @@ function addObjectLayers(changesets) {
       if (bbox[1] == bbox[3] && bbox[0] == bbox[2]) {
         owlObjectLayers.push(L.marker([bbox[1], bbox[0]]).addTo(map));
       } else {
-        owlObjectLayers.push(L.rectangle([[bbox[1], bbox[0]], [bbox[3], bbox[2]]],
-          {
+        owlObjectLayers.push(L.rectangle([[bbox[1], bbox[0]], [bbox[3], bbox[2]]], {
           color: 'black',
           opacity: 1,
           weight: 1,
@@ -43,17 +33,13 @@ function initOwlLayer() {
   }
   currentOffset = 0;
   initialized = true;
-  //owlLayer = new L.TileLayer.Data('http://owl.osm.org/api/changesets/{z}/{x}/{y}.json?limit=5');
   removeObjectLayers();
-  //map.on('moveend', refreshHistoryData);
   map.on('moveend', handleMapChange);
 }
 
 function destroyOwlLayer() {
-  //map.off('moveend', refreshHistoryData);
   map.off('moveend', handleMapChange);
   removeObjectLayers();
-  //map.removeLayer(owlLayer);
   owlLayer = null;
   initialized = false;
   currentOffset = 0;
@@ -64,18 +50,24 @@ function handleMapChange(e) {
   refreshHistoryData();
 }
 
+function sortChangesets(changesets) {
+  changesets.sort(function (a, b) {
+    return a.created_at > b.created_at ? -1 : 1;
+  });
+  return changesets;
+}
+
 function refreshHistoryData() {
   console.log('refresh');
   $.ajax({
     url: getUrlForTilerange(),
     dataType: 'jsonp',
-    success: function(data) {
+    success: function(changesets) {
       console.log('success');
       removeObjectLayers();
-      var changesets = extractChangesets(data);
       addObjectLayers(changesets);
       $("#sidebar_content").html(JST["templates/history"]({
-        changesets: changesets
+        changesets: sortChangesets(changesets)
       }));
       $('#history_sidebar_more').click(function (e) {
           currentOffset += pageSize;
