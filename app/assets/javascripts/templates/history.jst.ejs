@@ -1,7 +1,7 @@
 <div id="history_sidebar">
   <ul>
-    <% $.each(changesets, function (index, value) { %>
-      <li class="hover-glow"><%- value.created_at %> <%- index %> by <%- value.user_name %></li>
+    <% $.each(changesets, function (index, changeset) { %>
+      <li class="changeset-item hover-glow" data-changeset-id="<%- changeset.id %>"><%- changeset.created_at %> <%- changeset.id %> by <%- changeset.user_name %></li>
     <% }); %>
   </ul>
   <a id="history_sidebar_more" href="">more...</a>

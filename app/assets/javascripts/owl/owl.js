@@ -2,7 +2,7 @@
 //= require templates/history
 
 var owlLayer;
-var owlObjectLayers = [];
+var owlObjectLayers = {};
 var initialized = false;
 var pageSize = 20;
 var currentOffset = 0;
@@ -13,14 +13,14 @@ function addObjectLayers(changesets) {
     if (!changeset.tile_bboxes) { return; }
     $.each(changeset.tile_bboxes, function (index, bbox) {
       if (bbox[1] == bbox[3] && bbox[0] == bbox[2]) {
-        owlObjectLayers.push(L.marker([bbox[1], bbox[0]]).addTo(map));
+        owlObjectLayers[changeset.id] = L.marker([bbox[1], bbox[0]]).addTo(map);
       } else {
-        owlObjectLayers.push(L.rectangle([[bbox[1], bbox[0]], [bbox[3], bbox[2]]], {
+        owlObjectLayers[changeset.id] = L.rectangle([[bbox[1], bbox[0]], [bbox[3], bbox[2]]], {
           color: 'black',
           opacity: 1,
           weight: 1,
           fillColor: 'red',
-          fillOpacity: 0.25}).addTo(map));
+          fillOpacity: 0.25}).addTo(map);
       }
     });
   });
@@ -57,6 +57,28 @@ function sortChangesets(changesets) {
   return changesets;
 }
 
+function highlightChangeset(changeset_id) {
+  if (owlObjectLayers[changeset_id].setStyle) {
+    owlObjectLayers[changeset_id].setStyle({
+          color: 'black',
+          opacity: 1,
+          weight: 1,
+          fillColor: 'green',
+          fillOpacity: 0.25});
+  }
+}
+
+function unhighlightChangeset(changeset_id) {
+  if (owlObjectLayers[changeset_id].setStyle) {
+    owlObjectLayers[changeset_id].setStyle({
+          color: 'black',
+          opacity: 1,
+          weight: 1,
+          fillColor: 'red',
+          fillOpacity: 0.25});
+  }
+}
+
 function refreshHistoryData() {
   console.log('refresh');
   $.ajax({
@@ -74,6 +96,16 @@ function refreshHistoryData() {
           refreshHistoryData();
           return false;
       });
+      $('.changeset-item').hover(
+        function (e) {
+          var changeset_id = parseInt($(e.target).data('changeset-id'));
+          highlightChangeset(changeset_id);
+        },
+        function (e) {
+          var changeset_id = parseInt($(e.target).data('changeset-id'));
+          unhighlightChangeset(changeset_id);
+        }
+      );
     },
     error: function() {
     }
@@ -84,7 +116,7 @@ function removeObjectLayers() {
   $.each(owlObjectLayers, function (index, layer) {
     map.removeLayer(layer);
   });
-  owlObjectLayers = [];
+  owlObjectLayers = {};
 }
 
 function loadHistoryForCurrentViewport() {
