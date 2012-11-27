@@ -1,7 +1,18 @@
 <div id="history_sidebar">
   <ul>
     <% $.each(changesets, function (index, changeset) { %>
-      <li class="changeset-item hover-glow" data-changeset-id="<%- changeset.id %>"><%- changeset.created_at %> <%- changeset.id %> by <%- changeset.user_name %></li>
+      <li class="changeset-item hover-glow" data-changeset-id="<%- changeset.id %>">
+        <a class="changeset_comment"><%- changeset.tags['comment'] %></a>
+        <div class="changeset_metadata">
+          <div class="metadata_left">
+            <%- changeset.created_at.replace('T', ' ').replace('Z', '') %>
+            <a href="/user/<%- changeset.user_name %>"><%- changeset.user_name %></a>
+          </div>
+          <div class="changeset_id"><a href="/browse/changeset/<%- changeset.id %>">#<%- changeset.id %></a></div>
+        </div>
+        <br style="clear:both" />
+      </li>
+      <hr style="margin: 0; padding: 0">
     <% }); %>
   </ul>
   <a id="history_sidebar_more" href="">more...</a>
