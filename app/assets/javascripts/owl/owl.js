@@ -12,15 +12,18 @@ function addObjectLayers(changesets) {
   $.each(changesets, function (index, changeset) {
     if (!changeset.tile_bboxes) { return; }
     $.each(changeset.tile_bboxes, function (index, bbox) {
+      if (!(changeset.id in owlObjectLayers)) {
+        owlObjectLayers[changeset.id] = [];
+      }
       if (bbox[1] == bbox[3] && bbox[0] == bbox[2]) {
-        owlObjectLayers[changeset.id] = L.marker([bbox[1], bbox[0]]).addTo(map);
+        owlObjectLayers[changeset.id].push(L.marker([bbox[1], bbox[0]]).addTo(map));
       } else {
-        owlObjectLayers[changeset.id] = L.rectangle([[bbox[1], bbox[0]], [bbox[3], bbox[2]]], {
+        owlObjectLayers[changeset.id].push(L.rectangle([[bbox[1], bbox[0]], [bbox[3], bbox[2]]], {
           color: 'black',
           opacity: 1,
           weight: 1,
           fillColor: 'red',
-          fillOpacity: 0.25}).addTo(map);
+          fillOpacity: 0.25}).addTo(map));
       }
     });
   });
@@ -59,23 +62,31 @@ function sortChangesets(changesets) {
 
 function highlightChangeset(changeset_id) {
   if (changeset_id in owlObjectLayers) {
-    owlObjectLayers[changeset_id].setStyle({
+    $.each(owlObjectLayers[changeset_id], function(index, obj) {
+      if ('setStyle' in obj) {
+        obj.setStyle({
           color: 'black',
           opacity: 1,
           weight: 1,
           fillColor: 'green',
           fillOpacity: 0.25});
+      }
+    });
   }
 }
 
 function unhighlightChangeset(changeset_id) {
   if (changeset_id in owlObjectLayers) {
-    owlObjectLayers[changeset_id].setStyle({
+    $.each(owlObjectLayers[changeset_id], function(index, obj) {
+      if ('setStyle' in obj) {
+        obj.setStyle({
           color: 'black',
           opacity: 1,
           weight: 1,
           fillColor: 'red',
           fillOpacity: 0.25});
+      }
+    });
   }
 }
 
@@ -113,8 +124,10 @@ function refreshHistoryData() {
 }
 
 function removeObjectLayers() {
-  $.each(owlObjectLayers, function (index, layer) {
-    map.removeLayer(layer);
+  $.each(owlObjectLayers, function (changeset_id) {
+    $.each(owlObjectLayers[changeset_id], function (index, layer) {
+      map.removeLayer(layer);
+    });
   });
   owlObjectLayers = {};
 }
