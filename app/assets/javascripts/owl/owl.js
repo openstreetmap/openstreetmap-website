@@ -58,7 +58,7 @@ function sortChangesets(changesets) {
 }
 
 function highlightChangeset(changeset_id) {
-  if (owlObjectLayers[changeset_id].setStyle) {
+  if (changeset_id in owlObjectLayers) {
     owlObjectLayers[changeset_id].setStyle({
           color: 'black',
           opacity: 1,
@@ -69,7 +69,7 @@ function highlightChangeset(changeset_id) {
 }
 
 function unhighlightChangeset(changeset_id) {
-  if (owlObjectLayers[changeset_id].setStyle) {
+  if (changeset_id in owlObjectLayers) {
     owlObjectLayers[changeset_id].setStyle({
           color: 'black',
           opacity: 1,
