@@ -1,14 +1,19 @@
-<div id="history_sidebar">
+<div id="history-sidebar">
   <ul>
     <% $.each(changesets, function (index, changeset) { %>
       <li class="changeset-item hover-glow" data-changeset-id="<%- changeset.id %>">
-        <a class="changeset_comment"><%- changeset.tags['comment'] %></a>
-        <div class="changeset_metadata">
-          <div class="metadata_left">
+        <% if (typeof changeset.tags['comment'] != 'undefined') { %>
+          <a class="changeset-comment"><%- changeset.tags['comment'] %></a>
+        <% } else { %>
+          <a class="changeset-comment empty-comment">(no comment)</a>
+        <% } %>
+
+        <div class="changeset-metadata">
+          <div class="metadata-left">
             <%- changeset.created_at.replace('T', ' ').replace('Z', '') %>
             <a href="/user/<%- changeset.user_name %>"><%- changeset.user_name %></a>
           </div>
-          <div class="changeset_id"><a href="/browse/changeset/<%- changeset.id %>">#<%- changeset.id %></a></div>
+          <div class="changeset-id"><a href="/browse/changeset/<%- changeset.id %>">#<%- changeset.id %></a></div>
         </div>
         <br style="clear:both" />
       </li>
