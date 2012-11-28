@@ -1,13 +1,12 @@
 xml.item do
-  location_string = Rails.cache.fetch("location_description_#{note.lat}_#{note.lon}_#{locale}") do
-    describe_location note.lat, note.lon, 14, locale
-  end 
+  location = describe_location(note.lat, note.lon, 14, locale)
+
   if note.status == "closed"
-    xml.title t('note.rss.closed', :place => location_string)	
+    xml.title t('note.rss.closed', :place => location)
   elsif note.comments.length > 1
-    xml.title t('note.rss.comment', :place => location_string)
+    xml.title t('note.rss.comment', :place => location)
   else
-    xml.title t('note.rss.new', :place => location_string)
+    xml.title t('note.rss.new', :place => location)
   end
 
   xml.link browse_note_url(note)
