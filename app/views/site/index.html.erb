@@ -2,12 +2,6 @@
   <%= javascript_include_tag "index" %>
 <% end %>
 
-<% unless STATUS == :api_offline or STATUS == :database_offline -%>
-  <% content_for :editmenu do -%>
-    <li><%= link_to t("browse.start_rjs.data_layer_name"), { :controller => :browse, :action => :start }, :id => "show_data" %></li>
-  <% end -%>
-<% end -%>
-
 <% content_for :left_menu do %>
   <li><h4><%= link_to t("site.key.map_key"), {:action => :key}, :id => "open_map_key", :title => t("site.key.map_key_tooltip") %></h4></li>
 <% end %>
