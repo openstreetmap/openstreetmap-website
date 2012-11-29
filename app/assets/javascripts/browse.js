@@ -1,9 +1,9 @@
 $(document).ready(function () {
   function remoteEditHandler(bbox, select) {
-    var left = bbox.left - 0.0001;
-    var top = bbox.top + 0.0001;
-    var right = bbox.right + 0.0001;
-    var bottom = bbox.bottom - 0.0001;
+    var left = bbox.getWestLng() - 0.0001;
+    var top = bbox.getNorthLat() + 0.0001;
+    var right = bbox.getEastLng() + 0.0001;
+    var bottom = bbox.getSouthLat() - 0.0001;
     var loaded = false;
 
     $("#linkloader").load(function () { loaded = true; });

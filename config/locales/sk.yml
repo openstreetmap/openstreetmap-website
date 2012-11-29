@@ -179,6 +179,8 @@ sk:
       of: z
       showing_page: Strana
     redacted: 
+      message_html: Verzia %{version} tohto objektu %{type} nemôže byť zobrazené, pretože bola skrytá. Viac informácií nájdete na %{redaction_link}.
+      redaction: Revízia %{id}
       type: 
         node: bod
         relation: vzťah
@@ -202,14 +204,10 @@ sk:
         node: Bod
         relation: Relácia
         way: Cesta
-    start: 
-      manually_select: Manuálne vybrať inú oblasť
-      view_data: Zobraziť údaje v aktuálnom zobrazení mapy
     start_rjs: 
       data_frame_title: Dáta
       data_layer_name: Prehľadávať mapové dáta
       details: Detaily
-      drag_a_box: Označte myšou na mape zvolenú oblasť
       edited_by_user_at_timestamp: Upravoval %{user} o %{timestamp}
       hide_areas: Skryť oblasti
       history_for_feature: História pre %{feature}
@@ -329,6 +327,7 @@ sk:
         few: "%{count} komentáre"
         one: 1 komentár
         other: "%{count} komentárov"
+        zero: Žiaden komentár
       comment_link: Komentár k záznamu
       confirm: Potvrdiť
       edit_link: Upraviť tento záznam
@@ -1022,7 +1021,7 @@ sk:
       contributors_title_html: Naši prispievatelia
       contributors_za_html: "<strong>Juhoafrická republika</strong>: Obsahuje dáta pochádzajúce z <a href=\"http://www.ngi.gov.za/\">Chief Directorate: National Geo-Spatial Information</a>, State copyright reserved."
       credit_1_html: Vyžadujeme uviesť „<em>© Prispievatelia OpenStreetMap</em>“.
-      credit_2_html: "  Ak je to možné, mal byť text <em>OpenStreetMap</em> uvedený ako hypertextový odkaz na <a href=\"http://www.openstreetmap.org/\">http://www.openstreetmap.org/</a> a <em>CC BY-SA</em> na <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">http://creativecommons.org/licenses/by-sa/2.0/</a>. Ak používate médium, ktoré odkazy neumožňuje (napr. v tlačenom diele), navrhujeme, aby ste svojho čitateľa nasmerovali na www.openstreetmap.org (zrejme doplnením <em>OpenStreetMap</em> o túto internetovú adresu) a analogicky <em>CC BY-SA</em> na www.creativecommons.org."
+      credit_2_html: "  Musíte zdôrazniť, že dáta sú dostupné pod licenciu Open Database Licence, a pri používaní mapových tajlov, že tieto sú pod licenciou CC-BY-SA. Môžete to urobiť hypertextovým odkazom na <a href=\"http://www.openstreetmap.org/copyright\">http://www.openstreetmap.org/copyright</a>. Alternatívne, ak distribuujete OSM v dátovej forme, môžete vymenovať licencie a vytvoriť hypertextový odkaz priamo na ne. Pri médiách kde hypertextové odkazy nie sú možné (napr. tlačené práce), odporúčame aby ste nasmerovali čitateľov na openstreetmap.org (napríklad rozšírením slova OpenStreetMap na plnú adresu), na opendatacommons.org a na creativecommons.org (ak je to relevenantné)."
       credit_3_html: "V prípade interaktívnej elektronickej mapy by autorstvo malo byť uvedené v rohu mapy.\nNapríklad:"
       credit_title_html: Ako uvádzať OpenStreetMap
       infringement_1_html: Prispievateľom OSM pripomíname, že by nikdy nemali pridávať dáta zo zdrojov chránených autorským právom (napr. Google Maps či tlačené mapy) bez výslovného súhlasu držiteľov práv.
@@ -1261,21 +1260,33 @@ sk:
     update: 
       flash: Úspešne aktualizované informácie o klientovi
   redaction: 
+    create: 
+      flash: Revízia vytvorená.
+    destroy: 
+      error: Pri zrušení revízie sa vyskytla chyba.
+      flash: Revízia zrušená.
+      not_empty: Revízia nie je prázdna. Pred zrušením tejto revízie zrušte skrytie všetkých verzií patriacich do tejto revízie.
     edit: 
       description: Popis
-      heading: Upraviť reláciu
-      submit: Uložiť reláciu
-      title: Upraviť reláciu
+      heading: Upraviť revíziu
+      submit: Uložiť revíziu
+      title: Upraviť revíziu
     index: 
-      heading: Zoznam relácií
-      title: Zoznam relácií
+      empty: Žiadne revízie na zobrazenie.
+      heading: Zoznam revízií
+      title: Zoznam revízií
     new: 
       description: Popis
-      submit: Vytvoriť reláciu
+      heading: Zadajte informácie k novej revízii.
+      submit: Vytvoriť revíziu
       title: Vytváranie nových revízií
     show: 
       confirm: Ste si istý?
       description: "Popis:"
+      destroy: Odstrániť túto revíziu
+      edit: Upraviť túto revíziu
+      heading: Zobrazujem revíziu "%{title}"
+      title: Zobrazenie revízie
       user: "Autor:"
     update: 
       flash: Zmeny boli uložené.
