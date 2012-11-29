@@ -1,19 +1,29 @@
 $(document).ready(function () {
-  var rects = {};
+  var changesets = [], rects = {};
   var map = createMap("changeset_list_map");
   var group = L.featureGroup().addTo(map);
 
   $("[data-changeset]").each(function () {
     var changeset = $(this).data('changeset');
     if (changeset.bbox) {
-      var rect = L.rectangle([[changeset.bbox.minlat, changeset.bbox.minlon],
-                              [changeset.bbox.maxlat, changeset.bbox.maxlon]],
-                             {weight: 2, color: "#ee9900", fillColor: "#ffff55", fillOpacity: 0});
-      rect.id = changeset.id;
-      rects[changeset.id] = rect;
-      rect.addTo(group);
+      changeset.bounds = L.latLngBounds([changeset.bbox.minlat, changeset.bbox.minlon],
+                                        [changeset.bbox.maxlat, changeset.bbox.maxlon]);
+      changesets.push(changeset);
     }
   });
+
+  changesets.sort(function (a, b) {
+    return b.bounds.getSize() - a.bounds.getSize();
+  });
+
+  for (var i = 0; i < changesets.length; ++i) {
+    var changeset = changesets[i],
+        rect = L.rectangle(changeset.bounds,
+                           {weight: 2, color: "#ee9900", fillColor: "#ffff55", fillOpacity: 0});
+    rect.id = changeset.id;
+    rects[changeset.id] = rect;
+    rect.addTo(group);
+  }
 
   function highlightChangeset(id) {
     rects[id].setStyle({fillOpacity: 0.5});
