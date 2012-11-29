@@ -5,18 +5,12 @@ function openSidebar(options) {
 
   if (options.title) { $("#sidebar_title").html(options.title); }
 
-  if (options.width) { $("#sidebar").width(options.width); }
-  else { $("#sidebar").width("30%"); }
-
-  $("#sidebar").css("display", "block");
-
-  $("#sidebar").trigger("opened");
-};
+  $("#sidebar").width(options.width || "30%");
+  $("#sidebar").css("display", "block").trigger("opened");
+}
 
 function closeSidebar() {
-  $("#sidebar").css("display", "none");
-
-  $("#sidebar").trigger("closed");
+  $("#sidebar").css("display", "none").trigger("closed");
 }
 
 $(document).ready(function () {
