@@ -34,7 +34,7 @@ gem 'rack-cors'
 gem 'ruby-openid', '>= 2.2.0'
 
 # Markdown formatting support
-gem 'redcarpet'
+gem 'redcarpet', '>= 2.2.0'
 
 # Character conversion support for ruby 1.8
 gem 'iconv', :platforms => :ruby_18
