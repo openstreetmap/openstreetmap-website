@@ -13,12 +13,15 @@ function openSidebar(options) {
   $("#sidebar").trigger("opened");
 };
 
+function closeSidebar() {
+  $("#sidebar").css("display", "none");
+
+  $("#sidebar").trigger("closed");
+}
+
 $(document).ready(function () {
   $(".sidebar_close").click(function (e) {
-    $("#sidebar").css("display", "none");
-
-    $("#sidebar").trigger("closed");
-
+    closeSidebar();
     e.preventDefault();
   });
 });

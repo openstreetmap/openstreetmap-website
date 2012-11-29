@@ -3,11 +3,45 @@
 //= require templates/browse/feature_history
 
 $(document).ready(function () {
-  $("#show_data").click(function (e) {
-    $.ajax({ url: $(this).attr('href'), success: function (sidebarHtml) {
-      startBrowse(sidebarHtml);
-    }});
-    e.preventDefault();
+  var areasHidden = false;
+
+  var dataLayer = new L.OSM.DataLayer(null, {
+    styles: {
+      way: {
+        weight: 3,
+        color: "#000000",
+        opacity: 0.4
+      },
+      area: {
+        weight: 3,
+        color: "#ff0000"
+      },
+      node: {
+        color: "#00ff00"
+      }
+    }
+  });
+
+  dataLayer.isWayArea = function () {
+    return !areasHidden && L.OSM.DataLayer.prototype.isWayArea.apply(this, arguments);
+  };
+
+  if (OSM.STATUS != 'api_offline' && OSM.STATUS != 'database_offline') {
+    map.layersControl.addOverlay(dataLayer, I18n.t("browse.start_rjs.data_layer_name"));
+  }
+
+  map.on('layeradd', function (e) {
+    if (e.layer === dataLayer) {
+      $.ajax({ url: "/browse/start", success: function (sidebarHtml) {
+        startBrowse(sidebarHtml);
+      }});
+    }
+  });
+
+  map.on('layerremove', function (e) {
+    if (e.layer === dataLayer) {
+      closeSidebar();
+    }
   });
 
   function startBrowse(sidebarHtml) {
@@ -15,30 +49,6 @@ $(document).ready(function () {
     var layersById;
     var selectedLayer;
     var browseObjectList;
-    var areasHidden = false;
-
-    var dataLayer = new L.OSM.DataLayer(null, {
-      styles: {
-        way: {
-          weight: 3,
-          color: "#000000",
-          opacity: 0.4
-        },
-        area: {
-          weight: 3,
-          color: "#ff0000"
-        },
-        node: {
-          color: "#00ff00"
-        }
-      }
-    });
-
-    dataLayer.addTo(map);
-
-    dataLayer.isWayArea = function () {
-      return !areasHidden && L.OSM.DataLayer.prototype.isWayArea.apply(this, arguments);
-    };
 
     var locationFilter = new L.LocationFilter({
       enableButton: false,
