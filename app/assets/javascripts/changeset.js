@@ -1,83 +1,63 @@
 $(document).ready(function () {
-  var highlight;
-
-  function highlightChangeset(id) {
-    var feature = vectors.getFeatureByFid(id);
-    var bounds = feature.geometry.getBounds();
-
-    if (bounds.containsBounds(map.getExtent())) {
-      bounds = map.getExtent().scale(1.1);
-    }
-
-    if (highlight) vectors.removeFeatures(highlight);
-
-    highlight = new OpenLayers.Feature.Vector(bounds.toGeometry(), {}, {
-      strokeWidth: 2,
-      strokeColor: "#ee9900",
-      fillColor: "#ffff55",
-      fillOpacity: 0.5
-    });
-
-    vectors.addFeatures(highlight);
-
-    $("#tr-changeset-" + id).addClass("selected");
-  }
-
-  function unHighlightChangeset(id) {
-    vectors.removeFeatures(highlight);
-
-    $("#tr-changeset-" + id).removeClass("selected");
-  }
-
-  var map = createMap("changeset_list_map", {
-    controls: [
-      new OpenLayers.Control.Navigation(),
-      new OpenLayers.Control.Zoom(),
-      new OpenLayers.Control.SimplePanZoom()
-    ]
-  });
-
-  var bounds = new OpenLayers.Bounds();
+  var changesets = [], rects = {};
+  var map = createMap("changeset_list_map");
+  var group = L.featureGroup().addTo(map);
 
   $("[data-changeset]").each(function () {
     var changeset = $(this).data('changeset');
     if (changeset.bbox) {
-      var bbox = new OpenLayers.Bounds(changeset.bbox.minlon, changeset.bbox.minlat, changeset.bbox.maxlon, changeset.bbox.maxlat);
-
-      bounds.extend(bbox);
-
-      addBoxToMap(bbox, changeset.id, true);
+      changeset.bounds = L.latLngBounds([changeset.bbox.minlat, changeset.bbox.minlon],
+                                        [changeset.bbox.maxlat, changeset.bbox.maxlon]);
+      changesets.push(changeset);
     }
   });
 
-  vectors.events.on({
-    "featureselected": function(feature) {
-      highlightChangeset(feature.feature.fid);
+  changesets.sort(function (a, b) {
+    return b.bounds.getSize() - a.bounds.getSize();
+  });
+
+  for (var i = 0; i < changesets.length; ++i) {
+    var changeset = changesets[i],
+        rect = L.rectangle(changeset.bounds,
+                           {weight: 2, color: "#ee9900", fillColor: "#ffff55", fillOpacity: 0});
+    rect.id = changeset.id;
+    rects[changeset.id] = rect;
+    rect.addTo(group);
+  }
+
+  function highlightChangeset(id) {
+    rects[id].setStyle({fillOpacity: 0.5});
+    $("#tr-changeset-" + id).addClass("selected");
+  }
+
+  function unHighlightChangeset(id) {
+    rects[id].setStyle({fillOpacity: 0});
+    $("#tr-changeset-" + id).removeClass("selected");
+  }
+
+  group.on({
+    mouseover: function (e) {
+      highlightChangeset(e.layer.id);
     },
-    "featureunselected": function(feature) {
-      unHighlightChangeset(feature.feature.fid);
+    mouseout: function (e) {
+      unHighlightChangeset(e.layer.id);
     }
   });
 
-  var selectControl = new OpenLayers.Control.SelectFeature(vectors, {
-    multiple: false,
-    hover: true
+  $("[data-changeset]").on({
+    mouseover: function () {
+      highlightChangeset($(this).data("changeset").id);
+    },
+    mouseout: function () {
+      unHighlightChangeset($(this).data("changeset").id);
+    }
   });
-  map.addControl(selectControl);
-  selectControl.activate();
 
   var params = OSM.mapParams();
   if (params.bbox) {
-    map.zoomToExtent(proj(new OpenLayers.Bounds(params.minlon, params.minlat, params.maxlon, params.maxlat)));
+    map.fitBounds([[params.minlat, params.minlon],
+                   [params.maxlat, params.maxlon]]);
   } else {
-    map.zoomToExtent(proj(bounds));
+    map.fitBounds(group.getBounds());
   }
-
-  $("[data-changeset]").mouseover(function() {
-    highlightChangeset($(this).data("changeset").id);
-  });
-
-  $("[data-changeset]").mouseout(function() {
-    unHighlightChangeset($(this).data("changeset").id);
-  });
 });

@@ -225,6 +225,7 @@ OpenStreetMap::Application.routes.draw do
   # export
   match '/export/start' => 'export#start', :via => :get
   match '/export/finish' => 'export#finish', :via => :post
+  match '/export/embed' => 'export#embed', :via => :get
 
   # messages
   match '/user/:display_name/inbox' => 'message#inbox', :via => :get, :as => "inbox"

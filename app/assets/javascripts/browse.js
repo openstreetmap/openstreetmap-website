@@ -1,9 +1,9 @@
 $(document).ready(function () {
   function remoteEditHandler(bbox, select) {
-    var left = bbox.left - 0.0001;
-    var top = bbox.top + 0.0001;
-    var right = bbox.right + 0.0001;
-    var bottom = bbox.bottom - 0.0001;
+    var left = bbox.getWestLng() - 0.0001;
+    var top = bbox.getNorthLat() + 0.0001;
+    var right = bbox.getEastLng() + 0.0001;
+    var bottom = bbox.getSouthLat() - 0.0001;
     var loaded = false;
 
     $("#linkloader").load(function () { loaded = true; });
@@ -22,15 +22,17 @@ $(document).ready(function () {
   }
 
   var map = createMap("small_map", {
-    controls: [ new OpenLayers.Control.Navigation() ]
+    layerControl: false,
+    panZoomControl: false,
+    attributionControl: false
   });
 
   var params = $("#small_map").data();
   if (params.type == "changeset") {
-    var bbox = new OpenLayers.Bounds(params.minlon, params.minlat, params.maxlon, params.maxlat);
-    var centre = bbox.getCenterLonLat();
+    var bbox = L.latLngBounds([params.minlat, params.minlon],
+                              [params.maxlat, params.maxlon]);
 
-    map.zoomToExtent(proj(bbox));
+    map.fitBounds(bbox);
     addBoxToMap(bbox);
 
     $("#loading").hide();
@@ -40,6 +42,7 @@ $(document).ready(function () {
       return remoteEditHandler(bbox);
     });
 
+    var centre = bbox.getCenter();
     updatelinks(centre.lon, centre.lat, 16, null, params.minlon, params.minlat, params.maxlon, params.maxlat);
   } else if (params.type == "note") {
     var centre = new OpenLayers.LonLat(params.lon, params.lat);
@@ -72,10 +75,6 @@ $(document).ready(function () {
       $("#browse_map .geolink").show();
 
       if (extent) {
-        extent = unproj(extent);
-
-        var centre = extent.getCenterLonLat();
-
         $("a.bbox[data-editor=remote]").click(function () {
           return remoteEditHandler(extent);
         });
@@ -87,7 +86,15 @@ $(document).ready(function () {
         $("#object_larger_map").show();
         $("#object_edit").show();
 
-        updatelinks(centre.lon, centre.lat, 16, null, extent.left, extent.bottom, extent.right, extent.top, object);
+        var centre = extent.getCenter();
+        updatelinks(centre.lng,
+                    centre.lat,
+                    16, null,
+                    extent.getWestLng(),
+                    extent.getSouthLat(),
+                    extent.getEastLng(),
+                    extent.getNorthLat(),
+                    object);
       } else {
         $("#small_map").hide();
       }

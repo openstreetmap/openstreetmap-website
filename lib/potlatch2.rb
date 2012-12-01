@@ -5,6 +5,7 @@ module Potlatch2
     "be" => "be",
     "be-Tarask" => "be-tarask",
     "br" => "br",
+    "bs" => "bs",
     "ca" => "ca",
     "cs" => "cs_CZ",
     "da" => "da",
