@@ -3,247 +3,184 @@
 
 $(document).ready(function () {
   var params = OSM.mapParams();
-  var newNotes;
 
-  function saveNewNotes(o) {
-    var layer = o.object;
-    newNotes = layer.getFeaturesByAttribute("status", "new")
-    layer.removeFeatures(newNotes, { silent: true });
+  var noteIcons = {
+    "new": L.icon({
+      iconUrl: "<%= image_path 'new_note_marker.png' %>",
+      iconSize: [22, 22],
+      iconAnchor: [11, 11]
+    }),
+    "open": L.icon({
+      iconUrl: "<%= image_path 'open_note_marker.png' %>",
+      iconSize: [22, 22],
+      iconAnchor: [11, 11]
+    }),
+    "closed": L.icon({
+      iconUrl: "<%= image_path 'closed_note_marker.png' %>",
+      iconSize: [22, 22],
+      iconAnchor: [11, 11]
+    })
+  };
+
+  var noteLayer = new L.LayerGroup();
+  var notes = {};
+
+  map.on("layeradd", function (e) {
+    if (e.layer == noteLayer) {
+      loadNotes();
+      map.on("moveend", loadNotes);
+    }
+  });
+
+  map.on("layerremove", function (e) {
+    if (e.layer == noteLayer) {
+      map.off("moveend", loadNotes);
+      noteLayer.clearLayers();
+    }
+  });
+
+  if (OSM.STATUS != 'api_offline' && OSM.STATUS != 'database_offline') {
+    map.layersControl.addOverlay(noteLayer, I18n.t("browse.start_rjs.notes_layer_name"));
+
+    if (params.notes) map.addLayer(noteLayer);
   }
 
-  function restoreNewNotes(o) {
-    var layer = o.object;
-    layer.addFeatures(newNotes);
-    newNotes = undefined;
+  function updateMarker(marker, feature) {
+    var icon = noteIcons[feature.properties.status];
+    var popupContent = createPopupContent(marker, feature.properties);
+
+    if (marker)
+    {
+      marker.setIcon(noteIcons[feature.properties.status]);
+      marker._popup.setContent(popupContent);
+    }
+    else
+    {
+      marker = L.marker(feature.geometry.coordinates.reverse(), {
+        icon: icon,
+        opacity: 0.7
+      });
+
+      marker.addTo(noteLayer).bindPopup(popupContent);
+    }
+
+    return marker;
   }
 
-  function createNote(feature, form) {
-    var location = unproj(feature.geometry.getBounds().getCenterLonLat());
+  function loadNotes() {
+    var bounds = map.getBounds();
+    var url = "/api/" + OSM.API_VERSION + "/notes.json?bbox=" + bounds.toBBOX();
 
-    $(form).find("input[type=submit]").prop("disabled", true);
+    $.ajax({
+      url: url,
+      success: function (json) {
+        var oldNotes = notes;
 
-    $.ajax($("#createnoteanchor").attr("href"), {
-      type: "POST",
-      data: {
-        lon: location.lon,
-        lat: location.lat,
-        text: $(form.text).val()
-      },
-      success: function (data) {
-        map.noteSelector.unselect(feature);
+        notes = {};
 
-        feature.attributes = data.properties;
+        json.features.forEach(function (feature) {
+          var marker = oldNotes[feature.properties.id];
 
-        map.noteLayer.drawFeature(feature);
+          delete oldNotes[feature.properties.id];
 
-        map.noteMover.deactivate();
+          notes[feature.properties.id] = updateMarker(marker, feature);
+        });
+
+        for (id in oldNotes) {
+          noteLayer.removeLayer(oldNotes[id]);
+        }
       }
     });
-  }
+  };
 
-  function updateNote(feature, form, close) {
-    var url = close ? feature.attributes.close_url : feature.attributes.comment_url;
+  function createPopupContent(marker, properties) {
+    var content = $(JST["templates/notes/show"]({ note: properties }));
 
-    $(form).find("input[type=submit]").prop("disabled", true);
-
-    $.ajax(url, {
-      type: "POST",
-      data: {
-        text: $(form.text).val()
-      },
-      success: function (data) {
-        map.noteSelector.unselect(feature)
-        
-        feature.attributes = data.properties;
-        
-        map.noteSelector.select(feature)
-      }
-    });
-  }
-
-  function noteSelected(o) {
-    var feature = o.feature;
-    var location = feature.geometry.getBounds().getCenterLonLat();
-    var content;
-    var onClose;
-
-    if (feature.attributes.status === "new") {
-      content = JST["templates/notes/new"]();
-
-      onClose = function (e) {
-        feature.attributes.status = "cancelled";
-
-        map.noteSelector.unselect(feature);
-        map.noteLayer.removeFeatures(feature);
-
-        feature.destroy();
-
-        map.noteMover.deactivate();
-      };
-    } else {
-      content = JST["templates/notes/show"]({ note: feature.attributes });
-
-      onClose = function (e) {
-        map.noteSelector.unselect(feature)
-      };
-    };
-
-    feature.popup = new OpenLayers.Popup.FramedCloud(
-      feature.attributes.id, location, null, content, null, true, onClose
-    );
-
-    map.addPopup(feature.popup);
-    // feature.popup.show();
-
-    $(feature.popup.contentDiv).find("textarea").autoGrow();
-
-    $(feature.popup.contentDiv).find("textarea").on("input", function (e) {
+    content.find("textarea").on("input", function (e) {
       var form = e.target.form;
 
       if ($(e.target).val() == "") {
         $(form.close).val(I18n.t("javascripts.notes.show.close"));
+        $(form.comment).prop("disabled", true);
       } else {
         $(form.close).val(I18n.t("javascripts.notes.show.comment_and_close"));
+        $(form.comment).prop("disabled", false);
       }
     });
 
-    $(feature.popup.contentDiv).find("input#note-add").click(function (e) {
+    content.find("input[type=submit]").on("click", function (e) {
       e.preventDefault();
-
-      createNote(feature, e.target.form);
+      updateNote(marker, e.target.form, $(e.target).data("url"));
     });
 
-    $(feature.popup.contentDiv).find("input#note-comment").click(function (e) {
-      e.preventDefault();
-
-      updateNote(feature, e.target.form, false);
-    });
-
-    $(feature.popup.contentDiv).find("input#note-close").click(function (e) {
-      e.preventDefault();
-
-      updateNote(feature, e.target.form, true);
-    });
-
-    feature.popup.updateSize();
+    return content[0];
   }
 
-  function noteUnselected(o) {
-    var feature = o.feature;
+  function createNote(marker, form, url) {
+    var location = marker.getLatLng();
 
-    map.removePopup(feature.popup);
-  }
+    $(form).find("input[type=submit]").prop("disabled", true);
 
-  function addNote() {
-    var lonlat = map.getCenter();
-    var layer = map.noteLayer;
-    var geometry = new OpenLayers.Geometry.Point(lonlat.lon, lonlat.lat);
-    var feature = new OpenLayers.Feature.Vector(geometry, {
-      status: "new"
-    });
-
-    layer.addFeatures(feature);
-    map.noteSelector.unselectAll();
-    map.noteSelector.select(feature);
-    map.noteMover.activate();
-    map.noteLayer.setVisibility(true);
-  }
-
-  $("#map").on("initialised", function () {
-    map.noteLayer = new OpenLayers.Layer.Vector("Notes", {
-      visibility: params.notes,
-      displayInLayerSwitcher: false,
-      projection: new OpenLayers.Projection("EPSG:4326"),
-      styleMap: new OpenLayers.StyleMap(new OpenLayers.Style({
-        graphicWidth: 22,
-        graphicHeight: 22,
-        graphicOpacity: 0.7,
-        graphicXOffset: -11,
-        graphicYOffset: -11
-      }, {
-        rules: [
-          new OpenLayers.Rule({
-            filter: new OpenLayers.Filter.Comparison({
-              type: OpenLayers.Filter.Comparison.EQUAL_TO,
-              property: "status",
-              value: "new"
-            }),
-            symbolizer: {
-              externalGraphic: "<%= image_path 'new_note_marker.png' %>"
-            }
-          }),
-          new OpenLayers.Rule({
-            filter: new OpenLayers.Filter.Comparison({
-              type: OpenLayers.Filter.Comparison.EQUAL_TO,
-              property: "status",
-              value: "open"
-            }),
-            symbolizer: {
-              externalGraphic: "<%= image_path 'open_note_marker.png' %>"
-            }
-          }),
-          new OpenLayers.Rule({
-            filter: new OpenLayers.Filter.Comparison({
-              type: OpenLayers.Filter.Comparison.EQUAL_TO,
-              property: "status",
-              value: "closed"
-            }),
-            symbolizer: {
-              externalGraphic: "<%= image_path 'closed_note_marker.png' %>"
-            }
-          })
-        ]
-      })),
-      strategies: [
-        new OpenLayers.Strategy.BBOX()
-      ],
-      protocol: new OpenLayers.Protocol.HTTP({
-        url: $("#show_notes").attr("href"),
-        format: new OpenLayers.Format.GeoJSON()
-      })
-    });
-
-    map.noteLayer.events.register("beforefeaturesremoved", map, saveNewNotes);
-    map.noteLayer.events.register("featuresremoved", map, restoreNewNotes);
-    map.noteLayer.events.register("featureselected", map, noteSelected);
-    map.noteLayer.events.register("featureunselected", map, noteUnselected);
-
-    map.addLayer(map.noteLayer);
-
-    map.noteSelector = new OpenLayers.Control.SelectFeature(map.noteLayer, {
-      autoActivate: true
-    });
-
-    map.addControl(map.noteSelector);
-
-    map.noteMover = new OpenLayers.Control.DragFeature(map.noteLayer, {
-      onDrag: function (feature, pixel) {
-        feature.popup.lonlat = feature.geometry.getBounds().getCenterLonLat();
-        feature.popup.updatePosition();
+    $.ajax({
+      url: url,
+      type: "POST",
+      data: {
+        lat: location.lat,
+        lon: location.lng,
+        text: $(form.text).val()
       },
-      featureCallbacks: {
-        over: function (feature) {
-          if (feature.attributes.status === "new") {
-            map.noteMover.overFeature.apply(map.noteMover, [feature]);
-          }
-        }
+      success: function (feature) {
+        notes[feature.properties.id] = updateMarker(marker, feature);
+
+        $(".leaflet-popup-close-button").off("click.close");
       }
     });
+  }
 
-    map.addControl(map.noteMover);
+  function updateNote(marker, form, url) {
+    $(form).find("input[type=submit]").prop("disabled", true);
 
-    $("#show_notes").click(function (e) {
-      map.noteLayer.setVisibility(true);
+    $.ajax({
+      url: url,
+      type: "POST",
+      data: {
+        text: $(form.text).val()
+      },
+      success: function (feature) {
+        var popupContent = createPopupContent(marker, feature.properties);
 
-      e.preventDefault();
+        marker.setIcon(noteIcons[feature.properties.status]);
+        marker._popup.setContent(popupContent);
+      }
+    });
+  }
+
+  $("#createnoteanchor").click(function (e) {
+    e.preventDefault();
+
+    map.addLayer(noteLayer);
+
+    var marker = L.marker(map.getCenter(), {
+      icon: noteIcons["new"],
+      opacity: 0.7,
+      draggable: true
     });
 
-    $("#createnoteanchor").click(function (e) {
-      map.noteLayer.setVisibility(true);
+    var popupContent = $(JST["templates/notes/new"]({ create_url: $(e.target).attr("href") }));
 
-      addNote();
-
+    popupContent.find("input[type=submit]").on("click", function (e) {
       e.preventDefault();
+      createNote(marker, e.target.form, $(e.target).data("url"));
+    });
+
+    marker.addTo(noteLayer).bindPopup(popupContent[0]).openPopup();
+
+    $(".leaflet-popup-close-button").on("click.close", function (e) {
+      map.removeLayer(marker);
+    });
+
+    marker.on("dragend", function (e) {
+      e.target.openPopup();
     });
   });
 });

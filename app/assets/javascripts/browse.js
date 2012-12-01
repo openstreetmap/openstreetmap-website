@@ -45,12 +45,11 @@ $(document).ready(function () {
     var centre = bbox.getCenter();
     updatelinks(centre.lon, centre.lat, 16, null, params.minlon, params.minlat, params.maxlon, params.maxlat);
   } else if (params.type == "note") {
-    var centre = new OpenLayers.LonLat(params.lon, params.lat);
+    map.setView([params.lat, params.lon], 16);
 
-    setMapCenter(centre, 16);
-    addMarkerToMap(centre);
+    L.marker([params.lat, params.lon], { icon: getUserIcon() }).addTo(map);
 
-    var bbox = unproj(map.getExtent());
+    var bbox = map.getBounds();
 
     $("#loading").hide();
     $("#browse_map .geolink").show();
@@ -59,7 +58,9 @@ $(document).ready(function () {
       return remoteEditHandler(bbox);
     });
 
-    updatelinks(centre.lon, centre.lat, 16, null, bbox.left, bbox.bottom, bbox.right, bbox.top)
+    updatelinks(params.lon, params.lat, 16, null, 
+                bbox.getWestLng(), bbox.getSouthLat(),
+                bbox.getEastLng(), bbox.getNorthLat());
   } else {
     $("#object_larger_map").hide();
     $("#object_edit").hide();
