@@ -21,7 +21,10 @@ xml.note("lon" => note.lon, "lat" => note.lat) do
           xml.user_url user_url(:display_name => comment.author.display_name)
         end
 
-        xml.text comment.body
+        if comment.body
+          xml.text comment.body.to_text
+          xml.html comment.body.to_html
+        end
       end
     end
   end

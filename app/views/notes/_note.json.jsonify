@@ -24,6 +24,10 @@ json.properties do
     end
 
     json.action comment.event
-    json.text comment.body unless comment.body.nil?
+
+    if comment.body
+      json.text comment.body.to_text
+      json.html comment.body.to_html
+    end
   end
 end
