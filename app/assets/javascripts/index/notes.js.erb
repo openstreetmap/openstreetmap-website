@@ -61,7 +61,7 @@ $(document).ready(function () {
         opacity: 0.7
       });
 
-      marker.addTo(noteLayer).bindPopup(popupContent);
+      marker.addTo(noteLayer).bindPopup(popupContent, popupOptions());
     }
 
     return marker;
@@ -92,6 +92,12 @@ $(document).ready(function () {
       }
     });
   };
+
+  function popupOptions() {
+    var mapSize = map.getSize();
+
+    return { maxHeight: mapSize.y * 2 / 3 };
+  }
 
   function createPopupContent(marker, properties) {
     var content = $(JST["templates/notes/show"]({ note: properties }));
@@ -173,7 +179,7 @@ $(document).ready(function () {
       createNote(marker, e.target.form, $(e.target).data("url"));
     });
 
-    marker.addTo(noteLayer).bindPopup(popupContent[0]).openPopup();
+    marker.addTo(noteLayer).bindPopup(popupContent[0], popupOptions()).openPopup();
 
     $(".leaflet-popup-close-button").on("click.close", function (e) {
       map.removeLayer(marker);
