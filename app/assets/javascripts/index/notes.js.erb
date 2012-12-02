@@ -67,6 +67,8 @@ $(document).ready(function () {
     return marker;
   }
 
+  var noteLoader;
+
   function loadNotes() {
     var bounds = map.getBounds();
     var size = bounds.getSize();
@@ -74,7 +76,9 @@ $(document).ready(function () {
     if (size <= OSM.MAX_NOTE_REQUEST_AREA) {
       var url = "/api/" + OSM.API_VERSION + "/notes.json?bbox=" + bounds.toBBOX();
 
-      $.ajax({
+      if (noteLoader) noteLoader.abort();
+
+      noteLoader = $.ajax({
         url: url,
         success: function (json) {
           var oldNotes = notes;
@@ -92,6 +96,8 @@ $(document).ready(function () {
           for (id in oldNotes) {
             noteLayer.removeLayer(oldNotes[id]);
           }
+
+          noteLoader = null;
         }
       });
     }
