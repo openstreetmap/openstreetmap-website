@@ -69,28 +69,32 @@ $(document).ready(function () {
 
   function loadNotes() {
     var bounds = map.getBounds();
-    var url = "/api/" + OSM.API_VERSION + "/notes.json?bbox=" + bounds.toBBOX();
+    var size = bounds.getSize();
 
-    $.ajax({
-      url: url,
-      success: function (json) {
-        var oldNotes = notes;
+    if (size <= OSM.MAX_NOTE_REQUEST_AREA) {
+      var url = "/api/" + OSM.API_VERSION + "/notes.json?bbox=" + bounds.toBBOX();
 
-        notes = {};
+      $.ajax({
+        url: url,
+        success: function (json) {
+          var oldNotes = notes;
 
-        json.features.forEach(function (feature) {
-          var marker = oldNotes[feature.properties.id];
+          notes = {};
 
-          delete oldNotes[feature.properties.id];
+          json.features.forEach(function (feature) {
+            var marker = oldNotes[feature.properties.id];
 
-          notes[feature.properties.id] = updateMarker(marker, feature);
-        });
+            delete oldNotes[feature.properties.id];
 
-        for (id in oldNotes) {
-          noteLayer.removeLayer(oldNotes[id]);
+            notes[feature.properties.id] = updateMarker(marker, feature);
+          });
+
+          for (id in oldNotes) {
+            noteLayer.removeLayer(oldNotes[id]);
+          }
         }
-      }
-    });
+      });
+    }
   };
 
   function popupOptions() {

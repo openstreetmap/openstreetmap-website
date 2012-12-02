@@ -1,13 +1,14 @@
 OSM = {
 <% if defined?(PIWIK_LOCATION) and defined?(PIWIK_SITE) %>
-  PIWIK_LOCATION:   <%= PIWIK_LOCATION.to_json %>,
-  PIWIK_SITE:       <%= PIWIK_SITE.to_json %>,
+  PIWIK_LOCATION:        <%= PIWIK_LOCATION.to_json %>,
+  PIWIK_SITE:            <%= PIWIK_SITE.to_json %>,
 <% end %>
 
-  MAX_REQUEST_AREA: <%= MAX_REQUEST_AREA.to_json %>,
-  SERVER_URL:       <%= SERVER_URL.to_json %>,
-  API_VERSION:      <%= API_VERSION.to_json %>,
-  STATUS:           <%= STATUS.to_json %>,
+  MAX_REQUEST_AREA:      <%= MAX_REQUEST_AREA.to_json %>,
+  SERVER_URL:            <%= SERVER_URL.to_json %>,
+  API_VERSION:           <%= API_VERSION.to_json %>,
+  STATUS:                <%= STATUS.to_json %>,
+  MAX_NOTE_REQUEST_AREA: <%= MAX_NOTE_REQUEST_AREA.to_json %>,
 
   apiUrl: function (object) {
     var url = "/api/" + OSM.API_VERSION + "/" + object.type + "/" + object.id;
