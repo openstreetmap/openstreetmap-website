@@ -12,7 +12,11 @@ xml.item do
   xml.link browse_note_url(note)
   xml.guid note_url(note)
   xml.description render(:partial => "description", :object => note, :formats => [ :html ])
-  xml.author note.comments.first.author_name
+
+  if note.author
+    xml.author note.author_display_name
+  end
+
   xml.pubDate note.updated_at.to_s(:rfc822)
   xml.geo :lat, note.lat
   xml.geo :long, note.lon

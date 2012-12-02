@@ -10,15 +10,6 @@ class NoteComment < ActiveRecord::Base
   validates_associated :author
   validates_inclusion_of :event, :in => [ "opened", "closed", "reopened", "commented", "hidden" ]
 
-  # Return the author name
-  def author_name
-    if self.author_id.nil?
-      self.read_attribute(:author_name)
-    else
-      self.author.display_name
-    end
-  end
-
   # Return the comment text
   def body
     RichText.new("text", read_attribute(:body))

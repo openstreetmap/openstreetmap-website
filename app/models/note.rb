@@ -39,7 +39,7 @@ class Note < ActiveRecord::Base
       resp += (comment_no == 1 ? "" : separator_char)
       resp += comment.body if comment.body
       resp += " [ " 
-      resp += comment.author_name if comment.author_name
+      resp += comment.author.display_name if comment.author
       resp += " " + comment.created_at.to_s + " ]"
       comment_no += 1
     end
@@ -60,16 +60,6 @@ class Note < ActiveRecord::Base
   # Return the author IP address, derived from the first comment
   def author_ip
     self.comments.first.author_ip
-  end
-
-  # Return the author id, derived from the first comment
-  def author_id
-    self.comments.first.author_id
-  end
-
-  # Return the author name, derived from the first comment
-  def author_name
-    self.comments.first.author_name
   end
 
 private

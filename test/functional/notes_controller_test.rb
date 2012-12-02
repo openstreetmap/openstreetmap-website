@@ -120,7 +120,7 @@ class NotesControllerTest < ActionController::TestCase
   def test_note_create_success
     assert_difference('Note.count') do
       assert_difference('NoteComment.count') do
-        post :create, {:lat => -1.0, :lon => -1.0, :name => "new_tester", :text => "This is a comment", :format => "json"}
+        post :create, {:lat => -1.0, :lon => -1.0, :text => "This is a comment", :format => "json"}
       end
     end
     assert_response :success
@@ -133,7 +133,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal 1, js["properties"]["comments"].count
     assert_equal "opened", js["properties"]["comments"].last["action"]
     assert_equal "This is a comment", js["properties"]["comments"].last["text"]
-    assert_equal "new_tester (a)", js["properties"]["comments"].last["user"]
+    assert_nil js["properties"]["comments"].last["user"]
     id = js["properties"]["id"]
 
     get :show, {:id => id, :format => "json"}
@@ -148,41 +148,41 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal 1, js["properties"]["comments"].count
     assert_equal "opened", js["properties"]["comments"].last["action"]
     assert_equal "This is a comment", js["properties"]["comments"].last["text"]
-    assert_equal "new_tester (a)", js["properties"]["comments"].last["user"]
+    assert_nil js["properties"]["comments"].last["user"]
   end
 
   def test_note_create_fail
     assert_no_difference('Note.count') do
       assert_no_difference('NoteComment.count') do
-        post :create, {:lon => -1.0, :name => "new_tester", :text => "This is a comment"}
+        post :create, {:lon => -1.0, :text => "This is a comment"}
       end
     end
     assert_response :bad_request
 
     assert_no_difference('Note.count') do
       assert_no_difference('NoteComment.count') do
-        post :create, {:lat => -1.0, :name => "new_tester", :text => "This is a comment"}
+        post :create, {:lat => -1.0, :text => "This is a comment"}
       end
     end
     assert_response :bad_request
 
     assert_no_difference('Note.count') do
       assert_no_difference('NoteComment.count') do
-        post :create, {:lat => -1.0, :lon => -1.0, :name => "new_tester"}
+        post :create, {:lat => -1.0, :lon => -1.0}
       end
     end
     assert_response :bad_request
 
     assert_no_difference('Note.count') do
       assert_no_difference('NoteComment.count') do
-        post :create, {:lat => -100.0, :lon => -1.0, :name => "new_tester", :text => "This is a comment"}
+        post :create, {:lat => -100.0, :lon => -1.0, :text => "This is a comment"}
       end
     end
     assert_response :bad_request
 
     assert_no_difference('Note.count') do
       assert_no_difference('NoteComment.count') do
-        post :create, {:lat => -1.0, :lon => -200.0, :name => "new_tester", :text => "This is a comment"}
+        post :create, {:lat => -1.0, :lon => -200.0, :text => "This is a comment"}
       end
     end
     assert_response :bad_request
@@ -190,7 +190,7 @@ class NotesControllerTest < ActionController::TestCase
 
   def test_note_comment_create_success
     assert_difference('NoteComment.count') do
-      post :comment, {:id => notes(:open_note_with_comment).id, :name => "new_tester2", :text => "This is an additional comment", :format => "json"}
+      post :comment, {:id => notes(:open_note_with_comment).id, :text => "This is an additional comment", :format => "json"}
     end
     assert_response :success
     js = ActiveSupport::JSON.decode(@response.body)
@@ -201,7 +201,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal 3, js["properties"]["comments"].count
     assert_equal "commented", js["properties"]["comments"].last["action"]
     assert_equal "This is an additional comment", js["properties"]["comments"].last["text"]
-    assert_equal "new_tester2 (a)", js["properties"]["comments"].last["user"]
+    assert_nil js["properties"]["comments"].last["user"]
 
     get :show, {:id => notes(:open_note_with_comment).id, :format => "json"}
     assert_response :success
@@ -213,27 +213,27 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal 3, js["properties"]["comments"].count
     assert_equal "commented", js["properties"]["comments"].last["action"]
     assert_equal "This is an additional comment", js["properties"]["comments"].last["text"]
-    assert_equal "new_tester2 (a)", js["properties"]["comments"].last["user"]
+    assert_nil js["properties"]["comments"].last["user"]
   end
 
   def test_note_comment_create_fail
     assert_no_difference('NoteComment.count') do
-      post :comment, {:name => "new_tester2", :text => "This is an additional comment"}
+      post :comment, {:text => "This is an additional comment"}
     end
     assert_response :bad_request
 
     assert_no_difference('NoteComment.count') do
-      post :comment, {:id => notes(:open_note_with_comment).id, :name => "new_tester2"}
+      post :comment, {:id => notes(:open_note_with_comment).id}
     end
     assert_response :bad_request
 
     assert_no_difference('NoteComment.count') do
-      post :comment, {:id => 12345, :name => "new_tester2", :text => "This is an additional comment"}
+      post :comment, {:id => 12345, :text => "This is an additional comment"}
     end
     assert_response :not_found
 
     assert_no_difference('NoteComment.count') do
-      post :comment, {:id => notes(:hidden_note_with_comment).id, :name => "new_tester2", :text => "This is an additional comment"}
+      post :comment, {:id => notes(:hidden_note_with_comment).id, :text => "This is an additional comment"}
     end
     assert_response :gone
   end
@@ -249,7 +249,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal 3, js["properties"]["comments"].count
     assert_equal "closed", js["properties"]["comments"].last["action"]
     assert_equal "This is a close comment", js["properties"]["comments"].last["text"]
-    assert_equal "NoName (a)", js["properties"]["comments"].last["user"]
+    assert_nil js["properties"]["comments"].last["user"]
 
     get :show, {:id => notes(:open_note_with_comment).id, :format => "json"}
     assert_response :success
@@ -261,7 +261,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal 3, js["properties"]["comments"].count
     assert_equal "closed", js["properties"]["comments"].last["action"]
     assert_equal "This is a close comment", js["properties"]["comments"].last["text"]
-    assert_equal "NoName (a)", js["properties"]["comments"].last["user"]
+    assert_nil js["properties"]["comments"].last["user"]
   end
 
   def test_note_close_fail

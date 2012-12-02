@@ -102,9 +102,9 @@ module ApplicationHelper
 
   def note_author(object, link_options = {})
     if object.author.nil?
-      h(object.author_name)
+      ""
     else
-      link_to h(object.author_name), link_options.merge({:controller => "user", :action => "view", :display_name => object.author_name})
+      link_to h(object.author.display_name), link_options.merge({:controller => "user", :action => "view", :display_name => object.author.display_name})
     end
   end
 end

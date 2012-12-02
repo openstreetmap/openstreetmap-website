@@ -733,7 +733,6 @@ CREATE TABLE note_comments (
     note_id bigint NOT NULL,
     visible boolean NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    author_name character varying(255),
     author_ip character varying(255),
     author_id bigint,
     body text,
@@ -771,7 +770,6 @@ CREATE TABLE notes (
     tile bigint NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    nearby_place character varying(255),
     status note_status_enum NOT NULL,
     closed_at timestamp without time zone
 );
@@ -2446,6 +2444,10 @@ INSERT INTO schema_migrations (version) VALUES ('20120808231205');
 INSERT INTO schema_migrations (version) VALUES ('20121005195010');
 
 INSERT INTO schema_migrations (version) VALUES ('20121012044047');
+
+INSERT INTO schema_migrations (version) VALUES ('20121119165817');
+
+INSERT INTO schema_migrations (version) VALUES ('20121202155309');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 

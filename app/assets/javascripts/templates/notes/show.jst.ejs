@@ -3,9 +3,15 @@
   <% note.comments.forEach(function (comment) { %>
   <p>
     <small class="deemphasize">
-      <%- I18n.t('javascripts.notes.show.event', {
-         action: comment.action, user: comment.user, time: comment.date
-      }) %>
+      <% if (comment.user) { %>
+        <%- I18n.t('javascripts.notes.show.event', {
+           action: comment.action, user: comment.user, time: comment.date
+        }) %>
+      <% } else { %>
+        <%- I18n.t('javascripts.notes.show.anonymous_event', {
+           action: comment.action, time: comment.date
+        }) %>
+      <% } %>
     </small>
     <br/>
     <%- comment.text %>

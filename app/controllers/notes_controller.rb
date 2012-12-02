@@ -58,7 +58,6 @@ class NotesController < ApplicationController
     lon = params[:lon].to_f
     lat = params[:lat].to_f
     comment = params[:text]
-    name = params[:name]
 
     # Include in a transaction to ensure that there is always a note_comment for every note
     Note.transaction do
@@ -70,7 +69,7 @@ class NotesController < ApplicationController
       @note.save!
 
       # Add a comment to the note
-      add_comment(@note, comment, name, "opened")
+      add_comment(@note, comment, "opened")
     end
 
     # Return a copy of the new note
@@ -90,7 +89,6 @@ class NotesController < ApplicationController
     # Extract the arguments
     id = params[:id].to_i
     comment = params[:text]
-    name = params[:name] or "NoName"
 
     # Find the note and check it is valid
     @note = Note.find(id)
@@ -99,7 +97,7 @@ class NotesController < ApplicationController
 
     # Add a comment to the note
     Note.transaction do
-      add_comment(@note, comment, name, "commented")
+      add_comment(@note, comment, "commented")
     end
 
     # Return a copy of the updated note
@@ -118,7 +116,6 @@ class NotesController < ApplicationController
     # Extract the arguments
     id = params[:id].to_i
     comment = params[:text]
-    name = params[:name]
 
     # Find the note and check it is valid
     @note = Note.find_by_id(id)
@@ -129,7 +126,7 @@ class NotesController < ApplicationController
     Note.transaction do
       @note.close
 
-      add_comment(@note, comment, name, "closed")
+      add_comment(@note, comment, "closed")
     end
 
     # Return a copy of the updated note
@@ -192,7 +189,6 @@ class NotesController < ApplicationController
 
     # Extract the arguments
     id = params[:id].to_i
-    name = params[:name]
 
     # Find the note and check it is valid
     note = Note.find(id)
@@ -204,7 +200,7 @@ class NotesController < ApplicationController
       note.status = "hidden"
       note.save
 
-      add_comment(note, nil, name, "hidden")
+      add_comment(note, nil, "hidden")
     end
 
     # Render the result
@@ -302,17 +298,13 @@ private
 
   ##
   # Add a comment to a note
-  def add_comment(note, text, name, event)
-    name = "NoName" if name.nil?
-
+  def add_comment(note, text, event)
     attributes = { :visible => true, :event => event, :body => text }
 
     if @user  
       attributes[:author_id] = @user.id
-      attributes[:author_name] = @user.display_name
     else  
       attributes[:author_ip] = request.remote_ip
-      attributes[:author_name] = name + " (a)"
     end
 
     comment = note.comments.create(attributes, :without_protection => true)

@@ -37,7 +37,11 @@ xml.rss("version" => "2.0",
         description_text += comment.note.flatten_comment("<br>", comment.created_at)
 
         xml.description description_text 
-        xml.author comment.author_name
+
+        if comment.author
+          xml.author comment.author.display_name
+        end
+
         xml.pubDate comment.created_at.to_s(:rfc822)
         xml.geo :lat, comment.note.lat
         xml.geo :long, comment.note.lon

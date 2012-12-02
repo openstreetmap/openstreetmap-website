@@ -14,8 +14,8 @@ xml.note("lon" => note.lon, "lat" => note.lat) do
     note.comments.each do |comment|
       xml.comment do
         xml.date comment.created_at
-        xml.uid comment.author_id unless comment.author_id.nil?
-        xml.user comment.author_name
+        xml.uid comment.author.id unless comment.author.nil?
+        xml.user comment.author.display_name unless comment.author.nil?
         xml.text comment.body
       end	
     end

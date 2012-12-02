@@ -16,8 +16,8 @@ json.properties do
 
   json.comments(note.comments) do |comment|
     json.date comment.created_at
-    json.uid comment.author_id unless comment.author_id.nil?
-    json.user comment.author_name
+    json.uid comment.author.id unless comment.author.nil?
+    json.user comment.author.display_name unless comment.author.nil?
     json.action comment.event
     json.text comment.body unless comment.body.nil?
   end
