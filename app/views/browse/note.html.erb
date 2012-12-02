@@ -44,8 +44,7 @@
           <% @note.comments[1..-1].each do |comment| %>
             <tr>
               <td>
-                <%= h(comment.body) %>
-                <br />
+                <%= comment.body.to_html %>
                 <span class="by"><%= t "browse.note.at_by_html", :when => friendly_date(comment.created_at), :user => note_author(comment) %></span>
               </td>
             </tr>
