@@ -2,7 +2,7 @@ json.type "Feature"
 
 json.geometry do
   json.type "Point"
-  json.coordinates [ note.lon, note.lat ]              
+  json.coordinates [ note.lon, note.lat ]
 end
 
 json.properties do
@@ -16,8 +16,13 @@ json.properties do
 
   json.comments(note.comments) do |comment|
     json.date comment.created_at
-    json.uid comment.author.id unless comment.author.nil?
-    json.user comment.author.display_name unless comment.author.nil?
+
+    if comment.author
+      json.uid comment.author.id
+      json.user comment.author.display_name
+      json.user_url user_url(:display_name => comment.author.display_name)
+    end
+
     json.action comment.event
     json.text comment.body unless comment.body.nil?
   end
