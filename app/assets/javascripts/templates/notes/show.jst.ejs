@@ -1,7 +1,7 @@
 <div class="note">
   <h2><%- I18n.t('javascripts.notes.show.title', { id: note.id }) %></h2>
   <% note.comments.forEach(function (comment) { %>
-  <p>
+  <div>
     <small class="deemphasize">
       <% if (comment.user) { %>
         <%= I18n.t('javascripts.notes.show.event', {
@@ -14,9 +14,8 @@
         }) %>
       <% } %>
     </small>
-    <br/>
-    <%- comment.text %>
-  </p>
+    <div class="comment_body"><%= comment.html %></div>
+  </div>
   <% }) %>
   <% if (note.status == "open") { %>
   <form action="#">
