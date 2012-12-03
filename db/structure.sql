@@ -733,7 +733,7 @@ CREATE TABLE note_comments (
     note_id bigint NOT NULL,
     visible boolean NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    author_ip character varying(255),
+    author_ip inet,
     author_id bigint,
     body text,
     event note_event_enum
@@ -2448,6 +2448,8 @@ INSERT INTO schema_migrations (version) VALUES ('20121012044047');
 INSERT INTO schema_migrations (version) VALUES ('20121119165817');
 
 INSERT INTO schema_migrations (version) VALUES ('20121202155309');
+
+INSERT INTO schema_migrations (version) VALUES ('20121203124841');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 
