@@ -2,18 +2,15 @@ $(document).ready(function () {
   var marker;
 
   function setLocation(e) {
-    closeMapPopup();
-
-    var lonlat = getEventPosition(e);
-
-    $("#latitude").val(lonlat.lat);
-    $("#longitude").val(lonlat.lon);
+    $("#latitude").val(e.latlng.lat);
+    $("#longitude").val(e.latlng.lng);
 
     if (marker) {
-      removeMarkerFromMap(marker);
+      map.removeLayer(marker);
     }
 
-    marker = addMarkerToMap(lonlat, null, I18n.t('diary_entry.edit.marker_text'));
+    marker = L.marker(e.latlng, {icon: getUserIcon()}).addTo(map)
+      .bindPopup(I18n.t('diary_entry.edit.marker_text'));
   }
 
   $("#usemap").click(function (e) {
@@ -23,15 +20,16 @@ $(document).ready(function () {
     $("#usemap").hide();
 
     var params = $("#map").data();
-    var centre = new OpenLayers.LonLat(params.lon, params.lat);
+    var centre = [params.lat, params.lon];
     var map = createMap("map");
 
-    setMapCenter(centre, params.zoom);
+    map.setView(centre, params.zoom);
 
     if ($("#latitude").val() && $("#longitude").val()) {
-      marker = addMarkerToMap(centre, null, I18n.t('diary_entry.edit.marker_text'));
+      marker = L.marker(centre, {icon: getUserIcon()}).addTo(map)
+        .bindPopup(I18n.t('diary_entry.edit.marker_text'));
     }
 
-    map.events.register("click", map, setLocation);
+    map.on("click", setLocation);
   });
 });

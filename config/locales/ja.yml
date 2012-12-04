@@ -3,6 +3,7 @@
 # Export driver: syck-pecl
 # Author: Atysn
 # Author: Fryed-peach
+# Author: Hayashi
 # Author: Higa4
 # Author: Hosiryuhosi
 # Author: Iwai.masaharu
@@ -201,14 +202,10 @@ ja:
         node: ノード
         relation: リレーション
         way: ウェイ
-    start: 
-      manually_select: ドラッグして別の領域を選択
-      view_data: 現在のマップのデータを表示
     start_rjs: 
       data_frame_title: データ
       data_layer_name: 地図データを参照
       details: 詳細
-      drag_a_box: 領域を選択するには地図をドラッグしてください
       edited_by_user_at_timestamp: "%{user}による%{timestamp}時点の編集"
       hide_areas: 領域を隠す
       history_for_feature: "%{feature}の履歴"
@@ -241,8 +238,8 @@ ja:
     tag_details: 
       tags: "タグ:"
       wiki_link: 
-        key: "%{key} タグの wiki での説明ページ"
-        tag: "%{key}=%{value} タグの wiki での説明ページ"
+        key: "%{key} タグのウィキでの説明ページ"
+        tag: "%{key}=%{value} タグのウィキでの説明ページ"
       wikipedia_link: ウィキペディアの %{page} 記事
     timeout: 
       sorry: 申し訳ありませんが、ID %{id} の %{type} のデータは大きすぎるため取得できません。
@@ -322,8 +319,9 @@ ja:
       hide_link: このコメントを隠す
     diary_entry: 
       comment_count: 
-        one: 1 コメント
+        one: "%{count} コメント"
         other: "%{count} コメント"
+        zero: コメントなし
       comment_link: このエントリにコメント
       confirm: 確認
       edit_link: この記事の編集
@@ -919,9 +917,9 @@ ja:
   javascripts: 
     map: 
       base: 
-        cycle_map: 自転車地図
+        cycle_map: サイクリングマップ
         standard: 標準
-        transport_map: 輸送地図
+        transport_map: 交通マップ
     site: 
       edit_disabled_tooltip: 地図を編集するには拡大してください
       edit_tooltip: 地図を編集
@@ -989,7 +987,7 @@ ja:
     welcome_user: ようこそ、%{user_link} さん
     welcome_user_link_tooltip: 自分のユーザー ページ
     wiki: ウィキ
-    wiki_title: プロジェクトの Wiki サイト
+    wiki_title: プロジェクトのウィキサイト
   license_page: 
     foreign: 
       english_link: 英語の原文
@@ -1131,6 +1129,8 @@ ja:
       header: "%{from_user} さんが、OpenStreetMap であなたに件名 %{subject} のメッセージを送信しました:"
       hi: やあ %{to_user} さん、
     signup_confirm: 
+      created: 誰か (おそらくあなた) が %{site_url} でアカウントを作成しました。
+      greeting: やあ、皆さん!
       subject: "[OpenStreetMap] OpenStreetMapへようこそ"
     signup_confirm_html: 
       ask_questions: "<a href=\"http://help.openstreetmap.org/\">質問サイト</a>では、OpenStreetMap についてどんなことでも質問できます:"
@@ -1138,9 +1138,9 @@ ja:
       introductory_video: "%{introductory_video_link} で動画をご覧いただけます。"
       more_videos: ビデオがあります。%{more_videos_link}.
       more_videos_here: その他の動画はこちら
-      user_wiki_page: ユーザー wiki ページを作成して、あなたがどこにいるかを示すカテゴリ タグを入れることをお勧めします。例えば、<a href="http://wiki.openstreetmap.org/wiki/Category:Users_in_Tokyo">[[Category:Users_in_Tokyo]]</a>などです。
+      user_wiki_page: ユーザー ウィキページを作成して、あなたがどこにいるかを示すカテゴリ タグを入れることをお勧めします。例えば、<a href="http://wiki.openstreetmap.org/wiki/Category:Users_in_Tokyo">[[Category:Users_in_Tokyo]]</a>などです。
       video_to_openstreetmap: OpenStreetMap の紹介動画
-      wiki_signup: また、<a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page&uselang=ja">OpenStreetMap wiki のユーザー登録</a>をすることもできます。
+      wiki_signup: また、<a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page&uselang=ja">OpenStreetMap ウィキのユーザー登録</a>をすることもできます。
     signup_confirm_plain: 
       ask_questions: "質疑用サイトでは、OpenStreetMap について何でもご質問いただけます:"
       blog_and_twitter: "OpenStreetMap ブログや Twitter では最新のニュースをご覧いただけます:"
@@ -1148,7 +1148,8 @@ ja:
       more_videos: "その他の動画がこちらにあります:"
       opengeodata: "OpenGeoData.org は OpenStreetMap の創設者 Steve Coast さんのブログであり、ポッドキャストも行なっています:"
       the_wiki_url: http://wiki.openstreetmap.org/wiki/Ja:Beginners%27_Guide
-      wiki_signup: "OpenStreetMap wiki でユーザー登録する場合は:"
+      user_wiki_page: ユーザー ウィキページを作成して、あなたがどこにいるかを示すカテゴリ タグを入れることをお勧めします。例えば、[[Category:Users_in_Tokyo]] などです。
+      wiki_signup: "OpenStreetMap ウィキでユーザー登録する場合は:"
       wiki_signup_url: http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page&uselang=ja
   oauth: 
     oauthorize: 
@@ -1341,12 +1342,12 @@ ja:
       headings: 見出し
       image: 画像
       link: リンク
-      ordered: 順序付きリスト
+      ordered: 番号付きリスト
       second: 項目 2
       subheading: 小見出し
       text: テキスト
       title_html: <a href="http://daringfireball.net/projects/markdown/">Markdown</a> で構文解析されます
-      unordered: 順序なしリスト
+      unordered: 番号なしリスト
       url: URL
     richtext_area: 
       edit: 編集
