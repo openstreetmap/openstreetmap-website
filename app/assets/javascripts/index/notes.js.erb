@@ -174,6 +174,8 @@ $(document).ready(function () {
   $("#createnoteanchor").click(function (e) {
     e.preventDefault();
 
+    if ($(e.target).hasClass("disabled")) return;
+
     map.addLayer(noteLayer);
 
     var marker = L.marker(map.getCenter(), {
