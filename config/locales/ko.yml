@@ -4,6 +4,7 @@
 # Author: B891202
 # Author: Freebiekr
 # Author: Kwj2772
+# Author: Stleamist
 # Author: Wrightbus
 # Author: 아라
 ko: 
@@ -75,6 +76,14 @@ ko:
       way: 길
       way_node: 길노드
       way_tag: 길태그
+  application: 
+    require_cookies: 
+      cookies_needed: 쿠키를 비활성화한 것으로 보입니다 - 계속하기 전에 브라우저에서 쿠키를 활성화하세요.
+    require_moderator: 
+      not_a_moderator: 해당 동작을 수행하려면 운영자 권한이 필요합니다.
+    setup_user_auth: 
+      blocked: API에 대한 접근을 차단했습니다. 자세한 내용을 알아보려면 웹 인터페이스에 로그인하세요.
+      need_to_see_terms: API에 대한 접근을 일시적으로 중지했습니다. 기여자 약관을 보려면 웹 인터페이스에 로그인하세요. 기여자 약관에 동의 할 필요는 없습니다만 기여자 약관을 보아야 합니다.
   browse: 
     changeset: 
       changeset: "바뀜집합: %{id}"
@@ -86,14 +95,14 @@ ko:
       title: 바뀜집합
     changeset_details: 
       belongs_to: "소유자:"
-      bounding_box: "테두리 지정 사각형:"
+      bounding_box: "테두리 상자:"
       box: 사각형
       closed_at: "종료된 때:"
       created_at: "생성된 때:"
       has_nodes: "다음 노드 %{count}개 있음:"
       has_relations: "다음 관계 %{count}개 있음:"
       has_ways: "다음 길 %{count}개 있음:"
-      no_bounding_box: 이 바뀜집합에서 어떤 테두리 지정 사각형도 저장되지 않았습니다.
+      no_bounding_box: 이 바뀜집합에서 어떤 테두리 상자도 저장되지 않았습니다.
       show_area_box: 구역 사각형 표시
     common_details: 
       changeset_comment: "덧글:"
@@ -214,6 +223,7 @@ ko:
       show_areas: 지역 보이기
       show_history: 역사 보기
       unable_to_load_size: "불러오기 실패: 표시하려는 지역(%{bbox_size})의 설정 박스가 너무 큽니다. %{max_bbox_size}까지 표시할 수 있습니다."
+      view_data: 현재 지도 보기에 대한 데이터 보기
       wait: 잠시만 기다려 주세요...
       zoom_or_select: 확대 또는 보고 싶은 지도의 지역을 선택하세요
     tag_details: 
@@ -258,7 +268,7 @@ ko:
     changeset_paging_nav: 
       next: 다음 »
       previous: « 이전
-      showing_page: 페이지 %{page}개 보임
+      showing_page: 페이지 %{page} 보는 중
     changesets: 
       area: 지역
       comment: 설명
@@ -303,8 +313,9 @@ ko:
       hide_link: 이 덧글 숨기기
     diary_entry: 
       comment_count: 
-        one: 덧글 1개
+        one: 덧글 %{count}개
         other: 덧글 %{count}개
+        zero: 덧글 없음
       comment_link: 이 항목에 덧글 남기기
       confirm: 확인
       edit_link: 이 항목 수정
@@ -378,7 +389,7 @@ ko:
       area_to_export: 지역 내보내기
       embeddable_html: 내장된 HTML
       export_button: 내보내기
-      export_details: OpenStreetMap 데이터는 <a href="http://opendatacommons.org/licenses/odbl/1.0/">오픈 데이터 커먼즈 오픈 데이터베이스 라이선스</a>(ODbL)에 따릅니다.
+      export_details: OpenStreetMap 데이터는 <a href="http://opendatacommons.org/licenses/odbl/1.0/">오픈 데이터 커먼즈 오픈 데이터베이스 라이선스</a>(ODbL)에 따라 사용할 수 있습니다.
       format: 형식
       format_to_export: 내보내기 형식
       image_size: 이미지 크기
@@ -896,6 +907,7 @@ ko:
           river: 강
           riverbank: 강가
           stream: 하류
+          wadi: 와디
           water_point: 급수소
           waterfall: 폭포
           weir: 댐
@@ -980,10 +992,18 @@ ko:
       text: 이 번역한 문서와 %{english_original_link} 사이에 상충하는 경우, 영어 문서가 우선합니다
       title: 이 번역에 대한 정보
     legal_babble: 
+      attribution_example: 
+        alt: 웹페이지에 OpenStreetMap에 저작자를 표시하는 방법의 예
+        title: 저작자 표시 예
       contributors_title_html: 우리의 기여자
       credit_1_html: "&ldquo;&copy; OpenStreetMap \n기여자&rdquo; 로 제작진을 적어야 합니다."
+      credit_3_html: "찾아볼 수 있는 전자 지도에 대해서는 제작진은 지도의 모서리에 보여야만 합니다.\n예를 들어:"
       credit_title_html: OpenStreetMap 제작진 적는 방법
       infringement_title_html: 저작권 침해
+      intro_1_html: "OpenStreetMap은 <i>오픈 데이터</i>로 <a\nhref=\"http://opendatacommons.org/licenses/odbl/\">오픈 데이터\n커먼즈 오픈 데이터베이스 라이선스</a>(ODbL)에 따라 사용할 수 있습니다."
+      intro_2_html: "당신은 가능하면 OpenStreetMap 제작진과 기여로\n자유롭게 복사, 배포, 전송 및 데이터를 적용할 수 있습니다.\n데이터를 바꾸거나 데이터에 기초로 할 때는 오로지\n같은 라이선스 하에만 결과를 배포할 수 있습니다.\n<a href=\"http://opendatacommons.org/licenses/odbl/1.0/\">전문</a>은\n당신의 권리와 책임을 설명합니다."
+      intro_3_html: "지도 타일로 지도 제작과 설명서는\n<a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">크리에이티브\n커먼즈 저작자표시-동일조건변경허락 2.0</a> 라이선스(CC-BY-SA)하에 허가됩니다."
+      more_1_html: "데이터를 사용하는 방법과 제작진을 표시하는 방법에 대해서는 <a\nhref=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">법적\nFAQ</a>를 자세히 읽으세요."
       more_title_html: 자세히 찾기
       title_html: 저작권 및 라이선스
     native: 
@@ -1056,6 +1076,9 @@ ko:
       title: 메시지 읽기
       to: 받는 사람
       unread_button: 읽지 않음으로 표시
+      wrong_user: "'%{user}' 사용자로 로그인하고 있지만 읽기를 요청한 메시지가 해당 사용자에게 보내지지 않았습니다. 읽으려면 올바른 사용자로 로그인하세요."
+    reply: 
+      wrong_user: "'%{user}' 사용자로 로그인하고 있지만 답장을 요청한 메시지가 해당 사용자에게 보내지지 않았습니다. 답장을 하려면 올바른 사용자로 로그인하세요."
     sent_message_summary: 
       delete_button: 삭제
   notifier: 
@@ -1067,11 +1090,14 @@ ko:
     email_confirm: 
       subject: "[OpenStreetMap] 이메일 주소 확인"
     email_confirm_html: 
+      click_the_link: 만약 당신이라면 바뀜을 확인하기 위해 아래 링크를 클릭하세요.
       greeting: 안녕하세요,
+      hopefully_you: 누군가가 아마 자신이 %{server_url} 에 %{new_address} 로 이메일 주소를 바꾸고 싶습니다.
     email_confirm_plain: 
+      click_the_link: 만약 당신이라면 바뀜을 확인하기 위해 아래 링크를 클릭하세요.
       greeting: 안녕하세요,
-      hopefully_you_1: 누군가(바라는 데 당신)가 여기를 통해 이메일 주소를 바꾸고 싶습니다.
-      hopefully_you_2: "%{server_url}(은)는 %{new_address}에 있습니다."
+      hopefully_you_1: 누군가가 아마 자신이 여기를 통해 이메일 주소를 바꾸고 싶습니다.
+      hopefully_you_2: "%{server_url} (은)는 %{new_address} 에 있습니다."
     friend_notification: 
       befriend_them: 또한 %{befriendurl}에서 친구로 추가할 수 있습니다.
       had_added_you: "%{user} 님이 당신을 OpenStreetMap 친구로 추가하였습니다."
@@ -1094,10 +1120,13 @@ ko:
     lost_password: 
       subject: "[OpenStreetMap] 비밀번호 초기화 요청"
     lost_password_html: 
+      click_the_link: 만약 당신이라면 비밀번호를 재설정하기 위해 아래 링크를 클릭하세요.
       greeting: 안녕하세요,
+      hopefully_you: 누군가가 아마 자신이 이 이메일 계정의 openstreetmap.org 계정에서 재설정할 비밀번호를 요청했습니다.
     lost_password_plain: 
+      click_the_link: 만약 당신이라면 비밀번호를 재설정하기 위해 아래 링크를 클릭하세요.
       greeting: 안녕하세요,
-      hopefully_you_1: 누군가(아마도 당신)가 openstreetmap.org 계정의 이 이메일 주소로
+      hopefully_you_1: 누군가가 아마 자신이 openstreetmap.org 계정의 이 이메일 주소로
       hopefully_you_2: 재설정할 비밀번호를 요청했습니다.
     message_notification: 
       footer1: "%{readurl} 에서도 쪽지를 확인할 수 있습니다."
@@ -1105,35 +1134,51 @@ ko:
       header: "%{from_user} 님이 OpenStreetMap을 통해 %{subject} 쪽지를 보냈습니다."
       hi: "%{to_user}님 안녕하세요."
     signup_confirm: 
+      confirm: "무엇을 하기 전에 당신에게 온 요청을 확인해야 하며 만약 당신에게 온 요청이 맞다면 계정을 확인하기 위해 아래 링크를 클릭하세요:"
+      created: 누군가가 아마도 자신이 %{site_url} 에 계정을 만들었습니다.
+      greeting: 안녕하세요!
       subject: "[OpenStreetMap] OpenStreetMap에 오신 것을 환영합니다"
+      welcome: 당신을 환영하고 시작하기 위해 몇 가지 추가 정보를 제공하게 됩니다.
     signup_confirm_html: 
+      ask_questions: <a href="http://help.openstreetmap.org/">질문과 답변 사이트</a>에서 OpenStreetMap에 대해 무엇이든 질문을 할 수 있습니다.
+      current_user: 세계 사람이 사는 위치에 따라 분류한 현재 사용자의 목록은 <a href="http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region">Category:Users_by_geographical_region</a>에서 볼 수 있습니다.
+      get_reading: <a href="http://wiki.openstreetmap.org/wiki/Beginners%27_Guide">위키에서</a> OpenStreetMap에 대해 읽을 것을 얻고, <a href="http://blog.openstreetmap.org/">OpenStreetMap 블로그</a>나 <a href="http://twitter.com/openstreetmap">트위터</a>를 통해 최신 뉴스를 따라 잡고, 또는 프로젝트에 담긴 역사의 OpenStreetMap 설립자인 Steve Coast의 <a href="http://www.opengeodata.org/">OpenGeoData 블로그</a>를 찾아볼 수 있고, 또한 <a href="http://www.opengeodata.org/?cat=13">팟캐스트를 들어보세요</a>!
+      introductory_video: "%{introductory_video_link}을 볼 수 있습니다."
       more_videos: "%{more_videos_link}이 있습니다."
       more_videos_here: 여기에 더 많은 동영상이 있습니다
+      user_wiki_page: <a href="http://wiki.openstreetmap.org/wiki/Category:Users_in_Seoul">[[Category:Users_in_Seoul]]</a>과 같이 당신이 어디에 있는지 생각하여 분류 태그를 포함하는 사용자 위키 문서를 만들 것을 권장합니다.
       video_to_openstreetmap: OpenStreetMap 소개 동영상
+      wiki_signup: 또한 <a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page&uselang=ko">OpenStreetMap 위키에 가입할</a> 수 있습니다.
     signup_confirm_plain: 
+      ask_questions: "질문과 답변 사이트에서 OpenStreetMap에 대해 무엇이든 질문을 할 수 있습니다:"
       blog_and_twitter: "OpenStreetMap 블로그 또는 트위터를 통해 최신 뉴스 보기:"
+      current_user: "세계 사람이 사는 위치에 따라 분류한 현재 사용자의 목록은 다음에서 볼 수 있습니다:"
       introductory_video: "여기서 OpenStreetMap 소개 동영상을 볼 수 있습니다:"
       more_videos: "여기에 더 많은 동영상이 있습니다:"
+      opengeodata: "OpenGeoData.org는 OpenStreetMap 설립자 Steve Coast의 블로그이며 팟캐스트도 있습니다:"
       the_wiki: "위키에서 OpenStreetMap에 대하여 읽어보기:"
+      user_wiki_page: "[[Category:Users_in_Seoul]]과 같이 당신이 어디에 있는지 생각하여 분류 태그를 포함하는 사용자 위키 문서를 만들 것을 권장합니다."
+      wiki_signup: "또한 OpenStreetMap 위키에 가입할 수 있습니다:"
   oauth: 
     oauthorize: 
       allow_read_gpx: 비공개 GPS 추적을 읽습니다.
       allow_read_prefs: 사용자 환경 설정을 읽습니다.
-      allow_to: "다음 클라이언트 어플리케이션을 허용합니다:"
+      allow_to: "다음 클라이언트 응용 프로그램을 허용합니다:"
       allow_write_api: 지도를 수정합니다.
       allow_write_diary: 일지 항목을 만들고 덧글을 달고 친구를 만듭니다.
       allow_write_gpx: GPS 추적을 올립니다.
       allow_write_prefs: 사용자 환경 설정을 수정합니다.
+      request_access: "%{app_name} 응용 프로그램이 %{user} 계정에 접근을 요청합니다. 응용 프로그램이 다음 기능을 수행할 것인지 확인하세요. 원하는 많큼 많거나 적게 선택할 수 있습니다."
     revoke: 
       flash: "%{application}에 대한 토큰을 철회했습니다"
   oauth_clients: 
     create: 
       flash: 성공적으로 정보를 등록했습니다
     destroy: 
-      flash: 클라이언트 어플리케이션 등록을 파괴했습니다
+      flash: 클라이언트 응용 프로그램 등록을 파괴했습니다
     edit: 
       submit: 편집
-      title: 어플리케이션 편집
+      title: 응용 프로그램 편집
     form: 
       allow_read_gpx: 비공개 GPS 추적을 읽습니다.
       allow_read_prefs: 사용자 환경 설정을 읽습니다.
@@ -1146,18 +1191,21 @@ ko:
       requests: "사용자가 다음 권한을 요청합니다:"
       required: 필수
       support_url: 지원 URL
-      url: 주요 어플리케이션 URL
+      url: 주요 응용 프로그램 URL
     index: 
-      application: 어플리케이션 이름
+      application: 응용 프로그램 이름
       issued_at: 발행
-      my_apps: 내 클라이언트 어플리케이션
-      my_tokens: 내 인증한 어플리케이션
-      register_new: 어플리케이션 등록
+      list_tokens: "다음 토큰이 내 이름으로 응용 프로그램에 발급했습니다:"
+      my_apps: 내 클라이언트 응용 프로그램
+      my_tokens: 내 인증한 응용 프로그램
+      no_apps: "%{oauth} 표준을 사용하여 OpenStreetMap과 함께 사용하기 위해 등록할 응용 프로그램이 있습니까? 이 서비스에 OAuth를 요청하기 전에 웹 응용 프로그램을 등록해야 합니다."
+      register_new: 응용 프로그램 등록
+      registered_apps: "등록한 다음 클라이언트 응용 프로그램이 있습니다:"
       revoke: 철회!
       title: 내 OAuth 자세한 정보
     new: 
       submit: 등록
-      title: 새 어플리케이션 등록
+      title: 새 응용 프로그램 등록
     not_found: 
       sorry: 죄송합니다, 해당 %{type}(을)를 찾을 수 없습니다.
     show: 
@@ -1172,7 +1220,10 @@ ko:
       confirm: 확실합니까?
       delete: 클라이언트 삭제
       edit: 자세한 사항 편집
+      key: "컨슈머 키:"
       requests: "사용자가 다음 권한을 요청합니다:"
+      secret: "컨슈머 비밀 값:"
+      support_notice: SSL 모드에서 일반 텍스트 뿐만 아니라 HMAC-SHA1(권장)도 지원하고 있습니다.
       title: "%{app_name}에 데한 OAuth 자세한 정보"
       url: "요청 토큰 URL:"
     update: 
@@ -1211,7 +1262,13 @@ ko:
   site: 
     edit: 
       anon_edits_link_text: 왜 이러한지 알아보세요.
-      potlatch_unsaved_changes: 바뀜 사항을 저장하지 않았습니다. (Potlatch에 저장하려면 라이브 모드에서 편집하는 경우, 현재의 방식이나 지점을 선택을 해제하거나 저장 버튼이 있다면 저장을 클릭해야 합니다.)
+      flash_player_required: OpenStreetMap 플래시 편집기인 Potlatch를 사용하려면 플래시 플래이어가 필요합니다. <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">Adobe.com에서 플래시 플레이어를 다운로드</a>할 수 있습니다. <a href="http://wiki.openstreetmap.org/wiki/Editing">몇 가지 다른 설정</a> 또한 OpenStreetMap 편집을 위해 사용할 수 있습니다.
+      no_iframe_support: 브라우저가 이 기능에 필요한 HTML iframe을 지원하지 않습니다.
+      not_public: 공개할 편집을 설정하지 않았습니다.
+      not_public_description: 이렇게 하지 않으면 더 이상 지도를 편집할 수 없습니다. %{user_page}에서 공개로 편집을 설정할 수 있습니다.
+      potlatch2_not_configured: Potlatch 2가 설정되지 않았습니다 - 자세한 정보는 http://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2 를 참고하세요
+      potlatch2_unsaved_changes: 바뀜을 저장하지 않았습니다. (Potlatch 2에서 저장하려면 저장을 클릭해야 합니다.)
+      potlatch_unsaved_changes: 바뀜을 저장하지 않았습니다. (Potlatch에 저장하려면 라이브 모드에서 편집하는 경우, 현재의 방식이나 지점을 선택을 해제하거나 저장 버튼이 있다면 저장을 클릭해야 합니다.)
       user_page_link: 사용자 문서
     index: 
       js_1: 자바스크립트를 지원하지 않는 브라우저이거나, 자바스크립트가 활성화 되어 있지 않습니다.
@@ -1219,6 +1276,7 @@ ko:
       license: 
         copyright: 저작권 OpenStreetMap과 기여자, 오픈 라이선스로 배포
       permalink: 고유링크
+      remote_failed: 편집을 실패했습니다 - JOSM이나 Merkaartor를 불러왔고 원격 제어 설정이 활성화되어 있는지 확인하세요
       shortlink: 짧은링크
     key: 
       map_key: 지도 키
@@ -1311,7 +1369,7 @@ ko:
       search_help: "예제: 'Alkmaar', 'Regent Street, Cambridge', 'CB2 5AQ', 또는 'post offices near Lünen' <a href='http://wiki.openstreetmap.org/wiki/Search'>더 많은 예제...</a>"
       submit_text: 가기
       where_am_i: 내가 어디있나요?
-      where_am_i_title: 검색 엔진을 사용하여 현재 위치를 설명
+      where_am_i_title: 검색 엔진을 사용하여 현재 위치를 나타냅니다
     sidebar: 
       close: 닫기
       search_results: 찾기 결과
@@ -1320,6 +1378,7 @@ ko:
       friendly: "%Y년 %B %e일 %H:%M"
   trace: 
     create: 
+      trace_uploaded: GPX 파일을 올리고 있으며 데이터베이스에 삽입을 기다리고 있습니다. 이 작업은 보통 반 시간 내에 수행하며 완료되면 이메일을 보낼 것입니다.
       upload_trace: GPS 추적 올리기
     delete: 
       scheduled_for_deletion: 삭제 예정 추적
@@ -1341,6 +1400,7 @@ ko:
       visibility: "공개 여부:"
       visibility_help: 이게 무슨 의미입니까?
     list: 
+      empty_html: 여기에 아직 아무것도 없습니다. <a href='%{upload_link}'>새 추적을 올리거나</a> <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>위키 문서</a>에 GPS 추적에 대한 자세한 내용을 알아보세요.
       public_traces: 공개 GPS 추적
       public_traces_from: "%{user} 사용자의 공중 GPS 추적"
       tagged_with: "%{tags}로 태그함"
@@ -1349,6 +1409,9 @@ ko:
       made_public: 추적이 공개적으로 만들어짐
     offline: 
       heading: GPX 저장소 오프라인
+      message: GPX 파일 저장소와 올리기 시스템은 현재 사용할 수 없습니다.
+    offline_warning: 
+      message: GPX 파일 올리기 시스템은 현재 사용할 수 없습니다
     trace: 
       ago: "%{time_in_words_ago} 전"
       by: 사용자
@@ -1377,13 +1440,14 @@ ko:
     trace_header: 
       see_all_traces: 모든 추적 보기
       see_your_traces: 내 추적 보기
+      traces_waiting: 올리기를 기다리는 추적 %{count}개가 있습니다. 이 올리기가 완료될 때까지 기다리세요. 다른 사용자의 올리기가 제한되어 버립니다.
       upload_trace: 추적 올리기
     trace_optionals: 
       tags: 태그
     trace_paging_nav: 
       newer: 다음 추적
       older: 이전 추적
-      showing_page: 페이지 %{page}개 보임
+      showing_page: 페이지 %{page} 보는 중
     view: 
       delete_track: 이 추적 삭제
       description: "설명:"
@@ -1412,15 +1476,20 @@ ko:
     account: 
       contributor terms: 
         agreed: 새 기여자 약관에 동의했습니다.
+        agreed_with_pd: 또한 자신의 편집이 퍼블릭 도메인에 있어야 한다고 생각하는 것도 선언하고 있습니다.
         heading: "기여자 약관:"
         link text: 이게 뭐죠?
         not yet agreed: 아직 새 기여자 약관에 동의하지 않았습니다.
+        review link text: 검토할 사용자의 편의에 이 링크를 따르고 새 기여자 약관에 동의하세요.
       current email address: "현재 이메일 주소:"
       delete image: 현재 이미지 제거
       email never displayed publicly: (절대 공개하지 않습니다)
       flash update success: 사용자 정보를 성공적으로 업데이트했습니다.
       flash update success confirm needed: 사용자 정보를 성공적으로 업데이트했습니다. 새 이메일 주소를 확인하기 위해 이메일을 확인하세요.
-      home location: "대문 위치:"
+      gravatar: 
+        gravatar: Gravatar 사용
+        link text: 이게 뭐죠?
+      home location: "생활 위치:"
       image: "그림:"
       image size hint: (100x100 이하의 정사각형 그림이 최적)
       keep image: 현재 이미지를 유지
@@ -1430,7 +1499,7 @@ ko:
       my settings: 내 설정
       new email address: "새 이메일 주소:"
       new image: 그림 추가
-      no home location: 대문 위치를 입력하지 않았습니다.
+      no home location: 생활 위치를 입력하지 않았습니다.
       openid: 
         link: http://wiki.openstreetmap.org/wiki/OpenID
         link text: 이게 뭐죠?
@@ -1447,16 +1516,19 @@ ko:
         heading: "공개 편집:"
       public editing note: 
         heading: 공개 편집
+        text: 현재 편집은 익명이고 사람이 당신에게 메시지를 보내거나 위치를 볼 수 없습니다. 당신이 편집한 것으로 나타내고 사람이 웹 사이트를 통해 연락을 허용하려면 아래 버튼을 클릭하세요. <b>0.6 API 역전 이후 공개 새용자만 지도 데이터를 편집할 수 있습니다</b>. (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">이유 알아보기</a>).<ul><li>이메일 주소는 공개함으로서 추가로 공개하지 않습니다.</li><li>이 작업을 되돌릴 수 없고 모든 새 사용자는 지금 기본값으로 공개입니다.</li></ul>
       replace image: 현재 이미지 대체
       return to profile: 프로필로 돌아가기
       save changes button: 바뀐 사항 저장
       title: 계정 편집
-      update home location on click: 지도에서 클릭하면 대문 위지로 업데이트할까요?
+      update home location on click: 지도에서 클릭하면 생활 위치로 업데이트할까요?
     confirm: 
       already active: 이 계정은 이미 확인했습니다.
+      before you start: 매핑을 시작하는 데 서두를 것을 알지만 전에 아래의 양식에 자신에 대한 조금 자세한 정보를 채울 수 있습니다.
       button: 확인
       heading: 사용자 계정 확인
       press confirm button: 계정을 활성화하려면 아래 확인 버튼을 누르세요.
+      reconfirm: 가입한 지 조금 오래 있었다면 <a href="%{reconfirm}">자신에게 새 확인 이메일 보내야</a> 할 수 있습니다.
       success: 계정을 확인했습니다, 가입해주셔서 감사합니다!
       unknown token: 이 토큰이 존재하지 않습니다.
     confirm_email: 
@@ -1467,6 +1539,7 @@ ko:
       success: 이메일 계정을 확인했습니다, 가입해주셔서 감사합니다!
     confirm_resend: 
       failure: "%{name} 사용자를 찾을 수 없습니다."
+      success: "%{email} 로 새 확인 쪽지를 보냈는데 즉시 계정을 확인하는 대로 매핑을 할 수 있습니다.<br /><br />확인 요청을 보낼 때 스팸 방지 시스템을 사용한다면 어떤 확인 요청에 답변할 수 없으므로 화이트리스트에 webmaster@openstreetmap.org 가 있는지 확인하세요."
     filter: 
       not_an_administrator: 해당 동작을 수행하려면 관리자 권한이 필요합니다.
     go_public: 
@@ -1477,12 +1550,14 @@ ko:
       heading: 사용자
       hide: 선택한 사용자 숨기기
       showing: 
-        one: 페이지 %{page}개 보임 (%{items} 중 %{first_item})
-        other: 페이지 %{page}개 보임 (%{items} 중 %{first_item}-%{last_item})
+        one: 페이지 %{page} 보는 중 (%{items} 중 %{first_item})
+        other: 페이지 %{page} 보는 중 (%{items} 중 %{first_item}-%{last_item})
       summary: "%{name}(이)가 %{date}에 %{ip_address}에서 만들어짐"
       summary_no_ip: "%{name}(이)가 %{date}에 만들어짐"
       title: 사용자
     login: 
+      account is suspended: 죄송합니다, 의심스러운 활동으로 인해 계정이 일시 중지되었습니다.<br />이 문제를 토론하려면 <a href="%{webmaster}">웹마스터</a>에게 문의하세요.
+      account not active: 죄송합니다, 계정을 아직 활성화하지 않았습니다.<br />계정을 활성화하려면 계정 확인 이메일에 있는 링크를 사용하거나 <a href="%{reconfirm}">새 확인 이메일을 요청하세요</a>.
       auth failure: 죄송합니다, 자세한 내용으로 로그인할 수 없습니다.
       create account minute: 계정을 만듭니다. 1분도 걸리지 않습니다.
       email or username: "이메일 주소 또는 사용자 이름:"
@@ -1542,15 +1617,20 @@ ko:
     new: 
       confirm email address: "이메일 주소 확인:"
       confirm password: "비밀번호 확인:"
+      contact_webmaster: 계정을 만들 수 있도록 <a href="mailto:webmaster@openstreetmap.org">웹마스터</a>에게 문의하세요. 희망에 대응하기 위해 노력하고 가능한 빨리 요청을 처리합니다.
       continue: 계속
       display name: "보여줄 이름:"
       display name description: 공개적으로 보여질 사용자 이름입니다. 나중에 환경 설정에서 바꿀 수 있습니다.
       email address: "이메일 주소:"
       fill_form: 양식을 채우고 우리에게 계정을 활성화하기 위해 신속하게 이메일을 보내드립니다.
+      flash create success message: 가입해주셔서 감사합니다. %{email} 로 확인 쪽지를 보냈는데 즉시 계정을 확인하는 대로 매핑을 할 수 있습니다.<br /><br />확인 요청을 보낼 때 스팸 방지 시스템을 사용한다면 어떤 확인 요청에 답변할 수 없으므로 화이트리스트에 webmaster@openstreetmap.org 가 있는지 확인하세요.
+      flash welcome: 가입해주셔서 감사합니다. 우리는 시작하기 위한 힌트와 함께 %{email} 로 환영 메시지를 보냈습니다.
       heading: 사용자 계정 만들기
       license_agreement: 계정을 확인하면 당신은 <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">기여자 약관</a>에 동의해야합니다.
+      no_auto_account_create: 불행하게도 현재로서는 자동으로 계정을 만들 수 없습니다.
       not displayed publicly: 공개적으로 보여지지 않습니다 (<a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="이메일 주소에 대한 부분을 포함한 위키 개인정보 정책">개인정보 정책</a>을 참고하세요)
       openid: "%{logo} OpenID:"
+      openid association: "<p>OpenID는 아직 OpenStreetMap 계정과 연결되지 않았습니다.</p>\n<ul>\n  <li>OpenStreetMap에 새로 가입하려면 아래의 양식을 사용하여 새 계정을 만드세요.</li>\n  <li>\n    이미 계정이 있다면 사용자 이름과 비밀번호를 사용해 로그인하고 나서\n    사용자 설정에서 OpenID와 계정을 연결할 수 있습니다.\n  </li>\n</ul>"
       openid no password: OpenID로 비밀번호가 필요하지 않지만 몇가지 추가 도구나 서버는 여전히 비밀번호가 필요할 수 있습니다.
       password: "비밀번호:"
       terms accepted: 새 기여자 약관에 동의하셔서 감사합니다!
@@ -1558,6 +1638,7 @@ ko:
       title: 계정 만들기
       use openid: 또는 %{logo} OpenID를 사용하여 로그인하세요
     no_such_user: 
+      body: 죄송합니다, %{user} 이름으로 된 사용자가 없습니다. 맞춤법이나 클릭한 링크가 잘못됐는지 확인하세요.
       heading: "%{user} 사용자는 존재하지 않습니다"
       title: 이러한 사용자는 없습니다
     popup: 
@@ -1578,21 +1659,27 @@ ko:
       reset: 비밀번호 초기화
       title: 비밀번호 초기화
     set_home: 
-      flash success: 대문 주소를 성공적으로 저장했습니다
+      flash success: 생활 주소를 성공적으로 저장했습니다
     suspended: 
+      body: "<p>\n  죄송합니다, 의심스러운 활동으로 인해 계정이 자동으로\n  일시 중지되었습니다.\n</p>\n<p>\n  이 결정은 곧 관리자가 검토할 것입니다. 또는\n  이 문제를 토론하려면 %{webmaster}에게 문의할 수 있습니다.\n</p>"
       heading: 계정 정지
       title: 계정 정지
       webmaster: 웹마스터
     terms: 
       agree: 동의
+      consider_pd: 위의 계약뿐만 아니라 내 기여가 퍼블릭 도메인에 있는지 고려하세요
       consider_pd_why: 이게 뭐죠?
       decline: 거부
+      guidance: "약관을 이애햐는 데 유용한 정보: <a href=\"%{summary}\">사람이 읽을 수 있는 요약</a>과 일부 <a href=\"%{translations}\">비공식 번역</a>"
       heading: 기여자 약관
       legale_names: 
         france: 프랑스
         italy: 이탈리아
-        rest_of_world: 세계의 나머지
+        rest_of_world: 나머지 국가
+      legale_select: "거주 국가를 선택하세요:"
+      read and accept: 아래의 계약을 읽고 기존 및 앞으로의 기여가 계약 약관에 동의했는지 확인하려면 동의 버튼을 누르세요.
       title: 기여자 약관
+      you need to accept or decline: 계속하려면 새 기여자 약관을 읽고 나서 동의나 거부하세요.
     view: 
       activate_user: 이 사용자 활성화
       add as friend: 친구 추가
@@ -1618,6 +1705,7 @@ ko:
       friends_changesets: 친구의 모든 바뀜집합 찾아보기
       friends_diaries: 친구의 모든 일지 항목 찾아보기
       hide_user: 이 사용자를 숨기기
+      if set location: 위치를 설정하면 예쁜 지도와 물건이 여기에 나타납니다. %{settings_link} 페이지에 생활 주소를 설정할 수 있습니다.
       km away: "%{count}km 거리"
       latest edit: "최근 편집 %{ago}:"
       m away: "%{count}m 거리"
@@ -1664,12 +1752,20 @@ ko:
       title: "%{name} 사용자에 대해 차단"
     create: 
       flash: "%{name} 사용자를 차단했습니다."
+      try_contacting: 차단하기 전에 사용자에게 연락하여 사용자가 대답할 수 있는 충분한 시간을 주세요.
+      try_waiting: 차단하기 전에 사용자에게 대답할 수 있는 충분한 시간을 주세요.
     edit: 
       back: 모든 차단 보기
       heading: "%{name} 사용자에 대한 차단 편집"
+      needs_view: 이 차단을 해제하기 전에 사용자가 로그인을 해야 합니까?
+      period: 사용자가 지금부터 얼마나 오랫동안 API에서 차단하나요.
+      reason: "%{name} 사용자를 차단한 이유입니다. 상황에 대해 가능한 한 냉정하고 합리적으로 최대한 정중하게 상황을 설명하도록 하세요. 모든 사용자가 공동체 내에서의 전문 용어를 이해하고 있는 것인 아니기 때문에 알기 쉬운 용어를 사용하도록 노력하세요."
       show: 이 차단 보기
       submit: 차단 업데이트
       title: "%{name} 사용자에 대한 차단 편집"
+    filter: 
+      block_expired: 차단은 이미 만료되었고 편집할 수 없습니다.
+      block_period: 차단 기간은 드롭 다운 목록에서 선택할 수 있는 값 중 하나여야 합니다.
     helper: 
       time_future: "%{time}에 끝납니다."
       time_past: "%{time} 전에 끝났습니다."
@@ -1684,8 +1780,13 @@ ko:
     new: 
       back: 모든 차단 보기
       heading: "%{name} 사용자 차단"
+      needs_view: 차단 해제하기 전에 로그인해야 합니다
+      period: 사용자가 지금부터 얼마나 오랫동안 API에서 차단하나요.
+      reason: "%{name} 사용자를 차단한 이유입니다. 메시지가 대중에 공개적으로 보여지기 때문에, 상황에 대해 가능한 한 냉정하고 합리적으로 최대한 정중하게 상황을 설명하도록 하세요. 모든 사용자가 공동체 내에서의 전문 용어를 이해하고 있는 것인 아니기 때문에 알기 쉬운 용어를 사용하도록 노력하세요."
       submit: 차단 만들기
       title: "%{name} 사용자 차단"
+      tried_contacting: 사용자에게 연락하여 이를 멈추도록 요청했습니다.
+      tried_waiting: 의사 소통에 대답한 사용자에게 충분한 시간을 주었습니다.
     not_found: 
       back: 색인으로 돌아가기
       sorry: 죄송합니다, %{id} ID로 된 사용자 차단을 찾을 수 없습니다.
@@ -1701,7 +1802,7 @@ ko:
       revoke: 철회!
       revoker_name: 철회자
       show: 보기
-      showing_page: 페이지 %{page}개 보임
+      showing_page: 페이지 %{page} 보는 중
       status: 상태
     period: 
       one: 1시간
@@ -1735,11 +1836,17 @@ ko:
     filter: 
       already_has_role: 사용자는 이미 %{role} 역할이 있습니다.
       doesnt_have_role: 사용자는 %{role} 역할이 없습니다.
+      not_a_role: "'%{role}' 문자열은 올바른 역할이 아닙니다."
+      not_an_administrator: 관리자만 사용자 역할 관리를 수행할 수 있습니다, ​​당신은 관리자가 아닙니다.
     grant: 
+      are_you_sure: "'%{name}' 사용자한테 '%{role}' 역할을 부여하겠습니까?"
       confirm: 확인
+      fail: "'%{name} 사용자에게 '%{role}' 역할을 부여할 수 없습니다. 사용자와 역할이 모두 올바른지 확인하세요."
       heading: 역할 부여 확인
       title: 역할 부여 확인
     revoke: 
+      are_you_sure: "'%{name}' 사용자한테 '%{role}' 역할을 철회하겠습니까?"
       confirm: 확인
+      fail: "'%{name} 사용자에게 '%{role}' 역할을 철회할 수 없습니다. 사용자와 역할이 모두 올바른지 확인하세요."
       heading: 역할 철회 확인
       title: 역할 철회 확인

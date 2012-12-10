@@ -1,3 +1,4 @@
+//= require_self
 //= require index/browse
 //= require index/export
 //= require index/key
