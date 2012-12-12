@@ -129,7 +129,8 @@ $(document).ready(function () {
     $("#search_form").submit();
   }
 
-  // Focus the search field.
-  $("#query").focus();
-
+  // Focus the search field (version for browsers that don't support the HTML5 'autofocus' attribute.
+  if (!("autofocus" in document.createElement("input"))) {
+    $("#query").focus();
+  }
 });
