@@ -128,4 +128,8 @@ $(document).ready(function () {
   if ($("#query").val()) {
     $("#search_form").submit();
   }
+
+  // Focus the search field.
+  $("#query").focus();
+
 });
