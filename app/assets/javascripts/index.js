@@ -139,4 +139,10 @@ $(document).ready(function () {
     loadHistoryForCurrentViewport();
     return false;
   });
+
+  // Focus the search field for browsers that don't support
+  // the HTML5 'autofocus' attribute
+  if (!("autofocus" in document.createElement("input"))) {
+    $("#query").focus();
+  }
 });
