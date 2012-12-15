@@ -4,30 +4,9 @@
 var owlLayer;
 var owlObjectLayers = {};
 var initialized = false;
-var pageSize = 20;
+var pageSize = 15;
 var currentOffset = 0;
-
-// Add bounding boxes and point markers for changesets.
-function addObjectLayers(changesets) {
-  $.each(changesets, function (index, changeset) {
-    if (!changeset.tile_bboxes) { return; }
-    $.each(changeset.tile_bboxes, function (index, bbox) {
-      if (!(changeset.id in owlObjectLayers)) {
-        owlObjectLayers[changeset.id] = [];
-      }
-      if (bbox[1] == bbox[3] && bbox[0] == bbox[2]) {
-        owlObjectLayers[changeset.id].push(L.marker([bbox[1], bbox[0]]).addTo(map));
-      } else {
-        owlObjectLayers[changeset.id].push(L.rectangle([[bbox[1], bbox[0]], [bbox[3], bbox[2]]], {
-          color: 'black',
-          opacity: 1,
-          weight: 1,
-          fillColor: 'red',
-          fillOpacity: 0.25}).addTo(map));
-      }
-    });
-  });
-}
+var geoJSONLayer;
 
 function initOwlLayer() {
   if (initialized) {
@@ -38,11 +17,41 @@ function initOwlLayer() {
   initialized = true;
   removeObjectLayers();
   map.on('moveend', handleMapChange);
+  geoJSONStyle = {
+        "color": "yellow",
+        "fillColor": "yellow",
+        "weight": 10,
+        "opacity": 0.75,
+        "fillOpacity": 0.75
+  };
+  geoJSONLayer = new L.GeoJSON(null, {
+      /*pointToLayer: function(featureData, latlng) {
+          return new L.Circle(latlng, 2);
+      },
+      onEachFeature: function (feature, layer) {
+          layer.setStyle(geoJSONStyle);
+          layer.on('mouseover', function() {
+              layer.setStyle({
+                  "color": "blue",
+                  "opacity": 0.05,
+                  "fillOpacity": 0.05
+              });
+              highlightChangeset(getChangesetIdFromFeatureId(feature.id));
+          });
+          layer.on('mouseout', function() {
+              layer.setStyle(geoJSONStyle);
+              unhighlightChangeset(getChangesetIdFromFeatureId(feature.id));
+          });
+      }*/
+  });
+  map.addLayer(geoJSONLayer);
 }
 
 function destroyOwlLayer() {
   map.off('moveend', handleMapChange);
   removeObjectLayers();
+  map.removeLayer(geoJSONLayer);
+  geoJSONLayer = null;
   owlLayer = null;
   initialized = false;
   currentOffset = 0;
@@ -95,10 +104,11 @@ function refreshHistoryData() {
   $.ajax({
     url: getUrlForTilerange(),
     dataType: 'jsonp',
-    success: function(changesets) {
+    success: function(geojson) {
       console.log('success');
+      var changesets = changesetsFromGeoJSON(geojson);
       removeObjectLayers();
-      addObjectLayers(changesets);
+      addGeoJSON(geojson);
       $("#sidebar_content").html(JST["templates/history"]({
         changesets: sortChangesets(changesets)
       }));
@@ -148,5 +158,41 @@ function getUrlForTilerange() {
   return OSM.OWL_API_URL + 'changesets/'
       + map.getZoom() + '/'
       + nwTilePoint.x + '/' + nwTilePoint.y + '/'
-      + seTilePoint.x + '/' + seTilePoint.y + '.json?limit=' + pageSize + '&offset=' + currentOffset;
+      + seTilePoint.x + '/' + seTilePoint.y + '.geojson?limit=' + pageSize + '&offset=' + currentOffset;
+}
+
+// Add bounding boxes and point markers for changesets.
+function addObjectLayers(changesets) {
+  $.each(changesets, function (index, changeset) {
+    if (!changeset.bboxes) { return; }
+    $.each(changeset.bboxes, function (index, bbox) {
+      if (!(changeset.id in owlObjectLayers)) {
+        owlObjectLayers[changeset.id] = [];
+      }
+      if (bbox[1] == bbox[3] && bbox[0] == bbox[2]) {
+        owlObjectLayers[changeset.id].push(L.marker([bbox[1], bbox[0]]).addTo(map));
+      } else {
+        owlObjectLayers[changeset.id].push(L.rectangle([[bbox[1], bbox[0]], [bbox[3], bbox[2]]], {
+          color: 'black',
+          opacity: 1,
+          weight: 1,
+          fillColor: 'red',
+          fillOpacity: 0.25}).addTo(map));
+      }
+    });
+  });
+}
+
+// Add bounding boxes and point markers for changesets.
+function addGeoJSON(geojson) {
+  geoJSONLayer.clearLayers();
+  geoJSONLayer.addData(geojson);
+}
+
+function changesetsFromGeoJSON(geojson) {
+  var changesets = [];
+  $.each(geojson['features'], function (index, changeset) {
+    changesets.push(changeset['properties']);
+  });
+  return changesets;
 }
