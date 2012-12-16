@@ -6,6 +6,7 @@
 # Author: BeginaFelicysym
 # Author: Deejay1
 # Author: Nemo bis
+# Author: Odie2
 # Author: Przemub
 # Author: RafalR
 # Author: Soeb
@@ -85,6 +86,8 @@ pl:
   application: 
     require_cookies: 
       cookies_needed: Wydaje się, że masz wyłączoną obsługę ciasteczek (cookies) w swojej przeglądarce internetowej – włącz ją, zanim przejdziesz dalej.
+    require_moderator: 
+      not_a_moderator: Musisz być moderatorem, aby wykonać tą akcję.
     setup_user_auth: 
       blocked: Twój dostęp do API jest zablokowany. Zaloguj się do interfejsu sieciowego, aby dowiedzieć się więcej.
       need_to_see_terms: Dostęp do API został czasowo zawieszony. Proszę się zalogować do interfejsu sieci, aby wyświetlić postanowienia. Nie musisz ich akceptować, ale chociaż przejrzeć.
@@ -157,10 +160,10 @@ pl:
         prev_changeset_tooltip: Poprzednia edycja wykonana przez użytkownika %{user}
     node: 
       download_xml: Ściągnij XML
-      edit: edytuj
+      edit: Edytuj węzeł
       node: Węzeł
       node_title: "Węzeł: %{node_name}"
-      view_history: zobacz historię zmian
+      view_history: Zobacz historię
     node_details: 
       coordinates: "Współrzędne:"
       part_of: "Jest częścią:"
@@ -168,7 +171,7 @@ pl:
       download_xml: Ściągnij XML
       node_history: Historia zmian węzła
       node_history_title: "Historia punktu: %{node_name}"
-      view_details: zobacz szczegóły
+      view_details: Zobacz szczegóły
     not_found: 
       sorry: Niestety %{type} o id %{id} nie został znaleziony.
       type: 
@@ -180,6 +183,7 @@ pl:
       of: z
       showing_page: Widoczna jest strona
     redacted: 
+      message_html: Wersja % {version} tego % {type} nie może zostać pokazana jako zredagowana. Zapoznaj się z % {redaction_link}, aby uzyskać szczegółowe informacje.
       type: 
         node: węzeł
         relation: relacja
@@ -234,6 +238,7 @@ pl:
       show_areas: Pokaż obszary
       show_history: Pokaż zmiany
       unable_to_load_size: "Nie można załadować: prostokąt ograniczający %{bbox_size} jest zbyt duży (nie może przekraczać %{max_bbox_size} stopnia)"
+      view_data: Zobacz dane w aktualnym widoku mapy
       wait: Moment…
       zoom_or_select: Przybliż albo wybierz inny obszar mapy
     tag_details: 
@@ -292,6 +297,7 @@ pl:
       description_nearby: Zestawy zmian użytkowników znajdujących się w pobliżu
       description_user: Zestawy zmian utworzone przez użytkownika %{user}
       description_user_bbox: Zestawy zmian utworzone przez użytkownika %{user} w %{bbox}
+      empty_anon_html: Nie podjęto jeszcze edycji
       empty_user_html: Wydaje się że jeszcze nie edytowałeś. By zacząć, przejrzyj <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.3'>Przewodnik dla początkujących</a>.
       heading: Zestawy zmian
       heading_bbox: Zestawy zmian
@@ -311,6 +317,7 @@ pl:
     comments: 
       ago: "%{ago} temu"
       comment: Komentarz
+      has_commented_on: "%{display_name} skomentował następujące wpisy dziennika"
       newer_comments: Nowsze komentarze
       older_comments: Starsze komentarze
       post: Wpis
@@ -475,6 +482,7 @@ pl:
           auditorium: Audytorium
           bank: Bank
           bar: Bar
+          bbq: Miejsce do grillowania
           bench: Ławka
           bicycle_parking: Parking rowerowy
           bicycle_rental: Wypożyczalnia rowerów
@@ -573,6 +581,7 @@ pl:
         bridge: 
           aqueduct: Akwedukt
           suspension: Most wiszący
+          swing: Most obrotowy
           viaduct: Wiadukt
           "yes": Most
         building: 
@@ -665,6 +674,7 @@ pl:
           railway: Teren kolejowy
           recreation_ground: Ziemia rekreacyjna
           reservoir: Sztuczny zbiornik wodny
+          reservoir_watershed: Zbiornik wodny
           residential: Zabudowa mieszkaniowa
           retail: Handel detaliczny
           road: Obszar drogowy
@@ -707,6 +717,7 @@ pl:
           channel: Kanał
           cliff: Urwisko
           crater: Krater
+          dune: Wydma
           feature: Obiekt
           fell: Hale górskie
           fjord: Fiord
@@ -740,11 +751,18 @@ pl:
           wetlands: Obszary podmokłe
           wood: Puszcza
         office: 
+          accountant: Księgowy
           architect: Architekt
           company: Przedsiębiorstwo
           employment_agency: Urząd pracy
           estate_agent: Biuro nieruchomości
           government: Biura rządowe
+          insurance: Biuro ubezpieczeń
+          lawyer: Prawnik
+          ngo: Biuro organizacji pozarządowych
+          telecommunication: Urząd telekomunikacji
+          travel_agent: Biuro podróży
+          "yes": Biuro
         place: 
           airport: Lotnisko
           city: Miasto
@@ -756,6 +774,7 @@ pl:
           houses: Zabudowanie
           island: Wyspa
           islet: Wysepka
+          isolated_dwelling: Oddzielny dom-gospodarstwo
           locality: Rejon
           moor: Torfowisko
           municipality: Gmina
@@ -779,6 +798,7 @@ pl:
           junction: Węzeł kolejowy
           level_crossing: Przejazd kolejowy
           light_rail: Lekka kolej
+          miniature: Mini kolej
           monorail: Kolej jednoszynowa
           narrow_gauge: Kolej wąskotorowa
           platform: Peron
@@ -793,6 +813,7 @@ pl:
           yard: Stacja postojowa, lokomotywownia
         shop: 
           alcohol: Sklep monopolowy
+          antiques: Antyki
           art: Sklep z dziełami sztuki
           bakery: Piekarnia
           beauty: Salon kosmetyczny
@@ -880,7 +901,10 @@ pl:
           valley: Dolina
           viewpoint: Punkt widokowy
           zoo: Zoo
+        tunnel: 
+          "yes": Tunel
         waterway: 
+          artificial: Sztuczne zbiorniki wodne
           boatyard: Stocznia
           canal: Kanał
           connector: Złącze dróg wodnych
@@ -915,6 +939,7 @@ pl:
       history_tooltip: Wyświetla przeprowadzone edycje dla tego obszaru
       history_zoom_alert: Musisz przybliżyć się, by odczytać historię edycji
   layouts: 
+    community: Społeczność
     community_blogs: Blogi wspólnoty
     community_blogs_title: Blogi członków społeczności OpenStreetMap
     copyright: Prawa autorskie i licencja
@@ -936,11 +961,17 @@ pl:
     history: Zmiany
     home: główna
     home_tooltip: Przejdź do strony głównej
+    inbox_html: Wiadomości %{count}
     inbox_tooltip: 
       one: Twoja skrzynka zawiera jedną nową wiadomość
       other: Twoja skrzynka zawiera  %{count} nowych wiadomości
       zero: Brak nowych wiadomości
     intro_1: OpenStreetMap to mapa całego świata, którą możesz swobodnie edytować. Tworzą ją ludzie tacy jak Ty.
+    intro_2_create_account: Utwórz konto
+    intro_2_download: pobierz
+    intro_2_html: Wszystkie dane są bezpłatne dla %{download}, %{use} i są dostępne na %{license}. %{create_account} w celu poprawienia mapy.
+    intro_2_license: wolna licencja
+    intro_2_use: użyj
     log_in: zaloguj się
     log_in_tooltip: Zaloguj się
     logo: 
@@ -952,6 +983,11 @@ pl:
       title: Wspomóż OpenStreetMap za pomocą darowizny pieniężnej
     osm_offline: Baza danych OpenStreetMap jest niedostępna na czas ważnych zadań administracyjnych, które są w tym momencie wykonywane.
     osm_read_only: Baza danych OpenStreetMap jest w trybie tylko-do-odczytu na czas ważnych zadań administracyjnych, które są w tym momencie wykonywane.
+    partners_bytemark: Hosting Bytemark
+    partners_html: Hosting obsługuje %{ucl}, %{ic i}% {bytemark}, a także inni %{partners}.
+    partners_ic: Królewskie kolegium w Londynie
+    partners_partners: partnerzy
+    partners_ucl: centrum UCL VR
     sign_up: zarejestruj
     sign_up_tooltip: Załóż konto, aby edytować
     tag_line: Swobodna Wiki-Mapa Świata
@@ -969,8 +1005,12 @@ pl:
       text: W przypadku konfliktu pomiędzy tym tłumaczeniem a %{english_original_link}, preferowana jest strona w języku angielskim.
       title: Informacje o tłumaczeniu
     legal_babble: 
+      attribution_example: 
+        alt: Przykład, jak przypisywać OpenStreetMap na stronie internetowej
+        title: Przykład uznania autorstwa
       contributors_at_html: "<strong>Austria</strong>: Zawiera dane <a href=\"http://data.wien.gv.at/\">miasta Wiednia</a> (na licencji <a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.de\">CC BY</a>),\n<a href=\"http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm\">Land Vorarlberg</a> oraz\nLand Tyrol (na licencji <a href=\"http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/\">CC-BY AT z późniejszymi zmianami</a>)."
       contributors_ca_html: "<strong>Kanada</strong>: Zawiera dane z GeoBase&reg;, GeoGratis (&copy; ''Department of Natural Resources Canada''), CanVec (&copy; ''Department of Natural Resources Canada'') i StatCan (''Geography Division, Statistics Canada'')."
+      contributors_footer_1_html: "Szczegóły tych i innych źródeł, które zostały wykorzystane,\naby poprawić OpenStreetMap, są dostępne na stronie\n<a href=\"http://wiki.openstreetmap.org/wiki/Contributors\">Uczestnicy (en)</a>"
       contributors_footer_2_html: Włączenie danych do OpenStreetMap nie musi oznaczać, że podmiot będący ich źródłem popiera OpenStreetMap, udziela jakiejkolwiek gwarancji lub ponosi jakąkolwiek odpowiedzialność.
       contributors_fr_html: "<strong>Francja</strong>: Zawiera dane uzyskane z ''Direction Générale des Impôts''.</li>"
       contributors_gb_html: "<strong>Wielka Brytania</strong>: Zawiera dane ''Ordnance Survey''. &copy; Crown copyright and database right 2010."
@@ -978,11 +1018,14 @@ pl:
       contributors_nl_html: "<strong>Holandia</strong>: Zawiera dane &copy; AND, 2007\t\n(<a href=\"http://www.and.com\">www.and.com</a>)"
       contributors_nz_html: "<strong>Nowa Zelandia</strong>: Zawiera dane uzyskane z ''Land Information New Zealand''. Crown Copyright reserved."
       contributors_title_html: Dane włączone do OpenStreetMap
+      contributors_za_html: "<strong>Południowa Afryka</strong>: zawiera dane pochodzące\nz <a href=\"http://www.ngi.gov.za/\">zarządu głównego:\nNational Geo-Spatial Information</a>, prawa autorskie państwa zastrzeżone."
       credit_1_html: Jeśli korzystasz z gotowej mapy OpenStreetMap, wymagane jest podanie źródła co najmniej w postaci &bdquo;&copy; użytkownicy OpenStreetMap, CC BY-SA&rdquo;. Jeśli korzystasz tylko z danych geograficznych, wymagane jest podanie źródła w postaci &bdquo;Dane mapy &copy; użytkownicy OpenStreetMap, CC BY-SA&rdquo;.
       credit_2_html: O ile jest to możliwe, nazwa OpenStreetMap powinna być hiperłączem do <a href="http://www.openstreetmap.org/">http://www.openstreetmap.org/</a>, zaś CC BY-SA do <a href="http://creativecommons.org/licenses/by-sa/2.0/">http://creativecommons.org/licenses/by-sa/2.0/</a>. Jeśli korzystasz z nośnika, który uniemożliwia tworzenie hiperłącz (np. druk na papierze), zalecane jest kierowanie oglądających do stron internetowych www.openstreetmap.org (np. przez rozwinięcie nazwy OpenStreetMap do pełnego adresu internetowego) oraz www.creativecommons.org.
+      credit_3_html: Przy przeglądaniu map elektronicznych, podziękowania powinny pojawić się w rogu mapy.
       credit_title_html: Jak podać źródło
       intro_1_html: "OpenStreetMap is <i>open data</i>, licensed under the <a\nhref=\"http://opendatacommons.org/licenses/odbl/\">Open Data\nCommons Open Database License</a> (ODbL)."
       intro_2_html: Możesz swobodnie kopiować, rozpowszechniać, przekazywać innym i dostosowywać nasze mapy i dane, pod warunkiem podania OpenStreetMap i jego użytkowników jako źródło. Jeśli zmienisz, przekształcisz lub wykorzystasz nasze mapy lub dane, wynik swojej pracy możesz rozpowszechniać tylko na podstawie tej samej licencji. <a href="http://creativecommons.org/licenses/by-sa/2.0/legalcode">Pełen tekst licencji</a> dokładnie opisuje Twoje prawa i obowiązki.
+      intro_3_html: Mapy w postaci graficznej, a także dokumentacja rozpowszechniane na warunkach licencji <a href="http://creativecommons.org/licenses/by-sa/2.0/deed.pl/">Uznanie autorstwa na tych samych warunkach 2.0</a> (CC-BY-SA 2.0).
       more_1_html: Więcej informacji o możliwości wykorzystania danych OpenStreetMap można znaleźć w <a href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">Legal FAQ</a>.
       more_2_html: Użytkownicy OpenStreetMap powinni pamiętać, aby nigdy nie dodawać danych z jakichkolwiek źródeł chronionych prawami autorskimi (jak np. Google Maps i&nbsp;większość map drukowanych) bez wyraźnego pozwolenia właściciela praw autorskich.
       more_title_html: Dowiedz się więcej
@@ -1167,10 +1210,15 @@ pl:
       submit: Zarejestruj
       title: Rejestracja nowej aplikacji
     show: 
+      access_url: "URL znaki dostępu:"
+      authorize_url: "URL upoważnienia:"
+      confirm: Jesteś pewien?
+      delete: Usuń klienta
       edit: Edytuj szczegóły
       key: "Klucz odbiorcy:"
       secret: "Sekret odbiorcy:"
       title: Szczegóły OAuth dla %{app_name}
+      url: "URL znacznika zapytania:"
   redaction: 
     create: 
       flash: Utworzono poprawkę.
@@ -1287,8 +1335,22 @@ pl:
           unsurfaced: Droga nieutwardzona
           wood: Puszcza
     markdown_help: 
+      alt: Tekst alternatywny
+      first: Pierwszy element
       heading: Nagłówek
       headings: Nagłówki
+      image: Obraz
+      link: Łącze
+      ordered: Uporządkowana lista
+      second: Drugi element
+      subheading: Podtytuł
+      text: Tekst
+      title_html: Analizowany z <a href="http://daringfireball.net/projects/markdown/">Markdown</a>
+      unordered: Lista nieuporządkowana
+      url: Adres (URL)
+    richtext_area: 
+      edit: Edytuj
+      preview: Podgląd
     search: 
       search: Szukaj
       search_help: "przykłady: 'Wąchock', 'Franciszkańska, Poznań', 'CB2 5AQ', lub 'post offices near Mokotów' <a href='http://wiki.openstreetmap.org/wiki/Search'>więcej przykładów...</a>"
@@ -1369,6 +1431,8 @@ pl:
     trace_optionals: 
       tags: Znaczniki
     trace_paging_nav: 
+      newer: Nowsze ślady
+      older: Starsze ślady
       showing_page: Wyświetlanie strony %{page}
     view: 
       delete_track: Wykasuj ten ślad
