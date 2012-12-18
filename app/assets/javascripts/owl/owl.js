@@ -1,4 +1,5 @@
 //= require owl/data-tiles
+//= require templates/change
 //= require templates/history
 
 var owlLayer;
@@ -6,6 +7,7 @@ var owlObjectLayers = {};
 var initialized = false;
 var pageSize = 15;
 var currentOffset = 0;
+var changes = {};
 var geoJSONLayerGroup;
 
 var geoJSONStyle_active = {
@@ -65,6 +67,7 @@ function initOwlLayer() {
   currentOffset = 0;
   initialized = true;
   removeObjectLayers();
+  changes = {};
   map.on('moveend', handleMapChange);
 
   geoJSONLayerGroup = L.layerGroup();
@@ -79,6 +82,7 @@ function destroyOwlLayer() {
   owlLayer = null;
   initialized = false;
   currentOffset = 0;
+  changes = {};
 }
 
 function handleMapChange(e) {
@@ -219,6 +223,10 @@ function addGeoJSON(geojson) {
   geoJSONLayerGroup.clearLayers();
   $.each(geojson['features'], function (index, changeset) {
     owlObjectLayers[changeset.properties.id] = [];
+    $.each(changeset.properties.changes, function (index, change) {
+      change.diffTags = diffTags(change.tags, change.prev_tags);
+      changes[change.id] = change;
+    });
     $.each(changeset['features'], function (index, change) {
       addChangeFeatureLayer(change, change.features[0]);
       if (change.features.length > 1) {
@@ -231,6 +239,11 @@ function addGeoJSON(geojson) {
 // Prepares a GeoJSON layer for a given change feature and adds it to the map.
 function addChangeFeatureLayer(change, geojson) {
   var active = geojson.properties.type == 'current';
+
+  if (!active && changes[change.properties.change_id].el_action != 'DELETE') {
+    return;
+  }
+
   var style = active ? geoJSONStyle_active : geoJSONStyle_inactive;
   var layer = new L.GeoJSON(geojson, {style: style});
   layer.on('mouseover', function (e) {
@@ -244,7 +257,7 @@ function addChangeFeatureLayer(change, geojson) {
   layer.on('click', function (e) {
     L.popup()
       .setLatLng(e.latlng)
-      .setContent('<p>Hello world!<br />This is a nice popup.</p>')
+      .setContent(JST["templates/change"]({change: changes[change.properties.change_id]}))
       .openOn(map);
   });
   owlObjectLayers[change.properties.changeset_id].push(layer);
@@ -257,4 +270,28 @@ function changesetsFromGeoJSON(geojson) {
     changesets.push(changeset['properties']);
   });
   return changesets;
+}
+
+// Calculates a diff between two hashes containing tags.
+function diffTags(tags, prev_tags) {
+  var result = {added: {}, removed: {}, same: {}, modified: {}};
+  $.each(tags, function (k, v) {
+    if (prev_tags && k in prev_tags) {
+      if (v == prev_tags[k]) {
+        result.same[k] = v;
+      } else {
+        result.modified[k] = [v, prev_tags[k]];
+      }
+    } else {
+      result.added[k] = v;
+    }
+  });
+  if (prev_tags) {
+    $.each(prev_tags, function (k, v) {
+      if (!(k in tags)) {
+        result.removed[k] = v;
+      }
+    });
+  }
+  return result;
 }

@@ -1,0 +1,26 @@
+<ul>
+<li><%- change.tstamp %>
+<li><a href="abc" class="<%- classForChange(change.el_type, change.tags) %>"></a>
+<li>action: <%- change.el_action %>
+<% if (change.geom_changed) { %><li>geometry changed<% } %>
+<% if (change.tags_changed) { %><li>tags changed<% } %>
+<% if (change.nodes_changed) { %><li>nodes changed<% } %>
+</ul>
+<table>
+<tr><th>Tag</th><th>Old</th><th>New</th></tr>
+<% $.each(change.diffTags.added, function (k, v) { %>
+  <tr><td><%- k %></td><td></td><td><%- v %></td></tr>
+<% }); %>
+<% $.each(change.diffTags.removed, function (k, v) { %>
+  <tr><td><%- k %></td><td><%- v %></td><td></td></tr>
+<% }); %>
+<% $.each(change.diffTags.modified, function (k, v) { %>
+  <tr><td><%- k %></td><td><%- v[1] %></td><td><%- v[0] %></td></tr>
+<% }); %>
+<% $.each(change.diffTags.removed, function (k, v) { %>
+  <tr><td><%- k %></td><td><%- v %></td><td></td></tr>
+<% }); %>
+<% $.each(change.diffTags.same, function (k, v) { %>
+  <tr><td><%- k %></td><td><%- v %></td><td><%- v %></td></tr>
+<% }); %>
+</table>
