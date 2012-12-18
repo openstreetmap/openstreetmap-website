@@ -1,12 +1,18 @@
 <div id="history-sidebar">
   <ul>
     <% $.each(changesets, function (index, changeset) { %>
-      <li class="changeset-item hover-glow" data-changeset-id="<%- changeset.id %>">
+      <li class="changeset-item" data-changeset-id="<%- changeset.id %>">
         <% if (typeof changeset.tags['comment'] != 'undefined') { %>
           <a class="changeset-comment"><%- changeset.tags['comment'] %></a>
         <% } else { %>
           <a class="changeset-comment empty-comment">(no comment)</a>
         <% } %>
+
+        <div>
+        <% $.each(changeset.changes, function (index, change) { %>
+        <a href="abc" class="<%- classForChange(change.el_type, change.tags) %>"></a>
+        <% }); %>
+        </div>
 
         <div class="changeset-metadata">
           <div class="metadata-left">
