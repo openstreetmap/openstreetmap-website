@@ -8,6 +8,12 @@
           <a class="changeset-comment empty-comment">(no comment)</a>
         <% } %>
 
+        <div>
+        <% $.each(changeset.changes, function (index, change) { %>
+        <a href="abc" class="<%- classForChange(change.el_type, change.tags) %>"><%- change.id %></a>
+        <% }); %>
+        </div>
+
         <div class="changeset-metadata">
           <div class="metadata-left">
             <%- changeset.created_at.replace('T', ' ').replace('Z', '') %>
