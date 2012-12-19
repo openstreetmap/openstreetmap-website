@@ -5,8 +5,10 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
   currentOffset: 0,
   changes: {},
   owlObjectLayers: {},
+  styles: {},
 
-  initialize: function () {
+  initialize: function (options) {
+    this.styles = options.styles;
     L.FeatureGroup.prototype.initialize.apply(this, arguments);
   },
 
@@ -37,10 +39,11 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
   },
 
   highlightChangesetFeatures: function (changeset_id) {
+    var layer = this;
     if (changeset_id in this.owlObjectLayers) {
       $.each(this.owlObjectLayers[changeset_id], function(index, obj) {
         if ('setStyle' in obj) {
-          obj.setStyle(geoJSONStyle_hover);
+          obj.setStyle(layer.styles.hover);
         }
       });
     }
@@ -83,12 +86,18 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
       return;
     }
 
-    var style = active ? geoJSONStyle_active : geoJSONStyle_inactive;
-    var realLayer = new L.GeoJSON(geojson, {style: style});
-    realLayer.on('mouseover', function (e) {
-        e.target.setStyle(geoJSONStyle_hover);
-        highlightChangesetItem(change.properties.changeset_id);
+    var layer = this;
+    var style = active ? this.styles.normal : this.styles.inactive;
+    var realLayer = new L.GeoJSON(geojson, {style: style,
+      pointToLayer: function (geojson, latlng) {
+        return L.circleMarker(latlng, layer.styles.circleMarker);
+      }
     });
+
+    realLayer.on('mouseover', function (e) {
+        e.target.setStyle(this.styles.hover);
+        highlightChangesetItem(change.properties.changeset_id);
+    }, this);
     realLayer.on('mouseout', function (e) {
         e.target.setStyle(style);
         unhighlightChangesetItem(change.properties.changeset_id);
@@ -96,9 +105,9 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
     realLayer.on('click', function (e) {
       L.popup()
         .setLatLng(e.latlng)
-        .setContent(JST["templates/change"]({change: changes[change.properties.change_id]}))
+        .setContent(JST["templates/change"]({change: this.changes[change.properties.change_id]}))
         .openOn(this._map);
-    });
+    }, this);
     this.owlObjectLayers[change.properties.changeset_id].push(realLayer);
     this.addLayer(realLayer);
   },
@@ -108,10 +117,11 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
     this._refresh();
   },
 
-  _removeObjectLayers: function (layer) {
+  _removeObjectLayers: function () {
+    var layer = this;
     $.each(this.owlObjectLayers, function (changeset_id) {
-      $.each(this.owlObjectLayers[changeset_id], function (index, l) {
-        this._map.removeLayer(l);
+      $.each(layer.owlObjectLayers[changeset_id], function (index, l) {
+        layer._map.removeLayer(l);
       });
     });
     this.owlObjectLayers = {};

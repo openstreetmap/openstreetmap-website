@@ -1,3 +1,4 @@
+//= require owl/config
 //= require owl/geojson-layer
 //= require templates/change
 //= require templates/history
@@ -5,36 +6,9 @@
 var owlGeoJsonLayer;
 var initialized = false;
 
-var geoJSONStyle_active = {
-  "color": "green",
-  "fillColor": "green",
-  "weight": 5,
-  "opacity": 0.5,
-  "fillOpacity": 0.5
-};
-
-// Inactive means deleted or previous geometry.
-var geoJSONStyle_inactive = {
-  "color": "red",
-  "fillColor": "red",
-  "weight": 5,
-  "opacity": 0.5,
-  "fillOpacity": 0.5
-};
-
-var geoJSONStyle_hover = {
-  "opacity": 0.25,
-  "fillOpacity": 0.25
-};
-
-var ICON_TAGS = [
-  "aeroway", "amenity", "barrier", "building", "highway", "historic", "landuse",
-  "leisure", "man_made", "natural", "railway", "shop", "tourism", "waterway"
-];
-
 function iconTags(tags) {
   var a = [];
-  $.each (ICON_TAGS, function (index, tag) {
+  $.each (OWL.iconTags, function (index, tag) {
     if (tag in tags) {
       a.push(tags[tag]);
       a.push(tag);
@@ -60,7 +34,7 @@ function initOwlLayer() {
     return;
   }
   initialized = true;
-  owlGeoJsonLayer = new L.OWL.GeoJSON();
+  owlGeoJsonLayer = new L.OWL.GeoJSON({styles: OWL.geoJsonStyles});
 
   owlGeoJsonLayer.on('loaded', function (geojson) {
     var changesets = changesetsFromGeoJSON(geojson);
