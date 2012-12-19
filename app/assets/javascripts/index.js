@@ -136,7 +136,7 @@ $(document).ready(function () {
     $("a[class=sidebar_close]").click(function (e) {
       destroyOwlLayer();
     });
-    loadHistoryForCurrentViewport();
+    initOwlLayer();
     return false;
   });
 

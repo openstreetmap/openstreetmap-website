@@ -1,14 +1,9 @@
-//= require owl/data-tiles
+//= require owl/geojson-layer
 //= require templates/change
 //= require templates/history
 
-var owlLayer;
-var owlObjectLayers = {};
+var owlGeoJsonLayer;
 var initialized = false;
-var pageSize = 15;
-var currentOffset = 0;
-var changes = {};
-var geoJSONLayerGroup;
 
 var geoJSONStyle_active = {
   "color": "green",
@@ -64,30 +59,38 @@ function initOwlLayer() {
     console.log('already');
     return;
   }
-  currentOffset = 0;
   initialized = true;
-  removeObjectLayers();
-  changes = {};
-  map.on('moveend', handleMapChange);
+  owlGeoJsonLayer = new L.OWL.GeoJSON();
 
-  geoJSONLayerGroup = L.layerGroup();
-  map.addLayer(geoJSONLayerGroup);
+  owlGeoJsonLayer.on('loaded', function (geojson) {
+    var changesets = changesetsFromGeoJSON(geojson);
+    $("#sidebar_content").html(JST["templates/history"]({
+      changesets: sortChangesets(changesets)
+    }));
+    $('#history_sidebar_more').click(function (e) {
+        currentOffset += pageSize;
+        _refresh();
+        return false;
+    });
+    $('.changeset-item').hover(
+      function (e) {
+        var changeset_id = parseInt($(e.target).data('changeset-id'));
+        owlGeoJsonLayer.highlightChangesetFeatures(changeset_id);
+      },
+      function (e) {
+        var changeset_id = parseInt($(e.target).data('changeset-id'));
+        owlGeoJsonLayer.unhighlightChangesetFeatures(changeset_id);
+      }
+    );
+  });
+
+  map.addLayer(owlGeoJsonLayer);
 }
 
 function destroyOwlLayer() {
-  map.off('moveend', handleMapChange);
-  removeObjectLayers();
-  //map.removeLayer(geoJSONLayer);
-  geoJSONLayer = null;
-  owlLayer = null;
+  map.removeLayer(owlGeoJsonLayer);
+  owlGeoJsonLayer = null;
   initialized = false;
-  currentOffset = 0;
-  changes = {};
-}
-
-function handleMapChange(e) {
-  currentOffset = 0;
-  refreshHistoryData();
 }
 
 function sortChangesets(changesets) {
@@ -97,103 +100,12 @@ function sortChangesets(changesets) {
   return changesets;
 }
 
-function highlightChangesetFeatures(changeset_id) {
-  if (changeset_id in owlObjectLayers) {
-    $.each(owlObjectLayers[changeset_id], function(index, obj) {
-      if ('setStyle' in obj) {
-        obj.setStyle(geoJSONStyle_hover);
-      }
-    });
-  }
-}
-
-function unhighlightChangesetFeatures(changeset_id) {
-  if (changeset_id in owlObjectLayers) {
-    $.each(owlObjectLayers[changeset_id], function(index, obj) {
-      if ('resetStyle' in obj) {
-        obj.setStyle(obj.options.style);
-      }
-    });
-  }
-}
-
 function highlightChangesetItem(changeset_id) {
   $('li[data-changeset-id=' + changeset_id + ']').addClass('changeset-item-highlight');
 }
 
 function unhighlightChangesetItem(changeset_id) {
   $('li[data-changeset-id=' + changeset_id + ']').removeClass('changeset-item-highlight');
-}
-
-function refreshHistoryData() {
-  console.log('refresh');
-  $.ajax({
-    url: getUrlForTilerange(),
-    dataType: 'jsonp',
-    success: function(geojson) {
-      console.log('success');
-      var changesets = changesetsFromGeoJSON(geojson);
-      removeObjectLayers();
-      addGeoJSON(geojson);
-      $("#sidebar_content").html(JST["templates/history"]({
-        changesets: sortChangesets(changesets)
-      }));
-      $('#history_sidebar_more').click(function (e) {
-          currentOffset += pageSize;
-          refreshHistoryData();
-          return false;
-      });
-      $('.changeset-item').hover(
-        function (e) {
-          var changeset_id = parseInt($(e.target).data('changeset-id'));
-          highlightChangesetFeatures(changeset_id);
-        },
-        function (e) {
-          var changeset_id = parseInt($(e.target).data('changeset-id'));
-          unhighlightChangesetFeatures(changeset_id);
-        }
-      );
-    },
-    error: function() {
-    }
-  });
-}
-
-function removeObjectLayers() {
-  $.each(owlObjectLayers, function (changeset_id) {
-    $.each(owlObjectLayers[changeset_id], function (index, layer) {
-      map.removeLayer(layer);
-    });
-  });
-  owlObjectLayers = {};
-}
-
-function loadHistoryForCurrentViewport() {
-  initOwlLayer();
-}
-
-function getUrlForTilerange() {
-  var tileSize;
-  if (map.getZoom() > 16) {
-    // Modified tile size: ZL17 -> 512, ZL19 -> 1024
-    tileSize = Math.pow(2, 8 - (16 - map.getZoom()));
-  } else {
-    // Regular settings.
-    tileSize = 256;
-  }
-  var bounds = map.getPixelBounds(),
-    nwTilePoint = new L.Point(
-      Math.floor(bounds.min.x / tileSize),
-      Math.floor(bounds.min.y / tileSize)),
-    seTilePoint = new L.Point(
-      Math.floor(bounds.max.x / tileSize),
-      Math.floor(bounds.max.y / tileSize));
-  //console.log(bounds);
-  //console.log(seTilePoint);
-  return OSM.OWL_API_URL + 'changesets/'
-      + 16 + '/'
-      + nwTilePoint.x + '/' + nwTilePoint.y + '/'
-      + seTilePoint.x + '/' + seTilePoint.y + '.geojson?limit=' + pageSize + '&offset=' + currentOffset;
 }
 
 // Add bounding boxes and point markers for changesets.
@@ -216,52 +128,6 @@ function addObjectLayers(changesets) {
       }
     });
   });
-}
-
-// Add GeoJSON features.
-function addGeoJSON(geojson) {
-  geoJSONLayerGroup.clearLayers();
-  $.each(geojson['features'], function (index, changeset) {
-    owlObjectLayers[changeset.properties.id] = [];
-    $.each(changeset.properties.changes, function (index, change) {
-      change.diffTags = diffTags(change.tags, change.prev_tags);
-      changes[change.id] = change;
-    });
-    $.each(changeset['features'], function (index, change) {
-      addChangeFeatureLayer(change, change.features[0]);
-      if (change.features.length > 1) {
-        addChangeFeatureLayer(change, change.features[1]);
-      }
-    });
-  });
-}
-
-// Prepares a GeoJSON layer for a given change feature and adds it to the map.
-function addChangeFeatureLayer(change, geojson) {
-  var active = geojson.properties.type == 'current';
-
-  if (!active && changes[change.properties.change_id].el_action != 'DELETE') {
-    return;
-  }
-
-  var style = active ? geoJSONStyle_active : geoJSONStyle_inactive;
-  var layer = new L.GeoJSON(geojson, {style: style});
-  layer.on('mouseover', function (e) {
-      e.target.setStyle(geoJSONStyle_hover);
-      highlightChangesetItem(change.properties.changeset_id);
-  });
-  layer.on('mouseout', function (e) {
-      e.target.setStyle(style);
-      unhighlightChangesetItem(change.properties.changeset_id);
-  });
-  layer.on('click', function (e) {
-    L.popup()
-      .setLatLng(e.latlng)
-      .setContent(JST["templates/change"]({change: changes[change.properties.change_id]}))
-      .openOn(map);
-  });
-  owlObjectLayers[change.properties.changeset_id].push(layer);
-  geoJSONLayerGroup.addLayer(layer);
 }
 
 function changesetsFromGeoJSON(geojson) {
