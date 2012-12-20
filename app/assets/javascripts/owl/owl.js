@@ -6,6 +6,10 @@
 var owlGeoJsonLayer;
 var initialized = false;
 
+function hasIcon(tags) {
+  return iconTags(tags).length > 0;
+}
+
 function iconTags(tags) {
   var a = [];
   $.each (OWL.iconTags, function (index, tag) {
@@ -18,6 +22,7 @@ function iconTags(tags) {
 }
 
 function classForChange(el_type, tags) {
+  if (!hasIcon(tags)) { return ""; }
   var cls;
   if (el_type == 'W') {
     cls = 'way ';

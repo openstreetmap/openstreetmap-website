@@ -9,7 +9,10 @@
         <% } %>
 
         <div>
-        <% $.each(changeset.changes, function (index, change) { %>
+        <%
+        $.each(changeset.changes, function (index, change) {
+          if (!hasIcon(change.tags)) { return; }
+        %>
         <a href="abc" class="<%- classForChange(change.el_type, change.tags) %>"></a>
         <% }); %>
         </div>

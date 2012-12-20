@@ -29,6 +29,6 @@ var OWL = {
 
   iconTags: [
     "aeroway", "amenity", "barrier", "building", "highway", "historic", "landuse",
-    "leisure", "man_made", "natural", "railway", "shop", "tourism", "waterway"
+    "leisure", "man_made", "natural", "railway", "shop", "tourism"//, "waterway"
   ]
 };
