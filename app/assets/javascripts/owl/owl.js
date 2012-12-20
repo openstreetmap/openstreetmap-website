@@ -132,6 +132,5 @@ function diffTags(tags, prev_tags) {
       }
     });
   }
-  console.log(result);
   return result;
 }

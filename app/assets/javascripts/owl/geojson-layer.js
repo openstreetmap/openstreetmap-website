@@ -141,8 +141,6 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
       seTilePoint = new L.Point(
         Math.floor(bounds.max.x / tileSize),
         Math.floor(bounds.max.y / tileSize));
-    //console.log(bounds);
-    //console.log(seTilePoint);
     return OSM.OWL_API_URL + 'changesets/'
         + 16 + '/'
         + nwTilePoint.x + '/' + nwTilePoint.y + '/'
