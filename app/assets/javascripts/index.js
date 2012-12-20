@@ -132,9 +132,11 @@ $(document).ready(function () {
 
   // Setup History tab.
   $("a[id=historyanchor]").click(function (e) {
+    $("body").removeClass("site-index").addClass("site-history");
     openSidebar({title: I18n.t('site.sidebar.history')});
     $("a[class=sidebar_close]").click(function (e) {
       destroyOwlLayer();
+      $("body").removeClass("site-history").addClass("site-index");
     });
     initOwlLayer();
     return false;
