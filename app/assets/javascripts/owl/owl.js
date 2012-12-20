@@ -30,7 +30,6 @@ function classForChange(el_type, tags) {
 
 function initOwlLayer() {
   if (initialized) {
-    console.log('already');
     return;
   }
   initialized = true;
@@ -133,5 +132,6 @@ function diffTags(tags, prev_tags) {
       }
     });
   }
+  console.log(result);
   return result;
 }

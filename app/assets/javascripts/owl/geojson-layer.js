@@ -22,13 +22,11 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
   },
 
   _refresh: function () {
-    console.log('refresh');
     $.ajax({
       context: this,
       url: this._getUrlForTilerange(),
       dataType: 'jsonp',
       success: function(geojson) {
-        console.log('success');
         this._removeObjectLayers();
         this.addGeoJSON(geojson);
         this.fire('loaded', geojson);
@@ -103,7 +101,7 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
         unhighlightChangesetItem(change.properties.changeset_id);
     });
     realLayer.on('click', function (e) {
-      L.popup()
+      L.popup({maxHeight: 666, maxWidth: 666})
         .setLatLng(e.latlng)
         .setContent(JST["templates/change"]({change: this.changes[change.properties.change_id]}))
         .openOn(this._map);
