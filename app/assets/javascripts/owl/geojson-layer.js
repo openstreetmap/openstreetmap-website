@@ -126,13 +126,15 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
   },
 
   _getUrlForTilerange: function () {
-    var tileSize;
+    var tileSize, zoom;
     if (this._map.getZoom() > 16) {
       // Modified tile size: ZL17 -> 512, ZL19 -> 1024
       tileSize = Math.pow(2, 8 - (16 - this._map.getZoom()));
+      zoom = 16;
     } else {
       // Regular settings.
       tileSize = 256;
+      zoom = this._map.getZoom();
     }
     var bounds = this._map.getPixelBounds(),
       nwTilePoint = new L.Point(
@@ -142,7 +144,7 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
         Math.floor(bounds.max.x / tileSize),
         Math.floor(bounds.max.y / tileSize));
     return OSM.OWL_API_URL + 'changesets/'
-        + 16 + '/'
+        + zoom + '/'
         + nwTilePoint.x + '/' + nwTilePoint.y + '/'
         + seTilePoint.x + '/' + seTilePoint.y + '.geojson?limit=' + this.pageSize + '&offset=' + this.currentOffset;
   }
