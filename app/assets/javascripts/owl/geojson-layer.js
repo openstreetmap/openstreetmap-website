@@ -6,6 +6,7 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
   changes: {},
   owlObjectLayers: {},
   styles: {},
+  currentUrl: null,
 
   initialize: function (options) {
     this.styles = options.styles;
@@ -21,14 +22,25 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
     map.off('moveend', this._handleMapChange, this);
   },
 
+  _handleMapChange: function (e) {
+    var url = this._getUrlForTilerange();
+    if (url == this.currentUrl) {
+      // No change in tile range - no need to do the AJAX call.
+      return;
+    }
+    this.currentOffset = 0;
+    this._refresh();
+  },
+
   _refresh: function () {
-    this._removeObjectLayers();
     this.fire('loading');
     $.ajax({
       context: this,
       url: this._getUrlForTilerange(),
       dataType: 'jsonp',
       success: function(geojson) {
+        this.currentUrl = this._getUrlForTilerange();
+        this._removeObjectLayers();
         this.addGeoJSON(geojson);
         this.fire('loaded', geojson);
       },
@@ -109,11 +121,6 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
     }, this);
     this.owlObjectLayers[change.properties.changeset_id].push(realLayer);
     this.addLayer(realLayer);
-  },
-
-  _handleMapChange: function (e) {
-    this.currentOffset = 0;
-    this._refresh();
   },
 
   _removeObjectLayers: function () {
