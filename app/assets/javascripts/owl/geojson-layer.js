@@ -22,6 +22,11 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
     map.off('moveend', this._handleMapChange, this);
   },
 
+  nextPage: function() {
+    this.currentOffset += this.pageSize;
+    this._refresh();
+  },
+
   _handleMapChange: function (e) {
     var url = this._getUrlForTilerange();
     if (url == this.currentUrl) {

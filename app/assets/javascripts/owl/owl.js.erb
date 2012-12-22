@@ -49,10 +49,9 @@ function initOwlLayer() {
     $("#sidebar").html(JST["templates/history"]({
       changesets: sortChangesets(changesets)
     }));
-    $('#history_sidebar_more').click(function (e) {
-        currentOffset += pageSize;
-        _refresh();
-        return false;
+    $('#history-sidebar-footer .more_link').click(function (e) {
+      owlGeoJsonLayer.nextPage();
+      return false;
     });
     $('.changeset-item').hover(
       function (e) {
