@@ -41,12 +41,12 @@ function initOwlLayer() {
   owlGeoJsonLayer = new L.OWL.GeoJSON({styles: OWL.geoJsonStyles});
 
   owlGeoJsonLayer.on('loading', function (geojson) {
-    $("#sidebar_content").html('<%= image_tag "searching.gif" %>');
+    $("#sidebar").html('<%= image_tag "searching.gif" %>');
   });
 
   owlGeoJsonLayer.on('loaded', function (geojson) {
     var changesets = changesetsFromGeoJSON(geojson);
-    $("#sidebar_content").html(JST["templates/history"]({
+    $("#sidebar").html(JST["templates/history"]({
       changesets: sortChangesets(changesets)
     }));
     $('#history_sidebar_more').click(function (e) {
