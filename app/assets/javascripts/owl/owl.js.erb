@@ -64,6 +64,7 @@ function initOwlLayer() {
         owlGeoJsonLayer.unhighlightChangesetFeatures(changeset_id);
       }
     );
+    owlUpdateFeedLink();
   });
 
   map.addLayer(owlGeoJsonLayer);
@@ -118,6 +119,11 @@ function changesetsFromGeoJSON(geojson) {
     changesets.push(changeset['properties']);
   });
   return changesets;
+}
+
+// Updates feed link by generating the URL based on tile range for the currently visible viewport.
+function owlUpdateFeedLink() {
+  $('#history-sidebar-footer .feed_link').attr('href', owlGeoJsonLayer.getAtomUrlForTilerange());
 }
 
 // Calculates a diff between two hashes containing tags.
