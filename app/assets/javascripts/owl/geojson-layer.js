@@ -22,12 +22,13 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
   },
 
   _refresh: function () {
+    this._removeObjectLayers();
+    this.fire('loading');
     $.ajax({
       context: this,
       url: this._getUrlForTilerange(),
       dataType: 'jsonp',
       success: function(geojson) {
-        this._removeObjectLayers();
         this.addGeoJSON(geojson);
         this.fire('loaded', geojson);
       },
