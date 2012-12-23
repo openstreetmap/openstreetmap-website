@@ -10,9 +10,9 @@
     <% $.each(changesets, function (index, changeset) { %>
       <li class="changeset-item" data-changeset-id="<%- changeset.id %>">
         <% if (typeof changeset.tags['comment'] != 'undefined') { %>
-          <a class="changeset-comment"><%- changeset.tags['comment'] %></a>
+          <a href="/browse/changeset/<%- changeset.id %>" class="changeset-comment"><%- changeset.tags['comment'] %></a>
         <% } else { %>
-          <a class="changeset-comment empty-comment">(no comment)</a>
+          <a href="/browse/changeset/<%- changeset.id %>" class="changeset-comment empty-comment">(no comment)</a>
         <% } %>
 
         <div>
@@ -20,7 +20,7 @@
         $.each(changeset.changes, function (index, change) {
           if (!hasIcon(change.tags)) { return; }
         %>
-        <a href="abc" class="<%- classForChange(change.el_type, change.tags) %>"></a>
+        <a href="abc" class="<%- classForChange(change.el_type, change.tags) %>">&nbsp;</a>
         <% }); %>
         </div>
 
