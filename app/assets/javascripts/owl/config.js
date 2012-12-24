@@ -2,28 +2,31 @@ var OWL = {
 
   geoJsonStyles: {
     normal: {
-      "color": "green",
-      "fillColor": "green",
-      "weight": 5,
-      "opacity": 0.5,
-      "fillOpacity": 0.5
+      color: "blue",
+      fillColor: "blue",
+      weight: 5,
+      opacity: 0.5,
+      fillOpacity: 0.5
     },
     inactive: {
-      "color": "red",
-      "fillColor": "red",
-      "weight": 5,
-      "opacity": 0.5,
-      "fillOpacity": 0.5
+      color: "red",
+      fillColor: "red",
+      weight: 5,
+      opacity: 0.5,
+      fillOpacity: 0.5
     },
     hover: {
-      "opacity": 0.25,
-      "fillOpacity": 0.25
+      color: "blue",
+      fillColor: "blue",
+      opacity: 0.25,
+      fillOpacity: 0.25
     },
     circleMarker: {
       fill: true,
       stroke: false,
-      fillColor: "green",
-      fillOpacity: 0.5
+      fillColor: "blue",
+      fillOpacity: 0.5,
+      radius: 8
     }
   },
 

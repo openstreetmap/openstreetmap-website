@@ -75,7 +75,6 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
     var layer = this;
     this.changesets = {};
     $.each(geojson['features'], function (index, changeset) {
-        console.log(changeset);
       layer.changesets[changeset.properties.id] = changeset.properties;
     });
   },
