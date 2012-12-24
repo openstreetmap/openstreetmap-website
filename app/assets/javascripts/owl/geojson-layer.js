@@ -39,12 +39,18 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
 
   _refresh: function () {
     this.fire('loading');
+    var requestUrl = this._getUrlForTilerange();
     $.ajax({
       context: this,
-      url: this._getUrlForTilerange(),
+      url: requestUrl,
       dataType: 'jsonp',
-      success: function(geojson) {
-        this.currentUrl = this._getUrlForTilerange();
+      success: function(geojson, status, xhr) {
+        var url = this._getUrlForTilerange();
+        if (url != requestUrl) {
+          // Ignore response that is not applicable to the current viewport.
+          return;
+        }
+        this.currentUrl = url;
         this._removeObjectLayers();
         this.addGeoJSON(geojson);
         this.fire('loaded', geojson);
