@@ -45,9 +45,9 @@ function initOwlLayer() {
   });
 
   owlGeoJsonLayer.on('loaded', function (geojson) {
-    var changesets = changesetsFromGeoJSON(geojson);
+    var changesets = owlGeoJsonLayer.changesets;
     $("#sidebar").html(JST["templates/history"]({
-      changesets: sortChangesets(changesets)
+      changesets: owlGeoJsonLayer.changesetList()
     }));
     $('#history-sidebar-footer .more_link').click(function (e) {
       owlGeoJsonLayer.nextPage();
@@ -73,13 +73,6 @@ function destroyOwlLayer() {
   map.removeLayer(owlGeoJsonLayer);
   owlGeoJsonLayer = null;
   initialized = false;
-}
-
-function sortChangesets(changesets) {
-  changesets.sort(function (a, b) {
-    return a.created_at > b.created_at ? -1 : 1;
-  });
-  return changesets;
 }
 
 function highlightChangesetItem(changeset_id) {
@@ -110,14 +103,6 @@ function addObjectLayers(changesets) {
       }
     });
   });
-}
-
-function changesetsFromGeoJSON(geojson) {
-  var changesets = [];
-  $.each(geojson['features'], function (index, changeset) {
-    changesets.push(changeset['properties']);
-  });
-  return changesets;
 }
 
 // Updates feed link by generating the URL based on tile range for the currently visible viewport.

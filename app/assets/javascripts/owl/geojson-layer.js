@@ -4,6 +4,7 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
   pageSize: 15,
   currentOffset: 0,
   changes: {},
+  changesets: {},
   owlObjectLayers: {},
   styles: {},
   currentUrl: null,
@@ -45,6 +46,7 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
       url: requestUrl,
       dataType: 'jsonp',
       success: function(geojson, status, xhr) {
+        this._changesetsFromGeoJSON(geojson);
         var url = this._getUrlForTilerange();
         if (url != requestUrl) {
           // Ignore response that is not applicable to the current viewport.
@@ -57,6 +59,24 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
       },
       error: function() {
       }
+    });
+  },
+
+  changesetList: function () {
+    var list = [];
+    $.each(this.changesets, function (k, v) { list.push(v); });
+    list.sort(function (a, b) {
+      return a.created_at > b.created_at ? -1 : 1;
+    });
+    return list;
+  },
+
+  _changesetsFromGeoJSON: function (geojson) {
+    var layer = this;
+    this.changesets = {};
+    $.each(geojson['features'], function (index, changeset) {
+        console.log(changeset);
+      layer.changesets[changeset.properties.id] = changeset.properties;
     });
   },
 
@@ -127,7 +147,10 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
     realLayer.on('click', function (e) {
       L.popup({maxHeight: 666, maxWidth: 666})
         .setLatLng(e.latlng)
-        .setContent(JST["templates/change"]({change: this.changes[change.properties.change_id]}))
+        .setContent(JST["templates/change"]({
+          change: this.changes[change.properties.change_id],
+          changesets: this.changesets
+        }))
         .openOn(this._map);
     }, this);
     this.owlObjectLayers[change.properties.changeset_id].push(realLayer);
