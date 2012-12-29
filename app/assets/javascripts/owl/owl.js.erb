@@ -1,7 +1,7 @@
 //= require owl/config
 //= require owl/geojson-layer
-//= require templates/change
-//= require templates/history
+//= require templates/owl/change_popup
+//= require templates/owl/sidebar
 
 var owlGeoJsonLayer;
 var initialized = false;
@@ -41,12 +41,12 @@ function initOwlLayer() {
   owlGeoJsonLayer = new L.OWL.GeoJSON({styles: OWL.geoJsonStyles});
 
   owlGeoJsonLayer.on('loading', function (geojson) {
-    $("#sidebar").html('<%= image_tag "searching.gif" %>');
+    $("#sidebar_content").html('<%= image_tag "searching.gif" %>');
   });
 
   owlGeoJsonLayer.on('loaded', function (geojson) {
     var changesets = owlGeoJsonLayer.changesets;
-    $("#sidebar").html(JST["templates/history"]({
+    $("#sidebar_content").html(JST["templates/owl/sidebar"]({
       changesets: owlGeoJsonLayer.changesetList()
     }));
     $('#history-sidebar-footer .more_link').click(function (e) {
@@ -70,7 +70,7 @@ function initOwlLayer() {
 }
 
 function destroyOwlLayer() {
-  map.removeLayer(owlGeoJsonLayer);
+  map.hasLayer(owlGeoJsonLayer) && map.removeLayer(owlGeoJsonLayer);
   owlGeoJsonLayer = null;
   initialized = false;
 }

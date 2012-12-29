@@ -21,6 +21,7 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
 
   onRemove: function (map) {
     map.off('moveend', this._handleMapChange, this);
+    this._removeObjectLayers();
   },
 
   nextPage: function() {
@@ -146,7 +147,7 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
     realLayer.on('click', function (e) {
       L.popup({maxHeight: 666, maxWidth: 666})
         .setLatLng(e.latlng)
-        .setContent(JST["templates/change"]({
+        .setContent(JST["templates/owl/change_popup"]({
           change: this.changes[change.properties.change_id],
           changesets: this.changesets
         }))
