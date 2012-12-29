@@ -19,7 +19,9 @@
 
         <div class="changeset-metadata">
           <div class="metadata-left">
-            <%- changeset.created_at.replace('T', ' ').replace('Z', '') %>
+            <abbr class="timeago" title="<%- changeset.created_at %>">
+              <%- changeset.created_at.replace('T', ' ').replace('Z', '') %>
+            </abbr>
             <a href="/user/<%- changeset.user_name %>"><%- changeset.user_name %></a>
           </div>
           <div class="changeset-id"><a href="/browse/changeset/<%- changeset.id %>">#<%- changeset.id %></a></div>

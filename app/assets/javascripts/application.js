@@ -3,6 +3,7 @@
 //= require jquery.autogrowtextarea
 //= require jquery.timers
 //= require jquery.cookie
+//= require jquery.timeago
 //= require augment
 //= require leaflet
 //= require leaflet.osm
