@@ -111,10 +111,13 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
         change.diffTags = diffTags(change.tags, change.prev_tags);
         layer.changes[change.id] = change;
       });
-      $.each(changeset['features'], function (index, change) {
-        layer.addChangeFeatureLayer(change, change.features[0]);
-        if (change.features.length > 1) {
-          layer.addChangeFeatureLayer(change, change.features[1]);
+      $.each(changeset['features'], function (index, changeFeature) {
+        var change = layer.changes[changeFeature.properties.change_id];
+        if (changeFeature.features.length > 0) {
+          layer.addChangeFeatureLayer(change, changeFeature.features[0]);
+        }
+        if (changeFeature.features.length > 1) {
+          layer.addChangeFeatureLayer(change, changeFeature.features[1]);
         }
       });
     });
@@ -124,37 +127,44 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
   addChangeFeatureLayer: function (change, geojson) {
     var active = geojson.properties.type == 'current';
 
-    if (!active && this.changes[change.properties.change_id].el_action != 'DELETE') {
+    if (!active && change.el_action != 'DELETE') {
       return;
     }
 
     var layer = this;
-    var style = active ? this.styles.normal : this.styles.inactive;
+    var style = this.styles[this._getStyleName(change)];
+
     var realLayer = new L.GeoJSON(geojson, {style: style,
       pointToLayer: function (geojson, latlng) {
-        return L.circleMarker(latlng, layer.styles.circleMarker);
+        return L.circleMarker(latlng, style);
       }
     });
 
     realLayer.on('mouseover', function (e) {
         e.target.setStyle(this.styles.hover);
-        highlightChangesetItem(change.properties.changeset_id);
+        highlightChangesetItem(change.changeset_id);
     }, this);
     realLayer.on('mouseout', function (e) {
         e.target.setStyle(style);
-        unhighlightChangesetItem(change.properties.changeset_id);
+        unhighlightChangesetItem(change.changeset_id);
     });
     realLayer.on('click', function (e) {
       L.popup({maxHeight: 666, maxWidth: 666})
         .setLatLng(e.latlng)
         .setContent(JST["templates/owl/change_popup"]({
-          change: this.changes[change.properties.change_id],
+          change: this.changes[change.id],
           changesets: this.changesets
         }))
         .openOn(this._map);
     }, this);
-    this.owlObjectLayers[change.properties.changeset_id].push(realLayer);
+    this.owlObjectLayers[change.changeset_id].push(realLayer);
     this.addLayer(realLayer);
+  },
+
+  _getStyleName: function (change) {
+    var name = {'N': 'node_', 'W': 'way_'}[change['el_type']];
+    name += change['el_action'].toLowerCase();
+    return name;
   },
 
   _removeObjectLayers: function () {

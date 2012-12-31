@@ -1,32 +1,51 @@
 var OWL = {
 
   geoJsonStyles: {
-    normal: {
-      color: "blue",
-      fillColor: "blue",
-      weight: 5,
-      opacity: 0.5,
-      fillOpacity: 0.5
+    'node_create': {
+      fill: true,
+      stroke: false,
+      fillColor: "indigo",
+      fillOpacity: 0.85,
+      radius: 8
     },
-    inactive: {
-      color: "red",
-      fillColor: "red",
-      weight: 5,
-      opacity: 0.5,
-      fillOpacity: 0.5
-    },
-    hover: {
-      color: "blue",
-      fillColor: "blue",
-      opacity: 0.25,
-      fillOpacity: 0.25
-    },
-    circleMarker: {
+    'node_modify': {
       fill: true,
       stroke: false,
       fillColor: "blue",
-      fillOpacity: 0.5,
+      fillOpacity: 0.85,
       radius: 8
+    },
+    'node_delete': {
+      fill: true,
+      stroke: false,
+      fillColor: "red",
+      fillOpacity: 0.85,
+      radius: 8
+    },
+    'way_create': {
+      color: "indigo",
+      fillColor: "indigo",
+      weight: 5,
+      opacity: 0.85,
+      fillOpacity: 0.85
+    },
+    'way_modify': {
+      color: "blue",
+      fillColor: "blue",
+      weight: 5,
+      opacity: 0.85,
+      fillOpacity: 0.85
+    },
+    'way_delete': {
+      color: "red",
+      fillColor: "red",
+      weight: 5,
+      opacity: 0.85,
+      fillOpacity: 0.85
+    },
+    'hover': {
+      opacity: 0.25,
+      fillOpacity: 0.25
     }
   },
 
