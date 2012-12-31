@@ -12,7 +12,8 @@
     <% } else if (change.el_action == 'DELETE') { %>
     deleted
     <% } else if (change.el_action == 'MODIFY') { %>
-      <% if (change.geom_changed || change.nodes_changed) { %>moved<br><% } %>
+      <% if (change.geom_changed) { %>moved<br><% } %>
+      <% if (change.nodes_changed) { %>changed nodes<br><% } %>
       <% if (change.tags_changed) { %>changed tags<% } %>
     <% } %>
   </td>
