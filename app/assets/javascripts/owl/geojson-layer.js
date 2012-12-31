@@ -114,51 +114,65 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
       $.each(changeset['features'], function (index, changeFeature) {
         var change = layer.changes[changeFeature.properties.change_id];
         if (changeFeature.features.length > 0) {
-          layer.addChangeFeatureLayer(change, changeFeature.features[0]);
-        }
-        if (changeFeature.features.length > 1) {
-          layer.addChangeFeatureLayer(change, changeFeature.features[1]);
+          layer.addChangeFeatureLayer(change, changeFeature.features[0],
+            changeFeature.features.length > 1 ? changeFeature.features[1] : null);
         }
       });
     });
   },
 
   // Prepares a GeoJSON layer for a given change feature and adds it to the map.
-  addChangeFeatureLayer: function (change, geojson) {
-    var active = geojson.properties.type == 'current';
-
-    if (!active && change.el_action != 'DELETE') {
-      return;
-    }
-
+  addChangeFeatureLayer: function (change, geojson, prev_geojson) {
     var layer = this;
     var style = this.styles[this._getStyleName(change)];
 
-    var realLayer = new L.GeoJSON(geojson, {style: style,
+    var changeLayer = new L.GeoJSON(geojson, {style: style,
       pointToLayer: function (geojson, latlng) {
         return L.circleMarker(latlng, style);
       }
-    });
+    }), prevGeomLayer = null;
 
-    realLayer.on('mouseover', function (e) {
+    if (prev_geojson != null) {
+      prevGeomLayer = new L.GeoJSON(prev_geojson, {style: style,
+        pointToLayer: function (geojson, latlng) {
+          return L.circleMarker(latlng, style);
+        }
+      });
+      this.owlObjectLayers[change.changeset_id].push(prevGeomLayer);
+    }
+
+    changeLayer.on('mouseover', function (e) {
         e.target.setStyle(this.styles.hover);
         highlightChangesetItem(change.changeset_id);
     }, this);
-    realLayer.on('mouseout', function (e) {
+    changeLayer.on('mouseout', function (e) {
         e.target.setStyle(style);
         unhighlightChangesetItem(change.changeset_id);
     });
-    realLayer.on('click', function (e) {
+    changeLayer.on('click', function (e) {
+      var showPrevGeomLink = prevGeomLayer != null;
+
       L.popup({maxHeight: 666, maxWidth: 666})
         .setLatLng(e.latlng)
         .setContent(JST["templates/owl/change_popup"]({
           change: this.changes[change.id],
-          changesets: this.changesets
-        }))
-        .openOn(this._map);
+          changesets: this.changesets,
+          showPrevGeomLink: showPrevGeomLink
+        })).openOn(this._map);
+
+      if (showPrevGeomLink) {
+        $('.show-prev-geom').hover(function (e) {
+            map.removeLayer(changeLayer);
+            map.addLayer(prevGeomLayer);
+          }, function (e) {
+            map.removeLayer(prevGeomLayer);
+            map.addLayer(changeLayer);
+          }
+        );
+      }
     }, this);
-    this.owlObjectLayers[change.changeset_id].push(realLayer);
-    this.addLayer(realLayer);
+    this.owlObjectLayers[change.changeset_id].push(changeLayer);
+    this.addLayer(changeLayer);
   },
 
   _getStyleName: function (change) {
