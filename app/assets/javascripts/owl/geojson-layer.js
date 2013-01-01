@@ -107,19 +107,26 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
   addGeoJSON: function (geojson) {
     this.clearLayers();
     var layer = this;
+
     $.each(geojson['features'], function (index, changeset) {
       layer.owlObjectLayers[changeset.properties.id] = [];
+
       $.each(changeset.properties.changes, function (index, change) {
         change.diffTags = diffTags(change.tags, change.prev_tags);
         layer.changes[change.id] = change;
+
         if (!(change.el_id in layer.osmElements)) {
           layer.osmElements[change.el_id] = change;
         } else if (change.version > layer.osmElements[change.el_id].version) {
           layer.osmElements[change.el_id] = change;
         }
       });
+    });
+
+    $.each(geojson['features'].reverse(), function (index, changeset) {
       $.each(changeset['features'], function (index, changeFeature) {
         var change = layer.changes[changeFeature.properties.change_id];
+
         if (changeFeature.features.length > 0) {
           layer.addChangeFeatureLayer(change, changeFeature.features[0],
             changeFeature.features.length > 1 ? changeFeature.features[1] : null);
