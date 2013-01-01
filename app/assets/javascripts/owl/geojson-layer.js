@@ -8,6 +8,7 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
   owlObjectLayers: {},
   styles: {},
   currentUrl: null,
+  osmElements: {},
 
   initialize: function (options) {
     this.styles = options.styles;
@@ -54,6 +55,7 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
           return;
         }
         this.currentUrl = url;
+        this.osmElements = {};
         this._removeObjectLayers();
         this.addGeoJSON(geojson);
         this.fire('loaded', geojson);
@@ -110,6 +112,12 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
       $.each(changeset.properties.changes, function (index, change) {
         change.diffTags = diffTags(change.tags, change.prev_tags);
         layer.changes[change.id] = change;
+        if (!(change.el_id in layer.osmElements)) {
+          layer.osmElements[change.el_id] = change;
+        } else if (change.version > layer.osmElements[change.el_id].version) {
+          console.log('newer found');
+          layer.osmElements[change.el_id] = change;
+        }
       });
       $.each(changeset['features'], function (index, changeFeature) {
         var change = layer.changes[changeFeature.properties.change_id];
@@ -123,6 +131,12 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
 
   // Prepares a GeoJSON layer for a given change feature and adds it to the map.
   addChangeFeatureLayer: function (change, geojson, prev_geojson) {
+    if (change.id != this.osmElements[change.el_id].id) {
+      console.log('skipping');
+      return;
+    }
+    console.log('adding ' + change.el_id);
+
     var layer = this;
     var style = this.styles[this._getStyleName(change)];
 
