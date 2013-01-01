@@ -115,7 +115,6 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
         if (!(change.el_id in layer.osmElements)) {
           layer.osmElements[change.el_id] = change;
         } else if (change.version > layer.osmElements[change.el_id].version) {
-          console.log('newer found');
           layer.osmElements[change.el_id] = change;
         }
       });
@@ -132,10 +131,8 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
   // Prepares a GeoJSON layer for a given change feature and adds it to the map.
   addChangeFeatureLayer: function (change, geojson, prev_geojson) {
     if (change.id != this.osmElements[change.el_id].id) {
-      console.log('skipping');
       return;
     }
-    console.log('adding ' + change.el_id);
 
     var layer = this;
     var style = this.styles[this._getStyleName(change)];
