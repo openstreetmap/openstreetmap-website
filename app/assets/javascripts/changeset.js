@@ -27,12 +27,12 @@ $(document).ready(function () {
 
   function highlightChangeset(id) {
     rects[id].setStyle({fillOpacity: 0.5});
-    $("#tr-changeset-" + id).addClass("selected");
+    $("#changeset-" + id).addClass("selected");
   }
 
   function unHighlightChangeset(id) {
     rects[id].setStyle({fillOpacity: 0});
-    $("#tr-changeset-" + id).removeClass("selected");
+    $("#changeset-" + id).removeClass("selected");
   }
 
   group.on({
