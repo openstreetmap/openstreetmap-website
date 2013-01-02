@@ -43,6 +43,13 @@ var OWL = {
       opacity: 0.85,
       fillOpacity: 0.85
     },
+    'way_affect': {
+      color: "blue",
+      fillColor: "lightblue",
+      weight: 5,
+      opacity: 0.85,
+      fillOpacity: 0.85
+    },
     'hover': {
       opacity: 0.25,
       fillOpacity: 0.25
