@@ -18,6 +18,12 @@ h2, h3, h4 {
   margin: 0;
 }
 
+.site-edit #content,
+.site-index #content,
+.site-export #content {
+  left: 0;
+}
+
 .site-edit #top-bar,
 .site-index #top-bar,
 .site-export #top-bar {
@@ -37,6 +43,7 @@ h2, h3, h4 {
 /* Rules for tabbed navigation bar */
 
 #top-bar {
+  left: 0;
   margin: 0px;
   height: 24px;
 }
@@ -54,6 +61,7 @@ h2, h3, h4 {
   font-size: 10px;
   line-height: 10px;
   padding: 5px;
+  margin-right: 1px;
 }
 
 .menuicon { line-height: 10px;}
@@ -66,6 +74,7 @@ h2, h3, h4 {
   height: 16px;
   display: block;
   position: absolute;
+  left: 5px;
   top: 5px;
   padding: 2px;
   width: 110px; /* TODO: find better fix for overlap */
@@ -82,12 +91,14 @@ h2, h3, h4 {
   font-size: 12px;
   line-height: 18px;
   margin: 0;
+  left: 22px;
 }
 
 /* Rules for greeting bar in the top right corner */
 
 #greeting {
   position: absolute;
+  right: 5px;
   top: 5px;
   height: 14px;
   font-size: 12px;
@@ -105,13 +116,15 @@ h2, h3, h4 {
   border: none;
 }
 
-/* Rules for OpenLayers maps */
+#browse_map ul.secondary-actions {
+  float: right;
+}
 
 #map {
   border: 0;
 }
 
-.content_map {
+/*.content_map {
   width: 100%;
   border: none;
   float: none;
@@ -123,17 +136,15 @@ h2, h3, h4 {
 .content_map #small_map {
   height: 300px;
   border: 1px solid #ccc;
-}
+}*/
 
-.olControlSimplePanZoom {
+.leaflet-control-pan, .leaflet-control-zoomslider {
   display: none;
 }
 
-.site-index #map .SimpleLayerSwitcher,
-.site-index #map .olControlZoom,
-.site-export #map .olControlZoom,
-.site-export #map .SimpleLayerSwitcher {
-  top: 10px !important;
+.site-index .leaflet-top,
+.site-export .leaflet-top {
+  top: 47px !important;
 }
 
 /* Rules for the main content area */
@@ -157,6 +168,7 @@ h2, h3, h4 {
   border: 0px;
   margin: 0px;
   width: 50%;
+  border-right: 1px solid #ccccdd;
 }
 
 .sidebar_title, #sidebar_content {

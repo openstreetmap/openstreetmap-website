@@ -55,6 +55,7 @@ body {
   background-color: #fff;
   margin: 0px;
   padding: 0px;
+  text-align: left;
 }
 
 body.slim {
@@ -119,6 +120,7 @@ h6:first-child {
 
 .small_icon {
   vertical-align: middle;
+  margin-right: 5px;
 }
 
 /* Rules for links */
@@ -146,6 +148,7 @@ table {
   width: 100%;
   margin-bottom: 20px;
   th, td {
+    text-align: left;
     padding: 5px;
     line-height: 20px;
   }
@@ -167,6 +170,7 @@ table {
   font-size: 11px;
   line-height: 12px;
   z-index: 100;
+  border-right: 1px solid #ccc;
 }
 
 /* Rules for the OpenStreetMap logo in the top left corner */
@@ -228,7 +232,6 @@ table {
   background: #e00;
   font-size: 12px;
   font-weight: bold;
-
   p {
     margin: 5px;
   }
@@ -247,7 +250,6 @@ table {
   margin-bottom: -4px;
   background: #ea0;
   font-size: 12px;
-
   p {
     margin: 5px;
   }
@@ -256,6 +258,7 @@ table {
 /* Rules for the menu displayed in the left sidebar */
 
 .left_menu {
+  left: 0px;
   margin: 0;
   padding: 5px 10px;
   line-height: 15px;
@@ -311,8 +314,10 @@ table {
  */
 
 .optionalbox {
+  left: 0px;
   padding: 5px 10px;
   margin: 5px 0;
+  text-align: left;
 }
 
 /* Rules for the search box */
@@ -322,7 +327,7 @@ table {
 }
 
 #search_field {
-  position:relative;
+  position: relative;
 }
 
 #search_field input[type="text"] {
@@ -331,6 +336,7 @@ table {
   font-size: 14px;
   line-height: 15px;
   height: 25px;
+  padding: 2px 0px 2px 5px;
   box-shadow: inset #DDD 0px 1px 3px;
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -353,6 +359,7 @@ table {
   background: image-url("sprite.png");
   position: absolute;
   top: 5px;
+  right: 5px;
   cursor: pointer;
 }
 
@@ -384,6 +391,7 @@ table {
   border-radius: 2px;
   -moz-border-radius: 2px;
   color: #222;
+  margin: 10px 10px 0px 10px;
 }
 
 .donate:hover {
@@ -403,18 +411,21 @@ table {
   background: image-url("sprite.png") 0 -30px no-repeat;
   position: absolute;
   top: 8px;
+  left: 17px;
 }
 
 /* Rules for Creative Commons logo button */
 
 #cclogo {
   margin: 10px 0;
+  float: right;
 }
 
 /* Rules for tabbed navigation bar */
 
 #top-bar {
   position: relative;
+  margin-left: 185px;
   height: 29px;
   border-bottom: 1px solid #ccc;
   background: white;
@@ -432,7 +443,7 @@ table {
 #tabnav {
   height: 29px;
   margin-bottom:0;
-  overflow:hidden;
+  overflow: hidden;
 }
 
 #tabnav li {
@@ -440,17 +451,18 @@ table {
 }
 
 #tabnav a, #tabnav a:link, #tabnav a:visited {
+  float: left;
   background: #fff;
   font-weight: bold;
   padding: 3px 10px;
   text-decoration: none;
   color: #333;
-  -webkit-transition: color 200ms ease-in;
-  -moz-transition: color 200ms ease-in;
-  -o-transition: color 200ms ease-in;
-  transition: color 200ms ease-in;
   float: left;
   margin-right: 1px;
+  -webkit-transition: color 200ms ease-in;
+     -moz-transition: color 200ms ease-in;
+       -o-transition: color 200ms ease-in;
+          transition: color 200ms ease-in;
 }
 
 .site-index #tabnav a#viewanchor,
@@ -463,7 +475,7 @@ table {
 }
 
 #tabnav a:link:hover, #tabnav a:visited:hover {
-  text-decoration:underline;
+  text-decoration: underline;
 }
 
 #tabnav a:link.disabled,
@@ -486,7 +498,6 @@ table {
 .menuicon {
   padding: 5px;
   font-weight: normal;
-
   &:hover {
     background: #eee;
   }
@@ -503,12 +514,11 @@ table {
 
 .menu ul {
   margin: 0;
-}
-
-.menu li {
-  padding: 5px;
-  border-top: 1px solid #eee;
-  white-space: nowrap;
+  li {
+    padding: 5px;
+    border-top: 1px solid #eee;
+    white-space: nowrap;
+  }
 }
 
 /* Utility for styling notification numbers */
@@ -541,20 +551,10 @@ table {
   z-index: 20000000;
   position: absolute;
   top: 15px;
+  left: 15px;
 }
 
-/* Rules for OpenLayers maps */
-
-.olControlAttribution {
-  bottom: 15px !important;
-  left: 0px !important;
-  right: 0px !important;
-  text-align: center;
-}
-
-.olControlSimplePanZoom #panleft {
-  left: 0;
-}
+/* Rules for Leaflet maps */
 
 #permalink {
   z-index: 10000;
@@ -565,14 +565,64 @@ table {
   background:#fff;
 }
 
-#permalink a {
+#map {
+  margin: 0px;
+  border: 0px;
+  padding: 0px;
+}
+
+.site-index .leaflet-top,
+.site-export .leaflet-top {
+  top: 20px !important;
+  .leaflet-control {
+    margin-top: 0px !important;
+  }
+}
+
+.site-index #map .olControlScaleLine,
+.site-export #map .olControlScaleLine {
+  left: 10px !important;
+}
+
+/* Rules for edit menu */
+
+.menuicon {
   padding: 5px;
+  font-weight: normal;
+  &:hover {
+    background: #eee;
+    text-decoration: none !important;
+  }
+}
+
+.menu {
+  display: none;
+  z-index: 10000;
+  position: absolute;
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  border-top: 0px;
+}
+
+.menu ul {
+  margin: 0px;
+}
+
+.menu li {
+  padding: 2px 5px;
+  border-top: 1px solid #eee;
+  white-space: nowrap;
 }
 
 /* Rules for attribution text under the main map shown on printouts */
 
 #attribution {
   display: none;
+}
+
+.attribution_license,
+.attribution_project {
+  text-align: left;
 }
 
 .attribution_notice {
@@ -584,15 +634,17 @@ table {
 #sidebar {
   display: none;
   position: absolute;
-  width: 33.3333%;
   top: 0px;
   bottom: 0px;
-
+  left: 0px;
+  border-right: 1px solid #ccc;
+  width: 33.3333%;
   .sidebar_heading {
     position: relative;
     height: 20px;
     padding: 20px;
     background: #F4F4FF;
+    border-bottom: 1px solid #ccc;
   }
   h3 {
     margin: 0;
@@ -611,7 +663,9 @@ table {
 #sidebar_close {
   position: absolute;
   height: 20px;
-  top: 0px; bottom: 0;
+  top: 0px;
+  bottom: 0;
+  right: 20px;
   margin: auto;
 }
 
@@ -628,6 +682,7 @@ table {
     border-bottom: 1px solid #ddd;
   }
 }
+
 /* Rules for the map key which appears in the popout sidebar */
 
 #mapkey h3 {
@@ -684,6 +739,7 @@ table {
   a.more-details {
     position: absolute;
     top: 0;
+    right: 20px;
   }
   ul li {
     margin-bottom: 0;
@@ -712,6 +768,10 @@ table {
   margin: 5px;
 }
 
+#sidebar #marker_inputs li:last-child {
+  margin-bottom: 10px;
+}
+
 #export_osm,
 #export_mapnik,
 #export_osmarender {
@@ -736,6 +796,14 @@ table {
   position: fixed;
   padding: 0;
   top: 30px; bottom: 0;
+  left: 185px; right: 0;
+  border-left: 1px solid #ccc;
+}
+
+.wrapper {
+  margin-left: 185px;
+  border-left: 1px solid #ccc;
+  text-align: left;
 }
 
 .site-edit #content {
@@ -766,18 +834,19 @@ table {
   margin: 10px;
   position: absolute;
   top: 0px;
+  margin-right: 5px;
 }
 
 #slim_header img {
   vertical-align: middle;
   margin-bottom: 5px;
+  margin-right: 5px;
 }
 
 .content-heading {
   position: relative;
   padding: 20px;
   background: #F4F4FF;
-
   h1, h2 {
     margin-bottom: 10px;
     line-height: 100%;
@@ -785,7 +854,6 @@ table {
       margin-bottom: 0;
     }
   }
-
   p {
     margin-top: 10px;
     margin-bottom: 0px;
@@ -800,6 +868,7 @@ table {
   height: 398px;
   border: 1px solid #ccc;
   margin-bottom: 20px;
+  float: right;
 }
 
 .content_map #small_map {
@@ -841,12 +910,19 @@ table {
   .selected {
     background-color: rgb(255, 255, 160);
   }
+  .date,
+  .user {
+    border-left: 1px solid #ccc;
+    padding-left: 5px;
+    margin-right: 5px;
+  }
 }
 
 #changeset_list_map {
   position: absolute;
   bottom: 20px;
   top: 20px;
+  right: 20px;
   width: 45%;
   min-height: 398px;
   max-height: 598px;
@@ -865,8 +941,12 @@ table {
   h4, p {
     margin-bottom: 10px;
   }
+  p, ul, .bbox {
+    margin-left: 33.3333%;
+  }
   h4 {
     width: 33.3333%;
+    float: left;
   }
 }
 
@@ -883,6 +963,13 @@ table {
   .min_lat {
     margin-left: auto;
     margin-right: auto;
+    float: left;
+  }
+  .box {
+    float: left;
+  }
+  .min_lat {
+      clear: left;
   }
 }
 
@@ -900,6 +987,7 @@ table {
   font-size: 10px;
   border-collapse: collapse;
   border-width: 0px;
+  text-align: right;
 }
 
 #trace_list .trace_summary {
@@ -931,6 +1019,9 @@ table {
 
 #userinformation {
   min-height: 100px;
+  .userinformation-inner {
+    float: left;
+  }
   h2 {
     margin-top: 0;
   }
@@ -946,10 +1037,14 @@ table {
 .admin-user-info small {
   margin-bottom: 10px;
   display: inline;
+  margin-right: 20px;
 }
 
-.activity-block h3 {
-  margin-bottom: 10px;
+.activity-block {
+  float: left;
+  h3 {
+    margin-bottom: 10px;
+  }
 }
 
 .contact-activity {
@@ -958,7 +1053,7 @@ table {
 }
 
 .activity-details p {
-  margin: 0;
+  margin-left: 72px;
 }
 
 .user-view p#no_home_location {
@@ -967,23 +1062,64 @@ table {
 
 .user-view .user_thumbnail {
   margin-top: 5px;
+  float: left;
 }
 
 /* Rules for the user map */
 
-.user_map .olControlSimplePanZoom {
+.user_map .leaflet-control-pan,
+.user_map .leaflet-control-zoomslider {
   display: none;
 }
 
-.user_map .olControlZoom {
+.user_map .leaflet-control-zoom {
   display: block;
 }
+
+/* .user-view .user_map {
+  float: right;
+  position: relative;
+  width: 400px;
+  height: 400px;
+  border: 1px solid #ccc;
+}
+
+.user-view .user_map p#no_home_location {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  width: 90%;
+  height: 30%;
+  margin: auto 5%;
+}*/
+
+/* Rules for user popups on maps */
+
+.user_popup {
+  min-width: 200px;
+}
+
+.user_popup p {
+  padding-top: 3px;
+  padding-bottom: 3px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 55px;
+  margin-right: 2px;
+}
+
+.user_popup img.user_thumbnail {
+  float: left;
+  margin-right: 10px;
+}
+
 
 /* Rules for user popups on maps */
 
 .user_popup p {
-  font-size: 12px;
   margin-bottom: 0;
+  margin-left: 60px;
+  font-size: 12px;
 }
 
 /* Rules for the user list */
@@ -1003,10 +1139,15 @@ table {
 }
 
 #user_list_actions {
+  float: right;
   margin-top: 10px;
 }
 
 /* Rules for the diary list page */
+
+.diary_entry-list img.user_thumbnail {
+  float: left;
+}
 
 .diary_post {
   position: relative;
@@ -1030,6 +1171,7 @@ table {
   ol {
     margin-bottom: 20px;
     font-style: italic;
+    margin-left: 20px;
   }
   ul li {
     list-style: disc;
@@ -1049,11 +1191,12 @@ table {
     margin-top: 0;
     margin-bottom: 0;
     font-size: 24px;
+    float: left;
     line-height: 32px;
   }
 }
 
-/* Rules for the new diary entry page */
+/* Rules for the diary entry page */
 
 .diary_entry {
   #map {
@@ -1078,12 +1221,17 @@ table {
     }
     p {
       margin-bottom: 10px;
+      margin-left: 70px;
     }
   }
   .comment-heading {
     margin-bottom: 0;
     margin-top: 0;
- }
+  }
+}
+
+.diary_entry-view img.user_thumbnail {
+  float: left;
 }
 
 /* Rules for the diary comment page */
@@ -1132,6 +1280,14 @@ div#contributorTerms ol {
 div#contributorTerms img {
   display: block;
   margin: 20px auto inherit auto;
+}
+
+form#termsForm div#buttons {
+  float: right;
+}
+
+form#termsForm input#agree {
+  margin-left: 40px;
 }
 
 div#slim_content form#termsForm {
@@ -1216,6 +1372,10 @@ p#contributorGuidance {
   background:#CBEEA7;
 }
 
+.right {
+  float: right;
+}
+
 .messages tr td,
 .messages tr th {
   padding: 5px;
@@ -1248,15 +1408,12 @@ p#contributorGuidance {
 
 .flash {
     padding: 20px;
-
   &#error {
     background-color: #ff7070;
   }
-
   &#warning {
     background-color: #fff6f0;
   }
-
   &#notice {
     background-color: #CBEEA7;
   }
@@ -1281,11 +1438,13 @@ p#contributorGuidance {
 }
 
 #errorExplanation h2 {
+  margin: -10px;
+  padding: 5px 5px 5px 15px;
   font-weight: bold;
   font-size: 12px;
-  margin: -10px;
   background-color: #c00;
   color: #fff;
+  text-align: left;
 }
 
 #errorExplanation p {
@@ -1310,6 +1469,11 @@ p#contributorGuidance {
   font-weight: bold;
   font-size: 12px;
   line-height: 20px;
+  text-align: right;
+}
+
+.submitButton {
+  text-align: right;
 }
 
 .minorNote {
@@ -1324,6 +1488,11 @@ textarea {
   border: 1px solid #ccc;
 }
 
+input.openid_url {
+  background: image-url('openid_input.png') repeat-y left white;
+  padding-left: 20px;
+}
+
 /* Rules for user images */
 
 img.user_image {
@@ -1331,12 +1500,15 @@ img.user_image {
   max-height: 100px;
   border: 1px solid #ccc;
   margin-bottom: 20px;
+  float: left;
+  margin-right: 20px;
 }
 
 img.user_thumbnail {
   max-width: 50px;
   max-height: 100px;
   border: 1px solid #ccc;
+  margin-right: 20px;
 }
 
 img.user_thumbnail_tiny {
@@ -1370,13 +1542,33 @@ ul.secondary-actions {
   min-height:20px;
   font-style: normal;
   margin-bottom: 0;
+  margin-left: 0;
   &.pager {
     display: inline-block;
     margin-bottom: 20px;
+    margin-right: 60px;
   }
   li {
     display: block;
+    float: left;
     list-style: none;
+    border-left: 1px solid #222;
+    padding-left: 5px;
+    margin-right: 5px;
+    &:first-child {
+      border-left: 0;
+      padding-left: 0;
+    }
+  }
+  .hidden li,
+  .hide_unless_logged_in li {
+    border-left: 1px solid #222;
+    padding-left: 5px;
+    }
+  .hidden:first-child li,
+  .hide_unless_logged_in:first-child li {
+    border-left: 0;
+    padding-left: 0;
   }
 }
 
@@ -1456,10 +1648,10 @@ a.button.submit {
       }
     }
   }
-
   .richtext_help {
     display: inline-block;
     vertical-align: top;
+    margin-left: 15px;
     background-color: #f8f8ff;
     padding: 20px;
     p {
@@ -1467,19 +1659,25 @@ a.button.submit {
     }
     th {
       vertical-align: top;
+      text-align: left;
+      padding: 0px 15px 0px 0px !important;
     }
     table > thead th {
       font-weight: bold;
     }
     td {
+      font-family: fixed;
       line-height: 16px;
+      text-align: left;
       padding: 0px !important;
     }
     input.richtext_doedit {
       margin-top: 5px !important;
+      margin-right: 10px !important;
     }
     input.richtext_dopreview {
       margin-top: 5px !important;
+      margin-left: 10px !important;
     }
   }
 }

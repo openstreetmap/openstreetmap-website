@@ -13,6 +13,9 @@ gem 'pg'
 # Load jquery support
 gem 'jquery-rails'
 
+# Load R2 for RTL conversion
+gem 'r2'
+
 # Load rails plugins
 gem 'rails-i18n', ">= 0.6.3"
 gem 'dynamic_form'
@@ -20,7 +23,7 @@ gem 'rinku', '>= 1.2.2', :require => 'rails_rinku'
 gem 'oauth-plugin', '>= 0.4.1', :require => 'oauth-plugin'
 gem 'open_id_authentication', '>= 1.1.0'
 gem 'validates_email_format_of', '>= 1.5.1'
-gem 'composite_primary_keys', '>= 5.0.9'
+gem 'composite_primary_keys', '>= 5.0.10'
 gem 'http_accept_language', '>= 1.0.2'
 gem 'paperclip', '~> 2.0'
 gem 'deadlock_retry', '>= 1.2.0'
