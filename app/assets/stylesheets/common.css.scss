@@ -1,11 +1,57 @@
 /* Styles common to large and small screens */
 
+/* Minimal CSS reset */
+
+html, body, ul, ol, li, form, fieldset, legend, h1, h2, h3, h4, h5, h6, p {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size:100%;
+}
+
+fieldset,img { border: 0; }
+
+legend { color: #000; }
+
+sup { vertical-align: text-top; }
+
+sub { vertical-align: text-bottom; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+li { list-style: none; }
+
+input,
+select,
+textarea,
+body { font: 14px/20px "Helvetica Neue",Arial,sans-serif; }
+
+abbr, acronym {
+  border-bottom: .1em dotted;
+  cursor: help;
+}
+
+/* Micro Clearfix | Details: http://nicolasgallagher.com/micro-clearfix-hack/ */
+
+.clearfix:before,
+.clearfix:after {
+    content: " ";
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
+
 /* Default rules for the body of every page */
 
 body {
   font-family: 'Helvetica Neue',Arial,sans-serif;
   font-size: 14px;
-  line-height: 20px;
+  line-height: 1.6666;
   color: #222;
   background-color: #fff;
   margin: 0px;
@@ -17,15 +63,75 @@ body.slim {
   background-color: #f0f0f0;
 }
 
+h1, h2, h3 {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+h1, h2 {
+  font-size: 32px;
+}
+
+#content h2 {
+  font-size: 24px;
+}
+
+h3 {
+  font-size: 21px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+h4,h5,h6 {
+  font-size: 14px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  line-height: 1.5;
+}
+
+p, ul {
+  margin-bottom: 20px;
+}
+
+p > img {
+  width: auto;
+  max-width: 100%;
+}
+
+small, aside {
+  font-size: 12px;
+}
+
+h1:first-child,
+h2:first-child,
+h3:first-child,
+h4:first-child,
+h5:first-child,
+h6:first-child {
+  margin-top: 0;
+}
+
+.column-1 {
+  width: 50%;
+  margin-bottom: 20px;
+}
+
+.small_icon {
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
 /* Rules for links */
 
 a {
   color: #00f;
   text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 /* Rules for horizontal lines */
@@ -37,23 +143,34 @@ hr {
   height: 1px;
 }
 
-/* Default rules for headings */
+/* General styles for tables */
 
-h2 {
-  margin: 5px 0;
-  font-size: 25px;
-  line-height: 30px;
+table {
+  width: 100%;
+  margin-bottom: 20px;
+  th, td {
+    text-align: left;
+    padding: 5px;
+    line-height: 20px;
+  }
+  th {
+    font-weight: bold;
+    vertical-align: top;
+  }
+  td {
+    vertical-align: middle;
+  }
 }
 
 /* Rules for the whole left sidebar, including the logo */
 
 #left {
   position: absolute;
-  top: 30px;
-  bottom: 0;
+  height: 100%;
   width: 185px;
   font-size: 11px;
   line-height: 12px;
+  z-index: 100;
   border-right: 1px solid #ccc;
 }
 
@@ -63,13 +180,9 @@ h2 {
   display: block;
   width: 170px;
   min-width: 170px;
-  padding: 5px;
+  padding: 20px 5px;
   text-align: center;
   margin: auto;
-}
-
-#logo img {
-  border: 0px;
 }
 
 #logo h1 {
@@ -89,10 +202,6 @@ h2 {
 
 #small-title {
   display: none;
-}
-
-#small-title img {
-  border: 0px;
 }
 
 /* Rules for the introductory text displayed in the left sidebar to new users */
@@ -117,15 +226,13 @@ h2 {
  */
 
 .sidebar-alert {
-  padding: 4px 5px 4px 5px;
+  padding: 5px;
   border-top: 1px solid #ccc;
   margin-top: 4px;
   margin-bottom: -4px;
   background: #e00;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: bold;
-  line-height: 17px;
-
   p {
     margin: 5px;
   }
@@ -138,14 +245,12 @@ h2 {
  */
 
 .sidebar-notice {
-  padding: 4px 5px 4px 5px;
+  padding: 5px;
   border-top: 1px solid #ccc;
   margin-top: 4px;
   margin-bottom: -4px;
   background: #ea0;
-  font-size: 13px;
-  line-height: 17px;
-
+  font-size: 12px;
   p {
     margin: 5px;
   }
@@ -162,6 +267,10 @@ h2 {
   list-style-type: none;
   border-bottom: 1px solid #ccc;
   border-top: 1px solid #ccc;
+}
+
+.left_menu img {
+  margin: 10px 0px;
 }
 
 .left_menu ul {
@@ -212,23 +321,10 @@ h2 {
   text-align: left;
 }
 
-.optionalbox h1 {
-  font-size: 14px;
-  font-weight: bold;
-  line-height: 20px;
-  margin: 0px;
-  vertical-align: bottom;
-}
-
 /* Rules for the search box */
-
-.whereami {
-}
 
 #search_field form {
   width: 165px;
-  margin: 0px;
-  padding: 0px;
 }
 
 #search_field {
@@ -237,6 +333,7 @@ h2 {
 
 #search_field input[type="text"] {
   width: 165px;
+  padding: 3px;
   font-size: 14px;
   line-height: 15px;
   height: 25px;
@@ -254,18 +351,17 @@ h2 {
 }
 
 #search_field input[type="submit"] {
+  border: 0;
+  margin: 0;
+  padding: 0;
   width: 15px;
   height: 15px;
-  border: 0px;
   text-indent: -1000px;
   overflow: hidden;
-  text-transform: capitalize;
-  padding-left: 0px;
-  padding-right: 0px;
-  background: image-url("sprite.png");
+  background: image-url("sprite.png") 0 0 no-repeat;
   position: absolute;
   top: 5px;
-  right: 4px;
+  right: 5px;
   cursor: pointer;
 }
 
@@ -273,12 +369,13 @@ h2 {
   margin: 5px 0 0 0;
 }
 
+/* Utility for de-emphasizing content */
+
 .deemphasize {
   color: #999;
-}
-
-.deemphasize a {
-  color: #7092FF;
+  a {
+    color: #7092FF;
+  }
 }
 
 /* Rules for donation request box */
@@ -287,7 +384,6 @@ h2 {
   display: block;
   position: relative;
   width: 153px;
-  margin: 10px 10px 0px 10px;
   padding: 5px;
   border: 1px solid #AED1A0;
   background: #cbeea7;
@@ -297,6 +393,7 @@ h2 {
   border-radius: 2px;
   -moz-border-radius: 2px;
   color: #222;
+  margin: 10px 10px 0px 10px;
 }
 
 .donate:hover {
@@ -313,8 +410,6 @@ h2 {
   width: 15px;
   height: 15px;
   border: 0px;
-  padding-left: 0px;
-  padding-right: 0px;
   background: image-url("sprite.png") 0 -30px no-repeat;
   position: absolute;
   top: 8px;
@@ -324,63 +419,65 @@ h2 {
 /* Rules for Creative Commons logo button */
 
 #cclogo {
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin: 10px 0;
+  float: right;
 }
 
 /* Rules for tabbed navigation bar */
 
 #top-bar {
-  position: absolute;
-  z-index: 10000;
-  top: 0;
-  left: 185px;
-  right: 0;
+  position: relative;
+  margin-left: 185px;
   height: 29px;
   border-bottom: 1px solid #ccc;
   background: white;
+  z-index: 100;
+}
+
+.site-edit #top-bar,
+.site-index #top-bar,
+.site-export #top-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
 }
 
 #tabnav {
-  padding: 0;
-  margin: 0;
-  overflow:hidden;
+  height: 29px;
+  margin-bottom:0;
+  overflow: hidden;
 }
 
 #tabnav li {
-  margin: 0px;
-  padding: 0px;
   display: inline;
-  list-style-type: none;
 }
 
 #tabnav a, #tabnav a:link, #tabnav a:visited {
   float: left;
   background: #fff;
-  font-size: 14px;
-  line-height: 19px;
   font-weight: bold;
-  padding: 5px 10px;
-  margin-right: 1px;
+  padding: 3px 10px;
   text-decoration: none;
   color: #333;
+  float: left;
+  margin-right: 1px;
   -webkit-transition: color 200ms ease-in;
-  -moz-transition: color 200ms ease-in;
-  -o-transition: color 200ms ease-in;
-  transition: color 200ms ease-in;
+     -moz-transition: color 200ms ease-in;
+       -o-transition: color 200ms ease-in;
+          transition: color 200ms ease-in;
 }
 
-body.site-index #tabnav a#viewanchor,
-body.site-edit #tabnav a#editanchor,
-body.changeset-list #tabnav a#historyanchor,
-body.site-export #tabnav a#exportanchor {
+.site-index #tabnav a#viewanchor,
+.site-edit #tabnav a#editanchor,
+.changeset_list #tabnav a#historyanchor,
+.site-export #tabnav a#exportanchor {
   border-bottom: 1px solid #aaa;
   background: #9ed485;
   color: #000;
 }
 
 #tabnav a:link:hover, #tabnav a:visited:hover {
-  text-decoration:underline;
+  text-decoration: underline;
 }
 
 #tabnav a:link.disabled,
@@ -398,10 +495,12 @@ body.site-export #tabnav a#exportanchor {
   text-decoration: none;
 }
 
+/* Utility for styling notification numbers */
+
 .count-number {
   padding: 2px 5px;
   border-radius: 3px;
-  background: #eee;
+  background: #d7d7ff;
   margin: 0 2px;
   font-size: 11px;
   color: #333;
@@ -411,11 +510,7 @@ body.site-export #tabnav a#exportanchor {
 
 #greeting {
   float: right;
-  height: 28px;
-  margin: 0px;
-  padding-right: 10px;
-  font-size: 13px;
-  line-height: 28px;
+  padding-top: 3px;
 }
 
 .greeting-bar-unread {
@@ -433,16 +528,18 @@ body.site-export #tabnav a#exportanchor {
 
 /* Rules for Leaflet maps */
 
-#map {
-  margin: 0px;
-  border: 0px;
-  padding: 0px;
+#permalink {
+  z-index: 10000;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  padding: 5px;
+  background:#fff;
 }
 
 .site-index .leaflet-top,
 .site-export .leaflet-top {
-  top: 40px !important;
-
+  top: 10px !important;
   .leaflet-control {
     margin-top: 0px !important;
   }
@@ -456,10 +553,10 @@ body.site-export #tabnav a#exportanchor {
 /* Rules for edit menu */
 
 .menuicon {
-  padding: 5px;
-
+  padding: 0 5px;
+  font-weight: normal;
+  display: inline-block;
   &:hover {
-    background: #eee;
     text-decoration: none !important;
   }
 }
@@ -475,13 +572,10 @@ body.site-export #tabnav a#exportanchor {
 
 .menu ul {
   margin: 0px;
-  padding: 0px;
 }
 
 .menu li {
   padding: 2px 5px;
-  margin: 0px;
-  list-style-type: none;
   border-top: 1px solid #eee;
   white-space: nowrap;
 }
@@ -492,7 +586,8 @@ body.site-export #tabnav a#exportanchor {
   display: none;
 }
 
-.attribution_license {
+.attribution_license,
+.attribution_project {
   text-align: left;
 }
 
@@ -500,63 +595,63 @@ body.site-export #tabnav a#exportanchor {
   text-align: center;
 }
 
-.attribution_project {
-  text-align: right;
-}
-
 /* Rules for the popout map sidebar */
 
 #sidebar {
   display: none;
   position: absolute;
-  margin: 30px 0px 0px 0px;
-  padding: 0px;
-  border-right: 1px solid #ccc;
-  width: 30%;
+  overflow: auto;
   top: 0px;
   bottom: 0px;
   left: 0px;
+  border-right: 1px solid #ccc;
+  width: 33.3333%;
+  .sidebar_heading {
+    position: relative;
+    padding: 10px 20px;
+    z-index: 9999;
+    background: #F4F4FF;
+    border-bottom: 1px solid #ccc;
+  }
+  h4 {
+    margin: 0;
+  }
+  ul {
+    margin-bottom: 0;
+    li {
+      margin-bottom: 5px;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
 }
 
-#sidebar #sidebar_content {
-  overflow: auto;
+#sidebar_close {
   position: absolute;
-  font-size: 13px;
-  line-height: 15px;
-  top: 29px;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
+  height: 20px;
+  top: 0px;
+  bottom: 0;
+  right: 20px;
+  margin: auto;
 }
 
-#sidebar .sidebar_title {
-  margin: 0px;
-  padding: 3px 6px 4px 6px;
-  height: 29px;
-  font-size: 14px;
-  line-height: 15px;
-  background: #ccc;
-}
-
-#sidebar #sidebar_title {
-  text-align: left;
-}
-
-#sidebar #sidebar_close {
-  text-align: right;
+#sidebar_content {
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  h4 {
+    padding: 0 20px 10px 20px;
+    margin-top: 10px;
+    margin-bottom: 0;
+    border-bottom: 1px solid #ddd;
+  }
 }
 
 /* Rules for the map key which appears in the popout sidebar */
 
-#mapkey h3 {
-  font-size: 110%;
-  font-weight: normal;
-  text-align: center;
-}
-
-#mapkey .mapkey-table {
-  padding-left: 5px;
-  padding-right: 5px;
+#mapkey {
+  padding: 20px;
 }
 
 #mapkey .mapkey-table-key img {
@@ -565,8 +660,8 @@ body.site-export #tabnav a#exportanchor {
   margin-right: auto;
 }
 
-#mapkey .mapkey-table-value {
-  font-size: 90%;
+#mapkey td {
+  padding: 0 5px 5px 5px;
 }
 
 /* Rules for search results which appear in the popout sidebar */
@@ -576,75 +671,78 @@ body.site-export #tabnav a#exportanchor {
   margin-bottom: 5px;
 }
 
-.search_results_heading {
-  margin: 0px;
-  padding: 2px 5px;
-  border-bottom: 1px solid #ccc;
-  font-weight: bold;
+.search_results_entry {
+  margin-bottom: 0 ;
 }
 
-.search_results_entry {
-  margin: 0px;
-  padding: 2px 5px;
+.search_results_entry .search_searching {
+  text-align: center;
+  margin: 20px auto;
+  width: 20px;
+  display: block;
 }
+
+ul.results-list li { border-bottom: 1px solid #ccc; }
 
 .search_results_error {
-  margin: 0px;
-  padding: 2px 6px 0px;
   color: #f00;
 }
 
 /* Rules for data browser information which appears in the popout sidebar */
 
-.browse_heading {
-  margin: 0px;
-  padding: 3px 6px;
-  border: 1px solid #ccc;
-  background: #ddd;
+#browse_content {
+  position: relative;
+  .browse_show_list.button {
+    position: absolute;
+    left: 20px;
+    right: 20px;
+    bottom: -40px;
+    margin-bottom: 0;
+  }
+  a.more-details {
+    position: absolute;
+    top: 0;
+    right: 20px;
+  }
+  ul li {
+    margin-bottom: 0;
+  }
 }
 
 .browse_details {
-  margin: 0px;
-  padding: 0px 6px;
+  position: relative;
+}
+
+.browse_status {
+  display: none;
 }
 
 /* Rules for export information which appears in the popout sidebar */
 
-.export_heading {
-  margin: 0px;
-  padding: 2px 5px;
-  border-bottom: 1px solid #ccc;
-  font-weight: bold;
+.export_bounds {
+  text-align: center;
 }
 
-.export_bounds {
-  width: 100%;
-  text-align: center;
+.export_area_inputs {
+  margin-bottom: 10px;
 }
 
 .export_bound {
   margin: 5px;
 }
 
-.export_details {
-  padding: 2px 6px;
+.export_details input[type="text"]#export_html_text {
+  width: 100%;
 }
 
-#export_osm {
-  display: none;
+#sidebar #marker_inputs li:last-child {
+  margin-bottom: 10px;
 }
 
-#export_mapnik {
-  display: none;
-}
-
+#export_osm,
+#export_mapnik,
 #export_osmarender {
   display: none;
-}
-
-.export_hint {
-  padding: 0px 12px;
-  font-style: italic;
 }
 
 .export_buttons {
@@ -656,21 +754,23 @@ body.site-export #tabnav a#exportanchor {
 
 #content {
   padding: 20px;
-  margin: 30px 0px 0px 185px;
-  border-left: 1px solid #ccc;
-  text-align: left;
+  position: relative;
 }
 
 .site-edit #content,
 .site-index #content,
 .site-export #content {
   position: fixed;
-  margin-top: 0px;
-  left: 0px;
-  right: 0px;
-  top: 0px;
-  bottom: 0px;
-  padding: 0px;
+  padding: 0;
+  top: 30px; bottom: 0;
+  left: 185px; right: 0;
+  border-left: 1px solid #ccc;
+}
+
+.wrapper {
+  margin-left: 185px;
+  border-left: 1px solid #ccc;
+  text-align: left;
 }
 
 .site-edit #content {
@@ -701,6 +801,7 @@ body.site-export #tabnav a#exportanchor {
   margin: 10px;
   position: absolute;
   top: 0px;
+  margin-right: 5px;
 }
 
 #slim_header img {
@@ -709,23 +810,44 @@ body.site-export #tabnav a#exportanchor {
   margin-right: 5px;
 }
 
-/* Rules for text content pages */
+.content-heading {
+  position: relative;
+  padding: 20px;
+  background: #F4F4FF;
+  h1, h2 {
+    margin-bottom: 10px;
+    line-height: 100%;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  p {
+    margin-top: 10px;
+    margin-bottom: 0px;
+  }
+}
 
-.wide-table {
+/* Rules for small maps in content areas */
+
+.content_map {
+  position: relative;
+  width: 45%;
+  height: 398px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  float: right;
+}
+
+.content_map #small_map {
+  height: 100%;
   width: 100%;
+  margin-bottom: 20px;
 }
 
 /* Rules for the home page */
 
+.site-export #map,
 .site-index #map {
-  position: absolute;
-  top: 0px;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
-}
-
-.site-export #map {
   position: absolute;
   top: 0px;
   bottom: 0px;
@@ -746,88 +868,88 @@ body.site-export #tabnav a#exportanchor {
 
 /* Rules for the changeset list shown by the history tab etc */
 
-#changeset_list_container {
-  position: relative;
-}
-
 #changeset_list {
-  width: 50%;
-  font-size: small;
-  border-collapse: collapse;
-  border-width: 0px;
-  margin-top: 1px;
-  margin-bottom: 1px;
-  text-align: left;
-}
-
-#changeset_list td {
-  vertical-align: top;
-  padding: 3px;
-}
-
-#changeset_list .date {
-  white-space: nowrap;
-}
-
-#changeset_list .user {
-  white-space: nowrap;
-}
-
-#changeset_list .area {
-  white-space: nowrap;
-}
-
-#changeset_list .selected {
-  background-color: rgb(255, 255, 160);
-  background-color: rgba(255, 255, 85, 0.5);
+  width: 100%;
+  ul {
+    padding: 10px 0;
+    margin-bottom: 0px;
+    border-top: 1px solid #ccc;
+    &:last-child {
+      border-bottom: 1px solid #ccc;
+    }
+  }
+  .selected {
+    background-color: rgb(255, 255, 160);
+  }
+  .date,
+  .user {
+    border-left: 1px solid #ccc;
+    padding-left: 5px;
+    margin-right: 5px;
+  }
 }
 
 #changeset_list_map {
   position: absolute;
-  float: right;
-  top: 0px;
-  bottom: 0px;
-  right: 0px;
-  width: 49%;
-  min-height: 400px;
-  border: solid 1px black;
+  bottom: 20px;
+  top: 20px;
+  right: 20px;
+  width: 45%;
+  min-height: 398px;
+  max-height: 598px;
+  border: 1px solid #ccc;
 }
 
 /* Rules for the data browser */
 
-#browse_navigation {
-  float: right;
-  width: 250px;
-  margin-left: 10px;
-  text-align: center;
+.browse-section {
+  border-top: 1px solid #ccc;
+  margin-top: 10px;
+  padding-top: 10px;
+  &:first-child {
+    margin-top: 0;
+  }
+  h4, p {
+    margin-bottom: 5px;
+  }
+  p, ul, .bbox {
+    margin-left: 33.3333%;
+  }
+  h4 {
+    width: 33.3333%;
+    float: left;
+  }
 }
 
-table.browse_details th {
-  white-space: nowrap;
-}
-
-#browse_map {
-  float: right;
-  width: 250px;
-  text-align: right;
-  margin-left: 10px;
-}
-
-#browse_map #small_map {
-  width: 250px;
-  height: 300px;
-  border: solid 1px black;
+.bbox {
+  div {
+    width: 33.3333%;
+    text-align: center;
+    padding: 5px 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    float: left;
+  }
+  .max_lat,
+  .min_lat {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+  }
 }
 
 #browse_map .geolink {
   display: none;
 }
 
+#browse_map .secondary-actions {
+  margin-bottom: 10px;
+}
+
 /* Rules for the trace list shown by the traces tab etc */
 
 #trace_list {
-  font-size: small;
-  border-collapse: collapse;
+  font-size: 10px;
   border-width: 0px;
   text-align: right;
 }
@@ -857,235 +979,73 @@ table.browse_details th {
   color: red;
 }
 
-/* Rules for the user list */
+/* Rules for the user profile page */
 
-#user_list {
-  width: 100%;
-  font-size: small;
+#userinformation {
+  min-height: 100px;
+  .userinformation-inner {
+    float: left;
+  }
+  h2 {
+    margin-top: 0;
+  }
+  .user-description {
+    width: 100%;
+    clear: both;
+  }
+  .deemphasize {
+    margin: 0;
+  }
 }
 
-#user_list tr {
-  vertical-align: middle;
+.admin-user-info small {
+  margin-bottom: 10px;
+  display: inline;
+  margin-right: 20px;
 }
 
-#user_list p {
-  margin-top: 0px;
-  margin-bottom: 0px;
+.activity-block {
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 20px;
+  float: left;
+  h3 {
+    margin-bottom: 10px;
+  }
 }
 
-#user_list_actions {
-  float: right;
-  margin-top: 10px;
-}
-
-/* Rules for the diary list */
-
-.diary_entry-list img.user_image {
-  float: right;
-}
-
-.diary_entry-list img.user_thumbnail {
-  float: right;
-}
-
-/* Rules for the diary entry view */
-
-.diary_entry-view img.user_image {
-  float: right;
-}
-
-.diary_entry-view img.user_thumbnail {
-  float: right;
-}
-
-/* Rules for the new diary entry page */
-
-.diary_entry div#map {
-  position: relative;
-  width: 90%;
-  height: 400px;
-  border: 1px solid #ccc;
-  display: none;
-}
-
-/* Rules for the login page */
-
-#login_wrapper div {
-  margin: 5px;
-  padding: 15px;
-  border-radius: 15px;
-  -moz-border-radius: 15px;
-}
-
-#login_login {
-  background-color: #f5f5ff;
-  border: 1px solid #f3f3ff;
-  border-radius: 15px;
-  -moz-border-radius: 15px;
-}
-
-#login_login h1 {
-  margin-top: 5px;
-}
-
-table#login_openid_buttons {
-  padding-bottom: 10px;
-}
-
-#login_openid_buttons td {
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
-
-#login_openid_buttons img {
-  border: 0;
-}
-
-#login_signup form.button-to div {
-  margin: 0px;
-  padding: 0px;
-}
-
-/* Rules for the account confirmation page */
-
-div#contributorTerms {
-  border: 1px solid black;
-  padding: 4px;
-  overflow: auto;
-  width: 95%;
-  height: 400px;
-}
-
-div#slim_content div#contributorTerms {
-  width: auto;
-}
-
-div#contributorTerms p#first {
-  margin-top: 0px;
-}
-
-div#contributorTerms p#last {
-  margin-bottom: 0px;
-}
-
-div#contributorTerms ol {
-  margin-bottom: 0px;
-}
-
-div#contributorTerms img {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 10%;
-}
-
-form#termsForm {
-  width: 95%;
-  margin-bottom: 3em;
-}
-
-form#termsForm div#buttons {
-  float: right;
-}
-
-form#termsForm input#agree {
-  margin-left: 50px;
-}
-
-div#slim_content form#termsForm {
-  width: auto;
-}
-
-p#contributorGuidance {
-  background-color: #f5f5ff;
-  border: 1px solid #f3f3ff;
-  border-radius: 15px;
-  -moz-border-radius: 15px;
-  padding: 10px;
-}
-
-/* Rules for the account settings page */
-
-#accountForm {
+.contact-activity {
   margin-top: 20px;
+  width: 100%;
 }
 
-#accountForm td {
-  padding-bottom: 10px;
+.activity-details p {
+  margin-left: 72px;
+  margin-bottom: 0;
 }
 
-#accountForm .user_map {
-  position: relative;
-  width: 500px;
-  height: 400px;
-  border: 1px solid #ccc;
-}
-
-#accountForm td.accountImage {
-  img {
-    vertical-align: top;
-    margin-top: 3px;
+#friends-container .contact-activity ul {
+  margin-left: 72px;
   }
 
-  table {
-    display: inline-block;
-
-    td {
-      padding-bottom: 0px;
-    }
-  }
+.user-view p#no_home_location {
+  margin: 20px;
 }
 
-.nohome .location {
-  display: none;
-}
-
-#homerow .message {
-  display: none;
-}
-
-.nohome .message {
-  display: inline !important;
-}
-
-#accountForm input[type=submit] {
-  margin-top: 15px;
-}
-
-/* Rules for the user view */
-
-.user-view img.user_image {
-  float: right;
-}
-
-.user-view .user_map {
-  float: right;
-  position: relative;
-  width: 400px;
-  height: 400px;
-  border: 1px solid #ccc;
-}
-
-.user-view .user_map p#no_home_location {
-  position: absolute;
-  top: 0px;
-  bottom: 0px;
-  width: 90%;
-  height: 30%;
-  margin: auto 5%
+.user-view .user_thumbnail {
+  margin-top: 5px;
+  float: left;
 }
 
 /* Rules for the user map */
 
-.user_map .leaflet-control-pan,
-.user_map .leaflet-control-zoomslider {
-  display: none;
+.content_map .leaflet-popup-content {
+  margin: 10px 15px;
+  min-height: 62px;
 }
 
-.user_map .leaflet-control-zoom {
-  display: block;
+.content_map .leaflet-popup-content-wrapper {
+-webkit-border-radius: 4px;
+  border-radius: 4px;
 }
 
 /* Rules for user popups on maps */
@@ -1105,15 +1065,228 @@ p#contributorGuidance {
 
 .user_popup img.user_thumbnail {
   float: left;
+  margin-right: 10px;
+}
+
+/* Rules for user popups on maps */
+
+.user_popup p {
+  margin-bottom: 0;
+  margin-left: 60px;
+  font-size: 12px;
+}
+
+/* Rules for the user list */
+
+#user_list {
+  font-size: 10px;
+  width: 100%;
+}
+
+#user_list tr {
+  vertical-align: middle;
+}
+
+#user_list p {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+#user_list_actions {
+  float: right;
+  margin-top: 10px;
+}
+
+/* Rules for the diary list page */
+
+.diary_entry-list img.user_thumbnail {
+  float: left;
+}
+
+.diary_post {
+  position: relative;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #ccc;
+
+  &:first-child {
+    margin-top: 0;
+    border-top: 0;
+    padding-top: 0;
+  }
+  h1, h2 {
+    font-size: 21px;
+    line-height: 21px;
+  }
+  small.deemphasize {
+    display: block;
+  }
+  ul,
+  ol {
+    margin-bottom: 20px;
+    font-style: italic;
+    margin-left: 20px;
+  }
+  ul li {
+    list-style: disc;
+  }
+  ol li {
+    list-style: decimal;
+  }
+  ul.secondary-actions { display: inline-block;}
+}
+
+.content-heading .hide_unless_logged_in { // hacky selector, better to just add a new class to this div
+  display: inline;
+}
+
+.post_heading {
+  margin-bottom: 20px;
+  h2 {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 24px;
+    float: left;
+    line-height: 32px;
+  }
+}
+
+/* Rules for the diary entry page */
+
+.diary_entry {
+  #map {
+    position: relative;
+    width: 90%;
+    height: 398px;
+    border: 1px solid #ccc;
+    display: none;
+    margin-bottom: 20px;
+  }
+  #newcomment {
+    border-top: 1px solid #ccc;
+    padding-top: 20px;
+    margin-top: 10px;
+  }
+  .diary-comment {
+    margin-top: 10px;
+    &:first-child {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #ccc;
+    }
+    p {
+      margin-bottom: 10px;
+      margin-left: 70px;
+    }
+    .comment-heading {
+      margin-bottom: 0;
+      margin-top: 0;
+    }
+  }
+}
+
+.diary_entry-view img.user_thumbnail {
+  float: left;
+}
+
+/* Rules for the login page */
+
+#login_openid_buttons li {
+  float: left;
+  padding: 5px 10px;
+}
+
+/* Rules for the account confirmation page */
+
+div#contributorTerms {
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin-bottom: 20px;
+  overflow: auto;
+  height: 398px;
+}
+
+div#contributorTerms p#last {
+  margin-bottom: 0px;
+}
+
+div#contributorTerms ol {
+  margin-bottom: 0px;
+}
+
+div#contributorTerms img {
+  display: block;
+  margin: 20px auto inherit auto;
+}
+
+form#termsForm div#buttons {
+  float: right;
+}
+
+form#termsForm input#agree {
+  margin-left: 40px;
+}
+
+div#slim_content form#termsForm {
+  width: auto;
+}
+
+p#contributorGuidance {
+  background-color: #f4f4ff;
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  margin-top: 20px;
+  padding: 10px;
+}
+
+/* Rules for the account settings page */
+
+#accountForm {
+  margin-top: 20px;
+}
+
+#accountForm td {
+  padding-bottom: 10px;
+}
+
+#accountForm .user_map {
+  position: relative;
+  width: 498px;
+  height: 398px;
+  border: 1px solid #ccc;
+}
+
+.accountImage-options {
+  width: 50%;
+  display: inline-block;
+}
+
+.nohome .location {
+  display: none;
+}
+
+#homerow .message {
+  display: none;
+}
+
+.nohome .message {
+  display: inline !important;
+}
+
+#accountForm input[type=submit] {
+  margin-top: 15px;
+}
+
+.content_map.settings_map {
+  float: none;
+  width: 50%;
 }
 
 /* Rules for message in/out box page */
 
 .messages {
   width: 100%;
-  border-collapse: collapse;
-  border-spacing: 0px;
-  border-width: 0px;
+  border: 1px solid #ddd;
 }
 
 .messages tbody tr {
@@ -1121,12 +1294,20 @@ p#contributorGuidance {
 }
 
 .messages .inbox-row {
-  background: #eee;
+  background: #f8f8ff;
+}
+
+.messages .inbox-row-unread {
+  background:#CBEEA7;
+}
+
+.right {
+  float: right;
 }
 
 .messages tr td,
 .messages tr th {
-  padding: 0px 5px;
+  padding: 5px;
 }
 
 .inbox-row .inbox-mark-read {
@@ -1134,8 +1315,9 @@ p#contributorGuidance {
 }
 
 .info-line {
-  border-bottom: 1px solid #ccc;
+  margin-bottom: 20px;
   padding: 5px 0px 4px 0px;
+  border-bottom: 1px solid #ccc;
 }
 
 .info-line form,
@@ -1147,48 +1329,30 @@ p#contributorGuidance {
   vertical-align: middle;
 }
 
-.right {
-  float: right;
-}
-
 .inbox-row-unread .inbox-mark-unread {
   display: none;
 }
 
 /* Rules for "flash" notice boxes shown at the top of the content area */
 
-#error {
-  border: 1px solid red;
-  padding: 7px;
-  background-color: #fff0f0;
-  margin-bottom: 20px;
-  border-radius: 5px;
-  -moz-border-radius: 5px;
-}
-
-#warning {
-  border: 1px solid orange;
-  padding: 7px;
-  background-color: #fff6f0;
-  margin-bottom: 20px;
-  border-radius: 5px;
-  -moz-border-radius: 5px;
-}
-
-#notice {
-  border: 1px solid green;
-  padding: 7px;
-  background-color: #f0fff0;
-  margin-bottom: 20px;
-  border-radius: 5px;
-  -moz-border-radius: 5px;
+.flash {
+    padding: 20px;
+  &#error {
+    background-color: #ff7070;
+  }
+  &#warning {
+    background-color: #fff6f0;
+  }
+  &#notice {
+    background-color: #CBEEA7;
+  }
 }
 
 /* Rules for highlighting fields with rails validation errors */
 
 .field_with_errors {
   padding: 2px;
-  background-color: red;
+  background-color: #ff7070;
   display: table;
 }
 
@@ -1196,18 +1360,17 @@ p#contributorGuidance {
 
 #errorExplanation {
   width: 400px;
-  border: 2px solid red;
-  padding: 7px;
-  padding-bottom: 12px;
+  border: 2px solid #ff7070;
+  padding: 10px;
   margin-bottom: 20px;
   background-color: #f0f0f0;
 }
 
 #errorExplanation h2 {
+  margin: -10px;
+  padding: 5px 5px 5px 15px;
   font-weight: bold;
   font-size: 12px;
-  padding: 5px 5px 5px 15px;
-  margin: -7px;
   background-color: #c00;
   color: #fff;
   text-align: left;
@@ -1221,10 +1384,14 @@ p#contributorGuidance {
 
 #errorExplanation ul li {
   font-size: 12px;
-  list-style: square;
+  list-style: disc;
 }
 
 /* Rules for forms */
+
+.submitButton {
+  text-align: center;
+}
 
 .fieldName {
   vertical-align: top;
@@ -1239,7 +1406,7 @@ p#contributorGuidance {
 }
 
 .minorNote {
-  font-size: 0.8em;
+  font-size: 12px;
 }
 
 input[type="text"],
@@ -1250,28 +1417,27 @@ textarea {
   border: 1px solid #ccc;
 }
 
-input.openid_url {
-  background: image-url('openid_input.png') repeat-y left white;
-  padding-left: 16px;
-}
-
 /* Rules for user images */
 
 img.user_image {
-  max-width: 100px;
-  max-height: 100px;
+  width: 100px;
+  height: 100px;
   border: 1px solid #ccc;
+  margin-bottom: 20px;
+  float: left;
+  margin-right: 20px;
 }
 
 img.user_thumbnail {
-  max-width: 50px;
-  max-height: 100px;
+  width: 50px;
+  height: 50px;
   border: 1px solid #ccc;
+  margin-right: 20px;
 }
 
 img.user_thumbnail_tiny {
-  max-width: 25px;
-  max-height: 25px;
+  max-width: 24px;
+  max-height: 24px;
   border: 1px solid #ccc;
 }
 
@@ -1294,13 +1460,87 @@ abbr.geo {
   top: 4px;
 }
 
-/* Rules for doing distinct colour of alternate table rows */
+/* General styles for action lists / subnavs / pager navs */
 
-.table0 {
-  background: #f6f6f6;
+ul.secondary-actions {
+  font-style: normal;
+  margin-bottom: 0;
+  margin-left: 0;
+  &.pager {
+    display: inline-block;
+    margin-bottom: 20px;
+    margin-right: 60px;
+  }
+  li {
+    display: block;
+    float: left;
+    list-style: none;
+    border-left: 1px solid #ccc;
+    padding-left: 5px;
+    margin-right: 5px;
+    &:first-child {
+      border-left: 0;
+      padding-left: 0;
+    }
+  }
+  .hidden li,
+  .hide_unless_logged_in li,
+  .hide_unless_administrator li {
+    border-left: 1px solid #ccc;
+    padding-left: 5px;
+    }
+  .hidden:first-child li,
+  .hide_unless_logged_in:first-child li,
+  .hide_unless_administrator:first-child li {
+    border-left: 0;
+    padding-left: 0;
+  }
 }
 
-.table1 {
+/* Utility for managing inner content areas */
+
+.inner22 { padding: 20px;}
+
+.inner12 { padding: 10px 20px;}
+
+.inner02 { padding: 0 20px;}
+
+/* Utility for general button styles */
+
+a.button {
+  display: block;
+  padding: 5px;
+  min-width: 120px;
+  margin-bottom: 10px;
+  color: white;
+  background: #7092FF;
+  text-align: center;
+  border-radius: 2px;
+  -moz-border-radius: 2px;
+  &:hover {
+    background: blue;
+    text-decoration: none;
+  }
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+a.button.submit {
+  background-color: #cbeea7;
+  &:hover {
+    background-color: #9ed485;
+  }
+}
+/* Rules for doing distinct colour of alternate table rows */
+
+.table0,
+.item0 {
+  background: #F4F4FF;
+}
+
+.table1,
+.item1 {
   background: #fff;
 }
 
@@ -1315,61 +1555,51 @@ abbr.geo {
 
 .richtext_container {
   white-space: nowrap;
-
   .richtext_content {
     display: inline-block;
     vertical-align: top;
-
     .richtext_preview {
       display: inline-block;
-      margin-top: 1px;
-      margin-bottom: 1px;
-      border: 4px solid #eee;
-      background-color: #eee;
+      padding: 20px;
+      background-color: #f4f4ff;
       white-space: normal;
-
       &.loading {
         background-image: image-url("loading.gif");
         background-repeat: no-repeat;
         background-position: center;
       }
-
       > :first-child {
         margin-top: 0px;
       }
     }
   }
-
   .richtext_help {
     display: inline-block;
     vertical-align: top;
-    background-color: #ddd;
     margin-left: 15px;
-    padding: 5px 10px 10px 10px;
-    font-size: 12px;
-
+    background-color: #f8f8ff;
+    padding: 20px;
     p {
       margin: 0px;
     }
-
     th {
       vertical-align: top;
       text-align: left;
       padding: 0px 15px 0px 0px !important;
     }
-
+    table > thead th {
+      font-weight: bold;
+    }
     td {
-      text-align: left;
       font-family: fixed;
       line-height: 16px;
+      text-align: left;
       padding: 0px !important;
     }
-
     input.richtext_doedit {
       margin-top: 5px !important;
       margin-right: 10px !important;
     }
-
     input.richtext_dopreview {
       margin-top: 5px !important;
       margin-left: 10px !important;

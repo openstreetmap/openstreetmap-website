@@ -5,15 +5,23 @@
 <% content_for :head do %>
 <%= stylesheet_link_tag 'browse' %>
 <% end %>
+
+<% content_for :heading do %>
+  <h2><%= t'browse.node.node_title', :node_name => @name %></h2>
+  <ul class='secondary-actions clearfix'>
+    <li><%= link_to(t('browse.node.download_xml'), :controller => "node", :action => "read") %></li>
+    <li><%= link_to(t('browse.node.view_history'), :action => "node_history") %></li>
+    <% if @node.visible -%>
+      <li><%= link_to(t('browse.node.edit'), :controller => "site", :action => "edit", :lat => @node.lat, :lon => @node.lon, :zoom => 18, :node => @node.id) %></li>
+    <% end -%>
+  </ul>
+<% end %>
 <%= render :partial => "navigation" %>
-<h2><%= t'browse.node.node_title', :node_name => @name %></h2>
+
 <% if @node.visible -%>
 <%= render :partial => "map", :object => @node %>
 <% end -%>
-<%= render :partial => "node_details", :object => @node %>
-<hr />
-<%= link_to(t('browse.node.download_xml'), :controller => "node", :action => "read") %>
-| <%= link_to(t('browse.node.view_history'), :action => "node_history") %>
-<% if @node.visible -%>
-| <%= link_to(t('browse.node.edit'), :controller => "site", :action => "edit", :lat => @node.lat, :lon => @node.lon, :zoom => 18, :node => @node.id) %>
-<% end -%>
+
+<div class='column-1'>
+  <%= render :partial => "node_details", :object => @node %>
+</div>

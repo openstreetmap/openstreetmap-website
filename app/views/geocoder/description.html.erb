@@ -1,10 +1,10 @@
 <% @sources.each do |source| %>
   <% if source[:types] %>
-    <p class="search_results_heading"><%= raw(t("geocoder.description.title.#{source[:name]}", :types => t("geocoder.description.types.#{source[:types]}"))) %></p>
+    <h4><%= raw(t("geocoder.description.title.#{source[:name]}", :types => t("geocoder.description.types.#{source[:types]}"))) %></h4>
   <% else %>
-    <p class="search_results_heading"><%= raw(t("geocoder.description.title.#{source[:name]}")) %></p>
+    <h4><%= raw(t("geocoder.description.title.#{source[:name]}")) %></h4>
   <% end %>
-  <div class='search_results_entry' id='<%= "description_#{source[:name]}_#{source[:types]}" %>'>
+  <div class='search_results_entry inner12' id='<%= "description_#{source[:name]}_#{source[:types]}" %>'>
     <%= image_tag "searching.gif", :class => "search_searching" %>
   </div>
   <script type="text/javascript">

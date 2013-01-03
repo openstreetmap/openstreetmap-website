@@ -1,7 +1,7 @@
 <iframe id="linkloader" style="display: none">
 </iframe>
 
-<div id="browse_map">
+<div id="browse_map" class='clearfix content_map'>
   <% if map.instance_of? Changeset or (map.instance_of? Node and map.version > 1) or map.visible %>
 
   <% content_for :head do %>
@@ -31,29 +31,38 @@
   <%= content_tag "div", "", :id => "small_map", :data => data %>
   <span id="loading"><%= t 'browse.map.loading' %></span>
 
-  <%= link_to t("browse.map.larger.area"),
-              root_path(:box => "yes"),
-              :id => "area_larger_map",
-              :class => "geolink bbox" %>
-  <br />
-  <%= link_to h(t("browse.map.edit.area")) + content_tag(:span, "▾", :class => "menuicon"),
-              edit_path,
-              :id => "area_edit",
-              :data => { :editor => preferred_editor },
-              :class => "geolink bbox" %>
+<ul class='secondary-actions clearfix'>
+  <li>
+    <%= link_to t("browse.map.larger.area"),
+                root_path(:box => "yes"),
+                :id => "area_larger_map",
+                :class => "geolink bbox" %>
+  </li>
+  <li>
+    <%= link_to h(t("browse.map.edit.area")) + content_tag(:span, "▾", :class => "menuicon"),
+                edit_path,
+                :id => "area_edit",
+                :data => { :editor => preferred_editor },
+                :class => "geolink bbox" %>
+  </li>
+</ul>
 
   <% unless map.instance_of? Changeset %>
-    <br />
-    <%= link_to t("browse.map.larger." + map.class.to_s.downcase),
-                root_path,
-                :id => "object_larger_map",
-                :class => "geolink object" %>
-    <br />
-    <%= link_to h(t("browse.map.edit." + map.class.to_s.downcase)) + content_tag(:span, "▾", :class => "menuicon"),
-                edit_path,
-                :id => "object_edit",
-                :data => { :editor => preferred_editor },
-                :class => "geolink object" %>
+  <ul class='secondary-actions clearfix'>
+    <li>
+      <%= link_to t("browse.map.larger." + map.class.to_s.downcase),
+                  root_path,
+                  :id => "object_larger_map",
+                  :class => "geolink object" %>
+    </li>
+    <li>
+      <%= link_to h(t("browse.map.edit." + map.class.to_s.downcase)) + content_tag(:span, "▾", :class => "menuicon"),
+                  edit_path,
+                  :id => "object_edit",
+                  :data => { :editor => preferred_editor },
+                  :class => "geolink object" %>
+    </li>
+  </ul>
   <% end %>
 
   <% else %>

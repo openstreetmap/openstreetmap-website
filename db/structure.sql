@@ -44,8 +44,7 @@ SET search_path = public, pg_catalog;
 
 CREATE TYPE format_enum AS ENUM (
     'html',
-    'markdown',
-    'text'
+    'markdown'
 );
 
 
@@ -101,7 +100,7 @@ CREATE TYPE user_status_enum AS ENUM (
 
 CREATE FUNCTION maptile_for_point(bigint, bigint, integer) RETURNS integer
     LANGUAGE c STRICT
-    AS '/srv/www/master.osm.compton.nu/db/functions/libpgosm.so', 'maptile_for_point';
+    AS '/srv/www/next.osm.compton.nu/db/functions/libpgosm.so', 'maptile_for_point';
 
 
 --
@@ -110,7 +109,7 @@ CREATE FUNCTION maptile_for_point(bigint, bigint, integer) RETURNS integer
 
 CREATE FUNCTION tile_for_point(integer, integer) RETURNS bigint
     LANGUAGE c STRICT
-    AS '/srv/www/master.osm.compton.nu/db/functions/libpgosm.so', 'tile_for_point';
+    AS '/srv/www/next.osm.compton.nu/db/functions/libpgosm.so', 'tile_for_point';
 
 
 --
@@ -119,7 +118,7 @@ CREATE FUNCTION tile_for_point(integer, integer) RETURNS bigint
 
 CREATE FUNCTION xid_to_int4(xid) RETURNS integer
     LANGUAGE c IMMUTABLE STRICT
-    AS '/srv/www/master.osm.compton.nu/db/functions/libpgosm.so', 'xid_to_int4';
+    AS '/srv/www/next.osm.compton.nu/db/functions/libpgosm.so', 'xid_to_int4';
 
 
 SET default_tablespace = '';
@@ -1000,11 +999,11 @@ CREATE TABLE users (
     status user_status_enum DEFAULT 'pending'::user_status_enum NOT NULL,
     terms_agreed timestamp without time zone,
     consider_pd boolean DEFAULT false NOT NULL,
+    openid_url character varying(255),
     preferred_editor character varying(255),
     terms_seen boolean DEFAULT false NOT NULL,
-    openid_url character varying(255),
-    description_format format_enum DEFAULT 'html'::format_enum NOT NULL,
     image_fingerprint character varying(255),
+    description_format format_enum DEFAULT 'html'::format_enum NOT NULL,
     changesets_count integer DEFAULT 0 NOT NULL,
     traces_count integer DEFAULT 0 NOT NULL,
     diary_entries_count integer DEFAULT 0 NOT NULL,

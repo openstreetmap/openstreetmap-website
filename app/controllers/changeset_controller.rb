@@ -33,24 +33,24 @@ class ChangesetController < ApplicationController
   end
 
   ##
-  # Return XML giving the basic info about the changeset. Does not 
+  # Return XML giving the basic info about the changeset. Does not
   # return anything about the nodes, ways and relations in the changeset.
   def read
     changeset = Changeset.find(params[:id])
     render :text => changeset.to_xml.to_s, :content_type => "text/xml"
   end
-  
+
   ##
   # marks a changeset as closed. this may be called multiple times
   # on the same changeset, so is idempotent.
-  def close 
+  def close
     assert_method :put
-    
-    changeset = Changeset.find(params[:id])    
+
+    changeset = Changeset.find(params[:id])
     check_changeset_consistency(changeset, @user)
 
     # to close the changeset, we'll just set its closed_at time to
-    # now. this might not be enough if there are concurrency issues, 
+    # now. this might not be enough if there are concurrency issues,
     # but we'll have to wait and see.
     changeset.set_closed_time_now
 
@@ -70,11 +70,11 @@ class ChangesetController < ApplicationController
 
     cs = Changeset.find(params[:id])
     check_changeset_consistency(cs, @user)
-    
+
     # keep an array of lons and lats
     lon = Array.new
     lat = Array.new
-    
+
     # the request is in pseudo-osm format... this is kind-of an
     # abuse, maybe should change to some other format?
     doc = XML::Parser.string(request.raw_post).parse
@@ -82,17 +82,17 @@ class ChangesetController < ApplicationController
       lon << n['lon'].to_f * GeoRecord::SCALE
       lat << n['lat'].to_f * GeoRecord::SCALE
     end
-    
+
     # add the existing bounding box to the lon-lat array
     lon << cs.min_lon unless cs.min_lon.nil?
     lat << cs.min_lat unless cs.min_lat.nil?
     lon << cs.max_lon unless cs.max_lon.nil?
     lat << cs.max_lat unless cs.max_lat.nil?
-    
+
     # collapse the arrays to minimum and maximum
-    cs.min_lon, cs.min_lat, cs.max_lon, cs.max_lat = 
+    cs.min_lon, cs.min_lat, cs.max_lon, cs.max_lat =
       lon.min, lat.min, lon.max, lat.max
-    
+
     # save the larger bounding box and return the changeset, which
     # will include the bigger bounding box.
     cs.save!
@@ -109,7 +109,7 @@ class ChangesetController < ApplicationController
   # Furthermore, each element in the diff can only reference the current
   # changeset.
   #
-  # Returns: a diffResult document, as described in 
+  # Returns: a diffResult document, as described in
   # http://wiki.openstreetmap.org/wiki/OSM_Protocol_Version_0.6
   def upload
     # only allow POST requests, as the upload method is most definitely
@@ -120,7 +120,7 @@ class ChangesetController < ApplicationController
 
     changeset = Changeset.find(params[:id])
     check_changeset_consistency(changeset, @user)
-    
+
     diff_reader = DiffReader.new(request.raw_post, changeset)
     Changeset.transaction do
       result = diff_reader.commit
@@ -132,45 +132,45 @@ class ChangesetController < ApplicationController
   # download the changeset as an osmChange document.
   #
   # to make it easier to revert diffs it would be better if the osmChange
-  # format were reversible, i.e: contained both old and new versions of 
+  # format were reversible, i.e: contained both old and new versions of
   # modified elements. but it doesn't at the moment...
   #
   # this method cannot order the database changes fully (i.e: timestamp and
   # version number may be too coarse) so the resulting diff may not apply
-  # to a different database. however since changesets are not atomic this 
+  # to a different database. however since changesets are not atomic this
   # behaviour cannot be guaranteed anyway and is the result of a design
   # choice.
   def download
     changeset = Changeset.find(params[:id])
-    
+
     # get all the elements in the changeset which haven't been redacted
     # and stick them in a big array.
-    elements = [changeset.old_nodes.unredacted, 
-                changeset.old_ways.unredacted, 
+    elements = [changeset.old_nodes.unredacted,
+                changeset.old_ways.unredacted,
                 changeset.old_relations.unredacted].flatten
-    
-    # sort the elements by timestamp and version number, as this is the 
-    # almost sensible ordering available. this would be much nicer if 
-    # global (SVN-style) versioning were used - then that would be 
+
+    # sort the elements by timestamp and version number, as this is the
+    # almost sensible ordering available. this would be much nicer if
+    # global (SVN-style) versioning were used - then that would be
     # unambiguous.
-    elements.sort! do |a, b| 
+    elements.sort! do |a, b|
       if (a.timestamp == b.timestamp)
         a.version <=> b.version
       else
-        a.timestamp <=> b.timestamp 
+        a.timestamp <=> b.timestamp
       end
     end
-    
+
     # create an osmChange document for the output
     result = OSM::API.new.get_xml_doc
     result.root.name = "osmChange"
 
     # generate an output element for each operation. note: we avoid looking
-    # at the history because it is simpler - but it would be more correct to 
+    # at the history because it is simpler - but it would be more correct to
     # check these assertions.
     elements.each do |elt|
       result.root <<
-        if (elt.version == 1) 
+        if (elt.version == 1)
           # first version, so it must be newly-created.
           created = XML::Node.new "create"
           created << elt.to_xml_node
@@ -217,7 +217,7 @@ class ChangesetController < ApplicationController
 
     render :text => results.to_s, :content_type => "text/xml"
   end
-  
+
   ##
   # updates a changeset's tags. none of the changeset's attributes are
   # user-modifiable, so they will be ignored.
@@ -238,7 +238,7 @@ class ChangesetController < ApplicationController
       changeset.update_from(new_changeset, @user)
       render :text => changeset.to_xml, :mime_type => "text/xml"
     else
-      
+
       render :nothing => true, :status => :bad_request
     end
   end
@@ -253,7 +253,7 @@ class ChangesetController < ApplicationController
 
       if params[:display_name]
         user = User.find_by_display_name(params[:display_name])
-        
+
         if user and user.active?
           if user.data_public? or user == @user
             changesets = changesets.where(:user_id => user.id)
@@ -265,7 +265,7 @@ class ChangesetController < ApplicationController
           return
         end
       end
-      
+
       if params[:friends]
         if @user
           changesets = changesets.where(:user_id => @user.friend_users.public)
@@ -294,11 +294,11 @@ class ChangesetController < ApplicationController
         changesets = conditions_bbox(changesets, bbox)
         bbox_link = render_to_string :partial => "bbox", :object => bbox
       end
-      
+
       if user
         user_link = render_to_string :partial => "user", :object => user
       end
-      
+
       if params[:friends] and @user
         @title =  t 'changeset.list.title_friend'
         @heading =  t 'changeset.list.heading_friend'
@@ -343,7 +343,7 @@ class ChangesetController < ApplicationController
 private
   #------------------------------------------------------------
   # utility functions below.
-  #------------------------------------------------------------  
+  #------------------------------------------------------------
 
   ##
   # if a bounding box was specified do some sanity checks.
@@ -380,13 +380,13 @@ private
       # make sure we found a user
       raise OSM::APINotFoundError.new if u.nil?
 
-      # should be able to get changesets of public users only, or 
+      # should be able to get changesets of public users only, or
       # our own changesets regardless of public-ness.
       unless u.data_public?
         # get optional user auth stuff so that users can see their own
         # changesets if they're non-public
         setup_user_auth
-        
+
         raise OSM::APINotFoundError if @user.nil? or @user.id != u.id
       end
       return changesets.where(:user_id => u.id)
@@ -397,14 +397,14 @@ private
 
   ##
   # restrict changes to those closed during a particular time period
-  def conditions_time(changesets, time) 
+  def conditions_time(changesets, time)
     unless time.nil?
-      # if there is a range, i.e: comma separated, then the first is 
+      # if there is a range, i.e: comma separated, then the first is
       # low, second is high - same as with bounding boxes.
       if time.count(',') == 1
         # check that we actually have 2 elements in the array
         times = time.split(/,/)
-        raise OSM::APIBadUserInput.new("bad time range") if times.size != 2 
+        raise OSM::APIBadUserInput.new("bad time range") if times.size != 2
 
         from, to = times.collect { |t| DateTime.parse(t) }
         return changesets.where("closed_at >= ? and created_at <= ?", from, to)
@@ -432,11 +432,11 @@ private
     if open.nil?
       return changesets
     else
-      return changesets.where("closed_at >= ? and num_changes <= ?", 
+      return changesets.where("closed_at >= ? and num_changes <= ?",
                               Time.now.getutc, Changeset::MAX_ELEMENTS)
     end
   end
-  
+
   ##
   # query changesets which are closed
   # ('closed at' time has passed or changes limit is hit)
@@ -444,7 +444,7 @@ private
     if closed.nil?
       return changesets
     else
-      return changesets.where("closed_at < ? or num_changes > ?", 
+      return changesets.where("closed_at < ? or num_changes > ?",
                               Time.now.getutc, Changeset::MAX_ELEMENTS)
     end
   end
@@ -455,5 +455,5 @@ private
   def conditions_nonempty(changesets)
     return changesets.where("num_changes > 0")
   end
-  
+
 end
