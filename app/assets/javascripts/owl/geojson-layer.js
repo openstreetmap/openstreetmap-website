@@ -169,14 +169,15 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
     });
     changeLayer.on('click', function (e) {
       var showPrevGeomLink = prevGeomLayer != null;
-
-      L.popup({maxHeight: 666, maxWidth: 666})
+      L.popup({maxHeight: 500, maxWidth: 300})
         .setLatLng(e.latlng)
         .setContent(JST["templates/owl/change_popup"]({
           change: this.changes[change.id],
           changesets: this.changesets,
           showPrevGeomLink: showPrevGeomLink
         })).openOn(this._map);
+
+      $("abbr.timeago").timeago();
 
       if (showPrevGeomLink) {
         $('.show-prev-geom').hover(function (e) {
