@@ -1,13 +1,15 @@
 <% if @results.empty? %>
   <p class="search_results_entry"><%= t 'geocoder.results.no_results' %></p>
 <% else %>
+  <ul class='results-list'>
   <% @results.each do |result| %>
-    <p class="search_results_entry"><%= result_to_html(result) %></p>
+    <li><p class="search_results_entry"><%= result_to_html(result) %></p></li>
   <% end %>
+</ul>
   <% if @more_params %>
     <div id="search_more_<%= @more_params.hash %>">
       <p class="search_results_entry">
-        <%= link_to t('geocoder.results.more_results'), "#" %>
+        <%= link_to t('geocoder.results.more_results'), "#", :class => "button" %>
       </p>
       <%= image_tag "searching.gif", :class => "search_searching" %>
     </div>
