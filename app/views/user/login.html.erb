@@ -26,21 +26,16 @@
         </td>
       </tr>
     </table>
-
-    <br clear="all" />
-
     <p><%= t 'user.login.with openid' %></p>
 
-    <table id="login_openid_buttons">
-      <tr>
-        <td><%= link_to image_tag("openid.png", :alt => t("user.login.openid_providers.openid.title")), "#", :id => "openid_open_url", :title => t("user.login.openid_providers.openid.title") %></td>
-        <td><%= openid_button "google", "gmail.com" %></td>
-        <td><%= openid_button "yahoo", "me.yahoo.com" %></td>
-        <td><%= openid_button "myopenid", "myopenid.com" %></td>
-        <td><%= openid_button "wordpress", "wordpress.com" %></td>
-        <td><%= openid_button "aol", "aol.com" %></td>
-      </tr>
-    </table>
+    <ul id="login_openid_buttons">
+        <li><%= link_to image_tag("openid.png", :alt => t("user.login.openid_providers.openid.title")), "#", :id => "openid_open_url", :title => t("user.login.openid_providers.openid.title") %></li>
+        <li><%= openid_button "google", "gmail.com" %></li>
+        <li><%= openid_button "yahoo", "me.yahoo.com" %></li>
+        <li><%= openid_button "myopenid", "myopenid.com" %></li>
+        <li><%= openid_button "wordpress", "wordpress.com" %></li>
+        <li><%= openid_button "aol", "aol.com" %></li>
+    </ul>
 
     <table>
       <tr id="login_openid_url">
@@ -61,7 +56,6 @@
     <%= submit_tag t('user.login.login_button'), :tabindex => 6, :id => "login_openid_submit" %>
   <% end %>
 
-  <br clear="all" />
 </div>
 
 <script type="text/javascript">
