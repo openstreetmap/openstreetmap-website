@@ -12,8 +12,8 @@
    end
 %>
 
-<%= content_tag "ul", :class => cycle('item0', 'item1'), :id => "changeset-#{changeset.id}", :data => {:changeset => changeset_data} do %>
-  <li class="deemphasize"><small>
+<%= content_tag "ul", :class => 'changeset_item', :id => "changeset_#{changeset.id}", :data => {:changeset => changeset_data} do %>
+  <li>
 
     <span class="changeset_id">
       <%=
@@ -38,10 +38,9 @@
         <% end %>
       </span>
     <% end %>
-  </small>
   </li>
 
-  <li class="comment">
+  <li class="comment deemphasize">
     <% if changeset.tags['comment'].to_s != '' %>
       <%= linkify(h(changeset.tags['comment'])) %>
     <% else %>
