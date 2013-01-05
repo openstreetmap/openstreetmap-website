@@ -169,7 +169,7 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
     });
     changeLayer.on('click', function (e) {
       var showPrevGeomLink = prevGeomLayer != null;
-      L.popup({maxHeight: 500, maxWidth: 300})
+      L.popup({maxHeight: 400, maxWidth: 300})
         .setLatLng(e.latlng)
         .setContent(JST["templates/owl/change_popup"]({
           change: this.changes[change.id],
