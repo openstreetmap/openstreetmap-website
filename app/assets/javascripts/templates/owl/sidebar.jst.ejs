@@ -3,9 +3,9 @@
     <% $.each(changesets, function (index, changeset) { %>
       <li class="changeset-item" data-changeset-id="<%- changeset.id %>">
         <% if (typeof changeset.tags['comment'] != 'undefined') { %>
-          <a href="/browse/changeset/<%- changeset.id %>" class="changeset-comment"><%- changeset.tags['comment'] %></a>
+          <a href="<%- OSM.OWL_LINKS_BASE_URL %>browse/changeset/<%- changeset.id %>" class="changeset-comment"><%- changeset.tags['comment'] %></a>
         <% } else { %>
-          <a href="/browse/changeset/<%- changeset.id %>" class="changeset-comment empty-comment">(no comment)</a>
+          <a href="<%- OSM.OWL_LINKS_BASE_URL %>browse/changeset/<%- changeset.id %>" class="changeset-comment empty-comment">(no comment)</a>
         <% } %>
 
         <div>
@@ -22,9 +22,9 @@
             <abbr class="timeago" title="<%- changeset.created_at %>">
               <%- changeset.created_at.replace('T', ' ').replace('Z', '') %>
             </abbr>
-            <a href="/user/<%- changeset.user_name %>"><%- changeset.user_name %></a>
+            <a href="<%- OSM.OWL_LINKS_BASE_URL %>user/<%- changeset.user_name %>"><%- changeset.user_name %></a>
           </div>
-          <div class="changeset-id"><a href="/browse/changeset/<%- changeset.id %>">#<%- changeset.id %></a></div>
+          <div class="changeset-id"><a href="<%- OSM.OWL_LINKS_BASE_URL %>browse/changeset/<%- changeset.id %>">#<%- changeset.id %></a></div>
         </div>
         <br style="clear:both" />
       </li>
