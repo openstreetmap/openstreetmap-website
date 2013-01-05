@@ -124,7 +124,7 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
     });
 
     $.each(geojson['features'].reverse(), function (index, changeset) {
-      $.each(changeset['features'], function (index, changeFeature) {
+      $.each(changeset['features'].reverse(), function (index, changeFeature) {
         var change = layer.changes[changeFeature.properties.change_id];
 
         if (changeFeature.features.length > 0) {
