@@ -33,6 +33,14 @@ function classForChange(el_type, tags) {
   return cls;
 }
 
+function hrefForChange(change) {
+  return OSM.OWL_LINKS_BASE_URL
+    + 'browse/'
+    + (change.el_type == 'N' ? 'node' : 'way')
+    + '/'
+    + change.el_id;
+}
+
 function initOwlLayer() {
   if (initialized) {
     return;
