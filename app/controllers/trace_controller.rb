@@ -44,11 +44,6 @@ class TraceController < ApplicationController
       @title = t 'trace.list.public_traces_from', :user => target_user.display_name
     end
 
-    # set description
-
-    @description = t 'trace.list.description'
-
-
     @title += t 'trace.list.tagged_with', :tags => params[:tag] if params[:tag]
 
     # four main cases:
