@@ -15,11 +15,10 @@
           <li><%= link_to image_tag("new.png", :class => "small_icon", :border=>0) + t('diary_entry.list.new'), {:controller => 'diary_entry', :action => 'new'}, {:title => t('diary_entry.list.new_title')} %></li>
         <% end %>
       <% else %>
-        <%= if_logged_in do %>
-          <li><%= link_to image_tag("new.png", :class => "small_icon", :border=>0) + t('diary_entry.list.new'), {:controller => 'diary_entry', :action => 'new'}, {:title => t('diary_entry.list.new_title')} %></li>
+      <%= if_logged_in do %>
+        <li><%= link_to image_tag("new.png", :class => "small_icon", :border=>0) + t('diary_entry.list.new'), {:controller => 'diary_entry', :action => 'new'}, {:title => t('diary_entry.list.new_title')} %></li>
       <% end %>
     </ul>
-    <% end %>
   </div>
 <% end %>
 
@@ -40,6 +39,8 @@
 
 <% end %>
 
-<% content_for :head do -%>
-<%= auto_discovery_link_tag :atom, :action => 'rss', :language => params[:language] %>
+<% unless params[:friends] or params[:nearby] -%>
+  <% content_for :head do -%>
+  <%= auto_discovery_link_tag :atom, :action => 'rss', :language => params[:language] %>
+  <% end -%>
 <% end -%>
