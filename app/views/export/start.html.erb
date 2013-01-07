@@ -43,7 +43,7 @@
 
     <ul class="export_details inner12">
       <li><%= t'export.start.format' %> <%= select_tag("mapnik_format", options_for_select([["PNG", "png"], ["JPEG", "jpeg"], ["SVG", "svg"], ["PDF", "pdf"]], "png")) %></li>
-      <li><%= t'export.start.scale' %> 1 : <%= text_field_tag("mapnik_scale", nil, :size => 8) %> <span class="export_hint">(<%= t'export.start.max' %> 1 : <span id="mapnik_max_scale"></span>)</span></li>
+      <li><%= t'export.start.scale' %> 1 : <%= text_field_tag("mapnik_scale", nil) %> <p class="deemphasize export_hint">(<%= t'export.start.max' %> 1 : <span id="mapnik_max_scale"></span>)</p></li>
       <li><%= t'export.start.image_size' %> <span id="mapnik_image_width"></span> x <span id="mapnik_image_height"></span></li>
     </ul>
   </div>
@@ -53,8 +53,8 @@
 
     <div class="export_details inner12">
       <ul id="marker_inputs" style="display:none">
-        <li><%= t'export.start.latitude' %> <input type="text" id="marker_lat" size="9" /></li>
-        <li><%= t'export.start.longitude' %> <input type="text" id="marker_lon" size="9" /></li>
+        <li><%= t'export.start.latitude' %> <input type="text" id="marker_lat"/></li>
+        <li><%= t'export.start.longitude' %> <input type="text" id="marker_lon"/></li>
       </ul>
       <a id="add_marker" class='button' href="#"><%= t'export.start.add_marker' %></a>
     </div>
@@ -62,8 +62,8 @@
     <h4><%= t'export.start.output' %></h4>
 
     <div class="export_details inner12">
-      <p><input type="text" id="export_html_text"/></p>
-      <p><%= t'export.start.paste_html' %></p>
+      <input type="text" id="export_html_text"/>
+      <p class='deemphasize'><%= t'export.start.paste_html' %></p>
     </div>
   </div>
 
