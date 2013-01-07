@@ -13,9 +13,9 @@ module GeocoderHelper
     end
 
     html = ""
+    html << link_to(result[:name], url, html_options) if result[:name]
     html << result[:prefix] if result[:prefix]
     html << " " if result[:prefix] and result[:name]
-    html << link_to(result[:name], url, html_options) if result[:name]
     html << result[:suffix] if result[:suffix]
 
     return raw(html)
