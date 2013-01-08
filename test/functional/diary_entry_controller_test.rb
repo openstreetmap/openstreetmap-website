@@ -103,16 +103,20 @@ class DiaryEntryControllerTest < ActionController::TestCase
         assert_select "title", :text => /New Diary Entry/, :count => 1
       end
       assert_select "body", :count => 1 do
-        assert_select "div#content", :count => 1 do
-          assert_select "h1", :text => "New Diary Entry", :count => 1
-          # We don't care about the layout, we just care about the form fields
-          # that are available
-          assert_select "form[action='/diary/new']", :count => 1 do
-            assert_select "input[id=diary_entry_title][name='diary_entry[title]']", :count => 1
-            assert_select "textarea#diary_entry_body[name='diary_entry[body]']", :count => 1
-            assert_select "input#latitude[name='diary_entry[latitude]'][type=text]", :count => 1
-            assert_select "input#longitude[name='diary_entry[longitude]'][type=text]", :count => 1
-            assert_select "input[name=commit][type=submit][value=Save]", :count => 1
+        assert_select "div.wrapper", :count => 1 do
+          assert_select "div.content-heading", :count => 1 do
+            assert_select "h1", :text => "New Diary Entry", :count => 1
+          end
+          assert_select "div#content", :count => 1 do
+            # We don't care about the layout, we just care about the form fields
+            # that are available
+            assert_select "form[action='/diary/new']", :count => 1 do
+              assert_select "input[id=diary_entry_title][name='diary_entry[title]']", :count => 1
+              assert_select "textarea#diary_entry_body[name='diary_entry[body]']", :count => 1
+              assert_select "input#latitude[name='diary_entry[latitude]'][type=text]", :count => 1
+              assert_select "input#longitude[name='diary_entry[longitude]'][type=text]", :count => 1
+              assert_select "input[name=commit][type=submit][value=Save]", :count => 1
+            end
           end
         end
       end
@@ -135,8 +139,10 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_response :not_found
     assert_select "html", :count => 1 do
       assert_select "body", :count => 1 do
-        assert_select "div#content", :count => 1 do
-          assert_select "h2", :text => "No entry with the id: 9999", :count => 1 
+        assert_select "div.wrapper", :count => 1 do
+          assert_select "div.content-heading", :count => 1 do
+            assert_select "h2", :text => "No entry with the id: 9999", :count => 1 
+          end
         end
       end
     end
@@ -150,18 +156,22 @@ class DiaryEntryControllerTest < ActionController::TestCase
         assert_select "title", :text => /Edit diary entry/, :count => 1
       end
       assert_select "body", :count => 1 do
-        assert_select "div#content", :count => 1 do 
-          assert_select "h1", :text => /Edit diary entry/, :count => 1
-          assert_select "form[action='/user/#{entry.user.display_name}/diary/#{entry.id}/edit'][method=post]", :count => 1 do
-            assert_select "input#diary_entry_title[name='diary_entry[title]'][value='#{entry.title}']", :count => 1
-            assert_select "textarea#diary_entry_body[name='diary_entry[body]']", :text => entry.body, :count => 1
-            assert_select "select#diary_entry_language_code", :count => 1
-            assert_select "input#latitude[name='diary_entry[latitude]']", :count => 1
-            assert_select "input#longitude[name='diary_entry[longitude]']", :count => 1
-            assert_select "input[name=commit][type=submit][value=Save]", :count => 1
-            assert_select "input[name=commit][type=submit][value=Edit]", :count => 1
-            assert_select "input[name=commit][type=submit][value=Preview]", :count => 1
-            assert_select "input", :count => 7
+        assert_select "div.wrapper", :count => 1 do
+          assert_select "div.content-heading", :count => 1 do
+            assert_select "h1", :text => /Edit diary entry/, :count => 1
+          end
+          assert_select "div#content", :count => 1 do 
+            assert_select "form[action='/user/#{entry.user.display_name}/diary/#{entry.id}/edit'][method=post]", :count => 1 do
+              assert_select "input#diary_entry_title[name='diary_entry[title]'][value='#{entry.title}']", :count => 1
+              assert_select "textarea#diary_entry_body[name='diary_entry[body]']", :text => entry.body, :count => 1
+              assert_select "select#diary_entry_language_code", :count => 1
+              assert_select "input#latitude[name='diary_entry[latitude]']", :count => 1
+              assert_select "input#longitude[name='diary_entry[longitude]']", :count => 1
+              assert_select "input[name=commit][type=submit][value=Save]", :count => 1
+              assert_select "input[name=commit][type=submit][value=Edit]", :count => 1
+              assert_select "input[name=commit][type=submit][value=Preview]", :count => 1
+              assert_select "input", :count => 7
+            end
           end
         end
       end
@@ -189,16 +199,20 @@ class DiaryEntryControllerTest < ActionController::TestCase
         assert_select "title", :text => /Users' diaries | /, :count => 1
       end
       assert_select "body", :count => 1 do
-        assert_select "div#content", :count => 1 do
-          assert_select "h2", :text => /#{entry.user.display_name}&#x27;s diary/, :count => 1
-          assert_select "b", :text => /#{new_title}/, :count => 1
-          # This next line won't work if the text has been run through the htmlize function
-          # due to formatting that could be introduced
-          assert_select "p", :text => /#{new_body}/, :count => 1
-          assert_select "abbr[class=geo][title=#{number_with_precision(new_latitude, :precision => 4)}; #{number_with_precision(new_longitude, :precision => 4)}]", :count => 1
-          # As we're not logged in, check that you cannot edit
-          #print @response.body
-          assert_select "a[href='/user/#{entry.user.display_name}/diary/#{entry.id}/edit']", :text => "Edit this entry", :count => 1
+        assert_select "div.wrapper", :count => 1 do
+          assert_select "div.content-heading", :count => 1 do
+            assert_select "h2", :text => /#{entry.user.display_name}&#x27;s diary/, :count => 1
+          end
+          assert_select "div#content", :count => 1 do
+            assert_select "div.post_heading", :text => /#{new_title}/, :count => 1
+            # This next line won't work if the text has been run through the htmlize function
+            # due to formatting that could be introduced
+            assert_select "p", :text => /#{new_body}/, :count => 1
+            assert_select "abbr[class=geo][title=#{number_with_precision(new_latitude, :precision => 4)}; #{number_with_precision(new_longitude, :precision => 4)}]", :count => 1
+            # As we're not logged in, check that you cannot edit
+            #print @response.body
+            assert_select "a[href='/user/#{entry.user.display_name}/diary/#{entry.id}/edit']", :text => "Edit this entry", :count => 1
+          end
         end
       end
     end
@@ -214,16 +228,20 @@ class DiaryEntryControllerTest < ActionController::TestCase
         assert_select "title", :text => /Users' diaries | /, :count => 1
       end
       assert_select "body", :count => 1 do
-        assert_select "div#content", :count => 1 do
-          assert_select "h2", :text => /#{users(:normal_user).display_name}&#x27;s diary/, :count => 1
-          assert_select "b", :text => /#{new_title}/, :count => 1
-          # This next line won't work if the text has been run through the htmlize function
-          # due to formatting that could be introduced
-          assert_select "p", :text => /#{new_body}/, :count => 1
-          assert_select "abbr[class=geo][title=#{number_with_precision(new_latitude, :precision => 4)}; #{number_with_precision(new_longitude, :precision => 4)}]", :count => 1
-          # As we're not logged in, check that you cannot edit
-          assert_select "span[class=hidden show_if_user_#{entry.user.id}]", :count => 1 do
-            assert_select "a[href='/user/#{entry.user.display_name}/diary/#{entry.id}/edit']", :text => "Edit this entry", :count => 1
+        assert_select "div.wrapper", :count => 1 do
+          assert_select "div.content-heading", :count => 1 do
+            assert_select "h2", :text => /#{users(:normal_user).display_name}&#x27;s diary/, :count => 1
+          end
+          assert_select "div#content", :count => 1 do
+            assert_select "div.post_heading", :text => /#{new_title}/, :count => 1
+            # This next line won't work if the text has been run through the htmlize function
+            # due to formatting that could be introduced
+            assert_select "p", :text => /#{new_body}/, :count => 1
+            assert_select "abbr[class=geo][title=#{number_with_precision(new_latitude, :precision => 4)}; #{number_with_precision(new_longitude, :precision => 4)}]", :count => 1
+            # As we're not logged in, check that you cannot edit
+            assert_select "span[class=hidden show_if_user_#{entry.user.id}]", :count => 1 do
+              assert_select "a[href='/user/#{entry.user.display_name}/diary/#{entry.id}/edit']", :text => "Edit this entry", :count => 1
+            end
           end
         end
       end
