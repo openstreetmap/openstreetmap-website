@@ -6,8 +6,10 @@ class SiteController < ApplicationController
   before_filter :set_locale
   before_filter :require_user, :only => [:edit]
 
-  def export
-    render :action => 'index'
+  def index
+    unless STATUS == :database_readonly or STATUS == :database_offline
+      session[:location] ||= OSM::IPLocation(request.env['REMOTE_ADDR'])
+    end
   end
 
   def permalink
@@ -37,48 +39,21 @@ class SiteController < ApplicationController
 
     if editor == "remote"
       render :action => :index
-    else
-      # Decide on a lat lon to initialise potlatch with. Various ways of doing this
-      if params['lon'] and params['lat']
-        @lon = params['lon'].to_f
-        @lat = params['lat'].to_f
-        @zoom = params['zoom'].to_i
+      return
+    end
 
-      elsif params['mlon'] and params['mlat']
-        @lon = params['mlon'].to_f
-        @lat = params['mlat'].to_f
-        @zoom = params['zoom'].to_i
-
-      elsif params['bbox']
-        bbox = BoundingBox.from_bbox_params(params)
-
-        @lon = bbox.centre_lon
-        @lat = bbox.centre_lat
-        @zoom = 16
-      elsif params['minlon'] and params['minlat'] and params['maxlon'] and params['maxlat']
-        bbox = BoundingBox.from_lon_lat_params(params)
-
-        @lon = bbox.centre_lon
-        @lat = bbox.centre_lat
-        @zoom = 16
-
-      elsif params['gpx']
-        @lon = Trace.find(params['gpx']).longitude
-        @lat = Trace.find(params['gpx']).latitude
-
-      elsif cookies.key?("_osm_location")
-        @lon, @lat, @zoom, layers = cookies["_osm_location"].split("|")
-
-      elsif @user and !@user.home_lon.nil? and !@user.home_lat.nil?
-        @lon = @user.home_lon
-        @lat = @user.home_lat
-
-      else
-        #catch all.  Do nothing.  lat=nil, lon=nil
-        #Currently this results in potlatch starting up at 0,0 (Atlantic ocean).
-      end
-
-      @zoom = '17' if @zoom.nil?
+    if params[:node]
+      bbox = Node.find(params[:node]).bbox.to_unscaled
+      @lat = bbox.centre_lat
+      @lon = bbox.centre_lon
+    elsif params[:way]
+      bbox = Way.find(params[:way]).bbox.to_unscaled
+      @lat = bbox.centre_lat
+      @lon = bbox.centre_lon
+    elsif params[:gpx]
+      trace = Trace.visible_to(@user).find(params[:gpx])
+      @lat = trace.latitude
+      @lon = trace.longitude
     end
   end
 

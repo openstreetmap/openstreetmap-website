@@ -328,8 +328,6 @@ class ChangesetController < ApplicationController
       @page = (params[:page] || 1).to_i
       @page_size = 20
 
-      @bbox = bbox
-      
       @edits = changesets.order("changesets.created_at DESC").offset((@page - 1) * @page_size).limit(@page_size).preload(:user, :changeset_tags)
 
       render :action => :list

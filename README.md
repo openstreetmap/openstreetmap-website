@@ -63,7 +63,7 @@ helpful as a reference.
 ## Coding style
 
 When writing code it is generally a good idea to try and match your
-formatting to hat of any existing code in the same file, or to other
+formatting to that of any existing code in the same file, or to other
 similar files if you are writing new code. Consistency of layout is
 far more important that the layout itself as it makes reading code
 much easier.
@@ -107,7 +107,7 @@ and why it should be the way it is.
 When you submit patches, the project maintainer has to read them and
 understand them. This is difficult enough at the best of times, and
 misunderstanding patches can lead to them being more difficult to
-merge. To help wit this, when submitting you should:
+merge. To help with this, when submitting you should:
 
 * Split up large patches into smaller units of functionality.
 * Keep your commit messages relevant to the changes in each individual

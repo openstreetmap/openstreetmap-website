@@ -1,11 +1,14 @@
 # Messages for Esperanto (Esperanto)
 # Exported from translatewiki.net
 # Export driver: syck-pecl
+# Author: Airon90
 # Author: Cfoucher
 # Author: Lucas
 # Author: LyzTyphone
 # Author: Michawiki
+# Author: Objectivesea
 # Author: Petrus Adamus
+# Author: Timsk
 # Author: Yekrats
 eo: 
   activerecord: 
@@ -44,12 +47,15 @@ eo:
       changeset_tag: Etikedo de ŝanĝaro
       country: Lando
       diary_comment: Ĵurnala komento
+      diary_entry: Ĵurnala ero
       friend: Amiko
       language: Lingvo
       message: Mesaĝo
       node: Nodo
-      node_tag: Nodetikedo
+      node_tag: Etikedo de nodo
+      notifier: Atentigilo
       old_node: Malnova nodo
+      old_node_tag: Etikedo de malnova nodo
       old_relation: Malnova rilato
       old_way: Malnova vojo
       relation: Rilato
@@ -91,6 +97,8 @@ eo:
       show_area_box: Montri la skatolon de la areo
     common_details: 
       changeset_comment: "Komento:"
+      deleted_at: "Forigita je:"
+      deleted_by: "Forigita fare de:"
       edited_at: "Redaktita je:"
       edited_by: "Redaktita de:"
       in_changeset: "En ŝanĝaro:"
@@ -100,6 +108,11 @@ eo:
       entry_role: Rilato %{relation_name} (kiel %{relation_role})
     map: 
       deleted: Forviŝita
+      edit: 
+        area: Redakti areon
+        node: Redakti nodon
+        relation: Redakti rilaton
+        way: Redakti vojon
       larger: 
         area: Vidi la areon en pli granda mapo
         node: Vidi la nodon en pli granda mapo
@@ -109,7 +122,13 @@ eo:
     navigation: 
       all: 
         next_changeset_tooltip: Sekvanta ŝanĝaro
+        next_node_tooltip: Sekva nodo
+        next_relation_tooltip: Sekva rilato
+        next_way_tooltip: Sekva vojo
         prev_changeset_tooltip: Antaŭa ŝanĝaro
+        prev_node_tooltip: Antaŭa nodo
+        prev_relation_tooltip: Antaŭa rilato
+        prev_way_tooltip: Antaŭa vojo
       user: 
         name_changeset_tooltip: Vidi redaktojn el %{user}
         next_changeset_tooltip: Sekvanta redakto de %{user}
@@ -138,6 +157,13 @@ eo:
     paging_nav: 
       of: de
       showing_page: Montrante paĝon
+    redacted: 
+      message_html: Ne eblas montri la version %{version} de tiu ĉi %{type} ĉar ĝi estas redaktita. Vidu %{redaction_link} por pli da detaloj.
+      redaction: Redakto %{id}
+      type: 
+        node: nodo
+        relation: rilato
+        way: vojo
     relation: 
       download_xml: Elŝuti XML
       relation: Rilato
@@ -157,16 +183,13 @@ eo:
         node: Nodo
         relation: Rilato
         way: Vojo
-    start: 
-      manually_select: Mane elekti alian areon
-      view_data: Vidi datumojn por la naŭa mapvidon
     start_rjs: 
       data_frame_title: Datumo
       data_layer_name: Datumo
       details: Detaloj
-      drag_a_box: Desegnu skatolon sur la mapo por elekti areon
-      edited_by_user_at_timestamp: Redaktita de [[user]] je [[timestamp]]
-      history_for_feature: Historio por [[feature]]
+      edited_by_user_at_timestamp: Redaktita de %{user} je %{timestamp}
+      hide_areas: Kaŝi areojn
+      history_for_feature: Historio por %{feature}
       load_data: Elŝuti datumojn
       loading: Ŝarĝante...
       manually_select: Mane elektu alian areon
@@ -177,23 +200,25 @@ eo:
         heading: Objektlisto
         history: 
           type: 
-            node: Nodo [[id]]
-            way: Vojo [[id]]
+            node: Nodo %{id}
+            way: Vojo %{id}
         selected: 
           type: 
-            node: Nodo [[id]]
-            way: Vojo [[id]]
+            node: Nodo %{id}
+            way: Vojo %{id}
         type: 
           node: Nodo
           way: Vojo
       private_user: privata uzanto
+      show_areas: Montri areojn
       show_history: Montri Historion
-      unable_to_load_size: "Ne ŝarĝeblas: limskatolo kun dimensio de [[bbox_size]] estas tro granda (devas esti malgranda ol %{max_bbox_size})"
+      unable_to_load_size: "Ne ŝarĝeblas: limskatolo kun dimensio de %{bbox_size} estas tro granda (devas esti malgranda ol %{max_bbox_size})"
       wait: Atendu...
       zoom_or_select: Zomu aŭ elektu videndan mapareon
     tag_details: 
       tags: "Etikedoj:"
     timeout: 
+      sorry: Bedaŭrinde, la datumoj por la %{type} kun la identigilo %{id} alvenis tro malrapide.
       type: 
         changeset: ŝanĝaro
         node: nodo
@@ -226,7 +251,7 @@ eo:
     changeset_paging_nav: 
       next: Sekvanta »
       previous: « Antaŭa
-      showing_page: Montrante paĝon
+      showing_page: Montrante paĝon %{page}
     changesets: 
       area: Areo
       comment: Komento
@@ -262,6 +287,15 @@ eo:
       save_button: Konservi
       title: Uzantĵurnaloj | %{user}
       user_title: Ĵurnalo de %{user}
+  editor: 
+    potlatch: 
+      description: Potlatch 1 (redaktilo en TTT-legilo)
+      name: Potlatch 1
+    potlatch2: 
+      description: Potlatch 2 (redaktilo en TTT-legilo)
+      name: Potlatch 2
+    remote: 
+      name: Teleregilo
   export: 
     start: 
       add_marker: Aldoni markon al la mapo
@@ -291,14 +325,11 @@ eo:
     description: 
       title: 
         geonames: Loko el <a href="http://www.geonames.org/">GeoNames</a>
-        osm_namefinder: "%{types} el <a href=\"http://gazetteer.openstreetmap.org/namefinder/\">OpenStreetMap Namefinder</a>"
         osm_nominatim: Loko el <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
       types: 
         cities: Grandurboj
         places: Lokoj
         towns: Urboj
-    description_osm_namefinder: 
-      prefix: "%{distance} %{direction} de %{type}"
     direction: 
       east: oriento
       north: nordo
@@ -319,13 +350,26 @@ eo:
         ca_postcode: Rezultoj el <a href="http://geocoder.ca/">Geocoder.CA</a>
         geonames: Rezultoj el <a href="http://www.geonames.org/">GeoNames</a>
         latlon: Rezultoj el <a href="http://openstreetmap.org/">Internal</a>
-        osm_namefinder: Rezultoj el <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>
         osm_nominatim: Rezultoj el <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
         uk_postcode: Rezultoj el <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Rezultoj el <a href="http://geocoder.us/">Geocoder.us</a>
-    search_osm_namefinder: 
-      suffix_parent: "%{suffix} (%{parentdistance} %{parentdirection} de %{parentname})"
-      suffix_place: ", %{distance} %{direction} de %{placename}"
+    search_osm_nominatim: 
+      prefix: 
+        natural: 
+          hill: Monteto
+          tree: Arbo
+          water: Akvo
+        place: 
+          city: Urbego
+          country: Lando
+          farm: Farmobieno
+          house: Domo
+          houses: Domoj
+          region: Regiono
+          sea: Maro
+          town: Urbo
+        tourism: 
+          museum: Muzeo
   layouts: 
     donate: Subtenu OpenStreetMap %{link} al Fonduso de Ĝisdatigo de Aparataro.
     donate_link_text: donacante
@@ -333,17 +377,14 @@ eo:
     export: Eksporti
     export_tooltip: Eksporti mapajn datumojn
     gps_traces: GPS spuroj
-    gps_traces_tooltip: Manipuli spurojn
+    gps_traces_tooltip: Manipuli la GPS-spurojn
     history: Historio
     home: hejmo
     home_tooltip: Iri al hejmloko
-    inbox: leterkesto (%{count})
     inbox_tooltip: 
       one: Via leterkesto enhavas 1 nelegitan mesaĝon
       other: Via leterkesto enhavas %{count} nelegitajn mesaĝojn
       zero: Via leterkesto ne enhavas nelegitajn mesaĝojn
-    license: 
-      title: Datenoj de OpenStreetMap estas disponeblaj laŭ la permesilo Krea Komunaĵo Atribuite-Samkondiĉe 2.0 Ĝenerala
     log_in: ensaluti
     log_in_tooltip: Ensaluti kun ekzistanta konto
     logo: 
@@ -359,14 +400,18 @@ eo:
     user_diaries: Uzantĵurnaloj
     user_diaries_tooltip: Vidi uzantĵurnalojn
     view: Vidi
-    view_tooltip: Vidi mapojn
+    view_tooltip: Vidi la mapon
     welcome_user: Bonvenon, %{user_link}
     welcome_user_link_tooltip: Via uzantpaĝo
+  license_page: 
+    foreign: 
+      title: Pri ĉi tiu traduko
   message: 
     delete: 
       deleted: Mesaĝo forigita
     inbox: 
       date: Dato
+      from: De
       my_inbox: Mia leterkesto
       title: Alvenkesto
     mark: 
@@ -387,12 +432,16 @@ eo:
       date: Dato
       inbox: Alvenkesto
       my_inbox: Mia %{inbox_link}
+      subject: Temo
+      to: Al
     read: 
       back_to_inbox: Reen al mesaĝejo
       date: Dato
+      from: De
       reading_your_messages: Legante viajn mesaĝojn
       reading_your_sent_messages: Legante viajn senditajn mesaĝojn
       reply_button: Respondi
+      subject: Temo
       title: Legi mesaĝon
       to: Al
       unread_button: Marki kiel nelegita
@@ -447,10 +496,6 @@ eo:
   site: 
     edit: 
       user_page_link: uzantpaĝo
-    index: 
-      license: 
-        license_name: Creative Commons Atribuite-Samkondiĉe 2.0
-        project_name: projekto OpenStreetMap
     key: 
       map_key: Klarigo de signoj
       table: 
@@ -499,6 +544,9 @@ eo:
             - tramo
             - tramo
           wood: Arbaro
+    markdown_help: 
+      image: Bildo
+      text: Teksto
     search: 
       search: Serĉi
       search_help: "ekzemploj: 'Alkmaar', 'Regent Street, Cambridge', 'CB2 5AQ' aŭ 'poŝtoficejoj proksime de Lünen' <a href='http://wiki.openstreetmap.org/wiki/Search'>pliaj ekzemploj...</a>"
@@ -507,6 +555,9 @@ eo:
     sidebar: 
       close: Fermi
       search_results: Serĉrezultoj
+  time: 
+    formats: 
+      friendly: "%e %B %Y je %H:%M"
   trace: 
     create: 
       trace_uploaded: Via GPX dosiero estis alŝutita kaj atendas enkonduko en la datumbason. Tiu ĝenerale okazas antaŭ duonhoro, kaj retletero estos sendita al vi je finaĵo.
@@ -552,13 +603,13 @@ eo:
       trace_details: Vidi detalojn de spuro
       view_map: Vidi Mapon
     trace_form: 
-      description: Priskribo
+      description: "Priskribo:"
       help: Helpo
-      tags: Etikedoj
+      tags: "Etikedoj:"
       tags_help: dislimataj de komoj
       upload_button: Alŝuti
-      upload_gpx: Alŝuti GPX dosieron
-      visibility: Videbleco
+      upload_gpx: "Alŝuti GPX dosieron:"
+      visibility: "Videbleco:"
       visibility_help: Kion tio signifas ?
     trace_header: 
       see_all_traces: Vidi ĉiujn spurojn

@@ -42,6 +42,7 @@
     flashvars.policy = "<%= request.protocol + request.host_with_port %>/api/crossdomain.xml";
     flashvars.connection = "XML";
     flashvars.show_help = "once";
+    flashvars.user_check = "warn";
     <% if token %>
     flashvars.oauth_token = "<%= token.token %>";
     flashvars.oauth_token_secret = "<%= token.secret %>";
@@ -63,24 +64,19 @@
     // 700,600 for fixed size, 100%,100% for resizable
   }
 
-  <% if params[:node] -%>
-  <% bbox = Node.find(params[:node]).bbox.to_unscaled -%>
-  doSWF(<%= bbox.centre_lat %>,<%= bbox.centre_lon %>,16);
-  <% elsif params[:way] -%>
-  <% bbox = Way.find(params[:way]).bbox.to_unscaled -%>
-  doSWF(<%= bbox.centre_lat %>,<%= bbox.centre_lon %>,16);
+  <% if @lat && @lon -%>
+  doSWF(<%= @lat %>,<%= @lon %>,16);
   <% else -%>
-  doSWF(<%= @lat || 'null' %>,<%= @lon || 'null' %>,<%= @zoom %>);
+  var params = OSM.mapParams();
+  doSWF(params.lat, params.lon, params.zoom || 17);
   <% end -%>
 
   $(document).ready(function () {
     $("body").on("click", "a.set_position", function () {
-      var lat = parseFloat($(this).attr("data-lat"));
-      var lon = parseFloat($(this).attr("data-lon"));
-      var zoom = parseInt($(this).attr("data-zoom"));
+      var data = $(this).data();
 
       $("#potlatch").each(function () {
-        this.setPosition(lat, lon, Math.max(zoom || 15, 13));
+        this.setPosition(data.lat, data.lon, Math.max(data.zoom || 15, 13));
       });
     });
   });

@@ -1,6 +1,18 @@
-<% cl = cycle('table0', 'table1') %>
+<%
+   changeset_data = {:id => changeset.id}
 
-<tr class="<%= cl %>" id="tr-changeset-<%= changeset.id%>">
+   if changeset.has_valid_bbox?
+     bbox = changeset.bbox.to_unscaled
+     changeset_data[:bbox] = {
+       :minlon => bbox.min_lon,
+       :minlat => bbox.min_lat,
+       :maxlon => bbox.max_lon,
+       :maxlat => bbox.max_lat
+     }
+   end
+%>
+
+<%= content_tag "tr", :class => cycle('table0', 'table1'), :id => "tr-changeset-#{changeset.id}", :data => {:changeset => changeset_data} do %>
   <td>
     <%=
       id_link = link_to(changeset.id,
@@ -35,14 +47,4 @@
       <%= t'changeset.changeset.no_comment' %>
     <% end %>
   </td>
-</tr>
-
-<script type="text/javascript">
-$("#tr-changeset-<%= changeset.id%>").mouseover(function() {
-  highlightChangeset("<%= changeset.id %>");
-});
-
-$("#tr-changeset-<%= changeset.id%>").mouseout(function() {
-  unHighlightChangeset("<%= changeset.id %>");
-});
-</script>
+<% end %>

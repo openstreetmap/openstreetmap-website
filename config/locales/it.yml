@@ -7,8 +7,10 @@
 # Author: Darth Kule
 # Author: Davalv
 # Author: Davio
+# Author: Efred
 # Author: Gianfranco
 # Author: Karika
+# Author: Lollo
 # Author: LucioGE
 # Author: McDutchie
 # Author: Nemo bis
@@ -205,19 +207,15 @@ it:
         node: Nodo
         relation: Relazione
         way: Percorso
-    start: 
-      manually_select: Seleziona manualmente un'area differente
-      view_data: Mostra i dati per la visualizzazione attuale della mappa
     start_rjs: 
       data_frame_title: Dati
       data_layer_name: Esplora Dati Mappa
       details: Dettagli
-      drag_a_box: Tracciare un riquadro sulla mappa per selezionare un'area
-      edited_by_user_at_timestamp: Modificato da [[user]] il [[timestamp]]
+      edited_by_user_at_timestamp: Modificato da %{user} il %{timestamp}
       hide_areas: Nascondi le aree
-      history_for_feature: Storico per [[feature]]
+      history_for_feature: Storico per %{feature}
       load_data: Carica dati
-      loaded_an_area_with_num_features: "E' stata caricata un'area che contiene [[num_features]] caratteristiche. In generale, alcuni browser potrebbero non visualizzare correttamente questa quantità di dati. Generalmente i browser lavorano al meglio se si visualizzano meno di [[max_features]] caratteristiche alla volta: se si fa qualcos'altro il proprio browser potrebbe diventare lento o non rispondere più. Se si è sicuri di voler visualizzare questi dati, allora si può premere il pulsante sottostante."
+      loaded_an_area_with_num_features: "È stata caricata un'area che contiene %{num_features} caratteristiche. In generale, alcuni browser potrebbero non visualizzare correttamente questa quantità di dati. Generalmente i browser lavorano al meglio se si visualizzano meno di %{max_features} caratteristiche alla volta: se si fa qualcos'altro il proprio browser potrebbe diventare lento o non rispondere più. Se si è sicuri di voler visualizzare questi dati, allora si può premere il pulsante sottostante."
       loading: Caricamento in corso...
       manually_select: Seleziona manualmente un'area differente
       object_list: 
@@ -227,19 +225,20 @@ it:
         heading: Lista degli oggetti
         history: 
           type: 
-            node: Nodo [[id]]
-            way: Percorso [[id]]
+            node: Nodo %{id}
+            way: Percorso %{id}
         selected: 
           type: 
-            node: Nodo [[id]]
-            way: Percorso [[id]]
+            node: Nodo %{id}
+            way: Percorso %{id}
         type: 
           node: Nodo
           way: Percorso
       private_user: utente privato
       show_areas: Mostra le aree
       show_history: Visualizza storico
-      unable_to_load_size: "Impossibile caricare: la dimensione del riquadro di selezione di [[bbox_size]] è troppo grande (deve essere minore di %{max_bbox_size})"
+      unable_to_load_size: "Impossibile caricare: la dimensione del riquadro di selezione di %{bbox_size} è troppo grande (deve essere minore di %{max_bbox_size})"
+      view_data: Mostra i dati per la visualizzazione attuale della mappa
       wait: Attendere...
       zoom_or_select: Ingrandire oppure selezionare l'area della mappa che si desidera visualizzare
     tag_details: 
@@ -329,8 +328,9 @@ it:
       hide_link: Nascondi questo commento
     diary_entry: 
       comment_count: 
-        one: 1 commento
+        one: "%{count} commento"
         other: "%{count} commenti"
+        zero: Nessun commento
       comment_link: Commento su questa voce
       confirm: Conferma
       edit_link: Modifica questa voce
@@ -404,7 +404,7 @@ it:
       area_to_export: Area da esportare
       embeddable_html: HTML incapsulabile
       export_button: Esporta
-      export_details: I dati di OpenStreetMap sono rilasciati sotto la <a href="http://creativecommons.org/licenses/by-sa/2.0/">licenza Creative Commons Attribution-ShareAlike 2.0</a>.
+      export_details: I dati OpenStreetMap sono rilasciati con <a href="http://opendatacommons.org/licenses/odbl/1.0/">licenza Open Data Commons Open Database</a> (ODbL).
       format: Formato
       format_to_export: Formato di esportazione
       image_size: Dimensione immagine
@@ -435,14 +435,11 @@ it:
     description: 
       title: 
         geonames: Località da <a href="http://www.geonames.org/">GeoNames</a>
-        osm_namefinder: "%{types} da <a href=\"http://gazetteer.openstreetmap.org/namefinder/\">OpenStreetMap Namefinder</a>"
         osm_nominatim: Località da <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
       types: 
         cities: Città
         places: Luoghi
         towns: Città
-    description_osm_namefinder: 
-      prefix: "%{distance} a %{direction} di %{type}"
     direction: 
       east: est
       north: nord
@@ -464,13 +461,9 @@ it:
         ca_postcode: Risultati da <a href="http://geocoder.ca/">Geocoder.CA</a>
         geonames: Risultati da <a href="http://www.geonames.org/">GeoNames</a>
         latlon: Risultati da <a href="http://openstreetmap.org/">Internal</a>
-        osm_namefinder: Risultati da <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>
         osm_nominatim: Risultati restituiti da <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
         uk_postcode: Risultati da <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Risultati da <a href="http://geocoder.us/">Geocoder.us</a>
-    search_osm_namefinder: 
-      suffix_parent: "%{suffix} (%{parentdistance} a %{parentdirection} di %{parentname})"
-      suffix_place: ", %{distance} a %{direction} di %{placename}"
     search_osm_nominatim: 
       prefix: 
         aeroway: 
@@ -794,7 +787,7 @@ it:
           suburb: Quartiere
           town: Paese
           unincorporated_area: Area non inclusa
-          village: Piccolo paese
+          village: Frazione
         railway: 
           abandoned: Linea ferroviaria abbandonata
           construction: Ferrovia in costruzione
@@ -975,14 +968,12 @@ it:
       one: La tua posta in arrivo contiene 1 messaggio non letto
       other: La tua posta in arrivo contiene %{count} messaggi non letti
       zero: La tua posta in arrivo contiene solo messaggi già letti
-    intro_1: OpenStreetMap è una mappa liberamente modificabile dell'intero pianeta. E' fatta da persone come te.
+    intro_1: OpenStreetMap è una mappa liberamente modificabile dell'intero pianeta. È realizzata da persone come te.
     intro_2_create_account: Crea un account utente
     intro_2_download: scaricati
     intro_2_html: I dati possono essere %{download} liberamente e %{use} in accordo alla %{license}. %{create_account} per aiutare a migliorare la mappa.
     intro_2_license: licenza libera
     intro_2_use: utilizzati
-    license: 
-      title: I dati di OpenStreetMap sono distribuiti secondo la licenza Creative Commons Attribution-Share Alike 2.0 Generic
     log_in: entra
     log_in_tooltip: Accedi con un profilo utente esistente
     logo: 
@@ -1001,7 +992,6 @@ it:
     partners_ucl: UCL VR Centre
     sign_up: iscriviti
     sign_up_tooltip: Crea un profilo utente per apportare modifiche
-    sotm2012: Vieni alla conferenza di OpenStreetMap 2012, The State of the Map, il 6-8 settembre a Tokyo!
     tag_line: La wiki-mappa Libera del Mondo
     user_diaries: Diari degli utenti
     user_diaries_tooltip: Visualizza diari utente
@@ -1017,27 +1007,32 @@ it:
       text: In caso di incoerenza fra questa pagina di traduzione e %{english_original_link}, fa fede la pagina in inglese
       title: A proposito di questa traduzione
     legal_babble: 
+      attribution_example: 
+        alt: Esempio di come attribuire ad OpenStreetMap su una pagina web
+        title: Esempio di attribuzione
       contributors_at_html: "<strong>Austria</strong>: contiene i dati della\n<a href=\"http://data.wien.gv.at/\">Stadt Wien</a> (sotto\n<a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.de\">CC BY</a>),\n<a href=\"http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm\">Land Vorarlberg</a> e\nLand Tirol (sotto <a href=\"http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/\">CC-BY AT con emendamenti</a>)."
-      contributors_au_html: "<strong>Australia</strong>: contiene i dati della periferia basati\nsui dati dell'Australian Bureau of Statistics."
       contributors_ca_html: "<strong>Canada</strong>: contiene i dati della\nGeoBase&reg;, GeoGratis (&copy; Department of Natural\nResources Canada), CanVec (&copy; Department of Natural\nResources Canada), e della StatCan (Geography Division,\nStatistics Canada)."
       contributors_footer_1_html: "Per ulteriori dettagli di queste e altre fonti che sono state utilizzate\nper aiutare a migliorare OpenStreetMap, consulta la <a\nhref=\"http://wiki.openstreetmap.org/wiki/Contributors\">pagina dei\ncollaboratori</a> sul wiki di OpenStreetMap."
       contributors_footer_2_html: "L'inserimento dei dati in OpenStreetMap non implica che il fornitore\noriginale dei dati appoggi OpenStreetMap, fornisca alcuna garanzia o\naccetti qualsiasi responsabilità."
       contributors_fr_html: "<strong>Francia</strong>: contiene dati provenienti dalla\nDirection Générale des Impôts."
-      contributors_gb_html: "<strong>Regno Unito</strong>: contiene i dati della\nOrdnance Survey &copy; Crown copyright and database right\n2010."
-      contributors_intro_html: "La nostra licenza CC BY-SA richiede di &ldquo;dare l'attribuzione\nall'autore originale ragionevolmente al mezzo o ai mezzi che stai\nutilizzando&rdquo;. I mappatori individuali OSM non richiedono\nun'attribuzione al di là che per i &ldquo;contributori\nOpenStreetMap&rdquo;, ma dove i dati forniti da un'agenzia cartografica\nnazionale o altra fonte importante sono stati inclusi in OpenStreetMap,\npuò essere congrua l'attribuzione a loro, riproducendo direttamente\nla loro attribuzione o l'indirizzamento a questa pagina."
+      contributors_gb_html: "<strong>Regno Unito</strong>: contiene i dati della\nOrdnance Survey &copy; Crown copyright and database right\n2010-12."
+      contributors_intro_html: "I nostri contributori sono migliaia di individui. Includiamo anche dati distribuiti sotto licenze aperte provenienti da agenzie cartografiche nazionali o di altra fonte, tra cui:"
       contributors_nl_html: "strong>Olanda</strong>: contiene dati &copy; AND, 2007\n(<a href=\"http://www.and.com\">www.and.com</a>)"
       contributors_nz_html: "<strong>Nuova Zelanda</strong>: contiene i dati provenienti dalla\nLand Information New Zealand. Crown Copyright reserved."
-      contributors_pl_html: "<strong>Polonia</strong>: contiene i dati dalle <a\nhref=\"http://ump.waw.pl/\">mappe UMP-pcPL</a>. Copyright dei\ncontributori di UMP-pcPL.\n<a href=\"http://wiki.openstreetmap.org/wiki/UMP2OSM_Importing\">\nAltre informazioni sull'uso dei dati di UMP da parte di OSM</a>"
       contributors_title_html: Nostri collaboratori
       contributors_za_html: "<strong>Sud Africa</strong>: contiene i dati provenienti dalla\n<a href=\"http://www.ngi.gov.za/\">Chief Directorate:\nNational Geo-Spatial Information</a>, State copyright reserved."
-      credit_1_html: "Se utilizzi le immagini delle mappe di OpenStreetMap, si richiede che\nl'attribuzione abbia almeno scritto &ldquo;&copy; OpenStreetMap\ncontributors, CC BY-SA&rdquo;. Se utilizzi solo i dati delle mappe\nsi richiede &ldquo;Map data &copy; OpenStreetMap contributors,\nCC BY-SA&rdquo;."
-      credit_2_html: "Ove possibile, dovrebbe essere un collegamento ipertestuale verso OpenStreetMap\ntramite <a href=\"http://www.openstreetmap.org/\">http://www.openstreetmap.org/</a>\ne CC BY-SA tramite <a\nhref=\"http://creativecommons.org/licenses/by-sa/2.0/\">http://creativecommons.org/licenses/by-sa/2.0/</a>. Se\nutilizzi un mezzo dove i link non sono possibili (per esempio un\nopera stampata), suggeriamo di indirizzare i lettori a\nwww.OpenStreetMap.org (forse scrivendo\n&lsquo;OpenStreetMap&rsquo; a questo indirizzo completo) e a\nwww.creativecommons.org."
+      credit_1_html: Si richiede che l'attribuzione sia &ldquo;&copy; OpenStreetMap contributors &rdquo;.
+      credit_2_html: "Inoltre devi specificare chiaramente che i dati sono disponibili sotto la Open Database Licese e, se usi le nostre tavole, che la cartografia è pubblicata con licenza CC-BY-SA. Puoi fare ciò mettendo un collegamento URL a <a href=\"http://www.openstreetmap.org/copyright\">questa pagina di copyright</a>.\nIn alternativa, e necessariamente se stai distribuendo OSM sotto forma di dati, puoi citare e creare un collegamento diretto alle licenze. In mezzi di comunicazione dove i collegamenti URL non sono possibili (per esempio un'opera stampata), ti suggeriamo di indirizzare i lettori verso openstreetmap.org (magari esplicitando 'OpenStreetMap' come nome completo), verso opendatacommons.org e, se necessario, verso creativecommons.org."
+      credit_3_html: "In una mappa elettronica navigabile, i crediti devono essere mostrati nell'angolo della mappa.\nAd esempio:"
       credit_title_html: Come si attribuisce a OpenStreetMap
-      intro_1_html: "OpenStreetMap è un <i>database aperto</i>, rilasciato in base alla licenza <a\nhref=\"http://creativecommons.org/licenses/by-sa/2.0/deed.it\">\nCreative Commons Attribuzione-Condividi allo stesso modo 2.0</a> (CC BY-SA)."
-      intro_2_html: "Sei libero di copiare, distribuire, trasmettere e adattare le nostre mappe\ne dati, finché lo attribuisci a OpenStreetMap e i suoi\ncontributori. Se tu alteri o ti basi sulle nostre mappe o dati,\nè possibile distribuire il risultato solo sotto la stessa licenza. Il \n<a href=\"http://creativecommons.org/licenses/by-sa/2.0/legalcode\">codice\nlegale completo</a> illustra i tuoi diritti e le tue responsabilità."
-      more_1_html: "Per saperne di più su come utilizzare i nostri dati consulta\nle <a href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">Domande\nlegali frequenti</a>."
-      more_2_html: "Ai contributori OSM si ricorda di non aggiungere dati da qualsiasi\nfonte protetta da copyright (ad esempio Google Maps o mappe stampate) senza\nesplicita autorizzazione dei titolare del copyright."
-      more_3_html: "Anche se i dati OpenStreetMap sono aperti, non possiamo fornire una\nmappa API esente dalle tasse per gli sviluppatori di terze parti.\nVedi la nostra <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">Politica di utilizzo API</a>, la\n<a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">Politica di utilizzo dei riquadri mappa</a>\ne la <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">Politica di utilizzo Nominatim</a>."
+      infringement_1_html: Ai contributori OSM si ricorda di non aggiungere dati da qualsiasi fonte protetta da copyright (ad esempio Google Maps o mappe stampate) senza esplicita autorizzazione dei titolare del copyright.
+      infringement_2_html: "Se ritieni che materiale protetto da copyright sia stato impropriamente aggiunto al database di OpenStreetMap o a questo sito, consulta la nostra\n <a href=\"http://www.osmfoundation.org/wiki/License/Takedown_procedure\">procedura di rimozione per violazione del copyright</a> o segnalacelo direttamente alla nostra\n<a href=\"http://dmca.openstreetmap.org/\">pagina di segnalazione on-line</a>."
+      infringement_title_html: Violazione del copyright
+      intro_1_html: "OpenStreetMap è un <i>database aperto</i>, rilasciato in base alla licenza <a\nhref=\"http://opendatacommons.org/licenses/odbl/\">Open Data Commons Open Database License</a> (ODbL)."
+      intro_2_html: "Sei libero di copiare, distribuire, trasmettere e adattare i nostri dati, finché lo attribuisci a OpenStreetMap e ai suoi contributori. Se alteri o ti basi sui nostri dati,\npuoi distribuire il risultato solo sotto la stessa licenza. Il \n<a href=\"http://opendatacommons.org/licenses/odbl/1.0/\">codice\nlegale completo</a> illustra i tuoi diritti e le tue responsabilità."
+      intro_3_html: "La cartografia contenuta nelle nostre tavole, e la nostra documentazione, sono rilasciate sotto licenza <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">Creative \nCommons Attribuzione - Condividi allo stesso modo 2.0</a> (CC-BY-SA)."
+      more_1_html: "Per saperne di più su come utilizzare i nostri dati, e come accreditarci, consulta\nle <a href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">Domande\nlegali frequenti</a>."
+      more_2_html: "Anche se i dati OpenStreetMap sono aperti, non possiamo fornire accesso alle API della mappa gratuitamente per gli sviluppatori di terze parti.\nVedi la nostra <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">Politica di utilizzo delle API</a>, la\n<a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">Politica di utilizzo delle tavole della mappa</a>\ne la <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">Politica di utilizzo di Nominatim</a>."
       more_title_html: Per saperne di più
       title_html: Copyright e licenza
     native: 
@@ -1168,35 +1163,30 @@ it:
       header: "%{from_user} ti ha inviato un messaggio tramite OpenStreetMap con l'oggetto %{subject}:"
       hi: Ciao %{to_user},
     signup_confirm: 
-      subject: "[OpenStreetMap] Conferma il tuo indirizzo email"
+      confirm: "Prima di qualsiasi altra cosa, abbiamo bisogno di confermare che tale richiesta è effettivamente venuta da te, quindi se è così clicca sul link qui sotto per confermare il tuo account:"
+      created: Qualcuno (si spera che sia tu) ha appena creato un account in %{site_url}.
+      greeting: Ehilà!
+      subject: "[OpenStreetMap] Benvenuti su OpenStreetMap"
+      welcome: Siamo lieti di accoglierti e fornirti alcune informazioni aggiuntive per iniziare.
     signup_confirm_html: 
-      ask_questions: E' possibile fare qualsiasi domanda relativa ad OpenStreetMap sul nostro <a href="http://help.openstreetmap.org/">sito di domande e risposte</a>.
-      click_the_link: Se questo qualcuno sei tu, benvenuto! Clicca sul collegamento sottostante per confermare il tuo profilo ed avere ulteriori informazioni su OpenStreetMap.
+      ask_questions: È possibile fare qualsiasi domanda relativa ad OpenStreetMap sul nostro <a href="http://help.openstreetmap.org/">sito di domande e risposte</a>.
       current_user: Una lista degli utenti attuali nelle categorie, basate sul luogo in cui essi operano, è disponibile su <a href="http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region">Category:Users_by_geographical_region</a>.
       get_reading: Leggi di OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Beginners%27_Guide">sul wiki</a>, non perdere le ultime notizie sul <a href="http://blog.openstreetmap.org/">blog di OpenStreetMap</a> o su <a href="http://twitter.com/openstreetmap">Twitter</a>, oppure sfoglia il blog <a href="http://www.opengeodata.org/">OpenGeoData</a> di Steve Coast, fondatore di OpenStreetMap, per una storia completa del progetto; ci sono anche dei <a href="http://www.opengeodata.org/?cat=13">podcast da ascoltare</a>!
-      greeting: Benvenuto!
-      hopefully_you: Qualcuno (si spera proprio tu) vuole creare un profilo
       introductory_video: Puoi guardare un %{introductory_video_link}.
       more_videos: Ci sono %{more_videos_link}.
       more_videos_here: ulteriori video qui
-      user_wiki_page: E' consigliato creare una pagina utente sul wiki, che includa delle etichette di categoria che si riferiscano al luogo in cui si opera, come ad esempio <a href="http://wiki.openstreetmap.org/wiki/Category:Users_in_London">[[Category:Users_in_London]]</a>.
+      user_wiki_page: È consigliato creare una pagina utente sul wiki includendo delle categorie per il proprio luogo di residenza, come ad esempio <a href="http://wiki.openstreetmap.org/wiki/Category:Users_in_London">[[Category:Users_in_London]]</a>.
       video_to_openstreetmap: video introduttivo su OpenStreetMap
       wiki_signup: Ci si può anche <a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page">iscrivere al wiki di OpenStreetMap</a>.
     signup_confirm_plain: 
-      ask_questions: "E' possibile fare qualsiasi domanda relativa ad OpenStreetMap sul nostro sito di domande e risposte:"
+      ask_questions: "È possibile fare qualsiasi domanda relativa ad OpenStreetMap sul nostro sito di domande e risposte:"
       blog_and_twitter: "Ottieni le ultime notizie tramite il blog di OpenStreetMap oppure Twitter:"
-      click_the_link_1: Se questo qualcuno sei tu, benvenuto! Clicca sul collegamento sottostante
-      click_the_link_2: per confermare il tuo profilo ed avere ulteriori informazioni su OpenStreetMap.
-      current_user_1: Una lista degli utenti attuali nelle categorie, basate sul luogo in cui
-      current_user_2: "essi operano, è disponibile su:"
-      greeting: Benvenuto!
-      hopefully_you: Qualcuno (si spera proprio tu) vuole creare un profilo
+      current_user: "Un elenco degli utenti attualmente categorizzati in base al luogo in cui si trovano, è disponibile da:"
       introductory_video: "Puoi guardare un video introduttivo su OpenStreetMap qui:"
       more_videos: "Ci sono ulteriori video qui:"
       opengeodata: "OpenGeoData.org è il blog del fondatore di OpenStreetMap, Steve Coast, che mette a disposizione anche dei podcast:"
       the_wiki: "Puoi avere altre informazioni su OpenStreetMap sul wiki:"
-      user_wiki_1: E' consigliato creare una pagina utente sul wiki, che includa delle etichette di categoria
-      user_wiki_2: che si riferiscano al luogo in si opera, come ad esempio [[Category:Users_in_Friuli-Venezia_Giulia]].
+      user_wiki_page: Si suggerisce di creare una pagina utente wiki, che includa i tag delle categorie che indicano dove ti trovi, ad esempio [[Categoria:Users_in_London]].
       wiki_signup: "Ci si può anche iscrivere al wiki di OpenStreetMap a:"
   oauth: 
     oauthorize: 
@@ -1207,7 +1197,7 @@ it:
       allow_write_diary: creare pagine di diario, commenti e fare amicizia.
       allow_write_gpx: carica tracciati GPS.
       allow_write_prefs: modificare le tue preferenze utente.
-      request_access: L'applicazione %{app_name} sta richiedendo l'accesso al tuo profilo, %{user}. Si prega di verificare se si desidera che l'applicazione abbia le seguenti funzionalità. E' possibile scegliere a piacere.
+      request_access: L'applicazione %{app_name} sta richiedendo l'accesso al tuo profilo, %{user}. Si prega di verificare se si desidera che l'applicazione abbia le seguenti capacità. È possibile scegliere a piacere.
     revoke: 
       flash: Hai revocato il token per %{application}
   oauth_clients: 
@@ -1301,7 +1291,7 @@ it:
   site: 
     edit: 
       anon_edits_link_text: Leggi il perché.
-      flash_player_required: E' necessario un visualizzatore Flash per utilizzare Potlatch, il programma Flash per le modifiche di OpenStreetMap. Si può <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">scaricare il Flash Player da Adobe.com</a>. Sono disponibili anche <a href="http://wiki.openstreetmap.org/wiki/Editing">altre possibilità</a> per apportare modifiche a OpenStreetMap.
+      flash_player_required: È necessario un visualizzatore Flash per utilizzare Potlatch, il programma Flash per le modifiche di OpenStreetMap. Si può <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">scaricare il Flash Player da Adobe.com</a>. Sono disponibili anche <a href="http://wiki.openstreetmap.org/wiki/Editing">altre possibilità</a> per apportare modifiche a OpenStreetMap.
       no_iframe_support: Il proprio browser non supporta gli iframe HTML, necessari per questa funzionalità.
       not_public: Non si sono impostate come pubbliche le proprie modifiche.
       not_public_description: Non è possibile modificare la mappa finché non lo si fa. Si possono impostare come pubbliche le proprie modifiche dalla propria %{user_page}.
@@ -1313,9 +1303,7 @@ it:
       js_1: Si sta utilizzando un browser che non supporta JavaScript, oppure è stato disabilitato JavaScript.
       js_2: OpenStreetMap utilizza JavaScript per le sua mappa.
       license: 
-        license_name: Creative Commons Attribuzione-Condividi allo stesso modo 2.0
-        notice: Rilasciato sotto la licenza %{license_name} dal %{project_name} ed i suoi contributori.
-        project_name: progetto OpenStreetMap
+        copyright: Copyright OpenStreetMap e collaboratori, sotto una licenza aperta
       permalink: Link permanente
       remote_failed: Modifica non riuscita - assicurarsi che JOSM o Merkaartor sia avviato e che l'opzione di controllo remoto sia abilitata
       shortlink: Collegamento breve
@@ -1527,6 +1515,9 @@ it:
       email never displayed publicly: (mai visualizzato pubblicamente)
       flash update success: Informazioni sull'utente aggiornate con successo.
       flash update success confirm needed: Informazioni sull'utente aggiornate con successo. Controllare la propria email per la conferma del nuovo indirizzo di posta elettronica.
+      gravatar: 
+        gravatar: Usa Gravatar
+        link text: cos'è questo?
       home location: "Posizione:"
       image: "Immagine:"
       image size hint: (immagini quadrate di almeno 100x100 funzionano meglio)
@@ -1571,13 +1562,13 @@ it:
       unknown token: Questo token non sembra esistere.
     confirm_email: 
       button: Conferma
-      failure: E' stato già confermato un indirizzo email con questo codice.
+      failure: Un indirizzo email con questo codice è già stato confermato.
       heading: Conferma una variazione di indirizzo email
       press confirm button: Premere sul pulsante di conferma sottostante per confermare il nuovo indirizzo email.
       success: L'indirizzo email è stato confermato, grazie per l'iscrizione!
     confirm_resend: 
       failure: Utente %{name} non trovato.
-      success: E' stato spedito un nuovo messaggio di conferma all'indirizzo %{email} e non appena verrà confermato il proprio profilo si sarà in grado di mappare.<br /><br />Se si utilizzano dei filtri antispam che spediscono richieste di conferma assicurarsi di inserire l'indirizzo webmaster@openstreetmap.org nella whitelist, altrimenti non siamo in grado di rispondere ad alcuna richiesta di conferma.
+      success: È stato spedito un nuovo messaggio di conferma all'indirizzo %{email} e non appena verrà confermato il proprio profilo si sarà in grado di mappare.<br /><br />Se si utilizzano dei filtri antispam che spediscono richieste di conferma assicurarsi di inserire l'indirizzo webmaster@openstreetmap.org nella whitelist, altrimenti non siamo in grado di rispondere ad alcuna richiesta di conferma.
     filter: 
       not_an_administrator: Bisogna essere amministratori per poter eseguire questa azione.
     go_public: 
@@ -1604,8 +1595,6 @@ it:
       lost password link: Persa la password?
       new to osm: Sei nuovo su OpenStreetMap?
       no account: Non hai un account?
-      notice: <a href="http://www.osmfoundation.org/wiki/License/We_Are_Changing_The_License">Leggi i dettagli sull'imminente cambio di licenza di OpenStreetMap</a> ( <a href="http://wiki.openstreetmap.org/wiki/ODbL/We_Are_Changing_The_License">traduzioni</a>) (<a href="http://wiki.openstreetmap.org/wiki/Talk:ODbL/Upcoming">discussione</a> )
-      notice_terms: OpenStreetMap si sta muovendo per avere una nuova licenza per il 1° aprile 2012. È ''open'' come quella attuale, ma le restrizioni legali sono molto più indicate per il nostro database cartografico. Ci piacerebbe mantenere i vostri contributi in OpenStreetMap, ma possiamo farlo solo se accosentite a farceli redistribuire sotto una nuova licenza. In caso contrario, purtroppo, dovremo rimuoverli dal database.<br/><br/>Per favore accedi, poi prenditi pochi secondi per leggere e ad accettare i nuovi termini. Grazie!
       openid: "%{logo} OpenID:"
       openid invalid: Spiacente, sembra il che tuo OpenID non sia valido
       openid missing provider: Siamo spiacenti, impossibile contattare il provider OpenID
@@ -1650,7 +1639,9 @@ it:
       title: password persa
     make_friend: 
       already_a_friend: Sei già amico di %{name}.
+      button: Aggiungi agli amici
       failed: Spiacenti, non è stato possibile aggiungere %{name} come un amico.
+      heading: Aggiungere %{user} agli amici?
       success: "%{name} è ora tuo amico."
     new: 
       confirm email address: "Conferma indirizzo email:"
@@ -1662,6 +1653,7 @@ it:
       email address: "Indirizzo email:"
       fill_form: Riempi il modulo e noi ti invieremo velocemente una email per attivare il tuo profilo.
       flash create success message: Grazie per l'iscrizione. Abbiamo spedito un messaggio di conferma all'indirizzo %{email} e non appena sarà confermato il proprio profilo sarà possibile mappare.<br /><br />Se si utilizzano dei filtri antispam che inviano delle richieste di conferma assicurarsi che l'indirizzo webmaster@openstreetmap.org sia nella whitelist, altrimenti non saremo in grado di rispondere ad alcuna richiesta di conferma.
+      flash welcome: Grazie per esserti registrato. Ti abbiamo inviato un messaggio a %{email} con alcuni suggerimenti per come iniziare.
       heading: Crea un profilo utente
       license_agreement: Quando confermi il tuo profilo devi accettare le <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">regole per contribuire</a>.
       no_auto_account_create: Sfortunatamente in questo momento non è possibile creare automaticamente per te un profilo.
@@ -1683,6 +1675,8 @@ it:
       nearby mapper: Mappatore vicino
       your location: Propria posizione
     remove_friend: 
+      button: Rimuovi dagli amici
+      heading: Rimuovere ${user} dagli amici?
       not_a_friend: "%{name} non è uno dei tuoi amici."
       success: "%{name} è stato rimosso dai tuoi amici."
     reset_password: 
@@ -1719,7 +1713,7 @@ it:
       activate_user: attiva questo utente
       add as friend: aggiungi come amico
       ago: (%{time_in_words_ago} fa)
-      block_history: vedi i blocchi ricevuti
+      block_history: blocchi ricevuti
       blocks by me: blocchi applicati da me
       blocks on me: blocchi su di me
       comments: commenti
@@ -1740,12 +1734,12 @@ it:
       friends_changesets: Visualizza tutti i gruppi di modifica degli amici
       friends_diaries: Sfoglia tutte le note dei diari degli amici
       hide_user: nascondi questo utente
-      if set location: Se si imposta una propria posizione, una bella mappa ed altre informazioni compariranno di seguito. E' possibile impostare la propria posizione sulla pagina delle %{settings_link}.
+      if set location: Se si imposta una propria posizione, una bella mappa ed altre informazioni compariranno di seguito. È possibile impostare la propria posizione sulla pagina delle %{settings_link}.
       km away: distante %{count} km
       latest edit: "Ultima modifica %{ago}:"
       m away: "%{count}m di distanza"
       mapper since: "Mappatore dal:"
-      moderator_history: vedi i blocchi applicati
+      moderator_history: blocchi applicati
       my comments: miei commenti
       my diary: diario personale
       my edits: modifiche personali
@@ -1786,7 +1780,7 @@ it:
       heading: Lista dei blocchi su %{name}
       title: Blocchi su %{name}
     create: 
-      flash: E' stato imposto un blocco sull'utente %{name}.
+      flash: È stato imposto un blocco sull'utente %{name}.
       try_contacting: Per favore prova a contattare l'utente prima di bloccarlo e forniscigli un tempo ragionevole per rispondere.
       try_waiting: Per favore fornisci all'utente un tempo ragionevole per rispondere prima di bloccarlo.
     edit: 

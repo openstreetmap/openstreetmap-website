@@ -33,14 +33,6 @@
   </p>
   <p>
     <%= hidden_field_tag('referer', h(params[:referer])) unless params[:referer].nil? %>
-    <% if @user.new_record? %>
-      <%= hidden_field('user', 'email') %>
-      <%= hidden_field('user', 'email_confirmation') %>
-      <%= hidden_field('user', 'display_name') %>
-      <%= hidden_field('user', 'pass_crypt') %>
-      <%= hidden_field('user', 'pass_crypt_confirmation') %>
-      <%= hidden_field('user', 'openid_url') %>
-    <% end %>
     <div id="buttons">
       <%= submit_tag(t('user.terms.decline'), :name => "decline", :id => "decline") %>
       <%= submit_tag(t('user.terms.agree'), :name => "agree", :id => "agree") %>

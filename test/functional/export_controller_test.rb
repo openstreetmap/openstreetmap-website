@@ -13,12 +13,16 @@ class ExportControllerTest < ActionController::TestCase
       { :path => "/export/finish", :method => :post },
       { :controller => "export", :action => "finish" }
     )
+    assert_routing(
+      { :path => "/export/embed", :method => :get },
+      { :controller => "export", :action => "embed" }
+    )
   end
 
   def test_start
     xhr :get, :start
     assert_response :success
-    assert_template 'start'
+    assert_template 'export/start'
   end
   
   def test_finish_osm

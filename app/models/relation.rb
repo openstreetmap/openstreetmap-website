@@ -77,6 +77,12 @@ class Relation < ActiveRecord::Base
       relation.add_tag_keyval(tag['k'], tag['v'])
     end
 
+    # need to initialise the relation members array explicitly, as if this
+    # isn't done for a new relation then @members attribute will be nil, 
+    # and the members will be loaded from the database instead of being 
+    # empty, as intended.
+    relation.members = Array.new
+
     pt.find('member').each do |member|
       #member_type = 
       logger.debug "each member"
@@ -161,13 +167,9 @@ class Relation < ActiveRecord::Base
 
   # FIXME is this really needed?
   def members
-    unless @members
-      @members = Array.new
-      self.relation_members.each do |member|
-        @members += [[member.member_type,member.member_id,member.member_role]]
-      end
+    @members ||= self.relation_members.map do |member|
+      [member.member_type, member.member_id, member.member_role]
     end
-    @members
   end
 
   def tags
@@ -188,9 +190,9 @@ class Relation < ActiveRecord::Base
     @tags = t
   end
 
-  def add_member(type,id,role)
-    @members = Array.new unless @members
-    @members += [[type,id.to_i,role]]
+  def add_member(type, id, role)
+    @members ||= []
+    @members << [type, id.to_i, role]
   end
 
   def add_tag_keyval(k, v)

@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 
 require File.dirname(__FILE__) + '/../config/environment'
-require 'generator'
 
 start_time = Time.now
 
@@ -79,7 +78,7 @@ begin
                                 :joins => :changeset, :group => :user_id,
                                 :order => "count_all DESC", :limit => 60)
 
-    SyncEnumerator.new(day_users, week_users, month_users).each do |row|
+    day_users.zip(week_users, month_users).each do |row|
       puts "<tr>"
       row.each do |column|
         if column.nil?

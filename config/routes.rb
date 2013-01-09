@@ -57,13 +57,15 @@ OpenStreetMap::Application.routes.draw do
   match 'api/0.6/relations/search' => 'search#search_relations', :via => :get
   match 'api/0.6/nodes/search' => 'search#search_nodes', :via => :get
 
+  match 'api/0.6/user/:id' => 'user#api_read', :via => :get, :id => /\d+/
   match 'api/0.6/user/details' => 'user#api_details', :via => :get
+  match 'api/0.6/user/gpx_files' => 'user#api_gpx_files', :via => :get
+
   match 'api/0.6/user/preferences' => 'user_preference#read', :via => :get
   match 'api/0.6/user/preferences/:preference_key' => 'user_preference#read_one', :via => :get
   match 'api/0.6/user/preferences' => 'user_preference#update', :via => :put
   match 'api/0.6/user/preferences/:preference_key' => 'user_preference#update_one', :via => :put
   match 'api/0.6/user/preferences/:preference_key' => 'user_preference#delete_one', :via => :delete
-  match 'api/0.6/user/gpx_files' => 'user#api_gpx_files', :via => :get
 
   match 'api/0.6/gpx/create' => 'trace#api_create', :via => :post
   match 'api/0.6/gpx/:id' => 'trace#api_read', :via => :get, :id => /\d+/
@@ -102,11 +104,11 @@ OpenStreetMap::Application.routes.draw do
   match '/copyright' => 'site#copyright', :via => :get
   match '/history' => 'changeset#list', :via => :get
   match '/history/feed' => 'changeset#feed', :via => :get, :format => :atom
-  match '/export' => 'site#export', :via => :get
+  match '/export' => 'site#index', :export => true, :via => :get
   match '/login' => 'user#login', :via => [:get, :post]
   match '/logout' => 'user#logout', :via => [:get, :post]
   match '/offline' => 'site#offline', :via => :get
-  match '/key' => 'site#key', :via => :post
+  match '/key' => 'site#key', :via => :get
   match '/user/new' => 'user#new', :via => :get
   match '/user/terms' => 'user#terms', :via => [:get, :post]
   match '/user/save' => 'user#save', :via => :post
@@ -201,6 +203,7 @@ OpenStreetMap::Application.routes.draw do
   # export
   match '/export/start' => 'export#start', :via => :get
   match '/export/finish' => 'export#finish', :via => :post
+  match '/export/embed' => 'export#embed', :via => :get
 
   # messages
   match '/user/:display_name/inbox' => 'message#inbox', :via => :get, :as => "inbox"

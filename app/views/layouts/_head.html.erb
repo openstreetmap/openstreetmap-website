@@ -1,20 +1,40 @@
 <head>
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0"/>
-  <%= javascript_strings %>
-  <%= javascript_include_tag "site" %>
-  <%= javascript_include_tag "menu" %>
+  <%= javascript_include_tag "application" %>
   <!--[if lt IE 7]><%= javascript_include_tag "pngfix" %><![endif]--> <!-- thanks, microsoft! -->
-  <%= stylesheet_link_tag "small-#{t 'html.dir'}", :media => "only screen and (max-width:641px)" %>
-  <%= stylesheet_link_tag "large-#{t 'html.dir'}", :media => "screen and (min-width: 642px)" %>
-  <%= stylesheet_link_tag "print-#{t 'html.dir'}", :media => "print" %>
-  <!--[if IE]><%= stylesheet_link_tag "large-#{t 'html.dir'}", :media => "screen" %><![endif]--> <!-- IE is totally broken with CSS media queries -->
+  <%= stylesheet_link_tag "small-#{dir}", :media => "only screen and (max-width:641px)" %>
+  <%= stylesheet_link_tag "large-#{dir}", :media => "screen and (min-width: 642px)" %>
+  <%= stylesheet_link_tag "print-#{dir}", :media => "print" %>
+  <%= stylesheet_link_tag "leaflet-all", :media => "screen, print" %>
+  <!--[if IE]>
+    <%= stylesheet_link_tag "leaflet.ie" %>
+    <%= stylesheet_link_tag "large-#{dir}", :media => "screen" %>
+  <![endif]-->
   <%= favicon_link_tag "favicon.ico" %>
   <%= favicon_link_tag "osm_logo.png", :rel => "apple-touch-icon", :type => "image/png" %>
   <%= tag("link", { :rel => "publisher", :href => "https://plus.google.com/111953119785824514010" }) %>
   <%= tag("link", { :rel => "search", :type => "application/opensearchdescription+xml", :title => "OpenStreetMap Search", :href => asset_path("osm.xml") }) %>
   <%= tag("meta", { :name => "description", :content => "OpenStreetMap is the free wiki world map." }) %>
+  <% if flash[:piwik_goal] -%>
+  <%= tag("meta", :name => "piwik-goal", :content => flash[:piwik_goal]) %>
+  <% end -%>  
   <%= style_rules %>
   <%= yield :head %>
   <%= csrf_meta_tag %>
+  <script type="text/javascript">
+    I18n.defaultLocale = "<%= I18n.default_locale %>";
+    I18n.locale = "<%= I18n.locale %>";
+    I18n.fallbacks = true;
+
+    <% if @user and !@user.home_lon.nil? and !@user.home_lat.nil? %>
+    OSM.home = <%= { :lat => @user.home_lat, :lon => @user.home_lon }.to_json.html_safe %>;
+    <% end %>
+
+    <% if session[:location] %>
+    OSM.location = <%= session[:location].to_json.html_safe %>;
+    <% end %>
+
+    OSM.preferred_editor = <%= preferred_editor.to_json.html_safe %>;
+  </script>
   <title><%= t 'layouts.project_name.title' %><%= ' | '+ @title if @title %></title>
 </head>

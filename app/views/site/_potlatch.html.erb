@@ -42,15 +42,18 @@
     // 700,600 for fixed size, 100%,100% for resizable
   }
 
-  doSWF(<%= @lat || 'null' %>,<%= @lon || 'null' %>,<%= @zoom %>);
+  <% if @lat && @lon -%>
+  doSWF(<%= @lat %>,<%= @lon %>,16);
+  <% else -%>
+  var params = OSM.mapParams();
+  doSWF(params.lat, params.lon, params.zoom || 17);
+  <% end -%>
 
   $(document).ready(function () {
     $("body").on("click", "a.set_position", function () {
-      var lat = parseFloat($(this).attr("data-lat"));
-      var lon = parseFloat($(this).attr("data-lon"));
-      var zoom = parseInt($(this).attr("data-zoom"));
+      var data = $(this).data();
 
-      doSWF(lat, lon, zoom || 15);
+      doSWF(data.lat, data.lon, data.zoom || 15);
     });
   });
 </script>

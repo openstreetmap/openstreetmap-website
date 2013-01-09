@@ -2,7 +2,9 @@
 # Exported from translatewiki.net
 # Export driver: syck-pecl
 # Author: Dbc334
+# Author: Eleassar
 # Author: Lesko987
+# Author: Stefanb
 sl: 
   activerecord: 
     attributes: 
@@ -198,19 +200,15 @@ sl:
         node: Vozlišče
         relation: Zveza
         way: Pot
-    start: 
-      manually_select: Ročno izberite drugo področje
-      view_data: Ogled podatkov trenutno prikazanega zemljevida
     start_rjs: 
       data_frame_title: Podatki
       data_layer_name: Prebrskaj podatke zemljevida
       details: Podrobnosti
-      drag_a_box: Za izbor področja povlecite pravokotnik na zemljevidu
-      edited_by_user_at_timestamp: Uredil [[user]] v [[timestamp]]
+      edited_by_user_at_timestamp: Uredil %{user} v %{timestamp}
       hide_areas: Skrij področja
-      history_for_feature: Zgodovina [[feature]]
+      history_for_feature: Zgodovina %{feature}
       load_data: Naloži podatke
-      loaded_an_area_with_num_features: "Naložili ste področje, ki vsebuje [[num_features]] elementov. Nekateri spletni brskalniki ne zmorejo prikaza takšne količine podatkov. Na splošno brskalniki najbolje prikazujejo [[max_features]] ali manj elementov hkrati: karkoli drugega lahko upočasni vaš brskalnik ali ga naredi neodzivnega. Če ste prepričani, da želite prikazati vse te podatke, pritisnite na spodnji gumb."
+      loaded_an_area_with_num_features: "Naložili ste področje, ki vsebuje %{num_features} elementov. Nekateri spletni brskalniki ne zmorejo prikaza takšne količine podatkov. Na splošno brskalniki najbolje prikazujejo %{max_features} ali manj elementov hkrati: karkoli drugega lahko upočasni vaš brskalnik ali ga naredi neodzivnega. Če ste prepričani, da želite prikazati vse te podatke, pritisnite na spodnji gumb."
       loading: Nalaganje ...
       manually_select: Ročno izberite drugo področje
       object_list: 
@@ -220,19 +218,20 @@ sl:
         heading: Seznam predmetov
         history: 
           type: 
-            node: Vozlišče [[id]]
-            way: Pot [[id]]
+            node: Vozlišče %{id}
+            way: Pot %{id}
         selected: 
           type: 
-            node: Vozlišče [[id]]
-            way: Pot [[id]]
+            node: Vozlišče %{id}
+            way: Pot %{id}
         type: 
           node: Vozlišče
           way: Pot
       private_user: anonimni uporabnik
       show_areas: Prikaži podrpčja
       show_history: Prikaži zgodovino
-      unable_to_load_size: "Ni mogoče naložiti: Pravokotno področje velikosti [[bbox_size]] je preveliko (mora biti manjše od %{max_bbox_size})"
+      unable_to_load_size: "Ni mogoče naložiti: Pravokotno področje velikosti %{bbox_size} je preveliko (mora biti manjše od %{max_bbox_size})"
+      view_data: Ogled podatkov trenutno prikazanega zemljevida
       wait: Počakajte...
       zoom_or_select: Povečajte zemljevid ali izberite področje za prikaz
     tag_details: 
@@ -291,6 +290,8 @@ sl:
       description_nearby: Paketi sprememb bližnjih uporabnikov
       description_user: Paketi sprememb uporabnika %{user}
       description_user_bbox: Paketi sprememb uporabnika %{user} znotraj %{bbox}
+      empty_anon_html: " Še brez urejanj"
+      empty_user_html: Izgleda, da si še niste ničesar urejali. Če želite začeti, preglejte <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.3'>Navodila za začetnike</a>.
       heading: Paketi sprememb
       heading_bbox: Paketi sprememb
       heading_friend: Paketi sprememb
@@ -320,10 +321,10 @@ sl:
       hide_link: Skrij ta komentar
     diary_entry: 
       comment_count: 
-        few: "%{count} komentarje"
         one: "%{count} komentar"
-        other: "%{count} komentarjev"
+        other: three=%{count} komentarji
         two: "%{count} komentarja"
+        zero: Brez komentarjev
       comment_link: Komentiraj ta vnos
       confirm: Potrdi
       edit_link: Uredi ta vnos
@@ -397,12 +398,12 @@ sl:
       area_to_export: Področje za izvoz
       embeddable_html: HTML za vključitev na spletno stran
       export_button: Izvozi
-      export_details: OpenStreetMap podatki imajo licenco <a href="http://creativecommons.org/licenses/by-sa/2.0/deed.sl">Creative Commons Priznanje avtorstva-Deljenje pod enakimi pogoji 2.0</a>.
+      export_details: OpenStreetMap podatki imajo dovoljenje <a href="http://opendatacommons.org/licenses/odbl/1.0/">Open Data Commons Open Database License</a> (ODbL).
       format: Oblika
       format_to_export: Oblika izvoženih podatkov
       image_size: Velikost slike
       latitude: "Šir:"
-      licence: Dovoljenje
+      licence: Licenca
       longitude: "Dol:"
       manually_select: Ročno izberite drugo področje
       map_image: Slika zemljevida (prikaže standardni izris)
@@ -428,14 +429,11 @@ sl:
     description: 
       title: 
         geonames: Lokacija iz <a href="http://www.geonames.org/">GeoNames</a>
-        osm_namefinder: "%{types} iz <a href=\"http://gazetteer.openstreetmap.org/namefinder/\">iskalca po OpenStreetMap-u</a>"
         osm_nominatim: Lokacija iz <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
       types: 
         cities: Velemesta
         places: Kraji
         towns: Mesta
-    description_osm_namefinder: 
-      prefix: "%{distance} %{direction} od %{type}"
     direction: 
       east: vzhodno
       north: severno
@@ -457,13 +455,9 @@ sl:
         ca_postcode: Zadetki iz <a href="http://geocoder.ca/">Geocoder.CA</a>
         geonames: Zadetki iz <a href="http://www.geonames.org/">GeoNames</a>
         latlon: <a href="http://openstreetmap.org/">Interni</a> zadetki
-        osm_namefinder: Zadetki iz <a href="http://gazetteer.openstreetmap.org/namefinder/">OpenStreetMap Namefinder</a>
         osm_nominatim: Zadetki iz <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
         uk_postcode: Zadetki iz <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Zadetki iz <a href="http://geocoder.us/">Geocoder.us</a>
-    search_osm_namefinder: 
-      suffix_parent: "%{suffix} (%{parentdistance} %{parentdirection} od %{parentname})"
-      suffix_place: ", %{distance} %{direction} od %{placename}"
     search_osm_nominatim: 
       prefix: 
         aeroway: 
@@ -487,6 +481,7 @@ sl:
           bench: Klop
           bicycle_parking: Parkirišče za kolesa
           bicycle_rental: Izposoja koles
+          biergarten: Pivski vrt
           brothel: Javna hiša
           bureau_de_change: Menjalnica
           bus_station: Avtobusna postaja
@@ -576,6 +571,9 @@ sl:
           national_park: Nacionalni Park
           protected_area: Zavarovano območje
         bridge: 
+          aqueduct: Akvadukt
+          suspension: Viseči most
+          swing: Vrteči most
           viaduct: Viadukt
           "yes": Most
         building: 
@@ -625,6 +623,7 @@ sl:
           building: Zgradba
           castle: Grad
           church: Cerkev
+          fort: Trdnjava
           house: Hiša
           icon: Ikona
           manor: Graščina
@@ -673,6 +672,7 @@ sl:
           wood: Pragozd
         leisure: 
           beach_resort: kopališče
+          bird_hide: Ptičja opazovalnica
           common: Javno zemljišče
           fishing: Ribolovno območje
           garden: Vrt
@@ -704,9 +704,11 @@ sl:
           channel: Kanal
           cliff: Klif
           crater: Krater
+          dune: Peščina
           feature: Znamenitost
           fell: Višinski travnik
           fjord: Fjord
+          forest: Gozd
           geyser: Gejzir
           glacier: Ledenik
           heath: Ravnina
@@ -726,6 +728,7 @@ sl:
           scrub: Grmovje
           shoal: Peščena plaža
           spring: Izvir
+          stone: Skala
           strait: Ožina
           tree: Drevo
           valley: Dolina
@@ -734,6 +737,16 @@ sl:
           wetland: Mokrišče
           wetlands: Mokrišča
           wood: Pragozd
+        office: 
+          accountant: Računovodja
+          architect: Arhitekt
+          company: Podjetje
+          employment_agency: Agencija za zaposlovanje
+          estate_agent: Nepremičninska agencija
+          government: Vladni urad
+          lawyer: Odvetnik
+          travel_agent: Potovalna agencija
+          "yes": Pisarne
         place: 
           airport: Letališče
           city: Mesto
@@ -872,6 +885,7 @@ sl:
         tunnel: 
           "yes": Predor
         waterway: 
+          artificial: Umetni vodotok
           boatyard: Ladjedelnica
           canal: Prekop
           connector: Vodne povezave
@@ -928,6 +942,7 @@ sl:
     history: Zgodovina
     home: domov
     home_tooltip: Prikaži domači kraj
+    inbox_html: prejeto %{count}
     inbox_tooltip: 
       few: Prejeli ste %{count} nova sporočila.
       one: Prejeli ste %{count} novo sporočilo.
@@ -940,8 +955,6 @@ sl:
     intro_2_html: Podatki se lahko brezplačno %{download} in %{use} po %{license}. %{create_account} in izboljšajte zemljevid.
     intro_2_license: odprti licenci
     intro_2_use: uporabijo
-    license: 
-      title: Podatki OpenStreetMap so licencirani v skladu z Creative Commons Attribution-Share Alike 2.0 Generic License
     log_in: prijava
     log_in_tooltip: Vstop s svojim obstoječim uporabniškim računom
     logo: 
@@ -1108,14 +1121,11 @@ sl:
       header: "Uporabnik %{from_user}  vam je prek OpenStreetMap poslal novo sporočilo glede %{subject}:"
       hi: Pozdravljeni, %{to_user},
     signup_confirm: 
-      subject: "[OpenStreetMap] Potrdite svoj elektronski naslov"
+      subject: "[OpenStreetMap] Dobrodošli na OpenStreetMap"
     signup_confirm_html: 
       ask_questions: Vsa vprašanja, ki jih imate o OpenStreetMap lahko vprašate na naši strani <a href="http://help.openstreetmap.org/">vprašanja in odgovori</a>.
-      click_the_link: Če ste to vi, dobrodošli! Kliknite na spodnjo povezavo za potrditev računa in več informacij o projektu OpenStreetMap.
-      current_user: Seznam trenutnih uporabnikov po kategorijah glede na njihov geografski položaj je na voljo v kategoriji <a href="http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region">Category:Users_by_geographical_region</a>.
-      get_reading: Preberite več o OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Beginners%27_Guide">na wikiju</a>, bodite na tekočem z najnovejšimi novicami preko <a href="http://blog.openstreetmap.org/">bloga OpenStreetMap </a> ali <a href="http://twitter.com/openstreetmap">Twitterja</a>, ali prebrskajte blog ustanovitelja OpenStreetMap Steva Coasta <a href="http://www.opengeodata.org/">OpenGeoData</a> za povzeto zgodovino projekta, ki vsebuje tudi <a href="http://www.opengeodata.org/?cat=13">zvočne podcaste</a>!
-      greeting: Pozdravljeni!
-      hopefully_you: Nekdo (najverjetneje vi) bi rad naredil uporabniški račun na
+      current_user: Seznam trenutnih uporabnikov po kategorijah glede na njihov geografski položaj je na razpolago v kategoriji <a href="http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region">Category:Users_by_geographical_region</a>.
+      get_reading: Preberite si več o spletišču OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Beginners%27_Guide">na wikiju</a>, seznanite se z najnovejšimi novicami prek <a href="http://blog.openstreetmap.org/">bloga OpenStreetMap </a> ali <a href="http://twitter.com/openstreetmap">Twitterja</a> ali prebrskajte blog Steva Coasta, ustanovitelja OpenStreetMap <a href="http://www.opengeodata.org/">OpenGeoData</a> za povzeto zgodovino projekta, ki vsebuje tudi <a href="http://www.opengeodata.org/?cat=13">zvočne poddaje</a>!
       introductory_video: Ogledate si lahko %{introductory_video_link}.
       more_videos: Ogledate si lahko %{more_videos_link}.
       more_videos_here: še več video posnetkov
@@ -1125,18 +1135,10 @@ sl:
     signup_confirm_plain: 
       ask_questions: "Vsa vprašanja, ki jih imate o OpenStreetMap lahko vprašate na naši strani vprašanja in odgovori:"
       blog_and_twitter: "Spremljajte novice preko OpenStreetMap bloga ali Twitterja:"
-      click_the_link_1: Če ste to vi, dobrodošli! Kliknite na spodnjo povezavo za
-      click_the_link_2: potrditev računa in več informacij o projektu OpenStreetMap.
-      current_user_1: Seznam trenutnih uporabnikov po kategorijah glede na njihov geografski
-      current_user_2: "položaj je na voljo na naslovu:"
-      greeting: Pozdravljeni!
-      hopefully_you: Nekdo (najverjetneje vi) bi rad naredil uporabniški račun na
       introductory_video: "Uvodni video posnetek si lahko pogledate na naslovu:"
       more_videos: "Več video posnetkov je na naslovu:"
       opengeodata: "OpenGeoData.org je blog ustanovitelja OpenStreetMap Steva Coasta, ima pa tudi podcaste:"
       the_wiki: "Več o projektu OpenStreetMap si preberite v wiki-ju:"
-      user_wiki_1: Priporočljivo je, da si naredite svojo uporabniško wiki stran, ki naj vsebuje
-      user_wiki_2: oznako kategorije, ki določa vaš položaj, npr [[Category:Users_in_Slovenia]].
       wiki_signup: "Lahko ustvarite račun tudi na wiki projektu OpenStreetMap na naslovu:"
   oauth: 
     oauthorize: 
@@ -1243,7 +1245,7 @@ sl:
   site: 
     edit: 
       anon_edits_link_text: Pojasnilo zakaj je temu tako.
-      flash_player_required: Za uporabo Potlatch-a, urejevalnika OpenStreetMap potrebujete predvajalnik Flash. Lahko ga <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">prenesete iz Adobe.com</a>. Na voljo vam je tudi <a href="http://wiki.openstreetmap.org/wiki/Editing">več drugih možnosti</a> za urejanje zemljevida OpenStreetMap.
+      flash_player_required: Za uporabo Potlatcha, urejevalnika OpenStreetMap, potrebujete urejevalnik Flash. Prenesete ga lahko s strani <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">Adobe.com</a>. Na razpolago so tudi <a href="http://wiki.openstreetmap.org/wiki/Editing">druge možnosti</a> za urejanje zemljevidov OpenStreetMap.
       no_iframe_support: Vaš brskalnik ne podpira HTML iframes, kar je potrebno za to funkcijo.
       not_public: Svojih prispevkov še niste označili za javne.
       not_public_description: Urejanje zemljevida ni mogoče dokler vaši prispevki niso javni. Označite jih lahko kot javne na %{user_page}.
@@ -1254,10 +1256,6 @@ sl:
     index: 
       js_1: Bodisi uporabljate brskalnik, ki ne podpira Javascript-a, ali pa je izvajanje Javascript-a onemogočeno.
       js_2: OpenStreetMap za prikaz zemljevida uporablja Javascript.
-      license: 
-        license_name: Creative Commons Priznanje avtorstva-Deljenje pod enakimi pogoji 2.0
-        notice: "%{project_name} z avtorji objavlja pod licenco %{license_name}."
-        project_name: Projekt OpenStreetMap
       permalink: Trajna povezava
       remote_failed: Urejanje ni uspelo - poskrbite da je JOSM ali Merkaartor naložen in je možnost daljinskega upravljanja omogočena
       shortlink: Kratka povezava
@@ -1383,6 +1381,7 @@ sl:
       visibility: "Vidljivost:"
       visibility_help: kaj to pomeni?
     list: 
+      empty_html: Prazno. <a href='%{upload_link}'>Naložite novo sled</a> oziroma izvedete več o GPS sledeh na <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>wiki strani</a>.
       public_traces: Javne sledi GPS
       public_traces_from: Javne sledi GPS uporabnika %{user}
       tagged_with: " z oznako %{tags}"
@@ -1390,10 +1389,10 @@ sl:
     make_public: 
       made_public: Sled je postala javna
     offline: 
-      heading: GPX sistem trenutno ni na voljo
-      message: Sistem za nalaganje GPX datotek in GPX sistem trenutno nista na voljo
+      heading: GPX-sistem trenutno ni dostopen.
+      message: Sistem za nalaganje GPX-datotek in GPX-sistem trenutno nista na razpolago.
     offline_warning: 
-      message: Sistem za nalaganje GPX datotek trenutno ni na voljo
+      message: Sistem za nalaganje GPX-datotek trenutno ni na razpolago.
     trace: 
       ago: "%{time_in_words_ago} nazaj"
       by: Uporabnik
@@ -1427,6 +1426,8 @@ sl:
     trace_optionals: 
       tags: Oznake
     trace_paging_nav: 
+      newer: Novejše sledi
+      older: Starejše sledi
       showing_page: Prikazujem stran %{page}
     view: 
       delete_track: Izbriši to sled
@@ -1466,6 +1467,9 @@ sl:
       email never displayed publicly: (nikoli javno objavljen)
       flash update success: Podatki o uporabniku so bili uspešno posodobljeni.
       flash update success confirm needed: Podatki o uporabniku so bili uspešno posodobljeni. Preverite svojo e-pošto in potrdite spremembo e-poštnega naslova.
+      gravatar: 
+        gravatar: Uporabi Gravatar
+        link text: Kaj je to?
       home location: "Domača lokacija:"
       image: "Slika:"
       image size hint: (Najbolje delujejo kvadratne slike vsaj 100x100 točk)
@@ -1543,8 +1547,6 @@ sl:
       lost password link: Ste pozabili geslo?
       new to osm: Ste novi na OpenStreetMap?
       no account: Še nimate uporabniškega računa?
-      notice: <a href="http://www.osmfoundation.org/wiki/License/We_Are_Changing_The_License">Preberite več o prihajajoči spremembi licence na OpenStreetMap </a> (<a href="http://wiki.openstreetmap.org/wiki/ODbL/We_Are_Changing_The_License">prevodi</a>) (<a href="http://wiki.openstreetmap.org/wiki/Talk:ODbL/Upcoming">razprava</a>)
-      notice_terms: OpenStreetMap prehaja na novo licenciranje dne 1. April 2012. Ta licenca je enako odprta kot sedanja, a pravni del je bolj prilagojen naši bazi. Radi bi obdržali vaše prispevke v OpenStreetMap, vendar lahko to storimo le, če se strinjate, da jih delimo po pogojih nove licence. Sicer jih bomo morali izbrisati iz baze.<br /><br />Prosimo prijavite se in si vzamite nekaj sekund, da pregledate in sprejmete nove pogoje. Hvala!
       openid: "%{logo} OpenID:"
       openid invalid: Oprostite, vaš OpenID ni pravilen
       openid missing provider: Žal se ni bilo mogoče obrniti na ponudnika OpenID
@@ -1589,7 +1591,9 @@ sl:
       title: pozabljeno geslo
     make_friend: 
       already_a_friend: Z uporabnikom %{name} ste že prijatelja.
+      button: Dodaj prijatelja
       failed: Oprostite, uporabnika %{name} ni bilo mogoče dodati med prijatelje.
+      heading: Dodaj %{user} med prijatelje?
       success: Uporabnik %{name} je sedaj vaš prijatelj.
     new: 
       confirm email address: "Potrdite naslov e-pošte:"
@@ -1622,6 +1626,8 @@ sl:
       nearby mapper: Bližnji kartograf
       your location: Vaša lokacija
     remove_friend: 
+      button: Odstrani prijatelja
+      heading: Odstrani %{user} iz prijateljev?
       not_a_friend: Uporabnika %{name} ni med vašimi prijatelji.
       success: Uporabnika %{name} ste odstranili izmed svojih prijateljev.
     reset_password: 
@@ -1658,7 +1664,7 @@ sl:
       activate_user: aktiviraj uporabnika
       add as friend: dodaj med prijatelje
       ago: (%{time_in_words_ago})
-      block_history: poglej prejete blokade
+      block_history: prejete blokade
       blocks by me: moje blokade
       blocks on me: blokade mene
       comments: komentarji
@@ -1684,7 +1690,7 @@ sl:
       latest edit: "Zadnje urejanje %{ago}:"
       m away: oddaljen %{count} m
       mapper since: "Kartograf od:"
-      moderator_history: poglej dane blokade
+      moderator_history: dane blokade
       my comments: moji komentarji
       my diary: moj dnevnik
       my edits: moji prispevki
@@ -1769,11 +1775,14 @@ sl:
       creator_name: Ustvarjalec
       display_name: Blokiran uporabnik
       edit: Uredi
+      next: Naslednja »
       not_revoked: (ni preklicana)
+      previous: « Prejšnja
       reason: "Razlog za blokado:"
       revoke: Prekliči!
       revoker_name: Preklical
       show: Prikaži
+      showing_page: Prikazujem stran %{page}
       status: Stanje
     period: 
       few: "%{count} ure"

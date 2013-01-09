@@ -368,7 +368,7 @@ private
     filename = "/tmp/#{rand}"
 
     # ...and save the uploaded file to that location
-    File.open(filename, "w") { |f| f.write(file.read) }
+    File.open(filename, "wb") { |f| f.write(file.read) }
 
     # Create the trace object, falsely marked as already
     # inserted to stop the import daemon trying to load it

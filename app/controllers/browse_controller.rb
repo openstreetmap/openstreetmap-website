@@ -1,5 +1,5 @@
 class BrowseController < ApplicationController
-  layout 'site'
+  layout 'site', :except => [ :start ]
 
   before_filter :authorize_web  
   before_filter :set_locale 
@@ -7,11 +7,6 @@ class BrowseController < ApplicationController
   around_filter :web_timeout, :except => [:start]
 
   def start 
-    @max_features = case
-                    when browser.ie? && browser.version.to_i < 8 then 100
-                    when browser.ie? && browser.version.to_i < 9 then 500
-                    else 2000
-                    end
   end
   
   def relation
@@ -35,9 +30,6 @@ class BrowseController < ApplicationController
     @way = Way.find(params[:id], :include => [:way_tags, {:changeset => :user}, {:nodes => [:node_tags, {:ways => :way_tags}]}, :containing_relation_members])
     @next = Way.visible.where("id > ?", @way.id).order("id ASC").first
     @prev = Way.visible.where("id < ?", @way.id).order("id DESC").first
-
-    # Used for edit link, takes approx middle node of way
-    @midnode = @way.nodes[@way.nodes.length/2]
   rescue ActiveRecord::RecordNotFound
     render :action => "not_found", :status => :not_found
   end
