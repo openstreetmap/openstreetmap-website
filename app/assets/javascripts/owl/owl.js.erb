@@ -52,6 +52,8 @@ function initOwlLayer() {
     $("#sidebar_content").html('<%= image_tag "searching.gif" %>');
   });
 
+  owlGeoJsonLayer.on('change_clicked', onChangeClicked);
+
   owlGeoJsonLayer.on('loaded', function (geojson) {
     var changesets = owlGeoJsonLayer.changesets;
     $("#sidebar_content").html(JST["templates/owl/sidebar"]({
@@ -92,53 +94,30 @@ function unhighlightChangesetItem(changeset_id) {
   $('li[data-changeset-id=' + changeset_id + ']').removeClass('changeset-item-highlight');
 }
 
-// Add bounding boxes and point markers for changesets.
-function addObjectLayers(changesets) {
-  $.each(changesets, function (index, changeset) {
-    if (!changeset.bboxes) { return; }
-    $.each(changeset.bboxes, function (index, bbox) {
-      if (!(changeset.id in owlObjectLayers)) {
-        owlObjectLayers[changeset.id] = [];
+function onChangeClicked(data) {
+  L.popup({maxHeight: 400, maxWidth: 300})
+    .setLatLng(data.event.latlng)
+    .setContent(JST["templates/owl/change_popup"]({
+      change: data.clickedChange,
+      changesets: data.changesets,
+      showPrevGeomLink: data.prevGeomLayer != null
+    })).openOn(map);
+
+  $("abbr.timeago").timeago();
+
+  if (data.prevGeomLayer != null) {
+    $('.show-prev-geom').hover(function (e) {
+        map.removeLayer(data.geomLayer);
+        map.addLayer(data.prevGeomLayer);
+      }, function (e) {
+        map.removeLayer(data.prevGeomLayer);
+        map.addLayer(data.geomLayer);
       }
-      if (bbox[1] == bbox[3] && bbox[0] == bbox[2]) {
-        owlObjectLayers[changeset.id].push(L.marker([bbox[1], bbox[0]]).addTo(map));
-      } else {
-        owlObjectLayers[changeset.id].push(L.rectangle([[bbox[1], bbox[0]], [bbox[3], bbox[2]]], {
-          color: 'black',
-          opacity: 1,
-          weight: 1,
-          fillColor: 'red',
-          fillOpacity: 0.25}).addTo(map));
-      }
-    });
-  });
+    );
+  }
 }
 
 // Updates feed link by generating the URL based on tile range for the currently visible viewport.
 function owlUpdateFeedLink() {
   $('#history-sidebar-footer .feed_link').attr('href', owlGeoJsonLayer.getAtomUrlForTilerange());
-}
-
-// Calculates a diff between two hashes containing tags.
-function diffTags(tags, prev_tags) {
-  var result = {added: {}, removed: {}, same: {}, modified: {}};
-  $.each(tags, function (k, v) {
-    if (prev_tags && k in prev_tags) {
-      if (v == prev_tags[k]) {
-        result.same[k] = v;
-      } else {
-        result.modified[k] = [v, prev_tags[k]];
-      }
-    } else {
-      result.added[k] = v;
-    }
-  });
-  if (prev_tags) {
-    $.each(prev_tags, function (k, v) {
-      if (!(k in tags)) {
-        result.removed[k] = v;
-      }
-    });
-  }
-  return result;
 }

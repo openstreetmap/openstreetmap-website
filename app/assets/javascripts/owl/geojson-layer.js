@@ -3,7 +3,6 @@ L.OWL = {};
 L.OWL.GeoJSON = L.FeatureGroup.extend({
   pageSize: 15,
   currentOffset: 0,
-  changes: {},
   changesets: {},
   owlObjectLayers: {},
   styles: {},
@@ -48,7 +47,6 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
       url: requestUrl,
       dataType: 'jsonp',
       success: function(geojson, status, xhr) {
-        this._changesetsFromGeoJSON(geojson);
         var url = this._getUrlForTilerange();
         if (url != requestUrl) {
           // Ignore response that is not applicable to the current viewport.
@@ -57,7 +55,7 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
         this.currentUrl = url;
         this.osmElements = {};
         this._removeObjectLayers();
-        this.addGeoJSON(geojson);
+        this._addGeoJSON(geojson);
         this.fire('loaded', geojson);
       },
       error: function() {
@@ -72,14 +70,6 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
       return a.created_at > b.created_at ? -1 : 1;
     });
     return list;
-  },
-
-  _changesetsFromGeoJSON: function (geojson) {
-    var layer = this;
-    this.changesets = {};
-    $.each(geojson['features'], function (index, changeset) {
-      layer.changesets[changeset.properties.id] = changeset.properties;
-    });
   },
 
   highlightChangesetFeatures: function (changeset_id) {
@@ -104,29 +94,32 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
   },
 
   // Add GeoJSON features.
-  addGeoJSON: function (geojson) {
+  _addGeoJSON: function (geojson) {
     this.clearLayers();
+    this.changesets = {};
+
     var layer = this;
 
     $.each(geojson['features'], function (index, changeset) {
       layer.owlObjectLayers[changeset.properties.id] = [];
+      layer.changesets[changeset.properties.id] = changeset.properties;
 
+      var changeById = {};
       $.each(changeset.properties.changes, function (index, change) {
-        change.diffTags = diffTags(change.tags, change.prev_tags);
-        layer.changes[change.id] = change;
-
+        change.diffTags = layer.diffTags(change.tags, change.prev_tags);
         if (!(change.el_id in layer.osmElements)) {
           layer.osmElements[change.el_id] = change;
         } else if (change.version > layer.osmElements[change.el_id].version) {
           layer.osmElements[change.el_id] = change;
         }
+        changeById[change.id] = change;
+        layer.changesets[changeset.properties.id].changes = changeById;
       });
     });
 
     $.each(geojson['features'].reverse(), function (index, changeset) {
       $.each(changeset['features'].reverse(), function (index, changeFeature) {
-        var change = layer.changes[changeFeature.properties.change_id];
-
+        var change = layer.changesets[changeFeature.properties.changeset_id].changes[changeFeature.properties.change_id];
         if (changeFeature.features.length > 0) {
           layer.addChangeFeatureLayer(change, changeFeature.features[0],
             changeFeature.features.length > 1 ? changeFeature.features[1] : null);
@@ -163,33 +156,22 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
         e.target.setStyle(this.styles.hover);
         highlightChangesetItem(change.changeset_id);
     }, this);
+
     changeLayer.on('mouseout', function (e) {
         e.target.setStyle(style);
         unhighlightChangesetItem(change.changeset_id);
     });
+
     changeLayer.on('click', function (e) {
-      var showPrevGeomLink = prevGeomLayer != null;
-      L.popup({maxHeight: 400, maxWidth: 300})
-        .setLatLng(e.latlng)
-        .setContent(JST["templates/owl/change_popup"]({
-          change: this.changes[change.id],
+      this.fire('change_clicked', {
+          event: e,
           changesets: this.changesets,
-          showPrevGeomLink: showPrevGeomLink
-        })).openOn(this._map);
-
-      $("abbr.timeago").timeago();
-
-      if (showPrevGeomLink) {
-        $('.show-prev-geom').hover(function (e) {
-            map.removeLayer(changeLayer);
-            map.addLayer(prevGeomLayer);
-          }, function (e) {
-            map.removeLayer(prevGeomLayer);
-            map.addLayer(changeLayer);
-          }
-        );
-      }
+          clickedChange: change,
+          geomLayer: changeLayer,
+          prevGeomLayer: prevGeomLayer
+      });
     }, this);
+
     this.owlObjectLayers[change.changeset_id].push(changeLayer);
     this.addLayer(changeLayer);
   },
@@ -256,5 +238,30 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
         + zoom + '/'
         + nwTilePoint.x + '/' + nwTilePoint.y + '/'
         + seTilePoint.x + '/' + seTilePoint.y + '.atom';
+  },
+
+  // Calculates a diff between two hashes containing tags.
+  diffTags: function (tags, prev_tags) {
+    var result = {added: {}, removed: {}, same: {}, modified: {}};
+    $.each(tags, function (k, v) {
+      if (prev_tags && k in prev_tags) {
+        if (v == prev_tags[k]) {
+          result.same[k] = v;
+        } else {
+          result.modified[k] = [v, prev_tags[k]];
+        }
+      } else {
+        result.added[k] = v;
+      }
+    });
+    if (prev_tags) {
+      $.each(prev_tags, function (k, v) {
+        if (!(k in tags)) {
+          result.removed[k] = v;
+        }
+      });
+    }
+    return result;
   }
+
 });
