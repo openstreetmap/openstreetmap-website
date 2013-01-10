@@ -1,6 +1,6 @@
 class SiteController < ApplicationController
-  layout 'site', :except => [:key, :permalink]
-  layout false, :only => [:key, :permalink]
+  layout 'site', :except => [:key, :permalink, :contributors]
+  layout false, :only => [:key, :permalink, :contributors]
 
   before_filter :authorize_web
   before_filter :set_locale
