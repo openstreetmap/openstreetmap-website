@@ -64,7 +64,7 @@ function initOwlLayer() {
 
     $("abbr.timeago").timeago();
 
-    $('.change-list > .change > .show-prev-geom').hover(function (e) {
+    $('.show-prev-geom').hover(function (e) {
       owlGeoJsonLayer.showPrevGeom(parseInt($(e.target).data('change-id')));
     }, function (e) {
       owlGeoJsonLayer.showCurrentGeom(parseInt($(e.target).data('change-id')));
@@ -120,6 +120,7 @@ function highlightChange(changeId) {
     unhighlightChange();
   }
   $('div[data-change-id=' + changeId + ']').addClass('change-highlight');
+  $('div[data-change-id=' + changeId + '] > .tag-table').show();
   currentlyHighlightedChange = changeId;
 }
 
@@ -137,8 +138,8 @@ function showChanges(changesetId, changeToHighlight) {
   currentlyShownChangeset = changesetId;
   $('div[data-changeset-id=' + changesetId + '] > div[class=change-list]').show('fast', function () {
     if (changeToHighlight) {
-      $('div[data-change-id=' + changeToHighlight + ']').scrollIntoView();
       highlightChange(changeToHighlight);
+      $('div[data-change-id=' + changeToHighlight + ']').scrollIntoView();
     }
   });
 }
