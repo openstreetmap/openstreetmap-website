@@ -133,7 +133,11 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
 
       var changeById = {};
       $.each(changeset.properties.changes, function (index, change) {
-        change.diffTags = layer.diffTags(change.tags, change.prev_tags);
+        if (change.el_action != 'AFFECT') {
+          change.diffTags = layer.diffTags(change.tags, change.prev_tags);
+        } else {
+          change.diffTags = layer.diffTags(change.tags, change.tags);
+        }
         if (!(change.el_id in layer.osmElements)) {
           layer.osmElements[change.el_id] = change;
         } else if (change.version > layer.osmElements[change.el_id].version) {
