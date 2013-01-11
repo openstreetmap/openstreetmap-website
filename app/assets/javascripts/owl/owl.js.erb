@@ -75,6 +75,15 @@ function initOwlLayer() {
       return false;
     });
 
+    $('.changeset-info').click(function (e) {
+      var changesetId = parseInt($(e.target).parent().data('changeset-id'));
+      if (changesetId != currentlyShownChangeset) {
+        showChanges(changesetId, null);
+      } else {
+        hideChanges(changesetId);
+      }
+    });
+
     $('.changeset-item').hover(
       function (e) {
         var changeset_id = parseInt($(e.target).data('changeset-id'));
@@ -99,11 +108,11 @@ function destroyOwlLayer() {
 }
 
 function highlightChangesetItem(changeset_id) {
-  $('li[data-changeset-id=' + changeset_id + ']').addClass('changeset-item-highlight');
+  $('div[data-changeset-id=' + changeset_id + '] > .changeset-info').addClass('changeset-item-highlight');
 }
 
 function unhighlightChangesetItem(changeset_id) {
-  $('li[data-changeset-id=' + changeset_id + ']').removeClass('changeset-item-highlight');
+  $('div[data-changeset-id=' + changeset_id + '] > .changeset-info').removeClass('changeset-item-highlight');
 }
 
 function highlightChange(changeId) {
@@ -122,13 +131,15 @@ function unhighlightChange() {
 }
 
 function showChanges(changesetId, changeToHighlight) {
-  if (currentlyShownChangeset != null && currentlyShownChangeset != changesetId) {
+  if (currentlyShownChangeset != null && changesetId != currentlyShownChangeset) {
     hideChanges(currentlyShownChangeset);
   }
   currentlyShownChangeset = changesetId;
   $('div[data-changeset-id=' + changesetId + '] > div[class=change-list]').show('fast', function () {
-    $('div[data-change-id=' + changeToHighlight + ']').scrollIntoView();
-    highlightChange(changeToHighlight);
+    if (changeToHighlight) {
+      $('div[data-change-id=' + changeToHighlight + ']').scrollIntoView();
+      highlightChange(changeToHighlight);
+    }
   });
 }
 

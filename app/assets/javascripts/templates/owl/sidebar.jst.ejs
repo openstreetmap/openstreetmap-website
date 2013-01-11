@@ -1,6 +1,7 @@
 <div id="history-sidebar">
   <% $.each(changesets, function (index, changeset) { %>
     <div class="changeset-item" data-changeset-id="<%- changeset.id %>">
+      <div class="changeset-info">
       <% if (typeof changeset.tags['comment'] != 'undefined') { %>
         <a href="<%- OSM.OWL_LINKS_BASE_URL %>browse/changeset/<%- changeset.id %>" class="changeset-comment"><%- changeset.tags['comment'] %></a>
       <% } else { %>
@@ -23,10 +24,12 @@
           </abbr>
           <a href="<%- OSM.OWL_LINKS_BASE_URL %>user/<%- changeset.user_name %>"><%- changeset.user_name %></a>
         </div>
-        <div class="changeset-id"><a href="<%- OSM.OWL_LINKS_BASE_URL %>browse/changeset/<%- changeset.id %>">#<%- changeset.id %></a></div>
+        <div class="changeset-actions">
+          <a href="<%- OSM.OWL_LINKS_BASE_URL %>browse/changeset/<%- changeset.id %>">#<%- changeset.id %></a>
+        </div>
       </div>
       <br style="clear:both" />
-
+      </div>
       <div class="change-list" data-changeset-id="<%- changeset.id %>">
       <% $.each(changeset.changes, function (index, change) { %>
         <hr style="margin: 0px; padding-top: 0px">
