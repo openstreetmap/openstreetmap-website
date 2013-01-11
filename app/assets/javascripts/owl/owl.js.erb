@@ -1,9 +1,10 @@
 //= require owl/config
 //= require owl/geojson-layer
-//= require templates/owl/change_popup
 //= require templates/owl/sidebar
 
 var owlGeoJsonLayer;
+var currentlyShownChangeset;
+var currentlyHighlightedChange;
 var initialized = false;
 
 function hasIcon(tags) {
@@ -56,24 +57,35 @@ function initOwlLayer() {
 
   owlGeoJsonLayer.on('loaded', function (geojson) {
     var changesets = owlGeoJsonLayer.changesets;
+
     $("#sidebar_content").html(JST["templates/owl/sidebar"]({
       changesets: owlGeoJsonLayer.changesetList()
     }));
+
     $("abbr.timeago").timeago();
+
+    $('.change-list > .change > .show-prev-geom').hover(function (e) {
+      owlGeoJsonLayer.showPrevGeom(parseInt($(e.target).data('change-id')));
+    }, function (e) {
+      owlGeoJsonLayer.showCurrentGeom(parseInt($(e.target).data('change-id')));
+    });
+
     $('#history-sidebar-footer .more_link').click(function (e) {
       owlGeoJsonLayer.nextPage();
       return false;
     });
+
     $('.changeset-item').hover(
       function (e) {
         var changeset_id = parseInt($(e.target).data('changeset-id'));
-        owlGeoJsonLayer.highlightChangesetFeatures(changeset_id);
+        //owlGeoJsonLayer.highlightChangesetFeatures(changeset_id);
       },
       function (e) {
         var changeset_id = parseInt($(e.target).data('changeset-id'));
-        owlGeoJsonLayer.unhighlightChangesetFeatures(changeset_id);
+        //owlGeoJsonLayer.unhighlightChangesetFeatures(changeset_id);
       }
     );
+
     owlUpdateFeedLink();
   });
 
@@ -94,27 +106,40 @@ function unhighlightChangesetItem(changeset_id) {
   $('li[data-changeset-id=' + changeset_id + ']').removeClass('changeset-item-highlight');
 }
 
-function onChangeClicked(data) {
-  L.popup({maxHeight: 400, maxWidth: 300})
-    .setLatLng(data.event.latlng)
-    .setContent(JST["templates/owl/change_popup"]({
-      change: data.clickedChange,
-      changesets: data.changesets,
-      showPrevGeomLink: data.prevGeomLayer != null
-    })).openOn(map);
-
-  $("abbr.timeago").timeago();
-
-  if (data.prevGeomLayer != null) {
-    $('.show-prev-geom').hover(function (e) {
-        map.removeLayer(data.geomLayer);
-        map.addLayer(data.prevGeomLayer);
-      }, function (e) {
-        map.removeLayer(data.prevGeomLayer);
-        map.addLayer(data.geomLayer);
-      }
-    );
+function highlightChange(changeId) {
+  if (currentlyHighlightedChange != null) {
+    unhighlightChange();
   }
+  $('div[data-change-id=' + changeId + ']').addClass('change-highlight');
+  currentlyHighlightedChange = changeId;
+}
+
+function unhighlightChange() {
+  if (currentlyHighlightedChange != null) {
+    $('div[data-change-id=' + currentlyHighlightedChange + ']').removeClass('change-highlight');
+    currentlyHighlightedChange = null;
+  }
+}
+
+function showChanges(changesetId, changeToHighlight) {
+  if (currentlyShownChangeset != null && currentlyShownChangeset != changesetId) {
+    hideChanges(currentlyShownChangeset);
+  }
+  currentlyShownChangeset = changesetId;
+  $('div[data-changeset-id=' + changesetId + '] > div[class=change-list]').show('fast', function () {
+    $('div[data-change-id=' + changeToHighlight + ']').scrollIntoView();
+    highlightChange(changeToHighlight);
+  });
+}
+
+function hideChanges(changesetId) {
+  unhighlightChange();
+  currentlyShownChangeset = null;
+  $('div[data-changeset-id=' + changesetId + '] > div[class=change-list]').hide('fast');
+}
+
+function onChangeClicked(data) {
+  showChanges(data.clickedChange.changeset_id, data.clickedChange.id);
 }
 
 // Updates feed link by generating the URL based on tile range for the currently visible viewport.

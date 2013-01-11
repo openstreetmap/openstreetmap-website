@@ -29,6 +29,33 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
     this._refresh();
   },
 
+  showCurrentGeom: function (changeId) {
+    var change = this.findChange(changeId);
+    if (change && change.prevGeomLayer) {
+      this._map.hasLayer(change.prevGeomLayer) && this._map.removeLayer(change.prevGeomLayer);
+      !this._map.hasLayer(change.currentGeomLayer) && this._map.addLayer(change.currentGeomLayer);
+    }
+  },
+
+  showPrevGeom: function (changeId) {
+    var change = this.findChange(changeId);
+    if (change && change.prevGeomLayer) {
+      this._map.hasLayer(change.currentGeomLayer) && this._map.removeLayer(change.currentGeomLayer);
+      !this._map.hasLayer(change.prevGeomLayer) && this._map.addLayer(change.prevGeomLayer);
+    }
+  },
+
+  findChange: function (changeId) {
+    var result = null;
+    $.each (this.changesets, function (id, changeset) {
+      if (changeId in changeset.changes) {
+        result = changeset.changes[changeId];
+        return false;
+      }
+    });
+    return result;
+  },
+
   _handleMapChange: function (e) {
     var url = this._getUrlForTilerange();
     if (url == this.currentUrl) {
@@ -137,7 +164,7 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
     var layer = this;
     var style = this.styles[this._getStyleName(change)];
 
-    var changeLayer = new L.GeoJSON(geojson, {style: style,
+    var currentGeomLayer = new L.GeoJSON(geojson, {style: style,
       pointToLayer: function (geojson, latlng) {
         return L.circleMarker(latlng, style);
       }
@@ -150,30 +177,33 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
         }
       });
       this.owlObjectLayers[change.changeset_id].push(prevGeomLayer);
+      change.prevGeomLayer = prevGeomLayer;
     }
 
-    changeLayer.on('mouseover', function (e) {
+    currentGeomLayer.on('mouseover', function (e) {
         e.target.setStyle(this.styles.hover);
         highlightChangesetItem(change.changeset_id);
     }, this);
 
-    changeLayer.on('mouseout', function (e) {
+    currentGeomLayer.on('mouseout', function (e) {
         e.target.setStyle(style);
         unhighlightChangesetItem(change.changeset_id);
     });
 
-    changeLayer.on('click', function (e) {
+    currentGeomLayer.on('click', function (e) {
       this.fire('change_clicked', {
-          event: e,
-          changesets: this.changesets,
-          clickedChange: change,
-          geomLayer: changeLayer,
-          prevGeomLayer: prevGeomLayer
+        event: e,
+        changesets: this.changesets,
+        clickedChange: change,
+        currentGeomLayer: currentGeomLayer,
+        prevGeomLayer: prevGeomLayer
       });
     }, this);
 
-    this.owlObjectLayers[change.changeset_id].push(changeLayer);
-    this.addLayer(changeLayer);
+    this.owlObjectLayers[change.changeset_id].push(currentGeomLayer);
+    change.currentGeomLayer = currentGeomLayer;
+
+    this.addLayer(currentGeomLayer);
   },
 
   _getStyleName: function (change) {

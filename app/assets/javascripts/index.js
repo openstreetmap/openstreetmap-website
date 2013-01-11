@@ -1,4 +1,5 @@
 //= require_self
+//= require jquery.scrollIntoView
 //= require index/browse
 //= require index/export
 //= require index/key
