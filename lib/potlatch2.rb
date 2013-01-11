@@ -30,6 +30,7 @@ module Potlatch2
     "ja" => "ja_JP",
     "ka" => "ka",
     "ko" => "ko",
+    "ky" => "ky",
     "lb" => "lb",
     "lt" => "lt",
     "lv" => "lv",
