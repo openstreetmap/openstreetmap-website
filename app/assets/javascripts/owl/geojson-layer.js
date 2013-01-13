@@ -1,6 +1,7 @@
 L.OWL = {};
 
 L.OWL.GeoJSON = L.FeatureGroup.extend({
+  minZoomLevel: 12,
   pageSize: 15,
   currentOffset: 0,
   changesets: {},
@@ -56,6 +57,12 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
     return result;
   },
 
+  // Returns the layer to the starting state - removes all features, resets internal structures etc.
+  reset: function () {
+    this.osmElements = {};
+    this._removeObjectLayers();
+  },
+
   _handleMapChange: function (e) {
     var url = this._getUrlForTilerange();
     if (url == this.currentUrl) {
@@ -67,7 +74,16 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
   },
 
   _refresh: function () {
+    this.fire('refreshcalled');
+
+    this.reset();
+
+    if (this._map.getZoom() < this.minZoomLevel) {
+      return;
+    }
+
     this.fire('loading');
+
     var requestUrl = this._getUrlForTilerange();
     $.ajax({
       context: this,
@@ -80,9 +96,7 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
           return;
         }
         this.currentUrl = url;
-        this.osmElements = {};
-        this._removeObjectLayers();
-        this._addGeoJSON(geojson);
+        this._processResponse(geojson);
         this.fire('loaded', geojson);
       },
       error: function() {
@@ -120,8 +134,8 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
     }
   },
 
-  // Add GeoJSON features.
-  _addGeoJSON: function (geojson) {
+  // Add GeoJSON features, build internal structures.
+  _processResponse: function (geojson) {
     this.clearLayers();
     this.changesets = {};
 
