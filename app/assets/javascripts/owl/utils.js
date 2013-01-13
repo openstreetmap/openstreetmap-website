@@ -33,6 +33,55 @@ function hrefForChange(change) {
     + change.el_id;
 }
 
+function nameForChange(change) {
+  var friendlyTagInfo = null, name = null;
+  if (change.prev_tags) {
+    friendlyTagInfo = findTagWithFriendlyName(change.prev_tags);
+    name = findName(change.prev_tags);
+  }
+  if (change.tags) {
+    if (friendlyTagInfo == null) {
+      friendlyTagInfo = findTagWithFriendlyName(change.tags);
+    }
+    if (name == null) {
+      name = findName(change.tags);
+    }
+  }
+  if (!name) {
+    name = change.id;
+  }
+  var result = '';
+  if (friendlyTagInfo) {
+    result = friendlyTagInfo.toLowerCase();
+    if (name) {
+      result += ' (' + name + ')';
+    }
+  } else {
+    result = name;
+  }
+  return result;
+}
+
+// Searches for a tag that has a translation and returns the translation or null if no such tags found.
+function findTagWithFriendlyName(tags) {
+  var result = null;
+  $.each(tags, function (k, v) {
+    if (I18n.lookup('geocoder.search_osm_nominatim.prefix.' + k + '.' + v)) {
+      result = I18n.t('geocoder.search_osm_nominatim.prefix.' + k + '.' + v);
+      return false;
+    }
+  });
+  return result;
+}
+
+function findName(tags) {
+  var result = null;
+  if ('name' in tags) {
+    result = tags['name'];
+  }
+  return result;
+}
+
 
 function findChangesetId(el) {
   return findDataValue(el, 'changeset-id');
