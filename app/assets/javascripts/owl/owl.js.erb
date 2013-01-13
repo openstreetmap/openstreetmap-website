@@ -35,9 +35,13 @@ function initOwlLayer() {
     $("abbr.timeago").timeago();
 
     $('.show-prev-geom').hover(function (e) {
-      owlGeoJsonLayer.showPrevGeom(parseInt($(e.target).data('change-id')));
+      owlGeoJsonLayer.showPrevGeom(findChangeId(e.target));
     }, function (e) {
-      owlGeoJsonLayer.showCurrentGeom(parseInt($(e.target).data('change-id')));
+      owlGeoJsonLayer.showCurrentGeom(findChangeId(e.target));
+    });
+
+    $('.change').click(function (e) {
+      highlightChange(findChangeId(e.target), false);
     });
 
     $('#history-sidebar-footer .more_link').click(function (e) {
@@ -85,11 +89,13 @@ function unhighlightChangesetItem(changeset_id) {
   $('div[data-changeset-id=' + changeset_id + '] > .changeset-info').removeClass('changeset-item-highlight');
 }
 
-function highlightChange(changeId) {
+function highlightChange(changeId, addHighlightClass) {
   if (currentlyHighlightedChange != null) {
     unhighlightChange();
   }
-  $('div[data-change-id=' + changeId + ']').addClass('change-highlight');
+  if (addHighlightClass) {
+    $('div[data-change-id=' + changeId + ']').addClass('change-highlight');
+  }
   $('div[data-change-id=' + changeId + '] > .tag-table').show();
   currentlyHighlightedChange = changeId;
 }
@@ -109,7 +115,7 @@ function showChanges(changesetId, changeToHighlight) {
   currentlyShownChangeset = changesetId;
   $('div[data-changeset-id=' + changesetId + '] > div[class=change-list]').show('fast', function () {
     if (changeToHighlight) {
-      highlightChange(changeToHighlight);
+      highlightChange(changeToHighlight, true);
       $('div[data-change-id=' + changeToHighlight + ']').scrollIntoView();
     }
   });

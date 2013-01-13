@@ -33,12 +33,21 @@ function hrefForChange(change) {
     + change.el_id;
 }
 
-// Tries to find data-changeset-id attribute for given element (searches parents if needed).
+
 function findChangesetId(el) {
+  return findDataValue(el, 'changeset-id');
+}
+
+function findChangeId(el) {
+  return findDataValue(el, 'change-id');
+}
+
+// Tries to find data with given key attribute for given element (searches parents if needed).
+function findDataValue(el, key) {
   var result = null;
   $.each([$(el), $(el).parent(), $(el).parent().parent()], function (index, e) {
-      if (e.data('changeset-id')) {
-        result = e.data('changeset-id');
+      if (e.data(key)) {
+        result = e.data(key);
         return false;
       }
   });
