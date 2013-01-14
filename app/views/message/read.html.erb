@@ -1,37 +1,36 @@
-<div class='text-content'>
 <% if @user == @message.recipient %>
-
+  <% content_for :heading do %>
     <h2><%= h(@message.title) %></h2>
+  <% end %>
 
-    <div class='info-line'>
-        <%= user_thumbnail_tiny @message.sender %>
-        <%= link_to h(@message.sender.display_name), :controller => 'user', :action => 'view', :display_name => @message.sender.display_name %></td>
-        <div class='right'>
-            <%= l @message.sent_on, :format => :friendly %>
-            <%= button_to t('message.read.reply_button'), :controller => 'message', :action => 'reply', :message_id => @message.id %>
-            <%= button_to t('message.read.unread_button'), :controller => 'message', :action => 'mark', :message_id => @message.id, :mark => 'unread' %>
-        </div>
+  <div class='info-line clearfix'>
+    <%= user_thumbnail_tiny @message.sender %>
+    <%= link_to h(@message.sender.display_name), :controller => 'user', :action => 'view', :display_name => @message.sender.display_name %></td>
+    <div class='right'>
+      <%= l @message.sent_on, :format => :friendly %>
+      <%= button_to t('message.read.reply_button'), :controller => 'message', :action => 'reply', :message_id => @message.id %>
+      <%= button_to t('message.read.unread_button'), :controller => 'message', :action => 'mark', :message_id => @message.id, :mark => 'unread' %>
     </div>
+  </div>
 
-    <%= @message.body.to_html %></td>
+  <%= @message.body.to_html %></td>
 
-    <%= link_to t('message.read.back_to_inbox'), :controller => 'message', :action => 'inbox', :display_name => @user.display_name %>
+  <%= link_to t('message.read.back_to_inbox'), :controller => 'message', :action => 'inbox', :display_name => @user.display_name %>
 
 <% else %>
 
-    <h2><%= h(@message.title) %></h2>
+  <h2><%= h(@message.title) %></h2>
 
-    <div class='info-line'>
-        <%= user_thumbnail_tiny @message.recipient %>
-        <%= link_to h(@message.recipient.display_name), :controller => 'user', :action => 'view', :display_name => @message.recipient.display_name %></td>
-        <div class='right'>
-            <%= l @message.sent_on, :format => :friendly %>
-        </div>
+  <div class='info-line clearfix'>
+    <%= user_thumbnail_tiny @message.recipient %>
+    <%= link_to h(@message.recipient.display_name), :controller => 'user', :action => 'view', :display_name => @message.recipient.display_name %></td>
+    <div class='right'>
+      <%= l @message.sent_on, :format => :friendly %>
     </div>
+  </div>
 
-    <%= @message.body.to_html %></td>
+  <%= @message.body.to_html %></td>
 
-    <%= link_to t('message.read.back_to_outbox'), :controller => 'message', :action => 'outbox', :display_name => @user.display_name %>
+  <%= link_to t('message.read.back_to_outbox'), :controller => 'message', :action => 'outbox', :display_name => @user.display_name %>
 
 <% end %>
-</div>

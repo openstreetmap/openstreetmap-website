@@ -1,17 +1,15 @@
-<p>
+<ul class='secondary-actions pager clearfix'>
+  <% if @page > 1 %>
+    <li><%= link_to t('changeset.changeset_paging_nav.previous'), params.merge({ :page => @page - 1 }) %></li>
+  <% else %>
+    <li><%= t('changeset.changeset_paging_nav.previous') %></li>
+  <% end %>
 
-<% if @page > 1 %>
-<%= link_to t('changeset.changeset_paging_nav.previous'), params.merge({ :page => @page - 1 }) %>
-<% else %>
-<%= t('changeset.changeset_paging_nav.previous') %>
-<% end %>
+  <li><%= t('changeset.changeset_paging_nav.showing_page', :page => @page) %></li>
 
-| <%= t('changeset.changeset_paging_nav.showing_page', :page => @page) %> |
-
-<% if @edits.size < @page_size %>
-<%= t('changeset.changeset_paging_nav.next') %>
-<% else %>
-<%= link_to t('changeset.changeset_paging_nav.next'), params.merge({ :page => @page + 1 }) %>
-<% end %>
-
-</p>
+  <% if @edits.size < @page_size %>
+    <li><%= t('changeset.changeset_paging_nav.next') %></li>
+  <% else %>
+    <li><%= link_to t('changeset.changeset_paging_nav.next'), params.merge({ :page => @page + 1 }) %></li>
+  <% end %>
+</ul>

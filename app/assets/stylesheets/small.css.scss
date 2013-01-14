@@ -7,7 +7,31 @@ body {
 }
 
 h1 {
+  font-size: 16px;
+}
+
+h2, h3, h4 {
   font-size: 14px;
+}
+
+.wrapper {
+  margin: 0;
+}
+
+.site-edit #content,
+.site-index #content,
+.site-export #content {
+  left: 0;
+}
+
+.site-edit #top-bar,
+.site-index #top-bar,
+.site-export #top-bar {
+  position: relative;
+}
+
+.column-1 {
+  width: 100%;
 }
 
 /* Rules for the whole left sidebar, including the logo */
@@ -21,15 +45,15 @@ h1 {
 #top-bar {
   left: 0;
   margin: 0px;
-  height: 39px;
-  padding: 0;
+  height: 24px;
+  position: static;
 }
 
 #tabnav {
-  height: 14px;
+  height: 19px;
   margin: 0px;
   padding-top: 5px;
-  margin-top: 20px;
+  margin-top: 26px;
   font-size: 10px;
   line-height: 10px;
 }
@@ -37,9 +61,11 @@ h1 {
 #tabnav a, #tabnav a:link, #tabnav a:visited {
   font-size: 10px;
   line-height: 10px;
-  padding: 2px 5px;
+  padding: 5px;
   margin-right: 1px;
 }
+
+.menuicon { line-height: 10px;}
 
 /* Rules for the site name - shown when left sidebar is hidden */
 
@@ -52,7 +78,7 @@ h1 {
   left: 5px;
   top: 5px;
   padding: 2px;
-  width: 110px; /* TODO: find better fix for overlap */
+  width: 110px;
   background-color: #fff;
   z-index: 100;
 }
@@ -63,36 +89,41 @@ h1 {
 
 #small-title h1 {
   position: absolute;
-  left: 18px;
   font-size: 12px;
+  line-height: 18px;
   margin: 0;
+  left: 22px;
 }
 
 /* Rules for greeting bar in the top right corner */
 
 #greeting {
   position: absolute;
-  right: 5px;
-  top: 5px;
-  height: 14px;
-  font-size: 12px;
-  line-height: 12px;
-  white-space: nowrap;
+  right: 0;
+  top: 0;
   background: none;
 }
 
-#full-greeting {
-  display: none;
+#browse_map ul.secondary-actions {
+  float: right;
 }
-
-#small-greeting {
-  display: inline;
-}
-
-/* Rules for OpenLayers maps */
 
 #map {
   border: 0;
+}
+
+.content_map {
+  width: 100%;
+  border: none;
+  float: none;
+  height: 200px;
+  max-height: none;
+  min-height: auto;
+}
+
+.content_map #small_map {
+  height: 300px;
+  border: 1px solid #ccc;
 }
 
 .leaflet-control-pan, .leaflet-control-zoomslider {
@@ -113,12 +144,19 @@ h1 {
   border-right: 0px;
 }
 
+.site-export #content,
+.site-edit #content,
+.site-index #content {
+  margin-top: 21px;
+}
+
 /* Rules for search sidebar when shown */
 
 #sidebar {
   border: 0px;
-  border-right: 1px solid #ccccdd;
   margin: 0px;
+  width: 50%;
+  border-right: 1px solid #ccccdd;
 }
 
 .sidebar_title, #sidebar_content {
@@ -173,17 +211,21 @@ p.search_results_entry {
 }
 
 #login_openid_buttons td {
-  padding-left: 2px;
-  padding-right: 2px;
-  padding-top: 2px;
-  padding-bottom: 2px;
+  padding: 2px;
 }
 
-/* Rules for the profile page */
+/* Rules for the user view */
 
 .user_map {
   width: 100% !important;
   height: 300px !important;
+}
+
+#userinformation .deemphasize {
+  position: relative;
+  right: auto; left: auto;
+  margin-top: 10px;
+  top: auto;
 }
 
 /* Rules for the user settings page */
@@ -202,34 +244,21 @@ p.search_results_entry {
 
 /* Rules for the browse pages */
 
-#browse_navigation {
-  width: 100% !important;
-  margin-top: 0 !important;
+.browse-section.common div{
+  clear: both;
 }
 
-#small_map, #browse_map {
-  width: 100% !important;
-}
-
-#changeset_list tr {
-  display: block;
-  clear: left;
+#changeset_list_map {
+  position: relative;
   width: 100%;
-}
-
-#changeset_list th {
-  display: none;
-}
-
-#changeset_list td {
-  display: block;
-  float: left;
-  padding-right: 10px;
-}
-
-#changeset_list td.comment, #changeset_list td.area {
-  width: 96%;
-  clear: left;
+  right: 0;
+  left: 0;
+  top: 0px;
+  margin-bottom: 20px;
+  float: none;
+  height: 300px !important;
+  max-height: auto;
+  min-height: auto;
 }
 
 /* Rules for the diary entries pages */

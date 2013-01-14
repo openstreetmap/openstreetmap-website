@@ -1,30 +1,28 @@
 <% if node_details.redacted? %>
 <p><%= t 'browse.redacted.message_html', :type => t('browse.redacted.type.node'), :redaction_link => link_to(t('browse.redacted.redaction', :id => node_details.redaction.id), node_details.redaction), :version => node_details.version %></p>
 <% else %>
-<table class="browse_details" id="<%= node_details.version %>">
+<div class="browse_details" id="<%= node_details.version %>">
 
   <%= render :partial => "common_details", :object => node_details %>
 
   <% if node_details.visible -%>
-  <tr>
-    <th><%= t 'browse.node_details.coordinates' %></th>
-    <td><div class="geo"><%= link_to(content_tag(:span, number_with_delimiter(node_details.lat), :class => "latitude") + ", " + content_tag(:span, number_with_delimiter(node_details.lon), :class => "longitude"), {:controller => 'site', :action => 'index', :lat => h(node_details.lat), :lon => h(node_details.lon), :zoom => "18"}) %></div></td>
-  </tr>
+  <div class='browse-section'>
+    <h4><%= t 'browse.node_details.coordinates' %></h4>
+    <div class="geo"><%= link_to(content_tag(:span, number_with_delimiter(node_details.lat), :class => "latitude") + ", " + content_tag(:span, number_with_delimiter(node_details.lon), :class => "longitude"), {:controller => 'site', :action => 'index', :lat => h(node_details.lat), :lon => h(node_details.lon), :zoom => "18"}) %></div>
+  </div>
   <% end -%>
 
   <% unless node_details.ways.empty? and node_details.containing_relation_members.empty? %>
-    <tr valign="top">
-      <th><%= t 'browse.node_details.part_of' %></th>
-      <td>
-        <table cellpadding="0">
+    <div class='browse-section'>
+      <h4><%= t 'browse.node_details.part_of' %></h4>
+      <ul>
           <% node_details.ways.each do |way| %>
-            <tr><td><%= link_to h(printable_name(way)), { :action => "way", :id => way.id.to_s }, :class => link_class('way', way), :title => link_title(way) %></td></tr>
+            <li><%= link_to h(printable_name(way)), { :action => "way", :id => way.id.to_s }, :class => link_class('way', way), :title => link_title(way) %></li>
           <% end %>
           <%= render :partial => "containing_relation", :collection => node_details.containing_relation_members %>
-        </table>
-      </td>
-    </tr>      
+      </ul>
+    </div>
   <% end %>
 
-</table>
+</div>
 <% end %>

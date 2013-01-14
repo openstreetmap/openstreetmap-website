@@ -1,67 +1,61 @@
-<div id="login_wrapper">
 
-  <div id="login_login">
-    <h1><%= t 'user.login.heading' %></h1>
+<div id="login_login">
+<% content_for :heading do %>
+  <h1><%= t 'user.login.heading' %></h1>
+<% end %>
 
-    <%= form_tag({ :action => "login" }, { :id => "login_form" }) do %>
-      <%= hidden_field_tag('referer', h(params[:referer])) %>
+  <%= form_tag({ :action => "login" }, { :id => "login_form" }) do %>
+    <%= hidden_field_tag('referer', h(params[:referer])) %>
 
-      <p><%= t 'user.login.no account' %> <%= link_to t('user.login.register now'), :action => :new, :referer => params[:referer] %></p>
+    <p><%= t 'user.login.no account' %> <%= link_to t('user.login.register now'), :action => :new, :referer => params[:referer] %></p>
 
-      <table id="loginForm">
-        <tr><td class="fieldName"><%= t 'user.login.email or username' %></td><td><%= text_field_tag "username", params[:username], :size => 28, :maxlength => 255, :tabindex => 1 %></td></tr>
-        <tr><td class="fieldName"><%= t 'user.login.password' %></td><td><%= password_field_tag "password", "", :size => 28, :maxlength => 255, :tabindex => 2 %> <span class="minorNote">(<%= link_to t('user.login.lost password link'), :controller => 'user', :action => 'lost_password' %>)</span></td></tr>
-        <tr>
-          <td></td>
-          <td><%= check_box_tag "remember_me", "yes", false, :tabindex => 3 %>
-            <label for="remember_me">
-              <%= t 'user.login.remember' %></label>
-          </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>
-            <%= submit_tag t('user.login.login_button'), :tabindex => 4 %>
-          </td>
-        </tr>
-      </table>
+    <table id="loginForm">
+      <tr><td class="fieldName"><%= t 'user.login.email or username' %></td><td><%= text_field_tag "username", params[:username], :size => 28, :maxlength => 255, :tabindex => 1 %></td></tr>
+      <tr><td class="fieldName"><%= t 'user.login.password' %></td><td><%= password_field_tag "password", "", :size => 28, :maxlength => 255, :tabindex => 2 %> <span class="minorNote">(<%= link_to t('user.login.lost password link'), :controller => 'user', :action => 'lost_password' %>)</span></td></tr>
+      <tr>
+        <td></td>
+        <td><%= check_box_tag "remember_me", "yes", false, :tabindex => 3 %>
+          <label for="remember_me">
+            <%= t 'user.login.remember' %></label>
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>
+          <%= submit_tag t('user.login.login_button'), :tabindex => 4 %>
+        </td>
+      </tr>
+    </table>
+    <p><%= t 'user.login.with openid' %></p>
 
-      <br clear="all" />
+    <ul id="login_openid_buttons">
+        <li><%= link_to image_tag("openid.png", :alt => t("user.login.openid_providers.openid.title")), "#", :id => "openid_open_url", :title => t("user.login.openid_providers.openid.title") %></li>
+        <li><%= openid_button "google", "gmail.com" %></li>
+        <li><%= openid_button "yahoo", "me.yahoo.com" %></li>
+        <li><%= openid_button "myopenid", "myopenid.com" %></li>
+        <li><%= openid_button "wordpress", "wordpress.com" %></li>
+        <li><%= openid_button "aol", "aol.com" %></li>
+    </ul>
 
-      <p><%= t 'user.login.with openid' %></p>
+    <table>
+      <tr id="login_openid_url">
+        <td class="fieldName nowrap">
+          <%= raw t 'user.login.openid', :logo => openid_logo %>
+        </td>
+        <td>
+          <%= url_field_tag("openid_url", "", { :size => 28, :maxlength => 255, :tabindex => 3, :class => "openid_url" }) %>
+          <span class="minorNote">(<a href="<%= t 'user.account.openid.link' %>" target="_new"><%= t 'user.account.openid.link text' %></a>)</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="fieldName nowrap" id="remember_me_label"><label for="remember_me"><%= t 'user.login.remember' %></label></td>
+        <td width="100%"><%= check_box_tag "remember_me", "yes", false, :tabindex => 5 %></td>
+      </tr>
+    </table>
 
-      <table id="login_openid_buttons">
-        <tr>
-          <td><%= link_to image_tag("openid.png", :alt => t("user.login.openid_providers.openid.title")), "#", :id => "openid_open_url", :title => t("user.login.openid_providers.openid.title") %></td>
-          <td><%= openid_button "google", "gmail.com" %></td>
-          <td><%= openid_button "yahoo", "me.yahoo.com" %></td>
-          <td><%= openid_button "myopenid", "myopenid.com" %></td>
-          <td><%= openid_button "wordpress", "wordpress.com" %></td>
-          <td><%= openid_button "aol", "aol.com" %></td>
-        </tr>
-      </table>
+    <%= submit_tag t('user.login.login_button'), :tabindex => 6, :id => "login_openid_submit" %>
+  <% end %>
 
-      <table>
-        <tr id="login_openid_url">
-          <td class="fieldName nowrap">
-            <%= raw t 'user.login.openid', :logo => openid_logo %>
-          </td>
-          <td>
-            <%= url_field_tag("openid_url", "", { :size => 28, :maxlength => 255, :tabindex => 3, :class => "openid_url" }) %>
-            <span class="minorNote">(<a href="<%= t 'user.account.openid.link' %>" target="_new"><%= t 'user.account.openid.link text' %></a>)</span>
-          </td>
-        </tr>
-        <tr>
-          <td class="fieldName nowrap" id="remember_me_label"><label for="remember_me"><%= t 'user.login.remember' %></label></td>
-          <td width="100%"><%= check_box_tag "remember_me", "yes", false, :tabindex => 5 %></td>
-        </tr>
-      </table>
-
-      <%= submit_tag t('user.login.login_button'), :tabindex => 6, :id => "login_openid_submit" %>
-    <% end %>
-
-    <br clear="all" />
-  </div>
 </div>
 
 <script type="text/javascript">

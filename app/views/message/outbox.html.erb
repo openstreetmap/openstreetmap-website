@@ -1,6 +1,8 @@
-<h2><%= raw(t'message.outbox.my_inbox', :inbox_link => link_to(t('message.outbox.inbox'), inbox_path(@user.display_name))) %>/<%= t'message.outbox.outbox' %></h2>
+<% content_for :heading do %>
+  <h2><%= raw(t'message.outbox.my_inbox', :inbox_link => link_to(t('message.outbox.inbox'), inbox_path(@user.display_name))) %>/<%= t'message.outbox.outbox' %></h2>
+<% end %>
 
-<p><%= t'message.outbox.messages', :count => @user.sent_messages.size %></p>
+<h4><%= t'message.outbox.messages', :count => @user.sent_messages.size %></h4>
 
 <% if @user.sent_messages.size > 0 %>
   <table class="messages">
