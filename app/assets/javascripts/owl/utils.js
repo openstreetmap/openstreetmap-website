@@ -94,7 +94,8 @@ function findChangeId(el) {
 // Tries to find data with given key attribute for given element (searches parents if needed).
 function findDataValue(el, key) {
   var result = null;
-  $.each([$(el), $(el).parent(), $(el).parent().parent()], function (index, e) {
+  $.each([$(el), $(el).parent(), $(el).parent().parent(), $(el).parent().parent().parent(),
+    $(el).parent().parent().parent().parent()], function (index, e) {
       if (e.data(key)) {
         result = e.data(key);
         return false;
