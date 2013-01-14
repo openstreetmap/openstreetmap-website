@@ -41,7 +41,7 @@ function initOwlLayer() {
     });
 
     $('.change').click(function (e) {
-      highlightChange(findChangeId(e.target), false);
+      highlightChange(findChangeId(e.target), false, true);
     });
 
     $('.change').hover(function (e) {
@@ -76,6 +76,16 @@ function initOwlLayer() {
     owlUpdateFeedLink();
   });
 
+  owlGeoJsonLayer.on('changemouseover', function (data) {
+    highlightChangesetItem(data.change.changeset_id);
+    highlightChange(data.change.id, false, false);
+  });
+
+  owlGeoJsonLayer.on('changemouseout', function (data) {
+    unhighlightChangesetItem(data.change.changeset_id);
+    unhighlightChange(data.change.id, false);
+  });
+
   map.addLayer(owlGeoJsonLayer);
 }
 
@@ -93,20 +103,24 @@ function unhighlightChangesetItem(changeset_id) {
   $('div[data-changeset-id=' + changeset_id + '] > .changeset-info').removeClass('changeset-item-highlight');
 }
 
-function highlightChange(changeId, addHighlightClass) {
+function highlightChange(changeId, addSelectedClass, expand) {
   if (currentlyHighlightedChange != null) {
     unhighlightChange();
   }
-  if (addHighlightClass) {
-    $('div[data-change-id=' + changeId + ']').addClass('change-highlight');
+  if (addSelectedClass) {
+    $('div[data-change-id=' + changeId + ']').addClass('change-selected');
   }
-  $('div[data-change-id=' + changeId + '] > .tag-table').show();
+  $('div[data-change-id=' + changeId + ']').addClass('change-highlight');
+  if (expand) {
+    $('div[data-change-id=' + changeId + '] > .tag-table').show();
+  }
   currentlyHighlightedChange = changeId;
 }
 
 function unhighlightChange() {
   if (currentlyHighlightedChange != null) {
     $('div[data-change-id=' + currentlyHighlightedChange + ']').removeClass('change-highlight');
+    $('div[data-change-id=' + currentlyHighlightedChange + ']').removeClass('change-selected');
     $('div[data-change-id=' + currentlyHighlightedChange + '] > .tag-table').hide();
     currentlyHighlightedChange = null;
   }
@@ -119,7 +133,7 @@ function showChanges(changesetId, changeToHighlight) {
   currentlyShownChangeset = changesetId;
   $('div[data-changeset-id=' + changesetId + '] > div[class=change-list]').show('fast', function () {
     if (changeToHighlight) {
-      highlightChange(changeToHighlight, true);
+      highlightChange(changeToHighlight, true, true);
       $('div[data-change-id=' + changeToHighlight + ']').scrollIntoView();
     }
   });

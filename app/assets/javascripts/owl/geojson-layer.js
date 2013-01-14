@@ -228,12 +228,18 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
 
     currentGeomLayer.on('mouseover', function (e) {
         e.target.setStyle(this.styles.hover);
-        highlightChangesetItem(change.changeset_id);
+        this.fire('changemouseover', {
+          event: e,
+          change: change
+        });
     }, this);
 
     currentGeomLayer.on('mouseout', function (e) {
         e.target.setStyle(style);
-        unhighlightChangesetItem(change.changeset_id);
+        this.fire('changemouseout', {
+          event: e,
+          change: change
+        });
     });
 
     currentGeomLayer.on('click', function (e) {
