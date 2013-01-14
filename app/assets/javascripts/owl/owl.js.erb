@@ -44,6 +44,12 @@ function initOwlLayer() {
       highlightChange(findChangeId(e.target), false);
     });
 
+    $('.change').hover(function (e) {
+      owlGeoJsonLayer.highlightChangeFeature(findChangeId(e.target));
+    }, function (e) {
+      owlGeoJsonLayer.unhighlightChangeFeature(findChangeId(e.target));
+    });
+
     $('#history-sidebar-footer .more_link').click(function (e) {
       owlGeoJsonLayer.nextPage();
       return false;

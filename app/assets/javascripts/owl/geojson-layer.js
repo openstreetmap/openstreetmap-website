@@ -134,6 +134,34 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
     }
   },
 
+  highlightChangeFeature: function (changeId) {
+    var layer = this;
+    $.each(this.changesets, function(changesetId, changeset) {
+      if (changeId in changeset.changes) {
+        if (changeset.changes[changeId].currentGeomLayer) {
+          changeset.changes[changeId].currentGeomLayer.setStyle(layer.styles.hover);
+        } else {
+          changeset.changes[changeId].prevGeomLayer.setStyle(layer.styles.hover);
+        }
+        return false;
+      }
+    });
+  },
+
+  unhighlightChangeFeature: function (changeId) {
+    var layer = this;
+    $.each(this.changesets, function(changesetId, changeset) {
+      if (changeId in changeset.changes) {
+        if (changeset.changes[changeId].currentGeomLayer) {
+          changeset.changes[changeId].currentGeomLayer.setStyle(changeset.changes[changeId].currentGeomLayer.options.style);
+        } else {
+          changeset.changes[changeId].prevGeomLayer.setStyle(changeset.changes[changeId].prevGeomLayer.options.style);
+        }
+        return false;
+      }
+    });
+  },
+
   // Add GeoJSON features, build internal structures.
   _processResponse: function (geojson) {
     this.clearLayers();
