@@ -58,14 +58,12 @@ function initOwlLayer() {
       }
     });
 
-    $('.changeset-item').hover(
+    $('.changeset-info').hover(
       function (e) {
-        var changeset_id = parseInt($(e.target).data('changeset-id'));
-        //owlGeoJsonLayer.highlightChangesetFeatures(changeset_id);
+        owlGeoJsonLayer.highlightChangesetFeatures(findChangesetId(e.target));
       },
       function (e) {
-        var changeset_id = parseInt($(e.target).data('changeset-id'));
-        //owlGeoJsonLayer.unhighlightChangesetFeatures(changeset_id);
+        owlGeoJsonLayer.unhighlightChangesetFeatures(findChangesetId(e.target));
       }
     );
 

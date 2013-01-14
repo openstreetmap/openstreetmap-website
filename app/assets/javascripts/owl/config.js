@@ -52,7 +52,8 @@ var OWL = {
     },
     'hover': {
       opacity: 0.75,
-      fillOpacity: 0.75
+      fillOpacity: 0.75,
+      weight: 7,
     }
   },
 
