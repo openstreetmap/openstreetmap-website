@@ -35,6 +35,7 @@ et:
         user: Kasutaja
         visible: Nähtav
       user: 
+        active: Aktiivne
         description: Kirjeldus
         display_name: Näita nime
         email: E-posti aadress
@@ -42,7 +43,9 @@ et:
         pass_crypt: Parool
     models: 
       country: Riik
+      diary_comment: Päeviku kommentaar
       diary_entry: Päeviku sissekanne
+      friend: Sõber
       language: Keel
       message: Sõnum
       node: Sõlm
@@ -80,6 +83,7 @@ et:
         area: Muuda ala
         node: Muuda sõlme
         relation: Muuda relatsiooni
+        way: Muuda joont
       larger: 
         area: Vaata ala suuremal kaardil
         node: Vaata sõlme suuremal kaardil
@@ -124,9 +128,11 @@ et:
       of: " /"
       showing_page: Näitan lehte
     redacted: 
+      redaction: Redaktsioon %{id}
       type: 
         node: sõlm
         relation: relatsioon
+        way: joon
     relation: 
       download_xml: Laadi XML
       relation: relatsioon
@@ -147,7 +153,7 @@ et:
         way: joon
     start_rjs: 
       data_frame_title: Andmed
-      data_layer_name: Andmed
+      data_layer_name: Sirvi kaardi andmeid
       details: Detailid
       edited_by_user_at_timestamp: Viimati muudetud kasutaja %{user} poolt kell %{timestamp}
       hide_areas: Peida alad
@@ -208,6 +214,7 @@ et:
       anonymous: Anonüümne
       big_area: (suur)
       no_comment: (puudub)
+      no_edits: (muudatused puuduvad)
       still_editing: redigeerimine pooleli
     changeset_paging_nav: 
       next: Järgmine »
@@ -221,17 +228,25 @@ et:
       user: Kasutaja
     list: 
       description: Viimased muudatused
+      empty_anon_html: Muudatusi ei ole veel tehtud
   diary_entry: 
     comments: 
+      ago: "%{ago} tagasi"
+      comment: Kommentaar
+      has_commented_on: "%{display_name} on kommenteerinud järgnevaid päeviku sissekandeid"
       newer_comments: Uuemad kommentaarid
       older_comments: Vanemad kommentaarid
+      post: Postitus
+      when: Millal
     diary_comment: 
+      comment_from: Kommentaar kasutajalt %{link_user} %{comment_created_at}
       confirm: Kinnita
       hide_link: Peida see kommentaar
     diary_entry: 
       comment_count: 
-        one: 1 kommentaar
+        one: "%{count} kommentaar"
         other: "%{count} kommentaari"
+        zero: Kommentaarid puuduvad
       comment_link: Kommenteeri seda päeviku sissekannet
       confirm: Kinnita
       edit_link: Muuda seda sissekannet
@@ -247,7 +262,18 @@ et:
       subject: "Teema:"
       title: Muuda päeviku sissekannet
       use_map_link: kasuta kaarti
+    feed: 
+      all: 
+        description: Hiljutised OpenStreetMap kasutajate päeviku sissekanded
+        title: OpenStreetMap päeviku sissekanded
+      language: 
+        description: Hiljutised OpenStreetMap kasutajate päeviku sissekanded keeles %{language_name}
+        title: OpenStreetMap päeviku sissekanded keeles %{language_name}
+      user: 
+        description: Kasutaja %{user} hiljutised OpenStreetMap päeviku sissekanded
+        title: Kasutaja %{user} OpenStreetMap päeviku sissekanded
     list: 
+      in_language_title: Päeviku sissekanded %{language}
       new: Uus päeviku sissekanne
       new_title: Lisa päevikusse uus sissekanne
       newer_entries: Uuemad...
@@ -256,6 +282,7 @@ et:
       recent_entries: "Hiljutised päeviku sissekanded:"
       title: Kasutajate päevikud
       title_friends: Sõprade päevikud
+      title_nearby: Lähedalasuvate kasutajate päevikud
       user_title: Kasutaja %{user} päevik
     location: 
       edit: muuda
@@ -325,6 +352,10 @@ et:
       south_east: kagu
       south_west: edela
       west: lääne
+    distance: 
+      one: umbes 1km
+      other: umbes %{count}km
+      zero: vähem kui 1km
     results: 
       more_results: Veel tulemusi
       no_results: Ei leidnud midagi
@@ -342,6 +373,7 @@ et:
           terminal: Terminal
         amenity: 
           airport: Lennujaam
+          artwork: Kunstiteos
           atm: Pangaautomaat
           auditorium: Auditoorium
           bank: Pank
@@ -367,6 +399,7 @@ et:
           embassy: Saatkond
           emergency_phone: Hädaabi telefon
           fast_food: Kiirtoit
+          ferry_terminal: Praamiterminal
           fire_station: Tuletõrjedepoo
           fountain: Purskkaev
           fuel: Kütus
@@ -547,6 +580,7 @@ et:
           historic_station: Ajalooline raudteejaam
           junction: Raudtee ülekäigukoht
           level_crossing: Raudtee ülesõidukoht
+          miniature: Miniatuurraudtee
           narrow_gauge: Kitsarööpmeline raudtee
           platform: Raudteeperroon
           station: Raudteejaam
@@ -644,7 +678,10 @@ et:
       zero: Sul ei ole lugemata sõnumeid
     intro_1: OpenStreetMap on vaba, kogu maailma hõlmav kaart, mille on loonud inimesed, nagu sina.
     intro_2_create_account: loo oma konto
+    intro_2_download: allalaadida
     intro_2_html: Andmeid võib olemasoleva %{license} alusel tasuta %{download} ja %{use}. Kaardi täiendamiseks %{create_account}.
+    intro_2_license: avatud litsentsi
+    intro_2_use: kasutada
     log_in: logi sisse
     log_in_tooltip: Logi sisse oma kasutajanimega
     logo: 
@@ -740,6 +777,7 @@ et:
       delete_button: Kustuta
   notifier: 
     diary_comment_notification: 
+      header: "%{from_user} on kommenteerinud sinu hiljutist OpenStreetMap päeviku sissekannet pealkirjaga %{subject}:"
       hi: Tere, %{to_user}!
       subject: "[OpenStreetMap] %{user} kommenteeris sinu päeviku sissekannet"
     email_confirm: 
@@ -757,6 +795,7 @@ et:
     lost_password_plain: 
       greeting: Tere,
     message_notification: 
+      header: "%{from_user} on saatnud sulle OpenStreetMapi kaudu sõnumi teemaga %{subject}:"
       hi: Tere, %{to_user},
     signup_confirm: 
       subject: "[OpenStreetMap] E-posti aadressi kinnitamine"
@@ -770,8 +809,9 @@ et:
     form: 
       allow_read_gpx: lugeda enda privaatseid GPS-radasid.
       allow_read_prefs: Lugeda oma kasutajaeelistusi.
-      allow_write_api: muuta kaarti
+      allow_write_api: muuta kaarti.
       allow_write_diary: luua päeviku sissekandeid, kommenteerida ja saada sõpradeks.
+      allow_write_gpx: laadida üles GPS-radasid.
       allow_write_prefs: Muuta oma kasutajaeelistusi.
       name: Nimi
       requests: "Kasutajalt nõutakse järgmisi õiguseid:"
@@ -913,11 +953,13 @@ et:
       your_traces: Sinu GPS rajad
     trace: 
       ago: "%{time_in_words_ago} tagasi"
+      by: kasutajalt
       count_points: 
         one: "%{count} punkt"
         other: "%{count} punkti"
       edit: redigeeri
       edit_map: Redigeeri kaarti
+      map: asukoht kaardil
       more: rohkem
       pending: OOTEL
       trace_details: Vaata Jälje Detaile
@@ -958,8 +1000,10 @@ et:
   user: 
     account: 
       contributor terms: 
+        agreed: Oled nõustunud uute Kaastöö tingimustega.
         heading: "Kaastöö tingimused:"
         link text: Mis see on?
+        not yet agreed: Sa ei ole veel nõustunud uute Kaastöö tingimustega.
       current email address: "Praegune e-posti aadress:"
       delete image: Eemalda praegune pilt
       email never displayed publicly: (ei näidata mitte kunagi avalikult)
@@ -1016,8 +1060,11 @@ et:
       heading: Logi sisse
       login_button: Logi sisse
       lost password link: Salasõna ununes?
-      no account: Sa ei ole veel registreerinud kasutaja?
+      no account: Sa ei ole veel registreerinud kasutajaks?
       openid: "%{logo} OpenID:"
+      openid_providers: 
+        openid: 
+          title: Logi sisse OpenID abil
       password: "Parool:"
       register now: "Registreeru:"
       remember: "Jäta mind meelde:"
@@ -1047,9 +1094,12 @@ et:
       email address: "E-posti aadress:"
       fill_form: Täitke vorm ning me saadame teile e-posti konto aktiveerimiseks.
       heading: Loo uus kasutajanimi
+      not displayed publicly: Ei näidata avalikult (vaata <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="viki privaatsusreeglid, sh osa e-posti aadresside käsitlemisest">privaatsusreegleid</a>)
       openid: "%{logo} OpenID:"
+      openid no password: OpenID kasutamisel ei ole parool kohustuslik, kuid mõned eritööriistad või serverid nõuavad seda siiski.
       password: "Uus parool:"
       title: Loo uus konto
+      use openid: Teise võimalusena kasuta %{logo} OpenID sisselogimist
     no_such_user: 
       body: Vabandust kuid kasutajat nimega %{user} pole olemas. Kontrolli sisestatud lingi õigekirja. Võimalik, et link millele sa vajutasid on vigane.
       heading: Kasutajat %{user}  pole olemas

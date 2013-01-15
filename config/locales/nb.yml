@@ -3,6 +3,7 @@
 # Export driver: syck-pecl
 # Author: Danmichaelo
 # Author: Dittaeva
+# Author: EvenT
 # Author: Event
 # Author: Gustavf
 # Author: Haakon K
@@ -234,6 +235,7 @@ nb:
       show_areas: Vis områder
       show_history: Vis historikk
       unable_to_load_size: "Klarte ikke laste inn: Avgrensingsboks med størrelse %{bbox_size} er for stor (må være mindre enn %{max_bbox_size})"
+      view_data: Vis data for gjeldende kartvisning
       wait: Vent ...
       zoom_or_select: Zoom inn eller velg et område av kartet for visning
     tag_details: 
@@ -323,8 +325,9 @@ nb:
       hide_link: Skjul denne kommentaren
     diary_entry: 
       comment_count: 
-        one: 1 kommentar
+        one: "{count} kommentar"
         other: "%{count} kommentarer"
+        zero: Ingen kommentarer
       comment_link: Kommenter denne oppføringen
       confirm: Bekreft
       edit_link: Rediger denne oppføringen
@@ -1004,9 +1007,11 @@ nb:
   license_page: 
     foreign: 
       english_link: den engelske originalen
-      text: I tilfellet av en konflikt mellom denne oversatte siden og %{english_original_link} har den engelske presedens
+      text: I tilfelle konflikt mellom denne oversatte siden og %{english_original_link} har den engelske versjonen presedens
       title: Om denne oversettelsen
     legal_babble: 
+      attribution_example: 
+        alt: Eksempel på hvordan man angir OpenStreetMap som kartkilde på en nettside
       contributors_at_html: "<strong>Østerrike</strong>: Inneholder data fra\n   <a href=\"http://data.wien.gv.at/\">Stadt Wien</a> under\n   <a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.de\">CC BY</a>,\n<a href=\"http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm\">Land Vorarlberg</a> og\nLand Tirol (under <a href=\"http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/\">CC-BY AT med tilføyelser</a>)."
       contributors_ca_html: "<strong>Canada</strong>: Inneholder data fra\n   GeoBase®, GeoGratis (© Department of Natural\n   Resources Canada), CanVec (© Department of Natural\n   Resources Canada), og StatCan (Geography Division,\n   Statistics Canada)."
       contributors_footer_1_html: For detaljer om disse og andre kilder som har blitt brukt for å forbedre OpenStreetMap, se <a href="http://wiki.openstreetmap.org/wiki/Contributors">siden med bidragsytere</a> på OpenStreetMap-wikien.
@@ -1018,12 +1023,14 @@ nb:
       contributors_nz_html: "<strong>New Zealand</strong>: Inneholder data hentet fra\n   Land Information New Zealand. Crown Copyright reservert."
       contributors_title_html: Våre bidragsytere
       contributors_za_html: "<strong>Sør-Afrika</strong>: Inneholder data fra <a href=\"http://www.ngi.gov.za/\">Chief Directorate: National Geo-Spatial Information</a>, State copyright reservert."
-      credit_1_html: "Hvis du bruker kartgrafikk fra OpenStreetMap, ber vi om at krediteringen som minimum inneholder \n  «© OpenStreetMap-bidragsytere, CC BY-SA». Hvis du kun bruker kartdata, ber vi om krediteringen \n  «Kartdata © OpenStreetMap-bidragsytere, CC BY-SA»."
+      credit_1_html: Vi krever at du bruker godskrivinga «© OpenStreetMap-bidragsyterene».
       credit_2_html: "  Der det er mulig, bør OpenStreetMap bli lenket til <a href=\"http://www.openstreetmap.org/\">http://www.openstreetmap.org/</a>\n  og CC BY-SA til <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">http://creativecommons.org/licenses/by-sa/2.0/</a>. Hvis\n  du bruker et medium der lenker ikke er mulig (f.eks. i utskrevne arbeid), foreslår vi at du henviser leserne til\n  www.openstreetmap.org (kanskje ved å utvide 'OpenStreetMap' til denne fullstendige adressen) og til\n  www.creativecommons.org."
+      credit_3_html: For et navigerbart elektronisk kart bør krediteringen vises i hjørnet på kartet.
       credit_title_html: Hvordan kreditere OpenStreetMap
       infringement_title_html: Brudd på opphavsrettigheter
-      intro_1_html: "   OpenStreetMap er <i>åpne data</i>, lisensiert under <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">Creative\n   Commons Navngivelse-DelPåSammeVilkår 2.0</a> (CC BY-SA)."
+      intro_1_html: "OpenStreetMap er <i>åpne data</i>, lisensiert under <a\nhref=\"http://opendatacommons.org/licenses/odbl/\">Open Data\nCommons Open Database License</a> (ODbL)."
       intro_2_html: Du står fritt til å kopiere, distribuere, overføre og tilpasse våre kart og data, så lenge du krediterer OpenStreetMap og dens bidragsytere. Hvis du endrer eller bygger videre på våre kart eller data, må du distribuere resultatet under samme lisens. Den fullstendige <a href="http://creativecommons.org/licenses/by-sa/2.0/legalcode">juridiske teksten</a> beskriver rettigheter og ansvar.
+      intro_3_html: "Kartografien i våre kartruter, samt dokumentasjonen, er lisensiert under <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">Creative\nCommons Attribution-ShareAlike 2.0</a> license (CC-BY-SA)."
       more_1_html: "  Les mer om hvordan du bruker våre data i den <a href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">juridiske\n  FAQ-en"
       more_2_html: "Selv om OpenStreetMap er åpne data, kan vi ikke bidra med gratiskart-API for tredjepartsutviklere. Nærmere informasjon finnes på <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">API Usage Policy</a>,\n<a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">Tile Usage Policy</a> og <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">Nominatim Usage Policy</a>."
       more_title_html: Finn ut mer
@@ -1476,7 +1483,7 @@ nb:
       map: kart
       none: Ingen
       owner: "Eier:"
-      pending: VENTENDE
+      pending: VENTER
       points: "Punkter:"
       start_coordinates: "Startkoordinat:"
       tags: "Markelapper:"
@@ -1695,7 +1702,7 @@ nb:
       you need to accept or decline: Les og deretter enten godta eller avslå de nye bidragsytervilkårene for å fortsette.
     view: 
       activate_user: aktiver denne brukeren
-      add as friend: legg til som en venn
+      add as friend: legg til som venn
       ago: (%{time_in_words_ago} siden)
       block_history: mottatte blokkeringer
       blocks by me: blokkeringer utført av meg

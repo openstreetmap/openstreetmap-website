@@ -1,23 +1,24 @@
-<h1><%= t('diary_entry.comments.has_commented_on', :display_name => @this_user.display_name) %></h1>
+<% content_for :heading do %>
+  <h1><%= t('diary_entry.comments.has_commented_on', :display_name => @this_user.display_name) %></h1>
+<% end %>
 
-<table width="100%">
+<table class="comments-table" width="100%">
   <tr>
-    <th><%= t 'diary_entry.comments.post' %></th>
-    <th><%= t 'diary_entry.comments.when' %></th>
-    <th><%= t 'diary_entry.comments.comment' %></th>
+    <th width="25%"><%= t 'diary_entry.comments.post' %></th>
+    <th width="25%"><%= t 'diary_entry.comments.when' %></th>
+    <th width="50%"><%= t 'diary_entry.comments.comment' %></th>
   </tr>
   <% @comments.each do |comment| -%>
   <% cl = cycle('table0', 'table1') %>
   <tr class="<%= cl %>">
-    <td><%= link_to comment.diary_entry.title, :action => :view, :display_name => comment.diary_entry.user.display_name, :id => comment.diary_entry.id %></td>
-    <td><span title="<%= l comment.created_at, :format => :friendly %>"><%= t 'diary_entry.comments.ago', :ago => time_ago_in_words(comment.created_at) %></span></td>
-    <td><%= comment.body.to_html %></td>
+    <td width="25%"><%= link_to comment.diary_entry.title, :action => :view, :display_name => comment.diary_entry.user.display_name, :id => comment.diary_entry.id %></td>
+    <td width="25%"><span title="<%= l comment.created_at, :format => :friendly %>"><%= t 'diary_entry.comments.ago', :ago => time_ago_in_words(comment.created_at) %></span></td>
+    <td width="50%"><%= comment.body.to_html %></td>
   </tr>
   <% end -%>
 </table>
 
-<%= link_to t('diary_entry.comments.older_comments') , { :page => @comment_pages.current.next} if @comment_pages.current.next %>
-<% if @comment_pages.current.next and @comment_pages.current.previous %>
-|
-<% end %>
-<%= link_to t('diary_entry.comments.newer_comments'), { :page => @comment_pages.current.previous } if @comment_pages.current.previous %>
+<ul class='secondary-actions clearfix'>
+  <li><%= link_to t('diary_entry.comments.older_comments') , { :page => @comment_pages.current.next} if @comment_pages.current.next %></li>
+  <li><%= link_to t('diary_entry.comments.newer_comments'), { :page => @comment_pages.current.previous } if @comment_pages.current.previous %></li>
+</ul>

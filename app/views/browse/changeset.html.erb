@@ -1,12 +1,18 @@
 <% content_for :head do %>
 <%= stylesheet_link_tag 'browse' %>
 <% end %>
+
+<% content_for :heading do %>
+  <h2><%= t 'browse.changeset.changeset', :id => @changeset.id %></h2>
+  <ul class='secondary-actions clearfix'>
+    <li><%= link_to(t('browse.changeset.changesetxml'), :controller => "changeset", :action => "read") %></li>
+    <li><%= link_to(t('browse.changeset.osmchangexml'), :controller => "changeset", :action => "download") %></li>
+  </ul>
+<% end %>
+
 <%= render :partial => "navigation" %>
-<h2><%= t 'browse.changeset.changeset', :id => @changeset.id %></h2>
+
 <% if @changeset.has_valid_bbox? %>
 <%= render :partial => "map", :object => @changeset %>
 <% end %>
 <%= render :partial => "changeset_details", :object => @changeset %>
-<hr />
-<%= link_to(t('browse.changeset.changesetxml'), :controller => "changeset", :action => "read") %>
-| <%= link_to(t('browse.changeset.osmchangexml'), :controller => "changeset", :action => "download") %>

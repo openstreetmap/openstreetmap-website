@@ -9,9 +9,9 @@ class DiaryEntryController < ApplicationController
   before_filter :check_database_writable, :only => [:new, :edit]
   before_filter :require_administrator, :only => [:hide, :hidecomment]
 
-  caches_action :list, :layout => false, :unless => :user_specific_list?
+#  caches_action :list, :layout => false, :unless => :user_specific_list?
   caches_action :rss, :layout => true
-  caches_action :view, :layout => false
+#  caches_action :view, :layout => false
   cache_sweeper :diary_sweeper, :only => [:new, :edit, :comment, :hide, :hidecomment]
 
   def new
@@ -29,7 +29,7 @@ class DiaryEntryController < ApplicationController
         else
           @user.preferences.create(:k => "diary.default_language", :v => @diary_entry.language_code)
         end
-        redirect_to :controller => 'diary_entry', :action => 'list', :display_name => @user.display_name 
+        redirect_to :controller => 'diary_entry', :action => 'list', :display_name => @user.display_name
       else
         render :action => 'edit'
       end
@@ -79,9 +79,9 @@ class DiaryEntryController < ApplicationController
       if @this_user
         @title = t 'diary_entry.list.user_title', :user => @this_user.display_name
         @entry_pages, @entries = paginate(:diary_entries,
-                                          :conditions => { 
+                                          :conditions => {
                                             :user_id => @this_user.id,
-                                            :visible => true 
+                                            :visible => true
                                           },
                                           :order => 'created_at DESC',
                                           :per_page => 20)
@@ -110,7 +110,7 @@ class DiaryEntryController < ApplicationController
                                           :per_page => 20)
       else
           require_user
-          return     
+          return
       end
     elsif params[:nearby]
       if @user
@@ -121,11 +121,11 @@ class DiaryEntryController < ApplicationController
                                             :visible => true
                                           },
                                           :order => 'created_at DESC',
-                                          :per_page => 20)                                        
+                                          :per_page => 20)
       else
           require_user
-          return     
-      end                                  
+          return
+      end
     else
       @title = t 'diary_entry.list.title'
       @entry_pages, @entries = paginate(:diary_entries, :include => :user,
@@ -189,14 +189,14 @@ class DiaryEntryController < ApplicationController
 
   def comments
     @comment_pages, @comments = paginate(:diary_comments,
-                                         :conditions => { 
+                                         :conditions => {
                                            :user_id => @this_user,
                                            :visible => true
                                          },
                                          :order => 'created_at DESC',
                                          :per_page => 20)
     @page = (params[:page] || 1).to_i
-  end  
+  end
 private
   ##
   # require that the user is a administrator, or fill out a helpful error message

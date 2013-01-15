@@ -1,26 +1,27 @@
-<%= user_image @entry.user %>
-
-<h2><%= link_to t('diary_entry.view.user_title', :user => h(@entry.user.display_name)), :action => :list %></h2>
+<% content_for :heading do %>
+  <div id="userinformation" >
+    <%= user_image @entry.user %>
+    <h2><%= link_to t('diary_entry.view.user_title', :user => h(@entry.user.display_name)), :action => :list %></h2>
+  </div>
+<% end %>
 
 <%= render :partial => 'diary_entry', :object => @entry %>
 
 <a id="comments"></a>
-
+<div class='comments'>
 <%= render :partial => 'diary_comment', :collection => @entry.visible_comments %>
-
+</div>
 <%= if_logged_in(:div) do %>
-  <h4 id="newcomment"><%= t 'diary_entry.view.leave_a_comment' %></h4>
+  <h3 id="newcomment"><%= t 'diary_entry.view.leave_a_comment' %></h3>
 
   <%= error_messages_for 'diary_comment' %>
 
   <%= form_for :diary_comment, :url => { :action => 'comment' } do |f| %>
     <%= richtext_area :diary_comment, :body, :cols => 80, :rows => 15 %>
-    <br />
-    <br />
     <%= submit_tag t('diary_entry.view.save_button') %>
   <% end %>
 <% end %>
 
 <%= if_not_logged_in(:div) do %>
-  <h4 id="newcomment"><%= raw t("diary_entry.view.login_to_leave_a_comment", :login_link => link_to(t("diary_entry.view.login"), :controller => 'user', :action => 'login', :referer => request.fullpath)) %></h4>
+  <h3 id="newcomment"><%= raw t("diary_entry.view.login_to_leave_a_comment", :login_link => link_to(t("diary_entry.view.login"), :controller => 'user', :action => 'login', :referer => request.fullpath)) %></h3>
 <% end %>

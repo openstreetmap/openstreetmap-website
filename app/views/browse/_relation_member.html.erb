@@ -1,14 +1,12 @@
 <%
   member_class = link_class(relation_member.member_type.downcase, relation_member.member)
   linked_name = link_to h(printable_name(relation_member.member)), { :action => relation_member.member_type.downcase, :id => relation_member.member_id.to_s }, :title => link_title(relation_member.member)
-  type_str = t'browse.relation_member.type.' + relation_member.member_type.downcase 
+  type_str = t'browse.relation_member.type.' + relation_member.member_type.downcase
 %>
-<tr>
-  <td class="<%= member_class %>"><%=
+  <li class="<%= member_class %>"><%=
     if relation_member.member_role.blank?
       raw t'browse.relation_member.entry', :type => type_str, :name => linked_name
     else
       raw t'browse.relation_member.entry_role', :type => type_str, :name => linked_name, :role => h(relation_member.member_role)
     end
-  %></td>
-</tr> 
+  %></li>

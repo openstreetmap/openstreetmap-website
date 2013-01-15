@@ -2,7 +2,7 @@
 source 'http://rubygems.org'
 
 # Require rails
-gem 'rails', '3.2.9'
+gem 'rails', '3.2.11'
 
 # Require things which have moved to gems in ruby 1.9
 gem 'bigdecimal', :platforms => :ruby_19
@@ -67,6 +67,6 @@ group :assets do
   gem 'sass-rails', '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
   gem 'uglifier', '>= 1.0.3'
-  gem 'therubyracer'
+  gem 'therubyracer', '~> 0.10.2'
   gem 'ejs'
 end
