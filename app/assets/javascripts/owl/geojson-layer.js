@@ -240,7 +240,7 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
           event: e,
           change: change
         });
-    });
+    }, this);
 
     currentGeomLayer.on('click', function (e) {
       this.fire('change_clicked', {

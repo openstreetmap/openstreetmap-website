@@ -104,8 +104,9 @@ function unhighlightChangesetItem(changeset_id) {
 }
 
 function highlightChange(changeId, addSelectedClass, expand) {
-  if (currentlyHighlightedChange != null) {
+  if (currentlyHighlightedChange != null && expand) {
     unhighlightChange();
+    currentlyHighlightedChange = changeId;
   }
   if (addSelectedClass) {
     $('div[data-change-id=' + changeId + ']').addClass('change-selected');
@@ -114,7 +115,6 @@ function highlightChange(changeId, addSelectedClass, expand) {
   if (expand) {
     $('div[data-change-id=' + changeId + '] > .tag-table').show();
   }
-  currentlyHighlightedChange = changeId;
 }
 
 function unhighlightChange() {
