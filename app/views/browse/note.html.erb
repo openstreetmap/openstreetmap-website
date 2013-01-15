@@ -1,57 +1,61 @@
-<%= render :partial => "navigation" %>
+<% content_for :head do %>
+<%= stylesheet_link_tag 'browse' %>
+<% end %>
 
-<h2>
-  <%= image_tag "#{@note.status}_note_marker.png", :alt => @note.status %>
-  <%= t "browse.note.#{@note.status}_title", :note_name => @note.id %>
-</h2>
+<% content_for :heading do %>
+  <h2>
+    <%= image_tag "#{@note.status}_note_marker.png", :alt => @note.status %>
+    <%= t "browse.note.#{@note.status}_title", :note_name => @note.id %>
+  </h2>
+<% end %>
+
+<%= render :partial => "navigation" %>
 
 <%= render :partial => "map", :object => @note %>
 
-<table class="browse_details">
+<div class='column-1'>
 
-  <tr>
-    <th><%= t "browse.note.opened" %></th>
-    <td><%= t "browse.note.at_by_html", :when => friendly_date(@note.created_at), :user => note_author(@note) %></td>
-  </tr>  
+  <div class='browse-section common'>
+    <div>
+      <h4><%= t "browse.note.opened" %></h4>
+      <p><%= t "browse.note.at_by_html", :when => friendly_date(@note.created_at), :user => note_author(@note) %></p>
+    </div>
 
-  <% if @note.status == "closed" %>
-    <tr>
-      <th><%= t "browse.note.closed" %></th>
-      <td><%= t "browse.note.at_by_html", :when => friendly_date(@note.closed_at), :user => note_author(@note.comments.last) %></td>
-    </tr>  
-  <% elsif @note.comments.length > 1 %>
-    <tr>
-      <th><%= t "browse.note.last_modified" %></th>
-      <td><%= t "browse.note.at_by_html", :when => friendly_date(@note.updated_at), :user => note_author(@note.comments.last) %></td>
-    </tr>  
-  <% end %>
+    <% if @note.status == "closed" %>
+      <div>
+        <h4><%= t "browse.note.closed" %></h4>
+        <p><%= t "browse.note.at_by_html", :when => friendly_date(@note.closed_at), :user => note_author(@note.comments.last) %></p>
+      </div>  
+    <% elsif @note.comments.length > 1 %>
+      <div>
+        <h4><%= t "browse.note.last_modified" %></h4>
+        <p><%= t "browse.note.at_by_html", :when => friendly_date(@note.updated_at), :user => note_author(@note.comments.last) %></p>
+      </div>  
+    <% end %>
 
-  <tr>
-    <th><%= t "browse.note.description" %></th>
-    <td><%= h(@note.comments.first.body) %></td>
-  </tr>
+    <div>
+      <h4><%= t "browse.note.description" %></h4>
+      <p><%= h(@note.comments.first.body) %></p>
+    </div>
 
-  <tr>
-    <th><%= t "browse.node_details.coordinates" %></th>
-    <td><div class="geo"><%= link_to ("<span class='latitude'>#{number_with_delimiter(@note.lat)}</span>, <span class='longitude'>#{number_with_delimiter(@note.lon)}</span>".html_safe), {:controller => 'site', :action => 'index', :lat => h(@note.lat), :lon => h(@note.lon), :zoom => "18"} %></div></td>
-  </tr>
+    <div>
+      <h4><%= t "browse.node_details.coordinates" %></h4>
+      <p><div class="geo"><%= link_to ("<span class='latitude'>#{number_with_delimiter(@note.lat)}</span>, <span class='longitude'>#{number_with_delimiter(@note.lon)}</span>".html_safe), {:controller => 'site', :action => 'index', :lat => h(@note.lat), :lon => h(@note.lon), :zoom => "18"} %></div></p>
+    </div>
+  </div>
 
   <% if @note.comments.length > 1 %>
-    <tr valign="top">
-      <th><%= t "browse.note.comments" %></th>
-      <td class="browse_comments">
-        <table>
-          <% @note.comments[1..-1].each do |comment| %>
-            <tr>
-              <td>
-                <%= comment.body.to_html %>
-                <span class="by"><%= t "browse.note.at_by_html", :when => friendly_date(comment.created_at), :user => note_author(comment) %></span>
-              </td>
-            </tr>
-          <% end %>
-        </table>
-      </td>
-    </tr>
+    <div class='browse-section clearfix'>
+      <h4><%= t "browse.note.comments" %></h4>
+      <ul>
+        <% @note.comments[1..-1].each do |comment| %>
+          <li>
+            <%= comment.body.to_html %>
+            <small class="deemphasize"><%= t "browse.note.at_by_html", :when => friendly_date(comment.created_at), :user => note_author(comment) %></small>
+          </li>
+        <% end %>
+      </ul>
+    </div>
   <% end %>
 
-</table>
+</div>
