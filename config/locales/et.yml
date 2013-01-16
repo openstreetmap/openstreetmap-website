@@ -35,6 +35,7 @@ et:
         user: Kasutaja
         visible: Nähtav
       user: 
+        active: Aktiivne
         description: Kirjeldus
         display_name: Näita nime
         email: E-posti aadress
@@ -42,7 +43,9 @@ et:
         pass_crypt: Parool
     models: 
       country: Riik
+      diary_comment: Päeviku kommentaar
       diary_entry: Päeviku sissekanne
+      friend: Sõber
       language: Keel
       message: Sõnum
       node: Sõlm
@@ -80,6 +83,7 @@ et:
         area: Muuda ala
         node: Muuda sõlme
         relation: Muuda relatsiooni
+        way: Muuda joont
       larger: 
         area: Vaata ala suuremal kaardil
         node: Vaata sõlme suuremal kaardil
@@ -124,9 +128,11 @@ et:
       of: " /"
       showing_page: Näitan lehte
     redacted: 
+      redaction: Redaktsioon %{id}
       type: 
         node: sõlm
         relation: relatsioon
+        way: joon
     relation: 
       download_xml: Laadi XML
       relation: relatsioon
@@ -208,6 +214,7 @@ et:
       anonymous: Anonüümne
       big_area: (suur)
       no_comment: (puudub)
+      no_edits: (muudatused puuduvad)
       still_editing: redigeerimine pooleli
     changeset_paging_nav: 
       next: Järgmine »
@@ -221,8 +228,10 @@ et:
       user: Kasutaja
     list: 
       description: Viimased muudatused
+      empty_anon_html: Muudatusi ei ole veel tehtud
   diary_entry: 
     comments: 
+      ago: "%{ago} tagasi"
       comment: Kommentaar
       has_commented_on: "%{display_name} on kommenteerinud järgnevaid päeviku sissekandeid"
       newer_comments: Uuemad kommentaarid
@@ -237,7 +246,7 @@ et:
       comment_count: 
         one: "%{count} kommentaar"
         other: "%{count} kommentaari"
-        zero: Pole kommentaare
+        zero: Kommentaarid puuduvad
       comment_link: Kommenteeri seda päeviku sissekannet
       confirm: Kinnita
       edit_link: Muuda seda sissekannet
@@ -264,6 +273,7 @@ et:
         description: Kasutaja %{user} hiljutised OpenStreetMap päeviku sissekanded
         title: Kasutaja %{user} OpenStreetMap päeviku sissekanded
     list: 
+      in_language_title: Päeviku sissekanded %{language}
       new: Uus päeviku sissekanne
       new_title: Lisa päevikusse uus sissekanne
       newer_entries: Uuemad...
@@ -272,6 +282,7 @@ et:
       recent_entries: "Hiljutised päeviku sissekanded:"
       title: Kasutajate päevikud
       title_friends: Sõprade päevikud
+      title_nearby: Lähedalasuvate kasutajate päevikud
       user_title: Kasutaja %{user} päevik
     location: 
       edit: muuda
@@ -341,6 +352,10 @@ et:
       south_east: kagu
       south_west: edela
       west: lääne
+    distance: 
+      one: umbes 1km
+      other: umbes %{count}km
+      zero: vähem kui 1km
     results: 
       more_results: Veel tulemusi
       no_results: Ei leidnud midagi
@@ -358,6 +373,7 @@ et:
           terminal: Terminal
         amenity: 
           airport: Lennujaam
+          artwork: Kunstiteos
           atm: Pangaautomaat
           auditorium: Auditoorium
           bank: Pank
@@ -383,6 +399,7 @@ et:
           embassy: Saatkond
           emergency_phone: Hädaabi telefon
           fast_food: Kiirtoit
+          ferry_terminal: Praamiterminal
           fire_station: Tuletõrjedepoo
           fountain: Purskkaev
           fuel: Kütus
@@ -563,6 +580,7 @@ et:
           historic_station: Ajalooline raudteejaam
           junction: Raudtee ülekäigukoht
           level_crossing: Raudtee ülesõidukoht
+          miniature: Miniatuurraudtee
           narrow_gauge: Kitsarööpmeline raudtee
           platform: Raudteeperroon
           station: Raudteejaam
@@ -660,7 +678,10 @@ et:
       zero: Sul ei ole lugemata sõnumeid
     intro_1: OpenStreetMap on vaba, kogu maailma hõlmav kaart, mille on loonud inimesed, nagu sina.
     intro_2_create_account: loo oma konto
+    intro_2_download: allalaadida
     intro_2_html: Andmeid võib olemasoleva %{license} alusel tasuta %{download} ja %{use}. Kaardi täiendamiseks %{create_account}.
+    intro_2_license: avatud litsentsi
+    intro_2_use: kasutada
     log_in: logi sisse
     log_in_tooltip: Logi sisse oma kasutajanimega
     logo: 
@@ -1039,7 +1060,7 @@ et:
       heading: Logi sisse
       login_button: Logi sisse
       lost password link: Salasõna ununes?
-      no account: Sa ei ole veel registreerinud kasutaja?
+      no account: Sa ei ole veel registreerinud kasutajaks?
       openid: "%{logo} OpenID:"
       openid_providers: 
         openid: 

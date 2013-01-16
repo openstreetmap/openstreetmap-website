@@ -1,7 +1,10 @@
-<h2><%= t 'user.account.my settings' %></h2>
-
-<%= link_to t('user.account.return to profile'), :controller => 'user', :action => 'view', :display_name => @user.display_name %> |
-<%= link_to t('user.view.oauth settings'), :controller => 'oauth_clients', :action => 'index' %>
+<% content_for :heading do %>
+  <h2><%= t 'user.account.my settings' %></h2>
+  <ul class='secondary-actions clearfix'>
+    <li><%= link_to t('user.account.return to profile'), :controller => 'user', :action => 'view', :display_name => @user.display_name %></li>
+    <li><%= link_to t('user.view.oauth settings'), :controller => 'oauth_clients', :action => 'index' %></li>
+  </ul>
+<% end %>
 
 <%= error_messages_for 'user' %>
 <%= form_for :user, :html => { :multipart => true } do |f| %>
@@ -86,7 +89,7 @@
     </td>
     <td class="accountImage">
       <%= user_image @user %>
-      <table>
+      <table class="accountImage-options">
         <% if @user.image.file? %>
         <tr>
           <td><%= radio_button_tag "image_action", "keep", !@user.image_use_gravatar %></td>
@@ -130,7 +133,7 @@
       <% content_for :head do %>
         <%= javascript_include_tag "user" %>
       <% end %>
-      <%= content_tag "div", "", :id => "map", :class => "user_map set_location" %>
+      <%= content_tag "div", "", :id => "map", :class => "content_map settings_map set_location" %>
     </td>
   </tr>
 

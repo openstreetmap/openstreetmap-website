@@ -1,25 +1,26 @@
 <% if @results.empty? %>
-  <p class="search_results_entry"><%= t 'geocoder.results.no_results' %></p>
+  <p class="search_results_entry inner12"><%= t 'geocoder.results.no_results' %></p>
 <% else %>
+  <ul class='results-list'>
   <% @results.each do |result| %>
-    <p class="search_results_entry"><%= result_to_html(result) %></p>
+    <li><p class="inner12 search_results_entry deemphasize"><%= result_to_html(result) %></p></li>
   <% end %>
+</ul>
   <% if @more_params %>
     <div id="search_more_<%= @more_params.hash %>">
-      <p class="search_results_entry">
-        <%= link_to t('geocoder.results.more_results'), "#" %>
-      </p>
+      <div class="inner12 search_results_entry">
+        <%= link_to t('geocoder.results.more_results'), "#", :class => "button" %>
+      </div>
       <%= image_tag "searching.gif", :class => "search_searching" %>
     </div>
     <script type="text/javascript">
-    $("#search_more_<%= @more_params.hash %> .search_searching").hide();
+      $("#search_more_<%= @more_params.hash %> .search_searching").hide();
 
-    $("#search_more_<%= @more_params.hash %> a").click(function () {
-      $("#search_more_<%= @more_params.hash %> .search_results_entry").hide();
-      $("#search_more_<%= @more_params.hash %> .search_searching").show();
-
-      $("#search_more_<%= @more_params.hash %>").load("<%= raw url_for(@more_params) %>");
-    });
+      $("#search_more_<%= @more_params.hash %> a").click(function () {
+        $("#search_more_<%= @more_params.hash %> .search_results_entry").hide();
+        $("#search_more_<%= @more_params.hash %> .search_searching").show();
+        $("#search_more_<%= @more_params.hash %>").load("<%= raw url_for(@more_params) %>");
+      });
     </script>
   <% end %>
 <% end %>

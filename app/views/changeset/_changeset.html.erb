@@ -12,39 +12,39 @@
    end
 %>
 
-<%= content_tag "tr", :class => cycle('table0', 'table1'), :id => "tr-changeset-#{changeset.id}", :data => {:changeset => changeset_data} do %>
-  <td>
-    <%=
-      id_link = link_to(changeset.id,
-                        {:controller => 'browse', :action => 'changeset', :id => changeset.id},
-                        {:title => t('changeset.changeset.view_changeset_details')})
-      raw t 'changeset.changeset.id', :id => id_link
-    %>
-  </td>
+<%= content_tag "ul", :class => 'changeset_item', :id => "changeset_#{changeset.id}", :data => {:changeset => changeset_data} do %>
+  <li>
 
-  <td class="date">
-    <span class="date">
+    <span class="changeset_id">
+      <%=
+        link_to(changeset.id,
+          {:controller => 'browse', :action => 'changeset', :id => changeset.id},
+          {:title => t('changeset.changeset.view_changeset_details')})
+      %>
+    </span>
+
+    <span class='date'>
       <% if changeset.closed_at > DateTime.now %> <%= t'changeset.changeset.still_editing' %>
       <% else %><%= l changeset.closed_at, :format => :long %><% end %>
     </span>
-    
+
     <%if showusername %>
-      <br />
       <span class="user">
-      <% if changeset.user.data_public? %>
-        <%= link_to h(changeset.user.display_name), :controller => "changeset", :action => "list", :display_name => changeset.user.display_name %>
-      <% else %>
-        <i><%= t'changeset.changeset.anonymous' %></i>
-      <% end %>
+        <% if changeset.user.data_public? %>
+          <%= link_to h(changeset.user.display_name), :controller => "changeset", :action => "list", :display_name => changeset.user.display_name %>
+        <% else %>
+          <i><%= t'changeset.changeset.anonymous' %></i>
+        <% end %>
       </span>
     <% end %>
-  </td>
-    
-  <td class="comment">
+  </li>
+
+  <li class="comment deemphasize">
     <% if changeset.tags['comment'].to_s != '' %>
       <%= linkify(h(changeset.tags['comment'])) %>
     <% else %>
       <%= t'changeset.changeset.no_comment' %>
     <% end %>
-  </td>
+  </li>
+
 <% end %>

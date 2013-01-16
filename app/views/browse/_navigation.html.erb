@@ -1,42 +1,43 @@
 <% type = (@next || @prev).class.name.downcase %>
-<% margin = @next_by_user || @prev_by_user ? 9 : 18 %>
-<div id="browse_navigation" style="margin-top: <%= margin %>px">
-  <% if @next_by_user or @prev_by_user %>
-    <span class="nowrap">
-      <% if @prev_by_user %>
-        <%= link_to t('browse.navigation.paging.user.prev', :id => @prev_by_user.id.to_s),
-                    { :id => @prev_by_user.id },
-                    { :title => t("browse.navigation.user.prev_#{type}_tooltip", :user => @prev_by_user.user.display_name) } %>
-        |
-      <% end %>
-      <%=
-      user = (@prev_by_user || @next_by_user).user.display_name
-      link_to h(user),
-              { :controller => "changeset", :action => "list", :display_name => user },
-              { :title => t("browse.navigation.user.name_#{type}_tooltip", :user => h(user)) }
-      %>
-      <% if @next_by_user %>
-        |
-        <%= link_to t('browse.navigation.paging.user.next', :id => @next_by_user.id.to_s),
-                    { :id => @next_by_user.id },
-                    { :title => t("browse.navigation.user.next_#{type}_tooltip", :user => @next_by_user.user.display_name) } %>
-      <% end %>
-    </span>
-    <br/>
-  <% end %>
-  <span class="nowrap">
+  <ul class='secondary-actions clearfix pager'>
     <% if @prev %>
+    <li>
       <%= link_to t('browse.navigation.paging.all.prev', :id => @prev.id.to_s),
                   { :id => @prev.id },
                   { :title => t("browse.navigation.all.prev_#{type}_tooltip") } %>
-    <% end %>
-    <% if @prev and @next %>
-      | 
+    </li>
     <% end %>
     <% if @next %>
-      <%= link_to t('browse.navigation.paging.all.next', :id => @next.id.to_s),
-                  { :id => @next.id },
-                  { :title => t("browse.navigation.all.next_#{type}_tooltip") } %>
+      <li>
+        <%= link_to t('browse.navigation.paging.all.next', :id => @next.id.to_s),
+                    { :id => @next.id },
+                    { :title => t("browse.navigation.all.next_#{type}_tooltip") } %>
+      </li>
     <% end %>
-  </span>
-</div>
+  </ul>
+  <% if @next_by_user or @prev_by_user %>
+    <ul class='secondary-actions pager clearfix'>
+      <% if @prev_by_user %>
+        <li>
+            <%= link_to t('browse.navigation.paging.user.prev', :id => @prev_by_user.id.to_s),
+                        { :id => @prev_by_user.id },
+                        { :title => t("browse.navigation.user.prev_#{type}_tooltip", :user => @prev_by_user.user.display_name) } %>
+        </li>
+      <% end %>
+        <li>
+          <%=
+          user = (@prev_by_user || @next_by_user).user.display_name
+          link_to h(user),
+                  { :controller => "changeset", :action => "list", :display_name => user },
+                  { :title => t("browse.navigation.user.name_#{type}_tooltip", :user => h(user)) }
+          %>
+        </li>
+      <% if @next_by_user %>
+        <li>
+          <%= link_to t('browse.navigation.paging.user.next', :id => @next_by_user.id.to_s),
+                      { :id => @next_by_user.id },
+                      { :title => t("browse.navigation.user.next_#{type}_tooltip", :user => @next_by_user.user.display_name) } %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>

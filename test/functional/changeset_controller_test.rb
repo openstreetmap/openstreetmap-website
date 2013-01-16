@@ -1735,7 +1735,7 @@ EOF
     assert_template "list"
     # Now check that all 20 (or however many were returned) changesets are in the html
     assert_select "h1", :text => "Changesets", :count => 1
-    assert_select "table[id='changeset_list'] tr", :count => changesets.size
+    assert_select "div[id='changeset_list'] ul", :count => changesets.size
     changesets.each do |changeset|
       # FIXME this test needs rewriting - test for table contents
     end
