@@ -25,12 +25,12 @@
       <li><%= link_to t('diary_entry.diary_entry.comment_count', :count => diary_entry.visible_comments.count), :action => 'view', :display_name => diary_entry.user.display_name, :id => diary_entry.id, :anchor => 'comments' %></li>
     <% end %>
 
-    <%= if_user(diary_entry.user, :span) do %>
-      <li><%= link_to t('diary_entry.diary_entry.edit_link'), :action => 'edit', :display_name => diary_entry.user.display_name, :id => diary_entry.id %></li>
+    <%= if_user(diary_entry.user, :li) do %>
+      <%= link_to t('diary_entry.diary_entry.edit_link'), :action => 'edit', :display_name => diary_entry.user.display_name, :id => diary_entry.id %>
     <% end %>
 
-    <%= if_administrator(:span) do %>
-      <li><%= link_to t('diary_entry.diary_entry.hide_link'), hide_diary_entry_path(:display_name => diary_entry.user.display_name, :id => diary_entry.id), :method => :post, :data => { :confirm => t('diary_entry.diary_entry.confirm') } %></li>
+    <%= if_administrator(:li) do %>
+      <%= link_to t('diary_entry.diary_entry.hide_link'), hide_diary_entry_path(:display_name => diary_entry.user.display_name, :id => diary_entry.id), :method => :post, :data => { :confirm => t('diary_entry.diary_entry.confirm') } %>
     <% end %>
   </ul>
 </div>
