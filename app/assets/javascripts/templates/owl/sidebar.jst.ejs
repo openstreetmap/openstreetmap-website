@@ -54,26 +54,24 @@
             </span>
           </span>
 
-          <table class="tag-table">
+          <ul class="change-tags">
           <% $.each(change.diffTags.added, function (k, v) { %>
-            <tr class="tag-diff-added"><td><span class="tag-name"><%- k %></span> = <%- v %></td></tr>
+            <li class="tag-added"><span class="tag-key"><%- k %></span> = <%- v %></li>
           <% }); %>
 
           <% $.each(change.diffTags.removed, function (k, v) { %>
-            <tr class="tag-diff-removed"><td><span class="tag-name"><%- k %></span> = <%- v %></td></tr>
+            <li class="tag-removed"><span class="tag-key"><%- k %></span> = <%- v %></li>
           <% }); %>
 
           <% $.each(change.diffTags.modified, function (k, v) { %>
-            <tr class="tag-diff-modified"><td><span class="tag-name"><%- k %></span> = <span style="font-weight: bold; color: green;"><%- v[0] %></span>
-            (was: <span style="font-weight: bold; color: red;"><%- v[1] %></span>)</td></tr>
+            <li class="tag-modified"><span class="tag-key"><%- k %></span> = <span style="font-weight: bold; color: green;"><%- v[0] %></span>
+            (was: <span style="font-weight: bold; color: red;"><%- v[1] %></span>)</li>
           <% }); %>
 
           <% $.each(change.diffTags.same, function (k, v) { %>
-            <tr class="tag-diff-same"><td><span class="tag-name"><%- k %></span> = <%- v %></td></tr>
+            <li class="tag-same"><span class="tag-key"><%- k %></span> = <%- v %></li>
           <% }); %>
-            </td>
-          </tr>
-          </table>
+          </ul>
         </div>
       <% }); %>
       </div>

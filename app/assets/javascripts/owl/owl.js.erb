@@ -114,7 +114,7 @@ function highlightChange(changeId, addSelectedClass, select) {
     $('div[data-change-id=' + changeId + ']').addClass('change-highlight');
   }
   if (select) {
-    $('div[data-change-id=' + changeId + '] > .tag-table').show();
+    $('div[data-change-id=' + changeId + '] > .change-tags').show();
     currentlySelectedChange = changeId;
   }
 }
@@ -124,7 +124,7 @@ function unhighlightChange(deselect) {
     $('div[data-change-id=' + currentlySelectedChange + ']').removeClass('change-highlight');
     if (deselect) {
       $('div[data-change-id=' + currentlySelectedChange + ']').removeClass('change-selected');
-      $('div[data-change-id=' + currentlySelectedChange + '] > .tag-table').hide();
+      $('div[data-change-id=' + currentlySelectedChange + '] > .change-tags').hide();
       currentlySelectedChange = null;
     }
   }
