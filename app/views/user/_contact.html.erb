@@ -1,15 +1,13 @@
-<div class='contact-activity clearfix'>
-  <%
-     user_data = {
-       :lon => contact.home_lon,
-       :lat => contact.home_lat,
-       :icon => image_path(type == "friend" ? "marker-blue.png" : "marker-green.png"),
-       :description => render(:partial => "popup", :object => contact, :locals => {:type => type})
-     }
-  %>
-  <%= content_tag "td", :rowspan => 3, :data => {:user => user_data} do %>
-    <%= user_thumbnail contact %>
-  <% end %>
+<%
+   user_data = {
+     :lon => contact.home_lon,
+     :lat => contact.home_lat,
+     :icon => image_path(type == "friend" ? "marker-blue.png" : "marker-green.png"),
+     :description => render(:partial => "popup", :object => contact, :locals => {:type => type})
+   }
+%>
+<%= content_tag :div, :class => "contact-activity clearfix", :data => {:user => user_data} do %>
+  <%= user_thumbnail contact %>
   <div class='activity-details'>
     <p class='deemphasize'>
       <%= link_to h(contact.display_name), :controller => 'user', :action => 'view',  :display_name => contact.display_name %>
@@ -47,4 +45,4 @@
       </li>
     </ul>
   </div>
-</div>
+<% end %>
