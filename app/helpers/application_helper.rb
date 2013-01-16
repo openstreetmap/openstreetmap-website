@@ -20,12 +20,12 @@ module ApplicationHelper
   def style_rules
     css = ""
 
-    css << ".hidden { display: none }";
-    css << ".hide_unless_logged_in { display: none }" unless @user;
-    css << ".hide_if_logged_in { display: none }" if @user;
-    css << ".hide_if_user_#{@user.id} { display: none }" if @user;
-    css << ".show_if_user_#{@user.id} { display: inline }" if @user;
-    css << ".hide_unless_administrator { display: none }" unless @user and @user.administrator?;
+    css << ".hidden { display: none !important }";
+    css << ".hide_unless_logged_in { display: none !important }" unless @user;
+    css << ".hide_if_logged_in { display: none !important }" if @user;
+    css << ".hide_if_user_#{@user.id} { display: none !important }" if @user;
+    css << ".show_if_user_#{@user.id} { display: inline !important }" if @user;
+    css << ".hide_unless_administrator { display: none !important }" unless @user and @user.administrator?;
 
     return content_tag(:style, css, :type => "text/css")
   end
