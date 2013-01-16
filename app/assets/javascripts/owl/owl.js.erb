@@ -29,7 +29,8 @@ function initOwlLayer() {
     var changesets = owlGeoJsonLayer.changesets;
 
     $("#sidebar_content").html(JST["templates/owl/sidebar"]({
-      changesets: owlGeoJsonLayer.changesetList()
+      changesets: owlGeoJsonLayer.changesetList(),
+      owlLayer: owlGeoJsonLayer
     }));
 
     $("abbr.timeago").timeago();
@@ -50,7 +51,7 @@ function initOwlLayer() {
       owlGeoJsonLayer.unhighlightChangeFeature(findChangeId(e.target));
     });
 
-    $('#history-sidebar-footer .more_link').click(function (e) {
+    $('.more_link > a').click(function (e) {
       owlGeoJsonLayer.nextPage();
       return false;
     });
