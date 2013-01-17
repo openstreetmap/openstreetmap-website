@@ -239,7 +239,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
             assert_select "p", :text => /#{new_body}/, :count => 1
             assert_select "abbr[class=geo][title=#{number_with_precision(new_latitude, :precision => 4)}; #{number_with_precision(new_longitude, :precision => 4)}]", :count => 1
             # As we're not logged in, check that you cannot edit
-            assert_select "span[class=hidden show_if_user_#{entry.user.id}]", :count => 1 do
+            assert_select "li[class=hidden show_if_user_#{entry.user.id}]", :count => 1 do
               assert_select "a[href='/user/#{entry.user.display_name}/diary/#{entry.id}/edit']", :text => "Edit this entry", :count => 1
             end
           end
