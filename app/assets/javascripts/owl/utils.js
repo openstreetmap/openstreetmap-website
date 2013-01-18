@@ -48,7 +48,7 @@ function nameForChange(change) {
     }
   }
   if (!name) {
-    name = change.id;
+    name = change.el_id;
   }
   var result = '';
   if (friendlyTagInfo) {
