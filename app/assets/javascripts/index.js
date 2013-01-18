@@ -4,7 +4,7 @@
 //= require index/key
 
 $(document).ready(function () {
-  var permalinks = $("#permalink").html();
+  var permalinks = $("#permalink").detach().html();
   var marker;
   var params = OSM.mapParams();
   var map = createMap("map");
