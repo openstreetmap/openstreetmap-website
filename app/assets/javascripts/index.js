@@ -132,6 +132,7 @@ $(document).ready(function () {
   }
 
   // Setup History tab.
+  OWL.initTagSymbols();
   $("a[id=historyanchor]").click(function (e) {
     $("body").removeClass("site-index").addClass("site-history");
     openSidebar({title: I18n.t('site.sidebar.history')});

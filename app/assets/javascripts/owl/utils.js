@@ -1,27 +1,26 @@
-function hasIcon(tags) {
-  return iconTags(tags).length > 0;
+function hasTagSymbols(tags) {
+  return tagSymbolsClasses(tags).length > 0;
 }
 
-function iconTags(tags) {
+function tagSymbolsClasses(tags) {
   var a = [];
-  $.each (OWL.iconTags, function (index, tag) {
-    if (tag in tags) {
-      a.push(tags[tag]);
-      a.push(tag);
+  $.each (tags, function (key, value) {
+    if (key + '=' + value in OWL.tagSymbols) {
+      a.push(key);
+      a.push(value);
     }
   });
   return a;
 }
 
 function classForChange(el_type, tags) {
-  if (!hasIcon(tags)) { return ""; }
   var cls;
   if (el_type == 'W') {
     cls = 'way ';
   } else if (el_type == 'N') {
     cls = 'node ';
   }
-  cls += iconTags(tags).join(' ');
+  cls += tagSymbolsClasses(tags).join(' ');
   return cls;
 }
 

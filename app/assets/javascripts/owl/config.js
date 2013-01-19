@@ -57,8 +57,24 @@ var OWL = {
     }
   },
 
-  iconTags: [
-    "aeroway", "amenity", "barrier", "building", "highway", "historic", "landuse",
-    "leisure", "man_made", "natural", "railway", "shop", "tourism"//, "waterway"
-  ]
+  // Mapping from "tag=value" to tag symbol image URL. Calling initTagSymbols populates this hash.
+  tagSymbols: {},
+
+  // Goes through CSS rules and extracts tag=value and image URL information (see browse.css.scss)
+  // to the tagSymbols hash.
+  initTagSymbols: function () {
+    var symbols = this.tagSymbols;
+    $.each(document.styleSheets, function (index, stylesheet) {
+      $.each(stylesheet.rules || stylesheet.cssRules, function (index, rule) {
+          var text = rule.cssText || rule.style.cssText;
+          if (text.search(/browse\/.*?\.png/) != -1) {
+            // It's a rule for a tag symbol, let's process it!
+            var key = text.substring(1, text.indexOf(" {")).replace('.', '=');
+            var value = text.match(/(browse\/.*?\.png)/)[0];
+            symbols[key] = value;
+          }
+      });
+    });
+    //console.log(this.tagSymbols);
+  }
 };
