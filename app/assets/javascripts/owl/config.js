@@ -70,7 +70,7 @@ var OWL = {
           if (text.search(/browse\/.*?\.png/) != -1) {
             // It's a rule for a tag symbol, let's process it!
             var key = text.substring(1, text.indexOf(" {")).replace('.', '=');
-            var value = text.match(/(browse\/.*?\.png)/)[0];
+            var value = text.match(/\([\"]*(.*?browse\/.*?\.png)/)[1];
             symbols[key] = value;
           }
       });

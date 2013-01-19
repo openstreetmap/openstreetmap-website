@@ -8,12 +8,11 @@
         <a href="<%- OSM.OWL_LINKS_BASE_URL %>browse/changeset/<%- changeset.id %>" class="changeset-comment empty-comment">(no comment)</a>
       <% } %>
 
-      <div>
-      <%
-      $.each(changeset.changes, function (index, change) {
-        if (!hasTagSymbols(change.tags)) { return; }
-      %>
-      <span class="feature-symbol <%- classForChange(change.el_type, change.tags) %>">&nbsp;</span>
+      <div style="color: #cccccc">
+      <% $.each(changeset.info.symbols, function (symbolKey, count) { %>
+        <% for (i = 0; i < count && i < 10; i++) { %>
+          <img src="<%- OWL.tagSymbols[symbolKey] %>">
+        <% } %>
       <% }); %>
       </div>
 
@@ -43,7 +42,7 @@
             modified
             <% } %>
 
-            <a href="<%- hrefForChange(change) %>" class="change-link <%- classForChange(change.el_type, change.tags) %>">
+            <a href="<%- hrefForChange(change) %>" class="change-link <%- cssClassForChange(change) %>">
               <%- nameForChange(change) %>
             </a>
 

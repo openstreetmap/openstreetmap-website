@@ -1,35 +1,47 @@
-function hasTagSymbols(tags) {
-  return tagSymbolsClasses(tags).length > 0;
-}
-
-function tagSymbolsClasses(tags) {
-  var a = [];
-  $.each (tags, function (key, value) {
-    if (key + '=' + value in OWL.tagSymbols) {
-      a.push(key);
-      a.push(value);
-    }
-  });
-  return a;
-}
-
-function classForChange(el_type, tags) {
-  var cls;
-  if (el_type == 'W') {
-    cls = 'way ';
-  } else if (el_type == 'N') {
-    cls = 'node ';
-  }
-  cls += tagSymbolsClasses(tags).join(' ');
-  return cls;
-}
-
 function hrefForChange(change) {
   return OSM.OWL_LINKS_BASE_URL
     + 'browse/'
     + (change.el_type == 'N' ? 'node' : 'way')
     + '/'
     + change.el_id;
+}
+
+// Calculates symbols for changes, aggregates tag symbols on changeset level.
+function prepareChangesetInfo(changeset) {
+  var data = {symbols: {}};
+  $.each(changeset.changes, function (index, change) {
+      var symbolKey = symbolForChange(change);
+      if (symbolKey) {
+        change.symbolKey = symbolKey;
+        if (!(symbolKey in data.symbols)) {
+          data.symbols[symbolKey] = 1;
+        } else {
+          data.symbols[symbolKey]++;
+        }
+      }
+  });
+  changeset.info = data;
+}
+
+// Calculates what symbol should be used for given change. Returns symbol key.
+function symbolForChange(change) {
+  var result = null;
+  $.each (change.tags, function (key, value) {
+    var symbolKey = key + '=' + value;
+    if (symbolKey in OWL.tagSymbols) {
+      result = symbolKey;
+      return false;
+    }
+  });
+  return result;
+}
+
+function cssClassForChange(change) {
+  var result = (change.el_type == 'N' ? 'node' : 'way');
+  if (change.symbolKey) {
+    result += ' ' + change.symbolKey.split('=').join(' ');
+  }
+  return result;
 }
 
 function nameForChange(change) {

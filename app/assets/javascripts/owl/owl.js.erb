@@ -28,6 +28,10 @@ function initOwlLayer() {
   owlGeoJsonLayer.on('loaded', function (geojson) {
     var changesets = owlGeoJsonLayer.changesets;
 
+    $.each(changesets, function (index, changeset) {
+      prepareChangesetInfo(changeset);
+    });
+
     $("#sidebar_content").html(JST["templates/owl/sidebar"]({
       changesets: owlGeoJsonLayer.changesetList(),
       owlLayer: owlGeoJsonLayer
@@ -138,7 +142,7 @@ function showChanges(changesetId, changeToHighlight) {
   $('div[data-changeset-id=' + changesetId + '] > div[class=change-list]').show('fast', function () {
     if (changeToHighlight) {
       highlightChange(changeToHighlight, true, true);
-      $('div[data-change-id=' + changeToHighlight + ']').scrollIntoView();
+      $('div[data-change-id=' + changeToHighlight + ']').scrollIntoView(false);
     }
   });
 }
