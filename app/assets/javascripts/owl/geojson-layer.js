@@ -140,7 +140,7 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
       if (changeId in changeset.changes) {
         if (changeset.changes[changeId].currentGeomLayer) {
           changeset.changes[changeId].currentGeomLayer.setStyle(layer.styles.hover);
-        } else {
+        } else if (changeset.changes[changeId].prevGeomLayer) {
           changeset.changes[changeId].prevGeomLayer.setStyle(layer.styles.hover);
         }
         return false;
@@ -154,7 +154,7 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
       if (changeId in changeset.changes) {
         if (changeset.changes[changeId].currentGeomLayer) {
           changeset.changes[changeId].currentGeomLayer.setStyle(changeset.changes[changeId].currentGeomLayer.options.style);
-        } else {
+        } else if (changeset.changes[changeId].prevGeomLayer) {
           changeset.changes[changeId].prevGeomLayer.setStyle(changeset.changes[changeId].prevGeomLayer.options.style);
         }
         return false;
