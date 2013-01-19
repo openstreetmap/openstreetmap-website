@@ -26,7 +26,7 @@ function prepareChangesetInfo(changeset) {
 // Calculates what symbol should be used for given change. Returns symbol key.
 function symbolForChange(change) {
   var result = null;
-  $.each (change.tags, function (key, value) {
+  $.each ($.extend(change.tags, change.prev_tags), function (key, value) {
     var symbolKey = key + '=' + value;
     if (symbolKey in OWL.tagSymbols) {
       result = symbolKey;
