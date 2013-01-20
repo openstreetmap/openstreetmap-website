@@ -47,7 +47,7 @@ class User < ActiveRecord::Base
 
   attr_accessible :display_name, :email, :email_confirmation, :openid_url,
                   :pass_crypt, :pass_crypt_confirmation, :consider_pd,
-                  :image_use_gravatar
+                  :image_use_gravatar, :user
 
   after_initialize :set_defaults
   before_save :encrypt_password
